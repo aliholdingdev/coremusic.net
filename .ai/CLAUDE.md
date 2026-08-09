@@ -224,7 +224,7 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 | Frontend | Vanilla JS ES6+ | ES2022 |
 | CSS | ITCSS + BEM | 7-layer |
 | Database | MySQL / MariaDB (PDO) | 9 BCNF |
-| Audio Engine | C++20, JUCE 8, ASIO SDK | 2.3.4 |
+| Audio Engine | C++20, JUCE 9, ASIO SDK | 2.3.4 |
 | Hardware | XMOS XU316, PCM3168A | PCM5122 REDDEDİLMİŞ |
 | Rate Limiting | APCu | 60 req/60s |
 | Encryption | AES-256-GCM, Argon2id | NIST SP 800-38D |

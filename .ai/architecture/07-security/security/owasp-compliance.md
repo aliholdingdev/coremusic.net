@@ -22,22 +22,22 @@ OWASP Top 10:2025 uyumluluk durumunu ve detaylı koruma mekanizmalarını tanım
 
 | # | Risk | CoreMusic Koruma | Durum |
 |---|------|-----------------|-------|
-| A01 | Broken Access Control | RBAC, middleware pipeline, session management | ✅ |
-| A02 | Cryptographic Failures | AES-256-GCM, Argon2id, credential vault | ✅ |
-| A03 | Injection | PDO prepared statements, CSP nonce | ✅ |
-| A04 | Insecure Design | L0-L3 layered architecture, DDD | ✅ |
-| A05 | Security Misconfiguration | Security headers, .env protection | ✅ |
-| A06 | Vulnerable Components | Composer audit, version pinning | ✅ |
-| A07 | Auth Failures | Rate limiting, Argon2id, session regeneration | ✅ |
-| A08 | Data Integrity Failures | CSRF protection, input validation | ✅ |
-| A09 | Security Logging Failures | Audit trail (log.md), append-only | ✅ |
-| A10 | Server-Side Request Forgery | SSRF-protected HTTP client | ✅ |
+| A01 | Broken Access Control | RBAC, middleware pipeline, session management, URL validation (SSRF dahil) | ✅ |
+| A02 | Security Misconfiguration | Security headers, .env protection, strict config | ✅ |
+| A03 | Software Supply Chain Failures | Composer audit, version pinning, dependency scanning | ✅ |
+| A04 | Cryptographic Failures | AES-256-GCM, Argon2id, credential vault | ✅ |
+| A05 | Injection | PDO prepared statements, CSP nonce | ✅ |
+| A06 | Insecure Design | L0-L3 layered architecture, DDD | ✅ |
+| A07 | Authentication Failures | Rate limiting, Argon2id, session regeneration | ✅ |
+| A08 | Software/Data Integrity Failures | CSRF protection, input validation, code signing | ✅ |
+| A09 | Security Logging & Alerting Failures | Audit trail (log.md), append-only, alerting | ✅ |
+| A10 | Mishandling of Exceptional Conditions | Error handling, fail-safe defaults, exception logging | ✅ |
 
-*Kaynak: owasp.org/Top10 (2021)*
+*Kaynak: OWASP Top 10:2025 (owasp.org/Top10/2025/) — 2026-08-09'da doğrulandı*
 
 ## 3. Risk Detayları
 
-### A01 — Broken Access Control
+### A01 — Broken Access Control (SSRF dahil)
 
 | Koruma | Detay | ADR |
 |--------|-------|-----|
@@ -45,8 +45,28 @@ OWASP Top 10:2025 uyumluluk durumunu ve detaylı koruma mekanizmalarını tanım
 | **Middleware** | Auth check her protected endpoint'te | ADR-010 |
 | **Session** | Idle timeout 3600s | ADR-011 |
 | **CORS** | Whitelist only (same-origin) | ADR-020 |
+| **URL Validation** | SSRF korumalı HTTP client | ADR-032 |
+| **Internal Only** | Service-to-service calls whitelist | ADR-032 |
 
-### A02 — Cryptographic Failures
+### A02 — Security Misconfiguration
+
+| Koruma | Detay | ADR |
+|--------|-------|-----|
+| **Security Headers** | 7 headers zorunlu | ADR-012 |
+| **.env** | Dışarıya kapalı | ADR-015 |
+| **Error Handling** | Production'da stack trace yok | — |
+| **Strict Config** | Varsayılan olarak güvenli ayarlar | — |
+
+### A03 — Software Supply Chain Failures
+
+| Koruma | Detay | ADR |
+|--------|-------|-----|
+| **Composer Audit** | `composer audit` CI'da | — |
+| **Version Pinning** | Exact versions | — |
+| **Dependency Scanning** | Otomatik güvenlik taraması | — |
+| **SBOM** | Software Bill of Materials | — |
+
+### A04 — Cryptographic Failures
 
 | Koruma | Detay | ADR |
 |--------|-------|-----|
@@ -54,7 +74,7 @@ OWASP Top 10:2025 uyumluluk durumunu ve detaylı koruma mekanizmalarını tanım
 | **Argon2id** | Password hashing (64MB, t=4, p=2) | ADR-022 |
 | **No Plaintext** | Secrets asla log'lanmaz | ADR-022 |
 
-### A03 — Injection
+### A05 — Injection
 
 | Koruma | Detay | ADR |
 |--------|-------|-----|
@@ -62,61 +82,50 @@ OWASP Top 10:2025 uyumluluk durumunu ve detaylı koruma mekanizmalarını tanım
 | **CSP nonce** | Inline script koruması | ADR-012 |
 | **DOMParser** | innerHTML yerine safe parsing | ADR-001 |
 
-### A04 — Insecure Design
+### A06 — Insecure Design
 
 | Koruma | Detay | ADR |
 |--------|-------|-----|
 | **L0-L3** | Layered architecture | ADR-042 |
 | **DDD** | Domain-driven design | — |
 | **Clean Code** | SOLID principles | — |
+| **Threat Modeling** | Tasarım aşamasında tehdit analizi | — |
 
-### A05 — Security Misconfiguration
-
-| Koruma | Detay | ADR |
-|--------|-------|-----|
-| **Security Headers** | 7 headers zorunlu | ADR-012 |
-| **.env** | Dışarıya kapalı | ADR-015 |
-| **Error Handling** | Production'da stack trace yok | — |
-
-### A06 — Vulnerable Components
-
-| Koruma | Detay | ADR |
-|--------|-------|-----|
-| **Composer Audit** | `composer audit` CI'da | — |
-| **Version Pinning** | Exact versions | — |
-| **Dependabot** | Otomatik güncelleme | — |
-
-### A07 — Auth Failures
+### A07 — Authentication Failures
 
 | Koruma | Detay | ADR |
 |--------|-------|-----|
 | **Rate Limiting** | 5 req/60s login'de | ADR-013 |
 | **Lockout** | 5 başarısız → 15dk lockout | ADR-013 |
 | **Regenerate** | Login sonrası session ID yenile | ADR-011 |
+| **MFA Prep** | Çoklu faktör hazırlığı | — |
 
-### A08 — Data Integrity Failures
+### A08 — Software/Data Integrity Failures
 
 | Koruma | Detay | ADR |
 |--------|-------|-----|
 | **CSRF** | Token-based | ADR-010 |
 | **Input Validation** | Whitelist filter | ADR-022 |
 | **Audit Trail** | Append-only log | ADR-004 |
+| **Code Signing** | Kod imzalama | — |
 
-### A09 — Security Logging Failures
+### A09 — Security Logging & Alerting Failures
 
 | Koruma | Detay | ADR |
 |--------|-------|-----|
 | **Audit Trail** | log.md append-only | ADR-004 |
 | **Timestamps** | UTC format | ADR-004 |
 | **Sensitive Data** | [REDACTED] masking | ADR-022 |
+| **Alerting** | Kritik olaylarda otomatik uyarı | — |
 
-### A10 — SSRF
+### A10 — Mishandling of Exceptional Conditions
 
 | Koruma | Detay | ADR |
 |--------|-------|-----|
-| **HTTP Client** | SSRF-protected | ADR-032 |
-| **URL Validation** | Whitelist | — |
-| **Internal Only** | Service-to-service calls | ADR-032 |
+| **Error Handling** | Tüm exception'lar yakalanır | — |
+| **Fail-Safe** | Hata durumunda güvensiz mod | — |
+| **Exception Logging** | Hatalar log'lanır, stack trace gizli | — |
+| **Graceful Degradation** | Servis hatalarında düşüş | — |
 
 ## 4. Audit Kontrol Listesi
 

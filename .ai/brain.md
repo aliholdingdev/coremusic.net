@@ -2,9 +2,9 @@
 title: "CoreMusic — Engineering Brain (Enterprise SSOT)"
 type: brain
 category: architecture-decisions
-updated: 2026-08-08
+updated: 2026-08-10
 status: active
-version: 19.0.0
+version: 21.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -23,7 +23,7 @@ CoreMusic platformunun tüm mühendisleri ve AI ajanları için mimari kararlar�
 
 ## 2. Scope
 
-C++ Audio DSP (ASIO, WASAPI, ring buffer, zero-allocation, 32-bit float PCM), 8+1 Surround (Class AB, XMOS XU316, PCM3168A/AK4458), PHP Middleware Pipeline (SessionManager→Csrf), 9 BCNF DB, AES-256-GCM Credential Vault, 10 panel mimarisi, AI Auto-Download (YouTube→deemix→FLAC), 3 fazlı geliştirme, 5 deployment modu, 5 audio division.
+C++ Audio DSP (ASIO, WASAPI, ring buffer, zero-allocation, 32-bit float PCM), 8+1 Surround (Class AB, XMOS XU316, PCM3168A/AK4458), PHP Middleware Pipeline (SessionManager→Csrf), 11 BCNF DB, AES-256-GCM Credential Vault, 10 panel mimarisi, AI Auto-Download (YouTube→deemix→FLAC), 3 fazlı geliştirme, 5 deployment modu, 5 audio division.
 
 ---
 
@@ -49,8 +49,8 @@ C++ Audio DSP (ASIO, WASAPI, ring buffer, zero-allocation, 32-bit float PCM), 8+
 | Backend | PHP (strict_types=1) | 8.4+ |
 | Frontend | Vanilla JS ES6+ (framework YASAK) | ES2022 |
 | CSS | ITCSS + BEM | 7-layer |
-| Database | MySQL / MariaDB (PDO, ORM YASAK) | 9 BCNF |
-| Audio Engine | C++20, JUCE 8, ASIO SDK 2.3.4 | — |
+| Database | MySQL / MariaDB (PDO, ORM YASAK) | 11 BCNF |
+| Audio Engine | C++20, JUCE 9, ASIO SDK 2.3.4 | — |
 | Hardware | XMOS XU316, PCM3168A | PCM5122 REDDEDİLMİŞ |
 | Rate Limiting | APCu | 60 req/60s |
 | Encryption | AES-256-GCM, Argon2id | NIST SP 800-38D |
@@ -119,7 +119,7 @@ void processAudioBlock(float** output, const float** input,
 | Bileşen | Özellik |
 |---------|---------|
 | XMOS XU316 | USB Audio Class 2.0, zero-latency DSP |
-| PCM3168A | 8-kanal DAC, 24-bit, 192kHz, SNR 112dB |
+| PCM3168A | 6-in/8-out codec, 24-bit, DAC 192kHz, ADC 96kHz, SNR 112dB (DAC) |
 | AK4458 (opsiyonel) | 8-kanal high-end DAC, 32-bit, 768kHz |
 | PCM5122 | ❌ REDDEDİLMİŞ — Sadece 2 kanal, 8.1 için yetersiz (H001) |
 | Class AB Amp | 100W @ 8Ω, THD+N <0.01%, SNR >100dB, ±42V DC |
@@ -152,19 +152,21 @@ PDO: Prepared statement zorunlu, SELECT * yasak, explicit column list.
 
 ---
 
-## 11. 9 BCNF Databases (ADR-040)
+## 11. 11 BCNF Databases (ADR-040)
 
-| # | Veritabanı | Amaç |
-|---|------------|------|
-| 1 | coremusic_auth | Kullanıcılar, roller, session, Argon2id hash |
-| 2 | coremusic_user | Profiller, tercihler, geçmiş |
-| 3 | coremusic_musics | Şarkılar, sanatçılar, türler, metadata |
-| 4 | coremusic_albums | Albüm koleksiyonları |
-| 5 | coremusic_playlist | Kullanıcı ve AI çalma listeleri |
-| 6 | coremusic_catalog | İndirme kuyrukları, servis durumu |
-| 7 | coremusic_logs | Uygulama logları, audit trail |
-| 8 | coremusic_media | Medya dosyası metadata |
-| 9 | coremusic_system | Sistem konfigürasyonu |
+| # | Veritabanı | Amaç | Tablo Sayısı |
+|---|------------|------|-------------|
+| 1 | coremusic_auth | Kullanıcılar, roller, session, token, credential vault, API key | 12 |
+| 2 | coremusic_user | Profiller, tercihler, geçmiş, favoriler | 7 |
+| 3 | coremusic_musics | Şarkılar, sanatçılar, türler, sözler, dosyalar | 12 |
+| 4 | coremusic_albums | Albüm koleksiyonları | 5 |
+| 5 | coremusic_playlist | Kullanıcı ve AI çalma listeleri | 5 |
+| 6 | coremusic_catalog | Referans verileri (tür listesi, sanatçı rolleri, enstrümanlar) | 8 |
+| 7 | coremusic_logs | Audit trail, analitik, hata logları | 13 |
+| 8 | coremusic_media | Cihaz senkronizasyonu, medya metadata | 8 |
+| 9 | coremusic_system | Ayarlar, config, cache, EQ, dosya yöneticisi, bildirimler | 13 |
+| 10 | coremusic_social | Yorumlar, paylaşımlar, aktivite, dinleme odaları | 9 |
+| 11 | coremusic_wireless | WiFi + Bluetooth ağları | 5 |
 
 Kurallar: ORM yasak, SELECT * yasak, BCNF zorunlu, soft delete (`is_deleted = 0`), prepared statement, snake_case naming.
 
@@ -224,13 +226,13 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | ADR-036 | Çoklu proje prompt üretimi |
 | ADR-037 | Kablosuz ağ entegrasyonu |
 
-### 13.2 Active (038-050)
+### 13.2 Active (038-063)
 
 | ADR | Konu |
 |-----|------|
 | ADR-038 | XMOS XU316 + PCM3168A (PCM5122 REDDEDİLMİŞ) |
 | ADR-039 | 7-servis platform mimarisi |
-| ADR-040 | 9 BCNF veritabanı otoritesi |
+| ADR-040 | 11 BCNF veritabanı otoritesi |
 | ADR-041 | DB normalizasyon ek bilgi |
 | ADR-042 | MSA limit=15, PHP 8.4, port 81 |
 | ADR-043 | Auth subdomain konsolidasyonu |
@@ -241,6 +243,9 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | ADR-048 | View Transition API entegrasyonu |
 | ADR-049 | Startup prompt loader |
 | ADR-050 | Multi-DB sync stratejisi |
+| ADR-061 | Electronics Architecture (L6 Layer) |
+| ADR-062 | DSP Pipeline Architecture |
+| ADR-063 | Hardware Design Standards |
 
 ---
 
@@ -351,7 +356,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | § 8.1 Surround | [[ADR-038-8.1-sound-card-chip-selection]] | PCM3168A, H001 |
 | § PHP Middleware | [[ADR-010-csrf-protection-strategy]] | csrf_token |
 | § Cache/Vault | [[ADR-022-database-hardened-security]] | AES-256-GCM |
-| § 9 BCNF DB | [[ADR-040-database-authority]] | 9 DB |
+| § 11 BCNF DB | [[ADR-040-database-authority]] | 11 DB |
 | § Audio Org | [[electronic/audio-organization]] | 5 bölüm |
 | § Hardware | [[electronic/hardware-roadmap]] | 3 fazlı yol haritası |
 
@@ -366,7 +371,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | ADR Coverage | 001–050 (50 ADR) |
 | Panel Count | 10 |
 | Service Count | 7 |
-| DB Count | 9 BCNF |
+| DB Count | 11 BCNF |
 | Audio Channels | 8+1 Surround |
 | EQ Bands | 31 |
 | Hardware Phases | 3 (MVP → Premium → Professional) |

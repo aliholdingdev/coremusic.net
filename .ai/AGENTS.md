@@ -60,7 +60,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 | 3 | **UI Designer** | `ui` | Vanilla JS, ITCSS, CSS, responsive | L3 | Vanilla JS ES6+, ITCSS 7-layer |
 | 4 | **Security Engineer** | `security` | OWASP, encryption, CSRF, CSP | L1 | Argon2id, AES-256-GCM, APCu |
 | 5 | **Data Engineer** | `data` | MySQL 9 BCNF, PDO, migration | L0 | MySQL 9, PDO, BCNF |
-| 6 | **Embedded Engineer** | `embedded` | C++20, JUCE, ASIO, DSP | L0 | C++20, JUCE 8, ASIO SDK 2.3.4 |
+| 6 | **Embedded Engineer** | `embedded` | C++20, JUCE, ASIO, DSP | L0 | C++20, JUCE 9, ASIO SDK 2.3.4 |
 | 7 | **QA Engineer** | `qa` | Test, coverage, E2E | Cross-cutting | PHPUnit 11, Vitest, Playwright |
 | 8 | **DevOps Engineer** | `devops` | CI/CD, Docker, deploy | CI/CD | GitHub Actions, Docker, GitLeaks |
 | 9 | **Audio Hardware Engineer** | `audio-hw` | DAC/ADC, PCB, amplifier | HW | PCM3168A, AK4458, Class AB |
@@ -437,7 +437,7 @@ Ajan dosyaya erişmek ister
 | Özellik | Değer |
 |---------|-------|
 | Katman | L0 (Hardware) |
-| Teknoloji | C++20, JUCE 8, ASIO SDK 2.3.4, XMOS XU316 |
+| Teknoloji | C++20, JUCE 9, ASIO SDK 2.3.4, XMOS XU316 |
 | Sorumluluk | C++ ses motoru, DSP, donanım sürücüleri, ASIO/WASAPI |
 | Yasak | PHP/JS/SQL kodu |
 | Dosya Erişimi | `*.cpp`, `*.h`, `*.cmake`, `*.json` (vcpkg) |

@@ -63,7 +63,7 @@ governance: Red Team · Human Mode · Truth Mode
 | Özellik | Değer |
 |---------|-------|
 | **Görev** | Player, DSP, mixer, EQ |
-| **Stack** | C++20, JUCE 8, ASIO SDK 2.3.4 |
+| **Stack** | C++20, JUCE 9, ASIO SDK 2.3.4 |
 | **Port** | 9741 (REST), 9742 (WebSocket) |
 | **Protocol** | ASIO, WASAPI |
 | **Auth** | API Key |

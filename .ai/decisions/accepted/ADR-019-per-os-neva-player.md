@@ -1,4 +1,4 @@
-﻿---
+---
 type: adr
 category: audio
 title: "ADR-019: Per-OS Neva Player"
@@ -43,7 +43,7 @@ Her platform icin optimizasyon zorunludur.
 
 ### 2.2 Neva Player Nedir
 
-Neva Player, CoreMusic'in cross-platform media oynaticisidir. C++20 ile yazilmis, JUCE 8 framework'unu kullanan, her platformda yerel ses suruculerine baglanan bir player motorudur.
+Neva Player, CoreMusic'in cross-platform media oynaticisidir. C++20 ile yazilmis, JUCE 9 framework'unu kullanan, her platformda yerel ses suruculerine baglanan bir player motorudur.
 
 ### 2.3 Platform Tiers
 
@@ -72,7 +72,7 @@ CoreMusic'te **per-OS Neva Player** optimizasyonu yapilacak:
 | Karar | Deger |
 |-------|-------|
 | Mimarisi | Cross-platform C++20 |
-| Framework | JUCE 8 |
+| Framework | JUCE 9 |
 | Format | 32-bit float (Float32) |
 | Sample Rate | 48kHz (degisebilir) |
 | Kanal | 2.0 -> 8.1 |

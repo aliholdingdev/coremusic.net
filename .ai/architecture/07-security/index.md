@@ -117,20 +117,22 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 | **HttpOnly** | true | ADR-011 |
 | **SameSite** | Lax | ADR-011 |
 
-## 5. OWASP Top 10 Uyumluluk
+## 5. OWASP Top 10:2025 Uyumluluk
 
 | # | Risk | Koruma | Durum |
 |---|------|--------|-------|
-| A01 | Broken Access Control | RBAC, middleware, session | ✅ |
-| A02 | Cryptographic Failures | AES-256-GCM, Argon2id | ✅ |
-| A03 | Injection | PDO prepared, CSP nonce | ✅ |
-| A04 | Insecure Design | L0-L3 layered architecture | ✅ |
-| A05 | Security Misconfiguration | Security headers, .env | ✅ |
-| A06 | Vulnerable Components | Composer audit | ✅ |
-| A07 | Auth Failures | Rate limiting, lockout | ✅ |
-| A08 | Data Integrity Failures | CSRF, input validation | ✅ |
-| A09 | Security Logging Failures | Audit trail | ✅ |
-| A10 | SSRF | SSRF-protected HTTP client | ✅ |
+| A01 | Broken Access Control (SSRF dahil) | RBAC, middleware, session, URL validation | ✅ |
+| A02 | Security Misconfiguration | Security headers, .env, strict config | ✅ |
+| A03 | Software Supply Chain Failures | Composer audit, dependency scanning | ✅ |
+| A04 | Cryptographic Failures | AES-256-GCM, Argon2id | ✅ |
+| A05 | Injection | PDO prepared, CSP nonce | ✅ |
+| A06 | Insecure Design | L0-L3 layered architecture | ✅ |
+| A07 | Authentication Failures | Rate limiting, lockout, session mgmt | ✅ |
+| A08 | Software/Data Integrity Failures | CSRF, input validation, code signing | ✅ |
+| A09 | Security Logging & Alerting Failures | Audit trail, alerting | ✅ |
+| A10 | Mishandling of Exceptional Conditions | Error handling, fail-safe | ✅ |
+
+*Kaynak: OWASP Top 10:2025 (owasp.org/Top10/2025/)*
 
 ## 6. Yasak Örüntüler
 
@@ -175,6 +177,8 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 | [[architecture/07-security/api/api_security_master]] | API güvenlik |
 | [[architecture/07-security/security/csrf-protection]] | CSRF koruma |
 | [[architecture/07-security/security/owasp-compliance]] | OWASP uyumluluk |
+| [[architecture/07-security/deep-logging-system]] | Derin loglama sistemi (PSR-3, Monolog, MySQL, Real-time) |
+| [[architecture/07-security/deep-logging-implementation-plan]] | Derin loglama uygulama plani (10 faz, 23 saat) |
 | [[architecture/l1-security]] | Güvenlik katmanı |
 
 ## 10. Çapraz Referanslar

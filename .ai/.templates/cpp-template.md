@@ -32,13 +32,13 @@ CoreMusic Neva Engine ses motoru geliştirme için C++20 şablonu. Zero-allocati
 | WASAPI | — | Windows audio | microsoft.com |
 | CMake | 3.28+ | Build system | cmake.org |
 
-*Kaynak: C++20 Standard (isocpp.org), JUCE 8 Docs (juce.com) — 2026-08-06'da doğrulandı*
+*Kaynak: C++20 Standard (isocpp.org), JUCE 9 Docs (juce.com) — 2026-08-06'da doğrulandı*
 
 ### 2.1 Zorunlu Bağımlılıklar
 
 | Bağımlılık | Amaç | Zorunlu mu? |
 |------------|------|-------------|
-| JUCE 8 | Audio framework | ✅ Evet |
+| JUCE 9 | Audio framework | ✅ Evet |
 | ASIO SDK | Low-latency driver | ✅ Evet (Windows) |
 | CMake 3.28+ | Build system | ✅ Evet |
 | fmt | String formatting | ⚠️ Önerilir |

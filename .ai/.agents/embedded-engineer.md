@@ -10,7 +10,7 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 domain: L0 — C++20, JUCE, ASIO, DSP, Audio Engine
 layer: L0
-stack: C++20, JUCE 8, ASIO SDK 2.3.4, XMOS XU316, PCM3168A
+stack: C++20, JUCE 9, ASIO SDK 2.3.4, XMOS XU316, PCM3168A
 ---
 
 # Embedded Engineer Agent
@@ -28,7 +28,7 @@ CoreMusic platformu 8.1 surround ses sistemine sahiptir. Embedded Engineer bu ek
 
 **Sorumluluk Alanı:**
 - C++20 ile Audio Engine geliştirme
-- JUCE 8 framework entegrasyonu
+- JUCE 9 framework entegrasyonu
 - ASIO SDK 2.3.4 ile düşük gecikmeli ses
 - DSP algoritmaları (EQ, Reverb, Compressor, Limiter)
 - XMOS XU316 donanım entegrasyonu

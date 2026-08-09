@@ -118,7 +118,7 @@ CoreMusic'i monolithic bir yapıda inşa etmek yerine, her biri kendi görevini 
 | **Queue** | Redis Queue / Symfony Messenger |
 | **Auth** | Hybrid (Session + JWT RS256) |
 | **API** | REST + WebSocket |
-| **Audio** | C++20, JUCE 8, ASIO SDK 2.3.4 |
+| **Audio** | C++20, JUCE 9, ASIO SDK 2.3.4 |
 | **Hardware** | XMOS XU316, PCM3168A |
 
 ---

@@ -419,16 +419,18 @@ Content-Security-Policy:
 
 | # | Risk | Koruma | Middleware |
 |---|------|--------|-----------|
-| A01 | Broken Access Control | RBAC + middleware | Auth |
-| A02 | Cryptographic Failures | AES-256-GCM + Argon2id | — |
-| A03 | Injection | PDO prepared + CSP nonce | Csrf, SecurityHeaders |
-| A04 | Insecure Design | L0-L3 architecture | — |
-| A05 | Security Misconfiguration | Security headers | SecurityHeaders |
-| A06 | Vulnerable Components | Version pinning | — |
-| A07 | Auth Failures | Rate limiting + lockout | RateLimiter |
-| A08 | Data Integrity Failures | HMAC verification | Csrf |
-| A09 | Logging Failures | Audit trail | — |
-| A10 | SSRF | URL validation | — |
+| A01 | Broken Access Control (SSRF dahil) | RBAC + middleware + URL validation | Auth |
+| A02 | Security Misconfiguration | Security headers + strict config | SecurityHeaders |
+| A03 | Software Supply Chain Failures | Version pinning + dependency audit | — |
+| A04 | Cryptographic Failures | AES-256-GCM + Argon2id | — |
+| A05 | Injection | PDO prepared + CSP nonce | Csrf, SecurityHeaders |
+| A06 | Insecure Design | L0-L3 architecture | — |
+| A07 | Authentication Failures | Rate limiting + lockout | RateLimiter |
+| A08 | Software/Data Integrity Failures | HMAC verification + code signing | Csrf |
+| A09 | Security Logging & Alerting Failures | Audit trail + alerting | — |
+| A10 | Mishandling of Exceptional Conditions | Error handling + fail-safe | — |
+
+*Kaynak: OWASP Top 10:2025 (owasp.org/Top10/2025/)*
 
 ## 6. Rate Limiting Detayı
 

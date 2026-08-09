@@ -207,7 +207,7 @@ class MultiProjectPromptMaker
             'neva-engine' => [
                 'name' => 'Neva Engine',
                 'type' => 'audio',
-                'technology' => 'C++20, JUCE 8, ASIO',
+                'technology' => 'C++20, JUCE 9, ASIO',
                 'description' => 'C++ ses motoru',
                 'layer' => 'L0 Infrastructure',
             ],

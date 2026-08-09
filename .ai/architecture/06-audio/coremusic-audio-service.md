@@ -23,7 +23,7 @@ C++20 JUCE tabanlı ses motoru: player, DSP, mixer, EQ, recorder. [[ADR-017-dsp-
 | Özellik | Değer | ADR |
 |---------|-------|-----|
 | **Port** | 9741 (REST), 9742 (WebSocket) | ADR-039 |
-| **Stack** | C++20, JUCE 8 | ADR-017 |
+| **Stack** | C++20, JUCE 9 | ADR-017 |
 | **Protocol** | ASIO / WASAPI | ADR-017 |
 | **Auth** | API Key | ADR-032 |
 | **Database** | — (stateless) | — |

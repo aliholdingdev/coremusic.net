@@ -3,9 +3,9 @@ type: adr
 category: database
 title: "ADR-040: Database Authority"
 date: 2026-08-03
-updated: 2026-08-08
+updated: 2026-08-10
 status: active
-version: 2.0.0
+version: 3.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -14,10 +14,10 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-9 BCNF veritabanının otoritesini ve yönetim stratejisini tanımlar. [[ADR-040-database-authority]] Active karardır, güncellenebilir.
+11 BCNF veritabanının otoritesini ve yönetim stratejisini tanımlar. [[ADR-040-database-authority]] Active karardır, güncellenebilir.
 
 Bu ADR'nin amacı:
-- 9 izole veritabanının yönetim kurallarını tanımlamak
+- 11 izole veritabanının yönetim kurallarını tanımlamak
 - BCNF normalizasyon zorunluluğunu belgelemek
 - Veri bütünlüğü mekanizmalarını belirlemek
 - Cross-DB iletişim stratejisini tanımlamak
@@ -31,7 +31,7 @@ Bu ADR'nin amacı:
 
 | Faktör | Değer |
 |--------|-------|
-| **DB Sayısı** | 9 izole veritabanı |
+| **DB Sayısı** | 11 izole veritabanı |
 | **Normalizasyon** | BCNF (Boyce-Codd Normal Form) |
 | **ORM** | Yasak (ADR-002) |
 | **SELECT*** | Yasak (ADR-002) |
@@ -42,21 +42,26 @@ Bu ADR'nin amacı:
 | **Engine** | InnoDB |
 | **Backup** | Periyodik + on-demand |
 
-### 2.1 9 Veritabanı Detayı
+### 2.1 11 Veritabanı Detayı
 
-| # | Veritabanı | Amaç | Ana Tablolar |
-|---|------------|------|-------------|
-| 1 | coremusic_auth | Users, roles, sessions, Argon2id | users, roles, user_roles, sessions |
-| 2 | coremusic_user | Profiles, preferences, history | profiles, preferences, history |
-| 3 | coremusic_musics | Songs, artists, genres, metadata | songs, artists, genres, song_artists |
-| 4 | coremusic_albums | Album collections | albums, album_tracks |
-| 5 | coremusic_playlist | User and AI playlists | playlists, playlist_tracks |
-| 6 | coremusic_catalog | Download queues, service status | downloads, service_status |
-| 7 | coremusic_logs | Application logs, audit trail | logs, audit_trail |
-| 8 | coremusic_media | Media file metadata | media_files, media_metadata |
-| 9 | coremusic_system | System configuration | settings, feature_flags |
+| # | Veritabanı | Amaç | Ana Tablolar | Tablo Sayısı |
+|---|------------|------|-------------|-------------|
+| 1 | coremusic_auth | Users, roles, sessions, tokens, credential vault, API keys | users, roles, user_roles, sessions, tokens, credential_vault, api_keys, user_permissions, password_history, login_attempts, oauth_clients, oauth_tokens | 12 |
+| 2 | coremusic_user | Profiles, preferences, history, favorites | profiles, preferences, history, favorites, user_settings, user_avatars, user_activity | 7 |
+| 3 | coremusic_musics | Songs, artists, genres, lyrics, files | songs, artists, genres, song_artists, lyrics, song_files, isrc_codes, music_metadata, music_tags, music_reviews, music_favorites, music_history | 12 |
+| 4 | coremusic_albums | Album collections | albums, album_tracks, album_artists, album_metadata, album_reviews | 5 |
+| 5 | coremusic_playlist | User and AI playlists | playlists, playlist_tracks, playlist_shares, ai_playlists, playlist_history | 5 |
+| 6 | coremusic_catalog | Reference data (genre list, singer roles, instruments) | genres, singer_roles, instruments, service_status, download_queue, api_endpoints, content_ratings, language_list | 8 |
+| 7 | coremusic_logs | Audit trail, analytics, error logs | logs, audit_trail, analytics_events, error_logs, access_logs, performance_metrics, security_events, api_logs, system_events, notification_logs, search_logs, playback_logs, session_logs | 13 |
+| 8 | coremusic_media | Device sync, media metadata | media_files, media_metadata, device_sync, media_thumbnails, media_subtitles, media_chapters, media_bookmarks, media_playlists | 8 |
+| 9 | coremusic_system | Settings, config, cache, EQ, file manager, notifications | settings, feature_flags, system_config, eq_presets, file_manager, notifications, system_cache, cron_jobs, email_templates, backup_logs, system_health, api_rate_limits, maintenance_mode | 13 |
+| 10 | coremusic_social | Comments, shares, activity, listening rooms | comments, shares, activity_feed, listening_rooms, room_members, room_messages, user_follows, social_notifications, social_settings | 9 |
+| 11 | coremusic_wireless | WiFi + Bluetooth networks | wifi_networks, bluetooth_devices, device_pairing, network_profiles, wireless_settings | 5 |
 
-### 2.2 Neden 9 Ayrı DB?
+**Toplam DB Sayısı:** 11
+**Toplam Tablo Sayısı:** ~86 tablo
+
+### 2.2 Neden 11 Ayrı DB?
 
 - **İzolasyon:** Her DB bağımsız yedeklenebilir ve geri yüklenebilir
 - **Performans:** Küçük DB'ler daha hızlı sorgu çalıştırır
@@ -81,19 +86,21 @@ Bu ADR'nin amacı:
 
 ## 3. Karar
 
-### 3.1 9 BCNF Veritabanı
+### 3.1 11 BCNF Veritabanı
 
-| # | Veritabanı | Amaç |
-|---|------------|------|
-| 1 | `coremusic_auth` | Users, roles, sessions, Argon2id |
-| 2 | `coremusic_user` | Profiles, preferences, history |
-| 3 | `coremusic_musics` | Songs, artists, genres, metadata |
-| 4 | `coremusic_albums` | Album collections |
-| 5 | `coremusic_playlist` | User and AI playlists |
-| 6 | `coremusic_catalog` | Download queues, service status |
-| 7 | `coremusic_logs` | Application logs, audit trail |
-| 8 | `coremusic_media` | Media file metadata |
-| 9 | `coremusic_system` | System configuration |
+| # | Veritabanı | Amaç | Tablo Sayısı |
+|---|------------|------|-------------|
+| 1 | `coremusic_auth` | Users, roles, sessions, tokens, credential vault, API keys | 12 |
+| 2 | `coremusic_user` | Profiles, preferences, history, favorites | 7 |
+| 3 | `coremusic_musics` | Songs, artists, genres, lyrics, files | 12 |
+| 4 | `coremusic_albums` | Album collections | 5 |
+| 5 | `coremusic_playlist` | User and AI playlists | 5 |
+| 6 | `coremusic_catalog` | Reference data (genre list, singer roles, instruments) | 8 |
+| 7 | `coremusic_logs` | Audit trail, analytics, error logs | 13 |
+| 8 | `coremusic_media` | Device sync, media metadata | 8 |
+| 9 | `coremusic_system` | Settings, config, cache, EQ, file manager, notifications | 13 |
+| 10 | `coremusic_social` | Comments, shares, activity, listening rooms | 9 |
+| 11 | `coremusic_wireless` | WiFi + Bluetooth networks | 5 |
 
 ### 3.2 DB Kuralları
 
@@ -411,9 +418,9 @@ $sql = "SELECT s.id, s.title, s.artist_id, a.name AS artist_name
 | **Edge Cases** | ✅ 14 senaryo |
 | **Yasak Örüntü** | ✅ 8 kural |
 | **Terim Sayısı** | ✅ 16 terim |
-| **DB Sayısı** | 9 BCNF |
+| **DB Sayısı** | 11 BCNF |
 | **Index Sayısı** | 10 index stratejisi |
-| **Backup Stratejisi** | 9 DB için tanımlı |
+| **Backup Stratejisi** | 11 DB için tanımlı |
 
 ---
 
@@ -496,9 +503,9 @@ $sql = "SELECT s.id, s.title, s.artist_id, a.name AS artist_name
 | **Edge Cases** | ✅ 14 senaryo |
 | **Yasak Örüntü** | ✅ 8 kural |
 | **Terim Sayısı** | ✅ 10 terim |
-| **DB Sayısı** | 9 BCNF |
+| **DB Sayısı** | 11 BCNF |
 | **Index Stratejisi** | 10 strateji |
-| **Backup Stratejisi** | 9 DB için tanımlı |
+| **Backup Stratejisi** | 11 DB için tanımlı |
 
 ---
 

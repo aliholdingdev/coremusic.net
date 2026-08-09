@@ -2,9 +2,9 @@
 title: "CoreMusic — Vault Keyword Map & Concept Router"
 type: system
 category: vault-navigation
-updated: 2026-08-08
+updated: 2026-08-10
 status: active
-version: 19.0.0
+version: 23.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -89,6 +89,11 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | OWASP, Top 10 | architecture/07-security/security/owasp-compliance |
 | encryption | architecture/07-security/encryption |
 | API security, token | architecture/07-security/api/api_security_master |
+| loglama, logging, PSR-3, Monolog | architecture/07-security/deep-logging-system |
+| log_events, log_security, log_performance | architecture/07-security/deep-logging-system |
+| log_activity, log_system, redaction | architecture/07-security/deep-logging-system |
+| real-time log, dashboard log, monitor | architecture/07-security/deep-logging-system |
+| dosya rotasyonu, log rotation, arsiv | architecture/07-security/deep-logging-system |
 
 ---
 
@@ -96,9 +101,9 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| 9 BCNF, normalizasyon | [[decisions/accepted/ADR-040-database-authority]] |
+| 11 BCNF, normalizasyon | [[decisions/accepted/ADR-040-database-authority]] |
 | ORM, SELECT *, PDO | [[decisions/accepted/ADR-002-pdo-mandatory-no-orm]] |
-| multi-db, 9 veritabani | [[decisions/accepted/ADR-003-multi-db-9-databases]] |
+| multi-db, 11 veritabani | [[decisions/accepted/ADR-003-multi-db-9-databases]] |
 | migration, schema degisikligi | [[decisions/accepted/ADR-014-multi-db-migration-strategy]] |
 | SQL normalization | [[decisions/accepted/ADR-033-sql-normalization-strategy]] |
 | DB sync | [[decisions/accepted/ADR-050-multi-db-sync-strategy]] |
@@ -112,6 +117,8 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | coremusic_logs | .sql/coremusic_logs.sql |
 | coremusic_media | .sql/coremusic_media.sql |
 | coremusic_system | .sql/coremusic_system.sql |
+| coremusic_social | .sql/coremusic_social.sql |
+| coremusic_wireless | .sql/coremusic_wireless.sql |
 | coremusic_credential | .sql/coremusic_credential.sql |
 | coremusic_download | .sql/coremusic_download.sql |
 
@@ -156,6 +163,64 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | SNR, THD, THD+N, olcum | electronic/snr-thd-measurement.md |
 | test protokolu, hardware test | electronic/test-protocols.md |
 | termal analiz, is sicaklik | electronic/thermal-analysis.md |
+| DSP pipeline, equalizer, crossover | electronic/dsp/index.md |
+| driver framework, USB, BT, WiFi | electronic/drivers/index.md |
+| amplifier architecture, power supply | electronic/amplifier/index.md |
+| hardware design, PCB | electronic/hardware/index.md |
+| firmware, RTOS, OTA | electronic/firmware/index.md |
+| electronics architecture, L6 | [[decisions/accepted/ADR-061-electronics-architecture]] |
+| DSP pipeline architecture | [[decisions/accepted/ADR-062-dsp-pipeline-architecture]] |
+| hardware design standards | [[decisions/accepted/ADR-063-hardware-design-standards]] |
+| CoreMusic Electronics, genel bakis | electronic/core-music-electronics-overview.md |
+| platform architecture, 9 katman | electronic/platform-architecture.md |
+| device architecture, cihaz aileleri | electronic/device-architecture.md |
+| OS architecture, PAL, platform adapter | electronic/operating-system-architecture.md |
+| device ecosystem, cihaz ekosistemi | electronic/device-ecosystem.md |
+| software architecture, 5 katman | electronic/software-architecture.md |
+| service architecture, 13 servis | electronic/service-architecture.md |
+| audio architecture, ses pipeline | electronic/audio-architecture.md |
+| DSP engine, EQ compressor limiter | electronic/dsp-engine-architecture.md |
+| driver framework, ASIO WASAPI ALSA | electronic/driver-framework.md |
+| amplifier architecture, 8+1 | electronic/amplifier-architecture.md |
+| hardware design, PCB EMI EMC | electronic/hardware-design.md |
+| firmware architecture, RTOS HAL OTA | electronic/firmware-architecture.md |
+| L6 electronics, layer stack | architecture/l6-electronics.md |
+| network architecture, MQTT gRPC IPC | architecture/network-architecture.md |
+| database architecture, BCNF SQLite | architecture/database-architecture.md |
+| security architecture, OWASP RBAC | architecture/security-architecture.md |
+| electronics security, secure boot | architecture/07-security/electronics-security.md |
+| engineering rules, SSOT | architecture/03-contracts/engineering-rules-ssot.md |
+| diagram collection, mermaid | architecture/03-contracts/diagram-collection.md |
+| development workflow, 20 faz | architecture/03-contracts/development-workflow.md |
+| development standards, SOLID DDD | architecture/03-contracts/development-standards.md |
+| software architecture, 5 katman, DDD, CQRS | electronic/software-architecture.md |
+| service architecture, 13 servis, API Gateway | electronic/service-architecture.md |
+| device ecosystem, cihaz ekosistemi, OTA | electronic/device-ecosystem.md |
+
+---
+
+## 7A. AI Architecture Keywords
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| AI engine, recommendation, music AI | architecture/ai/ai-engine.md |
+| AI orchestrator, task dispatch | architecture/ai/ai-orchestrator.md |
+| agent system, 11 agents | architecture/ai/agent-system.md |
+| knowledge base, semantic search | architecture/ai/knowledge-base.md |
+| memory system, session memory | architecture/ai/memory-system.md |
+| prompt engine, prompt generation | architecture/ai/prompt-engine.md |
+| tool calling, external tools | architecture/ai/tool-calling.md |
+| MCP, model context protocol | architecture/ai/mcp-integration.md |
+| AI workflow, recommendation engine | architecture/ai/ai-workflow.md |
+| AI strategy, prompt engineering | [[decisions/accepted/ADR-030-ai-strategy-core]] |
+| system prompt, prompt standards | [[decisions/accepted/ADR-035-system-prompt-engineering]] |
+| multi-project prompt | [[decisions/accepted/ADR-036-multi-project-prompt-maker]] |
+| startup prompt loader | [[decisions/accepted/ADR-049-startup-prompt-loader]] |
+| AI electronics engine | architecture/ai/ai-electronics-engine.md |
+| AI workflow electronics | architecture/ai/ai-workflow-electronics.md |
+| ai-workflow-standards | architecture/03-contracts/ai-workflow-standards.md |
+| AI electronics engine, donanım analizi | architecture/ai/ai-electronics-engine.md |
+| AI workflow electronics | architecture/ai/ai-workflow-electronics.md |
 
 ---
 
@@ -235,7 +300,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | ADR-037 | WirelessConnect, WiFi | Integration |
 | ADR-038 | PCM3168A, XMOS XU316, 8.1 surround | Audio |
 | ADR-039 | 7 servis, platform mimarisi | Architecture |
-| ADR-040 | 9 BCNF, DB authority | Database |
+| ADR-040 | 11 BCNF, DB authority | Database |
 | ADR-041 | DB normalization supplementary | Database |
 | ADR-042 | vault restructuring, MSA, 15 dosya | Vault |
 | ADR-043 | auth subdomain, konsolidasyon | Security |
@@ -246,6 +311,18 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | ADR-048 | View Transition API | UI |
 | ADR-049 | startup prompt loader | AI |
 | ADR-050 | multi-db sync | Database |
+| ADR-061 | electronics architecture, L6 layer | Electronics |
+| ADR-062 | DSP pipeline architecture | Electronics |
+| ADR-063 | hardware design standards | Electronics |
+| ADR-064 | electronics platform, L6, 5 cihaz ailesi, 13 servis | Electronics |
+| ADR-072 | social database, comments, shares, activity, notifications | Database |
+| ADR-073 | podcast database, shows, episodes, transcripts | Database |
+| ADR-074 | radio database, stations, schedules, now_playing | Database |
+| ADR-075 | ai database, preferences, features, recommendations, models | Database |
+| ADR-076 | video database, music_videos, playback, subtitles | Database |
+| ADR-077 | studio database, sessions, tracks, presets, equipment | Database |
+| ADR-078 | cms database, pages, blog, tags, faqs, banners | Database |
+| ADR-079 | i18n database, languages, translations, ui_strings | Database |
 
 ---
 
@@ -358,7 +435,7 @@ P3: testing/*, ui-design/*, personas/*
 | Version | 19.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | ADR Coverage | 001-050 (50 ADR keyword mapping) |
-| Vault Envanteri | 404 .md dosyasi, 50 ADR, 9 BCNF DB, 10 panel, 7 servis |
+| Vault Envanteri | 529 .md dosyasi, 51 ADR, 11 BCNF DB, 10 panel, 7 servis |
 
 ---
 

@@ -260,7 +260,7 @@ Her panel 3 görünüm moduna sahiptir:
 | Division | Sorumluluk | Teknoloji |
 |----------|------------|-----------|
 | **Hardware Division** | Özel audio kartları, DAC/ADC, DSP çipleri, amplifikatör | PCM3168A, XMOS XU316, Class AB |
-| **Software Division** | C++ Audio Engine, DSP Engine, Mixer, sürücüler | C++20, JUCE 8, ASIO SDK |
+| **Software Division** | C++ Audio Engine, DSP Engine, Mixer, sürücüler | C++20, JUCE 9, ASIO SDK |
 | **Studio Division** | ASIO, WASAPI, kayıt, monitoring, routing | WASAPI Exclusive, ASIO 2.3 |
 | **Consumer Division** | Bluetooth, WiFi Audio, müzik oynatma, ev ve araç ses | BLE, WiFi Direct, Android Auto |
 | **Research Division** | AI DSP, yeni codec teknolojileri, geleceğin audio donanımları | Python, TensorFlow Lite |
@@ -678,7 +678,7 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 |-------|-----------|
 | **Frontend** | Vanilla JS (ES6+), ITCSS 7-layer, Web Audio API, TrustedTypes |
 | **Backend** | PHP 8.4 (strict_types), PDO (prepared stmts), Node.js 20+ |
-| **Audio** | C++20, JUCE 8, ASIO SDK 2.3.4, WASAPI |
+| **Audio** | C++20, JUCE 9, ASIO SDK 2.3.4, WASAPI |
 | **Database** | MySQL 9 (InnoDB, BCNF), PDO |
 | **Cache** | APCu (L1), Redis (L2) |
 | **Security** | Argon2id, AES-256-GCM, OWASP Top 10 |

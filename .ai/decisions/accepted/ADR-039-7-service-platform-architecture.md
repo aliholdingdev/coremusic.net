@@ -139,7 +139,7 @@ CoreMusic'te **7 bağımsız backend servis** bulunacak. Her servis belirli bir 
 | Özellik | Değer |
 |---------|-------|
 | Port | 9741 (REST) / 9742 (WebSocket) |
-| Stack | C++20, JUCE 8, ASIO SDK 2.3.4 |
+| Stack | C++20, JUCE 9, ASIO SDK 2.3.4 |
 | Sorumluluk | Ses oynatma, DSP, mixer, EQ |
 | Donanım | XMOS XU316 + PCM3168A (ADR-038) |
 | DSP Chain | EQ → Compressor → Limiter → Bass Management |

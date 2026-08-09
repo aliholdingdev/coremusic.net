@@ -20,7 +20,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-Bu ADR, CoreMusic platformunun profesyonel ses işleme altyapısını tanımlar. XMOS XU316 USB Audio Class 2.0 çipi, JUCE 8 C++ audio framework'ü ve ASIO SDK 2.3.4 ile düşük gecikmeli (low-latency) DSP hardware modu tanımını, zero-allocation kurallarını ve donanım entegrasyonu standartlarını belirler. [[ADR-038-8.1-sound-card-chip-selection]] ile PCM3168A entegrasyonuna bağlıdır.
+Bu ADR, CoreMusic platformunun profesyonel ses işleme altyapısını tanımlar. XMOS XU316 USB Audio Class 2.0 çipi, JUCE 9 C++ audio framework'ü ve ASIO SDK 2.3.4 ile düşük gecikmeli (low-latency) DSP hardware modu tanımını, zero-allocation kurallarını ve donanım entegrasyonu standartlarını belirler. [[ADR-038-8.1-sound-card-chip-selection]] ile PCM3168A entegrasyonuna bağlıdır.
 
 ---
 
@@ -44,7 +44,7 @@ CoreMusic, araç içi bilgi-eğlence, ev medya merkezi ve profesyonel stüdyo i�
 | Bileşen | Özellik | Neden |
 |---------|---------|-------|
 | XMOS XU316 | USB Audio Class 2.0, zero-latency DSP | En düşük gecikme, endüstri standardı |
-| JUCE 8 | C++ audio framework | Cross-platform, VST3, plugin desteği |
+| JUCE 9 | C++ audio framework | Cross-platform, VST3, plugin desteği |
 | ASIO SDK 2.3.4 | Steinberg low-latency API | Windows stüdyo standardı |
 | WASAPI | Windows Audio Session API | Windows genel ses |
 | PCM3168A | 8-kanal DAC, 24-bit, 192kHz | 8.1 surround (ADR-038) |
@@ -76,7 +76,7 @@ CoreMusic'te **XMOS XU316 + JUCE** ile DSP hardware mode kullanılacak:
 | Karar | Değer |
 |-------|-------|
 | DSP Chip | XMOS XU316 |
-| Audio Framework | JUCE 8 |
+| Audio Framework | JUCE 9 |
 | Windows Driver | ASIO SDK 2.3.4 |
 | Linux Driver | ALSA / PipeWire |
 | macOS Driver | CoreAudio |
@@ -404,7 +404,7 @@ public:
 | Çapraz Referanslar | 8 |
 | Sözlük Terimleri | 20 |
 | DSP Chip | XMOS XU316 |
-| Audio Framework | JUCE 8 |
+| Audio Framework | JUCE 9 |
 | ASIO SDK | 2.3.4 |
 | Sample Format | Float32 |
 | Sample Rate | 48kHz |

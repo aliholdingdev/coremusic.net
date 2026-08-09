@@ -2,13 +2,13 @@
 title: "CoreMusic Vault — Master Index"
 type: system
 category: vault-navigation
-updated: 2026-08-08
+updated: 2026-08-10
 status: active
-version: 19.0.0
+version: 23.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total_files: 404
-total_adr: 50
+total_files: 529
+total_adr: 72
 ---
 
 # CoreMusic Vault — Master Index
@@ -71,7 +71,7 @@ Bağımlılık kuralları: ✅ L3→L2, L2→L1, L1→L0 | ❌ L0→L2/L3, L1→
 
 ## 5. Mimari Kararlar (ADR)
 
-Toplam 50 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-050 (güncellenebilir).
+Toplam 51 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-050+ (güncellenebilir).
 
 ### 5.1 Frozen (001-037)
 
@@ -115,13 +115,13 @@ Toplam 50 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-050 (güncelleneb
 | [[decisions/accepted/ADR-036-multi-project-prompt-maker]] | Multi-project prompt maker | AI |
 | [[decisions/accepted/ADR-037-wirelessconnect-integration]] | WirelessConnect integration | Integration |
 
-### 5.2 Active (038-050)
+### 5.2 Active (038-064)
 
 | ADR | Konu | Kategori |
 |-----|------|----------|
 | [[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]] | 8.1 ses donanımı (PCM3168A + XMOS XU316) | Audio |
 | [[decisions/accepted/ADR-039-7-service-platform-architecture]] | 7-servis platform mimarisi | Architecture |
-| [[decisions/accepted/ADR-040-database-authority]] | 9 BCNF DB otoritesi | Database |
+| [[decisions/accepted/ADR-040-database-authority]] | 11 BCNF DB otoritesi | Database |
 | [[decisions/accepted/ADR-041-database-normalization-supplementary]] | DB normalizasyon ekı | Database |
 | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault yeniden yapılandırma | Vault |
 | [[decisions/accepted/ADR-043-auth-subdomain-consolidation]] | Auth subdomain konsolidasyonu | Security |
@@ -132,6 +132,18 @@ Toplam 50 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-050 (güncelleneb
 | [[decisions/accepted/ADR-048-view-transition-api-integration]] | View Transition API entegrasyonu | UI |
 | [[decisions/accepted/ADR-049-startup-prompt-loader]] | Startup prompt loader | AI |
 | [[decisions/accepted/ADR-050-multi-db-sync-strategy]] | Multi-DB sync stratejisi | Database |
+| [[decisions/accepted/ADR-061-electronics-architecture]] | Electronics Architecture (L6 Layer) | Electronics |
+| [[decisions/accepted/ADR-062-dsp-pipeline-architecture]] | DSP Pipeline Architecture | Electronics |
+| [[decisions/accepted/ADR-063-hardware-design-standards]] | Hardware Design Standards | Electronics |
+| [[decisions/accepted/ADR-064-electronics-platform-architecture]] | Electronics Platform Architecture (L0-L6, 5 cihaz, 13 servis) | Electronics |
+| [[decisions/accepted/ADR-072-social-database-schema]] | Social DB Schema (comments, shares, activity, rooms, notifications) | Database |
+| [[decisions/accepted/ADR-073-podcast-database-schema]] | Podcast DB Schema (shows, episodes, subscriptions, transcripts) | Database |
+| [[decisions/accepted/ADR-074-radio-database-schema]] | Radio DB Schema (stations, schedules, now_playing) | Database |
+| [[decisions/accepted/ADR-075-ai-database-schema]] | AI DB Schema (preferences, features, recommendations, models) | Database |
+| [[decisions/accepted/ADR-076-video-database-schema]] | Video DB Schema (music_videos, playback, subtitles) | Database |
+| [[decisions/accepted/ADR-077-studio-database-schema]] | Studio DB Schema (sessions, tracks, presets, equipment) | Database |
+| [[decisions/accepted/ADR-078-cms-database-schema]] | CMS DB Schema (pages, blog, tags, media, FAQs, banners) | Database |
+| [[decisions/accepted/ADR-079-i18n-database-schema]] | i18n DB Schema (languages, translations, ui_strings, locale) | Database |
 
 ### 5.3 Reddedilen Kararlar
 
@@ -177,7 +189,7 @@ Toplam 50 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-050 (güncelleneb
 | 80 | admin.coremusic.net | HTTP |
 | 81 | music.coremusic.net (Control Service) | HTTP |
 | 3001 | download.coremusic.net | HTTP/WS |
-| 3306 | MySQL 9 BCNF DB | TCP |
+| 3306 | MySQL 11 BCNF DB | TCP |
 | 5000/6000 | media.coremusic.net | HTTP |
 | 9741 | Audio Service (REST) | HTTP |
 | 9742 | Audio Service (WebSocket) | WS |
@@ -194,7 +206,7 @@ Toplam 50 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-050 (güncelleneb
 | Backend Architect | PHP 8.4 API, middleware | L2 Routing, controller, repository |
 | UI Designer | Vanilla JS, ITCSS, Web Audio | L3 Presentation, responsive, accessibility |
 | Security Engineer | OWASP, AES-256-GCM, Argon2id | L1 Security, CSRF, CSP, session |
-| Data Engineer | MySQL 9 BCNF, PDO | L0 Infrastructure, schema, migration |
+| Data Engineer | MySQL 11 BCNF, PDO | L0 Infrastructure, schema, migration |
 | Embedded Engineer | C++20, JUCE, ASIO | Audio DSP, hardware, ring buffer |
 | QA Engineer | PHPUnit, Vitest, Playwright | Testing, coverage, E2E |
 | DevOps Engineer | CI/CD, Docker, GitLeaks | Deployment, pipeline, monitoring |
@@ -203,21 +215,23 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ---
 
-## 8. Veritabanı (9 BCNF — ADR-040)
+## 8. Veritabanı (11 BCNF — ADR-040)
 
-| # | Veritabanı | Dosya | Amaç |
-|---|------------|-------|------|
-| 1 | coremusic_auth | `.sql/coremusic_auth.sql` | Users, roles, sessions, Argon2id hashes |
-| 2 | coremusic_user | `.sql/coremusic_user.sql` | Profiles, preferences, history |
-| 3 | coremusic_musics | `.sql/coremusic_musics.sql` | Songs, artists, genres, metadata |
-| 4 | coremusic_albums | `.sql/coremusic_albums.sql` | Album collections |
-| 5 | coremusic_playlist | `.sql/coremusic_playlist.sql` | User and AI playlists |
-| 6 | coremusic_catalog | `.sql/coremusic_catalog.sql` | Download queues, service status |
-| 7 | coremusic_logs | `.sql/coremusic_logs.sql` | Application logs, audit trail |
-| 8 | coremusic_media | `.sql/coremusic_media.sql` | Media file metadata |
-| 9 | coremusic_system | `.sql/coremusic_system.sql` | System configuration |
+| # | Veritabanı | Dosya | Amaç | Tablo Sayısı |
+|---|------------|-------|------|-------------|
+| 1 | coremusic_auth | `.sql/coremusic_auth.sql` | Users, roles, sessions, tokens, credential vault, API keys | 12 |
+| 2 | coremusic_user | `.sql/coremusic_user.sql` | Profiles, preferences, history, favorites | 7 |
+| 3 | coremusic_musics | `.sql/coremusic_musics.sql` | Songs, artists, genres, lyrics, files | 12 |
+| 4 | coremusic_albums | `.sql/coremusic_albums.sql` | Album collections | 5 |
+| 5 | coremusic_playlist | `.sql/coremusic_playlist.sql` | User and AI playlists | 5 |
+| 6 | coremusic_catalog | `.sql/coremusic_catalog.sql` | Reference data (genre list, singer roles, instruments) | 8 |
+| 7 | coremusic_logs | `.sql/coremusic_logs.sql` | Audit trail, analytics, error logs | 13 |
+| 8 | coremusic_media | `.sql/coremusic_media.sql` | Device sync, media metadata | 8 |
+| 9 | coremusic_system | `.sql/coremusic_system.sql` | Settings, config, cache, EQ, file manager, notifications | 13 |
+| 10 | coremusic_social | `.sql/coremusic_social.sql` | Comments, shares, activity, listening rooms | 9 |
+| 11 | coremusic_wireless | `.sql/coremusic_wireless.sql` | WiFi + Bluetooth networks | 5 |
 
-Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusic_credential.sql`, `.sql/coremusic_download.sql`, `.sql/coremusic_neva.sql`, `.sql/coremusic_patch.sql`, `.sql/coremusic_wireless.sql`, `.sql/core-music-db.sql`
+Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusic_credential.sql`, `.sql/coremusic_download.sql`, `.sql/coremusic_neva.sql`, `.sql/coremusic_patch.sql`, `.sql/core-music-db.sql`
 
 ---
 
@@ -241,6 +255,7 @@ Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusi
 
 | Dosya | Kapsam |
 |-------|--------|
+| [[electronic/index]] | Master Electronics Index |
 | [[electronic/audio-organization]] | 5 bölüm organizasyonu |
 | [[electronic/hardware-roadmap]] | 3 fazlı hardware geliştirme |
 | [[electronic/amplifier-design]] | Class AB 100W amfi tasarımı |
@@ -251,6 +266,36 @@ Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusi
 | [[electronic/frequency-response]] | Frekans yanıtı ölçüm protokolü |
 | [[electronic/snr-thd-measurement]] | SNR & THD ölçüm protokolü |
 | [[electronic/thermal-analysis]] | Termal analiz |
+| [[electronic/dsp/index]] | DSP Engine (7 modül) |
+| [[electronic/drivers/index]] | Driver Framework (7 modül) |
+| [[electronic/amplifier/index]] | Amplifier Architecture (5 modül) |
+| [[electronic/hardware/index]] | Hardware Design (5 modül) |
+| [[electronic/firmware/index]] | Firmware Architecture (4 modül) |
+| [[electronic/core-music-electronics-overview]] | CoreMusic Electronics genel bakış |
+| [[electronic/platform-architecture]] | Platform mimarisi (9 katman) |
+| [[electronic/device-architecture]] | Cihaz mimarisi ve aileleri |
+| [[electronic/operating-system-architecture]] | OS desteği (8 platform, PAL) |
+| [[electronic/device-ecosystem]] | Cihaz ekosistemi ve iletişim |
+| [[electronic/software-architecture]] | Yazılım mimarisi (5 katman) |
+| [[electronic/service-architecture]] | Servis mimarisi (13 servis) |
+| [[electronic/audio-architecture]] | Ses mimarisi (input→output pipeline) |
+| [[electronic/dsp-engine-architecture]] | DSP motoru (EQ, compressor, limiter, crossover) |
+| [[electronic/driver-framework]] | Sürücü çerçevesi (ASIO/WASAPI/ALSA/CoreAudio) |
+| [[electronic/amplifier-architecture]] | Amfi mimarisi (8+1 varsayılan, 7 cihaz) |
+| [[electronic/hardware-design]] | Donanım tasarım rehberi (PCB, EMI/EMC) |
+| [[electronic/firmware-architecture]] | Firmware mimarisi (RTOS, HAL, OTA) |
+| [[architecture/l6-electronics]] | L6 Electronics katmanı (L0-L6 stack) |
+| [[architecture/network-architecture]] | Ağ mimarisi (HTTP/MQTT/gRPC/IPC) |
+| [[architecture/database-architecture]] | Veritabanı mimarisi (11 BCNF, SQLite) |
+| [[architecture/security-architecture]] | Güvenlik mimarisi (OWASP 2025, RBAC) |
+| [[architecture/ai/ai-electronics-engine]] | AI Electronics Engine |
+| [[architecture/ai/ai-workflow-electronics]] | AI Electronics workflow |
+| [[architecture/03-contracts/development-workflow]] | 20 fazlı geliştirme süreci |
+| [[architecture/03-contracts/development-standards]] | Geliştirme standartları (SOLID, DDD, CQRS) |
+| [[architecture/03-contracts/ai-workflow-standards]] | AI workflow standartları |
+| [[architecture/03-contracts/diagram-collection]] | Mermaid diyagram koleksiyonu |
+| [[architecture/07-security/electronics-security]] | Elektronik güvenlik (Secure Boot, FW signing) |
+| [[architecture/03-contracts/engineering-rules-ssot]] | Mühendislik kuralları SSOT |
 
 ---
 
@@ -278,6 +323,23 @@ Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusi
 | [[ecosystem/error-recovery]] | Hata kurtarma stratejileri |
 | [[ecosystem/network-architecture]] | Ağ mimarisi |
 | [[ecosystem/state-machines]] | State machine'ler |
+
+---
+
+## 11A. AI Architecture
+
+| Dosya | Kapsam |
+|-------|--------|
+| [[architecture/ai/index]] | AI Architecture index |
+| [[architecture/ai/ai-engine]] | AI Engine — müzik önerileri, ses analizi, otomatik EQ |
+| [[architecture/ai/ai-orchestrator]] | AI Orchestrator — görev dağıtımı, context yönetimi |
+| [[architecture/ai/agent-system]] | Agent System — 11 ajanlı agent sistemi |
+| [[architecture/ai/knowledge-base]] | Knowledge Base — bilgi bankası, semantic search |
+| [[architecture/ai/memory-system]] | Memory System — session hafızası, persistence |
+| [[architecture/ai/prompt-engine]] | Prompt Engine — prompt üretimi, token management |
+| [[architecture/ai/tool-calling]] | Tool Calling — dış servis çağrısı |
+| [[architecture/ai/mcp-integration]] | MCP Integration — Model Context Protocol |
+| [[architecture/ai/ai-workflow]] | AI Workflow — recommendation, analysis, optimization |
 
 ---
 
@@ -357,7 +419,7 @@ Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusi
 | § 5 ADR | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault standardı |
 | § 6 Servisler | [[ecosystem/7-service-integration]] | Servis entegrasyonu |
 | § 7 Agentlar | [[AGENTS.md]] | Agent yetkileri |
-| § 8 DB | [[architecture/05-data/database_master]] | 9 BCNF şemaları |
+| § 8 DB | [[architecture/05-data/database_master]] | 11 BCNF şemaları |
 | § 9 Projeler | [[projects/NevaEngine/overview]] | C++ ses motoru |
 | § 10 Donanım | [[electronic/hardware-roadmap]] | 3 fazlı geliştirme |
 | § 11 Test | [[testing/coverage-targets]] | Kapsama hedefleri |
@@ -366,9 +428,9 @@ Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusi
 
 ## 18. Metadata
 
-- **Toplam dosya:** 404
-- **Toplam ADR:** 50 (Frozen: 37, Active: 13)
-- **Versiyon:** 19.0.0
+- **Toplam dosya:** 529
+- **Toplam ADR:** 51 (Frozen: 37, Active: 14)
+- **Versiyon:** 23.0.0
 - **Governance:** Red Team · Human Mode · Truth Mode
 
 ---

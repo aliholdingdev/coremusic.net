@@ -31,7 +31,7 @@ CoreMusic'in temel yapısını, yeteneklerini ve bileşenlerini özetleyen **Sis
 | **Runtime** | PHP 8.4, Node.js 20+, C++20 |
 | **Frontend** | Vanilla JS (ES6+), ITCSS 7-layer, Web Audio API |
 | **Backend** | PHP 8.4 (strict_types), PDO, Node.js + TypeScript |
-| **Audio** | C++20, JUCE 8, ASIO SDK 2.3.4 |
+| **Audio** | C++20, JUCE 9, ASIO SDK 2.3.4 |
 | **Security** | Argon2id, AES-256-GCM, OWASP Top 10 |
 | **Lisans** | Kapalı Kaynak |
 | **Versiyon** | 19.0.0 |
@@ -100,7 +100,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | Division | Sorumluluk | Teknoloji |
 |----------|------------|-----------|
 | **Hardware Division** | Özel audio kartları, DAC/ADC, DSP çipleri, amplifikatör | PCM3168A, XMOS XU316, Class AB |
-| **Software Division** | C++ Audio Engine, DSP Engine, Mixer, sürücüler | C++20, JUCE 8, ASIO SDK |
+| **Software Division** | C++ Audio Engine, DSP Engine, Mixer, sürücüler | C++20, JUCE 9, ASIO SDK |
 | **Studio Division** | ASIO, WASAPI, kayıt, monitoring, routing | WASAPI Exclusive, ASIO 2.3 |
 | **Consumer Division** | Bluetooth, WiFi Audio, müzik oynatma, ev ve araç ses | BLE, WiFi Direct, Android Auto |
 | **Research Division** | AI DSP, yeni codec teknolojileri, geleceğin audio donanımları | Python, TensorFlow Lite |

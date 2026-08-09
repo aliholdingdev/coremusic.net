@@ -63,20 +63,22 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 
 Sıra **frozen**'dır — değiştirilemez. Detaylı açıklama: [[middleware]]
 
-## 6. OWASP Top 10 Compliance
+## 6. OWASP Top 10:2025 Compliance
 
 | # | Risk | Koruma | Durum |
 |---|------|--------|-------|
-| A01 | Broken Access Control | RBAC + middleware | ✅ |
-| A02 | Cryptographic Failures | AES-256-GCM + Argon2id | ✅ |
-| A03 | Injection | PDO prepared + CSP nonce | ✅ |
-| A04 | Insecure Design | L0-L3 architecture | ✅ |
-| A05 | Security Misconfiguration | Security headers | ✅ |
-| A06 | Vulnerable Components | Version pinning | ✅ |
-| A07 | Auth Failures | Rate limiting + lockout | ✅ |
-| A08 | Data Integrity Failures | HMAC verification | ✅ |
-| A09 | Logging Failures | Audit trail (log.md) | ✅ |
-| A10 | SSRF | URL validation | ✅ |
+| A01 | Broken Access Control | RBAC + middleware + URL validation (SSRF dahil) | ✅ |
+| A02 | Security Misconfiguration | Security headers + strict config | ✅ |
+| A03 | Software Supply Chain Failures | Version pinning + dependency audit | ✅ |
+| A04 | Cryptographic Failures | AES-256-GCM + Argon2id | ✅ |
+| A05 | Injection | PDO prepared + CSP nonce | ✅ |
+| A06 | Insecure Design | L0-L3 architecture | ✅ |
+| A07 | Authentication Failures | Rate limiting + lockout + session mgmt | ✅ |
+| A08 | Software/Data Integrity Failures | HMAC verification + code signing | ✅ |
+| A09 | Security Logging & Alerting Failures | Audit trail (log.md) + alerting | ✅ |
+| A10 | Mishandling of Exceptional Conditions | Error handling + fail-safe defaults | ✅ |
+
+*Kaynak: OWASP Top 10:2025 (owasp.org/Top10/2025/) — 2026-08-09'da doğrulandı*
 
 ## 7. Hard Guardrails
 

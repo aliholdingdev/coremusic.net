@@ -36,7 +36,7 @@ CoreMusic'in ses mimarisi, DSP (Dijital Sinyal İşleme), donanım entegrasyonu,
 | **LFE** | Low Frequency Effects — Subwoofer kanalı (8.1 surround) |
 | **JUCE** | Jules' Utility Class Extension — C++ ses framework'ü |
 | **XMOS** | XCore mimarisi — USB Audio Class 2.0 DSP çipi |
-| **PCM3168A** | 8-kanal DAC — 24-bit, 192kHz, SNR 112dB |
+| **PCM3168A** | 6-in/8-out codec — 24-bit, DAC 192kHz, ADC 96kHz, SNR 112dB (DAC) |
 | **PCM5122** | ❌ REDDEDİLMİŞ — Sadece 2 kanal, 8.1 için yetersiz (H001) |
 | **Ring Buffer** | Dairesel tampon — Gerçek zamanlı ses veri akışı |
 | **Zero-Allocation** | Audio thread'de heap allocation yasak |
@@ -51,7 +51,7 @@ CoreMusic'in ses mimarisi, DSP (Dijital Sinyal İşleme), donanım entegrasyonu,
 | Özellik | Değer | ADR |
 |---------|-------|-----|
 | Dil | C++20 | ADR-017 |
-| Framework | JUCE 8 | ADR-017 |
+| Framework | JUCE 9 | ADR-017 |
 | Sample Format | Float32 (32-bit) | ADR-017 |
 | Sample Rate | 48kHz (standart) | ADR-017 |
 | Kanal | 2.0 → 8.1 (7.1 surround) | ADR-038 |
@@ -394,10 +394,12 @@ YouTube URL → nova-search-engine → deemix PHP port (Deezer FLAC) → 24/32-b
 |------------|-----|---------|-------------|
 | C++ | Dil | C++20 | ✅ |
 | JUCE | Audio Framework | 8.x | ✅ |
-| ASIO SDK | Audio Driver | 2.3.4 | ✅ |
+| ASIO SDK | Audio Driver | 2.3.4 (harici) veya JUCE bundled (GPLv3) | ✅ |
 | FFmpeg | Media Processing | Latest | ✅ |
 | XMOS | USB Audio | XU316 | ✅ |
 | PCM3168A | DAC | — | ✅ |
+
+*Not: JUCE 9.0.11+ sürümünden itibaren ASIO SDK'yı GPLv3 lisansıyla paketlemektedir. Harici ASIO SDK 2.3.4 referansı da korunmaktadır (özel değişiklik veya eski sürüm gereksinimleri için).*
 
 ---
 
@@ -456,7 +458,7 @@ YouTube URL → nova-search-engine → deemix PHP port (Deezer FLAC) → 24/32-b
 | Division | Görev | Teknoloji |
 |----------|-------|-----------|
 | **Hardware Division** | DAC/ADC, DSP çipleri, amplifikatör tasarımı | PCM3168A, AK4458, XMOS XU316 |
-| **Software Division** | C++ Audio Engine, DSP Engine, Mixer | C++20, JUCE 8, ASIO SDK |
+| **Software Division** | C++ Audio Engine, DSP Engine, Mixer | C++20, JUCE 9, ASIO SDK |
 | **Studio Division** | ASIO, WASAPI, kayıt, monitoring, routing | Pro audio drivers |
 | **Consumer Division** | Bluetooth, WiFi Audio, müzik oynatma | BLE, mDNS, DLNA |
 | **Research Division** | AI DSP, yeni codec, geleceğin audio donanımları | ML, neural codec |
