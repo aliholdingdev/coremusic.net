@@ -1,0 +1,167 @@
+Yaptığınız 3 düzeltmeyi kaynaktan doğruladım, üçü de doğru uygulanmış:
+
+  ✅ d-embedded.css → .header/.header_logo/.headernav/.headerlink/.footer_cover
+     artık .site-header/.site-header_logo/.site-headernav/.nav-link/.footer_album-art
+  ✅ v-home.css:18 → --view-accent: #ff4fd8 (theme-primary'ye bağlı değil)
+  ✅ BypassAuthMiddleware.php:12-14 → getenv('APP_ENV') ?: 'production'
+     variables_order notu da eklenmiş. Fail-safe artık doğru yönde.
+
+Font geçişi de iyi olmuş: Google Fonts CDN kaldırılmış, Arima/Respective/
+AvalonMedium/Bickham Script Two yerel TTF olarak yüklenmiş. Arima seçimi
+mockup'lardaki yuvarlak fontla uyumlu — benim "DM Sans'ta kalalım" önerimden
+daha iyi. O kararımı geri çekiyorum, sizinki geçerli.
+
+=== ÖNCE: ÖNCEKİ MESAJIMDAKİ 2 YANLIŞI GERİ ÇEKİYORUM ===
+Bunları düzeltmeye çalışmayın, ortada hata yok:
+
+1. "main.css 08_Devices/ ve 09_ViewModes/ import etmiyor" demiştim.
+   Bu bir hata DEĞİL, tasarım. device-loader.js bunları runtime'da <link>
+   ekleyerek yüklüyor. main.css'e statik @import EKLEMEYİN — eklerseniz
+   tüm cihaz dosyaları aynı anda yüklenir ve kademe bozulur.
+
+2. "_home.css boşaltılmış" demiştim. Yanlış — artık köprü dosya,
+   _home-layout/_home-components/_home-inline'ı import ediyor. Doğru kurgu.
+
+Bu iki maddeyi eski mesajdan silin.
+
+=== YENİ KRİTİK BULGU — d-embedded.css HİÇ YÜKLENMİYOR ===
+Selektörleri düzelttiniz ama dosya zaten hiçbir koşulda devreye giremiyor.
+RPi5 1024x600'de yüklenen dosya 0 byte'lık d-tablet.css.
+
+Dosya boyutları (08_Devices/):
+    d-embedded.css    4440 byte   ← hedef cihaz, asla yüklenmiyor
+    d-tablet.css         0 byte   ← her zaman bu yükleniyor
+    d-phone.css          0 byte
+    d-laptop.css      1618 byte
+    d-desktop.css     1246 byte
+    d-4k-tv.css       3399 byte
+    d-4k-monitor.css  3640 byte
+
+Üç bağımsız kırık nokta:
+
+  A) device-loader.js:39-46 — BREAKPOINTS listesinde 'embedded' yok
+       { phone:767 }, { tablet:1024 }, { laptop:1440 }, { desktop:2560 }, ...
+     1024px viewport 'tablet'e düşüyor.
+
+  B) device-loader.js:108 — getPhpDevice() eşlemesi
+       'embedded': 'tablet',   // ← PHP doğru cihazı söylese bile eziyor
+     PHP DeviceCssMap.php:37'de eşleme DOĞRU ('embedded' => 'embedded'),
+     ama JS onu 'tablet'e çeviriyor.
+
+  C) DeviceCssMap.php:157 — fromViewport()
+       if ($viewportWidth <= 1024) return 'tablet';
+     PHP'nin viewport yolu da 'embedded' üretmiyor.
+
+Ek olarak loadDeviceCSS() body'nin data-device niteliğini 'tablet' yapıyor,
+yani PHP'nin data-device="embedded" çıktısını da siliyor.
+
+SONUÇ: RPi5'te header 60px'e inmiyor, footer 104px olmuyor, dokunmatik
+hedefler 48/56px'e çıkmıyor, sidebar gizlenmiyor, html font-size 14px olmuyor.
+d-embedded.css'in 196 satırının tamamı ölü.
+
+ÖNERİLEN DÜZELTME (3 dosya):
+
+  1) device-loader.js:108 — eşlemeyi düzelt
+        'embedded': 'tablet',      →    'embedded': 'embedded',
+
+  2) device-loader.js:39-46 — BREAKPOINTS'e embedded ekle.
+     Genişlik tek başına yetmez (1024 hem RPi5 hem iPad olabilir),
+     yükseklik ayırt edici — RPi5 ekranı 1024x600:
+
+        function detectDevice() {
+            var w = window.innerWidth || document.documentElement.clientWidth;
+            var h = window.innerHeight || document.documentElement.clientHeight;
+            if (w <= 767) return 'phone';
+            if (w <= 1024) return (h <= 640) ? 'embedded' : 'tablet';
+            if (w <= 1440) return 'laptop';
+            if (w <= 2560) return 'desktop';
+            if (w <= 3840) return '4k-tv';
+            return '4k-monitor';
+        }
+
+  3) DeviceCssMap.php:157 — fromViewport() aynı mantıkla güncellensin,
+     veya yükseklik bilgisi olmadığı için bu metot embedded kararında
+     kullanılmasın; User-Agent tabanlı DeviceDetector sonucu esas alınsın.
+
+  4) loadDeviceCSS() içinde ilk yüklemede body'nin mevcut data-device
+     değeri PHP'den geliyorsa üzerine yazılmasın.
+
+DOĞRULAMA: Düzeltmeden sonra RPi5'te tarayıcı konsolunda
+    document.body.getAttribute('data-device')
+"embedded" dönmeli ve <head>'de d-embedded.css link'i görünmeli.
+
+NOT: d-tablet.css ve d-phone.css 0 byte. Ya doldurulmalı ya da yüklenmeye
+çalışılmamalı — şu anda her tablet/telefon isteği boş bir dosya indiriyor.
+
+=== HÂLÂ AÇIK: CSRF set-gender ===
+CsrfMiddleware.php:37 değişmemiş:
+    $this->bypassRoutes = $bypassRoutes ?? ['set-gender'];
+
+Middleware'in geri kalanı doğru yazılmış (hash_equals, sadece state-değiştiren
+metodlar, header→form fallback). Tek delik bu. set-gender bypass listesinden
+çıkarılıp forma CSRF alanı eklenmeli. Bu POST kullanıcı profilini değiştiriyor,
+korumasız kalmamalı.
+
+=== RAPOR/GERÇEKLİK UYUŞMAZLIĞI ===
+Bunu ters anlamayın, düzeltilmesi gereken bir süreç sorunu:
+
+output yeni.txt transkripti 12 sayfa dosyası yazdığını kaydediyor:
+  kesfet.php, albumler.php, sanatcilar.php, goz-at.php, gecmis.php,
+  ayarlar.php, hakkimizda.php, album.php, artist.php, playlist.php,
+  genre.php, track.php
+
+Bunların HİÇBİRİ repoda yok. development dalında home.coremusic.net/pages/
+içinde sadece 3 dosya var: auth_callback.php, health.php, home.php
+(ve home.php 34 byte — sadece <?php declare(strict_types=1); ?>).
+
+Aynı şekilde .ai/log.md'ye eklenen son 6 satırın zaman damgaları
+10:00:00 / 10:00:01 / ... / 10:00:05 — saniye saniye artan, üretilmiş değerler.
+
+Agent yerelde yazmış ama commit edilmemiş olabilir. Rica: iş bittiğinde
+git status ile gerçekten commitlendiğini doğrulayın, ve log'a gerçek
+zaman damgası yazılsın. Aksi halde raporlara göre plan yapamıyoruz.
+
+=== KÜÇÜK MADDELER ===
+1. Fontlar TTF. RPi5 için WOFF2'ye çevirin — aynı fontlar ~%40 küçülür,
+   yavaş depolamada açılış süresi farkeder. a-fonts-token.css'te
+   src: url('../../Fonts/Arima.woff2') format('woff2') olur.
+
+2. coremusic.net/templates/layout.php:10 hâlâ Google Fonts CDN'e bağlı
+   (Inter). "CDN tamamen kaldırıldı" kaydı bu dosyayı atlamış. Legacy kök
+   site ise silinsin, değilse yerel fonta çevrilsin.
+
+3. main.css başlığı hâlâ "Scale: JS transform:scale — scale.coordinator.js"
+   diyor ve js/router/scale/ altında 4 dosya duruyor. Ama d-embedded.css
+   gerçek CSS override kullanıyor. İki rakip ölçekleme mekanizması var —
+   hangisi geçerli? scale.* dosyaları kullanılmıyorsa silinsin, main.css
+   başlığı güncellensin.
+
+4. .home-layout / .home-sidebar CSS'i (sol sidebar'lı düzen) hiçbir HTML'e
+   bağlı değil — header.php mockup mimarisini (.site-header, .nav-link)
+   kullanıyor ve pages/home.php boş. Yani sidebar CSS'i şu an ölü kod.
+   Önceki mesajımdaki "iki paralel arayüz" endişem bu yüzden büyük ölçüde
+   dağıldı; ama _home-layout.css'in mockup'a göre yeniden yazılması gerekecek.
+
+=== SIRALI YAPILACAKLAR ===
+  1. device-loader.js + DeviceCssMap.php → embedded algılama düzeltmesi (EN ACİL)
+  2. CsrfMiddleware.php:37 → set-gender bypass'ı kaldır
+  3. d-tablet.css / d-phone.css → doldur veya yükleme listesinden çıkar
+  4. Fontlar → WOFF2
+  5. layout.php:10 → Google CDN kaldır
+  6. scale.* dosyaları → karar ver, sil veya belgele
+  7. Vault: backend-reference.md'deki HTTP_X_TEST_BYPASS bilgisi silinsin
+     (kodda yok, _bypass request parametresi var);
+     00-index.md'de header 36px → 60px, PNG sayısı 18 → 12 (home-1024)
+
+=== BENDEN SIRADAKİ ADIM ===
+Frontend'e başlamak için ihtiyacım olan iki şey var:
+
+  A. Arka plan görselinin (pembe fantezi sahne) durumu: kalıcı asset mi,
+     yer tutucu mu? Lisansı nedir? Ticari kullanım hakkı var mı?
+
+  B. pages/home.php şu an boş. Markup'ı ben yazacağım — onaylıyor musunuz?
+     Mevcut header.php'nin BEM yapısını (.site-header → __inner → __logo |
+     __nav | __actions) aynen sürdüreceğim, yeni bir sınıf şeması
+     uydurmayacağım.
+
+Bu ikisi netleşince header + footer + ana sayfa iskeletinden başlıyorum. 
