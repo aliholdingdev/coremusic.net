@@ -232,18 +232,20 @@ CoreMusic, [[decisions/accepted/ADR-052-hybrid-auth-architecture]] ile belirlene
 
 ## 13. OWASP Top 10:2025 Uyumluluğu
 
-| # | Risk | Önlem |
-|---|------|-------|
-| A01 | Broken Access Control | RBAC, permission matrix |
-| A02 | Cryptographic Failures | AES-256-GCM, Argon2id |
-| A03 | Injection | Prepared statements |
-| A04 | Insecure Design | Threat modeling |
-| A05 | Security Misconfiguration | Secure defaults |
-| A06 | Vulnerable Components | Dependency scanning |
-| A07 | Auth Failures | Multi-factor, rate limiting |
-| A08 | Data Integrity Failures | Firmware signing |
-| A09 | Logging Failures | Audit trail |
-| A10 | SSRF | Allowlist validation |
+*Kaynak: OWASP Top 10:2025 (owasp.org/Top10/2025/) — 2026-08-10'da doğrulandı*
+
+| # | OWASP 2025 Riski | CoreMusic Karşılığı | ADR |
+|---|------------------|---------------------|-----|
+| A01 | Broken Access Control (SSRF dahil) | RBAC, permission matrix, URL allowlist | ADR-010, ADR-043 |
+| A02 | Security Misconfiguration | Secure defaults, middleware hardening | ADR-010/011/012/013/022 |
+| A03 | Software Supply Chain Failures | Dependency scanning, version pinning | ADR-054 |
+| A04 | Cryptographic Failures | AES-256-GCM, Argon2id | ADR-022, ADR-034 |
+| A05 | Injection | PDO prepared statements, CSP nonce | ADR-002, ADR-012 |
+| A06 | Insecure Design | L0-L3 layered architecture | ADR-001–ADR-008 |
+| A07 | Authentication Failures | Rate limiting, lockout, session mgmt | ADR-011, ADR-013, ADR-052 |
+| A08 | Software or Data Integrity Failures | Firmware signing, HMAC verification | ADR-061–ADR-063 |
+| A09 | Security Logging & Alerting Failures | Audit trail, real-time alerting | ADR-004 |
+| A10 | Mishandling of Exceptional Conditions | Error handling, fail-closed, graceful degradation | CLAUDE.md §7 |
 
 ---
 

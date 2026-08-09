@@ -5,7 +5,7 @@ title: "L5 — Services Layer"
 date: 2026-08-09
 updated: 2026-08-09
 status: active
-version: 1.0.0
+version: 1.1.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -105,29 +105,50 @@ class LoginUseCase {
 
 ## 5. Service Communication
 
+### 5.1 Layer Communication Diagram
+
+```mermaid
+flowchart TB
+    subgraph L3["L3 — Presentation"]
+        P[Controller / API Endpoint]
+    end
+
+    subgraph L5["L5 — Services"]
+        S[Application Service / Use Case]
+    end
+
+    subgraph L4["L4 — Domain"]
+        D[Entity / Value Object / Domain Service]
+    end
+
+    subgraph L0["L0 — Infrastructure"]
+        R[Repository Impl / Database / Cache]
+    end
+
+    P -->|Command / Query| S
+    S -->|Interface Call| D
+    D -->|Repository Interface| R
 ```
-┌─────────────────────────────────────┐
-│        Presentation Layer           │
-│     (Controller, API Endpoint)      │
-└──────────────┬──────────────────────┘
-               │ Command / Query
-               ▼
-┌─────────────────────────────────────┐
-│         Services Layer (L5)         │
-│    (Application Service, Use Case) │
-└──────────────┬──────────────────────┘
-               │ Interface Call
-               ▼
-┌─────────────────────────────────────┐
-│         Domain Layer (L4)           │
-│  (Entity, Value Object, Domain Svc) │
-└──────────────┬──────────────────────┘
-               │ Repository Interface
-               ▼
-┌─────────────────────────────────────┐
-│      Infrastructure Layer (L0)      │
-│  (Repository Impl, Database, Cache) │
-└─────────────────────────────────────┘
+
+### 5.2 Service Orchestration Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant L5 as Services Layer
+    participant L4 as Domain Layer
+    participant L0 as Infrastructure
+    participant Events as Event Bus
+
+    Client->>L5: Execute Use Case
+    L5->>L4: Load Entities
+    L4-->>L5: Domain Objects
+    L5->>L5: Apply Business Rules
+    L5->>L0: Persist Changes
+    L0-->>L5: Confirmation
+    L5->>Events: Publish Domain Event
+    Events-->>L5: Event Dispatched
+    L5-->>Client: Return DTO
 ```
 
 ---
@@ -177,14 +198,25 @@ class DeviceService {
 
 ## 9. CQRS Pattern
 
-### Command Side (Yazma)
-```
-Command → Handler → Domain Entity → Repository → Database
-```
+### 9.1 CQRS Flow Diagram
 
-### Query Side (Okuma)
-```
-Query → Handler → Read Model → Database (denormalized)
+```mermaid
+flowchart LR
+    subgraph Command Side
+        C[Command] --> CH[Command Handler]
+        CH --> DE[Domain Entity]
+        DE --> REPO[Repository]
+        REPO --> DB[(Database)]
+    end
+
+    subgraph Query Side
+        Q[Query] --> QH[Query Handler]
+        QH --> RM[Read Model]
+        RM --> DB2[(Database - Denormalized)]
+    end
+
+    style Command Side fill:#f96,color:#fff
+    style Query Side fill:#69f,color:#fff
 ```
 
 ---
@@ -211,5 +243,5 @@ Query → Handler → Read Model → Database (denormalized)
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-09
+**Last Updated:** 2026-08-10
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -5,7 +5,7 @@ title: "L4 — Domain Layer"
 date: 2026-08-09
 updated: 2026-08-09
 status: active
-version: 1.0.0
+version: 1.1.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -45,6 +45,80 @@ L6 Electronics → L5 Services → L4 Domain ← BU DOSYA → L3 Presentation �
 
 ## 3. Domain Entities
 
+### 3.1 Entity-Relationship Diagram
+
+```mermaid
+classDiagram
+    direction TB
+
+    class UserAggregate {
+        +UserId id
+        +Email email
+        +String passwordHash
+        +verifyPassword()
+    }
+
+    class DeviceAggregate {
+        +DeviceId id
+        +String name
+        +DeviceType type
+        +FirmwareVersion firmware
+    }
+
+    class MediaAggregate {
+        +TrackId id
+        +String title
+        +AudioFormat format
+        +SampleRate sampleRate
+        +BitDepth bitDepth
+    }
+
+    class PlaylistAggregate {
+        +PlaylistId id
+        +String name
+        +Track[] tracks
+        +addTrack()
+        +removeTrack()
+    }
+
+    class SessionAggregate {
+        +SessionId id
+        +UserId userId
+        +DateTime expiresAt
+        +isValid()
+    }
+
+    class FirmwareAggregate {
+        +FirmwareId id
+        +String version
+        +Binary data
+        +verify()
+    }
+
+    class DSPPresetsAggregate {
+        +PresetId id
+        +String name
+        +ChannelConfig channels
+        +EQBand[] eqBands
+    }
+
+    class AmplifierAggregate {
+        +AmplifierId id
+        +WattPower power
+        +ChannelConfig channels
+        +calibrate()
+    }
+
+    UserAggregate "1" --> "*" SessionAggregate : creates
+    UserAggregate "1" --> "*" PlaylistAggregate : owns
+    UserAggregate "1" --> "*" DeviceAggregate : registers
+    DeviceAggregate "1" --> "*" FirmwareAggregate : has
+    DeviceAggregate "1" --> "1" DSPPresetsAggregate : configures
+    DeviceAggregate "1" --> "1" AmplifierAggregate : drives
+    MediaAggregate "*" --> "*" PlaylistAggregate : contained in
+    MediaAggregate "*" --> "*" AlbumAggregate : belongs to
+```
+
 ### Core Entities
 
 | Entity | Aggregate | Açıklama |
@@ -81,7 +155,43 @@ L6 Electronics → L5 Services → L4 Domain ← BU DOSYA → L3 Presentation �
 
 ## 5. Domain Events
 
-| Event | Trigger | Etki Alanı |
+### 5.1 Event Flow Diagram
+
+```mermaid
+flowchart LR
+    subgraph Triggers
+        A[User Action] --> E1[UserCreated]
+        B[Login] --> E2[UserLoggedIn]
+        C[Device Add] --> E3[DeviceRegistered]
+        D[Disconnect] --> E4[DeviceOffline]
+        F[FW Update] --> E5[FirmwareUpdated]
+        G[Download] --> E6[TrackDownloaded]
+        H[EQ Change] --> E7[DSPPresetChanged]
+        I[Amfi Config] --> E8[AmplifierConfigured]
+        J[Driver Install] --> E9[DriverInstalled]
+        K[Security] --> E10[SecurityAlert]
+    end
+
+    subgraph Handlers
+        E1 --> H1[Auth Handler]
+        E1 --> H2[Notification Handler]
+        E2 --> H3[Session Handler]
+        E2 --> H4[Audit Handler]
+        E3 --> H5[Device Handler]
+        E3 --> H6[Firmware Handler]
+        E4 --> H7[Monitoring Handler]
+        E5 --> H8[Device Handler]
+        E5 --> H9[Notification Handler]
+        E6 --> H10[Media Handler]
+        E7 --> H11[Audio Handler]
+        E8 --> H12[Hardware Handler]
+        E9 --> H13[System Handler]
+        E10 --> H14[Notification Handler]
+        E10 --> H15[Audit Handler]
+    end
+```
+
+### Event List
 |-------|---------|------------|
 | UserCreated | Kayıt | Auth, Notification |
 | UserLoggedIn | Login | Session, Audit |
@@ -174,5 +284,5 @@ interface DeviceRepositoryInterface {
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-09
+**Last Updated:** 2026-08-10
 **Mode:** Red Team · Human Mode · Truth Mode

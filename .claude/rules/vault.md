@@ -142,7 +142,14 @@ Draft → Review → Active → Frozen
 │   └── coverage/                # Coverage reports
 ├── electronic/
 │   ├── hardware/                # Hardware designs
-│   └── software/                # Embedded software
+│   ├── dsp/                     # DSP engine
+│   ├── drivers/                 # Driver framework
+│   ├── firmware/                # Firmware architecture
+│   ├── amplifier/               # Amplifier design
+│   ├── development-workflow.md  # 20-phase development workflow
+│   └── *.md                     # Overview, platform, device, audio, software, service
+├── diagrams/
+│   └── electronics-diagrams.md  # 20 Mermaid diagrams
 ├── personas/                    # User personas
 ├── prompt-system/               # Prompt templates
 ├── ui-design/                   # UI/UX documentation

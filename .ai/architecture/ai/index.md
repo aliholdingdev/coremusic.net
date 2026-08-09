@@ -7,7 +7,7 @@ status: active
 version: 2.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total_ai_files: 12
+total_ai_files: 13
 ---
 
 # CoreMusic — AI Architecture
@@ -22,7 +22,7 @@ CoreMusic AI altyapısının tam mimarisini tanımlar. Öneri motoru, ses işlem
 
 ---
 
-## 2. AI Sistem Bileşenleri (12 Dosya)
+## 2. AI Sistem Bileşenleri (13 Dosya)
 
 | # | Bileşen | Dosya | Amaç |
 |---|---------|-------|------|
@@ -37,6 +37,7 @@ CoreMusic AI altyapısının tam mimarisini tanımlar. Öneri motoru, ses işlem
 | 9 | [[ai-workflow]] | AI Workflow | AI iş akışları — recommendation, analysis, optimization |
 | 10 | [[ai-electronics-engine]] | AI Electronics Engine | Elektronik AI — donanım analizi, PCB optimizasyonu |
 | 11 | [[ai-workflow-electronics]] | AI Workflow Electronics | Elektronik AI workflow — test, validasyon, iterasyon |
+| 12 | [[rag-system]] | RAG System | Retrieval-Augmented Generation — semantic search, vector DB, embedding pipeline |
 
 ---
 

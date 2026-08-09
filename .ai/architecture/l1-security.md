@@ -550,22 +550,22 @@ music.coremusic.net → auth.coremusic.net/api/session/check
 
 *Kaynak: [[ADR-043-auth-subdomain-consolidation]]*
 
-## 11. OWASP Top 10 Compliance
+## 11. OWASP Top 10:2025 Compliance
 
-| # | Risk | Koruma | Durum |
-|---|------|--------|-------|
-| A01 | Broken Access Control | RBAC + middleware | ✅ |
-| A02 | Cryptographic Failures | AES-256-GCM + Argon2id | ✅ |
-| A03 | Injection | PDO prepared + CSP nonce | ✅ |
-| A04 | Insecure Design | L0-L3 architecture | ✅ |
-| A05 | Security Misconfiguration | Security headers | ✅ |
-| A06 | Vulnerable Components | Version pinning | ✅ |
-| A07 | Auth Failures | Rate limiting + lockout | ✅ |
-| A08 | Data Integrity Failures | HMAC verification | ✅ |
-| A09 | Logging Failures | Audit trail (log.md) | ✅ |
-| A10 | SSRF | URL validation | ✅ |
+*Kaynak: OWASP Top 10:2025 (owasp.org/Top10/2025/) — 2026-08-10'da doğrulandı*
 
-*Kaynak: owasp.org/Top10 (2021)*
+| # | OWASP 2025 Riski | CoreMusic Koruması | Durum |
+|---|------------------|--------------------|-------|
+| A01 | Broken Access Control (SSRF dahil) | RBAC + middleware + URL allowlist | ✅ |
+| A02 | Security Misconfiguration | Secure defaults + security headers | ✅ |
+| A03 | Software Supply Chain Failures | Dependency scanning + version pinning | ✅ |
+| A04 | Cryptographic Failures | AES-256-GCM + Argon2id | ✅ |
+| A05 | Injection | PDO prepared + CSP nonce | ✅ |
+| A06 | Insecure Design | L0-L3 layered architecture | ✅ |
+| A07 | Authentication Failures | Rate limiting + lockout + session mgmt | ✅ |
+| A08 | Software or Data Integrity Failures | HMAC verification + firmware signing | ✅ |
+| A09 | Security Logging & Alerting Failures | Audit trail (log.md) + real-time alerting | ✅ |
+| A10 | Mishandling of Exceptional Conditions | Error handling + fail-closed | ✅ |
 
 ## 12. Hard Guardrails
 

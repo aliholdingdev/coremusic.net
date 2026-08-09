@@ -60,7 +60,7 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 | Frontend | Vanilla JS ES6+ | ES2022 |
 | CSS | ITCSS + BEM | 7-layer |
 | Database | MySQL | 9 BCNF-isolated databases |
-| Audio | C++20, JUCE 7, ASIO SDK | — |
+| Audio | C++20, JUCE 9, ASIO SDK 2.3.4 | — |
 | Hardware | XMOS XU316, PCM3168A | PCM5122 REJECTED (H001) |
 | ORM | FORBIDDEN | Raw PDO only |
 | Frameworks | FORBIDDEN | Vanilla only |
@@ -124,7 +124,51 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 | 📦 NAS Audio Server | Linux (Docker) | Synology/QNAP |
 | 🎵 DAC Control System | Windows/Linux | XMOS XU316 + PCM3168A |
 
-## 10. Platform Tier Hierarchy
+## 10. Electronics Architecture (ADR-061–ADR-063, ADR-080)
+
+CoreMusic Electronics, 5 Division + 3 Cihaz Ailesi + 15 Device OS + 12 Division yapısıyla donanım/yazılım entegrasyonunu yönetir.
+
+### 10.1 L0-L6 Layer Stack
+
+| Katman | Kapsam | Teknoloji |
+|--------|--------|-----------|
+| L0 | Infrastructure | MySQL, Redis, PDO, APCu |
+| L1 | Security | OWASP 2025, Argon2id, AES-256-GCM |
+| L2 | Routing | PHP 8.4 PageRouter, SPA |
+| L3 | Presentation | Vanilla JS, ITCSS |
+| L4 | Domain | Entity, Value Object, Repository |
+| L5 | Services | API Gateway, Service Mesh |
+| L6 | Electronics | C++20, XMOS, JUCE, ASIO |
+
+### 10.2 3 Device Families
+
+| Aile | Güç | Hoparlör | Kullanım |
+|------|-----|----------|----------|
+| 8+1 Amp | 2000W @ 8Ω | 8 kanal + 1 LFE | Stüdyo, Pro, Araç |
+| 5+1 Amp | — | 5 kanal + 1 LFE | Orta segment |
+| 2+1 Amp | 10W/35W/2000W | 2 kanal + 1 LFE | Entry level |
+
+### 10.3 Electronics Standartları (Web Doğrulanmış)
+
+| Standart | Versiyon | Kaynak |
+|----------|----------|--------|
+| XMOS lib_i2s | v6.0.1 | xmos.com (2024/11/12) |
+| XMOS lib_xua | v5.5.0 | xmos.com |
+| JUCE | 9.0.0 | juce.com (Jul 21 2026) |
+| ASIO SDK | v2.3.4 | steinberg.net (GPLv3 open-source) |
+| OWASP | Top 10:2025 | owasp.org (Aug 2026) |
+
+### 10.4 Hard Guardrails (Electronics)
+
+| # | Kural | İhlal Sonucu |
+|---|-------|-------------|
+| 1 | Zero-Allocation: Audio thread'de heap allocation yasak | Ses takılması / crash |
+| 2 | Lock-Free: Audio thread'de mutex yasak | Deadlock |
+| 3 | PCM5122 Yasak: 8.1 surround için yetersiz (H001) | Yanlış donanım |
+| 4 | ASIO Exclusive Lock: Aynı anda sadece tek uygulama | Sürücü çökmesi |
+| 5 | DC Offset Riski: >0.5V DC offset koruma rölesi | Amfi hasarı |
+
+## 11. Platform Tier Hierarchy
 
 | Tier | OS | Durum |
 |------|-----|-------|
@@ -134,7 +178,7 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 | Tier 4 | Raspberry Pi (ARM64, Debian) | ✅ Destekli |
 | Tier 5 | ReactOS | ⚠️ Experimental |
 
-## 11. Test Coverage Targets
+## 12. Test Coverage Targets
 
 | Module | Minimum | Target |
 |--------|---------|--------|
@@ -143,14 +187,14 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 | Audio Engine (C++) | ≥80% | ≥90% |
 | Download Service | ≥80% | ≥90% |
 
-## 12. Zero Hallucination Policy (ADR-005)
+## 13. Zero Hallucination Policy (ADR-005)
 
 - NEVER fabricate API endpoints, classes, or database tables
 - Unverified data MUST be marked: `⚠️ VERIFICATION REQUIRED`
 - Always verify against vault documentation before coding
 - When uncertain, ask the user
 
-### 12.1 Pre-Commit Checklist
+### 13.1 Pre-Commit Checklist
 
 1. ✅ Read actual source code (not memory)
 2. ✅ Verify against ADR documents
@@ -158,7 +202,7 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 4. ✅ Confirm function signatures from source
 5. ✅ Validate database schema from `.sql/` files
 
-### 12.2 Common Hallucination Patterns
+### 13.2 Common Hallucination Patterns
 
 | Pattern | Prevention |
 |---------|------------|
@@ -168,9 +212,9 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 | Assumed behavior | Read actual implementation |
 | Made-up ADR numbers | Check `decisions/accepted/` |
 
-## 13. Human Mode (ADR-042)
+## 14. Human Mode (ADR-042)
 
-### 13.1 Output Standards
+### 14.1 Output Standards
 
 - Lead with the answer or next action
 - Number multi-step work
@@ -184,14 +228,14 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 - Cap lists at 5 items
 - No preamble, no recaps, no closers
 
-### 13.2 Decision Transparency
+### 14.2 Decision Transparency
 
 - Explain reasoning behind choices
 - Reference specific ADR numbers
 - Show alternatives considered
 - State assumptions explicitly
 
-### 13.3 Escalation Protocol
+### 14.3 Escalation Protocol
 
 When uncertain:
 1. State what is known
@@ -199,11 +243,11 @@ When uncertain:
 3. Ask one specific question
 4. Wait for clarification before proceeding
 
-## 14. Red Team Protocol
+## 15. Red Team Protocol
 
 Every agent output must undergo adversarial review:
 
-### 14.1 Self-Review Checklist
+### 15.1 Self-Review Checklist
 
 - [ ] Are all claims backed by source code or ADR?
 - [ ] Are there any invented APIs, classes, or endpoints?
@@ -212,7 +256,7 @@ Every agent output must undergo adversarial review:
 - [ ] Are security implications considered?
 - [ ] Is the implementation following all hard guardrails?
 
-### 14.2 Verification Commands
+### 15.2 Verification Commands
 
 ```bash
 # PHP syntax check
@@ -230,5 +274,5 @@ grep -r "class.*{" src/ --include="*.php"
 
 ---
 
-*Core Rules v3.0.0 — CoreMusic Enterprise*
-*Last Updated: 2026-08-09*
+*Core Rules v3.1.0 — CoreMusic Enterprise*
+*Last Updated: 2026-08-10*

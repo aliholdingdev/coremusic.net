@@ -34,6 +34,8 @@ Bu dosya, CoreMusic ELECTRONICS platformunun tüm donanım, firmware, driver, DS
 | Software Architecture | [[electronic/software-architecture]] |
 | Service Architecture | [[electronic/service-architecture]] |
 | Device Ecosystem | [[electronic/device-ecosystem]] |
+| Development Workflow | [[electronic/development-workflow]] |
+| Electronics Diagrams | [[diagrams/electronics-diagrams]] |
 
 ---
 
