@@ -1,0 +1,11 @@
+music.coremusic.net/vendor/*.*
+music.coremusic.net/cache/*.*
+api.coremusic.net/*.*
+media.coremusic.net/*.*
+var/*.*
+.remember/*.*
+.kiro/*.*
+.opencode/*.*
+.cursor/*.*
+.agents/*.*
+.node_modules/*.*

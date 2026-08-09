@@ -1,0 +1,31 @@
+-- ═══════════════════════════════════════════════════════════════════════════
+-- core-music-db.sql — TOPLU İMPORT SIRASI (yürütülebilir SQL yok)
+-- Bu dosya PDO/glob ile çalıştırıldığında hata üretmemesi için yalnızca yorumdur.
+-- MySQL istemcisinde elle sırayla SOURCE etmek için kullanılabilir.
+-- ═══════════════════════════════════════════════════════════════════════════
+--
+-- Önerilen sıra (import-all.bat ile aynı):
+--   ÖNCE: Bağımsız/bağımlılıksız DB'ler (sırasız)
+--   1.  coremusic_system.sql
+--   2.  coremusic_auth.sql
+--   3.  coremusic_musics.sql
+--   4.  coremusic_albums.sql
+--   5.  coremusic_playlist.sql
+--   6.  coremusic_catalog.sql
+--   7.  coremusic_media.sql
+--   8.  coremusic_user.sql
+--   9.  coremusic_logs.sql
+--  10.  coremusic_download.sql          -- NEW v1.0
+--  11.  coremusic_api.sql               -- NEW v1.0
+--  12.  coremusic_neva.sql              -- NEW v1.0
+--  13.  coremusic_analytics.sql         -- NEW v1.0
+--  14.  coremusic_credential.sql        -- NEW v1.0
+--  15.  coremusic_wireless.sql          -- NEW v1.0
+--  SONRA: Patch dosyası
+--  16.  coremusic_patch.sql
+--
+-- Windows: .ai/.sql/import-all.bat
+-- Ayrıntı: .ai/database.md ve .ai/.sql/README.md
+-- ═══════════════════════════════════════════════════════════════════════════
+
+SET @coremusic_import_manifest_marker = 1;
