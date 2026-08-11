@@ -1,0 +1,50 @@
+﻿# PHP
+vendor/
+composer.lock
+
+# Environment
+.env
+.env.local
+.env.*.local
+**/.env
+
+# Cache & Logs
+/music.coremusic.net/cache/
+/music.coremusic.net/.phpunit.cache/
+*.log
+/logs/
+/var/
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temp
+ses.md
+ses.txt
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Build artifacts
+/dist/
+/build/
+
+# API keys & secrets
+*.key
+*.pem
+*.cert
+
+# Media uploads (gitignore, keep structure)
+/media.coremusic.net/images/*
+!/media.coremusic.net/images/.gitkeep
+.aider*

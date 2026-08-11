@@ -351,6 +351,9 @@ Ajan dosyaya erişmek ister
 3. Limit aşılırsa `log.md`'ye WARN yazılır
 4. Token aşımı önlenir: gereksiz dosya okunmaz
 5. Seçici okuma (Sparse Attention) uygulanır
+6. **İstisna:** Görsel referanslar (`.ai/ui-design/screens/**`, `.ai/.png/**`) 15 dosya limitine dahil değildir
+
+**Mockup Before Frontend:** CSS/HTML/JS/layout/bileşen görevlerinde `.ai/ui-design/` altındaki ilgili görsel okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir.
 
 ---
 

@@ -97,7 +97,7 @@ Detaylar: **[[.ai/CLAUDE.md]]**
 
 ## Architecture Decision Records
 
-43 ADR dosyası mevcuttur (ADR-001 to ADR-044, ADR-014 eksik).
+72 ADR dosyası mevcuttur (ADR-001 to ADR-080, ADR-014 ve ADR-065–071 eksik).
 
 - **Frozen (001-037):** Değiştirilemez
 - **Active (038-044):** Yeni kararlar için
@@ -113,6 +113,14 @@ Detaylar: **[[.ai/CLAUDE.md]]**
 - **ADR-042:** Vault yeniden yapılandırma
 - **ADR-043:** Auth subdomain konsolidasyonu
 - **ADR-044:** Dynamic theme engine
+
+Önemli yeni ADR'ler:
+- **ADR-051:** Platform yeniden sıfırdan yazım
+- **ADR-052:** Hibrit Auth (Session + JWT)
+- **ADR-053:** Enterprise Router (nikic/fast-route)
+- **ADR-054:** Enterprise Composer Stack (25 paket)
+- **ADR-061/062/063:** Electronics L6 katmanı
+- **ADR-072–079:** 8 yeni veritabanı şeması (social, podcast, radio, AI, video, studio, CMS, i18n)
 
 Tüm ADR'ler: **[[.ai/decisions/accepted/]]**
 
@@ -161,6 +169,22 @@ Detaylar: **[[.ai/testing/coverage-targets.md]]**
 
 ---
 
+## Claude Code Tools
+
+### Slash Commands (`.claude/commands/`)
+`/adr-create`, `/bug-fix`, `/db-normalize`, `/deploy-check`, `/new-feature`, `/security-audit`, `/test-run`, `/vault-check`, `/vault-sync`, `/vault-update`
+
+### Skills (`.claude/skills/`)
+`/agent-orchestrator`, `/brainstorming`, `/composer-sync`, `/database-normalize-maker`, `/hallucination-control`, `/human-mode`, `/prompt-maker`, `/skill-maker`, `/ui-analyzer`, `/ui-code-generator`, `/vault-sync`
+
+### Agents (`.claude/agents/`)
+11 specialist agents: `audio-hardware-engineer`, `backend-architect`, `data-engineer`, `devops-engineer`, `dsp-firmware-engineer`, `embedded-engineer`, `master-orchestrator`, `qa-engineer`, `security-engineer`, `ui-designer`, `windows-software-engineer`
+
+### Workflows (`.workflows/`)
+`adr-creation`, `bug-fix`, `code-review`, `deployment`, `dev-workflow`, `hallucination-control`, `new-feature`, `security-audit`, `session-init`, `vault-sync-detailed`, `vault-sync`
+
+---
+
 ## Cross References
 
 - **[[.ai/CLAUDE.md]]** — Kanonik AI talimatı
@@ -171,5 +195,5 @@ Detaylar: **[[.ai/testing/coverage-targets.md]]**
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-05
+**Last Updated:** 2026-08-11
 **Mode:** Red Team • Human Mode • Truth Mode

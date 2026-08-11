@@ -7,7 +7,7 @@ status: active
 version: 23.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total_files: 529
+total_files: 570
 total_adr: 72
 ---
 
@@ -354,7 +354,11 @@ Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusi
 | Prompt System | [[prompt-system/coremusic-theme-prompt]] |
 | Knowledge | [[knowledge/verified]], [[knowledge/unverified]], [[knowledge/rejected]], [[confidence/README]] |
 | Subdomains | [[subdomains/README]], [[subdomains/auth.coremusic.net/index]], [[subdomains/music.coremusic.net/index]], [[subdomains/download.coremusic.net/domains/index]] |
-| UI-Design | [[ui-design/00-index]], [[ui-design/02-design-tokens]], [[ui-design/04-design-system]], [[ui-design/backend-reference]] |
+| UI-Design | [[ui-design/00-mockup-index]], [[ui-design/01-component-inventory]], [[ui-design/02-implementation-plan]], [[ui-design/03-accessibility-gaps]], [[ui-design/04-vault-registration]] |
+| UI-Design Screens | [[ui-design/screens/00-ascii-art-views]], [[ui-design/screens/A-auth/login]], [[ui-design/screens/B-home/dashboard]], [[ui-design/screens/C-music/albums]], [[ui-design/screens/D-player/playlist]], [[ui-design/screens/E-filemanager/disk-browser]], [[ui-design/screens/F-quickpanel/wifi]] |
+| UI-Design Prompt | [[ui-design/prompt/00-prompt-index]], [[ui-design/prompt/screen/01-1024-embedded]], [[ui-design/prompt/component/C01-nav-link]], [[ui-design/prompt/layout/01-pattern-standard-60-40]], [[ui-design/prompt/page/01-home]] |
+| UI-Design Reference | [[ui-design/reference/01-design-tokens]], [[ui-design/reference/02-php-source-architecture]], [[ui-design/reference/03-text-strings]], [[ui-design/reference/04-icon-asset-catalog]], [[ui-design/reference/05-verification]] |
+| UI-Design Flow | [[ui-design/flow/00-flow-index]], [[ui-design/flow/auth/04-select-gender]] |
 | Research | [[research/verified/php84-strict-types]], [[research/verified/argon2id]], [[research/verified/aes-256-gcm]], [[research/verified/pcm3168a]], [[research/verified/asio-sdk]], [[research/verified/juce8]], [[research/verified/xmos-xu316]], [[research/verified/trusted-types-domparser]], [[research/verified/itcss-bemit-layer]], [[research/verified/wcag-22-aa]], [[research/verified/mariadb-1011]] |
 | Personas | [[personas/index]], [[personas/methodology]], [[personas/mood-taxonomy]] |
 | Templates | [[.templates/index]] — 25 template (PHP, JS, CSS, C++, PHPUnit, Vitest, Migration, Docker, GitHub Actions, API-doc, Security-audit, ADR, Arduino, AVR, PIC, C, Node.js, ASP.NET, WikiPage, Query) |

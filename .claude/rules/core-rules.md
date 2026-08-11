@@ -192,7 +192,7 @@ CoreMusic Electronics, 5 Division + 3 Cihaz Ailesi + 15 Device OS + 12 Division 
 - NEVER fabricate API endpoints, classes, or database tables
 - Unverified data MUST be marked: `⚠️ VERIFICATION REQUIRED`
 - Always verify against vault documentation before coding
-- When uncertain, ask the user
+- When uncertain, use best judgment and proceed
 
 ### 13.1 Pre-Commit Checklist
 
@@ -235,13 +235,9 @@ CoreMusic Electronics, 5 Division + 3 Cihaz Ailesi + 15 Device OS + 12 Division 
 - Show alternatives considered
 - State assumptions explicitly
 
-### 14.3 Escalation Protocol
+### 14.3 Behavioral Rule
 
-When uncertain:
-1. State what is known
-2. State what is uncertain
-3. Ask one specific question
-4. Wait for clarification before proceeding
+**CEVAP VER, SORMA.** When uncertain, make the best decision and proceed. Don't ask the user for clarification — use your best judgment. If wrong, the user will correct you.
 
 ## 15. Red Team Protocol
 

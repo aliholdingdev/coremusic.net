@@ -91,8 +91,11 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | 8 | `.ai/MEMORY.md` | Oturum hafizasi | P1 | 3s |
 | 9 | `.ai/log.md` | Aktivite gunlugu (son 20 satir) | P1 | 2s |
 | 10 | `.claude/rules/*` | Tum kurallar | P2 | 5s |
+| 11 | `.ai/ui-design/00-mockup-index.md` | Mockup esleme tablosu — frontend gorevlerinde ZORUNLU | P2 | 3s |
 
-**Toplam boot suresi:** Max 25 saniye. P0 -> P1 -> P2 sirasiyla okunur. Paralel okuma desteklenmez (sirali bagimlilik).
+**Toplam boot suresi:** Max 28 saniye. P0 -> P1 -> P2 sirasiyla okunur. Paralel okuma desteklenmez (sirali bagimlilik).
+
+**Frontend Gorev Kurali:** CSS/HTML/JS/layout/bileşen görevlerinde `00-mockup-index.md` okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir. Görsel referanslar (`.ai/.png/**`) 15 dosya MSA limitine dahil değildir.
 
 ---
 

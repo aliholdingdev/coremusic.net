@@ -155,6 +155,7 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 | 8 | Port 81 = music.coremusic.net | PHP 8.4 | Yanlış port yasak |
 | 9 | No ORM | Raw PDO only (ADR-002) | ORM kullanımı reddedilir |
 | 10 | No Frameworks | Vanilla JS + ITCSS (ADR-001) | Framework reddedilir |
+| 11 | Mockup Before Frontend | Frontend görevinde mockup okunmadan kod yazılamaz | Kod revert edilir |
 
 ---
 
@@ -488,7 +489,7 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 | Version | 19.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 29 |
-| Hard Guardrails | 10 |
+| Hard Guardrails | 11 |
 | Soft Constraints | 4 |
 | Panels | 10 |
 | Services | 7 |

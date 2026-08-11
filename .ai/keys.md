@@ -72,6 +72,30 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | ITCSS, BEM, BEMIT, TrustedTypes, DOMParser | architecture/l3-presentation.md |
 | Web Audio, ses API | architecture/l3-presentation.md |
 
+### 3A. Frontend & UI Design Keywords
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| frontend, css, html, ui, layout, bileşen, ekran, sayfa, tasarım | .ai/ui-design/00-mockup-index.md |
+| mockup, görsel, png, screenshot | .ai/ui-design/00-mockup-index.md |
+| component, bileşen, C01-C16, BEM | .ai/ui-design/01-component-inventory.md |
+| implementation, uygulama, plan, css planı | .ai/ui-design/02-implementation-plan.md |
+| accessibility, erişilebilirlik, wcag, touch target | .ai/ui-design/03-accessibility-gaps.md |
+| header, footer, nav, navigation | .ai/ui-design/screens/_layout-patterns/ |
+| modal, popup, overlay | .ai/ui-design/screens/F-quickpanel/ |
+| auth, login, register, gender | .ai/ui-design/screens/A-auth/ |
+| home, ana sayfa, dashboard | .ai/ui-design/screens/B-home/ |
+| albums, albümler, artists, sanatçılar | .ai/ui-design/screens/C-music/ |
+| playlist, player, oynatıcı | .ai/ui-design/screens/D-player/ |
+| file manager, dosya yöneticisi, göz at | .ai/ui-design/screens/E-filemanager/ |
+| wifi, bluetooth, quick panel | .ai/ui-design/screens/F-quickpanel/ |
+| flow, akış, kullanıcı akışı | .ai/ui-design/flow/ |
+| prompt, şablon | .ai/ui-design/prompt/ |
+| design tokens, token, renk, yazı tipi | .ai/ui-design/reference/02-design-tokens.md |
+| ascii art, piksel, ölçü, layout view | .ai/ui-design/screens/00-ascii-art-views.md |
+| screen spec, ekran özelliği, pixel exact | .ai/ui-design/screens/ |
+| layout pattern, standard 60/40, split home | .ai/ui-design/screens/_layout-patterns/ |
+
 ---
 
 ## 4. Security Keywords

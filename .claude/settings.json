@@ -1,0 +1,71 @@
+{
+  "instructions": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "WORKFLOW.md",
+    ".ai/CLAUDE.md",
+    ".ai/AGENTS.md",
+    ".ai/WORKFLOW.md",
+    ".ai/index.md",
+    ".ai/keys.md",
+    ".ai/brain.md",
+    ".ai/engine.md",
+    ".ai/MEMORY.md",
+    ".ai/log.md"
+  ],
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "C://", "C://www", "C://www//coremusic.net"]
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"]
+    },
+    "claude-mem": {
+      "command": "node",
+      "args": ["c:/.claude/plugins/marketplaces/thedotmack/plugin/scripts/mcp-server.cjs"]
+    },
+    "browsermcp": {
+      "command": "npx",
+      "args": ["@browsermcp/mcp@latest"],
+      "disabled": true
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp", "--headless"],
+      "disabled": true
+    },
+    "exa": {
+      "command": "npx",
+      "args": ["-y", "exa-mcp-server"],
+      "env": {
+        "EXA_API_KEY": "0f9f7388-81d8-4800-b613-a52ea99c77a3"
+      },
+      "disabled": true
+    }
+  },
+  "watcher": {
+    "ignore": [
+      "vendor/**",
+      "node_modules/**",
+      ".git/**",
+      "*.log",
+      "*.cache"
+    ]
+  },
+  "references": {
+    "vault": {
+      "path": ".ai",
+      "description": "CoreMusic vault - mimari, agent, karar ve standart dosyalari"
+    },
+    "rules": {
+      "path": ".claude/rules",
+      "description": "CoreMusic kurallar seti - PHP, JS, CSS, DB, Security, Test standartlari"
+    },
+    "workflows": {
+      "path": ".workflows",
+      "description": "CoreMusic is akislari - session, ADR, vault sync, security, deployment"
+    }
+  }
+}
