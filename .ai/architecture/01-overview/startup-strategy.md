@@ -35,7 +35,7 @@ CoreMusic'in 3 fazlı geliştirme stratejisini tanımlayan **Başlangıç Strate
 - ✅ Web tabanlı 10 panel (music, admin, download, media, auth, home, car, studio, pro, landing)
 - ✅ Deezer/YouTube FLAC indirme (24-bit + 32-bit, max 48kHz/96kHz)
 - ✅ C++ Neva Engine (ASIO/WASAPI)
-- ✅ 9 BCNF veritabanı
+- ✅ 18 BCNF veritabanı
 - ✅ AI müzik önerisi (basit)
 - ✅ Offline-first destek
 - ✅ Temel DSP (EQ, reverb)
@@ -94,7 +94,7 @@ CoreMusic'in 3 fazlı geliştirme stratejisini tanımlayan **Başlangıç Strate
 │                         │                                   │
 │  Infrastructure (L0)                                        │
 │  ┌──────────────────────┴──────────────────────────────┐   │
-│  │ MySQL 9 (9 BCNF) + APCu + Redis                     │   │
+│  │ MySQL 9 (18 BCNF) + APCu + Redis                     │   │
 │  └─────────────────────────────────────────────────────┘   │
 │                                                             │
 │  Audio Engine                                               │
@@ -272,7 +272,6 @@ CoreMusic'in 3 fazlı geliştirme stratejisini tanımlayan **Başlangıç Strate
 | **Satır Sayısı** | ~530 |
 | **ADR Uyumlu** | ✅ 017, 019, 038 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 10 referans |
 | **Risk Matrix** | ✅ 8 senaryo |
 | **Milestone** | ✅ 20 milestone |

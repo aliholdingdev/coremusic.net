@@ -71,16 +71,14 @@ Bluetooth Audio Drivers, CoreMusic platformunun Bluetooth kulaklık, hoparlör v
 
 ## 6. Bluetooth Driver Akışı
 
-```mermaid
-graph LR
-    PAIR[Cihaz Eşleştir] --> CONNECT[Bağlantı Kur]
-    CONNECT --> CODEC{Codec Seç}
-    CODEC --> LDAC[LDAC/Yüksek]
-    CODEC --> APTX[aptX HD]
-    CODEC --> SBC[SBC/Standart]
-    LDAC --> STREAM[Stream Başlat]
-    APTX --> STREAM
-    SBC --> STREAM
+```
+Cihaz Eşleştir ──▶ Bağlantı Kur ──▶ {Codec Seç}
+                                        │
+                           LDAC/Yüksek ▼ aptX HD ▼ SBC/Standart
+                                   │         │         │
+                                   └─────────┴─────────┘
+                                             │
+                                     Stream Başlat
 ```
 
 ---

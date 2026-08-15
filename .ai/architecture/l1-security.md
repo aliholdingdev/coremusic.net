@@ -3,7 +3,7 @@ type: architecture
 category: l1
 title: "L1 — Security Layer"
 date: 2026-08-06
-updated: 2026-08-06
+updated: 2026-08-13
 status: active
 version: 2.0.0
 authority: Single Source of Truth (SSOT)
@@ -20,16 +20,16 @@ L1, CoreMusic platformunun güvenlik katmanıdır. Middleware pipeline, session 
 
 **Katman Sırası (Dıştan içe):**
 ```
-L3 Presentation → L2 Routing → L1 Security ← BU DOSYA → L0 Infrastructure
+L6 Electronics → L5 Services → L4 Domain → L3 Presentation → L2 Routing → L1 Security ← BU DOSYA → L0 Infrastructure
 ```
 
-*Kaynak: [[architecture/01-overview/architecture_master]]*
+*Kaynak: [[architecture/00-overview/architecture-master]] §2*
 
 ## 2. Responsibilities
 
 | Bileşen | Sorumluluk |
 |---------|------------|
-| **Middleware Pipeline** | 6 katmanlı sıralı güvenlik hattı |
+| **Middleware Pipeline** | 10 katmanlı sıralı güvenlik hattı |
 | **Session Management** | Oturum başlatma, sürdürme, sonlandırma |
 | **CSRF Protection** | Form ve AJAX istekleri için token doğrulama |
 | **CSP Nonce** | Content Security Policy — script injection önleme |
@@ -46,7 +46,7 @@ L3 Presentation → L2 Routing → L1 Security ← BU DOSYA → L0 Infrastructur
 | AES-256-GCM | — | Credential encryption |
 | APCu | 5.1+ | Rate limiting |
 | PHP Session | 8.4+ | Session management |
-| firebase/php-jwt | 6.10+ | JWT token management |
+| lcobucci/jwt | 5.0+ | JWT token management (firebase/php-jkt yasaklı, ADR-059) |
 | paragonie/halite | 5.1+ | Encryption wrapper |
 | symfony/security-csrf | 7.1+ | CSRF token management |
 
@@ -57,7 +57,7 @@ L3 Presentation → L2 Routing → L1 Security ← BU DOSYA → L0 Infrastructur
 ### 4.1 Pipeline Sırası (Frozen — Değiştirilemez)
 
 ```
-Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf → Controller
+Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
 ```
 
 *Kaynak: [[ADR-010-csrf-protection-strategy]], [[ADR-011-session-management]], [[ADR-012-csp-nonce-strict-dynamic]], [[ADR-013-rate-limiting-apcu]], [[ADR-022-database-hardened-security]]*
@@ -71,9 +71,9 @@ declare(strict_types=1);
 namespace CoreMusic\Middleware;
 
 /**
- * Middleware pipeline — 6-layer security.
+ * Middleware pipeline — 10-layer security.
  *
- * Frozen order: SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf
+ * Frozen order: OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
  * @see [[ADR-010-csrf-protection-strategy]]
  * @see [[ADR-011-session-management]]
  */
@@ -85,12 +85,16 @@ class MiddlewarePipeline
     {
         // Sıra katidir — ADR-010/011/012/013/022
         $this->middlewares = [
-            new SessionManagerMiddleware(),    // 1. Session başlat
-            new BypassAuthMiddleware(),         // 2. Test bypass
+            new OriginCheckMiddleware(),       // 1. Köken doğrulama
+            new CorsMiddleware(),              // 2. CORS header'ları
             new RateLimiterMiddleware(),        // 3. Rate limiting
-            new AuthMiddleware(),               // 4. Auth bilgisi
-            new SecurityHeadersMiddleware(),    // 5. CSP + headers
+            new SecurityHeadersMiddleware(),    // 4. CSP + headers
+            new SessionManagerMiddleware(),     // 5. Session başlat
             new CsrfMiddleware(),               // 6. CSRF doğrulama
+            new BypassAuthMiddleware(),         // 7. Test bypass
+            new AuthMiddleware(),               // 8. Auth bilgisi
+            new PermissionMiddleware(),         // 9. RBAC yetki kontrolü
+            new ValidationMiddleware(),         // 10. Request validasyonu
         ];
     }
 
@@ -114,12 +118,16 @@ class MiddlewarePipeline
 
 | # | Middleware | Kaynak ADR | Sorumluluk |
 |---|-----------|------------|------------|
-| 1 | SessionManager | ADR-011 | Session başlat, CSP nonce üret |
-| 2 | BypassAuth | ADR-008 | Test ortamında auth bypass |
+| 1 | OriginCheck | ADR-020 | Köken doğrulama (whitelist CORS) |
+| 2 | Cors | ADR-020 | CORS header yönetimi |
 | 3 | RateLimiter | ADR-013 | APCu tabanlı hız sınırlama |
-| 4 | Auth | ADR-011 | Kullanıcı bilgisi inject |
-| 5 | SecurityHeaders | ADR-012 | CSP, X-Frame-Options, HSTS |
+| 4 | SecurityHeaders | ADR-012 | CSP, X-Frame-Options, HSTS |
+| 5 | SessionManager | ADR-011 | Session başlat, CSP nonce üret |
 | 6 | Csrf | ADR-010 | csrf_token doğrulama |
+| 7 | BypassAuth | ADR-008 | Test ortamında auth bypass |
+| 8 | Auth | ADR-011 | Kullanıcı bilgisi inject |
+| 9 | Permission | ADR-052 | RBAC yetki kontrolü |
+| 10 | Validation | ADR-054 | Request/DTO validasyonu |
 
 ## 5. Session Management
 
@@ -561,7 +569,7 @@ music.coremusic.net → auth.coremusic.net/api/session/check
 | A03 | Software Supply Chain Failures | Dependency scanning + version pinning | ✅ |
 | A04 | Cryptographic Failures | AES-256-GCM + Argon2id | ✅ |
 | A05 | Injection | PDO prepared + CSP nonce | ✅ |
-| A06 | Insecure Design | L0-L3 layered architecture | ✅ |
+| A06 | Insecure Design | L0-L6 layered architecture | ✅ |
 | A07 | Authentication Failures | Rate limiting + lockout + session mgmt | ✅ |
 | A08 | Software or Data Integrity Failures | HMAC verification + firmware signing | ✅ |
 | A09 | Security Logging & Alerting Failures | Audit trail (log.md) + real-time alerting | ✅ |
@@ -636,7 +644,6 @@ music.coremusic.net → auth.coremusic.net/api/session/check
 | **Web Doğrulanmış** | ✅ php.net, OWASP, W3C CSP, RFC 9106 |
 | **ADR Uyumlu** | ✅ 008, 010, 011, 012, 013, 022, 043, 052, 054 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

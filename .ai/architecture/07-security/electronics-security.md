@@ -155,16 +155,16 @@ graph TB
 
 | # | Zafiyet | Önlem |
 |---|---------|-------|
-| A01 | Broken Access Control | Rol bazlı erişim |
-| A02 | Cryptographic Failures | AES-256-GCM |
-| A03 | Injection | Prepared statement |
-| A04 | Insecure Design | Security by design |
-| A05 | Security Misconfiguration | Secure defaults |
-| A06 | Vulnerable Components | Dependency scanning |
-| A07 | Auth Failures | MFA, rate limiting |
-| A08 | Data Integrity Failures | Code signing |
-| A09 | Logging Failures | Audit trail |
-| A10 | SSRF | Input validation |
+| A01 | Broken Access Control (SSRF dahil) | Rol bazlı erişim, URL allowlist |
+| A02 | Security Misconfiguration | Secure defaults, hardened config |
+| A03 | Software Supply Chain Failures | Dependency scanning, SBOM |
+| A04 | Cryptographic Failures | AES-256-GCM, code signing |
+| A05 | Injection | Prepared statement, input validation |
+| A06 | Insecure Design | Security by design, threat modeling |
+| A07 | Authentication Failures | MFA, rate limiting, account lockout |
+| A08 | Software or Data Integrity Failures | Code signing, CI integrity |
+| A09 | Security Logging & Alerting Failures | Audit trail, real-time alerting |
+| A10 | Mishandling of Exceptional Conditions | Error handling, graceful degradation |
 
 ---
 

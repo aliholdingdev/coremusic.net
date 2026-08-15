@@ -667,7 +667,6 @@ class SessionDestroyer
 | **Bölüm Sayısı** | 17 |
 | **ADR Uyumlu** | ✅ 010, 011, 012 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

@@ -444,7 +444,6 @@ class CircuitBreaker
 | **Satır Sayısı** | ~530 |
 | **ADR Uyumlu** | ✅ 032, 042 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 4 referans |
 | **Guardrails** | ✅ 5 kural |
 

@@ -18,7 +18,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-CoreMusic platformunun sunum katmanını tanımlar. Vanilla JS, ITCSS 7-layer CSS mimarisi, TrustedTypes, Web Audio API ve UI component'leri bu katmanda yönetilir. [[ADR-001-vanilla-js-itcss]] ile uyumludur.
+CoreMusic platformunun sunum katmanını tanımlar. Vanilla JS, ITCSS 9-layer CSS mimarisi, TrustedTypes, Web Audio API ve UI component'leri bu katmanda yönetilir. [[ADR-001-vanilla-js-itcss]] ile uyumludur.
 
 ---
 
@@ -42,7 +42,7 @@ L0 Infrastructure
 
 | Dosya | Amaç |
 |-------|------|
-| [[itcss-architecture]] | ITCSS 7-layer CSS mimarisi |
+| [[itcss-architecture]] | ITCSS 9-layer CSS mimarisi |
 | [[vanilla-js-rules]] | Vanilla JS kuralları ve yasaklar |
 | [[web-audio]] | Web Audio API kullanımı |
 | [[theme-engine]] | Dinamik tema motoru (ADR-044) |
@@ -95,10 +95,9 @@ L0 Infrastructure
 | **Dosya Sayısı** | 6 alt dosya |
 | **ADR Uyumlu** | ✅ 001, 018, 044, 045, 046, 048 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-08
+**Last Updated:** 2026-08-13
 **Mode:** Red Team · Human Mode · Truth Mode

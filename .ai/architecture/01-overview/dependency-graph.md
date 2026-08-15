@@ -296,7 +296,6 @@ Her 10 saniyede:
 | **Satır Sayısı** | ~520 |
 | **ADR Uyumlu** | ✅ 039, 042 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 8 referans |
 | **Edge Cases** | ✅ 10 senaryo |
 | **Health Check** | ✅ 6 servis |

@@ -58,29 +58,13 @@ Aynı yazılım mimarisiyle farklı elektronik cihazların geliştirilmesini sa�
 
 ## 4. Mimari Katmanlar (6 Katman)
 
-```mermaid
-graph TB
-    subgraph "CoreMusic Electronics Layers"
-        HW[Hardware Layer<br/>PCB, Components, Connectors]
-        FW[Firmware Layer<br/>RTOS, Boot, DSP Chain]
-        DRV[Driver Layer<br/>ASIO, WASAPI, ALSA, CoreAudio]
-        AE[Audio Engine Layer<br/>Mixer, EQ, DSP Chain]
-        MW[Middleware Layer<br/>Auth, Logging, Caching]
-        APP[Application Layer<br/>Web UI, Mobile App, Desktop]
-    end
-
-    HW --> FW
-    FW --> DRV
-    DRV --> AE
-    AE --> MW
-    MW --> APP
-
-    style HW fill:#f96,stroke:#333,stroke-width:2px
-    style FW fill:#f90,stroke:#333,stroke-width:2px
-    style DRV fill:#fc0,stroke:#333,stroke-width:2px
-    style AE fill:#6f6,stroke:#333,stroke-width:2px
-    style MW fill:#69f,stroke:#333,stroke-width:2px
-    style APP fill:#6ff,stroke:#333,stroke-width:2px
+```
+Application Layer ─────── Web UI, Mobile App, Desktop
+Middleware Layer ──────── Auth, Logging, Caching
+Audio Engine Layer ────── Mixer, EQ, DSP Chain
+Driver Layer ──────────── ASIO, WASAPI, ALSA, CoreAudio
+Firmware Layer ────────── RTOS, Boot, DSP Chain
+Hardware Layer ────────── PCB, Components, Connectors
 ```
 
 ---

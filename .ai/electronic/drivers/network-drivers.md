@@ -47,14 +47,8 @@ Network Audio Drivers, CoreMusic platformunun Ethernet ve network ses protokolle
 
 ## 4. Network Driver Akışı
 
-```mermaid
-graph TB
-    DISCOVER[mDNS Discovery] --> SELECT[Oda Seç]
-    SELECT --> CONNECT[TCP Bağlantı]
-    CONNECT --> AUTH[Kimlik Doğrula]
-    AUTH --> SYNC[Senkronizasyon]
-    SYNC --> STREAM[Stream Başlat]
-    STREAM --> MONITOR[İzleme]
+```
+mDNS Discovery ──▶ Oda Seç ──▶ TCP Bağlantı ──▶ Kimlik Doğrula ──▶ Senkronizasyon ──▶ Stream Başlat ──▶ İzleme
 ```
 
 ---

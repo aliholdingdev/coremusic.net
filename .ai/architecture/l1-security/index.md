@@ -3,9 +3,9 @@ type: architecture
 category: l1
 title: "L1 — Security Layer (Overview)"
 date: 2026-08-08
-updated: 2026-08-08
+updated: 2026-08-13
 status: active
-version: 3.0.0
+version: 4.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -16,7 +16,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-L1, CoreMusic platformunun güvenlik katmanıdır. Middleware pipeline, session yönetimi, CSRF koruması, CSP nonce, rate limiting ve authentication bu katmanda yönetilir. L1, L0 (infrastructure) üzerinde çalışır ve L2-Routing'e güvenlik hizmeti sunar.
+L1, CoreMusic platformunun güvenlik katmanıdır. Middleware pipeline, session yönetimi, CSRF koruması, CSP nonce, rate limiting ve authentication bu katmanda yönetilir. L1, L0 (infrastructure) üzerinde çalışır ve L2-Routing'e güvenlik hizmeti sunar. Hybrid Auth (Session + JWT) mimarisi ile [[ADR-052-hybrid-auth-architecture]] ve [[ADR-058-auth-subdomain-priority]] uyumludur. Detaylı implementasyon planı: [[ADR-087-master-implementation-plan]].
 
 **Katman Sırası (Dıştan içe):**
 ```
@@ -27,7 +27,7 @@ L3 Presentation → L2 Routing → L1 Security ← BU DOSYA → L0 Infrastructur
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
-| Middleware pipeline (6 katman) | Backend/Frontend iş mantığı |
+| Middleware pipeline (10 katman) | Backend/Frontend iş mantığı |
 | Session yönetimi | Veritabanı şeması |
 | CSRF koruması | UI tasarım |
 | CSP nonce + strict-dynamic | Deployment |
@@ -58,7 +58,7 @@ L3 Presentation → L2 Routing → L1 Security ← BU DOSYA → L0 Infrastructur
 ## 5. Middleware Pipeline (Özet)
 
 ```
-Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf → Controller
+Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
 ```
 
 Sıra **frozen**'dır — değiştirilemez. Detaylı açıklama: [[middleware]]
@@ -129,15 +129,14 @@ Sıra **frozen**'dır — değiştirilemez. Detaylı açıklama: [[middleware]]
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 3.0.0 |
+| **Versiyon** | 4.0.0 |
 | **Toplam Dosya** | 5 (index + 4 detay) |
 | **ADR Uyumlu** | ✅ 008, 010, 011, 012, 013, 022, 043 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 
-*L1 Security Layer v3.0.0 — CoreMusic Architecture*
+*L1 Security Layer v4.0.0 — CoreMusic Architecture*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-08*
+*Last Updated: 2026-08-13*
 *Mode: Red Team · Human Mode · Truth Mode*

@@ -163,7 +163,7 @@ Detay: [[update-recovery]]
 
 | Cihaz | İşlemci | RTOS | HAL |
 |-------|---------|------|-----|
-| 8+1 Amp | XMOS XU316 | Bare-metal | XMOS HAL |
+| 7.1 Amp (Class AB) | XMOS XU316 | Bare-metal | XMOS HAL |
 | USB Audio | XMOS XU316 | Bare-metal | XMOS HAL |
 | Raspberry Pi HAT | BCM2711 | Linux | ALSA |
 | DSP Processor | STM32 | FreeRTOS | STM32 HAL |

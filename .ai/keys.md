@@ -2,16 +2,141 @@
 title: "CoreMusic — Vault Keyword Map & Concept Router"
 type: system
 category: vault-navigation
-updated: 2026-08-10
+date: 2026-08-12
+updated: 2026-08-13
 status: active
-version: 23.0.0
+version: 25.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/keys.md"
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/AGENTS.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+    - ".ai/keys.md"
+    - ".ai/MEMORY.md"
+    - ".ai/log.md"
+    - ".ai/engine.md"
+  architecture:
+    - ".ai/ADR/"
+    - "Existing project architecture"
+    - "Existing codebase patterns"
+  project_structure:
+    - "coremusic.net/"
+    - "shared/"
+    - "api.coremusic.net/"
+    - "auth.coremusic.net/"
+    - "music.coremusic.net/"
+    - "admin.coremusic.net/"
+    - "home.coremusic.net/"
+    - "car.coremusic.net/"
+    - "studio.coremusic.net/"
+    - "pro.coremusic.net/"
+    - "media.coremusic.net/"
+    - "download.coremusic.net/"
+  decision_priority:
+    - "ADR decisions"
+    - "Architecture documentation"
+    - "Security requirements"
+    - "Existing implementation"
+    - "User requirements"
+  update_policy:
+    preserve_existing_structure: true
+    require_approval_for:
+      - "file rename"
+      - "directory move"
+      - "architecture change"
+      - "database schema change"
+      - "security policy change"
+  skills:
+    - path: ".opencode/skills/ui-code-generator/SKILL.md"
+      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
+    - path: ".opencode/skills/ui-analyzer/SKILL.md"
+      purpose: "UI analizi, mevcut tasarım değerlendirme"
+    - path: ".opencode/skills/skill-maker/SKILL.md"
+      purpose: "Yeni skill oluşturma, skill template sistemi"
+    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
+      purpose: "Güvenlik testi, truth mode, adversarial analiz"
+    - path: ".opencode/skills/prompt-maker/SKILL.md"
+      purpose: "Prompt mühendisliği, AI talimat tasarımı"
+    - path: ".opencode/skills/composer-sync/SKILL.md"
+      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
+    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
+      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
+    - path: ".opencode/skills/human-mode/SKILL.md"
+      purpose: "İnsan modu iletişimi, onay süreçleri"
+    - path: ".opencode/skills/hallucination-control/SKILL.md"
+      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
+    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
+      purpose: "BCNF normalizasyonu, şema tasarımı"
+  templates:
+    adr:
+      - path: ".ai/.templates/adr/adr-template.md"
+        purpose: "ADR şablonu"
+      - path: ".ai/.templates/adr/adr-frontend-template.md"
+        purpose: "Frontend ADR şablonu"
+      - path: ".ai/.templates/adr/adr-database-template.md"
+        purpose: "Database ADR şablonu"
+      - path: ".ai/.templates/adr/adr-security-template.md"
+        purpose: "Security ADR şablonu"
+      - path: ".ai/.templates/adr/adr-audio-template.md"
+        purpose: "Audio/Hardware ADR şablonu"
+      - path: ".ai/.templates/adr/adr-index.md"
+        purpose: "ADR navigasyon rehberi"
+    backend:
+      - path: ".ai/.templates/backend/php-template.md"
+        purpose: "PHP 8.4 backend geliştirme şablonu"
+      - path: ".ai/.templates/backend/nodejs-template.md"
+        purpose: "Node.js 20+ backend geliştirme şablonu"
+    frontend:
+      - path: ".ai/.templates/frontend/js-template.md"
+        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
+      - path: ".ai/.templates/frontend/css-template.md"
+        purpose: "ITCSS 9-layer, BEM CSS şablonu"
+    testing:
+      - path: ".ai/.templates/testing/phpunit-template.md"
+        purpose: "PHPUnit 10+ test şablonu"
+      - path: ".ai/.templates/testing/vitest-template.md"
+        purpose: "Vitest JS/TS test şablonu"
+    infrastructure:
+      - path: ".ai/.templates/infrastructure/migration-template.md"
+        purpose: "MySQL 9 BCNF migration şablonu"
+      - path: ".ai/.templates/infrastructure/docker-template.md"
+        purpose: "Docker 24+ Compose v2 şablonu"
+      - path: ".ai/.templates/infrastructure/github-actions-template.md"
+        purpose: "GitHub Actions CI/CD şablonu"
+    documentation:
+      - path: ".ai/.templates/documentation/api-doc-template.md"
+        purpose: "API dokümantasyon şablonu"
+      - path: ".ai/.templates/documentation/security-audit-template.md"
+        purpose: "Güvenlik denetimi şablonu"
+      - path: ".ai/.templates/documentation/WikiPage-Template.md"
+        purpose: "Wiki sayfası şablonu"
+    hardware:
+      - path: ".ai/.templates/hardware/arduino-template.md"
+        purpose: "Arduino/IoT prototipleme şablonu"
+      - path: ".ai/.templates/hardware/avr-template.md"
+        purpose: "AVR mikrodenetleyici şablonu"
+      - path: ".ai/.templates/hardware/pic-template.md"
+        purpose: "PIC mikrodenetleyici şablonu"
+    query:
+      - path: ".ai/.templates/query/Query-Template.md"
+        purpose: "SQL sorgu şablonu"
+    other:
+      - path: ".ai/.templates/other/c-template.md"
+        purpose: "C11 GCC embedded/driver şablonu"
+      - path: ".ai/.templates/cpp-template.md"
+        purpose: "C++20 JUCE/ASIO şablonu"
 ---
 
 # CoreMusic — Vault Keyword Map & Concept Router
 
-**Zorunlu Baglantilar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]]
+**Zorunlu Baglantilar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
+
+**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
 
 ---
 
@@ -34,10 +159,11 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | claude, talimat, protokol | CLAUDE.md |
 | engine, orkestra, dispatch | engine.md |
 | keys, keyword, navigasyon | keys.md |
+| architecture-master, canonical count, metadata, ADR count, DB count, layer count | architecture/00-overview/architecture-master.md |
 
 ---
 
-## 3. L0-L3 Layer Keywords
+## 3. L0-L6 Layer Keywords
 
 ### 3.1 L0 Infrastructure
 
@@ -72,12 +198,87 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | ITCSS, BEM, BEMIT, TrustedTypes, DOMParser | architecture/l3-presentation.md |
 | Web Audio, ses API | architecture/l3-presentation.md |
 
+### 3A. L4 Domain
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| L4, domain, business rules, entities, aggregates | architecture/l4-domain.md |
+| DDD, value object, domain event | architecture/l4-domain.md |
+| repository interface, use case interface | architecture/l4-domain.md |
+
+### 3B. L5 Services
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| L5, services, application services, use case | architecture/l5-services.md |
+| CQRS, command, query, event bus, PSR-14 | architecture/l5-services.md |
+| transaction management, DTO mapping | architecture/l5-services.md |
+
+### 3C. L6 Electronics
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| L6, electronics, hardware, firmware, driver, DSP | architecture/l6-electronics.md |
+| XMOS, PCM3168A, Class AB, audio engine | architecture/l6-electronics.md |
+| ASIO, WASAPI, JUCE, C++20 | architecture/l6-electronics.md |
+
+### 3D. Skills Keywords
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| skill, beceri, agentic, orkestrasyon | .opencode/skills/*/SKILL.md |
+| ui-code-generator, ui kod üretimi | .opencode/skills/ui-code-generator/SKILL.md |
+| ui-analyzer, ui analiz | .opencode/skills/ui-analyzer/SKILL.md |
+| skill-maker, skill oluştur | .opencode/skills/skill-maker/SKILL.md |
+| hallucination-control, halüsinasyon | .opencode/skills/hallucination-control/SKILL.md |
+| human-mode, insan onayı, HITL | .opencode/skills/human-mode/SKILL.md |
+| red-team, truth mode, adversarial | .opencode/skills/red-team-truth-mode/SKILL.md |
+| prompt-maker, prompt mühendisliği | .opencode/skills/prompt-maker/SKILL.md |
+| agent-orchestrator, görev dağıtımı | .opencode/skills/agent-orchestrator/SKILL.md |
+| composer-sync, vendor sync | .opencode/skills/composer-sync/SKILL.md |
+| database-normalize, bcnf, normalizasyon | .opencode/skills/database-normalize-maker/SKILL.md |
+
+### 3C. Templates Keywords
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| template, şablon, şablon | .ai/.templates/index.md |
+| adr template, karar şablonu | .ai/.templates/adr/adr-template.md |
+| php template, backend şablonu | .ai/.templates/backend/php-template.md |
+| js template, frontend şablonu | .ai/.templates/frontend/js-template.md |
+| css template, itcss şablonu | .ai/.templates/frontend/css-template.md |
+| phpunit template, test şablonu | .ai/.templates/testing/phpunit-template.md |
+| migration template, db migration | .ai/.templates/infrastructure/migration-template.md |
+| docker template, container | .ai/.templates/infrastructure/docker-template.md |
+| github actions, ci/cd şablonu | .ai/.templates/infrastructure/github-actions-template.md |
+| api doc, api dokümantasyonu | .ai/.templates/documentation/api-doc-template.md |
+| security audit, güvenlik denetimi | .ai/.templates/documentation/security-audit-template.md |
+| c template, embedded şablonu | .ai/.templates/other/c-template.md |
+| query template, sql şablonu | .ai/.templates/query/Query-Template.md |
+
+### 3D. Agent Profile Keywords
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| agent profile, agent tanımlı | .ai/.agents/AGENTS.md |
+| master orchestrator, mo | .ai/.agents/master-orchestrator.md |
+| backend architect, php api | .ai/.agents/backend-architect.md |
+| ui designer, frontend | .ai/.agents/ui-designer.md |
+| security engineer, güvenlik | .ai/.agents/security-engineer.md |
+| data engineer, veritabanı | .ai/.agents/data-engineer.md |
+| embedded engineer, c++ | .ai/.agents/embedded-engineer.md |
+| qa engineer, test | .ai/.agents/qa-engineer.md |
+| devops engineer, ci/cd | .ai/.agents/devops-engineer.md |
+| audio hardware, dac/adc | .ai/.agents/audio-hardware-engineer.md |
+| dsp firmware, xmos | .ai/.agents/dsp-firmware-engineer.md |
+| windows software, wasapi | .ai/.agents/windows-software-engineer.md |
+
 ### 3A. Frontend & UI Design Keywords
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
 | frontend, css, html, ui, layout, bileşen, ekran, sayfa, tasarım | .ai/ui-design/00-mockup-index.md |
-| mockup, görsel, png, screenshot | .ai/ui-design/00-mockup-index.md |
+| mockup, görsel, png, screenshot | .ai/ui-design/00-mockup-index.md + .ai/.png/** |
 | component, bileşen, C01-C16, BEM | .ai/ui-design/01-component-inventory.md |
 | implementation, uygulama, plan, css planı | .ai/ui-design/02-implementation-plan.md |
 | accessibility, erişilebilirlik, wcag, touch target | .ai/ui-design/03-accessibility-gaps.md |
@@ -95,6 +296,14 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | ascii art, piksel, ölçü, layout view | .ai/ui-design/screens/00-ascii-art-views.md |
 | screen spec, ekran özelliği, pixel exact | .ai/ui-design/screens/ |
 | layout pattern, standard 60/40, split home | .ai/ui-design/screens/_layout-patterns/ |
+| png mockup, .png dosyası, görsel referans, screenshot | .ai/.png/home-1024/ + .ai/.png/shared-1024/ |
+| home-1024, RPi5 mockup, 1024×600 | .ai/.png/home-1024/ |
+| shared-1024, auth mockup, login png | .ai/.png/shared-1024/ |
+| png mockup index, mockup tablosu | .ai/ui-design/00-mockup-index.md |
+| component inventory, bileşen envanteri | .ai/ui-design/01-component-inventory.md |
+| implementation plan, uygulama planı | .ai/ui-design/02-implementation-plan.md |
+| accessibility gaps, wcag analizi | .ai/ui-design/03-accessibility-gaps.md |
+| vault registration, vault kayıt | .ai/ui-design/04-vault-registration.md |
 
 ---
 
@@ -125,26 +334,31 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| 11 BCNF, normalizasyon | [[decisions/accepted/ADR-040-database-authority]] |
+| 18 BCNF, normalizasyon | [[decisions/accepted/ADR-040-database-authority]] |
 | ORM, SELECT *, PDO | [[decisions/accepted/ADR-002-pdo-mandatory-no-orm]] |
-| multi-db, 11 veritabani | [[decisions/accepted/ADR-003-multi-db-9-databases]] |
+| multi-db, 18 veritabani | [[decisions/accepted/ADR-003-multi-db-9-databases]] |
 | migration, schema degisikligi | [[decisions/accepted/ADR-014-multi-db-migration-strategy]] |
 | SQL normalization | [[decisions/accepted/ADR-033-sql-normalization-strategy]] |
 | DB sync | [[decisions/accepted/ADR-050-multi-db-sync-strategy]] |
 | database master | architecture/05-data/database_master.md |
-| coremusic_musics | .sql/coremusic_musics.sql |
-| coremusic_auth | .sql/coremusic_auth.sql |
-| coremusic_user | .sql/coremusic_user.sql |
-| coremusic_albums | .sql/coremusic_albums.sql |
-| coremusic_playlist | .sql/coremusic_playlist.sql |
-| coremusic_catalog | .sql/coremusic_catalog.sql |
-| coremusic_logs | .sql/coremusic_logs.sql |
-| coremusic_media | .sql/coremusic_media.sql |
-| coremusic_system | .sql/coremusic_system.sql |
-| coremusic_social | .sql/coremusic_social.sql |
-| coremusic_wireless | .sql/coremusic_wireless.sql |
-| coremusic_credential | .sql/coremusic_credential.sql |
-| coremusic_download | .sql/coremusic_download.sql |
+| coremusic_musics | .sql/mysql/coremusic_musics.sql |
+| coremusic_auth | .sql/mysql/coremusic_auth.sql |
+| coremusic_user | .sql/mysql/coremusic_user.sql |
+| coremusic_albums | .sql/mysql/coremusic_albums.sql |
+| coremusic_playlist | .sql/mysql/coremusic_playlist.sql |
+| coremusic_catalog | .sql/mysql/coremusic_catalog.sql |
+| coremusic_logs | .sql/mysql/coremusic_logs.sql |
+| coremusic_media | .sql/mysql/coremusic_media.sql |
+| coremusic_system | .sql/mysql/coremusic_system.sql |
+| coremusic_social | .sql/mysql/coremusic_social.sql |
+| coremusic_wireless | .sql/mysql/coremusic_wireless.sql |
+| coremusic_download | .sql/mysql/coremusic_download.sql |
+| coremusic_ai | .sql/mysql/coremusic_ai.sql |
+| coremusic_api | .sql/mysql/coremusic_api.sql |
+| coremusic_cms | .sql/mysql/coremusic_cms.sql |
+| coremusic_neva | .sql/mysql/coremusic_neva.sql |
+| coremusic_studio | .sql/mysql/coremusic_studio.sql |
+| coremusic_patch | .sql/mysql/coremusic_patch.sql |
 
 ---
 
@@ -324,9 +538,9 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | ADR-037 | WirelessConnect, WiFi | Integration |
 | ADR-038 | PCM3168A, XMOS XU316, 8.1 surround | Audio |
 | ADR-039 | 7 servis, platform mimarisi | Architecture |
-| ADR-040 | 11 BCNF, DB authority | Database |
+| ADR-040 | 18 BCNF, DB authority | Database |
 | ADR-041 | DB normalization supplementary | Database |
-| ADR-042 | vault restructuring, MSA, 15 dosya | Vault |
+| ADR-042 | vault restructuring, PHP 8.4, port 81 | Vault |
 | ADR-043 | auth subdomain, konsolidasyon | Security |
 | ADR-044 | dynamic theme, gender, pembe/mavi | UI |
 | ADR-045 | multi-domain view mode | UI |
@@ -347,6 +561,11 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | ADR-077 | studio database, sessions, tracks, presets, equipment | Database |
 | ADR-078 | cms database, pages, blog, tags, faqs, banners | Database |
 | ADR-079 | i18n database, languages, translations, ui_strings | Database |
+| ADR-083 | SPA Router, PHP+JS Hybrid, History API, DOMParser | Routing |
+| ADR-084 | API Gateway, API-First, BFF, CQRS, Tek Gateway | Architecture |
+| ADR-085 | Modular Composer, 22 paket, coremusic/*, circular dependency yasak | Infrastructure |
+| ADR-086 | Event Driven, PSR-14, Domain Event, Integration Event | Architecture |
+| ADR-087 | Master Implementation Plan, 5 faz, 40 gun, 22 bolum, sirfirdan gelistirme | Architecture |
 
 ---
 
@@ -369,18 +588,12 @@ Istenen Bilgi -> Ilk Kontrol:
 
 ## 12. Navigation Rules (ADR-042 Uyumlu)
 
-### 12.1 MSA Limit
-
-- **Gorev basina MAX 15 dosya** (ADR-042/C5)
-- keys.md uzerinden keyword -> file mapping
-- Fallback: index.md
-
 ### 12.2 Zero Misdirection
 
 | Yanlis | Dogru |
 |-----------|----------|
 | Tahmin yurutme | keys.md'den keyword ara |
-| Recursive glob | Sparse Attention (15 dosya max) |
+| Recursive glob | Doğrudan glob kullan |
 | Web arama | Sadece vault + ADR referanslari |
 | Kodu okumadan tahmin | Once kodu oku, sonra ADR |
 | Uydurma API/endpoint | // VERIFICATION REQUIRED yaz |
@@ -427,7 +640,16 @@ P3: testing/*, ui-design/*, personas/*
 | Agent yetkileri | AGENTS.md -> .agents/ |
 | Servisler | ecosystem/7-service-integration.md |
 | Deploy | architecture/02-deployment/ |
-| Tema | ADR-044 -> prompt-system/coremusic-theme-prompt.md |
+| Tema | ADR-044 -> [[brain#22-prompt-arsivi]] (prompt0-genel içinde tema kuralları) |
+
+### Section 3B: Prompt Archive Keywords
+
+| Keywords | Dosya |
+|----------|-------|
+| prompt0, genel ana prompt, tüm sistem kuralları, 11 alt domain, 10 panel, 20 analiz görevi | archives/prompt0-genel-ana-prompt-2026-08-13 |
+| prompt1, spa router, enterprise router, history api, SOLID, PSR, attribute-based | archives/prompt1-spa-router-2026-08-13 |
+| prompt2, auth, merkezi auth, jwt, session, cors, rbac, middleware pipeline | archives/prompt2-auth-2026-08-13 |
+| prompt3, api-first, gateway, cqrs, event driven, 14 servis, coremusic-shared | archives/prompt3-api-2026-08-13 |
 
 ---
 
@@ -438,7 +660,7 @@ P3: testing/*, ui-design/*, personas/*
 | 1 | **Rastgele okuma yasak.** Her zaman keys.md kullanin. Token asimina yol acar. |
 | 2 | **PCM5122 REDDEDILMISTIR (H001).** 8.1 surround icin yetersiz. Sadece PCM3168A kullanin. |
 | 3 | **CSRF Token Key = csrf_token.** _csrf_token 2026-05-30'da kaldirildi. |
-| 4 | **Middleware sirasi degistirilemez.** SessionManager -> BypassAuth -> RateLimiter -> Auth -> SecurityHeaders -> Csrf |
+| 4 | **Middleware sirasi degistirilemez.** OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller |
 | 5 | **ORM yasak.** Sadece PDO prepared statement. SELECT * yasak -- acik kolon listesi zorunlu. |
 
 ---
@@ -452,17 +674,48 @@ P3: testing/*, ui-design/*, personas/*
 
 ---
 
+## 17A. Implementasyon Dosya Haritasi (2026-08-12)
+
+| Keyword | Dosya |
+|---------|-------|
+| bootstrap, autoload, PROJECT_ROOT | shared/bootstrap.php |
+| container, DI, services, binding | shared/config/container.php, shared/config/services.php |
+| middleware, pipeline, frozen sıra | shared/config/middleware.php |
+| route, CORS, auth config | shared/config/routes.php, shared/config/cors.php, shared/config/auth.php |
+| Router, fast-route, group, cache | shared/src/Router/Router.php, RouteDefinition.php, GroupDefinition.php |
+| HttpKernel, pipeline, dispatch | shared/src/Http/HttpKernel.php, Response.php |
+| User, Role, Session, Token (entity) | shared/src/Auth/Domain/ |
+| Email, Password, UserId (VO) | shared/src/Auth/Domain/ValueObjects/ |
+| UserRepository, SessionRepository, TokenRepository | shared/src/Auth/Domain/Repository/ |
+| LoginRequest, LoginResponse, TokenPair, SessionDTO | shared/src/Auth/Application/DTO/ |
+| Argon2id, JwtTokenManager, PDO Repo | shared/src/Auth/Infrastructure/ |
+| OriginCheck, Cors, RateLimiter, SecurityHeaders, SessionManager, Csrf, BypassAuth, Auth, Permission, Validation | shared/src/Security/Middleware/ |
+| CspNonceGenerator, SecurityHeaderService, RateLimiter | shared/src/Security/Service/ |
+| LoginUseCase, LogoutUseCase, RegisterUseCase | shared/src/Auth/Application/ |
+| auth.coremusic.net entry | auth.coremusic.net/index.php |
+| home.coremusic.net entry | home.coremusic.net/index.php |
+| music.coremusic.net entry | music.coremusic.net/index.php |
+| admin.coremusic.net entry | admin.coremusic.net/index.php |
+| api.coremusic.net entry | api.coremusic.net/index.php |
+| landing entry | coremusic.net/index.php |
+| ITCSS, CSS, design tokens, BEM | assets.coremusic.net/css/ |
+| SPA Router, AuthManager, DomPatcher | assets.coremusic.net/js/ |
+| 18 BCNF, 156 tablo | .ai/.sql/mysql/ |
+| JWT key pair | shared/config/keys/private.pem, public.pem |
+
+---
+
 ## 17. Quality Report
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 19.0.0 |
+| Version | 25.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
-| ADR Coverage | 001-050 (50 ADR keyword mapping) |
-| Vault Envanteri | 529 .md dosyasi, 51 ADR, 11 BCNF DB, 10 panel, 7 servis |
+| ADR Coverage | 001-087 (87 ADR keyword mapping) |
+| Vault Envanteri | 484+ .md dosyasi, 87 ADR, 18 BCNF DB, 10 panel, 7 servis, 22 coremusic/* paket |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-08
+**Last Updated:** 2026-08-13
 **Mode:** Red Team · Human Mode · Truth Mode

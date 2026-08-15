@@ -1,33 +1,105 @@
-# 04. Security Audit & Security Engineer Role
+# 04. Güvenlik Denetimi
 
-## Security Engineer Ajanının Devreye Girmesi
+## Genel Bakış
 
-`database-normalize-maker` Orkestratörü, Aşama 2 (Delegasyon) adımında **Security Engineer** sanal ajanını uyandırır. Bu ajan, üretilen şemayı OWASP Top 10 ve CoreMusic güvenlik standartlarına göre katı bir şekilde denetler.
+Veritabanı şeması tasarlanırken güvenlik kontrolleri zorunludur. PII verileri, audit trail ve SQL injection koruması göz ardı edilemez.
 
-## Güvenlik Denetim Kuralları (Hard Gates)
+## 1. PII Şifrelemesi
 
-### 1. PII (Kişisel Veri) Şifrelemesi (Encryption at Rest)
-Kullanıcının TC Kimlik No, Kredi Kartı (Token), Sağlık Verisi gibi hassas verileri **kesinlikle** düz metin (plain-text) olarak saklanamaz.
-- **Orkestratör Kuralı:** Eğer tabloda `ssn`, `national_id`, `credit_card`, `medical_record` gibi kolonlar varsa, bu kolonların veritabanı seviyesinde (Örn: MySQL `AES_ENCRYPT`) veya uygulama seviyesinde şifreleneceği (AES-256-GCM) açıkça belirtilmeli ve kolon boyutları şifrelenmiş veriyi (Base64 vb.) alacak kadar büyük olmalıdır. (Örn: `VARCHAR(255)` yerine `TEXT`).
+TC Kimlik No, Kredi Kartı, Sağlık Verisi gibi hassas veriler düz metin olarak saklanamaz.
 
-### 2. Denetim İzi (Audit Logging)
-Finans, e-ticaret, sağlık gibi kritik domainlerde "Kim, neyi, ne zaman sildi?" sorusu hayati önem taşır.
-- **Orkestratör Kuralı:** `users`, `payments`, `orders` gibi tablolar için OTOMATİK olarak bir `_audit` tablosu üretilmelidir.
-- **Örnek Yapı:**
-  ```sql
-  CREATE TABLE payments_audit (
-      audit_id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-      payment_id BIGINT UNSIGNED NOT NULL,
-      action ENUM('INSERT', 'UPDATE', 'DELETE') NOT NULL,
-      old_values JSON,
-      new_values JSON,
-      acted_by BIGINT UNSIGNED,
-      action_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  );
-  ```
+| Hassas Kolon | Şifreleme | Kolon Tipi |
+|--------------|-----------|------------|
+| `ssn` | AES-256-GCM | `TEXT` |
+| `national_id` | AES-256-GCM | `TEXT` |
+| `credit_card` | AES-256-GCM | `TEXT` |
+| `medical_data` | AES-256-GCM | `TEXT` |
+| `token` | SHA-256 hash | `VARCHAR(255)` |
+| `secret` | AES-256-GCM | `TEXT` |
 
-### 3. Satır Düzeyi Güvenlik (Row-Level Security - RLS)
-Eğer hedef motor PostgreSQL ise, Security Engineer ajanı çok kiracılı (multi-tenant) sistemler için RLS politikalarının (Policies) SQL çıktısına eklenip eklenmediğini kontrol eder. MySQL için benzer yapı View'ler veya uygulama katmanı kısıtlamaları (tenant_id) olarak tasarlanmalıdır.
+```sql
+-- ADR: 'ssn' kolonu AES-256-GCM ile şifrelenacağı için TEXT yapılmıştır.
+CREATE TABLE users (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    ssn TEXT NULL, -- ⚠️ Şifrelenmeli (AES-256-GCM)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+```
 
-### 4. SQL Injection Koruması
-Orkestratör, çıktılarında KESİNLİKLE "dinamik SQL birleştirme" gerektirecek zayıf tablolar tasarlamaz. Sütun isimleri, tablo isimleri güvenli, standart (snake_case) yapıda olmalı; PHP/PDO tarafında parametrik sorgularla uyumlu olacak şekilde net tiplere (Integer, String, JSON) sahip olmalıdır. Uydurma veya tanımsız bir tip kullanılması Truth Mode (Halüsinasyon kontrolü) tarafından anında reddedilir.
+## 2. Audit Trail (Denetim İzi)
+
+Kritik tablolar için `_audit` tablosu zorunludur:
+
+| Tablo | Audit Tablosu | Zorunlu mu? |
+|-------|---------------|-------------|
+| `users` | `users_audit` | Evet (PII) |
+| `payments` | `payments_audit` | Evet (finansal) |
+| `orders` | `orders_audit` | Evet (işlem) |
+| `settings` | `settings_audit` | Hayır (düşük risk) |
+
+```sql
+CREATE TABLE users_audit (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNSIGNED NOT NULL,
+    action ENUM('INSERT', 'UPDATE', 'DELETE') NOT NULL,
+    old_values JSON NULL,
+    new_values JSON NULL,
+    acted_by BIGINT UNSIGNED NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_user_id (user_id),
+    INDEX idx_action (action),
+    INDEX idx_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+```
+
+## 3. SQL Injection Koruması
+
+| Kural | Uygulama |
+|-------|----------|
+| Dinamik SQL birleştirme | YASAK |
+| Parametrik sorgular | Zorunlu (PDO prepared statements) |
+| Tablo/kolon isimleri | Snake_case (büyük harf yok) |
+| Kullanıcı girdisi | Asla doğrudan SQL'e eklenmez |
+
+## 4. Soft Delete Politikası
+
+| Tablo Tipi | Soft Delete | Hard Delete |
+|------------|-------------|-------------|
+| Varlık tabloları (users, products) | `deleted_at` zorunlu | Yasak |
+| Pivot/junction tabloları (user_groups) | `deleted_at` YOK | İlişki koptuğunda |
+| Log tabloları (audit) | `deleted_at` YOK | Zaman bazlı partition |
+| Geçici tablolar (sessions) | `deleted_at` YOK | Süre dolduğunda |
+
+```sql
+-- Soft delete (varlık tablolarında)
+UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = 1;
+
+-- Sorgularken her zaman deleted_at filtresi
+SELECT id, username, email FROM users WHERE deleted_at IS NULL;
+
+-- Pivot tablolarında hard delete
+DELETE FROM user_groups WHERE user_id = 1 AND group_id = 5;
+```
+
+## 5. Foreign Key Güvenliği
+
+| Kural | Açıklama |
+|-------|----------|
+| ON DELETE stratejisi | Her FK'da seçilmeli |
+| CASCADE dikkatli | Zincirleme silmeyi tetikleyebilir |
+| RESTRICT tercih | Varsayılan olarak güvenli |
+| Circular FK | Yasak — dependency analizi required |
+
+```sql
+-- Güvenli FK tanımı
+CREATE TABLE orders (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT UNSIGNED NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+        ON DELETE RESTRICT    -- Kullanıcı silinemez, önce siparişler silinmeli
+        ON UPDATE CASCADE     -- ID değişirse senkronize ol
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+```

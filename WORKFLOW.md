@@ -1,119 +1,252 @@
+---
+title: "CoreMusic AI Engineering WORKFLOW.MD"
+type: workflow-instruction
+authority: SSOT
+mode:
+  - Red Team
+  - Truth Mode
+  - Human Mode
+
+purpose:
+  - AI Session Initialization
+  - Workflow Governance
+  - Vault Management
+  - Document Lifecycle Control
+  - Architecture Change Process
+
+reference:
+  authority: ".ai/WORKFLOW.md"
+
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/AGENTS.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+    - ".ai/keys.md"
+    - ".ai/MEMORY.md"
+    - ".ai/log.md"
+    - ".ai/engine.md"
+
+  workflows:
+    - ".workflows/session-init.md"
+    - ".workflows/adr-creation.md"
+    - ".workflows/vault-sync.md"
+    - ".workflows/security-audit.md"
+    - ".workflows/deployment.md"
+    - ".workflows/hallucination-control.md"
+
+  architecture:
+    - ".ai/ADR/"
+    - "Existing project architecture"
+    - "Existing workflow definitions"
+
+  process_priority:
+    - "User approval"
+    - "Architecture decisions"
+    - "Security requirements"
+    - "Workflow rules"
+    - "Documentation consistency"
+
+  update_policy:
+    preserve_existing_structure: true
+
+    require_approval_for:
+      - "workflow change"
+      - "process change"
+      - "automation change"
+      - "vault structure change"
+      - "document lifecycle change"
+
+  mandatory_rules:
+    - "Read workflow context before execution"
+    - "Log vault changes"
+    - "Use vault-sync after vault modifications"
+    - "Never bypass approval gates"
+
+  skills:
+    - path: ".opencode/skills/ui-code-generator/SKILL.md"
+      purpose: "UI/CSS kod üretimi, responsive tasarım"
+    - path: ".opencode/skills/ui-analyzer/SKILL.md"
+      purpose: "UI analizi, tasarım değerlendirme"
+    - path: ".opencode/skills/skill-maker/SKILL.md"
+      purpose: "Skill oluşturma, template sistemi"
+    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
+      purpose: "Güvenlik testi, adversarial analiz"
+    - path: ".opencode/skills/prompt-maker/SKILL.md"
+      purpose: "Prompt mühendisliği, AI talimat tasarımı"
+    - path: ".opencode/skills/composer-sync/SKILL.md"
+      purpose: "Composer dependency yönetimi"
+    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
+      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
+    - path: ".opencode/skills/human-mode/SKILL.md"
+      purpose: "İnsan modu iletişimi, onay süreçleri"
+    - path: ".opencode/skills/hallucination-control/SKILL.md"
+      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
+    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
+      purpose: "BCNF normalizasyonu, şema tasarımı"
+
+  templates:
+    adr:
+      - path: ".ai/.templates/adr/adr-template.md"
+        purpose: "ADR şablonu"
+      - path: ".ai/.templates/adr/adr-frontend-template.md"
+        purpose: "Frontend ADR şablonu"
+      - path: ".ai/.templates/adr/adr-database-template.md"
+        purpose: "Database ADR şablonu"
+      - path: ".ai/.templates/adr/adr-security-template.md"
+        purpose: "Security ADR şablonu"
+      - path: ".ai/.templates/adr/adr-audio-template.md"
+        purpose: "Audio/Hardware ADR şablonu"
+      - path: ".ai/.templates/adr/adr-index.md"
+        purpose: "ADR navigasyon rehberi"
+    backend:
+      - path: ".ai/.templates/backend/php-template.md"
+        purpose: "PHP 8.4 backend geliştirme şablonu"
+      - path: ".ai/.templates/backend/nodejs-template.md"
+        purpose: "Node.js 20+ backend geliştirme şablonu"
+    frontend:
+      - path: ".ai/.templates/frontend/js-template.md"
+        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
+      - path: ".ai/.templates/frontend/css-template.md"
+        purpose: "ITCSS 9-layer, BEM CSS şablonu"
+    testing:
+      - path: ".ai/.templates/testing/phpunit-template.md"
+        purpose: "PHPUnit 10+ test şablonu"
+      - path: ".ai/.templates/testing/vitest-template.md"
+        purpose: "Vitest JS/TS test şablonu"
+    infrastructure:
+      - path: ".ai/.templates/infrastructure/migration-template.md"
+        purpose: "MySQL 9 BCNF migration şablonu"
+      - path: ".ai/.templates/infrastructure/docker-template.md"
+        purpose: "Docker 24+ Compose v2 şablonu"
+      - path: ".ai/.templates/infrastructure/github-actions-template.md"
+        purpose: "GitHub Actions CI/CD şablonu"
+    documentation:
+      - path: ".ai/.templates/documentation/api-doc-template.md"
+        purpose: "API dokümantasyon şablonu"
+      - path: ".ai/.templates/documentation/security-audit-template.md"
+        purpose: "Güvenlik denetimi şablonu"
+      - path: ".ai/.templates/documentation/WikiPage-Template.md"
+        purpose: "Wiki sayfası şablonu"
+    hardware:
+      - path: ".ai/.templates/hardware/arduino-template.md"
+        purpose: "Arduino/IoT prototipleme şablonu"
+      - path: ".ai/.templates/hardware/avr-template.md"
+        purpose: "AVR mikrodenetleyici şablonu"
+      - path: ".ai/.templates/hardware/pic-template.md"
+        purpose: "PIC mikrodenetleyici şablonu"
+    query:
+      - path: ".ai/.templates/query/Query-Template.md"
+        purpose: "SQL sorgu şablonu"
+    other:
+      - path: ".ai/.templates/other/c-template.md"
+        purpose: "C11 GCC embedded/driver şablonu"
+      - path: ".ai/.templates/cpp-template.md"
+        purpose: "C++20 JUCE/ASIO şablonu"
+
+changelog:
+  - version: 1.0
+    date: 2026-08-12
+    changes:
+      - Initial Workflow Constitution
+      - Added Session Boot Protocol
+      - Added Vault Refactoring Process
+      - Added Workflow Governance Rules
+---
 # WORKFLOW.md
 
-**⚠️ BU DOSYA BİR İŞARETÇİDİR (POINTER FILE) — ADR-042 (2026-08-03)**
+**Bu dosya bir POINTER FILE'dır — ADR-042 (2026-08-03)**
 
-**Kök `WORKFLOW.md` artık sadece bootstrap işaretçisidir. Asıl süreçler kanonik olarak `.ai/WORKFLOW.md` içindedir.**
+**Root `WORKFLOW.md` artık bir bootstrap pointer dosyasıdır.  
+Canonical workflow'lar `.ai/WORKFLOW.md` içerisinde tutulmaktadır.**
+**workflow'lar `.workflows` klasörü içerisinde tutulmaktadır.**
 
-**Root `WORKFLOW.md` is now a bootstrap pointer. The canonical workflows live in `.ai/WORKFLOW.md`.**
+## 10 Adımlı Başlatma Protokolü (Mandatory)
 
----
-
-## 10-Step Boot Protocol (Zorunlu)
-
-Her AI asistanı her oturumda şu 9 dosyayı okumalıdır:
+Her AI asistanı her oturumda aşağıdaki 9 dosyayı okumalıdır:
 
 | # | Dosya |
-|---|-------|
+|---|---|
 | 1 | `.ai/CLAUDE.md` |
 | 2 | `.ai/AGENTS.md` |
 | 3 | `.ai/WORKFLOW.md` |
 | 4 | `.ai/index.md` |
 | 5 | `.ai/keys.md` |
-| 6 | `.ai/AGENTS.md` |
-| 7 | `.ai/brain.md` |
-| 8 | `.ai/MEMORY.md` |
-| 9 | `.ai/log.md` |
+| 6 | `.ai/brain.md` |
+| 7 | `.ai/MEMORY.md` |
+| 8 | `.ai/log.md` |
+| 9 | `.ai/engine.md` |
 
-Madde 10-13 operasyonel alt-adımlar (ADR-042/C8).
+## 12 Aşamalı Vault Refactoring (Summary)
 
----
-
-## 12-Phase Vault Refactoring (Özet)
-
-```
+```text
 1. Repository Discovery
+   Repository Keşfi
+
 2. AI Knowledge Discovery
+   AI Bilgi Keşfi
+
 3. Existing Markdown Analysis
+   Mevcut Markdown Analizi
+
 4. Conflict Detection
+   Çakışma Tespiti
+
 5. Duplicate Detection
+   Tekrar Eden İçerik Tespiti
+
 6. Gap Detection
-7. ⛔ Improvement Proposal → WAIT USER APPROVAL
+   Eksik Alan Tespiti
+
+7. -> Improvement Proposal -> WAIT USER APPROVAL
+   -> İyileştirme Önerisi -> KULLANICI ONAYI BEKLE
+
 8. Document Refactoring (In-Place)
+   Doküman Refactoring (Yerinde)
+
 9. Cross Reference Update
+   Çapraz Referans Güncelleme
+
 10. Index Update
+    Index Güncelleme
+
 11. Validation
+    Doğrulama
+
 12. Quality Report & Vault Sync
+    Kalite Raporu ve Vault Senkronizasyonu
 ```
 
-Tam sürüm: **[[.ai/WORKFLOW.md]]**
+# Workflow Durum Takibi (Workflow State)
 
----
+Her workflow aşağıdaki durumları takip etmelidir:
 
-## 20-Phase Product Lifecycle (Özet)
+- Pending (Beklemede)
+- Approved (Onaylandı)
+- Running (Çalışıyor)
+- Completed (Tamamlandı)
+- Failed (Başarısız)
 
-```
-1-6.   Vizyon, DDD Domain Analizi, Use Case'ler, Akış, Bilgi Mimarisi
-7-9.   Teknik Mimari (L0-L3), Diyagramlar, Klasör Yapısı
-10-14.  Kod Standartları, UI/UX, API, BCNF Veritabanı, OWASP Güvenlik
-15-18.  Test Stratejisi, CI/CD, Dokümantasyon
-19-20.  MVP Sürümü, 5 Yıllık Yol Haritası
-```
+## 4 Temel Kurallar (Süreç)
 
----
+1. **Kullanıcı Onay Kapısı:** İyileştirme önerisi veya mimari plan, kod/dokümantasyon revizyonu başlamadan önce onaylanmalıdır.
+2. **Yerinde Değişiklik:** Doküman güncellemeleri aynı dosya üzerinde yapılmalıdır; onay olmadan dosya adı/konumu DEĞİŞTİRİLEMEZ.
+3. **Halüsinasyon Yok:** Doğrulanamayan bilgiler UYDURULMAMALIDIR; bunun yerine `**VERIFICATION REQUIRED**` yazılmalıdır.
+4. **Skill Zorunluluğu:** Vault değişikliği varsa, her oturum sonunda `vault-sync` zorunludur. Tüm işlemler `.ai/log.md` içerisine kaydedilmelidir.
 
-## MSA Limit (ADR-042/C5)
-
-**Görev başına MAX 15 dosya** (token ekonomisi).
-
----
-
-## 4 Hard Rules (Süreç)
-
-1. **User Approval Gate (Hard Rule):** İyileştirme teklifi veya mimari plan onaylanmadan (Phase 7) kod/doküman revizyonu başlatılamaz.
-2. **In-Place Modification (Hard Rule):** Doküman güncellemeleri aynı dosya üzerinde yapılmalı; adı/konumu onay alınmadan DEĞİŞTİRİLEMEZ.
-3. **No Hallucination (Hard Rule):** Doğrulanamayan bilgiler KESİNLİKLE uydurulamaz; `**VERIFICATION REQUIRED**` yazılmalıdır.
-4. **Skill Zorunluluğu (Hard Rule):** Vault değişikliği varsa her seans sonunda `vault-sync` zorunludur. Tüm eylemler `.ai/log.md`'ye işlenmelidir.
-
----
-
-## ADR Yaşam Döngüsü
-
-```
-Draft → Review → Active → Frozen
-```
-
-- **ADR-001'den ADR-037'ye kadar** olan kararlar **immutabledır (değiştirilemez)**
-- **ADR-038+** yeni aktif kararlar `accepted/` dizinine eklenir
-- Yeni teklif: `.ai/decisions/accepted/adr-NNN-konu.md`
-
----
-
-## Workflow Files (`.workflows/`)
+## Workflow Dosyaları (`.workflows/`)
 
 | Workflow | Amaç |
-|----------|------|
+|----------|---------|
 | `session-init.md` | Yeni oturum başlatma |
 | `adr-creation.md` | ADR oluşturma |
 | `vault-sync.md` | Vault senkronizasyonu |
 | `security-audit.md` | Güvenlik denetimi |
-| `deployment.md` | Deployment |
+| `deployment.md` | Dağıtım süreci |
 | `hallucination-control.md` | Halüsinasyon kontrolü |
 
----
 
-## Cross References
-
-- **[[README.md]]** — İnsana bakan giriş noktası
-- **[[.ai/CLAUDE.md]]** — Kanonik AI talimatı
-- **[[.ai/AGENTS.md]]** — Kanonik agent kayıt defteri
-- **[[.ai/WORKFLOW.md]]** — **Kanonik süreçler (asıl kaynak)**
-- **[[CLAUDE.md]]** — Kök AI sözleşmesi (işaretçi)
-- **[[AGENTS.md]]** — Kök agent kayıt defteri (işaretçi)
-- **[[.workflows/]]** — 6 executable workflow
-- **[[.ai/decisions/accepted/ADR-042-vault-restructuring-2026-08-03]]** — 8 çelişki çözümü
-
----
-
-**Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-04 (P3 trim)
-**Mode:** Red Team • Human Mode • Truth Mode
+**Yetki:** Bayram Ali / Vault Steward  
+**Son Güncelleme:** 2026-08-04  
+**Mod:** Red Team + Human Mode + Truth Mode

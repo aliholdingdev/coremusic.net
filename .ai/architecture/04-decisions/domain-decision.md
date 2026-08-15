@@ -194,7 +194,6 @@ Her subdomain bağımsız bir servisi temsil eder:
 | **Satır Sayısı** | ~530 |
 | **ADR Uyumlu** | ✅ 004, 011, 042, 043, 045 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 4 referans |
 | **Guardrails** | ✅ 5 kural |
 

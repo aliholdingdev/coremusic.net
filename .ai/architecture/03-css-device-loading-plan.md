@@ -131,7 +131,6 @@ d-embedded.css
 ## 10. İlgili ADR'ler
 
 - **ADR-001:** Vanilla JS, ITCSS mimarisi
-- **ADR-042:** Vault restructuring (MSA limit = 15 dosya)
 - **ADR-044:** Dynamic theme engine (cinsiyet bazlı tema)
 
 ## 11. Cross References
@@ -139,7 +138,7 @@ d-embedded.css
 - [[decisions/accepted/ADR-001-vanilla-js-itcss]] — Frontend kararı
 - [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] — Vault restructure
 - [[decisions/accepted/ADR-044-dynamic-user-theme-engine]] — Theme engine
-- [[architecture/01-overview/overview]] — L0-L3 mimari
+- [[architecture/00-overview/architecture-master]] — L0-L6 mimari
 - [[architecture/l3-presentation]] — CSS mimarisi
 - [[keys.md]] — Keyword navigasyon haritası
 

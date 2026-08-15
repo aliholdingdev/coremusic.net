@@ -1480,7 +1480,7 @@ void handleCommunication() {
 | [[ADR-037-wirelessconnect-integration]] | Kablosuz ağ entegrasyonu | WiFi, MQTT, WebSocket |
 | [[ADR-038-8.1-sound-card-chip-selection]] | PCM3168A donanımı | I2C/SPI ile PCM3168A kontrolü |
 | [[ADR-039-7-service-platform-architecture]] | 7 servis mimarisi | IoT verileri Media/AI servisine akar |
-| [[ADR-040-database-authority]] | 9 BCNF veritabanı | IoT verileri coremusic_musics'e yazılır |
+| [[ADR-040-database-authority]] | 18 BCNF veritabanı | IoT verileri coremusic_musics'e yazılır |
 
 ---
 
@@ -1499,7 +1499,6 @@ void handleCommunication() {
 | **ADR Referansı** | 7 (001, 017, 022, 037, 038, 039, 040) |
 | **PlatformIO Env** | 6 (esp32, esp32-s3, esp8266, uno, mega, native) |
 | **C++ Standardı** | C++17 (Arduino kısıtlı) |
-| **MSA Uyumlu** | ✅ 15 dosya limiti |
 
 ---
 

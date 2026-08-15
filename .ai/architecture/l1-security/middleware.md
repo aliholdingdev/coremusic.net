@@ -3,7 +3,7 @@ type: architecture
 category: l1
 title: "L1 — Middleware Pipeline"
 date: 2026-08-08
-updated: 2026-08-09
+updated: 2026-08-13
 status: active
 version: 2.0.0
 authority: Single Source of Truth (SSOT)
@@ -16,10 +16,10 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-CoreMusic middleware pipeline'ı, her HTTP isteğinin geçmesi gereken 6 katmanlı sıralı güvenlik hattıdır. Her middleware belirli bir güvenlik sorumluluğunu üstlenir ve zincir halinde çalışır. Sıra **frozen**'dır — değiştirilemez.
+CoreMusic middleware pipeline'ı, her HTTP isteğinin geçmesi gereken 10 katmanlı sıralı güvenlik hattıdır. Her middleware belirli bir güvenlik sorumluluğunu üstlenir ve zincir halinde çalışır. Sıra **frozen**'dır — değiştirilemez.
 
 ```
-Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf → Controller
+Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
 ```
 
 *Kaynak: [[ADR-010-csrf-protection-strategy]], [[ADR-011-session-management]], [[ADR-012-csp-nonce-strict-dynamic]], [[ADR-013-rate-limiting-apcu]], [[ADR-022-database-hardened-security]]*
@@ -52,16 +52,20 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 ### 4.1 Sıra (Frozen — ADR-010/011/012/013/022)
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     MIDDLEWARE PIPELINE                         │
-├─────────────────────────────────────────────────────────────────┤
-│  1. SessionManagerMiddleware()    — Session başlat, CSP nonce   │
-│  2. BypassAuthMiddleware()        — Test bypass (prod'da OFF)   │
-│  3. RateLimiterMiddleware()       — APCu: 60 req/60s            │
-│  4. AuthMiddleware()              — Auth bilgisi inject          │
-│  5. SecurityHeadersMiddleware()   — CSP + X-Frame + HSTS        │
-│  6. CsrfMiddleware()              — csrf_token doğrulama         │
-└─────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│                          MIDDLEWARE PIPELINE (10-Layer Frozen)                   │
+├──────────────────────────────────────────────────────────────────────────────────┤
+│  1. OriginCheckMiddleware()    — Köken doğrulama (whitelist CORS)                │
+│  2. CorsMiddleware()           — CORS header yönetimi                            │
+│  3. RateLimiterMiddleware()    — APCu: 60 req/60s                                │
+│  4. SecurityHeadersMiddleware() — CSP + X-Frame + HSTS                           │
+│  5. SessionManagerMiddleware() — Session başlat, CSP nonce                       │
+│  6. CsrfMiddleware()           — csrf_token doğrulama                             │
+│  7. BypassAuthMiddleware()     — Test bypass (prod'da OFF)                       │
+│  8. AuthMiddleware()           — Auth bilgisi inject                              │
+│  9. PermissionMiddleware()     — RBAC yetki kontrolü                             │
+│ 10. ValidationMiddleware()     — Request/DTO validasyonu                         │
+└──────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 **Kritik Not:** CSP nonce üretimi SessionManager içindedir. Sıra değiştirilirse CSP bozulur.
@@ -91,7 +95,7 @@ namespace CoreMusic\Middleware;
  * Middleware pipeline — PSR bağımsız.
  * Sıfırdan vanilla PHP ile yazılmıştır.
  *
- * Frozen order: SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf
+ * Frozen order: OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
  * @see [[ADR-010-csrf-protection-strategy]]
  * @see [[ADR-011-session-management]]
  */
@@ -303,7 +307,7 @@ Detay: [[middleware]] §8 (rate limiting detayı)
 |---------|-------|
 | **Sorumluluk** | Kullanıcı bilgisi inject + JWT doğrulama |
 | **Auth Key** | `auth_key` cookie (auth.coremusic.net) |
-| **JWT Algorithm** | RS256 (RSA SHA-256) — `firebase/php-jwt` |
+| **JWT Algorithm** | RS256 (RSA SHA-256) — `lcobucci/jwt` (firebase/php-jkt yasaklı, ADR-059) |
 | **Session Vars** | `user_id`, `role`, `email`, `gender`, `permissions` |
 | **RBAC** | 7 granular roller (admin → guest) |
 | **Short-Circuit** | Yok (AuthMiddleware sadece bilgi inject eder) |
@@ -541,7 +545,7 @@ class PipelineExceptionHandler
 | 5 | CsrfMiddleware **short-circuit** yapar (403) | CSRF saldırısı |
 | 6 | Her middleware **`CoreMusic\Http`** arayüzü kullanır | Uyumsuzluk |
 | 7 | Pipeline'a yeni middleware **onay ile** eklenir | Mimari ihlal |
-| 8 | JWT RS256 **firebase/php-jwt** ile doğrulanır | Token bypass |
+| 8 | JWT RS256 **lcobucci/jwt** ile doğrulanır (firebase/php-jkt yasaklı) | Token bypass |
 | 9 | RBAC **7 granular rol** haritasına uygun | Yetki ihlali |
 | 10 | Hassas veriler **`[REDACTED]`** ile loglanır | Veri sızıntısı |
 
@@ -600,7 +604,6 @@ class PipelineExceptionHandler
 | **Bölüm Sayısı** | 15 |
 | **ADR Uyumlu** | ✅ 008, 010, 011, 012, 013, 022, 047, 052 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Guardrails** | ✅ 10 kural |
 
 ---

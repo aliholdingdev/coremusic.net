@@ -27,7 +27,7 @@ Bu şablon, CoreMusic platformunun 9 bağımsız BCNF veritabanı için kapsaml�
 |--------|----------|
 | **Forward-only** | Migration'lar sadece ileriye doğru çalışır, otomatik rollback yoktur |
 | **Versioned** | Her migration zaman damgası ile versionlanır (`YYYY_MM_DD_NNN`) |
-| **9 BCNF DB** | Tüm 9 veritabanı için migration standardı geçerlidir |
+| **18 BCNF DB** | Tüm 18 BCNF veritabanı için migration standardı geçerlidir |
 | **BCNF** | Boyce-Codd Normal Form zorunludur (ADR-040) |
 | **Soft Delete** | Hard delete kesinlikle yasaktır (ADR-040, ADR-022) |
 
@@ -703,7 +703,7 @@ CREATE TABLE IF NOT EXISTS coremusic_musics.songs_audit (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
 
-### 3.11 BCNF Compliance Checklist
+### 3.18 BCNF Compliance Checklist
 
 Her migration'dan önce şu kontrol listesi uygulanmalıdır:
 
@@ -1106,7 +1106,7 @@ use PDOException;
 /**
  * CoreMusic Migration Runner
  * 
- * Forward-only, versioned migration runner for 9 BCNF databases.
+ * Forward-only, versioned migration runner for 18 BCNF databases.
  * 
  * @see ADR-014-multi-db-migration-strategy
  * @see ADR-040-database-authority
@@ -1340,7 +1340,7 @@ class MigrationRunner
 |-------|--------|----------|
 | [[Query-Template]] | SQL sorgu şablonu | Migration içindeki SQL sorguları için referans |
 | [[php-template]] | PHP şablonu | Migration Runner PHP kodu için referans |
-| [[ADR-040-database-authority]] | DB otoritesi | 9 BCNF veritabanı yapısı ve kuralları |
+| [[ADR-040-database-authority]] | DB otoritesi | 18 BCNF veritabanı yapısı ve kuralları |
 | [[ADR-014-multi-db-migration-strategy]] | Migration stratejisi | Forward-only, versioned migration kararı |
 | [[ADR-022-database-hardened-security]] | DB güvenlik | Şifreleme, soft delete, audit trail |
 | [[ADR-002-pdo-mandatory-no-orm]] | ORM yasağı | Prepared statement zorunluluğu |
@@ -1360,10 +1360,10 @@ class MigrationRunner
 | § 3.4 CREATE TABLE | [[ADR-040-database-authority]] | BCNF kuralları |
 | § 3.4 CREATE TABLE | [[ADR-022-database-hardened-security]] | Güvenlik |
 | § 3.10 Soft Delete | [[ADR-040-database-authority]] | Hard delete yasağı |
-| § 3.12 Multi-DB | [[ADR-040-database-authority]] | 9 DB yapısı |
+| § 3.12 Multi-DB | [[ADR-040-database-authority]] | 18 BCNF DB yapısı |
 | § 4 Hard Guardrails | [[ADR-002-pdo-mandatory-no-orm]] | SELECT * yasağı |
 | § 6 Security | [[ADR-022-database-hardened-security]] | Şifreleme |
-| § 11 9 DB Structure | [[ADR-040-database-authority]] | DB listesi |
+| § 11 18 BCNF DB Structure | [[ADR-040-database-authority]] | DB listesi |
 
 ---
 
@@ -1377,7 +1377,6 @@ class MigrationRunner
 | **MySQL 9** | ✅ Uyumlu |
 | **BCNF** | ✅ Uyumlu |
 | **ADR Uyumlu** | ✅ 002, 014, 022, 033, 040, 041 |
-| **MSA Uyumlu** | ✅ (15 dosya limiti) |
 | **Bölüm Sayısı** | 18 |
 | **Kod Örnekleri** | 25+ |
 | **Anti-Pattern** | 10 tane |

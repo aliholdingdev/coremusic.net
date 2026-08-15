@@ -3,9 +3,9 @@ type: architecture
 category: l1
 title: "L1 — Authentication & RBAC"
 date: 2026-08-08
-updated: 2026-08-08
+updated: 2026-08-13
 status: active
-version: 2.0.0
+version: 4.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -18,7 +18,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 CoreMusic authentication sistemi, kullanıcı kimlik doğrulamasını ve rol bazlı erişim kontrolünü (RBAC) yönetir. Argon2id ile şifre hashleme, AES-256-GCM ile credential şifreleme, JWT tabanlı cross-service auth ve session bridge bu katmanda tanımlıdır.
 
-*Kaynak: [[ADR-008-bypass-auth-middleware]], [[ADR-022-database-hardened-security]], [[ADR-043-auth-subdomain-consolidation]], [[ADR-047-login-redirect-session-bridge]]*
+*Kaynak: [[ADR-008-bypass-auth-middleware]], [[ADR-022-database-hardened-security]], [[ADR-043-auth-subdomain-consolidation]], [[ADR-047-login-redirect-session-bridge]], [[ADR-052-hybrid-auth-architecture]], [[ADR-087-master-implementation-plan]]*
 
 ## 2. Kapsam
 
@@ -522,6 +522,13 @@ class CredentialEncryption
 
 ## 8. Cross-Service Auth (JWT + Session Bridge — ADR-047)
 
+### 8.0 Zorunlu Merkezi Auth Kuralı
+
+**Hiçbir subdomain kendi başına bağımsız bir kimlik doğrulama sistemi çalıştırmaz.**
+Tüm authentication işlemleri **yalnızca auth.coremusic.net** üzerinden yürütülür.
+
+*Kaynak: [[ADR-043-auth-subdomain-consolidation]], [[ADR-058-cross-subdomain-auth-flow]]*
+
 ### 8.1 Auth Servisi Mimarisi
 
 ```
@@ -551,6 +558,10 @@ class CredentialEncryption
 │              "email":"user@example.com",                        │
 │              "exp":1691234567,"iat":1691230967}                 │
 │    Signature: RS256(privateKey, header.payload)                 │
+│                                                                 │
+│  Access Token: 15dk süre, RS256 imza                            │
+│  Refresh Token: 7 gün süre, RS256 imza                          │
+│  Key Rotation: 90 günde bir                                     │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -754,7 +765,155 @@ class AuthService
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## 10. Yasak Örüntüleri
+## 9.1 Refresh Token Akışı
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    REFRESH TOKEN FLOW                            │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  1. Access Token süresi dolmuş (15dk)                           │
+│     │                                                           │
+│     ▼                                                           │
+│  2. JavaScript → POST /auth.coremusic.net/api/token/refresh     │
+│     │              refresh_key cookie'yi gönderir                │
+│     ▼                                                           │
+│  3. Auth Service → Refresh Token'ı doğrula                      │
+│     │                                                           │
+│     ├── Refresh Token geçersiz → 401, login'e redirect          │
+│     │                                                           │
+│     ├── Refresh Token süresi dolmuş (7 gün) → 401, login'e      │
+│     │                                                           │
+│     ├── Refresh Token blacklisted → 401, login'e redirect       │
+│     │                                                           │
+│     ├── Geçerli → Yeni token çifti üret                         │
+│     │                                                           │
+│     ▼                                                           │
+│  4. Yeni Access Token (15dk) + Yeni Refresh Token (7 gün)       │
+│     │                                                           │
+│     ▼                                                           │
+│  5. Eski Refresh Token'ı blacklisted'e ekle                     │
+│     │                                                           │
+│     ▼                                                           │
+│  6. Yeni cookie'ler set edilir                                  │
+│     │                                                           │
+│     ▼                                                           │
+│  7. Devam edilir                                                │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**JWT Token Politikası:**
+
+| Token | Süre | Algoritma | Amaç |
+|-------|------|-----------|------|
+| **Access Token** | 15 dakika | RS256 | Kısa süreli erişim |
+| **Refresh Token** | 7 gün | RS256 | Token yenileme |
+| **Key Rotation** | 90 gün | RS256 | Anahtar rotasyonu |
+
+*Kaynak: [[ADR-052-hybrid-auth-architecture]]*
+
+## 9.2 Token Blacklist
+
+JWT stateless olduğu için sunucu tarafında token iptali için blacklist kullanılır:
+
+```
+Redis/APCu
+├── blacklisted:jwt:{token_id} → expiry (15dk)
+├── blacklisted:refresh:{token_id} → expiry (7 gün)
+└── blacklisted:user:{user_id} → expiry (tüm token'lar için)
+```
+
+**Kullanım alanları:**
+- Logout sonrası tüm token'ları geçersiz kıl
+- Refresh token rotasyonunda eski token'ı blacklist'e al
+- Şifre sıfırlamada tüm session'ları sonlandır
+- Güvenlik ihlali durumunda tüm token'ları iptal et
+
+## 10. Multi-Factor Authentication (MFA)
+
+**Kaynak:** [[ADR-059-enterprise-auth-standards]]
+
+### 10.1 MFA Teknolojisi
+
+| Özellik | Değer |
+|---------|-------|
+| **Paket** | `pragmarx/google2fa` |
+| **Algoritma** | TOTP (RFC 6238) |
+| **Boyut** | 6 haneli kod |
+| **Periyot** | 30 saniye |
+| **Pencere** | ±1 periyot (±30sn) |
+
+### 10.2 MFA Akışı
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    MFA FLOW                                      │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  1. Kullanıcı email + şifre girer (normal login)                │
+│     │                                                           │
+│     ▼                                                           │
+│  2. Şifre doğrulanır (Argon2id)                                 │
+│     │                                                           │
+│     ├── MFA aktif değil → Login tamamla                         │
+│     │                                                           │
+│     ├── MFA aktif → MFA kodu iste                               │
+│     │                                                           │
+│     ▼                                                           │
+│  3. Kullanıcı authenticator uygulamasından 6 haneli kod girer   │
+│     │                                                           │
+│     ▼                                                           │
+│  4. POST /api/mfa/verify → TOTP doğrula                         │
+│     │                                                           │
+│     ├── Kod geçersiz → Hata mesajı, tekrar dene                 │
+│     │                                                           │
+│     ├── Kod geçerli → Login tamamla                             │
+│     │                                                           │
+│     ▼                                                           │
+│  5. Session + JWT oluştur                                        │
+│     │                                                           │
+│     ▼                                                           │
+│  6. Dashboard'a yönlendir                                       │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### 10.3 MFA Kurulum Akışı
+
+```
+1. Kullanıcı → Profil ayarları → MFA'yı aktifleştir
+2. Auth Service → TOTP secret üret
+3. QR code oluştur (otpauth:// URI)
+4. Kullanıcı → QR code'u tarar
+5. Kullanıcı → 6 haneli kod girer (doğrulama)
+6. Auth Service → Kod'u doğrula
+7. MFA aktif → Backup codes üret (10 adet, tek kullanımlık)
+8. Kullanıcı → Backup codes'u indirir/kaydeder
+```
+
+## 11. Device Binding
+
+**Kaynak:** [[ADR-060-rpi5-embedded-auth]]
+
+| Özellik | Değer |
+|---------|-------|
+| **Amaç** | Cihaz kimliği ile session绑定 |
+| **Yöntem** | User-Agent + IP hash |
+| **Zorunlu mu?** | Opsiyonel (admin panel için zorunlu) |
+| **Storage** | `device_fingerprint` session key |
+
+### 11.1 Device Fingerprint
+
+```php
+$fingerprint = hash('sha256',
+    $_SERVER['HTTP_USER_AGENT'] .
+    $_SERVER['REMOTE_ADDR'] .
+    $_SERVER['HTTP_ACCEPT_LANGUAGE']
+);
+```
+
+## 12. Yasak Örüntüleri
 
 | ❌ Yasak | ✅ Doğru | Sonuc |
 |----------|----------|-------|
@@ -797,8 +956,11 @@ class AuthService
 | 7 | BypassAuth **prod'da devre dışı** | Auth bypass |
 | 8 | RBAC kontrolü **zorunlu** | Yetkisiz erişim |
 | 9 | JWT secret **kodda hardcoded yasak** | Güvenlik ihlali |
-| 10 | JWT token **1 saat** süre ile sınırlı | Token kaçırılma riski |
-| 11 | JWT **RS256** (asimetrik) zorunlu | Zayıf imza |
+| 10 | JWT Access Token **15 dakika** süre ile sınırlı | Token kaçırılma riski |
+| 11 | JWT Refresh Token **7 gün** süre ile sınırlı | Refresh token kaçırılma |
+| 12 | JWT **RS256** (asimetrik) zorunlu | Zayıf imza |
+| 13 | Merkezi Auth **zorunlu** (auth.coremusic.net) | Güvenlik açığı |
+| 14 | MFA destekli (pragmarx/google2fa) | Zayıf kimlik doğrulama |
 
 ## 13. İlgili Dosyalar
 
@@ -858,7 +1020,6 @@ class AuthService
 | **Bölüm Sayısı** | 16 |
 | **ADR Uyumlu** | ✅ 008, 011, 013, 022, 043, 047, 052 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

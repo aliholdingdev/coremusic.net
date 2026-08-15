@@ -1,5 +1,5 @@
-# ML/AI PATTERNS — TAM REHBER
-# Prompt Maker v7.2.0 | 2026-06-11 | Kiro IDE Native
+# ML/AI PATTERNS — TAM REHBER (PICCO)
+# Prompt Maker v11.0.0 | 2026-08-15 | PICCO Framework
 # Model lifecycle, RAG, vector search, fine-tuning, MLOps, inference
 
 ---

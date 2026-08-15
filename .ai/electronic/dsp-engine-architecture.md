@@ -22,22 +22,55 @@ DSP Motoru, gerçek zamanlı ses işlemenin kalbidir. 15 aşamalı DSP pipeline,
 
 ## 2. DSP Engine Pipeline (15 Aşama)
 
-```mermaid
-graph LR
-    A[1. Input Signal] --> B[2. Input Gain]
-    B --> C[3. Noise Gate]
-    C --> D[4. HPF]
-    D --> E[5. LPF]
-    E --> F[6. Parametric EQ]
-    F --> G[7. Graphic EQ]
-    G --> H[8. Compressor]
-    H --> I[9. Limiter]
-    I --> J[10. Loudness]
-    J --> K[11. Crossover]
-    K --> L[12. Delay]
-    L --> M[13. Reverb]
-    M --> N[14. Output Gain]
-    N --> O[15. Output Routing]
+```
+Input Signal ──▶ Input Gain ──▶ Noise Gate ──▶ HPF ──▶ LPF ──▶ Parametric EQ ──▶ Graphic EQ ──▶ Compressor ──▶ Limiter ──▶ Loudness ──▶ Crossover ──▶ Delay ──▶ Reverb ──▶ Output Gain ──▶ Output Routing
+```
+
+### 2.1 ASCII: 15 Aşamalı DSP Pipeline
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                    COREMUSIC DSP ENGINE — 15 AŞAMALI PIPELINE                   │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐         │
+│  │1.Input  │──▶│2.Input  │──▶│3.Noise  │──▶│4. HPF   │──▶│5. LPF   │         │
+│  │ Signal  │   │  Gain   │   │  Gate   │   │High-Pass│   │ Low-Pass│         │
+│  │         │   │  <0.01ms│   │  <0.1ms │   │  <0.01ms│   │  <0.01ms│         │
+│  └─────────┘   └─────────┘   └─────────┘   └─────────┘   └─────────┘         │
+│                                                                                 │
+│  ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐         │
+│  │6.Param. │──▶│7.Graphic│──▶│8.Compres│──▶│9.Limiter│──▶│10.Loud- │         │
+│  │   EQ    │   │   EQ    │   │  sor    │   │  <0.1ms │   │  ness   │         │
+│  │  <0.1ms │   │  <0.1ms │   │  <0.5ms │   │ KRİTİK  │   │  <0.5ms │         │
+│  └─────────┘   └─────────┘   └─────────┘   └─────────┘   └─────────┘         │
+│                                                                                 │
+│  ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐         │
+│  │11.Cross-│──▶│12.Delay │──▶│13.Reverb│──▶│14.Output│──▶│15.Output│         │
+│  │  over   │   │ 0-1000ms│   │  <5ms   │   │  Gain   │   │ Routing │         │
+│  │  <0.1ms │   │  Orta   │   │ Düşük   │   │  <0.01ms│   │  <0.01ms│         │
+│  └─────────┘   └─────────┘   └─────────┘   └─────────┘   └─────────┘         │
+│                                                                                 │
+│  Toplam Gecikme: <10ms (ASIO 512 sample @ 48kHz ≈ 10.67ms)                    │
+│                                                                                 │
+│  ═══════════════════════════════════════════════════════════════════════════   │
+│  KATMANLAR:                                                                    │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│  │  GİRDİ       │  │  FİLTRE      │  │  DİNAMİK     │  │  UZAMSAL     │      │
+│  │──────────────│  │──────────────│  │──────────────│  │──────────────│      │
+│  │ Input Gain   │  │ HPF          │  │ Compressor   │  │ Reverb       │      │
+│  │ Noise Gate   │  │ LPF          │  │ Limiter      │  │ Delay        │      │
+│  │              │  │ Parametric EQ│  │ Gate         │  │ Echo         │      │
+│  │              │  │ Graphic EQ   │  │ Expander     │  │ Stereo Width │      │
+│  └──────────────┘  └──────────────┘  └──────────────┘  └──────────────┘      │
+│                                                                                 │
+│  ┌──────────────┐                                                             │
+│  │  ÇIKIŞ       │                                                             │
+│  │──────────────│                                                             │
+│  │ Output Gain  │                                                             │
+│  │ Output Route │                                                             │
+│  │ Crossover    │                                                             │
+│  └──────────────┘                                                             │
+└─────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 | Aşama | Görev | Gecikme | Öncelik |
@@ -117,14 +150,18 @@ graph LR
 
 ### 4.2 Sıkıştırıcı Akışı
 
-```mermaid
-graph LR
-    A[Sinyal] --> B{Eşik Aşımı?}
-    B -->|Evet| C[Oran ile Azalt]
-    B -->|Hayır| D[Doğrudan]
-    C --> E[Makeup Gain]
-    D --> E
-    E --> F[Çıkış]
+```
+Sinyal ──▶ {Eşik Aşımı?}
+              │
+         Evet │ Hayır
+              ▼     ▼
+     Oran ile Azalt  Doğrudan
+              │     │
+              ▼     ▼
+         Makeup Gain
+              │
+              ▼
+           Çıkış
 ```
 
 ### 4.3 Sıkıştırıcı Tipleri
@@ -176,13 +213,13 @@ graph LR
 
 ### 6.2 Crossover Motoru Diyagramı
 
-```mermaid
-graph TD
-    A[Sinyal] --> B{Geçiş Noktası}
-    B --> C[Düşük Frekans]
-    B --> D[Yüksek Frekans]
-    C --> E[Subwoofer]
-    D --> F[Ana Hoparlörler]
+```
+Sinyal ──▶ {Geçiş Noktası 80Hz}
+              │
+         Düşük Frekans    Yüksek Frekans
+              ▼                  ▼
+        Subwoofer        Ana Hoparlörler
+         (20-120Hz)       (100Hz-20kHz)
 ```
 
 ### 6.3 Crossover Konfigürasyonları
@@ -193,7 +230,7 @@ graph TD
 | 2.1 | 80Hz | FL/FR + Sub |
 | 5.1 | 80Hz | FL/FR/C/SL/SR + Sub |
 | 7.1 | 80Hz | FL/FR/C/SL/SR/RL/RR + Sub |
-| **8.1** | **80Hz** | **FL/FR/C/SL/SR/RL/RR/HL + Sub** |
+| **7.1** | **80Hz** | **FL/FR/C/SL/SR/RL/RR + Sub** |
 
 ---
 
@@ -410,44 +447,14 @@ void processAudioBlock(float** output, const float** input,
 
 ---
 
-## 13. Mermaid: DSP Motoru Modüler Yapısı
+## 13. DSP Motoru Modüler Yapısı
 
-```mermaid
-graph TB
-    subgraph "Girdi Katmanı"
-        IN[Girdi]
-        IG[Kazanç]
-        NG[Gürültü Kapısı]
-    end
-
-    subgraph "Filtre Katmanı"
-        HPF[Yüksek Geçiren]
-        LPF[Düşük Geçiren]
-        PEQ[Parametrik EQ]
-        GEQ[Grafik EQ]
-    end
-
-    subgraph "Dinamik Katmanı"
-        COMP[Sıkıştırıcı]
-        LIM[Limiter]
-        GATE[Kapı]
-        EXP[Genişletici]
-    end
-
-    subgraph "Uzamsal Katmanı"
-        REV[Yankı]
-        DEL[Gecikme]
-        ECHO[Echo]
-        WIDTH[Stereo Genişliği]
-    end
-
-    subgraph "Çıktı Katmanı"
-        OG[Çıktı Kazancı]
-        OR[Çıktı Yönlendirmesi]
-        CROSS[Geçirgen]
-    end
-
-    IN --> IG --> NG --> HPF --> LPF --> PEQ --> GEQ --> COMP --> LIM --> GATE --> EXP --> REV --> DEL --> ECHO --> WIDTH --> OG --> OR --> CROSS
+```
+Girdi Katmanı:   Girdi ──▶ Kazanç ──▶ Gürültü Kapısı
+Filtre Katmanı:  HPF ──▶ LPF ──▶ Parametrik EQ ──▶ Grafik EQ
+Dinamik Katmanı: Sıkıştırıcı ──▶ Limiter ──▶ Kapı ──▶ Genişletici
+Uzamsal Katmanı: Yankı ──▶ Gecikme ──▶ Echo ──▶ Stereo Genişliği
+Çıktı Katmanı:   Çıktı Kazancı ──▶ Çıktı Yönlendirmesi ──▶ Geçirgen
 ```
 
 ---
@@ -508,7 +515,7 @@ graph TB
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 17 |
 | ADR References | 4 |
-| Mermaid Diagrams | 4 |
+| ASCII Art Diagrams | 4 (DSP Pipeline, Sıkıştırıcı, Crossover, Modüler Yapı) |
 | DSP Stages | 15 (Input → Output) |
 | EQ Types | 2 (Graphic + Parametric) |
 | Dynamics | 4 (Compressor, Limiter, Gate, Expander) |

@@ -294,7 +294,6 @@ AUDIO_DEVICE_UNAVAILABLE
 | **Satır Sayısı** | ~250 |
 | **ADR Uyumlu** | ✅ 001, 002, 042, 051 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

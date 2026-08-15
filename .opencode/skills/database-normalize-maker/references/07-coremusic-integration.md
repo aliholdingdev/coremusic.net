@@ -1,30 +1,82 @@
-# 07. CoreMusic Integration & Backend Architect Role
+# 07. CoreMusic Entegrasyonu
 
-## Backend Architect Ajanı ile Uyum
+## Genel Bakış
 
-Veritabanı kendi başına izole bir sistem değildir. `database-normalize-maker` Orkestratörü, **Backend Architect** sanal ajanını kullanarak, ürettiği şemanın CoreMusic PHP standartlarıyla kusursuz şekilde konuşmasını güvence altına alır.
+Bu dosya, `database-normalize-maker` skill'inin CoreMusic projesiyle nasıl entegre olduğunu tanımlar.
 
-## Katmanlı Mimari (Layered Architecture) Kilitleri
+## PHP PDO Uyumluluğu
 
-### 1. Veritabanı Mantığı Sızıntısı (Logic Leakage)
-Veritabanı katmanı (Infrastructure Layer), İş Mantığı (Domain Layer) katmanına sızmamalıdır.
-- **Orkestratör Kuralı:** Veritabanında aşırı karmaşık Stored Procedure'ler veya Trigger'lar kullanmak yerine, iş mantığının PHP Domain Services içinde çözülmesi teşvik edilir. Sadece veri bütünlüğü kısıtlamaları (Foreign Key, Check Constraints) veritabanında bırakılır.
+Veritabanı şeması, PHP 8.x katı tipleri (`declare(strict_types=1)`) ile uyumlu olmalıdır.
 
-### 2. PHP PDO ve Tür Güvenliği (Type Safety) Uyumluluğu
-Veritabanı şeması, PHP 8.x katı tipleri (`declare(strict_types=1)`) ile birebir uyumlu olacak netlikte tasarlanmalıdır.
-- **Tamsayılar (Integers):** PHP'de `int` olarak karşılanabilmesi için `BIGINT` veya `INT` doğru boyutlandırılmalıdır.
-- **Ondalıklar (Decimals):** Para (Currency) hesaplamaları KESİNLİKLE `FLOAT` veya `DOUBLE` olamaz (Halüsinasyon kontrolü bunu engeller). Her zaman `DECIMAL(10,2)` vb. gibi kesin (precise) tipler kullanılmalıdır.
-- **Bool:** `TINYINT(1)` veya `BOOLEAN` (PostgreSQL).
+### PHP ↔ MySQL Veri Tipi Eşleştirmesi
 
-### 3. CoreMusic `.ai/` Vault Entegrasyonu
-Orkestratör, proje dizinindeki `.ai/brain.md` ve `.ai/decisions/` dosyalarını (ADR - Architecture Decision Records) okur.
-- Eğer daha önce "Bu projede Soft Delete kullanılmayacaktır" şeklinde bir ADR alınmışsa, sistem hiçbir tabloya `deleted_at` ekleyemez.
-- Alınan yeni veritabanı tasarımı kararları (Örn: Neden JSON sütunu kullanıldı?) otomatik olarak `.ai/decisions/` içine yeni bir markdown dosyası olarak raporlanmalıdır.
+| MySQL Tipi | PHP Tipi | Kullanım |
+|------------|----------|----------|
+| `BIGINT UNSIGNED` | `int` | ID, counter |
+| `INT UNSIGNED` | `int` | Sayı |
+| `TINYINT(1)` | `bool` | Boolean |
+| `VARCHAR` | `string` | Metin |
+| `TEXT` | `string` | Uzun metin |
+| `DECIMAL(10,2)` | `string` (PDO) | Para birimi |
+| `TIMESTAMP` | `string` (PDO) | Tarih/saat |
+| `JSON` | `string` (PDO) | Esnek veri |
 
-### 4. Dış Anahtar İsimlendirme Standartları (Naming Conventions)
-Backend Architect ajanı, ORM'lerin (Örn: Eloquent, Doctrine) ilişkileri otomatik eşleştirebilmesi için standart isimlendirme kuralını dayatır:
-- **Tablolar:** Çoğul, snake_case (`users`, `order_items`).
-- **Dış Anahtarlar (Foreign Keys):** Tekil_tablo_adi + `_id` (`user_id`, `product_id`).
-- **Pivot Tablolar:** Alfabetik sırada birleşik isim (`role_user` veya `product_tag`).
+### PDO Kullanım Kuralları
 
-Eğer sistem bu kurallardan saparsa (Örn: `id_user` gibi), Orkestratör işlemi durdurur (Zero-Hallucination Gate) ve isimlendirmeyi düzeltir.
+```php
+// DOĞRU: Prepared statement
+$stmt = $pdo->prepare('SELECT id, username, email FROM users WHERE id = :id');
+$stmt->execute(['id' => $userId]);
+$user = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+// YASAK: Dinamik SQL
+// $pdo->query("SELECT * FROM users WHERE id = $userId");
+```
+
+## İsimlendirme Standartları
+
+| Öğe | Format | Örnek |
+|-----|--------|-------|
+| Tablolar | Çoğul, snake_case | `users`, `order_items` |
+| Kolonlar | snake_case | `first_name`, `created_at` |
+| Primary Key | `id` | `id BIGINT UNSIGNED` |
+| Foreign Key | `{tablo}_id` | `user_id`, `product_id` |
+| Index | `idx_{kolon}` | `idx_email` |
+| Unique Index | `uk_{kolon}` | `uk_username` |
+| FK Constraint | `fk_{çocuk}_{ana}` | `fk_orders_users` |
+| Pivot Tablolar | Alfabetik sıra | `role_user`, `product_tag` |
+
+## CoreMusic 11 BCNF Veritabanı
+
+| # | Veritabanı | Amaç | Ana Tablolar |
+|---|-----------|------|--------------|
+| 1 | `coremusic_auth` | Kimlik doğrulama | users, sessions, tokens, roles, permissions |
+| 2 | `coremusic_users` | Kullanıcı yönetimi | users, profiles, addresses, preferences |
+| 3 | `coremusic_musics` | Müzik kataloğu | musics, artists, genres, tags |
+| 4 | `coremusic_albums` | Albüm yönetimi | albums, album_tracks, album_artists |
+| 5 | `coremusic_playlist` | Çalma listeleri | playlists, playlist_tracks |
+| 6 | `coremusic_catalog` | Kataloglama | categories, collections, catalog_items |
+| 7 | `coremusic_logs` | Log yönetimi | system_logs, error_logs, audit_logs |
+| 8 | `coremusic_media` | Medya dosyaları | media_files, media_metadata, thumbnails |
+| 9 | `coremusic_system` | Sistem ayarları | settings, configs, cache |
+| 10 | `coremusic_social` | Sosyal özellikler | follows, likes, comments, reviews |
+| 11 | `coremusic_wireless` | Kablosuz bağlantı | devices, connections, streams |
+
+## Vault Entegrasyonu
+
+| Kaynak | Kullanım |
+|--------|----------|
+| `.ai/brain.md` | Veritabanı mimarisi kararları |
+| `.ai/ADR/` | İlgili ADR'ler |
+| `.ai/.sql/` | Mevcut şema dosyaları |
+| `.ai/index.md` | Ana katalog |
+
+## Deployment Hedefleri
+
+| Tier | Platform | Veritabanı |
+|------|----------|------------|
+| Tier1 | Windows | MySQL 9 |
+| Tier2 | Linux | MySQL 9 |
+| Tier3 | macOS | MySQL 9 |
+| Tier4 | RPi5 | MySQL 9 |
+| Tier5 | ReactOS | MySQL 9 (deneysel) |

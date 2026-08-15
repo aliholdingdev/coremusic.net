@@ -16,20 +16,20 @@ governance: Red Team • Human Mode • Truth Mode
 
 ## 1. Purpose
 
-L0, CoreMusic platformunun altyapı katmanıdır. Veritabanı, cache, dosya sistemi, IPC ve credential vault bu katmanda yönetilir. Tüm L1-L3 katmanları L0'a bağımlıdır.
+L0, CoreMusic platformunun altyapı katmanıdır. Veritabanı, cache, dosya sistemi, IPC ve credential vault bu katmanda yönetilir. Tüm üst katmanlar (L1-L6) L0'a bağımlıdır.
 
 **Katman Sırası (Dıştan içe):**
 ```
-L3 Presentation → L2 Routing → L1 Security → L0 Infrastructure
+L6 Electronics → L5 Services → L4 Domain → L3 Presentation → L2 Routing → L1 Security → L0 Infrastructure
 ```
 
-*Kaynak: [[architecture/01-overview/architecture_master]]*
+*Kaynak: [[architecture/00-overview/architecture-master]] §2*
 
 ## 2. Responsibilities
 
 | Bileşen | Sorumluluk |
 |---------|------------|
-| **Database** | 9 BCNF MySQL veritabanı, prepared statements, migration |
+| **Database** | 18 BCNF MySQL veritabanı, prepared statements, migration |
 | **Cache** | Multi-tier: APCu → Redis → File, PSR-16 |
 | **Filesystem** | Medya dosyaları, cover art, upload yönetimi |
 | **IPC** | Servisler arası iletişim (REST, WebSocket) |
@@ -50,19 +50,30 @@ L3 Presentation → L2 Routing → L1 Security → L0 Infrastructure
 
 ## 4. Database Architecture
 
-### 4.1 9 BCNF Databases
+### 4.1 18 BCNF Databases
 
-| # | Veritabanı | Amaç | Tablo Sayısı |
-|---|-----------|------|-------------|
-| 1 | `coremusic_auth` | Kimlik doğrulama | users, roles, user_roles, sessions |
-| 2 | `coremusic_musics` | Müzik kataloğu | songs, artists, albums, genres |
-| 3 | `coremusic_catalog` | Medya kataloğu | media_files, cover_art, metadata |
-| 4 | `coremusic_user` | Kullanıcı profilleri | profiles, preferences, devices |
-| 5 | `coremusic_albums` | Albüm yönetimi | albums, album_tracks |
-| 6 | `coremusic_playlist` | Çalma listesi | playlists, playlist_items |
-| 7 | `coremusic_media` | Medya dosyaları | files, thumbnails, streams |
-| 8 | `coremusic_download` | İndirme yönetimi | downloads, queue, history |
-| 9 | `coremusic_logs` | Log yönetimi | audit_log, error_log, access_log |
+*Detaylı metadata için: [[architecture/00-overview/architecture-master]] §3*
+
+| # | Veritabanı | Amaç |
+|---|-----------|------|
+| 1 | `coremusic_auth` | Users, roles, sessions, tokens, credential vault, API keys |
+| 2 | `coremusic_user` | Profiles, preferences, history, favorites |
+| 3 | `coremusic_musics` | Songs, artists, genres, lyrics, files, podcasts, videos, radio |
+| 4 | `coremusic_albums` | Album collections, discs, stats |
+| 5 | `coremusic_playlist` | User and AI playlists, collaborators, followers |
+| 6 | `coremusic_catalog` | Reference data (genres, artist roles, instruments, moods) |
+| 7 | `coremusic_logs` | Audit trail, analytics, error logs, performance metrics |
+| 8 | `coremusic_media` | Device sync, media metadata, access control |
+| 9 | `coremusic_system` | Settings, config, cache, EQ, notifications, i18n |
+| 10 | `coremusic_social` | Comments, shares, activity, listening rooms |
+| 11 | `coremusic_wireless` | WiFi + Bluetooth networks |
+| 12 | `coremusic_ai` | User preference profiles, recommendations |
+| 13 | `coremusic_api` | API keys, rate limits, API call logs, webhooks |
+| 14 | `coremusic_cms` | Pages, blog, tags, media assets, FAQs, banners |
+| 15 | `coremusic_download` | Download queue, history, cache, source APIs |
+| 16 | `coremusic_neva` | EQ presets, DSP settings, routing matrix |
+| 17 | `coremusic_studio` | Studio sessions, tracks, presets, equipment |
+| 18 | `coremusic_patch` | Schema versions, migration logs, patches |
 
 *Kaynak: [[ADR-040-database-authority]]*
 
@@ -595,10 +606,9 @@ class PasswordHasher
 - [[l1-security]] — Security layer
 - [[l2-routing]] — Routing layer
 - [[l3-presentation]] — Presentation layer
-- [[ADR-040-database-authority]] — 9 BCNF DB
+- [[ADR-040-database-authority]] — 18 BCNF DB
 - [[ADR-007-cache-namespace]] — Cache namespace
 - [[ADR-022-database-hardened-security]] — DB security
-- [[ADR-042-vault-restructuring-2026-08-03]] — MSA limit
 - [[architecture/05-data/database_master]] — Database master
 
 ## 13. Cross References
@@ -622,7 +632,6 @@ class PasswordHasher
 | **ADR Uyumlu** | ✅ 002, 007, 022, 040, 042 |
 | **Zero Hallucination** | ✅ |
 | **Cross-Reference** | ✅ Doğrulandı |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

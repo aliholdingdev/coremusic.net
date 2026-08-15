@@ -18,7 +18,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-CoreMusic'in tam sistem mimarisinin genel bakışı. 10 panel, 7 backend servisi, 9 BCNF veritabanı ve 5 deployment modunu kapsar.
+CoreMusic'in tam sistem mimarisinin genel bakışı. 10 panel, 7 backend servisi, 18 BCNF veritabanı ve 5 deployment modunu kapsar.
 
 ---
 
@@ -65,7 +65,7 @@ CoreMusic'in tam sistem mimarisinin genel bakışı. 10 panel, 7 backend servisi
 
 ---
 
-## 5. 9 BCNF Veritabanı
+## 5. 18 BCNF Veritabanı
 
 | # | Veritabanı | Amaç |
 |---|------------|------|
@@ -99,7 +99,7 @@ CoreMusic'in tam sistem mimarisinin genel bakışı. 10 panel, 7 backend servisi
 | 80 | admin.coremusic.net | HTTP |
 | 81 | music.coremusic.net (Control) | HTTP |
 | 3001 | download.coremusic.net | HTTP/WS |
-| 3306 | MySQL 9 BCNF DB | TCP |
+| 3306 | MySQL 18 BCNF DB | TCP |
 | 5000/6000 | media.coremusic.net | HTTP |
 | 9741 | Audio Service (REST) | HTTP |
 | 9742 | Audio Service (WebSocket) | WS |
@@ -108,13 +108,20 @@ CoreMusic'in tam sistem mimarisinin genel bakışı. 10 panel, 7 backend servisi
 
 ## 8. Deployment Modları
 
-| Mod | Platform | Donanım |
-|-----|----------|---------|
-| Home Media Center | Windows/Linux/macOS | PC/Laptop |
-| Car Audio System | Windows/Android Auto | Raspberry Pi 5 |
-| Professional Studio | Windows (WASAPI/ASIO) | 8.1 Surround |
-| NAS Audio Server | Linux (Docker) | Synology/QNAP |
-| DAC Control System | Windows/Linux | XMOS XU316 |
+| Mod | Platform | Donanım | Auth Modu |
+|-----|----------|---------|-----------|
+| Home Media Center | Windows/Linux/macOS | PC/Laptop | Cloud/Hybrid |
+| Car Audio System | Windows/Android Auto | Raspberry Pi 5 / PCM3168A | Local/Hybrid |
+| Professional Studio | Windows (WASAPI/ASIO) | 8.1 Surround + Class AB | Cloud/Hybrid |
+| NAS Audio Server | Linux (Docker) | Synology/QNAP | Cloud |
+| DAC Control System | Windows/Linux | XMOS XU316 + PCM3168A | Local |
+| **RPi5 Home (Embedded)** | **Raspberry Pi OS** | **RPi5 + Touch Screen** | **Local/Hybrid** |
+| **RPi5 Pro (Embedded)** | **Raspberry Pi OS** | **RPi5 + HDMI Display** | **Local/Hybrid** |
+| **RPi5 Studio (Embedded)** | **Raspberry Pi OS** | **RPi5 + 8.1 Surround** | **Local/Hybrid** |
+
+**Embedded Sistemler (RPi5):** Home, Pro, Studio modları Volumio benzeri yerel medya işletim sistemleridir. Touch screen, HDMI display, full-screen web arayüzü ile çalışır. Browser control panel gibi davranır.
+
+*Kaynak: [[ADR-060-rpi5-embedded-auth]], [[architecture/04-panels]]*
 
 ---
 
@@ -130,6 +137,9 @@ CoreMusic'in tam sistem mimarisinin genel bakışı. 10 panel, 7 backend servisi
 | [[architecture/l2-routing]] | L2 detay |
 | [[architecture/l3-presentation]] | L3 detay |
 | [[architecture/06-audio]] | Audio detay |
+| [[architecture/08-auth]] | Auth mimarisi |
+| [[architecture/08-auth/auth-embedded]] | RPi5 embedded auth |
+| [[architecture/04-panels]] | Panel mimarisi |
 
 ---
 

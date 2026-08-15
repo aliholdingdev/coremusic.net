@@ -1057,7 +1057,6 @@ void volume_update(void) {
 | **ATmega328P Pinout** | ✅ ASCII pinout |
 | **Register Haritası** | ✅ 20+ register |
 | **AVR Uyumluluk** | ✅ ADR-017 |
-| **MSA Uyumluluk** | ✅ 15 dosya limiti |
 | **Red Team Verified** | ✅ |
 | **Truth Mode** | ✅ Kaynak: microchip.com |
 

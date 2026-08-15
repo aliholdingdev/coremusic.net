@@ -188,32 +188,88 @@ Css/
 
 ```css
 :root {
-  /* CoreMusic Semantic Color Tokens */
-  --cm-primary: #9d4edd;           /* Purple */
-  --cm-accent: #ff4fd8;            /* Pink */
-  --cm-bg: #0d0221;                /* Dark purple (login-bg) */
-  --cm-text: #ffffff;              /* White */
+  /* CoreMusic Primitive Tokens */
+  --cm-gray-100: #f3f4f6;
+  --cm-gray-200: #e5e7eb;
+  --cm-gray-300: #d1d5db;
+  --cm-gray-400: #9ca3af;
+  --cm-gray-500: #6b7280;
+  --cm-gray-600: #4b5563;
+  --cm-gray-700: #374151;
+  --cm-gray-800: #1f2937;
+  --cm-gray-900: #111827;
+  
+  --cm-purple-400: #c084fc;
+  --cm-purple-500: #a855f7;
+  --cm-purple-600: #9333ea;
+  --cm-purple-700: #7e22ce;
+  
+  --cm-pink-400: #f472b6;
+  --cm-pink-500: #ec4899;
+  
+  /* CoreMusic Semantic Tokens */
+  --cm-primary: var(--cm-purple-600);
+  --cm-primary-hover: var(--cm-purple-700);
+  --cm-accent: var(--cm-pink-500);
+  --cm-bg: #0d0221;
+  --cm-text: #ffffff;
   --cm-text-secondary: rgba(255, 255, 255, 0.7);
   --cm-border: rgba(255, 255, 255, 0.1);
   --cm-error: #ff4d4d;
   --cm-success: #4dff4d;
-
+  
   /* Typography */
   --cm-font-family: "AvalonMedium", -apple-system, sans-serif;
   --cm-font-size-base: 16px;
-  --cm-font-size-h1: 48px;
-  --cm-font-size-h2: 36px;
+  --cm-font-size-h1: clamp(2rem, 4vw + 1rem, 3.5rem);
+  --cm-font-size-h2: clamp(1.5rem, 3vw + 0.75rem, 2.5rem);
   --cm-line-height-body: 1.5;
   --cm-line-height-heading: 1.2;
-
+  
   /* Spacing (8px unit) */
+  --cm-space-xs: 4px;
   --cm-space-sm: 8px;
   --cm-space-md: 16px;
   --cm-space-lg: 24px;
-  --cm-space-xl: 40px;
-
+  --cm-space-xl: 32px;
+  --cm-space-2xl: 48px;
+  --cm-space-3xl: 64px;
+  
+  /* Border Radius */
+  --cm-radius-sm: 0.25rem;
+  --cm-radius-md: 0.375rem;
+  --cm-radius-lg: 0.5rem;
+  --cm-radius-xl: 0.75rem;
+  --cm-radius-full: 9999px;
+  
   /* Transitions */
   --cm-transition: 200ms ease-out;
+  --cm-transition-slow: 300ms ease-out;
+  
+  /* light-dark() desteği */
+  color-scheme: dark;
+}
+
+/* Dark mode override (sadece semantic token'lar değişir) */
+[data-theme="dark"] {
+  --cm-text: #ffffff;
+  --cm-bg: #0d0221;
+  --cm-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Light mode override */
+[data-theme="light"] {
+  --cm-text: #111827;
+  --cm-bg: #ffffff;
+  --cm-border: #e5e7eb;
+  color-scheme: light;
+}
+
+/* @property ile animasyonlu custom properties */
+@property --cm-gradient-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
 }
 ```
 
@@ -428,7 +484,14 @@ npx vitest run assets.coremusic.net/js/test/Router.test.js
 [ ] Router.navigate() (L3 → L2)
 [ ] DOM patch → updateCsrf() order
 [ ] ITCSS 7-layer structure
+[ ] CSS @layer declaration for ITCSS
 [ ] CSS custom properties (--cm-*)
+[ ] 3-layer token system (primitive → semantic → component)
+[ ] light-dark() or prefers-color-scheme for dark mode
+[ ] :where() for low specificity defaults
+[ ] Logical properties for RTL (margin-inline, padding-block)
+[ ] @property for animatable custom properties
+[ ] clamp() for fluid typography
 [ ] 7 breakpoints (320px-3840px)
 [ ] WCAG 2.2 AA compliance
 [ ] Focus outline 3px

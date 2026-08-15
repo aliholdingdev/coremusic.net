@@ -232,7 +232,6 @@ Device Service ve agent yapısını, cihaz protokollerini ve agent mimarisini ta
 | **Satır Sayısı** | ~530 |
 | **ADR Uyumlu** | ✅ 017, 038 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 | **Guardrails** | ✅ 5 kural |
 

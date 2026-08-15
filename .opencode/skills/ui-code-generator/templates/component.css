@@ -1,16 +1,24 @@
-/* ITCSS Component Template */
+/* ITCSS Component Template with Modern CSS */
 
 /* 04_Components/_component.css */
 
+/* Component Tokens */
+@property --component-gradient-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+/* Component Base */
 .component {
     display: flex;
     flex-direction: column;
     padding: var(--space-lg);
     background: var(--color-bg);
-    border-radius: 8px;
+    border-radius: var(--radius-lg, 0.5rem);
     border: 1px solid var(--color-border);
     gap: var(--space-md);
-    transition: all var(--transition);
+    transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .component:hover {
@@ -25,8 +33,18 @@
 
 /* Component Variants */
 .component--primary {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    --component-gradient-angle: 135deg;
+    background: linear-gradient(
+        var(--component-gradient-angle),
+        var(--color-primary),
+        var(--color-accent)
+    );
     color: white;
+    transition: --component-gradient-angle 300ms ease, transform var(--transition);
+}
+
+.component--primary:hover {
+    --component-gradient-angle: 180deg;
 }
 
 .component--secondary {
@@ -36,8 +54,8 @@
 
 /* Component Parts */
 .component__header {
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: var(--space-md);
+    border-block-end: 1px solid var(--color-border);
+    padding-block-end: var(--space-md);
 }
 
 .component__title {
@@ -48,7 +66,7 @@
 }
 
 .component__subtitle {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--color-text-secondary);
     margin: 0;
 }
@@ -60,8 +78,8 @@
 .component__footer {
     display: flex;
     gap: var(--space-md);
-    border-top: 1px solid var(--color-border);
-    padding-top: var(--space-md);
+    border-block-start: 1px solid var(--color-border);
+    padding-block-start: var(--space-md);
 }
 
 /* State Modifiers */
@@ -80,7 +98,7 @@
     pointer-events: none;
 }
 
-/* Responsive: Tablet */
+/* Responsive: Mobile-First */
 @media (min-width: 768px) {
     .component {
         padding: var(--space-xl);
@@ -92,14 +110,14 @@
     }
 }
 
-/* Responsive: Mobile */
+/* Responsive: Mobile (base) */
 @media (max-width: 767px) {
     .component {
         padding: var(--space-md);
     }
 
     .component__title {
-        font-size: 24px;
+        font-size: clamp(1.25rem, 2vw + 0.5rem, 1.5rem);
     }
 
     .component__footer {
@@ -113,11 +131,26 @@
 
 /* Accessibility: Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
-    .component {
+    .component,
+    .component--primary {
         transition: none;
     }
 
     .component:hover {
         transform: none;
     }
+}
+
+/* Dark Mode (class-based) */
+[data-theme="dark"] .component {
+    --color-bg: #111827;
+    --color-border: #374151;
+    --color-text-secondary: rgba(255, 255, 255, 0.7);
+}
+
+/* Light Mode */
+[data-theme="light"] .component {
+    --color-bg: #ffffff;
+    --color-border: #e5e7eb;
+    --color-text-secondary: rgba(0, 0, 0, 0.6);
 }

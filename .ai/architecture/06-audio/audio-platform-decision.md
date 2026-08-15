@@ -187,7 +187,6 @@ RPi:     I2S → ALSA → Null Output
 | **Satır Sayısı** | ~510 |
 | **ADR Uyumlu** | ✅ 017, 025, 038 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 | **Guardrails** | ✅ 5 kural |
 

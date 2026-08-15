@@ -41,59 +41,23 @@ Detaylar: [[brain.md]] §15, [[CLAUDE.md]] §13
 
 ## 3. Platform Abstraction Layer (PAL)
 
-```mermaid
-graph TB
-    subgraph "Application"
-        APP[CoreMusic Application]
-    end
-
-    subgraph "Platform Abstraction Layer"
-        PAL[PAL Interface<br/>Common API]
-    end
-
-    subgraph "Platform Adapters"
-        WIN[Windows Adapter<br/>WASAPI/ASIO/WDM/WDK]
-        LIN[Linux Adapter<br/>ALSA/PipeWire/JACK]
-        MAC[macOS Adapter<br/>CoreAudio/AudioUnit]
-        AND[Android Adapter<br/>AAudio/OpenSL ES]
-        IOS[iOS Adapter<br/>CoreAudio/AVAudioEngine]
-        RPI[Raspberry Pi Adapter<br/>ALSA/I2S/GPIO]
-        EML[Embedded Linux Adapter<br/>ALSA/Buildroot]
-        REACT[ReactOS Adapter<br/>Wine/Win32]
-    end
-
-    subgraph "Hardware"
-        HW[Audio Hardware<br/>DAC, ADC, DSP]
-    end
-
-    APP --> PAL
-    PAL --> WIN
-    PAL --> LIN
-    PAL --> MAC
-    PAL --> AND
-    PAL --> IOS
-    PAL --> RPI
-    PAL --> EML
-    PAL --> REACT
-
-    WIN --> HW
-    LIN --> HW
-    MAC --> HW
-    AND --> HW
-    IOS --> HW
-    RPI --> HW
-    EML --> HW
-    REACT --> HW
-
-    style PAL fill:#69f,stroke:#333,stroke-width:3px
-    style WIN fill:#f96,stroke:#333
-    style LIN fill:#fc0,stroke:#333
-    style MAC fill:#6ff,stroke:#333
-    style AND fill:#6f6,stroke:#333
-    style IOS fill:#96f,stroke:#333
-    style RPI fill:#f90,stroke:#333
-    style EML fill:#ff0,stroke:#333
-    style REACT fill:#f69,stroke:#333
+```
+CoreMusic Application
+        │
+        ▼
+Platform Abstraction Layer (Common API)
+        │
+        ├──▶ Windows Adapter (WASAPI/ASIO/WDM/WDK)
+        ├──▶ Linux Adapter (ALSA/PipeWire/JACK)
+        ├──▶ macOS Adapter (CoreAudio/AudioUnit)
+        ├──▶ Android Adapter (AAudio/OpenSL ES)
+        ├──▶ iOS Adapter (CoreAudio/AVAudioEngine)
+        ├──▶ Raspberry Pi Adapter (ALSA/I2S/GPIO)
+        ├──▶ Embedded Linux Adapter (ALSA/Buildroot)
+        └──▶ ReactOS Adapter (Wine/Win32)
+                │
+                ▼
+        Audio Hardware (DAC, ADC, DSP)
 ```
 
 ---
@@ -181,58 +145,23 @@ graph TB
 
 ## 5. Sürücü Mimarisi
 
-```mermaid
-graph TB
-    subgraph "CoreMusic Audio Engine"
-        AE[Audio Engine]
-    end
+## 5. Sürücü Mimarisi
 
-    subgraph "Driver Abstraction Layer"
-        DAL[Driver Abstraction<br/>Common Interface]
-    end
-
-    subgraph "Platform Drivers"
-        ASIO[ASIO Driver<br/>Windows]
-        WASAPI_D[WASAPI Driver<br/>Windows]
-        ALSA_D[ALSA Driver<br/>Linux]
-        PW[PipeWire Driver<br/>Linux]
-        CA[CoreAudio Driver<br/>macOS]
-        AA[AAudio Driver<br/>Android]
-    end
-
-    subgraph "Hardware"
-        USB[USB Audio]
-        PCIe[PCIe Audio]
-        I2S_HW[I2S Audio]
-        BT[Bluetooth Audio]
-    end
-
-    AE --> DAL
-    DAL --> ASIO
-    DAL --> WASAPI_D
-    DAL --> ALSA_D
-    DAL --> PW
-    DAL --> CA
-    DAL --> AA
-
-    ASIO --> USB
-    WASAPI_D --> USB
-    ALSA_D --> PCIe
-    PW --> PCIe
-    CA --> USB
-    AA --> USB
-
-    ALSA_D --> I2S_HW
-    PW --> I2S_HW
-    AA --> BT
-
-    style DAL fill:#69f,stroke:#333,stroke-width:2px
-    style ASIO fill:#f96,stroke:#333
-    style WASAPI_D fill:#f90,stroke:#333
-    style ALSA_D fill:#fc0,stroke:#333
-    style PW fill:#ff0,stroke:#333
-    style CA fill:#6ff,stroke:#333
-    style AA fill:#6f6,stroke:#333
+```
+CoreMusic Audio Engine
+        │
+        ▼
+Driver Abstraction Layer (Common Interface)
+        │
+        ├──▶ ASIO Driver (Windows)
+        ├──▶ WASAPI Driver (Windows)
+        ├──▶ ALSA Driver (Linux)
+        ├──▶ PipeWire Driver (Linux)
+        ├──▶ CoreAudio Driver (macOS)
+        └──▶ AAudio Driver (Android)
+                │
+                ▼
+        Hardware (USB Audio, PCIe Audio, I2S Audio, Bluetooth Audio)
 ```
 
 ### 5.1 Driver Seviyeleri
@@ -291,22 +220,12 @@ graph TB
 
 ## 7. Cihaz Algılama (Device Discovery)
 
-```mermaid
-sequenceDiagram
-    participant H as Hardware
-    participant OS as OS Kernel
-    participant PAL as PAL
-    participant DM as Device Manager
-    participant AE as Audio Engine
-
-    H->>OS: Hardware Connected
-    OS->>PAL: Device Event
-    PAL->>DM: Device Detected
-    DM->>DM: Identify Device
-    DM->>DM: Load Driver
-    DM->>AE: Device Ready
-    AE->>AE: Configure Audio Path
-    AE->>AE: Start Audio Stream
+```
+Hardware ──▶ OS Kernel ──▶ PAL ──▶ Device Manager ──▶ Audio Engine
+    │             │            │           │                │
+    │      Hardware    Device Event  Device Detected  Configure Audio
+    │      Connected                Identify Device  Start Audio Stream
+    │                                  Load Driver
 ```
 
 ---

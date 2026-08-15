@@ -16,7 +16,9 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-Bu dosya, CoreMusic platformunun tam mimari yapısını — 10 panel, 7 backend servis, L0-L3 katmanları ve servisler arası iletişimi — tek bir noktadan sunan **Ana Mimari Referans**dır. Tüm mühendislerin ve AI ajanlarının ilk başvurduğu kaynaktır.
+Bu dosya, CoreMusic platformunun tam mimari yapısını — 10 panel, 7 backend servis, L0-L6 katmanları ve servisler arası iletişimi — tek bir noktadan sunan **Ana Mimari Referans**dır. Tüm mühendislerin ve AI ajanlarının ilk başvurduğu kaynaktır.
+
+*Sayısal metadata için bakınız: [[architecture/00-overview/architecture-master]]*
 
 ## 2. Sistem Genel Bakış
 
@@ -57,7 +59,7 @@ Bu dosya, CoreMusic platformunun tam mimari yapısını — 10 panel, 7 backend 
 │  └─────────────────────────────────────────────────────────┘   │
 │                                                                 │
 │  ┌─────────────────────────────────────────────────────────┐   │
-│  │                  9 BCNF DATABASES                        │   │
+│  │                  18 BCNF DATABASES                        │   │
 │  │  auth · musics · catalog · user · albums · playlist ·   │   │
 │  │  media · download · logs                                │   │
 │  └─────────────────────────────────────────────────────────┘   │
@@ -66,9 +68,11 @@ Bu dosya, CoreMusic platformunun tam mimari yapısını — 10 panel, 7 backend 
 
 *Kaynak: [[architecture/l0-infrastructure/index]], [[architecture/l1-security/index]], [[architecture/l2-routing/index]], [[architecture/l3-presentation/index]]*
 
-## 3. Katman Mimarisi (L0-L3)
+## 3. Katman Mimarisi (L0-L6)
 
-### 3.1 Katman Tanımları
+*Sayısal metadata ve layer tanımları için: [[architecture/00-overview/architecture-master]] §2*
+
+### 3.1 Katman Tanımları (L0-L3 — Web Stack)
 
 | Katman | Dosya | Kapsam | Teknoloji |
 |--------|-------|--------|-----------|
@@ -98,7 +102,7 @@ Bu dosya, CoreMusic platformunun tam mimari yapısını — 10 panel, 7 backend 
 Kullanıcı Tıklaması (L3)
   → SPA Router (L2)
     → Middleware Pipeline (L1)
-      → SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf
+      → OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation
         → Controller (L2)
           → Repository (L0)
             → PDO MySQL (L0)
@@ -269,19 +273,9 @@ Her panel 3 görünüm moduna sahiptir:
 
 ## 10. Veritabanı Mimarisi
 
-9 BCNF veritabanı:
+18 BCNF veritabanı. Detaylı şema listesi ve cross-DB FK haritası için şuraya bakın:
 
-| # | Veritabanı | Amaç | Tablo Sayısı |
-|---|-----------|------|-------------|
-| 1 | coremusic_auth | Kimlik doğrulama | users, roles, user_roles, sessions |
-| 2 | coremusic_musics | Müzik kataloğu | songs, artists, albums, genres |
-| 3 | coremusic_catalog | Medya kataloğu | media_files, cover_art, metadata |
-| 4 | coremusic_user | Kullanıcı profilleri | profiles, preferences, devices |
-| 5 | coremusic_albums | Albüm yönetimi | albums, album_tracks |
-| 6 | coremusic_playlist | Çalma listesi | playlists, playlist_items |
-| 7 | coremusic_media | Medya dosyaları | files, thumbnails, streams |
-| 8 | coremusic_download | İndirme yönetimi | downloads, queue, history |
-| 9 | coremusic_logs | Log yönetimi | audit_log, error_log, access_log |
+→ **[[architecture/05-data/database_master]]** — 18 DB, 156 tablo, UUID v7 + INT karışık PK
 
 *Kaynak: [[ADR-040-database-authority]], [[architecture/05-data/database_master]]*
 
@@ -429,7 +423,7 @@ MySQL 9 (BCNF)
 |--------------------------------------------------|
 | SPA (Vanilla JS)                                |
 | Router (JS Router.js)                           |
-| HTML/CSS (ITCSS 7-layer)                        |
+| HTML/CSS (ITCSS 9-layer)                        |
 | Web Audio API                                    |
 +--------------------------------------------------+
         │
@@ -642,20 +636,24 @@ Auth Service → Kullanıcının hakkını kontrol eder
 
 *Kaynak: [[architecture/07-security/middleware-security]], [[architecture/07-security/session-management]]*
 
-## 13. Middleware Pipeline (Frozen — Legacy Reference)
+## 13. Middleware Pipeline (10 Katman — Frozen)
 
 ```
-Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf → Controller
+Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
 ```
 
 | # | Middleware | ADR | Görev | Timeout |
 |---|-----------|-----|-------|---------|
-| 1 | SessionManager | ADR-011 | Session başlat, CSP nonce üret | 3600s idle |
-| 2 | BypassAuth | ADR-008 | Test bypass (?_bypass=1) | — |
+| 1 | OriginCheck | ADR-020 | Köken doğrulama (whitelist CORS) | — |
+| 2 | Cors | ADR-020 | CORS header yönetimi | — |
 | 3 | RateLimiter | ADR-013 | APCu: 60 req/60s | 60s |
-| 4 | Auth | ADR-011 | Auth bilgisi inject | — |
-| 5 | SecurityHeaders | ADR-012 | CSP, X-Frame-Options, HSTS | — |
+| 4 | SecurityHeaders | ADR-012 | CSP, X-Frame-Options, HSTS | — |
+| 5 | SessionManager | ADR-011 | Session başlat, CSP nonce üret | 3600s idle |
 | 6 | Csrf | ADR-010 | csrf_token doğrulama | — |
+| 7 | BypassAuth | ADR-008 | Test bypass (?_bypass=1) | — |
+| 8 | Auth | ADR-011 | Auth bilgisi inject (JWT + Session) | — |
+| 9 | Permission | ADR-052 | RBAC yetki kontrolü | — |
+| 10 | Validation | ADR-054 | Request/DTO validasyonu | — |
 
 **Kritik Not:** Sıra DEĞİŞTİRİLEMEZ. CSP nonce üretimi SessionManager içindedir.
 
@@ -676,7 +674,7 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 
 | Katman | Teknoloji |
 |-------|-----------|
-| **Frontend** | Vanilla JS (ES6+), ITCSS 7-layer, Web Audio API, TrustedTypes |
+| **Frontend** | Vanilla JS (ES6+), ITCSS 9-layer, Web Audio API, TrustedTypes |
 | **Backend** | PHP 8.4 (strict_types), PDO (prepared stmts), Node.js 20+ |
 | **Audio** | C++20, JUCE 9, ASIO SDK 2.3.4, WASAPI |
 | **Database** | MySQL 9 (InnoDB, BCNF), PDO |
@@ -692,11 +690,10 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 |---|-------|-------------|-----|
 | 1 | Vanilla JS — framework yasak | Kod revert edilir | ADR-001 |
 | 2 | PDO mandatory — ORM yasak | SQL injection riski | ADR-002 |
-| 3 | 9 BCNF databases | DB tutarsızlığı | ADR-040 |
+| 3 | 18 BCNF databases | DB tutarsızlığı | ADR-040 |
 | 4 | Middleware order frozen | CSP/CSRF bozulması | ADR-010/011/012/013/022 |
 | 5 | csrf_token key frozen | CSRF bozulması | ADR-010 |
 | 6 | Zero Code Before Plan | Mimari bozulma | ADR-007 |
-| 7 | MSA limit = 15 dosya | Token aşımı | ADR-042 |
 | 8 | Port 81 = music.coremusic.net | Servis çökmesi | ADR-042 |
 | 9 | pcm5122 yasak (8.1 için) | Yanlış donanım | ADR-038 |
 | 10 | SELECT * yasak | SQL injection | ADR-002 |
@@ -715,7 +712,6 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 | Layer Violation | L0 → L3 import | Derhal revert | CLAUDE.md §7 |
 | PCM5122 Kullanımı | 8.1 surround denemesi | PCM3168A veya AK4458 | ADR-038 |
 | Network Outage | İnternet kopması | Offline-First + SQLite queue | — |
-| MSA Limit Aşımı | >15 dosya task | Index fallback | ADR-042 |
 | BCNF Violation | Yeni tablo | 3NF → BCNF audit | ADR-040 |
 | Buffer Underrun | CPU %100 | Fade-out → 50ms sessizlik → restart | engine.md |
 | Session Timeout | 3600s idle | Otomatik yeniden auth | ADR-011 |
@@ -737,7 +733,7 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 | [[architecture/03-contracts/project-structure]] | Proje yapısı |
 | [[architecture/05-data/database_master]] | DB master |
 | [[ADR-042-vault-restructuring-2026-08-03]] | Port mapping |
-| [[ADR-040-database-authority]] | 9 BCNF DB |
+| [[ADR-040-database-authority]] | 18 BCNF DB |
 | [[ADR-039-7-service-platform-architecture]] | 7 servis |
 | [[ADR-060-rpi5-embedded-auth]] | RPi5 embedded auth |
 
@@ -749,7 +745,7 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 | § 4 Shared | [[architecture/03-contracts/shared-library]] | Shared library |
 | § 5 Paneller | [[ADR-042-vault-restructuring-2026-08-03]] | Port mapping |
 | § 6 Servisler | [[ADR-039-7-service-platform-architecture]] | 7 servis |
-| § 10 DB | [[ADR-040-database-authority]] | 9 BCNF |
+| § 10 DB | [[ADR-040-database-authority]] | 18 BCNF |
 | § 11 Güvenlik | [[architecture/l1-security/index]] | Middleware |
 | § 12 Pipeline | [[ADR-010-csrf-protection-strategy]] | CSRF |
 | § 13 IPC | [[architecture/03-contracts/service-ipc]] | Servis iletişimi |
@@ -762,8 +758,8 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 | **L0-L3** | Mimari katmanlar: Infrastructure → Security → Routing → Presentation |
 | **Panel** | Kullanıcı arayüzü (10 adet) |
 | **Servis** | Backend işlem birimi (7 adet) |
-| **BCNF** | Boyce-Codd Normal Form — 9 DB için zorunlu |
-| **Middleware** | İstek işleyici zinciri (6 katman) |
+| **BCNF** | Boyce-Codd Normal Form — 18 BCNF DB için zorunlu |
+| **Middleware** | İstek işleyici zinciri (10 katman) |
 | **CSRF** | Cross-Site Request Forgery — Token: csrf_token |
 | **CSP** | Content Security Policy — nonce-based |
 | **ASIO** | Audio Stream Input/Output — Düşük gecikmeli ses |
@@ -780,7 +776,6 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 | **Satır Sayısı** | ~600 |
 | **ADR Uyumlu** | ✅ 001, 002, 007, 008, 010, 011, 012, 013, 017, 022, 038, 039, 040, 042, 044, 045, 060 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 15 capraz referans |
 | **Edge Cases** | ✅ 10 senaryo |
 | **Guardrails** | ✅ 14 kural |

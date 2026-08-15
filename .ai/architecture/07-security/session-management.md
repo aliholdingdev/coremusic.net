@@ -304,7 +304,6 @@ class SessionManager
 | **Web Doğrulanmış** | ✅ php.net, OWASP |
 | **ADR Uyumlu** | ✅ 010, 011, 012 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 | **Guardrails** | ✅ 5 kural |
 

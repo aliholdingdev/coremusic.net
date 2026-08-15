@@ -17,11 +17,11 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-CoreMusic, [[decisions/accepted/ADR-040-database-authority]] ile belirlenen 9 BCNF veritabanı kullanır. MySQL ana depolama, SQLite ise gömülü/yerel cihazlar için kullanılır.
+CoreMusic, [[decisions/accepted/ADR-040-database-authority]] ile belirlenen 18 BCNF veritabanı kullanır. MySQL ana depolama, SQLite ise gömülü/yerel cihazlar için kullanılır.
 
 ---
 
-## 2. 9 BCNF Veritabanı
+## 2. 18 BCNF Veritabanı
 
 | # | Veritabanı | Dosya | Amaç |
 |---|------------|-------|------|
@@ -261,7 +261,7 @@ Production'a uygula → Log kaydı oluştur
 | ADR | Konu |
 |-----|------|
 | [[decisions/accepted/ADR-002-pdo-mandatory-no-orm]] | PDO zorunlu, ORM yasak |
-| [[decisions/accepted/ADR-003-multi-db-9-databases]] | 9 BCNF veritabanı |
+| [[decisions/accepted/ADR-003-multi-db-9-databases]] | 18 BCNF veritabanı |
 | [[decisions/accepted/ADR-014-multi-db-migration-strategy]] | Migration stratejisi |
 | [[decisions/accepted/ADR-033-sql-normalization-strategy]] | SQL normalizasyon |
 | [[decisions/accepted/ADR-040-database-authority]] | DB otoritesi |
@@ -289,7 +289,7 @@ Production'a uygula → Log kaydı oluştur
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 19 |
 | ADR References | 6 |
-| Database Count | 9 BCNF |
+| Database Count | 18 BCNF |
 | Storage Engines | MySQL + SQLite |
 | Migration Strategy | Forward-only |
 | Repository Count | 9 |

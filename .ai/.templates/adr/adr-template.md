@@ -440,20 +440,20 @@ npx playwright test
 
 ## 10. Security Considerations (Güvenlik Değerlendirmesi)
 
-### 10.1 OWASP Top 10 Eşleme
+### 10.1 OWASP Top 10:2025 Eşleme
 
 | OWASP Sınıfı | Durum | Açıklama |
 |--------------|-------|----------|
-| A01: Broken Access Control | ✅/⚠️/❌ | [Açıklama] |
-| A02: Cryptographic Failures | ✅/⚠️/❌ | [Açıklama] |
-| A03: Injection | ✅/⚠️/❌ | [Açıklama] |
-| A04: Insecure Design | ✅/⚠️/❌ | [Açıklama] |
-| A05: Security Misconfiguration | ✅/⚠️/❌ | [Açıklama] |
-| A06: Vulnerable Components | ✅/⚠️/❌ | [Açıklama] |
-| A07: Auth Failures | ✅/⚠️/❌ | [Açıklama] |
-| A08: Data Integrity Failures | ✅/⚠️/❌ | [Açıklama] |
-| A09: Logging Failures | ✅/⚠️/❌ | [Açıklama] |
-| A10: SSRF | ✅/⚠️/❌ | [Açıklama] |
+| A01: Broken Access Control (SSRF dahil) | ✅/⚠️/❌ | [Açıklama] |
+| A02: Security Misconfiguration | ✅/⚠️/❌ | [Açıklama] |
+| A03: Software Supply Chain Failures | ✅/⚠️/❌ | [Açıklama] |
+| A04: Cryptographic Failures | ✅/⚠️/❌ | [Açıklama] |
+| A05: Injection | ✅/⚠️/❌ | [Açıklama] |
+| A06: Insecure Design | ✅/⚠️/❌ | [Açıklama] |
+| A07: Authentication Failures | ✅/⚠️/❌ | [Açıklama] |
+| A08: Software/Data Integrity Failures | ✅/⚠️/❌ | [Açıklama] |
+| A09: Security Logging & Alerting Failures | ✅/⚠️/❌ | [Açıklama] |
+| A10: Mishandling of Exceptional Conditions | ✅/⚠️/❌ | [Açıklama] |
 
 ### 10.2 Tehdit Modeli
 
@@ -644,7 +644,7 @@ ADR-NNN
     │
     ├─► brain.md (mühendislik kararları)
     │
-    ├─► architecture/L0-L3/ (ilgili katmanlar)
+    ├─► architecture/**/ (ilgili katmanlar)
     │
     └─► ilgili kod dosyaları
 ```

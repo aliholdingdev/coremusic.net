@@ -1,17 +1,44 @@
 ---
-name: hallucination-control
-description: "CoreMusic Zero-Hallucination Control — Truth Verification, Red Team Review, System-Integrated Validation. red-team-truth-mode ile birleştirildi (v5.0)."
-version: 5.0.0
-status: active
-mandatory: true
-priority: absolute
-execution: continuous
-metadata:
-  author: Bayram Ali
-  last_updated: 2026-08-08
-  category: quality-control
-  platform: opencode
-  merged_from: red-team-truth-mode
+title: "CoreMusic — Hallucination Control System"
+type: skill-instruction
+version: 6.0.0
+authority: SSOT
+mode:
+  - Red Team
+  - Truth Mode
+  - Human Mode
+purpose:
+  - Zero-Hallucination Enforcement
+  - Confidence-Based Verification
+  - Multi-Layer Defense Pipeline
+  - Source Citation Enforcement
+  - Agent Knowledge Grounding
+reference:
+  authority: ".ai/CLAUDE.md"
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/AGENTS.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+  architecture:
+    - ".ai/ADR/"
+    - "Existing project architecture"
+  templates:
+    - ".ai/.templates/index.md"
+  agents:
+    - ".ai/.agents/AGENTS.md"
+  skills:
+    - ".opencode/skills/red-team-truth-mode/SKILL.md"
+  project_structure:
+    - "coremusic.net/"
+    - "shared/"
+  update_policy:
+    preserve_existing_structure: true
+    require_approval_for:
+      - "truth mode policy change"
+      - "verification rule change"
+      - "H001-H039 pattern addition"
 triggers:
   - "her araştırma"
   - "her mimari karar"
@@ -23,307 +50,446 @@ triggers:
   - "truth mode"
   - "hallucination"
   - "doğrulama"
+  - "source citation"
+  - "confidence check"
+changelog:
+  - version: 6.0.0
+    date: 2026-08-15
+    changes:
+      - Complete rewrite — MIM format (500 lines)
+      - Added atomic claim decomposition (OpenAI 2025)
+      - Added confidence threshold penalty t/(1-t)
+      - Added 6-category taxonomy from MDPI 2026 survey
+      - Restructured H001-H039 as compact tables
+      - Added source citation enforcement
+      - Added multi-layer defense pipeline
 ---
 
-# Hallucination Control — AI Agentic Orchestration System
+# HALLUCINATION CONTROL — Machine Instruction Manual
 
-**BU SİSTEM BİR TERCİH DEĞİL, MUTLAK BİR ZORUNLULUKTUR. HİÇBİR İSTİSNA KABUL EDİLEMEZ.**
+**THIS SYSTEM IS NOT A PREFERENCE — IT IS AN ABSOLUTE MANDATE. NO EXCEPTIONS.**
 
-Bu belge, CoreMusic.net ekosisteminde çalışan tüm AI asistanlarının (Agent'ların) bilgi üretme (generation), karar verme (decision making) ve kod yazma süreçlerinde **Sıfır Halüsinasyon (Zero-Hallucination)** politikasını uygulayan ana orkestrasyon sistemidir. Doğrulanmamış bilgi üretimi kesinlikle yasaktır.
+This document is the MANDATORY hallucination prevention system for ALL CoreMusic AI agents.
+Every agent, every session, every technical claim — without exception.
 
-## 1. Temel Prensipler (Core Truth Mandate)
+---
 
-```text
-1. BİLGİ UYDURMAK KESİNLİKLE YASAKTIR.
-2. HER TEKNİK İDDİA EN AZ İKİ GÜVENİLİR KAYNAKTAN DOĞRULANMALIDIR.
-3. EMİN OLUNMAYAN BİLGİ SENTEZLENMEZ, KULLANICI ONAYINA SUNULUR VEYA REDDEDİLİR.
-4. YEREL VAULT (.ai) VE RESMİ DOKÜMANLAR TEK DOĞRULUK KAYNAĞIDIR.
-5. WEB ARAMASI KULLANILMAZ — SİSTEM ENTEGRASYONU (VAULT, SCRIPTS, CI/CD) İLE DOĞRULAMA YAPILIR.
-```
+## 0. IDENTITY & SCOPE
 
-## 2. Bilgi Güvenilirliği Puanlaması (Confidence Scoring)
+### 0.1 System Definition
 
-AI, kullanacağı her bilgi parçasını veya API çağrısını (0-100) arasında puanlar ve bu puana göre aksiyon alır:
+| Field | Value |
+|-------|-------|
+| System Name | Hallucination Control System |
+| Version | 6.0.0 |
+| Authority | SSOT (Single Source of Truth) |
+| Scope | All 11 CoreMusic Agents |
+| Enforcement | AUTOMATIC — triggers on every technical claim |
+| Override | FORBIDDEN — only Vault Steward can modify |
+| Research Basis | MDPI 2026 Survey, OpenAI 2025, UniCR Framework |
 
-| Puan Aralığı | Durum | Aksiyon | Depolama |
-|--------------|-------|---------|----------|
-| **90-100** | **VERIFIED** | Doğrudan koda dökülebilir ve uygulanabilir. Resmi kaynaklardan (Örn: php.net, MDN, TI Datasheet) veya yerel `.ai` vault'tan kanıtlanmıştır. | `.ai/knowledge/verified/` |
-| **60-89** | **UNVERIFIED** | Kullanılabilir ancak risklidir. Topluluk forumlarından (StackOverflow vb.) alınmış veya güncelliği teyit edilememiş bilgilerdir. Uygulanmadan önce kullanıcıdan açık onay istenir. | `.ai/knowledge/unverified/` |
-| **<60** | **REJECTED** | Kesinlikle kullanılamaz. Uydurma, yanlış, uyumsuz veya mantıksız olduğu tespit edilen bilgilerdir (Örn: PCM5122 ile 8.1 kanal tasarımı). | `.ai/knowledge/rejected/` |
+### 0.2 Agent Coverage
 
-### 2.1 Detaylı Puanlama Rubriği (Scoring Rubric)
+| Agent | Domain | H001-H039 Enforced |
+|-------|--------|---------------------|
+| Backend Architect | PHP/API/DB | H010-H039 |
+| UI Designer | JS/CSS/UX | H030-H039 |
+| Security Engineer | OWASP/Auth | H010-H019 |
+| Data Engineer | MySQL/BCNF | H020-H029 |
+| Embedded Engineer | C++/Audio | H001-H009 |
+| QA Engineer | Testing | All |
+| DevOps Engineer | CI/CD | H030-H039 |
+| Audio HW Engineer | DAC/ADC | H001-H009 |
+| DSP Firmware | XMOS/I2S | H001-H009 |
+| Windows SW | WASAPI/COM | H030-H039 |
+| Master Orchestrator | Coordination | All |
 
-| Kategori | Ağırlık | Puanlama Kriterleri |
-|----------|---------|---------------------|
-| **Resmi Dokümantasyon** | 40 puan | php.net, MDN, dev.mysql.com, owasp.org, caniuse.com, vendor PDF datasheet'leri |
-| **Standartlar (RFC/ISO/OWASP)** | 25 puan | RFC 9106 (Argon2id), ISO 27001, OWASP Top 10 2025, PSR-12 |
-| **Yerel Vault Kanıtı** | 15 puan | `.ai/decisions/`, `.ai/brain.md`, `.ai/architecture/`, CLAUDE.md |
-| **Topluluk (Yüksek Oy)** | 10 puan | StackOverflow accepted answers, GitHub issues with maintainer response |
-| **Bilinmeyen/Eski Kaynak** | -50 puan | Blog, Medium, Wikipedia, 2024 öncesi kaynaklar (recency penalty) |
+### 0.3 Enforcement Principle
 
-### 2.2 Recency Filtresi (Recency Filter)
-- **2024 Ocak sonrası:** Tam puan
-- **2022 Ocak - 2023 Aralık:** -10 puan cezası
-- **2022 Ocak öncesi:** -15 puan cezası + kullanıcı onayı zorunlu
+Every technical claim must be grounded in verifiable evidence.
+If evidence is insufficient, abstain — never fabricate.
 
-### 2.3 Çapraz Doğrulama Kuralları (Cross-Validation Rules)
-- **3+ Bağımsız Kaynak:** Tam doğrulama (VERIFIED) izin verilir
-- **2 Karma Kaynak:** Kullanıcı onayı gerekir (UNVERIFIED)
-- **1 Tek Kaynak:** Ek doğrulama olmadan ilerlenemez
-- **Çelişkili Kanıt:** İşlem bloke edilir, kullanıcıya raporlanır
+---
 
-## 3. Kritik Reddedilme Vakaları (H001-H039 Serisi - Critical Rejections)
+## 1. CORE TRUTH MANDATE
 
-Aşağıdaki durumlar "Hallucination" olarak kabul edilir ve sistem bu kodları veya mimarileri **DERHAL REDDEDER**:
+### 1.1 Five Absolute Rules
 
-### 3.1 Donanım/Audio (H001-H009)
-- **H001:** `PCM5122` çipi kullanılarak 8.1 surround ses tasarımı yapılamaz (Sadece 2 kanallı bir DAC'tır). Doğru: `PCM3168A` (8-kanal, 24-bit, 192kHz) veya `AKM AK4458` (8-kanal, 32-bit).
-- **H002:** Raspberry Pi GPIO 5V ile 3.3V logic sürülemez (Level shifter gerekli).
-- **H003:** XMOS XU316 USB Audio Class 2.0 ASIO SDK'sız çalışamaz.
-- **H004:** Class AB amfi SNR >100dB, THD+N <0.01%@1kHz olmadan tasarlanamaz.
-- **H005:** 8+1 surround için crossover hesaplaması I2S üzerinden yapılmazsa DSP'siz.
-- **H006:** ADAU1467 DSP programlanmadan XMOS internal DSP kullanılamaz.
-- **H007:** 0.5ms latency (48kHz, 24-sample buffer) ASIO Exclusive mode olmadan imkansız.
-- **H008:** PCM3168A I2S protokolünde 8 kanal DAC + 6 kanal ADC destekler (TSSOP-48 paket).
-- **H009:** AKM AK4458 32-bit 8-kanal DAC, DSD512/PCM768kHz destekler.
+1. FABRICATING INFORMATION IS STRICTLY FORBIDDEN.
+2. EVERY TECHNICAL CLAIM REQUIRES MINIMUM 2 VERIFIABLE SOURCES.
+3. UNCERTAIN INFORMATION IS NOT SYNTHESIZED — it triggers abstention or user escalation.
+4. LOCAL VAULT (.ai) AND OFFICIAL DOCUMENTATION ARE THE ONLY TRUTH SOURCES.
+5. WEB SEARCH IS PROHIBITED — validation via system integration (vault, scripts, CI/CD).
 
-### 3.2 Güvenlik/Kripto (H010-H019)
-- **H010:** JWT secret hardcoded yazılamaz (credential_vault AES-256-GCM zorunlu).
-- **H011:** Şifreleme için `MD5` veya `SHA-1` kullanımı tespit edilirse kod reddedilir. Modern standart: `Argon2id` (memory: 64MB, time: 4, threads: 2) veya `AES-256-GCM`.
-- **H012:** Hardcoded API anahtarları veya veritabanı şifreleri reddedilir. `.env` veya vault kullanımı zorunlu.
-- **H013:** `$_GET` / `$_POST` verilerine sanitize edilmeden doğrudan erişim reddedilir.
-- **H014:** CSRF token key `_csrf_token` kullanılamaz (2026-05-30'da kaldırıldı). Doğru: `csrf_token`.
-- **H015:** CSP nonce 16 byte olamaz. 256-bit `random_bytes(32)` zorunlu.
-- **H016:** Session idle timeout 1800s olamaz. 3600s (1 saat) zorunlu.
-- **H017:** Session name `PHPSESSID` olamaz. `COREMUSIC_SESS` zorunlu.
-- **H018:** Rate limit key `rate_limit:` olamaz. `'rl:' . md5($ip)` (APCu) zorunlu.
-- **H019:** MFA/TOTP özelliği uydurulamaz — CoreMusic'te mevcut değil (ADR-011).
+### 1.2 Prohibited Behaviors
 
-### 3.3 Veritabanı/SQL (H020-H029)
-- **H020:** Var olmayan veya sürüm uyumsuz SQL fonksiyonları (Örn: MySQL 5.6'da JSON fonksiyonları).
-- **H021:** `SELECT *` kullanımı reddedilir. Explicit column list zorunlu.
-- **H022:** ORM kullanımı reddedilir (ADR-002). Raw PDO + Prepared Statements zorunlu.
-- **H023:** Cross-database foreign key reddedilir (9 DB BCNF izolasyonu - ADR-040).
-- **H024:** Soft delete olmadan `DELETE` reddedilir. `deleted_at` timestamp zorunlu.
-- **H025:** `coremusic_music` DB adı yanlıştır. Doğru: `coremusic_musics` (çoğul - ADR-040).
-- **H026:** `coremusic_download` DB yoktur. Doğru: `coremusic_catalog`.
-- **H027:** `coremusic_neva` ve `coremusic_credential` DB'leri config'te yoktur.
-- **H028:** 10 veritabanı uydurulamaz. Config'te tam 9 DB vardır.
-- **H029:** Prepared statement olmadan string concatenation SQL injection riski.
+| Behavior | Consequence |
+|----------|-------------|
+| "Sanırım" / "Muhtemelen" / "Bildiğim kadarıyla" | Immediate rejection |
+| Fabricating API endpoints | H030-H039 trigger |
+| Inventing class names | H031 trigger |
+| Using deprecated methods | Confidence score ≤ 60 |
+| Guessing hardware specs | H001-H009 trigger |
+| Assuming database schema | H020-H029 trigger |
+| "Framework FORBIDDEN" violation | ADR-001 trigger |
+| "ORM FORBIDDEN" violation | ADR-002 trigger |
+
+### 1.3 Abstention is a Valid Response
+
+When confidence < 90:
+- DO NOT guess
+- DO NOT fabricate
+- DO write: // ⚠️ VERIFICATION REQUIRED
+- DO ask user for confirmation
+- DO cite the missing evidence
+
+---
+
+## 2. CONFIDENCE SCORING SYSTEM
+
+### 2.1 Three-Tier Classification
+
+| Range | Status | Action | Storage |
+|-------|--------|--------|---------|
+| 90-100 | VERIFIED | Code directly, implement immediately | .ai/knowledge/verified/ |
+| 60-89 | UNVERIFIED | Usable but risky — requires user confirmation | .ai/knowledge/unverified/ |
+| <60 | REJECTED | FORBIDDEN — provide correct alternative | .ai/knowledge/rejected/ |
+
+### 2.2 Weighted Scoring Rubric
+
+| Category | Weight | Sources |
+|----------|--------|---------|
+| Official Documentation | 40 pts | php.net, MDN, dev.mysql.com, owasp.org, caniuse.com, vendor PDFs |
+| Standards (RFC/ISO/OWASP) | 25 pts | RFC 9106, ISO 27001, OWASP Top 10 2025, PSR-12 |
+| Local Vault Evidence | 15 pts | .ai/decisions/, .ai/brain.md, .ai/architecture/, CLAUDE.md |
+| Community (High Score) | 10 pts | StackOverflow accepted, GitHub issues with maintainer response |
+| Unknown/Old Source | -50 pts | Blog, Medium, Wikipedia, pre-2024 sources |
+
+### 2.3 Recency Filter
+
+| Period | Penalty | Requirement |
+|--------|---------|-------------|
+| 2024+ | 0 | Full score |
+| 2022-2023 | -10 | User confirmation required |
+| <2022 | -15 | Mandatory user approval + 2x sources |
+
+### 2.4 Cross-Validation Rules
+
+| Sources | Action |
+|---------|--------|
+| 3+ independent sources | VERIFIED permitted |
+| 2 mixed sources | User confirmation required |
+| 1 single source | Additional validation mandatory |
+| Contradictory evidence | BLOCKED — report to user |
+
+### 2.5 Atomic Claim Decomposition
+
+Every technical output is decomposed into atomic claims:
+
+| Claim Type | Verification Method |
+|------------|---------------------|
+| Factual assertion | Source citation required |
+| API/endpoint existence | Vault check + official docs |
+| Hardware specification | Datasheet PDF required |
+| Security requirement | OWASP/NIST reference |
+| Performance claim | Benchmark or calculation |
+
+Each atomic claim receives its own confidence score.
+Final output score = minimum(atomic claim scores).
+
+### 2.6 Confidence Threshold Penalty
+
+For high-stakes claims (security, hardware, database):
+- Confidence threshold t = 0.90
+- Penalty for wrong answer: t/(1-t) = 9x
+- This makes fabrication prohibitively expensive
+- Abstention becomes the rational choice
+
+Decision rule:
+- IF confidence ≥ 0.90 AND 2+ sources → PROCEED
+- IF confidence 0.60-0.89 → ESCALATE to user
+- IF confidence < 0.60 → REJECT and provide alternative
+
+---
+
+## 3. CRITICAL REJECTION PATTERNS (H001-H039)
+
+These patterns are AUTOMATIC REJECT triggers.
+Match = immediate rejection, no exceptions.
+
+### 3.1 Hardware/Audio (H001-H009)
+
+| ID | Pattern | Correct Alternative |
+|----|---------|---------------------|
+| H001 | PCM5122 for 8.1 surround | PCM3168A (8ch, 24-bit, 192kHz) or AKM AK4458 (8ch, 32-bit) |
+| H002 | RPi GPIO 5V driving 3.3V logic | Level shifter required |
+| H003 | XMOS XU316 without ASIO SDK | ASIO SDK mandatory for USB Audio Class 2.0 |
+| H004 | Class AB amp SNR >100dB without THD+N <0.01%@1kHz | Both specs required |
+| H005 | 8+1 surround crossover via I2S without DSP | DSP required for crossover |
+| H006 | ADAU1467 DSP without programming | XMOS internal DSP cannot substitute |
+| H007 | 0.5ms latency (48kHz, 24-sample) without ASIO Exclusive | ASIO Exclusive mandatory |
+| H008 | PCM3168A specs wrong | TSSOP-48, 8ch DAC + 6ch ADC, I2S |
+| H009 | AKM AK4458 specs wrong | 32-bit, 8ch DAC, DSD512/PCM768kHz |
+
+### 3.2 Security/Crypto (H010-H019)
+
+| ID | Pattern | Correct Alternative |
+|----|---------|---------------------|
+| H010 | JWT secret hardcoded | credential_vault AES-256-GCM mandatory |
+| H011 | MD5 or SHA-1 for encryption | Argon2id (64MB, 4, 2) or AES-256-GCM |
+| H012 | Hardcoded API keys / DB passwords | .env or vault usage mandatory |
+| H013 | Direct $_GET/$_POST access without sanitize | Filter input first |
+| H014 | CSRF token key '_csrf_token' | 'csrf_token' (removed 2026-05-30) |
+| H015 | CSP nonce 16 byte | 256-bit random_bytes(32) mandatory |
+| H016 | Session idle timeout 1800s | 3600s (1 hour) mandatory |
+| H017 | Session name 'PHPSESSID' | 'COREMUSIC_SESS' mandatory |
+| H018 | Rate limit key 'rate_limit:' | 'rl:' . md5($ip) (APCu) mandatory |
+| H019 | MFA/TOTP feature claim | Does not exist in CoreMusic (ADR-011) |
+
+### 3.3 Database/SQL (H020-H029)
+
+| ID | Pattern | Correct Alternative |
+|----|---------|---------------------|
+| H020 | Non-existent or version-mismatched SQL functions | Check MySQL 9 docs |
+| H021 | SELECT * usage | Explicit column list mandatory |
+| H022 | ORM usage | Raw PDO + Prepared Statements (ADR-002) |
+| H023 | Cross-database foreign key | 9 DB BCNF isolation (ADR-040) |
+| H024 | DELETE without soft delete | deleted_at timestamp mandatory |
+| H025 | DB name 'coremusic_music' | 'coremusic_musics' (plural, ADR-040) |
+| H026 | DB name 'coremusic_download' | 'coremusic_catalog' |
+| H027 | DB 'coremusic_neva' or 'coremusic_credential' | Not in config |
+| H028 | Claim of 10 databases | Config has exactly 9 |
+| H029 | String concatenation in SQL | Prepared statements mandatory |
 
 ### 3.4 API/Middleware (H030-H039)
-- **H030:** `/api/v2/auth/login` endpoint'i yoktur. Gerçek route: `/login` (SpaRoute).
-- **H031:** `FileUploadHandler`, `StorageMonitor`, `NavigationState`, `ErrorBoundary`, `HandlerDispatcher`, `TransactionManager`, `UserRepository` sınıfları yoktur (system.database'de).
-- **H032:** `storage/`, `uploads/`, `tmp/`, `assets/` root dizinlerinde yoktur.
-- **H033:** Middleware sırası değiştirilemez: Session → BypassAuth → RateLimit → Auth → SecurityHeaders → Csrf.
-- **H034:** Middleware'de `die()` / `header()` kullanılamaz. `['halt' => true]` array dönülmeli.
-- **H035:** `$_POST`/`$_SERVER` middleware'de doğrudan okunamaz. Normalize `$request` array kullanılır.
-- **H036:** `COREMUSIC_SID` session name yoktur. Doğru: `COREMUSIC_SESS`.
-- **H037:** `COREMUSIC_SESS` cookie `HttpOnly=1`, `Secure=1`, `SameSite=Lax` zorunlu.
-- **H038:** SecurityHeaders CSP nonce session'dan okur → SessionManager MUTLAKA önce çalışmalı.
-- **H039:** BypassAuthMiddleware production'da devre dışı (`APP_ENV=production` kontrolü).
 
-## 4. Sistem Entegrasyon Protokolü (System Integration Protocol)
+| ID | Pattern | Correct Alternative |
+|----|---------|---------------------|
+| H030 | '/api/v2/auth/login' endpoint | Real route: '/login' (SpaRoute) |
+| H031 | Non-existent classes (FileUploadHandler, etc.) | Check system.database |
+| H032 | Non-existent directories (storage/, uploads/) | Check root structure |
+| H033 | Middleware order change | Session→BypassAuth→RateLimit→Auth→SecurityHeaders→Csrf |
+| H034 | die()/header() in middleware | Return ['halt' => true] array |
+| H035 | Direct $_POST/$_SERVER in middleware | Use normalized $request array |
+| H036 | 'COREMUSIC_SID' session name | 'COREMUSIC_SESS' |
+| H037 | Missing cookie flags | HttpOnly=1, Secure=1, SameSite=Lax mandatory |
+| H038 | SecurityHeaders before SessionManager | SessionManager MUST run first |
+| H039 | BypassAuth in production | Disabled when APP_ENV=production |
 
-**WEB ARAMASI YASAKTIR.** Tüm doğrulama yerel sistem entegrasyonu ile yapılır:
+---
 
-### 4.1 Vault Bilgi Tabanı Entegrasyonu
-```bash
-# Bilgi doğrulama sırası:
-1. .ai/knowledge/verified/      → Doğrudan kullan
-2. .ai/knowledge/unverified/    → 30 gün kontrolü + kullanıcı onayı
-3. .ai/knowledge/rejected/      → Reddedilmiş pattern kontrolü
-4. .ai/decisions/accepted/      → ADR mimari kararları
-5. .ai/brain.md                 → Merkezi karar kayıtları
-6. .ai/architecture/            → L0-L3 katman spesifikasyonları
-7. CLAUDE.md                    → Proje kuralları ve mimari
+## 4. SYSTEM INTEGRATION PROTOCOL
+
+### 4.1 Vault Knowledge Base Lookup Order
+
+```
+1. .ai/knowledge/verified/      → Use directly
+2. .ai/knowledge/unverified/    → 30-day check + user approval
+3. .ai/knowledge/rejected/      → Rejected pattern check
+4. .ai/decisions/accepted/      → ADR architecture decisions
+5. .ai/brain.md                 → Central decision records
+6. .ai/architecture/            → L0-L3 layer specifications
+7. CLAUDE.md                    → Project rules and architecture
 ```
 
-### 4.2 Otomasyon Scriptleri Entegrasyonu
-```bash
-# Doğrulama scriptleri (tüm scriptler .claude/scripts/ altında):
-.claude/scripts/validate-vault-links.sh      → Wiki-link bütünlüğü
+### 4.2 Automation Scripts
+
+```
+.claude/scripts/validate-vault-links.sh      → Wiki-link integrity
 .claude/scripts/check-frontmatter.sh         → YAML metadata
 .claude/scripts/validate-adrs.sh             → ADR immutability (001-037 frozen)
 .claude/scripts/validate-hallucination-control.sh  → Skill self-validation
 ```
 
-### 4.3 CI/CD Gate Entegrasyonu
-```yaml
-# .github/workflows/vault-validation.yml
+### 4.3 CI/CD Gate Integration
+
+```
 - Pre-commit hook: validate-vault-links.sh + check-frontmatter.sh + validate-adrs.sh
-- PR validation: Tüm 4 script çalışmalı, hata varsa merge bloke edilir
+- PR validation: All 4 scripts must pass, merge blocked on failure
 - Monthly audit: vault-validation.yml + session-archival.sh + link-health-report.yml
 ```
 
-### 4.4 Agent Koordinasyon Protokolü
-| Agent | Sorumluluk | Doğrulama Kaynağı |
-|-------|------------|-------------------|
-| **Backend Architect** | PHP/API/DB | php.net, dev.mysql.com, CLAUDE.md, `.claude/rules/php-standards.md` |
-| **UI Designer** | Vanilla JS/CSS/UX | MDN, caniuse.com, `.claude/rules/css-standards.md`, `.claude/rules/js-standards.md` |
-| **Security Engineer** | OWASP/Auth/Crypto | owasp.org, nist.gov, `.claude/rules/security-standards.md` |
-| **Data Engineer** | MySQL/BCNF/Optimization | dev.mysql.com, `.ai/decisions/`, `.claude/rules/database-standards.md` |
-| **Embedded Engineer** | C++/Audio/Hardware | TI.com, datasheet PDFs, `.ai/electronic/`, `.claude/rules/core-rules.md` |
-| **QA Engineer** | Testing/E2E/Browsers | playwright.dev, vitest.dev, `.ai/testing/strategy.md` |
-| **DevOps Engineer** | CI/CD/Deploy | official docs, vendor portals, `.claude/rules/devops-standards.md` |
+### 4.4 Agent Coordination Table
 
-## 5. Agentik Orkestrasyon Sistemi (Agentic Orchestration)
+| Agent | Responsibility | Validation Source |
+|-------|----------------|-------------------|
+| Backend Architect | PHP/API/DB | php.net, dev.mysql.com, CLAUDE.md |
+| UI Designer | Vanilla JS/CSS/UX | MDN, caniuse.com |
+| Security Engineer | OWASP/Auth/Crypto | owasp.org, nist.gov |
+| Data Engineer | MySQL/BCNF/Optimization | dev.mysql.com, .ai/decisions/ |
+| Embedded Engineer | C++/Audio/Hardware | TI.com datasheet, .ai/electronic/ |
+| QA Engineer | Testing/E2E/Browsers | playwright.dev, vitest.dev |
+| DevOps Engineer | CI/CD/Deploy | official docs, .github/workflows/ |
 
-### 5.1 Üç Katmanlı Doğrulama Ajanları
+---
+
+## 5. AGENTIC ORCHESTRATION
+
+### 5.1 Three-Layer Validation Architecture
+
 ```
-┌─────────────────────────────────────────────────────────────┐
-│              HALLUCINATION CONTROL ORCHESTRATOR             │
-├─────────────────────────────────────────────────────────────┤
-│  LAYER 1: VALIDATOR AGENTS (Paralel Çalışır)               │
-│  ├── HardwareValidator    → H001-H009 pattern check        │
-│  ├── SecurityValidator    → H010-H019 pattern check        │
-│  ├── DatabaseValidator    → H020-H029 pattern check        │
-│  └── APIValidator         → H030-H039 pattern check        │
-├─────────────────────────────────────────────────────────────┤
-│  LAYER 2: AUDITOR AGENTS (Sıralı Çalışır)                  │
-│  ├── CrossReferenceAuditor   → 3+ kaynak çapraz kontrol    │
-│  ├── RecencyAuditor          → Tarih filtresi kontrolü     │
-│  └── ArchitectureAuditor     → L0-L3 katman uyumu kontrol  │
-├─────────────────────────────────────────────────────────────┤
-│  LAYER 3: INTEGRATOR AGENT (Tekil)                         │
-│  └── VaultIntegrator         → .ai/knowledge/ dosya yönetimi│
-│       ├── auto-promote (unverified→verified, 30 gün)       │
-│       ├── auto-archive (rejected patterns)                 │
-│       └── cross-reference update (wiki-links)              │
-└─────────────────────────────────────────────────────────────┘
++---------------------------------------------------------------+
+|              HALLUCINATION CONTROL ORCHESTRATOR                 |
++---------------------------------------------------------------+
+|  LAYER 1: VALIDATOR AGENTS (Parallel)                          |
+|  +-- HardwareValidator    +-- SecurityValidator                 |
+|  +-- DatabaseValidator    +-- APIValidator                      |
++---------------------------------------------------------------+
+|  LAYER 2: AUDITOR AGENTS (Sequential)                          |
+|  +-- CrossReferenceAuditor   (3+ source check)                 |
+|  +-- RecencyAuditor          (date filter)                     |
+|  +-- ArchitectureAuditor     (L0-L3 layer compliance)          |
++---------------------------------------------------------------+
+|  LAYER 3: INTEGRATOR AGENT (Single)                            |
+|  +-- VaultIntegrator                                           |
+|       +-- auto-promote (unverified->verified, 30 days)         |
+|       +-- auto-archive (rejected patterns)                     |
+|       +-- cross-reference update (wiki-links)                  |
++---------------------------------------------------------------+
 ```
 
-### 5.2 Ajan İletişim Protokolü
+### 5.2 Agent Communication Protocol
+
 ```json
 {
   "agent_id": "validator:hardware",
   "task": "verify_pcm3168a_specs",
   "input": {"claim": "PCM3168A supports 8-channel DAC at 192kHz"},
   "sources": [
-    {"type": "vault", "path": ".ai/decisions/accepted/ADR-038-8.1-sound-card-chip-selection.md"},
+    {"type": "vault", "path": ".ai/decisions/accepted/ADR-038.md"},
     {"type": "official", "url": "https://www.ti.com/product/PCM3168A"}
   ],
-  "output": {"score": 95, "status": "VERIFIED", "evidence": "TI Datasheet p.4 + ADR-038"}
+  "output": {"score": 95, "status": "VERIFIED", "evidence": "TI Datasheet + ADR-038"}
 }
 ```
 
-### 5.3 Paralel Doğrulama İş Akışı (Parallel Verification Pipeline)
-```mermaid
-flowchart TD
-    A[Technical Claim Received] --> B{Requires Validation?}
-    B -->|Yes| C[Spawn Validator Agents<br/>Parallel: Hardware, Security, DB, API]
-    B -->|No| D[Use Vault Evidence<br/>.ai/knowledge/verified/]
-    C --> E[Score Sources<br/>Weighted Rubric]
-    D --> E
-    E --> F{All Validators ≥90?}
-    F -->|Yes| G[Auditor Layer<br/>Cross-ref + Recency + Arch]
-    F -->|Partial| H[Flag UNVERIFIED<br/>User Confirmation Required]
-    F -->|Any <60| I[REJECTED<br/>H001-H039 Pattern Match]
-    G --> J{All Auditors Pass?}
-    J -->|Yes| K[Integrator: VERIFIED<br/>Store .ai/knowledge/verified/]
-    J -->|No| H
-    I --> L[Integrator: REJECTED<br/>Store .ai/knowledge/rejected/]
-    K --> M[Truth Mode Block Output]
-    H --> M
-    L --> M
+### 5.3 Parallel Verification Pipeline
+
+```
+Technical Claim Received
+         |
+         v
+Requires Validation? --No--> Use Vault Evidence
+         |Yes
+         v
+Spawn Validator Agents (Parallel)
+[Hardware, Security, DB, API]
+         |
+         v
+Score Sources (Weighted Rubric)
+         |
+         v
+All Validators >=90? --No--> Flag UNVERIFIED / REJECTED
+         |Yes
+         v
+Auditor Layer (Sequential)
+[Cross-ref + Recency + Architecture]
+         |
+         v
+All Auditors Pass? --No--> Flag UNVERIFIED
+         |Yes
+         v
+Integrator: VERIFIED
+Store .ai/knowledge/verified/
+         |
+         v
+Truth Mode Block Output
 ```
 
-## 6. Otomasyon Çerçevesi (Automation Framework)
+---
 
-### 6.1 Otomatik Confidence Scoring Pipeline
-```bash
-# .claude/scripts/auto-confidence-score.sh
-# Her teknik iddiada otomatik çalışır:
+## 6. AUTOMATION FRAMEWORK
 
+### 6.1 Auto Confidence Scoring Pipeline
+
+```
 1. CLAIM EXTRACTION
-   - Kod, belge veya karar metninden teknik iddiaları çıkar
+   - Extract technical claims from code, docs, or decisions
    - Pattern: "X supports Y", "Use Z for W", "Method A does B"
 
 2. PATTERN MATCHING
-   - H001-H039 rejected pattern DB'si ile karşılaştır
-   - Eşleşme varsa → REJECTED (score: 0)
+   - Compare against H001-H039 rejected pattern DB
+   - Match found -> REJECTED (score: 0)
 
 3. VAULT LOOKUP
-   - .ai/knowledge/verified/ → +40 puan
-   - .ai/knowledge/unverified/ → +20 puan (30 gün kontrolü)
-   - .ai/decisions/accepted/ → +15 puan (ADR referansı)
-   - CLAUDE.md / .ai/brain.md → +15 puan
+   - .ai/knowledge/verified/   -> +40 points
+   - .ai/knowledge/unverified/ -> +20 points (30-day check)
+   - .ai/decisions/accepted/   -> +15 points (ADR reference)
+   - CLAUDE.md / .ai/brain.md  -> +15 points
 
 4. OFFICIAL DOCS CHECK
-   - php.net/MDN/owasp.org/vendor PDF → +25 puan (varsa)
-   - RFC/ISO standardı → +25 puan
+   - php.net/MDN/owasp.org/vendor PDF -> +25 points (if available)
+   - RFC/ISO standard                  -> +25 points
 
 5. RECENCY CHECK
-   - 2024+ → +0
-   - 2022-2023 → -10
-   - <2022 → -15 + user confirmation required
+   - 2024+  -> +0
+   - 2022-2023 -> -10
+   - <2022  -> -15 + user confirmation required
 
 6. FINAL SCORE
-   - ≥90 → VERIFIED → auto-store .ai/knowledge/verified/
-   - 60-89 → UNVERIFIED → flag for user confirmation
-   - <60 → REJECTED → auto-store .ai/knowledge/rejected/
+   - >=90  -> VERIFIED  -> auto-store .ai/knowledge/verified/
+   - 60-89 -> UNVERIFIED -> flag for user confirmation
+   - <60   -> REJECTED  -> auto-store .ai/knowledge/rejected/
 ```
 
-### 6.2 Otomatik Bilgi Yönetimi (Auto Knowledge Management)
-```bash
-# .claude/scripts/auto-knowledge-management.sh
-# Haftalık cron (GitHub Actions: monthly) ile çalışır:
+### 6.2 Auto Knowledge Management
 
-UNVERIFIED PROMOTION (30 gün kuralı):
-- .ai/knowledge/unverified/ dosyalarını tara
-- creation_date > 30 gün → re-evaluate
-- Eğer hala geçerli ve 2+ kaynak doğrulandıysa → VERIFIED'e taşı
-- Değilse → REJECTED'e taşı veya UNVERIFIED'da tut (uyarı ile)
+```
+UNVERIFIED PROMOTION (30-day rule):
+- Scan .ai/knowledge/unverified/ files
+- creation_date > 30 days -> re-evaluate
+- If still valid and 2+ sources verified -> move to VERIFIED
+- Else -> move to REJECTED or keep with warning
 
 REJECTED ARCHIVAL:
-- .ai/knowledge/rejected/ dosyalarını versionla
-- Pattern: H001_PCM5122_8.1_v1.md, H001_PCM5122_8.1_v2.md
-- Eski versiyonları .ai/knowledge/rejected/archive/ altında sakla
+- Version .ai/knowledge/rejected/ files
+- Pattern: H001_PCM5122_8.1_v1.md
+- Archive old versions under .ai/knowledge/rejected/archive/
 
 CROSS-REFERENCE UPDATE:
-- Tüm wiki-linkleri `[[path/to/file]]` kontrol et
-- Kırık link varsa → .ai/index.md ve .ai/keys.md'yi güncelle
-- Yeni ADR eklendiyse → ilgili domain dosyalarına referans ekle
+- Scan all wiki-links [[path/to/file]]
+- Broken link found -> update .ai/index.md and .ai/keys.md
+- New ADR added -> add reference to domain files
 ```
 
-### 6.3 Red Team Adversarial Review Otomasyonu
-```bash
-# .claude/scripts/red-team-review.sh
-# Her VERIFIED claim sonrası otomatik 3'lü eleştiri:
+### 6.3 Red Team Adversarial Review Automation
 
-TECHNICAL CRITIQUE (Automated):
-- "Bu kod production'da çöker mi?" → Static analysis (PHPStan level 8)
-- "Memory leak var mı?" → Zero-allocation check (C++ audio callback)
-- "Race condition riski var mı?" → Lock-free pattern verification
+```
+TECHNICAL CRITIQUE:
+- "Will this code crash in production?" -> Static analysis
+- "Memory leak?" -> Zero-allocation check (C++ audio callback)
+- "Race condition?" -> Lock-free pattern verification
 
-SECURITY CRITIQUE (Automated):
-- "OWASP Top 10 2025 uyumu var mı?" → Security scan
-- "Credential hardcoded mı?" → Secret scan (git-secrets, truffleHog)
-- "CSRF/CSP/RateLimit bypass edilebilir mi?" → Penetration test rules
+SECURITY CRITIQUE:
+- "OWASP Top 10 2025 compliance?" -> Security scan
+- "Credential hardcoded?" -> Secret scan
+- "CSRF/CSP/RateLimit bypass?" -> Penetration test rules
 
-ARCHITECTURE CRITIQUE (Automated):
-- "L0→L3 import var mı?" → Dependency graph check
-- "Middleware sırası bozulmuş mu?" → Pipeline order validation
-- "BCNF ihlali var mı?" → Schema normalization audit
+ARCHITECTURE CRITIQUE:
+- "L0->L3 import?" -> Dependency graph check
+- "Middleware order broken?" -> Pipeline order validation
+- "BCNF violation?" -> Schema normalization audit
 ```
 
-## 7. Uygulama ve Doğrulama İş Akışı (Execution Workflow)
+---
 
-Her teknik kararda aşağıdaki döngü (Pipeline) işletilir:
+## 7. EXECUTION WORKFLOW
 
-### 7.1 Temel Pipeline
-1. **Talep ve İhtiyaç Analizi:** Hangi kütüphane, metot, donanım veya mimariye ihtiyaç var?
-2. **Sistem Entegrasyonlu Araştırma:** Bilgi `.ai` vault, resmi dokümanlar, otomasyon scriptleri ile toplanır.
-3. **Puanlama (Scoring):** Elde edilen bilgi ağırlıklı rubrik ile 0-100 arası puanlanır.
-4. **Çapraz Kontrol (Cross-Validation):** Validator ajanları paralelde, Auditor ajanları sıralı çalışır.
-5. **Red Team Review:** 3'lü adversarial eleştiri (Teknik, Güvenlik, Mimari).
-6. **Aksiyon Kararı:**
-   - **≥90 (VERIFIED):** Kod yazılır, `.ai/knowledge/verified/` depolanır, Truth Block üretilir.
-   - **60-89 (UNVERIFIED):** `// ⚠️ VERIFICATION REQUIRED` bloğu ile kullanıcı onayı istenir.
-   - **<60 (REJECTED):** Kesin reddedilir, doğru alternatif sunulur, `.ai/knowledge/rejected/` arşivlenir.
+### 7.1 Pipeline Steps
 
-### 7.2 VERIFICATION REQUIRED Kullanımı
-Eğer ajan bir API, sınıf, endpoint veya donanım özelliğinin varlığından emin olamıyorsa (Skor < 90), kodu uyduramaz. Bunun yerine şu formatta uyarı bırakır:
+1. **Request Analysis:** What library, method, hardware, or architecture is needed?
+2. **System-Integrated Research:** Information gathered from .ai vault, official docs, automation scripts
+3. **Scoring:** Colored information scored 0-100 with weighted rubric
+4. **Cross-Validation:** Validator agents parallel, Auditor agents sequential
+5. **Red Team Review:** 3-way adversarial critique (Technical, Security, Architecture)
+6. **Action Decision:**
+   - **>=90 (VERIFIED):** Code written, .ai/knowledge/verified/ stored, Truth Block generated
+   - **60-89 (UNVERIFIED):** // ⚠️ VERIFICATION REQUIRED block, user confirmation requested
+   - **<60 (REJECTED):** Rejected, correct alternative provided, .ai/knowledge/rejected/ archived
+
+### 7.2 VERIFICATION REQUIRED Format
+
+When an agent cannot verify API, class, endpoint, or hardware feature existence (Score < 90):
 
 ```php
 // ⚠️ VERIFICATION REQUIRED
@@ -346,16 +512,16 @@ Eğer ajan bir API, sınıf, endpoint veya donanım özelliğinin varlığından
 // Confidence Score: 65/100 (UNVERIFIED - needs user confirmation)
 ```
 
-## 8. Truth Mode Doğrulama Bloğu (Zorunlu)
+### 7.3 Truth Mode Verification Block (Mandatory)
 
-Halüsinasyon kontrolünden başarıyla geçen ve kullanıcıya sunulan **KRİTİK HER ÇIKTININ SONUNDA**, bilginin nasıl doğrulandığını kanıtlayan aşağıdaki blok **ZORUNLU** olarak yer almalıdır:
+Every critical output that passes hallucination control MUST end with:
 
 ```markdown
 ---
-### 🔍 Truth Mode & Hallucination Control Verification
+### Truth Mode & Hallucination Control Verification
 - **Status:** VERIFIED
 - **Confidence Score:** 95/100
-- **Validation Pipeline:** Validator Layer → Auditor Layer → Integrator → Red Team Review
+- **Validation Pipeline:** Validator Layer -> Auditor Layer -> Integrator -> Red Team Review
 - **Sources Consulted:**
   1. [PHP Manual - PDO::prepare](https://www.php.net/manual/en/pdo.prepare.php) — Official Docs (40 pts)
   2. [OWASP SQL Injection Prevention](https://owasp.org/www-community/attacks/SQL_Injection) — Standard (25 pts)
@@ -370,158 +536,71 @@ Halüsinasyon kontrolünden başarıyla geçen ve kullanıcıya sunulan **KRİT�
 ---
 ```
 
-## 9. Ajan (Agent) Spesifik Kurallar
-
-Her bir uzman AI Agent, bu sistemi kendi alanında eksiksiz uygular:
-
-| Agent | Domain | Yasaklı Hallüsinasyonlar | Doğrulama Kaynağı |
-|-------|--------|--------------------------|-------------------|
-| **Backend Architect** | PHP/API/DB | Olmayan framework metodu, PDO misuse, SELECT *, ORM | php.net, dev.mysql.com, CLAUDE.md, `.claude/rules/php-standards.md`, `.claude/rules/database-standards.md` |
-| **UI Designer** | Vanilla JS/CSS/UX | Mevcut olmayan CSS property, `innerHTML` kullanımı, framework önerisi | MDN, caniuse.com, `.claude/rules/css-standards.md`, `.claude/rules/js-standards.md`, `.ai/ui-design/` |
-| **Security Engineer** | OWASP/Auth/Crypto | Zafiyet uydurma, MD5/SHA1, hardcoded secret, JWT bypass | owasp.org, nist.gov, `.claude/rules/security-standards.md`, `.ai/security/` |
-| **Data Engineer** | MySQL/BCNF/Optimization | Cross-DB FK, 10 DB uydurma, soft delete yok, `SELECT *` | dev.mysql.com, `.ai/decisions/`, `.ai/database/`, `.claude/rules/database-standards.md` |
-| **Embedded Engineer** | C++/Audio/Hardware | Çip voltaj tahmini, I2S/DSP limit tahmini, PCM5122 8.1 uydurma | TI.com datasheet, `.ai/electronic/`, `.ai/projects/neva-engine/`, `.claude/rules/core-rules.md` |
-| **QA Engineer** | Testing/E2E/Browsers | Olmayan test API'si, tarayıcı uyumluluk uydurma | playwright.dev, vitest.dev, `.ai/testing/strategy.md`, `.ai/personas/` |
-| **DevOps Engineer** | CI/CD/Deploy | Olmayan pipeline step, yanlış port/protokol, yanlış script | official docs, `.claude/rules/devops-standards.md`, `.github/workflows/` |
-
-## 10. Vault Entegrasyonu ve Çapraz Referanslar
-
-### 10.1 Zorunlu Vault Dosyaları (Her Task'te Okunmalı)
-```bash
-# 9-Step Boot Protocol (CLAUDE.md):
-1. CLAUDE.md                    → Proje kuralları, mimari
-2. AGENTS.md                    → Agent kısıtları
-3. WORKFLOW.md                  → 12/20 fazlı workflow'lar
-4. .ai/index.md                 → Master katalog
-5. .ai/keys.md                  → Navigasyon haritası
-6. .ai/AGENTS.md                → Agent detayları
-7. .ai/brain.md                 → Mimari kararlar (grep için)
-8. .ai/MEMORY.md                → Session durumu
-9. .ai/log.md                   → Son 20 satır aktivite
-```
-
-### 10.2 Çapraz Referans Haritası
-```
-SKILL.md (bu dosya)
-    ├── .claude/rules/core-rules.md                     → Core rules (merged)
-    ├── .claude/rules/php-standards.md                  → PHP standards
-    ├── .claude/rules/js-standards.md                   → JS standards
-    ├── .claude/rules/database-standards.md             → Database standards
-    ├── .claude/rules/security-standards.md             → Security standards
-    ├── .claude/rules/devops-standards.md               → DevOps standards
-    ├── .claude/rules/ai-development-rules.md           → AI development rules
-    ├── .claude/rules/orchestration.md                  → Orchestration (merged)
-    ├── .claude/rules/vault.md                          → Vault (merged)
-    ├── .ai/brain.md (Section 18: Zero Hallucination)   → Central decisions
-    ├── .ai/CLAUDE.md (Section 7: Hallucination Control)→ Navigation guide
-    ├── .ai/knowledge/verified/                         → Verified knowledge
-    ├── .ai/knowledge/unverified/                       → Unverified knowledge
-    ├── .ai/knowledge/rejected/README.md (H001)         → Rejected patterns
-    ├── .ai/decisions/accepted/ADR-038-8.1-sound-card-chip-selection.md
-    ├── .ai/MEMORY-updates/2026-07-30-hallucination-control.md → Workflow history
-    ├── .claude/scripts/validate-vault-links.sh         → Link validation
-    ├── .claude/scripts/check-frontmatter.sh            → Frontmatter check
-    ├── .claude/scripts/validate-adrs.sh                → ADR immutability
-    └── .claude/scripts/validate-hallucination-control.sh → Self-validation
-```
-
-### 10.3 Vault YAML Frontmatter Standardı (Her Dosya)
-```yaml
 ---
-title: "Dosya Başlığı"
-date: "YYYY-MM-DD"           # Oluşturma tarihi (değişmez)
-updated: "YYYY-MM-DD"        # Son güncelleme
-type: "skill|rule|adr|spec|guide|reference|log"
-status: "active|frozen|deprecated|draft"
-authority: "Vault Steward|Backend Architect|Security Engineer|..."
-references:
-  - "[[path/to/file1]]"
-  - "[[path/to/file2]]"
----
-```
 
-## 11. Çıktı Format Şablonu (Output Format Template)
+## 8. VERIFICATION CHECKLIST
 
-Tüm skill çıktıları bu şablona uygun olmalıdır:
+Every task must complete ALL items before delivery:
 
-```
-## [Task Title - Teknik, Spesifik]
-
-[Özet: Ne yapıldı, 1-2 cümle]
-
-### Implementation
-
-[Kod, karar veya açıklama - doğrulanmış bilgiyle]
-
-### Automated Validation Results
-
-- **Validator Layer:** Hardware✓ Security✓ Database✓ API✓
-- **Auditor Layer:** Cross-Ref✓ Recency✓ Architecture✓
-- **Red Team Review:** Technical✓ Security✓ Architecture✓
-- **Integrator:** Stored to .ai/knowledge/verified/
-
-### References
-
-- [Source 1](URL_or_vault_path) — [Type: Official|Standard|Vault|Codebase]
-- [Source 2](URL_or_vault_path) — [Type: Official|Standard|Vault|Codebase]
-- [Source 3](URL_or_vault_path) — [Type: Official|Standard|Vault|Codebase]
+- [ ] **9-Step Boot Protocol** completed (CLAUDE.md, AGENTS.md, WORKFLOW.md, .ai/index.md, .ai/keys.md, .ai/AGENTS.md, .ai/brain.md, .ai/MEMORY.md, .ai/log.md)
+- [ ] Relevant `.ai/` vault section read (domain-specific)
+- [ ] Required files read
+- [ ] **Validator Agents** run in parallel (Hardware, Security, DB, API)
+- [ ] **Auditor Agents** run sequentially (Cross-Ref, Recency, Architecture)
+- [ ] **Red Team Review** 3-way completed (Technical, Security, Architecture)
+- [ ] H001-H039 **Rejected Pattern** scan completed (no matches)
+- [ ] **Confidence Score** calculated (weighted rubric)
+- [ ] **Score >= 90** then: VERIFIED, code written, .ai/knowledge/verified/ stored
+- [ ] **Score 60-89** then: UNVERIFIED, // ⚠️ VERIFICATION REQUIRED block added
+- [ ] **Score < 60** then: REJECTED, .ai/knowledge/rejected/ archived
+- [ ] **Truth Mode Block** added to output end (Mandatory)
+- [ ] All **Sources** cited with vault path or official URL
+- [ ] **Cross-References** in [[path/to/file]] wiki-link format
+- [ ] **YAML Frontmatter** updated if applicable (updated field)
+- [ ] **Vault Automation Scripts** referenced (validate-*.sh)
+- [ ] **Agent-Specific Rules** applied (Backend, UI, Security, Data, Embedded, QA, DevOps)
+- [ ] **CI/CD Gate** integration verified (pre-commit, GitHub Actions)
 
 ---
 
-### 🔍 Truth Mode & Hallucination Control Verification
-- **Status:** VERIFIED
-- **Confidence Score:** XX/100
-- **Validation Pipeline:** Validator Layer → Auditor Layer → Integrator → Red Team Review
-- **Sources Consulted:**
-  1. [Title](URL_or_vault_path) — [Type]
-  2. [Title](URL_or_vault_path) — [Type]
-  3. [Title](URL_or_vault_path) — [Type]
-- **Automated Checks Passed:**
-  - [x] H001-H039 Rejected Pattern Scan
-  - [x] Vault Knowledge Base Lookup
-  - [x] Recency Filter (2024+)
-  - [x] Cross-Reference (3+ sources)
-  - [x] Red Team: Technical / Security / Architecture
----
-```
+## 9. VERSION HISTORY & REFERENCES
 
-## 12. Doğrulama Kontrol Listesi (Verification Checklist)
+### 9.1 Changelog
 
-Her görev tamamlanmadan önce **TÜM** maddeler işaretlenmelidir:
-
-- [ ] **9-Step Boot Protocol** tamamlandı (CLAUDE.md, AGENTS.md, WORKFLOW.md, .ai/index.md, .ai/keys.md, .ai/AGENTS.md, .ai/brain.md, .ai/MEMORY.md, .ai/log.md)
-- [ ] İlgili `.ai/` vault bölümü okundu (domain-specific)
-- [ ] Gerekli dosyalar okundu (MSA sınırı: max 15-20 hedef dosya)
-- [ ] **Validator Agents** paralelde çalıştırıldı (Hardware, Security, DB, API)
-- [ ] **Auditor Agents** sıralı çalıştırıldı (Cross-Ref, Recency, Architecture)
-- [ ] **Red Team Review** 3'lü tamamlandı (Technical, Security, Architecture)
-- [ ] H001-H039 **Reddedilen Pattern** taraması yapıldı (Hiçbiri eşleşmedi)
-- [ ] **Confidence Score** hesaplandı (Ağırlıklı rubrik ile)
-- [ ] **Score ≥ 90** ise: VERIFIED, kod yazıldı, `.ai/knowledge/verified/` depolandırıldı
-- [ ] **Score 60-89** ise: UNVERIFIED, `// ⚠️ VERIFICATION REQUIRED` bloğu eklendi
-- [ ] **Score < 60** ise: REJECTED, `.ai/knowledge/rejected/` arşivlendi
-- [ ] **Truth Mode Block** çıktının sonuna eklendi (Zorunlu)
-- [ ] Tüm **Kaynaklar** vault yolu veya resmi URL formatında verildi
-- [ ] **Çapraz Referanslar** `[[path/to/file]]` wiki-link formatında
-- [ ] **YAML Frontmatter** varsa güncellendi (updated alanı)
-- [ ] **Vault Otomasyon Scriptleri** referans edildi (validate-*.sh)
-- [ ] **Agent Spesifik Kurallar** uygulandı (Backend, UI, Security, Data, Embedded, QA, DevOps)
-- [ ] **CI/CD Gate** entegrasyonu doğrulandı (pre-commit, GitHub Actions)
-- [ ] **Sparse Attention (MSA)** kuralına uyuldu (Max 15-20 dosya tarandı)
-
-## 13. Sürüm Geçmişi
-
-| Versiyon | Tarih | Değişiklikler |
-|----------|-------|---------------|
-| 1.0.0 | 2026-07-30 | İlk yayın - Temel hallucination control |
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0.0 | 2026-07-30 | Initial release - Basic hallucination control |
 | 2.0.0 | 2026-07-31 | Confidence scoring, Truth Mode, H001-H013 |
-| 3.0.0 | 2026-08-01 | Agent spesifik kurallar, Web search protocol |
-| 3.1.0 | 2026-08-01 | ADR-038 entegrasyonu, Vault navigation |
-| 4.0.0 | 2026-08-02 | MAJOR: Agentic Orchestration, Automation Framework, System Integration, Zero Web Search, H001-H039 expanded, Red Team Automation, Vault Automation Integration |
-| 5.0.0 | 2026-08-08 | **MERGE: red-team-truth-mode v4.0.0 bu dosyaya birleştirildi. Tek skill olarak devam.** |
+| 3.0.0 | 2026-08-01 | Agent-specific rules, Web search protocol |
+| 3.1.0 | 2026-08-01 | ADR-038 integration, Vault navigation |
+| 4.0.0 | 2026-08-02 | Agentic Orchestration, Automation Framework |
+| 5.0.0 | 2026-08-08 | Merged red-team-truth-mode into single skill |
+| 6.0.0 | 2026-08-15 | Complete rewrite — MIM format, atomic claims, threshold penalty |
+
+### 9.2 Cross-Reference Map
+
+```
+SKILL.md (this file)
+    +-- .claude/rules/core-rules.md
+    +-- .claude/rules/php-standards.md
+    +-- .claude/rules/js-standards.md
+    +-- .claude/rules/database-standards.md
+    +-- .claude/rules/security-standards.md
+    +-- .claude/rules/devops-standards.md
+    +-- .ai/brain.md (Section 18: Zero Hallucination)
+    +-- .ai/CLAUDE.md (Section 7: Hallucination Control)
+    +-- .ai/knowledge/verified/
+    +-- .ai/knowledge/unverified/
+    +-- .ai/knowledge/rejected/
+    +-- .claude/scripts/validate-vault-links.sh
+    +-- .claude/scripts/check-frontmatter.sh
+    +-- .claude/scripts/validate-adrs.sh
+    +-- .claude/scripts/validate-hallucination-control.sh
+```
 
 ---
 
-*Hallucination Control Skill v5.0.0 — CoreMusic Zero Hallucination Policy (merged with red-team-truth-mode)*  
-*Authority: Vault Steward / AI Orchestrator*  
+*Hallucination Control System v6.0.0 — CoreMusic MIM Format*
+*Authority: Vault Steward / AI Orchestrator*
 *Mandatory for all agents — No exceptions — Zero tolerance for hallucinations*
+*Research: MDPI 2026 Survey, OpenAI 2025, UniCR Framework, EY Guardrails*

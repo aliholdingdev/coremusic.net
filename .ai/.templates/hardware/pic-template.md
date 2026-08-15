@@ -1088,7 +1088,6 @@ PIC18F4550, CoreMusic Audio Interface'de **USB HID controller** olarak görev ya
 | **XC8 Compiler** | ✅ XC8 (C18/Hi-Tech değil) |
 | **HID Bootloader** | ✅ Entegre |
 | **ADR Uyumlu** | ✅ ADR-017, ADR-038 |
-| **MSA Uyumlu** | ✅ 15 dosya limiti |
 | **Anti-Pattern** | ✅ 10 örnek (❌/✅) |
 | **Edge Case** | ✅ 12 senaryo |
 | **Bölüm Sayısı** | ✅ 18 ana bölüm |

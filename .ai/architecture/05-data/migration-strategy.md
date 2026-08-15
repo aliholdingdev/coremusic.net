@@ -18,7 +18,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-Migration Strategy, CoreMusic platformunun 9 BCNF veritabanı için şema değişikliklerini versiyonlu, geri alınabilir ve güveli bir şekilde yönetme stratejisini tanımlar.
+Migration Strategy, CoreMusic platformunun 18 BCNF veritabanı için şema değişikliklerini versiyonlu, geri alınabilir ve güveli bir şekilde yönetme stratejisini tanımlar.
 
 ---
 
@@ -164,7 +164,7 @@ INSERT INTO roles (name, description) VALUES
 |-----|------|
 | [[ADR-014-multi-db-migration-strategy]] | Forward-only migration |
 | [[ADR-033-sql-normalization-strategy]] | SQL normalizasyon |
-| [[ADR-040-database-authority]] | 9 BCNF DB |
+| [[ADR-040-database-authority]] | 18 BCNF DB |
 | [[ADR-050-multi-db-sync-strategy]] | Multi-DB sync |
 
 ---

@@ -3,7 +3,7 @@ type: architecture
 category: auth
 title: "Enterprise Auth — Domain Entities"
 date: 2026-08-09
-updated: 2026-08-09
+updated: 2026-08-13
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
@@ -62,7 +62,7 @@ namespace CoreMusic\Auth\Domain;
 
 class Role
 {
-    public const STANDARD = 'standard';
+    public const REGULAR = 'regular';
     public const PREMIUM = 'premium';
     public const STUDIO = 'studio';
     public const CAR = 'car';

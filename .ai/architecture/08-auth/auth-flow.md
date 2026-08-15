@@ -3,9 +3,9 @@ type: architecture
 category: auth
 title: "Enterprise Auth — Authentication Flow"
 date: 2026-08-09
-updated: 2026-08-09
+updated: 2026-08-12
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -188,7 +188,85 @@ Authentication lifecycle'ı tanımlar: login, logout, session refresh, ve cross-
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## 7. Auth Lifecycle
+## 7. Development Standalone Auth Callback Flow
+
+**Kaynak:** [[ADR-058-cross-subdomain-auth-flow]]
+
+Development modunda auth.coremusic.net yerel sunucuda çalışır (port 81, HTTP).
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              DEVELOPMENT STANDALONE AUTH FLOW                    │
+│              (auth.coremusic.net local, port 81, HTTP)          │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  1. Kullanıcı → home.coremusic.net:81'e erişir                  │
+│     │                                                           │
+│     ▼                                                           │
+│  2. Cookie yok → auth.coremusic.net:81/login'e redirect         │
+│     │              (?return_url=http://home.coremusic.net:81/)  │
+│     ▼                                                           │
+│  3. auth.coremusic.net:81/login sayfası gösterilir              │
+│     │              (HTTP, Cookie Secure=false)                   │
+│     ▼                                                           │
+│  4. Kullanıcı email + şifre girer                               │
+│     │                                                           │
+│     ▼                                                           │
+│  5. POST /api/login → Auth Service                               │
+│     │                                                           │
+│     ├── BypassAuth devre dışı (prod'da olduğu gibi)             │
+│     │                                                           │
+│     ├── Rate limit: dev'de de aktif (5 req/60s)                │
+│     │                                                           │
+│     ├── Argon2id password verify                                │
+│     │                                                           │
+│     ├── Session create (server-side)                            │
+│     │                                                           │
+│     ├── Session cookie set                                      │
+│     │   (HttpOnly=true, Secure=false, SameSite=Lax)            │
+│     │                                                           │
+│     ├── JWT Access Token üretilir (15dk, RS256)                 │
+│     │                                                           │
+│     ├── JWT Refresh Token üretilir (7 gün, RS256)               │
+│     │                                                           │
+│     ├── auth_key cookie ayarla (Access JWT)                     │
+│     │                                                           │
+│     ├── refresh_key cookie ayarla (Refresh JWT)                 │
+│     │                                                           │
+│     ▼                                                           │
+│  6. 302 Redirect → return_url                                   │
+│     │              (http://home.coremusic.net:81/)              │
+│     ▼                                                           │
+│  7. home.coremusic.net:81 → auth_key cookie'yi okur             │
+│     │                                                           │
+│     ├── JWT'yi yerel olarak doğrula (API çağrısı YOK)           │
+│     │   ├─ RS256 publicKey ile imza kontrolü                   │
+│     │   ├─ exp claim süre kontrolü                              │
+│     │   └─ Payload çıkar (user_id, role, email)                 │
+│     │                                                           │
+│     ├── Geçerli → $_SESSION['user_id'] = payload['user_id']    │
+│     │             $_SESSION['role'] = payload['role']           │
+│     │             Kullanıcı authenticated                       │
+│     │                                                           │
+│     └── Geçersiz → auth.coremusic.net:81/login'e redirect       │
+│                                                                 │
+│  8. Dashboard gösterilir                                        │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Development vs Production Farkları:**
+
+| Özellik | Development | Production |
+|---------|-------------|------------|
+| Protokol | HTTP | HTTPS |
+| Cookie Secure | false | true |
+| auth.coremusic.net port | 81 | 80/443 |
+| Return URL | `http://*.coremusic.net:81/` | `https://*.coremusic.net/` |
+| JWT Algorithm | RS256 (test key) | RS256 (prod key) |
+| Rate Limit | Aktif (dev'de de) | Aktif |
+
+## 8. Auth Lifecycle
 
 ```
 Login
@@ -203,22 +281,39 @@ Password Verify (Argon2id)
 Session Create (Server-side)
  │
  ▼
-Cookie Set (HTTPOnly, Secure, SameSite=Lax)
+Session Cookie Set (HttpOnly, Secure, SameSite=Lax)
+ │
+ ▼
+JWT Access Token Üret (15dk, RS256)
+ │
+ ▼
+JWT Refresh Token Üret (7 gün, RS256)
+ │
+ ▼
+auth_key Cookie Set (Access JWT)
+ │
+ ▼
+refresh_key Cookie Set (Refresh JWT)
  │
  ▼
 Authenticated
  │
  ▼
-Session Check (Every Request)
+Session/JWT Check (Every Request)
  │
- ▼
-Refresh (If needed)
+ ├── Access Token geçerli → Devam
+ │
+ └── Access Token süresi dolmuş → Refresh Token ile yenile
+      │
+      ├── Refresh Token geçerli → Yeni Access + Refresh üret
+      │
+      └── Refresh Token süresi dolmuş → auth.coremusic.net/login'e redirect
  │
  ▼
 Logout
  │
  ▼
-Destroy Session
+Destroy Session + Clear Cookies
  │
  ▼
 Redirect to Login
@@ -241,8 +336,8 @@ Redirect to Login
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 1.0.0 |
-| Flows | 5 (Login, Logout, Validation, Refresh, Media) |
+| Version | 2.0.0 |
+| Flows | 7 (Login, Logout, Validation, Refresh, Media, Dev Callback, JWT Refresh) |
 | Security Layers | 8 |
 | Clean Architecture | ✅
 

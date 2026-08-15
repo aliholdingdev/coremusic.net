@@ -1,10 +1,50 @@
 ---
 title: "CoreMusic — ADR Creation Workflow"
-type: workflow
+type: workflow-instruction
 category: architecture-decisions
-updated: 2026-08-06
+authority: SSOT
 status: active
-version: 2.0.0
+
+mode:
+  - Red Team
+  - Truth Mode
+  - Human Mode
+
+purpose:
+  - Architecture Decision Management
+  - Technical Decision Governance
+  - System Evolution Control
+  - Architecture Consistency Protection
+
+reference:
+  authority: ".ai/WORKFLOW.md"
+
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/AGENTS.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+    - ".ai/MEMORY.md"
+    - ".ai/log.md"
+
+  architecture:
+    - ".ai/ADR/"
+    - "Existing architecture"
+    - "Existing implementation"
+
+update_policy:
+  preserve_history: true
+  never_overwrite_decisions: true
+
+changelog:
+  - version: 3.0.0
+    date: 2026-08-15
+    changes:
+      - Added ADR lifecycle governance
+      - Added approval matrix
+      - Added impact analysis rules
+      - Added migration and rollback requirements
 ---
 
 # ADR Creation Workflow
@@ -15,11 +55,39 @@ Mimari Karar Kaydı (ADR) oluşturma, inceleme ve onaylama süreci.
 ## Workflow Steps
 
 ### 1. Kararı Belirle (15 dk)
+- Kontrol et:
+
+- Karar tipi nedir?
+- Mevcut ADR var mı?
+- Mevcut mimari etkileniyor mu?
+- Çakışan karar bulunuyor mu?
+
+- Karar türleri:
+
+- Architecture
+- Technology
+- Security
+- Database
+- Infrastructure
+- Policy
+
 - Karar türünü tanımla: Teknoloji / Mimari / Güvenlik / Politika
 - Mevcut ADR'leri kontrol et (çakışma var mı?)
 - ADR numarasını belirle: `ADR-NNN` (NNN = bir sonraki sıra numarası)
 
 ### 2. Araştırma Yap (30 dk)
+- İlgili ADR kayıtları
+- Architecture dokümantasyonu
+- Mevcut kod yapısı
+- Teknik standartlar
+
+- Kontrol:
+
+- Alternatif çözümler
+- Teknik riskler
+- Uzun vadeli etkiler
+- Kanıt olmadan teknik karar alınmaz.
+
 - İlgili ADR'leri oku (ADR-001'den ADR-044'e kadar)
 - Frozen ADR'leri kontrol et (001-037 = de)
 - Alternatifleri değerlendir
@@ -44,6 +112,56 @@ Mimari Karar Kaydı (ADR) oluşturma, inceleme ve onaylama süreci.
 - ADR'yi vault'a ekle
 - `index.md`, `keys.md`, `brain.md` güncelle
 - `log.md`'ye timestamp ile yaz
+
+
+## ADR Yaşam Döngüsü Kuralları
+
+önerildi (proposed)
+   |
+   v
+inceleme (review)
+   |
+   v
+kabul edildi (accepted)
+   |
+   v
+donduruldu (frozen)
+
+
+`geçersiz (deprecated)` durumu aşağıdakileri gerektirir:
+
+- Yerine Geçecek ADR (Replacement ADR)
+- Migration planı
+- Onay
+
+## Onay Matrisi
+
+| Karar | Onay |
+|---|---|
+| Mimari | Principal Architect |
+| Güvenlik | Security Engineer |
+| Veritabanı | Data Engineer |
+| API | Backend Architect |
+| Dağıtım | DevOps |
+| Donanım | Embedded Engineer |
+
+## Etki Analizi Kuralları
+
+## Etki Analizi
+
+Etkilenen sistemler:
+
+- Backend
+- Frontend
+- Veritabanı
+- Altyapı
+- Güvenlik
+
+Risk seviyesi:
+
+- Düşük
+- Orta
+- Yüksek
 
 ## ADR Formatı
 

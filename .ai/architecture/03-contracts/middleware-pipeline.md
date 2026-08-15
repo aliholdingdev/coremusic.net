@@ -16,7 +16,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-CoreMusic'in 6 katmanlı middleware pipeline'ını, her bir middleware'in görevini, sırasını ve uygulama detaylarını tanımlayan **Pipeline Rehberi**dir. Sıra frozen'dır (değiştirilemez).
+CoreMusic'in 10 katmanlı middleware pipeline'ını, her bir middleware'in görevini, sırasını ve uygulama detaylarını tanımlayan **Pipeline Rehberi**dir. Sıra frozen'dır (değiştirilemez).
 
 ## 2. Pipeline Sırası (Frozen)
 
@@ -25,31 +25,47 @@ Request
   │
   ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  1. SessionManagerMiddleware                                │
-│     ├── Session başlatır                                    │
-│     ├── CSP nonce üretir                                    │
-│     └── Idle timeout kontrolü                               │
+│  1. OriginCheckMiddleware                                   │
+│     ├── Köken doğrulama (whitelist CORS)                    │
+│     └── Geçersiz köken → 403 Forbidden                     │
 ├─────────────────────────────────────────────────────────────┤
-│  2. BypassAuthMiddleware                                    │
-│     ├── Test ortamında auth bypass                          │
-│     └── Production'da devre dışı                            │
+│  2. CorsMiddleware                                          │
+│     ├── CORS header yönetimi                                │
+│     └── Origin whitelist kontrolü                           │
 ├─────────────────────────────────────────────────────────────┤
 │  3. RateLimiterMiddleware                                   │
 │     ├── APCu tabanlı rate limiting                          │
 │     └── 60 req/60s default                                  │
 ├─────────────────────────────────────────────────────────────┤
-│  4. AuthMiddleware                                          │
-│     ├── Kullanıcı bilgisi inject                            │
-│     └── RBAC kontrolü                                       │
-├─────────────────────────────────────────────────────────────┤
-│  5. SecurityHeadersMiddleware                               │
+│  4. SecurityHeadersMiddleware                               │
 │     ├── CSP strict-dynamic                                   │
 │     ├── X-Frame-Options: DENY                               │
 │     └── HSTS, X-Content-Type-Options                        │
 ├─────────────────────────────────────────────────────────────┤
+│  5. SessionManagerMiddleware                                │
+│     ├── Session başlatır                                    │
+│     ├── CSP nonce üretir                                    │
+│     └── Idle timeout kontrolü                               │
+├─────────────────────────────────────────────────────────────┤
 │  6. CsrfMiddleware                                          │
 │     ├── csrf_token doğrulama                                │
 │     └── POST/PUT/DELETE için zorunlu                        │
+├─────────────────────────────────────────────────────────────┤
+│  7. BypassAuthMiddleware                                    │
+│     ├── Test ortamında auth bypass                          │
+│     └── Production'da devre dışı                            │
+├─────────────────────────────────────────────────────────────┤
+│  8. AuthMiddleware                                          │
+│     ├── Kullanıcı bilgisi inject                            │
+│     └── RBAC kontrolü                                       │
+├─────────────────────────────────────────────────────────────┤
+│  9. PermissionMiddleware                                    │
+│     ├── RBAC yetki kontrolü                                 │
+│     └── Rol bazlı erişim                                    │
+├─────────────────────────────────────────────────────────────┤
+│  10. ValidationMiddleware                                   │
+│      ├── Request/DTO validasyonu                            │
+│      └── Input doğrulama                                    │
 └─────────────────────────────────────────────────────────────┘
   │
   ▼
@@ -242,7 +258,7 @@ class RateLimiterMiddleware
 |---------|-------|
 | **Görev** | Kullanıcı bilgisi inject + JWT doğrulama |
 | **Auth Key** | `auth_key` cookie (auth.coremusic.net) |
-| **JWT Algorithm** | RS256 (RSA SHA-256) — `firebase/php-jwt` |
+| **JWT Algorithm** | RS256 (RSA SHA-256) — `lcobucci/jwt` (firebase/php-jkt yasaklı, ADR-059) |
 | **JWT Secret** | RSA private key dosyası (`AUTH_JWT_PRIVATE_KEY`) |
 | **JWT Public** | RSA public key dosyası (`AUTH_JWT_PUBLIC_KEY`) |
 | **Session Vars** | `user_id`, `role`, `email`, `gender`, `permissions` |
@@ -550,7 +566,6 @@ class Pipeline
 | **Satır Sayısı** | ~560 |
 | **ADR Uyumlu** | ✅ 008, 010, 011, 012, 013, 022, 047, 052 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 7 referans |
 | **Guardrails** | ✅ 6 kural |
 

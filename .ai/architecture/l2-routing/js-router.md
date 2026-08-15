@@ -202,7 +202,6 @@ router.navigate('/songs');
 | **Satır Sayısı** | ~510 |
 | **ADR Uyumlu** | ✅ 001, 021 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

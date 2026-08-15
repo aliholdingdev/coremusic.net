@@ -128,7 +128,7 @@ Bu session'da yapılan çalışmaların, alınan kararların ve çözümlemeleri
 | 1 | `index.md` | UI-Design bolumu eklendi | ✅ |
 | 2 | `keys.md` | Frontend & UI Design Keywords eklendi | ✅ |
 | 3 | `CLAUDE.md` | Hard Guardrails 10→11 (Mockup Before Frontend) | ✅ |
-| 4 | `AGENTS.md` | MSA Limit istisnası eklendi | ✅ |
+| 4 | `AGENTS.md` | Mockup Before Frontend kuralı eklendi | ✅ |
 
 ---
 

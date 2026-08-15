@@ -164,7 +164,6 @@ class CleanUrlRedirect
 | **Satır Sayısı** | ~500 |
 | **ADR Uyumlu** | ✅ 009, 016 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

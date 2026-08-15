@@ -3,20 +3,20 @@ type: architecture
 category: contracts
 title: "Enterprise Composer Package Standards"
 date: 2026-08-09
-updated: 2026-08-09
+updated: 2026-08-12
 status: active
-version: 1.0.0
+version: 2.1.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
 # Enterprise Composer Package Standards
 
-**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]]
+**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[ADR-085-modular-composer-packages]] · [[ADR-087-master-implementation-plan]]
 
 ## 1. Amaç
 
-CoreMusic ekosisteminde kullanılacak Composer paket standartlarını tanımlar.
+CoreMusic ekosisteminde kullanılacak Composer paket standartlarını tanımlar. **Shared library `shared/` dizinindedir (NOT `coremusic-shared/`).**
 
 ## 2. Temel Kural
 
@@ -140,7 +140,7 @@ Herhangi bir Composer paketi projeye eklenmeden önce aşağıdaki kriterler ana
 
 | Paket | Amaç |
 |--------|------|
-| `firebase/php-jwt` | JWT |
+| `lcobucci/jwt` | JWT (RS256, ES256 — firebase/php-jkt yasaklı, ADR-059) |
 | `league/oauth2-server` | OAuth2 Server |
 | `symfony/security-csrf` | CSRF |
 | `symfony/password-hasher` | Password Hash |
@@ -197,33 +197,241 @@ Herhangi bir Composer paketi projeye eklenmeden önce aşağıdaki kriterler ana
 | `promphp/prometheus_client_php` | Prometheus |
 | `sentry/sentry` | Error Tracking |
 
-## 5. coremusic/* Paketleri
+### 4.23 MFA (Multi-Factor Authentication)
 
-CoreMusic tek bir shared paketten oluşmamalıdır:
+| Paket | Amaç |
+|--------|------|
+| `pragmarx/google2fa` | TOTP tabanlı 2FA |
+
+### 4.24 QR Code
+
+| Paket | Amaç |
+|--------|------|
+| `endroid/qr-code` | QR code üretimi (MFA setup için) |
+
+### 4.25 Device Detection
+
+| Paket | Amaç |
+|--------|------|
+| `mobiledetect/mobiledetectlib` | Cihaz/tarayıcı algılama |
+
+### 4.26 Bot Detection
+
+| Paket | Amaç |
+|--------|------|
+| `jaybizzle/crawler-detect` | Bot/crawler algılama |
+
+### 4.27 GeoIP
+
+| Paket | Amaç |
+|--------|------|
+| `geoip2/geoip2` | Coğrafi konum tespiti |
+
+### 4.28 Markdown
+
+| Paket | Amaç |
+|--------|------|
+| `league/commonmark` | Markdown işleme |
+
+### 4.29 RSS
+
+| Paket | Amaç |
+|--------|------|
+| `laminas/laminas-feed` | RSS/Atom feed üretimi |
+
+### 4.30 Backup
+
+| Paket | Amaç |
+|--------|------|
+| `spatie/db-dumper` | Veritabanı yedekleme |
+
+### 4.31 Health Check
+
+| Paket | Amaç |
+|--------|------|
+| `spatie/health` | Servis sağlık kontrolü |
+
+### 4.32 Audit Log
+
+| Paket | Amaç |
+|--------|------|
+| `spatie/activitylog` | Aktivite günlüğü |
+
+### 4.33 Internationalization (i18n)
+
+| Paket | Amaç |
+|--------|------|
+| `symfony/translation` | Çeviri yönetimi |
+| `symfony/intl` | Uluslararası veri |
+
+### 4.34 XML
+
+| Paket | Amaç |
+|--------|------|
+| `sabre/xml` | XML işleme |
+| `robrichards/xmlseclibs` | XML güvenlik |
+
+### 4.35 PDF
+
+| Paket | Amaç |
+|--------|------|
+| `dompdf/dompdf` | PDF üretimi |
+| `mpdf/mpdf` | PDF üretimi (alternatif) |
+
+### 4.36 Excel
+
+| Paket | Amaç |
+|--------|------|
+| `phpoffice/phpspreadsheet` | Excel dosya işlemleri |
+
+### 4.37 Scheduler
+
+| Paket | Amaç |
+|--------|------|
+| `dragonmantank/cron-expression` | Cron ifadesi çözümleme |
+
+### 4.38 Migration
+
+| Paket | Amaç |
+|--------|------|
+| `robmorgan/phinx` | Veritabanı migrasyonu |
+
+### 4.39 Seeder
+
+| Paket | Amaç |
+|--------|------|
+| `fakerphp/faker` | Sahte veri üretimi |
+
+### 4.40 CSS Selector
+
+| Paket | Amaç |
+|--------|------|
+| `symfony/css-selector` | CSS seçici çözümleme |
+
+### 4.41 Expression Language
+
+| Paket | Amaç |
+|--------|------|
+| `symfony/expression-language` | Ifade dil işleyici |
+
+### 4.42 HTML Parser
+
+| Paket | Amaç |
+|--------|------|
+| `masterminds/html5` | HTML5 işleme |
+
+### 4.43 Debug
+
+| Paket | Amaç |
+|--------|------|
+| `symfony/var-dumper` | Debug dump |
+| `filp/whoops` | Hata sayfası |
+
+### 4.44 Benchmark
+
+| Paket | Amaç |
+|--------|------|
+| `phpbench/phpbench` | Performans ölçümü |
+
+### 4.45 Security Audit
+
+| Paket | Amaç |
+|--------|------|
+| `roave/security-advisories` | Güvenlik denetimi |
+
+### 4.46 Static Analysis
+
+| Paket | Amaç |
+|--------|------|
+| `vimeo/psalm` | Statik analiz |
+
+### 4.47 Code Style
+
+| Paket | Amaç |
+|--------|------|
+| `squizlabs/php_codesniffer` | Kod stili denetimi |
+
+## 5. Minimum Enterprise Composer Stack
+
+CoreMusic projesinde varsayılan olarak kullanılması önerilen çekirdek paketler:
 
 ```
-coremusic/contracts
-coremusic/http
-coremusic/auth
-coremusic/security
-coremusic/cache
-coremusic/events
-coremusic/openapi
-coremusic/sdk
-coremusic/logger
-coremusic/support
-coremusic/validation
-coremusic/queue
-coremusic/storage
-coremusic/config
-coremusic/monitoring
-coremusic/testing
-coremusic/api-client
-coremusic/websocket
-coremusic/observability
+php-di/php-di
+nikic/fast-route
+nyholm/psr7
+laminas/laminas-httphandlerrunner
+lcobucci/jwt
+ramsey/uuid
+monolog/monolog
+vlucas/phpdotenv
+respect/validation
+symfony/security-csrf
+symfony/cache
+symfony/event-dispatcher
+symfony/rate-limiter
+league/flysystem
+guzzlehttp/guzzle
+paragonie/halite
+paragonie/sodium_compat
+doctrine/dbal
+league/oauth2-server
+ezyang/htmlpurifier
+mobiledetect/mobiledetectlib
+jaybizzle/crawler-detect
+dragonmantank/cron-expression
+robmorgan/phinx
+pragmarx/google2fa
+endroid/qr-code
+spatie/health
+spatie/activitylog
+symfony/translation
 ```
 
-## 6. Yasaklar
+**Yeni Eklenenler (v2.1.0):**
+- `doctrine/dbal` — Veritabanı abstraction (PDO üzerinde type-safe queries, schema management, migration support). ORM DEĞİL, sadece DBAL katmanı.
+- `lcobucci/jwt` — JWT token oluşturma/doğrulama (RS256, ES256 destekli). **Tek JWT paketi.** `firebase/php-jkt` yasaklı (brain.md §4A, ADR-059).
+- `league/oauth2-server` — OAuth2 Server implementasyonu (Authorization Code, Client Credentials grant types).
+
+## 6. Shared Library (`shared/`)
+
+> **Kritik Düzeltme:** Shared library `shared/` dizinindedir. `coremusic-shared/` DEĞİL.
+
+CoreMusic tek bir shared paketten oluşmamalıdır. Shared library `shared/` dizininde yer alır ve bağımsız bir Composer paketi olarak `coremusic/shared` adıyla publish edilir:
+
+```
+shared/                          ← Root dizindeki shared kütüphanesi
+├── composer.json                ← "name": "coremusic/shared"
+├── src/
+│   ├── Auth/                    ← Auth Domain
+│   ├── Security/                ← Middleware Pipeline
+│   ├── Http/                    ← HTTP Kernel
+│   ├── Router/                  ← Enterprise Router
+│   ├── Container/               ← DI Container
+│   └── Event/                   ← Event Dispatcher
+├── config/
+└── tests/
+```
+
+**Subdomain'ler shared'i şu şekilde kullanır:**
+
+```json
+{
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../shared",
+            "options": { "symlink": true }
+        }
+    ],
+    "require": {
+        "coremusic/shared": "*"
+    }
+}
+```
+
+**Yasak:** `coremusic-shared/` dizini YASAKTIR. Doğru yol: `shared/`.
+
+## 7. Yasaklar
 
 Aşağıdaki bileşenler sıfırdan yazılmayacaktır:
 
@@ -242,6 +450,11 @@ Aşağıdaki bileşenler sıfırdan yazılmayacaktır:
 - Cryptography
 - Password Hashing
 - CSRF Engine
+- MFA/2FA
+- QR Code Generator
+- Database Migration
+- Health Check
+- Audit Log
 
 ## 7. Yasaklı Teknolojiler
 
@@ -286,14 +499,14 @@ CoreMusic'in temel hedefi mevcut problemi yeniden çözmek değildir. Amaç; bat
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 1.0.0 |
-| **Paket Sayısı** | 40+ |
+| **Versiyon** | 2.1.0 |
+| **Paket Sayısı** | 70+ |
 | **PSR Uyumlu** | ✅ |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
+| **Shared Path** | `shared/` (NOT `coremusic-shared/`) |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-09
+**Last Updated:** 2026-08-12
 **Mode:** Red Team · Human Mode · Truth Mode

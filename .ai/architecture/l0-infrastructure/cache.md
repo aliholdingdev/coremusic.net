@@ -766,7 +766,7 @@ class ApcuCacheTest extends TestCase
 
 | Dosya | Amaç |
 |-------|------|
-| [[database]] | 9 BCNF veritabanı, PDO |
+| [[database]] | 18 BCNF veritabanı, PDO |
 | [[filesystem]] | Dosya yönetimi, upload |
 | [[credential-vault]] | AES-256-GCM, secret yönetimi |
 | [[l1-security]] | Security middleware, session |
@@ -818,7 +818,6 @@ class ApcuCacheTest extends TestCase
 | **Web Doğrulanmış** | ✅ php.net, redis.io |
 | **Zero Hallucination** | ✅ |
 | **Cross-Reference** | ✅ Doğrulandı |
-| **MSA Uyumlu** | ✅ |
 | **Test Coverage** | ≥80% min, ≥90% target |
 | **Cache Tiers** | 3 (APCu, Redis, File) |
 

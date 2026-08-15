@@ -59,13 +59,12 @@ Thermal Management, CoreMusic amfi termal yönetim ve soğutma tasarımını tan
 
 ## 5. Termal Akış Diyagramı
 
-```mermaid
-graph TB
-    TRANS[Output Transistors] --> HS[Heatsink]
-    HS --> FAN[Fan]
-    FAN --> AIR[Hava Akışı]
-    SENSOR[Termal Sensör] -->|<60°C| FAN_OFF[Fan Kapalı]
-    SENSOR -->|>60°C| FAN_ON[Fan Açık]
+```
+Output Transistors ──▶ Heatsink ──▶ Fan ──▶ Hava Akışı
+
+Termal Sensör:
+    <60°C ──▶ Fan Kapalı
+    >60°C ──▶ Fan Açık
 ```
 
 ---

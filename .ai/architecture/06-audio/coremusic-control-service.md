@@ -27,14 +27,14 @@ Auth, session, RBAC ve middleware management. Ana SPA gateway. [[ADR-043-auth-su
 | **Stack** | PHP 8.4 (strict_types) | — |
 | **Database** | coremusic_auth | ADR-040 |
 | **Auth** | Session-based | ADR-011 |
-| **Middleware** | 6 katmanlı pipeline | ADR-010 |
+| **Middleware** | 10 katmanlı pipeline | ADR-010 |
 
 ## 3. Sorumluluklar
 
 | Bileşen | Görev | ADR |
 |---------|-------|-----|
 | **Auth** | Login, register, session | ADR-043 |
-| **Middleware** | 6-layer pipeline | ADR-010 |
+| **Middleware** | 10-layer pipeline | ADR-010 |
 | **RBAC** | Role-based access control | ADR-022 |
 | **SPA Router** | Client-side routing | ADR-021 |
 | **Theme Engine** | Dynamic themes | ADR-044 |
@@ -58,7 +58,7 @@ Auth, session, RBAC ve middleware management. Ana SPA gateway. [[ADR-043-auth-su
 ## 5. Middleware Pipeline (Sıra Değişmez — ADR-010/011/012/013/022)
 
 ```
-Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf → Controller
+Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
 ```
 
 ### 5.1 Middleware Detayları
@@ -192,7 +192,6 @@ Browser → GET /register
 | **Satır Sayısı** | ~530 |
 | **ADR Uyumlu** | ✅ 008, 010, 011, 012, 013, 021, 022, 040, 042, 043, 044 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 | **Guardrails** | ✅ 6 kural |
 

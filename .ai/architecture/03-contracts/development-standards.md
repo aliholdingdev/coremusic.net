@@ -384,7 +384,7 @@ void processBlock(juce::AudioBuffer<float>& buffer,
 
 | Kural | Değer | ADR |
 |-------|-------|-----|
-| ITCSS 7-layer | Katmanlı yapı | [[ADR-001-vanilla-js-itcss]] |
+| ITCSS 9-layer | Katmanlı yapı | [[ADR-001-vanilla-js-itcss]] |
 | BEM+BEMIT | İsimlendirme | — |
 | Custom Properties | CSS değişkenleri | — |
 | main.css | Sadece 01-07 katmanları | — |

@@ -62,17 +62,19 @@ WiFi Audio Drivers, CoreMusic platformunun WiFi üzerinden ses akışı protokol
 
 ## 5. WiFi Driver Akışı
 
-```mermaid
-graph TB
-    START[Başla] --> DISCOVER{Cihaz Keşfet}
-    DISCOVER -->|DLNA| UPnP[UPnP Discovery]
-    DISCOVER -->|AirPlay| MDNS[mDNS Discovery]
-    DISCOVER -->|Roon| RAIS[RAIS Discovery]
-    UPnP --> SELECT[Cihaz Seç]
-    MDNS --> SELECT
-    RAIS --> SELECT
-    SELECT --> CONNECT[Bağlantı Kur]
-    CONNECT --> STREAM[Stream Başlat]
+```
+Başla ──▶ {Cihaz Keşfet}
+              │
+     DLNA ▼   ▼ AirPlay   ▼ Roon
+  UPnP Discovery  mDNS Discovery  RAIS Discovery
+        │              │              │
+        └──────────────┴──────────────┘
+                       │
+                Cihaz Seç
+                       │
+                Bağlantı Kur
+                       │
+                Stream Başlat
 ```
 
 ---

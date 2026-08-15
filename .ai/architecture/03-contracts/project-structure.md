@@ -12,7 +12,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Project Structure — Clean Architecture
 
-**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]]
+**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[ADR-051-platform-rewrite-from-scratch]] · [[ADR-087-master-implementation-plan]]
 
 ## 1. Amaç
 
@@ -265,16 +265,14 @@ C:\www\coremusic.net\
 │       ├── about.php
 │       └── contact.php
 │
-├── composer.json                          ← Root composer
-├── package.json                           ← Root npm
-├── .env.example                           ← Env template
-├── phpunit.xml                            ← PHPUnit config
-├── phpstan.neon                           ← PHPStan config
-├── .php-cs-fixer.php                      ← CS Fixer config
+├── .env.example                           ← Env template (root'ta izinli)
 ├── README.md
 ├── AGENTS.md                              ← Bootstrap pointer
 ├── CLAUDE.md                              ← Bootstrap pointer
 └── WORKFLOW.md                            ← Bootstrap pointer
+
+⚠️ NOT: Root dizinde composer.json, phpunit.xml, phpstan.neon, .php-cs-fixer.php, package.json YASAKTIR.
+Her subdomain kendi config dosyalarını taşır. Detay: [[architecture/03-contracts/directory-structure]]
 ```
 
 ## 3. Katman Sorumlulukları
@@ -461,7 +459,6 @@ namespace CoreMusic\Api\Controller;
 | **Satır Sayısı** | ~450 |
 | **ADR Uyumlu** | ✅ 001, 002, 007, 042, 060 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

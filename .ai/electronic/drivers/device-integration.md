@@ -48,14 +48,13 @@ Device Integration, CoreMusic platformunun cihaz algılama, eşleştirme ve yön
 
 ## 4. Device Auth Akışı
 
-```mermaid
-graph TB
-    DETECT[Cihaz Algıla] --> IDENTIFY[Cihaz Tanımla]
-    IDENTIFY --> WHITELIST{Whitelist'te mi?}
-    WHITELIST -->|Evet| AUTH[Kimlik Doğrula]
-    WHITELIST -->|Hayır| BLOCK[Blokle]
-    AUTH --> CONNECT[Bağlan]
-    CONNECT --> STREAM[Stream Başlat]
+```
+Cihaz Algıla ──▶ Cihaz Tanımla ──▶ {Whitelist'te mi?}
+                                      │
+                             Evet ▼    ▼ Hayır
+                    Kimlik Doğrula   Blokle
+                           │
+                    Bağlan ──▶ Stream Başlat
 ```
 
 ---

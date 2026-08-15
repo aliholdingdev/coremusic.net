@@ -95,7 +95,7 @@ php -m | findstr "mbstring xml ctype json bcmath pdo_mysql openssl"
 
 ```
 ADIM 1: Backup
-  ├── MySQL dump (tüm 9 DB)
+  ├── MySQL dump (tüm 18 BCNF DB)
   ├── .env dosyası yedeği
   └── Mevcut kod yedeği
 
@@ -350,7 +350,6 @@ ARGON2ID_THREADS=2
 | **Satır Sayısı** | ~520 |
 | **ADR Uyumlu** | ✅ |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 4 referans |
 | **Guardrails** | ✅ 6 kural |
 

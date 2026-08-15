@@ -974,7 +974,6 @@ body::after {
 | **BEMIT** | ✅ Naming |
 | **WCAG** | ✅ 2.2 AA |
 | **ADR Uyumlu** | ✅ 001, 018, 044 |
-| **MSA Uyumlu** | ✅ |
 | **Security Sections** | ✅ |
 | **Performance Sections** | ✅ |
 | **Edge Cases** | ✅ |

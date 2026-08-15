@@ -494,7 +494,6 @@ Content-Security-Policy:
 | **Satır Sayısı** | ~510 |
 | **ADR Uyumlu** | ✅ 002, 008, 010, 011, 012, 013, 022 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 | **Guardrails** | ✅ 5 kural |
 

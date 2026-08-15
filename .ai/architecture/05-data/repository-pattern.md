@@ -31,7 +31,7 @@ Repository Interface
     ↓ Implementation
 Infrastructure Layer (L0)
     ↓
-PDO MySQL 9 BCNF
+PDO MySQL 18 BCNF
 ```
 
 ---
@@ -155,7 +155,7 @@ interface FirmwareRepositoryInterface
 | ADR | Konu |
 |-----|------|
 | [[ADR-002-pdo-mandatory-no-orm]] | ORM yasak, PDO zorunlu |
-| [[ADR-040-database-authority]] | 9 BCNF DB |
+| [[ADR-040-database-authority]] | 18 BCNF DB |
 | [[ADR-041-database-normalization-supplementary]] | Normalizasyon |
 
 ---

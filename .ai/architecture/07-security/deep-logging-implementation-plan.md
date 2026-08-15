@@ -372,12 +372,12 @@ return [
 
 Mevcut pipeline:
 ```
-SessionManager -> BypassAuth -> RateLimiter -> Auth -> SecurityHeaders -> Csrf
+OriginCheck -> Cors -> RateLimiter -> SecurityHeaders -> SessionManager -> Csrf -> BypassAuth -> Auth -> Permission -> Validation
 ```
 
 Yeni pipeline:
 ```
-SessionManager -> BypassAuth -> RateLimiter -> Auth -> SecurityHeaders -> Csrf -> RequestLogging -> SecurityLogging
+OriginCheck -> Cors -> RateLimiter -> SecurityHeaders -> SessionManager -> Csrf -> BypassAuth -> Auth -> Permission -> Validation -> RequestLogging -> SecurityLogging
 ```
 
 **Not:** Middleware sirasi degistirilmez (ADR-010/011/012/013/022). Yeni middleware'ler sadece sona eklenir.

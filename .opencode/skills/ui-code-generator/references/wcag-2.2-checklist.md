@@ -192,3 +192,62 @@ If you have failed items, prioritize:
 1. **Critical:** Contrast, keyboard navigation, form labels
 2. **High:** Touch targets, semantic HTML, focus indicators
 3. **Medium:** ARIA labels, error messaging, motion respect
+
+---
+
+## Modern CSS Accessibility (2025+)
+
+### Dark Mode Accessibility
+
+```
+[ ] color-scheme: light dark (or class-based dark mode)
+[ ] Prefers-color-scheme media query implemented
+[ ] Contrast ratios maintained in dark mode
+[ ] No pure black (#000) backgrounds (use #111827 or similar)
+[ ] No pure white (#fff) text on dark backgrounds (reduce glare)
+```
+
+### Logical Properties for RTL
+
+```
+[ ] margin-inline-start/end instead of margin-left/right
+[ ] padding-inline-start/end instead of padding-left/right
+[ ] border-inline-start/end instead of border-left/right
+[ ] text-align: start instead of text-align: left
+```
+
+### Reduced Motion
+
+```
+[ ] @media (prefers-reduced-motion: reduce) for all animations
+[ ] CSS transitions disabled in reduced motion
+[ ] CSS animations disabled in reduced motion
+[ ] Scroll behavior: smooth disabled in reduced motion
+```
+
+### Focus Management
+
+```
+[ ] :focus-visible used instead of :focus (avoids mouse click outlines)
+[ ] Focus indicator contrast ≥ 3:1 against background
+[ ] Focus indicator visible on all interactive elements
+[ ] Skip links for keyboard navigation
+```
+
+### Touch Targets
+
+```
+[ ] Min 24×24px for all interactive elements (WCAG 2.2 AA)
+[ ] Min 44×44px recommended for mobile
+[ ] Adequate spacing between touch targets
+[ ] No overlapping touch targets
+```
+
+### CSS Custom Properties for Theming
+
+```
+[ ] Semantic tokens used (not raw hex values)
+[ ] Dark mode tokens override semantic tokens only
+[ ] Component tokens reference semantic tokens
+[ ] No hardcoded colors in component styles
+```

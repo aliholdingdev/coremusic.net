@@ -734,7 +734,7 @@ class PasswordHasherTest extends TestCase
 
 | Dosya | Amaç |
 |-------|------|
-| [[database]] | 9 BCNF veritabanı, PDO |
+| [[database]] | 18 BCNF veritabanı, PDO |
 | [[cache]] | Multi-tier cache, APCu, Redis |
 | [[filesystem]] | Dosya yönetimi, upload |
 | [[l1-security]] | Security middleware, session |
@@ -787,7 +787,6 @@ class PasswordHasherTest extends TestCase
 | **Web Doğrulanmış** | ✅ NIST SP 800-38D, RFC 9106, OWASP |
 | **Zero Hallucination** | ✅ |
 | **Cross-Reference** | ✅ Doğrulandı |
-| **MSA Uyumlu** | ✅ |
 | **Test Coverage** | ≥90% min, ≥95% target |
 | **Encryption Standard** | ✅ AES-256-GCM (NIST) |
 | **Hash Standard** | ✅ Argon2id (RFC 9106) |

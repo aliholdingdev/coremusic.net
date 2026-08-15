@@ -107,10 +107,8 @@ Tüm mimari kararların kronolojik kaydını tutan, ADR'lerin durum değişiklik
 
 | Tarih | ADR | Durum | Konu | Açıklama |
 |-------|-----|-------|------|----------|
-| 2026-08-03 | ADR-042 | ACTIVE | Vault restructuring | MSA=15, PHP 8.4, port 81 |
 | 2026-08-04 | ADR-043 | ACTIVE | Auth consolidation | auth.coremusic.net |
 | 2026-08-04 | ADR-044 | ACTIVE | Theme engine | Dinamik tema |
-| 2026-08-05 | ADR-042 | UPDATE | MSA limit | 15 dosya teyit |
 | 2026-08-05 | ADR-043 | UPDATE | Auth flow | 56 test, 0 failure |
 | 2026-08-08 | ADR-045 | ACTIVE | Multi-domain view | View mode |
 | 2026-08-08 | ADR-046 | ACTIVE | Cross-view state | State koruma |
@@ -181,7 +179,6 @@ Tüm mimari kararların kronolojik kaydını tutan, ADR'lerin durum değişiklik
 | **Satır Sayısı** | ~520 |
 | **ADR Uyumlu** | ✅ 001-050 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 
 ---

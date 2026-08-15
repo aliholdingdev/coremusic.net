@@ -119,13 +119,14 @@ CoreMusic ELECTRONICS
 
 | Cihaz | HW | FW | Driver | DSP | Amplifier |
 |-------|----|----|--------|-----|-----------|
-| 8+1 Amp (2000W) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| 5+1 Amp (2000W) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| 2+1 Amp (2000W) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| 2+1 Amp (35W) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| 2+1 Amp (10W) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| 2 Kanal Amp (35W) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| 2 Kanal Amp (10W) | ✅ | ✅ | ✅ | ✅ | ✅ |
+| CM-71-AB (7.1 Class AB) | ✅ | ✅ | ✅ | ✅ | ✅ |
+| CM-51-AB (5.1 Class AB) | ✅ | ✅ | ✅ | ✅ | ✅ |
+| CM-21-AB (2.1 Class AB) | ✅ | ✅ | ✅ | ✅ | ✅ |
+| CM-10-AB (Mono Class AB) | ✅ | ✅ | ✅ | ✅ | ✅ |
+| CM-71-D (7.1 Class D) | ✅ | ✅ | ✅ | ✅ | ✅ |
+| CM-51-D (5.1 Class D) | ✅ | ✅ | ✅ | ✅ | ✅ |
+| CM-21-D (2.1 Class D) | ✅ | ✅ | ✅ | ✅ | ✅ |
+| CM-10-D (Mono Class D) | ✅ | ✅ | ✅ | ✅ | ✅ |
 | USB Audio Interface | ✅ | ✅ | ✅ | ✅ | ❌ |
 | DSP Processor | ✅ | ✅ | ✅ | ✅ | ❌ |
 | Raspberry Pi HAT | ✅ | ✅ | ✅ | ✅ | Opsiyonel |

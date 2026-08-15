@@ -3,16 +3,147 @@ type: guide
 category: agent-registry
 title: "CoreMusic — Agent Registry & Coordination Protocol"
 date: 2026-08-08
-updated: 2026-08-08
+updated: 2026-08-13
 status: active
-version: 19.0.0
+version: 21.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/AGENTS.md"
+  source_of_truth:
+    - ".ai/AGENTS.md"
+    - ".ai/.agents/AGENTS.md"
+    - ".ai/CLAUDE.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+    - ".ai/keys.md"
+    - ".ai/MEMORY.md"
+    - ".ai/log.md"
+    - ".ai/engine.md"
+  architecture:
+    - ".ai/ADR/"
+    - "Existing project architecture"
+    - "Existing codebase patterns"
+  project_structure:
+    - "coremusic.net/"
+    - "shared/"
+    - "api.coremusic.net/"
+    - "auth.coremusic.net/"
+    - "music.coremusic.net/"
+    - "admin.coremusic.net/"
+    - "home.coremusic.net/"
+    - "car.coremusic.net/"
+    - "studio.coremusic.net/"
+    - "pro.coremusic.net/"
+    - "media.coremusic.net/"
+    - "download.coremusic.net/"
+  decision_priority:
+    - "ADR decisions"
+    - "Architecture documentation"
+    - "Security requirements"
+    - "Existing implementation"
+    - "User requirements"
+  update_policy:
+    preserve_existing_structure: true
+    require_approval_for:
+      - "file rename"
+      - "directory move"
+      - "architecture change"
+      - "database schema change"
+      - "security policy change"
+  skills:
+    - path: ".opencode/skills/ui-code-generator/SKILL.md"
+      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
+    - path: ".opencode/skills/ui-analyzer/SKILL.md"
+      purpose: "UI analizi, mevcut tasarım değerlendirme"
+    - path: ".opencode/skills/skill-maker/SKILL.md"
+      purpose: "Yeni skill oluşturma, skill template sistemi"
+    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
+      purpose: "Güvenlik testi, truth mode, adversarial analiz"
+    - path: ".opencode/skills/prompt-maker/SKILL.md"
+      purpose: "Prompt mühendisliği, AI talimat tasarımı"
+    - path: ".opencode/skills/composer-sync/SKILL.md"
+      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
+    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
+      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
+    - path: ".opencode/skills/human-mode/SKILL.md"
+      purpose: "İnsan modu iletişimi, onay süreçleri"
+    - path: ".opencode/skills/hallucination-control/SKILL.md"
+      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
+    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
+      purpose: "BCNF normalizasyonu, şema tasarımı"
+  templates:
+    adr:
+      - path: ".ai/.templates/adr/adr-template.md"
+        purpose: "Architecture Decision Record şablonu"
+      - path: ".ai/.templates/adr/adr-frontend-template.md"
+        purpose: "Frontend ADR şablonu"
+      - path: ".ai/.templates/adr/adr-database-template.md"
+        purpose: "Database ADR şablonu"
+      - path: ".ai/.templates/adr/adr-security-template.md"
+        purpose: "Security ADR şablonu"
+      - path: ".ai/.templates/adr/adr-audio-template.md"
+        purpose: "Audio/Hardware ADR şablonu"
+      - path: ".ai/.templates/adr/adr-index.md"
+        purpose: "ADR navigasyon rehberi"
+    backend:
+      - path: ".ai/.templates/backend/php-template.md"
+        purpose: "PHP 8.4 backend geliştirme şablonu"
+      - path: ".ai/.templates/backend/nodejs-template.md"
+        purpose: "Node.js 20+ backend geliştirme şablonu"
+    frontend:
+      - path: ".ai/.templates/frontend/js-template.md"
+        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
+      - path: ".ai/.templates/frontend/css-template.md"
+        purpose: "ITCSS 9-layer, BEM CSS şablonu"
+    testing:
+      - path: ".ai/.templates/testing/phpunit-template.md"
+        purpose: "PHPUnit 10+ test şablonu"
+      - path: ".ai/.templates/testing/vitest-template.md"
+        purpose: "Vitest JS/TS test şablonu"
+    infrastructure:
+      - path: ".ai/.templates/infrastructure/migration-template.md"
+        purpose: "MySQL 9 BCNF migration şablonu"
+      - path: ".ai/.templates/infrastructure/docker-template.md"
+        purpose: "Docker 24+ Compose v2 şablonu"
+      - path: ".ai/.templates/infrastructure/github-actions-template.md"
+        purpose: "GitHub Actions CI/CD şablonu"
+    documentation:
+      - path: ".ai/.templates/documentation/api-doc-template.md"
+        purpose: "API dokümantasyon şablonu"
+      - path: ".ai/.templates/documentation/security-audit-template.md"
+        purpose: "Güvenlik denetimi şablonu"
+      - path: ".ai/.templates/documentation/WikiPage-Template.md"
+        purpose: "Wiki sayfası şablonu"
+    hardware:
+      - path: ".ai/.templates/hardware/arduino-template.md"
+        purpose: "Arduino/IoT prototipleme şablonu"
+      - path: ".ai/.templates/hardware/avr-template.md"
+        purpose: "AVR mikrodenetleyici şablonu"
+      - path: ".ai/.templates/hardware/pic-template.md"
+        purpose: "PIC mikrodenetleyici şablonu"
+    query:
+      - path: ".ai/.templates/query/Query-Template.md"
+        purpose: "SQL sorgu şablonu"
+    other:
+      - path: ".ai/.templates/other/c-template.md"
+        purpose: "C11 GCC embedded/driver şablonu"
+      - path: ".ai/.templates/cpp-template.md"
+        purpose: "C++20 JUCE/ASIO şablonu"
+changelog:
+  - version: 21.0.0
+    date: 2026-08-13
+    changes:
+      - Added reference section (skills, templates, project_structure)
+      - Updated governance format
 ---
 
 # CoreMusic — Agent Registry & Coordination Protocol
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
+
+**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
 
 ---
 
@@ -30,7 +161,6 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 | Görev dağıtımı algoritması (Task Dispatch) | İş mantığı |
 | Ajanlar arası handover ve eskalasyon protokolü | Veritabanı işlemleri |
 | Sağlık kontrolü ve context lock mekanizması | Güvenlik politikası |
-| MSA limiti ve mandatory 5 skills | — |
 
 ---
 
@@ -45,7 +175,6 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 | **Eskalasyon** | Bir sorunun çözülemediği durumda daha üst seviyeye çıkması |
 | **Context Lock** | Eşzamanlı dosya erişimini önlemek için kilitleme mekanizması |
 | **Health Check** | Ajanların çalışma durumunu kontrol eden mekanizma |
-| **MSA Limit** | Görev başına max 15 dosya okuma kısıtı (ADR-042) |
 | **Task Queue** | Görevlerin öncelik sırasıyla beklediği kuyruk |
 | **Pre-flight Check** | Görev başlamadan önce yapılan kontroller |
 
@@ -57,9 +186,9 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 |---|-------|---------|--------|--------|-----------|
 | 1 | **Master Orchestrator** | `mo` | Görev dağıtımı, koordinasyon | Koordinasyon | Vault System, log.md |
 | 2 | **Backend Architect** | `backend` | PHP 8.4 API, routing, middleware | L2 | PHP strict_types, PDO, PageRouter |
-| 3 | **UI Designer** | `ui` | Vanilla JS, ITCSS, CSS, responsive | L3 | Vanilla JS ES6+, ITCSS 7-layer |
+| 3 | **UI Designer** | `ui` | Vanilla JS, ITCSS, CSS, responsive | L3 | Vanilla JS ES6+, ITCSS 9-layer |
 | 4 | **Security Engineer** | `security` | OWASP, encryption, CSRF, CSP | L1 | Argon2id, AES-256-GCM, APCu |
-| 5 | **Data Engineer** | `data` | MySQL 9 BCNF, PDO, migration | L0 | MySQL 9, PDO, BCNF |
+| 5 | **Data Engineer** | `data` | MySQL 18 BCNF, PDO, migration | L0 | MySQL 9, PDO, BCNF |
 | 6 | **Embedded Engineer** | `embedded` | C++20, JUCE, ASIO, DSP | L0 | C++20, JUCE 9, ASIO SDK 2.3.4 |
 | 7 | **QA Engineer** | `qa` | Test, coverage, E2E | Cross-cutting | PHPUnit 11, Vitest, Playwright |
 | 8 | **DevOps Engineer** | `devops` | CI/CD, Docker, deploy | CI/CD | GitHub Actions, Docker, GitLeaks |
@@ -102,6 +231,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 | test, coverage, PHPUnit, Vitest, Playwright, E2E, unit test, integration | QA Engineer | — |
 | CI/CD, Docker, deploy, infrastructure, pipeline, monitoring, GitLeaks | DevOps Engineer | QA Engineer |
 | vault, documentation, ADR, wiki-link, index, keys, brain | MO (vault-updater) | — |
+| template, şablon, şablon, template usage, .templates | Tüm ajanlar (guardrail #16) | MO (koordinasyon) |
 
 ---
 
@@ -110,7 +240,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 ```
 Kullanıcı İsteği
   → [1. Analiz] — Keyword çıkarma, domain eşleme
-    → [2. Pre-flight Checks] — MSA, bağımlılık, dosya kontrolü
+    → [2. Pre-flight Checks] — Bağımlılık, dosya kontrolü
       → [3. Task Assignment] — Doğru ajanı seç ve görev ata
         → [4. Execution] — Ajan görevi yürütür
           → [5. Handover] — Gerekirse diğer ajana transfer
@@ -131,7 +261,6 @@ Kullanıcı İsteği
 
 | Kontrol | Değer | İhlal |
 |---------|-------|-------|
-| MSA limit | ≤15 dosya | Görev parçalanır |
 | Domain boundary | Doğru ajan | Layer violation → revert |
 | Dosya etkileniyor mu? | Eşzamanlı erişim | Context lock |
 | Bağımlılık var mı? | Handover gerekli | Transfer başlat |
@@ -149,7 +278,6 @@ Kullanıcı İsteği
 ### 7.4 Adım 4: Yürütme
 
 Ajan görevi yürütür. Kurallar:
-- MSA limitine uygun dosya oku
 - Domain boundary'yi koru
 - Zero Code Before Plan uygula
 - Çıktıyı standardize et
@@ -164,7 +292,6 @@ Gerekirse diğer ajana transfer. Handover protokolü §9'da tanımlıdır.
 |---------|-------|
 | Çıktı formatı | Uygun |
 | Domain uyumluluğu | Doğru ajan |
-| MSA limiti | ≤15 dosya |
 | Cross-reference | Geçerli wiki-link'ler |
 | Security | Hassas veri redaction |
 
@@ -202,7 +329,7 @@ Gerekirse diğer ajana transfer. Handover protokolü §9'da tanımlıdır.
 | Kaynak Agent | Adı |
 | Hedef Agent | Adı |
 | Öncelik | CRITICAL / HIGH / MEDIUM / LOW |
-| Etkilenen Dosyalar | Dosya yolu listesi (max 15) |
+| Etkilenen Dosyalar | Dosya yolu listesi |
 | İstek | Ne yapılması gerektiği |
 | Onay Durumu | PENDING / APPROVED / REJECTED |
 | Timestamp | `YYYY-MM-DD HH:MM:SS` (UTC) |
@@ -334,24 +461,11 @@ Ajan dosyaya erişmek ister
 
 ---
 
-## 13. MSA Limit (ADR-042/C5)
-
-**Görev başına MAX 15 dosya okunur.**
-
-| Öncelik | Dosya Grubu | Max | Toplam |
-|---------|-------------|-----|--------|
-| P0 (Kritik) | CLAUDE.md, AGENTS.md, WORKFLOW.md | 3 | 3 |
-| P1 (Yüksek) | index.md, keys.md, brain.md, MEMORY.md, log.md | 5 | 8 |
-| P2 (Görev) | decisions/accepted/ADR-NNN, architecture/L[0-3]/* | 5 | 13 |
-| P3 (Düşük) | testing/*, ui-design/*, personas/* | 2 | 15 |
-
 **Kurallar:**
 1. P0 → P1 → P2 → P3 sırasıyla okunur
 2. Fallback: `index.md`
-3. Limit aşılırsa `log.md`'ye WARN yazılır
-4. Token aşımı önlenir: gereksiz dosya okunmaz
-5. Seçici okuma (Sparse Attention) uygulanır
-6. **İstisna:** Görsel referanslar (`.ai/ui-design/screens/**`, `.ai/.png/**`) 15 dosya limitine dahil değildir
+3. Token aşımı önlenir: gereksiz dosya okunmaz
+4. **İstisna:** Görsel referanslar (`.ai/ui-design/screens/**`, `.ai/.png/**`)
 
 **Mockup Before Frontend:** CSS/HTML/JS/layout/bileşen görevlerinde `.ai/ui-design/` altındaki ilgili görsel okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir.
 
@@ -366,6 +480,18 @@ Ajan dosyaya erişmek ister
 | 3 | `/vault-sync` | Vault senkronizasyonu | Seans sonunda |
 | 4 | `/hallucination-control` | Halüsinasyon doğrulama | Kod yazma öncesi |
 | 5 | `Red Team · Truth Mode · Human Mode` | Her zaman aktif | Sürekli |
+| 6 | `Template Mandatory` | Yeni dosya için template zorunlu (Guardrail #16) | Her dosya oluşturmada |
+
+### 14.1 Prompt-Agent Eşleştirme Tablosu
+
+| Prompt | Birincil Agent | İkincil Agent | Kullanım Anı |
+|--------|----------------|---------------|-------------|
+| prompt0 (Genel) | MO (dağıtıyor) | Tüm agentlar | Her görev başında zorunlu |
+| prompt1 (SPA Router) | Backend Architect | UI Designer | SPA route tasarımında |
+| prompt2 (Auth) | Security Engineer | Backend Architect | Auth middleware'de |
+| prompt3 (API) | Backend Architect | DevOps Engineer | API gateway'de |
+
+**Kural:** prompt0 her zaman okunur. prompt1-3 sadece ilgili domain görevlerinde okunur.
 
 ---
 
@@ -382,6 +508,7 @@ Ajan dosyaya erişmek ister
 | Dosya Erişimi | Tüm `.ai/` vault'u okuyabilir, `log.md`'ye yazabilir |
 | Başlatma | Her oturumun başında aktif olur |
 | Kapanış | Tüm görevler tamamlandığında otomatik kapanır |
+| İlgili Template'ler | [[../.templates/index]] |
 
 ### 15.2 Backend Architect
 
@@ -395,19 +522,21 @@ Ajan dosyaya erişmek ister
 | Test Gereksinimi | PHPUnit 11, ≥%80 coverage |
 
 **Zorunlu Kurallar:** `declare(strict_types=1)` her dosyada, PDO prepared statement, explicit column list, hardcoded secret yasak.
+**İlgili Template'ler:** `backend/php-template.md`, `adr/adr-template.md` → [[../.templates/index]]
 
 ### 15.3 UI Designer
 
 | Özellik | Değer |
 |---------|-------|
 | Katman | L3 (Presentation) |
-| Teknoloji | Vanilla JS ES6+, ITCSS 7-layer, BEM/BEMIT, TrustedTypes |
+| Teknoloji | Vanilla JS ES6+, ITCSS 9-layer, BEM/BEMIT, TrustedTypes |
 | Sorumluluk | Frontend kodlama, CSS mimarisi, responsive, accessibility |
 | Yasak | PHP backend kodu, DB sorgusu, security konfigürasyonu |
 | Dosya Erişimi | `*.js`, `*.css`, `*.html`, `*.svg` |
 | Test Gereksinimi | Vitest, ≥%80 coverage |
 
 **Zorunlu Kurallar:** `innerHTML` yasak (DOMParser + TrustedTypes), framework yasak (ADR-001), `var` yasak, `eval()` yasak, BEM format zorunlu.
+**İlgili Template'ler:** `frontend/js-template.md`, `frontend/css-template.md`, `adr/adr-frontend-template.md` → [[../.templates/index]]
 
 ### 15.4 Security Engineer
 
@@ -421,6 +550,7 @@ Ajan dosyaya erişmek ister
 | Test Gereksinimi | OWASP checklist, penetration test |
 
 **Zorunlu Kurallar:** `csrf_token` key (ADR-010), `hash_equals()` timing-safe, Argon2id (64MB/4/2), credential vault AES-256-GCM, loglarda redaction.
+**İlgili Template'ler:** `adr/adr-security-template.md`, `documentation/security-audit-template.md` → [[../.templates/index]]
 
 ### 15.5 Data Engineer
 
@@ -428,12 +558,13 @@ Ajan dosyaya erişmek ister
 |---------|-------|
 | Katman | L0 (Infrastructure) |
 | Teknoloji | MySQL 9, SQLite, PDO, BCNF |
-| Sorumluluk | 9 BCNF DB yönetimi, schema tasarımı, migration, query optimization |
+| Sorumluluk | 18 BCNF DB yönetimi, schema tasarımı, migration, query optimization |
 | Yasak | PHP/JS kodu, security politikası |
 | Dosya Erişimi | `*.sql`, `*.php` (migration), `*.json` (schema) |
 | Test Gereksinimi | Schema validation, BCNF audit |
 
 **Zorunlu Kurallar:** ORM yasak (ADR-002), SELECT * yasak, BCNF zorunlu, soft delete, prepared statement.
+**İlgili Template'ler:** `adr/adr-database-template.md`, `query/Query-Template.md`, `infrastructure/migration-template.md` → [[../.templates/index]]
 
 ### 15.6 Embedded Engineer
 
@@ -447,6 +578,7 @@ Ajan dosyaya erişmek ister
 | Test Gereksinimi | Google Test, ≥%80 coverage |
 
 **Zorunlu Kurallar:** Zero-allocation, lock-free, noexcept, cache-line alignment, PCM5122 yasak (H001).
+**İlgili Template'ler:** `other/c-template.md`, `adr/adr-audio-template.md` → [[../.templates/index]]
 
 ### 15.7 QA Engineer
 
@@ -458,6 +590,7 @@ Ajan dosyaya erişmek ister
 | Yasak | Production kodu, DB tasarımı, security politikası |
 | Dosya Erişimi | `tests/**/*.php`, `tests/**/*.test.js`, `*.test.cpp` |
 | Test Piramidi | Unit %70, Integration %20, E2E %10 |
+| İlgili Template'ler | `testing/phpunit-template.md`, `testing/vitest-template.md` → [[../.templates/index]] |
 
 ### 15.8 DevOps Engineer
 
@@ -471,6 +604,40 @@ Ajan dosyaya erişmek ister
 | Test Gereksinimi | Pipeline test, smoke test |
 
 **Zorunlu Kurallar:** GitLeaks her commit'te, health check tüm servislerde, rollback stratejisi tanımlı.
+**İlgili Template'ler:** `infrastructure/docker-template.md`, `infrastructure/github-actions-template.md` → [[../.templates/index]]
+
+### 15.9 Audio Hardware Engineer
+
+| Özellik | Değer |
+|---------|-------|
+| Katman | HW (Hardware) |
+| Teknoloji | PCM3168A, AK4458, Class AB amplifer, PCB design |
+| Sorumluluk | DAC/ADC tasarımı, amplifer devresi, PCB layout, donanım testi |
+| Yasak | Yazılım kodu, DB tasarımı |
+| Dosya Erişimi | `.ai/electronic/`, `*.kicad_sch`, `*.kicad_pcb` |
+| İlgili Template'ler | `hardware/arduino-template.md`, `hardware/avr-template.md`, `adr/adr-audio-template.md` → [[../.templates/index]] |
+
+### 15.10 DSP Firmware Engineer
+
+| Özellik | Değer |
+|---------|-------|
+| Katman | FW (Firmware) |
+| Teknoloji | XMOS XU316, I2S, TDM, RTOS, C++20 |
+| Sorumluluk | DSP firmware geliştirme, I2S/TDM iletişimi, crossover, EQ, dynamics |
+| Yasak | PHP/JS kodu, DB tasarımı |
+| Dosya Erişimi | `*.cpp`, `*.h`, `*.xn`, `*.xe` |
+| İlgili Template'ler | `other/c-template.md`, `hardware/avr-template.md` → [[../.templates/index]] |
+
+### 15.11 Windows Software Engineer
+
+| Özellik | Değer |
+|---------|-------|
+| Katman | PLAT (Platform) |
+| Teknoloji | WASAPI, COM, WinRT, WDK, C++20 |
+| Sorumluluk | Windows ses sürücüsü, WASAPI entegrasyonu, driver imzalama |
+| Yasak | PHP/JS kodu, DB tasarımı |
+| Dosya Erişimi | `*.cpp`, `*.h`, `*.inf`, `*.cat` |
+| İlgili Template'ler | `other/c-template.md` → [[../.templates/index]] |
 
 ---
 
@@ -493,7 +660,6 @@ Ajan dosyaya erişmek ister
 | # | Senaryo | Çözüm |
 |---|---------|-------|
 | 1 | Aynı dosyaya eşzamanlı erişim | Context Lock + Queue |
-| 2 | Token overflow (>15 dosya) | MSA fallback + index.md |
 | 3 | Sensitive data log'da | `[REDACTED]` ile maskeleme |
 | 4 | Ajan timeout (30s+) | Max 3 retry, sonra queue reset |
 | 5 | Bilinmeyen class/API | `// ⚠️ VERIFICATION REQUIRED` |
@@ -551,11 +717,10 @@ Ajan dosyaya erişmek ister
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 5 Domain | [[CLAUDE.md]] §5 | L0-L3 katmanları |
+| § 5 Domain | [[CLAUDE.md]] §5 | L0-L6 katmanları |
 | § 6 Routing | [[engine.md]] §2 | Orkestrasyon bölümleri |
 | § 9 Handover | [[WORKFLOW.md]] §7.6 | Session init |
 | § 10 Eskalasyon | [[ADR-008-bypass-auth-middleware]] | Auth bypass |
-| § 13 MSA | [[ADR-042-vault-restructuring-2026-08-03]] | MSA limit |
 | § 15 Agent | [[.agents/AGENTS.md]] | Agent profilleri |
 | § 17 Edge | [[ADR-017-dsp-hardware-mode]] | ASIO/WASAPI |
 
@@ -571,7 +736,6 @@ Ajan dosyaya erişmek ister
 | **Eskalasyon** | Seviye yukarı çıkarma |
 | **Context Lock** | Dosya kilitleme |
 | **Health Check** | Sağlık kontrolü |
-| **MSA** | Max 15 dosya okuma limiti |
 | **Task Queue** | Görev kuyruğu |
 | **Pre-flight** | Görev öncesi kontrol |
 | **Domain Boundary** | Alan sınırları |
@@ -586,7 +750,7 @@ Ajan dosyaya erişmek ister
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 19.0.0 |
+| Version | 21.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 23 |
 | Agent Count | 11 (1 MO + 10 specialist) |
@@ -603,5 +767,5 @@ Ajan dosyaya erişmek ister
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-08
+**Last Updated:** 2026-08-12
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -1,29 +1,64 @@
-# 10. QA & Orchestrator Final Checklist
+# 10. QA Kontrol Listesi (25 Madde)
 
-## Nihai QA ve Orkestratör Kontrol Listesi
+## Genel Bakış
 
-Orkestratör SQL çıktısını üretip dosyaya yazmadan hemen önce, tüm sanal ajanların (Data, Security, Backend) kurallarının karşılandığından emin olmak için aşağıdaki denetim listesini (Checklist) çalıştırır.
+SQL çıktısı üretilmeden önce bu kontrol listesi çalıştırılır. Herhangi bir madde başarısız olursa çıktı üretilmez.
 
-Eğer bu listedeki herhangi bir madde başarısız olursa, çıktı **kullanıcıya verilmez** ve yeniden araştırma/tasarım döngüsüne girilir.
+## Tablo Yapısı (5 madde)
 
-### ✅ Data Engineer (Performans & Normalizasyon)
-- [ ] Tablolar **BCNF** standartlarına uyumlu mu?
-- [ ] Gerekçesi olmayan virgülle ayrılmış değer (1NF ihlali) veya tekrar eden kolonlar var mı?
-- [ ] Tüm Yabancı Anahtarlara (Foreign Keys) uygun **indeksleme** yapıldı mı?
-- [ ] Büyük veriler için JSONB/JSON Virtual Index stratejisi doğru kurgulandı mı?
+- [ ] Her tablonun PRIMARY KEY'i var mı? (`id BIGINT UNSIGNED AUTO_INCREMENT`)
+- [ ] Tüm BIGINT UNSIGNED mi? (INT, SMALLINT yerine)
+- [ ] Charset ve Collation tanımlı mı? (`utf8mb4_unicode_ci`)
+- [ ] Engine InnoDB mi? (`ENGINE=InnoDB`)
+- [ ] Timestamp kolonları var mı? (`created_at`, `updated_at`, `deleted_at`)
 
-### ✅ Security Engineer (Güvenlik)
-- [ ] PII, Finans veya Sağlık verisi içeren kolonlar açıkça tespit edilip şifreleme uyarısı/metodu eklendi mi?
-- [ ] Kritik tablolar (Kullanıcılar, Ödemeler) için `_audit` (Denetim) tabloları tasarlandı mı?
-- [ ] Döngüsel yabancı anahtar (Cyclic FK) bağımlılıkları engellendi mi?
+## İlişkiler (4 madde)
 
-### ✅ Backend Architect (Entegrasyon)
-- [ ] Tablo ve kolon isimlendirmeleri (snake_case, plural/singular) CoreMusic standartlarına uygun mu?
-- [ ] `created_at` ve `updated_at` (zaman damgaları) tüm ana varlık tablolarında mevcut mu?
-- [ ] Birincil anahtarlar (Primary Keys) ID için `BIGINT UNSIGNED` veya `UUID` standartlarında mı?
+- [ ] Tüm Foreign Key'ler doğru tanımlı mı? (`REFERENCES tablo(id)`)
+- [ ] ON DELETE stratejisi seçilmiş mi? (`CASCADE`, `RESTRICT`, `SET NULL`)
+- [ ] FK'lara index eklendi mi? (`INDEX idx_{tablo}_id ({tablo}_id)`)
+- [ ] Circular dependency yok mu? (FK zinciri döngüde olmamalı)
 
-### ✅ Zero-Hallucination & Web Search
-- [ ] Kullanılan veri tipleri (Örn: `JSON`, `TIMESTAMPTZ`, `VARCHAR`) hedeflenen motorun **resmi dökümanlarıyla doğrulandı mı?**
-- [ ] Projenin sektörüyle ilgili **zorunlu web araması** (Mandatory Web Search) yapıldı mı ve sonuçları tasarıma dahil edildi mi?
+## Normalizasyon (3 madde)
 
-> **Orkestratör Notu:** Bu kontrol listesindeki maddeler kullanıcıya son rapor (Technical Report veya Output Console) eşliğinde başarı durumuyla birlikte yazdırılmalıdır.
+- [ ] Tüm tablolar BCNF uyumlu mu? (1NF → 2NF → 3NF → BCNF)
+- [ ] `SELECT *` kullanılmamış mı? (açık kolon listesi)
+- [ ] Denormalizasyon varsa ADR ile gerekçelendirilmiş mi?
+
+## Güvenlik (3 madde)
+
+- [ ] PII alanları şifreli mi? (`ssn`, `credit_card` → AES-256-GCM)
+- [ ] Audit tabloları var mı? (kritik tablolar için `_audit` tablosu)
+- [ ] Hard delete yerine soft delete kullanılıyor mu? (`deleted_at`)
+
+## Performans (3 madde)
+
+- [ ] Sık sorgulanan kolonlara index eklendi mi?
+- [ ] Composite index sıralaması doğru mu? (equality primero)
+- [ ] Over-indexing yok mu? (her index yazma yavaşlatır)
+
+## Migration (3 madde)
+
+- [ ] Geri dönüş (down) migration var mı?
+- [ ] Expand-contract pattern uygulandı mı? (tehlikeli değişikliklerde)
+- [ ] Veri kaybı riski yok mu?
+
+## Genel (4 madde)
+
+- [ ] Tüm tabloların adı doğru mu? (snake_case, çoğul)
+- [ ] Tüm kolonların adı doğru mu? (snake_case)
+- [ ] Constraint adlandırma tutarlı mı? (`uk_`, `idx_`, `fk_`)
+- [ ] Tüm SQL komutları MySQL 9 uyumlu mu?
+
+## Toplam: 25 Madde
+
+| Kategori | Madde Sayısı |
+|----------|-------------|
+| Tablo Yapısı | 5 |
+| İlişkiler | 4 |
+| Normalizasyon | 3 |
+| Güvenlik | 3 |
+| Performans | 3 |
+| Migration | 3 |
+| Genel | 4 |
+| **Toplam** | **25** |

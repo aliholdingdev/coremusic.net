@@ -234,7 +234,6 @@ What other options were evaluated?
 | **Satır Sayısı** | ~510 |
 | **ADR Uyumlu** | ✅ |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 
 ---

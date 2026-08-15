@@ -87,7 +87,7 @@ Audio Input (Raw PCM)
          ▼
 ┌─────────────────┐
 │  Output Routing │  Kanal yönlendirme
-│  (8.1 Surround) │  Front/Rear/Side/Height/Sub
+│  (7.1 Surround) │  Front/Surround/Rear/Sub
 └─────────────────┘
          │
          ▼

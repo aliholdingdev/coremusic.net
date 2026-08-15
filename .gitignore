@@ -1,50 +1,44 @@
-﻿# PHP
-vendor/
+﻿# =============================================================================
+# CoreMusic — Git Ignore
+# =============================================================================
+
+# --- Dependencies ---
+/vendor/
+/node_modules/
 composer.lock
 
-# Environment
+# --- Environment ---
 .env
 .env.local
-.env.*.local
-**/.env
+.env.production
 
-# Cache & Logs
-/music.coremusic.net/cache/
-/music.coremusic.net/.phpunit.cache/
-*.log
-/logs/
-/var/
+# --- JWT Keys (SECURITY: never commit) ---
+shared/config/keys/private.pem
+shared/config/keys/public.pem
 
-# IDE
-.idea/
+# --- IDE ---
 .vscode/
-*.sublime-*
+.idea/
 *.swp
 *.swo
+*~
 
-# OS
-.DS_Store
+# --- OS ---
 Thumbs.db
-desktop.ini
+Desktop.ini
+.DS_Store
 
-# Temp
-ses.md
-ses.txt
-
-# Node
-node_modules/
-npm-debug.log*
-
-# Build artifacts
-/dist/
+# --- Build ---
 /build/
+coverage/
+*.coverage
 
-# API keys & secrets
-*.key
-*.pem
-*.cert
+# --- Logs ---
+*.log
 
-# Media uploads (gitignore, keep structure)
-/media.coremusic.net/images/*
-!/media.coremusic.net/images/.gitkeep
-.aider*
+# --- Debug output ---
+otput*.txt
+output*.txt
+
+# --- Archives ---
+.ai.zip

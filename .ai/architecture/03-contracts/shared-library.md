@@ -3,16 +3,16 @@ type: architecture
 category: contracts
 title: "Shared Library — CoreMusic Modular Composer Packages"
 date: 2026-08-09
-updated: 2026-08-09
+updated: 2026-08-12
 status: active
-version: 2.0.0
+version: 3.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
 # Shared Library — CoreMusic Modular Composer Packages
 
-**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]]
+**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[ADR-085-modular-composer-packages]] · [[ADR-087-master-implementation-plan]]
 
 ## 1. Amaç
 
@@ -46,7 +46,10 @@ coremusic/
 ├── testing/            ← Test utilities
 ├── api-client/         ← HTTP Client for API
 ├── websocket/          ← WebSocket client/server
-└── observability/      ← Tracing, Metrics, Logging
+├── observability/      ← Tracing, Metrics, Logging
+├── mfa/                ← Multi-Factor Authentication (TOTP)
+├── i18n/               ← Internationalization & Translation
+└── device/             ← Device detection & Management
 ```
 
 ## 4. Paket Detayları
@@ -107,7 +110,7 @@ namespace CoreMusic\Auth\Infrastructure\Security;
 
 | Bileşen | Sorumluluk |
 |---------|------------|
-| **Middleware** | SessionManager, BypassAuth, RateLimiter, Auth, SecurityHeaders, Csrf |
+| **Middleware** | OriginCheck, Cors, RateLimiter, SecurityHeaders, SessionManager, Csrf, BypassAuth, Auth, Permission, Validation |
 | **Service** | CspNonceGenerator, RateLimiter, SecurityHeaderService |
 | **Encryption** | AES-256-GCM, Argon2id |
 
@@ -233,7 +236,7 @@ namespace CoreMusic\Monitoring\Tracing;
         "php": ">=8.4",
         "coremusic/contracts": "^2.0",
         "coremusic/http": "^2.0",
-        "firebase/php-jwt": "^6.10",
+        "lcobucci/jwt": "^5.0",
         "paragonie/halite": "^5.0",
         "ramsey/uuid": "^4.7"
     }
@@ -477,7 +480,6 @@ coremusic/queue  ←── coremusic/monitoring
 | **Paket Sayısı** | 19 |
 | **ADR Uyumlu** | ✅ 001, 002, 007, 042, 052 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **PSR Uyumlu** | ✅ PSR-1,3,4,6,7,11,12,14,15,16,17,18 |
 
 ---

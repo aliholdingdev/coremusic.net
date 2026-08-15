@@ -1290,7 +1290,6 @@ CMD ["coremusic-audio"]
 | **Security** | ✅ Non-root, read-only, cap_drop |
 | **Resource Limits** | ✅ 10 servis |
 | **ADR Uyumlu** | ✅ 002, 022, 039, 042 |
-| **MSA Uyumlu** | ✅ 15 dosya limiti |
 | **Anti-Pattern** | ✅ 10 örnek |
 | **Troubleshooting** | ✅ 10 hata |
 

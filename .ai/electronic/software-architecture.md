@@ -115,20 +115,8 @@ Domain katmanı asla doğrudan Infrastructure veya Presentation'ı import etmez.
 
 ## 5. Bağımlılık Kuralları
 
-```mermaid
-graph LR
-    UI_L[UI Layer] --> APP_L[Application Layer]
-    APP_L --> DOM_L[Domain Layer]
-    DOM_L --> IF_L[Interfaces]
-    IF_L --> INF_L[Infrastructure Layer]
-    INF_L --> HW_L[Hardware Layer]
-
-    style DOM_L fill:#f96,stroke:#333,stroke-width:3px
-    style IF_L fill:#69f,stroke:#333,stroke-width:2px
-    style UI_L fill:#6ff,stroke:#333
-    style APP_L fill:#96f,stroke:#333
-    style INF_L fill:#fc0,stroke:#333
-    style HW_L fill:#f90,stroke:#333
+```
+UI Layer ──▶ Application Layer ──▶ Domain Layer ──▶ Interfaces ──▶ Infrastructure Layer ──▶ Hardware Layer
 ```
 
 | Kural | Açıklama |

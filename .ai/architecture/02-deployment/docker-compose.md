@@ -451,7 +451,6 @@ services:
 | **Satır Sayısı** | ~530 |
 | **ADR Uyumlu** | ✅ |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 | **Guardrails** | ✅ 6 kural |
 

@@ -1,12 +1,13 @@
 ---
-title: API DESIGN PATTERNS — REST, GraphQL, gRPC, WebSocket
-version: 7.2.0
-updated: 2026-06-11
-quality-score: "98.7%"
+title: API DESIGN PATTERNS — REST, GraphQL, gRPC, WebSocket (PICCO)
+version: 11.0.0
+updated: 2026-08-15
+framework: PICCO
+quality-score: "95%+"
 ---
 
-# API DESIGN PATTERNS
-# Prompt Maker v7.2.0 | 2026-06-11
+# API DESIGN PATTERNS (PICCO)
+# Prompt Maker v11.0.0 | 2026-08-15
 
 ## REST API Design
 

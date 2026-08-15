@@ -293,7 +293,6 @@ Link: </api/v2/songs>; rel="successor-version"
 | **Versiyon** | 1.0.0 |
 | **ADR Uyumlu** | ✅ 001, 007, 042, 051, 053 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

@@ -22,7 +22,7 @@ Crossover Engine, ses sinyalini frekans aralıklarına göre böler ve ilgili ho
 
 ---
 
-## 2. Crossover Noktaları (8.1 Surround)
+## 2. Crossover Noktaları (7.1 Surround)
 
 ```
 20Hz ──────────── Subwoofer (LFE)
@@ -45,11 +45,10 @@ Crossover Engine, ses sinyalini frekans aralıklarına göre böler ve ilgili ho
 | Front Left | 20Hz - 20kHz | Full Range |
 | Front Right | 20Hz - 20kHz | Full Range |
 | Center | 100Hz - 8kHz | Mid Range |
+| Surround Left | 100Hz - 16kHz | Surround |
+| Surround Right | 100Hz - 16kHz | Surround |
 | Rear Left | 100Hz - 16kHz | Surround |
 | Rear Right | 100Hz - 16kHz | Surround |
-| Side Left | 100Hz - 16kHz | Surround |
-| Side Right | 100Hz - 16kHz | Surround |
-| Height | 200Hz - 16kHz | Height |
 | Subwoofer | 20Hz - 120Hz | LFE |
 
 ---
@@ -80,19 +79,12 @@ Crossover Engine, ses sinyalini frekans aralıklarına göre böler ve ilgili ho
 
 ## 6. Crossover Diyagramı
 
-```mermaid
-graph TB
-    INPUT[Full Range Signal] --> HPF[High Pass Filter]
-    INPUT --> LPF[Low Pass Filter]
-
-    HPF --> FRONT[Front Speakers<br/>20Hz-20kHz]
-    HPF --> CENTER[Center Speaker<br/>100Hz-8kHz]
-    HPF --> SURROUND[Surround Speakers<br/>100Hz-16kHz]
-
-    LPF --> SUB[Subwoofer<br/>20Hz-120Hz]
-
-    style SUB fill:#ff6b6b,color:#fff
-    style FRONT fill:#4dabf7,color:#fff
+```
+Full Range Signal ──┬──▶ High Pass Filter ──┬──▶ Front Speakers (20Hz-20kHz)
+                    │                       ├──▶ Center Speaker (100Hz-8kHz)
+                    │                       └──▶ Surround Speakers (100Hz-16kHz)
+                    │
+                    └──▶ Low Pass Filter ────▶ Subwoofer (20Hz-120Hz)
 ```
 
 ---

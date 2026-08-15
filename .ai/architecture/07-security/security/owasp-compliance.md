@@ -41,7 +41,7 @@ OWASP Top 10:2025 uyumluluk durumunu ve detaylı koruma mekanizmalarını tanım
 
 | Koruma | Detay | ADR |
 |--------|-------|-----|
-| **RBAC** | Role-based access (admin, user, moderator) | ADR-022 |
+| **RBAC** | Role-based access (regular/premium/studio/car/admin/system) | ADR-022 |
 | **Middleware** | Auth check her protected endpoint'te | ADR-010 |
 | **Session** | Idle timeout 3600s | ADR-011 |
 | **CORS** | Whitelist only (same-origin) | ADR-020 |
@@ -192,7 +192,6 @@ OWASP Top 10:2025 uyumluluk durumunu ve detaylı koruma mekanizmalarını tanım
 | **Web Doğrulanmış** | ✅ owasp.org/Top10 |
 | **ADR Uyumlu** | ✅ 001, 002, 004, 010, 011, 012, 013, 015, 020, 022, 032, 042 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 | **Guardrails** | ✅ 5 kural |
 

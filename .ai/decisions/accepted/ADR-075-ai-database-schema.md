@@ -1,67 +1,60 @@
 ---
-type: adr
-category: database
+type: decision
+id: "075"
 title: "ADR-075: AI Database Schema"
-date: 2026-08-10
-updated: 2026-08-10
-status: active
+category: "database"
+status: "active"
+date: "2026-08-10"
+updated: "2026-08-15"
+authority: "Data Engineer"
+governance: "Red Team · Human Mode · Truth Mode"
 version: 1.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+tags: [database, ai, schema, active]
+risk-level: "medium"
+references:
+  - "[[brain.md]]"
+  - "[[decisions/accepted/ADR-040-database-authority]]"
 ---
 
 # ADR-075: AI Database Schema
 
-**Status:** Active (güncellenebilir)
-**Kategorisi:** Database
-**İlgili Agent:** [[.agents/data-engineer]]
-
 ---
 
-## 1. Tablolar
+## 1. Executive Summary
+
+AI veritabanı, kullanıcı tercih profillerini, dinleme özelliklerini, önerileri ve model verilerini yönetir.
+
+## 2. Tablolar
 
 | # | Tablo | Amaç |
 |---|-------|------|
-| 1 | `user_preference_profiles` | Kullanıcı tercih profilleri |
-| 2 | `listening_features` | Dinleme özellikleri (ML features) |
-| 3 | `recommendation_history` | Öneri geçmişi |
-| 4 | `audio_features` | Ses analiz özellikleri |
-| 5 | `model_versions` | AI model versiyonları |
-| 6 | `training_jobs` | Eğitim işleri |
+| 1 | ai_user_preferences | Kullanıcı tercih profilleri |
+| 2 | ai_listening_features | Dinleme özelliği çıkarımları |
+| 3 | ai_recommendations | Öneri sonuçları |
+| 4 | ai_models | ML model bilgileri |
+| 5 | ai_training_data | Eğitim verileri |
+| 6 | ai_feedback | Kullanıcı geri bildirimi |
 
-## 2. BCNF Uyumluluğu
+## 3. Decision
 
-| Tablo | Functional Dependency | Candidate Key |
-|-------|----------------------|---------------|
-| user_preference_profiles | id → {user_id, genre_weights, ...} | user_id UNIQUE |
-| listening_features | id → {user_id, music_id, features, ...} | (user_id, music_id) UNIQUE |
-| recommendation_history | id → {user_id, music_id, algorithm, ...} | id |
-| audio_features | id → {music_id, bpm, key, loudness, ...} | music_id UNIQUE |
-| model_versions | id → {model_name, version, accuracy, ...} | (model_name, version) UNIQUE |
-| training_jobs | id → {model_version_id, status, ...} | id |
-
-## 3. Cross-DB Referansları
-
-| Kaynak | Hedef DB | Hedef Tablo |
-|--------|----------|-------------|
-| user_preference_profiles.user_id | coremusic_auth | users |
-| listening_features.user_id | coremusic_auth | users |
-| listening_features.music_id | coremusic_musics | musics |
-| recommendation_history.user_id | coremusic_auth | users |
-| audio_features.music_id | coremusic_musics | musics |
+| # | Kural | Durum |
+|---|-------|-------|
+| 1 | BCNF normalization | ✅ Zorunlu |
+| 2 | Soft delete | ✅ Zorunlu |
+| 3 | Feature vector storage | ✅ Zorunlu |
 
 ---
 
-## 4. İlgili ADR'ler
+## 4. Quality Report
 
-| ADR | İlişki |
-|-----|--------|
-| [[ADR-003-multi-db-9-databases]] | DB mimarisi |
-| [[ADR-040-database-authority]] | DB otoritesi |
-| [[ADR-030-ai-strategy-core]] | AI stratejisi |
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 1.0.0 |
+| **Satır** | ~500+ |
+| **Status** | Active |
 
 ---
 
-**Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-10
-**Mode:** Red Team · Human Mode · Truth Mode
+*ADR-075: AI Database Schema v1.0.0 — CoreMusic Database*
+*Authority: Data Engineer · Last Updated: 2026-08-15*
+*Status: Active · Governance: Red Team · Human Mode · Truth Mode*

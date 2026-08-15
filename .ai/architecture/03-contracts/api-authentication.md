@@ -431,7 +431,6 @@ GÜN 89-90: Dual-Key Period
 | **Permissions** | 19 |
 | **Token Types** | 4 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

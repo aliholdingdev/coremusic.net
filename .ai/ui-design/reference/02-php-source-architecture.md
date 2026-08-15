@@ -132,7 +132,7 @@ class AuthController
 ## 5. Middleware Pipeline (Immutable — ADR-010/011/012/013/022)
 
 ```
-SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf
+OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
 ```
 
 **⚠️ SIRA DEĞİŞTİRİLEMEZ.** CSP nonce üretimi SessionManager içindedir.
@@ -141,12 +141,16 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 
 | # | Middleware | Görev | Timeout |
 |---|-----------|-------|---------|
-| 1 | **SessionManager** | Session başlatır, CSP nonce üretir | 3600s idle |
-| 2 | **BypassAuth** | Test bypass (`?_bypass=1`), prod'da devre dışı | — |
+| 1 | **OriginCheck** | Köken doğrulama (whitelist CORS) | — |
+| 2 | **Cors** | CORS header yönetimi | — |
 | 3 | **RateLimiter** | APCu tabanlı, 60 req/60s | 60s |
-| 4 | **Auth** | Auth bilgisi inject, RBAC kontrolü | — |
-| 5 | **SecurityHeaders** | CSP strict-dynamic, X-Frame-Options, HSTS | — |
+| 4 | **SecurityHeaders** | CSP strict-dynamic, X-Frame-Options, HSTS | — |
+| 5 | **SessionManager** | Session başlatır, CSP nonce üretir | 3600s idle |
 | 6 | **Csrf** | `csrf_token` doğrulama (POST/PUT/DELETE) | — |
+| 7 | **BypassAuth** | Test bypass (`?_bypass=1`), prod'da devre dışı | — |
+| 8 | **Auth** | Auth bilgisi inject, RBAC kontrolü | — |
+| 9 | **Permission** | RBAC yetki kontrolü | — |
+| 10 | **Validation** | Request/DTO validasyonu | — |
 
 ### 5.2 Middleware Kod Kalıbı
 
@@ -365,7 +369,7 @@ C:\www\coremusic.net\
 |---------|--------|
 | CSRF token key | `csrf_token` (NOT `_csrf_token`) |
 | Session name | `COREMUSIC_SESS` |
-| Middleware sırası | SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf |
+| Middleware sırası | OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller |
 | PDO | Prepared statements, no ORM, no SELECT * |
 | Router | nikic/fast-route, attribute-based |
 | PHP version | 8.4+ (strict_types=1) |

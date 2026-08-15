@@ -1,12 +1,13 @@
 ---
-title: UI/UX & ACCESSIBILITY — WCAG 2.2 AA
-version: 7.2.0
-updated: 2026-06-11
-quality-score: "98.7%"
+title: UI/UX & ACCESSIBILITY — WCAG 2.2 AA (PICCO)
+version: 11.0.0
+updated: 2026-08-15
+framework: PICCO
+quality-score: "95%+"
 ---
 
-# UI/UX & ACCESSIBILITY — WCAG 2.2 AA
-# Prompt Maker v7.2.0 | 2026-06-11
+# UI/UX & ACCESSIBILITY — WCAG 2.2 AA (PICCO)
+# Prompt Maker v11.0.0 | 2026-08-15
 
 ## WCAG 2.2 AA Standards
 

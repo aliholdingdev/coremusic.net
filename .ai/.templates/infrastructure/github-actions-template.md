@@ -1452,7 +1452,6 @@ pre-commit install --hook-type commit-msg
 - [[ADR-001-vanilla-js-itcss]] — Frontend kararı
 - [[ADR-002-pdo-mandatory-no-orm]] — DB kararı
 - [[ADR-017-dsp-hardware-mode]] — DSP donanım modu
-- [[ADR-042-vault-restructuring-2026-08-03]] — MSA limit
 - [[architecture/02-deployment/ci-cd-pipeline]] — CI/CD pipeline
 - [[architecture/02-deployment/deployment]] — Deployment guide
 - [[architecture/02-deployment/docker-compose]] — Docker Compose
@@ -1466,7 +1465,6 @@ pre-commit install --hook-type commit-msg
 | § 3.5 JS CI | [[ADR-001-vanilla-js-itcss]] | innerHTML ve framework yasak kontrolü |
 | § 3.6 C++ CI | [[ADR-017-dsp-hardware-mode]] | Zero-allocation ve noexcept kontrolü |
 | § 3.8 Security | [[ADR-022-database-hardened-security]] | Dependency audit |
-| § 4 Guardrails | [[ADR-042-vault-restructuring-2026-08-03]] | MSA limit uyumu |
 | § 6 Security | [[architecture/07-security/]] | OWASP, CSRF, CSP |
 | § 8 Edge Cases | [[WORKFLOW.md]] | Hard gate ve escalation |
 | § 12 Pre-commit | [[architecture/02-deployment/ci-cd-pipeline]] | Pre-commit hooks |
@@ -1480,7 +1478,6 @@ pre-commit install --hook-type commit-msg
 | **Frontmatter** | ✅ 14 alan |
 | **GitHub Actions** | ✅ Uyumlu |
 | **ADR Uyumlu** | ✅ 001, 002, 017, 022, 042 |
-| **MSA Uyumlu** | ✅ 15 dosya limiti |
 | **3 Dil Desteği** | ✅ PHP 8.4, JS ES6+, C++20 |
 | **Coverage Threshold** | ✅ ≥80% |
 | **Security Scan** | ✅ GitLeaks mandatory |

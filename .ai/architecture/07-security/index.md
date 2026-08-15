@@ -60,17 +60,21 @@ Güvenlik ile ilgili tüm kararları, prosedürleri ve dokümantasyonu bir araya
 ### 3.4 Middleware Pipeline Sırası
 
 ```
-SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf
+OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
 ```
 
 | # | Middleware | Görev | ADR |
 |---|-----------|-------|-----|
-| 1 | SessionManager | Session başlat, CSP nonce üret | ADR-011 |
-| 2 | BypassAuth | Test bypass (prod'da devre dışı) | ADR-008 |
+| 1 | OriginCheck | Köken doğrulama (whitelist CORS) | ADR-020 |
+| 2 | Cors | CORS header yönetimi | ADR-020 |
 | 3 | RateLimiter | Hız sınırlama (60 req/60s) | ADR-013 |
-| 4 | Auth | Auth bilgisi inject | ADR-011 |
-| 5 | SecurityHeaders | CSP, HSTS, X-Frame-Options | ADR-012 |
+| 4 | SecurityHeaders | CSP, HSTS, X-Frame-Options | ADR-012 |
+| 5 | SessionManager | Session başlat, CSP nonce üret | ADR-011 |
 | 6 | Csrf | CSRF token doğrulama | ADR-010 |
+| 7 | BypassAuth | Test bypass (prod'da devre dışı) | ADR-008 |
+| 8 | Auth | Auth bilgisi inject | ADR-011 |
+| 9 | Permission | RBAC yetki kontrolü | ADR-052 |
+| 10 | Validation | Request/DTO validasyonu | ADR-054 |
 
 **⚠️ Middleware sırası DEĞİŞTİRİLEMEZ!**
 
@@ -217,7 +221,6 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 | **Satır Sayısı** | ~500 |
 | **ADR Uyumlu** | ✅ 008, 010, 011, 012, 013, 020, 022, 032, 034 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 6 referans |
 | **Guardrails** | ✅ 5 kural |
 

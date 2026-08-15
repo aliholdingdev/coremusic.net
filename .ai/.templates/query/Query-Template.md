@@ -41,7 +41,7 @@ CoreMusic SQL sorgu standartları. Prepared statements zorunlu, SELECT * yasak, 
 
 **ADR Referansları:**
 - [[ADR-002-pdo-mandatory-no-orm]] — ORM yasak, sadece PDO prepared
-- [[ADR-040-database-authority]] — 9 BCNF veritabanı otoritesi
+- [[ADR-040-database-authority]] — 18 BCNF veritabanı otoritesi
 - [[ADR-022-database-hardened-security]] — Güvenlik standartları (soft delete, credential vault)
 - [[ADR-041-database-normalization-supplementary]] — Normalizasyon ek bilgi
 
@@ -1234,7 +1234,7 @@ WHERE playlist_id = :playlist_id
 | 7 | **No ORM** | Sadece PDO prepared statements | Bağımlılık + güvenlik riski | ADR-002 |
 | 8 | **Explicit Columns** | INSERT/SELECT'de sütun adı belirt | Sütun sırası değişimi riski | ADR-040 |
 | 9 | **Transaction** | Multi-statement işlemlerde transaction kullan | Atomiklik ihlali | ADR-040 |
-| 10 | **BCNF Normalization** | 9 veritabanında BCNF zorunlu | Veri tekrarı + anomali | ADR-040 |
+| 10 | **BCNF Normalization** | 18 BCNF veritabanında BCNF zorunlu | Veri tekrarı + anomali | ADR-040 |
 
 ---
 
@@ -1483,12 +1483,12 @@ class UserRepository
 ## 13. Related Documents
 
 - [[ADR-002-pdo-mandatory-no-orm]] — PDO mandatory, ORM yasak
-- [[ADR-040-database-authority]] — 9 BCNF veritabanı otoritesi
+- [[ADR-040-database-authority]] — 18 BCNF veritabanı otoritesi
 - [[ADR-022-database-hardened-security]] — DB güvenlik standartları
 - [[ADR-041-database-normalization-supplementary]] — Normalizasyon ek bilgi
 - [[ADR-014-multi-db-migration-strategy]] — Migration stratejisi
 - [[ADR-034-credential-vault-normalization]] — Credential vault
-- [[architecture/05-data/database_master]] — 9 BCNF şema master
+- [[architecture/05-data/database_master]] — 18 BCNF şema master
 - [[architecture/l0-infrastructure]] — L0 Infrastructure katmanı
 - [[php-template]] — PHP şablonu
 - [[migration-template]] — Migration şablonu
@@ -1500,7 +1500,7 @@ class UserRepository
 | Bu Template'den | Hedef | İlişki |
 |-----------------|-------|--------|
 | § Amaç | [[ADR-002-pdo-mandatory-no-orm]] | ORM yasağı |
-| § Code Standards | [[ADR-040-database-authority]] | 9 BCNF |
+| § Code Standards | [[ADR-040-database-authority]] | 18 BCNF |
 | § Soft Delete | [[ADR-022-database-hardened-security]] | Güvenlik |
 | § Security | [[ADR-022-database-hardened-security]] | SQL injection |
 | § Naming | [[ADR-040-database-authority]] | Table naming |
@@ -1527,8 +1527,6 @@ class UserRepository
 | **Soft Delete Only** | ✅ Tüm örneklerde |
 | **PHP PDO** | ✅ 8.4+ strict_types |
 | **Zero Hallucination** | ✅ Doğrulanmış |
-| **MSA Uyumlu** | ✅ 15 dosya limiti |
-
 ---
 
 ## 16. Examples

@@ -172,7 +172,6 @@ WebRTC tabanlı real-time ses akışı ve multi-room destek. [[ADR-039-7-service
 | **Satır Sayısı** | ~500 |
 | **ADR Uyumlu** | ✅ 032, 039 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 | **Guardrails** | ✅ 5 kural |
 

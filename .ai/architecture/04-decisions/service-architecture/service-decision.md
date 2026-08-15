@@ -45,7 +45,7 @@ governance: Red Team · Human Mode · Truth Mode
 | **Port** | 81 |
 | **DB** | coremusic_auth |
 | **Auth** | Session-based |
-| **Middleware** | 6 katmanlı pipeline |
+| **Middleware** | 10 katmanlı pipeline |
 
 #### Media Service (Port 5000/6000)
 
@@ -253,7 +253,6 @@ governance: Red Team · Human Mode · Truth Mode
 | **Satır Sayısı** | ~560 |
 | **ADR Uyumlu** | ✅ 032, 039, 040, 042 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 4 referans |
 | **Guardrails** | ✅ 5 kural |
 

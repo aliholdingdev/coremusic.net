@@ -173,7 +173,6 @@ $expected === $input
 | **Satır Sayısı** | ~500 |
 | **ADR Uyumlu** | ✅ 010, 011, 021 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 | **Guardrails** | ✅ 5 kural |
 

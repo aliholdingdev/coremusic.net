@@ -59,17 +59,21 @@ USB Audio Drivers, CoreMusic platformunun USB ses cihazlarıyla (XMOS XU316, PCM
 
 ## 5. USB Driver Akışı
 
-```mermaid
-graph TB
-    CONNECT[USB Tak] --> ENUM[USB Enumeration]
-    ENUM --> IDENTIFY{Cihaz Tanımla}
-    IDENTIFY -->|XMOS| XMOS[XMOS Driver]
-    IDENTIFY -->|Standart| UAC[UAC 2.0 Driver]
-    XMOS --> CONFIG[Kanal/Format Ayarla]
-    UAC --> CONFIG
-    CONFIG --> STREAM[Stream Başlat]
-    STREAM --> DISCONNECT[Çıkarma]
-    DISCONNECT --> CLEANUP[Temizle]
+```
+USB Tak ──▶ USB Enumeration ──▶ {Cihaz Tanımla}
+                                  │
+                     XMOS ▼        ▼ Standart
+              XMOS Driver    UAC 2.0 Driver
+                     │              │
+                     └──────┬───────┘
+                            ▼
+                   Kanal/Format Ayarla
+                            │
+                            ▼
+                   Stream Başlat
+                            │
+                            ▼
+                   Çıkarma ──▶ Temizle
 ```
 
 ---

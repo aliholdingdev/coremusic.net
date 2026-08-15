@@ -234,7 +234,6 @@ CoreMusic servisleri arası iletişim protokolü seçimlerini, karar gerekçeler
 | **Satır Sayısı** | ~540 |
 | **ADR Uyumlu** | ✅ 002, 017, 032, 043 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 4 referans |
 | **Guardrails** | ✅ 5 kural |
 

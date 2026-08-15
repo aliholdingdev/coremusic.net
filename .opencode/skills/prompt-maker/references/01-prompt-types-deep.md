@@ -1,15 +1,15 @@
 ---
-title: PROMPT TİPLERİ — DERİN REFERANS
+title: PROMPT TİPLERİ — DERİN REFERANS (PICCO)
 description: 25+ prompt tipi, tanımlar, kullanım vakaları, format şablonları, kalite kontrol checklisti
-version: 7.2.0
-updated: 2026-06-11
-metrics: "3,820+ questions, 78 categories, 28 references"
-quality-score: "98.7%"
+version: 11.0.0
+updated: 2026-08-15
+framework: PICCO
+quality-score: "95%+"
 language: Turkish + English technical terms
 ---
 
-# PROMPT TİPLERİ — DERİN REFERANS
-# Prompt Maker v7.2.0 | Kiro IDE Native | 2026-06-11
+# PROMPT TİPLERİ — DERİN REFERANS (PICCO)
+# Prompt Maker v11.0.0 | 2026-08-15
 
 ---
 
@@ -24,15 +24,22 @@ AI'ın kim olduğunu, nasıl davranacağını, ne yapıp yapmayacağını tanım
 - Proje-spesifik davranış oluşturulurken
 - Bölge/sektör-spesifik AI kimliği (fintech, sağlık, havacılık)
 
-### Zorunlu Bölümler (8)
-1. Kimlik & Deneyim (title, seniority level, domain expertise)
-2. Temel Kurallar (5-10 absolute rules)
-3. Yasaklar (kesinlikle yapılmayan davranışlar)
-4. Belirsizlik Davranışı (emin değilse ne yapacak)
-5. Hata Yönetimi (başarısız işlemler)
-6. İletişim Tarzı (tone, formality, language)
-7. Araştırma Zorunluluğu (web search mandate, sources)
-8. Etik & Güvenlik (OWASP, security mindset)
+### Zorunlu Bölümler — PICCO Framework (15)
+1. Persona & Role (P): Kimlik, uzmanlık, ton
+2. Activation Conditions (I): Tetikleyiciler, anahtar kelimeler
+3. Instructions & Task (I): Merkezi görev, adımlar
+4. Context & Background (C): Proje, hedef kitle, domain
+5. Hard Rules (C): Mutlak yasaklar
+6. Soft Rules (C): Tercihler, esnetilebilir
+7. Workflow & Process (I): Çalışma akışı
+8. Domain Rules (C): Domain-spesifik kurallar
+9. Security Rules (C): OWASP, enjeksiyon savunması
+10. Output Format (O): Yapı, şema, uzunluk
+11. Quality Standards (C): Doğrulama kriterleri
+12. Examples & Exemplars (C): Few-shot örnekler
+13. Edge Cases (C): Sınır durumları
+14. Troubleshooting (C): Hata ayıklama
+15. Version & Approval (O): Değişiklik günlüğü
 
 ### Kiro Format
 ```markdown

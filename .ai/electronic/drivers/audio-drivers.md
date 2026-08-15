@@ -94,17 +94,16 @@ Latency: 512/48000 = 10.67ms
 
 ## 7. Driver Seçim Akışı
 
-```mermaid
-graph TB
-    START[Başla] --> CHECK{Platform Kontrol}
-    CHECK -->|Windows| WIN{Ses Kartı ASIO destekliyor mu?}
-    WIN -->|Evet| ASIO[ASIO Kullan]
-    WIN -->|Hayır| WASAPI[WASAPI Exclusive Kullan]
-    CHECK -->|Linux| ALSA[ALSA Kullan]
-    CHECK -->|macOS| CORE[CoreAudio Kullan]
+```
+Başla ──▶ {Platform Kontrol}
+              │
+     Windows ──▶ {Ses Kartı ASIO destekliyor mu?}
+                    │
+               Evet ▼ Hayır
+          ASIO Kullan  WASAPI Exclusive Kullan
 
-    style ASIO fill:#2ecc71,color:#fff
-    style WASAPI fill:#3498db,color:#fff
+     Linux ────▶ ALSA Kullan
+     macOS ────▶ CoreAudio Kullan
 ```
 
 ---

@@ -293,7 +293,6 @@ main ─────────────────────────
 | **Satır Sayısı** | ~510 |
 | **ADR Uyumlu** | ✅ |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 5 referans |
 | **Quality Gates** | ✅ 7 gate |
 | **Guardrails** | ✅ 5 kural |

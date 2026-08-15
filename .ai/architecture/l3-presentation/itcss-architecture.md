@@ -129,7 +129,7 @@ assets.coremusic.net/
 
 | ❌ Yasak | ✅ Doğru | ADR |
 |----------|----------|-----|
-| Tek dosya CSS | ITCSS 7-layer | ADR-001 |
+| Tek dosya CSS | ITCSS 9-layer | ADR-001 |
 | BEM dışı naming | BEM + BEMIT | ADR-001 |
 | !important | Specificity | ADR-0001 |
 | Inline style | CSS classes | ADR-001 |
@@ -166,7 +166,6 @@ assets.coremusic.net/
 | **Satır Sayısı** | ~510 |
 | **ADR Uyumlu** | ✅ 001 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

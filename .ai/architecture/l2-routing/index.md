@@ -3,7 +3,7 @@ type: architecture
 category: l2
 title: "L2 — Routing Layer Index"
 date: 2026-08-08
-updated: 2026-08-08
+updated: 2026-08-13
 status: active
 version: 4.0.0
 authority: Single Source of Truth (SSOT)
@@ -18,7 +18,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-SPA (Single Page Application) routing, middleware pipeline ve servis yönlendirme mekanizmalarını tanımlar. [[ADR-004-multi-domain-spa]], [[ADR-009-clean-url-redirect]], [[ADR-016-url-normalization]] ve [[ADR-021-spa-router-immutable-contract]] ile uyumludur.
+SPA (Single Page Application) routing, middleware pipeline ve servis yönlendirme mekanizmalarını tanımlar. [[ADR-004-multi-domain-spa]], [[ADR-009-clean-url-redirect]], [[ADR-016-url-normalization]], [[ADR-021-spa-router-immutable-contract]] ve [[ADR-083-spa-router]] ile uyumludur. Detaylı implementasyon planı: [[ADR-087-master-implementation-plan]].
 
 ---
 
@@ -59,6 +59,7 @@ L0 Infrastructure (Database/Cache)
 | [[ADR-009-clean-url-redirect]] | Clean URL | Frozen |
 | [[ADR-016-url-normalization]] | URL normalization | Frozen |
 | [[ADR-021-spa-router-immutable-contract]] | SPA router contract | Frozen |
+| [[ADR-083-spa-router]] | SPA Router Architecture | Active |
 
 ---
 
@@ -93,10 +94,9 @@ L0 Infrastructure (Database/Cache)
 | **Dosya Sayısı** | 6 alt dosya |
 | **ADR Uyumlu** | ✅ 004, 009, 016, 021 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-08
+**Last Updated:** 2026-08-13
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -228,7 +228,6 @@ header('Access-Control-Allow-Credentials: true');
 | **Satır Sayısı** | ~510 |
 | **ADR Uyumlu** | ✅ 013, 020, 022, 032, 034 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 2 referans |
 | **Guardrails** | ✅ 5 kural |
 

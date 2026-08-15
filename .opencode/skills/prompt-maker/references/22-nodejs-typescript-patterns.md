@@ -1,5 +1,5 @@
-# NODE.JS & TYPESCRIPT PATTERNS — TAM REHBER
-# Prompt Maker v7.2.0 | 2026-06-11 | Kiro IDE Native
+# NODE.JS & TYPESCRIPT PATTERNS — TAM REHBER (PICCO)
+# Prompt Maker v11.0.0 | 2026-08-15 | PICCO Framework
 # Event loop, streams, worker threads, TypeScript strict, async patterns
 
 ---

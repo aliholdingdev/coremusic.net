@@ -817,7 +817,7 @@ class SecureFileUploaderTest extends TestCase
 
 | Dosya | Amaç |
 |-------|------|
-| [[database]] | 9 BCNF veritabanı, PDO |
+| [[database]] | 18 BCNF veritabanı, PDO |
 | [[cache]] | Multi-tier cache, APCu, Redis |
 | [[credential-vault]] | AES-256-GCM, secret yönetimi |
 | [[l1-security]] | Security middleware, session |
@@ -867,7 +867,6 @@ class SecureFileUploaderTest extends TestCase
 | **Web Doğrulanmış** | ✅ OWASP |
 | **Zero Hallucination** | ✅ |
 | **Cross-Reference** | ✅ Doğrulandı |
-| **MSA Uyumlu** | ✅ |
 | **Test Coverage** | ≥80% min, ≥90% target |
 | **OWASP Compliance** | ✅ File Upload Cheat Sheet |
 

@@ -1,75 +1,268 @@
 ---
-type: workflow
-category: security-audit
-title: "Security Audit Workflow"
-date: 2026-08-08
-updated: 2026-08-08
-status: active
-version: 3.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+title: "CoreMusic — Güvenlik Denetim Akışı"
+type: workflow-instruction
+version: 1.0
+authority: SSOT
+mode:
+  - Red Team
+  - Truth Mode
+  - Human Mode
+purpose:
+  - OWASP Top 10 Compliance
+  - Security Vulnerability Detection
+  - Red Team Review
+  - Authentication Validation
+  - Authorization Audit
+  - Input Security Verification
+reference:
+  authority: ".ai/WORKFLOW.md"
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/AGENTS.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+    - ".ai/keys.md"
+    - ".ai/MEMORY.md"
+    - ".ai/log.md"
+    - ".ai/engine.md"
+  architecture:
+    - ".ai/ADR/"
+    - "Existing project architecture"
+    - "Existing codebase patterns"
+  project_structure:
+    - "coremusic.net/"
+    - "shared/"
+    - "api.coremusic.net/"
+    - "auth.coremusic.net/"
+    - "music.coremusic.net/"
+    - "admin.coremusic.net/"
+    - "home.coremusic.net/"
+    - "car.coremusic.net/"
+    - "studio.coremusic.net/"
+    - "pro.coremusic.net/"
+    - "media.coremusic.net/"
+    - "download.coremusic.net/"
+  decision_priority:
+    - "ADR decisions"
+    - "Architecture documentation"
+    - "Security requirements"
+    - "Existing implementation"
+    - "User requirements"
+  update_policy:
+    preserve_existing_structure: true
+    require_approval_for:
+      - "security policy change"
+      - "OWASP rule change"
+      - "middleware order change"
+      - "authentication mechanism change"
+      - "authorization model change"
+changelog:
+  - version: 1.0
+    date: 2026-08-15
+    changes:
+      - Initial security audit workflow
+      - Added OWASP Top 10 checklist
+      - Added CoreMusic security controls
+      - Added Red Team protocol
+      - Added audit report format
 ---
 
-# Security Audit Workflow
-
-**Zorunlu Bağlantılar:** [[WORKFLOW.md]] · [[CLAUDE.md]] · [[AGENTS.md]]
+# Güvenlik Denetim Akışı
 
 ## 1. Amaç
 
-OWASP Top 10:2025 uyumluluğunun sağlanmasını ve güvenlik açıklarının tespit edilmesini sağlayan iş akışı.
+CoreMusic sistemindeki güvenlik açıklarını tespit etmek ve düzeltmek.
 
-## 2. Adımlar
+## 2. Akış Diyagramı
 
-| # | Adım | Aksiyon | Sorumlu |
-|---|------|---------|---------|
-| 1 | OWASP Kontrolü | OWASP Top 10 kontrol listesi | [[security-engineer]] |
-| 2 | Middleware | Sıra doğrulama | [[security-engineer]] |
-| 3 | Şifreleme | Standart kontrolü | [[security-engineer]] |
-| 4 | CSRF/CSP | Test etme | [[security-engineer]] |
-| 5 | Session | Yönetim doğrulama | [[security-engineer]] |
-| 6 | Credential | Vault kontrolü | [[security-engineer]] |
-| 7 | Rapor | Güvenlik raporu | [[security-engineer]] |
-| 8 | Düzeltme | Tespit edilen açıkları düzelt | İlgili ajan |
-
-## 3. OWASP Top 10:2025 Kontrolleri
-
-| # | Kategori | Kontrol |
-|---|----------|---------|
-| A01 | Broken Access Control | RBAC + Auth Middleware |
-| A02 | Cryptographic Failures | Argon2id + AES-256-GCM |
-| A03 | Injection | PDO Prepared Statement |
-| A04 | Insecure Design | L0-L3 Architecture |
-| A05 | Security Misconfiguration | CSP + Headers |
-| A06 | Vulnerable Components | Dependency audit |
-| A07 | Auth Failures | Session Management |
-| A08 | Data Integrity Failures | CSRF Protection |
-| A09 | Logging Failures | Audit Trail |
-| A10 | SSRF | Input Validation |
-
-## 4. Middleware Sıra Kontrolü
-
-```text
-1. SessionManagerMiddleware    → CSP nonce üretimi
-2. BypassAuthMiddleware        → Test bypass (prod'da devre dışı)
-3. RateLimiterMiddleware       → 60 req/60s
-4. AuthMiddleware              → Auth bilgisi inject
-5. SecurityHeadersMiddleware   → CSP strict-dynamic
-6. CsrfMiddleware              → csrf_token doğrulama
+```
+GÜVENLİK TALEBİ / PERİYODİK DENETİM
+       |
+       v
+┌──────────────────────────┐
+│  1. KAPSAM BELİRLEME     │  Hangi alanlar taranacak?
+└──────────┬───────────────┘
+           v
+┌──────────────────────────┐
+│  2. OWASP TARAMASI       │  Top 10 kontrol listesi
+└──────────┬───────────────┘
+           v
+┌──────────────────────────┐
+│  3. KOD İNCELEMESİ       │  Güvenlik açığı taraması
+└──────────┬───────────────┘
+           v
+┌──────────────────────────┐
+│  4. YAPI KONTROLÜ        │  Middleware sırası, auth akışı
+└──────────┬───────────────┘
+           v
+┌──────────────────────────┐
+│  5. RAPOR OLUŞTUR        │  Bulguları sınıflandır
+└──────────┬───────────────┘
+           v
+┌──────────────────────────┐
+│  6. ÖNCELİKLENDİRME      │  Kritik / Yüksek / Orta / Düşük
+└──────────┬───────────────┘
+           v
+     ┌─────┴─────┐
+     │           │
+  KRİTİK     DÜŞÜK
+     │           │
+     v           v
+  DURDUR      DÜZELT
+  İnsan onayı  ve devam
+  iste
 ```
 
-**Bu sıra KATIDIR.**
+## 3. OWASP Top 10 Kontrol Listesi
 
-## 5. Başarı Kriterleri
+| # | Tehdit | Kontrol | Durum |
+|---|--------|---------|-------|
+| 1 | SQL Enjeksiyonu | PDO prepared statements | ☐ |
+| 2 | Kırılgan Kimlik Doğrulama | Parola hash, brute-force koruması | ☐ |
+| 3 | Hassas Veri İfşası | Şifreleme, log güvenliği | ☐ |
+| 4 | XML Dış Varlık (XXE) | XML parser yapılandırması | ☐ |
+| 5 | Erişim Kontrolü İhlali | RBAC, yetki matrisi | ☐ |
+| 6 | Yanlış Güvenlik Yapılandırması | Varsayılan şifreler, gereksiz servisler | ☐ |
+| 7 | Kırılgan Script (XSS) | Çıktı kodlama, CSP | ☐ |
+| 8 | Kırılgan Deserializasyon | Güvenli deserializasyon | ☐ |
+| 9 | Bilinen Açıklarla Kullanım | Bağımlılık taraması | ☐ |
+| 10 | Günlük ve İzleme Eksikliği | Yapılandırılmış loglama | ☐ |
 
-| Kriter | Değer |
-|--------|-------|
-| OWASP Uyumluluğu | %100 |
-| Güvenlik Açığı | 0 |
-| Middleware Sırası | Doğru |
-| Şifreleme | AES-256-GCM |
+## 4. CoreMusic Özel Kontroller
+
+### 4.1 Middleware Sırası (Değiştirilemez)
+
+```
+OriginCheck → Cors → RateLimiter → SecurityHeaders →
+SessionManager → Csrf → BypassAuth → Auth →
+Permission → Validation
+```
+
+**Kural:** Bu sıra asla değiştirilemez.
+
+### 4.2 CSRF Token
+
+- Token adı: `csrf_token` (NOT `_csrf_token`)
+- Her formda zorunlu
+- Her API isteğinde kontrol
+
+### 4.3 Kimlik Doğrulama
+
+| Kontrol | Kural |
+|---------|-------|
+| Parola hash | bcrypt veya Argon2 |
+| Oturum yönetimi | Secure cookie, HttpOnly |
+| Token süresi | Jawpring ile sınırlı |
+| Brute-force | Rate limiting + hesap kilitleme |
+
+### 4.4 Yetkilendirme
+
+| Kontrol | Kural |
+|---------|-------|
+| RBAC | Rol bazlı erişim kontrolü |
+| Yetki matrisi | Her endpoint için tanımlı |
+| Yetki yükseltme | Engellemek için testler |
+
+### 4.5 Giriş Güvenliği
+
+| Kontrol | Kural |
+|---------|-------|
+| SQL enjeksiyonu | PDO prepared statements |
+| XSS | Çıktı kodlama |
+| CSRF | Token doğrulama |
+| Komut enjeksiyonu | Input doğrulama |
+| Dosya yükleme | Güvenli dosya tipi kontrolü |
+
+### 4.6 Veri Koruma
+
+| Kontrol | Kural |
+|---------|-------|
+| Şifreleme | Hassas veriler şifreli |
+| Secret yönetimi | .env dosyası, kodda yok |
+| Kişisel veri | Gereksiz toplama yok |
+| Veri ifşası | Hata mesajlarında hassas bilgi yok |
+| Log güvenliği | Şifre/logonlanmış bilgi loglanmaz |
+
+## 5. Red Team Protokolü
+
+Her kritik görev sonrası:
+
+```
+RED TEAM İNCELEMESİ
+       |
+       v
+Saldırı Yüzeyi Analizi
+       |
+       v
+Zayıf Nokta Tespiti
+       |
+       v
+Risk Raporu
+       |
+       v
+Azaltma Planı
+```
+
+## 6. Rapor Formatı
+
+```markdown
+# GÜVENLİK DENETİM RAPORU
+
+## Tarih: YYYY-MM-DD
+## Kapsam: [Alan]
+## Denetci: security-engineer
+
+### Bulgu Özeti
+- Kritik: X
+- Yüksek: X
+- Orta: X
+- Düşük: X
+
+### Detaylar
+#### [Bulgu 1]
+- **Öncelik:** Kritik/Yüksek/Orta/Düşük
+- **Alan:** [Etkilenen dosya/bölüm**
+- **Açıklama:** [Sorunun açıklaması**
+- **Öneri:** [Düzeltme önerisi]
+- **ADR:** [İlgili ADR varsa]
+
+### Öneri Önceliği
+1. [En kritik düzeltme]
+2. [İkinci düzeltme]
+3. [Üçüncü düzeltme]
+```
+
+## 7. Hata Yönetimi
+
+| Durum | Aksiyon |
+|-------|---------|
+| Kritik açık | Durdur, insan onayı iste |
+| Yüksek açık | Acil düzeltme planla |
+| Orta açık | Bir sonraki sprint'e planla |
+| Düşük açık | Dokümante et, planla |
+
+## 8. Yasaklar
+
+- Güvenlik kontrolünü atlama
+- Kritik açığı görmezden gelme
+- Üretim ortamında test yapma
+- Secret'ları loglama
+- Güvenlik mekanizmasını devre dışı bırakma
+
+## 9. İlgili Dosyalar
+
+- `.ai/CLAUDE.md` — Güvenlik kuralları
+- `.ai/AGENTS.md` — Security engineer tanımı
+- `.ai/brain.md` — Middleware pipeline
+- `.claude/rules/core-rules.md` — Güvenlik kuralları
+
+## 10. Aktivasyon
+
+"security audit", "güvenlik denetimi", "OWASP kontrol", "güvenlik tarama"
 
 ---
 
-**Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-08
-**Mode:** Red Team · Human Mode · Truth Mode
+*Güvenlik Denetim Akışı v1.0.0 — CoreMusic Workflow System*
+*Authority: Bayram Ali / Vault Steward*
+*Mode: Red Team · Truth Mode · Human Mode*

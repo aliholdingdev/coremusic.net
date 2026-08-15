@@ -18,13 +18,13 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-L6 Electronics, CoreMusic sistem mimarisindeki **en üst donanım/elektronik katmanıdır** (L0-L6). L6, fiziksel elektronik ile yazılımın buluştuğu noktadır. CoreMusic'in L0-L3 katman yapısıyla uyumlu olarak genişletilmiştir.
+L6 Electronics, CoreMusic sistem mimarisindeki **en üst donanım/elektronik katmanıdır** (L0-L6). L6, fiziksel elektronik ile yazılımın buluştuğu noktadır.
 
 ---
 
 ## 2. L0-L6 Katman Yığını
 
-CoreMusic'in L0-L3 katman yapısı (CLAUDE.md §5) üzerine inşa edilmiştir. L4-L6, electronics ekosistemi için genişletilmiştir.
+CoreMusic'in L0-L6 katman yapısı (CLAUDE.md §5, [[architecture/00-overview/architecture-master]] §2) üzerine inşa edilmiştir.
 
 ```mermaid
 graph TB
@@ -63,7 +63,7 @@ graph TB
 | **L0** | Infrastructure | DB, cache, filesystem, IPC, credential vault | PDO, APCu, Redis, SQLite |
 | **L1** | Security | Middleware pipeline, session, CSRF, CSP, rate limit | Argon2id, AES-256-GCM, OWASP |
 | **L2** | Routing | SPA PageRouter, subdomain routing, URL normalization | PHP 8.4 PageRouter, JS Router.js |
-| **L3** | Presentation | Frontend, UI, DOM, responsive, accessibility | Vanilla JS ES6+, ITCSS 7-layer, TrustedTypes |
+| **L3** | Presentation | Frontend, UI, DOM, responsive, accessibility | Vanilla JS ES6+, ITCSS 9-layer, TrustedTypes |
 | **L4** | Domain | İş mantığı, use case'ler, entity'ler, DDD | PHP 8.4 (strict_types), SOLID |
 | **L5** | Services | 13 servis, API Gateway, event bus, message queue | REST, WebSocket, gRPC, MQTT |
 | **L6** | Electronics | Hardware, firmware, driver, DSP, PCB, devre | C++20, JUCE 9, ASIO SDK 2.3.4, XMOS |

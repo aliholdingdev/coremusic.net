@@ -1,18 +1,55 @@
 ---
-name: skill-maker
-description: CoreMusic için yeni yetenekler ve agentic workflow'lar (skill'ler) oluşturmayı sağlayan AI Agentic Orchestration meta-skill'i. Tetikleyiciler: "skill oluştur", "yeni skill", "skill maker".
-license: MIT
-metadata:
-  version: 3.1.0
-  author: Bayram Ali
-  compatibility: opencode
-  coremusic_rules: enforced
-  owasp: Top10:2025
-  solid: enforced
-  last_updated: 2026-08-08
-  category: agentic-orchestration
-  tags: [skill-builder, agentic, orchestration, truth-mode, anti-hallucination]
-triggers: ["skill oluştur", "yeni skill", "skill maker", "beceri oluştur", "beceri yap", "agentic skill üret", "orchestration skill"]
+title: "CoreMusic — Skill Oluşturucu Meta-Skill"
+type: skill-instruction
+version: 3.1
+authority: SSOT
+mode:
+  - Red Team
+  - Truth Mode
+  - Human Mode
+purpose:
+  - New Skill Creation
+  - Agentic Workflow Generation
+  - Truth Mode Enforcement
+  - Anti-Hallucination Integration
+  - OWASP Compliance
+reference:
+  authority: ".ai/CLAUDE.md"
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/AGENTS.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+  architecture:
+    - ".ai/ADR/"
+    - "Existing project architecture"
+  templates:
+    - ".ai/.templates/index.md"
+  agents:
+    - ".ai/.agents/AGENTS.md"
+  project_structure:
+    - "coremusic.net/"
+    - "shared/"
+  update_policy:
+    preserve_existing_structure: true
+    require_approval_for:
+      - "skill format change"
+      - "agentic pattern change"
+triggers:
+  - "skill oluştur"
+  - "yeni skill"
+  - "skill maker"
+  - "beceri oluştur"
+  - "beceri yap"
+  - "agentic skill üret"
+  - "orchestration skill"
+changelog:
+  - version: 3.1
+    date: 2026-08-15
+    changes:
+      - Standardized YAML frontmatter
+      - Added triggers to frontmatter
 ---
 
 # 🌐 skill-maker — AI Agentic Orchestration Meta-Skill

@@ -57,7 +57,7 @@ AI agent'larının session ve persistent hafıza yönetimini tanımlar. Memory h
 
 ---
 
-## 4. 10-Step Boot Protocol
+## 4. 16-Step Boot Protocol
 
 | # | Dosya | Amaç | Öncelik | Timeout |
 |---|-------|------|---------|---------|
@@ -75,17 +75,6 @@ AI agent'larının session ve persistent hafıza yönetimini tanımlar. Memory h
 **Toplam boot süresi:** Max 25 saniye. P0 → P1 → P2 sırasıyla okunur.
 
 ---
-
-## 5. MSA Sparse Attention (ADR-042/C5)
-
-**Görev başına max 15 dosya okunur.**
-
-| Öncelik | Dosya Grubu | Max | Toplam |
-|---------|-------------|-----|--------|
-| P0 (Kritik) | CLAUDE.md, AGENTS.md, WORKFLOW.md | 3 | 3 |
-| P1 (Yüksek) | index.md, keys.md, brain.md, MEMORY.md, log.md | 5 | 8 |
-| P2 (Görev) | decisions/accepted/ADR-NNN, architecture/L[0-3]/* | 5 | 13 |
-| P3 (Düşük) | testing/*, ui-design/*, personas/* | 2 | 15 |
 
 **Kurallar:**
 1. P0 → P1 → P2 → P3 sırasıyla okunur
@@ -198,7 +187,6 @@ AI agent'larının session ve persistent hafıza yönetimini tanımlar. Memory h
 | Eksik frontmatter | 7 zorunlu alan eksik | Frontmatter'i tamamla | MEDIUM |
 | Boyut limit aşımı | Dosya >1000 satır | Dosyayı böl veya arşivle | MEDIUM |
 | Hallüsinasyon | `VERIFICATION REQUIRED` etiketi yok | Etiketi ekle | CRITICAL |
-| Token overflow | MSA >15 dosya | Görev parçalama | HIGH |
 | Session kaybı | Oturum yarım kaldı | log.md'den resume | MEDIUM |
 | Vault tutarsızlığı | Çelişkili dosyalar | Cross-reference update | HIGH |
 | Eski bilgi | `VERIFICATION REQUIRED` var | Doğrula veya sil | MEDIUM |
@@ -213,7 +201,6 @@ AI agent'larının session ve persistent hafıza yönetimini tanımlar. Memory h
 | 2 | `log.md` Append-Only, geçmiş silinemez | ADR-004 |
 | 3 | Session timestamp'leri UTC immutable olmalı | ADR-004 |
 | 4 | ADR 001-037 FROZEN, yeni karar için ADR-038+ | ADR-042 |
-| 5 | **MSA Limit = 15 dosya** | ADR-042 |
 | 6 | **music.coremusic.net = Port 81, PHP 8.4** | ADR-042 |
 | 7 | **CSRF Token Key = `csrf_token`** | ADR-010 |
 | 8 | Layer Violation: L0→L3 import yasak | CLAUDE.md |
@@ -230,7 +217,6 @@ AI agent'larının session ve persistent hafıza yönetimini tanımlar. Memory h
 |-------|-------|--------|
 | § 2 Hierarchy | [[MEMORY.md]] §3 | Memory hierarchy |
 | § 3 Session | [[MEMORY.md]] §4 | Session lifecycle |
-| § 5 MSA | [[ADR-042-vault-restructuring-2026-08-03]] | MSA limit |
 | § 6 Persistent | [[ADR-004-multi-domain-spa]] | Vault versiyonlama |
 | § 8 Backup | [[ADR-022-database-hardened-security]] | Güvenlik |
 | § 9 Security | [[ADR-010-csrf-protection-strategy]] | CSRF |
@@ -248,7 +234,6 @@ AI agent'larının session ve persistent hafıza yönetimini tanımlar. Memory h
 | SSOT Authority | AI Memory System |
 | Last Updated | 2026-08-09 |
 | ADR Coverage | ADR-002/004/008/010/011/022/038/042 |
-| MSA Uyumlu | ✅ |
 | Security Boundary | ✅ REDACTED policy |
 | Cross References | 7 çapraz referans |
 

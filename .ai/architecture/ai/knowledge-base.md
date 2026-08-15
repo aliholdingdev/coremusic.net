@@ -285,9 +285,8 @@ Yeni Bilgi → Kaynak Kontrolü → Doğrulama → Sınıflandırma → İndeksl
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 3 Semantic | [[ADR-042-vault-restructuring-2026-08-03]] | MSA limit |
 | § 4 RAG | [[ai-engine]] | AI Engine entegrasyonu |
-| § 5 Sources | [[ADR-040-database-authority]] | 9 BCNF DB |
+| § 5 Sources | [[ADR-040-database-authority]] | 18 BCNF DB |
 | § 9 Lifecycle | [[MEMORY.md]] | Session hafızası |
 | § 10 Vault | [[index.md]] | Master katalog |
 | § 14 Security | [[ADR-022-database-hardened-security]] | Güvenlik |

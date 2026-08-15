@@ -2,18 +2,172 @@
 type: plan
 category: ui-design
 title: "CoreMusic — Implementation Plan (15-Step CSS, v3.1.0)"
-date: 2026-08-11
-updated: 2026-08-11
+date: 2026-08-15
+updated: 2026-08-15
 status: active
-version: 3.1.0
+version: 3.2.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-references:
-  - [[00-mockup-index]]
-  - [[01-component-inventory]]
-  - [[00-ascii-art-views]]
-  - [[decisions/accepted/ADR-001-vanilla-js-itcss]]
-  - [[decisions/accepted/ADR-044-dynamic-user-theme-engine]]
+reference:
+  authority: ".ai/ui-design/02-implementation-plan.md"
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/AGENTS.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+    - ".ai/keys.md"
+    - ".ai/MEMORY.md"
+    - ".ai/log.md"
+    - ".ai/engine.md"
+  architecture:
+    - ".ai/ADR/"
+    - "Existing project architecture"
+    - "Existing codebase patterns"
+  project_structure:
+    - "coremusic.net/"
+    - "shared/"
+    - "api.coremusic.net/"
+    - "auth.coremusic.net/"
+    - "music.coremusic.net/"
+    - "admin.coremusic.net/"
+    - "home.coremusic.net/"
+    - "car.coremusic.net/"
+    - "studio.coremusic.net/"
+    - "pro.coremusic.net/"
+    - "media.coremusic.net/"
+    - "download.coremusic.net/"
+  decision_priority:
+    - "ADR decisions"
+    - "Architecture documentation"
+    - "Security requirements"
+    - "Existing implementation"
+    - "User requirements"
+  update_policy:
+    preserve_existing_structure: true
+    require_approval_for:
+      - "file rename"
+      - "directory move"
+      - "architecture change"
+      - "database schema change"
+      - "security policy change"
+  skills:
+    - path: ".opencode/skills/ui-code-generator/SKILL.md"
+      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
+    - path: ".opencode/skills/ui-analyzer/SKILL.md"
+      purpose: "UI analizi, mevcut tasarım değerlendirme"
+    - path: ".opencode/skills/skill-maker/SKILL.md"
+      purpose: "Yeni skill oluşturma, skill template sistemi"
+    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
+      purpose: "Güvenlik testi, truth mode, adversarial analiz"
+    - path: ".opencode/skills/prompt-maker/SKILL.md"
+      purpose: "Prompt mühendisliği, AI talimat tasarımı"
+    - path: ".opencode/skills/composer-sync/SKILL.md"
+      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
+    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
+      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
+    - path: ".opencode/skills/human-mode/SKILL.md"
+      purpose: "İnsan modu iletişimi, onay süreçleri"
+    - path: ".opencode/skills/hallucination-control/SKILL.md"
+      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
+    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
+      purpose: "BCNF normalizasyonu, şema tasarımı"
+  templates:
+    adr:
+      - path: ".ai/.templates/adr/adr-template.md"
+        purpose: "ADR şablonu"
+      - path: ".ai/.templates/adr/adr-frontend-template.md"
+        purpose: "Frontend ADR şablonu"
+      - path: ".ai/.templates/adr/adr-database-template.md"
+        purpose: "Database ADR şablonu"
+      - path: ".ai/.templates/adr/adr-security-template.md"
+        purpose: "Security ADR şablonu"
+      - path: ".ai/.templates/adr/adr-audio-template.md"
+        purpose: "Audio/Hardware ADR şablonu"
+      - path: ".ai/.templates/adr/adr-index.md"
+        purpose: "ADR navigasyon rehberi"
+    backend:
+      - path: ".ai/.templates/backend/php-template.md"
+        purpose: "PHP 8.4 backend geliştirme şablonu"
+      - path: ".ai/.templates/backend/nodejs-template.md"
+        purpose: "Node.js 20+ backend geliştirme şablonu"
+    frontend:
+      - path: ".ai/.templates/frontend/js-template.md"
+        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
+      - path: ".ai/.templates/frontend/css-template.md"
+        purpose: "ITCSS 9-layer, BEM CSS şablonu"
+    testing:
+      - path: ".ai/.templates/testing/phpunit-template.md"
+        purpose: "PHPUnit 10+ test şablonu"
+      - path: ".ai/.templates/testing/vitest-template.md"
+        purpose: "Vitest JS/TS test şablonu"
+    infrastructure:
+      - path: ".ai/.templates/infrastructure/migration-template.md"
+        purpose: "MySQL 9 BCNF migration şablonu"
+      - path: ".ai/.templates/infrastructure/docker-template.md"
+        purpose: "Docker 24+ Compose v2 şablonu"
+      - path: ".ai/.templates/infrastructure/github-actions-template.md"
+        purpose: "GitHub Actions CI/CD şablonu"
+    documentation:
+      - path: ".ai/.templates/documentation/api-doc-template.md"
+        purpose: "API dokümantasyon şablonu"
+      - path: ".ai/.templates/documentation/security-audit-template.md"
+        purpose: "Güvenlik denetimi şablonu"
+      - path: ".ai/.templates/documentation/WikiPage-Template.md"
+        purpose: "Wiki sayfası şablonu"
+    hardware:
+      - path: ".ai/.templates/hardware/arduino-template.md"
+        purpose: "Arduino/IoT prototipleme şablonu"
+      - path: ".ai/.templates/hardware/avr-template.md"
+        purpose: "AVR mikrodenetleyici şablonu"
+      - path: ".ai/.templates/hardware/pic-template.md"
+        purpose: "PIC mikrodenetleyici şablonu"
+    query:
+      - path: ".ai/.templates/query/Query-Template.md"
+        purpose: "SQL sorgu şablonu"
+    other:
+      - path: ".ai/.templates/other/c-template.md"
+        purpose: "C11 GCC embedded/driver şablonu"
+      - path: ".ai/.templates/cpp-template.md"
+        purpose: "C++20 JUCE/ASIO şablonu"
+  ui_cross_references:
+    root_files:
+      - path: ".ai/ui-design/00-mockup-index.md"
+        purpose: "PNG master kataloğu — uygulama sırasında mockup okunmalı"
+      - path: ".ai/ui-design/01-component-inventory.md"
+        purpose: "C01-C16 bileşen detayları — her adımda bileşen referansı"
+      - path: ".ai/ui-design/03-accessibility-gaps.md"
+        purpose: "WCAG gap analizi — uygulama sırasında touch target düzeltmeleri"
+      - path: ".ai/ui-design/04-vault-registration.md"
+        purpose: "Vault kayıt durumu"
+    subdirectories:
+      - path: ".ai/ui-design/screens/"
+        purpose: "Screen spec dosyaları — her CSS adımının spec kaynağı"
+      - path: ".ai/ui-design/screens/_layout-patterns/"
+        purpose: "Layout pattern'ları — 60/40, split-home, fullscreen, modal, auth"
+      - path: ".ai/ui-design/prompt/"
+        purpose: "UI prompt dosyaları — CSS kod üretimi için prompt referansları"
+      - path: ".ai/ui-design/reference/01-design-tokens.md"
+        purpose: "Design token referansı — Adım 1'de güncellenecek token'lar"
+    png_directories:
+      - path: ".ai/.png/home-1024/"
+        purpose: "12 PNG — her adımın mockup kaynağı"
+      - path: ".ai/.png/shared-1024/"
+        purpose: "6 PNG — Auth ekranları (Adım 14)"
+  ui_adr_references:
+    - path: ".ai/decisions/accepted/ADR-001-vanilla-js-itcss.md"
+      purpose: "ITCSS 9-layer — CSS dosya organizasyonu"
+    - path: ".ai/decisions/accepted/ADR-044-dynamic-user-theme-engine.md"
+      purpose: "Tema token'ları — Adım 1'de theme CSS güncellemesi"
+    - path: ".ai/decisions/accepted/ADR-045-multi-domain-view-mode-architecture.md"
+      purpose: "View mode CSS'leri — Adım 15"
+    - path: ".ai/decisions/accepted/ADR-083-spa-router.md"
+      purpose: "SPA Router — sayfa geçişleri, nav link aktif durumları"
+  ui_skills:
+    - path: ".opencode/skills/ui-code-generator/SKILL.md"
+      purpose: "UI/CSS kod üretimi — her CSS adımında kullanılacak"
+    - path: ".opencode/skills/ui-analyzer/SKILL.md"
+      purpose: "UI analizi — mockup doğrulama, piksel ölçümü"
 ---
 
 # CoreMusic — Implementation Plan (v3.1.0)

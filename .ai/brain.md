@@ -2,16 +2,147 @@
 title: "CoreMusic — Engineering Brain (Enterprise SSOT)"
 type: brain
 category: architecture-decisions
-updated: 2026-08-10
+date: 2026-08-08
+updated: 2026-08-13
 status: active
-version: 21.0.0
+version: 23.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/brain.md"
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/AGENTS.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+    - ".ai/keys.md"
+    - ".ai/MEMORY.md"
+    - ".ai/log.md"
+    - ".ai/engine.md"
+  architecture:
+    - ".ai/ADR/"
+    - "Existing project architecture"
+    - "Existing codebase patterns"
+  project_structure:
+    - "coremusic.net/"
+    - "shared/"
+    - "api.coremusic.net/"
+    - "auth.coremusic.net/"
+    - "music.coremusic.net/"
+    - "admin.coremusic.net/"
+    - "home.coremusic.net/"
+    - "car.coremusic.net/"
+    - "studio.coremusic.net/"
+    - "pro.coremusic.net/"
+    - "media.coremusic.net/"
+    - "download.coremusic.net/"
+  decision_priority:
+    - "ADR decisions"
+    - "Architecture documentation"
+    - "Security requirements"
+    - "Existing implementation"
+    - "User requirements"
+  update_policy:
+    preserve_existing_structure: true
+    require_approval_for:
+      - "file rename"
+      - "directory move"
+      - "architecture change"
+      - "database schema change"
+      - "security policy change"
+  skills:
+    - path: ".opencode/skills/ui-code-generator/SKILL.md"
+      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
+    - path: ".opencode/skills/ui-analyzer/SKILL.md"
+      purpose: "UI analizi, mevcut tasarım değerlendirme"
+    - path: ".opencode/skills/skill-maker/SKILL.md"
+      purpose: "Yeni skill oluşturma, skill template sistemi"
+    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
+      purpose: "Güvenlik testi, truth mode, adversarial analiz"
+    - path: ".opencode/skills/prompt-maker/SKILL.md"
+      purpose: "Prompt mühendisliği, AI talimat tasarımı"
+    - path: ".opencode/skills/composer-sync/SKILL.md"
+      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
+    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
+      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
+    - path: ".opencode/skills/human-mode/SKILL.md"
+      purpose: "İnsan modu iletişimi, onay süreçleri"
+    - path: ".opencode/skills/hallucination-control/SKILL.md"
+      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
+    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
+      purpose: "BCNF normalizasyonu, şema tasarımı"
+  templates:
+    adr:
+      - path: ".ai/.templates/adr/adr-template.md"
+        purpose: "ADR şablonu"
+      - path: ".ai/.templates/adr/adr-frontend-template.md"
+        purpose: "Frontend ADR şablonu"
+      - path: ".ai/.templates/adr/adr-database-template.md"
+        purpose: "Database ADR şablonu"
+      - path: ".ai/.templates/adr/adr-security-template.md"
+        purpose: "Security ADR şablonu"
+      - path: ".ai/.templates/adr/adr-audio-template.md"
+        purpose: "Audio/Hardware ADR şablonu"
+      - path: ".ai/.templates/adr/adr-index.md"
+        purpose: "ADR navigasyon rehberi"
+    backend:
+      - path: ".ai/.templates/backend/php-template.md"
+        purpose: "PHP 8.4 backend geliştirme şablonu"
+      - path: ".ai/.templates/backend/nodejs-template.md"
+        purpose: "Node.js 20+ backend geliştirme şablonu"
+    frontend:
+      - path: ".ai/.templates/frontend/js-template.md"
+        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
+      - path: ".ai/.templates/frontend/css-template.md"
+        purpose: "ITCSS 9-layer, BEM CSS şablonu"
+    testing:
+      - path: ".ai/.templates/testing/phpunit-template.md"
+        purpose: "PHPUnit 10+ test şablonu"
+      - path: ".ai/.templates/testing/vitest-template.md"
+        purpose: "Vitest JS/TS test şablonu"
+    infrastructure:
+      - path: ".ai/.templates/infrastructure/migration-template.md"
+        purpose: "MySQL 9 BCNF migration şablonu"
+      - path: ".ai/.templates/infrastructure/docker-template.md"
+        purpose: "Docker 24+ Compose v2 şablonu"
+      - path: ".ai/.templates/infrastructure/github-actions-template.md"
+        purpose: "GitHub Actions CI/CD şablonu"
+    documentation:
+      - path: ".ai/.templates/documentation/api-doc-template.md"
+        purpose: "API dokümantasyon şablonu"
+      - path: ".ai/.templates/documentation/security-audit-template.md"
+        purpose: "Güvenlik denetimi şablonu"
+      - path: ".ai/.templates/documentation/WikiPage-Template.md"
+        purpose: "Wiki sayfası şablonu"
+    hardware:
+      - path: ".ai/.templates/hardware/arduino-template.md"
+        purpose: "Arduino/IoT prototipleme şablonu"
+      - path: ".ai/.templates/hardware/avr-template.md"
+        purpose: "AVR mikrodenetleyici şablonu"
+      - path: ".ai/.templates/hardware/pic-template.md"
+        purpose: "PIC mikrodenetleyici şablonu"
+    query:
+      - path: ".ai/.templates/query/Query-Template.md"
+        purpose: "SQL sorgu şablonu"
+    other:
+      - path: ".ai/.templates/other/c-template.md"
+        purpose: "C11 GCC embedded/driver şablonu"
+      - path: ".ai/.templates/cpp-template.md"
+        purpose: "C++20 JUCE/ASIO şablonu"
+changelog:
+  - version: 23.0.0
+    date: 2026-08-13
+    changes:
+      - Added reference section (skills, templates, project_structure)
+      - Updated governance format
 ---
 
 # CoreMusic — Engineering Brain (Enterprise SSOT)
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[MEMORY.md]] · [[log.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
+
+**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
 
 ---
 
@@ -23,7 +154,7 @@ CoreMusic platformunun tüm mühendisleri ve AI ajanları için mimari kararlar�
 
 ## 2. Scope
 
-C++ Audio DSP (ASIO, WASAPI, ring buffer, zero-allocation, 32-bit float PCM), 8+1 Surround (Class AB, XMOS XU316, PCM3168A/AK4458), PHP Middleware Pipeline (SessionManager→Csrf), 11 BCNF DB, AES-256-GCM Credential Vault, 10 panel mimarisi, AI Auto-Download (YouTube→deemix→FLAC), 3 fazlı geliştirme, 5 deployment modu, 5 audio division.
+C++ Audio DSP (ASIO, WASAPI, ring buffer, zero-allocation, 32-bit float PCM), 8+1 Surround (Class AB, XMOS XU316, PCM3168A/AK4458), PHP Middleware Pipeline (SessionManager→Csrf), 18 BCNF DB, AES-256-GCM Credential Vault, 10 panel mimarisi, AI Auto-Download (YouTube→deemix→FLAC), 3 fazlı geliştirme, 5 deployment modu, 5 audio division.
 
 ---
 
@@ -32,13 +163,12 @@ C++ Audio DSP (ASIO, WASAPI, ring buffer, zero-allocation, 32-bit float PCM), 8+
 | Prensipl | Açıklama |
 |----------|----------|
 | SOLID | Tek Sorumluluk, Açık Kapalılık, Yerine Koyma, Arayüz Ayrımı, Bağımlılık Tersi |
-| Clean Architecture (L0-L3) | Infrastructure → Security → Routing → Presentation |
+| Clean Architecture (L0-L6) | Infrastructure → Security → Routing → Presentation → Domain → Services → Electronics |
 | Hexagonal Architecture | Adapter/Port pattern ile bağımsızlık |
 | DRY | Tekrarlanan kod yasağı |
 | YAGNI | Gereksiz özellik ekleme yasağı |
 | Real-Time Thread Model | Audio thread'de blocking operations yasak |
 | Zero Code Before Plan | Plan onayı olmadan kod yazma yasağı (ADR-007) |
-| MSA Limit | Görev başına max 15 dosya (ADR-042/C5) |
 
 ---
 
@@ -49,36 +179,180 @@ C++ Audio DSP (ASIO, WASAPI, ring buffer, zero-allocation, 32-bit float PCM), 8+
 | Backend | PHP (strict_types=1) | 8.4+ |
 | Frontend | Vanilla JS ES6+ (framework YASAK) | ES2022 |
 | CSS | ITCSS + BEM | 7-layer |
-| Database | MySQL / MariaDB (PDO, ORM YASAK) | 11 BCNF |
+| Database | MySQL / MariaDB (PDO, ORM YASAK) | 18 BCNF |
 | Audio Engine | C++20, JUCE 9, ASIO SDK 2.3.4 | — |
 | Hardware | XMOS XU316, PCM3168A | PCM5122 REDDEDİLMİŞ |
 | Rate Limiting | APCu | 60 req/60s |
 | Encryption | AES-256-GCM, Argon2id | NIST SP 800-38D |
 
+**ASIO SDK Download:** https://www.steinberg.net/developers/asiosdk-open/
+
+### 4A. Enterprise Composer Stack (prompt0 + prompt2 — "Build Business Logic, Not Infrastructure")
+
+Temel ilke: **Önce standart çözüm, sonra Composer paketi, en son özel implementasyon.**
+
+#### Çekirdek Paketler (Minimum Enterprise Stack)
+
+| Kategori | Paket | PSR | Amaç |
+|----------|-------|-----|------|
+| **DI** | `php-di/php-di` | PSR-11 | Dependency Injection Container |
+| **Router** | `nikic/fast-route` | — | Enterprise Router |
+| **HTTP Message** | `nyholm/psr7` | PSR-7 | HTTP Message Implementation |
+| **HTTP Emitter** | `laminas/laminas-httphandlerrunner` | — | Response Emitter |
+| **JWT** | `lcobucci/jwt` | — | JWT Token Yönetimi (RS256) |
+| **UUID** | `ramsey/uuid` | — | UUID Üretimi |
+| **Logger** | `monolog/monolog` | PSR-3 | Structured Logging |
+| **Env** | `vlucas/phpdotenv` | — | Environment Variables |
+| **Validation** | `respect/validation` | — | Request/DTO Validation |
+| **CSRF** | `symfony/security-csrf` | — | CSRF Koruması |
+| **Cache** | `symfony/cache` | PSR-6 | Cache (Redis, APCu, File) |
+| **Redis** | `predis/predis` | — | Redis Client |
+| **Event** | `symfony/event-dispatcher` | PSR-14 | Event Dispatcher |
+| **Rate Limit** | `symfony/rate-limiter` | — | Rate Limiting |
+| **Filesystem** | `league/flysystem` | — | Dosya Sistemi Abstraction |
+| **HTTP Client** | `guzzlehttp/guzzle` | PSR-18 | HTTP Client |
+| **Encryption** | `paragonie/halite` | — | AES-256-GCM Encryption |
+| **HTML Sanitizer** | `ezyang/htmlpurifier` | — | XSS Koruması |
+| **Device** | `mobiledetect/mobiledetectlib` | — | Cihaz Algılama |
+| **Scheduler** | `dragonmantank/cron-expression` | — | Cron Expression |
+| **Migration** | `robmorgan/phinx` | — | DB Migration |
+| **DBAL** | `doctrine/dbal` | — | Database Abstraction (PDO üstü) |
+| **Serializer** | `symfony/serializer` | — | DTO/JSON/XML Dönüşümleri |
+| **Mailer** | `symfony/mailer` | — | Mail Gönderimi |
+| **Console** | `symfony/console` | — | CLI Komutları |
+| **Lock** | `symfony/lock` | — | Distributed Lock |
+
+#### PSR Standartları
+
+```
+psr/log, psr/container, psr/http-message, psr/http-server-handler,
+psr/http-server-middleware, psr/http-factory, psr/http-client,
+psr/event-dispatcher, psr/cache, psr/simple-cache
+```
+
+#### Auth & Security Paketleri
+
+| Paket | Amaç |
+|-------|------|
+| `lcobucci/jwt` | JWT token yönetimi (RS256) |
+| `paragonie/sodium_compat` | Libsodium wrapper |
+| `paragonie/constant_time_encoding` | Timing attack koruması |
+| `symfony/password-hasher` | Şifre hashleme wrapper |
+| `pragmarx/google2fa` | MFA/2FA (TOTP) |
+| `endroid/qr-code` | QR kod üretimi |
+| `league/oauth2-server` | OAuth2 Server |
+
+#### Geliştirme Araçları
+
+| Paket | Amaç |
+|-------|------|
+| `phpunit/phpunit` | Unit Test |
+| `pestphp/pest` | Modern Test Framework |
+| `phpstan/phpstan` | Static Analysis (level 8) |
+| `friendsofphp/php-cs-fixer` | Kod Standartları (PSR-12) |
+| `rector/rector` | Automated Refactoring |
+| `roave/security-advisories` | Güvenlik Danışmanı |
+| `deptrac/deptrac` | Katman Bağımlılık Analizi |
+
+#### Yasaklı Paketler
+
+| Yasaklı | Neden | Doğru |
+|---------|-------|-------|
+| Doctrine ORM | ORM yasak (ADR-002) | PDO + Doctrine DBAL |
+| Laravel Eloquent | ORM yasak (ADR-002) | PDO |
+| Propel | ORM yasak (ADR-002) | PDO |
+| `firebase/php-jwt` | Yasaklı — RS256 için `lcobucci/jwt` kullanılır (ADR-059) | `lcobucci/jwt` |
+| `mysql_*` fonksiyonları | Deprecated | PDO |
+| MD5/SHA1 | Güvensiz hash | Argon2id |
+| mcrypt | Deprecated | paragonie/halite |
+
+### 4B. API Architecture (prompt3 — API-First, Gateway, BFF, CQRS)
+
+CoreMusic API tek bir büyük API değil, servis bazlıdır. Tüm istemciler API Gateway üzerinden bağlanır.
+
+#### Temel Prensip: Contract First
+
+```
+OpenAPI Spec → DTO → Contract → Validation → Use Case → Kod
+```
+
+**Kod hiçbir zaman sözleşmeden önce yazılmaz.**
+
+#### API Gateway
+
+Tüm istemcilerin tek giriş noktası `api.coremusic.net`'tir. Gateway; routing, auth, rate limit, validation, logging, correlation ID görevini üstlenir.
+
+#### BFF (Backend for Frontend)
+
+Her istemci tipi kendi BFF'sini kullanır:
+
+| İstemci | BFF | Response |
+|---------|-----|----------|
+| SPA | SPA BFF | Tam veri |
+| Mobile | Mobile BFF | Minimal |
+| Embedded (RPi5) | Embedded BFF | Ultra-minimal, gzip |
+| Desktop | Desktop BFF | Orta boy |
+| Admin | Admin BFF | Full + audit |
+| Car | Car BFF | Touch-optimized |
+
+#### CQRS
+
+Yazma ve okuma işlemleri tamamen ayrılır:
+
+```
+Write: Command → Use Case → Repository → MySQL Master
+Read:  Query → Read Model → Cache → Response
+```
+
+#### Event Driven (ADR-086)
+
+Servisler birbirini doğrudan çağırmaz, event yayınlar:
+
+```
+Service A → Event Bus (PSR-14) → Service B, C, D
+```
+
+#### SPA → ApiClient Kuralı
+
+```
+SPA → ApiClient → HTTP → Gateway → Middleware → Use Case → Domain → Repository → Infrastructure
+```
+
+SPA **asla** PDO, MySQL, Repository, Entity, Infrastructure, Filesystem, FFmpeg, Redis, Cache veya SQL **görmez.**
+
 ---
 
-## 5. Architecture Layers L0-L3
+## 5. Architecture Layers L0-L6
+
+*Detaylı metadata için bakınız: [[architecture/00-overview/architecture-master]] §2*
 
 | Katman | İçerik | Teknoloji |
 |--------|--------|-----------|
+| L6 Electronics | Hardware, firmware, driver, DSP, audio engine | C++20, JUCE 9, ASIO, XMOS |
+| L5 Services | Application services, use cases, CQRS, event bus | PHP 8.4, PSR-14 |
+| L4 Domain | Business rules, entities, value objects, aggregates | DDD, SOLID, Clean Architecture |
 | L3 Presentation | Frontend, UI, DOM | Vanilla JS, ITCSS, TrustedTypes |
 | L2 Routing | Router, middleware, dispatch | PHP 8.4 PageRouter |
 | L1 Security | Session, Auth, CSRF, CSP | Middleware Pipeline |
 | L0 Infrastructure | Database, cache, fs | PDO, APCu, Redis |
 
-Bağımlılık: ✅ L3→L2, L2→L1, L1→L0 | ❌ L0→L2/L3, L1→L3, L3→L0. Layer Violation → derhal revert.
+Bağımlılık: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1→L0 | ❌ L0→L2/L3, L1→L3, L3→L0. Layer Violation → derhal revert.
 
 ---
 
 ## 6. Middleware Pipeline (Sıra Değişmez — ADR-010/011/012/013/022)
 
 ```
-1. SessionManagerMiddleware()    — Session başlat, CSP nonce üret
-2. BypassAuthMiddleware()        — Test bypass (prod'da devre dışı)
-3. RateLimiterMiddleware()       — APCu: 60 req/60s
-4. AuthMiddleware()              — Auth bilgisi inject
-5. SecurityHeadersMiddleware()   — CSP strict-dynamic
-6. CsrfMiddleware()              — csrf_token doğrulama (POST/PUT/DELETE)
+1. OriginCheckMiddleware()      — Köken doğrulama (whitelist CORS)
+2. CorsMiddleware()             — CORS header'ları (whitelist only)
+3. RateLimiterMiddleware()      — APCu: 60 req/60s
+4. SecurityHeadersMiddleware()  — CSP strict-dynamic, HSTS, X-Frame
+5. SessionManagerMiddleware()   — Session başlat, CSP nonce üret
+6. CsrfMiddleware()             — csrf_token doğrulama (POST/PUT/DELETE)
+7. AuthMiddleware()             — Auth bilgisi inject (JWT + Session)
+8. PermissionMiddleware()       — RBAC yetki kontrolü (regular/premium/studio/car/admin/system)
+9. ValidationMiddleware()       — Request/DTO validasyonu
+→ Controller
 ```
 
 CSP nonce üretimi SessionManager içindedir. Sıra değiştirilirse CSP bozulur.
@@ -152,21 +426,31 @@ PDO: Prepared statement zorunlu, SELECT * yasak, explicit column list.
 
 ---
 
-## 11. 11 BCNF Databases (ADR-040)
+## 11. 18 BCNF Databases (ADR-040)
+
+*Detaylı metadata için bakınız: [[architecture/00-overview/architecture-master]] §3*
 
 | # | Veritabanı | Amaç | Tablo Sayısı |
 |---|------------|------|-------------|
-| 1 | coremusic_auth | Kullanıcılar, roller, session, token, credential vault, API key | 12 |
+| 1 | coremusic_auth | Kullanıcılar, roller, session, token, credential vault, API key | 13 |
 | 2 | coremusic_user | Profiller, tercihler, geçmiş, favoriler | 7 |
-| 3 | coremusic_musics | Şarkılar, sanatçılar, türler, sözler, dosyalar | 12 |
-| 4 | coremusic_albums | Albüm koleksiyonları | 5 |
-| 5 | coremusic_playlist | Kullanıcı ve AI çalma listeleri | 5 |
-| 6 | coremusic_catalog | Referans verileri (tür listesi, sanatçı rolleri, enstrümanlar) | 8 |
-| 7 | coremusic_logs | Audit trail, analitik, hata logları | 13 |
-| 8 | coremusic_media | Cihaz senkronizasyonu, medya metadata | 8 |
-| 9 | coremusic_system | Ayarlar, config, cache, EQ, dosya yöneticisi, bildirimler | 13 |
-| 10 | coremusic_social | Yorumlar, paylaşımlar, aktivite, dinleme odaları | 9 |
+| 3 | coremusic_musics | Şarkılar, sanatçılar, türler, sözler, dosyalar, podcast, video, radyo | 22 |
+| 4 | coremusic_albums | Albüm koleksiyonları, diskler, istatistikler | 5 |
+| 5 | coremusic_playlist | Kullanıcı ve AI çalma listeleri, işbirlikçiler, takipçiler | 5 |
+| 6 | coremusic_catalog | Referans verileri (tür listesi, sanatçı rolleri, enstrümanlar, ruh halleri) | 8 |
+| 7 | coremusic_logs | Audit trail, analitik, hata logları, performans metrikleri | 22 |
+| 8 | coremusic_media | Cihaz senkronizasyonu, medya metadata, erişim kontrolü | 8 |
+| 9 | coremusic_system | Ayarlar, config, cache, EQ, dosya yöneticisi, bildirimler, i18n | 17 |
+| 10 | coremusic_social | Yorumlar, paylaşımlar, aktivite, dinleme odaları, bildirimler | 9 |
 | 11 | coremusic_wireless | WiFi + Bluetooth ağları | 5 |
+| 12 | coremusic_ai | Kullanıcı tercih profilleri, dinleme özellikleri, öneriler | 6 |
+| 13 | coremusic_api | API anahtarları, rate limit, API çağrı logları, webhook'lar | 4 |
+| 14 | coremusic_cms | Sayfalar, blog, etiketler, medya varlıkları, SSS, banner'lar | 8 |
+| 15 | coremusic_download | İndirme kuyruğu, geçmiş, önbellek, kaynak API'leri | 4 |
+| 16 | coremusic_neva | EQ preset'leri, DSP ayarları, yönlendirme matrisi, spektrum analizi | 4 |
+| 17 | coremusic_studio | Stüdyo oturumları, parçalar, preset'ler, ekipman | 6 |
+| 18 | coremusic_patch | Şema sürümleri, migration logları, yamalar | 3 |
+| | **TOPLAM** | | **156** |
 
 Kurallar: ORM yasak, SELECT * yasak, BCNF zorunlu, soft delete (`is_deleted = 0`), prepared statement, snake_case naming.
 
@@ -226,15 +510,14 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | ADR-036 | Çoklu proje prompt üretimi |
 | ADR-037 | Kablosuz ağ entegrasyonu |
 
-### 13.2 Active (038-063)
+### 13.2 Active (038-087)
 
 | ADR | Konu |
 |-----|------|
 | ADR-038 | XMOS XU316 + PCM3168A (PCM5122 REDDEDİLMİŞ) |
 | ADR-039 | 7-servis platform mimarisi |
-| ADR-040 | 11 BCNF veritabanı otoritesi |
+| ADR-040 | 18 BCNF veritabanı otoritesi |
 | ADR-041 | DB normalizasyon ek bilgi |
-| ADR-042 | MSA limit=15, PHP 8.4, port 81 |
 | ADR-043 | Auth subdomain konsolidasyonu |
 | ADR-044 | Cinsiyet bazlı dinamik tema |
 | ADR-045 | Multi-domain view mode |
@@ -246,6 +529,21 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | ADR-061 | Electronics Architecture (L6 Layer) |
 | ADR-062 | DSP Pipeline Architecture |
 | ADR-063 | Hardware Design Standards |
+| ADR-064 | Electronics Platform Architecture (L0-L6, 5 cihaz, 13 servis) |
+| ADR-072 | Social DB Schema (comments, shares, activity, rooms, notifications) |
+| ADR-073 | Podcast DB Schema (shows, episodes, subscriptions, transcripts) |
+| ADR-074 | Radio DB Schema (stations, schedules, now_playing) |
+| ADR-075 | AI DB Schema (preferences, features, recommendations, models) |
+| ADR-076 | Video DB Schema (music_videos, playback, subtitles) |
+| ADR-077 | Studio DB Schema (sessions, tracks, presets, equipment) |
+| ADR-078 | CMS DB Schema (pages, blog, tags, media, FAQs, banners) |
+| ADR-079 | i18n DB Schema (languages, translations, ui_strings, locale) |
+| ADR-080 | Electronics Development Workflow |
+| ADR-083 | SPA Router Architecture (PHP+JS Hybrid) |
+| ADR-084 | API Gateway Architecture (API-First, BFF, CQRS) |
+| ADR-085 | Modular Composer Packages (coremusic/*) |
+| ADR-086 | Event Driven Architecture (PSR-14) |
+| ADR-087 | Master Implementation Plan (Sıfırdan Geliştirme Kapsamı) |
 
 ---
 
@@ -294,7 +592,6 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | 5 | Hardcoded Secret: API key/log'da yasak | Güvenlik ihlali |
 | 6 | csrf_token: Key ismi değişmez (ADR-010) | CSRF bozulması |
 | 7 | Zero Code Before Plan: Plan onayı olmadan kod yok | Mimari bozulma |
-| 8 | MSA Limit: Görev başına max 15 dosya | Token aşımı |
 | 9 | In-Place Refactoring: Dosya adı/konumu değişmez | Link kırılması |
 | 10 | ORM Yasak: Sadece PDO prepared (ADR-002) | SQL injection |
 | 11 | Framework Yasak: Sadece Vanilla JS (ADR-001) | Bağımlılık artışı |
@@ -311,7 +608,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | PHP | `declare(strict_types=1)`, PSR-12, constructor injection, PHP 8.4+ |
 | JavaScript | Vanilla ES6+ (framework yasak), `const`/`let`, async/await, AbortController, `#` private, DOMParser+TrustedTypes, innerHTML yasak |
 | C++ | C++20, noexcept (ASIO callback), constexpr (buffer), alignas(64), [[nodiscard]] |
-| CSS | ITCSS 7-layer, BEM+BEMIT, custom properties, main.css sadece 01-07 |
+| CSS | ITCSS 9-layer, BEM+BEMIT, custom properties, main.css sadece 01-07 |
 
 ---
 
@@ -325,7 +622,6 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | Layer Violation | L0 → L3 import | Derhal revert | [[CLAUDE.md]] |
 | PCM5122 Kullanımı | 8.1 surround denemesi | PCM3168A veya AK4458 | [[ADR-038-8.1-sound-card-chip-selection]] |
 | Network Outage | İnternet kopması | Offline-First + SQLite queue | [[architecture/01-overview/overview]] |
-| MSA Limit Aşımı | >15 dosya task | Index fallback | [[ADR-042-vault-restructuring-2026-08-03]] |
 | BCNF Violation | Yeni tablo | 3NF → BCNF audit | [[ADR-040-database-authority]] |
 | Buffer Underrun | CPU %100 | Fade-out → 50ms sessizlik → restart | [[engine.md]] |
 | Session Timeout | 3600s idle | Otomatik yeniden auth | [[ADR-011-session-management]] |
@@ -351,27 +647,59 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § Amaç | [[CLAUDE.md]] | Ana sözleşme |
-| § Mimari | [[architecture/01-overview/overview]] | L0-L3 |
+| § Mimari | [[architecture/01-overview/overview]] | L0-L6 |
 | § C++ Audio | [[ADR-017-dsp-hardware-mode]] | XMOS, JUCE |
 | § 8.1 Surround | [[ADR-038-8.1-sound-card-chip-selection]] | PCM3168A, H001 |
 | § PHP Middleware | [[ADR-010-csrf-protection-strategy]] | csrf_token |
 | § Cache/Vault | [[ADR-022-database-hardened-security]] | AES-256-GCM |
-| § 11 BCNF DB | [[ADR-040-database-authority]] | 11 DB |
+| § 18 BCNF DB | [[ADR-040-database-authority]] | 18 DB |
 | § Audio Org | [[electronic/audio-organization]] | 5 bölüm |
 | § Hardware | [[electronic/hardware-roadmap]] | 3 fazlı yol haritası |
+| § 22 (Prompt Arsivi) | [[architecture/ai/prompt-engine]] | Prompt üretim motoru |
+| § 22 (Prompt Arsivi) | [[CLAUDE#26-prompt-entegrasyonu]] | Boot protokolünde prompt entegrasyonu |
+| § UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi — 18 PNG |
+| § Mockup PNG'ler | `.ai/.png/home-1024/` (12) + `.ai/.png/shared-1024/` (6) | RPi5 1024×600 mockup'lar |
 
 ---
 
-## 22. Quality Report
+## 22. Prompt Arşivi
+
+Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır ve her oturumun başında okunmalıdır.
+
+| Prompt | Amaç | Kullanım | Konum |
+|--------|------|----------|-------|
+| `prompt0-genel-ana-prompt` | Ana genel prompt: 11 alt domain, 10 panel, 20 analiz görevi, zorunlu kurallar | Tüm agentlar, her analiz görevinde | [[archives/prompt0-genel-ana-prompt-2026-08-13]] |
+| `prompt1-spa-router` | SPA Router: Enterprise router, SOLID, PSR, attribute-based, DI, route-cache, subdomain-aware | Backend Architect, UI Designer | [[archives/prompt1-spa-router-2026-08-13]] |
+| `prompt2-auth` | Auth: Merkezi auth.coremusic.net, hybrid JWT+session, RBAC, middleware pipeline, CORS | Security Engineer, Backend Architect | [[archives/prompt2-auth-2026-08-13]] |
+| `prompt3-api` | API: API-First, Gateway, CQRS, Event Driven, 14 servis, coremusic-shared | Backend Architect, DevOps Engineer | [[archives/prompt3-api-2026-08-13]] |
+
+### 22.1 Prompt-Article Eşleşme Tablosu
+
+| Prompt İçeriği | Vault'daki Karşılığı | ADR |
+|----------------|----------------------|-----|
+| prompt0: 11 alt domain | brain.md § 4A (Composer Stack) | ADR-087 |
+| prompt0: 10 panel | brain.md § 9 (Paneller) | ADR-039 |
+| prompt0: 20 analiz görevi | WORKFLOW.md genişletilmiş prompt bölümü | ADR-042 |
+| prompt0: Zorunlu Kurallar | CLAUDE.md § 7 (Hard Guardrails) | ADR-007 |
+| prompt1: Enterprise Router | architecture/l2-routing/spa-router.md § 1A | ADR-083 |
+| prompt2: Central Auth | architecture/08-auth/auth-cross-domain.md, ADR-043 | ADR-043, ADR-052 |
+| prompt2: Middleware Pipeline | brain.md § 6 | ADR-010/011/012/013/022 |
+| prompt3: API Gateway | ADR-084 (API Gateway Architecture) | ADR-084 |
+| prompt3: CQRS | brain.md § 4B (API Architecture) | ADR-086 |
+| prompt3: Event Driven | ADR-086 (Event Driven Architecture) | ADR-086 |
+
+---
+
+## 23. Quality Report
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 19.0.0 |
+| Version | 23.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
-| ADR Coverage | 001–050 (50 ADR) |
+| ADR Coverage | 001–087 (87 ADR) |
 | Panel Count | 10 |
 | Service Count | 7 |
-| DB Count | 11 BCNF |
+| DB Count | 18 BCNF |
 | Audio Channels | 8+1 Surround |
 | EQ Bands | 31 |
 | Hardware Phases | 3 (MVP → Premium → Professional) |
@@ -379,9 +707,10 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | Hard Guardrails | 14 |
 | Edge Cases | 10 |
 | Warnings | 7 |
+| Implementation Plan | 5 faz, 40 gün, 22 bölüm (ADR-087) |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-08
+**Last Updated:** 2026-08-13
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -45,7 +45,7 @@ Audio Interface Design, CoreMusic ELECTRONICS platformunun USB ses arayüzü tas
 | Bit | 24-bit |
 | Örnekleme | 192kHz max |
 | SNR | 112dB (DAC) |
-| THD+N | -100dB (DAC) |
+| THD+N | -94dB (DAC) |
 | Giriş | I2S, TDM |
 | Çıkış | I2S, TDM |
 | Güç | 5V, 3.3V |

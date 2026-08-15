@@ -226,7 +226,6 @@ Dosya → FFmpeg (teknik metadata)
 | **Satır Sayısı** | ~520 |
 | **ADR Uyumlu** | ✅ 026, 028, 034 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 4 referans |
 | **Guardrails** | ✅ 6 kural |
 

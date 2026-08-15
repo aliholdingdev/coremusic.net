@@ -224,7 +224,6 @@ Tüm subdomain'ler sadece aşağıdaki listedeki domainlere istek atabilir:
 | **Satır Sayısı** | ~600 |
 | **ADR Uyumlu** | ✅ 016 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 
 ---

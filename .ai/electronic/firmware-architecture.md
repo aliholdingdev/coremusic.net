@@ -34,45 +34,12 @@ CoreMusic firmware'i beş katmandan oluşur:
 
 ### 2.1 Katmanlı Mimari Diyagramı
 
-```mermaid
-graph TB
-    subgraph "Katman 5: Uygulama"
-        APP[DSP Processing]
-        ROUTE[Audio Routing]
-        CTRL[Control Logic]
-    end
-
-    subgraph "Katman 4: İletişim"
-        USB[USB Stack]
-        ETH[Ethernet]
-        WIFI[Wi-Fi]
-        BT[Bluetooth]
-    end
-
-    subgraph "Katman 3: Donanım Konfigürasyonu"
-        GPIO[GPIO]
-        SPI[SPI]
-        I2C[I2C]
-        UART[UART]
-        I2S[I2S/TDM]
-        EEPROM[EEPROM]
-    end
-
-    subgraph "Katman 2: Cihaz Başlatma"
-        INIT[Device Init]
-        DETECT[Perifer Algılama]
-        CLK[Clock Config]
-    end
-
-    subgraph "Katman 1: Bootloader"
-        BOOT[Bootloader]
-        VERIFY[Firmware Verify]
-        RECOVERY[Recovery Mode]
-    end
-
-    BOOT --> INIT --> USB & SPI & I2C & UART
-    USB & SPI & I2C & UART --> APP
-    APP --> ROUTE --> CTRL
+```
+Katman 5 (Uygulama):    DSP Processing / Audio Routing / Control Logic
+Katman 4 (İletişim):    USB Stack / Ethernet / Wi-Fi / Bluetooth
+Katman 3 (Donanım):     GPIO / SPI / I2C / UART / I2S(TDM) / EEPROM
+Katman 2 (Başlatma):    Device Init / Perifer Algılama / Clock Config
+Katman 1 (Bootloader):  Bootloader / Firmware Verify / Recovery Mode
 ```
 
 ---
@@ -90,24 +57,25 @@ graph TB
 
 ### 3.1 Yaşam Döngüsü Diyagramı
 
-```mermaid
-graph TD
-    A[Güç Açma] --> B[Bootloader]
-    B --> C{Firmware Doğrulama}
-    C -->|Başarılı| D[Device Init]
-    C -->|Başarısız| E[Recovery Mode]
-    D --> E[Hardware Config]
-    E --> F[Application Run]
-    F --> G{Güncelleme?}
-    G -->|Evet| H[OTA Download]
-    G -->|Hayır| F
-    H --> I{İmza Doğrulama}
-    I -->|Başarılı| J[Firmware Yazma]
-    I -->|Başarısız| E
-    J --> K{Yazma Doğrulama}
-    K -->|Başarılı| L[Yeniden Başlat]
-    K -->|Başarısız| E
-    L --> B
+```
+Güç Açma ──▶ Bootloader ──▶ {Firmware Doğrulama}
+                                │
+                       Başarılı ▼ Başarısız
+                    Device Init    Recovery Mode
+                         │
+                         ▼
+                    Hardware Config ──▶ Application Run ──▶ {Güncelleme?}
+                                                          │
+                                                     Evet ▼ Hayır
+                                                  OTA Download  Devam
+                                                       │
+                                                       ▼
+                                              İmza Doğrulama ──▶ Firmware Yazma ──▶ Yazma Doğrulama ──▶ Yeniden Başlat
+                                                       │                                        │
+                                                  Başarısız                                 Başarısız
+                                                       │                                        │
+                                                       ▼                                        ▼
+                                                 Recovery Mode ◀────────────────────────────────┘
 ```
 
 ---
@@ -217,22 +185,19 @@ public:
 
 ### 7.1 OTA Güncelleme Akışı
 
-```mermaid
-graph TD
-    A[Güncelleme İsteği] --> B{Versiyon Kontrolü}
-    B -->|Yeni Versiyon| C[İndirme]
-    B -->|Güncel| D[Devam]
-    C --> E{İmza Doğrulama}
-    E -->|Başarılı| F[Yedekleme]
-    E -->|Başarısız| G[Hata Logu]
-    F --> H[Yazma]
-    H --> I{Yazma Doğrulama}
-    I -->|Başarılı| J[Yeniden Başlatma]
-    I -->|Başarısız| K[Geri Alma]
-    J --> L{Önyükleme Testi}
-    L -->|Başarılı| M[Tamamlandı]
-    L -->|Başarısız| K
-    K --> N[Eski Firmware'ye Dön]
+```
+Güncelleme İsteği ──▶ {Versiyon Kontrolü}
+                          │
+                 Yeni Versiyon ▼ Güncel
+                    İndirme      Devam
+                       │
+                       ▼
+                 İmza Doğrulama ──▶ Yedekleme ──▶ Yazma ──▶ Yazma Doğrulama ──▶ Yeniden Başlatma ──▶ Önyükleme Testi ──▶ Tamamlandı
+                       │                                              │                                    │
+                  Başarısız                                      Başarısız                             Başarısız
+                       │                                              │                                    │
+                       ▼                                              ▼                                    ▼
+                 Hata Logu                                      Geri Alma ◀──────────────────────────────┘
 ```
 
 ### 7.2 OTA Stratejisi
@@ -367,35 +332,34 @@ graph TD
 
 ### 12.2 Secure Boot Zinciri
 
-```mermaid
-graph TD
-    A[BootROM] -->|Root of Trust| B[Bootloader]
-    B -->|RSA-2048 doğrulama| C[Primary Firmware]
-    C -->|RSA-2048 doğrulama| D[Application]
-    D -->|Runtime integrity| E[Normal Çalışma]
-    B -->|Başarısız| F[Recovery Mode]
-    C -->|Başarısız| G[Alternate Partition]
+```
+BootROM ──▶ Bootloader ──▶ Primary Firmware ──▶ Application ──▶ Normal Çalışma
+    │             │                │
+    │         Başarısız       Başarısız
+    │             │                │
+    │             ▼                ▼
+    │         Recovery Mode   Alternate Partition
+    └────── Root of Trust
 ```
 
 ---
 
-## 13. Mermaid: Önyükleme Sırası
+## 13. Önyükleme Sırası
 
-```mermaid
-graph TD
-    A[Güç Açma] --> B[Başlangıç ROM]
-    B --> C{Güvenli Önyükleme}
-    C -->|Başarılı| D[Bootloader]
-    C -->|Başarısız| E[Kurtarma Modu]
-    D --> F[Firmware Doğrulama]
-    F -->|Başarılı| G[RTOS Başlatma]
-    F -->|Başarısız| E
-    G --> H[HAL Başlatma]
-    H --> I[Sürücü Yükleme]
-    I --> J[Cihaz Başlatma]
-    J --> K[Normal Çalışma]
-    E --> L[Acil Yeniden Yazma]
-    L --> D
+```
+Güç Açma ──▶ Başlangıç ROM ──▶ {Güvenli Önyükleme}
+                                   │
+                          Başarılı ▼ Başarısız
+                       Bootloader    Kurtarma Modu
+                            │
+                            ▼
+                     Firmware Doğrulama
+                            │
+                     Başarılı ▼ Başarısız
+                  RTOS Başlatma  Kurtarma Modu
+                       │
+                       ▼
+                  HAL Başlatma ──▶ Sürücü Yükleme ──▶ Cihaz Başlatma ──▶ Normal Çalışma
 ```
 
 ---
@@ -466,7 +430,7 @@ graph TD
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 19 |
 | ADR References | 3 |
-| Mermaid Diagrams | 3 |
+| ASCII Art Diagrams | 5 (Katmanlı Mimari, Yaşam Döngüsü, OTA, Secure Boot, Önyükleme) |
 | Firmware Layers | 5 (Boot → Init → Config → Comm → App) |
 | HAL Interfaces | 7 (GPIO, SPI, I2C, UART, USB, I2S, EEPROM) |
 | RTOS Options | 4 (FreeRTOS, Zephyr, ThreadX, Bare-metal) |

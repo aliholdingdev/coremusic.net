@@ -16,14 +16,14 @@ governance: Red Team • Human Mode • Truth Mode
 
 ## 1. Purpose
 
-L3, CoreMusic platformunun sunum katmanıdır. Vanilla JS, ITCSS 7-layer CSS mimarisi, TrustedTypes, Web Audio API ve UI component'leri bu katmanda yönetilir. Framework yasağı (ADR-001) bu katmanda kesinlikle uygulanır.
+L3, CoreMusic platformunun sunum katmanıdır. Vanilla JS, ITCSS 9-layer CSS mimarisi, TrustedTypes, Web Audio API ve UI component'leri bu katmanda yönetilir. Framework yasağı (ADR-001) bu katmanda kesinlikle uygulanır.
 
 **Katman Sırası:**
 ```
-BU DOSYA → L2 Routing → L1 Security → L0 Infrastructure
+L5 Services → L4 Domain → BU DOSYA → L2 Routing → L1 Security → L0 Infrastructure
 ```
 
-*Kaynak: [[architecture/01-overview/architecture_master]]*
+*Kaynak: [[architecture/00-overview/architecture-master]] §2*
 
 ## 2. Responsibilities
 
@@ -529,7 +529,7 @@ class DeviceLoader {
 | 3 | **eval Yasak** | TrustedTypes policy |
 | 4 | **var Yasak** | let/const zorunlu |
 | 5 | **async/await zorunlu** | Callback yasak |
-| 6 | **ITCSS 7-layer** | Import sırası |
+| 6 | **ITCSS 9-layer** | Import sırası |
 | 7 | **BEM naming** | .block__element--modifier |
 
 ## 12. Edge Cases
@@ -561,7 +561,6 @@ class DeviceLoader {
 | **Web Doğrulanmış** | ✅ MDN, ITCSS, WCAG 2.2 |
 | **ADR Uyumlu** | ✅ 001, 021, 044 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

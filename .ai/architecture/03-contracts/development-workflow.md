@@ -12,7 +12,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # 20-Phase Development Workflow for CoreMusic ELECTRONICS
 
-**Zorunlu Bağlantılar:** [[WORKFLOW.md]] · [[ai/ai-workflow]] · [[architecture/03-contracts/project-structure]] · [[architecture/03-contracts/shared-library]] · [[decisions/accepted/ADR-007-cache-namespace]]
+**Zorunlu Bağlantılar:** [[WORKFLOW.md]] · [[ai/ai-workflow]] · [[architecture/03-contracts/project-structure]] · [[architecture/03-contracts/shared-library]] · [[decisions/accepted/ADR-007-cache-namespace]] · [[decisions/accepted/ADR-087-master-implementation-plan]]
 
 ---
 

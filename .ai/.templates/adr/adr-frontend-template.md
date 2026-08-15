@@ -127,7 +127,6 @@ references:
 | Kısıtlama | Açıklama | İlgili ADR |
 |-----------|----------|------------|
 | ADR-001 | Vanilla JS + ITCSS zorunlu | ADR-001 |
-| ADR-042 | MSA limit 15 dosya | ADR-042 |
 | ADR-044 | Theme engine uyumu | ADR-044 |
 | WCAG 2.2 AA | Erişilebilirlik standartları | — |
 | Lighthouse 95+ | Performans hedefi | ADR-006 |
@@ -629,7 +628,6 @@ const policy = trustedTypes.createPolicy('default', {
 | ADR-001 | Vanilla JS + ITCSS | Ana kural |
 | ADR-018 | Footer Player Vaporwave | UI etkisi |
 | ADR-021 | SPA Router Immutable | Routing etkisi |
-| ADR-042 | Vault Restructuring | MSA limit |
 | ADR-044 | Dynamic Theme Engine | Tema uyumu |
 | ADR-045 | Multi-Domain View Mode | View mode uyumu |
 | ADR-046 | Cross-View State | State management |
@@ -714,9 +712,11 @@ const policy = trustedTypes.createPolicy('default', {
 | Dosya | Amaç |
 |-------|------|
 | [[architecture/l3-presentation]] | L3 Presentation katmanı |
-| [[ui-design/00-index]] | UI design indeksi |
-| [[ui-design/02-design-tokens]] | Design token'lar |
-| [[ui-design/04-design-system]] | Design sistemi |
+| [[ui-design/00-mockup-index]] | Mockup indeksi — 18 PNG (frontend görevlerinde ZORUNLU) |
+| [[ui-design/01-component-inventory]] | Bileşen envanteri — C01-C16 |
+| [[ui-design/reference/01-design-tokens]] | Design token'lar |
+| [[ui-design/02-implementation-plan]] | CSS uygulama planı |
+| `.ai/.png/home-1024/` (12 PNG) + `.ai/.png/shared-1024/` (6 PNG) | Mockup görselleri — RPi5 1024×600 |
 
 ---
 

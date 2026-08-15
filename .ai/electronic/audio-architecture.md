@@ -23,13 +23,66 @@ CoreMusic ELECTRONICS'in en kritik bileşeni olan Ses Mimarisi, müzik çalma, g
 
 ## 2. Ses Motoru Katmanları
 
-```mermaid
-graph TD
-    A[Input] --> B[Decoder]
-    B --> C[DSP Processing]
-    C --> D[Mixer]
-    D --> E[Effects]
-    E --> F[Output]
+```
+Input ──▶ Decoder ──▶ DSP Processing ──▶ Mixer ──▶ Effects ──▶ Output
+```
+
+### 2.1 ASCII: Ses Motoru Katmanları
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                     COREMUSIC SES MOTORU — KATMANLAR                         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌──────────────┐                                                          │
+│  │    INPUT     │  Girdi kaynağı yönetimi                                  │
+│  │──────────────│  Lokal / Ağ / USB / Bluetooth / HDMI / Optik             │
+│  │ Yerel Müzik  │                                                          │
+│  │ Ağ Akışı     │                                                          │
+│  │ USB Ses      │                                                          │
+│  │ Bluetooth    │                                                          │
+│  └──────┬───────┘                                                          │
+│         ▼                                                                  │
+│  ┌──────────────┐                                                          │
+│  │   DECODER    │  Ses formatı çözümleme                                   │
+│  │──────────────│  MP3, FLAC, WAV, AAC, OGG, OPUS, AIFF, ALAC, DSD, PCM   │
+│  │ Format Çözüm │                                                          │
+│  │ Bit Derinliği│                                                          │
+│  │ Örnekleme    │                                                          │
+│  └──────┬───────┘                                                          │
+│         ▼                                                                  │
+│  ┌──────────────┐                                                          │
+│  │ DSP PROCESSING│  Sinyal işleme                                          │
+│  │──────────────│  EQ, Compressor, Limiter, Crossover, Reverb, Delay       │
+│  │ 31-Bant EQ   │                                                          │
+│  │ Compressor   │                                                          │
+│  │ Limiter      │                                                          │
+│  │ Crossover    │                                                          │
+│  └──────┬───────┘                                                          │
+│         ▼                                                                  │
+│  ┌──────────────┐                                                          │
+│  │    MIXER     │  Çoklu kanal karıştırma                                  │
+│  │──────────────│  Kaynak seviye dengeleme, Pan, Solo/Mute, Bus            │
+│  │ Karıştırma   │                                                          │
+│  │ Pan Kontrolü │                                                          │
+│  │ Solo/Mute    │                                                          │
+│  └──────┬───────┘                                                          │
+│         ▼                                                                  │
+│  ┌──────────────┐                                                          │
+│  │   EFFECTS    │  Uzamsal efektler                                        │
+│  │──────────────│  Reverb, Delay, Echo, Stereo Genişliği, Room Correction  │
+│  │ Reverb       │                                                          │
+│  │ Delay        │                                                          │
+│  │ Room Correct │                                                          │
+│  └──────┬───────┘                                                          │
+│         ▼                                                                  │
+│  ┌──────────────┐                                                          │
+│  │   OUTPUT     │  Çıkış yönlendirme                                       │
+│  │──────────────│  ASIO, WASAPI, ALSA, CoreAudio, Bluetooth, Analog        │
+│  │ ASIO         │                                                          │
+│  │ WASAPI       │                                                          │
+│  │ ALSA         │                                                          │
+│  └──────────────┘                                                          │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 | Katman | Görev |
@@ -45,18 +98,8 @@ graph TD
 
 ## 3. Ses Hattı (Audio Pipeline)
 
-```mermaid
-graph LR
-    A[Input] --> B[Decode]
-    B --> C[Normalize]
-    C --> D[DSP]
-    D --> E[Mixer]
-    E --> F[EQ]
-    F --> G[Effects]
-    G --> H[Limiter]
-    H --> I[Output Routing]
-    I --> J[Amplifier]
-    J --> K[Speaker]
+```
+Input ──▶ Decode ──▶ Normalize ──▶ DSP ──▶ Mixer ──▶ EQ ──▶ Effects ──▶ Limiter ──▶ Output Routing ──▶ Amplifier ──▶ Speaker
 ```
 
 Her aşama bağımsız bir modüldür:
@@ -85,22 +128,8 @@ Her aşama bağımsız bir modüldür:
 
 ## 5. DSP Hattı (DSP Pipeline)
 
-```mermaid
-graph LR
-    A[Input Signal] --> B[Input Gain]
-    B --> C[Noise Gate]
-    C --> D[HPF]
-    D --> E[LPF]
-    E --> F[Parametric EQ]
-    F --> G[Graphic EQ]
-    G --> H[Compressor]
-    H --> I[Limiter]
-    I --> J[Loudness]
-    J --> K[Crossover]
-    K --> L[Delay]
-    L --> M[Reverb]
-    M --> N[Output Gain]
-    N --> O[Output Routing]
+```
+Input Signal ──▶ Input Gain ──▶ Noise Gate ──▶ HPF ──▶ LPF ──▶ Parametric EQ ──▶ Graphic EQ ──▶ Compressor ──▶ Limiter ──▶ Loudness ──▶ Crossover ──▶ Delay ──▶ Reverb ──▶ Output Gain ──▶ Output Routing
 ```
 
 | Aşama | Görev |
@@ -163,12 +192,11 @@ graph LR
 
 ## 8. Geçirgen (Crossover) Motoru
 
-```mermaid
-graph LR
-    SW[Subwoofer<br/>20-120Hz] --> INPUT[Input Signal]
-    WF[Woofer<br/>120-500Hz] --> INPUT
-    MR[Midrange<br/>500Hz-8kHz] --> INPUT
-    TW[Tweeter<br/>8kHz-20kHz] --> INPUT
+```
+Subwoofer (20-120Hz) ─┐
+Woofer (120-500Hz) ───┤──▶ Input Signal
+Midrange (500Hz-8kHz) ─┤
+Tweeter (8kHz-20kHz) ──┘
 ```
 
 | Özellik | Değer |
@@ -192,7 +220,7 @@ graph LR
 | Subwoofer 2.1 | Sol, Sağ, LFE |
 | Surround 5.1 | Ön L/R, Merkez, Arka L/R, LFE |
 | Surround 7.1 | Ön + Arka + Yan + Merkez + LFE |
-| **Surround 8.1 (Varsayılan)** | Ön L/R + Merkez + Arka L/R + Yan L/R + Yükseklik + LFE |
+| **Surround 7.1 (Varsayılan)** | Ön L/R + Merkez + Yan L/R + Arka L/R + LFE |
 | Profesyonel Mono | Tek kanal |
 | Profesyonel Çift Mono | İki bağımsız kanal |
 | Profesyonel Çok Kanallı | Çoklu kanal |
@@ -294,35 +322,10 @@ Herhangi bir girdi → herhangi bir çıktıyı yönlendirir:
 
 ## 17. Modüler Yapı
 
-```mermaid
-graph TB
-    subgraph "Input Layer"
-        I1[Yerel Müzik]
-        I2[Ağ Akışı]
-        I3[USB Ses]
-        I4[Bluetooth]
-        I5[HDMI]
-        I6[Optik]
-    end
-
-    subgraph "Processing Layer"
-        DSP[DSP Motoru]
-        EQ[Ekvalizör]
-        FX[Efektler]
-        MIX[Mikser]
-    end
-
-    subgraph "Output Layer"
-        O1[USB]
-        O2[ASIO]
-        O3[WASAPI]
-        O4[Bluetooth]
-        O5[Analog]
-    end
-
-    I1 & I2 & I3 & I4 & I5 & I6 --> DSP
-    DSP --> EQ --> FX --> MIX
-    MIX --> O1 & O2 & O3 & O4 & O5
+```
+Girdi:   Yerel Müzik / Ağ Akışı / USB Ses / Bluetooth / HDMI / Optik ──▶ DSP Motoru
+İşlem:   DSP Motoru ──▶ Ekvalizör ──▶ Efektler ──▶ Mikser
+Çıkış:   USB / ASIO / WASAPI / Bluetooth / Analog
 ```
 
 ---
@@ -358,7 +361,7 @@ graph TB
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 20 |
 | ADR References | 3 |
-| Mermaid Diagrams | 5 |
+| ASCII Art Diagrams | 5 (Ses Motoru, Ses Hattı, DSP Hattı, Crossover, Modüler Yapı) |
 | Input Sources | 10 |
 | Audio Formats | 11 |
 | DSP Stages | 15 |

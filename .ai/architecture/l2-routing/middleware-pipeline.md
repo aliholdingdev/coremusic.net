@@ -3,16 +3,16 @@ type: architecture
 category: l2
 title: "Middleware Pipeline"
 date: 2026-08-08
-updated: 2026-08-09
+updated: 2026-08-12
 status: active
-version: 5.0.0
+version: 6.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
 # Middleware Pipeline
 
-**Zorunlu Bağlantılar:** [[index]] · [[ADR-010-csrf-protection-strategy]] · [[ADR-011-session-management]]
+**Zorunlu Bağlantılar:** [[index]] · [[ADR-010-csrf-protection-strategy]] · [[ADR-011-session-management]] · [[ADR-087-master-implementation-plan]]
 
 ---
 
@@ -25,23 +25,29 @@ Middleware pipeline orchestration ve sırasını tanımlar. [[ADR-010/011/012/01
 ## 2. Pipeline Sırası (Immutable)
 
 ```
-Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf → Handler → Response
+Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Handler → Response
 ```
 
 | # | Middleware | Görev | ADR |
 |---|-----------|-------|-----|
-| 1 | SessionManager | Session başlat, CSP nonce üret | ADR-011 |
-| 2 | BypassAuth | Test bypass (prod'da devre dışı) | ADR-008 |
+| 1 | OriginCheck | Köken doğrulama (whitelist CORS) | ADR-020 |
+| 2 | Cors | CORS header yönetimi | ADR-020 |
 | 3 | RateLimiter | Hız sınırlama (60 req/60s) | ADR-013 |
-| 4 | Auth | Auth bilgisi inject | ADR-011 |
-| 5 | SecurityHeaders | CSP, HSTS, X-Frame-Options | ADR-012 |
+| 4 | SecurityHeaders | CSP, HSTS, X-Frame-Options | ADR-012 |
+| 5 | SessionManager | Session başlat, CSP nonce üret | ADR-011 |
 | 6 | Csrf | CSRF token doğrulama | ADR-010 |
+| 7 | BypassAuth | Test bypass (prod'da devre dışı) | ADR-008 |
+| 8 | Auth | Auth bilgisi inject | ADR-011 |
+| 9 | Permission | RBAC yetki kontrolü | ADR-052 |
+| 10 | Validation | Request/DTO validasyonu | ADR-054 |
 
 **⚠️ Middleware sırası DEĞİŞTİRİLEMEZ!**
 
 ---
 
-## 3. Middleware Runner
+## 3. Middleware Runner (PSR-15 Uyumlu)
+
+**Kaynak:** [[ADR-053-enterprise-router-architecture]], [[ADR-054-enterprise-composer-stack]]
 
 ```php
 <?php
@@ -49,9 +55,15 @@ declare(strict_types=1);
 
 namespace CoreMusic\Middleware;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
 /**
- * Middleware Pipeline — PSR bağımsız.
- * Sıfırdan vanilla PHP ile yazılmıştır.
+ * Middleware Pipeline — PSR-15 compliant.
+ * nikic/fast-route + php-di/php-di ile entegre çalışır.
+ *
+ * @see [[ADR-053-enterprise-router-architecture]]
  */
 class Pipeline
 {
@@ -64,19 +76,25 @@ class Pipeline
     }
 
     public function run(
-        \CoreMusic\Http\Request $request,
-        callable $controller
-    ): \CoreMusic\Http\Response {
+        ServerRequestInterface $request,
+        RequestHandlerInterface $handler
+    ): \Psr\Http\Message\ResponseInterface {
         $pipeline = array_reduce(
             array_reverse($this->middlewares),
-            fn($next, $mw) => fn($req) => $mw->handle($req, $next),
-            $controller
+            fn($next, $mw) => fn($req) => $mw->process($req, $next),
+            $handler
         );
 
         return $pipeline($request);
     }
 }
 ```
+
+**PSR-15 Uyumluluğu:**
+- `Psr\Http\Server\MiddlewareInterface` — tüm middleware'ler bu arayüzü implemente eder
+- `Psr\Http\Server\RequestHandlerInterface` — son handler (controller) bu arayüzü implemente eder
+- `process()` metodu — PSR-15 standardı (`handle()` değil)
+- `ServerRequestInterface` — PSR-7 request (nyholm/psr7)
 
 ---
 
@@ -233,32 +251,34 @@ declare(strict_types=1);
 
 namespace CoreMusic\Middleware;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
 /**
  * Auth Middleware — ADR-011 + ADR-047 + ADR-052 compliant.
  * Hybrid auth: Session + JWT RS256.
  *
+ * JWT Token Politikası:
+ * - Access Token: 15 dakika, RS256
+ * - Refresh Token: 7 gün, RS256
+ * - Key Rotation: 90 gün
+ *
  * @see [[auth]] — tam RBAC tablosu ve izin matrisi
+ * @see [[ADR-052-hybrid-auth-architecture]]
  */
-class AuthMiddleware implements MiddlewareInterface
+class AuthMiddleware implements MiddlewareInterface implements MiddlewareInterface
 {
-    private const RBAC_MAP = [
-        'admin'          => [1000, 1999],
-        'ultra_user'     => [800,  899],
-        'premium_user'   => [700,  799],
-        'streaming_user' => [600,  699],
-        'panel_user'     => [500,  599],
-        'free_user'      => [100,  199],
-        'guest'          => [0,    0],
-    ];
-
-    public function handle(\CoreMusic\Http\Request $request, callable $next): \CoreMusic\Http\Response
-    {
+    public function process(
+        ServerRequestInterface $request,
+        RequestHandlerInterface $handler
+    ): \Psr\Http\Message\ResponseInterface {
         $authKey = $_COOKIE['auth_key'] ?? null;
 
         if ($authKey) {
             $payload = $this->validateJwtToken($authKey);
             if ($payload !== null) {
-                $_SESSION['user_id']     = (int) $payload['sub'];
+                $_SESSION['user_id']     = (int) $payload['user_id'];
                 $_SESSION['role']        = $payload['role'] ?? 'guest';
                 $_SESSION['email']       = $payload['email'] ?? '';
                 $_SESSION['gender']      = $payload['gender'] ?? 'neutral';
@@ -266,13 +286,13 @@ class AuthMiddleware implements MiddlewareInterface
             }
         }
 
-        $request->setAttribute('user_id',          $_SESSION['user_id'] ?? null);
-        $request->setAttribute('role',             $_SESSION['role'] ?? null);
-        $request->setAttribute('email',            $_SESSION['email'] ?? null);
-        $request->setAttribute('gender',           $_SESSION['gender'] ?? null);
-        $request->setAttribute('is_authenticated', isset($_SESSION['user_id']));
+        $request = $request->withAttribute('user_id',          $_SESSION['user_id'] ?? null)
+                           ->withAttribute('role',             $_SESSION['role'] ?? null)
+                           ->withAttribute('email',            $_SESSION['email'] ?? null)
+                           ->withAttribute('gender',           $_SESSION['gender'] ?? null)
+                           ->withAttribute('is_authenticated', isset($_SESSION['user_id']));
 
-        return $next($request);
+        return $handler->handle($request);
     }
 
     private function validateJwtToken(string $token): ?array
@@ -284,11 +304,24 @@ class AuthMiddleware implements MiddlewareInterface
                 $token,
                 new \Firebase\JWT\Key($publicKeyPath, 'RS256')
             );
+
+            // Token blacklist kontrolü (Redis/APCu)
+            $tokenId = $decoded->jti ?? null;
+            if ($tokenId && $this->isTokenBlacklisted($tokenId)) {
+                return null;
+            }
+
             return (array) $decoded;
         } catch (\Exception $e) {
             error_log("[AuthMiddleware] JWT failed: " . $e->getMessage());
             return null;
         }
+    }
+
+    private function isTokenBlacklisted(string $tokenId): bool
+    {
+        // Redis/APCu blacklist kontrolü
+        return apcu_exists("blacklisted:jwt:{$tokenId}");
     }
 }
 ```
@@ -433,7 +466,6 @@ class CsrfMiddleware implements MiddlewareInterface
 | **Satır Sayısı** | ~450 |
 | **ADR Uyumlu** | ✅ 008, 010, 011, 012, 013, 022, 047, 052 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Guardrails** | ✅ 6 kural |
 
 ---

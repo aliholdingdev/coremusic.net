@@ -1,5 +1,5 @@
 # SÖZLÜK & REFERANSLAR — TAM LİSTE
-# Prompt Maker v7.2.0 | 2026-06-11 | Kiro IDE Native
+# Prompt Maker v11.0.0 | 2026-08-15 | PICCO Framework
 # Teknik terimler sözlüğü, kısaltmalar, tüm referans kaynakları
 
 ---
@@ -238,6 +238,17 @@ OWASP Top 10:2025: En yaygın 10 web güvenlik açığı.
 **PCI DSS (Payment Card Industry Data Security Standard)**
 Ödeme kartı güvenlik standardı.
 v4.0 (2024): Güncel versiyon. Ödeme işleyen sistemler için zorunlu.
+
+**PICCO Framework**
+Prompt yapısı için referans mimarisi.
+5 element: Persona, Instructions, Context, Constraints, Output.
+Cook (2026) tarafından 11 framework sentezinden türetildi.
+CoreMusic'te v11.0.0 ile tüm prompt'larda kullanılır.
+
+**Prompt Injection**
+Kullanıcı girdisinin system prompt'u ele geçirme saldırısı.
+4 tür: Direct, Role-play, Indirect, Context overflow.
+Savunma: Input validation, XML tags, context isolation.
 
 **PDO (PHP Data Objects)**
 PHP'de veritabanı erişim katmanı.

@@ -150,21 +150,12 @@ Her cihaz benzersiz bir kimliğe sahiptir:
 
 ### 5.2 Kayıt Akışı (7 Adım)
 
-```mermaid
-sequenceDiagram
-    participant D as New Device
-    participant LAN as Local Network
-    participant GW as API Gateway
-    participant CS as CoreMusic Server
-    participant DB as Device DB
-
-    D->>LAN: 1. Broadcast (mDNS/Bonjour)
-    LAN->>GW: 2. Device Discovery
-    GW->>D: 3. Registration Challenge
-    D->>GW: 4. Device Info + Certificate
-    GW->>CS: 5. Register Device
-    CS->>DB: 6. Store Device Record
-    CS->>D: 7. Registration Confirmation + Initial Config
+```
+New Device ──▶ Local Network ──▶ API Gateway ──▶ CoreMusic Server ──▶ Device DB
+    │               │                │                │                │
+    │        Broadcast      Device Discovery   Register Device  Store Record
+    │        (mDNS/Bonjour)                    Device Info +    Initial Config
+    │                                        Certificate
 ```
 
 ### 5.3 Cihaz Profili
@@ -220,29 +211,15 @@ sequenceDiagram
 
 ### 7.3 OTA Akışı
 
-```mermaid
-sequenceDiagram
-    participant D as Device
-    participant GW as Update Server
-    participant CDN as CDN
-    participant V as Verification
-
-    D->>GW: Check Update (current version)
-    GW->>GW: Compare Versions
-    GW->>D: Update Available (metadata)
-    D->>D: User Approval / Auto
-    D->>CDN: Download Firmware
-    CDN->>D: Firmware Binary
-    D->>V: Verify Signature
-    V->>D: Verification Result
-    alt Verification Passed
-        D->>D: Flash Firmware
-        D->>D: Reboot
-        D->>GW: Report Success
-    else Verification Failed
-        D->>GW: Report Failure
-        D->>D: Rollback to Previous
-    end
+```
+Device ──▶ Update Server ──▶ CDN ──▶ Verification
+    │              │            │           │
+    │      Check Update   Compare Versions  Firmware Binary
+    │      (current ver)  Update Available  Verify Signature
+    │                      User Approval    Verification Result
+    │
+    ├──▶ Başarılı ──▶ Flash Firmware ──▶ Reboot ──▶ Report Success
+    └──▶ Başarısız ──▶ Report Failure ──▶ Rollback to Previous
 ```
 
 ### 7.4 Güncelleme Gereksinimleri
@@ -262,34 +239,16 @@ sequenceDiagram
 
 ### 8.1 Multi-Room Senkronizasyonu
 
-```mermaid
-graph TB
-    subgraph "Source"
-        SRC[Audio Source<br/>Streaming, Local File]
-    end
-
-    subgraph "Multi-Room Controller"
-        MRC[Multi-Room Manager<br/>Sync, Zone, Volume]
-    end
-
-    subgraph "Zones"
-        Z1[Zone 1<br/>Living Room]
-        Z2[Zone 2<br/>Bedroom]
-        Z3[Zone 3<br/>Kitchen]
-        Z4[Zone 4<br/>Garden]
-    end
-
-    SRC --> MRC
-    MRC --> Z1
-    MRC --> Z2
-    MRC --> Z3
-    MRC --> Z4
-
-    style MRC fill:#69f,stroke:#333,stroke-width:2px
-    style Z1 fill:#f96,stroke:#333
-    style Z2 fill:#f90,stroke:#333
-    style Z3 fill:#fc0,stroke:#333
-    style Z4 fill:#6f6,stroke:#333
+```
+Audio Source (Streaming, Local File)
+        │
+        ▼
+Multi-Room Manager (Sync, Zone, Volume)
+        │
+        ├──▶ Zone 1 (Living Room)
+        ├──▶ Zone 2 (Bedroom)
+        ├──▶ Zone 3 (Kitchen)
+        └──▶ Zone 4 (Garden)
 ```
 
 ### 8.2 Senkronizasyon Türleri
@@ -330,25 +289,18 @@ graph TB
 
 ### 9.2 Sağlık İzleme Akışı
 
-```mermaid
-sequenceDiagram
-    participant D as Device
-    participant H as Health Monitor
-    participant A as AI Analyzer
-    participant N as Notification Service
-    participant DB as Metrics DB
-
-    loop Her 30 saniye
-        D->>H: Collect Metrics
-        H->>DB: Store Metrics
-        H->>H: Check Thresholds
-        alt Threshold Exceeded
-            H->>A: Analyze Issue
-            A->>A: Root Cause Analysis
-            A->>N: Send Alert
-            N->>N: Notify User
-        end
-    end
+```
+[Her 30 saniye]
+Device ──▶ Health Monitor ──▶ Metrics DB
+    │              │                │
+    │       Collect Metrics    Store Metrics
+    │              │
+    │       Check Thresholds
+    │              │
+    └──▶ Threshold Exceeded ──▶ AI Analyzer ──▶ Notification Service
+                    │                │                    │
+              Analyze Issue   Root Cause         Notify User
+                              Analysis
 ```
 
 ---

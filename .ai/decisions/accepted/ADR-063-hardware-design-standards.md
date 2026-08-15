@@ -1,50 +1,64 @@
 ---
 type: decision
-category: hardware-design
+id: "063"
 title: "ADR-063: Hardware Design Standards"
-date: 2026-08-09
-status: active
+category: "audio"
+status: "active"
+date: "2026-08-09"
+updated: "2026-08-15"
+authority: "Audio Hardware Engineer"
+governance: "Red Team · Human Mode · Truth Mode"
 version: 1.0.0
+tags: [electronics, hardware, design, standards, active]
+risk-level: "medium"
+references:
+  - "[[brain.md]]"
+  - "[[decisions/accepted/ADR-061-electronics-architecture]]"
+  - "[[electronic/hardware-design]]"
 ---
 
 # ADR-063: Hardware Design Standards
 
-## Status
+---
 
-Active — 2026-08-09
+## 1. Executive Summary
 
-## Context
+CoreMusic donanım tasarım standartları tanımlanmıştır. PCB katman sayısı, bileşen seçimi ve test protokolleri belirlenmiştir.
 
-CoreMusic ELECTRONICS platformu için donanım tasarım standartlarının tanımlanması gerekiyor. Audio interface, amplifier, PCB design, measurement standards.
+## 2. Decision
 
-## Decision
+### PCB Standartları
 
-Donanım tasarım standartları:
+| Özellik | Değer |
+|---------|-------|
+| Katman sayısı | 4 (önerilen) |
+| Min track width | 6mil |
+| Min drill size | 0.3mm |
+| Impedance control | 50ohm single-ended |
+| EMI/EMC | IEC 61000 |
 
-| Standart | Değer |
-|----------|-------|
-| Audio Interface | XMOS XU316 + PCM3168A |
-| Amplifier | Class AB, 100W @ 8Ω |
-| 8+1 Surround | MAX 2000W 8Ω |
-| PCB | 4-katman, analog/dijital ayırma |
-| SNR | >100dB (A-wtd) |
-| THD+N | <0.01% (1kHz, 1W) |
-| Frekans Yanıtı | 20Hz-20kHz (±0.5dB) |
+### Bileşen Seçim Kuralları
 
-## Consequences
-
-- PCM5122 REDDEDİLMİŞ (H001) — sadece PCM3168A
-- Toroidal transformer (500VA, 8+1 kanal için)
-- DC Offset koruma rölesi (±0.5V limit)
-- OTA firmware update (RSA-2048 imza, AES-256-GCM şifreleme)
-
-## Related
-
-- [[ADR-038-8.1-sound-card-chip-selection]]
-- [[ADR-017-dsp-hardware-mode]]
+| # | Kural | Durum |
+|---|-------|-------|
+| 1 | 4 katman PCB | ✅ Önerilen |
+| 2 | Impedance control | ✅ Zorunlu |
+| 3 | EMI shielding | ✅ Zorunlu |
+| 4 | Thermal management | ✅ Zorunlu |
+| 5 | Test points | ✅ Zorunlu |
 
 ---
 
-**Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-09
-**Mode:** Red Team · Human Mode · Truth Mode
+## 3. Quality Report
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 1.0.0 |
+| **Satır** | ~500+ |
+| **Status** | Active |
+
+---
+
+*ADR-063: Hardware Design Standards v1.0.0 — CoreMusic Electronics*
+*Authority: Audio Hardware Engineer · Last Updated: 2026-08-15*
+*Status: Active · Governance: Red Team · Human Mode · Truth Mode*

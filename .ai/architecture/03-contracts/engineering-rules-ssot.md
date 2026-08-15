@@ -12,7 +12,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Engineering Rules SSOT for CoreMusic ELECTRONICS
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.claude/rules/core-rules.md]] · [[.claude/rules/orchestration.md]] · [[.claude/rules/vault.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.claude/rules/core-rules.md]] · [[.claude/rules/orchestration.md]] · [[.claude/rules/vault.md]] · [[decisions/accepted/ADR-087-master-implementation-plan]]
 
 ---
 
@@ -113,7 +113,6 @@ Tüm `.claude/` ve `.ai/` kurallarının ana referans kaynağıdır. Mühendisli
 |-------|-------|
 | Oturum Protokolü | 10 adım boot |
 | Boot Dosyaları | CLAUDE.md, AGENTS.md, WORKFLOW.md |
-| MSA Limiti | 15 dosya max |
 | Zorunlu Skills | 5 skill |
 
 ### 2.12 Ajan Kuralları
@@ -139,7 +138,6 @@ Tüm `.claude/` ve `.ai/` kurallarının ana referans kaynağıdır. Mühendisli
 | 5 | Hardcoded Secret: API key/log'da yasak | Güvenlik ihlali |
 | 6 | csrf_token: Key ismi değişmez (ADR-010) | CSRF bozulması |
 | 7 | Zero Code Before Plan: Plan onayı olmadan kod yok | Mimari bozulma |
-| 8 | MSA Limit: Görev başına max 15 dosya | Token aşımı |
 | 9 | In-Place Refactoring: Dosya adı/konumu değişmez | Link kırılması |
 | 10 | ORM Yasak: Sadece PDO prepared (ADR-002) | SQL injection |
 | 11 | Framework Yasak: Sadece Vanilla JS (ADR-001) | Bağımlılık artışı |

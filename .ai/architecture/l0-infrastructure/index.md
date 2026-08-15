@@ -3,9 +3,9 @@ type: architecture
 category: l0
 title: "L0 — Infrastructure Layer"
 date: 2026-08-08
-updated: 2026-08-08
+updated: 2026-08-13
 status: active
-version: 3.0.0
+version: 4.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -36,11 +36,13 @@ L0, CoreMusic platformunun **altyapı katmanıdır**. Veritabanı, cache, dosya 
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
-| 9 BCNF MySQL veritabanı | Frontend UI kodu |
-| Multi-tier cache (APCu, Redis) | SPA routing |
-| Dosya sistemi yönetimi | Middleware pipeline |
-| Credential vault (AES-256-GCM) | Güvenlik politikası tasarımı |
-| Servisler arası iletişim (IPC) | Deployment süreçleri |
+| 18 BCNF MySQL veritabanı (ADR-040) | Frontend UI kodu |
+| Multi-tier cache (APCu, Redis, File) | SPA routing |
+| Dosya sistemi yönetimi (PSR-17) | Middleware pipeline |
+| Credential vault (AES-256-GCM — ADR-022) | Güvenlik politikası tasarımı |
+| Servisler arası iletişim (IPC — ADR-032) | Deployment süreçleri |
+| Modüler paket altyapısı (coremusic/* — ADR-085) | İş mantığı |
+| Event bus altyapısı (PSR-14 — ADR-086) | — |
 
 ---
 
@@ -48,10 +50,13 @@ L0, CoreMusic platformunun **altyapı katmanıdır**. Veritabanı, cache, dosya 
 
 | Bileşen | Dosya | Amaç |
 |---------|-------|------|
-| **Database** | [[database]] | 9 BCNF MySQL veritabanı, PDO, prepared statement, migration |
-| **Cache** | [[cache]] | Multi-tier cache: APCu → Redis → File, namespace isolation |
-| **Filesystem** | [[filesystem]] | Medya dosyaları, upload yönetimi, disk I/O |
-| **Credential Vault** | [[credential-vault]] | AES-256-GCM şifreleme, API key, token yönetimi |
+| **Database** | [[database]] | 18 BCNF MySQL veritabanı (ADR-040), PDO, prepared statement, migration |
+| **Cache** | [[cache]] | Multi-tier cache: APCu → Redis → File, namespace isolation (ADR-007) |
+| **Filesystem** | [[filesystem]] | Medya dosyaları, upload yönetimi, disk I/O, PSR-17 stream |
+| **Credential Vault** | [[credential-vault]] | AES-256-GCM şifreleme (ADR-022), API key, token yönetimi |
+| **Modüler Paketler** | — | 22 coremusic/* Composer paketi (ADR-085), circular dependency yasak |
+| **Event Bus** | — | PSR-14 Event Dispatcher altyapısı (ADR-086) |
+| **IPC** | — | Servisler arası iletişim, JSON/msgpack (ADR-032) |
 
 ---
 
@@ -103,12 +108,14 @@ L0, CoreMusic platformunun **altyapı katmanıdır**. Veritabanı, cache, dosya 
 |---|-------|--------|
 | 1 | ORM yasak — sadece PDO prepared statement | [[ADR-002-pdo-mandatory-no-orm]] |
 | 2 | SELECT * yasak — açık sütun listesi zorunlu | [[ADR-040-database-authority]] |
-| 3 | Hard delete yasak — soft delete zorunlu | [[ADR-040-database-authority]] |
-| 4 | AES-256-GCM — credential şifreleme standartı | [[ADR-022-database-hardened-security]] |
-| 5 | Argon2id — password hashing standartı (64MB/4/2) | [[ADR-022-database-hardened-security]] |
-| 6 | Cache namespace — her servis ayrı namespace | [[ADR-007-cache-namespace]] |
-| 7 | BCNF normalizasyon — 9 DB zorunlu | [[ADR-040-database-authority]] |
+| 3 | Hard delete yasak — soft delete zorunlu (`is_deleted = 0`) | [[ADR-040-database-authority]] |
+| 4 | AES-256-GCM — credential şifreleme standartı (96-bit IV, 16-byte tag) | [[ADR-022-database-hardened-security]] |
+| 5 | Argon2id — password hashing standartı (64MB/4/2 threads) | [[ADR-022-database-hardened-security]] |
+| 6 | Cache namespace — her servis ayrı namespace (ADR-007) | [[ADR-007-cache-namespace]] |
+| 7 | BCNF normalizasyon — 18 BCNF DB zorunlu | [[ADR-040-database-authority]] |
 | 8 | Hardcoded secret yasak — credential vault kullan | [[ADR-034-credential-vault-normalization]] |
+| 9 | Circular dependency yasak — coremusic/contracts bağımsız | [[ADR-085-modular-composer-packages]] |
+| 10 | PSR-14 event bus — servisler arası doğrudan çağrı yasak | [[ADR-086-event-driven-architecture]] |
 
 ---
 
@@ -139,7 +146,7 @@ L0, CoreMusic platformunun **altyapı katmanıdır**. Veritabanı, cache, dosya 
 
 | Dosya | Amaç |
 |-------|------|
-| [[database]] | 9 BCNF veritabanı, PDO, repository pattern |
+| [[database]] | 18 BCNF veritabanı, PDO, repository pattern |
 | [[cache]] | Multi-tier cache, APCu, Redis, namespace |
 | [[filesystem]] | Dosya yönetimi, upload, disk I/O |
 | [[credential-vault]] | AES-256-GCM, Argon2id, secret yönetimi |
@@ -165,14 +172,13 @@ L0, CoreMusic platformunun **altyapı katmanıdır**. Veritabanı, cache, dosya 
 
 | Terim | Tanım |
 |-------|-------|
-| **BCNF** | Boyce-Codd Normal Form — 9 DB için zorunlu normalizasyon |
+| **BCNF** | Boyce-Codd Normal Form — 18 BCNF DB için zorunlu normalizasyon |
 | **PDO** | PHP Data Objects — veritabanı erişim soyutlama katmanı |
 | **APCu** | APC User Cache — PHP in-memory önbellek |
 | **Redis** | Remote Dictionary Server — dağıtık önbellek |
 | **AES-256-GCM** | Advanced Encryption Standard, 256-bit, Galois/Counter Mode |
 | **Argon2id** | Şifreleme algoritması (64MB/4/2) |
 | **IPC** | Inter-Process Communication — servisler arası iletişim |
-| **BCNF** | Boyce-Codd Normal Form |
 | **Soft Delete** | Kayıt silmek yerine `is_deleted = 1` ile işaretlemek |
 | **Prepared Statement** | SQL injection önleme amaçlı parametreli sorgu |
 | **Cache Stampede** | Yüksek eşzamanlı cache miss yükü |
@@ -184,12 +190,11 @@ L0, CoreMusic platformunun **altyapı katmanıdır**. Veritabanı, cache, dosya 
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 3.0.0 |
+| **Versiyon** | 4.0.0 |
 | **Status** | Red Team · Human Mode · Truth Mode verified |
 | **Bileşen Sayısı** | 4 (Database, Cache, Filesystem, Credential Vault) |
 | **ADR Uyumlu** | ✅ 002, 007, 022, 034, 040, 042 |
 | **Cross-Reference** | ✅ Doğrulandı |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

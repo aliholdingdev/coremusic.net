@@ -473,6 +473,51 @@ Detaylar için [Lisans Sözleşmesi](LICENSE) dosyasına bakın.
 
 ---
 
+## 🤖 AI Engineering
+
+CoreMusic, yapay zeka destekli geliştirme için aşağıdaki kaynakları içerir:
+
+### Skills (10)
+
+| Skill | Amaç | Yol |
+|-------|------|-----|
+| ui-code-generator | UI/CSS kod üretimi, responsive | [[.opencode/skills/ui-code-generator/SKILL.md]] |
+| ui-analyzer | UI analizi, tasarım değerlendirme | [[.opencode/skills/ui-analyzer/SKILL.md]] |
+| skill-maker | Skill oluşturma, template sistemi | [[.opencode/skills/skill-maker/SKILL.md]] |
+| red-team-truth-mode | Güvenlik testi, adversarial analiz | [[.opencode/skills/red-team-truth-mode/SKILL.md]] |
+| prompt-maker | Prompt mühendisliği, AI talimat | [[.opencode/skills/prompt-maker/SKILL.md]] |
+| composer-sync | Composer dependency yönetimi | [[.opencode/skills/composer-sync/SKILL.md]] |
+| agent-orchestrator | Agent görev dağıtımı | [[.opencode/skills/agent-orchestrator/SKILL.md]] |
+| human-mode | İnsan modu, onay süreçleri | [[.opencode/skills/human-mode/SKILL.md]] |
+| hallucination-control | Halüsinasyon kontrolü | [[.opencode/skills/hallucination-control/SKILL.md]] |
+| database-normalize-maker | BCNF normalizasyonu | [[.opencode/skills/database-normalize-maker/SKILL.md]] |
+
+### Templates (25)
+
+| Kategori | Adet | Yol |
+|----------|------|-----|
+| ADR | 6 | [[.ai/.templates/adr/]] |
+| Backend | 2 | [[.ai/.templates/backend/]] |
+| Frontend | 2 | [[.ai/.templates/frontend/]] |
+| Testing | 2 | [[.ai/.templates/testing/]] |
+| Infrastructure | 3 | [[.ai/.templates/infrastructure/]] |
+| Documentation | 3 | [[.ai/.templates/documentation/]] |
+| Hardware | 3 | [[.ai/.templates/hardware/]] |
+| Query | 1 | [[.ai/.templates/query/]] |
+| Other | 3 | [[.ai/.templates/other/]] |
+
+Detaylar: [[.ai/.templates/index.md]]
+
+### AI Configuration
+
+| Dosya | Amaç | Yol |
+|-------|------|-----|
+| CLAUDE.md | AI anayasası, guardrails | [[CLAUDE.md]] |
+| AGENTS.md | Agent kayıt defteri | [[AGENTS.md]] |
+| WORKFLOW.md | İş akışı tanımları | [[WORKFLOW.md]] |
+
+---
+
 ## 📬 İletişim
 
 | Kanal | Link |

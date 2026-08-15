@@ -341,9 +341,9 @@ class CsrfMiddleware implements MiddlewareInterface
 ### 6.2 Middleware Sırası
 
 ```
-Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf → Controller
-                                                                      ↑
-                                                                 BU MIDDLEWARE
+Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
+                                                                                          ↑
+                                                                                   BU MIDDLEWARE
 ```
 
 ## 7. SPA Entegrasyonu
@@ -507,7 +507,6 @@ Token session'a bağlı, tab'a bağlı değil.
 | **Bölüm Sayısı** | 15 |
 | **ADR Uyumlu** | ✅ 010, 011, 012, 021 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

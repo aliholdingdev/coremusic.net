@@ -1,13 +1,68 @@
 ---
-name: ui-code-generator
-description: "UI/UX analiz ve kod üretim motoru — responsive design, WCAG erişilebilirlik, ITCSS mimarisi, Vanilla JS ile üretim kalitesinde arayüz kodu üretimi. 'html css js', 'responsive design', 'accessibility', 'ui code', 'bileşen oluştur' tetikler."
-metadata:
-  version: 4.1.0
-  author: Bayram Ali
-  last_updated: 2026-08-08
-  category: frontend
-  platform: opencode
-triggers: ["html css js", "responsive design", "accessibility", "ui code", "bileşen oluştur", "component", "frontend", "css grid", "flexbox", "wcag", "itcss", "design to code", "mockup to code", "ui analiz"]
+title: "CoreMusic — UI Kod Üretim Motoru"
+type: skill-instruction
+version: 4.1
+authority: SSOT
+mode:
+  - Red Team
+  - Truth Mode
+  - Human Mode
+purpose:
+  - Responsive Design Generation
+  - WCAG Accessibility Compliance
+  - ITCSS Architecture
+  - Vanilla JS Code Production
+  - Component Generation
+reference:
+  authority: ".ai/CLAUDE.md"
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/AGENTS.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+  architecture:
+    - ".ai/ADR/"
+    - "Existing project architecture"
+  templates:
+    - ".ai/.templates/frontend/js-template.md"
+    - ".ai/.templates/frontend/css-template.md"
+    - ".ai/.templates/adr/adr-frontend-template.md"
+  agents:
+    - ".ai/.agents/AGENTS.md"
+    - ".ai/.agents/ui-designer.md"
+  skills:
+    - ".opencode/skills/ui-analyzer/SKILL.md"
+    - ".opencode/skills/hallucination-control/SKILL.md"
+  project_structure:
+    - "coremusic.net/"
+    - "shared/"
+  update_policy:
+    preserve_existing_structure: true
+    require_approval_for:
+      - "framework change"
+      - "architecture pattern change"
+triggers:
+  - "html css js"
+  - "responsive design"
+  - "accessibility"
+  - "ui code"
+  - "bileşen oluştur"
+  - "component"
+  - "frontend"
+  - "css grid"
+  - "flexbox"
+  - "wcag"
+  - "itcss"
+  - "design to code"
+  - "mockup to code"
+  - "ui analiz"
+changelog:
+  - version: 4.1
+    date: 2026-08-15
+    changes:
+      - Standardized YAML frontmatter
+      - Added triggers to frontmatter
 ---
 
 # UI CODE GENERATOR v4.0.0 — ARAYÜZ KOD ÜRETİM MOTORU
@@ -143,7 +198,7 @@ Her bileşen şu formatta üretilir:
 ```
 ✅ --cm-* CSS token kullanımı zorunlu
 ✅ Vanilla JS (React, Vue, Angular YASAK)
-✅ ITCSS 7 katman sırası
+✅ ITCSS 7 katman sırası + CSS @layer entegrasyonu
 ✅ BEM naming konvansiyonu
 ✅ Mobile-First yaklaşım
 ✅ Semantic HTML5
@@ -155,6 +210,12 @@ Her bileşen şu formatta üretilir:
 ✅ PDO Prepared Statements
 ✅ CSP Nonce zorunlu
 ✅ CSRF Token zorunlu
+✅ CSS @layer ile ITCSS katman yönetimi
+✅ :where() ile specificity düşürme
+✅ light-dark() ile dark mode desteği
+✅ Logical properties (RTL hazırlığı)
+✅ @property ile animasyonlu custom properties
+✅ clamp() ile fluid typography
 ```
 
 ## 6. HALÜSİNASYON KONTROLü
@@ -179,6 +240,9 @@ Skor <60     Doğrulanamadı → REDDET
 ❌ Erişilebilirlik testi yapmadan teslim
 ❌ Responsive testi yapmadan teslim
 ❌ Kontrast oranı kontrolü yapmadan teslim
+❌ CSS @layer kullanmadan ITCSS teslim
+❌ light-dark() olmadan dark mode teslim
+❌ :where() kullanmadan specificity yönetimi
 ```
 
 ## 8. İLGİLİ SKILLER

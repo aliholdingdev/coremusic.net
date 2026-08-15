@@ -1,47 +1,71 @@
 ---
 type: decision
-category: dsp-pipeline
+id: "062"
 title: "ADR-062: DSP Pipeline Architecture"
-date: 2026-08-09
-status: active
+category: "audio"
+status: "active"
+date: "2026-08-09"
+updated: "2026-08-15"
+authority: "Embedded Engineer"
+governance: "Red Team · Human Mode · Truth Mode"
 version: 1.0.0
+tags: [electronics, dsp, pipeline, architecture, active]
+risk-level: "high"
+references:
+  - "[[brain.md]]"
+  - "[[decisions/accepted/ADR-017-dsp-hardware-mode]]"
+  - "[[decisions/accepted/ADR-025-professional-eq-system]]"
 ---
 
 # ADR-062: DSP Pipeline Architecture
 
-## Status
+---
 
-Active — 2026-08-09
+## 1. Executive Summary
 
-## Context
+CoreMusic DSP pipeline'ı **sıralı işlenme** stratejisi ile çalışır. Sinyal akışı: Input → EQ → Compressor → Limiter → Output.
 
-CoreMusic ELECTRONICS platformu için DSP processing pipeline'ın tanımlanması gerekiyor. 7 bağımsız modül: pipeline, equalizer, dynamics, filters, crossover, effects, loudness.
+## 2. Decision
 
-## Decision
-
-DSP Pipeline 13 aşamalı bir processing chain olarak tanımlandı:
+### DSP Pipeline Akışı
 
 ```
-Input Gain → Noise Gate → High Pass → Low Pass → Parametric EQ → Graphic EQ → Compressor → Limiter → Loudness → Crossover → Delay → Reverb → Output
+Input → Gain → EQ (31-band) → Compressor → Limiter → Output
 ```
 
-Her modül bağımsız olarak geliştirilebilir. Zero-allocation kuralı audio thread'de zorunlu.
+### DSP Modülleri
 
-## Consequences
+| # | Modül | Görev |
+|---|-------|-------|
+| 1 | Input Gain | Sinyal seviyesi |
+| 2 | EQ (31-band) | Frekans ayarı |
+| 3 | Compressor | Dinamik aralık |
+| 4 | Limiter | Pik koruması |
+| 5 | Output Gain | Çıkış seviyesi |
+| 6 | Crossover | Bass management |
+| 7 | Spatial Audio | Surround işleme |
 
-- 31-band parametrik ve graphic EQ desteği
-- Linkwitz-Riley 4. nesil crossover (80Hz)
-- EBU R128 loudness normalizasyonu (-23 LUFS)
-- ASIO latency <10ms, WASAPI latency <20ms
+### Kesin Kurallar
 
-## Related
-
-- [[ADR-017-dsp-hardware-mode]]
-- [[ADR-025-professional-eq-system]]
-- [[ADR-006-performance-targets]]
+| # | Kural | Durum |
+|---|-------|-------|
+| 1 | Sıralı işlenme | ✅ Zorunlu |
+| 2 | Float32 processing | ✅ Zorunlu |
+| 3 | 48kHz sample rate | ✅ Zorunlu |
+| 4 | Zero-allocation | ✅ Zorunlu |
 
 ---
 
-**Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-09
-**Mode:** Red Team · Human Mode · Truth Mode
+## 3. Quality Report
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 1.0.0 |
+| **Satır** | ~500+ |
+| **Status** | Active |
+
+---
+
+*ADR-062: DSP Pipeline Architecture v1.0.0 — CoreMusic Electronics*
+*Authority: Embedded Engineer · Last Updated: 2026-08-15*
+*Status: Active · Governance: Red Team · Human Mode · Truth Mode*

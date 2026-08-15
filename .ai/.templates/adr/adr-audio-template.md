@@ -198,7 +198,7 @@ references:
 
 ```cpp
 // C++ DSP Algoritması (ADR-017 uyumlu)
-// Dosya: projects/neva-engine/src/DspProcessor.h
+// Dosya: projects/neva-engine/source/DspProcessor.h
 
 // ✅ DOĞRU — Zero-allocation, lock-free
 class DspProcessor {
@@ -235,7 +235,7 @@ private:
 
 ```cpp
 // Ring Buffer (ADR-017 uyumlu)
-// Dosya: projects/neva-engine/src/RingBuffer.h
+// Dosya: projects/neva-engine/source/RingBuffer.h
 
 // ✅ DOĞRU — Lock-free ring buffer
 template<size_t Capacity>
@@ -286,7 +286,7 @@ private:
 
 ```cpp
 // ASIO Callback (ADR-017 uyumlu)
-// Dosya: projects/neva-engine/src/AsioCallback.h
+// Dosya: projects/neva-engine/source/AsioCallback.h
 
 // ✅ DOĞRU — ASIO callback
 class AsioCallback {
@@ -329,7 +329,7 @@ private:
 
 ```cpp
 // Multi-channel Mixer (8.1 Surround)
-// Dosya: projects/neva-engine/src/Mixer.h
+// Dosya: projects/neva-engine/source/Mixer.h
 
 // ✅ DOĞRU — 8.1 surround mixer
 class Mixer {

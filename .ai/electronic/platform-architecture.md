@@ -24,38 +24,16 @@ CoreMusic ELECTRONICS platformu, çoklu cihaz ailelerini destekleyen **9 katmanl
 
 ## 2. Platform Katmanları (9 Katman)
 
-```mermaid
-graph TB
-    subgraph "CoreMusic Electronics Platform (9 Layers)"
-        AI[AI Layer<br/>Auto-EQ, Room Correction, Prediction]
-        APP[Application Layer<br/>Web UI, Mobile App, Desktop]
-        API[API Layer<br/>REST, WebSocket, gRPC]
-        MW[Middleware Layer<br/>Auth, Logging, Caching]
-        AE[Audio Engine Layer<br/>Mixer, EQ, DSP Chain]
-        DRV[Driver Layer<br/>ASIO, WASAPI, ALSA]
-        FW[Firmware Layer<br/>RTOS, Boot, DSP Chain]
-        HW[Hardware Layer<br/>PCB, Components, Connectors]
-        DF[Device Family Layer<br/>Pro, Home, Car, Embedded]
-    end
-
-    DF --> HW
-    HW --> FW
-    FW --> DRV
-    DRV --> AE
-    AE --> MW
-    MW --> API
-    API --> APP
-    APP --> AI
-
-    style DF fill:#f96,stroke:#333,stroke-width:2px
-    style HW fill:#f90,stroke:#333,stroke-width:2px
-    style FW fill:#fc0,stroke:#333,stroke-width:2px
-    style DRV fill:#ff0,stroke:#333,stroke-width:2px
-    style AE fill:#6f6,stroke:#333,stroke-width:2px
-    style MW fill:#69f,stroke:#333,stroke-width:2px
-    style API fill:#96f,stroke:#333,stroke-width:2px
-    style APP fill:#6ff,stroke:#333,stroke-width:2px
-    style AI fill:#f69,stroke:#333,stroke-width:2px
+```
+Katman 9: AI Layer ──────────── Auto-EQ, Room Correction, Prediction
+Katman 8: Application Layer ─── Web UI, Mobile App, Desktop
+Katman 7: API Layer ─────────── REST, WebSocket, gRPC
+Katman 6: Middleware Layer ──── Auth, Logging, Caching
+Katman 5: Audio Engine Layer ── Mixer, EQ, DSP Chain
+Katman 4: Driver Layer ──────── ASIO, WASAPI, ALSA
+Katman 3: Firmware Layer ────── RTOS, Boot, DSP Chain
+Katman 2: Hardware Layer ────── PCB, Components, Connectors
+Katman 1: Device Family Layer ─ Pro, Home, Car, Embedded
 ```
 
 ---
@@ -235,24 +213,19 @@ Akıllı özellikler:
 
 ## 7. Cihaz Yaşam Döngüsü (16 Faz)
 
-```mermaid
-stateDiagram-v2
-    [*] --> Concept
-    Concept --> Design
-    Design --> Prototype
-    Prototype --> Testing
-    Testing --> Certification
-    Certification --> Manufacturing
-    Manufacturing --> Shipping
-    Shipping --> Installation
-    Installation --> Configuration
-    Configuration --> Activation
-    Activation --> Operation
-    Operation --> Maintenance
-    Maintenance --> Update
-    Update --> Operation
-    Operation --> Decommission
-    Decommission --> [*]
+```
+Concept ──▶ Design ──▶ Prototype ──▶ Testing ──▶ Certification ──▶ Manufacturing
+                                                                        │
+Shipping ◀─────────────────────────────────────────────────────────────┘
+    │
+    ▼
+Installation ──▶ Configuration ──▶ Activation ──▶ Operation ──▶ Maintenance
+                                                          │           │
+                                                          │      Update
+                                                          │           │
+                                                          │      Operation
+                                                          │           │
+                                                          └──▶ Decommission
 ```
 
 | Faz | Açıklama |

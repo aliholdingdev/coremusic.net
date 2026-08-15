@@ -429,7 +429,6 @@ CoreMusic platformundaki tüm API endpoint'lerini servis bazında kataloglayan, 
 | **Satır Sayısı** | ~550 |
 | **ADR Uyumlu** | ✅ 042, 043 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 5 referans |
 | **Guardrails** | ✅ 5 kural |
 

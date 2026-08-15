@@ -64,13 +64,8 @@ Embedded Platform Drivers, CoreMusic platformunun gömülü sistemlerdeki (Raspb
 
 ## 5. Embedded Driver Akışı
 
-```mermaid
-graph TB
-    BOOT[RPi5 Boot] --> GPIO[GPIO Init]
-    GPIO --> I2S[I2S Init]
-    I2S --> DAC[DAC Bağla]
-    DAC --> STREAM[Stream Başlat]
-    STREAM --> MONITOR[İzleme]
+```
+RPi5 Boot ──▶ GPIO Init ──▶ I2S Init ──▶ DAC Bağla ──▶ Stream Başlat ──▶ İzleme
 ```
 
 ---

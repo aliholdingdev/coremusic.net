@@ -3,16 +3,16 @@ type: architecture
 category: contracts
 title: "Enterprise Architecture Rules & Governance"
 date: 2026-08-09
-updated: 2026-08-09
+updated: 2026-08-12
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
 # Enterprise Architecture Rules & Governance
 
-**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]]
+**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[ADR-087-master-implementation-plan]]
 
 ## 1. Amaç
 
@@ -161,6 +161,60 @@ https://api.coremusic.net/v1/{resource}
 
 ```
 /api/v1/resource
+```
+
+## 6.1 Enterprise Router Kuralları (ADR-053)
+
+**Kaynak:** [[ADR-053-enterprise-router-architecture]], [[ADR-054-enterprise-composer-stack]]
+
+| Özellik | Değer | Kaynak |
+|---------|-------|--------|
+| **Engine** | `nikic/fast-route` | ADR-053 |
+| **DI Container** | `php-di/php-di` (PSR-11) | ADR-054 |
+| **HTTP** | `nyholm/psr7` (PSR-7) | ADR-054 |
+| **Middleware** | PSR-15 (`MiddlewareInterface`) | ADR-053 |
+| **HTTP Emitter** | `laminas/laminas-httphandlerrunner` | ADR-054 |
+
+### Enterprise Router Özellikleri
+
+| Özellik | Açıklama |
+|---------|----------|
+| **Attribute Routes** | PHP 8 attributes ile route tanımlama (`#[Route('/path')]`) |
+| **Route Groups** | Prefix bazlı gruplama (`/api/v1` altında tüm API route'ları) |
+| **Subdomain Routing** | Alt adrese göre route yönlendirme |
+| **Route Cache** | APCu + file cache ile route caching |
+| **Named Routes** | İsimlendirilmiş route'lar (`route('login')`) |
+| **Middleware Binding** | Route bazlı middleware atama |
+| **DI Integration** | Controller'lar DI container tarafından resolve edilir |
+
+### Route Tanımlama Örneği
+
+```php
+<?php
+declare(strict_types=1);
+
+namespace CoreMusic\Router\Attributes;
+
+use Attribute;
+
+#[Route('/api/v1/songs', methods: ['GET'], middleware: ['auth', 'rate-limit'])]
+class SongController
+{
+    public function index(): ResponseInterface
+    {
+        // Controller logic
+    }
+}
+```
+
+### Subdomain Routing Örneği
+
+```
+home.coremusic.net   → HomeController   (port 81)
+pro.coremusic.net    → ProController    (port 81)
+studio.coremusic.net → StudioController (port 81)
+admin.coremusic.net  → AdminController  (port 80)
+auth.coremusic.net   → AuthController   (port 80/443)
 ```
 
 ## 7. BFF (Backend for Frontend) Kuralları
@@ -397,7 +451,6 @@ Draft → Review → Active → Frozen
 | **API Method** | 5 |
 | **BFF Sayısı** | 5 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

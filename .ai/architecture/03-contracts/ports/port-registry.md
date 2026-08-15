@@ -82,7 +82,7 @@ CoreMusic platformundaki tüm port atamalarını, allocation rules'ları ve fire
 | **Protokol** | TCP |
 | **Erişim** | Internal only |
 | **Firewall** | 127.0.0.1:3306 |
-| **Databases** | 9 BCNF DB |
+| **Databases** | 18 BCNF DB |
 | **Auth** | User/Password |
 
 #### Port 5000 — Media Service
@@ -284,7 +284,6 @@ services:
 | **Satır Sayısı** | ~520 |
 | **ADR Uyumlu** | ✅ 042 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 4 referans |
 | **Guardrails** | ✅ 5 kural |
 

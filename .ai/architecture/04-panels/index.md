@@ -71,6 +71,27 @@ CoreMusic'in 10 panelinin detaylı mimarisi, görünüm modları ve tema entegra
 
 ## 4. Embedded System Detayları
 
+### 4.0 Volumio Benzeri Medya İşletim Sistemi
+
+Home, Pro ve Studio modları **Raspberry Pi 5** üzerinde çalışan, **Volumio benzeri** ancak çok daha gelişmiş **yerel medya işletim sistemleri**dir.
+
+**Temel Özellikler:**
+- Tarayıcı arayüzü **tam ekran** olarak çalışır
+- **Dokunmatik ekran** desteği (RPi5 Touch Screen / HDMI Display)
+- **Ses output kontrolü** (volume, EQ, source selection)
+- **Yerel sunucu** modunda çalışır (internet gerekmez)
+- **Browser control panel** — tarayıcı bir kontrol paneli gibi davranır
+- **Volumio'dan farkı:** Daha geniş medya yönetimi, AI destekli EQ, multi-room desteği
+
+**Donanım Hedefi:**
+| Mod | Donanım | Ekran | Kullanım |
+|-----|---------|-------|----------|
+| Home | RPi5 + PCM3168A | Touch Screen | Ev teybi |
+| Pro | RPi5 + Class AB Amp | HDMI Display | Profesyonel |
+| Studio | RPi5 + 8.1 Surround | HDMI Display | Stüdyo |
+
+*Kaynak: [[ADR-060-rpi5-embedded-auth]]*
+
 ### 4.1 Embedded Auth Akışı
 
 ```
@@ -97,20 +118,24 @@ CoreMusic'in 10 panelinin detaylı mimarisi, görünüm modları ve tema entegra
 │  │                 │                 │                      │  │
 │  │                 │  - SQLite DB    │                      │  │
 │  │                 │  - Local admin  │                      │  │
-│  │                 │  - No cloud     │                      │  │
+│  │                 │  - İlk kurulumda│                      │  │
+│  │                 │    auth.core'a  │                      │  │
+│  │                 │    bağlanır     │                      │  │
+│  │                 │  - Offline-first│                      │  │
 │  │                 └─────────────────┘                      │  │
 │  └──────────────────────────────────────────────────────────┘  │
 │                                                                 │
 │  ┌──────────────────────────────────────────────────────────┐  │
 │  │ Touch Screen UI                                          │  │
 │  │                                                           │  │
-│  │  - Tam ekran arayüz                                      │  │
-│  │  - Dokunmatik kontroller                                 │  │
+│  │  - Tam ekran arayüz (Volumio benzeri)                    │  │
+│  │  - Dokunmatik kontroller (48px minimum touch target)     │  │
 │  │  - Volume knob (fiziksel + dijital)                      │  │
 │  │  - Play/Pause/Next/Prev butonları                        │  │
 │  │  - Album art display                                     │  │
 │  │  - EQ controls                                           │  │
 │  │  - Source selection (USB, Bluetooth, WiFi, NAS)          │  │
+│  │  - Görünüm modları: Home / Pro / Studio (tek tıkla geçiş)│  │
 │  └──────────────────────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -120,7 +145,7 @@ CoreMusic'in 10 panelinin detaylı mimarisi, görünüm modları ve tema entegra
 | Özellik | Web (cloud) | Embedded (local) |
 |---------|-------------|------------------|
 | Auth Sunucusu | auth.coremusic.net | Local (aynı RPi5) |
-| Database | MySQL 9 (9 BCNF) | SQLite (1 DB) |
+| Database | MySQL 9 (18 BCNF) | SQLite (1 DB) |
 | Session | Cross-subdomain | Local |
 | JWT | RS256 (production key) | HS256 (local key) |
 | Rate Limit | 60 req/60s | Devre dışı |

@@ -20,7 +20,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-CoreMusic veritabanı katmanı, **9 BCNF izole veritabanından** oluşan, PDO tabanlı, prepared statement zorunlu, ORM yasaklı veri erişim mimarisini tanımlar. Bu belge database katmanının tüm teknik detaylarını, kurallarını ve standartlarını kapsar.
+CoreMusic veritabanı katmanı, **18 BCNF izole veritabanından** oluşan, PDO tabanlı, prepared statement zorunlu, ORM yasaklı veri erişim mimarisini tanımlar. Bu belge database katmanının tüm teknik detaylarını, kurallarını ve standartlarını kapsar.
 
 *Kaynak: [[ADR-040-database-authority]], [[ADR-002-pdo-mandatory-no-orm]]*
 
@@ -30,7 +30,7 @@ CoreMusic veritabanı katmanı, **9 BCNF izole veritabanından** oluşan, PDO ta
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
-| 9 BCNF veritabanı şeması | Frontend UI |
+| 18 BCNF veritabanı şeması | Frontend UI |
 | PDO configuration ve prepared statements | SPA routing |
 | Repository pattern | Güvenlik middleware'i |
 | Migration stratejisi | Cache yönetimi |
@@ -56,7 +56,7 @@ CoreMusic veritabanı katmanı, **9 BCNF izole veritabanından** oluşan, PDO ta
 
 ---
 
-## 4. 9 BCNF Veritabanı
+## 4. 18 BCNF Veritabanı
 
 ### 4.1 Veritabanı Haritası
 
@@ -721,7 +721,7 @@ class SongRepositoryTest extends TestCase
 | [[l1-security]] | Security middleware, session |
 | [[architecture/05-data/database_master]] | Database master dokümanı |
 | [[ADR-002-pdo-mandatory-no-orm]] | ORM yasağı |
-| [[ADR-040-database-authority]] | 9 BCNF DB otoritesi |
+| [[ADR-040-database-authority]] | 18 BCNF DB otoritesi |
 | [[ADR-014-multi-db-migration-strategy]] | Migration stratejisi |
 | [[ADR-033-sql-normalization-strategy]] | SQL normalizasyon |
 
@@ -731,7 +731,7 @@ class SongRepositoryTest extends TestCase
 
 | Bu Dosyadan | Hedef | İlişki |
 |-------------|-------|--------|
-| § 4 9 BCNF DB | [[ADR-040-database-authority]] | DB otoritesi |
+| § 4 18 BCNF DB | [[ADR-040-database-authority]] | DB otoritesi |
 | § 5 PDO | [[ADR-002-pdo-mandatory-no-orm]] | ORM yasağı |
 | § 6 Repository | [[ADR-002-pdo-mandatory-no-orm]] | Prepared statement |
 | § 9 Migration | [[ADR-014-multi-db-migration-strategy]] | Migration |
@@ -772,9 +772,8 @@ class SongRepositoryTest extends TestCase
 | **Web Doğrulanmış** | ✅ php.net, dev.mysql.com |
 | **Zero Hallucination** | ✅ |
 | **Cross-Reference** | ✅ Doğrulandı |
-| **MSA Uyumlu** | ✅ |
 | **Test Coverage** | ≥80% min, ≥90% target |
-| **BCNF Compliance** | ✅ 9 DB |
+| **BCNF Compliance** | ✅ 18 BCNF DB |
 
 ---
 

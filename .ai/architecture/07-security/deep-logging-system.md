@@ -29,7 +29,7 @@ CoreMusic platformu icin **tam kapsamli, cok katmanli, derin loglama sistemi** t
 | 10 subdomain panel | C++ audio engine loglama |
 | 7 backend servis | Donanim seviyesi loglama |
 | Middleware otomatik loglama | Network packet capture |
-| MySQL 11 BCNF DB log tablolari | External ELK/Loki entegrasyonu |
+| MySQL 18 BCNF DB log tablolari | External ELK/Loki entegrasyonu |
 | Real-time izleme | - |
 | Otomatik redaction | - |
 
@@ -835,9 +835,9 @@ class TimingDecorator
 ### 12.1 Middleware Pipeline'a Entegrasyon
 
 ```
-SessionManager -> BypassAuth -> RateLimiter -> Auth -> SecurityHeaders -> Csrf
-                    |                              |                  |
-              SecurityLogger              RequestLogger        SecurityLogger
+OriginCheck -> Cors -> RateLimiter -> SecurityHeaders -> SessionManager -> Csrf -> BypassAuth -> Auth -> Permission -> Validation
+         |              |                   |              |              |              |            |            |           |
+   SecurityLogger  SecurityLogger    RequestLogger   SecurityLogger  SecurityLogger   SecurityLogger  RequestLogger  SecurityLogger  SecurityLogger
 ```
 
 **Yeni Middleware Eklenecek:**

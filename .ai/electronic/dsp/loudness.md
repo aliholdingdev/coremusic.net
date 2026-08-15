@@ -67,20 +67,21 @@ Her parçanın algılanan ses seviyesini normalize eder.
 
 ## 5. Loudness Normalization Akışı
 
-```mermaid
-graph TB
-    INPUT[Audio Input] --> MEASURE[Loudness Ölç]
-    MEASURE --> TARGET{Hedef ile Karşılaştır}
-    TARGET -->|Düşük| BOOST[Gain Artır]
-    TARGET -->|Yüksek| REDUCE[Gain Azalt]
-    TARGET -->|Uygunli| PASS[Geç]
-    BOOST --> LIMIT[Limiter Kontrol]
-    REDUCE --> LIMIT
-    PASS --> LIMIT
-    LIMIT --> OUTPUT[Normal Çıkış]
-
-    style BOOST fill:#2ecc71,color:#fff
-    style REDUCE fill:#ff6b6b,color:#fff
+```
+Audio Input ──▶ Loudness Ölç ──▶ {Hedef ile Karşılaştır}
+                                    │
+                    Düşük ▼         │         ▼ Yüksek
+                  Gain Artır       │       Gain Azalt
+                       │           │           │
+                       │    Uygunlu ▼           │
+                       │      Geç              │
+                       │       │               │
+                       └───────┴───────┬───────┘
+                                       ▼
+                                Limiter Kontrol
+                                       │
+                                       ▼
+                                Normal Çıkış
 ```
 
 ---

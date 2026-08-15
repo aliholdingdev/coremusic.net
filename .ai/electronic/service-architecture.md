@@ -24,69 +24,21 @@ CoreMusic ELECTRONICS **tek bir uygulama değildir**. Bağımsız servislerden o
 
 ## 2. Servis Mimarisi (13 Servis)
 
-```mermaid
-graph TB
-    subgraph "API Gateway"
-        GW[API Gateway<br/>Routing, Auth, Rate Limit]
-    end
-
-    subgraph "Core Services"
-        AUTH[1. Auth Service]
-        USER[2. User Service]
-        DEV[3. Device Service]
-    end
-
-    subgraph "Media Services"
-        AUDIO[4. Audio Service]
-        DSP_S[5. DSP Service]
-        STREAM[6. Streaming Service]
-        DL[7. Download Service]
-        MEDIA[8. Media Library Service]
-    end
-
-    subgraph "System Services"
-        AI_S[9. AI Service]
-        UPDATE[10. Update Service]
-        NOTIFY[11. Notification Service]
-        MON[12. Monitoring Service]
-        LOG[13. Logging Service]
-    end
-
-    subgraph "Message Bus"
-        MB[Message Bus<br/>Event Driven]
-    end
-
-    GW --> AUTH
-    GW --> USER
-    GW --> DEV
-    GW --> AUDIO
-    GW --> DSP_S
-    GW --> STREAM
-    GW --> DL
-    GW --> MEDIA
-    GW --> AI_S
-
-    AUTH --> MB
-    USER --> MB
-    DEV --> MB
-    AUDIO --> MB
-    DSP_S --> MB
-    STREAM --> MB
-    DL --> MB
-    MEDIA --> MB
-    AI_S --> MB
-    UPDATE --> MB
-    NOTIFY --> MB
-    MON --> MB
-    LOG --> MB
-
-    style GW fill:#69f,stroke:#333,stroke-width:3px
-    style MB fill:#96f,stroke:#333,stroke-width:2px
-    style AUTH fill:#f96,stroke:#333
-    style USER fill:#f90,stroke:#333
-    style DEV fill:#fc0,stroke:#333
-    style AUDIO fill:#6f6,stroke:#333
-    style DSP_S fill:#6ff,stroke:#333
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        API Gateway                              │
+│              (Routing, Auth, Rate Limit)                        │
+├─────────────────────────────────────────────────────────────────┤
+│  Core Services          │  Media Services        │  System     │
+│  ├── 1. Auth Service    │  ├── 4. Audio Service  │  Services   │
+│  ├── 2. User Service    │  ├── 5. DSP Service    │  ├── 9. AI  │
+│  └── 3. Device Service  │  ├── 6. Streaming      │  ├── 10. Update
+│                         │  ├── 7. Download       │  ├── 11. Notify
+│                         │  └── 8. Media Library  │  ├── 12. Monitor
+│                         │                        │  └── 13. Log
+├─────────────────────────────────────────────────────────────────┤
+│                     Message Bus (Event Driven)                   │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 ---

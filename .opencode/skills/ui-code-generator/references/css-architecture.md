@@ -334,6 +334,9 @@ input[aria-invalid="true"] {
 ```css
 /* main.css */
 
+/* CSS @layer Declaration (ITCSS + Cascade Layers) */
+@layer reset, tokens, base, layout, components, pages, utilities, vendors;
+
 /* LAYER 1: Abstracts */
 @import "01_Abstracts/_variables.css";
 @import "01_Abstracts/_breakpoints.css";
@@ -371,11 +374,229 @@ input[aria-invalid="true"] {
 
 ---
 
+## CSS @layer + ITCSS Entegrasyonu
+
+CSS Cascade Layers (`@layer`), ITCSS'in yapısal mantığını tarayıcı düzeyinde garanti altına alır.
+
+```css
+/* 01_Abstracts/_tokens.css */
+@layer tokens {
+  :root {
+    /* Primitive tokens */
+    --cm-gray-100: #f3f4f6;
+    --cm-gray-900: #111827;
+    --cm-blue-500: #3b82f6;
+    
+    /* Semantic tokens */
+    --cm-color-text: var(--cm-gray-900);
+    --cm-color-surface: #ffffff;
+    --cm-color-border: var(--cm-gray-100);
+    --cm-color-action: var(--cm-blue-500);
+    
+    /* light-dark() desteği */
+    color-scheme: light dark;
+  }
+  
+  /* Dark mode - sadece semantic token'ları değiştir */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --cm-color-text: #f9fafb;
+      --cm-color-surface: #111827;
+      --cm-color-border: #374151;
+      --cm-color-action: #60a5fa;
+    }
+  }
+  
+  /* Veya class-based dark mode */
+  [data-theme="dark"] {
+    --cm-color-text: #f9fafb;
+    --cm-color-surface: #111827;
+    --cm-color-border: #374151;
+    --cm-color-action: #60a5fa;
+  }
+}
+
+/* 02_Base/_reset.css */
+@layer reset {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* 04_Components/_button.css */
+@layer components {
+  .button {
+    padding: 0.75rem 1.5rem;
+    background: var(--cm-color-action);
+    color: white;
+    border: none;
+    border-radius: var(--cm-radius-md, 0.375rem);
+    cursor: pointer;
+    transition: background var(--cm-transition, 200ms ease-out);
+    min-height: 44px;
+  }
+  
+  .button:hover {
+    background: var(--cm-color-action-hover);
+  }
+}
+
+/* 06_Utilities/_helpers.css */
+@layer utilities {
+  .hidden { display: none; }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+}
+```
+
+---
+
+## :where() ile Specificity Yönetimi
+
+`:where()` pseudo-class'ı specificity'yi sıfıra düşürür. Override kolaylaştırır.
+
+```css
+@layer components {
+  /* Düşük specificity - kolay override edilebilir */
+  :where(.button) {
+    padding: 0.75rem 1.5rem;
+    background: var(--cm-color-action);
+  }
+  
+  /* Yüksek specificity - zor override */
+  .button--primary {
+    background: var(--cm-color-primary);
+  }
+}
+```
+
+---
+
+## @property ile Animasyonlu Custom Properties
+
+CSS custom property'leri animasyon için `@property` ile tanımlanmalıdır.
+
+```css
+@property --cm-gradient-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@property --cm-scale {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+.card {
+  --cm-gradient-angle: 0deg;
+  background: linear-gradient(
+    var(--cm-gradient-angle),
+    var(--cm-color-primary),
+    var(--cm-color-accent)
+  );
+  transition: --cm-gradient-angle 300ms ease;
+}
+
+.card:hover {
+  --cm-gradient-angle: 180deg;
+}
+
+.button {
+  --cm-scale: 1;
+  transition: transform 200ms ease;
+}
+
+.button:active {
+  --cm-scale: 0.95;
+  transform: scale(var(--cm-scale));
+}
+```
+
+---
+
+## Logical Properties (RTL Hazırlığı)
+
+Physical properties yerine logical properties kullanarak RTL desteği sağla.
+
+```css
+/* ❌ Physical - RTL'de çalışmaz */
+.card {
+  margin-left: 16px;
+  padding-right: 24px;
+  border-left: 3px solid var(--cm-color-action);
+  text-align: left;
+}
+
+/* ✅ Logical - RTL otomatik desteklenir */
+.card {
+  margin-inline-start: 16px;
+  padding-inline-end: 24px;
+  border-inline-start: 3px solid var(--cm-color-action);
+  text-align: start;
+}
+
+/* Logical spacing */
+.container {
+  padding-block: 2rem;
+  padding-inline: 1rem;
+}
+
+/* Logical sizing */
+.sidebar {
+  width: 250px;  /* Physical - block layout için tamam */
+  min-inline-size: 200px;  /* Logical - inline direction */
+}
+```
+
+---
+
+## Fluid Typography (clamp())
+
+Media query olmadan responsive typography.
+
+```css
+:root {
+  /* Fluid heading sizes */
+  --cm-text-h1: clamp(2rem, 4vw + 1rem, 3.5rem);
+  --cm-text-h2: clamp(1.5rem, 3vw + 0.75rem, 2.5rem);
+  --cm-text-h3: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
+  
+  /* Fluid spacing */
+  --cm-space-section: clamp(3rem, 5vw, 6rem);
+}
+
+h1 { font-size: var(--cm-text-h1); }
+h2 { font-size: var(--cm-text-h2); }
+h3 { font-size: var(--cm-text-h3); }
+
+.section { padding-block: var(--cm-space-section); }
+```
+
+---
+
 ## Key Principles
 
 ✅ **Mobile-First:** Base styles for 320px, enhance with min-width media queries
 ✅ **CSS Custom Properties:** All colors, spacing, fonts via variables
 ✅ **CSS Grid:** Page layouts, Flexbox for components
+✅ **CSS @layer:** Cascade management with ITCSS integration
+✅ **light-dark() & prefers-color-scheme:** Automatic dark mode support
+✅ **:where():** Low specificity for easy overrides
+✅ **Logical Properties:** RTL-ready with margin-inline, padding-block
+✅ **@property:** Animatable custom properties for smooth transitions
+✅ **clamp():** Fluid typography without media queries
 ✅ **Modular:** Single responsibility per file/class
 ✅ **No !important:** Except in utilities layer
 ✅ **Specificity:** Increases down the triangle (utilities highest)

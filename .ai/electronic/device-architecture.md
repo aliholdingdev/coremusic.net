@@ -24,57 +24,18 @@ CoreMusic ELECTRONICS platformu, **birden fazla cihaz ailesini** desteklemek iç
 
 ## 2. Cihaz Ailesi Mimarisi
 
-```mermaid
-graph TB
-    subgraph "Device Families"
-        PRO[Professional Audio<br/>Studio, Rack, Mixer]
-        HOME[Home Audio<br/>Amplifier, Receiver, Speaker]
-        CAR[Car Audio<br/>DSP Amp, Head Unit]
-        EMB[Embedded Audio<br/>RPi HAT, ARM Board]
-    end
-
-    subgraph "Common Infrastructure"
-        ARCH[Same Architecture]
-        SW[Same Software Standards]
-        PROT[Same Communication Protocols]
-        AI[Same AI Infrastructure]
-        PROC[Same Development Process]
-    end
-
-    PRO --> ARCH
-    HOME --> ARCH
-    CAR --> ARCH
-    EMB --> ARCH
-
-    PRO --> SW
-    HOME --> SW
-    CAR --> SW
-    EMB --> SW
-
-    PRO --> PROT
-    HOME --> PROT
-    CAR --> PROT
-    EMB --> PROT
-
-    PRO --> AI
-    HOME --> AI
-    CAR --> AI
-    EMB --> AI
-
-    PRO --> PROC
-    HOME --> PROC
-    CAR --> PROC
-    EMB --> PROC
-
-    style PRO fill:#f96,stroke:#333
-    style HOME fill:#f90,stroke:#333
-    style CAR fill:#fc0,stroke:#333
-    style EMB fill:#ff0,stroke:#333
-    style ARCH fill:#69f,stroke:#333
-    style SW fill:#69f,stroke:#333
-    style PROT fill:#69f,stroke:#333
-    style AI fill:#69f,stroke:#333
-    style PROC fill:#69f,stroke:#333
+```
+┌──────────────┐
+│ Professional │──▶ Same Architecture
+│    Audio     │──▶ Same Software Standards
+├──────────────┤──▶ Same Communication Protocols
+│   Home Audio │──▶ Same AI Infrastructure
+├──────────────┤──▶ Same Development Process
+│   Car Audio  │
+├──────────────┤
+│  Embedded    │
+│    Audio     │
+└──────────────┘
 ```
 
 ### 2.1 Cihaz Aileleri
@@ -92,24 +53,12 @@ graph TB
 
 ### 3.1 Güç → CPU → RAM → Flash → Audio Codec → DAC/ADC → DSP → Amplifier → Output
 
-```mermaid
-graph LR
-    PW[Power Supply] --> CPU[CPU/MCU]
-    CPU --> RAM[RAM]
-    CPU --> FLASH[Flash Storage]
-    CPU --> CODEC[Audio Codec]
-    CODEC --> DAC[DAC]
-    CODEC --> ADC[ADC]
-    CPU --> DSP[DSP]
-    DSP --> AMP[Amplifier]
-    AMP --> OUT[Output]
-
-    style PW fill:#f96,stroke:#333
-    style CPU fill:#f90,stroke:#333
-    style CODEC fill:#fc0,stroke:#333
-    style DSP fill:#6f6,stroke:#333
-    style AMP fill:#69f,stroke:#333
-    style OUT fill:#6ff,stroke:#333
+```
+Power Supply ──▶ CPU/MCU ──▶ RAM
+                       │       └──▶ Flash Storage
+                       ├──▶ Audio Codec ──▶ DAC
+                       │                 └──▶ ADC
+                       ├──▶ DSP ──▶ Amplifier ──▶ Output
 ```
 
 ### 3.2 Güç Yönetimi
@@ -118,7 +67,7 @@ graph LR
 |-------------|--------|----------|
 | USB-C PD | 5V/9V/12V/15V/20V | Taşınabilir cihazlar |
 | PoE | 48V | Ağ cihazları |
-| DC Jack | 5V/9V/12V/24V | Sabit cihazlar |
+| DC Jack | 12V–24V DC | Sabit cihazlar (Boost converter ile ±42V) |
 | Batarya | 3.7V-12V | Kablosuz cihazlar |
 | Automotive | 12V/24V | Araç içi |
 
@@ -172,6 +121,55 @@ graph LR
 | Wi-Fi 6 | 2.4/5/6 GHz | Kablosuz |
 | Bluetooth 5.3 | 1-3 Mbps | Kablosuz ses |
 
+### 4.3 I2S/TDM İletişim Diyagramı
+
+```
+PC / Raspberry Pi ──USB 2.0 (480 Mbit/s)──▶ XMOS XU316
+                                                │
+                                    ┌───────────┴───────────┐
+                                    │                       │
+                              USB RX (Isochronous)    USB TX (Isochronous)
+                                    │                       │
+                                    └───────────┬───────────┘
+                                                │
+                                           DSP Engine
+                                                │
+                              ┌─────────────────┼─────────────────┐
+                              │                 │                 │
+                    I2S/TDM Bus          I2S/TDM Bus        I2S/TDM Bus
+                    MCLK 24.576MHz      BCLK 3.072MHz      LRCLK 48kHz
+                    SDOUT Ch 1-8        SDIN Ch 1-8
+                              │                 │
+                              └────────┬────────┘
+                                       │
+                              PCM3168A Codec
+                              DAC (8 Kanal) + ADC (6 Kanal)
+                                       │
+                              Balanced XLR/RCA
+                                       │
+                              Class AB Amplifier
+                                       │
+                              Speakers (7.1 Surround)
+```
+
+### 4.4 USB Audio Sinyal Yolu Diyagramı
+
+```
+USB Host ──Isochronous 48kHz/24bit──▶ USB Audio Class 2.0 ──▶ Stream Decode
+                                                                  │
+                                                        DSP Processing
+                                                        Volume ──▶ Mute ──▶ EQ 31-Band
+                                                                  │
+                                                          Output Path
+                                                          Channel Router
+                                                                  │
+                                                      PCM3168A DAC × 8
+                                                                  │
+                                                      Class AB Amplifier
+                                                                  │
+                                                          Speakers
+```
+
 ---
 
 ## 5. Ses Çıkışları
@@ -199,36 +197,32 @@ graph LR
 | DSP | XMOS XU316 | USB Audio Class 2.0 | [[ADR-017-dsp-hardware-mode]] |
 | Codec | CS4272 | 24-bit, 192kHz | — |
 
-**⚠️ PCM5122 REDDEDİLMİŞTİR (H001):** Sadece 2 kanal, 8.1 surround için yetersiz.
+**⚠️ PCM5122 REDDEDİLMİŞTİR (H001):** Sadece 2 kanal, 7.1 surround için yetersiz.
 
 ---
 
 ## 7. Yazılım Mimarisi
 
-```mermaid
-graph TB
-    UI[User Interface<br/>Web, Mobile, Desktop]
-    API[REST API<br/>JSON, WebSocket]
-    DM[Device Manager<br/>HW Detection, Driver Load]
-    DSP[DSP Engine<br/>EQ, Compressor, Limiter]
-    DRV[Driver Layer<br/>ASIO, WASAPI, ALSA]
-    FW[Firmware<br/>RTOS, Boot]
-    HW[Hardware<br/>PCB, Components]
-
-    UI --> API
-    API --> DM
-    DM --> DSP
-    DSP --> DRV
-    DRV --> FW
-    FW --> HW
-
-    style UI fill:#6ff,stroke:#333
-    style API fill:#96f,stroke:#333
-    style DM fill:#69f,stroke:#333
-    style DSP fill:#6f6,stroke:#333
-    style DRV fill:#ff0,stroke:#333
-    style FW fill:#f90,stroke:#333
-    style HW fill:#f96,stroke:#333
+```
+User Interface (Web, Mobile, Desktop)
+        │
+        ▼
+REST API (JSON, WebSocket)
+        │
+        ▼
+Device Manager (HW Detection, Driver Load)
+        │
+        ▼
+DSP Engine (EQ, Compressor, Limiter)
+        │
+        ▼
+Driver Layer (ASIO, WASAPI, ALSA)
+        │
+        ▼
+Firmware (RTOS, Boot)
+        │
+        ▼
+Hardware (PCB, Components)
 ```
 
 ### 7.1 Device Manager Sorumlulukları

@@ -3,9 +3,9 @@ type: template-index
 category: template
 title: "CoreMusic — Template Registry Index"
 date: 2026-08-09
-updated: 2026-08-09
+updated: 2026-08-13
 status: active
-version: 3.1.0
+version: 3.3.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 total_templates: 25
@@ -14,11 +14,17 @@ total_lines: 22786
 
 # CoreMusic — Template Registry Index
 
-**See also:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]]
+**See also:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[ui-design/00-mockup-index]]
+
+**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
+**Agents:** `.ai/.agents/` (11 agent profile)
+**UI Design:** `.ai/ui-design/` (100+ dosya) + `.ai/.png/` (18 PNG mockup)
 
 ## 1. Amaç
 
 Bu dosya, CoreMusic ekosistemindeki tüm şablonların (template) merkezi indeksidir. Her şablonun amacını, teknoloji yığınını ve kullanım alanını tanımlar.
+
+**⚠️ ZORUNLULUK (Guardrail #16):** Yeni dosya oluşturulurken bu listeden uygun template seçilmek ZORUNLU. Template olmadan dosya oluşturulamaz. AI ve insan geliştiriciler için aynı kural geçerlidir.
 
 ## 2. Template Dizin Yapısı
 
@@ -85,7 +91,7 @@ Bu dosya, CoreMusic ekosistemindeki tüm şablonların (template) merkezi indeks
 | # | Template | Teknoloji | Amaç | Satır | Dosya |
 |---|----------|-----------|------|-------|-------|
 | 9 | JavaScript Template | Vanilla JS ES6+ | Frontend development | 966 | [[frontend/js-template]] |
-| 10 | CSS Template | ITCSS 7-layer, BEM | Stylesheet development | 819 | [[frontend/css-template]] |
+| 10 | CSS Template | ITCSS 9-layer, BEM | Stylesheet development | 819 | [[frontend/css-template]] |
 
 ### 3.4 Testing Templates (testing/)
 
@@ -155,11 +161,39 @@ Yeni dosya oluştururken:
 | `{{DESCRIPTION}}` | Kısa açıklama | Backend API service |
 | `{{TECH_STACK}}` | Teknoloji listesi | PHP 8.4, MySQL 9 |
 
+### 4.3 Agent-Template Eşleştirme Tablosu
+
+| Agent | Kullanacağı Template'ler |
+|-------|-------------------------|
+| Master Orchestrator | `documentation/WikiPage-Template.md`, `adr/adr-index.md` |
+| Backend Architect | `backend/php-template.md`, `adr/adr-template.md` |
+| UI Designer | `frontend/js-template.md`, `frontend/css-template.md`, `adr/adr-frontend-template.md` |
+| Security Engineer | `adr/adr-security-template.md`, `documentation/security-audit-template.md` |
+| Data Engineer | `adr/adr-database-template.md`, `query/Query-Template.md`, `infrastructure/migration-template.md` |
+| Embedded Engineer | `other/c-template.md`, `adr/adr-audio-template.md` |
+| QA Engineer | `testing/phpunit-template.md`, `testing/vitest-template.md` |
+| DevOps Engineer | `infrastructure/docker-template.md`, `infrastructure/github-actions-template.md` |
+| Audio Hardware Engineer | `hardware/arduino-template.md`, `hardware/avr-template.md`, `adr/adr-audio-template.md` |
+| DSP Firmware Engineer | `other/c-template.md`, `hardware/avr-template.md` |
+| Windows Software Engineer | `other/c-template.md` |
+
+### 4.4 Workflow-Template Eşleştirme
+
+| Workflow | Gerekli Template |
+|----------|-----------------|
+| New Feature | İlgili kategoriden template (§4.3'e bak) |
+| Bug Fix | `adr/adr-template.md` (gerekirse) |
+| Security Audit | `adr/adr-security-template.md`, `documentation/security-audit-template.md` |
+| Database Migration | `infrastructure/migration-template.md`, `query/Query-Template.md` |
+| CI/CD Pipeline | `infrastructure/github-actions-template.md`, `infrastructure/docker-template.md` |
+| API Documentation | `documentation/api-doc-template.md` |
+| Hardware Design | `hardware/arduino-template.md`, `hardware/avr-template.md`, `hardware/pic-template.md` |
+
 ## 5. Quality Report
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 3.1.0 |
+| **Versiyon** | 3.3.0 |
 | **Toplam Template** | 25 (19 language + 6 ADR) |
 | **Toplam Satır** | 22,786 |
 | **Ortalama Satır/Template** | 1,085 |
@@ -168,11 +202,10 @@ Yeni dosya oluştururken:
 | **Kategori** | 9 (adr, backend, frontend, testing, infra, docs, hardware, query, other) |
 | **Dizin Yapısı** | ✅ Alt dizinlere ayrılmış |
 | **Frontmatter Uyumlu** | ✅ Tümü (7 zorunlu alan) |
-| **MSA Uyumlu** | ✅ (15 dosya/task limiti — ADR-042/C5) |
 
 ---
 
-*Template Registry Index v3.1.0 — CoreMusic Template System*
+*Template Registry Index v3.3.0 — CoreMusic Template System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-09*
+*Last Updated: 2026-08-13*
 *Mode: Red Team · Human Mode · Truth Mode*

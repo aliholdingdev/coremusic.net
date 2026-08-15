@@ -119,7 +119,7 @@ cp .ai/.templates/adr-template.md .ai/decisions/accepted/ADR-NNN-baslik.md
 - Performance Impact (CLS, LCP, INP)
 
 **Özellikler:**
-- ITCSS 7-layer mapping
+- ITCSS 9-layer mapping
 - BEMIT namespace standardı
 - CSS custom properties yapısı
 - Theme engine entegrasyonu
@@ -138,7 +138,7 @@ cp .ai/.templates/adr-frontend-template.md .ai/decisions/accepted/ADR-NNN-tema-d
 **Amaç:** SQL, BCNF, migration, query ile ilgili ADR'ler
 
 **Ek Bölümler:**
-- 9 BCNF Veritabanı Listesi
+- 18 BCNF Veritabanı Listesi
 - BCNF Normalizasyon Adımları
 - Tablo Tasarımı (SQL)
 - Foreign Key İlişkileri
@@ -148,7 +148,7 @@ cp .ai/.templates/adr-frontend-template.md .ai/decisions/accepted/ADR-NNN-tema-d
 
 **Özellikler:**
 - ADR-002 uyumlu (PDO, no ORM)
-- ADR-003 uyumlu (9 BCNF DB)
+- ADR-003 uyumlu (18 BCNF DB)
 - ADR-040 uyumlu (BCNF canonical)
 - SELECT * yasak reminder
 - Prepared statement examples

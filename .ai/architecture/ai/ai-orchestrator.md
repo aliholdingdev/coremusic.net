@@ -45,7 +45,7 @@ AI görevlerinin koordinasyonunu ve dağıtımını yöneten orkestrasyon motoru
 | 2 | **Backend Architect** | `backend` | PHP 8.4 API, routing, middleware | L2 |
 | 3 | **UI Designer** | `ui` | Vanilla JS, ITCSS, CSS, responsive | L3 |
 | 4 | **Security Engineer** | `security` | OWASP, CSRF, CSP, encryption | L1 |
-| 5 | **Data Engineer** | `data` | MySQL 9 BCNF, PDO, migration | L0 |
+| 5 | **Data Engineer** | `data` | MySQL 9 (18 BCNF), PDO, migration | L0 |
 | 6 | **Embedded Engineer** | `embedded` | C++20, JUCE, ASIO, DSP | L0 |
 | 7 | **QA Engineer** | `qa` | PHPUnit, Vitest, Playwright, E2E | Cross-cutting |
 | 8 | **DevOps Engineer** | `devops` | CI/CD, Docker, deploy, monitoring | CI/CD |

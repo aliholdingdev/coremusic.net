@@ -182,7 +182,6 @@ class AudioStreamer
 | **Satır Sayısı** | ~500 |
 | **ADR Uyumlu** | ✅ 002, 022, 032, 039, 040 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 2 referans |
 | **Guardrails** | ✅ 5 kural |
 

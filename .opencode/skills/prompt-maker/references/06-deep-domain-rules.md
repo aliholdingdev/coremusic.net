@@ -1,14 +1,14 @@
 ---
-title: DEEP DOMAIN RULES — 15 SPECIALIZED DOMAINS
+title: DEEP DOMAIN RULES — 15 SPECIALIZED DOMAINS (PICCO)
 description: Audio/DSP, Embedded, Fintech, HealthTech, ML/AI, Networking, Cross-Project
-version: 7.2.0
-updated: 2026-06-11
-metrics: "3,820+ questions, 78 categories, 28 references"
-quality-score: "98.7%"
+version: 11.0.0
+updated: 2026-08-15
+framework: PICCO
+quality-score: "95%+"
 ---
 
-# DEEP DOMAIN RULES — 15 SPECIALIZED DOMAINS
-# Prompt Maker v7.2.0 | 2026-06-11
+# DEEP DOMAIN RULES — 15 SPECIALIZED DOMAINS (PICCO)
+# Prompt Maker v11.0.0 | 2026-08-15
 
 ## Domain 1: SPA Router & Frontend
 

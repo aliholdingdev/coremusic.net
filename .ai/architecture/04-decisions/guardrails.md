@@ -26,11 +26,10 @@ CoreMusic mimarisi içinhard ve soft kısıtlamaları, coding standards'ları ve
 |---|-------|-----|-------------|
 | 1 | Vanilla JS — framework yasak | ADR-001 | Kod revert |
 | 2 | PDO mandatory — ORM yasak | ADR-002 | Kod revert |
-| 3 | 9 BCNF databases | ADR-040 | DB redesign |
+| 3 | 18 BCNF databases | ADR-040 | DB redesign |
 | 4 | Middleware sırası frozen | ADR-010/011/012/013/022 | Sistem durur |
 | 5 | csrf_token key frozen | ADR-010 | CSRF bypass |
 | 6 | Zero Code Before Plan | ADR-007 | Kod silinir |
-| 7 | MSA limit = 15 dosya | ADR-042 | Token overflow |
 | 8 | Argon2id — 64MB/t=4/p=2 | ADR-022 | Güvenlik açığı |
 | 9 | AES-256-GCM — 12-byte IV | ADR-022 | Şifreleme zayıflığı |
 | 10 | Layer violation yasak | CLAUDE.md | Sistem çöker |
@@ -51,7 +50,6 @@ CoreMusic mimarisi içinhard ve soft kısıtlamaları, coding standards'ları ve
 | 4 | File upload max 10MB | — | Config ile değiştirilebilir | Tech Lead |
 | 5 | Cache TTL 300s | ADR-007 | Veri türüne göre değişebilir | Tech Lead |
 | 6 | Test coverage %80 | — | %75'e düşebilir (geçici) | Tech Lead |
-| 7 | 15 dosya MSA limiti | ADR-042 | 18'e kadar (büyük refactoring) | Arch Lead |
 
 ## 4. Coding Standards
 
@@ -95,7 +93,7 @@ CoreMusic mimarisi içinhard ve soft kısıtlamaları, coding standards'ları ve
 
 | Standart | Kural | ADR |
 |----------|-------|-----|
-| **ITCSS 7-layer** | Architecture | ADR-001 |
+| **ITCSS 9-layer** | Architecture | ADR-001 |
 | **BEM naming** | Class naming | ADR-001 |
 | **Custom properties** | CSS variables | — |
 | **No frameworks** | Vanilla CSS | ADR-001 |
@@ -109,7 +107,7 @@ CoreMusic mimarisi içinhard ve soft kısıtlamaları, coding standards'ları ve
 | **Soft delete** | `is_deleted = 0` | ADR-040 |
 | **Snake_case** | Table/column naming | — |
 | **Explicit columns** | SELECT * yasak | ADR-002 |
-| **9 BCNF DB** | Isolation | ADR-040 |
+| **18 BCNF DB** | Isolation | ADR-040 |
 
 ## 5. Security Constraints
 
@@ -205,7 +203,6 @@ CoreMusic mimarisi içinhard ve soft kısıtlamaları, coding standards'ları ve
 | **Satır Sayısı** | ~540 |
 | **ADR Uyumlu** | ✅ 001, 002, 006, 007, 008, 010, 011, 012, 013, 022, 038, 040, 042 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 5 referans |
 | **Hard Guardrails** | ✅ 14 kural |
 | **Soft Constraints** | ✅ 7 kural |

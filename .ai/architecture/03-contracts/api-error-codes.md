@@ -449,7 +449,6 @@ DOWNLOAD_QUEUE_FULL
 | **Kategori Sayısı** | 6 |
 | **ADR Uyumlu** | ✅ 001, 007, 042, 051 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

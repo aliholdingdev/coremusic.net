@@ -1251,7 +1251,6 @@ Complete
 - [[php-template]] — PHP backend şablonu
 - [[cpp-template]] — C++ audio engine şablonu
 - [[ADR-026-download-service-architecture]] — Download service mimarisi kararı
-- [[ADR-042-vault-restructuring-2026-08-03]] — MSA limit = 15 dosya
 - [[ADR-002-pdo-mandatory-no-orm]] — Prepared statement zorunluluğu (PHP tarafı)
 - [[projects/download-service]] — Download service proje detayı
 - [[architecture/06-audio/ai-auto-download]] — YouTube → deemix → FLAC pipeline
@@ -1265,7 +1264,6 @@ Complete
 | § 3.3 Server Setup | [[ADR-042-vault-restructuring-2026-08-03]] | Port 3001 standardı |
 | § 3.6 Database | [[ADR-002-pdo-mandatory-no-orm]] | Prepared statement kuralı |
 | § 3.14 Pipeline | [[ADR-026-download-service-architecture]] | Download servis mimarisi |
-| § 4 Guardrails | [[ADR-042-vault-restructuring-2026-08-03]] | MSA limit kontrolü |
 | § 6 Security | [[ADR-022-database-hardened-security]] | Şifreleme standartları |
 | § 11 Architecture | [[architecture/06-audio/ai-auto-download]] | Pipeline detayı |
 | § 12 Endpoints | [[architecture/03-contracts/api-endpoints]] | API kataloğu |
@@ -1282,7 +1280,6 @@ Complete
 | **TypeScript** | ✅ Strict mode, noUncheckedIndexedAccess |
 | **ADR Uyumlu** | ✅ 026, 042, 002, 022 |
 | **Cross-Reference** | ✅ 7 çapraz referans |
-| **MSA Uyumlu** | ✅ 15 dosya limiti |
 | **WebSocket** | ✅ Gerçek zamanlı progress |
 | **Anti-Ban** | ✅ Rate limit, proxy, UA rotation |
 | **Test Coverage** | ≥80% hedef (Vitest + Supertest) |

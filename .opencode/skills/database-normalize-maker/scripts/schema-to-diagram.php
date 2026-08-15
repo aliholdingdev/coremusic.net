@@ -2,14 +2,14 @@
 declare(strict_types=1);
 
 /**
- * AI Agentic Orchestrator - Visualizer Module
+ * CoreMusic Schema to Diagram
  * Schema to Mermaid.js ER Diagram Generator
  * 
  * SQL DDL scriptini alır ve ADR notlarını koruyarak standart 
  * bir Mermaid.js ER diagram dökümanına dönüştürür.
  */
 
-namespace CoreMusic\AgenticOrchestrator\Database;
+namespace CoreMusic\Database;
 
 class SchemaToDiagram {
     private string $schemaContent;

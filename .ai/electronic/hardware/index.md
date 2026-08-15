@@ -110,15 +110,70 @@ Hardware Design, CoreMusic ELECTRONICS platformunun tüm fiziksel donanım tasar
 |---------|----------|
 | 3.3V | Dijital lojik |
 | 5V | USB, Arduino |
-| 12V | Analog devre |
-| 24V | Profesyonel |
-| ±42V | Class AB amfi |
+| 12V–24V DC | **Ana güç girişi (DC adaptör/batarya)** |
+| ±42V DC | Class AB amfi (Boost converter ile yükseltilir) |
 | PoE | Ağ cihazları |
 | USB-C PD | Taşınabilir |
 
 ---
 
-## 9. ADR Referansları
+## 9. Türkiye Tedarik Stratejisi
+
+### 9.1 Türk Tedarikçiler
+
+| # | Tedarikçi | Web | Kapsam | Kargo |
+|---|----------|-----|--------|-------|
+| 1 | **West-Electronic** | tr.west-electronic.com | LM3886, entegre devreler | DHL/UPS/FedEx |
+| 2 | **E-Komponent** | e-komponent.com | DigiKey Türkiye yetkili | Haftalık yükleme |
+| 3 | **Fidersan** | fidersan.com | DigiKey + Mouser | 5-8 iş günü |
+| 4 | **Ayson Elektronik** | aysonelektronik.com | İstanbul DigiKey | Aynı gün |
+| 5 | **Ulutaş Elektronik** | ulutaselektronik.com | IRS2092S, TDA7564 | Yurtiçi |
+| 6 | **Park Component** | parkcomponent.com | Genel elektronik | Kapı teslim |
+
+### 9.2 Online Satın Alma
+
+| # | Platform | Kapsam | Kargo | Süre |
+|---|----------|--------|-------|------|
+| 1 | **AliExpress** (tr.aliexpress.com) | TPA3255, LM3886 board'lar | Ücretsiz kargo | 15-30 gün |
+| 2 | **DigiKey** (E-Komponent üzerinden) | Tüm çipler | 5-8 iş günü | Hızlı |
+| 3 | **Mouser** (Fidersan üzerinden) | Tüm çipler | 5-8 iş günü | Hızlı |
+
+### 9.3 Satın Alma Stratejisi
+
+| Strateji | Yol | Süre | Maliyet |
+|----------|-----|------|---------|
+| **En Hızlı** | West-Electronic + Ulutaş | 1-2 gün | Yüksek |
+| **En Hızlı (geniş)** | E-Komponent + Fidersan | 5-8 gün | Orta |
+| **En Ucuz** | AliExpress | 15-30 gün | Düşük |
+| **En Güvenilir** | DigiKey (E-Komponent) | 5-8 gün | Orta-Yüksek |
+
+### 9.4 Bileşen Fiyatları (Türkiye)
+
+| Bileşen | Kaynak | Fiyat (TRY) | Stok |
+|---------|--------|-------------|------|
+| LM3886TF/NOPB | West-Electronic | ~₺150-200 | ✅ 5173 adet |
+| IRS2092S | Ulutaş Elektronik | ~₺100-150 | ✅ |
+| TPA3255 Board | AliExpress | ~₺500-1000 | ✅ |
+| TPA3118D2 Board | AliExpress | ~₺100-200 | ✅ |
+| LM3886 Board | AliExpress | ~₺200-400 | ✅ |
+| TDA7294 Board | AliExpress | ~₺200-300 | ✅ |
+| XMOS XU316 | DigiKey (E-Komponent) | ~₺800-1200 | ✅ |
+| PCM3168A | DigiKey (Fidersan) | ~₺100-150 | ✅ |
+
+### 9.5 Türkiye Tedarik Kuralları
+
+| # | Kural | Açıklama |
+|---|-------|----------|
+| 1 | **Önce Türkiye** | Türk tedarikçilerden kontrol et |
+| 2 | **Orijinal Parça** | DigiKey/Mouser yetkili üzerinden al |
+| 3 | **Garanti** | Orijinal parça garantisi zorunlu |
+| 4 | **Hızlı Kargo** | Acil durumda West-Electronic/Ulutaş |
+| 5 | **Maliyet** | Toplu alımda indirim iste |
+| 6 | **Stok Kontrolü** | Sipariş öncesi stok doğrula |
+
+---
+
+## 10. ADR Referansları
 
 | ADR | Konu |
 |-----|------|

@@ -1136,7 +1136,6 @@ app.Run();
 | [[WORKFLOW.md]] | İş akışları |
 | [[brain.md]] | Mimari kararlar |
 | [[keys.md]] | Navigasyon haritası |
-| [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | MSA limit, PHP 8.4 primary |
 | [[decisions/accepted/ADR-001-vanilla-js-itcss]] | Frontend framework yasağı |
 | [[decisions/accepted/ADR-002-pdo-mandatory-no-orm]] | ORM yasağı (PHP için) |
 
@@ -1148,7 +1147,7 @@ app.Run();
 |-----|------|----------------|
 | ADR-001 | Vanilla JS + ITCSS | Frontend kararları, Blazor N/A |
 | ADR-002 | PDO mandatory, ORM yasak | EF Core ORMPHP için yasak, ASP.NET için serbest |
-| ADR-003 | 9 BCNF veritabanı | EF Core mapping ile uyumlu |
+| ADR-003 | 18 BCNF veritabanı | EF Core mapping ile uyumlu |
 | ADR-004 | Multi-domain SPA | Routing kararları |
 | ADR-007 | Zero Code Before Plan | Planlama zorunlu |
 | ADR-010 | CSRF koruma | ASP.NET anti-forgery token |

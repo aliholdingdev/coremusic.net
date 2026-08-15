@@ -1,12 +1,13 @@
 ---
-title: ARCHITECTURE PATTERNS — SOLID, CLEAN, HEXAGONAL
-version: 7.2.0
-updated: 2026-06-11
-quality-score: "98.7%"
+title: ARCHITECTURE PATTERNS — SOLID, CLEAN, HEXAGONAL (PICCO)
+version: 11.0.0
+updated: 2026-08-15
+framework: PICCO
+quality-score: "95%+"
 ---
 
-# ARCHITECTURE PATTERNS
-# Prompt Maker v7.2.0 | 2026-06-11
+# ARCHITECTURE PATTERNS (PICCO)
+# Prompt Maker v11.0.0 | 2026-08-15
 
 ## SOLID Principles
 

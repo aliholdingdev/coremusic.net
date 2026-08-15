@@ -1,156 +1,272 @@
 ---
-type: workflow
-title: "Hallucination Control & Truth Mode Workflow (Zero Hallucination Policy)"
-date: 2026-07-31
-updated: 2026-07-31
-status: active
-authority: Security Engineer / Red Team Agent
-references: [[index]], [[brain]], [[AGENTS]], [[CLAUDE]]
+title: "CoreMusic — Halüsinasyon Kontrol Akışı"
+type: workflow-instruction
+version: 1.0
+authority: SSOT
+mode:
+  - Red Team
+  - Truth Mode
+  - Human Mode
+purpose:
+  - Truth Verification
+  - Hallucination Prevention
+  - Source Validation
+  - Claim Verification
+  - Evidence-Based Output
+  - Red Team Review
+reference:
+  authority: ".ai/WORKFLOW.md"
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/AGENTS.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+    - ".ai/keys.md"
+    - ".ai/MEMORY.md"
+    - ".ai/log.md"
+    - ".ai/engine.md"
+  architecture:
+    - ".ai/ADR/"
+    - "Existing project architecture"
+    - "Existing codebase patterns"
+  project_structure:
+    - "coremusic.net/"
+    - "shared/"
+    - "api.coremusic.net/"
+    - "auth.coremusic.net/"
+    - "music.coremusic.net/"
+    - "admin.coremusic.net/"
+    - "home.coremusic.net/"
+    - "car.coremusic.net/"
+    - "studio.coremusic.net/"
+    - "pro.coremusic.net/"
+    - "media.coremusic.net/"
+    - "download.coremusic.net/"
+  decision_priority:
+    - "ADR decisions"
+    - "Architecture documentation"
+    - "Security requirements"
+    - "Existing implementation"
+    - "User requirements"
+  update_policy:
+    preserve_existing_structure: true
+    require_approval_for:
+      - "truth mode policy change"
+      - "verification rule change"
+      - "hallucination detection change"
+      - "evidence requirement change"
+changelog:
+  - version: 1.0
+    date: 2026-08-15
+    changes:
+      - Initial hallucination control workflow
+      - Added hallucination type taxonomy
+      - Added verification checkpoints
+      - Added Truth Mode rules
+      - Added Red Team validation protocol
 ---
 
-# Hallucination Control Workflow (Zero Hallucination Policy)
+# Halüsinasyon Kontrol Akışı
 
-Bu doküman, CoreMusic ekosistemindeki tüm yapay zeka ajanlarının (Claude, Gemini, Cursor vb.) kod üretirken, doküman yazarken veya sistem mimarisine karar verirken **Zero Hallucination Policy (Sıfır Hallüsinasyon Politikası)** kurallarına uyması için tasarlanmış ana iş akışıdır. 
+## 1. Amaç
 
-Yapay zeka modellerinin emin olmadıkları API'leri, kütüphane fonksiyonlarını veya sistem durumlarını "uydurmasını" (hallucinate) kesin olarak engeller. Tüm veri çıktıları **Red Team • Truth Mode** sürecinden geçirilmek zorundadır.
+AI'ın uydurma bilgi üretmesini engellemek ve her iddianın doğrulanmasını sağlamak.
 
----
+## 2. Akış Diyagramı
 
-## 1. Temel Prensipler (Core Principles)
-
-1. **Varsayım Yasaktır:** Bilinmeyen veya eksik bilgi uydurulamaz. Bulunamıyorsa açıkça `VERIFICATION REQUIRED` (Doğrulama Gerekiyor) etiketi ile işaretlenir.
-2. **Kapsamlı Doğrulama (Bounded Verification):** Her teknik bilgi (özellikle PHP, C++ ASIO, MySQL, ITCSS sınırları) kendi spesifikasyonu veya resmi dökümantasyonu ile doğrulanmalıdır.
-3. **SSOT (Single Source of Truth):** Proje içi kurallar için yegane doğruluk kaynağı `.ai/` dizinidir (`index.md`, `brain.md`, `CLAUDE.md`).
-4. **Çift Kontrol (Cross-Reference):** Kritik kararlar (ör. güvenlik algoritmaları, DSP buffer boyutları) minimum 2 bağımsız kaynaktan çapraz doğrulanmalıdır.
-
----
-
-## 2. Hallucination Control Süreci (5 Aşamalı Akış)
-
-Her teknik çıktı, kod parçası veya dokümantasyon bilgisi aşağıdaki 5 aşamalı puanlama ve filtreleme sürecinden geçmelidir.
-
-### 2.1 Adım 1: Source Identification (Kaynak Tespiti)
-Bilginin kaynağı nedir ve ne kadar güvenilirdir?
-
-```text
-Bilgi Çıktısı Geldi
-  │
-  ▼
-Kaynak tespit edilebiliyor mu?
-  ├── Evet -> Kaynak türü nedir?
-  │     ├── Resmi Üretici Datasheet / RFC / W3C (Örn: OWASP, PHP.net) -> +30 Puan
-  │     ├── CoreMusic Codebase / .ai Vault (Kendi kodumuz) -> +30 Puan
-  │     ├── Güvenilir 1. Parti Kaynak (Örn: MDN Web Docs) -> +15 Puan
-  │     ├── Topluluk / StackOverflow / Forum -> +5 Puan
-  │     └── Yalnızca Modelin İç Hafızası (Eğitim Verisi) -> 0 Puan
-  │
-  └── Hayır -> Skor = 0, ANINDA RED (REJECTED)
+```
+AI ÇIKTISI
+      |
+      v
+┌──────────────────────────┐
+│  1. İDDİA TESPİTİ        │  Hangi iddialar var?
+└──────────┬───────────────┘
+           v
+┌──────────────────────────┐
+│  2. KAYNAK KONTROLÜ      │  Kaynak mevcut mu?
+└──────────┬───────────────┘
+           v
+┌──────────────────────────┐
+│  3. DOĞRULAMA            │  Bilgi doğru mu?
+└──────────┬───────────────┘
+           v
+     ┌─────┴─────┐
+     │           │
+  DOĞRU    ŞÜPHELİ
+     │           │
+     v           v
+  KABUL ET   VERIFICATION
+             REQUIRED
+                 |
+                 v
+          ┌──────┴──────┐
+          │             │
+       KANIT         KANIT
+       VAR           YOK
+          │             │
+          v             v
+       KABUL ET    REDDET
+                   Uydurma
+                   olarak işaretle
 ```
 
-### 2.2 Adım 2: Cross-Reference (Çapraz Doğrulama)
-Bilgi birden fazla kaynak tarafından doğrulanıyor mu?
+## 3. Halüsinasyon Türleri
 
-```text
-İkinci bir bağımsız kaynak var mı?
-  ├── Evet (2 ve üzeri ek kaynak) -> +20 Puan
-  ├── Evet (1 ek kaynak) -> +10 Puan
-  └── Hayır (Tek kaynak riski) -> -10 Puan
+| Tür | Açıklama | Örnek |
+|-----|----------|-------|
+| **Uydurma API** | Var olmayan API | "Bu endpoint 200 döndürür" (kontrol edilmemiş) |
+| **Uydurma Dosya Yolu** | Var olmayan dosya | "src/auth/login.php" (dosya yok) |
+| **Uydurma Sürüm** | Yanlış versiyon bilgisi | "MySQL 9.2" (henüz çıkmamış) |
+| **Uydurma Benchmark** | Kanıtsız performans | "%50 hızlı" (test edilmemiş) |
+| **Uydurma Güvenlik Açığı** | Yanlış güvenlik raporu | "Bu kodda SQL injection var" (olmayan açık) |
+| **Uydurma Test Sonucu** | Sahte test | "34 test geçti" (çalıştırılmamış) |
+| **Uydurma Referans** | Yanlış referans | "ADR-099'da belirtildiği üzere" (ADR yok) |
+
+## 4. Kontrol Noktaları
+
+### 4.1 Dosya Yolu Kontrolü
+
+```
+İddia: "src/auth/login.php dosyasında..."
+       |
+       v
+Dosya gerçekten var mı?
+       |
+   ┌───┴───┐
+   EVET    HAYIR
+   |         |
+   Devam    VERIFICATION REQUIRED
 ```
 
-### 2.3 Adım 3: Conflict Check (Çelişki Kontrolü)
-Bilgi, bilinen doğrularla veya sistemin mevcut kurallarıyla çelişiyor mu?
+### 4.2 API Kontrolü
 
-```text
-Çelişki tespit edildi mi?
-  ├── Fizik/Matematik/Standart Kanunu ile çelişki (Örn: 256-bit AES'i MD5 ile kırma) -> -50 Puan (REJECTED)
-  ├── Üretici Datasheet ile çelişki -> -30 Puan (REJECTED)
-  ├── Mevcut Codebase / CoreMusic Mimarisi ile çelişki (Örn: ORM kullanma önerisi) -> -20 Puan (REVIEW)
-  └── Hiçbir çelişki yok -> +0 Puan
+```
+İddia: "GET /api/users endpoint'i..."
+       |
+       v
+Endpoint gerçekten tanımlı mı?
+       |
+   ┌───┴───┐
+   EVET    HAYIR
+   |         |
+   Devam    VERIFICATION REQUIRED
 ```
 
-### 2.4 Adım 4: Güvenlik ve Mimari Etki (Impact Analysis)
-Eğer bilgi hatalıysa, sisteme etkisi nedir?
+### 4.3 Versiyon Kontrolü
 
-```text
-Risk seviyesi nedir?
-  ├── Güvenlik / Şifreleme / Auth / Veritabanı -> Katı Doğrulama (+20 puan eşik artışı)
-  ├── DSP / Donanım / L0 Altyapı -> Kritik Doğrulama (+15 puan eşik artışı)
-  ├── UI / CSS / Frontend -> Standart Doğrulama
-  └── Yorum satırı / README dokümanı -> Düşük Risk
+```
+İddia: "MySQL 9.x özelliği..."
+       |
+       v
+Bu özellik bu sürümde var mı?
+       |
+   ┌───┴───┐
+   EVET    HAYIR
+   |         |
+   Devam    VERIFICATION REQUIRED
 ```
 
-### 2.5 Adım 5: Final Score Hesaplama ve Kategorizasyon
-```text
-Total = Base Puan (50) + Bonuslar - Cezalar
+### 4.4 Test Sonucu Kontrolü
 
-Kategorizasyon:
-  90 ve üzeri -> VERIFIED (Doğrulanmış) -> Kodlanabilir veya .ai/knowledge/verified/ dizinine eklenebilir.
-  60 - 89 -> UNVERIFIED (Doğrulanmamış) -> Koda eklenemez! Sadece .ai/knowledge/unverified/ dizinine not düşülür ve kullanıcı onayı (VERIFICATION REQUIRED) istenir.
-  60 altı -> REJECTED (Reddedilmiş) -> Halüsinasyon kabul edilir. İşlem durdurulur ve alternatif üretilir. (.ai/knowledge/rejected/)
+```
+İddia: "Testler başarılı..."
+       |
+       v
+Test gerçekten çalıştırıldı mı?
+       |
+   ┌───┴───┐
+   EVET    HAYIR
+   |         |
+   Devam    VERIFICATION REQUIRED + Test çalıştır
 ```
 
----
+## 5. Truth Mode Kuralları
 
-## 3. Otomatik Tetiklenme Koşulları (Triggers)
+| Kural | Açıklama |
+|-------|----------|
+| **Kanıt yoksa kabul edilmez** | Her iddia için kanıt gerekli |
+| **Bilinmeyen → VERIFICATION REQUIRED** | Emin olunmayan durumda belirt |
+| **Doğrulanamamış bilgi → Red flag** | Kuşkulu bilgiyi işaretle |
+| **Varsayım yapma** | Kesin bilgi olmadan tahmin üretme |
+| **Kaynak göster** | Bilgi kaynağını belirt |
 
-Bu iş akışı, ajanların çalışması sırasında aşağıdaki durumlarda **otomatik olarak** devreye girer:
-1. **Yeni Dosya / Kod Üretimi (Write):** Herhangi bir `write_to_file` aracı çağrılmadan hemen önce.
-2. **Mimari Karar (ADR):** Yeni bir `decisions/` belgesi tasarlanırken.
-3. **Bilinmeyen Bir API İstenmesi:** Kullanıcı, ajanın bilmediği veya model eğitiminde olmayan bir kütüphane kullanımını talep ettiğinde.
-4. **Agent-to-Agent İletişim:** Örneğin Backend Architect'in UI Designer'a ilettiği veriler Red Team Agent tarafından kontrol edilir.
+## 6. Doğrulama Formatı
 
----
-
-## 4. İhlal Durumunda Eylem (VERIFICATION REQUIRED)
-
-Ajan, bir bilginin doğruluğundan %100 emin olamazsa (Skor < 90), hiçbir şekilde kodu yazıp "çalışıyor" gibi sunamaz. Bunun yerine kod içinde veya planda şu formatı uygulamak ZORUNDADIR:
+### Doğru Kullanım
 
 ```markdown
-// ⚠️ VERIFICATION REQUIRED: [Eksik/Emin Olunmayan Bilginin Tanımı]
-// Beklenen Davranış: [Ne olması bekleniyor]
-// Doğrulama Yöntemi: [İnsan mühendis bunu nasıl test etmeli]
+Bu API endpoint'i [kaynak] doğrultusunda çalışmaktadır.
+Doğrulama: [nasıl doğrulandı]
 ```
 
-**Örnek (Kabul Edilemez - Hallüsinasyon):**
-```php
-// Uydurma bir kütüphane fonksiyonu çağırma
-$result = CoreMusic_AudioAnalyzer::detectBPM($file); 
+```markdown
+Bu dosya yolu [dosya adı] olarak doğrulanmıştır.
+Doğrulama: Dosya sistemi kontrolü yapıldı.
 ```
 
-**Örnek (Kabul Edilebilir - Doğrulama İstenen):**
-```php
-// ⚠️ VERIFICATION REQUIRED: CoreMusic_AudioAnalyzer sınıfında detectBPM metodunun varlığı doğrulanamadı.
-// Eğer böyle bir metod yoksa, FFmpeg exec çağrısı veya farklı bir C++ bağlamı kullanılmalıdır.
-// Şimdilik buraya placeholder bırakılmıştır.
-$result = null; 
+### Yanlış Kullanım
+
+```markdown
+# YANLIŞ
+Bu API kesin destekleniyor.
+
+# DOĞRU
+Bu API desteği doğrulanmalıdır. [VERIFICATION REQUIRED]
 ```
+
+```markdown
+# YANLIŞ
+Testler başarılı (34/34).
+
+# DOĞRU
+Testler çalıştırılmadı. Çalıştırılması gerekiyor. [VERIFICATION REQUIRED]
+```
+
+## 7. Red Team Halüsinasyon Kontrolü
+
+Her kritik görev sonrası:
+
+| Kontrol | Soru |
+|---------|------|
+| Dosya referansları | Tüm dosya yolları doğru mu? |
+| API referansları | Tüm endpoint'ler var mı? |
+| Versiyon bilgileri | Sürüm numaraları doğru mu? |
+| Test sonuçları | Sonuçlar gerçekten çalıştırıldı mı? |
+| Güvenlik iddiaları | Açıklar gerçekten var mı? |
+| Performans iddiaları | Rakamlar test edildi mi? |
+| ADR referansları | ADR'ler gerçekten var mı? |
+
+## 8. Hata Yönetimi
+
+| Durum | Aksiyon |
+|-------|---------|
+| Uydurma tespit | İddiyi sil, `VERIFICATION REQUIRED` yaz |
+| Şüpheli bilgi | Kaynak iste, doğrulamadan kullanma |
+| Eksik bilgi | Tamamla veya `VERIFICATION REQUIRED` yaz |
+| Çelişkili bilgi | İnsan onayı iste |
+
+## 9. Yasaklar
+
+- Doğrulanmamış bilgiyi kesin gibi sunma
+- Kaynak göstermeden iddia üretme
+- Test sonucunu çalıştırmdan raporlama
+- Versiyon bilgisini doğrulamadan yazma
+- Dosya yolunu kontrol etmeden referans verme
+
+## 10. İlgili Dosyalar
+
+- `.ai/CLAUDE.md` — Truth Mode kuralları
+- `.ai/AGENTS.md` — Halüsinasyon önleme
+- `.opencode/skills/hallucination-control/SKILL.md` — Halüsinasyon kontrol skill'i
+- `.opencode/skills/red-team-truth-mode/SKILL.md` — Red team + Truth mode
+
+## 11. Aktivasyon
+
+"halüsinasyon kontrol", "doğrulama", "gerçeklik kontrol", "yalan kontrol"
 
 ---
 
-## 5. "Truth Mode" ve "Red Team" Entegrasyonu
-
-CoreMusic `.ai` kurallarına göre, ajan her çıktısında içsel olarak iki mod çalıştırır:
-
-- **Truth Mode:** Yazılan bilginin objektif gerçekliğini (Resmi Docs, standartlar) denetler. (Adım 1 ve 2).
-- **Red Team:** Yazılan bilginin CoreMusic'e özel kısıtlara (Örn: "PDO Mandatory", "No ORM", "L0->L2 erişim yasak") uyup uymadığını düşmanca bir bakış açısıyla (adversarial) sorgular. (Adım 3).
-
----
-
-## 6. Referanslar ve İlgili Dizinler
-
-*   `knowledge/verified/README.md` - Doğrulanmış sistem gerçekleri.
-*   `knowledge/unverified/README.md` - Araştırılması veya kullanıcı onayı bekleyen teknolojiler/yaklaşımlar.
-*   `knowledge/rejected/README.md` - Geçmişte denenip reddedilmiş veya halüsinasyon olarak etiketlenmiş anti-pattern'ler.
-
-*CoreMusic Hallucination Control Workflow — AEOS v2.0*
-
-## Güvenlik Denetimi
-
-- **Tarih:** 2026-08-04
-- **Kapsam:** Hallucination control workflow (AEOS, 3 katmanlı doğrulama)
-- **Bulunan Sorunlar:** Yok (H001-H039 reddedilen pattern'ler doğru tanımlanmış, doğrulama kaynakları sıralanmış)
-- **Doğrulanan kapsam:**
-  - Web araması yasak (system integration ile doğrulama) — H001-H039 doğru
-  - Score sistemi (90+ verified, 60-89 unverified, <60 rejected) kanonik
-  - [[.ai/decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] ile uyumlu
-- **Cross-references eklendi:** [[.ai/CLAUDE]], [[ADR-042]], [[.claude/rules/hallucination-control]]
+*Halüsinasyon Kontrol Akışı v1.0.0 — CoreMusic Workflow System*
+*Authority: Bayram Ali / Vault Steward*
+*Mode: Red Team · Truth Mode · Human Mode*

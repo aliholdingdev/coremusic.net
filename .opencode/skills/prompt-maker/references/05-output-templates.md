@@ -1,100 +1,130 @@
 ---
-title: OUTPUT TEMPLATES — 20-SECTION MASTER PROMPT
+title: OUTPUT TEMPLATES — 15-SECTION MASTER PROMPT (PICCO)
 description: Prompt output formats, templates, validation checklist, scoring rubric
-version: 7.2.0
-updated: 2026-06-11
-metrics: "3,820+ questions, 78 categories, 28 references"
-quality-score: "98.7%"
+version: 11.0.0
+updated: 2026-08-15
+framework: PICCO
+quality-score: "95%+"
 ---
 
-# OUTPUT TEMPLATES — 20-SECTION MASTER PROMPT
-# Prompt Maker v7.2.0 | 2026-06-11
+# OUTPUT TEMPLATES — 15-SECTION MASTER PROMPT (PICCO)
+# Prompt Maker v11.0.0 | 2026-08-15
 
 ---
 
-## MASTER PROMPT STRUCTURE (20 SECTIONS)
+## MASTER PROMPT STRUCTURE (15 SECTIONS — PICCO-ALIGNED)
 
-### Section 1: Identity & Expertise
+| # | Section | PICCO Element | Content |
+|---|---------|---------------|---------|
+| 1 | Persona & Role | **P**ersona | Role, expertise, tone, personality |
+| 2 | Activation Conditions | **I**nstructions | Triggers, keywords, when to activate |
+| 3 | Instructions & Task | **I**nstructions | Central task, steps, requirements |
+| 4 | Context & Background | **C**ontext | Project, audience, domain, exemplars |
+| 5 | Hard Rules (Constraints) | **C**onstraints | Absolute prohibitions |
+| 6 | Soft Rules (Guidelines) | **C**onstraints | Preferences, negotiable |
+| 7 | Workflow & Process | **I**nstructions | Execution pipeline |
+| 8 | Domain Rules | **C**onstraints | Domain-specific rules |
+| 9 | Security Rules | **C**onstraints | OWASP, injection defense |
+| 10 | Output Format | **O**utput | Structure, schema, length |
+| 11 | Quality Standards | **C**onstraints | Validation criteria |
+| 12 | Examples & Exemplars | **C**ontext | Few-shot patterns |
+| 13 | Edge Cases | **C**ontext | Boundary conditions |
+| 14 | Troubleshooting | **C**ontext | Debugging, common failures |
+| 15 | Version & Approval | **O**utput | Changelog, authority |
+
+---
+
+## SECTION DETAILS
+
+### Section 1: Persona & Role (PICCO: P)
+
 - **Content:** Title, seniority level, domain expertise, years of experience
-- **Format:** Table or narrative (title, level, domains, languages, platforms)
-- **Example:** "Principal Software Architect — 15 years freelance → enterprise; C/C++/PHP/JS/TS; Security-focused"
+- **Format:** Table (title, level, domains, languages, platforms)
+- **Example:** "Principal Software Architect — 15 years; C/C++/PHP/JS/TS; Security-focused"
 
-### Section 2: Core Rules (5-10 absolute rules)
+### Section 2: Activation Conditions (PICCO: I)
+
+- **Content:** When this prompt activates
+- **Format:** Trigger list + keywords
+- **Example:** "Activate on: 'system prompt', 'MASTER PROMPT', 'rules yaz'"
+
+### Section 3: Instructions & Task (PICCO: I)
+
+- **Content:** Central task, specific steps, requirements
 - **Format:** Numbered list, imperative form
-- **Content:** Non-negotiable behaviors, decision-making principles
-- **Example:** "No hallucinated APIs", "Web search mandatory for claimed facts"
+- **Example:** "Analyze code, suggest fixes, generate tests"
 
-### Section 3: Language & Communication
-- **Format:** Bullet list + examples
-- **Content:** Tone, formality, Turkish/English balance, when to ask for clarification
+### Section 4: Context & Background (PICCO: C)
 
-### Section 4: Behavioral Constraints
-- **Format:** "NEVER / ALWAYS" list
-- **Content:** What AI must avoid, what AI must always do
+- **Content:** Project description, audience, domain, exemplars
+- **Format:** Narrative + examples
+- **Example:** "CoreMusic is a music player ecosystem with 7 services..."
 
-### Section 5: Uncertainty Handling
-- **Format:** Conditional rules (if X then Y)
-- **Content:** How to respond when unsure, when to say "I don't know", what to research
+### Section 5: Hard Rules (PICCO: C)
 
-### Section 6: Error Management
-- **Format:** Recovery strategies + escalation
-- **Content:** What to do on task failure, when to ask user, how to recover
+- **Content:** Absolute prohibitions, never-break rules
+- **Format:** "NEVER" list
+- **Example:** "NEVER: hardcoded secrets, SELECT *, eval(), frameworks"
 
-### Section 7: Security Mindset
-- **Format:** Threat categories + examples
-- **Content:** OWASP, active attacker mindset, security checklist
+### Section 6: Soft Rules (PICCO: C)
 
-### Section 8: Web Research Mandate
-- **Format:** Priority list + source types
-- **Content:** When to research, which docs (official first), cross-verification
+- **Content:** Preferences, negotiable guidelines
+- **Format:** "PREFER" list
+- **Example:** "PREFER: early returns, guard clauses, composition over inheritance"
 
-### Section 9: Architecture & Design
-- **Format:** Principles + patterns
-- **Content:** SOLID, Clean Code, Hexagonal Architecture, DDD
+### Section 7: Workflow & Process (PICCO: I)
 
-### Section 10: Testing & Validation
-- **Format:** Checklist + automation
-- **Content:** Unit/integration/E2E requirements, browser testing, edge cases
+- **Content:** Execution pipeline, step-by-step process
+- **Format:** Numbered steps
+- **Example:** "1. Load context → 2. Research → 3. Analyze → 4. Implement → 5. Test"
 
-### Section 11: Performance & Optimization
-- **Format:** Metrics table
-- **Content:** Lighthouse 95+, FCP < 1.0s, LCP < 1.5s, etc.
+### Section 8: Domain Rules (PICCO: C)
 
-### Section 12: Domain-Specific Rules
+- **Content:** Domain-specific constraints
 - **Format:** Domain → rules mapping
-- **Content:** SPA, database, API, embedded, audio, fintech, healthtech, etc.
+- **Example:** "SPA: AbortController mandatory; Database: BCNF; Security: OWASP Top 10"
 
-### Section 13: Ecosystem & Integration
-- **Format:** Service diagram + ports + IPC
-- **Content:** 7-service ecosystem, port allocation (ADR 031), WebSocket handshake (ADR 032)
+### Section 9: Security Rules (PICCO: C)
 
-### Section 14: Code Quality Standards
-- **Format:** Language → checklist
-- **Content:** PHP 8.4, JavaScript ES6, Python, C#, C++, Rust standards
+- **Content:** Security constraints, OWASP, injection defense
+- **Format:** Threat categories + defenses
+- **Example:** "OWASP A01-A10, CSRF, CSP, rate limiting, input validation"
 
-### Section 15: Continuous Execution
-- **Format:** Loop diagram + stopping condition
-- **Content:** Don't stop on first success, edge-case discovery, self-audit
+### Section 10: Output Format (PICCO: O)
 
-### Section 16: Documentation & Knowledge
-- **Format:** Wiki structure + update triggers
-- **Content:** Markdown cognition layer, ADR protocol, session logging
+- **Content:** Structure, schema, length, style
+- **Format:** Schema definition
+- **Example:** "JSON with fields: {name, email, role, created_at}"
 
-### Section 17: Debugging & Troubleshooting
-- **Format:** Common issues → solutions
-- **Content:** Race conditions, memory leaks, async bugs, browser quirks
+### Section 11: Quality Standards (PICCO: C)
 
-### Section 18: Team & Process
-- **Format:** Guidelines + communication
-- **Content:** Code review, knowledge sharing, onboarding, technical debt
+- **Content:** Validation criteria, thresholds
+- **Format:** Scoring rubric
+- **Example:** "Completeness ≥85, Security ≥90, Clarity ≥85"
 
-### Section 19: Compliance & Legal
-- **Format:** Regulations table
-- **Content:** OWASP, PCI DSS, GDPR, HIPAA, SOC 2, ISO 27001
+### Section 12: Examples & Exemplars (PICCO: C)
 
-### Section 20: Future & Evolution
-- **Format:** Emerging trends + watchlist
-- **Content:** AI/LLM integration, web standards, security threats, DevOps trends
+- **Content:** Few-shot examples, input/output pairs
+- **Format:** Example blocks
+- **Example:** "Input: X → Output: Y"
+
+### Section 13: Edge Cases (PICCO: C)
+
+- **Content:** Boundary conditions, what-ifs
+- **Format:** Scenario list
+- **Example:** "What if user is null? What if network fails?"
+
+### Section 14: Troubleshooting (PICCO: C)
+
+- **Content:** Common failures, debugging steps
+- **Format:** Problem → Solution pairs
+- **Example:** "Problem: Race condition → Fix: AbortController + activeRequests Map"
+
+### Section 15: Version & Approval (PICCO: O)
+
+- **Content:** Changelog, authority, signatures
+- **Format:** Version table
+- **Example:** "v11.0.0 | 2026-08-15 | PICCO framework integration"
 
 ---
 
@@ -104,73 +134,72 @@ quality-score: "98.7%"
 ---
 inclusion: always
 priority: high
-version: 1.0
+version: 11.0
+framework: PICCO
 language: Turkish
 ---
 
-# [PROJECT_NAME] — SYSTEM PROMPT
+# [PROJECT_NAME] — MASTER PROMPT
+# Version: X.0.0 | {DATE}
+# Framework: PICCO
 
-## Identity
-[Seniority, domains, expertise]
+## 1. Persona & Role
+[Who the AI is — expertise, tone, personality]
 
-## Core Rules
-1. [Rule 1]
-2. [Rule 2]
-...
+## 2. Activation Conditions
+[When this prompt activates]
 
-## Language & Communication
-[Tone, formality, when to clarify]
+## 3. Instructions & Task
+[What to do — central task, steps]
 
-## Behavioral Constraints
-- NEVER: [prohibition]
-- ALWAYS: [requirement]
+## 4. Context & Background
+[Why it matters — project, audience]
 
-[Sections 5-20...]
+## 5. Hard Rules
+[NEVER break these]
+
+## 6. Soft Rules
+[PREFER these]
+
+## 7. Workflow
+[How to execute]
+
+## 8. Domain Rules
+[Domain-specific]
+
+## 9. Security Rules
+[OWASP, injection defense]
+
+## 10. Output Format
+[Structure, schema]
+
+## 11. Quality Standards
+[Thresholds]
+
+## 12. Examples
+[Few-shot]
+
+## 13. Edge Cases
+[Boundary conditions]
+
+## 14. Troubleshooting
+[Debugging]
+
+## 15. Version & Approval
+[Changelog]
 ```
 
 ---
 
-## TEMPLATE: DOMAIN_RULES Output
+## VALIDATION CHECKLIST (PICCO Completeness)
 
-```markdown
----
-inclusion: always
-priority: high
-domain: [SPA|Database|API|Security]
-version: 1.0
----
-
-# [DOMAIN_NAME] — DOMAIN RULES
-
-## Core Principles
-[5-10 foundational rules]
-
-## Specific Rules
-[Numbered rules with examples]
-
-## Anti-Patterns
-[What NOT to do]
-
-## Testing Checklist
-- [ ] Rule 1 verified
-- [ ] Rule 2 verified
-
-## Code Examples
-[Annotated examples per rule]
 ```
-
----
-
-## VALIDATION CHECKLIST (8 Hard Rules)
-
-- [ ] **H1:** All 20 sections present
-- [ ] **H2:** No contradictory rules
-- [ ] **H3:** Security mindset explicit
-- [ ] **H4:** Web research mandate stated
-- [ ] **H5:** Testing requirements clear
-- [ ] **H6:** Architecture pattern defined
-- [ ] **H7:** Code examples runnable
-- [ ] **H8:** No hallucinated APIs/docs
+PERSONA:      [ ] Role defined  [ ] Expertise specified  [ ] Tone set
+INSTRUCTIONS: [ ] Task clear    [ ] Steps listed         [ ] Requirements explicit
+CONTEXT:      [ ] Background    [ ] Exemplars included   [ ] Domain specified
+CONSTRAINTS:  [ ] Hard rules    [ ] Soft rules           [ ] Boundaries defined
+OUTPUT:       [ ] Format        [ ] Schema               [ ] Length specified
+```
 
 ---
 
@@ -179,13 +208,13 @@ version: 1.0
 | Dimension | Weight | Criteria |
 |-----------|--------|----------|
 | **Clarity** | 100 | Unambiguous, no jargon, actionable |
-| **Completeness** | 100 | All sections, no gaps, comprehensive |
-| **Security** | 100 | OWASP, crypto, auth, audit logging covered |
-| **Testability** | 100 | Verifiable, edge-case aware, browser validated |
+| **Completeness** | 100 | All 15 sections, no gaps |
+| **Security** | 100 | OWASP, crypto, injection defense |
+| **Testability** | 100 | Verifiable, edge-case aware |
 | **Practicality** | 100 | Real-world examples, runnable code |
 | **Consistency** | 100 | No contradictions, aligned terminology |
-| **Maintainability** | 100 | Clear structure, easy to update, versioned |
-| **Novelty/Insights** | 100 | Original thinking, architectural depth |
+| **Maintainability** | 100 | Clear structure, versioned |
+| **Novelty/Insights** | 100 | Original thinking, depth |
 
 **Quality Gates:**
 - Excellent: 750-800/800 (93.8-100%)
@@ -193,25 +222,18 @@ version: 1.0
 - Acceptable: 650-699/800 (81.3-87.4%)
 - Below Target: < 650/800
 
-**Average Score (2026-06-11):** 743/800 (92.9%)
-
----
-
-## Example MASTER PROMPT (Annotated, 20 Sections)
-
-[Full example would include all 20 sections with inline scoring comments]
-
 ---
 
 ## Cross-References
 
 All templates align with:
-- **01-prompt-types-deep.md** (16 prompt types, 20-section structure)
-- **02-question-bank.md** (3,820+ questions, blocks A-J)
-- **03-security-owasp-full.md** (OWASP A01-A10 + encryption)
+- **SKILL.md** (v11.0.0 — PICCO framework)
+- **17-prompt-engineering-deep.md** (2026 techniques)
+- **03-security-owasp-full.md** (OWASP A01-A10)
 - **04-language-standards-full.md** (PHP 8.4, JS ES6, etc.)
 - **validation-engine.md** (HARD/SOFT rules, scoring)
 
 ---
 
-## Quality Score (2026-06-11):** 98.7%
+*Output Templates v11.0.0 — CoreMusic PICCO Framework*
+*Updated: 2026-08-15*

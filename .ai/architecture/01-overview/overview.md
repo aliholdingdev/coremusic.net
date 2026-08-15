@@ -27,9 +27,9 @@ CoreMusic'in temel yapısını, yeteneklerini ve bileşenlerini özetleyen **Sis
 | **Hedef Kullanıcılar** | Bireysel, Profesyonel, Stüdyo, Araç İçi, Ev Medya |
 | **Toplam Panel** | 10 (music, admin, download, media, auth, home, car, studio, pro, landing) |
 | **Toplam Servis** | 7 (Control, Media, Audio, Device, Network, AI, Download) |
-| **Veritabanı** | 9 BCNF (MySQL 9) |
+| **Veritabanı** | 18 BCNF (MySQL 9) |
 | **Runtime** | PHP 8.4, Node.js 20+, C++20 |
-| **Frontend** | Vanilla JS (ES6+), ITCSS 7-layer, Web Audio API |
+| **Frontend** | Vanilla JS (ES6+), ITCSS 9-layer, Web Audio API |
 | **Backend** | PHP 8.4 (strict_types), PDO, Node.js + TypeScript |
 | **Audio** | C++20, JUCE 9, ASIO SDK 2.3.4 |
 | **Security** | Argon2id, AES-256-GCM, OWASP Top 10 |
@@ -114,7 +114,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | Teknoloji | Kullanım | Versiyon |
 |-----------|----------|----------|
 | Vanilla JS (ES6+) | UI logic, SPA router | ES2022 |
-| CSS (ITCSS 7-layer) | Styling, design tokens | CSS3 |
+| CSS (ITCSS 9-layer) | Styling, design tokens | CSS3 |
 | TrustedTypes | DOM XSS prevention | — |
 | Web Audio API | Audio playback, DSP | — |
 | DOMParser | Safe HTML parsing | — |
@@ -144,7 +144,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 | Teknoloji | Kullanım | Versiyon |
 |-----------|----------|----------|
-| MySQL (InnoDB) | 9 BCNF databases | 9+ |
+| MySQL (InnoDB) | 18 BCNF databases | 11+ |
 | APCu | In-memory cache (L1) | 5.1+ |
 | Redis | Distributed cache (L2) | 7+ |
 
@@ -171,20 +171,24 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 *Kaynak: [[architecture/l1-security/index]]*
 
-## 10. Middleware Pipeline
+## 10. Middleware Pipeline (10 Katman — Frozen)
 
 ```
-Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf → Controller
+Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
 ```
 
 | # | Middleware | ADR | Görev |
 |---|-----------|-----|-------|
-| 1 | SessionManager | ADR-011 | Session başlat, CSP nonce üret |
-| 2 | BypassAuth | ADR-008 | Test bypass (?_bypass=1) |
+| 1 | OriginCheck | ADR-020 | Köken doğrulama (whitelist CORS) |
+| 2 | Cors | ADR-020 | CORS header yönetimi |
 | 3 | RateLimiter | ADR-013 | APCu: 60 req/60s |
-| 4 | Auth | ADR-011 | Auth bilgisi inject |
-| 5 | SecurityHeaders | ADR-012 | CSP, X-Frame-Options, HSTS |
+| 4 | SecurityHeaders | ADR-012 | CSP, X-Frame-Options, HSTS |
+| 5 | SessionManager | ADR-011 | Session başlat, CSP nonce üret |
 | 6 | Csrf | ADR-010 | csrf_token doğrulama |
+| 7 | BypassAuth | ADR-008 | Test bypass (?_bypass=1) |
+| 8 | Auth | ADR-011 | Auth bilgisi inject (JWT + Session) |
+| 9 | Permission | ADR-052 | RBAC yetki kontrolü |
+| 10 | Validation | ADR-054 | Request/DTO validasyonu |
 
 **Kritik Not:** Sıra DEĞİŞTİRİLEMEZ. CSP nonce üretimi SessionManager içindedir.
 
@@ -196,11 +200,10 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 |---|-------|-----|
 | 1 | Vanilla JS — framework yasak | ADR-001 |
 | 2 | PDO mandatory — ORM yasak | ADR-002 |
-| 3 | 9 BCNF databases | ADR-040 |
+| 3 | 18 BCNF databases | ADR-040 |
 | 4 | Middleware order frozen | ADR-010/011/012/013/022 |
 | 5 | csrf_token key frozen | ADR-010 |
 | 6 | Zero Code Before Plan | ADR-007 |
-| 7 | MSA limit = 15 dosya | ADR-042 |
 | 8 | Port 81 = music.coremusic.net | ADR-042 |
 | 9 | pcm5122 yasak (8.1 için) | ADR-038 |
 | 10 | SELECT * yasak | ADR-002 |
@@ -217,7 +220,7 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 | [[architecture/01-overview/startup-strategy]] | Geliştirme stratejisi |
 | [[architecture/01-overview/dependency-graph]] | Bağımlılık diyagramı |
 | [[ADR-042-vault-restructuring-2026-08-03]] | Port mapping |
-| [[ADR-040-database-authority]] | 9 BCNF DB |
+| [[ADR-040-database-authority]] | 18 BCNF DB |
 | [[ADR-039-7-service-platform-architecture]] | 7 servis |
 | [[architecture/l1-security/index]] | Güvenlik detayı |
 
@@ -239,8 +242,8 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 |-------|-------|
 | **Panel** | Kullanıcı arayüzü (10 adet) |
 | **Servis** | Backend işlem birimi (7 adet) |
-| **BCNF** | Boyce-Codd Normal Form — 9 DB için zorunlu |
-| **Middleware** | İstek işleyici zinciri (6 katman) |
+| **BCNF** | Boyce-Codd Normal Form — 18 BCNF DB için zorunlu |
+| **Middleware** | İstek işleyici zinciri (10 katman) |
 | **ASIO** | Audio Stream Input/Output — Düşük gecikmeli ses |
 | **WASAPI** | Windows Audio Session API |
 | **DSP** | Digital Signal Processing — EQ, Reverb, Compressor |
@@ -256,7 +259,6 @@ Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityH
 | **Satır Sayısı** | ~510 |
 | **ADR Uyumlu** | ✅ 001, 002, 007, 008, 010, 011, 012, 013, 022, 039, 040, 042 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 7 referans |
 | **Tech Stack** | ✅ 5 kategori |
 

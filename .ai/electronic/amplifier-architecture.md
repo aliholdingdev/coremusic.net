@@ -49,7 +49,7 @@ CoreMusic ELECTRONICS'in yükseltici mimarisi. Amplifier türleri, kanal yapıla
 | SNR | > 100dB |
 | Frekans Yanıtı | 20Hz–20kHz (±0.5dB) |
 | Kanal Ayrımı | > 80dB |
-| Damping Factor | > 100 |
+| Damping Factor | > 200 |
 
 ### 2.3 Class D
 
@@ -89,9 +89,9 @@ CoreMusic ELECTRONICS'in yükseltici mimarisi. Amplifier türleri, kanal yapıla
 | 2.1 | 2+1 | 2 hoparlör + sub | Hayır |
 | 5.1 | 5+1 | FL/FR/C/SL/SR + Sub | Hayır |
 | 7.1 | 7+1 | FL/FR/C/SL/SR/RL/RR + Sub | Hayır |
-| **8.1** | **8+1** | **FL/FR/C/SL/SR/RL/RR/HL + Sub** | **Evet** |
+| **7.1** | **7+1** | **FL/FR/C/SL/SR/RL/RR + Sub** | **Evet** |
 
-### 3.2 8.1 Kanal Yerleşimi
+### 3.2 7.1 Kanal Yerleşimi
 
 | Kanal | Kısaltma | Pozisyon | Frekans Aralığı |
 |-------|----------|----------|----------------|
@@ -102,47 +102,58 @@ CoreMusic ELECTRONICS'in yükseltici mimarisi. Amplifier türleri, kanal yapıla
 | Surround Right | SR | Yan sağ | 100Hz–16kHz |
 | Rear Left | RL | Arka sol | 100Hz–16kHz |
 | Rear Right | RR | Arka sağ | 100Hz–16kHz |
-| Height | HL | Yükseklik | 200Hz–16kHz |
 | Subwoofer | SUB | Alt frekans | 20Hz–120Hz |
 
 ### 3.3 Kanal Yerleşim Diyagramı
 
-```mermaid
-graph TB
-    subgraph "Oda Yerleşimi"
-        FL[FL - Ön Sol]
-        FR[FR - Ön Sağ]
-        C[C - Merkez]
-        SL[SL - Yan Sol]
-        SR[SR - Yan Sağ]
-        RL[RL - Arka Sol]
-        RR[RR - Arka Sağ]
-        HL[HL - Yükseklik]
-        SUB[SUB - Subwoofer]
-        LISTENER[Dinleyici]
-    end
-
-    FL & FR & C --> LISTENER
-    SL & SR --> LISTENER
-    RL & RR --> LISTENER
-    HL --> LISTENER
-    SUB --> LISTENER
+```
+        FL (Ön Sol)        FR (Ön Sağ)
+               \              /
+                \            /
+    SL (Yan Sol) \          / SR (Yan Sağ)
+                  \        /
+                   \      /
+                 [Dinleyici]
+                   /      \
+    RL (Arka Sol) /        \ RR (Arka Sağ)
+                 /          \
+                /            \
+           SUB (Subwoofer)
 ```
 
 ---
 
-## 4. Güç Seviyeleri
+## 4. Güç Seviyeleri ve Chip Eşleşmesi
 
-| Seviye | Watt (8Ω) | Watt (4Ω) | Uygulama |
-|--------|-----------|-----------|----------|
-| Micro | 10W | 20W | Masaüstü |
-| Mini | 35W | 70W | Küçük oda |
-| Kompakt | 50W | 100W | Orta oda |
-| **Standart** | **100W** | **200W** | **CoreMusic** |
-| Güçlü | 250W | 500W | Salon |
-| Ultra | 500W | 1000W | Büyük salon |
-| Mega | 1000W | 2000W | Konser |
-| Extreme | 2000W | — | MAX |
+| Seviye | Class AB Çip | Class D Çip | Fiyat | Uygulama |
+|--------|-------------|-------------|-------|----------|
+| **5W** | — | TPA3110D2 | ~$0.5 | Mini amp |
+| **10W** | LM1875 | TPA3130D2 | ~$0.5-3 | Masaüstü |
+| **15W** | LM1875 | TPA3130D2 | ~$0.5-3 | Küçük oda |
+| **20W** | LM1875 | TPA3118D2 | ~$0.6-3 | Ev, kitaplık |
+| **30W** | LM3886 | TPA3118D2 | ~$0.6-5 | Orta oda |
+| **35W** | LM3886 | TPA3116D2 | ~$0.7-5 | Orta oda |
+| **50W** | LM3886 / TDA7294 | TPA3116D2 / TPA3250 | ~$0.7-5 | Büyük oda |
+| **100W** | Discrete (MJL3281A) | TPA3255 | ~$2.5-4 | **CoreMusic standart** |
+| **150W** | Discrete | TPA3251 | ~$3.35 | Salon |
+| **185W** | Discrete | TPA3255 | ~$4.13 | Profesyonel |
+
+### 4.1 Düşük Güç Class D Çipleri (5W-50W)
+
+| Çip | Güç@8Ω | Güç@4Ω | Supply | Fiyat (1ku) | Stok |
+|-----|--------|--------|--------|-------------|------|
+| TPA3110D2 | 10W | 15W | 4.5-26V | ~$0.50 | ✅ |
+| TPA3130D2 | 15W | 30W | 4.5-26V | ~$0.50 | ✅ |
+| TPA3118D2 | 30W | 60W | 4.5-26V | ~$0.60 | ✅ |
+| TPA3116D2 | — | 50W | 4.5-26V | ~$0.70 | ✅ |
+
+### 4.2 Düşük Güç Class AB Çipleri (10W-50W)
+
+| Çip | Güç@8Ω | Güç@4Ω | Supply | Fiyat (1ku) | Stok |
+|-----|--------|--------|--------|-------------|------|
+| LM1875 | 20W | 30W | ±16-60V | ~$2-3 | ✅ |
+| LM3886 | 38W | 68W | ±20-94V | ~$3-5 | ✅ |
+| TDA7294 | 100W | 100W | ±40V | ~$3-5 | ✅ |
 
 ### 4.1 Güç ve Empedans
 
@@ -158,13 +169,8 @@ graph TB
 
 ### 5.1 Gain Stage Diyagramı
 
-```mermaid
-graph LR
-    A[Girdi Tamponu] --> B[Input Gain]
-    B --> C[Volume]
-    C --> D[Voltaj Kazancı]
-    D --> E[Akım Kazancı]
-    E --> F[Çıkış Aşaması]
+```
+Girdi Tamponu ──▶ Input Gain ──▶ Volume ──▶ Voltaj Kazancı ──▶ Akım Kazancı ──▶ Çıkış Aşaması
 ```
 
 ### 5.2 Gain Stage Parametreleri
@@ -193,15 +199,17 @@ graph LR
 
 ### 6.1 Koruma Akışı
 
-```mermaid
-graph TD
-    A[Amplifier Çıkış] --> B{Kontrol}
-    B -->|Kısa Devre| C[Anında Kapanma]
-    B -->|Aşırı Akım| D[Kademeli Azaltma]
-    B -->|Termal| E[Fan/Kapanma]
-    B -->|DC Offset| F[Röle Aç]
-    B -->|Normal| G[Çalışmaya Devam]
-    C & D & E & F --> H[Hata Logu]
+```
+Amplifier Çıkış ──▶ {Kontrol}
+                        │
+           Kısa Devre ──▶ Anında Kapanma
+           Aşırı Akım ──▶ Kademeli Azaltma
+           Termal ──────▶ Fan/Kapanma
+           DC Offset ───▶ Röle Aç
+           Normal ──────▶ Çalışmaya Devam
+                        │
+                        ▼
+                   Hata Logu
 ```
 
 ---
@@ -230,22 +238,34 @@ graph TD
 
 ## 8. PSU (Power Supply)
 
-### 8.1 PSU Türleri
+### 8.1 Güç Besleme Mimarisi
+
+```
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│  DC GİRİŞ    │    │  BOOST       │    │  REGÜLATÖR   │    │  ÇIKIŞ       │
+│  12V–24V DC  │───▶│  CONVERTER   │───▶│  ±42V DC     │───▶│  Amplifier   │
+│  (Adaptör/   │    │  Step-Up     │    │  Ripple      │    │  100W × 7+1  │
+│   Batarya)   │    │  12V→±42V    │    │  Filtre      │    │              │
+└──────────────┘    └──────────────┘    └──────────────┘    └──────────────┘
+```
+
+### 8.2 PSU Türleri
 
 | Tür | Verimlilik | Gürültü | Boyut | Kullanım |
 |-----|-----------|---------|-------|----------|
-| Doğrusal | %40–60 | En düşük | Büyük | Stüdyo |
-| Anahtarlamalı | %80–95 | Orta | Küçük | Genel |
-| Dual Rail | Değişken | Düşük | Orta | Simetrik güç |
+| **Boost Converter** | **%90+** | Orta | **Küçük** | **CoreMusic (DC giriş)** |
+| Toroidal + Bridge | %85–95 | Düşük | Büyük | AC mains gerektiğinde |
+| Anahtarlamalı | %80–95 | Orta | Küçük | Alternatif |
 
-### 8.2 Güç Sıralaması
+### 8.3 Güç Sıralaması
 
 | Sıra | Bölge | Bekleme |
 |------|-------|---------|
-| 1 | Ana Güç | — |
-| 2 | CPU/MCU | — |
-| 3 | DSP | 10ms |
-| 4 | Analog (DAC/ADC) | 20ms |
+| 1 | DC Giriş (12V–24V) | — |
+| 2 | Boost Converter (±42V) | 10ms |
+| 3 | CPU/MCU | — |
+| 4 | DSP | 10ms |
+| 5 | Analog (DAC/ADC) | 20ms |
 | 5 | Amplifier | 50ms |
 
 ---
@@ -312,47 +332,26 @@ graph TD
 | Frekans Yanıtı | 20Hz–20kHz (±0.5dB) |
 | Gecikme | < 1ms |
 | Kanal Ayrımı | > 80dB |
-| Damping Factor | > 100 |
+| Damping Factor | > 200 |
 
 ---
 
-## 12. Mermaid: Amplifier Mimarisi
+## 12. Amplifier Mimarisi
 
-```mermaid
-graph TB
-    subgraph "Girdi"
-        IN[Analog Girdi]
-        DIG[Dijital Girdi]
-    end
-
-    subgraph "Ön Aşama"
-        BUF[Tampon]
-        PRE[Ön Yükseltici]
-        TONE[Ton Kontrolü]
-    end
-
-    subgraph "Güç Aşaması"
-        VAMP[Voltaj Amplifikatörü]
-        CAMP[Akım Amplifikatörü]
-        OUT[Çıkış Aşaması]
-    end
-
-    subgraph "Koruma"
-        SHORT[Kısa Devre]
-        OVER[Aşırı Akım]
-        THERM[Termal]
-        DC[DC Offset]
-    end
-
-    subgraph "Çıkış"
-        SP1[Hoparlör 1]
-        SP2[Hoparlör 2]
-        SUB[Subwoofer]
-    end
-
-    IN & DIG --> BUF --> PRE --> TONE --> VAMP --> CAMP --> OUT
-    OUT --> SP1 & SP2 & SUB
-    SHORT & OVER & THERM & DC --> OUT
+```
+Analog Girdi ─┐
+Dijital Girdi ─┤──▶ Tampon ──▶ Ön Yükseltici ──▶ Ton Kontrolü ──▶ Voltaj Amplifikatörü ──▶ Akım Amplifikatörü ──▶ Çıkış Aşaması
+               │                                                              │
+               │                                          ┌───────────────────┤
+               │                                          │ Koruma:           │
+               │                                          │ Kısa Devre        │
+               │                                          │ Aşırı Akım        │
+               │                                          │ Termal            │
+               │                                          │ DC Offset         │
+               │                                          └───────────────────┤
+               │                                                              │
+               │                                                              ▼
+               │                                                  Hoparlör 1 / Hoparlör 2 / Subwoofer
 ```
 
 ---
@@ -387,9 +386,9 @@ graph TB
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 15 |
 | ADR References | 3 |
-| Mermaid Diagrams | 3 |
+| ASCII Art Diagrams | 4 (7.1 Yerleşim, Gain Stage, Koruma Akışı, Amplifier Mimarisi) |
 | Amplifier Classes | 4 (A, AB, D, Hybrid) |
-| Channel Configs | 6 (Mono → 8.1) |
+| Channel Configs | 6 (Mono → 7.1) |
 | Power Levels | 8 (10W–2000W) |
 | Protection Systems | 7 |
 | Cooling Types | 4 |

@@ -22,20 +22,65 @@ CoreMusic ELECTRONICS için kapsamlı sürücü desteği. Tüm donanım platform
 
 ## 2. Sürücü Mimarisi Katmanları
 
-```mermaid
-graph TB
-    A[Uygulama (CoreMusic)] --> B[Platform API]
-    B --> C[Sürücü Katmanı]
-    C --> D[Çekirdek Sürücüsü]
-    D --> E[Donanım]
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  Katman 5: Uygulama    │  CoreMusic Audio Engine               │
+├─────────────────────────┼───────────────────────────────────────┤
+│  Katman 4: Platform API │  Hardware Abstraction Layer           │
+├─────────────────────────┼───────────────────────────────────────┤
+│  Katman 3: Sürücü       │  ASIO │ WASAPI │ ALSA │ CoreAudio    │
+├─────────────────────────┼───────────────────────────────────────┤
+│  Katman 2: Çekirdek     │  Kernel ASIO │ Kernel WASAPI │ ALSA  │
+├─────────────────────────┼───────────────────────────────────────┤
+│  Katman 1: Donanım      │  XMOS XU316 │ PCM3168A │ AK4458      │
+└─────────────────────────┴───────────────────────────────────────┘
+```
 
-    subgraph "Katman Detayları"
-        A2["Uygulama: CoreMusic Audio Engine"]
-        B2["Platform API: Çapraz platform soyutlama"]
-        C2["Driver Layer: Cihaz özel kod"]
-        D2["Kernel Driver: OS seviyesi erişim"]
-        E2["Hardware: Fiziksel donanım"]
-    end
+### 2.1 ASCII: Sürücü Mimarisi Katmanları
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                  COREMUSIC SÜRÜCÜ MİMARİSİ — 5 KATMAN                      │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ KATMAN 5: UYGULAMA                                                  │   │
+│  │ ┌─────────────────────────────────────────────────────────────────┐ │   │
+│  │ │              CoreMusic Audio Engine                             │ │   │
+│  │ └─────────────────────────────────────────────────────────────────┘ │   │
+│  └──────────────────────────────────┬──────────────────────────────────┘   │
+│                                     ▼                                      │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ KATMAN 4: PLATFORM API (Hardware Abstraction Layer)                 │   │
+│  │ ┌─────────────────────────────────────────────────────────────────┐ │   │
+│  │ │              CoreMusic HAL — Çapraz Platform Soyutlama          │ │   │
+│  │ └─────────────────────────────────────────────────────────────────┘ │   │
+│  └──────────────────────────────────┬──────────────────────────────────┘   │
+│                                     ▼                                      │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ KATMAN 3: SÜRÜCÜ KATMANI                                           │   │
+│  │ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐  │   │
+│  │ │ASIO Drv  │ │WASAPI Drv│ │ALSA Drv  │ │CoreAudio │ │USB Audio │  │   │
+│  │ │Windows   │ │Windows   │ │Linux     │ │macOS     │ │Genel     │  │   │
+│  │ └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘  │   │
+│  └──────────────────────────────────┬──────────────────────────────────┘   │
+│                                     ▼                                      │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ KATMAN 2: ÇEKİRDEK SÜRÜCÜSÜ                                        │   │
+│  │ ┌──────────┐ ┌──────────┐ ┌──────────┐                             │   │
+│  │ │Kernel    │ │Kernel    │ │Kernel    │                             │   │
+│  │ │ASIO      │ │WASAPI    │ │ALSA      │                             │   │
+│  │ └──────────┘ └──────────┘ └──────────┘                             │   │
+│  └──────────────────────────────────┬──────────────────────────────────┘   │
+│                                     ▼                                      │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ KATMAN 1: DONANIM                                                   │   │
+│  │ ┌──────────┐ ┌──────────┐ ┌──────────┐                             │   │
+│  │ │XMOS XU316│ │PCM3168A  │ │AK4458    │                             │   │
+│  │ │16 Core   │ │6-in/8-out│ │8-ch DAC  │                             │   │
+│  │ │3200 MIPS │ │24-bit    │ │32-bit    │                             │   │
+│  │ └──────────┘ └──────────┘ └──────────┘                             │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 | Katman | Görev | Örnek |
@@ -115,20 +160,13 @@ graph TB
 
 ### 4.1 Windows Audio Stack
 
-```mermaid
-graph TB
-    A[Uygulama] --> B[CoreMusic API]
-    B --> C{WASAPI}
-    C -->|Exclusive| D[Kernel Streaming]
-    C -->|Shared| E[Windows Audio Service]
-    D --> F[WDM/KS Driver]
-    E --> F
-    F --> G[Hardware]
+```
+Uygulama ──▶ CoreMusic API ──▶ WASAPI
+                                  │
+                    Exclusive ────▶ Kernel Streaming ──▶ WDM/KS Driver ──▶ Hardware
+                    Shared ──────▶ Windows Audio Service ──▶ WDM/KS Driver ──▶ Hardware
 
-    subgraph "Alternatif"
-        H[ASIO Driver] --> G
-        I[WDM/MME] --> G
-    end
+Alternatif: ASIO Driver ──▶ Hardware
 ```
 
 | Katman | Görev | Gecikme |
@@ -145,19 +183,12 @@ graph TB
 
 ### 4.2 Linux Audio Stack
 
-```mermaid
-graph TB
-    A[Uygulama] --> B[CoreMusic API]
-    B --> C[PipeWire]
-    C --> D[PulseAudio]
-    C --> E[ALSA]
-    D --> F[Kernel ALSA]
-    E --> F
-    F --> G[Hardware]
+```
+Uygulama ──▶ CoreMusic API ──▶ PipeWire ──▶ PulseAudio ──▶ Kernel ALSA ──▶ Hardware
+                                  │
+                                  └──▶ ALSA ──▶ Kernel ALSA ──▶ Hardware
 
-    subgraph "Alternatif"
-        H[JACK] --> F
-    end
+Alternatif: JACK ──▶ Kernel ALSA ──▶ Hardware
 ```
 
 | Katman | Görev | Gecikme |
@@ -173,14 +204,10 @@ graph TB
 
 ### 4.3 macOS Audio Stack
 
-```mermaid
-graph TB
-    A[Uygulama] --> B[CoreMusic API]
-    B --> C[CoreAudio]
-    C --> D[AudioToolbox]
-    C --> E[IOKit]
-    D --> F[Hardware]
-    E --> F
+```
+Uygulama ──▶ CoreMusic API ──▶ CoreAudio ──▶ AudioToolbox ──▶ Hardware
+                                │
+                                └──▶ IOKit ──▶ Hardware
 ```
 
 | Katman | Görev | Gecikme |
@@ -240,41 +267,44 @@ graph TB
 
 ### 5.2 Otomatik Seçim Akışı
 
-```mermaid
-graph TD
-    A[OS Algılama] --> B{Hangi OS?}
-    B -->|Windows| C{ASIO Mevcut mu?}
-    C -->|Evet| D[ASIO Kullan]
-    C -->|Hayır| E[WASAPI Exclusive]
-    B -->|Linux| F{PipeWire?}
-    F -->|Evet| G[PipeWire Kullan]
-    F -->|Hayır| H{JACK?}
-    H -->|Evet| I[JACK Kullan]
-    H -->|Hayır| J[ALSA Kullan]
-    B -->|macOS| K[CoreAudio Kullan]
-    B -->|Android| L[AAudio Kullan]
-    B -->|iOS| M[CoreAudio Kullan]
+```
+OS Algılama ──▶ {Hangi OS?}
+                    │
+       Windows ────▶ {ASIO Mevcut mu?}
+                      │
+                 Evet ▼ Hayır
+            ASIO Kullan  WASAPI Exclusive
+
+       Linux ─────▶ {PipeWire?}
+                      │
+                 Evet ▼ Hayır
+           PipeWire Kullan  {JACK?}
+                              │
+                         Evet ▼ Hayır
+                    JACK Kullan  ALSA Kullan
+
+       macOS ────▶ CoreAudio Kullan
+       Android ──▶ AAudio Kullan
+       iOS ──────▶ CoreAudio Kullan
 ```
 
 ---
 
 ## 6. Device Discovery Akışı
 
-```mermaid
-graph TD
-    A[Sistem Başlatma] --> B[USB Enumerate]
-    A --> C[I2C Scan]
-    A --> D[SPI Probe]
-    A --> E[Bluetooth Scan]
-    B --> F{Cihaz Tanıdık mı?}
-    C --> F
-    D --> F
-    E --> F
-    F -->|Evet| G[Sürücü Yükle]
-    F -->|Hayır| H[Desteklenmeyen Cihaz]
-    G --> I[Konfigürasyon]
-    I --> J[Aktif Kullanım]
-    H --> K[Varsayılan Sürücü]
+```
+Sistem Başlatma ──┬──▶ USB Enumerate ─┐
+                  ├──▶ I2C Scan ──────┤
+                  ├──▶ SPI Probe ─────┤──▶ {Cihaz Tanıdık mı?}
+                  └──▶ Bluetooth Scan ┘           │
+                                            Evet ▼ Hayır
+                                     Sürücü Yükle  Desteklenmeyen Cihaz
+                                           │              │
+                                           ▼              ▼
+                                    Konfigürasyon   Varsayılan Sürücü
+                                           │
+                                           ▼
+                                    Aktif Kullanım
 ```
 
 ### 6.1 Cihaz Tanıma
@@ -332,16 +362,14 @@ graph TD
 
 ### 8.2 Hot-Plug Akışı
 
-```mermaid
-graph TD
-    A[USB Takma] --> B[Algılama]
-    B --> C{Donanım Tanıma}
-    C -->|Tanıdık| D[Sürücü Yükle]
-    C -->|Bilinmeyen| E[Hata]
-    D --> F[Konfigürasyon]
-    F --> G[Aktif Et]
-    G --> H[Ses Motoru Entegrasyonu]
-    H --> I[Kullanıma Hazır]
+```
+USB Takma ──▶ Algılama ──▶ {Donanım Tanıma}
+                              │
+                     Tanıdık ▼ Bilinmeyen
+                  Sürücü Yükle    Hata
+                        │
+                        ▼
+                  Konfigürasyon ──▶ Aktif Et ──▶ Ses Motoru Entegrasyonu ──▶ Kullanıma Hazır
 ```
 
 **Kural:** Ses Motoru yeniden başlatılmaz. Akış kesintisiz devam eder.
@@ -464,23 +492,7 @@ graph TD
 
 ---
 
-## 13. Mermaid: Sıcak Takma Akışı
-
-```mermaid
-graph TD
-    A[USB Takma] --> B[Algılama]
-    B --> C{Donanım Tanıma}
-    C -->|Tanıdık| D[Sürücü Yükleme]
-    C -->|Bilinmeyen| E[Hata]
-    D --> F[Konfigürasyon]
-    F --> G[Aktif Et]
-    G --> H[Ses Motoru Entegrasyonu]
-    H --> I[Kullanıma Hazır]
-```
-
----
-
-## 14. Driver API Örneği
+## 13. Driver API Örneği
 
 ### 14.1 C++ Driver Interface
 
@@ -545,7 +557,7 @@ public:
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 17 |
 | ADR References | 3 |
-| Mermaid Diagrams | 4 |
+| ASCII Art Diagrams | 7 (Sürücü Mimarisi, Windows/Linux/macOS Stack, Otomatik Seçim, Device Discovery, Hot-Plug) |
 | Driver Types | 4 (Sanal, Fiziksel, USB, DSP) |
 | Platforms | 6 (Windows, Linux, macOS, RPi, Android, iOS) |
 | Audio Stacks | 6 |
@@ -557,5 +569,5 @@ public:
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-09
+**Last Updated:** 2026-08-15
 **Mode:** Red Team · Human Mode · Truth Mode

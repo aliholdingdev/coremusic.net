@@ -19,7 +19,7 @@ tech: PHPUnit 10+, PHP 8.4, strict_types
 
 ## 1. Amaç (Purpose)
 
-Bu şablon, CoreMusic platformundaki tüm PHP modüllerinin unit testlerini yazmak, sürdürmek ve çalıştırmak için standart bir rehber sağlar. Testler, 9 BCNF veritabanı (ADR-040) üzerindeki repository sınıflarını, middleware pipeline'ını (ADR-002: PDO mandatory, ORM yasak), servis katmanlarını ve güvenlik bileşenlerini kapsar.
+Bu şablon, CoreMusic platformundaki tüm PHP modüllerinin unit testlerini yazmak, sürdürmek ve çalıştırmak için standart bir rehber sağlar. Testler, 18 BCNF veritabanı (ADR-040) üzerindeki repository sınıflarını, middleware pipeline'ını (ADR-002: PDO mandatory, ORM yasak), servis katmanlarını ve güvenlik bileşenlerini kapsar.
 
 **Kapsam dahilindeki modüller:**
 - Repository sınıfları (PDO prepared statement, ADR-002 uyumlu)
@@ -52,30 +52,17 @@ Bu şablon, CoreMusic platformundaki tüm PHP modüllerinin unit testlerini yazm
 ### 3.1 Test Directory Structure
 
 ```
-music.coremusic.net/
+music. home. car.  pro. studio. auth or bu subdomainlerden biri  .coremusic.net/
 ├── tests/
 │   ├── Unit/                          # Saf unit testleri (DB mock)
 │   │   ├── Repository/
-│   │   │   ├── UserRepositoryTest.php
-│   │   │   └── MusicRepositoryTest.php
 │   │   ├── Service/
-│   │   │   ├── AuthServiceTest.php
-│   │   │   ├── SessionManagerTest.php
-│   │   │   └── CacheServiceTest.php
 │   │   ├── Middleware/
-│   │   │   ├── CsrfMiddlewareTest.php
-│   │   │   └── RateLimiterTest.php
 │   │   └── Validator/
-│   │       └── InputValidatorTest.php
 │   ├── Integration/                   # Gerçek DB ile test
 │   │   ├── Repository/
-│   │   │   └── UserRepositoryIntegrationTest.php
 │   │   └── Service/
-│   │       └── AuthServiceIntegrationTest.php
 │   ├── Fixtures/                      # Test verileri
-│   │   ├── users.php
-│   │   ├── musics.php
-│   │   └── schema.sql
 │   └── bootstrap.php                  # Test başlatma
 ├── phpunit.xml                        # PHPUnit konfigürasyonu
 └── composer.json                      # require-dev: phpunit/phpunit
@@ -1226,8 +1213,7 @@ jobs:
 | [[testing/persona-test-protocol]] | Persona test protokolü |
 | [[testing/test-plan]] | Test planı |
 | [[ADR-002-pdo-mandatory-no-orm]] | PDO mandatory, ORM yasak |
-| [[ADR-040-database-authority]] | 9 BCNF DB otoritesi |
-| [[ADR-042-vault-restructuring-2026-08-03]] | MSA limit = 15 dosya |
+| [[ADR-040-database-authority]] | 18 BCNF DB otoritesi |
 | [[ADR-010-csrf-protection-strategy]] | CSRF token yönetimi |
 | [[ADR-011-session-management]] | Session yönetimi |
 | [[ADR-022-database-hardened-security]] | DB güvenlik standartları |
@@ -1238,10 +1224,9 @@ jobs:
 | Bu Şablondan | Hedef ADR/Dosya | İlişki |
 |-------------|-----------------|--------|
 | § 3.2 BaseTestCase | [[ADR-002-pdo-mandatory-no-orm]] | PDO prepared statement kullanımı |
-| § 3.9 Database Testing | [[ADR-040-database-authority]] | 9 BCNF veritabanı testleri |
+| § 3.9 Database Testing | [[ADR-040-database-authority]] | 18 BCNF veritabanı testleri |
 | § 3.10 HTTP Testing | [[ADR-010-csrf-protection-strategy]] | CSRF middleware testleri |
 | § 6 Security | [[ADR-022-database-hardened-security]] | Credential test kuralları |
-| § 11 Coverage | [[ADR-042-vault-restructuring-2026-08-03]] | MSA limit = 15 dosya |
 | § 3.7 Mocking | [[ADR-011-session-management]] | Session service mock'ları |
 | § 12 phpunit.xml | [[testing/strategy]] | Test altyapısı |
 | § 13 CI | [[architecture/02-deployment/ci-cd-pipeline]] | CI/CD entegrasyonu |
@@ -1254,7 +1239,6 @@ jobs:
 | **Satır Sayısı** | 600+ |
 | **Frontmatter** | ✅ Tamamlandı (18 field) |
 | **PHPUnit 10+ Uyumlu** | ✅ Attributes, strict types |
-| **MSA Uyumlu** | ✅ 15 dosya limiti |
 | **ADR Referansları** | ✅ 11 ADR |
 | **Kod Örnekleri** | ✅ 25+ PHP kod bloğu |
 | **Anti-Pattern'ler** | ✅ 6 ❌/✅ çifti |

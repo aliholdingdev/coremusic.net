@@ -20,10 +20,10 @@ L2, CoreMusic platformunun yönlendirme katmanıdır. SPA PageRouter, URL normal
 
 **Katman Sırası:**
 ```
-L3 Presentation ← BU DOSYA → L1 Security → L0 Infrastructure
+L4 Domain → L3 Presentation → L2 ← BU DOSYA → L1 Security → L0 Infrastructure
 ```
 
-*Kaynak: [[architecture/01-overview/architecture_master]]*
+*Kaynak: [[architecture/00-overview/architecture-master]] §2*
 
 ## 2. Responsibilities
 
@@ -458,7 +458,6 @@ abstract class BaseController
 | **Web Doğrulanmış** | ✅ URLPattern, php.net, caniuse |
 | **ADR Uyumlu** | ✅ 004, 009, 016, 021, 042, 043, 051, 053, 054 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

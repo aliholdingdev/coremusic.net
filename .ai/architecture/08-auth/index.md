@@ -3,9 +3,9 @@ type: architecture
 category: auth
 title: "Enterprise Auth Architecture — Index"
 date: 2026-08-09
-updated: 2026-08-09
+updated: 2026-08-12
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -41,6 +41,7 @@ Ekosistem içerisinde yer alan home, pro, studio, car, media gibi hiçbir subdom
 ├── auth-api.md                 ← Auth API endpoints
 ├── auth-flow.md                ← Authentication lifecycle
 ├── auth-cross-domain.md        ← Cross-subdomain authentication
+├── auth-embedded.md            ← RPi5 embedded auth (YENİ)
 └── auth-media-security.md      ← Media vault security
 ```
 
@@ -54,6 +55,7 @@ Ekosistem içerisinde yer alan home, pro, studio, car, media gibi hiçbir subdom
 | API endpoint'leri | [[auth-api]] |
 | Auth akışı | [[auth-flow]] |
 | Cross-domain | [[auth-cross-domain]] |
+| Embedded auth (RPi5) | [[auth-embedded]] |
 | Media güvenliği | [[auth-media-security]] |
 
 ## 6. Çapraz Referanslar
@@ -64,6 +66,10 @@ Ekosistem içerisinde yer alan home, pro, studio, car, media gibi hiçbir subdom
 | § 3 Merkezi Otorite | [[architecture/07-security/middleware-security]] | Middleware Pipeline |
 | § 3 SSO | [[architecture/07-security/session-management]] | Session Management |
 | § 3 Otorite | [[architecture/l2-routing/subdomain-routing]] | Subdomain Routing |
+| § 4 Embedded | [[ADR-060-rpi5-embedded-auth]] | RPi5 Embedded Auth |
+| § 4 Embedded | [[auth-embedded]] | Embedded Auth Detayları |
+| § 3 Hybrid Auth | [[ADR-052-hybrid-auth-architecture]] | Session + JWT |
+| § 3 Merkezi Auth | [[ADR-058-cross-subdomain-auth-flow]] | Cross-Subdomain Auth |
 
 ## 7. Quality Report
 

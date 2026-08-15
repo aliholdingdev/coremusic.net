@@ -37,46 +37,87 @@ CoreMusic donanım yığını altı katmandan oluşur:
 
 ## 3. Hardware Block Diagram
 
-```mermaid
-graph TB
-    subgraph "Girişler"
-        USB[USB / LAN / Wi-Fi]
-        ANALOG_IN[Analog Girdi]
-        DIGITAL_IN[Dijital Girdi]
-    end
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   GİRİŞLER  │     │   İŞLEM     │     │ DÖNÜŞÜM     │     │  ÇIKIŞLAR   │
+│─────────────│     │─────────────│     │─────────────│     │─────────────│
+│ USB/LAN/WiFi│────▶│ Ana İşlemci │     │ Audio Codec │     │ Hoparlör    │
+│ Analog Girdi│────▶│ DSP Engine  │     │ DAC         │     │ Subwoofer   │
+│ Dijital Girdi│───▶│ Bellek      │     │ ADC         │     │ Konnektörler│
+└─────────────┘     └──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+                           │                   │                   │
+                           ▼                   ▼                   ▼
+                    ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+                    │  GÜÇLENDİRME│     │  GÜÇ KAYNAĞI│     │             │
+                    │ Amplifier   │◀────│ PSU         │     │             │
+                    └─────────────┘     └─────────────┘     └─────────────┘
+```
 
-    subgraph "İşlem"
-        CPU[Ana İşlemci]
-        DSP[DSP Engine]
-        MEM[Bellek (RAM/Flash)]
-    end
+---
 
-    subgraph "Dönüşüm"
-        CODEC[Audio Codec]
-        DAC[DAC]
-        ADC[ADC]
-    end
-
-    subgraph "Güçlendirme"
-        AMP[Amplifier]
-        PSU[Güç Kaynağı]
-    end
-
-    subgraph "Çıkışlar"
-        SPK[Hoparlör]
-        SUB[Subwoofer]
-        OUT[Çıkış Konnektörleri]
-    end
-
-    USB --> CPU
-    ANALOG_IN --> ADC
-    DIGITAL_IN --> CPU
-    CPU --> DSP
-    DSP --> CODEC
-    CODEC --> DAC
-    DAC --> AMP
-    AMP --> SPK & SUB & OUT
-    PSU --> CPU & DSP & AMP
+## 3A. Signal Flow — Sinyal Yolu
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        COREMUSIC SİNYAL YOLU                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  GİRDİLER                                                                   │
+│  ═══════                                                                    │
+│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐         │
+│  │  USB    │  │ SPDIF   │  │  ADAT   │  │ Analog  │  │Bluetooth│         │
+│  │ (XMOS)  │  │ (S/PDIF)│  │ (Optik) │  │ (XLR)   │  │ (LDAC)  │         │
+│  └────┬────┘  └────┬────┘  └────┬────┘  └────┬────┘  └────┬────┘         │
+│       │            │            │            │            │               │
+│       └────────────┴────────────┴─────┬──────┴────────────┘               │
+│                                       ▼                                    │
+│                              ┌────────────────┐                            │
+│                              │  XMOS XU316    │                            │
+│                              │  USB Audio     │                            │
+│                              │  Class 2.0     │                            │
+│                              └───────┬────────┘                            │
+│                                      │ I2S Bus                             │
+│                                      ▼                                     │
+│                              ┌────────────────┐                            │
+│                              │   PCM3168A     │                            │
+│                              │  6-in/8-out    │                            │
+│                              │  24-bit/192kHz │                            │
+│                              └───────┬────────┘                            │
+│                                      │ Analog                              │
+│  ÖN İŞLEME                         ▼                                     │
+│  ══════════                 ┌────────────────┐                            │
+│  ┌──────────┐              │   Preamp       │                            │
+│  │ OPA1612  │◀─────────────│ (Düşük Gürültü)│                            │
+│  │ 1.1nV/√Hz│              └───────┬────────┘                            │
+│  └──────────┘                      │                                      │
+│                                    ▼                                      │
+│  DSP İŞLEME                ┌────────────────┐                            │
+│  ══════════                │  DSP Pipeline  │                            │
+│  ┌──────────┐              │  (15 Aşama)    │                            │
+│  │ EQ 31-Bant│◀────────────│  XMOS XU316    │                            │
+│  │ Compressor│              │  3200 MIPS     │                            │
+│  │ Limiter   │              └───────┬────────┘                            │
+│  │ Crossover │                      │                                     │
+│  └──────────┘                      ▼                                     │
+│                             ┌────────────────┐                            │
+│  GÜÇ AŞAMASI               │  Class AB Amp  │                            │
+│  ══════════                 │  100W × 7+1    │                            │
+│  ┌──────────┐              │  THD+N <0.01%  │                            │
+│  │ ±42V DC  │◀─────────────│  DF >200       │                            │
+│  │ Toroidal │              └───────┬────────┘                            │
+│  │ PSU      │                      │                                     │
+│  └──────────┘                      ▼                                     │
+│  ÇIKIŞLAR                 ┌────────────────┐                            │
+│  ════════                 │   Hoparlörler  │                            │
+│  ┌────┐┌────┐┌────┐       │ FL/FR/C/SL/SR │                            │
+│  │ FL ││ FR ││ C  │       │ RL/RR + Sub   │                            │
+│  └────┘└────┘└────┘       └────────────────┘                            │
+│  ┌────┐┌────┐┌────┐┌────┐                                               │
+│  │ SL ││ SR ││ RL ││ RR │                                               │
+│  └────┘└────┘└────┘└────┘                                               │
+│  ┌────────┐                                                             │
+│  │Subwoofer│                                                            │
+│  └────────┘                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -130,8 +171,8 @@ graph TB
 
 | Yonga | Çekirdek | İşlem | Güç | Kullanım |
 |-------|----------|-------|-----|----------|
-| XMOS XU316 | 16 | 3200 MIPS | 1W | Birincil DSP |
-| ADI SHARC ADSP-21489 | 1 | 400 MFLOPS | 0.5W | Profesyonel |
+| XMOS XU316 | 16 | 3200 MIPS | 0.27W | Birincil DSP |
+| ADI SHARC ADSP-21489 | 1 | 2700 MFLOPS | 0.5W | Profesyonel |
 | TI TMS320C6748 | 1 | 3648 MIPS | 0.6W | Endüstriyel |
 | FPGA (Xilinx Artix-7) | Esnek | Özelleştirilmiş | 2W | Özel DSP |
 
@@ -143,23 +184,23 @@ graph TB
 
 | Chip | Kanal | Bit | Örnekleme | SNR | THD+N | Kullanım |
 |------|-------|-----|-----------|-----|-------|----------|
-| PCM3168A | 8 çıkış | 24-bit | 192kHz | 112dB | -100dB | **Birincil (8.1)** |
-| AK4458 | 8 | 32-bit | 768kHz | 120dB | -110dB | Yüksek uç |
+| PCM3168A | 8 çıkış | 24-bit | 192kHz | 112dB | -94dB | **Birincil (7.1)** |
+| AK4458 | 8 | 32-bit | 768kHz | 115dB | -107dB | Yüksek uç |
 | PCM5122 | 2 | 32-bit | 384kHz | 112dB | -93dB | ❌ REDDEDİLMİŞ (H001) |
-| ES9038PRO | 8 | 32-bit | 768kHz | 140dB | -120dB | Ultra high-end |
+| ES9038PRO | 8 | 32-bit | 768kHz | 140dB (DNR) | -122dB | Ultra high-end |
 
 ### 6.2 ADC Seçimi
 
 | Chip | Kanal | Bit | Örnekleme | SNR | THD+N |
 |------|-------|-----|-----------|-----|-------|
-| PCM3168A (ADC) | 6 giriş | 24-bit | 96kHz | 107dB | -97dB |
-| AK5558 | 8 | 32-bit | 768kHz | 120dB | -110dB |
+| PCM3168A (ADC) | 6 giriş | 24-bit | 96kHz | 107dB | -93dB |
+| AK5558 | 8 | 32-bit | 768kHz | 115dB | -106dB | Yüksek uç ADC |
 
 ### 6.3 Codec Seçim Matrisi
 
 | Senaryo | DAC | ADC | Neden |
 |---------|-----|-----|-------|
-| CoreMusic Standart (8.1) | PCM3168A | PCM3168A | 8 kanal, uygun maliyet |
+| CoreMusic Standart (7.1) | PCM3168A | PCM3168A | 8 kanal, uygun maliyet |
 | Profesyonel Stüdyo | AK4458 | AK5558 | Yüksek SNR, 32-bit |
 | Araç İçi | PCM3168A | PCM3168A | Dayanıklılık, sıcaklık |
 
@@ -193,7 +234,7 @@ graph TB
 
 | Bölge | Gerilim | Akım | Filtre | Öncelik |
 |-------|---------|------|--------|---------|
-| Ana Güç (Vin) | 12V/24V/48V DC | 10–100A | EMI + LC filtre | — |
+| Ana Güç (Vin) | 12V–24V DC | 10–50A | EMI + LC filtre | — |
 | CPU/MCU | 3.3V / 1.8V | 1–3A | LDO + bulk | Yüksek |
 | DSP | 1.0V / 3.3V | 0.5–2A | LDO, low-noise | Yüksek |
 | DAC | ±5V / 3.3V | 100mA | LDO, ultra-low-noise | Kritik |
@@ -275,10 +316,9 @@ graph TB
 | Stereo | 2 | 2× hoparlör | Hayır |
 | 2.1 | 2+1 | 2× hoparlör + subwoofer | Hayır |
 | 5.1 | 5+1 | FL/FR/C/SL/SR + Sub | Hayır |
-| 7.1 | 7+1 | FL/FR/C/SL/SR/RL/RR + Sub | Hayır |
-| **8.1** | **8+1** | **FL/FR/C/SL/SR/RL/RR/HL + Sub** | **Evet** |
+| 7.1 | 7+1 | FL/FR/C/SL/SR/RL/RR + Sub | **Evet** |
 
-### 10.3 8.1 Kanal Yerleşimi
+### 10.3 7.1 Kanal Yerleşimi
 
 | Kanal | Kısaltma | Pozisyon | Frekans |
 |-------|----------|----------|---------|
@@ -289,23 +329,24 @@ graph TB
 | Surround Right | SR | Yan sağ | 100Hz–16kHz |
 | Rear Left | RL | Arka sol | 100Hz–16kHz |
 | Rear Right | RR | Arka sağ | 100Hz–16kHz |
-| Height | HL | Yükseklik | 200Hz–16kHz |
 | Subwoofer (LFE) | SUB | Alt frekans | 20Hz–120Hz |
 
 ---
 
-## 11. Güç Seviyeleri
+## 11. Güç Seviyeleri ve Chip Eşleşmesi
 
-| Seviye | Watt (8Ω) | Uygulama | Örnek Cihaz |
-|--------|-----------|----------|-------------|
-| Micro | 10W | Masaüstü, kulaklık | Raspberry Pi DAC |
-| Mini | 35W | Küçük oda, bookshelf | Kompakt amplifikatör |
-| Kompakt | 50W | Orta oda | Ev amplifikatörü |
-| Standart | 100W | Büyük oda | **CoreMusic varsayılan** |
-| Güçlü | 250W | Salon, stüdyo | Profesyonel |
-| Ultra | 500W | Büyük salon | PA sistemi |
-| Mega | 1000W | Konser | Endüstriyel |
-| Extreme | 2000W | MAX çıkış | Özel tasarım |
+| Seviye | Class AB Çip | Class D Çip | Fiyat | Uygulama |
+|--------|-------------|-------------|-------|----------|
+| **5W** | — | TPA3110D2 | ~$0.5 | Mini amp |
+| **10W** | LM1875 | TPA3130D2 | ~$0.5-3 | Masaüstü |
+| **15W** | LM1875 | TPA3130D2 | ~$0.5-3 | Küçük oda |
+| **20W** | LM1875 | TPA3118D2 | ~$0.6-3 | Ev, kitaplık |
+| **30W** | LM3886 | TPA3118D2 | ~$0.6-5 | Orta oda |
+| **35W** | LM3886 | TPA3116D2 | ~$0.7-5 | Orta oda |
+| **50W** | LM3886 / TDA7294 | TPA3116D2 / TPA3250 | ~$0.7-5 | Büyük oda |
+| **100W** | Discrete (MJL3281A) | TPA3255 | ~$2.5-4 | **CoreMusic standart** |
+| **150W** | Discrete | TPA3251 | ~$3.35 | Salon |
+| **185W** | Discrete | TPA3255 | ~$4.13 | Profesyonel |
 
 ---
 
@@ -323,18 +364,17 @@ graph TB
 
 ### 12.1 Koruma Akışı
 
-```mermaid
-graph TD
-    A[Amplifier Çıkış] --> B{Kontrol}
-    B -->|Kısa Devre| C[Anında Kapanma]
-    B -->|Aşırı Akım| D[Kademeli Azaltma]
-    B -->|Termal| E[Fan ↑ / Kapanma]
-    B -->|DC Offset| F[Röle Aç]
-    B -->|Normal| G[Çalışmaya Devam]
-    C --> H[Hata Logu]
-    D --> H
-    E --> H
-    F --> H
+```
+Amplifier Çıkış
+      │
+      ▼
+  ┌───Kontrol───┐
+  │             │
+  ├── Kısa Devre ──▶ Anında Kapanma ──▶ Hata Logu
+  ├── Aşırı Akım──▶ Kademeli Azaltma──▶ Hata Logu
+  ├── Termal ──────▶ Fan ↑ / Kapanma ──▶ Hata Logu
+  ├── DC Offset ──▶ Röle Aç ──────────▶ Hata Logu
+  └── Normal ─────▶ Çalışmaya Devam
 ```
 
 ---
@@ -456,84 +496,25 @@ graph TD
 
 ---
 
-## 19. Mermaid: Tipik Sinyal Akışı
+## 19. Tipik Sinyal Akışı
 
-```mermaid
-graph TB
-    subgraph "Girdi"
-        A1[Analog Girdi]
-        D1[Dijital Girdi]
-    end
+```
+Analog Girdi ──▶ Preamp ──▶ Buffer ──▶ Filtre ──▶ ADC ──▶ DSP ──▶ DAC ──▶ Voltaj Kazancı ──▶ Akım Kazancı ──▶ Çıkış ──▶ Hoparlör/Sub
 
-    subgraph "Ön İşleme"
-        A2[Preamp]
-        A3[Buffer]
-        A4[Filtre]
-    end
-
-    subgraph "Dijital İşleme"
-        D2[ADC]
-        D3[DSP]
-        D4[DAC]
-    end
-
-    subgraph "Güç Aşaması"
-        A5[Voltaj Kazancı]
-        A6[Akım Kazancı]
-        A7[Çıkış]
-    end
-
-    subgraph "Çıkış"
-        O1[Hoparlör]
-        O2[Subwoofer]
-    end
-
-    A1 --> A2 --> A3 --> A4 --> D2
-    D1 --> D2
-    D2 --> D3 --> D4 --> A5
-    A5 --> A6 --> A7 --> O1 & O2
+Dijital Girdi ──────────────────────────────────▶ ADC
 ```
 
 ---
 
-## 20. Mermaid: Blok Diyagramı — Ses Kartı
+## 20. Ses Kartı Blok Diyagramı
 
-```mermaid
-graph LR
-    subgraph "Girdi"
-        USB[USB]
-        ADAT[ADAT]
-        SPDIF[S/PDIF]
-    end
-
-    subgraph "Dijital İşleme"
-        MCU[Mikrodenetleyici]
-        DSP[DSP]
-        MEM[Bellek]
-    end
-
-    subgraph "Dijital-Analog"
-        DAC1[DAC 1]
-        DAC2[DAC 2]
-    end
-
-    subgraph "Analog"
-        OP1[Op-Amp 1]
-        OP2[Op-Amp 2]
-        AMP[Yükseltici]
-    end
-
-    subgraph "Çıkış"
-        OUT1[Hoparlör 1]
-        OUT2[Hoparlör 2]
-        PHONES[Kulaklık]
-    end
-
-    USB & ADAT & SPDIF --> MCU --> DSP --> MEM
-    DSP --> DAC1 & DAC2
-    DAC1 --> OP1 --> AMP --> OUT1
-    DAC2 --> OP2 --> AMP --> OUT2
-    AMP --> PHONES
+```
+USB ─┐
+ADAT ─┤──▶ MCU ──▶ DSP ──▶ Bellek
+S/PDIF┘              │
+                     ├──▶ DAC 1 ──▶ Op-Amp 1 ──▶ Yükseltici ──▶ Hoparlör 1
+                     └──▶ DAC 2 ──▶ Op-Amp 2 ──▶ Yükseltici ──▶ Hoparlör 2
+                                                          └──▶ Kulaklık
 ```
 
 ---
@@ -590,13 +571,13 @@ graph LR
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 24 |
 | ADR References | 4 |
-| Mermaid Diagrams | 3 |
+| ASCII Art Diagrams | 4 (Hardware Block, Koruma Akışı, Sinyal Akışı, Ses Kartı) |
 | Hardware Layers | 6 (Power → CPU → DSP → Codec → DAC → Amp) |
 | Processor Families | 7 (ARM, ARM64, x86, XMOS, ESP32, STM32) |
 | DSP Chips | 4 |
 | DAC Options | 4 |
 | Amplifier Classes | 4 |
-| Channel Configs | 5 (Stereo → 8.1) |
+| Channel Configs | 5 (Stereo → 7.1) |
 | Power Levels | 8 (10W–2000W) |
 | Protection Systems | 7 |
 | Monitoring Metrics | 8 |

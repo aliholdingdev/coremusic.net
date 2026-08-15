@@ -125,7 +125,7 @@ CoreMusic platformunda kullanılan her teknolojinin rolünü, kapsamını ve ADR
 | `hash_equals()` | ADR-010 | CSRF doğrulama |
 | `noexcept` | ADR-017 | ASIO callback |
 | `alignas(64)` | ADR-017 | Cache line alignment |
-| BCNF | ADR-040 | Tüm 9 DB |
+| BCNF | ADR-040 | Tüm 18 BCNF DB |
 | Soft delete | ADR-040 | `is_deleted = 0` |
 
 ## 4. Teknoloji Bağımlılık Haritası
@@ -211,7 +211,7 @@ CoreMusic platformunda kullanılan her teknolojinin rolünü, kapsamını ve ADR
 | Gerekçe | Açıklama |
 |---------|----------|
 | **BCNF** | Veri bütünlüğü |
-| **9 DB** | Isolation |
+| **18 BCNF DB** | Isolation |
 | **PDO** | Güvenli prepared statements |
 | **Performance** | Index optimization |
 
@@ -223,7 +223,7 @@ CoreMusic platformunda kullanılan her teknolojinin rolünü, kapsamını ve ADR
 | 2 | PDO — ORM yasak | ADR-002 | SQL injection |
 | 3 | PHP 8.4, port 81 | ADR-042 | Uyumsuzluk |
 | 4 | C++20 + JUCE — audio engine | ADR-017 | Performans kaybı |
-| 5 | BCNF — 9 DB | ADR-040 | Veri bütünlüğü |
+| 5 | BCNF — 18 BCNF DB | ADR-040 | Veri bütünlüğü |
 | 6 | PCM3168A — 8.1 surround | ADR-038 | Donanım hatası |
 
 ## 8. İlgili Dosyalar
@@ -268,7 +268,6 @@ CoreMusic platformunda kullanılan her teknolojinin rolünü, kapsamını ve ADR
 | **Satır Sayısı** | ~560 |
 | **ADR Uyumlu** | ✅ 001, 002, 010, 017, 022, 026, 038, 040, 042 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 5 referans |
 | **Guardrails** | ✅ 6 kural |
 

@@ -128,15 +128,16 @@ void processAudioBlock(
 
 ## 9. EQ Sistemi (ADR-025)
 
-| Özellik | Değer |
-|---------|-------|
-| **Band sayısı** | 31 |
-| **Tip** | Parametrik |
-| **Frekans** | 20Hz–20kHz |
-| **Q** | 0.1–10 |
-| **Gain** | -12dB to +12dB |
-| **Preset** | Kullanıcı tanımlı |
-| **AI Auto-EQ** | Otomatik ayarlama |
+| Özellik | Parametrik EQ | Grafik EQ |
+|---------|---------------|-----------|
+| Band sayısı | 31 | 31 |
+| Tip | Parametrik | Grafik (1/3 oktav) |
+| Frekans | 20Hz–20kHz | 20Hz–20kHz |
+| Q | 0.1–10 | Sabit |
+| Gain | -12dB to +12dB | -12dB to +12dB |
+| Preset | Kullanıcı tanımlı | Kullanıcı tanımlı |
+| AI Auto-EQ | ✅ | ✅ |
+| Bağımsız | ✅ Her panel | ✅ Her panel |
 
 ## 10. Hard Guardrails
 
@@ -190,7 +191,6 @@ void processAudioBlock(
 | **Satır Sayısı** | ~520 |
 | **ADR Uyumlu** | ✅ 017, 019, 025, 038, 039 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 | **Guardrails** | ✅ 6 kural |
 

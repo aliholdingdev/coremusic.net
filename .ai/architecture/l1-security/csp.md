@@ -262,9 +262,9 @@ class SecurityHeadersMiddleware implements MiddlewareInterface
 ### 6.2 Middleware Sırası
 
 ```
-Request → SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → Csrf → Controller
-                                                                 ↑
-                                                          BU MIDDLEWARE
+Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
+                                                                                          ↑
+                                                                                   BU MIDDLEWARE
 ```
 
 ## 7. CSP Violation Handling
@@ -505,7 +505,6 @@ class TemplateRenderer
 | **Bölüm Sayısı** | 15 |
 | **ADR Uyumlu** | ✅ 001, 011, 012 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

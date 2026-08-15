@@ -661,6 +661,7 @@ Spacing scale: 8px unit
 :root {
     --color-bg: white;
     --color-text: black;
+    color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
     :root {
@@ -668,9 +669,119 @@ Spacing scale: 8px unit
         --color-text: white;
     }
 }
+
+/* BETTER: Class-based dark mode */
+[data-theme="dark"] {
+    --color-bg: #0d0221;
+    --color-text: white;
+}
 ```
 
 **Why:** Dark mode is essential for modern UX. Many users prefer it for battery/eye comfort.
+
+---
+
+### ❌ 34. Physical Properties Instead of Logical
+
+```css
+/* WRONG - RTL breaks */
+.card {
+    margin-left: 16px;
+    padding-right: 24px;
+    border-left: 3px solid var(--color-primary);
+    text-align: left;
+}
+
+/* RIGHT - RTL auto-supported */
+.card {
+    margin-inline-start: 16px;
+    padding-inline-end: 24px;
+    border-inline-start: 3px solid var(--color-primary);
+    text-align: start;
+}
+```
+
+**Why:** Physical properties don't adapt to RTL languages. Logical properties handle both LTR and RTL automatically.
+
+---
+
+### ❌ 35. Animating Non-Animatable Properties
+
+```css
+/* WRONG - won't animate */
+.card {
+    --gradient-angle: 0deg;
+    background: linear-gradient(var(--gradient-angle), blue, purple);
+    transition: --gradient-angle 300ms ease;
+}
+/* Custom properties don't animate without @property */
+
+/* RIGHT - animatable */
+@property --gradient-angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.card {
+    --gradient-angle: 0deg;
+    background: linear-gradient(var(--gradient-angle), blue, purple);
+    transition: --gradient-angle 300ms ease;
+}
+
+.card:hover {
+    --gradient-angle: 180deg;
+}
+```
+
+**Why:** Untyped custom properties can't be interpolated. `@property` enables smooth animations.
+
+---
+
+### ❌ 36. No CSS @layer (ITCSS Fragility)
+
+```css
+/* WRONG - ITCSS order fragile */
+@import "reset.css";
+@import "tokens.css";
+@import "components.css";
+/* Order matters but isn't enforced by browser */
+
+/* RIGHT - CSS @layer enforces order */
+@layer reset, tokens, base, layout, components, utilities;
+
+@layer reset {
+    *, *::before, *::after { box-sizing: border-box; }
+}
+
+@layer tokens {
+    :root { --color-primary: #3b82f6; }
+}
+
+@layer components {
+    .button { background: var(--color-primary); }
+}
+```
+
+**Why:** Without `@layer`, ITCSS order is fragile. Bundler or third-party CSS can break cascade assumptions.
+
+---
+
+### ❌ 37. Magic Numbers for Typography
+
+```css
+/* WRONG */
+h1 { font-size: 48px; }
+@media (min-width: 768px) { h1 { font-size: 56px; } }
+@media (min-width: 1280px) { h1 { font-size: 64px; } }
+/* Multiple breakpoints, hard to maintain */
+
+/* RIGHT - fluid typography */
+h1 { font-size: clamp(2rem, 4vw + 1rem, 4rem); }
+/* Single line, scales fluidly between viewport sizes */
+```
+
+**Why:** Multiple media queries for typography are verbose. `clamp()` handles fluid scaling in one line.
 
 ---
 
@@ -755,14 +866,21 @@ Set Cache-Control headers:
 
 ## Summary
 
-**The 37 anti-patterns above cover:**
+**The 40 anti-patterns above cover:**
 - ✅ 7 Layout patterns
 - ✅ 5 Accessibility patterns
-- ✅ 6 CSS patterns
+- ✅ 10 CSS patterns (including modern CSS anti-patterns)
 - ✅ 7 JavaScript patterns
 - ✅ 6 PHP patterns
 - ✅ 3 Design System patterns
 - ✅ 2 Testing patterns
 - ✅ 2 Performance patterns
+
+**Modern CSS Anti-Patterns (2025+):**
+- ❌ No dark theme support (use light-dark() or prefers-color-scheme)
+- ❌ Physical properties (use logical properties for RTL)
+- ❌ Animating untyped custom properties (use @property)
+- ❌ No CSS @layer (use @layer for ITCSS cascade control)
+- ❌ Magic numbers for typography (use clamp() for fluid type)
 
 **Use this list as a checklist when reviewing generated code.**

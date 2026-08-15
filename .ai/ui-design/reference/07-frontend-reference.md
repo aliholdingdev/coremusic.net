@@ -26,7 +26,7 @@ Frontend mimarisi, technology stack, coding conventions ve best practices refera
 | Özellik | Değer | Not |
 |---------|-------|-----|
 | Language | Vanilla JS ES6+ | Framework yasak (ADR-001) |
-| CSS | ITCSS 7-layer + BEM | 7 katmanlı mimari |
+| CSS | ITCSS 9-layer + BEM | 7 katmanlı mimari |
 | Module | ES Modules (`import/export`) | `type="module"` |
 | Min Target | ES2022 | Modern tarayıcılar |
 | Build | yok | Vanilla — build tool yok |

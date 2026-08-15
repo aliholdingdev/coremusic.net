@@ -1,14 +1,14 @@
 ---
-title: LANGUAGE STANDARDS & BEST PRACTICES
+title: LANGUAGE STANDARDS & BEST PRACTICES (PICCO)
 description: PHP 8.4, JavaScript ES6, Python 3.12, C#, C++ 20 standards
-version: 7.2.0
-updated: 2026-06-11
-metrics: "3,820+ questions, 78 categories, 28 references"
-quality-score: "98.7%"
+version: 11.0.0
+updated: 2026-08-15
+framework: PICCO
+quality-score: "95%+"
 ---
 
-# LANGUAGE STANDARDS & BEST PRACTICES
-# Prompt Maker v7.2.0 | 2026-06-11
+# LANGUAGE STANDARDS & BEST PRACTICES (PICCO)
+# Prompt Maker v11.0.0 | 2026-08-15
 
 ---
 

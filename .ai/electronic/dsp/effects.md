@@ -125,6 +125,49 @@ Output Signal
 
 ---
 
+## 7. AUX/USB Çıkışından FX
+
+### 7.1 Çıkış Tipleri
+
+| Çıkış | Protokol | FX Desteği | Kullanım |
+|-------|----------|------------|----------|
+| **Hoparlör (ASIO)** | ASIO/WASAPI | Tam FX | Ana ses çıkışı |
+| **AUX Output** | Analog (3.5mm/6.3mm) | Reverb, Delay, Chorus | Harici amfi/speaker |
+| **USB Output** | USB Audio Class 2.0 | Tam FX | USB DAC, harici cihaz |
+| **Bluetooth** | BLE/A2DP | Sınırlı FX | Kablosuz hoparlör |
+| **WiFi** | mDNS/DLNA | Tam FX | Multi-room |
+
+### 7.2 FX Routing
+
+```
+DSP Chain Output
+  → Mixer (Volume, Pan)
+    → FX Bus (Reverb, Delay, Chorus)
+      → AUX Output (analog)
+      → USB Output (dijital)
+      → Bluetooth (kablosuz)
+      → WiFi (multi-room)
+```
+
+### 7.3 Samsung Galaxy J7 Tarzı Geniş Konser Efekti
+
+CoreMusic, Samsung Galaxy J7 2016'daki "Geniş Konser Salonu" efektine benzer mekânsal ses deneyimi sunar.
+
+| Efekt | Samsung J7 | CoreMusic |
+|-------|------------|-----------|
+| **Geniş Konser** | 3.0s decay | 3.0s decay, 5000m³ room |
+| **Düğün Salonu** | 2.0s decay | 2.0s decay, 2000m³ room |
+| **Oda** | 0.8s decay | 0.8s decay, 100m³ room |
+| **Stüdyo** | 0.5s decay | 0.5s decay, 50m³ room |
+
+**Kullanım Senaryoları:**
+- Müzik dinlerken konser salonu atmosferi hissetme
+- Düğün salonu gibi mekanların akustiğini yeniden oluşturma
+- Stüdyo kayıtlarında profesyonel reverb ekleme
+- AUX/USB çıkışından efektli ses aktarımı
+
+---
+
 ## 8. ADR Referansları
 
 | ADR | Konu |

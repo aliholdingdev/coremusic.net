@@ -275,7 +275,6 @@ Controller
 | **CORS Whitelist** | 11 domain |
 | **Port** | 4 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

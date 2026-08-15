@@ -47,32 +47,71 @@ CoreMusic backend geliştirme için PHP 8.4 şablonu. strict_types, PDO prepared
 
 ## 3. Code Standards
 
-### 3.1 Dosya Yapısı
+### 3.1 Dosya Yapısı : music. home. car.  pro. studio. auth or bu subdomainlerden biri 
 
 ```text
-src/
-├── Controller/          # HTTP request handler'ları
-│   ├── AuthController.php
-│   └── MusicController.php
-├── Service/             # Business logic
-│   ├── AuthService.php
-│   └── MusicService.php
-├── Repository/          # Database erişimi
-│   ├── UserRepository.php
-│   └── MusicRepository.php
-├── Middleware/           # HTTP middleware'ler
-│   ├── SessionManagerMiddleware.php
-│   ├── AuthMiddleware.php
-│   ├── CsrfMiddleware.php
-│   └── SecurityHeadersMiddleware.php
-├── Model/               # Data modelleri
-│   ├── User.php
-│   └── Music.php
-├── Exception/           # Özel exception'lar
-│   ├── AuthException.php
-│   └── ValidationException.php
-└── Config/              # Konfigürasyon
-    └── config.php
+├─**projects-folder**
+├── config/
+├── include/                     # Ana uygulama kaynakları
+│   │
+│   ├── Class/                   # Özel sınıflar
+│   │   │
+│   │   ├── Exception/           # Custom Exception sınıfları
+│   │   ├── Middleware/          # HTTP Middleware katmanı
+│   │   └── Helpers/             # Yardımcı fonksiyonlar
+│   │
+│   ├── Controllers/             # HTTP Request Handler
+│   ├── Services/                # Business Logic
+│   ├── Repository/              # Database erişim katmanı
+│   └── Interfaces/              # Contract tanımları
+│
+├── pages/                       # Frontend sayfaları
+├── test/                        # Test dosyaları
+│   ├── Unit/
+│   ├── Feature/
+│   └── Integration/
+│
+├── vendor/                      # Composer paketleri
+│
+├── index.php                    # Entry Point
+├── header.php                   # Global Header
+├── footer.php                   # Global Footer
+├── autoload.php                 # Composer autoload
+├── .env                         # Environment değişkenleri
+├── .env.example                 # Örnek environment
+├── .user.ini                    # PHP runtime ayarları
+├── web.config                   # IIS yapılandırması
+├── favicon.ico
+├── composer.json                # PHP dependency yönetimi
+├── composer.lock
+└── README.md                    # Proje dokümantasyonu
+```
+
+### 3.2 Dosya Yapısı : coremusic-shared
+
+```
+shared/
+│
+├── composer.json
+├── composer.lock
+├── phpunit.xml
+├── .phpunit.result.cache
+│
+├── src/
+│   │
+│   ├── Bootstrap/
+│   ├── CacheManager/
+│   ├── ConfigManager/
+│   ├── DatabaseManager/
+│   ├── DeviceManager/
+│   ├── Exception/
+│   ├── Interfaces/
+│   ├── Middleware/
+│   ├── PageRouter/
+│   └── Security/
+│
+├── tests/
+└── vendor/
 ```
 
 ### 3.2 Dosya Başlangıç Kalıbı
@@ -564,7 +603,7 @@ $hash = md5($password); // ❌ GÜVENLİK AÇIĞI
 | Prepared Statement | Parameter binding zorunlu | ADR-002 |
 | ORM yasak | PDO direct kullanım | ADR-002 |
 | Hard delete yasak | Soft delete (`is_deleted = 1`) | ADR-040 |
-| BCNF | 9 veritabanı normal formu | ADR-040 |
+| BCNF | 18 BCNF veritabanı normal formu | ADR-040 |
 
 ### 4.6 Rate Limiting
 
@@ -952,7 +991,7 @@ grep "AuthException" /var/log/coremusic/app.log
 - [[ADR-012-csp-nonce-strict-dynamic]] — CSP nonce
 - [[ADR-013-rate-limiting-apcu]] — Rate limiting
 - [[ADR-022-database-hardened-security]] — DB güvenlik
-- [[ADR-040-database-authority]] — 9 BCNF DB otoritesi
+- [[ADR-040-database-authority]] — 18 BCNF DB otoritesi
 
 ## 14. Cross-References
 
@@ -975,7 +1014,6 @@ grep "AuthException" /var/log/coremusic/app.log
 | **PHP 8.4** | ✅ Uyumlu |
 | **strict_types** | ✅ Zorunlu |
 | **ADR Uyumlu** | ✅ 002, 010, 011, 012, 013, 022, 040 |
-| **MSA Uyumlu** | ✅ |
 | **Security Sections** | ✅ 6 bölüm |
 | **Performance Sections** | ✅ 3 bölüm |
 | **Edge Cases** | ✅ 3 bölüm |

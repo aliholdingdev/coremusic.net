@@ -1,5 +1,5 @@
-# C# & .NET PATTERNS — TAM REHBER
-# Prompt Maker v7.2.0 | 2026-06-11 | Kiro IDE Native
+# C# & .NET PATTERNS — TAM REHBER (PICCO)
+# Prompt Maker v11.0.0 | 2026-08-15 | PICCO Framework
 # ASP.NET Core, async/await, DI, middleware, EF Core, Minimal API
 
 ---

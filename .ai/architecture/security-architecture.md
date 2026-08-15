@@ -241,7 +241,7 @@ CoreMusic, [[decisions/accepted/ADR-052-hybrid-auth-architecture]] ile belirlene
 | A03 | Software Supply Chain Failures | Dependency scanning, version pinning | ADR-054 |
 | A04 | Cryptographic Failures | AES-256-GCM, Argon2id | ADR-022, ADR-034 |
 | A05 | Injection | PDO prepared statements, CSP nonce | ADR-002, ADR-012 |
-| A06 | Insecure Design | L0-L3 layered architecture | ADR-001–ADR-008 |
+| A06 | Insecure Design | L0-L6 layered architecture | ADR-001–ADR-008 |
 | A07 | Authentication Failures | Rate limiting, lockout, session mgmt | ADR-011, ADR-013, ADR-052 |
 | A08 | Software or Data Integrity Failures | Firmware signing, HMAC verification | ADR-061–ADR-063 |
 | A09 | Security Logging & Alerting Failures | Audit trail, real-time alerting | ADR-004 |

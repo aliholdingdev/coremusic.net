@@ -127,7 +127,6 @@ class ServiceDiscovery
 | **Satır Sayısı** | ~500 |
 | **ADR Uyumlu** | ✅ 032 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

@@ -228,7 +228,6 @@ std::unique_ptr<OsAudioAdapter> selectAdapter() {
 | **Satır Sayısı** | ~540 |
 | **ADR Uyumlu** | ✅ 017 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 | **Guardrails** | ✅ 5 kural |
 

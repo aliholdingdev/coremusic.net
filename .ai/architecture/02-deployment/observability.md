@@ -360,7 +360,6 @@ ADIM 6: Post-mortem
 | **Satır Sayısı** | ~540 |
 | **ADR Uyumlu** | ✅ |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 4 referans |
 | **Guardrails** | ✅ 5 kural |
 

@@ -2,18 +2,143 @@
 title: "CoreMusic Vault — Master Index"
 type: system
 category: vault-navigation
-updated: 2026-08-10
+date: 2026-08-13
+updated: 2026-08-13
 status: active
-version: 23.0.0
+version: 26.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total_files: 570
-total_adr: 72
+total_files: 493
+total_adr: 87
+reference:
+  authority: ".ai/index.md"
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/AGENTS.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+    - ".ai/keys.md"
+    - ".ai/MEMORY.md"
+    - ".ai/log.md"
+    - ".ai/engine.md"
+  architecture:
+    - ".ai/ADR/"
+    - "Existing project architecture"
+    - "Existing codebase patterns"
+  project_structure:
+    - "coremusic.net/"
+    - "shared/"
+    - "api.coremusic.net/"
+    - "auth.coremusic.net/"
+    - "music.coremusic.net/"
+    - "admin.coremusic.net/"
+    - "home.coremusic.net/"
+    - "car.coremusic.net/"
+    - "studio.coremusic.net/"
+    - "pro.coremusic.net/"
+    - "media.coremusic.net/"
+    - "download.coremusic.net/"
+  decision_priority:
+    - "ADR decisions"
+    - "Architecture documentation"
+    - "Security requirements"
+    - "Existing implementation"
+    - "User requirements"
+  update_policy:
+    preserve_existing_structure: true
+    require_approval_for:
+      - "file rename"
+      - "directory move"
+      - "architecture change"
+      - "database schema change"
+      - "security policy change"
+  skills:
+    - path: ".opencode/skills/ui-code-generator/SKILL.md"
+      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
+    - path: ".opencode/skills/ui-analyzer/SKILL.md"
+      purpose: "UI analizi, mevcut tasarım değerlendirme"
+    - path: ".opencode/skills/skill-maker/SKILL.md"
+      purpose: "Yeni skill oluşturma, skill template sistemi"
+    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
+      purpose: "Güvenlik testi, truth mode, adversarial analiz"
+    - path: ".opencode/skills/prompt-maker/SKILL.md"
+      purpose: "Prompt mühendisliği, AI talimat tasarımı"
+    - path: ".opencode/skills/composer-sync/SKILL.md"
+      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
+    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
+      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
+    - path: ".opencode/skills/human-mode/SKILL.md"
+      purpose: "İnsan modu iletişimi, onay süreçleri"
+    - path: ".opencode/skills/hallucination-control/SKILL.md"
+      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
+    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
+      purpose: "BCNF normalizasyonu, şema tasarımı"
+  templates:
+    adr:
+      - path: ".ai/.templates/adr/adr-template.md"
+        purpose: "ADR şablonu"
+      - path: ".ai/.templates/adr/adr-frontend-template.md"
+        purpose: "Frontend ADR şablonu"
+      - path: ".ai/.templates/adr/adr-database-template.md"
+        purpose: "Database ADR şablonu"
+      - path: ".ai/.templates/adr/adr-security-template.md"
+        purpose: "Security ADR şablonu"
+      - path: ".ai/.templates/adr/adr-audio-template.md"
+        purpose: "Audio/Hardware ADR şablonu"
+      - path: ".ai/.templates/adr/adr-index.md"
+        purpose: "ADR navigasyon rehberi"
+    backend:
+      - path: ".ai/.templates/backend/php-template.md"
+        purpose: "PHP 8.4 backend geliştirme şablonu"
+      - path: ".ai/.templates/backend/nodejs-template.md"
+        purpose: "Node.js 20+ backend geliştirme şablonu"
+    frontend:
+      - path: ".ai/.templates/frontend/js-template.md"
+        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
+      - path: ".ai/.templates/frontend/css-template.md"
+        purpose: "ITCSS 9-layer, BEM CSS şablonu"
+    testing:
+      - path: ".ai/.templates/testing/phpunit-template.md"
+        purpose: "PHPUnit 10+ test şablonu"
+      - path: ".ai/.templates/testing/vitest-template.md"
+        purpose: "Vitest JS/TS test şablonu"
+    infrastructure:
+      - path: ".ai/.templates/infrastructure/migration-template.md"
+        purpose: "MySQL 9 BCNF migration şablonu"
+      - path: ".ai/.templates/infrastructure/docker-template.md"
+        purpose: "Docker 24+ Compose v2 şablonu"
+      - path: ".ai/.templates/infrastructure/github-actions-template.md"
+        purpose: "GitHub Actions CI/CD şablonu"
+    documentation:
+      - path: ".ai/.templates/documentation/api-doc-template.md"
+        purpose: "API dokümantasyon şablonu"
+      - path: ".ai/.templates/documentation/security-audit-template.md"
+        purpose: "Güvenlik denetimi şablonu"
+      - path: ".ai/.templates/documentation/WikiPage-Template.md"
+        purpose: "Wiki sayfası şablonu"
+    hardware:
+      - path: ".ai/.templates/hardware/arduino-template.md"
+        purpose: "Arduino/IoT prototipleme şablonu"
+      - path: ".ai/.templates/hardware/avr-template.md"
+        purpose: "AVR mikrodenetleyici şablonu"
+      - path: ".ai/.templates/hardware/pic-template.md"
+        purpose: "PIC mikrodenetleyici şablonu"
+    query:
+      - path: ".ai/.templates/query/Query-Template.md"
+        purpose: "SQL sorgu şablonu"
+    other:
+      - path: ".ai/.templates/other/c-template.md"
+        purpose: "C11 GCC embedded/driver şablonu"
+      - path: ".ai/.templates/cpp-template.md"
+        purpose: "C++20 JUCE/ASIO şablonu"
 ---
 
 # CoreMusic Vault — Master Index
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
+
+**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
 
 ---
 
@@ -49,29 +174,34 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | 3 | [[WORKFLOW.md]] | Süreçler — vault refactoring, ürün döngüsü |
 | 4 | [[index.md]] | Bu dosya — tüm vault dizin yapısı |
 | 5 | [[keys.md]] | Anahtar kelime haritası — keyword → dosya yönlendirme |
-| 6 | [[brain.md]] | Mimari kararlar — ADR 001-050, L0-L3, engineering brain |
+| 6 | [[brain.md]] | Mimari kararlar — ADR 001-087, L0-L6, engineering brain |
 | 7 | [[MEMORY.md]] | Oturum hafızası — persistent state, cache, session lifecycle |
 | 8 | [[log.md]] | Aktivite günlüğü — append-only audit trail |
 | 9 | [[engine.md]] | Orkestrasyon motoru — agent koordinasyonu, task dispatch |
 
 ---
 
-## 4. Mimari — L0-L3 Katmanları
+## 4. Mimari — L0-L6 Katmanları
 
-Bağımlılık kuralları: ✅ L3→L2, L2→L1, L1→L0 | ❌ L0→L2/L3, L1→L3, L3→L0
+*Detaylı metadata için bakınız: [[architecture/00-overview/architecture-master]] §2*
+
+Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1→L0 | ❌ L0→L2/L3, L1→L3, L3→L0
 
 | Katman | Dosya | Kapsam |
 |--------|-------|--------|
-| L0 Infrastructure | [[architecture/l0-infrastructure]] | DB, cache, filesystem, IPC, credential vault |
-| L1 Security | [[architecture/l1-security]] | Middleware pipeline, session, CSRF, CSP, rate limit |
-| L2 Routing | [[architecture/l2-routing]] | SPA PageRouter, URL normalization, subdomain routing |
-| L3 Presentation | [[architecture/l3-presentation]] | Vanilla JS, ITCSS 7-layer, TrustedTypes, Web Audio |
+| L6 Electronics | [[architecture/l6-electronics]] | Hardware, firmware, driver, DSP, audio engine |
+| L5 Services | [[architecture/l5-services]] | Application services, use cases, CQRS, event bus |
+| L4 Domain | [[architecture/l4-domain]] | Business rules, entities, value objects, aggregates |
+| L3 Presentation | [[architecture/l3-presentation]] | Frontend, UI, DOM, responsive |
+| L2 Routing | [[architecture/l2-routing]] | SPA PageRouter, API Gateway, subdomain routing |
+| L1 Security | [[architecture/l1-security]] | Middleware pipeline, session, auth, CSRF, CSP |
+| L0 Infrastructure | [[architecture/l0-infrastructure]] | Database, cache, filesystem, IPC, credential vault |
 
 ---
 
 ## 5. Mimari Kararlar (ADR)
 
-Toplam 51 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-050+ (güncellenebilir).
+Toplam 87 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-087 (güncellenebilir).
 
 ### 5.1 Frozen (001-037)
 
@@ -121,7 +251,7 @@ Toplam 51 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-050+ (güncellene
 |-----|------|----------|
 | [[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]] | 8.1 ses donanımı (PCM3168A + XMOS XU316) | Audio |
 | [[decisions/accepted/ADR-039-7-service-platform-architecture]] | 7-servis platform mimarisi | Architecture |
-| [[decisions/accepted/ADR-040-database-authority]] | 11 BCNF DB otoritesi | Database |
+| [[decisions/accepted/ADR-040-database-authority]] | 18 BCNF DB otoritesi | Database |
 | [[decisions/accepted/ADR-041-database-normalization-supplementary]] | DB normalizasyon ekı | Database |
 | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault yeniden yapılandırma | Vault |
 | [[decisions/accepted/ADR-043-auth-subdomain-consolidation]] | Auth subdomain konsolidasyonu | Security |
@@ -144,6 +274,11 @@ Toplam 51 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-050+ (güncellene
 | [[decisions/accepted/ADR-077-studio-database-schema]] | Studio DB Schema (sessions, tracks, presets, equipment) | Database |
 | [[decisions/accepted/ADR-078-cms-database-schema]] | CMS DB Schema (pages, blog, tags, media, FAQs, banners) | Database |
 | [[decisions/accepted/ADR-079-i18n-database-schema]] | i18n DB Schema (languages, translations, ui_strings, locale) | Database |
+| [[decisions/accepted/ADR-083-spa-router]] | SPA Router Architecture (PHP+JS Hybrid) | Routing |
+| [[decisions/accepted/ADR-084-api-gateway-architecture]] | API Gateway Architecture (API-First, BFF, CQRS) | Architecture |
+| [[decisions/accepted/ADR-085-modular-composer-packages]] | Modular Composer Packages (coremusic/*) | Infrastructure |
+| [[decisions/accepted/ADR-086-event-driven-architecture]] | Event Driven Architecture (PSR-14) | Architecture |
+| [[decisions/accepted/ADR-087-master-implementation-plan]] | Master Implementation Plan (Sıfırdan Geliştirme Kapsamı) | Architecture |
 
 ### 5.3 Reddedilen Kararlar
 
@@ -189,7 +324,7 @@ Toplam 51 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-050+ (güncellene
 | 80 | admin.coremusic.net | HTTP |
 | 81 | music.coremusic.net (Control Service) | HTTP |
 | 3001 | download.coremusic.net | HTTP/WS |
-| 3306 | MySQL 11 BCNF DB | TCP |
+| 3306 | MySQL 18 BCNF DB | TCP |
 | 5000/6000 | media.coremusic.net | HTTP |
 | 9741 | Audio Service (REST) | HTTP |
 | 9742 | Audio Service (WebSocket) | WS |
@@ -206,7 +341,7 @@ Toplam 51 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-050+ (güncellene
 | Backend Architect | PHP 8.4 API, middleware | L2 Routing, controller, repository |
 | UI Designer | Vanilla JS, ITCSS, Web Audio | L3 Presentation, responsive, accessibility |
 | Security Engineer | OWASP, AES-256-GCM, Argon2id | L1 Security, CSRF, CSP, session |
-| Data Engineer | MySQL 11 BCNF, PDO | L0 Infrastructure, schema, migration |
+| Data Engineer | MySQL 18 BCNF, PDO | L0 Infrastructure, schema, migration |
 | Embedded Engineer | C++20, JUCE, ASIO | Audio DSP, hardware, ring buffer |
 | QA Engineer | PHPUnit, Vitest, Playwright | Testing, coverage, E2E |
 | DevOps Engineer | CI/CD, Docker, GitLeaks | Deployment, pipeline, monitoring |
@@ -215,23 +350,29 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ---
 
-## 8. Veritabanı (11 BCNF — ADR-040)
+## 8. Veritabanı (18 BCNF — ADR-040)
 
 | # | Veritabanı | Dosya | Amaç | Tablo Sayısı |
 |---|------------|-------|------|-------------|
-| 1 | coremusic_auth | `.sql/coremusic_auth.sql` | Users, roles, sessions, tokens, credential vault, API keys | 12 |
-| 2 | coremusic_user | `.sql/coremusic_user.sql` | Profiles, preferences, history, favorites | 7 |
-| 3 | coremusic_musics | `.sql/coremusic_musics.sql` | Songs, artists, genres, lyrics, files | 12 |
-| 4 | coremusic_albums | `.sql/coremusic_albums.sql` | Album collections | 5 |
-| 5 | coremusic_playlist | `.sql/coremusic_playlist.sql` | User and AI playlists | 5 |
-| 6 | coremusic_catalog | `.sql/coremusic_catalog.sql` | Reference data (genre list, singer roles, instruments) | 8 |
-| 7 | coremusic_logs | `.sql/coremusic_logs.sql` | Audit trail, analytics, error logs | 13 |
-| 8 | coremusic_media | `.sql/coremusic_media.sql` | Device sync, media metadata | 8 |
-| 9 | coremusic_system | `.sql/coremusic_system.sql` | Settings, config, cache, EQ, file manager, notifications | 13 |
-| 10 | coremusic_social | `.sql/coremusic_social.sql` | Comments, shares, activity, listening rooms | 9 |
-| 11 | coremusic_wireless | `.sql/coremusic_wireless.sql` | WiFi + Bluetooth networks | 5 |
-
-Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusic_credential.sql`, `.sql/coremusic_download.sql`, `.sql/coremusic_neva.sql`, `.sql/coremusic_patch.sql`, `.sql/core-music-db.sql`
+| 1 | coremusic_auth | `.sql/mysql/coremusic_auth.sql` | Users, roles, sessions, tokens, credential vault, API keys | 13 |
+| 2 | coremusic_user | `.sql/mysql/coremusic_user.sql` | Profiles, preferences, history, favorites | 7 |
+| 3 | coremusic_musics | `.sql/mysql/coremusic_musics.sql` | Songs, artists, genres, lyrics, files, podcasts, videos, radio | 22 |
+| 4 | coremusic_albums | `.sql/mysql/coremusic_albums.sql` | Album collections, discs, stats | 5 |
+| 5 | coremusic_playlist | `.sql/mysql/coremusic_playlist.sql` | User and AI playlists, collaborators, followers | 5 |
+| 6 | coremusic_catalog | `.sql/mysql/coremusic_catalog.sql` | Reference data (genres, artist roles, instruments, moods) | 8 |
+| 7 | coremusic_logs | `.sql/mysql/coremusic_logs.sql` | Audit trail, analytics, error logs, performance metrics | 22 |
+| 8 | coremusic_media | `.sql/mysql/coremusic_media.sql` | Device sync, media metadata, access control | 8 |
+| 9 | coremusic_system | `.sql/mysql/coremusic_system.sql` | Settings, config, cache, EQ, file manager, notifications, i18n | 17 |
+| 10 | coremusic_social | `.sql/mysql/coremusic_social.sql` | Comments, shares, activity, listening rooms | 9 |
+| 11 | coremusic_wireless | `.sql/mysql/coremusic_wireless.sql` | WiFi + Bluetooth networks | 5 |
+| 12 | coremusic_ai | `.sql/mysql/coremusic_ai.sql` | User preference profiles, listening features, recommendations | 6 |
+| 13 | coremusic_api | `.sql/mysql/coremusic_api.sql` | API keys, rate limits, API call logs, webhooks | 4 |
+| 14 | coremusic_cms | `.sql/mysql/coremusic_cms.sql` | Pages, blog, tags, media assets, FAQs, banners | 8 |
+| 15 | coremusic_download | `.sql/mysql/coremusic_download.sql` | Download queue, history, cache, source APIs | 4 |
+| 16 | coremusic_neva | `.sql/mysql/coremusic_neva.sql` | EQ presets, DSP settings, routing matrix, spectrum analysis | 4 |
+| 17 | coremusic_studio | `.sql/mysql/coremusic_studio.sql` | Studio sessions, tracks, presets, equipment | 6 |
+| 18 | coremusic_patch | `.sql/mysql/coremusic_patch.sql` | Schema versions, migration logs, patches | 3 |
+| | **TOPLAM** | | | **156** |
 
 ---
 
@@ -286,7 +427,7 @@ Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusi
 | [[electronic/firmware-architecture]] | Firmware mimarisi (RTOS, HAL, OTA) |
 | [[architecture/l6-electronics]] | L6 Electronics katmanı (L0-L6 stack) |
 | [[architecture/network-architecture]] | Ağ mimarisi (HTTP/MQTT/gRPC/IPC) |
-| [[architecture/database-architecture]] | Veritabanı mimarisi (11 BCNF, SQLite) |
+| [[architecture/database-architecture]] | Veritabanı mimarisi (18 BCNF, SQLite) |
 | [[architecture/security-architecture]] | Güvenlik mimarisi (OWASP 2025, RBAC) |
 | [[architecture/ai/ai-electronics-engine]] | AI Electronics Engine |
 | [[architecture/ai/ai-workflow-electronics]] | AI Electronics workflow |
@@ -296,6 +437,7 @@ Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusi
 | [[architecture/03-contracts/diagram-collection]] | Mermaid diyagram koleksiyonu |
 | [[architecture/07-security/electronics-security]] | Elektronik güvenlik (Secure Boot, FW signing) |
 | [[architecture/03-contracts/engineering-rules-ssot]] | Mühendislik kuralları SSOT |
+| [[architecture/03-contracts/master-implementation-plan]] | Master Implementation Plan (5 faz, 40 gün, 22 bölüm) |
 
 ---
 
@@ -343,6 +485,25 @@ Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusi
 
 ---
 
+## 11A. Skills (10 Skill — Guardrail #16 Zorunlu)
+
+| # | Skill | Amaç | Konum |
+|---|-------|------|-------|
+| 1 | `ui-code-generator` | UI/CSS kod üretimi, responsive tasarım | `.opencode/skills/ui-code-generator/SKILL.md` |
+| 2 | `ui-analyzer` | UI analizi, mevcut tasarım değerlendirme | `.opencode/skills/ui-analyzer/SKILL.md` |
+| 3 | `skill-maker` | Yeni skill oluşturma, template sistemi | `.opencode/skills/skill-maker/SKILL.md` |
+| 4 | `hallucination-control` | Halüsinasyon kontrolü, doğrulama | `.opencode/skills/hallucination-control/SKILL.md` |
+| 5 | `human-mode` | İnsan modu iletişimi, onay süreçleri | `.opencode/skills/human-mode/SKILL.md` |
+| 6 | `red-team-truth-mode` | Güvenlik testi, adversarial analiz | `.opencode/skills/red-team-truth-mode/SKILL.md` |
+| 7 | `prompt-maker` | Prompt mühendisliği, AI talimat tasarımı | `.opencode/skills/prompt-maker/SKILL.md` |
+| 8 | `agent-orchestrator` | Agent görev dağıtımı, multi-agent koordinasyonu | `.opencode/skills/agent-orchestrator/SKILL.md` |
+| 9 | `composer-sync` | Composer dependency yönetimi | `.opencode/skills/composer-sync/SKILL.md` |
+| 10 | `database-normalize-maker` | BCNF normalizasyonu, şema tasarımı | `.opencode/skills/database-normalize-maker/SKILL.md` |
+
+**Detay:** Her skill dosyası YAML frontmatter'da `reference:` bloğu ile vault'a bağlıdır.
+
+---
+
 ## 12. Vault Altyapısı
 
 | Kategori | Dosyalar |
@@ -351,11 +512,13 @@ Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusi
 | Registry | [[registry/dashboard]], [[registry/lifecycle]], [[registry/projects.csv]] |
 | Scaffold | [[scaffold/checklist]], [[scaffold/rules]] |
 | Reports | [[reports/session-summary-template]] |
-| Prompt System | [[prompt-system/coremusic-theme-prompt]] |
+| Prompt Archives | [[brain#22-prompt-arsivi]] | 4 ana prompt: genel, SPA router, auth, API |
+| Prompt Engine | [[architecture/ai/prompt-engine]] | Prompt üretim ve yönetim motoru |
 | Knowledge | [[knowledge/verified]], [[knowledge/unverified]], [[knowledge/rejected]], [[confidence/README]] |
 | Subdomains | [[subdomains/README]], [[subdomains/auth.coremusic.net/index]], [[subdomains/music.coremusic.net/index]], [[subdomains/download.coremusic.net/domains/index]] |
 | UI-Design | [[ui-design/00-mockup-index]], [[ui-design/01-component-inventory]], [[ui-design/02-implementation-plan]], [[ui-design/03-accessibility-gaps]], [[ui-design/04-vault-registration]] |
 | UI-Design Screens | [[ui-design/screens/00-ascii-art-views]], [[ui-design/screens/A-auth/login]], [[ui-design/screens/B-home/dashboard]], [[ui-design/screens/C-music/albums]], [[ui-design/screens/D-player/playlist]], [[ui-design/screens/E-filemanager/disk-browser]], [[ui-design/screens/F-quickpanel/wifi]] |
+| PNG Mockups | `.ai/.png/home-1024/` (12 PNG) + `.ai/.png/shared-1024/` (6 PNG) = 18 PNG |
 | UI-Design Prompt | [[ui-design/prompt/00-prompt-index]], [[ui-design/prompt/screen/01-1024-embedded]], [[ui-design/prompt/component/C01-nav-link]], [[ui-design/prompt/layout/01-pattern-standard-60-40]], [[ui-design/prompt/page/01-home]] |
 | UI-Design Reference | [[ui-design/reference/01-design-tokens]], [[ui-design/reference/02-php-source-architecture]], [[ui-design/reference/03-text-strings]], [[ui-design/reference/04-icon-asset-catalog]], [[ui-design/reference/05-verification]] |
 | UI-Design Flow | [[ui-design/flow/00-flow-index]], [[ui-design/flow/auth/04-select-gender]] |
@@ -419,11 +582,11 @@ Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusi
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § 3 SSOT | [[CLAUDE.md]] | Ana sözleşme |
-| § 4 Mimari | [[architecture/l0-infrastructure]] | L0-L3 katmanları |
+| § 4 Mimari | [[architecture/l0-infrastructure]] | L0-L6 katmanları |
 | § 5 ADR | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault standardı |
 | § 6 Servisler | [[ecosystem/7-service-integration]] | Servis entegrasyonu |
 | § 7 Agentlar | [[AGENTS.md]] | Agent yetkileri |
-| § 8 DB | [[architecture/05-data/database_master]] | 11 BCNF şemaları |
+| § 8 DB | [[architecture/05-data/database_master]] | 18 BCNF şemaları |
 | § 9 Projeler | [[projects/NevaEngine/overview]] | C++ ses motoru |
 | § 10 Donanım | [[electronic/hardware-roadmap]] | 3 fazlı geliştirme |
 | § 11 Test | [[testing/coverage-targets]] | Kapsama hedefleri |
@@ -432,13 +595,13 @@ Ek SQL: `.sql/coremusic_analytics.sql`, `.sql/coremusic_api.sql`, `.sql/coremusi
 
 ## 18. Metadata
 
-- **Toplam dosya:** 529
-- **Toplam ADR:** 51 (Frozen: 37, Active: 14)
-- **Versiyon:** 23.0.0
+- **Toplam dosya:** 493
+- **Toplam ADR:** 78 (Frozen: 37, Active: 41)
+- **Versiyon:** 26.0.0
 - **Governance:** Red Team · Human Mode · Truth Mode
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-08
+**Last Updated:** 2026-08-13
 **Mode:** Red Team · Human Mode · Truth Mode

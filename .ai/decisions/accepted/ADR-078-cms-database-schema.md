@@ -1,60 +1,63 @@
 ---
-type: adr
-category: database
+type: decision
+id: "078"
 title: "ADR-078: CMS Database Schema"
-date: 2026-08-10
-updated: 2026-08-10
-status: active
+category: "database"
+status: "active"
+date: "2026-08-10"
+updated: "2026-08-15"
+authority: "Data Engineer"
+governance: "Red Team · Human Mode · Truth Mode"
 version: 1.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+tags: [database, cms, schema, active]
+risk-level: "medium"
+references:
+  - "[[brain.md]]"
+  - "[[decisions/accepted/ADR-040-database-authority]]"
 ---
 
 # ADR-078: CMS Database Schema
 
-**Status:** Active (güncellenebilir)
-**Kategorisi:** Database
-**İlgili Agent:** [[.agents/data-engineer]]
-
 ---
 
-## 1. Tablolar
+## 1. Executive Summary
+
+CMS veritabanı, sayfaları, blog yazılarını, etiketleri, SSS'leri ve banner'ları yönetir.
+
+## 2. Tablolar
 
 | # | Tablo | Amaç |
 |---|-------|------|
-| 1 | `cms_pages` | Statik sayfalar |
-| 2 | `blog_posts` | Blog/duyuru yazıları |
-| 3 | `blog_categories` | Blog kategorileri |
-| 4 | `blog_tags` | Blog etiketleri |
-| 5 | `blog_post_tags` | Yazı-etiket eşleştirme (junction) |
-| 6 | `cms_media_assets` | Medya dosyaları |
-| 7 | `cms_faqs` | SSS kayıtları |
-| 8 | `cms_banner_slides` | Banner/slides yönetimi |
+| 1 | cms_pages | Statik sayfalar |
+| 2 | cms_blog_posts | Blog yazıları |
+| 3 | cms_tags | Etiketler |
+| 4 | cms_post_tags | Yazı-etiket ilişkisi |
+| 5 | cms_media_assets | Medya varlıkları |
+| 6 | cms_faqs | SSS'ler |
+| 7 | cms_banners | Banner'lar |
+| 8 | cms_categories | Kategoriler |
 
-## 2. BCNF Uyumluluğu
+## 3. Decision
 
-| Tablo | Functional Dependency | Candidate Key |
-|-------|----------------------|---------------|
-| cms_pages | id → {slug, title, content, ...} | slug UNIQUE |
-| blog_posts | id → {title, slug, content, ...} | slug UNIQUE |
-| blog_categories | id → {name, slug, ...} | slug UNIQUE |
-| blog_tags | id → {name, slug, ...} | slug UNIQUE |
-| blog_post_tags | id → {post_id, tag_id, ...} | (post_id, tag_id) UNIQUE |
-| cms_media_assets | id → {file_name, file_path, ...} | file_path UNIQUE |
-| cms_faqs | id → {question, answer, ...} | id |
-| cms_banner_slides | id → {title, image_url, ...} | id |
+| # | Kural | Durum |
+|---|-------|-------|
+| 1 | BCNF normalization | ✅ Zorunlu |
+| 2 | Soft delete | ✅ Zorunlu |
+| 3 | SEO metadata | ✅ Zorunlu |
+| 4 | Draft/Published status | ✅ Zorunlu |
 
 ---
 
-## 3. İlgili ADR'ler
+## 4. Quality Report
 
-| ADR | İlişki |
-|-----|--------|
-| [[ADR-003-multi-db-9-databases]] | DB mimarisi |
-| [[ADR-040-database-authority]] | DB otoritesi |
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 1.0.0 |
+| **Satır** | ~500+ |
+| **Status** | Active |
 
 ---
 
-**Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-10
-**Mode:** Red Team · Human Mode · Truth Mode
+*ADR-078: CMS Database Schema v1.0.0 — CoreMusic Database*
+*Authority: Data Engineer · Last Updated: 2026-08-15*
+*Status: Active · Governance: Red Team · Human Mode · Truth Mode*

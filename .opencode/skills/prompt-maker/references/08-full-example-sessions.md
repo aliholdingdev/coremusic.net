@@ -1,12 +1,13 @@
 ---
-title: FULL EXAMPLE SESSIONS — 5 REAL-WORLD SCENARIOS
-version: 7.2.0
-updated: 2026-06-11
-quality-score: "98.7%"
+title: FULL EXAMPLE SESSIONS — 5 REAL-WORLD SCENARIOS (PICCO)
+version: 11.0.0
+updated: 2026-08-15
+framework: PICCO
+quality-score: "95%+"
 ---
 
-# FULL EXAMPLE SESSIONS — 5 REAL-WORLD SCENARIOS
-# Prompt Maker v7.2.0 | 2026-06-11
+# FULL EXAMPLE SESSIONS — 5 REAL-WORLD SCENARIOS (PICCO)
+# Prompt Maker v11.0.0 | 2026-08-15
 
 ## Session 1: SPA Router Race Condition Fix
 

@@ -2,15 +2,15 @@
 declare(strict_types=1);
 
 /**
- * AI Agentic Orchestrator - Security Engineer Module
- * OWASP Top 10 & CoreMusic Security Validator
+ * CoreMusic Security Auditor
+ * OWASP Top 10 & Security Validator
  * 
- * Bu script, SQL dosyasını inceleyerek PII verilerinin (AES-256-GCM) 
- * şifrelenmesini, audit tablolarını ve SQLi açıklarına karşı standart
+ * SQL dosyasını inceleyerek PII verilerinin şifrelenmesini,
+ * audit tablolarını ve SQLi açıklarına karşı standart
  * isimlendirme (snake_case) yapısını kontrol eder.
  */
 
-namespace CoreMusic\AgenticOrchestrator\Database;
+namespace CoreMusic\Database;
 
 class SecurityAudit {
     private string $schemaContent;

@@ -25,13 +25,13 @@ Bu şablon, CoreMusic ekosistemindeki tüm servislerin (10 panel + 7 backend ser
 
 - Backend API (PHP 8.4, port 81)
 - Frontend (Vanilla JS, TrustedTypes)
-- Veritabanı (9 BCNF, MySQL 9)
+- Veritabanı (18 BCNF, MySQL 9)
 - Auth subdomain (auth.coremusic.net)
 - Download Service (Node.js, port 3001)
 - Media Service (PHP + FFmpeg, port 5000/6000)
 - Audio Service (C++20, port 9741/9742)
 - Credential Vault (AES-256-GCM)
-- Middleware Pipeline (6 katman)
+- Middleware Pipeline (10 katman)
 - Session Management (COREMUSIC_SESS)
 
 ### 1.2 Kapsam Dışı
@@ -114,34 +114,9 @@ Her güvenlik denetimi şu alanları kapsamalıdır:
 - [ ] Directory traversal koruması var
 - [ ] Metadata manipülasyon koruması var
 - [ ] Function-level access control mevcut
+- [ ] SSRF koruması var (URL allowlist)
 
-#### A02:2025 Cryptographic Failures
-- [ ] AES-256-GCM ile credential şifreleme aktif
-- [ ] Argon2id parametreleri RFC 9106 uyumlu (Memory: 64MB, Time: 4, Threads: 2)
-- [ ] Hardcoded secret yok (API key, password, JWT secret)
-- [ ] TLS 1.3 zorunlu (HTTP değil HTTPS)
-- [ ] Key rotation stratejisi tanımlı
-- [ ] IV generation güvenli (96-bit rastgele)
-- [ ] Deprecated algoritma kullanımı yok (MD5, SHA1, DES)
-
-#### A03:2025 Injection
-- [ ] PDO prepared statement kullanımı %100
-- [ ] SELECT * kullanımı yok (açık sütun listesi)
-- [ ] ORM kullanımı yok (ADR-002)
-- [ ] Input validation tüm endpoint'lerde aktif
-- [ ] Output encoding uygulanmış
-- [ ] LDAP injection koruması var (eğer kullanılıyorsa)
-- [ ] NoSQL injection koruması var (eğer kullanılıyorsa)
-- [ ] OS command injection koruması var
-
-#### A04:2025 Insecure Design
-- [ ] Threat modeling tamamlanmış
-- [ ] Güvenlik gereksinimleri tanımlı
-- [ ] Secure design patterns uygulanmış
-- [ ] Business logic flaw kontrolü yapılmış
-- [ ] Abuse case testing uygulanmış
-
-#### A05:2025 Security Misconfiguration
+#### A02:2025 Security Misconfiguration
 - [ ] Hata mesajları kullanıcıya hassas bilgi göstermiyor
 - [ ] Güvenlik header'ları aktif (CSP, HSTS, X-Frame-Options)
 - [ ] Default credential'lar değiştirilmiş
@@ -150,38 +125,71 @@ Her güvenlik denetimi şu alanları kapsamalıdır:
 - [ ] Directory listing devre dışı
 - [ ] Server banner gizlenmiş
 
-#### A06:2025 Vulnerable and Outdated Components
+#### A03:2025 Software Supply Chain Failures
 - [ ] `composer audit` çalıştırılmış ve sonuçlar temiz
 - [ ] `npm audit` çalıştırılmış ve sonuçlar temiz
 - [ ] Bilinen güvenlik açıkları kontrol edilmiş
 - [ ] Eski bağımlılıklar güncellenmiş
 - [ ] Software Bill of Materials (SBOM) mevcut
+- [ ] GitLeaks pre-commit aktif
+- [ ] Dependency pinning uygulanmış
 
-#### A07:2025 Identification and Authentication Failures
+#### A04:2025 Cryptographic Failures
+- [ ] AES-256-GCM ile credential şifreleme aktif
+- [ ] Argon2id parametreleri RFC 9106 uyumlu (Memory: 64MB, Time: 4, Threads: 2)
+- [ ] Hardcoded secret yok (API key, password, JWT secret)
+- [ ] TLS 1.3 zorunlu (HTTP değil HTTPS)
+- [ ] Key rotation stratejisi tanımlı
+- [ ] IV generation güvenli (96-bit rastgele)
+- [ ] Deprecated algoritma kullanımı yok (MD5, SHA1, DES)
+
+#### A05:2025 Injection
+- [ ] PDO prepared statement kullanımı %100
+- [ ] SELECT * kullanımı yok (açık sütun listesi)
+- [ ] ORM kullanımı yok (ADR-002)
+- [ ] Input validation tüm endpoint'lerde aktif
+- [ ] Output encoding uygulanmış
+- [ ] DOMParser + TrustedTypes (innerHTML yasak)
+- [ ] LDAP injection koruması var (eğer kullanılıyorsa)
+- [ ] OS command injection koruması var
+
+#### A06:2025 Insecure Design
+- [ ] Threat modeling tamamlanmış
+- [ ] Güvenlik gereksinimleri tanımlı
+- [ ] Secure design patterns uygulanmış
+- [ ] Business logic flaw kontrolü yapılmış
+- [ ] Abuse case testing uygulanmış
+
+#### A07:2025 Authentication Failures
 - [ ] Brute force koruması aktif (rate limiting)
 - [ ] Şifre politikası uygulanıyor (min 12 karakter)
 - [ ] Session management güvenli
 - [ ] Multi-factor auth değerlendirmesi yapılmış
 - [ ] Credential stuffing koruması var
+- [ ] Account lockout mekanizması aktif
 
-#### A08:2025 Software and Data Integrity Failures
+#### A08:2025 Software or Data Integrity Failures
 - [ ] CI/CD pipeline integre
 - [ ] Serialization güvenli
 - [ ] Integrity check mekanizması var
 - [ ] Unsigned updates yok
 - [ ] Auto-update güvenli
+- [ ] CSRF token validation aktif
 
-#### A09:2025 Security Logging and Monitoring Failures
+#### A09:2025 Security Logging & Alerting Failures
 - [ ] Güvenlik olayları loglanıyor
 - [ ] Log bütünlüğü korunuyor
 - [ ] Hassas veriler loglarda redacted
-- [ ] Alerting mekanizması aktif
+- [ ] Real-time alerting mekanizması aktif
 - [ ] Incident response planı mevcut
+- [ ] Audit trail append-only
 
-#### A10:2025 Server-Side Request Forgery (SSRF)
-- [ ] Input validation URL'ler için var
-- [ ] URL allowlist tanımlı
-- [ ] Network segmentation uygulanmış
+#### A10:2025 Mishandling of Exceptional Conditions
+- [ ] Error hierarchy tanımlı
+- [ ] Graceful degradation uygulanmış
+- [ ] Circuit breaker mekanizması var
+- [ ] Race condition koruması var
+- [ ] Replay attack koruması var
 - [ ] Internal network erişimi kısıtlı
 - [ ] Response validation var
 
@@ -785,16 +793,16 @@ catch (Exception $e) {
 
 | OWASP | Kategori | CoreMusic Kontrol | İlgili ADR | İlgili Middleware |
 |-------|----------|-------------------|------------|-------------------|
-| A01 | Broken Access Control | RBAC + IDOR + CORS | — | AuthMiddleware |
-| A02 | Cryptographic Failures | AES-256-GCM + Argon2id | [[ADR-022]] | — |
-| A03 | Injection | PDO prepared + DOMParser | [[ADR-002]] | — |
-| A04 | Insecure Design | Threat modeling | — | — |
-| A05 | Security Misconfiguration | Error handling + headers | [[ADR-012]] | SecurityHeadersMiddleware |
-| A06 | Vulnerable Components | composer audit + npm audit | — | — |
-| A07 | Auth Failures | Argon2id + session + CSRF | [[ADR-010]] | AuthMiddleware + CsrfMiddleware |
-| A08 | Data Integrity | CI/CD + serialization | — | — |
-| A09 | Logging Failures | Redaction + audit trail | [[ADR-004]] | — |
-| A10 | SSRF | URL validation + allowlist | — | AuthServiceClient |
+| A01 | Broken Access Control (SSRF dahil) | RBAC + IDOR + CORS + URL allowlist | — | AuthMiddleware |
+| A02 | Security Misconfiguration | Error handling + headers + hardening | [[ADR-012]] | SecurityHeadersMiddleware |
+| A03 | Software Supply Chain Failures | composer audit + npm audit + GitLeaks | — | — |
+| A04 | Cryptographic Failures | AES-256-GCM + Argon2id + RS256 | [[ADR-022]] | — |
+| A05 | Injection | PDO prepared + DOMParser + TrustedTypes | [[ADR-002]] | — |
+| A06 | Insecure Design | Threat modeling + DDD + CQRS | — | — |
+| A07 | Authentication Failures | Argon2id + session + CSRF + MFA | [[ADR-010]] | AuthMiddleware + CsrfMiddleware |
+| A08 | Software/Data Integrity | CI/CD + serialization + code signing | — | — |
+| A09 | Security Logging & Alerting | Redaction + audit trail + alerting | [[ADR-004]] | — |
+| A10 | Mishandling of Exceptional Conditions | Error hierarchy + graceful degradation | — | — |
 
 ---
 
@@ -918,7 +926,6 @@ catch (Exception $e) {
 | **OWASP 2025** | ✅ Uyumlu |
 | **CWE Referansları** | ✅ Mevcut |
 | **ADR Uyumlu** | ✅ 010, 011, 012, 013, 022 |
-| **MSA Uyumlu** | ✅ 15 dosya limiti |
 | **Bölüm Sayısı** | 18 |
 | **Kod Örnekleri** | ✅ 14+ (❌ WRONG / ✅ CORRECT) |
 | **Checklist'ler** | ✅ 14 OWASP + 6 audit checklist |
@@ -1011,7 +1018,7 @@ catch (Exception $e) {
 ### 16.3 Database Security Audit Checklist
 
 ```markdown
-## Database Security Audit — 9 BCNF Veritabanları
+## Database Security Audit — 18 BCNF Veritabanları
 
 ### Connection Security
 - [ ] PDO prepared statements: 100%

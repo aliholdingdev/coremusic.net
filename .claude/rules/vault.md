@@ -1,172 +1,164 @@
-# Vault Rules — CoreMusic
+---
+type: rules
+category: vault
+title: "CoreMusic — Vault Rules"
+date: 2026-08-15
+updated: 2026-08-15
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
+---
 
-**Authority:** ADR-004, ADR-042, ADR-043
-**Last Updated:** 2026-08-09
-**Governing Rules:** Red Team · Human Mode · Truth Mode
+# CoreMusic — Vault Rules
+
+**See also:** [[WORKFLOW.md]] · [[CLAUDE.md]] · [[index.md]] · [[keys.md]]
 
 ---
 
-## 1. Vault Purpose
+## 1. Amaç
 
-Single Source of Truth (SSOT) for all AI assistants. Everything in `.ai/` is canonical.
+`.ai/` vault yönetimi için **kurallar ve prosedürler**. opencode.json'daki `@.claude/rules/vault.md` referansını karşılar.
 
-## 2. Vault Components
+---
 
-| Component | Purpose |
-|-----------|---------|
-| CLAUDE.md | AI Constitution & Master Vault Mandate |
-| AGENTS.md | Agent Registry & Coordination Protocol |
-| WORKFLOW.md | Vault Workflows & Engineering Processes |
-| index.md | Master Index (404 files, 50 ADRs) |
-| keys.md | Keyword Map & Concept Router |
-| brain.md | Engineering Brain (50 ADRs) |
-| MEMORY.md | Memory System Index |
-| log.md | Activity Log & Audit Trail |
-| engine.md | Orchestration Engine |
-| decisions/ | Architecture Decision Records (ADR-001 to ADR-050) |
-| architecture/ | System documentation (L0-L3, services, security) |
-| projects/ | Project documentation (Neva Engine, Download Service, etc.) |
-| testing/ | Test strategies and coverage targets |
-| electronic/ | Hardware and electronics documentation |
-| personas/ | User personas |
-| prompt-system/ | Prompt templates |
-| ui-design/ | UI/UX design documentation |
+## 2. SSOT Prensibi
 
-## 3. File Size Limits
+| Kural | Açıklama |
+|-------|----------|
+| Tek kaynak | Tüm bilgiler `.ai/` vault'tan okunur |
+| Harici bilgi | Doğrulanmamış harici bilgi REDDEDİLİR |
+| ADR öncelik | ADR kararları vault üstündedir |
+| Çelişki durumu | Vault'ta çelişki varsa DUR ve kullanıcıya sor |
 
-| File Type | Max Size | Action |
-|-----------|----------|--------|
-| Active log.md | 1000 lines | Archive to `archives/log-YYYY-MM.md` |
-| Documentation files | 1000 lines | Split or archive |
-| ADR files | 500 lines | Split or create supplementary ADR |
-| Index files | 1500 lines | Archive older entries |
+---
 
-## 4. ADR Lifecycle
+## 3. Dosya Oluşturma Kuralları
+
+| Kural | Açıklama |
+|-------|----------|
+| Template zorunlu | `.ai/.templates/index.md`'den uygun template seç (Guardrail #16) |
+| Frontmatter zorunlu | 7 zorunlu alan: type, category, title, date, updated, status, version |
+| Wiki-link formatı | `[[dosya/yolu]]` formatında çapraz referans |
+| In-place değişiklik | Dosya adı/konumu onay olmadan DEĞİŞTİRİLMEZ |
+| Append-only log | `log.md`'de geçmiş satırlar silinemez |
+
+---
+
+## 4. 12-Fazlı Vault Refactoring
+
+| Faz | Amaç | Hard Gate |
+|-----|------|-----------|
+| 1 | Repository Discovery | — |
+| 2 | AI Knowledge Discovery | — |
+| 3 | Existing Markdown Analysis | — |
+| 4 | Conflict Detection | — |
+| 5 | Duplicate Detection | — |
+| 6 | Gap Detection | — |
+| 7 | **Improvement Proposal** | ✅ HARD GATE |
+| 8 | Document Refactoring (In-Place) | — |
+| 9 | Cross Reference Update | — |
+| 10 | Index Update | — |
+| 11 | Validation | — |
+| 12 | Quality Report & Vault Sync | — |
+
+---
+
+## 5. ADR Yaşam Döngüsü
 
 ```
 Draft → Review → Active → Frozen
 ```
 
-- **Draft:** Editable by anyone
-- **Review:** Under review
-- **Active:** Can be updated (requires justification)
-- **Frozen:** Cannot be modified (ADR-001 to ADR-037 frozen)
-
-## 5. Vault Maintenance
-
-### 5.1 Daily Tasks
-- Check for broken wiki-links
-- Verify ADR references
-- Update cross-references if files changed
-
-### 5.2 Weekly Tasks
-- Archive old log entries
-- Review and update personas
-- Check for duplicate documentation
-
-### 5.3 Monthly Tasks
-- Full vault audit
-- Update index.md with new files
-- Review and consolidate documentation
-
-## 6. Cross-Reference Rules
-
-- Use `[[relative/path]]` for internal links
-- Always verify link targets exist
-- Update links when files are moved
-- No dead links in documentation
-
-## 7. Documentation Standards
-
-- All docs must have frontmatter (title, category, date, status, version)
-- Use consistent heading hierarchy
-- Include cross-references to related ADRs
-- Mark verification status of external information
-
-## 8. Vault Automation
-
-### 8.1 Scheduled Tasks
-- `vault-integrity-check.ps1` — Hourly wiki-link validation
-- `vault-update.ps1` — Daily cross-reference updates
-- `vault-archive.ps1` — Monthly log rotation
-
-### 8.2 CI/CD Integration
-- Pre-commit: Wiki-link validation
-- Post-merge: Cross-reference verification
-- Scheduled: Full vault audit
-
-## 9. Backup Strategy
-
-| Layer | Method | Frequency |
-|-------|--------|-----------|
-| Primary | Git version control | Every commit |
-| Secondary | Automated archive | Daily |
-| Tertiary | Manual backup | Before major changes |
-
-## 10. Governance Model
-
-- **Vault Steward:** Bayram Ali
-- **Authority:** Ultimate decision maker for vault changes
-- **Process:** All vault changes must be logged in `log.md`
-- **Audit:** Monthly review of vault health metrics
-
-## 11. File Organization
-
-```
-.ai/
-├── CLAUDE.md                    # AI Constitution
-├── AGENTS.md                    # Agent Registry
-├── WORKFLOW.md                  # Workflows
-├── index.md                     # Master Index
-├── keys.md                      # Keyword Map
-├── brain.md                     # Engineering Brain
-├── MEMORY.md                    # Memory System
-├── log.md                       # Activity Log
-├── engine.md                    # Orchestration Engine
-├── decisions/
-│   ├── accepted/                # Active ADRs
-│   ├── draft/                   # Draft ADRs
-│   └── rejected/                # Rejected ADRs
-├── architecture/
-│   ├── L0-infrastructure/       # Infrastructure layer
-│   ├── L1-security/             # Security layer
-│   ├── L2-routing/              # Routing layer
-│   ├── L3-presentation/         # Presentation layer
-│   └── services/                # Service documentation
-├── projects/
-│   ├── NevaEngine/              # Audio engine
-│   ├── NevaPlayer/              # Media player
-│   └── download-service/        # Download service
-├── testing/
-│   ├── strategies/              # Test strategies
-│   └── coverage/                # Coverage reports
-├── electronic/
-│   ├── hardware/                # Hardware designs
-│   ├── dsp/                     # DSP engine
-│   ├── drivers/                 # Driver framework
-│   ├── firmware/                # Firmware architecture
-│   ├── amplifier/               # Amplifier design
-│   ├── development-workflow.md  # 20-phase development workflow
-│   └── *.md                     # Overview, platform, device, audio, software, service
-├── diagrams/
-│   └── electronics-diagrams.md  # 20 Mermaid diagrams
-├── personas/                    # User personas
-├── prompt-system/               # Prompt templates
-├── ui-design/                   # UI/UX documentation
-├── archives/                    # Archived documents
-└── sessions/                    # Session history
-```
-
-## 12. Naming Conventions
-
-| Type | Convention | Example |
-|------|-----------|---------|
-| ADR | `ADR-NNN-description.md` | `ADR-044-dynamic-user-theme-engine.md` |
-| Architecture | `layer/description.md` | `L0-infrastructure/database.md` |
-| Project | `project/description.md` | `NevaEngine/audio-core.md` |
-| Testing | `type/description.md` | `strategies/unit-testing.md` |
+| Aşama | Değişiklik | Onay |
+|-------|------------|------|
+| Draft | Tamamen düzenlenebilir | Gerekmez |
+| Review | Kısıtlı değişiklik | Tech Lead |
+| Active | Sadece minor güncelleme | Arch Lead |
+| Frozen | Hiçbir değişiklik (001-037) | — |
 
 ---
 
-*Vault Rules v3.0.0 — CoreMusic Enterprise*
-*Last Updated: 2026-08-09*
+## 6. Hallüsinasyon Kontrolü
+
+| Durum | Aksiyon |
+|-------|---------|
+| Doğrulanamayan bilgi | `VERIFICATION REQUIRED` yaz |
+| Eski/yanlış bilgi | Düzelt veya sil |
+| Kırık wiki-link | Doğru dosya yolunu bul |
+| Eksik frontmatter | 7 zorunlu alanı ekle |
+
+---
+
+## 7. Güvenlik Sınırları
+
+| Veri Türü | Vault'a Yazılabilir mi? | Loglanırken |
+|-----------|--------------------------|-------------|
+| API Key | ❌ ASLA | `[REDACTED]` |
+| DB Password | ❌ ASLA | `[REDACTED]` |
+| JWT Secret | ❌ ASLA | `[REDACTED]` |
+| Session Token | ❌ ASLA | `[REDACTED]` |
+| ADR Kararı | ✅ | Doğrudan |
+| Dosya Yolu | ✅ | Doğrudan |
+
+---
+
+## 8. Log Formatı
+
+```
+[YYYY-MM-DD HH:MM:SS] [LEVEL] [AGENT] [ACTION] Açıklama
+```
+
+| Level | Kullanım |
+|-------|----------|
+| INFO | Normal operasyonlar |
+| WARN | Olası sorunlar |
+| ERROR | Hata durumları |
+| CRITICAL | Sistem durması, güvenlik ihlali |
+
+---
+
+## 9. Dosya Boyutu Sınırları
+
+| Dosya | Max Satır | Rotasyon |
+|-------|-----------|----------|
+| `log.md` | 1000 | 950'de arşivle |
+| `MEMORY.md` | 1000 | Modüler bölme |
+| `brain.md` | 1000 | Arsivleme |
+| `index.md` | 1000 | Kategori bölme |
+
+---
+
+## 10. Vault Sync Protokolü
+
+**Başlangıç (5 Soru):**
+1. Son session'dan bu yana ne değişti?
+2. Yeni ADR var mı?
+3. Kod değişikliği oldu mu?
+4. Vault'ta eski bilgi var mı?
+5. Skills durumu nedir?
+
+**Bitiş (5 Adım):**
+1. Değişiklikleri vault'a yaz (in-place)
+2. `log.md`'ye timestamp ekle
+3. MEMORY.md session state güncelle
+4. Wiki-link'leri doğrula
+5. Hallüsinasyon sweep
+
+---
+
+## 11. İlgili Kaynaklar
+
+| Kaynak | Yol |
+|--------|-----|
+| Süreçler | [[WORKFLOW.md]] |
+| Ana anayasa | [[CLAUDE.md]] |
+| Master katalog | [[index.md]] |
+| Keyword haritası | [[keys.md]] |
+| Template registry | [[.templates/index]] |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-08-15
+**Mode:** Red Team · Human Mode · Truth Mode

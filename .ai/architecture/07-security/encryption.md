@@ -250,7 +250,6 @@ if ($expected === $input) {
 | **Web Doğrulanmış** | ✅ NIST SP 800-38D, RFC 9106, php.net |
 | **ADR Uyumlu** | ✅ 022, 034 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 2 referans |
 | **Guardrails** | ✅ 5 kural |
 

@@ -1649,7 +1649,6 @@ components:
 | **Frontmatter** | ✅ Tamamlandı |
 | **OpenAPI Version** | 3.1 (güncel) |
 | **ADR Uyum** | 002, 010, 011, 012, 013, 020, 022, 034, 042 |
-| **MSA Uyum** | ✅ (15 dosya limiti) |
 | **Service Coverage** | 7/7 servis |
 | **Endpoint Count** | 55+ endpoint |
 | **Error Format** | Standart: `{ error: { code, message, details } }` |

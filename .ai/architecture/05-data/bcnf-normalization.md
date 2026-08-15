@@ -17,11 +17,11 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-9 BCNF veritabanının normalizasyon kurallarını ve uygulama standartlarını tanımlar.
+18 BCNF veritabanının normalizasyon kurallarını ve uygulama standartlarını tanımlar.
 
 ---
 
-## 2. 9 BCNF Veritabanı
+## 2. 18 BCNF Veritabanı
 
 | # | Veritabanı | Amaç | Tablo Sayısı |
 |---|------------|------|--------------|
@@ -116,7 +116,7 @@ CREATE TABLE users (
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 2 DB | [[ADR-040-database-authority]] | 9 BCNF authority |
+| § 2 DB | [[ADR-040-database-authority]] | 18 BCNF authority |
 | § 5 Schema | [[ADR-033-sql-normalization-strategy]] | SQL normalization |
 | § 6 Rules | [[ADR-002-pdo-mandatory-no-orm]] | No ORM rule |
 

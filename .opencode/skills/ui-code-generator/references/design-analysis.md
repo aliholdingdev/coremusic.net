@@ -107,6 +107,26 @@ Button:
 - [ ] Text resizable to 200%
 - [ ] Interactive elements keyboard accessible
 
+### 8. Modern CSS Feature Detection
+
+**Check for Modern CSS Usage:**
+- [ ] CSS @layer declaration for ITCSS
+- [ ] light-dark() or prefers-color-scheme for dark mode
+- [ ] :where() for low specificity defaults
+- [ ] Logical properties (margin-inline, padding-block)
+- [ ] @property for animatable custom properties
+- [ ] clamp() for fluid typography
+- [ ] Container queries (if applicable)
+- [ ] Nesting (if using native CSS nesting)
+
+**Analysis Steps:**
+1. Check if `@layer` is used in CSS files
+2. Verify dark mode implementation (class vs media query)
+3. Check for `:where()` usage in component styles
+4. Verify logical properties for RTL support
+5. Check for `@property` declarations
+6. Verify fluid typography with `clamp()`
+
 ---
 
 ## Output: Design Specification Template

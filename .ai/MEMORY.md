@@ -1,22 +1,148 @@
 ---
+title: "CoreMusic — Memory System Index"
 type: system
 category: memory-management
-updated: 2026-08-09
+date: 2026-08-13
+updated: 2026-08-13
 status: active
-version: 20.0.0
+version: 22.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/MEMORY.md"
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/AGENTS.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+    - ".ai/keys.md"
+    - ".ai/MEMORY.md"
+    - ".ai/log.md"
+    - ".ai/engine.md"
+  architecture:
+    - ".ai/ADR/"
+    - "Existing project architecture"
+    - "Existing codebase patterns"
+  project_structure:
+    - "coremusic.net/"
+    - "shared/"
+    - "api.coremusic.net/"
+    - "auth.coremusic.net/"
+    - "music.coremusic.net/"
+    - "admin.coremusic.net/"
+    - "home.coremusic.net/"
+    - "car.coremusic.net/"
+    - "studio.coremusic.net/"
+    - "pro.coremusic.net/"
+    - "media.coremusic.net/"
+    - "download.coremusic.net/"
+  decision_priority:
+    - "ADR decisions"
+    - "Architecture documentation"
+    - "Security requirements"
+    - "Existing implementation"
+    - "User requirements"
+  update_policy:
+    preserve_existing_structure: true
+    require_approval_for:
+      - "file rename"
+      - "directory move"
+      - "architecture change"
+      - "database schema change"
+      - "security policy change"
+  skills:
+    - path: ".opencode/skills/ui-code-generator/SKILL.md"
+      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
+    - path: ".opencode/skills/ui-analyzer/SKILL.md"
+      purpose: "UI analizi, mevcut tasarım değerlendirme"
+    - path: ".opencode/skills/skill-maker/SKILL.md"
+      purpose: "Yeni skill oluşturma, skill template sistemi"
+    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
+      purpose: "Güvenlik testi, truth mode, adversarial analiz"
+    - path: ".opencode/skills/prompt-maker/SKILL.md"
+      purpose: "Prompt mühendisliği, AI talimat tasarımı"
+    - path: ".opencode/skills/composer-sync/SKILL.md"
+      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
+    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
+      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
+    - path: ".opencode/skills/human-mode/SKILL.md"
+      purpose: "İnsan modu iletişimi, onay süreçleri"
+    - path: ".opencode/skills/hallucination-control/SKILL.md"
+      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
+    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
+      purpose: "BCNF normalizasyonu, şema tasarımı"
+  templates:
+    adr:
+      - path: ".ai/.templates/adr/adr-template.md"
+        purpose: "ADR şablonu"
+      - path: ".ai/.templates/adr/adr-frontend-template.md"
+        purpose: "Frontend ADR şablonu"
+      - path: ".ai/.templates/adr/adr-database-template.md"
+        purpose: "Database ADR şablonu"
+      - path: ".ai/.templates/adr/adr-security-template.md"
+        purpose: "Security ADR şablonu"
+      - path: ".ai/.templates/adr/adr-audio-template.md"
+        purpose: "Audio/Hardware ADR şablonu"
+      - path: ".ai/.templates/adr/adr-index.md"
+        purpose: "ADR navigasyon rehberi"
+    backend:
+      - path: ".ai/.templates/backend/php-template.md"
+        purpose: "PHP 8.4 backend geliştirme şablonu"
+      - path: ".ai/.templates/backend/nodejs-template.md"
+        purpose: "Node.js 20+ backend geliştirme şablonu"
+    frontend:
+      - path: ".ai/.templates/frontend/js-template.md"
+        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
+      - path: ".ai/.templates/frontend/css-template.md"
+        purpose: "ITCSS 9-layer, BEM CSS şablonu"
+    testing:
+      - path: ".ai/.templates/testing/phpunit-template.md"
+        purpose: "PHPUnit 10+ test şablonu"
+      - path: ".ai/.templates/testing/vitest-template.md"
+        purpose: "Vitest JS/TS test şablonu"
+    infrastructure:
+      - path: ".ai/.templates/infrastructure/migration-template.md"
+        purpose: "MySQL 9 BCNF migration şablonu"
+      - path: ".ai/.templates/infrastructure/docker-template.md"
+        purpose: "Docker 24+ Compose v2 şablonu"
+      - path: ".ai/.templates/infrastructure/github-actions-template.md"
+        purpose: "GitHub Actions CI/CD şablonu"
+    documentation:
+      - path: ".ai/.templates/documentation/api-doc-template.md"
+        purpose: "API dokümantasyon şablonu"
+      - path: ".ai/.templates/documentation/security-audit-template.md"
+        purpose: "Güvenlik denetimi şablonu"
+      - path: ".ai/.templates/documentation/WikiPage-Template.md"
+        purpose: "Wiki sayfası şablonu"
+    hardware:
+      - path: ".ai/.templates/hardware/arduino-template.md"
+        purpose: "Arduino/IoT prototipleme şablonu"
+      - path: ".ai/.templates/hardware/avr-template.md"
+        purpose: "AVR mikrodenetleyici şablonu"
+      - path: ".ai/.templates/hardware/pic-template.md"
+        purpose: "PIC mikrodenetleyici şablonu"
+    query:
+      - path: ".ai/.templates/query/Query-Template.md"
+        purpose: "SQL sorgu şablonu"
+    other:
+      - path: ".ai/.templates/other/c-template.md"
+        purpose: "C11 GCC embedded/driver şablonu"
+      - path: ".ai/.templates/cpp-template.md"
+        purpose: "C++20 JUCE/ASIO şablonu"
 ---
 
 # CoreMusic — Memory System Index
 
-**Zorunlu Baglantilar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[brain.md]] · [[keys.md]] · [[log.md]]
+**Zorunlu Baglantilar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[brain.md]] · [[keys.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
+
+**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
 
 ---
 
 ## 1. Amac
 
-CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartlastirir ve vault ile kod arasindaki tutarliligi korur. MSA (Sparse Attention) ile token asimi engellenir, audit trail ile izlenebilirlik garanti edilir. Bu dosya, tum AI ajanlarinin oturum baslangicinda okumasi gereken 9 zorunlu dosyadan biridir.
+CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartlastirir ve vault ile kod arasindaki tutarliligi korur. audit trail ile izlenebilirlik garanti edilir. Bu dosya, tum AI ajanlarinin oturum baslangicinda okumasi gereken 9 zorunlu dosyadan biridir.
 
 ---
 
@@ -26,14 +152,13 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 |-------|-------|
 | Persistent State | Oturumlar kapansa dahi silinmeyen bellek |
 | Vault-Sync | Degisikliklerin `.ai/` dosyalarina senkronizasyonu |
-| MSA (Sparse Attention) | Gorev basina max 15 dosya okuma protokolu |
 | Context Lock | Dosyanin gecici sure dondurulmesi |
 | Audit Trail | Tum degisikliklerin timestamp ile loglanmasi |
 | SSOT | Single Source of Truth — Tek Dogruluk Kaynagi |
 | Memory Hierarchy | Bellek oncelik sirasi: brain > index > AGENTS > MEMORY > log |
 | Hard Guardrail | Asilamayan sert mimari kural |
 | Zero Code Before Plan | Planlama yapilmadan kod yazma yasagi |
-| BCNF | Boyce-Codd Normal Form — 9 DB icin zorunlu normalizasyon |
+| BCNF | Boyce-Codd Normal Form — 18 BCNF DB icin zorunlu normalizasyon |
 | Immutability | ADR 001-037 frozen, degistirilemez |
 | Append-Only | Sadece ekleme, gecmis satirlar dokunulmaz |
 | Frontmatter | Dosya basligi, 7 zorunlu alan |
@@ -45,7 +170,7 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 
 | Dosya | Oncelik | Icerik | Mod | Max Boyut |
 |-------|---------|--------|-----|-----------|
-| `brain.md` | En yuksek | Mimari kararlar, ADR 001-050 | Read-Write | 1000 satir |
+| `brain.md` | En yuksek | Mimari kararlar, ADR 001-087 | Read-Write | 1000 satir |
 | `index.md` | Yuksek | Master katalog, tum vault indeksi | Read-Write | 1000 satir |
 | `AGENTS.md` | Yuksek | Agent tanimlari, yetkiler, handover | Read-Write | 1000 satir |
 | `MEMORY.md` | Orta | Session state, bu dosya | Read-Write | 1000 satir |
@@ -77,7 +202,7 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 
 ---
 
-## 5. 10-Step Boot Protocol
+## 5. 16-Step Boot Protocol
 
 | # | Dosya | Amac | Oncelik | Timeout |
 |---|-------|------|---------|---------|
@@ -90,12 +215,17 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | 7 | `.ai/brain.md` | Mimari kararlar | P1 | 4s |
 | 8 | `.ai/MEMORY.md` | Oturum hafizasi | P1 | 3s |
 | 9 | `.ai/log.md` | Aktivite gunlugu (son 20 satir) | P1 | 2s |
-| 10 | `.claude/rules/*` | Tum kurallar | P2 | 5s |
-| 11 | `.ai/ui-design/00-mockup-index.md` | Mockup esleme tablosu — frontend gorevlerinde ZORUNLU | P2 | 3s |
+| 10 | `.ai/ROLE.md` | Senior Software Architect rol tanimi | P1 | 3s |
+| 11 | `.claude/rules/*` | Tum kurallar | P2 | 5s |
+| 12 | `.ai/archives/prompt0-genel-ana-prompt-2026-08-13` | Ana genel prompt: 11 alt domain, 10 panel, 20 analiz gorevi, zorunlu kurallar | P2 | 5s |
+| 13 | `.ai/archives/prompt1-spa-router-2026-08-13` | SPA Router: Enterprise router gereksinimleri, SOLID, PSR, DI | P2 | 3s |
+| 14 | `.ai/archives/prompt2-auth-2026-08-13` | Auth: Merkezi auth.coremusic.net, hybrid JWT+session, RBAC, middleware | P2 | 3s |
+| 15 | `.ai/archives/prompt3-api-2026-08-13` | API: API-First, Gateway, BFF, CQRS, Event Driven, 14 servis | P2 | 3s |
+| 16 | `.ai/ui-design/00-mockup-index.md` | Mockup esleme tablosu — frontend gorevlerinde ZORUNLU | P2 | 3s |
 
-**Toplam boot suresi:** Max 28 saniye. P0 -> P1 -> P2 sirasiyla okunur. Paralel okuma desteklenmez (sirali bagimlilik).
+**Toplam boot suresi:** Max 36 saniye. P0 -> P1 -> P2 sirasiyla okunur. Paralel okuma desteklenmez (sirali bagimlilik).
 
-**Frontend Gorev Kurali:** CSS/HTML/JS/layout/bileşen görevlerinde `00-mockup-index.md` okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir. Görsel referanslar (`.ai/.png/**`) 15 dosya MSA limitine dahil değildir.
+**Frontend Gorev Kurali:** CSS/HTML/JS/layout/bileşen görevlerinde `00-mockup-index.md` okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir. Görsel referanslar: `.ai/.png/home-1024/` (12 PNG) + `.ai/.png/shared-1024/` (6 PNG) = toplam 18 PNG mockup
 
 ---
 
@@ -113,7 +243,7 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 
 ---
 
-## 7. Session Vault Sync — Bitis (6 Adim)
+## 7. Session Vault Sync — Bitis (5 Adim)
 
 | # | Adim | Kontrol | Sure |
 |---|------|---------|------|
@@ -121,30 +251,16 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | 2 | `log.md`'ye timestamp ekle | Format dogrulama | 2s |
 | 3 | MEMORY.md session state guncelle | Session indeks | 3s |
 | 4 | Wiki-link'leri dogrula | Regex pattern | 5s |
-| 5 | MSA limit kontrolu (15 dosya) | Dosya sayaci | 2s |
-| 6 | Hallusinasyon sweep | `VERIFICATION REQUIRED` taramasi | 3s |
+| 5 | Hallusinasyon sweep | `VERIFICATION REQUIRED` taramasi | 3s |
 
 **Toplam:** Max 20 saniye. Wiki-link dogrulama regex: `\[\[([^\]]+)\]\]`.
 
 ---
 
-## 8. MSA Sparse Attention (ADR-042/C5)
-
-**Gorev basina max 15 dosya okunur.**
-
-| Oncelik | Dosya Grubu | Max | Toplam |
-|---------|-------------|-----|--------|
-| P0 (Kritik) | CLAUDE.md, AGENTS.md, WORKFLOW.md | 3 | 3 |
-| P1 (Yuksek) | index.md, keys.md, brain.md, MEMORY.md, log.md | 5 | 8 |
-| P2 (Gorev) | decisions/accepted/ADR-NNN, architecture/L[0-3]/* | 5 | 13 |
-| P3 (Dusuk) | testing/*, ui-design/*, personas/* | 2 | 15 |
-
 **Kurallar:**
 1. P0 -> P1 -> P2 -> P3 sirasiyla okunur
 2. Fallback: `index.md`
-3. Limit asilirsa `log.md`'ye WARN yazilir
-4. Token asimi onlenir: gereksiz dosya okunmaz
-5. Secici okuma (Sparse Attention) uygulanir
+3. Token asimi onlenir: gereksiz dosya okunmaz
 
 ---
 
@@ -252,7 +368,6 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | Eksik frontmatter | 7 zorunlu alan eksik | Frontmatter'i tamamla | MEDIUM |
 | Boyut limit asimi | Dosya >1000 satir | Dosyayi bol veya arsivle | MEDIUM |
 | Hallusinasyon | `VERIFICATION REQUIRED` etiketi yok | Etiketi ekle | CRITICAL |
-| Token overflow | MSA >15 dosya | Gorev parcalama | HIGH |
 | Session kaybi | Oturum yarim kaldi | log.md'den resume | MEDIUM |
 | Vault tutarsizligi | Cakiskili dosyalar | Cross-reference update | HIGH |
 | Eski bilgi | `VERIFICATION REQUIRED` var | Dogrula veya sil | MEDIUM |
@@ -275,7 +390,6 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | 2 | `log.md` Append-Only, gecmis silinemez | Butunluk | ADR-004 |
 | 3 | Session timestamp'leri UTC immutable olmali | Izlenebilirlik | ADR-004 |
 | 4 | ADR 001-037 FROZEN, yeni karar icin ADR-038+ | Immutability | ADR-042 |
-| 5 | **MSA Limit = 15 dosya** | Token Ekonomisi | ADR-042 |
 | 6 | **music.coremusic.net = Port 81, PHP 8.4** | Altyapi | ADR-042 |
 | 7 | **CSRF Token Key = `csrf_token`** | Guvenlik | ADR-010 |
 | 8 | Layer Violation: L0->L3 import yasak | Mimari | CLAUDE.md |
@@ -292,7 +406,6 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 |-------|----------|-------|
 | Dosya boyutu | Max 1000 satir/dosya | Moduler yapi, arsivleme |
 | Eszamanli erisim | Lock tabanli basit cozum | Context Lock + Queue |
-| Token sinirlamasi | Context window sinirli | MSA (secici okuma) |
 | Vault boyutu | Max 100MB | Gereksiz kopyalari arsivle |
 | Boot suresi | Max 25 saniye | Paralel okuma optimizasyonu |
 | Memory boyutu | Max 10MB toplam | Arsivleme, sikistirma |
@@ -328,6 +441,35 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | 2026-08-09 | Router & Middleware Implementation | ✅ ADR-057 olusturuldu — 22 adimlik router+middleware plani | [[ADR-057-router-middleware-implementation]] | Backend |
 | 2026-08-09 | Electronics Vault Integration | ✅ 50+ dosya, L6 katmani, 3 yeni ADR (061-063) | [[ADR-061/062/063-electronics]] | MO |
 | 2026-08-09 | AI Architecture + Vault Update | ✅ 12 yeni dosya (9 AI + 1 BCNF + 2 Security), OWASP 2025, PCM3168A duzeltmesi | [[ADR-030/035/036/049-ai]] | MO |
+| 2026-08-12 | Katmanlı Mimari Plan + ADR-083/084/085/086 + Vault Güncellemeleri | ✅ Tamamlandı | ADR-083, ADR-084, ADR-085, ADR-086 | MO |
+| 2026-08-13 | Master Implementation Plan + ADR-087 + Tüm Vault Revize | ✅ Tamamlandı (22 bölüm, 5 faz, 40 gün) | ADR-087, master-implementation-plan.md | MO |
+| 2026-08-13 | Vault Sync — Master Implementation Plan doğrulama + MEMORY/log güncelleme | ✅ Tamamlandı | master-implementation-plan.md | MO |
+| 2026-08-13 | Vault Restructuring — Templates Entegrasyon, Agent Yeniden Yapılandırma, Prompt Arsivleme | ✅ 5 faz, ~43 dosya | log.md | MO |
+| 2026-08-13 | Prompt Entegrasyonu — prompt0-3 okundu, .ai vault güncellendi, ADR revizeleri | ✅ brain.md, ADR-083, ADR-052, ADR-084 güncellendi, opencode.json optimize edildi | ADR-083 v2.0, ADR-052 v2.0, ADR-084 v2.0 | MO |
+| 2026-08-13 | opencode.json Yeniden Yapılandırma — 12 agent prompt'u düzeltildi, template entegrasyonu, kesik metin giderildi, n@ hatası düzeltildi | ✅ 12 agent'a @.ai/.templates/index.md + @.ai/ROLE.md referansları eklendi, master-orchestrator prompt'u 7-adımlı task dispatch ile tamamlandı | ADR-042, ADR-083, ADR-084, ADR-085, ADR-086 | MO |
+| 2026-08-13 | .ai Beyin Yeniden Yapılandırma — Çelişki düzeltme, template entegrasyonu, prompt bağlama, hibrit kurallar | ✅ Tamamlandı (~20 dosya) | ADR-042, ADR-087 | MO |
+| 2026-08-15 | 18 BCNF Vault Senkronizasyonu — SQL dosyalarına göre vault tamamen yeniden yapılandırıldı | ✅ coremusic_download.sql oluşturuldu, database_master.md yeniden yazıldı (18 DB, 156 tablo), 27+ dosya güncellendi | — | Data Engineer |
+| 2026-08-15 | Architecture Vault Veri Tutarlılık Düzeltmesi — 12 dosya, ~20 değişiklik | ✅ architecture-master.md oluşturuldu, CLAUDE.md DB 11→18, index.md ADR 78→87, brain.md L0-L3→L0-L6, keys.md L4-L6 keywords, tüm layer dosyaları L0-L6 güncellendi | — | MO |
+
+---
+
+## Q&A Kararlari (2026-08-13)
+
+| Soru | Cevap | Kaynak |
+|------|-------|--------|
+| Shared library yapisi | Hybrid: tek shared/, moduler namespace (CoreMusic\Auth, CoreMusic\Security) | Kullanici |
+| Veritabani motoru | MySQL 9.7 (local, zaten kurulu) | Kullanici |
+| Web server | Apache (:81) + IIS (:80) paralel | Kullanici |
+| PHP versiyonu | PHP 8.5.8 (C:\Php858\) — zaten kurulu | Kullanici |
+| MySQL kullanici | Ali / ali** (root degil) | Kullanici |
+| Entry point yapisi | Her subdomain kendi index.php'si (PROJECT_ROOT pattern) | Kullanici + MO |
+| Session storage | File-based baslangic → DB gecis plani | Kullanici + MO |
+| JWT key uretimi | FAZ 0'da RS256 key pair uretimi (openssl) | Kullanici + MO |
+| Composer versiyonlari | psr/http-server-handler ^1.0 (2.0 yok), respect/validation ^2.0, phpstan ^2.0 | MO (hata duzeltme) |
+| Master Implementation Plan | 5 faz, 40 gun, 22 bolum, 30 cikti, 22 coremusic/* paket, 25 enterprise paket | MO (ADR-087) |
+| Referans proje analizi | monolitik shared, 448 satir AuthController, 3 origin CORS, test yok tespit edildi | MO (ADR-087) |
+| SOLID ihlalleri | SRP (6 uzun sinif), ISP (2 buyuk interface), OCP (yeni provider eklenemez) tespit edildi | MO (ADR-087) |
+| Katman ihlalleri | Controller→Repository direkt, Config global constant, PSR-15 uyumsuzluk tespit edildi | MO (ADR-087) |
 
 ---
 
@@ -342,7 +484,6 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | `MEMORY.md` | [[keys.md]] | Zorunlu baglanti | — |
 | `MEMORY.md` | [[brain.md]] | Zorunlu baglanti | — |
 | `MEMORY.md` | [[log.md]] | Zorunlu baglanti | — |
-| `MEMORY.md` | [[ADR-042-vault-restructuring-2026-08-03]] | MSA limit | ADR-042 |
 | `MEMORY.md` | [[ADR-004-multi-domain-spa]] | Vault versiyonlama | ADR-004 |
 | `MEMORY.md` | [[ADR-022-database-hardened-security]] | Guvenlik | ADR-022 |
 | `MEMORY.md` | [[ADR-010-csrf-protection-strategy]] | CSRF | ADR-010 |
@@ -354,20 +495,19 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 19.0.0 |
+| Version | 22.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 20 |
 | SSOT Authority | Memory System Index |
-| Last Updated | 2026-08-08 |
-| ADR Coverage | ADR-001/002/004/007/008/010/011/022/034/038/040/042/043/044 |
-| MSA Uyumlu | ✅ |
+| Last Updated | 2026-08-13 |
+| ADR Coverage | ADR-001 through ADR-087 (37 Frozen + 50 Active) |
 | Security Boundary | ✅ REDACTED policy |
-| Session History | 11 oturum |
+| Session History | 14 oturum |
 | Cross References | 12 capraz referans |
 | Terminology | 14 terim |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-08
+**Last Updated:** 2026-08-13
 **Mode:** Red Team · Human Mode · Truth Mode

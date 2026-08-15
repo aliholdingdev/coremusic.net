@@ -1150,7 +1150,6 @@ performance.getEntriesByType('resource').forEach((r) => {
 | **ES6+** | ✅ Uyumlu |
 | **Vanilla JS** | ✅ Framework yok |
 | **ADR Uyumlu** | ✅ 001, 010, 012, 021, 022 |
-| **MSA Uyumlu** | ✅ |
 | **Security Sections** | ✅ 3 bölüm |
 | **Performance Sections** | ✅ 3 bölüm |
 | **Edge Cases** | ✅ 3 bölüm |

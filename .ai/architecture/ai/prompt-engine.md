@@ -2,7 +2,7 @@
 title: "CoreMusic — Prompt Engine"
 type: architecture
 category: prompt-engine
-updated: 2026-08-09
+updated: 2026-08-13
 status: active
 version: 2.0.0
 authority: Single Source of Truth (SSOT)
@@ -64,7 +64,6 @@ Raw     Schema OK     Vault refs       < limit        Hit?         Compress     
 | Parametre | Değer | Kaynak |
 |-----------|-------|--------|
 | Max tokens | Model-dependent | Model config |
-| MSA limit | 15 dosya/task | ADR-042/C5 |
 | Context window | Model-dependent | Model config |
 | Compression threshold | %80 | Optimizasyon |
 | Input budget | %70 of max | Tahsis |
@@ -89,9 +88,9 @@ Raw     Schema OK     Vault refs       < limit        Hit?         Compress     
 | JS Template | .templates/frontend/ | JS kodlama | ADR-001 |
 | C++ Template | .templates/cpp/ | C++ kodlama | ADR-017 |
 | Security Audit | .templates/security/ | Güvenlik denetimi | ADR-022 |
-| CoreMusic Theme | prompt-system/coremusic-theme-prompt | Tema promptu | ADR-044 |
-| Electronics | prompt-system/electronics-prompt | Elektronik promptu | ADR-061 |
-| Workflow | prompt-system/workflow-prompt | İş akışı promptu | ADR-042 |
+| CoreMusic Theme | [[ADR-044-dynamic-user-theme-engine]] | Tema promptu — ADR-044'te tanımlıdır | ADR-044 |
+| Electronics | [[ADR-061-electronics-architecture]] | Elektronik promptu — ADR-061'de tanımlıdır | ADR-061 |
+| Workflow | [[ADR-042-vault-restructuring]] | İş akışı promptu — ADR-042'de tanımlıdır | ADR-042 |
 
 ---
 
@@ -109,6 +108,10 @@ Raw     Schema OK     Vault refs       < limit        Hit?         Compress     
 | log.md | P1 | 1 | ~1000 |
 | ADR files | P2 | 5 | ~5000 |
 | Architecture | P2 | 5 | ~5000 |
+| prompt0 (Genel Ana) | P2 | 1 | ~15000 | Ana mimari: 11 domain, 10 panel, 20 analiz görevi |
+| prompt1 (SPA Router) | P2 | 1 | ~4000 | Enterprise router gereksinimleri |
+| prompt2 (Auth) | P2 | 1 | ~5000 | Merkezi auth, hybrid JWT+session |
+| prompt3 (API) | P2 | 1 | ~5000 | API-First, Gateway, CQRS |
 
 **Injection Sırası:** P0 → P1 → P2 → P3. Her aşamada token bütçesi kontrol edilir.
 
@@ -121,7 +124,6 @@ Raw     Schema OK     Vault refs       < limit        Hit?         Compress     
 | Compression | Uzun metin özeti | %30-50 |
 | Caching | Tekrar eden promptlar | %20-40 |
 | Batching | Benzer görevler birleştirme | %15-25 |
-| Sparse Attention | Sadece gerekli dosyalar | MSA limiti |
 | Token Truncation | Eski bağlam kısaltma | %10-20 |
 | Template Reuse | Standart şablonlar | %10-15 |
 
@@ -173,7 +175,6 @@ Raw     Schema OK     Vault refs       < limit        Hit?         Compress     
 | ADR-035 | System Prompt Engineering | ✅ Tüm system prompt'lar ADR-035 formatında |
 | ADR-036 | Multi-Project Prompt | ✅ Çoklu proje desteği aktif |
 | ADR-049 | Startup Prompt Loader | ✅ Startup'ta otomatik yükleme |
-| ADR-042 | Vault Restructuring | ✅ MSA limiti uygulanıyor |
 | ADR-005 | Zero Hallucination | ✅ Tüm çıktılar doğrulanıyor |
 
 ---
@@ -185,7 +186,6 @@ Raw     Schema OK     Vault refs       < limit        Hit?         Compress     
 | § 3 Prompt | [[ADR-035-system-prompt-engineering]] | Prompt standards |
 | § 6 Templates | [[ADR-036-multi-project-prompt-maker]] | Multi-proje |
 | § 7 Context | [[ADR-049-startup-prompt-loader]] | Startup loader |
-| § 8 Optimization | [[ADR-042-vault-restructuring-2026-08-03]] | MSA limit |
 | § 11 Security | [[ADR-022-database-hardened-security]] | Şifreleme |
 | § 12 Compliance | [[ADR-005-ultrathink-protocol]] | Zero hallucination |
 

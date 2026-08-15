@@ -14,7 +14,46 @@
 
 ---
 
-## Mobile-First Media Query Pattern
+## Fluid Typography with clamp() (Recommended)
+
+Modern CSS allows fluid typography without media queries using `clamp()`.
+
+```css
+:root {
+  /* Fluid heading sizes */
+  --text-h1: clamp(2rem, 4vw + 1rem, 4rem);
+  --text-h2: clamp(1.5rem, 3vw + 0.75rem, 3rem);
+  --text-h3: clamp(1.25rem, 2vw + 0.5rem, 2rem);
+  --text-h4: clamp(1.125rem, 1.5vw + 0.375rem, 1.5rem);
+  
+  /* Fluid body text */
+  --text-body: clamp(1rem, 0.5vw + 0.75rem, 1.125rem);
+  --text-small: clamp(0.875rem, 0.25vw + 0.75rem, 0.875rem);
+  
+  /* Fluid spacing */
+  --space-section: clamp(3rem, 5vw, 6rem);
+  --space-container: clamp(1rem, 3vw, 2rem);
+}
+
+h1 { font-size: var(--text-h1); }
+h2 { font-size: var(--text-h2); }
+h3 { font-size: var(--text-h3); }
+body { font-size: var(--text-body); }
+
+.section { padding-block: var(--space-section); }
+.container { padding-inline: var(--space-container); }
+```
+
+**Benefits:**
+- Single line replaces multiple media queries
+- Smooth scaling between viewport sizes
+- Better UX across all devices
+
+---
+
+## Mobile-First Media Query Pattern (Fallback)
+
+For cases where clamp() isn't sufficient (layout changes, not just sizing):
 
 ```css
 /* Base: 320px (no media query) */
@@ -56,6 +95,42 @@ body { font-size: 16px; }
   .container { max-width: 2000px; }
 }
 ```
+
+---
+
+## Container Queries (Component-Level Responsive)
+
+Container queries allow components to respond to their container size, not viewport.
+
+```css
+/* Define container */
+.card-container {
+  container-type: inline-size;
+  container-name: card;
+}
+
+/* Responsive based on container width */
+@container card (min-width: 400px) {
+  .card {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+  }
+}
+
+@container card (min-width: 600px) {
+  .card {
+    grid-template-columns: 250px 1fr;
+  }
+  .card__title {
+    font-size: 1.5rem;
+  }
+}
+```
+
+**Use Cases:**
+- Cards that adapt to sidebar width
+- Widgets that work in different layout regions
+- Components reused across multiple page layouts
 
 ---
 

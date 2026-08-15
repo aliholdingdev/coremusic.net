@@ -31,7 +31,7 @@ tags: [template, adr, database, sql, bcnf, migration, query, pdo]
 | Durum | Gerekli mi? | Açıklama |
 |-------|-------------|----------|
 | Yeni tablo ekleme | ✅ Evet | BCNF normalization gerekli |
-| Yeni veritabanı ekleme | ✅ Evet | 9 DB yapısını etkiliyor |
+| Yeni veritabanı ekleme | ✅ Evet | 18 BCNF DB yapısını etkiliyor |
 | Migration stratejisi | ✅ Evet | Forward-only kuralı |
 | Query optimizasyonu | ✅ Evet | Performans etkisi |
 | Index değişikliği | ✅ Evet | Query planını etkiliyor |
@@ -42,7 +42,7 @@ tags: [template, adr, database, sql, bcnf, migration, query, pdo]
 
 1. **ADR-002:** PDO mandatory, ORM YASAK
 2. **ADR-003:** 9 ayrı BCNF veritabanı
-3. **ADR-040:** Database Authority — 9 BCNF canonical
+3. **ADR-040:** Database Authority — 18 BCNF canonical
 4. **ADR-022:** Database Hardened Security
 5. **ADR-033:** SQL Normalization Strategy
 6. **SELECT * YASAK:** Explicit column seçimi zorunlu
@@ -109,7 +109,7 @@ references:
 
 ### 3.2 Mevcut Database Durumu
 
-#### 3.2.1 9 BCNF Veritabanı Listesi
+#### 3.2.1 18 BCNF Veritabanı Listesi
 
 | # | Veritabanı | Amaç | Tablo Sayısı | Durum |
 |---|------------|------|-------------|-------|
@@ -180,7 +180,7 @@ references:
 | 1 | PDO mandatory, ORM yasak | ✅ Zorunlu | ADR-002 |
 | 2 | SELECT * yasak | ❌ Yasak | ADR-002 |
 | 3 | Prepared Statement zorunlu | ✅ Zorunlu | ADR-002 |
-| 4 | 9 BCNF veritabanı | ✅ Zorunlu | ADR-003 |
+| 4 | 18 BCNF veritabanı | ✅ Zorunlu | ADR-003 |
 | 5 | BCNF normalizasyon | ✅ Zorunlu | ADR-040 |
 | 6 | Soft-delete zorunlu | ✅ Zorunlu | ADR-022 |
 | 7 | Audit trail zorunlu | ✅ Zorunlu | ADR-022 |
@@ -354,7 +354,7 @@ AND id = :id;
 
 ### 6.3 Karar Matrisi
 
-| Kriter | Ağırlık | ORM | PDO | Monolitik | 9 BCNF |
+| Kriter | Ağırlık | ORM | PDO | Monolitik | 18 BCNF |
 |--------|---------|-----|-----|-----------|--------|
 | ADR Uyumu | %30 | ❌ | ✅ | ❌ | ✅ |
 | Performans | %25 | Orta | Yüksek | Yüksek | Yüksek |
@@ -554,7 +554,7 @@ CREATE TABLE audit_log (
 | ADR | Başlık | İlişki |
 |-----|--------|--------|
 | ADR-002 | PDO Mandatory, ORM Yasak | Ana kural |
-| ADR-003 | 9 BCNF Veritabanı | Yapı |
+| ADR-003 | 18 BCNF Veritabanı | Yapı |
 | ADR-014 | Multi-DB Migration | Migration |
 | ADR-022 | DB Hardened Security | Güvenlik |
 | ADR-033 | SQL Normalization | Normalizasyon |
@@ -647,7 +647,7 @@ ADR-NNN (Database)
     │
     ├─► decisions/accepted/ADR-002-pdo-mandatory-no-orm (PDO kuralı)
     │
-    ├─► decisions/accepted/ADR-003-multi-db-9-databases (9 DB)
+    ├─► decisions/accepted/ADR-003-multi-db-9-databases (18 BCNF DB)
     │
     ├─► decisions/accepted/ADR-040-database-authority (BCNF)
     │

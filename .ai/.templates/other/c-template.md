@@ -896,7 +896,7 @@ void apply_gain_sse2(float* samples, size_t count, float gain) {
 - [[cpp-template]] — C++20 template
 - [[ADR-017-dsp-hardware-mode]] — DSP hardware mode (XMOS, JUCE, ASIO)
 - [[ADR-038-8.1-sound-card-chip-selection]] — PCM3168A, XMOS XU316
-- [[ADR-040-database-authority]] — 9 BCNF veritabanı
+- [[ADR-040-database-authority]] — 18 BCNF veritabanı
 - [[electronic/audio-interface-design]] — XMOS + PCM3168A devre tasarımı
 - [[electronic/asio-driver-design]] — ASIO sürücü tasarımı
 - [[architecture/06-audio/audio-pipeline]] — 32-bit float audio pipeline
@@ -929,7 +929,6 @@ void apply_gain_sse2(float* samples, size_t count, float gain) {
 | **Frontmatter** | ✅ Tam |
 | **C11 Uyumlu** | ✅ |
 | **ADR Uyumlu** | ✅ ADR-017 |
-| **MSA Uyumlu** | ✅ (15 dosya limiti) |
 | **Test Coverage** | ✅ ≥80% hedef |
 | **Static Analysis** | ✅ cppcheck/clang-tidy |
 

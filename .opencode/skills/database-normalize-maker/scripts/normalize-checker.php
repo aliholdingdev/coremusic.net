@@ -2,15 +2,14 @@
 declare(strict_types=1);
 
 /**
- * AI Agentic Orchestrator - Data Engineer Module
- * Normalization & BCNF Truth Mode Validator
+ * CoreMusic Database Normalizer
+ * Normalization & BCNF Validator
  * 
- * Bu script, SQL dosyasını ayrıştırarak 1NF, 2NF, 3NF ve BCNF kurallarını
- * strict_types=1 mantığıyla denetler. "Zero-Hallucination" kilitlerine takılan
- * tüm hataları terminale kırmızı renkte uyarı olarak basar.
+ * SQL dosyasını ayrıştırarak 1NF, 2NF, 3NF ve BCNF kurallarını
+ * denetler. Hataları terminale kırmızı renkte uyarı olarak basar.
  */
 
-namespace CoreMusic\AgenticOrchestrator\Database;
+namespace CoreMusic\Database;
 
 class NormalizeChecker {
     private string $schemaContent;

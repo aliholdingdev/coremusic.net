@@ -22,16 +22,16 @@ CoreMusic API güvenlik mimarisini, OWASP uyumluluğunu, Gateway güvenlik katma
 
 | # | OWASP Riski | CoreMusic Karşılığı | Katman |
 |---|-------------|---------------------|--------|
-| A01 | Broken Access Control | RBAC + Permission Matrix | L1 |
-| A02 | Cryptographic Failures | AES-256-GCM, Argon2id, HTTPS | L1 |
-| A03 | Injection | Prepared Statement, Input Validation | L0 |
-| A04 | Insecure Design | Threat Modeling, Security Review | Tasarım |
-| A05 | Security Misconfiguration | Hardened Defaults, Security Headers | L1 |
-| A06 | Vulnerable Components | Dependency Audit, Composer Audit | CI/CD |
-| A07 | Auth Failures | Hybrid Auth (Session + JWT RS256) | L1 |
-| A08 | Data Integrity Failures | CSRF Token, Signed URLs | L1 |
-| A09 | Logging Failures | Audit Trail, Structured Logging | L0 |
-| A10 | SSRF | URL Whitelist, Internal Network Guard | L1 |
+| A01 | Broken Access Control (SSRF dahil) | RBAC + Permission Matrix + URL Allowlist | L1 |
+| A02 | Security Misconfiguration | Hardened Defaults, Security Headers | L1 |
+| A03 | Software Supply Chain Failures | Dependency Audit, Composer Audit, GitLeaks | CI/CD |
+| A04 | Cryptographic Failures | AES-256-GCM, Argon2id, HTTPS, TLS 1.3 | L1 |
+| A05 | Injection | Prepared Statement, Input Validation, DOMParser | L0 |
+| A06 | Insecure Design | Threat Modeling, Security Review, DDD | Tasarım |
+| A07 | Authentication Failures | Hybrid Auth (Session + JWT RS256), MFA, Lockout | L1 |
+| A08 | Software/Data Integrity Failures | CSRF Token, Signed URLs, CI Integrity | L1 |
+| A09 | Security Logging & Alerting Failures | Audit Trail, Structured Logging, Real-time Alerting | L0 |
+| A10 | Mishandling of Exceptional Conditions | Error Hierarchy, Graceful Degradation, Circuit Breaker | Tüm Katmanlar |
 
 *Kaynak: [[architecture/07-security/security/owasp-compliance]]*
 
@@ -359,7 +359,6 @@ TLS 1.2 (fallback)
 | **ADR Uyumlu** | ✅ 010, 022, 034, 042, 051, 052 |
 | **OWASP Coverage** | ✅ A01-A10 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

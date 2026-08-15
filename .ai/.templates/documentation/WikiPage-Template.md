@@ -39,7 +39,6 @@ CoreMusic `.ai/` vault dokümantasyonu için **wiki sayfa şablonu**. Tüm vault
 
 | Karar | Etki |
 |-------|------|
-| [[ADR-042-vault-restructuring-2026-08-03]] | MSA limit = 15 dosya, max 1000 satır |
 | [[ADR-005-ultrathink-protocol]] | Zero hallucination, VERIFICATION REQUIRED |
 | [[ADR-004-multi-domain-spa]] | Vault versiyonlama politikası |
 
@@ -309,66 +308,60 @@ $stmt = $pdo->prepare('SELECT id FROM users WHERE id = :id');
 
 ### 3.7 Mermaid Diagrams
 
-Diyagramlar için Mermaid syntax kullanımı:
+Diyagramlar için ASCII art syntax kullanımı:
 
 **Flowchart:**
 
 ````markdown
-```mermaid
-flowchart TD
-    A[Başlangıç] --> B{Karar}
-    B -->|Evet| C[İşlem 1]
-    B -->|Hayır| D[İşlem 2]
-    C --> E[Bitiş]
-    D --> E
+```
+Başlangıç ──▶ {Karar}
+                │
+           Evet ▼ Hayır
+        İşlem 1  İşlem 2
+           │       │
+           └───┬───┘
+               ▼
+            Bitiş
 ```
 ````
 
 **Sequence Diagram:**
 
 ````markdown
-```mermaid
-sequenceDiagram
-    participant U as Kullanıcı
-    participant S as Sunucu
-    participant D as Veritabanı
-    U->>S: İstek
-    S->>D: Sorgu
-    D-->>S: Yanıt
-    S-->>U: Cevap
+```
+Kullanıcı ──▶ Sunucu ──▶ Veritabanı
+    │             │            │
+    │       İstek       Sorgu
+    │             │            │
+    │             ◀── Yanıt ──┘
+    ◀── Cevap ───┘
 ```
 ````
 
 **Class Diagram:**
 
 ````markdown
-```mermaid
-classDiagram
-    class AuthService {
-        +login(string email)
-        +logout()
-        +validateToken(string token)
-    }
-    class SessionManager {
-        +start()
-        +destroy()
-        +regenerate()
-    }
-    AuthService --> SessionManager
+```
+┌─────────────────┐      ┌─────────────────┐
+│   AuthService   │      │ SessionManager  │
+├─────────────────┤      ├─────────────────┤
+│ -secretKey      │      │ -lifetime       │
+├─────────────────┤      ├─────────────────┤
+│ +login(email)   │──────│ +start()        │
+│ +logout()       │      │ +destroy()      │
+│ +validateToken()│      │ +regenerate()   │
+└─────────────────┘      └─────────────────┘
 ```
 ````
 
 **State Diagram:**
 
 ````markdown
-```mermaid
-stateDiagram-v2
-    [*] --> Draft
-    Draft --> Review: Gönder
-    Review --> Active: Onay
-    Review --> Draft: Red
-    Active --> Frozen: Dondur
-    Frozen --> [*]
+```
+[*] ──▶ Draft ──▶ Review ──▶ Active ──▶ Frozen ──▶ [*]
+              ▲         │
+              └─────────┘
+             Reddedildi
 ```
 ````
 
@@ -465,7 +458,6 @@ Her dokümanın sonunda standart kalite raporu bölümü:
 | **Frontmatter** | ✅ Tamamlandı |
 | **Wikilink'ler** | ✅ Doğrulandı |
 | **Çapraz Referanslar** | ✅ Güncel |
-| **MSA Uyumlu** | ✅ (≤15 dosya) |
 | **Son Güncelleme** | YYYY-MM-DD |
 ```
 
@@ -540,7 +532,6 @@ Aşılamayan kurallar — ihlal durumunda işlem anında durdurulur:
 | 6 | **Secret Yok** | API key, password ASLA yazılmaz | Güvenlik ihlali |
 | 7 | **Append-Only Log** | `log.md`'ye sadece ekleme | Audit trail bozulur |
 | 8 | **Zero Hallucination** | Doğrulanamayan bilgi → `VERIFICATION REQUIRED` | Yanıltıcı bilgi yayılır |
-| 9 | **MSA Limit** | Görev başına max 15 dosya | Context window aşımı |
 | 10 | **Dosya Adı** | Kebab-case, uzantı `.md` | Navigasyon bozulur |
 
 ---
@@ -779,119 +770,98 @@ Bu doküman tamamlandı.
 
 ---
 
-## 12. Mermaid Diagram Library
+## 12. ASCII Art Diagram Library
 
 ### 12.1 Flowchart — Temel Akış
 
 ````markdown
-```mermaid
-flowchart TD
-    A[Başlangıç] --> B{Karar Noktası}
-    B -->|Evet| C[İşlem 1]
-    B -->|Hayır| D[İşlem 2]
-    C --> E[Sonuç]
-    D --> E
-    E --> F[Bitiş]
+```
+Başlangıç ──▶ {Karar Noktası}
+                 │
+            Evet ▼ Hayır
+         İşlem 1  İşlem 2
+            │       │
+            └───┬───┘
+                ▼
+             Sonuç ──▶ Bitiş
 ```
 ````
 
 ### 12.2 Flowchart — Middleware Pipeline
 
 ````markdown
-```mermaid
-flowchart LR
-    A[SessionManager] --> B[BypassAuth]
-    B --> C[RateLimiter]
-    C --> D[Auth]
-    D --> E[SecurityHeaders]
-    E --> F[Csrf]
+```
+SessionManager ──▶ BypassAuth ──▶ RateLimiter ──▶ Auth ──▶ SecurityHeaders ──▶ Csrf
 ```
 ````
 
 ### 12.3 Sequence Diagram — API Akışı
 
 ````markdown
-```mermaid
-sequenceDiagram
-    participant C as Client
-    participant R as Router
-    participant M as Middleware
-    participant P as PHP Backend
-    participant D as Database
-
-    C->>R: HTTP Request
-    R->>M: Pipeline
-    M->>P: Authenticated Request
-    P->>D: SQL Query
-    D-->>P: Result
-    P-->>C: JSON Response
+```
+Client ──▶ Router ──▶ Middleware ──▶ PHP Backend ──▶ Database
+   │            │            │              │             │
+   │     HTTP Request  Pipeline    Authenticated   SQL Query
+   │            │            │        Request         │
+   │            │            │              │      Result
+   │            │            │              ◀────────┘
+   │            │            ◀── JSON Response ───┘
+   ◀───────────┘
 ```
 ````
 
 ### 12.4 Class Diagram — Service Sınıfı
 
 ````markdown
-```mermaid
-classDiagram
-    class AuthService {
-        -string $secretKey
-        +login(string email, string password) bool
-        +logout() void
-        +validateToken(string token) bool
-    }
-    class SessionManager {
-        -int $lifetime
-        +start() void
-        +destroy() void
-        +regenerate() void
-    }
-    class UserRepository {
-        +findByEmail(string email) array
-        +updateLastLogin(int id) void
-    }
-    AuthService --> SessionManager
-    AuthService --> UserRepository
+```
+┌─────────────────┐      ┌─────────────────┐      ┌─────────────────┐
+│   AuthService   │      │ SessionManager  │      │ UserRepository  │
+├─────────────────┤      ├─────────────────┤      ├─────────────────┤
+│ -secretKey      │      │ -lifetime       │      │                 │
+├─────────────────┤      ├─────────────────┤      ├─────────────────┤
+│ +login(email,   │──────│ +start()        │      │ +findByEmail()  │
+│   password)     │      │ +destroy()      │      │ +updateLast     │
+│ +logout()       │      │ +regenerate()   │      │   Login()       │
+│ +validateToken()│      │                 │      │                 │
+└─────────────────┘      └─────────────────┘      └─────────────────┘
 ```
 ````
 
 ### 12.5 State Diagram — ADR Yaşam Döngüsü
 
 ````markdown
-```mermaid
-stateDiagram-v2
-    [*] --> Draft
-    Draft --> Review: Gönder
-    Review --> Active: Onaylandı
-    Review --> Draft: Reddedildi
-    Active --> Frozen: Donduruldu
-    Frozen --> [*]
+```
+[*] ──▶ Draft ──▶ Review ──▶ Active ──▶ Frozen ──▶ [*]
+              ▲         │
+              └─────────┘
+            Reddedildi
 ```
 ````
 
 ### 12.6 Pie Chart — Test Coverage Dağılımı
 
 ````markdown
-```mermaid
-pie title Test Coverage
-    "Unit Tests" : 70
-    "Integration" : 20
-    "E2E" : 10
+```
+Test Coverage Dağılımı:
+├── Unit Tests: %70
+├── Integration: %20
+└── E2E: %10
 ```
 ````
 
 ### 12.7 Gantt — Proje Zaman Çizelgesi
 
 ````markdown
-```mermaid
-gantt
-    title MVP Zaman Çizelgesi
-    dateFormat  YYYY-MM-DD
-    section Faz 1
-    Altyapı       :a1, 2026-01-01, 30d
-    Backend       :a2, after a1, 45d
-    section Faz 2
-    Frontend      :b1, after a2, 30d
-    Testing       :b2, after b1, 15d
+```
+MVP Zaman Çizelgesi:
+═══════════════════════════════════════════════════════
+Faz 1:
+  Altyapı     │████████████░░░░░░░░░░░░░░░░░░░░│ 30 gün
+  Backend     │░░░░░░░░░░░░████████████████░░░░│ 45 gün
+Faz 2:
+  Frontend    │░░░░░░░░░░░░░░░░░░░░░░░░████████│ 30 gün
+  Testing     │░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██│ 15 gün
+═══════════════════════════════════════════════════════
 ```
 ````
 
@@ -909,7 +879,6 @@ gantt
 | [[MEMORY.md]] | Session hafızası — persist state |
 | [[WORKFLOW.md]] | Süreçler — 12-fazlı vault refactoring |
 | [[log.md]] | Aktivite günlüğü — audit trail |
-| [[ADR-042-vault-restructuring-2026-08-03]] | MSA limit = 15 dosya |
 | [[ADR-005-ultrathink-protocol]] | Zero hallucination |
 
 ---
@@ -920,7 +889,6 @@ gantt
 |---------------|-------|-------------|
 | § 1 Amaç | [[CLAUDE.md]] | Ana sözleşme |
 | § 2 Tech Stack | [[index]] | Master katalog |
-| § 3 Code Standards | [[ADR-042-vault-restructuring-2026-08-03]] | MSA limit standardı |
 | § 4 Guardrails | [[ADR-005-ultrathink-protocol]] | Zero hallucination |
 | § 6 Security | [[ADR-022-database-hardened-security]] | Güvenlik standartları |
 | § 8 Edge Cases | [[ADR-007-cache-namespace]] | Zero Code Before Plan |
@@ -938,7 +906,6 @@ gantt
 | **Frontmatter** | ✅ Tamamlandı (7/7 zorunlu alan) |
 | **Wikilink'ler** | ✅ Doğrulandı (10+ aktif link) |
 | **Çapraz Referanslar** | ✅ Güncel (8 satır harita) |
-| **MSA Uyumlu** | ✅ (≤15 dosya) |
 | **Mermaid Diyagram** | ✅ 7 şablon |
 | **Anti-Pattern** | ✅ 5 örnek (❌/✅ karşılaştırmalı) |
 | **Edge Case** | ✅ 10 senaryo |

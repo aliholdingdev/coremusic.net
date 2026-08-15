@@ -205,7 +205,6 @@ Listening History
 | **Satır Sayısı** | ~510 |
 | **ADR Uyumlu** | ✅ 025, 028, 030 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 | **Guardrails** | ✅ 5 kural |
 

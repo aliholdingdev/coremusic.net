@@ -3,22 +3,105 @@ type: architecture
 category: l2
 title: "SPA PageRouter"
 date: 2026-08-08
-updated: 2026-08-08
+updated: 2026-08-13
 status: active
-version: 4.0.0
+version: 5.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
 # SPA PageRouter
 
-**Zorunlu Bağlantılar:** [[index]] · [[ADR-004-multi-domain-spa]] · [[ADR-021-spa-router-immutable-contract]]
+**Zorunlu Bağlantılar:** [[index]] · [[ADR-004-multi-domain-spa]] · [[ADR-021-spa-router-immutable-contract]] · [[ADR-083-spa-router]] · [[ADR-087-master-implementation-plan]]
 
 ---
 
 ## 1. Amaç
 
-PHP tabanlı SPA sayfa yönlendiricisini tanımlar. [[ADR-004-multi-domain-spa]] ile uyumludur.
+PHP tabanlı SPA sayfa yönlendiricisini tanımlar. [[ADR-004-multi-domain-spa]] ve [[ADR-083-spa-router]] ile uyumludur.
+
+**Kritik Not:** Mevcut router KULLANILMAYACAKTIR. Sıfırdan Enterprise seviyesinde bir router tasarlanacaktır (prompt1). Mevcut `C:\www\coremusic.net.old.ref` içindeki auth kodları, router, middleware, session sistemi, login sistemi, controller yapısı ve service yapısı **KESİNLİKLE kopyalanmayacaktır.** Sadece mimari referans olarak incelenecektir.
+
+---
+
+## 1A. Enterprise Router Gereksinimleri (prompt1)
+
+Yeni router aşağıdaki özelliklere sahip olacaktır:
+
+| # | Özellik | Açıklama |
+|---|---------|----------|
+| 1 | Enterprise | Kurumsal seviye, büyük projelere uygun |
+| 2 | SOLID | Tek sorumluluk, açık kapalılık, yerine koyma, arayüz ayrımı, bağımlılık tersi |
+| 3 | PSR Uyumlu | PSR-7 (HTTP Message), PSR-15 (Middleware), PSR-17 (HTTP Factories) |
+| 4 | Middleware Destekli | Her route'a ayrı middleware eklenebilir |
+| 5 | Subdomain Destekli | `music.coremusic.net` gibi subdomain bazlı routing |
+| 6 | Route Group | Prefix gruplama (ör: `/api/v1/*`) |
+| 7 | Attribute Destekli | PHP 8 attribute ile route tanımı: `#[Route('GET', '/path')]` |
+| 8 | Route Cache | Production'da route cache (file-based veya APCu) |
+| 9 | Dependency Injection | php-di/php-di entegrasyonu (PSR-11) |
+| 10 | Fluent API | Zincirleme method çağrısı ile route tanımlama |
+
+### Enterprise Router Mimarisı
+
+```
+shared/src/Router/
+├── Router.php                    ← Ana router (nikic/fast-route wrap)
+├── RouteDefinition.php           ← Fluent middleware/naming API
+├── GroupDefinition.php           ← Prefix grouping
+├── Attributes/
+│   ├── Route.php                 ← #[Route('GET', '/path')]
+│   ├── Middleware.php            ← #[Middleware(['auth', 'csrf'])]
+│   ├── Guard.php                 ← #[Guard('admin')]
+│   └── Group.php                 ← #[Group('/api/v1')]
+├── Cache/
+│   └── RouteCache.php            ← File/APCu-based route cache
+└── Contracts/
+    └── RouterInterface.php       ← PSR-15 uyumlu arayüz
+```
+
+### Route Tanım Örnekleri
+
+```php
+// Fluent API
+$router->get('/api/v1/songs', [SongController::class, 'index'])
+    ->middleware(['auth', 'rate-limit'])
+    ->name('songs.index');
+
+// Attribute API
+#[Group('/api/v1/auth')]
+#[Middleware(['SessionManager', 'RateLimiter', 'Csrf'])]
+final class AuthController
+{
+    #[Route('POST', '/login')]
+    #[Middleware(['RateLimiter:5/60s'])]
+    public function login(ServerRequestInterface $request): ResponseInterface
+    {
+        // ...
+    }
+}
+
+// Route Group
+$router->group('/api/v1', function (RouteCollector $r) {
+    $r->get('/songs', [SongController::class, 'index']);
+    $r->post('/songs', [SongController::class, 'store']);
+    $r->get('/songs/{id}', [SongController::class, 'show']);
+});
+```
+
+### Subdomain Routing
+
+```php
+// Subdomain bazlı routing
+$router->subdomain('auth', function (RouteCollector $r) {
+    $r->get('/login', [AuthController::class, 'loginForm']);
+    $r->post('/login', [AuthController::class, 'login']);
+});
+
+$router->subdomain('music', function (RouteCollector $r) {
+    $r->get('/', [MusicController::class, 'dashboard']);
+    $r->get('/playlist/{id}', [PlaylistController::class, 'show']);
+});
+```
 
 ---
 
@@ -205,7 +288,6 @@ $router->error(function (\Throwable $e) {
 | **Satır Sayısı** | ~510 |
 | **ADR Uyumlu** | ✅ 004, 021 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

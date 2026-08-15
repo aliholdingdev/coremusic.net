@@ -80,7 +80,7 @@ Kronolojik işlem günlüğü, append-only. Mevcut prompt-maker log formatıyla 
 
 ### 3.10 Vault Tarama Sınırı
 
-Vault taraması **maksimum 15-20 dosya** ile sınırlıdır (Minimal Sparse Attention prensibi — MSA). Orchestrator, `.ai/index.md`'yi kullanarak göreve en ilgili 15-20 dosyayı seçer; tüm depoyu taramaz. Bu sınır aşılırsa, tarama önceliklendirilir: önce yukarıdaki 9 zorunlu dosya, sonra görevin domain'ine özel dosyalar (ör. bir ödeme görevi için `.ai/wiki/payments/*`).
+Vault taraması  Orchestrator, `.ai/index.md`'yi kullanarak göreve en ilgili 15-20 dosyayı seçer; tüm depoyu taramaz. Bu sınır aşılırsa, tarama önceliklendirilir: önce yukarıdaki 9 zorunlu dosya, sonra görevin domain'ine özel dosyalar (ör. bir ödeme görevi için `.ai/wiki/payments/*`).
 
 ### 3.11 Erişim Yoksa Ne Olur
 

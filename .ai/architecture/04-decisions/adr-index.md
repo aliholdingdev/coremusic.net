@@ -120,7 +120,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 |-----|------|----------|-------|
 | [[ADR-038-8.1-sound-card-chip-selection]] | 8.1 ses donanımı (PCM3168A + XMOS XU316) | Audio | 2026-08 |
 | [[ADR-039-7-service-platform-architecture]] | 7-servis platform mimarisi | Architecture | 2026-08 |
-| [[ADR-040-database-authority]] | 9 BCNF DB otoritesi | Database | 2026-08 |
+| [[ADR-040-database-authority]] | 18 BCNF DB otoritesi | Database | 2026-08 |
 | [[ADR-041-database-normalization-supplementary]] | DB normalizasyon ekı | Database | 2026-08 |
 | [[ADR-042-vault-restructuring-2026-08-03]] | Vault yeniden yapılandırma | Vault | 2026-08 |
 | [[ADR-043-auth-subdomain-consolidation]] | Auth subdomain konsolidasyonu | Security | 2026-08 |
@@ -212,7 +212,6 @@ Draft → Review → Active → Frozen
 | **Satır Sayısı** | ~520 |
 | **ADR Uyumlu** | ✅ 001-050 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 3 referans |
 
 ---

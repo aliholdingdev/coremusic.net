@@ -115,15 +115,16 @@ Input → Gain → EQ (31-band) → Compressor → Limiter → Output
 
 ### 5.3 EQ Sistemi (ADR-025)
 
-| Özellik | Değer | ADR |
-|---------|-------|-----|
-| Band sayısı | 31 | ADR-025 |
-| Tip | Parametrik | ADR-025 |
-| Frekans aralığı | 20Hz–20kHz | ADR-025 |
-| Q faktörü | 0.1–10 | ADR-025 |
-| Gain | -12dB to +12dB | ADR-025 |
-| Preset | Kullanıcı tanımlı | ADR-025 |
-| AI Auto-EQ | Otomatik ayarlama | ADR-025 |
+| Özellik | Parametrik EQ | Grafik EQ |
+|---------|---------------|-----------|
+| Band sayısı | 31 | 31 |
+| Tip | Parametrik | Grafik (fixed frequency) |
+| Frekans aralığı | 20Hz–20kHz | 20Hz–20kHz |
+| Q faktörü | 0.1–10 | Sabit (1/3 oktav) |
+| Gain | -12dB to +12dB | -12dB to +12dB |
+| Preset | Kullanıcı tanımlı | Kullanıcı tanımlı |
+| AI Auto-EQ | Otomatik ayarlama | Otomatik ayarlama |
+| Bağımsız Ayar | ✅ Her panel için | ✅ Her panel için |
 
 ### 5.4 Reverb Efektleri
 
@@ -290,7 +291,6 @@ Channel 8: Subwoofer (LFE)
 | **Satır Sayısı** | ~530 |
 | **ADR Uyumlu** | ✅ 017, 025, 038 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 | **Cross-Reference** | ✅ 4 referans |
 | **Guardrails** | ✅ 6 kural |
 

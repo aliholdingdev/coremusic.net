@@ -52,31 +52,11 @@ CoreMusic Neva Engine ses motoru geliştirme için C++20 şablonu. Zero-allocati
 projects/neva-engine/
 ├── src/
 │   ├── AudioCore/
-│   │   ├── AudioEngine.h/.cpp       # Ana ses motoru
-│   │   ├── AudioProcessor.h/.cpp    # DSP processing
-│   │   ├── RingBuffer.h             # Lock-free ring buffer
-│   │   └── AudioSource.h/.cpp       # Audio input/source
 │   ├── DSP/
-│   │   ├── Equalizer.h/.cpp         # EQ processor
-│   │   ├── Compressor.h/.cpp        # Dynamics processor
-│   │   ├── Reverb.h/.cpp            # Reverb effect
-│   │   └── Mixer.h/.cpp             # Multi-channel mixer
 │   ├── Driver/
-│   │   ├── AsioDriver.h/.cpp        # ASIO driver
-│   │   ├── WasapiDriver.h/.cpp      # WASAPI driver
-│   │   └── AudioDevice.h/.cpp       # Device abstraction
 │   ├── Platform/
-│   │   ├── WindowsAudio.h/.cpp      # Windows-specific
-│   │   ├── LinuxAudio.h/.cpp        # Linux-specific
-│   │   └── MacAudio.h/.cpp          # macOS-specific
 │   └── Utils/
-│       ├── MathUtils.h              # SIMD math
-│       ├── MemoryPool.h             # Fixed-size memory pool
-│       └── ThreadPool.h             # Lock-free thread pool
 ├── tests/
-│   ├── AudioEngineTest.cpp
-│   ├── RingBufferTest.cpp
-│   └── EqualizerTest.cpp
 ├── CMakeLists.txt
 └── README.md
 ```
@@ -973,7 +953,6 @@ ctest --test-dir build --output-on-failure
 | **Zero-Allocation** | ✅ Guardrail |
 | **Lock-Free** | ✅ Guardrail |
 | **ADR Uyumlu** | ✅ 017, 038 |
-| **MSA Uyumlu** | ✅ |
 | **Security Sections** | ✅ |
 | **Performance Sections** | ✅ |
 | **Edge Cases** | ✅ |

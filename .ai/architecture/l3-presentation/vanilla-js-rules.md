@@ -175,7 +175,6 @@ async function fetchData(url, timeout = 5000) {
 | **Satır Sayısı** | ~510 |
 | **ADR Uyumlu** | ✅ 001 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

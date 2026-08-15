@@ -12,7 +12,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # API Architecture Master
 
-**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]]
+**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[ADR-084-api-gateway-architecture]] · [[ADR-087-master-implementation-plan]]
 
 ## 1. Amaç
 
@@ -540,7 +540,6 @@ sdk ← api-client, contracts
 | **Satır Sayısı** | ~350 |
 | **ADR Uyumlu** | ✅ 001, 002, 007, 042, 051, 053, 054 |
 | **Zero Hallucination** | ✅ |
-| **MSA Uyumlu** | ✅ |
 
 ---
 

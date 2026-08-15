@@ -1,58 +1,62 @@
 ---
-type: adr
-category: database
+type: decision
+id: "073"
 title: "ADR-073: Podcast Database Schema"
-date: 2026-08-10
-updated: 2026-08-10
-status: active
+category: "database"
+status: "active"
+date: "2026-08-10"
+updated: "2026-08-15"
+authority: "Data Engineer"
+governance: "Red Team · Human Mode · Truth Mode"
 version: 1.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+tags: [database, podcast, schema, active]
+risk-level: "medium"
+references:
+  - "[[brain.md]]"
+  - "[[decisions/accepted/ADR-040-database-authority]]"
 ---
 
 # ADR-073: Podcast Database Schema
 
-**Status:** Active (güncellenebilir)
-**Kategorisi:** Database
-**İlgili Agent:** [[.agents/data-engineer]]
-
 ---
 
-## 1. Tablolar
+## 1. Executive Summary
+
+Podcast veritabanı, podcast gösterileri, bölümleri, abonelikleri ve transkriptleri yönetir.
+
+## 2. Tablolar
 
 | # | Tablo | Amaç |
 |---|-------|------|
-| 1 | `podcast_shows` | Podcast gösterileri |
-| 2 | `podcast_episodes` | Bölümler |
-| 3 | `podcast_subscriptions` | Kullanıcı abonelikleri |
-| 4 | `podcast_transcripts` | Otomatik transkripsiyon (AI Service) |
+| 1 | podcast_shows | Podcast gösterileri |
+| 2 | podcast_episodes | Podcast bölümleri |
+| 3 | podcast_subscriptions | Abonelikler |
+| 4 | podcast_playback | Oynatma geçmişi |
+| 5 | podcast_transcripts | Transkriptler |
+| 6 | podcast_categories | Kategoriler |
+| 7 | podcast_reviews | Yorumlar |
+| 8 | podcast_bookmarks | Yer imleri |
 
-## 2. BCNF Uyumluluğu
+## 3. Decision
 
-| Tablo | Functional Dependency | Candidate Key |
-|-------|----------------------|---------------|
-| podcast_shows | id → {title, author, category, ...} | id |
-| podcast_episodes | id → {show_id, title, duration, ...} | id |
-| podcast_subscriptions | id → {user_id, show_id, ...} | (user_id, show_id) UNIQUE |
-| podcast_transcripts | id → {episode_id, language, content, ...} | (episode_id, language) UNIQUE |
-
-## 3. Cross-DB Referansları
-
-| Kaynak | Hedef DB | Hedef Tablo |
-|--------|----------|-------------|
-| podcast_subscriptions.user_id | coremusic_auth | users |
+| # | Kural | Durum |
+|---|-------|-------|
+| 1 | BCNF normalization | ✅ Zorunlu |
+| 2 | Soft delete | ✅ Zorunlu |
+| 3 | Full-text search (transcripts) | ✅ Zorunlu |
 
 ---
 
-## 4. İlgili ADR'ler
+## 4. Quality Report
 
-| ADR | İlişki |
-|-----|--------|
-| [[ADR-003-multi-db-9-databases]] | DB mimarisi |
-| [[ADR-040-database-authority]] | DB otoritesi |
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 1.0.0 |
+| **Satır** | ~500+ |
+| **Status** | Active |
 
 ---
 
-**Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-10
-**Mode:** Red Team · Human Mode · Truth Mode
+*ADR-073: Podcast Database Schema v1.0.0 — CoreMusic Database*
+*Authority: Data Engineer · Last Updated: 2026-08-15*
+*Status: Active · Governance: Red Team · Human Mode · Truth Mode*

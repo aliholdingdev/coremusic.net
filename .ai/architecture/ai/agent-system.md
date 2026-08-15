@@ -71,7 +71,7 @@ CoreMusic 11-lı agent sisteminin teknik mimarisini tanımlar. Her agent uzmanl�
 | Özellik | Değer |
 |---------|-------|
 | Katman | L3 (Presentation) |
-| Teknoloji | Vanilla JS ES6+, ITCSS 7-layer, BEM, TrustedTypes |
+| Teknoloji | Vanilla JS ES6+, ITCSS 9-layer, BEM, TrustedTypes |
 | Sorumluluk | Frontend kodlama, CSS mimarisi, responsive, accessibility |
 | Yasak | PHP backend kodu, DB sorgusu, security konfigürasyonu |
 | Dosya Erişimi | `*.js`, `*.css`, `*.html`, `*.svg` |
@@ -96,7 +96,7 @@ CoreMusic 11-lı agent sisteminin teknik mimarisini tanımlar. Her agent uzmanl�
 |---------|-------|
 | Katman | L0 (Infrastructure) |
 | Teknoloji | MySQL 9, SQLite, PDO, BCNF |
-| Sorumluluk | 9 BCNF DB yönetimi, schema tasarımı, migration, query optimization |
+| Sorumluluk | 18 BCNF DB yönetimi, schema tasarımı, migration, query optimization |
 | Yasak | PHP/JS kodu, security politikası |
 | Dosya Erişimi | `*.sql`, `*.php` (migration), `*.json` (schema) |
 | Test | Schema validation, BCNF audit |

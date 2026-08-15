@@ -3,16 +3,18 @@ type: system
 category: agent-role
 title: "CoreMusic — Senior Software Architect Role Definition"
 date: 2026-08-09
-updated: 2026-08-09
+updated: 2026-08-13
 status: active
-version: 2.0.0
+version: 4.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
 # CoreMusic — Senior Software Architect Role Definition
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
+
+**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
 
 ---
 
@@ -62,7 +64,7 @@ Bu dosya, CoreMusic ekosistemindeki tüm AI ajanlarının Referans Alması gerek
 | 24 | **Fetch API** | Expert | HTTP requests, AbortController |
 | 25 | **HTML5** | Expert | Semantic elements, Web APIs |
 | 26 | **CSS** | Expert | ITCSS, BEM, Custom Properties |
-| 27 | **ITCSS** | Expert | 7-layer architecture |
+| 27 | **ITCSS** | Expert | 9-layer architecture |
 | 28 | **BEM** | Expert | Block Element Modifier methodology |
 | 29 | **Progressive Enhancement** | Expert | Graceful degradation |
 | 30 | **Native** | Expert | |
@@ -70,7 +72,7 @@ Bu dosya, CoreMusic ekosistemindeki tüm AI ajanlarının Referans Alması gerek
 | 32 | **Audio DSP** | Expert | Digital Signal Processing, EQ, Reverb, Compressor |
 | 33 | **ASIO SDK** | Expert | Low-latency audio, Callback model, Buffer management |
 | 34 | **WASAPI** | Expert | Windows Audio Session API, Shared/Exclusive mode |
-| 35 | **JUCE** | Expert | Cross-platform audio framework, Plugin development |
+| 35 | **JUCE** | Expert | Cross-platform audio framework v9, Plugin development |
 | 36 | **FFmpeg** | Expert | Media processing, Codec, Transcoding, Muxing |
 | 37 | **Virtual Audio** | Expert | Virtual audio devices, Audio routing, Loopback |
 | 38 | **Audio Driver** | Expert | Windows Driver Kit, UMDF/KMDF |
@@ -112,7 +114,7 @@ CoreMusic'i monolithic bir yapıda inşa etmek yerine, her biri kendi görevini 
 |--------|-----------|
 | **Backend** | PHP 8.x Enterprise (strict_types, PSR-12) |
 | **Frontend** | Vanilla JavaScript SPA (History API, Fetch API) |
-| **CSS** | ITCSS 7-layer + BEM |
+| **CSS** | ITCSS 9-layer + BEM |
 | **Database** | MySQL 9 (BCNF) + SQLite (embedded) |
 | **Cache** | Redis + APCu |
 | **Queue** | Redis Queue / Symfony Messenger |
@@ -163,7 +165,7 @@ auth.coremusic.net merkezi kimlik servisidir. Diğer bütün subdomainler kendi 
 
 Whitelist tabanlı CORS: Sadece tanımlı CoreMusic subdomain'leri izin listesindedir.
 
-### 4.5 Middleware Pipeline (Frozen Sıra)
+### 4.5 Middleware Pipeline (Frozen Sıra — 10 Katman)
 
 ```
 HTTP Request
@@ -173,9 +175,11 @@ HTTP Request
         → Security Headers
           → Session Kontrolü
             → CSRF Doğrulama
-              → Authentication
-                → Authorization (RBAC)
-                  → Controller
+              → BypassAuth
+                → Authentication
+                  → Authorization (RBAC)
+                    → Validation
+                      → Controller
 ```
 
 ### 4.6 Rol Tabanlı Erişim Kontrolü (RBAC)
@@ -183,11 +187,11 @@ HTTP Request
 | Rol | Yetki Seviyesi | Erişim |
 |-----|----------------|--------|
 | **admin** | 1000-1999 | Tam sistem yönetimi |
-| **ultra_user** | 800-899 | Yüksek yetki |
-| **premium_user** | 700-799 | Yüksek kalite, offline |
-| **streaming_user** | 600-699 | Streaming erişimi |
-| **panel_user** | 500-599 | Panel erişimi |
-| **free_user** | 100-199 | Temel erişim |
+| **system** | 1900-1999 | Sistem servisleri |
+| **studio** | 800-899 | Stüdyo modu, 8.1 surround |
+| **premium** | 700-799 | Yüksek kalite, offline |
+| **car** | 500-599 | Araç içi mod, touch-optimized |
+| **regular** | 100-199 | Temel erişim |
 | **guest** | 0 | Sadece genel |
 
 ---
@@ -294,7 +298,7 @@ Servisler birbirini doğrudan çağırmaz, Event yayınlar.
 | # | Adım | Açıklama |
 |---|------|----------|
 | 1 | **Mevcut Sistem Analizi** | Eski sistemin davranışlarını belgeleme |
-| 2 | **Mimari Dokümantasyon** | L0-L3 katmanları, servis sınırları |
+| 2 | **Mimari Dokümantasyon** | L0-L6 katmanları, servis sınırları |
 | 3 | **API Sözleşmeleri** | OpenAPI, DTO, Contract, Validation |
 | 4 | **Veritabanı Tasarımı** | BCNF veritabanı, entity tanımları |
 | 5 | **Auth Domain Tasarımı** | User, Role, Permission, Session entity'leri |
@@ -317,7 +321,7 @@ Servisler birbirini doğrudan çağırmaz, Event yayınlar.
 | 5 | **Media Vault** | Doğrudan dosya yolu erişimi engellenir |
 | 6 | **RBAC** | Gelişmiş rol ve izin sistemi |
 | 7 | **Zero Code Before Plan** | Plan onayı olmadan kod yazma yasağı |
-| 8 | **MSA Limit** | Görev başına max 15 dosya |
+| 8 | **Middleware Order Immutable** | Middleware sırası değiştirilmez, CSP nonce bozulur |
 | 9 | **API First** | Kod yazmadan önce OpenAPI sözleşmesi |
 | 10 | **Composer Standards** | PSR uyumlu paketler, YAGNI |
 
@@ -334,26 +338,317 @@ Servisler birbirini doğrudan çağırmaz, Event yayınlar.
 | § 6 API | [[architecture/03-contracts/api-architecture-master]] | API mimarisi |
 | § 7 Teknoloji | [[brain.md]] | Teknik kararlar |
 | § 8 Kodlama | [[architecture/03-contracts/project-structure]] | Proje yapısı |
+| § 4 Auth Vizyonu | [[archives/prompt2-auth-2026-08-13]] | Auth mimarisi kaynağı |
+| § 5 SPA Vizyonu | [[archives/prompt1-spa-router-2026-08-13]] | SPA router kaynağı |
+| § 6 API Vizyonu | [[archives/prompt3-api-2026-08-13]] | API mimarisi kaynağı |
+| § 7 Teknoloji Seçimi | [[archives/prompt0-genel-ana-prompt-2026-08-13]] | Composer paket öncelik sırası |
+| § UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi — 18 PNG, frontend ZORUNLU |
+| § Mockup PNG'ler | `.ai/.png/home-1024/` + `.ai/.png/shared-1024/` | RPi5 1024×600 mockup'lar |
 
 ---
 
-## 11. Quality Report
+## 19. Quality Report
 
 | Metrik | Değer |
 |--------|-------|
-| **Version** | 2.0.0 |
+| **Version** | 4.0.0 |
 | **Status** | Red Team · Human Mode · Truth Mode verified |
 | **Sections** | 11 |
 | **Expertise Areas** | 55 |
 | **Architecture Principles** | 6 (Clean, Hexagonal, SOLID, DDD, EDA, CQRS) |
 | **Platform Targets** | 5 |
-| **Security Layers** | 8 (Middleware Pipeline) |
+| **Security Layers** | 10 (Middleware Pipeline) |
 | **RBAC Roles** | 7 |
 | **Development Phases** | 10 |
 | **Critical Rules** | 10 |
 
 ---
 
+## 20. Architecture Patterns (Detailed)
+
+### 20.1 Repository Pattern
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace CoreMusic\Auth\Domain\Repository;
+
+use CoreMusic\Auth\Domain\Entity\User;
+
+interface UserRepositoryInterface
+{
+    public function findById(int $id): ?User;
+    public function findByEmail(string $email): ?User;
+    public function save(User $user): bool;
+    public function softDelete(int $id): bool;
+}
+```
+
+### 20.2 Service Layer Pattern
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace CoreMusic\Auth\Application\Service;
+
+use CoreMusic\Auth\Domain\Repository\UserRepositoryInterface;
+use CoreMusic\Security\Service\PasswordService;
+
+final class UserService
+{
+    public function __construct(
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly PasswordService $passwordService,
+    ) {
+    }
+
+    public function register(string $email, string $password): User
+    {
+        // Business logic
+        $user = User::create(
+            new Email($email),
+            new Password($password)
+        );
+
+        $this->userRepository->save($user);
+
+        return $user;
+    }
+}
+```
+
+### 20.3 CQRS Pattern
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace CoreMusic\Auth\Application\Command;
+
+final class RegisterUserCommand
+{
+    public function __construct(
+        public readonly string $email,
+        public readonly string $password,
+    ) {
+    }
+}
+
+final class RegisterUserHandler
+{
+    public function __construct(
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly PasswordService $passwordService,
+    ) {
+    }
+
+    public function handle(RegisterUserCommand $command): User
+    {
+        $user = User::create(
+            new Email($command->email),
+            new Password($command->password)
+        );
+
+        $this->userRepository->save($user);
+
+        return $user;
+    }
+}
+```
+
+### 20.4 Domain Event Pattern
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace CoreMusic\Auth\Domain\Event;
+
+final class UserRegisteredEvent
+{
+    public function __construct(
+        public readonly int $userId,
+        public readonly string $email,
+        public readonly \DateTimeImmutable $occurredAt = new \DateTimeImmutable()
+    ) {
+    }
+}
+```
+
+---
+
+## 12. Deployment Strategies
+
+### 12.1 Blue/Green Deployment
+
+```
+Current (Blue) → Load Balancer → Server 1 (Blue)
+                                  Server 2 (Green)
+
+Deploy to Green → Test → Switch Load Balancer → Decommission Blue
+```
+
+### 12.2 Rolling Deployment
+
+```
+Server 1: v1.0 → v1.1 (deploy)
+Server 2: v1.0 → v1.1 (deploy)
+Server 3: v1.0 → v1.1 (deploy)
+```
+
+### 12.3 Canary Deployment
+
+```
+10% traffic → v1.1 (canary)
+90% traffic → v1.0 (stable)
+
+Monitor → Increase → 100% → Decommission v1.0
+```
+
+---
+
+## 13. Coding Standards
+
+### 13.1 PHP Standards
+
+| Kural | Açıklama |
+|-------|----------|
+| `declare(strict_types=1)` | Her dosyada zorunlu |
+| PSR-12 | Kod stili standardı |
+| Constructor injection | Bağımlılıklar constructor'dan gelir |
+| Final classes | Mümkün olduğunca final |
+| Named arguments | 3+ parametreli method call'larda |
+
+### 13.2 JavaScript Standards
+
+| Kural | Açıklama |
+|-------|----------|
+| Vanilla JS ES6+ | Framework yasak (ADR-001) |
+| `const` / `let` | `var` yasak |
+| `async` / `await` | Callback hell yasak |
+| DOMParser | `innerHTML` yasak |
+| ES6 modules | `require()` yasak |
+
+### 13.3 C++ Standards
+
+| Kural | Açıklama |
+|-------|----------|
+| C++20 | Modern C++ |
+| `noexcept` | Audio callback'lerde zorunlu |
+| `constexpr` | Compile-time hesaplamalar |
+| `alignas(64)` | Cache line alignment |
+| Zero-allocation | Audio thread'de yasak |
+
+---
+
+## 14. Security Practices
+
+### 14.1 OWASP Top 10:2025 Compliance
+
+| OWASP | CoreMusic Karşılama |
+|-------|---------------------|
+| A01 Broken Access Control (SSRF dahil) | RBAC + Permission Guard + URL Allowlist |
+| A02 Security Misconfiguration | CSP strict-dynamic + SecurityHeaders |
+| A03 Software Supply Chain Failures | Composer audit + GitLeaks |
+| A04 Cryptographic Failures | AES-256-GCM + Argon2id + RS256 |
+| A05 Injection | Prepared statements + DOMParser + TrustedTypes |
+| A06 Insecure Design | Clean Architecture + DDD + CQRS |
+| A07 Authentication Failures | Hybrid Auth + MFA + Rate Limit |
+| A08 Software/Data Integrity | CSRF token + JWT signature |
+| A09 Security Logging & Alerting | PSR-3 structured logging + audit trail |
+| A10 Mishandling of Exceptional Conditions | Error hierarchy + graceful degradation |
+
+### 14.2 Security Checklist
+
+- [ ] CSRF token tüm form'larda var mı?
+- [ ] CSP header her response'da set ediliyor mu?
+- [ ] Prepared statements tüm SQL sorgularında kullanılıyor mu?
+- [ ] Secrets kodda veya log'da görünmüyor mu?
+- [ ] Rate limiting aktif mi?
+- [ ] Session cookie HttpOnly + Secure + SameSite ayarları doğru mu?
+
+---
+
+## 15. Mimari Vizyon — CoreMusic Nedir?
+
+CoreMusic, geleneksel müzik oynatıcı olmanın çok ötesinde, çoklu platformlarda çalışabilen, çok katmanlı bir medya ekosistemidir.
+
+### 15.1 Platform Tanımı
+
+| Özellik | Değer |
+|---------|-------|
+| Platform Adı | CoreMusic |
+| Platform Türü | Dijital Medya Yönetim Platformu |
+| Hedef Kullanıcılar | Bireysel, Profesyonel, Stüdyo, Araç İçi, Ev Medya |
+| Temel Teknoloji | PHP 8.4, C++20, Vanilla JS, MySQL 9 |
+| Lisans | Kapalı Kaynak |
+
+### 15.2 Sistem Yetenekleri
+
+CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahiptir:
+
+- Müzik indirme (Otomatik & Manuel)
+- Müzik yönetimi (Kütüphane, Albüm, Sanatçı)
+- Medya arşivleme (Metadata, Kapak Görselleri)
+- Profesyonel ses yönetimi (ASIO, WASAPI, DSP)
+- Ev medya merkezi (NAS, Multi-Room)
+- Araç içi bilgi-eğlence (Car Infotainment)
+- Stüdyo ses sistemi (8.1 Surround, 8x8 I/O)
+- NAS medya yönetimi
+- AI destekli müzik öneri sistemi
+- Çoklu cihaz senkronizasyonu
+- Offline First medya platformu
+- Streaming altyapısı
+- ASIO 32-bit ses desteği
+- AI ile otomatik EQ/DSP yönetimi
+
+---
+
+## 16. Referans Proje Kuralları
+
+Referans proje (`coremusic.net.old.ref`) incelenirken:
+
+- **KESİNLİKLE kopyalanmayacak:** Auth kodları, Router, Middleware, Session sistemi, Login sistemi, Controller yapısı, Service yapısı
+- **Sadece referans olarak incelenecek:** Mimari, klasör yapısı, katman ayrımı, tasarım yaklaşımı
+- **Kod tekrar kullanılmayacaktır** — Tüm sistem sıfırdan geliştirilecektir
+
+---
+
+## 17. Kritik Uyarılar
+
+| # | Uyarı | Sonuc |
+|---|-------|-------|
+| 1 | Middleware sırası değiştirme | CSP nonce üretimi bozulur, güvenlik açığı |
+| 2 | `SELECT *` kullanma | SQL injection riski |
+| 3 | Hardcoded secret kodda/log'da | Veri sızıntısı |
+| 4 | PCM5122 ile 8.1 surround | Sistem hatası (H001 REJECT) |
+| 5 | Plan olmadan kod yazma | Mimari bütünlük bozulur |
+| 6 | ASIO Exclusive Lock | Aynı anda sadece tek uygulama |
+| 7 | DC Offset Riski | Class AB amfide >0.5V DC offset koruma rölesi |
+
+---
+
+## 18. Quick Reference
+
+| İhtiyaç | İlk Adım |
+|---------|----------|
+| Yeni entity | Domain katmanında oluştur |
+| Yeni use case | Application katmanında handler yaz |
+| Yeni repository | Interface + Implementation oluştur |
+| Yeni middleware | PSR-15 uyumlu oluştur |
+| Yeni test | Arrange-Act-Assert pattern |
+| Yeni ADR | Draft oluştur, review'a sun |
+| Yeni API endpoint | OpenAPI spec yaz, sonra kodla |
+| Yeni feature | 20-fazlı lifecycle'ı takip et |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-09
+**Last Updated:** 2026-08-14
 **Mode:** Red Team · Human Mode · Truth Mode

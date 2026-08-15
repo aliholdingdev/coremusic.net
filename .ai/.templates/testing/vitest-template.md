@@ -63,40 +63,17 @@ npm install -D playwright @playwright/test
 ```
 assets.coremusic.net/
 ├── js/
-│   ├── CacheLayer.js
-│   ├── Router.js
-│   ├── device-loader.js
-│   ├── ThemeManager.js
 │   └── core/
-│       ├── cache.js
-│       ├── auth.js
-│       └── utils.js
 ├── tests/
 │   ├── unit/
-│   │   ├── CacheLayer.test.js
-│   │   ├── Router.test.js
-│   │   ├── device-loader.test.js
-│   │   ├── ThemeManager.test.js
 │   │   └── core/
-│   │       ├── cache.test.js
-│   │       └── utils.test.js
 │   ├── integration/
-│   │   ├── navigation-flow.test.js
-│   │   ├── auth-flow.test.js
-│   │   └── cache-invalidation.test.js
 │   ├── e2e/
 │   │   └── (Playwright E2E testleri — ayrı config)
 │   ├── __mocks__/
-│   │   ├── api-responses.js
-│   │   ├── dom-helpers.js
-│   │   └── localStorage.mock.js
 │   └── fixtures/
 │       ├── html/
-│       │   ├── index.html
-│       │   └── partial.html
 │       └── data/
-│           ├── tracks.json
-│           └── user.json
 ├── vitest.config.ts
 └── vitest.setup.ts
 ```
@@ -1099,7 +1076,6 @@ jobs:
 - [[ADR-011-session-management]] — Session yönetimi
 - [[ADR-021-spa-router-immutable-contract]] — SPA router sözleşme limitleri
 - [[ADR-022-database-hardened-security]] — TrustedTypes ve güvenlik
-- [[ADR-042-vault-restructuring-2026-08-03]] — MSA limit = 15 dosya
 - [[testing/strategy]] — Genel test stratejisi
 - [[testing/coverage-targets]] — Kapsama hedefleri
 - [[testing/e2e-template]] — Playwright E2E şablonu
@@ -1117,7 +1093,6 @@ jobs:
 | § Security | [[ADR-022-database-hardened-security]] | XSS koruması |
 | § CI Integration | [[testing/strategy]] | Test stratejisi |
 | § Requirements | [[testing/coverage-targets]] | Kapsama hedefleri |
-| § vitest.config.ts | [[ADR-042-vault-restructuring-2026-08-03]] | MSA limit |
 
 ## 16. Quality Report
 
@@ -1131,7 +1106,6 @@ jobs:
 | **Kod Örneği** | 20+ (✅ doğru + ❌ yanlış) |
 | **Tablo Sayısı** | 12 |
 | **Wikilink** | 15+ |
-| **MSA Uyumluluk** | ✅ (15 dosya limiti dahilinde) |
 | **Frontmatter** | ✅ (type, category, title, date, version, governance) |
 | **Hard Guardrails** | ✅ (8 kural tablosu) |
 | **Anti-Pattern** | ✅ (10 ❌/✅ çifti) |

@@ -1,13 +1,63 @@
 ---
-name: ui-analyzer
-description: "UI analiz motoru — PNG mockup okuma, font analizi, renk paleti çıkarma, responsive breakpoint kontrolü, canlı sayfa analizi. 'ui analiz', 'mockup oku', 'font bul', 'renk paleti', 'sayfa analiz' tetikler."
-metadata:
-  version: 1.1.0
-  author: Bayram Ali
-  last_updated: 2026-08-08
-  category: frontend
-  platform: opencode
-triggers: ["ui analiz", "mockup oku", "font bul", "renk paleti", "sayfa analizi", "design analiz", "ui element", "layout analiz", "png oku", "görsel analiz", "screenshot analiz"]
+title: "CoreMusic — UI Analiz Motoru"
+type: skill-instruction
+version: 1.1
+authority: SSOT
+mode:
+  - Red Team
+  - Truth Mode
+  - Human Mode
+purpose:
+  - PNG Mockup Analysis
+  - Font Detection
+  - Color Palette Extraction
+  - Responsive Breakpoint Check
+  - Live Page Analysis
+reference:
+  authority: ".ai/CLAUDE.md"
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/AGENTS.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
+  architecture:
+    - ".ai/ADR/"
+    - "Existing project architecture"
+  templates:
+    - ".ai/.templates/frontend/js-template.md"
+    - ".ai/.templates/frontend/css-template.md"
+  agents:
+    - ".ai/.agents/AGENTS.md"
+    - ".ai/.agents/ui-designer.md"
+  skills:
+    - ".opencode/skills/ui-code-generator/SKILL.md"
+  project_structure:
+    - "coremusic.net/"
+    - "shared/"
+  update_policy:
+    preserve_existing_structure: true
+    require_approval_for:
+      - "analysis method change"
+      - "output format change"
+triggers:
+  - "ui analiz"
+  - "mockup oku"
+  - "font bul"
+  - "renk paleti"
+  - "sayfa analizi"
+  - "design analiz"
+  - "ui element"
+  - "layout analiz"
+  - "png oku"
+  - "görsel analiz"
+  - "screenshot analiz"
+changelog:
+  - version: 1.1
+    date: 2026-08-15
+    changes:
+      - Standardized YAML frontmatter
+      - Added triggers to frontmatter
 ---
 
 # UI ANALYZER v1.0.0 — ARAYÜZ ANALİZ MOTORU
@@ -46,6 +96,8 @@ ADIM 2: Görsel analiz yap (PNG için)
   → Grid yapısını tespit et (sütun sayısı, gutter, margin)
   → Boşluk hiyerarşisini çıkar (4px, 8px, 16px, 24px, 32px, 48px, 64px)
   → Border radius, shadow, gradient gibi dekoratif elementleri tespit et
+  → CSS @layer yapısını analiz et (varsa ITCSS katmanları)
+  → Design token sistemini tespit et (--cm-* veya benzeri değişkenler)
 
 ADIM 3: Font analizi yap
   → Font ailesi adını tespit et
@@ -53,12 +105,14 @@ ADIM 3: Font analizi yap
   → Glyph kapsamını kontrol et (Latin, Cyrillic, CJK, vb.)
   → OpenType özelliklerini kontrol et (ligatures, tabular figures, vb.)
   → Web font formatını belirle (WOFF2 tercih, WOFF fallback)
+  → Google Fonts API ile doğrulama (varsa)
 
 ADIM 4: Responsive breakpoint analizi yap
   → Mevcut CSS'deki media query'leri çıkar
   → Breakpoint değerlerini listele
   → Eksik breakpoint'leri tespit et
   → Mobile-First uyumluluğunu kontrol et
+  → CSS clamp() ile fluid typography kontrolü
 
 ADIM 5: Canlı sayfa analizi yap (Chrome DevTools)
   → DOM yapısını analiz et
@@ -66,11 +120,13 @@ ADIM 5: Canlı sayfa analizi yap (Chrome DevTools)
   → Layout engine'i kontrol et (Grid, Flexbox, Block)
   → Rendering performance'ı ölç
   → Accessibility tree'yi oku
+  → CSS @layer sırasını doğrula
 
 ADIM 6: Rapor oluştur
   → Tüm bulguları Markdown formatında raporla
   → Eksikleri ve hataları listele
   → Öneriler sun (ui-code-generator'a giriş olarak kullanılabilir)
+  → Modern CSS özelliklerini öner (@layer, light-dark(), :where())
 
 ## 4. ÇIKTI FORMATI
 
@@ -156,6 +212,8 @@ Font dosyaları okunurken şu özellikler çıkarılır:
 ✅ OpenType özellikleri (liga, calt, ss01, tabular-nums)
 ✅ Web font formatı (WOFF2, WOFF, TTF, OTF)
 ✅ Dosya boyutu ve optimize edilebilirlik
+✅ Google Fonts API doğrulaması (varsa)
+✅ Variable font desteği (opsiyonel, wght, wdth, slnt axis)
 ```
 
 ## 6. RENK ANALİZ DETAYLARI
@@ -171,6 +229,8 @@ PNG görsellerden renk analizi yapılırken:
   → Büyük metin (18px+ bold veya 24px+): min 3:1
   → UI bileşenleri: min 3:1
 ✅ Renk uyumu analizi (analog, complementary, triadic)
+✅ Dark mode renk paleti çıkarma (light-dark() desteği)
+✅ Forced colors mode kontrolü (high contrast)
 ```
 
 ## 7. HARD LIMITS

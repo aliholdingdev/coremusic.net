@@ -37,15 +37,12 @@ Amplifier Protection Circuits, CoreMusic amfi koruma devrelerini tanımlar. Hopa
 
 ## 3. Koruma Devresi Akışı
 
-```mermaid
-graph TB
-    INPUT[Amplifier Çıkış] --> MONITOR[Monitör]
-    MONITOR --> DC{DC Offset >0.5V?}
-    DC -->|Evet| RELAY[Röle Aç → Hoparlör Ayır]
-    MONITOR --> OC{Over-Current?}
-    OC -->|Evet| LIMIT[Güç Azalt]
-    MONITOR --> OT{Over-Temp?}
-    OT -->|Evet| SHUTDOWN[Kapat]
+```
+Amplifier Çıkış ──▶ Monitör ──┬──▶ DC Offset >0.5V? ──▶ Evet ──▶ Röle Aç (Hoparlör Ayır)
+                               │
+                               ├──▶ Over-Current? ──▶ Evet ──▶ Güç Azalt
+                               │
+                               └──▶ Over-Temp? ──▶ Evet ──▶ Kapat
 ```
 
 ---

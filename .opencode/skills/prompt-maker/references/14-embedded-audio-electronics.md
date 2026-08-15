@@ -1,12 +1,13 @@
 ---
-title: EMBEDDED, AUDIO & ELECTRONICS
-version: 7.2.0
-updated: 2026-06-11
-quality-score: "98.7%"
+title: EMBEDDED, AUDIO & ELECTRONICS (PICCO)
+version: 11.0.0
+updated: 2026-08-15
+framework: PICCO
+quality-score: "95%+"
 ---
 
-# EMBEDDED, AUDIO & ELECTRONICS
-# Prompt Maker v7.2.0 | 2026-06-11
+# EMBEDDED, AUDIO & ELECTRONICS (PICCO)
+# Prompt Maker v11.0.0 | 2026-08-15
 
 ## Audio Specifications
 

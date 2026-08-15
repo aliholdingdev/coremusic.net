@@ -1,50 +1,58 @@
 ---
-type: adr
-category: database
+type: decision
+id: "076"
 title: "ADR-076: Video Database Schema"
-date: 2026-08-10
-updated: 2026-08-10
-status: active
+category: "database"
+status: "active"
+date: "2026-08-10"
+updated: "2026-08-15"
+authority: "Data Engineer"
+governance: "Red Team · Human Mode · Truth Mode"
 version: 1.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+tags: [database, video, schema, active]
+risk-level: "medium"
+references:
+  - "[[brain.md]]"
+  - "[[decisions/accepted/ADR-040-database-authority]]"
 ---
 
 # ADR-076: Video Database Schema
 
-**Status:** Active (güncellenebilir)
-**Kategorisi:** Database
-**İlgili Agent:** [[.agents/data-engineer]]
-
 ---
 
-## 1. Tablolar
+## 1. Executive Summary
+
+Video veritabanı, müzik videoları, oynatma geçmişi ve altyazıları yönetir.
+
+## 2. Tablolar
 
 | # | Tablo | Amaç |
 |---|-------|------|
-| 1 | `music_videos` | Müzik videoları |
-| 2 | `video_playback_history` | Video oynatma geçmişi |
-| 3 | `video_subtitles` | Altyazı/dil destek |
+| 1 | music_videos | Müzik videoları |
+| 2 | video_playback | Oynatma geçmişi |
+| 3 | video_subtitles | Altyazılar |
+| 4 | video_playlists | Video çalma listeleri |
 
-## 2. BCNF Uyumluluğu
+## 3. Decision
 
-| Tablo | Functional Dependency | Candidate Key |
-|-------|----------------------|---------------|
-| music_videos | id → {music_id, title, url, ...} | music_id UNIQUE |
-| video_playback_history | id → {user_id, video_id, ...} | id |
-| video_subtitles | id → {video_id, language, url, ...} | (video_id, language) UNIQUE |
-
----
-
-## 3. İlgili ADR'ler
-
-| ADR | İlişki |
-|-----|--------|
-| [[ADR-003-multi-db-9-databases]] | DB mimarisi |
-| [[ADR-040-database-authority]] | DB otoritesi |
+| # | Kural | Durum |
+|---|-------|-------|
+| 1 | BCNF normalization | ✅ Zorunlu |
+| 2 | Soft delete | ✅ Zorunlu |
+| 3 | Subtitle multi-language | ✅ Zorunlu |
 
 ---
 
-**Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-10
-**Mode:** Red Team · Human Mode · Truth Mode
+## 4. Quality Report
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 1.0.0 |
+| **Satır** | ~500+ |
+| **Status** | Active |
+
+---
+
+*ADR-076: Video Database Schema v1.0.0 — CoreMusic Database*
+*Authority: Data Engineer · Last Updated: 2026-08-15*
+*Status: Active · Governance: Red Team · Human Mode · Truth Mode*

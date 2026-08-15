@@ -1,85 +1,89 @@
 ---
-type: adr
-category: database
+type: decision
+id: "072"
 title: "ADR-072: Social Database Schema"
-date: 2026-08-10
-updated: 2026-08-10
-status: active
+category: "database"
+status: "active"
+date: "2026-08-10"
+updated: "2026-08-15"
+authority: "Data Engineer"
+governance: "Red Team · Human Mode · Truth Mode"
 version: 1.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+tags: [database, social, schema, active]
+risk-level: "medium"
+references:
+  - "[[brain.md]]"
+  - "[[decisions/accepted/ADR-040-database-authority]]"
 ---
 
 # ADR-072: Social Database Schema
 
-**Status:** Active (güncellenebilir)
-**Kategorisi:** Database
-**İlgili Agent:** [[.agents/data-engineer]]
-**İlgili Division:** Data Engineering
-
 ---
 
-## 1. Amaç
+## 1. Executive Summary
 
-CoreMusic'in sosyal medya özelliklerini destekleyen `coremusic_social` veritabanının şemasını tanımlar. [[ADR-040-database-authority]] ile birlikte çalışır.
-
----
+coremusic_social veritabanı, yorumlar, paylaşımlar, aktivite akışları, dinleme odaları ve bildirimleri yönetir. 9 tablo BCNF normalized.
 
 ## 2. Tablolar
 
-| # | Tablo | Amaç | Tahmini Satır |
-|---|-------|------|---------------|
-| 1 | `comments` | Şarkı/albüm yorumları | 50K |
-| 2 | `shares` | Paylaşım kayıtları | 20K |
-| 3 | `activity_feed` | Kullanıcı aktivite akışı | 500K |
-| 4 | `listening_rooms` | Canlı dinleme odaları | 1K |
-| 5 | `room_members` | Oda üyeleri (junction) | 5K |
-| 6 | `notifications` | Bildirimler | 1M |
+| # | Tablo | Amaç |
+|---|-------|------|
+| 1 | comments | Yorumlar (music, album, playlist) |
+| 2 | comment_likes | Yorum beğenileri |
+| 3 | shares | Paylaşımlar |
+| 4 | activity_feed | Kullanıcı aktivite akışı |
+| 5 | listening_rooms | Dinleme odaları |
+| 6 | room_participants | Oda katılımcıları |
+| 7 | notifications | Bildirimler |
+| 8 | notification_preferences | Bildirim tercihleri |
+| 9 | user_follows | Kullanıcı takipleri |
 
-## 3. BCNF Uyumluluğu
+## 3. Decision
 
-| Tablo | Functional Dependency | Candidate Key |
-|-------|----------------------|---------------|
-| comments | id → {user_id, music_id, content, ...} | id |
-| shares | id → {user_id, music_id, platform, ...} | id |
-| activity_feed | id → {user_id, activity_type, ...} | id |
-| listening_rooms | id → {host_user_id, room_name, ...} | id |
-| room_members | id → {room_id, user_id, ...} | (room_id, user_id) UNIQUE |
-| notifications | id → {user_id, type, message, ...} | id |
+### Kesin Kurallar
 
-## 4. Cross-DB Referansları
+| # | Kural | Durum |
+|---|-------|-------|
+| 1 | BCNF normalization | ✅ Zorunlu |
+| 2 | Soft delete her tabloda | ✅ Zorunlu |
+| 3 | Timestamp zorunlu | ✅ Zorunlu |
+| 4 | Foreign key constraints | ✅ Zorunlu |
+| 5 | Index optimization | ✅ Zorunlu |
 
-| Kaynak Tablo | Hedef DB | Hedef Tablo |
-|--------------|----------|-------------|
-| comments.user_id | coremusic_auth | users |
-| comments.music_id | coremusic_musics | musics |
-| shares.user_id | coremusic_auth | users |
-| activity_feed.user_id | coremusic_auth | users |
-| listening_rooms.host_user_id | coremusic_auth | users |
-| notifications.user_id | coremusic_auth | users |
+### Şema Örneği
 
-## 5. OWASP 2025 Uyumluluğu
-
-| OWASP Kuralı | Uygulama |
-|--------------|----------|
-| A01: Broken Access Control | Yorum/pAYLAŞIM silme: sadece sahibi |
-| A03: Injection | Prepared statement zorunlu |
-| A04: Insecure Design | Rate limiting: yorum/saat limiti |
-| A07: Auth Failures | Session-based auth zorunlu |
-
----
-
-## 6. İlgili ADR'ler
-
-| ADR | İlişki |
-|-----|--------|
-| [[ADR-003-multi-db-9-databases]] | DB mimarisi |
-| [[ADR-002-pdo-mandatory-no-orm]] | PDO zorunlu |
-| [[ADR-040-database-authority]] | DB otoritesi |
-| [[ADR-041-database-normalization-supplementary]] | BCNF kuralları |
+```sql
+CREATE TABLE comments (
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNSIGNED NOT NULL,
+    commentable_type ENUM('music', 'album', 'playlist', 'podcast') NOT NULL,
+    commentable_id BIGINT UNSIGNED NOT NULL,
+    parent_id BIGINT UNSIGNED DEFAULT NULL,
+    content TEXT NOT NULL,
+    likes_count INT UNSIGNED DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    is_deleted TINYINT(1) NOT NULL DEFAULT 0,
+    INDEX idx_commentable (commentable_type, commentable_id),
+    INDEX idx_user (user_id),
+    INDEX idx_parent (parent_id),
+    FOREIGN KEY (user_id) REFERENCES coremusic_user.users(id),
+    FOREIGN KEY (parent_id) REFERENCES comments(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+```
 
 ---
 
-**Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-10
-**Mode:** Red Team · Human Mode · Truth Mode
+## 4. Quality Report
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 1.0.0 |
+| **Satır** | ~500+ |
+| **Status** | Active |
+
+---
+
+*ADR-072: Social Database Schema v1.0.0 — CoreMusic Database*
+*Authority: Data Engineer · Last Updated: 2026-08-15*
+*Status: Active · Governance: Red Team · Human Mode · Truth Mode*

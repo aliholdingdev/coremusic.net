@@ -65,7 +65,7 @@ graph TB
     end
 
     subgraph "L0 — Infrastructure Layer"
-        DB[(MySQL 9 BCNF)]
+        DB[(MySQL 18 BCNF)]
         CACHE[(APCu / Redis)]
         FS[File System]
         CRED[Credential Vault]
