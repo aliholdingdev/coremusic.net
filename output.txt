@@ -1,0 +1,144 @@
+Repoyu baştan sona inceledim. İki bölüm: (1) mockup sistemi çalışıyor mu,
+(2) fazlalık var mı.
+
+
+═══════════════════════════════════════════════════
+1) MOCKUP SİSTEMİ — YAPMIŞSIN, AMA TEK BİR HATA HER ŞEYİ BOZUYOR
+═══════════════════════════════════════════════════
+
+ÖNCE DOĞRU YAPILANLAR — hepsini tek tek doğruladım:
+
+  .ai/CLAUDE.md:370            Kural 11 "Mockup Before Frontend" ✓
+  .ai/AGENTS.md:468,470        MSA istisnası + hard rule ✓
+  .ai/ROLE.md:345-346          Mockup indeksi + PNG yolları ✓
+  .ai/WORKFLOW.md:816-817      ✓
+  .ai/brain.md:660-661         ✓
+  .ai/engine.md:182-183        ✓
+  .ai/index.md:519,521         5 ui-design dokümanı katalogda ✓
+  .ai/keys.md:280-302          Anahtar kelime → mockup yolu eşlemesi ✓
+  .claude/rules/core-rules.md:39  ✓
+
+ui-design yeniden kurulmuş: 109 dosya. 00-mockup-index.md 110 KB, içinde
+ASCII yerleşim şemaları ve gerçek koordinatlar var. Ölçüler doğru:
+header 60px, footer 90px, y=510 sınırı, içerik 450px, Göz At sidebar
+167px, accent #ff4fd8. Footer 90px ↔️ token 104px çelişkisini karar
+maddesi olarak korumuşsun. "Sidebar SADECE BU SAYFAYA ÖZEL" notu doğru.
+Skill'deki hatalı 24px dokunmatik hedefi belgeye sızmamış.
+
+Bu iş temiz. Emeğe yazık olmasın diye tek hatayı söylüyorum:
+
+>>> DOSYA ADLARINDA ÇİFT BOŞLUK VAR, İNDEKSTE TEK BOŞLUK YAZILMIŞ <<<
+
+Gerçek dosya adı:   Linux[boşluk][boşluk]1024 - Home Page.png
+İndekste yazan:     Linux[boşluk]1024 - Home Page.png
+
+Saydım:
+    Gerçek dosyalar          : 18/18 çift boşluklu
+    İndekste çift boşluk     : 0
+    İndekste tek boşluk      : 18
+    BİREBİR EŞLEŞEN          : 0 / 18
+
+Yani agent indeksten dosya adını kopyalayıp açmaya çalıştığında hiçbiri
+bulunamayacak. "Dosya yok" der, mockup'ı atlar, yine kafasına göre kod
+yazar. Kurduğun bütün sistem tam işe yarayacağı anda çöker.
+
+DÜZELTME (2 dakika):
+  .ai/ui-design/00-mockup-index.md içinde toplu değiştirme:
+      Ara      : Linux 1024 -
+      Değiştir : Linux  1024 -     ← "Linux" ile "1024" arasında İKİ boşluk
+
+  Aynı kontrolü şunlarda da yap:
+      01-component-inventory.md
+      02-implementation-plan.md
+      03-accessibility-gaps.md
+      ui-design/screens/ altındaki 38 dosya
+
+DOĞRULAMA: Değiştirdikten sonra dosya adını indeksten kopyala, Windows
+Gezgini adres çubuğuna yapıştır:
+  C:\www\coremusic.net\.ai\.png\home-1024\Linux  1024 - Home Page.png
+Açılıyorsa doğru. "Bulunamadı" diyorsa hâlâ tek boşluk var.
+
+NOT: .ai/.png klasörünü yeniden adlandırmamışsın ama artık gerek yok.
+keys.md tam yolu doğrudan verdiği için agent'ın aramaya ihtiyacı kalmadı.
+Nokta ile başlayan dizin ARAMAYI engeller, DOĞRUDAN YOL erişimini
+engellemez. İstersen yine de design-refs yaparsın, acil değil.
+
+
+═══════════════════════════════════════════════════
+2) FAZLALIK ANALİZİ
+═══════════════════════════════════════════════════
+
+Toplam: 634 dosya, 22.7 MB. Bunun 16.4 MB'ı PNG (gerekli), ~6 MB doküman.
+
+İYİ HABER: Birebir aynı içerikli dosya yok denecek kadar az. Vault
+gerçekten temiz kurulmuş, kopyala-yapıştır şişkinliği yok. Bu iyi.
+
+4 bulgu var:
+
+BULGU 1 — GERÇEK BOZULMA: Aynı PDF iki kez kayıtlı
+  .opencode/skills/skill-maker/references/
+      "Özel Beceriler nasıl oluşturulur.pdf"   ← 176 KB
+  Bu dosya git'te İKİ AYRI KAYIT olarak duruyor. Sebep: Türkçe
+  karakterler (Ö, ı) iki farklı Unicode normalizasyonuyla (NFC ve NFD)
+  yazılmış. Ekranda aynı görünüyor ama git farklı dosya sanıyor.
+  Windows'ta klonlarken çakışma çıkarır.
+  ÇÖZÜM: İkisini de sil, dosyayı tek sefer yeniden ekle.
+
+BULGU 2 — EN BÜYÜK KAZANÇ: .claudeignore silinmiş
+  Eskiden kökte .claudeignore vardı ve içinde ".opencode/." satırı
+  vardı. Şimdi o dosya yok. Sonuç: .opencode/ altındaki 116 dosya /
+  1.7 MB yapay zekanın görüş alanına girdi.
+
+  Ama bunlar OpenCode formatında skill'ler. Claude Code skill'leri
+  .claude/skills/ altından okur, .opencode/skills/ altından değil.
+  Yani bu 1.7 MB skill olarak ÇALIŞMIYOR, sadece arama yüzeyini
+  şişiriyor ve bağlam yiyor.
+
+  ÇÖZÜM: Kök dizine .claudeignore ekle, içine ".opencode/." yaz.
+
+BULGU 3 — .ai/.templates/other/ gereksiz gibi görünüyor
+      aspnet-template.md    49 KB
+      avr-template.md       41 KB
+
+  Bu 4 dosya = 209 KB ve projeyle ilgisi yok gibi görünüyor:
+    - Proje PHP 8.4, ASP.NET kullanılmıyor
+    - Ses donanımı PCM3168A / XMOS XU316; Arduino, PIC veya AVR değil
+  Yanılıyorsam söyle, ileride kullanacaksan dursun. Ama kullanılmıyorsa
+  silinsin veya en azından .claudeignore'a alınsın.
+  (c-template ve cpp-template kalsın — neva-engine C++20/JUCE var.)
+
+BULGU 4 — .opencode/skills/prompt-maker devasa (60 dosya / 922 KB)
+  Tek başına tüm dokümantasyonun altıda biri. İçinde gerçekten 60 ayrı
+  referans dosyası gerekli mi? Bir gözden geçirmeye değer. Acil değil.
+
+  .ai/archives/ (6 dosya / 145 KB) — 15 Ağustos tarihli eski prompt'lar.
+  Arşiv olarak dursun ama AI'ın okumasına gerek yok, .claudeignore'a girsin.
+
+
+═══════════════════════════════════════════════════
+ÖNCELİK SIRASI
+═══════════════════════════════════════════════════
+  1. Çift boşluk düzeltmesi           ← KRİTİK, bu olmadan sistem çalışmaz
+  2. .claudeignore'u geri koy         ← 1 dakika, en büyük bağlam kazancı
+  3. Çift kayıtlı PDF'i temizle       ← klonlama hatası çıkarır
+  4. .templates gözden geçir          ← acele yok, önce bana teyit et
+
+
+═══════════════════════════════════════════════════
+SIRADAKİ ADIM — TEK EKRANLA TEST
+═══════════════════════════════════════════════════
+1. Çift boşluk düzeltmesini yap
+2. Agent'a SADECE şunu de, başka hiçbir şey ekleme:
+
+   "Linux  1024 - Home Page.png mockup'ını aç, oku, içindeki her
+    bileşeni ölç ve bana yazılı rapor et. Kod yazma, sadece ölç."
+
+3. Raporu bana at. Ölçüler tutuyorsa sistem çalışıyor demektir,
+   kodlamaya geçeriz. Tutmuyorsa nerede saptığını gösteririm.
+
+12 ekranı birden isteme. Tek ekran.
+
+SON NOT: Repoda hâlâ uygulama kodu yok (assets.coremusic.net,
+home.coremusic.net, auth.coremusic.net, coremusic-shared). Repo şu an
+saf planlama deposu. Bilinçliyse sorun yok; değilse kod sadece kendi
+makinende duruyor ve yedeksiz demektir.  not fazlzlık yoktur pic flaan aspnet ielrde kualaılcaktır ozyuden fazlaık yoktur
