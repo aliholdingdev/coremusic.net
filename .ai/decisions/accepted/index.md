@@ -87,7 +87,7 @@ active: 29
 | 24 | ADR-079 | i18n DB Schema | Database |
 | 25 | ADR-083 | SPA Router | Architecture |
 | 26 | ADR-084 | API Gateway | Architecture |
-| 27 | ADR-085 | Modular Composer | Architecture |
+| 27 | ADR-085 | Shared Library Hybrid | Architecture |
 | 28 | ADR-086 | Event Driven | Architecture |
 | 29 | ADR-087 | Master Plan | Architecture |
 

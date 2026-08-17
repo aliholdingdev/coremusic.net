@@ -137,7 +137,7 @@ CREATE TABLE cms_media_assets (
     id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
     uploader_id     INT UNSIGNED        NOT NULL,
     file_name       VARCHAR(500)        NOT NULL,
-    file_path       VARCHAR(2048)       NOT NULL,
+    file_path       VARCHAR(500)        NOT NULL,
     file_type       VARCHAR(20)         NOT NULL,
     mime_type       VARCHAR(100)            NULL,
     file_size_bytes BIGINT UNSIGNED        NULL,

@@ -156,27 +156,33 @@ changelog:
 ---
 # WORKFLOW.md
 
+**⚠️ CRITICAL: This file is loaded at the start of EVERY session. Follow the boot protocol below.**
+
 **Bu dosya bir POINTER FILE'dır — ADR-042 (2026-08-03)**
 
 **Root `WORKFLOW.md` artık bir bootstrap pointer dosyasıdır.  
 Canonical workflow'lar `.ai/WORKFLOW.md` içerisinde tutulmaktadır.**
 **workflow'lar `.workflows` klasörü içerisinde tutulmaktadır.**
 
-## 10 Adımlı Başlatma Protokolü (Mandatory)
+## 10 Adımlı Başlatma Protokolü (Mandatory — Her Session Başında)
 
-Her AI asistanı her oturumda aşağıdaki 9 dosyayı okumalıdır:
+**ZORUNLULUK:** Her AI asistanı her oturumda aşağıdaki 9 dosyayı OKUMALIDIR. Bu dosyaları okumadan HİÇBİR İŞLEM YAPMA.
 
-| # | Dosya |
-|---|---|
-| 1 | `.ai/CLAUDE.md` |
-| 2 | `.ai/AGENTS.md` |
-| 3 | `.ai/WORKFLOW.md` |
-| 4 | `.ai/index.md` |
-| 5 | `.ai/keys.md` |
-| 6 | `.ai/brain.md` |
-| 7 | `.ai/MEMORY.md` |
-| 8 | `.ai/log.md` |
-| 9 | `.ai/engine.md` |
+| # | Dosya | Amaç | Timeout |
+|---|-------|------|---------|
+| 1 | `.ai/CLAUDE.md` | AI anayasası, 16 Hard Guardrails | 3s |
+| 2 | `.ai/AGENTS.md` | Agent sınırları, routing, domain boundary | 3s |
+| 3 | `.ai/WORKFLOW.md` | Süreçler, fazlar, workflow kuralları | 3s |
+| 4 | `.ai/index.md` | Master katalog, tüm vault yapısı | 4s |
+| 5 | `.ai/keys.md` | Keyword haritası, yönlendirme | 3s |
+| 6 | `.ai/brain.md` | Mimari kararlar, ADR 001-087 | 4s |
+| 7 | `.ai/MEMORY.md` | Session hafızası, persistent state | 3s |
+| 8 | `.ai/log.md` | Audit trail (son 20 satır) | 2s |
+| 9 | `.ai/engine.md` | Orkestrasyon motoru indeksi | 2s |
+
+**Toplam boot süresi:** Max 30 saniye.
+
+**Kural:** Bu dosyaları okumadan kod yazma, plan yapma veya herhangi bir işlem başlatma. İlk adım HER ZAMAN vault okumaktır.
 
 ## 12 Aşamalı Vault Refactoring (Summary)
 

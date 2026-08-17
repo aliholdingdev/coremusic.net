@@ -252,7 +252,9 @@ Bu prompt, CoreMusic ekosisteminin **tamamını** kapsayan genel ana prompttur. 
 
 *Detaylı metadata: [[../../brain.md]] §4A, [[ADR-085]]*
 
-### 7.1 Çekirdek Paketler (22 coremusic/*)
+### 7.1 Shared Library Yapısı (ADR-085 v3.0)
+
+Tek `shared/` dizini + PSR-4 namespace ile modüler ayrım:
 
 | Kategori | Paket | PSR |
 |----------|-------|-----|
@@ -513,7 +515,7 @@ Referans proje (`C:\www\coremusic.net.old.ref`) incelenirken:
 | §4 Subdomainler | [[ADR-043]] | Auth konsolidasyonu |
 | §5 Portlar | [[../../brain.md]] §11 | Port haritası |
 | §6 DB | [[ADR-040]] | 18 BCNF |
-| §7 Composer | [[../../brain.md]] §4A | 22 paket |
+| §7 Composer | [[../../brain.md]] §4A | shared/ hybrid yapı |
 | §8 Audio | [[ADR-017]] | C++ kuralları |
 | §9 Güvenlik | [[ADR-022]] | Şifreleme |
 | §10 Analiz | [[../../WORKFLOW.md]] §8.1A | 20 görev |

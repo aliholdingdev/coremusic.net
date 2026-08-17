@@ -54,7 +54,7 @@ L0, CoreMusic platformunun **altyapı katmanıdır**. Veritabanı, cache, dosya 
 | **Cache** | [[cache]] | Multi-tier cache: APCu → Redis → File, namespace isolation (ADR-007) |
 | **Filesystem** | [[filesystem]] | Medya dosyaları, upload yönetimi, disk I/O, PSR-17 stream |
 | **Credential Vault** | [[credential-vault]] | AES-256-GCM şifreleme (ADR-022), API key, token yönetimi |
-| **Modüler Paketler** | — | 22 coremusic/* Composer paketi (ADR-085), circular dependency yasak |
+| **Modüler Paketler** | — | tek shared/ + PSR-4 namespace (ADR-085 v3.0), circular dependency yasak |
 | **Event Bus** | — | PSR-14 Event Dispatcher altyapısı (ADR-086) |
 | **IPC** | — | Servisler arası iletişim, JSON/msgpack (ADR-032) |
 
@@ -114,7 +114,7 @@ L0, CoreMusic platformunun **altyapı katmanıdır**. Veritabanı, cache, dosya 
 | 6 | Cache namespace — her servis ayrı namespace (ADR-007) | [[ADR-007-cache-namespace]] |
 | 7 | BCNF normalizasyon — 18 BCNF DB zorunlu | [[ADR-040-database-authority]] |
 | 8 | Hardcoded secret yasak — credential vault kullan | [[ADR-034-credential-vault-normalization]] |
-| 9 | Circular dependency yasak — coremusic/contracts bağımsız | [[ADR-085-modular-composer-packages]] |
+| 9 | Circular dependency yasak — shared/ namespace bağımsız | [[ADR-085-modular-composer-packages]] |
 | 10 | PSR-14 event bus — servisler arası doğrudan çağrı yasak | [[ADR-086-event-driven-architecture]] |
 
 ---

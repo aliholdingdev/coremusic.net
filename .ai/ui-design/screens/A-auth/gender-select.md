@@ -5,7 +5,7 @@ updated: 2026-08-11
 type: spec
 status: active
 version: 3.0.0
-authority: PNG Visual Analysis (direct inspection — Linux 1024 - Select Gender.png + Select Gender - selected.png)
+authority: PNG Visual Analysis (direct inspection — Linux  1024 - Select Gender.png + Select Gender - selected.png)
 platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 references:
   - [[00-mockup-index]]
@@ -19,7 +19,7 @@ references:
 
 ## Platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 
-**Source Images:** `Linux 1024 - Select Gender.png` + `Linux 1024 - Select Gender - selected.png`
+**Source Images:** `Linux  1024 - Select Gender.png` + `Linux  1024 - Select Gender - selected.png`
 **Confidence:** High — directly viewed from PNG screenshots.
 **Layout Pattern:** Pattern 5: Auth Screen (72/28 split)
 **Auth Sırası:** İLK ADIM — Bu ekrandan önce hiçbir auth ekranı gösterilmez.

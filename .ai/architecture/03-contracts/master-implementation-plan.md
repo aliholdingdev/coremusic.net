@@ -122,26 +122,26 @@ Phase 5: Production (Weeks 23-26)
 
 **Goal:** Establish the infrastructure that all other phases depend on.
 
-#### 2.2.1 Week 1: Project Structure & Shared Packages
+#### 2.2.1 Week 1: Project Structure & Shared Library
 
 | Task | Files | Acceptance Criteria |
 |------|-------|---------------------|
 | Root directory structure | `C:\www\coremusic.net\` | All subdirectories created per ADR-051 |
-| Shared package scaffolding | `shared/composer.json` | PSR-4 autoloading configured |
-| `coremusic/contracts` package | `packages/contracts/` | DTO, Enum, ValueObject, Entity interfaces |
-| `coremusic/support` package | `packages/support/` | Helpers, traits, base classes |
-| `coremusic/http` package | `packages/http/` | PSR-7/PSR-17/PSR-18 HTTP client |
+| Shared library scaffolding | `shared/composer.json` | PSR-4 autoloading configured (ADR-085 v3.0) |
+| Router contracts | `shared/src/Router/Contracts/` | RouterInterface, RouteDefinitionInterface |
+| Security middleware | `shared/src/Security/Middleware/` | 10 middleware (frozen pipeline) |
+| Auth domain | `shared/src/Auth/Domain/` | User, Email, UserId, UserRole value objects |
 | Bootstrap file | `shared/bootstrap.php` | Autoloader, config loader, error handler |
 
 #### 2.2.2 Week 2: Auth Service Core
 
 | Task | Files | Acceptance Criteria |
 |------|-------|---------------------|
-| Auth domain entities | `packages/auth/src/Domain/` | User, Email, Password, UserId value objects |
-| Auth repository interface | `packages/auth/src/Domain/Repository/` | UserRepositoryInterface |
-| Auth PDO repository | `packages/auth/src/Infrastructure/` | PdoUserRepository (no ORM) |
-| Password service | `packages/auth/src/Infrastructure/Service/` | Argon2id (64MB, t=4, p=2) |
-| JWT service | `packages/auth/src/Infrastructure/Service/` | RS256 encode/decode, key rotation |
+| Auth domain entities | `shared/src/Auth/Domain/Entity/` | User entity (immutable, readonly) |
+| Auth repository interface | `shared/src/Auth/Domain/Repository/` | UserRepositoryInterface |
+| Auth PDO repository | `shared/src/Auth/Infrastructure/Repository/` | PdoUserRepository (no ORM) |
+| Password service | `shared/src/Security/Service/` | Argon2id (64MB, t=4, p=2) |
+| JWT service | `shared/src/Auth/Infrastructure/Service/` | RS256 encode/decode, key rotation |
 | Session manager | `packages/security/src/Middleware/` | COREMUSIC_SESS cookie, 3600s idle |
 | Auth API endpoints | `auth.coremusic.net/api/` | login, logout, register, refresh |
 
@@ -845,18 +845,21 @@ Layer 0: Infrastructure
   ├── APCu (rate limiting, route cache)
   └── Filesystem (media storage)
 
-Layer 1: Shared Packages (no dependencies between them)
-  ├── coremusic/contracts (base, no deps)
-  ├── coremusic/support (depends on contracts)
-  ├── coremusic/http (depends on contracts, support)
-  ├── coremusic/cache (depends on contracts)
-  ├── coremusic/logger (depends on contracts)
-  ├── coremusic/events (depends on contracts)
-  ├── coremusic/validation (depends on contracts)
-  └── coremusic/config (depends on contracts)
+Layer 1: Shared Library (ADR-085 v3.0 — tek shared/ + PSR-4 namespace)
+  ├── shared/src/Router/        (L2: SPA Router — Contracts, Attributes, Cache)
+  ├── shared/src/Security/      (L1: Middleware Pipeline — 10 middleware)
+  ├── shared/src/Auth/          (L1/L4: Auth Domain — Entity, VO, Repository, Event)
+  ├── shared/src/Http/          (PSR-7/17)
+  ├── shared/src/Cache/         (PSR-6)
+  ├── shared/src/Events/        (PSR-14)
+  ├── shared/src/Validation/    (Request validation)
+  └── shared/src/Logger/        (PSR-3)
 
-Layer 2: Security Packages
-  ├── coremusic/security (depends on contracts, cache)
+Layer 2: Subdomain Entry Points (shared/'e bağımlı)
+  ├── auth.coremusic.net/index.php
+  ├── music.coremusic.net/index.php
+  ├── api.coremusic.net/index.php
+  └── admin.coremusic.net/index.php
   ├── coremusic/auth (depends on http, contracts, support)
   └── coremusic/mfa (depends on auth, contracts)
 

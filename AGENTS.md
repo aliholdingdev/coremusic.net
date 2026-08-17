@@ -252,7 +252,35 @@ Her mimari değişiklik aşağıdakileri gerektirir:
 
 Detaylar: [[.ai/.templates/index.md]]
 
+---
+
+## Boot Protocol (CRITICAL — Her Session Başında)
+
+**⚠️ ZORUNLULUK:** Her AI asistanı her oturumda bu protokolü uygulamak ZORUNDADIR.
+
+### İlk 10 Dosya (Okuma Sırası)
+
+| # | Dosya | Amaç |
+|---|-------|------|
+| 1 | `.ai/CLAUDE.md` | AI anayasası, 16 Hard Guardrails |
+| 2 | `.ai/AGENTS.md` | Agent sınırları, routing, domain boundary |
+| 3 | `.ai/WORKFLOW.md` | Süreçler, fazlar, workflow kuralları |
+| 4 | `.ai/index.md` | Master katalog, tüm vault yapısı |
+| 5 | `.ai/keys.md` | Keyword haritası, yönlendirme |
+| 6 | `.ai/brain.md` | Mimari kararlar, ADR 001-087 |
+| 7 | `.ai/MEMORY.md` | Session hafızası, persistent state |
+| 8 | `.ai/log.md` | Audit trail (son 20 satır) |
+| 9 | `.ai/engine.md` | Orkestrasyon motoru indeksi |
+| 10 | `.ai/ROLE.md` | Rol tanımı, uzmanlık alanları |
+
+### Kurallar
+1. Bu dosyaları okumadan HİÇBİR İŞLEM YAPMA
+2. İlk adım HER ZAMAN vault okumaktır
+3. Vault kuralları her şeyin üzerindedir
+4. Çelişki varsa DUR ve kullanıcıya sor
+5. SSOT hierarchy: CLAUDE.md > AGENTS.md > WORKFLOW.md > diğer dosyalar
+
 # Yetki (Authority)
 **Yetkili:** Bayram Ali / Vault Steward
-**Son Güncelleme:** 2026-08-09
+**Son Güncelleme:** 2026-08-16
 **Mod:** Red Team, Human Mode, Truth Mode

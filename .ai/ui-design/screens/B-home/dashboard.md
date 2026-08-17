@@ -5,7 +5,7 @@ updated: 2026-08-11
 type: spec
 status: active
 version: 3.0.0
-authority: PNG Visual Analysis (direct inspection — Linux 1024 - Home Page.png)
+authority: PNG Visual Analysis (direct inspection — Linux  1024 - Home Page.png)
 platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 references:
   - [[00-mockup-index]]
@@ -19,7 +19,7 @@ references:
 
 ## Platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 
-**Source Image:** `Linux 1024 - Home Page.png`
+**Source Image:** `Linux  1024 - Home Page.png`
 **Confidence:** High — directly viewed from PNG screenshot.
 **Layout Pattern:** Pattern 2: Split Home (42/58 split + grid)
 

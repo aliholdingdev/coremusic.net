@@ -101,7 +101,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[ADR-079-i18n-database-schema]] | i18n DB Schema | Database |
 | [[ADR-083-spa-router]] | SPA Router Architecture | Architecture |
 | [[ADR-084-api-gateway-architecture]] | API Gateway Architecture | Architecture |
-| [[ADR-085-modular-composer-packages]] | Modular Composer Packages | Architecture |
+| [[ADR-085-modular-composer-packages]] | Shared Library Hybrid (tek shared/ + PSR-4 namespace) | Architecture |
 | [[ADR-086-event-driven-architecture]] | Event Driven Architecture | Architecture |
 | [[ADR-087-master-implementation-plan]] | Master Implementation Plan | Architecture |
 

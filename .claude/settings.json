@@ -1,17 +1,9 @@
 {
   "instructions": [
-    "AGENTS.md",
     "CLAUDE.md",
-    "WORKFLOW.md",
     ".ai/CLAUDE.md",
     ".ai/AGENTS.md",
-    ".ai/WORKFLOW.md",
-    ".ai/index.md",
-    ".ai/keys.md",
-    ".ai/brain.md",
-    ".ai/engine.md",
-    ".ai/MEMORY.md",
-    ".ai/log.md"
+    ".ai/WORKFLOW.md"
   ],
   "mcpServers": {
     "filesystem": {

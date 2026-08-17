@@ -1,22 +1,22 @@
 ---
 type: architecture
 category: contracts
-title: "Shared Library — CoreMusic Modular Composer Packages"
+title: "Shared Library — CoreMusic Hybrid Architecture"
 date: 2026-08-09
-updated: 2026-08-12
+updated: 2026-08-15
 status: active
-version: 3.0.0
+version: 4.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
-# Shared Library — CoreMusic Modular Composer Packages
+# Shared Library — CoreMusic Hybrid Architecture
 
 **Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[ADR-085-modular-composer-packages]] · [[ADR-087-master-implementation-plan]]
 
 ## 1. Amaç
 
-CoreMusic'in tüm subdomain'leri tarafından kullanılan ortak altyapı kütüphanesini tanımlar. Tek bir monolitik paket yerine, modüler `coremusic/*` Composer paketleri kullanılır.
+CoreMusic'in tüm subdomain'leri tarafından kullanılan ortak altyapı kütüphanesini tanımlar. Tek `shared/` dizini + PSR-4 namespace ile modüler ayrım kullanılır (ADR-085 v3.0).
 
 ## 2. Temel İlke
 
@@ -24,60 +24,52 @@ CoreMusic'in tüm subdomain'leri tarafından kullanılan ortak altyapı kütüph
 
 Altyapı bileşenleri mümkün olduğunca standartlar ve güvenilir Composer paketleri üzerine inşa edilecek; yalnızca CoreMusic'e özgü iş kuralları özel olarak geliştirilecektir.
 
-## 3. Modüler Paket Yapısı
+## 3. Modüler Namespace Yapısı (ADR-085 v3.0)
+
+Tek `shared/` dizini, PSR-4 namespace ile modüler ayrılmış:
 
 ```
-coremusic/
-├── contracts/          ← DTO, Request, Response, Value Objects, Enums
-├── http/               ← PSR-7 HTTP Message, Request/Response
-├── auth/               ← Authentication domain logic
-├── security/           ← CSRF, CSP, Rate Limit, Encryption
-├── cache/              ← Cache abstraction (Redis, APCu, File)
-├── events/             ← Event Dispatcher (PSR-14)
-├── openapi/            ← OpenAPI/Swagger definitions
-├── sdk/                ← API Client SDK
-├── logger/             ← PSR-3 Logger
-├── support/            ← Helpers, Utilities
-├── validation/         ← Request/DTO Validation
-├── queue/              ← Queue abstraction
-├── storage/            ← Filesystem abstraction
-├── config/             ← Configuration management
-├── monitoring/         ← Health check, Metrics
-├── testing/            ← Test utilities
-├── api-client/         ← HTTP Client for API
-├── websocket/          ← WebSocket client/server
-├── observability/      ← Tracing, Metrics, Logging
-├── mfa/                ← Multi-Factor Authentication (TOTP)
-├── i18n/               ← Internationalization & Translation
-└── device/             ← Device detection & Management
+shared/
+├── composer.json              ← Tek paket: coremusic/shared
+├── bootstrap.php              ← Autoloader + env
+├── config/                    ← Config dosyaları
+│   ├── database.php           ← 18 BCNF DB
+│   ├── middleware.php          ← Frozen 10 katman pipeline
+│   ├── routes.php             ← Route tanımları
+│   └── cors.php               ← CORS whitelist
+├── src/
+│   ├── Router/                ← L2: SPA Router
+│   │   ├── Contracts/         ← RouterInterface, RouteDefinitionInterface
+│   │   ├── Attributes/        ← #[Route], #[Middleware], #[Guard]
+│   │   └── Cache/             ← RouteCache
+│   ├── Security/              ← L1: Middleware Pipeline
+│   │   ├── Middleware/         ← 10 middleware (frozen sıra)
+│   │   └── Service/            ← CspNonceGenerator, RateLimiter
+│   ├── Auth/                  ← L1/L4: Auth Domain
+│   │   ├── Domain/             ← Entity, ValueObject, Repository, Event
+│   │   ├── Application/        ← Command, Query, DTO, Service
+│   │   └── Infrastructure/     ← Repository implementations
+│   ├── Http/                  ← PSR-7/17
+│   ├── Cache/                 ← PSR-6
+│   ├── Events/                ← PSR-14
+│   ├── Validation/            ← Request validation
+│   └── Logger/                ← PSR-3
+└── tests/
+    └── Unit/
 ```
 
-## 4. Paket Detayları
+### Namespace Haritası
 
-### 4.1 coremusic/contracts
-
-| Bileşen | Sorumluluk |
-|---------|------------|
-| **DTO** | Data Transfer Objects |
-| **Request** | API Request modelleri |
-| **Response** | API Response modelleri |
-| **Value Objects** | Immutable value objects |
-| **Enums** | Enumerations |
-| **Exceptions** | Ortak exception sınıfları |
-
-```php
-namespace CoreMusic\Contracts\Auth\DTO;
-namespace CoreMusic\Contracts\Auth\Request;
-namespace CoreMusic\Contracts\Auth\Response;
-namespace CoreMusic\Contracts\Music\DTO;
-namespace CoreMusic\Contracts\Common\ValueObject;
-namespace CoreMusic\Contracts\Common\Enum;
-```
-
-### 4.2 coremusic/http
-
-| Bileşen | Sorumluluk |
-|---------|------------|
+| Namespace | Katman | Kullanım |
+|-----------|--------|----------|
+| `CoreMusic\Router\*` | L2 | SPA Router |
+| `CoreMusic\Security\*` | L1 | Middleware Pipeline |
+| `CoreMusic\Auth\*` | L1/L4 | Auth Domain |
+| `CoreMusic\Http\*` | — | PSR-7 HTTP |
+| `CoreMusic\Cache\*` | L0 | PSR-6 Cache |
+| `CoreMusic\Events\*` | — | PSR-14 Events |
+| `CoreMusic\Validation\*` | — | Request Validation |
+| `CoreMusic\Logger\*` | — | PSR-3 Logging |
 | **Request** | PSR-7 Request implementation |
 | **Response** | PSR-7 Response implementation |
 | **ServerRequestFactory** | Request factory |
@@ -420,35 +412,42 @@ namespace CoreMusic\Monitoring\Tracing;
 ## 8. Paket Bağımlılık Grafı
 
 ```
-coremusic/contracts  ←── coremusic/auth
-                   ←── coremusic/security
-                   ←── coremusic/validation
-                   ←── coremusic/api-client
+## 8. Bağımlılık Diyagramı
 
-coremusic/http  ←── coremusic/auth
-              ←── coremusic/security
-              ←── coremusic/api-client
+```
+shared/ (tek paket, PSR-4 namespace)
+  ↑
+  ├── auth.coremusic.net     ← require shared/bootstrap.php
+  ├── music.coremusic.net    ← require shared/bootstrap.php
+  ├── api.coremusic.net      ← require shared/bootstrap.php
+  ├── admin.coremusic.net    ← require shared/bootstrap.php
+  ├── home.coremusic.net     ← require shared/bootstrap.php
+  ├── car.coremusic.net      ← require shared/bootstrap.php
+  ├── studio.coremusic.net   ← require shared/bootstrap.php
+  ├── pro.coremusic.net      ← require shared/bootstrap.php
+  ├── download.coremusic.net ← require shared/bootstrap.php
+  └── media.coremusic.net    ← require shared/bootstrap.php
 
-coremusic/cache  ←── coremusic/auth
-               ←── coremusic/security
-               ←── coremusic/queue
+Namespace bağımlılık kuralları:
+  CoreMusic\Auth\*       → CoreMusic\Security\* (L1 → L1)
+  CoreMusic\Security\*   → CoreMusic\Auth\* (L1 → L1)
+  CoreMusic\Router\*     → CoreMusic\Security\* (L2 → L1)
+  CoreMusic\Http\*       → (bağımsız)
+  CoreMusic\Cache\*      → (bağımsız)
+  CoreMusic\Events\*     → (bağımsız)
+  CoreMusic\Validation\* → (bağımsız)
+  CoreMusic\Logger\*     → (bağımsız)
 
-coremusic/events  ←── coremusic/auth
-                ←── coremusic/queue
-                ←── coremusic/monitoring
-
-coremusic/storage  ←── coremusic/monitoring
-
-coremusic/queue  ←── coremusic/monitoring
+Circular dependency YASAK.
 ```
 
 ## 9. Hard Guardrails
 
 | # | Kural | İhlal Sonucu |
 |---|-------|-------------|
-| 1 | Her paket bağımsız versionlanabilir | Bağımlılık ihlali |
+| 1 | Tek `shared/` dizini + PSR-4 namespace | Structure violation → revert |
 | 2 | Domain katmanında bağımlılık yasak | Layer violation → revert |
-| 3 | Contracts bağımsızdır, bağımlılığı yoktur | Bağımlılık ihlali |
+| 3 | Circular dependency yasak | Bağımlılık ihlali |
 | 4 | PSR standartlarına uygunluk zorunlu | Uyumsuzluk |
 | 5 | `declare(strict_types=1)` her dosyada zorunlu | Tip hatası riski |
 | 6 | ORM yasak — sadece PDO prepared | ADR-002 |

@@ -488,7 +488,7 @@ sdk ← api-client, contracts
 | SPA → PDO | SPA → ApiClient → Gateway |
 | Controller → Repository | Controller → Use Case → Repository |
 | Service → Service DB | Service → API Call |
-| Tek monolitik shared | Modüler `coremusic/*` paketler |
+| Tek monolitik shared | shared/ + PSR-4 namespace (ADR-085 v3.0) |
 | Kod öncesi yazma | Contract First (OpenAPI) |
 | `SELECT *` | Explicit column list |
 | ORM | PDO prepared statement |
@@ -504,7 +504,7 @@ sdk ← api-client, contracts
 | 4 | Event Driven: Servisler birbirini çağırmaz | Bağımlılık artışı |
 | 5 | Gateway: Tek giriş noktası | Güvenlik açığı |
 | 6 | Contract First: OpenAPI önce | Uyumsuzluk riski |
-| 7 | Modüler Shared: `coremusic/*` paketler | Kod tekrarı |
+| 7 | Modüler Shared: tek shared/ + PSR-4 namespace | Kod tekrarı |
 | 8 | Domain bağımsız: Altyapıyı bilmez | Teknoloji bağımlılığı |
 
 ## 12. İlgili Dosyalar

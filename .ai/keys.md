@@ -189,6 +189,15 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 |---------------|-------------|
 | L2, routing, SPA, single page, router | architecture/l2-routing.md |
 | URL, normalization, subdomain | architecture/l2-routing.md |
+| PageRouter, PageRouterKernel, HTML shell | architecture/l2-routing/spa-router.md |
+| RouteRegistry, SpaRoute, route config | architecture/l2-routing/route-config.md |
+| HtmlShellRenderer, CSP nonce, device CSS | architecture/l2-routing/html-shell-renderer.md |
+| AuthGuard, AuthUrlBuilder, guard pipeline | architecture/l2-routing/guard-pipeline.md |
+| JS Router, Router.js, DomPatcher, GuardPipeline | architecture/l2-routing/js-router.md |
+| Middleware pipeline, session, CSRF | architecture/l2-routing/middleware-pipeline.md |
+| Subdomain routing, port mapping | architecture/l2-routing/subdomain-routing.md |
+| URL normalization, clean URL | architecture/l2-routing/url-normalization.md |
+| Service discovery, health check | architecture/l2-routing/service-discovery.md |
 
 ### 3.4 L3 Presentation
 
@@ -563,7 +572,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | ADR-079 | i18n database, languages, translations, ui_strings | Database |
 | ADR-083 | SPA Router, PHP+JS Hybrid, History API, DOMParser | Routing |
 | ADR-084 | API Gateway, API-First, BFF, CQRS, Tek Gateway | Architecture |
-| ADR-085 | Modular Composer, 22 paket, coremusic/*, circular dependency yasak | Infrastructure |
+| ADR-085 | Shared Library Hybrid, tek shared/ + PSR-4 namespace, circular dependency yasak | Infrastructure |
 | ADR-086 | Event Driven, PSR-14, Domain Event, Integration Event | Architecture |
 | ADR-087 | Master Implementation Plan, 5 faz, 40 gun, 22 bolum, sirfirdan gelistirme | Architecture |
 
@@ -712,7 +721,7 @@ P3: testing/*, ui-design/*, personas/*
 | Version | 25.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | ADR Coverage | 001-087 (87 ADR keyword mapping) |
-| Vault Envanteri | 484+ .md dosyasi, 87 ADR, 18 BCNF DB, 10 panel, 7 servis, 22 coremusic/* paket |
+| Vault Envanteri | 484+ .md dosyasi, 87 ADR, 18 BCNF DB, 10 panel, 7 servis, shared/ hybrid yapı |
 
 ---
 

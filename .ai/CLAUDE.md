@@ -328,28 +328,16 @@ SPA **asla** PDO, MySQL, Repository, Entity, Infrastructure, Filesystem, FFmpeg,
 
 ---
 
-## 6B. Modüler Composer Paketleri (ADR-085)
+## 6B. Shared Library — Hybrid Yapı (ADR-085 v3.0)
 
-Tek monolitik `coremusic-shared` paketi **YASAK.** Yerine 22 bağımsız `coremusic/*` paketi kullanılır:
+Tek `shared/` dizini + PSR-4 namespace ile modüler ayrım. tek Composer paketi:  bu bir **compsoer paketidir**
 
 ```
-coremusic/contracts    ← TEMEL (bağımsız)
-coremusic/http         ← PSR-7/17/18
-coremusic/auth         ← Auth Client, JWT
-coremusic/security     ← CSRF, RateLimiter, CSP
-coremusic/cache        ← Redis, APCu, File
-coremusic/events       ← PSR-14 Event Dispatcher
-coremusic/validation   ← Request/DTO validation
-coremusic/storage      ← Flysystem abstraction
-coremusic/logger       ← PSR-3 Monolog
-coremusic/sdk          ← Client SDK
-coremusic/api-client   ← Typed API Client
-coremusic/queue        ← Message queue
-coremusic/websocket    ← WebSocket client/server
-... (22 toplam)
+shared/
+├── composer.json              ← Tek paket: coremusic/shared
+├── src/
+└── tests/
 ```
-
-**Kural:** Circular dependency yasak. `coremusic/contracts` hiçbir pakete bağımlı değildir.
 
 ---
 
@@ -866,6 +854,74 @@ Her oturum başlangıcında sırayla okunur:
 
 ---
 
+## 30. .ai Referans Takibi Protokolü (OpenCode Entegrasyonu)
+
+**⚠️ ZORUNLULUK:** Tüm AI ajanları bu protokolü uygulamak ZORUNDADIR.
+
+### 30.1 Ultra Düşünme Zorunluluğu
+
+Her kod yazma işleminden ÖNCE:
+1. **Vault Oku** — `.ai/` dosyalarını oku (CLAUDE.md → AGENTS.md → WORKFLOW.md → brain.md → ROLE.md)
+2. **Bağlamı Anla** — Hangi domain, katman, dosya, bağımlılık?
+3. **Hata Kontrolü** — Syntax, imports, types, style, security
+4. **Sonuç Tahmini** — Etki alanı, edge cases, performance
+5. **Doğrulama** — LSP, typecheck, test, template uyumu
+
+### 30.2 .ai Referans Okuma Sırası
+
+| Sıra | Dosya | Amaç | Timeout |
+|------|-------|------|---------|
+| 1 | `.ai/CLAUDE.md` | AI anayasası (bu dosya) | 3s |
+| 2 | `.ai/AGENTS.md` | Agent sınırları, routing | 3s |
+| 3 | `.ai/WORKFLOW.md` | Süreçler, fazlar | 3s |
+| 4 | `.ai/brain.md` | Mimari kararlar | 4s |
+| 5 | `.ai/ROLE.md` | Rol tanımı | 3s |
+| 6 | `.ai/index.md` | Master katalog | 4s |
+| 7 | `.ai/keys.md` | Keyword haritası | 3s |
+| 8 | `.ai/MEMORY.md` | Session hafızası | 3s |
+| 9 | `.ai/log.md` | Audit trail | 2s |
+| 10 | `.ai/ULTRA-THINKING.md` | Ultra düşünme protokolü | 2s |
+| 11 | İlgili ADR'ler | Karar referansları | Değişken |
+| 12 | İlgili template'ler | Dosya şablonları | Değişken |
+
+### 30.3 Domain-Based Okuma
+
+Her agent kendi domain'indeki dosyaları okur:
+
+| Agent | Zorunlu Okuma |
+|-------|---------------|
+| Backend | `architecture/l2-routing/*.md`, `ADR-083*.md` |
+| Frontend | `ui-design/**/*.md`, `architecture/l3-presentation/*.md` |
+| Security | `architecture/l1-security/*.md`, `ADR-010*.md` |
+| Data | `architecture/l0-infrastructure/*.md`, `.sql/*.sql` |
+| Embedded | `projects/NevaEngine/*.md`, `electronic/*.md` |
+| QA | `testing/*.md`, `ui-design/screens/**/*.md` |
+| DevOps | `architecture/02-deployment/*.md`, `ecosystem/*.md` |
+
+### 30.4 Otomatik Temizlik Protokolü
+
+| Durum | Aksiyon |
+|-------|---------|
+| LSP hata tespit | "FIX IMMEDIATELY" mesajı, devam yasak |
+| Hallüsinasyon | "VERIFICATION REQUIRED" etiketi |
+| Çelişki | DUR + kullanıcıya sor |
+| Eksik dosya | Hemen tamamla veya sil |
+| Hatalı kod | Otomatik revert + düzelt |
+
+### 30.5 Kalite Kontrol Listesi
+
+Her dosya için kontrol et:
+- [ ] Syntax doğru mu?
+- [ ] Import'lar mevcut mu?
+- [ ] Types uyumlu mu?
+- [ ] Style tutarlı mı?
+- [ ] Security riski yok mu?
+- [ ] Template'e uygun mu?
+- [ ] Cross-reference'lar geçerli mi?
+- [ ] Frontmatter tam mı? (7 zorunlu alan)
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-12
+**Last Updated:** 2026-08-16
 **Mode:** Red Team · Human Mode · Truth Mode

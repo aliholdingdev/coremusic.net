@@ -323,7 +323,7 @@ Token Updates (Faz 1)
 | Özellik | Değer |
 |---------|-------|
 | **Dosya** | `05_Pages/_home.css`, `_home-layout.css`, `_home-components.css` |
-| **Mockup** | `Linux 1024 - Home Page.png` |
+| **Mockup** | `Linux  1024 - Home Page.png` |
 | **Bileşenler** | C09 Card, Now Playing, Widgets, Mini Card |
 | **Bağımlılık** | Adım 2 (header) + Adım 3 (footer) |
 | **Zorluk** | Yüksek |
@@ -349,7 +349,7 @@ Token Updates (Faz 1)
 | Özellik | Değer |
 |---------|-------|
 | **Dosya** | `05_Pages/_home.css` |
-| **Mockup** | `Linux 1024 - Albumler Page.png` |
+| **Mockup** | `Linux  1024 - Albumler Page.png` |
 | **Bileşenler** | C09 Card, C11 Tabs, C10 Panel |
 | **Bağımlılık** | Adım 2 + 3 |
 | **Zorluk** | Orta |
@@ -372,7 +372,7 @@ Token Updates (Faz 1)
 | Özellik | Değer |
 |---------|-------|
 | **Dosya** | `05_Pages/_home.css` |
-| **Mockup** | `Linux 1024 - Albumler Details Detay Page.png` |
+| **Mockup** | `Linux  1024 - Albumler Details Detay Page.png` |
 | **Bileşenler** | C13 Track, C12 Stars, C10 Panel, C04/C05 Buttons |
 | **Bağımlılık** | Adım 5 |
 | **Zorluk** | Orta |
@@ -395,7 +395,7 @@ Token Updates (Faz 1)
 | Özellik | Değer |
 |---------|-------|
 | **Dosya** | `05_Pages/_home.css` |
-| **Mockup** | `Linux 1024 - Singer Page.png` |
+| **Mockup** | `Linux  1024 - Singer Page.png` |
 | **Bileşenler** | C09 Card (dairesel), C11 Tabs, C10 Panel |
 | **Bağımlılık** | Adım 5 |
 | **Zorluk** | Düşük |
@@ -417,7 +417,7 @@ Token Updates (Faz 1)
 | Özellik | Değer |
 |---------|-------|
 | **Dosya** | `05_Pages/_home.css` |
-| **Mockup** | `Linux 1024 - Playlist Page.png` |
+| **Mockup** | `Linux  1024 - Playlist Page.png` |
 | **Bileşenler** | C13 Track, C12 Stars |
 | **Bağımlılık** | Adım 2 + 3 |
 | **Zorluk** | Düşük |
@@ -439,7 +439,7 @@ Token Updates (Faz 1)
 | Özellik | Değer |
 |---------|-------|
 | **Dosya** | `05_Pages/_home.css` |
-| **Mockup** | `Linux 1024 - Göz At Page.png`, `Göz At - Tıklama Clikced.png` |
+| **Mockup** | `Linux  1024 - Göz At Page.png`, `Göz At - Tıklama Clikced.png` |
 | **Bileşenler** | C16 Row, C10 Panel |
 | **Bağımlılık** | Adım 1 (sidebar token) + Adım 2 + 3 |
 | **Zorluk** | Yüksek |
@@ -464,7 +464,7 @@ Token Updates (Faz 1)
 | Özellik | Değer |
 |---------|-------|
 | **Dosya** | `05_Pages/_home.css` |
-| **Mockup** | `Linux 1024 - Göz At - Tıklama Clikced.png` |
+| **Mockup** | `Linux  1024 - Göz At - Tıklama Clikced.png` |
 | **Bileşenler** | C10 Panel, grafikler |
 | **Bağımlılık** | Adım 9 |
 | **Zorluk** | Orta |
@@ -486,7 +486,7 @@ Token Updates (Faz 1)
 | Özellik | Değer |
 |---------|-------|
 | **Dosya** | `04_Components/c-modal.css` |
-| **Mockup** | `Linux 1024 - Wifi Qucik Page Base.png`, `Wifi Coonect Light.png` |
+| **Mockup** | `Linux  1024 - Wifi Qucik Page Base.png`, `Wifi Coonect Light.png` |
 | **Bileşenler** | C14 Modal, C15 Toggle, C16 Network Row |
 | **Bağımlılık** | Adım 2 (header) |
 | **Zorluk** | Orta |
@@ -510,7 +510,7 @@ Token Updates (Faz 1)
 | Özellik | Değer |
 |---------|-------|
 | **Dosya** | `04_Components/c-modal.css` |
-| **Mockup** | `Linux 1024 - Bluethoot Qucik Page Base.png` |
+| **Mockup** | `Linux  1024 - Bluethoot Qucik Page Base.png` |
 | **Bileşenler** | C14 Modal, C15 Toggle, C16 Device Row |
 | **Bağımlılık** | Adım 11 (WiFi modal ile aynı pattern) |
 | **Zorluk** | Düşük |
@@ -531,7 +531,7 @@ Token Updates (Faz 1)
 | Özellik | Değer |
 |---------|-------|
 | **Dosya** | `05_Pages/_home.css` |
-| **Mockup** | `Linux 1024 - Home Page Welcome Popup.png` |
+| **Mockup** | `Linux  1024 - Home Page Welcome Popup.png` |
 | **Bileşenler** | C14 Modal, C04 Button |
 | **Bağımlılık** | Adım 4 (ana sayfa) |
 | **Zorluk** | Düşük |

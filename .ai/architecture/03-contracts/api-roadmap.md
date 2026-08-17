@@ -24,11 +24,11 @@ CoreMusic API geliştirme yol haritasını, fazları ve öncelik sırasını tan
 
 | # | Görev | Sorumlu | Durum |
 |---|-------|---------|-------|
-| 1 | `coremusic/contracts` paketi (DTO, Enums, ValueObjects) | Backend | ⏳ |
-| 2 | `coremusic/http` paketi (HttpClient, ApiClient) | Backend | ⏳ |
-| 3 | `coremusic/config` paketi (Environment, .env) | Backend | ⏳ |
-| 4 | `coremusic/logger` paketi (PSR-3 Monolog wrapper) | Backend | ⏳ |
-| 5 | Root `composer.json` + autoloading kurulumu | Backend | ⏳ |
+| 1 | `shared/src/Auth/` modülü (DTO, Enums, ValueObjects) | Backend | ⏳ |
+| 2 | `shared/src/Http/` modülü (HttpClient, ApiClient) | Backend | ⏳ |
+| 3 | `shared/config/` (database.php, middleware.php, routes.php) | Backend | ⏳ |
+| 4 | `shared/src/Logger/` modülü (PSR-3 Monolog wrapper) | Backend | ⏳ |
+| 5 | `shared/composer.json` + PSR-4 autoloading kurulumu | Backend | ✅ |
 | 6 | OpenAPI spec şablonu oluşturma | Backend | ⏳ |
 | 7 | PHPStan + CS Fixer konfigürasyonu | QA | ⏳ |
 
@@ -36,8 +36,8 @@ CoreMusic API geliştirme yol haritasını, fazları ve öncelik sırasını tan
 
 | # | Görev | Sorumlu | Durum |
 |---|-------|---------|-------|
-| 1 | `coremusic/auth` paketi (Auth Client, JWT) | Security | ⏳ |
-| 2 | `coremusic/security` paketi (CSRF, RateLimit) | Security | ⏳ |
+| 1 | `shared/src/Auth/` modülü (Auth Client, JWT) | Security | ⏳ |
+| 2 | `shared/src/Security/` modülü (CSRF, RateLimit) | Security | ⏳ |
 | 3 | `auth.coremusic.net` entry point + router | Backend | ⏳ |
 | 4 | LoginUseCase + RegisterUseCase | Backend | ⏳ |
 | 5 | PdoUserRepository + PdoSessionRepository | Data | ⏳ |
@@ -66,8 +66,8 @@ CoreMusic API geliştirme yol haritasını, fazları ve öncelik sırasını tan
 
 | # | Görev | Sorumlu | Durum |
 |---|-------|---------|-------|
-| 1 | `coremusic/cache` paketi (Redis/APCu/File) | Backend | ⏳ |
-| 2 | `coremusic/events` paketi (PSR-14 EventDispatcher) | Backend | ⏳ |
+| 1 | `shared/src/Cache/` modülü (Redis/APCu/File) | Backend | ⏳ |
+| 2 | `shared/src/Events/` modülü (PSR-14 EventDispatcher) | Backend | ⏳ |
 | 3 | Music API endpoints (CRUD) | Backend | ⏳ |
 | 4 | Playlist API endpoints (CRUD) | Backend | ⏳ |
 | 5 | Album API endpoints (CRUD) | Backend | ⏳ |
@@ -142,7 +142,7 @@ CoreMusic API geliştirme yol haritasını, fazları ve öncelik sırasını tan
 KRİTİK (Şimdi yapılacak)
 ├── Auth Service (Faz 2)
 ├── Gateway + Middleware (Faz 3)
-└── coremusic/contracts (Faz 1)
+└── shared/ core modülleri (Faz 1)
 
 YÜKSEK (Sonra yapılacak)
 ├── Core Services (Faz 4)

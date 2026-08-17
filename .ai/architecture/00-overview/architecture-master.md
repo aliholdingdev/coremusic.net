@@ -32,7 +32,7 @@ Diğer dosyalar bu dosyaya referans verir, kendi başlarına sayısal metadata �
 | **Architecture Layers** | 7 | L0 through L6 | 2026-08-15 |
 | **Panels** | 10 | music, admin, download, media, auth, home, car, studio, pro, landing | 2026-08-15 |
 | **Backend Services** | 7 | Control, Media, Audio, Device, Network Audio, AI, Download | 2026-08-15 |
-| **Composer Packages** | 22 | coremusic/* (ADR-085) | 2026-08-15 |
+| **Composer Packages** | 1 | tek shared/ + PSR-4 namespace (ADR-085 v3.0) | 2026-08-15 |
 | **Middleware Pipeline** | 10 | OriginCheck→Validation (ADR-010/011/012/013/022) | 2026-08-15 |
 | **Agent Count** | 11 | MO + 10 specialist | 2026-08-15 |
 | **Template Count** | 25 | .ai/.templates/ | 2026-08-15 |
@@ -186,7 +186,7 @@ L6 Electronics → L5 Services → L4 Domain → L3 Presentation → L2 Routing 
 | ADR-080 | Electronics Development Workflow | Electronics |
 | ADR-083 | SPA Router Architecture (PHP+JS Hybrid) | Routing |
 | ADR-084 | API Gateway Architecture (API-First, BFF, CQRS) | Architecture |
-| ADR-085 | Modular Composer Packages (coremusic/*) | Infrastructure |
+| ADR-085 | Shared Library Hybrid (tek shared/ + PSR-4 namespace) | Infrastructure |
 | ADR-086 | Event Driven Architecture (PSR-14) | Architecture |
 | ADR-087 | Master Implementation Plan | Architecture |
 

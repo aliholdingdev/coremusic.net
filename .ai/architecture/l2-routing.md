@@ -27,15 +27,20 @@ L4 Domain → L3 Presentation → L2 ← BU DOSYA → L1 Security → L0 Infrast
 
 ## 2. Responsibilities
 
-| Bileşen | Sorumluluk |
-|---------|------------|
-| **PageRouter** | SPA-style client-side routing |
-| **URL Normalization** | Clean URL redirect, trailing slash |
-| **Subdomain Routing** | Multi-domain SPA architecture |
-| **Controller Dispatch** | Request → Controller → Response |
-| **Route Matching** | URL pattern matching (URLPattern API) |
+| Bileşen | Sorumluluk | Dosya |
+|---------|------------|-------|
+| **PageRouterKernel** | Ana orkestratör (middleware + dispatch) | [[spa-router]] |
+| **PageRouter** | Route çözümleme + rendering | [[spa-router]] |
+| **HtmlShellRenderer** | SPA HTML shell üretimi | [[html-shell-renderer]] |
+| **AuthGuard** | Auth guard mantığı (6 kontrol) | [[guard-pipeline]] |
+| **RouteRegistry** | Route kayıt + çözümleme | [[route-config]] |
+| **SpaRoute** | Route DTO (immutable) | [[route-config]] |
+| **JS Router** | Client-side SPA routing | [[js-router]] |
+| **GuardPipeline** | Client-side guard'lar | [[guard-pipeline]] |
+| **URL Normalization** | Clean URL redirect, trailing slash | [[url-normalization]] |
+| **Subdomain Routing** | Multi-domain SPA architecture | [[subdomain-routing]] |
 
-*Kaynak: [[ADR-004-multi-domain-spa]], [[ADR-009-clean-url-redirect]], [[ADR-016-url-normalization]], [[ADR-021-spa-router-immutable-contract]]*
+*Kaynak: [[ADR-004-multi-domain-spa]], [[ADR-009-clean-url-redirect]], [[ADR-016-url-normalization]], [[ADR-021-spa-router-immutable-contract]], [[ADR-083-spa-router]]*
 
 ## 3. Tech Stack
 
@@ -437,31 +442,46 @@ abstract class BaseController
 
 ## 11. Related Documents
 
-- [[l1-security]] — Security layer
-- [[l3-presentation]] — Presentation layer
+### L2 Routing Dosyaları
+
+| Dosya | Amaç |
+|-------|------|
+| [[spa-router]] | PHP SPA PageRouter (14 modül) |
+| [[js-router]] | JS SPA Router (21+ modül) |
+| [[route-config]] | Route yapısı + SpaRoute DTO |
+| [[html-shell-renderer]] | HTML shell üretimi |
+| [[guard-pipeline]] | Guard pipeline (PHP + JS) |
+| [[middleware-pipeline]] | Middleware pipeline |
+| [[subdomain-routing]] | Subdomain routing |
+| [[url-normalization]] | URL normalization |
+| [[service-discovery]] | Service discovery |
+
+### İlgili ADR'ler
+
 - [[ADR-004-multi-domain-spa]] — Multi-domain SPA
 - [[ADR-009-clean-url-redirect]] — Clean URLs
 - [[ADR-016-url-normalization]] — URL normalization
-- [[ADR-021-spa-router-immutable-contract]] — SPA router
+- [[ADR-021-spa-router-immutable-contract]] — SPA router contract
 - [[ADR-042-vault-restructuring-2026-08-03]] — Port mapping
 - [[ADR-043-auth-subdomain-consolidation]] — Auth subdomain
-- [[ADR-051-platform-rewrite-from-scratch]] — Platform rewrite
-- [[ADR-053-enterprise-router-architecture]] — Enterprise router (YENİ)
+- [[ADR-053-enterprise-router-architecture]] — Enterprise router
 - [[ADR-054-enterprise-composer-stack]] — Composer stack
+- [[ADR-083-spa-router]] — SPA Router Architecture (PHP+JS Hybrid)
 
 ## 12. Quality Report
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 2.1.0 |
+| **Versiyon** | 3.0.0 |
 | **Satır Sayısı** | ~700 |
 | **Web Doğrulanmış** | ✅ URLPattern, php.net, caniuse |
-| **ADR Uyumlu** | ✅ 004, 009, 016, 021, 042, 043, 051, 053, 054 |
+| **ADR Uyumlu** | ✅ 004, 009, 016, 021, 042, 043, 053, 054, 083 |
 | **Zero Hallucination** | ✅ |
+| **L2 Dosya Sayısı** | 9 (spa-router, js-router, route-config, html-shell-renderer, guard-pipeline, middleware-pipeline, subdomain-routing, url-normalization, service-discovery) |
 
 ---
 
-*L2 Routing Layer v2.0.0 — CoreMusic Architecture*
+*L2 Routing Layer v3.0.0 — CoreMusic Architecture*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-06*
+*Last Updated: 2026-08-16*
 *Mode: Red Team • Human Mode • Truth Mode*

@@ -766,6 +766,72 @@ Ajan dosyaya erişmek ister
 
 ---
 
+## 24. Ultra Düşünme Protokolü (OpenCode Entegrasyonu)
+
+**⚠️ ZORUNLULUK:** Tüm agent'lar kod yazmadan önce bu protokolü uygulamak ZORUNDADIR.
+
+### 24.1 5 Adımlı Düşünme Protokolü
+
+| Adım | Kontrol | Kaynak | Timeout |
+|------|---------|--------|---------|
+| 1. Vault Oku | CLAUDE.md → AGENTS.md → WORKFLOW.md → brain.md → ROLE.md → ilgili ADR'ler | `.ai/` vault | Max 25s |
+| 2. Bağlamı Anla | Domain, katman, dosyalar, bağımlılıklar | Mevcut kod | Değişken |
+| 3. Hata Kontrolü | Syntax, imports, types, style, security | LSP + Manuel | Anlık |
+| 4. Sonuç Tahmini | Etki alanı, edge cases, performance | Düşünce | Değişken |
+| 5. Doğrulama | LSP, typecheck, test, template uyumu | Build araçları | Anlık |
+
+### 24.2 .ai Referans Takibi
+
+**Her görev başında bu dosyaları OKU:**
+
+| Sıra | Dosya | Amaç |
+|------|-------|------|
+| 1 | `.ai/CLAUDE.md` | AI anayasası, 16 Hard Guardrails |
+| 2 | `.ai/AGENTS.md` | Agent sınırları, routing (bu dosya) |
+| 3 | `.ai/WORKFLOW.md` | Süreçler, fazlar |
+| 4 | `.ai/brain.md` | Mimari kararlar |
+| 5 | `.ai/ROLE.md` | Rol tanımı |
+| 6 | `.ai/index.md` | Master katalog |
+| 7 | `.ai/keys.md` | Keyword haritası |
+| 8 | `.ai/MEMORY.md` | Session hafızası |
+| 9 | `.ai/log.md` | Audit trail |
+| 10 | `.ai/ULTRA-THINKING.md` | Ultra düşünme protokolü |
+
+### 24.3 Domain-Based Okuma
+
+| Agent | Zorunlu Okuma |
+|-------|---------------|
+| Backend | `architecture/l2-routing/*.md`, `ADR-083*.md` |
+| Frontend | `ui-design/**/*.md`, `architecture/l3-presentation/*.md` |
+| Security | `architecture/l1-security/*.md`, `ADR-010*.md` |
+| Data | `architecture/l0-infrastructure/*.md`, `.sql/*.sql` |
+| Embedded | `projects/NevaEngine/*.md`, `electronic/*.md` |
+| QA | `testing/*.md`, `ui-design/screens/**/*.md` |
+| DevOps | `architecture/02-deployment/*.md`, `ecosystem/*.md` |
+
+### 24.4 Otomatik Temizlik
+
+| Durum | Aksiyon |
+|-------|---------|
+| LSP hata tespit | "FIX IMMEDIATELY" mesajı, devam yasak |
+| Hallüsinasyon | "VERIFICATION REQUIRED" etiketi |
+| Çelişki | DUR + kullanıcıya sor |
+| Eksik dosya | Hemen tamamla veya sil |
+
+### 24.5 Kalite Kontrol Listesi
+
+Her dosya için kontrol et:
+- [ ] Syntax doğru mu?
+- [ ] Import'lar mevcut mu?
+- [ ] Types uyumlu mu?
+- [ ] Style tutarlı mı?
+- [ ] Security riski yok mu?
+- [ ] Template'e uygun mu?
+- [ ] Cross-reference'lar geçerli mi?
+- [ ] Frontmatter tam mı? (7 zorunlu alan)
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-12
+**Last Updated:** 2026-08-16
 **Mode:** Red Team · Human Mode · Truth Mode

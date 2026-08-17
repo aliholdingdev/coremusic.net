@@ -541,7 +541,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | ADR-080 | Electronics Development Workflow |
 | ADR-083 | SPA Router Architecture (PHP+JS Hybrid) |
 | ADR-084 | API Gateway Architecture (API-First, BFF, CQRS) |
-| ADR-085 | Modular Composer Packages (coremusic/*) |
+| ADR-085 | Shared Library Hybrid (tek shared/ + PSR-4 namespace) |
 | ADR-086 | Event Driven Architecture (PSR-14) |
 | ADR-087 | Master Implementation Plan (Sıfırdan Geliştirme Kapsamı) |
 

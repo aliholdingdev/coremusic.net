@@ -150,7 +150,18 @@ L3 Presentation ──→ L2 Routing ──→ L1 Security ──→ L0 Infrastr
 
 ---
 
-## 8. İlgili Kaynaklar
+## 8. LSP Politikası
+
+| Kural | Açıklama |
+|-------|----------|
+| LSP hatalarını umursama | Composer autoload henüz güncellenmedi |
+| `class not found` normal | Bu hatalar gerçek kod hatası değil |
+| Çözüm | İşlem sonunda `composer dump-autoload` çalıştır |
+| Devam | LSP hatalarına takılmadan kodu yazmaya devam et |
+
+---
+
+## 9. İlgili Kaynaklar
 
 | Kaynak | Yol |
 |--------|-----|

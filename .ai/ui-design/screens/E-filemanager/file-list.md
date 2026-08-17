@@ -5,7 +5,7 @@ updated: 2026-08-11
 type: spec
 status: active
 version: 2.0.0
-authority: PNG Visual Analysis (direct inspection — Linux 1024 - Göz At - Tıklama Clikced.png)
+authority: PNG Visual Analysis (direct inspection — Linux  1024 - Göz At - Tıklama Clikced.png)
 platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 references:
   - [[00-mockup-index]]
@@ -17,7 +17,7 @@ references:
 
 ## Platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 
-**Source Image:** `Linux 1024 - Göz At - Tıklama Clikced.png`
+**Source Image:** `Linux  1024 - Göz At - Tıklama Clikced.png`
 **Confidence:** High — directly viewed from PNG screenshot.
 **Layout Pattern:** 3 Sütun (değişmiş orta ve sağ panel)
 **Rota:** `/browse` (disk seçildiğinde)

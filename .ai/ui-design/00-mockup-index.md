@@ -278,29 +278,29 @@ reference:
 
 | # | Ekran | PNG Dosyası | Rota | Layout Pattern | CSS Hedefi |
 |---|-------|-------------|------|---------------|------------|
-| 1 | **Ana Sayfa** | `Linux 1024 - Home Page.png` | `/` | Pattern 2: Split Home (42/58) | `05_Pages/_home-*.css` |
-| 2 | **Hoş Geldin Modalı** | `Linux 1024 - Home Page Welcome Popup.png` | `/` (ilk giriş) | Pattern 4: Modal (600×308) | `05_Pages/_home-*.css` |
-| 3 | **Albümler** | `Linux 1024 - Albumler Page.png` | `/albums` | Pattern 1: Standard 60/40 | `05_Pages/_home-*.css` |
-| 4 | **Albüm Detayı** | `Linux 1024 - Albumler Details Detay Page.png` | `/album/:id` | Pattern 1: Standard 60/40 | `05_Pages/_home-*.css` |
-| 5 | **Sanatçılar** | `Linux 1024 - Singer Page.png` | `/artists` | Pattern 1: Standard 60/40 | `05_Pages/_home-*.css` |
-| 6 | **Playlist** | `Linux 1024 - Playlist Page.png` | `/playlist/:id` | Pattern 1: Standard 60/40 | `05_Pages/_home-*.css` |
-| 7 | **Video Playback** | `Linux 1024 - Playlist Page - Video Played.png` | `/playlist/:id` (video) | Pattern 3: Fullscreen | `05_Pages/_home-*.css` |
-| 8 | **Göz At (Disk)** | `Linux 1024 - Göz At Page.png` | `/browse` | Pattern 1: 3 Sütun (167+573+220) | `05_Pages/_home-*.css` |
-| 9 | **Göz At (Tıklama)** | `Linux 1024 - Göz At - Tıklama Clikced.png` | `/browse` | Pattern 1: 3 Sütun | `05_Pages/_home-*.css` |
-| 10 | **WiFi Modal** | `Linux 1024 - Wifi Qucik Page Base.png` | overlay | Pattern 4: Modal | `04_Components/c-modal.css` |
-| 11 | **WiFi Bağlan** | `Linux 1024 - Wifi Coonect Light.png` | overlay (sub-dialog) | Pattern 4: Modal | `04_Components/c-modal.css` |
-| 12 | **Bluetooth Modal** | `Linux 1024 - Bluethoot Qucik Page Base.png` | overlay | Pattern 4: Modal | `04_Components/c-modal.css` |
+| 1 | **Ana Sayfa** | `Linux  1024 - Home Page.png` | `/` | Pattern 2: Split Home (42/58) | `05_Pages/_home-*.css` |
+| 2 | **Hoş Geldin Modalı** | `Linux  1024 - Home Page Welcome Popup.png` | `/` (ilk giriş) | Pattern 4: Modal (600×308) | `05_Pages/_home-*.css` |
+| 3 | **Albümler** | `Linux  1024 - Albumler Page.png` | `/albums` | Pattern 1: Standard 60/40 | `05_Pages/_home-*.css` |
+| 4 | **Albüm Detayı** | `Linux  1024 - Albumler Details Detay Page.png` | `/album/:id` | Pattern 1: Standard 60/40 | `05_Pages/_home-*.css` |
+| 5 | **Sanatçılar** | `Linux  1024 - Singer Page.png` | `/artists` | Pattern 1: Standard 60/40 | `05_Pages/_home-*.css` |
+| 6 | **Playlist** | `Linux  1024 - Playlist Page.png` | `/playlist/:id` | Pattern 1: Standard 60/40 | `05_Pages/_home-*.css` |
+| 7 | **Video Playback** | `Linux  1024 - Playlist Page - Video Played.png` | `/playlist/:id` (video) | Pattern 3: Fullscreen | `05_Pages/_home-*.css` |
+| 8 | **Göz At (Disk)** | `Linux  1024 - Göz At Page.png` | `/browse` | Pattern 1: 3 Sütun (167+573+220) | `05_Pages/_home-*.css` |
+| 9 | **Göz At (Tıklama)** | `Linux  1024 - Göz At - Tıklama Clikced.png` | `/browse` | Pattern 1: 3 Sütun | `05_Pages/_home-*.css` |
+| 10 | **WiFi Modal** | `Linux  1024 - Wifi Qucik Page Base.png` | overlay | Pattern 4: Modal | `04_Components/c-modal.css` |
+| 11 | **WiFi Bağlan** | `Linux  1024 - Wifi Coonect Light.png` | overlay (sub-dialog) | Pattern 4: Modal | `04_Components/c-modal.css` |
+| 12 | **Bluetooth Modal** | `Linux  1024 - Bluethoot Qucik Page Base.png` | overlay | Pattern 4: Modal | `04_Components/c-modal.css` |
 
 ### 3.2 — Auth Ekranları (6 PNG — shared-1024)
 
 | # | Ekran | PNG Dosyası | Sıra | Layout Pattern |
 |---|-------|-------------|------|---------------|
-| 13 | **Select Gender** | `Linux 1024 - Select Gender.png` | **1 (İLK)** | Pattern 5: Auth (72/28) |
-| 14 | **Select Gender (Selected)** | `Linux 1024 - Select Gender - selected.png` | 1 (seçili hal) | Pattern 5: Auth |
-| 15 | **Login** | `Linux 1024 - Login Girl.png` | **2** | Pattern 5: Auth (72/28) |
-| 16 | **Register Step 1** | `Linux 1024 - Register Girl.png` | **3a** | Pattern 5: Auth (72/28) |
-| 17 | **Register Step 2** | `Linux 1024 - Register Girl step 2.png` | **3b** | Pattern 5: Auth (72/28) |
-| 18 | **Register Step 3** | `Linux 1024 - Register Girl step 3.png` | **3c** | Pattern 5: Auth (72/28) |
+| 13 | **Select Gender** | `Linux  1024 - Select Gender.png` | **1 (İLK)** | Pattern 5: Auth (72/28) |
+| 14 | **Select Gender (Selected)** | `Linux  1024 - Select Gender - selected.png` | 1 (seçili hal) | Pattern 5: Auth |
+| 15 | **Login** | `Linux  1024 - Login Girl.png` | **2** | Pattern 5: Auth (72/28) |
+| 16 | **Register Step 1** | `Linux  1024 - Register Girl.png` | **3a** | Pattern 5: Auth (72/28) |
+| 17 | **Register Step 2** | `Linux  1024 - Register Girl step 2.png` | **3b** | Pattern 5: Auth (72/28) |
+| 18 | **Register Step 3** | `Linux  1024 - Register Girl step 3.png` | **3c** | Pattern 5: Auth (72/28) |
 
 ### 3.3 — Auth Akış Sırası (Doğrulanmış)
 

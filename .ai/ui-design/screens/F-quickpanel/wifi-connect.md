@@ -5,7 +5,7 @@ updated: 2026-08-11
 type: spec
 status: active
 version: 2.0.0
-authority: PNG Visual Analysis (direct inspection — Linux 1024 - Wifi Coonect Light.png)
+authority: PNG Visual Analysis (direct inspection — Linux  1024 - Wifi Coonect Light.png)
 platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 references:
   - [[00-mockup-index]]
@@ -17,7 +17,7 @@ references:
 
 ## Platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 
-**Source Image:** `Linux 1024 - Wifi Coonect Light.png`
+**Source Image:** `Linux  1024 - Wifi Coonect Light.png`
 **Layout Pattern:** Pattern 4: Sub-Dialog (WiFi Modal içinde)
 
 ---

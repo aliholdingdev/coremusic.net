@@ -700,7 +700,9 @@ final class AlbumController
 | Rate Limiting | APCu | 60 req/60s |
 | Encryption | AES-256-GCM, Argon2id | NIST |
 
-### 12.2 Composer Paketleri (22 coremusic/*)
+### 12.2 Shared Library Yapısı (ADR-085 v3.0)
+
+Tek `shared/` dizini + PSR-4 namespace ile modüler ayrım:
 
 | Paket | Amaç |
 |-------|------|

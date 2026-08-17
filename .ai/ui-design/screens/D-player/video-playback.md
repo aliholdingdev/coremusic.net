@@ -5,7 +5,7 @@ updated: 2026-08-11
 type: spec
 status: active
 version: 2.0.0
-authority: PNG Visual Analysis (direct inspection — Linux 1024 - Playlist Page - Video Played.png)
+authority: PNG Visual Analysis (direct inspection — Linux  1024 - Playlist Page - Video Played.png)
 platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 references:
   - [[00-mockup-index]]
@@ -18,7 +18,7 @@ references:
 
 ## Platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 
-**Source Image:** `Linux 1024 - Playlist Page - Video Played.png`
+**Source Image:** `Linux  1024 - Playlist Page - Video Played.png`
 **Confidence:** High — directly viewed from PNG screenshot.
 **Layout Pattern:** Pattern 3: Fullscreen — Header/Footer YOK
 **Rota:** `/playlist/:id` (video modu)

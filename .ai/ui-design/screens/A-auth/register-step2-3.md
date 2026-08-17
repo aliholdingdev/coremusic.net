@@ -18,7 +18,7 @@ references:
 
 ## Platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 
-**Source Images:** `Linux 1024 - Register Girl step 2.png` + `Linux 1024 - Register Girl step 3.png`
+**Source Images:** `Linux  1024 - Register Girl step 2.png` + `Linux  1024 - Register Girl step 3.png`
 **Layout Pattern:** Pattern 5: Auth Screen (78/22 split)
 
 ---

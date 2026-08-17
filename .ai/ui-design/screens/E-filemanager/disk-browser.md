@@ -5,7 +5,7 @@ updated: 2026-08-11
 type: spec
 status: active
 version: 2.0.0
-authority: PNG Visual Analysis (direct inspection — Linux 1024 - Göz At Page.png)
+authority: PNG Visual Analysis (direct inspection — Linux  1024 - Göz At Page.png)
 platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 references:
   - [[00-mockup-index]]
@@ -17,7 +17,7 @@ references:
 
 ## Platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 
-**Source Image:** `Linux 1024 - Göz At Page.png`
+**Source Image:** `Linux  1024 - Göz At Page.png`
 **Confidence:** High — directly viewed from PNG screenshot.
 **Layout Pattern:** 3 Sütun — Sol sidebar (167px) + Orta liste (573px) + Sağ panel (220px)
 **Rota:** `/browse`

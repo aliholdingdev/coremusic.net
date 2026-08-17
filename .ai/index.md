@@ -276,7 +276,7 @@ Toplam 87 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-087 (güncelleneb
 | [[decisions/accepted/ADR-079-i18n-database-schema]] | i18n DB Schema (languages, translations, ui_strings, locale) | Database |
 | [[decisions/accepted/ADR-083-spa-router]] | SPA Router Architecture (PHP+JS Hybrid) | Routing |
 | [[decisions/accepted/ADR-084-api-gateway-architecture]] | API Gateway Architecture (API-First, BFF, CQRS) | Architecture |
-| [[decisions/accepted/ADR-085-modular-composer-packages]] | Modular Composer Packages (coremusic/*) | Infrastructure |
+| [[decisions/accepted/ADR-085-modular-composer-packages]] | Shared Library Hybrid (tek shared/ + PSR-4 namespace) | Infrastructure |
 | [[decisions/accepted/ADR-086-event-driven-architecture]] | Event Driven Architecture (PSR-14) | Architecture |
 | [[decisions/accepted/ADR-087-master-implementation-plan]] | Master Implementation Plan (Sıfırdan Geliştirme Kapsamı) | Architecture |
 

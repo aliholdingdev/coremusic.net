@@ -466,7 +466,7 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | Session storage | File-based baslangic → DB gecis plani | Kullanici + MO |
 | JWT key uretimi | FAZ 0'da RS256 key pair uretimi (openssl) | Kullanici + MO |
 | Composer versiyonlari | psr/http-server-handler ^1.0 (2.0 yok), respect/validation ^2.0, phpstan ^2.0 | MO (hata duzeltme) |
-| Master Implementation Plan | 5 faz, 40 gun, 22 bolum, 30 cikti, 22 coremusic/* paket, 25 enterprise paket | MO (ADR-087) |
+| Master Implementation Plan | 5 faz, 40 gun, 22 bolum, 30 cikti, shared/ hybrid yapı, 25 enterprise paket | MO (ADR-087) |
 | Referans proje analizi | monolitik shared, 448 satir AuthController, 3 origin CORS, test yok tespit edildi | MO (ADR-087) |
 | SOLID ihlalleri | SRP (6 uzun sinif), ISP (2 buyuk interface), OCP (yeni provider eklenemez) tespit edildi | MO (ADR-087) |
 | Katman ihlalleri | Controller→Repository direkt, Config global constant, PSR-15 uyumsuzluk tespit edildi | MO (ADR-087) |
