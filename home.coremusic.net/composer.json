@@ -1,0 +1,11 @@
+{
+    "name": "bayramali/home.coremusic.net",
+    "description": "CoreMusic Home Service",
+    "type": "project",
+    "require": {
+        "php": ">=8.4"
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}
