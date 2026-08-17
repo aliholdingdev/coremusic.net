@@ -1,0 +1,41 @@
+{
+    "name": "bayramali/auth.coremusic.net",
+    "description": "CoreMusic Auth Service — Subdomain (Identity Provider)",
+    "type": "project",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../shared",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "require": {
+        "php": ">=8.4",
+        "php-di/php-di": "^7.0",
+        "psr/log": "^3.0",
+        "psr/container": "^2.0",
+        "coremusic/shared-infrastructure": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "CoreMusic\\Auth\\": "include/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CoreMusic\\Auth\\Test\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        },
+        "optimize-autoloader": true,
+        "platform-check": false
+    }
+}
