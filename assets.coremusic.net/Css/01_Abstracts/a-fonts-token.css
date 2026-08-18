@@ -1,0 +1,150 @@
+/**
+ * CoreMusic — Font Tokens
+ * Local Fonts: Respective + Avalon Medium + Arima + Playfair Display + DM Sans + Plus Jakarta Sans
+ * ITCSS Layer: 01_Abstracts
+ *
+ * Font Mapping (from Figma):
+ *   Hero title ("Seni Tanıyalım") → Playfair Display Italic
+ *   Logo text ("Core Music") → Respective Regular
+ *   Hero subtitle → DM Sans Light
+ *   Body text → Arima
+ */
+
+/* ═══ Respective — Logo accent font ═══ */
+@font-face {
+    font-family: 'Respective';
+    src: url('../../Fonts/Respective.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+
+/* ═══ Avalon Medium — Fallback body ═══ */
+@font-face {
+    font-family: 'Avalon Medium';
+    src: url('../../Fonts/AvalonMedium.ttf') format('truetype');
+    font-weight: 500; font-style: normal; font-display: swap;
+}
+
+/* ═══ Arima — Primary body font ═══ */
+@font-face {
+    font-family: 'Arima';
+    src: url('../../Fonts/Arima.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+
+/* ═══ Playfair Display — Hero titles, elegant serif ═══ */
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('../../Fonts/PlayfairDisplay-Regular.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('../../Fonts/PlayfairDisplay-Italic.ttf') format('truetype');
+    font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('../../Fonts/PlayfairDisplay-Bold.ttf') format('truetype');
+    font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('../../Fonts/PlayfairDisplay-BoldItalic.ttf') format('truetype');
+    font-weight: 700; font-style: italic; font-display: swap;
+}
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('../../Fonts/PlayfairDisplay-Black.ttf') format('truetype');
+    font-weight: 900; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('../../Fonts/PlayfairDisplay-BlackItalic.ttf') format('truetype');
+    font-weight: 900; font-style: italic; font-display: swap;
+}
+
+/* ═══ DM Sans — Headings, labels, UI ═══ */
+@font-face {
+    font-family: 'DM Sans';
+    src: url('../../Fonts/DMSans-Light.ttf') format('truetype');
+    font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'DM Sans';
+    src: url('../../Fonts/DMSans-Regular.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'DM Sans';
+    src: url('../../Fonts/DMSans-Medium.ttf') format('truetype');
+    font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'DM Sans';
+    src: url('../../Fonts/DMSans-SemiBold.ttf') format('truetype');
+    font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'DM Sans';
+    src: url('../../Fonts/DMSans-Bold.ttf') format('truetype');
+    font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'DM Sans';
+    src: url('../../Fonts/DMSans-ExtraBold.ttf') format('truetype');
+    font-weight: 800; font-style: normal; font-display: swap;
+}
+
+/* ═══ Plus Jakarta Sans — Secondary heading ═══ */
+@font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: url('../../Fonts/PlusJakartaSans-Regular.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: url('../../Fonts/PlusJakartaSans-Bold.ttf') format('truetype');
+    font-weight: 700; font-style: normal; font-display: swap;
+}
+
+/* ═══ Font Token Variables ═══ */
+:root {
+  /* Font Families */
+  --font-display:     'Playfair Display', 'Georgia', serif;
+  --font-body:        'Arima', 'Avalon Medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-accent:      'Respective', 'Arima', sans-serif;
+  --font-handwriting: 'Playfair Display', 'Georgia', serif;
+  --font-heading:     'DM Sans', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-hero:        'Playfair Display', 'Georgia', serif;
+
+  /* Font Weights */
+  --fw-light:      300;
+  --fw-regular:    400;
+  --fw-medium:     500;
+  --fw-semibold:   600;
+  --fw-bold:       700;
+  --fw-black:      900;
+
+  /* Font Sizes — fluid clamp */
+  --fs-hero:       clamp(2.25rem, 4.5vw, 4rem);
+  --fs-title:      clamp(1.5rem, 2.5vw, 2.25rem);
+  --fs-heading:    clamp(1.125rem, 1.8vw, 1.5rem);
+  --fs-subheading: clamp(1rem, 1.4vw, 1.25rem);
+  --fs-body:       clamp(0.875rem, 1vw, 1rem);
+  --fs-small:      clamp(0.75rem, 0.85vw, 0.875rem);
+  --fs-xs:         clamp(0.6875rem, 0.75vw, 0.75rem);
+
+  /* Line Heights */
+  --lh-tight:      1.1;
+  --lh-snug:       1.3;
+  --lh-normal:     1.5;
+  --lh-relaxed:    1.7;
+
+  /* Letter Spacing */
+  --ls-tight:      -0.03em;
+  --ls-snug:       -0.01em;
+  --ls-normal:     0;
+  --ls-wide:       0.04em;
+  --ls-wider:      0.08em;
+  --ls-widest:     0.15em;
+}

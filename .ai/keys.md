@@ -336,6 +336,9 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | log_activity, log_system, redaction | architecture/07-security/deep-logging-system |
 | real-time log, dashboard log, monitor | architecture/07-security/deep-logging-system |
 | dosya rotasyonu, log rotation, arsiv | architecture/07-security/deep-logging-system |
+| social oauth, gender-based oauth, cinsiyet bazlı sosyal medya | [[decisions/accepted/ADR-088-gender-based-social-oauth]] |
+| OAuth provider, Pinterest, Instagram, TikTok, Discord, Reddit, X, LinkedIn, YouTube | [[decisions/accepted/ADR-088-gender-based-social-oauth]] |
+| oauth_connections, oauth_states, token şifreleme | [[decisions/accepted/ADR-088-gender-based-social-oauth]] |
 
 ---
 
@@ -575,6 +578,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | ADR-085 | Shared Library Hybrid, tek shared/ + PSR-4 namespace, circular dependency yasak | Infrastructure |
 | ADR-086 | Event Driven, PSR-14, Domain Event, Integration Event | Architecture |
 | ADR-087 | Master Implementation Plan, 5 faz, 40 gun, 22 bolum, sirfirdan gelistirme | Architecture |
+| ADR-088 | Gender-Based Social OAuth, cinsiyet bazlı sosyal medya, OAuth 2.0, Pinterest, Instagram, TikTok, Discord, Reddit, X, LinkedIn, YouTube | Security |
 
 ---
 
@@ -698,7 +702,7 @@ P3: testing/*, ui-design/*, personas/*
 | UserRepository, SessionRepository, TokenRepository | shared/src/Auth/Domain/Repository/ |
 | LoginRequest, LoginResponse, TokenPair, SessionDTO | shared/src/Auth/Application/DTO/ |
 | Argon2id, JwtTokenManager, PDO Repo | shared/src/Auth/Infrastructure/ |
-| OriginCheck, Cors, RateLimiter, SecurityHeaders, SessionManager, Csrf, BypassAuth, Auth, Permission, Validation | shared/src/Security/Middleware/ |
+| OriginCheck, Cors, RateLimiter, SecurityHeaders, SessionManager, Csrf, BypassAuth, Auth, Permission, Validation | shared/src/Middleware/ |
 | CspNonceGenerator, SecurityHeaderService, RateLimiter | shared/src/Security/Service/ |
 | LoginUseCase, LogoutUseCase, RegisterUseCase | shared/src/Auth/Application/ |
 | auth.coremusic.net entry | auth.coremusic.net/index.php |

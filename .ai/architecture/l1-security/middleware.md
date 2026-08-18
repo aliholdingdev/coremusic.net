@@ -68,7 +68,7 @@ Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → Session
 └──────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Kritik Not:** CSP nonce üretimi SessionManager içindedir. Sıra değiştirilirse CSP bozulur.
+**Kritik Not:** CSP nonce üretimi SecurityHeaders (#4) içindedir. SessionManager (#5) bu nonce'u session'a kaydeder. Sıra değiştirilirse CSP bozulur.
 
 ### 4.2 Bağımlılık Matrisi
 
@@ -235,10 +235,10 @@ class RateLimiterMiddleware implements MiddlewareInterface
 
 | Özellik | Değer |
 |---------|-------|
-| **Sorumluluk** | Session başlatır, CSP nonce üretir |
-| **Timeout** | 3600s idle, 86400s absolute |
+| **Sorumluluk** | Session başlatır, CSP nonce'u session'a kaydeder |
+| **Timeout** | 3600s idle, 1800s absolute (max lifetime) |
 | **Cookie** | HttpOnly, Secure, SameSite=Lax |
-| **Nonce** | `base64_encode(random_bytes(32))` |
+| **Nonce** | `bin2hex(random_bytes(32))` (64-char hex) |
 | **Short-Circuit** | Session timeout → redirect /login |
 
 Detay: [[session]]
@@ -539,11 +539,11 @@ class PipelineExceptionHandler
 | # | Kural | İhlal Sonucu |
 |---|-------|-------------|
 | 1 | Middleware sırası **frozen** — değiştirilemez | CSP/CSRF bozulması, revert |
-| 2 | CSP nonce **sadece** SessionManager'da üretilir | CSP bozulması |
+| 2 | CSP nonce SecurityHeaders'da üretilir, SessionManager session'a kaydeder | CSP bozulması |
 | 3 | BypassAuth **prod'da devre dışı** | Auth bypass açığı |
 | 4 | RateLimiter **short-circuit** yapar (429) | Abuse riski |
 | 5 | CsrfMiddleware **short-circuit** yapar (403) | CSRF saldırısı |
-| 6 | Her middleware **`CoreMusic\Http`** arayüzü kullanır | Uyumsuzluk |
+| 6 | Her middleware **`CoreMusic\Interfaces\Middleware\IMiddleware`** arayüzünü uygular | Uyumsuzluk |
 | 7 | Pipeline'a yeni middleware **onay ile** eklenir | Mimari ihlal |
 | 8 | JWT RS256 **lcobucci/jwt** ile doğrulanır (firebase/php-jkt yasaklı) | Token bypass |
 | 9 | RBAC **7 granular rol** haritasına uygun | Yetki ihlali |

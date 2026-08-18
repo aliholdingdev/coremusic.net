@@ -15,38 +15,37 @@ final class SessionManager implements ISessionManager
 
     public function setAuthUser(array $user): void
     {
-        $_SESSION['MM_UserID']      = (int)$user['id'];
+        // UUID hex string olarak sakla (BINARY(16) uyumlu)
+        $_SESSION['MM_UserID']      = $user['id'];
         $_SESSION['MM_Username']    = $user['username'];
         $_SESSION['MM_Email']       = $user['email'];
         $_SESSION['MM_DisplayName'] = $user['display_name'] ?? $user['username'];
         $_SESSION['MM_AccountType'] = $user['account_type'] ?? 'free';
         $_SESSION['MM_Image']       = $user['avatar_url'] ?? '';
+        $_SESSION['MM_Gender']      = $user['gender'] ?? 'neutral';
         $_SESSION['_session_last_active'] = time();
     }
 
     public function setRegisteredUser(array $created): void
     {
-        $_SESSION['MM_UserID']      = $created['user_id'];
-        $_SESSION['MM_Username']    = $created['username'];
-        $_SESSION['MM_Email']       = $created['email'];
-        $_SESSION['MM_DisplayName'] = $created['username'];
-        $_SESSION['MM_UserRole']    = $created['role_name'];
-        $_SESSION['MM_AccountType'] = 'free';
-        $_SESSION['MM_Image']       = '';
+        $_SESSION['MM_UserID']      = $created['user_id'] ?? '';
+        $_SESSION['MM_Username']    = $created['username'] ?? '';
+        $_SESSION['MM_Email']       = $created['email'] ?? '';
+        $_SESSION['MM_DisplayName'] = $created['display_name'] ?? $created['username'] ?? '';
+        $_SESSION['MM_UserRole']    = $created['role_name'] ?? 'free';
+        $_SESSION['MM_AccountType'] = $created['account_type'] ?? 'free';
+        $_SESSION['MM_Image']       = $created['image'] ?? '';
+        $_SESSION['MM_Gender']      = $created['gender'] ?? 'neutral';
         $_SESSION['_session_last_active'] = time();
     }
 
-    public function getUserId(): ?int
+    public function getUserId(): ?string
     {
         $userId = $_SESSION['MM_UserID'] ?? null;
-        if (!is_int($userId) && !is_string($userId)) {
+        if ($userId === null || !is_string($userId) || $userId === '') {
             return null;
         }
-        if (is_string($userId) && str_contains($userId, '.')) {
-            return null;
-        }
-        $id = (int)$userId;
-        return $id > 0 ? $id : null;
+        return $userId;
     }
 
     public function isAuthenticated(): bool
@@ -58,15 +57,24 @@ final class SessionManager implements ISessionManager
     {
         $_SESSION = [];
 
-        if (ini_get('session.use_cookies')) {
-            $params = session_get_cookie_params();
-            setcookie(session_name(), '', time() - self::COOKIE_EXPIRY, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
-        }
-
         if (session_status() === PHP_SESSION_ACTIVE) {
+            if (ini_get('session.use_cookies')) {
+                $params = session_get_cookie_params();
+                setcookie(session_name(), '', time() - self::COOKIE_EXPIRY, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+            }
             session_destroy();
         }
 
+        session_name($this->sessionName);
+        $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+        session_set_cookie_params([
+            'lifetime' => 0,
+            'path'     => '/',
+            'domain'   => '.coremusic.net',
+            'secure'   => $isHttps,
+            'httponly'  => true,
+            'samesite' => 'Lax',
+        ]);
         session_start();
         session_regenerate_id(true);
         $now = time();
@@ -103,7 +111,7 @@ final class SessionManager implements ISessionManager
 
     public function getGender(): string
     {
-        return $_SESSION['cm_gender'] ?? 'neutral';
+        return $_SESSION['cm_gender'] ?? $_SESSION['MM_Gender'] ?? 'neutral';
     }
 
     public function setPendingRedirect(string $uri): void
@@ -163,7 +171,7 @@ final class SessionManager implements ISessionManager
         $names = ['MM_Username', 'MM_Image', 'MM_UserID', 'MM_UserDesc', 'MM_UserYear'];
         foreach ($names as $name) {
             if (isset($_COOKIE[$name])) {
-                setcookie($name, '', time() - 3600, '/');
+                setcookie($name, '', time() - 3600, '/', '.coremusic.net');
             }
         }
     }

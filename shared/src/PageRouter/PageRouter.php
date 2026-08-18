@@ -64,7 +64,7 @@ final class PageRouter
     private function handleRootUrl(bool $isSpaRequest): array
     {
         if ($this->authHelper->checkAuthenticated()) {
-            $target = '/home';
+            $target = $this->urlBuilder->buildHomeUrl('/home');
         } else {
             $target = $this->urlBuilder->buildAuthRedirect('login')['url'];
             header('X-Auth-Required: true');
@@ -88,7 +88,7 @@ final class PageRouter
             return RouteResult::notFound($uri);
         }
 
-        $container = $this->renderPage($pageFile, $csrfToken);
+        $container = $this->renderPage($pageFile, $csrfToken, $route->meta);
         return RouteResult::ok($container, $this->buildMeta($route), $csrfToken, $uri);
     }
 
@@ -115,7 +115,7 @@ final class PageRouter
         return rtrim($base, '/\\') . '/' . ltrim($route->page, '/') . '.php';
     }
 
-    private function renderPage(string $pageFile, string $csrfToken = ''): string
+    private function renderPage(string $pageFile, string $csrfToken = '', array $meta = []): string
     {
         ob_start();
         try {

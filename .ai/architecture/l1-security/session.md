@@ -613,7 +613,7 @@ class SessionDestroyer
 | 4 | `SameSite=Lax` **zorunlu** | CSRF saldırısı |
 | 5 | `session.use_strict_mode=1` **zorunlu** | Geçersiz session ID kabulü |
 | 6 | Session'da敏感 veri **yasak** | Veri sızıntısı |
-| 7 | CSP nonce sadece SessionManager'da üretilir | CSP bozulması |
+| 7 | CSP nonce SecurityHeaders'da üretilir, SessionManager session'a kaydeder | CSP bozulması |
 | 8 | Session timeout sonrası **zorunlu redirect** | Güvenlik açığı |
 
 ## 14. İlgili Dosyalar

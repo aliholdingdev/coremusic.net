@@ -1,0 +1,6 @@
+- main [ref=e2]:
+  - generic [ref=e5]:
+    - heading "Çıkış Yapıldı" [level=2] [ref=e6]
+    - paragraph [ref=e7]: Başarıyla çıkış yaptınız.
+    - link "Tekrar Giriş Yap" [ref=e8] [cursor=pointer]:
+      - /url: /login

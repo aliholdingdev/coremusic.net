@@ -301,6 +301,7 @@ HTTP Request
 | 11 | Framework CSRF kullanılmaz | ❌ Yasak | ADR-001 |
 | 12 | Her form'da csrf_token hidden input | ✅ Zorunlu | ADR-010 |
 | 13 | SPA'da X-CSRF-Token header'da gönderilir | ✅ Zorunlu | ADR-083 |
+| 14 | `set-gender` route'u CSRF bypass'ında | ⚠️ İstisna | ADR-010 |
 
 ### 4.3 Kararın Gerekçesi
 
@@ -499,42 +500,44 @@ final class CsrfTokenService
 
 declare(strict_types=1);
 
-namespace CoreMusic\Security\Middleware;
+namespace CoreMusic\Middleware;
 
-use CoreMusic\Security\Service\CsrfTokenService;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+use CoreMusic\Interfaces\Middleware\IMiddleware;
 
 /**
  * CSRF Protection Middleware
  *
  * ADR-010 uyumlu CSRF koruma middleware'i.
- * Pipeline sırası: SessionManager → Csrf → BypassAuth → Auth
+ * Pipeline sırası: ...SessionManager → Csrf → BypassAuth → Auth...
  * Token key: csrf_token (frozen)
  * Doğrulama: hash_equals() (timing-safe)
+ * İstisna: set-gender route'u CSRF bypass'ında
  */
-final class CsrfMiddleware implements MiddlewareInterface
+final class CsrfMiddleware implements IMiddleware
 {
     private const SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS'];
     private const BYPASS_HEADER = 'X-CSRF-Token';
     private const BYPASS_FORM_FIELD = 'csrf_token';
 
-    public function __construct(
-        private readonly CsrfTokenService $csrfService,
-    ) {
+    /** @param list<string>|null $bypassRoutes */
+    public function __construct(?array $bypassRoutes = null)
+    {
+        $this->bypassRoutes = $bypassRoutes ?? ['set-gender'];
     }
 
-    public function process(
-        ServerRequestInterface $request,
-        RequestHandlerInterface $handler
-    ): ResponseInterface {
-        $method = strtoupper($request->getMethod());
+    public function handle(array $request, callable $next): array
+    {
+        $method = strtoupper($request['method'] ?? 'GET');
 
         // GET/HEAD/OPTIONS istekleri CSRF token gerektirmez
         if (in_array($method, self::SAFE_METHODS, true)) {
-            return $handler->handle($request);
+            return $next($request);
+        }
+
+        // Bypass route kontrolü
+        $uri = trim((string)($request['uri'] ?? ''), '/');
+        if (in_array($uri, $this->bypassRoutes, true)) {
+            return $next($request);
         }
 
         // POST/PUT/DELETE istekleri için CSRF token zorunlu
@@ -1341,7 +1344,7 @@ vendor/bin/phpunit --coverage-html=coverage tests/Unit/Security/
 | OpenSSL extension | 3.0+ | random_bytes() CSPRNG | ✅ Evet |
 | APCu | 5.1+ | Rate limiting (ADR-013) | ✅ Evet |
 | Session extension | — | Token saklama | ✅ Evet |
-| PSR-15 | ^1.0 | Middleware interface | ✅ Evet |
+| PSR-15 | ^1.0 | Middleware interface (referans — CoreMusic IMiddleware kullanır) | ⚠️ Referans |
 
 ---
 

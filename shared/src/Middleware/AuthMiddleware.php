@@ -14,13 +14,14 @@ final class AuthMiddleware implements IMiddleware
 
         $session = $request['_session'] ?? [];
 
+        // UUID hex string user ID (BINARY(16) uyumlu)
         $userId   = $session['MM_UserID'] ?? $session['_session_user_id'] ?? null;
         $role     = $session['MM_UserRole'] ?? $session['_session_user_role'] ?? null;
         $username = $session['MM_Username'] ?? $session['_session_username'] ?? null;
 
-        if ($userId !== null) {
+        if ($userId !== null && is_string($userId) && $userId !== '') {
             $request['_auth'] = array_merge($request['_auth'], [
-                'userId'   => (int)$userId,
+                'userId'   => $userId,
                 'role'     => $role !== null ? (string)$role : 'user',
                 'username' => $username !== null ? (string)$username : '',
             ]);

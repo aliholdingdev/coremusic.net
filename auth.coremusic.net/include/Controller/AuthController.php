@@ -9,6 +9,7 @@ use CoreMusic\Exception\ValidationException;
 use CoreMusic\Exception\RateLimitException;
 use CoreMusic\Exception\ConflictException;
 use CoreMusic\Exception\ErrorResponse;
+use CoreMusic\Log\LoggerFactory;
 
 final class AuthController
 {
@@ -58,11 +59,13 @@ final class AuthController
 
     private function resolveRedirectUrl(array $request, ?string $postUri = null): string
     {
-        $defaultRedirect = (defined('AUTH_URL') ? AUTH_URL : 'https://auth.coremusic.net') . '/';
+        $defaultRedirect = (defined('AUTH_URL') ? AUTH_URL : '') . '/';
+        $pendingRedirect = $this->session->consumePendingRedirect();
+        $queryParams = $request['query_params']['redirect_uri'] ?? $request['query_params']['redirect'] ?? '';
+
         $redirectUrl = $postUri
-            ?? $this->session->consumePendingRedirect()
-            ?? $request['query_params']['redirect_uri']
-            ?? $request['query_params']['redirect']
+            ?? $pendingRedirect
+            ?? $queryParams
             ?? $defaultRedirect;
 
         if (!self::isRedirectUriSafe($redirectUrl)) {
@@ -105,67 +108,38 @@ final class AuthController
 
     public function handleHealth(array $request): array
     {
-        return ['httpStatus' => 200, 'success' => true, 'status' => 'ok', 'service' => 'auth.coremusic.net', 'version' => APP_VERSION, 'timestamp' => date('c')];
+        return [
+            'httpStatus' => 200,
+            'type'       => 'json',
+            'body' => [
+                'success'   => true,
+                'status'    => 'ok',
+                'service'   => 'auth.coremusic.net',
+                'version'   => APP_VERSION,
+                'timestamp' => date('c'),
+            ],
+        ];
     }
 
     public function handleSessionCheck(array $request): array
     {
         $userId = $this->session->getUserId();
         if ($userId === null) {
-            return ['httpStatus' => 200, 'authenticated' => false];
+            return ['httpStatus' => 200, 'type' => 'json', 'body' => ['authenticated' => false]];
         }
         return [
-            'httpStatus'    => 200,
-            'authenticated' => true,
-            'user' => [
-                'id'       => $userId,
-                'username' => $this->session->get('MM_Username', ''),
-                'email'    => $this->session->get('MM_Email', ''),
-                'gender'   => $this->session->getGender(),
+            'httpStatus' => 200,
+            'type'       => 'json',
+            'body' => [
+                'authenticated' => true,
+                'user' => [
+                    'id'       => $userId,
+                    'username' => $this->session->get('MM_Username', ''),
+                    'email'    => $this->session->get('MM_Email', ''),
+                    'gender'   => $this->session->getGender(),
+                ],
             ],
         ];
-    }
-
-    public function handlePage(array $request): array
-    {
-        $normalizedUri = $request['normalizedUri'] ?? '/';
-        $pageName = trim($normalizedUri, '/');
-
-        if (!empty($request['query_params']['redirect_uri'])) {
-            $this->session->setPendingRedirect($request['query_params']['redirect_uri']);
-        }
-
-        $gender = $this->session->getGender();
-        $genderPages = ['login', 'register', 'forgot-password', 'reset-password'];
-
-        if ($gender === 'neutral' && in_array($pageName, $genderPages, true)) {
-            $redirectUri = $request['query_params']['redirect_uri'] ?? '';
-            $qs = $redirectUri !== '' ? '?redirect_uri=' . urlencode($redirectUri) : '';
-            return ['httpStatus' => 302, 'type' => 'redirect', 'headers' => ['Location' => '/select-gender' . $qs]];
-        }
-
-        $pageFile = PAGES_PATH . '/' . $pageName . '.php';
-        if (!file_exists($pageFile)) {
-            return ['httpStatus' => 404, 'type' => 'html', 'html' => '<h1>404 - Sayfa bulunamadı</h1>'];
-        }
-
-        $csrfToken = $this->session->get('csrf_token', '');
-        $pendingRedirect = $this->session->get('_pending_redirect_uri') ?? $request['query_params']['redirect_uri'] ?? '';
-
-        ob_start();
-        $csrfTokenEsc = htmlspecialchars((string)$csrfToken, ENT_QUOTES, 'UTF-8');
-        $redirectUriEsc = htmlspecialchars((string)$pendingRedirect, ENT_QUOTES, 'UTF-8');
-        $cspNonce = htmlspecialchars($this->session->get('csp_nonce', ''), ENT_QUOTES, 'UTF-8');
-        $genderEsc = htmlspecialchars($gender, ENT_QUOTES, 'UTF-8');
-        require $pageFile;
-        $html = ob_get_clean();
-
-        return ['httpStatus' => 200, 'type' => 'html', 'html' => $html];
-    }
-
-    public function redirectLogin(array $request): array
-    {
-        return ['httpStatus' => 302, 'type' => 'redirect', 'headers' => ['Location' => '/select-gender']];
     }
 
     public function handleLogin(array $request): array
@@ -176,14 +150,29 @@ final class AuthController
         $password = (string)($post['password'] ?? '');
         $clientIp = $request['server']['REMOTE_ADDR'] ?? '127.0.0.1';
 
+        $logger = LoggerFactory::getInstance();
+        $logger->authEvent('login_attempt', ['email' => $identity, 'ip' => $clientIp]);
+
         try {
             $result = $this->authService->login($identity, $password, $this->session->getGender(), $clientIp);
             $this->session->regenerateId();
             $result['redirect'] = !empty($result['auth_key'])
                 ? $this->buildAuthKeyUrl($redirectUrl, $result['auth_key'])
                 : $redirectUrl;
-            return $result;
+
+            $logger->authEvent('login_success', [
+                'email'   => $identity,
+                'user_id' => $result['user']['id'] ?? '-',
+                'ip'      => $clientIp,
+            ]);
+
+            return ['httpStatus' => 200, 'type' => 'json', 'body' => $result];
         } catch (\Throwable $e) {
+            $logger->authEvent('login_failed', [
+                'email'  => $identity,
+                'ip'     => $clientIp,
+                'reason' => $e->getMessage(),
+            ]);
             return $this->mapAuthException($e);
         }
     }
@@ -193,6 +182,9 @@ final class AuthController
         $redirectUrl = $this->resolveRedirectUrl($request);
         $post = $request['body'];
         $clientIp = $request['server']['REMOTE_ADDR'] ?? '127.0.0.1';
+
+        $logger = LoggerFactory::getInstance();
+        $logger->authEvent('register_attempt', ['email' => $post['email'] ?? '-', 'ip' => $clientIp]);
 
         try {
             $result = $this->authService->register([
@@ -206,21 +198,42 @@ final class AuthController
             $result['redirect'] = !empty($result['auth_key'])
                 ? $this->buildAuthKeyUrl($redirectUrl, $result['auth_key'])
                 : $redirectUrl;
-            return $result;
+
+            $logger->authEvent('register_success', [
+                'email'   => $result['user']['email'] ?? '-',
+                'user_id' => $result['user']['id'] ?? '-',
+                'ip'      => $clientIp,
+            ]);
+
+            return ['httpStatus' => 200, 'type' => 'json', 'body' => $result];
         } catch (\Throwable $e) {
+            $logger->authEvent('register_failed', [
+                'email'  => $post['email'] ?? '-',
+                'ip'     => $clientIp,
+                'reason' => $e->getMessage(),
+            ]);
             return $this->mapAuthException($e);
         }
     }
 
     public function handleLogout(array $request): array
     {
+        $logger = LoggerFactory::getInstance();
+        $userId = $this->session->getUserId();
+
         try {
             $this->authService->logout();
         } catch (\Throwable $e) {
-            error_log('[AuthController] Logout error: ' . $e->getMessage());
+            $logger->error("Logout error: {$e->getMessage()}");
         }
         $this->session->regenerateId();
-        return ['httpStatus' => 200, 'success' => true, 'redirect' => (defined('MUSIC_URL') ? MUSIC_URL : 'https://home.coremusic.net') . '/'];
+
+        $logger->authEvent('logout', ['user_id' => $userId ?? '-']);
+
+        return ['httpStatus' => 200, 'type' => 'json', 'body' => [
+            'success'  => true,
+            'redirect' => (defined('MUSIC_URL') ? MUSIC_URL : '') . '/',
+        ]];
     }
 
     public function handleSetGender(array $request): array
@@ -232,6 +245,16 @@ final class AuthController
         };
 
         $this->session->setGender($gender);
+
+        // Cookie fallback — session çalışmasa bile gender saklanır
+        setcookie('cm_gender', $gender, [
+            'expires'  => time() + (86400 * 30),
+            'path'     => '/',
+            'domain'   => '.coremusic.net',
+            'secure'   => false,
+            'httponly'  => false,
+            'samesite' => 'Lax',
+        ]);
 
         $redirectUri = $request['query_params']['redirect_uri'] ?? $post['redirect_uri'] ?? '';
         if ($redirectUri !== '' && !self::isRedirectUriSafe($redirectUri)) {
@@ -248,7 +271,7 @@ final class AuthController
 
         $redirectUrl = '/login?' . http_build_query($params);
 
-        return ['httpStatus' => 200, 'success' => true, 'gender' => $gender, 'redirect' => $redirectUrl];
+        return ['httpStatus' => 200, 'type' => 'json', 'body' => ['success' => true, 'gender' => $gender, 'redirect' => $redirectUrl]];
     }
 
     public function handleForgotPassword(array $request): array
@@ -260,8 +283,7 @@ final class AuthController
                 $request['server']['HTTP_HOST'] ?? 'auth.coremusic.net',
                 $request['server']['REMOTE_ADDR'] ?? '127.0.0.1'
             );
-            $result['httpStatus'] = 200;
-            return $result;
+            return ['httpStatus' => 200, 'type' => 'json', 'body' => $result];
         } catch (\Throwable $e) {
             return $this->mapAuthException($e);
         }
@@ -274,17 +296,12 @@ final class AuthController
                 trim((string)($request['body']['token'] ?? '')),
                 (string)($request['body']['password'] ?? '')
             );
-            $result['httpStatus'] = 200;
-            return $result;
+            return ['httpStatus' => 200, 'type' => 'json', 'body' => $result];
         } catch (\Throwable $e) {
             return $this->mapAuthException($e);
         }
     }
 
-    /**
-     * Auth key validation — cross-domain session transfer.
-     * Called by home.coremusic.net/auth/callback to validate auth_key.
-     */
     public function handleValidateKey(array $request): array
     {
         $authKey = trim((string)($request['body']['auth_key'] ?? $request['query_params']['auth_key'] ?? ''));
@@ -294,8 +311,7 @@ final class AuthController
             return [
                 'httpStatus' => 200,
                 'type'       => 'json',
-                'success'    => true,
-                'user'       => $userInfo,
+                'body'       => ['success' => true, 'user' => $userInfo],
             ];
         } catch (\Throwable $e) {
             return $this->mapAuthException($e);

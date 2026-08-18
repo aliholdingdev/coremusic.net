@@ -11,3 +11,11 @@ $cspNonce      = $_SESSION['csp_nonce'] ?? '';
   <a href="/login" class="lgn-btn">Tekrar Giriş Yap</a>
 </div></div>
 </section>
+<script nonce="<?=$cspNonce?>">
+(function(){
+    // Otomatik POST ile session'ı yık
+    fetch('/logout',{method:'POST',headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest','X-CSRF-Token':'<?=$csrfTokenEsc?>'},credentials:'include'}).then(function(r){return r.json();}).then(function(d){
+        if(d.redirect){window.location.href=d.redirect;}
+    }).catch(function(){});
+})();
+</script>

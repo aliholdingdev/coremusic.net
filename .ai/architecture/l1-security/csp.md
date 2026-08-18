@@ -16,7 +16,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-CoreMusic CSP (Content Security Policy) sistemi, script injection saldırılarını nonce-based mekanizma ile engeller. `strict-dynamic` direktifi ile yüklenen script'lerin daha fazla script yüklemesine izin verir. Nonce, SessionManager tarafından üretilir ve her istek için benzersizdir.
+CoreMusic CSP (Content Security Policy) sistemi, script injection saldırılarını nonce-based mekanizma ile engeller. `strict-dynamic` direktifi ile yüklenen script'lerin daha fazla script yüklemesine izin verir. Nonce, SecurityHeadersMiddleware tarafından üretilir, SessionManagerMiddleware tarafından session'a kaydedilir ve her istek için benzersizdir.
 
 *Kaynak: [[ADR-012-csp-nonce-strict-dynamic]], W3C CSP Level 3*
 

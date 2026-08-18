@@ -1,0 +1,268 @@
+/**
+ * CoreMusic — Desktop Device CSS (1920×1080)
+ * ITCSS Layer: 08_Devices
+ * Version: 2.0.0 — 2026-08-18
+ *
+ * device-loader.js breakpoint: 1441-2560px
+ * Target: PC/Laptop, Fare + Klavye
+ *
+ * Responsive layout:
+ *   Header: 70px, 8 nav-link, 12px font
+ *   Footer: 104px, 140×140 album art
+ *   Split: Sol %42 / Sağ %58
+ *   Card grid: 4 sütun, 180px kartlar
+ *   Touch: ≥44px (fare), hover VAR
+ *   Glass: blur(20px) saturate(180%)
+ */
+
+/* Self-contained import zinciri (bridge yok) */
+@import '../01_Abstracts/a-theme-config.css';
+@import '../01_Abstracts/a-colors-token.css';
+@import '../01_Abstracts/a-semantic-token.css';
+@import '../01_Abstracts/a-breakpoint-tokens.css';
+@import '../01_Abstracts/a-layout-tokens.css';
+@import '../02_Base/b-base-core.css';
+@import '../03_Layout/_header.css';
+@import '../03_Layout/_footer.css';
+@import '../05_Pages/_home-layout.css';
+@import '../05_Pages/_home-components.css';
+@import '../05_Pages/_home-inline.css';
+
+/* ============================================================
+   DEVICE TOKEN OVERRIDES — Desktop (Varsayılan)
+   ============================================================ */
+:root {
+  --screen-w: 1920px;
+  --screen-h: 1080px;
+
+  --header-h: 70px;
+  --footer-h: 104px;
+  --content-h: 906px;
+  --content-padding-top: 14px;
+  --content-padding-bottom: 20px;
+  --page-padding-x: 24px;
+
+  --sidebar-w: 280px;
+  --detail-panel-w: 480px;
+
+  --card-thumb-size: 180px;
+  --album-art-size: 400px;
+  --player-art-size: 140px;
+  --mini-card-art-size: 60px;
+  --widget-h: 140px;
+
+  --touch-min: 44px;
+  --touch-recommended: 48px;
+
+  --grid-gap: 12px;
+  --grid-gap-lg: 20px;
+  --section-gap: 24px;
+  --card-padding: 16px;
+
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-lg: 16px;
+  --text-xl: 18px;
+
+  --glass-blur: blur(20px);
+  --glass-saturate: saturate(180%);
+
+  --hover-display: block;
+}
+
+/* ============================================================
+   GLOBAL — Desktop Overrides
+   ============================================================ */
+html {
+  font-size: 16px;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Hover aktif — fare tabanlı */
+.interactive:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+/* ============================================================
+   HEADER — Standard (70px)
+   ============================================================ */
+.site-header {
+  height: 70px;
+  padding: 0 var(--page-padding-x);
+}
+
+.site-header__logo {
+  font-size: 25px;
+  margin-right: 16px;
+  padding: 0 24px;
+}
+
+.site-header__nav {
+  gap: 8px;
+}
+
+.nav-link {
+  font-size: 12px;
+  padding: 14px 10px;
+  min-height: 44px;
+}
+
+.nav-link:hover {
+  color: var(--accent, #ff4fd8);
+  background: rgba(255,79,216,0.08);
+}
+
+/* ============================================================
+   FOOTER — Standard Player (104px)
+   ============================================================ */
+.footer {
+  height: 104px;
+}
+
+.footer__album-art {
+  width: 140px;
+  height: 140px;
+  border-radius: 8px;
+}
+
+.footer__btn {
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+}
+
+.footer__btn--play {
+  width: 42px;
+  height: 42px;
+}
+
+.footer__volume {
+  width: 180px;
+}
+
+.footer__text {
+  font-size: 11px;
+}
+
+/* ============================================================
+   HOME LAYOUT — Split (42/58)
+   ============================================================ */
+.home-layout {
+  grid-template-columns: 42% 58%;
+  gap: var(--grid-gap-lg);
+  height: var(--content-h);
+  padding: var(--content-padding-top) var(--page-padding-x) var(--content-padding-bottom);
+}
+
+/* ============================================================
+   STANDARD 60/40 LAYOUT
+   ============================================================ */
+.standard-60-40 {
+  grid-template-columns: 1fr var(--detail-panel-w);
+  gap: var(--grid-gap-lg);
+  height: var(--content-h);
+}
+
+/* ============================================================
+   CARD GRID — 4 sütun, 180px kartlar
+   ============================================================ */
+.card-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--grid-gap);
+}
+
+/* ============================================================
+   MEDIA CARD — 180px
+   ============================================================ */
+.media-card {
+  width: var(--card-thumb-size);
+}
+
+.media-card__thumb {
+  width: var(--card-thumb-size);
+  height: var(--card-thumb-size);
+}
+
+.media-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+/* ============================================================
+   DETAIL PANEL — 400×400圆形
+   ============================================================ */
+.detail-panel__art {
+  width: var(--album-art-size);
+  height: var(--album-art-size);
+  border-radius: 50%;
+}
+
+/* ============================================================
+   GENRE TABS — h:40px
+   ============================================================ */
+.genre-tab {
+  min-height: 40px;
+  font-size: 12px;
+  padding: 0 16px;
+}
+
+/* ============================================================
+   TRACK ROW — min-height 48px
+   ============================================================ */
+.track-row {
+  min-height: 48px;
+}
+
+.track-row:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+/* ============================================================
+   WIDGET AREA — 140px yükseklik
+   ============================================================ */
+.widget {
+  min-height: var(--widget-h);
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+/* ============================================================
+   AUTH SCREEN — 77/23 split
+   ============================================================ */
+.auth-screen__panel {
+  width: 440px;
+  padding: var(--space-8, 32px);
+}
+
+.auth-screen__hero {
+  flex: 1;
+}
+
+.social-btn {
+  width: 64px;
+  height: 64px;
+}

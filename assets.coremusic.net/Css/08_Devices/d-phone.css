@@ -1,0 +1,194 @@
+/**
+ * CoreMusic — Phone Device CSS
+ * ≤767px — Mobile-first, touch-only
+ * ITCSS Layer: 08_Devices
+ * Version: 1.0.0 — 2026-08-16
+ *
+ * device-loader.js breakpoint: ≤767px
+ * Target: Mobile phone (portrait/landscape)
+ * Input: Touch-only
+ */
+
+@import '../01_Abstracts/a-theme-config.css';
+@import '../01_Abstracts/a-colors-token.css';
+@import '../01_Abstracts/a-semantic-token.css';
+@import '../01_Abstracts/a-breakpoint-tokens.css';
+@import '../01_Abstracts/a-layout-tokens.css';
+@import '../02_Base/b-base-core.css';
+@import '../03_Layout/_header.css';
+@import '../03_Layout/_footer.css';
+@import '../05_Pages/_home-layout.css';
+@import '../05_Pages/_home-components.css';
+@import '../05_Pages/_home-inline.css';
+
+
+/* ============================================================
+   DEVICE TOKEN OVERRIDES (Phone ≤767px)
+   ============================================================ */
+:root {
+  /* Header: minimal */
+  --header-h: 56px;
+
+  /* Footer: compact player */
+  --footer-h: 72px;
+
+  /* Sidebar: hidden */
+  --sidebar-w: 0px;
+
+  /* Content padding: tight */
+  --content-padding: 0.75rem;
+
+  /* Touch targets: phone için büyük */
+  --touch-min: 48px;
+  --touch-recommended: 56px;
+}
+
+/* ============================================================
+   GLOBAL OVERRIDES — Phone
+   ============================================================ */
+html {
+  font-size: 14px;
+}
+
+body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Touch scrolling */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================================
+   HEADER — Minimal (Phone)
+   ============================================================ */
+.site-header {
+  height: 56px;
+  padding: 0 var(--sp-2);
+}
+
+.site-header__logo {
+  height: 28px;
+  font-size: 18px;
+}
+
+.site-header__nav {
+  display: none;
+}
+
+.header-widget {
+  display: none;
+}
+
+.header-user__name {
+  font-size: 11px;
+  max-width: 70px;
+}
+
+/* ============================================================
+   FOOTER — Compact Player (Phone)
+   ============================================================ */
+.footer {
+  height: 72px;
+  padding: var(--sp-1) var(--sp-2);
+}
+
+.footer__album-art {
+  width: 48px;
+  height: 48px;
+}
+
+.footer__controls {
+  gap: var(--sp-1);
+}
+
+.player-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-btn--play {
+  width: 50px;
+  height: 50px;
+}
+
+.footer__meta-stack {
+  display: none;
+}
+
+.footer__utility-section {
+  display: none;
+}
+
+/* ============================================================
+   HOME LAYOUT — Single Column
+   ============================================================ */
+.home-layout {
+  grid-template-columns: 1fr;
+}
+
+.home-sidebar {
+  display: none;
+}
+
+.home-main {
+  padding: var(--sp-2);
+}
+
+/* ============================================================
+   HOME COMPONENTS — Phone Grid
+   ============================================================ */
+.home-quick-links {
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-2);
+}
+
+.home-quick-link {
+  min-height: 48px;
+  padding: var(--sp-2) var(--sp-3);
+}
+
+.home-folder-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-2);
+}
+
+.home-folder {
+  padding: var(--sp-2);
+  min-height: 48px;
+}
+
+.home-recently {
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-2);
+}
+
+.home-recently__cover {
+  aspect-ratio: 1;
+  border-radius: var(--r-sm);
+}
+
+/* ============================================================
+   SCROLLBAR — Thin (Phone)
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}

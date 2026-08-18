@@ -25,7 +25,7 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL COMMENT 'User email address (unique)',
     password_hash VARCHAR(255) NOT NULL COMMENT 'Argon2id hashed password',
     display_name VARCHAR(100) NULL COMMENT 'User display name',
-    gender ENUM('male','female','non-binary','prefer_not_to_say') DEFAULT 'prefer_not_to_say' COMMENT 'User gender for theme engine',
+    gender ENUM('male','female','neutral') DEFAULT 'neutral' COMMENT 'User gender for theme engine',
     avatar_url VARCHAR(500) NULL COMMENT 'Profile avatar URL',
     account_type ENUM('free','premium','studio','admin') DEFAULT 'free' COMMENT 'Account tier',
     is_active TINYINT(1) DEFAULT 1 COMMENT 'Account active flag',

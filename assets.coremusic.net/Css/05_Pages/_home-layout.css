@@ -1,0 +1,301 @@
+/**
+ * CoreMusic — Home Page Layout
+ * ITCSS Layer: 05_Pages
+ * Version: 1.0.0 — 2026-08-18
+ *
+ * Layout Pattern: Split Home (42/58)
+ * Platform: home-1024 (RPi5 1024×600) — default
+ * Platform Overrides: d-embedded.css, d-desktop.css, d-4k-tv.css
+ *
+ * BEM: .home-layout → __left | __right
+ *      .standard-60-40 → __left | __right
+ *
+ * Content area: y:60–510 (header=60px, footer=90px)
+ * Content padding: top=11px, bottom=15px, left/right=16px
+ */
+
+/* ============================================================
+   HOME LAYOUT — Split Home (42/58)
+   Ana sayfa: Sol %42 (Now Playing + kartlar) / Sağ %58 (Widget'lar)
+   ============================================================ */
+.home-layout {
+  display: grid;
+  grid-template-columns: 42% 58%;
+  gap: var(--grid-gap, 8px);
+  height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
+  padding: var(--content-padding-top, 11px)
+           var(--page-padding-x, 16px)
+           var(--content-padding-bottom, 15px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+/* Sol panel — Now Playing + kart grid */
+.home-layout__left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap, 16px);
+  min-width: 0;
+  overflow-y: auto;
+  padding-right: var(--space-2, 8px);
+}
+
+/* Sağ panel — Widget area */
+.home-layout__right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap, 16px);
+  min-width: 0;
+  overflow-y: auto;
+  padding-left: var(--space-2, 8px);
+}
+
+/* ============================================================
+   STANDARD 60/40 LAYOUT
+   Albums, Album Detail, Artists, Playlist sayfaları
+   ============================================================ */
+.standard-60-40 {
+  display: grid;
+  grid-template-columns: 1fr var(--detail-panel-w, 366px);
+  gap: var(--grid-gap-lg, 16px);
+  height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
+  padding: var(--content-padding-top, 11px)
+           var(--page-padding-x, 16px)
+           var(--content-padding-bottom, 15px);
+  overflow: hidden;
+}
+
+/* Sol panel — Card grid veya track list */
+.standard-60-40__left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 12px);
+  min-width: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* Sağ panel — Detail panel */
+.standard-60-40__right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 12px);
+  min-width: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* ============================================================
+   3-COLUMN LAYOUT (Göz At sayfası)
+   Sol sidebar 167px + Orta liste + Sağ panel 224px
+   ============================================================ */
+.three-column-layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-w, 167px) 1fr 224px;
+  gap: var(--grid-gap, 8px);
+  height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
+  padding: var(--content-padding-top, 11px)
+           var(--page-padding-x, 16px)
+           var(--content-padding-bottom, 15px);
+  overflow: hidden;
+}
+
+.three-column-layout__sidebar {
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.three-column-layout__main {
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.three-column-layout__info {
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* ============================================================
+   SECTION TITLES
+   "En Son Dinlenen", "Oynatma Listeleri", vb.
+   ============================================================ */
+.section-title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-lg, 14px);
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  margin-bottom: var(--space-2, 8px);
+  padding: 0;
+}
+
+/* ============================================================
+   CARD GRID
+   C09 kartları için grid container
+   ============================================================ */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols, 3), 1fr);
+  gap: var(--grid-gap, 8px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.card-grid--scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  grid-auto-flow: column;
+  grid-auto-columns: min-content;
+}
+
+.card-grid--scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================================
+   CHECKBOX / TOGGLE ROW
+   "Oynatma listesini göster" gibi ayar satırları
+   ============================================================ */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  padding: var(--space-1, 4px) 0;
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  cursor: pointer;
+  min-height: var(--touch-min, 48px);
+}
+
+/* ============================================================
+   RESPONSIVE — Desktop (1024+)
+   ============================================================ */
+@media (min-width: 1025px) {
+  .home-layout {
+    grid-template-columns: 42% 58%;
+    gap: 12px;
+    padding: 14px 24px 20px;
+  }
+
+  .standard-60-40 {
+    grid-template-columns: 1fr 480px;
+    gap: 20px;
+    padding: 14px 24px 20px;
+  }
+
+  .three-column-layout {
+    grid-template-columns: 200px 1fr 280px;
+    gap: 12px;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(var(--grid-cols, 4), 1fr);
+    gap: 12px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — TV (1920+)
+   ============================================================ */
+@media (min-width: 1920px) {
+  .home-layout {
+    gap: 16px;
+    padding: 18px 32px 24px;
+  }
+
+  .standard-60-40 {
+    grid-template-columns: 1fr 640px;
+    gap: 24px;
+  }
+
+  .three-column-layout {
+    grid-template-columns: 320px 1fr 320px;
+    gap: 16px;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(var(--grid-cols, 5), 1fr);
+    gap: 16px;
+  }
+
+  .section-title {
+    font-size: var(--text-xl, 28px);
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — Mobile (<768px)
+   ============================================================ */
+@media (max-width: 767px) {
+  .home-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: calc(100dvh - 56px - 72px);
+    padding: 8px 16px 12px;
+  }
+
+  .standard-60-40 {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: calc(100dvh - 56px - 72px);
+  }
+
+  .standard-60-40__right {
+    position: fixed;
+    bottom: 72px;
+    left: 0;
+    right: 0;
+    border-radius: 16px 16px 0 0;
+    transform: translateY(100%);
+    transition: transform 300ms ease;
+    z-index: var(--z-modal, 300);
+    max-height: 50vh;
+    background: var(--bg-elevated, #1a1a24);
+  }
+
+  .standard-60-40__right.is-active {
+    transform: translateY(0);
+  }
+
+  .three-column-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .three-column-layout__sidebar {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    bottom: 72px;
+    width: 280px;
+    background: var(--glass-bg, rgba(18,18,26,0.95));
+    backdrop-filter: blur(20px);
+    transform: translateX(-100%);
+    transition: transform 300ms ease;
+    z-index: var(--z-modal, 300);
+  }
+
+  .three-column-layout__sidebar.is-active {
+    transform: translateX(0);
+  }
+
+  .three-column-layout__info {
+    position: fixed;
+    bottom: 72px;
+    left: 0;
+    right: 0;
+    border-radius: 16px 16px 0 0;
+    transform: translateY(100%);
+    transition: transform 300ms ease;
+    z-index: var(--z-modal, 300);
+    max-height: 50vh;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+}

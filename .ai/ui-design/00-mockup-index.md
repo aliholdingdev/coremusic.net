@@ -1125,25 +1125,96 @@ neutral → #a0a0b0 (nötr)
 
 ---
 
-## 7. Quality Report
+## 8. Platform Matrisi
+
+| Özellik | RPi5 (1024×600) | Desktop (1920×1080) | Mobile (375×812) | TV (3840×2160) |
+|---------|-----------------|---------------------|------------------|----------------|
+| **Header** | 60px | 70px | 56px | 90px |
+| **Footer** | 90px | 104px | 72px | 138px |
+| **Content** | 450px | 906px | 684px | 1932px |
+| **Touch Target** | ≥48px | ≥44px | ≥48px | ≥60px |
+| **Hover** | ❌ | ✅ | ❌ | ❌ |
+| **Glass Blur** | blur(20px) | blur(20px) | Yok | blur(4px) |
+| **Font Scale** | 1× | 1.2× | 1× | 1.6× |
+| **Grid Max** | 3 sütun | 4 sütun | 2 sütun | 5 sütun |
+| **CSS Bundle** | d-embedded.css | d-desktop.css | d-mobile.css | d-tv.css |
+
+---
+
+## 9. Tema Matrisi
+
+| Tema | Accent Renk | Hover | Background | Kullanım |
+|------|-------------|-------|------------|----------|
+| **Female** | `#ff4fd8` | `#e63dc0` | `rgba(255,79,216,0.15)` | Varsayılan |
+| **Male** | `#4f9fff` | `#3d8ae6` | `rgba(79,159,255,0.15)` | Gelecek |
+| **Neutral** | `#a0a0b0` | `#8a8a9a` | `rgba(160,160,176,0.15)` | Gelecek |
+
+**Tema Değişikliği:** `data-gender` attribute'u ile CSS custom properties otomatik değişir.
+
+---
+
+## 10. Token Referansları
+
+| Kategori | Dosya | İçerik |
+|----------|-------|--------|
+| Design Tokens | `tokens/design-tokens-master.md` | Tüm token tanımları |
+| Color Palettes | `tokens/color-palettes.md` | 3 tema renk paleti |
+| Platform Tokens | `tokens/platform-tokens.md` | Platform farkları |
+| CSS Tokens | `reference/css-design-tokens.md` | CSS custom properties |
+| Code Samples | `reference/component-code-samples.md` | Bileşen kod örnekleri |
+| Interaction States | `reference/interaction-states.md` | Etkileşim durumları |
+
+---
+
+## 11. Screen Spec Dosyaları
+
+| Kategori | Dosya | Platform | Tema |
+|----------|-------|----------|------|
+| Auth | `screens/A-auth/gender-select.md` | 4 | 3 |
+| Auth | `screens/A-auth/login.md` | 4 | 3 |
+| Auth | `screens/A-auth/register-step1.md` | 4 | 3 |
+| Auth | `screens/A-auth/register-step2-3.md` | 4 | 3 |
+| Home | `screens/B-home/dashboard.md` | 4 | 3 |
+| Home | `screens/B-home/welcome-popup.md` | 4 | 3 |
+| Music | `screens/C-music/albums.md` | 4 | 3 |
+| Music | `screens/C-music/album-detail.md` | 4 | 3 |
+| Music | `screens/C-music/artists.md` | 4 | 3 |
+| Player | `screens/D-player/playlist.md` | 4 | 3 |
+| Player | `screens/D-player/video-playback.md` | 4 | 3 |
+| FileManager | `screens/E-filemanager/disk-browser.md` | 4 | 3 |
+| FileManager | `screens/E-filemanager/file-list.md` | 4 | 3 |
+| QuickPanel | `screens/F-quickpanel/wifi.md` | 4 | 3 |
+| QuickPanel | `screens/F-quickpanel/wifi-connect.md` | 4 | 3 |
+| QuickPanel | `screens/F-quickpanel/bluetooth.md` | 4 | 3 |
+| Index | `screens/00-ascii-art-views.md` | 4 | 3 |
+| Index | `00-mockup-index.md` | 4 | 3 |
+
+---
+
+## 12. Quality Report
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 4.0.0 |
+| Version | 5.0.0 |
 | Total PNG | 18 (12 home + 6 shared) |
 | ASCII Art Views | 18 (tümü piksel düzeyinde) |
-| Platforms | 9 (1 mevcut, 8 planlandı) |
+| Platforms | 4 (RPi5, Desktop, Mobile, TV) |
+| Themes | 3 (Female, Male, Neutral) |
 | Auth Flow | Select Gender → Login → Register (3 adım) |
 | Contradictions | 5 (tümü karar bekliyor) |
 | Components | 16 (C01-C16) |
 | Layout Patterns | 5 (Standard, Split, Fullscreen, Modal, Auth) |
+| Token Files | 6 (design, color, platform, css, code, interaction) |
+| Screen Specs | 16 dosya (her biri 500+ satır) |
+| Total CSS Lines | 1500+ |
+| Total JS Lines | 800+ |
 | ADR Uyumlu | ✅ ADR-001, ADR-044 |
 | Zero Hallucination | ✅ Tüm ölçümler PNG'den |
 | PNG Source Verified | ✅ 18/18 PNG okundu ve doğrulandı |
 
 ---
 
-*Mockup Index v4.0.0 — CoreMusic UI Design System*
+*Mockup Index v5.0.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-11*
+*Last Updated: 2026-08-17*
 *Mode: Red Team · Human Mode · Truth Mode*

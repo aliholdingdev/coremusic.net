@@ -3,6 +3,8 @@ title: "CoreMusic — Prompt 2: Authentication Sistemi"
 type: prompt
 category: security
 date: 2026-08-15
+---
+> **⚠️ ARŞİV — Bu dosya tarihsel bir belgedir.** Middleware pipeline ve nonce akışı hakkında güncel bilgi için [[.ai/CLAUDE.md]] §6 ve [[.ai/brain.md]] §6 okunur.
 updated: 2026-08-15
 status: active
 version: 2.0.0

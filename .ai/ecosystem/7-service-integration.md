@@ -222,7 +222,7 @@ Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → Session
 | 9 | Permission | — | Tümü |
 | 10 | Validation | — | Tümü |
 
-**Kritik:** Sıra DEĞİŞTİRİLEMEZ. CSP nonce SessionManager'da üretilir.
+**Kritik:** Sıra DEĞİŞTİRİLEMEZ. CSP nonce SecurityHeaders (#4) üretilir, SessionManager (#5) session'a kaydeder.
 
 *Kaynak: [[architecture/00-overview/architecture-master]] §2*
 

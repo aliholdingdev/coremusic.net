@@ -1,0 +1,150 @@
+/**
+ * CoreMusic — Light Glass Tokens
+ * Glassmorphism design tokens for all glass surfaces
+ * ITCSS Layer: 01_Abstracts
+ */
+
+:root {
+  /* ============================================================
+     GLASS SURFACES
+     ============================================================ */
+
+  /* Base glass */
+  --glass-bg-light:     rgba(255, 255, 255, 0.12);
+  --glass-bg-medium:    rgba(255, 255, 255, 0.16);
+  --glass-bg-heavy:     rgba(255, 255, 255, 0.22);
+
+  /* Glass borders */
+  --glass-border-light: rgba(255, 255, 255, 0.2);
+  --glass-border-glow:  rgba(255, 255, 255, 0.3);
+
+  /* Glass shadows */
+  --glass-shadow:       0 8px 32px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255,255,255,0.1);
+  --glass-shadow-deep:  0 16px 48px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.12);
+  --glass-shadow-float: 0 24px 64px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+
+  /* Glass top highlight */
+  --glass-highlight:    linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%);
+
+  /* ============================================================
+     GENDER THEME TOKENS
+     ============================================================ */
+
+  /* --- FEMALE (Kadın) --- */
+  --theme-f-primary:    #e8b4b8;
+  --theme-f-secondary:  #d496a0;
+  --theme-f-accent:     #b8a9c9;
+  --theme-f-glow:       rgba(232, 180, 184, 0.45);
+  --theme-f-glow-soft:  rgba(232, 180, 184, 0.2);
+  --theme-f-glass:      rgba(232, 180, 184, 0.12);
+  --theme-f-gradient:   linear-gradient(135deg, #e8b4b8 0%, #d496a0 40%, #b8a9c9 100%);
+  --theme-f-bg-grad:    linear-gradient(135deg, #1a1025 0%, #2d1b4e 40%, #3d1a35 70%, #1a1025 100%);
+  --theme-f-hero-bg:    radial-gradient(ellipse at 30% 40%, rgba(232,180,184,0.18) 0%, transparent 55%),
+                        radial-gradient(ellipse at 70% 60%, rgba(139,107,174,0.15) 0%, transparent 50%);
+
+  /* --- MALE (Erkek) --- */
+  --theme-m-primary:    #5b8fb9;
+  --theme-m-secondary:  #89c4d9;
+  --theme-m-accent:     #a8d8ea;
+  --theme-m-glow:       rgba(91, 143, 185, 0.45);
+  --theme-m-glow-soft:  rgba(91, 143, 185, 0.2);
+  --theme-m-glass:      rgba(91, 143, 185, 0.12);
+  --theme-m-gradient:   linear-gradient(135deg, #5b8fb9 0%, #89c4d9 50%, #a8d8ea 100%);
+  --theme-m-bg-grad:    linear-gradient(135deg, #0d1a2e 0%, #1a2d4e 40%, #0d2035 70%, #0d1a2e 100%);
+  --theme-m-hero-bg:    radial-gradient(ellipse at 30% 40%, rgba(91,143,185,0.18) 0%, transparent 55%),
+                        radial-gradient(ellipse at 70% 60%, rgba(168,216,234,0.12) 0%, transparent 50%);
+
+  /* --- NEUTRAL (Diğer) --- */
+  --theme-n-primary:    #b8a9c9;
+  --theme-n-secondary:  #9b8bb4;
+  --theme-n-accent:     #8b6bae;
+  --theme-n-glow:       rgba(184, 169, 201, 0.45);
+  --theme-n-glow-soft:  rgba(184, 169, 201, 0.2);
+  --theme-n-glass:      rgba(184, 169, 201, 0.12);
+  --theme-n-gradient:   linear-gradient(135deg, #b8a9c9 0%, #9b8bb4 50%, #8b6bae 100%);
+  --theme-n-bg-grad:    linear-gradient(135deg, #1a1025 0%, #2d1b4e 50%, #1a1025 100%);
+  --theme-n-hero-bg:    radial-gradient(ellipse at 50% 40%, rgba(184,169,201,0.18) 0%, transparent 55%);
+
+  /* ============================================================
+     ACTIVE THEME (defaults to neutral, overridden by JS/PHP)
+     ============================================================ */
+  --theme-primary:      var(--theme-n-primary);
+  --theme-secondary:    var(--theme-n-secondary);
+  --theme-accent:       var(--theme-n-accent);
+  --theme-glow:         var(--theme-n-glow);
+  --theme-glow-soft:    var(--theme-n-glow-soft);
+  --theme-glass:        var(--theme-n-glass);
+  --theme-gradient:     var(--theme-n-gradient);
+  --theme-bg-grad:      var(--theme-n-bg-grad);
+  --theme-hero-bg:      var(--theme-n-hero-bg);
+
+  /* ============================================================
+     TEXT TOKENS — fallback defaults (SSOT: a-semantic-token.css)
+     ============================================================ */
+  --text-primary:   #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.72);
+
+  /* ============================================================
+     FORM TOKENS
+     ============================================================ */
+  --input-h:            56px;
+  --input-h-sm:         48px;
+  --input-bg:           rgba(255, 255, 255, 0.06);
+  --input-bg-focus:     rgba(255, 255, 255, 0.1);
+  --input-border:       rgba(255, 255, 255, 0.1);
+  --input-border-focus: var(--theme-primary);
+  --input-placeholder:  rgba(255, 255, 255, 0.38);
+  --input-radius:       var(--r-lg);
+
+  /* ============================================================
+     BUTTON TOKENS
+     ============================================================ */
+  --btn-h:          56px;
+  --btn-h-sm:       48px;
+  --btn-h-social:   52px;
+  --btn-radius:     var(--r-lg);
+  --btn-radius-sm:  var(--r-md);
+}
+
+/* ============================================================
+   THEME OVERRIDES — applied via .theme-female / .theme-male
+   ============================================================ */
+
+.theme-female,
+[data-gender="female"] {
+  --theme-primary:    var(--theme-f-primary);
+  --theme-secondary:  var(--theme-f-secondary);
+  --theme-accent:     var(--theme-f-accent);
+  --theme-glow:       var(--theme-f-glow);
+  --theme-glow-soft:  var(--theme-f-glow-soft);
+  --theme-glass:      var(--theme-f-glass);
+  --theme-gradient:   var(--theme-f-gradient);
+  --theme-bg-grad:    var(--theme-f-bg-grad);
+  --theme-hero-bg:    var(--theme-f-hero-bg);
+}
+
+.theme-male,
+[data-gender="male"] {
+  --theme-primary:    var(--theme-m-primary);
+  --theme-secondary:  var(--theme-m-secondary);
+  --theme-accent:     var(--theme-m-accent);
+  --theme-glow:       var(--theme-m-glow);
+  --theme-glow-soft:  var(--theme-m-glow-soft);
+  --theme-glass:      var(--theme-m-glass);
+  --theme-gradient:   var(--theme-m-gradient);
+  --theme-bg-grad:    var(--theme-m-bg-grad);
+  --theme-hero-bg:    var(--theme-m-hero-bg);
+}
+
+.theme-neutral,
+[data-gender="neutral"] {
+  --theme-primary:    var(--theme-n-primary);
+  --theme-secondary:  var(--theme-n-secondary);
+  --theme-accent:     var(--theme-n-accent);
+  --theme-glow:       var(--theme-n-glow);
+  --theme-glow-soft:  var(--theme-n-glow-soft);
+  --theme-glass:      var(--theme-n-glass);
+  --theme-gradient:   var(--theme-n-gradient);
+  --theme-bg-grad:    var(--theme-n-bg-grad);
+  --theme-hero-bg:    var(--theme-n-hero-bg);
+}

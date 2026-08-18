@@ -6,7 +6,7 @@ interface ISessionManager
 {
     public function setAuthUser(array $user): void;
     public function setRegisteredUser(array $created): void;
-    public function getUserId(): ?int;
+    public function getUserId(): ?string;
     public function isAuthenticated(): bool;
     public function destroy(): void;
     public function regenerateId(): void;

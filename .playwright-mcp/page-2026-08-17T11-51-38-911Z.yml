@@ -1,0 +1,17 @@
+- main [ref=f7e2]:
+  - generic [ref=f7e5]:
+    - heading "CoreMusic — Giriş" [level=2] [ref=f7e6]
+    - generic [ref=f7e7]:
+      - generic [ref=f7e8]:
+        - text: E-posta veya Kullanıcı Adı
+        - textbox "E-posta veya Kullanıcı Adı" [ref=f7e9]:
+          - /placeholder: ornek@email.com
+      - generic [ref=f7e10]:
+        - text: Şifre
+        - textbox "Şifre" [ref=f7e11]:
+          - /placeholder: ••••••••
+      - button "Giriş Yap" [ref=f7e12]
+    - paragraph [ref=f7e13]:
+      - text: Hesabın yok mu?
+      - link "Kayıt Ol" [ref=f7e14] [cursor=pointer]:
+        - /url: /register

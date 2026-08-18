@@ -17,11 +17,14 @@ final class AuthService implements IAuthService
     private const MIN_PASSWORD_LENGTH = 8;
     private const MAX_LOGIN_ATTEMPTS = 5;
     private const LOGIN_WINDOW_SECONDS = 900;
+    private const MAX_REGISTER_ATTEMPTS = 3;
+    private const REGISTER_WINDOW_SECONDS = 3600;
     private const AUTH_KEY_TTL = 300;
     private const ARGON2_OPTIONS = ['memory_cost' => 65536, 'time_cost' => 4, 'threads' => 2];
     private const ALLOWED_GENDERS = ['male', 'female', 'neutral'];
     private const USERNAME_PATTERN = '/^[a-zA-Z0-9_]{3,30}$/';
     private const LOGIN_RATE_KEY_PREFIX = 'rate_limit:login:';
+    private const REGISTER_RATE_KEY_PREFIX = 'rate_limit:register:';
     private const PASSWORD_RESET_RATE_KEY_PREFIX = 'rate_limit:password_reset:';
     private const PASSWORD_RESET_MAX_ATTEMPTS = 3;
     private const PASSWORD_RESET_WINDOW_SECONDS = 3600;
@@ -71,27 +74,28 @@ final class AuthService implements IAuthService
         }
 
         $this->rateLimiter->reset($failedKey);
-        $this->userRepository->updateLastLogin((int)$user['id']);
+        $this->userRepository->updateLastLogin($user['id']);
 
         $this->session->setAuthUser([
-            'id'           => (int)$user['id'],
+            'id'           => $user['id'],
             'username'     => $user['username'],
             'email'        => $user['email'],
             'display_name' => $user['display_name'] ?? $user['username'],
             'account_type' => $user['account_type'] ?? 'free',
             'avatar_url'   => $user['avatar_url'] ?? '',
+            'gender'       => $user['gender'] ?? 'neutral',
         ]);
 
         $authKey = bin2hex(random_bytes(32));
         $expiresAt = date('Y-m-d H:i:s', time() + self::AUTH_KEY_TTL);
-        $this->userRepository->saveAuthKey((int)$user['id'], $authKey, $expiresAt, $clientIp);
+        $this->userRepository->saveAuthKey($user['id'], $authKey, $expiresAt, $clientIp);
 
         return [
             'success'  => true,
             'redirect' => '/home',
             'auth_key' => $authKey,
             'user'     => [
-                'id'           => (int)$user['id'],
+                'id'           => $user['id'],
                 'username'     => $user['username'],
                 'email'        => $user['email'],
                 'display_name' => $user['display_name'],
@@ -102,9 +106,9 @@ final class AuthService implements IAuthService
 
     public function register(array $data, string $clientIp = '127.0.0.1'): array
     {
-        $rateKey = self::LOGIN_RATE_KEY_PREFIX . $clientIp;
-        if ($this->rateLimiter->isLimited($rateKey, self::MAX_LOGIN_ATTEMPTS, self::LOGIN_WINDOW_SECONDS)) {
-            throw RateLimitException::registerRateLimited(self::LOGIN_WINDOW_SECONDS);
+        $rateKey = self::REGISTER_RATE_KEY_PREFIX . $clientIp;
+        if ($this->rateLimiter->isLimited($rateKey, self::MAX_REGISTER_ATTEMPTS, self::REGISTER_WINDOW_SECONDS)) {
+            throw RateLimitException::registerRateLimited(self::REGISTER_WINDOW_SECONDS);
         }
 
         $username   = trim($data['username'] ?? '');
@@ -120,12 +124,14 @@ final class AuthService implements IAuthService
         if ($username === '' || !preg_match(self::USERNAME_PATTERN, $username)) {
             $errors['username'] = 'Geçersiz kullanıcı adı.';
         } elseif ($this->userRepository->usernameExists($username)) {
+            $this->rateLimiter->increment($rateKey, self::REGISTER_WINDOW_SECONDS);
             throw ConflictException::usernameAlreadyExists();
         }
 
         if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $errors['email'] = 'Geçerli e-posta girin.';
         } elseif ($this->userRepository->emailExists($email)) {
+            $this->rateLimiter->increment($rateKey, self::REGISTER_WINDOW_SECONDS);
             throw ConflictException::emailAlreadyExists();
         }
 
@@ -138,8 +144,11 @@ final class AuthService implements IAuthService
         }
 
         if (!empty($errors)) {
+            $this->rateLimiter->increment($rateKey, self::REGISTER_WINDOW_SECONDS);
             throw ValidationException::multiple($errors);
         }
+
+        $this->rateLimiter->reset($rateKey);
 
         $passwordHash = password_hash($this->pepperPassword($password), PASSWORD_ARGON2ID, self::ARGON2_OPTIONS);
 
@@ -157,7 +166,7 @@ final class AuthService implements IAuthService
 
         $authKey = bin2hex(random_bytes(32));
         $expiresAt = date('Y-m-d H:i:s', time() + self::AUTH_KEY_TTL);
-        $this->userRepository->saveAuthKey((int)$created['user_id'], $authKey, $expiresAt, $clientIp);
+        $this->userRepository->saveAuthKey($created['user_id'], $authKey, $expiresAt, $clientIp);
 
         return [
             'success'  => true,
@@ -191,7 +200,7 @@ final class AuthService implements IAuthService
         if ($userId === null) {
             return null;
         }
-        $user = $this->userRepository->findById($userId);
+        $user = $this->userRepository->findByIdHex($userId);
         if ($user !== null) {
             unset($user['password_hash']);
         }
@@ -220,7 +229,7 @@ final class AuthService implements IAuthService
         $tokenHash = hash('sha256', $rawToken);
         $expiresAt = date('Y-m-d H:i:s', time() + self::PASSWORD_RESET_WINDOW_SECONDS);
 
-        $this->userRepository->saveResetToken((int)$user['id'], $tokenHash, $expiresAt, $clientIp);
+        $this->userRepository->saveResetToken($user['id'], $tokenHash, $expiresAt, $clientIp);
         $this->rateLimiter->increment($rateKey, self::PASSWORD_RESET_WINDOW_SECONDS);
 
         error_log('[AuthService] Password reset requested for user_id: ' . $user['id']);
@@ -244,8 +253,8 @@ final class AuthService implements IAuthService
         }
 
         $newHash = password_hash($this->pepperPassword($newPassword), PASSWORD_ARGON2ID, self::ARGON2_OPTIONS);
-        $this->userRepository->updatePassword((int)$record['user_id'], $newHash);
-        $this->userRepository->markResetTokenUsed((int)$record['id']);
+        $this->userRepository->updatePassword($record['user_id'], $newHash);
+        $this->userRepository->markResetTokenUsed($record['id']);
 
         error_log('[AuthService] Password reset completed for user_id: ' . $record['user_id']);
 
@@ -257,14 +266,33 @@ final class AuthService implements IAuthService
         if ($authKey === '') {
             throw AuthenticationException::invalidCredentials();
         }
-        $record = $this->userRepository->findValidAuthKey($authKey);
+
+        // İlk olarak strict modda dene (used_at IS NULL)
+        $record = $this->userRepository->findValidAuthKey($authKey, false);
+
+        // Strict başarısızsa — grace window ile dene (30s içinde tekrar kullanım)
         if ($record === null) {
-            throw AuthenticationException::invalidCredentials();
+            $record = $this->userRepository->findValidAuthKey($authKey, true);
+            if ($record === null) {
+                throw AuthenticationException::invalidCredentials();
+            }
+            // Grace window: key zaten kullanıldı ama 30s içinde — idempotent tekrar kullanım
+            return [
+                'user_id'      => $record['user_id'],
+                'username'     => $record['username'],
+                'email'        => $record['email'],
+                'display_name' => $record['display_name'] ?? $record['username'],
+                'gender'       => $record['gender'] ?? 'neutral',
+                'avatar_url'   => $record['avatar_url'] ?? null,
+                'account_type' => $record['account_type'] ?? 'free',
+            ];
         }
-        $this->userRepository->markAuthKeyUsed((int)$record['token_id']);
+
+        // İlk kullanım — key'i işaretle
+        $this->userRepository->markAuthKeyUsed($record['token_id']);
 
         return [
-            'user_id'      => (int)$record['user_id'],
+            'user_id'      => $record['user_id'],
             'username'     => $record['username'],
             'email'        => $record['email'],
             'display_name' => $record['display_name'] ?? $record['username'],

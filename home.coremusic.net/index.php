@@ -1,99 +1,118 @@
 <?php declare(strict_types=1);
 
+/**
+ * CoreMusic Home — Entry Point
+ *
+ * Shared SPA Router (PageRouterKernel) kullanır.
+ * Auth entegrasyonu: include/ dizininde.
+ */
+
 require_once __DIR__ . '/autoload.php';
 
 use CoreMusic\Config\ConfigManager;
 use CoreMusic\Config\DomainConfig;
-use CoreMusic\Config\EnvParser;
 use CoreMusic\Bootstrap\RuntimeBootstrap;
+use CoreMusic\Home\Container\HomeContainer;
+use CoreMusic\Home\Auth\HomeAuthBridge;
 use CoreMusic\PageRouter\PageRouterKernel;
 
-$envFile = __DIR__ . '/config/.env';
-if (file_exists($envFile)) {
-    EnvParser::loadIntoEnv($envFile);
-}
-
-$env = static fn(string $key, string|int|bool|null $default = null): mixed =>
-    $_ENV[$key] ?? getenv($key) ?: $default;
-
-$envMode = $env('APP_ENV_MODE', '');
-if ($envMode === '' || !in_array($envMode, ['development', 'production', 'test'], true)) {
-    http_response_code(500);
-    exit('Configuration error: APP_ENV_MODE not set');
-}
-
-define('APP_ENV_MODE', $envMode);
-define('DEBUG_MODE', APP_ENV_MODE !== 'production');
-define('APP_NAME', $env('APP_NAME', 'CoreMusic'));
-define('APP_VERSION', $env('APP_VERSION', '2.0.0'));
-define('APP_TIMEZONE', $env('APP_TIMEZONE', 'Europe/Istanbul'));
-define('TEST_MODE', in_array(strtolower((string)$env('TEST_MODE', 'false')), ['true', '1', 'yes', 'on'], true));
-define('FORCE_AUTH_BYPASS', in_array(strtolower((string)$env('FORCE_AUTH_BYPASS', 'false')), ['true', '1', 'yes', 'on'], true));
-
-define('PAGES_PATH', __DIR__ . '/pages');
-define('HEADER_PATH', __DIR__ . '/header.php');
-define('FOOTER_PATH', __DIR__ . '/footer.php');
-define('DEFAULT_PAGE', $env('DEFAULT_PAGE', 'home'));
-
-define('SESSION_NAME', $env('SESSION_NAME', 'COREMUSIC_SESS'));
-define('CSRF_TOKEN_LENGTH', (int)$env('CSRF_TOKEN_LENGTH', 32));
-define('RATE_LIMIT_MAX', (int)$env('RATE_LIMIT_MAX', 60));
-define('RATE_LIMIT_WINDOW', (int)$env('RATE_LIMIT_WINDOW', 60));
-define('TRUSTED_PROXIES', ['127.0.0.1', '::1']);
+/* ─── Config (constants + app) ─── */
+require_once __DIR__ . '/config/constants.php';
+$appConfig = require __DIR__ . '/config/app.php';
 
 RuntimeBootstrap::boot(DEBUG_MODE);
 
-$isHttps = (
-    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-    || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
-    || (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443)
-);
-
-$currentHost = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? 'localhost';
-$currentPort = (int)($_SERVER['SERVER_PORT'] ?? ($isHttps ? 443 : 80));
+/* ─── HTTPS Detection ─── */
+$isHttps = $appConfig['domain']['isHttps'];
+$currentHost = $appConfig['domain']['host'];
+$currentPort = $appConfig['domain']['port'];
 
 if (str_contains($currentHost, ':')) {
     [$currentHost, $portFromHost] = explode(':', $currentHost, 2);
     $currentPort = (int)$portFromHost;
 }
 
+/* ─── Config Objects ─── */
 $domainConfig = new DomainConfig(dirname(__DIR__) . '/shared/config/domain.php');
 $scheme = $isHttps ? 'https' : 'http';
 $domainConfig->setOverrides($scheme, $currentHost, $currentPort);
 
-$config = new ConfigManager([
-    'app' => [
-        'name'              => APP_NAME,
-        'version'           => APP_VERSION,
-        'env'               => APP_ENV_MODE,
-        'timezone'          => APP_TIMEZONE,
-        'debug'             => DEBUG_MODE,
-        'test_mode'         => TEST_MODE,
-        'force_auth_bypass' => FORCE_AUTH_BYPASS,
-    ],
-    'domain' => [
-        'host'          => $currentHost,
-        'port'          => $currentPort,
-        'isHttps'       => $isHttps,
-        'subdomainPort' => $isHttps ? 443 : 80,
-    ],
-    'session' => [
-        'name'     => SESSION_NAME,
-        'lifetime' => 7200,
-    ],
-    'security' => [
-        'csrfTokenLength' => CSRF_TOKEN_LENGTH,
-        'rateLimitMax'    => RATE_LIMIT_MAX,
-        'rateLimitWindow' => RATE_LIMIT_WINDOW,
-    ],
-]);
+$config = new ConfigManager($appConfig);
 
+/* ─── DI Container ─── */
+$homeContainer = HomeContainer::getInstance($config, $domainConfig);
+
+/* ─── Special Routes (PageRouterKernel'den önce) ─── */
+$requestUri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+
+// Health check
+if ($requestUri === '/health') {
+    http_response_code(200);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode([
+        'status'  => 'ok',
+        'service' => 'home.coremusic.net',
+        'version' => APP_VERSION,
+        'time'    => date('c'),
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+// Auth callback — redirect sorununu önlemek için kernel'den önce işle
+if ($requestUri === '/auth/callback' || $requestUri === 'auth/callback') {
+    $authKeyRaw = (string)($_GET['auth_key'] ?? '');
+
+    if ($authKeyRaw === '') {
+        header('Location: /login', true, 302);
+        exit;
+    }
+
+    // Session başlat — cookie domain'i middleware ile aynı olmalı
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_name(defined('SESSION_NAME') ? SESSION_NAME : 'COREMUSIC_SESS');
+        $savePath = ini_get('session.save_path') ?: 'C:\temp';
+        session_save_path($savePath);
+        $cbIsHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+        session_set_cookie_params([
+            'lifetime' => 0,
+            'path'     => '/',
+            'domain'   => '.coremusic.net',
+            'secure'   => $cbIsHttps,
+            'httponly'  => true,
+            'samesite' => 'Lax',
+        ]);
+        session_start();
+    }
+
+    // Auth key doğrula + session oluştur
+    $authBridge = $homeContainer->get(HomeAuthBridge::class);
+    $result = $authBridge->validateAndCreateSession($authKeyRaw);
+
+    if ($result['success']) {
+        // Session'u diske yaz
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_write_close();
+        }
+        header('Location: /home', true, 302);
+        exit;
+    }
+
+    // Başarısız → login'e dön
+    header('Location: /login?error=invalid_key', true, 302);
+    exit;
+}
+
+/* ─── PageRouterKernel ─── */
 $kernel = new PageRouterKernel($config, $domainConfig, HEADER_PATH, FOOTER_PATH);
 try {
     $routesFile = dirname(__DIR__) . '/shared/config/routes.php';
     $kernel->handle($_SERVER, $_GET, $_POST, $routesFile);
 } catch (\Throwable $e) {
-    error_log('[Home] Unhandled exception: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+    $logger = \CoreMusic\Log\LoggerFactory::getInstance();
+    $logger->error('[Home] Unhandled: ' . $e->getMessage(), [
+        'file'  => $e->getFile() . ':' . $e->getLine(),
+        'trace' => $e->getTraceAsString(),
+    ]);
     http_response_code(500);
     echo 'Internal Server Error';
 }

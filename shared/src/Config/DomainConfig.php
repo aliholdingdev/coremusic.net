@@ -66,6 +66,11 @@ final class DomainConfig
         return $this->config['subdomain_port'] ?? 80;
     }
 
+    public function getSubdomainPortByName(string $name): int
+    {
+        return $this->config['subdomain_ports'][$name] ?? $this->getSubdomainPort();
+    }
+
     public function getPrimaryHost(): string
     {
         return $this->config['primary'] ?? 'coremusic.net';

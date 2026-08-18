@@ -265,14 +265,14 @@ OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → 
 | 2 | **Cors** | CORS header yönetimi | — |
 | 3 | **RateLimiter** | APCu tabanlı, 60 req/60s | 60s |
 | 4 | **SecurityHeaders** | CSP strict-dynamic, X-Frame-Options, HSTS | — |
-| 5 | **SessionManager** | Session başlatır, CSP nonce üretir | 3600s idle |
+| 5 | **SessionManager** | Session başlatır, CSP nonce'u session'a kaydeder | 3600s idle |
 | 6 | **Csrf** | `csrf_token` doğrulama (POST/PUT/DELETE) | — |
 | 7 | **BypassAuth** | Test bypass (`?_bypass=1`), prod'da devre dışı | — |
 | 8 | **Auth** | Auth bilgisi inject (JWT + Session) | — |
 | 9 | **Permission** | RBAC yetki kontrolü (regular/premium/studio/car/admin/system) | — |
 | 10 | **Validation** | Request/DTO validasyonu | — |
 
-**Kritik Not:** CSP nonce üretimi SessionManager içindedir. Sıra değiştirilirse CSP bozulur. Middleware sırası **DEĞİŞTİRİLEMEZ**.
+**Kritik Not:** CSP nonce üretimi SecurityHeaders (#4) içindedir. SessionManager (#5) bu nonce'u session'a kaydeder. Sıra değiştirilirse CSP bozulur. Middleware sırası **DEĞİŞTİRİLEMEZ**.
 
 ---
 

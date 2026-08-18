@@ -1,0 +1,72 @@
+/**
+ * CoreMusic — Auth Tablet Device CSS
+ * 768-1024px — Tablet auth stack layout
+ * ITCSS Layer: 08_Devices
+ * Version: 1.2.0 — 2026-08-18
+ *
+ * NOTE: Token imports removed — auth-bundled.css already loads them.
+ */
+
+:root {
+  --lgn-panel-w: 380px;
+  --lgn-font-size: 14px;
+  --touch-min: 48px;
+}
+
+html { font-size: 14px; }
+
+/* ═══ LAYOUT — Column-reverse stack ═══ */
+.lgn-page {
+  flex-direction: column-reverse !important;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* ═══ HERO — Centered ═══ */
+.lgn-hero {
+  flex: none !important;
+  padding: clamp(14px, 2.5vw, 20px) clamp(12px, 2.5vw, 16px) !important;
+  text-align: center !important;
+  align-items: center !important;
+}
+
+.lgn-hero__poem,
+.lgn-hero__bottom {
+  display: none !important;
+}
+
+/* ═══ PANEL — Stacked ═══ */
+.lgn-panel {
+  position: relative !important;
+  width: 100% !important;
+  max-width: var(--lgn-panel-w, 380px) !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  order: -1 !important;
+}
+
+.lgn-panel__glass {
+  border-radius: clamp(12px, 1.5vw, 16px) clamp(12px, 1.5vw, 16px) 0 0 !important;
+  border: 1px solid rgba(255, 255, 255, .15) !important;
+  border-bottom: 0 !important;
+}
+
+/* ═══ FORM ELEMENTS ═══ */
+.lgn-form__input {
+  height: clamp(36px, 3vw, 44px);
+}
+
+.lgn-btn {
+  height: clamp(38px, 3vw, 46px);
+}
+
+.lgn-social {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Background image is controlled by auth-gender-bg.js for crossfade animation */
+
+/* ═══ OVERFLOW FIX ═══ */
+html, body {
+  overflow-x: hidden !important;
+}

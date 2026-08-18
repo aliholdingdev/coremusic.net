@@ -29,17 +29,15 @@ final class CsrfMiddleware implements IMiddleware
             return $next($request);
         }
 
-        $sessionToken = ($request['_session']['csrf_token'] ?? '') ?: '';
-        if ($sessionToken === '') {
-            return $this->fail();
-        }
+        // Session'dan CSRF token'ı al
+        $sessionToken = ($request['_session']['csrf_token'] ?? '') ?: ($_SESSION['csrf_token'] ?? '') ?: '';
 
         $submitted = $request['headers']['x-csrf-token'] ?? '';
         if ($submitted === '') {
             $submitted = $request['body']['csrf_token'] ?? '';
         }
 
-        if ($submitted === '' || !hash_equals($sessionToken, (string)$submitted)) {
+        if ($sessionToken === '' || $submitted === '' || !hash_equals($sessionToken, (string)$submitted)) {
             return $this->fail();
         }
 

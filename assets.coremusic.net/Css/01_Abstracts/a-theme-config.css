@@ -1,0 +1,177 @@
+/**
+ * CoreMusic — Theme Config Tokens
+ * Global design system: spacing, radius, shadows, z-index, transitions, keyframes
+ * Renk tokenleri: a-colors-token.css (--color-*) ve a-semantic-token.css (--theme-*, --bg-*, vb.)
+ * ITCSS Layer: 01_Abstracts
+ * Version: 2.1.0 — 2026-06-03
+ */
+
+:root {
+  /* ============================================================
+     SPACING SCALE
+     ============================================================ */
+  --sp-1:   0.25rem;   /* 4px  */
+  --sp-2:   0.5rem;    /* 8px  */
+  --sp-3:   0.75rem;   /* 12px */
+  --sp-4:   1rem;      /* 16px */
+  --sp-5:   1.25rem;   /* 20px */
+  --sp-6:   1.5rem;    /* 24px */
+  --sp-8:   2rem;      /* 32px */
+  --sp-10:  2.5rem;    /* 40px */
+  --sp-12:  3rem;      /* 48px */
+  --sp-16:  4rem;      /* 64px */
+  --sp-20:  5rem;      /* 80px */
+  --sp-24:  6rem;      /* 96px */
+
+  /* ============================================================
+     BORDER RADIUS
+     ============================================================ */
+  --r-xs:   4px;
+  --r-sm:   8px;
+  --r-md:   12px;
+  --r-lg:   16px;
+  --r-xl:   20px;
+  --r-2xl:  24px;
+  --r-3xl:  32px;
+  --r-full: 9999px;
+
+  /* ============================================================
+     SHADOWS (Box)
+     ============================================================ */
+  --shadow-sm:    0 2px 8px rgba(0,0,0,0.2);
+  --shadow-md:    0 4px 16px rgba(0,0,0,0.25);
+  --shadow-lg:    0 8px 32px rgba(0,0,0,0.3);
+  --shadow-xl:    0 16px 48px rgba(0,0,0,0.4);
+  --shadow-2xl:   0 24px 64px rgba(0,0,0,0.5);
+
+  /* ============================================================
+     TEXT-SHADOWS — Metin Okunabilirlik Sistemi
+     Tüm sayfalara otomatik uygulanır (b-base-core.css)
+     ============================================================ */
+  --ts-xs:    0 1px 1px rgba(0, 0, 0, 0.75);    /* nav, label, badge, caption */
+  --ts-sm:    0 1px 3px rgba(0, 0, 0, 0.65);    /* body metni, kart içerikleri */
+  --ts-md:    0 2px 8px rgba(0, 0, 0, 0.55);    /* başlıklar, panel başlıkları */
+  --ts-lg:    0 3px 14px rgba(0, 0, 0, 0.55);    /* hero başlık, logo */
+  --ts-glow:  0 0 12px rgba(255, 79, 216, 0.45); /* neon pembe glow — vurgu */
+
+  /* ============================================================
+     BLUR VALUES
+     ============================================================ */
+  --blur-xs:    4px;
+  --blur-sm:    8px;
+  --blur-md:    16px;
+  --blur-lg:    24px;
+  --blur-xl:    40px;
+  --blur-2xl:   60px;
+
+  /* ============================================================
+     Z-INDEX SCALE
+     ============================================================ */
+  --z-below:    -1;
+  --z-base:      0;
+  --z-raised:   10;
+  --z-dropdown: 100;
+  --z-sticky:   200;
+  --z-overlay:  300;
+  --z-modal:    400;
+  --z-toast:    500;
+  --z-top:      999;
+
+  /* ============================================================
+     TRANSITIONS
+     ============================================================ */
+  --ease-soft:    cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-smooth:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce:  cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --dur-instant:  80ms;
+  --dur-fast:     150ms;
+  --dur-normal:   300ms;
+  --dur-slow:     500ms;
+  --dur-slower:   800ms;
+  --dur-slowest:  1200ms;
+
+  /* ============================================================
+     VIEWPORT
+     ============================================================ */
+  --vp-min:     1024px;
+  --vp-hd:      1920px;
+  --vp-2k:      2560px;
+  --vp-4k:      3840px;
+}
+
+/* ============================================================
+   GLOBAL KEYFRAMES
+   ============================================================ */
+
+@keyframes cm-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes cm-float-slow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33%       { transform: translateY(-8px) rotate(1deg); }
+  66%       { transform: translateY(-4px) rotate(-1deg); }
+}
+
+@keyframes cm-glow-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%       { opacity: 0.8; transform: scale(1.05); }
+}
+
+@keyframes cm-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes cm-slide-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cm-slide-down {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cm-scale-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes cm-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+@keyframes cm-shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  40%       { transform: translateX(6px); }
+  60%       { transform: translateX(-4px); }
+  80%       { transform: translateX(4px); }
+}
+
+@keyframes cm-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes cm-wave {
+  0%   { transform: scaleY(0.4); }
+  50%  { transform: scaleY(1); }
+  100% { transform: scaleY(0.4); }
+}
+
+@keyframes cm-particle-rise {
+  0%   { transform: translateY(0) scale(1); opacity: 0.6; }
+  100% { transform: translateY(-120px) scale(0); opacity: 0; }
+}
+
+@keyframes cm-gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

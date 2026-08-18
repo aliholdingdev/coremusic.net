@@ -16,7 +16,7 @@ final class SessionManagerMiddleware implements IMiddleware
     public function handle(array $request, callable $next): array
     {
         $this->ensureSessionStarted();
-        $this->sessionInit->startOrExtend();
+        $this->sessionInit->startOrExtend($request['_csp_nonce'] ?? null);
 
         $request['_csp_nonce'] = $this->sessionInit->getCspNonce();
         $request['_session']   = $this->sessionInit->getSessionData();
@@ -31,6 +31,13 @@ final class SessionManagerMiddleware implements IMiddleware
         }
 
         session_name($this->sessionName);
+
+        // Session save path — php.ini'den oku, fallback C:\temp
+        $savePath = ini_get('session.save_path') ?: 'C:\temp';
+        if (!is_dir($savePath)) {
+            @mkdir($savePath, 0777, true);
+        }
+        session_save_path($savePath);
 
         $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 

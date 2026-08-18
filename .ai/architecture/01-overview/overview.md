@@ -182,15 +182,15 @@ Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → Session
 | 1 | OriginCheck | ADR-020 | Köken doğrulama (whitelist CORS) |
 | 2 | Cors | ADR-020 | CORS header yönetimi |
 | 3 | RateLimiter | ADR-013 | APCu: 60 req/60s |
-| 4 | SecurityHeaders | ADR-012 | CSP, X-Frame-Options, HSTS |
-| 5 | SessionManager | ADR-011 | Session başlat, CSP nonce üret |
+| 4 | SecurityHeaders | ADR-012 | CSP nonce üret, strict-dynamic, X-Frame-Options, HSTS |
+| 5 | SessionManager | ADR-011 | Session başlat, CSP nonce'u session'a kaydet |
 | 6 | Csrf | ADR-010 | csrf_token doğrulama |
 | 7 | BypassAuth | ADR-008 | Test bypass (?_bypass=1) |
 | 8 | Auth | ADR-011 | Auth bilgisi inject (JWT + Session) |
 | 9 | Permission | ADR-052 | RBAC yetki kontrolü |
 | 10 | Validation | ADR-054 | Request/DTO validasyonu |
 
-**Kritik Not:** Sıra DEĞİŞTİRİLEMEZ. CSP nonce üretimi SessionManager içindedir.
+**Kritik Not:** Sıra DEĞİŞTİRİLEMEZ. CSP nonce üretimi SecurityHeaders (#4) içindedir. SessionManager (#5) bu nonce'u session'a kaydeder.
 
 *Kaynak: [[architecture/03-contracts/middleware-pipeline]]*
 

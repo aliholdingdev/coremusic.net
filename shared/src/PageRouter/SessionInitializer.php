@@ -6,9 +6,10 @@ final class SessionInitializer
 {
     private const SESSION_MAX_LIFETIME = 1800;
     private const SESSION_IDLE_TIMEOUT = 3600;
+    private const SESSION_ROTATION_INTERVAL = 1800;
     private const COOKIE_EXPIRY_SECONDS = 42000;
 
-    public function startOrExtend(): array
+    public function startOrExtend(?string $externalNonce = null): array
     {
         $result = [
             'started'          => false,
@@ -42,7 +43,18 @@ final class SessionInitializer
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
         }
 
-        $_SESSION['csp_nonce'] = bin2hex(random_bytes(32));
+        // Dışarıdan nonce gelirse onu kullan, yoksa üret
+        $_SESSION['csp_nonce'] = $externalNonce ?? bin2hex(random_bytes(32));
+
+        // Session rotation: 30 dakikada bir session ID yenile
+        $lastRotation = $_SESSION['_session_rotated_at'] ?? 0;
+        $now = time();
+        if ($lastRotation === 0) {
+            $_SESSION['_session_rotated_at'] = $now;
+        } elseif (($now - $lastRotation) >= self::SESSION_ROTATION_INTERVAL) {
+            session_regenerate_id(true);
+            $_SESSION['_session_rotated_at'] = $now;
+        }
 
         $now = time();
         $_SESSION['last_activity'] = $now;

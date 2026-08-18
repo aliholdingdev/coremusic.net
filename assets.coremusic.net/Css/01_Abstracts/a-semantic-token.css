@@ -1,0 +1,267 @@
+/**
+ * CoreMusic — Semantik Renk Tokenleri
+ * Primitif tokenlara referans verir. Tüm CSS bu tokenları kullanır.
+ * Primitif tokenları (a-colors-token.css) doğrudan kullanmak YASAK.
+ * ITCSS Layer: 01_Abstracts
+ * Version: 2.0.0 — 2026-05-31
+ */
+
+:root {
+  /* ============================================================
+     BACKGROUND — Arka Plan Sistemi
+     ============================================================ */
+  --bg-base:        var(--color-dark-900);   /* #0d0a14 — sayfa arka planı */
+  --bg-surface:     var(--color-dark-800);   /* #120d1a — kart, panel */
+  --bg-elevated:    var(--color-dark-700);   /* #1a1025 — hover, aktif */
+  --bg-overlay:     var(--color-dark-600);   /* #231535 — modal, dropdown */
+  --bg-subtle:      rgba(255, 255, 255, 0.04);
+  --bg-muted:       rgba(255, 255, 255, 0.07);
+  --bg-player:      var(--color-dark-900);   /* Müzik çalar arka planı */
+  --bg-admin:       var(--color-dark-700);   /* Admin panel arka planı */
+  --bg-terminal:    var(--color-dark-900);   /* Terminal arka planı */
+
+  /* ============================================================
+     TEXT — Metin Sistemi
+     ============================================================ */
+  --text-primary:   var(--color-neutral-0);          /* #FFFFFF */
+  --text-secondary: rgba(255, 255, 255, 0.72);
+  --text-muted:     rgba(255, 255, 255, 0.48);
+  --text-faint:     rgba(255, 255, 255, 0.28);
+  --text-disabled:  rgba(255, 255, 255, 0.20);
+  --text-accent:    var(--theme-primary);
+  --text-on-brand:  var(--color-neutral-0);
+  --text-error:     var(--color-red-500);
+  --text-success:   var(--color-green-500);
+  --text-warning:   var(--color-yellow-500);
+  --text-info:      var(--color-info-500);
+  --text-terminal:  var(--color-green-500);          /* Terminal yeşili */
+
+  /* ============================================================
+     BORDER — Kenarlık Sistemi
+     ============================================================ */
+  --border-default:  rgba(255, 255, 255, 0.10);
+  --border-subtle:   rgba(255, 255, 255, 0.06);
+  --border-strong:   rgba(255, 255, 255, 0.20);
+  --border-brand:    var(--theme-primary);
+  --border-focus:    var(--theme-primary);
+  --border-error:    var(--color-red-600);
+  --border-success:  var(--color-green-500);
+  --border-glass:    rgba(255, 255, 255, 0.12);
+  --border-admin:    var(--color-magenta-600);       /* Admin input border */
+
+  /* ============================================================
+     INTERACTIVE — İnteraktif Elementler
+     ============================================================ */
+  --interactive-primary:         var(--theme-primary);
+  --interactive-primary-hover:   var(--theme-secondary);
+  --interactive-primary-active:  var(--theme-accent);
+  --interactive-secondary:       rgba(255, 255, 255, 0.07);
+  --interactive-secondary-hover: rgba(255, 255, 255, 0.12);
+  --interactive-secondary-active:rgba(255, 255, 255, 0.16);
+  --interactive-danger:          var(--color-red-600);
+  --interactive-danger-hover:    var(--color-red-700);
+
+  /* ============================================================
+     STATUS — Durum Renkleri
+     ============================================================ */
+  --status-success:     var(--color-green-500);
+  --status-success-bg:  rgba(81, 207, 102, 0.12);
+  --status-success-border: rgba(81, 207, 102, 0.30);
+  --status-warning:     var(--color-yellow-500);
+  --status-warning-bg:  rgba(252, 196, 25, 0.12);
+  --status-warning-border: rgba(252, 196, 25, 0.30);
+  --status-error:       var(--color-red-500);
+  --status-error-bg:    rgba(255, 107, 107, 0.12);
+  --status-error-border:rgba(255, 107, 107, 0.30);
+  --status-info:        var(--color-info-500);
+  --status-info-bg:     rgba(51, 154, 240, 0.12);
+  --status-info-border: rgba(51, 154, 240, 0.30);
+
+  /* ============================================================
+     PLAYER — Müzik Çalar
+     ============================================================ */
+  --player-bg:            var(--color-dark-900);
+  --player-progress:      var(--theme-gradient);
+  --player-progress-bg:   rgba(255, 255, 255, 0.15);
+  --player-waveform:      var(--theme-primary);
+  --player-waveform-bg:   rgba(255, 255, 255, 0.10);
+  --player-time:          rgba(255, 255, 255, 0.48);
+  --player-control:       var(--color-neutral-0);
+  --player-control-muted: rgba(255, 255, 255, 0.48);
+  --player-border:        rgba(255, 255, 255, 0.08);
+  --player-seek-slider-color1: var(--theme-primary);       /* Seekbar gradient start */
+  --player-seek-slider-color:  var(--theme-secondary);     /* Seekbar gradient mid */
+  --player-seek-slider-color2: var(--theme-accent);        /* Seekbar gradient end */
+  --player-seek-slider-color-thumb: var(--theme-highlight); /* Thumb gradient */
+
+  /* ============================================================
+     FOOTER COMPONENTS — Volume & Seek Slider
+     ============================================================ */
+  --footer-volume-width:         180px;
+  --footer-volume-height:        10px;
+  --footer-volume-margin-right:  55px;
+  --footer-volume-label-right:   25px;
+  --footer-seek-height:          15px;
+  --footer-seek-margin-top:      -5px;
+  --footer-slider-thumb:         10px;
+
+  /* ============================================================
+     HEADER — Navigasyon Çubuğu
+     ============================================================ */
+  --header-height:               70px;
+  --header-height-tablet:        60px;
+  --header-padding-top:          20px;
+  --header-inner-gap:            8px;
+  --header-logo-padding-x:       24px;
+  --header-logo-margin-left:     10px;
+  --header-logo-margin-right:    16px;
+  --header-logo-font-size:       25px;
+  --header-outline-offset:       4px;
+
+  /* ============================================================
+     FOOTER LAYOUT — Player Footer
+     ============================================================ */
+  --footer-album-size:           120px;
+  --footer-meta-gap:             15px;
+  --footer-meta-stack-gap:       5px;
+  --footer-meta-stack-margin-top: 17px;
+  --footer-text-font-size:       10px;
+  --footer-text-gap:             4px;
+
+  /* ============================================================
+     BREAKPOINTS — Responsive Kırılma Noktaları
+     ============================================================ */
+  --bp-sm:   640px;
+  --bp-md:   960px;
+  --bp-lg:   1280px;
+  --bp-xl:   1600px;
+  --bp-2xl:  1920px;
+  --bp-tablet: 1024px;
+  --bp-mobile: 768px;
+
+  /* ============================================================
+     OVERLAY & GLASS — Cam Efekti
+     ============================================================ */
+  --overlay-dark:   rgba(0, 0, 0, 0.70);
+  --overlay-medium: rgba(0, 0, 0, 0.50);
+  --overlay-light:  rgba(0, 0, 0, 0.30);
+  --overlay-photo:  rgba(13, 10, 20, 0.35);   /* Fotoğraf üzeri overlay */
+
+  /* Glass seviyeleri */
+  --glass-1-bg:     rgba(255, 255, 255, 0.04);
+  --glass-1-border: rgba(255, 255, 255, 0.06);
+  --glass-2-bg:     rgba(255, 255, 255, 0.07);
+  --glass-2-border: rgba(255, 255, 255, 0.10);
+  --glass-3-bg:     rgba(255, 255, 255, 0.12);
+  --glass-3-border: rgba(255, 255, 255, 0.16);
+  --glass-4-bg:     rgba(255, 255, 255, 0.18);
+  --glass-4-border: rgba(255, 255, 255, 0.25);
+  --glass-5-bg:     rgba(255, 255, 255, 0.22);
+  --glass-5-border: rgba(255, 255, 255, 0.38);
+
+  /* Kısayol glass tokenlar */
+  --glass-bg:       var(--glass-2-bg);
+  --glass-border:   var(--glass-2-border);
+
+  /* ============================================================
+     GRADIENT — Gradyan Sistemi
+     ============================================================ */
+  --gradient-brand:   linear-gradient(135deg, var(--color-violet-600), var(--color-grape-500));
+  --gradient-full:    linear-gradient(135deg, var(--color-violet-600), var(--color-grape-500), var(--color-pink-500));
+  --gradient-hero:    linear-gradient(180deg, var(--color-dark-900) 0%, var(--color-dark-800) 100%);
+  --gradient-card:    linear-gradient(135deg, var(--color-dark-700), var(--color-dark-800));
+  --gradient-overlay: linear-gradient(180deg, transparent 0%, var(--color-dark-900) 100%);
+  --gradient-overlay-h: linear-gradient(to right, var(--color-dark-900) 30%, transparent 100%);
+
+  /* ============================================================
+     THEME DEFAULTS — Nötr tema varsayılanları
+     (data-gender attribute ile override edilir)
+     ============================================================ */
+  --theme-primary:    var(--color-lav-300);    /* #B8A9C9 */
+  --theme-secondary:  var(--color-lav-400);    /* #9B8BB4 */
+  --theme-accent:     var(--color-lav-500);    /* #8B6BAE */
+  --theme-highlight:  var(--color-violet-600); /* #7950F2 */
+  --theme-glow:       rgba(184, 169, 201, 0.45);
+  --theme-glow-soft:  rgba(184, 169, 201, 0.20);
+  --theme-glass:      rgba(184, 169, 201, 0.12);
+  --theme-glass-border: rgba(184, 169, 201, 0.25);
+  --theme-gradient:   linear-gradient(135deg, var(--color-lav-300), var(--color-lav-400), var(--color-lav-500));
+  --theme-gradient-btn: linear-gradient(135deg, var(--color-violet-600), var(--color-grape-500), var(--color-pink-500));
+  --theme-bg-base:    var(--color-dark-900);
+  --theme-bg-surface: var(--color-dark-700);
+  --theme-bg-elevated:var(--color-dark-500);
+  --theme-bg-hero:    radial-gradient(ellipse at 50% 40%, rgba(184,169,201,0.18) 0%, transparent 55%);
+  --theme-shadow:     0 0 20px rgba(184, 169, 201, 0.45);
+  --theme-shadow-lg:  0 0 40px rgba(184, 169, 201, 0.45), 0 0 80px rgba(184, 169, 201, 0.20);
+}
+
+/* ============================================================
+   FEMALE THEME — Kadın Teması
+   ============================================================ */
+.theme-female,
+[data-gender="female"] {
+  --theme-primary:    var(--color-rose-400);    /* #e8b4b8 */
+  --theme-secondary:  var(--color-rose-500);    /* #d496a0 */
+  --theme-accent:     var(--color-lav-300);     /* #b8a9c9 */
+  --theme-highlight:  var(--color-magenta-400); /* #F2A0B5 */
+  --theme-glow:       rgba(232, 180, 184, 0.45);
+  --theme-glow-soft:  rgba(232, 180, 184, 0.20);
+  --theme-glass:      rgba(232, 180, 184, 0.12);
+  --theme-glass-border: rgba(248, 180, 200, 0.25);
+  --theme-gradient:   linear-gradient(135deg, #e8b4b8 0%, #d496a0 40%, #b8a9c9 100%);
+  --theme-gradient-btn: linear-gradient(135deg, #F8B4C8 0%, #C4B5D4 100%);
+  --theme-bg-base:    var(--color-dark-900);
+  --theme-bg-surface: var(--color-dark-700);
+  --theme-bg-elevated:var(--color-dark-500);
+  --theme-bg-hero:    radial-gradient(ellipse at 30% 40%, rgba(232,180,184,0.18) 0%, transparent 55%),
+                      radial-gradient(ellipse at 70% 60%, rgba(139,107,174,0.15) 0%, transparent 50%);
+  --theme-shadow:     0 0 20px rgba(232, 180, 184, 0.45);
+  --theme-shadow-lg:  0 0 40px rgba(232, 180, 184, 0.45), 0 0 80px rgba(232, 180, 184, 0.20);
+}
+
+/* ============================================================
+   MALE THEME — Erkek Teması
+   ============================================================ */
+.theme-male,
+[data-gender="male"] {
+  --theme-primary:    var(--color-blue-400);    /* #5b8fb9 */
+  --theme-secondary:  var(--color-blue-300);    /* #89c4d9 */
+  --theme-accent:     var(--color-blue-200);    /* #a8d8ea */
+  --theme-highlight:  var(--color-blue-400);    /* #A0C4E2 */
+  --theme-glow:       rgba(91, 143, 185, 0.45);
+  --theme-glow-soft:  rgba(91, 143, 185, 0.20);
+  --theme-glass:      rgba(91, 143, 185, 0.12);
+  --theme-glass-border: rgba(100, 150, 210, 0.25);
+  --theme-gradient:   linear-gradient(135deg, #5b8fb9 0%, #89c4d9 50%, #a8d8ea 100%);
+  --theme-gradient-btn: linear-gradient(135deg, #5B7FA5 0%, #7BA8D4 40%, #8B7EC4 100%);
+  --theme-bg-base:    var(--color-navy-900);
+  --theme-bg-surface: var(--color-navy-800);
+  --theme-bg-elevated:var(--color-navy-700);
+  --theme-bg-hero:    radial-gradient(ellipse at 30% 40%, rgba(91,143,185,0.18) 0%, transparent 55%),
+                      radial-gradient(ellipse at 70% 60%, rgba(168,216,234,0.12) 0%, transparent 50%);
+  --theme-shadow:     0 0 20px rgba(91, 143, 185, 0.45);
+  --theme-shadow-lg:  0 0 40px rgba(91, 143, 185, 0.45), 0 0 80px rgba(91, 143, 185, 0.20);
+}
+
+/* ============================================================
+   NEUTRAL THEME — Nötr Teması (explicit override)
+   ============================================================ */
+.theme-neutral,
+[data-gender="neutral"] {
+  --theme-primary:    var(--color-lav-300);     /* #B8A9C9 */
+  --theme-secondary:  var(--color-lav-400);     /* #9B8BB4 */
+  --theme-accent:     var(--color-lav-500);     /* #8B6BAE */
+  --theme-highlight:  var(--color-violet-600);  /* #7950F2 */
+  --theme-glow:       rgba(184, 169, 201, 0.45);
+  --theme-glow-soft:  rgba(184, 169, 201, 0.20);
+  --theme-glass:      rgba(184, 169, 201, 0.12);
+  --theme-glass-border: rgba(184, 169, 201, 0.25);
+  --theme-gradient:   linear-gradient(135deg, #b8a9c9 0%, #9b8bb4 50%, #8b6bae 100%);
+  --theme-gradient-btn: linear-gradient(135deg, #7950F2 0%, #CC5DE8 50%, #F06595 100%);
+  --theme-bg-base:    var(--color-dark-900);
+  --theme-bg-surface: var(--color-dark-700);
+  --theme-bg-elevated:var(--color-dark-500);
+  --theme-bg-hero:    radial-gradient(ellipse at 50% 40%, rgba(184,169,201,0.18) 0%, transparent 55%);
+  --theme-shadow:     0 0 20px rgba(184, 169, 201, 0.45);
+  --theme-shadow-lg:  0 0 40px rgba(184, 169, 201, 0.45), 0 0 80px rgba(184, 169, 201, 0.20);
+}

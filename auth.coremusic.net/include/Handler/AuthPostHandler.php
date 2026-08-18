@@ -34,34 +34,52 @@ final class AuthPostHandler
 
         $normalizedRequest = $this->normalizeRequest($request);
 
-        return match ($uri) {
-            'login'            => $this->controller->handleLogin($normalizedRequest),
-            'register'         => $this->controller->handleRegister($normalizedRequest),
-            'logout'           => $this->controller->handleLogout($normalizedRequest),
-            'set-gender'       => $this->controller->handleSetGender($normalizedRequest),
-            'forgot-password'  => $this->controller->handleForgotPassword($normalizedRequest),
-            'reset-password'   => $this->controller->handleResetPassword($normalizedRequest),
-            default            => [
-                'httpStatus' => 404,
+        try {
+            return match ($uri) {
+                'login'            => $this->controller->handleLogin($normalizedRequest),
+                'register'         => $this->controller->handleRegister($normalizedRequest),
+                'logout'           => $this->controller->handleLogout($normalizedRequest),
+                'set-gender'       => $this->controller->handleSetGender($normalizedRequest),
+                'forgot-password'  => $this->controller->handleForgotPassword($normalizedRequest),
+                'reset-password'   => $this->controller->handleResetPassword($normalizedRequest),
+                default            => [
+                    'httpStatus' => 404,
+                    'type'       => 'json',
+                    'body'       => ['success' => false, 'error' => ['code' => 'NOT_FOUND', 'message' => 'Route bulunamadı.']],
+                ],
+            };
+        } catch (\Throwable $e) {
+            return [
+                'httpStatus' => 500,
                 'type'       => 'json',
-                'body'       => ['success' => false, 'error' => ['code' => 'NOT_FOUND', 'message' => 'Route bulunamadı.']],
-            ],
-        };
+                'body'       => ['error' => 'internal_error', 'message' => $e->getMessage()],
+            ];
+        }
     }
 
     /**
      * AuthController'ın beklediği request formatına dönüştür.
-     * PageRouter: query -> AuthController: query_params
-     * PageRouter: (yok) -> AuthController: normalizedUri
+     * JSON body'yi php://input'tan parse eder.
      */
     private function normalizeRequest(array $request): array
     {
+        $body = $request['body'] ?? [];
+        if (empty($body)) {
+            $rawInput = file_get_contents('php://input');
+            if ($rawInput !== '' && $rawInput !== false) {
+                $decoded = json_decode($rawInput, true);
+                if (is_array($decoded)) {
+                    $body = $decoded;
+                }
+            }
+        }
+
         return [
             'method'        => $request['method'] ?? 'POST',
             'uri'           => $request['uri'] ?? '',
             'normalizedUri' => '/' . ($request['uri'] ?? ''),
             'headers'       => $request['headers'] ?? [],
-            'body'          => $request['body'] ?? [],
+            'body'          => $body,
             'server'        => $request['server'] ?? $_SERVER,
             'query_params'  => $request['query'] ?? $request['query_params'] ?? $_GET,
         ];

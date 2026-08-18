@@ -263,12 +263,9 @@ Request
 
 declare(strict_types=1);
 
-namespace CoreMusic\Security\Middleware;
+namespace CoreMusic\Middleware;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+use CoreMusic\Interfaces\Middleware\IMiddleware;
 
 /**
  * Session Manager Middleware
@@ -277,20 +274,14 @@ use Psr\Http\Server\RequestHandlerInterface;
  * Cookie: COREMUSIC_SESS (frozen)
  * SameSite: Lax (frozen)
  * Idle timeout: 3600s (frozen)
- * Absolute timeout: 86400s (frozen)
+ * Absolute timeout: 1800s (frozen)
  * Rotation: 1800s (frozen)
+ * Nonce: SecurityHeadersMiddleware'den alınır, session'a kaydedilir
  */
-final class SessionManagerMiddleware implements MiddlewareInterface
+final class SessionManagerMiddleware implements IMiddleware
 {
-    private const SESSION_NAME = 'COREMUSIC_SESS';
-    private const IDLE_TIMEOUT = 3600;      // 1 saat
-    private const ABSOLUTE_TIMEOUT = 86400; // 24 saat
-    private const ROTATION_INTERVAL = 1800; // 30 dakika
-
-    public function process(
-        ServerRequestInterface $request,
-        RequestHandlerInterface $handler
-    ): ResponseInterface {
+    public function handle(array $request, callable $next): array
+    {
         // Session'ı başlat veya devam ettir
         $this->startSession();
 

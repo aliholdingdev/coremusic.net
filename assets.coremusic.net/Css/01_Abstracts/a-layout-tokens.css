@@ -1,0 +1,58 @@
+/**
+ * CoreMusic — Layout Token'ları
+ * Header, footer, sidebar boyutları ve layout sabitleri
+ * ITCSS Layer: 01_Abstracts
+ * Version: 1.0.0 — 2026-08-05
+ *
+ * NOT: Mevcut --header-height ve --footer-height token'ları
+ *      a-semantic-token.css'te tanımlıdır. Bu dosya cihaz bazlı
+ *      varyantları ekler.
+ */
+
+:root {
+  /* ============================================================
+     HEADER HEIGHT
+     ============================================================ */
+  --header-h:              70px;    /* Desktop varsayılan */
+  --header-h-compact:      60px;    /* ≤1024 (embedded/laptop) */
+  --header-h-4k:           80px;    /* 2560+ (4K TV) */
+  --header-h-4k-monitor:   90px;    /* 3840+ (4K Monitor) */
+
+  /* ============================================================
+     FOOTER HEIGHT (Player)
+     ============================================================ */
+  --footer-h:              138px;   /* Desktop varsayılan */
+  --footer-h-compact:      90px;    /* ≤1024 (embedded/laptop) — PNG mockup ölçümü */
+  --footer-h-mobile:       80px;    /* ≤767 (mobil fallback) */
+
+  /* ============================================================
+     SIDEBAR WIDTH
+     ============================================================ */
+  --sidebar-w:             280px;   /* Desktop varsayılan */
+  --sidebar-w-compact:     240px;   /* Laptop */
+  --sidebar-w-collapsed:   64px;    /* collapsed state */
+
+  /* ============================================================
+     CONTENT AREA
+     ============================================================ */
+  --content-max-w:         1440px;  /* Maksimum içerik genişliği */
+  --content-padding:       2rem;    /* Varsayılan padding */
+  --content-padding-compact: 1rem;  /* ≤1024 padding */
+
+  /* ============================================================
+     TOUCH TARGETS (WCAG 2.2 — Minimum 44x44px)
+     ============================================================ */
+  --touch-min:             44px;    /* WCAG minimum */
+  --touch-recommended:     48px;    /* Önerilen */
+  --touch-large:           56px;    /* Büyük butonlar (10ft UI) */
+
+  /* ============================================================
+     Z-INDEX LAYERS
+     ============================================================ */
+  --z-sidebar:             50;
+  --z-header:              100;     /* --z-sticky */
+  --z-footer:              100;
+  --z-dropdown:            200;
+  --z-modal:               300;
+  --z-toast:               400;
+}

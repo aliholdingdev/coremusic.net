@@ -1,0 +1,729 @@
+/**
+ * CoreMusic — Home Page Inline Helpers
+ * ITCSS Layer: 05_Pages
+ * Version: 1.0.0 — 2026-08-18
+ *
+ * Inline utility sınıfları ve mikro component'ler
+ */
+
+/* ============================================================
+   PAGE HEADER (Sayfa başlık alanı)
+   "← Albümler / Tüm Albümler" + arama + sıralama
+   ============================================================ */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3, 12px);
+  gap: var(--space-3, 12px);
+}
+
+.page-header__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  min-width: 0;
+}
+
+.page-header__back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full, 50%);
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  color: var(--color-text, rgba(255,255,255,0.9));
+  font-size: var(--text-lg, 14px);
+  cursor: pointer;
+  transition: background var(--duration-fast, 100ms) ease;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.page-header__back:hover {
+  background: var(--glass-bg-hover, rgba(255,255,255,0.12));
+}
+
+.page-header__back:focus-visible {
+  outline: 2px solid var(--accent, #ff4fd8);
+  outline-offset: 2px;
+}
+
+.page-header__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-lg, 14px);
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.page-header__subtitle {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+}
+
+.page-header__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   SEARCH INPUT (Header'da veya sayfa üstünde)
+   ============================================================ */
+.search-input {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.1));
+  border-radius: var(--radius-pill, 50px);
+  padding: var(--space-1, 4px) var(--space-3, 12px);
+  min-height: 36px;
+}
+
+.search-input__field {
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--color-text, rgba(255,255,255,0.9));
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  width: 150px;
+}
+
+.search-input__field::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+
+/* ============================================================
+   GENRE TABS (C11 —yatay scrollable tab bar)
+   ============================================================ */
+.genre-tabs {
+  display: flex;
+  gap: var(--tab-gap, 4px);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: var(--space-1, 4px) 0;
+  margin-bottom: var(--space-3, 12px);
+}
+
+.genre-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.genre-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-height: var(--tab-h, 32px);
+  padding: 0 var(--tab-padding-x, 12px);
+  background: var(--tab-bg, transparent);
+  color: var(--tab-color, rgba(255,255,255,0.7));
+  border: var(--tab-border, 1px solid rgba(255,255,255,0.2));
+  border-radius: var(--tab-radius, 50px);
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--tab-font-size, 11px);
+  font-weight: var(--font-medium, 500);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--duration-fast, 100ms) ease,
+              color var(--duration-fast, 100ms) ease;
+  min-height: 48px; /* WCAG touch target */
+}
+
+.genre-tab:hover {
+  background: var(--glass-bg-hover, rgba(255,255,255,0.1));
+  color: var(--color-text, rgba(255,255,255,0.9));
+}
+
+.genre-tab--active,
+.genre-tab[aria-selected="true"] {
+  background: var(--tab-active-bg, var(--accent, #ff4fd8));
+  color: var(--tab-active-color, #ffffff);
+  border-color: transparent;
+}
+
+.genre-tab:focus-visible {
+  outline: 2px solid var(--accent, #ff4fd8);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   TRACK ROW (C13 — şarkı listesi satırı)
+   ============================================================ */
+.track-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 100px 80px 100px;
+  gap: var(--space-2, 8px);
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+  align-items: center;
+  min-height: 48px; /* WCAG */
+  border-radius: var(--radius-sm, 4px);
+  cursor: pointer;
+  transition: background var(--duration-fast, 100ms) ease;
+}
+
+.track-row:hover {
+  background: var(--glass-bg-hover, rgba(255,255,255,0.08));
+}
+
+.track-row--active,
+.track-row.is-active {
+  background: var(--accent-bg, rgba(255,79,216,0.15));
+  border-left: 3px solid var(--accent, #ff4fd8);
+}
+
+.track-row__number {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-base, 12px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  text-align: center;
+}
+
+.track-row__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-base, 12px);
+  font-weight: var(--font-medium, 500);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track-row__duration {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  text-align: right;
+}
+
+.track-row:focus-visible {
+  outline: 2px solid var(--accent, #ff4fd8);
+  outline-offset: -2px;
+}
+
+/* Tablo başlığı */
+.track-list-header {
+  display: grid;
+  grid-template-columns: 40px 1fr 100px 80px 100px;
+  gap: var(--space-2, 8px);
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  border-bottom: 1px solid var(--glass-border, rgba(255,255,255,0.1));
+  position: sticky;
+  top: 0;
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  z-index: 1;
+}
+
+/* ============================================================
+   STAR RATING (C12)
+   ============================================================ */
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-0, 2px);
+}
+
+.star-rating__star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px; /* WCAG hit area */
+  height: 44px; /* WCAG hit area */
+  cursor: pointer;
+  color: rgba(255,255,255,0.3);
+  transition: color var(--duration-fast, 100ms) ease,
+              transform var(--duration-fast, 100ms) ease;
+}
+
+.star-rating__star--filled,
+.star-rating__star[aria-checked="true"] {
+  color: #FFD700;
+}
+
+.star-rating__star:hover {
+  transform: scale(1.1);
+  color: #FFD700;
+}
+
+.star-rating__star:focus-visible {
+  outline: 2px solid var(--accent, #ff4fd8);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   AUTH SCREEN (Select Gender, Login, Register)
+   72/28 split — Sol manzara + Sağ glass panel
+   ============================================================ */
+.auth-screen {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.auth-screen__hero {
+  flex: 1;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--space-8, 32px);
+}
+
+.auth-screen__hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+  pointer-events: none;
+}
+
+.auth-screen__panel {
+  width: 284px;
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-left: 1px solid var(--glass-border, rgba(255,255,255,0.1));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-5, 20px);
+  overflow-y: auto;
+  gap: var(--space-3, 12px);
+}
+
+/* ============================================================
+   GENDER BUTTONS (C07)
+   ============================================================ */
+.gender-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 8px);
+  width: 100%;
+}
+
+.gender-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  width: 100%;
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-lg, 12px);
+  cursor: pointer;
+  transition: border-color var(--duration-fast, 100ms) ease,
+              background var(--duration-fast, 100ms) ease,
+              box-shadow var(--duration-fast, 100ms) ease;
+  min-height: 60px;
+  text-align: left;
+  font-family: var(--font-body, 'Arima', sans-serif);
+}
+
+.gender-btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.25);
+}
+
+.gender-btn--selected,
+.gender-btn[aria-checked="true"] {
+  background: var(--accent-bg, rgba(255,79,216,0.2));
+  border: 2px solid var(--accent, #ff4fd8);
+  box-shadow: 0 0 20px rgba(255,79,216,0.4);
+}
+
+.gender-btn:focus-visible {
+  outline: 2px solid var(--accent, #ff4fd8);
+  outline-offset: 2px;
+}
+
+.gender-btn__icon {
+  font-size: 30px;
+  flex-shrink: 0;
+}
+
+.gender-btn__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.gender-btn__title {
+  font-size: var(--text-base, 12px);
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, rgba(255,255,255,0.9));
+}
+
+.gender-btn__desc {
+  font-size: var(--text-xs, 10px);
+  font-weight: var(--font-normal, 400);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+}
+
+/* ============================================================
+   SOCIAL LOGIN BUTTONS (C08)
+   ============================================================ */
+.social-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 8px);
+  align-items: center;
+  width: 100%;
+}
+
+.social-btn-row {
+  display: flex;
+  gap: var(--space-2, 8px);
+  justify-content: center;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-lg, 12px);
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  cursor: pointer;
+  transition: background var(--duration-fast, 100ms) ease,
+              box-shadow var(--duration-fast, 100ms) ease,
+              transform var(--duration-fast, 100ms) ease;
+}
+
+.social-btn:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
+}
+
+.social-btn:active {
+  transform: translateY(0);
+}
+
+.social-btn:focus-visible {
+  outline: 3px solid var(--accent, #ff4fd8);
+  outline-offset: 2px;
+}
+
+.social-btn__icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* ============================================================
+   MODAL (C14 — WiFi, BT, Hoş Geldin)
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: var(--z-modal, 300);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease, visibility 200ms;
+}
+
+.modal-overlay--active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  width: 100%;
+  max-width: 380px;
+  max-height: 80vh;
+  padding: var(--space-6, 24px);
+  border-radius: var(--radius-xl, 16px);
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border, rgba(255,255,255,0.1));
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+  overflow-y: auto;
+  transform: scale(0.95) translateY(10px);
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-overlay--active .modal {
+  transform: scale(1) translateY(0);
+}
+
+.modal--lg {
+  max-width: 600px;
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4, 16px);
+}
+
+.modal__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-lg, 14px);
+  font-weight: var(--font-bold, 700);
+  color: var(--color-text, rgba(255,255,255,0.9));
+}
+
+.modal__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--radius-md, 8px);
+  background: rgba(255,255,255,0.08);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.modal__close:hover {
+  background: rgba(255,255,255,0.15);
+  color: var(--color-text, rgba(255,255,255,0.9));
+}
+
+.modal__close:focus-visible {
+  outline: 2px solid var(--accent, #ff4fd8);
+  outline-offset: 2px;
+}
+
+.modal__body {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-base, 12px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  line-height: 1.5;
+}
+
+.modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2, 8px);
+  margin-top: var(--space-6, 24px);
+  padding-top: var(--space-4, 16px);
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ============================================================
+   TOGGLE SWITCH (C15)
+   ============================================================ */
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px; /* WCAG hit area */
+  min-height: 48px;
+}
+
+.toggle__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle__track {
+  position: relative;
+  width: 50px;
+  height: 28px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.2);
+  transition: background 200ms ease;
+  flex-shrink: 0;
+}
+
+.toggle__knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  transition: transform 200ms ease;
+}
+
+.toggle__input:checked + .toggle__track {
+  background: var(--accent, #ff4fd8);
+}
+
+.toggle__input:checked + .toggle__track .toggle__knob {
+  transform: translateX(22px);
+}
+
+.toggle__input:focus-visible + .toggle__track {
+  outline: 2px solid var(--accent, #ff4fd8);
+  outline-offset: 2px;
+}
+
+.toggle__label {
+  margin-left: var(--space-3, 12px);
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-base, 12px);
+  color: var(--color-text, rgba(255,255,255,0.9));
+}
+
+/* ============================================================
+   NETWORK ROW (C16 — WiFi/BT satır)
+   ============================================================ */
+.network-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+  min-height: 48px;
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid transparent;
+  transition: background 150ms ease, border-color 150ms ease;
+  cursor: pointer;
+}
+
+.network-row:hover {
+  background: var(--glass-bg-hover, rgba(255,255,255,0.12));
+  border-color: var(--glass-border, rgba(255,255,255,0.1));
+}
+
+.network-row--connected {
+  background: var(--accent-bg, rgba(255,79,216,0.15));
+  border-color: rgba(255,79,216,0.3);
+}
+
+.network-row__icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.network-row__name {
+  flex: 1;
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-base, 12px);
+  font-weight: var(--font-medium, 500);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.network-row__details {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+}
+
+.network-row:focus-visible {
+  outline: 2px solid var(--accent, #ff4fd8);
+  outline-offset: -2px;
+}
+
+/* Badge'ler */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 0 var(--space-2, 6px);
+  border-radius: var(--radius-sm, 4px);
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: 9px;
+  font-weight: var(--font-medium, 500);
+}
+
+.badge--success {
+  background: rgba(34,197,94,0.15);
+  color: #22c55e;
+}
+
+.badge--warning {
+  background: rgba(234,179,8,0.15);
+  color: #eab308;
+}
+
+.badge--error {
+  background: rgba(239,68,68,0.15);
+  color: #ef4444;
+}
+
+.badge--accent {
+  background: var(--accent-bg, rgba(255,79,216,0.15));
+  color: var(--accent, #ff4fd8);
+}
+
+/* ============================================================
+   FORM INPUT (C06)
+   ============================================================ */
+.form-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 4px);
+  width: 100%;
+}
+
+.form-input__label {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  font-weight: var(--font-medium, 500);
+  color: rgba(255,255,255,0.7);
+}
+
+.form-input__field {
+  width: 100%;
+  min-height: 56px;
+  padding: var(--input-padding-y, 14px) var(--input-padding-x, 12px);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-md, 8px);
+  color: #ffffff;
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-base, 12px);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-input__field::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+.form-input__field:focus {
+  border-color: var(--accent, #ff4fd8);
+  box-shadow: 0 0 0 3px rgba(255,79,216,0.15);
+}
+
+.form-input--error .form-input__field {
+  border-color: var(--error, #ef4444);
+}
+
+.form-input__error {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: var(--error, #ef4444);
+}

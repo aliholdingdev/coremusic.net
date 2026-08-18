@@ -1,13 +1,28 @@
 <?php declare(strict_types=1);
 
 use CoreMusic\PageRouter\SpaRoute;
+use CoreMusic\Config\AuthRouteConfig;
+use CoreMusic\Config\DomainConfig;
 
-$authDomain  = 'https://auth.coremusic.net';
-$homeDomain  = 'https://home.coremusic.net';
+/**
+ * CoreMusic Home — SPA Route Definitions
+ *
+ * Tüm URL'ler DomainConfig'den dinamik üretilir.
+ * Hardcoded domain KULLANILMAZ.
+ */
+
+// Domain config'den URL'leri üret (fallback: fallback domain'ler)
+$domainFile = dirname(__DIR__, 2) . '/shared/config/domain.php';
+$domainConfig = new DomainConfig(file_exists($domainFile) ? $domainFile : null);
+
+$scheme = 'http'; // Local dev — production'da DomainConfig.scheme kullanılır
+$authDomain  = AuthRouteConfig::getAuthUrl($scheme, $domainConfig);
+$homeDomain  = AuthRouteConfig::getHomeUrl($scheme, $domainConfig);
 $clientId    = 'coremusic-web';
 $callbackUrl = $homeDomain . '/auth/callback';
 
 return [
+    // Auth redirects (home'dan auth'a yönlendirme)
     'login' => new SpaRoute(
         page: 'redirect',
         requiresAuth: false,
@@ -44,16 +59,39 @@ return [
         title: 'Şifre Sıfırlama',
         meta: ['redirect_to' => "$authDomain/reset-password?redirect_uri=$homeDomain/login"],
     ),
+
+    // Auth callback (cross-domain session transfer)
     'auth/callback' => new SpaRoute(
         page: 'auth_callback',
         requiresAuth: false,
         title: 'Oturum Doğrulanıyor...',
     ),
+
+    // Ana sayfa (auth required)
     'home' => new SpaRoute(
         page: 'home',
         requiresAuth: true,
         title: 'Ana Sayfa',
         cacheable: true,
         meta: ['ttlType' => 'user'],
+    ),
+
+    // Placeholder rotalar (yakında implemente edilecek)
+    'kesfet' => new SpaRoute(
+        page: 'home',
+        requiresAuth: true,
+        title: 'Keşfet',
+        cacheable: true,
+    ),
+    'albumler' => new SpaRoute(
+        page: 'home',
+        requiresAuth: true,
+        title: 'Albümler',
+        cacheable: true,
+    ),
+    'ayarlar' => new SpaRoute(
+        page: 'home',
+        requiresAuth: true,
+        title: 'Ayarlar',
     ),
 ];

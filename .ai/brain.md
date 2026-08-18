@@ -346,16 +346,17 @@ Bağımlılık: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1→L0 | ❌ L
 1. OriginCheckMiddleware()      — Köken doğrulama (whitelist CORS)
 2. CorsMiddleware()             — CORS header'ları (whitelist only)
 3. RateLimiterMiddleware()      — APCu: 60 req/60s
-4. SecurityHeadersMiddleware()  — CSP strict-dynamic, HSTS, X-Frame
-5. SessionManagerMiddleware()   — Session başlat, CSP nonce üret
+4. SecurityHeadersMiddleware()  — CSP nonce üret, strict-dynamic, HSTS, X-Frame
+5. SessionManagerMiddleware()   — Session başlat, CSP nonce'u session'a kaydet
 6. CsrfMiddleware()             — csrf_token doğrulama (POST/PUT/DELETE)
-7. AuthMiddleware()             — Auth bilgisi inject (JWT + Session)
-8. PermissionMiddleware()       — RBAC yetki kontrolü (regular/premium/studio/car/admin/system)
-9. ValidationMiddleware()       — Request/DTO validasyonu
+7. BypassAuthMiddleware()       — Test bypass (production'da devre dışı)
+8. AuthMiddleware()             — Auth bilgisi inject (session'dan okur)
+9. PermissionMiddleware()       — RBAC yetki kontrolü (regular/premium/studio/car/admin/system)
+10. ValidationMiddleware()      — Request/DTO validasyonu
 → Controller
 ```
 
-CSP nonce üretimi SessionManager içindedir. Sıra değiştirilirse CSP bozulur.
+CSP nonce üretimi SecurityHeaders (#4) içindedir. SessionManager (#5) bu nonce'u session'a kaydeder. Sıra değiştirilirse CSP bozulur.
 
 ---
 
@@ -633,7 +634,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | # | Uyarı |
 |---|-------|
 | 1 | **H001:** PCM5122 ile 8.1 surround YAPILAMAZ. Sadece 2 kanal destekler. PCM3168A veya AK4458 kullanın. |
-| 2 | **Middleware:** Sıra değiştirilmez. CSP nonce SessionManager'da üretilir. |
+| 2 | **Middleware:** Sıra değiştirilmez. CSP nonce SecurityHeaders'da üretilir, SessionManager session'a kaydeder. |
 | 3 | **SELECT * Yasak:** SQL injection riski. Her zaman açık sütun listesi. |
 | 4 | **Düz Metin Secret:** API key, password, JWT secret ASLA kodda veya log'da düz metin. `[REDACTED]` kullanın. |
 | 5 | **Zero-Allocation:** Audio thread'de `malloc()` ses takılmasına veya çökmesine yol açar. |

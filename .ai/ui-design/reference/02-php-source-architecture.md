@@ -135,7 +135,7 @@ class AuthController
 OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
 ```
 
-**⚠️ SIRA DEĞİŞTİRİLEMEZ.** CSP nonce üretimi SessionManager içindedir.
+**⚠️ SIRA DEĞİŞTİRİLEMEZ.** CSP nonce üretimi SecurityHeaders (#4) içindedir. SessionManager (#5) bu nonce'u session'a kaydeder.
 
 ### 5.1 Middleware Detayları
 
@@ -145,7 +145,7 @@ OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → 
 | 2 | **Cors** | CORS header yönetimi | — |
 | 3 | **RateLimiter** | APCu tabanlı, 60 req/60s | 60s |
 | 4 | **SecurityHeaders** | CSP strict-dynamic, X-Frame-Options, HSTS | — |
-| 5 | **SessionManager** | Session başlatır, CSP nonce üretir | 3600s idle |
+| 5 | **SessionManager** | Session başlatır, CSP nonce'u session'a kaydeder | 3600s idle |
 | 6 | **Csrf** | `csrf_token` doğrulama (POST/PUT/DELETE) | — |
 | 7 | **BypassAuth** | Test bypass (`?_bypass=1`), prod'da devre dışı | — |
 | 8 | **Auth** | Auth bilgisi inject, RBAC kontrolü | — |

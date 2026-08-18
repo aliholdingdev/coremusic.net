@@ -60,20 +60,29 @@ assets.coremusic.net/
 │   ├── 07_Vendors/
 │   │   └── v-bootstrap-lib.css      ← Vendors
 │   ├── 08_Devices/
-│   │   ├── d-phone.css              ← Device: phone
-│   │   ├── d-tablet.css             ← Device: tablet
-│   │   ├── d-laptop.css             ← Device: laptop
-│   │   ├── d-desktop.css            ← Device: desktop
-│   │   ├── d-4k-tv.css              ← Device: 4K TV
-│   │   ├── d-4k-monitor.css         ← Device: 4K monitor
-│   │   └── d-embedded.css           ← Device: embedded
+│   │   ├── d-phone.css              ← Device: phone (self-contained)
+│   │   ├── d-tablet.css             ← Device: tablet (self-contained)
+│   │   ├── d-laptop.css             ← Device: laptop (self-contained)
+│   │   ├── d-desktop.css            ← Device: desktop (self-contained)
+│   │   ├── d-4k-tv.css              ← Device: 4K TV (self-contained)
+│   │   ├── d-4k-monitor.css         ← Device: 4K monitor (self-contained)
+│   │   ├── d-embedded.css           ← Device: embedded (self-contained)
+│   │   ├── d-auth-phone.css         ← Auth device: phone (self-contained)
+│   │   ├── d-auth-tablet.css        ← Auth device: tablet (self-contained)
+│   │   ├── d-auth-laptop.css        ← Auth device: laptop (self-contained)
+│   │   ├── d-auth-desktop.css       ← Auth device: desktop (self-contained)
+│   │   ├── d-auth-4k-tv.css         ← Auth device: 4K TV (self-contained)
+│   │   ├── d-auth-4k-monitor.css    ← Auth device: 4K monitor (self-contained)
+│   │   └── d-auth-embedded.css      ← Auth device: embedded (self-contained)
 │   └── 09_ViewModes/
 │       ├── v-home.css               ← View: Home
 │       ├── v-pro.css                ← View: Professional
 │       ├── v-studio.css             ← View: Studio
 │       └── v-car.css                ← View: Car
-└── main.css                         ← Sadece 01-07 import
+└── main.css                         ← KALDIRILDI — kullanılmıyor
 ```
+
+**Not:** `main.css` artık import edilmez. Her device CSS (`d-*.css`, `d-auth-*.css`) **self-contained** — kendi import'unu kendi içinde yapar.
 
 ---
 

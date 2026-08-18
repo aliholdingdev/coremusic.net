@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 return [
     'primary'         => 'coremusic.net',
@@ -12,5 +12,8 @@ return [
         'admin'  => 'admin.coremusic.net',
         'media'  => 'media.coremusic.net',
         'api'    => 'api.coremusic.net',
+    ],
+    'subdomain_ports' => [
+        'home' => 81,
     ],
 ];

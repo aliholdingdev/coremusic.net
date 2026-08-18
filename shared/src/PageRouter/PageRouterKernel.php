@@ -12,6 +12,10 @@ use CoreMusic\Middleware\RateLimiterMiddleware;
 use CoreMusic\Middleware\AuthMiddleware;
 use CoreMusic\Middleware\SecurityHeadersMiddleware;
 use CoreMusic\Middleware\CsrfMiddleware;
+use CoreMusic\Middleware\OriginCheckMiddleware;
+use CoreMusic\Middleware\CorsMiddleware;
+use CoreMusic\Middleware\PermissionMiddleware;
+use CoreMusic\Middleware\ValidationMiddleware;
 use CoreMusic\Middleware\MiddlewarePipeline;
 
 final class PageRouterKernel
@@ -45,6 +49,7 @@ final class PageRouterKernel
         ?StructuredLogger $logger = null,
         ?array $middlewares = null,
         ?array $handlers = null,
+        private readonly ?array $corsConfig = null,
     ) {
         $this->normalizer    = $normalizer ?? new RequestNormalizer();
         $this->shellRenderer = $shellRenderer ?? new HtmlShellRenderer($config, $domainConfig, $headerPath, $footerPath);
@@ -98,7 +103,9 @@ final class PageRouterKernel
                 $this->middlewares,
                 $request,
                 function (array $req) use ($isSpa, $protectedRoutes): array {
-                    $result = $this->router->dispatch($req, '', $isSpa);
+                    // CSRF token'ı session'dan al
+                    $csrfToken = $req['_session']['csrf_token'] ?? $_SESSION['csrf_token'] ?? '';
+                    $result = $this->router->dispatch($req, $csrfToken, $isSpa);
                     if (!$isSpa) {
                         return $this->wrapInHtmlShell($result, $protectedRoutes, $req);
                     }
@@ -109,6 +116,9 @@ final class PageRouterKernel
             $this->emitter->emit($response, $traceId, $isSpa);
 
         } catch (\Throwable $e) {
+            $errorMsg = date('c') . ' [' . $traceId . '] ' . get_class($e) . ': ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine() . "\n" . $e->getTraceAsString() . "\n";
+            @file_put_contents(dirname(__DIR__, 3) . '/coremusic_php_errors.log', $errorMsg, FILE_APPEND | LOCK_EX);
+            @file_put_contents(dirname(__DIR__, 3) . '/coremusic_php_kernel_debug.log', $errorMsg, FILE_APPEND | LOCK_EX);
             error_log('[PageRouterKernel] FATAL traceId=' . $traceId . ' ' . $e->getMessage()
                 . ' in ' . $e->getFile() . ':' . $e->getLine());
 
@@ -234,13 +244,19 @@ final class PageRouterKernel
     private function buildDefaultMiddlewares(): array
     {
         $sessionInit = new SessionInitializer();
+        $isProduction = (APP_ENV_MODE ?? 'development') === 'production';
+        $corsCfg = $this->corsConfig;
         return [
-            new SessionManagerMiddleware($sessionInit),
-            new BypassAuthMiddleware($this->config),
+            new OriginCheckMiddleware($isProduction, $corsCfg),
+            new CorsMiddleware($corsCfg),
             new RateLimiterMiddleware(self::RATE_LIMIT_MAX, self::RATE_LIMIT_WINDOW),
-            new AuthMiddleware(),
             new SecurityHeadersMiddleware($this->domainConfig),
+            new SessionManagerMiddleware($sessionInit),
             new CsrfMiddleware(),
+            new BypassAuthMiddleware($this->config),
+            new AuthMiddleware(),
+            new PermissionMiddleware(),
+            new ValidationMiddleware(),
         ];
     }
 

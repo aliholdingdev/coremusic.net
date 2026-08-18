@@ -34,7 +34,7 @@ Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → Session
 | 2 | Cors | CORS header yönetimi | ADR-020 |
 | 3 | RateLimiter | Hız sınırlama (60 req/60s) | ADR-013 |
 | 4 | SecurityHeaders | CSP, HSTS, X-Frame-Options | ADR-012 |
-| 5 | SessionManager | Session başlat, CSP nonce üret | ADR-011 |
+| 5 | SessionManager | Session başlat, CSP nonce'u session'a kaydet | ADR-011 |
 | 6 | Csrf | CSRF token doğrulama | ADR-010 |
 | 7 | BypassAuth | Test bypass (prod'da devre dışı) | ADR-008 |
 | 8 | Auth | Auth bilgisi inject | ADR-011 |

@@ -1,0 +1,472 @@
+/**
+ * _footer.css — CoreMusic Player Footer
+ * Scope  : footer.php — tüm auth sayfaları
+ * Design : footer-spec-v2.md · footer-player.md · design-tokens.md
+ * Height : 138px (1920+) · 104px (<=1024)
+ * Layer  : ITCSS 03_Layout
+ * Version: 2.0.0 — 2026-06-03
+ *
+ * BEM: .footer → __inner
+ *      → __meta-section: __album-art · __meta-stack · __text
+ *      → __controls-section: __controls · .player-btn
+ *      → __utility-section: __utility-icons · __volume
+ *
+ * Background: login-bg-female.png + blur(16px) glass overlay
+ * Accent    : #ff4fd8 (neon pink)
+ * Font      : Avalon Medium, 10px, letter-spacing 0.135em
+ * Scale     : footer.scale.js (transform:scale, origin:bottom left)
+ */
+
+/* ============================================================
+   FOOTER — Custom Properties (footer-özel)
+   ============================================================ */
+.footer {
+    --fp-accent:       #ff4fd8;
+    --fp-text:         rgba(255, 255, 255, 0.88);
+    --fp-text-meta:    rgba(255, 255, 255, 0.50);
+    --fp-glass:        rgba(255, 255, 255, 0.06);
+    --fp-track:        rgba(255, 255, 255, 0.30);
+    --fp-border:       rgba(255, 255, 255, 0.92);
+    --fp-btn-gap: 10px;
+    --fp-util-size:    22px;
+}
+
+/* ============================================================
+   FOOTER — Ana Container
+   ============================================================ */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    width: 100%;
+    z-index: 100;
+    border-radius: 0pt;
+    overflow: hidden;
+    background-color: rgb(0 0 0 / 20%);
+    backdrop-filter: blur(1px);
+    opacity: 100%;
+    will-change: transform;    /* scale optimizasyonu */
+}
+
+/* Glass + blur overlay */
+.footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+/* ============================================================
+   FOOTER INNER — 3-Zone Flex
+   ============================================================ */
+.footer__inner {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: auto;
+}
+
+/* ============================================================
+   ZON 1 — Sol: Meta (Kapak + Bilgiler) %32
+   ============================================================ */
+.footer__meta-section {
+    display: flex;
+    gap: 15px;
+    height: auto;
+}
+
+/* Albüm Kapağı */
+.footer__album-art {
+    height: 120px;
+    width: 120px;
+    opacity: 100%;
+    border-radius: 0px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* Metin Stack (4 satır) */
+.footer__meta-stack {
+    display: flex;    
+    margin-top: 17px;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    flex: 1;
+}
+
+/* Ortak metin stili */
+.footer__text {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Avalon Medium';
+    font-size: 10px;
+    letter-spacing: 13.5%;
+    color: var(--fp-text);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+    filter: drop-shadow(0px 0.5px 1px rgba(0,0,0,0.80));
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+}
+
+/* Satır 1 — Şarkı Adı (biraz büyük) */
+.footer__song-name {
+    font-size: 13px;
+}.footer__album-name {
+    font-size: 13px;
+}.footer__singer-name {
+    font-size: 13px;
+}.footer__sure {
+    font-size: 13px;
+}
+
+.footer__sure time, .footer__sure span{
+    font-size: 13px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+    filter: drop-shadow(0px 0.5px 1px rgba(0,0,0,0.80));
+}
+
+/* Satır 4 — Süre + Bitrate (küçük) */
+.footer__meta {
+    font-size: 9px;
+    color: rgb(255 255 255);
+    gap: 6px;
+}
+
+/* İkon sembolleri */
+.footer__text .fp-icon {
+    flex-shrink: 0;
+    font-size: 11px;
+    color: var(--fp-accent);
+    opacity: 0.8;
+}
+
+/* Label */
+.footer__text .fp-label {
+    color: var(--fp-text-meta);
+    flex-shrink: 0;
+}
+
+/* Value */
+.footer__text .fp-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ============================================================
+   ZON 2 — Orta: Kontroller %36
+   ============================================================ */
+.footer__controls-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.footer__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--fp-btn-gap);
+}
+
+/* Dairesel Buton */
+.player-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 3px solid var(--fp-border);
+    background: transparent;
+    color: var(--fp-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 220ms ease,
+                color 220ms ease,
+                box-shadow 220ms ease,
+                transform 220ms ease;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.player-btn:hover {
+    border-color: var(--fp-accent);
+    color: var(--fp-accent);
+    box-shadow: 0 0 12px rgba(255, 79, 216, 0.45);
+    transform: scale(1.08);
+}
+
+.player-btn:active {
+    transform: scale(0.94);
+}
+
+.player-btn:focus-visible {
+    outline: 3px solid var(--fp-accent);
+    outline-offset: 3px;
+}
+
+.player-btn svg {
+    display: block;
+    flex-shrink: 0;
+}
+
+/* Play butonu — biraz büyük */
+.player-btn--play {
+    width: 38px;
+    height: 38px;
+    border-width: 3px;
+}
+
+/* ============================================================
+   ZON 3 — Sağ: Utility + Volume %32
+   ============================================================ */
+.footer__utility-section {
+    display: flex;
+    gap: 15px;
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    align-items: center;
+}
+
+/* Utility İkon Grubu */
+.footer__utility-icons {
+    align-items: center;
+    gap: var(--fp-btn-gap);
+    display: flex;
+}
+
+.footer__utility-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: opacity 180ms ease, transform 180ms ease;
+    color: #ffffff;
+    flex-shrink: 0;
+    filter: drop-shadow(0.5px 0.5px 1px rgb(0 0 0 / 100%));
+}
+
+.footer__utility-icon img {
+    display: block;
+    object-fit: contain;
+    filter: drop-shadow(0.5px 0.5px 1px rgb(75 75 75 / 56%));
+}
+
+.footer__utility-icon:hover {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+.footer__utility-icon:focus-visible {
+    outline: 2px solid var(--fp-accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+    opacity: 1;
+}
+
+
+/* Volume Slider */
+.footer__volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 115px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--fp-track);
+    outline: none;
+    cursor: pointer;
+    transition: opacity 150ms ease;
+}
+
+.footer__volume-slider:hover {
+    opacity: 0.9;
+}
+
+/* Chrome/Safari thumb */
+.footer__volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #ffffff;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    transition: background 150ms ease, transform 150ms ease;
+}
+
+.footer__volume-slider::-webkit-slider-thumb:hover {
+    background: var(--fp-accent);
+    transform: scale(1.15);
+}
+
+/* Firefox thumb */
+.footer__volume-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: none;
+    cursor: pointer;
+}
+
+/* Firefox progress fill */
+.footer__volume-slider::-moz-range-progress {
+    background: var(--fp-accent);
+    height: 8px;
+    border-radius: 999px;
+}
+
+/* Volume % Text */
+.footer__volume-value {
+    font-family: 'Avalon Medium', system-ui, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.85);
+    min-width: 36px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+/* ============================================================
+   RESPONSIVE — 1024px Compact (104px)
+   ============================================================ */
+@media (max-width: 1024px) {
+    .footer {
+        height: 90px;
+        --fp-btn-gap: 18px;
+    }
+
+    .footer__text {
+        font-size: 9px;
+        letter-spacing: 0.10em;
+    }
+
+    .footer__song-name {
+        font-size: 11px;
+    }
+
+    /* Touch target: 50–58px (vault spec) */
+    .player-btn {
+        width: 54px;
+        height: 54px;
+        border-width: 2.5px;
+    }
+
+    .player-btn--play {
+        width: 58px;
+        height: 58px;
+    }
+
+    .footer__volume-slider {
+        width: 145px;
+    }
+
+    .footer {
+        --fp-util-size: 13px;
+    }
+
+    .footer__utility-icon,
+    .footer__utility-icon img {
+        width: 13px;
+        height: 13px;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE — 4K / 2K (scale up)
+   ============================================================ */
+@media (min-width: 2560px) {
+    .footer__text {
+        font-size: 13px;
+    }
+
+    .footer__song-name {
+        font-size: 16px;
+    }
+
+    .player-btn {
+        width: 38px;
+        height: 38px;
+    }
+
+    .player-btn--play {
+        width: 46px;
+        height: 46px;
+    }
+
+    .footer__volume-slider {
+        width: 150px;
+    }
+}
+
+@media (min-width: 3840px) {
+    .footer__text {
+        font-size: 15px;
+    }
+}
+
+/* ============================================================
+   MOBILE — Fallback (< 768px)
+   ============================================================ */
+@media (max-width: 767px) {
+    .footer {
+        height: 80px;
+        --fp-btn-gap: 14px;
+    }
+
+    .footer__meta-section {
+        flex: 0 0 auto;
+        padding-right: 6px;
+    }
+
+    .footer__meta-stack {
+        display: none;
+    }
+
+    .footer__controls-section {
+        flex: 1;
+    }
+
+    .footer__utility-section {
+        display: none;
+    }
+}
+
+@keyframes c-footer-marquee-scroll {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
+.c-footer__marquee-wrap {
+    overflow: hidden;
+    white-space: nowrap;
+    position: absolute;
+    width: 100%;
+}
+
+.c-footer__marquee-inner {
+    display: inline-block;
+    animation: c-footer-marquee-scroll 20s linear infinite;
+}
+
+/* WCAG 2.2 §2.3.3 — animasyonu durdur */
+@media (prefers-reduced-motion: reduce) {
+    .c-footer__marquee-inner {
+        animation: none;
+    }
+}

@@ -31,25 +31,44 @@ final class AuthUrlBuilder
         return RouteResult::redirect($target);
     }
 
+    public function redirectHome(string $path = '/home', bool $isSpaRequest = false): array
+    {
+        $target = $this->buildHomeUrl($path);
+        if ($isSpaRequest) {
+            return RouteResult::forbidden($target);
+        }
+        return RouteResult::redirect($target);
+    }
+
+    public function buildHomeUrl(string $path = '/home'): string
+    {
+        $scheme = $this->domainConfig->isHttps() ? 'https' : 'http';
+        $homeHost = $this->domainConfig->getSubdomainHost('home') ?? 'home.coremusic.net';
+        $homePort = $this->domainConfig->getSubdomainPortByName('home');
+        $portSuffix = ($homePort !== 80 && $homePort !== 443) ? ':' . $homePort : '';
+        return $scheme . '://' . $homeHost . $portSuffix . $path;
+    }
+
     private function buildAuthUrl(string $path, ?string $returnPath = null): string
     {
         $scheme      = $this->domainConfig->isHttps() ? 'https' : 'http';
-        $currentHost = $this->domainConfig->getHost() ?? 'home.coremusic.net';
+        $currentHost = $this->domainConfig->getHost();
         $currentPort = $this->domainConfig->getPort();
         $portSuffix  = ($currentPort !== 80 && $currentPort !== 443) ? ':' . $currentPort : '';
         $callbackDomain = $scheme . '://' . $currentHost . $portSuffix;
 
         if ($path === 'logout') {
-            $homeDomain = $scheme . '://' . $currentHost . $portSuffix;
-            $auth = AuthRouteConfig::getAuthUrl($scheme);
-            return $auth . '/logout?' . http_build_query(['redirect' => $homeDomain . '/'], '', '&', PHP_QUERY_RFC3986);
+            $homeDomain = $this->buildHomeUrl('/');
+            $auth = AuthRouteConfig::getAuthUrl($scheme, $this->domainConfig);
+            return $auth . '/logout?' . http_build_query(['redirect' => $homeDomain], '', '&', PHP_QUERY_RFC3986);
         }
 
         return AuthRouteConfig::buildAuthRedirectUrl(
             $path,
             $returnPath ?? '',
-            authDomain: AuthRouteConfig::getAuthUrl($scheme),
+            authDomain: AuthRouteConfig::getAuthUrl($scheme, $this->domainConfig),
             callbackDomain: $callbackDomain,
+            domain: $this->domainConfig,
         );
     }
 

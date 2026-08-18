@@ -1,0 +1,71 @@
+/**
+ * CoreMusic — Laptop Device CSS
+ * 1025-1440px — Standard laptop view
+ * ITCSS Layer: 08_Devices
+ * Version: 1.0.0 — 2026-08-05
+ *
+ * device-loader.js breakpoint: 1025-1440px
+ */
+
+@import '../01_Abstracts/a-theme-config.css';
+@import '../01_Abstracts/a-colors-token.css';
+@import '../01_Abstracts/a-semantic-token.css';
+@import '../01_Abstracts/a-breakpoint-tokens.css';
+@import '../01_Abstracts/a-layout-tokens.css';
+@import '../02_Base/b-base-core.css';
+@import '../03_Layout/_header.css';
+@import '../03_Layout/_footer.css';
+@import '../05_Pages/_home-layout.css';
+@import '../05_Pages/_home-components.css';
+@import '../05_Pages/_home-inline.css';
+
+
+/* ============================================================
+   DEVICE TOKEN OVERRIDES (Laptop)
+   ============================================================ */
+:root {
+  /* Header: standard */
+  --header-h: 70px;
+
+  /* Footer: standard */
+  --footer-h: 138px;
+
+  /* Sidebar: visible */
+  --sidebar-w: 260px;
+
+  /* Content padding */
+  --content-padding: 1.5rem;
+}
+
+/* ============================================================
+   GLOBAL OVERRIDES — Laptop
+   ============================================================ */
+html {
+  font-size: 14px;
+}
+
+/* ============================================================
+   HOME LAYOUT — Sidebar Visible
+   ============================================================ */
+.home-layout {
+  grid-template-columns: var(--sidebar-w) 1fr;
+}
+
+.home-sidebar {
+  display: block;
+}
+
+/* ============================================================
+   HOME COMPONENTS — Laptop Grid
+   ============================================================ */
+.home-quick-links {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.home-folder-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.home-recently {
+  grid-template-columns: repeat(3, 1fr);
+}

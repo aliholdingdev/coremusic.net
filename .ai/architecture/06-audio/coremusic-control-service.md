@@ -65,14 +65,14 @@ Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → Session
 
 | # | Middleware | Görev | Timeout | ADR |
 |---|-----------|-------|---------|-----|
-| 1 | **SessionManager** | Session başlatır, CSP nonce üretir | 3600s idle | ADR-011 |
+| 1 | **SessionManager** | Session başlatır, CSP nonce'u session'a kaydeder | 3600s idle | ADR-011 |
 | 2 | **BypassAuth** | Test bypass (`?_bypass=1`) | — | ADR-008 |
 | 3 | **RateLimiter** | APCu tabanlı, 60 req/60s | 60s | ADR-013 |
 | 4 | **Auth** | Auth bilgisi inject | — | ADR-022 |
 | 5 | **SecurityHeaders** | CSP strict-dynamic | — | ADR-012 |
 | 6 | **Csrf** | `csrf_token` doğrulama | — | ADR-010 |
 
-**Kritik Not:** CSP nonce üretimi SessionManager içindedir. Sıra değiştirilirse CSP bozulur.
+**Kritik Not:** CSP nonce üretimi SecurityHeaders (#4) içindedir. SessionManager (#5) bu nonce'u session'a kaydeder. Sıra değiştirilirse CSP bozulur.
 
 ## 6. API Endpointleri
 
@@ -95,7 +95,7 @@ Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → Session
 
 ```
 Browser → GET /login
-  → SessionManager: Session başlat, CSP nonce üret
+  → SessionManager: Session başlat, CSP nonce'u session'a kaydet
     → CsrfMiddleware: csrf_token üret
       → HTML response (CSRF token + redirect_uri)
         → User: email + password submit
@@ -109,7 +109,7 @@ Browser → GET /login
 
 ```
 Browser → GET /register
-  → SessionManager: Session başlat, CSP nonce üret
+  → SessionManager: Session başlat, CSP nonce'u session'a kaydet
     → CsrfMiddleware: csrf_token üret
       → HTML response (CSRF token)
         → User: email + username + password submit

@@ -89,7 +89,7 @@ HTTP Request
 Controller (Application Layer)
 ```
 
-**Kritik Not:** Sıra DEĞİŞTİRİLEMEZ. CSP nonce üretimi SessionManager (katman 5) içindedir. Sıra değiştirilirse CSP bozulur.
+**Kritik Not:** Sıra DEĞİŞTİRİLEMEZ. CSP nonce üretimi SecurityHeaders (#4) içindedir. SessionManager (#5) bu nonce'u session'a kaydeder. Sıra değiştirilirse CSP bozulur.
 
 ## 3. Tehdit Modeli
 

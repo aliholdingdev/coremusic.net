@@ -447,13 +447,22 @@ class ThemeManager {
 
 ## 9. Device CSS Loading
 
-### 9.1 Device Loader
+### 9.1 Mimari (v2.0.0)
+
+**main.css kaldırıldı.** Her device CSS **self-contained** — kendi import'unu kendi içinde yapar.
+
+```
+ESKİ: main.css + d-{device}.css + v-{viewMode}.css (3 dosya)
+YENİ: d-{device}.css (1 dosya, self-contained)
+```
+
+### 9.2 Device Loader
 
 ```javascript
 /**
- * Device-based CSS loader.
+ * Device-based CSS loader — self-contained architecture.
  *
- * Viewport + DPR + cookie detection
+ * main.css yok, her device CSS kendi import'unu kendi yapar.
  */
 class DeviceLoader {
     static getDevice() {
@@ -470,16 +479,17 @@ class DeviceLoader {
         return 'desktop';
     }
 
-    static loadCSS(device) {
+    static loadCSS(device, isAuth = false) {
+        const prefix = isAuth ? 'd-auth-' : 'd-';
         const link = document.createElement('link');
         link.rel = 'stylesheet';
-        link.href = `/Css/08_Devices/d-${device}.css`;
+        link.href = `/Css/08_Devices/${prefix}${device}.css`;
         document.head.appendChild(link);
     }
 }
 ```
 
-### 9.2 Device CSS Files
+### 9.3 Device CSS Files — Home
 
 | Dosya | Viewport | Kullanım |
 |-------|----------|----------|
@@ -490,6 +500,35 @@ class DeviceLoader {
 | `d-4k-tv.css` | >1920px | 4K TV |
 | `d-4k-monitor.css` | ≤3840px + DPR≥2 | 4K monitör |
 | `d-embedded.css` | ≤1024px (RPi) | Gömülü cihaz |
+
+### 9.4 Device CSS Files — Auth
+
+| Dosya | Viewport | Kullanım |
+|-------|----------|----------|
+| `d-auth-phone.css` | ≤480px | Auth — Telefon |
+| `d-auth-tablet.css` | ≤768px | Auth — Tablet |
+| `d-auth-laptop.css` | ≤1024px | Auth — Laptop |
+| `d-auth-desktop.css` | ≤1920px | Auth — Masaüstü |
+| `d-auth-4k-tv.css` | >1920px | Auth — 4K TV |
+| `d-auth-4k-monitor.css` | ≤3840px + DPR≥2 | Auth — 4K monitör |
+| `d-auth-embedded.css` | ≤1024px (RPi) | Auth — Gömülü cihaz |
+
+### 9.5 Yükleme Sırası
+
+```
+Request → HtmlShellRenderer
+  │
+  ├── Auth route?
+  │   ├── EVET:
+  │   │   1. d-auth-{device}.css (self-contained)
+  │   │   2. auth-bundled.css
+  │   │
+  │   └── HAYIR:
+  │       1. d-{device}.css (self-contained)
+  │       2. v-{viewMode}.css
+  │
+  └── main.css YOK
+```
 
 ## 10. WCAG 2.2 AA Compliance
 

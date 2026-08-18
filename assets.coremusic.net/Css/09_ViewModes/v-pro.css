@@ -1,0 +1,102 @@
+/**
+ * CoreMusic — Pro View Mode
+ * Profesyonel görünüm — production odaklı
+ * ITCSS Layer: 09_ViewModes
+ * Version: 1.0.0 — 2026-08-05
+ *
+ * Kullanım: Production/DAW benzeri görünüm
+ * Cookie: view-mode=pro
+ */
+
+/* ============================================================
+   PRO VIEW — Token Overrides
+   ============================================================ */
+:root {
+  --view-bg: #0a0a0a;
+  --view-surface: #141414;
+  --view-text: #e0e0e0;
+  --view-accent: #00ff88;
+}
+
+/* ============================================================
+   PRO VIEW — Layout: Compact Sidebar
+   ============================================================ */
+.view-pro .home-layout {
+  grid-template-columns: var(--sidebar-w-collapsed) 1fr;
+}
+
+.view-pro .home-sidebar {
+  background: var(--view-surface);
+  padding: var(--sp-2);
+}
+
+.view-pro .home-sidebar__heading {
+  display: none;
+}
+
+.view-pro .home-sidebar__link {
+  padding: var(--sp-2);
+  font-size: 0.75rem;
+  justify-content: center;
+}
+
+.view-pro .home-sidebar__link span {
+  display: none;
+}
+
+/* ============================================================
+   PRO VIEW — Main Content: Dense Grid
+   ============================================================ */
+.view-pro .home-main {
+  background: var(--view-bg);
+  padding: var(--sp-3);
+}
+
+.view-pro .home-quick-links {
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--sp-2);
+}
+
+.view-pro .home-folder-grid {
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--sp-2);
+}
+
+.view-pro .home-recently {
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--sp-2);
+}
+
+/* ============================================================
+   PRO VIEW — Components: Minimal
+   ============================================================ */
+.view-pro .home-now-playing {
+  background: var(--view-surface);
+  border: 1px solid #333;
+}
+
+.view-pro .home-widget {
+  background: var(--view-surface);
+  border: 1px solid #333;
+}
+
+/* ============================================================
+   DATA ATTRIBUTE SELECTOR
+   ============================================================ */
+[data-view="pro"] .home-layout {
+  grid-template-columns: var(--sidebar-w-collapsed) 1fr;
+}
+
+[data-view="pro"] .home-sidebar {
+  background: var(--view-surface);
+  padding: var(--sp-2);
+}
+
+[data-view="pro"] .home-main {
+  background: var(--view-bg);
+}
+
+[data-view="pro"] .home-quick-links {
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--sp-2);
+}

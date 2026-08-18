@@ -122,7 +122,7 @@ class MiddlewarePipeline
 | 2 | Cors | ADR-020 | CORS header yönetimi |
 | 3 | RateLimiter | ADR-013 | APCu tabanlı hız sınırlama |
 | 4 | SecurityHeaders | ADR-012 | CSP, X-Frame-Options, HSTS |
-| 5 | SessionManager | ADR-011 | Session başlat, CSP nonce üret |
+| 5 | SessionManager | ADR-011 | Session başlat, CSP nonce'u session'a kaydet |
 | 6 | Csrf | ADR-010 | csrf_token doğrulama |
 | 7 | BypassAuth | ADR-008 | Test ortamında auth bypass |
 | 8 | Auth | ADR-011 | Kullanıcı bilgisi inject |

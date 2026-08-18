@@ -13,6 +13,11 @@ final class SecurityHeadersMiddleware implements IMiddleware
 
     public function handle(array $request, callable $next): array
     {
+        // Nonce üret — SessionManager'dan önce çalışır, nonce'u request'e yaz
+        if (empty($request['_csp_nonce'])) {
+            $request['_csp_nonce'] = bin2hex(random_bytes(32));
+        }
+
         $response = $next($request);
 
         $csp     = $this->buildCsp($request);

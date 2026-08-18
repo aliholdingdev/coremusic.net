@@ -683,7 +683,7 @@ Katman 10: Logging & Monitoring (L0 — Audit Trail)
 | Sorun | Belirti | Kök Neden | Çözüm |
 |-------|---------|-----------|-------|
 | CSRF hatası | 403 Forbidden | Token süresi dolmuş veya SameSite | Token rotation + cookie flags |
-| CSP hatası | Script engellendi | Nonce yanlış veya eksik | SessionManager nonce üretimi |
+| CSP hatası | Script engellendi | Nonce yanlış veya eksik | SecurityHeaders nonce üretimi |
 | Rate limit hatası | 429 Too Many Requests | APCu memory dolu | APCu config artırma |
 | Session timeout | Otomatik logout | Idle timeout 3600s | Session rotation mekanizması |
 | Auth bypass | Yetkisiz erişim | BypassAuth production'da aktif | BypassAuth devre dışı bırakma |

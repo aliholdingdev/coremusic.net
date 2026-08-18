@@ -1,0 +1,71 @@
+/**
+ * CoreMusic — Helpers & Utilities
+ * ITCSS Layer: 06_Utilities
+ */
+
+/* Display */
+.d-none    { display: none !important; }
+.d-block   { display: block !important; }
+.d-flex    { display: flex !important; }
+.d-grid    { display: grid !important; }
+
+/* Visibility */
+.invisible { visibility: hidden; }
+.visible   { visibility: visible; }
+
+/* Text alignment */
+.text-left   { text-align: left; }
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+
+/* Text colors */
+.text-primary   { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted     { color: var(--text-muted); }
+.text-accent    { color: var(--theme-primary); }
+
+/* Font weights */
+.fw-light    { font-weight: var(--fw-light); }
+.fw-regular  { font-weight: var(--fw-regular); }
+.fw-medium   { font-weight: var(--fw-medium); }
+.fw-semibold { font-weight: var(--fw-semibold); }
+.fw-bold     { font-weight: var(--fw-bold); }
+
+/* Spacing helpers */
+.mt-auto { margin-top: auto; }
+.mb-auto { margin-bottom: auto; }
+.mx-auto { margin-inline: auto; }
+
+/* Width */
+.w-full  { width: 100%; }
+.h-full  { height: 100%; }
+.min-h-screen { min-height: 100vh; }
+
+/* Pointer */
+.pointer { cursor: pointer; }
+.no-select { user-select: none; }
+
+/* Overflow */
+.overflow-hidden { overflow: hidden; }
+
+/* Opacity */
+.opacity-0   { opacity: 0; }
+.opacity-50  { opacity: 0.5; }
+.opacity-100 { opacity: 1; }
+
+/* Transitions */
+.transition { transition: all var(--dur-normal) var(--ease-soft); }
+.transition-fast { transition: all var(--dur-fast) var(--ease-soft); }
+
+/* SR only (accessibility) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

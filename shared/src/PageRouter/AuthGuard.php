@@ -67,15 +67,12 @@ final class AuthGuard
         ) {
             return null;
         }
-        if ($isSpaRequest) {
-            return RouteResult::forbidden('/home');
-        }
-        return RouteResult::redirect('/home');
+        return $this->urlBuilder->redirectHome('/home', $isSpaRequest);
     }
 
     private function checkLogout(string $uri, bool $isSpaRequest): ?array
     {
-        if ($uri !== 'logout' || !$this->authHelper->checkAuthenticated()) {
+        if ($this->skipAuthRedirect || $uri !== 'logout' || !$this->authHelper->checkAuthenticated()) {
             return null;
         }
         return $this->urlBuilder->redirectAuth('logout', null, $isSpaRequest);

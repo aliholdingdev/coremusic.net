@@ -507,7 +507,7 @@ class Pipeline
 | 2 | BypassAuth | Test ortamında erişim kolaylığı |
 | 3 | RateLimiter | Auth'dan önce brute-force koruması |
 | 4 | Auth | Kullanıcı bilgisi header'lardan sonra hazır |
-| 5 | SecurityHeaders | CSP nonce SessionManager'dan gelir |
+| 5 | SecurityHeaders | CSP nonce SecurityHeaders'da üretilir, SessionManager session'a kaydeder |
 | 6 | Csrf | Son adım — tüm middleware'lerden sonra |
 
 ## 6. Hard Guardrails

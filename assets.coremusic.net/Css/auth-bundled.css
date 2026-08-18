@@ -1,0 +1,89 @@
+/**
+ * CoreMusic Auth Pages Bundled CSS
+ * Ultra Premium Glassmorphism — Gender-based Dreamy Atmosphere
+ * Viewport: min 1024px → max 3840px (4K)
+ *
+ * Import order: Tokens → Pages (fonts loaded via a-fonts-token.css)
+ * Device-specific overrides are loaded separately via DeviceCssMap.
+ */
+
+/* 01_Abstracts — Design Tokens */
+@import url("./01_Abstracts/a-fonts-token.css?v=2.1.1");
+@import url("./01_Abstracts/a-theme-config.css?v=2.1.1");
+@import url("./01_Abstracts/a-light-glass-tokens.css?v=2.1.1");
+@import url("./01_Abstracts/a-login-tokens.css?v=2.1.1");
+
+/* 02_Base — Reset */
+@import url("./02_Base/b-base-core.css?v=2.1.1");
+
+/* 05_Pages — Auth page styles */
+@import url("./05_Pages/p-select-gender.css?v=2.1.1");
+@import url("./05_Pages/p-login-view.css?v=2.1.1");
+
+/* Checkbox styling for register form */
+.lgn-form__field--check {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.lgn-form__input--check {
+  width: 1.125rem;
+  height: 1.125rem;
+  cursor: pointer;
+  accent-color: var(--primary-gradient, #ff4fd8);
+  flex-shrink: 0;
+}
+
+.lgn-form__label--check {
+  font-size: 0.875rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  cursor: pointer;
+  margin: 0;
+  flex: 1;
+  line-height: 1.4;
+}
+
+.lgn-form__label--check a {
+  color: var(--primary-gradient, #ff4fd8);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.lgn-form__label--check a:hover {
+  opacity: 0.8;
+}
+
+/* Auth-page body overrides — toggled by SPA Router.js on <body> */
+body.auth-page {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  background-color: #120d1a !important;
+  overflow: hidden !important;
+}
+
+body.auth-page .site-header,
+body.auth-page .containerdiv,
+body.auth-page #desktop,
+body.auth-page .l-main-wrapper {
+  display: none !important;
+}
+
+/* Auth main — full viewport, no constraints */
+body.auth-page > main#main-content {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* lgn-page must always fill viewport */
+body.auth-page .lgn-page {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}

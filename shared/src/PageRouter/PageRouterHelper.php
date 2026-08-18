@@ -7,7 +7,7 @@ final class PageRouterHelper
     public function checkAuthenticated(): bool
     {
         $userId = $_SESSION['MM_UserID'] ?? $_SESSION['_session_user_id'] ?? null;
-        return $userId !== null && (int)$userId > 0;
+        return $userId !== null && $userId !== '' && is_string($userId);
     }
 
     public function checkRole(string $requiredRole): bool

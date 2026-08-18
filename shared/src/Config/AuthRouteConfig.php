@@ -30,9 +30,18 @@ final class AuthRouteConfig
         return self::AUTH_ROUTES;
     }
 
-    public static function getAuthUrl(string $scheme = 'http'): string
+    public static function getAuthUrl(string $scheme = 'http', ?DomainConfig $domain = null): string
     {
-        return $scheme . '://auth.coremusic.net';
+        $host = $domain?->getSubdomainHost('auth') ?? 'auth.coremusic.net';
+        return $scheme . '://' . $host;
+    }
+
+    public static function getHomeUrl(string $scheme = 'http', ?DomainConfig $domain = null): string
+    {
+        $host = $domain?->getSubdomainHost('home') ?? 'home.coremusic.net';
+        $port = $domain?->getSubdomainPortByName('home') ?? 80;
+        $portSuffix = ($port !== 80 && $port !== 443) ? ':' . $port : '';
+        return $scheme . '://' . $host . $portSuffix;
     }
 
     public static function buildAuthRedirectUrl(
@@ -40,12 +49,15 @@ final class AuthRouteConfig
         string $returnUrl = '',
         string $authDomain = '',
         string $callbackDomain = '',
+        ?DomainConfig $domain = null,
     ): string {
         if ($authDomain === '') {
-            $authDomain = self::getAuthUrl('https');
+            $authDomain = self::getAuthUrl('http', $domain);
         }
-        $baseUrl = $callbackDomain !== '' ? $callbackDomain : 'https://home.coremusic.net';
-        $callbackUrl = $baseUrl . '/auth/callback';
+        if ($callbackDomain === '') {
+            $callbackDomain = self::getHomeUrl('http', $domain);
+        }
+        $callbackUrl = $callbackDomain . '/auth/callback';
         $params = [
             'client_id'     => self::CLIENT_ID,
             'response_type' => 'session',

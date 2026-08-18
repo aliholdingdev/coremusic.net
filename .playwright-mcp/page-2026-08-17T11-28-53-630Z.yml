@@ -1,0 +1,37 @@
+- main [ref=f3e2]:
+  - banner [ref=f3e3]:
+    - link "CoreMusic" [ref=f3e5] [cursor=pointer]:
+      - /url: /home
+    - navigation "Ana menü" [ref=f3e6]:
+      - link "Ana Sayfa" [ref=f3e7] [cursor=pointer]:
+        - /url: /home
+      - link "Keşfet" [ref=f3e8] [cursor=pointer]:
+        - /url: /kesfet
+      - link "Albümler" [ref=f3e9] [cursor=pointer]:
+        - /url: /albumler
+      - link "Ayarlar" [ref=f3e10] [cursor=pointer]:
+        - /url: /ayarlar
+    - generic [ref=f3e11]:
+      - text: pw_user_002
+      - link "Çıkış" [ref=f3e12] [cursor=pointer]:
+        - /url: /logout
+  - main "Ana Sayfa" [ref=f3e13]:
+    - heading "Hoş geldiniz, pw_user_002!" [level=1] [ref=f3e14]
+    - paragraph [ref=f3e15]: CoreMusic'e hoş geldiniz. Müzik keyfinize devam edin.
+    - generic [ref=f3e16]:
+      - paragraph [ref=f3e17]:
+        - strong [ref=f3e18]: "E-posta:"
+        - text: pw_user_002@test.com
+      - paragraph [ref=f3e19]:
+        - strong [ref=f3e20]: "Cinsiyet:"
+        - text: male
+  - contentinfo [ref=f3e21]:
+    - generic [ref=f3e22]:
+      - paragraph [ref=f3e23]: © 2026 CoreMusic. Tüm hakları saklıdır.
+      - navigation "Alt menü" [ref=f3e24]:
+        - link "Gizlilik" [ref=f3e25] [cursor=pointer]:
+          - /url: /privacy
+        - link "Koşullar" [ref=f3e26] [cursor=pointer]:
+          - /url: /terms
+        - link "Yardım" [ref=f3e27] [cursor=pointer]:
+          - /url: /help

@@ -1,0 +1,60 @@
+/**
+ * CoreMusic — Home View Mode
+ * Ev medya merkezi görünümü
+ * ITCSS Layer: 09_ViewModes
+ * Version: 1.0.0 — 2026-08-05
+ *
+ * Kullanım: Varsayılan görünüm, media consumption odaklı
+ * Cookie: view-mode=home
+ */
+
+/* ============================================================
+   HOME VIEW — Token Overrides
+   ============================================================ */
+:root {
+  --view-bg: var(--bg-base);
+  --view-surface: var(--bg-surface);
+  --view-text: var(--text-primary);
+  --view-accent: #ff4fd8; /* Mockup'larla uyumlu — theme-primary ezilmez */
+}
+
+/* ============================================================
+   HOME VIEW — Layout Adjustments
+   ============================================================ */
+.view-home .home-layout {
+  grid-template-columns: var(--sidebar-w) 1fr;
+}
+
+.view-home .home-sidebar {
+  background: var(--view-surface);
+}
+
+.view-home .home-main {
+  background: var(--view-bg);
+}
+
+/* ============================================================
+   HOME VIEW — Component Adjustments
+   ============================================================ */
+.view-home .home-now-playing {
+  background: var(--view-surface);
+}
+
+.view-home .home-widget {
+  background: var(--view-surface);
+}
+
+/* ============================================================
+   DATA ATTRIBUTE SELECTOR
+   ============================================================ */
+[data-view="home"] .home-layout {
+  grid-template-columns: var(--sidebar-w) 1fr;
+}
+
+[data-view="home"] .home-sidebar {
+  background: var(--view-surface);
+}
+
+[data-view="home"] .home-main {
+  background: var(--view-bg);
+}

@@ -1,0 +1,42 @@
+/**
+ * CoreMusic — Breakpoint Token'ları
+ * Cihaz bazlı viewport breakpoint'leri (device-loader.js ile senkronize)
+ * ITCSS Layer: 01_Abstracts
+ * Version: 1.0.0 — 2026-08-05
+ *
+ * NOT: Mevcut --bp-* (sm, md, lg, xl, 2xl, tablet, mobile) ve
+ *      --vp-* (min, hd, 2k, 4k) token'ları korunur.
+ *      Bu dosya SADECE cihaz bazlı breakpoint'leri ekler.
+ *
+ * device-loader.js breakpoint'leri ile birebir aynı değerler:
+ *   phone      ≤767px    (mobil — ayrı uygulama)
+ *   tablet     768-1024  (mobil — ayrı uygulama)
+ *   embedded   ≤1024px   (RPi5 — 1024x600)
+ *   laptop     1025-1440px
+ *   desktop    1441-2560px (varsayılan)
+ *   4k-tv      2561-3840px
+ *   4k-monitor ≥3841px
+ */
+
+:root {
+  /* ============================================================
+     DEVICE BREAKPOINTS (px cinsinden — media query için)
+     device-loader.js ile senkronize
+     ============================================================ */
+  --bp-device-phone:      767px;
+  --bp-device-tablet:     1024px;
+  --bp-device-embedded:   1024px;   /* RPi5: 1024x600 */
+  --bp-device-laptop:     1440px;
+  --bp-device-desktop:    2560px;
+  --bp-device-4k-tv:      3840px;
+  --bp-device-4k-monitor: 3841px;
+
+  /* ============================================================
+     DEVICE BREAKPOINTS (integer — JS hesaplama için)
+     ============================================================ */
+  --bp-embedded:   1024;
+  --bp-laptop:     1440;
+  --bp-desktop:    2560;
+  --bp-4k-tv:      3840;
+  --bp-4k-monitor: 3841;
+}

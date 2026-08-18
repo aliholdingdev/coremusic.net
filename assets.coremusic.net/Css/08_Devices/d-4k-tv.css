@@ -1,0 +1,173 @@
+/**
+ * CoreMusic — 4K TV Device CSS
+ * 2561-3840px — 10ft UI, large touch targets
+ * ITCSS Layer: 08_Devices
+ * Version: 1.0.0 — 2026-08-05
+ *
+ * device-loader.js breakpoint: 2561-3840px
+ * Target: 4K TV or large display (10ft viewing distance)
+ */
+
+@import '../01_Abstracts/a-theme-config.css';
+@import '../01_Abstracts/a-colors-token.css';
+@import '../01_Abstracts/a-semantic-token.css';
+@import '../01_Abstracts/a-breakpoint-tokens.css';
+@import '../01_Abstracts/a-layout-tokens.css';
+@import '../02_Base/b-base-core.css';
+@import '../03_Layout/_header.css';
+@import '../03_Layout/_footer.css';
+@import '../05_Pages/_home-layout.css';
+@import '../05_Pages/_home-components.css';
+@import '../05_Pages/_home-inline.css';
+
+
+/* ============================================================
+   DEVICE TOKEN OVERRIDES (4K TV)
+   ============================================================ */
+:root {
+  /* Header: larger for 10ft */
+  --header-h: 80px;
+
+  /* Footer: larger player */
+  --footer-h: 160px;
+
+  /* Sidebar: wider */
+  --sidebar-w: 340px;
+
+  /* Content padding: generous */
+  --content-padding: 2.5rem;
+
+  /* Touch targets: 10ft UI için çok büyük */
+  --touch-min: 56px;
+  --touch-recommended: 64px;
+  --touch-large: 72px;
+}
+
+/* ============================================================
+   GLOBAL OVERRIDES — 4K TV
+   ============================================================ */
+html {
+  font-size: 18px; /* 10ft UI için büyük font */
+}
+
+/* ============================================================
+   HEADER — 4K TV
+   ============================================================ */
+.site-header {
+  height: 80px;
+  padding: 0 var(--sp-6);
+}
+
+.site-header__logo {
+  height: 40px;
+}
+
+.nav-link {
+  min-height: 56px;
+  min-width: 56px;
+  font-size: 1.125rem;
+}
+
+/* ============================================================
+   FOOTER — 4K TV Player
+   ============================================================ */
+.footer {
+  height: 160px;
+  padding: var(--sp-3) var(--sp-6);
+}
+
+.footer__album-art {
+  width: 96px;
+  height: 96px;
+}
+
+.player-btn {
+  width: 64px;
+  height: 64px;
+}
+
+.footer__song-name {
+  font-size: 1.25rem;
+}
+
+.footer__text {
+  font-size: 1rem;
+}
+
+/* ============================================================
+   HOME COMPONENTS — 4K TV Grid
+   ============================================================ */
+.home-quick-links {
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-4);
+}
+
+.home-quick-link {
+  min-height: 56px;
+  padding: var(--sp-3) var(--sp-4);
+  font-size: 1.125rem;
+}
+
+.home-folder-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-6);
+}
+
+.home-folder {
+  padding: var(--sp-6);
+}
+
+.home-folder__icon {
+  font-size: 3rem;
+}
+
+.home-folder__name {
+  font-size: 1.125rem;
+}
+
+.home-recently {
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-6);
+}
+
+.home-recently__cover {
+  border-radius: var(--r-md);
+}
+
+.home-recently__title {
+  font-size: 1.125rem;
+}
+
+.home-recently__artist {
+  font-size: 1rem;
+}
+
+/* ============================================================
+   SIDEBAR — 4K TV
+   ============================================================ */
+.home-sidebar__link {
+  min-height: 56px;
+  padding: var(--sp-3) var(--sp-4);
+  font-size: 1.125rem;
+}
+
+.c-sidebar-track__cover {
+  width: 56px;
+  height: 56px;
+}
+
+/* ============================================================
+   NOW PLAYING — 4K TV
+   ============================================================ */
+.home-now-playing__cover {
+  width: 96px;
+  height: 96px;
+}
+
+.home-now-playing__title {
+  font-size: 1.25rem;
+}
+
+.home-now-playing__artist {
+  font-size: 1rem;
+}

@@ -8,9 +8,9 @@ status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total: 66
+total: 67
 frozen: 37
-active: 29
+active: 30
 ---
 
 # CoreMusic — Accepted ADR Index
@@ -90,6 +90,7 @@ active: 29
 | 27 | ADR-085 | Shared Library Hybrid | Architecture |
 | 28 | ADR-086 | Event Driven | Architecture |
 | 29 | ADR-087 | Master Plan | Architecture |
+| 30 | ADR-088 | Gender-Based Social OAuth | Security |
 
 ---
 

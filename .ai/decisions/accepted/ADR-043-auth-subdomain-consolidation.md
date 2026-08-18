@@ -93,18 +93,49 @@ Merkezi auth, tüm bu sorunları çözer.
 
 ### 3.3 Session Paylaşımı
 
+Cross-domain session transfer **auth_key + /validate-key cURL POST** ile yapılır. Her subdomain kendi session store'unu tutar, cookie domain `.coremusic.net` üzerinden paylaşılır.
+
 ```
+auth.coremusic.net                    home.coremusic.net
+      │                                      │
+  [1] login() → auth_key (64-char hex)       │
+  [2] return {redirect: ".../?auth_key=X"}   │
+      │                                      │
+  [3] browser → auth.coremusic.net/?auth_key=X
+      │                                      │
+  [4] Root handler: auth_key validate        │
+      │  → SessionManager::setAuthUser()     │
+      │  → header('Location: /home')         │
+      │                                      │
+  VEYA (alternatif flow):                    │
+  [4] browser → home.coremusic.net/auth/callback?auth_key=X
+      │                                      │
+      │  [5] HomeAuthBridge::validateAndCreateSession()
+      │      → cURL POST → auth.coremusic.net/validate-key
+      │      → HomeSessionManager::setAuthUser()
+      │      → session_write_close()
+      │  [6] header('Location: /home')       │
+      │                                      │
+      └──────────────────────────────────────┘
+
 Cookie Domain: .coremusic.net
-├── music.coremusic.net    ← Aynı session
-├── admin.coremusic.net    ← Aynı session
-├── home.coremusic.net     ← Aynı session
-├── car.coremusic.net      ← Aynı session
-├── studio.coremusic.net   ← Aynı session
-├── pro.coremusic.net      ← Aynı session
-├── media.coremusic.net    ← Aynı session
-├── download.coremusic.net ← Aynı session
+├── music.coremusic.net    ← Aynı cookie domain, ayrı session store
+├── admin.coremusic.net    ← Aynı cookie domain, ayrı session store
+├── home.coremusic.net     ← Aynı cookie domain, ayrı session store
+├── car.coremusic.net      ← Aynı cookie domain, ayrı session store
+├── studio.coremusic.net   ← Aynı cookie domain, ayrı session store
+├── pro.coremusic.net      ← Aynı cookie domain, ayrı session store
+├── media.coremusic.net    ← Aynı cookie domain, ayrı session store
+├── download.coremusic.net ← Aynı cookie domain, ayrı session store
 └── auth.coremusic.net     ← Auth merkezi
 ```
+
+### 3.3.1 Auth Root Behavior
+
+`auth.coremusic.net` root URL'inde iki davranış vardır:
+
+1. **`?auth_key=XXX` mevcutsa:** auth_key validate edilir → session oluşturulur → `/home`'e redirect
+2. **`?auth_key` yoksa:** `/select-gender?client_id=coremusic-web&response_type=session&redirect_uri=...` redirect
 
 ### 3.4 İtici Güçler
 
