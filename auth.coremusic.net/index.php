@@ -180,6 +180,37 @@ if ($method !== 'POST' && in_array($pageName, $authPages, true) && empty($_GET['
     exit;
 }
 
+/* ─── Authenticated User Auto-Redirect: Auth domain'de zaten giriş yapmış kullanıcı
+     /login veya /register'e redirect_uri ile geldiğinde auth_key oluşturup callback'e yönlendir.
+     Bu, home.coremusic.net'teki redirect loop'u önler. ─── */
+if ($method !== 'POST' && in_array($pageName, ['login', 'register'], true) && !empty($_GET['redirect_uri'])) {
+    cm_session_start();
+    $autoAuthHelper = new \CoreMusic\PageRouter\PageRouterHelper();
+    if ($autoAuthHelper->checkAuthenticated()) {
+        $autoUserId = $_SESSION['MM_UserID'] ?? null;
+        if ($autoUserId !== null && is_string($autoUserId) && $autoUserId !== '') {
+            $autoContainer  = AuthContainer::getInstance($config, $domainConfig);
+            $autoRepo       = $autoContainer->get(\CoreMusic\Interfaces\Auth\IUserRepository::class);
+            $autoClientIp   = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+            $autoAuthKey    = bin2hex(random_bytes(32));
+            $autoExpiresAt  = date('Y-m-d H:i:s', time() + 300);
+            $autoRepo->saveAuthKey($autoUserId, $autoAuthKey, $autoExpiresAt, $autoClientIp);
+
+            $autoRedirectUri = $_GET['redirect_uri'];
+            $autoSeparator   = str_contains($autoRedirectUri, '?') ? '&' : '?';
+            $autoCallbackUrl = $autoRedirectUri . $autoSeparator . 'auth_key=' . urlencode($autoAuthKey);
+
+            $logger->debug('Authenticated user auto-redirect', [
+                'user_id'      => $autoUserId,
+                'redirect_uri' => $autoRedirectUri,
+            ]);
+
+            header('Location: ' . $autoCallbackUrl, true, 302);
+            exit;
+        }
+    }
+}
+
 /* ─── AuthContainer + Handler ─── */
 $container  = AuthContainer::getInstance($config, $domainConfig);
 $controller = $container->get(AuthController::class);
