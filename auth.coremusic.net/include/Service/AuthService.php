@@ -121,8 +121,10 @@ final class AuthService implements IAuthService
         $email      = trim($data['email'] ?? '');
         $password   = $data['password'] ?? '';
         $agreeTerms = !empty($data['agree_terms']);
-        $gender     = match ($data['gender'] ?? 'neutral') {
-            'male', 'female' => $data['gender'],
+        // Kayıt formu gender göndermiyorsa (register sayfasında gender seçimi yok),
+        // session'daki ziyaretçi cinsiyetini kullan (select-gender sayfasından gelir)
+        $gender = match ($data['gender'] ?? $visitorGender) {
+            'male', 'female' => $data['gender'] ?? $visitorGender,
             default          => 'neutral',
         };
 
