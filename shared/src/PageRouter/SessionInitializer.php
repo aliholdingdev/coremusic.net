@@ -101,7 +101,7 @@ final class SessionInitializer
     {
         $createdAt = $_SESSION['_session_created_at'] ?? $_SESSION['created_at'] ?? null;
         if ($createdAt === null) {
-            return true;
+            return false;
         }
         return (time() - (int)$createdAt) >= self::SESSION_MAX_LIFETIME;
     }

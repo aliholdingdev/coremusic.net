@@ -141,6 +141,7 @@ final class HomeAuthBridge
             CURLOPT_POST           => true,
             CURLOPT_POSTFIELDS     => $payload,
             CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_TIMEOUT        => self::VALIDATE_TIMEOUT,
             CURLOPT_CONNECTTIMEOUT => self::VALIDATE_TIMEOUT,
             CURLOPT_HTTPHEADER     => [

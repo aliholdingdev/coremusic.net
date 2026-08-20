@@ -27,6 +27,9 @@ if ($authKeyRaw === '') {
 if (session_status() === PHP_SESSION_NONE) {
     session_name(defined('SESSION_NAME') ? SESSION_NAME : 'COREMUSIC_SESS');
     $savePath = ini_get('session.save_path') ?: 'C:\temp';
+    if (!is_dir($savePath)) {
+        @mkdir($savePath, 0777, true);
+    }
     session_save_path($savePath);
     $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
     session_set_cookie_params([
