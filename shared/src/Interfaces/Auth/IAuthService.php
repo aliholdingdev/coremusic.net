@@ -5,7 +5,7 @@ namespace CoreMusic\Interfaces\Auth;
 interface IAuthService
 {
     public function login(string $identity, string $password, string $visitorGender = 'neutral', string $clientIp = '127.0.0.1'): array;
-    public function register(array $data, string $clientIp = '127.0.0.1'): array;
+    public function register(array $data, string $clientIp = '127.0.0.1', string $visitorGender = 'neutral'): array;
     public function logout(): void;
     public function isAuthenticated(): bool;
     public function getCurrentUser(): ?array;

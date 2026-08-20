@@ -73,6 +73,12 @@ final class AuthService implements IAuthService
             throw AuthenticationException::banned();
         }
 
+        // Cinsiyet tabanlı erişim kontrolü
+        $allowedGender = strtolower($visitorGender);
+        if ($allowedGender !== 'neutral' && isset($user['gender']) && $user['gender'] !== $allowedGender) {
+            throw AuthenticationException::genderMismatch($allowedGender);
+        }
+
         $this->rateLimiter->reset($failedKey);
         $this->userRepository->updateLastLogin($user['id']);
 
@@ -104,7 +110,7 @@ final class AuthService implements IAuthService
         ];
     }
 
-    public function register(array $data, string $clientIp = '127.0.0.1'): array
+    public function register(array $data, string $clientIp = '127.0.0.1', string $visitorGender = 'neutral'): array
     {
         $rateKey = self::REGISTER_RATE_KEY_PREFIX . $clientIp;
         if ($this->rateLimiter->isLimited($rateKey, self::MAX_REGISTER_ATTEMPTS, self::REGISTER_WINDOW_SECONDS)) {
@@ -146,6 +152,13 @@ final class AuthService implements IAuthService
         if (!empty($errors)) {
             $this->rateLimiter->increment($rateKey, self::REGISTER_WINDOW_SECONDS);
             throw ValidationException::multiple($errors);
+        }
+
+        // Cinsiyet tabanlı erişim kontrolü — kayıt için de ziyaretçi cinsiyetiyle eşleşme kontrolü
+        $allowedGender = strtolower($visitorGender);
+        if ($allowedGender !== 'neutral' && $gender !== $allowedGender) {
+            $this->rateLimiter->increment($rateKey, self::REGISTER_WINDOW_SECONDS);
+            throw AuthenticationException::genderMismatch($allowedGender);
         }
 
         $this->rateLimiter->reset($rateKey);

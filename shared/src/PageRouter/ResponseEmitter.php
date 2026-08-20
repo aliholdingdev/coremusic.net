@@ -45,6 +45,9 @@ final class ResponseEmitter
         }
         $this->emitTraceAndExtras($traceId, $extraHeaders);
         echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_write_close();
+        }
         exit;
     }
 
@@ -68,6 +71,9 @@ final class ResponseEmitter
             ob_end_clean();
         }
         echo $html;
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_write_close();
+        }
         exit;
     }
 
@@ -76,6 +82,9 @@ final class ResponseEmitter
         http_response_code($statusCode);
         header("Location: $location");
         $this->emitTraceAndExtras($traceId, $extraHeaders);
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_write_close();
+        }
         exit;
     }
 

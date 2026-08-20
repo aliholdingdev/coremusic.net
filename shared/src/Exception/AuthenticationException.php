@@ -21,7 +21,12 @@ final class AuthenticationException extends BaseCoreMusicException
 
     public static function genderMismatch(string $expected): self
     {
-        return new self("Cinsiyet uyuşmazlığı: {$expected}", 'GENDER_MISMATCH');
+        $genderLabel = match ($expected) {
+            'male'   => 'erkek',
+            'female' => 'kadın',
+            default  => 'nötr',
+        };
+        return new self("Bu cinsiyet seçimiyle bu hesaba giriş yapamazsınız. Sadece {$genderLabel} hesaplar erişebilir.", 'GENDER_MISMATCH');
     }
 
     public static function invalidSessionKey(): self

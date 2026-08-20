@@ -199,7 +199,7 @@ final class AuthController
                 'password'    => (string)($post['password'] ?? ''),
                 'gender'      => $post['gender'] ?? 'neutral',
                 'agree_terms' => !empty($post['agree_terms']),
-            ], $clientIp);
+            ], $clientIp, $this->session->getGender());
             $this->session->regenerateId();
             $result['redirect'] = !empty($result['auth_key'])
                 ? $this->buildAuthKeyUrl($redirectUrl, $result['auth_key'])
