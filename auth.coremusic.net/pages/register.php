@@ -192,6 +192,7 @@ $responseType = $_GET['response_type'] ?? 'session';
     var submitBtn=document.getElementById('lgn-submit');
     form.addEventListener('submit',function(e){
         e.preventDefault();
+        e.stopImmediatePropagation();
         var phone=document.getElementById('lgn-phone').value.trim();
         if(!/^\+?[0-9\s\-\(\)]{10,20}$/.test(phone)){errEl.textContent='Geçerli bir telefon numarası girin.';errEl.classList.add('lgn-error--on');return;}
         if(!document.getElementById('lgn-terms').checked){errEl.textContent='Hizmet Şartları\u0027nı kabul etmelisiniz.';errEl.classList.add('lgn-error--on');return;}

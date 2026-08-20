@@ -33,6 +33,7 @@
         // Form submission
         form.addEventListener('submit', function (e) {
             e.preventDefault();
+            e.stopImmediatePropagation();
             var gender = input.value;
             if (!gender) return;
 

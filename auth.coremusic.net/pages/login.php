@@ -138,6 +138,7 @@ $responseType = $_GET['response_type'] ?? 'session';
     var redirectUri=urlParams.get('redirect_uri')||'';
     form.addEventListener('submit',function(e){
         e.preventDefault();
+        e.stopImmediatePropagation();
         btn.disabled=true;btn.classList.add('lgn-btn--loading');btn.textContent='Giriş yapılıyor...';errEl.classList.remove('lgn-error--on');
         var postUrl='/login';
         if(redirectUri) postUrl+='?redirect_uri='+encodeURIComponent(redirectUri);
