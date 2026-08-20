@@ -215,7 +215,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 | Dosya | Amaç |
 |-------|------|
-| [[architecture/01-overview/architecture_master]] | Architecture |
+| [[architecture/00-overview/architecture-master]] | Architecture |
 | [[architecture/03-contracts/service-ipc]] | IPC |
 | [[ADR-039-7-service-platform-architecture]] | 7-service decision |
 | [[ADR-042-vault-restructuring-2026-08-03]] | Port mapping |

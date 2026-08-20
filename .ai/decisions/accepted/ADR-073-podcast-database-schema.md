@@ -1,19 +1,8 @@
----
-type: decision
-id: "073"
+﻿---
 title: "ADR-073: Podcast Database Schema"
-category: "database"
-status: "active"
-date: "2026-08-10"
-updated: "2026-08-15"
-authority: "Data Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 1.0.0
+status: active
+date: 2026-08-10
 tags: [database, podcast, schema, active]
-risk-level: "medium"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-040-database-authority]]"
 ---
 
 # ADR-073: Podcast Database Schema
@@ -22,16 +11,16 @@ references:
 
 ## 1. Executive Summary
 
-Podcast veritabanı, podcast gösterileri, bölümleri, abonelikleri ve transkriptleri yönetir.
+Podcast veritabanÄ±, podcast gÃ¶sterileri, bÃ¶lÃ¼mleri, abonelikleri ve transkriptleri yÃ¶netir.
 
 ## 2. Tablolar
 
-| # | Tablo | Amaç |
+| # | Tablo | AmaÃ§ |
 |---|-------|------|
-| 1 | podcast_shows | Podcast gösterileri |
-| 2 | podcast_episodes | Podcast bölümleri |
+| 1 | podcast_shows | Podcast gÃ¶sterileri |
+| 2 | podcast_episodes | Podcast bÃ¶lÃ¼mleri |
 | 3 | podcast_subscriptions | Abonelikler |
-| 4 | podcast_playback | Oynatma geçmişi |
+| 4 | podcast_playback | Oynatma geÃ§miÅŸi |
 | 5 | podcast_transcripts | Transkriptler |
 | 6 | podcast_categories | Kategoriler |
 | 7 | podcast_reviews | Yorumlar |
@@ -41,22 +30,22 @@ Podcast veritabanı, podcast gösterileri, bölümleri, abonelikleri ve transkri
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | BCNF normalization | ✅ Zorunlu |
-| 2 | Soft delete | ✅ Zorunlu |
-| 3 | Full-text search (transcripts) | ✅ Zorunlu |
+| 1 | BCNF normalization | âœ… Zorunlu |
+| 2 | Soft delete | âœ… Zorunlu |
+| 3 | Full-text search (transcripts) | âœ… Zorunlu |
 
 ---
 
 ## 4. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 1.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-073: Podcast Database Schema v1.0.0 — CoreMusic Database*
-*Authority: Data Engineer · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-073: Podcast Database Schema v1.0.0 â€” CoreMusic Database*
+*Authority: Data Engineer Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

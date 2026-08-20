@@ -1,21 +1,8 @@
----
-type: decision
-id: "039"
+﻿---
 title: "ADR-039: 7-Service Platform Architecture"
-category: "architecture"
-status: "active"
-date: "2026-07-20"
-updated: "2026-08-15"
-authority: "Backend Architect"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: active
+date: 2026-07-20
 tags: [architecture, platform, 7-service, active]
-risk-level: "critical"
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[decisions/accepted/ADR-084-api-gateway-architecture]]"
-  - "[[decisions/accepted/ADR-086-event-driven-architecture]]"
 ---
 
 # ADR-039: 7-Service Platform Architecture
@@ -24,7 +11,7 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic **7 bağımsız backend servis** ile yönetilir. Her servis belirli bir domain'i yönetir. Servisler event-driven iletişim kurar.
+CoreMusic **7 baÄŸÄ±msÄ±z backend servis** ile yÃ¶netilir. Her servis belirli bir domain'i yÃ¶netir. Servisler event-driven iletiÅŸim kurar.
 
 ## 2. Decision
 
@@ -35,60 +22,60 @@ CoreMusic **7 bağımsız backend servis** ile yönetilir. Her servis belirli bi
 | 1 | Control Service | 81 | HTTP | PHP 8.4 | Auth, session, RBAC |
 | 2 | Media Service | 5000/6000 | HTTP | PHP + FFmpeg | Library, metadata, streaming |
 | 3 | Audio Service | 9741/9742 | REST/WS | C++20 JUCE | Player, DSP, mixer, EQ |
-| 4 | Device Service | — | BLE/WiFi/USB | C++20 | Bluetooth, WiFi, USB |
-| 5 | Network Audio | — | WebRTC/P2P | C++20 | Streaming, multi-room |
-| 6 | AI Service | — | Internal | PHP + Python | Recommendations |
+| 4 | Device Service | â€” | BLE/WiFi/USB | C++20 | Bluetooth, WiFi, USB |
+| 5 | Network Audio | â€” | WebRTC/P2P | C++20 | Streaming, multi-room |
+| 6 | AI Service | â€” | Internal | PHP + Python | Recommendations |
 | 7 | Download Service | 3001 | HTTP/WS | Node.js + TS | Deezer/YouTube indirme |
 
 ### Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | 7 bağımsız servis | ✅ Zorunlu |
-| 2 | Event-driven iletişim | ✅ Zorunlu |
-| 3 | Service discovery | ✅ Zorunlu |
-| 4 | Health check | ✅ Zorunlu |
-| 5 | Graceful degradation | ✅ Zorunlu |
+| 1 | 7 baÄŸÄ±msÄ±z servis | âœ… Zorunlu |
+| 2 | Event-driven iletiÅŸim | âœ… Zorunlu |
+| 3 | Service discovery | âœ… Zorunlu |
+| 4 | Health check | âœ… Zorunlu |
+| 5 | Graceful degradation | âœ… Zorunlu |
 
 ---
 
 ## 3. Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     CoreMusic Platform                            │
-│                                                                  │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐          │
-│  │ Control  │ │ Media    │ │ Audio    │ │ Device   │          │
-│  │ Service  │ │ Service  │ │ Service  │ │ Service  │          │
-│  │ :81      │ │ :5000    │ │ :9741    │ │ BLE/WiFi │          │
-│  └────┬─────┘ └────┬─────┘ └────┬─────┘ └────┬─────┘          │
-│       │             │             │             │                │
-│  ┌────▼─────────────▼─────────────▼─────────────▼────┐          │
-│  │              Event Bus (PSR-14)                    │          │
-│  └────┬─────────────┬─────────────┬─────────────┬────┘          │
-│       │             │             │             │                │
-│  ┌────▼─────┐ ┌────▼─────┐ ┌────▼─────┐                       │
-│  │ Network  │ │ AI       │ │ Download │                       │
-│  │ Audio    │ │ Service  │ │ Service  │                       │
-│  │ WebRTC   │ │ PHP+Py   │ │ Node.js  │                       │
-│  └──────────┘ └──────────┘ └──────────┘                       │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                     CoreMusic Platform                            â”‚
+â”‚                                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”          â”‚
+â”‚  â”‚ Control  â”‚ â”‚ Media    â”‚ â”‚ Audio    â”‚ â”‚ Device   â”‚          â”‚
+â”‚  â”‚ Service  â”‚ â”‚ Service  â”‚ â”‚ Service  â”‚ â”‚ Service  â”‚          â”‚
+â”‚  â”‚ :81      â”‚ â”‚ :5000    â”‚ â”‚ :9741    â”‚ â”‚ BLE/WiFi â”‚          â”‚
+â”‚  â””â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”˜          â”‚
+â”‚       â”‚             â”‚             â”‚             â”‚                â”‚
+â”‚  â”Œâ”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”          â”‚
+â”‚  â”‚              Event Bus (PSR-14)                    â”‚          â”‚
+â”‚  â””â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”˜          â”‚
+â”‚       â”‚             â”‚             â”‚             â”‚                â”‚
+â”‚  â”Œâ”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â” â”Œâ”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”                       â”‚
+â”‚  â”‚ Network  â”‚ â”‚ AI       â”‚ â”‚ Download â”‚                       â”‚
+â”‚  â”‚ Audio    â”‚ â”‚ Service  â”‚ â”‚ Service  â”‚                       â”‚
+â”‚  â”‚ WebRTC   â”‚ â”‚ PHP+Py   â”‚ â”‚ Node.js  â”‚                       â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜ â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜                       â”‚
+â”‚                                                                  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
 
 ## 4. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-039: 7-Service Platform Architecture v2.0.0 — CoreMusic Architecture*
-*Authority: Backend Architect · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-039: 7-Service Platform Architecture v2.0.0 â€” CoreMusic Architecture*
+*Authority: Backend Architect Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

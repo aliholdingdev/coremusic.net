@@ -12,7 +12,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Complete Diagram Collection for CoreMusic ELECTRONICS
 
-**Zorunlu Bağlantılar:** [[brain.md]] · [[architecture/01-overview/architecture_master]] · [[architecture/06-audio/index]] · [[architecture/07-security/index]] · [[architecture/ai/index]] · [[electronic/index]]
+**Zorunlu Bağlantılar:** [[brain.md]] · [[architecture/00-overview/architecture-master]] · [[architecture/06-audio/index]] · [[architecture/07-security/index]] · [[architecture/ai/index]] · [[electronic/index]]
 
 ---
 
@@ -656,7 +656,7 @@ graph LR
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 2 Sistem Mimarisi | [[architecture/01-overview/architecture_master]] | Mimari |
+| § 2 Sistem Mimarisi | [[architecture/00-overview/architecture-master]] | Mimari |
 | § 5 Servis Mimarisi | [[architecture/06-audio/index]] | Ses servisleri |
 | § 7 DSP Pipeline | [[electronic/dsp/index]] | DSP modülleri |
 | § 11 AI Pipeline | [[architecture/ai/index]] | AI mimarisi |

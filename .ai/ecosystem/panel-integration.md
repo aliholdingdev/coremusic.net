@@ -186,7 +186,7 @@ RPi5 (Home/Pro/Studio/Car)
 |-------|------|
 | [[ecosystem/7-service-integration]] | Servis entegrasyonu |
 | [[ecosystem/service-health-check]] | Sağlık kontrolü |
-| [[architecture/04-panels]] | Panel mimarisi |
+| [[architecture/00-overview/architecture-master]] | Panel mimarisi |
 | [[architecture/l3-presentation]] | Frontend detay |
 | [[architecture/03-contracts/api-architecture-master]] | API mimarisi |
 

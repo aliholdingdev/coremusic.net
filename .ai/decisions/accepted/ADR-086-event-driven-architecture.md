@@ -1,21 +1,8 @@
----
-type: decision
-id: "086"
+﻿---
 title: "ADR-086: Event Driven Architecture (PSR-14)"
-category: "architecture"
-status: "active"
-date: "2026-08-12"
-updated: "2026-08-15"
-authority: "Backend Architect"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: active
+date: 2026-08-12
 tags: [architecture, event-driven, psr-14, active]
-risk-level: "high"
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[decisions/accepted/ADR-039-7-service-platform-architecture]]"
-  - "[[decisions/accepted/ADR-084-api-gateway-architecture]]"
 ---
 
 # ADR-086: Event Driven Architecture
@@ -24,45 +11,45 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic servisleri birbirini doğrudan çağırmaz, **event yayınlar**. PSR-14 Event Dispatcher kullanılır. Domain Event'ler ve Integration Event'ler ayrıştırılmıştır.
+CoreMusic servisleri birbirini doÄŸrudan Ã§aÄŸÄ±rmaz, **event yayÄ±nlar**. PSR-14 Event Dispatcher kullanÄ±lÄ±r. Domain Event'ler ve Integration Event'ler ayrÄ±ÅŸtÄ±rÄ±lmÄ±ÅŸtÄ±r.
 
 ## 2. Decision
 
-### Event Türleri
+### Event TÃ¼rleri
 
-| Tür | Kapsam | Örnek |
+| TÃ¼r | Kapsam | Ã–rnek |
 |-----|--------|-------|
-| Domain Event | Tek servis içinde | UserCreatedEvent |
-| Integration Event | Servisler arası | UserRegisteredEvent |
+| Domain Event | Tek servis iÃ§inde | UserCreatedEvent |
+| Integration Event | Servisler arasÄ± | UserRegisteredEvent |
 
-### Event Akışı
+### Event AkÄ±ÅŸÄ±
 
 ```
-Service A → Event Bus (PSR-14) → Service B, C, D
+Service A â†’ Event Bus (PSR-14) â†’ Service B, C, D
 ```
 
 ### Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | PSR-14 Event Dispatcher | ✅ Zorunlu |
-| 2 | Direct service call yasak | ❌ Yasak |
-| 3 | Domain Event separation | ✅ Zorunlu |
-| 4 | Event logging | ✅ Zorunlu |
-| 5 | Idempotent handlers | ✅ Zorunlu |
+| 1 | PSR-14 Event Dispatcher | âœ… Zorunlu |
+| 2 | Direct service call yasak | âŒ Yasak |
+| 3 | Domain Event separation | âœ… Zorunlu |
+| 4 | Event logging | âœ… Zorunlu |
+| 5 | Idempotent handlers | âœ… Zorunlu |
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-086: Event Driven Architecture v2.0.0 — CoreMusic Architecture*
-*Authority: Backend Architect · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-086: Event Driven Architecture v2.0.0 â€” CoreMusic Architecture*
+*Authority: Backend Architect Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

@@ -1,20 +1,8 @@
----
-type: decision
-id: "085"
+﻿---
 title: "ADR-085: Shared Library Architecture (Hybrid)"
-category: "architecture"
-status: "active"
-date: "2026-08-12"
-updated: "2026-08-15"
-authority: "Vault Steward"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 3.0.0
+status: active
+date: 2026-08-12
 tags: [architecture, composer, shared, hybrid, modular-namespace]
-risk-level: "high"
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[decisions/accepted/ADR-002-pdo-mandatory-no-orm]]"
 ---
 
 # ADR-085: Shared Library Architecture (Hybrid)
@@ -23,45 +11,45 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic, **tek `shared/` dizini** ile **modüler namespace yapısı** kullanır. 22 ayrı paket yerine, PSR-4 namespace ile ayrılmış tek bir Composer paketi tercih edilir. Bu karar Vault Steward (Bayram Ali) tarafından onaylanmıştır.
+CoreMusic, **tek `shared/` dizini** ile **modÃ¼ler namespace yapÄ±sÄ±** kullanÄ±r. 22 ayrÄ± paket yerine, PSR-4 namespace ile ayrÄ±lmÄ±ÅŸ tek bir Composer paketi tercih edilir. Bu karar Vault Steward (Bayram Ali) tarafÄ±ndan onaylanmÄ±ÅŸtÄ±r.
 
 ## 2. Decision
 
-### Yapı: Hybrid — Tek Dizin + Modüler Namespace
+### YapÄ±: Hybrid â€” Tek Dizin + ModÃ¼ler Namespace
 
 ```
 shared/
-├── composer.json              ← Tek paket: coremusic/shared
-├── bootstrap.php              ← Autoloader + env
-├── config/                    ← Config dosyaları
-│   ├── database.php           ← 18 BCNF DB
-│   ├── middleware.php          ← Frozen pipeline
-│   ├── routes.php             ← Route tanımları
-│   └── cors.php               ← CORS whitelist
-├── src/
-│   ├── Router/                ← L2: SPA Router
-│   │   ├── Contracts/         ← RouterInterface, RouteDefinitionInterface
-│   │   ├── Attributes/        ← #[Route], #[Middleware], #[Guard]
-│   │   └── Cache/             ← RouteCache
-│   ├── Security/              ← L1: Middleware Pipeline
-│   │   ├── Middleware/         ← 10 middleware (frozen sıra)
-│   │   └── Service/            ← CspNonceGenerator, RateLimiter
-│   ├── Auth/                  ← L1/L4: Auth Domain
-│   │   ├── Domain/             ← Entity, ValueObject, Repository, Event
-│   │   ├── Application/        ← Command, Query, DTO, Service
-│   │   └── Infrastructure/     ← Repository implementations
-│   ├── Http/                  ← PSR-7/17
-│   ├── Cache/                 ← PSR-6
-│   ├── Events/                ← PSR-14
-│   ├── Validation/            ← Request validation
-│   └── Logger/                ← PSR-3
-└── tests/
-    └── Unit/
+â”œâ”€â”€ composer.json              â† Tek paket: coremusic/shared
+â”œâ”€â”€ bootstrap.php              â† Autoloader + env
+â”œâ”€â”€ config/                    â† Config dosyalarÄ±
+â”‚   â”œâ”€â”€ database.php           â† 18 BCNF DB
+â”‚   â”œâ”€â”€ middleware.php          â† Frozen pipeline
+â”‚   â”œâ”€â”€ routes.php             â† Route tanÄ±mlarÄ±
+â”‚   â””â”€â”€ cors.php               â† CORS whitelist
+â”œâ”€â”€ src/
+â”‚   â”œâ”€â”€ Router/                â† L2: SPA Router
+â”‚   â”‚   â”œâ”€â”€ Contracts/         â† RouterInterface, RouteDefinitionInterface
+â”‚   â”‚   â”œâ”€â”€ Attributes/        â† #[Route], #[Middleware], #[Guard]
+â”‚   â”‚   â””â”€â”€ Cache/             â† RouteCache
+â”‚   â”œâ”€â”€ Security/              â† L1: Middleware Pipeline
+â”‚   â”‚   â”œâ”€â”€ Middleware/         â† 10 middleware (frozen sÄ±ra)
+â”‚   â”‚   â””â”€â”€ Service/            â† CspNonceGenerator, RateLimiter
+â”‚   â”œâ”€â”€ Auth/                  â† L1/L4: Auth Domain
+â”‚   â”‚   â”œâ”€â”€ Domain/             â† Entity, ValueObject, Repository, Event
+â”‚   â”‚   â”œâ”€â”€ Application/        â† Command, Query, DTO, Service
+â”‚   â”‚   â””â”€â”€ Infrastructure/     â† Repository implementations
+â”‚   â”œâ”€â”€ Http/                  â† PSR-7/17
+â”‚   â”œâ”€â”€ Cache/                 â† PSR-6
+â”‚   â”œâ”€â”€ Events/                â† PSR-14
+â”‚   â”œâ”€â”€ Validation/            â† Request validation
+â”‚   â””â”€â”€ Logger/                â† PSR-3
+â””â”€â”€ tests/
+    â””â”€â”€ Unit/
 ```
 
-### Namespace Haritası
+### Namespace HaritasÄ±
 
-| Namespace | Kullanım Alanı |
+| Namespace | KullanÄ±m AlanÄ± |
 |-----------|---------------|
 | `CoreMusic\Router\*` | SPA Router (L2) |
 | `CoreMusic\Security\*` | Middleware Pipeline (L1) |
@@ -72,54 +60,54 @@ shared/
 | `CoreMusic\Validation\*` | Request Validation |
 | `CoreMusic\Logger\*` | PSR-3 Logging |
 
-### Subdomain Bağımlılığı
+### Subdomain BaÄŸÄ±mlÄ±lÄ±ÄŸÄ±
 
-Her alt domain `shared/`'e bağımlıdır:
+Her alt domain `shared/`'e baÄŸÄ±mlÄ±dÄ±r:
 
 ```
-auth.coremusic.net   → require shared/bootstrap.php
-music.coremusic.net  → require shared/bootstrap.php
-api.coremusic.net    → require shared/bootstrap.php
-admin.coremusic.net  → require shared/bootstrap.php
-... (tüm subdomain'ler)
+auth.coremusic.net   â†’ require shared/bootstrap.php
+music.coremusic.net  â†’ require shared/bootstrap.php
+api.coremusic.net    â†’ require shared/bootstrap.php
+admin.coremusic.net  â†’ require shared/bootstrap.php
+... (tÃ¼m subdomain'ler)
 ```
 
 ### Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Tek `shared/` dizini | ✅ Zorunlu |
-| 2 | PSR-4 namespace ile modüler ayrılama | ✅ Zorunlu |
-| 3 | Subdomain'ler shared'e bağımlı | ✅ Zorunlu |
-| 4 | Circular dependency yasak | ❌ Yasak |
-| 5 | PSR uyumlu paketler | ✅ Zorunlu |
-| 6 | Tek `composer.json` | ✅ Zorunlu |
+| 1 | Tek `shared/` dizini | âœ… Zorunlu |
+| 2 | PSR-4 namespace ile modÃ¼ler ayrÄ±lama | âœ… Zorunlu |
+| 3 | Subdomain'ler shared'e baÄŸÄ±mlÄ± | âœ… Zorunlu |
+| 4 | Circular dependency yasak | âŒ Yasak |
+| 5 | PSR uyumlu paketler | âœ… Zorunlu |
+| 6 | Tek `composer.json` | âœ… Zorunlu |
 
-### Neden 22 Paket Değil?
+### Neden 22 Paket DeÄŸil?
 
 | 22 Paket (Reddedilen) | Shared Hybrid (Kabul Edilen) |
 |------------------------|------------------------------|
-| Her paket ayrı `composer.json` | Tek `composer.json` |
-| Paketler arası bağımlılık yönetimi karmaşık | Namespace ile basit ayrım |
-|版本 güncelleme karmaşık | Tek versiyon |
-| CI/CD karmaşık | Tek pipeline |
-| Büyük ekip için ideal | Bireysel geliştirici için ideal |
+| Her paket ayrÄ± `composer.json` | Tek `composer.json` |
+| Paketler arasÄ± baÄŸÄ±mlÄ±lÄ±k yÃ¶netimi karmaÅŸÄ±k | Namespace ile basit ayrÄ±m |
+|ç‰ˆæœ¬ gÃ¼ncelleme karmaÅŸÄ±k | Tek versiyon |
+| CI/CD karmaÅŸÄ±k | Tek pipeline |
+| BÃ¼yÃ¼k ekip iÃ§in ideal | Bireysel geliÅŸtirici iÃ§in ideal |
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 3.0.0 |
-| **Status** | Active — User Approved (2026-08-15) |
-| **Yapı** | Hybrid: Tek shared/ + PSR-4 namespace |
+| **Status** | Active â€” User Approved (2026-08-15) |
+| **YapÄ±** | Hybrid: Tek shared/ + PSR-4 namespace |
 | **Paket** | Tek composer.json (coremusic/shared) |
-| **Namespace** | 8 modüler namespace (Router, Security, Auth, Http, Cache, Events, Validation, Logger) |
+| **Namespace** | 8 modÃ¼ler namespace (Router, Security, Auth, Http, Cache, Events, Validation, Logger) |
 
 ---
 
-*ADR-085: Shared Library Architecture v3.0.0 — CoreMusic Architecture*
-*Authority: Vault Steward · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
-*User Approval: Bayram Ali — "shared yapısı olsun, packages değil"*
+*ADR-085: Shared Library Architecture v3.0.0 â€” CoreMusic Architecture*
+*Authority: Vault Steward Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*
+*User Approval: Bayram Ali â€” "shared yapÄ±sÄ± olsun, packages deÄŸil"*

@@ -916,7 +916,7 @@ void apply_gain_sse2(float* samples, size_t count, float gain) {
 | § 4 Guardrails | [[ADR-017-dsp-hardware-mode]] | Zero-allocation |
 | § 7 Performance | [[architecture/06-audio/audio-pipeline]] | Performans |
 | § 11 Audio DSP | [[projects/NevaEngine/overview]] | Ses motoru |
-| § 12 Platform | [[architecture/01-overview/overview]] | Cross-platform |
+| § 12 Platform | [[architecture/00-overview/architecture-master]] | Cross-platform |
 
 ---
 

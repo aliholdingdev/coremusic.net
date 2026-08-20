@@ -12,7 +12,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # CoreMusic — Device Authentication
 
-**See also:** [[architecture/07-security/index]] · [[electronic/index]] · [[ADR-052-hybrid-auth-architecture]]
+**See also:** [[architecture/07-security/index]] · [[electronic/index]]
 
 ---
 
@@ -131,9 +131,7 @@ API Access
 
 | ADR | Konu |
 |-----|------|
-| [[ADR-052-hybrid-auth-architecture]] | Hybrid auth |
-| [[ADR-059-enterprise-auth-standards]] | Auth standartları |
-| [[ADR-060-rpi5-embedded-auth]] | RPi5 embedded auth |
+| [[ADR-011-session-management]] | Session yönetimi |
 
 ---
 

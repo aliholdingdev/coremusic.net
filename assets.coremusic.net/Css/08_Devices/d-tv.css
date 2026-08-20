@@ -1,0 +1,66 @@
+/**
+ * CoreMusic — 4K TV Device CSS (≥3840px)
+ * ITCSS Layer: 08_Devices
+ * Version: 1.0.0 — 2026-08-18
+ *
+ * Sadece behavioral overrides — token'lar a-layout-tokens.css tarafından yönetilir
+ * Token'lar: a-layout-tokens.css → @media (min-width: 3840px)
+ * Component'ler: main.css → 03_Layout/, 04_Components/, 05_Pages/
+ *
+ * Target: 4K Smart TV (Samsung Tizen, LG webOS, Android TV)
+ * Input: D-pad (↑↓←→), OK, Back, Home
+ * Hover: YOK — sadece focus-visible
+ */
+
+/* ============================================================
+   BEHAVIORAL OVERRIDES — 4K TV (D-pad + Focus)
+   ============================================================ */
+
+/* Font scale: 1.6× (10ft UI) */
+html {
+  font-size: 20px;
+}
+
+body {
+  overflow-x: hidden;
+  /* TV overscan koruması */
+  padding: 30px;
+}
+
+/* Hover devre dışı — D-pad ile navigasyon */
+*:hover {
+  /* Boş — hover efekti uygulanmaz */
+}
+
+/* Focus-visible — D-pad için belirgin */
+:focus-visible {
+  outline: 4px solid var(--accent, #ff4fd8);
+  outline-offset: 4px;
+  box-shadow: 0 0 20px rgba(255,79,216,0.4);
+}
+
+/* Touch devre dışı — uzaktan kumanda */
+* {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+}
+
+/* Scrollbar — gizli (D-pad ile kaydırma) */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}
+
+/* TV overscan safe area */
+.site-header {
+  left: 30px;
+  right: 30px;
+}
+
+.footer {
+  left: 30px;
+  right: 30px;
+}

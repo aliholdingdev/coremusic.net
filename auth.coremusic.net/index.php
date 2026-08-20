@@ -54,6 +54,9 @@ $appConfig['session']['cookie_secure'] = $isHttps;
 $config = new ConfigManager($appConfig);
 
 /* ─── Session Helper — Tek SSoT ─── */
+// TODO: Duplicate session init — this logic duplicates SessionManagerMiddleware::ensureSessionStarted().
+// Should be consolidated into SessionInitializer to use shared session config and avoid drift.
+// See: shared/src/Session/SessionInitializer.php
 function cm_session_start(): void {
     if (session_status() === PHP_SESSION_ACTIVE) {
         return;
@@ -104,6 +107,9 @@ if ($requestUri === '/health' || $requestUri === '/session' || $requestUri === '
 if ($requestUri === '' || $requestUri === '/') {
     // auth_key ile root'a gelindiyse — bu bir callback, key'i doğrula
     if (!empty($_GET['auth_key'])) {
+        $logger->debug('Root auth_key validation triggered', [
+            'auth_key_prefix' => substr($_GET['auth_key'], 0, 8) . '...',
+        ]);
         cm_session_start();
         $akContainer  = AuthContainer::getInstance($config, $domainConfig);
         $akController = $akContainer->get(AuthController::class);
@@ -119,9 +125,15 @@ if ($requestUri === '' || $requestUri === '/') {
             if (!empty($akUser['gender'])) {
                 $akSession->setGender($akUser['gender']);
             }
+            $logger->debug('Root auth_key validated, redirecting to /home', [
+                'user_id' => $akUser['id'] ?? '-',
+            ]);
             header('Location: /home', true, 302);
             exit;
         }
+        $logger->warning('Root auth_key validation failed', [
+            'http_status' => $akResult['httpStatus'] ?? 0,
+        ]);
         header('Location: /login?error=invalid_key', true, 302);
         exit;
     }

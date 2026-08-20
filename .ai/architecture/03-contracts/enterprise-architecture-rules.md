@@ -163,17 +163,15 @@ https://api.coremusic.net/v1/{resource}
 /api/v1/resource
 ```
 
-## 6.1 Enterprise Router Kuralları (ADR-053)
-
-**Kaynak:** [[ADR-053-enterprise-router-architecture]], [[ADR-054-enterprise-composer-stack]]
+## 6.1 Enterprise Router Kuralları
 
 | Özellik | Değer | Kaynak |
 |---------|-------|--------|
-| **Engine** | `nikic/fast-route` | ADR-053 |
-| **DI Container** | `php-di/php-di` (PSR-11) | ADR-054 |
-| **HTTP** | `nyholm/psr7` (PSR-7) | ADR-054 |
-| **Middleware** | PSR-15 (`MiddlewareInterface`) | ADR-053 |
-| **HTTP Emitter** | `laminas/laminas-httphandlerrunner` | ADR-054 |
+| **Engine** | `nikic/fast-route` | — |
+| **DI Container** | `php-di/php-di` (PSR-11) | — |
+| **HTTP** | `nyholm/psr7` (PSR-7) | — |
+| **Middleware** | PSR-15 (`MiddlewareInterface`) | — |
+| **HTTP Emitter** | `laminas/laminas-httphandlerrunner` | — |
 
 ### Enterprise Router Özellikleri
 

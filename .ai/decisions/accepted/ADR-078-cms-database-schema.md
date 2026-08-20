@@ -1,19 +1,8 @@
----
-type: decision
-id: "078"
+﻿---
 title: "ADR-078: CMS Database Schema"
-category: "database"
-status: "active"
-date: "2026-08-10"
-updated: "2026-08-15"
-authority: "Data Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 1.0.0
+status: active
+date: 2026-08-10
 tags: [database, cms, schema, active]
-risk-level: "medium"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-040-database-authority]]"
 ---
 
 # ADR-078: CMS Database Schema
@@ -22,17 +11,17 @@ references:
 
 ## 1. Executive Summary
 
-CMS veritabanı, sayfaları, blog yazılarını, etiketleri, SSS'leri ve banner'ları yönetir.
+CMS veritabanÄ±, sayfalarÄ±, blog yazÄ±larÄ±nÄ±, etiketleri, SSS'leri ve banner'larÄ± yÃ¶netir.
 
 ## 2. Tablolar
 
-| # | Tablo | Amaç |
+| # | Tablo | AmaÃ§ |
 |---|-------|------|
 | 1 | cms_pages | Statik sayfalar |
-| 2 | cms_blog_posts | Blog yazıları |
+| 2 | cms_blog_posts | Blog yazÄ±larÄ± |
 | 3 | cms_tags | Etiketler |
-| 4 | cms_post_tags | Yazı-etiket ilişkisi |
-| 5 | cms_media_assets | Medya varlıkları |
+| 4 | cms_post_tags | YazÄ±-etiket iliÅŸkisi |
+| 5 | cms_media_assets | Medya varlÄ±klarÄ± |
 | 6 | cms_faqs | SSS'ler |
 | 7 | cms_banners | Banner'lar |
 | 8 | cms_categories | Kategoriler |
@@ -41,23 +30,23 @@ CMS veritabanı, sayfaları, blog yazılarını, etiketleri, SSS'leri ve banner'
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | BCNF normalization | ✅ Zorunlu |
-| 2 | Soft delete | ✅ Zorunlu |
-| 3 | SEO metadata | ✅ Zorunlu |
-| 4 | Draft/Published status | ✅ Zorunlu |
+| 1 | BCNF normalization | âœ… Zorunlu |
+| 2 | Soft delete | âœ… Zorunlu |
+| 3 | SEO metadata | âœ… Zorunlu |
+| 4 | Draft/Published status | âœ… Zorunlu |
 
 ---
 
 ## 4. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 1.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-078: CMS Database Schema v1.0.0 — CoreMusic Database*
-*Authority: Data Engineer · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-078: CMS Database Schema v1.0.0 â€” CoreMusic Database*
+*Authority: Data Engineer Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

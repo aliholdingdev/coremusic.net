@@ -197,7 +197,7 @@ What other options were evaluated?
 
 | Dosya | Amaç |
 |-------|------|
-| [[architecture/04-decisions/adr-index]] | ADR index |
+| [[decisions/index]] | ADR index |
 | [[architecture/04-decisions/guardrails]] | Constraints |
 | [[decisions/accepted/]] | Active/Frozen ADRs |
 | [[decisions/draft/]] | Draft ADRs |
@@ -207,7 +207,7 @@ What other options were evaluated?
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 3 Aşamalar | [[architecture/04-decisions/adr-index]] | ADR listesi |
+| § 3 Aşamalar | [[decisions/index]] | ADR listesi |
 | § 5 Supersede | [[brain.md]] §13 | ADR detayları |
 | § 7 Numaralandırma | [[decisions/accepted/]] | Dosya yapısı |
 

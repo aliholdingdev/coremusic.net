@@ -10,126 +10,7 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/MEMORY.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-    - ".ai/keys.md"
-    - ".ai/MEMORY.md"
-    - ".ai/log.md"
-    - ".ai/engine.md"
-  architecture:
-    - ".ai/ADR/"
-    - "Existing project architecture"
-    - "Existing codebase patterns"
-  project_structure:
-    - "coremusic.net/"
-    - "shared/"
-    - "api.coremusic.net/"
-    - "auth.coremusic.net/"
-    - "music.coremusic.net/"
-    - "admin.coremusic.net/"
-    - "home.coremusic.net/"
-    - "car.coremusic.net/"
-    - "studio.coremusic.net/"
-    - "pro.coremusic.net/"
-    - "media.coremusic.net/"
-    - "download.coremusic.net/"
-  decision_priority:
-    - "ADR decisions"
-    - "Architecture documentation"
-    - "Security requirements"
-    - "Existing implementation"
-    - "User requirements"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "file rename"
-      - "directory move"
-      - "architecture change"
-      - "database schema change"
-      - "security policy change"
-  skills:
-    - path: ".opencode/skills/ui-code-generator/SKILL.md"
-      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
-    - path: ".opencode/skills/ui-analyzer/SKILL.md"
-      purpose: "UI analizi, mevcut tasarım değerlendirme"
-    - path: ".opencode/skills/skill-maker/SKILL.md"
-      purpose: "Yeni skill oluşturma, skill template sistemi"
-    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
-      purpose: "Güvenlik testi, truth mode, adversarial analiz"
-    - path: ".opencode/skills/prompt-maker/SKILL.md"
-      purpose: "Prompt mühendisliği, AI talimat tasarımı"
-    - path: ".opencode/skills/composer-sync/SKILL.md"
-      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
-    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
-      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
-    - path: ".opencode/skills/human-mode/SKILL.md"
-      purpose: "İnsan modu iletişimi, onay süreçleri"
-    - path: ".opencode/skills/hallucination-control/SKILL.md"
-      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
-    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
-      purpose: "BCNF normalizasyonu, şema tasarımı"
-  templates:
-    adr:
-      - path: ".ai/.templates/adr/adr-template.md"
-        purpose: "ADR şablonu"
-      - path: ".ai/.templates/adr/adr-frontend-template.md"
-        purpose: "Frontend ADR şablonu"
-      - path: ".ai/.templates/adr/adr-database-template.md"
-        purpose: "Database ADR şablonu"
-      - path: ".ai/.templates/adr/adr-security-template.md"
-        purpose: "Security ADR şablonu"
-      - path: ".ai/.templates/adr/adr-audio-template.md"
-        purpose: "Audio/Hardware ADR şablonu"
-      - path: ".ai/.templates/adr/adr-index.md"
-        purpose: "ADR navigasyon rehberi"
-    backend:
-      - path: ".ai/.templates/backend/php-template.md"
-        purpose: "PHP 8.4 backend geliştirme şablonu"
-      - path: ".ai/.templates/backend/nodejs-template.md"
-        purpose: "Node.js 20+ backend geliştirme şablonu"
-    frontend:
-      - path: ".ai/.templates/frontend/js-template.md"
-        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
-      - path: ".ai/.templates/frontend/css-template.md"
-        purpose: "ITCSS 9-layer, BEM CSS şablonu"
-    testing:
-      - path: ".ai/.templates/testing/phpunit-template.md"
-        purpose: "PHPUnit 10+ test şablonu"
-      - path: ".ai/.templates/testing/vitest-template.md"
-        purpose: "Vitest JS/TS test şablonu"
-    infrastructure:
-      - path: ".ai/.templates/infrastructure/migration-template.md"
-        purpose: "MySQL 9 BCNF migration şablonu"
-      - path: ".ai/.templates/infrastructure/docker-template.md"
-        purpose: "Docker 24+ Compose v2 şablonu"
-      - path: ".ai/.templates/infrastructure/github-actions-template.md"
-        purpose: "GitHub Actions CI/CD şablonu"
-    documentation:
-      - path: ".ai/.templates/documentation/api-doc-template.md"
-        purpose: "API dokümantasyon şablonu"
-      - path: ".ai/.templates/documentation/security-audit-template.md"
-        purpose: "Güvenlik denetimi şablonu"
-      - path: ".ai/.templates/documentation/WikiPage-Template.md"
-        purpose: "Wiki sayfası şablonu"
-    hardware:
-      - path: ".ai/.templates/hardware/arduino-template.md"
-        purpose: "Arduino/IoT prototipleme şablonu"
-      - path: ".ai/.templates/hardware/avr-template.md"
-        purpose: "AVR mikrodenetleyici şablonu"
-      - path: ".ai/.templates/hardware/pic-template.md"
-        purpose: "PIC mikrodenetleyici şablonu"
-    query:
-      - path: ".ai/.templates/query/Query-Template.md"
-        purpose: "SQL sorgu şablonu"
-    other:
-      - path: ".ai/.templates/other/c-template.md"
-        purpose: "C11 GCC embedded/driver şablonu"
-      - path: ".ai/.templates/cpp-template.md"
-        purpose: "C++20 JUCE/ASIO şablonu"
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .ai/brain.md · .ai/index.md"
 ---
 
 # CoreMusic — Memory System Index
@@ -435,21 +316,21 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | 2026-08-06 | .workflows/ Trim | ✅ Tamamlandi (-87%, 584 satir) | — | MO |
 | 2026-08-06 | Template Vault v3.0.0 | ✅ Tamamlandi (19 template, 26K satir) | — | MO |
 | 2026-08-08 | Vault Rewrite (engine, MEMORY, log) | ✅ Tamamlandi | [[ADR-042-vault-restructuring-2026-08-03]] | MO |
-| 2026-08-09 | Platform Rewrite Vault Update | ✅ 4 yeni ADR + architecture guncellendi | [[ADR-051/052/053/054]] | MO |
-| 2026-08-09 | Project Structure Plan | ✅ ADR-055 olusturuldu — 20 adimlik implementasyon plani | [[ADR-055-project-structure-plan]] | MO |
-| 2026-08-09 | Auth Module Implementation | ✅ ADR-056 olusturuldu — 26 adimlik auth modulu plani | [[ADR-056-auth-module-implementation]] | Security |
-| 2026-08-09 | Router & Middleware Implementation | ✅ ADR-057 olusturuldu — 22 adimlik router+middleware plani | [[ADR-057-router-middleware-implementation]] | Backend |
+| 2026-08-09 | Platform Rewrite Vault Update | ✅ 4 yeni ADR + architecture guncellendi | [[ADR-053/054]] | MO |
 | 2026-08-09 | Electronics Vault Integration | ✅ 50+ dosya, L6 katmani, 3 yeni ADR (061-063) | [[ADR-061/062/063-electronics]] | MO |
 | 2026-08-09 | AI Architecture + Vault Update | ✅ 12 yeni dosya (9 AI + 1 BCNF + 2 Security), OWASP 2025, PCM3168A duzeltmesi | [[ADR-030/035/036/049-ai]] | MO |
 | 2026-08-12 | Katmanlı Mimari Plan + ADR-083/084/085/086 + Vault Güncellemeleri | ✅ Tamamlandı | ADR-083, ADR-084, ADR-085, ADR-086 | MO |
 | 2026-08-13 | Master Implementation Plan + ADR-087 + Tüm Vault Revize | ✅ Tamamlandı (22 bölüm, 5 faz, 40 gün) | ADR-087, master-implementation-plan.md | MO |
 | 2026-08-13 | Vault Sync — Master Implementation Plan doğrulama + MEMORY/log güncelleme | ✅ Tamamlandı | master-implementation-plan.md | MO |
 | 2026-08-13 | Vault Restructuring — Templates Entegrasyon, Agent Yeniden Yapılandırma, Prompt Arsivleme | ✅ 5 faz, ~43 dosya | log.md | MO |
-| 2026-08-13 | Prompt Entegrasyonu — prompt0-3 okundu, .ai vault güncellendi, ADR revizeleri | ✅ brain.md, ADR-083, ADR-052, ADR-084 güncellendi, opencode.json optimize edildi | ADR-083 v2.0, ADR-052 v2.0, ADR-084 v2.0 | MO |
+| 2026-08-13 | Prompt Entegrasyonu — prompt0-3 okundu, .ai vault güncellendi, ADR revizeleri | ✅ brain.md, ADR-083, ADR-084 güncellendi, opencode.json optimize edildi | ADR-083 v2.0, ADR-084 v2.0 | MO |
 | 2026-08-13 | opencode.json Yeniden Yapılandırma — 12 agent prompt'u düzeltildi, template entegrasyonu, kesik metin giderildi, n@ hatası düzeltildi | ✅ 12 agent'a @.ai/.templates/index.md + @.ai/ROLE.md referansları eklendi, master-orchestrator prompt'u 7-adımlı task dispatch ile tamamlandı | ADR-042, ADR-083, ADR-084, ADR-085, ADR-086 | MO |
 | 2026-08-13 | .ai Beyin Yeniden Yapılandırma — Çelişki düzeltme, template entegrasyonu, prompt bağlama, hibrit kurallar | ✅ Tamamlandı (~20 dosya) | ADR-042, ADR-087 | MO |
 | 2026-08-15 | 18 BCNF Vault Senkronizasyonu — SQL dosyalarına göre vault tamamen yeniden yapılandırıldı | ✅ coremusic_download.sql oluşturuldu, database_master.md yeniden yazıldı (18 DB, 156 tablo), 27+ dosya güncellendi | — | Data Engineer |
 | 2026-08-15 | Architecture Vault Veri Tutarlılık Düzeltmesi — 12 dosya, ~20 değişiklik | ✅ architecture-master.md oluşturuldu, CLAUDE.md DB 11→18, index.md ADR 78→87, brain.md L0-L3→L0-L6, keys.md L4-L6 keywords, tüm layer dosyaları L0-L6 güncellendi | — | MO |
+| 2026-08-18 | Responsive CSS Architecture — a-layout-tokens.css v2.0.0, token konsolidasyonu, 4 breakpoint media query, device CSS dönüşümü | ✅ brain.md §18A, keys.md responsive keyword'leri, log.md entry | — | MO |
+| 2026-08-18 | Responsive CSS Architecture Rule — Vault'a zorunlu kural olarak yerleştirildi. Guardrail #17 (CLAUDE.md §7), brain.md §18A güncellendi (Responsive CSS Mimarisi Kuralı, yasak örüntüleri, dosya yapısı), AGENTS.md §15.3 UI Designer'a responsive kuralı eklendi | — | MO |
+| 2026-08-19 | Responsive Device Mode Architecture — .ai/ui-design/responsive-device-mode.md oluşturuldu (17 bölüm), tek component + embedded device override kuralı, Guardrail #17 uyumlu, 3 cross-reference güncellendi | — | MO |
 
 ---
 

@@ -50,15 +50,15 @@ references:
 │  │                                               │  │ [thumb] Göksel - Sevil Neş.   00:00  │   │
 │  └───────────────────────────────────────────────┘  └────────────────────────────────────────┘   │
 │                                                                                                  │
-│  ┌─ Mini Player (sol alt köşe, ~300×100px) ───────────────────────────────────────────────┐   │
-│  │ [50×50 thumb] Göksel - Sevil Neşelen                                                   │   │
-│  │                Hayat Rüya Gibi                                                          │   │
-│  │                Göksel                                                                    │   │
-│  │                00:00:00 / 00:05:00                                                      │   │
-│  │                [seek bar — full-width]                                                   │   │
+│  ┌─ Mini Player (sol alt köşe, ~250×80px) ────────────────────────────────────────────────┐   │
+│  │ [○ 50×50圆形] Göksel - Sevil Neşelen                                                   │   │
+│  │               Hayat Rüya Gibi                                                          │   │
+│  │               Göksel                                                                    │   │
+│  │               00:00:00 / 00:05:00                                                      │   │
+│  │               [seek bar — full-width, pembe]                                            │   │
 │  └─────────────────────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                                  │
-│  Sol alt köşe: m3p3 ★★★★★ (dosya formatı + yıldız)                                           │
+│  Sol alt köşe: mp3 ★★★★★ (dosya formatı + yıldız)                                            │
 │                                                                                                  │
 │ ARKA PLAN: Tam kaplama sanatçı fotoğrafı / video karesi                                       │
 │ Header: YOK — sadece geri oku                                                                  │
@@ -107,14 +107,15 @@ references:
 
 | Özellik | Değer |
 |---------|-------|
-| Boyut | ~300×100px |
+| Boyut | ~250×80px |
 | Pozisyon | Sol alt köşe |
 | Background | `rgba(0,0,0,0.5)` + `backdrop-filter: blur(10px)` |
 | Border-radius | 12px |
-| Thumb | 50×50px |
+| Thumb | 50×50px, daire (border-radius: 50%) |
 | Başlık | 12px, 600 |
 | Alt metin | 10px, 400, muted |
-| Seek bar | Full-width, 3px |
+| Seek bar | Full-width, 3px, pembe |
+| Sol alt | "mp3" + 5 yıldız (format bilgisi) |
 
 ---
 
@@ -140,7 +141,7 @@ references:
 | Liste alanı | x:717-1024, 307px | — |
 | Header | YOK (sadece geri ok) | — |
 | Footer | YOK (mini player) | — |
-| Mini player | 300×100px, sol alt | — |
+| Mini player | 250×80px, sol alt | — |
 | Liste satır yüksekliği | ~40px | — |
 | Liste thumb | 30×30px | — |
 | Touch target | ≥48px | `--touch-min` |
@@ -327,7 +328,7 @@ references:
   position: absolute;
   bottom: var(--space-4);
   left: var(--space-4);
-  width: 300px;
+  width: 250px;
   background: rgba(0,0,0,0.5);
   backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
@@ -339,7 +340,7 @@ references:
 .mini-player__art {
   width: 50px;
   height: 50px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-full);
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -481,5 +482,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 *Video Playback Screen Spec v3.0.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-17*
+*Last Updated: 2026-08-19*
 *Mode: Red Team · Human Mode · Truth Mode*

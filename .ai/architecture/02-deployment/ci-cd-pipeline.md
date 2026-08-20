@@ -268,7 +268,7 @@ main ─────────────────────────
 |-------|-------|--------|
 | § 4 GitHub Actions | [[testing/strategy]] | Test kapsamı |
 | § 5 Quality Gates | [[testing/coverage-targets]] | Coverage hedefleri |
-| § 6 Deployment | [[architecture/01-overview/startup-strategy]] | Fazlar |
+| § 6 Deployment | [[architecture/00-overview/startup-strategy]] | Fazlar |
 
 ## 11. Sözlük
 

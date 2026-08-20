@@ -10,132 +10,7 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/brain.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-    - ".ai/keys.md"
-    - ".ai/MEMORY.md"
-    - ".ai/log.md"
-    - ".ai/engine.md"
-  architecture:
-    - ".ai/ADR/"
-    - "Existing project architecture"
-    - "Existing codebase patterns"
-  project_structure:
-    - "coremusic.net/"
-    - "shared/"
-    - "api.coremusic.net/"
-    - "auth.coremusic.net/"
-    - "music.coremusic.net/"
-    - "admin.coremusic.net/"
-    - "home.coremusic.net/"
-    - "car.coremusic.net/"
-    - "studio.coremusic.net/"
-    - "pro.coremusic.net/"
-    - "media.coremusic.net/"
-    - "download.coremusic.net/"
-  decision_priority:
-    - "ADR decisions"
-    - "Architecture documentation"
-    - "Security requirements"
-    - "Existing implementation"
-    - "User requirements"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "file rename"
-      - "directory move"
-      - "architecture change"
-      - "database schema change"
-      - "security policy change"
-  skills:
-    - path: ".opencode/skills/ui-code-generator/SKILL.md"
-      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
-    - path: ".opencode/skills/ui-analyzer/SKILL.md"
-      purpose: "UI analizi, mevcut tasarım değerlendirme"
-    - path: ".opencode/skills/skill-maker/SKILL.md"
-      purpose: "Yeni skill oluşturma, skill template sistemi"
-    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
-      purpose: "Güvenlik testi, truth mode, adversarial analiz"
-    - path: ".opencode/skills/prompt-maker/SKILL.md"
-      purpose: "Prompt mühendisliği, AI talimat tasarımı"
-    - path: ".opencode/skills/composer-sync/SKILL.md"
-      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
-    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
-      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
-    - path: ".opencode/skills/human-mode/SKILL.md"
-      purpose: "İnsan modu iletişimi, onay süreçleri"
-    - path: ".opencode/skills/hallucination-control/SKILL.md"
-      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
-    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
-      purpose: "BCNF normalizasyonu, şema tasarımı"
-  templates:
-    adr:
-      - path: ".ai/.templates/adr/adr-template.md"
-        purpose: "ADR şablonu"
-      - path: ".ai/.templates/adr/adr-frontend-template.md"
-        purpose: "Frontend ADR şablonu"
-      - path: ".ai/.templates/adr/adr-database-template.md"
-        purpose: "Database ADR şablonu"
-      - path: ".ai/.templates/adr/adr-security-template.md"
-        purpose: "Security ADR şablonu"
-      - path: ".ai/.templates/adr/adr-audio-template.md"
-        purpose: "Audio/Hardware ADR şablonu"
-      - path: ".ai/.templates/adr/adr-index.md"
-        purpose: "ADR navigasyon rehberi"
-    backend:
-      - path: ".ai/.templates/backend/php-template.md"
-        purpose: "PHP 8.4 backend geliştirme şablonu"
-      - path: ".ai/.templates/backend/nodejs-template.md"
-        purpose: "Node.js 20+ backend geliştirme şablonu"
-    frontend:
-      - path: ".ai/.templates/frontend/js-template.md"
-        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
-      - path: ".ai/.templates/frontend/css-template.md"
-        purpose: "ITCSS 9-layer, BEM CSS şablonu"
-    testing:
-      - path: ".ai/.templates/testing/phpunit-template.md"
-        purpose: "PHPUnit 10+ test şablonu"
-      - path: ".ai/.templates/testing/vitest-template.md"
-        purpose: "Vitest JS/TS test şablonu"
-    infrastructure:
-      - path: ".ai/.templates/infrastructure/migration-template.md"
-        purpose: "MySQL 9 BCNF migration şablonu"
-      - path: ".ai/.templates/infrastructure/docker-template.md"
-        purpose: "Docker 24+ Compose v2 şablonu"
-      - path: ".ai/.templates/infrastructure/github-actions-template.md"
-        purpose: "GitHub Actions CI/CD şablonu"
-    documentation:
-      - path: ".ai/.templates/documentation/api-doc-template.md"
-        purpose: "API dokümantasyon şablonu"
-      - path: ".ai/.templates/documentation/security-audit-template.md"
-        purpose: "Güvenlik denetimi şablonu"
-      - path: ".ai/.templates/documentation/WikiPage-Template.md"
-        purpose: "Wiki sayfası şablonu"
-    hardware:
-      - path: ".ai/.templates/hardware/arduino-template.md"
-        purpose: "Arduino/IoT prototipleme şablonu"
-      - path: ".ai/.templates/hardware/avr-template.md"
-        purpose: "AVR mikrodenetleyici şablonu"
-      - path: ".ai/.templates/hardware/pic-template.md"
-        purpose: "PIC mikrodenetleyici şablonu"
-    query:
-      - path: ".ai/.templates/query/Query-Template.md"
-        purpose: "SQL sorgu şablonu"
-    other:
-      - path: ".ai/.templates/other/c-template.md"
-        purpose: "C11 GCC embedded/driver şablonu"
-      - path: ".ai/.templates/cpp-template.md"
-        purpose: "C++20 JUCE/ASIO şablonu"
-changelog:
-  - version: 23.0.0
-    date: 2026-08-13
-    changes:
-      - Added reference section (skills, templates, project_structure)
-      - Updated governance format
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .ai/brain.md · .ai/index.md"
 ---
 
 # CoreMusic — Engineering Brain (Enterprise SSOT)
@@ -261,7 +136,7 @@ psr/event-dispatcher, psr/cache, psr/simple-cache
 | Doctrine ORM | ORM yasak (ADR-002) | PDO + Doctrine DBAL |
 | Laravel Eloquent | ORM yasak (ADR-002) | PDO |
 | Propel | ORM yasak (ADR-002) | PDO |
-| `firebase/php-jwt` | Yasaklı — RS256 için `lcobucci/jwt` kullanılır (ADR-059) | `lcobucci/jwt` |
+| `firebase/php-jwt` | Yasaklı — RS256 için `lcobucci/jwt` kullanılır | `lcobucci/jwt` |
 | `mysql_*` fonksiyonları | Deprecated | PDO |
 | MD5/SHA1 | Güvensiz hash | Argon2id |
 | mcrypt | Deprecated | paragonie/halite |
@@ -523,7 +398,6 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | ADR-044 | Cinsiyet bazlı dinamik tema |
 | ADR-045 | Multi-domain view mode |
 | ADR-046 | Cross-view state koruma |
-| ADR-047 | Login redirect session bridge |
 | ADR-048 | View Transition API entegrasyonu |
 | ADR-049 | Startup prompt loader |
 | ADR-050 | Multi-DB sync stratejisi |
@@ -539,7 +413,6 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | ADR-077 | Studio DB Schema (sessions, tracks, presets, equipment) |
 | ADR-078 | CMS DB Schema (pages, blog, tags, media, FAQs, banners) |
 | ADR-079 | i18n DB Schema (languages, translations, ui_strings, locale) |
-| ADR-080 | Electronics Development Workflow |
 | ADR-083 | SPA Router Architecture (PHP+JS Hybrid) |
 | ADR-084 | API Gateway Architecture (API-First, BFF, CQRS) |
 | ADR-085 | Shared Library Hybrid (tek shared/ + PSR-4 namespace) |
@@ -613,6 +486,59 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 
 ---
 
+## 18A. Responsive CSS Architecture (a-layout-tokens.css v2.0.0)
+
+| Özellik | Değer | Kaynak |
+|---------|-------|--------|
+| Token Konsolidasyonu | Tek dosyada (`a-layout-tokens.css`) tüm responsive breakpoint'ler | [[architecture/l3-presentation]] |
+| Default Viewport | 1024×600 (RPi5 embedded, mockup reference) | [[ui-design/00-mockup-index]] |
+| Media Query Breakpoints | 4 adet: tablet (768-1024), mobile (≤767), desktop (≥1920), 4K TV (≥3840) | — |
+| Token Kategorileri | Header/Footer heights, spacing, font scale, touch targets, glass blur, z-index | — |
+| Device CSS Dönüşümü | `d-embedded.css`, `d-desktop.css`, `d-tablet.css` → sadece behavioral overrides (hover, touch, scrollbar) | — |
+
+### Responsive CSS Mimarisi Kuralı (Zorunlu — Guardrail #17)
+
+**1024×600 PNG mockup = Design Reference**
+- Pixel reference: Tüm ölçüler PNG'den çıkarılır
+- Layout authority: Layout kararı PNG mockup'a göredir
+- Component measurement source: Bileşen boyutları PNG piksel ölçümü
+
+**Frontend Implementasyon Kuralları:**
+1. TEK component sistemi + responsive CSS
+2. Ayrı HTML oluşturma → YASAK (Kod revert edilir)
+3. Ayrı frontend branch oluşturma → YASAK
+4. Hardcoded resolution lock → YASAK
+5. CSS variables + media queries ile breakpoint yönetimi
+6. Device CSS dosyaları = sadece behavioral overrides (hover, touch, scrollbar)
+
+**CSS Token Sistemi:**
+- `:root` = 1024px default (mockup reference)
+- `@media (min-width: 1920px)` = Desktop override
+- `@media (min-width: 3840px)` = 4K TV override
+- `@media (max-width: 767px)` = Mobile override
+- `@media (min-width: 768px) and (max-width: 1024px)` = Tablet override
+
+**Yasak Örüntüleri:**
+| ❌ Yasak | ✅ Doğru |
+|----------|----------|
+| home-1024.html, home-desktop.html | Tek HTML + responsive CSS |
+| `if (screenWidth === 1024) { separate code }` | CSS media query + var() |
+| device-loader.js ile tam CSS swap | CSS media query ile token override |
+| Hardcoded `height: 90px` | `height: var(--footer-h)` |
+| Hardcoded `width: 280px` | `width: var(--sidebar-w)` |
+
+**Dosya Yapısı:**
+```
+01_Abstracts/a-layout-tokens.css  → Tüm token tanımları + media query overrides
+08_Devices/d-embedded.css         → Sadece behavioral overrides (hover, touch, scrollbar)
+08_Devices/d-desktop.css          → Sadece behavioral overrides
+03_Layout/_header.css             → `var(--header-h)` kullanır
+03_Layout/_footer.css             → `var(--footer-h)` kullanır
+04_Components/*.css               → `var(--token)` kullanır
+```
+
+---
+
 ## 19. Edge Cases
 
 | Edge Case | Tetikleyici | Çözüm | ADR |
@@ -622,7 +548,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | Multi-Tab CSRF | Birden fazla sekme | Token session-bound sabit | [[ADR-010-csrf-protection-strategy]] |
 | Layer Violation | L0 → L3 import | Derhal revert | [[CLAUDE.md]] |
 | PCM5122 Kullanımı | 8.1 surround denemesi | PCM3168A veya AK4458 | [[ADR-038-8.1-sound-card-chip-selection]] |
-| Network Outage | İnternet kopması | Offline-First + SQLite queue | [[architecture/01-overview/overview]] |
+| Network Outage | İnternet kopması | Offline-First + SQLite queue | [[architecture/00-overview/architecture-master]] |
 | BCNF Violation | Yeni tablo | 3NF → BCNF audit | [[ADR-040-database-authority]] |
 | Buffer Underrun | CPU %100 | Fade-out → 50ms sessizlik → restart | [[engine.md]] |
 | Session Timeout | 3600s idle | Otomatik yeniden auth | [[ADR-011-session-management]] |
@@ -648,7 +574,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § Amaç | [[CLAUDE.md]] | Ana sözleşme |
-| § Mimari | [[architecture/01-overview/overview]] | L0-L6 |
+| § Mimari | [[architecture/00-overview/architecture-master]] | L0-L6 |
 | § C++ Audio | [[ADR-017-dsp-hardware-mode]] | XMOS, JUCE |
 | § 8.1 Surround | [[ADR-038-8.1-sound-card-chip-selection]] | PCM3168A, H001 |
 | § PHP Middleware | [[ADR-010-csrf-protection-strategy]] | csrf_token |
@@ -683,7 +609,7 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 | prompt0: 20 analiz görevi | WORKFLOW.md genişletilmiş prompt bölümü | ADR-042 |
 | prompt0: Zorunlu Kurallar | CLAUDE.md § 7 (Hard Guardrails) | ADR-007 |
 | prompt1: Enterprise Router | architecture/l2-routing/spa-router.md § 1A | ADR-083 |
-| prompt2: Central Auth | architecture/08-auth/auth-cross-domain.md, ADR-043 | ADR-043, ADR-052 |
+| prompt2: Central Auth | architecture/08-auth/auth-cross-domain.md, ADR-043 | ADR-043 |
 | prompt2: Middleware Pipeline | brain.md § 6 | ADR-010/011/012/013/022 |
 | prompt3: API Gateway | ADR-084 (API Gateway Architecture) | ADR-084 |
 | prompt3: CQRS | brain.md § 4B (API Architecture) | ADR-086 |

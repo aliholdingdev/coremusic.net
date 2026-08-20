@@ -19,7 +19,7 @@ references:
 
 ## Platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
 
-**Source Images:** `Linux  1024 - Select Gender.png` + `Linux  1024 - Select Gender - selected.png`
+**Source Images:** `Linux 1024 - Select Gender.png` + `Linux 1024 - Select Gender - selected.png`
 **Confidence:** High — directly viewed from PNG screenshots.
 **Layout Pattern:** Pattern 5: Auth Screen (72/28 split)
 **Auth Sırası:** İLK ADIM — Bu ekrandan önce hiçbir auth ekranı gösterilmez.
@@ -338,7 +338,7 @@ assets.coremusic.net/Css/
     
     <button class="btn-primary" disabled>Devam Et</button>
     
-    <p class="auth-screen__decorative">Hayatın rastlantılarla dolu... senin gizli Müziğinle partala! ♥</p>
+    <p class="auth-screen__decorative">Hayatın rengini sende gizli Müziğinle patla! ♥</p>
     <p class="auth-screen__legal">Devam ederek <a href="/privacy">Gizlilik Politikamızı</a> kabul etmiş olursunuz.</p>
   </div>
 </main>
@@ -407,7 +407,7 @@ assets.coremusic.net/Css/
 │  │                                                │  │                                         │  │
 │  │                                                │  │  [Devam Et] (pembe, full-width)         │  │
 │  │                                                │  │                                         │  │
-│  │                                                │  │  "Hayatın rastlantılarla dolu..."       │  │
+│  │                                                │  │  "Hayatın rengini sende gizli..."        │  │
 │  │                                                │  │  Devam ederek Gizlilik Politikamızı     │  │
 │  │                                                │  │  kabul etmiş olursunuz.                 │  │
 │  └────────────────────────────────────────────────┘  └─────────────────────────────────────────┘  │
@@ -512,7 +512,7 @@ Glass efekti yok (performans)
 │  │                                                        │  │                                                     │  │
 │  │                                                        │  │  [Devam Et] (pembe, full-width, 80px)               │  │
 │  │                                                        │  │                                                     │  │
-│  │                                                        │  │  "Hayatın rastlantılarla dolu..." (18px)            │  │
+│  │                                                        │  │  "Hayatın rengini sende gizli..." (18px)            │  │
 │  │                                                        │  │  Devam ederek Gizlilik Politikamızı (14px)          │  │
 │  └────────────────────────────────────────────────────────┘  └─────────────────────────────────────────────────────┘  │
 │                                                                                                                    │
@@ -535,7 +535,7 @@ Glass efekti yok (performans)
 | `--accent-bg` | `rgba(255,79,216,0.2)` | Seçili gender button arka plan |
 | `--accent-border` | `2px solid #ff4fd8` | Seçili gender button border |
 | `--accent-glow` | `0 0 20px rgba(255,79,216,0.4)` | Seçili durum glow |
-| Gradient | sunset/çimenlik | Sol alan arka plan |
+| Gradient | kadın fotoğrafı (pembe çiçekli manzara) | Sol alan arka plan |
 
 ### 12.2 — Male Teması (Mavi)
 
@@ -972,7 +972,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ---
 
-*Select Gender Screen Spec v4.0.0 — CoreMusic UI Design System*
+*Select Gender Screen Spec v3.0.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-17*
+*Last Updated: 2026-08-19*
 *Mode: Red Team · Human Mode · Truth Mode*

@@ -331,7 +331,7 @@ ADIM 6: Post-mortem
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § 3 Logging | [[architecture/07-security/middleware-security]] | Security logs |
-| § 4 Metrics | [[architecture/01-overview/dependency-graph]] | Servis metrikleri |
+| § 4 Metrics | [[architecture/00-overview/dependency-graph]] | Servis metrikleri |
 | § 5 Alerting | [[architecture/02-deployment/deployment]] | Deployment alerts |
 | § 9 Incident | [[WORKFLOW.md]] | Incident workflow |
 

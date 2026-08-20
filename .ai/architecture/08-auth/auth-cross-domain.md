@@ -24,7 +24,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 Tüm subdomain'ler (music, admin, api, media, home, pro, studio, car, download, coremusic.net) **zorunlu olarak** auth.coremusic.net'i kullanır.
 
-*Kaynak: [[ADR-043-auth-subdomain-consolidation]], [[ADR-058-cross-subdomain-auth-flow]]*
+*Kaynak: [[ADR-043-auth-subdomain-consolidation]]*
 
 ## 2. Cross-Domain Architecture
 
@@ -80,7 +80,7 @@ Tüm subdomain'ler sadece aşağıdaki listedeki domainlere istek atabilir:
 
 **Kural:** Whitelist'te olmayan hiçbir domain'e CORS izni verilmez.
 
-*Kaynak: [[ADR-058-cross-subdomain-auth-flow]]*
+
 
 ## 4. CORS / Origin Flow
 

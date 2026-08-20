@@ -1,0 +1,58 @@
+/**
+ * CoreMusic — Mobile Device CSS (≤767px)
+ * ITCSS Layer: 08_Devices
+ * Version: 1.0.0 — 2026-08-18
+ *
+ * Sadece behavioral overrides — token'lar a-layout-tokens.css tarafından yönetilir
+ * Token'lar: a-layout-tokens.css → @media (max-width: 767px)
+ * Component'ler: main.css → 03_Layout/, 04_Components/, 05_Pages/
+ *
+ * Target: Native Mobile (Android/iOS) veya PWA
+ * Input: Dokunmatik (parmak) + Jesture (swipe, pinch)
+ */
+
+/* ============================================================
+   BEHAVIORAL OVERRIDES — Mobile (Touch + Gesture)
+   ============================================================ */
+
+/* Font scale: 1× */
+html {
+  font-size: 14px;
+}
+
+/* Touch scrolling */
+body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Touch behavior */
+* {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Hover devre dışı */
+*:hover {
+  /* Boş — hover efekti uygulanmaz */
+}
+
+/* iOS zoom engelleme */
+input, textarea, select {
+  font-size: 16px;
+}
+
+/* Safe area (Dynamic Island, notch) */
+body {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Scrollbar — gizli (mobilde) */
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}

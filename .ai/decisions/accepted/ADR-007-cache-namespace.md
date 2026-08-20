@@ -1,19 +1,8 @@
----
-type: decision
-id: "007"
+﻿---
 title: "ADR-007: Cache Namespace Standard"
-category: "architecture"
-status: "frozen"
-date: "2026-02-15"
-updated: "2026-08-15"
-authority: "Backend Architect"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: frozen
+date: 2026-02-15
 tags: [architecture, cache, namespace, zero-code-before-plan, frozen]
-risk-level: "high"
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
 ---
 
 # ADR-007: Cache Namespace Standard
@@ -22,17 +11,17 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic'te cache namespace'leri standartlaştırılmıştır. Her domain kendi namespace'ini kullanır. Zero Code Before Plan prensibi bu ADR'de tanımlanmıştır.
+CoreMusic'te cache namespace'leri standartlaÅŸtÄ±rÄ±lmÄ±ÅŸtÄ±r. Her domain kendi namespace'ini kullanÄ±r. Zero Code Before Plan prensibi bu ADR'de tanÄ±mlanmÄ±ÅŸtÄ±r.
 
 ## 2. Decision
 
-### Cache Namespace Formatı
+### Cache Namespace FormatÄ±
 
 ```
 {domain}:{subdomain}:{key}
 ```
 
-| Örnek | Namespace |
+| Ã–rnek | Namespace |
 |-------|-----------|
 | User cache | `auth:user:{userId}` |
 | Session cache | `auth:session:{sessionId}` |
@@ -44,23 +33,23 @@ CoreMusic'te cache namespace'leri standartlaştırılmıştır. Her domain kendi
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Plan onayı olmadan kod yok | ✅ Zorunlu |
-| 2 | Mimari onay zorunlu | ✅ Zorunlu |
-| 3 | Template kullanımı zorunlu | ✅ Zorunlu |
-| 4 | Vault-first okuma | ✅ Zorunlu |
+| 1 | Plan onayÄ± olmadan kod yok | âœ… Zorunlu |
+| 2 | Mimari onay zorunlu | âœ… Zorunlu |
+| 3 | Template kullanÄ±mÄ± zorunlu | âœ… Zorunlu |
+| 4 | Vault-first okuma | âœ… Zorunlu |
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-007: Cache Namespace Standard v2.0.0 — CoreMusic Architecture*
-*Authority: Backend Architect · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-007: Cache Namespace Standard v2.0.0 â€” CoreMusic Architecture*
+*Authority: Backend Architect Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

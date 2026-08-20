@@ -16,7 +16,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-L1, CoreMusic platformunun güvenlik katmanıdır. Middleware pipeline, session yönetimi, CSRF koruması, CSP nonce, rate limiting ve authentication bu katmanda yönetilir. L1, L0 (infrastructure) üzerinde çalışır ve L2-Routing'e güvenlik hizmeti sunar. Hybrid Auth (Session + JWT) mimarisi ile [[ADR-052-hybrid-auth-architecture]] ve [[ADR-058-auth-subdomain-priority]] uyumludur. Detaylı implementasyon planı: [[ADR-087-master-implementation-plan]].
+L1, CoreMusic platformunun güvenlik katmanıdır. Middleware pipeline, session yönetimi, CSRF koruması, CSP nonce, rate limiting ve authentication bu katmanda yönetilir. L1, L0 (infrastructure) üzerinde çalışır ve L2-Routing'e güvenlik hizmeti sunar. Hybrid Auth (Session + JWT) mimarisi ile uyumludur. Detaylı implementasyon planı: [[ADR-087-master-implementation-plan]].
 
 **Katman Sırası (Dıştan içe):**
 ```

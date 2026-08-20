@@ -1,20 +1,8 @@
----
-type: decision
-id: "014"
+﻿---
 title: "ADR-014: Multi-DB Migration Strategy"
-category: "database"
-status: "frozen"
-date: "2026-03-25"
-updated: "2026-08-15"
-authority: "Data Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: frozen
+date: 2026-03-25
 tags: [database, migration, multi-db, frozen]
-risk-level: "high"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-002-pdo-mandatory-no-orm]]"
-  - "[[decisions/accepted/ADR-040-database-authority]]"
 ---
 
 # ADR-014: Multi-DB Migration Strategy
@@ -23,11 +11,11 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic veritabanı migration'ları **forward-only** stratejisi ile yönetilir. Geri dönüş (rollback) yoktur. Her migration versiyonlu ve loglanır. 18 BCNF veritabanı için bağımsız migration'lar uygulanır.
+CoreMusic veritabanÄ± migration'larÄ± **forward-only** stratejisi ile yÃ¶netilir. Geri dÃ¶nÃ¼ÅŸ (rollback) yoktur. Her migration versiyonlu ve loglanÄ±r. 18 BCNF veritabanÄ± iÃ§in baÄŸÄ±msÄ±z migration'lar uygulanÄ±r.
 
 ## 2. Status
 
-| Alan | Değer |
+| Alan | DeÄŸer |
 |------|-------|
 | **Durum** | frozen |
 | **Versiyon** | 2.0.0 |
@@ -39,32 +27,32 @@ CoreMusic veritabanı migration'ları **forward-only** stratejisi ile yönetilir
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Forward-only migration | ✅ Zorunlu |
-| 2 | Rollback yasak | ❌ Yasak |
-| 3 | Versioned migration | ✅ Zorunlu |
-| 4 | Migration log | ✅ Zorunlu |
-| 5 | Backup önce | ✅ Zorunlu |
-| 6 | Test ortamında önce | ✅ Zorunlu |
-| 7 | BCNF validation sonra | ✅ Zorunlu |
+| 1 | Forward-only migration | âœ… Zorunlu |
+| 2 | Rollback yasak | âŒ Yasak |
+| 3 | Versioned migration | âœ… Zorunlu |
+| 4 | Migration log | âœ… Zorunlu |
+| 5 | Backup Ã¶nce | âœ… Zorunlu |
+| 6 | Test ortamÄ±nda Ã¶nce | âœ… Zorunlu |
+| 7 | BCNF validation sonra | âœ… Zorunlu |
 
-### Migration Akışı
+### Migration AkÄ±ÅŸÄ±
 
 ```
-Backup → Test Ortamı → BCNF Validation → Production → Log
+Backup â†’ Test OrtamÄ± â†’ BCNF Validation â†’ Production â†’ Log
 ```
 
 ---
 
 ## 4. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-014: Multi-DB Migration Strategy v2.0.0 — CoreMusic Database*
-*Authority: Data Engineer · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-014: Multi-DB Migration Strategy v2.0.0 â€” CoreMusic Database*
+*Authority: Data Engineer Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

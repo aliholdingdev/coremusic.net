@@ -1,21 +1,8 @@
----
-type: decision
-id: "004"
+﻿---
 title: "ADR-004: Multi-Domain SPA Architecture"
-category: "architecture"
-status: "frozen"
-date: "2026-02-01"
-updated: "2026-08-15"
-authority: "Backend Architect"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: frozen
+date: 2026-02-01
 tags: [architecture, spa, multi-domain, subdomain, frozen]
-risk-level: "critical"
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[decisions/accepted/ADR-043-auth-subdomain-consolidation]]"
-  - "[[architecture/l2-routing]]"
 ---
 
 # ADR-004: Multi-Domain SPA Architecture
@@ -24,11 +11,11 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic, **multi-subdomain SPA** mimarisi ile çalışır. Her subdomain (music, admin, home, car, studio, pro, media, download) kendi SPA'sını çalıştırır. Subdomain'ler arası geçiş client-side routing ile yapılır. auth.coremusic.net merkezi auth servisidir.
+CoreMusic, **multi-subdomain SPA** mimarisi ile Ã§alÄ±ÅŸÄ±r. Her subdomain (music, admin, home, car, studio, pro, media, download) kendi SPA'sÄ±nÄ± Ã§alÄ±ÅŸtÄ±rÄ±r. Subdomain'ler arasÄ± geÃ§iÅŸ client-side routing ile yapÄ±lÄ±r. auth.coremusic.net merkezi auth servisidir.
 
 ## 2. Status
 
-| Alan | Değer |
+| Alan | DeÄŸer |
 |------|-------|
 | **Durum** | frozen |
 | **Versiyon** | 2.0.0 |
@@ -36,43 +23,43 @@ CoreMusic, **multi-subdomain SPA** mimarisi ile çalışır. Her subdomain (musi
 
 ## 3. Decision
 
-### Subdomain Haritası
+### Subdomain HaritasÄ±
 
-| Subdomain | Port | Amaç |
+| Subdomain | Port | AmaÃ§ |
 |-----------|------|------|
 | coremusic.net | 80 | Landing page |
 | music.coremusic.net | 81 | Ana medya paneli |
-| admin.coremusic.net | 80 | Yönetim paneli |
-| auth.coremusic.net | — | Merkezi auth |
+| admin.coremusic.net | 80 | YÃ¶netim paneli |
+| auth.coremusic.net | â€” | Merkezi auth |
 | home.coremusic.net | 81 | Ev medya merkezi |
-| car.coremusic.net | — | Araç içi |
-| studio.coremusic.net | 81 | Stüdyo |
+| car.coremusic.net | â€” | AraÃ§ iÃ§i |
+| studio.coremusic.net | 81 | StÃ¼dyo |
 | pro.coremusic.net | 81 | Profesyonel |
 | media.coremusic.net | 5000/6000 | Medya processing |
-| download.coremusic.net | 3001 | İndirme servisi |
+| download.coremusic.net | 3001 | Ä°ndirme servisi |
 
 ### Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Her subdomain kendi SPA'sı | ✅ Zorunlu |
-| 2 | auth.coremusic.net merkezi | ✅ Zorunlu |
-| 3 | Cross-subdomain session | ✅ Zorunlu |
-| 4 | Client-side routing | ✅ Zorunlu |
-| 5 | History API | ✅ Zorunlu |
+| 1 | Her subdomain kendi SPA'sÄ± | âœ… Zorunlu |
+| 2 | auth.coremusic.net merkezi | âœ… Zorunlu |
+| 3 | Cross-subdomain session | âœ… Zorunlu |
+| 4 | Client-side routing | âœ… Zorunlu |
+| 5 | History API | âœ… Zorunlu |
 
 ---
 
 ## 4. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-004: Multi-Domain SPA Architecture v2.0.0 — CoreMusic Architecture*
-*Authority: Backend Architect · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-004: Multi-Domain SPA Architecture v2.0.0 â€” CoreMusic Architecture*
+*Authority: Backend Architect Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

@@ -437,5 +437,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 *File List Screen Spec v3.0.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-17*
+*Last Updated: 2026-08-19*
 *Mode: Red Team · Human Mode · Truth Mode*

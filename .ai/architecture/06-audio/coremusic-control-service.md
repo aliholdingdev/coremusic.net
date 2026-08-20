@@ -154,7 +154,7 @@ Browser → GET /register
 
 | Dosya | Amaç |
 |-------|------|
-| [[architecture/03-contracts/middleware-pipeline]] | Middleware |
+| [[architecture/l2-routing/middleware-pipeline]] | Middleware |
 | [[architecture/l1-security]] | Security |
 | [[ADR-010-csrf-protection-strategy]] | CSRF |
 | [[ADR-011-session-management]] | Session |
@@ -166,7 +166,7 @@ Browser → GET /register
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 5 Middleware | [[architecture/03-contracts/middleware-pipeline]] | Pipeline |
+| § 5 Middleware | [[architecture/l2-routing/middleware-pipeline]] | Pipeline |
 | § 7 Auth | [[ADR-043-auth-subdomain-consolidation]] | Auth |
 | § 9 Tema | [[ADR-044-dynamic-user-theme-engine]] | Theme |
 

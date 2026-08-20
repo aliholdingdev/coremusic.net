@@ -1,19 +1,8 @@
----
-type: decision
-id: "029"
+﻿---
 title: "ADR-029: Listening Rooms Social"
-category: "social"
-status: "frozen"
-date: "2026-05-30"
-updated: "2026-08-15"
-authority: "Backend Architect"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: frozen
+date: 2026-05-30
 tags: [social, listening-rooms, realtime, frozen]
-risk-level: "medium"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-039-7-service-platform-architecture]]"
 ---
 
 # ADR-029: Listening Rooms Social
@@ -22,39 +11,39 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic'te **dinleme odaları** özelliği bulunur. Kullanıcılar aynı anda müzik dinleyebilir, yorum yapabilir ve etkileşimde bulunabilir.
+CoreMusic'te **dinleme odalarÄ±** Ã¶zelliÄŸi bulunur. KullanÄ±cÄ±lar aynÄ± anda mÃ¼zik dinleyebilir, yorum yapabilir ve etkileÅŸimde bulunabilir.
 
 ## 2. Decision
 
-### Odözellikleri
+### OdÃ¶zellikleri
 
-| Özellik | Değer |
+| Ã–zellik | DeÄŸer |
 |---------|-------|
-| Max katılımcı | 50 |
-| Real-time senkronizasyon | ✅ |
-| Chat desteği | ✅ |
-| Moderasyon | ✅ |
+| Max katÄ±lÄ±mcÄ± | 50 |
+| Real-time senkronizasyon | âœ… |
+| Chat desteÄŸi | âœ… |
+| Moderasyon | âœ… |
 
 ### Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Real-time senkronizasyon | ✅ Zorunlu |
-| 2 | Chat desteği | ✅ Zorunlu |
-| 3 | Moderasyon | ✅ Zorunlu |
+| 1 | Real-time senkronizasyon | âœ… Zorunlu |
+| 2 | Chat desteÄŸi | âœ… Zorunlu |
+| 3 | Moderasyon | âœ… Zorunlu |
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-029: Listening Rooms Social v2.0.0 — CoreMusic Social*
-*Authority: Backend Architect · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-029: Listening Rooms Social v2.0.0 â€” CoreMusic Social*
+*Authority: Backend Architect Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

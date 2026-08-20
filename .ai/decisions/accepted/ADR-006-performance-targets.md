@@ -1,19 +1,8 @@
----
-type: decision
-id: "006"
+﻿---
 title: "ADR-006: Performance Targets"
-category: "architecture"
-status: "frozen"
-date: "2026-02-10"
-updated: "2026-08-15"
-authority: "Backend Architect"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: frozen
+date: 2026-02-10
 tags: [architecture, performance, targets, frozen]
-risk-level: "high"
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
 ---
 
 # ADR-006: Performance Targets
@@ -22,13 +11,13 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic performans hedefleri tanımlanmıştır. Tüm endpoint'ler bu hedeflere uymalıdır.
+CoreMusic performans hedefleri tanÄ±mlanmÄ±ÅŸtÄ±r. TÃ¼m endpoint'ler bu hedeflere uymalÄ±dÄ±r.
 
 ## 2. Decision
 
 ### Performans Hedefleri
 
-| Metrik | Hedef | Kritik Eşik |
+| Metrik | Hedef | Kritik EÅŸik |
 |--------|-------|-------------|
 | TTFB | < 200ms | > 500ms |
 | API Response | < 100ms | > 300ms |
@@ -43,25 +32,25 @@ CoreMusic performans hedefleri tanımlanmıştır. Tüm endpoint'ler bu hedefler
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | TTFB < 200ms | ✅ Zorunlu |
-| 2 | API < 100ms | ✅ Zorunlu |
-| 3 | Page Load < 2s | ✅ Zorunlu |
-| 4 | ASIO latency < 10ms | ✅ Zorunlu |
-| 5 | Cache hit > 80% | ✅ Zorunlu |
-| 6 | Monitoring zorunlu | ✅ Zorunlu |
+| 1 | TTFB < 200ms | âœ… Zorunlu |
+| 2 | API < 100ms | âœ… Zorunlu |
+| 3 | Page Load < 2s | âœ… Zorunlu |
+| 4 | ASIO latency < 10ms | âœ… Zorunlu |
+| 5 | Cache hit > 80% | âœ… Zorunlu |
+| 6 | Monitoring zorunlu | âœ… Zorunlu |
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-006: Performance Targets v2.0.0 — CoreMusic Architecture*
-*Authority: Backend Architect · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-006: Performance Targets v2.0.0 â€” CoreMusic Architecture*
+*Authority: Backend Architect Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

@@ -1,24 +1,8 @@
----
-type: decision
-id: "002"
+﻿---
 title: "ADR-002: PDO Mandatory, ORM Yasak"
-category: "database"
-status: "frozen"
-date: "2026-01-20"
-updated: "2026-08-15"
-authority: "Data Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-supersedes: null
-version: 2.0.0
+status: frozen
+date: 2026-01-20
 tags: [database, pdo, orm, sql, security, frozen]
-risk-level: "critical"
-owasp-top10: ["A03:2021"]
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[AGENTS.md]]"
-  - "[[decisions/accepted/ADR-022-database-hardened-security]]"
-  - "[[architecture/l0-infrastructure]]"
 ---
 
 # ADR-002: PDO Mandatory, ORM Yasak
@@ -27,44 +11,44 @@ references:
 
 ## 1. Executive Summary
 
-### 1.1 Kararın Özeti
+### 1.1 KararÄ±n Ã–zeti
 
-CoreMusic veritabanı erişimi **PDO (PHP Data Objects)** ile yapılır. ORM kullanımı (Doctrine, Eloquent, Propel) **kesinlikle yasaktır**. Tüm SQL sorguları **prepared statement** ile çalıştırılır. `SELECT *` kullanımı yasaktır, **açık sütun listesi** zorunludur.
+CoreMusic veritabanÄ± eriÅŸimi **PDO (PHP Data Objects)** ile yapÄ±lÄ±r. ORM kullanÄ±mÄ± (Doctrine, Eloquent, Propel) **kesinlikle yasaktÄ±r**. TÃ¼m SQL sorgularÄ± **prepared statement** ile Ã§alÄ±ÅŸtÄ±rÄ±lÄ±r. `SELECT *` kullanÄ±mÄ± yasaktÄ±r, **aÃ§Ä±k sÃ¼tun listesi** zorunludur.
 
-### 1.2 Temel Gerekçe
+### 1.2 Temel GerekÃ§e
 
 ORM'ler:
-- SQL injection riskini artırır (query builder aracılığıyla)
-- Performans overhead'i yaratır
-- Debug zorluğu yaratır
-- Migration karmaşıklığı yaratır
-- ADR-001 (Vanilla JS) prensibiyle uyumlu değil
+- SQL injection riskini artÄ±rÄ±r (query builder aracÄ±lÄ±ÄŸÄ±yla)
+- Performans overhead'i yaratÄ±r
+- Debug zorluÄŸu yaratÄ±r
+- Migration karmaÅŸÄ±klÄ±ÄŸÄ± yaratÄ±r
+- ADR-001 (Vanilla JS) prensibiyle uyumlu deÄŸil
 
 PDO:
-- Doğrudan SQL kontrolü
-- Prepared statement ile SQL injection koruması
-- Düşük overhead
+- DoÄŸrudan SQL kontrolÃ¼
+- Prepared statement ile SQL injection korumasÄ±
+- DÃ¼ÅŸÃ¼k overhead
 - Kolay debug
-- PHP 8.4 native desteği
+- PHP 8.4 native desteÄŸi
 
-### 1.3 Beklenen Sonuçlar
+### 1.3 Beklenen SonuÃ§lar
 
-- %100 PDO kullanımı
-- %0 ORM kullanımı
+- %100 PDO kullanÄ±mÄ±
+- %0 ORM kullanÄ±mÄ±
 - Prepared statement zorunlu
 - Explicit column list zorunlu
-- Düşük veritabanı overhead
+- DÃ¼ÅŸÃ¼k veritabanÄ± overhead
 
 ---
 
 ## 2. Status
 
-| Alan | Değer |
+| Alan | DeÄŸer |
 |------|-------|
 | **Durum** | frozen |
 | **Versiyon** | 2.0.0 |
-| **Oluşturma Tarihi** | 2026-01-20 |
-| **Son Güncelleme** | 2026-08-15 |
+| **OluÅŸturma Tarihi** | 2026-01-20 |
+| **Son GÃ¼ncelleme** | 2026-08-15 |
 | **Otorite** | Data Engineer |
 | **Risk Seviyesi** | critical |
 
@@ -72,33 +56,33 @@ PDO:
 
 ## 3. Context
 
-### 3.1 Problem Tanımı
+### 3.1 Problem TanÄ±mÄ±
 
-ORM'lerin sakıncaları:
+ORM'lerin sakÄ±ncalarÄ±:
 - **SQL Injection Risk:** Query builder'lar prepared statement kullanmayabilir
 - **Performans Overhead:** ORM mapping maliyeti
-- **Debug Zorluğu:** ORM-generated SQL'i debug etmek zor
-- **Migration Karmaşıklığı:** ORM migration'ları bazen uyumsuz
-- **Bağımlılık:** Büyük framework bağımlılığı
+- **Debug ZorluÄŸu:** ORM-generated SQL'i debug etmek zor
+- **Migration KarmaÅŸÄ±klÄ±ÄŸÄ±:** ORM migration'larÄ± bazen uyumsuz
+- **BaÄŸÄ±mlÄ±lÄ±k:** BÃ¼yÃ¼k framework baÄŸÄ±mlÄ±lÄ±ÄŸÄ±
 
-### 3.2 Yasaklı ORM Listesi
+### 3.2 YasaklÄ± ORM Listesi
 
 | ORM | Durum | Neden Yasak |
 |-----|-------|-------------|
-| Doctrine ORM | ❌ Yasak | ADR-002 |
-| Laravel Eloquent | ❌ Yasak | ADR-002 |
-| Propel | ❌ Yasak | ADR-002 |
-| RedBeanPHP | ❌ Yasak | ADR-002 |
-| CakePHP ORM | ❌ Yasak | ADR-002 |
+| Doctrine ORM | âŒ Yasak | ADR-002 |
+| Laravel Eloquent | âŒ Yasak | ADR-002 |
+| Propel | âŒ Yasak | ADR-002 |
+| RedBeanPHP | âŒ Yasak | ADR-002 |
+| CakePHP ORM | âŒ Yasak | ADR-002 |
 
-### 3.3 İtici Güçler
+### 3.3 Ä°tici GÃ¼Ã§ler
 
-| # | Güç | Kritiklik |
+| # | GÃ¼Ã§ | Kritiklik |
 |---|-----|-----------|
-| 1 | SQL injection koruması | Kritik |
-| 2 | Performans | Yüksek |
-| 3 | Debug kolaylığı | Yüksek |
-| 4 | Minimal bağımlılık | Orta |
+| 1 | SQL injection korumasÄ± | Kritik |
+| 2 | Performans | YÃ¼ksek |
+| 3 | Debug kolaylÄ±ÄŸÄ± | YÃ¼ksek |
+| 4 | Minimal baÄŸÄ±mlÄ±lÄ±k | Orta |
 
 ---
 
@@ -106,24 +90,24 @@ ORM'lerin sakıncaları:
 
 ### 4.1 Karar Bildirimi
 
-**CoreMusic'te veritabanı erişimi sadece PDO ile yapılır. ORM kullanımı kesinlikle yasaktır.**
+**CoreMusic'te veritabanÄ± eriÅŸimi sadece PDO ile yapÄ±lÄ±r. ORM kullanÄ±mÄ± kesinlikle yasaktÄ±r.**
 
 ### 4.2 Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | PDO kullanımı | ✅ Zorunlu |
-| 2 | ORM kullanımı | ❌ Yasak |
-| 3 | Prepared statement | ✅ Zorunlu |
-| 4 | `SELECT *` | ❌ Yasak |
-| 5 | Explicit column list | ✅ Zorunlu |
-| 6 | Error mode: EXCEPTION | ✅ Zorunlu |
-| 7 | Emulate prepares: false | ✅ Zorunlu |
-| 8 | Fetch mode: ASSOC | ✅ Zorunlu |
+| 1 | PDO kullanÄ±mÄ± | âœ… Zorunlu |
+| 2 | ORM kullanÄ±mÄ± | âŒ Yasak |
+| 3 | Prepared statement | âœ… Zorunlu |
+| 4 | `SELECT *` | âŒ Yasak |
+| 5 | Explicit column list | âœ… Zorunlu |
+| 6 | Error mode: EXCEPTION | âœ… Zorunlu |
+| 7 | Emulate prepares: false | âœ… Zorunlu |
+| 8 | Fetch mode: ASSOC | âœ… Zorunlu |
 
-### 4.3 Kod Örnekleri
+### 4.3 Kod Ã–rnekleri
 
-#### 4.3.1 Güvenli PDO Bağlantısı
+#### 4.3.1 GÃ¼venli PDO BaÄŸlantÄ±sÄ±
 
 ```php
 <?php
@@ -135,14 +119,14 @@ namespace CoreMusic\Infrastructure\Database;
 /**
  * PDO Connection Factory
  *
- * ADR-002 uyumlu güvenli PDO bağlantısı.
+ * ADR-002 uyumlu gÃ¼venli PDO baÄŸlantÄ±sÄ±.
  * Prepared statement zorunlu.
  * SELECT * yasak.
  */
 final class PdoConnectionFactory
 {
     /**
-     * Güvenli PDO bağlantısı oluşturur.
+     * GÃ¼venli PDO baÄŸlantÄ±sÄ± oluÅŸturur.
      */
     public static function create(array $config): \PDO
     {
@@ -160,13 +144,13 @@ final class PdoConnectionFactory
             // ADR-002:_ASSOC fetch modu
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
 
-            // ADR-002: Gerçek prepared statement
+            // ADR-002: GerÃ§ek prepared statement
             \PDO::ATTR_EMULATE_PREPARES => false,
 
             // Performans optimizasyonu
             \PDO::MYSQL_ATTR_FOUND_ROWS => false,
 
-            // Persistent connection kapalı
+            // Persistent connection kapalÄ±
             \PDO::ATTR_PERSISTENT => false,
         ]);
 
@@ -175,7 +159,7 @@ final class PdoConnectionFactory
 }
 ```
 
-#### 4.3.2 Güvenli Repository Örneği
+#### 4.3.2 GÃ¼venli Repository Ã–rneÄŸi
 
 ```php
 <?php
@@ -191,7 +175,7 @@ use CoreMusic\Infrastructure\Database\PdoConnectionFactory;
 /**
  * User Repository
  *
- * ADR-002 uyumlu veritabanı erişimi.
+ * ADR-002 uyumlu veritabanÄ± eriÅŸimi.
  * Prepared statement zorunlu.
  * SELECT * yasak.
  */
@@ -205,9 +189,9 @@ final class PdoUserRepository implements UserRepositoryInterface
     }
 
     /**
-     * ID ile kullanıcı bulur.
+     * ID ile kullanÄ±cÄ± bulur.
      *
-     * ✅ DOĞRU — Explicit column list
+     * âœ… DOÄRU â€” Explicit column list
      */
     public function findById(int $id): ?User
     {
@@ -227,7 +211,7 @@ final class PdoUserRepository implements UserRepositoryInterface
     }
 
     /**
-     * E-posta ile kullanıcı bulur.
+     * E-posta ile kullanÄ±cÄ± bulur.
      */
     public function findByEmail(string $email): ?User
     {
@@ -247,7 +231,7 @@ final class PdoUserRepository implements UserRepositoryInterface
     }
 
     /**
-     * Kullanıcı kaydeder.
+     * KullanÄ±cÄ± kaydeder.
      */
     public function save(User $user): bool
     {
@@ -265,7 +249,7 @@ final class PdoUserRepository implements UserRepositoryInterface
     }
 
     /**
-     * Kullanıcı günceller.
+     * KullanÄ±cÄ± gÃ¼nceller.
      */
     public function update(User $user): bool
     {
@@ -299,32 +283,32 @@ final class PdoUserRepository implements UserRepositoryInterface
 }
 ```
 
-#### 4.3.3 Yanlış Kullanım Örnekleri
+#### 4.3.3 YanlÄ±ÅŸ KullanÄ±m Ã–rnekleri
 
 ```php
-// ❌ YANLIŞ — SELECT * yasak (ADR-002)
+// âŒ YANLIÅ â€” SELECT * yasak (ADR-002)
 $stmt = $pdo->query('SELECT * FROM users WHERE id = 1');
 
-// ✅ DOĞRU — Explicit column list
+// âœ… DOÄRU â€” Explicit column list
 $stmt = $pdo->query('SELECT id, email, display_name FROM users WHERE id = 1');
 
-// ❌ YANLIŞ — Prepared statement yok (ADR-002)
+// âŒ YANLIÅ â€” Prepared statement yok (ADR-002)
 $stmt = $pdo->query("SELECT id, email FROM users WHERE email = '$email'");
 
-// ✅ DOĞRU — Prepared statement
+// âœ… DOÄRU â€” Prepared statement
 $stmt = $pdo->prepare('SELECT id, email FROM users WHERE email = :email');
 $stmt->execute(['email' => $email]);
 
-// ❌ YANLIŞ — ORM kullanımı (ADR-002)
+// âŒ YANLIÅ â€” ORM kullanÄ±mÄ± (ADR-002)
 $user = $entityManager->find(User::class, $id);
 
-// ✅ DOĞRU — PDO prepared statement
+// âœ… DOÄRU â€” PDO prepared statement
 $user = $repository->findById($id);
 ```
 
-### 4.4 Konfigürasyon
+### 4.4 KonfigÃ¼rasyon
 
-| Dosya | Değer |
+| Dosya | DeÄŸer |
 |-------|-------|
 | `shared/config/database.php` | PDO settings |
 | `php.ini` | `pdo_mysql.default_charset=utf8mb4` |
@@ -334,31 +318,31 @@ $user = $repository->findById($id);
 ## 5. Architecture
 
 ```
-┌─────────────────────────────────────────────────┐
-│              Database Access Layer                │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Repository Pattern (Interface)            │  │
-│  │  • UserRepositoryInterface                 │  │
-│  │  • SessionRepositoryInterface              │  │
-│  │  • TokenRepositoryInterface                │  │
-│  └───────────────────────┬────────────────────┘  │
-│                          │                       │
-│  ┌───────────────────────▼────────────────────┐  │
-│  │  PDO Implementation                        │  │
-│  │  • PdoUserRepository                       │  │
-│  │  • PdoSessionRepository                    │  │
-│  │  • PdoTokenRepository                      │  │
-│  └───────────────────────┬────────────────────┘  │
-│                          │                       │
-│  ┌───────────────────────▼────────────────────┐  │
-│  │  PDO Connection Factory                    │  │
-│  │  • ERRMODE_EXCEPTION                       │  │
-│  │  • FETCH_ASSOC                             │  │
-│  │  • EMULATE_PREPARES = false                │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-└─────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚              Database Access Layer                â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Repository Pattern (Interface)            â”‚  â”‚
+â”‚  â”‚  â€¢ UserRepositoryInterface                 â”‚  â”‚
+â”‚  â”‚  â€¢ SessionRepositoryInterface              â”‚  â”‚
+â”‚  â”‚  â€¢ TokenRepositoryInterface                â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                          â”‚                       â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  PDO Implementation                        â”‚  â”‚
+â”‚  â”‚  â€¢ PdoUserRepository                       â”‚  â”‚
+â”‚  â”‚  â€¢ PdoSessionRepository                    â”‚  â”‚
+â”‚  â”‚  â€¢ PdoTokenRepository                      â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                          â”‚                       â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  PDO Connection Factory                    â”‚  â”‚
+â”‚  â”‚  â€¢ ERRMODE_EXCEPTION                       â”‚  â”‚
+â”‚  â”‚  â€¢ FETCH_ASSOC                             â”‚  â”‚
+â”‚  â”‚  â€¢ EMULATE_PREPARES = false                â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -375,13 +359,13 @@ $user = $repository->findById($id);
 
 ### Karar Matrisi
 
-| Kriter | Ağırlık | PDO (seçilen) | Doctrine | Eloquent | mysqli |
+| Kriter | AÄŸÄ±rlÄ±k | PDO (seÃ§ilen) | Doctrine | Eloquent | mysqli |
 |--------|---------|---------------|----------|----------|--------|
-| Güvenlik | %35 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
-| Performans | %25 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
-| Debug | %20 | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
-| Bağımlılık | %10 | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐ | ⭐⭐⭐⭐ |
-| Kolaylık | %10 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| GÃ¼venlik | %35 | â­â­â­â­â­ | â­â­â­ | â­â­â­ | â­â­â­ |
+| Performans | %25 | â­â­â­â­â­ | â­â­â­ | â­â­â­ | â­â­â­â­ |
+| Debug | %20 | â­â­â­â­â­ | â­â­ | â­â­ | â­â­â­ |
+| BaÄŸÄ±mlÄ±lÄ±k | %10 | â­â­â­â­â­ | â­â­ | â­ | â­â­â­â­ |
+| KolaylÄ±k | %10 | â­â­â­â­ | â­â­â­â­ | â­â­â­â­â­ | â­â­â­ |
 | **TOPLAM** | %100 | **4.75** | **3.00** | **2.85** | **3.25** |
 
 ---
@@ -389,14 +373,14 @@ $user = $repository->findById($id);
 ## 7. Consequences
 
 ### Olumlu
-- SQL injection koruması
-- Düşük overhead
+- SQL injection korumasÄ±
+- DÃ¼ÅŸÃ¼k overhead
 - Kolay debug
-- Minimal bağımlılık
+- Minimal baÄŸÄ±mlÄ±lÄ±k
 
 ### Olumsuz
 - Manuel SQL yazma gereksinimi
-- Schema değişikliklerinde manuel güncelleme
+- Schema deÄŸiÅŸikliklerinde manuel gÃ¼ncelleme
 
 ---
 
@@ -413,14 +397,14 @@ $user = $repository->findById($id);
 
 ## 9. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-002: PDO Mandatory, ORM Yasak v2.0.0 — CoreMusic Database*
-*Authority: Data Engineer · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-002: PDO Mandatory, ORM Yasak v2.0.0 â€” CoreMusic Database*
+*Authority: Data Engineer Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

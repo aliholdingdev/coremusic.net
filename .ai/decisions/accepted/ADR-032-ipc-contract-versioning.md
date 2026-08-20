@@ -1,19 +1,8 @@
----
-type: decision
-id: "032"
+﻿---
 title: "ADR-032: IPC Contract Versioning"
-category: "architecture"
-status: "frozen"
-date: "2026-06-10"
-updated: "2026-08-15"
-authority: "Backend Architect"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: frozen
+date: 2026-06-10
 tags: [architecture, ipc, versioning, contract, frozen]
-risk-level: "medium"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-039-7-service-platform-architecture]]"
 ---
 
 # ADR-032: IPC Contract Versioning
@@ -22,11 +11,11 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic servisleri arası iletişim (IPC) versiyonlu sözleşmeler ile yönetilir. Her API sözleşmesi versiyon numarası taşır.
+CoreMusic servisleri arasÄ± iletiÅŸim (IPC) versiyonlu sÃ¶zleÅŸmeler ile yÃ¶netilir. Her API sÃ¶zleÅŸmesi versiyon numarasÄ± taÅŸÄ±r.
 
 ## 2. Decision
 
-### Versiyon Formatı
+### Versiyon FormatÄ±
 
 ```
 /api/v{major}/{resource}
@@ -34,24 +23,24 @@ CoreMusic servisleri arası iletişim (IPC) versiyonlu sözleşmeler ile yöneti
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | URL-based versioning | ✅ Zorunlu |
-| 2 | Major version zorunlu | ✅ Zorunlu |
-| 3 | Breaking change = major bump | ✅ Zorunlu |
-| 4 | Backward compatibility | ✅ Zorunlu |
-| 5 | Deprecation header | ✅ Zorunlu |
+| 1 | URL-based versioning | âœ… Zorunlu |
+| 2 | Major version zorunlu | âœ… Zorunlu |
+| 3 | Breaking change = major bump | âœ… Zorunlu |
+| 4 | Backward compatibility | âœ… Zorunlu |
+| 5 | Deprecation header | âœ… Zorunlu |
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-032: IPC Contract Versioning v2.0.0 — CoreMusic Architecture*
-*Authority: Backend Architect · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-032: IPC Contract Versioning v2.0.0 â€” CoreMusic Architecture*
+*Authority: Backend Architect Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

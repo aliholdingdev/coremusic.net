@@ -194,7 +194,7 @@ std::unique_ptr<OsAudioAdapter> selectAdapter() {
 |-------|------|
 | [[ADR-017-dsp-hardware-mode]] | DSP mode |
 | [[brain.md]] §6 | Platform tier |
-| [[architecture/01-overview/startup-strategy]] | Strategy |
+| [[architecture/00-overview/startup-strategy]] | Strategy |
 | [[architecture/06-audio/coremusic-audio-service]] | Audio service |
 
 ## 9. Çapraz Referanslar

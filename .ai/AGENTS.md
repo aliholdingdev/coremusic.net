@@ -1,7 +1,7 @@
 ---
+title: "CoreMusic — Agent Registry & Coordination Protocol"
 type: guide
 category: agent-registry
-title: "CoreMusic — Agent Registry & Coordination Protocol"
 date: 2026-08-08
 updated: 2026-08-13
 status: active
@@ -10,133 +10,7 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/AGENTS.md"
-  source_of_truth:
-    - ".ai/AGENTS.md"
-    - ".ai/.agents/AGENTS.md"
-    - ".ai/CLAUDE.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-    - ".ai/keys.md"
-    - ".ai/MEMORY.md"
-    - ".ai/log.md"
-    - ".ai/engine.md"
-  architecture:
-    - ".ai/ADR/"
-    - "Existing project architecture"
-    - "Existing codebase patterns"
-  project_structure:
-    - "coremusic.net/"
-    - "shared/"
-    - "api.coremusic.net/"
-    - "auth.coremusic.net/"
-    - "music.coremusic.net/"
-    - "admin.coremusic.net/"
-    - "home.coremusic.net/"
-    - "car.coremusic.net/"
-    - "studio.coremusic.net/"
-    - "pro.coremusic.net/"
-    - "media.coremusic.net/"
-    - "download.coremusic.net/"
-  decision_priority:
-    - "ADR decisions"
-    - "Architecture documentation"
-    - "Security requirements"
-    - "Existing implementation"
-    - "User requirements"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "file rename"
-      - "directory move"
-      - "architecture change"
-      - "database schema change"
-      - "security policy change"
-  skills:
-    - path: ".opencode/skills/ui-code-generator/SKILL.md"
-      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
-    - path: ".opencode/skills/ui-analyzer/SKILL.md"
-      purpose: "UI analizi, mevcut tasarım değerlendirme"
-    - path: ".opencode/skills/skill-maker/SKILL.md"
-      purpose: "Yeni skill oluşturma, skill template sistemi"
-    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
-      purpose: "Güvenlik testi, truth mode, adversarial analiz"
-    - path: ".opencode/skills/prompt-maker/SKILL.md"
-      purpose: "Prompt mühendisliği, AI talimat tasarımı"
-    - path: ".opencode/skills/composer-sync/SKILL.md"
-      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
-    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
-      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
-    - path: ".opencode/skills/human-mode/SKILL.md"
-      purpose: "İnsan modu iletişimi, onay süreçleri"
-    - path: ".opencode/skills/hallucination-control/SKILL.md"
-      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
-    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
-      purpose: "BCNF normalizasyonu, şema tasarımı"
-  templates:
-    adr:
-      - path: ".ai/.templates/adr/adr-template.md"
-        purpose: "Architecture Decision Record şablonu"
-      - path: ".ai/.templates/adr/adr-frontend-template.md"
-        purpose: "Frontend ADR şablonu"
-      - path: ".ai/.templates/adr/adr-database-template.md"
-        purpose: "Database ADR şablonu"
-      - path: ".ai/.templates/adr/adr-security-template.md"
-        purpose: "Security ADR şablonu"
-      - path: ".ai/.templates/adr/adr-audio-template.md"
-        purpose: "Audio/Hardware ADR şablonu"
-      - path: ".ai/.templates/adr/adr-index.md"
-        purpose: "ADR navigasyon rehberi"
-    backend:
-      - path: ".ai/.templates/backend/php-template.md"
-        purpose: "PHP 8.4 backend geliştirme şablonu"
-      - path: ".ai/.templates/backend/nodejs-template.md"
-        purpose: "Node.js 20+ backend geliştirme şablonu"
-    frontend:
-      - path: ".ai/.templates/frontend/js-template.md"
-        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
-      - path: ".ai/.templates/frontend/css-template.md"
-        purpose: "ITCSS 9-layer, BEM CSS şablonu"
-    testing:
-      - path: ".ai/.templates/testing/phpunit-template.md"
-        purpose: "PHPUnit 10+ test şablonu"
-      - path: ".ai/.templates/testing/vitest-template.md"
-        purpose: "Vitest JS/TS test şablonu"
-    infrastructure:
-      - path: ".ai/.templates/infrastructure/migration-template.md"
-        purpose: "MySQL 9 BCNF migration şablonu"
-      - path: ".ai/.templates/infrastructure/docker-template.md"
-        purpose: "Docker 24+ Compose v2 şablonu"
-      - path: ".ai/.templates/infrastructure/github-actions-template.md"
-        purpose: "GitHub Actions CI/CD şablonu"
-    documentation:
-      - path: ".ai/.templates/documentation/api-doc-template.md"
-        purpose: "API dokümantasyon şablonu"
-      - path: ".ai/.templates/documentation/security-audit-template.md"
-        purpose: "Güvenlik denetimi şablonu"
-      - path: ".ai/.templates/documentation/WikiPage-Template.md"
-        purpose: "Wiki sayfası şablonu"
-    hardware:
-      - path: ".ai/.templates/hardware/arduino-template.md"
-        purpose: "Arduino/IoT prototipleme şablonu"
-      - path: ".ai/.templates/hardware/avr-template.md"
-        purpose: "AVR mikrodenetleyici şablonu"
-      - path: ".ai/.templates/hardware/pic-template.md"
-        purpose: "PIC mikrodenetleyici şablonu"
-    query:
-      - path: ".ai/.templates/query/Query-Template.md"
-        purpose: "SQL sorgu şablonu"
-    other:
-      - path: ".ai/.templates/other/c-template.md"
-        purpose: "C11 GCC embedded/driver şablonu"
-      - path: ".ai/.templates/cpp-template.md"
-        purpose: "C++20 JUCE/ASIO şablonu"
-changelog:
-  - version: 21.0.0
-    date: 2026-08-13
-    changes:
-      - Added reference section (skills, templates, project_structure)
-      - Updated governance format
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .ai/brain.md · .ai/index.md"
 ---
 
 # CoreMusic — Agent Registry & Coordination Protocol
@@ -497,147 +371,21 @@ Ajan dosyaya erişmek ister
 
 ## 15. Agent Detayları
 
-### 15.1 Master Orchestrator
+| # | Agent | Katman | Teknoloji | Profil |
+|---|-------|--------|-----------|--------|
+| 1 | Master Orchestrator | Koordinasyon | Vault System, log.md | [[.agents/master-orchestrator]] |
+| 2 | Backend Architect | L2 (Routing) | PHP 8.4, PDO, PageRouter | [[.agents/backend-architect]] |
+| 3 | UI Designer | L3 (Presentation) | Vanilla JS ES6+, ITCSS 9-layer | [[.agents/ui-designer]] |
+| 4 | Security Engineer | L1 (Security) | OWASP, Argon2id, AES-256-GCM | [[.agents/security-engineer]] |
+| 5 | Data Engineer | L0 (Infrastructure) | MySQL 9, PDO, BCNF | [[.agents/data-engineer]] |
+| 6 | Embedded Engineer | L0 (Hardware) | C++20, JUCE 9, ASIO SDK 2.3.4 | [[.agents/embedded-engineer]] |
+| 7 | QA Engineer | Cross-cutting | PHPUnit 11, Vitest, Playwright | [[.agents/qa-engineer]] |
+| 8 | DevOps Engineer | CI/CD | GitHub Actions, Docker, GitLeaks | [[.agents/devops-engineer]] |
+| 9 | Audio HW Engineer | HW | PCM3168A, AK4458, Class AB | [[.agents/audio-hardware-engineer]] |
+| 10 | DSP Firmware Engineer | FW | XMOS XU316, I2S, TDM | [[.agents/dsp-firmware-engineer]] |
+| 11 | Windows SW Engineer | PLAT | WASAPI, COM, WinRT, WDK | [[.agents/windows-software-engineer]] |
 
-| Özellik | Değer |
-|---------|-------|
-| Katman | Koordinasyon |
-| Sorumluluk | Görev dağıtımı, handover, eskalasyon, loglama |
-| Karar Yetkisi | Task assignment, priority setting, handover authorization |
-| Yasak | Doğrudan kod yazma (sadece koordinasyon) |
-| Dosya Erişimi | Tüm `.ai/` vault'u okuyabilir, `log.md`'ye yazabilir |
-| Başlatma | Her oturumun başında aktif olur |
-| Kapanış | Tüm görevler tamamlandığında otomatik kapanır |
-| İlgili Template'ler | [[../.templates/index]] |
-
-### 15.2 Backend Architect
-
-| Özellik | Değer |
-|---------|-------|
-| Katman | L2 (Routing) |
-| Teknoloji | PHP 8.4 (strict_types), PDO, Slim/vanilla router |
-| Sorumluluk | API endpoint'leri, middleware pipeline, routing |
-| Yasak | Frontend kodu, DB şeması tasarımı, security testi |
-| Dosya Erişimi | `*.php`, `*.json` (composer), `*.ini` |
-| Test Gereksinimi | PHPUnit 11, ≥%80 coverage |
-
-**Zorunlu Kurallar:** `declare(strict_types=1)` her dosyada, PDO prepared statement, explicit column list, hardcoded secret yasak.
-**İlgili Template'ler:** `backend/php-template.md`, `adr/adr-template.md` → [[../.templates/index]]
-
-### 15.3 UI Designer
-
-| Özellik | Değer |
-|---------|-------|
-| Katman | L3 (Presentation) |
-| Teknoloji | Vanilla JS ES6+, ITCSS 9-layer, BEM/BEMIT, TrustedTypes |
-| Sorumluluk | Frontend kodlama, CSS mimarisi, responsive, accessibility |
-| Yasak | PHP backend kodu, DB sorgusu, security konfigürasyonu |
-| Dosya Erişimi | `*.js`, `*.css`, `*.html`, `*.svg` |
-| Test Gereksinimi | Vitest, ≥%80 coverage |
-
-**Zorunlu Kurallar:** `innerHTML` yasak (DOMParser + TrustedTypes), framework yasak (ADR-001), `var` yasak, `eval()` yasak, BEM format zorunlu.
-**İlgili Template'ler:** `frontend/js-template.md`, `frontend/css-template.md`, `adr/adr-frontend-template.md` → [[../.templates/index]]
-
-### 15.4 Security Engineer
-
-| Özellik | Değer |
-|---------|-------|
-| Katman | L1 (Security) |
-| Teknoloji | OWASP Top 10:2025, Argon2id, AES-256-GCM, APCu |
-| Sorumluluk | Güvenlik middleware'leri, şifreleme, CSRF, CSP, rate limiting |
-| Yasak | Backend/Frontend kodu, DB şeması tasarımı |
-| Dosya Erişimi | Security middleware, `.env`, credential vault |
-| Test Gereksinimi | OWASP checklist, penetration test |
-
-**Zorunlu Kurallar:** `csrf_token` key (ADR-010), `hash_equals()` timing-safe, Argon2id (64MB/4/2), credential vault AES-256-GCM, loglarda redaction.
-**İlgili Template'ler:** `adr/adr-security-template.md`, `documentation/security-audit-template.md` → [[../.templates/index]]
-
-### 15.5 Data Engineer
-
-| Özellik | Değer |
-|---------|-------|
-| Katman | L0 (Infrastructure) |
-| Teknoloji | MySQL 9, SQLite, PDO, BCNF |
-| Sorumluluk | 18 BCNF DB yönetimi, schema tasarımı, migration, query optimization |
-| Yasak | PHP/JS kodu, security politikası |
-| Dosya Erişimi | `*.sql`, `*.php` (migration), `*.json` (schema) |
-| Test Gereksinimi | Schema validation, BCNF audit |
-
-**Zorunlu Kurallar:** ORM yasak (ADR-002), SELECT * yasak, BCNF zorunlu, soft delete, prepared statement.
-**İlgili Template'ler:** `adr/adr-database-template.md`, `query/Query-Template.md`, `infrastructure/migration-template.md` → [[../.templates/index]]
-
-### 15.6 Embedded Engineer
-
-| Özellik | Değer |
-|---------|-------|
-| Katman | L0 (Hardware) |
-| Teknoloji | C++20, JUCE 9, ASIO SDK 2.3.4, XMOS XU316 |
-| Sorumluluk | C++ ses motoru, DSP, donanım sürücüleri, ASIO/WASAPI |
-| Yasak | PHP/JS/SQL kodu |
-| Dosya Erişimi | `*.cpp`, `*.h`, `*.cmake`, `*.json` (vcpkg) |
-| Test Gereksinimi | Google Test, ≥%80 coverage |
-
-**Zorunlu Kurallar:** Zero-allocation, lock-free, noexcept, cache-line alignment, PCM5122 yasak (H001).
-**İlgili Template'ler:** `other/c-template.md`, `adr/adr-audio-template.md` → [[../.templates/index]]
-
-### 15.7 QA Engineer
-
-| Özellik | Değer |
-|---------|-------|
-| Katman | Cross-cutting |
-| Teknoloji | PHPUnit 11, Vitest, Playwright 1.40, Google Test |
-| Sorumluluk | Test coverage ≥80%, unit/integration/E2E, kalite güvencesi |
-| Yasak | Production kodu, DB tasarımı, security politikası |
-| Dosya Erişimi | `tests/**/*.php`, `tests/**/*.test.js`, `*.test.cpp` |
-| Test Piramidi | Unit %70, Integration %20, E2E %10 |
-| İlgili Template'ler | `testing/phpunit-template.md`, `testing/vitest-template.md` → [[../.templates/index]] |
-
-### 15.8 DevOps Engineer
-
-| Özellik | Değer |
-|---------|-------|
-| Katman | CI/CD |
-| Teknoloji | GitHub Actions, Docker, GitLeaks, PowerShell/Bash |
-| Sorumluluk | CI/CD pipeline, container yönetimi, monitoring |
-| Yasak | Application kodu, DB tasarımı, security politikası |
-| Dosya Erişimi | `*.yml`, `*.yaml`, `Dockerfile`, `*.sh`, `*.ps1` |
-| Test Gereksinimi | Pipeline test, smoke test |
-
-**Zorunlu Kurallar:** GitLeaks her commit'te, health check tüm servislerde, rollback stratejisi tanımlı.
-**İlgili Template'ler:** `infrastructure/docker-template.md`, `infrastructure/github-actions-template.md` → [[../.templates/index]]
-
-### 15.9 Audio Hardware Engineer
-
-| Özellik | Değer |
-|---------|-------|
-| Katman | HW (Hardware) |
-| Teknoloji | PCM3168A, AK4458, Class AB amplifer, PCB design |
-| Sorumluluk | DAC/ADC tasarımı, amplifer devresi, PCB layout, donanım testi |
-| Yasak | Yazılım kodu, DB tasarımı |
-| Dosya Erişimi | `.ai/electronic/`, `*.kicad_sch`, `*.kicad_pcb` |
-| İlgili Template'ler | `hardware/arduino-template.md`, `hardware/avr-template.md`, `adr/adr-audio-template.md` → [[../.templates/index]] |
-
-### 15.10 DSP Firmware Engineer
-
-| Özellik | Değer |
-|---------|-------|
-| Katman | FW (Firmware) |
-| Teknoloji | XMOS XU316, I2S, TDM, RTOS, C++20 |
-| Sorumluluk | DSP firmware geliştirme, I2S/TDM iletişimi, crossover, EQ, dynamics |
-| Yasak | PHP/JS kodu, DB tasarımı |
-| Dosya Erişimi | `*.cpp`, `*.h`, `*.xn`, `*.xe` |
-| İlgili Template'ler | `other/c-template.md`, `hardware/avr-template.md` → [[../.templates/index]] |
-
-### 15.11 Windows Software Engineer
-
-| Özellik | Değer |
-|---------|-------|
-| Katman | PLAT (Platform) |
-| Teknoloji | WASAPI, COM, WinRT, WDK, C++20 |
-| Sorumluluk | Windows ses sürücüsü, WASAPI entegrasyonu, driver imzalama |
-| Yasak | PHP/JS kodu, DB tasarımı |
-| Dosya Erişimi | `*.cpp`, `*.h`, `*.inf`, `*.cat` |
-| İlgili Template'ler | `other/c-template.md` → [[../.templates/index]] |
+**Detaylı profiller için:** [[.agents/AGENTS.md]]
 
 ---
 

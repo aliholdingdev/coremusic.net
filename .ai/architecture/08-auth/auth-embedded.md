@@ -14,8 +14,6 @@ governance: Red Team · Human Mode · Truth Mode
 
 **Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]]
 
-**İlgili ADR:** [[ADR-060-rpi5-embedded-auth]]
-
 ## 1. Amaç
 
 Raspberry Pi 5 üzerinde çalışan embedded sistemlerin (Home, Pro, Studio, Car) authentication mimarisini tanımlar. Bu sistemler Volumio benzeri yerel medya işletim sistemleridir.
@@ -35,8 +33,6 @@ Raspberry Pi 5 üzerinde çalışan embedded sistemlerin (Home, Pro, Studio, Car
 - Yerel sunucu modunda çalışır (internet gerekmez)
 - Browser control panel — tarayıcı bir kontrol paneli gibi davranır
 - Volumio benzeri ancak çok daha gelişmiş
-
-*Kaynak: [[ADR-060-rpi5-embedded-auth]]*
 
 ## 3. Embedded Auth Akışı
 
@@ -257,7 +253,7 @@ CREATE TABLE local_preferences (
 | Version | 1.0.0 |
 | Auth Modları | 3 (local, hybrid, cloud) |
 | Embedded Sistemler | 4 (Home, Pro, Studio, Car) |
-| ADR Uyumlu | ✅ 060 |
+| ADR Uyumlu | — |
 | Zero Hallucination | ✅ |
 
 ---

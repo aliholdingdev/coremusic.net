@@ -301,13 +301,13 @@ class BypassAuthMiddleware implements MiddlewareInterface
 
 Detay: [[middleware]] §8 (rate limiting detayı)
 
-### 6.4 AuthMiddleware (ADR-011 + ADR-047)
+### 6.4 AuthMiddleware (ADR-011)
 
 | Özellik | Değer |
 |---------|-------|
 | **Sorumluluk** | Kullanıcı bilgisi inject + JWT doğrulama |
 | **Auth Key** | `auth_key` cookie (auth.coremusic.net) |
-| **JWT Algorithm** | RS256 (RSA SHA-256) — `lcobucci/jwt` (firebase/php-jkt yasaklı, ADR-059) |
+| **JWT Algorithm** | RS256 (RSA SHA-256) — `lcobucci/jwt` (firebase/php-jkt yasaklı) |
 | **Session Vars** | `user_id`, `role`, `email`, `gender`, `permissions` |
 | **RBAC** | 7 granular roller (admin → guest) |
 | **Short-Circuit** | Yok (AuthMiddleware sadece bilgi inject eder) |
@@ -319,7 +319,7 @@ declare(strict_types=1);
 namespace CoreMusic\Middleware;
 
 /**
- * Auth Middleware — ADR-011 + ADR-047 + ADR-052 compliant.
+ * Auth Middleware — ADR-011 compliant.
  * Hybrid auth: Session + JWT RS256.
  *
  * auth_key cookie'den JWT token'ı doğrular, session'a yazar,
@@ -602,7 +602,7 @@ class PipelineExceptionHandler
 | **Satır Sayısı** | 560+ |
 | **Frontmatter** | ✅ |
 | **Bölüm Sayısı** | 15 |
-| **ADR Uyumlu** | ✅ 008, 010, 011, 012, 013, 022, 047, 052 |
+| **ADR Uyumlu** | ✅ 008, 010, 011, 012, 013, 022 |
 | **Zero Hallucination** | ✅ |
 | **Guardrails** | ✅ 10 kural |
 

@@ -1,7 +1,7 @@
 ---
 title: CoreMusic — Register Step 1 Screen Specification (1024×600, Linux Embedded RPi5)
 date: 2026-08-11
-updated: 2026-08-11
+updated: 2026-08-19
 type: spec
 status: active
 version: 2.0.0
@@ -29,7 +29,7 @@ references:
 ```
 ┌── SAĞ PANEL (~22%, ~224px) ─────────────────────────────────────┐
 │                                                                    │
-│  [女神 ikonu — beyaz çizim]                                       │
+│  [Kadın ikonu — beyaz çizim]                                      │
 │                                                                    │
 │  Hesap Oluştur                                                    │
 │  CoreMusic ailesine katıl,                                         │
@@ -46,14 +46,17 @@ references:
 │                                                                    │
 │  [Devam Et] (C04, pembe, full-width)                              │
 │                                                                    │
-│  ── veya alternatif ile devam et ──                               │
-│  [🍎][G][f][💬][📷][🎵][🎤]                                        │
+│  ── veya ──                                                       │
+│  [🍎] [G] [f]  (Apple, Google, Facebook)                          │
+│  [💬] [📷] [🎵]  (WhatsApp, Instagram, TikTok)                    │
+│  [🎵]  (Spotify)                                                  │
+│  Her biri: C08, 52×52px, platform-specific renkler                │
 │                                                                    │
-│  Hesabın yok mu?  Kayıt Ol                                        │
+│  Hesabın var mı?  Giriş Yap                                       │
 └──────────────────────────────────────────────────────────────────┘
 
 Adım 1/3: Kullanıcı Adı + E-posta
-Sol alan: Aynı Select Gender arka planı
+Sol alan: Aynı Select Gender arka planı (kadın fotoğrafı, pembe çiçekli manzara)
 ```
 
 ---
@@ -373,7 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ---
 
-*Register Step 1 Screen Spec v3.0.0 — CoreMusic UI Design System*
+*Register Step 1 Screen Spec v2.0.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-17*
+*Last Updated: 2026-08-19*
 *Mode: Red Team · Human Mode · Truth Mode*

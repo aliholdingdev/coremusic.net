@@ -1,19 +1,8 @@
----
-type: decision
-id: "009"
+﻿---
 title: "ADR-009: Clean URL Redirect"
-category: "routing"
-status: "frozen"
-date: "2026-03-01"
-updated: "2026-08-15"
-authority: "Backend Architect"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: frozen
+date: 2026-03-01
 tags: [routing, clean-url, redirect, frozen]
-risk-level: "low"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-016-url-normalization]]"
 ---
 
 # ADR-009: Clean URL Redirect
@@ -22,11 +11,11 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic'te **clean URL** yapısı kullanılır. Kullanıcı dostu URL'ler, otomatik redirect ile desteklenir.
+CoreMusic'te **clean URL** yapÄ±sÄ± kullanÄ±lÄ±r. KullanÄ±cÄ± dostu URL'ler, otomatik redirect ile desteklenir.
 
 ## 2. Decision
 
-### URL Formatı
+### URL FormatÄ±
 
 | Eski | Yeni |
 |------|------|
@@ -38,22 +27,22 @@ CoreMusic'te **clean URL** yapısı kullanılır. Kullanıcı dostu URL'ler, oto
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Clean URL zorunlu | ✅ Zorunlu |
-| 2 | 301 redirect | ✅ Zorunlu |
-| 3 | SEO-friendly | ✅ Zorunlu |
+| 1 | Clean URL zorunlu | âœ… Zorunlu |
+| 2 | 301 redirect | âœ… Zorunlu |
+| 3 | SEO-friendly | âœ… Zorunlu |
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-009: Clean URL Redirect v2.0.0 — CoreMusic Routing*
-*Authority: Backend Architect · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-009: Clean URL Redirect v2.0.0 â€” CoreMusic Routing*
+*Authority: Backend Architect Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

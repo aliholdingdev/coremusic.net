@@ -271,7 +271,7 @@ img {
   --glass-shadow-lg: 0 16px 48px rgba(0,0,0,0.4);
 
   /* --- Animation Token'ları --- */
-  --duration-fast: 100ms;
+  --duration-fast: 0ms;
   --duration-normal: 200ms;
   --duration-slow: 300ms;
   --duration-slower: 500ms;

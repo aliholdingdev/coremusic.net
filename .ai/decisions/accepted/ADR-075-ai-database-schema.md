@@ -1,19 +1,8 @@
----
-type: decision
-id: "075"
+﻿---
 title: "ADR-075: AI Database Schema"
-category: "database"
-status: "active"
-date: "2026-08-10"
-updated: "2026-08-15"
-authority: "Data Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 1.0.0
+status: active
+date: 2026-08-10
 tags: [database, ai, schema, active]
-risk-level: "medium"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-040-database-authority]]"
 ---
 
 # ADR-075: AI Database Schema
@@ -22,39 +11,39 @@ references:
 
 ## 1. Executive Summary
 
-AI veritabanı, kullanıcı tercih profillerini, dinleme özelliklerini, önerileri ve model verilerini yönetir.
+AI veritabanÄ±, kullanÄ±cÄ± tercih profillerini, dinleme Ã¶zelliklerini, Ã¶nerileri ve model verilerini yÃ¶netir.
 
 ## 2. Tablolar
 
-| # | Tablo | Amaç |
+| # | Tablo | AmaÃ§ |
 |---|-------|------|
-| 1 | ai_user_preferences | Kullanıcı tercih profilleri |
-| 2 | ai_listening_features | Dinleme özelliği çıkarımları |
-| 3 | ai_recommendations | Öneri sonuçları |
+| 1 | ai_user_preferences | KullanÄ±cÄ± tercih profilleri |
+| 2 | ai_listening_features | Dinleme Ã¶zelliÄŸi Ã§Ä±karÄ±mlarÄ± |
+| 3 | ai_recommendations | Ã–neri sonuÃ§larÄ± |
 | 4 | ai_models | ML model bilgileri |
-| 5 | ai_training_data | Eğitim verileri |
-| 6 | ai_feedback | Kullanıcı geri bildirimi |
+| 5 | ai_training_data | EÄŸitim verileri |
+| 6 | ai_feedback | KullanÄ±cÄ± geri bildirimi |
 
 ## 3. Decision
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | BCNF normalization | ✅ Zorunlu |
-| 2 | Soft delete | ✅ Zorunlu |
-| 3 | Feature vector storage | ✅ Zorunlu |
+| 1 | BCNF normalization | âœ… Zorunlu |
+| 2 | Soft delete | âœ… Zorunlu |
+| 3 | Feature vector storage | âœ… Zorunlu |
 
 ---
 
 ## 4. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 1.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-075: AI Database Schema v1.0.0 — CoreMusic Database*
-*Authority: Data Engineer · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-075: AI Database Schema v1.0.0 â€” CoreMusic Database*
+*Authority: Data Engineer Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

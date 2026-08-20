@@ -1,29 +1,8 @@
----
-type: decision
-id: "022"
+﻿---
 title: "ADR-022: Database Hardened Security"
-category: "security"
-status: "frozen"
-date: "2026-01-25"
-updated: "2026-08-15"
-authority: "Security Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-supersedes: null
-version: 2.0.0
+status: frozen
+date: 2026-01-25
 tags: [security, database, encryption, argon2id, aes-256-gcm, pdo, frozen]
-risk-level: "critical"
-owasp-top10: ["A02:2021", "A03:2021", "A04:2021"]
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[AGENTS.md]]"
-  - "[[keys.md]]"
-  - "[[decisions/accepted/ADR-002-pdo-mandatory-no-orm]]"
-  - "[[decisions/accepted/ADR-010-csrf-protection-strategy]]"
-  - "[[decisions/accepted/ADR-011-session-management]]"
-  - "[[decisions/accepted/ADR-034-credential-vault-normalization]]"
-  - "[[architecture/l0-infrastructure]]"
-  - "[[architecture/l1-security]]"
 ---
 
 # ADR-022: Database Hardened Security
@@ -32,92 +11,92 @@ references:
 
 ## 1. Executive Summary
 
-### 1.1 Kararın Özeti
+### 1.1 KararÄ±n Ã–zeti
 
-CoreMusic veritabanı güvenliği, **AES-256-GCM** şifreleme, **Argon2id** hashleme ve **PDO prepared statement** tabanlı olarak uygulanacaktır. Credential vault AES-256-GCM ile şifrelenir. Şifre hashleme Argon2id (64MB/4/2) ile yapılır. SQL injection koruması için prepared statement zorunludur. `SELECT *` kullanımı kesinlikle yasaktır.
+CoreMusic veritabanÄ± gÃ¼venliÄŸi, **AES-256-GCM** ÅŸifreleme, **Argon2id** hashleme ve **PDO prepared statement** tabanlÄ± olarak uygulanacaktÄ±r. Credential vault AES-256-GCM ile ÅŸifrelenir. Åifre hashleme Argon2id (64MB/4/2) ile yapÄ±lÄ±r. SQL injection korumasÄ± iÃ§in prepared statement zorunludur. `SELECT *` kullanÄ±mÄ± kesinlikle yasaktÄ±r.
 
-### 1.2 Temel Gerekçe
+### 1.2 Temel GerekÃ§e
 
-Veritabanı güvenliği, uygulama güvenliğinin temelidir. Zayıf veritabanı güvenliği, veri sızıntısı, SQL injection ve yetkisiz erişim saldırılarına yol açar. CoreMusic'in 18 BCNF veritabanı yapısında veritabanı güvenliği kritik önem taşır.
+VeritabanÄ± gÃ¼venliÄŸi, uygulama gÃ¼venliÄŸinin temelidir. ZayÄ±f veritabanÄ± gÃ¼venliÄŸi, veri sÄ±zÄ±ntÄ±sÄ±, SQL injection ve yetkisiz eriÅŸim saldÄ±rÄ±larÄ±na yol aÃ§ar. CoreMusic'in 18 BCNF veritabanÄ± yapÄ±sÄ±nda veritabanÄ± gÃ¼venliÄŸi kritik Ã¶nem taÅŸÄ±r.
 
-### 1.3 Beklenen Sonuçlar
+### 1.3 Beklenen SonuÃ§lar
 
-- Credential vault AES-256-GCM ile şifrelenir
-- Şifre hashleme Argon2id ile yapılır
-- SQL injection koruması (prepared statement)
-- `SELECT *` kullanımı yasak
-- Veritabanı erişim logsu
+- Credential vault AES-256-GCM ile ÅŸifrelenir
+- Åifre hashleme Argon2id ile yapÄ±lÄ±r
+- SQL injection korumasÄ± (prepared statement)
+- `SELECT *` kullanÄ±mÄ± yasak
+- VeritabanÄ± eriÅŸim logsu
 
 ---
 
 ## 2. Status
 
-| Alan | Değer |
+| Alan | DeÄŸer |
 |------|-------|
 | **Durum** | frozen |
 | **Versiyon** | 2.0.0 |
-| **Oluşturma Tarihi** | 2026-01-25 |
-| **Son Güncelleme** | 2026-08-15 |
+| **OluÅŸturma Tarihi** | 2026-01-25 |
+| **Son GÃ¼ncelleme** | 2026-08-15 |
 | **Otorite** | Security Engineer |
 | **Risk Seviyesi** | critical |
-| **Onay** | Red Team · Human Mode · Truth Mode |
+| **Onay** | Red Team Â· Human Mode Â· Truth Mode |
 
 ---
 
 ## 3. Context
 
-### 3.1 Problem Tanımı
+### 3.1 Problem TanÄ±mÄ±
 
-Veritabanı güvenliği aşağıdaki tehditlere karşı koruma sağlar:
+VeritabanÄ± gÃ¼venliÄŸi aÅŸaÄŸÄ±daki tehditlere karÅŸÄ± koruma saÄŸlar:
 
-1. **SQL Injection:** Zararlı SQL sorguları ile veri çalma
-2. **Veri Sızıntısı:** Hassas verilerin açılması
-3. **Credential Theft:** Veritabanı şifrelerinin ele geçirilmesi
-4. **Privilege Escalation:** Yetki yükseltme saldırıları
+1. **SQL Injection:** ZararlÄ± SQL sorgularÄ± ile veri Ã§alma
+2. **Veri SÄ±zÄ±ntÄ±sÄ±:** Hassas verilerin aÃ§Ä±lmasÄ±
+3. **Credential Theft:** VeritabanÄ± ÅŸifrelerinin ele geÃ§irilmesi
+4. **Privilege Escalation:** Yetki yÃ¼kseltme saldÄ±rÄ±larÄ±
 
-### 3.2 OWASP Top 10:2021 Etkileşimi
+### 3.2 OWASP Top 10:2021 EtkileÅŸimi
 
 | OWASP Kategorisi | Durum | Etki |
 |------------------|-------|------|
-| **A02:2021** Cryptographic Failures | ⚠️ Doğrudan | AES-256-GCM, Argon2id |
-| **A03:2021** Injection | ⚠️ Doğrudan | Prepared statement |
-| **A04:2021** Insecure Design | ⚠️ Doğrudan | BCNF normalization |
+| **A02:2021** Cryptographic Failures | âš ï¸ DoÄŸrudan | AES-256-GCM, Argon2id |
+| **A03:2021** Injection | âš ï¸ DoÄŸrudan | Prepared statement |
+| **A04:2021** Insecure Design | âš ï¸ DoÄŸrudan | BCNF normalization |
 
-### 3.3 Güvenlik Katmanları
+### 3.3 GÃ¼venlik KatmanlarÄ±
 
 ```
-┌─────────────────────────────────────────────────┐
-│              Database Security Layers             │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Layer 1: Encryption (AES-256-GCM)        │  │
-│  │  • Credential vault şifreleme              │  │
-│  │  • Hassas alan şifreleme                   │  │
-│  │  • 96-bit IV, 16-byte tag                  │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Layer 2: Hashing (Argon2id)               │  │
-│  │  • Şifre hashleme                          │  │
-│  │  • 64MB memory, 4 iterations, 2 threads    │  │
-│  │  • Timing-safe comparison                  │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Layer 3: SQL Injection Prevention         │  │
-│  │  • PDO prepared statement                  │  │
-│  │  • Explicit column list (SELECT * yasak)   │  │
-│  │  • Input validation                        │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Layer 4: Access Control                   │  │
-│  │  • Database user isolation                 │  │
-│  │  • Minimal privilege                       │  │
-│  │  • Connection pooling                      │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-└─────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚              Database Security Layers             â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Layer 1: Encryption (AES-256-GCM)        â”‚  â”‚
+â”‚  â”‚  â€¢ Credential vault ÅŸifreleme              â”‚  â”‚
+â”‚  â”‚  â€¢ Hassas alan ÅŸifreleme                   â”‚  â”‚
+â”‚  â”‚  â€¢ 96-bit IV, 16-byte tag                  â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Layer 2: Hashing (Argon2id)               â”‚  â”‚
+â”‚  â”‚  â€¢ Åifre hashleme                          â”‚  â”‚
+â”‚  â”‚  â€¢ 64MB memory, 4 iterations, 2 threads    â”‚  â”‚
+â”‚  â”‚  â€¢ Timing-safe comparison                  â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Layer 3: SQL Injection Prevention         â”‚  â”‚
+â”‚  â”‚  â€¢ PDO prepared statement                  â”‚  â”‚
+â”‚  â”‚  â€¢ Explicit column list (SELECT * yasak)   â”‚  â”‚
+â”‚  â”‚  â€¢ Input validation                        â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Layer 4: Access Control                   â”‚  â”‚
+â”‚  â”‚  â€¢ Database user isolation                 â”‚  â”‚
+â”‚  â”‚  â€¢ Minimal privilege                       â”‚  â”‚
+â”‚  â”‚  â€¢ Connection pooling                      â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -126,26 +105,26 @@ Veritabanı güvenliği aşağıdaki tehditlere karşı koruma sağlar:
 
 ### 4.1 Karar Bildirimi
 
-**CoreMusic, AES-256-GCM şifreleme, Argon2id hashleme ve PDO prepared statement tabanlı veritabanı güvenliği kullanır. `SELECT *` kullanımı kesinlikle yasaktır.**
+**CoreMusic, AES-256-GCM ÅŸifreleme, Argon2id hashleme ve PDO prepared statement tabanlÄ± veritabanÄ± gÃ¼venliÄŸi kullanÄ±r. `SELECT *` kullanÄ±mÄ± kesinlikle yasaktÄ±r.**
 
 ### 4.2 Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | AES-256-GCM encryption | ✅ Zorunlu |
-| 2 | 96-bit IV (12 byte) | ✅ Zorunlu |
-| 3 | 16-byte authentication tag | ✅ Zorunlu |
-| 4 | Argon2id hashing | ✅ Zorunlu |
-| 5 | Argon2id: 64MB memory | ✅ Zorunlu |
-| 6 | Argon2id: 4 iterations | ✅ Zorunlu |
-| 7 | Argon2id: 2 threads | ✅ Zorunlu |
-| 8 | PDO prepared statement | ✅ Zorunlu |
-| 9 | `SELECT *` yasak | ❌ Yasak |
-| 10 | Explicit column list | ✅ Zorunlu |
-| 11 | ORM yasak | ❌ Yasak (ADR-002) |
-| 12 | hash_equals() comparison | ✅ Zorunlu |
+| 1 | AES-256-GCM encryption | âœ… Zorunlu |
+| 2 | 96-bit IV (12 byte) | âœ… Zorunlu |
+| 3 | 16-byte authentication tag | âœ… Zorunlu |
+| 4 | Argon2id hashing | âœ… Zorunlu |
+| 5 | Argon2id: 64MB memory | âœ… Zorunlu |
+| 6 | Argon2id: 4 iterations | âœ… Zorunlu |
+| 7 | Argon2id: 2 threads | âœ… Zorunlu |
+| 8 | PDO prepared statement | âœ… Zorunlu |
+| 9 | `SELECT *` yasak | âŒ Yasak |
+| 10 | Explicit column list | âœ… Zorunlu |
+| 11 | ORM yasak | âŒ Yasak (ADR-002) |
+| 12 | hash_equals() comparison | âœ… Zorunlu |
 
-### 4.3 Kod Örnekleri
+### 4.3 Kod Ã–rnekleri
 
 #### 4.3.1 AES-256-GCM Encryption Service
 
@@ -159,7 +138,7 @@ namespace CoreMusic\Security\Service;
 /**
  * AES-256-GCM Encryption Service
  *
- * ADR-022 uyumlu şifreleme servisi.
+ * ADR-022 uyumlu ÅŸifreleme servisi.
  * 96-bit IV, 16-byte tag, 256-bit key.
  */
 final class EncryptionService
@@ -169,7 +148,7 @@ final class EncryptionService
     private const TAG_LENGTH = 16; // 128-bit
 
     /**
-     * Metni şifreler.
+     * Metni ÅŸifreler.
      *
      * @return array{ciphertext: string, iv: string, tag: string}
      */
@@ -201,7 +180,7 @@ final class EncryptionService
     }
 
     /**
-     * Şifreyi çözer.
+     * Åifreyi Ã§Ã¶zer.
      */
     public function decrypt(array $data, string $key): string
     {
@@ -241,7 +220,7 @@ namespace CoreMusic\Security\Service;
 final class PasswordHashService
 {
     /**
-     * Şifre hash'ler.
+     * Åifre hash'ler.
      */
     public function hash(string $password): string
     {
@@ -259,7 +238,7 @@ final class PasswordHashService
     }
 
     /**
-     * Şifre doğrular.
+     * Åifre doÄŸrular.
      */
     public function verify(string $password, string $hash): bool
     {
@@ -267,7 +246,7 @@ final class PasswordHashService
     }
 
     /**
-     * Hash'in Argon2id olup olmadığını kontrol eder.
+     * Hash'in Argon2id olup olmadÄ±ÄŸÄ±nÄ± kontrol eder.
      */
     public function isArgon2id(string $hash): bool
     {
@@ -288,14 +267,14 @@ namespace CoreMusic\Infrastructure\Database;
 /**
  * PDO Secure Connection
  *
- * ADR-022 uyumlu güvenli veritabanı bağlantısı.
+ * ADR-022 uyumlu gÃ¼venli veritabanÄ± baÄŸlantÄ±sÄ±.
  * Prepared statement zorunlu.
  * SELECT * yasak.
  */
 final class SecurePdoConnection
 {
     /**
-     * Güvenli PDO bağlantısı oluşturur.
+     * GÃ¼venli PDO baÄŸlantÄ±sÄ± oluÅŸturur.
      */
     public static function create(array $config): \PDO
     {
@@ -309,7 +288,7 @@ final class SecurePdoConnection
         $pdo = new \PDO($dsn, $config['username'], $config['password'], [
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
             \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
-            \PDO::ATTR_EMULATE_PREPARES => false, // Gerçek prepared statement
+            \PDO::ATTR_EMULATE_PREPARES => false, // GerÃ§ek prepared statement
             \PDO::MYSQL_ATTR_FOUND_ROWS => false,
         ]);
 
@@ -330,7 +309,7 @@ namespace CoreMusic\Infrastructure\Database;
 /**
  * Secure Query Helper
  *
- * ADR-022 uyumlu güvenli sorgu yardımcısı.
+ * ADR-022 uyumlu gÃ¼venli sorgu yardÄ±mcÄ±sÄ±.
  * SELECT * yasak, explicit column zorunlu.
  */
 final class SecureQuery
@@ -341,7 +320,7 @@ final class SecureQuery
     }
 
     /**
-     * Prepared statement ile sorgu çalıştırır.
+     * Prepared statement ile sorgu Ã§alÄ±ÅŸtÄ±rÄ±r.
      */
     public function query(string $sql, array $params = []): \PDOStatement
     {
@@ -351,7 +330,7 @@ final class SecureQuery
     }
 
     /**
-     * Prepared statement ile tek satır okur.
+     * Prepared statement ile tek satÄ±r okur.
      */
     public function fetchOne(string $sql, array $params = []): ?array
     {
@@ -361,7 +340,7 @@ final class SecureQuery
     }
 
     /**
-     * Prepared statement ile çoklu satır okur.
+     * Prepared statement ile Ã§oklu satÄ±r okur.
      */
     public function fetchAll(string $sql, array $params = []): array
     {
@@ -372,22 +351,22 @@ final class SecureQuery
 ```
 
 ```php
-// ✅ DOĞRU — Explicit column list
+// âœ… DOÄRU â€” Explicit column list
 $users = $secureQuery->fetchAll(
     'SELECT id, email, display_name, role FROM users WHERE id = :id',
     ['id' => $userId]
 );
 
-// ❌ YANLIŞ — SELECT * yasak (ADR-022)
+// âŒ YANLIÅ â€” SELECT * yasak (ADR-022)
 $users = $secureQuery->fetchAll(
     'SELECT * FROM users WHERE id = :id',
     ['id' => $userId]
 );
 ```
 
-### 4.4 Konfigürasyon
+### 4.4 KonfigÃ¼rasyon
 
-| Dosya | Değer |
+| Dosya | DeÄŸer |
 |-------|-------|
 | `shared/config/database.php` | PDO settings |
 | `shared/config/encryption.php` | AES-256-GCM settings |
@@ -400,33 +379,33 @@ $users = $secureQuery->fetchAll(
 ### 5.1 Encryption Architecture
 
 ```
-┌─────────────────────────────────────────────────┐
-│              Credential Vault                     │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Master Key (256-bit)                      │  │
-│  │  • Environment variable'dan yüklenir       │  │
-│  │  • ASLA kodda saklanmaz                    │  │
-│  │  • ASLA log'da görünmez                    │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Encrypted Secrets:                        │  │
-│  │  • DB_PASSWORD → AES-256-GCM encrypted    │  │
-│  │  • API_KEY → AES-256-GCM encrypted        │  │
-│  │  • JWT_SECRET → AES-256-GCM encrypted     │  │
-│  │  • DEEZER_ARL → AES-256-GCM encrypted     │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Encryption Parameters:                    │  │
-│  │  • Cipher: aes-256-gcm                     │  │
-│  │  • IV: 96-bit (12 byte) random            │  │
-│  │  • Tag: 16-byte authentication            │  │
-│  │  • Key: 256-bit (32 byte)                 │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-└─────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚              Credential Vault                     â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Master Key (256-bit)                      â”‚  â”‚
+â”‚  â”‚  â€¢ Environment variable'dan yÃ¼klenir       â”‚  â”‚
+â”‚  â”‚  â€¢ ASLA kodda saklanmaz                    â”‚  â”‚
+â”‚  â”‚  â€¢ ASLA log'da gÃ¶rÃ¼nmez                    â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Encrypted Secrets:                        â”‚  â”‚
+â”‚  â”‚  â€¢ DB_PASSWORD â†’ AES-256-GCM encrypted    â”‚  â”‚
+â”‚  â”‚  â€¢ API_KEY â†’ AES-256-GCM encrypted        â”‚  â”‚
+â”‚  â”‚  â€¢ JWT_SECRET â†’ AES-256-GCM encrypted     â”‚  â”‚
+â”‚  â”‚  â€¢ DEEZER_ARL â†’ AES-256-GCM encrypted     â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Encryption Parameters:                    â”‚  â”‚
+â”‚  â”‚  â€¢ Cipher: aes-256-gcm                     â”‚  â”‚
+â”‚  â”‚  â€¢ IV: 96-bit (12 byte) random            â”‚  â”‚
+â”‚  â”‚  â€¢ Tag: 16-byte authentication            â”‚  â”‚
+â”‚  â”‚  â€¢ Key: 256-bit (32 byte)                 â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -435,8 +414,8 @@ $users = $secureQuery->fetchAll(
 
 | Alternatif | Neden Reddedildi |
 |------------|------------------|
-| MD5/SHA1 hashing | Güvensiz, NIST tarafından reddedildi |
-| bcrypt | Argon2id daha güvenli |
+| MD5/SHA1 hashing | GÃ¼vensiz, NIST tarafÄ±ndan reddedildi |
+| bcrypt | Argon2id daha gÃ¼venli |
 | ORM (Doctrine/Eloquent) | ADR-022 ORM yasak |
 | `SELECT *` | SQL injection riski |
 
@@ -446,12 +425,12 @@ $users = $secureQuery->fetchAll(
 
 ### Olumlu
 - SQL injection engellenir
-- Credential güvenliği sağlanır
-- OWASP A02/A03 uyumluluğu
+- Credential gÃ¼venliÄŸi saÄŸlanÄ±r
+- OWASP A02/A03 uyumluluÄŸu
 
 ### Olumsuz
-- Argon2id yavaş (~100ms) — kasıtlı
-- AES-256-GCM key yönetimi karmaşık
+- Argon2id yavaÅŸ (~100ms) â€” kasÄ±tlÄ±
+- AES-256-GCM key yÃ¶netimi karmaÅŸÄ±k
 
 ---
 
@@ -470,22 +449,22 @@ $users = $secureQuery->fetchAll(
 
 | OWASP | Durum |
 |-------|-------|
-| A02:2021 Cryptographic Failures | ✅ AES-256-GCM + Argon2id |
-| A03:2021 Injection | ✅ Prepared statement |
-| A04:2021 Insecure Design | ✅ BCNF normalization |
+| A02:2021 Cryptographic Failures | âœ… AES-256-GCM + Argon2id |
+| A03:2021 Injection | âœ… Prepared statement |
+| A04:2021 Insecure Design | âœ… BCNF normalization |
 
 ---
 
 ## 10. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-022: Database Hardened Security v2.0.0 — CoreMusic Security*
-*Authority: Security Engineer · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-022: Database Hardened Security v2.0.0 â€” CoreMusic Security*
+*Authority: Security Engineer Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

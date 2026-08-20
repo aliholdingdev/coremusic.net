@@ -1,20 +1,8 @@
----
-type: decision
-id: "062"
+﻿---
 title: "ADR-062: DSP Pipeline Architecture"
-category: "audio"
-status: "active"
-date: "2026-08-09"
-updated: "2026-08-15"
-authority: "Embedded Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 1.0.0
+status: active
+date: 2026-08-09
 tags: [electronics, dsp, pipeline, architecture, active]
-risk-level: "high"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-017-dsp-hardware-mode]]"
-  - "[[decisions/accepted/ADR-025-professional-eq-system]]"
 ---
 
 # ADR-062: DSP Pipeline Architecture
@@ -23,49 +11,49 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic DSP pipeline'ı **sıralı işlenme** stratejisi ile çalışır. Sinyal akışı: Input → EQ → Compressor → Limiter → Output.
+CoreMusic DSP pipeline'Ä± **sÄ±ralÄ± iÅŸlenme** stratejisi ile Ã§alÄ±ÅŸÄ±r. Sinyal akÄ±ÅŸÄ±: Input â†’ EQ â†’ Compressor â†’ Limiter â†’ Output.
 
 ## 2. Decision
 
-### DSP Pipeline Akışı
+### DSP Pipeline AkÄ±ÅŸÄ±
 
 ```
-Input → Gain → EQ (31-band) → Compressor → Limiter → Output
+Input â†’ Gain â†’ EQ (31-band) â†’ Compressor â†’ Limiter â†’ Output
 ```
 
-### DSP Modülleri
+### DSP ModÃ¼lleri
 
-| # | Modül | Görev |
+| # | ModÃ¼l | GÃ¶rev |
 |---|-------|-------|
 | 1 | Input Gain | Sinyal seviyesi |
-| 2 | EQ (31-band) | Frekans ayarı |
-| 3 | Compressor | Dinamik aralık |
-| 4 | Limiter | Pik koruması |
-| 5 | Output Gain | Çıkış seviyesi |
+| 2 | EQ (31-band) | Frekans ayarÄ± |
+| 3 | Compressor | Dinamik aralÄ±k |
+| 4 | Limiter | Pik korumasÄ± |
+| 5 | Output Gain | Ã‡Ä±kÄ±ÅŸ seviyesi |
 | 6 | Crossover | Bass management |
-| 7 | Spatial Audio | Surround işleme |
+| 7 | Spatial Audio | Surround iÅŸleme |
 
 ### Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Sıralı işlenme | ✅ Zorunlu |
-| 2 | Float32 processing | ✅ Zorunlu |
-| 3 | 48kHz sample rate | ✅ Zorunlu |
-| 4 | Zero-allocation | ✅ Zorunlu |
+| 1 | SÄ±ralÄ± iÅŸlenme | âœ… Zorunlu |
+| 2 | Float32 processing | âœ… Zorunlu |
+| 3 | 48kHz sample rate | âœ… Zorunlu |
+| 4 | Zero-allocation | âœ… Zorunlu |
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 1.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-062: DSP Pipeline Architecture v1.0.0 — CoreMusic Electronics*
-*Authority: Embedded Engineer · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-062: DSP Pipeline Architecture v1.0.0 â€” CoreMusic Electronics*
+*Authority: Embedded Engineer Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

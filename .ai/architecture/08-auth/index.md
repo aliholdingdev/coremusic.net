@@ -62,14 +62,11 @@ Ekosistem içerisinde yer alan home, pro, studio, car, media gibi hiçbir subdom
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 2 Auth | [[architecture/01-overview/architecture_master]] | Enterprise Auth Architecture |
+| § 2 Auth | [[architecture/00-overview/architecture-master]] | Enterprise Auth Architecture |
 | § 3 Merkezi Otorite | [[architecture/07-security/middleware-security]] | Middleware Pipeline |
 | § 3 SSO | [[architecture/07-security/session-management]] | Session Management |
 | § 3 Otorite | [[architecture/l2-routing/subdomain-routing]] | Subdomain Routing |
-| § 4 Embedded | [[ADR-060-rpi5-embedded-auth]] | RPi5 Embedded Auth |
 | § 4 Embedded | [[auth-embedded]] | Embedded Auth Detayları |
-| § 3 Hybrid Auth | [[ADR-052-hybrid-auth-architecture]] | Session + JWT |
-| § 3 Merkezi Auth | [[ADR-058-cross-subdomain-auth-flow]] | Cross-Subdomain Auth |
 
 ## 7. Quality Report
 

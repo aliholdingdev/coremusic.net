@@ -11,7 +11,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # CoreMusic — API Architecture
 
-**Zorunlu Bağlantılar:** [[index]] · [[brain.md]] · [[ADR-039-7-service-platform-architecture]] · [[ADR-051-platform-rewrite-from-scratch]] · [[ADR-053-enterprise-router-architecture]]
+**Zorunlu Bağlantılar:** [[index]] · [[brain.md]] · [[ADR-039-7-service-platform-architecture]]
 
 ---
 
@@ -389,7 +389,6 @@ Format: `{SERVICE}_{RESOURCE}_{ERROR_TYPE}`
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 2 Gateway | [[ADR-051-platform-rewrite-from-scratch]] | Platform yapısı |
 | § 3 Contract First | [[architecture/03-contracts/api-design-rules]] | Tasarım kuralları |
 | § 5 BFF | [[architecture/03-contracts/api-architecture-master]] | BFF detayı |
 | § 6 Response | [[architecture/03-contracts/api-design-rules]] | Response formatı |

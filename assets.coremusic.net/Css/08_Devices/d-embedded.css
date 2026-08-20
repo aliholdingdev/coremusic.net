@@ -1,103 +1,27 @@
 /**
  * CoreMusic — Embedded Device CSS (RPi5 1024×600)
  * ITCSS Layer: 08_Devices
- * Version: 2.0.0 — 2026-08-18
+ * Version: 3.0.0 — 2026-08-18
  *
- * device-loader.js breakpoint: ≤1024px (h≤600 → embedded)
+ * Sadece behavioral overrides — token'lar a-layout-tokens.css tarafından yönetilir
+ * Token'lar: a-layout-tokens.css → :root (1024px default)
+ * Component'ler: main.css → 03_Layout/, 04_Components/, 05_Pages/
+ *
  * Target: Raspberry Pi 5 + 7" touchscreen (1024×600)
- *
- * Mockup ölçülerini birebir uygular:
- *   Header: 60px, 8 nav-link, 10px font
- *   Footer: 90px, 120×120 album art, 33px transport
- *   Content: y:60–510 (450px), padding top:11px bottom:15px
- *   Split: Sol %42 / Sağ %58
- *   Card grid: 3 sütun, 140px kartlar
- *   Touch: ≥48px, hover YOK
- *   Glass: blur(20px) saturate(180%)
- *
- * Import zinciri:
- *   01_Abstracts/ → 02_Base/ → 03_Layout/ → 04_Components/ → 05_Pages/
+ * Input: Dokunmatik (kapasitif, 5 nokta)
+ * Hover: YOK — touch-only
  */
 
-/* Self-contained import zinciri (bridge yok) */
-@import '../01_Abstracts/a-theme-config.css';
-@import '../01_Abstracts/a-colors-token.css';
-@import '../01_Abstracts/a-semantic-token.css';
-@import '../01_Abstracts/a-breakpoint-tokens.css';
-@import '../01_Abstracts/a-layout-tokens.css';
-@import '../02_Base/b-base-core.css';
-@import '../03_Layout/_header.css';
-@import '../03_Layout/_footer.css';
-@import '../05_Pages/_home-layout.css';
-@import '../05_Pages/_home-components.css';
-@import '../05_Pages/_home-inline.css';
-
 /* ============================================================
-   DEVICE TOKEN OVERRIDES — RPi5 1024×600
-   PNG mockup ölçülerinden çıkarıldı
+   BEHAVIORAL OVERRIDES — RPi5 1024×600
    ============================================================ */
-:root {
-  /* Ekran */
-  --screen-w: 1024px;
-  --screen-h: 600px;
 
-  /* Header: 60px (PNG ölçümü) */
-  --header-h: 60px;
-
-  /* Footer: 90px (PNG ölçümü — CSS'teki 104px DEĞİL) */
-  --footer-h: 90px;
-
-  /* İçerik: y:60–510 = 450px */
-  --content-h: 450px;
-  --content-padding-top: 11px;
-  --content-padding-bottom: 15px;
-  --page-padding-x: 16px;
-
-  /* Sidebar: sadece Göz At sayfasında, 167px */
-  --sidebar-w: 167px;
-
-  /* Detail panel: 366px */
-  --detail-panel-w: 366px;
-
-  /* Kart boyutları */
-  --card-thumb-size: 140px;
-  --album-art-size: 300px;
-  --player-art-size: 120px;
-  --mini-card-art-size: 50px;
-  --widget-h: 100px;
-
-  /* Touch targets: RPi5 için büyük */
-  --touch-min: 48px;
-  --touch-recommended: 56px;
-
-  /* Spacing */
-  --grid-gap: 8px;
-  --grid-gap-lg: 16px;
-  --section-gap: 16px;
-  --card-padding: 12px;
-
-  /* Font scale: 1× */
-  --text-xs: 10px;
-  --text-sm: 11px;
-  --text-base: 12px;
-  --text-lg: 14px;
-  --text-xl: 16px;
-
-  /* Glass */
-  --glass-blur: blur(20px);
-  --glass-saturate: saturate(180%);
-
-  /* Hover: YOK (dokunmatik) */
-  --hover-display: none;
-}
-
-/* ============================================================
-   GLOBAL — Embedded Overrides
-   ============================================================ */
+/* Font scale: 1× (RPi5) */
 html {
   font-size: 14px;
 }
 
+/* Touch scrolling */
 body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -108,231 +32,13 @@ body {
   /* Boş — hover efekti uygulanmaz */
 }
 
-/* Touch */
+/* Touch behavior */
 * {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
-/* ============================================================
-   HEADER — Compact (60px, PNG birebir)
-   ============================================================ */
-.site-header {
-  height: 60px;
-  padding: 0 var(--page-padding-x);
-  padding-top: 0;
-}
-
-.site-header__inner {
-  height: 100%;
-  gap: 4px;
-}
-
-.site-header__logo {
-  font-size: 18px;
-  margin-right: 12px;
-  padding: 0 8px;
-}
-
-/* Nav link: 8 item, 10px font, gap 4px, min-height 48px */
-.site-header__nav {
-  gap: 4px;
-}
-
-.nav-link {
-  font-size: 10px;
-  padding: 12px 8px; /* WCAG: 48px hit area */
-  min-height: 48px;
-  min-width: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ============================================================
-   FOOTER — Compact Player (90px, PNG birebir)
-   ============================================================ */
-.footer {
-  height: 90px;
-  padding: 0;
-}
-
-.footer__inner {
-  height: 100%;
-  padding: 0 var(--page-padding-x);
-}
-
-/* Album art: 120×120px (PNG ölçümü) */
-.footer__album-art {
-  width: 120px;
-  height: 120px;
-  border-radius: 8px;
-}
-
-/* Seek bar: y=0, full-width, h:3px, pembe */
-.footer__seek {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: rgba(255,255,255,0.2);
-  cursor: pointer;
-}
-
-.footer__seek-fill {
-  height: 100%;
-  background: var(--accent, #ff4fd8);
-}
-
-/* Transport butonları: 33px çap daireler */
-.footer__btn {
-  width: 33px;
-  height: 33px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  color: rgba(255,255,255,0.8);
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 100ms ease;
-  /* WCAG: pad ile hit area 48px */
-  padding: 7.5px;
-}
-
-.footer__btn:active {
-  background: rgba(255,255,255,0.25);
-}
-
-.footer__btn--play {
-  width: 38px;
-  height: 38px;
-}
-
-/* Volume slider: 145px */
-.footer__volume {
-  width: 145px;
-}
-
-/* Meta text: Avalon Medium, 10px */
-.footer__text {
-  font-size: 10px;
-  letter-spacing: 0.135em;
-  color: rgba(255,255,255,0.88);
-}
-
-.footer__text-meta {
-  font-size: 10px;
-  color: rgba(255,255,255,0.5);
-}
-
-/* ============================================================
-   HOME LAYOUT — Split (42/58), PNG birebir
-   Sol %42: Now Playing + kartlar
-   Sağ %58: Widget area
-   ============================================================ */
-.home-layout {
-  grid-template-columns: 42% 58%;
-  gap: var(--grid-gap);
-  height: var(--content-h);
-  padding: var(--content-padding-top) var(--page-padding-x) var(--content-padding-bottom);
-}
-
-.home-layout__left {
-  gap: var(--section-gap);
-  padding-right: var(--space-2, 8px);
-}
-
-.home-layout__right {
-  gap: var(--section-gap);
-  padding-left: var(--space-2, 8px);
-}
-
-/* ============================================================
-   STANDARD 60/40 LAYOUT
-   Albums, Album Detail, Artists, Playlist
-   ============================================================ */
-.standard-60-40 {
-  grid-template-columns: 1fr var(--detail-panel-w);
-  gap: var(--grid-gap-lg);
-  height: var(--content-h);
-}
-
-/* ============================================================
-   3-COLUMN LAYOUT (Göz At)
-   Sidebar 167px + Orta + Sağ 224px
-   ============================================================ */
-.three-column-layout {
-  grid-template-columns: var(--sidebar-w) 1fr 224px;
-  gap: var(--grid-gap);
-  height: var(--content-h);
-}
-
-/* Sidebar: sadece bu sayfada */
-.three-column-layout__sidebar {
-  overflow-y: auto;
-}
-
-/* ============================================================
-   CARD GRID — 3 sütun, 140px kartlar
-   ============================================================ */
-.card-grid {
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--grid-gap);
-}
-
-/* ============================================================
-   NOW PLAYING CARD — 100×100 album art
-   ============================================================ */
-.now-playing__art {
-  width: 100px;
-  height: 100px;
-  border-radius: 8px;
-}
-
-/* ============================================================
-   DETAIL PANEL — 300×300 daire album art
-   ============================================================ */
-.detail-panel__art {
-  width: var(--album-art-size);
-  height: var(--album-art-size);
-  border-radius: 50%;
-}
-
-/* ============================================================
-   GENRE TABS — h:32px, pill shape
-   ============================================================ */
-.genre-tab {
-  min-height: 32px;
-  font-size: 11px;
-  padding: 0 12px;
-}
-
-/* WCAG: min-height 48px ile padding ile genişlet */
-.genre-tabs {
-  padding: 8px 0;
-}
-
-/* ============================================================
-   TRACK ROW — min-height 48px (WCAG)
-   ============================================================ */
-.track-row {
-  min-height: 48px;
-  grid-template-columns: 40px 1fr 80px 60px 80px;
-}
-
-/* ============================================================
-   WIDGET AREA — 100px yükseklik
-   ============================================================ */
-.widget {
-  min-height: var(--widget-h);
-}
-
-/* ============================================================
-   SCROLLBAR — Thin (RPi5)
-   ============================================================ */
+/* Scrollbar — thin (RPi5 touch) */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -349,15 +55,4 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255,255,255,0.3);
-}
-
-/* ============================================================
-   AUTH SCREEN — 72/28 split
-   ============================================================ */
-.auth-screen__panel {
-  width: 284px;
-}
-
-.auth-screen__hero {
-  flex: 1;
 }

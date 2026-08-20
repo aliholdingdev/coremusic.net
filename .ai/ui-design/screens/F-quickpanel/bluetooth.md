@@ -1,7 +1,7 @@
 ---
 title: CoreMusic — Bluetooth Modal Screen Specification (1024×600, Linux Embedded RPi5)
 date: 2026-08-11
-updated: 2026-08-11
+updated: 2026-08-19
 type: spec
 status: active
 version: 2.0.0
@@ -414,5 +414,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ---
 
-*Bluetooth Modal Screen Spec v3.0.0 — CoreMusic UI Design System*
-*Last Updated: 2026-08-17*
+*Bluetooth Modal Screen Spec v2.0.0 — CoreMusic UI Design System*
+*Last Updated: 2026-08-19*

@@ -390,7 +390,7 @@ CoreMusic platformundaki tüm API endpoint'lerini servis bazında kataloglayan, 
 
 | Dosya | Amaç |
 |-------|------|
-| [[architecture/03-contracts/middleware-pipeline]] | Middleware |
+| [[architecture/l2-routing/middleware-pipeline]] | Middleware |
 | [[architecture/03-contracts/service-ipc]] | IPC |
 | [[architecture/03-contracts/ports/port-registry]] | Port haritası |
 | [[ADR-042-vault-restructuring-2026-08-03]] | Port mapping |

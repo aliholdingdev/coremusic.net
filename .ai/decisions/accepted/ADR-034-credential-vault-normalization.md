@@ -1,24 +1,8 @@
----
-type: decision
-id: "034"
+﻿---
 title: "ADR-034: Credential Vault Normalization"
-category: "security"
-status: "frozen"
-date: "2026-06-20"
-updated: "2026-08-15"
-authority: "Security Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-supersedes: null
-version: 2.0.0
+status: frozen
+date: 2026-06-20
 tags: [security, credential, vault, encryption, aes-256-gcm, frozen]
-risk-level: "critical"
-owasp-top10: ["A02:2021", "A04:2021"]
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[AGENTS.md]]"
-  - "[[decisions/accepted/ADR-022-database-hardened-security]]"
-  - "[[architecture/l0-infrastructure]]"
 ---
 
 # ADR-034: Credential Vault Normalization
@@ -27,31 +11,31 @@ references:
 
 ## 1. Executive Summary
 
-### 1.1 Kararın Özeti
+### 1.1 KararÄ±n Ã–zeti
 
-CoreMusic credential yönetimi, **merkezi credential vault** ile AES-256-GCM şifreleme kullanılarak uygulanır. Tüm hassas bilgiler (API key, DB password, JWT secret, ARL token) credential vault'ta AES-256-GCM ile şifrelenir. Vault master key'i sadece environment variable'dan yüklenir.
+CoreMusic credential yÃ¶netimi, **merkezi credential vault** ile AES-256-GCM ÅŸifreleme kullanÄ±larak uygulanÄ±r. TÃ¼m hassas bilgiler (API key, DB password, JWT secret, ARL token) credential vault'ta AES-256-GCM ile ÅŸifrelenir. Vault master key'i sadece environment variable'dan yÃ¼klenir.
 
-### 1.2 Temel Gerekçe
+### 1.2 Temel GerekÃ§e
 
-Credential'ların kodda veya log'da düz metin olarak bulunması, en ciddi güvenlik açıklarından biridir. Merkezi credential vault, tüm hassas bilgileri tek bir güvenli noktada yönetir.
+Credential'larÄ±n kodda veya log'da dÃ¼z metin olarak bulunmasÄ±, en ciddi gÃ¼venlik aÃ§Ä±klarÄ±ndan biridir. Merkezi credential vault, tÃ¼m hassas bilgileri tek bir gÃ¼venli noktada yÃ¶netir.
 
-### 1.3 Beklenen Sonuçlar
+### 1.3 Beklenen SonuÃ§lar
 
-- Tüm credential'lar AES-256-GCM ile şifrelenir
-- Vault master key'i environment variable'dan yüklenir
-- Credential'lar ASLA kodda veya log'da görünmez
+- TÃ¼m credential'lar AES-256-GCM ile ÅŸifrelenir
+- Vault master key'i environment variable'dan yÃ¼klenir
+- Credential'lar ASLA kodda veya log'da gÃ¶rÃ¼nmez
 - Log'larda `[REDACTED]` ile maskelenir
 
 ---
 
 ## 2. Status
 
-| Alan | Değer |
+| Alan | DeÄŸer |
 |------|-------|
 | **Durum** | frozen |
 | **Versiyon** | 2.0.0 |
-| **Oluşturma Tarihi** | 2026-06-20 |
-| **Son Güncelleme** | 2026-08-15 |
+| **OluÅŸturma Tarihi** | 2026-06-20 |
+| **Son GÃ¼ncelleme** | 2026-08-15 |
 | **Otorite** | Security Engineer |
 | **Risk Seviyesi** | critical |
 
@@ -59,48 +43,48 @@ Credential'ların kodda veya log'da düz metin olarak bulunması, en ciddi güve
 
 ## 3. Context
 
-### 3.1 Problem Tanımı
+### 3.1 Problem TanÄ±mÄ±
 
-Credential sızıntıları:
-- Kod içinde hardcode edilmiş API key'ler
-- Log dosyalarında görünür şifreler
-- .env dosyalarının sızması
+Credential sÄ±zÄ±ntÄ±larÄ±:
+- Kod iÃ§inde hardcode edilmiÅŸ API key'ler
+- Log dosyalarÄ±nda gÃ¶rÃ¼nÃ¼r ÅŸifreler
+- .env dosyalarÄ±nÄ±n sÄ±zmasÄ±
 - Git history'sinde kalan credential'lar
 
 ### 3.2 Credential Vault Mimarisi
 
 ```
-┌─────────────────────────────────────────────────┐
-│              Credential Vault                     │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Master Key (Environment Variable)        │  │
-│  │  • CREDENTIAL_VAULT_KEY env var           │  │
-│  │  • 256-bit AES key                         │  │
-│  │  • ASLA kodda saklanmaz                    │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Encrypted Credentials:                    │  │
-│  │                                            │  │
-│  │  DB_PASSWORD    → AES-256-GCM encrypted   │  │
-│  │  API_KEY        → AES-256-GCM encrypted   │  │
-│  │  JWT_SECRET     → AES-256-GCM encrypted   │  │
-│  │  DEEZER_ARL     → AES-256-GCM encrypted   │  │
-│  │  SMTP_PASSWORD  → AES-256-GCM encrypted   │  │
-│  │  REDIS_PASSWORD → AES-256-GCM encrypted   │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Encryption Format:                        │  │
-│  │  base64(iv) . "." . base64(ciphertext)     │  │
-│  │    . "." . base64(tag)                      │  │
-│  │                                            │  │
-│  │  IV: 96-bit (12 byte) random              │  │
-│  │  Tag: 16-byte authentication              │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-└─────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚              Credential Vault                     â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Master Key (Environment Variable)        â”‚  â”‚
+â”‚  â”‚  â€¢ CREDENTIAL_VAULT_KEY env var           â”‚  â”‚
+â”‚  â”‚  â€¢ 256-bit AES key                         â”‚  â”‚
+â”‚  â”‚  â€¢ ASLA kodda saklanmaz                    â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Encrypted Credentials:                    â”‚  â”‚
+â”‚  â”‚                                            â”‚  â”‚
+â”‚  â”‚  DB_PASSWORD    â†’ AES-256-GCM encrypted   â”‚  â”‚
+â”‚  â”‚  API_KEY        â†’ AES-256-GCM encrypted   â”‚  â”‚
+â”‚  â”‚  JWT_SECRET     â†’ AES-256-GCM encrypted   â”‚  â”‚
+â”‚  â”‚  DEEZER_ARL     â†’ AES-256-GCM encrypted   â”‚  â”‚
+â”‚  â”‚  SMTP_PASSWORD  â†’ AES-256-GCM encrypted   â”‚  â”‚
+â”‚  â”‚  REDIS_PASSWORD â†’ AES-256-GCM encrypted   â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Encryption Format:                        â”‚  â”‚
+â”‚  â”‚  base64(iv) . "." . base64(ciphertext)     â”‚  â”‚
+â”‚  â”‚    . "." . base64(tag)                      â”‚  â”‚
+â”‚  â”‚                                            â”‚  â”‚
+â”‚  â”‚  IV: 96-bit (12 byte) random              â”‚  â”‚
+â”‚  â”‚  Tag: 16-byte authentication              â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -109,20 +93,20 @@ Credential sızıntıları:
 
 ### 4.1 Karar Bildirimi
 
-**CoreMusic, AES-256-GCM şifreli merkezi credential vault kullanır. Tüm hassas bilgiler vault'ta saklanır.**
+**CoreMusic, AES-256-GCM ÅŸifreli merkezi credential vault kullanÄ±r. TÃ¼m hassas bilgiler vault'ta saklanÄ±r.**
 
 ### 4.2 Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | AES-256-GCM şifreleme | ✅ Zorunlu |
-| 2 | Master key env variable | ✅ Zorunlu |
-| 3 | Credential kodda yasak | ❌ Yasak |
-| 4 | Credential log'da yasak | ❌ Yasak |
-| 5 | `[REDACTED]` maskeleme | ✅ Zorunlu |
-| 6 | .gitignore'da .env | ✅ Zorunlu |
+| 1 | AES-256-GCM ÅŸifreleme | âœ… Zorunlu |
+| 2 | Master key env variable | âœ… Zorunlu |
+| 3 | Credential kodda yasak | âŒ Yasak |
+| 4 | Credential log'da yasak | âŒ Yasak |
+| 5 | `[REDACTED]` maskeleme | âœ… Zorunlu |
+| 6 | .gitignore'da .env | âœ… Zorunlu |
 
-### 4.3 Kod Örnekleri
+### 4.3 Kod Ã–rnekleri
 
 ```php
 <?php
@@ -134,8 +118,8 @@ namespace CoreMusic\Security\Service;
 /**
  * Credential Vault Service
  *
- * ADR-034 uyumlu credential yönetimi.
- * AES-256-GCM şifreleme.
+ * ADR-034 uyumlu credential yÃ¶netimi.
+ * AES-256-GCM ÅŸifreleme.
  */
 final class CredentialVaultService
 {
@@ -151,7 +135,7 @@ final class CredentialVaultService
     }
 
     /**
-     * Credential'ı şifreler ve vault'a kaydeder.
+     * Credential'Ä± ÅŸifreler ve vault'a kaydeder.
      */
     public function store(string $key, string $value): void
     {
@@ -179,7 +163,7 @@ final class CredentialVaultService
     }
 
     /**
-     * Credential'ı çözer.
+     * Credential'Ä± Ã§Ã¶zer.
      */
     public function retrieve(string $key): string
     {
@@ -207,9 +191,9 @@ final class CredentialVaultService
 }
 ```
 
-### 4.4 Redaction Kuralları
+### 4.4 Redaction KurallarÄ±
 
-| Veri Türü | Log Formatı |
+| Veri TÃ¼rÃ¼ | Log FormatÄ± |
 |-----------|-------------|
 | API Key | `API Key: [REDACTED] (service: deezer)` |
 | DB Password | `DB Password: [REDACTED]` |
@@ -223,35 +207,35 @@ final class CredentialVaultService
 
 | Alternatif | Neden Reddedildi |
 |------------|------------------|
-| Hardcoded credentials | Güvensiz, OWASP ihlali |
+| Hardcoded credentials | GÃ¼vensiz, OWASP ihlali |
 | Plain .env | Encryption yok |
-| HashiCorp Vault | Harici bağımlılık |
+| HashiCorp Vault | Harici baÄŸÄ±mlÄ±lÄ±k |
 
 ---
 
 ## 6. Consequences
 
 ### Olumlu
-- Credential güvenliği sağlanır
-- OWASP A02 uyumluluğu
-- Merkezi yönetim
+- Credential gÃ¼venliÄŸi saÄŸlanÄ±r
+- OWASP A02 uyumluluÄŸu
+- Merkezi yÃ¶netim
 
 ### Olumsuz
-- Master key yönetimi karmaşık
-- Vault erişim overhead
+- Master key yÃ¶netimi karmaÅŸÄ±k
+- Vault eriÅŸim overhead
 
 ---
 
 ## 7. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-034: Credential Vault Normalization v2.0.0 — CoreMusic Security*
-*Authority: Security Engineer · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-034: Credential Vault Normalization v2.0.0 â€” CoreMusic Security*
+*Authority: Security Engineer Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

@@ -45,18 +45,18 @@ references:
 │  │ [♪] Göksel - Sevil Neşelen | Hayat Rüya Gibi  | Göksel   | 00:00:00 | ★★★★★          │   │
 │  └─────────────────────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                                  │
-│  ┌── SAĞ PANEL (~300px) ──────────────────────────────────────────────────────────────────┐   │
-│  │ [圆形 Artist Photo]                                                                      │   │
+│  ┌── SAĞ PANEL (~350px) ──────────────────────────────────────────────────────────────────┐   │
+│  │ [圆形 Artist Photo ~150×150]                                                             │   │
 │  │ Göksel - Sevil Neşelen                                                                 │   │
 │  │ Göksel, Hayat Rüya Gibi                                                                │   │
 │  │                                                                                         │   │
-│  │ [♫][♥][▼][⋯]  (aksiyon ikonları)                                                      │   │
+│  │ [♫][♥][▼][⋯]  (aksiyon ikonları, daire, pembe border)                                 │   │
 │  │                                                                                         │   │
 │  │ ── Önerilen Sanatçılar ──            ── Takip Edilen Sanatçılar ──                    │   │
-│  │ [thumb×4 grid]                       [thumb×4 grid]                                     │   │
+│  │ [○×4 dairesel thumb]                 [○×4 dairesel thumb]                              │   │
 │  │                                                                                         │   │
-│  │ ── Son Öneriler ──                   ── Tüm Sanatçılar ──                             │   │
-│  │ [thumb×4 grid]                       [thumb×4 grid]                                     │   │
+│  │ ── Son Öneriler ──                                                      │   │
+│  │ [○×4 dairesel thumb]                                                             │   │
 │  └─────────────────────────────────────────────────────────────────────────────────────────┘   │
 │                                                                                                  │
 │ [FOOTER — ortak]                                                                                │
@@ -87,9 +87,11 @@ Tablo başlığı: sabit üstte, sıralanabilir
 
 | Bölüm | İçerik |
 |-------|--------|
-| Üst |圆形 Artist Photo (100×100px) + şarkı adı + albüm |
-| Aksiyon | ♫ ♥ ▼ ⋯ ikonları (44×44px hit area) |
-| Öneriler | 4× grid × 2 bölüm (thumb 50×50px) |
+| Üst |圆形 Artist Photo (~150×150px) + şarkı adı + albüm |
+| Aksiyon | ♫ ♥ ▼ ⋯ ikonları (daire, pembe border, 44×44px hit area) |
+| Önerilen Sanatçılar | 4× dairesel thumb (50×50px) |
+| Takip Edilenler | 4× dairesel thumb (50×50px) |
+| Son Öneriler | 4× dairesel thumb (50×50px) |
 
 ---
 
@@ -115,10 +117,10 @@ Tablo başlığı: sabit üstte, sıralanabilir
 | Footer | 90px | `--footer-h` |
 | İçerik | 450px | `--content-h` |
 | Sol panel (tablo) | ~65% | — |
-| Sağ panel (detail) | ~35%, 300px | `--detail-panel-w` |
+| Sağ panel (detail) | ~35%, 350px | `--detail-panel-w` |
 | Satır yüksekliği | ~40px | — |
 | Tablo başlığı | Sabit üstte | — |
-| Artist photo | 100×100px daire | — |
+| Artist photo | ~150×150px daire | — |
 | Touch target | ≥48px | `--touch-min` |
 | Hover | YOK | — |
 | Font ölçeği | 1× | — |
@@ -214,7 +216,7 @@ Tablo başlığı: sabit üstte, sıralanabilir
 /* === LAYOUT === */
 .playlist-layout {
   display: grid;
-  grid-template-columns: 1fr 300px;
+  grid-template-columns: 1fr 350px;
   gap: var(--grid-gap-lg);
   padding: var(--content-padding-top) var(--page-padding-x) var(--content-padding-bottom);
   height: var(--content-h);
@@ -278,8 +280,8 @@ Tablo başlığı: sabit üstte, sıralanabilir
 }
 
 .playlist-detail__artist-photo {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: var(--radius-full);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
@@ -422,5 +424,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 *Playlist Screen Spec v3.0.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-17*
+*Last Updated: 2026-08-19*
 *Mode: Red Team · Human Mode · Truth Mode*

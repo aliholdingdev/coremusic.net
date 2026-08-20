@@ -325,4 +325,4 @@ document.addEventListener('DOMContentLoaded', () => {
 ---
 
 *WiFi Connect Screen Spec v3.0.0 — CoreMusic UI Design System*
-*Last Updated: 2026-08-17*
+*Last Updated: 2026-08-19*

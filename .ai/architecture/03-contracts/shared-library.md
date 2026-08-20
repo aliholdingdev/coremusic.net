@@ -458,7 +458,7 @@ Circular dependency YASAK.
 | Dosya | Amaç |
 |-------|------|
 | [[architecture/03-contracts/project-structure]] | Proje yapısı |
-| [[architecture/01-overview/architecture_master]] | Ana mimari |
+| [[architecture/00-overview/architecture-master]] | Ana mimari |
 | [[architecture/l1-security/index]] | Security layer |
 | [[ADR-001-vanilla-js-itcss]] | Vanilla JS kuralı |
 | [[ADR-002-pdo-mandatory-no-orm]] | PDO kuralı |
@@ -469,7 +469,7 @@ Circular dependency YASAK.
 |-------|-------|--------|
 | § 3 Paketler | [[architecture/03-contracts/api-architecture-master]] | API mimarisi |
 | § 5 Bağımlılıklar | [[architecture/07-security/security-standards]] | Güvenlik standartları |
-| § 8 Graf | [[architecture/01-overview/architecture_master]] | Ana mimari |
+| § 8 Graf | [[architecture/00-overview/architecture-master]] | Ana mimari |
 
 ## 12. Kalite Raporu
 

@@ -1,20 +1,8 @@
----
-type: decision
-id: "046"
+﻿---
 title: "ADR-046: Cross-View State Preservation"
-category: "frontend"
-status: "active"
-date: "2026-08-08"
-updated: "2026-08-15"
-authority: "UI Designer"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: active
+date: 2026-08-08
 tags: [frontend, state, preservation, cross-view, active]
-risk-level: "low"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-045-multi-domain-view-mode-architecture]]"
-  - "[[architecture/l3-presentation]]"
 ---
 
 # ADR-046: Cross-View State Preservation
@@ -23,41 +11,41 @@ references:
 
 ## 1. Executive Summary
 
-View mode'lar arası geçişlerde **state korunur**. Kullanıcı pro modundan home moduna geçtiğinde, scroll pozisyonu, seçimler ve geçici veriler korunur.
+View mode'lar arasÄ± geÃ§iÅŸlerde **state korunur**. KullanÄ±cÄ± pro modundan home moduna geÃ§tiÄŸinde, scroll pozisyonu, seÃ§imler ve geÃ§ici veriler korunur.
 
 ## 2. Decision
 
-### State Koruma Alanları
+### State Koruma AlanlarÄ±
 
-| Alan | Korunma | Yöntem |
+| Alan | Korunma | YÃ¶ntem |
 |------|---------|--------|
-| Scroll pozisyonu | ✅ | sessionStorage |
-| Seçili öğe | ✅ | Client-side state |
-| Arama filtresi | ✅ | URL params |
-| Player durumu | ✅ | Global state |
-| Form verileri | ✅ | sessionStorage |
+| Scroll pozisyonu | âœ… | sessionStorage |
+| SeÃ§ili Ã¶ÄŸe | âœ… | Client-side state |
+| Arama filtresi | âœ… | URL params |
+| Player durumu | âœ… | Global state |
+| Form verileri | âœ… | sessionStorage |
 
 ### Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Scroll state korunur | ✅ Zorunlu |
-| 2 | Player state korunur | ✅ Zorunlu |
-| 3 | URL params ile state | ✅ Zorunlu |
-| 4 | sessionStorage kullanımı | ✅ Zorunlu |
+| 1 | Scroll state korunur | âœ… Zorunlu |
+| 2 | Player state korunur | âœ… Zorunlu |
+| 3 | URL params ile state | âœ… Zorunlu |
+| 4 | sessionStorage kullanÄ±mÄ± | âœ… Zorunlu |
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-046: Cross-View State Preservation v2.0.0 — CoreMusic Frontend*
-*Authority: UI Designer · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-046: Cross-View State Preservation v2.0.0 â€” CoreMusic Frontend*
+*Authority: UI Designer Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

@@ -320,7 +320,7 @@ Auth gerektiren sayfalar auth.coremusic.net'e yönlendirilir:
 |-------|-------|-----|
 | **Eşleşmeyen route** | `RouteResult::notFound()` | ADR-021 |
 | **Auth required + giriş yok** | `AuthGuard::check()` → redirect | ADR-043 |
-| **Rol yetkisi yok** | `RouteResult::forbidden()` | ADR-052 |
+| **Rol yetkisi yok** | `RouteResult::forbidden()` | ADR-011 |
 | **POST + handler tanımlı** | Controller'a yönlendir | ADR-083 |
 | **Cache devre dışı** | Doğrudan render | — |
 | **Debug modda eksik sayfa** | Placeholder render | — |

@@ -1,20 +1,8 @@
----
-type: decision
-id: "021"
+﻿---
 title: "ADR-021: SPA Router Immutable Contract"
-category: "routing"
-status: "frozen"
-date: "2026-04-25"
-updated: "2026-08-15"
-authority: "Backend Architect"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: frozen
+date: 2026-04-25
 tags: [routing, spa, router, contract, frozen]
-risk-level: "high"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-001-vanilla-js-itcss]]"
-  - "[[decisions/accepted/ADR-083-spa-router]]"
 ---
 
 # ADR-021: SPA Router Immutable Contract
@@ -23,38 +11,38 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic SPA Router sözleşmelesi **değiştirilemez** (immutable). Route tanımları, guard pipeline ve render akışı sabittir.
+CoreMusic SPA Router sÃ¶zleÅŸmelesi **deÄŸiÅŸtirilemez** (immutable). Route tanÄ±mlarÄ±, guard pipeline ve render akÄ±ÅŸÄ± sabittir.
 
 ## 2. Decision
 
-### Router Sözleşmesi
+### Router SÃ¶zleÅŸmesi
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | History API (pushState) | ✅ Zorunlu |
-| 2 | Route guard pipeline | ✅ Zorunlu |
-| 3 | Partial rendering | ✅ Zorunlu |
-| 4 | Backend-controlled auth | ✅ Zorunlu |
-| 5 | Route contract immutable | ✅ Zorunlu |
+| 1 | History API (pushState) | âœ… Zorunlu |
+| 2 | Route guard pipeline | âœ… Zorunlu |
+| 3 | Partial rendering | âœ… Zorunlu |
+| 4 | Backend-controlled auth | âœ… Zorunlu |
+| 5 | Route contract immutable | âœ… Zorunlu |
 
 ### Route Guard Pipeline
 
 ```
-Route Change → Auth Check → Permission Check → Load Page → Render
+Route Change â†’ Auth Check â†’ Permission Check â†’ Load Page â†’ Render
 ```
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-021: SPA Router Immutable Contract v2.0.0 — CoreMusic Routing*
-*Authority: Backend Architect · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-021: SPA Router Immutable Contract v2.0.0 â€” CoreMusic Routing*
+*Authority: Backend Architect Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

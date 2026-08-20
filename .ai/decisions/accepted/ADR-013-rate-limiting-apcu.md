@@ -1,28 +1,8 @@
----
-type: decision
-id: "013"
+﻿---
 title: "ADR-013: Rate Limiting APCu"
-category: "security"
-status: "frozen"
-date: "2026-01-20"
-updated: "2026-08-15"
-authority: "Security Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-supersedes: null
-version: 2.0.0
+status: frozen
+date: 2026-01-20
 tags: [security, rate-limit, apcu, ddos, brute-force, owasp, frozen]
-risk-level: "high"
-owasp-top10: ["A04:2021", "A05:2021"]
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[AGENTS.md]]"
-  - "[[keys.md]]"
-  - "[[decisions/accepted/ADR-010-csrf-protection-strategy]]"
-  - "[[decisions/accepted/ADR-011-session-management]]"
-  - "[[decisions/accepted/ADR-012-csp-nonce-strict-dynamic]]"
-  - "[[decisions/accepted/ADR-022-database-hardened-security]]"
-  - "[[architecture/l1-security]]"
 ---
 
 # ADR-013: Rate Limiting APCu
@@ -31,89 +11,89 @@ references:
 
 ## 1. Executive Summary
 
-### 1.1 Kararın Özeti
+### 1.1 KararÄ±n Ã–zeti
 
-CoreMusic platformunda rate limiting, **APCu tabanlı** bir strateji ile uygulanacaktır. Varsayılan limit: **60 istek/60 saniye** (1 istek/saniye). Rate limit IP bazlı uygulanır. Aşım durumunda **429 Too Many Requests** yanıtı döner. Auth endpoint'leri için daha sıkı limit: **10 istek/60 saniye**.
+CoreMusic platformunda rate limiting, **APCu tabanlÄ±** bir strateji ile uygulanacaktÄ±r. VarsayÄ±lan limit: **60 istek/60 saniye** (1 istek/saniye). Rate limit IP bazlÄ± uygulanÄ±r. AÅŸÄ±m durumunda **429 Too Many Requests** yanÄ±tÄ± dÃ¶ner. Auth endpoint'leri iÃ§in daha sÄ±kÄ± limit: **10 istek/60 saniye**.
 
-### 1.2 Temel Gerekçe
+### 1.2 Temel GerekÃ§e
 
-Rate limiting, brute-force saldırılarını, DDoS saldırılarını ve API kötüye kullanımlarını engeller. APCu, PHP'nin dahili önbellek sistemidir ve harici bağımlılık gerektirmez. Bu, CoreMusic'in minimalist altyapı felsefesiyle uyumludur.
+Rate limiting, brute-force saldÄ±rÄ±larÄ±nÄ±, DDoS saldÄ±rÄ±larÄ±nÄ± ve API kÃ¶tÃ¼ye kullanÄ±mlarÄ±nÄ± engeller. APCu, PHP'nin dahili Ã¶nbellek sistemidir ve harici baÄŸÄ±mlÄ±lÄ±k gerektirmez. Bu, CoreMusic'in minimalist altyapÄ± felsefesiyle uyumludur.
 
-### 1.3 Beklenen Sonuçlar
+### 1.3 Beklenen SonuÃ§lar
 
-- Brute-force saldırıları engellenir
-- DDoS saldırıları azaltılır
-- API kötüye kullanımı önlenir
-- Auth endpoint'leri ek koruma altındadır
-- Harici bağımlılık yok (sadece APCu)
+- Brute-force saldÄ±rÄ±larÄ± engellenir
+- DDoS saldÄ±rÄ±larÄ± azaltÄ±lÄ±r
+- API kÃ¶tÃ¼ye kullanÄ±mÄ± Ã¶nlenir
+- Auth endpoint'leri ek koruma altÄ±ndadÄ±r
+- Harici baÄŸÄ±mlÄ±lÄ±k yok (sadece APCu)
 
 ---
 
 ## 2. Status
 
-| Alan | Değer |
+| Alan | DeÄŸer |
 |------|-------|
 | **Durum** | frozen |
 | **Versiyon** | 2.0.0 |
-| **Oluşturma Tarihi** | 2026-01-20 |
-| **Son Güncelleme** | 2026-08-15 |
+| **OluÅŸturma Tarihi** | 2026-01-20 |
+| **Son GÃ¼ncelleme** | 2026-08-15 |
 | **Otorite** | Security Engineer |
 | **Risk Seviyesi** | high |
-| **Onay** | Red Team · Human Mode · Truth Mode |
+| **Onay** | Red Team Â· Human Mode Â· Truth Mode |
 
 ---
 
 ## 3. Context
 
-### 3.1 Problem Tanımı
+### 3.1 Problem TanÄ±mÄ±
 
-Rate limiting olmadan, saldırganlar sınırsız sayıda istek göndererek:
-- Brute-force ile şifre kırmaya çalışabilir
-- DDoS ile sistemi çökertebilir
-- API'yi aşırı kullanarak performans düşüklüğü yaratabilir
+Rate limiting olmadan, saldÄ±rganlar sÄ±nÄ±rsÄ±z sayÄ±da istek gÃ¶ndererek:
+- Brute-force ile ÅŸifre kÄ±rmaya Ã§alÄ±ÅŸabilir
+- DDoS ile sistemi Ã§Ã¶kertebilir
+- API'yi aÅŸÄ±rÄ± kullanarak performans dÃ¼ÅŸÃ¼klÃ¼ÄŸÃ¼ yaratabilir
 - Enumeration ile hassas bilgi toplayabilir
 
-### 3.2 Rate Limit Yapısı
+### 3.2 Rate Limit YapÄ±sÄ±
 
 ```
-┌─────────────────────────────────────────────────┐
-│               Rate Limiting System               │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Global Limit: 60 req/60s per IP          │  │
-│  │  Auth Limit: 10 req/60s per IP            │  │
-│  │  API Limit: 120 req/60s per API key       │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  APCu Storage                             │  │
-│  │  Key: rate_limit:{ip}:{endpoint}          │  │
-│  │  Value: request_count                     │  │
-│  │  TTL: 60 seconds                          │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Response Headers                         │  │
-│  │  X-RateLimit-Limit: 60                    │  │
-│  │  X-RateLimit-Remaining: 45                │  │
-│  │  X-RateLimit-Reset: 1692000000            │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-└─────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚               Rate Limiting System               â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Global Limit: 60 req/60s per IP          â”‚  â”‚
+â”‚  â”‚  Auth Limit: 10 req/60s per IP            â”‚  â”‚
+â”‚  â”‚  API Limit: 120 req/60s per API key       â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  APCu Storage                             â”‚  â”‚
+â”‚  â”‚  Key: rate_limit:{ip}:{endpoint}          â”‚  â”‚
+â”‚  â”‚  Value: request_count                     â”‚  â”‚
+â”‚  â”‚  TTL: 60 seconds                          â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Response Headers                         â”‚  â”‚
+â”‚  â”‚  X-RateLimit-Limit: 60                    â”‚  â”‚
+â”‚  â”‚  X-RateLimit-Remaining: 45                â”‚  â”‚
+â”‚  â”‚  X-RateLimit-Reset: 1692000000            â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
-### 3.3 İtici Güçler
+### 3.3 Ä°tici GÃ¼Ã§ler
 
-| # | Güç | Kritiklik |
+| # | GÃ¼Ã§ | Kritiklik |
 |---|-----|-----------|
-| 1 | Brute-force saldırıları | Kritik |
-| 2 | DDoS saldırıları | Yüksek |
-| 3 | API kötüye kullanımı | Yüksek |
-| 4 | Enumeration saldırıları | Orta |
+| 1 | Brute-force saldÄ±rÄ±larÄ± | Kritik |
+| 2 | DDoS saldÄ±rÄ±larÄ± | YÃ¼ksek |
+| 3 | API kÃ¶tÃ¼ye kullanÄ±mÄ± | YÃ¼ksek |
+| 4 | Enumeration saldÄ±rÄ±larÄ± | Orta |
 
-### 3.4 Teknik Kısıtlamalar
+### 3.4 Teknik KÄ±sÄ±tlamalar
 
-| Kısıtlama | Değer |
+| KÄ±sÄ±tlama | DeÄŸer |
 |-----------|-------|
 | Driver | APCu (PHP extension) |
 | Global limit | 60 req/60s |
@@ -128,21 +108,21 @@ Rate limiting olmadan, saldırganlar sınırsız sayıda istek göndererek:
 
 ### 4.1 Karar Bildirimi
 
-**CoreMusic, APCu tabanlı IP bazlı rate limiting kullanır. Varsayılan limit 60/60s, auth için 10/60s.**
+**CoreMusic, APCu tabanlÄ± IP bazlÄ± rate limiting kullanÄ±r. VarsayÄ±lan limit 60/60s, auth iÃ§in 10/60s.**
 
 ### 4.2 Kesin Kurallar
 
-| # | Kural | Değer |
+| # | Kural | DeÄŸer |
 |---|-------|-------|
 | 1 | Global limit | 60 req/60s |
 | 2 | Auth limit | 10 req/60s |
 | 3 | API limit | 120 req/60s |
-| 4 | Aşım yanıtı | 429 Too Many Requests |
+| 4 | AÅŸÄ±m yanÄ±tÄ± | 429 Too Many Requests |
 | 5 | Response header | X-RateLimit-* |
-| 6 | IP bazlı | Client IP |
+| 6 | IP bazlÄ± | Client IP |
 | 7 | APCu driver | Zorunlu |
 
-### 4.3 Kod Örnekleri
+### 4.3 Kod Ã–rnekleri
 
 #### 4.3.1 Rate Limiter Service
 
@@ -156,9 +136,9 @@ namespace CoreMusic\Security\Service;
 /**
  * Rate Limiter Service
  *
- * ADR-013 uyumlu APCu tabanlı rate limiting.
- * IP bazlı, 60 req/60s varsayılan.
- * Auth endpoint'leri için 10 req/60s.
+ * ADR-013 uyumlu APCu tabanlÄ± rate limiting.
+ * IP bazlÄ±, 60 req/60s varsayÄ±lan.
+ * Auth endpoint'leri iÃ§in 10 req/60s.
  */
 final class RateLimiterService
 {
@@ -168,7 +148,7 @@ final class RateLimiterService
     private const WINDOW = 60; // saniye
 
     /**
-     * İsteğin rate limit'e uygun olup olmadığını kontrol eder.
+     * Ä°steÄŸin rate limit'e uygun olup olmadÄ±ÄŸÄ±nÄ± kontrol eder.
      */
     public function isAllowed(
         string $ip,
@@ -192,7 +172,7 @@ final class RateLimiterService
     }
 
     /**
-     * Endpoint'e göre limit döndürür.
+     * Endpoint'e gÃ¶re limit dÃ¶ndÃ¼rÃ¼r.
      */
     private function getLimitForEndpoint(string $endpoint): int
     {
@@ -204,7 +184,7 @@ final class RateLimiterService
     }
 
     /**
-     * Kalan istek sayısını döndürür.
+     * Kalan istek sayÄ±sÄ±nÄ± dÃ¶ndÃ¼rÃ¼r.
      */
     public function getRemaining(
         string $ip,
@@ -218,7 +198,7 @@ final class RateLimiterService
     }
 
     /**
-     * Rate limit header'larını oluşturur.
+     * Rate limit header'larÄ±nÄ± oluÅŸturur.
      */
     public function getHeaders(
         string $ip,
@@ -255,8 +235,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 /**
  * Rate Limiter Middleware
  *
- * ADR-013 uyumlu APCu tabanlı rate limiting.
- * IP bazlı, 60 req/60s varsayılan.
+ * ADR-013 uyumlu APCu tabanlÄ± rate limiting.
+ * IP bazlÄ±, 60 req/60s varsayÄ±lan.
  */
 final class RateLimiterMiddleware implements MiddlewareInterface
 {
@@ -284,7 +264,7 @@ final class RateLimiterMiddleware implements MiddlewareInterface
                 json_encode([
                     'status' => 'error',
                     'code' => 'RATE_LIMIT_EXCEEDED',
-                    'message' => 'Çok fazla istek. Lütfen 60 saniye bekleyin.',
+                    'message' => 'Ã‡ok fazla istek. LÃ¼tfen 60 saniye bekleyin.',
                     'retry_after' => 60,
                 ], JSON_THROW_ON_ERROR)
             );
@@ -294,7 +274,7 @@ final class RateLimiterMiddleware implements MiddlewareInterface
 
         $response = $handler->handle($request);
 
-        // Rate limit header'larını ekle
+        // Rate limit header'larÄ±nÄ± ekle
         $headers = $this->rateLimiter->getHeaders($ip, $endpoint);
         foreach ($headers as $name => $value) {
             $response = $response->withHeader($name, $value);
@@ -320,9 +300,9 @@ final class RateLimiterMiddleware implements MiddlewareInterface
 }
 ```
 
-### 4.4 Konfigürasyon
+### 4.4 KonfigÃ¼rasyon
 
-| Dosya | Değer |
+| Dosya | DeÄŸer |
 |-------|-------|
 | `shared/config/rate-limit.php` | 60/60s global, 10/60s auth |
 | `php.ini` | `apc.enabled=1` |
@@ -331,17 +311,17 @@ final class RateLimiterMiddleware implements MiddlewareInterface
 
 ## 5. Architecture
 
-### 5.1 Rate Limit Akışı
+### 5.1 Rate Limit AkÄ±ÅŸÄ±
 
 ```
-Request → IP Extract → APCu Key → Count Check → Allow/Deny
-                                              │
-                                    ┌─────────┴─────────┐
-                                    │                   │
+Request â†’ IP Extract â†’ APCu Key â†’ Count Check â†’ Allow/Deny
+                                              â”‚
+                                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+                                    â”‚                   â”‚
                                  Allowed            Denied
-                                    │                   │
+                                    â”‚                   â”‚
                               Controller          429 Response
-                                    │                   │
+                                    â”‚                   â”‚
                               + Headers           + Retry-After
 ```
 
@@ -351,9 +331,9 @@ Request → IP Extract → APCu Key → Count Check → Allow/Deny
 
 | Alternatif | Neden Reddedildi |
 |------------|------------------|
-| Redis rate limiting | Harici bağımlılık (ADR-013 APCu) |
-| Database rate limiting | Performans, DB yükü |
-| Token bucket | Karmaşık, APCu yeterli |
+| Redis rate limiting | Harici baÄŸÄ±mlÄ±lÄ±k (ADR-013 APCu) |
+| Database rate limiting | Performans, DB yÃ¼kÃ¼ |
+| Token bucket | KarmaÅŸÄ±k, APCu yeterli |
 | Sliding window | APCu ile basit |
 
 ---
@@ -361,14 +341,14 @@ Request → IP Extract → APCu Key → Count Check → Allow/Deny
 ## 7. Consequences
 
 ### Olumlu
-- Brute-force saldırıları engellenir
-- DDoS koruması
-- Harici bağımlılık yok
+- Brute-force saldÄ±rÄ±larÄ± engellenir
+- DDoS korumasÄ±
+- Harici baÄŸÄ±mlÄ±lÄ±k yok
 
 ### Olumsuz
-- APCu bağımlılığı
+- APCu baÄŸÄ±mlÄ±lÄ±ÄŸÄ±
 - Single-server (distributed yok)
-- Memory kullanımı
+- Memory kullanÄ±mÄ±
 
 ---
 
@@ -376,23 +356,23 @@ Request → IP Extract → APCu Key → Count Check → Allow/Deny
 
 | Test | Kapsama |
 |------|---------|
-| Limit aşımı | %100 |
+| Limit aÅŸÄ±mÄ± | %100 |
 | Auth limit | %100 |
-| Header doğrulama | %100 |
-| 429 yanıtı | %100 |
+| Header doÄŸrulama | %100 |
+| 429 yanÄ±tÄ± | %100 |
 
 ---
 
 ## 9. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-013: Rate Limiting APCu v2.0.0 — CoreMusic Security*
-*Authority: Security Engineer · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-013: Rate Limiting APCu v2.0.0 â€” CoreMusic Security*
+*Authority: Security Engineer Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

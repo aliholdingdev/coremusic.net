@@ -1,28 +1,8 @@
----
-type: decision
-id: "012"
+﻿---
 title: "ADR-012: CSP Nonce Strict-Dynamic"
-category: "security"
-status: "frozen"
-date: "2026-01-15"
-updated: "2026-08-15"
-authority: "Security Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-supersedes: null
-version: 2.0.0
+status: frozen
+date: 2026-01-15
 tags: [security, csp, nonce, strict-dynamic, xss, owasp, frozen]
-risk-level: "critical"
-owasp-top10: ["A03:2021", "A05:2021"]
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[AGENTS.md]]"
-  - "[[keys.md]]"
-  - "[[decisions/accepted/ADR-010-csrf-protection-strategy]]"
-  - "[[decisions/accepted/ADR-011-session-management]]"
-  - "[[decisions/accepted/ADR-013-rate-limiting-apcu]]"
-  - "[[decisions/accepted/ADR-022-database-hardened-security]]"
-  - "[[architecture/l1-security]]"
 ---
 
 # ADR-012: CSP Nonce Strict-Dynamic
@@ -31,52 +11,52 @@ references:
 
 ## 1. Executive Summary
 
-### 1.1 Kararın Özeti
+### 1.1 KararÄ±n Ã–zeti
 
-CoreMusic platformunda Content Security Policy (CSP), **nonce-based strict-dynamic** stratejisi ile uygulanacaktır. `unsafe-inline` ve `unsafe-eval` kesinlikle yasaktır. Her HTTP isteği için benzersiz bir CSP nonce üretilir ve sadece nonce'lu script/style'lar çalışır. CSP nonce üretimi `random_bytes(32)` ile yapılır ve `base64_encode` ile 44 karakterlik string'e dönüştürülür.
+CoreMusic platformunda Content Security Policy (CSP), **nonce-based strict-dynamic** stratejisi ile uygulanacaktÄ±r. `unsafe-inline` ve `unsafe-eval` kesinlikle yasaktÄ±r. Her HTTP isteÄŸi iÃ§in benzersiz bir CSP nonce Ã¼retilir ve sadece nonce'lu script/style'lar Ã§alÄ±ÅŸÄ±r. CSP nonce Ã¼retimi `random_bytes(32)` ile yapÄ±lÄ±r ve `base64_encode` ile 44 karakterlik string'e dÃ¶nÃ¼ÅŸtÃ¼rÃ¼lÃ¼r.
 
-### 1.2 Temel Gerekçe
+### 1.2 Temel GerekÃ§e
 
-CSP, XSS (Cross-Site Scripting) saldırılarının en etkili korumasıdır. `strict-dynamic` keyword'ü, nonce ile işaretlenmiş script'lerin oluşturduğu tüm alt script'lerin çalışmasına izin verir, böylece karmaşık SPA uygulamalarında bile güvenli CSP politikası uygulanabilir.
+CSP, XSS (Cross-Site Scripting) saldÄ±rÄ±larÄ±nÄ±n en etkili korumasÄ±dÄ±r. `strict-dynamic` keyword'Ã¼, nonce ile iÅŸaretlenmiÅŸ script'lerin oluÅŸturduÄŸu tÃ¼m alt script'lerin Ã§alÄ±ÅŸmasÄ±na izin verir, bÃ¶ylece karmaÅŸÄ±k SPA uygulamalarÄ±nda bile gÃ¼venli CSP politikasÄ± uygulanabilir.
 
-### 1.3 Beklenen Sonuçlar
+### 1.3 Beklenen SonuÃ§lar
 
 - `unsafe-inline` ve `unsafe-eval` kesinlikle yasak
-- Her istek için benzersiz CSP nonce
-- strict-dynamic ile script zinciri koruması
-- XSS saldırıları engellenir
-- SPA uygulamaları ile uyumlu
+- Her istek iÃ§in benzersiz CSP nonce
+- strict-dynamic ile script zinciri korumasÄ±
+- XSS saldÄ±rÄ±larÄ± engellenir
+- SPA uygulamalarÄ± ile uyumlu
 
 ---
 
 ## 2. Status
 
-| Alan | Değer |
+| Alan | DeÄŸer |
 |------|-------|
 | **Durum** | frozen |
 | **Versiyon** | 2.0.0 |
-| **Oluşturma Tarihi** | 2026-01-15 |
-| **Son Güncelleme** | 2026-08-15 |
+| **OluÅŸturma Tarihi** | 2026-01-15 |
+| **Son GÃ¼ncelleme** | 2026-08-15 |
 | **Otorite** | Security Engineer |
 | **Risk Seviyesi** | critical |
-| **Onay** | Red Team · Human Mode · Truth Mode |
+| **Onay** | Red Team Â· Human Mode Â· Truth Mode |
 
 ---
 
 ## 3. Context
 
-### 3.1 Problem Tanımı
+### 3.1 Problem TanÄ±mÄ±
 
-XSS saldırıları, zararlı script'lerin kullanıcının tarayıcısında çalışmasını sağlar. CSP, hangi kaynaklardan script/style yüklenebileceğini kısıtlayarak XSS'i engeller. Ancak geleneksel CSP politikaları SPA uygulamalarıyla uyumsuzdur. `strict-dynamic` keyword'ü bu sorunu çözer.
+XSS saldÄ±rÄ±larÄ±, zararlÄ± script'lerin kullanÄ±cÄ±nÄ±n tarayÄ±cÄ±sÄ±nda Ã§alÄ±ÅŸmasÄ±nÄ± saÄŸlar. CSP, hangi kaynaklardan script/style yÃ¼klenebileceÄŸini kÄ±sÄ±tlayarak XSS'i engeller. Ancak geleneksel CSP politikalarÄ± SPA uygulamalarÄ±yla uyumsuzdur. `strict-dynamic` keyword'Ã¼ bu sorunu Ã§Ã¶zer.
 
-### 3.2 OWASP Top 10:2021 Etkileşimi
+### 3.2 OWASP Top 10:2021 EtkileÅŸimi
 
 | OWASP Kategorisi | Durum | Etki |
 |------------------|-------|------|
-| **A03:2021** Injection | ⚠️ Doğrudan | CSP, XSS injection'ı engeller |
-| **A05:2021** Security Misconfiguration | ⚠️ Doğrudan | CSP policy yapılandırması |
+| **A03:2021** Injection | âš ï¸ DoÄŸrudan | CSP, XSS injection'Ä± engeller |
+| **A05:2021** Security Misconfiguration | âš ï¸ DoÄŸrudan | CSP policy yapÄ±landÄ±rmasÄ± |
 
-### 3.3 CSP Policy Yapısı
+### 3.3 CSP Policy YapÄ±sÄ±
 
 ```
 Content-Security-Policy:
@@ -94,24 +74,24 @@ Content-Security-Policy:
     upgrade-insecure-requests;
 ```
 
-### 3.4 İtici Güçler
+### 3.4 Ä°tici GÃ¼Ã§ler
 
-| # | Güç | Kritiklik |
+| # | GÃ¼Ã§ | Kritiklik |
 |---|-----|-----------|
-| 1 | XSS saldırıları | Kritik |
-| 2 | SPA uygulama gereksinimi | Yüksek |
-| 3 | OWASP A03:2021 | Yüksek |
-| 4 | TrustedTypes entegrasyonu | Yüksek |
+| 1 | XSS saldÄ±rÄ±larÄ± | Kritik |
+| 2 | SPA uygulama gereksinimi | YÃ¼ksek |
+| 3 | OWASP A03:2021 | YÃ¼ksek |
+| 4 | TrustedTypes entegrasyonu | YÃ¼ksek |
 
-### 3.5 Teknik Kısıtlamalar
+### 3.5 Teknik KÄ±sÄ±tlamalar
 
-| Kısıtlama | Değer |
+| KÄ±sÄ±tlama | DeÄŸer |
 |-----------|-------|
-| `unsafe-inline` | ❌ Yasak |
-| `unsafe-eval` | ❌ Yasak |
+| `unsafe-inline` | âŒ Yasak |
+| `unsafe-eval` | âŒ Yasak |
 | Nonce boyutu | 32 byte (256-bit) |
-| Nonce formatı | base64_encode(random_bytes(32)) |
-| Nonce ömrü | Tek istek (per-request) |
+| Nonce formatÄ± | base64_encode(random_bytes(32)) |
+| Nonce Ã¶mrÃ¼ | Tek istek (per-request) |
 
 ---
 
@@ -119,25 +99,25 @@ Content-Security-Policy:
 
 ### 4.1 Karar Bildirimi
 
-**CoreMusic, nonce-based strict-dynamic CSP politikası kullanır. `unsafe-inline` ve `unsafe-eval` kesinlikle yasaktır. Her HTTP isteği için benzersiz CSP nonce üretilir.**
+**CoreMusic, nonce-based strict-dynamic CSP politikasÄ± kullanÄ±r. `unsafe-inline` ve `unsafe-eval` kesinlikle yasaktÄ±r. Her HTTP isteÄŸi iÃ§in benzersiz CSP nonce Ã¼retilir.**
 
 ### 4.2 Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | `unsafe-inline` yasak | ❌ Yasak |
-| 2 | `unsafe-eval` yasak | ❌ Yasak |
-| 3 | Per-request nonce | ✅ Zorunlu |
-| 4 | random_bytes(32) | ✅ Zorunlu |
-| 5 | base64_encode format | ✅ Zorunlu |
-| 6 | strict-dynamic | ✅ Zorunlu |
-| 7 | object-src 'none' | ✅ Zorunlu |
-| 8 | base-uri 'self' | ✅ Zorunlu |
-| 9 | frame-ancestors 'none' | ✅ Zorunlu |
+| 1 | `unsafe-inline` yasak | âŒ Yasak |
+| 2 | `unsafe-eval` yasak | âŒ Yasak |
+| 3 | Per-request nonce | âœ… Zorunlu |
+| 4 | random_bytes(32) | âœ… Zorunlu |
+| 5 | base64_encode format | âœ… Zorunlu |
+| 6 | strict-dynamic | âœ… Zorunlu |
+| 7 | object-src 'none' | âœ… Zorunlu |
+| 8 | base-uri 'self' | âœ… Zorunlu |
+| 9 | frame-ancestors 'none' | âœ… Zorunlu |
 
-### 4.3 Kod Örnekleri
+### 4.3 Kod Ã–rnekleri
 
-#### 4.3.1 CSP Nonce Üretimi (PHP)
+#### 4.3.1 CSP Nonce Ãœretimi (PHP)
 
 ```php
 <?php
@@ -149,16 +129,16 @@ namespace CoreMusic\Security\Service;
 /**
  * CSP Nonce Service
  *
- * ADR-012 uyumlu CSP nonce üretimi ve yönetimi.
- * Per-request nonce: Her istek için benzersiz
- * strict-dynamic: Script zinciri koruması
+ * ADR-012 uyumlu CSP nonce Ã¼retimi ve yÃ¶netimi.
+ * Per-request nonce: Her istek iÃ§in benzersiz
+ * strict-dynamic: Script zinciri korumasÄ±
  */
 final class CspNonceService
 {
     private const NONCE_LENGTH = 32; // 256-bit entropy
 
     /**
-     * Benzersiz CSP nonce üretir.
+     * Benzersiz CSP nonce Ã¼retir.
      *
      * @return string 44 karakterlik base64 nonce
      */
@@ -169,7 +149,7 @@ final class CspNonceService
     }
 
     /**
-     * CSP header'ını oluşturur.
+     * CSP header'Ä±nÄ± oluÅŸturur.
      */
     public function buildCspHeader(string $nonce): string
     {
@@ -225,9 +205,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 /**
  * Security Headers Middleware
  *
- * ADR-012 uyumlu CSP header üretimi.
- * Nonce per-request: Her istek için benzersiz
- * strict-dynamic: Script zinciri koruması
+ * ADR-012 uyumlu CSP header Ã¼retimi.
+ * Nonce per-request: Her istek iÃ§in benzersiz
+ * strict-dynamic: Script zinciri korumasÄ±
  */
 final class SecurityHeadersMiddleware implements MiddlewareInterface
 {
@@ -240,7 +220,7 @@ final class SecurityHeadersMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
-        // Per-request nonce üret
+        // Per-request nonce Ã¼ret
         $nonce = $this->cspService->generateNonce();
 
         // Response'u al
@@ -250,10 +230,10 @@ final class SecurityHeadersMiddleware implements MiddlewareInterface
         $cspHeader = $this->cspService->buildCspHeader($nonce);
         $response = $response->withHeader('Content-Security-Policy', $cspHeader);
 
-        // Ek güvenlik header'ları
+        // Ek gÃ¼venlik header'larÄ±
         $response = $response->withHeader('X-Content-Type-Options', 'nosniff');
         $response = $response->withHeader('X-Frame-Options', 'DENY');
-        $response = $response->withHeader('X-XSS-Protection', '0'); // Modern tarayıcılar için devre dışı
+        $response = $response->withHeader('X-XSS-Protection', '0'); // Modern tarayÄ±cÄ±lar iÃ§in devre dÄ±ÅŸÄ±
         $response = $response->withHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
         $response = $response->withHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
         $response = $response->withHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
@@ -263,14 +243,14 @@ final class SecurityHeadersMiddleware implements MiddlewareInterface
 }
 ```
 
-#### 4.3.3 Frontend Nonce Kullanımı (JavaScript)
+#### 4.3.3 Frontend Nonce KullanÄ±mÄ± (JavaScript)
 
 ```javascript
 /**
  * CSP Nonce Manager
  *
- * ADR-012 uyumlu frontend nonce yönetimi.
- * Dynamic script yükleme için nonce kullanılır.
+ * ADR-012 uyumlu frontend nonce yÃ¶netimi.
+ * Dynamic script yÃ¼kleme iÃ§in nonce kullanÄ±lÄ±r.
  */
 const CspNonceManager = (() => {
     'use strict';
@@ -287,12 +267,12 @@ const CspNonceManager = (() => {
     }
 
     /**
-     * Dynamic script yükler (nonce ile).
+     * Dynamic script yÃ¼kler (nonce ile).
      */
     function loadScript(src) {
         const nonce = getCurrentNonce();
         if (!nonce) {
-            console.error('[CSP] Nonce bulunamadı');
+            console.error('[CSP] Nonce bulunamadÄ±');
             return Promise.reject(new Error('No CSP nonce'));
         }
 
@@ -307,12 +287,12 @@ const CspNonceManager = (() => {
     }
 
     /**
-     * Dynamic style yükler (nonce ile).
+     * Dynamic style yÃ¼kler (nonce ile).
      */
     function loadStyle(href) {
         const nonce = getCurrentNonce();
         if (!nonce) {
-            console.error('[CSP] Nonce bulunamadı');
+            console.error('[CSP] Nonce bulunamadÄ±');
             return;
         }
 
@@ -331,45 +311,45 @@ const CspNonceManager = (() => {
 })();
 ```
 
-### 4.4 Konfigürasyon Değişiklikleri
+### 4.4 KonfigÃ¼rasyon DeÄŸiÅŸiklikleri
 
-| Dosya | Eski Değer | Yeni Değer |
+| Dosya | Eski DeÄŸer | Yeni DeÄŸer |
 |-------|-----------|-----------|
-| `shared/config/csp.php` | — | strict-dynamic policy |
-| `shared/config/middleware.php` | — | SecurityHeaders 4. sıra |
+| `shared/config/csp.php` | â€” | strict-dynamic policy |
+| `shared/config/middleware.php` | â€” | SecurityHeaders 4. sÄ±ra |
 
 ---
 
 ## 5. Architecture
 
-### 5.1 CSP Akış Diyagramı
+### 5.1 CSP AkÄ±ÅŸ DiyagramÄ±
 
 ```
-┌──────────┐                    ┌──────────────┐
-│  Browser  │                    │   Server     │
-└─────┬────┘                    └──────┬───────┘
-      │                                │
-      │  1. GET /page                  │
-      │───────────────────────────────►│
-      │                                │  2. Nonce üret
-      │                                │  random_bytes(32)
-      │                                │  base64_encode()
-      │                                │
-      │                                │  3. CSP header oluştur
-      │                                │  Content-Security-Policy:
-      │                                │  script-src 'self'
-      │                                │  'nonce-ABC123...'
-      │                                │  'strict-dynamic'
-      │                                │
-      │  4. Response + CSP header      │
-      │◄───────────────────────────────│
-      │                                │
-      │  5. Nonce'lu script çalıştır   │
-      │  <script nonce="ABC123...">    │
-      │                                │
-      │  6. Nonce'suz script engellenir│
-      │  <script src="evil.js">        │
-      │  → BLOCKED by CSP              │
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚  Browser  â”‚                    â”‚   Server     â”‚
+â””â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”˜                    â””â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”˜
+      â”‚                                â”‚
+      â”‚  1. GET /page                  â”‚
+      â”‚â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–ºâ”‚
+      â”‚                                â”‚  2. Nonce Ã¼ret
+      â”‚                                â”‚  random_bytes(32)
+      â”‚                                â”‚  base64_encode()
+      â”‚                                â”‚
+      â”‚                                â”‚  3. CSP header oluÅŸtur
+      â”‚                                â”‚  Content-Security-Policy:
+      â”‚                                â”‚  script-src 'self'
+      â”‚                                â”‚  'nonce-ABC123...'
+      â”‚                                â”‚  'strict-dynamic'
+      â”‚                                â”‚
+      â”‚  4. Response + CSP header      â”‚
+      â”‚â—„â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”‚
+      â”‚                                â”‚
+      â”‚  5. Nonce'lu script Ã§alÄ±ÅŸtÄ±r   â”‚
+      â”‚  <script nonce="ABC123...">    â”‚
+      â”‚                                â”‚
+      â”‚  6. Nonce'suz script engellenirâ”‚
+      â”‚  <script src="evil.js">        â”‚
+      â”‚  â†’ BLOCKED by CSP              â”‚
 ```
 
 ---
@@ -380,21 +360,21 @@ const CspNonceManager = (() => {
 |------------|------------------|
 | unsafe-inline | XSS riski, OWASP ihlali |
 | unsafe-eval | XSS riski, OWASP ihlali |
-| Hash-based CSP | SPA'da zor yönetilir |
-| Report-only | Üretimde yetersiz |
+| Hash-based CSP | SPA'da zor yÃ¶netilir |
+| Report-only | Ãœretimde yetersiz |
 
 ---
 
 ## 7. Consequences
 
 ### Olumlu
-- XSS saldırıları engellenir
-- OWASP A03:2021 uyumluluğu
-- SPA uyumluluğu
+- XSS saldÄ±rÄ±larÄ± engellenir
+- OWASP A03:2021 uyumluluÄŸu
+- SPA uyumluluÄŸu
 
 ### Olumsuz
 - Per-request nonce overhead (~1ms)
-- Dynamic script loading karmaşıklığı
+- Dynamic script loading karmaÅŸÄ±klÄ±ÄŸÄ±
 
 ---
 
@@ -402,7 +382,7 @@ const CspNonceManager = (() => {
 
 | Test | Kapsama |
 |------|---------|
-| Nonce üretimi | %100 |
+| Nonce Ã¼retimi | %100 |
 | CSP header | %100 |
 | Script blocking | %100 |
 | XSS prevention | %100 |
@@ -413,22 +393,22 @@ const CspNonceManager = (() => {
 
 | OWASP | Durum |
 |-------|-------|
-| A03:2021 Injection | ✅ CSP ile engellenir |
-| A05:2021 Misconfiguration | ✅ Doğru CSP policy |
+| A03:2021 Injection | âœ… CSP ile engellenir |
+| A05:2021 Misconfiguration | âœ… DoÄŸru CSP policy |
 
 ---
 
 ## 10. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
-| **OWASP** | ✅ |
+| **OWASP** | âœ… |
 
 ---
 
-*ADR-012: CSP Nonce Strict-Dynamic v2.0.0 — CoreMusic Security*
-*Authority: Security Engineer · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-012: CSP Nonce Strict-Dynamic v2.0.0 â€” CoreMusic Security*
+*Authority: Security Engineer Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

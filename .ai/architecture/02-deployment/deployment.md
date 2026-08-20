@@ -315,7 +315,7 @@ ARGON2ID_THREADS=2
 | [[architecture/02-deployment/ci-cd-pipeline]] | CI/CD pipeline |
 | [[architecture/02-deployment/docker-compose]] | Docker kurulumu |
 | [[architecture/02-deployment/observability]] | İzleme |
-| [[architecture/01-overview/startup-strategy]] | Faz stratejisi |
+| [[architecture/00-overview/startup-strategy]] | Faz stratejisi |
 | [[architecture/l1-security/index]] | Güvenlik |
 
 ## 13. Çapraz Referanslar
@@ -325,7 +325,7 @@ ARGON2ID_THREADS=2
 | § 3 Deployment | [[architecture/02-deployment/ci-cd-pipeline]] | Otomatik deploy |
 | § 5 Servisler | [[architecture/03-contracts/port-registry]] | Port haritası |
 | § 8 Security | [[architecture/07-security/middleware-security]] | Güvenlik hardening |
-| § 10 Disaster | [[architecture/01-overview/startup-strategy]] | Faz planı |
+| § 10 Disaster | [[architecture/00-overview/startup-strategy]] | Faz planı |
 
 ## 14. Sözlük
 

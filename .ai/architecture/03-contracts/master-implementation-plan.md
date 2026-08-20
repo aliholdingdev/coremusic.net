@@ -67,11 +67,7 @@ All architectural decisions are in `.ai/decisions/accepted/` (ADR-001 through AD
 | ADR-040 | 18 BCNF databases | Active |
 | ADR-042 | Vault restructuring | Active |
 | ADR-044 | Dynamic user theme engine | Active |
-| ADR-051 | Platform rewrite | Active |
-| ADR-052 | Hybrid auth architecture | Active |
-| ADR-053 | Enterprise router | Active |
-| ADR-054 | Enterprise composer stack | Active |
-| ADR-058 | Auth subdomain priority | Active |
+
 
 ### 1.5 Implementation Philosophy
 
@@ -126,7 +122,7 @@ Phase 5: Production (Weeks 23-26)
 
 | Task | Files | Acceptance Criteria |
 |------|-------|---------------------|
-| Root directory structure | `C:\www\coremusic.net\` | All subdirectories created per ADR-051 |
+| Root directory structure | `C:\www\coremusic.net\` | All subdirectories created |
 | Shared library scaffolding | `shared/composer.json` | PSR-4 autoloading configured (ADR-085 v3.0) |
 | Router contracts | `shared/src/Router/Contracts/` | RouterInterface, RouteDefinitionInterface |
 | Security middleware | `shared/src/Security/Middleware/` | 10 middleware (frozen pipeline) |
@@ -305,7 +301,7 @@ Phase 5: Production (Weeks 23-26)
 
 ### 3.1 Authentication Architecture
 
-#### 3.1.1 Hybrid Auth (ADR-052)
+#### 3.1.1 Hybrid Auth
 
 ```
 Browser
@@ -1111,7 +1107,7 @@ Weeks 25-26: Monitoring + testing + launch
 | Hardcoded secrets | `.env` / credential vault | ADR-022 |
 | `require_once` in classes | PSR-4 autoloading | Architecture |
 | `var_dump()` / `print_r()` | PSR-3 logging | Security |
-| Root-level `composer.json` | Per-subdomain | ADR-051 |
+| Root-level `composer.json` | Per-subdomain | — |
 
 ### 8.6 Middleware Implementation Reference
 

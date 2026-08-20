@@ -1271,7 +1271,7 @@ CMD ["coremusic-audio"]
 | § 4 Hard Guardrails | [[ADR-022-database-hardened-security]] | Secrets yönetimi |
 | § 6 Security | [[architecture/07-security/encryption]] | AES-256-GCM |
 | § 8 Edge Cases | [[architecture/02-deployment/docker-compose]] | Deployment config |
-| § 11 Architecture | [[architecture/01-overview/architecture_master]] | 10 panel + 7 service |
+| § 11 Architecture | [[architecture/00-overview/architecture-master]] | 10 panel + 7 service |
 | § 12 Dockerfile | [[ADR-002-pdo-mandatory-no-orm]] | PHP backend |
 
 ---

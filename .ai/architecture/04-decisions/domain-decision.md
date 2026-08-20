@@ -160,14 +160,14 @@ Her subdomain bağımsız bir servisi temsil eder:
 | [[ADR-042-vault-restructuring-2026-08-03]] | Port mapping |
 | [[ADR-043-auth-subdomain-consolidation]] | Auth consolidation |
 | [[ADR-045-multi-domain-view-mode-architecture]] | View mode |
-| [[architecture/01-overview/architecture_master]] | Architecture |
+| [[architecture/00-overview/architecture-master]] | Architecture |
 
 ## 9. Çapraz Referanslar
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § 2 Domain | [[architecture/03-contracts/ports/port-registry]] | Port haritası |
-| § 3 Auth | [[architecture/03-contracts/middleware-pipeline]] | Middleware |
+| § 3 Auth | [[architecture/l2-routing/middleware-pipeline]] | Middleware |
 | § 4 SPA | [[architecture/l2-routing/index]] | Routing |
 | § 5 Routing | [[architecture/03-contracts/api-endpoints]] | API endpoints |
 

@@ -230,7 +230,7 @@ CoreMusic platformunda kullanılan her teknolojinin rolünü, kapsamını ve ADR
 
 | Dosya | Amaç |
 |-------|------|
-| [[architecture/01-overview/architecture_master]] | Architecture |
+| [[architecture/00-overview/architecture-master]] | Architecture |
 | [[brain.md]] | ADR 001-050 |
 | [[AGENTS.md]] | Agent roles |
 | [[architecture/03-contracts/protocols/protocol-decision]] | Protocol choices |

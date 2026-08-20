@@ -1,31 +1,8 @@
----
-type: decision
-id: "011"
+﻿---
 title: "ADR-011: Session Management"
-category: "security"
-status: "frozen"
-date: "2026-01-10"
-updated: "2026-08-15"
-authority: "Security Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-supersedes: null
-version: 2.0.0
+status: frozen
+date: 2026-01-10
 tags: [security, session, cookie, authentication, owasp, frozen]
-risk-level: "critical"
-owasp-top10: ["A07:2021", "A08:2021"]
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[AGENTS.md]]"
-  - "[[keys.md]]"
-  - "[[WORKFLOW.md]]"
-  - "[[decisions/accepted/ADR-008-bypass-auth-middleware]]"
-  - "[[decisions/accepted/ADR-010-csrf-protection-strategy]]"
-  - "[[decisions/accepted/ADR-012-csp-nonce-strict-dynamic]]"
-  - "[[decisions/accepted/ADR-013-rate-limiting-apcu]]"
-  - "[[decisions/accepted/ADR-022-database-hardened-security]]"
-  - "[[decisions/accepted/ADR-043-auth-subdomain-consolidation]]"
-  - "[[architecture/l1-security]]"
 ---
 
 # ADR-011: Session Management
@@ -34,152 +11,152 @@ references:
 
 ## 1. Executive Summary
 
-### 1.1 Kararın Özeti
+### 1.1 KararÄ±n Ã–zeti
 
-CoreMusic platformunda session yönetimi **HttpOnly, Secure, SameSite=Lax** cookie tabanlı olarak uygulanacaktır. Session cookie adı `COREMUSIC_SESS` olarak sabitlenmiştir. Idle timeout **3600 saniye** (1 saat), absolute timeout **86400 saniye** (24 saat) olarak belirlenmiştir. Session rotation her **1800 saniye** (30 dakikada) bir yapılır. Token'lar `random_bytes(32)` ile üretilir ve kriptografik olarak güvenlidir.
+CoreMusic platformunda session yÃ¶netimi **HttpOnly, Secure, SameSite=Lax** cookie tabanlÄ± olarak uygulanacaktÄ±r. Session cookie adÄ± `COREMUSIC_SESS` olarak sabitlenmiÅŸtir. Idle timeout **3600 saniye** (1 saat), absolute timeout **86400 saniye** (24 saat) olarak belirlenmiÅŸtir. Session rotation her **1800 saniye** (30 dakikada) bir yapÄ±lÄ±r. Token'lar `random_bytes(32)` ile Ã¼retilir ve kriptografik olarak gÃ¼venlidir.
 
-### 1.2 Temel Gerekçe
+### 1.2 Temel GerekÃ§e
 
-Session yönetimi, kimlik doğrulama sisteminin temel taşıdır. Zayıf session yönetimi, session hijacking, session fixation ve yetkisiz erişim saldırılarına yol açabilir. CoreMusic'in multi-subdomain yapısında (10+ subdomain) session güvenliği kritik önem taşır. auth.coremusic.net merkezi session yönetimi sağlar.
+Session yÃ¶netimi, kimlik doÄŸrulama sisteminin temel taÅŸÄ±dÄ±r. ZayÄ±f session yÃ¶netimi, session hijacking, session fixation ve yetkisiz eriÅŸim saldÄ±rÄ±larÄ±na yol aÃ§abilir. CoreMusic'in multi-subdomain yapÄ±sÄ±nda (10+ subdomain) session gÃ¼venliÄŸi kritik Ã¶nem taÅŸÄ±r. auth.coremusic.net merkezi session yÃ¶netimi saÄŸlar.
 
-### 1.3 Beklenen Sonuçlar
+### 1.3 Beklenen SonuÃ§lar
 
-- Session cookie HttpOnly, Secure, SameSite=Lax olarak ayarlanır
+- Session cookie HttpOnly, Secure, SameSite=Lax olarak ayarlanÄ±r
 - Idle timeout 3600 saniye, absolute timeout 86400 saniye
-- Session rotation 1800 saniyede bir yapılır
-- Session fixation saldırıları engellenir
-- Multi-subdomain session paylaşımı auth.coremusic.net üzerinden
+- Session rotation 1800 saniyede bir yapÄ±lÄ±r
+- Session fixation saldÄ±rÄ±larÄ± engellenir
+- Multi-subdomain session paylaÅŸÄ±mÄ± auth.coremusic.net Ã¼zerinden
 
 ---
 
 ## 2. Status
 
-| Alan | Değer |
+| Alan | DeÄŸer |
 |------|-------|
 | **Durum** | frozen |
 | **Versiyon** | 2.0.0 |
-| **Oluşturma Tarihi** | 2026-01-10 |
-| **Son Güncelleme** | 2026-08-15 |
+| **OluÅŸturma Tarihi** | 2026-01-10 |
+| **Son GÃ¼ncelleme** | 2026-08-15 |
 | **Otorite** | Security Engineer |
 | **Risk Seviyesi** | critical |
-| **Onay** | Red Team · Human Mode · Truth Mode |
+| **Onay** | Red Team Â· Human Mode Â· Truth Mode |
 | **Supersedes** | null |
 | **Frozen Tarihi** | 2026-01-10 |
 
-### 2.1 Durum Değişiklik Geçmişi
+### 2.1 Durum DeÄŸiÅŸiklik GeÃ§miÅŸi
 
-| Tarih | Durum | Değişiklik |
+| Tarih | Durum | DeÄŸiÅŸiklik |
 |-------|-------|------------|
-| 2026-01-10 | draft | İlk taslak |
-| 2026-01-15 | active | Onaylandı |
-| 2026-05-30 | frozen | Cookie ayarları güncellendi, frozen |
-| 2026-08-15 | frozen | Kapsamlı revizyon, v2.0.0 |
+| 2026-01-10 | draft | Ä°lk taslak |
+| 2026-01-15 | active | OnaylandÄ± |
+| 2026-05-30 | frozen | Cookie ayarlarÄ± gÃ¼ncellendi, frozen |
+| 2026-08-15 | frozen | KapsamlÄ± revizyon, v2.0.0 |
 
-### 2.2 Frozen Karar Gerekçesi
+### 2.2 Frozen Karar GerekÃ§esi
 
-Session yönetimi security kritik bir karardır. Cookie adı, timeout değerleri ve rotation politikası tüm sistemi etkiler. Bu nedenle frozen statüsündedir.
+Session yÃ¶netimi security kritik bir karardÄ±r. Cookie adÄ±, timeout deÄŸerleri ve rotation politikasÄ± tÃ¼m sistemi etkiler. Bu nedenle frozen statÃ¼sÃ¼ndedir.
 
 ---
 
 ## 3. Context
 
-### 3.1 Problem Tanımı
+### 3.1 Problem TanÄ±mÄ±
 
-Session yönetimi, kullanıcının kimlik doğrulama durumunu sunucu tarafında sürdürmek için kullanılır. Zayıf session yönetimi şu saldırılara yol açabilir:
+Session yÃ¶netimi, kullanÄ±cÄ±nÄ±n kimlik doÄŸrulama durumunu sunucu tarafÄ±nda sÃ¼rdÃ¼rmek iÃ§in kullanÄ±lÄ±r. ZayÄ±f session yÃ¶netimi ÅŸu saldÄ±rÄ±lara yol aÃ§abilir:
 
-1. **Session Hijacking:** Cookie'nin ele geçirilmesi
-2. **Session Fixation:** Bilinen session ID ile saldırma
-3. **Session Replay:** Eski session'ın tekrar kullanılması
-4. **Cross-Site Session Theft:** Cross-origin session çalma
-5. **Idle Timeout Bypass:** Süresi dolmuş session'ın kullanılması
+1. **Session Hijacking:** Cookie'nin ele geÃ§irilmesi
+2. **Session Fixation:** Bilinen session ID ile saldÄ±rma
+3. **Session Replay:** Eski session'Ä±n tekrar kullanÄ±lmasÄ±
+4. **Cross-Site Session Theft:** Cross-origin session Ã§alma
+5. **Idle Timeout Bypass:** SÃ¼resi dolmuÅŸ session'Ä±n kullanÄ±lmasÄ±
 
-### 3.2 OWASP Top 10:2021 Etkileşimi
+### 3.2 OWASP Top 10:2021 EtkileÅŸimi
 
-| OWASP Kategorisi | Durum | Etki | Açıklama |
+| OWASP Kategorisi | Durum | Etki | AÃ§Ä±klama |
 |------------------|-------|------|----------|
-| **A07:2021** Authentication Failures | ⚠️ Doğrudan | Session yönetimi auth的核心 | Doğru session politikası auth saldırılarını engeller |
-| **A08:2021** Data Integrity Failures | ⚠️ Doğrudan | Session bütünlüğü | Imza ile session koruması |
-| **A01:2021** Broken Access Control | ℹ️ Endirekt | Session bazlı erişim | Session geçerliliği access control'ü etkiler |
-| **A02:2021** Cryptographic Failures | ℹ️ Endirekt | Session token güçlükleme | Kriptografik token üretimi |
+| **A07:2021** Authentication Failures | âš ï¸ DoÄŸrudan | Session yÃ¶netimi authçš„æ ¸å¿ƒ | DoÄŸru session politikasÄ± auth saldÄ±rÄ±larÄ±nÄ± engeller |
+| **A08:2021** Data Integrity Failures | âš ï¸ DoÄŸrudan | Session bÃ¼tÃ¼nlÃ¼ÄŸÃ¼ | Imza ile session korumasÄ± |
+| **A01:2021** Broken Access Control | â„¹ï¸ Endirekt | Session bazlÄ± eriÅŸim | Session geÃ§erliliÄŸi access control'Ã¼ etkiler |
+| **A02:2021** Cryptographic Failures | â„¹ï¸ Endirekt | Session token gÃ¼Ã§lÃ¼kleme | Kriptografik token Ã¼retimi |
 
 ### 3.3 Mevcut Session Mimarisi
 
-#### 3.3.1 Session Cookie Konfigürasyonu
+#### 3.3.1 Session Cookie KonfigÃ¼rasyonu
 
 ```
-Cookie Ayarları (ADR-011 Frozen):
-┌─────────────────────────────────────────────────┐
-│  Name:     COREMUSIC_SESS                       │
-│  Value:    [random_bytes(32) → hex]             │
-│  Path:     /                                    │
-│  Domain:   .coremusic.net                       │
-│  Expires:  Session cookie (tarayıcı kapanınca) │
-│  Max-Age:  3600 (1 saat idle)                   │
-│  Secure:   true (HTTPS zorunlu)                 │
-│  HttpOnly: true (JS erişimi yasak)             │
-│  SameSite: Lax (ADR-011 frozen)                │
-└─────────────────────────────────────────────────┘
+Cookie AyarlarÄ± (ADR-011 Frozen):
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚  Name:     COREMUSIC_SESS                       â”‚
+â”‚  Value:    [random_bytes(32) â†’ hex]             â”‚
+â”‚  Path:     /                                    â”‚
+â”‚  Domain:   .coremusic.net                       â”‚
+â”‚  Expires:  Session cookie (tarayÄ±cÄ± kapanÄ±nca) â”‚
+â”‚  Max-Age:  3600 (1 saat idle)                   â”‚
+â”‚  Secure:   true (HTTPS zorunlu)                 â”‚
+â”‚  HttpOnly: true (JS eriÅŸimi yasak)             â”‚
+â”‚  SameSite: Lax (ADR-011 frozen)                â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 #### 3.3.2 Middleware Pipeline'daki Yeri
 
 ```
 Request
-    │
-    ▼
-┌─────────────────────────────────────────────────┐
-│  1. OriginCheckMiddleware                       │
-│  2. CorsMiddleware                              │
-│  3. RateLimiterMiddleware                       │
-│  4. SecurityHeadersMiddleware                   │
-│  5. SessionManagerMiddleware ◄══ ADR-011        │
-│     • Session başlatır                          │
-│     • Cookie okur/yaratır                       │
-│     • CSP nonce üretir (ADR-012)               │
-│     • Idle timeout kontrol eder                 │
-│     • Session rotation yapar                     │
-│  6. CsrfMiddleware (ADR-010)                   │
-│  7. BypassAuthMiddleware (ADR-008)             │
-│  8. AuthMiddleware                              │
-│  9. PermissionMiddleware                        │
-│  10. ValidationMiddleware                       │
-└─────────────────────────────────────────────────┘
+    â”‚
+    â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚  1. OriginCheckMiddleware                       â”‚
+â”‚  2. CorsMiddleware                              â”‚
+â”‚  3. RateLimiterMiddleware                       â”‚
+â”‚  4. SecurityHeadersMiddleware                   â”‚
+â”‚  5. SessionManagerMiddleware â—„â•â• ADR-011        â”‚
+â”‚     â€¢ Session baÅŸlatÄ±r                          â”‚
+â”‚     â€¢ Cookie okur/yaratÄ±r                       â”‚
+â”‚     â€¢ CSP nonce Ã¼retir (ADR-012)               â”‚
+â”‚     â€¢ Idle timeout kontrol eder                 â”‚
+â”‚     â€¢ Session rotation yapar                     â”‚
+â”‚  6. CsrfMiddleware (ADR-010)                   â”‚
+â”‚  7. BypassAuthMiddleware (ADR-008)             â”‚
+â”‚  8. AuthMiddleware                              â”‚
+â”‚  9. PermissionMiddleware                        â”‚
+â”‚  10. ValidationMiddleware                       â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
-### 3.4 İtici Güçler
+### 3.4 Ä°tici GÃ¼Ã§ler
 
-| # | Güç | Açıklama | Kritiklik |
+| # | GÃ¼Ã§ | AÃ§Ä±klama | Kritiklik |
 |---|-----|----------|-----------|
-| 1 | **Session Hijacking Riski** | Cookie çalınırsa tüm hesap risk altında | Kritik |
-| 2 | **Multi-Subdomain** | 10+ subdomain'de session paylaşımı | Kritik |
-| 3 | **Session Fixation** | Bilinen session ID ile saldırı | Yüksek |
-| 4 | **OWASP Zorunluluğu** | A07:2021 uyumluluğu | Yüksek |
-| 5 | **Idle Timeout** | Aktif olmayan session'lar tehlike | Yüksek |
-| 6 | **Referans Proje** | Eski sistemde session zayıftı | Yüksek |
+| 1 | **Session Hijacking Riski** | Cookie Ã§alÄ±nÄ±rsa tÃ¼m hesap risk altÄ±nda | Kritik |
+| 2 | **Multi-Subdomain** | 10+ subdomain'de session paylaÅŸÄ±mÄ± | Kritik |
+| 3 | **Session Fixation** | Bilinen session ID ile saldÄ±rÄ± | YÃ¼ksek |
+| 4 | **OWASP ZorunluluÄŸu** | A07:2021 uyumluluÄŸu | YÃ¼ksek |
+| 5 | **Idle Timeout** | Aktif olmayan session'lar tehlike | YÃ¼ksek |
+| 6 | **Referans Proje** | Eski sistemde session zayÄ±ftÄ± | YÃ¼ksek |
 
-### 3.5 Teknik Kısıtlamalar
+### 3.5 Teknik KÄ±sÄ±tlamalar
 
-| Kısıtlama | Açıklama | İlgili ADR |
+| KÄ±sÄ±tlama | AÃ§Ä±klama | Ä°lgili ADR |
 |-----------|----------|------------|
-| Cookie name = `COREMUSIC_SESS` | Frozen, değiştirilemez | ADR-011 |
+| Cookie name = `COREMUSIC_SESS` | Frozen, deÄŸiÅŸtirilemez | ADR-011 |
 | SameSite = `Lax` | Frozen, `None` yasak | ADR-011 |
-| Idle timeout = 3600s | 1 saat, değiştirilemez | ADR-011 |
-| Absolute timeout = 86400s | 24 saat, değiştirilemez | ADR-011 |
+| Idle timeout = 3600s | 1 saat, deÄŸiÅŸtirilemez | ADR-011 |
+| Absolute timeout = 86400s | 24 saat, deÄŸiÅŸtirilemez | ADR-011 |
 | Session rotation = 1800s | 30 dakika | ADR-011 |
-| HttpOnly = true | JS erişimi yasak | ADR-011 |
+| HttpOnly = true | JS eriÅŸimi yasak | ADR-011 |
 | Secure = true | HTTPS zorunlu | ADR-011 |
 | random_bytes(32) | Kriptografik token | ADR-022 |
 
-### 3.6 Ekosistem Etkileşimi
+### 3.6 Ekosistem EtkileÅŸimi
 
-| Etkilenen Alan | Etki | Açıklama |
+| Etkilenen Alan | Etki | AÃ§Ä±klama |
 |---------------|------|----------|
 | **L1 Security** | Kritik | SessionManagerMiddleware |
-| **L0 Infrastructure** | Yüksek | Session store (file/DB) |
-| **L2 Routing** | Orta | Controller session kontrolü |
-| **L3 Presentation** | Yüksek | Frontend session durumu |
+| **L0 Infrastructure** | YÃ¼ksek | Session store (file/DB) |
+| **L2 Routing** | Orta | Controller session kontrolÃ¼ |
+| **L3 Presentation** | YÃ¼ksek | Frontend session durumu |
 | **auth.coremusic.net** | Kritik | Merkezi auth servisi |
-| **Tüm subdomain'ler** | Yüksek | Cross-subdomain session |
+| **TÃ¼m subdomain'ler** | YÃ¼ksek | Cross-subdomain session |
 
 ---
 
@@ -187,74 +164,74 @@ Request
 
 ### 4.1 Karar Bildirimi
 
-**CoreMusic, HttpOnly/Secure/SameSite=Lax cookie tabanlı session yönetimi kullanır. Cookie adı `COREMUSIC_SESS` olarak sabitlenmiştir. Idle timeout 3600s, absolute timeout 86400s, rotation 1800s olarak belirlenmiştir.**
+**CoreMusic, HttpOnly/Secure/SameSite=Lax cookie tabanlÄ± session yÃ¶netimi kullanÄ±r. Cookie adÄ± `COREMUSIC_SESS` olarak sabitlenmiÅŸtir. Idle timeout 3600s, absolute timeout 86400s, rotation 1800s olarak belirlenmiÅŸtir.**
 
 ### 4.2 Kesin Kurallar
 
-| # | Kural | Durum | Değer |
+| # | Kural | Durum | DeÄŸer |
 |---|-------|-------|-------|
-| 1 | Cookie name = `COREMUSIC_SESS` | ✅ Zorunlu | Frozen |
-| 2 | SameSite = `Lax` | ✅ Zorunlu | Frozen |
-| 3 | SameSite = `None` | ❌ Yasak | — |
-| 4 | HttpOnly = true | ✅ Zorunlu | Frozen |
-| 5 | Secure = true | ✅ Zorunlu | Frozen |
-| 6 | Idle timeout = 3600s | ✅ Zorunlu | Frozen |
-| 7 | Absolute timeout = 86400s | ✅ Zorunlu | Frozen |
-| 8 | Session rotation = 1800s | ✅ Zorunlu | Frozen |
-| 9 | Token = random_bytes(32) | ✅ Zorunlu | ADR-022 |
-| 10 | Domain = .coremusic.net | ✅ Zorunlu | Frozen |
-| 11 | localStorage/sessionStorage yasak | ❌ Yasak | ADR-011 |
-| 12 | JS cookie erişimi yasak | ❌ Yasak | HttpOnly |
+| 1 | Cookie name = `COREMUSIC_SESS` | âœ… Zorunlu | Frozen |
+| 2 | SameSite = `Lax` | âœ… Zorunlu | Frozen |
+| 3 | SameSite = `None` | âŒ Yasak | â€” |
+| 4 | HttpOnly = true | âœ… Zorunlu | Frozen |
+| 5 | Secure = true | âœ… Zorunlu | Frozen |
+| 6 | Idle timeout = 3600s | âœ… Zorunlu | Frozen |
+| 7 | Absolute timeout = 86400s | âœ… Zorunlu | Frozen |
+| 8 | Session rotation = 1800s | âœ… Zorunlu | Frozen |
+| 9 | Token = random_bytes(32) | âœ… Zorunlu | ADR-022 |
+| 10 | Domain = .coremusic.net | âœ… Zorunlu | Frozen |
+| 11 | localStorage/sessionStorage yasak | âŒ Yasak | ADR-011 |
+| 12 | JS cookie eriÅŸimi yasak | âŒ Yasak | HttpOnly |
 
-### 4.3 Session Akış Diyagramı
+### 4.3 Session AkÄ±ÅŸ DiyagramÄ±
 
 ```
-┌──────────┐                    ┌──────────────┐                  ┌──────────┐
-│  Browser  │                    │   Server     │                  │  Session │
-│ (Client)  │                    │ (Middleware)  │                  │  Store   │
-└─────┬────┘                    └──────┬───────┘                  └────┬─────┘
-      │                                │                               │
-      │  1. GET /login                 │                               │
-      │───────────────────────────────►│                               │
-      │                                │  2. Login formu göster       │
-      │◄───────────────────────────────│                               │
-      │                                │                               │
-      │  3. POST /login                │                               │
-      │  (email + password)            │                               │
-      │───────────────────────────────►│                               │
-      │                                │  4. Auth doğrulama            │
-      │                                │  5. Session ID üret           │
-      │                                │  $sessionId = bin2hex(        │
-      │                                │    random_bytes(32))          │
-      │                                │                               │
-      │                                │  6. Session'ı kaydet          │
-      │                                │  session_id → session data    │
-      │                                │──────────────────────────────►│
-      │                                │                               │
-      │  7. Set-Cookie: COREMUSIC_SESS │                               │
-      │  = [sessionId]                 │                               │
-      │◄───────────────────────────────│                               │
-      │                                │                               │
-      │  8. Sonraki isteklerde cookie  │                               │
-      │  otomatik gönderilir           │                               │
-      │───────────────────────────────►│                               │
-      │                                │  9. Session'ı oku             │
-      │                                │◄──────────────────────────────│
-      │                                │                               │
-      │                                │  10. Idle timeout kontrol      │
-      │                                │  son_activity = time()        │
-      │                                │  idle = now - last_activity   │
-      │                                │  idle > 3600 → redirect login │
-      │                                │                               │
-      │                                │  11. Session rotation kontrol  │
-      │                                │  now - last_rotation > 1800   │
-      │                                │  → session_regenerate_id()    │
-      │                                │                               │
-      │  12. Response                  │                               │
-      │◄───────────────────────────────│                               │
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”                    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”                  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚  Browser  â”‚                    â”‚   Server     â”‚                  â”‚  Session â”‚
+â”‚ (Client)  â”‚                    â”‚ (Middleware)  â”‚                  â”‚  Store   â”‚
+â””â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”˜                    â””â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”˜                  â””â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”˜
+      â”‚                                â”‚                               â”‚
+      â”‚  1. GET /login                 â”‚                               â”‚
+      â”‚â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–ºâ”‚                               â”‚
+      â”‚                                â”‚  2. Login formu gÃ¶ster       â”‚
+      â”‚â—„â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”‚                               â”‚
+      â”‚                                â”‚                               â”‚
+      â”‚  3. POST /login                â”‚                               â”‚
+      â”‚  (email + password)            â”‚                               â”‚
+      â”‚â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–ºâ”‚                               â”‚
+      â”‚                                â”‚  4. Auth doÄŸrulama            â”‚
+      â”‚                                â”‚  5. Session ID Ã¼ret           â”‚
+      â”‚                                â”‚  $sessionId = bin2hex(        â”‚
+      â”‚                                â”‚    random_bytes(32))          â”‚
+      â”‚                                â”‚                               â”‚
+      â”‚                                â”‚  6. Session'Ä± kaydet          â”‚
+      â”‚                                â”‚  session_id â†’ session data    â”‚
+      â”‚                                â”‚â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–ºâ”‚
+      â”‚                                â”‚                               â”‚
+      â”‚  7. Set-Cookie: COREMUSIC_SESS â”‚                               â”‚
+      â”‚  = [sessionId]                 â”‚                               â”‚
+      â”‚â—„â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”‚                               â”‚
+      â”‚                                â”‚                               â”‚
+      â”‚  8. Sonraki isteklerde cookie  â”‚                               â”‚
+      â”‚  otomatik gÃ¶nderilir           â”‚                               â”‚
+      â”‚â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â–ºâ”‚                               â”‚
+      â”‚                                â”‚  9. Session'Ä± oku             â”‚
+      â”‚                                â”‚â—„â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”‚
+      â”‚                                â”‚                               â”‚
+      â”‚                                â”‚  10. Idle timeout kontrol      â”‚
+      â”‚                                â”‚  son_activity = time()        â”‚
+      â”‚                                â”‚  idle = now - last_activity   â”‚
+      â”‚                                â”‚  idle > 3600 â†’ redirect login â”‚
+      â”‚                                â”‚                               â”‚
+      â”‚                                â”‚  11. Session rotation kontrol  â”‚
+      â”‚                                â”‚  now - last_rotation > 1800   â”‚
+      â”‚                                â”‚  â†’ session_regenerate_id()    â”‚
+      â”‚                                â”‚                               â”‚
+      â”‚  12. Response                  â”‚                               â”‚
+      â”‚â—„â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”‚                               â”‚
 ```
 
-### 4.4 Kod Örnekleri
+### 4.4 Kod Ã–rnekleri
 
 #### 4.4.1 Session Manager Middleware (PHP)
 
@@ -270,28 +247,28 @@ use CoreMusic\Interfaces\Middleware\IMiddleware;
 /**
  * Session Manager Middleware
  *
- * ADR-011 uyumlu session yönetimi.
+ * ADR-011 uyumlu session yÃ¶netimi.
  * Cookie: COREMUSIC_SESS (frozen)
  * SameSite: Lax (frozen)
  * Idle timeout: 3600s (frozen)
  * Absolute timeout: 1800s (frozen)
  * Rotation: 1800s (frozen)
- * Nonce: SecurityHeadersMiddleware'den alınır, session'a kaydedilir
+ * Nonce: SecurityHeadersMiddleware'den alÄ±nÄ±r, session'a kaydedilir
  */
 final class SessionManagerMiddleware implements IMiddleware
 {
     public function handle(array $request, callable $next): array
     {
-        // Session'ı başlat veya devam ettir
+        // Session'Ä± baÅŸlat veya devam ettir
         $this->startSession();
 
-        // Idle timeout kontrolü
+        // Idle timeout kontrolÃ¼
         if ($this->isIdleTimeoutExceeded()) {
             $this->destroySession();
             return $this->createRedirectResponse('/auth/login?reason=idle_timeout');
         }
 
-        // Absolute timeout kontrolü
+        // Absolute timeout kontrolÃ¼
         if ($this->isAbsoluteTimeoutExceeded()) {
             $this->destroySession();
             return $this->createRedirectResponse('/auth/login?reason=absolute_timeout');
@@ -300,10 +277,10 @@ final class SessionManagerMiddleware implements IMiddleware
         // Session rotation
         $this->rotateSessionIfNeeded();
 
-        // Son aktivite zamanını güncelle
+        // Son aktivite zamanÄ±nÄ± gÃ¼ncelle
         $_SESSION['last_activity'] = time();
 
-        // CSP nonce üret (ADR-012)
+        // CSP nonce Ã¼ret (ADR-012)
         $nonce = base64_encode(random_bytes(32));
         $_SESSION['csp_nonce'] = $nonce;
 
@@ -317,13 +294,13 @@ final class SessionManagerMiddleware implements IMiddleware
     private function startSession(): void
     {
         if (session_status() === PHP_SESSION_NONE) {
-            // ADR-011: Cookie ayarları (frozen)
+            // ADR-011: Cookie ayarlarÄ± (frozen)
             session_set_cookie_params([
                 'lifetime' => 0,                    // Session cookie
                 'path' => '/',
-                'domain' => '.coremusic.net',       // Tüm subdomain'ler
+                'domain' => '.coremusic.net',       // TÃ¼m subdomain'ler
                 'secure' => true,                   // HTTPS zorunlu
-                'httponly' => true,                  // JS erişimi yasak
+                'httponly' => true,                  // JS eriÅŸimi yasak
                 'samesite' => 'Lax'                 // Frozen kural
             ]);
 
@@ -331,7 +308,7 @@ final class SessionManagerMiddleware implements IMiddleware
             session_start();
         }
 
-        // İlk ziyaretse session başlat
+        // Ä°lk ziyaretse session baÅŸlat
         if (!isset($_SESSION['created_at'])) {
             $_SESSION['created_at'] = time();
             $_SESSION['last_activity'] = time();
@@ -361,7 +338,7 @@ final class SessionManagerMiddleware implements IMiddleware
     {
         $lastRotation = $_SESSION['last_rotation'] ?? 0;
         if ((time() - $lastRotation) > self::ROTATION_INTERVAL) {
-            // ADR-010: Session fixation önleme
+            // ADR-010: Session fixation Ã¶nleme
             session_regenerate_id(true);
             $_SESSION['last_rotation'] = time();
         }
@@ -400,27 +377,27 @@ final class SessionManagerMiddleware implements IMiddleware
 ```php
 <?php
 // shared/config/session.php
-// ADR-011 uyumlu session konfigürasyonu
+// ADR-011 uyumlu session konfigÃ¼rasyonu
 
 return [
-    // Cookie ayarları (frozen)
+    // Cookie ayarlarÄ± (frozen)
     'cookie' => [
         'name' => 'COREMUSIC_SESS',     // Frozen
         'path' => '/',
-        'domain' => '.coremusic.net',   // Tüm subdomain'ler
+        'domain' => '.coremusic.net',   // TÃ¼m subdomain'ler
         'secure' => true,                // HTTPS zorunlu
-        'httponly' => true,              // JS erişimi yasak
+        'httponly' => true,              // JS eriÅŸimi yasak
         'samesite' => 'Lax',           // Frozen
     ],
 
-    // Timeout ayarları (frozen)
+    // Timeout ayarlarÄ± (frozen)
     'timeout' => [
         'idle' => 3600,                  // 1 saat
         'absolute' => 86400,             // 24 saat
         'rotation' => 1800,              // 30 dakika
     ],
 
-    // Token ayarları
+    // Token ayarlarÄ±
     'token' => [
         'length' => 32,                  // 256-bit entropy
         'algorithm' => 'random_bytes',   // Kriptografik RNG
@@ -428,20 +405,20 @@ return [
 
     // Session store
     'store' => [
-        'driver' => 'file',              // ADR-027: DB geçiş planı
+        'driver' => 'file',              // ADR-027: DB geÃ§iÅŸ planÄ±
         'path' => sys_get_temp_dir() . '/coremusic_sessions',
     ],
 ];
 ```
 
-#### 4.4.3 Frontend Session Yönetimi (JavaScript)
+#### 4.4.3 Frontend Session YÃ¶netimi (JavaScript)
 
 ```javascript
 /**
  * Session Manager (Frontend)
  *
- * ADR-011 uyumlu frontend session yönetimi.
- * HttpOnly cookie olduğu için JS session okuyamaz.
+ * ADR-011 uyumlu frontend session yÃ¶netimi.
+ * HttpOnly cookie olduÄŸu iÃ§in JS session okuyamaz.
  * Sadece session durumunu kontrol eder.
  */
 const SessionManager = (() => {
@@ -449,7 +426,7 @@ const SessionManager = (() => {
 
     /**
      * Session durumunu kontrol eder.
-     * GET /api/v1/auth/status endpoint'ini çağırır.
+     * GET /api/v1/auth/status endpoint'ini Ã§aÄŸÄ±rÄ±r.
      */
     async function checkSessionStatus() {
         try {
@@ -459,7 +436,7 @@ const SessionManager = (() => {
             });
 
             if (response.status === 401) {
-                // Session süresi dolmuş
+                // Session sÃ¼resi dolmuÅŸ
                 redirectToLogin('session_expired');
                 return false;
             }
@@ -477,7 +454,7 @@ const SessionManager = (() => {
     }
 
     /**
-     * Login sayfasına yönlendirir.
+     * Login sayfasÄ±na yÃ¶nlendirir.
      */
     function redirectToLogin(reason) {
         const currentUrl = encodeURIComponent(window.location.href);
@@ -485,7 +462,7 @@ const SessionManager = (() => {
     }
 
     /**
-     * Otomatik session kontrolü (her 60 saniyede).
+     * Otomatik session kontrolÃ¼ (her 60 saniyede).
      */
     function startSessionMonitor() {
         setInterval(async () => {
@@ -504,91 +481,91 @@ const SessionManager = (() => {
 })();
 ```
 
-### 4.5 Konfigürasyon Değişiklikleri
+### 4.5 KonfigÃ¼rasyon DeÄŸiÅŸiklikleri
 
-| Dosya | Eski Değer | Yeni Değer | Açıklama |
+| Dosya | Eski DeÄŸer | Yeni DeÄŸer | AÃ§Ä±klama |
 |-------|-----------|-----------|----------|
-| `shared/config/session.php` | — | Tüm ayarlar | ADR-011 uyumlu |
-| `shared/config/middleware.php` | — | SessionManager 5. sıra | Pipeline |
-| `.env` | — | `SESSION_DRIVER=file` | ADR-027 DB geçiş planı |
+| `shared/config/session.php` | â€” | TÃ¼m ayarlar | ADR-011 uyumlu |
+| `shared/config/middleware.php` | â€” | SessionManager 5. sÄ±ra | Pipeline |
+| `.env` | â€” | `SESSION_DRIVER=file` | ADR-027 DB geÃ§iÅŸ planÄ± |
 
 ---
 
 ## 5. Architecture
 
-### 5.1 Session Mimarisi Diyagramı
+### 5.1 Session Mimarisi DiyagramÄ±
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     L3 Presentation Layer                        │
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────────┐  │
-│  │  SPA (Vanilla JS — ADR-001)                               │  │
-│  │                                                            │  │
-│  │  ┌──────────────────┐   ┌──────────────────────────────┐  │  │
-│  │  │ SessionManager   │   │ SPA Router (ADR-083)         │  │  │
-│  │  │ (Frontend)       │   │                              │  │  │
-│  │  │                  │   │ • Route guard'da session      │  │  │
-│  │  │ • checkStatus()  │◄──│ • kontrol                    │  │  │
-│  │  │ • monitor()      │   │ • 401'de redirect            │  │  │
-│  │  └──────────────────┘   └──────────────────────────────┘  │  │
-│  └────────────────────────────────────────────────────────────┘  │
-│                                                                  │
-├─────────────────────────────────────────────────────────────────┤
-│                     L1 Security Layer                             │
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────────┐  │
-│  │  SessionManagerMiddleware (ADR-011)                       │  │
-│  │                                                            │  │
-│  │  ┌────────────────────────────────────────────────────┐    │  │
-│  │  │ 1. Session başlat (session_start)                 │    │  │
-│  │  │ 2. Cookie ayarla (COREMUSIC_SESS, HttpOnly, ...)  │    │  │
-│  │  │ 3. Idle timeout kontrol (3600s)                   │    │  │
-│  │  │ 4. Absolute timeout kontrol (86400s)              │    │  │
-│  │  │ 5. Session rotation (1800s)                       │    │  │
-│  │  │ 6. CSP nonce üret (ADR-012)                      │    │  │
-│  │  │ 7. Request'e session attribute ekle               │    │  │
-│  │  └────────────────────────────────────────────────────┘    │  │
-│  └────────────────────────────────────────────────────────────┘  │
-│                                                                  │
-├─────────────────────────────────────────────────────────────────┤
-│                     L0 Infrastructure Layer                       │
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────────┐  │
-│  │  Session Store (File-based → DB transition)              │  │
-│  │                                                            │  │
-│  │  ┌────────────────────────────────────────────────────┐    │  │
-│  │  │ Session Data:                                      │    │  │
-│  │  │ • session_id: string (64-char hex)                │    │  │
-│  │  │ • user_id: int                                    │    │  │
-│  │  │ • user_role: string                               │    │  │
-│  │  │ • csrf_token: string (ADR-010)                    │    │  │
-│  │  │ • csp_nonce: string (ADR-012)                     │    │  │
-│  │  │ • created_at: int (timestamp)                     │    │  │
-│  │  │ • last_activity: int (timestamp)                  │    │  │
-│  │  │ • last_rotation: int (timestamp)                  │    │  │
-│  │  │ • ip_address: string                              │    │  │
-│  │  │ • user_agent: string                              │    │  │
-│  │  └────────────────────────────────────────────────────┘    │  │
-│  └────────────────────────────────────────────────────────────┘  │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                     L3 Presentation Layer                        â”‚
+â”‚                                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  SPA (Vanilla JS â€” ADR-001)                               â”‚  â”‚
+â”‚  â”‚                                                            â”‚  â”‚
+â”‚  â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚  â”‚
+â”‚  â”‚  â”‚ SessionManager   â”‚   â”‚ SPA Router (ADR-083)         â”‚  â”‚  â”‚
+â”‚  â”‚  â”‚ (Frontend)       â”‚   â”‚                              â”‚  â”‚  â”‚
+â”‚  â”‚  â”‚                  â”‚   â”‚ â€¢ Route guard'da session      â”‚  â”‚  â”‚
+â”‚  â”‚  â”‚ â€¢ checkStatus()  â”‚â—„â”€â”€â”‚ â€¢ kontrol                    â”‚  â”‚  â”‚
+â”‚  â”‚  â”‚ â€¢ monitor()      â”‚   â”‚ â€¢ 401'de redirect            â”‚  â”‚  â”‚
+â”‚  â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                                  â”‚
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚                     L1 Security Layer                             â”‚
+â”‚                                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  SessionManagerMiddleware (ADR-011)                       â”‚  â”‚
+â”‚  â”‚                                                            â”‚  â”‚
+â”‚  â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    â”‚  â”‚
+â”‚  â”‚  â”‚ 1. Session baÅŸlat (session_start)                 â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ 2. Cookie ayarla (COREMUSIC_SESS, HttpOnly, ...)  â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ 3. Idle timeout kontrol (3600s)                   â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ 4. Absolute timeout kontrol (86400s)              â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ 5. Session rotation (1800s)                       â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ 6. CSP nonce Ã¼ret (ADR-012)                      â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ 7. Request'e session attribute ekle               â”‚    â”‚  â”‚
+â”‚  â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜    â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                                  â”‚
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚                     L0 Infrastructure Layer                       â”‚
+â”‚                                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Session Store (File-based â†’ DB transition)              â”‚  â”‚
+â”‚  â”‚                                                            â”‚  â”‚
+â”‚  â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    â”‚  â”‚
+â”‚  â”‚  â”‚ Session Data:                                      â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ â€¢ session_id: string (64-char hex)                â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ â€¢ user_id: int                                    â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ â€¢ user_role: string                               â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ â€¢ csrf_token: string (ADR-010)                    â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ â€¢ csp_nonce: string (ADR-012)                     â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ â€¢ created_at: int (timestamp)                     â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ â€¢ last_activity: int (timestamp)                  â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ â€¢ last_rotation: int (timestamp)                  â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ â€¢ ip_address: string                              â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ â€¢ user_agent: string                              â”‚    â”‚  â”‚
+â”‚  â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜    â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                                  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
-### 5.2 Cookie Yaam Döngüsü
+### 5.2 Cookie Yaam DÃ¶ngÃ¼sÃ¼
 
 ```
-┌─────────────┐     ┌──────────────┐     ┌──────────────┐     ┌─────────────┐
-│   Üretim     │     │   Aktif      │     │   Rotation   │     │   Silme     │
-│              │     │              │     │              │     │             │
-│ random_bytes │────►│ HttpOnly +   │────►│ 1800s'de bir │────►│ Timeout     │
-│ (32 byte)    │     │ Secure +     │     │ session_     │     │ veya        │
-│              │     │ SameSite=Lax │     │ regenerate   │     │ logout      │
-│ COREMUSIC_   │     │              │     │ _id(true)    │     │             │
-│ SESS cookie  │     │ .coremusic.  │     │              │     │ Cookie      │
-│              │     │ net domain   │     │ Eski ID      │     │ silinir     │
-└─────────────┘     └──────────────┘     │ geçersiz     │     └─────────────┘
-                                          └──────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   Ãœretim     â”‚     â”‚   Aktif      â”‚     â”‚   Rotation   â”‚     â”‚   Silme     â”‚
+â”‚              â”‚     â”‚              â”‚     â”‚              â”‚     â”‚             â”‚
+â”‚ random_bytes â”‚â”€â”€â”€â”€â–ºâ”‚ HttpOnly +   â”‚â”€â”€â”€â”€â–ºâ”‚ 1800s'de bir â”‚â”€â”€â”€â”€â–ºâ”‚ Timeout     â”‚
+â”‚ (32 byte)    â”‚     â”‚ Secure +     â”‚     â”‚ session_     â”‚     â”‚ veya        â”‚
+â”‚              â”‚     â”‚ SameSite=Lax â”‚     â”‚ regenerate   â”‚     â”‚ logout      â”‚
+â”‚ COREMUSIC_   â”‚     â”‚              â”‚     â”‚ _id(true)    â”‚     â”‚             â”‚
+â”‚ SESS cookie  â”‚     â”‚ .coremusic.  â”‚     â”‚              â”‚     â”‚ Cookie      â”‚
+â”‚              â”‚     â”‚ net domain   â”‚     â”‚ Eski ID      â”‚     â”‚ silinir     â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜     â”‚ geÃ§ersiz     â”‚     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                          â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -597,7 +574,7 @@ const SessionManager = (() => {
 
 ### 6.1 Alternatif 1: JWT Token-based Auth
 
-**Açıklama:** Session yerine JWT token kullanımı.
+**AÃ§Ä±klama:** Session yerine JWT token kullanÄ±mÄ±.
 
 **Avantajlar:**
 - Stateless
@@ -607,76 +584,76 @@ const SessionManager = (() => {
 **Dezavantajlar:**
 - Token rotation zor
 - Revocation zor
-- Client-side storage gerekir (HttpOnly cookie ile birlikte çalışsa bile)
-- ADR-043 ile tam uyumlu değil
+- Client-side storage gerekir (HttpOnly cookie ile birlikte Ã§alÄ±ÅŸsa bile)
+- ADR-043 ile tam uyumlu deÄŸil
 
-**Neden Reddedildi:** Session-based auth daha güvenli ve basit. JWT, refresh token management karmaşıklığı yaratır.
+**Neden Reddedildi:** Session-based auth daha gÃ¼venli ve basit. JWT, refresh token management karmaÅŸÄ±klÄ±ÄŸÄ± yaratÄ±r.
 
 ### 6.2 Alternatif 2: SameSite=None
 
-**Açıklama:** Cross-site cookie desteği için SameSite=None.
+**AÃ§Ä±klama:** Cross-site cookie desteÄŸi iÃ§in SameSite=None.
 
 **Avantajlar:**
-- Cross-site istekler çalışır
+- Cross-site istekler Ã§alÄ±ÅŸÄ±r
 - Third-party entegrasyonlar kolay
 
 **Dezavantajlar:**
 - CSRF riski artar
-- ADR-010 ile çelişir
-- Güvenlik açığı oluşturur
+- ADR-010 ile Ã§eliÅŸir
+- GÃ¼venlik aÃ§Ä±ÄŸÄ± oluÅŸturur
 
-**Neden Reddedildi:** SameSite=None CSRF korumasını zayıflatır. ADR-011 SameSite=Lax frozen kuralıdır.
+**Neden Reddedildi:** SameSite=None CSRF korumasÄ±nÄ± zayÄ±flatÄ±r. ADR-011 SameSite=Lax frozen kuralÄ±dÄ±r.
 
 ### 6.3 Karar Matrisi
 
-| Kriter | Ağırlık | Session (seçilen) | JWT | SameSite=None | Cookie-only |
+| Kriter | AÄŸÄ±rlÄ±k | Session (seÃ§ilen) | JWT | SameSite=None | Cookie-only |
 |--------|---------|-------------------|-----|---------------|-------------|
-| Güvenlik | %35 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
-| ADR Uyumu | %25 | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐ | ⭐⭐⭐ |
-| Scalability | %15 | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| Basitlik | %15 | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| Revocation | %10 | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
+| GÃ¼venlik | %35 | â­â­â­â­â­ | â­â­â­ | â­â­ | â­â­â­ |
+| ADR Uyumu | %25 | â­â­â­â­â­ | â­â­ | â­ | â­â­â­ |
+| Scalability | %15 | â­â­â­ | â­â­â­â­â­ | â­â­â­â­â­ | â­â­â­â­â­ |
+| Basitlik | %15 | â­â­â­â­ | â­â­ | â­â­â­â­â­ | â­â­â­â­ |
+| Revocation | %10 | â­â­â­â­â­ | â­â­ | â­â­â­ | â­â­â­â­ |
 | **TOPLAM** | %100 | **4.50** | **3.10** | **2.85** | **3.55** |
 
 ---
 
 ## 7. Consequences
 
-### 7.1 Olumlu Sonuçlar
+### 7.1 Olumlu SonuÃ§lar
 
-| # | Sonuç | Etki |
+| # | SonuÃ§ | Etki |
 |---|-------|------|
-| 1 | Session hijacking engellenir | Yüksek |
-| 2 | Session fixation önlenir | Yüksek |
-| 3 | Multi-subdomain uyumu | Yüksek |
-| 4 | OWASP Top 10 uyumluluğu | Yüksek |
+| 1 | Session hijacking engellenir | YÃ¼ksek |
+| 2 | Session fixation Ã¶nlenir | YÃ¼ksek |
+| 3 | Multi-subdomain uyumu | YÃ¼ksek |
+| 4 | OWASP Top 10 uyumluluÄŸu | YÃ¼ksek |
 | 5 | Basit uygulama | Orta |
 
-### 7.2 Olumsuz Sonuçlar
+### 7.2 Olumsuz SonuÃ§lar
 
-| # | Sonuç | Risk | Mitigation |
+| # | SonuÃ§ | Risk | Mitigation |
 |---|-------|------|------------|
-| 1 | File-based session bottleneck | Orta | DB session geçiş planı (ADR-027) |
-| 2 | Session store bağımlılığı | Orta | Session store dayanıklılığı |
-| 3 | Cookie size limiti | Düşük | Minimal session data |
+| 1 | File-based session bottleneck | Orta | DB session geÃ§iÅŸ planÄ± (ADR-027) |
+| 2 | Session store baÄŸÄ±mlÄ±lÄ±ÄŸÄ± | Orta | Session store dayanÄ±klÄ±lÄ±ÄŸÄ± |
+| 3 | Cookie size limiti | DÃ¼ÅŸÃ¼k | Minimal session data |
 
 ---
 
 ## 8. Risk Analysis
 
-| # | Risk | Olasılık | Etki | Mitigation |
+| # | Risk | OlasÄ±lÄ±k | Etki | Mitigation |
 |---|------|----------|------|------------|
-| 1 | Session hijacking | Düşük | Kritik | HttpOnly + Secure + SameSite |
-| 2 | Session fixation | Düşük | Yüksek | Rotation 1800s |
-| 3 | Idle timeout bypass | Düşük | Yüksek | Server-side kontrol |
-| 4 | Session store crash | Düşük | Yüksek | DB fallback (ADR-027) |
-| 5 | Cookie theft (MITM) | Düşük | Kritik | HTTPS zorunlu |
+| 1 | Session hijacking | DÃ¼ÅŸÃ¼k | Kritik | HttpOnly + Secure + SameSite |
+| 2 | Session fixation | DÃ¼ÅŸÃ¼k | YÃ¼ksek | Rotation 1800s |
+| 3 | Idle timeout bypass | DÃ¼ÅŸÃ¼k | YÃ¼ksek | Server-side kontrol |
+| 4 | Session store crash | DÃ¼ÅŸÃ¼k | YÃ¼ksek | DB fallback (ADR-027) |
+| 5 | Cookie theft (MITM) | DÃ¼ÅŸÃ¼k | Kritik | HTTPS zorunlu |
 
 ---
 
 ## 9. Testing Strategy
 
-| Test Türü | Hedef | Kapsama |
+| Test TÃ¼rÃ¼ | Hedef | Kapsama |
 |-----------|-------|---------|
 | Session Start | Unit | %100 |
 | Idle Timeout | Unit | %100 |
@@ -686,7 +663,7 @@ const SessionManager = (() => {
 | Multi-Subdomain | E2E | %100 |
 | Session Fixation | Security | %100 |
 
-### Test Kodu Örneği
+### Test Kodu Ã–rneÄŸi
 
 ```php
 <?php
@@ -752,21 +729,21 @@ final class SessionManagerTest extends TestCase
 
 | OWASP Kategorisi | Durum | Uygulama |
 |------------------|-------|----------|
-| **A07:2021** Auth Failures | ✅ Uyumlu | Session rotation, timeout, HttpOnly |
-| **A08:2021** Data Integrity | ✅ Uyumlu | Session signature, CSRF token |
-| **A01:2021** Access Control | ✅ Uyumlu | Session bazlı RBAC |
+| **A07:2021** Auth Failures | âœ… Uyumlu | Session rotation, timeout, HttpOnly |
+| **A08:2021** Data Integrity | âœ… Uyumlu | Session signature, CSRF token |
+| **A01:2021** Access Control | âœ… Uyumlu | Session bazlÄ± RBAC |
 
 ---
 
 ## 11. Performance Impact
 
-| İşlem | Overhead | Kabul Edilebilir mi? |
+| Ä°ÅŸlem | Overhead | Kabul Edilebilir mi? |
 |-------|----------|---------------------|
-| session_start() | < 2ms | ✅ Evet |
-| Cookie parse | < 0.1ms | ✅ Evet |
-| Timeout kontrol | < 0.1ms | ✅ Evet |
-| Rotation | < 5ms (1800s'de bir) | ✅ Evet |
-| **Toplam** | **< 7.2ms** | ✅ Evet |
+| session_start() | < 2ms | âœ… Evet |
+| Cookie parse | < 0.1ms | âœ… Evet |
+| Timeout kontrol | < 0.1ms | âœ… Evet |
+| Rotation | < 5ms (1800s'de bir) | âœ… Evet |
+| **Toplam** | **< 7.2ms** | âœ… Evet |
 
 ---
 
@@ -774,15 +751,15 @@ final class SessionManagerTest extends TestCase
 
 | Senaryo | Geri Alma |
 |---------|-----------|
-| Session store çöktü | File session'a fallback |
-| Cookie ayarları bozuldu | Frozen config'i geri yükle |
-| Timeout yanlış | Frozen değerleri geri yükle |
+| Session store Ã§Ã¶ktÃ¼ | File session'a fallback |
+| Cookie ayarlarÄ± bozuldu | Frozen config'i geri yÃ¼kle |
+| Timeout yanlÄ±ÅŸ | Frozen deÄŸerleri geri yÃ¼kle |
 
 ---
 
 ## 13. Related Decisions
 
-| ADR | Başlık | İlişki |
+| ADR | BaÅŸlÄ±k | Ä°liÅŸki |
 |-----|--------|--------|
 | ADR-008 | Bypass Auth | Test bypass |
 | ADR-010 | CSRF Protection | Token session'da |
@@ -796,25 +773,25 @@ final class SessionManagerTest extends TestCase
 
 ## 14. Glossary
 
-| Terim | Tanım |
+| Terim | TanÄ±m |
 |-------|-------|
-| **Session** | Kullanıcı oturum verisi |
-| **HttpOnly** | Cookie JS'den erişilemez |
-| **Secure** | Cookie sadece HTTPS ile gönderilir |
-| **SameSite** | Cross-site cookie politikası |
-| **Idle Timeout** | Aktif olmayan session süresi |
-| **Absolute Timeout** | Maksimum session süresi |
-| **Session Rotation** | Periyodik session ID değişimi |
-| **Session Fixation** | Bilinen session ID ile saldırı |
+| **Session** | KullanÄ±cÄ± oturum verisi |
+| **HttpOnly** | Cookie JS'den eriÅŸilemez |
+| **Secure** | Cookie sadece HTTPS ile gÃ¶nderilir |
+| **SameSite** | Cross-site cookie politikasÄ± |
+| **Idle Timeout** | Aktif olmayan session sÃ¼resi |
+| **Absolute Timeout** | Maksimum session sÃ¼resi |
+| **Session Rotation** | Periyodik session ID deÄŸiÅŸimi |
+| **Session Fixation** | Bilinen session ID ile saldÄ±rÄ± |
 
 ---
 
 ## 15. Edge Cases
 
-| # | Durum | Çözüm |
+| # | Durum | Ã‡Ã¶zÃ¼m |
 |---|-------|-------|
-| 1 | Cookie disabled | Redirect login + uyarı |
-| 2 | Multi-tab | Tüm sekmeler aynı session |
+| 1 | Cookie disabled | Redirect login + uyarÄ± |
+| 2 | Multi-tab | TÃ¼m sekmeler aynÄ± session |
 | 3 | Mobile browser | SameSite=Lax korur |
 | 4 | CSRF + Session | ADR-010 ile entegre |
 | 5 | Session store down | DB fallback (ADR-027) |
@@ -823,17 +800,17 @@ final class SessionManagerTest extends TestCase
 
 ## 16. Warnings
 
-> **⚠️ CRITICAL:** SameSite=None kesinlikle kullanılmamalıdır. ADR-011 SameSite=Lax frozen kuralıdır.
+> **âš ï¸ CRITICAL:** SameSite=None kesinlikle kullanÄ±lmamalÄ±dÄ±r. ADR-011 SameSite=Lax frozen kuralÄ±dÄ±r.
 
-> **⚠️ CRITICAL:** localStorage/sessionStorage'da auth token saklanmaz. Sadece HttpOnly cookie kullanılır.
+> **âš ï¸ CRITICAL:** localStorage/sessionStorage'da auth token saklanmaz. Sadece HttpOnly cookie kullanÄ±lÄ±r.
 
-> **⚠️ WARNING:** Session rotation 1800s'de bir yapılmalıdır. Bu değer değiştirilmez.
+> **âš ï¸ WARNING:** Session rotation 1800s'de bir yapÄ±lmalÄ±dÄ±r. Bu deÄŸer deÄŸiÅŸtirilmez.
 
 ---
 
 ## 17. Limitations
 
-| # | Sınırlama | Çözüm |
+| # | SÄ±nÄ±rlama | Ã‡Ã¶zÃ¼m |
 |---|-----------|-------|
 | 1 | File-based bottleneck | DB session (ADR-027) |
 | 2 | Single-server only | Redis session (gelecek) |
@@ -843,7 +820,7 @@ final class SessionManagerTest extends TestCase
 
 ## 18. Dependencies
 
-| Bağımlılık | Versiyon | Kullanım |
+| BaÄŸÄ±mlÄ±lÄ±k | Versiyon | KullanÄ±m |
 |------------|---------|---------|
 | PHP 8.4+ | 8.4 | Session extension |
 | OpenSSL | 3.0+ | random_bytes() |
@@ -864,7 +841,7 @@ final class SessionManagerTest extends TestCase
 
 | Dosya | Konum |
 |-------|-------|
-| Security Layer | `architecture/l1-security.md` |
+| Security Layer | `architecture/l1-security/` |
 | Session Config | `shared/config/session.php` |
 | Session Middleware | `shared/src/Security/Middleware/SessionManagerMiddleware.php` |
 
@@ -872,16 +849,16 @@ final class SessionManagerTest extends TestCase
 
 ## 21. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır Sayısı** | ~520 |
+| **SatÄ±r SayÄ±sÄ±** | ~520 |
 | **Status** | Frozen |
-| **OWASP Compliance** | ✅ |
-| **Test Coverage** | ≥ %80 |
+| **OWASP Compliance** | âœ… |
+| **Test Coverage** | â‰¥ %80 |
 
 ---
 
-*ADR-011: Session Management v2.0.0 — CoreMusic Security*
-*Authority: Security Engineer · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-011: Session Management v2.0.0 â€” CoreMusic Security*
+*Authority: Security Engineer Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

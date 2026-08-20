@@ -166,6 +166,12 @@ final class AuthController
                 'ip'      => $clientIp,
             ]);
 
+            $logger->debug('Login redirect constructed', [
+                'redirect_url'  => $redirectUrl,
+                'has_auth_key'  => !empty($result['auth_key']),
+                'final_redirect' => $result['redirect'],
+            ]);
+
             return ['httpStatus' => 200, 'type' => 'json', 'body' => $result];
         } catch (\Throwable $e) {
             $logger->authEvent('login_failed', [
@@ -247,11 +253,12 @@ final class AuthController
         $this->session->setGender($gender);
 
         // Cookie fallback — session çalışmasa bile gender saklanır
+        $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
         setcookie('cm_gender', $gender, [
             'expires'  => time() + (86400 * 30),
             'path'     => '/',
             'domain'   => '.coremusic.net',
-            'secure'   => false,
+            'secure'   => $isHttps,
             'httponly'  => false,
             'samesite' => 'Lax',
         ]);

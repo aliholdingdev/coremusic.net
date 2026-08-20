@@ -63,7 +63,7 @@ CoreMusic ELECTRONICS **tek bir uygulama değildir**. Bağımsız servislerden o
 - `POST /auth/device/register` — Cihaz kaydı
 - `GET /auth/session/check` — Oturum kontrolü
 
-Detaylar: [[architecture/08-auth/index]], [[ADR-043-auth-subdomain-consolidation]], [[ADR-052-hybrid-auth-architecture]]
+Detaylar: [[architecture/08-auth/index]], [[ADR-043-auth-subdomain-consolidation]]
 
 ### 3.2 User Service
 

@@ -36,7 +36,7 @@
   color: var(--color-text, rgba(255,255,255,0.9));
   font-size: var(--text-lg, 14px);
   cursor: pointer;
-  transition: background var(--duration-fast, 100ms) ease;
+  transition: background var(--duration-fast, 0ms) ease;
   flex-shrink: 0;
   text-decoration: none;
 }
@@ -134,8 +134,8 @@
   font-weight: var(--font-medium, 500);
   white-space: nowrap;
   cursor: pointer;
-  transition: background var(--duration-fast, 100ms) ease,
-              color var(--duration-fast, 100ms) ease;
+  transition: background var(--duration-fast, 0ms) ease,
+              color var(--duration-fast, 0ms) ease;
   min-height: 48px; /* WCAG touch target */
 }
 
@@ -168,7 +168,7 @@
   min-height: 48px; /* WCAG */
   border-radius: var(--radius-sm, 4px);
   cursor: pointer;
-  transition: background var(--duration-fast, 100ms) ease;
+  transition: background var(--duration-fast, 0ms) ease;
 }
 
 .track-row:hover {
@@ -243,8 +243,8 @@
   height: 44px; /* WCAG hit area */
   cursor: pointer;
   color: rgba(255,255,255,0.3);
-  transition: color var(--duration-fast, 100ms) ease,
-              transform var(--duration-fast, 100ms) ease;
+  transition: color var(--duration-fast, 0ms) ease,
+              transform var(--duration-fast, 0ms) ease;
 }
 
 .star-rating__star--filled,
@@ -327,9 +327,9 @@
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: var(--radius-lg, 12px);
   cursor: pointer;
-  transition: border-color var(--duration-fast, 100ms) ease,
-              background var(--duration-fast, 100ms) ease,
-              box-shadow var(--duration-fast, 100ms) ease;
+  transition: border-color var(--duration-fast, 0ms) ease,
+              background var(--duration-fast, 0ms) ease,
+              box-shadow var(--duration-fast, 0ms) ease;
   min-height: 60px;
   text-align: left;
   font-family: var(--font-body, 'Arima', sans-serif);
@@ -403,9 +403,9 @@
   border-radius: var(--radius-lg, 12px);
   background: var(--glass-bg, rgba(255,255,255,0.08));
   cursor: pointer;
-  transition: background var(--duration-fast, 100ms) ease,
-              box-shadow var(--duration-fast, 100ms) ease,
-              transform var(--duration-fast, 100ms) ease;
+  transition: background var(--duration-fast, 0ms) ease,
+              box-shadow var(--duration-fast, 0ms) ease,
+              transform var(--duration-fast, 0ms) ease;
 }
 
 .social-btn:hover {

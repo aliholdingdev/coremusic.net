@@ -11,7 +11,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Icon Asset Catalog
 
-**Zorunlu Baglantilar:** [[00-mockup-index]] · [[01-component-inventory]] · [[01-design-tokens]]
+**Zorunlu Baglantilar:** [[00-mockup-index]] · [[01-component-inventory]] · [[tokens/design-tokens-master]]
 
 ---
 
@@ -242,7 +242,7 @@ else
 |--------|-------|
 | Bu dosya | [[00-mockup-index]] — PNG referansları |
 | Bu dosya | [[01-component-inventory]] — Bileşen ikonları |
-| Bu dosya | [[01-design-tokens]] — Tema renkleri |
+| Bu dosya | [[tokens/design-tokens-master]] — Tema renkleri |
 | Bu dosya | [[ADR-044-dynamic-user-theme-engine]] — Tema engine |
 
 ---

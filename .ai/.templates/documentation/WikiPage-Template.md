@@ -205,7 +205,7 @@ Wiki link'leri vault içinde navigasyon için kullanılır:
 
 | Kural | Doğru | Yanlış |
 |-------|-------|--------|
-| Uzantı yok | `[[architecture/l1-security]]` | `[[architecture/l1-security.md]]` |
+| Uzantı yok | `[[architecture/l1-security]]` | `[[architecture/l1-security/]]` |
 | Lowercase | `[[decisions/accepted/ADR-001]]` | `[[Decisions/Accepted/ADR-001]]` |
 | Tire kullanımı | `[[ADR-042-vault-restructuring]]` | `[[ADR 042 Vault Restructuring]]` |
 | Display text | `[[path\|My Text]]` | `[[path]]` (metin gerekliyse) |
@@ -213,7 +213,7 @@ Wiki link'leri vault içinde navigasyon için kullanılır:
 ❌ **YANLIŞ — Yanlış wiki link formatı:**
 
 ```markdown
-- [See this doc](architecture/l1-security.md)
+- [See this doc](architecture/l1-security/)
 - [[Architecture/L1-Security]]
 ```
 
@@ -669,7 +669,7 @@ governance: Red Team • Human Mode • Truth Mode
 ❌ **YANLIŞ — Uzantılı link:**
 
 ```markdown
-[[architecture/l1-security.md]]
+[[architecture/l1-security/]]
 ```
 
 ✅ **DOĞRU — Uzantısız link:**

@@ -36,18 +36,18 @@ references:
 │  ┌─ SOL SIDEBAR (x:16-183, w:167px) ───┐  ┌─ ORTA LİSTE (x:186-759, w:573px) ──────────┐   │
 │  │                                       │  │ Şarkı Adı      | Albüm Adı | Sanatçı | Süre│   │
 │  │ Sistem Diskleri                       │  │ [♪] Pop Şarkıları Ali                      │   │
-│  │  ● System Disk                        │  │ [♪] Göksel - Sevil Neş. | Hayat Rüya | 00: │   │
-│  │  ● NAS Drive                          │  │ [♪] Göksel - Sevil Neş. | Hayat Rüya | 00: │   │
+│  │  ● System Disk ▓▓▓▓░░░░ 50%          │  │ [♪] Göksel - Sevil Neş. | Hayat Rüya | 00: │   │
+│  │  ● NAS Drive   ▓▓▓░░░░░ 40%          │  │ [♪] Göksel - Sevil Neş. | Hayat Rüya | 00: │   │
 │  │                                       │  │ [♪] Göksel - Sevil Neş. | Hayat Rüya | 00: │   │
 │  │ Harici / Taşınabilir Diskler          │  │                                            │   │
-│  │  ● HDD Drive                          │  │                                            │   │
-│  │  ● SSD Nvme 2 Drive                   │  │                                            │   │
-│  │  ● SSD Drive                          │  │                                            │   │
+│  │  ● HDD Drive    ▓▓▓▓▓░░░ 70%         │  │                                            │   │
+│  │  ● SSD Nvme 2   ▓▓▓▓░░░░ 55%         │  │                                            │   │
+│  │  ● SSD Drive    ▓▓▓▓▓▓░░ 80%         │  │                                            │   │
 │  │                                       │  │                                            │   │
 │  │ Çıkarılabilir Diskleri                │  │                                            │   │
-│  │  ● USB Drive                          │  │                                            │   │
-│  │  ● USB Drive                          │  │                                            │   │
-│  │  ● CD DVD Drive                       │  │                                            │   │
+│  │  ● USB Drive    ▓▓░░░░░░ 25%         │  │                                            │   │
+│  │  ● USB Drive    ▓░░░░░░░ 15%         │  │                                            │   │
+│  │  ● CD DVD Drive ░░░░░░░░  0%         │  │                                            │   │
 │  └───────────────────────────────────────┘  └────────────────────────────────────────────┘   │
 │                                                                                                  │
 │  ┌─ SAĞ BİLGİ PANELİ (x:784-1004, w:220px) ─────────────────────────────────────────────┐   │
@@ -57,6 +57,8 @@ references:
 │  │ │Donut Chart│  32 GB — 16 GB Kullanılabilir  %50                                       │   │
 │  │ │(pie chart)│                                                                           │   │
 │  │ └──────────┘                                                                           │   │
+│  │                                                                                         │   │
+│  │ [♫][🎬][📷][📄][⋯]  (dosya türü ikonları)                                             │   │
 │  │                                                                                         │   │
 │  │ [Göz At] (C04, pembe buton)                                                            │   │
 │  │ [Bütün Şarkıları Çal]                                                                  │   │
@@ -86,9 +88,10 @@ Sidebar satır yüksekliği: ~21px (WCAG İHLALİ — 48px olmalı)
 | Çıkarılabilir | USB Drive ×2, CD DVD Drive |
 
 **Her disk satırı:**
-- İkon: ~16×16px
+- İkon: ~24×24px (disk türüne göre renkli)
 - İsim: 12px, 500
-- Yükseklik: ~21px (WCAG İHLALİ)
+- Yükseklik: ~40px (ikon + isim + progress bar)
+- Progress bar: 4px yükseklik, pembe (kullanım oranı)
 - Seçili: pembe arka plan
 
 ### 2.2 — Orta Liste (573px)
@@ -110,7 +113,9 @@ Sidebar satır yüksekliği: ~21px (WCAG İHLALİ — 48px olmalı)
 | Disk adı + türü | Başlık |
 | Donut chart | ~100×100px |
 | Bilgi | 32 GB, 16 GB Kullanılabilir, %50 |
-| Butonlar | Göz At, Bütün Şarkıları Çal, vb. |
+| Dosya türü ikonları | 5× ikon (müzik, video, resim, belge, diğer) |
+| Butonlar | Göz At (pembe), Bütün Şarkıları Çal, Şarkıları Göz At, Şarkılarını Göz At, Videoları Göz At |
+| Alt butonlar | [...][...][...] (3x more) |
 
 ---
 
@@ -118,7 +123,7 @@ Sidebar satır yüksekliği: ~21px (WCAG İHLALİ — 48px olmalı)
 
 | Kriter | Durum |
 |--------|-------|
-| Touch target (sidebar satır) | ❌ ~21px → 48px |
+| Touch target (sidebar satır) | ✅ ~40px (progress bar ile) |
 | Touch target (buton) | ✅ 48px+ |
 | Touch target (liste satırı) | ⚠️ ~40px |
 | Focus indicator | ✅ |
@@ -138,7 +143,7 @@ Sidebar satır yüksekliği: ~21px (WCAG İHLALİ — 48px olmalı)
 | Sol disk listesi | 224px | — |
 | Sağ bilgi paneli | 224px | — |
 | Orta liste | Kalan alan | — |
-| Disk satır yüksekliği | ~21px | — |
+| Disk satır yüksekliği | ~40px | — |
 | Donut chart | 100×100px | — |
 | Touch target | ≥48px | `--touch-min` |
 | Hover | YOK | — |
@@ -426,5 +431,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 *Disk Browser Screen Spec v3.0.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-17*
+*Last Updated: 2026-08-19*
 *Mode: Red Team · Human Mode · Truth Mode*

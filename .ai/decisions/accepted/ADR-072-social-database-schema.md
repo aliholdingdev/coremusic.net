@@ -1,19 +1,8 @@
----
-type: decision
-id: "072"
+﻿---
 title: "ADR-072: Social Database Schema"
-category: "database"
-status: "active"
-date: "2026-08-10"
-updated: "2026-08-15"
-authority: "Data Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 1.0.0
+status: active
+date: 2026-08-10
 tags: [database, social, schema, active]
-risk-level: "medium"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-040-database-authority]]"
 ---
 
 # ADR-072: Social Database Schema
@@ -22,21 +11,21 @@ references:
 
 ## 1. Executive Summary
 
-coremusic_social veritabanı, yorumlar, paylaşımlar, aktivite akışları, dinleme odaları ve bildirimleri yönetir. 9 tablo BCNF normalized.
+coremusic_social veritabanÄ±, yorumlar, paylaÅŸÄ±mlar, aktivite akÄ±ÅŸlarÄ±, dinleme odalarÄ± ve bildirimleri yÃ¶netir. 9 tablo BCNF normalized.
 
 ## 2. Tablolar
 
-| # | Tablo | Amaç |
+| # | Tablo | AmaÃ§ |
 |---|-------|------|
 | 1 | comments | Yorumlar (music, album, playlist) |
-| 2 | comment_likes | Yorum beğenileri |
-| 3 | shares | Paylaşımlar |
-| 4 | activity_feed | Kullanıcı aktivite akışı |
-| 5 | listening_rooms | Dinleme odaları |
-| 6 | room_participants | Oda katılımcıları |
+| 2 | comment_likes | Yorum beÄŸenileri |
+| 3 | shares | PaylaÅŸÄ±mlar |
+| 4 | activity_feed | KullanÄ±cÄ± aktivite akÄ±ÅŸÄ± |
+| 5 | listening_rooms | Dinleme odalarÄ± |
+| 6 | room_participants | Oda katÄ±lÄ±mcÄ±larÄ± |
 | 7 | notifications | Bildirimler |
 | 8 | notification_preferences | Bildirim tercihleri |
-| 9 | user_follows | Kullanıcı takipleri |
+| 9 | user_follows | KullanÄ±cÄ± takipleri |
 
 ## 3. Decision
 
@@ -44,13 +33,13 @@ coremusic_social veritabanı, yorumlar, paylaşımlar, aktivite akışları, din
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | BCNF normalization | ✅ Zorunlu |
-| 2 | Soft delete her tabloda | ✅ Zorunlu |
-| 3 | Timestamp zorunlu | ✅ Zorunlu |
-| 4 | Foreign key constraints | ✅ Zorunlu |
-| 5 | Index optimization | ✅ Zorunlu |
+| 1 | BCNF normalization | âœ… Zorunlu |
+| 2 | Soft delete her tabloda | âœ… Zorunlu |
+| 3 | Timestamp zorunlu | âœ… Zorunlu |
+| 4 | Foreign key constraints | âœ… Zorunlu |
+| 5 | Index optimization | âœ… Zorunlu |
 
-### Şema Örneği
+### Åema Ã–rneÄŸi
 
 ```sql
 CREATE TABLE comments (
@@ -76,14 +65,14 @@ CREATE TABLE comments (
 
 ## 4. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 1.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-072: Social Database Schema v1.0.0 — CoreMusic Database*
-*Authority: Data Engineer · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-072: Social Database Schema v1.0.0 â€” CoreMusic Database*
+*Authority: Data Engineer Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

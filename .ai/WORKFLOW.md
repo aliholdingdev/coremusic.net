@@ -1,7 +1,7 @@
 ---
+title: "CoreMusic — Vault Workflows & Engineering Processes"
 type: guide
 category: workflow
-title: "CoreMusic — Vault Workflows & Engineering Processes"
 date: 2026-08-08
 updated: 2026-08-13
 status: active
@@ -10,132 +10,7 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/WORKFLOW.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-    - ".ai/keys.md"
-    - ".ai/MEMORY.md"
-    - ".ai/log.md"
-    - ".ai/engine.md"
-  architecture:
-    - ".ai/ADR/"
-    - "Existing project architecture"
-    - "Existing codebase patterns"
-  project_structure:
-    - "coremusic.net/"
-    - "shared/"
-    - "api.coremusic.net/"
-    - "auth.coremusic.net/"
-    - "music.coremusic.net/"
-    - "admin.coremusic.net/"
-    - "home.coremusic.net/"
-    - "car.coremusic.net/"
-    - "studio.coremusic.net/"
-    - "pro.coremusic.net/"
-    - "media.coremusic.net/"
-    - "download.coremusic.net/"
-  decision_priority:
-    - "ADR decisions"
-    - "Architecture documentation"
-    - "Security requirements"
-    - "Existing implementation"
-    - "User requirements"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "file rename"
-      - "directory move"
-      - "architecture change"
-      - "database schema change"
-      - "security policy change"
-  skills:
-    - path: ".opencode/skills/ui-code-generator/SKILL.md"
-      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
-    - path: ".opencode/skills/ui-analyzer/SKILL.md"
-      purpose: "UI analizi, mevcut tasarım değerlendirme"
-    - path: ".opencode/skills/skill-maker/SKILL.md"
-      purpose: "Yeni skill oluşturma, skill template sistemi"
-    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
-      purpose: "Güvenlik testi, truth mode, adversarial analiz"
-    - path: ".opencode/skills/prompt-maker/SKILL.md"
-      purpose: "Prompt mühendisliği, AI talimat tasarımı"
-    - path: ".opencode/skills/composer-sync/SKILL.md"
-      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
-    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
-      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
-    - path: ".opencode/skills/human-mode/SKILL.md"
-      purpose: "İnsan modu iletişimi, onay süreçleri"
-    - path: ".opencode/skills/hallucination-control/SKILL.md"
-      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
-    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
-      purpose: "BCNF normalizasyonu, şema tasarımı"
-  templates:
-    adr:
-      - path: ".ai/.templates/adr/adr-template.md"
-        purpose: "ADR şablonu"
-      - path: ".ai/.templates/adr/adr-frontend-template.md"
-        purpose: "Frontend ADR şablonu"
-      - path: ".ai/.templates/adr/adr-database-template.md"
-        purpose: "Database ADR şablonu"
-      - path: ".ai/.templates/adr/adr-security-template.md"
-        purpose: "Security ADR şablonu"
-      - path: ".ai/.templates/adr/adr-audio-template.md"
-        purpose: "Audio/Hardware ADR şablonu"
-      - path: ".ai/.templates/adr/adr-index.md"
-        purpose: "ADR navigasyon rehberi"
-    backend:
-      - path: ".ai/.templates/backend/php-template.md"
-        purpose: "PHP 8.4 backend geliştirme şablonu"
-      - path: ".ai/.templates/backend/nodejs-template.md"
-        purpose: "Node.js 20+ backend geliştirme şablonu"
-    frontend:
-      - path: ".ai/.templates/frontend/js-template.md"
-        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
-      - path: ".ai/.templates/frontend/css-template.md"
-        purpose: "ITCSS 9-layer, BEM CSS şablonu"
-    testing:
-      - path: ".ai/.templates/testing/phpunit-template.md"
-        purpose: "PHPUnit 10+ test şablonu"
-      - path: ".ai/.templates/testing/vitest-template.md"
-        purpose: "Vitest JS/TS test şablonu"
-    infrastructure:
-      - path: ".ai/.templates/infrastructure/migration-template.md"
-        purpose: "MySQL 9 BCNF migration şablonu"
-      - path: ".ai/.templates/infrastructure/docker-template.md"
-        purpose: "Docker 24+ Compose v2 şablonu"
-      - path: ".ai/.templates/infrastructure/github-actions-template.md"
-        purpose: "GitHub Actions CI/CD şablonu"
-    documentation:
-      - path: ".ai/.templates/documentation/api-doc-template.md"
-        purpose: "API dokümantasyon şablonu"
-      - path: ".ai/.templates/documentation/security-audit-template.md"
-        purpose: "Güvenlik denetimi şablonu"
-      - path: ".ai/.templates/documentation/WikiPage-Template.md"
-        purpose: "Wiki sayfası şablonu"
-    hardware:
-      - path: ".ai/.templates/hardware/arduino-template.md"
-        purpose: "Arduino/IoT prototipleme şablonu"
-      - path: ".ai/.templates/hardware/avr-template.md"
-        purpose: "AVR mikrodenetleyici şablonu"
-      - path: ".ai/.templates/hardware/pic-template.md"
-        purpose: "PIC mikrodenetleyici şablonu"
-    query:
-      - path: ".ai/.templates/query/Query-Template.md"
-        purpose: "SQL sorgu şablonu"
-    other:
-      - path: ".ai/.templates/other/c-template.md"
-        purpose: "C11 GCC embedded/driver şablonu"
-      - path: ".ai/.templates/cpp-template.md"
-        purpose: "C++20 JUCE/ASIO şablonu"
-changelog:
-  - version: 21.0.0
-    date: 2026-08-13
-    changes:
-      - Added reference section (skills, templates, project_structure)
-      - Updated governance format
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .ai/brain.md · .ai/index.md"
 ---
 
 # CoreMusic — Vault Workflows & Engineering Processes
@@ -558,122 +433,68 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 4 | Wiki-link'leri doğrula | Regex |
 | 6 | Hallüsinasyon sweep | VERIFICATION REQUIRED |
 
+### 8.7A Root .md Dosya Güncelleme Protokolü
+
+**⚠️ ZORUNLULUK:** Her session başında ve sonunda `.ai/` dizinindeki tüm root .md dosyaları okunmalı ve güncellenmelidir.
+
+#### Root .md Dosyaları (11 adet)
+
+| # | Dosya | Amaç | Session Başında | Session Sonunda |
+|---|-------|------|-----------------|-----------------|
+| 1 | `CLAUDE.md` | AI anayasası, guardrails | ✅ Oku | ✅ Gerekirse güncelle |
+| 2 | `AGENTS.md` | Agent sınırları, routing | ✅ Oku | ✅ Gerekirse güncelle |
+| 3 | `WORKFLOW.md` | Süreçler, protokoller | ✅ Oku | ✅ Gerekirse güncelle |
+| 4 | `brain.md` | Mimari kararlar, ADR | ✅ Oku | ✅ Gerekirse güncelle |
+| 5 | `index.md` | Master katalog | ✅ Oku | ✅ Gerekirse güncelle |
+| 6 | `keys.md` | Keyword haritası | ✅ Oku | ✅ Gerekirse güncelle |
+| 7 | `MEMORY.md` | Session hafızası | ✅ Oku | ✅ Her zaman güncelle |
+| 8 | `log.md` | Audit trail | ✅ Oku (son 20 satır) | ✅ Her zaman güncelle |
+| 9 | `engine.md` | Orkestrasyon motoru | ✅ Oku | ✅ Gerekirse güncelle |
+| 10 | `ROLE.md` | Rol tanımı | ✅ Oku | ✅ Gerekirse güncelle |
+| 11 | `ULTRA-THINKING.md` | Ultra düşünme protokolü | ✅ Oku | ✅ Gerekirse güncelle |
+
+#### Session Başında (11 Dosya)
+
+| Adım | Aksiyon | Kontrol |
+|------|---------|---------|
+| 1 | Tüm 11 root .md dosyasını oku | Dosya var mı? |
+| 2 | Son değişiklikleri kontrol et | `git log` veya timestamp |
+| 3 | Çelişki varsa düzelt | SSOT hierarchy: CLAUDE.md > AGENTS.md > WORKFLOW.md |
+| 4 | Eksik referansları tespit et | Wiki-link kontrolü |
+
+#### Session Sonunda (11 Dosya)
+
+| Adım | Aksiyon | Kontrol |
+|------|---------|---------|
+| 1 | Değişen tüm root .md dosyalarını güncelle | Dosya boyutu |
+| 2 | Yeni referansları ekle | Cross-reference |
+| 3 | Eski/yanlış bilgileri kaldır | VERIFICATION REQUIRED |
+| 4 | Timestamp'leri güncelle | Format: `YYYY-MM-DD` |
+| 5 | `log.md`'ye session kapanış kaydı ekle | Format |
+| 6 | `MEMORY.md` session state güncelle | Session index |
+
+#### Güncelleme Sırası
+
+```
+Session Başında:
+  CLAUDE.md → AGENTS.md → WORKFLOW.md → brain.md → index.md → keys.md → MEMORY.md → log.md → engine.md → ROLE.md → ULTRA-THINKING.md
+
+Session Sonunda:
+  MEMORY.md → log.md → brain.md → index.md → keys.md → engine.md → AGENTS.md → WORKFLOW.md → CLAUDE.md → ROLE.md → ULTRA-THINKING.md
+```
+
+#### Kritik Kurallar
+
+| # | Kural | İhlal Sonucu |
+|---|-------|--------------|
+| 1 | Session başında 11 dosya okunmadan kod yazılamaz | İşlem durdurulur |
+| 2 | Session sonunda değişen dosyalar güncellenmezse vault tutarsızlığı | CRITICAL log |
+| 3 | Çelişki varsa SSOT hierarchy takip edilir | CLAUDE.md öncelikli |
+| 4 | Timestamp'ler her zaman güncel olmalı | Eski timestamp = eski bilgi |
+
 ### 8.8 YAML Formatter & Doğrulama
 
-YAML dosyalarının (`.yml`, `.yaml`) tutarlı, geçerli ve okunabilir olmasını sağlamak için kullanılan formatter workflow'u.
-
-#### 8.8.1 Amaç
-
-- Tüm YAML dosyalarını standart formata getirme (2 boşluk girinti, single-quote string, key sırası)
-- Syntactic doğrulama (geçerli YAML syntax)
-- Schema uyumluluğu kontrolü (CI/CD, Docker, GitHub Actions)
-- Vault YAML dosyalarının format tutarlılığını koruma
-
-#### 8.8.2 YAML Format Standartları
-
-| Kural | Değer |
-|-------|-------|
-| Girinti | 2 boşluk (tab yasak) |
-| String Quote | Single-quote (`'`) tercih edilir, double-quote sadece escape gerektiğinde |
-| Key Sırası | Alfabetik (CI/CD dosyaları hariç — mantıksal gruplama) |
-| Max Satır Uzunluğu | 120 karakter |
-| Boş Satır | Maksimum 1 arka arkaya |
-| Comment Style | `# ` prefix ile (boşluk zorunlu) |
-| Trailing Comma | YAML'de desteklenmez — kaldırılmalı |
-| Boolean Format | `true` / `false` (lowercase) |
-| Null Format | `null` (lowercase) |
-| Date Format | ISO 8601 (`YYYY-MM-DDTHH:MM:SSZ`) |
-
-#### 8.8.3 YAML Doğrulama Adımları
-
-| # | Adım | Araç | Kontrol |
-|---|------|------|---------|
-| 1 | Syntactic doğrulama | `yamllint` veya Python `yaml.safe_load()` | Geçerli YAML syntax |
-| 2 | Format kontrolü | `prettier --parser yaml` veya `yaml-formatter` | Girinti, quote, spacing |
-| 3 | Schema doğrulama | `yaml-schema-validator` (JSON Schema) | Zorunlu alanlar, tipler |
-| 4 | Duplicate key kontrolü | YAML parser | Tekrarlayan anahtar yok |
-| 5 | Anchors & Aliases kontrolü | YAML parser | Döngüsel referans yok |
-| 6 | Comment kalitesi | Manuel / linter | Anlamlı, güncel yorumlar |
-
-#### 8.8.4 Dosya Kategorileri & Format Kuralları
-
-| Kategori | Dosya Pattern | Özel Kurallar |
-|----------|---------------|---------------|
-| CI/CD | `.github/workflows/*.yml` | Step isimleri zorunlu, `on:` trigger tanımlı |
-| Docker | `docker-compose*.yml` | Service isimleri lowercase, `version:` zorunlu |
-| Vault | `.ai/**/*.yml` | Wiki-link formatı, frontmatter zorunlu |
-| Config | `*.config.yml` | Environment-specific section'lar ayrıştırılmış |
-| Schema | `*.schema.yml` | JSON Schema uyumlu, `$schema` reference |
-
-#### 8.8.5 Otomatik Format Düzeltme (PowerShell)
-
-```powershell
-# Tüm YAML dosyalarını bul ve formatla
-Get-ChildItem -Recurse -Include *.yml,*.yaml |
-  ForEach-Object {
-    $content = Get-Content $_.FullName -Raw
-    # 1. Tab'ları 2 boşluğa çevir
-    $content = $content -replace "`t", "  "
-    # 2. Trailing whitespace kaldır
-    $content = $content -replace "\s+$", ""
-    # 3. Boolean标准化
-    $content = $content -replace ":\s*True\s*$", ": true"
-    $content = $content -replace ":\s*False\s*$", ": false"
-    $content = $content -replace ":\s*Yes\s*$", ": true"
-    $content = $content -replace ":\s*No\s*$", ": false"
-    Set-Content $_.FullName $content -NoNewline
-  }
-```
-
-#### 8.8.6 YAML Hata Türleri & Düzeltmeleri
-
-| Hata | Belirti | Düzeltme |
-|------|---------|----------|
-| Indentation error | `mapping values are not allowed here` | Girintiyi 2 boşluğa düzelt |
-| Duplicate key | `duplicate key found` | Tekrarlayan key'i kaldır veya birleştir |
-| Invalid boolean | `True/False/Yes/No` | `true/false` formatına çevir |
-| Missing separator | `while scanning a simple key` | `:`后面 boşluk ekle |
-| Tab character | `tab characters are not allowed` | Tab'ı 2 boşluğa çevir |
-| Trailing spaces | Linter uyarısı | Trailing whitespace kaldır |
-
-#### 8.8.7 CI/CD Entegrasyonu
-
-```yaml
-# .github/workflows/yaml-lint.yml
-name: YAML Lint
-on: [push, pull_request]
-jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install yamllint
-        run: pip install yamllint
-      - name: Run yamllint
-        run: yamllint -c .yamllint.yml .
-```
-
-#### 8.8.8 `.yamllint.yml` Konfigürasyonu
-
-```yaml
----
-extends: default
-rules:
-  indentation:
-    spaces: 2
-    indent-sequences: true
-  line-length:
-    max: 120
-    allow-non-breakable-words: true
-    allow-non-breakable-inline-mappings: true
-  comments:
-    min-spaces-from-content: 1
-    require-starting-space: true
-  truthy:
-    allowed-values: ['true', 'false']
-  document-start: disable
-  comments-indentation: disable
-```
+> Detaylı YAML format standartları için bkz: [[reference/yaml-formatter]]
 
 ---
 

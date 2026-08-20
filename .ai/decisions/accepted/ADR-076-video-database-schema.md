@@ -1,19 +1,8 @@
----
-type: decision
-id: "076"
+﻿---
 title: "ADR-076: Video Database Schema"
-category: "database"
-status: "active"
-date: "2026-08-10"
-updated: "2026-08-15"
-authority: "Data Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 1.0.0
+status: active
+date: 2026-08-10
 tags: [database, video, schema, active]
-risk-level: "medium"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-040-database-authority]]"
 ---
 
 # ADR-076: Video Database Schema
@@ -22,37 +11,37 @@ references:
 
 ## 1. Executive Summary
 
-Video veritabanı, müzik videoları, oynatma geçmişi ve altyazıları yönetir.
+Video veritabanÄ±, mÃ¼zik videolarÄ±, oynatma geÃ§miÅŸi ve altyazÄ±larÄ± yÃ¶netir.
 
 ## 2. Tablolar
 
-| # | Tablo | Amaç |
+| # | Tablo | AmaÃ§ |
 |---|-------|------|
-| 1 | music_videos | Müzik videoları |
-| 2 | video_playback | Oynatma geçmişi |
-| 3 | video_subtitles | Altyazılar |
-| 4 | video_playlists | Video çalma listeleri |
+| 1 | music_videos | MÃ¼zik videolarÄ± |
+| 2 | video_playback | Oynatma geÃ§miÅŸi |
+| 3 | video_subtitles | AltyazÄ±lar |
+| 4 | video_playlists | Video Ã§alma listeleri |
 
 ## 3. Decision
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | BCNF normalization | ✅ Zorunlu |
-| 2 | Soft delete | ✅ Zorunlu |
-| 3 | Subtitle multi-language | ✅ Zorunlu |
+| 1 | BCNF normalization | âœ… Zorunlu |
+| 2 | Soft delete | âœ… Zorunlu |
+| 3 | Subtitle multi-language | âœ… Zorunlu |
 
 ---
 
 ## 4. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 1.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-076: Video Database Schema v1.0.0 — CoreMusic Database*
-*Authority: Data Engineer · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-076: Video Database Schema v1.0.0 â€” CoreMusic Database*
+*Authority: Data Engineer Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

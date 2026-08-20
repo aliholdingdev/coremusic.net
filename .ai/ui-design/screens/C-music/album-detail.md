@@ -32,41 +32,31 @@ references:
 │ [HEADER — ortak]                                                                                │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                                  │
-│  ← Album Detayları                                              [Şarkı Ara 🔍]              │
+│  ← Album Detayı                                                 [Şarkı Ara 🔍]              │
 │                                                                                                  │
-│  Albüm : Göksel - Hayat Rüya Gibi    /    Şarkı Adı              Süre    Favori Yıldızı       │
-│  ┌──────────────────────────────────────────────────────────────────────────────────────────┐   │
-│  │ [♪] Göksel - Sevil Neşelen                                    00:05:00  ★★★★★          │   │
-│  │ [♪] Göksel - Kabahat Senin                                    00:00:00  ★★★★★          │   │
-│  │ [♪] Göksel - Sevil Neşelen                                    00:00:00  ★★★★★          │   │
-│  │ [♪] Göksel - Sevil Neşelen                                    00:00:00  ★★★★☆          │   │
-│  │ [♪] Göksel - Sevil Neşelen  ← PEMBE vurgu (aktif satır)       00:00:00  ★★★★★          │   │
-│  │ [♪] Göksel - Sevil Neşelen                                    00:00:00  ★★★★★          │   │
-│  │ [♪] Göksel - Sevil Neşelen                                    00:00:00  ★★★★★          │   │
-│  └──────────────────────────────────────────────────────────────────────────────────────────┘   │
-│                                                                                                  │
-│  ┌─ Sol Panel (~70%) ──────────────────────┐  ┌─ Sağ Panel (~30%) ────────────────────────┐   │
-│  │                                          │  │  ┌────────────┐                            │   │
-│  │  C13 Track list                          │  │  │  圆形 300×300│  Hayat Rüya Gibi         │   │
-│  │  Satır: thumb(20×20) + title + duration  │  │  │ Album Art   │  Göksel                  │   │
-│  │        + stars (C12)                     │  │  └────────────┘                            │   │
-│  │                                          │  │                                            │   │
-│  │  Başlık: "Şarkı Adı" | "Süre" | "Favori"│  │  [Hemen Çal] (C04, pembe)                  │   │
-│  │  Tablo başlığı: sabit, sıralanabilir     │  │  [Karışık Çal] (C05, sınır)               │   │
-│  │                                          │  │  [...]                                     │   │
-│  │  Aktif satır: pembe arka plan            │  │                                            │   │
-│  │  background: rgba(255,79,216,0.15)       │  │  ── Metadata ──                           │   │
-│  │  border-left: 3px solid #ff4fd8          │  │  Kalite: 24 Bit / 48 kHz                 │   │
-│  │                                          │  │  Boyut: 3 GB                             │   │
-│  └──────────────────────────────────────────┘  │  İndirme: 2 | Parça: 11                  │   │
-│                                                  │  Tür: Arabesk | Yıl: Bilinmeyen         │   │
-│  ┌─ Sol Alt (album metadata) ──────────────┐  │  Dinlenme: 10 | Süre: 00:30:00           │   │
-│  │ [圆形 Album Art, küçük]                  │  │                                            │   │
-│  │ Hayat Rüya Gibi                          │  └────────────────────────────────────────────┘   │
-│  │ Göksel ★★★★★                             │                                                   │
-│  │ 350 Kbps (gizli)                         │                                                   │
-│  │ 2024 · 12 Şarkı · 00:30:00 · Pop        │                                                   │
-│  └──────────────────────────────────────────┘                                                   │
+│  ┌─ TRACK LIST (sol ~70%) ─────────────────────────────────────┐  ┌─ DETAIL (sağ ~30%) ──┐   │
+│  │                                                               │  │                       │   │
+│  │  Albüm : Göksel - Hayat Rüya Gibi / Şarkı Adı    Süre  ★    │  │  ┌──────────────┐     │   │
+│  │  ─────────────────────────────────────────────────────────── │  │  │  圆形 ~200×200│     │   │
+│  │  [□] Göksel - Sevil Neşelen              00:00:00  ★★★★★    │  │  │  Album Art    │     │   │
+│  │  [□] Göksel - Kabahat Senin              00:00:00  ★★★★★    │  │  └──────────────┘     │   │
+│  │  [□] Göksel - Sevil Neşelen              00:00:00  ★★★★★    │  │  Hayat Rüya Gibi      │   │
+│  │  [□] Göksel - Sevil Neşelen              00:00:00  ★★★★☆    │  │  Göksel               │   │
+│  │  [□] Göksel - Sevil Neşelen  ← PEMBE    00:00:00  ★★★★★    │  │                       │   │
+│  │  [□] Göksel - Sevil Neşelen              00:00:00  ★★★★★    │  │  [Hemen Çal] pembe    │   │
+│  │  [□] Göksel - Sevil Neşelen              00:00:00  ★★★★★    │  │  [Karışık Çal] sınır  │   │
+│  │                                                               │  │  [...]                 │   │
+│  │  Her satır: thumb(24×24) + title + süre + stars(C12)         │  │                       │   │
+│  │  Aktif satır: pembe bg + pembe border-left                   │  │  ── Metadata ──       │   │
+│  │                                                               │  │  Kalite: 24B/48kHz   │   │
+│  │  ┌─ Sol Alt (küçük album kartı) ───────┐                    │  │  Boyut: 3 GB         │   │
+│  │  │ [□ ~80×80]  Hayat Rüya Gibi         │                    │  │  İndirme: 2          │   │
+│  │  │              Göksel ★★★★★            │                    │  │  Parça: 11           │   │
+│  │  │              350 Kbps                │                    │  │  Tür: Arabesk        │   │
+│  │  │              2024·12 Şarkı·00:30:00  │                    │  │  Yıl: Bilinmeyen     │   │
+│  │  └──────────────────────────────────────┘                    │  │  Dinlenme: 10        │   │
+│  │                                                               │  │  Süre: 00:30:00      │   │
+│  └───────────────────────────────────────────────────────────────┘  └───────────────────────┘   │
 │                                                                                                  │
 │ [FOOTER — ortak]                                                                                │
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘
@@ -80,10 +70,8 @@ references:
 
 | Sütun | Genişlik | İçerik |
 |-------|----------|--------|
-| # | ~30px | Sıra numarası veya ♪ ikonu |
-| Şarkı Adı | ~%50 | Şarkı başlığı |
-| Albüm Adı | ~%20 | Albüm adı (opsiyonel) |
-| Sanatçı | ~%15 | Sanatçı adı |
+| Thumb | ~24×24px | Küçük album art karesi |
+| Şarkı Adı | ~%55 | Şarkı başlığı |
 | Süre | ~60px | 00:00:00 formatında |
 | Favori Yıldızı | ~100px | 5 yıldız (C12) |
 
@@ -95,16 +83,25 @@ references:
 | Padding | 8px 12px | `--space-2` `--space-3` |
 | Aktif bg | `rgba(255,79,216,0.15)` | — |
 | Aktif border-left | 3px solid `var(--theme-primary)` | — |
-| Thumb | 20×20px | — |
+| Thumb | 24×24px, kare, r:4px | — |
 | Title | 12px, 500 | `--text-sm` `--font-medium` |
 | Duration | 10px, 400 | `--text-xs` |
 | Stars | 20×20px per star | `--star-size` |
 
-### 2.3 — Aktif Satır
+### 2.3 — Tablo Başlığı
+
+| Özellik | Değer |
+|---------|-------|
+| Sol | "Albüm : Göksel - Hayat Rüya Gibi" (album bilgisi) |
+| Sağ | "Şarkı Adı" \| "Süre" \| "Favori Yıldızı" (sütun başlıkları) |
+| Ayırıcı | Ince çizgi (1px solid rgba(255,255,255,0.1)) |
+| Pozisyon | Sticky, scroll sırasında sabit |
+
+### 2.4 — Aktif Satır
 
 ```
 ┌═════════════════════════════════════════════════════════════════════════════════════════════┐
-│ [♪] Göksel - Sevil Neşelen  ← PEMBE VURGU        00:00:00  ★★★★★                       │
+│ [□] Göksel - Sevil Neşelen  ← PEMBE VURGU              00:00:00  ★★★★★                   │
 │  background: rgba(255,79,216,0.15)                                                          │
 │  border-left: 3px solid var(--theme-primary)                                                │
 │  text color: var(--theme-primary) (başlık için)                                             │
@@ -133,10 +130,10 @@ references:
 | Özellik | Değer |
 |---------|-------|
 | Genişlik | ~30% (~300px) |
-| Art boyutu | 300×300px,圆形 |
+| Art boyutu | ~200×200px, daire (border-radius: 50%) |
 | Başlık | 16px, 600 |
 | Alt başlık | 12px, 400, muted |
-| Butonlar | Hemen Çal (C04), Karışık Çal (C05), [...] |
+| Butonlar | Hemen Çal (C04, pembe), Karışık Çal (C05, sınır), [...] |
 | Metadata | 11px, 400, muted |
 
 ---
@@ -176,7 +173,7 @@ references:
 | Sağ panel (detail) | ~30%, 366px | `--detail-panel-w` |
 | Track satır yüksekliği | ~40px | — |
 | Star boyutu | 20×20px | — |
-| Detail panel sanat | 300×300px daire | `--album-art-size` |
+| Detail panel sanat | ~200×200px daire | `--album-art-size` |
 | Touch target | ≥48px | `--touch-min` |
 | Hover | YOK | — |
 | Font ölçeği | 1× | — |
@@ -289,7 +286,7 @@ references:
 
 .track-list__header {
   display: grid;
-  grid-template-columns: 40px 1fr 100px 80px 100px;
+  grid-template-columns: 24px 1fr 80px 100px;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-3);
   font-size: var(--text-sm);
@@ -303,7 +300,7 @@ references:
 
 .track-row {
   display: grid;
-  grid-template-columns: 40px 1fr 100px 80px 100px;
+  grid-template-columns: 24px 1fr 80px 100px;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-3);
   align-items: center;
@@ -394,7 +391,7 @@ references:
   
   .track-list__header,
   .track-row {
-    grid-template-columns: 40px 1fr 80px;
+    grid-template-columns: 24px 1fr 80px;
   }
   
   .track-row__album,
@@ -479,5 +476,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 *Album Detail Screen Spec v3.0.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-17*
+*Last Updated: 2026-08-19*
 *Mode: Red Team · Human Mode · Truth Mode*

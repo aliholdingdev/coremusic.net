@@ -22,8 +22,8 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 70px;
-    z-index: 100;                                         /* --z-sticky */
+    height: var(--header-h);
+    z-index: var(--z-sticky);
     /* background: linear-gradient(
         90deg,
         rgba(45, 26, 46, 0.95) 0%,

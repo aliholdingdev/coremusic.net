@@ -1,7 +1,7 @@
 ---
 title: CoreMusic — Register Step 2-3 Screen Specification (1024×600, Linux Embedded RPi5)
 date: 2026-08-11
-updated: 2026-08-11
+updated: 2026-08-19
 type: spec
 status: active
 version: 2.0.0
@@ -28,9 +28,11 @@ references:
 ```
 ┌── SAĞ PANEL (~22%) ─────────────────────────────────────┐
 │                                                            │
-│  [女神 ikonu]                                              │
+│  [Kadın ikonu — beyaz çizim]                               │
 │                                                            │
 │  Hesap Oluştur                                            │
+│  CoreMusic ailesine katıl,                                 │
+│  müziğin keyfini çıkar                                     │
 │                                                            │
 │  Şifre                                                     │
 │  ┌───────────────────────────────────┐                    │
@@ -41,13 +43,19 @@ references:
 │  │ (C06 input, type: password)       │                    │
 │  └───────────────────────────────────┘                    │
 │                                                            │
-│  [Devam Et] (C04, pembe)                                  │
+│  [Devam Et] (C04, pembe, full-width)                      │
 │                                                            │
-│  [🍎][G][f][💬][📷][🎵][🎤]                                │
-│  Hesabın yok mu?  Kayıt Ol                                │
+│  ── veya ──                                               │
+│  [🍎] [G] [f]  (Apple, Google, Facebook)                  │
+│  [💬] [📷] [🎵]  (WhatsApp, Instagram, TikTok)            │
+│  [🎵]  (Spotify)                                          │
+│  Her biri: C08, 52×52px, platform-specific renkler        │
+│                                                            │
+│  Hesabın var mı?  Giriş Yap                               │
 └──────────────────────────────────────────────────────────┘
 
 Adım 2/3: Şifre + Şifre Tekrar
+Sol alan: Aynı Select Gender arka planı (kadın fotoğrafı, pembe çiçekli manzara)
 ```
 
 ---
@@ -57,9 +65,11 @@ Adım 2/3: Şifre + Şifre Tekrar
 ```
 ┌── SAĞ PANEL (~22%) ─────────────────────────────────────┐
 │                                                            │
-│  [女神 ikonu]                                              │
+│  [Kadın ikonu — beyaz çizim]                               │
 │                                                            │
 │  Hesap Oluştur                                            │
+│  CoreMusic ailesine katıl,                                 │
+│  müziğin keyfini çıkar                                     │
 │                                                            │
 │  Telefon                                                    │
 │  ┌───────────────────────────────────┐                    │
@@ -71,11 +81,17 @@ Adım 2/3: Şifre + Şifre Tekrar
 │                                                            │
 │  [Kayıt Ol] (C04, pembe, full-width)                      │
 │                                                            │
-│  [🍎][G][f][💬][📷][🎵][🎤]                                │
-│  Hesabın yok mu?  Kayıt Ol                                │
+│  ── veya ──                                               │
+│  [🍎] [G] [f]  (Apple, Google, Facebook)                  │
+│  [💬] [📷] [🎵]  (WhatsApp, Instagram, TikTok)            │
+│  [🎵]  (Spotify)                                          │
+│  Her biri: C08, 52×52px, platform-specific renkler        │
+│                                                            │
+│  Hesabın var mı?  Giriş Yap                               │
 └──────────────────────────────────────────────────────────┘
 
 Adım 3/3: Telefon + KVKK onayı + Kayıt Ol
+Sol alan: Aynı Select Gender arka planı (kadın fotoğrafı, pembe çiçekli manzara)
 ```
 
 ---
@@ -544,7 +560,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ---
 
-*Register Step 2-3 Screen Spec v3.0.0 — CoreMusic UI Design System*
+*Register Step 2-3 Screen Spec v2.0.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-17*
+*Last Updated: 2026-08-19*
 *Mode: Red Team · Human Mode · Truth Mode*

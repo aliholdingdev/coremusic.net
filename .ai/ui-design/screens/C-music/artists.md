@@ -38,29 +38,27 @@ references:
 │                                                                                                  │
 │  [Tümü] [Pop] [Arabesk] [Dans] [Oyun Havası] [Damar] [Org] [Yabancı Pop] [Kpop/Kore] ...    │
 │                                                                                                  │
-│  ┌── CARD GRID (sol ~614px, %60) ──────────┐  ┌── DETAIL PANEL (sağ ~390px, %40) ────────┐  │
+│  ┌── CARD GRID (sol ~70%, %70) ───────────┐  ┌── DETAIL PANEL (sağ ~30%, %30) ────────┐  │
 │  │                                           │  │                                            │  │
 │  │  Dairesel kartlar (border-radius: 50%)   │  │  ┌──────────────────┐                     │  │
-│  │                                           │  │  │                  │                     │  │
-│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐   │  │  │    圆形 300×300   │                     │  │
-│  │  │  ○○○○○  │ │  ○○○○○  │ │  ○○○○○  │   │  │  │   Artist Photo   │  Sibel Can          │  │
-│  │  │  Sibel  │ │ Dilso'z │ │ Ankara- │   │  │  │    (r:50%)        │  Türkçe Pop         │  │
-│  │  │   Can   │ │         │ │  lı Ayşe│   │  │  │                  │  1044 Şarkı          │  │
-│  │  │ Türkçe  │ │ Türkçe  │ │ Oyun    │   │  │  └──────────────────┘                     │  │
-│  │  │  Pop    │ │  Pop    │ │ Havası  │   │  │                                            │  │
-│  │  │45 Şar.  │ │48 Şar.  │ │42 Şar.  │   │  │  ♫ 48  🎵 8  📅 1988                    │  │
-│  │  └─────────┘ └─────────┘ └─────────┘   │  │                                            │  │
-│  │                                           │  │  [bio metni — uzun açıklama]             │  │
-│  │  ┌─────────┐ ┌─────────┐                │  │  Sibel Can, Türk müziğinin en önemli      │  │
-│  │  │  ○○○○○  │ │  ○○○○○  │                │  │  isimlerinden biridir. 1988'den bu yana... │  │
-│  │  │ Ankara- │ │ Bergen  │                │  │                                            │  │
-│  │  │  lı Ya- │ │         │                │  │  [Hemen Çal] (C04, pembe)                  │  │
-│  │  │  semin  │ │ Arabesk │                │  │  [Karışık Çal] (C05, sınır)  [...]         │  │
-│  │  │42 Şar.  │ │45 Şar.  │                │  │                                            │  │
-│  │  └─────────┘ └─────────┘                │  └────────────────────────────────────────────┘  │
-│  │                                           │                                                   │
-│  │  Her kart: ~140×200px                    │                                                   │
-│  │    thumb: 140×140px,圆形, r:50%          │                                                   │
+│  │  5 sütun × 2 satır = 10 kart             │  │  │                  │                     │  │
+│  │                                           │  │  │    圆形 200×200   │                     │  │
+│  │  ┌──────┐┌──────┐┌──────┐┌──────┐┌──────┐│  │  │   Artist Photo   │  Sibel Can          │  │
+│  │  │ ○○○○ ││ ○○○○ ││ ○○○○ ││ ○○○○ ││ ○○○○ ││  │  │    (r:50%)        │  Türkçe Pop         │  │
+│  │  │Sibel ││Dilso'││Ankara││Ankara││Bergen││  │  └──────────────────┘                     │  │
+│  │  │ Can  ││  z   ││lı Ayş││lı Ya-││      ││  │                                            │  │
+│  │  │Türkç.││Türkç.││Oyun  ││semin ││Arabes││  │  ♫ 48  🎵 8  📅 1988                    │  │
+│  │  │ Pop  ││ Pop  ││Havası││      ││ k    ││  │                                            │  │
+│  │  │45 Şar││48 Şar││42 Şar││42 Şar││45 Şar││  │  [bio metni — uzun açıklama]             │  │
+│  │  └──────┘└──────┘└──────┘└──────┘└──────┘│  │  Sibel Can, Türk müziğinin en önemli      │  │
+│  │                                           │  │  isimlerinden biridir. 1988'den bu yana... │  │
+│  │  ┌──────┐┌──────┐┌──────┐┌──────┐┌──────┐│  │                                            │  │
+│  │  │ ○○○○ ││ ○○○○ ││ ○○○○ ││ ○○○○ ││ ○○○○ ││  │  [Hemen Çal] (C04, pembe)                  │  │
+│  │  │ ...  ││ ...  ││ ...  ││ ...  ││ ...  ││  │  [Karışık Çal] (C05, sınır)  [...]         │  │
+│  │  └──────┘└──────┘└──────┘└──────┘└──────┘│  │                                            │  │
+│  │                                           │  └────────────────────────────────────────────┘  │
+│  │  Her kart: ~120×170px                    │                                                   │
+│  │    thumb: 100×100px,圆形, r:50%          │                                                   │
 │  │    name: 12px, 600                       │                                                   │
 │  │    genre: 10px, 400, muted               │                                                   │
 │  │    count: 10px, 400, accent              │                                                   │
@@ -78,13 +76,12 @@ FARK: Kartlar DAİRESEL (border-radius: 50%), Albümler'de KARE
 
 | Alan | Değer |
 |------|-------|
-| Fotoğraf | 300×300px, dairesel (border-radius: 50%) |
+| Fotoğraf | ~200×200px, dairesel (border-radius: 50%) |
 | İsim | 16px, 600 |
 | Tür | 12px, 400, muted |
-| Şarkı sayısı | 12px, 400 |
 | İstatistikler | ♫ 48 (şarkı) 🎵 8 (album) 📅 1988 (yıl) |
 | Bio | ~3-4 satır, 11px, 400, muted |
-| Butonlar | Hemen Çal, Karışık Çal, [...] |
+| Butonlar | Hemen Çal (C04, pembe), Karışık Çal (C05, sınır), [...] |
 
 ---
 
@@ -131,13 +128,14 @@ FARK: Kartlar DAİRESEL (border-radius: 50%), Albümler'de KARE
 | Header | 60px | `--header-h` |
 | Footer | 90px | `--footer-h` |
 | İçerik | 450px | `--content-h` |
-| Sol panel (grid) | ~60% | — |
-| Sağ panel (detail) | ~40% | `--detail-panel-w` |
-| Kart boyutu | 140×200px (dairesel) | `--card-thumb-size` |
-| Grid sütun | 3 | — |
-| Grid gap | 8px | `--grid-gap` |
+| Sol panel (grid) | ~70% | — |
+| Sağ panel (detail) | ~30% | `--detail-panel-w` |
+| Kart boyutu | ~120×170px (dairesel) | `--card-thumb-size` |
+| Kart thumb | 100×100px daire | — |
+| Grid sütun | 5 | — |
+| Grid gap | 6px | `--grid-gap` |
 | Genre tab yüksekliği | 32px | `--tab-h` |
-| Detail panel sanat | 300×300px daire | `--album-art-size` |
+| Detail panel sanat | ~200×200px daire | `--album-art-size` |
 | Touch target | ≥48px | `--touch-min` |
 | Hover | YOK | — |
 | Font ölçeği | 1× | — |
@@ -249,7 +247,7 @@ FARK: Kartlar DAİRESEL (border-radius: 50%), Albümler'de KARE
 /* === ARTIST GRID === */
 .artists-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: var(--grid-gap);
   overflow-y: auto;
 }
@@ -274,8 +272,8 @@ FARK: Kartlar DAİRESEL (border-radius: 50%), Albümler'de KARE
 }
 
 .artist-card__thumb {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: var(--radius-full);
   overflow: hidden;
 }
@@ -335,13 +333,13 @@ FARK: Kartlar DAİRESEL (border-radius: 50%), Albümler'de KARE
 
 @media (min-width: 1024px) {
   .artists-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
   }
   
   .artist-card__thumb {
-    width: 160px;
-    height: 160px;
+    width: 100px;
+    height: 100px;
   }
 }
 
@@ -493,5 +491,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 *Artists Page Screen Spec v3.0.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-17*
+*Last Updated: 2026-08-19*
 *Mode: Red Team · Human Mode · Truth Mode*

@@ -12,7 +12,7 @@ governing-rules: Red Team · Human Mode · Truth Mode
 
 # Auth Architecture — Hybrid Session + JWT (RS256)
 
-**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[ADR-052-hybrid-auth-architecture]] · [[ADR-058-auth-subdomain-priority]] · [[ADR-087-master-implementation-plan]]
+**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[ADR-087-master-implementation-plan]]
 
 ## 1. Amaç
 
@@ -22,7 +22,7 @@ CoreMusic ekosisteminin kimlik doğrulama mimarisini tanımlar. **Hibrit Auth** 
 
 > **Tüm subdomain'ler (music, admin, api, media, home, pro, studio, car, download) zorunlu olarak auth.coremusic.net'i kullanır. Hiçbir subdomain bağımsız auth çalıştırmaz.**
 
-## 3. Hibrit Auth Mimarisi (ADR-052)
+## 3. Hibrit Auth Mimarisi
 
 CoreMusic ne sadece Session ne de sadece JWT kullanır. **Her ikisinin kombinasyonunu** kullanır:
 
@@ -215,7 +215,7 @@ $_SESSION = [
 | Key rotation | Eski key ile imzalanmış token'lar 24 saat daha geçerli |
 | Emergency | Anında key rotation yapılabilir |
 
-## 7. Subdomain Prioritesi (ADR-058)
+## 7. Subdomain Prioritesi
 
 ### 7.1 Faz 1 — Öncelikli (Şimdi)
 
@@ -312,7 +312,7 @@ if (APP_ENV === 'development' && isset($_GET['_bypass'])) {
 | `localStorage` for auth | Session-based auth |
 | `innerHTML` for auth forms | DOMParser + TrustedTypes |
 | Hardcoded secrets | `.env` / credential vault |
-| Custom JWT implementation | `lcobucci/jwt` (firebase/php-jkt yasaklı, ADR-059) |
+| Custom JWT implementation | `lcobucci/jwt` (firebase/php-jkt yasaklı) |
 | Custom password hasher | Argon2id (RFC 9106) |
 | `_csrf_token` | `csrf_token` |
 | HTTP (plain) | HTTPS (production) |
@@ -332,8 +332,6 @@ if (APP_ENV === 'development' && isset($_GET['_bypass'])) {
 
 | Dosya | Amaç |
 |-------|------|
-| [[ADR-052-hybrid-auth-architecture]] | Hibrit auth kararı |
-| [[ADR-058-auth-subdomain-priority]] | Auth subdomain öncelikleri |
 | [[ADR-043-auth-subdomain-consolidation]] | Auth konsolidasyonu |
 | [[ADR-011-session-management]] | Session yönetimi |
 | [[ADR-010-csrf-protection-strategy]] | CSRF koruması |
@@ -342,10 +340,8 @@ if (APP_ENV === 'development' && isset($_GET['_bypass'])) {
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 3 Hibrit Auth | [[ADR-052-hybrid-auth-architecture]] | Mimari karar |
-| § 7 Priorite | [[ADR-058-auth-subdomain-priority]] | Fazlama |
 | § 8 RBAC | [[architecture/l1-security/index]] | Güvenlik katmanı |
-| § 11 MFA | [[ADR-059-enterprise-auth-standards]] | MFA kararı |
+
 
 ## 17. Kalite Raporu
 
@@ -353,7 +349,7 @@ if (APP_ENV === 'development' && isset($_GET['_bypass'])) {
 |--------|-------|
 | **Versiyon** | 1.0.0 |
 | **Satır Sayısı** | ~300 |
-| **ADR Uyumlu** | ✅ 010, 011, 043, 052, 058, 059 |
+| **ADR Uyumlu** | ✅ 010, 011, 043 |
 | **Zero Hallucination** | ✅ |
 
 ---

@@ -452,7 +452,16 @@ reference:
 
 ---
 
-## 8. Quality Report
+## 8. İlgili Dosyalar
+
+| Dosya | Amaç |
+|-------|------|
+| [[ui-design/responsive-device-mode]] | Responsive Device Mode mimarisi kuralı |
+| [[architecture/l3-presentation/device-css]] | Device CSS detayları |
+
+---
+
+## 9. Quality Report
 
 | Metrik | Değer |
 |--------|-------|

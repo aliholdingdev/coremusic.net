@@ -56,6 +56,15 @@ if (!defined('CSRF_TOKEN_LENGTH')) {
     define('RATE_LIMIT_WINDOW', (int)$env('RATE_LIMIT_WINDOW', 60));
 }
 
+/* ─── Security (Pepper) ─── */
+if (!defined('APP_PEPPER')) {
+    $pepper = $env('APP_PEPPER', '');
+    if ($pepper === '') {
+        error_log('[Constants] WARNING: APP_PEPPER is empty — login will fail. Set APP_PEPPER in .env');
+    }
+    define('APP_PEPPER', $pepper);
+}
+
 /* ─── Mode Flags ─── */
 if (!defined('TEST_MODE')) {
     define('TEST_MODE', in_array(strtolower((string)$env('TEST_MODE', 'false')), ['true', '1', 'yes', 'on'], true));

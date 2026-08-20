@@ -1,25 +1,8 @@
----
-type: decision
-id: "043"
+﻿---
 title: "ADR-043: Auth Subdomain Consolidation"
-category: "security"
-status: "active"
-date: "2026-08-04"
-updated: "2026-08-15"
-authority: "Security Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-supersedes: null
-version: 2.0.0
+status: active
+date: 2026-08-04
 tags: [security, auth, subdomain, consolidation, central-auth, active]
-risk-level: "critical"
-owasp-top10: ["A01:2021", "A07:2021"]
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[AGENTS.md]]"
-  - "[[decisions/accepted/ADR-010-csrf-protection-strategy]]"
-  - "[[decisions/accepted/ADR-011-session-management]]"
-  - "[[architecture/l1-security]]"
 ---
 
 # ADR-043: Auth Subdomain Consolidation
@@ -28,38 +11,38 @@ references:
 
 ## 1. Executive Summary
 
-### 1.1 Kararın Özeti
+### 1.1 KararÄ±n Ã–zeti
 
-CoreMusic'te tüm kimlik doğrulama işlemleri **auth.coremusic.net** merkezi subdomain'i üzerinden yürütülür. Diğer tüm subdomain'ler (music, admin, home, car, studio, pro, media, download) kendi auth sistemini taşımaz, auth.coremusic.net'e güvenir. Session paylaşımı `.coremusic.net` domain'i üzerinden yapılır.
+CoreMusic'te tÃ¼m kimlik doÄŸrulama iÅŸlemleri **auth.coremusic.net** merkezi subdomain'i Ã¼zerinden yÃ¼rÃ¼tÃ¼lÃ¼r. DiÄŸer tÃ¼m subdomain'ler (music, admin, home, car, studio, pro, media, download) kendi auth sistemini taÅŸÄ±maz, auth.coremusic.net'e gÃ¼venir. Session paylaÅŸÄ±mÄ± `.coremusic.net` domain'i Ã¼zerinden yapÄ±lÄ±r.
 
-### 1.2 Temel Gerekçe
+### 1.2 Temel GerekÃ§e
 
-Dağınık auth sistemleri güvenlik açığı yaratır. Her subdomain'in kendi auth'unu yönetmesi:
-- Güvenlik tutarsızlığı
-- Session yönetimi karmaşıklığı
-- Bakım yükü artırır
-- CSRF korumasını zayıflatır
+DaÄŸÄ±nÄ±k auth sistemleri gÃ¼venlik aÃ§Ä±ÄŸÄ± yaratÄ±r. Her subdomain'in kendi auth'unu yÃ¶netmesi:
+- GÃ¼venlik tutarsÄ±zlÄ±ÄŸÄ±
+- Session yÃ¶netimi karmaÅŸÄ±klÄ±ÄŸÄ±
+- BakÄ±m yÃ¼kÃ¼ artÄ±rÄ±r
+- CSRF korumasÄ±nÄ± zayÄ±flatÄ±r
 
-Merkezi auth, tüm bu sorunları çözer.
+Merkezi auth, tÃ¼m bu sorunlarÄ± Ã§Ã¶zer.
 
-### 1.3 Beklenen Sonuçlar
+### 1.3 Beklenen SonuÃ§lar
 
-- Tek auth noktası: auth.coremusic.net
-- Cross-subdomain session paylaşımı
-- Tek CSRF token tüm subdomain'lerde geçerli
-- Merkezi RBAC yönetimi
-- Single sign-on (SSO) benzeri yapı
+- Tek auth noktasÄ±: auth.coremusic.net
+- Cross-subdomain session paylaÅŸÄ±mÄ±
+- Tek CSRF token tÃ¼m subdomain'lerde geÃ§erli
+- Merkezi RBAC yÃ¶netimi
+- Single sign-on (SSO) benzeri yapÄ±
 
 ---
 
 ## 2. Status
 
-| Alan | Değer |
+| Alan | DeÄŸer |
 |------|-------|
 | **Durum** | active |
 | **Versiyon** | 2.0.0 |
-| **Oluşturma Tarihi** | 2026-08-04 |
-| **Son Güncelleme** | 2026-08-15 |
+| **OluÅŸturma Tarihi** | 2026-08-04 |
+| **Son GÃ¼ncelleme** | 2026-08-15 |
 | **Otorite** | Security Engineer |
 | **Risk Seviyesi** | critical |
 
@@ -67,88 +50,88 @@ Merkezi auth, tüm bu sorunları çözer.
 
 ## 3. Context
 
-### 3.1 Problem Tanımı
+### 3.1 Problem TanÄ±mÄ±
 
-10+ subdomain'in her birinin kendi auth sistemini taşıması:
-- Güvenlik açığı yaratır (her biri ayrı attack surface)
-- Session yönetimi karmaşıktır
-- CSRF koruması zayıflar
-- Bakım maliyeti yüksektir
+10+ subdomain'in her birinin kendi auth sistemini taÅŸÄ±masÄ±:
+- GÃ¼venlik aÃ§Ä±ÄŸÄ± yaratÄ±r (her biri ayrÄ± attack surface)
+- Session yÃ¶netimi karmaÅŸÄ±ktÄ±r
+- CSRF korumasÄ± zayÄ±flar
+- BakÄ±m maliyeti yÃ¼ksektir
 
-### 3.2 Auth Akış Diyagramı
+### 3.2 Auth AkÄ±ÅŸ DiyagramÄ±
 
 ```
-┌──────────────┐     ┌──────────────────┐     ┌────────────────┐
-│ music.       │────►│ auth.coremusic.  │────►│ music.coremusic│
-│ coremusic.net│     │ net (auth)       │     │ .net (return)  │
-└──────────────┘     └──────────────────┘     └────────────────┘
-     │                      │                         │
-     │  redirect_uri        │  login/register         │
-     │  parameter           │  session creation       │
-     │                      │  auth_key generation    │
-     │                      │                         │
-     │◄─────────────────────│◄────────────────────────│
-     │                      │  auth_key (64-char hex) │
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”     â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚ music.       â”‚â”€â”€â”€â”€â–ºâ”‚ auth.coremusic.  â”‚â”€â”€â”€â”€â–ºâ”‚ music.coremusicâ”‚
+â”‚ coremusic.netâ”‚     â”‚ net (auth)       â”‚     â”‚ .net (return)  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜     â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+     â”‚                      â”‚                         â”‚
+     â”‚  redirect_uri        â”‚  login/register         â”‚
+     â”‚  parameter           â”‚  session creation       â”‚
+     â”‚                      â”‚  auth_key generation    â”‚
+     â”‚                      â”‚                         â”‚
+     â”‚â—„â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”‚â—„â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”‚
+     â”‚                      â”‚  auth_key (64-char hex) â”‚
 ```
 
-### 3.3 Session Paylaşımı
+### 3.3 Session PaylaÅŸÄ±mÄ±
 
-Cross-domain session transfer **auth_key + /validate-key cURL POST** ile yapılır. Her subdomain kendi session store'unu tutar, cookie domain `.coremusic.net` üzerinden paylaşılır.
+Cross-domain session transfer **auth_key + /validate-key cURL POST** ile yapÄ±lÄ±r. Her subdomain kendi session store'unu tutar, cookie domain `.coremusic.net` Ã¼zerinden paylaÅŸÄ±lÄ±r.
 
 ```
 auth.coremusic.net                    home.coremusic.net
-      │                                      │
-  [1] login() → auth_key (64-char hex)       │
-  [2] return {redirect: ".../?auth_key=X"}   │
-      │                                      │
-  [3] browser → auth.coremusic.net/?auth_key=X
-      │                                      │
-  [4] Root handler: auth_key validate        │
-      │  → SessionManager::setAuthUser()     │
-      │  → header('Location: /home')         │
-      │                                      │
-  VEYA (alternatif flow):                    │
-  [4] browser → home.coremusic.net/auth/callback?auth_key=X
-      │                                      │
-      │  [5] HomeAuthBridge::validateAndCreateSession()
-      │      → cURL POST → auth.coremusic.net/validate-key
-      │      → HomeSessionManager::setAuthUser()
-      │      → session_write_close()
-      │  [6] header('Location: /home')       │
-      │                                      │
-      └──────────────────────────────────────┘
+      â”‚                                      â”‚
+  [1] login() â†’ auth_key (64-char hex)       â”‚
+  [2] return {redirect: ".../?auth_key=X"}   â”‚
+      â”‚                                      â”‚
+  [3] browser â†’ auth.coremusic.net/?auth_key=X
+      â”‚                                      â”‚
+  [4] Root handler: auth_key validate        â”‚
+      â”‚  â†’ SessionManager::setAuthUser()     â”‚
+      â”‚  â†’ header('Location: /home')         â”‚
+      â”‚                                      â”‚
+  VEYA (alternatif flow):                    â”‚
+  [4] browser â†’ home.coremusic.net/auth/callback?auth_key=X
+      â”‚                                      â”‚
+      â”‚  [5] HomeAuthBridge::validateAndCreateSession()
+      â”‚      â†’ cURL POST â†’ auth.coremusic.net/validate-key
+      â”‚      â†’ HomeSessionManager::setAuthUser()
+      â”‚      â†’ session_write_close()
+      â”‚  [6] header('Location: /home')       â”‚
+      â”‚                                      â”‚
+      â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 
 Cookie Domain: .coremusic.net
-├── music.coremusic.net    ← Aynı cookie domain, ayrı session store
-├── admin.coremusic.net    ← Aynı cookie domain, ayrı session store
-├── home.coremusic.net     ← Aynı cookie domain, ayrı session store
-├── car.coremusic.net      ← Aynı cookie domain, ayrı session store
-├── studio.coremusic.net   ← Aynı cookie domain, ayrı session store
-├── pro.coremusic.net      ← Aynı cookie domain, ayrı session store
-├── media.coremusic.net    ← Aynı cookie domain, ayrı session store
-├── download.coremusic.net ← Aynı cookie domain, ayrı session store
-└── auth.coremusic.net     ← Auth merkezi
+â”œâ”€â”€ music.coremusic.net    â† AynÄ± cookie domain, ayrÄ± session store
+â”œâ”€â”€ admin.coremusic.net    â† AynÄ± cookie domain, ayrÄ± session store
+â”œâ”€â”€ home.coremusic.net     â† AynÄ± cookie domain, ayrÄ± session store
+â”œâ”€â”€ car.coremusic.net      â† AynÄ± cookie domain, ayrÄ± session store
+â”œâ”€â”€ studio.coremusic.net   â† AynÄ± cookie domain, ayrÄ± session store
+â”œâ”€â”€ pro.coremusic.net      â† AynÄ± cookie domain, ayrÄ± session store
+â”œâ”€â”€ media.coremusic.net    â† AynÄ± cookie domain, ayrÄ± session store
+â”œâ”€â”€ download.coremusic.net â† AynÄ± cookie domain, ayrÄ± session store
+â””â”€â”€ auth.coremusic.net     â† Auth merkezi
 ```
 
 ### 3.3.1 Auth Root Behavior
 
-`auth.coremusic.net` root URL'inde iki davranış vardır:
+`auth.coremusic.net` root URL'inde iki davranÄ±ÅŸ vardÄ±r:
 
-1. **`?auth_key=XXX` mevcutsa:** auth_key validate edilir → session oluşturulur → `/home`'e redirect
+1. **`?auth_key=XXX` mevcutsa:** auth_key validate edilir â†’ session oluÅŸturulur â†’ `/home`'e redirect
 2. **`?auth_key` yoksa:** `/select-gender?client_id=coremusic-web&response_type=session&redirect_uri=...` redirect
 
-### 3.4 İtici Güçler
+### 3.4 Ä°tici GÃ¼Ã§ler
 
-| # | Güç | Kritiklik |
+| # | GÃ¼Ã§ | Kritiklik |
 |---|-----|-----------|
-| 1 | Güvenlik tutarlılığı | Kritik |
-| 2 | Session yönetimi basitliği | Yüksek |
-| 3 | CSRF koruması gücü | Yüksek |
-| 4 | Bakım kolaylığı | Orta |
+| 1 | GÃ¼venlik tutarlÄ±lÄ±ÄŸÄ± | Kritik |
+| 2 | Session yÃ¶netimi basitliÄŸi | YÃ¼ksek |
+| 3 | CSRF korumasÄ± gÃ¼cÃ¼ | YÃ¼ksek |
+| 4 | BakÄ±m kolaylÄ±ÄŸÄ± | Orta |
 
-### 3.5 Teknik Kısıtlamalar
+### 3.5 Teknik KÄ±sÄ±tlamalar
 
-| Kısıtlama | Değer |
+| KÄ±sÄ±tlama | DeÄŸer |
 |-----------|-------|
 | Auth domain | auth.coremusic.net |
 | Cookie domain | .coremusic.net |
@@ -162,31 +145,31 @@ Cookie Domain: .coremusic.net
 
 ### 4.1 Karar Bildirimi
 
-**CoreMusic'te tüm auth işlemleri auth.coremusic.net üzerinden yürütülür. Diğer subdomain'ler auth.coremusic.net'e güvenir.**
+**CoreMusic'te tÃ¼m auth iÅŸlemleri auth.coremusic.net Ã¼zerinden yÃ¼rÃ¼tÃ¼lÃ¼r. DiÄŸer subdomain'ler auth.coremusic.net'e gÃ¼venir.**
 
 ### 4.2 Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Auth sadece auth.coremusic.net | ✅ Zorunlu |
-| 2 | Subdomain'lerde auth yok | ✅ Zorunlu |
-| 3 | Session .coremusic.net'de paylaşılır | ✅ Zorunlu |
-| 4 | RBAC merkezi yönetilir | ✅ Zorunlu |
-| 5 | CSRF token session-bound | ✅ Zorunlu |
+| 1 | Auth sadece auth.coremusic.net | âœ… Zorunlu |
+| 2 | Subdomain'lerde auth yok | âœ… Zorunlu |
+| 3 | Session .coremusic.net'de paylaÅŸÄ±lÄ±r | âœ… Zorunlu |
+| 4 | RBAC merkezi yÃ¶netilir | âœ… Zorunlu |
+| 5 | CSRF token session-bound | âœ… Zorunlu |
 
 ### 4.3 RBAC Roller
 
-| Rol | Seviye | Erişim |
+| Rol | Seviye | EriÅŸim |
 |-----|--------|--------|
-| **admin** | 1000-1999 | Tam sistem yönetimi |
+| **admin** | 1000-1999 | Tam sistem yÃ¶netimi |
 | **system** | 1900-1999 | Sistem servisleri |
-| **studio** | 800-899 | Stüdyo modu |
-| **premium** | 700-799 | Yüksek kalite |
-| **car** | 500-599 | Araç içi mod |
-| **regular** | 100-199 | Temel erişim |
+| **studio** | 800-899 | StÃ¼dyo modu |
+| **premium** | 700-799 | YÃ¼ksek kalite |
+| **car** | 500-599 | AraÃ§ iÃ§i mod |
+| **regular** | 100-199 | Temel eriÅŸim |
 | **guest** | 0 | Sadece genel |
 
-### 4.4 Kod Örnekleri
+### 4.4 Kod Ã–rnekleri
 
 #### 4.4.1 Cross-Subdomain Auth Client
 
@@ -201,7 +184,7 @@ namespace CoreMusic\Auth\Client;
  * Auth Client
  *
  * ADR-043 uyumlu cross-subdomain auth client.
- * auth.coremusic.net üzerinden auth işlemleri.
+ * auth.coremusic.net Ã¼zerinden auth iÅŸlemleri.
  */
 final class AuthClient
 {
@@ -228,7 +211,7 @@ final class AuthClient
     }
 
     /**
-     * Login sayfasına yönlendirir.
+     * Login sayfasÄ±na yÃ¶nlendirir.
      */
     public function redirectToLogin(string $returnUrl): string
     {
@@ -241,7 +224,7 @@ final class AuthClient
     }
 
     /**
-     * Logout işlemi yapar.
+     * Logout iÅŸlemi yapar.
      */
     public function logout(): void
     {
@@ -309,56 +292,56 @@ final class PermissionMiddleware implements MiddlewareInterface
 
     private function getRequiredRole(ServerRequestInterface $request): string
     {
-        // Route attribute'dan gerekli rolü oku
+        // Route attribute'dan gerekli rolÃ¼ oku
         return $request->getAttribute('required_role', 'regular');
     }
 }
 ```
 
-### 4.5 Konfigürasyon
+### 4.5 KonfigÃ¼rasyon
 
-| Dosya | Değer |
+| Dosya | DeÄŸer |
 |-------|-------|
 | `shared/config/auth.php` | auth.coremusic.net URL |
 | `shared/config/cookie.php` | `.coremusic.net` domain |
-| `shared/config/rbac.php` | Rol hiyerarşisi |
+| `shared/config/rbac.php` | Rol hiyerarÅŸisi |
 
 ---
 
 ## 5. Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     Auth Architecture                             │
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────────┐  │
-│  │  auth.coremusic.net (Merkezi Auth)                        │  │
-│  │                                                            │  │
-│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │  │
-│  │  │ Login        │  │ Register     │  │ Logout       │    │  │
-│  │  │ /login       │  │ /register    │  │ /logout      │    │  │
-│  │  └──────────────┘  └──────────────┘  └──────────────┘    │  │
-│  │                                                            │  │
-│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │  │
-│  │  │ Session      │  │ CSRF Token   │  │ RBAC         │    │  │
-│  │  │ Management   │  │ Management   │  │ Management   │    │  │
-│  │  └──────────────┘  └──────────────┘  └──────────────┘    │  │
-│  └────────────────────────────────────────────────────────────┘  │
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────────┐  │
-│  │  Subdomain Clients:                                        │  │
-│  │                                                            │  │
-│  │  music.coremusic.net  ──┐                                  │  │
-│  │  admin.coremusic.net  ──┤                                  │  │
-│  │  home.coremusic.net   ──┼──► auth.coremusic.net           │  │
-│  │  car.coremusic.net    ──┤    (Auth Merkezi)                │  │
-│  │  studio.coremusic.net ──┤                                  │  │
-│  │  pro.coremusic.net    ──┤                                  │  │
-│  │  media.coremusic.net  ──┤                                  │  │
-│  │  download.coremusic.net┘                                  │  │
-│  └────────────────────────────────────────────────────────────┘  │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                     Auth Architecture                             â”‚
+â”‚                                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  auth.coremusic.net (Merkezi Auth)                        â”‚  â”‚
+â”‚  â”‚                                                            â”‚  â”‚
+â”‚  â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    â”‚  â”‚
+â”‚  â”‚  â”‚ Login        â”‚  â”‚ Register     â”‚  â”‚ Logout       â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ /login       â”‚  â”‚ /register    â”‚  â”‚ /logout      â”‚    â”‚  â”‚
+â”‚  â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜    â”‚  â”‚
+â”‚  â”‚                                                            â”‚  â”‚
+â”‚  â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”    â”‚  â”‚
+â”‚  â”‚  â”‚ Session      â”‚  â”‚ CSRF Token   â”‚  â”‚ RBAC         â”‚    â”‚  â”‚
+â”‚  â”‚  â”‚ Management   â”‚  â”‚ Management   â”‚  â”‚ Management   â”‚    â”‚  â”‚
+â”‚  â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜    â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Subdomain Clients:                                        â”‚  â”‚
+â”‚  â”‚                                                            â”‚  â”‚
+â”‚  â”‚  music.coremusic.net  â”€â”€â”                                  â”‚  â”‚
+â”‚  â”‚  admin.coremusic.net  â”€â”€â”¤                                  â”‚  â”‚
+â”‚  â”‚  home.coremusic.net   â”€â”€â”¼â”€â”€â–º auth.coremusic.net           â”‚  â”‚
+â”‚  â”‚  car.coremusic.net    â”€â”€â”¤    (Auth Merkezi)                â”‚  â”‚
+â”‚  â”‚  studio.coremusic.net â”€â”€â”¤                                  â”‚  â”‚
+â”‚  â”‚  pro.coremusic.net    â”€â”€â”¤                                  â”‚  â”‚
+â”‚  â”‚  media.coremusic.net  â”€â”€â”¤                                  â”‚  â”‚
+â”‚  â”‚  download.coremusic.netâ”˜                                  â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                                  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -367,8 +350,8 @@ final class PermissionMiddleware implements MiddlewareInterface
 
 | Alternatif | Neden Reddedildi |
 |------------|------------------|
-| Her subdomain'de auth | Güvensiz, karmaşık |
-| Third-party auth (Firebase) | Harici bağımlılık |
+| Her subdomain'de auth | GÃ¼vensiz, karmaÅŸÄ±k |
+| Third-party auth (Firebase) | Harici baÄŸÄ±mlÄ±lÄ±k |
 | OAuth2 | Over-engineering |
 
 ---
@@ -376,14 +359,14 @@ final class PermissionMiddleware implements MiddlewareInterface
 ## 7. Consequences
 
 ### Olumlu
-- Güvenlik tutarlılığı
-- Tek auth noktası
-- Basit session yönetimi
-- CSRF koruması gücü
+- GÃ¼venlik tutarlÄ±lÄ±ÄŸÄ±
+- Tek auth noktasÄ±
+- Basit session yÃ¶netimi
+- CSRF korumasÄ± gÃ¼cÃ¼
 
 ### Olumsuz
 - Single point of failure
-- Auth domain bağımlılığı
+- Auth domain baÄŸÄ±mlÄ±lÄ±ÄŸÄ±
 
 ---
 
@@ -400,14 +383,14 @@ final class PermissionMiddleware implements MiddlewareInterface
 
 ## 9. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-043: Auth Subdomain Consolidation v2.0.0 — CoreMusic Security*
-*Authority: Security Engineer · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-043: Auth Subdomain Consolidation v2.0.0 â€” CoreMusic Security*
+*Authority: Security Engineer Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

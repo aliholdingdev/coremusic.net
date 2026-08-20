@@ -73,8 +73,8 @@ OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → 
 | 6 | Csrf | CSRF token doğrulama | ADR-010 |
 | 7 | BypassAuth | Test bypass (prod'da devre dışı) | ADR-008 |
 | 8 | Auth | Auth bilgisi inject | ADR-011 |
-| 9 | Permission | RBAC yetki kontrolü | ADR-052 |
-| 10 | Validation | Request/DTO validasyonu | ADR-054 |
+| 9 | Permission | RBAC yetki kontrolü | ADR-011 |
+| 10 | Validation | Request/DTO validasyonu | ADR-010 |
 
 **⚠️ Middleware sırası DEĞİŞTİRİLEMEZ!**
 

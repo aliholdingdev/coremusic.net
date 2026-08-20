@@ -165,7 +165,7 @@ CoreMusic mimarisi içinhard ve soft kısıtlamaları, coding standards'ları ve
 
 | Dosya | Amaç |
 |-------|------|
-| [[architecture/04-decisions/adr-index]] | ADR index |
+| [[decisions/index]] | ADR index |
 | [[architecture/04-decisions/adr-lifecycle]] | Lifecycle |
 | [[brain.md]] | ADR 001-050 |
 | [[CLAUDE.md]] | AI mandate |
@@ -178,7 +178,7 @@ CoreMusic mimarisi içinhard ve soft kısıtlamaları, coding standards'ları ve
 | § 3 Soft | [[brain.md]] §8 | Soft constraints |
 | § 4 Coding | [[architecture/03-contracts/roles/technology-roles]] | Tech stack |
 | § 5 Security | [[architecture/l1-security/index]] | Security layer |
-| § 6 Performance | [[architecture/01-overview/dependency-graph]] | Performance |
+| § 6 Performance | [[architecture/00-overview/dependency-graph]] | Performance |
 
 ## 10. Sözlük
 

@@ -348,6 +348,8 @@ CSS çıktısı şu sırayla olmalı:
 | [[ADR-045-multi-domain-view-mode-architecture]] | View mode mimarisi |
 | [[ADR-048-view-transition-api-integration]] | View Transition API |
 
+**Ayrıca bakınız:** [[ui-design/responsive-device-mode]] — Responsive Device Mode mimarisi kuralı
+
 ---
 
 ## 9. Checkpoint

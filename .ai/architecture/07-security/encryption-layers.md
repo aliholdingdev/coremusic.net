@@ -72,7 +72,7 @@ Encryption Layers, CoreMusic platformunun tüm katmanlardaki şifreleme mekanizm
 | Bağlantı | Protokol | ADR |
 |----------|----------|-----|
 | Web API | TLS 1.3 | [[ADR-022]] |
-| Servisler arası | mTLS | [[ADR-052]] |
+| Servisler arası | mTLS | [[ADR-022]] |
 | Device ↔ Cloud | TLS 1.3 | [[ADR-022]] |
 | WebSocket | WSS (TLS) | [[ADR-012]] |
 | MQTT | MQTTS (TLS) | — |

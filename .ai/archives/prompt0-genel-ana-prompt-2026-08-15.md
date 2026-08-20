@@ -1,45 +1,7 @@
 ---
 title: "CoreMusic — Prompt 0: Genel Ana Prompt"
 type: prompt
-category: general
 date: 2026-08-15
-updated: 2026-08-15
-status: active
-version: 2.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
-token_limit: 15000
-reference:
-  authority: ".ai/CLAUDE.md"
-  shared_base: ".ai/archives/prompt-shared-base.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-    - ".ai/keys.md"
-    - ".ai/MEMORY.md"
-  architecture:
-    - ".ai/ADR/"
-    - ".ai/architecture/"
-  adr:
-    - ".ai/decisions/accepted/ADR-039-7-service-platform-architecture.md"
-    - ".ai/decisions/accepted/ADR-040-database-authority.md"
-    - ".ai/decisions/accepted/ADR-042-vault-restructuring-2026-08-03.md"
-    - ".ai/decisions/accepted/ADR-043-auth-subdomain-consolidation.md"
-    - ".ai/decisions/accepted/ADR-085-modular-composer-packages.md"
-    - ".ai/decisions/accepted/ADR-087-master-implementation-plan.md"
-  prompts:
-    - ".ai/archives/prompt-shared-base.md"
-changelog:
-  - version: 2.0.0
-    date: 2026-08-15
-    changes:
-      - Tamamen yeniden yazım — SOLID, Clean Code, L0-L6 uyumlu
-      - ROLE tekrarı kaldırıldı (shared-base'den referans)
-      - Vault cross-reference eklendi
-      - 20 analiz görevi detaylandırıldı
 ---
 
 # CoreMusic — Prompt 0: Genel Ana Prompt

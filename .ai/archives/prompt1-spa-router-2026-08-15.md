@@ -1,49 +1,7 @@
 ---
 title: "CoreMusic — Prompt 1: SPA Router Mimarisi"
 type: prompt
-category: routing
 date: 2026-08-15
-updated: 2026-08-15
-status: active
-version: 2.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
-token_limit: 4000
-layers:
-  primary: L2-Routing
-  secondary: L3-Presentation
-reference:
-  authority: ".ai/CLAUDE.md"
-  shared_base: ".ai/archives/prompt-shared-base.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/brain.md"
-  architecture:
-    - ".ai/architecture/l2-routing/"
-    - ".ai/architecture/l3-presentation/"
-    - ".ai/architecture/l1-security/"
-  adr:
-    - ".ai/decisions/accepted/ADR-001-vanilla-js-itcss.md"
-    - ".ai/decisions/accepted/ADR-004-multi-domain-spa.md"
-    - ".ai/decisions/accepted/ADR-009-clean-url-redirect.md"
-    - ".ai/decisions/accepted/ADR-016-url-normalization.md"
-    - ".ai/decisions/accepted/ADR-021-spa-router-immutable-contract.md"
-    - ".ai/decisions/accepted/ADR-043-auth-subdomain-consolidation.md"
-    - ".ai/decisions/accepted/ADR-045-multi-domain-view-mode-architecture.md"
-    - ".ai/decisions/accepted/ADR-046-cross-view-state-preservation.md"
-    - ".ai/decisions/accepted/ADR-047-login-redirect-session-bridge.md"
-    - ".ai/decisions/accepted/ADR-048-view-transition-api-integration.md"
-    - ".ai/decisions/accepted/ADR-083-spa-router.md"
-  prompts:
-    - ".ai/archives/prompt-shared-base.md"
-changelog:
-  - version: 2.0.0
-    date: 2026-08-15
-    changes:
-      - Tamamen yeniden yazım — SOLID, Clean Code, L0-L6 uyumlu
-      - L2/L3 katman odaklı tasarım
-      - Vault cross-reference eklendi
 ---
 
 # CoreMusic — Prompt 1: SPA Router Mimarisi

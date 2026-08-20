@@ -243,6 +243,7 @@ if ($isAuthRoute) {
 | [[itcss-architecture]] | CSS mimarisi |
 | [[ADR-045-multi-domain-view-mode-architecture]] | View modes |
 | [[architecture/03-css-device-loading-plan]] | CSS loading planı |
+| [[ui-design/responsive-device-mode]] | Responsive Device Mode mimarisi kuralı |
 
 ---
 

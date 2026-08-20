@@ -67,7 +67,7 @@ Network Architecture, CoreMusic platformundaki tüm servisler arası iletişim p
 | Layer | Kullanım | ADR |
 |-------|----------|-----|
 | TLS 1.3 | Tüm HTTPS | [[ADR-022-database-hardened-security]] |
-| mTLS | Servisler arası | [[ADR-052-hybrid-auth-architecture]] |
+| mTLS | Servisler arası | [[ADR-022-database-hardened-security]] |
 | API Key | Third-party erişim | [[ADR-020-api-public-security]] |
 | Rate Limiting | Abuse önleme | [[ADR-013-rate-limiting-apcu]] |
 
@@ -80,7 +80,6 @@ Network Architecture, CoreMusic platformundaki tüm servisler arası iletişim p
 | [[ADR-020-api-public-security]] | API güvenlik |
 | [[ADR-022-database-hardened-security]] | Şifreleme |
 | [[ADR-032-ipc-contract-versioning]] | IPC sözleşme versiyonlama |
-| [[ADR-052-hybrid-auth-architecture]] | Hybrid auth |
 
 ---
 

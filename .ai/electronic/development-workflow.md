@@ -376,8 +376,6 @@ Optimizasyon → Dokümantasyon → Release → Monitoring → Bakım
 
 **Referanslar:**
 - [[architecture/l2-routing]]
-- [[ADR-053-enterprise-router-architecture]]
-- [[ADR-054-enterprise-composer-stack]]
 
 ---
 

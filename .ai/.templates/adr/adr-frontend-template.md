@@ -714,7 +714,7 @@ const policy = trustedTypes.createPolicy('default', {
 | [[architecture/l3-presentation]] | L3 Presentation katmanı |
 | [[ui-design/00-mockup-index]] | Mockup indeksi — 18 PNG (frontend görevlerinde ZORUNLU) |
 | [[ui-design/01-component-inventory]] | Bileşen envanteri — C01-C16 |
-| [[ui-design/reference/01-design-tokens]] | Design token'lar |
+| [[ui-design/tokens/design-tokens-master]] | Design token'lar |
 | [[ui-design/02-implementation-plan]] | CSS uygulama planı |
 | `.ai/.png/home-1024/` (12 PNG) + `.ai/.png/shared-1024/` (6 PNG) | Mockup görselleri — RPi5 1024×600 |
 

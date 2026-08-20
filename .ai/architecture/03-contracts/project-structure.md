@@ -12,7 +12,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Project Structure — Clean Architecture
 
-**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[ADR-051-platform-rewrite-from-scratch]] · [[ADR-087-master-implementation-plan]]
+**Zorunlu Bağlantılar:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[ADR-087-master-implementation-plan]]
 
 ## 1. Amaç
 
@@ -432,24 +432,24 @@ namespace CoreMusic\Api\Controller;
 
 | Dosya | Amaç |
 |-------|------|
-| [[architecture/01-overview/architecture_master]] | Ana mimari |
+| [[architecture/00-overview/architecture-master]] | Ana mimari |
 | [[architecture/l0-infrastructure/index]] | Infrastructure layer |
 | [[architecture/l1-security/index]] | Security layer |
 | [[architecture/l2-routing/index]] | Routing layer |
 | [[architecture/l3-presentation/index]] | Presentation layer |
 | [[ADR-001-vanilla-js-itcss]] | Vanilla JS kuralı |
 | [[ADR-002-pdo-mandatory-no-orm]] | PDO kuralı |
-| [[ADR-060-rpi5-embedded-auth]] | RPi5 embedded auth |
+
 
 ## 9. Çapraz Referanslar
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 2 Dizin | [[architecture/01-overview/architecture_master]] | Proje yapısı |
+| § 2 Dizin | [[architecture/00-overview/architecture-master]] | Proje yapısı |
 | § 3 Katman | [[architecture/l0-infrastructure/index]] | L0-L3 tanımları |
 | § 4 Akış | [[architecture/l1-security/index]] | Middleware pipeline |
 | § 5 Adlandırma | [[ADR-001-vanilla-js-itcss]] | Kod standartları |
-| § 3.3 Embedded | [[ADR-060-rpi5-embedded-auth]] | RPi5 auth |
+
 
 ## 10. Kalite Raporu
 
@@ -457,7 +457,7 @@ namespace CoreMusic\Api\Controller;
 |--------|-------|
 | **Versiyon** | 2.0.0 |
 | **Satır Sayısı** | ~450 |
-| **ADR Uyumlu** | ✅ 001, 002, 007, 042, 060 |
+| **ADR Uyumlu** | ✅ 001, 002, 007, 042 |
 | **Zero Hallucination** | ✅ |
 
 ---

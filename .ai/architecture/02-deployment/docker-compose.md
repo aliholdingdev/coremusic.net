@@ -425,7 +425,7 @@ services:
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § 2 Docker Compose | [[architecture/03-contracts/port-registry]] | Port eşleme |
-| § 6 Bağımlılıklar | [[architecture/01-overview/dependency-graph]] | Servis bağımlılıkları |
+| § 6 Bağımlılıklar | [[architecture/00-overview/dependency-graph]] | Servis bağımlılıkları |
 | § 8 Volumes | [[architecture/l0-infrastructure/index]] | Depolama |
 
 ## 13. Sözlük

@@ -18,7 +18,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 CoreMusic authentication sistemi, kullanıcı kimlik doğrulamasını ve rol bazlı erişim kontrolünü (RBAC) yönetir. Argon2id ile şifre hashleme, AES-256-GCM ile credential şifreleme, JWT tabanlı cross-service auth ve session bridge bu katmanda tanımlıdır.
 
-*Kaynak: [[ADR-008-bypass-auth-middleware]], [[ADR-022-database-hardened-security]], [[ADR-043-auth-subdomain-consolidation]], [[ADR-047-login-redirect-session-bridge]], [[ADR-052-hybrid-auth-architecture]], [[ADR-087-master-implementation-plan]]*
+*Kaynak: [[ADR-008-bypass-auth-middleware]], [[ADR-022-database-hardened-security]], [[ADR-043-auth-subdomain-consolidation]], [[ADR-087-master-implementation-plan]]*
 
 ## 2. Kapsam
 
@@ -46,7 +46,7 @@ CoreMusic authentication sistemi, kullanıcı kimlik doğrulamasını ve rol baz
 | **Password Hash** | Argon2id ile hashlenmiş şifre |
 | **Salt** | Hash'e eklenen rastgele değer |
 | **Timing-Safe** | Zamanlama tabanlı saldırıları engelleyen karşılaştırma |
-| **Session Bridge** | JWT ile session arasındaki köprü (ADR-047) |
+| **Session Bridge** | JWT ile session arasındaki köprü |
 
 ## 4. Login Akışı
 
@@ -102,13 +102,12 @@ namespace CoreMusic\Auth;
 use CoreMusic\Session\SessionManager;
 
 /**
- * Login handler — ADR-043 + ADR-047 compliant.
+ * Login handler — ADR-043 compliant.
  *
  * auth.coremusic.net üzerinde çalışır.
  * JWT tabanlı cross-service auth üretir.
  *
  * @see [[ADR-043-auth-subdomain-consolidation]]
- * @see [[ADR-047-login-redirect-session-bridge]]
  * @see [[ADR-022-database-hardened-security]]
  */
 class LoginHandler
@@ -165,7 +164,7 @@ class LoginHandler
         $_SESSION['login_time'] = time();
         $_SESSION['last_activity'] = time();
 
-        // 6. JWT token üret (cross-service — ADR-047)
+        // 6. JWT token üret (cross-service)
         $jwtToken = JwtService::generateToken([
             'user_id' => $user['id'],
             'role' => $user['role'],
@@ -520,14 +519,14 @@ class CredentialEncryption
 }
 ```
 
-## 8. Cross-Service Auth (JWT + Session Bridge — ADR-047)
+## 8. Cross-Service Auth (JWT + Session Bridge)
 
 ### 8.0 Zorunlu Merkezi Auth Kuralı
 
 **Hiçbir subdomain kendi başına bağımsız bir kimlik doğrulama sistemi çalıştırmaz.**
 Tüm authentication işlemleri **yalnızca auth.coremusic.net** üzerinden yürütülür.
 
-*Kaynak: [[ADR-043-auth-subdomain-consolidation]], [[ADR-058-cross-subdomain-auth-flow]]*
+*Kaynak: [[ADR-043-auth-subdomain-consolidation]]*
 
 ### 8.1 Auth Servisi Mimarisi
 
@@ -566,7 +565,7 @@ Tüm authentication işlemleri **yalnızca auth.coremusic.net** üzerinden yür�
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-*Kaynak: [[ADR-043-auth-subdomain-consolidation]], [[ADR-047-login-redirect-session-bridge]]*
+*Kaynak: [[ADR-043-auth-subdomain-consolidation]]*
 
 ### 8.2 JWT Token Üretimi (auth.coremusic.net)
 
@@ -580,10 +579,7 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 /**
- * JWT Service — ADR-047 + ADR-052 compliant.
- * RS256 tabanlı cross-service auth token üretimi ve doğrulaması.
- *
- * @see [[ADR-052-hybrid-auth-architecture]]
+ * JWT Service — RS256 cross-service auth token üretimi ve doğrulaması.
  */
 class JwtService
 {
@@ -673,11 +669,9 @@ namespace CoreMusic\Auth;
 
 /**
  * Auth service — JWT tabanlı cross-service authentication.
- * ADR-047 + ADR-052 compliant — API çağrısı yok, yerel doğrulama.
+ * API çağrısı yok, yerel doğrulama.
  *
  * @see [[ADR-043-auth-subdomain-consolidation]]
- * @see [[ADR-047-login-redirect-session-bridge]]
- * @see [[ADR-052-hybrid-auth-architecture]]
  */
 class AuthService
 {
@@ -811,7 +805,7 @@ class AuthService
 | **Refresh Token** | 7 gün | RS256 | Token yenileme |
 | **Key Rotation** | 90 gün | RS256 | Anahtar rotasyonu |
 
-*Kaynak: [[ADR-052-hybrid-auth-architecture]]*
+
 
 ## 9.2 Token Blacklist
 
@@ -832,7 +826,7 @@ Redis/APCu
 
 ## 10. Multi-Factor Authentication (MFA)
 
-**Kaynak:** [[ADR-059-enterprise-auth-standards]]
+
 
 ### 10.1 MFA Teknolojisi
 
@@ -894,7 +888,7 @@ Redis/APCu
 
 ## 11. Device Binding
 
-**Kaynak:** [[ADR-060-rpi5-embedded-auth]]
+
 
 | Özellik | Değer |
 |---------|-------|
@@ -939,9 +933,9 @@ $fingerprint = hash('sha256',
 | **Auth service down** | Servis çökmesi | Fallback → local JWT validation | ADR-043 |
 | **CSRF login** | Login formu CSRF | CSRF token zorunlu | ADR-010 |
 | **Credential leak** | DB sızıntısı | Argon2id + AES-256-GCM | ADR-022 |
-| **JWT token expired** | Token süresi doldu | Redirect → auth.coremusic.net/login | ADR-047 |
-| **JWT signature invalid** | Token manipülasyonu | Red → auth.coremusic.net/login | ADR-047 |
-| **JWT secret compromise** | Anahtar sızıntısı | RS256 key rotasyonu + tüm token'ları iptal | ADR-047/052 |
+| **JWT token expired** | Token süresi doldu | Redirect → auth.coremusic.net/login | ADR-043 |
+| **JWT signature invalid** | Token manipülasyonu | Red → auth.coremusic.net/login | ADR-043 |
+| **JWT secret compromise** | Anahtar sızıntısı | RS256 key rotasyonu + tüm token'ları iptal | ADR-043 |
 
 ## 12. Hard Guardrails
 
@@ -974,8 +968,6 @@ $fingerprint = hash('sha256',
 | [[ADR-008-bypass-auth-middleware]] | BypassAuth karar dokümanı |
 | [[ADR-022-database-hardened-security]] | Encryption karar dokümanı |
 | [[ADR-043-auth-subdomain-consolidation]] | Auth domain karar dokümanı |
-| [[ADR-047-login-redirect-session-bridge]] | JWT session bridge |
-| [[ADR-052-hybrid-auth-architecture]] | Hybrid auth (RS256) |
 | [[ADR-011-session-management]] | Session karar dokümanı |
 
 ## 14. Çapraz Referanslar
@@ -983,8 +975,6 @@ $fingerprint = hash('sha256',
 | Bu Dosyadan | Hedef | İlişki |
 |-------------|-------|--------|
 | § Login | [[ADR-043-auth-subdomain-consolidation]] | Auth domain |
-| § JWT | [[ADR-047-login-redirect-session-bridge]] | JWT session bridge |
-| § JWT RS256 | [[ADR-052-hybrid-auth-architecture]] | Asimetrik imza |
 | § Argon2id | [[ADR-022-database-hardened-security]] | Hash parametreleri |
 | § AES-256-GCM | [[ADR-022-database-hardened-security]] | Şifreleme |
 | § RBAC | [[ADR-022-database-hardened-security]] | Erişim kontrolü |
@@ -1018,7 +1008,7 @@ $fingerprint = hash('sha256',
 | **Satır Sayısı** | 600+ |
 | **Frontmatter** | ✅ |
 | **Bölüm Sayısı** | 16 |
-| **ADR Uyumlu** | ✅ 008, 011, 013, 022, 043, 047, 052 |
+| **ADR Uyumlu** | ✅ 008, 011, 013, 022, 043 |
 | **Zero Hallucination** | ✅ |
 
 ---

@@ -2,57 +2,256 @@
  * CoreMusic — Layout Token'ları
  * Header, footer, sidebar boyutları ve layout sabitleri
  * ITCSS Layer: 01_Abstracts
- * Version: 1.0.0 — 2026-08-05
+ * Version: 2.0.0 — 2026-08-18
  *
- * NOT: Mevcut --header-height ve --footer-height token'ları
- *      a-semantic-token.css'te tanımlıdır. Bu dosya cihaz bazlı
- *      varyantları ekler.
+ * Responsive token sistemi:
+ *   :root = 1024px (RPi5 embedded — ana hedef cihaz, PNG mockup ölçümü)
+ *   @media queries = tablet, mobile, desktop, 4K TV
+ *   Device files (08_Devices/) = sadece behavioral overrides (hover, touch, scrollbar)
+ *
+ * Mockup ölçülerinden çıkarıldı:
+ *   Header: 60px, Footer: 90px, Content: 450px (y:60–510)
+ *   Split: Sol %42 / Sağ %58
+ *   Card grid: 3 sütun, 140×140px kartlar
+ *   Touch: ≥48px, hover YOK
+ *   Glass: blur(20px) saturate(180%)
  */
 
+/* ============================================================
+   DEFAULT TOKENS — RPi5 1024×600 (Mockup Reference)
+   Tüm component'ler bu default'lardan başlar.
+   Media query'ler diğer cihazlar için override eder.
+   ============================================================ */
 :root {
-  /* ============================================================
-     HEADER HEIGHT
-     ============================================================ */
-  --header-h:              70px;    /* Desktop varsayılan */
-  --header-h-compact:      60px;    /* ≤1024 (embedded/laptop) */
-  --header-h-4k:           80px;    /* 2560+ (4K TV) */
-  --header-h-4k-monitor:   90px;    /* 3840+ (4K Monitor) */
+  /* --- Ekran --- */
+  --screen-w: 1024px;
+  --screen-h: 600px;
 
-  /* ============================================================
-     FOOTER HEIGHT (Player)
-     ============================================================ */
-  --footer-h:              138px;   /* Desktop varsayılan */
-  --footer-h-compact:      90px;    /* ≤1024 (embedded/laptop) — PNG mockup ölçümü */
-  --footer-h-mobile:       80px;    /* ≤767 (mobil fallback) */
+  /* --- Header: 60px (PNG mockup ölçümü) --- */
+  --header-h: 60px;
+  --header-h-compact: 60px;    /* backward compat */
+  --header-h-4k: 80px;        /* backward compat */
+  --header-h-4k-monitor: 90px; /* backward compat */
 
-  /* ============================================================
-     SIDEBAR WIDTH
-     ============================================================ */
-  --sidebar-w:             280px;   /* Desktop varsayılan */
-  --sidebar-w-compact:     240px;   /* Laptop */
-  --sidebar-w-collapsed:   64px;    /* collapsed state */
+  /* --- Footer: 90px (PNG mockup ölçümü — CSS'teki 104px DEĞİL) --- */
+  --footer-h: 90px;
+  --footer-h-compact: 90px;   /* backward compat */
+  --footer-h-mobile: 72px;    /* backward compat */
 
-  /* ============================================================
-     CONTENT AREA
-     ============================================================ */
-  --content-max-w:         1440px;  /* Maksimum içerik genişliği */
-  --content-padding:       2rem;    /* Varsayılan padding */
-  --content-padding-compact: 1rem;  /* ≤1024 padding */
+  /* --- İçerik: y:60–510 = 450px --- */
+  --content-h: 450px;
+  --content-padding-top: 11px;
+  --content-padding-bottom: 15px;
+  --content-max-w: 1440px;
+  --page-padding-x: 16px;
+  --content-padding: 1rem;
+  --content-padding-compact: 1rem;
 
-  /* ============================================================
-     TOUCH TARGETS (WCAG 2.2 — Minimum 44x44px)
-     ============================================================ */
-  --touch-min:             44px;    /* WCAG minimum */
-  --touch-recommended:     48px;    /* Önerilen */
-  --touch-large:           56px;    /* Büyük butonlar (10ft UI) */
+  /* --- Sidebar: sadece Göz At sayfasında, 167px --- */
+  --sidebar-w: 167px;
+  --sidebar-w-compact: 167px;
+  --sidebar-w-collapsed: 64px;
 
-  /* ============================================================
-     Z-INDEX LAYERS
-     ============================================================ */
-  --z-sidebar:             50;
-  --z-header:              100;     /* --z-sticky */
-  --z-footer:              100;
-  --z-dropdown:            200;
-  --z-modal:               300;
-  --z-toast:               400;
+  /* --- Detail panel: 366px --- */
+  --detail-panel-w: 366px;
+
+  /* --- Kart boyutları (PNG ölçümü) --- */
+  --card-thumb-size: 140px;
+  --album-art-size: 300px;
+  --player-art-size: 120px;
+  --mini-card-art-size: 50px;
+  --widget-h: 100px;
+
+  /* --- Touch targets (WCAG 2.2 — RPi5 için büyük) --- */
+  --touch-min: 48px;
+  --touch-recommended: 56px;
+  --touch-large: 56px;
+
+  /* --- Spacing --- */
+  --grid-gap: 8px;
+  --grid-gap-lg: 16px;
+  --section-gap: 16px;
+  --card-padding: 12px;
+
+  /* --- Font scale: 1× (RPi5) --- */
+  --text-xs: 10px;
+  --text-sm: 11px;
+  --text-base: 12px;
+  --text-lg: 14px;
+  --text-xl: 16px;
+
+  /* --- Glass --- */
+  --glass-blur: blur(20px);
+  --glass-saturate: saturate(180%);
+
+  /* --- Hover: YOK (dokunmatik cihaz) --- */
+  --hover-display: none;
+
+  /* --- Z-Index --- */
+  --z-sidebar: 50;
+  --z-header: 100;
+  --z-footer: 100;
+  --z-dropdown: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+}
+
+/* ============================================================
+   TABLET — 768-1024px (Touch-first, sidebar hidden)
+   iPad, Android tablet, stylus optional
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  :root {
+    --header-h: 60px;
+    --footer-h: 90px;
+    --sidebar-w: 0px;
+    --touch-min: 48px;
+    --touch-recommended: 56px;
+    --text-base: 14px;
+  }
+}
+
+/* ============================================================
+   MOBILE — ≤767px (Compact, no glass, bottom sheet sidebar)
+   iPhone, Android phone, PWA
+   ============================================================ */
+@media (max-width: 767px) {
+  :root {
+    --screen-w: 375px;
+    --screen-h: 812px;
+
+    --header-h: 56px;
+    --footer-h: 72px;
+    --content-h: 684px;
+    --content-padding-top: 8px;
+    --content-padding-bottom: 12px;
+    --page-padding-x: 16px;
+
+    --sidebar-w: 0px;
+    --detail-panel-w: 100%;
+
+    --card-thumb-size: 120px;
+    --album-art-size: 280px;
+    --player-art-size: 100px;
+    --mini-card-art-size: 48px;
+    --widget-h: 80px;
+
+    --touch-min: 48px;
+    --touch-recommended: 56px;
+
+    --grid-gap: 8px;
+    --grid-gap-lg: 12px;
+    --section-gap: 16px;
+    --card-padding: 12px;
+
+    --text-xs: 10px;
+    --text-sm: 11px;
+    --text-base: 12px;
+    --text-lg: 14px;
+    --text-xl: 16px;
+
+    /* Glass yok — performans için */
+    --glass-blur: none;
+    --glass-saturate: none;
+
+    --hover-display: none;
+  }
+}
+
+/* ============================================================
+   DESKTOP / WIDE — ≥1920px (Mouse + Keyboard, hover aktif)
+   PC, Laptop, 1920×1080+
+   ============================================================ */
+@media (min-width: 1920px) {
+  :root {
+    --screen-w: 1920px;
+    --screen-h: 1080px;
+
+    --header-h: 70px;
+    --footer-h: 104px;
+    --content-h: 906px;
+    --content-padding-top: 14px;
+    --content-padding-bottom: 20px;
+    --page-padding-x: 24px;
+
+    --sidebar-w: 280px;
+    --sidebar-w-compact: 280px;
+    --detail-panel-w: 480px;
+
+    --card-thumb-size: 180px;
+    --album-art-size: 400px;
+    --player-art-size: 140px;
+    --mini-card-art-size: 60px;
+    --widget-h: 140px;
+
+    --touch-min: 44px;
+    --touch-recommended: 48px;
+    --touch-large: 56px;
+
+    --grid-gap: 12px;
+    --grid-gap-lg: 20px;
+    --section-gap: 24px;
+    --card-padding: 16px;
+
+    --text-xs: 12px;
+    --text-sm: 13px;
+    --text-base: 14px;
+    --text-lg: 16px;
+    --text-xl: 18px;
+
+    --glass-blur: blur(20px);
+    --glass-saturate: saturate(180%);
+
+    /* Hover aktif — fare tabanlı */
+    --hover-display: block;
+  }
+}
+
+/* ============================================================
+   4K TV — ≥3840px (D-pad, focus-only, 10ft UI, 30px overscan)
+   Samsung Tizen, LG webOS, Android TV
+   ============================================================ */
+@media (min-width: 3840px) {
+  :root {
+    --screen-w: 3840px;
+    --screen-h: 2160px;
+
+    --header-h: 90px;
+    --footer-h: 138px;
+    --content-h: 1932px;
+    --content-padding-top: 18px;
+    --content-padding-bottom: 24px;
+    --page-padding-x: 32px;
+
+    --sidebar-w: 320px;
+    --detail-panel-w: 640px;
+
+    --card-thumb-size: 280px;
+    --album-art-size: 600px;
+    --player-art-size: 180px;
+    --mini-card-art-size: 80px;
+    --widget-h: 200px;
+
+    --touch-min: 60px;
+    --touch-recommended: 64px;
+    --touch-large: 72px;
+
+    --grid-gap: 16px;
+    --grid-gap-lg: 24px;
+    --section-gap: 32px;
+    --card-padding: 20px;
+
+    --text-xs: 16px;
+    --text-sm: 18px;
+    --text-base: 20px;
+    --text-lg: 24px;
+    --text-xl: 28px;
+
+    /* Düşük blur — TV performansı */
+    --glass-blur: blur(4px);
+    --glass-saturate: none;
+
+    /* Hover YOK — D-pad/focus ile navigasyon */
+    --hover-display: none;
+  }
 }

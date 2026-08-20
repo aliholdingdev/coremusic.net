@@ -50,18 +50,7 @@ CoreMusic'in 7 backend servisinin tam entegrasyon haritası, servisler arası il
 
 ## 3. Port Haritası
 
-| Port | Servis | Protokol | Erişim |
-|------|--------|----------|--------|
-| 80 | admin.coremusic.net | HTTP | Public |
-| 81 | music.coremusic.net (Control Service) | HTTP | Public |
-| 3001 | download.coremusic.net | HTTP/WS | Public |
-| 3306 | MySQL 9 (18 BCNF DB) | TCP | Internal |
-| 5000 | Media Service (HTTP) | HTTP | Internal |
-| 6000 | Media Service (WebSocket) | WS | Internal |
-| 9741 | Audio Service (REST) | HTTP | Internal |
-| 9742 | Audio Service (WebSocket) | WS | Internal |
-
-*Kaynak: [[architecture/00-overview/architecture-master]] §6*
+> Detay: [[ecosystem/network-architecture]] §3
 
 ---
 
@@ -117,15 +106,7 @@ Network Audio ──→ Audio Service (9742)
 
 ## 5. İletişim Protokolleri
 
-| Protokol | Kullanım | Port | Servisler |
-|----------|----------|------|-----------|
-| **HTTP REST** | Senkron API çağrıları | 81, 3001, 5000, 9741 | Tüm servisler |
-| **WebSocket** | Gerçek zamanlı güncelleme | 6000, 9742, 3001 | Media, Audio, Download |
-| **Shared Memory** | Yüksek performanslı veri paylaşımı | — | Audio ↔ Device |
-| **gRPC** | Yüksek performanslı IPC (gelecek) | 9001-9003 | Servisler arası |
-| **WebRTC** | P2P ses akışı | 49152-65535 | Network Audio |
-
-*Detay: [[ecosystem/service-communication]]*
+> Detay: [[ecosystem/service-communication]] §2
 
 ---
 
@@ -139,14 +120,7 @@ Service A → Event Bus (PSR-14) → Service B, C, D
 
 ### 6.1 Event Türleri
 
-| Event | Yayınlayan | Tüketen | Kullanım |
-|-------|-----------|---------|----------|
-| `UserAuthenticated` | Control | Media, AI | Kullanıcı girişi |
-| `TrackDownloaded` | Download | Media, AI | İndirme tamamlandı |
-| `PlaybackStarted` | Audio | AI, Device | Oynatma başladı |
-| `DeviceConnected` | Device | Audio, Network | Cihaz bağlandı |
-| `EQPresetChanged` | Audio | Device | EQ ayarı değişti |
-| `LibrarySynced` | Media | AI | Kütüphane güncellendi |
+> Detay: [[ecosystem/service-communication]] §5 ve [[ecosystem/state-machines]] §7
 
 ---
 
@@ -230,25 +204,7 @@ Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → Session
 
 ## 11. Servis Başlatma Sırası
 
-```
-1. MySQL (coremusic_auth DB zorunlu)
-   ↓
-2. Control Service (81) — auth temeli
-   ↓
-3. Media Service (5000) — medya altyapısı
-   ↓
-4. Audio Service (9741) — ses motoru
-   ↓
-5. Download Service (3001) — indirme
-   ↓
-6. AI Service — öneri (bağımsız)
-   ↓
-7. Device Service — donanım (son)
-   ↓
-8. Network Audio — multi-room (son)
-```
-
-*Detay: [[ecosystem/service-health-check]]*
+> Detay: [[ecosystem/service-health-check]] §5
 
 ---
 
@@ -270,16 +226,7 @@ Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → Session
 
 ## 13. Güvenlik Katmanları
 
-| Katman | Mekanizma | ADR |
-|--------|-----------|-----|
-| **Transport** | TLS 1.3 (HTTPS) | ADR-022 |
-| **Authentication** | Hybrid JWT + Session | ADR-011 |
-| **Authorization** | RBAC (7 rol) | ADR-052 |
-| **CSRF** | csrf_token (session-bound) | ADR-010 |
-| **CSP** | nonce + strict-dynamic | ADR-012 |
-| **Rate Limit** | APCu 60 req/60s | ADR-013 |
-| **Encryption** | AES-256-GCM (credential vault) | ADR-034 |
-| **Password** | Argon2id (64MB/4/2) | ADR-022 |
+> Detay: [[ecosystem/network-architecture]] §5
 
 ---
 
@@ -334,7 +281,7 @@ Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → Session
 | [[ecosystem/panel-integration]] | 10-panel entegrasyonu | ADR-084 |
 | [[ecosystem/error-recovery]] | Hata kurtarma stratejileri | — |
 | [[ecosystem/state-machines]] | State machine'ler | — |
-| [[architecture/03-services]] | Servis detayları | ADR-039 |
+| [[architecture/06-audio]] | Servis detayları | ADR-039 |
 | [[architecture/06-audio]] | Audio servis detayı | ADR-017 |
 | [[architecture/03-contracts/api-architecture-master]] | API mimarisi | ADR-084 |
 

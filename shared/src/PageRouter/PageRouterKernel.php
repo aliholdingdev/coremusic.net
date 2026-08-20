@@ -105,6 +105,17 @@ final class PageRouterKernel
                 function (array $req) use ($isSpa, $protectedRoutes): array {
                     // CSRF token'ı session'dan al
                     $csrfToken = $req['_session']['csrf_token'] ?? $_SESSION['csrf_token'] ?? '';
+
+                    // Route meta'sını request'e enjekte et (PermissionMiddleware için)
+                    $uri = trim($req['uri'] ?? '', '/');
+                    $route = $this->registry->resolve($uri);
+                    if ($route !== null) {
+                        $req['_route_meta'] = [
+                            'requiredRole'       => $route->requiredRole,
+                            'requiredPermission' => $route->requiredPermission,
+                        ];
+                    }
+
                     $result = $this->router->dispatch($req, $csrfToken, $isSpa);
                     if (!$isSpa) {
                         return $this->wrapInHtmlShell($result, $protectedRoutes, $req);

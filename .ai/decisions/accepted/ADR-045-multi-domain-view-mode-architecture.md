@@ -1,20 +1,8 @@
----
-type: decision
-id: "045"
+﻿---
 title: "ADR-045: Multi-Domain View Mode Architecture"
-category: "frontend"
-status: "active"
-date: "2026-08-08"
-updated: "2026-08-15"
-authority: "UI Designer"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: active
+date: 2026-08-08
 tags: [frontend, view-mode, multi-domain, active]
-risk-level: "medium"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-004-multi-domain-spa]]"
-  - "[[architecture/l3-presentation]]"
 ---
 
 # ADR-045: Multi-Domain View Mode Architecture
@@ -23,19 +11,19 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic'te her panel (music, home, pro, studio) kendi **view mode**'una sahiptir. View mode'lar CSS class'ları ile yönetilir ve cihaz tipine göre otomatik seçilir.
+CoreMusic'te her panel (music, home, pro, studio) kendi **view mode**'una sahiptir. View mode'lar CSS class'larÄ± ile yÃ¶netilir ve cihaz tipine gÃ¶re otomatik seÃ§ilir.
 
 ## 2. Decision
 
 ### View Mode'lar
 
-| Mod | CSS Class | Kullanım |
+| Mod | CSS Class | KullanÄ±m |
 |-----|-----------|----------|
 | home | .v-home | Ev medya merkezi |
 | pro | .v-pro | Profesyonel |
-| studio | .v-studio | Stüdyo |
-| car | .v-car | Araç içi |
-| admin | .v-admin | Yönetim |
+| studio | .v-studio | StÃ¼dyo |
+| car | .v-car | AraÃ§ iÃ§i |
+| admin | .v-admin | YÃ¶netim |
 
 ### Cihaz Loader
 
@@ -53,23 +41,23 @@ function detectDevice() {
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | CSS class ile view mode | ✅ Zorunlu |
-| 2 | Cihaz algılama | ✅ Zorunlu |
-| 3 | Responsive tasarım | ✅ Zorunlu |
-| 4 | View mode persistence | ✅ Zorunlu |
+| 1 | CSS class ile view mode | âœ… Zorunlu |
+| 2 | Cihaz algÄ±lama | âœ… Zorunlu |
+| 3 | Responsive tasarÄ±m | âœ… Zorunlu |
+| 4 | View mode persistence | âœ… Zorunlu |
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-045: Multi-Domain View Mode Architecture v2.0.0 — CoreMusic Frontend*
-*Authority: UI Designer · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-045: Multi-Domain View Mode Architecture v2.0.0 â€” CoreMusic Frontend*
+*Authority: UI Designer Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

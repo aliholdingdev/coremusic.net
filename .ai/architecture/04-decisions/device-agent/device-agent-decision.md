@@ -206,7 +206,7 @@ Device Service ve agent yapısını, cihaz protokollerini ve agent mimarisini ta
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § 2 Device | [[architecture/06-audio/coremusic-device-service]] | Service details |
-| § 4 Agent | [[architecture/01-overview/dependency-graph]] | Agent dependencies |
+| § 4 Agent | [[architecture/00-overview/dependency-graph]] | Agent dependencies |
 | § 6 State | [[architecture/06-audio/coremusic-network-audio-service]] | Network audio |
 
 ## 11. Sözlük

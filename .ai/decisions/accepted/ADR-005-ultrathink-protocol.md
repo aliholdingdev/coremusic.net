@@ -1,19 +1,8 @@
----
-type: decision
-id: "005"
+﻿---
 title: "ADR-005: Ultrathink Protocol (Zero Hallucination)"
-category: "architecture"
-status: "frozen"
-date: "2026-02-05"
-updated: "2026-08-15"
-authority: "Master Orchestrator"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: frozen
+date: 2026-02-05
 tags: [architecture, quality, hallucination, verification, frozen]
-risk-level: "high"
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
 ---
 
 # ADR-005: Ultrathink Protocol (Zero Hallucination)
@@ -22,7 +11,7 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic'te **Zero Hallucination** prensibi uygulanır. Doğrulanamayan bilgi `VERIFICATION REQUIRED` olarak işaretlenir. Hiçbir AI ajanı doğrulanmamış bilgiyi kesin gibi sunamaz.
+CoreMusic'te **Zero Hallucination** prensibi uygulanÄ±r. DoÄŸrulanamayan bilgi `VERIFICATION REQUIRED` olarak iÅŸaretlenir. HiÃ§bir AI ajanÄ± doÄŸrulanmamÄ±ÅŸ bilgiyi kesin gibi sunamaz.
 
 ## 2. Decision
 
@@ -30,34 +19,34 @@ CoreMusic'te **Zero Hallucination** prensibi uygulanır. Doğrulanamayan bilgi `
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Doğrulanamayan bilgi → VERIFICATION REQUIRED | ✅ Zorunlu |
-| 2 | Uydurma API/endpoint yasak | ❌ Yasak |
-| 3 | Uydurma versiyon yasak | ❌ Yasak |
-| 4 | Uydurma CVE yasak | ❌ Yasak |
-| 5 | Kaynak gösterme zorunlu | ✅ Zorunlu |
-| 6 | Vault-first okuma | ✅ Zorunlu |
+| 1 | DoÄŸrulanamayan bilgi â†’ VERIFICATION REQUIRED | âœ… Zorunlu |
+| 2 | Uydurma API/endpoint yasak | âŒ Yasak |
+| 3 | Uydurma versiyon yasak | âŒ Yasak |
+| 4 | Uydurma CVE yasak | âŒ Yasak |
+| 5 | Kaynak gÃ¶sterme zorunlu | âœ… Zorunlu |
+| 6 | Vault-first okuma | âœ… Zorunlu |
 
-### Hallüsinasyon Türleri
+### HallÃ¼sinasyon TÃ¼rleri
 
-| Tür | Örnek | Çözüm |
+| TÃ¼r | Ã–rnek | Ã‡Ã¶zÃ¼m |
 |-----|-------|-------|
-| API Hallüsinasyonu | Var olmayan endpoint | Doğrula |
-| Versiyon Hallüsinasyonu | Doğrulanmamış sürüm | Kaynak bul |
-| Performans Hallüsinasyonu | Kanıtsız benchmark | Ölç |
-| CVE Hallüsinasyonu | Uydurma güvenlik açığı | Doğrula |
+| API HallÃ¼sinasyonu | Var olmayan endpoint | DoÄŸrula |
+| Versiyon HallÃ¼sinasyonu | DoÄŸrulanmamÄ±ÅŸ sÃ¼rÃ¼m | Kaynak bul |
+| Performans HallÃ¼sinasyonu | KanÄ±tsÄ±z benchmark | Ã–lÃ§ |
+| CVE HallÃ¼sinasyonu | Uydurma gÃ¼venlik aÃ§Ä±ÄŸÄ± | DoÄŸrula |
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-005: Ultrathink Protocol v2.0.0 — CoreMusic Quality*
-*Authority: Master Orchestrator · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-005: Ultrathink Protocol v2.0.0 â€” CoreMusic Quality*
+*Authority: Master Orchestrator Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

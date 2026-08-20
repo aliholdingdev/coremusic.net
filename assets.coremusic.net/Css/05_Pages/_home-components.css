@@ -163,8 +163,8 @@
   cursor: pointer;
   text-decoration: none;
   color: inherit;
-  transition: transform var(--duration-fast, 100ms) ease,
-              box-shadow var(--duration-fast, 100ms) ease;
+  transition: transform var(--duration-fast, 0ms) ease,
+              box-shadow var(--duration-fast, 0ms) ease;
   border-radius: var(--radius-md, 8px);
 }
 

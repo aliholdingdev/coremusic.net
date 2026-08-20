@@ -3,133 +3,14 @@ title: "CoreMusic — Vault Keyword Map & Concept Router"
 type: system
 category: vault-navigation
 date: 2026-08-12
-updated: 2026-08-13
+updated: 2026-08-19
 status: active
-version: 25.0.0
+version: 26.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/keys.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-    - ".ai/keys.md"
-    - ".ai/MEMORY.md"
-    - ".ai/log.md"
-    - ".ai/engine.md"
-  architecture:
-    - ".ai/ADR/"
-    - "Existing project architecture"
-    - "Existing codebase patterns"
-  project_structure:
-    - "coremusic.net/"
-    - "shared/"
-    - "api.coremusic.net/"
-    - "auth.coremusic.net/"
-    - "music.coremusic.net/"
-    - "admin.coremusic.net/"
-    - "home.coremusic.net/"
-    - "car.coremusic.net/"
-    - "studio.coremusic.net/"
-    - "pro.coremusic.net/"
-    - "media.coremusic.net/"
-    - "download.coremusic.net/"
-  decision_priority:
-    - "ADR decisions"
-    - "Architecture documentation"
-    - "Security requirements"
-    - "Existing implementation"
-    - "User requirements"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "file rename"
-      - "directory move"
-      - "architecture change"
-      - "database schema change"
-      - "security policy change"
-  skills:
-    - path: ".opencode/skills/ui-code-generator/SKILL.md"
-      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
-    - path: ".opencode/skills/ui-analyzer/SKILL.md"
-      purpose: "UI analizi, mevcut tasarım değerlendirme"
-    - path: ".opencode/skills/skill-maker/SKILL.md"
-      purpose: "Yeni skill oluşturma, skill template sistemi"
-    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
-      purpose: "Güvenlik testi, truth mode, adversarial analiz"
-    - path: ".opencode/skills/prompt-maker/SKILL.md"
-      purpose: "Prompt mühendisliği, AI talimat tasarımı"
-    - path: ".opencode/skills/composer-sync/SKILL.md"
-      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
-    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
-      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
-    - path: ".opencode/skills/human-mode/SKILL.md"
-      purpose: "İnsan modu iletişimi, onay süreçleri"
-    - path: ".opencode/skills/hallucination-control/SKILL.md"
-      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
-    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
-      purpose: "BCNF normalizasyonu, şema tasarımı"
-  templates:
-    adr:
-      - path: ".ai/.templates/adr/adr-template.md"
-        purpose: "ADR şablonu"
-      - path: ".ai/.templates/adr/adr-frontend-template.md"
-        purpose: "Frontend ADR şablonu"
-      - path: ".ai/.templates/adr/adr-database-template.md"
-        purpose: "Database ADR şablonu"
-      - path: ".ai/.templates/adr/adr-security-template.md"
-        purpose: "Security ADR şablonu"
-      - path: ".ai/.templates/adr/adr-audio-template.md"
-        purpose: "Audio/Hardware ADR şablonu"
-      - path: ".ai/.templates/adr/adr-index.md"
-        purpose: "ADR navigasyon rehberi"
-    backend:
-      - path: ".ai/.templates/backend/php-template.md"
-        purpose: "PHP 8.4 backend geliştirme şablonu"
-      - path: ".ai/.templates/backend/nodejs-template.md"
-        purpose: "Node.js 20+ backend geliştirme şablonu"
-    frontend:
-      - path: ".ai/.templates/frontend/js-template.md"
-        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
-      - path: ".ai/.templates/frontend/css-template.md"
-        purpose: "ITCSS 9-layer, BEM CSS şablonu"
-    testing:
-      - path: ".ai/.templates/testing/phpunit-template.md"
-        purpose: "PHPUnit 10+ test şablonu"
-      - path: ".ai/.templates/testing/vitest-template.md"
-        purpose: "Vitest JS/TS test şablonu"
-    infrastructure:
-      - path: ".ai/.templates/infrastructure/migration-template.md"
-        purpose: "MySQL 9 BCNF migration şablonu"
-      - path: ".ai/.templates/infrastructure/docker-template.md"
-        purpose: "Docker 24+ Compose v2 şablonu"
-      - path: ".ai/.templates/infrastructure/github-actions-template.md"
-        purpose: "GitHub Actions CI/CD şablonu"
-    documentation:
-      - path: ".ai/.templates/documentation/api-doc-template.md"
-        purpose: "API dokümantasyon şablonu"
-      - path: ".ai/.templates/documentation/security-audit-template.md"
-        purpose: "Güvenlik denetimi şablonu"
-      - path: ".ai/.templates/documentation/WikiPage-Template.md"
-        purpose: "Wiki sayfası şablonu"
-    hardware:
-      - path: ".ai/.templates/hardware/arduino-template.md"
-        purpose: "Arduino/IoT prototipleme şablonu"
-      - path: ".ai/.templates/hardware/avr-template.md"
-        purpose: "AVR mikrodenetleyici şablonu"
-      - path: ".ai/.templates/hardware/pic-template.md"
-        purpose: "PIC mikrodenetleyici şablonu"
-    query:
-      - path: ".ai/.templates/query/Query-Template.md"
-        purpose: "SQL sorgu şablonu"
-    other:
-      - path: ".ai/.templates/other/c-template.md"
-        purpose: "C11 GCC embedded/driver şablonu"
-      - path: ".ai/.templates/cpp-template.md"
-        purpose: "C++20 JUCE/ASIO şablonu"
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .ai/brain.md · .ai/index.md"
 ---
 
 # CoreMusic — Vault Keyword Map & Concept Router
@@ -169,26 +50,26 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| L0, altyapi, infrastructure, cache, APCu, Redis | architecture/l0-infrastructure.md |
-| db, database, veritabani, PDO | architecture/l0-infrastructure.md |
-| filesystem, IPC, shared memory | architecture/l0-infrastructure.md |
-| credential vault, secret, key | architecture/l0-infrastructure.md |
+| L0, altyapi, infrastructure, cache, APCu, Redis | architecture/l0-infrastructure/ |
+| db, database, veritabani, PDO | architecture/l0-infrastructure/database.md |
+| filesystem, IPC, shared memory | architecture/l0-infrastructure/filesystem.md |
+| credential vault, secret, key | architecture/l0-infrastructure/credential-vault.md |
 
 ### 3.2 L1 Security
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| L1, guvenlik, security, middleware, pipeline | architecture/l1-security.md |
-| session, oturum, cookie, CSRF, csrf_token | architecture/l1-security.md |
-| CSP, nonce, strict-dynamic, rate limit | architecture/l1-security.md |
-| OWASP, zafiyet, tehdit | architecture/l1-security.md |
+| L1, guvenlik, security, middleware, pipeline | architecture/l1-security/ |
+| session, oturum, cookie, CSRF, csrf_token | architecture/l1-security/session.md |
+| CSP, nonce, strict-dynamic, rate limit | architecture/l1-security/csp.md |
+| OWASP, zafiyet, tehdit | architecture/l1-security/ |
 
 ### 3.3 L2 Routing
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| L2, routing, SPA, single page, router | architecture/l2-routing.md |
-| URL, normalization, subdomain | architecture/l2-routing.md |
+| L2, routing, SPA, single page, router | architecture/l2-routing/ |
+| URL, normalization, subdomain | architecture/l2-routing/url-normalization.md |
 | PageRouter, PageRouterKernel, HTML shell | architecture/l2-routing/spa-router.md |
 | RouteRegistry, SpaRoute, route config | architecture/l2-routing/route-config.md |
 | HtmlShellRenderer, CSP nonce, device CSS | architecture/l2-routing/html-shell-renderer.md |
@@ -203,9 +84,9 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| L3, presentation, vanilla JS, framework yasak | architecture/l3-presentation.md |
-| ITCSS, BEM, BEMIT, TrustedTypes, DOMParser | architecture/l3-presentation.md |
-| Web Audio, ses API | architecture/l3-presentation.md |
+| L3, presentation, vanilla JS, framework yasak | architecture/l3-presentation/ |
+| ITCSS, BEM, BEMIT, TrustedTypes, DOMParser | architecture/l3-presentation/itcss-architecture.md |
+| Web Audio, ses API | architecture/l3-presentation/web-audio.md |
 
 ### 3A. L4 Domain
 
@@ -302,7 +183,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | flow, akış, kullanıcı akışı | .ai/ui-design/flow/ |
 | prompt, şablon | .ai/ui-design/prompt/ |
 | design tokens, token, renk, yazı tipi | .ai/ui-design/reference/02-design-tokens.md |
-| ascii art, piksel, ölçü, layout view | .ai/ui-design/screens/00-ascii-art-views.md |
+| ascii art, piksel, ölçü, layout view | .ai/ui-design/screens/00-ascii-art-index.md |
 | screen spec, ekran özelliği, pixel exact | .ai/ui-design/screens/ |
 | layout pattern, standard 60/40, split home | .ai/ui-design/screens/_layout-patterns/ |
 | png mockup, .png dosyası, görsel referans, screenshot | .ai/.png/home-1024/ + .ai/.png/shared-1024/ |
@@ -418,9 +299,6 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | amplifier architecture, power supply | electronic/amplifier/index.md |
 | hardware design, PCB | electronic/hardware/index.md |
 | firmware, RTOS, OTA | electronic/firmware/index.md |
-| electronics architecture, L6 | [[decisions/accepted/ADR-061-electronics-architecture]] |
-| DSP pipeline architecture | [[decisions/accepted/ADR-062-dsp-pipeline-architecture]] |
-| hardware design standards | [[decisions/accepted/ADR-063-hardware-design-standards]] |
 | CoreMusic Electronics, genel bakis | electronic/core-music-electronics-overview.md |
 | platform architecture, 9 katman | electronic/platform-architecture.md |
 | device architecture, cihaz aileleri | electronic/device-architecture.md |
@@ -434,18 +312,6 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | amplifier architecture, 8+1 | electronic/amplifier-architecture.md |
 | hardware design, PCB EMI EMC | electronic/hardware-design.md |
 | firmware architecture, RTOS HAL OTA | electronic/firmware-architecture.md |
-| L6 electronics, layer stack | architecture/l6-electronics.md |
-| network architecture, MQTT gRPC IPC | architecture/network-architecture.md |
-| database architecture, BCNF SQLite | architecture/database-architecture.md |
-| security architecture, OWASP RBAC | architecture/security-architecture.md |
-| electronics security, secure boot | architecture/07-security/electronics-security.md |
-| engineering rules, SSOT | architecture/03-contracts/engineering-rules-ssot.md |
-| diagram collection, mermaid | architecture/03-contracts/diagram-collection.md |
-| development workflow, 20 faz | architecture/03-contracts/development-workflow.md |
-| development standards, SOLID DDD | architecture/03-contracts/development-standards.md |
-| software architecture, 5 katman, DDD, CQRS | electronic/software-architecture.md |
-| service architecture, 13 servis, API Gateway | electronic/service-architecture.md |
-| device ecosystem, cihaz ekosistemi, OTA | electronic/device-ecosystem.md |
 
 ---
 
@@ -469,8 +335,6 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | AI electronics engine | architecture/ai/ai-electronics-engine.md |
 | AI workflow electronics | architecture/ai/ai-workflow-electronics.md |
 | ai-workflow-standards | architecture/03-contracts/ai-workflow-standards.md |
-| AI electronics engine, donanım analizi | architecture/ai/ai-electronics-engine.md |
-| AI workflow electronics | architecture/ai/ai-workflow-electronics.md |
 
 ---
 
@@ -501,6 +365,9 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | multi-domain view mode | [[decisions/accepted/ADR-045-multi-domain-view-mode-architecture]] |
 | cross-view state | [[decisions/accepted/ADR-046-cross-view-state-preservation]] |
 | View Transition API | [[decisions/accepted/ADR-048-view-transition-api-integration]] |
+| responsive, media query, breakpoint, token konsolidasyon | assets.coremusic.net/Css/01_Abstracts/a-layout-tokens.css |
+| 1024px default, mockup reference, RPi5 embedded | assets.coremusic.net/Css/01_Abstracts/a-layout-tokens.css |
+| device css, d-embedded, d-desktop, d-tablet, device override | assets.coremusic.net/Css/08_Devices/ |
 | device-loader, cihaz algilama | assets.coremusic.net/js/device-loader.js |
 | 08_Devices, d-phone, d-tablet | assets.coremusic.net/Css/08_Devices/ |
 | 09_ViewModes, v-home, v-pro | assets.coremusic.net/Css/09_ViewModes/ |
@@ -557,7 +424,6 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | ADR-044 | dynamic theme, gender, pembe/mavi | UI |
 | ADR-045 | multi-domain view mode | UI |
 | ADR-046 | cross-view state | UI |
-| ADR-047 | login redirect, session bridge | Auth |
 | ADR-048 | View Transition API | UI |
 | ADR-049 | startup prompt loader | AI |
 | ADR-050 | multi-db sync | Database |
@@ -643,10 +509,10 @@ P3: testing/*, ui-design/*, personas/*
 | Ihtiyac | Ilk Adim |
 |---------|----------|
 | Mimari karar | brain.md -> decisions/accepted/ |
-| Guvenlik | architecture/l1-security.md -> ADR-010/011/012/013/022 |
+| Guvenlik | architecture/l1-security/ -> ADR-010/011/012/013/022 |
 | Veritabani | architecture/05-data/database_master.md -> ADR-040 |
-| Frontend | architecture/l3-presentation.md -> ADR-001 |
-| Backend | architecture/l2-routing.md -> ADR-002 |
+| Frontend | architecture/l3-presentation/ -> ADR-001 |
+| Backend | architecture/l2-routing/ -> ADR-002 |
 | Audio/Donanim | electronic/ -> ADR-017/038 |
 | Test | testing/strategy.md -> testing/coverage-targets.md |
 | Vault yapisi | index.md -> bu dosya (keys.md) |
@@ -687,34 +553,9 @@ P3: testing/*, ui-design/*, personas/*
 
 ---
 
-## 17A. Implementasyon Dosya Haritasi (2026-08-12)
+## 17A. Implementasyon Dosyaları
 
-| Keyword | Dosya |
-|---------|-------|
-| bootstrap, autoload, PROJECT_ROOT | shared/bootstrap.php |
-| container, DI, services, binding | shared/config/container.php, shared/config/services.php |
-| middleware, pipeline, frozen sıra | shared/config/middleware.php |
-| route, CORS, auth config | shared/config/routes.php, shared/config/cors.php, shared/config/auth.php |
-| Router, fast-route, group, cache | shared/src/Router/Router.php, RouteDefinition.php, GroupDefinition.php |
-| HttpKernel, pipeline, dispatch | shared/src/Http/HttpKernel.php, Response.php |
-| User, Role, Session, Token (entity) | shared/src/Auth/Domain/ |
-| Email, Password, UserId (VO) | shared/src/Auth/Domain/ValueObjects/ |
-| UserRepository, SessionRepository, TokenRepository | shared/src/Auth/Domain/Repository/ |
-| LoginRequest, LoginResponse, TokenPair, SessionDTO | shared/src/Auth/Application/DTO/ |
-| Argon2id, JwtTokenManager, PDO Repo | shared/src/Auth/Infrastructure/ |
-| OriginCheck, Cors, RateLimiter, SecurityHeaders, SessionManager, Csrf, BypassAuth, Auth, Permission, Validation | shared/src/Middleware/ |
-| CspNonceGenerator, SecurityHeaderService, RateLimiter | shared/src/Security/Service/ |
-| LoginUseCase, LogoutUseCase, RegisterUseCase | shared/src/Auth/Application/ |
-| auth.coremusic.net entry | auth.coremusic.net/index.php |
-| home.coremusic.net entry | home.coremusic.net/index.php |
-| music.coremusic.net entry | music.coremusic.net/index.php |
-| admin.coremusic.net entry | admin.coremusic.net/index.php |
-| api.coremusic.net entry | api.coremusic.net/index.php |
-| landing entry | coremusic.net/index.php |
-| ITCSS, CSS, design tokens, BEM | assets.coremusic.net/css/ |
-| SPA Router, AuthManager, DomPatcher | assets.coremusic.net/js/ |
-| 18 BCNF, 156 tablo | .ai/.sql/mysql/ |
-| JWT key pair | shared/config/keys/private.pem, public.pem |
+> Detaylı dosya yapısı için: [[architecture/03-contracts/project-structure]] ve [[shared/]] dizin yapısı
 
 ---
 
@@ -722,7 +563,7 @@ P3: testing/*, ui-design/*, personas/*
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 25.0.0 |
+| Version | 26.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | ADR Coverage | 001-087 (87 ADR keyword mapping) |
 | Vault Envanteri | 484+ .md dosyasi, 87 ADR, 18 BCNF DB, 10 panel, 7 servis, shared/ hybrid yapı |
@@ -730,5 +571,5 @@ P3: testing/*, ui-design/*, personas/*
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-13
+**Last Updated:** 2026-08-19
 **Mode:** Red Team · Human Mode · Truth Mode

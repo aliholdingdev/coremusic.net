@@ -167,7 +167,7 @@ L6 Electronics → L5 Services → L4 Domain → L3 Presentation → L2 Routing 
 | ADR-044 | Cinsiyet bazlı dinamik tema | UI |
 | ADR-045 | Multi-domain view mode | UI |
 | ADR-046 | Cross-view state koruma | UI |
-| ADR-047 | Login redirect session bridge | Auth |
+
 | ADR-048 | View Transition API entegrasyonu | UI |
 | ADR-049 | Startup prompt loader | AI |
 | ADR-050 | Multi-DB sync stratejisi | Database |
@@ -183,14 +183,14 @@ L6 Electronics → L5 Services → L4 Domain → L3 Presentation → L2 Routing 
 | ADR-077 | Studio DB Schema | Database |
 | ADR-078 | CMS DB Schema | Database |
 | ADR-079 | i18n DB Schema | Database |
-| ADR-080 | Electronics Development Workflow | Electronics |
+
 | ADR-083 | SPA Router Architecture (PHP+JS Hybrid) | Routing |
 | ADR-084 | API Gateway Architecture (API-First, BFF, CQRS) | Architecture |
 | ADR-085 | Shared Library Hybrid (tek shared/ + PSR-4 namespace) | Infrastructure |
 | ADR-086 | Event Driven Architecture (PSR-14) | Architecture |
 | ADR-087 | Master Implementation Plan | Architecture |
 
-**Not:** ADR-051-058, ADR-060, ADR-065-071, ADR-081-082 henüz oluşturulmamıştır.
+**Not:** ADR-065-071, ADR-081-082 henüz oluşturulmamıştır.
 
 ---
 

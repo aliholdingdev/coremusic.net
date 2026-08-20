@@ -1,19 +1,8 @@
----
-type: decision
-id: "049"
+﻿---
 title: "ADR-049: Startup Prompt Loader"
-category: "ai"
-status: "active"
-date: "2026-08-08"
-updated: "2026-08-15"
-authority: "Master Orchestrator"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: active
+date: 2026-08-08
 tags: [ai, prompt, startup, loader, active]
-risk-level: "medium"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]]"
 ---
 
 # ADR-049: Startup Prompt Loader
@@ -22,13 +11,13 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic'te her AI oturum başlangıcında **4 ana prompt** (prompt0-3) sırasıyla yüklenir. Prompt'lar vault'a işlenmiştir ve referans olarak kullanılır.
+CoreMusic'te her AI oturum baÅŸlangÄ±cÄ±nda **4 ana prompt** (prompt0-3) sÄ±rasÄ±yla yÃ¼klenir. Prompt'lar vault'a iÅŸlenmiÅŸtir ve referans olarak kullanÄ±lÄ±r.
 
 ## 2. Decision
 
-### Prompt Sırası
+### Prompt SÄ±rasÄ±
 
-| Sıra | Prompt | Dosya | Max Süre |
+| SÄ±ra | Prompt | Dosya | Max SÃ¼re |
 |------|--------|-------|----------|
 | 1 | prompt0 (Genel Ana) | archives/prompt0-genel-ana-prompt | 5s |
 | 2 | prompt1 (SPA Router) | archives/prompt1-spa-router | 3s |
@@ -39,23 +28,23 @@ CoreMusic'te her AI oturum başlangıcında **4 ana prompt** (prompt0-3) sıras�
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | 4 prompt sıralı yükleme | ✅ Zorunlu |
-| 2 | Max 14s toplam süre | ✅ Zorunlu |
-| 3 | Vault'a işlenmiş prompt | ✅ Zorunlu |
-| 4 | Domain bazlı prompt seçimi | ✅ Zorunlu |
+| 1 | 4 prompt sÄ±ralÄ± yÃ¼kleme | âœ… Zorunlu |
+| 2 | Max 14s toplam sÃ¼re | âœ… Zorunlu |
+| 3 | Vault'a iÅŸlenmiÅŸ prompt | âœ… Zorunlu |
+| 4 | Domain bazlÄ± prompt seÃ§imi | âœ… Zorunlu |
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-049: Startup Prompt Loader v2.0.0 — CoreMusic AI*
-*Authority: Master Orchestrator · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-049: Startup Prompt Loader v2.0.0 â€” CoreMusic AI*
+*Authority: Master Orchestrator Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

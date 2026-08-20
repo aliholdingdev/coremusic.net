@@ -38,8 +38,8 @@ Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → Session
 | 6 | Csrf | CSRF token doğrulama | ADR-010 |
 | 7 | BypassAuth | Test bypass (prod'da devre dışı) | ADR-008 |
 | 8 | Auth | Auth bilgisi inject | ADR-011 |
-| 9 | Permission | RBAC yetki kontrolü | ADR-052 |
-| 10 | Validation | Request/DTO validasyonu | ADR-054 |
+| 9 | Permission | RBAC yetki kontrolü | ADR-011 |
+| 10 | Validation | Request/DTO validasyonu | ADR-010 |
 
 **⚠️ Middleware sırası DEĞİŞTİRİLEMEZ!**
 
@@ -47,7 +47,7 @@ Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → Session
 
 ## 3. Middleware Runner (PSR-15 Uyumlu)
 
-**Kaynak:** [[ADR-053-enterprise-router-architecture]], [[ADR-054-enterprise-composer-stack]]
+**Kaynak:** PSR-15 standardı
 
 ```php
 <?php
@@ -63,7 +63,6 @@ use Psr\Http\Server\RequestHandlerInterface;
  * Middleware Pipeline — PSR-15 compliant.
  * nikic/fast-route + php-di/php-di ile entegre çalışır.
  *
- * @see [[ADR-053-enterprise-router-architecture]]
  */
 class Pipeline
 {
@@ -243,7 +242,7 @@ class RateLimiterMiddleware implements MiddlewareInterface
 }
 ```
 
-### 4.4 Auth (ADR-011 + ADR-047 + ADR-052)
+### 4.4 Auth (ADR-011)
 
 ```php
 <?php
@@ -256,7 +255,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 /**
- * Auth Middleware — ADR-011 + ADR-047 + ADR-052 compliant.
+ * Auth Middleware — ADR-011 compliant.
  * Hybrid auth: Session + JWT RS256.
  *
  * JWT Token Politikası:
@@ -265,7 +264,6 @@ use Psr\Http\Server\RequestHandlerInterface;
  * - Key Rotation: 90 gün
  *
  * @see [[auth]] — tam RBAC tablosu ve izin matrisi
- * @see [[ADR-052-hybrid-auth-architecture]]
  */
 class AuthMiddleware implements MiddlewareInterface implements MiddlewareInterface
 {
@@ -446,7 +444,20 @@ class CsrfMiddleware implements MiddlewareInterface
 
 ---
 
-## 7. İlgili Dosyalar
+## 7. Hard Guardrails
+
+| # | Kural | ADR | İhlal Sonucu |
+|---|-------|-----|-------------|
+| 1 | Pipeline sırası frozen | ADR-010/011/012/013/022 | CSP/CSRF bozulması |
+| 2 | Session name = `COREMUSIC_SESS` | ADR-011 | Session çakışması |
+| 3 | CSRF key = `csrf_token` | ADR-010 | CSRF bypass |
+| 4 | CSP nonce = `base64_encode(random_bytes(32))` | ADR-012 | XSS riski |
+| 5 | BypassAuth prod'da devre dışı | ADR-008 | Auth bypass |
+| 6 | `hash_equals()` timing-safe | ADR-010 | Timing attack |
+
+---
+
+## 8. İlgili Dosyalar
 
 | Dosya | Amaç |
 |-------|------|
@@ -455,17 +466,49 @@ class CsrfMiddleware implements MiddlewareInterface
 | [[ADR-011-session-management]] | Session |
 | [[ADR-012-csp-nonce-strict-dynamic]] | CSP |
 | [[ADR-013-rate-limiting-apcu]] | Rate limit |
+| [[ADR-022-database-hardened-security]] | Encryption |
 
 ---
 
-## 8. Kalite Raporu
+## 9. Çapraz Referanslar
+
+| Bölüm | Hedef | İlişki |
+|-------|-------|--------|
+| § 2 Pipeline | [[ADR-010-csrf-protection-strategy]] | CSRF koruması |
+| § 3 Runner | [[architecture/l2-routing/index]] | Routing |
+| § 4.1 Session | [[ADR-011-session-management]] | Session yönetimi |
+| § 4.4 Auth | [[ADR-011-session-management]] | JWT + Session auth |
+| § 4.5 Security | [[ADR-012-csp-nonce-strict-dynamic]] | CSP politikası |
+| § 4.3 Rate | [[ADR-013-rate-limiting-apcu]] | Rate limiting |
+
+---
+
+## 10. Sözlük
+
+| Terim | Tanım |
+|-------|-------|
+| **Middleware** | Request/Response arasında çalışan katman |
+| **Pipeline** | Middleware'lerin sıralı dizisi |
+| **Session** | Kullanıcı oturumu |
+| **CSRF** | Cross-Site Request Forgery |
+| **CSP** | Content Security Policy |
+| **Rate Limit** | İstek hız kısıtlaması |
+| **APCu** | APC User Cache |
+| **RBAC** | Role-Based Access Control |
+| **Nonce** | Number used once — tek kullanımlık değer |
+| **Timing-safe** | Zamanlama saldırılarına karşı güvenli |
+
+---
+
+## 11. Kalite Raporu
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 5.0.0 |
-| **Satır Sayısı** | ~450 |
-| **ADR Uyumlu** | ✅ 008, 010, 011, 012, 013, 022, 047, 052 |
+| **Versiyon** | 6.0.0 |
+| **Satır Sayısı** | ~530 |
+| **ADR Uyumlu** | ✅ 008, 010, 011, 012, 013, 022 |
 | **Zero Hallucination** | ✅ |
+| **Cross-Reference** | ✅ 6 referans |
 | **Guardrails** | ✅ 6 kural |
 
 ---

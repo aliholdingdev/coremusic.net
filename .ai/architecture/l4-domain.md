@@ -12,7 +12,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # L4 — Domain Layer
 
-**See also:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[architecture/01-overview/architecture_master]]
+**See also:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[architecture/00-overview/architecture-master]]
 
 ---
 
@@ -267,7 +267,6 @@ interface DeviceRepositoryInterface {
 
 | ADR | Konu |
 |-----|------|
-| [[ADR-051-platform-rewrite-from-scratch]] | Sıfırdan platform |
 | [[ADR-039-7-service-platform-architecture]] | 7-servis mimarisi |
 
 ---

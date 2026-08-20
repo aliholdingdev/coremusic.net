@@ -76,8 +76,8 @@ CoreMusic'in deployment stratejisi, CI/CD pipeline, container yönetimi ve monit
 | Dosya | Amaç |
 |-------|------|
 | [[CLAUDE.md]] | Deployment kuralları |
-| [[architecture/01-overview]] | Genel bakış |
-| [[architecture/03-services]] | Servis detayları |
+| [[architecture/00-overview]] | Genel bakış |
+| [[architecture/06-audio]] | Servis detayları |
 
 ---
 

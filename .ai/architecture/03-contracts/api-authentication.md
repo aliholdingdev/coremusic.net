@@ -12,7 +12,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # API Authentication & Authorization
 
-**Zorunlu Bağlantılar:** [[api-architecture-master]] · [[ADR-052-hybrid-auth-architecture]] · [[ADR-058-cross-subdomain-auth-flow]] · [[CLAUDE.md]]
+**Zorunlu Bağlantılar:** [[api-architecture-master]] · [[CLAUDE.md]]
 
 ## 1. Amaç
 
@@ -28,8 +28,6 @@ CoreMusic API kimlik doğrulama (authentication) ve yetkilendirme (authorization
 | **JWT RS256** | Service-to-service | Bearer token | 15 dk |
 | **API Key** | Third-party integrations | `X-API-Key` header | 90 gün |
 | **OAuth2准备** | Gelecek entegrasyonlar | Bearer token | Planlanıyor |
-
-*Kaynak: [[ADR-052-hybrid-auth-architecture]]*
 
 ### 2.2 Auth Akış Diyagramı
 
@@ -414,8 +412,6 @@ GÜN 89-90: Dual-Key Period
 | [[api-versioning]] | Sürüm yönetimi |
 | [[api-security]] | Güvenlik katmanı |
 | [[api-error-codes]] | Hata kodları |
-| [[ADR-052-hybrid-auth-architecture]] | Hybrid Auth kararı |
-| [[ADR-058-cross-subdomain-auth-flow]] | Cross-subdomain auth |
 | [[ADR-010-csrf-protection-strategy]] | CSRF koruması |
 | [[ADR-011-session-management]] | Session yönetimi |
 | [[ADR-022-database-hardened-security]] | Argon2id, AES-256-GCM |
@@ -426,7 +422,7 @@ GÜN 89-90: Dual-Key Period
 | Metrik | Değer |
 |--------|-------|
 | **Versiyon** | 1.0.0 |
-| **ADR Uyumlu** | ✅ 010, 011, 022, 052, 058, 043 |
+| **ADR Uyumlu** | ✅ 010, 011, 022, 043 |
 | **RBAC Roles** | 7 |
 | **Permissions** | 19 |
 | **Token Types** | 4 |

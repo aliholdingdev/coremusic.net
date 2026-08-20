@@ -46,7 +46,7 @@ references:
 │ [HEADER — ortak]                                                                                │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                                  │
-│  ← Albümler / Tüm Albümler                                    [Sanatçı Adı Ara 🔍] [≡]      │
+│  ← Albümler / Tüm Albümler                          [Sanatçı Adı Ara 🔍] [≡]              │
 │  "Albümler"                                                                                      │
 │  Kütüphanede depolanan tüm albümler                                                             │
 │                                                                                                  │
@@ -59,31 +59,31 @@ references:
 │                                                                                                  │
 │  ┌── CARD GRID (sol ~614px, %60) ──────────┐  ┌── DETAIL PANEL (sağ ~390px, %40) ────────┐  │
 │  │                                           │  │                                            │  │
-│  │  3 sütun × 3 satır = 9 kart              │  │  ┌──────────────────┐                     │  │
+│  │  4 sütun × 3 satır = 12 kart             │  │  ┌──────────────────┐                     │  │
 │  │  Gap: 8px                                 │  │  │                  │                     │  │
 │  │                                           │  │  │    300×300       │                     │  │
-│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐   │  │  │   圆形 Album Art  │  Nobetci Eczane     │  │
-│  │  │ 140×140 │ │ 140×140 │ │ 140×140 │   │  │  │    (daire, r:50%) │  Ferhat Kasetleri   │  │
-│  │  │ album   │ │ album   │ │ album   │   │  │  │                  │  Kaset              │  │
-│  │  │ thumb   │ │ thumb   │ │ thumb   │   │  │  └──────────────────┘                     │  │
-│  │  │─────────│ │─────────│ │─────────│   │  │                                            │  │
-│  │  │ Nobetci │ │ Bergen  │ │ Civaner│   │  │  ┌────────────────────────────────────┐    │  │
-│  │  │ Eczane  │ │ -Tüm    │ │ -Tüm   │   │  │  │          Hemen Çal                 │    │  │
-│  │  │ Ferhat  │ │ Şarkıla │ │ Şarkıl │   │  │  │          (pembe, full-width)        │    │  │
-│  │  │ Kasetle │ │ rı      │ │ ar     │   │  │  └────────────────────────────────────┘    │  │
-│  │  │ ri      │ │ Bergen  │ │Civaner │   │  │  ┌────────────────────────────────────┐    │  │
-│  │  │ 00:10:05│ │ 00:10:05│ │00:10:05│   │  │  │          Karışık Çal               │    │  │
-│  │  └─────────┘ └─────────┘ └─────────┘   │  │  │          (sınır, full-width)        │    │  │
-│  │                                           │  │  └────────────────────────────────────┘    │  │
-│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐   │  │  [...] (daha fazla butonu)                  │  │
-│  │  │  ...    │ │  ...    │ │  ...    │   │  │                                            │  │
-│  │  └─────────┘ └─────────┘ └─────────┘   │  │  ── Metadata ──                           │  │
-│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐   │  │  Kalite: 24 Bit / 48 kHz                 │  │
-│  │  │  ...    │ │  ...    │ │  ...    │   │  │  Boyut: 2 GB                             │  │
-│  │  └─────────┘ └─────────┘ └─────────┘   │  │  İndirme Sayısı: 2                       │  │
+│  │  ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐│  │   圆形 Album Art  │  Nobetci Eczane     │  │
+│  │  │140×160 │ │140×160 │ │140×160 │ │140×160 ││  │    (daire, r:50%) │  Ferhat Kasetleri   │  │
+│  │  │ album  │ │ album  │ │ album  │ │ album  ││  │                  │  Kaset              │  │
+│  │  │ thumb  │ │ thumb  │ │ thumb  │ │ thumb  ││  └──────────────────┘                     │  │
+│  │  │────────│ │────────│ │────────│ │────────││                                            │  │
+│  │  │Nobetci │ │Bergen  │ │Civanert│ │Bergen  ││  ┌────────────────────────────────────┐    │  │
+│  │  │Eczane  │ │-Tüm    │ │-Tüm    │ │-Tüm    ││  │          Hemen Çal                 │    │  │
+│  │  │Ferhat  │ │Şarkıla │ │Şarkıla │ │Şarkıla ││  │          (pembe, full-width)        │    │  │
+│  │  │Kasetle │ │rı      │ │r       │ │rı      ││  └────────────────────────────────────┘    │  │
+│  │  │ri      │ │Bergen  │ │Civanert│ │Bergen  ││  ┌────────────────────────────────────┐    │  │
+│  │  │00:10:05│ │00:10:05│ │00:10:05│ │00:10:05││  │          Karışık Çal               │    │  │
+│  │  └────────┘ └────────┘ └────────┘ └────────┘│  │          (sınır, full-width)        │    │  │
+│  │                                           │  └────────────────────────────────────┘    │  │
+│  │  ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐│  [...] (daha fazla butonu)                  │  │
+│  │  │ ...    │ │ ...    │ │ ...    │ │ ...    ││                                            │  │
+│  │  └────────┘ └────────┘ └────────┘ └────────┘│  ── Metadata ──                           │  │
+│  │  ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐│  Kalite: 24 Bit / 48 kHz                 │  │
+│  │  │ ...    │ │ ...    │ │ ...    │ │ ...    ││  Boyut: 2 GB                             │  │
+│  │  └────────┘ └────────┘ └────────┘ └────────┘│  İndirme Sayısı: 2                       │  │
 │  │                                           │  │  Parça Sayısı: 12                       │  │
 │  │  Her kart:                               │  │  Tür: Arabesk                            │  │
-│  │    thumb: 140×140px, r:8px              │  │  Yıl: Bilinmeyen Yıl                     │  │
+│  │    thumb: 140×160px, r:8px              │  │  Yıl: Bilinmeyen Yıl                     │  │
 │  │    title: 12px, 600                     │  │  Dinlenme Sayısı: 5                      │  │
 │  │    artist: 10px, 400, muted            │  │  Süre: 00:30:00                          │  │
 │  │    süre: 10px, 400, accent             │  │                                            │  │
@@ -101,11 +101,11 @@ references:
 
 | Özellik | Değer |
 |---------|-------|
-| Geri oku | ← (sol üst, 44×44px touch target) |
+| Geri oku | ← (sol üst, daire pembe arka plan, 44×44px touch target) |
 | Başlık | "Albümler / Tüm Albümler" (16px, 600) |
-| Alt başlık | "Kütüphanede depolanan tüm albümler" (12px, 400, muted) |
-| Arama | "Sanatçı Adı Ara 🔍" (input, sağ üst) |
-| Sıralama | ≌ (sağ üst, dropdown) |
+| Alt başlık | "Kütüphanede depolanan tüm Albümler" (12px, 400, muted) |
+| Arama | "Sanatçı Adı Ara 🔍" (input, orta-sağ) |
+| Menü | ≡ (sağ üst, hamburger icon) |
 
 ### 3.2 — Genre Tabs (C11)
 
@@ -123,9 +123,9 @@ references:
 | Özellik | Değer |
 |---------|-------|
 | Genişlik | ~614px |
-| Sütun | 3 |
+| Sütun | 4 |
 | Satır | 3 |
-| Kart boyutu | ~190×220px (thumb 140×140 + text) |
+| Kart boyutu | ~144×190px (thumb 140×160 + text) |
 | Gap | 8px |
 | Padding | 12px |
 | Scroll | Dikey, `overflow-y: auto` |
@@ -134,7 +134,7 @@ references:
 ```
 ┌─────────────────┐
 │  ┌───────────┐  │
-│  │  140×140  │  │  ← album art (kare, r:8px)
+│  │  140×160  │  │  ← album art (dikdörtgen, r:8px)
 │  │  thumb    │  │
 │  └───────────┘  │
 │  Album Title     │  ← 12px, 600, max 2 satır
@@ -168,7 +168,7 @@ references:
 | Primary Button | C04 | 1 | Detail Panel |
 | Secondary Button | C05 | 1 | Detail Panel |
 | Genre Tabs | C11 | 1 | Üst kısım |
-| Media Card | C09 | 9 | Card Grid |
+| Media Card | C09 | 12 | Card Grid |
 | Detail Panel | C10 | 1 | Sağ panel |
 | Footer Player | — | 1 | Footer |
 
@@ -220,7 +220,7 @@ references:
 |--------|-------|
 | Version | 2.0.0 |
 | Layout | Standard 60/40 |
-| Grid | 3×3 (9 kart max) |
+| Grid | 4×3 (12 kart max) |
 | Components | 9 (C01-C05, C09-C11, C14) |
 | WCAG Gaps | 2 (tab height, ARIA) |
 | ADR Uyumlu | ✅ ADR-001, ADR-044 |
@@ -238,8 +238,8 @@ references:
 | İçerik | 450px | `--content-h` |
 | Sol panel (grid) | x:16-630, 614px | — |
 | Sağ panel (detail) | x:642-1008, 366px | `--detail-panel-w` |
-| Kart boyutu | 140×180px | `--card-thumb-size` |
-| Grid sütun | 3 | — |
+| Kart boyutu | 140×160px | `--card-thumb-size` |
+| Grid sütun | 4 | — |
 | Grid gap | 8px | `--grid-gap` |
 | Genre tab yüksekliği | 32px | `--tab-h` |
 | Detail panel sanat | 300×300px daire | `--album-art-size` |
@@ -390,7 +390,7 @@ references:
 /* === CARD GRID === */
 .albums-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--grid-gap);
   overflow-y: auto;
   padding-right: var(--space-2);
@@ -569,5 +569,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 *Albums Page Screen Spec v3.0.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-17*
+*Last Updated: 2026-08-19*
 *Mode: Red Team · Human Mode · Truth Mode*

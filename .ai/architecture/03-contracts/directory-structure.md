@@ -551,17 +551,13 @@ namespace CoreMusic\Download\Controller;
 | [[architecture/03-contracts/project-structure]] | Clean Architecture detayı |
 | [[architecture/03-contracts/shared-library]] | Shared library paket detayları |
 | [[architecture/03-contracts/composer-package-standards]] | Composer paket standartları |
-| [[ADR-051-platform-rewrite-from-scratch]] | Platform sıfırdan yazım |
-| [[ADR-054-enterprise-composer-stack]] | Enterprise Composer yığını |
+
 
 ## 13. Çapraz Referanslar
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 3 Kök Dizin | [[ADR-051-platform-rewrite-from-scratch]] | Proje yapısı |
-| § 4 Yasaklar | [[ADR-054-enterprise-composer-stack]] | Root config |
 | § 7 Shared | [[architecture/03-contracts/shared-library]] | Paket yapısı |
-| § 8 Namespace | [[ADR-051-platform-rewrite-from-scratch]] | Namespace standardı |
 
 ## 14. Kalite Raporu
 
@@ -569,7 +565,7 @@ namespace CoreMusic\Download\Controller;
 |--------|-------|
 | **Versiyon** | 1.0.0 |
 | **Satır Sayısı** | ~350 |
-| **ADR Uyumlu** | ✅ 051, 054 |
+| **ADR Uyumlu** | ✅ |
 | **Zero Hallucination** | ✅ |
 
 ---

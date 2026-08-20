@@ -1,7 +1,7 @@
 ---
 title: CoreMusic — Login Screen Specification (1024×600, Linux Embedded RPi5)
 date: 2026-08-11
-updated: 2026-08-11
+updated: 2026-08-19
 type: spec
 status: active
 version: 2.0.0
@@ -34,18 +34,18 @@ references:
 │                                                                                                  │
 │  ┌── SOL ALAN (~78%, ~800px) ────────────────────┐  ┌── SAĞ PANEL (~22%, ~224px) ──────────┐  │
 │  │                                                 │  │                                       │  │
-│  │  [CoreMusic Logo]                               │  │  [女神 ikonu — beyaz çizim]           │  │
-│  │  Seni Tanıyalım                                 │  │                                       │  │
-│  │  Sisteme                                         │  │  Hoş Geldin                           │  │
-│  │  milyonlarca şarkı, özel                        │  │  Hesabına giriş yap, müziğin keyfini  │  │
-│  │  önerilerin, playlistler,                       │  │  çıkar                                 │  │
-│  │  sonntaxlar, keyfi Benim için.                 │  │                                       │  │
-│  │                                                 │  │  E-posta, Telefon veya Kullanıcı Adı  │  │
-│  │  [Tam kaplama arka plan fotoğrafı]              │  │  ┌───────────────────────────────┐    │  │
-│  │  (aynı arka plan — gender'a göre renk değişir) │  │  │ (C06 input)                    │    │  │
-│  │                                                 │  │  └───────────────────────────────┘    │  │
+│  │  [CoreMusic Logo]                               │  │  [Kadın ikonu — beyaz çizim]          │  │
 │  │                                                 │  │                                       │  │
-│  │                                                 │  │  Şifre                                │  │
+│  │  "Aşkınla"                                      │  │  Hoş Geldin                           │  │
+│  │  "milkyenine!"                                  │  │  Hesabına giriş yap, müziğin keyfini  │  │
+│  │  (dekoratif, italik, Bickham Script)            │  │  çıkar                                 │  │
+│  │                                                 │  │                                       │  │
+│  │  "sistem. Milyonlarca şarkı, özel               │  │  E-posta, Telefon veya Kullanıcı Adı  │  │
+│  │  oluşturulmuş playlistler, sonsuz müzik         │  │  ┌───────────────────────────────┐    │  │
+│  │  keyfi. Senin için"                             │  │  │ (C06 input)                    │    │  │
+│  │                                                 │  │  └───────────────────────────────┘    │  │
+│  │  [Tam kaplama arka plan fotoğrafı]              │  │                                       │  │
+│  │  (kadın fotoğrafı — pembe çiçekli manzara)     │  │  Şifre                                │  │
 │  │                                                 │  │  ┌───────────────────────────────┐    │  │
 │  │                                                 │  │  │ ●●●●●● (C06 input, şifre)     │    │  │
 │  │                                                 │  │  └───────────────────────────────┘    │  │
@@ -55,12 +55,12 @@ references:
 │  │                                                 │  │                                       │  │
 │  │                                                 │  │  [Giriş Yap] (C04, pembe, full-width) │  │
 │  │                                                 │  │                                       │  │
-│  │                                                 │  │  ── veya alternatif ile devam et ──   │  │
+│  │                                                 │  │  ── veya ──                           │  │
 │  │                                                 │  │  (11px, muted, ortala)                │  │
 │  │                                                 │  │                                       │  │
 │  │                                                 │  │  [🍎] [G] [f]  (Apple, Google, FB)    │  │
 │  │                                                 │  │  [💬] [📷] [🎵]  (WA, IG, TikTok)    │  │
-│  │                                                 │  │  [🎤] (mikrofon — sesli giriş)        │  │
+│  │                                                 │  │  [🎵] (Spotify)                      │  │
 │  │                                                 │  │  Her biri: C08, 52×52px               │  │
 │  │                                                 │  │                                       │  │
 │  │                                                 │  │  Hesabın yok mu?  Kayıt Ol            │  │
@@ -104,13 +104,14 @@ references:
 
 ### 2.4 — Social Buttons (C08)
 
-| Satır | Butonlar |
-|-------|---------|
-| 1 | 🍎 Apple, G Google, f Facebook |
-| 2 | 💬 WhatsApp, 📷 Instagram, 🎵 TikTok |
-| 3 | 🎤 Mikrofon |
+| Satır | Butonlar | Renkler |
+|-------|---------|---------|
+| 1 | 🍎 Apple, G Google, f Facebook | Siyah, Kırmızı/Beyaz, Mavi |
+| 2 | 💬 WhatsApp, 📷 Instagram, 🎵 TikTok | Yeşil, Pembe/Mor, Siyah |
+| 3 | 🎵 Spotify | Yeşil |
 
 Her buton: 52×52px, border-radius: 12px
+Platform-specific renkler kullanılır (şeffaf arka plan YOK)
 
 ---
 
@@ -193,8 +194,8 @@ Her buton: 52×52px, border-radius: 12px
 │  │                                                │  │                                         │  │
 │  │                                                │  │  ── veya alternatif ile devam et ──     │  │
 │  │                                                │  │                                         │  │
-│  │                                                │  │  [🍎][G][f]  [💬][📷][🎵]  [🎤]        │  │
-│  │                                                │  │  (64×64px, radius: 12px)                │  │
+│  │                                                │  │  [🍎][G][f]  [💬][📷][🎵]  [🎵]      │  │
+│  │                                                │  │  (64×64px, radius: 12px)               │  │
 │  │                                                │  │                                         │  │
 │  │                                                │  │  Hesabın yok mu?  Kayıt Ol              │  │
 │  └────────────────────────────────────────────────┘  └─────────────────────────────────────────┘  │
@@ -254,7 +255,7 @@ Her buton: 52×52px, border-radius: 12px
 │                          │
 │ [🍎][G][f]               │
 │ [💬][📷][🎵]             │
-│ [🎤]                     │
+│ [🎵]                     │
 │                          │
 │ Hesabın yok mu? Kayıt Ol │
 └─────────────────────────┘
@@ -311,7 +312,7 @@ Social buton: 52×52px
 │  │                                                        │  │                                                     │  │
 │  │                                                        │  │  ── veya ── (16px)                                   │  │
 │  │                                                        │  │                                                     │  │
-│  │                                                        │  │  [🍎][G][f]  [💬][📷][🎵]  [🎤]                    │  │
+│  │                                                        │  │  [🍎][G][f]  [💬][📷][🎵]  [🎵]                │  │
 │  │                                                        │  │  (80×80px, radius: 16px)                             │  │
 │  │                                                        │  │                                                     │  │
 │  │                                                        │  │  Hesabın yok mu? Kayıt Ol (16px)                    │  │
@@ -333,7 +334,7 @@ Social buton: 52×52px
 | `--accent` | `#ff4fd8` | Giriş Yap butonu, focus ring, checkbox |
 | `--accent-hover` | `#e63dc0` | Hover durumu |
 | `--accent-bg` | `rgba(255,79,216,0.15)` | Focus ring arka plan |
-| Gradient | sunset/çimenlik | Sol alan arka plan |
+| Gradient | kadın fotoğrafı (pembe çiçekli manzara) | Sol alan arka plan |
 
 ### 5.2 — Male Teması (Mavi)
 
@@ -664,7 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ---
 
-*Login Screen Spec v3.0.0 — CoreMusic UI Design System*
+*Login Screen Spec v2.0.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-17*
+*Last Updated: 2026-08-19*
 *Mode: Red Team · Human Mode · Truth Mode*

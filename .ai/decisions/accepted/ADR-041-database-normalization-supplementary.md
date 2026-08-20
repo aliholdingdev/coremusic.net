@@ -1,20 +1,8 @@
----
-type: decision
-id: "041"
+﻿---
 title: "ADR-041: DB Normalization Supplementary"
-category: "database"
-status: "active"
-date: "2026-07-30"
-updated: "2026-08-15"
-authority: "Data Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: active
+date: 2026-07-30
 tags: [database, normalization, supplementary, active]
-risk-level: "medium"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-040-database-authority]]"
-  - "[[decisions/accepted/ADR-033-sql-normalization-strategy]]"
 ---
 
 # ADR-041: DB Normalization Supplementary
@@ -23,7 +11,7 @@ references:
 
 ## 1. Executive Summary
 
-ADR-033'a ek bilgi: BCNF normalizasyonu sırasında dikkat edilecek ek kurallar. Composite key kullanımı, junction tablolar, denormalizasyon stratejisi.
+ADR-033'a ek bilgi: BCNF normalizasyonu sÄ±rasÄ±nda dikkat edilecek ek kurallar. Composite key kullanÄ±mÄ±, junction tablolar, denormalizasyon stratejisi.
 
 ## 2. Decision
 
@@ -31,13 +19,13 @@ ADR-033'a ek bilgi: BCNF normalizasyonu sırasında dikkat edilecek ek kurallar.
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Composite key kullanımı | ⚠️ Gerekirse |
-| 2 | Junction tablolar | ✅ Many-to-Many için |
-| 3 | Denormalizasyon | ⚠️ Performans için izinli |
-| 4 | Audit trail tabloları | ✅ Zorunlu |
-| 5 | Soft delete her tabloda | ✅ Zorunlu |
+| 1 | Composite key kullanÄ±mÄ± | âš ï¸ Gerekirse |
+| 2 | Junction tablolar | âœ… Many-to-Many iÃ§in |
+| 3 | Denormalizasyon | âš ï¸ Performans iÃ§in izinli |
+| 4 | Audit trail tablolarÄ± | âœ… Zorunlu |
+| 5 | Soft delete her tabloda | âœ… Zorunlu |
 
-### Junction Tablo Standardı
+### Junction Tablo StandardÄ±
 
 ```sql
 CREATE TABLE user_playlists (
@@ -58,14 +46,14 @@ CREATE TABLE user_playlists (
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-041: DB Normalization Supplementary v2.0.0 — CoreMusic Database*
-*Authority: Data Engineer · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-041: DB Normalization Supplementary v2.0.0 â€” CoreMusic Database*
+*Authority: Data Engineer Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

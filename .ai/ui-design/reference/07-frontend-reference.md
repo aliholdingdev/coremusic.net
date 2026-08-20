@@ -11,7 +11,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Frontend Reference
 
-**Zorunlu Baglantilar:** [[ADR-001-vanilla-js-itcss]] · [[ADR-044-dynamic-user-theme-engine]] · [[01-design-tokens]]
+**Zorunlu Baglantilar:** [[ADR-001-vanilla-js-itcss]] · [[ADR-044-dynamic-user-theme-engine]] · [[tokens/design-tokens-master]]
 
 ---
 
@@ -462,7 +462,7 @@ async function loadDashboard() {
 |--------|-------|
 | Bu dosya | [[ADR-001-vanilla-js-itcss]] |
 | Bu dosya | [[ADR-044-dynamic-user-theme-engine]] |
-| Bu dosya | [[01-design-tokens]] |
+| Bu dosya | [[tokens/design-tokens-master]] |
 | Bu dosya | [[02-implementation-plan]] |
 | Bu dosya | [[06-backend-reference]] |
 

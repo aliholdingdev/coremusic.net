@@ -140,7 +140,7 @@ Herhangi bir Composer paketi projeye eklenmeden önce aşağıdaki kriterler ana
 
 | Paket | Amaç |
 |--------|------|
-| `lcobucci/jwt` | JWT (RS256, ES256 — firebase/php-jkt yasaklı, ADR-059) |
+| `lcobucci/jwt` | JWT (RS256, ES256 — firebase/php-jkt yasaklı) |
 | `league/oauth2-server` | OAuth2 Server |
 | `symfony/security-csrf` | CSRF |
 | `symfony/password-hasher` | Password Hash |
@@ -389,7 +389,7 @@ symfony/translation
 
 **Yeni Eklenenler (v2.1.0):**
 - `doctrine/dbal` — Veritabanı abstraction (PDO üzerinde type-safe queries, schema management, migration support). ORM DEĞİL, sadece DBAL katmanı.
-- `lcobucci/jwt` — JWT token oluşturma/doğrulama (RS256, ES256 destekli). **Tek JWT paketi.** `firebase/php-jkt` yasaklı (brain.md §4A, ADR-059).
+- `lcobucci/jwt` — JWT token oluşturma/doğrulama (RS256, ES256 destekli). **Tek JWT paketi.** `firebase/php-jkt` yasaklı (brain.md §4A).
 - `league/oauth2-server` — OAuth2 Server implementasyonu (Authorization Code, Client Credentials grant types).
 
 ## 6. Shared Library (`shared/`)

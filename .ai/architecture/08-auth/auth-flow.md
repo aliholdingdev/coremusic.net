@@ -190,7 +190,7 @@ Authentication lifecycle'ı tanımlar: login, logout, session refresh, ve cross-
 
 ## 7. Development Standalone Auth Callback Flow
 
-**Kaynak:** [[ADR-058-cross-subdomain-auth-flow]]
+
 
 Development modunda auth.coremusic.net yerel sunucuda çalışır (port 81, HTTP).
 

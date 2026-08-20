@@ -1,27 +1,8 @@
----
-type: decision
-id: "020"
+﻿---
 title: "ADR-020: API Public Security"
-category: "security"
-status: "frozen"
-date: "2026-02-20"
-updated: "2026-08-15"
-authority: "Security Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-supersedes: null
-version: 2.0.0
+status: frozen
+date: 2026-02-20
 tags: [security, api, public, jwt, rate-limit, frozen]
-risk-level: "high"
-owasp-top10: ["A01:2021", "A07:2021", "A10:2021"]
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[AGENTS.md]]"
-  - "[[decisions/accepted/ADR-010-csrf-protection-strategy]]"
-  - "[[decisions/accepted/ADR-013-rate-limiting-apcu]]"
-  - "[[decisions/accepted/ADR-022-database-hardened-security]]"
-  - "[[decisions/accepted/ADR-084-api-gateway-architecture]]"
-  - "[[architecture/l1-security]]"
 ---
 
 # ADR-020: API Public Security
@@ -30,32 +11,32 @@ references:
 
 ## 1. Executive Summary
 
-### 1.1 Kararın Özeti
+### 1.1 KararÄ±n Ã–zeti
 
-CoreMusic API güvenlik stratejisi, **multi-layer** koruma ile uygulanır: API key authentication, rate limiting, input validation ve CORS policy. Public API endpoint'leri için API key zorunludur. Internal API endpoint'leri için session-based auth kullanılır.
+CoreMusic API gÃ¼venlik stratejisi, **multi-layer** koruma ile uygulanÄ±r: API key authentication, rate limiting, input validation ve CORS policy. Public API endpoint'leri iÃ§in API key zorunludur. Internal API endpoint'leri iÃ§in session-based auth kullanÄ±lÄ±r.
 
-### 1.2 Temel Gerekçe
+### 1.2 Temel GerekÃ§e
 
-API'ler, sistemin dışa açılan kapısıdır. Zayıf API güvenliği, veri sızıntısı ve yetkisiz erişim saldırılarına yol açar. CoreMusic'in multi-service yapısında API güvenliği kritik önem taşır.
+API'ler, sistemin dÄ±ÅŸa aÃ§Ä±lan kapÄ±sÄ±dÄ±r. ZayÄ±f API gÃ¼venliÄŸi, veri sÄ±zÄ±ntÄ±sÄ± ve yetkisiz eriÅŸim saldÄ±rÄ±larÄ±na yol aÃ§ar. CoreMusic'in multi-service yapÄ±sÄ±nda API gÃ¼venliÄŸi kritik Ã¶nem taÅŸÄ±r.
 
-### 1.3 Beklenen Sonuçlar
+### 1.3 Beklenen SonuÃ§lar
 
-- Public API için API key authentication
-- Rate limiting tüm API endpoint'lerinde
+- Public API iÃ§in API key authentication
+- Rate limiting tÃ¼m API endpoint'lerinde
 - Input validation her istekte
-- CORS policy whitelist tabanlı
-- SSRF koruması
+- CORS policy whitelist tabanlÄ±
+- SSRF korumasÄ±
 
 ---
 
 ## 2. Status
 
-| Alan | Değer |
+| Alan | DeÄŸer |
 |------|-------|
 | **Durum** | frozen |
 | **Versiyon** | 2.0.0 |
-| **Oluşturma Tarihi** | 2026-02-20 |
-| **Son Güncelleme** | 2026-08-15 |
+| **OluÅŸturma Tarihi** | 2026-02-20 |
+| **Son GÃ¼ncelleme** | 2026-08-15 |
 | **Otorite** | Security Engineer |
 | **Risk Seviyesi** | high |
 
@@ -63,52 +44,52 @@ API'ler, sistemin dışa açılan kapısıdır. Zayıf API güvenliği, veri sı
 
 ## 3. Context
 
-### 3.1 Problem Tanımı
+### 3.1 Problem TanÄ±mÄ±
 
-API saldırıları:
-- Unauthorized access (yetkisiz erişim)
-- Data leakage (veri sızıntısı)
-- Abuse (kötüye kullanım)
+API saldÄ±rÄ±larÄ±:
+- Unauthorized access (yetkisiz eriÅŸim)
+- Data leakage (veri sÄ±zÄ±ntÄ±sÄ±)
+- Abuse (kÃ¶tÃ¼ye kullanÄ±m)
 - SSRF (Server-Side Request Forgery)
 
-### 3.2 API Güvenlik Katmanları
+### 3.2 API GÃ¼venlik KatmanlarÄ±
 
 ```
-┌─────────────────────────────────────────────────┐
-│              API Security Layers                  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Layer 1: Origin Check                     │  │
-│  │  • Whitelist tabanlı CORS                  │  │
-│  │  • Sadece izin verilen domain'ler          │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Layer 2: Rate Limiting (ADR-013)         │  │
-│  │  • 60 req/60s global                       │  │
-│  │  • 120 req/60s API key bazlı              │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Layer 3: Authentication                   │  │
-│  │  • API key (public)                        │  │
-│  │  • JWT/Session (internal)                  │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Layer 4: Input Validation                 │  │
-│  │  • Request schema validation               │  │
-│  │  • SQL injection prevention                │  │
-│  │  • XSS prevention                          │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  Layer 5: SSRF Protection                  │  │
-│  │  • URL validation                          │  │
-│  │  • Private IP blocking                     │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-└─────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚              API Security Layers                  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Layer 1: Origin Check                     â”‚  â”‚
+â”‚  â”‚  â€¢ Whitelist tabanlÄ± CORS                  â”‚  â”‚
+â”‚  â”‚  â€¢ Sadece izin verilen domain'ler          â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Layer 2: Rate Limiting (ADR-013)         â”‚  â”‚
+â”‚  â”‚  â€¢ 60 req/60s global                       â”‚  â”‚
+â”‚  â”‚  â€¢ 120 req/60s API key bazlÄ±              â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Layer 3: Authentication                   â”‚  â”‚
+â”‚  â”‚  â€¢ API key (public)                        â”‚  â”‚
+â”‚  â”‚  â€¢ JWT/Session (internal)                  â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Layer 4: Input Validation                 â”‚  â”‚
+â”‚  â”‚  â€¢ Request schema validation               â”‚  â”‚
+â”‚  â”‚  â€¢ SQL injection prevention                â”‚  â”‚
+â”‚  â”‚  â€¢ XSS prevention                          â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚  Layer 5: SSRF Protection                  â”‚  â”‚
+â”‚  â”‚  â€¢ URL validation                          â”‚  â”‚
+â”‚  â”‚  â€¢ Private IP blocking                     â”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜  â”‚
+â”‚                                                  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
@@ -117,22 +98,22 @@ API saldırıları:
 
 ### 4.1 Karar Bildirimi
 
-**CoreMusic API'leri multi-layer güvenlik ile korunur: Origin Check → Rate Limit → Auth → Validation → SSRF Protection.**
+**CoreMusic API'leri multi-layer gÃ¼venlik ile korunur: Origin Check â†’ Rate Limit â†’ Auth â†’ Validation â†’ SSRF Protection.**
 
 ### 4.2 Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | API key authentication | ✅ Zorunlu (public) |
-| 2 | Session-based auth | ✅ Zorunlu (internal) |
-| 3 | Rate limiting | ✅ Zorunlu |
-| 4 | Input validation | ✅ Zorunlu |
-| 5 | CORS whitelist | ✅ Zorunlu |
-| 6 | SSRF protection | ✅ Zorunlu |
-| 7 | HTTPS only | ✅ Zorunlu |
-| 8 | API versioning | ✅ Zorunlu |
+| 1 | API key authentication | âœ… Zorunlu (public) |
+| 2 | Session-based auth | âœ… Zorunlu (internal) |
+| 3 | Rate limiting | âœ… Zorunlu |
+| 4 | Input validation | âœ… Zorunlu |
+| 5 | CORS whitelist | âœ… Zorunlu |
+| 6 | SSRF protection | âœ… Zorunlu |
+| 7 | HTTPS only | âœ… Zorunlu |
+| 8 | API versioning | âœ… Zorunlu |
 
-### 4.3 Kod Örnekleri
+### 4.3 Kod Ã–rnekleri
 
 #### 4.3.1 API Key Authentication
 
@@ -147,7 +128,7 @@ namespace CoreMusic\Security\Middleware;
  * API Key Authentication Middleware
  *
  * ADR-020 uyumlu API key authentication.
- * Public API için zorunlu.
+ * Public API iÃ§in zorunlu.
  */
 final class ApiKeyMiddleware implements MiddlewareInterface
 {
@@ -187,7 +168,7 @@ final class ApiKeyMiddleware implements MiddlewareInterface
 
     private function isValidApiKey(string $apiKey): bool
     {
-        // DB'den API key doğrulama
+        // DB'den API key doÄŸrulama
         $db = DatabaseConnection::getInstance();
         $stmt = $db->prepare(
             'SELECT id FROM api_keys WHERE key_hash = :hash AND is_active = 1'
@@ -210,8 +191,8 @@ namespace CoreMusic\Security\Service;
 /**
  * SSRF Protection Service
  *
- * ADR-020 uyumlu SSRF koruması.
- * Private IP aralıklarını engeller.
+ * ADR-020 uyumlu SSRF korumasÄ±.
+ * Private IP aralÄ±klarÄ±nÄ± engeller.
  */
 final class SsrfProtectionService
 {
@@ -227,7 +208,7 @@ final class SsrfProtectionService
     ];
 
     /**
-     * URL'nin güvenli olup olmadığını kontrol eder.
+     * URL'nin gÃ¼venli olup olmadÄ±ÄŸÄ±nÄ± kontrol eder.
      */
     public function isUrlSafe(string $url): bool
     {
@@ -242,7 +223,7 @@ final class SsrfProtectionService
             return false;
         }
 
-        // Private IP kontrolü
+        // Private IP kontrolÃ¼
         $host = $parsed['host'] ?? '';
         $ip = gethostbyname($host);
 
@@ -257,7 +238,7 @@ final class SsrfProtectionService
 
     private function ipInRange(string $ip, string $range): bool
     {
-        // CIDR notation kontrolü
+        // CIDR notation kontrolÃ¼
         [$subnet, $mask] = explode('/', $range);
         $ipLong = ip2long($ip);
         $subnetLong = ip2long($subnet);
@@ -268,9 +249,9 @@ final class SsrfProtectionService
 }
 ```
 
-### 4.4 Konfigürasyon
+### 4.4 KonfigÃ¼rasyon
 
-| Dosya | Değer |
+| Dosya | DeÄŸer |
 |-------|-------|
 | `shared/config/cors.php` | Whitelist origins |
 | `shared/config/api.php` | API key settings |
@@ -280,10 +261,10 @@ final class SsrfProtectionService
 ## 5. Architecture
 
 ```
-Client → Origin Check → Rate Limit → API Key Auth → Validation → Controller
-                                    │
-                                    ├──► Valid → Continue
-                                    └──► Invalid → 401
+Client â†’ Origin Check â†’ Rate Limit â†’ API Key Auth â†’ Validation â†’ Controller
+                                    â”‚
+                                    â”œâ”€â”€â–º Valid â†’ Continue
+                                    â””â”€â”€â–º Invalid â†’ 401
 ```
 
 ---
@@ -292,35 +273,35 @@ Client → Origin Check → Rate Limit → API Key Auth → Validation → Contr
 
 | Alternatif | Neden Reddedildi |
 |------------|------------------|
-| OAuth2 only | Karmaşık, API key yeterli |
-| IP whitelist | Dynamic IP'ler için uygun değil |
-| No auth | Güvensiz |
+| OAuth2 only | KarmaÅŸÄ±k, API key yeterli |
+| IP whitelist | Dynamic IP'ler iÃ§in uygun deÄŸil |
+| No auth | GÃ¼vensiz |
 
 ---
 
 ## 7. Consequences
 
 ### Olumlu
-- API güvenliği sağlanır
-- OWASP uyumluluğu
+- API gÃ¼venliÄŸi saÄŸlanÄ±r
+- OWASP uyumluluÄŸu
 - Multi-layer koruma
 
 ### Olumsuz
-- API key yönetimi karmaşık
+- API key yÃ¶netimi karmaÅŸÄ±k
 - Rate limit overhead
 
 ---
 
 ## 8. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-020: API Public Security v2.0.0 — CoreMusic Security*
-*Authority: Security Engineer · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-020: API Public Security v2.0.0 â€” CoreMusic Security*
+*Authority: Security Engineer Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

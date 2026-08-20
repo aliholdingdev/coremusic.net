@@ -11,8 +11,6 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Backend Reference
 
-**Zorunlu Baglantilar:** [[ADR-051-platform-rewrite-from-scratch]] · [[ADR-053-enterprise-router-architecture]] · [[ADR-054-enterprise-composer-stack]]
-
 ---
 
 ## 1. Amaç
@@ -346,8 +344,6 @@ X-RateLimit-Reset: 1691750400
 
 | Kaynak | Hedef |
 |--------|-------|
-| Bu dosya | [[ADR-051-platform-rewrite-from-scratch]] |
-| Bu dosya | [[ADR-053-enterprise-router-architecture]] |
 | Bu dosya | [[ADR-010-csrf-protection-strategy]] |
 | Bu dosya | [[ADR-011-session-management]] |
 | Bu dosya | [[ADR-002-pdo-mandatory-no-orm]] |
@@ -361,7 +357,7 @@ X-RateLimit-Reset: 1691750400
 | Version | 1.0.0 |
 | Sections | 12 |
 | API Endpoints | 20+ |
-| ADR Coverage | 051, 053, 010, 011, 002 |
+| ADR Coverage | 010, 011, 002 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 
 ---

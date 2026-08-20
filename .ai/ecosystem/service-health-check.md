@@ -62,11 +62,7 @@ reference:
 
 ## 4. Sağlık Durumları
 
-| Durum | Kod | Anlam | Aksiyon |
-|-------|-----|-------|---------|
-| **Healthy** | 200 | Servis tam çalışıyor | Devam |
-| **Degraded** | 207 | Yavaş yanıt (>1s) veya kısmi hata | Uyar, devam |
-| **Unhealthy** | 503 | Servis çalışmıyor | Retry → Fallback → Escalation |
+> Detay: [[ecosystem/state-machines]] §4
 
 ---
 
@@ -167,13 +163,7 @@ Her servis kendi bağımlılıklarını health check'e dahil eder:
 
 ## 9. Retry Stratejisi
 
-| Parametre | Değer |
-|-----------|-------|
-| Max Retry | 3 |
-| Initial Delay | 100ms |
-| Max Delay | 5000ms |
-| Backoff | Exponential (x2) |
-| Jitter | ±20% |
+> Detay: [[ecosystem/service-communication]] §7
 
 ---
 
@@ -197,7 +187,7 @@ Her servis kendi bağımlılıklarını health check'e dahil eder:
 | [[ecosystem/7-service-integration]] | Servis entegrasyonu |
 | [[ecosystem/error-recovery]] | Hata kurtarma |
 | [[ecosystem/service-communication]] | İletişim protokolleri |
-| [[architecture/03-services]] | Servis detayları |
+| [[architecture/06-audio]] | Servis detayları |
 | [[architecture/00-overview/architecture-master]] | Canonical counts |
 
 ---

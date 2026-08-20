@@ -11,8 +11,6 @@ governance: Red Team · Human Mode · Truth Mode
 
 # PHP Source Architecture Reference
 
-**Zorunlu Baglantilar:** [[ADR-051-platform-rewrite-from-scratch]] · [[ADR-052-hybrid-auth-architecture]] · [[ADR-053-enterprise-router-architecture]] · [[ADR-054-enterprise-composer-stack]]
-
 ---
 
 ## 1. Amaç
@@ -89,7 +87,7 @@ $result = $pdo->query("SELECT * FROM users WHERE id = $userId");
 
 ---
 
-## 4. PageRouter (ADR-053)
+## 4. PageRouter
 
 | Özellik | Değer |
 |---------|-------|
@@ -380,10 +378,6 @@ C:\www\coremusic.net\
 
 | Kaynak | Hedef |
 |--------|-------|
-| Bu dosya | [[ADR-051-platform-rewrite-from-scratch]] |
-| Bu dosya | [[ADR-052-hybrid-auth-architecture]] |
-| Bu dosya | [[ADR-053-enterprise-router-architecture]] |
-| Bu dosya | [[ADR-054-enterprise-composer-stack]] |
 | Bu dosya | [[ADR-010-csrf-protection-strategy]] |
 | Bu dosya | [[ADR-011-session-management]] |
 | Bu dosya | [[ADR-002-pdo-mandatory-no-orm]] |
@@ -396,7 +390,7 @@ C:\www\coremusic.net\
 |--------|-------|
 | Version | 1.0.0 |
 | Sections | 14 |
-| ADR Coverage | 051, 052, 053, 054, 010, 011, 002 |
+| ADR Coverage | 010, 011, 002 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 
 ---

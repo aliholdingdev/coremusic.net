@@ -247,7 +247,7 @@ services:
 
 | Dosya | Amaç |
 |-------|------|
-| [[architecture/01-overview/architecture_master]] | Architecture |
+| [[architecture/00-overview/architecture-master]] | Architecture |
 | [[ADR-042-vault-restructuring-2026-08-03]] | Port mapping |
 | [[architecture/03-contracts/service-ipc]] | IPC |
 | [[architecture/02-deployment/docker-compose]] | Docker |

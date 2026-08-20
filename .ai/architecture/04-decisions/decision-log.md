@@ -112,7 +112,7 @@ Tüm mimari kararların kronolojik kaydını tutan, ADR'lerin durum değişiklik
 | 2026-08-05 | ADR-043 | UPDATE | Auth flow | 56 test, 0 failure |
 | 2026-08-08 | ADR-045 | ACTIVE | Multi-domain view | View mode |
 | 2026-08-08 | ADR-046 | ACTIVE | Cross-view state | State koruma |
-| 2026-08-08 | ADR-047 | ACTIVE | Login redirect | Session bridge |
+
 | 2026-08-08 | ADR-048 | ACTIVE | View Transition | API entegrasyonu |
 | 2026-08-08 | ADR-049 | ACTIVE | Startup prompt | Prompt loader |
 | 2026-08-08 | ADR-050 | ACTIVE | Multi-DB sync | Sync stratejisi |
@@ -145,7 +145,7 @@ Tüm mimari kararların kronolojik kaydını tutan, ADR'lerin durum değişiklik
 
 | Dosya | Amaç |
 |-------|------|
-| [[architecture/04-decisions/adr-index]] | ADR index |
+| [[decisions/index]] | ADR index |
 | [[architecture/04-decisions/adr-lifecycle]] | Lifecycle |
 | [[brain.md]] | Engineering brain |
 | [[log.md]] | Audit trail |
@@ -155,7 +155,7 @@ Tüm mimari kararların kronolojik kaydını tutan, ADR'lerin durum değişiklik
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § 3 History | [[decisions/accepted/]] | ADR dosyaları |
-| § 4 İstatistikler | [[architecture/04-decisions/adr-index]] | ADR listesi |
+| § 4 İstatistikler | [[decisions/index]] | ADR listesi |
 | § 5 Trend | [[log.md]] | Audit trail |
 
 ## 8. Sözlük

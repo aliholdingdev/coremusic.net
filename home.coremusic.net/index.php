@@ -61,8 +61,14 @@ if ($requestUri === '/health') {
 // Auth callback — redirect sorununu önlemek için kernel'den önce işle
 if ($requestUri === '/auth/callback' || $requestUri === 'auth/callback') {
     $authKeyRaw = (string)($_GET['auth_key'] ?? '');
+    $homeLogger = \CoreMusic\Log\LoggerFactory::getInstance();
+    $homeLogger->debug('[Home] Auth callback triggered', [
+        'has_auth_key' => $authKeyRaw !== '',
+        'auth_key_prefix' => $authKeyRaw !== '' ? substr($authKeyRaw, 0, 8) . '...' : '',
+    ]);
 
     if ($authKeyRaw === '') {
+        $homeLogger->warning('[Home] Auth callback with empty auth_key, redirecting to /login');
         header('Location: /login', true, 302);
         exit;
     }
@@ -89,6 +95,9 @@ if ($requestUri === '/auth/callback' || $requestUri === 'auth/callback') {
     $result = $authBridge->validateAndCreateSession($authKeyRaw);
 
     if ($result['success']) {
+        $homeLogger->debug('[Home] Auth callback session created', [
+            'user_id' => $result['user']['id'] ?? '-',
+        ]);
         // Session'u diske yaz
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_write_close();
@@ -98,6 +107,9 @@ if ($requestUri === '/auth/callback' || $requestUri === 'auth/callback') {
     }
 
     // Başarısız → login'e dön
+    $homeLogger->warning('[Home] Auth callback validation failed', [
+        'error' => $result['error'] ?? 'unknown',
+    ]);
     header('Location: /login?error=invalid_key', true, 302);
     exit;
 }

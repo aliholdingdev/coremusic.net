@@ -1,141 +1,16 @@
 ---
+title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-title: "CoreMusic — AI Constitution & Master Vault Mandate"
 date: 2026-08-08
-updated: 2026-08-13
+updated: 2026-08-19
 status: active
-version: 22.0.0
+version: 23.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/CLAUDE.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-    - ".ai/keys.md"
-    - ".ai/MEMORY.md"
-    - ".ai/log.md"
-    - ".ai/engine.md"
-  architecture:
-    - ".ai/ADR/"
-    - "Existing project architecture"
-    - "Existing codebase patterns"
-  project_structure:
-    - "coremusic.net/"
-    - "shared/"
-    - "api.coremusic.net/"
-    - "auth.coremusic.net/"
-    - "music.coremusic.net/"
-    - "admin.coremusic.net/"
-    - "home.coremusic.net/"
-    - "car.coremusic.net/"
-    - "studio.coremusic.net/"
-    - "pro.coremusic.net/"
-    - "media.coremusic.net/"
-    - "download.coremusic.net/"
-  decision_priority:
-    - "ADR decisions"
-    - "Architecture documentation"
-    - "Security requirements"
-    - "Existing implementation"
-    - "User requirements"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "file rename"
-      - "directory move"
-      - "architecture change"
-      - "database schema change"
-      - "security policy change"
-  skills:
-    - path: ".opencode/skills/ui-code-generator/SKILL.md"
-      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
-    - path: ".opencode/skills/ui-analyzer/SKILL.md"
-      purpose: "UI analizi, mevcut tasarım değerlendirme"
-    - path: ".opencode/skills/skill-maker/SKILL.md"
-      purpose: "Yeni skill oluşturma, skill template sistemi"
-    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
-      purpose: "Güvenlik testi, truth mode, adversarial analiz"
-    - path: ".opencode/skills/prompt-maker/SKILL.md"
-      purpose: "Prompt mühendisliği, AI talimat tasarımı"
-    - path: ".opencode/skills/composer-sync/SKILL.md"
-      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
-    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
-      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
-    - path: ".opencode/skills/human-mode/SKILL.md"
-      purpose: "İnsan modu iletişimi, onay süreçleri"
-    - path: ".opencode/skills/hallucination-control/SKILL.md"
-      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
-    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
-      purpose: "BCNF normalizasyonu, şema tasarımı"
-  templates:
-    adr:
-      - path: ".ai/.templates/adr/adr-template.md"
-        purpose: "Architecture Decision Record şablonu"
-      - path: ".ai/.templates/adr/adr-frontend-template.md"
-        purpose: "Frontend ADR şablonu"
-      - path: ".ai/.templates/adr/adr-database-template.md"
-        purpose: "Database ADR şablonu"
-      - path: ".ai/.templates/adr/adr-security-template.md"
-        purpose: "Security ADR şablonu"
-      - path: ".ai/.templates/adr/adr-audio-template.md"
-        purpose: "Audio/Hardware ADR şablonu"
-      - path: ".ai/.templates/adr/adr-index.md"
-        purpose: "ADR navigasyon rehberi"
-    backend:
-      - path: ".ai/.templates/backend/php-template.md"
-        purpose: "PHP 8.4 backend geliştirme şablonu"
-      - path: ".ai/.templates/backend/nodejs-template.md"
-        purpose: "Node.js 20+ backend geliştirme şablonu"
-    frontend:
-      - path: ".ai/.templates/frontend/js-template.md"
-        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
-      - path: ".ai/.templates/frontend/css-template.md"
-        purpose: "ITCSS 9-layer, BEM CSS şablonu"
-    testing:
-      - path: ".ai/.templates/testing/phpunit-template.md"
-        purpose: "PHPUnit 10+ test şablonu"
-      - path: ".ai/.templates/testing/vitest-template.md"
-        purpose: "Vitest JS/TS test şablonu"
-    infrastructure:
-      - path: ".ai/.templates/infrastructure/migration-template.md"
-        purpose: "MySQL 9 BCNF migration şablonu"
-      - path: ".ai/.templates/infrastructure/docker-template.md"
-        purpose: "Docker 24+ Compose v2 şablonu"
-      - path: ".ai/.templates/infrastructure/github-actions-template.md"
-        purpose: "GitHub Actions CI/CD şablonu"
-    documentation:
-      - path: ".ai/.templates/documentation/api-doc-template.md"
-        purpose: "API dokümantasyon şablonu"
-      - path: ".ai/.templates/documentation/security-audit-template.md"
-        purpose: "Güvenlik denetimi şablonu"
-      - path: ".ai/.templates/documentation/WikiPage-Template.md"
-        purpose: "Wiki sayfası şablonu"
-    hardware:
-      - path: ".ai/.templates/hardware/arduino-template.md"
-        purpose: "Arduino/IoT prototipleme şablonu"
-      - path: ".ai/.templates/hardware/avr-template.md"
-        purpose: "AVR mikrodenetleyici şablonu"
-      - path: ".ai/.templates/hardware/pic-template.md"
-        purpose: "PIC mikrodenetleyici şablonu"
-    query:
-      - path: ".ai/.templates/query/Query-Template.md"
-        purpose: "SQL sorgu şablonu"
-    other:
-      - path: ".ai/.templates/other/c-template.md"
-        purpose: "C11 GCC embedded/driver şablonu"
-      - path: ".ai/.templates/cpp-template.md"
-        purpose: "C++20 JUCE/ASIO şablonu"
-changelog:
-  - version: 22.0.0
-    date: 2026-08-13
-    changes:
-      - Added reference section (skills, templates, project_structure)
-      - Updated governance format
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .ai/brain.md · .ai/index.md"
 ---
 
 # CoreMusic — AI Constitution & Master Vault Mandate
@@ -361,6 +236,7 @@ shared/
 | 14 | Human Approval Gate | Mimari karar öncesi kullanıcı onayı zorunlu | Kod revert edilir |
 | 15 | Vault-First Mandatory | AI, .ai/ vault'unu (CLAUDE.md + AGENTS.md + WORKFLOW.md + brain.md + ROLE.md) OKUMADAN hiçbir plan/kod/faaliyet başlatamaz | İşlem derhal durdurulur + revert |
 | 16 | Template Mandatory | Yeni dosya oluşturulurken `.ai/.templates/index.md`'den uygun template seçilmek ZORUNLU | Dosya geçersiz |
+| 17 | Single Component Responsive | 1024x600 mockup = pixel reference. Tek component sistemi + responsive CSS. Ayrı HTML/branch YASAK. CSS variables + media queries. Device CSS sadece behavioral override. | Kod revert edilir |
 
 ---
 
@@ -699,6 +575,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | [[archives/prompt1-spa-router-2026-08-13]] | SPA Router mimarisi promptu |
 | [[archives/prompt2-auth-2026-08-13]] | Authentication sistemi promptu |
 | [[archives/prompt3-api-2026-08-13]] | API mimarisi promptu |
+| [[glossary]] | Teknik terimler sözlüğü (32 terim) |
 
 ### 26.1 Prompt Entegrasyonu (prompt0-3)
 
@@ -791,40 +668,7 @@ Her oturum başlangıcında sırayla okunur:
 
 ## 28. Sözlük
 
-| Terim | Tanım |
-|-------|-------|
-| **ACL** | Access Control List — Erişim kontrol listesi |
-| **ADR** | Architecture Decision Record — Mimari karar kaydı |
-| **AES-256-GCM** | Advanced Encryption Standard, 256-bit, Galois/Counter Mode |
-| **ALSA** | Advanced Linux Sound Architecture |
-| **APCu** | APC User Cache — PHP önbellek sistemi |
-| **Argon2id** | Şifreleme algoritması (64MB/4/2) |
-| **ASIO** | Audio Stream Input/Output — Düşük gecikmeli ses |
-| **BCNF** | Boyce-Codd Normal Form |
-| **BEM** | Block Element Modifier — CSS metodolojisi |
-| **BLE** | Bluetooth Low Energy |
-| **CQRS** | Command Query Responsibility Segregation |
-| **CSP** | Content Security Policy |
-| **CSRF** | Cross-Site Request Forgery |
-| **DAC** | Digital-to-Analog Converter |
-| **DDD** | Domain-Driven Design |
-| **DSP** | Digital Signal Processing |
-| **FLAC** | Free Lossless Audio Codec |
-| **HSTS** | HTTP Strict Transport Security |
-| **ITCSS** | It's Time to Create Scaleable Stylesheets |
-| **JUCE** | Jules' Utility Class Extension — C++ audio framework |
-| **LFE** | Low Frequency Effects |
-| **MW** | Middleware |
-| **ORM** | Object-Relational Mapping (YASAK) |
-| **OWASP** | Open Web Application Security Project |
-| **PCM** | Pulse-Code Modulation |
-| **PSR** | PHP Standards Recommendations |
-| **RBAC** | Role-Based Access Control |
-| **SOLID** | Single Responsibility, Open/Closed, Liskov, Interface, Dependency |
-| **SPA** | Single Page Application |
-| **SSOT** | Single Source of Truth |
-| **TTFB** | Time To First Byte |
-| **WCAG** | Web Content Accessibility Guidelines |
+> Detaylı sözlük için bkz: [[glossary]] (32 terim)
 
 ---
 
@@ -832,10 +676,10 @@ Her oturum başlangıcında sırayla okunur:
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 22.0.0 |
+| Version | 23.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 29 |
-| Hard Guardrails | 16 |
+| Hard Guardrails | 17 |
 | Soft Constraints | 4 |
 | Panels | 10 |
 | Services | 7 |
@@ -856,69 +700,7 @@ Her oturum başlangıcında sırayla okunur:
 
 ## 30. .ai Referans Takibi Protokolü (OpenCode Entegrasyonu)
 
-**⚠️ ZORUNLULUK:** Tüm AI ajanları bu protokolü uygulamak ZORUNDADIR.
-
-### 30.1 Ultra Düşünme Zorunluluğu
-
-Her kod yazma işleminden ÖNCE:
-1. **Vault Oku** — `.ai/` dosyalarını oku (CLAUDE.md → AGENTS.md → WORKFLOW.md → brain.md → ROLE.md)
-2. **Bağlamı Anla** — Hangi domain, katman, dosya, bağımlılık?
-3. **Hata Kontrolü** — Syntax, imports, types, style, security
-4. **Sonuç Tahmini** — Etki alanı, edge cases, performance
-5. **Doğrulama** — LSP, typecheck, test, template uyumu
-
-### 30.2 .ai Referans Okuma Sırası
-
-| Sıra | Dosya | Amaç | Timeout |
-|------|-------|------|---------|
-| 1 | `.ai/CLAUDE.md` | AI anayasası (bu dosya) | 3s |
-| 2 | `.ai/AGENTS.md` | Agent sınırları, routing | 3s |
-| 3 | `.ai/WORKFLOW.md` | Süreçler, fazlar | 3s |
-| 4 | `.ai/brain.md` | Mimari kararlar | 4s |
-| 5 | `.ai/ROLE.md` | Rol tanımı | 3s |
-| 6 | `.ai/index.md` | Master katalog | 4s |
-| 7 | `.ai/keys.md` | Keyword haritası | 3s |
-| 8 | `.ai/MEMORY.md` | Session hafızası | 3s |
-| 9 | `.ai/log.md` | Audit trail | 2s |
-| 10 | `.ai/ULTRA-THINKING.md` | Ultra düşünme protokolü | 2s |
-| 11 | İlgili ADR'ler | Karar referansları | Değişken |
-| 12 | İlgili template'ler | Dosya şablonları | Değişken |
-
-### 30.3 Domain-Based Okuma
-
-Her agent kendi domain'indeki dosyaları okur:
-
-| Agent | Zorunlu Okuma |
-|-------|---------------|
-| Backend | `architecture/l2-routing/*.md`, `ADR-083*.md` |
-| Frontend | `ui-design/**/*.md`, `architecture/l3-presentation/*.md` |
-| Security | `architecture/l1-security/*.md`, `ADR-010*.md` |
-| Data | `architecture/l0-infrastructure/*.md`, `.sql/*.sql` |
-| Embedded | `projects/NevaEngine/*.md`, `electronic/*.md` |
-| QA | `testing/*.md`, `ui-design/screens/**/*.md` |
-| DevOps | `architecture/02-deployment/*.md`, `ecosystem/*.md` |
-
-### 30.4 Otomatik Temizlik Protokolü
-
-| Durum | Aksiyon |
-|-------|---------|
-| LSP hata tespit | "FIX IMMEDIATELY" mesajı, devam yasak |
-| Hallüsinasyon | "VERIFICATION REQUIRED" etiketi |
-| Çelişki | DUR + kullanıcıya sor |
-| Eksik dosya | Hemen tamamla veya sil |
-| Hatalı kod | Otomatik revert + düzelt |
-
-### 30.5 Kalite Kontrol Listesi
-
-Her dosya için kontrol et:
-- [ ] Syntax doğru mu?
-- [ ] Import'lar mevcut mu?
-- [ ] Types uyumlu mu?
-- [ ] Style tutarlı mı?
-- [ ] Security riski yok mu?
-- [ ] Template'e uygun mu?
-- [ ] Cross-reference'lar geçerli mi?
-- [ ] Frontmatter tam mı? (7 zorunlu alan)
+> Detaylı protokol için bkz: [[AGENTS.md]] §24
 
 ---
 

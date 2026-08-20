@@ -51,8 +51,8 @@ final class SecurityHeadersMiddleware implements IMiddleware
         $nonce        = $request['_csp_nonce'] ?? '';
 
         $scriptSrc = $nonce !== ''
-            ? "'strict-dynamic' 'nonce-{$nonce}' https: http:"
-            : "'self' https: http:";
+            ? "'strict-dynamic' 'nonce-{$nonce}' https:"
+            : "'self' https:";
 
         $styleSrc = $nonce !== ''
             ? "'nonce-{$nonce}' 'self' {$assetsOrigin} fonts.googleapis.com"

@@ -207,7 +207,7 @@ CoreMusic servisleri arası iletişim protokolü seçimlerini, karar gerekçeler
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § 3 REST vs WS | [[architecture/03-contracts/service-ipc]] | IPC patterns |
-| § 5 Auth | [[architecture/03-contracts/middleware-pipeline]] | Middleware |
+| § 5 Auth | [[architecture/l2-routing/middleware-pipeline]] | Middleware |
 | § 7 Transport | [[architecture/l1-security/index]] | TLS/Security |
 | § 8 Serialization | [[architecture/03-contracts/api-endpoints]] | Data format |
 

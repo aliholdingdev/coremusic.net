@@ -11,7 +11,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Verification Checklist
 
-**Zorunlu Baglantilar:** [[01-design-tokens]] · [[02-implementation-plan]] · [[03-accessibility-gaps]] · [[00-mockup-index]]
+**Zorunlu Baglantilar:** [[tokens/design-tokens-master]] · [[02-implementation-plan]] · [[03-accessibility-gaps]] · [[00-mockup-index]]
 
 ---
 
@@ -169,9 +169,9 @@ Frontend kodu mockup'lar ile eşleşiyor mu diye doğrulamak için kullanılan k
 
 | Kontrol Grubu | Dosya |
 |---------------|-------|
-| Layout | [[01-design-tokens]] §7 |
+| Layout | [[tokens/design-tokens-master]] §7 |
 | Touch | [[03-accessibility-gaps]] |
-| Glass | [[01-design-tokens]] §8 |
+| Glass | [[tokens/design-tokens-master]] §8 |
 | Auth | [[00-mockup-index]] §A |
 | Theme | [[ADR-044-dynamic-user-theme-engine]] |
 | BEM | [[01-component-inventory]] |
@@ -183,7 +183,7 @@ Frontend kodu mockup'lar ile eşleşiyor mu diye doğrulamak için kullanılan k
 
 | Kaynak | Hedef |
 |--------|-------|
-| Bu dosya | [[01-design-tokens]] — Token değerleri |
+| Bu dosya | [[tokens/design-tokens-master]] — Token değerleri |
 | Bu dosya | [[02-implementation-plan]] — Uygulama adımları |
 | Bu dosya | [[03-accessibility-gaps]] — Erişilebilirlik |
 | Bu dosya | [[00-mockup-index]] — PNG referansları |

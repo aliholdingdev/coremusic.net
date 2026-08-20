@@ -1,135 +1,7 @@
 ---
 title: "CoreMusic — Activity Log & Audit Trail"
 type: system
-category: audit-trail
-date: 2026-08-13
-updated: 2026-08-13
-status: active
 version: 17.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
-reference:
-  authority: ".ai/log.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-    - ".ai/keys.md"
-    - ".ai/MEMORY.md"
-    - ".ai/log.md"
-    - ".ai/engine.md"
-  architecture:
-    - ".ai/ADR/"
-    - "Existing project architecture"
-    - "Existing codebase patterns"
-  project_structure:
-    - "coremusic.net/"
-    - "shared/"
-    - "api.coremusic.net/"
-    - "auth.coremusic.net/"
-    - "music.coremusic.net/"
-    - "admin.coremusic.net/"
-    - "home.coremusic.net/"
-    - "car.coremusic.net/"
-    - "studio.coremusic.net/"
-    - "pro.coremusic.net/"
-    - "media.coremusic.net/"
-    - "download.coremusic.net/"
-  decision_priority:
-    - "ADR decisions"
-    - "Architecture documentation"
-    - "Security requirements"
-    - "Existing implementation"
-    - "User requirements"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "file rename"
-      - "directory move"
-      - "architecture change"
-      - "database schema change"
-      - "security policy change"
-  skills:
-    - path: ".opencode/skills/ui-code-generator/SKILL.md"
-      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
-    - path: ".opencode/skills/ui-analyzer/SKILL.md"
-      purpose: "UI analizi, mevcut tasarım değerlendirme"
-    - path: ".opencode/skills/skill-maker/SKILL.md"
-      purpose: "Yeni skill oluşturma, skill template sistemi"
-    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
-      purpose: "Güvenlik testi, truth mode, adversarial analiz"
-    - path: ".opencode/skills/prompt-maker/SKILL.md"
-      purpose: "Prompt mühendisliği, AI talimat tasarımı"
-    - path: ".opencode/skills/composer-sync/SKILL.md"
-      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
-    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
-      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
-    - path: ".opencode/skills/human-mode/SKILL.md"
-      purpose: "İnsan modu iletişimi, onay süreçleri"
-    - path: ".opencode/skills/hallucination-control/SKILL.md"
-      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
-    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
-      purpose: "BCNF normalizasyonu, şema tasarımı"
-  templates:
-    adr:
-      - path: ".ai/.templates/adr/adr-template.md"
-        purpose: "ADR şablonu"
-      - path: ".ai/.templates/adr/adr-frontend-template.md"
-        purpose: "Frontend ADR şablonu"
-      - path: ".ai/.templates/adr/adr-database-template.md"
-        purpose: "Database ADR şablonu"
-      - path: ".ai/.templates/adr/adr-security-template.md"
-        purpose: "Security ADR şablonu"
-      - path: ".ai/.templates/adr/adr-audio-template.md"
-        purpose: "Audio/Hardware ADR şablonu"
-      - path: ".ai/.templates/adr/adr-index.md"
-        purpose: "ADR navigasyon rehberi"
-    backend:
-      - path: ".ai/.templates/backend/php-template.md"
-        purpose: "PHP 8.4 backend geliştirme şablonu"
-      - path: ".ai/.templates/backend/nodejs-template.md"
-        purpose: "Node.js 20+ backend geliştirme şablonu"
-    frontend:
-      - path: ".ai/.templates/frontend/js-template.md"
-        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
-      - path: ".ai/.templates/frontend/css-template.md"
-        purpose: "ITCSS 9-layer, BEM CSS şablonu"
-    testing:
-      - path: ".ai/.templates/testing/phpunit-template.md"
-        purpose: "PHPUnit 10+ test şablonu"
-      - path: ".ai/.templates/testing/vitest-template.md"
-        purpose: "Vitest JS/TS test şablonu"
-    infrastructure:
-      - path: ".ai/.templates/infrastructure/migration-template.md"
-        purpose: "MySQL 9 BCNF migration şablonu"
-      - path: ".ai/.templates/infrastructure/docker-template.md"
-        purpose: "Docker 24+ Compose v2 şablonu"
-      - path: ".ai/.templates/infrastructure/github-actions-template.md"
-        purpose: "GitHub Actions CI/CD şablonu"
-    documentation:
-      - path: ".ai/.templates/documentation/api-doc-template.md"
-        purpose: "API dokümantasyon şablonu"
-      - path: ".ai/.templates/documentation/security-audit-template.md"
-        purpose: "Güvenlik denetimi şablonu"
-      - path: ".ai/.templates/documentation/WikiPage-Template.md"
-        purpose: "Wiki sayfası şablonu"
-    hardware:
-      - path: ".ai/.templates/hardware/arduino-template.md"
-        purpose: "Arduino/IoT prototipleme şablonu"
-      - path: ".ai/.templates/hardware/avr-template.md"
-        purpose: "AVR mikrodenetleyici şablonu"
-      - path: ".ai/.templates/hardware/pic-template.md"
-        purpose: "PIC mikrodenetleyici şablonu"
-    query:
-      - path: ".ai/.templates/query/Query-Template.md"
-        purpose: "SQL sorgu şablonu"
-    other:
-      - path: ".ai/.templates/other/c-template.md"
-        purpose: "C11 GCC embedded/driver şablonu"
-      - path: ".ai/.templates/cpp-template.md"
-        purpose: "C++20 JUCE/ASIO şablonu"
 ---
 
 # CoreMusic — Activity Log & Audit Trail
@@ -492,4 +364,46 @@ Olay gerçekleşir
 [2026-08-16 03:06:00] [INFO] [backend-architect] [FIX] UserRepository::findById SQL bug — self::COLUMNS inside double-quoted string doesn't interpolate PHP constants. Changed to string concatenation.
 
 [2026-08-16 03:07:00] [INFO] [qa-engineer] [TEST] Auth service syntax check: 21/21 PHP files PASSED ✅ — config.php, domain.php, AuthContainer.php, AuthController.php, 5 exception classes, UserRepository.php, AuthService.php, 7 page templates, autoload.php, index.php, router.php.
+
+[2026-08-18 12:00:00] [INFO] [MO] [VAULT-UPDATE] Responsive CSS mimarisi vault'a kaydedildi. a-layout-tokens.css v2.0.0 — token konsolidasyonu, 4 media query breakpoint (tablet/mobile/desktop/4K), device CSS dönüşümü planlandı (d-embedded/d-desktop/d-tablet → behavioral override-only). brain.md §18A eklendi, MEMORY.md session history güncellendi, keys.md responsive keyword'leri eklendi.
+
+[2026-08-18 14:30:00] [INFO] [MO] [VAULT-UPDATE] Responsive CSS mimarisi kuralı vault'a zorunlu kural olarak yerleştirildi. CLAUDE.md §7'ye Guardrail #17 eklendi. AGENTS.md §15.3 UI Designer'a responsive kuralı eklendi. brain.md §18A güncellendi (Responsive CSS Mimarisi Kuralı detaylandı, yasak örüntüleri ve dosya yapısı eklendi). Tüm frontend agent'lar bu kurala uymak zorunda.
+
+[2026-08-19 10:00:00] [INFO] [MO] [VAULT-CLEANUP] Duplicate tarama ve temizlik tamamlandı — 12 duplicate dosya/dizin tespit edildi ve temizlendi:
+  1. architecture/l0-infrastructure.md → SİL (dizin korundu: l0-infrastructure/)
+  2. architecture/l1-security.md → SİL (dizin korundu: l1-security/)
+  3. architecture/l2-routing.md → SİL (dizin korundu: l2-routing/)
+  4. architecture/l3-presentation.md → SİL (dizin korundu: l3-presentation/)
+  5. architecture/01-overview/ → SİL (içerikler 00-overview/ taşındı: dependency-graph.md, startup-strategy.md)
+  6. architecture/database-architecture.md → SİL (dizin korundu: l0-infrastructure/database.md)
+  7. architecture/security-architecture.md → SİL (dizin korundu: l1-security/)
+  8. architecture/network-architecture.md → SİL (dizin korundu: 10-network/)
+  9. architecture/monitoring-architecture.md → SİL (dizin korundu: 02-deployment/observability.md)
+  10. architecture/04-decisions/adr-index.md → SİL (decisions/index.md korundu)
+  11. architecture/03-services/ → SİL (boş dizin)
+  12. architecture/04-panels/ → SİL (boş dizin)
+  Toplam: 12 dosya/dizin silindi, 26+ cross-reference güncellendi, ~5000 satır tekrarlayan içerik kaldırıldı.
+
+[2026-08-19 10:30:00] [INFO] [MO] [VAULT-CLEANUP] UI Design token temizliği tamamlandı:
+  1. reference/01-design-tokens.md → SİL (283 satır, eski versiyon)
+  2. tokens/design-tokens-master.md → SSOT olarak korundu (536 satır, yeni versiyon)
+  3. reference/css-design-tokens.md → Korundu (CSS kod blokları, benzersiz)
+  4. 12 cross-reference güncellendi (index.md, component-inventory, implementation-plan, adr-frontend-template, icon-asset-catalog, verification, frontend-reference)
+  5. Kırık referans: 0 (sıfır)
+  Sonuç: UI Design token'ları tek merkezden yönetiliyor (tokens/design-tokens-master.md = SSOT).
+
+[2026-08-19 11:00:00] [INFO] [MO] [WORKFLOW-UPDATE] Yeni kural eklendi — WORKFLOW.md §8.7A: Root .md Dosya Güncelleme Protokolü:
+  - Her session başında 11 root .md dosyası okunacak
+  - Her session sonunda değişen dosyalar güncellenecek
+  - Dosyalar: CLAUDE.md, AGENTS.md, WORKFLOW.md, brain.md, index.md, keys.md, MEMORY.md, log.md, engine.md, ROLE.md, ULTRA-THINKING.md
+  - SSOT hierarchy: CLAUDE.md > AGENTS.md > WORKFLOW.md
+  - İhlal durumunda: İşlem durdurulur veya CRITICAL log eklenir
+
+[2026-08-19 13:20:00] [INFO] [MO] [VAULT-CREATE] Responsive Device Mode Architecture kuralı vault'a eklendi:
+  1. .ai/ui-design/responsive-device-mode.md — YENİ OLUŞTURULDU (17 bölüm, Single Component Responsive kuralı)
+  2. .ai/architecture/l3-presentation/device-css.md — Cross-reference eklendi (§7)
+  3. .ai/ui-design/tokens/platform-tokens.md — Cross-reference eklendi (§8)
+  4. .ai/ui-design/prompt/screen/01-1024-embedded.md — Cross-reference eklendi (§8)
+  Guardrail #17 (Single Component Responsive) ile uyumlu. ADR-001, ADR-044, ADR-045 referansları dahil.
+  Toplam: 1 yeni dosya, 3 cross-reference güncellendi.
 

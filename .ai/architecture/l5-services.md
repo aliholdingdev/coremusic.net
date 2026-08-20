@@ -12,7 +12,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # L5 — Services Layer
 
-**See also:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[architecture/01-overview/architecture_master]]
+**See also:** [[index]] · [[CLAUDE.md]] · [[brain.md]] · [[architecture/00-overview/architecture-master]]
 
 ---
 
@@ -227,7 +227,6 @@ flowchart LR
 |-----|------|
 | [[ADR-039-7-service-platform-architecture]] | 7-servis mimarisi |
 | [[ADR-032-ipc-contract-versioning]] | IPC sözleşmeleri |
-| [[ADR-051-platform-rewrite-from-scratch]] | Sıfırdan platform |
 
 ---
 

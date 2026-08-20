@@ -1,137 +1,10 @@
 ---
 title: "CoreMusic Vault — Master Index"
 type: system
-category: vault-navigation
-date: 2026-08-13
-updated: 2026-08-13
-status: active
+authority: SSOT
 version: 26.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
-total_files: 493
-total_adr: 87
-reference:
-  authority: ".ai/index.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-    - ".ai/keys.md"
-    - ".ai/MEMORY.md"
-    - ".ai/log.md"
-    - ".ai/engine.md"
-  architecture:
-    - ".ai/ADR/"
-    - "Existing project architecture"
-    - "Existing codebase patterns"
-  project_structure:
-    - "coremusic.net/"
-    - "shared/"
-    - "api.coremusic.net/"
-    - "auth.coremusic.net/"
-    - "music.coremusic.net/"
-    - "admin.coremusic.net/"
-    - "home.coremusic.net/"
-    - "car.coremusic.net/"
-    - "studio.coremusic.net/"
-    - "pro.coremusic.net/"
-    - "media.coremusic.net/"
-    - "download.coremusic.net/"
-  decision_priority:
-    - "ADR decisions"
-    - "Architecture documentation"
-    - "Security requirements"
-    - "Existing implementation"
-    - "User requirements"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "file rename"
-      - "directory move"
-      - "architecture change"
-      - "database schema change"
-      - "security policy change"
-  skills:
-    - path: ".opencode/skills/ui-code-generator/SKILL.md"
-      purpose: "UI/CSS kod üretimi, responsive tasarım, WCAG erişilebilirlik"
-    - path: ".opencode/skills/ui-analyzer/SKILL.md"
-      purpose: "UI analizi, mevcut tasarım değerlendirme"
-    - path: ".opencode/skills/skill-maker/SKILL.md"
-      purpose: "Yeni skill oluşturma, skill template sistemi"
-    - path: ".opencode/skills/red-team-truth-mode/SKILL.md"
-      purpose: "Güvenlik testi, truth mode, adversarial analiz"
-    - path: ".opencode/skills/prompt-maker/SKILL.md"
-      purpose: "Prompt mühendisliği, AI talimat tasarımı"
-    - path: ".opencode/skills/composer-sync/SKILL.md"
-      purpose: "Composer dependency yönetimi, vendor senkronizasyonu"
-    - path: ".opencode/skills/agent-orchestrator/SKILL.md"
-      purpose: "Agent görev dağıtımı, multi-agent koordinasyonu"
-    - path: ".opencode/skills/human-mode/SKILL.md"
-      purpose: "İnsan modu iletişimi, onay süreçleri"
-    - path: ".opencode/skills/hallucination-control/SKILL.md"
-      purpose: "Halüsinasyon kontrolü, doğrulama protokolleri"
-    - path: ".opencode/skills/database-normalize-maker/SKILL.md"
-      purpose: "BCNF normalizasyonu, şema tasarımı"
-  templates:
-    adr:
-      - path: ".ai/.templates/adr/adr-template.md"
-        purpose: "ADR şablonu"
-      - path: ".ai/.templates/adr/adr-frontend-template.md"
-        purpose: "Frontend ADR şablonu"
-      - path: ".ai/.templates/adr/adr-database-template.md"
-        purpose: "Database ADR şablonu"
-      - path: ".ai/.templates/adr/adr-security-template.md"
-        purpose: "Security ADR şablonu"
-      - path: ".ai/.templates/adr/adr-audio-template.md"
-        purpose: "Audio/Hardware ADR şablonu"
-      - path: ".ai/.templates/adr/adr-index.md"
-        purpose: "ADR navigasyon rehberi"
-    backend:
-      - path: ".ai/.templates/backend/php-template.md"
-        purpose: "PHP 8.4 backend geliştirme şablonu"
-      - path: ".ai/.templates/backend/nodejs-template.md"
-        purpose: "Node.js 20+ backend geliştirme şablonu"
-    frontend:
-      - path: ".ai/.templates/frontend/js-template.md"
-        purpose: "Vanilla JS ES6+ frontend geliştirme şablonu"
-      - path: ".ai/.templates/frontend/css-template.md"
-        purpose: "ITCSS 9-layer, BEM CSS şablonu"
-    testing:
-      - path: ".ai/.templates/testing/phpunit-template.md"
-        purpose: "PHPUnit 10+ test şablonu"
-      - path: ".ai/.templates/testing/vitest-template.md"
-        purpose: "Vitest JS/TS test şablonu"
-    infrastructure:
-      - path: ".ai/.templates/infrastructure/migration-template.md"
-        purpose: "MySQL 9 BCNF migration şablonu"
-      - path: ".ai/.templates/infrastructure/docker-template.md"
-        purpose: "Docker 24+ Compose v2 şablonu"
-      - path: ".ai/.templates/infrastructure/github-actions-template.md"
-        purpose: "GitHub Actions CI/CD şablonu"
-    documentation:
-      - path: ".ai/.templates/documentation/api-doc-template.md"
-        purpose: "API dokümantasyon şablonu"
-      - path: ".ai/.templates/documentation/security-audit-template.md"
-        purpose: "Güvenlik denetimi şablonu"
-      - path: ".ai/.templates/documentation/WikiPage-Template.md"
-        purpose: "Wiki sayfası şablonu"
-    hardware:
-      - path: ".ai/.templates/hardware/arduino-template.md"
-        purpose: "Arduino/IoT prototipleme şablonu"
-      - path: ".ai/.templates/hardware/avr-template.md"
-        purpose: "AVR mikrodenetleyici şablonu"
-      - path: ".ai/.templates/hardware/pic-template.md"
-        purpose: "PIC mikrodenetleyici şablonu"
-    query:
-      - path: ".ai/.templates/query/Query-Template.md"
-        purpose: "SQL sorgu şablonu"
-    other:
-      - path: ".ai/.templates/other/c-template.md"
-        purpose: "C11 GCC embedded/driver şablonu"
-      - path: ".ai/.templates/cpp-template.md"
-        purpose: "C++20 JUCE/ASIO şablonu"
+total_files: 500
+total_adr: 79
 ---
 
 # CoreMusic Vault — Master Index
@@ -258,7 +131,6 @@ Toplam 87 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-087 (güncelleneb
 | [[decisions/accepted/ADR-044-dynamic-user-theme-engine]] | Dynamic theme engine | UI |
 | [[decisions/accepted/ADR-045-multi-domain-view-mode-architecture]] | Multi-domain view mode | UI |
 | [[decisions/accepted/ADR-046-cross-view-state-preservation]] | Cross-view state koruma | UI |
-| [[decisions/accepted/ADR-047-login-redirect-session-bridge]] | Login redirect session bridge | Auth |
 | [[decisions/accepted/ADR-048-view-transition-api-integration]] | View Transition API entegrasyonu | UI |
 | [[decisions/accepted/ADR-049-startup-prompt-loader]] | Startup prompt loader | AI |
 | [[decisions/accepted/ADR-050-multi-db-sync-strategy]] | Multi-DB sync stratejisi | Database |
@@ -380,64 +252,29 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ### 9.1 Neva Engine (C++ Audio)
 
-[[projects/NevaEngine/overview]], [[projects/NevaEngine/audio-core]], [[projects/NevaEngine/equalizer-system]], [[projects/NevaEngine/equalizer-31band]], [[projects/NevaEngine/eq-dsp-chain]], [[projects/NevaEngine/eq-theme-system]], [[projects/NevaEngine/eq-ai-auto]], [[projects/NevaEngine/eq-plugin-hosting]], [[projects/NevaEngine/eq-presets]], [[projects/NevaEngine/eq-user-modes]], [[projects/NevaEngine/eq-cross-platform]], [[projects/NevaEngine/midi-system]], [[projects/NevaEngine/routing-matrix]], [[projects/NevaEngine/spatial-audio]], [[projects/NevaEngine/vst3-hosting]], [[projects/NevaEngine/ai-models]], [[projects/NevaEngine/neva-engine-integration]]
+17 modül: [[projects/NevaEngine/overview]], [[projects/NevaEngine/audio-core]], [[projects/NevaEngine/equalizer-system]], [[projects/NevaEngine/midi-system]], [[projects/NevaEngine/routing-matrix]], [[projects/NevaEngine/spatial-audio]], [[projects/NevaEngine/vst3-hosting]], [[projects/NevaEngine/ai-models]], [[projects/NevaEngine/neva-engine-integration]] + EQ alt modülleri (7)
 
 ### 9.2 Neva Player (Video/Media)
 
-[[projects/NevaPlayer/neva-player/overview]], [[projects/NevaPlayer/neva-player/codec-matrix]], [[projects/NevaPlayer/neva-player/color-pipeline]], [[projects/NevaPlayer/neva-player/ffmpeg-integration]], [[projects/NevaPlayer/neva-player/gpu-acceleration]], [[projects/NevaPlayer/neva-player/video-decoder]], [[projects/NevaPlayer/neva-player/webrtc-streaming]], [[projects/NevaPlayer/neva-player/windows-optimization]], [[projects/NevaPlayer/neva-player/rpi5-arm64]], [[projects/NevaPlayer/neva-player/resolution-adaptation]]
+10 modül: [[projects/NevaPlayer/neva-player/overview]], [[projects/NevaPlayer/neva-player/codec-matrix]], [[projects/NevaPlayer/neva-player/ffmpeg-integration]], [[projects/NevaPlayer/neva-player/gpu-acceleration]], [[projects/NevaPlayer/neva-player/video-decoder]], [[projects/NevaPlayer/neva-player/webrtc-streaming]]
 
 ### 9.3 Diğer Projeler
 
-[[projects/download-service]], [[projects/ipc-contracts]], [[projects/cpp-projects]], [[projects/WirelessConnect/proj-wireless-connect]], [[projects/NevaConnect/proj-neva-connect]], [[projects/README]]
+[[projects/download-service]], [[projects/ipc-contracts]], [[projects/cpp-projects]], [[projects/WirelessConnect/proj-wireless-connect]], [[projects/NevaConnect/proj-neva-connect]]
 
 ---
 
 ## 10. Donanım & Elektronik
 
-| Dosya | Kapsam |
-|-------|--------|
-| [[electronic/index]] | Master Electronics Index |
-| [[electronic/audio-organization]] | 5 bölüm organizasyonu |
-| [[electronic/hardware-roadmap]] | 3 fazlı hardware geliştirme |
-| [[electronic/amplifier-design]] | Class AB 100W amfi tasarımı |
-| [[electronic/audio-interface-design]] | XMOS XU316 + PCM3168A audio interface |
-| [[electronic/xmos-pcm3168a-design]] | XMOS + PCM3168A devre tasarımı |
-| [[electronic/asio-driver-design]] | ASIO sürücü tasarımı |
-| [[electronic/test-protocols]] | Donanım test protokolleri |
-| [[electronic/frequency-response]] | Frekans yanıtı ölçüm protokolü |
-| [[electronic/snr-thd-measurement]] | SNR & THD ölçüm protokolü |
-| [[electronic/thermal-analysis]] | Termal analiz |
-| [[electronic/dsp/index]] | DSP Engine (7 modül) |
-| [[electronic/drivers/index]] | Driver Framework (7 modül) |
-| [[electronic/amplifier/index]] | Amplifier Architecture (5 modül) |
-| [[electronic/hardware/index]] | Hardware Design (5 modül) |
-| [[electronic/firmware/index]] | Firmware Architecture (4 modül) |
-| [[electronic/core-music-electronics-overview]] | CoreMusic Electronics genel bakış |
-| [[electronic/platform-architecture]] | Platform mimarisi (9 katman) |
-| [[electronic/device-architecture]] | Cihaz mimarisi ve aileleri |
-| [[electronic/operating-system-architecture]] | OS desteği (8 platform, PAL) |
-| [[electronic/device-ecosystem]] | Cihaz ekosistemi ve iletişim |
-| [[electronic/software-architecture]] | Yazılım mimarisi (5 katman) |
-| [[electronic/service-architecture]] | Servis mimarisi (13 servis) |
-| [[electronic/audio-architecture]] | Ses mimarisi (input→output pipeline) |
-| [[electronic/dsp-engine-architecture]] | DSP motoru (EQ, compressor, limiter, crossover) |
-| [[electronic/driver-framework]] | Sürücü çerçevesi (ASIO/WASAPI/ALSA/CoreAudio) |
-| [[electronic/amplifier-architecture]] | Amfi mimarisi (8+1 varsayılan, 7 cihaz) |
-| [[electronic/hardware-design]] | Donanım tasarım rehberi (PCB, EMI/EMC) |
-| [[electronic/firmware-architecture]] | Firmware mimarisi (RTOS, HAL, OTA) |
-| [[architecture/l6-electronics]] | L6 Electronics katmanı (L0-L6 stack) |
-| [[architecture/network-architecture]] | Ağ mimarisi (HTTP/MQTT/gRPC/IPC) |
-| [[architecture/database-architecture]] | Veritabanı mimarisi (18 BCNF, SQLite) |
-| [[architecture/security-architecture]] | Güvenlik mimarisi (OWASP 2025, RBAC) |
-| [[architecture/ai/ai-electronics-engine]] | AI Electronics Engine |
-| [[architecture/ai/ai-workflow-electronics]] | AI Electronics workflow |
-| [[architecture/03-contracts/development-workflow]] | 20 fazlı geliştirme süreci |
-| [[architecture/03-contracts/development-standards]] | Geliştirme standartları (SOLID, DDD, CQRS) |
-| [[architecture/03-contracts/ai-workflow-standards]] | AI workflow standartları |
-| [[architecture/03-contracts/diagram-collection]] | Mermaid diyagram koleksiyonu |
-| [[architecture/07-security/electronics-security]] | Elektronik güvenlik (Secure Boot, FW signing) |
-| [[architecture/03-contracts/engineering-rules-ssot]] | Mühendislik kuralları SSOT |
-| [[architecture/03-contracts/master-implementation-plan]] | Master Implementation Plan (5 faz, 40 gün, 22 bölüm) |
+| Kategori | Dosya | İçerik |
+|----------|-------|--------|
+| **Index & Overview** | [[electronic/index]], [[electronic/core-music-electronics-overview]] | Master index, genel bakış |
+| **Design & Roadmap** | [[electronic/hardware-roadmap]], [[electronic/amplifier-design]], [[electronic/audio-interface-design]], [[electronic/xmos-pcm3168a-design]], [[electronic/asio-driver-design]] | 3 faz roadmap, Class AB, XMOS+PCM3168A, ASIO |
+| **Test & Measurement** | [[electronic/test-protocols]], [[electronic/frequency-response]], [[electronic/snr-thd-measurement]], [[electronic/thermal-analysis]] | Test protokolleri, SNR/THD, termal |
+| **Modül Index'leri** | [[electronic/dsp/index]], [[electronic/drivers/index]], [[electronic/amplifier/index]], [[electronic/hardware/index]], [[electronic/firmware/index]] | DSP(7), Driver(7), Amp(5), HW(5), FW(4) modül |
+| **Architecture** | [[electronic/platform-architecture]], [[electronic/device-architecture]], [[electronic/operating-system-architecture]], [[electronic/device-ecosystem]], [[electronic/software-architecture]], [[electronic/service-architecture]], [[electronic/audio-architecture]], [[electronic/dsp-engine-architecture]], [[electronic/driver-framework]], [[electronic/amplifier-architecture]], [[electronic/hardware-design]], [[electronic/firmware-architecture]] | 12 mimari doküman |
+| **L6 & Cross-ref** | [[architecture/l6-electronics]], [[architecture/network-architecture]], [[architecture/database-architecture]], [[architecture/security-architecture]] | L6 katmanı, ağ/DB/güvenlik mimarisi |
+| **AI & Contracts** | [[architecture/ai/ai-electronics-engine]], [[architecture/ai/ai-workflow-electronics]], [[architecture/03-contracts/development-workflow]], [[architecture/03-contracts/development-standards]], [[architecture/03-contracts/ai-workflow-standards]], [[architecture/03-contracts/diagram-collection]], [[architecture/07-security/electronics-security]], [[architecture/03-contracts/engineering-rules-ssot]], [[architecture/03-contracts/master-implementation-plan]] | AI, geliştirme standartları, master plan |
 
 ---
 
@@ -517,10 +354,10 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | Knowledge | [[knowledge/verified]], [[knowledge/unverified]], [[knowledge/rejected]], [[confidence/README]] |
 | Subdomains | [[subdomains/README]], [[subdomains/auth.coremusic.net/index]], [[subdomains/music.coremusic.net/index]], [[subdomains/download.coremusic.net/domains/index]] |
 | UI-Design | [[ui-design/00-mockup-index]], [[ui-design/01-component-inventory]], [[ui-design/02-implementation-plan]], [[ui-design/03-accessibility-gaps]], [[ui-design/04-vault-registration]] |
-| UI-Design Screens | [[ui-design/screens/00-ascii-art-views]], [[ui-design/screens/A-auth/login]], [[ui-design/screens/B-home/dashboard]], [[ui-design/screens/C-music/albums]], [[ui-design/screens/D-player/playlist]], [[ui-design/screens/E-filemanager/disk-browser]], [[ui-design/screens/F-quickpanel/wifi]] |
+| UI-Design Screens | [[ui-design/screens/00-ascii-art-index]], [[ui-design/screens/A-auth/login]], [[ui-design/screens/B-home/dashboard]], [[ui-design/screens/C-music/albums]], [[ui-design/screens/D-player/playlist]], [[ui-design/screens/E-filemanager/disk-browser]], [[ui-design/screens/F-quickpanel/wifi]] |
 | PNG Mockups | `.ai/.png/home-1024/` (12 PNG) + `.ai/.png/shared-1024/` (6 PNG) = 18 PNG |
 | UI-Design Prompt | [[ui-design/prompt/00-prompt-index]], [[ui-design/prompt/screen/01-1024-embedded]], [[ui-design/prompt/component/C01-nav-link]], [[ui-design/prompt/layout/01-pattern-standard-60-40]], [[ui-design/prompt/page/01-home]] |
-| UI-Design Reference | [[ui-design/reference/01-design-tokens]], [[ui-design/reference/02-php-source-architecture]], [[ui-design/reference/03-text-strings]], [[ui-design/reference/04-icon-asset-catalog]], [[ui-design/reference/05-verification]] |
+| UI-Design Reference | [[ui-design/tokens/design-tokens-master]], [[ui-design/reference/02-php-source-architecture]], [[ui-design/reference/03-text-strings]], [[ui-design/reference/04-icon-asset-catalog]], [[ui-design/reference/05-verification]] |
 | UI-Design Flow | [[ui-design/flow/00-flow-index]], [[ui-design/flow/auth/04-select-gender]] |
 | Research | [[research/verified/php84-strict-types]], [[research/verified/argon2id]], [[research/verified/aes-256-gcm]], [[research/verified/pcm3168a]], [[research/verified/asio-sdk]], [[research/verified/juce8]], [[research/verified/xmos-xu316]], [[research/verified/trusted-types-domparser]], [[research/verified/itcss-bemit-layer]], [[research/verified/wcag-22-aa]], [[research/verified/mariadb-1011]] |
 | Personas | [[personas/index]], [[personas/methodology]], [[personas/mood-taxonomy]] |

@@ -1,20 +1,8 @@
----
-type: decision
-id: "001"
+﻿---
 title: "ADR-001: Vanilla JS + ITCSS, Framework Yasak"
-category: "frontend"
-status: "frozen"
-date: "2026-01-15"
-updated: "2026-08-15"
-authority: "UI Designer"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: frozen
+date: 2026-01-15
 tags: [frontend, vanilla-js, itcss, css, framework, frozen]
-risk-level: "critical"
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[architecture/l3-presentation]]"
 ---
 
 # ADR-001: Vanilla JS + ITCSS, Framework Yasak
@@ -23,11 +11,11 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic frontend'i **Vanilla JavaScript ES6+** ve **ITCSS 9-layer** ile yazılır. Framework kullanımı (React, Vue, Angular, jQuery) **kesinlikle yasaktır**. CSS ITCSS + BEM metodolojisi ile yönetilir.
+CoreMusic frontend'i **Vanilla JavaScript ES6+** ve **ITCSS 9-layer** ile yazÄ±lÄ±r. Framework kullanÄ±mÄ± (React, Vue, Angular, jQuery) **kesinlikle yasaktÄ±r**. CSS ITCSS + BEM metodolojisi ile yÃ¶netilir.
 
 ## 2. Status
 
-| Alan | Değer |
+| Alan | DeÄŸer |
 |------|-------|
 | **Durum** | frozen |
 | **Versiyon** | 2.0.0 |
@@ -35,50 +23,50 @@ CoreMusic frontend'i **Vanilla JavaScript ES6+** ve **ITCSS 9-layer** ile yazıl
 
 ## 3. Decision
 
-### Yasaklı Framework'ler
+### YasaklÄ± Framework'ler
 
 | Framework | Durum | Neden |
 |-----------|-------|-------|
-| React | ❌ Yasak | ADR-001 |
-| Vue | ❌ Yasak | ADR-001 |
-| Angular | ❌ Yasak | ADR-001 |
-| jQuery | ❌ Yasak | ADR-001 |
-| Svelte | ❌ Yasak | ADR-001 |
-| Next.js | ❌ Yasak | ADR-001 |
+| React | âŒ Yasak | ADR-001 |
+| Vue | âŒ Yasak | ADR-001 |
+| Angular | âŒ Yasak | ADR-001 |
+| jQuery | âŒ Yasak | ADR-001 |
+| Svelte | âŒ Yasak | ADR-001 |
+| Next.js | âŒ Yasak | ADR-001 |
 
 ### ITCSS 9-Layer
 
-| # | Layer | Amaç |
+| # | Layer | AmaÃ§ |
 |---|-------|------|
-| 1 | Settings | Global değişkenler |
+| 1 | Settings | Global deÄŸiÅŸkenler |
 | 2 | Tools | Mixin'ler, fonksiyonlar |
 | 3 | Generic | Reset, normalize |
 | 4 | Elements | Bare HTML elementleri |
 | 5 | Objects | Layout Patterns |
-| 6 | Components | BEM bileşenleri |
-| 7 | Utilities | Yardımcı sınıflar |
-| 8 | Animations | Animasyon tanımları |
+| 6 | Components | BEM bileÅŸenleri |
+| 7 | Utilities | YardÄ±mcÄ± sÄ±nÄ±flar |
+| 8 | Animations | Animasyon tanÄ±mlarÄ± |
 | 9 | Overrides | !important override |
 
 ### Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Vanilla JS ES6+ | ✅ Zorunlu |
-| 2 | Framework yasak | ❌ Yasak |
-| 3 | ITCSS 9-layer | ✅ Zorunlu |
-| 4 | BEM methodology | ✅ Zorunlu |
-| 5 | `var` yasak | ❌ Yasak |
-| 6 | `innerHTML` yasak | ❌ Yasak |
-| 7 | `eval()` yasak | ❌ Yasak |
-| 8 | DOMParser + TrustedTypes | ✅ Zorunlu |
-| 9 | ES6 modules | ✅ Zorunlu |
-| 10 | `const`/`let` zorunlu | ✅ Zorunlu |
+| 1 | Vanilla JS ES6+ | âœ… Zorunlu |
+| 2 | Framework yasak | âŒ Yasak |
+| 3 | ITCSS 9-layer | âœ… Zorunlu |
+| 4 | BEM methodology | âœ… Zorunlu |
+| 5 | `var` yasak | âŒ Yasak |
+| 6 | `innerHTML` yasak | âŒ Yasak |
+| 7 | `eval()` yasak | âŒ Yasak |
+| 8 | DOMParser + TrustedTypes | âœ… Zorunlu |
+| 9 | ES6 modules | âœ… Zorunlu |
+| 10 | `const`/`let` zorunlu | âœ… Zorunlu |
 
-### Kod Örnekleri
+### Kod Ã–rnekleri
 
 ```javascript
-// ✅ DOĞRU — Vanilla JS ES6+
+// âœ… DOÄRU â€” Vanilla JS ES6+
 const UserManager = (() => {
     'use strict';
 
@@ -92,23 +80,23 @@ const UserManager = (() => {
     return Object.freeze({ loadUser });
 })();
 
-// ❌ YANLIŞ — jQuery
+// âŒ YANLIÅ â€” jQuery
 $('#user').load('/api/v1/users/1');
 
-// ❌ YANLIŞ — React
+// âŒ YANLIÅ â€” React
 const User = () => <div>{user.name}</div>;
 
-// ❌ YANLIŞ — innerHTML
+// âŒ YANLIÅ â€” innerHTML
 document.getElementById('content').innerHTML = '<div>Hello</div>';
 
-// ✅ DOĞRU — DOMParser
+// âœ… DOÄRU â€” DOMParser
 const parser = new DOMParser();
 const doc = parser.parseFromString('<div>Hello</div>', 'text/html');
 document.getElementById('content').appendChild(doc.body.firstChild);
 ```
 
 ```css
-/* ✅ DOĞRU — ITCSS + BEM */
+/* âœ… DOÄRU â€” ITCSS + BEM */
 
 /* 1. Settings */
 :root {
@@ -136,7 +124,7 @@ document.getElementById('content').appendChild(doc.body.firstChild);
     }
 }
 
-/* ❌ YANLIŞ — jQuery syntax */
+/* âŒ YANLIÅ â€” jQuery syntax */
 .player .controls { display: flex; }
 .player .button.active { background: purple; }
 ```
@@ -145,14 +133,14 @@ document.getElementById('content').appendChild(doc.body.firstChild);
 
 ## 4. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-001: Vanilla JS + ITCSS v2.0.0 — CoreMusic Frontend*
-*Authority: UI Designer · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-001: Vanilla JS + ITCSS v2.0.0 â€” CoreMusic Frontend*
+*Authority: UI Designer Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

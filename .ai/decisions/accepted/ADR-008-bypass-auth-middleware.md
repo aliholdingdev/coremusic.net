@@ -1,27 +1,8 @@
----
-type: decision
-id: "008"
+﻿---
 title: "ADR-008: Bypass Auth Middleware"
-category: "security"
-status: "frozen"
-date: "2026-02-05"
-updated: "2026-08-15"
-authority: "Security Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-supersedes: null
-version: 2.0.0
+status: frozen
+date: 2026-02-05
 tags: [security, bypass, auth, middleware, test, frozen]
-risk-level: "medium"
-owasp-top10: ["A01:2021", "A07:2021"]
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[AGENTS.md]]"
-  - "[[keys.md]]"
-  - "[[decisions/accepted/ADR-010-csrf-protection-strategy]]"
-  - "[[decisions/accepted/ADR-011-session-management]]"
-  - "[[decisions/accepted/ADR-022-database-hardened-security]]"
-  - "[[architecture/l1-security]]"
 ---
 
 # ADR-008: Bypass Auth Middleware
@@ -30,77 +11,77 @@ references:
 
 ## 1. Executive Summary
 
-### 1.1 Kararın Özeti
+### 1.1 KararÄ±n Ã–zeti
 
-CoreMusic'te test ortamında auth bypass, `?_bypass=1` query parametresi ile mümkün olacaktır. Bu özellik **sadece test/development ortamında** aktiftir. Production ortamında bypass devre dışıdır ve `?_bypass=1` parametresi yok sayılır. Bypass durumunda varsayılan `guest` rolü atanır.
+CoreMusic'te test ortamÄ±nda auth bypass, `?_bypass=1` query parametresi ile mÃ¼mkÃ¼n olacaktÄ±r. Bu Ã¶zellik **sadece test/development ortamÄ±nda** aktiftir. Production ortamÄ±nda bypass devre dÄ±ÅŸÄ±dÄ±r ve `?_bypass=1` parametresi yok sayÄ±lÄ±r. Bypass durumunda varsayÄ±lan `guest` rolÃ¼ atanÄ±r.
 
-### 1.2 Temel Gerekçe
+### 1.2 Temel GerekÃ§e
 
-Test ve development süreçlerinde, kimlik doğrulama olmadan API'leri test etmek gerekir. Ancak production'da bypass kesinlikle devre dışı olmalıdır. Bu, security-by-design prensibinin bir gereğidir.
+Test ve development sÃ¼reÃ§lerinde, kimlik doÄŸrulama olmadan API'leri test etmek gerekir. Ancak production'da bypass kesinlikle devre dÄ±ÅŸÄ± olmalÄ±dÄ±r. Bu, security-by-design prensibinin bir gereÄŸidir.
 
-### 1.3 Beklenen Sonuçlar
+### 1.3 Beklenen SonuÃ§lar
 
-- Test ortamında `?_bypass=1` ile auth bypass
-- Production'da bypass devre dışı
-- Varsayılan guest rolü atanması
-- Audit trail loglaması
+- Test ortamÄ±nda `?_bypass=1` ile auth bypass
+- Production'da bypass devre dÄ±ÅŸÄ±
+- VarsayÄ±lan guest rolÃ¼ atanmasÄ±
+- Audit trail loglamasÄ±
 
 ---
 
 ## 2. Status
 
-| Alan | Değer |
+| Alan | DeÄŸer |
 |------|-------|
 | **Durum** | frozen |
 | **Versiyon** | 2.0.0 |
-| **Oluşturma Tarihi** | 2026-02-05 |
-| **Son Güncelleme** | 2026-08-15 |
+| **OluÅŸturma Tarihi** | 2026-02-05 |
+| **Son GÃ¼ncelleme** | 2026-08-15 |
 | **Otorite** | Security Engineer |
 | **Risk Seviyesi** | medium |
-| **Onay** | Red Team · Human Mode · Truth Mode |
+| **Onay** | Red Team Â· Human Mode Â· Truth Mode |
 
 ---
 
 ## 3. Context
 
-### 3.1 Problem Tanımı
+### 3.1 Problem TanÄ±mÄ±
 
-Test süreçlerinde auth bypass olmadığında:
+Test sÃ¼reÃ§lerinde auth bypass olmadÄ±ÄŸÄ±nda:
 - API endpoint'leri test edilemez
-- Integration testleri çalıştırılamaz
-- Development hızı düşer
-- Mock auth karmaşıklığı artar
+- Integration testleri Ã§alÄ±ÅŸtÄ±rÄ±lamaz
+- Development hÄ±zÄ± dÃ¼ÅŸer
+- Mock auth karmaÅŸÄ±klÄ±ÄŸÄ± artar
 
-Ancak production'da bypass devre dışı olmalıdır.
+Ancak production'da bypass devre dÄ±ÅŸÄ± olmalÄ±dÄ±r.
 
 ### 3.2 Middleware Pipeline'daki Yeri
 
 ```
 ...
 6. CsrfMiddleware (ADR-010)
-7. BypassAuthMiddleware ◄══ ADR-008 BU SATIRDA
-   • ?_bypass=1 kontrolü
-   • Production'da devre dışı
-   • Guest rolü ataması
+7. BypassAuthMiddleware â—„â•â• ADR-008 BU SATIRDA
+   â€¢ ?_bypass=1 kontrolÃ¼
+   â€¢ Production'da devre dÄ±ÅŸÄ±
+   â€¢ Guest rolÃ¼ atamasÄ±
 8. AuthMiddleware
 ...
 ```
 
-### 3.3 İtici Güçler
+### 3.3 Ä°tici GÃ¼Ã§ler
 
-| # | Güç | Kritiklik |
+| # | GÃ¼Ã§ | Kritiklik |
 |---|-----|-----------|
-| 1 | Test süreç hızı | Yüksek |
-| 2 | Integration test gereksinimi | Yüksek |
-| 3 | Development kolaylığı | Orta |
+| 1 | Test sÃ¼reÃ§ hÄ±zÄ± | YÃ¼ksek |
+| 2 | Integration test gereksinimi | YÃ¼ksek |
+| 3 | Development kolaylÄ±ÄŸÄ± | Orta |
 
-### 3.4 Teknik Kısıtlamalar
+### 3.4 Teknik KÄ±sÄ±tlamalar
 
-| Kısıtlama | Değer |
+| KÄ±sÄ±tlama | DeÄŸer |
 |-----------|-------|
 | Query parametresi | `?_bypass=1` |
-| Ortam kontrolü | `APP_ENV !== 'production'` |
-| Varsayılan rol | `guest` |
+| Ortam kontrolÃ¼ | `APP_ENV !== 'production'` |
+| VarsayÄ±lan rol | `guest` |
 | Audit trail | Zorunlu |
 
 ---
@@ -109,19 +90,19 @@ Ancak production'da bypass devre dışı olmalıdır.
 
 ### 4.1 Karar Bildirimi
 
-**CoreMusic'te test ortamında `?_bypass=1` ile auth bypass mümkündür. Production'da bypass devre dışıdır.**
+**CoreMusic'te test ortamÄ±nda `?_bypass=1` ile auth bypass mÃ¼mkÃ¼ndÃ¼r. Production'da bypass devre dÄ±ÅŸÄ±dÄ±r.**
 
 ### 4.2 Kesin Kurallar
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | `?_bypass=1` sadece test'te | ✅ Zorunlu |
-| 2 | Production'da bypass yok | ✅ Zorunlu |
-| 3 | Guest rolü ataması | ✅ Zorunlu |
-| 4 | Audit trail loglaması | ✅ Zorunlu |
-| 5 | Bypass header'ı | ❌ Yasak (sadece query) |
+| 1 | `?_bypass=1` sadece test'te | âœ… Zorunlu |
+| 2 | Production'da bypass yok | âœ… Zorunlu |
+| 3 | Guest rolÃ¼ atamasÄ± | âœ… Zorunlu |
+| 4 | Audit trail loglamasÄ± | âœ… Zorunlu |
+| 5 | Bypass header'Ä± | âŒ Yasak (sadece query) |
 
-### 4.3 Kod Örnekleri
+### 4.3 Kod Ã–rnekleri
 
 #### 4.3.1 Bypass Auth Middleware
 
@@ -141,8 +122,8 @@ use Psr\Http\Server\RequestHandlerInterface;
  * Bypass Auth Middleware
  *
  * ADR-008 uyumlu test bypass middleware'i.
- * Sadece development/test ortamında aktif.
- * Production'da devre dışı.
+ * Sadece development/test ortamÄ±nda aktif.
+ * Production'da devre dÄ±ÅŸÄ±.
  */
 final class BypassAuthMiddleware implements MiddlewareInterface
 {
@@ -155,12 +136,12 @@ final class BypassAuthMiddleware implements MiddlewareInterface
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface {
-        // Production'da bypass devre dışı
+        // Production'da bypass devre dÄ±ÅŸÄ±
         if ($this->isProduction()) {
             return $handler->handle($request);
         }
 
-        // Bypass parametresi kontrolü
+        // Bypass parametresi kontrolÃ¼
         $queryParams = $request->getQueryParams();
         $bypassValue = $queryParams[self::BYPASS_PARAM] ?? null;
 
@@ -172,7 +153,7 @@ final class BypassAuthMiddleware implements MiddlewareInterface
                 $request->getUri()->getPath()
             ));
 
-            // Guest rolü ata
+            // Guest rolÃ¼ ata
             $request = $request->withAttribute('auth_bypassed', true);
             $request = $request->withAttribute('user_id', self::GUEST_USER_ID);
             $request = $request->withAttribute('user_role', self::GUEST_ROLE);
@@ -183,7 +164,7 @@ final class BypassAuthMiddleware implements MiddlewareInterface
     }
 
     /**
-     * Production ortamında olup olmadığını kontrol eder.
+     * Production ortamÄ±nda olup olmadÄ±ÄŸÄ±nÄ± kontrol eder.
      */
     private function isProduction(): bool
     {
@@ -192,9 +173,9 @@ final class BypassAuthMiddleware implements MiddlewareInterface
 }
 ```
 
-### 4.4 Konfigürasyon
+### 4.4 KonfigÃ¼rasyon
 
-| Dosya | Değer |
+| Dosya | DeÄŸer |
 |-------|-------|
 | `.env` | `APP_ENV=development` / `APP_ENV=production` |
 
@@ -203,11 +184,11 @@ final class BypassAuthMiddleware implements MiddlewareInterface
 ## 5. Architecture
 
 ```
-Request → ?_bypass=1? → Production? → Yes → Skip bypass → Auth middleware
-                              │
+Request â†’ ?_bypass=1? â†’ Production? â†’ Yes â†’ Skip bypass â†’ Auth middleware
+                              â”‚
                               No
-                              │
-                              ▼
+                              â”‚
+                              â–¼
                         Guest role assigned
                         Audit trail logged
                         Continue to Auth
@@ -221,18 +202,18 @@ Request → ?_bypass=1? → Production? → Yes → Skip bypass → Auth middlew
 |------------|------------------|
 | Header-based bypass | Header spoofing riski |
 | IP-based bypass | IP spoofing riski |
-| Secret token bypass | Token sızıntısı riski |
+| Secret token bypass | Token sÄ±zÄ±ntÄ±sÄ± riski |
 
 ---
 
 ## 7. Consequences
 
 ### Olumlu
-- Test süreç hızı artar
-- Integration testleri kolaylaşır
+- Test sÃ¼reÃ§ hÄ±zÄ± artar
+- Integration testleri kolaylaÅŸÄ±r
 
 ### Olumsuz
-- Misuse riski (production'da devre dışı)
+- Misuse riski (production'da devre dÄ±ÅŸÄ±)
 - Audit trail zorunlu
 
 ---
@@ -242,22 +223,22 @@ Request → ?_bypass=1? → Production? → Yes → Skip bypass → Auth middlew
 | Test | Kapsama |
 |------|---------|
 | Bypass aktif (dev) | %100 |
-| Bypass devre dışı (prod) | %100 |
-| Guest rolü | %100 |
+| Bypass devre dÄ±ÅŸÄ± (prod) | %100 |
+| Guest rolÃ¼ | %100 |
 | Audit trail | %100 |
 
 ---
 
 ## 9. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Frozen |
 
 ---
 
-*ADR-008: Bypass Auth Middleware v2.0.0 — CoreMusic Security*
-*Authority: Security Engineer · Last Updated: 2026-08-15*
-*Status: Frozen · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-008: Bypass Auth Middleware v2.0.0 â€” CoreMusic Security*
+*Authority: Security Engineer Â· Last Updated: 2026-08-15*
+*Status: Frozen Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

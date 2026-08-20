@@ -108,7 +108,6 @@ CoreMusic ELECTRONICS
 | [[ADR-017-dsp-hardware-mode]] | DSP hardware mode | XMOS, JUCE, ASIO |
 | [[ADR-025-professional-eq-system]] | Professional EQ | 31-band EQ |
 | [[ADR-038-8.1-sound-card-chip-selection]] | PCM3168A + XMOS XU316 | DAC + DSP seçimi |
-| [[ADR-051-platform-rewrite-from-scratch]] | Sıfırdan platform | Electronics mimarisi |
 | [[ADR-061-electronics-architecture]] | Electronics Architecture | L6 Layer |
 | [[ADR-062-dsp-pipeline-architecture]] | DSP Pipeline | 15 aşamalı pipeline |
 | [[ADR-063-hardware-design-standards]] | Hardware Design | PCB, EMI/EMC |
@@ -170,7 +169,7 @@ CoreMusic ELECTRONICS
 | Sub-directories | 5 (dsp, drivers, amplifier, hardware, firmware) |
 | Architecture Files | 3 (software-architecture, service-architecture, device-ecosystem) |
 | Total Files | ~43 dosya |
-| ADR Coverage | 017, 025, 038, 051, 061, 062, 063 |
+| ADR Coverage | 017, 025, 038, 061, 062, 063 |
 | Device Families | 4 (Home, Car, Professional, Embedded) |
 | Total Devices | 22 |
 | Services | 13 |

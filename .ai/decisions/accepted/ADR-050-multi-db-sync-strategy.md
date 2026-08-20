@@ -1,19 +1,8 @@
----
-type: decision
-id: "050"
+﻿---
 title: "ADR-050: Multi-DB Sync Strategy"
-category: "database"
-status: "active"
-date: "2026-08-08"
-updated: "2026-08-15"
-authority: "Data Engineer"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: active
+date: 2026-08-08
 tags: [database, sync, multi-db, active]
-risk-level: "medium"
-references:
-  - "[[brain.md]]"
-  - "[[decisions/accepted/ADR-040-database-authority]]"
 ---
 
 # ADR-050: Multi-DB Sync Strategy
@@ -22,7 +11,7 @@ references:
 
 ## 1. Executive Summary
 
-18 BCNF veritabanı arasındaki senkronizasyon **event-driven** strateji ile yönetilir. Cross-db query yasak olduğu için veri paylaşımı **integration events** ile yapılır.
+18 BCNF veritabanÄ± arasÄ±ndaki senkronizasyon **event-driven** strateji ile yÃ¶netilir. Cross-db query yasak olduÄŸu iÃ§in veri paylaÅŸÄ±mÄ± **integration events** ile yapÄ±lÄ±r.
 
 ## 2. Decision
 
@@ -30,38 +19,38 @@ references:
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Cross-db query yasak | ❌ Yasak |
-| 2 | Event-driven sync | ✅ Zorunlu |
-| 3 | Integration events | ✅ Zorunlu |
-| 4 | eventual consistency | ✅ Kabul |
-| 5 | Event log | ✅ Zorunlu |
+| 1 | Cross-db query yasak | âŒ Yasak |
+| 2 | Event-driven sync | âœ… Zorunlu |
+| 3 | Integration events | âœ… Zorunlu |
+| 4 | eventual consistency | âœ… Kabul |
+| 5 | Event log | âœ… Zorunlu |
 
-### Sync Akışı
+### Sync AkÄ±ÅŸÄ±
 
 ```
 Service A (coremusic_auth)
-    │
-    ├──► UserCreatedEvent
-    │
-    └──► Event Bus (PSR-14)
-            │
-            ├──► coremusic_user (profile oluştur)
-            ├──► coremusic_social (social profile oluştur)
-            └──► coremusic_ai (AI profil oluştur)
+    â”‚
+    â”œâ”€â”€â–º UserCreatedEvent
+    â”‚
+    â””â”€â”€â–º Event Bus (PSR-14)
+            â”‚
+            â”œâ”€â”€â–º coremusic_user (profile oluÅŸtur)
+            â”œâ”€â”€â–º coremusic_social (social profile oluÅŸtur)
+            â””â”€â”€â–º coremusic_ai (AI profil oluÅŸtur)
 ```
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-050: Multi-DB Sync Strategy v2.0.0 — CoreMusic Database*
-*Authority: Data Engineer · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-050: Multi-DB Sync Strategy v2.0.0 â€” CoreMusic Database*
+*Authority: Data Engineer Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*

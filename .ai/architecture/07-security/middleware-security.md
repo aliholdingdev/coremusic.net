@@ -458,7 +458,7 @@ Content-Security-Policy:
 | Dosya | Amaç |
 |-------|------|
 | [[architecture/l1-security]] | Security layer |
-| [[architecture/03-contracts/middleware-pipeline]] | Pipeline |
+| [[architecture/l2-routing/middleware-pipeline]] | Pipeline |
 | [[architecture/07-security/security/owasp-compliance]] | OWASP |
 | [[ADR-010-csrf-protection-strategy]] | CSRF |
 | [[ADR-011-session-management]] | Session |
@@ -469,7 +469,7 @@ Content-Security-Policy:
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 3 Pipeline | [[architecture/03-contracts/middleware-pipeline]] | Pipeline |
+| § 3 Pipeline | [[architecture/l2-routing/middleware-pipeline]] | Pipeline |
 | § 4 Headers | [[ADR-012-csp-nonce-strict-dynamic]] | CSP |
 | § 5 OWASP | [[architecture/07-security/security/owasp-compliance]] | OWASP |
 

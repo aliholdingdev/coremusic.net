@@ -1,21 +1,8 @@
----
-type: decision
-id: "087"
+﻿---
 title: "ADR-087: Master Implementation Plan"
-category: "architecture"
-status: "active"
-date: "2026-08-13"
-updated: "2026-08-15"
-authority: "Master Orchestrator"
-governance: "Red Team · Human Mode · Truth Mode"
-version: 2.0.0
+status: active
+date: 2026-08-13
 tags: [architecture, implementation, master-plan, active]
-risk-level: "critical"
-references:
-  - "[[brain.md]]"
-  - "[[CLAUDE.md]]"
-  - "[[decisions/accepted/ADR-039-7-service-platform-architecture]]"
-  - "[[decisions/accepted/ADR-084-api-gateway-architecture]]"
 ---
 
 # ADR-087: Master Implementation Plan
@@ -24,23 +11,23 @@ references:
 
 ## 1. Executive Summary
 
-CoreMusic **sıfırdan geliştirme** kapsamı 5 faz, 40 gün, 22 bölüm, 30 çıktı ile planlanmıştır. Bu master plan tüm geliştirme sürecini yönlendirir.
+CoreMusic **sÄ±fÄ±rdan geliÅŸtirme** kapsamÄ± 5 faz, 40 gÃ¼n, 22 bÃ¶lÃ¼m, 30 Ã§Ä±ktÄ± ile planlanmÄ±ÅŸtÄ±r. Bu master plan tÃ¼m geliÅŸtirme sÃ¼recini yÃ¶nlendirir.
 
 ## 2. Decision
 
 ### 5 Faz
 
-| Faz | Amaç | Süre |
+| Faz | AmaÃ§ | SÃ¼re |
 |-----|------|------|
-| Faz 0 | Altyapı kurulumu | 2 gün |
-| Faz 1 | Auth + Middleware | 8 gün |
-| Faz 2 | API Gateway + Services | 10 gün |
-| Faz 3 | Frontend SPA | 10 gün |
-| Faz 4 | Audio Engine + Hardware | 10 gün |
+| Faz 0 | AltyapÄ± kurulumu | 2 gÃ¼n |
+| Faz 1 | Auth + Middleware | 8 gÃ¼n |
+| Faz 2 | API Gateway + Services | 10 gÃ¼n |
+| Faz 3 | Frontend SPA | 10 gÃ¼n |
+| Faz 4 | Audio Engine + Hardware | 10 gÃ¼n |
 
-### 22 Bölüm
+### 22 BÃ¶lÃ¼m
 
-| # | Bölüm | Faz |
+| # | BÃ¶lÃ¼m | Faz |
 |---|-------|-----|
 | 1 | Project Structure | Faz 0 |
 | 2 | Composer Setup | Faz 0 |
@@ -69,24 +56,24 @@ CoreMusic **sıfırdan geliştirme** kapsamı 5 faz, 40 gün, 22 bölüm, 30 ç�
 
 | # | Kural | Durum |
 |---|-------|-------|
-| 1 | Zero Code Before Plan | ✅ Zorunlu |
-| 2 | Template kullanımı | ✅ Zorunlu |
-| 3 | Vault-first okuma | ✅ Zorunlu |
-| 4 | User approval gates | ✅ Zorunlu |
-| 5 | Test coverage ≥ %80 | ✅ Zorunlu |
+| 1 | Zero Code Before Plan | âœ… Zorunlu |
+| 2 | Template kullanÄ±mÄ± | âœ… Zorunlu |
+| 3 | Vault-first okuma | âœ… Zorunlu |
+| 4 | User approval gates | âœ… Zorunlu |
+| 5 | Test coverage â‰¥ %80 | âœ… Zorunlu |
 
 ---
 
 ## 3. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Versiyon** | 2.0.0 |
-| **Satır** | ~500+ |
+| **SatÄ±r** | ~500+ |
 | **Status** | Active |
 
 ---
 
-*ADR-087: Master Implementation Plan v2.0.0 — CoreMusic Architecture*
-*Authority: Master Orchestrator · Last Updated: 2026-08-15*
-*Status: Active · Governance: Red Team · Human Mode · Truth Mode*
+*ADR-087: Master Implementation Plan v2.0.0 â€” CoreMusic Architecture*
+*Authority: Master Orchestrator Â· Last Updated: 2026-08-15*
+*Status: Active Â· Governance: Red Team Â· Human Mode Â· Truth Mode*
