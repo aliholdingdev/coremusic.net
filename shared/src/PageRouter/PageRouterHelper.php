@@ -12,7 +12,8 @@ final class PageRouterHelper
         $userId = $_SESSION['MM_UserID'] ?? $_SESSION['_session_user_id'] ?? null;
         $result = $userId !== null && $userId !== '' && is_string($userId);
         if (!$result) {
-            error_log('[PageRouterHelper] checkAuthenticated FAILED - session keys: ' . implode(', ', array_keys($_SESSION)));
+            error_log('[PageRouterHelper] checkAuthenticated FAILED - session_id=' . session_id() . ' session_status=' . session_status());
+            error_log('[PageRouterHelper] session keys: ' . implode(', ', array_keys($_SESSION)));
             error_log('[PageRouterHelper] MM_UserID=' . ($_SESSION['MM_UserID'] ?? 'NULL') . ' _session_user_id=' . ($_SESSION['_session_user_id'] ?? 'NULL'));
         }
         return $result;
