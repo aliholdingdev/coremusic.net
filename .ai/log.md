@@ -415,3 +415,12 @@ Olay gerçekleşir
   5. window.CoreMusic namespace'ine register edildi
   Toplam: 1 dosya, 11 modül, ~760 satır mantıksal bölüm.
 
+[2026-08-21 17:15:00] [INFO] [MO] [VAULT-REVISE] JS Module Architecture revize edildi — modüler yapı:
+  1. architecture/l3-presentation/vanilla-js-rules.md — §8 JS Module Architecture eklendi (v5.0.0)
+  2. architecture/l3-presentation/components.md — §6 JS Component Bindings eklendi (12 binding)
+  3. architecture/l3-presentation/js-module-architecture.md — YENİ OLUŞTURULDU (14 modül, dizin yapısı, bağımlılık sırası)
+  4. main.js tek dosya → 14 ayrı modül dosyasına bölündü
+  5. Dizin yapısı: core/ (3), managers/ (3), features/ (5), router/ (21+), main.js (1)
+  Guardrail #10 (ES Modules) ile uyumlu. ADR-001 referansları güncellendi.
+  Toplam: 1 yeni dosya, 2 revize dosya.
+

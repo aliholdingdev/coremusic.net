@@ -146,38 +146,148 @@ async function fetchData(url, timeout = 5000) {
 
 ---
 
-## 8. Edge Cases
+## 8. JS Module Architecture (v5.0.0)
+
+**Tek main.js dosyası YASAK.** Modüller ayrı dosyalara bölünmüştür.
+
+### 8.1 — Dizin Yapısı
+
+```
+assets.coremusic.net/js/
+├── core/                        ← Temel altyapı
+│   ├── EventBus.js                Pub/sub (tüm modüller bağımlı)
+│   ├── CoreMusicApp.js            Lifecycle manager
+│   └── module-loader.js           Dinamik modül yükleme
+├── managers/                    ← Durum yönetimi
+│   ├── DeviceManager.js           Cihaz tespiti (device-loader.js bridge)
+│   ├── ThemeManager.js            ADR-044 gender theme
+│   └── ViewModeManager.js         ADR-045 view mode
+├── features/                    ← Sayfa özellikleri
+│   ├── PlayerController.js        State machine (STOPPED/PLAYING/PAUSED)
+│   ├── WidgetManager.js           Home widgets
+│   ├── CardManager.js             Event delegation
+│   ├── ScrollManager.js           Route scroll restore
+│   └── TouchManager.js            Embedded touch gestures
+├── router/                      ← SPA navigasyonu
+│   ├── SPARouterAdapter.js        Router.js bridge
+│   └── (mevcut 21+ modül)
+└── main.js                      ← Entry point: import + init (10-20 satır)
+```
+
+### 8.2 — Modül Bağımlılık Sırası
+
+```
+EventBus (bağımsız)
+  → DeviceManager (EventBus'e bağımlı)
+    → ThemeManager (EventBus'e bağımlı)
+      → ViewModeManager (EventBus'e bağımlı)
+        → SPARouterAdapter (EventBus + DeviceManager)
+          → PlayerController (EventBus)
+            → WidgetManager (EventBus)
+              → CardManager (EventBus)
+                → ScrollManager (EventBus + Router)
+                  → TouchManager (EventBus + DeviceManager)
+```
+
+### 8.3 — Her Modül Şablonu
+
+```javascript
+/**
+ * CoreMusic — [Modül Adı]
+ * [Açıklama]
+ *
+ * @module core/[ModülAdı]
+ * @version 5.0.0
+ */
+export default class [ModülAdı] {
+    #eventBus;
+
+    constructor(eventBus) {
+        this.#eventBus = eventBus;
+    }
+
+    init() {
+        // Modül başlatma
+    }
+
+    destroy() {
+        // Kaynak temizleme
+    }
+}
+```
+
+### 8.4 — main.js Entry Point
+
+```javascript
+/**
+ * CoreMusic — main.js v5.0.0
+ * Entry point: Modülleri import et ve başlat
+ */
+import EventBus from './core/EventBus.js';
+import CoreMusicApp from './core/CoreMusicApp.js';
+import DeviceManager from './managers/DeviceManager.js';
+import ThemeManager from './managers/ThemeManager.js';
+import ViewModeManager from './managers/ViewModeManager.js';
+import SPARouterAdapter from './router/SPARouterAdapter.js';
+import PlayerController from './features/PlayerController.js';
+import WidgetManager from './features/WidgetManager.js';
+import CardManager from './features/CardManager.js';
+import ScrollManager from './features/ScrollManager.js';
+import TouchManager from './features/TouchManager.js';
+
+(function () {
+    'use strict';
+    if (typeof history.pushState !== 'function') return;
+
+    const app = new CoreMusicApp({
+        modules: { EventBus, DeviceManager, ThemeManager, ViewModeManager,
+                   SPARouterAdapter, PlayerController, WidgetManager,
+                   CardManager, ScrollManager, TouchManager }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => app.init());
+
+    window.CoreMusic = window.CoreMusic || {};
+    window.CoreMusic.App = app;
+    window.CoreMusic.version = '5.0.0';
+})();
+```
+
+---
+
+## 9. Edge Cases
 
 | Durum | Çözüm | ADR |
 |-------|-------|-----|
 | **ES5 tarayıcı** | Progressive enhancement | ADR-001 |
-| **Module desteği yok** | Script type module | ADR-001 |
+| **Module desteği yok** | Script type="module" | ADR-001 |
 | **DOM injection** | DOMParser + TrustedTypes | ADR-001 |
 | **Event leak** | RemoveEventListener | ADR-001 |
 
 ---
 
-## 9. İlgili Dosyalar
+## 10. İlgili Dosyalar
 
 | Dosya | Amaç |
 |-------|------|
 | [[index]] | L3 ana dizin |
 | [[itcss-architecture]] | CSS mimarisi |
 | [[ADR-001-vanilla-js-itcss]] | Vanilla JS |
+| [[js-module-architecture]] | JS modül detayları |
 
 ---
 
-## 10. Kalite Raporu
+## 11. Kalite Raporu
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 4.0.0 |
-| **Satır Sayısı** | ~510 |
+| **Versiyon** | 5.0.0 |
+| **Satır Sayısı** | ~700 |
 | **ADR Uyumlu** | ✅ 001 |
 | **Zero Hallucination** | ✅ |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-08
+**Last Updated:** 2026-08-21
 **Mode:** Red Team · Human Mode · Truth Mode

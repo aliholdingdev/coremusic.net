@@ -388,7 +388,7 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 ### Frontend Mimarisi
 
 ```
-CSS Katmanı:
+CSS Katmanı (ITCSS 9-layer):
   01_Abstracts/  → Token'lar (colors, fonts, layout, breakpoints, theme)
   02_Base/       → Reset, base styles
   03_Layout/     → Header, Footer
@@ -399,10 +399,33 @@ CSS Katmanı:
   08_Devices/    → 7 device CSS (phone, tablet, embedded, laptop, desktop, 4k-tv, 4k-monitor)
   09_ViewModes/  → 4 view modes (home, pro, studio, car)
 
-JS Katmanı:
-  main.js v5     → 11 modül (EventBus, App, Device, Theme, ViewMode, Router, Player, Widget, Card, Scroll, Touch)
-  device-loader.js → Cihaz tespiti + CSS yükleme
-  router/        → SPA Router (21+ modül)
+JS Katmanı (ES Modules, 14 dosya):
+  core/
+    EventBus.js              → Pub/sub (bağımsız)
+    CoreMusicApp.js          → Lifecycle manager
+    module-loader.js         → Dinamik modül yükleme
+  managers/
+    DeviceManager.js         → Cihaz tespiti (device-loader.js bridge)
+    ThemeManager.js          → ADR-044 gender theme
+    ViewModeManager.js       → ADR-045 view mode
+  features/
+    PlayerController.js      → State machine (STOPPED/PLAYING/PAUSED)
+    WidgetManager.js         → Home widgets
+    CardManager.js           → Event delegation
+    ScrollManager.js         → Route scroll restore
+    TouchManager.js          → Embedded touch gestures
+  router/
+    SPARouterAdapter.js      → Router.js bridge
+    Router.js + 21 modül     → Mevcut SPA router
+  main.js                    → Entry point (10-20 satır)
+
+Backend (home.coremusic.net):
+  index.php              → Entry point (PageRouterKernel)
+  header.php             → Header partial (C01-C03)
+  footer.php             → Footer partial (Player)
+  pages/home.php         → Home page (Split 42/58)
+  include/               → Auth, Session, Container
+  config/                → Constants, app config
 ```
 
 ---

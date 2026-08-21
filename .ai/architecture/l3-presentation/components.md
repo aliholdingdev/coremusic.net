@@ -87,12 +87,33 @@ UI component listesini ve BEM naming convention'ı tanımlar.
 |---------|-------|-----|
 | **Position** | Fixed bottom | ADR-018 |
 | **Theme** | Vaporwave aesthetic | ADR-018 |
-| **Height** | 80px | ADR-018 |
-| **Z-index** | 9999 | ADR-018 |
+| **Height** | 90px (1024) · 104px (desktop) · 138px (4K) | ADR-018 |
+| **Z-index** | 100 | ADR-018 |
 
 ---
 
-## 6. Edge Cases
+## 6. JS Component Bindings
+
+Her CSS component'i için JS modül binding'i:
+
+| Component | BEM Block | JS Modül | Sorumluluk |
+|-----------|-----------|----------|------------|
+| **Header Nav** | `.nav-link` | SPARouterAdapter | SPA navigasyonu |
+| **Header User** | `.header-user` | CoreMusicApp | Dropdown toggle |
+| **Header Status** | `.header-widget` | DeviceManager | WiFi/BT/Battery |
+| **Footer Player** | `.footer__controls` | PlayerController | Play/Pause/Stop |
+| **Footer Volume** | `.footer__volume-slider` | PlayerController | Ses ayarı |
+| **Footer Progress** | `.footer__progress-bar` | PlayerController | İlerleme çubuğu |
+| **Now Playing** | `.now-playing` | PlayerController | Seek bar tıklama |
+| **Media Card** | `.media-card` | CardManager | Click delegation |
+| **Card Grid** | `.card-grid--scroll` | CardManager | Scroll-snap |
+| **Home Widget** | `.home-widget` | WidgetManager | Clock/weather |
+| **Mini Card** | `.mini-card` | CardManager | Click delegation |
+| **Toggle Row** | `.toggle-row` | WidgetManager | Checkbox toggle |
+
+---
+
+## 7. Edge Cases
 
 | Durum | Çözüm | ADR |
 |-------|-------|-----|
@@ -103,7 +124,7 @@ UI component listesini ve BEM naming convention'ı tanımlar.
 
 ---
 
-## 7. İlgili Dosyalar
+## 8. İlgili Dosyalar
 
 | Dosya | Amaç |
 |-------|------|
@@ -111,20 +132,21 @@ UI component listesini ve BEM naming convention'ı tanımlar.
 | [[itcss-architecture]] | CSS mimarisi |
 | [[ADR-001-vanilla-js-itcss]] | Vanilla JS |
 | [[ADR-018-footer-player-vaporwave]] | Footer player |
+| [[js-module-architecture]] | JS modül detayları |
 
 ---
 
-## 8. Kalite Raporu
+## 9. Kalite Raporu
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 4.0.0 |
-| **Satır Sayısı** | ~500 |
+| **Versiyon** | 5.0.0 |
+| **Satır Sayısı** | ~550 |
 | **ADR Uyumlu** | ✅ 001, 018 |
 | **Zero Hallucination** | ✅ |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-08
+**Last Updated:** 2026-08-21
 **Mode:** Red Team · Human Mode · Truth Mode
