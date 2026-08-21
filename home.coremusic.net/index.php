@@ -93,28 +93,18 @@ if ($requestUri === '/auth/callback' || $requestUri === 'auth/callback') {
         session_start();
     }
 
-    $homeLogger->debug('[Home] Auth callback session state', [
-        'session_id'    => session_id(),
-        'session_status'=> session_status(),
-        'session_keys'  => implode(', ', array_keys($_SESSION)),
-    ]);
-
     // Auth key doğrula + session oluştur
     $authBridge = $homeContainer->get(HomeAuthBridge::class);
     $result = $authBridge->validateAndCreateSession($authKeyRaw);
 
     if ($result['success']) {
         $homeLogger->debug('[Home] Auth callback session created', [
-            'session_id' => session_id(),
-            'user_id'    => $result['user']['id'] ?? '-',
-            'mm_userid'  => $_SESSION['MM_UserID'] ?? 'MISSING',
-            'keys_after_write' => implode(', ', array_keys($_SESSION)),
+            'user_id' => $result['user']['id'] ?? '-',
         ]);
         // Session'u diske yaz
         if (session_status() === PHP_SESSION_ACTIVE) {
             session_write_close();
         }
-        $homeLogger->debug('[Home] Auth callback session_write_close done, redirecting to /home');
         header('Location: /home', true, 302);
         exit;
     }
