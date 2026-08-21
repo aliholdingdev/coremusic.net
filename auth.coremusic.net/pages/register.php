@@ -200,7 +200,7 @@ $responseType = $_GET['response_type'] ?? 'session';
         fetch('/register',{
             method:'POST',
             headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest','X-CSRF-Token':document.querySelector('[name=csrf_token]').value},
-            body:JSON.stringify({username:document.getElementById('lgn-usr').value,email:document.getElementById('lgn-email').value,password:pwInput.value,phone:phone,agree_terms:true}),
+            body:JSON.stringify({username:document.getElementById('lgn-usr').value,email:document.getElementById('lgn-email').value,password:pwInput.value,phone:phone,agree_terms:true,gender:document.querySelector('.lgn-page').dataset.gender||'neutral'}),
             credentials:'include'
         }).then(function(r){return r.json();}).then(function(d){
             if(d.success&&d.redirect){window.location.href=d.redirect;return;}

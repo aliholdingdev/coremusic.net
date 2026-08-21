@@ -156,13 +156,6 @@ final class AuthService implements IAuthService
             throw ValidationException::multiple($errors);
         }
 
-        // Cinsiyet tabanlı erişim kontrolü — kayıt için de ziyaretçi cinsiyetiyle eşleşme kontrolü
-        $allowedGender = strtolower($visitorGender);
-        if ($allowedGender !== 'neutral' && $gender !== $allowedGender) {
-            $this->rateLimiter->increment($rateKey, self::REGISTER_WINDOW_SECONDS);
-            throw AuthenticationException::genderMismatch($allowedGender);
-        }
-
         $this->rateLimiter->reset($rateKey);
 
         $passwordHash = password_hash($this->pepperPassword($password), PASSWORD_ARGON2ID, self::ARGON2_OPTIONS);

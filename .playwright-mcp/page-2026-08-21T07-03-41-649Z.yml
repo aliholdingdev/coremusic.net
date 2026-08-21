@@ -1,0 +1,48 @@
+- main [ref=f1e2]:
+  - generic [ref=f1e3]:
+    - generic [ref=f1e5]:
+      - img "CoreMusic" [ref=f1e7]
+      - heading [level=1] [ref=f1e8]:
+        - emphasis [ref=f1e9]: Seni
+        - emphasis [ref=f1e10]: Tanıyalım
+      - paragraph [ref=f1e11]: Deneyimini sana özel hale getirmek için bir şarkı seçmeni yeterli.
+      - generic:
+        - generic: Hayatın ritmini
+        - generic:
+          - emphasis: sende gizli
+        - generic:
+          - emphasis: Müziğinle parla!
+          - text: ♥
+      - generic [ref=f1e12]:
+        - link "Gizlilik" [ref=f1e13] [cursor=pointer]:
+          - /url: /privacy
+        - link "Hakkımızda" [ref=f1e15] [cursor=pointer]:
+          - /url: /about
+        - link "Yardım" [ref=f1e17] [cursor=pointer]:
+          - /url: /help
+        - link "SSS" [ref=f1e19] [cursor=pointer]:
+          - /url: /faq
+    - generic [ref=f1e21]:
+      - generic [ref=f1e24]:
+        - heading "Seni Tanıyalım" [level=2] [ref=f1e25]
+        - paragraph [ref=f1e26]: Müzik deneyimini sana özel hale getirelim
+      - generic [ref=f1e28]:
+        - button "Kız seçeneğini seç" [ref=f1e29] [cursor=pointer]:
+          - img "Kız" [ref=f1e31]
+          - generic [ref=f1e32]:
+            - strong [ref=f1e33]: Kız
+            - generic [ref=f1e34]: Romantik ruh hali
+        - button "Erkek seçeneğini seç" [ref=f1e35] [cursor=pointer]:
+          - img "Erkek" [ref=f1e37]
+          - generic [ref=f1e38]:
+            - strong [ref=f1e39]: Erkek
+            - generic [ref=f1e40]: Modern tarz öner
+        - button "Cinsiyetimi söylemek istemiyorum" [ref=f1e41] [cursor=pointer]:
+          - img "Nötr" [ref=f1e43]
+          - strong [ref=f1e45]: Cinsiyetimi söylemek istemiyorum
+        - button "Devam Et" [disabled] [ref=f1e47]
+      - paragraph [ref=f1e49]:
+        - text: Devam ederek
+        - link "Gizlilik Politikası" [ref=f1e50] [cursor=pointer]:
+          - /url: /privacy
+        - text: "'nı kabul etmiş olursunuz."

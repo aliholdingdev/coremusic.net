@@ -24,15 +24,11 @@
     right: 0;
     height: var(--header-h);
     z-index: var(--z-sticky);
-    /* background: linear-gradient(
-        90deg,
-        rgba(45, 26, 46, 0.95) 0%,
-        rgba(60, 30, 60, 0.90) 100%
-    ); */
-    /* backdrop-filter: blur(20px); */
-    /* -webkit-backdrop-filter: blur(20px); */
-    /* border-bottom: 1px solid rgba(255, 255, 255, 0.08); */
-    will-change: transform;                               /* scale optimizasyonu */
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    will-change: transform;
     padding-top: 20px;
 }
 

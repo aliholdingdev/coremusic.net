@@ -151,8 +151,8 @@ if ($requestUri === '' || $requestUri === '/') {
     exit;
 }
 
-/* ─── Gender Gate: /login & /register → /select-gender if no gender ─── */
-$authGenderPages = ['login', 'register'];
+/* ─── Gender Gate: /login → /select-gender if no gender ─── */
+$authGenderPages = ['login'];
 $pageNameCheck = ltrim($requestUri, '/');
 if ($method !== 'POST' && in_array($pageNameCheck, $authGenderPages, true)) {
     cm_session_start();

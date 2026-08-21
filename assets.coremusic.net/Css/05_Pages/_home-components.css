@@ -56,6 +56,16 @@
   white-space: nowrap;
 }
 
+.now-playing__subtitle {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  font-weight: var(--font-normal, 400);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .now-playing__artist {
   font-family: var(--font-body, 'Arima', sans-serif);
   font-size: var(--text-sm, 11px);
@@ -453,4 +463,150 @@
     width: 200px;
     height: 200px;
   }
+}
+
+/* ============================================================
+   HOME WIDGET — Sağ panel glass kartları
+   Hoparlörler, Hava Durumu, Tarih, Klasörlerim
+   ============================================================ */
+.home-widget {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-card, 12px);
+  padding: var(--card-padding, 12px);
+}
+
+.home-widget__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  margin-bottom: var(--space-1, 4px);
+}
+
+.home-widget__icon {
+  font-size: 18px;
+  color: var(--accent, #ff4fd8);
+}
+
+.home-widget__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-lg, 14px);
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  margin: 0;
+}
+
+.home-widget__subtitle {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  margin: 0 0 var(--space-2, 8px) 0;
+}
+
+.home-widget__glass {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md, 8px);
+  padding: var(--space-3, 12px);
+  min-height: 60px;
+}
+
+.home-widget__info {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  margin: 0;
+}
+
+.home-widget__folders {
+  display: flex;
+  gap: var(--space-2, 8px);
+  margin-bottom: var(--space-2, 8px);
+}
+
+.home-widget__folder-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md, 8px);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  cursor: pointer;
+  transition: background 150ms ease;
+  padding: 0;
+}
+
+.home-widget__folder-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.home-widget__folder-btn:focus-visible {
+  outline: 2px solid var(--accent, #ff4fd8);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   MINI CARD — Sıradaki şarkılar mini kart
+   ============================================================ */
+.mini-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-2, 8px);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-card, 12px);
+}
+
+.mini-card__art {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.mini-card__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mini-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mini-card__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mini-card__artist {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  margin: 0;
+}
+
+.mini-card__album {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  margin: 0;
 }

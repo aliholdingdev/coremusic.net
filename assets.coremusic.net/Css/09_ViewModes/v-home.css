@@ -2,11 +2,35 @@
  * CoreMusic — Home View Mode
  * Ev medya merkezi görünümü
  * ITCSS Layer: 09_ViewModes
- * Version: 1.0.0 — 2026-08-05
+ * Version: 2.0.0 — 2026-08-21
  *
- * Kullanım: Varsayılan görünüm, media consumption odaklı
- * Cookie: view-mode=home
+ * Background: Tam kaplama kadın fotoğrafı, sunset tonları, pembe/mor
+ * Tema bazlı: female → pembe, male → mavi, neutral → nötr
  */
+
+/* ============================================================
+   HOME VIEW — Background Image (Tema Bazlı)
+   Tam kaplama, cover, fixed
+   ============================================================ */
+html[data-gender="female"] body {
+  background-image: url('/assets.coremusic.net/Image/background/login-bg-female.png');
+}
+
+html[data-gender="male"] body {
+  background-image: url('/assets.coremusic.net/Image/background/login-bg-male.png');
+}
+
+html[data-gender="neutral"] body {
+  background-image: url('/assets.coremusic.net/Image/background/login-bg-neutral.png');
+}
+
+body {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
 
 /* ============================================================
    HOME VIEW — Token Overrides
@@ -15,7 +39,25 @@
   --view-bg: var(--bg-base);
   --view-surface: var(--bg-surface);
   --view-text: var(--text-primary);
-  --view-accent: #ff4fd8; /* Mockup'larla uyumlu — theme-primary ezilmez */
+  --view-accent: #ff4fd8;
+}
+
+/* ============================================================
+   HOME VIEW — Glass Overlay on body
+   Background image uzerinde hafif karartma
+   ============================================================ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.25) 0%,
+    rgba(0, 0, 0, 0.15) 40%,
+    rgba(0, 0, 0, 0.30) 100%
+  );
+  pointer-events: none;
 }
 
 /* ============================================================
