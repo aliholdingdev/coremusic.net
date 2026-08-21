@@ -407,3 +407,11 @@ Olay gerçekleşir
   Guardrail #17 (Single Component Responsive) ile uyumlu. ADR-001, ADR-044, ADR-045 referansları dahil.
   Toplam: 1 yeni dosya, 3 cross-reference güncellendi.
 
+[2026-08-21 16:50:00] [INFO] [MO] [FRONTEND-START] main.js v5.0.0 oluşturuldu — home.coremusic.net frontend orchestrator:
+  1. assets.coremusic.net/js/main.js — YENİ OLUŞTURULDU (1555 satır, ~43KB)
+  2. 11 modül: EventBus, CoreMusicApp, DeviceManager, ThemeManager, ViewModeManager, SPARouterAdapter, PlayerController, WidgetManager, CardManager, ScrollManager, TouchManager
+  3. ADR-001 uyumlu: Vanilla JS ES6+, framework yok, innerHTML yok, var yok
+  4. Boot sırası: EventBus → Device → Theme → ViewMode → Router → Player → Widgets → Cards → Scroll → Touch(embedded)
+  5. window.CoreMusic namespace'ine register edildi
+  Toplam: 1 dosya, 11 modül, ~760 satır mantıksal bölüm.
+
