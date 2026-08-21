@@ -243,25 +243,4 @@
   --theme-shadow-lg:  0 0 40px rgba(91, 143, 185, 0.45), 0 0 80px rgba(91, 143, 185, 0.20);
 }
 
-/* ============================================================
-   NEUTRAL THEME — Nötr Teması (explicit override)
-   ============================================================ */
-.theme-neutral,
-[data-gender="neutral"] {
-  --theme-primary:    var(--color-lav-300);     /* #B8A9C9 */
-  --theme-secondary:  var(--color-lav-400);     /* #9B8BB4 */
-  --theme-accent:     var(--color-lav-500);     /* #8B6BAE */
-  --theme-highlight:  var(--color-violet-600);  /* #7950F2 */
-  --theme-glow:       rgba(184, 169, 201, 0.45);
-  --theme-glow-soft:  rgba(184, 169, 201, 0.20);
-  --theme-glass:      rgba(184, 169, 201, 0.12);
-  --theme-glass-border: rgba(184, 169, 201, 0.25);
-  --theme-gradient:   linear-gradient(135deg, #b8a9c9 0%, #9b8bb4 50%, #8b6bae 100%);
-  --theme-gradient-btn: linear-gradient(135deg, #7950F2 0%, #CC5DE8 50%, #F06595 100%);
-  --theme-bg-base:    var(--color-dark-900);
-  --theme-bg-surface: var(--color-dark-700);
-  --theme-bg-elevated:var(--color-dark-500);
-  --theme-bg-hero:    radial-gradient(ellipse at 50% 40%, rgba(184,169,201,0.18) 0%, transparent 55%);
-  --theme-shadow:     0 0 20px rgba(184, 169, 201, 0.45);
-  --theme-shadow-lg:  0 0 40px rgba(184, 169, 201, 0.45), 0 0 80px rgba(184, 169, 201, 0.20);
-}
+

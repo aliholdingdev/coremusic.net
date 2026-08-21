@@ -22,7 +22,7 @@ final class SessionManager implements ISessionManager
         $_SESSION['MM_DisplayName'] = $user['display_name'] ?? $user['username'];
         $_SESSION['MM_AccountType'] = $user['account_type'] ?? 'free';
         $_SESSION['MM_Image']       = $user['avatar_url'] ?? '';
-        $_SESSION['MM_Gender']      = $user['gender'] ?? 'neutral';
+        $_SESSION['MM_Gender']      = $user['gender'] ?? 'female';
         $_SESSION['_session_last_active'] = time();
     }
 
@@ -35,7 +35,7 @@ final class SessionManager implements ISessionManager
         $_SESSION['MM_UserRole']    = $created['role_name'] ?? 'free';
         $_SESSION['MM_AccountType'] = $created['account_type'] ?? 'free';
         $_SESSION['MM_Image']       = $created['image'] ?? '';
-        $_SESSION['MM_Gender']      = $created['gender'] ?? 'neutral';
+        $_SESSION['MM_Gender']      = $created['gender'] ?? 'female';
         $_SESSION['_session_last_active'] = time();
     }
 
@@ -111,7 +111,7 @@ final class SessionManager implements ISessionManager
 
     public function getGender(): string
     {
-        return $_SESSION['cm_gender'] ?? $_SESSION['MM_Gender'] ?? 'neutral';
+        return $_SESSION['cm_gender'] ?? $_SESSION['MM_Gender'] ?? 'female';
     }
 
     public function setPendingRedirect(string $uri): void

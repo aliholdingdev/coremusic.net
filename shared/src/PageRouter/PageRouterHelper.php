@@ -10,7 +10,12 @@ final class PageRouterHelper
         // but _session_user_id fallback exists for legacy code. Once all code uses MM_*
         // namespace consistently, remove the _session_user_id fallback.
         $userId = $_SESSION['MM_UserID'] ?? $_SESSION['_session_user_id'] ?? null;
-        return $userId !== null && $userId !== '' && is_string($userId);
+        $result = $userId !== null && $userId !== '' && is_string($userId);
+        if (!$result) {
+            error_log('[PageRouterHelper] checkAuthenticated FAILED - session keys: ' . implode(', ', array_keys($_SESSION)));
+            error_log('[PageRouterHelper] MM_UserID=' . ($_SESSION['MM_UserID'] ?? 'NULL') . ' _session_user_id=' . ($_SESSION['_session_user_id'] ?? 'NULL'));
+        }
+        return $result;
     }
 
     public function checkRole(string $requiredRole): bool

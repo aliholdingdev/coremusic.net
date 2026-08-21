@@ -78,9 +78,7 @@
   background-image: url('//assets.coremusic.net/Image/background/login-bg-male.png');
 }
 
-[data-gender="neutral"] .lgn-bg:not([style*="background-image"]) {
-  background-image: url('//assets.coremusic.net/Image/background/login-bg-neutral.png');
-}
+
 
 /* ═══ AMBIENT GLOW — Gender-reactive hero atmosphere ═══ */
 .lgn-hero::before {
@@ -110,11 +108,7 @@
     radial-gradient(ellipse 70% 60% at 80% 80%, rgba(137, 196, 217, .1) 0%, transparent 60%);
 }
 
-[data-gender="neutral"] .lgn-hero::before {
-  background:
-    radial-gradient(ellipse 90% 70% at 20% 30%, rgba(184, 169, 201, .18) 0%, transparent 65%),
-    radial-gradient(ellipse 70% 60% at 80% 80%, rgba(139, 107, 174, .1) 0%, transparent 60%);
-}
+
 
 /* ═══ PARTICLES — Gender-aware ═══ */
 .lgn-particles {
@@ -140,9 +134,7 @@
   background: radial-gradient(circle, rgba(91, 143, 185, .4) 0%, transparent 70%);
 }
 
-[data-gender="neutral"] .lgn-particle {
-  background: radial-gradient(circle, rgba(184, 169, 201, .4) 0%, transparent 70%);
-}
+
 
 .lgn-particle:nth-child(1) { width: 5px; height: 5px; left: 12%; top: 22%; animation-delay: 0s; }
 .lgn-particle:nth-child(2) { width: 3px; height: 3px; left: 58%; top: 35%; animation-delay: 1.2s; }
@@ -454,11 +446,7 @@
   box-shadow: 0 0 32px rgba(91, 143, 185, .35), 0 4px 20px rgba(0, 0, 0, .12);
 }
 
-[data-gender="neutral"] .lgn-gender-btn.selected {
-  background: linear-gradient(135deg, rgba(184, 169, 201, .2) 0%, rgba(155, 139, 180, .15) 100%);
-  border-color: rgba(184, 169, 201, .45);
-  box-shadow: 0 0 32px rgba(184, 169, 201, .35), 0 4px 20px rgba(0, 0, 0, .12);
-}
+
 
 .lgn-gender-btn__icon {
   width: clamp(34px, 3vw, 42px);
@@ -610,15 +598,7 @@
   box-shadow: 0 0 20px rgba(91, 143, 185, .2);
 }
 
-[data-gender="neutral"] .lgn-form__input {
-  background: linear-gradient(135deg, rgba(184, 169, 201, .12) 0%, rgba(155, 139, 180, .12) 100%);
-  border-color: rgba(184, 169, 201, .22);
-}
 
-[data-gender="neutral"] .lgn-form__input:focus {
-  border-color: rgba(184, 169, 201, .5);
-  box-shadow: 0 0 20px rgba(184, 169, 201, .2);
-}
 
 .lgn-form__input--err {
   border-color: #FF6B6B !important;
@@ -746,14 +726,7 @@
   box-shadow: 0 8px 32px rgba(160, 196, 226, .4), 0 4px 16px rgba(0, 0, 0, .15);
 }
 
-[data-gender="neutral"] .lgn-btn {
-  background: linear-gradient(135deg, #C8B8D8 0%, #E8C8D4 100%);
-  box-shadow: 0 4px 24px rgba(220, 200, 220, .3), 0 2px 8px rgba(0, 0, 0, .15);
-}
 
-[data-gender="neutral"] .lgn-btn:hover {
-  box-shadow: 0 8px 32px rgba(220, 200, 220, .4), 0 4px 16px rgba(0, 0, 0, .15);
-}
 
 /* ═══ DIVIDER ═══ */
 .lgn-divider {
@@ -825,8 +798,7 @@
 .lgn-social__btn--M { display: none; }
 [data-gender="female"] .lgn-social__btn--F { display: flex; }
 [data-gender="male"] .lgn-social__btn--M { display: flex; }
-[data-gender="neutral"] .lgn-social__btn--F,
-[data-gender="neutral"] .lgn-social__btn--M { display: flex; }
+
 
 /* ═══ SOCIAL BRAND COLORS ═══ */
 .lgn-social__btn--apple { background: #000; color: #fff; border-color: #000; }
@@ -1741,10 +1713,7 @@
   border-color: rgba(91, 143, 185, .25);
 }
 
-[data-gender="neutral"] .lgn-panel__avatar {
-  background: radial-gradient(circle, rgba(184, 169, 201, .12) 0%, transparent 70%);
-  border-color: rgba(184, 169, 201, .25);
-}
+
 
 /* ════════════════════════════════════════════════════════════════════
    HERO BRAND LOGO (PNG from res-pink/logo/)

@@ -75,12 +75,6 @@ $responseType = $_GET['response_type'] ?? 'session';
       <span class="lgn-gender-btn__check" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
     </button>
 
-    <button type="button" class="lgn-gender-btn" data-gender="neutral" aria-label="Cinsiyetimi söylemek istemiyorum">
-      <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/notur-gender-select.png" alt="Nötr" width="28" height="28"></span>
-      <span class="lgn-gender-btn__info"><strong>Cinsiyetimi söylemek istemiyorum</strong><small>&nbsp;</small></span>
-      <span class="lgn-gender-btn__check" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-    </button>
-
     <button type="submit" class="lgn-btn" id="continue-btn" disabled>Devam Et</button>
   </form>
   </div>
