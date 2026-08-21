@@ -39,7 +39,6 @@ final class HomeSessionManager implements ISessionManager
         // UUID hex string olarak sakla (BINARY(16) uyumlu)
         // API 'user_id' döndürür, 'id' değil
         $_SESSION['MM_UserID']      = $user['user_id'] ?? $user['id'] ?? '';
-        $_SESSION['_session_user_id'] = $_SESSION['MM_UserID']; // legacy fallback for PageRouterHelper
         $_SESSION['MM_Username']    = $user['username'];
         $_SESSION['MM_Email']       = $user['email'];
         $_SESSION['MM_DisplayName'] = $user['display_name'] ?? $user['username'];

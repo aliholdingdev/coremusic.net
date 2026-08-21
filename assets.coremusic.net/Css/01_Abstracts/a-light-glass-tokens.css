@@ -54,18 +54,29 @@
   --theme-m-hero-bg:    radial-gradient(ellipse at 30% 40%, rgba(91,143,185,0.18) 0%, transparent 55%),
                         radial-gradient(ellipse at 70% 60%, rgba(168,216,234,0.12) 0%, transparent 50%);
 
+  /* --- NEUTRAL (Diğer) --- */
+  --theme-n-primary:    #b8a9c9;
+  --theme-n-secondary:  #9b8bb4;
+  --theme-n-accent:     #8b6bae;
+  --theme-n-glow:       rgba(184, 169, 201, 0.45);
+  --theme-n-glow-soft:  rgba(184, 169, 201, 0.2);
+  --theme-n-glass:      rgba(184, 169, 201, 0.12);
+  --theme-n-gradient:   linear-gradient(135deg, #b8a9c9 0%, #9b8bb4 50%, #8b6bae 100%);
+  --theme-n-bg-grad:    linear-gradient(135deg, #1a1025 0%, #2d1b4e 50%, #1a1025 100%);
+  --theme-n-hero-bg:    radial-gradient(ellipse at 50% 40%, rgba(184,169,201,0.18) 0%, transparent 55%);
+
   /* ============================================================
-     ACTIVE THEME (defaults to female, overridden by JS/PHP)
+     ACTIVE THEME (defaults to neutral, overridden by JS/PHP)
      ============================================================ */
-  --theme-primary:      var(--theme-f-primary);
-  --theme-secondary:    var(--theme-f-secondary);
-  --theme-accent:       var(--theme-f-accent);
-  --theme-glow:         var(--theme-f-glow);
-  --theme-glow-soft:    var(--theme-f-glow-soft);
-  --theme-glass:        var(--theme-f-glass);
-  --theme-gradient:     var(--theme-f-gradient);
-  --theme-bg-grad:      var(--theme-f-bg-grad);
-  --theme-hero-bg:      var(--theme-f-hero-bg);
+  --theme-primary:      var(--theme-n-primary);
+  --theme-secondary:    var(--theme-n-secondary);
+  --theme-accent:       var(--theme-n-accent);
+  --theme-glow:         var(--theme-n-glow);
+  --theme-glow-soft:    var(--theme-n-glow-soft);
+  --theme-glass:        var(--theme-n-glass);
+  --theme-gradient:     var(--theme-n-gradient);
+  --theme-bg-grad:      var(--theme-n-bg-grad);
+  --theme-hero-bg:      var(--theme-n-hero-bg);
 
   /* ============================================================
      TEXT TOKENS — fallback defaults (SSOT: a-semantic-token.css)
@@ -125,4 +136,15 @@
   --theme-hero-bg:    var(--theme-m-hero-bg);
 }
 
-
+.theme-neutral,
+[data-gender="neutral"] {
+  --theme-primary:    var(--theme-n-primary);
+  --theme-secondary:  var(--theme-n-secondary);
+  --theme-accent:     var(--theme-n-accent);
+  --theme-glow:       var(--theme-n-glow);
+  --theme-glow-soft:  var(--theme-n-glow-soft);
+  --theme-glass:      var(--theme-n-glass);
+  --theme-gradient:   var(--theme-n-gradient);
+  --theme-bg-grad:    var(--theme-n-bg-grad);
+  --theme-hero-bg:    var(--theme-n-hero-bg);
+}

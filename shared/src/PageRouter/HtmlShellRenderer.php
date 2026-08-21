@@ -47,7 +47,7 @@ final class HtmlShellRenderer
             $deviceType = $sessionDevice;
         }
         $cspNonce     = $sessionData['csp_nonce'] ?? '';
-        $gender       = $sessionData['cm_gender'] ?? $sessionData['gender'] ?? 'female';
+        $gender       = $sessionData['cm_gender'] ?? $sessionData['gender'] ?? 'neutral';
 
         $viewMode = DeviceCssMap::sanitizeViewMode($sessionData['view_mode'] ?? null);
 

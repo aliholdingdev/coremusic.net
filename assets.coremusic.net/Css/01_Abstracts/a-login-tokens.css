@@ -34,6 +34,14 @@
   --cm-male-glow:            rgba(160, 196, 226, 0.3);
   --cm-male-glass:           rgba(100, 150, 210, 0.12);
 
+  /* Neutral — Soft Pink/Purple Dream */
+  --cm-neutral-primary:      #E8C8D4;
+  --cm-neutral-secondary:    #D0B0C0;
+  --cm-neutral-accent:       #C8B8D8;
+  --cm-neutral-gradient:     linear-gradient(135deg, #E8C8D4 0%, #D4C5E2 100%);
+  --cm-neutral-glow:         rgba(232, 200, 212, 0.3);
+  --cm-neutral-glass:        rgba(220, 200, 220, 0.12);
+
   /* ============================================================
      GLASS EFFECT
      ============================================================ */
@@ -175,4 +183,12 @@
   --cm-theme-gradient:       var(--cm-male-gradient);
   --cm-theme-glow:           var(--cm-male-glow);
   --cm-theme-glass:          var(--cm-male-glass);
+}
+[data-gender="neutral"] {
+  --cm-theme-primary:        var(--cm-neutral-primary);
+  --cm-theme-secondary:      var(--cm-neutral-secondary);
+  --cm-theme-accent:         var(--cm-neutral-accent);
+  --cm-theme-gradient:       var(--cm-neutral-gradient);
+  --cm-theme-glow:           var(--cm-neutral-glow);
+  --cm-theme-glass:          var(--cm-neutral-glass);
 }

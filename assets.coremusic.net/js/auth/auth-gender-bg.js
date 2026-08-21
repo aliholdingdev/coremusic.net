@@ -46,7 +46,8 @@
      */
     var GENDER_BG = {
         'female':  'login-bg-female.png',
-        'male':    'login-bg-male.png'
+        'male':    'login-bg-male.png',
+        'neutral': 'login-bg-neutral.png'
     };
 
     /**
@@ -54,7 +55,8 @@
      */
     var GENDER_COLORS = {
         'female':  { primary: '#F8B4C8', glow: 'rgba(248,180,200,0.25)', particle: 'rgba(232,180,184,0.4)' },
-        'male':    { primary: '#A0C4E2', glow: 'rgba(160,196,226,0.25)', particle: 'rgba(91,143,185,0.4)' }
+        'male':    { primary: '#A0C4E2', glow: 'rgba(160,196,226,0.25)', particle: 'rgba(91,143,185,0.4)' },
+        'neutral': { primary: '#E8C8D4', glow: 'rgba(232,200,212,0.25)', particle: 'rgba(184,169,201,0.4)' }
     };
 
     /* ============================================================
@@ -100,7 +102,7 @@
      * Cinsiyet ve cihaz türüne göre arka plan URL'i oluştur
      */
     function buildBgUrl(gender, device) {
-        var base = GENDER_BG[gender] || GENDER_BG['female'];
+        var base = GENDER_BG[gender] || GENDER_BG['neutral'];
         var suffix = RESOLUTION_MAP[device] || '';
         var ext = base.split('.').pop();
         var name = base.replace('.' + ext, '');

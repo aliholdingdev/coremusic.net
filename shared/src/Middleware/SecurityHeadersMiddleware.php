@@ -55,15 +55,15 @@ final class SecurityHeadersMiddleware implements IMiddleware
             : "'self' https:";
 
         $styleSrc = $nonce !== ''
-            ? "'nonce-{$nonce}' 'self' {$assetsOrigin}"
-            : "'self' {$assetsOrigin}";
+            ? "'nonce-{$nonce}' 'self' {$assetsOrigin} fonts.googleapis.com"
+            : "'self' {$assetsOrigin} fonts.googleapis.com";
 
         return
             "default-src 'self'; " .
             "script-src {$scriptSrc}; " .
             "style-src {$styleSrc}; " .
             "img-src 'self' data: {$assetsOrigin}; " .
-            "font-src 'self' {$assetsOrigin}; " .
+            "font-src 'self' {$assetsOrigin} fonts.gstatic.com; " .
             "connect-src 'self' {$assetsOrigin}; " .
             "media-src 'self' {$assetsOrigin}; " .
             "frame-ancestors 'none'; " .

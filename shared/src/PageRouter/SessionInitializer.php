@@ -17,13 +17,6 @@ final class SessionInitializer
             'lifetimeTimedOut' => false,
         ];
 
-        // Session save path — must match callback handler in home.coremusic.net/index.php
-        $savePath = ini_get('session.save_path') ?: 'C:\\temp';
-        if (!is_dir($savePath)) {
-            @mkdir($savePath, 0777, true);
-        }
-        session_save_path($savePath);
-
         if (session_status() === PHP_SESSION_ACTIVE) {
             if ($this->isSessionExpired()) {
                 $result['lifetimeTimedOut'] = true;
