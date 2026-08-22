@@ -51,6 +51,13 @@
   padding-left: var(--space-2, 8px);
 }
 
+/* Widget Grid — 2×2 düzen (Hoparlörler, Hava, Tarih, Klasörler) */
+.home-widget-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--grid-gap, 8px);
+}
+
 /* ============================================================
    STANDARD 60/40 LAYOUT
    Albums, Album Detail, Artists, Playlist sayfaları

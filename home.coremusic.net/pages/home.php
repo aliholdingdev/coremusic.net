@@ -23,6 +23,9 @@ require __DIR__ . '/../header.php';
     <!-- SOL PANEL — %42: Now Playing + Kartlar -->
     <div class="home-layout__left">
 
+        <!-- Şimdi Çalınıyor -->
+        <h2 class="section-title">Şimdi Çalınıyor</h2>
+
         <!-- Now Playing Card -->
         <div class="now-playing" aria-label="Şu an çalınan şarkı">
             <div class="now-playing__art">
@@ -73,9 +76,9 @@ require __DIR__ . '/../header.php';
             </div>
         </section>
 
-        <!-- Oynatma Listeleri -->
-        <section aria-label="Oynatma Listeleri">
-            <h2 class="section-title">Oynatma Listeleri</h2>
+        <!-- Son Oluşturulan & Sistem Tarafından Oluşturulan Listeler -->
+        <section aria-label="Son Oluşturulan Listeler">
+            <h2 class="section-title">Son Oluşturulan & Sistem Tarafından Oluşturulan Listeler</h2>
             <div class="card-grid card-grid--scroll" role="list">
                 <article class="media-card" role="listitem">
                     <div class="media-card__thumb"><img src="<?= $currentArt ?>" alt="" width="140" height="140" loading="lazy"></div>
@@ -107,25 +110,11 @@ require __DIR__ . '/../header.php';
                 <span>Oynatma listesini göster</span>
             </label>
         </section>
-
-        <!-- Sıradaki Şarkılar + Mini Card -->
-        <section aria-label="Sıradaki Şarkılar">
-            <h2 class="section-title">Sıradaki Şarkılar</h2>
-            <div class="mini-card" aria-label="Şu an çalınan şarkı kartı">
-                <div class="mini-card__art">
-                    <img src="<?= $currentArt ?>" alt="" width="50" height="50" loading="lazy">
-                </div>
-                <div class="mini-card__info">
-                    <p class="mini-card__title"><?= $currentSong ?></p>
-                    <p class="mini-card__artist"><?= $currentArtist ?></p>
-                    <p class="mini-card__album"><?= $currentAlbum ?></p>
-                </div>
-            </div>
-        </section>
     </div>
 
-    <!-- SAĞ PANEL — %58: Widget'lar -->
+    <!-- SAĞ PANEL — %58: Widget'lar (2×2 Grid) -->
     <div class="home-layout__right">
+        <div class="home-widget-grid">
 
         <!-- Hoparlörler Widget -->
         <div class="home-widget">
@@ -147,7 +136,7 @@ require __DIR__ . '/../header.php';
             </div>
             <p class="home-widget__subtitle">İzmir, TR</p>
             <div class="home-widget__glass">
-                <p class="home-widget__info">--°C</p>
+                <p class="home-widget__info">Güneşli 23°C</p>
             </div>
         </div>
 
@@ -190,6 +179,22 @@ require __DIR__ . '/../header.php';
                 <p class="home-widget__info"></p>
             </div>
         </div>
+        </div><!-- .home-widget-grid -->
+
+        <!-- Sıradaki Şarkılar + Mini Card -->
+        <section aria-label="Sıradaki Şarkılar">
+            <h2 class="section-title">Sıradaki Şarkılar</h2>
+            <div class="mini-card" aria-label="Şu an çalınan şarkı kartı">
+                <div class="mini-card__art">
+                    <img src="<?= $currentArt ?>" alt="" width="50" height="50" loading="lazy">
+                </div>
+                <div class="mini-card__info">
+                    <p class="mini-card__title"><?= $currentSong ?></p>
+                    <p class="mini-card__artist"><?= $currentArtist ?></p>
+                    <p class="mini-card__album"><?= $currentAlbum ?></p>
+                </div>
+            </div>
+        </section>
     </div>
 </main>
 <?php require __DIR__ . '/../footer.php'; ?>
