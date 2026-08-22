@@ -208,6 +208,54 @@
 }
 
 /* ============================================================
+   2K / Wide — ≥2560px (Mouse + Keyboard, large monitor)
+   2K monitor, ultrawide, multi-monitor
+   ============================================================ */
+@media (min-width: 2560px) {
+  :root {
+    --screen-w: 2560px;
+    --screen-h: 1440px;
+
+    --header-h: 80px;
+    --footer-h: 120px;
+    --content-h: 1240px;
+    --content-padding-top: 16px;
+    --content-padding-bottom: 22px;
+    --page-padding-x: 28px;
+
+    --sidebar-w: 300px;
+    --sidebar-w-compact: 300px;
+    --detail-panel-w: 560px;
+
+    --card-thumb-size: 220px;
+    --album-art-size: 480px;
+    --player-art-size: 160px;
+    --mini-card-art-size: 70px;
+    --widget-h: 160px;
+
+    --touch-min: 44px;
+    --touch-recommended: 48px;
+    --touch-large: 56px;
+
+    --grid-gap: 14px;
+    --grid-gap-lg: 22px;
+    --section-gap: 28px;
+    --card-padding: 18px;
+
+    --text-xs: 13px;
+    --text-sm: 14px;
+    --text-base: 15px;
+    --text-lg: 18px;
+    --text-xl: 20px;
+
+    --glass-blur: blur(20px);
+    --glass-saturate: saturate(180%);
+
+    --hover-display: block;
+  }
+}
+
+/* ============================================================
    4K TV — ≥3840px (D-pad, focus-only, 10ft UI, 30px overscan)
    Samsung Tizen, LG webOS, Android TV
    ============================================================ */
