@@ -377,12 +377,13 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | Ozellik | Deger |
 |---------|-------|
 | Session Date | 2026-08-21 |
-| Active Task | Frontend — home.coremusic.net |
+| Active Task | Frontend — home.coremusic.net (Router entegrasyonu) |
 | Domain | home.coremusic.net |
 | Page | home.php |
 | Components | header.php, footer.php, main.js v5 |
 | CSS Status | Responsive token'lar tamamlandı, device CSS'ler mevcut |
-| JS Status | main.js v5 — 11 modül tamamlandı (1555 satır) |
+| JS Status | main.js v5 — Router + 11 modül entegre edildi |
+| PHP Changes | HtmlShellRenderer.php → main.js yüklenecek (router/main.js değil) |
 | Device Targets | mobile, tablet, 1024 embedded, laptop, desktop, 4K TV, 4K monitor |
 
 ### Frontend Mimarisi
@@ -399,11 +400,11 @@ CSS Katmanı (ITCSS 9-layer):
   08_Devices/    → 7 device CSS (phone, tablet, embedded, laptop, desktop, 4k-tv, 4k-monitor)
   09_ViewModes/  → 4 view modes (home, pro, studio, car)
 
-JS Katmanı (ES Modules, 14 dosya):
+JS Katmanı (ES Modules):
+  main.js                    ← Entry point: Router + tüm modülleri başlatır
   core/
     EventBus.js              → Pub/sub (bağımsız)
     CoreMusicApp.js          → Lifecycle manager
-    module-loader.js         → Dinamik modül yükleme
   managers/
     DeviceManager.js         → Cihaz tespiti (device-loader.js bridge)
     ThemeManager.js          → ADR-044 gender theme
@@ -415,9 +416,10 @@ JS Katmanı (ES Modules, 14 dosya):
     ScrollManager.js         → Route scroll restore
     TouchManager.js          → Embedded touch gestures
   router/
-    SPARouterAdapter.js      → Router.js bridge
-    Router.js + 21 modül     → Mevcut SPA router
-  main.js                    → Entry point (10-20 satır)
+    Router.js + guards.js    → Mevcut SPA router (main.js import ediyor)
+    SPARouterAdapter.js      → DEPRECATED (main.js doğrudan Router kullanıyor)
+    21+ modül               → GuardPipeline, CacheLayer, DomPatcher, vb.
+  device-loader.js           → Cihaz tespiti (IIFE, non-module)
 
 Backend (home.coremusic.net):
   index.php              → Entry point (PageRouterKernel)
@@ -426,6 +428,11 @@ Backend (home.coremusic.net):
   pages/home.php         → Home page (Split 42/58)
   include/               → Auth, Session, Container
   config/                → Constants, app config
+
+PHP Changes (HtmlShellRenderer.php):
+  - mainJsFile: router/main.js → main.js
+  - script tag: /js/router/main.js → /js/main.js
+  - device-loader.js: aynen kalıyor (IIFE)
 ```
 
 ---
@@ -434,7 +441,7 @@ Backend (home.coremusic.net):
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 22.1.0 |
+| Version | 22.1.1 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 21 |
 | SSOT Authority | Memory System Index |
@@ -444,7 +451,8 @@ Backend (home.coremusic.net):
 | Session History | 15 oturum |
 | Cross References | 12 capraz referans |
 | Terminology | 14 terim |
-| Frontend Modules | 11 (main.js v5) |
+| Frontend Modules | 14 (main.js v5.0 — Router entegre) |
+| PHP Changes | HtmlShellRenderer → main.js (router/main.js değil) |
 | CSS Device Files | 7 (phone, tablet, embedded, laptop, desktop, 4k-tv, 4k-monitor) |
 | CSS View Modes | 4 (home, pro, studio, car) |
 

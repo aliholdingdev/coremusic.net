@@ -26,10 +26,10 @@ home.coremusic.net frontend JavaScript modül yapısını tanımlar. Tek `main.j
 
 ```
 assets.coremusic.net/js/
+├── main.js                      ← Entry point: Router + tüm modülleri başlatır
 ├── core/                        ← Temel altyapı (bağımsız)
 │   ├── EventBus.js                Pub/sub (tüm modüller bağımlı)
-│   ├── CoreMusicApp.js            Lifecycle manager
-│   └── module-loader.js           Dinamik modül yükleme
+│   └── CoreMusicApp.js            Lifecycle manager
 ├── managers/                    ← Durum yönetimi (EventBus'e bağımlı)
 │   ├── DeviceManager.js           Cihaz tespiti (device-loader.js bridge)
 │   ├── ThemeManager.js            ADR-044 gender theme
@@ -41,16 +41,17 @@ assets.coremusic.net/js/
 │   ├── ScrollManager.js           Route scroll restore
 │   └── TouchManager.js            Embedded touch gestures
 ├── router/                      ← SPA navigasyonu (mevcut modüller)
-│   ├── SPARouterAdapter.js        Router.js bridge
 │   ├── Router.js                  Ana SPA router
-│   ├── GuardPipeline.js           Client-side guard'lar
+│   ├── guards.js                  Auth/role/permission guard'lar
+│   ├── GuardPipeline.js           Client-side guard zinciri
 │   ├── CacheLayer.js              Route content caching
 │   ├── DomPatcher.js              DOM patching (DOMParser)
 │   ├── ContentPatcher.js          HTML content update
 │   ├── CsrfSyncManager.js         CSRF token sync
 │   ├── FetchWrapper.js            HTTP fetch wrapper
+│   ├── main.js                    Legacy SPA entry (yedek)
 │   └── ... (21+ modül)
-└── main.js                      ← Entry point: import + init (10-20 satır)
+└── device-loader.js             ← Cihaz tespiti (IIFE, non-module)
 ```
 
 ---
@@ -58,22 +59,28 @@ assets.coremusic.net/js/
 ## 3. Modül Bağımlılık Sırası
 
 ```
-EventBus (bağımsız — Hiçbir modüle bağımlı değil)
+main.js (entry point)
   │
-  ├──→ DeviceManager (EventBus)
-  │      └──→ TouchManager (EventBus + DeviceManager)
+  ├──→ Router.js (guard'lar ile birlikte)
+  │      └──→ GuardPipeline → CacheLayer → DomPatcher → ContentPatcher
   │
-  ├──→ ThemeManager (EventBus)
+  ├──→ EventBus (bağımsız — Hiçbir modüle bağımlı değil)
+  │      │
+  │      ├──→ DeviceManager (EventBus)
+  │      │      └──→ TouchManager (EventBus + DeviceManager)
+  │      │
+  │      ├──→ ThemeManager (EventBus)
+  │      │
+  │      ├──→ ViewModeManager (EventBus)
+  │      │
+  │      ├──→ ScrollManager (EventBus + Router)
+  │      │
+  │      ├──→ PlayerController (EventBus)
+  │      │
+  │      └──→ WidgetManager (EventBus)
+  │             └──→ CardManager (EventBus)
   │
-  ├──→ ViewModeManager (EventBus)
-  │
-  ├──→ SPARouterAdapter (EventBus + Router.js)
-  │      └──→ ScrollManager (EventBus + Router)
-  │
-  ├──→ PlayerController (EventBus)
-  │
-  └──→ WidgetManager (EventBus)
-         └──→ CardManager (EventBus)
+  └──→ CoreMusicApp (modül lifecycle)
 ```
 
 ---
@@ -179,18 +186,32 @@ EventBus (bağımsız — Hiçbir modüle bağımlı değil)
 
 ## 5. main.js Entry Point
 
+PHP `HtmlShellRenderer` tarafından yüklenen ana entry point. Router + tüm modülleri başlatır.
+
+> **Not:** `SPARouterAdapter.js` artık kullanılmıyor. Router entegrasyonu doğrudan `main.js` içinde yapılıyor.
+
 ```javascript
 /**
  * CoreMusic — main.js v5.0.0
- * Entry point: Modülleri import et ve başlat
+ * Ana entry point. PHP HtmlShellRenderer tarafından yüklenir.
+ * SPA Router + tüm modülleri başlatır.
+ *
  * @module main
+ * @version 5.0.0
  */
+import Router from './router/Router.js';
+import { authGuard, roleGuard, permissionGuard } from './router/guards.js';
+
+/* ─── Core Modüller ─── */
 import EventBus from './core/EventBus.js';
 import CoreMusicApp from './core/CoreMusicApp.js';
+
+/* ─── Manager Modüller ─── */
 import DeviceManager from './managers/DeviceManager.js';
 import ThemeManager from './managers/ThemeManager.js';
 import ViewModeManager from './managers/ViewModeManager.js';
-import SPARouterAdapter from './router/SPARouterAdapter.js';
+
+/* ─── Feature Modüller ─── */
 import PlayerController from './features/PlayerController.js';
 import WidgetManager from './features/WidgetManager.js';
 import CardManager from './features/CardManager.js';
@@ -199,21 +220,70 @@ import TouchManager from './features/TouchManager.js';
 
 (function () {
     'use strict';
-    if (typeof history.pushState !== 'function') return;
 
-    const app = new CoreMusicApp({
-        modules: {
-            EventBus, DeviceManager, ThemeManager, ViewModeManager,
-            SPARouterAdapter, PlayerController, WidgetManager,
-            CardManager, ScrollManager, TouchManager
+    /* ─── 1. CoreMusicApp ─── */
+    const eventBus = new EventBus();
+    const app = new CoreMusicApp({ eventBus });
+
+    /* ─── 2. SPA Router (mevcut Router.js) ─── */
+    const routerConfig = window.CoreMusic?.RouterConfig || {};
+    let router = null;
+
+    if (routerConfig.enabled !== false && typeof history.pushState === 'function') {
+        const guardFunctions = [authGuard, roleGuard, permissionGuard];
+        if (typeof routerConfig.customGuard === 'function') {
+            guardFunctions.push(routerConfig.customGuard);
         }
+
+        router = new Router({ ...routerConfig, guardFunctions });
+        router.init();
+        window.CoreMusic = window.CoreMusic || {};
+        window.CoreMusic.Router = router;
+        eventBus.emit('router:ready', { router });
+    }
+
+    /* ─── 3. Diğer Modüller ─── */
+    document.addEventListener('DOMContentLoaded', () => {
+        const deviceManager = new DeviceManager(eventBus);
+        deviceManager.init();
+        app.registerModule('device', deviceManager);
+
+        const themeManager = new ThemeManager(eventBus);
+        themeManager.init();
+        app.registerModule('theme', themeManager);
+
+        const viewModeManager = new ViewModeManager(eventBus);
+        viewModeManager.init();
+        app.registerModule('viewMode', viewModeManager);
+
+        const player = new PlayerController(eventBus);
+        player.init();
+        app.registerModule('player', player);
+
+        const widgets = new WidgetManager(eventBus);
+        widgets.init();
+        app.registerModule('widgets', widgets);
+
+        const cards = new CardManager(eventBus);
+        cards.init();
+        app.registerModule('cards', cards);
+
+        const scroll = new ScrollManager(eventBus);
+        scroll.init();
+        app.registerModule('scroll', scroll);
+
+        const touch = new TouchManager(eventBus);
+        touch.init();
+        app.registerModule('touch', touch);
+
+        app.setRunning();
+        eventBus.emit('app:ready');
+
+        window.CoreMusic = window.CoreMusic || {};
+        window.CoreMusic.App = app;
+        window.CoreMusic.EventBus = eventBus;
+        window.CoreMusic.version = '5.0.0';
     });
-
-    document.addEventListener('DOMContentLoaded', () => app.init());
-
-    window.CoreMusic = window.CoreMusic || {};
-    window.CoreMusic.App = app;
-    window.CoreMusic.version = '5.0.0';
 })();
 ```
 

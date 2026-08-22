@@ -51,7 +51,7 @@ final class HtmlShellRenderer
 
         $viewMode = DeviceCssMap::sanitizeViewMode($sessionData['view_mode'] ?? null);
 
-        $mainJsFile  = dirname(__DIR__, 3) . '/assets.coremusic.net/js/router/main.js';
+        $mainJsFile  = dirname(__DIR__, 3) . '/assets.coremusic.net/js/main.js';
         $mainJsTime  = is_file($mainJsFile) ? (string)filemtime($mainJsFile) : '';
         $cacheBuster = $mainJsTime !== '' ? $mainJsTime : $appVersion;
 
@@ -129,7 +129,7 @@ final class HtmlShellRenderer
         echo '};';
         echo '</script>';
 
-        echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/js/router/main.js?v=' . $cacheBuster . '" type="module" defer></script>';
+        echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/js/main.js?v=' . $cacheBuster . '" type="module" defer></script>';
 
         // Device Loader — client-side cihaz tespiti ve CSS yeniden yükleme
         echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/js/device-loader.js?v=' . $cacheBuster . '"'

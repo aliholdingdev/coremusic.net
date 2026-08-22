@@ -424,3 +424,14 @@ Olay gerçekleşir
   Guardrail #10 (ES Modules) ile uyumlu. ADR-001 referansları güncellendi.
   Toplam: 1 yeni dosya, 2 revize dosya.
 
+[2026-08-21 17:44:00] [INFO] [MO] [JS-ROUTER-INTEGRATE] Router entegrasyonu main.js'e taşındı:
+  1. assets.coremusic.net/js/main.js — Router + 11 modül entegre edildi (entry point)
+  2. assets.coremusic.net/js/router/main.js — Orijinal haline döndürüldü (yedek)
+  3. shared/src/PageRouter/HtmlShellRenderer.php — script src: /js/router/main.js → /js/main.js
+  4. .ai/architecture/l3-presentation/js-module-architecture.md — Entry point güncellendi
+  5. .ai/MEMORY.md — Session state güncellendi (v22.1.1)
+  Mimari: main.js (entry) → Router.js (import) + EventBus + 11 modül
+  PHP: HtmlShellRenderer artık /js/main.js yüklüyor
+  Guardrail #4 (In-Place Refactoring) ile uyumlu.
+  Toplam: 4 dosya güncellendi, 1 dosya silindi (üst seviye main.js redundant idi).
+
