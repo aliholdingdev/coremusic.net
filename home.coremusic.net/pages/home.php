@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 /**
  * CoreMusic Home — Ana Sayfa
- * Layout: Split Home (42/58) — Sol: Now Playing + kartlar / Sağ: Widget'lar
- * Design: 02-home-screens.md, 01-component-inventory.md
+ * Layout: 2-Row Grid — Üst: Now Playing + Widget'lar / Alt: Kart bölümleri
+ * Design: 02-home-screens.md, 01-component-inventory.md, PNG mockup (1024x600)
  * Components: C09 (Media Card), Now Playing Card, Widget Area, Mini Card
- * Version: 2.0.0 — 2026-08-21
+ * Version: 2.1.0 — 2026-08-22
  */
 
 $username = htmlspecialchars($_SESSION['MM_Username'] ?? '', ENT_QUOTES, 'UTF-8');
@@ -20,33 +20,110 @@ $currentArt    = $_SESSION['current_art'] ?? '/assets.coremusic.net/Image/res-pi
 require __DIR__ . '/../header.php';
 ?>
 <main class="page-home home-layout" role="main" aria-label="Ana Sayfa">
-    <!-- SOL PANEL — %42: Now Playing + Kartlar -->
-    <div class="home-layout__left">
 
-        <!-- Şimdi Çalınıyor -->
-        <h2 class="section-title">Şimdi Çalınıyor</h2>
+    <!-- ============================================================
+         ÜST SATIR — Now Playing (sol %42) + Widget'lar 2×2 (sağ %58)
+         ============================================================ -->
+    <div class="home-layout__top">
 
-        <!-- Now Playing Card -->
-        <div class="now-playing" aria-label="Şu an çalınan şarkı">
-            <div class="now-playing__art">
-                <img src="<?= $currentArt ?>" alt="<?= $currentSong ?> albüm kapağı" width="100" height="100" loading="lazy">
-            </div>
-            <div class="now-playing__info">
-                <p class="now-playing__title"><?= $currentSong ?></p>
-                <p class="now-playing__subtitle"><?= $currentAlbum ?></p>
-                <p class="now-playing__artist"><?= $currentArtist ?></p>
-                <div class="now-playing__seek">
-                    <div class="now-playing__seek-fill" style="width:50%;"></div>
+        <!-- SOL: Şimdi Çalınıyor -->
+        <div class="home-layout__top-left">
+            <div class="now-playing" aria-label="Şu an çalınan şarkı">
+                <div class="now-playing__art">
+                    <img src="<?= $currentArt ?>" alt="<?= $currentSong ?> albüm kapağı" width="100" height="100" loading="lazy">
                 </div>
-                <div class="now-playing__times">
-                    <span>00:05:00</span>
-                    <span>00:05:00</span>
+                <div class="now-playing__info">
+                    <p class="now-playing__title"><?= $currentSong ?></p>
+                    <p class="now-playing__subtitle"><?= $currentAlbum ?></p>
+                    <p class="now-playing__artist"><?= $currentArtist ?></p>
+                    <div class="now-playing__seek">
+                        <div class="now-playing__seek-fill" style="width:50%;"></div>
+                    </div>
+                    <div class="now-playing__times">
+                        <span>00:05:00</span>
+                        <span>00:05:00</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- En Son Dinlenen -->
-        <section aria-label="En Son Dinlenen Şarkılar">
+        <!-- SAĞ: Widget'lar 2×2 Grid -->
+        <div class="home-layout__top-right">
+            <div class="home-widget-grid">
+                <!-- Hoparlörler -->
+                <div class="home-widget">
+                    <div class="home-widget__header">
+                        <span class="home-widget__icon" aria-hidden="true">&#9835;</span>
+                        <h3 class="home-widget__title">Hoparlörler</h3>
+                    </div>
+                    <p class="home-widget__subtitle">Core Music - Hoparlör</p>
+                    <div class="home-widget__glass">
+                        <p class="home-widget__info">Bağlı hoparlör bulunamadı</p>
+                    </div>
+                </div>
+
+                <!-- Hava Durumu -->
+                <div class="home-widget">
+                    <div class="home-widget__header">
+                        <span class="home-widget__icon" aria-hidden="true">&#9729;</span>
+                        <h3 class="home-widget__title">Hava Durumu</h3>
+                    </div>
+                    <p class="home-widget__subtitle">İzmir, TR</p>
+                    <div class="home-widget__glass">
+                        <p class="home-widget__info">Güneşli 23°C</p>
+                    </div>
+                </div>
+
+                <!-- Tarih -->
+                <div class="home-widget">
+                    <div class="home-widget__header">
+                        <span class="home-widget__icon" aria-hidden="true">&#9787;</span>
+                        <h3 class="home-widget__title">07:00</h3>
+                    </div>
+                    <p class="home-widget__subtitle">5 Ağustos 2026</p>
+                    <div class="home-widget__glass">
+                        <p class="home-widget__info"></p>
+                    </div>
+                </div>
+
+                <!-- Klasörlerim -->
+                <div class="home-widget">
+                    <div class="home-widget__header">
+                        <span class="home-widget__icon" aria-hidden="true">&#128193;</span>
+                        <h3 class="home-widget__title">Klasörlerim</h3>
+                    </div>
+                    <div class="home-widget__folders">
+                        <button class="home-widget__folder-btn" aria-label="Oynat">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                        <button class="home-widget__folder-btn" aria-label="YouTube">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.5 15.5V8.5l6.4 3.5-6.4 3.5z"/></svg>
+                        </button>
+                        <button class="home-widget__folder-btn" aria-label="Beğeni">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="#FF69B4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </button>
+                        <button class="home-widget__folder-btn" aria-label="Müzik">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="#9B59B6"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                        </button>
+                        <button class="home-widget__folder-btn" aria-label="Beğeni 2">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="#E91E63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </button>
+                    </div>
+                    <div class="home-widget__glass">
+                        <p class="home-widget__info"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ALT SATIR — En Son Dinlenen (sol) + Son Oluşturulan (orta) + Sıradaki (sağ)
+         ============================================================ -->
+    <div class="home-layout__bottom">
+
+        <!-- En Son Dinlenen Şarkılar -->
+        <section class="home-layout__bottom-left" aria-label="En Son Dinlenen Şarkılar">
             <h2 class="section-title">En Son Dinlenen Şarkılar</h2>
             <div class="card-grid card-grid--scroll" role="list">
                 <article class="media-card" role="listitem">
@@ -77,7 +154,7 @@ require __DIR__ . '/../header.php';
         </section>
 
         <!-- Son Oluşturulan & Sistem Tarafından Oluşturulan Listeler -->
-        <section aria-label="Son Oluşturulan Listeler">
+        <section class="home-layout__bottom-center" aria-label="Son Oluşturulan Listeler">
             <h2 class="section-title">Son Oluşturulan & Sistem Tarafından Oluşturulan Listeler</h2>
             <div class="card-grid card-grid--scroll" role="list">
                 <article class="media-card" role="listitem">
@@ -110,79 +187,9 @@ require __DIR__ . '/../header.php';
                 <span>Oynatma listesini göster</span>
             </label>
         </section>
-    </div>
 
-    <!-- SAĞ PANEL — %58: Widget'lar (2×2 Grid) -->
-    <div class="home-layout__right">
-        <div class="home-widget-grid">
-
-        <!-- Hoparlörler Widget -->
-        <div class="home-widget">
-            <div class="home-widget__header">
-                <span class="home-widget__icon" aria-hidden="true">&#9835;</span>
-                <h3 class="home-widget__title">Hoparlörler</h3>
-            </div>
-            <p class="home-widget__subtitle">Core Music - Hoparlör</p>
-            <div class="home-widget__glass">
-                <p class="home-widget__info">Bağlı hoparlör bulunamadı</p>
-            </div>
-        </div>
-
-        <!-- Hava Durumu Widget -->
-        <div class="home-widget">
-            <div class="home-widget__header">
-                <span class="home-widget__icon" aria-hidden="true">&#9729;</span>
-                <h3 class="home-widget__title">Hava Durumu</h3>
-            </div>
-            <p class="home-widget__subtitle">İzmir, TR</p>
-            <div class="home-widget__glass">
-                <p class="home-widget__info">Güneşli 23°C</p>
-            </div>
-        </div>
-
-        <!-- Tarih Widget -->
-        <div class="home-widget">
-            <div class="home-widget__header">
-                <span class="home-widget__icon" aria-hidden="true">&#9787;</span>
-                <h3 class="home-widget__title">07:00</h3>
-            </div>
-            <p class="home-widget__subtitle">5 Ağustos 2026</p>
-            <div class="home-widget__glass">
-                <p class="home-widget__info"></p>
-            </div>
-        </div>
-
-        <!-- Klasörlerim Widget -->
-        <div class="home-widget">
-            <div class="home-widget__header">
-                <span class="home-widget__icon" aria-hidden="true">&#128193;</span>
-                <h3 class="home-widget__title">Klasörlerim</h3>
-            </div>
-            <div class="home-widget__folders">
-                <button class="home-widget__folder-btn" aria-label="Oynat">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                </button>
-                <button class="home-widget__folder-btn" aria-label="YouTube">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8zM9.5 15.5V8.5l6.4 3.5-6.4 3.5z"/></svg>
-                </button>
-                <button class="home-widget__folder-btn" aria-label="Beğeni">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#FF69B4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                </button>
-                <button class="home-widget__folder-btn" aria-label="Müzik">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#9B59B6"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-                </button>
-                <button class="home-widget__folder-btn" aria-label="Beğeni 2">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#E91E63"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                </button>
-            </div>
-            <div class="home-widget__glass">
-                <p class="home-widget__info"></p>
-            </div>
-        </div>
-        </div><!-- .home-widget-grid -->
-
-        <!-- Sıradaki Şarkılar + Mini Card -->
-        <section aria-label="Sıradaki Şarkılar">
+        <!-- Sıradaki Şarkılar -->
+        <section class="home-layout__bottom-right" aria-label="Sıradaki Şarkılar">
             <h2 class="section-title">Sıradaki Şarkılar</h2>
             <div class="mini-card" aria-label="Şu an çalınan şarkı kartı">
                 <div class="mini-card__art">
@@ -196,5 +203,6 @@ require __DIR__ . '/../header.php';
             </div>
         </section>
     </div>
+
 </main>
 <?php require __DIR__ . '/../footer.php'; ?>

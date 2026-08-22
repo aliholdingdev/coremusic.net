@@ -76,7 +76,7 @@
 
 .footer__progress-bar {
     height: 100%;
-    background: var(--fp-accent);
+    background: linear-gradient(90deg, #ff4fd8 0%, #ff8c42 100%);
     border-radius: 0 2px 2px 0;
     transition: width 200ms linear;
 }
