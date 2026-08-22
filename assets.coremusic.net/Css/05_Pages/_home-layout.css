@@ -18,6 +18,8 @@
 .home-layout {
   display: grid;
   grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr;
+  width: 100%;
   gap: var(--grid-gap, 8px);
   height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
   padding: var(--content-padding-top, 11px)
@@ -26,6 +28,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: thin;
+  box-sizing: border-box;
 }
 
 /* ============================================================

@@ -22,9 +22,9 @@ $_SESSION['current_artist'] = 'Göksel';
 $_SESSION['current_art'] = 'assets.coremusic.net/Image/res-pink/default-album.png';
 $_SESSION['volume'] = 100;
 
-require __DIR__ . '/home.coremusic.net/header.php';
+// home.php has require header.php and require footer.php inside it
+// So we ONLY need to include home.php — it pulls header + footer itself
 require __DIR__ . '/home.coremusic.net/pages/home.php';
-require __DIR__ . '/home.coremusic.net/footer.php';
 ?>
 </body>
 </html>

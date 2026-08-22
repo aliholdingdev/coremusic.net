@@ -15,12 +15,15 @@
   display: flex;
   gap: var(--space-3, 12px);
   padding: var(--card-padding, 12px);
-  background: var(--glass-bg, rgba(255,255,255,0.08));
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--glass-border, rgba(255,255,255,0.1));
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-card, 12px);
   min-height: 0;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 }
 
 .now-playing__art {
@@ -470,12 +473,13 @@
    Hoparlörler, Hava Durumu, Tarih, Klasörlerim
    ============================================================ */
 .home-widget {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-card, 12px);
   padding: var(--card-padding, 12px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
 }
 
 .home-widget__header {
@@ -506,8 +510,8 @@
 }
 
 .home-widget__glass {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-md, 8px);
   padding: var(--space-3, 12px);
   min-height: 60px;

@@ -13,15 +13,15 @@
    Tam kaplama, cover, fixed
    ============================================================ */
 html[data-gender="female"] body {
-  background-image: url('/assets.coremusic.net/Image/background/login-bg-female.png');
+  background-image: url('/Image/background/login-bg-female.png');
 }
 
 html[data-gender="male"] body {
-  background-image: url('/assets.coremusic.net/Image/background/login-bg-male.png');
+  background-image: url('/Image/background/login-bg-male.png');
 }
 
 html[data-gender="neutral"] body {
-  background-image: url('/assets.coremusic.net/Image/background/login-bg-neutral.png');
+  background-image: url('/Image/background/login-bg-neutral.png');
 }
 
 body {
@@ -53,9 +53,9 @@ body::before {
   z-index: -1;
   background: linear-gradient(
     180deg,
-    rgba(0, 0, 0, 0.25) 0%,
-    rgba(0, 0, 0, 0.15) 40%,
-    rgba(0, 0, 0, 0.30) 100%
+    rgba(0, 0, 0, 0.10) 0%,
+    rgba(0, 0, 0, 0.05) 40%,
+    rgba(0, 0, 0, 0.15) 100%
   );
   pointer-events: none;
 }
@@ -64,7 +64,7 @@ body::before {
    HOME VIEW — Layout Adjustments
    ============================================================ */
 .view-home .home-layout {
-  grid-template-columns: var(--sidebar-w) 1fr;
+  grid-template-columns: 1fr;
 }
 
 .view-home .home-sidebar {
@@ -90,7 +90,7 @@ body::before {
    DATA ATTRIBUTE SELECTOR
    ============================================================ */
 [data-view="home"] .home-layout {
-  grid-template-columns: var(--sidebar-w) 1fr;
+  grid-template-columns: 1fr;
 }
 
 [data-view="home"] .home-sidebar {
