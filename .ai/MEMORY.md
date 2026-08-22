@@ -376,14 +376,15 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 
 | Ozellik | Deger |
 |---------|-------|
-| Session Date | 2026-08-21 |
-| Active Task | Frontend — home.coremusic.net (Router entegrasyonu) |
+| Session Date | 2026-08-22 |
+| Active Task | Backend PHP modülleri — ThemeManager + ViewModeManager tamamlandı |
 | Domain | home.coremusic.net |
 | Page | home.php |
 | Components | header.php, footer.php, main.js v5 |
 | CSS Status | Responsive token'lar tamamlandı, device CSS'ler mevcut |
 | JS Status | main.js v5 — Router + 11 modül entegre edildi |
-| PHP Changes | HtmlShellRenderer.php → main.js yüklenecek (router/main.js değil) |
+| PHP Status | ThemeManager.php + ViewModeManager.php oluşturuldu, HtmlShellRenderer entegre |
+| PHP Changes | HtmlShellRenderer → main.js + ThemeManager::detect() + ViewModeManager::detect() |
 | Device Targets | mobile, tablet, 1024 embedded, laptop, desktop, 4K TV, 4K monitor |
 
 ### Frontend Mimarisi
@@ -421,6 +422,18 @@ JS Katmanı (ES Modules):
     21+ modül               → GuardPipeline, CacheLayer, DomPatcher, vb.
   device-loader.js           → Cihaz tespiti (IIFE, non-module)
 
+Backend (shared/src):
+  Device/
+    DeviceDetector.php       → Cihaz tespiti (mevcut)
+    DeviceCssMap.php         → CSS haritası (mevcut)
+  Theme/
+    ThemeManager.php         → Gender tema yönetimi (YENİ — ADR-044)
+  ViewMode/
+    ViewModeManager.php      → View mode yönetimi (YENİ — ADR-045)
+  PageRouter/
+    PageRouterKernel.php     → Ana kernel
+    HtmlShellRenderer.php    → HTML shell (ThemeManager + ViewModeManager entegre)
+
 Backend (home.coremusic.net):
   index.php              → Entry point (PageRouterKernel)
   header.php             → Header partial (C01-C03)
@@ -432,6 +445,8 @@ Backend (home.coremusic.net):
 PHP Changes (HtmlShellRenderer.php):
   - mainJsFile: router/main.js → main.js
   - script tag: /js/router/main.js → /js/main.js
+  - gender: inline session read → ThemeManager::detect()
+  - viewMode: DeviceCssMap::sanitizeViewMode() → ViewModeManager::detect()
   - device-loader.js: aynen kalıyor (IIFE)
 ```
 
@@ -441,18 +456,19 @@ PHP Changes (HtmlShellRenderer.php):
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 22.1.1 |
+| Version | 22.2.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 21 |
 | SSOT Authority | Memory System Index |
-| Last Updated | 2026-08-21 |
+| Last Updated | 2026-08-22 |
 | ADR Coverage | ADR-001 through ADR-087 (37 Frozen + 50 Active) |
-| Security Boundary | ✅ REDACTED policy |
-| Session History | 15 oturum |
+| Security Boundary | REDACTED policy |
+| Session History | 16 oturum |
 | Cross References | 12 capraz referans |
 | Terminology | 14 terim |
 | Frontend Modules | 14 (main.js v5.0 — Router entegre) |
-| PHP Changes | HtmlShellRenderer → main.js (router/main.js değil) |
+| PHP Backend Modules | 2 yeni (ThemeManager.php, ViewModeManager.php) |
+| PHP Changes | HtmlShellRenderer → main.js + ThemeManager + ViewModeManager |
 | CSS Device Files | 7 (phone, tablet, embedded, laptop, desktop, 4k-tv, 4k-monitor) |
 | CSS View Modes | 4 (home, pro, studio, car) |
 
