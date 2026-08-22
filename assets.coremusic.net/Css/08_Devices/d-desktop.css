@@ -3,13 +3,20 @@
  * ITCSS Layer: 08_Devices
  * Version: 3.0.0 — 2026-08-18
  *
- * Sadece behavioral overrides — token'lar a-layout-tokens.css tarafından yönetilir
- * Token'lar: a-layout-tokens.css → @media (min-width: 1920px)
- * Component'ler: main.css → 03_Layout/, 04_Components/, 05_Pages/
- *
+ * Self-contained: imports all base styles + device overrides
  * Target: PC/Laptop, Fare + Klavye
  * Hover: VAR — fare tabanlı
  */
+
+@import '../01_Abstracts/a-theme-config.css';
+@import '../01_Abstracts/a-colors-token.css';
+@import '../01_Abstracts/a-semantic-token.css';
+@import '../01_Abstracts/a-breakpoint-tokens.css';
+@import '../01_Abstracts/a-layout-tokens.css';
+@import '../02_Base/b-base-core.css';
+@import '../03_Layout/_header.css';
+@import '../03_Layout/_footer.css';
+@import '../05_Pages/_home.css';
 
 /* ============================================================
    BEHAVIORAL OVERRIDES — Desktop (Mouse + Keyboard)

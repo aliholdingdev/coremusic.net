@@ -1,0 +1,155 @@
+- generic [active] [ref=f1e1]:
+  - banner [ref=f1e2]:
+    - generic [ref=f1e3]:
+      - link "CoreMusic Ana Sayfa" [ref=f1e4] [cursor=pointer]:
+        - /url: /home
+        - text: CoreMusic
+      - navigation "Ana navigasyon" [ref=f1e5]:
+        - link "Ana Sayfa" [ref=f1e6] [cursor=pointer]:
+          - /url: /home
+        - link "Keşfet" [ref=f1e7] [cursor=pointer]:
+          - /url: /kesfet
+        - link "Albümler" [ref=f1e8] [cursor=pointer]:
+          - /url: /albumler
+        - link "Sanatçılar" [ref=f1e9] [cursor=pointer]:
+          - /url: /sanatcilar
+        - link "Göz At" [ref=f1e10] [cursor=pointer]:
+          - /url: /goz-at
+        - link "Geçmiş" [ref=f1e11] [cursor=pointer]:
+          - /url: /gecmis
+        - link "Ayarlar" [ref=f1e12] [cursor=pointer]:
+          - /url: /ayarlar
+        - link "Hakkımızda" [ref=f1e13] [cursor=pointer]:
+          - /url: /hakkimizda
+      - generic [ref=f1e14]:
+        - button [ref=f1e15]:
+          - img "Bayram Ali" [ref=f1e16]
+          - text: Bayram Ali ▾
+          - menu [ref=f1e17]:
+            - menuitem "Profilim" [ref=f1e18] [cursor=pointer]
+            - menuitem "Ayarlar" [ref=f1e19] [cursor=pointer]
+            - menuitem "Geçmiş" [ref=f1e20] [cursor=pointer]
+            - menuitem "Çıkış Yap" [ref=f1e21] [cursor=pointer]
+        - generic [ref=f1e22]:
+          - img "Wi-Fi" [ref=f1e24]
+          - img "Bluetooth" [ref=f1e26]
+        - generic [ref=f1e27]:
+          - img "Batarya" [ref=f1e29]
+          - text: "%100"
+        - link "Ayarlar" [ref=f1e30] [cursor=pointer]:
+          - /url: /ayarlar
+        - link "Çıkış" [ref=f1e31] [cursor=pointer]:
+          - /url: /logout
+  - main "Ana Sayfa" [ref=f1e32]:
+    - generic [ref=f1e33]:
+      - heading "Şimdi Çalınıyor" [level=2] [ref=f1e34]
+      - generic "Şu an çalınan şarkı" [ref=f1e35]:
+        - img "Sevil Neşelen albüm kapağı" [ref=f1e37]
+        - generic [ref=f1e38]:
+          - paragraph [ref=f1e39]: Sevil Neşelen
+          - paragraph [ref=f1e40]: Hayat Rüya Gibi
+          - paragraph [ref=f1e41]: Göksel
+          - generic [ref=f1e42]: 00:05:00 00:05:00
+      - region "En Son Dinlenen Şarkılar" [ref=f1e43]:
+        - heading "En Son Dinlenen Şarkılar" [level=2] [ref=f1e44]
+        - list [ref=f1e45]:
+          - listitem [ref=f1e46]:
+            - paragraph [ref=f1e48]: Göksel - Sevil Neşelen
+            - paragraph [ref=f1e49]: Göksel
+            - paragraph [ref=f1e50]: 00:05:05
+          - listitem [ref=f1e51]:
+            - paragraph [ref=f1e53]: Göksel - Kadınım Je Suis
+            - paragraph [ref=f1e54]: Göksel
+            - paragraph [ref=f1e55]: 00:07:05
+          - listitem [ref=f1e56]:
+            - paragraph [ref=f1e58]: Barış Manço - Dönence
+            - paragraph [ref=f1e59]: Barış Manço
+            - paragraph [ref=f1e60]: 00:05:05
+          - listitem [ref=f1e61]:
+            - paragraph [ref=f1e63]: Erkin Koray - Çöpçüler
+            - paragraph [ref=f1e64]: Erkin Koray
+            - paragraph [ref=f1e65]: 00:09:05
+      - region "Son Oluşturulan Listeler" [ref=f1e66]:
+        - heading "Son Oluşturulan & Sistem Tarafından Oluşturulan Listeler" [level=2] [ref=f1e67]
+        - list [ref=f1e68]:
+          - listitem [ref=f1e69]:
+            - paragraph [ref=f1e71]: En Sevilen Şarkılar
+            - paragraph [ref=f1e72]: Göksel
+            - paragraph [ref=f1e73]: 00:05:05
+          - listitem [ref=f1e74]:
+            - paragraph [ref=f1e76]: Müzikal Enstrümanlar
+            - paragraph [ref=f1e77]: Orçun Benli
+            - paragraph [ref=f1e78]: 00:05:05
+          - listitem [ref=f1e79]:
+            - paragraph [ref=f1e81]: Popüler Arap Şarkıları
+            - paragraph [ref=f1e82]: Türlüden Seçmeler
+            - paragraph [ref=f1e83]: 00:05:05
+          - listitem [ref=f1e84]:
+            - paragraph [ref=f1e86]: Son Oluşturulan Listeler
+            - paragraph [ref=f1e87]: Sistem
+            - paragraph [ref=f1e88]: 00:05:05
+        - generic [ref=f1e89]:
+          - checkbox "Oynatma listesini göster" [ref=f1e90]
+          - text: Oynatma listesini göster
+    - generic [ref=f1e91]:
+      - generic [ref=f1e92]:
+        - generic [ref=f1e93]:
+          - generic [ref=f1e94]:
+            - text: ♫
+            - heading "Hoparlörler" [level=3] [ref=f1e95]
+          - paragraph [ref=f1e96]: Core Music - Hoparlör
+          - paragraph [ref=f1e98]: Bağlı hoparlör bulunamadı
+        - generic [ref=f1e99]:
+          - generic [ref=f1e100]:
+            - text: ☁
+            - heading "Hava Durumu" [level=3] [ref=f1e101]
+          - paragraph [ref=f1e102]: İzmir, TR
+          - paragraph [ref=f1e104]: Güneşli 23°C
+        - generic [ref=f1e105]:
+          - generic [ref=f1e106]:
+            - text: ☻
+            - heading "07:00" [level=3] [ref=f1e107]
+          - paragraph [ref=f1e108]: 5 Ağustos 2026
+          - generic:
+            - paragraph
+        - generic [ref=f1e109]:
+          - generic [ref=f1e110]:
+            - text: 📁
+            - heading "Klasörlerim" [level=3] [ref=f1e111]
+          - generic [ref=f1e112]:
+            - button "Oynat" [ref=f1e113]
+            - button "YouTube" [ref=f1e116]
+            - button "Beğeni" [ref=f1e119]
+            - button "Müzik" [ref=f1e122]
+            - button "Beğeni 2" [ref=f1e125]
+          - generic:
+            - paragraph
+      - region "Sıradaki Şarkılar" [ref=f1e128]:
+        - heading "Sıradaki Şarkılar" [level=2] [ref=f1e129]
+        - generic "Şu an çalınan şarkı kartı" [ref=f1e130]:
+          - generic [ref=f1e132]:
+            - paragraph [ref=f1e133]: Sevil Neşelen
+            - paragraph [ref=f1e134]: Göksel
+            - paragraph [ref=f1e135]: Hayat Rüya Gibi
+  - contentinfo [ref=f1e136]:
+    - generic:
+      - progressbar
+    - generic [ref=f1e137]:
+      - generic [ref=f1e138]:
+        - img "Sevil Neşelen albüm kapağı" [ref=f1e139]
+        - generic [ref=f1e140]:
+          - generic [ref=f1e141]: "♫ Şarkı Adı : Sevil Neşelen"
+          - generic [ref=f1e142]: "⚪ Albümüm : Hayat Rüya Gibi"
+          - generic [ref=f1e143]: "☆ Sanatçı : Göksel"
+          - generic [ref=f1e144]: "Süre : 09:00:00 / 00:05:00 / Bit rate : 320 kbps"
+      - generic [ref=f1e146]:
+        - button "Karışık çal" [ref=f1e147]
+        - button "Önceki şarkı" [ref=f1e150]
+        - button "Oynat" [ref=f1e153]
+        - button "Durdur" [ref=f1e156]
+        - button "Sonraki şarkı" [ref=f1e159]
+        - button "Tekrarla" [ref=f1e162]
+      - generic [ref=f1e166]:
+        - button "Ses" [ref=f1e167]
+        - slider "Ses seviyesi" [ref=f1e170]: "100"
+        - text: "% 100"

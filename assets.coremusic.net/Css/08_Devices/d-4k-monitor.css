@@ -8,6 +8,16 @@
  * Target: 4K monitor or ultra-wide display
  */
 
+@import '../01_Abstracts/a-theme-config.css';
+@import '../01_Abstracts/a-colors-token.css';
+@import '../01_Abstracts/a-semantic-token.css';
+@import '../01_Abstracts/a-breakpoint-tokens.css';
+@import '../01_Abstracts/a-layout-tokens.css';
+@import '../02_Base/b-base-core.css';
+@import '../03_Layout/_header.css';
+@import '../03_Layout/_footer.css';
+@import '../05_Pages/_home.css';
+
 /* ============================================================
    DEVICE TOKEN OVERRIDES (4K Monitor)
    ============================================================ */

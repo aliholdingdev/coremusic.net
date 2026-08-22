@@ -40,17 +40,6 @@
 
 @import url("./07_Vendors/v-bootstrap-lib.css?v=2.1.0");
 
-/* ─── 08_Devices: Cihaz bazlı behavioral overrides (media query ile) ─── */
-@import url("./08_Devices/d-phone.css?v=2.1.0");         /* ≤767px — Mobile phone */
-@import url("./08_Devices/d-mobile.css?v=2.1.0");        /* ≤767px — Mobile behavioral */
-@import url("./08_Devices/d-tablet.css?v=2.1.0");        /* 768-1024px — Tablet */
-@import url("./08_Devices/d-embedded.css?v=2.1.0");      /* ≤1024px — RPi5 7" */
-@import url("./08_Devices/d-laptop.css?v=2.1.0");        /* 1025-1440px — Laptop */
-@import url("./08_Devices/d-desktop.css?v=2.1.0");       /* 1441-2560px — Desktop */
-@import url("./08_Devices/d-tv.css?v=2.1.0");            /* 2561-3840px — 4K TV */
-@import url("./08_Devices/d-4k-tv.css?v=2.1.0");         /* 2561-3840px — 4K TV alt */
-@import url("./08_Devices/d-4k-monitor.css?v=2.1.0");    /* ≥3841px — 4K Monitor */
-
 @import url("./09_ViewModes/v-home.css?v=2.1.0");
 @import url("./09_ViewModes/v-pro.css?v=2.1.0");
 @import url("./09_ViewModes/v-studio.css?v=2.1.0");

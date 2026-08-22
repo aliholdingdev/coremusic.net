@@ -1,0 +1,230 @@
+- generic [active] [ref=f3e1]:
+  - banner [ref=f3e2]:
+    - generic [ref=f3e3]:
+      - link "CoreMusic Ana Sayfa" [ref=f3e4] [cursor=pointer]:
+        - /url: /home
+        - generic [ref=f3e5]: Core
+        - generic [ref=f3e6]: Music
+      - navigation "Ana navigasyon" [ref=f3e7]:
+        - link "Ana Sayfa" [ref=f3e8] [cursor=pointer]:
+          - /url: /home
+        - link "Keşfet" [ref=f3e9] [cursor=pointer]:
+          - /url: /kesfet
+        - link "Albümler" [ref=f3e10] [cursor=pointer]:
+          - /url: /albumler
+        - link "Sanatçılar" [ref=f3e11] [cursor=pointer]:
+          - /url: /sanatcilar
+        - link "Göz At" [ref=f3e12] [cursor=pointer]:
+          - /url: /goz-at
+        - link "Geçmiş" [ref=f3e13] [cursor=pointer]:
+          - /url: /gecmis
+        - link "Ayarlar" [ref=f3e14] [cursor=pointer]:
+          - /url: /ayarlar
+        - link "Hakkımızda" [ref=f3e15] [cursor=pointer]:
+          - /url: /hakkimizda
+      - generic [ref=f3e16]:
+        - button "Bayram Ali Bayram Ali" [ref=f3e17] [cursor=pointer]:
+          - img "Bayram Ali" [ref=f3e18]
+          - generic [ref=f3e19]: Bayram Ali
+          - generic [ref=f3e20]: ▾
+        - generic [ref=f3e22]: "%100"
+        - link "Ayarlar" [ref=f3e24] [cursor=pointer]:
+          - /url: /ayarlar
+        - link "Çıkış" [ref=f3e25] [cursor=pointer]:
+          - /url: /logout
+  - banner [ref=f3e26]:
+    - generic [ref=f3e27]:
+      - link "CoreMusic Ana Sayfa" [ref=f3e28] [cursor=pointer]:
+        - /url: /home
+        - generic [ref=f3e29]: Core
+        - generic [ref=f3e30]: Music
+      - navigation "Ana navigasyon" [ref=f3e31]:
+        - link "Ana Sayfa" [ref=f3e32] [cursor=pointer]:
+          - /url: /home
+        - link "Keşfet" [ref=f3e33] [cursor=pointer]:
+          - /url: /kesfet
+        - link "Albümler" [ref=f3e34] [cursor=pointer]:
+          - /url: /albumler
+        - link "Sanatçılar" [ref=f3e35] [cursor=pointer]:
+          - /url: /sanatcilar
+        - link "Göz At" [ref=f3e36] [cursor=pointer]:
+          - /url: /goz-at
+        - link "Geçmiş" [ref=f3e37] [cursor=pointer]:
+          - /url: /gecmis
+        - link "Ayarlar" [ref=f3e38] [cursor=pointer]:
+          - /url: /ayarlar
+        - link "Hakkımızda" [ref=f3e39] [cursor=pointer]:
+          - /url: /hakkimizda
+      - generic [ref=f3e40]:
+        - button "Bayram Ali Bayram Ali" [ref=f3e41] [cursor=pointer]:
+          - img "Bayram Ali" [ref=f3e42]
+          - generic [ref=f3e43]: Bayram Ali
+          - generic [ref=f3e44]: ▾
+        - generic [ref=f3e46]: "%100"
+        - link "Ayarlar" [ref=f3e48] [cursor=pointer]:
+          - /url: /ayarlar
+        - link "Çıkış" [ref=f3e49] [cursor=pointer]:
+          - /url: /logout
+  - main "Ana Sayfa" [ref=f3e50]:
+    - generic [ref=f3e51]:
+      - heading "Şimdi Çalınıyor" [level=2] [ref=f3e52]
+      - generic "Şu an çalınan şarkı" [ref=f3e53]:
+        - img "Sevil Neşelen albüm kapağı" [ref=f3e55]
+        - generic:
+          - paragraph: Sevil Neşelen
+          - paragraph: Hayat Rüya Gibi
+          - paragraph: Göksel
+          - generic [ref=f3e56]:
+            - generic [ref=f3e57]: 00:05:00
+            - generic [ref=f3e58]: 00:05:00
+      - region "En Son Dinlenen Şarkılar" [ref=f3e59]:
+        - heading "En Son Dinlenen Şarkılar" [level=2] [ref=f3e60]
+        - list [ref=f3e61]:
+          - listitem [ref=f3e62] [cursor=pointer]:
+            - paragraph [ref=f3e64]: Göksel - Sevil Neşelen
+            - paragraph [ref=f3e65]: Göksel
+            - paragraph [ref=f3e66]: 00:05:05
+          - listitem [ref=f3e67] [cursor=pointer]:
+            - paragraph [ref=f3e69]: Göksel - Kadınım Je Suis
+            - paragraph [ref=f3e70]: Göksel
+            - paragraph [ref=f3e71]: 00:07:05
+          - listitem [ref=f3e72] [cursor=pointer]:
+            - paragraph [ref=f3e74]: Barış Manço - Dönence
+            - paragraph [ref=f3e75]: Barış Manço
+            - paragraph [ref=f3e76]: 00:05:05
+          - listitem [ref=f3e77] [cursor=pointer]:
+            - paragraph [ref=f3e79]: Erkin Koray - Çöpçüler
+            - paragraph [ref=f3e80]: Erkin Koray
+            - paragraph [ref=f3e81]: 00:09:05
+      - region "Son Oluşturulan Listeler" [ref=f3e82]:
+        - heading "Son Oluşturulan & Sistem Tarafından Oluşturulan Listeler" [level=2] [ref=f3e83]
+        - list [ref=f3e84]:
+          - listitem [ref=f3e85] [cursor=pointer]:
+            - paragraph [ref=f3e87]: En Sevilen Şarkılar
+            - paragraph [ref=f3e88]: Göksel
+            - paragraph [ref=f3e89]: 00:05:05
+          - listitem [ref=f3e90] [cursor=pointer]:
+            - paragraph [ref=f3e92]: Müzikal Enstrümanlar
+            - paragraph [ref=f3e93]: Orçun Benli
+            - paragraph [ref=f3e94]: 00:05:05
+          - listitem [ref=f3e95] [cursor=pointer]:
+            - paragraph [ref=f3e97]: Popüler Arap Şarkıları
+            - paragraph [ref=f3e98]: Türlüden Seçmeler
+            - paragraph [ref=f3e99]: 00:05:05
+          - listitem [ref=f3e100] [cursor=pointer]:
+            - paragraph [ref=f3e102]: Son Oluşturulan Listeler
+            - paragraph [ref=f3e103]: Sistem
+            - paragraph [ref=f3e104]: 00:05:05
+        - generic [ref=f3e105] [cursor=pointer]:
+          - checkbox "Oynatma listesini göster" [ref=f3e106]
+          - generic [ref=f3e107]: Oynatma listesini göster
+    - generic [ref=f3e108]:
+      - generic [ref=f3e109]:
+        - generic [ref=f3e110]:
+          - generic [ref=f3e111]:
+            - generic [ref=f3e112]: ♫
+            - heading "Hoparlörler" [level=3] [ref=f3e113]
+          - paragraph [ref=f3e114]: Core Music - Hoparlör
+          - paragraph [ref=f3e116]: Bağlı hoparlör bulunamadı
+        - generic [ref=f3e117]:
+          - generic [ref=f3e118]:
+            - generic [ref=f3e119]: ☁
+            - heading "Hava Durumu" [level=3] [ref=f3e120]
+          - paragraph [ref=f3e121]: İzmir, TR
+          - paragraph [ref=f3e123]: Güneşli 23°C
+        - generic [ref=f3e124]:
+          - generic [ref=f3e125]:
+            - generic [ref=f3e126]: ☻
+            - heading "07:00" [level=3] [ref=f3e127]
+          - paragraph [ref=f3e128]: 5 Ağustos 2026
+          - generic [ref=f3e129]:
+            - paragraph
+        - generic [ref=f3e130]:
+          - generic [ref=f3e131]:
+            - generic [ref=f3e132]: 📁
+            - heading "Klasörlerim" [level=3] [ref=f3e133]
+          - generic [ref=f3e134]:
+            - button "Oynat" [ref=f3e135] [cursor=pointer]
+            - button "YouTube" [ref=f3e138] [cursor=pointer]
+            - button "Beğeni" [ref=f3e141] [cursor=pointer]
+            - button "Müzik" [ref=f3e144] [cursor=pointer]
+            - button "Beğeni 2" [ref=f3e147] [cursor=pointer]
+          - generic [ref=f3e150]:
+            - paragraph
+      - region "Sıradaki Şarkılar" [ref=f3e151]:
+        - heading "Sıradaki Şarkılar" [level=2] [ref=f3e152]
+        - generic "Şu an çalınan şarkı kartı" [ref=f3e153]:
+          - generic [ref=f3e155]:
+            - paragraph [ref=f3e156]: Sevil Neşelen
+            - paragraph [ref=f3e157]: Göksel
+            - paragraph [ref=f3e158]: Hayat Rüya Gibi
+  - contentinfo [ref=f3e159]:
+    - progressbar [ref=f3e161]
+    - generic [ref=f3e162]:
+      - generic [ref=f3e163]:
+        - img "Sevil Neşelen albüm kapağı" [ref=f3e164]
+        - generic [ref=f3e165]:
+          - generic [ref=f3e166]:
+            - generic [ref=f3e167]: ♫
+            - generic [ref=f3e168]: "Şarkı Adı :"
+            - generic [ref=f3e169]: Sevil Neşelen
+          - generic [ref=f3e170]:
+            - generic [ref=f3e171]: ⚪
+            - generic [ref=f3e172]: "Albümüm :"
+            - generic [ref=f3e173]: Hayat Rüya Gibi
+          - generic [ref=f3e174]:
+            - generic [ref=f3e175]: ☆
+            - generic [ref=f3e176]: "Sanatçı :"
+            - generic [ref=f3e177]: Göksel
+          - generic [ref=f3e178]:
+            - generic [ref=f3e179]: "Süre :"
+            - generic [ref=f3e180]: 09:00:00 / 00:05:00
+            - generic [ref=f3e181]: /
+            - generic [ref=f3e182]: "Bit rate :"
+            - generic [ref=f3e183]: 320 kbps
+      - generic [ref=f3e185]:
+        - button "Karışık çal" [ref=f3e186] [cursor=pointer]
+        - button "Önceki şarkı" [ref=f3e189] [cursor=pointer]
+        - button "Oynat" [ref=f3e192] [cursor=pointer]
+        - button "Durdur" [ref=f3e195] [cursor=pointer]
+        - button "Sonraki şarkı" [ref=f3e198] [cursor=pointer]
+        - button "Tekrarla" [ref=f3e201] [cursor=pointer]
+      - generic [ref=f3e205]:
+        - button "Ses" [ref=f3e206] [cursor=pointer]
+        - slider "Ses seviyesi" [ref=f3e209] [cursor=pointer]: "100"
+        - generic [ref=f3e210]: "% 100"
+  - contentinfo [ref=f3e211]:
+    - progressbar [ref=f3e213]
+    - generic [ref=f3e214]:
+      - generic [ref=f3e215]:
+        - img "Sevil Neşelen albüm kapağı" [ref=f3e216]
+        - generic [ref=f3e217]:
+          - generic [ref=f3e218]:
+            - generic [ref=f3e219]: ♫
+            - generic [ref=f3e220]: "Şarkı Adı :"
+            - generic [ref=f3e221]: Sevil Neşelen
+          - generic [ref=f3e222]:
+            - generic [ref=f3e223]: ⚪
+            - generic [ref=f3e224]: "Albümüm :"
+            - generic [ref=f3e225]: Hayat Rüya Gibi
+          - generic [ref=f3e226]:
+            - generic [ref=f3e227]: ☆
+            - generic [ref=f3e228]: "Sanatçı :"
+            - generic [ref=f3e229]: Göksel
+          - generic [ref=f3e230]:
+            - generic [ref=f3e231]: "Süre :"
+            - generic [ref=f3e232]: 09:00:00 / 00:05:00
+            - generic [ref=f3e233]: /
+            - generic [ref=f3e234]: "Bit rate :"
+            - generic [ref=f3e235]: 320 kbps
+      - generic [ref=f3e237]:
+        - button "Karışık çal" [ref=f3e238] [cursor=pointer]
+        - button "Önceki şarkı" [ref=f3e241] [cursor=pointer]
+        - button "Oynat" [ref=f3e244] [cursor=pointer]
+        - button "Durdur" [ref=f3e247] [cursor=pointer]
+        - button "Sonraki şarkı" [ref=f3e250] [cursor=pointer]
+        - button "Tekrarla" [ref=f3e253] [cursor=pointer]
+      - generic [ref=f3e257]:
+        - button "Ses" [ref=f3e258] [cursor=pointer]
+        - slider "Ses seviyesi" [ref=f3e261] [cursor=pointer]: "100"
+        - generic [ref=f3e262]: "% 100"
