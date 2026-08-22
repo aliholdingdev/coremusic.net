@@ -7,6 +7,8 @@ use CoreMusic\Config\ConfigManager;
 use CoreMusic\Config\DomainConfig;
 use CoreMusic\Device\DeviceCssMap;
 use CoreMusic\Device\DeviceDetector;
+use CoreMusic\Theme\ThemeManager;
+use CoreMusic\ViewMode\ViewModeManager;
 
 final class HtmlShellRenderer
 {
@@ -47,9 +49,9 @@ final class HtmlShellRenderer
             $deviceType = $sessionDevice;
         }
         $cspNonce     = $sessionData['csp_nonce'] ?? '';
-        $gender       = $sessionData['cm_gender'] ?? $sessionData['gender'] ?? 'neutral';
+        $gender       = ThemeManager::detect($sessionData);
 
-        $viewMode = DeviceCssMap::sanitizeViewMode($sessionData['view_mode'] ?? null);
+        $viewMode = ViewModeManager::detect($sessionData, $route);
 
         $mainJsFile  = dirname(__DIR__, 3) . '/assets.coremusic.net/js/main.js';
         $mainJsTime  = is_file($mainJsFile) ? (string)filemtime($mainJsFile) : '';
