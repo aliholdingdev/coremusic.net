@@ -14,8 +14,9 @@ export default class CoreMusicApp {
     #config;
 
     /**
-     * @param {object} config
-     * @param {object} config.modules — Modül sınıfları { name: Class }
+     * @param {object} [config]
+     * @param {import('./EventBus.js').default} [config.eventBus] — Mevcut EventBus instance
+     * @param {object} [config.modules] — Modül sınıfları { name: Class } (eski API, init() ile)
      */
     constructor(config = {}) {
         this.#config = config;
@@ -32,13 +33,32 @@ export default class CoreMusicApp {
         return this.#modules.get(name);
     }
 
-    /** Tüm modülleri başlat */
+    /**
+     * Modül register et (main.js API)
+     * @param {string} name
+     * @param {object} instance
+     */
+    registerModule(name, instance) {
+        this.#modules.set(name, instance);
+        this.#log(`Module "${name}" registered`);
+    }
+
+    /** Durumu running olarak ayarla */
+    setRunning() {
+        this.#state = 'running';
+        this.#log('App state → running');
+    }
+
+    /**
+     * Eski API: Config'deki modülleri başlat.
+     * main.js kullanıyorsa registerModule + setRunning tercih edilir.
+     */
     async init() {
         if (this.#state === 'running') return;
         this.#state = 'booting';
 
         const modClasses = this.#config.modules || {};
-        const eventBus = new modClasses.EventBus();
+        const eventBus = this.#config.eventBus || (modClasses.EventBus ? new modClasses.EventBus() : null);
 
         if (!eventBus) {
             console.error('[CoreMusicApp] EventBus is critical — halting boot');
