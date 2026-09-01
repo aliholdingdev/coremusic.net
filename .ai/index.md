@@ -361,7 +361,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | UI-Design Flow | [[ui-design/flow/00-flow-index]], [[ui-design/flow/auth/04-select-gender]] |
 | Research | [[research/verified/php84-strict-types]], [[research/verified/argon2id]], [[research/verified/aes-256-gcm]], [[research/verified/pcm3168a]], [[research/verified/asio-sdk]], [[research/verified/juce8]], [[research/verified/xmos-xu316]], [[research/verified/trusted-types-domparser]], [[research/verified/itcss-bemit-layer]], [[research/verified/wcag-22-aa]], [[research/verified/mariadb-1011]] |
 | Personas | [[personas/index]], [[personas/methodology]], [[personas/mood-taxonomy]] |
-| Templates | [[.templates/index]] — 25 template (PHP, JS, CSS, C++, PHPUnit, Vitest, Migration, Docker, GitHub Actions, API-doc, Security-audit, ADR, Arduino, AVR, PIC, C, Node.js, ASP.NET, WikiPage, Query) |
+| Templates | [[.templates/index]] — 26 template (PHP, JS, CSS, C++, PHPUnit, Vitest, Migration, Docker, GitHub Actions, API-doc, Security-audit, ADR, Arduino, AVR, PIC, C, Node.js, ASP.NET, WikiPage, Query, Session) |
 | Workflows | [[workflows/adr-creation]], [[workflows/dev-workflow]], [[workflows/code-review]], [[workflows/deployment]], [[workflows/hallucination-control]], [[workflows/security-audit]], [[workflows/session-init]], [[workflows/vault-sync-detailed]] |
 | Root | [[engine]], [[index-overview]], [[index-services]], [[index-adr]], [[decisions/index]], [[research/index]] |
 

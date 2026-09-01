@@ -435,3 +435,11 @@ Olay gerçekleşir
   Guardrail #4 (In-Place Refactoring) ile uyumlu.
   Toplam: 4 dosya güncellendi, 1 dosya silindi (üst seviye main.js redundant idi).
 
+[2026-08-23 15:05:20] [INFO] [vault-updater] [ORPHAN-CSS-CLEANUP] Orphan CSS dosya referansları güncellendi.
+  Eski: d-mobile.css → Yeni: d-phone.css
+  Eski: d-tv.css → Yeni: d-4k-tv.css
+  Güncellenen dosyalar:
+  1. .ai/ui-design/tokens/platform-tokens.md — Satır 40 (CSS Bundle satırı), Satır 190 (Mobile CSS Bundle), Satır 262 (TV CSS Bundle)
+  2. .ai/ui-design/mockups/07-reference-tables.md — Satır 140 (Platform Matrisi CSS Bundle)
+  Toplam: 4 referans güncellendi, 2 dosya etkilendi.
+

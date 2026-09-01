@@ -35,7 +35,7 @@ Diğer dosyalar bu dosyaya referans verir, kendi başlarına sayısal metadata �
 | **Composer Packages** | 1 | tek shared/ + PSR-4 namespace (ADR-085 v3.0) | 2026-08-15 |
 | **Middleware Pipeline** | 10 | OriginCheck→Validation (ADR-010/011/012/013/022) | 2026-08-15 |
 | **Agent Count** | 11 | MO + 10 specialist | 2026-08-15 |
-| **Template Count** | 25 | .ai/.templates/ | 2026-08-15 |
+| **Template Count** | 26 | .ai/.templates/ | 2026-08-23 |
 | **Skill Count** | 10 | .opencode/skills/ | 2026-08-15 |
 | **Platform Tiers** | 5 | Windows, Linux, macOS, RPi5, ReactOS | 2026-08-15 |
 | **Deployment Modes** | 5 | Home, Car, Studio, NAS, DAC | 2026-08-15 |

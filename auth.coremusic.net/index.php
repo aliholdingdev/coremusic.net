@@ -197,6 +197,13 @@ if ($method !== 'POST' && in_array($pageName, ['login', 'register'], true) && !e
             $autoRepo->saveAuthKey($autoUserId, $autoAuthKey, $autoExpiresAt, $autoClientIp);
 
             $autoRedirectUri = $_GET['redirect_uri'];
+            // Open Redirect koruması — whitelist'e uymayan URI'ları reddet
+            if (!\CoreMusic\Security\SecurityHelper::isRedirectUriSafe($autoRedirectUri)) {
+                $logger->warning('Unsafe redirect_uri blocked in auto-redirect', [
+                    'redirect_uri' => $autoRedirectUri,
+                ]);
+                $autoRedirectUri = '/';
+            }
             $autoSeparator   = str_contains($autoRedirectUri, '?') ? '&' : '?';
             $autoCallbackUrl = $autoRedirectUri . $autoSeparator . 'auth_key=' . urlencode($autoAuthKey);
 

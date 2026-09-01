@@ -202,7 +202,7 @@ Yeni Bilgi → Kaynak Kontrolü → Doğrulama → Sınıflandırma → İndeksl
 | Architecture | architecture/L0-L6/* | 50+ dosya |
 | Projects | projects/NevaEngine/* | 20+ dosya |
 | Electronic | electronic/* | 34+ dosya |
-| Templates | .templates/* | 25+ template |
+| Templates | .templates/* | 26+ template |
 | AI Architecture | architecture/ai/* | 12 dosya |
 
 ---

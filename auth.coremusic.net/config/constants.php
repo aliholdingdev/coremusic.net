@@ -60,7 +60,9 @@ if (!defined('CSRF_TOKEN_LENGTH')) {
 if (!defined('APP_PEPPER')) {
     $pepper = $env('APP_PEPPER', '');
     if ($pepper === '') {
-        error_log('[Constants] WARNING: APP_PEPPER is empty — login will fail. Set APP_PEPPER in .env');
+        http_response_code(500);
+        error_log('[CRITICAL] APP_PEPPER is empty — all password hashes would be identical. Set APP_PEPPER in .env');
+        exit('Server misconfiguration: APP_PEPPER not set.');
     }
     define('APP_PEPPER', $pepper);
 }

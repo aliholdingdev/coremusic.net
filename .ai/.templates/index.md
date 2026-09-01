@@ -3,13 +3,13 @@ type: template-index
 category: template
 title: "CoreMusic — Template Registry Index"
 date: 2026-08-09
-updated: 2026-08-13
+updated: 2026-08-23
 status: active
 version: 3.3.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total_templates: 25
-total_lines: 22786
+total_templates: 26
+total_lines: 22837
 ---
 
 # CoreMusic — Template Registry Index
@@ -61,6 +61,8 @@ Bu dosya, CoreMusic ekosistemindeki tüm şablonların (template) merkezi indeks
 │   └── pic-template.md
 ├── query/                      # Sorgu şablonları
 │   └── Query-Template.md
+├── session/                    # Oturum kaydı şablonları
+│   └── session-log-template.md
 └── other/                      # Diğer şablonlar
     ├── aspnet-template.md
     └── c-template.md
@@ -137,6 +139,12 @@ Bu dosya, CoreMusic ekosistemindeki tüm şablonların (template) merkezi indeks
 | 23 | ASP.NET Template | ASP.NET 9, C# 13 | Enterprise backend | 1331 | [[other/aspnet-template]] |
 | 24 | C Template | C11, GCC | Embedded, drivers | 933 | [[other/c-template]] |
 
+### 3.10 Session Templates (session/)
+
+| # | Template | Format | Amaç | Satır | Dosya |
+|---|----------|--------|------|-------|-------|
+| 25 | Session Log Template | Markdown | Oturum kaydı | 51 | [[session/session-log-template]] |
+
 ## 4. Kullanım Kılavuzu
 
 ### 4.1 Template Seçimi
@@ -194,12 +202,12 @@ Yeni dosya oluştururken:
 | Metrik | Değer |
 |--------|-------|
 | **Versiyon** | 3.3.0 |
-| **Toplam Template** | 25 (19 language + 6 ADR) |
+| **Toplam Template** | 26 (20 language + 6 ADR) |
 | **Toplam Satır** | 22,786 |
 | **Ortalama Satır/Template** | 1,085 |
 | **Minimum Satır** | 315 (adr-index) |
 | **Maksimum Satır** | 1,693 (api-doc-template) |
-| **Kategori** | 9 (adr, backend, frontend, testing, infra, docs, hardware, query, other) |
+| **Kategori** | 10 (adr, backend, frontend, testing, infra, docs, hardware, query, session, other) |
 | **Dizin Yapısı** | ✅ Alt dizinlere ayrılmış |
 | **Frontmatter Uyumlu** | ✅ Tümü (7 zorunlu alan) |
 
@@ -207,5 +215,5 @@ Yeni dosya oluştururken:
 
 *Template Registry Index v3.3.0 — CoreMusic Template System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-13*
+*Last Updated: 2026-08-23*
 *Mode: Red Team · Human Mode · Truth Mode*

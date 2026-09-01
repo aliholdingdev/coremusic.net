@@ -71,6 +71,7 @@ if (!defined('TRUSTED_PROXIES')) {
 if (!defined('AUTH_URL')) {
     define('AUTH_URL', $env('AUTH_URL', 'http://auth.coremusic.net'));
     define('MUSIC_URL', $env('MUSIC_URL', 'http://home.coremusic.net:81'));
+    define('ASSETS_URL', $env('ASSETS_URL', 'http://assets.coremusic.net'));
 }
 
 /* ─── Database (HomeDB — user, music, etc.) ─── */

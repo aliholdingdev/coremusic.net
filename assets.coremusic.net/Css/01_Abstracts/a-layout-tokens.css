@@ -112,6 +112,49 @@
 }
 
 /* ============================================================
+   LAPTOP — 1025-1440px (Mouse + Keyboard, medium screen)
+   Standard laptop, no sidebar
+   ============================================================ */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  :root {
+    --header-h: 65px;
+    --footer-h: 96px;
+    --content-h: 859px;
+    --content-padding-top: 12px;
+    --content-padding-bottom: 18px;
+    --page-padding-x: 20px;
+
+    --sidebar-w: 0px;
+    --detail-panel-w: 400px;
+
+    --card-thumb-size: 160px;
+    --album-art-size: 350px;
+    --player-art-size: 130px;
+    --mini-card-art-size: 55px;
+    --widget-h: 120px;
+
+    --touch-min: 44px;
+    --touch-recommended: 48px;
+
+    --grid-gap: 10px;
+    --grid-gap-lg: 16px;
+    --section-gap: 20px;
+    --card-padding: 14px;
+
+    --text-xs: 11px;
+    --text-sm: 12px;
+    --text-base: 13px;
+    --text-lg: 15px;
+    --text-xl: 17px;
+
+    --glass-blur: blur(20px);
+    --glass-saturate: saturate(180%);
+
+    --hover-display: block;
+  }
+}
+
+/* ============================================================
    MOBILE — ≤767px (Compact, no glass, bottom sheet sidebar)
    iPhone, Android phone, PWA
    ============================================================ */

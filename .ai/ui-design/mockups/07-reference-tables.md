@@ -137,7 +137,7 @@ Platform tanımları, ölçümler, bileşen matrisleri ve token referansları.
 | **Glass Blur** | blur(20px) | blur(20px) | Yok | blur(4px) |
 | **Font Scale** | 1× | 1.2× | 1× | 1.6× |
 | **Grid Max** | 3 sütun | 4 sütun | 2 sütun | 5 sütun |
-| **CSS Bundle** | d-embedded.css | d-desktop.css | d-mobile.css | d-tv.css |
+| **CSS Bundle** | d-embedded.css | d-desktop.css | d-phone.css | d-4k-tv.css |
 
 ---
 

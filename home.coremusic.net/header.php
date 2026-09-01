@@ -9,7 +9,7 @@
 
 $currentUser = $_SESSION['MM_Username'] ?? null;
 $isAuth = $currentUser !== null && $currentUser !== '';
-$avatarUrl = $_SESSION['MM_Avatar'] ?? '/assets.coremusic.net/Image/res-pink/default-avatar.png';
+$avatarUrl = $_SESSION['MM_Avatar'] ?? ASSETS_URL . '/Image/profiles/default-avatar.png';
 $gender = $_SESSION['cm_gender'] ?? $_SESSION['MM_Gender'] ?? 'neutral';
 ?>
 <header class="site-header" role="banner">
@@ -57,29 +57,29 @@ $gender = $_SESSION['cm_gender'] ?? $_SESSION['MM_Gender'] ?? 'neutral';
             </div>
 
             <!-- C02: System Status Widget — WiFi + BT Pill -->
-            <div class="header-border" style="border-radius:50px;height:37.4px;width:65px;">
+            <div class="header-border header-border--wifi">
                 <div class="header-widget header-widget--signal">
-                    <img src="/assets.coremusic.net/Image/res-pink/wifi-full.png" alt="Wi-Fi" height="25" width="25" loading="lazy">
+                    <img src="<?= ASSETS_URL ?>/Image/res-pink/wifi/wifi-full.png" alt="Wi-Fi" height="25" width="25" loading="lazy">
                 </div>
                 <div class="header-widget header-widget--bt">
-                    <img src="/assets.coremusic.net/Image/res-pink/bluethoot.png" alt="Bluetooth" height="25" width="25" loading="lazy">
+                    <img src="<?= ASSETS_URL ?>/Image/res-pink/bluethoot.png" alt="Bluetooth" height="25" width="25" loading="lazy">
                 </div>
             </div>
 
             <!-- C02: Battery Pill -->
-            <div class="header-border" style="border-radius:50px;height:37.4px;width:100px;justify-content:center;gap:4px;">
+            <div class="header-border header-border--battery">
                 <div class="header-widget header-widget--battery">
-                    <img src="/assets.coremusic.net/Image/res-pink/battery-full.png" alt="Batarya" height="36" width="36" loading="lazy">
+                    <img src="<?= ASSETS_URL ?>/Image/res-pink/power-system/battery-100.png" alt="Batarya" height="36" width="36" loading="lazy">
                 </div>
                 <span class="battery-pct">%100</span>
             </div>
 
             <!-- Action Buttons -->
             <a href="/ayarlar" class="header-action-btn" aria-label="Ayarlar" data-no-spa>
-                <img src="/assets.coremusic.net/Image/res-pink/ayarlar.png" alt="" height="25" width="25" loading="lazy">
+                <img src="<?= ASSETS_URL ?>/Image/res-pink/settings.png" alt="" height="25" width="25" loading="lazy">
             </a>
             <a href="/logout" class="header-action-btn header-action-btn--logout" aria-label="Çıkış" data-no-spa>
-                <img src="/assets.coremusic.net/Image/res-pink/power.png" alt="" height="25" width="25" loading="lazy">
+                <img src="<?= ASSETS_URL ?>/Image/res-pink/session-logout.png" alt="" height="25" width="25" loading="lazy">
             </a>
         </div>
     </div>

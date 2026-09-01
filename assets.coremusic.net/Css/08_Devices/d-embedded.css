@@ -63,3 +63,78 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255,255,255,0.3);
 }
+
+/* ============================================================
+   EMBEDDED DEVICE OVERRIDES — RPi5 1024×600
+   ============================================================ */
+
+/* Footer: explicit height for embedded */
+.footer {
+  height: 90px;
+}
+
+/* Home layout: ensure correct grid at 1024 */
+.home-layout {
+  height: calc(100vh - 60px - 90px);
+}
+
+/* Cards: 3 columns max at 1024 */
+.card-grid {
+  --grid-cols: 3;
+}
+
+/* Detail panel: fit in 1024 */
+.detail-panel__art {
+  width: 280px;
+  height: 280px;
+}
+
+/* Touch targets: 48px minimum for all interactive elements */
+.nav-link {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.player-btn {
+  min-width: 48px;
+  min-height: 48px;
+}
+
+/* Genre tabs: scrollable at 1024 */
+.genre-tabs {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Media cards: horizontal scroll for "En Son Dinlenen" */
+.card-grid--scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+
+.card-grid--scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Glass effect: full blur for embedded (RPi5 Chromium supports it) */
+.now-playing,
+.home-widget,
+.widget,
+.detail-panel,
+.mini-card {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+/* Modal: 380px max-width for embedded */
+.modal {
+  max-width: 380px;
+}
+
+/* Auth panel: 284px for embedded */
+.auth-screen__panel {
+  width: 284px;
+}

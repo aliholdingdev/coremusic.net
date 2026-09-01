@@ -15,10 +15,11 @@ $isAuth   = $username !== '';
 $currentSong   = htmlspecialchars($_SESSION['current_song'] ?? 'Sevil Neşelen', ENT_QUOTES, 'UTF-8');
 $currentAlbum  = htmlspecialchars($_SESSION['current_album'] ?? 'Hayat Rüya Gibi', ENT_QUOTES, 'UTF-8');
 $currentArtist = htmlspecialchars($_SESSION['current_artist'] ?? 'Göksel', ENT_QUOTES, 'UTF-8');
-$currentArt    = $_SESSION['current_art'] ?? '/assets.coremusic.net/Image/res-pink/default-album.png';
-
-require __DIR__ . '/../header.php';
+$currentArt    = $_SESSION['current_art'] ?? ASSETS_URL . '/Image/res-pink/default-album.png';
 ?>
+
+<?php require __DIR__ . '/../header.php'; ?>
+
 <main class="page-home home-layout" role="main" aria-label="Ana Sayfa">
 
     <!-- ============================================================
@@ -53,7 +54,7 @@ require __DIR__ . '/../header.php';
                 <!-- Hoparlörler -->
                 <div class="home-widget">
                     <div class="home-widget__header">
-                        <span class="home-widget__icon" aria-hidden="true">&#9835;</span>
+                        <span class="home-widget__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></span>
                         <h3 class="home-widget__title">Hoparlörler</h3>
                     </div>
                     <p class="home-widget__subtitle">Core Music - Hoparlör</p>
@@ -65,7 +66,7 @@ require __DIR__ . '/../header.php';
                 <!-- Hava Durumu -->
                 <div class="home-widget">
                     <div class="home-widget__header">
-                        <span class="home-widget__icon" aria-hidden="true">&#9729;</span>
+                        <span class="home-widget__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg></span>
                         <h3 class="home-widget__title">Hava Durumu</h3>
                     </div>
                     <p class="home-widget__subtitle">İzmir, TR</p>
@@ -77,7 +78,7 @@ require __DIR__ . '/../header.php';
                 <!-- Tarih -->
                 <div class="home-widget">
                     <div class="home-widget__header">
-                        <span class="home-widget__icon" aria-hidden="true">&#9787;</span>
+                        <span class="home-widget__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></span>
                         <h3 class="home-widget__title">07:00</h3>
                     </div>
                     <p class="home-widget__subtitle">5 Ağustos 2026</p>
@@ -89,7 +90,7 @@ require __DIR__ . '/../header.php';
                 <!-- Klasörlerim -->
                 <div class="home-widget">
                     <div class="home-widget__header">
-                        <span class="home-widget__icon" aria-hidden="true">&#128193;</span>
+                        <span class="home-widget__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg></span>
                         <h3 class="home-widget__title">Klasörlerim</h3>
                     </div>
                     <div class="home-widget__folders">

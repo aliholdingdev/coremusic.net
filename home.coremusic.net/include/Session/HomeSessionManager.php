@@ -191,7 +191,7 @@ final class HomeSessionManager implements ISessionManager
         $names = ['MM_Username', 'MM_Image', 'MM_UserID', 'MM_UserDesc', 'MM_UserYear'];
         foreach ($names as $name) {
             if (isset($_COOKIE[$name])) {
-                setcookie($name, '', time() - 3600, '/');
+                setcookie($name, '', time() - 3600, '/', $this->cookieDomain);
             }
         }
     }

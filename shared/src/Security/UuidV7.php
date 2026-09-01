@@ -65,10 +65,16 @@ final class UuidV7
 
     /**
      * Hex string'i binary UUID'ye çevir.
+     *
+     * @throws \InvalidArgumentException  Geçersiz hex string
      */
     public static function toBinary(string $hex): string
     {
-        return hex2bin(str_replace('-', '', $hex));
+        $clean = str_replace('-', '', $hex);
+        if (!ctype_xdigit($clean) || strlen($clean) !== 32) {
+            throw new \InvalidArgumentException('Invalid UUID hex: must be exactly 32 hex characters');
+        }
+        return hex2bin($clean);
     }
 
     /**

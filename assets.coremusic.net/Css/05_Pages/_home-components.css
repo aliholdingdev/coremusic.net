@@ -16,8 +16,8 @@
   gap: var(--space-3, 12px);
   padding: var(--card-padding, 12px);
   background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-card, 12px);
   min-height: 0;
@@ -474,8 +474,8 @@
    ============================================================ */
 .home-widget {
   background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-card, 12px);
   padding: var(--card-padding, 12px);

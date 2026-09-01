@@ -443,6 +443,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | hardware/ | avr-template.md | AVR mikrodenetleyici |
 | hardware/ | pic-template.md | PIC mikrodenetleyici |
 | query/ | Query-Template.md | SQL sorguları |
+| session/ | session-log-template.md | Oturum kaydı |
 | other/ | aspnet-template.md | ASP.NET backend |
 | other/ | c-template.md | C/C++ geliştirme |
 

@@ -15,7 +15,7 @@ governance: Red Team · Human Mode · Truth Mode
 **SSOT:** [[AGENTS.md]] (ana agent kayıt defteri)
 
 **Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
-**Templates:** `.ai/.templates/` (25 template — Guardrail #16 zorunlu)
+**Templates:** `.ai/.templates/` (26 template — Guardrail #16 zorunlu)
 
 ## 1. Agent Profile Dosyaları
 

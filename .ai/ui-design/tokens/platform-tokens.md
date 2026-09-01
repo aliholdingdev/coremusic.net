@@ -37,7 +37,7 @@ reference:
 | **Girdi** | Dokunmatik | Fare + Klavye | Dokunmatik | Uzaktan Kumanda |
 | **Hover** | ❌ Yok | ✅ Var | ❌ Yok | ❌ Yok (focus) |
 | **Piksel Ratiosu** | 1x | 1x-2x | 2x-3x | 1x |
-| **CSS Bundle** | `d-embedded.css` | `d-desktop.css` | `d-mobile.css` | `d-tv.css` |
+| **CSS Bundle** | `d-embedded.css` | `d-desktop.css` | `d-phone.css` | `d-4k-tv.css` |
 | **Orientation** | Landscape (sabit) | Landscape (esnek) | Portrait/Landscape | Landscape (sabit) |
 | **Min Touch Target** | 48px | 44px | 48px | 60px |
 | **Grid Sütun Max** | 3 | 4 | 2 | 5 |
@@ -187,7 +187,7 @@ reference:
 ## 4. Mobile (375×812)
 
 **PNG Kaynağı:** Henüz oluşturulmamıştır.
-**CSS Bundle:** `d-mobile.css`
+**CSS Bundle:** `d-phone.css`
 
 ### 4.1 — Boyut Token'ları
 
@@ -259,7 +259,7 @@ reference:
 ## 5. TV (3840×2160)
 
 **PNG Kaynağı:** Henüz oluşturulmamıştır.
-**CSS Bundle:** `d-tv.css`
+**CSS Bundle:** `d-4k-tv.css`
 
 ### 5.1 — Boyut Token'ları
 

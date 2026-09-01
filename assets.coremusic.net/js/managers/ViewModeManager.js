@@ -59,7 +59,7 @@ export default class ViewModeManager {
 
     /** View mode CSS'ini uygula */
     #applyMode(mode) {
-        const baseUrl = '/assets.coremusic.net/Css/';
+        const baseUrl = (window.CoreMusic?.RouterConfig?.assetsUrl || 'https://assets.coremusic.net') + '/Css/';
         const cssPath = ViewModeManager.VIEW_CSS[mode];
 
         const existing = document.getElementById('cm-view-css');

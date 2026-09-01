@@ -11,7 +11,7 @@ $currentSong   = htmlspecialchars($_SESSION['current_song'] ?? 'Şarkı Adı', E
 $currentAlbum  = htmlspecialchars($_SESSION['current_album'] ?? 'Albümüm', ENT_QUOTES, 'UTF-8');
 $currentArtist = htmlspecialchars($_SESSION['current_artist'] ?? 'Sanatçı', ENT_QUOTES, 'UTF-8');
 $currentDuration = htmlspecialchars($_SESSION['current_duration'] ?? '00:05:00', ENT_QUOTES, 'UTF-8');
-$currentArt    = $_SESSION['current_art'] ?? '/assets.coremusic.net/Image/res-pink/default-album.png';
+$currentArt    = $_SESSION['current_art'] ?? ASSETS_URL . '/Image/res-pink/default-album.png';
 $bitrate       = '320 kbps';
 $volumePct     = (int)($_SESSION['volume'] ?? 100);
 $currentTime   = '09:00:00';
@@ -35,17 +35,17 @@ $currentTime   = '09:00:00';
             >
             <div class="footer__meta-stack">
                 <div class="footer__text footer__song-name">
-                    <span class="fp-icon" aria-hidden="true">&#9835;</span>
+                    <span class="fp-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></span>
                     <span class="fp-label">Şarkı Adı :</span>
                     <span class="fp-value"><?= $currentSong ?></span>
                 </div>
                 <div class="footer__text footer__album-name">
-                    <span class="fp-icon" aria-hidden="true">&#9898;</span>
+                    <span class="fp-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/></svg></span>
                     <span class="fp-label">Albümüm :</span>
                     <span class="fp-value"><?= $currentAlbum ?></span>
                 </div>
                 <div class="footer__text footer__singer-name">
-                    <span class="fp-icon" aria-hidden="true">&#9734;</span>
+                    <span class="fp-icon" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></span>
                     <span class="fp-label">Sanatçı :</span>
                     <span class="fp-value"><?= $currentArtist ?></span>
                 </div>

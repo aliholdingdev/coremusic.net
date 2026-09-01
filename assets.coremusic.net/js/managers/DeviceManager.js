@@ -86,7 +86,7 @@ export default class DeviceManager {
 
     /** Cihaz CSS'ini uygula */
     #applyDevice(device) {
-        const baseUrl = '/assets.coremusic.net/Css/';
+        const baseUrl = (window.CoreMusic?.RouterConfig?.assetsUrl || 'https://assets.coremusic.net') + '/Css/';
         const isAuth = document.body?.dataset?.page === 'auth';
 
         const cssMap = isAuth ? DeviceManager.AUTH_CSS : DeviceManager.HOME_CSS;
