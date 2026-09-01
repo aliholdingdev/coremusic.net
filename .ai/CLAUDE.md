@@ -572,10 +572,10 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | [[MEMORY.md]] | Session hafızası, persistent state |
 | [[log.md]] | Audit trail, append-only günlük |
 | [[engine.md]] | Orkestrasyon motoru, task dispatch |
-| [[archives/prompt0-genel-ana-prompt-2026-08-13]] | Ana genel prompt, tüm sistem kuralları |
-| [[archives/prompt1-spa-router-2026-08-13]] | SPA Router mimarisi promptu |
-| [[archives/prompt2-auth-2026-08-13]] | Authentication sistemi promptu |
-| [[archives/prompt3-api-2026-08-13]] | API mimarisi promptu |
+| [[archives/prompt0-genel-ana-prompt-2026-09-01]] | Ana genel prompt, tüm sistem kuralları |
+| [[archives/prompt1-spa-router-2026-09-01]] | SPA Router mimarisi promptu |
+| [[archives/prompt2-auth-2026-09-01]] | Authentication sistemi promptu |
+| [[archives/prompt3-api-2026-09-01]] | API mimarisi promptu |
 | [[glossary]] | Teknik terimler sözlüğü (32 terim) |
 
 ### 26.1 Prompt Entegrasyonu (prompt0-3)
@@ -584,10 +584,10 @@ Her oturum başlangıcında sırayla okunur:
 
 | Sıra | Prompt | Dosya | Max Süre | Amaç |
 |------|--------|-------|----------|------|
-| 1 | prompt0 (Genel Ana) | [[archives/prompt0-genel-ana-prompt-2026-08-13]] | 5s | 11 alt domain, 10 panel, 20 analiz görevi, zorunlu kurallar |
-| 2 | prompt1 (SPA Router) | [[archives/prompt1-spa-router-2026-08-13]] | 3s | Enterprise router: SOLID, PSR, attribute-based, DI |
-| 3 | prompt2 (Auth) | [[archives/prompt2-auth-2026-08-13]] | 3s | Merkezi auth.coremusic.net, hybrid JWT+session, RBAC |
-| 4 | prompt3 (API) | [[archives/prompt3-api-2026-08-13]] | 3s | API-First, Gateway, CQRS, Event Driven |
+| 1 | prompt0 (Genel Ana) | [[archives/prompt0-genel-ana-prompt-2026-09-01]] | 5s | 11 alt domain, 10 panel, 20 analiz görevi, zorunlu kurallar |
+| 2 | prompt1 (SPA Router) | [[archives/prompt1-spa-router-2026-09-01]] | 3s | Enterprise router: SOLID, PSR, attribute-based, DI |
+| 3 | prompt2 (Auth) | [[archives/prompt2-auth-2026-09-01]] | 3s | Merkezi auth.coremusic.net, hybrid JWT+session, RBAC |
+| 4 | prompt3 (API) | [[archives/prompt3-api-2026-09-01]] | 3s | API-First, Gateway, CQRS, Event Driven |
 
 **Toplam max süre:** 14s
 

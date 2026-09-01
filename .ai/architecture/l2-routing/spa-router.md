@@ -820,7 +820,101 @@ final class SessionInitializer
 
 ---
 
-## 15. İlgili Dosyalar
+## 15. Merkezi Auth Entegrasyonu
+
+```
+Subdomain (home/studio/pro/car/admin)
+    │
+    ├── Session cookie var mı? (.coremusic.net)
+    │   ├── EVET → auth.coremusic.net/session-check
+    │   │   ├── Geçerli → Kullanıcı bilgilerini al, devam et
+    │   │   └── Geçersiz → auth.coremusic.net/login'e redirect
+    │   └── HAYIR → auth.coremusic.net/login'e redirect
+    │
+    └── Kullanıcı sayfada
+```
+
+**Kural:** Hiçbir subdomain bağımsız auth çalıştırmaz. Tüm auth istekleri `auth.coremusic.net`'e gider.
+
+## 16. Hybrid Auth Akışı
+
+```
+Browser → HttpOnly Secure Session Cookie
+                ↓
+        Access JWT Token (15 dk)
+                ↓
+       Refresh JWT Token (7 gün)
+                ↓
+      auth.coremusic.net (merkezi otorite)
+                ↓
+          Protected Services
+```
+
+## 17. Subdomain Auth Hedefleri
+
+| Subdomain | Port | Auth |
+|-----------|------|------|
+| coremusic.net | 80 | auth.coremusic.net |
+| music.coremusic.net | 81 | auth.coremusic.net |
+| admin.coremusic.net | 80 | auth.coremusic.net |
+| api.coremusic.net | 81 | auth.coremusic.net |
+| media.coremusic.net | 5000/6000 | auth.coremusic.net |
+| download.coremusic.net | 3001 | auth.coremusic.net |
+| home.coremusic.net | 81 | auth.coremusic.net |
+| studio.coremusic.net | 81 | auth.coremusic.net |
+| pro.coremusic.net | 81 | auth.coremusic.net |
+| car.coremusic.net | 80 | auth.coremusic.net |
+
+## 18. Desteklenen Portlar
+
+**80, 81, 443, 4433** ve diğer servis portları
+
+## 19. Composer Paket Politikası (Minimum Enterprise Stack)
+
+| Paket | Amaç |
+|-------|------|
+| `php-di/php-di` | Dependency Injection |
+| `nikic/fast-route` | Router |
+| `nyholm/psr7` | PSR-7 HTTP Message |
+| `laminas/laminas-httphandlerrunner` | HTTP Emitter |
+| `firebase/php-jwt` | JWT yönetimi |
+| `ramsey/uuid` | UUID üretimi |
+| `monolog/monolog` | Logger (PSR-3) |
+| `vlucas/phpdotenv` | Environment |
+| `respect/validation` | Validation |
+| `symfony/security-csrf` | CSRF |
+| `symfony/cache` | Cache (PSR-6/16) |
+| `symfony/event-dispatcher` | Event Dispatcher (PSR-14) |
+| `symfony/rate-limiter` | Rate Limiting |
+| `league/flysystem` | Filesystem |
+| `guzzlehttp/guzzle` | HTTP Client (PSR-18) |
+| `paragonie/halite` | Cryptography |
+| `ezyang/htmlpurifier` | XSS Protection |
+| `mobiledetect/mobiledetectlib` | Device Detection |
+| `robmorgan/phinx` | Migration |
+
+## 20. Yasaklı Teknolojiler
+
+| ❌ Yasak | ✅ Doğru |
+|----------|----------|
+| Doctrine ORM | PDO + prepared statement |
+| Laravel Eloquent | PDO |
+| Propel | PDO |
+| Active Record | Repository Pattern |
+| MD5 | Argon2id |
+| SHA1 | Argon2id |
+| mcrypt | Sodium |
+| `SELECT *` | Açık kolon listesi |
+| `mysql_*` | PDO |
+| Kendi JWT'si | `lcobucci/jwt` |
+| Kendi CSRF'si | `symfony/security-csrf` |
+| Kendi şifreleme | `paragonie/halite` |
+
+## 21. Temel Prensip
+
+> **Standart varsa onu kullan. PSR varsa ona uy. Güvenilir Composer paketi varsa onu tercih et. Güvenlik açısından kritik bileşenleri (JWT, CSRF, Kriptografi vb.) sıfırdan yazma. Yalnızca projeye özgü iş kuralları ve domain mantığı özel olarak geliştirilecektir.**
+
+## 22. İlgili Dosyalar
 
 | Dosya | Amaç |
 |-------|------|
@@ -833,22 +927,27 @@ final class SessionInitializer
 | [[ADR-004-multi-domain-spa]] | Multi-domain SPA |
 | [[ADR-021-spa-router-immutable-contract]] | SPA router contract |
 | [[ADR-083-spa-router]] | SPA Router Architecture |
+| [[prompt1-spa-router-2026-09-01]] | SPA Router Prompt (Arsiv) |
 
 ---
 
-## 16. Kalite Raporu
+## 23. Kalite Raporu
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 6.0.0 |
-| **Satır Sayısı** | ~450 |
+| **Versiyon** | 7.0.0 |
+| **Satır Sayısı** | ~600 |
 | **ADR Uyumlu** | ✅ 004, 021, 083 |
-| **Zero Hallucination** | ✅ (referans proje tabanlı) |
+| **Zero Hallucination** | ✅ |
 | **SRP Modül Sayısı** | 14 |
 | **SOLID Uyumlu** | ✅ DIP, SRP, OCP |
+| **Composer Paket** | 19 minimum enterprise stack |
+| **Yasaklı Teknoloji** | 12 |
+| **Son Güncelleme** | 2026-09-01 |
+| **Kaynak** | prompt1-spa-router-2026-09-01 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-16
+**Last Updated:** 2026-09-01
 **Mode:** Red Team · Human Mode · Truth Mode

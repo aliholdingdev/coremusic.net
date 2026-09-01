@@ -507,7 +507,232 @@ sdk ← api-client, contracts
 | 7 | Modüler Shared: tek shared/ + PSR-4 namespace | Kod tekrarı |
 | 8 | Domain bağımsız: Altyapıyı bilmez | Teknoloji bağımlılığı |
 
-## 12. İlgili Dosyalar
+## 12. 21 API Servis Mimarisi
+
+```
+API Gateway
+│
+├── Auth API          (auth.coremusic.net — kimlik doğrulama)
+├── User API          (kullanıcı yönetimi)
+├── Music API         (müzik CRUD)
+├── Playlist API      (oynatma listesi)
+├── Album API         (albüm yönetimi)
+├── Artist API        (sanatçı yönetimi)
+├── Download API      (download.coremusic.net — indirme)
+├── Media API         (media.coremusic.net — medya depo)
+├── Library API       (kişisel kütüphane)
+├── Search API        (arama motoru)
+├── Recommendation API (AI önerileri)
+├── Streaming API     (gerçek zamanlı akış)
+├── Device API        (cihaz yönetimi)
+├── Audio API         (ses motoru — C++ JUCE)
+├── DSP API           (sinyal işleme)
+├── Player API        (oynatıcı kontrolü)
+├── Notification API  (bildirim sistemi)
+├── Analytics API     (istatistik)
+├── Admin API         (admin.coremusic.net — yönetim)
+├── AI API            (yapay zekâ servisi)
+└── System API        (sistem konfigürasyonu)
+```
+
+**Her servis bağımsızdır.** Başka bir servisin veritabanına ERİŞMEZ. İhtiyaç duyarsa API üzerinden çağırır.
+
+## 13. BFF (Backend for Frontend) Pattern
+
+```
+SPA (Web)        → SPA BFF API     → Internal APIs
+Desktop          → Desktop BFF API → Internal APIs
+Mobile           → Mobile BFF API  → Internal APIs
+Embedded (RPi5)  → Embedded BFF API → Internal APIs
+```
+
+| İstemci | BFF Avantajı |
+|---------|-------------|
+| SPA | Tam veri, JWT tabanlı |
+| Mobile | Hafif JSON, sınırlı alan |
+| Desktop | Zengin veri, WebSocket |
+| Embedded | Minimal veri,低 bandwidth |
+
+## 14. CQRS Ayrımı
+
+```
+Write API → Command → Use Case → Repository → Master DB
+Read API  → Query  → Read Model → Cache/Replica → Response
+```
+
+| Katman | Write | Read |
+|--------|-------|------|
+| API | POST, PUT, DELETE | GET |
+| Application | Command Handler | Query Handler |
+| Domain | Business Rules | Read Model |
+| Infrastructure | Master DB (MySQL) | Cache (Redis) + Replica |
+
+## 15. Event Driven Architecture
+
+```
+API → Command → Event → Event Bus (PSR-14)
+                          │
+         ┌────────────────┼────────────────┐
+         ▼                ▼                ▼
+   Notification       Analytics         AI Service
+   Service            Service           (öneri)
+         │                │                │
+         ▼                ▼                ▼
+   Email/Push         İstatistik        Öneri
+   Bildirim           Oluşturma        Motoru
+```
+
+**Kural:** Servisler birbirini doğrudan çağırmaz. Sadece Event yayınlar/dinler.
+
+## 16. Service Discovery
+
+```
+Client → Gateway → Service Registry → Auth
+                                → Media
+                                → Audio
+                                → AI
+                                → Download
+```
+
+Gateway hardcode bilmez. Service Registry'den keşfeder.
+
+## 17. API Versioning
+
+```
+/api/v1/...          (Stable — varsayılan)
+/api/v2/...          (Experimental)
+/api/internal/v1/... (Sadece servisler arası)
+/api/public/v1/...   (Dış geliştiriciler)
+/api/admin/v1/...    (Yönetim)
+```
+
+| Durum | Tanım |
+|-------|-------|
+| Stable | Aktif kullanım |
+| Deprecated | 6 ay sonra kaldırılacak |
+| Experimental | Test aşamasında |
+| Legacy | Sadece geriye dönük uyumluluk |
+
+## 18. Audit Pipeline
+
+```
+Request → Audit → Logger → Metrics → Tracing → Alert → Dashboard
+```
+
+| Metrik | Açıklama |
+|--------|----------|
+| Correlation ID | Her istekte benzersiz ID |
+| Request Log | Method, URL, Headers, Body |
+| Response Log | Status, Duration, Size |
+| Error Log | Exception, Stack Trace |
+| Performance | Response Time, Memory, CPU |
+
+## 19. Adapter Layer (Harici Servisler)
+
+```
+MusicProviderInterface
+    ├── SpotifyAdapter
+    ├── YouTubeAdapter
+    ├── DeezerAdapter
+    ├── MusicBrainzAdapter
+    ├── LastFMAdapter
+    └── DiscogsAdapter
+```
+
+Uygulama harici servisleri doğrudan kullanmaz. Adapter üzerinden soyutlanır.
+
+## 20. Storage Layer
+
+```
+StorageInterface
+    ├── LocalStorage
+    ├── NAS (SMB/NFS)
+    ├── S3
+    ├── Azure Blob
+    └── Cloudflare R2
+```
+
+## 21. Cache Abstraction
+
+```
+CacheInterface
+    ├── Redis
+    ├── APCu
+    ├── FileCache
+    └── MemoryCache
+```
+
+Kod Redis'e bağımlı olmaz. Interface üzerinden çalışır.
+
+## 22. coremusic-shared Paket Yapısı
+
+```
+coremusic-shared/
+├── src/
+│   ├── Contracts/        (Interface'ler)
+│   ├── DTO/              (Data Transfer Objects)
+│   ├── Request/          (API Request modelleri)
+│   ├── Response/         (API Response modelleri)
+│   ├── Enums/            (Sabit değerler)
+│   ├── ValueObjects/     (Değer nesneleri)
+│   ├── Exceptions/       (Hata sınıfları)
+│   ├── Validation/       (Doğrulama kuralları)
+│   ├── Events/           (Domain Events)
+│   ├── EventDispatcher/  (PSR-14 Event Dispatcher)
+│   ├── Security/         (Güvenlik bileşenleri)
+│   ├── Cryptography/     (Şifreleme)
+│   ├── Auth/             (Kimlik doğrulama)
+│   ├── Jwt/              (JWT yönetimi)
+│   ├── OAuth/            (OAuth2)
+│   ├── Permission/       (İzin sistemi)
+│   ├── HttpClient/       (PSR-18 HTTP Client)
+│   ├── ApiClient/        (API istemcisi)
+│   ├── Cache/            (Cache abstraction)
+│   ├── Queue/            (Mesaj kuyruğu)
+│   ├── Serializer/       (JSON/XML dönüşümü)
+│   ├── Logger/           (PSR-3 Logger)
+│   ├── Configuration/    (Yapılandırma)
+│   ├── Pagination/       (Sayfalama)
+│   ├── Filtering/        (Filtreleme)
+│   ├── Sorting/          (Sıralama)
+│   ├── OpenAPI/          (Swagger)
+│   └── SDK/              (İstemci kütüphanesi)
+└── composer.json
+```
+
+## 23. Yasaklanan Bağımlılıklar
+
+```
+SPA × PDO
+SPA × MySQL
+SPA × Repository
+SPA × Entity
+SPA × Infrastructure
+SPA × Filesystem
+SPA × FFmpeg
+SPA × Redis
+SPA × Cache
+SPA × SQL
+
+SPA yalnızca ApiClient kullanır.
+```
+
+## 24. Panel → API İlişkisi
+
+| Panel | Port | API |
+|-------|------|-----|
+| coremusic.net | 80 | → API Gateway |
+| music.coremusic.net | 81 | → API Gateway |
+| admin.coremusic.net | 80 | → API Gateway |
+| car.coremusic.net | 80 | → API Gateway |
+| home.coremusic.net | 81 | → API Gateway |
+| studio.coremusic.net | 81 | → API Gateway |
+| pro.coremusic.net | 81 | → API Gateway |
+| download.coremusic.net | 3001 | → Download API |
+| media.coremusic.net | 5000/6000 | → Media API |
+| auth.coremusic.net | 80 | → Auth API |
+
+## 25. İlgili Dosyalar
 
 | Dosya | Amaç |
 |-------|------|
@@ -532,17 +757,19 @@ sdk ← api-client, contracts
 | [[middleware-pipeline]] | Middleware detayı |
 | [[shared-library]] | Shared library |
 
-## 13. Kalite Raporu
+## 26. Kalite Raporu
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 1.0.0 |
-| **Satır Sayısı** | ~350 |
-| **ADR Uyumlu** | ✅ 001, 002, 007, 042, 051, 053, 054 |
+| **Versiyon** | 2.0.0 |
+| **Satır Sayısı** | ~700 |
+| **ADR Uyumlu** | ✅ 001, 002, 007, 042, 051, 053, 054, 084 |
 | **Zero Hallucination** | ✅ |
+| **Son Güncelleme** | 2026-09-01 |
+| **Kaynak** | prompt3-api-2026-09-01 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-09
+**Last Updated:** 2026-09-01
 **Mode:** Red Team · Human Mode · Truth Mode

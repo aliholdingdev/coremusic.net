@@ -343,17 +343,132 @@ if (APP_ENV === 'development' && isset($_GET['_bypass'])) {
 | § 8 RBAC | [[architecture/l1-security/index]] | Güvenlik katmanı |
 
 
-## 17. Kalite Raporu
+## 17. Middleware Pipeline (Detaylı)
+
+```
+HTTP Request
+      │
+      ▼
+Origin Check (kaynak kontrolü — whitelisted subdomain)
+      │
+      ▼
+CORS (sadece izin verilen domainler)
+      │
+      ▼
+Rate Limit (APCu — 60 req/60s)
+      │
+      ▼
+Security Headers (CSP, HSTS, X-Content-Type-Options)
+      │
+      ▼
+Session (COREMUSIC_SESS cookie → sunucu tarafında doğrulama)
+      │
+      ▼
+CSRF (csrf_token — form token + double submit cookie)
+      │
+      ▼
+Authentication (session veya JWT — hangisi mevcutsa)
+      │
+      ▼
+Authorization (RBAC — rol + izin kontrolü)
+      │
+      ▼
+Controller
+```
+
+## 18. Cross-Domain Auth
+
+```
+                 auth.coremusic.net
+                         │
+      ┌──────────────────┼──────────────────┐
+      │                  │                  │
+      ▼                  ▼                  ▼
+home.coremusic.net   music.coremusic.net  studio.coremusic.net
+      │                  │                  │
+      ▼                  ▼                  ▼
+car.coremusic.net    admin.coremusic.net  pro.coremusic.net
+      │                  │                  │
+      ▼                  ▼                  ▼
+      │          media.coremusic.net       │
+      │                  │                  │
+      └──────────────┬───┴──────────────────┘
+                     ▼
+             Session Validation API
+```
+
+**Kurallar:**
+- Session cookie: `.coremusic.net` domain'i ile tüm subdomain'lerde paylaşılır
+- Her subdomain isteği auth.coremusic.net/session-check API'sine gider
+- Geçersiz session → auth.coremusic.net/login'e redirect
+- Development modda `?_bypass=1` ile auth atlanabilir
+
+## 19. Composer Paketleri (Auth)
+
+| Paket | Amaç |
+|-------|------|
+| `lcobucci/jwt` | JWT yönetimi (RS256) |
+| `paragonie/sodium_compat` | Şifreleme (XSalsa20-Poly1305) |
+| `paragonie/halite` | Yüksek seviye şifreleme |
+| `symfony/security-csrf` | CSRF koruması |
+| `pragmarx/google2fa` | MFA/TOTP |
+| `ramsey/uuid` | UUID üretimi |
+| `monolog/monolog` | Log yönetimi |
+| `symfony/rate-limiter` | Rate limiting |
+| `respect/validation` | Veri doğrulama |
+| `vlucas/phpdotenv` | Environment yönetimi |
+
+**Not:** `firebase/php-jwt` yasaklıdır. `lcobucci/jwt` kullanılır.
+
+## 20. Session Güvenlik Politikası
+
+| Özellik | Değer |
+|---------|-------|
+| Session Fixation | `session_regenerate_id(true)` on login |
+| Session Hijacking | User-Agent + IP fingerprint |
+| Session Rotation | Her 15 dakikada bir |
+| Session Timeout | Idle: 1 saat, Absolute: 24 saat |
+| Max Session | Kullanıcı başına 5 |
+| Session Audit | Tüm session olayları loglanır |
+
+## 21. Cookie Güvenlik Politikası
+
+| Özellik | Değer |
+|---------|-------|
+| HttpOnly | `true` — JS erişemez |
+| Secure | `true` (production) / `false` (development) |
+| SameSite | `Lax` |
+| Domain | `.coremusic.net` |
+| Path | `/` |
+| Prefix | `__Host-` (production'da opsiyonel) |
+| Encryption | Cookie value AES-256-GCM ile şifrelenebilir |
+
+## 22. Audit Trail
+
+| Olay | Log Seviyesi | Detay |
+|------|-------------|-------|
+| Login başarılı | INFO | user_id, ip, user_agent, timestamp |
+| Login başarısız | WARNING | email, ip, reason, timestamp |
+| Logout | INFO | user_id, session_id, timestamp |
+| Şifre değişikliği | WARNING | user_id, ip, timestamp |
+| Token rotation | INFO | user_id, old_token_hash, timestamp |
+| Token blacklist | WARNING | user_id, reason, timestamp |
+| MFA doğrulama | INFO | user_id, method, timestamp |
+| Hesap kilidi | CRITICAL | user_id, reason, duration, timestamp |
+
+## 23. Kalite Raporu
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 1.0.0 |
-| **Satır Sayısı** | ~300 |
+| **Versiyon** | 2.0.0 |
+| **Satır Sayısı** | ~450 |
 | **ADR Uyumlu** | ✅ 010, 011, 043 |
 | **Zero Hallucination** | ✅ |
+| **Son Güncelleme** | 2026-09-01 |
+| **Kaynak** | prompt2-auth-2026-09-01 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-12
+**Last Updated:** 2026-09-01
 **Mode:** Red Team · Human Mode · Truth Mode

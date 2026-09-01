@@ -128,8 +128,9 @@ final class PageRouterKernel
 
         } catch (\Throwable $e) {
             $errorMsg = date('c') . ' [' . $traceId . '] ' . get_class($e) . ': ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine() . "\n" . $e->getTraceAsString() . "\n";
-            @file_put_contents(dirname(__DIR__, 3) . '/coremusic_php_errors.log', $errorMsg, FILE_APPEND | LOCK_EX);
-            @file_put_contents(dirname(__DIR__, 3) . '/coremusic_php_kernel_debug.log', $errorMsg, FILE_APPEND | LOCK_EX);
+            $logDir = $this->config->get('app.log_dir', dirname(__DIR__, 3));
+            @file_put_contents($logDir . '/coremusic_php_errors.log', $errorMsg, FILE_APPEND | LOCK_EX);
+            @file_put_contents($logDir . '/coremusic_php_kernel_debug.log', $errorMsg, FILE_APPEND | LOCK_EX);
             error_log('[PageRouterKernel] FATAL traceId=' . $traceId . ' ' . $e->getMessage()
                 . ' in ' . $e->getFile() . ':' . $e->getLine());
 
@@ -248,7 +249,18 @@ final class PageRouterKernel
 
     private static function isSpaRequest(array $request): bool
     {
-        return ($request['headers']['x-requested-with'] ?? '') === 'XMLHttpRequest';
+        // X-Requested-With header (classic AJAX)
+        if (($request['headers']['x-requested-with'] ?? '') === 'XMLHttpRequest') {
+            return true;
+        }
+
+        // Accept header — JSON isteği mi?
+        $accept = $request['headers']['accept'] ?? '';
+        if (str_contains($accept, 'application/json')) {
+            return true;
+        }
+
+        return false;
     }
 
     /** @return \CoreMusic\Interfaces\Middleware\IMiddleware[] */

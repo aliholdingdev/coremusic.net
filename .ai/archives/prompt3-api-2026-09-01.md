@@ -1,4 +1,4 @@
-Red Team , human , truth mode -> şidmi bu .ai daki verielre göre kodlama yapamız gerekiyor 
+Red Team , human , truth mode -> şidmi yeni kararlarımız var buanrı .ai ya ve .claude ye işlememiz lazım 
 
 **ROLE**
 

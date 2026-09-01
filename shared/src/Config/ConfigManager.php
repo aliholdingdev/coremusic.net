@@ -114,9 +114,43 @@ final class ConfigManager implements IConfigManager
         return true;
     }
 
-    public function all(): array
+    /**
+     * Tüm config'i döndür (hassas key'ler hariç).
+     *
+     * Hassas key'ler: database.password, security.app_pepper, security.encryption_key,
+     * security.session_key ve bunların alt anahtarları.
+     *
+     * @param bool $includeSensitive  Hassas key'ler dahil edilsin mi? (debug için)
+     */
+    public function all(bool $includeSensitive = false): array
     {
-        return $this->config;
+        if ($includeSensitive) {
+            return $this->config;
+        }
+        return $this->filterSensitive($this->config);
+    }
+
+    /**
+     * Hassas key'leri recursive olarak filtrele.
+     */
+    private function filterSensitive(array $data, string $prefix = ''): array
+    {
+        $filtered = [];
+        foreach ($data as $key => $value) {
+            $fullKey = $prefix !== '' ? $prefix . '.' . $key : $key;
+
+            if ($this->isSensitiveKey($fullKey)) {
+                $filtered[$key] = '[REDACTED]';
+                continue;
+            }
+
+            if (is_array($value)) {
+                $filtered[$key] = $this->filterSensitive($value, $fullKey);
+            } else {
+                $filtered[$key] = $value;
+            }
+        }
+        return $filtered;
     }
 
     public function clearCache(): void
