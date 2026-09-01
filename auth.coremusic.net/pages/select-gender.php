@@ -8,7 +8,7 @@
  */
 
 $csrf      = htmlspecialchars((string)($_SESSION['csrf_token'] ?? ''), ENT_QUOTES, 'UTF-8');
-$gender    = $_SESSION['cm_gender'] ?? 'female';
+$gender    = $_SESSION['cm_gender'] ?? $_COOKIE['cm_gender'] ?? 'neutral';
 $genderAttr = htmlspecialchars($gender, ENT_QUOTES, 'UTF-8');
 $redirectUri = $_GET['redirect_uri'] ?? '';
 $clientId    = $_GET['client_id'] ?? 'coremusic-web';

@@ -21,6 +21,8 @@ if (file_exists($sharedVendor)) {
     // Auth-specific sınıfları manuel kaydet (composer install henüz çalışmadıysa)
     spl_autoload_register(function (string $class): void {
         $prefixes = [
+            'CoreMusic\\Auth\\Domain\\'       => __DIR__ . '/include/Domain/',
+            'CoreMusic\\Auth\\Middleware\\'   => __DIR__ . '/include/Middleware/',
             'CoreMusic\\Auth\\Handler\\'     => __DIR__ . '/include/Handler/',
             'CoreMusic\\Auth\\Container\\'   => __DIR__ . '/include/Container/',
             'CoreMusic\\Auth\\Controller\\'  => __DIR__ . '/include/Controller/',

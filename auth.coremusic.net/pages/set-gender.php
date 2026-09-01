@@ -49,7 +49,7 @@ $cspNonce      = $_SESSION['csp_nonce'] ?? '';
     form.addEventListener('submit', function(e){
         e.preventDefault();
         var gender = input.value;
-        if (!gender || gender === 'neutral') {
+        if (!gender) {
             errEl.textContent = 'Lütfen bir cinsiyet seçin.';
             errEl.style.display = 'block';
             return;

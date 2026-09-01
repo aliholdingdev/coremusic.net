@@ -2,6 +2,14 @@
 
 namespace CoreMusic\Auth\Service;
 
+use CoreMusic\Auth\Domain\Entity\User;
+use CoreMusic\Auth\Domain\ValueObject\Email;
+use CoreMusic\Auth\Domain\ValueObject\Password;
+use CoreMusic\Auth\Domain\ValueObject\UserId;
+use CoreMusic\Auth\Domain\ValueObject\Gender;
+use CoreMusic\Auth\Domain\DTO\LoginRequest;
+use CoreMusic\Auth\Domain\DTO\RegisterRequest;
+use CoreMusic\Auth\Domain\DTO\AuthResponse;
 use CoreMusic\Interfaces\Auth\IAuthService;
 use CoreMusic\Interfaces\Auth\ISessionManager;
 use CoreMusic\Interfaces\Auth\IUserRepository;
@@ -9,9 +17,14 @@ use CoreMusic\Interfaces\Security\IRateLimiter;
 use CoreMusic\Exception\AuthenticationException;
 use CoreMusic\Exception\ConflictException;
 use CoreMusic\Exception\RateLimitException;
-use CoreMusic\Exception\ServerException;
 use CoreMusic\Exception\ValidationException;
 
+/**
+ * AuthService — Authentication iş mantığı.
+ *
+ * Domain nesneleri (User, Email, Password, Gender) kullanır.
+ * IAuthService interface ile uyumlu, DTO tabanlı yeni metodlar da sunar.
+ */
 final class AuthService implements IAuthService
 {
     private const MIN_PASSWORD_LENGTH = 8;
@@ -20,8 +33,6 @@ final class AuthService implements IAuthService
     private const MAX_REGISTER_ATTEMPTS = 3;
     private const REGISTER_WINDOW_SECONDS = 3600;
     private const AUTH_KEY_TTL = 300;
-    private const ARGON2_OPTIONS = ['memory_cost' => 65536, 'time_cost' => 4, 'threads' => 2];
-    private const ALLOWED_GENDERS = ['male', 'female', 'neutral'];
     private const USERNAME_PATTERN = '/^[a-zA-Z0-9_]{3,30}$/';
     private const LOGIN_RATE_KEY_PREFIX = 'rate_limit:login:';
     private const REGISTER_RATE_KEY_PREFIX = 'rate_limit:register:';
@@ -36,118 +47,97 @@ final class AuthService implements IAuthService
         private readonly string $pepper = '',
     ) {}
 
-    private function pepperPassword(string $password): string
-    {
-        if ($this->pepper === '') {
-            throw ServerException::configError('APP_PEPPER');
-        }
-        return hash_hmac('sha256', $password, $this->pepper);
-    }
+    // ─── DTO Tabanlı Yeni Metodlar ───
 
-    public function login(string $identity, string $password, string $visitorGender = 'neutral', string $clientIp = '127.0.0.1'): array
+    /**
+     * Kullanıcı girişi — LoginRequest DTO alır, AuthResponse döndürür.
+     */
+    public function loginWithRequest(LoginRequest $request): AuthResponse
     {
-        $identity = trim($identity);
-        $failedKey = self::LOGIN_RATE_KEY_PREFIX . $clientIp;
+        $failedKey = self::LOGIN_RATE_KEY_PREFIX . $request->clientIp;
 
         if ($this->rateLimiter->isLimited($failedKey, self::MAX_LOGIN_ATTEMPTS, self::LOGIN_WINDOW_SECONDS)) {
             throw RateLimitException::loginRateLimited(self::LOGIN_WINDOW_SECONDS);
         }
 
-        if ($identity === '' || $password === '') {
+        if ($request->identity === '' || $request->password === '') {
             throw ValidationException::emptyFields();
         }
 
-        $user = $this->userRepository->findByCredential($identity);
-        if ($user === null) {
+        $row = $this->userRepository->findByCredential($request->identity);
+        if ($row === null) {
             $this->rateLimiter->increment($failedKey, self::LOGIN_WINDOW_SECONDS);
             throw AuthenticationException::invalidCredentials();
         }
 
-        $pepperedPassword = $this->pepperPassword($password);
-        if (!password_verify($pepperedPassword, $user['password_hash'])) {
-            $this->rateLimiter->increment($failedKey, self::LOGIN_WINDOW_SECONDS);
-            throw AuthenticationException::invalidCredentials();
-        }
+        $user = User::fromRow($row);
 
-        if (!empty($user['is_banned'])) {
+        if ($user->isBanned()) {
             throw AuthenticationException::banned();
         }
 
+        $password = Password::create($request->password);
+        if (!$password->verify($user->passwordHash, $this->pepper)) {
+            $this->rateLimiter->increment($failedKey, self::LOGIN_WINDOW_SECONDS);
+            throw AuthenticationException::invalidCredentials();
+        }
+
         // Cinsiyet tabanlı erişim kontrolü
-        $allowedGender = strtolower($visitorGender);
-        if ($allowedGender !== 'neutral' && isset($user['gender']) && $user['gender'] !== $allowedGender) {
-            throw AuthenticationException::genderMismatch($allowedGender);
+        // Kural: Kayıt olurken seçilen cinsiyet, giriş yaparken de aynı olmalı.
+        // neutral olarak kayıt olanlar her cinsiyetle giriş yapabilir.
+        // male/female olarak kayıt olanlar sadece kendi cinsiyetleriyle giriş yapabilir.
+        $userGender = Gender::create($user->gender);
+        $visitorGender = Gender::create($request->visitorGender);
+
+        if (!$userGender->isNeutral() && !$visitorGender->isNeutral() && !$visitorGender->equals($userGender)) {
+            throw AuthenticationException::genderMismatch((string)$userGender);
         }
 
         $this->rateLimiter->reset($failedKey);
-        $this->userRepository->updateLastLogin($user['id']);
+        $this->userRepository->updateLastLogin($user->id);
 
-        $this->session->setAuthUser([
-            'id'           => $user['id'],
-            'username'     => $user['username'],
-            'email'        => $user['email'],
-            'display_name' => $user['display_name'] ?? $user['username'],
-            'account_type' => $user['account_type'] ?? 'free',
-            'avatar_url'   => $user['avatar_url'] ?? '',
-            'gender'       => $user['gender'] ?? 'neutral',
-        ]);
+        $this->session->setAuthUser($user->toArray());
 
         $authKey = bin2hex(random_bytes(32));
         $expiresAt = date('Y-m-d H:i:s', time() + self::AUTH_KEY_TTL);
-        $this->userRepository->saveAuthKey($user['id'], $authKey, $expiresAt, $clientIp);
+        $this->userRepository->saveAuthKey($user->id, $authKey, $expiresAt, $request->clientIp);
 
-        return [
-            'success'  => true,
-            'redirect' => '/home',
-            'auth_key' => $authKey,
-            'user'     => [
-                'id'           => $user['id'],
-                'username'     => $user['username'],
-                'email'        => $user['email'],
-                'display_name' => $user['display_name'],
-                'account_type' => $user['account_type'],
-            ],
-        ];
+        return AuthResponse::success(
+            redirect: '/home',
+            authKey: $authKey,
+            user: $user->toArray(),
+        );
     }
 
-    public function register(array $data, string $clientIp = '127.0.0.1', string $visitorGender = 'neutral'): array
+    /**
+     * Kullanıcı kaydı — RegisterRequest DTO alır, AuthResponse döndürür.
+     */
+    public function registerWithRequest(RegisterRequest $request): AuthResponse
     {
-        $rateKey = self::REGISTER_RATE_KEY_PREFIX . $clientIp;
+        $rateKey = self::REGISTER_RATE_KEY_PREFIX . $request->clientIp;
         if ($this->rateLimiter->isLimited($rateKey, self::MAX_REGISTER_ATTEMPTS, self::REGISTER_WINDOW_SECONDS)) {
             throw RateLimitException::registerRateLimited(self::REGISTER_WINDOW_SECONDS);
         }
 
-        $username   = trim($data['username'] ?? '');
-        $email      = trim($data['email'] ?? '');
-        $password   = $data['password'] ?? '';
-        $agreeTerms = !empty($data['agree_terms']);
-        // Kayıt formu gender göndermiyorsa (register sayfasında gender seçimi yok),
-        // session'daki ziyaretçi cinsiyetini kullan (select-gender sayfasından gelir)
-        $gender = match ($data['gender'] ?? $visitorGender) {
-            'male', 'female' => $data['gender'] ?? $visitorGender,
-            default          => 'neutral',
-        };
-
         $errors = [];
-        if ($username === '' || !preg_match(self::USERNAME_PATTERN, $username)) {
+        if ($request->username === '' || !preg_match(self::USERNAME_PATTERN, $request->username)) {
             $errors['username'] = 'Geçersiz kullanıcı adı.';
-        } elseif ($this->userRepository->usernameExists($username)) {
+        } elseif ($this->userRepository->usernameExists($request->username)) {
             $this->rateLimiter->increment($rateKey, self::REGISTER_WINDOW_SECONDS);
             throw ConflictException::usernameAlreadyExists();
         }
 
-        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'Geçerli e-posta girin.';
-        } elseif ($this->userRepository->emailExists($email)) {
+        $email = Email::create($request->email);
+        if ($this->userRepository->emailExists((string)$email)) {
             $this->rateLimiter->increment($rateKey, self::REGISTER_WINDOW_SECONDS);
             throw ConflictException::emailAlreadyExists();
         }
 
-        if (strlen($password) < self::MIN_PASSWORD_LENGTH) {
+        if (strlen($request->password) < self::MIN_PASSWORD_LENGTH) {
             $errors['password'] = 'Şifre en az ' . self::MIN_PASSWORD_LENGTH . ' karakter.';
         }
 
-        if (!$agreeTerms) {
+        if (!$request->agreeTerms) {
             $errors['agree_terms'] = 'Koşulları kabul etmelisiniz.';
         }
 
@@ -158,14 +148,17 @@ final class AuthService implements IAuthService
 
         $this->rateLimiter->reset($rateKey);
 
-        $passwordHash = password_hash($this->pepperPassword($password), PASSWORD_ARGON2ID, self::ARGON2_OPTIONS);
+        $password = Password::create($request->password);
+        $passwordHash = $password->hashWithPepper($this->pepper);
+
+        $gender = Gender::create($request->gender);
 
         $created = $this->userRepository->create([
-            'username'      => $username,
-            'email'         => $email,
+            'username'      => $request->username,
+            'email'         => (string)$email,
             'password_hash' => $passwordHash,
-            'display_name'  => $username,
-            'gender'        => $gender,
+            'display_name'  => $request->username,
+            'gender'        => (string)$gender,
             'account_type'  => 'free',
         ]);
 
@@ -174,21 +167,34 @@ final class AuthService implements IAuthService
 
         $authKey = bin2hex(random_bytes(32));
         $expiresAt = date('Y-m-d H:i:s', time() + self::AUTH_KEY_TTL);
-        $this->userRepository->saveAuthKey($created['user_id'], $authKey, $expiresAt, $clientIp);
+        $this->userRepository->saveAuthKey($created['user_id'], $authKey, $expiresAt, $request->clientIp);
 
-        return [
-            'success'  => true,
-            'redirect' => '/home',
-            'auth_key' => $authKey,
-            'user'     => [
+        return AuthResponse::success(
+            redirect: '/home',
+            authKey: $authKey,
+            user: [
                 'id'           => $created['user_id'],
-                'username'     => $username,
-                'email'        => $email,
-                'display_name' => $username,
+                'username'     => $request->username,
+                'email'        => (string)$email,
+                'display_name' => $request->username,
                 'account_type' => 'free',
                 'role'         => $created['role_name'],
             ],
-        ];
+        );
+    }
+
+    // ─── IAuthService Interface Uyumluluğu ───
+
+    public function login(string $identity, string $password, string $visitorGender = 'neutral', string $clientIp = '127.0.0.1'): array
+    {
+        $request = new LoginRequest($identity, $password, $visitorGender, $clientIp);
+        return $this->loginWithRequest($request)->toArray();
+    }
+
+    public function register(array $data, string $clientIp = '127.0.0.1', string $visitorGender = 'neutral'): array
+    {
+        $request = RegisterRequest::fromArray($data, ['REMOTE_ADDR' => $clientIp], $visitorGender);
+        return $this->registerWithRequest($request)->toArray();
     }
 
     public function logout(): void
@@ -208,27 +214,25 @@ final class AuthService implements IAuthService
         if ($userId === null) {
             return null;
         }
-        $user = $this->userRepository->findByIdHex($userId);
-        if ($user !== null) {
-            unset($user['password_hash']);
+        $row = $this->userRepository->findByIdHex($userId);
+        if ($row === null) {
+            return null;
         }
-        return $user;
+        $user = User::fromRow($row);
+        return $user->toArray();
     }
 
     public function requestPasswordReset(string $email, string $scheme = 'http', string $host = 'auth.coremusic.net', string $clientIp = '127.0.0.1'): array
     {
-        $email = trim($email);
-        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw ValidationException::invalidEmail();
-        }
+        $emailObj = Email::create($email);
 
         $rateKey = self::PASSWORD_RESET_RATE_KEY_PREFIX . $clientIp;
         if ($this->rateLimiter->isLimited($rateKey, self::PASSWORD_RESET_MAX_ATTEMPTS, self::PASSWORD_RESET_WINDOW_SECONDS)) {
             throw RateLimitException::passwordResetRateLimited(self::PASSWORD_RESET_WINDOW_SECONDS);
         }
 
-        $user = $this->userRepository->findByEmail($email);
-        if ($user === null) {
+        $row = $this->userRepository->findByEmail((string)$emailObj);
+        if ($row === null) {
             $this->rateLimiter->increment($rateKey, self::PASSWORD_RESET_WINDOW_SECONDS);
             return ['success' => true, 'message' => 'Sıfırlama bağlantısı gönderildi.'];
         }
@@ -237,10 +241,11 @@ final class AuthService implements IAuthService
         $tokenHash = hash('sha256', $rawToken);
         $expiresAt = date('Y-m-d H:i:s', time() + self::PASSWORD_RESET_WINDOW_SECONDS);
 
-        $this->userRepository->saveResetToken($user['id'], $tokenHash, $expiresAt, $clientIp);
+        $userId = UserId::fromHex($row['id']);
+        $this->userRepository->saveResetToken((string)$userId, $tokenHash, $expiresAt, $clientIp);
         $this->rateLimiter->increment($rateKey, self::PASSWORD_RESET_WINDOW_SECONDS);
 
-        error_log('[AuthService] Password reset requested for user_id: ' . $user['id']);
+        error_log('[AuthService] Password reset requested for user_id: ' . (string)$userId);
 
         return ['success' => true, 'message' => 'Sıfırlama bağlantısı gönderildi.'];
     }
@@ -260,11 +265,15 @@ final class AuthService implements IAuthService
             throw ValidationException::tokenExpired();
         }
 
-        $newHash = password_hash($this->pepperPassword($newPassword), PASSWORD_ARGON2ID, self::ARGON2_OPTIONS);
-        $this->userRepository->updatePassword($record['user_id'], $newHash);
-        $this->userRepository->markResetTokenUsed($record['id']);
+        $password = Password::create($newPassword);
+        $newHash = $password->hashWithPepper($this->pepper);
+        $userId = UserId::fromHex($record['user_id']);
+        $tokenId = UserId::fromHex($record['id']);
 
-        error_log('[AuthService] Password reset completed for user_id: ' . $record['user_id']);
+        $this->userRepository->updatePassword((string)$userId, $newHash);
+        $this->userRepository->markResetTokenUsed((string)$tokenId);
+
+        error_log('[AuthService] Password reset completed for user_id: ' . (string)$userId);
 
         return ['success' => true, 'message' => 'Şifreniz güncellendi.'];
     }
@@ -275,16 +284,13 @@ final class AuthService implements IAuthService
             throw AuthenticationException::invalidCredentials();
         }
 
-        // İlk olarak strict modda dene (used_at IS NULL)
         $record = $this->userRepository->findValidAuthKey($authKey, false);
 
-        // Strict başarısızsa — grace window ile dene (30s içinde tekrar kullanım)
         if ($record === null) {
             $record = $this->userRepository->findValidAuthKey($authKey, true);
             if ($record === null) {
                 throw AuthenticationException::invalidCredentials();
             }
-            // Grace window: key zaten kullanıldı ama 30s içinde — idempotent tekrar kullanım
             return [
                 'user_id'      => $record['user_id'],
                 'username'     => $record['username'],
@@ -296,8 +302,8 @@ final class AuthService implements IAuthService
             ];
         }
 
-        // İlk kullanım — key'i işaretle
-        $this->userRepository->markAuthKeyUsed($record['token_id']);
+        $tokenId = UserId::fromHex($record['token_id']);
+        $this->userRepository->markAuthKeyUsed((string)$tokenId);
 
         return [
             'user_id'      => $record['user_id'],

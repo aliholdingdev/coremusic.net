@@ -26,7 +26,7 @@ final class AuthenticationException extends BaseCoreMusicException
             'female' => 'kadın',
             default  => 'nötr',
         };
-        return new self("Bu cinsiyet seçimiyle bu hesaba giriş yapamazsınız. Sadece {$genderLabel} hesaplar erişebilir.", 'GENDER_MISMATCH');
+        return new self("Bu hesaba sadece {$genderLabel} kullanıcılar giriş yapabilir. Lütfen {$genderLabel} seçeneğiyle devam edin.", 'GENDER_MISMATCH');
     }
 
     public static function invalidSessionKey(): self

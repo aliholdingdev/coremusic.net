@@ -55,6 +55,9 @@ final class SessionManager implements ISessionManager
 
     public function destroy(): void
     {
+        // Preserve gender across session destroy
+        $savedGender = $_SESSION['cm_gender'] ?? null;
+
         $_SESSION = [];
 
         if (session_status() === PHP_SESSION_ACTIVE) {
@@ -82,6 +85,11 @@ final class SessionManager implements ISessionManager
         $_SESSION['_session_created_at']  = $now;
         $_SESSION['_session_rotated_at']  = $now;
         $_SESSION['csp_nonce'] = bin2hex(random_bytes(32));
+
+        // Restore gender after session reset
+        if ($savedGender !== null) {
+            $_SESSION['cm_gender'] = $savedGender;
+        }
     }
 
     public function regenerateId(): void

@@ -9,7 +9,7 @@
 
 $csrf      = htmlspecialchars((string)($_SESSION['csrf_token'] ?? ''), ENT_QUOTES, 'UTF-8');
 $nonce     = htmlspecialchars((string)($_SESSION['csp_nonce'] ?? ''), ENT_QUOTES, 'UTF-8');
-$gender    = $_SESSION['cm_gender'] ?? 'female';
+$gender    = $_SESSION['cm_gender'] ?? $_COOKIE['cm_gender'] ?? 'neutral';
 $genderAttr = htmlspecialchars($gender, ENT_QUOTES, 'UTF-8');
 $redirectUri = $_GET['redirect_uri'] ?? '';
 $clientId    = $_GET['client_id'] ?? 'coremusic-web';
@@ -61,8 +61,8 @@ $responseType = $_GET['response_type'] ?? 'session';
     </div>
   </div>
   <div class="lgn-panel__inner-mid">
-  <!-- 3-step wizard indicator -->
-  <div class="lgn-wizard"><div class="lgn-wizard__step lgn-wizard__step--active" data-step="1"></div><div class="lgn-wizard__step" data-step="2"></div><div class="lgn-wizard__step" data-step="3"></div></div>
+  <!-- 4-step wizard indicator -->
+  <div class="lgn-wizard"><div class="lgn-wizard__step lgn-wizard__step--active" data-step="1"></div><div class="lgn-wizard__step" data-step="2"></div><div class="lgn-wizard__step" data-step="3"></div><div class="lgn-wizard__step" data-step="4"></div></div>
   <div class="lgn-error" id="lgn-err"></div>
   <form class="lgn-form" id="lgn-form" method="post" action="/register" novalidate>
     <input type="hidden" name="csrf_token" value="<?=$csrf?>">
@@ -102,8 +102,27 @@ $responseType = $_GET['response_type'] ?? 'session';
       <button type="button" class="lgn-btn" id="step2-next">Devam Et</button>
     </div>
 
-    <!-- STEP 3: Telefon + Hizmet Şartları -->
+    <!-- STEP 3: Cinsiyet Seçimi -->
     <div class="lgn-form__step" data-step="3" hidden>
+      <input type="hidden" id="reg-gender-input" name="gender" value="<?=$genderAttr?>">
+      <p class="lgn-form__label" style="text-align:center;margin-bottom:12px;">Cinsiyetini seç</p>
+      <button type="button" class="lgn-gender-btn" data-gender="female" aria-label="Kadın">
+        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/kız-gender-select.png" alt="" width="28" height="28"></span>
+        <span class="lgn-gender-btn__info"><strong>Kadın</strong></span>
+      </button>
+      <button type="button" class="lgn-gender-btn" data-gender="male" aria-label="Erkek">
+        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/erkek-gender-select.png" alt="" width="28" height="28"></span>
+        <span class="lgn-gender-btn__info"><strong>Erkek</strong></span>
+      </button>
+      <button type="button" class="lgn-gender-btn" data-gender="neutral" aria-label="Belirtmek istemiyorum">
+        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/notur-gender-select.png" alt="" width="28" height="28"></span>
+        <span class="lgn-gender-btn__info"><strong>Belirtmek istemiyorum</strong></span>
+      </button>
+      <button type="button" class="lgn-btn" id="step3-next" disabled>Devam Et</button>
+    </div>
+
+    <!-- STEP 4: Telefon + Hizmet Şartları -->
+    <div class="lgn-form__step" data-step="4" hidden>
       <div class="lgn-form__field">
         <label class="lgn-form__label" for="lgn-phone">Telefon</label>
         <input class="lgn-form__input" type="tel" id="lgn-phone" name="phone" placeholder="+90 555 123 45 67" autocomplete="tel" required pattern="^\+?[0-9\s\-\(\)]{10,20}$">
@@ -188,6 +207,18 @@ $responseType = $_GET['response_type'] ?? 'session';
         if(pw!==pw2){errEl.textContent='Şifreler eşleşmiyor.';errEl.classList.add('lgn-error--on');return;}
         errEl.classList.remove('lgn-error--on');showStep(3);
     });
+    var regGenderInput=document.getElementById('reg-gender-input');
+    var regGenderBtns=document.querySelectorAll('[data-step="3"] .lgn-gender-btn');
+    var step3Next=document.getElementById('step3-next');
+    regGenderBtns.forEach(function(b){b.addEventListener('click',function(){
+        regGenderBtns.forEach(function(x){x.classList.remove('selected');});
+        b.classList.add('selected');
+        regGenderInput.value=b.dataset.gender;
+        document.querySelector('.lgn-page').dataset.gender=b.dataset.gender;
+        try{localStorage.setItem('cm_gender',b.dataset.gender);}catch(e){}
+        step3Next.disabled=false;
+    });});
+    step3Next.addEventListener('click',function(){errEl.classList.remove('lgn-error--on');showStep(4);});
     var form=document.getElementById('lgn-form');
     var submitBtn=document.getElementById('lgn-submit');
     form.addEventListener('submit',function(e){
@@ -200,7 +231,7 @@ $responseType = $_GET['response_type'] ?? 'session';
         fetch('/register',{
             method:'POST',
             headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest','X-CSRF-Token':document.querySelector('[name=csrf_token]').value},
-            body:JSON.stringify({username:document.getElementById('lgn-usr').value,email:document.getElementById('lgn-email').value,password:pwInput.value,phone:phone,agree_terms:true,gender:document.querySelector('.lgn-page').dataset.gender||'neutral'}),
+            body:JSON.stringify({username:document.getElementById('lgn-usr').value,email:document.getElementById('lgn-email').value,password:pwInput.value,phone:phone,agree_terms:true,gender:regGenderInput.value||'neutral'}),
             credentials:'include'
         }).then(function(r){return r.json();}).then(function(d){
             if(d.success&&d.redirect){window.location.href=d.redirect;return;}

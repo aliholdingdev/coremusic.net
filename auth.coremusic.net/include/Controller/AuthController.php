@@ -2,6 +2,8 @@
 
 namespace CoreMusic\Auth\Controller;
 
+use CoreMusic\Auth\Domain\DTO\LoginRequest;
+use CoreMusic\Auth\Domain\DTO\RegisterRequest;
 use CoreMusic\Interfaces\Auth\IAuthService;
 use CoreMusic\Interfaces\Auth\ISessionManager;
 use CoreMusic\Exception\AuthenticationException;
@@ -11,6 +13,12 @@ use CoreMusic\Exception\ConflictException;
 use CoreMusic\Exception\ErrorResponse;
 use CoreMusic\Log\LoggerFactory;
 
+/**
+ * AuthController — Kimlik doğrulama endpoint'lerini yönetir.
+ *
+ * SRP: Tek sorumluluk — HTTP isteklerini Auth service'e yönlendirmek.
+ * İş mantığı AuthService'de, Domain nesneleri kullanılır.
+ */
 final class AuthController
 {
     private const ALLOWED_REDIRECT_HOSTS = [
@@ -142,71 +150,81 @@ final class AuthController
         ];
     }
 
+    /**
+     * Login — LoginRequest DTO kullanarak AuthService'e bağlanır.
+     */
     public function handleLogin(array $request): array
     {
         $post = $request['body'];
         $redirectUrl = $this->resolveRedirectUrl($request, $post['redirect_uri'] ?? null);
-        $identity = trim((string)($post['email'] ?? $post['identity'] ?? ''));
-        $password = (string)($post['password'] ?? '');
-        $clientIp = $request['server']['REMOTE_ADDR'] ?? '127.0.0.1';
+
+        $loginRequest = LoginRequest::fromArray($post, $request['server'] ?? $_SERVER, $this->session->getGender());
 
         $logger = LoggerFactory::getInstance();
-        $logger->authEvent('login_attempt', ['email' => $identity, 'ip' => $clientIp]);
+        $logger->authEvent('login_attempt', ['email' => $loginRequest->identity, 'ip' => $loginRequest->clientIp]);
 
         try {
-            $result = $this->authService->login($identity, $password, $this->session->getGender(), $clientIp);
+            $result = $this->authService->login(
+                $loginRequest->identity,
+                $loginRequest->password,
+                $loginRequest->visitorGender,
+                $loginRequest->clientIp,
+            );
+
             $this->session->regenerateId();
             $result['redirect'] = !empty($result['auth_key'])
                 ? $this->buildAuthKeyUrl($redirectUrl, $result['auth_key'])
                 : $redirectUrl;
 
             $logger->authEvent('login_success', [
-                'email'   => $identity,
+                'email'   => $loginRequest->identity,
                 'user_id' => $result['user']['id'] ?? '-',
-                'ip'      => $clientIp,
-            ]);
-
-            $logger->debug('Login redirect constructed', [
-                'redirect_url'  => $redirectUrl,
-                'has_auth_key'  => !empty($result['auth_key']),
-                'final_redirect' => $result['redirect'],
+                'ip'      => $loginRequest->clientIp,
             ]);
 
             return ['httpStatus' => 200, 'type' => 'json', 'body' => $result];
         } catch (\Throwable $e) {
             $logger->authEvent('login_failed', [
-                'email'  => $identity,
-                'ip'     => $clientIp,
+                'email'  => $loginRequest->identity,
+                'ip'     => $loginRequest->clientIp,
                 'reason' => $e->getMessage(),
             ]);
             return $this->mapAuthException($e);
         }
     }
 
+    /**
+     * Register — RegisterRequest DTO kullanarak AuthService'e bağlanır.
+     */
     public function handleRegister(array $request): array
     {
         $redirectUrl = $this->resolveRedirectUrl($request);
         $post = $request['body'];
         $clientIp = $request['server']['REMOTE_ADDR'] ?? '127.0.0.1';
 
+        $registerRequest = RegisterRequest::fromArray($post, $request['server'] ?? $_SERVER, $this->session->getGender());
+
         $logger = LoggerFactory::getInstance();
-        $logger->authEvent('register_attempt', ['email' => $post['email'] ?? '-', 'ip' => $clientIp]);
+        $logger->authEvent('register_attempt', ['email' => $registerRequest->email, 'ip' => $clientIp]);
 
         try {
-            $result = $this->authService->register([
-                'username'    => trim((string)($post['username'] ?? '')),
-                'email'       => trim((string)($post['email'] ?? '')),
-                'password'    => (string)($post['password'] ?? ''),
-                'gender'      => $post['gender'] ?? 'neutral',
-                'agree_terms' => !empty($post['agree_terms']),
-            ], $clientIp, $this->session->getGender());
+            $result = $this->authService->register(
+                $registerRequest->username,
+                $registerRequest->email,
+                $registerRequest->password,
+                $registerRequest->gender,
+                $registerRequest->agreeTerms,
+                $clientIp,
+                $registerRequest->visitorGender,
+            );
+
             $this->session->regenerateId();
             $result['redirect'] = !empty($result['auth_key'])
                 ? $this->buildAuthKeyUrl($redirectUrl, $result['auth_key'])
                 : $redirectUrl;
 
             $logger->authEvent('register_success', [
-                'email'   => $result['user']['email'] ?? '-',
+                'email'   => $registerRequest->email,
                 'user_id' => $result['user']['id'] ?? '-',
                 'ip'      => $clientIp,
             ]);
@@ -214,7 +232,7 @@ final class AuthController
             return ['httpStatus' => 200, 'type' => 'json', 'body' => $result];
         } catch (\Throwable $e) {
             $logger->authEvent('register_failed', [
-                'email'  => $post['email'] ?? '-',
+                'email'  => $registerRequest->email,
                 'ip'     => $clientIp,
                 'reason' => $e->getMessage(),
             ]);
@@ -238,7 +256,7 @@ final class AuthController
 
         return ['httpStatus' => 200, 'type' => 'json', 'body' => [
             'success'  => true,
-            'redirect' => (defined('MUSIC_URL') ? MUSIC_URL : '') . '/',
+            'redirect' => (defined('AUTH_URL') ? AUTH_URL : '') . '/login',
         ]];
     }
 
@@ -252,7 +270,6 @@ final class AuthController
 
         $this->session->setGender($gender);
 
-        // Cookie fallback — session çalışmasa bile gender saklanır
         $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
         setcookie('cm_gender', $gender, [
             'expires'  => time() + (86400 * 30),
