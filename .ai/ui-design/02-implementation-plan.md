@@ -118,7 +118,7 @@ Token Updates (Faz 1)
 3. Nav link'ler: 8 item, gap 4px (1024px)
 4. Actions alanı: WiFi+BT pill (65×37.4px), Battery pill (100px), User Pill
 5. Touch target'leri 48px'e çıkar (nav link padding artır)
-6. Responsive: 1024/1920/3840 breakpoint'leri
+6. Responsive: 1024/1920/3840 breakpoint'leri — **4K tier'da No-Center zorunlu** ([[responsive-device-mode]] §7.4) + eski tarayıcı fallback'leri (§12)
 
 **Kaynak:** `screens/00-ascii-art-views.md` §1 + backup `header.md`
 
@@ -492,9 +492,11 @@ Token Updates (Faz 1)
 
 | Dosya | Amaç |
 |-------|------|
-| [[00-mockup-index]] | PNG master kataloğu |
+| [[00-mockup-index]] | PNG master kataloğu (19 PNG) |
 | [[01-component-inventory]] | C01-C16 detayları |
-| [[00-ascii-art-index]] | Piksel düzeyinde ASCII art'lar |
+| [[00-ascii-art-index]] | Piksel düzeyinde ASCII art'lar (19 PNG) |
+| [[screens/B-home/dashboard-1920]] | Desktop 1920 ASCII view (2026-09-06 PNG doğrulamalı) |
+| [[responsive-device-mode]] | Tier kuralları — 4K No-Center §7.4 + Backward-Compat §12 |
 | [[03-accessibility-gaps]] | WCAG gap analizi |
 | [[04-vault-registration]] | Vault kalıcı kayıt |
 | [[architecture/03-css-device-loading-plan]] | Mevcut CSS planı |
@@ -505,20 +507,21 @@ Token Updates (Faz 1)
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 3.1.0 |
+| Version | 3.2.0 |
 | Step Count | 15 |
 | Total Duration | ~7.5 saat |
 | High Risk Steps | 4 (Footer, Home, Göz At, Auth) |
 | Token Updates | 10 yeni token |
 | Touch Target Fixes | 5 bileşen (C01, C11, C12, C13, C15) |
-| Screen Spec References | 18 dosya |
-| ASCII Art Reference | 18 PNG |
+| Screen Spec References | 19 dosya |
+| ASCII Art Reference | 19 PNG |
 | ADR Uyumlu | ✅ ADR-001, ADR-044 |
-| Platform | home-1024 (Linux Embedded RPi5) |
+| Platform | home-1024 (Linux Embedded RPi5) + home-1920 (Desktop) |
+| Ek Kurallar (2026-09-06) | 4K No-Center (§7.4) + Backward-Compat fallback'leri (§12) tüm adımlara bağlandı |
 
 ---
 
-*Implementation Plan v3.1.0 — CoreMusic UI Design System*
+*Implementation Plan v3.2.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-11*
+*Last Updated: 2026-09-06*
 *Mode: Red Team · Human Mode · Truth Mode*

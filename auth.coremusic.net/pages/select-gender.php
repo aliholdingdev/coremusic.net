@@ -25,7 +25,7 @@ $responseType = $_GET['response_type'] ?? 'session';
     <img src="<?= ASSETS_URL ?>/Image/res-pink/logo/logo-text.png" alt="CoreMusic" class="logo-text-png">
   </div>
   <h1 class="lgn-hero__title"><em class="hero-title--sm">Seni</em><br><em>Tanıyalım</em></h1>
-  <p class="lgn-hero__text">Deneyimini sana özel hale getirmek için bir şarkı seçmeni yeterli.</p>
+  <p class="lgn-hero__text">Deneyimini sana özel hale getirmek için bir seçim yapman yeterli.</p>
 
   <div class="lgn-hero__poem" aria-hidden="true">
     <span>Hayatın ritmini</span>

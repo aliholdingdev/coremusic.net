@@ -39,8 +39,7 @@ CoreMusic CI/CD pipeline'ını tanımlayan **Sürekli Entegrasyon ve Sürekli Da
 │  ┌─────────────────────────────────────────────────────┐       │
 │  │ CI BUILD                                             │       │
 │  │  ├── PHP Lint + CS-Fixer                            │       │
-│  │  ├── TypeScript Build                                │       │
-│  │  └── Docker Build                                    │       │
+│  │  └── TypeScript Build                                │       │
 │  └──────────────────────┬──────────────────────────────┘       │
 │                         ▼                                       │
 │  ┌─────────────────────────────────────────────────────┐       │
@@ -214,9 +213,8 @@ jobs:
 1. Git tag → v1.0.0
 2. GitHub Release created
 3. CI/CD pipeline triggered
-4. Tests pass → Docker build
-5. Docker push to registry
-6. Deploy to production server
+4. Tests pass → Build
+5. Deploy to production server
 7. Health check → verify
 8. Notify team
 ```
@@ -257,7 +255,7 @@ main ─────────────────────────
 | Dosya | Amaç |
 |-------|------|
 | [[architecture/02-deployment/deployment]] | Deployment rehberi |
-| [[architecture/02-deployment/docker-compose]] | Docker kurulumu |
+| [[architecture/02-deployment/deployment-architecture]] | Deployment mimarisi |
 | [[architecture/02-deployment/observability]] | İzleme |
 | [[testing/strategy]] | Test stratejisi |
 | [[testing/coverage-targets]] | Kapsama hedefleri |
@@ -283,7 +281,7 @@ main ─────────────────────────
 | **OWASP** | Open Web Application Security Project |
 | **Coverage** | Test kapsamı |
 | **PSR-12** | PHP coding standardı |
-| **Docker** | Container platformu |
+| **CI/CD Platform** | GitHub Actions |
 
 ## 12. Kalite Raporu
 

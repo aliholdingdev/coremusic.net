@@ -10,30 +10,40 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
-# UI Components
+# UI Components (C01–C16 Kanonik Sistem)
 
-**Zorunlu Bağlantılar:** [[index]] · [[ADR-001-vanilla-js-itcss]] · [[ADR-018-footer-player-vaporwave]]
+**Zorunlu Bağlantılar:** [[index]] · [[ui-design/00-mockup-index]] · [[ui-design/01-component-inventory]] · [[ADR-001-vanilla-js-itcss]] · [[ADR-018-footer-player-vaporwave]]
 
 ---
 
 ## 1. Amaç
 
-UI component listesini ve BEM naming convention'ı tanımlar.
+CoreMusic platformunun kanonik UI bileşen mimarisini tanımlar. **Tek Doğruluk Kaynağı (SSOT) [[ui-design/01-component-inventory]] (C01–C16) belgesidir.** Tüm frontend bileşenleri, 18 PNG mockup'tan ölçülen BEM standartlarına ve ITCSS 9-layer katmanlarına tam uyumlu olmak zorundadır.
 
 ---
 
-## 2. Component Listesi
+## 2. Kanonik Bileşen Listesi (C01–C16 — SSOT)
 
-| Component | BEM Block | Dosya |
-|-----------|-----------|-------|
-| **Header** | `.header` | `c-header.css` |
-| **Footer** | `.footer` | `c-footer.css` |
-| **Player** | `.player` | `c-player.css` |
-| **Sidebar** | `.sidebar` | `c-sidebar.css` |
-| **Card** | `.card` | `c-card.css` |
-| **Button** | `.btn` | `c-button.css` |
-| **Modal** | `.modal` | `c-modal.css` |
-| **Toast** | `.toast` | `c-toast.css` |
+| ID | Bileşen Adı | BEM Sınıfı | ITCSS Katmanı | Dosya Konumu | Touch Target |
+|----|-------------|------------|---------------|--------------|--------------|
+| **C01** | Navigation Link | `.nav-link` | 03_Layout | `_header.css` | ⚠️ ~24×24px (min 48px hedef) |
+| **C02** | Status Widget | `.header-widget` | 03_Layout | `_header.css` | ~38×24px pill |
+| **C03** | User Pill | `.header-user` | 03_Layout | `_header.css` | ~85×26px pill |
+| **C04** | Butonlar (Primary/Sec) | `.btn-primary`, `.btn-secondary` | 04_Components | `c-buttons.css` | 44×44px / 48×48px |
+| **C05** | Icon Button | `.icon-btn`, `.play-ctrl-btn` | 04_Components | `c-buttons.css` | 44×44px / 48×48px |
+| **C06** | Form Input | `.form-input` | 04_Components | `c-forms.css` | 44px input h |
+| **C07** | Gender Button | `.gender-card`, `.gender-btn` | 05_Pages | `p-select-gender.css` | 140×180px kart |
+| **C08** | Social Login Button | `.social-login-btn` | 05_Pages | `p-login-view.css` | 48×48px daire |
+| **C09** | Media Card | `.media-card` | 04_Components | `c-cards.css` | 120×140px / 160×180px |
+| **C10** | Content Panel | `.content-panel`, `.split-panel` | 03_Layout | `_home.css` | 42/58 Split (h:450px) |
+| **C11** | Navigation Tab Bar | `.tab-bar`, `.sub-nav` | 04_Components | `c-navigation.css` | 48px touch target |
+| **C12** | Star Rating | `.star-rating` | 04_Components | `c-rating.css` | 24×24px star |
+| **C13** | Media List Item | `.media-list-item` | 04_Components | `c-lists.css` | 48px row height |
+| **C14** | WiFi Quick Modal | `.wifi-modal` | 04_Components | `c-modals.css` | Pattern 4 Modal Overlay |
+| **C15** | Bluetooth Modal | `.bluetooth-modal` | 04_Components | `c-modals.css` | Pattern 4 Modal Overlay |
+| **C16** | Welcome Modal | `.welcome-modal` | 04_Components | `c-modals.css` | Modal (Home ilk giriş) |
+
+> **Detaylı Ölçümler ve BEM Standartları:** Bknz: [[ui-design/01-component-inventory]]
 
 ---
 
@@ -129,6 +139,9 @@ Her CSS component'i için JS modül binding'i:
 | Dosya | Amaç |
 |-------|------|
 | [[index]] | L3 ana dizin |
+| [[ui-design/00-mockup-index]] | 18 PNG Mockup İndeksi (Kanonik UI Tasarım SSOT) |
+| [[ui-design/01-component-inventory]] | C01–C16 Kanonik Bileşen Envanteri |
+| [[ui-design/02-implementation-plan]] | 15 Adımlık CSS Uygulama Planı |
 | [[itcss-architecture]] | CSS mimarisi |
 | [[ADR-001-vanilla-js-itcss]] | Vanilla JS |
 | [[ADR-018-footer-player-vaporwave]] | Footer player |

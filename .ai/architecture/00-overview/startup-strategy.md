@@ -156,7 +156,7 @@ CoreMusic'in 3 fazlı geliştirme stratejisini tanımlayan **Başlangıç Strate
 
 - ✅ 8.1 surround stüdyo kurulumu (8 hoparlör + 1 subwoofer)
 - ✅ Araç içi bilgi-eğlence sistemi (Android Auto)
-- ✅ NAS medya merkezi (Docker deployment)
+- ✅ NAS medya merkezi (Linux deployment)
 - ✅ P2P WebRTC streaming
 - ✅ VST3 plugin hosting (tam destek)
 - ✅ Multi-track recording (16+ track)
@@ -170,7 +170,7 @@ CoreMusic'in 3 fazlı geliştirme stratejisini tanımlayan **Başlangıç Strate
 |---------|---------|-----|
 | 8.1 Surround | 8 hoparlör + 1 subwoofer, Class AB | ADR-038 |
 | Multi-room | 4+ oda, senkron streaming | — |
-| NAS | Synology/QNAP, Docker, 4TB+ | — |
+| NAS | Synology/QNAP, Linux, 4TB+ | — |
 | Car Audio | Raspberry Pi 5 + Android Auto + PCM3168A | — |
 | Studio Monitör | Reference grade, flat response | — |
 
@@ -180,7 +180,7 @@ CoreMusic'in 3 fazlı geliştirme stratejisini tanımlayan **Başlangıç Strate
 |---|-----------|--------|------|------------|
 | M14 | 8.1 Surround | Tam surround konfigürasyon, bass management | 10 hafta | Premium |
 | M15 | Car Integration | Android Auto entegrasyonu, touch UI | 8 hafta | Premium |
-| M16 | NAS Server | Docker deployment, remote management | 6 hafta | Premium |
+| M16 | NAS Server | Linux deployment, remote management | 6 hafta | Premium |
 | M17 | VST3 Full | Tam plugin desteği, preset yönetimi | 10 hafta | Premium |
 | M18 | Multi-track | 16+ track kayıt, mixing, routing | 10 hafta | Premium |
 | M19 | Spatial Audio | 3D ses, object-based audio | 12 hafta | Premium |

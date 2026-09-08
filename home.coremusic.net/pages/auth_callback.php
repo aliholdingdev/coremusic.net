@@ -10,6 +10,7 @@
  */
 
 use CoreMusic\Home\Auth\HomeAuthBridge;
+use CoreMusic\Session\SessionBootstrapper;
 
 /** @var string $cspNonce */
 /** @var string $csrfTokenEsc */
@@ -23,25 +24,8 @@ if ($authKeyRaw === '') {
     exit;
 }
 
-// Session name ve path ayarla (middleware ile tutarlı)
-if (session_status() === PHP_SESSION_NONE) {
-    session_name(defined('SESSION_NAME') ? SESSION_NAME : 'COREMUSIC_SESS');
-    $savePath = ini_get('session.save_path') ?: 'C:\temp';
-    if (!is_dir($savePath)) {
-        @mkdir($savePath, 0777, true);
-    }
-    session_save_path($savePath);
-    $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
-    session_set_cookie_params([
-        'lifetime' => 0,
-        'path'     => '/',
-        'domain'   => '.coremusic.net',
-        'secure'   => $isHttps,
-        'httponly'  => true,
-        'samesite' => 'Lax',
-    ]);
-    session_start();
-}
+// Session başlat — tüm parametreler SessionBootstrapper SSOT'undan gelir
+SessionBootstrapper::ensureStarted();
 
 // Server-side auth_key doğrulama + session oluşturma
 global $homeContainer;

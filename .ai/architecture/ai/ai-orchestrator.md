@@ -48,7 +48,7 @@ AI görevlerinin koordinasyonunu ve dağıtımını yöneten orkestrasyon motoru
 | 5 | **Data Engineer** | `data` | MySQL 9 (18 BCNF), PDO, migration | L0 |
 | 6 | **Embedded Engineer** | `embedded` | C++20, JUCE, ASIO, DSP | L0 |
 | 7 | **QA Engineer** | `qa` | PHPUnit, Vitest, Playwright, E2E | Cross-cutting |
-| 8 | **DevOps Engineer** | `devops` | CI/CD, Docker, deploy, monitoring | CI/CD |
+| 8 | **DevOps Engineer** | `devops` | CI/CD, GitHub Actions, deploy, monitoring | CI/CD |
 | 9 | **Audio HW Engineer** | `audio-hw` | DAC/ADC, PCB, amplifier | HW |
 | 10 | **DSP Firmware Engineer** | `dsp-fw` | XMOS, PCM3168A, DSP chain | FW |
 | 11 | **Windows SW Engineer** | `win-sw` | WASAPI, driver, COM | PLAT |
@@ -67,7 +67,7 @@ AI görevlerinin koordinasyonunu ve dağıtımını yöneten orkestrasyon motoru
 | database, SQL, BCNF, migration, query, schema | Data Engineer | HIGH |
 | C++, ASIO, JUCE, audio, DSP, ring buffer | Embedded Engineer | HIGH |
 | test, coverage, PHPUnit, Vitest, Playwright | QA Engineer | MEDIUM |
-| CI/CD, Docker, deploy, infrastructure, pipeline | DevOps Engineer | HIGH |
+| CI/CD, GitHub Actions, deploy, infrastructure, pipeline | DevOps Engineer | HIGH |
 | vault, documentation, ADR, wiki-link, index | MO (vault-updater) | LOW |
 
 ### 4.2 Priority Levels

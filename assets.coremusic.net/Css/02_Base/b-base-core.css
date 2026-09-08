@@ -23,6 +23,11 @@ body {
   line-height: var(--lh-normal, 1.5);
   color: var(--text-primary, #fff);
   background: var(--theme-bg-base, #0d0a14);
+  background-image: var(--body-bg-image, none);
+  background-attachment: var(--body-bg-attachment, scroll);
+  background-size: var(--body-bg-size, auto);
+  background-position: var(--body-bg-position, center center);
+  background-repeat: var(--body-bg-repeat, no-repeat);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
@@ -71,7 +76,7 @@ input, select, textarea {
 }
 
 :focus-visible {
-  outline: 2px solid var(--theme-primary, #b8a9c9);
+  outline: 3px solid var(--theme-primary, #b8a9c9);
   outline-offset: 2px;
 }
 

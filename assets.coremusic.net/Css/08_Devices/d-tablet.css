@@ -11,11 +11,14 @@
 @import '../01_Abstracts/a-theme-config.css';
 @import '../01_Abstracts/a-colors-token.css';
 @import '../01_Abstracts/a-semantic-token.css';
+@import '../01_Abstracts/a-color-mode-tokens.css';
 @import '../01_Abstracts/a-breakpoint-tokens.css';
 @import '../01_Abstracts/a-layout-tokens.css';
 @import '../02_Base/b-base-core.css';
 @import '../03_Layout/_header.css';
 @import '../03_Layout/_footer.css';
+@import '../04_Components/c-footer-seek.css';
+@import '../04_Components/c-footer-volume.css';
 @import '../05_Pages/_home.css';
 
 /* ============================================================
@@ -60,4 +63,40 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.28);
+}
+
+/* ============================================================
+   LAYOUT CLASSES — Device-based conditional layout
+   ============================================================ */
+
+/* Tablet layout (768-1024px) — touch-first */
+.layout--tablet {
+  /* Split: 45% / 55% */
+  --layout-split-left: 45%;
+  --layout-split-right: 55%;
+
+  /* Card sizes */
+  --card-thumb-size: 160px;
+  --now-playing-art: 120px;
+  --mini-card-art: 60px;
+  --widget-min-h: 120px;
+
+  /* Footer */
+  --footer-h: 95px;
+  --footer-player-art: 130px;
+
+  /* Header */
+  --header-h: 62px;
+
+  /* Content */
+  --content-padding-top: 12px;
+  --content-padding-bottom: 16px;
+  --page-padding-x: 18px;
+
+  /* Font */
+  --text-base: 13px;
+  --text-lg: 15px;
+
+  /* Grid */
+  --grid-gap: 10px;
 }

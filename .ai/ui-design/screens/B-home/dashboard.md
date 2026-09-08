@@ -398,6 +398,8 @@ assets.coremusic.net/Css/
 
 **Desktop ASCII Wireframe:**
 
+> ⚠️ **v3.1 DÜZELTME (2026-09-06):** Aşağıdaki eski wireframe spekülatifti; gerçek PNG analizi bunu doğrulamadı. 1920 desktop doğrusu [[dashboard-1920]] dosyasındadır (Top-Band Home: üst bant 3 kolon + yatay chip satırları — 42/58 split 1920'de yoktur). Canonical kaynak: [[../../mockups/02-home-screens-1920]] v2.1.0.
+
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ 1920×1080 — Desktop — Split Home (42/58)                                                        │

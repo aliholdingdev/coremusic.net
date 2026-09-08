@@ -33,7 +33,7 @@ CoreMusic 11-lı agent sisteminin teknik mimarisini tanımlar. Her agent uzmanl�
 | 5 | **Data Engineer** | `data` | L0 | MySQL 9, PDO, BCNF | Veritabanı, schema, migration |
 | 6 | **Embedded Engineer** | `embedded` | L0 | C++20, JUCE 9, ASIO SDK | Ses motoru, DSP, donanım sürücüleri |
 | 7 | **QA Engineer** | `qa` | Cross-cutting | PHPUnit 11, Vitest, Playwright | Test, coverage, E2E |
-| 8 | **DevOps Engineer** | `devops` | CI/CD | GitHub Actions, Docker | CI/CD, container, monitoring |
+| 8 | **DevOps Engineer** | `devops` | CI/CD | GitHub Actions | CI/CD, monitoring |
 | 9 | **Audio HW Engineer** | `audio-hw` | HW | PCM3168A, AK4458, Class AB | DAC/ADC, PCB, amplifikatör |
 | 10 | **DSP Firmware Engineer** | `dsp-fw` | FW | XMOS XU316, I2S/TDM | DSP zinciri, firmware, sürücüler |
 | 11 | **Windows SW Engineer** | `win-sw` | PLAT | WASAPI, COM, WinRT | Windows ses, sürücü, platform |
@@ -130,10 +130,10 @@ CoreMusic 11-lı agent sisteminin teknik mimarisini tanımlar. Her agent uzmanl�
 | Özellik | Değer |
 |---------|-------|
 | Katman | CI/CD |
-| Teknoloji | GitHub Actions, Docker, GitLeaks, PowerShell/Bash |
-| Sorumluluk | CI/CD pipeline, container yönetimi, monitoring |
+| Teknoloji | GitHub Actions, GitLeaks, PowerShell/Bash |
+| Sorumluluk | CI/CD pipeline, monitoring |
 | Yasak | Application kodu, DB tasarımı, security politikası |
-| Dosya Erişimi | `*.yml`, `*.yaml`, `Dockerfile`, `*.sh`, `*.ps1` |
+| Dosya Erişimi | `*.yml`, `*.yaml`, `*.sh`, `*.ps1` |
 | Test | Pipeline test, smoke test |
 | Kurallar | GitLeaks her commit'te, health check tüm servislerde, rollback stratejisi |
 

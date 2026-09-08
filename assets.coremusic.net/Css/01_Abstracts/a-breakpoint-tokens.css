@@ -27,6 +27,7 @@
   --bp-device-tablet:     1024px;
   --bp-device-embedded:   1024px;   /* RPi5: 1024x600 */
   --bp-device-laptop:     1440px;
+  --bp-device-medium:     1919px;   /* Medium desktop: 1441-1919px */
   --bp-device-desktop:    2560px;
   --bp-device-4k-tv:      3840px;
   --bp-device-4k-monitor: 3841px;
@@ -36,6 +37,7 @@
      ============================================================ */
   --bp-embedded:   1024;
   --bp-laptop:     1440;
+  --bp-medium:     1919;
   --bp-desktop:    2560;
   --bp-4k-tv:      3840;
   --bp-4k-monitor: 3841;

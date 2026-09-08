@@ -453,33 +453,18 @@ mysql -u root coremusic_media_test < .sql/coremusic_media.sql
 mysql -u root coremusic_media_test < tests/fixtures/media.sql
 ```
 
-### 11.3 Docker Compose (Test)
+### 11.3 Test Ortamı
 
 ```yaml
-# docker-compose.test.yml
-version: '3.8'
-services:
-  db:
-    image: mysql:9
-    environment:
-      MYSQL_DATABASE: coremusic_test
-      MYSQL_ROOT_PASSWORD: test
-    ports:
-      - "3306:3306"
-  
-  redis:
-    image: redis:7
-    ports:
-      - "6379:6379"
-  
-  api:
-    build: .
-    depends_on:
-      - db
-      - redis
-    environment:
-      DB_HOST: db
-      REDIS_HOST: redis
+# test-config.yml
+database:
+  host: localhost
+  name: coremusic_test
+  port: 3306
+
+redis:
+  host: localhost
+  port: 6379
 ```
 
 ---

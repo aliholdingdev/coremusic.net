@@ -8,7 +8,7 @@ status: active
 version: 3.3.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total_templates: 26
+total_templates: 25
 total_lines: 22837
 ---
 
@@ -49,7 +49,6 @@ Bu dosya, CoreMusic ekosistemindeki tüm şablonların (template) merkezi indeks
 │   └── vitest-template.md
 ├── infrastructure/             # Altyapı şablonları
 │   ├── migration-template.md
-│   ├── docker-template.md
 │   └── github-actions-template.md
 ├── documentation/              # Dokümantasyon şablonları
 │   ├── api-doc-template.md
@@ -107,8 +106,7 @@ Bu dosya, CoreMusic ekosistemindeki tüm şablonların (template) merkezi indeks
 | # | Template | Teknoloji | Amaç | Satır | Dosya |
 |---|----------|-----------|------|-------|-------|
 | 13 | Migration Template | MySQL 9, BCNF | Database migration | 1349 | [[infrastructure/migration-template]] |
-| 14 | Docker Template | Docker 24+, Compose v2 | Container build | 1482 | [[infrastructure/docker-template]] |
-| 15 | GitHub Actions Template | GH Actions, CI/CD | Pipeline automation | 1466 | [[infrastructure/github-actions-template]] |
+| 14 | GitHub Actions Template | GH Actions, CI/CD | Pipeline automation | 1466 | [[infrastructure/github-actions-template]] |
 
 ### 3.6 Documentation Templates (documentation/)
 
@@ -180,7 +178,7 @@ Yeni dosya oluştururken:
 | Data Engineer | `adr/adr-database-template.md`, `query/Query-Template.md`, `infrastructure/migration-template.md` |
 | Embedded Engineer | `other/c-template.md`, `adr/adr-audio-template.md` |
 | QA Engineer | `testing/phpunit-template.md`, `testing/vitest-template.md` |
-| DevOps Engineer | `infrastructure/docker-template.md`, `infrastructure/github-actions-template.md` |
+| DevOps Engineer | `infrastructure/github-actions-template.md` |
 | Audio Hardware Engineer | `hardware/arduino-template.md`, `hardware/avr-template.md`, `adr/adr-audio-template.md` |
 | DSP Firmware Engineer | `other/c-template.md`, `hardware/avr-template.md` |
 | Windows Software Engineer | `other/c-template.md` |
@@ -193,7 +191,7 @@ Yeni dosya oluştururken:
 | Bug Fix | `adr/adr-template.md` (gerekirse) |
 | Security Audit | `adr/adr-security-template.md`, `documentation/security-audit-template.md` |
 | Database Migration | `infrastructure/migration-template.md`, `query/Query-Template.md` |
-| CI/CD Pipeline | `infrastructure/github-actions-template.md`, `infrastructure/docker-template.md` |
+| CI/CD Pipeline | `infrastructure/github-actions-template.md` |
 | API Documentation | `documentation/api-doc-template.md` |
 | Hardware Design | `hardware/arduino-template.md`, `hardware/avr-template.md`, `hardware/pic-template.md` |
 

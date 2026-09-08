@@ -1,10 +1,10 @@
 /**
- * CoreMusic — main.js v5.0.0
+ * CoreMusic — main.js v6.1.0
  * Ana entry point. PHP HtmlShellRenderer tarafından yüklenir.
  * SPA Router + tüm modülleri başlatır.
  *
  * @module main
- * @version 5.0.0
+ * @version 6.1.0
  */
 import Router from './router/Router.js';
 import { authGuard, roleGuard, permissionGuard } from './router/guards.js';
@@ -15,8 +15,10 @@ import CoreMusicApp from './core/CoreMusicApp.js';
 
 /* ─── Manager Modüller ─── */
 import DeviceManager from './managers/DeviceManager.js';
+import ScaleManager from './managers/ScaleManager.js';
 import ThemeManager from './managers/ThemeManager.js';
 import ViewModeManager from './managers/ViewModeManager.js';
+import SidebarManager from './managers/SidebarManager.js';
 
 /* ─── Feature Modüller ─── */
 import PlayerController from './features/PlayerController.js';
@@ -58,6 +60,10 @@ import TouchManager from './features/TouchManager.js';
         deviceManager.init();
         app.registerModule('device', deviceManager);
 
+        const scaleManager = new ScaleManager(eventBus);
+        scaleManager.init();
+        app.registerModule('scale', scaleManager);
+
         const themeManager = new ThemeManager(eventBus);
         themeManager.init();
         app.registerModule('theme', themeManager);
@@ -65,6 +71,14 @@ import TouchManager from './features/TouchManager.js';
         const viewModeManager = new ViewModeManager(eventBus);
         viewModeManager.init();
         app.registerModule('viewMode', viewModeManager);
+
+        /* Sidebar Manager */
+        const sidebarManager = new SidebarManager(eventBus, {
+            userId: window.CoreMusic?.userId || 'guest',
+            assetsUrl: window.CoreMusic?.assetsUrl || '',
+        });
+        sidebarManager.init();
+        app.registerModule('sidebar', sidebarManager);
 
         /* Feature'lar */
         const player = new PlayerController(eventBus);
@@ -94,7 +108,7 @@ import TouchManager from './features/TouchManager.js';
         window.CoreMusic = window.CoreMusic || {};
         window.CoreMusic.App = app;
         window.CoreMusic.EventBus = eventBus;
-        window.CoreMusic.version = '5.0.0';
+        window.CoreMusic.version = '6.1.0';
     });
 
     window.addEventListener('popstate', () => {

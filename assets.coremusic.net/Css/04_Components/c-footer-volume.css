@@ -1,31 +1,63 @@
+/**
+ * c-footer-volume.css — CoreMusic Footer Volume Slider (KAİ sözleşme)
+ * ITCSS Layer: 04_Components
+ * Version: 2.1.0 — 2026-09-08
+ *
+ * v2.1.0: Referans proje yapısı birebir (örnek: Yeni klasör/c-footer-volume.css):
+ *         #volumeclick  180×10 relative + overflow:hidden + clip-path:inset(0)
+ *         #volume       ABSOLUTE top:0 (input slider — fill ÜSTÜNDE)
+ *         #volume2      ABSOLUTE top:0 (fill — container ÜSTÜNDE)
+ *         Tüm yükseklikler 10px = EŞİT (container=track=fill=thumb)
+ *         Thumb: 10×10 KARE (border-radius:0), #ff00d5
+ *         Geometri+görsel TEK KAYNAK BU DOSYA (ID seçici > class — _footer.css'e taşınmaz)
+ * v2.2.0: Kenar fade — track sağ ve soldan %10 beyaz opacity 0.5 gradient overlay
+ *         (::after, pointer-events:none); rounded kenarlar kaldırıldı (radius:0)
+ * v2.0.0: KAİ coreplayer yapısı — #volumeclick + #volume + #volume2
+ */
 
-.c-footer__volume-slider {
-    position: relative;
-    width: 180px;
-    max-width: 180px;
-    height: 10px;
-    float: right;
-    /* margin-top: 55.5px; */
-    margin-right: 55px;
-    overflow: hidden;
-    clip-path: inset(0);
-}
-
-.c-footer__volume-slider-volume-size {
-    position: absolute;
-    right: 25px;
-    top: 0px;
-    z-index: 2;
-    filter: drop-shadow(0.5px 0.5px 1px rgb(0 0 0 / 100%));
-}
-
+/* ============================================================
+    VOLUME SLIDER — Theme Variables
+    ============================================================ */
 :root {
     --volume-thumb-color: #ff00d5;
     --volume-track-color: #f1f1f1;
-    --volume-fill-color:  #ff69e659;
+    --volume-fill-color:  #ff00d5;
 }
 
-.c-footer-volume-slider{
+/* ============================================================
+    CONTAINER (KAİ: #volumeclick) — 180×10, input+fill üzerine absolute
+    Kenar fade: sağ ve soldan %10 beyaz opacity 0.5 gradient
+    ============================================================ */
+#volumeclick {
+    position: relative;
+    width: 180px;
+    height: 10px;
+    overflow: hidden;
+    clip-path: inset(0);
+    touch-action: none;
+    cursor: pointer;
+}
+
+#volumeclick::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+                rgba(255, 255, 255, 0.5) 0%,
+                rgba(255, 255, 255, 0) 10%,
+                rgba(255, 255, 255, 0) 90%,
+                rgba(255, 255, 255, 0.5) 100%);
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* ============================================================
+    FILL (KAİ: #volume2) — container ÜSTÜNDE absolute, genişlik JS/PHP %
+    ============================================================ */
+#volume2 {
     position: absolute;
     top: 0;
     left: 0;
@@ -35,10 +67,19 @@
     pointer-events: none;
 }
 
+/* ============================================================
+    INPUT SLIDER (KAİ: #volume) — fill ÜSTÜNDE absolute
+    ============================================================ */
 #volume {
     -webkit-appearance: none;
-    background: transparent;
+    appearance: none;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 180px;
+    height: 10px;
+    margin: 0;
+    background: transparent;
     display: block;
     pointer-events: auto;
 }
@@ -47,17 +88,64 @@
     outline: none;
 }
 
+#volume:focus-visible {
+    outline: 2px solid var(--fp-accent, #ff4fd8);
+    outline-offset: 2px;
+}
+
+/* Chrome/Safari — track 10px + thumb 10×10 KARE */
 #volume::-webkit-slider-runnable-track {
     width: 100%;
     height: 10px;
-    cursor: pointer;
     background: var(--volume-track-color);
+    cursor: pointer;
 }
 
 #volume::-webkit-slider-thumb {
     -webkit-appearance: none;
+    appearance: none;
     height: 10px;
     width: 10px;
+    border-radius: 0;
     background: var(--volume-thumb-color);
     cursor: pointer;
+}
+
+/* Firefox — track 10px + thumb 10×10 KARE (native progress gizli — fill #volume2) */
+#volume::-moz-range-track {
+    height: 10px;
+    background: var(--volume-track-color);
+    border: none;
+}
+
+#volume::-moz-range-thumb {
+    height: 10px;
+    width: 10px;
+    border-radius: 0;
+    background: var(--volume-thumb-color);
+    border: none;
+    cursor: pointer;
+}
+
+#volume::-moz-range-progress {
+    background: transparent;
+}
+
+/* ============================================================
+    RESPONSIVE — Tablet/Embedded (1024px, compact genişlik)
+    ============================================================ */
+@media (max-width: 1024px) {
+    #volumeclick,
+    #volume {
+        width: 145px;
+    }
+}
+
+/* ============================================================
+    RESPONSIVE — Mobile (hidden)
+    ============================================================ */
+@media (max-width: 767px) {
+    .volume-set-slider {
+        display: none;
+    }
 }

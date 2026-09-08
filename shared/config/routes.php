@@ -76,6 +76,14 @@ return [
         meta: ['ttlType' => 'user'],
     ),
 
+    // Full-screen music player
+    'player' => new SpaRoute(
+        page: 'player',
+        requiresAuth: true,
+        title: 'Müzik Çalar',
+        cacheable: true,
+    ),
+
     // Placeholder rotalar (yakında implemente edilecek)
     'kesfet' => new SpaRoute(
         page: 'home',

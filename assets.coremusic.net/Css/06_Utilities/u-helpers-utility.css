@@ -9,6 +9,9 @@
 .d-flex    { display: flex !important; }
 .d-grid    { display: grid !important; }
 
+/* Visibility state helpers */
+.is-hidden { display: none !important; }
+
 /* Visibility */
 .invisible { visibility: hidden; }
 .visible   { visibility: visible; }

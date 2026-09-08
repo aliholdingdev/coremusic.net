@@ -2,7 +2,7 @@
  * CoreMusic — Layout Token'ları
  * Header, footer, sidebar boyutları ve layout sabitleri
  * ITCSS Layer: 01_Abstracts
- * Version: 2.0.0 — 2026-08-18
+ * Version: 3.1.0 — 2026-09-05
  *
  * Responsive token sistemi:
  *   :root = 1024px (RPi5 embedded — ana hedef cihaz, PNG mockup ölçümü)
@@ -15,6 +15,13 @@
  *   Card grid: 3 sütun, 140×140px kartlar
  *   Touch: ≥48px, hover YOK
  *   Glass: blur(20px) saturate(180%)
+ *
+ * v3.1.0: Device-aware rendering tokens eklendi (brain.md §18C)
+ *   --spacing-scale, --font-scale, --border-radius-base
+ *   Cihaz sorumluluk sınırları:
+ *     Backend (PHP): davranışsal konfigürasyon (widget count, feature toggle)
+ *     Frontend (CSS): sunum kararları (token, media query, grid)
+ *     PHP'de margin/padding/width/height/font-size KESİNLİKLE YASAK
  */
 
 /* ============================================================
@@ -26,6 +33,13 @@
   /* --- Ekran --- */
   --screen-w: 1024px;
   --screen-h: 600px;
+
+  /* --- Body Background --- */
+  --body-bg-image: url('/Image/background/welcome-popup-girl.png');
+  --body-bg-attachment: fixed;
+  --body-bg-size: cover;
+  --body-bg-position: center;
+  --body-bg-repeat: no-repeat;
 
   /* --- Header: 60px (PNG mockup ölçümü) --- */
   --header-h: 60px;
@@ -47,10 +61,12 @@
   --content-padding: 1rem;
   --content-padding-compact: 1rem;
 
-  /* --- Sidebar: sadece Göz At sayfasında, 167px --- */
-  --sidebar-w: 167px;
-  --sidebar-w-compact: 167px;
+  /* --- Sidebar: 280px (yeni sidebar navigasyon) --- */
+  --sidebar-w: 280px;
+  --sidebar-w-compact: 240px;
   --sidebar-w-collapsed: 64px;
+  --sidebar-w-min: 200px;
+  --sidebar-w-max: 400px;
 
   /* --- Detail panel: 366px --- */
   --detail-panel-w: 366px;
@@ -61,6 +77,20 @@
   --player-art-size: 120px;
   --mini-card-art-size: 50px;
   --widget-h: 100px;
+
+  /* --- Component-specific token'lar (v3.0.0) --- */
+  --now-playing-art-size: 100px;
+  --media-card-thumb-size: 140px;
+  --detail-panel-art-size: 280px;
+  --widget-min-height: 100px;
+  --widget-grid-cols: 2;
+  --footer-album-art-size: 120px;
+  --footer-icon-size: 14px;
+  --footer-btn-min-size: 48px;
+
+  /* --- Home layout grid --- */
+  --home-top-split: 42% 58%;
+  --home-bottom-split: 1fr 1.2fr 0.6fr;
 
   /* --- Touch targets (WCAG 2.2 — RPi5 için büyük) --- */
   --touch-min: 48px;
@@ -73,12 +103,12 @@
   --section-gap: 16px;
   --card-padding: 12px;
 
-  /* --- Font scale: 1× (RPi5) --- */
-  --text-xs: 10px;
-  --text-sm: 11px;
-  --text-base: 12px;
-  --text-lg: 14px;
-  --text-xl: 16px;
+  /* --- Font scale: Hibrit — a-scale-hybrid.css'den akıcı değerler --- */
+  --text-xs: var(--fs-xs, 10px);
+  --text-sm: var(--fs-sm, 11px);
+  --text-base: var(--fs-base, 12px);
+  --text-lg: var(--fs-lg, 14px);
+  --text-xl: var(--fs-xl, 16px);
 
   /* --- Glass --- */
   --glass-blur: blur(20px);
@@ -86,6 +116,11 @@
 
   /* --- Hover: YOK (dokunmatik cihaz) --- */
   --hover-display: none;
+
+  /* --- Device-aware scaling (brain.md §18C) --- */
+  --spacing-scale: 1;
+  --font-scale: 1;
+  --border-radius-base: 8px;
 
   /* --- Z-Index --- */
   --z-sidebar: 50;
@@ -105,9 +140,13 @@
     --header-h: 60px;
     --footer-h: 90px;
     --sidebar-w: 0px;
+    --sidebar-w-compact: 0px;
     --touch-min: 48px;
     --touch-recommended: 56px;
     --text-base: 14px;
+
+    --spacing-scale: 1;
+    --border-radius-base: 8px;
   }
 }
 
@@ -125,6 +164,7 @@
     --page-padding-x: 20px;
 
     --sidebar-w: 0px;
+    --sidebar-w-compact: 0px;
     --detail-panel-w: 400px;
 
     --card-thumb-size: 160px;
@@ -132,6 +172,17 @@
     --player-art-size: 130px;
     --mini-card-art-size: 55px;
     --widget-h: 120px;
+
+    /* Component-specific token override */
+    --now-playing-art-size: 140px;
+    --media-card-thumb-size: 160px;
+    --detail-panel-art-size: 400px;
+    --widget-min-height: 120px;
+    --widget-grid-cols: 2;
+    --footer-album-art-size: 130px;
+    --footer-icon-size: 16px;
+    --footer-btn-min-size: 44px;
+    --home-bottom-split: 1fr 1.4fr 0.8fr;
 
     --touch-min: 44px;
     --touch-recommended: 48px;
@@ -141,11 +192,72 @@
     --section-gap: 20px;
     --card-padding: 14px;
 
-    --text-xs: 11px;
-    --text-sm: 12px;
-    --text-base: 13px;
-    --text-lg: 15px;
-    --text-xl: 17px;
+    /* Hibrit scale: fluid typography a-scale-hybrid.css'den */
+    --text-xs: var(--fs-xs, 11px);
+    --text-sm: var(--fs-sm, 12px);
+    --text-base: var(--fs-base, 13px);
+    --text-lg: var(--fs-lg, 15px);
+    --text-xl: var(--fs-xl, 17px);
+
+    --glass-blur: blur(20px);
+    --glass-saturate: saturate(180%);
+
+    --hover-display: block;
+
+    --spacing-scale: 1;
+    --border-radius-base: 10px;
+  }
+}
+
+/* ============================================================
+   MEDIUM DESKTOP — 1441-1919px (Mouse + Keyboard, large laptop/small desktop)
+   Bridge between laptop and full desktop
+   ============================================================ */
+@media (min-width: 1441px) and (max-width: 1919px) {
+  :root {
+    --header-h: 68px;
+    --footer-h: 100px;
+    --content-h: 872px;
+    --content-padding-top: 13px;
+    --content-padding-bottom: 19px;
+    --page-padding-x: 22px;
+
+    --sidebar-w: 260px;
+    --sidebar-w-compact: 260px;
+    --detail-panel-w: 440px;
+
+    --card-thumb-size: 170px;
+    --album-art-size: 380px;
+    --player-art-size: 135px;
+    --mini-card-art-size: 58px;
+    --widget-h: 130px;
+
+    /* Component-specific token override */
+    --now-playing-art-size: 160px;
+    --media-card-thumb-size: 170px;
+    --detail-panel-art-size: 440px;
+    --widget-min-height: 130px;
+    --widget-grid-cols: 3;
+    --footer-album-art-size: 135px;
+    --footer-icon-size: 18px;
+    --footer-btn-min-size: 44px;
+    --home-bottom-split: 1fr 1.4fr 0.8fr;
+
+    --touch-min: 44px;
+    --touch-recommended: 48px;
+    --touch-large: 56px;
+
+    --grid-gap: 11px;
+    --grid-gap-lg: 18px;
+    --section-gap: 22px;
+    --card-padding: 15px;
+
+    /* Hibrit scale: fluid typography a-scale-hybrid.css'den */
+    --text-xs: var(--fs-xs, 12px);
+    --text-sm: var(--fs-sm, 13px);
+    --text-base: var(--fs-base, 13px);
+    --text-lg: var(--fs-lg, 16px);
+    --text-xl: var(--fs-xl, 18px);
 
     --glass-blur: blur(20px);
     --glass-saturate: saturate(180%);
@@ -179,6 +291,18 @@
     --mini-card-art-size: 48px;
     --widget-h: 80px;
 
+    /* Component-specific token override */
+    --now-playing-art-size: 80px;
+    --media-card-thumb-size: 120px;
+    --detail-panel-art-size: 200px;
+    --widget-min-height: 80px;
+    --widget-grid-cols: 1;
+    --footer-album-art-size: 100px;
+    --footer-icon-size: 14px;
+    --footer-btn-min-size: 48px;
+    --home-top-split: 1fr;
+    --home-bottom-split: 1fr;
+
     --touch-min: 48px;
     --touch-recommended: 56px;
 
@@ -187,17 +311,21 @@
     --section-gap: 16px;
     --card-padding: 12px;
 
-    --text-xs: 10px;
-    --text-sm: 11px;
-    --text-base: 12px;
-    --text-lg: 14px;
-    --text-xl: 16px;
+    /* Hibrit scale: fluid typography a-scale-hybrid.css'den */
+    --text-xs: var(--fs-xs, 10px);
+    --text-sm: var(--fs-sm, 11px);
+    --text-base: var(--fs-base, 12px);
+    --text-lg: var(--fs-lg, 14px);
+    --text-xl: var(--fs-xl, 16px);
 
     /* Glass yok — performans için */
     --glass-blur: none;
     --glass-saturate: none;
 
     --hover-display: none;
+
+    --spacing-scale: 0.8;
+    --border-radius-base: 6px;
   }
 }
 
@@ -227,6 +355,17 @@
     --mini-card-art-size: 60px;
     --widget-h: 140px;
 
+    /* Component-specific token override */
+    --now-playing-art-size: 180px;
+    --media-card-thumb-size: 180px;
+    --detail-panel-art-size: 600px;
+    --widget-min-height: 140px;
+    --widget-grid-cols: 3;
+    --footer-album-art-size: 140px;
+    --footer-icon-size: 18px;
+    --footer-btn-min-size: 48px;
+    --home-bottom-split: 1fr 1.5fr 1fr;
+
     --touch-min: 44px;
     --touch-recommended: 48px;
     --touch-large: 56px;
@@ -236,17 +375,21 @@
     --section-gap: 24px;
     --card-padding: 16px;
 
-    --text-xs: 12px;
-    --text-sm: 13px;
-    --text-base: 14px;
-    --text-lg: 16px;
-    --text-xl: 18px;
+    /* Hibrit scale: fluid typography a-scale-hybrid.css'den */
+    --text-xs: var(--fs-xs, 12px);
+    --text-sm: var(--fs-sm, 13px);
+    --text-base: var(--fs-base, 14px);
+    --text-lg: var(--fs-lg, 16px);
+    --text-xl: var(--fs-xl, 18px);
 
     --glass-blur: blur(20px);
     --glass-saturate: saturate(180%);
 
     /* Hover aktif — fare tabanlı */
     --hover-display: block;
+
+    --spacing-scale: 1.1;
+    --border-radius-base: 10px;
   }
 }
 
@@ -276,6 +419,17 @@
     --mini-card-art-size: 70px;
     --widget-h: 160px;
 
+    /* Component-specific token override */
+    --now-playing-art-size: 220px;
+    --media-card-thumb-size: 220px;
+    --detail-panel-art-size: 560px;
+    --widget-min-height: 160px;
+    --widget-grid-cols: 3;
+    --footer-album-art-size: 160px;
+    --footer-icon-size: 20px;
+    --footer-btn-min-size: 52px;
+    --home-bottom-split: 1fr 1.5fr 1fr;
+
     --touch-min: 44px;
     --touch-recommended: 48px;
     --touch-large: 56px;
@@ -285,43 +439,69 @@
     --section-gap: 28px;
     --card-padding: 18px;
 
-    --text-xs: 13px;
-    --text-sm: 14px;
-    --text-base: 15px;
-    --text-lg: 18px;
-    --text-xl: 20px;
+    /* Hibrit scale: fluid typography a-scale-hybrid.css'den */
+    --text-xs: var(--fs-xs, 13px);
+    --text-sm: var(--fs-sm, 14px);
+    --text-base: var(--fs-base, 15px);
+    --text-lg: var(--fs-lg, 18px);
+    --text-xl: var(--fs-xl, 20px);
 
     --glass-blur: blur(20px);
     --glass-saturate: saturate(180%);
 
     --hover-display: block;
+
+    --spacing-scale: 1.2;
+    --border-radius-base: 12px;
   }
 }
 
 /* ============================================================
-   4K TV — ≥3840px (D-pad, focus-only, 10ft UI, 30px overscan)
-   Samsung Tizen, LG webOS, Android TV
+   4K UHD TV — ≥3840px (4K TV, Smart TV)
+   Zoom: ×2 (1920 × 2 = 3840)
+   Container ortalama YOK — top-left sabit ölçek
    ============================================================ */
 @media (min-width: 3840px) {
   :root {
     --screen-w: 3840px;
     --screen-h: 2160px;
 
-    --header-h: 90px;
-    --footer-h: 138px;
-    --content-h: 1932px;
+    --header-h: 80px;
+    --header-h-compact: 80px;
+    --header-h-4k: 80px;
+
+    --footer-h: 120px;
+    --footer-h-compact: 120px;
+    --footer-h-4k: 120px;
+
+    --content-h: 1960px;
     --content-padding-top: 18px;
     --content-padding-bottom: 24px;
     --page-padding-x: 32px;
+    --content-padding: 1.5rem;
+    --content-padding-compact: 1.5rem;
+    --content-max-w: 1920px; /* zoom:2 ile 3840px görsel genişlik — viewport'u tam doldurur */
 
     --sidebar-w: 320px;
+    --sidebar-w-compact: 320px;
     --detail-panel-w: 640px;
 
     --card-thumb-size: 280px;
     --album-art-size: 600px;
-    --player-art-size: 180px;
+    --player-art-size: 200px;
     --mini-card-art-size: 80px;
-    --widget-h: 200px;
+    --widget-h: 180px;
+
+    --now-playing-art-size: 280px;
+    --media-card-thumb-size: 280px;
+    --detail-panel-art-size: 640px;
+    --widget-min-height: 180px;
+    --widget-grid-cols: 3;
+    --footer-album-art-size: 200px;
+    --footer-icon-size: 24px;
+    --footer-btn-min-size: 60px;
+    --home-top-split: 1fr 1.5fr 1fr;
+    --home-bottom-split: 1fr 1.5fr 1fr;
 
     --touch-min: 60px;
     --touch-recommended: 64px;
@@ -332,17 +512,37 @@
     --section-gap: 32px;
     --card-padding: 20px;
 
-    --text-xs: 16px;
-    --text-sm: 18px;
-    --text-base: 20px;
-    --text-lg: 24px;
-    --text-xl: 28px;
+    --text-xs: var(--fs-xs, 16px);
+    --text-sm: var(--fs-sm, 18px);
+    --text-base: var(--fs-base, 20px);
+    --text-lg: var(--fs-lg, 24px);
+    --text-xl: var(--fs-xl, 28px);
 
-    /* Düşük blur — TV performansı */
     --glass-blur: blur(4px);
-    --glass-saturate: none;
+    --glass-saturate: saturate(120%);
 
-    /* Hover YOK — D-pad/focus ile navigasyon */
-    --hover-display: none;
+    --hover-display: block;
+
+    --spacing-scale: 1.6;
+    --border-radius-base: 14px;
   }
 }
+
+/* ============================================================
+   4K UHD Monitor — ≥3841px (4K Desktop Monitor, mouse+keyboard)
+   TV'den daha büyük, fare tabanlı etkileşim
+   ============================================================ */
+@media (min-width: 3841px) {
+  :root {
+    --header-h: 90px;
+    --header-h-4k-monitor: 90px;
+
+    --footer-h: 130px;
+    --footer-h-4k-monitor: 130px;
+
+    --content-max-w: 1920px; /* zoom:2 ile 3840px görsel genişlik — viewport'u tam doldurur */
+    --sidebar-w: 340px;
+    --detail-panel-w: 700px;
+  }
+}
+

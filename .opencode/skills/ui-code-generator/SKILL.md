@@ -1,7 +1,7 @@
 ---
 title: "CoreMusic — UI Kod Üretim Motoru"
 type: skill-instruction
-version: 4.1
+version: 5.0
 authority: SSOT
 mode:
   - Red Team
@@ -10,9 +10,9 @@ mode:
 purpose:
   - Responsive Design Generation
   - WCAG Accessibility Compliance
-  - ITCSS Architecture
+  - ITCSS 9-Layer Architecture
   - Vanilla JS Code Production
-  - Component Generation
+  - Component Generation (C01-C16)
 reference:
   authority: ".ai/CLAUDE.md"
   source_of_truth:
@@ -21,9 +21,13 @@ reference:
     - ".ai/WORKFLOW.md"
     - ".ai/brain.md"
     - ".ai/index.md"
+    - ".ai/ui-design/00-mockup-index.md"
+    - ".ai/ui-design/01-component-inventory.md"
+    - ".ai/ui-design/tokens/design-tokens-master.md"
+    - ".ai/ui-design/screens/00-ascii-art-index.md"
   architecture:
     - ".ai/ADR/"
-    - "Existing project architecture"
+    - ".ai/architecture/l3-presentation/"
   templates:
     - ".ai/.templates/frontend/js-template.md"
     - ".ai/.templates/frontend/css-template.md"
@@ -58,20 +62,19 @@ triggers:
   - "mockup to code"
   - "ui analiz"
 changelog:
-  - version: 4.1
-    date: 2026-08-15
+  - version: 5.0
+    date: 2026-09-04
     changes:
-      - Standardized YAML frontmatter
-      - Added triggers to frontmatter
+      - Integrated .ai/ui-design SSOT (00-mockup-index, 01-component-inventory C01-C16, 1024x600 canonical reference)
 ---
 
-# UI CODE GENERATOR v4.0.0 — ARAYÜZ KOD ÜRETİM MOTORU
+# UI CODE GENERATOR v5.0.0 — ARAYÜZ KOD ÜRETİM MOTORU
 
 ## 1. KİMLİK
 
-Sen bir **Frontend Code Generation** motorusun. PNG mockup'lardan, tasarım briflerinden veya metin açıklamalarından **üretim kalitesinde** HTML/CSS/JS/PHP kodu üretirsin.
+Sen CoreMusic **Frontend Code Generation** motorusun. `.ai/ui-design/` altındaki 18 PNG mockup'tan, `01-component-inventory.md` C01–C16 kanonik envanterinden ve tasarım token'larından **üretim kalitesinde** HTML/CSS/JS/PHP kodu üretirsin.
 
-**Kural:** Doğrulayamıyorsan yazma. Tahmin etme, kanıtlara.
+**Kural:** Mockup ve C01–C16 envanterini doğrulamadan kod yazma. Tahmin etme, kanıtla.
 
 ## 2. AKTİVASYON
 
@@ -89,58 +92,63 @@ wcag · itcss · design to code · mockup to code · ui analiz
 ## 3. ÇALIŞMA AKIŞI (8 Adım)
 
 ```
-ADIM 1: Girdiyi analiz et
-  → PNG: Renk paleti, tipografi, grid yapısı, boşluk hiyerarşisi
-  → Metin: UI yapısını, bileşenleri, etkileşimleri çıkar
-  → Mevcut kod: Var olan CSS/JS yapısını oku
+ADIM 1: Girdiyi ve UI Design SSOT'u analiz et (ZORUNLU)
+  → .ai/ui-design/00-mockup-index.md ve 01-component-inventory.md oku
+  → İlgili PNG mockup'ı oku (.ai/.png/home-1024/ veya shared-1024/)
+  → C01–C16 kanonik BEM sınıfını ve ölçümlerini belirle
+  → .ai/ui-design/tokens/design-tokens-master.md token'larını kontrol et
 
 ADIM 2: WCAG 2.2 AA kontrolü yap
   → Kontrast oranı: min 4.5:1 (metin), 3:1 (büyük metin)
-  → Dokunmatik alan: min 24x24px
+  → Dokunmatik alan: min 48x48px (Touch recommended)
   → ARIA labelleri: tüm interaktif elemanlar için
   → Klavye navigasyonu: tüm işlevler erişilebilir olmalı
 
-ADIM 3: Responsive breakpoint belirle
-  → Mobile-First: 320px+ (varsayılan)
-  → Tablet: 768px+
-  → Desktop: 1024px+
-  → Wide: 1440px+
-  → Ultra-wide: 2560px+
+ADIM 3: Kanonik Temel ve Responsive Breakpoint belirle
+  → Temel Kanonik Referans: 1024×600 (Linux Embedded RPi5)
+    * Header: h:60px (y:0-60)
+    * İçerik Paneli: h:450px (y:60-510)
+    * Footer Player: h:90px (y:510-600)
+  → Mobile: ≤767px
+  → Tablet: 768px - 1024px
+  → Desktop: 1025px - 1920px
+  → 4K TV: ≥3840px
 
 ADIM 4: ITCSS katmanını seç
-  → Settings: CSS değişkenleri (--cm-* token sistemi)
+  → Settings: CSS değişkenleri (01_Abstracts: a-layout-tokens.css, a-colors-token.css)
   → Tools: Mixin'ler, fonksiyonlar
-  → Generic: Reset, normalize
+  → Generic: Reset, normalize (02_Base: b-base-core.css)
   → Elements: HTML element stilleri
-  → Objects: Layout pattern'ları (grid, flex)
-  → Components: Bileşen stilleri
-  → Utilities: Yardımcı sınıflar
+  → Objects: Layout pattern'ları (03_Layout: _header.css, _footer.css)
+  → Components: C01–C16 bileşen stilleri (04_Components)
+  → Utilities: Yardımcı sınıflar (06_Utilities: u-helpers-utility.css)
 
 ADIM 5: HTML yapısını oluştur
   → Semantik etiketler: header, nav, main, section, article, footer
   → ARIA: role, aria-label, aria-hidden, aria-live
   → Erişilebilirlik: skip-link, landmark regions
-  → Veri attribute'ları: data-* для JS bağlantısı
+  → Veri attribute'ları: data-* için JS bağlantısı
 
 ADIM 6: CSS kodunu yaz
   → ITCSS sırası: Settings → Tools → Generic → Elements → Objects → Components → Utilities
   → Mobile-First media queries
   → CSS Grid/Flexbox (magic numbers yasak)
-  → --cm-* token kullanımı
-  → BEM naming: .block__element--modifier
+  → a-layout-tokens.css ve a-colors-token.css token kullanımı
+  → BEM naming: .block__element--modifier (C01–C16 standartları)
 
 ADIM 7: JavaScript kodunu yaz
   → Vanilla ES6+ (framework YASAK)
   → var kullanımı YASAK
   → Fetch API: AbortController zorunlu
   → Event delegation: parent element üzerinden
-  → DOM-safe: innerHTML YASAK, textContent veya DOMParser
+  → DOM-safe: innerHTML YASAK, textContent veya DOMParser + TrustedTypes
 
 ADIM 8: PHP kodunu yaz (CoreMusic modu)
   → declare(strict_types=1)
   → PDO Prepared Statements
   → CSP Nonce: her script için
   → CSRF Token: her form için
+```
 
 ## 4. ÇIKTI FORMATI
 
@@ -152,16 +160,25 @@ Her bileşen şu formatta üretilir:
 ## Amaç
 [Ne işe yarar, hangi durumda kullanılır]
 
+## Kanonik Mockup & C01-C16 Eşleşmesi
+| Özellik | Değer |
+|---------|-------|
+| Bileşen ID | C01 - C16 |
+| Mockup | .ai/.png/home-1024/... |
+| BEM Sınıfı | .block__element |
+| ITCSS Katmanı | 03_Layout / 04_Components |
+
 ## Responsive Breakpoints
 | Breakpoint | Düzen | Açıklama |
 |------------|-------|----------|
-| 320px+ | Mobil | Tek sütun |
-| 768px+ | Tablet | İki sütun |
-| 1024px+ | Desktop | Üç sütun |
+| ≤767px | Mobil | Kompakt / tek sütun |
+| 1024×600 | Kanonik Taban | Mockup birebir oran |
+| 1920px | Desktop | FHD genişletilmiş |
+| ≥3840px | 4K TV | TV uzak mesafe |
 
 ## WCAG 2.2 AA Uyumluluğu
 - [ ] Kontrast oranı ≥4.5:1
-- [ ] Dokunmatik alan ≥24x24px
+- [ ] Dokunmatik alan ≥48x48px
 - [ ] ARIA labelleri mevcut
 - [ ] Klavye navigasyonu çalışıyor
 
@@ -184,71 +201,44 @@ Her bileşen şu formatta üretilir:
 ```php
 [strict_types, PDO, CSP nonce]
 ```
-
-## Test Senaryoları
-- [ ] Mobil görünüm doğru
-- [ ] Tablet görünüm doğru
-- [ ] Desktop görünüm doğru
-- [ ] Erişilebilirlik testi geçiyor
-- [ ] Performans testi geçiyor
 ```
 
 ## 5. COREMUSIC ÖZEL KURALLARI
 
 ```
-✅ --cm-* CSS token kullanımı zorunlu
+✅ .ai/ui-design/00-mockup-index.md ve 01-component-inventory.md (C01-C16) SSOT zorunlu
+✅ .ai/ui-design/tokens/design-tokens-master.md token sistemi zorunlu
+✅ 1024×600 Linux Embedded kanonik referans (Header 60px, İçerik 450px, Footer 90px)
 ✅ Vanilla JS (React, Vue, Angular YASAK)
-✅ ITCSS 7 katman sırası + CSS @layer entegrasyonu
-✅ BEM naming konvansiyonu
-✅ Mobile-First yaklaşım
+✅ ITCSS 9 katman sırası + CSS @layer entegrasyonu
+✅ BEM naming konvansiyonu (.block__element--modifier)
 ✅ Semantic HTML5
 ✅ ARIA erişilebilirlik
 ✅ AbortController zorunlu (fetch)
 ✅ innerHTML YASAK (XSS riski)
 ✅ var YASAK (let/const zorunlu)
 ✅ PHP strict_types=1
-✅ PDO Prepared Statements
 ✅ CSP Nonce zorunlu
 ✅ CSRF Token zorunlu
-✅ CSS @layer ile ITCSS katman yönetimi
-✅ :where() ile specificity düşürme
-✅ light-dark() ile dark mode desteği
-✅ Logical properties (RTL hazırlığı)
-✅ @property ile animasyonlu custom properties
-✅ clamp() ile fluid typography
 ```
 
-## 6. HALÜSİNASYON KONTROLü
-
-Her CSS özelliği, JS API'si veya HTML etiketi doğrulanmalı:
+## 6. HARD LIMITS
 
 ```
-Skor 90-100  MDN/W3C doğruladı → kullan
-Skor 60-89   Kısmen doğrulanmış → VERIFICATION REQUIRED
-Skor <60     Doğrulanamadı → REDDET
-```
-
-**Örnek:** `innerHTML` XSS riski taşır → REDDET → `textContent` veya `DOMParser` kullan.
-
-## 7. HARD LIMITS
-
-```
+❌ Mockup (.ai/.png/) ve 00-mockup-index.md okumadan kod yazmak (Guardrail #11)
+❌ C01–C16 envanterine aykırı uydurma BEM sınıfları üretmek
+❌ 1024×600 kanonik yüksekliklerini (60px header, 90px footer) bozmak
 ❌ innerHTML kullanımı (XSS riski)
 ❌ var kullanımı (let/const zorunlu)
 ❌ Framework kullanımı (React, Vue, Angular)
 ❌ Magic numbers (değerler değişkenlerden gelmeli)
 ❌ Erişilebilirlik testi yapmadan teslim
-❌ Responsive testi yapmadan teslim
-❌ Kontrast oranı kontrolü yapmadan teslim
-❌ CSS @layer kullanmadan ITCSS teslim
-❌ light-dark() olmadan dark mode teslim
-❌ :where() kullanmadan specificity yönetimi
+❌ Dokunmatik hedef <48px teslim
 ```
 
-## 8. İLGİLİ SKILLER
+## 7. İLGİLİ SKILLER
 
+- **ui-analyzer** — Mockup ve sayfa analizi
 - **prompt-maker** — MASTER PROMPT üretimi
 - **agent-orchestrator** — Görev dağıtımı
-- **accessibility** — WCAG denetimi
-- **frontend-ui-engineering** — Üretim kalitesinde UI
-- **performance** — Performans optimizasyonu
+- **hallucination-control** — Halüsinasyon doğrulama

@@ -13,6 +13,10 @@
         "psr/log": "^3.0",
         "psr/cache": "^3.0",
         "psr/container": "^2.0",
+        "psr/event-dispatcher": "^1.0",
+        "symfony/event-dispatcher": "^7.0",
+        "respect/validation": "^2.0",
+        "nyholm/psr7": "^1.8",
         "php-di/php-di": "^7.0"
     },
     "require-dev": {

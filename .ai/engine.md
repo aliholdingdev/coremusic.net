@@ -52,7 +52,8 @@ Bu bölümler sadece bu dosyada bulunur:
 | Sağlık kontrolü | [[AGENTS.md]] §11 |
 | Context lock | [[AGENTS.md]] §12 |
 | UI Design | [[ui-design/00-mockup-index]] |
-| Mockup PNG'ler | `.ai/.png/home-1024/`, `.ai/.png/shared-1024/` |
+| Mockup PNG'ler | `.ai/.png/home-1024/`, `.ai/.png/home-1920/`, `.ai/.png/shared-1024/` |
+| Responsive kuralları | [[ui-design/responsive-device-mode]] (4K No-Center §7.4, Backward-Compat §12) |
 
 ---
 

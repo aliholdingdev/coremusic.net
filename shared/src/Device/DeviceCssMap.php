@@ -4,14 +4,15 @@ namespace CoreMusic\Device;
 
 final class DeviceCssMap
 {
+    /** Home device CSS — 4K tek SSOT: d-4k.css (v3.0.0, ≥3840px zoom ölçek) */
     private const DEVICE_CSS = [
         'embedded'   => '08_Devices/d-embedded.css',
         'phone'      => '08_Devices/d-phone.css',
         'tablet'     => '08_Devices/d-tablet.css',
         'laptop'     => '08_Devices/d-laptop.css',
         'desktop'    => '08_Devices/d-desktop.css',
-        '4k-tv'      => '08_Devices/d-4k-tv.css',
-        '4k-monitor' => '08_Devices/d-4k-monitor.css',
+        '4k-tv'      => '08_Devices/d-4k.css',
+        '4k-monitor' => '08_Devices/d-4k.css',
     ];
 
     private const AUTH_DEVICE_CSS = [

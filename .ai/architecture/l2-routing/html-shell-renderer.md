@@ -3,9 +3,9 @@ type: architecture
 category: l2
 title: "HTML Shell Renderer — SPA HTML Shell Üretimi"
 date: 2026-08-16
-updated: 2026-08-16
+updated: 2026-09-05
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -218,19 +218,75 @@ $html = $this->shellRenderer->render($container, $route, $meta, $csrfToken, $pro
 
 ---
 
-## 9. Auth Route Detection
+## 9. Auth Route Detection & Conditional Branching
 
-Auth sayfaları farklı HTML shell üretir:
+`HtmlShellRenderer::render()` içinde `$isAuthRoute` boolean'ı **6 ayrı conditional bloğu** yönetir:
 
 ```php
 $isAuthRoute = AuthRouteConfig::isAuthRoute($route);
+```
 
-if ($isAuthRoute) {
-    // Minimal shell: header/footer yok, sadece main
-    return '<body class="auth-page" data-device="...">'
-        . $csrfInput
-        . '<main id="main-content">' . $container . '</main>';
-}
+### 9.1 CSS Yükleme Farkları
+
+| Blok | Auth Route | Non-Auth Route |
+|------|-----------|---------------|
+| Ana CSS | `auth-bundled.css` | `main.css` (ITCSS 9-layer) |
+| Cihaz CSS | `d-auth-{device}.css` | `d-{device}.css` |
+| View Mode CSS | Yok | `v-{mode}.css` |
+| Sidebar CSS | Yok | `s-{mode}.css` |
+
+### 9.2 Body Class Farkı
+
+```php
+// Auth route:
+'<body class="auth-page" data-device="...">'
+
+// Non-auth route:
+'<body data-device="{device-type}" data-view="{view-mode}">'
+```
+
+### 9.3 Main Tag Farkı
+
+```php
+// Auth route:
+'<main id="main-content">' . $container . '</main>'
+
+// Non-auth route:
+'<main class="l-main-wrapper" id="main-content" aria-busy="false">' . $container . '</main>'
+```
+
+### 9.4 Device Loader Data Attribute
+
+```php
+// Auth route:
+'data-is-auth="true"'
+
+// Non-auth route:
+'data-is-auth="false"'
+```
+
+### 9.5 Layout Updater Script
+
+```php
+// Non-auth route SADECE:
+'<script nonce="{nonce}" src="{assets}/js/device-layout-updater.js"></script>'
+
+// Auth route: Bu script YÜKLENMEZ
+```
+
+### 9.6 Auth-Specific Scripts
+
+```php
+// Auth route SADECE:
+'<script nonce="{nonce}" src="{assets}/js/auth-theme.js"></script>'
+'<script nonce="{nonce}" src="{assets}/js/auth-gender-bg.js"></script>'
+
+// Sayfa bazlı ek scriptler (auth route'larda):
+// select-gender → gender-select.js
+// login → login.js
+// register → register.js
+
+// Non-auth route: Bu scriptler YÜKLENMEZ
 ```
 
 ---
@@ -263,12 +319,13 @@ if ($isAuthRoute) {
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 1.0.0 |
+| **Versiyon** | 2.0.0 |
 | **ADR Uyumlu** | ✅ 012, 043, 044 |
+| **Auth Route Branching** | 6 conditional blok (CSS, body, main, data-attr, layout-updater, auth-scripts) |
 | **Zero Hallucination** | ✅ (referans proje tabanlı) |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-16
+**Last Updated:** 2026-09-05
 **Mode:** Red Team · Human Mode · Truth Mode

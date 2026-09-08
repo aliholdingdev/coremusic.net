@@ -1,0 +1,212 @@
+/**
+ * CoreMusic — 4K UHD Ölçek Katmanı (Tek SSOT — d-4k-tv.css + d-4k-monitor.css birleşimi)
+ * ITCSS Layer: 08_Devices
+ * Version: 3.0.0 — 2026-09-06
+ *
+ * MİMARİ SÖZLEŞME (ScaleManager.js v7 ile):
+ *   ScaleManager ≥2561px'te skip:true → transform'ları sıfırlar, ölçeği CSS'e devreder.
+ *   Bu dosya ≥3840px'te 1920px tabanlı normal görünümü KORUR ve ölçeği zoom ile sağlar.
+ *
+ * Kullanıcı kuralları:
+ *   - 1920px normal görünüm korunur; 4K uyumluluk scale ile sağlanır.
+ *   - Container için ortalama (average/centering) değeri YOK — top-left sabit ölçek.
+ *   - min-width: 3840px altında 4K UHD'ye özel kurallar.
+ *
+ * Ölçek Kademeleri (Adım Değerleri: 1, 2, 3):
+ *   Kademe 1: <3840px  → ×1 (native; 1025-2560 ScaleManager enterpolasyonu)
+ *   Kademe 2: ≥3840px  → ×2 (4K UHD: 1920 × 2 = 3840)
+ *   Kademe 3: ≥7680px  → ×3 (8K UHD: 1920 × 3 = 5760; kalan sağ boşluk bilinçli — ortalama yok)
+ *
+ * Tampon (Buffer) Değerleri: 1, 2, 3 → --cm-buffer-1/2/3
+ * Kontrast/Ölçek Oranı: 1.2 → --cm-scale-ratio (modüler tipografi referansı)
+ *
+ * WCAG 2.2 AA: 3px odak konturu (1.4.11 non-text contrast, currentColor ≥3:1);
+ *              hover/active durumları bozulmaz, yalnızca ölçeklenir.
+ *
+ * Eski motor fallback: zoom desteklemeyen motorlar (eski Firefox <126) için
+ * transform: scale telafisi. Bilinen sınırlama: transform altında fixed çocuklar
+ * body kutusuna bağlanır (scroll'da header/footer sabit kalmaz) — yalnız fallback yolu.
+ *
+ * Sözleşme zinciri: device-loader.js → devices.config.js / DeviceCssMap.php → d-4k.css
+ * ('4k-tv' ve '4k-monitor' anahtarları TEK bu dosyaya işaret eder.)
+ */
+
+@import '../01_Abstracts/a-theme-config.css';
+@import '../01_Abstracts/a-colors-token.css';
+@import '../01_Abstracts/a-semantic-token.css';
+@import '../01_Abstracts/a-breakpoint-tokens.css';
+@import '../01_Abstracts/a-layout-tokens.css';
+@import '../01_Abstracts/a-fonts-token.css';
+@import '../01_Abstracts/a-scale-hybrid.css';
+@import '../02_Base/b-base-core.css';
+@import '../03_Layout/_header.css';
+@import '../03_Layout/_footer.css';
+@import '../04_Components/c-footer-seek.css';
+@import '../04_Components/c-footer-volume.css';
+@import '../05_Pages/_home.css';
+
+/* ============================================================
+   ÖLÇEK TOKEN'LARI
+   ============================================================ */
+:root {
+  --cm-buffer-1: 1px;
+  --cm-buffer-2: 2px;
+  --cm-buffer-3: 3px;
+  --cm-scale-step-1: 1;
+  --cm-scale-step-2: 2;
+  --cm-scale-step-3: 3;
+  --cm-scale-ratio: 1.2;
+  --cm-4k-base-width: 1920px;
+}
+
+/* ============================================================
+   KADEME 2 — 4K UHD (≥3840px): ×2
+   zoom, layout'u da ölçekler (scroll, fixed konum ve medya sorguları stabil kalır)
+   ============================================================ */
+@media (min-width: 3840px) {
+  body {
+    zoom: var(--cm-scale-step-2);
+  }
+
+  /* Fixed positioning — zoom altında header/footer yüksekliklerini ayarla */
+  .site-header {
+    height: var(--header-h, 80px);
+  }
+
+  .footer,
+  .player-footer {
+    min-height: var(--footer-h, 120px);
+  }
+
+  /* Content constraint — zoom altında max-width korunması */
+  .home-layout,
+  .standard-60-40,
+  .three-column-layout {
+    max-width: var(--content-max-w, 1920px); /* zoom:2 ile 3840px görsel — fallback 1920px */
+    margin-inline: auto;
+  }
+
+  /* Scroll stabilitesi — zoom altında yumuşak scroll */
+  .home-layout,
+  .standard-60-40,
+  .three-column-layout {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ============================================================
+   KADEME 3 — 8K UHD (≥7680px): ×3
+   ============================================================ */
+@media (min-width: 7680px) {
+  body {
+    zoom: var(--cm-scale-step-3);
+  }
+}
+
+/* ============================================================
+   FALLBACK — zoom desteklemeyen eski motorlar (Firefox <126, eski Safari)
+   transform: scale ile telafisi. Bilinen sınırlama:
+   transform altında fixed çocuklar body kutusuna bağlanır
+   (scroll'da header/footer sabit kalmaz) — yalnız fallback yolu.
+   ============================================================ */
+@supports not (zoom: 1) {
+  @media (min-width: 3840px) {
+    html {
+      overflow-x: hidden;
+    }
+
+    body {
+      width: var(--cm-4k-base-width);
+      transform: scale(var(--cm-scale-step-2));
+      transform-origin: top left;
+    }
+
+    /* Fallback'te fixed positioning sorunlarını telafi et */
+    .site-header {
+      position: absolute;
+      width: var(--cm-4k-base-width);
+    }
+
+    .footer,
+    .player-footer {
+      position: relative;
+      width: var(--cm-4k-base-width);
+    }
+  }
+
+  @media (min-width: 7680px) {
+    body {
+      transform: scale(var(--cm-scale-step-3));
+    }
+
+    .site-header {
+      width: var(--cm-4k-base-width);
+    }
+
+    .footer,
+    .player-footer {
+      width: var(--cm-4k-base-width);
+    }
+  }
+}
+
+/* ============================================================
+   WCAG 2.2 — Odak görünürlüğü (3px kontur) — 4K kapsam
+   1.4.11 non-text contrast: currentColor ≥3:1
+   ============================================================ */
+@media (min-width: 3840px) {
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    outline: var(--cm-buffer-3) solid currentColor;
+    outline-offset: var(--cm-buffer-2);
+  }
+
+  /* Hover/active durumları — 4K'da da görünür, bozulmaz */
+  .nav-link:hover {
+    opacity: 0.85;
+  }
+
+  .nav-link:active {
+    opacity: 0.7;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-hover);
+  }
+
+  .btn-primary:active {
+    background: var(--accent-active);
+  }
+
+  .btn-secondary:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .btn-secondary:active {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Mini music card hover/active */
+  .mini-music-card:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .mini-music-card:active {
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  /* Media card hover/active */
+  .media-card:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
+  }
+
+  .media-card:active {
+    background: var(--glass-bg-active);
+  }
+}

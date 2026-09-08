@@ -216,7 +216,7 @@ shared/
 
 ---
 
-## 7. Hard Guardrails (16 Kural)
+## 7. Hard Guardrails (17 Kural)
 
 | # | Kural | Uygulama | İhlal Sonucu |
 |---|-------|----------|--------------|
@@ -230,13 +230,33 @@ shared/
 | 8 | Port 81 = music.coremusic.net | PHP 8.4 | Yanlış port yasak |
 | 9 | No ORM | Raw PDO only (ADR-002) | ORM kullanımı reddedilir |
 | 10 | No Frameworks | Vanilla JS + ITCSS (ADR-001) | Framework reddedilir |
-| 11 | Mockup Before Frontend | Frontend görevinde mockup okunmadan kod yazılamaz | Kod revert edilir |
+| 11 | **Mockup Before Frontend** | **KESİNLİKLE YASAK:** Frontend görevinde `.ai/ui-design/00-mockup-index.md` + `.ai/ui-design/01-component-inventory.md` (18 PNG mockup, C01-C16 envanteri) + `.ai/ui-design/tokens/design-tokens-master.md` OKUNMADAN kod yazılamaz. Görsel okunamıyorsa DUR ve bildir. | **Kod derhal revert edilir + CRITICAL log** |
 | 12 | Contradiction Gate | Vault'ta çelişki varsa kullanıcıya sor, onay bekle | İşlem durur |
 | 13 | Session Continuity | Her oturum başlangıcında geçmiş session'dan devam et | Bağlam kaybolur |
 | 14 | Human Approval Gate | Mimari karar öncesi kullanıcı onayı zorunlu | Kod revert edilir |
 | 15 | Vault-First Mandatory | AI, .ai/ vault'unu (CLAUDE.md + AGENTS.md + WORKFLOW.md + brain.md + ROLE.md) OKUMADAN hiçbir plan/kod/faaliyet başlatamaz | İşlem derhal durdurulur + revert |
 | 16 | Template Mandatory | Yeni dosya oluşturulurken `.ai/.templates/index.md`'den uygun template seçilmek ZORUNLU | Dosya geçersiz |
-| 17 | Single Component Responsive | 1024x600 mockup = pixel reference. Tek component sistemi + responsive CSS. Ayrı HTML/branch YASAK. CSS variables + media queries. Device CSS sadece behavioral override. | Kod revert edilir |
+| 17 | Single Component Responsive | 1024x600 mockup = pixel reference ([[ui-design/screens/00-ascii-art-index]]: Header 60px y:0-60, İçerik 450px y:60-510, Footer 90px y:510-600). Tek component sistemi + responsive CSS. Ayrı HTML/branch YASAK. CSS variables + media queries. Device CSS sadece behavioral override. | Kod revert edilir |
+
+### 7.1 Guardrail #11 Detay — Frontend Zorunlu Okuma Protokolü
+
+**⚠️ ZORUNLULUK:** Tüm frontend (HTML/CSS/JS/PHP layout) geliştirme görevlerinde aşağıdaki dosyalar OKUNMADAN kod KESİNLİKLE YASAKTIR:
+
+| Sıra | Dosya | İçerik | Kullanım Anı |
+|------|-------|--------|-------------|
+| 1 | `.ai/ui-design/00-mockup-index.md` | 19 PNG mockup indeksi (home-1024 + home-1920 + shared-1024), hangi görsellerin mevcut olduğu | İlk okunacak — hangi ekranlar var? |
+| 2 | `.ai/ui-design/01-component-inventory.md` | C01-C16 BEM sınıfları, pixel ölçümleri, token referansları | Bileşen kodlarken |
+| 3 | `.ai/ui-design/tokens/design-tokens-master.md` | Renk, boşluk, tipografi, cam token'ları | CSS yazarken |
+| 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: [[screens/B-home/dashboard-1920]]) | Layout hizalamada |
+| 5 | `.ai/ui-design/responsive-device-mode.md` | Cihaz bazlı CSS override kuralları — **§7.4 4K No-Center (4K'da ortalamama YASAK)** ve **§12 Geriye Dönük Uyumluluk (fallback ZORUNLU)** bağlayıcıdır | Device-specific CSS'te |
+
+**Referans Sıralaması (çelişki durumunda):** PNG > ASCII art > Component Inventory > Tokens > Implementation Plan.
+
+**İhlal Prosedürü:**
+1. Mockup okunmadan kod tespit edilir → Kod derhal revert edilir
+2. `log.md`'ye CRITICAL giriş eklenir
+3. Vault Steward'a bildirim yapılır
+4. Görsel okunamıyorsa DUR ve kullanıcıya bildir
 
 ---
 
@@ -246,7 +266,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | # | Kural | Açıklama |
 |---|-------|----------|
-| 1 | **Vault-First Mandatory** | AI, vault'u okumadan kod yazamaz. Okuma sırası: CLAUDE.md → AGENTS.md → WORKFLOW.md → brain.md → ROLE.md → ilgili ADR'ler |
+| 1 | **Vault-First Mandatory** | AI, vault'u okumadan kod yazamaz. Okuma sırası: CLAUDE.md → AGENTS.md → WORKFLOW.md → index.md → keys.md → brain.md → MEMORY.md → log.md → engine.md → ROLE.md → (Frontend görevlerinde [[ui-design/00-mockup-index]] ve [[ui-design/01-component-inventory]] ZORUNLU) |
 | 2 | **Çelişki Durumu** | Vault'ta çelişki varsa DUR ve kullanıcıya sor. Onay alınmadan hiçbir işlem yapılmaz |
 | 3 | **Onay Zorunlu** | Mimari karar, yeni dosya, büyük değişiklik öncesi kullanıcı onayı zorunlu |
 | 4 | **Session Continuity** | Her oturum başında geçmiş session'dan devam et. `log.md` ve `MEMORY.md` okunur |
@@ -348,7 +368,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | Home Media Center | Windows/Linux/macOS | PC/Laptop |
 | Car Audio System | Windows/Android Auto | Raspberry Pi 5 / PCM3168A |
 | Professional Studio | Windows (WASAPI/ASIO) | 8.1 Surround + Class AB |
-| NAS Audio Server | Linux (Docker) | Synology/QNAP |
+| NAS Audio Server | Linux | Synology/QNAP |
 | DAC Control System | Windows/Linux | XMOS XU316 + PCM3168A |
 
 ---
@@ -434,7 +454,6 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | testing/ | phpunit-template.md | PHPUnit test |
 | testing/ | vitest-template.md | Vitest test |
 | infrastructure/ | migration-template.md | DB migration |
-| infrastructure/ | docker-template.md | Docker container |
 | infrastructure/ | github-actions-template.md | CI/CD pipeline |
 | documentation/ | api-doc-template.md | API dokümantasyonu |
 | documentation/ | security-audit-template.md | Güvenlik denetimi |
@@ -622,6 +641,7 @@ Her oturum başlangıcında sırayla okunur:
 | § 20 ADR | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault standardı |
 | § 20A Master Plan | [[architecture/03-contracts/master-implementation-plan]] | 5 faz, 40 gün implementasyon |
 | § 20B ADR-087 | [[decisions/accepted/ADR-087-master-implementation-plan]] | Master plan ADR |
+| § 12A UI Design | [[ui-design/00-mockup-index]] | 18 PNG Mockup, C01-C16, 1024x600 SSOT |
 
 ---
 

@@ -3,9 +3,9 @@ type: architecture
 category: l3
 title: "Device CSS"
 date: 2026-08-08
-updated: 2026-08-17
+updated: 2026-09-02
 status: active
-version: 5.0.0
+version: 6.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -76,16 +76,42 @@ YENİ: d-{device}.css (1 dosya, self-contained)
 @import '../05_Pages/_home-components.css';
 @import '../05_Pages/_home-inline.css';
 
-/* Device-specific overrides (1024×600 PNG mockup birebir) */
-:root {
-  --header-h: 60px;
-  --footer-h: 90px;
-  --content-h: 450px;
-  --sidebar-w: 167px;
-  --detail-panel-w: 366px;
-  --card-thumb-size: 140px;
-  --touch-min: 48px;
+/* Device-specific token overrides (v4.0.0) */
+.layout--embedded {
+  --now-playing-art-size: 100px;
+  --media-card-thumb-size: 140px;
+  --mini-card-art-size: 50px;
+  --detail-panel-art-size: 280px;
+  --widget-min-height: 100px;
+  --widget-grid-cols: 2;
+  --footer-album-art-size: 120px;
+  --footer-icon-size: 14px;
+  --footer-btn-min-size: 48px;
+  --home-top-split: 42% 58%;
+  --home-bottom-split: 1fr 1.2fr 0.6fr;
 }
+```
+
+### 4.3 Token ↔ Device CSS İlişkisi
+
+Device CSS dosyaları **iki sorumluluk** taşır:
+
+| Sorumluluk | İçerik | Örnek |
+|-----------|--------|-------|
+| **Behavioral** | Touch, hover, scrollbar, glass | `touch-action: manipulation;` |
+| **Token Override** | Component boyutları, layout split | `--now-playing-art-size: 100px;` |
+
+**Kural:** Behavioral özellikler `d-{device}.css`'te kalır. Component boyutları `a-layout-tokens.css`'teki `@media` + `.layout--{device}` tarafından yönetilir.
+
+```
+d-embedded.css:
+  ├── Behavioral: touch-action, scrollbar, glass, hover devre dışı
+  └── Token Override: .layout--embedded { --now-playing-art-size: 100px; }
+
+a-layout-tokens.css:
+  ├── :root { --now-playing-art-size: 100px; }           ← default
+  ├── @media (min-width: 1920px) { --now-playing-art-size: 180px; }  ← responsive
+  └── .layout--embedded { --now-playing-art-size: 100px; }          ← device context
 ```
 
 **NOT:** `_home.css` bridge KALDIRILDI. Doğrudan import.
@@ -119,6 +145,123 @@ if ($isAuthRoute) {
     $css .= '<link rel="stylesheet" href="' . $viewCssPath . '">';
 }
 ```
+
+---
+
+## 4A. DeviceManager (PHP-Side Device-Aware Rendering)
+
+**Dosya:** `shared/src/Device/DeviceManager.php`
+**Namespace:** `CoreMusic\Device`
+
+### 4A.1 Amaç
+
+DeviceManager, cihaz bazlı HTML rendering'i PHP tarafında kontrol eder. Her cihaz tipi için farklı HTML yapısı, widget sayısı ve feature toggle'ları sunar.
+
+### 4A.2 Factory Methods
+
+| Method | Açıklama |
+|--------|----------|
+| `DeviceManager::fromRequest(ServerRequestInterface)` | PSR-7 request'ten cihaz tespiti |
+| `DeviceManager::fromDevice(string)` | Doğrudan cihaz tipi belirterek |
+
+### 4A.3 Device Queries
+
+| Method | true olduğu cihazlar |
+|--------|---------------------|
+| `isEmbedded()` | RPi5, 1024×600 |
+| `isPhone()` | ≤767px |
+| `isTablet()` | 768-1024px, >600px |
+| `isLaptop()` | 1025-1440px |
+| `isDesktop()` | 1441-2560px |
+| `is4kTv()` | 2561-3840px |
+| `is4kMonitor()` | ≥3841px |
+| `isTouch()` | embedded + phone + tablet |
+| `isWide()` | laptop + desktop + 4k |
+| `isLarge()` | desktop + 4k |
+| `isMobile()` | phone + tablet |
+
+### 4A.4 Content Config (per device)
+
+| Property | embedded | phone | tablet | laptop | desktop | 4K |
+|----------|----------|-------|--------|--------|---------|-----|
+| widgetCount | 4 | 2 | 4 | 4 | 6 | 6 |
+| recentCardCount | 3 | 2 | 4 | 5 | 7 | 8 |
+| playlistCount | 0 | 0 | 2 | 2 | 3 | 3 |
+| upNextCount | 1 | 1 | 3 | 3 | 5 | 5 |
+
+### 4A.5 Feature Toggles
+
+| Method | embedded | phone | tablet | laptop | desktop | 4K |
+|--------|----------|-------|--------|--------|---------|-----|
+| showVolume() | true | false | true | true | true | true |
+| showFullMetadata() | false | false | false | true | true | true |
+| showSidebar() | false | false | false | false | true | true |
+| showSeekBar() | true | false | true | true | true | true |
+| showPlaylistToggle() | false | false | true | true | true | true |
+| showPodcastWidget() | false | false | false | false | true | true |
+| showRadioWidget() | false | false | false | false | true | true |
+
+### 4A.6 CSS Class Helpers
+
+| Method | Çıktı |
+|--------|-------|
+| `layoutClass()` | `"layout--embedded"`, `"layout--phone"`, vb. |
+| `allClasses()` | `"layout layout--embedded layout--touch"` |
+| `dataAttributes()` | `'data-device="embedded" data-touch="true" data-wide="false"'` |
+
+### 4A.7 Nav Links
+
+| Cihaz | Nav Link'leri |
+|-------|---------------|
+| embedded | Ana Sayfa, Müzik |
+| phone | Ana Sayfa, Müzik, Oynatıcı |
+| laptop | Ana Sayfa, Müzik, Albümler, Oynatıcı |
+| desktop | Ana Sayfa, Müzik, Albümler, Sanatçılar, Oynatıcı, Radyo, Podcast |
+| 4K | Ana Sayfa, Müzik, Albümler, Sanatçılar, Çalma Listesi, Oynatıcı, Radyo, Podcast |
+
+### 4A.8 Kullanım
+
+```php
+// header.php, footer.php, home.php
+$dm = DeviceManager::fromRequest($request);
+
+// CSS class ekleme
+<header class="<?= $dm->allClasses() ?>" <?= $dm->dataAttributes() ?>>
+
+// Widget sayısı
+<?php for ($i = 0; $i < $dm->widgetCount(); $i++): ?>
+
+// Feature toggle
+<?php if ($dm->showVolume()): ?>
+    <div class="volume-section">...</div>
+<?php endif; ?>
+
+// Nav links
+<?php foreach ($dm->navLinks() as $link): ?>
+    <a href="<?= $link['href'] ?>" <?= $link['active'] ? 'aria-current="page"' : '' ?>>
+<?php endforeach; ?>
+```
+
+### 4A.9 mimari Entegrasyon
+
+```
+DeviceManager.php (shared/src/Device/)
+  ├── DeviceDetector.php → range-based algılama (mevcut)
+  ├── DeviceCssMap.php   → CSS haritası (mevcut)
+  └── DeviceManager.php  → central device management (YENİ)
+
+PHP Rendering:
+  home.php    → 5 cihaz bloğu: if ($dm->isEmbedded()) ... elseif ($dm->isPhone()) ... else (4K)
+  header.php  → $dm->navLinks() + $dm->allClasses() + $dm->dataAttributes()
+  footer.php  → $dm->showVolume() + $dm->showFullMetadata() + $dm->allClasses()
+
+CSS:
+  a-layout-tokens.css → :root defaults + @media breakpoints + .layout--{device} overrides
+  d-{device}.css      → behavioral (touch, scrollbar, glass) + token overrides
+  .layout--{device}   → DeviceManager::layoutClass() tarafından PHP'den yazılır
+```
+
+**Kural:** DeviceManager PHP-side kontrol sağlar. CSS-side token'lar responsive breakpoints ile destekler. İkisi birlikte çalışır: PHP hangi HTML'i render edeceğini belirler, CSS hangi boyut/token'ların uygulanacağını belirler.
 
 ---
 
@@ -251,14 +394,15 @@ if ($isAuthRoute) {
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 5.0.0 |
-| **Satır Sayısı** | ~600 |
+| **Versiyon** | 6.0.0 |
+| **Satır Sayısı** | ~800 |
 | **ADR Uyumlu** | ✅ 045 |
 | **Auth Device CSS** | ✅ 7 cihaz tanımlı |
+| **DeviceManager** | ✅ PHP-side device-aware rendering (5 cihaz bloğu, feature toggles) |
 | **Zero Hallucination** | ✅ |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-08
+**Last Updated:** 2026-09-02
 **Mode:** Red Team · Human Mode · Truth Mode

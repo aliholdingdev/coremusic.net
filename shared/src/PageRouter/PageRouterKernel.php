@@ -266,7 +266,7 @@ final class PageRouterKernel
     /** @return \CoreMusic\Interfaces\Middleware\IMiddleware[] */
     private function buildDefaultMiddlewares(): array
     {
-        $sessionInit = new SessionInitializer();
+        $sessionInit = new \CoreMusic\Session\SessionLifecycle();
         $isProduction = (APP_ENV_MODE ?? 'development') === 'production';
         $corsCfg = $this->corsConfig;
         return [

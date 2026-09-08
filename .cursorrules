@@ -1,0 +1,258 @@
+# CoreMusic — AI Engineering Rules (SSOT)
+# Version: 2.0.0 | Updated: 2026-09-04
+# Authority: .ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md
+# Mode: Red Team + Truth Mode + Human Review
+
+---
+
+## 1. BOOT PROTOCOL (HER SESSION BAŞINDA — ZORUNLU)
+
+**⚠️ Bu dosyaları okumadan HİÇBİR İŞLEM YAPMA.**
+
+| # | Dosya | Amaç | Timeout |
+|---|-------|------|---------|
+| 1 | `.ai/CLAUDE.md` | AI anayasası, 17 Hard Guardrails | 3s |
+| 2 | `.ai/AGENTS.md` | Agent sınırları, routing, domain boundary | 3s |
+| 3 | `.ai/WORKFLOW.md` | Süreçler, fazlar, workflow kuralları | 3s |
+| 4 | `.ai/index.md` | Master katalog, tüm vault yapısı | 4s |
+| 5 | `.ai/keys.md` | Keyword haritası, yönlendirme | 3s |
+| 6 | `.ai/brain.md` | Mimari kararlar, ADR 001-087 | 4s |
+| 7 | `.ai/MEMORY.md` | Session hafızası, persistent state | 3s |
+| 8 | `.ai/log.md` | Audit trail (son 20 satır) | 2s |
+| 9 | `.ai/engine.md` | Orkestrasyon motoru indeksi | 2s |
+| 10 | `.ai/ROLE.md` | Rol tanımı, uzmanlık alanları | 3s |
+
+**Toplam boot süresi:** Max 30 saniye. Sıralı okuma (P0 → P1 → P2).
+
+**Frontend görevlerinde ek zorunlu:**
+
+| # | Dosya | Amaç |
+|---|-------|------|
+| 11 | `.ai/ui-design/00-mockup-index.md` | 18 PNG mockup indeksi — İLK OKUNACAK |
+| 12 | `.ai/ui-design/01-component-inventory.md` | C01-C16 kanonik bileşen envanteri |
+| 13 | `.ai/ui-design/tokens/design-tokens-master.md` | Master CSS design tokens |
+
+---
+
+## 2. HARD GUARDRAILS (17 Kural — İhlal Sonucu: Kod Revert)
+
+| # | Kural | Uygulama |
+|---|-------|----------|
+| 1 | **Zero Code Before Plan** | Plan onayı olmadan kod yok. Kod revert edilir. |
+| 2 | **Vault First** | Kod yazmadan önce `.ai/` vault'u oku (§1 boot protokolü). Kod geçersiz. |
+| 3 | **Zero Hallucination** | Doğrulanamayan bilgi → `VERIFICATION REQUIRED`. İçerik silinir. |
+| 4 | **In-Place Refactoring** | Dosya adı/yolu değişmez. Dosya geri yüklenir. |
+| 5 | **Single Source of Truth** | Bilgi sadece `.ai/` vault'tan. Harici bilgi reddedilir. |
+| 6 | **CSRF Token = `csrf_token`** | `_csrf_token` yasak. Token reddedilir. |
+| 7 | **Middleware Order Immutable** | Sıra değişmez (ADR-010/011/012/013/022). Sistem durdurulur. |
+| 8 | **Port 81 = music.coremusic.net** | PHP 8.4. Yanlış port yasak. |
+| 9 | **No ORM** | Raw PDO only (ADR-002). ORM kullanımı reddedilir. |
+| 10 | **No Frameworks** | Vanilla JS + ITCSS (ADR-001). Framework reddedilir. |
+| 11 | **Mockup Before Frontend** | Frontend görevinde mockup okunmadan kod KESİNLİKLE YASAKTIR. Kod derhal revert edilir. |
+| 12 | **Contradiction Gate** | Vault'ta çelişki varsa DUR ve kullanıcıya sor. İşlem durur. |
+| 13 | **Session Continuity** | Her oturum başlangıcında geçmiş session'dan devam et. |
+| 14 | **Human Approval Gate** | Mimari karar öncesi kullanıcı onayı zorunlu. |
+| 15 | **Vault-First Mandatory** | `.ai/` vault'u okumadan plan/kod/faaliyet başlatamazsın. İşlem durdurulur + revert. |
+| 16 | **Template Mandatory** | Yeni dosya için `.ai/.templates/index.md`'den uygun template seç. Dosya geçersiz. |
+| 17 | **Single Component Responsive** | Tek component sistemi + responsive CSS. Ayrı HTML/branch YASAK. CSS variables + media queries. Device CSS sadece behavioral override. |
+
+---
+
+## 3. FRONTEND ZORUNLULUKLARI (Guardrail #11 Detay)
+
+### 3.1 Mockup Okuma Zorunluluğu
+
+**KESİNLİKLE YASAK:** Mockup okunmadan frontend kodu yazmak.
+
+**Zorunlu okuma sırası:**
+
+1. `.ai/ui-design/00-mockup-index.md` — Hangi PNG'lerin mevcut olduğunu öğren
+2. `.ai/ui-design/01-component-inventory.md` — C01-C16 BEM sınıfları, ölçümler, token referansları
+3. `.ai/ui-design/tokens/design-tokens-master.md` — Renk, boşluk, tipografi token'ları
+4. `.ai/ui-design/screens/00-ascii-art-index.md` — Piksel düzeyinde layout modelleri
+
+### 3.2 Bileşen Kodlama Kuralları
+
+| Kural | Açıklama |
+|-------|----------|
+| BEM naming | `.block__element--modifier` formatı zorunlu |
+| ITCSS layer | Doğru katmanda kodla (01_Abstracts → 09_ViewModes) |
+| Touch target | Min 48×48px (WCAG 2.2 AA) |
+| Token kullanımı | Hardcoded renk/bosluk yasak, sadece CSS custom property |
+| Responsive | Tek component + media query. Ayrı HTML/branch yasak. |
+| Device CSS | Sadece behavioral override (`.ai/ui-design/responsive-device-mode.md`) |
+
+### 3.3 Frontend Yasak Örüntüleri
+
+| Yasak | Sebep | Alternatif |
+|-------|-------|------------|
+| React/Vue/Angular/Svelte | ADR-001 ihlali | Vanilla JS ES6+ |
+| Tailwind/Bootstrap (büyük) | ITCSS ihlali | ITCSS 9-layer + BEM |
+| Hardcoded renk/değer | Token ihlali | CSS custom property |
+| Inline style | Maintainability | BEM class |
+| `!important` (keyfi) | Specificity war | Doğru katman seçimi |
+| Framework CSS import | ADR-001 ihlali | ITCSS layer |
+| Ayrı responsive branch | Guardrail #17 ihlali | Tek component + media query |
+
+---
+
+## 4. MİMARİ — L0-L6 KATMANLARI
+
+Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1→L0 | ❌ Layer Violation
+
+| Katman | Kapsam | Teknolojiler |
+|--------|--------|-------------|
+| **L3 Presentation** | Frontend, UI, DOM | Vanilla JS ES6+, ITCSS 9-layer, TrustedTypes |
+| **L2 Routing** | SPA router, middleware | PHP 8.4 PageRouter, JS Router.js |
+| **L1 Security** | Session, Auth, CSRF, CSP | Middleware pipeline, Argon2id, AES-256-GCM |
+| **L0 Infrastructure** | Database, cache, filesystem | PDO MySQL, APCu, Redis |
+
+**Layer Violation İhlali:** Tespit edilirse derhal revert + log CRITICAL.
+
+---
+
+## 5. SİSTEM MİMARİSİ & KODLAMA KILAVUZU
+
+### 5.1 Backend
+
+| Kural | Değer |
+|-------|-------|
+| Dil | PHP 8.4+ Enterprise |
+| Strict Types | `declare(strict_types=1)` her dosyada ZORUNLU |
+| Standard | PSR-12 |
+| DB | PDO only — ORM yasak (ADR-002) |
+| DTO | Data Transfer Object kullanımı zorunlu |
+| Validation | Strict input validation, fail-safe security |
+
+### 5.2 Frontend
+
+| Kural | Değer |
+|-------|-------|
+| Dil | Vanilla JS ES6+ (Framework yasak — ADR-001) |
+| Modül | ES Modules, EventBus decoupling |
+| Strict Mode | `'use strict'` zorunlu |
+| Scope | Global variable yasak, modüler mimari |
+
+### 5.3 CSS
+
+| Kural | Değer |
+|-------|-------|
+| Metodoloji | ITCSS 9-layer |
+| Naming | BEM (Block Element Modifier) |
+| Token | CSS custom property zorunlu |
+| Responsive | Media queries + CSS variables |
+| Device | Behavioral override only |
+
+### 5.4 Güvenlik
+
+| Kural | Değer |
+|-------|-------|
+| Standard | OWASP Top 10:2025 |
+| Encryption | AES-256-GCM, Argon2id |
+| CSP | strict-dynamic with nonce |
+| CSRF | `csrf_token` (NOT `_csrf_token`) |
+| Rate Limiting | APCu, 60 req/60s |
+
+---
+
+## 6. MULTI-DEVICE CONDITIONAL RENDERING (4-Tier)
+
+| Tier | Cihaz | Çözünürlük | Referans |
+|------|-------|-----------|----------|
+| 1 | 7" Embedded (RPi5) & Tablets | 1024×600 | `.ai/.png/home-1024/` |
+| 2 | Desktop & Widescreen | 1920×1080 | `.ai/.png/home-1920/` |
+| 3 | 4K & Smart TV | 3840×2160 | Scale engine |
+| 4 | Mobile | ≤767px | Compact player |
+
+---
+
+## 7. DİNAMİK ÖLçek MOTORU (ScaleManager.js)
+
+| Prensip | Uygulama |
+|---------|----------|
+| SRP | Tier resolution, mathematical interpolation, DOM transform ayrımı |
+| OCP | Extensible declarative rule registry (`registerTarget`) |
+| Dinleyiciler | ResizeObserver, requestAnimationFrame throttle, matchMedia DPR |
+
+---
+
+## 8. DOMAIN SINIRLARI
+
+| Dosya Tipi | Sorumlu Agent | Diğerleri Erişebilir mi? |
+|------------|---------------|--------------------------|
+| `*.php` | Backend Architect | ❌ |
+| `*.js` (Frontend) | UI Designer | ❌ |
+| `*.css` (ITCSS) | UI Designer | ❌ |
+| `*.sql` | Data Engineer | ❌ |
+| `*.cpp` / `*.h` | Embedded Engineer | ❌ |
+| `*.yml` / `*.yaml` | DevOps Engineer | ❌ |
+| `tests/**/*.php` | QA Engineer | ❌ |
+| `tests/**/*.test.js` | QA Engineer | ❌ |
+| Security middleware | Security Engineer | ❌ |
+| `.env` | Security Engineer | ❌ |
+| `log.md` | Tüm agentlar (append-only) | ✅ Sadece ekleme |
+| `.ai/` vault | MO (koordinasyon) | ✅ Okuma serbest |
+
+---
+
+## 9. İLETİŞİM STANDARTLARI
+
+| Yap | Yapma |
+|-----|-------|
+| Teknik ve doğrudan cevap | Genel geçer cevaplar |
+| Kanıtlanmamış bilgi verme | Kanıtsız öneriler |
+| Riskleri gizleme | Varsayımsal teknik bilgiler |
+| Senior mühendis dili | Junior dil |
+
+---
+
+## 10. ÇALIŞMA MODU
+
+```
+ANALİZ → MEVCUT SİSTEMİ ANLAMA → PLAN OLUŞTURMA → ETKİ ANALİZİ → UYGULAMA → TEST → DOKÜMANTASYON
+```
+
+**Kural:** Mevcut sistemi anlamadan doğrudan kod yazma.
+
+---
+
+## 11. AI DAVRANIŞ KURALLARI
+
+| Yasak | Sebep |
+|-------|-------|
+| API bilgisi uydurma | Var olmayan endpoint |
+| Versiyon uydurma | Doğrulanmamış sürüm |
+| Benchmark uydurma | Kanıtsız performans |
+| CVE uydurma | Uydurma güvenlik referansı |
+| Hardware Capability uydurma | Doğrulanmamış donanım bilgisi |
+
+**Truth Mode:** Bilinmeyen bilgi durumunda: **Verification required.**
+
+---
+
+## 12. HIZLI REFERANS
+
+| İhtiyaç | Kaynak |
+|---------|--------|
+| AI constitution, guardrails | `.ai/CLAUDE.md` |
+| Agent registry, routing | `.ai/AGENTS.md` |
+| Süreçler, lifecycle | `.ai/WORKFLOW.md` |
+| Mimari kararlar, ADR | `.ai/brain.md` |
+| Master katalog | `.ai/index.md` |
+| Keyword haritası | `.ai/keys.md` |
+| Session hafızası | `.ai/MEMORY.md` |
+| Audit trail | `.ai/log.md` |
+| UI Design SSOT | `.ai/ui-design/00-mockup-index.md` |
+| Bileşen envanteri | `.ai/ui-design/01-component-inventory.md` |
+| Design tokens | `.ai/ui-design/tokens/design-tokens-master.md` |
+| ASCII art layout | `.ai/ui-design/screens/00-ascii-art-index.md` |
+| Responsive device | `.ai/ui-design/responsive-device-mode.md` |
+| Mockup PNG'ler | `.ai/.png/home-1024/`, `.ai/.png/home-1920/`, `.ai/.png/shared-1024/` |
+| Templates | `.ai/.templates/index.md` |
+| ADR decisions | `.ai/decisions/accepted/` |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Version:** 2.0.0
+**Mode:** Red Team + Human Mode + Truth Mode

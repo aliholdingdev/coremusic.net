@@ -3,17 +3,19 @@
 namespace CoreMusic\Theme;
 
 /**
- * CoreMusic -- Theme Manager (ADR-044)
+ * CoreMusic -- Theme Manager (ADR-044 + Dark/Light Mode)
  * Gender-based tema motoru: female/male/neutral
+ * Color mode motoru: dark/light
  *
  * Server-side tema tespiti, CSS token uretimi ve inline style injection.
  * JS ThemeManager.js ile birebir eslesme.
  *
  * Kullanim:
  *   $gender   = ThemeManager::detect($sessionData);
+ *   $mode     = ThemeManager::detectMode($sessionData);
  *   $tokens   = ThemeManager::getTokens($gender);
  *   $styleTag = ThemeManager::injectInlineStyle($gender);
- *   $attr     = ThemeManager::injectDataAttribute($gender);
+ *   $attr     = ThemeManager::injectDataAttribute($gender, $mode);
  */
 final class ThemeManager
 {
@@ -49,6 +51,12 @@ final class ThemeManager
     /** Varsayilan gender */
     private const DEFAULT_GENDER = 'neutral';
 
+    /** Gecerli color mode degerleri */
+    private const VALID_MODES = ['dark', 'light'];
+
+    /** Varsayilan color mode (null = OS preferansini kullan) */
+    private const DEFAULT_MODE = null;
+
     /**
      * Session verisinden gender tespit et
      *
@@ -80,6 +88,46 @@ final class ThemeManager
         }
 
         return self::DEFAULT_GENDER;
+    }
+
+    /**
+     * Session verisinden color mode tespit et
+     *
+     * Oncelik sirasi:
+     *   1. cm_color_mode (session key)
+     *   2. color_mode (session key)
+     *   3. cm_color_mode (cookie)
+     *   4. null (varsayilan — CSS prefers-color-scheme kullanir)
+     *
+     * @param array<string, mixed> $session  Session data
+     * @return string|null  dark|light|null
+     */
+    public static function detectMode(array $session): ?string
+    {
+        $candidates = [
+            $session['cm_color_mode'] ?? null,
+            $session['color_mode'] ?? null,
+        ];
+
+        foreach ($candidates as $candidate) {
+            if ($candidate === null || !is_string($candidate)) {
+                continue;
+            }
+            $sanitized = self::sanitizeMode($candidate);
+            if ($sanitized !== null) {
+                return $sanitized;
+            }
+        }
+
+        // Cookie'den oku
+        if (isset($_COOKIE['cm_color_mode'])) {
+            $sanitized = self::sanitizeMode($_COOKIE['cm_color_mode']);
+            if ($sanitized !== null) {
+                return $sanitized;
+            }
+        }
+
+        return self::DEFAULT_MODE;
     }
 
     /**
@@ -121,13 +169,57 @@ final class ThemeManager
      * Ornegin: data-gender="female"
      *
      * @param string $gender  female|male|neutral
-     * @return string  HTML attribute string (bos stringegerlere)
+     * @return string  HTML attribute string
      */
     public static function injectDataAttribute(string $gender): string
     {
         $safe = self::sanitize($gender) ?? self::DEFAULT_GENDER;
 
         return 'data-gender="' . $safe . '"';
+    }
+
+    /**
+     * HTML data-mode attribute uret
+     *
+     * Ornegin: data-mode="dark" veya bos string (null ise)
+     *
+     * @param string|null $mode  dark|light|null
+     * @return string  HTML attribute string (bos stringegerlere)
+     */
+    public static function injectModeAttribute(?string $mode): string
+    {
+        if ($mode === null) {
+            return '';
+        }
+
+        $safe = self::sanitizeMode($mode);
+
+        if ($safe === null) {
+            return '';
+        }
+
+        return 'data-mode="' . $safe . '"';
+    }
+
+    /**
+     * Gender ve mode birlesik attribute uret
+     *
+     * Ornegin: data-gender="female" data-mode="dark"
+     *
+     * @param string      $gender  female|male|neutral
+     * @param string|null $mode    dark|light|null
+     * @return string  HTML attribute string
+     */
+    public static function injectAttributes(string $gender, ?string $mode = null): string
+    {
+        $attrs = [self::injectDataAttribute($gender)];
+
+        $modeAttr = self::injectModeAttribute($mode);
+        if ($modeAttr !== '') {
+            $attrs[] = $modeAttr;
+        }
+
+        return implode(' ', $attrs);
     }
 
     /**
@@ -156,6 +248,31 @@ final class ThemeManager
     }
 
     /**
+     * Color mode degerini temizle ve gecerliligi kontrol et
+     *
+     * hash_equals timing-safe karsilastirma kullanir (ADR-010).
+     *
+     * @param string $input  Ham color mode degeri
+     * @return string|null  Gecerli mode veya null
+     */
+    private static function sanitizeMode(string $input): ?string
+    {
+        $lower = strtolower(trim($input));
+
+        if ($lower === '') {
+            return null;
+        }
+
+        foreach (self::VALID_MODES as $valid) {
+            if (hash_equals($valid, $lower)) {
+                return $valid;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Tum gecerli gender degerlerini dondur
      *
      * @return array<int, string>
@@ -163,6 +280,16 @@ final class ThemeManager
     public static function validGenders(): array
     {
         return self::VALID_GENDERS;
+    }
+
+    /**
+     * Tum gecerli color mode degerlerini dondur
+     *
+     * @return array<int, string>
+     */
+    public static function validModes(): array
+    {
+        return self::VALID_MODES;
     }
 
     /**

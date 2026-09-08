@@ -14,7 +14,15 @@
  * Background: login-bg-female.png + blur(16px) glass overlay
  * Accent    : #ff4fd8 (neon pink)
  * Font      : Avalon Medium, 10px, letter-spacing 0.135em
- * Scale     : footer.scale.js (transform:scale, origin:bottom left)
+ * Scale     : d-4k.css zoom sözleşmesi (≥3840px body zoom:×2 — 1920 görünüm korunur)
+ * Tokens    : a-layout-tokens.css — --footer-h, --footer-album-art-size, --footer-btn-min-size
+ * Version: 2.1.0 — 2026-09-06 (4K token ölçeği + KAİ volume/seekbar yapısı + taşma düzeltmeleri)
+ * Version: 2.2.0 — 2026-09-08 (Seekbar: container=input 16px eşit, bar 4px, taşma yok ·
+ *            Volume: dip hizalı rail/fill + 14×14 KARE thumb + input/div denge)
+ *            Spec: .ai/ui-design/screens/_layout-patterns/06-footer-player.md
+ * Version: 2.3.0 — 2026-09-08 (Volume geometrisi 04_Components/c-footer-volume.css v2.1.0'a
+ *            taşındı — referans proje yapısı: 180×10 container, absolute input+fill, 10×10
+ *            KARE thumb; ID seçici > class, çift tanım çakışması giderildi)
  */
 
 /* ============================================================
@@ -39,7 +47,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: auto;
+    height: var(--footer-h, 104px);
     width: 100%;
     z-index: 100;
     border-radius: 0;
@@ -61,24 +69,63 @@
 }
 
 /* ============================================================
-   FOOTER — Pembe İlerleme Çubuğu (h:3px, full-width)
-   Footer üstünde, tam genişlikte pembe progress bar
+   FOOTER — Pembe İlerleme Çubuğu (bar 4px, hit alanı 16px)
+   Container = input = 16px (EŞİT) · taşma yok · bar üst kenara bitişik
+   Spec: .ai/ui-design/screens/_layout-patterns/06-footer-player.md §2
    ============================================================ */
 .footer__progress {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: rgba(255, 255, 255, 0.15);
+    height: 16px;
+    background: transparent;
     z-index: 2;
 }
 
+/* Görsel track — 4px, footer üst kenarı (PNG ölçümü) */
+.footer__progress::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    z-index: 0;
+}
+
 .footer__progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, #ff4fd8 0%, #ff8c42 100%);
-    border-radius: 0 2px 2px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: var(--fp-accent);
+    border-radius: 0;
     transition: width 200ms linear;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* KAİ seek sözleşmesi — görünmez range input, container ile EŞİT (16px), footer içinde */
+.footer__progress input#seekbar {
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 16px;
+    margin: 0;
+    background: transparent;
+    opacity: 0;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.footer__progress input#seekbar:focus-visible {
+    opacity: 1;
+    outline: 2px solid var(--fp-accent);
 }
 
 /* ============================================================
@@ -88,7 +135,7 @@
     display: flex;
     align-items: center;
     gap: 0;
-    height: auto;
+    height: 100%;
     position: relative;
     z-index: 1;
 }
@@ -99,13 +146,17 @@
 .footer__meta-section {
     display: flex;
     gap: 15px;
-    height: auto;
+    height: 100%;
+    align-items: center;
+    max-width: 34%;
+    overflow: hidden;
+    flex: 0 1 auto;
 }
 
-/* Albüm Kapağı */
+/* Albüm Kapağı — token: --footer-album-art-size (120/130/135/140/160/200px) */
 .footer__album-art {
-    height: 120px;
-    width: 120px;
+    height: var(--footer-album-art-size, 120px);
+    width: var(--footer-album-art-size, 120px);
     opacity: 100%;
     border-radius: 0px;
     object-fit: cover;
@@ -114,8 +165,7 @@
 
 /* Metin Stack (4 satır) */
 .footer__meta-stack {
-    display: flex;    
-    margin-top: 17px;
+    display: flex;
     flex-direction: column;
     gap: 5px;
     min-width: 0;
@@ -169,6 +219,14 @@
     font-size: 11px;
     color: var(--fp-accent);
     opacity: 0.8;
+}
+
+/* Satır ikonları — PNG mockup res-pink ikonları (music/cd/mic/timer/bit-rate) */
+.footer__text .fp-icon-img {
+    flex-shrink: 0;
+    display: block;
+    opacity: 0.9;
+    filter: drop-shadow(0px 0.5px 1px rgba(0, 0, 0, 0.80));
 }
 
 /* Label */
@@ -304,57 +362,12 @@
 }
 
 
-/* Volume Slider */
-.footer__volume-slider {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 115px;
-    height: 8px;
-    border-radius: 999px;
-    background: var(--fp-track);
-    outline: none;
-    cursor: pointer;
-    transition: opacity 150ms ease;
-}
-
-.footer__volume-slider:hover {
-    opacity: 0.9;
-}
-
-/* Chrome/Safari thumb */
-.footer__volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #ffffff;
-    cursor: pointer;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-    transition: background 150ms ease, transform 150ms ease;
-}
-
-.footer__volume-slider::-webkit-slider-thumb:hover {
-    background: var(--fp-accent);
-    transform: scale(1.15);
-}
-
-/* Firefox thumb */
-.footer__volume-slider::-moz-range-thumb {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #ffffff;
-    border: none;
-    cursor: pointer;
-}
-
-/* Firefox progress fill */
-.footer__volume-slider::-moz-range-progress {
-    background: var(--fp-accent);
-    height: 8px;
-    border-radius: 999px;
-}
+/* ============================================================
+   VOLUME — geometri + görsel: Css/04_Components/c-footer-volume.css v2.1.0
+   (#volumeclick 180×10 · #volume absolute üstte · #volume2 fill absolute ·
+    thumb 10×10 KARE — ID seçici buradaki class'ları ezer, TEK KAYNAK orada)
+   Spec: .ai/ui-design/screens/_layout-patterns/06-footer-player.md §3
+   ============================================================ */
 
 /* Volume % Text */
 .footer__volume-value {
@@ -367,12 +380,18 @@
     white-space: nowrap;
 }
 
+/* Volume Group (KAİ: .volume-set-slider — icon + track + value) */
+.volume-set-slider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 /* ============================================================
-   RESPONSIVE — 1024px Compact (104px)
-   ============================================================ */
+    RESPONSIVE — 1024px Compact (90px — PNG home-1024 ölçümü)
+    ============================================================ */
 @media (max-width: 1024px) {
     .footer {
-        height: 90px;
         --fp-btn-gap: 18px;
     }
 
@@ -385,20 +404,27 @@
         font-size: 11px;
     }
 
-    /* Touch target: 50–58px (vault spec) */
-    .player-btn {
+    /* Touch target: 50–58px (vault spec) — .c-desk-btn base'ini (dosya sonu) ezmesi için
+       (0,2,0) specificity */
+    .footer .player-btn {
         width: 54px;
         height: 54px;
         border-width: 2.5px;
     }
 
-    .player-btn--play {
+    .footer .player-btn--play {
         width: 58px;
         height: 58px;
     }
 
-    .footer__volume-slider {
-        width: 145px;
+    /* PNG home-1024: kapak footer yüksekliğiyle (~88px) birebir */
+    .footer__album-art {
+        width: 88px;
+        height: 88px;
+    }
+
+    .footer__meta-section {
+        max-width: 40%;
     }
 
     .footer {
@@ -413,9 +439,9 @@
 }
 
 /* ============================================================
-   RESPONSIVE — 4K / 2K (scale up)
-   ============================================================ */
-@media (min-width: 2560px) {
+    RESPONSIVE — 4K Tier başlangıcı (≥2561px — ScaleManager skip sonrası CSS ölçeği)
+    ============================================================ */
+@media (min-width: 2561px) {
     .footer__text {
         font-size: 13px;
     }
@@ -424,26 +450,23 @@
         font-size: 16px;
     }
 
-    .player-btn {
-        width: 38px;
-        height: 38px;
+    .footer .player-btn {
+        width: 44px;
+        height: 44px;
     }
 
-    .player-btn--play {
-        width: 46px;
-        height: 46px;
+    .footer .player-btn--play {
+        width: 52px;
+        height: 52px;
     }
 
-    .footer__volume-slider {
-        width: 150px;
+    .footer__volume-value {
+        font-size: 14px;
     }
 }
 
-@media (min-width: 3840px) {
-    .footer__text {
-        font-size: 15px;
-    }
-}
+/* NOT: ≥3840px ölçekleme d-4k.css zoom sözleşmesine (body zoom:×2) devredildi —
+   1920 tabanlı görünüm korunur; burada ek font/boyut bump'ı çift ölçek yaratırdı. */
 
 /* ============================================================
    MOBILE — Fallback (< 768px)
@@ -465,6 +488,8 @@
 
     .footer__controls-section {
         flex: 1;
+        position: static;
+        transform: none;
     }
 
     .footer__utility-section {
@@ -496,11 +521,11 @@
     }
 }
 
-/* ============================================================
-   FOOTER — Volume Group (slider + value)
-   ============================================================ */
-.footer__volume-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+/* Mockup White Icons */
+.icon-white { filter: brightness(0) invert(1) drop-shadow(0.5px 0.5px 1px rgba(0,0,0,0.4)); }
+.c-desk-btn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 2px solid rgba(255, 255, 255, 0.9); border-radius: 50%; background: transparent; cursor: pointer; transition: transform 200ms ease; }
+.c-desk-btn:hover { transform: scale(1.08); }
+.c-desk-btn-play { width: 52px; height: 52px; border-width: 2.5px; }
+
+.footer__utility-icon { filter: brightness(0) invert(1) drop-shadow(0.5px 0.5px 1px rgba(0,0,0,0.4)); }
+

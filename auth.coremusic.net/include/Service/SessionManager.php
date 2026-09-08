@@ -3,11 +3,10 @@
 namespace CoreMusic\Auth\Service;
 
 use CoreMusic\Interfaces\Auth\ISessionManager;
+use CoreMusic\Session\SessionBootstrapper;
 
 final class SessionManager implements ISessionManager
 {
-    private const COOKIE_EXPIRY = 42000;
-
     public function __construct(
         private readonly string $sessionName = 'COREMUSIC_SESS',
         private readonly string $cookieDomain = '.coremusic.net',
@@ -58,28 +57,8 @@ final class SessionManager implements ISessionManager
         // Preserve gender across session destroy
         $savedGender = $_SESSION['cm_gender'] ?? null;
 
-        $_SESSION = [];
+        SessionBootstrapper::restartFresh();
 
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            if (ini_get('session.use_cookies')) {
-                $params = session_get_cookie_params();
-                setcookie(session_name(), '', time() - self::COOKIE_EXPIRY, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
-            }
-            session_destroy();
-        }
-
-        session_name($this->sessionName);
-        $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
-        session_set_cookie_params([
-            'lifetime' => 0,
-            'path'     => '/',
-            'domain'   => '.coremusic.net',
-            'secure'   => $isHttps,
-            'httponly'  => true,
-            'samesite' => 'Lax',
-        ]);
-        session_start();
-        session_regenerate_id(true);
         $now = time();
         $_SESSION['_session_last_active'] = $now;
         $_SESSION['_session_created_at']  = $now;

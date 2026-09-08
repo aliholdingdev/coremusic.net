@@ -10,6 +10,18 @@
  *   Body text → Arima
  */
 
+/* ═══ Bickham Script Two — Logo core font ═══ */
+@font-face {
+    font-family: 'Bickham Script';
+    src: url('../../Fonts/Bickham%20Script%20Two.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+    font-family: 'Bickham Script Two';
+    src: url('../../Fonts/Bickham%20Script%20Two.ttf') format('truetype');
+    font-weight: 400; font-style: normal; font-display: swap;
+}
+
 /* ═══ Respective — Logo accent font ═══ */
 @font-face {
     font-family: 'Respective';

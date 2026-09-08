@@ -147,16 +147,16 @@ version: 3.2.0
 
 | Özellik | Değer |
 |---------|-------|
-| **Dosya** | `04_Components/c-star-rating.css` |
+| **Dosya** | `05_Pages/_home-components.css` (`.now-playing__stars`) |
 | **Screen Spec** | `screens/C-music/album-detail.md` + `playlist.md` |
 | **Mevcut yıldız boyutu** | ~20 × 20 px |
 | **WCAG minimum** | 44 × 44 px |
 | **RPi5 hedef** | 48 × 48 px |
-| **Uyum** | ❌ İHLAL |
+| **Uyum** | ✅ DÜZELTİLDİ (2026-09-05) |
 
 **Sorun:** Yıldızlar 20×20px. RPi5'de tek tek yıldız seçmek imkansız.
 
-**Çözüm:** Yıldız boyutunu 48×48px'e çıkar VEYA tam satırı tıklanabilir yap (tüm 5 yıldız tek hit area).
+**Çözüm:** ✅ Uygulandı — `.now-playing__stars` container'a `min-height: var(--touch-recommended, 48px)` + `padding: 8px 0` + `align-items: center` eklendi (`_home-components.css`). Tam satır 48px tıklanabilir hit area.
 
 ---
 
@@ -253,9 +253,9 @@ version: 3.2.0
 | 1 | "Başla" butonu | 105×25px | 105×48px | Mockup (tasarım) | HIGH | welcome-popup.md |
 | 2 | Göz At sidebar satır | 21px | 48px | Kod (CSS) | HIGH | disk-browser.md |
 | 3 | Footer utility icons | 13×13px | 44×44px hit area | Kod (CSS) | HIGH | ASCII §1 |
-| 4 | Nav link touch | 24×24px | 48×48px | Kod (CSS + header height) | MEDIUM | ASCII §1 |
+| 4 | Nav link touch | 24×24px | 48×48px | ✅ DÜZELTİLDİ (min-height: 48px) | MEDIUM | ASCII §1 |
 | 5 | Genre tabs | 32px | 48px | Kod (CSS) | MEDIUM | albums.md |
-| 6 | Star rating | 20×20px | 48×48px | Kod (CSS) | MEDIUM | album-detail.md |
+| 6 | Star rating | 20×20px | 48×48px | ✅ DÜZELTİLDİ (min-height: 48px) | MEDIUM | album-detail.md |
 | 7 | Track row | 40px | 48px | Kod (CSS) | LOW | playlist.md |
 | 8 | Toggle switch | 28px | 32px+ | Kod (CSS) | LOW | wifi.md |
 | 9 | Gender buttons | 60px | 48px | — (UYGUN) | LOW | gender-select.md |
@@ -337,10 +337,12 @@ version: 3.2.0
 
 | Dosya | Amaç |
 |-------|------|
-| [[00-mockup-index]] | PNG master kataloğu |
+| [[00-mockup-index]] | PNG master kataloğu (19 PNG) |
 | [[01-component-inventory]] | C01-C16 detayları |
 | [[00-ascii-art-index]] | Piksel düzeyinde ASCII art'lar |
+| [[screens/B-home/dashboard-1920]] | Desktop 1920 view — touch target notları içerir |
 | [[02-implementation-plan]] | CSS uygulama planı |
+| [[responsive-device-mode]] | Tier kuralları — backward-compat fallback'leri erişilebilirliği korur |
 | [[research/verified/wcag-22-aa]] | WCAG 2.2 AA referansı |
 
 ---
@@ -349,7 +351,7 @@ version: 3.2.0
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 3.1.0 |
+| Version | 3.2.0 |
 | Total Gaps | 11 |
 | HIGH Priority | 3 |
 | MEDIUM Priority | 3 |
@@ -359,12 +361,13 @@ version: 3.2.0
 | Focus Visible | ✅ Tümü uygun |
 | ARIA Labels | ⚠️ 3 eksik |
 | Klavye Navigasyonu | ✅ Tümü uygun |
-| Screen Spec References | 18 dosya |
-| ASCII Art References | 18 PNG |
+| Screen Spec References | 19 dosya |
+| ASCII Art References | 19 PNG |
+| Doğrulama Yöntemi (2026-09-06) | Chrome DevTools MCP canlı test (Kural 12 — frontend-png-rules) fallback'lerin erişilebilirliği bozmadığını doğrular |
 
 ---
 
-*Accessibility Gaps v3.1.0 — CoreMusic UI Design System*
+*Accessibility Gaps v3.2.0 — CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-11*
+*Last Updated: 2026-09-06*
 *Mode: Red Team · Human Mode · Truth Mode*

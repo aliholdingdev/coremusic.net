@@ -1,0 +1,199 @@
+- main [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "CoreMusic" [ref=e5] [cursor=pointer]:
+        - /url: /home
+        - generic [ref=e6]: Core
+        - generic [ref=e7]: Music
+      - navigation "Ana navigasyon" [ref=e8]:
+        - link "Ana Sayfa" [ref=e9] [cursor=pointer]:
+          - /url: /home
+        - link "Keşfet" [ref=e10] [cursor=pointer]:
+          - /url: /kesfet
+        - link "Albümler" [ref=e11] [cursor=pointer]:
+          - /url: /albumler
+        - link "Sanatçılar" [ref=e12] [cursor=pointer]:
+          - /url: /sanatcilar
+        - link "Göz At" [ref=e13] [cursor=pointer]:
+          - /url: /goz-at
+        - link "Geçmiş" [ref=e14] [cursor=pointer]:
+          - /url: /gecmis
+        - link "Ayarlar" [ref=e15] [cursor=pointer]:
+          - /url: /ayarlar
+      - generic "Sistem ve kullanıcı" [ref=e16]:
+        - generic "Bağlantı Durumu" [ref=e17]:
+          - img "Wi-Fi" [ref=e19]
+          - img "Bluetooth" [ref=e21]
+        - generic "Güç Durumu" [ref=e22]:
+          - img "Pil" [ref=e23]
+          - generic [ref=e24]: 100%
+        - button "Avatar test ▼" [ref=e25] [cursor=pointer]:
+          - img "Avatar" [ref=e26]
+          - generic [ref=e27]: test
+          - generic [ref=e28]: ▼
+        - generic [ref=e29]:
+          - button "Sidebar aç/kapat" [ref=e30] [cursor=pointer]
+          - link "Ayarlar" [ref=e32] [cursor=pointer]:
+            - /url: /settings
+          - link "Çıkış" [ref=e33] [cursor=pointer]:
+            - /url: /logout
+  - navigation "Sidebar navigasyon" [ref=e34]:
+    - navigation "Sidebar navigasyon" [ref=e35]:
+      - button "Beğenilen Şarkılar 0" [ref=e37] [cursor=pointer]:
+        - generic [ref=e41]: Beğenilen Şarkılar
+        - generic [ref=e42]: "0"
+      - button "Karışımlar 0" [ref=e44] [cursor=pointer]:
+        - generic [ref=e48]: Karışımlar
+        - generic [ref=e49]: "0"
+      - button "Albümler 0" [ref=e51] [cursor=pointer]:
+        - generic [ref=e55]: Albümler
+        - generic [ref=e56]: "0"
+        - generic [ref=e57]: ▸
+      - button "Türler 0" [ref=e59] [cursor=pointer]:
+        - generic [ref=e63]: Türler
+        - generic [ref=e64]: "0"
+        - generic [ref=e65]: ▸
+      - button "Ruh Halleri 0" [ref=e67] [cursor=pointer]:
+        - generic [ref=e71]: Ruh Halleri
+        - generic [ref=e72]: "0"
+        - generic [ref=e73]: ▸
+      - button "Diller 0" [ref=e75] [cursor=pointer]:
+        - generic [ref=e79]: Diller
+        - generic [ref=e80]: "0"
+        - generic [ref=e81]: ▸
+      - button "Sanatçılar 0" [ref=e83] [cursor=pointer]:
+        - generic [ref=e87]: Sanatçılar
+        - generic [ref=e88]: "0"
+        - generic [ref=e89]: ▸
+      - button "Çalma Listeleri 0" [ref=e91] [cursor=pointer]:
+        - generic [ref=e95]: Çalma Listeleri
+        - generic [ref=e96]: "0"
+        - generic [ref=e97]: ▸
+    - separator "Sidebar genişletme tutamacı" [ref=e98]
+  - main "Ana Sayfa" [ref=e99]:
+    - generic [ref=e100]:
+      - generic "Şu an çalınan şarkı" [ref=e102]:
+        - img "Göksel - Sevil Neşelen" [ref=e104]
+        - generic [ref=e105]:
+          - generic [ref=e106]:
+            - generic [ref=e107]: "Şarkı Adı :"
+            - strong [ref=e108]: Göksel - Sevil Neşelen
+          - generic [ref=e109]:
+            - generic [ref=e110]: "Albüm :"
+            - generic [ref=e111]: Hayat Rüya Gibi
+          - generic [ref=e112]:
+            - generic [ref=e113]: "Sanatçı :"
+            - generic [ref=e114]: Göksel
+          - generic [ref=e115]:
+            - generic [ref=e116]: "Yıldız :"
+            - generic "5 yıldız" [ref=e117]
+          - generic [ref=e118]:
+            - generic [ref=e119]: "Bit rate :"
+            - generic [ref=e120]: 350 kbps
+          - generic [ref=e121]:
+            - generic [ref=e122]:
+              - generic [ref=e123]: "Süre :"
+              - generic [ref=e124]: 00:00:00
+              - generic [ref=e125]: /
+              - generic [ref=e126]: 00:05:00
+            - progressbar "Şarkı ilerleme durumu" [ref=e127]
+      - generic [ref=e132]:
+        - generic [ref=e133]: ✦ ✦ ✦
+        - generic [ref=e134]: ✦ Hoş Geldin ✦
+        - heading "test" [level=2] [ref=e135]
+        - paragraph [ref=e136]:
+          - emphasis [ref=e137]: "\"Müzik, ruhun gıdasıdır... Core Music\""
+        - link "Keşfetmeye Başla ▶" [ref=e138] [cursor=pointer]:
+          - /url: /kutuphane
+        - generic [ref=e140]:
+          - generic [ref=e141]:
+            - generic [ref=e142]: "2.450"
+            - generic [ref=e143]: Toplam Şarkı
+          - generic [ref=e144]:
+            - generic [ref=e145]: "156"
+            - generic [ref=e146]: Playlist
+          - generic [ref=e147]:
+            - generic [ref=e148]: "87"
+            - generic [ref=e149]: Albüm
+          - generic [ref=e150]:
+            - generic [ref=e151]: "42"
+            - generic [ref=e152]: Sanatçı
+          - generic [ref=e153]:
+            - generic [ref=e154]: "1.250"
+            - generic [ref=e155]: Saat Dinleme
+          - generic "Daha Fazla Ekle" [ref=e156]
+      - generic [ref=e159]:
+        - generic [ref=e160]:
+          - generic [ref=e163]:
+            - generic [ref=e164]: Hoparlör
+            - generic [ref=e165]: Core Music - Hoparlör
+          - generic [ref=e170]:
+            - generic [ref=e171]: Hava Durumu
+            - generic [ref=e172]: Güneşli 13° / İstanbul
+          - generic [ref=e175]:
+            - generic [ref=e176]: 12:40
+            - generic [ref=e177]: 6 Eylül 2026
+          - generic [ref=e183]: Kütüphanelerim
+        - generic [ref=e187]:
+          - link "YouTube Music" [ref=e188] [cursor=pointer]:
+            - /url: https://music.youtube.com
+            - img "YT Music" [ref=e189]
+          - link "YouTube" [ref=e190] [cursor=pointer]:
+            - /url: https://youtube.com
+            - img "YouTube" [ref=e191]
+          - link "Favoriler" [ref=e192] [cursor=pointer]:
+            - /url: /favoriler
+            - img "Favori" [ref=e193]
+    - generic [ref=e200]:
+      - region "En Son Dinlenen Şarkılar" [ref=e201]:
+        - heading "En Son Dinlenen Şarkılar" [level=2] [ref=e202]
+        - button "Göksel - Sevil Neşelen" [ref=e204] [cursor=pointer]:
+          - generic [ref=e206]:
+            - paragraph [ref=e207]: "Şarkı Adı : Göksel - Sevil Neşelen"
+            - paragraph [ref=e208]: "Albüm : Hayat Rüya Gibi • Göksel"
+      - region "Son Oluşturulan ve Sistem Çalma Listeleri" [ref=e209]:
+        - heading "Son Oluşturulan & Sistem Tarafından Oluşturulan Playlistler" [level=2] [ref=e210]
+        - button "En Sevilen Popmikslerim" [ref=e212] [cursor=pointer]:
+          - generic [ref=e214]:
+            - paragraph [ref=e215]: En Sevilen Popmikslerim
+            - paragraph [ref=e216]: Sistem Tarafından Oluşturuldu • 00:03:06
+  - region "Müzik çalar" [ref=e217]:
+    - slider "Şarkı pozisyonu" [ref=e219]: "0"
+    - generic [ref=e220]:
+      - generic [ref=e221]:
+        - img "Albüm kapağı" [ref=e222]
+        - generic [ref=e223]:
+          - generic [ref=e224]:
+            - generic [ref=e225]: "Şarkı Adı :"
+            - generic [ref=e226]: Göksel - Sevil Neşelen
+          - generic [ref=e227]:
+            - generic [ref=e228]: "Albüm :"
+            - generic [ref=e229]: Hayat Rüya Gibi
+          - generic [ref=e230]:
+            - generic [ref=e231]: "Sanatçı :"
+            - generic [ref=e232]: Göksel
+          - generic [ref=e233]:
+            - time [ref=e234]: 00:00:00
+            - text: /
+            - time [ref=e235]: 00:05:00
+            - generic [ref=e236]: "· Bitrate : 350 kbps"
+      - generic [ref=e238]:
+        - img "Önceki" [ref=e239] [cursor=pointer]
+        - img "Oynat" [ref=e240] [cursor=pointer]
+        - img "Durdur" [ref=e241] [cursor=pointer]
+        - img "İleri" [ref=e242] [cursor=pointer]
+      - generic [ref=e243]:
+        - generic [ref=e244]:
+          - img "Tekrarla" [ref=e245] [cursor=pointer]
+          - img "Karıştır" [ref=e246] [cursor=pointer]
+          - img "Ekolayzır" [ref=e247] [cursor=pointer]
+          - img "Tam Ekran" [ref=e248] [cursor=pointer]
+          - img "Playlist" [ref=e249] [cursor=pointer]
+          - img "Wi-Fi" [ref=e250] [cursor=pointer]
+          - img "Bluetooth" [ref=e251] [cursor=pointer]
+          - img "Ayarlar" [ref=e252] [cursor=pointer]
+          - img "AI Terminal" [ref=e253] [cursor=pointer]
+        - generic [ref=e254]:
+          - img "Ses Seviyesi" [ref=e255]: "% 50"
+          - slider [ref=e257]: "0.5"
+          - paragraph [ref=e258]: "% 50"

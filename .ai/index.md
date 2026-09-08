@@ -2,8 +2,8 @@
 title: "CoreMusic Vault — Master Index"
 type: system
 authority: SSOT
-version: 26.0.0
-total_files: 500
+version: 27.2.0
+total_files: 726
 total_adr: 79
 ---
 
@@ -35,6 +35,7 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | ADR kataloğu | § 5 bu dosya |
 | Servis haritası | § 6 bu dosya |
 | Veritabanı | § 8 bu dosya |
+| UI / Mockup / Frontend | [[ui-design/00-mockup-index]] (18 PNG Mockup, C01-C16 Envanteri) |
 
 ---
 
@@ -65,16 +66,56 @@ Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1�
 | L6 Electronics | [[architecture/l6-electronics]] | Hardware, firmware, driver, DSP, audio engine |
 | L5 Services | [[architecture/l5-services]] | Application services, use cases, CQRS, event bus |
 | L4 Domain | [[architecture/l4-domain]] | Business rules, entities, value objects, aggregates |
-| L3 Presentation | [[architecture/l3-presentation]] | Frontend, UI, DOM, responsive |
+| L3 Presentation | [[architecture/l3-presentation]] · [[ui-design/00-mockup-index]] | Frontend, UI, DOM, responsive, 18 PNG mockup, C01-C16 |
+| L3 Rehber | [[architecture/l3-presentation/scale-router-css-frontend-guide]] | Scale, Router, CSS & Frontend Entegrasyon Rehberi (adım adım) |
 | L2 Routing | [[architecture/l2-routing]] | SPA PageRouter, API Gateway, subdomain routing |
 | L1 Security | [[architecture/l1-security]] | Middleware pipeline, session, auth, CSRF, CSP |
 | L0 Infrastructure | [[architecture/l0-infrastructure]] | Database, cache, filesystem, IPC, credential vault |
 
 ---
 
+## 4A. UI Design System & Mockup Otoritesi (Kanonik SSOT)
+
+**Tüm frontend (HTML/CSS/JS/PHP layout) geliştirme görevlerinin tartışmasız başlangıç noktası ve Tek Doğruluk Kaynağıdır (SSOT).**
+
+| Dosya / Dizin | İçerik ve Amaç | Zorunluluk |
+|---------------|----------------|------------|
+| [[ui-design/00-mockup-index]] | 18 PNG Mockup İndeksi (12 home-1024 + 6 shared-1024) | ✅ Tüm frontend görevlerinde İLK OKUNACAK |
+| [[ui-design/01-component-inventory]] | C01–C16 Kanonik Bileşen Envanteri (BEM, ölçüm, token) | ✅ Bileşen kodlarken ZORUNLU |
+| [[ui-design/02-implementation-plan]] | 15 Adımlık CSS Uygulama Yol Haritası | ✅ CSS yazarken ZORUNLU |
+| [[ui-design/03-accessibility-gaps]] | WCAG 2.2 AA Uyum ve Touch Target Denetimi (min 48px) | ✅ Erişilebilirlik için ZORUNLU |
+| [[ui-design/screens/00-ascii-art-index]] | Piksel düzeyinde ASCII Art ekran modelleri (x:0-1024, y:0-600) | ✅ Layout hizalamada ZORUNLU |
+| [[ui-design/tokens/design-tokens-master]] | Master CSS Design Tokens (Renk, Boşluk, Tipografi, Cam) | ✅ Token kullanımında ZORUNLU |
+| [[ui-design/prompt/00-prompt-index]] | Ekran, Bileşen, Layout ve Sayfa Prompt Şablonları | ✅ Kod üretiminde ZORUNLU |
+| `.ai/.png/home-1024/` & `shared-1024/` | 18 Orijinal PNG Mockup Görselleri | ✅ Görsel referans doğrulamada ZORUNLU |
+
+### 4A.1 Device-Aware Rendering Kuralları (v1.0.0)
+
+**Tek bileşen ilkesi + cihaz bazlı CSS override sistemi. Detaylı kurallar: [[brain.md]] §18C**
+
+| Kural | Açıklama | Referans |
+|-------|----------|----------|
+| Tek HTML yapısı | `home.php`, `header.php`, `footer.php` tek dosya | Guardrail #17 |
+| Ayrı dosya yasağı | `home-1024.php`, `home-desktop.html` YASAKTIR | Guardrail #17 |
+| Backend sorumluluğu | PHP: davranışsal konfigürasyon (widget count, feature toggle) | [[brain.md]] §18C |
+| Frontend sorumluluğu | CSS: sunum kararları (token, media query, grid) | [[brain.md]] §18C |
+| Tek bileşen + CSS | Fark CSS media query + CSS variables ile yönetilir | [[ui-design/responsive-device-mode]] |
+| WCAG 2.2 AA | Phone/Embedded: min 48px touch target | [[ui-design/03-accessibility-gaps]] |
+| Katman ihlal | PHP'de margin/padding/width/height kodlanamaz | [[brain.md]] §18C |
+
+| Dosya | İçerik | Kullanım |
+|-------|--------|----------|
+| [[ui-design/responsive-device-mode]] | 4-Tier Conditional Rendering mimarisi | Cihaz bazlı layout kararları |
+| [[architecture/l3-presentation/device-css]] | 7 device CSS + 4 view mode CSS | Behavioral overrides |
+| [[brain.md]] §18A | Responsive CSS Architecture Rules | Token tanımları, yasak örüntüler |
+| [[brain.md]] §18B | 4-Tier Device Manager Sistemi | DeviceManager karar metotları |
+| [[brain.md]] §18C | Device-Aware Rendering Kuralları | Backend/Frontend sorumluluk sınırları |
+
+---
+
 ## 5. Mimari Kararlar (ADR)
 
-Toplam 87 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-087 (güncellenebilir).
+Toplam 79 ADR (Frozen: 37, Active: 30, Rejected: 12). Frozen: 001-037 (değiştirilemez). Active: 038-088 (güncellenebilir).
 
 ### 5.1 Frozen (001-037)
 
@@ -118,7 +159,7 @@ Toplam 87 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-087 (güncelleneb
 | [[decisions/accepted/ADR-036-multi-project-prompt-maker]] | Multi-project prompt maker | AI |
 | [[decisions/accepted/ADR-037-wirelessconnect-integration]] | WirelessConnect integration | Integration |
 
-### 5.2 Active (038-064)
+### 5.2 Active (038-088)
 
 | ADR | Konu | Kategori |
 |-----|------|----------|
@@ -151,12 +192,13 @@ Toplam 87 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-087 (güncelleneb
 | [[decisions/accepted/ADR-085-modular-composer-packages]] | Shared Library Hybrid (tek shared/ + PSR-4 namespace) | Infrastructure |
 | [[decisions/accepted/ADR-086-event-driven-architecture]] | Event Driven Architecture (PSR-14) | Architecture |
 | [[decisions/accepted/ADR-087-master-implementation-plan]] | Master Implementation Plan (Sıfırdan Geliştirme Kapsamı) | Architecture |
+| [[decisions/accepted/ADR-088-gender-based-social-oauth]] | Gender-Based Social OAuth | Social |
 
 ### 5.3 Reddedilen Kararlar
 
 | Dosya | Kapsam |
 |-------|--------|
-| [[decisions/rejected/README]] | Reddedilen ADR listesi ve gerekçeleri |
+| [[decisions/rejected/index]] | Reddedilen ADR listesi ve gerekçeleri |
 
 ---
 
@@ -216,7 +258,7 @@ Toplam 87 ADR. Frozen: 001-037 (değiştirilemez). Active: 038-087 (güncelleneb
 | Data Engineer | MySQL 18 BCNF, PDO | L0 Infrastructure, schema, migration |
 | Embedded Engineer | C++20, JUCE, ASIO | Audio DSP, hardware, ring buffer |
 | QA Engineer | PHPUnit, Vitest, Playwright | Testing, coverage, E2E |
-| DevOps Engineer | CI/CD, Docker, GitLeaks | Deployment, pipeline, monitoring |
+| DevOps Engineer | CI/CD, GitHub Actions, GitLeaks | Deployment, pipeline, monitoring |
 
 Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], [[.agents/ui-designer]], [[.agents/security-engineer]], [[.agents/data-engineer]], [[.agents/embedded-engineer]], [[.agents/qa-engineer]], [[.agents/devops-engineer]], [[.agents/master-orchestrator]], [[.agents/audio-hardware-engineer]], [[.agents/dsp-firmware-engineer]], [[.agents/windows-software-engineer]]
 
@@ -249,6 +291,8 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 ---
 
 ## 9. Projeler
+
+> **Durum (2026-09-06):** `projects/` klasoru bos oldugu icin §9'daki isimli 20 referans icin STUB dosyalar olusturuldu (VERIFICATION REQUIRED; detay: [[projects/index]]). "EQ alt modülleri (7)" isimsizdir — doğrulanmadan stub üretilmez.
 
 ### 9.1 Neva Engine (C++ Audio)
 
@@ -322,7 +366,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ---
 
-## 11A. Skills (10 Skill — Guardrail #16 Zorunlu)
+## 11B. Skills (10 Skill — Guardrail #16 Zorunlu)
 
 | # | Skill | Amaç | Konum |
 |---|-------|------|-------|
@@ -343,6 +387,8 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ## 12. Vault Altyapısı
 
+> **⚠️ Güncellik Notu (2026-09-06):** Aşağıda referans verilen `sessions/`, `registry/`, `scaffold/`, `knowledge/`, `confidence/`, `research/`, `personas/`, `workflows/`, `testing/`, `projects/` dizinleri vault ağacında mevcut DEĞİLDİR; bu bölümdeki ilgili wiki-linkler kırıktır. Düzeltme seçenekleri (yeniden kurma / referans temizliği) onay listesindedir.
+
 | Kategori | Dosyalar |
 |----------|----------|
 | Session | [[sessions/index]] |
@@ -361,7 +407,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | UI-Design Flow | [[ui-design/flow/00-flow-index]], [[ui-design/flow/auth/04-select-gender]] |
 | Research | [[research/verified/php84-strict-types]], [[research/verified/argon2id]], [[research/verified/aes-256-gcm]], [[research/verified/pcm3168a]], [[research/verified/asio-sdk]], [[research/verified/juce8]], [[research/verified/xmos-xu316]], [[research/verified/trusted-types-domparser]], [[research/verified/itcss-bemit-layer]], [[research/verified/wcag-22-aa]], [[research/verified/mariadb-1011]] |
 | Personas | [[personas/index]], [[personas/methodology]], [[personas/mood-taxonomy]] |
-| Templates | [[.templates/index]] — 26 template (PHP, JS, CSS, C++, PHPUnit, Vitest, Migration, Docker, GitHub Actions, API-doc, Security-audit, ADR, Arduino, AVR, PIC, C, Node.js, ASP.NET, WikiPage, Query, Session) |
+| Templates | [[.templates/index]] — 25 template (PHP, JS, CSS, C++, PHPUnit, Vitest, Migration, GitHub Actions, API-doc, Security-audit, ADR, Arduino, AVR, PIC, C, Node.js, ASP.NET, WikiPage, Query, Session) |
 | Workflows | [[workflows/adr-creation]], [[workflows/dev-workflow]], [[workflows/code-review]], [[workflows/deployment]], [[workflows/hallucination-control]], [[workflows/security-audit]], [[workflows/session-init]], [[workflows/vault-sync-detailed]] |
 | Root | [[engine]], [[index-overview]], [[index-services]], [[index-adr]], [[decisions/index]], [[research/index]] |
 
@@ -374,7 +420,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | Home Media Center | Windows/Linux/macOS | PC/Laptop |
 | Car Audio System | Windows/Android Auto | Raspberry Pi 5 / PCM3168A |
 | Professional Studio | Windows (WASAPI/ASIO) | 8.1 Surround + Class AB |
-| NAS Audio Server | Linux (Docker) | Synology/QNAP |
+| NAS Audio Server | Linux | Synology/QNAP |
 | DAC Control System | Windows/Linux | XMOS XU316 + PCM3168A |
 
 ---
@@ -427,18 +473,21 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | § 9 Projeler | [[projects/NevaEngine/overview]] | C++ ses motoru |
 | § 10 Donanım | [[electronic/hardware-roadmap]] | 3 fazlı geliştirme |
 | § 11 Test | [[testing/coverage-targets]] | Kapsama hedefleri |
+| § 4A UI Design | [[ui-design/00-mockup-index]] | 18 PNG, C01-C16, Mockup SSOT |
+| § 4A.1 Device-Aware | [[brain.md]] §18C | Backend/Frontend sorumluluk sınırları, Tek Bileşen İlkesi |
 
 ---
 
 ## 18. Metadata
 
-- **Toplam dosya:** 493
-- **Toplam ADR:** 78 (Frozen: 37, Active: 41)
-- **Versiyon:** 26.0.0
+- **Toplam dosya:** 726
+- **Toplam ADR:** 79 (Frozen: 37, Active: 30, Rejected: 12)
+- **Versiyon:** 27.2.0
+- **Son Güncelleme:** 2026-09-06 (ADR-088 kaydı, dosya/ADR sayaç düzeltmeleri, kırık referans uyarısı)
 - **Governance:** Red Team · Human Mode · Truth Mode
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-13
+**Last Updated:** 2026-09-05
 **Mode:** Red Team · Human Mode · Truth Mode

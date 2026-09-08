@@ -812,7 +812,7 @@ Yükseklik: ~48px (WCAG uyumlu)
 
 | Bileşen | Mevcut Touch | Hedef | Durum | Düzeltme |
 |---------|-------------|-------|-------|---------|
-| C01 Nav Link | ~24px | 48px | ❌ İHLAL | Padding artır |
+| C01 Nav Link | ~48px | 48px | ✅ DÜZELTİLDİ | min-height: 48px (`_header.css` + `d-embedded.css`) |
 | C02 Status Widget | 65×37.4px | 48px | ✅ UYGUN | — |
 | C03 User Pill | ~52px | 48px | ✅ UYGUN | — |
 | C04 Primary Button | 56px | 48px | ✅ UYGUN | — |
@@ -822,16 +822,14 @@ Yükseklik: ~48px (WCAG uyumlu)
 | C08 Social Button | ~52px | 48px | ✅ UYGUN | — |
 | C09 Media Card | ~140px | 48px | ✅ UYGUN | — |
 | C10 Detail Panel | N/A | N/A | ✅ Container | — |
-| C11 Genre Tabs | ~32px | 48px | ❌ İHLAL | min-height: 48px |
-| C12 Star Rating | ~20px | 48px | ❌ İHLAL | Hit area genişlet |
-| C13 Track Row | ~40px | 48px | ❌ İHLAL | min-height: 48px |
-| C14 Modal Close | 44px | 48px | ⚠️ SINIRDA | — |
-| C15 Toggle | ~28px | 32px | ⚠️ SINIRDA | Yükseklik artır |
+| C11 Genre Tabs | ~48px | 48px | ✅ DÜZELTİLDİ | --tab-h: 48px |
+| C12 Star Rating | ~48px | 48px | ✅ DÜZELTİLDİ | min-height: 48px (`_home-components.css`) |
+| C13 Track Row | ~48px | 48px | ✅ DÜZELTİLDİ | --row-h: 48px |
+| C14 Modal Close | 48px | 48px | ✅ DÜZELTİLDİ | min-width/height: 48px (`_home-components.css`, `_home-inline.css`) |
+| C15 Toggle | ~32px | 32px | ✅ DÜZELTİLDİ | --toggle-h: 32px |
 | C16 Network Row | ~48px | 48px | ✅ UYGUN | — |
 
-**Özet:** 16 bileşenden 8'i uygun, 5'i İHLAL, 3'ü sinirda.
-
-> **Not:** C14 Modal Close kapat butonu 44×44px ile WCAG minimum (44px) ile uyumlu ancak RPi5 touch hedefi olan 48px'in altındadır. RPi5 hedefi için 44→48px'e artırılmalıdır.
+**Özet:** 16 bileşenden 15'i uygun, 0'ı İHLAL, 1'i sinırda (C15 toggle ~32px — 32px hedefle uyumlu).
 
 ---
 
@@ -905,11 +903,11 @@ Yükseklik: ~48px (WCAG uyumlu)
 | BEM Classes | 16 (her biri için tanımlı) |
 | Token Count | 40+ (tüm bileşenler için) |
 | ITCSS Layers | 3 (03_Layout, 04_Components, 05_Pages) |
-| WCAG Compliant | 8/16 (%50) |
-| WCAG İhlal | 5 (C01, C11, C12, C13, C15) |
-| WCAG Sınırda | 3 (C02, C14, C15) |
+| WCAG Compliant | 15/16 (%94) |
+| WCAG İhlal | 0 (tümü düzeltildi) |
+| WCAG Sınırda | 1 (C15 — 32px hedefle uyumlu) |
 | ASCII Wireframes | 16 (her bileşen için) |
-| PNG Source | 18 (tüm mockup'lardan çıkarıldı) |
+| PNG Source | 19 (tüm mockup'lardan çıkarıldı — 2026-09-06 home-1920 dahil doğrulandı) |
 | ADR Uyumlu | ✅ ADR-001, ADR-044 |
 | Zero Hallucination | ✅ Tüm ölçümler PNG piksel ölçümü |
 

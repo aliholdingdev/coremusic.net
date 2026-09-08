@@ -15,25 +15,28 @@
 @import url("./01_Abstracts/a-fonts-token.css?v=2.1.0");
 @import url("./01_Abstracts/a-colors-token.css?v=2.1.0");
 @import url("./01_Abstracts/a-semantic-token.css?v=2.1.0");
+@import url("./01_Abstracts/a-color-mode-tokens.css?v=1.0.0");
 @import url("./01_Abstracts/a-theme-config.css?v=2.1.0");
 @import url("./01_Abstracts/a-light-glass-tokens.css?v=2.1.0");
 @import url("./01_Abstracts/a-login-tokens.css?v=2.1.0");
 @import url("./01_Abstracts/a-breakpoint-tokens.css?v=2.1.0");
+@import url("./01_Abstracts/a-scale-hybrid.css?v=1.0.0");       /* Hibrit ölçeklendirme sistemi — layout tokens'tan ÖNCE */
 @import url("./01_Abstracts/a-layout-tokens.css?v=2.1.0");
 
 @import url("./02_Base/b-base-core.css?v=2.1.0");
 @import url("./02_Base/l-main-structural.css?v=2.1.0");
 
 @import url("./03_Layout/_header.css?v=2.1.0");          /* header.php — 70px nav */
-@import url("./03_Layout/_footer.css?v=2.1.0");          /* footer.php — 138px player */
+@import url("./03_Layout/_footer.css?v=2.2.0");          /* footer.php — --footer-h token player */
 
 
 @import url("./04_Components/c-scrollbar-accent.css?v=2.1.0");
-@import url("./04_Components/c-footer-seek.css?v=2.1.0");
-@import url("./04_Components/c-footer-volume.css?v=2.1.0");
+@import url("./04_Components/c-footer-seek.css?v=2.2.0");
+@import url("./04_Components/c-footer-volume.css?v=2.2.0");
 
 
 @import url("./05_Pages/_home.css?v=2.1.0");             /* pages/home.php */
+@import url("./05_Pages/_player.css?v=1.0.0");            /* pages/player.php */
 
 
 @import url("./06_Utilities/u-helpers-utility.css?v=2.1.0");

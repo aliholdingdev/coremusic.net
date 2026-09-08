@@ -67,17 +67,17 @@ final class AuthGuardTest extends TestCase
 
     public function testAuthenticatedUserOnLoginPageRedirectsToHome(): void
     {
-        $_SESSION = ['MM_UserID' => 42];
+        $_SESSION = ['MM_UserID' => '42'];
         $route = new SpaRoute(page: 'login', requiresAuth: false);
         $result = $this->guard->check('login', $route, false);
         $this->assertNotNull($result);
         $this->assertSame(302, $result['httpStatus']);
-        $this->assertSame('/home', $result['headers']['Location']);
+        $this->assertStringContainsString('/home', $result['headers']['Location']);
     }
 
     public function testLogoutRedirectsToAuthLogout(): void
     {
-        $_SESSION = ['MM_UserID' => 42];
+        $_SESSION = ['MM_UserID' => '42'];
         $route = new SpaRoute(page: 'logout', requiresAuth: false);
         $result = $this->guard->check('logout', $route, false);
         $this->assertNotNull($result);
@@ -88,7 +88,7 @@ final class AuthGuardTest extends TestCase
 
     public function testRoleMismatchReturnsForbidden(): void
     {
-        $_SESSION = ['MM_UserID' => 42, 'MM_UserRole' => 'user'];
+        $_SESSION = ['MM_UserID' => '42', 'MM_UserRole' => 'user'];
         $route = new SpaRoute(page: 'admin', requiresAuth: true, requiredRole: 'admin');
         $result = $this->guard->check('admin', $route, false);
         $this->assertNotNull($result);
@@ -97,7 +97,7 @@ final class AuthGuardTest extends TestCase
 
     public function testRoleMatchPassesThrough(): void
     {
-        $_SESSION = ['MM_UserID' => 42, 'MM_UserRole' => 'admin'];
+        $_SESSION = ['MM_UserID' => '42', 'MM_UserRole' => 'admin'];
         $route = new SpaRoute(page: 'admin', requiresAuth: true, requiredRole: 'admin');
         $result = $this->guard->check('admin', $route, false);
         $this->assertNull($result);

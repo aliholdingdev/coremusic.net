@@ -90,7 +90,7 @@ Bu dosya, CoreMusic ekosistemindeki tüm AI ajanlarının Referans Alması gerek
 | 50 | **Audio Interface** | Expert | USB Audio Class 2.0, ASIO |
 | 51 | **Operating Systems** | Expert | |
 | 52 | **Windows** | Expert | IIS, WAMP, COM interop, Registry, Services |
-| 53 | **Linux** | Expert | System administration, Docker, Service management |
+| 53 | **Linux** | Expert | System administration, Service management |
 | 54 | **Raspberry Pi OS** | Expert | ARM64, Embedded Linux |
 | 55 | **Embedded Linux** | Expert | Yocto, Buildroot, Custom kernels |
 
@@ -167,8 +167,9 @@ Sıfırdan geliştirme, clean architecture, merkezi auth, security-first, zero c
 | § 5 SPA Vizyonu | [[archives/prompt1-spa-router-2026-08-13]] | SPA router kaynağı |
 | § 6 API Vizyonu | [[archives/prompt3-api-2026-08-13]] | API mimarisi kaynağı |
 | § 7 Teknoloji Seçimi | [[archives/prompt0-genel-ana-prompt-2026-08-13]] | Composer paket öncelik sırası |
-| § UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi — 18 PNG, frontend ZORUNLU |
-| § Mockup PNG'ler | `.ai/.png/home-1024/` + `.ai/.png/shared-1024/` | RPi5 1024×600 mockup'lar |
+| § UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi — 19 PNG, frontend ZORUNLU |
+| § Mockup PNG'ler | `.ai/.png/home-1024/` + `.ai/.png/home-1920/` + `.ai/.png/shared-1024/` | RPi5 1024×600 + Desktop 1920×1080 mockup'lar |
+| § Responsive Kuralları | [[ui-design/responsive-device-mode]] | 4K No-Center (§7.4) + Backward-Compat (§12) bağlayıcı |
 
 ---
 

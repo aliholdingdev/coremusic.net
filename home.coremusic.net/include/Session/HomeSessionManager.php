@@ -3,6 +3,7 @@
 namespace CoreMusic\Home\Session;
 
 use CoreMusic\Interfaces\Auth\ISessionManager;
+use CoreMusic\Session\SessionBootstrapper;
 
 /**
  * Home Session Manager
@@ -13,8 +14,6 @@ use CoreMusic\Interfaces\Auth\ISessionManager;
  */
 final class HomeSessionManager implements ISessionManager
 {
-    private const COOKIE_EXPIRY = 42000;
-
     public function __construct(
         private readonly string $sessionName = 'COREMUSIC_SESS',
         private readonly string $cookieDomain = '.coremusic.net',
@@ -22,20 +21,7 @@ final class HomeSessionManager implements ISessionManager
 
     public function setAuthUser(array $user): void
     {
-        // Session aktif değilse başlat
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_name($this->sessionName);
-            $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
-            session_set_cookie_params([
-                'lifetime' => 0,
-                'path'     => '/',
-                'domain'   => $this->cookieDomain,
-                'secure'   => $isHttps,
-                'httponly'  => true,
-                'samesite' => 'Lax',
-            ]);
-            session_start();
-        }
+        SessionBootstrapper::ensureStarted();
         // UUID hex string olarak sakla (BINARY(16) uyumlu)
         // API 'user_id' döndürür, 'id' değil
         $_SESSION['MM_UserID']      = $user['user_id'] ?? $user['id'] ?? '';
@@ -74,29 +60,8 @@ final class HomeSessionManager implements ISessionManager
 
     public function destroy(): void
     {
-        $_SESSION = [];
+        SessionBootstrapper::restartFresh();
 
-        if (ini_get('session.use_cookies')) {
-            $params = session_get_cookie_params();
-            setcookie(session_name(), '', time() - self::COOKIE_EXPIRY, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
-        }
-
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            session_destroy();
-        }
-
-        session_name($this->sessionName);
-        $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
-        session_set_cookie_params([
-            'lifetime' => 0,
-            'path'     => '/',
-            'domain'   => $this->cookieDomain,
-            'secure'   => $isHttps,
-            'httponly'  => true,
-            'samesite' => 'Lax',
-        ]);
-        session_start();
-        session_regenerate_id(true);
         $now = time();
         $_SESSION['_session_last_active'] = $now;
         $_SESSION['_session_created_at']  = $now;

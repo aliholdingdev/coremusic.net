@@ -313,7 +313,7 @@ ARGON2ID_THREADS=2
 | Dosya | Amaç |
 |-------|------|
 | [[architecture/02-deployment/ci-cd-pipeline]] | CI/CD pipeline |
-| [[architecture/02-deployment/docker-compose]] | Docker kurulumu |
+| [[architecture/02-deployment/deployment-architecture]] | Deployment mimarisi |
 | [[architecture/02-deployment/observability]] | İzleme |
 | [[architecture/00-overview/startup-strategy]] | Faz stratejisi |
 | [[architecture/l1-security/index]] | Güvenlik |

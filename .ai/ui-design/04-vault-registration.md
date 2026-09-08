@@ -50,6 +50,21 @@ Mockup'ları `.ai/` vault'una kalıcı olarak tanıtma planı. **Bu adım yapıl
 | ASCII art keyword | ✅ MEVCUT | — |
 | Screen spec keyword | ✅ MEVCUT | — |
 
+### 2.5 — 2026-09-06 Senkronizasyon Kaydı (PNG Doğrulama + Kural Entegrasyonu)
+
+| Dosya | Değişiklik | Durum |
+|-------|-----------|-------|
+| `.ai/ui-design/mockups/02-home-screens-1920.md` | v2.1.0 — gerçek PNG analiziyle düzeltildi (kart formatı, 5 istatistik, Istanbul, footer 70px, nav 8) | ✅ TAMAMLANDI |
+| `.ai/ui-design/screens/B-home/dashboard-1920.md` | v1.0.0 YENİ — 19. PNG'nin ASCII art view spec'i (Top-Band Home) | ✅ TAMAMLANDI |
+| `.ai/ui-design/screens/B-home/dashboard.md` | §11.2'ye düzeltme uyarısı + dashboard-1920 pointer | ✅ TAMAMLANDI |
+| `.ai/ui-design/screens/00-ascii-art-index.md` | v3.1.0 — 18→19 PNG, dashboard-1920 ToC girişi | ✅ TAMAMLANDI |
+| `.ai/ui-design/responsive-device-mode.md` | v3.2.0 — §7.4 4K No-Center (ortalamama YASAK) + §12 Geriye Dönük Uyumluluk (fallback matrisi) eklendi | ✅ TAMAMLANDI |
+| `.ai/ui-design/02-implementation-plan.md` | v3.2.0 — Adım 2 responsive aksiyonu + referans tablosu güncellendi | ✅ TAMAMLANDI |
+| `.ai/CLAUDE.md` | §7.1 tablosu: 19 PNG, referans sıralaması, §7.4/§12 bağlayıcı notlar | ✅ TAMAMLANDI |
+| `.ai/ROLE.md`, `.ai/WORKFLOW.md`, `.ai/engine.md` | UI Design referansları 19 PNG + home-1920 + responsive kuralları | ✅ TAMAMLANDI |
+| `.ai/AGENTS.md` | §7.2 Pre-flight: responsive uyum kontrolü eklendi | ✅ TAMAMLANDI |
+| `C:\www\versacoder\opencode\.opencode\rules\frontend-png-rules.md` | 13 kural: 19 PNG cross-reference, referans sıralaması (Kural 3.1), 4K No-Center (Kural 7), backward-compat (Kural 11), DevTools doğrulama (Kural 12), dinamik keşif (Kural 13) | ✅ TAMAMLANDI |
+
 ---
 
 ## 3. Doğrulama Kontrolleri

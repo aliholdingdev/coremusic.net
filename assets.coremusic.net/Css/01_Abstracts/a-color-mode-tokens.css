@@ -1,0 +1,232 @@
+/**
+ * CoreMusic — Color Mode Tokens (Dark/Light)
+ * ITCSS Layer: 01_Abstracts
+ * Version: 1.0.0 — 2026-09-01
+ *
+ * Dark mode = :root (varsayılan, mevcut davranış korunur)
+ * Light mode = html[data-mode="light"] override'ları
+ *
+ * Kullanım:
+ *   <html data-mode="dark">  → koyu tema (varsayılan)
+ *   <html data-mode="light"> → aydınlık tema
+ *
+ * Gender teması bu modun ÜZERİNDE çalışır.
+ * Yani: female+dark, female+light, male+dark, male+light mümkün.
+ *
+ * CSS cascade sırası:
+ *   1. :root (dark varsayılan)
+ *   2. [data-gender] (gender override)
+ *   3. @media prefers-color-scheme (OS default)
+ *   4. html[data-mode] (kullanıcı override — en yüksek öncelik)
+ */
+
+/* ============================================================
+   DARK MODE — :root (varsayılan)
+   Mevcut token'lar zaten dark mode için tanımlı.
+   Bu dosyada dark mode için EK TANIM YAPMAZ.
+   Sadece light mode override'ları ekler.
+   ============================================================ */
+
+/* ============================================================
+   LIGHT MODE — OS Varsayılanı
+   prefers-color-scheme: light olduğunda devreye girer
+   html[data-mode] attribute'u yoksa bu devreye girer
+   ============================================================ */
+@media (prefers-color-scheme: light) {
+  html:not([data-mode]) {
+    /* --- Background --- */
+    --bg-base:        #f8f7fc;    /* Açık mor-beyaz */
+    --bg-surface:     #ffffff;    /* Beyaz kart */
+    --bg-elevated:    #f0eef5;    /* Hover/aktif */
+    --bg-overlay:     rgba(0, 0, 0, 0.50);
+    --bg-subtle:      rgba(0, 0, 0, 0.03);
+    --bg-muted:       rgba(0, 0, 0, 0.06);
+    --bg-player:      #ffffff;
+    --bg-admin:       #f0eef5;
+    --bg-terminal:    #1a1025;
+
+    /* --- Text --- */
+    --text-primary:   #1a1025;    /* Koyu mor-siyah */
+    --text-secondary: rgba(26, 16, 37, 0.72);
+    --text-muted:     rgba(26, 16, 37, 0.48);
+    --text-faint:     rgba(26, 16, 37, 0.28);
+    --text-disabled:  rgba(26, 16, 37, 0.20);
+    --text-on-brand:  #ffffff;
+
+    /* --- Border --- */
+    --border-default:  rgba(0, 0, 0, 0.12);
+    --border-subtle:   rgba(0, 0, 0, 0.06);
+    --border-strong:   rgba(0, 0, 0, 0.20);
+    --border-glass:    rgba(0, 0, 0, 0.08);
+
+    /* --- Interactive --- */
+    --interactive-secondary:       rgba(0, 0, 0, 0.06);
+    --interactive-secondary-hover: rgba(0, 0, 0, 0.10);
+    --interactive-secondary-active:rgba(0, 0, 0, 0.14);
+
+    /* --- Glass --- */
+    --glass-1-bg:     rgba(0, 0, 0, 0.03);
+    --glass-1-border: rgba(0, 0, 0, 0.06);
+    --glass-2-bg:     rgba(0, 0, 0, 0.05);
+    --glass-2-border: rgba(0, 0, 0, 0.08);
+    --glass-3-bg:     rgba(0, 0, 0, 0.08);
+    --glass-3-border: rgba(0, 0, 0, 0.12);
+    --glass-4-bg:     rgba(0, 0, 0, 0.12);
+    --glass-4-border: rgba(0, 0, 0, 0.18);
+    --glass-5-bg:     rgba(0, 0, 0, 0.16);
+    --glass-5-border: rgba(0, 0, 0, 0.24);
+
+    /* --- Overlay --- */
+    --overlay-dark:   rgba(0, 0, 0, 0.60);
+    --overlay-medium: rgba(0, 0, 0, 0.40);
+    --overlay-light:  rgba(0, 0, 0, 0.20);
+    --overlay-photo:  rgba(248, 247, 252, 0.35);
+
+    /* --- Gradient --- */
+    --gradient-hero:    linear-gradient(180deg, #f8f7fc 0%, #f0eef5 100%);
+    --gradient-card:    linear-gradient(135deg, #f0eef5, #ffffff);
+    --gradient-overlay: linear-gradient(180deg, transparent 0%, #f8f7fc 100%);
+
+    /* --- Player --- */
+    --player-bg:            #ffffff;
+    --player-progress-bg:   rgba(0, 0, 0, 0.12);
+    --player-waveform-bg:   rgba(0, 0, 0, 0.08);
+    --player-time:          rgba(26, 16, 37, 0.48);
+    --player-control:       #1a1025;
+    --player-control-muted: rgba(26, 16, 37, 0.48);
+    --player-border:        rgba(0, 0, 0, 0.08);
+
+    /* --- Theme defaults (neutral light) --- */
+    --theme-bg-base:    #f8f7fc;
+    --theme-bg-surface: #ffffff;
+    --theme-bg-elevated:#f0eef5;
+    --theme-shadow:     0 2px 8px rgba(0, 0, 0, 0.08);
+    --theme-shadow-lg:  0 4px 16px rgba(0, 0, 0, 0.12), 0 8px 32px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* ============================================================
+   LIGHT MODE — Kullanıcı Override'ı
+   html[data-mode="light"] = en yüksek öncelik
+   ============================================================ */
+html[data-mode="light"] {
+  /* --- Background --- */
+  --bg-base:        #f8f7fc;
+  --bg-surface:     #ffffff;
+  --bg-elevated:    #f0eef5;
+  --bg-overlay:     rgba(0, 0, 0, 0.50);
+  --bg-subtle:      rgba(0, 0, 0, 0.03);
+  --bg-muted:       rgba(0, 0, 0, 0.06);
+  --bg-player:      #ffffff;
+  --bg-admin:       #f0eef5;
+  --bg-terminal:    #1a1025;
+
+  /* --- Text --- */
+  --text-primary:   #1a1025;
+  --text-secondary: rgba(26, 16, 37, 0.72);
+  --text-muted:     rgba(26, 16, 37, 0.48);
+  --text-faint:     rgba(26, 16, 37, 0.28);
+  --text-disabled:  rgba(26, 16, 37, 0.20);
+  --text-on-brand:  #ffffff;
+
+  /* --- Border --- */
+  --border-default:  rgba(0, 0, 0, 0.12);
+  --border-subtle:   rgba(0, 0, 0, 0.06);
+  --border-strong:   rgba(0, 0, 0, 0.20);
+  --border-glass:    rgba(0, 0, 0, 0.08);
+
+  /* --- Interactive --- */
+  --interactive-secondary:       rgba(0, 0, 0, 0.06);
+  --interactive-secondary-hover: rgba(0, 0, 0, 0.10);
+  --interactive-secondary-active:rgba(0, 0, 0, 0.14);
+
+  /* --- Glass --- */
+  --glass-1-bg:     rgba(0, 0, 0, 0.03);
+  --glass-1-border: rgba(0, 0, 0, 0.06);
+  --glass-2-bg:     rgba(0, 0, 0, 0.05);
+  --glass-2-border: rgba(0, 0, 0, 0.08);
+  --glass-3-bg:     rgba(0, 0, 0, 0.08);
+  --glass-3-border: rgba(0, 0, 0, 0.12);
+  --glass-4-bg:     rgba(0, 0, 0, 0.12);
+  --glass-4-border: rgba(0, 0, 0, 0.18);
+  --glass-5-bg:     rgba(0, 0, 0, 0.16);
+  --glass-5-border: rgba(0, 0, 0, 0.24);
+
+  /* --- Overlay --- */
+  --overlay-dark:   rgba(0, 0, 0, 0.60);
+  --overlay-medium: rgba(0, 0, 0, 0.40);
+  --overlay-light:  rgba(0, 0, 0, 0.20);
+  --overlay-photo:  rgba(248, 247, 252, 0.35);
+
+  /* --- Gradient --- */
+  --gradient-hero:    linear-gradient(180deg, #f8f7fc 0%, #f0eef5 100%);
+  --gradient-card:    linear-gradient(135deg, #f0eef5, #ffffff);
+  --gradient-overlay: linear-gradient(180deg, transparent 0%, #f8f7fc 100%);
+
+  /* --- Player --- */
+  --player-bg:            #ffffff;
+  --player-progress-bg:   rgba(0, 0, 0, 0.12);
+  --player-waveform-bg:   rgba(0, 0, 0, 0.08);
+  --player-time:          rgba(26, 16, 37, 0.48);
+  --player-control:       #1a1025;
+  --player-control-muted: rgba(26, 16, 37, 0.48);
+  --player-border:        rgba(0, 0, 0, 0.08);
+
+  /* --- Theme defaults --- */
+  --theme-bg-base:    #f8f7fc;
+  --theme-bg-surface: #ffffff;
+  --theme-bg-elevated:#f0eef5;
+  --theme-shadow:     0 2px 8px rgba(0, 0, 0, 0.08);
+  --theme-shadow-lg:  0 4px 16px rgba(0, 0, 0, 0.12), 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+/* ============================================================
+   LIGHT MODE + FEMALE THEME
+   ============================================================ */
+html[data-mode="light"][data-gender="female"] {
+  --theme-bg-base:    #f8f7fc;
+  --theme-bg-surface: #fff5f7;
+  --theme-bg-elevated:#ffe8ee;
+  --theme-shadow:     0 2px 8px rgba(232, 180, 184, 0.20);
+  --theme-shadow-lg:  0 4px 16px rgba(232, 180, 184, 0.25), 0 8px 32px rgba(232, 180, 184, 0.10);
+}
+
+/* ============================================================
+   LIGHT MODE + MALE THEME
+   ============================================================ */
+html[data-mode="light"][data-gender="male"] {
+  --theme-bg-base:    #f0f5fa;
+  --theme-bg-surface: #ffffff;
+  --theme-bg-elevated:#e8f0f8;
+  --theme-shadow:     0 2px 8px rgba(91, 143, 185, 0.20);
+  --theme-shadow-lg:  0 4px 16px rgba(91, 143, 185, 0.25), 0 8px 32px rgba(91, 143, 185, 0.10);
+}
+
+/* ============================================================
+   LIGHT MODE + NEUTRAL THEME
+   ============================================================ */
+html[data-mode="light"][data-gender="neutral"] {
+  --theme-bg-base:    #f8f7fc;
+  --theme-bg-surface: #ffffff;
+  --theme-bg-elevated:#f0eef5;
+  --theme-shadow:     0 2px 8px rgba(184, 169, 201, 0.20);
+  --theme-shadow-lg:  0 4px 16px rgba(184, 169, 201, 0.25), 0 8px 32px rgba(184, 169, 201, 0.10);
+}
+
+/* ============================================================
+   DARK MODE — Kullanıcı Override'ı
+   html[data-mode="dark"] = explicit dark
+   ============================================================ */
+html[data-mode="dark"] {
+  /* Dark mode = :root default'ları zaten doğru.
+   Sadece explicit dark seçildiğinde emin olmak için
+   prefers-color-scheme override'larını iptal et. */
+}
+
+@media (prefers-color-scheme: light) {
+  html[data-mode="dark"] {
+    /* Kullanıcı explicitly dark seçtiyse,
+       OS light olsa bile dark modda kal */
+    all: initial;
+  }
+}

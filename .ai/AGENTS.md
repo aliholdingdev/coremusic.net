@@ -65,7 +65,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 | 5 | **Data Engineer** | `data` | MySQL 18 BCNF, PDO, migration | L0 | MySQL 9, PDO, BCNF |
 | 6 | **Embedded Engineer** | `embedded` | C++20, JUCE, ASIO, DSP | L0 | C++20, JUCE 9, ASIO SDK 2.3.4 |
 | 7 | **QA Engineer** | `qa` | Test, coverage, E2E | Cross-cutting | PHPUnit 11, Vitest, Playwright |
-| 8 | **DevOps Engineer** | `devops` | CI/CD, Docker, deploy | CI/CD | GitHub Actions, Docker, GitLeaks |
+| 8 | **DevOps Engineer** | `devops` | CI/CD, GitHub Actions, deploy | CI/CD | GitHub Actions, GitLeaks |
 | 9 | **Audio Hardware Engineer** | `audio-hw` | DAC/ADC, PCB, amplifier | HW | PCM3168A, AK4458, Class AB |
 | 10 | **DSP Firmware Engineer** | `dsp-fw` | XMOS, PCM3168A, DSP chain | FW | XMOS XU316, I2S, TDM |
 | 11 | **Windows Software Engineer** | `win-sw` | WASAPI, driver, platform | PLAT | WASAPI, COM, WinRT, WDK |
@@ -98,12 +98,12 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 | Keyword Grubu | Birincil Agent | İkincil Agent |
 |---------------|----------------|---------------|
 | API, endpoint, routing, middleware, PHP, controller, repository | Backend Architect | Security Engineer |
-| CSS, UI, responsive, accessibility, ITCSS, BEM, frontend, design, JS | UI Designer | QA Engineer |
+| CSS, UI, responsive, accessibility, ITCSS, BEM, frontend, design, JS, mockup, ui-design, c01-c16 | UI Designer | QA Engineer |
 | CSRF, CSP, XSS, OWASP, auth, encryption, security, session, rate limit | Security Engineer | Backend Architect |
 | database, SQL, BCNF, migration, query, schema, MySQL, PDO, index | Data Engineer | Backend Architect |
 | C++, ASIO, JUCE, audio, DSP, Neva Engine, ring buffer, WASAPI, hardware | Embedded Engineer | DevOps Engineer |
 | test, coverage, PHPUnit, Vitest, Playwright, E2E, unit test, integration | QA Engineer | — |
-| CI/CD, Docker, deploy, infrastructure, pipeline, monitoring, GitLeaks | DevOps Engineer | QA Engineer |
+| CI/CD, GitHub Actions, deploy, infrastructure, pipeline, monitoring, GitLeaks | DevOps Engineer | QA Engineer |
 | vault, documentation, ADR, wiki-link, index, keys, brain | MO (vault-updater) | — |
 | template, şablon, şablon, template usage, .templates | Tüm ajanlar (guardrail #16) | MO (koordinasyon) |
 
@@ -114,7 +114,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 ```
 Kullanıcı İsteği
   → [1. Analiz] — Keyword çıkarma, domain eşleme
-    → [2. Pre-flight Checks] — Bağımlılık, dosya kontrolü
+    → [2. Pre-flight Checks] — Bağımlılık, dosya kontrolü, UI Design mockup kontrolü
       → [3. Task Assignment] — Doğru ajanı seç ve görev ata
         → [4. Execution] — Ajan görevi yürütür
           → [5. Handover] — Gerekirse diğer ajana transfer
@@ -138,6 +138,8 @@ Kullanıcı İsteği
 | Domain boundary | Doğru ajan | Layer violation → revert |
 | Dosya etkileniyor mu? | Eşzamanlı erişim | Context lock |
 | Bağımlılık var mı? | Handover gerekli | Transfer başlat |
+| UI Design uyumu | [[ui-design/00-mockup-index]] (19 PNG) ve C01-C16 kontrolü; referans sırası: PNG > ASCII art > Inventory > Tokens | Mockup okunmadıysa → DUR |
+| Responsive uyum | [[ui-design/responsive-device-mode]] §7.4 (4K'da ortalamama) + §12 (fallback zorunlu) | Tier kuralı ihlal edilmişse → RED |
 | Önceki görev başarısız mı? | Retry / escalation | Max 3 retry |
 
 ### 7.3 Adım 3: Görev Atama
@@ -380,7 +382,7 @@ Ajan dosyaya erişmek ister
 | 5 | Data Engineer | L0 (Infrastructure) | MySQL 9, PDO, BCNF | [[.agents/data-engineer]] |
 | 6 | Embedded Engineer | L0 (Hardware) | C++20, JUCE 9, ASIO SDK 2.3.4 | [[.agents/embedded-engineer]] |
 | 7 | QA Engineer | Cross-cutting | PHPUnit 11, Vitest, Playwright | [[.agents/qa-engineer]] |
-| 8 | DevOps Engineer | CI/CD | GitHub Actions, Docker, GitLeaks | [[.agents/devops-engineer]] |
+| 8 | DevOps Engineer | CI/CD | GitHub Actions, GitLeaks | [[.agents/devops-engineer]] |
 | 9 | Audio HW Engineer | HW | PCM3168A, AK4458, Class AB | [[.agents/audio-hardware-engineer]] |
 | 10 | DSP Firmware Engineer | FW | XMOS XU316, I2S, TDM | [[.agents/dsp-firmware-engineer]] |
 | 11 | Windows SW Engineer | PLAT | WASAPI, COM, WinRT, WDK | [[.agents/windows-software-engineer]] |
@@ -394,7 +396,7 @@ Ajan dosyaya erişmek ister
 | Agent | Standart | Hedef |
 |-------|----------|-------|
 | Backend | strict_types, PSR-12, prepared statement | %100 |
-| UI | ITCSS uyum, BEM namespace, WCAG 2.2 AA | %100 |
+| UI | ITCSS uyum, BEM namespace, WCAG 2.2 AA, ui-design C01-C16 uyumu | %100 |
 | Security | OWASP Top 10, CSRF=`csrf_token`, Argon2id | %100 |
 | Data | BCNF, no ORM, no SELECT *, prepared | %100 |
 | Embedded | Zero-allocation, lock-free, noexcept | %100 |

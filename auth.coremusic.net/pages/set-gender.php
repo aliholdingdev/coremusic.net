@@ -13,11 +13,11 @@ $cspNonce      = $_SESSION['csp_nonce'] ?? '';
     <input type="hidden" id="gender-input" name="gender" value="neutral">
     <div class="lgn-gender-select">
       <button type="button" class="lgn-gender-btn" data-gender="female">
-        <span class="lgn-gender-btn__icon">👩</span>
-        <span class="lgn-gender-btn__label">Kadın</span>
+        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/kız-gender-select.png" alt="Kız" width="28" height="28"></span>
+        <span class="lgn-gender-btn__label">Kız</span>
       </button>
       <button type="button" class="lgn-gender-btn" data-gender="male">
-        <span class="lgn-gender-btn__icon">👨</span>
+        <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/erkek-gender-select.png" alt="Erkek" width="28" height="28"></span>
         <span class="lgn-gender-btn__label">Erkek</span>
       </button>
     </div>

@@ -3,15 +3,15 @@ type: index
 category: decisions
 title: "CoreMusic — Decisions Index"
 date: 2026-08-15
-updated: 2026-08-15
+updated: 2026-09-06
 status: active
-version: 1.0.0
+version: 1.1.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total-accepted: 66
+total-accepted: 67
 total-rejected: 12
 total-frozen: 37
-total-active: 29
+total-active: 30
 ---
 
 # CoreMusic — Decisions Index
@@ -25,9 +25,9 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Durum | Sayı | Açıklama |
 |-------|------|----------|
 | **Frozen** | 37 | Değiştirilemez (ADR-001 → ADR-037) |
-| **Active** | 29 | Güncellenebilir (ADR-038 → ADR-087) |
+| **Active** | 30 | Güncellenebilir (ADR-038 → ADR-088) |
 | **Rejected** | 12 | Reddedilen kararlar |
-| **Toplam** | 78 | — |
+| **Toplam** | 79 | — |
 
 ## 3. Frozen ADR'ler (001-037)
 
@@ -71,7 +71,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[ADR-036-multi-project-prompt-maker]] | Multi-Project Prompt Maker | AI |
 | [[ADR-037-wirelessconnect-integration]] | WirelessConnect Integration | Audio |
 
-## 4. Active ADR'ler (038-087)
+## 4. Active ADR'ler (038-088)
 
 | ADR | Başlık | Kategori |
 |-----|--------|----------|
@@ -104,6 +104,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[ADR-085-modular-composer-packages]] | Shared Library Hybrid (tek shared/ + PSR-4 namespace) | Architecture |
 | [[ADR-086-event-driven-architecture]] | Event Driven Architecture | Architecture |
 | [[ADR-087-master-implementation-plan]] | Master Implementation Plan | Architecture |
+| [[ADR-088-gender-based-social-oauth]] | Gender-Based Social OAuth | Social |
 
 ## 5. Reddedilen ADR'ler
 
@@ -137,15 +138,15 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Testing | 1 | 0 | 1 |
 | Documentation | 1 | 0 | 1 |
 | Download | 1 | 0 | 1 |
-| Social | 1 | 0 | 1 |
+| Social | 1 | 1 | 2 |
 | Mobile | 1 | 0 | 1 |
 | Vault | 0 | 1 | 1 |
 | Electronics | 0 | 4 | 4 |
-| **TOPLAM** | **37** | **29** | **66** |
+| **TOPLAM** | **37** | **30** | **67** |
 
 ---
 
-*Decisions Index v1.0.0 — CoreMusic Vault*
+*Decisions Index v1.1.0 — CoreMusic Vault*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-15*
+*Last Updated: 2026-09-06*
 *Mode: Red Team · Human Mode · Truth Mode*

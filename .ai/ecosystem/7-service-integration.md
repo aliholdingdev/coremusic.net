@@ -251,7 +251,7 @@ Request → OriginCheck → Cors → RateLimiter → SecurityHeaders → Session
 | **Home Media Center** | Control, Media, Audio, AI | MySQL (18 BCNF) |
 | **Car Audio System** | Control, Audio, Device | SQLite (local) |
 | **Professional Studio** | Control, Media, Audio, Network | MySQL (18 BCNF) |
-| **NAS Audio Server** | Control, Media, Download | MySQL (Docker) |
+| **NAS Audio Server** | Control, Media, Download | MySQL (local) |
 | **DAC Control System** | Control, Audio, Device | SQLite (local) |
 
 *Kaynak: [[architecture/00-overview/architecture-master]] §5.1*

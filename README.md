@@ -43,7 +43,7 @@ Platform yalnızca bir müzik oynatıcı değildir. Müzik indirme, yönetme, ar
 | 🎧 Bireysel Kullanıcılar | Kişisel müzik kütüphane yönetimi, çevrimdışı dinleme |
 | 🎛️ Profesyonel Üreticiler | Stüdyo kalitesinde ses, 31-band EQ, DSP zinciri |
 | 🏢 Stüdyolar | 8.1 surround ses, çoklu oda senkronizasyonu |
-| 🚗 Araç İçi | CarPlay/Android Auto entegrasyonu,低 gecikmeli ses |
+| 🚗 Araç İçi | CarPlay/Android Auto entegrasyonu, düşük gecikmeli ses |
 | 🏠 Ev Medya | NAS entegrasyonu, multi-room ses, ev otomasyonu |
 
 ---
@@ -223,7 +223,7 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 
 ## 🗄️ Veritabanı Yapısı
 
-**11 BCNF İzole Veritabanı** (ADR-040)
+**18 BCNF İzole Veritabanı** (ADR-040)
 
 | # | Veritabanı | Amaç | Tablo |
 |---|------------|------|-------|
@@ -238,8 +238,15 @@ SessionManager → BypassAuth → RateLimiter → Auth → SecurityHeaders → C
 | 9 | coremusic_system | Settings, config, cache, EQ presets | 13 |
 | 10 | coremusic_social | Comments, shares, activity, rooms | 9 |
 | 11 | coremusic_wireless | WiFi + Bluetooth networks | 5 |
+| 12 | coremusic_ai | User preferences, features, recommendations | 6 |
+| 13 | coremusic_api | API keys, rate limits, call logs, webhooks | 4 |
+| 14 | coremusic_cms | Pages, blog, tags, media, FAQs, banners | 8 |
+| 15 | coremusic_download | Download queue, history, cache, sources | 4 |
+| 16 | coremusic_neva | EQ presets, DSP, routing matrix | 4 |
+| 17 | coremusic_studio | Studio sessions, tracks, presets, equipment | 6 |
+| 18 | coremusic_patch | Schema versions, migration logs | 3 |
 
-**Toplam:** 17 veritabanı, ~100+ tablo, BCNF normalizasyonu
+**Toplam:** 18 veritabanı, 156 tablo, BCNF normalizasyonu
 
 **Veritabanı Kuralları:**
 - ❌ ORM yasak (Eloquent, Doctrine)
@@ -452,9 +459,9 @@ main ← producción
 
 | Metrik | Değer |
 |--------|-------|
-| Vault Dosyası | 529+ |
-| ADR Sayısı | 72 |
-| Veritabanı | 11 BCNF |
+| Vault Dosyası | 726 |
+| ADR Sayısı | 79 |
+| Veritabanı | 18 BCNF |
 | Web Paneli | 10 |
 | Backend Servisi | 7 |
 | Platform Desteği | 5 (Windows, Linux, macOS, RPi, ReactOS) |

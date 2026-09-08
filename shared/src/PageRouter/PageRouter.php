@@ -5,6 +5,7 @@ namespace CoreMusic\PageRouter;
 use CoreMusic\Config\ConfigManager;
 use CoreMusic\Config\DomainConfig;
 use CoreMusic\Cache\PageCacheInterface;
+use CoreMusic\Device\DeviceDetector;
 
 final class PageRouter
 {
@@ -112,7 +113,9 @@ final class PageRouter
     private function resolvePageFile(SpaRoute $route): string
     {
         $base = defined('PAGES_PATH') ? (string)PAGES_PATH : (__DIR__ . '/../../../pages');
-        return rtrim($base, '/\\') . '/' . ltrim($route->page, '/') . '.php';
+        $basePath = rtrim($base, '/\\') . '/';
+
+        return $basePath . ltrim($route->page, '/') . '.php';
     }
 
     private function renderPage(string $pageFile, string $csrfToken = '', array $meta = []): string
@@ -125,6 +128,29 @@ final class PageRouter
             $csrfField    = $csrfToken !== ''
                 ? '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($csrfToken, ENT_QUOTES, 'UTF-8') . '">'
                 : '';
+
+            // Device detection — template'lerde $device değişkeni olarak kullanılır
+            // Viewport bilgisi: cookie (cm_viewport_w/h) → HTTP header → $_SERVER
+            $viewportW = !empty($_SERVER['VIEWPORT_W'])
+                ? (int)$_SERVER['VIEWPORT_W']
+                : (!empty($_COOKIE['cm_viewport_w']) ? (int)$_COOKIE['cm_viewport_w'] : null);
+            $viewportH = !empty($_SERVER['VIEWPORT_H'])
+                ? (int)$_SERVER['VIEWPORT_H']
+                : (!empty($_COOKIE['cm_viewport_h']) ? (int)$_COOKIE['cm_viewport_h'] : null);
+
+            if ($viewportW !== null) {
+                $_SERVER['VIEWPORT_W'] = $viewportW;
+            }
+            if ($viewportH !== null) {
+                $_SERVER['VIEWPORT_H'] = $viewportH;
+            }
+
+            $device = DeviceDetector::detect(
+                $_SERVER['HTTP_USER_AGENT'] ?? null,
+                $viewportW,
+                $viewportH
+            );
+
             include $pageFile;
         } catch (\Throwable $e) {
             ob_end_clean();

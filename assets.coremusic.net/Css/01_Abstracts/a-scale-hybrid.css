@@ -1,0 +1,269 @@
+/**
+ * CoreMusic — Hibrit Ölçeklendirme Sistemi
+ * ITCSS Layer: 01_Abstracts
+ * Version: 3.0.0 — 2026-09-04
+ *
+ * Hibrit model: JS transform:scale + CSS custom properties
+ *   1. JS transform:scale — Genel sayfa ölçeklendirmesi (managers/ScaleManager.js)
+ *   2. CSS custom properties — Bireysel element boyutları (tipografi, buton, boşluk)
+ *   3. Quick Controls — CSS kontrollü görünürlük (--quick-controls-display)
+ *
+ * JS köprüsü: ScaleManager root'a data-scale-tier + data-dpr + data-aspect
+ * yazar ve --quick-controls-display token'ını inline senkronize eder.
+ *
+ * Base: RPi5 1024×600 (gömülü cihaz)
+ * Scale Ratio: 1.25 (Major Third — modular scale)
+ *
+ * Kullanım:
+ *   font-size: var(--fs-base);          → akıcı tipografi
+ *   min-width: var(--btn-size-md);      → modüler buton boyutu
+ *   padding: var(--gap-md);             → orantılı boşluk
+ *
+ * Guardrail #17 uyumlu: Tek component + responsive CSS
+ *
+ * NOT: JS scale (transform:scale) genel ölçeklendirme yapar.
+ *      Bu dosya SADECE bireysel element boyutlarını tanımlar.
+ *      ScaleManager.js ile çakışma olmaz.
+ */
+
+/* ============================================================
+   1. MODÜLER ÖLÇEK — Oran Bazlı Boyutlandırma
+   Base: 10px | Ratio: 1.25 (Major Third)
+   Her seviye bir öncekinin 1.25 katıdır.
+   ============================================================ */
+:root {
+  /* ── Modüler Ölçek Değerleri ── */
+  --ms-0:   10px;   /* base */
+  --ms-1:   12px;   /* 10 × 1.25^1 = 12.5 → yuvarlanmış */
+  --ms-2:   16px;   /* 10 × 1.25^2 = 15.625 */
+  --ms-3:   20px;   /* 10 × 1.25^3 = 19.53 */
+  --ms-4:   25px;   /* 10 × 1.25^4 = 24.41 */
+  --ms-5:   31px;   /* 10 × 1.25^5 = 30.52 */
+  --ms-6:   39px;   /* 10 × 1.25^6 = 38.15 */
+  --ms-7:   49px;   /* 10 × 1.25^7 = 47.68 */
+
+  /* ── Ters Modüler Ölçek (Küçülen) ── */
+  --ms-n1:  8px;    /* 10 / 1.25^1 = 8 */
+  --ms-n2:  6px;    /* 10 / 1.25^2 = 6.4 */
+
+  /* ── Oran Çarpanı (JS/CSS erişimi için) ── */
+  --scale-ratio: 1.25;
+}
+
+/* ============================================================
+   2. AKICI TİPOGRAFİ — clamp() ile Kesintisiz Ölçeklendirme
+   Min: 1024px embedded, Max: 3840px 4K TV
+   vw = viewport genişliği reference için kullanılır
+   ============================================================ */
+:root {
+  /* ── Font Boyutları (Akıcı) ── */
+  --fs-3xs:  clamp(8px,  0.7vw,  12px);   /* caption, badge */
+  --fs-2xs:  clamp(9px,  0.8vw,  13px);   /* micro label */
+  --fs-xs:   clamp(10px, 0.85vw, 14px);   /* footnote, meta */
+  --fs-sm:   clamp(11px, 0.95vw, 16px);   /* small text */
+  --fs-base: clamp(12px, 1.05vw, 18px);   /* body text */
+  --fs-lg:   clamp(14px, 1.2vw,  21px);   /* subtitle */
+  --fs-xl:   clamp(16px, 1.4vw,  24px);   /* section title */
+  --fs-2xl:  clamp(20px, 1.7vw,  30px);   /* page title */
+  --fs-3xl:  clamp(25px, 2.1vw,  38px);   /* hero title */
+
+  /* ── Font Ağırlıkları ── */
+  --fw-light:    300;
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+  --fw-black:    900;
+
+  /* ── Satır Yüksekliği ── */
+  --lh-tight:   1.1;
+  --lh-snug:    1.25;
+  --lh-normal:  1.5;
+  --lh-relaxed: 1.7;
+
+  /* ── Harf Boşluğu ── */
+  --ls-tight:   -0.02em;
+  --ls-snug:    -0.01em;
+  --ls-normal:  0;
+  --ls-wide:    0.04em;
+  --ls-wider:   0.08em;
+}
+
+/* ============================================================
+   3. CİHAZ KADEMESİ — Bileşen Boyutları
+   Base: embedded (1024px)
+   JS scale genel ölçeklendirme yapar, bu dosya bireysel boyutları tanımlar
+   ============================================================ */
+
+/* ── Varsayılan: Embedded (1024px) ── */
+:root {
+  /* Bileşen Boyutları */
+  --btn-size-xs:   32px;
+  --btn-size-sm:   36px;
+  --btn-size-md:   42px;
+  --btn-size-lg:   48px;
+  --btn-size-xl:   56px;
+
+  /* İkon Boyutları */
+  --icon-size-xs:  10px;
+  --icon-size-sm:  12px;
+  --icon-size-md:  14px;
+  --icon-size-lg:  18px;
+  --icon-size-xl:  22px;
+
+  /* Kart Boyutları */
+  --card-padding-xs:  6px;
+  --card-padding-sm:  8px;
+  --card-padding-md:  12px;
+  --card-padding-lg:  16px;
+
+  /* Boşluk Ölçeği */
+  --gap-xs:  4px;
+  --gap-sm:  6px;
+  --gap-md:  8px;
+  --gap-lg:  12px;
+  --gap-xl:  16px;
+  --gap-2xl: 24px;
+
+  /* Kenar Yuvarlaklığı */
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+}
+
+/* ============================================================
+   4. HIZLI KONTROLLER (Quick Controls) — Görünürlük Kuralları
+   ≤1024px: Gizli (mobil, tablet, gömülü)
+   >1024px: Görünür (laptop, masaüstü, 4K)
+   ScaleManager.js bu token'ı data-scale-tier ile senkronize eder.
+   ============================================================ */
+:root {
+  --quick-controls-display: none;
+}
+
+/* ============================================================
+   5. JS SCALE UYUMLULUĞU — transform:scale ile çakışma önleme
+   JS scale genel ölçeklendirme yapar.
+   Bu bölüm sadece JS scale'in çalışmadığı durumlar için fallback sağlar.
+   ============================================================ */
+
+/* Phone — JS scale uygulanmaz, CSS handle eder */
+@media (max-width: 767px) {
+  :root {
+    --btn-size-xs:   28px;
+    --btn-size-sm:   32px;
+    --btn-size-md:   38px;
+    --btn-size-lg:   44px;
+    --icon-size-md:  12px;
+    --icon-size-lg:  16px;
+    --gap-md:        6px;
+    --gap-lg:        10px;
+  }
+}
+
+/* Embedded — JS scale 0.82 uygular, CSS bireysel boyutları düşürür */
+@media (min-width: 768px) and (max-width: 1024px) {
+  :root {
+    --btn-size-xs:   30px;
+    --btn-size-sm:   34px;
+    --btn-size-md:   40px;
+    --btn-size-lg:   46px;
+    --icon-size-md:  13px;
+    --icon-size-lg:  16px;
+    --gap-md:        7px;
+    --gap-lg:        10px;
+  }
+}
+
+/* Laptop — JS scale lineer 0.82→1.00 uygular */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  :root {
+    --btn-size-xs:   35px;
+    --btn-size-sm:   40px;
+    --btn-size-md:   46px;
+    --btn-size-lg:   53px;
+    --icon-size-md:  15px;
+    --icon-size-lg:  20px;
+    --gap-md:        9px;
+    --gap-lg:        13px;
+    --quick-controls-display: flex;
+  }
+}
+
+/* Orta Masaüstü — JS scale 1.00 uygular */
+@media (min-width: 1441px) and (max-width: 1919px) {
+  :root {
+    --btn-size-xs:   37px;
+    --btn-size-sm:   41px;
+    --btn-size-md:   48px;
+    --btn-size-lg:   55px;
+    --icon-size-md:  16px;
+    --icon-size-lg:  21px;
+    --gap-md:        9px;
+    --gap-lg:        14px;
+    --quick-controls-display: flex;
+  }
+}
+
+/* Geniş Masaüstü — JS scale 1.00 uygular */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  :root {
+    --btn-size-xs:   38px;
+    --btn-size-sm:   43px;
+    --btn-size-md:   50px;
+    --btn-size-lg:   58px;
+    --icon-size-md:  17px;
+    --icon-size-lg:  22px;
+    --gap-md:        10px;
+    --gap-lg:        14px;
+    --quick-controls-display: flex;
+  }
+}
+
+/* 2K — JS scale lineer 1.00→1.20 uygular */
+@media (min-width: 2560px) and (max-width: 3839px) {
+  :root {
+    --btn-size-xs:   43px;
+    --btn-size-sm:   49px;
+    --btn-size-md:   57px;
+    --btn-size-lg:   65px;
+    --icon-size-md:  19px;
+    --icon-size-lg:  24px;
+    --gap-md:        11px;
+    --gap-lg:        16px;
+    --quick-controls-display: flex;
+  }
+}
+
+/* 4K TV — JS scale 0.90 uygular, CSS token ile ek büyütme */
+@media (min-width: 3840px) and (max-width: 3840px) {
+  :root {
+    --btn-size-xs:   53px;
+    --btn-size-sm:   59px;
+    --btn-size-md:   69px;
+    --btn-size-lg:   79px;
+    --icon-size-md:  23px;
+    --icon-size-lg:  30px;
+    --gap-md:        13px;
+    --gap-lg:        20px;
+    --quick-controls-display: flex;
+  }
+}
+
+/* 4K Monitor — JS scale 0.85 uygular, mouse+fare, daha büyük */
+@media (min-width: 3841px) {
+  :root {
+    --btn-size-xs:   58px;
+    --btn-size-sm:   65px;
+    --btn-size-md:   76px;
+    --btn-size-lg:   87px;
+    --icon-size-md:  26px;
+    --icon-size-lg:  34px;
+    --gap-md:        15px;
+    --gap-lg:        22px;
+    --quick-controls-display: flex;
+  }
+}

@@ -12,21 +12,21 @@ governance: Red Team · Human Mode · Truth Mode
 
 # L3 — Presentation Layer Index
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[engine.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[engine.md]] · [[ui-design/00-mockup-index]]
 
 ---
 
 ## 1. Amaç
 
-CoreMusic platformunun sunum katmanını tanımlar. Vanilla JS, ITCSS 9-layer CSS mimarisi, TrustedTypes, Web Audio API ve UI component'leri bu katmanda yönetilir. [[ADR-001-vanilla-js-itcss]] ile uyumludur.
+CoreMusic platformunun sunum katmanını tanımlar. Vanilla JS, ITCSS 9-layer CSS mimarisi, TrustedTypes, Web Audio API, `.ai/ui-design/` (18 PNG Mockup, C01-C16 bileşenleri, 1024×600 Linux Embedded kanonik referansı) ve UI component'leri bu katmanda yönetilir. [[ADR-001-vanilla-js-itcss]] ile uyumludur.
 
 ---
 
 ## 2. Mimari Konum
 
 ```
-L3 Presentation (Bu Katman)
-  ↓ Vanilla JS, ITCSS, Web Audio
+L3 Presentation (Bu Katman) — SSOT: [[ui-design/00-mockup-index]] + C01-C16
+  ↓ Vanilla JS, ITCSS 9-layer, Web Audio
 L2 Routing
   ↓ PHP PageRouter
 L1 Security
@@ -42,12 +42,19 @@ L0 Infrastructure
 
 | Dosya | Amaç |
 |-------|------|
+| [[ui-design/00-mockup-index]] | 18 PNG Mockup İndeksi (Kanonik UI Tasarım SSOT) |
+| [[ui-design/01-component-inventory]] | C01–C16 Kanonik Bileşen Envanteri (BEM, ölçüm, token) |
+| [[ui-design/02-implementation-plan]] | 15 Adımlık CSS Uygulama Planı |
+| [[ui-design/screens/00-ascii-art-index]] | Piksel düzeyinde ASCII Art ekran modelleri (1024×600) |
 | [[itcss-architecture]] | ITCSS 9-layer CSS mimarisi |
 | [[vanilla-js-rules]] | Vanilla JS kuralları ve yasaklar |
 | [[web-audio]] | Web Audio API kullanımı |
 | [[theme-engine]] | Dinamik tema motoru (ADR-044) |
 | [[device-css]] | Cihaz bazlı responsive CSS |
-| [[components]] | UI component'leri |
+| [[components]] | UI component'leri köprüsü (C01–C16) |
+| [[scale-router-css-frontend-guide]] | Scale, Router, CSS & Frontend Entegrasyon Rehberi (adım adım kullanım kılavuzu) |
+| [[device-breakpoint-guide]] | Yeni Cihaz ve Çözünürlük Breakpoint Ekleme Rehberi (13 noktalı senkron zinciri) |
+| [[ai-instructions]] | AI Sistem Talimatları — Scale/Router/CSS/Device üretim akışı ve yasaklar |
 
 ---
 

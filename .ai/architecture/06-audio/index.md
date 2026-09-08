@@ -472,7 +472,7 @@ YouTube URL → nova-search-engine → deemix PHP port (Deezer FLAC) → 24/32-b
 | 3. Implementation | C++20 / PHP | Kod |
 | 4. Testing | Google Test / PHPUnit | Test sonuçları |
 | 5. Integration | Servis entegrasyonu | Çalışan sistem |
-| 6. Deployment | Docker / Manual | Production |
+| 6. Deployment | Manual / SSH | Production |
 
 ---
 

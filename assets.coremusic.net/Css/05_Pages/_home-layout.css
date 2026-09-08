@@ -1,68 +1,99 @@
 /**
  * CoreMusic — Home Page Layout
  * ITCSS Layer: 05_Pages
- * Version: 2.0.0 — 2026-08-22
+ * Version: 5.0.0 — 2026-09-04
  *
  * Layout Pattern: 2-Row Grid (PNG mockup 1024x600)
  * Row 1: Now Playing (left 42%) + Widgets 2×2 (right 58%)
  * Row 2: En Son Dinlenen (left) + Son Oluşturulan (center) + Sıradaki (right)
  * Platform: home-1024 (RPi5 1024×600) — default
  *
- * Content area: y:60–510 (header=60px, footer=90px)
- * Content padding: top=11px, bottom=15px, left/right=16px
+ * v5.0.0: Koşullu render — 3 layout
+ *   1. Embedded (Linux ARM): 1024×600 Split 42/58
+ *   2. Wide (≥1920px): 3-Sütun (Now Playing | Welcome | Widgets)
+ *   3. Fallback (1025-1919px): Desteklenmeyen çözünürlük ekranı
  */
 
 /* ============================================================
    HOME LAYOUT — 2-Row Grid
    ============================================================ */
 .home-layout {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  grid-template-columns: 1fr;
-  width: 100%;
-  gap: var(--grid-gap, 8px);
-  height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
-  padding: var(--content-padding-top, 11px)
-           var(--page-padding-x, 16px)
-           var(--content-padding-bottom, 15px);
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - var(--sidebar-offset, 0px));
+  gap: var(--grid-gap, 10px);
+  margin-top: var(--header-h, 60px);
+  min-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
+  max-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
+  padding: 8px 16px 8px;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: thin;
   box-sizing: border-box;
+  /* Cihaz geçişlerinde yumuşak geçiş */
+  opacity: 1;
+  transition: opacity 200ms ease-in-out, width 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Ultra-wide content constraint */
+  max-width: var(--content-max-w, none);
+  margin-inline: auto;
+}
+
+/* Sidebar açıkken content offset */
+body:not(.sidebar-collapsed) .home-layout {
+  --sidebar-offset: var(--sidebar-w, 280px);
+}
+
+/* Phone: sidebar offset yok */
+@media (max-width: 767px) {
+  .home-layout {
+    --sidebar-offset: 0px;
+    width: 100%;
+  }
+}
+
+/* Cihaz geçiş animasyonu (CSP-safe — inline style yok) */
+.cm-device-transitioning {
+  opacity: 0;
+}
+
+.cm-device-transition-complete {
+  opacity: 1;
 }
 
 /* ============================================================
-   ÜST SATIR — Now Playing (sol %42) + Widget'lar (sağ %58)
+   ÜST SATIR — Now Playing (sol 42%) + Widget'lar (sağ 58%)
+   PNG: Split layout, left panel 42%, right panel 58%
    ============================================================ */
 .home-layout__top {
   display: grid;
-  grid-template-columns: 42% 58%;
-  gap: var(--grid-gap, 8px);
+  grid-template-columns: var(--home-top-split, 42% 58%);
+  gap: var(--grid-gap, 12px);
   min-height: 0;
+  align-items: stretch;
 }
 
 .home-layout__top-left {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding-right: var(--space-2, 8px);
 }
 
 .home-layout__top-right {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding-left: var(--space-2, 8px);
 }
 
 /* ============================================================
    ALT SATIR — 3 sütun: En Son (sol) + Son Oluşturulan (orta) + Sıradaki (sağ)
+   PNG: 3-column layout with horizontal mini cards
    ============================================================ */
 .home-layout__bottom {
   display: grid;
-  grid-template-columns: 1fr 1.2fr 0.6fr;
-  gap: var(--grid-gap, 8px);
+  grid-template-columns: var(--home-bottom-split, 388px 388px 1fr);
+  gap: var(--grid-gap, 10px);
   min-height: 0;
+  align-items: start;
 }
 
 .home-layout__bottom-left {
@@ -86,7 +117,7 @@
 /* Widget Grid — 2×2 düzen (Hoparlörler, Hava, Tarih, Klasörler) */
 .home-widget-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(var(--widget-grid-cols, 2), 1fr);
   gap: var(--grid-gap, 8px);
 }
 
@@ -103,6 +134,8 @@
            var(--page-padding-x, 16px)
            var(--content-padding-bottom, 15px);
   overflow: hidden;
+  max-width: var(--content-max-w, none);
+  margin-inline: auto;
 }
 
 .standard-60-40__left {
@@ -135,6 +168,8 @@
            var(--page-padding-x, 16px)
            var(--content-padding-bottom, 15px);
   overflow: hidden;
+  max-width: var(--content-max-w, none);
+  margin-inline: auto;
 }
 
 .three-column-layout__sidebar { overflow-y: auto; scrollbar-width: thin; }
@@ -143,6 +178,7 @@
 
 /* ============================================================
    SECTION TITLES
+   PNG: Section titles above card grids
    ============================================================ */
 .section-title {
   font-family: var(--font-body, 'Arima', sans-serif);
@@ -154,7 +190,8 @@
 }
 
 /* ============================================================
-   CARD GRID
+   CARD GRID — Horizontal scroll for media cards
+   PNG: Cards are 140×140 with text below
    ============================================================ */
 .card-grid {
   display: grid;
@@ -177,6 +214,7 @@
 
 /* ============================================================
    CHECKBOX / TOGGLE ROW
+   PNG: "Oynatma listesini göster" checkbox
    ============================================================ */
 .toggle-row {
   display: flex;
@@ -191,38 +229,19 @@
 }
 
 /* ============================================================
-   RESPONSIVE — Desktop (1025+)
+   RESPONSIVE — Layout behavior overrides
+   Component boyutları token'lar tarafından yönetilir.
+   Media query'ler sadece layout davranışını değiştirir.
    ============================================================ */
-@media (min-width: 1025px) {
-  .home-layout__bottom {
-    grid-template-columns: 1fr 1.4fr 0.8fr;
-    gap: 12px;
-  }
-}
 
-/* ============================================================
-   RESPONSIVE — TV (1920+)
-   ============================================================ */
-@media (min-width: 1920px) {
-  .home-layout__bottom {
-    grid-template-columns: 1fr 1.5fr 1fr;
-    gap: 16px;
-  }
-
-  .section-title {
-    font-size: var(--text-xl, 28px);
-  }
-}
-
-/* ============================================================
-   RESPONSIVE — Mobile (<768px)
-   ============================================================ */
+/* Mobile (<768px) — stacked layout */
 @media (max-width: 767px) {
   .home-layout {
     grid-template-rows: auto auto;
     height: auto;
     min-height: calc(100dvh - 56px - 72px);
     padding: 8px 16px 12px;
+    margin-top: 0;
   }
 
   .home-layout__top {
@@ -237,4 +256,605 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
   }
+}
+
+/* ============================================================
+   PHONE LAYOUT — ≤767px (Mobil Telefon)
+   Tek sütun, dikey scroll, kompakt kartlar
+   ============================================================ */
+.home-layout--phone {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 16px 12px;
+  margin-top: 56px;
+  min-height: calc(100dvh - 56px - 72px);
+  overflow-y: auto;
+}
+
+.phone-now-playing {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+}
+
+.phone-now-playing__art {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.phone-now-playing__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.phone-now-playing__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.phone-now-playing__title {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.phone-now-playing__album,
+.phone-now-playing__artist {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.phone-now-playing__seek {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.phone-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.phone-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ============================================================
+   DEVICE-SPECIFIC LAYOUT CLASSES
+   PHP if ile render edilen HTML'deki .layout--{device} class'ları
+   Token-based: --home-bottom-split, --widget-grid-cols
+   ============================================================ */
+
+/* --- Embedded (RPi5 1024×600): Compact, touch-optimized --- */
+.layout--embedded {
+  --touch-min: 48px;
+  --card-height: 120px;
+}
+.layout--embedded .home-layout__top {
+  grid-template-columns: var(--home-top-split, 42% 58%);
+}
+.layout--embedded .home-layout__bottom {
+  grid-template-columns: var(--home-bottom-split, 1fr 1.2fr 0.6fr);
+  gap: var(--grid-gap, 8px);
+}
+.layout--embedded .home-widget-grid {
+  grid-template-columns: repeat(var(--widget-grid-cols, 2), 1fr);
+}
+.layout--embedded .section-title {
+  font-size: var(--text-base, 12px);
+}
+
+/* --- Laptop (1025-1440px): Medium layout --- */
+.layout--laptop {
+  --touch-min: 44px;
+  --card-height: 140px;
+}
+.layout--laptop .home-layout__top {
+  grid-template-columns: var(--home-top-split, 42% 58%);
+}
+.layout--laptop .home-layout__bottom {
+  grid-template-columns: var(--home-bottom-split, 1fr 1.4fr 0.8fr);
+  gap: var(--grid-gap, 10px);
+}
+.layout--laptop .home-widget-grid {
+  grid-template-columns: repeat(var(--widget-grid-cols, 2), 1fr);
+}
+.layout--laptop .section-title {
+  font-size: var(--text-lg, 14px);
+}
+
+/* --- Desktop (1920×1080): Wide layout --- */
+.layout--desktop {
+  --touch-min: 44px;
+  --card-height: 180px;
+}
+.layout--desktop .home-layout__top {
+  grid-template-columns: var(--home-top-split, 42% 58%);
+}
+.layout--desktop .home-layout__bottom {
+  grid-template-columns: var(--home-bottom-split, 1fr 1.5fr 1fr);
+  gap: var(--grid-gap, 12px);
+}
+.layout--desktop .home-widget-grid {
+  grid-template-columns: repeat(var(--widget-grid-cols, 3), 1fr);
+}
+.layout--desktop .section-title {
+  font-size: var(--text-xl, 16px);
+}
+
+/* --- 4K TV (3840×2160): Largest layout --- */
+.layout--4k-tv {
+  --touch-min: 64px;
+  --card-height: 240px;
+}
+.layout--4k-tv .home-layout__top {
+  grid-template-columns: var(--home-top-split, 42% 58%);
+}
+.layout--4k-tv .home-layout__bottom {
+  grid-template-columns: var(--home-bottom-split, 1fr 1.5fr 1fr);
+  gap: var(--grid-gap, 16px);
+}
+.layout--4k-tv .home-widget-grid {
+  grid-template-columns: repeat(var(--widget-grid-cols, 3), 1fr);
+}
+.layout--4k-tv .section-title {
+  font-size: var(--text-xl, 28px);
+}
+
+/* --- 4K Monitor (≥3841px): Same as 4K TV, max width, 4-column widget --- */
+.layout--4k-monitor .home-layout {
+  max-width: var(--content-max-w, 1920px); /* zoom:2 ile 3840px görsel */
+  margin-inline: 0; /* ortalama YOK — top-left sabit ölçek */
+}
+.layout--4k-monitor .home-layout__bottom {
+  grid-template-columns: var(--home-bottom-split, 1fr 1.5fr 1fr);
+  gap: var(--grid-gap, 16px);
+}
+.layout--4k-monitor .home-widget-grid {
+  grid-template-columns: repeat(var(--widget-grid-cols, 4), 1fr);
+}
+.layout--4k-monitor .section-title {
+  font-size: var(--text-xl, 28px);
+}
+
+/* ============================================================
+   1920+ LAYOUT — 3 Sütun (Desktop, 4K TV, 4K Monitor)
+   Mockup: .ai/.png/home-1920/Linux - 1920 - Home.png
+   Sol (%33): Now Playing | Orta (%34): Welcome Banner | Sağ (%33): Widgets
+   ============================================================ */
+.home-layout__top--wide {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: var(--grid-gap, 12px);
+  min-height: 0;
+  align-items: stretch;
+}
+
+/* Now Playing Card (wide) — canonical definition in _home-components.css */
+.home-layout__top-left--wide {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Welcome Banner (inline, orta sütun) */
+.home-layout__top-center {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.home-welcome-banner {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 200px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.home-welcome-banner__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.home-welcome-banner__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-welcome-banner__content {
+  position: relative;
+  z-index: 1;
+  padding: 20px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
+  width: 100%;
+}
+
+.home-welcome-banner__title {
+  font-family: 'Avalon Medium', system-ui, sans-serif;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 4px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.home-welcome-banner__user {
+  font-family: 'Bickham Script Pro', 'Georgia', cursive;
+  font-size: 28px;
+  color: #ffffff;
+  margin: 0 0 6px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+.home-welcome-banner__tagline {
+  font-family: 'Avalon Medium', system-ui, sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+  font-style: italic;
+  margin: 0 0 4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.home-welcome-banner__brand {
+  font-family: 'Bickham Script Pro', 'Georgia', cursive;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 10px;
+}
+
+.home-welcome-banner__btn {
+  display: inline-block;
+  padding: 12px 20px;
+  min-height: 48px; /* WCAG 2.5.8 — RPi5 touch target */
+  background: linear-gradient(135deg, #ff4fd8 0%, #ff8c42 100%);
+  border: none;
+  border-radius: 20px;
+  color: #ffffff;
+  font-family: 'Avalon Medium', system-ui, sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.home-welcome-banner__btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(255, 79, 216, 0.5);
+}
+
+.home-welcome-banner__stats {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.home-welcome-banner__stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.home-welcome-banner__stat-icon {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.home-welcome-banner__stat-value {
+  font-family: 'Avalon Medium', system-ui, sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ============================================================
+   EMBEDDED LAYOUT — 1024×600 (RPi5 / Linux Embedded)
+   Mockup: Image 1 (Welcome Popup) + Image 2 (Main Interface)
+   ============================================================ */
+.home-layout--embedded {
+  margin-top: var(--header-h, 60px);
+  min-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
+  max-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
+  padding: 6px 14px 6px;
+  gap: 8px;
+}
+
+.home-layout__top--embedded {
+  display: grid;
+  grid-template-columns: 42% 58%;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.home-layout__bottom--embedded {
+  display: grid;
+  grid-template-columns: 370px 370px 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.embedded-card-grid-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+/* ============================================================
+   WIDE LAYOUT — 1920×1080 (Desktop Widescreen)
+   Mockup: Image 3 (Linux - 1920 - Home.png)
+   ============================================================ */
+.home-layout--wide {
+  margin-top: var(--header-h, 65px);
+  min-height: calc(100vh - var(--header-h, 65px) - var(--footer-h, 104px));
+  max-height: calc(100vh - var(--header-h, 65px) - var(--footer-h, 104px));
+  padding: 12px 28px 12px;
+  gap: 16px;
+}
+
+/* Üst satır: 3 sütun (Now Playing | Welcome | Widgets) */
+.home-layout--wide .home-layout__top--wide {
+  display: grid;
+  grid-template-columns: 28% 36% 36%;
+  gap: 16px;
+  align-items: stretch;
+  min-height: 230px;
+}
+
+/* Sağ sütun: Widget'lar + Quick Apps yan yana */
+.home-layout__top-right--wide {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+/* Widget kümesi: 2×2 grid */
+.home-widgets-cluster--wide {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+/* Alt satır: 3 sütun (En Son | Playlistler | Boş) */
+.home-layout--wide .home-layout__bottom--wide {
+  display: grid;
+  grid-template-columns: 28% 36% 36%;
+  gap: 16px;
+  align-items: start;
+}
+
+.home-layout__bottom-col--empty {
+  min-height: 120px;
+  pointer-events: none;
+  background: transparent;
+}
+
+.home-cards-wrapper--wide {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ============================================================
+   4K & SMART TV LAYOUT — ≥2561px / 3840px
+   Özel 4K ölçeklendirilmiş tipografi, aralıklar ve 4K bileşenleri
+   ============================================================ */
+.home-layout--4k {
+  margin-top: var(--header-h, 80px);
+  margin-bottom: var(--footer-h, 120px);
+  min-height: calc(100vh - var(--header-h, 80px) - var(--footer-h, 120px));
+  padding: 24px 48px 24px;
+  gap: 28px;
+  max-width: var(--content-max-w, 1920px); /* zoom:2 ile 3840px görsel */
+  margin-inline: 0; /* ortalama YOK — top-left sabit ölçek */
+}
+
+.home-layout--4k .home-layout__top--4k {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 1.35fr);
+  gap: 28px;
+  align-items: stretch;
+  min-height: 320px;
+}
+
+.home-layout--4k .home-layout__bottom--4k {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr) minmax(0, 1.35fr);
+  gap: 28px;
+  align-items: start;
+}
+
+/* 4K Monitor — 4K TV'den farklı: mouse+fare, yüksek blur, 4 sütun widget */
+.home-layout--4k-monitor {
+  max-width: var(--content-max-w, 1920px); /* zoom:2 ile 3840px görsel */
+  margin-inline: 0; /* ortalama YOK — top-left sabit ölçek */
+  margin-top: var(--header-h, 90px);
+  margin-bottom: var(--footer-h, 130px);
+  min-height: calc(100vh - var(--header-h, 90px) - var(--footer-h, 130px));
+}
+
+.home-layout--4k-monitor .home-layout__top--4k {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1.4fr);
+  gap: 32px;
+}
+
+.home-layout--4k-monitor .home-layout__bottom--4k {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1.4fr);
+  gap: 32px;
+}
+
+/* 2K Override — ≥2560px (orta breakpoint) */
+@media (min-width: 2560px) and (max-width: 3839px) {
+  .home-layout {
+    max-width: var(--content-max-w, 1920px); /* zoom:2 ile uyumlu */
+    padding: 16px 36px 16px;
+    gap: 18px;
+  }
+
+  .home-layout__top {
+    grid-template-columns: var(--home-top-split, 30% 35% 35%);
+  }
+
+  .home-layout__bottom {
+    grid-template-columns: var(--home-bottom-split, 1fr 1.5fr 1fr);
+    gap: 18px;
+  }
+}
+
+/* ============================================================
+   4K UHD OVERRIDE — ≥3840px
+   Wide layout'da 4K token'ları ile genişletilmiş grid
+   Container ortalama YOK — top-left sabit ölçek
+   ============================================================ */
+@media (min-width: 3840px) {
+  .home-layout {
+    max-width: var(--content-max-w, 1920px); /* zoom:2 ile 3840px görsel */
+    margin-inline: 0; /* ortalama YOK — top-left sabit ölçek */
+    padding: 12px 32px 12px;
+    gap: var(--grid-gap, 16px);
+  }
+
+  .home-layout__top {
+    grid-template-columns: var(--home-top-split, 1fr 1.5fr 1fr);
+    gap: var(--grid-gap, 16px);
+  }
+
+  .home-layout__bottom {
+    grid-template-columns: var(--home-bottom-split, 1fr 1.5fr 1fr);
+    gap: var(--grid-gap, 16px);
+  }
+
+  .home-widget-grid {
+    grid-template-columns: repeat(var(--widget-grid-cols, 3), 1fr);
+    gap: var(--grid-gap, 16px);
+  }
+
+  .section-title {
+    font-size: var(--text-xl, 28px);
+  }
+}
+
+/* 4K Monitor Override — ≥3841px (mouse+keyboard, 4 sütun widget) */
+@media (min-width: 3841px) {
+  .home-layout {
+    max-width: var(--content-max-w, 1920px); /* zoom:2 ile 3840px görsel */
+    margin-inline: 0; /* ortalama YOK — top-left sabit ölçek */
+  }
+
+  .home-widget-grid {
+    grid-template-columns: repeat(var(--widget-grid-cols, 4), 1fr);
+  }
+}
+
+/* ============================================================
+   FALLBACK LAYOUT — Desteklenmeyen Çözünürlük (1025-1919px)
+   Tam ekran merkezli mesaj
+   ============================================================ */
+.home-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
+  max-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
+  margin-top: var(--header-h, 60px);
+  padding: 24px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.home-fallback__content {
+  text-align: center;
+  max-width: 480px;
+  padding: 40px 32px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.home-fallback__icon {
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 20px;
+}
+
+.home-fallback__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 12px;
+}
+
+.home-fallback__message {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.home-fallback__specs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.home-fallback__spec {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+}
+
+.home-fallback__spec-label {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.home-fallback__spec-value {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.home-fallback__hint {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: 12px;
+  color: rgba(255, 183, 3, 0.8);
+  margin: 0;
+  font-style: italic;
 }

@@ -60,7 +60,7 @@ CoreMusic platformunda kullanılan her teknolojinin rolünü, kapsamını ve ADR
 | **PDO** | DB driver | Prepared statements | — | ADR-002 |
 | **APCu** | In-memory cache | L1 cache | — | ADR-013 |
 | **Redis** | Distributed cache | L2 cache, pub/sub | 7.x | — |
-| **Docker** | Containerization | Deployment, isolation | Latest | — |
+| **Apache** | Web server | Linux hosting | 2.4+ | — |
 | **IIS** | Web server | Windows hosting | 7.5+ | — |
 
 ### 2.5 Security
@@ -88,7 +88,6 @@ CoreMusic platformunda kullanılan her teknolojinin rolünü, kapsamını ve ADR
 |-----------|-----|--------|----------|-----|
 | **GitHub Actions** | CI/CD | Build, test, deploy | Latest | — |
 | **GitLeaks** | Secret detection | Pre-commit hooks | Latest | — |
-| **Docker Compose** | Orchestration | Local dev, deployment | 3.8+ | — |
 | **PowerShell** | Scripting | Windows automation | 5.1+ | — |
 
 ### 2.8 Download Service
@@ -174,7 +173,6 @@ CoreMusic platformunda kullanılan her teknolojinin rolünü, kapsamını ve ADR
 | JUCE | 8.x | 8.0 | 8.x | ADR-017 |
 | ASIO SDK | 2.3.4 | 2.3.4 | 2.3.4 | ADR-017 |
 | Composer | Latest | 2.x | 2.x | — |
-| Docker | Latest | 24+ | 24+ | — |
 
 ## 6. Teknoloji Seçim Gerekçeleri
 

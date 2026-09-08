@@ -22,8 +22,8 @@ governance: Red Team · Human Mode · Truth Mode
 |---------|-------|
 | Kod Adı | `devops` |
 | Katman | CI/CD |
-| Domain | CI/CD, Docker, deploy |
-| Teknoloji | GitHub Actions, Docker, GitLeaks |
+| Domain | CI/CD, GitHub Actions, deploy |
+| Teknoloji | GitHub Actions, GitLeaks |
 
 ## 2. Sorumluluklar
 
@@ -36,7 +36,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 | Erişim | Kapsam |
 |--------|--------|
-| Okuma/Yazma | `*.yml`, `*.yaml`, `Dockerfile`, `*.sh`, `*.ps1` |
+| Okuma/Yazma | `*.yml`, `*.yaml`, `*.sh`, `*.ps1` |
 
 ## 4. Zorunlu Kurallar
 
@@ -50,7 +50,6 @@ governance: Red Team · Human Mode · Truth Mode
 |--------|-----|
 | Ana tanım | [[AGENTS.md]] §15.8 |
 | Profiller indeksi | [[.agents/AGENTS.md]] |
-| Docker | `.ai/.templates/infrastructure/docker-template.md` |
 | GitHub Actions | `.ai/.templates/infrastructure/github-actions-template.md` |
 
 ---

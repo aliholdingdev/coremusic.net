@@ -3,9 +3,9 @@ title: "CoreMusic — Memory System Index"
 type: system
 category: memory-management
 date: 2026-08-13
-updated: 2026-08-21
+updated: 2026-09-05
 status: active
-version: 22.1.0
+version: 24.4.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -332,6 +332,18 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | 2026-08-18 | Responsive CSS Architecture Rule — Vault'a zorunlu kural olarak yerleştirildi. Guardrail #17 (CLAUDE.md §7), brain.md §18A güncellendi (Responsive CSS Mimarisi Kuralı, yasak örüntüleri, dosya yapısı), AGENTS.md §15.3 UI Designer'a responsive kuralı eklendi | — | MO |
 | 2026-08-19 | Responsive Device Mode Architecture — .ai/ui-design/responsive-device-mode.md oluşturuldu (17 bölüm), tek component + embedded device override kuralı, Guardrail #17 uyumlu, 3 cross-reference güncellendi | — | MO |
 | 2026-09-01 | Prompt Processing Session — 8 prompt işlendi, 2 duplicate temizlendi, 4 arşiv + 4 vault güncellendi | ✅ prompt0-3 → 2026-09-01 versiyonları, auth-architecture v2.0, api-architecture-master v2.0, electronics-overview v3.0, spa-router v7.0, CLAUDE.md prompt referansları güncellendi | — | MO |
+| 2026-09-01 | Device-Aware Frontend Rendering — Component token sistemi kuruldu, hardcoded media query'ler kaldırıldı, inline style temizlendi | ✅ 6 dosya: a-layout-tokens.css v3.0.0 (+11 component token × 7 breakpoint), _home-components.css v4.0.0 (-200 satır hardcoded), _home-layout.css v4.0.0 (token-based grid), footer.php v5.0.0 (inline→token), _footer.css v3.0.0, d-embedded.css v4.0.0 + vault: responsive-frontend-architecture.md v2.0.0, device-css.md, responsive-device-mode.md | — | UI |
+| 2026-09-02 | Home.php Embedded Rewrite — PNG mockup birebir uyum, BEM sınıfları, sosyal medya ikonları | ✅ 2 dosya: home.php v5.2.0 (Split 42/58 + widget grid + social row), _home-components.css (social-row + social-btn CSS) | — | UI |
+| 2026-09-02 | DeviceManager — PHP-side device-aware rendering, 5 cihaz bloğu, feature toggles | ✅ 5 dosya: DeviceManager.php (yeni — central device management), home.php v6.0.0 (5 cihaz HTML bloğu), header.php v5.0.0 (dm nav), footer.php v6.0.0 (dm feature toggles), .ai vault 5 dosya güncelleme | — | UI |
+| 2026-09-03 | Phase 1-5 Device-Aware Cleanup — PageRouter viewport fix, manuel require temizliği, inline style→token dönüşümü, CSS token uyumluluğu, welcome modal doğrulama | ✅ 8 dosya: PageRouter.php (viewportW/H eklendi), HtmlShellRenderer.php (viewportW/H eklendi), header.php (require kaldırıldı, inline→CSS custom property), footer.php (require kaldırıldı, inline→CSS class), home.php (require kaldırıldı, inline→CSS), b-base-core.css (body-bg-image token), _footer.css (mobile+embedded playctrl CSS), _home-components.css (text-decoration, playlist-btn embedded) | — | MO |
+| 2026-09-03 | Phase 1 Technical Architecture Assessment — 3 görev: (1) mimari dokümantasyon envanteri (50+ dosya, 15 kategori), (2) ADR-083/084/085/086/087 + kritik belge analizi (API Gateway, SPA Router, Shared Library, Middleware Pipeline, Event Driven), (3) Faz 1 teknik mimari değerlendirme raporu (24 deliverable, ~95% tamamlandı, API kontratları, veri akışları, kural setleri, middleware pipeline detayları) | ✅ .ai/reports/phase1-technical-architecture-assessment.md oluşturuldu (9 bölüm, 10 kalite metriği) | ADR-083/084/085/086/087 | vault-updater |
+| 2026-09-04 | Welcome Popup Responsive — shouldRenderWelcomePopup() tüm cihazlara açıldı, home.php v8.1.0, _home-components.css 4 responsive media query (mobile/tablet/laptop/desktop/4K TV) | ✅ Guardrail #17 uyumlu: tek component + CSS responsive | — | UI |
+| 2026-09-04 | Footer Utility Icons + Seek Slider — footer.php v8.0.0, DeviceManager v1.1.0, 9 icon + seek slider, _footer.css responsive düzeltmeleri | ✅ 3 dosya: DeviceManager.php (showUtilityIcons, showFooterSeekSlider), footer.php (9 icon + seek slider), _footer.css (embedded display:flex, phone max-width fix) | — | UI |
+| 2026-09-04 | Koşullu Render Mimarisi — 3-way conditional rendering (Embedded/Wide/Fallback), DeviceManager +4 metot, home.php v9.0.0, JS viewport cookie, PHP cookie fallback | ✅ 7 dosya: DeviceManager.php v2.0.0 (+shouldRenderEmbeddedLayout/WideLayout/ShowFallback/isSupportedResolution), home.php v9.0.0 (3 render bloğu), _home-layout.css v5.0.0 (fallback stili), _home-components.css v5.0.0 (wide component), device-loader.js (cookie yazma), PageRouter.php (cookie okuma), HtmlShellRenderer.php (cookie okuma) + vault: responsive-device-mode.md v2.0.0, brain.md §18B, keys.md keywords | — | MO |
+| 2026-09-04 | Hibrit Scale Motoru Refactor (SOLID ES6+) — scale*.js 4 dosya silindi, ScaleManager.js (TierResolver + TransformApplier + declarative rules + DPR/aspect + EventBus), main.js v6.0.0, a-scale-hybrid.css v3.0.0, header/footer temizlik, DevTools 5-tier canlı test | ✅ 5 dosya değişti + 4 silindi: ScaleManager.js (yeni v6.0.0), main.js v5→v6 (import+init+registerModule), a-scale-hybrid.css v2→v3 (referans senkron), header.php (ölü koşul temizliği), footer.php (Çince karakter düzeltme); silinen: scale.coordinator.js, header.scale.js, footer.scale.js, home.scale.js. Test: 1024 embedded ✅, 1920 desktop ✅, 2564 2k ✅, 500 phone ✅, EventBus scale:applied doğrulandı | — | UI |
+| 2026-09-04 | CLAUDE.md Rewrite — Root CLAUDE.md v4.0.0 yeniden yazıldı, mükerrer bölümler kaldırıldı, .ai/models/index.md, .ai/issues/index.md, .ai/scripts/index.md oluşturuldu | ✅ Root CLAUDE.md v4.0.0 (18 bölüm, temiz yapı), 3 yeni index dosyası | — | MO |
+| 2026-09-04 | 40-Day Implementation Plan — .ai/architecture/03-contracts/40-day-implementation-plan.md oluşturuldu (5 faz, 40 gün, 200+ görev) | ✅ 5 faz (Foundation, Backend, Frontend, Integration, Production), bağımlılık grafisi, risk matrisi, kalite kapıları | ADR-087 | vault-updater |
+| 2026-09-05 | Device-Aware Rendering Vault Update — brain.md §18C (Backend/Frontend sorumluluk sınırları, token değerleri, WCAG 2.2 AA, katman ihlal kontrolü), keys.md §3.4A (8 yeni device-aware keyword), responsive-device-mode.md v3.0.0 (4-Tier Conditional Rendering) | ✅ 3 vault dosyası güncellendi: brain.md (§18C Device-Aware Rendering Kuralları), keys.md (+8 keyword), MEMORY.md (session history +1) | — | vault-updater |
 
 ---
 
@@ -377,26 +389,52 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 
 | Ozellik | Deger |
 |---------|-------|
-| Session Date | 2026-09-01 |
-| Active Task | Prompt Processing Session — 8 prompt işlendi, 2 duplicate temizlendi, 4 arşiv + 4 vault güncellendi |
-| Domain | Tüm subdomainler |
-| Last Action | .ai vault güncellendi (auth, api, electronics, spa-router, CLAUDE.md, log.md) |
-| Prompt Archives | prompt0-3 → 2026-09-01 versiyonları oluşturuldu |
-| Vault Updates | auth-architecture v2.0, api-architecture-master v2.0, electronics-overview v3.0, spa-router v7.0 |
+| Session Date | 2026-09-04 |
+| Active Task | 40-Day Implementation Plan — Oluşturuldu ve vault'a kaydedildi |
+| Domain | Architecture Planning (40-day detailed implementation plan) |
+| Last Action | 40-day implementation plan oluşturuldu: 5 faz, 40 günlük görev listesi, bağımlılık grafisi, risk matrisi, kalite kapıları. Dosya: .ai/architecture/03-contracts/40-day-implementation-plan.md |
+| Changed Files | 40-day-implementation-plan.md (yeni), log.md (+1 entry), MEMORY.md (session history +1, session state) |
+| Known Issue | Auth redirect loop — Session lifecycle mismatch (önceki session'dan devam). CRITICAL priority fix gerekli. |
 
-### Frontend Mimarisi
+### Frontend Mimarisi (v2.0.0 — 2026-09-05)
 
 ```
 CSS Katmanı (ITCSS 9-layer):
-  01_Abstracts/  → Token'lar (colors, fonts, layout, breakpoints, theme)
+  01_Abstracts/  → Token'lar (colors, fonts, layout, breakpoints, theme, device tokens)
+    a-layout-tokens.css  → Cihaz bazlı token: --header-h (60/70/80px), --footer-h (90/104/120px), --content-h (450/906/1960px)
+    Device-Aware Token: @media (min-width: 1920px) → Wide override, @media (min-width: 3840px) → 4K override
   02_Base/       → Reset, base styles
-  03_Layout/     → Header, Footer
+  03_Layout/     → Header (.site-header--embedded/desktop/tv), Footer (.footer--embedded/desktop/tv)
   04_Components/ → Scrollbar, Footer seek/volume
-  05_Pages/      → Home layout, home components
+  05_Pages/      → Home layout (.home-layout--embedded/laptop/desktop/tv), home components
   06_Utilities/  → Helper classes
   07_Vendors/    → Bootstrap (minimal)
-  08_Devices/    → 7 device CSS (phone, tablet, embedded, laptop, desktop, 4k-tv, 4k-monitor)
+  08_Devices/    → 7 device CSS (behavioral overrides: hover, touch, scrollbar)
+    d-embedded.css  → Touch optimization: hover disabled, min 48px touch targets
+    d-desktop.css   → Mouse interaction: hover active, cursor: pointer
+    d-4k.css        → Spacing scale: --spacing-scale: 1.5
   09_ViewModes/  → 4 view modes (home, pro, studio, car)
+
+Backend Sorumluluk Sınırları (brain.md §18C):
+  PHP tarafında YALNIZCA davranışsal konfigürasyonlar:
+  ✅ widgetCount(), recentCardCount(), playlistCount(), upNextCount()
+  ✅ showVolume(), showFullMetadata(), showSeekBar(), showSidebar()
+  ✅ navLinks(), allClasses(), dataAttributes(), layoutClass()
+  ❌ margin, padding, width, height, font-size → CSS'e aittir
+
+Frontend Sorumluluk Sınırları (brain.md §18C):
+  CSS tarafında TÜM sunum kararları:
+  ✅ Token tanımları: a-layout-tokens.css → --header-h, --footer-h, --content-h
+  ✅ Token override: Media query ile cihaz bazlı değer değişimi
+  ✅ Behavioral override: 08_Devices/d-{device}.css → hover, touch, scrollbar
+  ✅ Layout grid: _home-layout.css → grid-template-columns, gap
+  ✅ Component yerleşimi: _home-components.css → boyut, konum
+
+Tek Bileşen İlkesi (Guardrail #17):
+  ✅ Tek HTML: home.php, header.php, footer.php → tek dosya
+  ❌ home-1024.php, home-desktop.html → KESİNLİKLE YASAK
+  ✅ Fark CSS'te: media query + CSS variables
+  ❌ PHP'de sunum kararı → Layer violation
 
 JS Katmanı (ES Modules):
   main.js                    ← Entry point: Router + tüm modülleri başlatır
@@ -417,34 +455,30 @@ JS Katmanı (ES Modules):
     Router.js + guards.js    → Mevcut SPA router (main.js import ediyor)
     SPARouterAdapter.js      → DEPRECATED (main.js doğrudan Router kullanıyor)
     21+ modül               → GuardPipeline, CacheLayer, DomPatcher, vb.
-  device-loader.js           → Cihaz tespiti (IIFE, non-module)
+  device-loader.js           → Cihaz tespiti (IIFE, non-module, TV & 1024 laptop sync)
+  device-layout-updater.js   → Cihaz değişikliğinde layout güncelleme
 
 Backend (shared/src):
   Device/
-    DeviceDetector.php       → Cihaz tespiti (mevcut)
+    DeviceDetector.php       → Cihaz tespiti (Smart TV + 1024x768 laptop desktop OS desteği)
     DeviceCssMap.php         → CSS haritası (mevcut)
+    DeviceManager.php        → Merkezi cihaz yönetimi (deviceProfile(), isSmallDesktop(), isTv())
   Theme/
-    ThemeManager.php         → Gender tema yönetimi (YENİ — ADR-044)
+    ThemeManager.php         → Gender tema yönetimi (ADR-044)
   ViewMode/
-    ViewModeManager.php      → View mode yönetimi (YENİ — ADR-045)
+    ViewModeManager.php      → View mode yönetimi (ADR-045)
   PageRouter/
     PageRouterKernel.php     → Ana kernel
+    PageRouter.php           → Tekil sayfa çözücü (DeviceTemplateResolver bağımlılığı kaldırıldı)
     HtmlShellRenderer.php    → HTML shell (ThemeManager + ViewModeManager entegre)
 
 Backend (home.coremusic.net):
   index.php              → Entry point (PageRouterKernel)
-  header.php             → Header partial (C01-C03)
-  footer.php             → Footer partial (Player)
-  pages/home.php         → Home page (Split 42/58)
+  header.php             → Single Header View (Phone / Embedded / TV / Desktop-Laptop conditional structural rendering)
+  footer.php             → Single Footer View (Phone / Embedded / TV / Desktop-Laptop conditional structural rendering)
+  pages/home.php         → Single Home View (Embedded / Wide / Fallback conditional rendering v9.0.0)
   include/               → Auth, Session, Container
   config/                → Constants, app config
-
-PHP Changes (HtmlShellRenderer.php):
-  - mainJsFile: router/main.js → main.js
-  - script tag: /js/router/main.js → /js/main.js
-  - gender: inline session read → ThemeManager::detect()
-  - viewMode: DeviceCssMap::sanitizeViewMode() → ViewModeManager::detect()
-  - device-loader.js: aynen kalıyor (IIFE)
 ```
 
 ---
@@ -453,24 +487,61 @@ PHP Changes (HtmlShellRenderer.php):
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 22.2.0 |
+| Version | 24.3.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 21 |
 | SSOT Authority | Memory System Index |
-| Last Updated | 2026-08-22 |
+| Last Updated | 2026-09-04 |
 | ADR Coverage | ADR-001 through ADR-087 (37 Frozen + 50 Active) |
 | Security Boundary | REDACTED policy |
-| Session History | 16 oturum |
+| Session History | 24 oturum |
 | Cross References | 12 capraz referans |
 | Terminology | 14 terim |
 | Frontend Modules | 14 (main.js v5.0 — Router entegre) |
-| PHP Backend Modules | 2 yeni (ThemeManager.php, ViewModeManager.php) |
-| PHP Changes | HtmlShellRenderer → main.js + ThemeManager + ViewModeManager |
+| PHP Backend Modules | 3 (DeviceManager.php, ThemeManager.php, ViewModeManager.php) |
+| PHP Single Views | home.php, header.php, footer.php (Tek dosya, sıfır kopya, conditional rendering) |
 | CSS Device Files | 7 (phone, tablet, embedded, laptop, desktop, 4k-tv, 4k-monitor) |
 | CSS View Modes | 4 (home, pro, studio, car) |
+| Automated Test Suite | 37/37 pass (PART 62 matrisi + Rendering + Alias metodları) |
+| Conditional Rendering | 4 Tier (Phone ≤767 / Embedded ≤1024 / Wide 1025-2560 / 4K ≥2561) |
+
+---
+
+## 22. Recent Revisions (2026-09-05)
+
+### 22.1 Device-Aware Rendering Revizyonu
+
+**Kapsam.** 4 device CSS dosyasında eksik font/scale import'ları, body background global token'a taşındı, PHP dosyalarında inline dokümantasyon güçlendirildi.
+
+**Değişen Dosyalar.**
+
+| Dosya | Değişiklik |
+|-------|-----------|
+| `assets.coremusic.net/Css/08_Devices/d-embedded.css` | `a-fonts-token.css` + `a-scale-hybrid.css` import'ları eklendi |
+| `assets.coremusic.net/Css/08_Devices/d-desktop.css` | Aynı |
+| `assets.coremusic.net/Css/08_Devices/d-4k-tv.css` | Aynı |
+| `assets.coremusic.net/Css/08_Devices/d-4k-monitor.css` | Aynı |
+| `assets.coremusic.net/Css/01_Abstracts/a-layout-tokens.css` | `--body-bg-image` default `welcome-popup-girl.png` olarak güncellendi |
+| `home.coremusic.net/pages/home.php` | Layout karar matrisi tablosu eklendi (4 tier × container/split/popup) |
+| `home.coremusic.net/header.php` | Tier sınıf zinciri dokümantasyonu eklendi |
+| `home.coremusic.net/footer.php` | 3-Zone × 4-Tier davranış matrisi eklendi |
+
+**Doğrulanan Mevcut Yapı (değişmedi).**
+- `shared/src/Device/DeviceManager.php` v2.0.0 (frozen) — tüm 4 Tier karar metotları
+- `home.coremusic.net/pages/home.php` v10.0.0 → v10.0.1 — yalnızca doc version bump
+- `home.coremusic.net/header.php` v8.0.0 → v8.0.1 — yalnızca doc version bump
+- `home.coremusic.net/footer.php` v11.0.0 → v11.0.1 — yalnızca doc version bump
+- Welcome modal CSS — `_home-components.css` L640+ zaten tam tanımlı (`.welcome-modal-overlay`, `.welcome-modal`, `.welcome-modal__*` + 4 media query)
+
+**Doğrulama (browser doğrulaması Faz 6'da yapılacak).**
+- 1024×600 → `data-device="embedded"`, welcome popup açık
+- 1920×1080 → `data-device="desktop"`, `.home-layout--wide` 3-sütun
+- 3840×2160 → `data-device="4k-monitor"`, `.home-layout--4k`
+
+**Referans.** Bu revizyon planı: `plan.md` (session bXZzXzNiZThmODVmMzNjMTQzMDU5NWJjYzVkZjFiMjQ1YTFj)
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-21
+**Last Updated:** 2026-09-05
 **Mode:** Red Team · Human Mode · Truth Mode

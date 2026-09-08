@@ -1,15 +1,28 @@
 /**
  * CoreMusic — Home Page Components
  * ITCSS Layer: 05_Pages
- * Version: 1.0.0 — 2026-08-18
+ * Version: 5.0.0 — 2026-09-04
  *
  * Bileşenler: Now Playing Card, Widget Area, Mini Card, Card Grid items
  * Platform: home-1024 (RPi5 1024×600) — default
+ *
+ * v5.0.0: Wide layout (1920) component stilleri eklendi
+ *   --now-playing-art-size, --media-card-thumb-size, --mini-card-art-size
+ *   --widget-min-height, --widget-grid-cols, --detail-panel-art-size
+ *
+ * PNG pixel ölçümü:
+ *   Now Playing: 100×100 art + metadata + seek bar (embedded)
+ *   Now Playing Wide: 120×120 art + rating + badges (1920)
+ *   Widget: glass panel ~250×100, blur(20px) saturate(180%)
+ *   Media Card: 140×140 thumb + title/meta/duration
+ *   Mini Card: 50×50 art + title/artist/album
+ *   Detail Panel: 300×300 art (desktop)
  */
 
 /* ============================================================
    NOW PLAYING CARD (Sol panel üst kısım)
    Album art 100×100 + metadata + seek bar
+   PNG: y:71, glass panel with blur
    ============================================================ */
 .now-playing {
   display: flex;
@@ -27,8 +40,8 @@
 }
 
 .now-playing__art {
-  width: 100px;
-  height: 100px;
+  width: var(--now-playing-art-size, 100px);
+  height: var(--now-playing-art-size, 100px);
   border-radius: var(--radius-md, 8px);
   overflow: hidden;
   flex-shrink: 0;
@@ -109,6 +122,7 @@
 /* ============================================================
    WIDGET AREA (Sağ panel — 4 glass panel)
    Hoparlörler, Hava, Takvim, Klasörler
+   PNG: glass panels with backdrop-filter
    ============================================================ */
 .widget-area {
   display: flex;
@@ -123,7 +137,7 @@
   border: 1px solid var(--glass-border, rgba(255,255,255,0.1));
   border-radius: var(--radius-card, 12px);
   padding: var(--space-3, 12px);
-  min-height: 100px;
+  min-height: var(--widget-min-height, 100px);
 }
 
 .widget__header {
@@ -161,18 +175,19 @@
 /* Widget grid (2×2) — desktop */
 .widget-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(var(--widget-grid-cols, 2), 1fr);
   gap: var(--grid-gap, 8px);
 }
 
 /* ============================================================
    MEDIA CARD (C09) — Album/Artist kartları
    Kare thumb (140×140) + text area
+   PNG: Horizontal scroll cards
    ============================================================ */
 .media-card {
   display: flex;
   flex-direction: column;
-  width: 140px;
+  width: var(--media-card-thumb-size, 140px);
   cursor: pointer;
   text-decoration: none;
   color: inherit;
@@ -183,8 +198,8 @@
 
 .media-card__thumb {
   position: relative;
-  width: 140px;
-  height: 140px;
+  width: var(--media-card-thumb-size, 140px);
+  height: var(--media-card-thumb-size, 140px);
   border-radius: var(--radius-md, 8px);
   overflow: hidden;
   background: var(--glass-bg, rgba(255,255,255,0.08));
@@ -236,6 +251,13 @@
   margin-top: 2px;
 }
 
+.media-card__duration {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: var(--color-text-muted, rgba(255,255,255,0.5));
+  margin-top: 2px;
+}
+
 .media-card:focus-visible {
   outline: 2px solid var(--accent, #ff4fd8);
   outline-offset: 4px;
@@ -244,6 +266,7 @@
 
 /* ============================================================
    MINI CARD (Sıradaki şarkılar)
+   PNG: 50×50 art + title/artist/album
    ============================================================ */
 .mini-card {
   display: flex;
@@ -257,8 +280,8 @@
 }
 
 .mini-card__art {
-  width: 50px;
-  height: 50px;
+  width: var(--mini-card-art-size, 50px);
+  height: var(--mini-card-art-size, 50px);
   border-radius: var(--radius-sm, 4px);
   overflow: hidden;
   flex-shrink: 0;
@@ -318,8 +341,8 @@
 }
 
 .detail-panel__art {
-  width: 300px;
-  height: 300px;
+  width: var(--detail-panel-art-size, 300px);
+  height: var(--detail-panel-art-size, 300px);
   border-radius: var(--radius-full, 50%);
   overflow: hidden;
   box-shadow: var(--shadow-xl, 0 20px 25px rgba(0,0,0,0.25));
@@ -371,79 +394,13 @@
 }
 
 /* ============================================================
-   RESPONSIVE — Desktop
+   RESPONSIVE OVERRIDES — Token-based (a-layout-tokens.css)
+   Component boyutları artık token'lar tarafından yönetilir.
+   Media query'ler sadece layout davranışını değiştirir.
    ============================================================ */
-@media (min-width: 1025px) {
-  .now-playing__art {
-    width: 140px;
-    height: 140px;
-  }
 
-  .media-card {
-    width: 180px;
-  }
-
-  .media-card__thumb {
-    width: 180px;
-    height: 180px;
-  }
-
-  .detail-panel__art {
-    width: 400px;
-    height: 400px;
-  }
-
-  .widget {
-    min-height: 140px;
-  }
-}
-
-/* ============================================================
-   RESPONSIVE — TV (1920+)
-   ============================================================ */
-@media (min-width: 1920px) {
-  .now-playing__art {
-    width: 180px;
-    height: 180px;
-  }
-
-  .media-card {
-    width: 280px;
-  }
-
-  .media-card__thumb {
-    width: 280px;
-    height: 280px;
-  }
-
-  .media-card__title {
-    font-size: var(--text-lg, 24px);
-  }
-
-  .detail-panel__art {
-    width: 600px;
-    height: 600px;
-  }
-
-  .widget {
-    min-height: 200px;
-  }
-
-  .mini-card__art {
-    width: 80px;
-    height: 80px;
-  }
-}
-
-/* ============================================================
-   RESPONSIVE — Mobile (<768px)
-   ============================================================ */
+/* Mobile (<768px) — stacked layout */
 @media (max-width: 767px) {
-  .now-playing__art {
-    width: 80px;
-    height: 80px;
-  }
-
   .media-card {
     width: 100%;
   }
@@ -461,16 +418,12 @@
   .widget-grid {
     grid-template-columns: 1fr;
   }
-
-  .detail-panel__art {
-    width: 200px;
-    height: 200px;
-  }
 }
 
 /* ============================================================
    HOME WIDGET — Sağ panel glass kartları
    Hoparlörler, Hava Durumu, Tarih, Klasörlerim
+   PNG: Glass panels with backdrop-filter blur(20px)
    ============================================================ */
 .home-widget {
   background: rgba(255, 255, 255, 0.15);
@@ -570,8 +523,8 @@
 }
 
 .mini-card__art {
-  width: 50px;
-  height: 50px;
+  width: var(--mini-card-art-size, 50px);
+  height: var(--mini-card-art-size, 50px);
   border-radius: var(--radius-md, 8px);
   overflow: hidden;
   flex-shrink: 0;
@@ -613,4 +566,2111 @@
   font-size: var(--text-xs, 10px);
   color: var(--color-text-muted, rgba(255,255,255,0.6));
   margin: 0;
+}
+
+/* ============================================================
+   SOCIAL ROW (Sağ panel altında — widget'ların altında)
+   PNG: Widget'ların altında renkli ikon satırı (YouTube, Instagram, ♥, ♫, ♥)
+   ============================================================ */
+.home-social-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-3, 12px) 0;
+  margin-top: var(--space-2, 8px);
+}
+
+.home-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-lg, 12px);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  text-decoration: none;
+  transition: background 150ms ease, transform 150ms ease;
+  flex-shrink: 0;
+}
+
+.home-social-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.home-social-btn:focus-visible {
+  outline: 2px solid var(--accent, #ff4fd8);
+  outline-offset: 2px;
+}
+
+.home-social-btn:active {
+  transform: scale(0.95);
+}
+
+/* Pink heart — filled style */
+.home-social-btn--heart {
+  background: rgba(233, 30, 99, 0.15);
+  border-color: rgba(233, 30, 99, 0.3);
+}
+
+.home-social-btn--heart:hover {
+  background: rgba(233, 30, 99, 0.25);
+}
+
+/* Music note — purple style */
+.home-social-btn--music {
+  background: rgba(155, 89, 182, 0.15);
+  border-color: rgba(155, 89, 182, 0.3);
+}
+
+.home-social-btn--music:hover {
+  background: rgba(155, 89, 182, 0.25);
+}
+
+/* Second heart */
+.home-social-btn--heart2 {
+  background: rgba(233, 30, 99, 0.15);
+  border-color: rgba(233, 30, 99, 0.3);
+}
+
+.home-social-btn--heart2:hover {
+  background: rgba(233, 30, 99, 0.25);
+}
+
+/* ============================================================
+   WELCOME MODAL (Responsive — Tüm cihazlar, Guardrail #17)
+   Base: 1024×600 embedded (PNG mockup reference)
+   ============================================================ */
+.welcome-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  transition: opacity 0.22s ease-out;
+}
+
+.welcome-modal-overlay.is-hidden {
+  display: none !important;
+}
+
+.welcome-modal {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  min-height: 308px;
+  background-color: rgba(255, 255, 255, 0.12);
+  background-image: url('//assets.coremusic.net/Image/background/welcome-popup-girl.png'), url('/Image/background/welcome-popup-girl.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-card, 16px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+  padding: 22px 32px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.welcome-modal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(25, 12, 35, 0.15) 0%, rgba(25, 12, 35, 0.35) 100%);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.welcome-modal__close,
+.welcome-modal__logo,
+.welcome-modal__logo-img,
+.welcome-modal__title,
+.welcome-modal__user,
+.welcome-modal__desc,
+.welcome-modal__btn {
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-modal__close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--touch-recommended, 48px);
+  min-height: var(--touch-recommended, 48px);
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 150ms ease;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.welcome-modal__close:hover {
+  color: #ff4fd8;
+}
+
+.welcome-modal__logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.welcome-modal__logo-img {
+  max-height: 48px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
+}
+
+.welcome-modal__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 4px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.welcome-modal__user {
+  font-family: 'Bickham Script', 'Bickham Script Two', cursive;
+  font-size: 24px;
+  font-style: italic;
+  color: #ffffff;
+  margin: 0 0 10px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 0 14px rgba(255, 140, 220, 0.4);
+}
+
+.welcome-modal__desc {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 480px;
+  margin: 0 0 18px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.welcome-modal__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  min-height: 48px; /* WCAG 2.5.8 — RPi5 touch target */
+  padding: 10px 30px;
+  background: linear-gradient(135deg, #ff2eb6 0%, #d8007a 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-pill, 50px);
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(255, 46, 182, 0.5);
+  transition: background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.welcome-modal__btn:hover {
+  background: linear-gradient(135deg, #ff4fd8 0%, #e60086 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255, 46, 182, 0.7);
+}
+
+.welcome-modal__btn:active {
+  transform: translateY(0);
+}
+
+.welcome-modal__btn:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* ── Mobile (≤767px) — Compact modal ── */
+@media (max-width: 767px) {
+  .welcome-modal {
+    max-width: 90vw;
+    min-height: auto;
+    padding: 16px 20px 14px;
+    border-radius: 12px;
+  }
+  .welcome-modal__logo-img {
+    max-height: 36px;
+  }
+  .welcome-modal__title {
+    font-size: 18px;
+  }
+  .welcome-modal__user {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .welcome-modal__desc {
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+  .welcome-modal__btn {
+    min-width: 100px;
+    min-height: 36px;
+    padding: 5px 24px;
+    font-size: 13px;
+  }
+}
+
+/* ── Tablet (768–1024px) — Base size ── */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* 1024px = PNG mockup reference — base values already applied */
+}
+
+/* ── Laptop/Small Desktop (1025–1440px) — Slightly larger ── */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .welcome-modal {
+    max-width: 640px;
+    min-height: 340px;
+    padding: 26px 36px 24px;
+  }
+  .welcome-modal__logo-img {
+    max-height: 52px;
+  }
+  .welcome-modal__title {
+    font-size: 22px;
+  }
+  .welcome-modal__user {
+    font-size: 26px;
+  }
+  .welcome-modal__desc {
+    font-size: 14px;
+  }
+}
+
+/* ── Desktop (1441–1919px) — Full size ── */
+@media (min-width: 1441px) and (max-width: 1919px) {
+  .welcome-modal {
+    max-width: 680px;
+    min-height: 360px;
+  }
+}
+
+/* ── 4K TV (≥3840px) — 10ft UI, large text ── */
+@media (min-width: 3840px) {
+  .welcome-modal {
+    max-width: 900px;
+    min-height: 500px;
+    padding: 40px 60px 36px;
+    border-radius: 24px;
+  }
+  .welcome-modal__logo-img {
+    max-height: 80px;
+  }
+  .welcome-modal__title {
+    font-size: 36px;
+  }
+  .welcome-modal__user {
+    font-size: 42px;
+  }
+  .welcome-modal__desc {
+    font-size: 20px;
+    margin-bottom: 28px;
+  }
+  .welcome-modal__btn {
+    min-width: 200px;
+    min-height: 60px;
+    padding: 10px 48px;
+    font-size: 22px;
+  }
+  .welcome-modal__close {
+    font-size: 36px;
+    top: 16px;
+    right: 24px;
+  }
+}
+
+/* ============================================================
+   1024×600 EMBEDDED HOME COMPONENTS (Mockup Parity)
+   ============================================================ */
+
+/* Now Playing Card Enhancements */
+.now-playing--mockup {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.20);
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  box-sizing: border-box;
+}
+
+.now-playing__art--mockup {
+  width: 90px;
+  height: 90px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+.now-playing__art--mockup img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.now-playing__info--mockup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.now-playing__title--mockup {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.now-playing__subtitle--mockup {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.now-playing__artist--mockup {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 10.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.65);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.now-playing__seek-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.now-playing__time {
+  font-family: 'Avalon Medium', 'DM Sans', monospace;
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.80);
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+}
+
+.now-playing__seek-bar {
+  flex: 1;
+  height: 3.5px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.now-playing__seek-glow {
+  height: 100%;
+  background: #ff00d5;
+  box-shadow: 0 0 10px #ff00d5, 0 0 4px #ff4fd8;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   TOP RIGHT WIDGET CLUSTER
+   ============================================================ */
+.home-widgets-cluster {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 6px;
+  width: 100%;
+  height: 100%;
+}
+
+.home-widget-card {
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+.home-widget-card__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-widget-card__emoji {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.home-widget-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+
+.home-widget-card__title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  white-space: nowrap;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.7);
+}
+
+.home-widget-card__sub {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  white-space: nowrap;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.7);
+}
+
+/* Clock widget visualizer bars */
+.widget-eq-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.widget-eq-bars span {
+  width: 2.5px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 1px;
+  animation: eqBounce 1.2s ease-in-out infinite alternate;
+}
+
+.widget-eq-bars span:nth-child(1) { height: 60%; animation-delay: 0.1s; }
+.widget-eq-bars span:nth-child(2) { height: 100%; animation-delay: 0.3s; }
+.widget-eq-bars span:nth-child(3) { height: 40%; animation-delay: 0.2s; }
+.widget-eq-bars span:nth-child(4) { height: 80%; animation-delay: 0.4s; }
+
+@keyframes eqBounce {
+  0% { height: 20%; }
+  100% { height: 100%; }
+}
+
+/* 3 Square slots beside clock */
+.home-widget-slots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.home-widget-slot {
+  flex: 1;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* 4 Social/App shortcut buttons */
+.home-widget-apps {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.home-widget-app-btn {
+  flex: 1;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  text-decoration: none;
+}
+
+.home-widget-app-btn:hover {
+  transform: scale(1.06);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* ============================================================
+   BOTTOM 3 COLUMNS
+   ============================================================ */
+.home-column-header {
+  font-family: 'Arima', 'Playfair Display', serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+  margin: 0 0 6px 2px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 2x2 horizontal mini cards grid */
+.home-mini-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 6px;
+}
+
+.home-mini-track {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 4px 6px;
+  min-height: 40px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+  transition: background 0.15s ease, transform 0.15s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.home-mini-track:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.home-mini-track__thumb {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.home-mini-track__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.home-mini-track__badge {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 9px;
+  height: 9px;
+  background: #ff00d5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-mini-track__badge::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 2px 0 2px 3.5px;
+  border-color: transparent transparent transparent #ffffff;
+  margin-left: 1px;
+}
+
+.home-mini-track__info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.home-mini-track__title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.home-mini-track__sub {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.60);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.home-mini-track__duration {
+  font-family: 'Avalon Medium', monospace;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.50);
+  margin-left: auto;
+  align-self: flex-end;
+  flex-shrink: 0;
+}
+
+/* Playlist view button (Slot 4 in col 2) */
+.home-playlist-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 4px 6px;
+  min-height: 40px;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+  box-sizing: border-box;
+}
+
+/* Embedded variant — larger touch-friendly text */
+.home-layout--embedded .home-playlist-btn {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.home-playlist-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+/* Sıradaki Şarkılar (Col 3 single big card) */
+.home-upnext-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 10px;
+  height: 86px;
+  box-sizing: border-box;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+}
+
+.home-upnext-card__thumb {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.home-upnext-card__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.home-upnext-card__badge {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 11px;
+  height: 11px;
+  background: #ff00d5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-upnext-card__badge::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 2.5px 0 2.5px 4px;
+  border-color: transparent transparent transparent #ffffff;
+  margin-left: 1px;
+}
+
+.home-upnext-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.home-upnext-card__title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.home-upnext-card__album {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.70);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.home-upnext-card__artist {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ============================================================
+   DEVICE-AWARE COMPONENTS (Laptop, Desktop, 4K TV)
+   ============================================================ */
+
+/* Inline apps for embedded widget */
+.home-widget-apps-inline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+/* Laptop / Desktop cluster layouts */
+.home-widgets-cluster--desktop {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.home-widgets-cluster--laptop {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.home-widgets-cluster--tv {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* TV (3840×2160 / 10ft UI) Components */
+.now-playing--tv {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  outline: none;
+  text-decoration: none;
+  color: inherit;
+}
+
+.now-playing--tv:focus-visible {
+  outline: 4px solid #ff4fd8;
+  outline-offset: 4px;
+  box-shadow: 0 0 24px rgba(255, 79, 216, 0.8);
+}
+
+.now-playing__art--tv img {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.now-playing__title--tv {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px 0;
+}
+
+.now-playing__subtitle--tv {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 16px 0;
+}
+
+.now-playing__seek-wrap--tv {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.now-playing__seek-wrap--tv .now-playing__time {
+  font-size: 18px;
+}
+
+.now-playing__seek-wrap--tv .now-playing__seek-bar {
+  height: 8px;
+  flex: 1;
+}
+
+.home-widget-card--tv {
+  min-height: 120px;
+  padding: 20px;
+  border-radius: 16px;
+  outline: none;
+}
+
+.home-widget-card--tv:focus-visible {
+  outline: 4px solid #ff4fd8;
+  outline-offset: 4px;
+  box-shadow: 0 0 20px rgba(255, 79, 216, 0.7);
+}
+
+.home-widget-card--tv .home-widget-card__title {
+  font-size: 24px;
+}
+
+.home-widget-card--tv .home-widget-card__sub {
+  font-size: 18px;
+}
+
+/* TV Media Cards Grid */
+.home-tv-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.home-tv-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 200ms ease;
+  outline: none;
+}
+
+.home-tv-card:focus-visible,
+.home-tv-card:hover {
+  outline: 4px solid #ff4fd8;
+  outline-offset: 4px;
+  transform: scale(1.04);
+  box-shadow: 0 8px 32px rgba(255, 79, 216, 0.5);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.home-tv-card__art {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.home-tv-card__meta {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.home-tv-card__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.home-tv-card__sub {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.home-column-header--tv {
+  font-size: 26px;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+/* ============================================================
+   WIDE LAYOUT COMPONENTS (1920+ Desktop)
+   Now Playing Card — Enhanced with rating, badges
+   Widget Cards — 2×2 grid
+   Recent Cards — Horizontal scroll
+   ============================================================ */
+
+/* Now Playing Card — Wide variant */
+.now-playing__title--wide {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-lg, 14px);
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.now-playing__subtitle--wide {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  font-weight: var(--font-normal, 400);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.now-playing__artist--wide {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  font-weight: var(--font-normal, 400);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Empty star rating */
+.now-playing__star--empty {
+  opacity: 0.3;
+}
+
+/* Wide Widget Card — Enhanced glass panel */
+.home-widget-card--wide {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  min-height: 52px;
+  transition: background 180ms ease;
+}
+
+.home-widget-card--wide:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Wide Recent Card — Horizontal list item */
+.home-recent-card--wide .home-recent-card__art {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.home-recent-card--wide .home-recent-card__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-recent-card--wide .home-recent-card__info {
+  min-width: 0;
+  flex: 1;
+}
+
+.home-recent-card--wide .home-recent-card__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.home-recent-card--wide .home-recent-card__sub {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 2px 0 0;
+}
+
+/* ============================================================
+   1024×600 EMBEDDED DÜZENİ BİLEŞENLERİ (Mockup #1 & #2)
+   ============================================================ */
+.now-playing-embedded-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.now-playing-embedded-card__art {
+  width: 96px;
+  height: 96px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.now-playing-embedded-card__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.now-playing-embedded-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.now-playing-embedded-card__title {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.now-playing-embedded-card__album {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  margin: 0;
+}
+
+.now-playing-embedded-card__artist {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  margin: 0;
+}
+
+.now-playing-embedded-card__seek {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.seek-time {
+  font-family: 'Avalon Medium', 'DM Sans', monospace;
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+}
+
+.seek-bar-track {
+  flex: 1;
+  height: 3.5px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.seek-bar-fill {
+  height: 100%;
+  background: #ff00d5;
+  box-shadow: 0 0 10px #ff00d5, 0 0 4px #ff4fd8;
+  border-radius: 4px;
+}
+
+.seek-bar-fill--0 {
+  width: 0%;
+}
+
+.seek-bar-fill--50 {
+  width: 50%;
+}
+
+.embedded-widgets-cluster {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.embedded-widget-pill {
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+.embedded-widget-pill__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.embedded-widget-pill__texts {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  flex: 1;
+}
+
+.embedded-widget-pill__title {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+}
+
+.embedded-widget-pill__sub {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.70);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
+}
+
+.embedded-quick-apps-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.embedded-app-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 140ms ease, background 140ms ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.embedded-app-btn:hover {
+  transform: scale(1.08);
+}
+
+.embedded-app-btn--ytmusic,
+.embedded-app-btn--youtube {
+  background: rgba(230, 33, 23, 0.28);
+  border: 1px solid rgba(230, 33, 23, 0.50);
+}
+
+.embedded-app-btn--heart {
+  background: rgba(168, 85, 247, 0.28);
+  border: 1px solid rgba(168, 85, 247, 0.50);
+}
+
+.embedded-app-btn--sparkle {
+  background: rgba(255, 79, 216, 0.28);
+  border: 1px solid rgba(255, 79, 216, 0.50);
+  font-size: 14px;
+}
+
+.embedded-app-tile-slot {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.mini-music-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.mini-music-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.mini-music-card__art {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.mini-music-card__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mini-music-card__info {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mini-music-card__title {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.mini-music-card__artist {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.mini-music-card__dur {
+  font-family: 'Avalon Medium', monospace;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.50);
+}
+
+.mini-playlist-view-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: 8px;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  transition: background 150ms ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mini-playlist-view-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.embedded-upnext-panel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+.embedded-upnext-panel__art {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.embedded-upnext-panel__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.embedded-upnext-panel__meta {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.embedded-upnext-panel__title {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.75);
+}
+
+.embedded-upnext-panel__album,
+.embedded-upnext-panel__artist {
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.70);
+  margin: 0;
+}
+
+/* Welcome Modal Calligraphy */
+.welcome-modal__emblem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.welcome-modal__swirl-img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(255, 79, 216, 0.7));
+}
+
+.welcome-modal__logo-brand {
+  font-family: 'Bickham Script Pro', 'Georgia', cursive;
+  font-size: 24px;
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(255, 120, 220, 0.7);
+}
+
+.welcome-modal__user-calligraphy {
+  font-family: 'Bickham Script Pro', 'Brush Script MT', 'Great Vibes', cursive;
+  font-size: 32px;
+  font-style: italic;
+  color: #ffffff;
+  text-shadow: 0 0 16px rgba(255, 140, 220, 0.75), 0 2px 8px rgba(0, 0, 0, 0.85);
+  margin: 2px 0 10px;
+}
+
+.heart-purple {
+  color: #a855f7;
+  filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.8));
+}
+
+/* ============================================================
+   1920×1080 WIDESCREEN DESKTOP DÜZENİ BİLEŞENLERİ (Mockup #3)
+   ============================================================ */
+.now-playing--wide {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.now-playing__art--wide {
+  width: 136px;
+  height: 136px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.now-playing__art--wide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.now-playing__info--wide {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.now-playing__meta-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'DM Sans', 'Arima', sans-serif;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.now-playing__stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-height: var(--touch-recommended, 48px);
+  padding: 8px 0;
+}
+
+.star-gold {
+  color: #ffd13b;
+  font-size: 15px;
+  text-shadow: 0 0 8px rgba(255, 209, 59, 0.75);
+}
+
+.now-playing__seek-container {
+  margin-top: 6px;
+}
+
+.now-playing__seek-times {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 4px;
+  font-family: 'Avalon Medium', monospace;
+}
+
+.now-playing__seek-bar-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 3px;
+  position: relative;
+}
+
+.now-playing__seek-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff4fd8, #ff2eb6);
+  border-radius: 3px;
+  position: relative;
+  box-shadow: 0 0 8px rgba(255, 46, 182, 0.6);
+}
+
+.now-playing__seek-bar-fill--45 {
+  width: 45%;
+}
+
+.now-playing__seek-knob {
+  position: absolute;
+  right: -5px;
+  top: -4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 6px #ff2eb6;
+}
+
+/* 1920 Hero Welcome Banner */
+.hero-welcome-banner {
+  position: relative;
+  display: flex;
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 230px;
+  background: linear-gradient(135deg, rgba(30, 10, 50, 0.65) 0%, rgba(65, 20, 90, 0.5) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hero-welcome-banner__overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center left, rgba(255, 120, 220, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-welcome-banner__content {
+  position: relative;
+  z-index: 2;
+  padding: 16px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hero-welcome-banner__badge {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 1px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.hero-welcome-banner__username {
+  font-family: 'Bickham Script Pro', 'Great Vibes', 'Brush Script MT', cursive;
+  font-size: 38px;
+  font-style: italic;
+  color: #ffffff;
+  margin: 2px 0 4px;
+  text-shadow: 0 0 16px rgba(255, 140, 220, 0.6), 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.hero-welcome-banner__tagline {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.80);
+  font-style: italic;
+  margin: 0 0 8px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.hero-welcome-banner__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  min-height: 48px; /* WCAG 2.5.8 — RPi5 touch target */
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ff4fd8 0%, #e91e8c 100%);
+  color: #ffffff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  align-self: flex-start;
+  box-shadow: 0 4px 14px rgba(255, 79, 216, 0.5);
+  transition: transform 160ms, box-shadow 160ms;
+}
+
+.hero-welcome-banner__btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 18px rgba(255, 79, 216, 0.7);
+}
+
+.hero-welcome-banner__stats {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.hero-stat-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  font-size: 11px;
+}
+
+.hero-stat-val {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.hero-stat-lbl {
+  color: rgba(255, 255, 255, 0.70);
+}
+
+.hero-welcome-banner__portrait {
+  width: 170px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-welcome-banner__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  mask-image: linear-gradient(to right, transparent 0%, black 30%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
+}
+
+/* 1920 Widgets Layout */
+.desktop-widgets-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.home-widget-card--glass {
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.home-quick-apps-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.quick-app-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  text-decoration: none;
+  transition: transform 150ms ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.quick-app-btn:hover {
+  transform: scale(1.08);
+}
+
+.quick-app-btn--ytmusic,
+.quick-app-btn--youtube {
+  background: rgba(230, 33, 23, 0.28);
+  border: 1px solid rgba(230, 33, 23, 0.45);
+}
+
+.quick-app-btn--heart {
+  background: rgba(168, 85, 247, 0.28);
+  border: 1px solid rgba(168, 85, 247, 0.45);
+}
+
+.quick-app-btn--sparkle {
+  background: rgba(255, 79, 216, 0.28);
+  border: 1px solid rgba(255, 79, 216, 0.45);
+  font-size: 15px;
+}
+
+.quick-app-tile-placeholder {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.desktop-side-glass-panel {
+  width: 120px;
+  min-height: 230px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  flex-shrink: 0;
+}
+
+.home-recent-card--desktop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 150ms ease;
+}
+
+.home-recent-card--desktop:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ============================================================
+   4K ULTRA HD BİLEŞEN STİLLERİ (≥2561px / 3840px)
+   ============================================================ */
+.now-playing--4k {
+  padding: 24px;
+  border-radius: 22px;
+  -webkit-backdrop-filter: var(--glass-blur, blur(16px));
+  backdrop-filter: var(--glass-blur, blur(16px));
+}
+
+.now-playing__art--4k {
+  width: 180px;
+  height: 180px;
+  border-radius: 14px;
+}
+
+.now-playing__badges-4k {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.badge-4k {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  background: linear-gradient(135deg, #e65100, #ff9800);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(230, 81, 0, 0.4);
+}
+
+.badge-hi-res {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  background: linear-gradient(135deg, #1565c0, #00b0ff);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(21, 101, 192, 0.4);
+}
+
+.now-playing--4k .now-playing__meta-line {
+  font-size: 15px;
+  gap: 12px;
+}
+
+.hero-welcome-banner--4k {
+  min-height: 320px;
+  border-radius: 22px;
+  -webkit-backdrop-filter: var(--glass-blur, blur(16px));
+  backdrop-filter: var(--glass-blur, blur(16px));
+}
+
+.hero-welcome-banner--4k .hero-welcome-banner__content {
+  padding: 24px 30px;
+}
+
+.hero-welcome-banner--4k .hero-welcome-banner__stars-top {
+  color: #ffd13b;
+  font-size: 14px;
+  letter-spacing: 6px;
+}
+
+.hero-welcome-banner--4k .hero-welcome-banner__badge {
+  font-size: 16px;
+}
+
+.hero-welcome-banner--4k .hero-welcome-banner__username {
+  font-size: 52px;
+}
+
+.hero-welcome-banner--4k .hero-welcome-banner__tagline {
+  font-size: 15px;
+}
+
+.hero-welcome-banner--4k .hero-welcome-banner__btn--4k {
+  font-size: 15px;
+  padding: 10px 30px;
+  border-radius: 28px;
+}
+
+.hero-welcome-banner__portrait--4k {
+  width: 240px;
+}
+
+.home-widgets-cluster--4k {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.home-widgets-cluster--4k .home-widget-card {
+  padding: 12px 18px;
+  border-radius: 14px;
+}
+
+.home-widgets-cluster--4k .home-widget-card__title {
+  font-size: 15px;
+}
+
+.home-widgets-cluster--4k .home-widget-card__sub {
+  font-size: 12px;
+}
+
+.home-quick-apps-bar--4k .quick-app-btn,
+.home-quick-apps-bar--4k .quick-app-tile-placeholder {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+}
+
+.home-column-header--4k {
+  font-size: 18px;
+}
+
+.home-cards-wrapper--4k .home-recent-card {
+  padding: 14px 18px;
+}
+
+.home-cards-wrapper--4k .home-recent-card__art {
+  width: 80px;
+  height: 80px;
+}
+
+.home-cards-wrapper--4k .home-recent-card__title {
+  font-size: 16px;
+}
+
+.home-cards-wrapper--4k .home-recent-card__sub {
+  font-size: 13px;
+}
+
+/* ============================================================
+   4K MONITOR BİLEŞEN STİLLERİ (≥3841px)
+   4K TV'den farklı: mouse+fare, daha büyük, 4 sütun widget
+   ============================================================ */
+.now-playing--4k-monitor {
+  padding: 28px;
+  border-radius: 24px;
+}
+
+.now-playing__art--4k-monitor {
+  width: 200px;
+  height: 200px;
+  border-radius: 16px;
+}
+
+.now-playing--4k-monitor .now-playing__meta-line {
+  font-size: 17px;
+  gap: 14px;
+}
+
+.hero-welcome-banner--4k-monitor {
+  min-height: 360px;
+  border-radius: 24px;
+}
+
+.hero-welcome-banner--4k-monitor .hero-welcome-banner__content {
+  padding: 28px 36px;
+}
+
+.hero-welcome-banner--4k-monitor .hero-welcome-banner__username {
+  font-size: 58px;
+}
+
+.hero-welcome-banner--4k-monitor .hero-welcome-banner__tagline {
+  font-size: 17px;
+}
+
+.hero-welcome-banner--4k-monitor .hero-welcome-banner__btn--4k {
+  font-size: 17px;
+  padding: 12px 36px;
+  border-radius: 30px;
+}
+
+.home-widgets-cluster--4k-monitor {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.home-widgets-cluster--4k-monitor .home-widget-card {
+  padding: 14px 22px;
+  border-radius: 16px;
+}
+
+.home-widgets-cluster--4k-monitor .home-widget-card__title {
+  font-size: 17px;
+}
+
+.home-widgets-cluster--4k-monitor .home-widget-card__sub {
+  font-size: 14px;
+}
+
+.home-quick-apps-bar--4k-monitor .quick-app-btn,
+.home-quick-apps-bar--4k-monitor .quick-app-tile-placeholder {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+}
+
+.home-column-header--4k-monitor {
+  font-size: 20px;
+}
+
+.home-cards-wrapper--4k-monitor .home-recent-card {
+  padding: 16px 22px;
+}
+
+.home-cards-wrapper--4k-monitor .home-recent-card__art {
+  width: 90px;
+  height: 90px;
+}
+
+.home-cards-wrapper--4k-monitor .home-recent-card__title {
+  font-size: 18px;
+}
+
+.home-cards-wrapper--4k-monitor .home-recent-card__sub {
+  font-size: 14px;
+}
+
+/* ============================================================
+   WIDE LAYOUT BİLEŞEN STİLLERİ (1920px)
+   3 sütun: Now Playing | Welcome | Widgets
+   ============================================================ */
+.now-playing--wide {
+  padding: var(--card-padding, 16px);
+  border-radius: var(--radius-card, 14px);
+}
+
+.now-playing__art--wide {
+  width: var(--now-playing-art-size, 140px);
+  height: var(--now-playing-art-size, 140px);
+  border-radius: var(--radius-md, 10px);
+}
+
+.now-playing--wide .now-playing__meta-line {
+  font-size: var(--text-sm, 13px);
+  gap: 8px;
+}
+
+.hero-welcome-banner--wide {
+  min-height: 250px;
+  border-radius: 16px;
 }

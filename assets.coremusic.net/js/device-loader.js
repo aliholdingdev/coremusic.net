@@ -34,36 +34,13 @@
     };
 
     /* ============================================================
-       CSS FILE MAP (DeviceCssMap.php ile senkronize)
+       CSS FILE MAP — devices.config.js'den yüklenir (SSOT)
        ============================================================ */
-    const HOME_CSS = {
-        'embedded':   '08_Devices/d-embedded.css',
-        'phone':      '08_Devices/d-phone.css',
-        'tablet':     '08_Devices/d-tablet.css',
-        'laptop':     '08_Devices/d-laptop.css',
-        'desktop':    '08_Devices/d-desktop.css',
-        '4k-tv':      '08_Devices/d-4k-tv.css',
-        '4k-monitor': '08_Devices/d-4k-monitor.css',
-    };
-
-    const AUTH_CSS = {
-        'embedded':   '08_Devices/d-auth-embedded.css',
-        'phone':      '08_Devices/d-auth-phone.css',
-        'tablet':     '08_Devices/d-auth-tablet.css',
-        'laptop':     '08_Devices/d-auth-laptop.css',
-        'desktop':    '08_Devices/d-auth-desktop.css',
-        '4k-tv':      '08_Devices/d-auth-4k-tv.css',
-        '4k-monitor': '08_Devices/d-auth-4k-monitor.css',
-    };
-
-    const VIEW_CSS = {
-        'home':   '09_ViewModes/v-home.css',
-        'pro':    '09_ViewModes/v-pro.css',
-        'studio': '09_ViewModes/v-studio.css',
-        'car':    '09_ViewModes/v-car.css',
-    };
-
-    const ALL_DEVICES = Object.keys(HOME_CSS);
+    var DEVICES = window.CoreMusic && window.CoreMusic.DEVICES ? window.CoreMusic.DEVICES : {};
+    var HOME_CSS = DEVICES.HOME_CSS || {};
+    var AUTH_CSS = DEVICES.AUTH_CSS || {};
+    var VIEW_CSS = DEVICES.VIEW_CSS || {};
+    var ALL_DEVICES = DEVICES.ALL || Object.keys(HOME_CSS);
 
     /* ============================================================
        DEVICE DETECTION
@@ -76,13 +53,26 @@
      * @returns {string} Device type
      */
     function detect(w, h) {
+        // Embedded device (RPi5, ARM Linux) — viewport'a bakmadan embedded
+        var ua = navigator.userAgent || '';
+        if (/Raspberry Pi|RPi|aarch64|armv7|armv8|CrOS/i.test(ua)) return 'embedded';
+
         if (w <= BP.PHONE_MAX) return 'phone';
         if (w >= BP.TABLET_MIN && w <= BP.TABLET_MAX) {
-            return h <= 600 ? 'embedded' : 'tablet';
+            if (h <= 600) return 'embedded';
+            return 'tablet';
         }
         if (w <= BP.LAPTOP_MAX) return 'laptop';
         if (w <= BP.DESKTOP_MAX) return 'desktop';
-        if (w <= BP.FOUR_K_TV_MAX) return '4k-tv';
+        if (w <= BP.FOUR_K_TV_MAX) {
+            if (/Tizen|Web0S|webOS|SmartTV|BRAVIA|NetCast|AppleTV|Android TV|GoogleTV|HbbTV|Roku/i.test(ua)) {
+                return '4k-tv';
+            }
+            if (window.matchMedia && window.matchMedia('(pointer: fine)').matches && /Windows|Macintosh|Linux/i.test(ua)) {
+                return '4k-monitor';
+            }
+            return '4k-tv';
+        }
         return '4k-monitor';
     }
 
@@ -93,6 +83,8 @@
      */
     function detectUA(ua) {
         if (!ua) return null;
+        // Embedded device (RPi5, ARM Linux) — her zaman embedded
+        if (/Raspberry Pi|RPi|aarch64|armv7|armv8|CrOS/i.test(ua)) return 'embedded';
         if (/Android/i.test(ua)) return /Mobile/i.test(ua) ? 'phone' : 'tablet';
         if (/iPhone|iPod/i.test(ua)) return 'phone';
         if (/iPad/i.test(ua)) return 'tablet';
@@ -112,12 +104,29 @@
     };
 
     /**
+     * Cache-buster — öncelik: window.CoreMusic.RouterConfig.cssVersion
+     * (HtmlShellRenderer inline config), fallback: data-cm-css-buster
+     * @returns {string}
+     */
+    function cssBuster() {
+        var rc = window.CoreMusic && window.CoreMusic.RouterConfig;
+        if (rc && rc.cssVersion) return String(rc.cssVersion);
+        var el = document.querySelector('script[data-cm-device-loader]');
+        return el ? (el.getAttribute('data-cm-css-buster') || '') : '';
+    }
+
+    /**
      * Tek bir CSS dosyası yükle/değiştir
      * @param {string} href  CSS dosya yolu
      * @param {string} id    Link element ID
      * @returns {HTMLLinkElement}
      */
     function loadCSS(href, id) {
+        var buster = cssBuster();
+        if (buster) {
+            href += (href.indexOf('?') > -1 ? '&' : '?') + 'v=' + buster;
+        }
+
         var existing = document.getElementById(id);
         if (existing) {
             // Aynı dosya zaten yüklüyse atlama
@@ -181,8 +190,24 @@
         }
     }
 
+    /**
+     * Map device type / viewport to one of the 3 primary UI tiers:
+     * 'phone' | 'embedded' | 'wide'
+     * NOT: 4K artık ayrı DOM tier DEĞİL — DeviceManager ≥2561px'te Wide markup
+     * render eder, ölçeği d-4k.css (≥3840px zoom) üstlenir. Bu yüzden 4k-tv /
+     * 4k-monitor cihazları 'wide' tier'a map edilir (tier-sync reload döngüsü önlenir).
+     */
+    function getTier(device, w) {
+        var ua = navigator.userAgent || '';
+        if (/Raspberry Pi|RPi|aarch64|armv7|armv8|CrOS/i.test(ua)) return 'embedded';
+        if (device === 'phone' || (w && w <= BP.PHONE_MAX)) return 'phone';
+        if (device === '4k-tv' || device === '4k-monitor' || (w && w > BP.DESKTOP_MAX)) return 'wide';
+        if (device === 'desktop' || device === 'laptop' || (w && w > BP.TABLET_MAX)) return 'wide';
+        return 'embedded';
+    }
+
     /* ============================================================
-       RESIZE OBSERVER (debounced)
+       RESIZE OBSERVER (debounced 300ms)
        ============================================================ */
     var resizeTimer = null;
     var lastDevice = null;
@@ -193,13 +218,55 @@
             var w = window.innerWidth || document.documentElement.clientWidth;
             var h = window.innerHeight || document.documentElement.clientHeight;
             var newDevice = detect(w, h);
+            var ua = navigator.userAgent || '';
+            var uaDevice = detectUA(ua);
+            if (uaDevice && (uaDevice === 'phone' || uaDevice === 'tablet' || uaDevice === 'embedded')) {
+                newDevice = uaDevice;
+            }
+
+            // Viewport çerezini güncelle
+            try {
+                document.cookie = 'cm_viewport_w=' + w + ';path=/;max-age=86400;SameSite=Lax';
+                document.cookie = 'cm_viewport_h=' + h + ';path=/;max-age=86400;SameSite=Lax';
+            } catch (e) {}
+
+            var oldTier = getTier(lastDevice, w);
+            var newTier = getTier(newDevice, w);
+
+            // Tier sınırı aşıldıysa koşullu HTML bloklarının sunucudan yeniden yüklenmesi gerekir
+            if (newTier !== oldTier) {
+                lastDevice = newDevice;
+                if (window.CoreMusic && window.CoreMusic.Router && typeof window.CoreMusic.Router.navigate === 'function') {
+                    window.CoreMusic.Router.navigate(window.location.pathname);
+                } else {
+                    window.location.reload();
+                }
+                return;
+            }
 
             if (newDevice !== lastDevice) {
                 var oldDevice = lastDevice;
                 lastDevice = newDevice;
 
+                // Cihaz geçiş animasyonu: fade-out → CSS yükle → fade-in (CSP-safe)
+                var main = document.querySelector('.page-home, main[data-device]');
+                if (main) {
+                    main.classList.add('cm-device-transitioning');
+                }
+
                 // Yeni device CSS yükle
                 loadDeviceOnly(newDevice, state.isAuth, state.baseUrl);
+
+                // CSS yüklendikten sonra fade-in
+                setTimeout(function () {
+                    if (main) {
+                        main.classList.remove('cm-device-transitioning');
+                        main.classList.add('cm-device-transition-complete');
+                        setTimeout(function () {
+                            main.classList.remove('cm-device-transition-complete');
+                        }, 250);
+                    }
+                }, 160);
 
                 // Body attribute güncelle
                 if (document.body) {
@@ -211,12 +278,12 @@
                     window.CoreMusic.deviceType = newDevice;
                 }
 
-                // Eventtet
+                // Event tetikle
                 window.dispatchEvent(new CustomEvent('devicechange', {
                     detail: { device: newDevice, previous: oldDevice }
                 }));
             }
-        }, 200);
+        }, 300);
     }
 
     /* ============================================================
@@ -251,16 +318,53 @@
         var h = window.innerHeight || document.documentElement.clientHeight;
         var device = detect(w, h);
 
-        // User-Agent mobile kontrolü
+        // User-Agent mobile/embedded kontrolü
         var ua = navigator.userAgent || '';
         var uaDevice = detectUA(ua);
-        if (uaDevice && (uaDevice === 'phone' || uaDevice === 'tablet')) {
+        if (uaDevice && (uaDevice === 'phone' || uaDevice === 'tablet' || uaDevice === 'embedded')) {
             device = uaDevice;
         }
 
-        // Server tahmini varsa ve viewport uyuyorsa
+        // Viewport bilgisini cookie'ye yaz (sunucu tarafı tespit için)
+        try {
+            document.cookie = 'cm_viewport_w=' + w + ';path=/;max-age=86400;SameSite=Lax';
+            document.cookie = 'cm_viewport_h=' + h + ';path=/;max-age=86400;SameSite=Lax';
+        } catch (e) {}
+
+        // Server tahmini: sadece viewport belirsiz olduğunda (desktop default) kullan
+        // Viewport tespiti her zaman öncelikli (DevTools resize senaryosu için)
         if (opts.serverDevice && ALL_DEVICES.indexOf(opts.serverDevice) !== -1) {
-            device = opts.serverDevice;
+            if (device === 'desktop' && opts.serverDevice !== 'desktop') {
+                var viewportIsSpecific = (device !== 'desktop');
+                if (!viewportIsSpecific) {
+                    device = opts.serverDevice;
+                }
+            }
+        }
+
+        // İlk yüklemede sunucu render edilen tier ile tespit edilen tier uyuşmazlığını kontrol et
+        var detectedTier = getTier(device, w);
+        var mainEl = document.querySelector('main[data-tier]');
+        var renderedTier = mainEl ? mainEl.getAttribute('data-tier') : null;
+
+        // Treat '4k' and 'wide' as equivalent — 4K devices use Wide markup + d-4k.css zoom scaling
+        var tiersMatch = (renderedTier === detectedTier) ||
+                         (renderedTier === '4k' && detectedTier === 'wide') ||
+                         (renderedTier === 'wide' && detectedTier === '4k');
+
+        if (renderedTier && !tiersMatch) {
+            var syncAttempts = parseInt(sessionStorage.getItem('cm_tier_sync_count') || '0', 10);
+            if (syncAttempts < 2) {
+                sessionStorage.setItem('cm_tier_sync_count', String(syncAttempts + 1));
+                if (window.CoreMusic && window.CoreMusic.Router && typeof window.CoreMusic.Router.navigate === 'function') {
+                    window.CoreMusic.Router.navigate(window.location.pathname);
+                } else {
+                    window.location.reload();
+                }
+                return device;
+            }
+        } else {
+            sessionStorage.removeItem('cm_tier_sync_count');
         }
 
         // CSS yükle
@@ -279,6 +383,7 @@
         window.CoreMusic.deviceType = device;
         window.CoreMusic.DeviceLoader = {
             detect: detect,
+            getTier: getTier,
             loadAll: loadAll,
             loadDeviceOnly: loadDeviceOnly,
             getDevice: function () { return lastDevice; },

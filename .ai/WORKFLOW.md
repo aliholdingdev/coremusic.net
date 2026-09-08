@@ -278,6 +278,7 @@ Draft → Review → Active → Frozen
 | 1 | `git diff` ile değişiklik listesini al | — |
 | 3 | İlgili ADR'leri kontrol et | ADR uyumluluğu |
 | 4 | Kod standartlarını doğrula (PSR-12, BEM, ITCSS) | Format |
+| 4.5 | Frontend ise: UI Design uyumunu doğrula ([[ui-design/00-mockup-index]], C01-C16, ölçüler) | UI Design Gate |
 | 5 | Güvenlik kontrollerini yap (OWASP, CSRF, CSP) | Security |
 | 5.5 | Template uyumluluğunu kontrol et (Guardrail #16) | Template |
 | 6 | Test coverage'ı kontrol et (min %80) | Coverage |
@@ -364,6 +365,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 1 | Gereksinimleri tanımla | — |
 | 1.5 | `.ai/.templates/index.md`'den uygun template seç | Template Mandatory (Guardrail #16) |
 | 2 | İlgili ADR'leri kontrol et | — |
+| 2.5 | Frontend ise: [[ui-design/00-mockup-index]] ve [[ui-design/01-component-inventory]] oku | ✅ HARD GATE (Guardrail #11) |
 | 3 | 20-Fazlı yaşam döngüsünün ilgili fazlarını uygula | — |
 | 4 | Mimari planı hazırla (Phase 7) | ✅ HARD GATE |
 | 5 | Kullanıcı onayını al | — |
@@ -633,9 +635,10 @@ Session Sonunda:
 | § 9 Hard Gates | [[ADR-007-cache-namespace]] | Onay mekanizması |
 | § 10 Rules | [[ADR-008-bypass-auth-middleware]] | Auth bypass |
 | § 11 Edge Cases | [[ADR-044-dynamic-user-theme-engine]] | Tema engine |
-| § 8.8 YAML Formatter | CI/CD, Docker, GitHub Actions | YAML format standartları |
+| § 8.8 YAML Formatter | CI/CD, GitHub Actions | YAML format standartları |
 | § UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi — frontend görevlerinde ZORUNLU |
-| § Mockup PNG'ler | `.ai/.png/home-1024/` + `.ai/.png/shared-1024/` | 18 PNG mockup (RPi5 1024×600) |
+| § Mockup PNG'ler | `.ai/.png/home-1024/` + `.ai/.png/home-1920/` + `.ai/.png/shared-1024/` | 19 PNG mockup (RPi5 1024×600 + Desktop 1920×1080) |
+| § Responsive Kuralları | [[ui-design/responsive-device-mode]] | 4K No-Center (§7.4) + Backward-Compat (§12) bağlayıcı — frontend gate'e dahil |
 
 ---
 

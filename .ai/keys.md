@@ -3,9 +3,9 @@ title: "CoreMusic — Vault Keyword Map & Concept Router"
 type: system
 category: vault-navigation
 date: 2026-08-12
-updated: 2026-08-19
+updated: 2026-09-05
 status: active
-version: 26.0.0
+version: 28.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -87,6 +87,33 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | L3, presentation, vanilla JS, framework yasak | architecture/l3-presentation/ |
 | ITCSS, BEM, BEMIT, TrustedTypes, DOMParser | architecture/l3-presentation/itcss-architecture.md |
 | Web Audio, ses API | architecture/l3-presentation/web-audio.md |
+| Device CSS, responsive device rendering, scale | architecture/l3-presentation/device-css.md |
+| Responsive frontend architecture, Single View | architecture/l3-presentation/responsive-frontend-architecture.md |
+| Scale sistemi, router, CSS rehberi, frontend entegrasyon, adım adım | architecture/l3-presentation/scale-router-css-frontend-guide.md |
+
+### 3.4A UI Design System & Mockup Otoritesi (SSOT)
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| ui-design, mockup, 18 png, mockup index, home-1024, shared-1024 | ui-design/00-mockup-index.md |
+| c01-c16, component inventory, bileşen envanteri, nav-link, media-card, status-widget | ui-design/01-component-inventory.md |
+| implementation plan, 15 step css, css uygulama planı, mockup to code | ui-design/02-implementation-plan.md |
+| ascii art, wireframe, ascii view, 1024x600 layout, screen spec | ui-design/screens/00-ascii-art-index.md |
+| ascii art views, all 18 views, wireframes, home layout, auth layout | ui-design/screens/00-ascii-art-views.md |
+| design tokens, ui tokens, platform tokens, color palettes, glass tokens | ui-design/tokens/design-tokens-master.md |
+| accessibility gaps, wcag 2.2 aa, touch target 48px, contrast check | ui-design/03-accessibility-gaps.md |
+| responsive device mode, embedded 1024, desktop 1920, mobile 375, tv 3840 | ui-design/responsive-device-mode.md |
+| device-aware rendering, tek bileşen, single component, conditional render | brain.md §18C |
+| device token, header-h, footer-h, content-h, spacing-scale | ui-design/tokens/design-tokens-master.md |
+| device behavioral, hover disabled, touch target 48px, scrollbar override | architecture/l3-presentation/device-css.md |
+| backend scope, widget count, feature toggle, nav links, content config | brain.md §18C |
+| frontend scope, token override, media query, grid template, layout grid | brain.md §18C |
+| layer violation, presentation→infrastructure, php sunum kararı yasak | brain.md §18C |
+| home 1920 mockup, 1920 desktop home, 1920ascii art, 1920 pixel measurements | ui-design/mockups/02-home-screens-1920.md |
+| ui prompt, component prompt, page prompt, screen prompt, layout prompt | ui-design/prompt/00-prompt-index.md |
+| auth screens, login girl, select gender, register girl 1-3 | ui-design/screens/05-auth-layouts.md |
+| home layouts, welcome popup, split 42/58, now playing 1024 | ui-design/screens/01-home-layouts.md |
+| connectivity layouts, wifi quick, bluetooth quick, wifi connect | ui-design/screens/04-connectivity-layouts.md |
 
 ### 3A. L4 Domain
 
@@ -139,7 +166,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | css template, itcss şablonu | .ai/.templates/frontend/css-template.md |
 | phpunit template, test şablonu | .ai/.templates/testing/phpunit-template.md |
 | migration template, db migration | .ai/.templates/infrastructure/migration-template.md |
-| docker template, container | .ai/.templates/infrastructure/docker-template.md |
+| docker template, container | Kaldırıldı — Docker kullanılmıyor |
 | github actions, ci/cd şablonu | .ai/.templates/infrastructure/github-actions-template.md |
 | api doc, api dokümantasyonu | .ai/.templates/documentation/api-doc-template.md |
 | security audit, güvenlik denetimi | .ai/.templates/documentation/security-audit-template.md |
@@ -195,6 +222,23 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | implementation plan, uygulama planı | .ai/ui-design/02-implementation-plan.md |
 | accessibility gaps, wcag analizi | .ai/ui-design/03-accessibility-gaps.md |
 | vault registration, vault kayıt | .ai/ui-design/04-vault-registration.md |
+| device manager, cihaz yönetimi, DeviceManager.php, fromRequest, fromDevice | shared/src/Device/DeviceManager.php |
+| device-aware rendering, cihaz bazlı html, 5 cihaz bloğu, feature toggles | shared/src/Device/DeviceManager.php |
+| widget count, recent card count, playlist count, upNext count, content config | shared/src/Device/DeviceManager.php |
+| showVolume, showFullMetadata, showSidebar, showSeekBar, showPodcastWidget | shared/src/Device/DeviceManager.php |
+| layoutClass, allClasses, dataAttributes, css class helper | shared/src/Device/DeviceManager.php |
+| device nav links, device conditional, isEmbedded, isPhone, isLaptop, isDesktop, is4kTv | shared/src/Device/DeviceManager.php |
+| shouldRenderEmbeddedLayout, shouldRenderWideLayout, shouldRender4kLayout, shouldShowFallback, shouldRenderWelcomePopup, isSupportedResolution | shared/src/Device/DeviceManager.php |
+| device types, phone, tablet, embedded, laptop, desktop, 4k-tv, 4k-monitor, 7 cihaz | shared/src/Device/DeviceManager.php |
+| nav links, NAV_LINKS, device nav, cihaz navigasyonu | shared/src/Device/DeviceManager.php |
+| device profile, deviceProfile, embedded-1024, small-desktop, tv-4k, 4k-monitor | shared/src/Device/DeviceManager.php |
+| device queries, isTouch, isWide, isLarge, isMobile, isSmallDesktop, isTv | shared/src/Device/DeviceManager.php |
+| device content config, widgetCount, recentCardCount, playlistCount, upNextCount | shared/src/Device/DeviceManager.php |
+| welcome popup, shouldRenderWelcomePopup, RPi5 1024 | shared/src/Device/DeviceManager.php |
+| 4-tier conditional rendering, koşullu render, phone layout, 4k layout, wide layout, embedded layout, fallback always false | .ai/ui-design/responsive-device-mode.md |
+| cm_viewport_w, cm_viewport_h, viewport cookie | assets.coremusic.net/js/device-loader.js |
+| viewport whitelist, cookie-based viewport, JS→PHP viewport | shared/src/PageRouter/PageRouter.php |
+| conditional rendering php guide, php implementasyon rehberi, DeviceManager nasıl kullanılır, 4-tier render | .ai/architecture/conditional-rendering-php-guide.md |
 
 ---
 
@@ -564,7 +608,7 @@ P3: testing/*, ui-design/*, personas/*
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 26.0.0 |
+| Version | 27.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | ADR Coverage | 001-087 (87 ADR keyword mapping) |
 | Vault Envanteri | 484+ .md dosyasi, 87 ADR, 18 BCNF DB, 10 panel, 7 servis, shared/ hybrid yapı |

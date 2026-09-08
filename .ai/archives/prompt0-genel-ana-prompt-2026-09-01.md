@@ -1,3 +1,14 @@
+---
+title: "prompt0-genel-ana-prompt-2026-09-01"
+type: archive
+folder: ".ai/archives"
+date: 2026-09-06
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team - Human Mode - Truth Mode
+---
+
 Red Team , human , truth mode -> şimdi YENİ var, bunları .ai ya ve .claude ye işlememiz lazım
 
 # Şimdi senden yapmanı istediğim, incelemeni istediğim şeyler var. Aşağıdakilerin hepsini uygulamanı istiyorum. Adım adım.;

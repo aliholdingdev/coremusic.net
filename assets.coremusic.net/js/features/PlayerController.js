@@ -76,6 +76,9 @@ export default class PlayerController {
 
     /** Volume slider */
     #bindVolume() {
+        // KAİ coreplayer volume (#volume) mevcutsa SPA controller karışmaz (footer.php v1.3+)
+        if (document.getElementById('volume')) return;
+
         const slider = document.querySelector('.footer__volume-slider');
         if (!slider) return;
 

@@ -3,6 +3,7 @@
 use CoreMusic\Home\Container\HomeContainer;
 use CoreMusic\Home\Auth\HomeAuthBridge;
 use CoreMusic\PageRouter\PageRouterKernel;
+use CoreMusic\Session\SessionBootstrapper;
 
 /* ─── DI Container ─── */
 $homeContainer = HomeContainer::getInstance($config, $domainConfig);
@@ -38,25 +39,8 @@ if ($requestUri === '/auth/callback' || $requestUri === 'auth/callback') {
         exit;
     }
 
-    // Session başlat — cookie domain'i middleware ile aynı olmalı
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_name(defined('SESSION_NAME') ? SESSION_NAME : 'COREMUSIC_SESS');
-        $savePath = ini_get('session.save_path') ?: 'C:\temp';
-        if (!is_dir($savePath)) {
-            @mkdir($savePath, 0777, true);
-        }
-        session_save_path($savePath);
-        $cbIsHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
-        session_set_cookie_params([
-            'lifetime' => 0,
-            'path'     => '/',
-            'domain'   => '.coremusic.net',
-            'secure'   => $cbIsHttps,
-            'httponly'  => true,
-            'samesite' => 'Lax',
-        ]);
-        session_start();
-    }
+    // Session başlat — tüm parametreler SessionBootstrapper SSOT'undan gelir
+    SessionBootstrapper::ensureStarted();
 
     // Auth key doğrula + session oluştur
     $authBridge = $homeContainer->get(HomeAuthBridge::class);

@@ -29,7 +29,7 @@ CoreMusic'in deployment stratejisi, CI/CD pipeline, container yönetimi ve monit
 | Home Media Center | Windows/Linux/macOS | PC/Laptop | Tüm servisler |
 | Car Audio System | Windows/Android Auto | Raspberry Pi 5 | Audio + Media |
 | Professional Studio | Windows | 8.1 Surround | Audio + Control |
-| NAS Audio Server | Linux (Docker) | Synology/QNAP | Media + Download |
+| NAS Audio Server | Linux | Synology/QNAP | Media + Download |
 | DAC Control System | Windows/Linux | XMOS XU316 | Audio |
 
 ---
@@ -52,10 +52,10 @@ CoreMusic'in deployment stratejisi, CI/CD pipeline, container yönetimi ve monit
 
 | Servis | Container | Image |
 |--------|-----------|-------|
-| Download Service | Docker | node:lts |
-| Media Service | Docker | php:8.4-apache |
-| MySQL | Docker | mysql:9 |
-| Redis | Docker | redis:alpine |
+| Download Service | Server | node:lts |
+| Media Service | Server | php:8.4-apache |
+| MySQL | Server | mysql:9 |
+| Redis | Server | redis:alpine |
 
 ---
 

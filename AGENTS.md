@@ -170,6 +170,7 @@ Canonical agent registry (ana agent kayıt sistemi) `.ai/AGENTS.md` içerisinde 
 | Ana katalog | [[.ai/index.md]] |
 | Skills | [[.opencode/skills/*/SKILL.md]] |
 | Templates | [[.ai/.templates/index.md]] |
+| UI / Mockup / Frontend | [[.ai/ui-design/00-mockup-index.md]] |
 
 # 11 CoreMusic Agent
 
@@ -214,6 +215,21 @@ Her mimari değişiklik aşağıdakileri gerektirir:
 - ADR oluşturma veya güncelleme
 - Etki analizi (Impact Analysis)
 - Onay süreci
+
+# Dizin Rehberi (AGENTS/CLAUDE Çiftleri — 2026-09-06)
+
+103 klasörde `AGENTS.md` (agent talimatları) + `CLAUDE.md` (bağlam) çifti ikamet eder. Navigasyon:
+
+| Bölge | Kapsam | Giriş |
+|-------|--------|-------|
+| `.ai/` | Vault: decisions (87), architecture (20), ui-design (25), templates (10), electronic (6) | [[.ai/AGENTS.md]] |
+| `shared/` + `packages/` | Paylaşılan PHP altyapısı (L0-L2) | [[shared/AGENTS.md]] |
+| `assets.coremusic.net/` | Statik asset servisi (L3) | [[assets.coremusic.net/AGENTS.md]] |
+| `auth.coremusic.net/` | Auth servisi | [[auth.coremusic.net/AGENTS.md]] |
+| `home.coremusic.net/` | Home Media Center (RPi5) | [[home.coremusic.net/AGENTS.md]] |
+| Config klasörleri | `.claude`, `.openclaude`, `.opencode`, `.workflows`, `.github`, `prompt` | ilgili klasörün AGENTS.md |
+
+**Kapsam notu (2026-09-06):** Seviye 1-3 **tam** (243 klasör çifti: kök + .ai + shared/src derin ağaç + packages + domain + config + skills alt klasörleri). `referans/` (eski adı `reference-project/`) arşivdir — dış kapsam; içindeki eski AGENTS/CLAUDE dosyaları temizlendi.
 
 # Detaylar:
 [[.ai/AGENTS.md]]
@@ -279,6 +295,7 @@ Detaylar: [[.ai/.templates/index.md]]
 3. Vault kuralları her şeyin üzerindedir
 4. Çelişki varsa DUR ve kullanıcıya sor
 5. SSOT hierarchy: CLAUDE.md > AGENTS.md > WORKFLOW.md > diğer dosyalar
+6. **Frontend/UI görevlerinde:** `.ai/ui-design/00-mockup-index.md` (18 PNG Mockup) ve `.ai/ui-design/01-component-inventory.md` (C01-C16) okunmadan kod yazılması KESİNLİKLE YASAKTIR (Guardrail #11).
 
 # Yetki (Authority)
 **Yetkili:** Bayram Ali / Vault Steward

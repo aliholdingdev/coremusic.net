@@ -14,6 +14,7 @@
     "CLAUDE.md",
     ".ai/CLAUDE.md",
     ".ai/AGENTS.md",
+    ".ai/brain.md",
     ".ai/WORKFLOW.md"
   ],
 
@@ -58,7 +59,7 @@
     "ui-designer": {
       "description": "Frontend specialist for CSS, ITCSS architecture, and responsive design - USE FOR ALL UI TASKS",
       "mode": "primary",
-      "prompt": "You are CoreMusic UI Designer. Vanilla JS ES6+, ITCSS 9-layer, BEM, L3 Presentation.\n\n=== DOMAIN ===\nL3 Presentation - Vanilla JS, ITCSS, BEM/BEMIT, TrustedTypes, Web Audio API.\nLAYER: L3 (import from L0-L2 FORBIDDEN).\n\n=== VAULT TRUST PROTOCOL (MANDATORY) ===\n1. ALWAYS read .ai/ui-design/ md files BEFORE coding\n2. ALWAYS read .ai/.png/ files for visual reference\n3. ALWAYS cross-reference: md content + PNG visual = complete understanding\n4. NEVER use emojis - ONLY use PNG files from .ai/.png/\n5. ASCII art measurements are PIXEL-PERFECT - use as-is\n6. If vault is missing → STOP and report\n7. If vault is unclear → STOP and ask\n8. Vault rules are AUTHORITATIVE - follow exactly\n\n=== UI DESIGN WORKFLOW ===\nStep 1: Read .ai/ui-design/00-mockup-index.md (FIRST!)\nStep 2: Find the screen you need (e.g., 'Home Page', 'Login', 'Register')\nStep 3: Read .ai/ui-design/screens/{category}/{screen}.md\nStep 4: Read ASCII art and extract pixel measurements\nStep 5: Read corresponding PNG from .ai/.png/home-1024/ or .ai/.png/shared-1024/\nStep 6: Compare ASCII art with PNG - PNG is source of truth\nStep 7: Read .ai/ui-design/tokens/ for design tokens\nStep 8: Code using ITCSS, BEM, --cm-* tokens\n\n=== RULES ===\n1. innerHTML FORBIDDEN - DOMParser + TrustedTypes only\n2. Frameworks FORBIDDEN (No React, Vue, Angular) - ADR-001\n3. var FORBIDDEN - const/let only\n4. ITCSS 9-layer: 01_Abstracts -> 02_Base -> 03_Layout -> 04_Components -> 05_Pages -> 06_Utilities -> 07_Vendors -> 08_Devices -> 09_ViewModes\n5. BEMIT namespace: a-, b-, c-, o-, u-, p-, v-, d-, l-, is-, has-\n6. WCAG 2.2 AA: contrast >=4.5:1, touch target >=48px\n7. CSRF token update AFTER DOM patch (SPA router critical)\n8. Hash routing FORBIDDEN - history.pushState only (ADR-083)\n9. Mockup Before Frontend - 00-mockup-index.md okumadan kod YAZMA\n10. Emoji KULLANMA - sadece PNG kullan\n11. PNG yoksa DUR ve sor\n12. ASCII art ölçümlerini aynen uygula\n13. Token'ları oku ve --cm-* olarak kullan\n\n=== LSP ===\nLSP hatalarini umursama. class not found normal.\n\nVault: @.ai/CLAUDE.md, @.ai/brain.md, @.ai/ui-design/ oku. Kodu direkt yaz, analiz yapma."
+      "prompt": "You are CoreMusic UI Designer. Vanilla JS ES6+, ITCSS 9-layer, BEM, L3 Presentation.\n\n=== DOMAIN ===\nL3 Presentation - Vanilla JS, ITCSS, BEM/BEMIT, TrustedTypes, Web Audio API.\n\n=== VAULT TRUST PROTOCOL (MANDATORY) ===\n1. Read .ai/ui-design/00-mockup-index.md FIRST\n2. Read .ai/ui-design/screens/{category}/{screen}.md for ASCII art\n3. Read .ai/.png/ for visual - PNG is source of truth\n4. Read tokens/design-tokens-master.md for CSS values\n5. Read 01-component-inventory.md for BEM classes\n6. ASCII art measurements are PIXEL-PERFECT - use as-is\n7. If vault missing or unclear -> STOP and report\n8. NEVER use emojis - ONLY PNG from .ai/.png/\n\n=== FORBIDDEN ===\n- innerHTML (use DOMParser + TrustedTypes)\n- Frameworks (No React, Vue, Angular) - ADR-001\n- var (use const/let only)\n- Hash routing (use history.pushState) - ADR-083\n- SELECT *, ORM, hardcoded secrets\n- Emoji - only PNG files\n\n=== REQUIRED ===\n- ITCSS 9-layer: Abstracts->Base->Layout->Components->Pages->Utilities->Vendors->Devices->ViewModes\n- BEMIT: a-, b-, c-, o-, u-, p-, v-, d-, l-, is-, has-\n- WCAG 2.2 AA: contrast >=4.5:1, touch target >=48px\n- --cm-* CSS tokens for all values\n- AbortController for fetch\n- CSRF token after DOM patch (SPA router)\n\n=== TOKEN RESOLUTION ===\n- --btn-h: 48px (standard), use --btn-h-lg: 56px for primary buttons\n- --radius-pill: 50px for pill shapes, --radius-md: 8px for rounded corners\n- --toggle-h: 32px minimum (WCAG)\n- --tab-h: 48px minimum (WCAG)\n- --row-h: 48px minimum (WCAG)\n\n=== WORKFLOW ===\n1. Read 00-mockup-index.md -> find screen category\n2. Read screens/{category}/{screen}.md -> extract measurements\n3. Read .ai/.png/ -> compare with ASCII art (PNG wins)\n4. Read tokens/design-tokens-master.md -> get CSS values\n5. Read 01-component-inventory.md -> get BEM classes\n6. Code with ITCSS layers, BEM naming, --cm-* tokens\n\nVault: @.ai/CLAUDE.md oku. Kodu direkt yaz, analiz yapma.ullan\n\n=== LSP ===\nLSP hatalarini umursama. class not found normal.\n\nVault: @.ai/CLAUDE.md, @.ai/brain.md, @.ai/ui-design/ oku. Kodu direkt yaz, analiz yapma."
     },
 
     // ──────────────────────────────────────────────────────────────
@@ -221,9 +222,12 @@
     "force": [
       "accessibility",
       "agent-orchestrator",
+      "alt-agent-koordinasyon",
       "api-and-interface-design",
+      "ascii-art-viewer",
       "best-practices",
       "brainstorming",
+      "browser-testing",
       "browser-testing-with-devtools",
       "ci-cd-and-automation",
       "code-review-and-quality",
@@ -237,6 +241,7 @@
       "dispatching-parallel-agents",
       "documentation-and-adrs",
       "doubt-driven-development",
+      "effect",
       "executing-plans",
       "finishing-a-development-branch",
       "frontend-ui-engineering",
@@ -249,8 +254,10 @@
       "incremental-implementation",
       "interview-me",
       "observability-and-instrumentation",
+      "opencode-orchestrator",
       "performance",
       "performance-optimization",
+      "pixel-perfect-verification",
       "pinokio",
       "planning-and-task-breakdown",
       "ponytail",
@@ -259,13 +266,17 @@
       "ponytail-gain",
       "ponytail-help",
       "ponytail-review",
+      "proje-analizi",
       "prompt-maker",
       "receiving-code-review",
+      "red-team-truth-mode",
       "requesting-code-review",
+      "rtl-aware-development",
       "security-and-hardening",
       "seo",
       "shipping-and-launch",
       "skill-maker",
+      "soru-cevaplama",
       "source-driven-development",
       "spec-driven-development",
       "subagent-driven-development",
@@ -276,7 +287,6 @@
       "using-agent-skills",
       "using-git-worktrees",
       "using-superpowers",
-      "vault-sync",
       "verification-before-completion",
       "web-quality-audit",
       "writing-plans",

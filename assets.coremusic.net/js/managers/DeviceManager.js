@@ -21,33 +21,18 @@ export default class DeviceManager {
         FOUR_K_TV_MAX: 3840,
     };
 
-    /** CSS dosya haritası — DeviceCssMap.php ile senkronize */
-    static HOME_CSS = {
-        embedded: '08_Devices/d-embedded.css',
-        phone: '08_Devices/d-phone.css',
-        tablet: '08_Devices/d-tablet.css',
-        laptop: '08_Devices/d-laptop.css',
-        desktop: '08_Devices/d-desktop.css',
-        '4k-tv': '08_Devices/d-4k-tv.css',
-        '4k-monitor': '08_Devices/d-4k-monitor.css',
-    };
+    /** CSS dosya haritası — devices.config.js'den yüklenir (SSOT) */
+    static get HOME_CSS() {
+        return (window.CoreMusic && window.CoreMusic.DEVICES ? window.CoreMusic.DEVICES.HOME_CSS : null) || {};
+    }
 
-    static AUTH_CSS = {
-        embedded: '08_Devices/d-auth-embedded.css',
-        phone: '08_Devices/d-auth-phone.css',
-        tablet: '08_Devices/d-auth-tablet.css',
-        laptop: '08_Devices/d-auth-laptop.css',
-        desktop: '08_Devices/d-auth-desktop.css',
-        '4k-tv': '08_Devices/d-auth-4k-tv.css',
-        '4k-monitor': '08_Devices/d-auth-4k-monitor.css',
-    };
+    static get AUTH_CSS() {
+        return (window.CoreMusic && window.CoreMusic.DEVICES ? window.CoreMusic.DEVICES.AUTH_CSS : null) || {};
+    }
 
-    static VIEW_CSS = {
-        home: '09_ViewModes/v-home.css',
-        pro: '09_ViewModes/v-pro.css',
-        studio: '09_ViewModes/v-studio.css',
-        car: '09_ViewModes/v-car.css',
-    };
+    static get VIEW_CSS() {
+        return (window.CoreMusic && window.CoreMusic.DEVICES ? window.CoreMusic.DEVICES.VIEW_CSS : null) || {};
+    }
 
     /** @param {import('../core/EventBus.js').default} eventBus */
     constructor(eventBus) {

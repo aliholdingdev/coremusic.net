@@ -16,15 +16,18 @@ use CoreMusic\Bootstrap\RuntimeBootstrap;
 use CoreMusic\Auth\Controller\AuthController;
 use CoreMusic\Auth\Container\AuthContainer;
 use CoreMusic\Auth\Handler\AuthPostHandler;
+use CoreMusic\Auth\Handler\AuthKeyRedirectHandler;
+use CoreMusic\Auth\Handler\AutoRedirectHandler;
 use CoreMusic\PageRouter\PageRouterKernel;
 use CoreMusic\Log\LoggerFactory;
+use CoreMusic\Session\SessionBootstrapper;
 
 const MAX_REQUEST_BODY_SIZE = 8192;
 
 /* ─── Config (constants + app + cors) ─── */
 require_once __DIR__ . '/config/constants.php';
-$appConfig     = require __DIR__ . '/config/app.php';
-$corsConfig    = require __DIR__ . '/config/cors.php';
+$appConfig  = require __DIR__ . '/config/app.php';
+$corsConfig = require __DIR__ . '/config/cors.php';
 
 RuntimeBootstrap::boot(DEBUG_MODE);
 
@@ -53,45 +56,21 @@ $domainConfig->setOverrides($scheme, $currentHost, $currentPort);
 $appConfig['session']['cookie_secure'] = $isHttps;
 $config = new ConfigManager($appConfig);
 
-/* ─── Session Helper — Tek SSoT ─── */
-// TODO: Duplicate session init — this logic duplicates SessionManagerMiddleware::ensureSessionStarted().
-// Should be consolidated into SessionInitializer to use shared session config and avoid drift.
-// See: shared/src/Session/SessionInitializer.php
-function cm_session_start(): void {
-    if (session_status() === PHP_SESSION_ACTIVE) {
-        return;
-    }
-    session_name(defined('SESSION_NAME') ? SESSION_NAME : 'COREMUSIC_SESS');
-    $savePath = ini_get('session.save_path') ?: 'C:\temp';
-    if (!is_dir($savePath)) {
-        @mkdir($savePath, 0777, true);
-    }
-    session_save_path($savePath);
-    $isHttps = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
-    session_set_cookie_params([
-        'lifetime' => 0,
-        'path'     => '/',
-        'domain'   => '.coremusic.net',
-        'secure'   => $isHttps,
-        'httponly'  => true,
-        'samesite' => 'Lax',
-    ]);
-    session_start();
-}
-
-/* ─── Special Routes (JSON endpoints — PageRouterKernel'den önce) ─── */
+/* ─── Request Parsing ─── */
 $requestUri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $method     = $_SERVER['REQUEST_METHOD'];
+$pageName   = ltrim($requestUri, '/');
 
+/* ─── 1. Special JSON Routes (before PageRouterKernel) ─── */
 if ($requestUri === '/health' || $requestUri === '/session' || $requestUri === '/validate-key') {
     $container  = AuthContainer::getInstance($config, $domainConfig);
     $controller = $container->get(AuthController::class);
 
-    cm_session_start();
+    SessionBootstrapper::ensureStarted();
 
     $result = match ($requestUri) {
-        '/health'      => $controller->handleHealth([]),
-        '/session'     => $controller->handleSessionCheck([]),
+        '/health'       => $controller->handleHealth([]),
+        '/session'      => $controller->handleSessionCheck([]),
         '/validate-key' => $controller->handleValidateKey([
             'query_params' => $_GET,
             'body'         => $_POST + (json_decode(file_get_contents('php://input'), true) ?? []),
@@ -106,41 +85,12 @@ if ($requestUri === '/health' || $requestUri === '/session' || $requestUri === '
     exit;
 }
 
-/* ─── Root Redirect ─── */
+/* ─── 2. Root Redirect (auth_key callback veya select-gender) ─── */
 if ($requestUri === '' || $requestUri === '/') {
-    // auth_key ile root'a gelindiyse — bu bir callback, key'i doğrula
-    if (!empty($_GET['auth_key'])) {
-        $logger->debug('Root auth_key validation triggered', [
-            'auth_key_prefix' => substr($_GET['auth_key'], 0, 8) . '...',
-        ]);
-        cm_session_start();
-        $akContainer  = AuthContainer::getInstance($config, $domainConfig);
-        $akController = $akContainer->get(AuthController::class);
-        $akResult = $akController->handleValidateKey([
-            'query_params' => $_GET,
-            'body'         => ['auth_key' => $_GET['auth_key']],
-            'server'       => $_SERVER,
-        ]);
-        if (($akResult['httpStatus'] ?? 0) === 200 && !empty($akResult['body']['success'])) {
-            $akUser = $akResult['body']['user'];
-            $akSession = $akContainer->get(\CoreMusic\Interfaces\Auth\ISessionManager::class);
-            $akSession->setAuthUser($akUser);
-            if (!empty($akUser['gender'])) {
-                $akSession->setGender($akUser['gender']);
-            }
-            $logger->debug('Root auth_key validated, redirecting to /home', [
-                'user_id' => $akUser['id'] ?? '-',
-            ]);
-            header('Location: /home', true, 302);
-            exit;
-        }
-        $logger->warning('Root auth_key validation failed', [
-            'http_status' => $akResult['httpStatus'] ?? 0,
-        ]);
-        header('Location: /login?error=invalid_key', true, 302);
-        exit;
-    }
+    $authKeyHandler = new AuthKeyRedirectHandler($config, $domainConfig);
+    $authKeyHandler->handle();
 
+    // auth_key yoksa → select-gender'e yönlendir
     $redirectUri = MUSIC_URL . '/auth/callback';
     $params = http_build_query([
         'client_id'     => 'coremusic-web',
@@ -151,24 +101,20 @@ if ($requestUri === '' || $requestUri === '/') {
     exit;
 }
 
-/* ─── Gender Gate: /login → /select-gender if no gender ─── */
-$authGenderPages = ['login'];
-$pageNameCheck = ltrim($requestUri, '/');
-if ($method !== 'POST' && in_array($pageNameCheck, $authGenderPages, true)) {
-    cm_session_start();
+/* ─── 3. Gender Gate: /login → /select-gender if no gender ─── */
+if ($method !== 'POST' && $pageName === 'login') {
+    SessionBootstrapper::ensureStarted();
     $sessionGender = $_SESSION['cm_gender'] ?? '';
     $cookieGender  = $_COOKIE['cm_gender'] ?? '';
-    $hasGender     = !empty($sessionGender) || !empty($cookieGender);
-    if (!$hasGender) {
+    if (empty($sessionGender) && empty($cookieGender)) {
         $params = http_build_query($_GET);
         header('Location: /select-gender' . ($params ? '?' . $params : ''), true, 302);
         exit;
     }
 }
 
-/* ─── Default OAuth Redirect (GET only, missing params) ─── */
+/* ─── 4. Default OAuth Redirect (GET only, missing params) ─── */
 $authPages = ['login', 'register', 'forgot-password', 'reset-password'];
-$pageName  = ltrim($requestUri, '/');
 if ($method !== 'POST' && in_array($pageName, $authPages, true) && empty($_GET['client_id'])) {
     $defaultRedirectUri = MUSIC_URL . '/auth/callback';
     $params = http_build_query([
@@ -180,45 +126,11 @@ if ($method !== 'POST' && in_array($pageName, $authPages, true) && empty($_GET['
     exit;
 }
 
-/* ─── Authenticated User Auto-Redirect: Auth domain'de zaten giriş yapmış kullanıcı
-     /login veya /register'e redirect_uri ile geldiğinde auth_key oluşturup callback'e yönlendir.
-     Bu, home.coremusic.net'teki redirect loop'u önler. ─── */
-if ($method !== 'POST' && in_array($pageName, ['login', 'register'], true) && !empty($_GET['redirect_uri'])) {
-    cm_session_start();
-    $autoAuthHelper = new \CoreMusic\PageRouter\PageRouterHelper();
-    if ($autoAuthHelper->checkAuthenticated()) {
-        $autoUserId = $_SESSION['MM_UserID'] ?? null;
-        if ($autoUserId !== null && is_string($autoUserId) && $autoUserId !== '') {
-            $autoContainer  = AuthContainer::getInstance($config, $domainConfig);
-            $autoRepo       = $autoContainer->get(\CoreMusic\Interfaces\Auth\IUserRepository::class);
-            $autoClientIp   = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
-            $autoAuthKey    = bin2hex(random_bytes(32));
-            $autoExpiresAt  = date('Y-m-d H:i:s', time() + 300);
-            $autoRepo->saveAuthKey($autoUserId, $autoAuthKey, $autoExpiresAt, $autoClientIp);
+/* ─── 5. Authenticated User Auto-Redirect ─── */
+$autoHandler = new AutoRedirectHandler($config, $domainConfig);
+$autoHandler->handle($pageName, $method);
 
-            $autoRedirectUri = $_GET['redirect_uri'];
-            // Open Redirect koruması — whitelist'e uymayan URI'ları reddet
-            if (!\CoreMusic\Security\SecurityHelper::isRedirectUriSafe($autoRedirectUri)) {
-                $logger->warning('Unsafe redirect_uri blocked in auto-redirect', [
-                    'redirect_uri' => $autoRedirectUri,
-                ]);
-                $autoRedirectUri = '/';
-            }
-            $autoSeparator   = str_contains($autoRedirectUri, '?') ? '&' : '?';
-            $autoCallbackUrl = $autoRedirectUri . $autoSeparator . 'auth_key=' . urlencode($autoAuthKey);
-
-            $logger->debug('Authenticated user auto-redirect', [
-                'user_id'      => $autoUserId,
-                'redirect_uri' => $autoRedirectUri,
-            ]);
-
-            header('Location: ' . $autoCallbackUrl, true, 302);
-            exit;
-        }
-    }
-}
-
-/* ─── AuthContainer + Handler ─── */
+/* ─── 6. PageRouterKernel (normal sayfa akışı) ─── */
 $container  = AuthContainer::getInstance($config, $domainConfig);
 $controller = $container->get(AuthController::class);
 $authHandler = new AuthPostHandler($controller);
@@ -228,13 +140,11 @@ foreach (['login', 'register', 'select-gender', 'forgot-password', 'reset-passwo
     $handlers[$uri] = $authHandler;
 }
 
-/* ─── Request Log ─── */
 $logger->info("Request: {$method} {$requestUri}", [
-    'ip'   => $_SERVER['REMOTE_ADDR'] ?? '-',
-    'ua'   => $_SERVER['HTTP_USER_AGENT'] ?? '-',
+    'ip' => $_SERVER['REMOTE_ADDR'] ?? '-',
+    'ua' => $_SERVER['HTTP_USER_AGENT'] ?? '-',
 ]);
 
-/* ─── Shared Components ─── */
 $authHelper = new \CoreMusic\PageRouter\PageRouterHelper();
 $urlBuilder = new \CoreMusic\PageRouter\AuthUrlBuilder($domainConfig, $authHelper);
 $registry   = new \CoreMusic\PageRouter\RouteRegistry();
@@ -244,16 +154,15 @@ $router     = new \CoreMusic\PageRouter\PageRouter(
     $authGuard, $urlBuilder, new \CoreMusic\Cache\PageCacheAdapter(), $handlers,
 );
 
-/* ─── PageRouterKernel ─── */
 $kernel = new PageRouterKernel(
-    config:        $config,
-    domainConfig:  $domainConfig,
-    headerPath:    null,
-    footerPath:    null,
-    registry:      $registry,
-    router:        $router,
-    handlers:      $handlers,
-    corsConfig:    $corsConfig,
+    config:       $config,
+    domainConfig: $domainConfig,
+    headerPath:   null,
+    footerPath:   null,
+    registry:     $registry,
+    router:       $router,
+    handlers:     $handlers,
+    corsConfig:   $corsConfig,
 );
 
 try {
@@ -261,7 +170,7 @@ try {
     $kernel->handle($_SERVER, $_GET, $_POST, $routesFile);
 } catch (\Throwable $e) {
     $logger->error("Unhandled: {$e->getMessage()}", [
-        'file' => $e->getFile() . ':' . $e->getLine(),
+        'file'  => $e->getFile() . ':' . $e->getLine(),
         'trace' => $e->getTraceAsString(),
     ]);
     http_response_code(500);

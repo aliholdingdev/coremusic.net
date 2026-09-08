@@ -40,6 +40,14 @@ final class UuidV7
     }
 
     /**
+     * UUID v7 formatted string (8-4-4-4-12) — varsayılan üretici.
+     */
+    public static function generate(): string
+    {
+        return self::generateFormatted();
+    }
+
+    /**
      * UUID v7 formatted string (8-4-4-4-12).
      */
     public static function generateFormatted(): string

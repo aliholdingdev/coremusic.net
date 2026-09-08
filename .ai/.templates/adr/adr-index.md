@@ -52,7 +52,7 @@ Yeni ADR oluştururken:
 | `DSP, buffer, ASIO, latency, hardware` | `adr-audio-template.md` | DSP algoritması |
 | `API, routing, middleware, PHP` | `adr-template.md` | Yeni endpoint |
 | `test, PHPUnit, coverage` | `adr-template.md` | Test stratejisi |
-| `CI/CD, Docker, deploy` | `adr-template.md` | Deployment |
+| `CI/CD, GitHub Actions, deploy` | `adr-template.md` | Deployment |
 | `cache, Redis, APCu` | `adr-template.md` | Cache stratejisi |
 
 ### 3. Şablon Kullanımı

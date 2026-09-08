@@ -17,7 +17,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 1. Amaç
 
-Deployment altyapısını ve stratejilerini tanımlar. Docker, CI/CD, monitoring ve rollback.
+Deployment altyapısını ve stratejilerini tanımlar. CI/CD, monitoring ve rollback.
 
 ---
 
@@ -28,35 +28,26 @@ Deployment altyapısını ve stratejilerini tanımlar. Docker, CI/CD, monitoring
 | Home Media Center | Windows/Linux/macOS | PC/Laptop |
 | Car Audio System | Windows/Android Auto | Raspberry Pi 5 |
 | Professional Studio | Windows (WASAPI/ASIO) | 8.1 Surround |
-| NAS Audio Server | Linux (Docker) | Synology/QNAP |
+| NAS Audio Server | Linux | Synology/QNAP |
 | DAC Control System | Windows/Linux | XMOS XU316 |
 
 ---
 
-## 3. Docker Architecture
+## 3. Servis Mimarisi
 
 ```yaml
 services:
   control-service:
-    image: coremusic/control:latest
-    ports:
-      - "81:81"
+    port: 81
   
   media-service:
-    image: coremusic/media:latest
-    ports:
-      - "5000:5000"
-      - "6000:6000"
+    port: 5000/6000
   
   download-service:
-    image: coremusic/download:latest
-    ports:
-      - "3001:3001"
+    port: 3001
   
   mysql:
-    image: mysql:9
-    volumes:
-      - mysql_data:/var/lib/mysql
+    port: 3306
 ```
 
 ---
@@ -66,7 +57,7 @@ services:
 ```
 Push → Lint → Test → Build → Deploy → Health Check → Monitor
  ↓        ↓       ↓       ↓         ↓            ↓          ↓
-Git    PHP lint  PHPUnit Docker   SSH/CD    Endpoint    Alerting
+Git    PHP lint  PHPUnit Build   SSH/CD    Endpoint    Alerting
 ```
 
 ---

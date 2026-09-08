@@ -353,8 +353,8 @@ Design Tokens (Bu Dosya)
 
 | Token | RPi5 | Desktop | Mobile | TV | CSS Variable |
 |-------|------|---------|--------|-----|--------------|
-| `--touch-min` | `48px` | `44px` | `48px` | `60px` | `var(--touch-min)` |
-| `--touch-target-sm` | `48px` | `44px` | `48px` | `60px` | `var(--touch-target-sm)` |
+| `--touch-min` | `48px` | `48px` | `48px` | `60px` | `var(--touch-min)` |
+| `--touch-target-sm` | `48px` | `48px` | `48px` | `60px` | `var(--touch-target-sm)` |
 | `--touch-target-md` | `56px` | `48px` | `56px` | `64px` | `var(--touch-target-md)` |
 | `--touch-target-lg` | `64px` | `56px` | `64px` | `72px` | `var(--touch-target-lg)` |
 
@@ -451,8 +451,8 @@ Design Tokens (Bu Dosya)
 
 | Token | Değer | CSS Variable |
 |-------|-------|--------------|
-| `--tab-h` | `32px` | `var(--tab-h)` |
-| `--tab-h-lg` | `40px` | `var(--tab-h-lg)` |
+| `--tab-h` | `48px` | `var(--tab-h)` |
+| `--tab-h-lg` | `56px` | `var(--tab-h-lg)` |
 | `--tab-radius` | `var(--radius-pill)` | `var(--tab-radius)` |
 | `--tab-padding-x` | `12px` | `var(--tab-padding-x)` |
 | `--tab-font-size` | `var(--text-xs)` | `var(--tab-font-size)` |
@@ -482,11 +482,11 @@ Design Tokens (Bu Dosya)
 | Token | Değer | CSS Variable |
 |-------|-------|--------------|
 | `--toggle-w` | `50px` | `var(--toggle-w)` |
-| `--toggle-h` | `28px` | `var(--toggle-h)` |
+| `--toggle-h` | `32px` | `var(--toggle-h)` |
 | `--toggle-radius` | `var(--radius-full)` | `var(--toggle-radius)` |
 | `--toggle-bg-off` | `rgba(255,255,255,0.2)` | `var(--toggle-bg-off)` |
 | `--toggle-bg-on` | `var(--accent)` | `var(--toggle-bg-on)` |
-| `--toggle-knob-size` | `22px` | `var(--toggle-knob-size)` |
+| `--toggle-knob-size` | `24px` | `var(--toggle-knob-size)` |
 | `--toggle-knob-color` | `var(--white)` | `var(--toggle-knob-color)` |
 
 ### 12.7 — Network Row Token'ları

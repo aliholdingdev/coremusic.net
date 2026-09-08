@@ -1,0 +1,412 @@
+/**
+ * CoreMusic — Car View Mode
+ * Araç içi bilgi-eğlence görünümü
+ * ITCSS Layer: 09_ViewModes
+ * Version: 1.0.0 — 2026-09-01
+ *
+ * Target: Car infotainment display (RPi5 + 7" touchscreen)
+ * Input: Touch + D-pad / Steering wheel
+ * Orientation: Landscape (sabit)
+ *
+ * Kurallar:
+ *   - Embedded device CSS (d-embedded.css) ile birlikte çalışır
+ *   - Driving-safe: büyük touch targets, basit navigasyon
+ *   - D-pad / steering wheel navigasyon desteği
+ *   - Guardrail #17: Ayrı HTML/branch YASAK
+ */
+
+/* ============================================================
+   CAR VIEW — Background (Driving-safe: karanlık, düşük kontrast)
+   Gece sürüşü için karanlık tema tercih edilir
+   ============================================================ */
+html[data-gender="female"] body {
+  background-image: url('/Image/background/login-bg-female.png');
+}
+
+html[data-gender="male"] body {
+  background-image: url('/Image/background/login-bg-male.png');
+}
+
+html[data-gender="neutral"] body {
+  background-image: url('/Image/background/login-bg-neutral.png');
+}
+
+body {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   CAR VIEW — Token Overrides
+   Driving-safe: büyük touch targets, yüksek kontrast
+   ============================================================ */
+:root {
+  --view-bg: var(--bg-base);
+  --view-surface: var(--bg-surface);
+  --view-text: var(--text-primary);
+  --view-accent: #ff4fd8;
+
+  /* Car-specific overrides */
+  --touch-min: 56px;           /* Driving-safe: 56px minimum */
+  --touch-recommended: 64px;   /* Driving-safe: 64px önerilen */
+  --touch-large: 72px;         /* Driving-safe: 72px büyük butonlar */
+  --nav-height: 72px;          /* Car navigation yüksekliği */
+  --card-thumb-size: 160px;    /* Büyük kartlar (driving) */
+  --text-base: 14px;           /* Okunabilir font */
+  --focus-ring-width: 4px;     /* Belirgin focus ring */
+  --focus-ring-offset: 4px;    /* Focus ring offset */
+}
+
+/* ============================================================
+   CAR VIEW — Glass Overlay
+   Background image üzerinde hafif karartma (gece sürüşü için)
+   ============================================================ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.25) 0%,
+    rgba(0, 0, 0, 0.15) 40%,
+    rgba(0, 0, 0, 0.30) 100%
+  );
+  pointer-events: none;
+}
+
+/* ============================================================
+   CAR VIEW — Header (Simplified: minimal info)
+   ============================================================ */
+.view-car .site-header {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--page-padding-x);
+  background: rgba(0, 0, 0, 0.60);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Car header: sadece logo + clock + status */
+.view-car .site-header__logo {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--view-text);
+}
+
+.view-car .site-header__status {
+  display: flex;
+  align-items: center;
+  gap: var(--grid-gap);
+  font-size: var(--text-sm);
+  color: var(--view-text);
+  opacity: 0.8;
+}
+
+/* ============================================================
+   CAR VIEW — Navigation (Simplified: 4 tab max)
+   Driving-safe: large touch targets, minimal navigation
+   ============================================================ */
+.view-car .nav {
+  display: flex;
+  align-items: center;
+  gap: var(--grid-gap-lg);
+  padding: 0 var(--page-padding-x);
+  height: 56px;
+  background: rgba(0, 0, 0, 0.40);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.view-car .nav-link {
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--grid-gap-lg);
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--view-text);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.view-car .nav-link:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.view-car .nav-link.active {
+  background: rgba(255, 255, 255, 0.15);
+  font-weight: var(--font-bold);
+}
+
+/* ============================================================
+   CAR VIEW — Home Layout (Dashboard-style)
+   Basit, okunabilir yerleşim
+   ============================================================ */
+.view-car .home-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  gap: var(--grid-gap);
+  padding: var(--grid-gap);
+  height: calc(100vh - var(--nav-height) - 56px - var(--footer-h));
+  overflow: hidden;
+}
+
+/* Now Playing: tam genişlik, büyük albüm sanatı */
+.view-car .home-now-playing {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: var(--grid-gap-lg);
+  padding: var(--card-padding);
+  background: var(--view-surface);
+  border-radius: 12px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.view-car .home-now-playing__art {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.view-car .home-now-playing__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.view-car .home-now-playing__title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--view-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.view-car .home-now-playing__artist {
+  font-size: var(--text-sm);
+  color: var(--view-text);
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Widget grid: basit, okunabilir */
+.view-car .home-widget-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--grid-gap);
+}
+
+.view-car .home-widget {
+  padding: var(--card-padding);
+  background: var(--view-surface);
+  border-radius: 12px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.view-car .home-widget__title {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--view-text);
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.view-car .home-widget__value {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--view-text);
+}
+
+/* ============================================================
+   CAR VIEW — Player Controls (Large touch targets)
+   ============================================================ */
+.view-car .footer {
+  height: var(--footer-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--page-padding-x);
+  background: rgba(0, 0, 0, 0.70);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.view-car .player-btn {
+  min-width: var(--touch-large);
+  min-height: var(--touch-large);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--view-text);
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.view-car .player-btn--play {
+  min-width: 72px;
+  min-height: 72px;
+  background: var(--view-accent);
+}
+
+.view-car .player-btn:hover {
+  background: rgba(255, 255, 255, 0.20);
+}
+
+.view-car .player-btn--play:hover {
+  background: var(--view-accent);
+  opacity: 0.9;
+}
+
+/* ============================================================
+   CAR VIEW — Focus Management (D-pad / Steering wheel)
+   ============================================================ */
+.view-car *:focus {
+  outline: none;
+}
+
+.view-car *:focus-visible {
+  outline: var(--focus-ring-width) solid var(--view-accent);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: 8px;
+}
+
+/* Focus ring: büyük, belirgin, 10ft UI için okunabilir */
+.view-car .nav-link:focus-visible {
+  outline: var(--focus-ring-width) solid var(--view-accent);
+  outline-offset: var(--focus-ring-offset);
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.view-car .player-btn:focus-visible {
+  outline: var(--focus-ring-width) solid var(--view-accent);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Focus trap: modal içinde */
+.view-car .modal:focus-within {
+  z-index: calc(var(--z-modal) + 1);
+}
+
+/* ============================================================
+   CAR VIEW — Scrollbar (Thin, minimal)
+   ============================================================ */
+.view-car ::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.view-car ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.view-car ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+/* ============================================================
+   CAR VIEW — Card Grid (Simplified, large cards)
+   ============================================================ */
+.view-car .card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--grid-gap);
+}
+
+.view-car .media-card {
+  padding: var(--card-padding);
+  background: var(--view-surface);
+  border-radius: 12px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-gap);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.view-car .media-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.view-car .media-card__art {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.view-car .media-card__title {
+  font-size: var(--text-base);
+  font-weight: var(--font-medium);
+  color: var(--view-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ============================================================
+   CAR VIEW — Modal (Large, touch-friendly)
+   ============================================================ */
+.view-car .modal {
+  max-width: 480px;
+  max-height: 80vh;
+  border-radius: 16px;
+}
+
+/* ============================================================
+   DATA ATTRIBUTE SELECTOR
+   ============================================================ */
+[data-view="car"] .home-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  gap: var(--grid-gap);
+}
+
+[data-view="car"] .site-header {
+  background: rgba(0, 0, 0, 0.60);
+}
+
+[data-view="car"] .nav {
+  background: rgba(0, 0, 0, 0.40);
+}
+
+[data-view="car"] .footer {
+  background: rgba(0, 0, 0, 0.70);
+}
+
+[data-view="car"] .player-btn--play {
+  background: var(--view-accent);
+}

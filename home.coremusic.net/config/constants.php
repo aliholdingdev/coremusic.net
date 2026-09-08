@@ -27,7 +27,7 @@ if (!defined('APP_ENV_MODE')) {
     define('APP_ENV_MODE', $envMode);
     define('DEBUG_MODE', APP_ENV_MODE !== 'production');
     define('APP_NAME', $env('APP_NAME', 'CoreMusic'));
-    define('APP_VERSION', $env('APP_VERSION', '2.0.0'));
+    define('APP_VERSION', $env('APP_VERSION', '2.3.0'));
     define('APP_TIMEZONE', $env('APP_TIMEZONE', 'Europe/Istanbul'));
 }
 

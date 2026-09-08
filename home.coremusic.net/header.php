@@ -1,86 +1,142 @@
 <?php declare(strict_types=1);
 /**
- * CoreMusic Home — Header Partial
- * BEM: .site-header → __inner → __logo | __nav | __actions
- * Design: 02-home-screens.md, 01-component-inventory.md
- * Components: C01 (nav-link), C02 (system status), C03 (user pill)
- * Version: 2.0.0 — 2026-08-21
+ * header.php — CoreMusic Global Header
+ * Layer: L3 Presentation · 03_Layout (_header.css)
+ * SSOT: .ai/.png/home-1024/ + home-1920/ (PNG sadakati, Guardrail #11)
+ * Bileşenler: C01 nav-link · C02 header-widget · C03 header-user
+ * Yükseklik: 60px (1024) · 70px (1920+) · 90px (4K) — CSS token: --header-h
+ * Version: 1.0.0 — 2026-09-06 (sıfırdan yeniden yazım — PNG birebir)
  */
 
-$currentUser = $_SESSION['MM_Username'] ?? null;
-$isAuth = $currentUser !== null && $currentUser !== '';
-$avatarUrl = $_SESSION['MM_Avatar'] ?? ASSETS_URL . '/Image/profiles/default-avatar.png';
-$gender = $_SESSION['cm_gender'] ?? $_SESSION['MM_Gender'] ?? 'neutral';
+use CoreMusic\Device\DeviceManager;
+
+if (!isset($dm)) {
+    $dm = DeviceManager::instance([
+        'viewportW' => (int)($_SERVER['VIEWPORT_W'] ?? 0) ?: null,
+        'viewportH' => (int)($_SERVER['VIEWPORT_H'] ?? 0) ?: null,
+    ]);
+}
+
+$h = static function (string $v): string {
+    return htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+};
+
+$assetsUrl = defined('ASSETS_URL') ? ASSETS_URL : 'http://assets.coremusic.net';
+
+/* ── Cookie / Session verileri ── */
+$cookieImage = $h(
+    (is_string($_COOKIE['MM_Image'] ?? null) && $_COOKIE['MM_Image'] !== '')
+        ? $_COOKIE['MM_Image']
+        : $assetsUrl . '/Image/res-pink/users.png'
+);
+
+$cookieUsername = $h(
+    (is_string($_SESSION['MM_Username'] ?? null) && $_SESSION['MM_Username'] !== '')
+        ? $_SESSION['MM_Username']
+        : ((is_string($_COOKIE['MM_Username'] ?? null) && $_COOKIE['MM_Username'] !== '')
+            ? $_COOKIE['MM_Username']
+            : 'Misafir')
+);
+
+$cookieWifi = $h(
+    (is_string($_COOKIE['Wifcfg_wifisignal'] ?? null) && $_COOKIE['Wifcfg_wifisignal'] !== '')
+        ? $_COOKIE['Wifcfg_wifisignal']
+        : $assetsUrl . '/Image/res-pink/wifi/wifi-not-connection.png'
+);
+
+$cookieBt = $h(
+    (is_string($_COOKIE['Bluethootcfg_btstatus'] ?? null) && $_COOKIE['Bluethootcfg_btstatus'] !== '')
+        ? $_COOKIE['Bluethootcfg_btstatus']
+        : $assetsUrl . '/Image/res-pink/bluethoot.png'
+);
+
+$cookiePower = $h(
+    (is_string($_COOKIE['Powercfg_powerlevel'] ?? null) && $_COOKIE['Powercfg_powerlevel'] !== '')
+        ? $_COOKIE['Powercfg_powerlevel']
+        : $assetsUrl . '/Image/res-pink/power-system/battery-100.png'
+);
+
+$cookiePowerTxt = $h(
+    (is_string($_COOKIE['Powercfg_powerlevel_txt'] ?? null) && $_COOKIE['Powercfg_powerlevel_txt'] !== '')
+        ? $_COOKIE['Powercfg_powerlevel_txt']
+        : '100%'
+);
+
+$settingsIcon = $h($assetsUrl . '/Image/res-pink/settings.png');
+$logoutIcon   = $h($assetsUrl . '/Image/res-pink/session-logout.png');
+
+/* ── Tier sınıfı: 4K (≥2561) → Wide (≥1920) → Embedded (≤1024) ── */
+$headerTierClass = $dm->shouldRender4kLayout()
+    ? 'site-header--4k site-header--tv'
+    : ($dm->shouldRenderWideLayout() ? 'site-header--wide site-header--desktop' : 'site-header--1024 site-header--embedded');
 ?>
-<header class="site-header" role="banner">
+<header class="site-header <?= $headerTierClass ?> <?= $dm->allClasses() ?>" role="banner" <?= $dm->dataAttributes() ?>>
     <div class="site-header__inner">
-        <!-- Logo: Core (Bickham) + Music (Respective) -->
-        <a href="/home" class="site-header__logo" data-no-spa aria-label="CoreMusic Ana Sayfa">
-            <span class="logo-core">Core</span><span class="logo-music">Music</span>
+
+        <a href="/home" class="site-header__logo" aria-label="CoreMusic" data-no-spa>
+            <span class="logo-core">Core</span> <span class="logo-music">Music</span>
         </a>
 
-        <!-- Navigation: C01 nav-link × 8 -->
         <nav class="site-header__nav" aria-label="Ana navigasyon">
-            <a href="/home" class="nav-link active" aria-current="page">Ana Sayfa</a>
-            <a href="/kesfet" class="nav-link">Keşfet</a>
-            <a href="/albumler" class="nav-link">Albümler</a>
-            <a href="/sanatcilar" class="nav-link">Sanatçılar</a>
-            <a href="/goz-at" class="nav-link">Göz At</a>
-            <a href="/gecmis" class="nav-link">Geçmiş</a>
-            <a href="/ayarlar" class="nav-link">Ayarlar</a>
-            <a href="/hakkimizda" class="nav-link">Hakkımızda</a>
+<?php foreach ($dm->navLinks() as $link): ?>
+            <a href="<?= $h((string)$link['href']) ?>" class="nav-link<?= $link['active'] ? ' active' : '' ?>"<?= $link['active'] ? ' aria-current="page"' : '' ?> data-no-spa><?= $h((string)$link['label']) ?></a>
+<?php endforeach; ?>
         </nav>
 
-        <!-- Actions: User Pill + System Status + Power -->
-        <div class="site-header__actions">
-            <!-- C03: User Profile Pill -->
-            <div class="header-user" role="button" tabindex="0" aria-expanded="false" aria-haspopup="true">
-                <img
-                    class="header-user__avatar"
-                    src="<?= htmlspecialchars($avatarUrl, ENT_QUOTES, 'UTF-8') ?>"
-                    alt="<?= $isAuth ? htmlspecialchars($currentUser, ENT_QUOTES, 'UTF-8') : 'Kullanıcı' ?>"
-                    width="35"
-                    height="35"
-                    loading="lazy"
-                >
-                <span class="header-user__name"><?= $isAuth ? htmlspecialchars($currentUser, ENT_QUOTES, 'UTF-8') : 'Misafir' ?></span>
-                <span class="header-user__arrow" aria-hidden="true">&#9662;</span>
-                <!-- Dropdown Menu -->
+        <div class="site-header__actions" aria-label="Sistem ve kullanıcı">
+
+            <!-- C02 — WiFi + Bluetooth kapsülü (65×37.4px, radius 50px) -->
+            <div class="header-border header-border--wifi" title="Bağlantı Durumu">
+                <div class="header-widget header-widget--signal">
+                    <img src="<?= $cookieWifi ?>" alt="Wi-Fi" width="25" height="25" loading="lazy"/>
+                </div>
+                <div class="header-widget header-widget--bt">
+                    <img src="<?= $cookieBt ?>" alt="Bluetooth" width="25" height="25" loading="lazy"/>
+                </div>
+            </div>
+
+            <!-- C02 — Pil kapsülü (100×37.4px, radius 50px) -->
+            <div class="header-border header-border--battery" title="Güç Durumu">
+                <img src="<?= $cookiePower ?>" alt="Pil" width="22" height="22" loading="lazy"/>
+                <span class="battery-pct"><?= $cookiePowerTxt ?></span>
+            </div>
+
+            <!-- C03 — Kullanıcı hapı (avatar 35×35 + isim + dropdown) -->
+            <div class="header-user" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
+                <img class="header-user__avatar" src="<?= $cookieImage ?>" alt="Avatar" width="35" height="35" loading="lazy"/>
+                <span class="header-user__name"><?= $cookieUsername ?></span>
+                <span class="header-user__arrow">&#9660;</span>
                 <div class="header-user-dropdown" role="menu">
                     <a href="/profil" role="menuitem" data-no-spa>Profilim</a>
                     <a href="/ayarlar" role="menuitem" data-no-spa>Ayarlar</a>
                     <a href="/gecmis" role="menuitem" data-no-spa>Geçmiş</a>
-                    <?php if ($isAuth): ?>
-                        <a href="/logout" class="logout-btn" role="menuitem" data-no-spa>Çıkış Yap</a>
-                    <?php endif; ?>
+                    <a href="/logout" class="logout-btn" role="menuitem" data-no-spa>Çıkış Yap</a>
                 </div>
             </div>
 
-            <!-- C02: System Status Widget — WiFi + BT Pill -->
-            <div class="header-border header-border--wifi">
-                <div class="header-widget header-widget--signal">
-                    <img src="<?= ASSETS_URL ?>/Image/res-pink/wifi/wifi-full.png" alt="Wi-Fi" height="25" width="25" loading="lazy">
-                </div>
-                <div class="header-widget header-widget--bt">
-                    <img src="<?= ASSETS_URL ?>/Image/res-pink/bluethoot.png" alt="Bluetooth" height="25" width="25" loading="lazy">
-                </div>
+            <div class="header-border header-border--actions">
+                <button class="header-action-btn sidebar-toggle" type="button" aria-label="Sidebar aç/kapat" data-action="toggle-sidebar" title="Navigasyon paneli">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                </button>
+                <a href="/ayarlar" class="header-action-btn" aria-label="Ayarlar">
+                    <img src="<?= $settingsIcon ?>" alt="" width="22" height="22" loading="lazy"/>
+                </a>
+                <a href="/logout" class="header-action-btn" aria-label="Çıkış" data-no-spa>
+                    <img src="<?= $logoutIcon ?>" alt="" width="22" height="22" loading="lazy"/>
+                </a>
             </div>
-
-            <!-- C02: Battery Pill -->
-            <div class="header-border header-border--battery">
-                <div class="header-widget header-widget--battery">
-                    <img src="<?= ASSETS_URL ?>/Image/res-pink/power-system/battery-100.png" alt="Batarya" height="36" width="36" loading="lazy">
-                </div>
-                <span class="battery-pct">%100</span>
-            </div>
-
-            <!-- Action Buttons -->
-            <a href="/ayarlar" class="header-action-btn" aria-label="Ayarlar" data-no-spa>
-                <img src="<?= ASSETS_URL ?>/Image/res-pink/settings.png" alt="" height="25" width="25" loading="lazy">
-            </a>
-            <a href="/logout" class="header-action-btn header-action-btn--logout" aria-label="Çıkış" data-no-spa>
-                <img src="<?= ASSETS_URL ?>/Image/res-pink/session-logout.png" alt="" height="25" width="25" loading="lazy">
-            </a>
         </div>
     </div>
 </header>
+
+<aside class="sidebar <?= $dm->allClasses() ?>" role="navigation" aria-label="Sidebar navigasyon" <?= $dm->dataAttributes() ?>>
+    <div class="sidebar__scroll" role="menubar" aria-label="Sidebar menü">
+        <!-- SidebarManager.js tarafından doldurulur -->
+    </div>
+    <div class="sidebar__resize-handle" role="separator" tabindex="0" aria-label="Sidebar genişletme tutamacı"></div>
+</aside>
+<div class="sidebar-overlay" aria-hidden="true"></div>

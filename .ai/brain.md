@@ -498,7 +498,11 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 
 ### Responsive CSS Mimarisi Kuralı (Zorunlu — Guardrail #17)
 
-**1024×600 PNG mockup = Design Reference**
+**1024×600 PNG mockup = Design Reference (Kanonik SSOT)**
+- Kanonik İndeks: [[ui-design/00-mockup-index]] (18 PNG: 12 home-1024 + 6 shared-1024)
+- Kanonik Bileşen Envanteri: [[ui-design/01-component-inventory]] (C01–C16 BEM ve piksel standartları)
+- Kanonik ASCII Wireframe Haritası: [[ui-design/screens/00-ascii-art-index]] (Header 60px y:0-60, İçerik 450px y:60-510, Footer 90px y:510-600)
+- 15 Adımlık CSS Uygulama Planı: [[ui-design/02-implementation-plan]]
 - Pixel reference: Tüm ölçüler PNG'den çıkarılır
 - Layout authority: Layout kararı PNG mockup'a göredir
 - Component measurement source: Bileşen boyutları PNG piksel ölçümü
@@ -536,6 +540,297 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 03_Layout/_footer.css             → `var(--footer-h)` kullanır
 04_Components/*.css               → `var(--token)` kullanır
 ```
+
+---
+
+## 18B. 4-Tier Device Manager Sistemi (v3.0.0 — 2026-09-05)
+
+**4-Tier Conditional Rendering** sistemi `DeviceManager.php` tarafından yönetilir. 7 cihaz türü, 4 layout tier'ı, 9 feature toggle ve cihaz bazlı nav link/content config içerir.
+
+### Cihaz Türleri (7 Adet)
+
+| Sabit | Değer | Tanım |
+|-------|-------|-------|
+| `EMBEDDED` | `'embedded'` | Raspberry Pi 5, 7" touchscreen, Linux ARM |
+| `PHONE` | `'phone'` | Mobil telefon (≤767px) |
+| `TABLET` | `'tablet'` | Tablet (768-1024px) |
+| `LAPTOP` | `'laptop'` | Laptop (1025-1440px) |
+| `DESKTOP` | `'desktop'` | Masaüstü (1441-2560px) |
+| `FOUR_K_TV` | `'4k-tv'` | 4K Smart TV (≥3840px, TV User-Agent) |
+| `FOUR_K_MON` | `'4k-monitor'` | 4K Monitör (≥2561px, Desktop OS) |
+
+### 4 Tier Layout Sistemi
+
+| Tier | Cihazlar | Viewport | Layout | Mockup |
+|------|----------|----------|--------|--------|
+| **Tier 1: Phone** | PHONE | ≤767px | Tek sütun, dikey scroll, kompakt kartlar | — |
+| **Tier 2: Embedded** | EMBEDDED, TABLET | ≤1024px | 42/58 split, 2×2 widget, sidebar yok | Image 2 (1024px) |
+| **Tier 3: Wide** | LAPTOP, DESKTOP | 1025-2560px | 3-sütun, tam widget, sidebar var | Image 3 (1920px) |
+| **Tier 4: 4K** | FOUR_K_TV, FOUR_K_MON | ≥2561px | 4K ölçeklendirilmiş, büyük ekran | — |
+
+### Tasarım Kararları
+
+| Karar | Değer | Gerekçe |
+|-------|-------|---------|
+| Phone Layout | ≤767px viewport | Kompakt dokunmatik arayüz |
+| Embedded Layout | EMBEDDED/TABLET veya viewport≤1024px | RPi5 optimized (ama phone hariç) |
+| Wide Layout | 1025-2560px (phone, embedded, 4K hariç) | Standart masaüstü/laptop |
+| 4K Layout | FOUR_K_TV/FOUR_K_MON veya viewport≥2561px | 4K TV/Monitör ölçeklendirme |
+| Welcome Popup | YALNIZCA embedded 1024×600 (RPi5) | Karşılama ekranı |
+
+### Viewport Bilgi Akışı
+
+```
+JS (device-loader.js)
+  → Cookie: cm_viewport_w, cm_viewport_h (max-age=86400)
+    → PHP (DeviceManager::fromRequest)
+      → $_SERVER['VIEWPORT_W'] ?? $_COOKIE['cm_viewport_w'] ?? varsayılan
+        → DeviceDetector::detect(UA, viewportW, viewportH) → device string
+          → DeviceManager → 4-Tier karar metotları
+```
+
+### DeviceDetector Tespit Önceliği
+
+```
+1. HTTP Header: X-Device-Type: embedded     → 'embedded'
+2. User-Agent: "Raspberry Pi" içeriği        → 'embedded'
+3. User-Agent: "Tizen/webOS/SmartTV"         → '4k-tv'
+4. Viewport: ≤767px                          → 'phone'
+5. Viewport: 768-1024px + h≤600             → 'embedded'
+6. Viewport: 768-1024px + h≥768             → 'laptop'
+7. Viewport: ≤1440px                         → 'laptop'
+8. Viewport: ≤2560px                         → 'desktop'
+9. Viewport: ≤3840px + TV UA                → '4k-tv'
+10. Viewport: ≤3840px + Desktop OS          → '4k-monitor'
+11. Hiçbiri eşleşmezse                       → 'desktop' (varsayılan)
+```
+
+### DeviceManager Karar Metotları
+
+```php
+$dm = DeviceManager::fromRequest(
+    viewportW: (int)($_SERVER['VIEWPORT_W'] ?? 0) ?: null,
+    viewportH: (int)($_SERVER['VIEWPORT_H'] ?? 0) ?: null,
+);
+
+$isPhone    = $dm->isPhone();                        // ≤767px
+$isEmbedded = $dm->shouldRenderEmbeddedLayout();      // Embedded/Tablet/viewport≤1024
+$isWide     = $dm->shouldRenderWideLayout();          // 1025-2560px
+$is4k       = $dm->shouldRender4kLayout();            // ≥2561px
+```
+
+### shouldRenderEmbeddedLayout() Mantığı
+
+```php
+public function shouldRenderEmbeddedLayout(): bool
+{
+    if ($this->isPhone()) return false;        // Phone her zaman hariç
+    if ($this->isEmbedded() || $this->isTablet()) return true;
+    if ($this->viewportW !== null && $this->viewportW <= 1024) return true;
+    return false;
+}
+```
+
+### shouldRenderWideLayout() Mantığı
+
+```php
+public function shouldRenderWideLayout(): bool
+{
+    if ($this->isPhone()) return false;
+    if ($this->shouldRenderEmbeddedLayout()) return false;
+    if ($this->shouldRender4kLayout()) return false;
+    return true;   // 1025-2560px arası her şey
+}
+```
+
+### shouldRender4kLayout() Mantığı
+
+```php
+public function shouldRender4kLayout(): bool
+{
+    if ($this->is4kTv() || $this->is4kMonitor()) return true;
+    if ($this->viewportW !== null && $this->viewportW >= 2561) return true;
+    return false;
+}
+```
+
+### shouldShowFallback() — ARTIK HER ZAMAN FALSE
+
+```php
+public function shouldShowFallback(): bool
+{
+    return false;  // Tüm tier'lar optimize edildi, fallback kaldırıldı
+}
+```
+
+### shouldRenderWelcomePopup() — SADECE RPi5
+
+```php
+public function shouldRenderWelcomePopup(): bool
+{
+    return $this->isEmbedded1024();  // Yalnızca 1024×600 gömülü cihazlar
+}
+```
+
+### Feature Toggles (9 Adet)
+
+| Metot | Mantık | Kullanım |
+|-------|--------|----------|
+| `showVolume()` | `!isEmbedded()` | Phone ve embedded hariç |
+| `showFullMetadata()` | `!isEmbedded() && !isPhone()` | Sadece geniş ekranlar |
+| `showSidebar()` | `isWide() \|\| isLaptop()` | Göz At sayfası |
+| `showSeekBar()` | `true` | Tüm cihazlarda |
+| `showPlaylistToggle()` | `!isPhone()` | Phone hariç |
+| `showPodcastWidget()` | `isWide()` | Sadece geniş ekranlar |
+| `showRadioWidget()` | `widgetCount() >= 5` | Widget sayısına bağlı |
+| `showUtilityIcons()` | `!isPhone()` | Phone hariç (repeat, shuffle, EQ, vb.) |
+| `showFooterSeekSlider()` | `!isPhone()` | Phone hariç |
+
+### Nav Link'ler (Cihaz Bazlı)
+
+| Cihaz | Nav Link Sayısı | Linkler |
+|-------|----------------|---------|
+| PHONE | 3 | Ana Sayfa, Kütüphane, Ayarlar |
+| EMBEDDED | 4 | Ana Sayfa, Kütüphane, Radyo, Ayarlar |
+| TABLET | 5 | Ana Sayfa, Keşfet, Albümler, Kütüphane, Ayarlar |
+| LAPTOP | 8 | Ana Sayfa, Keşfet, Albümler, Sanatçılar, Göz At, Geçmiş, Ayarlar, Hakkımızda |
+| DESKTOP | 8 | Ana Sayfa, Keşfet, Albümler, Sanatçılar, Göz At, Geçmiş, Ayarlar, Hakkımızda |
+| FOUR_K_TV | 7 | Ana Sayfa, Keşfet, Albümler, Sanatçılar, Göz At, Geçmiş, Ayarlar |
+| FOUR_K_MON | 8 | Ana Sayfa, Keşfet, Albümler, Sanatçılar, Göz At, Geçmiş, Ayarlar, Hakkımızda |
+
+### İçerik Yapılandırması (Cihaz Bazlı)
+
+| Cihaz | Widget | Recent Card | Playlist | Up Next |
+|-------|--------|-------------|----------|---------|
+| PHONE | 2 | 2 | 2 | 2 |
+| TABLET | 4 | 4 | 3 | 3 |
+| EMBEDDED | 4 | 3 | 3 | 3 |
+| LAPTOP | 4 | 5 | 4 | 4 |
+| DESKTOP | 6 | 7 | 5 | 6 |
+| FOUR_K_TV | 6 | 8 | 6 | 8 |
+| FOUR_K_MON | 6 | 8 | 6 | 8 |
+
+### CSS Class Helpers
+
+```php
+$dm->layoutClass()     // "layout--desktop"
+$dm->allClasses()      // "layout--desktop device--desktop is-wide"
+$dm->dataAttributes()  // 'data-device="desktop" data-touch="false" data-wide="true" data-view-mode="home"'
+```
+
+### Test Sonuçları
+
+| Viewport | Cihaz | Tier | Beklenen | Sonuç |
+|----------|-------|------|----------|-------|
+| 375×812 | Phone (iPhone) | Phone | Phone Layout | ✅ |
+| 1024×600 | Embedded (RPi5) | Embedded | Embedded Layout + Welcome Popup | ✅ |
+| 820×1180 | Tablet (iPad) | Embedded | Embedded Layout | ✅ |
+| 1366×768 | Laptop (Windows) | Wide | Wide Layout | ✅ |
+| 1920×1080 | Desktop (Windows) | Wide | Wide Layout | ✅ |
+| 2560×1440 | Desktop (Windows) | Wide | Wide Layout | ✅ |
+| 3840×2160 | 4K TV (webOS) | 4K | 4K Layout | ✅ |
+| 3840×2160 | 4K Monitor (Windows) | 4K | 4K Layout | ✅ |
+| 1024×600 | Desktop (Windows) | Embedded | Embedded Layout (viewport≤1024) | ✅ |
+
+### Dosya Etki Alanı
+
+| Dosya | Versiyon | Değişiklik |
+|-------|----------|------------|
+| `shared/src/Device/DeviceManager.php` | v1.0.0 | 7 cihaz, 4 tier, 9 toggle, nav links, content config |
+| `shared/src/Device/DeviceDetector.php` | v1.0.0 | 11 tespit kuralı |
+| `home.coremusic.net/pages/home.php` | v10.0.0 | 4 koşullu render (phone/embedded/wide/4k) |
+| `home.coremusic.net/header.php` | v8.0.0 | Phone bottom nav + tier bazlı header |
+| `home.coremusic.net/footer.php` | v11.0.0 | Phone compact player + tier bazlı footer |
+| `shared/src/Device/DeviceCssMap.php` | — | 7 device CSS + 4 view mode CSS |
+| `assets.coremusic.net/js/device-loader.js` | — | Cookie yazma + client-side tespit |
+| `shared/src/PageRouter/HtmlShellRenderer.php` | — | Auth route branching (6 if bloğu) |
+| `shared/src/PageRouter/PageRouter.php` | — | Cookie okuma |
+
+Detay: [[ui-design/responsive-device-mode]] v3.0.0, [[architecture/conditional-rendering-php-guide]] v2.0.0
+
+---
+
+## 18C. Device-Aware Rendering Kuralları (v1.0.0 — 2026-09-05)
+
+**Cihaz duyarlı render kuralları, backend ve frontend arasındaki sorumluluk sınırlarını tanımlar.** Bu kurallar Guardrail #17 ile uyumludur ve `responsive-device-mode.md` v3.0.0'e referansla çalışır.
+
+### Tek Bileşen (Single Component) İlkesi
+
+| Kural | Açıklama | İhlal Sonucu |
+|-------|----------|--------------|
+| Tek HTML yapısı | `home.php`, `header.php`, `footer.php` tek dosya olarak kalır | Kod revert edilir |
+| Ayrı dosya yasağı | `home-1024.php`, `home-desktop.html` vb. KESİNLİKLE YASAKTIR | Kod revert edilir + CRITICAL log |
+| Davranışsal fark CSS'te | Cihaz farkları CSS/konfigürasyon katmanında yönetilir | Layer violation |
+| PHP'de sunum kararı yok | PHP tarafında `margin`, `padding`, `width`, `height`, `font-size` kodlanamaz | Kod revert edilir |
+
+### Backend Sorumluluk Sınırları (PHP — L2/L3)
+
+PHP tarafında yalnızca **davranışsal konfigürasyonlar** yönetilir:
+
+| Sorumluluk | Örnek | PHP Metodu |
+|------------|-------|------------|
+| Widget sayısı | Embedded: 4, Desktop: 6 | `$dm->widgetCount()` |
+| Widget görünürlüğü | Podcast/Radio sadece geniş ekran | `$dm->showPodcastWidget()` |
+| Liste kart sayısı | Recent: 3-8, Playlist: 0-6, UpNext: 1-8 | `$dm->recentCardCount()` |
+| Meta veri anahtarları | Tam metadata sadece geniş ekran | `$dm->showFullMetadata()` |
+| Ses/seekbar görünürlüğü | Volume phone'da gizli | `$dm->showVolume()` |
+| Navigasyon link sayısı | Phone: 3, Desktop: 8 | `$dm->navLinks()` |
+| CSS sınıfı atama | `layout--embedded`, `device--phone` | `$dm->allClasses()` |
+| Veri niteliği | `data-device="desktop"` | `$dm->dataAttributes()` |
+
+**Yasak PHP Kodları (Sunum Kararları):**
+
+```php
+// ❌ YASAK — Sunum kararı PHP'de
+$dm->isPhone() ? 'padding: 8px' : 'padding: 16px';
+$dm->isEmbedded() ? 'font-size: 14px' : 'font-size: 16px';
+echo '<div style="width: ' . ($dm->is4k() ? '800px' : '400px') . '">';
+
+// ✅ DOĞRU — Davranışsal karar PHP'de
+if ($dm->showVolume()) { /* volume HTML */ }
+$cssClass = $dm->layoutClass(); // "layout--embedded"
+```
+
+### Frontend Sorumluluk Sınırları (CSS — L3)
+
+CSS tarafında **tüm sunum kararları** yönetilir:
+
+| Sorumluluk | Dosya | İçerik |
+|------------|-------|--------|
+| Token tanımları | `a-layout-tokens.css` | `--header-h`, `--footer-h`, `--content-h` |
+| Token override | `a-layout-tokens.css` media query | Cihaza göre token değerleri |
+| Behavioral override | `08_Devices/d-{device}.css` | Hover, touch, scrollbar kuralları |
+| Layout grid | `05_Pages/_home-layout.css` | Grid template, gap, split |
+| Component yerleşimi | `05_Pages/_home-components.css` | Bileşen boyutu, konumu |
+
+### Cihaz Bazlı Token Değerleri (Referans)
+
+| Token | Embedded (1024) | Wide (1920) | 4K (3840) | Phone (≤767) |
+|-------|-----------------|-------------|-----------|--------------|
+| `--header-h` | 60px | 70px | 80px | — (bottom tab) |
+| `--footer-h` | 90px | 104px | 120px | 80px (kompakt) |
+| `--content-h` | 450px | ~906px | ~1960px | — (full scroll) |
+| `--home-top-split` | 42% 58% | 1fr 1.2fr 1fr | 1fr 1.2fr 1fr | tek sütun |
+| `--widget-grid-cols` | 2 | 3 | 3 | 1 |
+
+### WCAG 2.2 AA Zorunlulukları (Cihaz Bazlı)
+
+| Cihaz | Touch Target | Focus Visible | Contrast |
+|-------|-------------|---------------|----------|
+| Phone | min 48×48px | `:focus-visible` outline | 4.5:1 |
+| Embedded | min 48×48px | `:focus-visible` outline | 4.5:1 |
+| Wide | min 24×24px | `:focus-visible` outline | 4.5:1 |
+| 4K | min 24×24px (ölçekli) | `:focus-visible` outline | 4.5:1 |
+
+### Katman İhlal Kontrolü
+
+```
+L3 (Presentation) → L2 (Routing): ✅ İzinli (PageRouter çağrısı)
+L3 (Presentation) → L0 (Infrastructure): ❌ YASAK (PDO, SQL, Repository)
+L2 (Routing) → L0 (Infrastructure): ❌ YASAK (Controller→Repository direkt)
+```
+
+**İhlal Durumunda:** Derhal revert + `log.md`'ye CRITICAL giriş.
 
 ---
 

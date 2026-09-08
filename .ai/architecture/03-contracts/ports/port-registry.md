@@ -193,17 +193,16 @@ netsh advfirewall firewall add rule name="Media" dir=in action=allow protocol=TC
 netsh advfirewall firewall add rule name="Media Backup" dir=in action=allow protocol=TCP localport=6000 remoteip=127.0.0.1
 ```
 
-## 6. Docker Port Mapping
+## 6. Port Mapping
 
 ```yaml
-# docker-compose.yml port mappings
+# Port mappings
 services:
   mysql:
-    ports:
-      - "127.0.0.1:3306:3306"
+    port: 3306
 
   redis:
-    ports:
+    port:
       - "127.0.0.1:6379:6379"
 
   control-service:
@@ -241,7 +240,7 @@ services:
 | 2 | Public port'lar firewall'da açık | Erişilemezlik |
 | 3 | Port çakışması yok | Servis çökmesi |
 | 4 | Health check zorunlu | Görünmezlik |
-| 5 | Docker port mapping uyumlu | Container sorunları |
+| 5 | Port mapping uyumlu | Servis sorunları |
 
 ## 9. İlgili Dosyalar
 
@@ -250,7 +249,7 @@ services:
 | [[architecture/00-overview/architecture-master]] | Architecture |
 | [[ADR-042-vault-restructuring-2026-08-03]] | Port mapping |
 | [[architecture/03-contracts/service-ipc]] | IPC |
-| [[architecture/02-deployment/docker-compose]] | Docker |
+| [[architecture/02-deployment/deployment-architecture]] | Deployment |
 
 ## 10. Çapraz Referanslar
 
@@ -258,7 +257,7 @@ services:
 |-------|-------|--------|
 | § 2 Portlar | [[ADR-042-vault-restructuring-2026-08-03]] | Port standardı |
 | § 5 Firewall | [[architecture/07-security/middleware-security]] | Security |
-| § 6 Docker | [[architecture/02-deployment/docker-compose]] | Container |
+| § 6 Deployment | [[architecture/02-deployment/deployment-architecture]] | Deployment |
 | § 7 Monitoring | [[architecture/02-deployment/observability]] | Health check |
 
 ## 11. Sözlük

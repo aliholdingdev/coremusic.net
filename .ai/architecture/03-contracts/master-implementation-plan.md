@@ -89,7 +89,7 @@ All architectural decisions are in `.ai/decisions/accepted/` (ADR-001 through AD
 | Performance | TTFB < 200ms, API < 100ms, audio < 10ms |
 | Test coverage | ≥ 80% backend, ≥ 80% frontend |
 | Documentation | ADR for every significant decision |
-| Deployment | Docker Compose, zero-downtime capable |
+| Deployment | SSH/CD, zero-downtime capable |
 
 ---
 
@@ -111,7 +111,7 @@ Phase 4: Integration (Weeks 17-22)
   └── Cross-service communication, WebSocket, real-time
 
 Phase 5: Production (Weeks 23-26)
-  └── Docker, CI/CD, monitoring, security audit, launch
+  └── CI/CD, monitoring, security audit, launch
 ```
 
 ### 2.2 Phase 1: Foundation (Weeks 1-4)
@@ -274,13 +274,10 @@ Phase 5: Production (Weeks 23-26)
 
 **Goal:** Deploy to production, ensure reliability, security, and performance.
 
-#### 2.6.1 Weeks 23-24: Docker & Deployment
+#### 2.6.1 Weeks 23-24: Deployment
 
 | Task | Files | Acceptance Criteria |
 |------|-------|---------------------|
-| Dockerfiles | All services | Multi-stage builds, non-root |
-| docker-compose.yml | Root | All services orchestrated |
-| .dockerignore | All services | Vendor, tests, .env excluded |
 | Health checks | All services | `/health` endpoint, proper intervals |
 | Nginx/Apache config | All services | Reverse proxy, SSL termination |
 
@@ -701,10 +698,6 @@ C:\www\coremusic.net\
 │   │   ├── coremusic_media.sql
 │   │   └── coremusic_system.sql
 │   └── migrations/
-├── docker/                       ← Docker configurations
-│   ├── nginx/
-│   ├── php/
-│   └── mysql/
 ├── composer.json                 ← Root workspace (NO application code)
 ├── phpunit.xml                   ← Root test config
 ├── phpstan.neon                  ← Static analysis config
@@ -915,7 +908,7 @@ Weeks 19-20: WebSocket + real-time
     ↓
 Weeks 21-22: Event system + CQRS
     ↓
-Weeks 23-24: Docker + deployment
+Weeks 23-24: Deployment
     ↓
 Weeks 25-26: Monitoring + testing + launch
 ```
@@ -924,7 +917,7 @@ Weeks 25-26: Monitoring + testing + launch
 
 | Weeks | Track A (Backend) | Track B (Frontend) | Track C (DevOps) |
 |-------|-------------------|-------------------|------------------|
-| 1-4 | Shared packages, auth, security | Asset structure, ITCSS setup | Docker base images |
+| 1-4 | Shared packages, auth, security | Asset structure, ITCSS setup | Server setup |
 | 5-10 | Media, download, audio stubs | SPA Router, auth pages | CI/CD pipeline |
 | 11-16 | API gateway, WebSocket | Music, admin pages | Monitoring setup |
 | 17-22 | Event system, CQRS | Integration testing | Security audit |
@@ -1054,7 +1047,6 @@ Weeks 25-26: Monitoring + testing + launch
 | C++ | 20 | Audio engine |
 | JUCE | 9 | Audio framework |
 | ASIO SDK | 2.3.4 | Audio driver |
-| Docker | Latest | Deployment |
 | Composer | Latest | PHP packages |
 | npm | Latest | JS packages |
 
@@ -1263,63 +1255,25 @@ final class SongDownloadCompletedEvent
 }
 ```
 
-### 8.10 Docker Compose Reference
+### 8.10 Deployment Reference
 
 ```yaml
-version: '3.8'
-
+# Deployment configuration
 services:
   nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./docker/nginx:/etc/nginx/conf.d
-      - ./auth.coremusic.net:/var/www/auth
-      - ./music.coremusic.net:/var/www/music
-      - ./admin.coremusic.net:/var/www/admin
-      - ./api.coremusic.net:/var/www/api
-      - ./media.coremusic.net:/var/www/media
-      - ./assets.coremusic.net:/var/www/assets
-    depends_on:
-      - php
-
+    port: 80/443
+  
   php:
-    build:
-      context: ./docker/php
-      dockerfile: Dockerfile
-    volumes:
-      - .:/var/www/html
     environment:
       - APP_ENV=production
       - DB_HOST=mysql
       - REDIS_HOST=redis
-    depends_on:
-      - mysql
-      - redis
-
+  
   mysql:
-    image: mysql:9.0
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: coremusic_auth
-    volumes:
-      - mysql_data:/var/lib/mysql
-      - ./.sql:/docker-entrypoint-initdb.d
-    ports:
-      - "3306:3306"
-
+    port: 3306
+  
   redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-
-volumes:
-  mysql_data:
-  redis_data:
+    port: 6379
 ```
 
 ### 8.11 CI/CD Pipeline Reference
@@ -1414,7 +1368,7 @@ jobs:
 | Home Media Center | Windows/Linux/macOS | PC/Laptop |
 | Car Audio System | Windows/Android Auto | Raspberry Pi 5 / PCM3168A |
 | Professional Studio | Windows (WASAPI/ASIO) | 8.1 Surround + Class AB |
-| NAS Audio Server | Linux (Docker) | Synology/QNAP |
+| NAS Audio Server | Linux | Synology/QNAP |
 | DAC Control System | Windows/Linux | XMOS XU316 + PCM3168A |
 
 ### 8.14 Platform Tiers
