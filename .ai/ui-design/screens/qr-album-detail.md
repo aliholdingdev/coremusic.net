@@ -1,6 +1,13 @@
 ---
-title: "Album Detail — Quick Reference"
+title: "Album Detail - Quick Reference"
 type: ascii-qr
+category: ascii-qr
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 screen_id: "S04"
 resolution: "1024x600"
 layout_pattern: "Standard 60/40"
@@ -113,3 +120,10 @@ full_spec: "C-music/album-detail.md"
 /* Album art — daire */
 .album-detail-panel__art { border-radius: var(--radius-full); }
 ```
+
+---
+
+*QR Album Detail v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

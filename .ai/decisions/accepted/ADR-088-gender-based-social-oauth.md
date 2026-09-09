@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-088: Gender-Based Social OAuth System"
 status: active
 date: 2026-08-17

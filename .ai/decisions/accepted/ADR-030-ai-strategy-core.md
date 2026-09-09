@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-030: AI Strategy Core"
 status: frozen
 date: 2026-06-01

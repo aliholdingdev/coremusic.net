@@ -265,7 +265,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  *
  * @see [[auth]] — tam RBAC tablosu ve izin matrisi
  */
-class AuthMiddleware implements MiddlewareInterface implements MiddlewareInterface
+class AuthMiddleware implements MiddlewareInterface
 {
     public function process(
         ServerRequestInterface $request,
@@ -504,15 +504,139 @@ class CsrfMiddleware implements MiddlewareInterface
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 6.0.0 |
-| **Satır Sayısı** | ~530 |
+## 17. Risk Kaydı (Pipeline)
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 1 | Örnek kodun gerçek sanılması | Yüksek (şti) | Yüksek | §12 eşleştirme tablosu — Truth Mode etiketi |
+| 2 | JWT örneklerinin PLANNED olarak unutulması | Orta | Orta | §12 JWT notu + l1 index §21 |
+| 3 | Middleware eklenirken sıra ihlali | Düşük | Kritik | §2 immutable + review gate |
+| 4 | Rate limit örnek prefix'inin kopyalanması (`rate:`) | Orta | Orta | Gerçek `rl:` standardı (ADR-007) |
+| 5 | BypassAuth örnek mekanizmasının kodlanması | Düşük | Yüksek | Gerçek: TEST_MODE/FORCE_AUTH_BYPASS |
+
+---
+
+## 18. Ek SSS
+
+**S: Pipeline kodu bu dosyadan kopyalanır mı?**
+C: Hayır — hepsi hedef desen ([[WORKFLOW.md]] §8.1C). Gerçek 4 sınıf `shared/src/Middleware/`'da IMPLEMENTED'dir; §12 tablosu farkları resmileştirir.
+
+**S: SessionManager örneği nonce'u her istekte yeniliyor — gerçek davranış aynı mı?**
+C: Örnek öyle; gerçek üretim satırı SecurityHeaders/SessionInitializer zincirinde teyit bekliyor (csp.md §16). Çelişki tespit edilene dek "her istekte yeni nonce" hedef davranış olarak okunur.
+
+**S: Neden Validation middleware'i örneklenmemiş?**
+C: PLANNED — `respect/validation` bağımlılığı hazır, sınıf yok. Yazılmamış kod için örnek göstermek kafa karıştırır; pipeline tablosu yeterlidir.
+
+**S: Response emitter neden yok?**
+C: PSR-7 emitter PLANNED (l0 §17); pipeline ResponseInterface üretir, gönderim katmanı ayrıdır. nyholm/psr7 hazır, laminas-httphandlerrunner hedef pakettir (brain §4A).
+
+**S: Bu dosya ile l1 csrf/csp dokümanları çelişir mi?**
+C: Hayır — burası örnek-desen (hedef), l1 dosyaları gerçek kod eşleştirmeli. Çelişki göründüğünde §12 tablosu kazanan tarafı söyler: gerçek kod üstün.
+
+**S: Middleware birim testleri nerede?**
+C: PLANNED — shared/tests/ altyapısı hazır (phpunit ^10.5); §12'de IMPLEMENTED 4 sınıf için test iskeletleri l1 index §34 senaryolarından türetilir. Test yazımı Faz 2f (07-security) ile paralel planlanır.
+
+---
+
+---
+
+## 19. Kalite Raporu
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 7.0.0 |
 | **ADR Uyumlu** | ✅ 008, 010, 011, 012, 013, 022 |
-| **Zero Hallucination** | ✅ |
-| **Cross-Reference** | ✅ 6 referans |
-| **Guardrails** | ✅ 6 kural |
+| **Kod Karşılığı** | §12 — 4 IMPLEMENTED / 1 KISMEN / 5 PLANNED |
+| **Zero Hallucination** | ✅ (hedef-desen etiketi açık) |
+| **Kod Hatası Düzeltmesi** | ✅ çift implements (satır 268) |
+| **Cross-Reference** | ✅ 6 referans + §12 tablo |
+| **Örnek-Desen Etiketi** | ✅ §12 — JWT/rate:/Bypass farkları belgeli |
+| **Kod Hatası** | ✅ düzeltildi (çift implements — v7.0.0) |
+| **Diagnostics** | §14 — 5 komut (JWT yokluğu teyidi dahil) |
+| **Risk Kaydı** | §17 — 5 kalem |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-09
+**Last Updated:** 2026-09-08
+**Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+---
+
+## 12. Örnek Kod ↔ Gerçek Kod Eşleştirmesi (Faz 2c — 2026-09-08)
+
+**Truth Mode ayrımı:** §4'teki sınıflar prompt arşivi **hedef desenleridir**. Gerçek üretim kodu:
+
+| Pipeline # | Bu Dosyadaki Örnek | Gerçek Kod | Fark |
+|-----------|--------------------|-----------|------|
+| #3 RateLimiter | `rate:{ip}:{window}` + doğrudan `apcu_*` | `CacheRateLimiter` (`rl:` prefix, IRateLimiter) + `RateLimiterMiddleware` (93s) | Önek ve soyutlama farklı — gerçek ADR-007 namespace'li |
+| #4 SecurityHeaders | `$_SESSION['csp_nonce']` + dizi header | `_csp_nonce` + `buildCsp()` | Gerçek: tek metod üretim+gönderim |
+| #5 SessionManager | `SessionManagerMiddleware` sınıfı | `SessionInitializer::ensureStarted()` (52s) | Sınıf adı/konum farklı — davranış aynı (`COREMUSIC_SESS`) |
+| #6 Csrf | `CSRF_TOKEN_MISSING/INVALID` JSON | IMiddleware sözleşmeli `CsrfMiddleware` + bypass `set-gender` | Davranış aynı; bypass örnekte yok |
+| #8 Auth | JWT RS256 decode (`Firebase\JWT`) | `MM_UserID/MM_UserRole` session okuma → `_auth` | **Kritik fark: JWT gerçek kodda YOK** — hedef desen |
+| #7 BypassAuth | `?_bypass=1` + `user_id=1` | `TEST_MODE`/`FORCE_AUTH_BYPASS` sabitleri (guard-pipeline §4) | Mekanizma farklı |
+
+**JWT notu:** §4.4 örneği RS256 access/refresh politikası içerir (15dk/7gün/90gün rotasyon) — bu **hedef mimaridir**; gerçek AuthMiddleware session tabanlıdır. JWT PLANNED etiketi geçerlidir ([[../l1-security/index]] §21). `Firebase\JWT` paketi de yasaklı listededir (brain §4A: `lcobucci/jwt` hedef).
+
+---
+
+## 13. Pipeline Tamamlanma Oranı
+
+| Durum | Sayı | Bileşenler |
+|-------|------|------------|
+| IMPLEMENTED | 4 | RateLimiter, SecurityHeaders, Csrf, Auth |
+| KISMEN | 1 | SessionManager (SessionInitializer köprüsü mevcut) |
+| PLANNED | 5 | OriginCheck, Cors, BypassAuth, Permission, Validation |
+| **Oran** | **%40 kod** | 4/10 + 0.5 |
+
+`respect/validation ^2.0` (Validation için) ve `nyholm/psr-7` (PSR-15 tabanı) composer'da hazırdır — bağımlılık varlığı ≠ implementasyon.
+
+---
+
+## 14. Pipeline Diagnostics
+
+```powershell
+# 1. Gerçek middleware sınıfları (beklenen: 4)
+Get-ChildItem -LiteralPath "shared\src\Middleware" -Filter "*.php" | Select-Object Name
+
+# 2. IMiddleware implements taraması
+Select-String -LiteralPath "shared\src\Middleware\*.php" -Pattern "implements IMiddleware"
+
+# 3. Prefix karşılaştırma (beklenen: rl: — 'rate:' örnek kodda kalır)
+Select-String -LiteralPath "shared\src\Middleware\RateLimiterMiddleware.php" -Pattern "rl:|rate:"
+
+# 4. Session adı (beklenen: COREMUSIC_SESS)
+Select-String -LiteralPath "shared\src\Session\SessionInitializer.php" -Pattern "COREMUSIC_SESS"
+
+# 5. JWT yokluğu teyidi (beklenen: 0 sonuç)
+Get-ChildItem -LiteralPath "shared\src\Middleware" -Recurse -Include "*.php" | Select-String -Pattern "Firebase|JWT" -ErrorAction SilentlyContinue
+```
+
+---
+
+## 15. Sözlük Ek
+
+| Terim | Tanım |
+|-------|-------|
+| **Runner** | Pipeline'ı tersine sarıp çalıştıran yapı (§3 array_reduce deseni) |
+| **Handler** | Pipeline sonundaki terminal çağrı (controller) |
+| **Hedef Desen** | Prompt arşivinden gelen örnek kod — üretim kanıtı DEĞİLDİR |
+| **MM_* Sözleşme** | Session anahtar standardı — gerçek auth taşıyıcısı |
+| **`rl:` Prefix** | Gerçek rate limit namespace'i (ADR-007) |
+
+---
+
+## 16. Revizyon Geçmişi
+
+| Sürüm | Tarih | Değişiklik |
+|-------|-------|------------|
+| 6.0.0 | 2026-08-09 | Pipeline dokümanı (prompt arşivi tabanlı) |
+| 7.0.0 | 2026-09-08 | Faz 2c: §12 örnek↔gerçek eşleştirme (JWT PLANNED netleşti); §13 tamamlanma oranı; §14 diagnostics; kod hatası düzeltildi (çift implements) |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-08
 **Mode:** Red Team · Human Mode · Truth Mode

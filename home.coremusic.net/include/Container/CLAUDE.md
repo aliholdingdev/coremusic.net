@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\home.coremusic.net\include\Container Baglam"
 type: context
 folder: "C:\www\coremusic.net\home.coremusic.net\include\Container"

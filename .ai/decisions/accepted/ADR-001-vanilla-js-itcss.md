@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-001: Vanilla JS + ITCSS, Framework Yasak"
 status: frozen
 date: 2026-01-15

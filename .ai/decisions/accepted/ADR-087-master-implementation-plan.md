@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-087: Master Implementation Plan"
 status: active
 date: 2026-08-13

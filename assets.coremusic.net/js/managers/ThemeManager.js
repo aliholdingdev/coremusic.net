@@ -82,6 +82,9 @@ export default class ThemeManager {
         Object.entries(vars).forEach(([key, value]) => {
             document.documentElement.style.setProperty(key, value);
         });
+        /* v-home.css arka plan görseli html[data-gender] seçicisiyle eşleşir —
+           cookie teması (cm_gender) buradan görünür olur (ADR-044). */
+        document.documentElement.setAttribute('data-gender', this.#currentTheme);
     }
 
     /** Cookie'den veya data attribute'tan tema yükle */

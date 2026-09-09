@@ -1,7 +1,13 @@
 ---
-title: CoreMusic — C10 Detail Panel Component Spec
+title: "CoreMusic - C10 Detail Panel Component Spec"
+type: component-spec
+category: component-spec
 date: 2026-08-11
+updated: 2026-09-08
+status: active
 version: 2.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 platform: home-1024
 ---
 
@@ -40,3 +46,10 @@ platform: home-1024
 ## ITCSS: 03_Layout
 ## WCAG: ✅ Container
 ## Kullanım: Albums, Artists, Files, Göz At
+
+---
+
+*Component Spec C10 Detail Panel v2.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

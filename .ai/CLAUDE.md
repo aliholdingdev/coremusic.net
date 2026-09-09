@@ -45,7 +45,7 @@ Bu belge tek başına yeterli bilgi içermelidir. Başka bir AI sistemi, yalnız
 | Terim | Tanım |
 |-------|-------|
 | **SSOT** | Single Source of Truth — Tek Doğruluk Kaynağı. Tüm bilgiler `.ai/` vault'tan okunur. |
-| **ADR** | Architecture Decision Record — Mimari karar kaydı. Frozen (001-037) ve Active (038-087) olmak üzere iki türdür. |
+| **ADR** | Architecture Decision Record — Mimari karar kaydı. Frozen (001-037) ve Active (038-088) olmak üzere iki türdür. |
 | **Hard Gate** | Kullanıcı onayı olmadan geçilemeyen kritik faz geçiş noktası. |
 | **Zero Code Before Plan** | Plan onayı olmadan kod yazma yasağı. |
 | **Zero Hallucination** | Doğrulanamayan bilginin `VERIFICATION REQUIRED` olarak işaretlenmesi. |
@@ -111,7 +111,9 @@ Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1�
 | **L3 Presentation** | Frontend, UI, DOM | Vanilla JS ES6+, ITCSS 9-layer, TrustedTypes, DOMParser |
 | **L2 Routing** | SPA router, middleware | PHP 8.4 PageRouter, JS Router.js |
 | **L1 Security** | Session, Auth, CSRF, CSP | Middleware pipeline, Argon2id, AES-256-GCM |
-| **L0 Infrastructure** | Database, cache, filesystem | PDO MySQL, APCu, Redis, shared memory |
+| **L0 Infrastructure** | Database, cache, filesystem | PDO MySQL, APCu, Redis*, shared memory |
+
+> **Faz 1 doğrulama notu (2026-09-08):** *Redis L0 dokümanında hedef olarak yer alır; kodda yalnız Apcu→Memory adapter zinciri doğrulandı (`shared/src/Cache/CacheManager.php`). Redis adapter PLANNED'tir.*
 
 ### 5.1 Katman Bağımlılık Matrisi
 
@@ -230,7 +232,7 @@ shared/
 | 8 | Port 81 = music.coremusic.net | PHP 8.4 | Yanlış port yasak |
 | 9 | No ORM | Raw PDO only (ADR-002) | ORM kullanımı reddedilir |
 | 10 | No Frameworks | Vanilla JS + ITCSS (ADR-001) | Framework reddedilir |
-| 11 | **Mockup Before Frontend** | **KESİNLİKLE YASAK:** Frontend görevinde `.ai/ui-design/00-mockup-index.md` + `.ai/ui-design/01-component-inventory.md` (18 PNG mockup, C01-C16 envanteri) + `.ai/ui-design/tokens/design-tokens-master.md` OKUNMADAN kod yazılamaz. Görsel okunamıyorsa DUR ve bildir. | **Kod derhal revert edilir + CRITICAL log** |
+| 11 | **Mockup Before Frontend** | **KESİNLİKLE YASAK:** Frontend görevinde `.ai/ui-design/00-mockup-index.md` + `.ai/ui-design/01-component-inventory.md` (19 PNG mockup, C01-C16 envanteri) + `.ai/ui-design/tokens/design-tokens-master.md` OKUNMADAN kod yazılamaz. Görsel okunamıyorsa DUR ve bildir. | **Kod derhal revert edilir + CRITICAL log** |
 | 12 | Contradiction Gate | Vault'ta çelişki varsa kullanıcıya sor, onay bekle | İşlem durur |
 | 13 | Session Continuity | Her oturum başlangıcında geçmiş session'dan devam et | Bağlam kaybolur |
 | 14 | Human Approval Gate | Mimari karar öncesi kullanıcı onayı zorunlu | Kod revert edilir |
@@ -283,11 +285,14 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 |---|-------|----------------|------|
 | 1 | %80 test coverage | Geçici %75, teknik borç kabulü | Tech Lead |
 | 2 | 30s timeout | Uzun batch işlemi (60s'e kadar) | Tech Lead |
+| 3 | Coverage raporlama esnekliği | Bu satır orijinal listede yok — bilinçli silme mi eksiklik mi belirsiz | DOĞRULAMA GEREKLİ (Vault Steward) |
 | 4 | BypassAuth devre dışı | Test ortamında aktif edilebilir | Security Engineer |
 
 ---
 
 ## 9. Servis Haritası — 10 Panel
+
+> **Faz 1 gerçeklik notu (2026-09-08):** Bu tablo **hedef mimaridir**. Kod tarafında fiziksel olarak mevcut paneller: auth ✅, home ✅ (+ assets statik servisi). Diğer panellerin dizini kod ağacında YOK (Test-Path, Faz 0). Durum sütunu hedef tanımı yansıtır.
 
 | # | Panel | Subdomain | Port | Stack | Durum |
 |---|-------|-----------|------|-------|-------|
@@ -587,7 +592,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | [[WORKFLOW.md]] | Süreçler, fazlar, workflow'lar |
 | [[index.md]] | Master katalog, tüm vault yapısı |
 | [[keys.md]] | Keyword haritası, yönlendirme |
-| [[brain.md]] | Mimari kararlar, ADR 001-087 |
+| [[brain.md]] | Mimari kararlar, ADR 001-088 |
 | [[MEMORY.md]] | Session hafızası, persistent state |
 | [[log.md]] | Audit trail, append-only günlük |
 | [[engine.md]] | Orkestrasyon motoru, task dispatch |
@@ -595,7 +600,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | [[archives/prompt1-spa-router-2026-09-01]] | SPA Router mimarisi promptu |
 | [[archives/prompt2-auth-2026-09-01]] | Authentication sistemi promptu |
 | [[archives/prompt3-api-2026-09-01]] | API mimarisi promptu |
-| [[glossary]] | Teknik terimler sözlüğü (32 terim) |
+| [[glossary]] | Teknik terimler sözlüğü (75 terim) |
 
 ### 26.1 Prompt Entegrasyonu (prompt0-3)
 
@@ -641,7 +646,7 @@ Her oturum başlangıcında sırayla okunur:
 | § 20 ADR | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault standardı |
 | § 20A Master Plan | [[architecture/03-contracts/master-implementation-plan]] | 5 faz, 40 gün implementasyon |
 | § 20B ADR-087 | [[decisions/accepted/ADR-087-master-implementation-plan]] | Master plan ADR |
-| § 12A UI Design | [[ui-design/00-mockup-index]] | 18 PNG Mockup, C01-C16, 1024x600 SSOT |
+| § 12A UI Design | [[ui-design/00-mockup-index]] | 19 PNG Mockup, C01-C16, 1024x600 SSOT |
 
 ---
 
@@ -689,7 +694,7 @@ Her oturum başlangıcında sırayla okunur:
 
 ## 28. Sözlük
 
-> Detaylı sözlük için bkz: [[glossary]] (32 terim)
+> Detaylı sözlük için bkz: [[glossary]] (75 terim)
 
 ---
 
@@ -708,7 +713,7 @@ Her oturum başlangıcında sırayla okunur:
 | Platform Tiers | 5 |
 | Deployment Modes | 5 |
 | Audio Divisions | 5 |
-| ADR Coverage | 001-087 |
+| ADR Coverage | 001-088 (79 karar: 37 Frozen + 30 Active + 12 Rejected) |
 | Cross References | 8 |
 | Glossary Terms | 30+ |
 | Forbidden Patterns | 10 |
@@ -725,6 +730,24 @@ Her oturum başlangıcında sırayla okunur:
 
 ---
 
+## 31. Faz 1 Doğrulama Kaydı (2026-09-08)
+
+Bu dosyada Faz 1 revizyonunda yapılan düzeltmeler:
+
+| # | Düzeltme | Konum | Kanıt |
+|---|----------|-------|-------|
+| 1 | ADR kapsamı 038-087 → 038-088 (79 karar) | §3, §29, §26 | decisions/ sayımı |
+| 2 | 18 → 19 PNG (12+1+6) | Guardrail #11, §12A | .ai/.png/ sayımı |
+| 3 | Redis L0 hedef→PLANNED notu | §5 | CacheManager kod okuma |
+| 4 | Glossary 32 → 75 terim | §26, §28 | glossary.md v2.0.0 |
+| 5 | Soft Constraints #3 eksik satırı işaretlendi | §8 | Truth Mode — DOĞRULAMA GEREKLİ |
+| 6 | Panel haritası "hedef mimari" notu | §9 | Test-Path Faz 0 |
+| 7 | Dinamik stack ilkesi | §24 Node.js satırı bağlamı | engine §9, ROLE §11 |
+
+İlke: Bu dosya anayasadır — içerik ekleme/düzeltme yapılırken Guardrail #4 (In-Place) ve #14 (Human Approval) korunmuştur; bu revizyon kullanıcı direktifiyle (2026-09-08, "tüm vault'u satır satır revize et") yetkilendirilmiştir.
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-16
+**Last Updated:** 2026-09-08
 **Mode:** Red Team · Human Mode · Truth Mode

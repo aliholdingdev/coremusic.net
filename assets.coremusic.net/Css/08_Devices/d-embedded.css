@@ -12,6 +12,7 @@
  */
 
 @import '../01_Abstracts/a-theme-config.css';
+@import '../01_Abstracts/a-design-tokens.css';     /* Shadow/TS/Component token SSOT */
 @import '../01_Abstracts/a-colors-token.css';
 @import '../01_Abstracts/a-semantic-token.css';
 @import '../01_Abstracts/a-breakpoint-tokens.css';
@@ -23,6 +24,7 @@
 @import '../03_Layout/_footer.css';
 @import '../04_Components/c-footer-seek.css';     /* Footer seekbar davranış (KAİ #seekbar*) */
 @import '../04_Components/c-footer-volume.css';   /* Footer volume geometri (KAİ #volume*) */
+@import '../06_Utilities/u-helpers-utility.css';   /* .is-hidden — pause ikonu başlangıç gizleme (footer play/pause) */
 @import '../05_Pages/_home.css';
 
 /* ============================================================
@@ -143,14 +145,7 @@ body {
   filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.8));
 }
 
-/* Modal close button: 48×48px */
-.welcome-modal__close {
-  min-width: var(--touch-min, 48px);
-  min-height: var(--touch-min, 48px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+/* Modal close butonu PNG'de YOK — markup kaldırıldı (kapanış: Başla / Escape) */
 
 /* Quick app buttons: 48px minimum */
 .quick-app-btn,

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-029: Listening Rooms Social"
 status: frozen
 date: 2026-05-30

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-018: Footer Player Vaporwave"
 status: frozen
 date: 2026-04-10

@@ -510,7 +510,111 @@ Token session'a bağlı, tab'a bağlı değil.
 
 ---
 
-*L1 CSRF Protection v1.0.0 — CoreMusic Architecture*
+## 16. Gerçek Kod Karşılıkları (Faz 0 — 2026-09-08)
+
+**Truth Mode ayrımı:** Bu dosyadaki §4-§6 PHP sınıfları **hedef deseni** gösterir (prompt arşivinden). Gerçek üretim kodu şudur:
+
+| Öğe | Gerçek Kod | Dosya | Fark |
+|-----|------------|-------|------|
+| Doğrulama | `CsrfMiddleware` (IMiddleware implements) | `shared/src/Middleware/CsrfMiddleware.php` | §6 örneği PSR-7 tarzı; gerçek sınıf IMiddleware sözleşmeli |
+| Bypass | `set-gender` rotası | CsrfMiddleware bypass dizisi | Kodda tek meşru bypass — dokümante tek istisna |
+| Token üretimi | Session nonce zinciri | SecurityHeaders → SessionManager → form | §4.1 `CsrfGuard` sınıfı kodda ayrı sınıf olarak yok — nonce kaynaklı |
+| Header doğrulama | X-CSRF-Token | hedef tanım | Kod karşılığı DOĞRULAMA GEREKLİ |
+| `hash_equals()` | Standart | brain §10 | ✓ ortak |
+
+**Sonuç:** Form/AJAX doğrulama akışı IMPLEMENTED'dır; `CsrfGuard`/`CsrfValidator` ayrı sınıf yapısı hedef refaktör tasarımıdır. Kod okunmadan "sınıf var" iddiası yapılamaz.
+
+---
+
+## 17. CSRF Test Senaryoları (PHPUnit iskeleti)
+
+| # | Senaryo | Girdi | Beklenen |
+|---|---------|-------|----------|
+| 1 | Token yok | POST, body token'sız | 403 |
+| 2 | Token uydurma | `csrf_token=xxxx` (eşleşmez) | 403 (hash_equals false) |
+| 3 | Session token'ı boş | Session başlatılmamış | 403 |
+| 4 | Geçerli form POST | Session token = body token | 200 → devam |
+| 5 | AJAX header | `X-CSRF-Token: <session>` | 200 |
+| 6 | GET isteği | Token zorunlu değil | 200 + token attribute setli |
+| 7 | `set-gender` bypass | bypass rotası | 200 (tek istisna) |
+| 8 | `_csrf_token` key | Yanlış key | 403 — key frozen |
+| 9 | Multi-tab | Aynı session iki tab | Aynı token → 200 |
+| 10 | Logout sonrası eski token | Session temizlendi | 403 |
+
+Her satır bir test metodu iskeletidir; hedef coverage ≥80% (CLAUDE.md §17).
+
+---
+
+## 18. Bypass Rotaları Yönetişimi
+
+| Kural | İçerik |
+|-------|--------|
+| Mevcut izinli | `set-gender` — cinsiyet seçimi (login öncesi akış) |
+| Ekleme süreci | (1) Gerekçe: neden state değiştiren istek auth öncesi gerekli, (2) risk analizi: rotanın kabul ettiği veri, (3) ADR-010 ek kaydı, (4) security-engineer onayı, (5) bypass dizisi kod güncellemesi + test |
+| Red gerekçeleri | Kullanıcı verisi yazan rota, dosya/DB mutasyonu, auth durumunu değiştiren rota |
+| Periyodik denetim | Bypass dizisi her faz kapanışında listelenir (engine §12.6) |
+| Kaldırma | Artık gerekmeyen bypass silinir + log kaydı |
+
+**İlke:** Bypass listesi büyümesi güvenlik borcudur; her satır savunulabilir gerekçe ister. Sessiz büyüme L1 Risk Kaydı #1'dir ([[index]] §35).
+
+---
+
+## 19. Diagnostics (tekrarlanabilir)
+
+```powershell
+# 1. Gerçek middleware sınıfı + bypass
+Select-String -LiteralPath "shared\src\Middleware\CsrfMiddleware.php" -Pattern "set-gender|bypass|hash_equals"
+
+# 2. IMiddleware implements doğrulama
+Select-String -LiteralPath "shared\src\Middleware\CsrfMiddleware.php" -Pattern "implements"
+
+# 3. Token key frozen kontrolü (beklenen: yalnız csrf_token)
+Select-String -LiteralPath "shared\src\Middleware\CsrfMiddleware.php" -Pattern "csrf_token|_csrf_token"
+
+# 4. Form/meta entegrasyonu (view katmanı)
+Select-String -LiteralPath "home.coremusic.net\pages\*.php" -Pattern "csrf_token" -ErrorAction SilentlyContinue
+
+# 5. ADR-010 referans bütünlüğü
+Select-String -LiteralPath ".ai\decisions\accepted\ADR-010-csrf-protection-strategy.md" -Pattern "frozen|csrf_token"
+```
+
+---
+
+## 20. Ek SSS
+
+**S: §6 örnekteki GuzzleHttp Response neden kodda yok?**
+C: Örnek PSR-7 tabanlı genel desen gösterir; gerçek pipeline `IMiddleware` sözleşmesiyle kendi response akışını kullanır. nyholm/psr-7 composer'da hazırdır — emitter katmanı PLANNED (l0 §17).
+
+**S: `validateHeader` kodda çalışıyor mu?**
+C: Hedef tanım; gerçek CsrfMiddleware'in header doğrulama dalı kod okumasında netleşecek (Faz 2b devam). Belirsizken "çalışıyor" yazılmaz.
+
+**S: Neden GET'te token üretiliyor ama doğrulanmıyor?**
+C: GET state değiştirmez — doğrulama gereksiz yük. Ancak GET'te token üretilmesi sonraki POST için form hazırlığı sağlar (§6.1 akışı).
+
+**S: Token rotasyonu gerekir mi?**
+C: ADR-010: session-bound tek token, session süresiyle geçer. Login sonrası rotasyon önerilir (session fixation önlemi) — kod karşılığı auth akışında (Faz 2g).
+
+**S: `set-gender` neden bypass?**
+C: Cinsiyet seçimi login öncesi tema belirleme akışıdır (ADR-044); auth öncesi state değişimi gerekir. Veri riski düşük, scope dar — tek izinli örnek.
+
+**S: Timing attack gerçekten pratik mi?**
+C: Ağ gürültüsü pratikte zorlaştırır ama savunma maliyeti sıfırdır (`hash_equals` standart). "Pratik değil" gerekçesiyle `===` kullanımı Guardrail #2 ihlalidir.
+
+**S: Bu dokümanın kod örnekleri ile gerçek CsrfMiddleware farkı özetle?**
+C: Örnekler PSR-7 bağımsız sınıf deseni (hedef refactor); gerçek IMiddleware sözleşmeli tek sınıftır. Davranış (metot filtre, 403, bypass) birebir aynıdır — §16 tablosu resmi eşleştirmedir.
+
+---
+
+## 21. Revizyon Geçmişi
+
+| Sürüm | Tarih | Değişiklik |
+|-------|-------|------------|
+| 1.0.0 | 2026-08-08 | İlk doküman (prompt arşivi tabanlı) |
+| 2.0.0 | 2026-09-08 | Faz 2b: §16 gerçek kod eşleştirmesi; §17 test senaryoları; §18 bypass yönetişimi; §19 diagnostics; §20 SSS |
+
+---
+
+*L1 CSRF Protection v2.0.0 — CoreMusic Architecture*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-08*
+*Last Updated: 2026-09-08*
 *Mode: Red Team · Human Mode · Truth Mode*

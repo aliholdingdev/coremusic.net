@@ -1,8 +1,13 @@
 ---
-title: "Sayfa Prompt — Göz At (Disk)"
+title: "Sayfa Prompt - Göz At (Disk)"
+type: page-prompt
 category: page-prompt
-version: "1.0.0"
-date: "2026-08-11"
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 route: "/browse"
 layout: "3-column-167-573-220"
 ---
@@ -51,3 +56,10 @@ layout: "3-column-167-573-220"
 ## ASCII Art Referansı
 
 `00-mockup-index.md` §4.8 — Browse (Disk) ASCII Art
+
+---
+
+*Page Prompt Browse v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

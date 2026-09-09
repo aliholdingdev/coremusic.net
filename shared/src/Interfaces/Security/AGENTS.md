@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\shared\src\Interfaces\Security Agent Talimatlari"
 type: agent-registry
 folder: "C:\www\coremusic.net\shared\src\Interfaces\Security"

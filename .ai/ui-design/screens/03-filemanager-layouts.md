@@ -1,11 +1,13 @@
 ---
-title: "CoreMusic — File Manager Layouts (§8-9)"
+title: "CoreMusic - File Manager Layouts (§8-9)"
 type: reference
+category: ascii-layout
 date: 2026-08-11
-updated: 2026-08-17
+updated: 2026-09-08
 status: active
 version: 3.0.0
-authority: PNG Visual Analysis (direct pixel inspection — all 18 PNGs)
+authority: PNG Visual Analysis (direct pixel inspection - all 18 PNGs)
+governance: Red Team * Human Mode * Truth Mode
 reference:
   authority: ".ai/ui-design/screens/00-ascii-art-index.md"
   source_of_truth: ".ai/ui-design/screens/"
@@ -103,3 +105,10 @@ reference:
 │ [FOOTER]                                                                                        │
 └─────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+*File Manager Layouts v3.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

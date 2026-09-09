@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.ai\decisions\draft Baglam"
 type: context
 folder: "C:\www\coremusic.net\.ai\decisions\draft"

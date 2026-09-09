@@ -1,12 +1,13 @@
 ---
-title: "CoreMusic — ASCII Art View Index"
+title: "CoreMusic - ASCII Art View Index"
 type: reference
-category: ui-design
+category: ascii-art
 date: 2026-08-11
-updated: 2026-09-06
+updated: 2026-09-08
 status: active
 version: 3.1.0
-authority: PNG Visual Analysis (direct pixel inspection — all 19 PNGs)
+authority: PNG Visual Analysis (direct pixel inspection - all 19 PNGs)
+governance: Red Team * Human Mode * Truth Mode
 reference:
   authority: ".ai/ui-design/screens/00-ascii-art-index.md"
   source_of_truth: ".ai/ui-design/screens/"

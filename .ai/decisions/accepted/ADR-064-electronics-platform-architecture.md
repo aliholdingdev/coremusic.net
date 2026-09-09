@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-064: Electronics Platform Architecture"
 status: active
 date: 2026-08-09

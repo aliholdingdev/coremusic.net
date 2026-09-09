@@ -126,7 +126,12 @@
       const media = SeekRepository.getMediaElement();
       if (window.SeekView) {
         SeekView.updateProgressBar(pct);
-        SeekView.updateTimeDisplay(media ? media.currentTime : 0);
+        if (media && media.duration) {
+          SeekView.updateTimeDisplay(media.currentTime);
+        } else {
+          /* Media yok (örn. home sayfası) — footer süresinden tahmini süre göster */
+          SeekView.updateTimeDisplay(SeekView.estimateTime(pct));
+        }
       }
     }
 
@@ -167,6 +172,11 @@
 
       if (window.SeekView) {
         SeekView.updateProgressBar(pct);
+        const media = SeekRepository.getMediaElement();
+        if (!media || !media.duration) {
+          /* Media yok (örn. home sayfası) — footer süresinden tahmini süre göster */
+          SeekView.updateTimeDisplay(SeekView.estimateTime(pct));
+        }
       }
     }
 
@@ -241,6 +251,20 @@
 
     _formatTime(s) {
       return window.CorePlayerShared.formatTime(s);
+    },
+
+    /**
+     * Media elementi yokken (örn. home sayfası) footer'daki toplam süre
+     * metninden (#footer_sure "00:05:00") yüzdelik tahmini süre üretir.
+     */
+    estimateTime(percentage) {
+      const el = document.querySelector(this._timeDurationSelector);
+      if (!el) return 0;
+      const parts = (el.textContent || '').trim().split(':').map(Number);
+      if (parts.some(isNaN) || parts.length < 2) return 0;
+      let seconds = 0;
+      for (const p of parts) seconds = seconds * 60 + p;
+      return SeekCalculator.clamp(percentage) * seconds;
     },
   };
 

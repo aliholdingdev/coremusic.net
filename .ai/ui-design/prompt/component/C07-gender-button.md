@@ -7,7 +7,11 @@ bem_class: ".gender-btn"
 itcss_layer: "05_Pages"
 target_file: "css/05_Pages/_gender-btn.css"
 version: 1.0.0
+date: 2026-09-08
+updated: 2026-09-08
 status: active
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 author: "UI Designer Agent"
 ---
 
@@ -178,3 +182,10 @@ author: "UI Designer Agent"
 - `data-gender` attribute'u theme engine ile entegre çalışır
 - Seçili durumda `box-shadow` ile visual feedback sağlanır
 - Keyboard'da Arrow keys ile seçim yapılmalıdır
+
+---
+
+*C07 Gender Button v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

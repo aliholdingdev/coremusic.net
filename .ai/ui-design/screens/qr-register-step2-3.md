@@ -1,6 +1,13 @@
 ---
-title: "Register Steps 2-3 — Quick Reference"
+title: "Register Steps 2-3 - Quick Reference"
 type: ascii-qr
+category: ascii-qr
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 screen_id: "S17"
 resolution: "1024x600"
 layout_pattern: "Auth 78/22"
@@ -130,3 +137,10 @@ Step 3 → "Kayıt Ol" → Select Gender sayfasına yönlendirme
 .register-form__kvkk { display: flex; align-items: flex-start; gap: var(--space-2); font-size: var(--text-sm); min-height: 44px; }
 .register-form__kvkk input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); }
 ```
+
+---
+
+*QR Register Steps 2-3 v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

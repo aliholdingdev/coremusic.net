@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-022: Database Hardened Security"
 status: frozen
 date: 2026-01-25

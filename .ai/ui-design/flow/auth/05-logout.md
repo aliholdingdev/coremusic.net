@@ -1,8 +1,14 @@
 ---
-title: CoreMusic — Auth Flow: Logout (Detaylı)
+title: "CoreMusic - Auth Flow: Logout (Detaylı)"
+type: flow
+category: auth
 date: 2026-08-11
+updated: 2026-09-08
+status: active
 version: 2.0.0
-platform: home-1024 (Linux Embedded RPi5, 1024×600)
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
+platform: home-1024 (Linux Embedded RPi5, 1024x600)
 author: Senior Frontend Architect (50+ yıl deneyim)
 references:
   - [[screens/00-ascii-art-views]] §1 (Header)
@@ -226,7 +232,7 @@ POST /auth/logout
 
 ---
 
-*Logout Flow v2.0.0 — CoreMusic UI Design System*
+*Logout Flow v2.0.0 - CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-11*
-*Mode: Red Team · Human Mode · Truth Mode*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

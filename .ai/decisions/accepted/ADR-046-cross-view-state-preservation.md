@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-046: Cross-View State Preservation"
 status: active
 date: 2026-08-08

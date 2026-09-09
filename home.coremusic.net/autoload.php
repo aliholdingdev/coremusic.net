@@ -24,6 +24,7 @@ if (file_exists($sharedVendor)) {
             'CoreMusic\\Home\\Session\\'   => __DIR__ . '/include/Session/',
             'CoreMusic\\Home\\Auth\\'      => __DIR__ . '/include/Auth/',
             'CoreMusic\\Home\\Container\\' => __DIR__ . '/include/Container/',
+            'CoreMusic\\Home\\Component\\' => __DIR__ . '/include/Component/',
         ];
         foreach ($prefixes as $prefix => $baseDir) {
             if (str_starts_with($class, $prefix)) {

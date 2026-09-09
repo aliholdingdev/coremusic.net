@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-049: Startup Prompt Loader"
 status: active
 date: 2026-08-08

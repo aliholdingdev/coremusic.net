@@ -508,7 +508,122 @@ class TemplateRenderer
 
 ---
 
-*L1 CSP Nonce & Strict-Dynamic v1.0.0 — CoreMusic Architecture*
+## 16. Gerçek Kod Karşılıkları (Faz 0 — 2026-09-08)
+
+| Öğe | Gerçek Kod | Dosya | Not |
+|-----|------------|-------|-----|
+| Nonce üretimi | `_csp_nonce` özniteliği | `shared/src/Middleware/SecurityHeadersMiddleware.php` | `random_bytes(32)` → base64 hedefiyle uyumlu |
+| Header birleştirme | `buildCsp()` | SecurityHeadersMiddleware | X-Frame-Options: DENY dahil |
+| Pipeline konumu | #4 (pipeline immutable) | — | Nonce #5 SessionManager'a akar |
+| `CspNonce` sınıfı | Ayrı sınıf olarak YOK | — | İşlev SecurityHeaders içinde (§4.1 hedef desen) |
+| `CspViolationHandler` | PLANNED | — | §7 hedef; route/endpoint kodu yok |
+| Template renderer | `HtmlShellRenderer` (L2) | `shared/src/PageRouter/HtmlShellRenderer.php` | Nonce attribute geçişi kod teyidi bekliyor |
+
+**Header dikkat notu:** §6.1 örneğinde `X-XSS-Protection: 1; mode=block` görünüyor — bu başlık modern tarayıcılarda **deprecated**'tır (CLAUDE.md best-practices); kaldırma kararı ADR-012 ek kaydıyla verilmeli. Kodda mevcutsa doküman-kod uyumu korunur, tavsiye rapora düşer.
+
+**HSTS:** Örnek HTTPS koşullu üretiyor; gerçek `buildCsp()` çıktısında HSTS satırı teyit edilmedi — DOĞRULAMA GEREKLİ (l1 index §32).
+
+---
+
+## 17. Security Headers Matrisi (tam liste)
+
+| Header | Örnek Değer | Kritiklik | Durum |
+|--------|-------------|-----------|-------|
+| Content-Security-Policy | nonce + strict-dynamic | Kritik | IMPLEMENTED |
+| X-Frame-Options | DENY | Kritik | IMPLEMENTED |
+| X-Content-Type-Options | nosniff | Yüksek | Kod teyidi bekliyor |
+| Referrer-Policy | strict-origin-when-cross-origin | Orta | Kod teyidi bekliyor |
+| Permissions-Policy | camera=(), microphone=(), geolocation=() | Orta | Kod teyidi bekliyor |
+| Strict-Transport-Security | max-age=31536000; includeSubDomains | Kritik (HTTPS) | DOĞRULAMA GEREKLİ |
+| X-XSS-Protection | 1; mode=block | **Deprecated** — kaldırma değerlendirilmeli | Kod teyidi bekliyor |
+
+Kural: Header üretimi tek noktadan (`buildCsp()`/header set) yönetilir; dağınık `header()` çağrısı yasaktır.
+
+---
+
+## 18. CSP Test Senaryoları (PHPUnit iskeleti)
+
+| # | Senaryo | Beklenen |
+|---|---------|----------|
+| 1 | İstek #1 nonce üretimi | 32-byte base64 (44 karakter) |
+| 2 | İstek #2 nonce | İlk nonceden farklı |
+| 3 | Header içerik | `strict-dynamic` + `nonce-<değer>` içerir |
+| 4 | `unsafe-eval` yokluğu | Header'da geçmez |
+| 5 | frame-ancestors | `'none'` (örnek §5.1) — kod çıktısıyla karşılaştır |
+| 6 | X-Frame-Options | DENY |
+| 7 | Session'a nonce kaydı | `$_SESSION['csp_nonce']` setli |
+| 8 | Request attribute | `csp_nonce` template'e ulaşır |
+| 9 | style-src unsafe-inline | ITCSS için mevcut (ADR-001) |
+| 10 | Violation endpoint | PLANNED — route yok (§19) |
+
+---
+
+## 19. Violation Endpoint Durumu
+
+| Öğe | Durum |
+|-----|-------|
+| `POST /api/csp-report` route | PLANNED — routes.php'de kayıt yok (Faz 0) |
+| `CspViolationHandler` sınıfı | PLANNED — kod yok |
+| Tarayıcı rapor formatı | §7.2 standart (W3C) |
+| Log entegrasyonu | deep-logging dokümanına bağlanacak (874 satır) |
+
+Giriş önkoşulu: route kaydı + handler sınıfı + redaction kuralı (nonce asla loglanmaz) + test. Bu üçlü tamamlanmadan "raporlama aktif" yazılamaz.
+
+---
+
+## 20. Diagnostics (tekrarlanabilir)
+
+```powershell
+# 1. Gerçek nonce üretimi + header birleştirme
+Select-String -LiteralPath "shared\src\Middleware\SecurityHeadersMiddleware.php" -Pattern "_csp_nonce|buildCsp|random_bytes"
+
+# 2. strict-dynamic / frame koruması
+Select-String -LiteralPath "shared\src\Middleware\SecurityHeadersMiddleware.php" -Pattern "strict-dynamic|frame|DENY"
+
+# 3. HSTS teyidi (beklenen: ya satır var ya da DOĞRULAMA GEREKLİ kalır)
+Select-String -LiteralPath "shared\src\Middleware\SecurityHeadersMiddleware.php" -Pattern "Strict-Transport"
+
+# 4. Deprecated X-XSS-Protection taraması
+Select-String -LiteralPath "shared\src\Middleware\SecurityHeadersMiddleware.php" -Pattern "X-XSS-Protection"
+
+# 5. Template nonce geçişi
+Select-String -LiteralPath "shared\src\PageRouter\HtmlShellRenderer.php" -Pattern "nonce" -ErrorAction SilentlyContinue
+```
+
+---
+
+## 21. Ek SSS
+
+**S: `unsafe-inline` style-src güvenli mi?**
+C: CSS için script injection vektörü sınırlıdır; ITCSS dinamik tema ve critical CSS ihtiyacı nedeniyle izinli (ADR-001 bağlamı). script-src'de unsafe-inline KESİNLİKLE yasaktır.
+
+**S: strict-dynamic ile eski tarayıcılar ne olur?**
+C: strict-dynamic desteklemeyen tarayıcılar 'self' + nonce'u uygular (geriye dönük davranış). Modern tarayıcılar strict-dynamic'te 'self'i ihmal eder — hedef modern tarayıcı setidir.
+
+**S: Nonce session'da mı request'te mi?**
+C: Üretim: her istekte. Saklama: session'a yazılır (DOM patch sonrası token-dayanıklılık). Tüketim: request attribute ile template'e taşınır (§8.2 akışı).
+
+**S: Third-party script (analytics) nasıl eklenir?**
+C: ADR-012 kapsamında: ya nonce'lu loader (harici URL 'self' dışı olduğundan hash/hosts directive gerekir) ya da self-hosted. Karar ADR ek kaydıyla — plansız `<script src="cdn...">` CSP violation üretir.
+
+**S: PageCache ile nonce çakışır mı?**
+C: RİSK — nonce istek-bazlıdır; cache'lenen sayfa eski nonce taşır. Sayfa önbelleği CSP-başlığı cache'lememeli veya HTML'de nonce kullanmamalıdır. Etkileşim analizi Faz 2c (l2-routing) görevidir — bilinen açık işaretlendi.
+
+**S: frame-ancestors 'none' ile 'none' vs DENY?**
+C: CSP frame-ancestors modern standarttır; X-Frame-Options legacy'dir. İkisi birlikte gönderilir (derinlik savunması).
+
+---
+
+## 22. Revizyon Geçmişi
+
+| Sürüm | Tarih | Değişiklik |
+|-------|-------|------------|
+| 1.0.0 | 2026-08-08 | İlk doküman (prompt arşivi tabanlı) |
+| 2.0.0 | 2026-09-08 | Faz 2b: §16 gerçek kod eşleştirmesi; §17 header matrisi (X-XSS deprecated notu); §18 test senaryoları; §19 violation endpoint durumu; §20 diagnostics; §21 SSS |
+
+---
+
+*L1 CSP Nonce & Strict-Dynamic v2.0.0 — CoreMusic Architecture*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-08*
+*Last Updated: 2026-09-08*
 *Mode: Red Team · Human Mode · Truth Mode*

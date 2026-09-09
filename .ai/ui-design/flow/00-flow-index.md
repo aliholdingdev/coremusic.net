@@ -1,9 +1,13 @@
 ---
+title: "CoreMusic - Flow Index (User Flows)"
 type: reference
 category: ui-design
-title: "CoreMusic — Flow Index (User Flows)"
 date: 2026-08-11
+updated: 2026-09-08
+status: active
 version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 ---
 
 # Flow Index
@@ -43,3 +47,10 @@ version: 1.0.0
 
 Auth Akış Sırası (Doğrulanmış):
 Select Gender → Login → Register (3 adım)
+
+---
+
+*Flow Index v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

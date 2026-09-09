@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-079: i18n Database Schema"
 status: active
 date: 2026-08-10

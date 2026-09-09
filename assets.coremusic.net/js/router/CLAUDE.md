@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\assets.coremusic.net\js\router Baglam"
 type: context
 folder: "C:\www\coremusic.net\assets.coremusic.net\js\router"

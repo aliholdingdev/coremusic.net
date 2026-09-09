@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\shared\src\Api\Versioning Agent Talimatlari"
 type: agent-registry
 folder: "C:\www\coremusic.net\shared\src\Api\Versioning"

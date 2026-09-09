@@ -1,8 +1,13 @@
 ---
-title: "Sayfa Prompt — Select Gender (İLK ADIM)"
+title: "Sayfa Prompt - Select Gender (İLK ADIM)"
+type: page-prompt
 category: page-prompt
-version: "1.0.0"
-date: "2026-08-11"
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 route: "/gender-select"
 layout: "auth-screen-72-28"
 ---
@@ -86,3 +91,10 @@ Her buton:
 ## ASCII Art Referansı
 
 `00-mockup-index.md` §4.13–4.14 — Gender Select ASCII Art
+
+---
+
+*Page Prompt Gender Select v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-083: SPA Router Architecture (PHP+JS Hybrid)"
 status: active
 date: 2026-08-12

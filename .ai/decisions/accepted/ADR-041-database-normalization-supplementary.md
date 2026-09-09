@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-041: DB Normalization Supplementary"
 status: active
 date: 2026-07-30

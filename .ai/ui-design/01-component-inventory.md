@@ -1,7 +1,13 @@
 ---
-title: "CoreMusic — Component Inventory (C01-C16, home-1024)"
+title: "CoreMusic - Component Inventory (C01-C16, home-1024)"
 type: reference
+category: component-inventory
+date: 2026-08-11
+updated: 2026-09-08
+status: active
 version: 3.2.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 ---
 
 # CoreMusic — Component Inventory

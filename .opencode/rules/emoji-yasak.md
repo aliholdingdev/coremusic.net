@@ -1,4 +1,4 @@
-﻿# Emoji Kullanım Yasağı
+# Emoji Kullanım Yasağı
 
 ## Kesin Kural: Emoji KULLANMA
 

@@ -1,11 +1,11 @@
-/**
- * CoreMusic — Desktop Device CSS (1920×1080)
+﻿/**
+ * CoreMusic â€” Desktop Device CSS (1920Ã—1080)
  * ITCSS Layer: 08_Devices
- * Version: 3.1.0 — 2026-09-05
+ * Version: 3.1.0 â€” 2026-09-05
  *
- * Behavioral overrides ONLY — base styles loaded via main bundle + device-loader.js
+ * Behavioral overrides ONLY â€” base styles loaded via main bundle + device-loader.js
  * Target: PC/Laptop, Fare + Klavye
- * Hover: VAR — fare tabanlı
+ * Hover: VAR â€” fare tabanlÄ±
  *
  * Token'lar a-layout-tokens.css'ten gelir (@media min-width: 1920px)
  */
@@ -20,15 +20,16 @@
 @import '../02_Base/b-base-core.css';
 @import '../03_Layout/_header.css';
 @import '../03_Layout/_footer.css';
-@import '../04_Components/c-footer-seek.css';     /* Footer seekbar davranış (KAİ #seekbar*) */
-@import '../04_Components/c-footer-volume.css';   /* Footer volume geometri (KAİ #volume*) */
+@import '../06_Utilities/u-helpers-utility.css';   /* .is-hidden — footer pause/play ikonu */
+@import '../04_Components/c-footer-seek.css';     /* Footer seekbar davranÄ±ÅŸ (KAÄ° #seekbar*) */
+@import '../04_Components/c-footer-volume.css';   /* Footer volume geometri (KAÄ° #volume*) */
 @import '../05_Pages/_home.css';
 
 /* ============================================================
-   BEHAVIORAL OVERRIDES — Desktop (Mouse + Keyboard)
+   BEHAVIORAL OVERRIDES â€” Desktop (Mouse + Keyboard)
    ============================================================ */
 
-/* Font scale: 1.2× */
+/* Font scale: 1.2Ã— */
 html {
   font-size: 16px;
 }
@@ -37,7 +38,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Hover aktif — fare tabanlı */
+/* Hover aktif â€” fare tabanlÄ± */
 .interactive:hover {
   background: rgba(255,255,255,0.12);
   transform: translateY(-1px);
@@ -58,7 +59,7 @@ body {
   background: rgba(255,255,255,0.05);
 }
 
-/* Scrollbar — desktop */
+/* Scrollbar â€” desktop */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -77,18 +78,18 @@ body {
 }
 
 /* ============================================================
-   LAYOUT CLASSES — Device-based conditional layout
+   LAYOUT CLASSES â€” Device-based conditional layout
    ============================================================ */
 
-/* Desktop layout (1920×1080) — standard desktop */
+/* Desktop layout (1920Ã—1080) â€” standard desktop */
 /* Token'lar a-layout-tokens.css'ten gelir (@media min-width: 1920px) */
-/* Bu dosya SADECE behavioral override içerir */
+/* Bu dosya SADECE behavioral override iÃ§erir */
 .layout--desktop {
-  /* --footer-h: 104px — a-layout-tokens @media 1920+ */
-  /* --header-h: 70px — a-layout-tokens @media 1920+ (not 65px) */
+  /* --footer-h: 104px â€” a-layout-tokens @media 1920+ */
+  /* --header-h: 70px â€” a-layout-tokens @media 1920+ (not 65px) */
 
-  /* Desktop-özel Overrides */
-  /* Token'lar a-layout-tokens'tan geldiği için sadece behavioral kalır */
+  /* Desktop-Ã¶zel Overrides */
+  /* Token'lar a-layout-tokens'tan geldiÄŸi iÃ§in sadece behavioral kalÄ±r */
 }
 
 /* 1920 Desktop footer: utility icons visible (Mockup Image 3) */

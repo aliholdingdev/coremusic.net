@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\assets.coremusic.net\js\router\config Agent Talimatlari"
 type: agent-registry
 folder: "C:\www\coremusic.net\assets.coremusic.net\js\router\config"

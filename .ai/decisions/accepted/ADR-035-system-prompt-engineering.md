@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-035: System Prompt Engineering"
 status: frozen
 date: 2026-06-25

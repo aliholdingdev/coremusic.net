@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-025: Professional EQ System (31-band)"
 status: frozen
 date: 2026-05-10

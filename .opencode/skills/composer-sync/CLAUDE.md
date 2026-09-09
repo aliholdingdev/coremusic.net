@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.opencode\skills\composer-sync Baglam"
 type: context
 folder: "C:\www\coremusic.net\.opencode\skills\composer-sync"

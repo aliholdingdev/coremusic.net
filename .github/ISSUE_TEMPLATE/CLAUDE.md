@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.github\ISSUE_TEMPLATE Baglam"
 type: context
 folder: "C:\www\coremusic.net\.github\ISSUE_TEMPLATE"

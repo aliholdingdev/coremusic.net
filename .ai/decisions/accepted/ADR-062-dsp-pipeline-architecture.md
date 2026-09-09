@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-062: DSP Pipeline Architecture"
 status: active
 date: 2026-08-09

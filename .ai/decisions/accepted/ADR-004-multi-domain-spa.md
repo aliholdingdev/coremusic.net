@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-004: Multi-Domain SPA Architecture"
 status: frozen
 date: 2026-02-01

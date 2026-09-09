@@ -1,10 +1,14 @@
 ---
+title: "CoreMusic - Select Gender Flow (İLK ADIM - Detaylı)"
 type: flow
 category: auth
-title: "Select Gender Flow (İLK ADIM — Detaylı)"
 date: 2026-08-11
+updated: 2026-09-08
+status: active
 version: 2.0.0
-platform: home-1024 (Linux Embedded RPi5, 1024×600)
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
+platform: home-1024 (Linux Embedded RPi5, 1024x600)
 references:
   - [[screens/A-auth/gender-select]]
   - [[screens/00-ascii-art-views]] §13-14
@@ -414,7 +418,7 @@ Kullanıcı Login sayfasından geri döner
 
 ---
 
-*Select Gender Flow v2.0.0 — CoreMusic UI Design System*
+*Select Gender Flow v2.0.0 - CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-11*
-*Mode: Red Team · Human Mode · Truth Mode*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

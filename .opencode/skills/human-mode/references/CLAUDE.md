@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.opencode\skills\human-mode\references Baglam"
 type: context
 folder: "C:\www\coremusic.net\.opencode\skills\human-mode\references"

@@ -1,9 +1,9 @@
 ---
-title: "CoreMusic — Color Palettes (3 Theme)"
+title: "CoreMusic - Color Palettes (3 Theme)"
 type: reference
 category: design-system
 date: 2026-08-17
-updated: 2026-08-17
+updated: 2026-09-08
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)

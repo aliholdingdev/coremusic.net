@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-084: API Gateway Architecture (API-First, BFF, CQRS)"
 status: active
 date: 2026-08-12

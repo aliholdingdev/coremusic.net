@@ -5,7 +5,8 @@
  * SSOT: .ai/.png/home-1024/ + home-1920/ (PNG sadakati, Guardrail #11)
  * Yükseklik: CSS token: --footer-h (90/96/100/104/120/130px — a-layout-tokens.css)
  * Yapı: KAİ coreplayer sözleşmesi (seekbarclick/volume/volume2/mplay) + PNG birebir görünüm
- * Version: 1.3.0 — 2026-09-06 (Volume/Seekbar/Media Play — KAİ entegrasyonu + 4K token)
+ * Version: 1.3.1 — 2026-09-08 (welcome-modal v1.1.0 cihaz kapısı + seekbar v1.3.1 media-yok
+ *            tahmini süre; ScaleManager ≤1024 skip ile footer 90px transform'suz)
  */
 
 use CoreMusic\Device\DeviceManager;
@@ -63,7 +64,7 @@ $iconBitrate = $h($assetsUrl . '/Image/res-pink/bit-rate.png');
             value="<?= $progressPct ?>"
             aria-label="Şarkı pozisyonu"
         >
-        <div class="footer__progress-bar" id="seekbar2" style="width: <?= $progressPct ?>%;" role="progressbar" aria-label="Çalma ilerlemesi" aria-valuenow="<?= $progressPct ?>" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="footer__progress-bar" id="seekbar2" data-progress="<?= $progressPct ?>" role="progressbar" aria-label="Çalma ilerlemesi" aria-valuenow="<?= $progressPct ?>" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
 
     <div class="footer__inner">
@@ -142,7 +143,7 @@ $iconBitrate = $h($assetsUrl . '/Image/res-pink/bit-rate.png');
                         value="<?= $volumeRatio ?>"
                         aria-label="Ses seviyesi"
                     >
-                    <div class="footer__volume-fill" id="volume2" style="width: <?= $volumePct ?>%;"></div>
+                    <div class="footer__volume-fill" id="volume2" data-progress="<?= $volumePct ?>"></div>
                 </div>
                 <p class="footer__volume-value c-footer__volume-slider-volume-size">% <?= $volumePct ?></p>
             </div>
@@ -152,10 +153,11 @@ $iconBitrate = $h($assetsUrl . '/Image/res-pink/bit-rate.png');
 </footer>
 
 <!-- CorePlayer modülleri — KAİ sözleşme sırası: shared ÖNCE, sonra volume/seekbar/controls/progressbar -->
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.shared.js?v=1.3.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.volume.js?v=1.3.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.seekbar.js?v=1.3.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.controls.js?v=1.3.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.progressbar.js?v=1.3.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/core/helper.js?v=1.3.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/core/footer.init.js?v=1.3.0"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.shared.js?v=1.3.1"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.volume.js?v=1.3.1"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.seekbar.js?v=1.3.1"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.controls.js?v=1.3.1"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.progressbar.js?v=1.3.1"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/core/helper.js?v=1.4.0"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/core/footer.init.js?v=1.4.0"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/features/welcome-modal.js?v=1.1.0"></script>

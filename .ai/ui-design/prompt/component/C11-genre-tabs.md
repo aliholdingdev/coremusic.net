@@ -7,7 +7,11 @@ bem_class: ".genre-tabs"
 itcss_layer: "04_Components"
 target_file: "css/04_Components/_genre-tabs.css"
 version: 1.0.0
+date: 2026-09-08
+updated: 2026-09-08
 status: active
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 author: "UI Designer Agent"
 ---
 
@@ -185,3 +189,10 @@ author: "UI Designer Agent"
 - Scrollable tab bar: overflow-x ile yatay kaydırma
 - `role="tablist"` ve `role="tab"` screen reader desteği için zorunlu
 - Arrow keys ile tab'lar arası gezinme JS ile sağlanmalıdır
+
+---
+
+*C11 Genre Tabs v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

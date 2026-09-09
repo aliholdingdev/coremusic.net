@@ -9,6 +9,19 @@
   function initCorePlayerModules() {
     const audio = document.getElementById('audio');
 
+    /* CSP-safe başlangıç fill genişlikleri: PHP inline style attribute'u CSP style-src
+       tarafından engellenir; data-progress değerleri CSSOM ile uygulanır (ADR-012).
+       SPA router main içeriğini sonradan değiştirebildiğinden load + gecikmeli geçiş var. */
+    const applyProgressFills = function () {
+      document.querySelectorAll('[data-progress]').forEach((el) => {
+        const pct = parseFloat(el.dataset.progress);
+        if (!isNaN(pct)) el.style.width = Math.max(0, Math.min(100, pct)) + '%';
+      });
+    };
+    applyProgressFills();
+    window.addEventListener('load', applyProgressFills);
+    setTimeout(applyProgressFills, 300);
+
     /* Volume % tek-kaynak senkronu — HATA DÜZELTMESİ:
        MM_Volume cookie yokken VolumeRepository default 0.5 döndürüp
        PHP'nin bastığı input değerini (session volume) %50'ye eziyordu.

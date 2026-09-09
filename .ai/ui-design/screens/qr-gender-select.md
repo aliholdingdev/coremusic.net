@@ -1,6 +1,13 @@
 ---
-title: "Select Gender — Quick Reference"
+title: "Select Gender - Quick Reference"
 type: ascii-qr
+category: ascii-qr
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 screen_id: "S14"
 resolution: "1024x600"
 layout_pattern: "Auth 72/28"
@@ -127,3 +134,10 @@ full_spec: "A-auth/gender-select.md"
 .gender-btn { width: 100%; min-height: 60px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius-lg); }
 .gender-btn.is-selected { background: var(--accent-bg); border: 2px solid var(--accent); box-shadow: var(--accent-glow); }
 ```
+
+---
+
+*QR Gender Select v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

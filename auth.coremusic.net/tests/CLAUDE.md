@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\auth.coremusic.net\tests Baglam"
 type: context
 folder: "C:\www\coremusic.net\auth.coremusic.net\tests"

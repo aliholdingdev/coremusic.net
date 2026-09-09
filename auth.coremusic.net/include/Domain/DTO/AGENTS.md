@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\auth.coremusic.net\include\Domain\DTO Agent Talimatlari"
 type: agent-registry
 folder: "C:\www\coremusic.net\auth.coremusic.net\include\Domain\DTO"

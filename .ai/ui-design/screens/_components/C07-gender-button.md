@@ -1,7 +1,13 @@
 ---
-title: CoreMusic — C07 Gender Button Component Spec
+title: "CoreMusic - C07 Gender Button Component Spec"
+type: component-spec
+category: component-spec
 date: 2026-08-11
+updated: 2026-09-08
+status: active
 version: 2.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 platform: home-1024
 ---
 
@@ -47,3 +53,10 @@ Selected:
 ## ITCSS: 05_Pages
 ## WCAG: ✅ UYGUN (~200×80px)
 ## Kullanım: Select Gender
+
+---
+
+*Component Spec C07 Gender Button v2.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

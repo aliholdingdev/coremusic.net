@@ -1,9 +1,14 @@
 ---
-title: "Layout Pattern — Auth Screen (72/28 Split)"
+title: "Layout Pattern - Auth Screen (72/28 Split)"
+type: layout-prompt
 category: layout-pattern
-version: "1.0.0"
-date: "2026-08-11"
-viewport: "1024×600"
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
+viewport: "1024x600"
 ---
 
 # Layout Pattern: Auth Screen (72/28 Split)
@@ -75,3 +80,10 @@ Sağ taraftaki form cam efektli paneldir:
 - Arka plan manzara fotoğrafı (`background-size: cover`)
 - Merkezde logo
 - Alt kısımda dekoratif metin
+
+---
+
+*Layout Pattern Auth Screen v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

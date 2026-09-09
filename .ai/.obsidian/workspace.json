@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "architecture/l3-presentation/scale-router-css-frontend-guide.md",
+                "file": "ULTRA-THINKING.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "scale-router-css-frontend-guide"
+              "title": "ULTRA-THINKING"
             }
           }
         ]
@@ -185,6 +185,24 @@
   },
   "active": "295ec8d30270d14a",
   "lastOpenFiles": [
+    "ui-design/05-md-pattern-standard.md",
+    "ui-design/tokens/CLAUDE.md",
+    "ui-design/tokens/AGENTS.md",
+    "ui-design/tokens/a-design-tokens.css",
+    "ui-design/screens/qr-wifi.md",
+    "ui-design/screens/qr-wifi-connect.md",
+    "ui-design/screens/qr-welcome-popup.md",
+    "ui-design/screens/qr-video-playback.md",
+    "ui-design/prompt/screen/AGENTS.md",
+    "ui-design/prompt/page/CLAUDE.md",
+    "ui-design/prompt/page/AGENTS.md",
+    "ui-design/prompt/layout/CLAUDE.md",
+    "ui-design/prompt/layout/AGENTS.md",
+    "ui-design/prompt/component/CLAUDE.md",
+    "ui-design/prompt/component/AGENTS.md",
+    "ui-design/prompt/CLAUDE.md",
+    "ui-design/prompt/AGENTS.md",
+    "ui-design/mockups/Linux - 1920 - Home.png",
     "ui-design/mockups/CLAUDE.md",
     "ui-design/mockups/AGENTS.md",
     "ui-design/mockups/02-home-screens-1920.md",
@@ -195,32 +213,15 @@
     "ui-design/flow/music/CLAUDE.md",
     "ui-design/flow/music/AGENTS.md",
     "ui-design/flow/auth/CLAUDE.md",
-    "ui-design/flow/auth/AGENTS.md",
-    "ui-design/flow/CLAUDE.md",
-    "ui-design/flow/AGENTS.md",
-    "ui-design/CLAUDE.md",
-    "ui-design/AGENTS.md",
-    "subdomains/music.coremusic.net/CLAUDE.md",
-    "subdomains/music.coremusic.net/AGENTS.md",
-    "subdomains/home.coremusic.net/CLAUDE.md",
-    "subdomains/home.coremusic.net/AGENTS.md",
-    "subdomains/auth.coremusic.net/CLAUDE.md",
-    "subdomains/auth.coremusic.net/AGENTS.md",
-    "subdomains/CLAUDE.md",
-    "subdomains/AGENTS.md",
-    "servers/windows-iis.md",
-    "servers/windows-apache.md",
-    "servers/linux-nginx.md",
     "servers",
     "scripts",
     "reports",
+    "projects/WirelessConnect",
     "projects/NevaPlayer/neva-player",
     "projects/NevaPlayer",
-    "projects/WirelessConnect",
     "projects/NevaEngine",
     "projects/NevaConnect",
     "projects",
-    "decisions/draft",
     "Başlıksız.canvas",
     "ui-design/specs/1024-gozat.png",
     "ui-design/specs/1024-wifi-connected.png",
@@ -230,7 +231,6 @@
     "ui-design/specs/1024-playlist.png",
     "ui-design/specs/1024-singer.png",
     "ui-design/specs/1024-album-detail.png",
-    "ui-design/specs/1024-albums.png",
-    "ui-design/specs/1024-home.png"
+    "ui-design/specs/1024-albums.png"
   ]
 }

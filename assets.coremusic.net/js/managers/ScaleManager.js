@@ -14,6 +14,9 @@
  *         ScaleManager (yaşam döngüsü, olay dinleme, RAF koordinasyonu).
  *   OCP — Açık / Kapalı:
  *         Yeni bileşen veya nested eleman 'registerTarget()' ile dinamik eklenir;
+ * Version: 2.1.0 — 2026-09-09 (header/footer/home transform scale TAMAMEN kaldırıldı —
+ *          boyutlar CSS token'larıyla yönetilir; scale transform seekbar hit alanını
+ *          bozuyordu: 1366×768'te 16px→10.4px tıklanamaz alan. Kullanıcı kararı.)
  *         çekirdek koda dokunulmaz.
  *   LSP — Liskov Yerine Geçme:
  *         Tüm kural tanımları tek tip kural arayüzü ile çözümlenir (step, linear, skip).
@@ -218,12 +221,9 @@ export const DEFAULT_SCALE_TARGETS = [
         compensateWidth: true,
         customProp: '--scale-header',
         rules: [
-            { max: 767, scale: 0.75 },
-            { max: 1024, scale: 0.88 },
-            { min: 1025, max: 1919, from: 0.65, to: 1.00 },
-            { min: 1920, max: 1920, scale: 1.00 },
-            { min: 1921, max: 2560, scale: 1.00 },
-            { min: 2561, skip: true }, // ≥2561px 2K & 4K ekranlarda yerel CSS yönetir
+            // TÜM breakpoint'lerde skip (kullanıcı kararı 2026-09-09): header boyutları
+            // CSS token'larıyla (--header-h) yönetilir — transform scale yok.
+            { min: 0, skip: true },
         ],
         nestedChildren: [
             { selector: '.header-widget--battery', origin: 'center right' },
@@ -237,13 +237,10 @@ export const DEFAULT_SCALE_TARGETS = [
         compensateWidth: true,
         customProp: '--scale-footer',
         rules: [
-            { max: 767, scale: 0.60 },
-            { max: 1024, scale: 0.70 },
-            { min: 1025, max: 1368, maxH: 768, scale: 0.65 },
-            { min: 1369, max: 1520, maxH: 768, scale: 0.65 },
-            { min: 1025, max: 1920, scale: 0.65 },
-            { min: 1921, max: 2560, from: 0.65, to: 1.00 },
-            { min: 2561, skip: true }, // ≥2561px 4K'da footer yerel CSS (120px/130px) ile yönetilir
+            // TÜM breakpoint'lerde skip (kullanıcı kararı 2026-09-09): footer boyutları
+            // CSS token'larıyla (a-layout-tokens --footer-h) yönetilir — transform scale
+            // seekbar/buton hit alanlarını bozuyordu (16px→10.4px tıklanamaz alan).
+            { min: 0, skip: true },
         ],
         nestedChildren: [
             { selector: '.c-footer__seek-slider', origin: 'top center' },
@@ -251,19 +248,9 @@ export const DEFAULT_SCALE_TARGETS = [
             { selector: '.volume-set-slider', origin: 'center right' }
         ]
     },
-    {
-        name: 'home',
-        selector: '.page-home',
-        origin: 'top left',
-        compensateWidth: true,
-        toScreenWidth: true,
-        customProp: '--scale-home',
-        rules: [
-            { max: 1024, skip: true }, // ≤1024px gömülü/tablet tasarımı CSS flex/grid ile yönetilir
-            { min: 1025, max: 2560, from: 0.65, to: 1.00 },
-            { min: 2561, skip: true }, // ≥2561px 4K Ultra HD tasarımı yerel CSS ile yönetilir
-        ]
-    }
+    /* KALDIRILDI — home container'a toplu scale uygulaması yasak (kullanıcı kararı 2026-09-08):
+       Ölçek artık her home bileşenine tek tek verilir (_home-components.css "COMPONENT SCALE" bloğu).
+       Eski tanım: { name: 'home', selector: '.page-home', customProp: '--scale-home', ... } */
 ];
 
 /* ============================================================

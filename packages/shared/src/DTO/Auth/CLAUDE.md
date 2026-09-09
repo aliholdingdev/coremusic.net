@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\packages\shared\src\DTO\Auth Baglam"
 type: context
 folder: "C:\www\coremusic.net\packages\shared\src\DTO\Auth"

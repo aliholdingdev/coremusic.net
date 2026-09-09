@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-034: Credential Vault Normalization"
 status: frozen
 date: 2026-06-20

@@ -1,10 +1,13 @@
 ---
-title: CoreMusic — Auth Screen Layout Pattern
-date: 2026-08-11
-updated: 2026-08-11
+title: "CoreMusic - Auth Screen Layout Pattern"
 type: spec
+category: layout-pattern
+date: 2026-08-11
+updated: 2026-09-08
 status: active
 version: 2.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 ---
 
 # CoreMusic — Auth Screen Layout Pattern
@@ -74,4 +77,7 @@ Select Gender (1) → Login (2) → Register Step 1 (3a) → Step 2 (3b) → Ste
 
 ---
 
-*Auth Screen Layout v2.0.0 — CoreMusic UI Design System*
+*Auth Screen Layout Pattern v2.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

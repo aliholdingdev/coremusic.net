@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-036: Multi-Project Prompt Maker"
 status: frozen
 date: 2026-06-30

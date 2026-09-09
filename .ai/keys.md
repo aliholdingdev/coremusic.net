@@ -95,7 +95,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| ui-design, mockup, 18 png, mockup index, home-1024, shared-1024 | ui-design/00-mockup-index.md |
+| ui-design, mockup, 19 png, mockup index, home-1024, shared-1024, home-1920 | ui-design/00-mockup-index.md |
 | c01-c16, component inventory, bileşen envanteri, nav-link, media-card, status-widget | ui-design/01-component-inventory.md |
 | implementation plan, 15 step css, css uygulama planı, mockup to code | ui-design/02-implementation-plan.md |
 | ascii art, wireframe, ascii view, 1024x600 layout, screen spec | ui-design/screens/00-ascii-art-index.md |
@@ -166,7 +166,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | css template, itcss şablonu | .ai/.templates/frontend/css-template.md |
 | phpunit template, test şablonu | .ai/.templates/testing/phpunit-template.md |
 | migration template, db migration | .ai/.templates/infrastructure/migration-template.md |
-| docker template, container | Kaldırıldı — Docker kullanılmıyor |
+| docker template, container | **Bilinen çelişki (Faz 1):** Dosya diskte VAR (`docker-template.md`) ancak not "Kaldırıldı" diyor — Docker kullanılmıyor; dosya kaldırma kararı Vault Steward'a bağlı |
 | github actions, ci/cd şablonu | .ai/.templates/infrastructure/github-actions-template.md |
 | api doc, api dokümantasyonu | .ai/.templates/documentation/api-doc-template.md |
 | security audit, güvenlik denetimi | .ai/.templates/documentation/security-audit-template.md |
@@ -210,7 +210,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | wifi, bluetooth, quick panel | .ai/ui-design/screens/F-quickpanel/ |
 | flow, akış, kullanıcı akışı | .ai/ui-design/flow/ |
 | prompt, şablon | .ai/ui-design/prompt/ |
-| design tokens, token, renk, yazı tipi | .ai/ui-design/reference/02-design-tokens.md |
+| design tokens, token, renk, yazı tipi | .ai/ui-design/tokens/design-tokens-master.md *(Faz 1: kırık `reference/02-design-tokens.md` hedefi düzeltildi)* |
 | ascii art, piksel, ölçü, layout view | .ai/ui-design/screens/00-ascii-art-index.md |
 | screen spec, ekran özelliği, pixel exact | .ai/ui-design/screens/ |
 | layout pattern, standard 60/40, split home | .ai/ui-design/screens/_layout-patterns/ |
@@ -328,17 +328,17 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | PCM3168A, 8 kanal, DAC | [[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]] |
 | PCM5122, REDDED, H001 | [[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]] |
 | XMOS XU316, DSP | [[decisions/accepted/ADR-017-dsp-hardware-mode]] |
-| AK4458, DAC opsiyonel | electronic/audio-interface-design.md |
-| Class AB, amfi, 100W | electronic/amplifier-design.md |
-| hardware roadmap, 3 faz | electronic/hardware-roadmap.md |
-| audio organization, 5 bolum | electronic/audio-organization.md |
-| ASIO driver | electronic/asio-driver-design.md |
-| xmos-pcm3168a, devre | electronic/xmos-pcm3168a-design.md |
-| audio interface, PCM3168A devre | electronic/audio-interface-design.md |
-| frequency response, frekans yaniti | electronic/frequency-response.md |
-| SNR, THD, THD+N, olcum | electronic/snr-thd-measurement.md |
-| test protokolu, hardware test | electronic/test-protocols.md |
-| termal analiz, is sicaklik | electronic/thermal-analysis.md |
+| AK4458, DAC opsiyonel | electronic/hardware/audio-interface.md *(Faz 1: electronic/ kök tasarım dosyaları kaldırıldı — gerçek konumlar alt klasörlerde)* |
+| Class AB, amfi, 100W | electronic/amplifier/ *(kök `amplifier-design.md` kaldırıldı — arşiv)* |
+| hardware roadmap, 3 faz | **DOĞRULAMA GEREKLİ** — `electronic/hardware-roadmap.md` vault'ta yok |
+| audio organization, 5 bolum | **DOĞRULAMA GEREKLİ** — `electronic/audio-organization.md` vault'ta yok |
+| ASIO driver | **DOĞRULAMA GEREKLİ** — `electronic/asio-driver-design.md` vault'ta yok; yakın karşılık `electronic/drivers/` |
+| xmos-pcm3168a, devre | **DOĞRULAMA GEREKLİ** — `electronic/xmos-pcm3168a-design.md` vault'ta yok; yakın karşılık `electronic/hardware/audio-interface.md` |
+| audio interface, PCM3168A devre | electronic/hardware/audio-interface.md |
+| frequency response, frekans yaniti | electronic/hardware/frequency-response.md |
+| SNR, THD, THD+N, olcum | electronic/hardware/snr-thd-measurement.md |
+| test protokolu, hardware test | **DOĞRULAMA GEREKLİ** — `electronic/test-protocols.md` vault'ta yok |
+| termal analiz, is sicaklik | **DOĞRULAMA GEREKLİ** — `electronic/thermal-analysis.md` vault'ta yok; yakın karşılık `electronic/amplifier/thermal.md` |
 | DSP pipeline, equalizer, crossover | electronic/dsp/index.md |
 | driver framework, USB, BT, WiFi | electronic/drivers/index.md |
 | amplifier architecture, power supply | electronic/amplifier/index.md |
@@ -504,7 +504,7 @@ Istenen Bilgi -> Ilk Kontrol:
 |-- Veritabani -> ADR-040 + architecture/05-data/database_master.md + .sql/
 |-- Ses/Donanim -> ADR-017/038 + electronic/ + projects/NevaEngine/
 |-- Panel/Servis -> subdomains/ + architecture/06-audio/
-|-- Test -> testing/strategy.md + testing/coverage-targets.md
+|-- Test -> ui-design/03-accessibility-gaps.md + reports/ (`.ai/testing/` dizini yok — Faz 1 notu)
 |-- Vault -> index.md -> keys.md (bu dosya)
 ```
 
@@ -559,21 +559,21 @@ P3: testing/*, ui-design/*, personas/*
 | Frontend | architecture/l3-presentation/ -> ADR-001 |
 | Backend | architecture/l2-routing/ -> ADR-002 |
 | Audio/Donanim | electronic/ -> ADR-017/038 |
-| Test | testing/strategy.md -> testing/coverage-targets.md |
+| Test | ui-design/03-accessibility-gaps.md -> reports/ (testing/ dizini yok — Faz 1 notu) |
 | Vault yapisi | index.md -> bu dosya (keys.md) |
 | Agent yetkileri | AGENTS.md -> .agents/ |
 | Servisler | ecosystem/7-service-integration.md |
 | Deploy | architecture/02-deployment/ |
-| Tema | ADR-044 -> [[brain#22-prompt-arsivi]] (prompt0-genel içinde tema kuralları) |
+| Tema | ADR-044 -> [[brain.md]] §22 (prompt arşivi — tema kuralları) |
 
 ### Section 3B: Prompt Archive Keywords
 
 | Keywords | Dosya |
 |----------|-------|
-| prompt0, genel ana prompt, tüm sistem kuralları, 11 alt domain, 10 panel, 20 analiz görevi | archives/prompt0-genel-ana-prompt-2026-08-13 |
-| prompt1, spa router, enterprise router, history api, SOLID, PSR, attribute-based | archives/prompt1-spa-router-2026-08-13 |
-| prompt2, auth, merkezi auth, jwt, session, cors, rbac, middleware pipeline | archives/prompt2-auth-2026-08-13 |
-| prompt3, api-first, gateway, cqrs, event driven, 14 servis, coremusic-shared | archives/prompt3-api-2026-08-13 |
+| prompt0, genel ana prompt, tüm sistem kuralları, 11 alt domain, 10 panel, 20 analiz görevi | archives/prompt0-genel-ana-prompt-2026-09-01 |
+| prompt1, spa router, enterprise router, history api, SOLID, PSR, attribute-based | archives/prompt1-spa-router-2026-09-01 |
+| prompt2, auth, merkezi auth, jwt, session, cors, rbac, middleware pipeline | archives/prompt2-auth-2026-09-01 |
+| prompt3, api-first, gateway, cqrs, event driven, 14 servis, coremusic-shared | archives/prompt3-api-2026-09-01 |
 
 ---
 
@@ -608,10 +608,10 @@ P3: testing/*, ui-design/*, personas/*
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 27.0.0 |
+| Version | 28.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
-| ADR Coverage | 001-087 (87 ADR keyword mapping) |
-| Vault Envanteri | 484+ .md dosyasi, 87 ADR, 18 BCNF DB, 10 panel, 7 servis, shared/ hybrid yapı |
+| ADR Coverage | 001-088 (79 karar: 37 Frozen + 30 Active + 12 Rejected) |
+| Vault Envanteri | 787 .md dosyasi, 79 ADR, 18 BCNF DB, hedef 10 panel / 7 servis (fiziksel: 4 domain + assets), shared/ hybrid yapı — Faz 0 sayımı 2026-09-08 |
 
 ---
 

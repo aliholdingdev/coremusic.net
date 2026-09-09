@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-007: Cache Namespace Standard"
 status: frozen
 date: 2026-02-15

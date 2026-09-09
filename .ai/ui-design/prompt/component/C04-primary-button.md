@@ -7,7 +7,11 @@ bem_class: ".btn-primary"
 itcss_layer: "04_Components"
 target_file: "css/04_Components/_btn-primary.css"
 version: 1.0.0
+date: 2026-09-08
+updated: 2026-09-08
 status: active
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 author: "UI Designer Agent"
 ---
 
@@ -172,3 +176,10 @@ author: "UI Designer Agent"
 - `aria-busy="true"` loading state'de zorunlu
 - Disabled state'de `aria-disabled="true"` eklenmelidir
 - High contrast mode'da border eklenmelidir
+
+---
+
+*C04 Primary Button v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

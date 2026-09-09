@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.opencode\skills\ui-analyzer Baglam"
 type: context
 folder: "C:\www\coremusic.net\.opencode\skills\ui-analyzer"

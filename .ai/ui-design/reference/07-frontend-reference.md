@@ -2,11 +2,12 @@
 title: "Frontend Reference"
 type: reference
 category: frontend-architecture
-updated: 2026-08-11
+date: 2026-08-11
+updated: 2026-09-08
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+governance: Red Team * Human Mode * Truth Mode
 ---
 
 # Frontend Reference

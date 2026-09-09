@@ -1,9 +1,9 @@
 ---
-title: "CoreMusic — Home Screen Mockups"
+title: "CoreMusic - Home Screen Mockups"
 type: reference
 category: ui-design/mockups
 date: 2026-08-19
-updated: 2026-08-19
+updated: 2026-09-08
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)

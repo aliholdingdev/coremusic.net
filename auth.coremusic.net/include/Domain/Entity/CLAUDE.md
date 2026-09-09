@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\auth.coremusic.net\include\Domain\Entity Baglam"
 type: context
 folder: "C:\www\coremusic.net\auth.coremusic.net\include\Domain\Entity"

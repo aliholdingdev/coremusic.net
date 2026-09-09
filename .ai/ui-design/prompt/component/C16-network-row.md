@@ -7,7 +7,11 @@ bem_class: ".network-row"
 itcss_layer: "04_Components"
 target_file: "css/04_Components/_network-row.css"
 version: 1.0.0
+date: 2026-09-08
+updated: 2026-09-08
 status: active
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 author: "UI Designer Agent"
 ---
 
@@ -241,3 +245,10 @@ author: "UI Designer Agent"
 - Bağlı durumda `is-connected` class'ı ile vurgulanır
 - Lock icon, şifreli ağlar için gösterilir
 - Connect button, bağlı olmayan ağlar için görünür
+
+---
+
+*C16 Network Row v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

@@ -7,7 +7,11 @@ bem_class: ".star-rating"
 itcss_layer: "04_Components"
 target_file: "css/04_Components/_star-rating.css"
 version: 1.0.0
+date: 2026-09-08
+updated: 2026-09-08
 status: active
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 author: "UI Designer Agent"
 ---
 
@@ -168,3 +172,10 @@ author: "UI Designer Agent"
 - Keyboard: Arrow keys ile 1-5 arası seçim
 - `aria-label="4 yıldız ver"` gibi okunabilir etiket
 - Read-only mode: Sadece gösterim, etkileşim yok
+
+---
+
+*C12 Star Rating v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

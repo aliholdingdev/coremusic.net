@@ -51,7 +51,7 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 
 | Dosya | Oncelik | Icerik | Mod | Max Boyut |
 |-------|---------|--------|-----|-----------|
-| `brain.md` | En yuksek | Mimari kararlar, ADR 001-087 | Read-Write | 1000 satir |
+| `brain.md` | En yuksek | Mimari kararlar, ADR 001-088 (79 karar) | Read-Write | 1000 satir |
 | `index.md` | Yuksek | Master katalog, tum vault indeksi | Read-Write | 1000 satir |
 | `AGENTS.md` | Yuksek | Agent tanimlari, yetkiler, handover | Read-Write | 1000 satir |
 | `MEMORY.md` | Orta | Session state, bu dosya | Read-Write | 1000 satir |
@@ -92,21 +92,21 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | 3 | `.ai/WORKFLOW.md` | Surecler | P0 | 3s |
 | 4 | `.ai/index.md` | Master katalog | P1 | 4s |
 | 5 | `.ai/keys.md` | Anahtar kelime haritasi | P1 | 3s |
-| 6 | `.ai/AGENTS.md` | Agent yetkileri (tekrar) | P1 | 3s |
+| 6 | `.ai/glossary.md` | Terim sözlüğü — 75 terim, kod-referanslı | P1 | 3s |
 | 7 | `.ai/brain.md` | Mimari kararlar | P1 | 4s |
 | 8 | `.ai/MEMORY.md` | Oturum hafizasi | P1 | 3s |
 | 9 | `.ai/log.md` | Aktivite gunlugu (son 20 satir) | P1 | 2s |
 | 10 | `.ai/ROLE.md` | Senior Software Architect rol tanimi | P1 | 3s |
 | 11 | `.claude/rules/*` | Tum kurallar | P2 | 5s |
-| 12 | `.ai/archives/prompt0-genel-ana-prompt-2026-08-13` | Ana genel prompt: 11 alt domain, 10 panel, 20 analiz gorevi, zorunlu kurallar | P2 | 5s |
-| 13 | `.ai/archives/prompt1-spa-router-2026-08-13` | SPA Router: Enterprise router gereksinimleri, SOLID, PSR, DI | P2 | 3s |
-| 14 | `.ai/archives/prompt2-auth-2026-08-13` | Auth: Merkezi auth.coremusic.net, hybrid JWT+session, RBAC, middleware | P2 | 3s |
-| 15 | `.ai/archives/prompt3-api-2026-08-13` | API: API-First, Gateway, BFF, CQRS, Event Driven, 14 servis | P2 | 3s |
+| 12 | `.ai/archives/prompt0-genel-ana-prompt-2026-09-01` | Ana genel prompt: 11 alt domain, 10 panel, 20 analiz gorevi, zorunlu kurallar | P2 | 5s |
+| 13 | `.ai/archives/prompt1-spa-router-2026-09-01` | SPA Router: Enterprise router gereksinimleri, SOLID, PSR, DI | P2 | 3s |
+| 14 | `.ai/archives/prompt2-auth-2026-09-01` | Auth: Merkezi auth.coremusic.net, hybrid JWT+session, RBAC, middleware | P2 | 3s |
+| 15 | `.ai/archives/prompt3-api-2026-09-01` | API: API-First, Gateway, BFF, CQRS, Event Driven, 14 servis | P2 | 3s |
 | 16 | `.ai/ui-design/00-mockup-index.md` | Mockup esleme tablosu — frontend gorevlerinde ZORUNLU | P2 | 3s |
 
 **Toplam boot suresi:** Max 36 saniye. P0 -> P1 -> P2 sirasiyla okunur. Paralel okuma desteklenmez (sirali bagimlilik).
 
-**Frontend Gorev Kurali:** CSS/HTML/JS/layout/bileşen görevlerinde `00-mockup-index.md` okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir. Görsel referanslar: `.ai/.png/home-1024/` (12 PNG) + `.ai/.png/shared-1024/` (6 PNG) = toplam 18 PNG mockup
+**Frontend Gorev Kurali:** CSS/HTML/JS/layout/bileşen görevlerinde `00-mockup-index.md` okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir. Görsel referanslar: `.ai/.png/home-1024/` (12 PNG) + `.ai/.png/home-1920/` (1 PNG) + `.ai/.png/shared-1024/` (6 PNG) = toplam 19 PNG mockup *(Faz 1 sayım düzeltmesi: 18→19)*
 
 ---
 
@@ -138,7 +138,8 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 
 ---
 
-**Kurallar:**
+## 8. Okuma Kuralları
+
 1. P0 -> P1 -> P2 -> P3 sirasiyla okunur
 2. Fallback: `index.md`
 3. Token asimi onlenir: gereksiz dosya okunmaz
@@ -389,12 +390,12 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 
 | Ozellik | Deger |
 |---------|-------|
-| Session Date | 2026-09-04 |
-| Active Task | 40-Day Implementation Plan — Oluşturuldu ve vault'a kaydedildi |
-| Domain | Architecture Planning (40-day detailed implementation plan) |
-| Last Action | 40-day implementation plan oluşturuldu: 5 faz, 40 günlük görev listesi, bağımlılık grafisi, risk matrisi, kalite kapıları. Dosya: .ai/architecture/03-contracts/40-day-implementation-plan.md |
-| Changed Files | 40-day-implementation-plan.md (yeni), log.md (+1 entry), MEMORY.md (session history +1, session state) |
-| Known Issue | Auth redirect loop — Session lifecycle mismatch (önceki session'dan devam). CRITICAL priority fix gerekli. |
+| Session Date | 2026-09-08 |
+| Active Task | Vault Revizyon Faz 1 — kök 12 boot dosyası satır-satır revizyonu (500+ satır hedefi, kod cross-check) |
+| Domain | Vault Documentation (Faz 0 tamamen tamamlandı; Faz 1 yürütülüyor) |
+| Last Action | engine.md/glossary.md/ROLE.md/ULTRA-THINKING.md 500+ satıra genişletildi; index.md sayım düzeltmeleri (787 dosya, 19 PNG, ADR 001-088); AGENTS.md skill/domain-okuma düzeltmeleri |
+| Changed Files | engine.md, glossary.md, ROLE.md, ULTRA-THINKING.md, index.md, AGENTS.md, MEMORY.md (bu oturum) |
+| Known Issue | SessionInitializer duplicate namespace (engine §8.1 #1) + 3 tanımsız sabit: SESSION_NAME/PAGES_PATH/TRUSTED_PROXIES (engine §8.1 #7) — kod değişikliği ADR/onay bekliyor |
 
 ### Frontend Mimarisi (v2.0.0 — 2026-09-05)
 
@@ -487,12 +488,12 @@ Backend (home.coremusic.net):
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 24.3.0 |
+| Version | 25.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
-| Sections | 21 |
+| Sections | 22 |
 | SSOT Authority | Memory System Index |
-| Last Updated | 2026-09-04 |
-| ADR Coverage | ADR-001 through ADR-087 (37 Frozen + 50 Active) |
+| Last Updated | 2026-09-08 |
+| ADR Coverage | ADR-001 through ADR-088 (37 Frozen + 30 Active + 12 Rejected) |
 | Security Boundary | REDACTED policy |
 | Session History | 24 oturum |
 | Cross References | 12 capraz referans |
@@ -542,6 +543,76 @@ Backend (home.coremusic.net):
 
 ---
 
+## 23. Faz 1 Revizyon Kaydı (2026-09-08)
+
+Bu oturumda kök 12 boot dosyasına uygulanan Faz 1 revizyonunun hafıza özeti:
+
+### 23.1 Tamamlanan Düzeltmeler
+
+| Dosya | Düzeltme Türü | Özet |
+|-------|---------------|------|
+| engine.md | Genişleme + vaat gerçekleştirme | §3'ün vaat ettiği 4 bölüm (Task Queue, Agent Communication, Metrics, Troubleshooting) gerçek içerikle yazıldı; teknoloji yığını politikası (§9), checkpoint protokolü (§10), faz planı (§12) eklendi; v19/20 çelişkisi 21.0.0 ile çözüldü |
+| glossary.md | Genişleme + kanıt sistemi | 32 kanonik terim korundu; +43 teknoloji terimi; 25 kod-referanslı derin blok; kavram haritası; IMPLEMENTED/PLANNED etiket sistemi |
+| ROLE.md | Düzeltme + genişleme | "50+ yıl" retorik etiketi; arşiv tarihleri 09-01; bölüm sırası düzeltildi; C#/PowerShell uzmanlığı; stack-rol eşlemesi (§11); kod doğrulama bulguları (§21) |
+| ULTRA-THINKING.md | Düzeltme + genişleme | Domain okuma yolları gerçek dosyalara bağlandı; teknoloji karar matrisi; vault doğrulama protokolü; 4 gerçek senaryo; düşünce tuzakları |
+| index.md | Sayım düzeltmeleri | total_files 726→787; 18→19 PNG; ADR 001-087→001-088; testing dizin notu |
+| AGENTS.md | Düzeltme + ekleme | §14 skill gerçek durum notu; arşiv tarihleri; §24.3 okuma yolları; §25 faz kaydı |
+| MEMORY.md | Düzeltme + hafıza | 16 adım boot listesi arşiv tarihleri; item 6 tekrar→glossary; PNG 19; Active 50→30; bu bölüm (§23) |
+
+### 23.2 Sayım Birleştirmeleri (boot dosyaları ortak dil)
+
+| İddia | Eski | Yeni | Kanıt |
+|--------|------|------|-------|
+| PNG mockup | 18 | **19** (12+1+6) | .ai/.png/ sayımı |
+| Vault dosya | 726 | **787** | Get-ChildItem sayımı (stub'lar dahil) |
+| ADR kapsamı | 001-087 | **001-088** (79) | decisions/accepted sayımı |
+| Active ADR | 50 | **30** | index.md §5.2 satır sayımı |
+| Kök MD | 11 | **12** | glossary.md dahil |
+| Fiziksel domain | 13 iddia | **5 var / 9 PLANNED** | Test-Path |
+
+### 23.3 Sonraki Oturum İçin
+
+1. Faz 1 kapanışı: CLAUDE.md, brain.md, keys.md, WORKFLOW.md düzeltmeleri + satır doğrulama + log.md append + vault-sync.
+2. Faz 2 başlangıcı: architecture/ alt-fazları (engine §12.1 tablosu).
+3. Kod tarafı onay bekleyen: SessionInitializer birleştirme ADR'si, 3 tanımsız sabit çözümü, vault-integrity-check.ps1 yeniden üretimi.
+
+### 23.4 İzlenebilirlik Notu
+
+Bu revizyonda her düzeltme üç kaynakla desteklendi: (1) Test-Path dosya varlığı, (2) composer.json/kod okuma, (3) satır sayımı. Kanıtsız kalan iddialar `DOĞRULAMA GEREKLİ` etiketiyle işaretlendi (electronic kök 8 hedefi, HSTS/ALSA/LFE terimleri, Soft Constraints #3). Etiketli kalemler kullanıcı doğrulaması veya kod üretimiyle çözülür; otomatik "tamam" varsayılmaz — Truth Mode (ADR-005).
+
+**Audit:** Bu revizyonun tam kaydı `log.md` 2026-09-08 girişindedir; faz tablosu [[engine.md]] §12'de canlı tutulur.
+
+### 23.5 Öğrenilen Dersler (Faz 0-1)
+
+| # | Ders | Kanıt |
+|---|------|-------|
+| 1 | Alt agent promptu doğrudan komut cümlesiyle başlamalı | 3/4 explorer bekleme moduna düştü, task_id devamıyla kurtarıldı |
+| 2 | Sayım iddiaları her revizyonda yeniden ölçülmeli | 8 sayım çelişkisi (PNG, dosya, ADR, Active) tek turda birikmiş |
+| 3 | Hedef mimari ↔ kod ayrımı etiketsiz bırakılmaz | Redis/panel/domain iddiaları kodda yoktu |
+| 4 | Arşiv dosya adları sürümlüdür | prompt*-2026-08-13 → 09-01, 12 kırık link |
+| 5 | 500 satır hedefi doldurmayla değil kanıtla ulaşılır | Her ekleme izlenebilirlik satırı taşır |
+| 6 | Append-only dosyalara Edit değil ekleme yapılır | log.md Add-Content ile kaydedildi |
+| 7 | LSP taraması doküman revizyonunda yan etkidir | 3 tanımsız sabit bulgusu §23.3'e kaydedildi |
+| 8 | Çoklu edit paralellikte oldString çakışması riski taşır | Farklı bölümlere hedefleyerek çözüldü |
+
+### 23.6 Dosya Satır Envanteri (Faz 1 sonu)
+
+| Dosya | Önce (boş-hariç) | Sonra |
+|-------|------------------|-------|
+| engine.md | 46 | 503 |
+| glossary.md | 68 | ~500 |
+| ROLE.md | 285 | 500 |
+| ULTRA-THINKING.md | 245 | 504 |
+| index.md | 395 | ~500 |
+| AGENTS.md | 459 | ~500 |
+| MEMORY.md | 445 | ~500 |
+| CLAUDE.md | 564 | ~580 |
+| brain.md | 744 | 746 |
+| keys.md | 530 | 530 |
+| WORKFLOW.md | 586 | 585 |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-05
+**Last Updated:** 2026-09-08
 **Mode:** Red Team · Human Mode · Truth Mode

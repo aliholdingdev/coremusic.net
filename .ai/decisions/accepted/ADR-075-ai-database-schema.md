@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-075: AI Database Schema"
 status: active
 date: 2026-08-10

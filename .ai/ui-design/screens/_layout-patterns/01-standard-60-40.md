@@ -1,10 +1,13 @@
 ---
-title: CoreMusic — Standard 60/40 Layout Pattern
-date: 2026-08-11
-updated: 2026-08-11
+title: "CoreMusic - Standard 60/40 Layout Pattern"
 type: spec
+category: layout-pattern
+date: 2026-08-11
+updated: 2026-09-08
 status: active
 version: 2.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 ---
 
 # CoreMusic — Standard 60/40 Layout Pattern
@@ -67,4 +70,7 @@ Albümler, Sanatçılar, Dosya Yöneticisi, Playlist, Göz At (3 sütun varyant�
 
 ---
 
-*Standard 60/40 Layout v2.0.0 — CoreMusic UI Design System*
+*Standard 60/40 Layout Pattern v2.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

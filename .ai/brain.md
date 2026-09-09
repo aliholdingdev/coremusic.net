@@ -386,7 +386,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | ADR-036 | Çoklu proje prompt üretimi |
 | ADR-037 | Kablosuz ağ entegrasyonu |
 
-### 13.2 Active (038-087)
+### 13.2 Active (038-088)
 
 | ADR | Konu |
 |-----|------|
@@ -418,6 +418,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | ADR-085 | Shared Library Hybrid (tek shared/ + PSR-4 namespace) |
 | ADR-086 | Event Driven Architecture (PSR-14) |
 | ADR-087 | Master Implementation Plan (Sıfırdan Geliştirme Kapsamı) |
+| ADR-088 | Gender-Based Social OAuth (cinsiyet bazlı sosyal medya bağlantıları) |
 
 ---
 
@@ -466,6 +467,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | 5 | Hardcoded Secret: API key/log'da yasak | Güvenlik ihlali |
 | 6 | csrf_token: Key ismi değişmez (ADR-010) | CSRF bozulması |
 | 7 | Zero Code Before Plan: Plan onayı olmadan kod yok | Mimari bozulma |
+| 8 | Zero Hallucination: Doğrulanamayan bilgi → VERIFICATION REQUIRED (ADR-005) | İçerik silinir |
 | 9 | In-Place Refactoring: Dosya adı/konumu değişmez | Link kırılması |
 | 10 | ORM Yasak: Sadece PDO prepared (ADR-002) | SQL injection |
 | 11 | Framework Yasak: Sadece Vanilla JS (ADR-001) | Bağımlılık artışı |
@@ -499,7 +501,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 ### Responsive CSS Mimarisi Kuralı (Zorunlu — Guardrail #17)
 
 **1024×600 PNG mockup = Design Reference (Kanonik SSOT)**
-- Kanonik İndeks: [[ui-design/00-mockup-index]] (18 PNG: 12 home-1024 + 6 shared-1024)
+- Kanonik İndeks: [[ui-design/00-mockup-index]] (19 PNG: 12 home-1024 + 1 home-1920 + 6 shared-1024 — Faz 1 sayım düzeltmesi)
 - Kanonik Bileşen Envanteri: [[ui-design/01-component-inventory]] (C01–C16 BEM ve piksel standartları)
 - Kanonik ASCII Wireframe Haritası: [[ui-design/screens/00-ascii-art-index]] (Header 60px y:0-60, İçerik 450px y:60-510, Footer 90px y:510-600)
 - 15 Adımlık CSS Uygulama Planı: [[ui-design/02-implementation-plan]]
@@ -875,12 +877,12 @@ L2 (Routing) → L0 (Infrastructure): ❌ YASAK (Controller→Repository direkt)
 | § PHP Middleware | [[ADR-010-csrf-protection-strategy]] | csrf_token |
 | § Cache/Vault | [[ADR-022-database-hardened-security]] | AES-256-GCM |
 | § 18 BCNF DB | [[ADR-040-database-authority]] | 18 DB |
-| § Audio Org | [[electronic/audio-organization]] | 5 bölüm |
-| § Hardware | [[electronic/hardware-roadmap]] | 3 fazlı yol haritası |
+| § Audio Org | **DOĞRULAMA GEREKLİ** — `electronic/audio-organization.md` vault'ta yok (Faz 1) | 5 bölüm |
+| § Hardware | **DOĞRULAMA GEREKLİ** — `electronic/hardware-roadmap.md` vault'ta yok (Faz 1) | 3 fazlı yol haritası |
 | § 22 (Prompt Arsivi) | [[architecture/ai/prompt-engine]] | Prompt üretim motoru |
 | § 22 (Prompt Arsivi) | [[CLAUDE#26-prompt-entegrasyonu]] | Boot protokolünde prompt entegrasyonu |
-| § UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi — 18 PNG |
-| § Mockup PNG'ler | `.ai/.png/home-1024/` (12) + `.ai/.png/shared-1024/` (6) | RPi5 1024×600 mockup'lar |
+| § UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi — 19 PNG |
+| § Mockup PNG'ler | `.ai/.png/home-1024/` (12) + `.ai/.png/home-1920/` (1) + `.ai/.png/shared-1024/` (6) | 19 PNG mockup |
 
 ---
 
@@ -890,10 +892,10 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 
 | Prompt | Amaç | Kullanım | Konum |
 |--------|------|----------|-------|
-| `prompt0-genel-ana-prompt` | Ana genel prompt: 11 alt domain, 10 panel, 20 analiz görevi, zorunlu kurallar | Tüm agentlar, her analiz görevinde | [[archives/prompt0-genel-ana-prompt-2026-08-13]] |
-| `prompt1-spa-router` | SPA Router: Enterprise router, SOLID, PSR, attribute-based, DI, route-cache, subdomain-aware | Backend Architect, UI Designer | [[archives/prompt1-spa-router-2026-08-13]] |
-| `prompt2-auth` | Auth: Merkezi auth.coremusic.net, hybrid JWT+session, RBAC, middleware pipeline, CORS | Security Engineer, Backend Architect | [[archives/prompt2-auth-2026-08-13]] |
-| `prompt3-api` | API: API-First, Gateway, CQRS, Event Driven, 14 servis, coremusic-shared | Backend Architect, DevOps Engineer | [[archives/prompt3-api-2026-08-13]] |
+| `prompt0-genel-ana-prompt` | Ana genel prompt: 11 alt domain, 10 panel, 20 analiz görevi, zorunlu kurallar | Tüm agentlar, her analiz görevinde | [[archives/prompt0-genel-ana-prompt-2026-09-01]] |
+| `prompt1-spa-router` | SPA Router: Enterprise router, SOLID, PSR, attribute-based, DI, route-cache, subdomain-aware | Backend Architect, UI Designer | [[archives/prompt1-spa-router-2026-09-01]] |
+| `prompt2-auth` | Auth: Merkezi auth.coremusic.net, hybrid JWT+session, RBAC, middleware pipeline, CORS | Security Engineer, Backend Architect | [[archives/prompt2-auth-2026-09-01]] |
+| `prompt3-api` | API: API-First, Gateway, CQRS, Event Driven, 14 servis, coremusic-shared | Backend Architect, DevOps Engineer | [[archives/prompt3-api-2026-09-01]] |
 
 ### 22.1 Prompt-Article Eşleşme Tablosu
 
@@ -918,8 +920,8 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 |--------|-------|
 | Version | 23.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
-| ADR Coverage | 001–087 (87 ADR) |
-| Panel Count | 10 |
+| ADR Coverage | 001–088 (79 karar: 37 Frozen + 30 Active + 12 Rejected) |
+| Panel Count | 10 (hedef — fiziksel: auth + home + assets; Faz 0) |
 | Service Count | 7 |
 | DB Count | 18 BCNF |
 | Audio Channels | 8+1 Surround |
@@ -934,5 +936,5 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-13
+**Last Updated:** 2026-09-08
 **Mode:** Red Team · Human Mode · Truth Mode

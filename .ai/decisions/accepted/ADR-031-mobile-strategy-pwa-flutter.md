@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-031: Mobile Strategy PWA/Flutter"
 status: frozen
 date: 2026-06-05

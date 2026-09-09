@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.opencode\skills\red-team-truth-mode Baglam"
 type: context
 folder: "C:\www\coremusic.net\.opencode\skills\red-team-truth-mode"

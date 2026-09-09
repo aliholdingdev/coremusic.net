@@ -1,9 +1,9 @@
 ---
-title: "CoreMusic — Home Screen Mockups (1920 Desktop)"
+title: "CoreMusic - Home Screen Mockups (1920 Desktop)"
 type: reference
 category: ui-design/mockups
 date: 2026-09-04
-updated: 2026-09-06
+updated: 2026-09-08
 status: active
 version: 2.1.0
 authority: Single Source of Truth (SSOT)

@@ -7,7 +7,11 @@ bem_class: ".nav-link"
 itcss_layer: "03_Layout"
 target_file: "css/03_Layout/_nav-link.css"
 version: 1.0.0
+date: 2026-09-08
+updated: 2026-09-08
 status: active
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 author: "UI Designer Agent"
 ---
 
@@ -126,3 +130,10 @@ author: "UI Designer Agent"
 - Hit area, `padding` ile 48px'e genişletilmelidir
 - Focus-visible, keyboard navigasyonu için zorunludur
 - `aria-current="page"` attribute'u aktif link'e eklenmelidir
+
+---
+
+*C01 Navigation Link v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

@@ -1,6 +1,13 @@
 ---
-title: "Desktop Home — Quick Reference"
+title: "Desktop Home - Quick Reference"
 type: ascii-qr
+category: ascii-qr
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 screen_id: "S06"
 resolution: "1920x1080"
 layout_pattern: "Top-Band Home"
@@ -103,3 +110,10 @@ full_spec: "B-home/dashboard-1920.md"
 .home-1920__chips { display: flex; gap: 12px; overflow-x: auto; padding: 0 55px; }
 .home-1920__chip  { width: 170px; height: 55px; flex-shrink: 0; background: rgba(255,255,255,0.08); backdrop-filter: blur(12px); border-radius: 8px; }
 ```
+
+---
+
+*QR Home 1920 v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

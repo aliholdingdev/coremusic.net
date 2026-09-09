@@ -1,34 +1,34 @@
-/**
- * CoreMusic — 4K UHD Ölçek Katmanı (Tek SSOT — d-4k-tv.css + d-4k-monitor.css birleşimi)
+﻿/**
+ * CoreMusic â€” 4K UHD Ã–lÃ§ek KatmanÄ± (Tek SSOT â€” d-4k-tv.css + d-4k-monitor.css birleÅŸimi)
  * ITCSS Layer: 08_Devices
- * Version: 3.0.0 — 2026-09-06
+ * Version: 3.0.0 â€” 2026-09-06
  *
- * MİMARİ SÖZLEŞME (ScaleManager.js v7 ile):
- *   ScaleManager ≥2561px'te skip:true → transform'ları sıfırlar, ölçeği CSS'e devreder.
- *   Bu dosya ≥3840px'te 1920px tabanlı normal görünümü KORUR ve ölçeği zoom ile sağlar.
+ * MÄ°MARÄ° SÃ–ZLEÅME (ScaleManager.js v7 ile):
+ *   ScaleManager â‰¥2561px'te skip:true â†’ transform'larÄ± sÄ±fÄ±rlar, Ã¶lÃ§eÄŸi CSS'e devreder.
+ *   Bu dosya â‰¥3840px'te 1920px tabanlÄ± normal gÃ¶rÃ¼nÃ¼mÃ¼ KORUR ve Ã¶lÃ§eÄŸi zoom ile saÄŸlar.
  *
- * Kullanıcı kuralları:
- *   - 1920px normal görünüm korunur; 4K uyumluluk scale ile sağlanır.
- *   - Container için ortalama (average/centering) değeri YOK — top-left sabit ölçek.
- *   - min-width: 3840px altında 4K UHD'ye özel kurallar.
+ * KullanÄ±cÄ± kurallarÄ±:
+ *   - 1920px normal gÃ¶rÃ¼nÃ¼m korunur; 4K uyumluluk scale ile saÄŸlanÄ±r.
+ *   - Container iÃ§in ortalama (average/centering) deÄŸeri YOK â€” top-left sabit Ã¶lÃ§ek.
+ *   - min-width: 3840px altÄ±nda 4K UHD'ye Ã¶zel kurallar.
  *
- * Ölçek Kademeleri (Adım Değerleri: 1, 2, 3):
- *   Kademe 1: <3840px  → ×1 (native; 1025-2560 ScaleManager enterpolasyonu)
- *   Kademe 2: ≥3840px  → ×2 (4K UHD: 1920 × 2 = 3840)
- *   Kademe 3: ≥7680px  → ×3 (8K UHD: 1920 × 3 = 5760; kalan sağ boşluk bilinçli — ortalama yok)
+ * Ã–lÃ§ek Kademeleri (AdÄ±m DeÄŸerleri: 1, 2, 3):
+ *   Kademe 1: <3840px  â†’ Ã—1 (native; 1025-2560 ScaleManager enterpolasyonu)
+ *   Kademe 2: â‰¥3840px  â†’ Ã—2 (4K UHD: 1920 Ã— 2 = 3840)
+ *   Kademe 3: â‰¥7680px  â†’ Ã—3 (8K UHD: 1920 Ã— 3 = 5760; kalan saÄŸ boÅŸluk bilinÃ§li â€” ortalama yok)
  *
- * Tampon (Buffer) Değerleri: 1, 2, 3 → --cm-buffer-1/2/3
- * Kontrast/Ölçek Oranı: 1.2 → --cm-scale-ratio (modüler tipografi referansı)
+ * Tampon (Buffer) DeÄŸerleri: 1, 2, 3 â†’ --cm-buffer-1/2/3
+ * Kontrast/Ã–lÃ§ek OranÄ±: 1.2 â†’ --cm-scale-ratio (modÃ¼ler tipografi referansÄ±)
  *
- * WCAG 2.2 AA: 3px odak konturu (1.4.11 non-text contrast, currentColor ≥3:1);
- *              hover/active durumları bozulmaz, yalnızca ölçeklenir.
+ * WCAG 2.2 AA: 3px odak konturu (1.4.11 non-text contrast, currentColor â‰¥3:1);
+ *              hover/active durumlarÄ± bozulmaz, yalnÄ±zca Ã¶lÃ§eklenir.
  *
- * Eski motor fallback: zoom desteklemeyen motorlar (eski Firefox <126) için
- * transform: scale telafisi. Bilinen sınırlama: transform altında fixed çocuklar
- * body kutusuna bağlanır (scroll'da header/footer sabit kalmaz) — yalnız fallback yolu.
+ * Eski motor fallback: zoom desteklemeyen motorlar (eski Firefox <126) iÃ§in
+ * transform: scale telafisi. Bilinen sÄ±nÄ±rlama: transform altÄ±nda fixed Ã§ocuklar
+ * body kutusuna baÄŸlanÄ±r (scroll'da header/footer sabit kalmaz) â€” yalnÄ±z fallback yolu.
  *
- * Sözleşme zinciri: device-loader.js → devices.config.js / DeviceCssMap.php → d-4k.css
- * ('4k-tv' ve '4k-monitor' anahtarları TEK bu dosyaya işaret eder.)
+ * SÃ¶zleÅŸme zinciri: device-loader.js â†’ devices.config.js / DeviceCssMap.php â†’ d-4k.css
+ * ('4k-tv' ve '4k-monitor' anahtarlarÄ± TEK bu dosyaya iÅŸaret eder.)
  */
 
 @import '../01_Abstracts/a-theme-config.css';
@@ -41,12 +41,13 @@
 @import '../02_Base/b-base-core.css';
 @import '../03_Layout/_header.css';
 @import '../03_Layout/_footer.css';
+@import '../06_Utilities/u-helpers-utility.css';   /* .is-hidden — footer pause/play ikonu */
 @import '../04_Components/c-footer-seek.css';
 @import '../04_Components/c-footer-volume.css';
 @import '../05_Pages/_home.css';
 
 /* ============================================================
-   ÖLÇEK TOKEN'LARI
+   Ã–LÃ‡EK TOKEN'LARI
    ============================================================ */
 :root {
   --cm-buffer-1: 1px;
@@ -60,15 +61,15 @@
 }
 
 /* ============================================================
-   KADEME 2 — 4K UHD (≥3840px): ×2
-   zoom, layout'u da ölçekler (scroll, fixed konum ve medya sorguları stabil kalır)
+   KADEME 2 â€” 4K UHD (â‰¥3840px): Ã—2
+   zoom, layout'u da Ã¶lÃ§ekler (scroll, fixed konum ve medya sorgularÄ± stabil kalÄ±r)
    ============================================================ */
 @media (min-width: 3840px) {
   body {
     zoom: var(--cm-scale-step-2);
   }
 
-  /* Fixed positioning — zoom altında header/footer yüksekliklerini ayarla */
+  /* Fixed positioning â€” zoom altÄ±nda header/footer yÃ¼ksekliklerini ayarla */
   .site-header {
     height: var(--header-h, 80px);
   }
@@ -78,15 +79,15 @@
     min-height: var(--footer-h, 120px);
   }
 
-  /* Content constraint — zoom altında max-width korunması */
+  /* Content constraint â€” zoom altÄ±nda max-width korunmasÄ± */
   .home-layout,
   .standard-60-40,
   .three-column-layout {
-    max-width: var(--content-max-w, 1920px); /* zoom:2 ile 3840px görsel — fallback 1920px */
+    max-width: var(--content-max-w, 1920px); /* zoom:2 ile 3840px gÃ¶rsel â€” fallback 1920px */
     margin-inline: auto;
   }
 
-  /* Scroll stabilitesi — zoom altında yumuşak scroll */
+  /* Scroll stabilitesi â€” zoom altÄ±nda yumuÅŸak scroll */
   .home-layout,
   .standard-60-40,
   .three-column-layout {
@@ -96,7 +97,7 @@
 }
 
 /* ============================================================
-   KADEME 3 — 8K UHD (≥7680px): ×3
+   KADEME 3 â€” 8K UHD (â‰¥7680px): Ã—3
    ============================================================ */
 @media (min-width: 7680px) {
   body {
@@ -105,10 +106,10 @@
 }
 
 /* ============================================================
-   FALLBACK — zoom desteklemeyen eski motorlar (Firefox <126, eski Safari)
-   transform: scale ile telafisi. Bilinen sınırlama:
-   transform altında fixed çocuklar body kutusuna bağlanır
-   (scroll'da header/footer sabit kalmaz) — yalnız fallback yolu.
+   FALLBACK â€” zoom desteklemeyen eski motorlar (Firefox <126, eski Safari)
+   transform: scale ile telafisi. Bilinen sÄ±nÄ±rlama:
+   transform altÄ±nda fixed Ã§ocuklar body kutusuna baÄŸlanÄ±r
+   (scroll'da header/footer sabit kalmaz) â€” yalnÄ±z fallback yolu.
    ============================================================ */
 @supports not (zoom: 1) {
   @media (min-width: 3840px) {
@@ -122,7 +123,7 @@
       transform-origin: top left;
     }
 
-    /* Fallback'te fixed positioning sorunlarını telafi et */
+    /* Fallback'te fixed positioning sorunlarÄ±nÄ± telafi et */
     .site-header {
       position: absolute;
       width: var(--cm-4k-base-width);
@@ -152,8 +153,8 @@
 }
 
 /* ============================================================
-   WCAG 2.2 — Odak görünürlüğü (3px kontur) — 4K kapsam
-   1.4.11 non-text contrast: currentColor ≥3:1
+   WCAG 2.2 â€” Odak gÃ¶rÃ¼nÃ¼rlÃ¼ÄŸÃ¼ (3px kontur) â€” 4K kapsam
+   1.4.11 non-text contrast: currentColor â‰¥3:1
    ============================================================ */
 @media (min-width: 3840px) {
   a:focus-visible,
@@ -166,7 +167,7 @@
     outline-offset: var(--cm-buffer-2);
   }
 
-  /* Hover/active durumları — 4K'da da görünür, bozulmaz */
+  /* Hover/active durumlarÄ± â€” 4K'da da gÃ¶rÃ¼nÃ¼r, bozulmaz */
   .nav-link:hover {
     opacity: 0.85;
   }

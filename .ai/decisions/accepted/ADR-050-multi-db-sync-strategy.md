@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-050: Multi-DB Sync Strategy"
 status: active
 date: 2026-08-08

@@ -23,6 +23,8 @@
  * Version: 2.3.0 — 2026-09-08 (Volume geometrisi 04_Components/c-footer-volume.css v2.1.0'a
  *            taşındı — referans proje yapısı: 180×10 container, absolute input+fill, 10×10
  *            KARE thumb; ID seçici > class, çift tanım çakışması giderildi)
+ * Version: 2.3.1 — 2026-09-08 (≤1024 butonlar 48/52px — PNG birebir; ScaleManager skip
+ *            sonrası transform küçülmesi kalktı, seekbar hit alanı 16px tam çalışır)
  */
 
 /* ============================================================
@@ -378,6 +380,7 @@
     min-width: 36px;
     text-align: right;
     white-space: nowrap;
+    text-shadow: var(--ts-xs);
 }
 
 /* Volume Group (KAİ: .volume-set-slider — icon + track + value) */
@@ -404,17 +407,17 @@
         font-size: 11px;
     }
 
-    /* Touch target: 50–58px (vault spec) — .c-desk-btn base'ini (dosya sonu) ezmesi için
-       (0,2,0) specificity */
+    /* PNG home-1024: daireler ~44-50px — WCAG 2.5.8 min 48px touch target ile uyumlu.
+       Not: ScaleManager ≤1024'te artık skip — butonlar transform ile küçülmez (birebir PNG). */
     .footer .player-btn {
-        width: 54px;
-        height: 54px;
+        width: 48px;
+        height: 48px;
         border-width: 2.5px;
     }
 
     .footer .player-btn--play {
-        width: 58px;
-        height: 58px;
+        width: 52px;
+        height: 52px;
     }
 
     /* PNG home-1024: kapak footer yüksekliğiyle (~88px) birebir */

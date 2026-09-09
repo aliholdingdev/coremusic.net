@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\auth.coremusic.net\tests\Unit\Domain\ValueObject Baglam"
 type: context
 folder: "C:\www\coremusic.net\auth.coremusic.net\tests\Unit\Domain\ValueObject"

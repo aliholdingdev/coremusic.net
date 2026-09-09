@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\assets.coremusic.net\Css\03_Layout Baglam"
 type: context
 folder: "C:\www\coremusic.net\assets.coremusic.net\Css\03_Layout"

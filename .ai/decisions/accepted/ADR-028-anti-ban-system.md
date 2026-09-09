@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-028: Anti-Ban System"
 status: frozen
 date: 2026-05-25

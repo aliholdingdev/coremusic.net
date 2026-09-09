@@ -1,6 +1,13 @@
 ---
-title: "Video Playback — Quick Reference"
+title: "Video Playback - Quick Reference"
 type: ascii-qr
+category: ascii-qr
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 screen_id: "S08"
 resolution: "1024x600"
 layout_pattern: "Fullscreen"
@@ -122,3 +129,10 @@ full_spec: "D-player/video-playback.md"
   border-radius: 12px;
 }
 ```
+
+---
+
+*QR Video Playback v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

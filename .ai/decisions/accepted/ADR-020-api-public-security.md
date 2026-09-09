@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-020: API Public Security"
 status: frozen
 date: 2026-02-20

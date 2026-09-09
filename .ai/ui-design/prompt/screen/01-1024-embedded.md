@@ -1,15 +1,18 @@
 ---
-title: "1024×600 Embedded (RPi5 7” Touch)"
+title: "1024x600 Embedded (RPi5 7\" Touch)"
+type: screen-prompt
 category: screen-prompt
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 platform: linux-embedded
 resolution: "1024x600"
-device: "Raspberry Pi 5 — 7” dokunmatik LCD"
+device: "Raspberry Pi 5 - 7\" dokunmatik LCD"
 os: "Debian Bookworm / Linux ARM64"
 input: "Dokunmatik (kapasitif, 5 nokta)"
-version: 1.0.0
-date: 2026-08-11
-status: active
-authority: Single Source of Truth (SSOT)
 ---
 
 # Prompt: 1024×600 Embedded Screen
@@ -369,6 +372,6 @@ CSS üretilmeden önce bu kontrol listesi doğrulanmalı:
 
 ---
 
-*Screen Prompt v1.0.0 — CoreMusic Embedded Platform*
-*Last Updated: 2026-08-11*
-*Mode: Red Team · Human Mode · Truth Mode*
+*Screen Prompt v1.0.0 - CoreMusic Embedded Platform*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

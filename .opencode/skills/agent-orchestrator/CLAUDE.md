@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.opencode\skills\agent-orchestrator Baglam"
 type: context
 folder: "C:\www\coremusic.net\.opencode\skills\agent-orchestrator"

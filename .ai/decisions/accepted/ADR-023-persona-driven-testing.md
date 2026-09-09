@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-023: Persona-Driven Testing"
 status: frozen
 date: 2026-05-01

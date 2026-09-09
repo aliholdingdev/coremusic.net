@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-086: Event Driven Architecture (PSR-14)"
 status: active
 date: 2026-08-12

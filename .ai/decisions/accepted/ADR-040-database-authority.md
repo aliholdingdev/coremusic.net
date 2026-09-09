@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-040: Database Authority (18 BCNF)"
 status: active
 date: 2026-07-25

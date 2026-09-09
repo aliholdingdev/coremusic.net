@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-042: Vault Restructuring 2026-08-03"
 status: active
 date: 2026-08-03

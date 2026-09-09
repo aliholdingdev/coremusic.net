@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.claude\skills\database-normalize-maker\references Baglam"
 type: context
 folder: "C:\www\coremusic.net\.claude\skills\database-normalize-maker\references"

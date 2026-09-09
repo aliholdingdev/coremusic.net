@@ -1,12 +1,14 @@
 ---
-title: CoreMusic — ASCII Art View Reference (18 PNG, home-1024, Pixel-Exact)
-date: 2026-08-11
-updated: 2026-08-11
+title: "CoreMusic - ASCII Art View Reference (18 PNG, home-1024, Pixel-Exact)"
 type: reference
+category: ascii-art
+date: 2026-08-11
+updated: 2026-09-08
 status: active
 version: 2.0.0
-authority: PNG Visual Analysis (direct pixel inspection — all 18 PNGs)
-platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
+authority: PNG Visual Analysis (direct pixel inspection - all 18 PNGs)
+governance: Red Team * Human Mode * Truth Mode
+platform: Linux Embedded / Raspberry Pi 5 / 1024x600px
 ---
 
 # CoreMusic — ASCII Art View Reference

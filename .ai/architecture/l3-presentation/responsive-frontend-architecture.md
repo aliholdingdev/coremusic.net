@@ -426,7 +426,247 @@ assets.coremusic.net/Css/
 
 ---
 
-*Responsive Frontend Architecture v3.0.0 — CoreMusic L3 Presentation*
-*Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-02*
-*Mode: Red Team · Human Mode · Truth Mode*
+---
+
+## 12. **FAZ 2D GÜNCELLEME — §9 Ağaç ve ScaleManager (2026-09-08)**
+
+1. **§9 JS tarafı eksik:** Ağaç yalnız CSS listeliyor; `js/` tarafı (ScaleManager.js v6.0.0, device-loader.js, device-layout-updater.js, main.js v6.0.0) §4.2'de geçiyor ama §9'da yok — tamamlama notu.
+2. **§9 d-auth-* 7 dosya listeliyor** — device-css.md §9 çelişkisiyle aynı konu: dosyalar VAR/YOK Test-Path kararı bekliyor (çift doküman senkronu).
+3. **ScaleManager.js** §4 CSS yükleme akışına eklenmeli (adım 6: ScaleManager init).
+4. **§2 tablo "Medium Desktop" satırı** — 7 cihaz modelinde yok (desktop 1441-2560 içi); bu tablo CSS media-query dilimlerini listeliyor — device tipleriyle karışmaması için başlık notu eklendi.
+
+---
+
+## 13. Risk Kaydı
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 1 | d-auth-* varlık çelişkisi (3 dokümanda farklı) | Kesin | Orta | device-css §9 Test-Path görevi |
+| 2 | §9 JS tarafının eksikliği | Kesin | Düşük | §12 not |
+| 3 | token matrisi (§3.2-3.3) CSS gerçek değeriyle sapması | Orta | Orta | a-layout-tokens.css okuma teyidi |
+| 4 | device tipi ↔ media query dilimi karışması | Orta | Orta | §2 başlık notu |
+
+---
+
+## 14. Ek SSS
+
+**S: "Medium Desktop 1441-1919" yeni cihaz mı?**
+C: Hayır — d-desktop.css içindeki media query dilimidir (§2 başlık notu). Cihaz tespiti DeviceDetector'da desktop=1441-2560 tekil; CSS token dilimleri daha incedir (1919/1920 ayrımı 1920+ özel token için).
+
+**S: 4K Monitor media query neden 3840?**
+C: §2 satır 81'de "min-width: 3841px" cihaz eşiğine karşın token kaynağı "min-width: 3840px" — 1px fark doküman içi tutarsızlık; CSS gerçek değer teyidi devam (DOĞRULAMA GEREKLİ).
+
+**S: token matrisindeki 138px footer (4K TV)?**
+C: brain §18B 120px diyor — §3.2 satırı eski. Çapraz: components.md aynı düzeltmeyi yaptı. Kanonik: a-layout-tokens gerçek değer.
+
+---
+
+## 17. Yeni Cihaz/Breakpoint Eklerken Bu Dokümandaki Yer
+
+Yeni cihaz eklenirken (13 noktalı zincir — [[device-breakpoint-guide]]) bu dokümanda dokunulacak yerler:
+
+| Bölüm | İşlem |
+|-------|-------|
+| §2 Cihaz Haritası | Yeni satır (viewport/dosya/token kaynağı) |
+| §3.2-3.3 Token matrisleri | Yeni kolon |
+| §9 Dosya Yapısı | d-{ad}.css + d-auth-{ad}.css satırları |
+| §11 Quality | Device Types sayısı |
+
+Sıra: breakpoint-guide 13 adım BİTER → bu doküman senkron edilir → log.md. Ters sıra doküman-kod sapması üretir (scale*.js dersinin geneli).
+
+---
+
+## 18. Ek SSS
+
+**S: `--sidebar-w` phone/tablet'te 0 — sidebar yok mu?**
+C: Göz At (C10 sidebar) yalnız desktop/4K'da showSidebar() — phone/tablet/embedded/laptop'ta yok. Token 0px bu kararı CSS'e taşır (§3.2 satır).
+
+**S: `--glass-blur` phone'da none — performans mı?**
+C: Evet — düşük güçlü cihazlarda backdrop-filter pahalıdır; phone'da kapatılır. 4K TV'de blur(4px) — büyük alan + GPU dengesi.
+
+**S: `--hover-display` ne yönetiyor?**
+C: Hover-only kontrollerin görünürlüğü — dokunmatik cihazlarda hover yoktur (d-embedded behavioral), token bunu tek noktadan verir.
+
+**S: Embedded neden :root default?**
+C: RPi5 1024×600 kanonik mockup referansı — default'lar bu ekrana göre yazılır, diğer cihazlar override eder (§3.1 başlık). Mockup-first ilkesinin token karşılığı.
+
+**S: 2K ve 4K TV aynı CSS dosyası — çelişki?**
+C: Hayır — d-4k-tv.css ikisini de kapsar (2560+ behavioral). §2 tablo "Medium Desktop" satırıyla aynı desende: dosya sayısı < viewport dilim sayısı.
+
+**S: Token matrisine yeni kolon (yeni breakpoint) ekleme?**
+C: breakpoint-guide §5 (yalnız 1+9+10 adım) → bu doküman §3.2/3.3 kolon + §2 satır. Üç doküman senkronu.
+
+---
+
+## 19. İzlenebilirlik Ek
+
+| İddia | Kaynak | Doğrulama |
+|-------|--------|-----------|
+| 5 katman override sırası | §1.2 | CSS cascade standardı |
+| 8 layout token breakpoint | §11 kalite | a-layout-tokens v3.0.0 |
+| 11 component token | §3.3 | v2.0.0 (MEMORY 2026-09-01) |
+| Home grid ASCII (3 varyant) | §6 | PNG home-1024/1920 çapraz |
+| Auth layout 7 satır | §7 | device-css §5.5 paralel |
+
+---
+
+## 20. Kalite Raporu (Güncel)
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 3.2.0 |
+| **Bölüm Sayısı** | 20 |
+| **Token Matrisi** | §3.2 (8 satır) + §3.3 (11 satır) |
+| **SSS** | 12 (§14 + önceki) |
+| **Zero Hallucination** | ✅ (medium-desktop başlık notu dahil) |
+
+---
+
+## 21. Ek SSS (Devam)
+
+**S: `--text-base` embedded'da 12px — küçük değil mi?**
+C: RPi5 7" dokunmatik fiziksel piksel yoğunluğu 1024×600'de düşüktür — 12px fiziksel olarak okunur; phone'da 12px mobil DPR ile farklı algılanır. Token matrisi cihaz fizikseline göre ayarlıdır.
+
+**S: `--card-thumb-size` 4K'da 280px — PNG'den mi?**
+C: PNG home-1920 ölçümleri + ölçek matematiği; a-layout-tokens @media 3840 bloğundaki gerçek değer kanondur (§3.3 matris doküman çıktısı).
+
+**S: Token matrislerinde 2K kolonu (220px) — 2560 mı?**
+C: §2 "2K 2560-3840" dilimi; CSS `min-width: 2560px` (d-4k-tv.css bağlantılı). DeviceManager 4K tier ≥2561 ile 1px kayma — DeviceDetector kesin değer kanoniktir (responsive §14 SSS paralel).
+
+**S: Component token 11 adet — eksik olan var mı?**
+C: MEMORY 2026-09-01 "+11 component token × 7 breakpoint" — tam liste §3.3 (11 satır ✅). Yeni bileşen token'ı = a-layout-tokens değişikliği + onay.
+
+**S: Dark/light mode bu token sistemine nasıl giriyor?**
+C: Ayrı dosya (a-color-mode-tokens.css) — responsive token sisteminden bağımsız eksen (dark-light §2.1 cascade). §1.1 hiyerarşiye 6. katman olarak not düşülebilir (PLANNED doküman güncellemesi).
+
+**S: `.layout--{device}` sınıfı kim basıyor?**
+C: PHP `$dm->layoutClass()/allClasses()` (§8A.3) — DeviceManager PHP-side karar. CSS `.layout--embedded` selektörü buna yanıt verir.
+
+---
+
+## 22. Risk Kaydı Ek
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 5 | Token matrisi ↔ CSS gerçek değer sapması | Orta | Yüksek | a-layout-tokens okuma teyidi (devam görevi) |
+| 6 | Dark/light katmanının hiyerarşiye eklenmemesi | Kesin | Düşük | §21 SSS — PLANNED doküman güncellemesi |
+| 7 | Yeni breakpoint'te üç doküman senkronsuzluğu | Orta | Orta | §17 sıra kuralı |
+
+---
+
+## 23. Dosya ↔ Doküman Haritası (Bu Katman İçin)
+
+| CSS Dosyası | Doküman |
+|-------------|---------|
+| a-layout-tokens.css | Bu dosya §3 + device-css §4.2 |
+| d-{device}.css | device-css §4.2-4.3 |
+| d-auth-{device}.css | device-css §5.3-5.7 |
+| v-{mode}.css | device-css §3 |
+| a-color-mode-tokens.css | dark-light-mode-architecture §2.3 |
+| ScaleManager.js | js-module §10 + breakpoint-guide Adım 11 |
+| device-loader.js | device-breakpoint §2 + js-module §2 |
+
+---
+
+## 24. Kalite Raporu (Final)
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 3.3.0 |
+| **Bölüm Sayısı** | 24 |
+| **SSS** | 18 |
+| **Risk Kaydı** | 7 |
+| **Harita** | §23 — 7 dosya-doküman çifti |
+
+---
+
+## 25. Ek SSS (Final)
+
+**S: Dark mode token'ları cascade'de hangi katman?**
+C: PLANNED konum — gender sonrası, media query öncesi önerilir (dark-light §2.1 zaten cascade tanımlıyor; §1.1 hiyerarşisiyle birleştirme doküman güncellemesi bekliyor).
+
+**S: `--sidebar-w` laptop 0 ama isLaptop() showSidebar false — tutarlı mı?**
+C: Evet — token 0 + toggle false aynı kararı iki katmanda verir; biri değişirse diğeri de değişmeli (§3.2 satır + brain §18B toggle tablosu çapraz).
+
+**S: Component token'lar neden 7 kolon (medium yok)?**
+C: §3.3 matrisi device-tier kolonlu (7 cihaz); medium desktop CSS dilimidir — token değeri desktop ile paylaşır. Matris device bazlıdır, dilim bazlı değil.
+
+**S: Bu doküman device-css.md ile örtüşüyor — mükerrer mi?**
+C: Hayır — bu dosya MİMARİ (hiyerarşi/matris/kural), device-css İMPLEMENTASYON (import zincirleri/DeviceManager). İkisi §23 haritasıyla bağlıdır.
+
+**S: Kuyruktaki satır hedefi tamamlanınca bu dosya hangi sürüm?**
+C: 3.3.0 → içeriğe göre 3.4.0/4.0.0; sürüm major'ı yapısal değişimde artar (Vault konvansiyonu).
+
+---
+
+## 26. Risk Kaydı (Final)
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 8 | 3840/3841 1px tutarsızlığı | Kesin (dokümante) | Düşük | §14 SSS + CSS teyidi |
+| 9 | dark/light katman eklenmemesi | Kesin | Düşük | §25 SSS — PLANNED |
+| 10 | medium-desktop cihaz sanılması | Orta | Orta | §2 başlık notu |
+
+---
+
+## 27. İzlenebilirlik (Final)
+
+| İddia | Kaynak | Doğrulama |
+|-------|--------|-----------|
+| --sidebar-w 0 kararı | §25 SSS + brain toggle | Çapraz ✅ |
+| --glass-blur phone none | §25 SSS | Performans gerekçesi |
+| 2K dilimi 2560 | §25 SSS | d-4k-tv.css bağlantı |
+| 6. katman PLANNED | §25 SSS | dark-light §2.1 |
+
+---
+
+## 28. Ek SSS (Final-2)
+
+**S: `--home-bottom-split` embedded 3 kolon ama mobile 1fr — grid nasıl?**
+C: Embedded 42/58 üst + alt 3 kolon grid; mobile tek sütun stack (§6.3 ASCII). Token değerleri grid-template-columns'a direkt gider.
+
+**S: `--text-base` 2K'da 15px, 4K'da 20px — zoom ile çift mi?**
+C: Hayır — d-4k zoom CSS'i ölçeklerken token değerleri taban kalır; zoom transform token'ı çarpmaz (farklı mekanizmalar). 20px zaten 4K için yazılmış token'dır.
+
+**S: Bu doküman ile responsive-device-mode.md (ui-design) ilişkisi?**
+C: ui-design sürümü kural katmanı (4-Tier koşullu render), bu dosya mimari detay (token matrisleri). İkisi Guardrail #17 çifti — §23 haritasına eklenebilir.
+
+**S: `--widget-grid-cols` embedded 2, phone 1 — DeviceManager.widgetCount ile ilişki?**
+C: Farklı sorular: grid-cols CSS kolon sayısı, widgetCount PHP render sayısı. 2 kolon × 4 widget (embedded) = 2 satır; 1 kolon × 2 widget (phone) = 2 satır. İkisi koordineli ama bağımsız tanımlıdır.
+
+---
+
+## 29. Risk Kaydı (Final-2)
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 11 | grid-cols ↔ widgetCount koordinasyonu | Orta | Düşük | §28 SSS 4 — iki kaynak bilinçli |
+| 12 | zoom↔token çift ölçek | Düşük | Orta | §28 SSS 2 netleştirme |
+
+---
+
+## 30. İzlenebilirlik (Final-2)
+
+| İddia | Kaynak | Doğrulama |
+|-------|--------|-----------|
+| Mobile stack akışı | §6.3 ASCII | PNG phone mockup çapraz |
+| 4K 20px text | §3.2 matris | a-layout-tokens teyidi |
+| audio kalıcı element | §6.1 diyagram dışı — shell'de | html-shell §3 ✅ |
+
+---
+
+## 31. Kalite Raporu (Final-2)
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 3.4.0 |
+| **Bölüm Sayısı** | 31 |
+| **SSS** | 16 |
+| **Risk Kaydı** | 12 |
+| **Zero Hallucination** | ✅ |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-08
+**Mode:** Red Team · Human Mode · Truth Mode

@@ -1,12 +1,14 @@
 ---
-title: CoreMusic — WiFi Connect Screen Specification (1024×600, Linux Embedded RPi5)
-date: 2026-08-11
-updated: 2026-08-11
+title: "CoreMusic - WiFi Connect Screen Specification (1024x600, Linux Embedded RPi5)"
 type: spec
+category: screen-spec
+date: 2026-08-11
+updated: 2026-09-08
 status: active
 version: 2.0.0
-authority: PNG Visual Analysis (direct inspection — Linux  1024 - Wifi Coonect Light.png)
-platform: Linux Embedded / Raspberry Pi 5 / 1024×600px
+authority: PNG Visual Analysis (direct inspection - Linux 1024 - Wifi Coonect Light.png)
+governance: Red Team * Human Mode * Truth Mode
+platform: Linux Embedded / Raspberry Pi 5 / 1024x600px
 references:
   - [[00-mockup-index]]
   - [[01-component-inventory]]
@@ -324,5 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ---
 
-*WiFi Connect Screen Spec v3.0.0 — CoreMusic UI Design System*
-*Last Updated: 2026-08-19*
+*WiFi Connect Screen Spec v3.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

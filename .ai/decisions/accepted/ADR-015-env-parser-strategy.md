@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-015: Env Parser Strategy"
 status: frozen
 date: 2026-03-30

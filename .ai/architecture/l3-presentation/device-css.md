@@ -403,6 +403,81 @@ if ($isAuthRoute) {
 
 ---
 
+---
+
+## 9. **FAZ 2D BULGUSU — d-auth-* Varlık Çelişkisi (2026-09-08)**
+
+§5.3 bu dosya auth device CSS'leri "YENİ oluşturulmalı" der; **itcss-architecture.md §3 ağacı ise d-auth-* 7 dosyayı LİSTELİYOR** (var sayarak). İki doküman çelişiyor — çözüm Test-Path:
+
+```powershell
+Get-ChildItem -LiteralPath "assets.coremusic.net\Css\08_Devices" -Filter "d-auth-*.css" -ErrorAction SilentlyContinue | Select-Object Name
+```
+
+| Senaryo | Sonuç |
+|---------|-------|
+| Dosyalar VAR | itcss doğru; §5.3 "eksik" bölümü IMPLEMENTED'e döner; DeviceCssMap AUTH_DEVICE_CSS zaten kayıtlı (§5.6) |
+| Dosyalar YOK | device-css doğru; itcss §3 ağacı hedef tasarımdır — ağaç nota alınır |
+
+**Not:** §5.7'deki HtmlShellRenderer auth CSS yükleme kodu ve §5.6 DeviceCssMap AUTH_DEVICE_CSS sabiti kod gibi yazılmış — gerçeklik teyidi aynı Test-Path + kod okuma turunda yapılacaktır (guard-pipeline §24 protokolü).
+
+**Ek çelişki:** §5.2 "HtmlShellRenderer currently loads main.css" diyor — **main.css KALDIRILDI** (itcss §14, device-css §4.1 kendi içinde de söylüyor!). §5.2 eski durumu anlatıyor — güncel durum: auth route'larda auth device CSS + auth-bundled.css, main.css yok (§4.4 doğru akış).
+
+---
+
+## 10. D-4K Paylaşım Notu (device-breakpoint bağlantısı)
+
+[[device-breakpoint-guide]] Adım 2 notu: `d-4k.css` ≥7680px zoom ×3 içerir ve yeni üst-tier cihazlar (8K) d-4k.css'i paylaşmalıdır. §2 tablosunda 4K TV/Monitor ayrı dosyalardır (2561-3840 / ≥3841) — 8K genişlemesi bu yapıya eklenir.
+
+---
+
+## 11. Risk Kaydı
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 1 | d-auth-* varlık belirsizliği | Kesin (çelişki) | Orta | §9 Test-Path görevi |
+| 2 | Eski main.css anlatımının karıştırılması | Orta | Düşük | §9 ek çelişki notu |
+| 3 | §5.6-5.7 kod örneklerinin gerçek sanılması | Orta | Orta | Kod okuma teyidi |
+| 4 | DeviceManager toggle matrisi sürüm sapması | Düşük | Orta | brain §18B kanonik |
+
+---
+
+## 12. Ek SSS
+
+**S: §4A.7 nav link listesi brain §18B ile farklı — hangisi?**
+C: brain §18B kanoniktir (embedded 4: Ana Sayfa/Kütüphane/Radyo/Ayarlar). §4A.7 tablosu eski varyanttır — çapraz düzeltme notu; kod (DeviceManager.php NAV_LINKS) tek kanıt.
+
+**S: widgetCount embedded=4, playlist embedded=0 — çelişki yok mu (4A.4 playlist 0)?**
+C: brain §18B içerik tablosu: EMBEDDED widget 4, recentCard 3, playlist 3, upNext 3. §4A.4 "playlistCount 0" farklı! Kanonik: brain §18B (Faz 1-5 refactor ile güncellendi). Bu tablo eski sürüm — düzeltme notu.
+
+**S: d-auth-* dosyaları itcss ağacında neyse burada ne?**
+C: §9 bulgusu — Test-Path karar verecek. İki doküman senkrona alınacak.
+
+**S: DeviceCssMap::authToCssPath gerçek mi?**
+C: §5.7 örneği; DeviceCssMap.php okumasında teyit — AUTH_DEVICE_CSS sabiti kanıtlanırsa IMPLEMENTED.
+
+---
+
+## 13. Kalite Raporu (Güncel)
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 7.0.0 |
+| **Kritik Bulgu** | §9 d-auth-* çelişkisi + main.css anlatım sapması |
+| **Tablo Düzeltme Notu** | §12 — 4A.4/4A.7 brain §18B ile çapraz |
+| **ADR Uyumlu** | ✅ 045 |
+| **Zero Hallucination** | ✅ (çelişkiler gizlenmedi — çözüm görevine bağlandı) |
+
+---
+
+## 14. Revizyon Geçmişi
+
+| Sürüm | Tarih | Değişiklik |
+|-------|-------|------------|
+| 6.0.0 | 2026-09-02 | Auth device CSS + DeviceManager |
+| 7.0.0 | 2026-09-08 | Faz 2d: §9 d-auth-* varlık çelişkisi + main.css anlatım sapması; §10 d-4k paylaşım notu; §11-§14 ekler; §12 brain §18B çapraz düzeltme notları |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-02
+**Last Updated:** 2026-09-08
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -1,12 +1,14 @@
 ---
-title: CoreMusic — Home Page Screen Specification (1920×1080, Linux Desktop)
-date: 2026-09-06
-updated: 2026-09-06
+title: "CoreMusic - Home Page Screen Specification (1920x1080, Linux Desktop)"
 type: spec
+category: screen-spec
+date: 2026-09-06
+updated: 2026-09-08
 status: active
 version: 1.0.0
-authority: PNG Visual Analysis (direct inspection — Linux - 1920 - Home.png)
-platform: Linux Desktop / 1920×1080px
+authority: PNG Visual Analysis (direct inspection - Linux - 1920 - Home.png)
+governance: Red Team * Human Mode * Truth Mode
+platform: Linux Desktop / 1920x1080px
 references:
   - "[[00-mockup-index]]"
   - "[[01-component-inventory]]"
@@ -204,7 +206,7 @@ h:70px. Üst kenarda pembe ilerleme çubuğu h:3px. Sol: 60×60 thumb + şarkı 
 
 ---
 
-*Dashboard 1920 v1.0.0 — CoreMusic UI Design System*
+*Dashboard 1920 v1.0.0 - CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-06*
-*Mode: Red Team · Human Mode · Truth Mode*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

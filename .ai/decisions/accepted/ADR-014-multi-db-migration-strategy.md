@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-014: Multi-DB Migration Strategy"
 status: frozen
 date: 2026-03-25

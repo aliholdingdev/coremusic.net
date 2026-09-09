@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-078: CMS Database Schema"
 status: active
 date: 2026-08-10

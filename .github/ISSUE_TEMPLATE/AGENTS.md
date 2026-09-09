@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.github\ISSUE_TEMPLATE Agent Talimatlari"
 type: agent-registry
 folder: "C:\www\coremusic.net\.github\ISSUE_TEMPLATE"

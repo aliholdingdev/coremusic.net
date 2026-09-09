@@ -16,7 +16,8 @@
 @import url("./01_Abstracts/a-colors-token.css?v=2.1.0");
 @import url("./01_Abstracts/a-semantic-token.css?v=2.1.0");
 @import url("./01_Abstracts/a-color-mode-tokens.css?v=1.0.0");
-@import url("./01_Abstracts/a-theme-config.css?v=2.1.0");
+@import url("./01_Abstracts/a-design-tokens.css?v=1.1.0");      /* Master tokens — shadow SSOT */
+@import url("./01_Abstracts/a-theme-config.css?v=2.2.0");
 @import url("./01_Abstracts/a-light-glass-tokens.css?v=2.1.0");
 @import url("./01_Abstracts/a-login-tokens.css?v=2.1.0");
 @import url("./01_Abstracts/a-breakpoint-tokens.css?v=2.1.0");
@@ -37,6 +38,10 @@
 
 @import url("./05_Pages/_home.css?v=2.1.0");             /* pages/home.php */
 @import url("./05_Pages/_player.css?v=1.0.0");            /* pages/player.php */
+@import url("./05_Pages/p-albums.css?v=1.0.0");           /* /albums — C-music spec */
+@import url("./05_Pages/p-album-detail.css?v=1.0.0");     /* /albums/:id — C-music spec */
+@import url("./05_Pages/p-artists.css?v=1.0.0");          /* /artists — C-music spec */
+@import url("./05_Pages/p-playlist.css?v=1.0.0");         /* /playlist — D-player spec */
 
 
 @import url("./06_Utilities/u-helpers-utility.css?v=2.1.0");

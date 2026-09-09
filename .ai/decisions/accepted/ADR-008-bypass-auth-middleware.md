@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-008: Bypass Auth Middleware"
 status: frozen
 date: 2026-02-05

@@ -7,7 +7,11 @@ bem_class: ".header-user"
 itcss_layer: "03_Layout"
 target_file: "css/03_Layout/_header-user.css"
 version: 1.0.0
+date: 2026-09-08
+updated: 2026-09-08
 status: active
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 author: "UI Designer Agent"
 ---
 
@@ -198,3 +202,10 @@ author: "UI Designer Agent"
 - Escape tuşu ile dropdown kapatılmalıdır
 - Click outside ile de kapanmalıdır
 - Avatar yüklenemediğinde fallback initial gösterilmelidir
+
+---
+
+*C03 User Pill v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

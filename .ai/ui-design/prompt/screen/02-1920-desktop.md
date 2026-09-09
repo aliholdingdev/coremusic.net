@@ -1,15 +1,18 @@
 ---
-title: "1920×1080 Desktop (Windows/Linux)"
+title: "1920x1080 Desktop (Windows/Linux)"
+type: screen-prompt
 category: screen-prompt
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 platform: desktop
 resolution: "1920x1080"
-device: "Masaüstü / Laptop"
+device: "Masaustu / Laptop"
 os: "Windows 10-11, Linux (Ubuntu, Fedora, Arch)"
 input: "Fare + Klavye"
-version: 1.0.0
-date: 2026-08-11
-status: active
-authority: Single Source of Truth (SSOT)
 ---
 
 # Prompt: 1920×1080 Desktop Screen
@@ -431,6 +434,6 @@ CSS üretilmeden önce bu kontrol listesi doğrulanmalı:
 
 ---
 
-*Screen Prompt v1.0.0 — CoreMusic Desktop Platform*
-*Last Updated: 2026-08-11*
-*Mode: Red Team · Human Mode · Truth Mode*
+*Screen Prompt v1.0.0 - CoreMusic Desktop Platform*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

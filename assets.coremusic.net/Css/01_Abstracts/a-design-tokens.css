@@ -2,7 +2,7 @@
  * CoreMusic — Master Design Tokens
  * Tüm tasarım token'larının kanonik CSS kaynağı
  * ITCSS Layer: 01_Abstracts
- * Version: 1.0.0 — 2026-09-04
+ * Version: 1.1.0 — 2026-09-09 (Shadow SSOT: koyu ölçek + --ts-* + --card/--modal-shadow)
  *
  * Kaynak: .ai/ui-design/tokens/design-tokens-master.md
  * Bileşen: .ai/ui-design/01-component-inventory.md (C01-C16)
@@ -61,25 +61,40 @@
 }
 
 /* ============================================================
-   3. SHADOW TOKENS (Elevation)
+   3. SHADOW TOKENS (Elevation) — SSOT
+   Shadow token'larının TEK kaynağı bu dosyadır.
+   Değerler: koyu-tema/embedded ölçeği (a-theme-config.css'ten devralındı)
+   Kaynak: .ai/ui-design/tokens/design-tokens-master.md §7
    ============================================================ */
 :root {
   --shadow-none: none;
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.4);
+  --shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.5);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  /* Component shadows (design-tokens-master.md §12.1, C14) */
+  --card-shadow: var(--shadow-md);
+  --modal-shadow: var(--glass-shadow-lg);
 
   /* Glass shadows */
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  --glass-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --glass-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.4);
 
-  /* Brand shadows */
-  --shadow-brand: 0 4px 14px rgba(184, 169, 201, 0.25);
-  --shadow-brand-lg: 0 8px 24px rgba(184, 169, 201, 0.35);
+  /* Brand shadows — tema primary glow ailesi (#ff4fd8) */
+  --shadow-brand: 0 4px 14px rgba(255, 79, 216, 0.25);
+  --shadow-brand-lg: 0 8px 24px rgba(255, 79, 216, 0.35);
+
+  /* TEXT-SHADOWS — Metin Okunabilirlik Sistemi
+     Tüm sayfalara otomatik uygulanır (b-base-core.css) */
+  --ts-xs: 0 1px 1px rgba(0, 0, 0, 0.75);     /* nav, label, badge, caption */
+  --ts-sm: 0 1px 3px rgba(0, 0, 0, 0.65);     /* body metni, kart içerikleri */
+  --ts-md: 0 2px 8px rgba(0, 0, 0, 0.55);     /* başlıklar, panel başlıkları */
+  --ts-lg: 0 3px 14px rgba(0, 0, 0, 0.55);    /* hero başlık, logo */
+  --ts-glow: 0 0 12px rgba(255, 79, 216, 0.45); /* neon pembe glow — vurgu */
 }
 
 /* ============================================================

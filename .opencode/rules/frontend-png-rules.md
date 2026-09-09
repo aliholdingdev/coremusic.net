@@ -1,4 +1,4 @@
-﻿# Frontend PNG & ASCII Art Kuralları
+# Frontend PNG & ASCII Art Kuralları
 
 ## Kural 1: UI Design Dosyalarını Oku (ZORUNLU)
 

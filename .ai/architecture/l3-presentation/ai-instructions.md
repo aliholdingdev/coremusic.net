@@ -138,6 +138,194 @@ Karar sırası (üst kazanır):
 
 ---
 
+---
+
+## 11. Ekran Bazlı Görev Rehberi
+
+| Ekran (qr-*) | Tipik Görev | İlgili Bileşen/Dosya | Kritik Dikkat |
+|--------------|-------------|----------------------|---------------|
+| home-1024 | Widget/grid düzeni | home.php 3 blok + _home-layout.css + _home-components.css | 42/58 split token'lı; PHP sunum yasak |
+| home-1920 | Wide 3 sütun | --home-top-split 42% 58% + bottom 1fr 1.5fr 1fr | desktop media query ≥1920 |
+| login | Form + sosyal butonlar | p-login-view.css + C06/C08 | auth shell minimal (auth-bundled) |
+| register-step1/2-3 | Form akışı | p-register-*.css + C06 | adım geçişleri JS |
+| gender-select | C07 kart seçimi | p-select-gender.css | set-gender bypass (tek meşru) |
+| welcome-popup | C14 modal (embedded only) | _home-components + shouldRenderWelcomePopup | yalnız RPi5 1024×600 |
+| albums/artists | C09 grid + scroll-snap | c-cards.css + CardManager | scroll-snap mobil |
+| album-detail | C10 panel + track list | c-lists.css + C13 | art boyut token (280/400/600) |
+| playlist | C13 satırlar + upNext | c-lists.css | 48px row height |
+| video-playback | Player entegrasyon | PlayerController | audio kesintisiz (shell sabit) |
+| disk-browser/file-list | Dosya listesi | c-lists.css + C15 toggle | embedded disk erişimi |
+| wifi/wifi-connect/bluetooth | C14 modallar + C16 satırlar | c-modals.css + DeviceManager status | Status Widget C02 bağlantısı |
+| settings | C15 toggle'lar | ayarlar.php (PLANNED tam) | dark/light + gender ikilisi |
+
+Kural: Ekran görevi başlarken karşılık gelen qr-* dosyası + PNG okunur (Guardrail #11); tablo "hangi dosyaya dokunacağım" haritasıdır.
+
+---
+
+## 12. Yaygın Hata Giderimi (L3)
+
+| Belirti | Muhtemel Kök | Çözüm |
+|---------|--------------|-------|
+| Stil uygulanmıyor | CSS import zinciri kırık (self-contained) | d-*.css @import listesini doğrula (device-breakpoint §4 Adım 12) |
+| Cihazda yanlış layout | Viewport cookie eski | cookie temizle + reload (§12.9.4 paralel) |
+| Script CSP engellendi | nonce eksik/yanlış | shell nonce akışı (html-shell §13) |
+| Scale çift uygulama | JS scale + CSS zoom çakışması | ScaleManager skip sözleşmesi (§14) |
+| Tema değişmiyor | data-gender attribute güncellenmiyor | ThemeManager attribute-swap (theme-engine §4) |
+| Widget sayısı yanlış | PHP/JS nav-config sapması | DeviceManager NAV_LINKS çift SSOT kontrolü (breakpoint-guide Adım 3+4) |
+| Token bulunamadı | 01_Abstracts dışında tanım | §6 kural 4 — token master'a taşı |
+
+---
+
+## 13. Token Hızlı Referans (AI Üretimi İçin)
+
+| İhtiyaç | Token | Kaynak Dosya |
+|---------|-------|--------------|
+| Header/Footer yükseklik | --header-h / --footer-h | a-layout-tokens.css |
+| İçerik yükseklik | --content-h | a-layout-tokens.css |
+| Touch minimum | --touch-min (48px / car 56px+) | a-layout-tokens |
+| Kart görsel boyutu | --card-thumb-size, --now-playing-art-size, --mini-card-art-size, --detail-panel-art-size | a-layout-tokens (11 component token) |
+| Widget ızgarası | --widget-grid-cols, --widget-min-height | a-layout-tokens |
+| Footer ikon/alan | --footer-icon-size, --footer-btn-min-size, --footer-album-art-size | a-layout-tokens |
+| Grid split | --home-top-split, --home-bottom-split | a-layout-tokens |
+| Tema ana rengi | data-gender blokları (#ff4fd8/#4f9fff/#a0a0b0) | a-semantic-token.css |
+| Dark/light zemin-metin | --bg-base, --text-primary... | a-color-mode-tokens.css |
+| Scale | --cm-scale-step-1/2/3 | a-scale-hybrid.css / d-4k.css |
+| Breakpoint | --bp-{device} | a-breakpoint-tokens.css |
+| Font | --text-base, font ailesi | a-fonts-token.css |
+
+Kural: Bu tablo AI'a "hangi token var" der; DEĞER uydurmaz — dosyadan okunur. Yeni token ihtiyacı → 01_Abstracts'e ekleme (kullanıcı onayı, §5 adım 3).
+
+---
+
+## 14. Scale Sistemi Talimat Detay
+
+| Konu | Kural |
+|------|-------|
+| Zoom kademeleri | Kademe 2: ≥3840px zoom×2; Kademe 3: ≥7680px zoom×3 (d-4k.css) |
+| Fallback | Transform (ScaleManager) zoom desteklemeyen ortamda |
+| Skip sözleşmesi | ≥2561px tüm ScaleManager hedefleri skip:true — CSS zoom devralır |
+| Yeni cihaz ölçek | Önce d-4k paylaşımı dene; bağımsız gerekirse YENİ kural, eski kurallara dokunma (breakpoint-guide Adım 11 Yöntem A/B) |
+| Kural sırası | ScaleCalculator ilk eşleşmede durur — ekleme sona |
+| Legacy köprüler | window.ScaleCoordinator + scaleXForScreen korunur (geriye uyum) |
+| Olay | scale:applied — EventBus ile layout haberdar olur |
+
+Talimat: Scale ile oynayan görevde ÖNCE [[scale-router-css-frontend-guide]] (995 ✓) okunur; bu dosya özet, guide tam rehber.
+
+---
+
+## 15. Router Görev Talimatları
+
+| Görev | Kural |
+|-------|-------|
+| Yeni sayfa route'u | routes.php kayıt + SpaRoute alanları + sayfa dosyası tek bileşen (route-config §14) |
+| SPA navigasyon | Router.js doğrudan (SPARouterAdapter DEPRECATED — kullanma) |
+| Guard ekleme | guards.js + GuardPipeline; PHP AuthGuard nihai karar |
+| DOM patch | DomPatcher + ContentPatcher; innerHTML yasak |
+| Scroll restore | ScrollManager route anahtarlı |
+| CSRF sync | CsrfSyncManager — meta tag güncel tutulur |
+| Deep-link | PHP shell ilk yükleme (ADR-083 hibrit) |
+
+---
+
+## 16. CSS Katman Karar Ağacı ("Bu stili nereye yazacağım?")
+
+```
+Değer cihazdan bağımsız sabit mi?
+  ├─ Evet → 01_Abstracts token (yeni token = onay) veya ilgili c-*.css
+  └─ Hayır (breakpoint'e bağlı mı?)
+       ├─ Evet → a-layout-tokens.css @media bloğu (yeni blok — :root dokunma)
+       └─ Cihaza özgü davranış mı? (hover/touch/scrollbar)
+            ├─ Evet → d-{device}.css (yalnız behavioral)
+            └─ View mode'a özgü mü? → v-{mode}.css
+Sayfa düzeni ise → 05_Pages/_{sayfa}.css (tek bileşen ilkesi)
+Header/Footer ise → 03_Layout/_header|_footer.css
+```
+
+Karar ağacı geçersiz hedef: 04_Components'e sayfa düzeni, 08_Devices'e token, 01_Abstracts'e davranış.
+
+---
+
+## 17. Device İşleri Talimat Özeti
+
+1. 13 nokta senkron (§3 zincir) — [[device-breakpoint-guide]] tam prosedür.
+2. d-auth-* dosyaları Test-Path ile teyit et (device-css §9 çelişki görevi — yazmadan önce VAR/YOK).
+3. DeviceDetector.php okumadan tespit kuralı ekleme (breakpoint-guide Adım 5 VERIFICATION REQUIRED kapısı).
+4. PHP DeviceManager metotları yalnız davranışsal sayı/bool döner (§6 kural 7).
+5. NAV_LINKS PHP↔JS birebir (Adım 3+4+7 çift SSOT).
+
+---
+
+## 18. Erişilebilirlik Talimatları
+
+| Konu | Kural |
+|------|-------|
+| Touch target | 48px (phone/embedded), car 56px+ (dark-light §13) |
+| Focus | :focus-visible outline — outline:none yasak |
+| Kontrast | 4.5:1 — tema token değişiminde korunur (theme-engine §9) |
+| aria-busy | SPA navigasyonunda true/false (js-module shell §28 SSS) |
+| aria-current | navLinks active (device-css §4A.8) |
+| Ekran okuyucu | Live region — mode/state değişim bildirimleri (PLANNED) |
+| Renk tek bilgi olamaz | Tema değişse işlev korunur (theme-engine §9) |
+
+---
+
+## 19. Ek SSS
+
+**S: AI olarak PNG ölçüsü ile token çakışırsa?**
+C: PNG kanonik (§3 karar sırası 1) ama token sistemi kanonik da — çözüm: token değerini PNG'ye göre güncelle (onaylı), yeni hardcoded değer YAZMA. §6 kural 4+8 birlikte.
+
+**S: Aynı anda iki ekran görevi?**
+C: Tek aktif görev ilkesi (engine §5) — sıralı yürüt; ortak dosya (_home-components vb.) çakışması Context Lock'a tabidir.
+
+**S: Kodda iframe görürsem?**
+C: §7 negatif bulgu: DomPatcher DANGEROUS_ELEMENTS iframe temizler — iframe renderer yoktur. Yeni iframe eklemek yasak deseni ihlalidir.
+
+**S: DomainConfig değerlerini nereden okurum?**
+C: `shared/config/domain.php` (0.5KB) — kod oku; hardcode etme (subdomain-routing §12/§15 uyarıları).
+
+**S: 19 PNG sayımını nerede doğrularım?**
+C: `.ai/.png/home-1024/` (12) + `home-1920/` (1) + `shared-1024/` (6) — l3 index §11 komut 6.
+
+**S: Bu dosya ile ULTRA-THINKING farkı?**
+C: ULTRA-THINKING genel düşünme protokolü; bu dosya L3 domain-spesifik talimatlardır. Boot'ta ikisi de okunur (§2 + ULTRA-THINKING §3.1).
+
+---
+
+## 20. Risk Kaydı
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 1 | Guardrail #11 atlanması | Orta | Kritik | §2 boot + §5 adım 1 |
+| 2 | Token dışı değer | Orta | Orta | §13 referans + §6 kural 4 |
+| 3 | :root default bozulma | Orta | Yüksek | §6 kural 5 |
+| 4 | d-auth-* varlığını varsayma | Kesin (çelişki) | Orta | §17 madde 2 |
+| 5 | SPARouterAdapter kullanımı | Düşük | Düşük | §15 tablo |
+| 6 | Scale çift uygulama | Orta | Orta | §14 skip sözleşmesi |
+
+---
+
+## 21. İzlenebilirlik Ek
+
+| İddia | Kaynak | Doğrulama |
+|-------|--------|-----------|
+| ScaleManager v7 referansı | Bu dosya §10 | Kendi kalite raporu — dosya tarihçesinden güncel |
+| d-4k.css v3.0.0 kademe 2/3 | §4 tablo | Kod-dogrulanmış kaynak listesi |
+| iframe negatif bulgu | §7 | DomPatcher.js DANGEROUS_ELEMENTS |
+| 300/200ms/RAF debounce | §4 tablo | Kaynak kod |
+| Legacy köprüler | §4 tablo | ScaleManager #registerGlobalBridge |
+| cm_tier_sync_count | §8 | device-loader init |
+
+---
+
+## 22. Revizyon Geçmişi
+
+| Sürüm | Tarih | Değişiklik |
+|-------|-------|------------|
+| 1.0.0 | 2026-09-06 | AI talimatları (kod-dogrulanmış) |
+| 1.1.0 | 2026-09-08 | Faz 2d: §11 ekran rehberi; §12 hata giderim; §13 token hızlı referans; §14-§18 scale/router/katman-ağacı/device/a11y talimatları; §19-§21 ekler |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-08
 **Mode:** Red Team · Human Mode · Truth Mode

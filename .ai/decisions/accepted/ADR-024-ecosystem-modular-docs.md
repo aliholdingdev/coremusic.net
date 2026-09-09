@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-024: Ecosystem Modular Docs"
 status: frozen
 date: 2026-05-05

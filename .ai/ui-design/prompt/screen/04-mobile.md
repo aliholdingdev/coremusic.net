@@ -1,15 +1,18 @@
 ---
-title: "Mobile (Flutter/PWA) Değişken Çözünürlük"
+title: "Mobile (Flutter/PWA) Degisken Cozunurluk"
+type: screen-prompt
 category: screen-prompt
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 platform: mobile
-resolution: "değişken (360×640 — 430×932)"
+resolution: "degisken (360x640 - 430x932)"
 device: "Native Mobil (Android/iOS) veya PWA"
 os: "Android 10+, iOS 15+, PWA (Chrome Safari)"
 input: "Dokunmatik (parmak) + Jesture (swipe, pinch)"
-version: 1.0.0
-date: 2026-08-11
-status: active
-authority: Single Source of Truth (SSOT)
 ---
 
 # Prompt: Mobile (Flutter/PWA) Screen
@@ -553,6 +556,6 @@ CSS üretilmeden önce bu kontrol listesi doğrulanmalı:
 
 ---
 
-*Screen Prompt v1.0.0 — CoreMusic Mobile Platform*
-*Last Updated: 2026-08-11*
-*Mode: Red Team · Human Mode · Truth Mode*
+*Screen Prompt v1.0.0 - CoreMusic Mobile Platform*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

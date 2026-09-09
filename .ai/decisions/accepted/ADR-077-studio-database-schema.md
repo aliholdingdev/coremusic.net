@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-077: Studio Database Schema"
 status: active
 date: 2026-08-10

@@ -32,9 +32,9 @@ export default class PlayerController {
     get volume() { return this.#volume; }
 
     init() {
-        this.#bindButtons();
-        this.#bindSeek();
-        this.#bindVolume();
+    this.#bindButtons();
+    this.#bindProgress();
+    this.#bindVolume();
     }
 
     /** Player butonlarına tıklama dinleyicileri bağla */
@@ -59,19 +59,21 @@ export default class PlayerController {
         });
     }
 
-    /** Seek bar tıklama */
-    #bindSeek() {
-        const seek = document.querySelector('.now-playing__seek');
-        if (!seek) return;
-
-        seek.addEventListener('click', (e) => {
-            const rect = seek.getBoundingClientRect();
-            const pct = ((e.clientX - rect.left) / rect.width) * 100;
-            this.#eventBus.emit('player:seek', { percent: Math.max(0, Math.min(100, pct)) });
-
-            const fill = seek.querySelector('.now-playing__seek-fill');
-            if (fill) fill.style.width = `${pct}%`;
+    /** Media progress — salt görüntü bileşeni (PNG player info): tıklama/drag dinleyici YOK.
+     *  Yalnızca player:progress event'lerinden görüntüyü günceller. */
+    #bindProgress() {
+        this.#eventBus.on('player:progress', (data) => {
+            if (!data || typeof data.percent !== 'number') return;
+            this.#renderProgress(Math.max(0, Math.min(100, data.percent)));
         });
+    }
+
+    /** Media progress görüntüsünü günceller (media-progress__fill) */
+    #renderProgress(percent) {
+        const fill = document.querySelector('.media-progress__fill');
+        if (fill) fill.style.width = `${percent}%`;
+        const bar = document.querySelector('.media-progress');
+        if (bar) bar.setAttribute('aria-valuenow', String(Math.round(percent)));
     }
 
     /** Volume slider */
@@ -149,8 +151,7 @@ export default class PlayerController {
             bar.style.width = '0%';
             bar.setAttribute('aria-valuenow', '0');
         }
-        const fill = document.querySelector('.now-playing__seek-fill');
-        if (fill) fill.style.width = '0%';
+        this.#renderProgress(0);
     }
 
     destroy() {

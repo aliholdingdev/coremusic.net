@@ -21,11 +21,12 @@ UI tasarım SSOT: mockup index, bileşen envanteri (C01-C16), uygulama planı, e
 
 | Yol | Amaç |
 |-----|------|
-| `00-mockup-index.md` | 18 PNG mockup indeksi — UI işlerinin İLK okunacak dosyası |
+| `00-mockup-index.md` | 19 PNG mockup indeksi — UI işlerinin İLK okunacak dosyası |
 | `01-component-inventory.md` | C01-C16 kanonik bileşen envanteri (BEM sınıfları + ölçüler) |
 | `02-implementation-plan.md` | 15-step CSS uygulama planı |
 | `03-accessibility-gaps.md` | WCAG 2.2 AA boşlukları |
 | `04-vault-registration.md` | Vault kayıt notu |
+| `05-md-pattern-standard.md` | MD kanonik şema referansı (9-alanlı frontmatter + footer standardı) |
 | `responsive-device-mode.md` | Device mod rehberi |
 | `flow/` | Akışlar (auth, music, navigation, settings) |
 | `mockups/` | Mockup tanım dokümanları |
@@ -45,4 +46,4 @@ UI tasarım SSOT: mockup index, bileşen envanteri (C01-C16), uygulama planı, e
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-08

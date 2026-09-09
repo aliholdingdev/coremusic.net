@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.claude\skills\hallucination-control Baglam"
 type: context
 folder: "C:\www\coremusic.net\.claude\skills\hallucination-control"

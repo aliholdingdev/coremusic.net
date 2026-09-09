@@ -615,6 +615,10 @@ export default class SidebarManager {
     /** Görünüm modunu döndür — büyük min'den küçüğe kontrol et */
     #getMode() {
         const w = window.innerWidth;
+        // Embedded (RPi5 1024×600): PNG mockup'ta sidebar YOK — overlay modunda kapalı başlar
+        if (document.body?.dataset?.device === 'embedded' && w <= 1024) {
+            return 'OVERLAY';
+        }
         // min'e göre azalan sırayla sırala (büyük → küçük)
         const sorted = Object.entries(SidebarManager.MODES)
             .sort((a, b) => (b[1].min || 0) - (a[1].min || 0));

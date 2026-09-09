@@ -1,9 +1,9 @@
 ---
-title: "CoreMusic — Mockup Reference Tables"
+title: "CoreMusic - Mockup Reference Tables"
 type: reference
 category: ui-design/mockups
 date: 2026-08-19
-updated: 2026-08-19
+updated: 2026-09-08
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)

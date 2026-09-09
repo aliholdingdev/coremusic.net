@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-011: Session Management"
 status: frozen
 date: 2026-01-10

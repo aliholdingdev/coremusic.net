@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-005: Ultrathink Protocol (Zero Hallucination)"
 status: frozen
 date: 2026-02-05

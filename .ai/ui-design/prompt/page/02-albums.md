@@ -1,8 +1,13 @@
 ---
-title: "Sayfa Prompt — Albümler"
+title: "Sayfa Prompt - Albümler"
+type: page-prompt
 category: page-prompt
-version: "1.0.0"
-date: "2026-08-11"
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 route: "/albums"
 layout: "standard-60-40"
 ---
@@ -53,3 +58,10 @@ layout: "standard-60-40"
 └─────────────┘
   190×230px toplam
 ```
+
+---
+
+*Page Prompt Albums v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

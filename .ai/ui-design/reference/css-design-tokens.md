@@ -1,13 +1,13 @@
 ---
-title: "CoreMusic — CSS Design Tokens (Custom Properties)"
+title: "CoreMusic - CSS Design Tokens (Custom Properties)"
 type: reference
 category: design-system
 date: 2026-08-17
-updated: 2026-08-17
+updated: 2026-09-08
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+governance: Red Team * Human Mode * Truth Mode
 platforms: [rpi5-1024, desktop-1920, mobile-375, tv-3840]
 themes: [female, male, neutral]
 reference:

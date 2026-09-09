@@ -7,7 +7,11 @@ bem_class: ".header-widget"
 itcss_layer: "03_Layout"
 target_file: "css/03_Layout/_header-widget.css"
 version: 1.0.0
+date: 2026-09-08
+updated: 2026-09-08
 status: active
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 author: "UI Designer Agent"
 ---
 
@@ -146,3 +150,10 @@ author: "UI Designer Agent"
 - WiFi/BT/Battery icon'ları inline SVG veya icon font olabilir
 - Battery seviyesi `data-level` attribute'u ile dinamik olarak güncellenir
 - `role="status"` ve `aria-live="polite"` screen reader desteği için zorunludur
+
+---
+
+*C02 Status Widget v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

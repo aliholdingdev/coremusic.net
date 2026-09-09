@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-021: SPA Router Immutable Contract"
 status: frozen
 date: 2026-04-25

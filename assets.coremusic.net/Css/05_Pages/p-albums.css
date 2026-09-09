@@ -1,0 +1,218 @@
+/**
+ * CoreMusic — Albums Page (C-music/albums.md)
+ * Scope  : /albums — Standard 60/40 card grid + detail panel
+ * Source : .ai/ui-design/screens/C-music/albums.md (v3.0.0, PNG doğrulamalı)
+ * PNG    : .ai/.png/home-1024/Linux  1024 - Albumler Page.png
+ * Layer  : ITCSS 05_Pages
+ * Version: 1.0.0 — 2026-09-09
+ *
+ * Derinlik: kartlar --shadow-xl (spec L420 birebir) · hover yükselme md→2xl
+ * Metin   : başlık --ts-md · kart içeriği --ts-sm · küçük etiket --ts-xs
+ */
+
+/* === LAYOUT === */
+.albums-layout {
+  display: grid;
+  grid-template-columns: 1fr var(--detail-panel-w);
+  gap: var(--grid-gap-lg);
+  padding: var(--content-padding-top, 11px) var(--page-padding-x) var(--content-padding-bottom, 15px);
+  height: var(--content-h);
+  overflow: hidden;
+}
+
+/* === HEADER AREA === */
+.albums-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.albums-header__back {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--white, #ffffff);
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  text-shadow: var(--ts-md);
+}
+
+.albums-header__back img,
+.albums-header__back svg {
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+}
+
+.albums-header__title {
+  text-shadow: var(--ts-md);
+}
+
+.albums-header__subtitle {
+  text-shadow: var(--ts-sm);
+}
+
+.albums-header__search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  border-radius: var(--radius-pill);
+  padding: var(--space-1) var(--space-3);
+  box-shadow: var(--shadow-sm);
+}
+
+.albums-header__search img,
+.albums-header__search svg {
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+}
+
+/* === GENRE TABS === */
+.albums-tabs {
+  display: flex;
+  gap: var(--tab-gap);
+  overflow-x: auto;
+  margin-bottom: var(--space-3);
+  padding: var(--space-1) 0;
+}
+
+.albums-tabs__tab {
+  flex-shrink: 0;
+  min-height: var(--touch-min);
+  padding: var(--space-1) var(--space-4);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  color: var(--white-70, rgba(255, 255, 255, 0.7));
+  background: var(--tab-bg, rgba(255, 255, 255, 0.08));
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  text-shadow: var(--ts-xs);
+  transition: var(--transition-all);
+}
+
+.albums-tabs__tab.is-active {
+  background: var(--accent, #ff4fd8);
+  color: var(--white, #ffffff);
+  box-shadow: var(--shadow-brand);
+}
+
+.albums-tabs__tab:focus-visible {
+  outline: 2px solid var(--accent, #ff4fd8);
+  outline-offset: 2px;
+}
+
+/* === CARD GRID === */
+.albums-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--grid-gap);
+  overflow-y: auto;
+  padding-right: var(--space-2);
+}
+
+/* Kart derinliği — hover yükselme + derinleşme (_home-components deseni) */
+.albums-grid .media-card {
+  box-shadow: var(--shadow-xl);
+  transition: transform var(--duration-normal) var(--ease-smooth),
+              box-shadow var(--duration-normal) var(--ease-smooth);
+}
+
+.albums-grid .media-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2xl);
+}
+
+.albums-grid .media-card.is-selected {
+  outline: 2px solid var(--accent, #ff4fd8);
+  outline-offset: 2px;
+}
+
+/* === DETAIL PANEL === */
+.albums-detail {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  backdrop-filter: var(--glass-blur) var(--glass-saturate);
+  border: var(--card-border, 1px solid rgba(255, 255, 255, 0.1));
+  border-radius: var(--card-radius);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  overflow-y: auto;
+  box-shadow: var(--glass-shadow);
+}
+
+.albums-detail__art {
+  width: var(--album-art-size);
+  height: var(--album-art-size);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+}
+
+.albums-detail__title {
+  font-size: var(--text-xl);
+  font-weight: var(--font-semibold);
+  color: var(--white, #ffffff);
+  text-align: center;
+  text-shadow: var(--ts-md);
+}
+
+.albums-detail__artist {
+  font-size: var(--text-base);
+  color: var(--white-70, rgba(255, 255, 255, 0.7));
+  text-align: center;
+  text-shadow: var(--ts-sm);
+}
+
+/* ============================================
+   PLATFORM RESPONSIVE
+   ============================================ */
+
+@media (min-width: 1024px) {
+  .albums-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .albums-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .albums-detail {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    transform: translateY(100%);
+    transition: var(--transition-transform);
+    z-index: var(--z-modal);
+  }
+
+  .albums-detail.is-active {
+    transform: translateY(0);
+  }
+
+  .albums-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1920px) {
+  .albums-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .albums-grid .media-card,
+  .albums-detail {
+    transition: none;
+  }
+}

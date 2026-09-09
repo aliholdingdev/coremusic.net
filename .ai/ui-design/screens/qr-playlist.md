@@ -1,6 +1,13 @@
 ---
-title: "Playlist Page — Quick Reference"
+title: "Playlist Page - Quick Reference"
 type: ascii-qr
+category: ascii-qr
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 screen_id: "S07"
 resolution: "1024x600"
 layout_pattern: "Standard 65/35"
@@ -118,3 +125,10 @@ Tablo başlığı: sabit üstte, sıralanabilir
   width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--glass-border);
 }
 ```
+
+---
+
+*QR Playlist v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

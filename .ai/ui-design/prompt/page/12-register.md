@@ -1,8 +1,13 @@
 ---
-title: "Sayfa Prompt — Register (3 Adım)"
+title: "Sayfa Prompt - Register (3 Adım)"
+type: page-prompt
 category: page-prompt
-version: "1.0.0"
-date: "2026-08-11"
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 route: "/register"
 layout: "auth-screen-72-28"
 ---
@@ -78,3 +83,10 @@ Adım 1: Temel Bilgiler → Adım 2: Profil → Adım 3: KVKK Onay
 ## ASCII Art Referansı
 
 `00-mockup-index.md` §4.16–4.18 — Register (3 Step) ASCII Art
+
+---
+
+*Page Prompt Register v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

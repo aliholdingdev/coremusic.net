@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-073: Podcast Database Schema"
 status: active
 date: 2026-08-10

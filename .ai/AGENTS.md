@@ -349,11 +349,13 @@ Ajan dosyaya erişmek ister
 
 ## 14. Zorunlu 5 Skills (ADR-042/C4)
 
+> **Faz 1 doğrulama notu (2026-09-08):** Bu tablo **disiplin maskesidir** — diskte mevcut skill klasörleri `.opencode/skills/` altındaki 10 kanonik skill'dir ([[index.md]] §11B). `/brainstorming` ve `/vault-sync` için ayrı skill klasörü YOKTUR; bu işlevler sırasıyla sistem promptundaki brainstorming becerisi ve `.workflows/vault-sync.md` akışıyla yürütülür.
+
 | # | Skill | Amaç | Kullanım |
 |---|-------|------|----------|
 | 1 | `/prompt-maker` | Prompt üretim motoru | Her görev başlangıcında |
-| 2 | `/brainstorming` | Fikir üretimi ve keşif | Yaratıcı work öncesi |
-| 3 | `/vault-sync` | Vault senkronizasyonu | Seans sonunda |
+| 2 | `/brainstorming` | Fikir üretimi ve keşif *(klasör yok — sistem becerisi)* | Yaratıcı work öncesi |
+| 3 | `/vault-sync` | Vault senkronizasyonu *(klasör yok — .workflows akışı)* | Seans sonunda |
 | 4 | `/hallucination-control` | Halüsinasyon doğrulama | Kod yazma öncesi |
 | 5 | `Red Team · Truth Mode · Human Mode` | Her zaman aktif | Sürekli |
 | 6 | `Template Mandatory` | Yeni dosya için template zorunlu (Guardrail #16) | Her dosya oluşturmada |
@@ -367,7 +369,7 @@ Ajan dosyaya erişmek ister
 | prompt2 (Auth) | Security Engineer | Backend Architect | Auth middleware'de |
 | prompt3 (API) | Backend Architect | DevOps Engineer | API gateway'de |
 
-**Kural:** prompt0 her zaman okunur. prompt1-3 sadece ilgili domain görevlerinde okunur.
+**Kural:** prompt0 her zaman okunur. prompt1-3 sadece ilgili domain görevlerinde okunur. *(Faz 1 düzeltmesi: prompt arşiv dosyaları `archives/prompt*-2026-09-01` konumundadır — eski `2026-08-13` hedefleri güncellenmiştir.)*
 
 ---
 
@@ -386,6 +388,8 @@ Ajan dosyaya erişmek ister
 | 9 | Audio HW Engineer | HW | PCM3168A, AK4458, Class AB | [[.agents/audio-hardware-engineer]] |
 | 10 | DSP Firmware Engineer | FW | XMOS XU316, I2S, TDM | [[.agents/dsp-firmware-engineer]] |
 | 11 | Windows SW Engineer | PLAT | WASAPI, COM, WinRT, WDK | [[.agents/windows-software-engineer]] |
+
+**Stack notu (Faz 1):** Agent tablosundaki "Teknoloji" sütunları hedef yığınları yansıtır; fiziksel kanıt sütunu için §25.2 tablosuna bak. IMPLEMENTED/PLANNMC etiket disiplini [[engine.md]] §9.2 matrisiyle birebir uyumludur.
 
 **Detaylı profiller için:** [[.agents/AGENTS.md]]
 
@@ -493,6 +497,9 @@ Ajan dosyaya erişmek ister
 | **Deadlock** | Kilitleme çelişkisi |
 | **Retry** | Yeniden deneme |
 | **Heartbeat** | Sağlık atışı |
+| **Stack Etiketi** | IMPLEMENTED (kod kanıtlı) / PLANNED (hedef) ayırımı — engine §9.2 |
+| **Uncertainty Flag** | Alt agent belirsizlik raporu formatı — engine §6.4 |
+| **Faz Kapanışı** | 8 maddelik kontrol listesi tamamı — engine §12.6 |
 
 ---
 
@@ -513,6 +520,9 @@ Ajan dosyaya erişmek ister
 | Health States | 5 |
 | Lock Rules | 4 |
 | Quality Standards | 7 |
+| Faz Kaydı | §25 — 7 faz tablosu + stack kanıt + boot uzlaşması |
+| Stack Kanıtı | §25.2 — agent↔teknoloji satırları (ROLE §11 ile uyumlu) |
+| Orkestrasyon Kuralları | §25.3 — 5 kural (satır edit, frozen dokunulmaz, append-only, stack direktifi, faz kapanışı) |
 
 ---
 
@@ -549,14 +559,16 @@ Ajan dosyaya erişmek ister
 
 ### 24.3 Domain-Based Okuma
 
+> *Faz 1 düzeltmesi: `testing/*.md` ve `.sql/*.sql` eski yolları gerçek mevcut yollarla değiştirildi; kanıt: [[ULTRA-THINKING.md]] §3.2.*
+
 | Agent | Zorunlu Okuma |
 |-------|---------------|
-| Backend | `architecture/l2-routing/*.md`, `ADR-083*.md` |
-| Frontend | `ui-design/**/*.md`, `architecture/l3-presentation/*.md` |
-| Security | `architecture/l1-security/*.md`, `ADR-010*.md` |
-| Data | `architecture/l0-infrastructure/*.md`, `.sql/*.sql` |
-| Embedded | `projects/NevaEngine/*.md`, `electronic/*.md` |
-| QA | `testing/*.md`, `ui-design/screens/**/*.md` |
+| Backend | `architecture/l2-routing/*.md`, `ADR-083*.md`, `shared/src/PageRouter/` |
+| Frontend | `ui-design/00-mockup-index.md`, `ui-design/01-component-inventory.md`, `architecture/l3-presentation/*.md` |
+| Security | `architecture/l1-security/*.md`, `ADR-010*.md`, `shared/src/Middleware/` |
+| Data | `architecture/l0-infrastructure/*.md`, `.ai/.sql/mysql/*.sql`, `shared/src/Database/` |
+| Embedded | `projects/NevaEngine/*.md`, `electronic/dsp/*.md`, `electronic/firmware/*.md` |
+| QA | `ui-design/03-accessibility-gaps.md`, `ui-design/screens/**/*.md`, `reports/` |
 | DevOps | `architecture/02-deployment/*.md`, `ecosystem/*.md` |
 
 ### 24.4 Otomatik Temizlik
@@ -583,5 +595,43 @@ Her dosya için kontrol et:
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-16
+**Last Updated:** 2026-09-08
 **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## 25. Orkestrasyon Faz Kaydı (Vault Revizyonu 2026-09-08)
+
+### 25.1 Faz Tablosu (canlı)
+
+| Faz | Kapsam | Durum |
+|-----|--------|-------|
+| 0 | Envanter + kaynak kod cross-check | TAMAMLANDI |
+| 1 | Kök 12 boot dosyası (satır-satır edit, 500+ hedef) | ÇALIŞIYOR |
+| 2 | architecture/ alt fazlar | Pending |
+| 3 | ecosystem, servers, subdomains, scripts | Pending |
+| 4 | ui-design çekirdek + tokens + flow | Pending |
+| 5 | decisions appendix (frozen ADR'ler) | Pending |
+| 6 | electronic, projects | Pending |
+
+### 25.2 Agent ↔ Stack Kanıt Tablosu (ROLE §11 özeti)
+
+| Agent | Teknoloji | Kanıt (IMPLEMENTED) |
+|-------|-----------|---------------------|
+| Backend | PHP 8.4, PSR, php-di, fast-route | 4 composer.json |
+| Security | Middleware ×4 (PSR-15) | shared/src/Middleware/ |
+| Data | SQL şema (18 DB) | .ai/.sql/mysql/ |
+| QA | PHPUnit ^10.5/^11.0, PHPStan | require-dev |
+| UI/Embedded/DSP/Windows/DevOps | Vanilla JS/C++20/xcc/C#/CI | PLANNED (spec mevcut) |
+
+### 25.3 Bu Revizyondaki Orkestrasyon Kuralları
+
+1. **Satır-satır edit:** Yapı korunur (ADR-042); silme yerine düzeltme+ekleme.
+2. **Frozen dokunulmaz:** ADR metinleri okunur, referans edilir — değiştirilmez.
+3. **log.md append-only:** Revizyon kayıtları eklenir, geçmiş satıra dokunulmaz.
+4. **Teknoloji direktifi:** Dinamik stack (Node.js/C++/C#/PHP + diğer) — [[engine.md]] §9, [[ROLE.md]] §11.
+5. **Faz kapanışı:** engine §12.6 kontrol listesi 8/8 → §12.7 rapor → vault-sync.
+
+### 25.4 Boot Listesi Uyumu
+
+Bu dosya §24.2 (10 dosya) ile [[MEMORY.md]] §5 (16 adım) arasındaki adım sayısı farkı bilinen durumdur: 16 adım listesi prompt arşivlerini (12-15) ve mockup indeksini (16) ekstra içerir. Faz 1'de arşiv yolları 2026-09-01'e hizalandı; iki listenin birleşik kanonik versiyonu [[CLAUDE.md]] §16'dır (13 dosya + frontend eki).

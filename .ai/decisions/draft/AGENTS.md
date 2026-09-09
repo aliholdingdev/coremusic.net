@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.ai\decisions\draft Agent Talimatlari"
 type: agent-registry
 folder: "C:\www\coremusic.net\.ai\decisions\draft"

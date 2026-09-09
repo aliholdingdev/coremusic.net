@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.opencode\skills\ui-code-generator\references Agent Talimatlari"
 type: agent-registry
 folder: "C:\www\coremusic.net\.opencode\skills\ui-code-generator\references"

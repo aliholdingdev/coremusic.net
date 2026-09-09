@@ -2,11 +2,12 @@
 title: "UI Text Strings Reference"
 type: reference
 category: ui-text
-updated: 2026-08-11
+date: 2026-08-11
+updated: 2026-09-08
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+governance: Red Team * Human Mode * Truth Mode
 ---
 
 # UI Text Strings Reference

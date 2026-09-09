@@ -1,4 +1,4 @@
-﻿# Vault Loading Protocol (Zorunlu)
+# Vault Loading Protocol (Zorunlu)
 
 ## Kural: Her Görevden ÖNCE Vault'u Oku
 

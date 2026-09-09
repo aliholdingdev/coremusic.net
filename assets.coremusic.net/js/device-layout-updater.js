@@ -23,7 +23,7 @@
             playlists: 3,       // PHP: playlistCount() = 3
             upNext: 3,          // PHP: upNextCount() = 3
             showVolume: true,   // PNG home-1024: footer'da volume VAR (DeviceManager::showVolume() ile senkron)
-            showFullMeta: false,
+            showFullMeta: true, // PNG home-1024 footer: 4 meta satırı (Şarkı/Album/Sanatçı/Süre) — PNG birebir
             showBattery: true,
             showSettingsBtn: true,
             showLogoutBtn: true,
@@ -395,10 +395,10 @@
             if (sure) setVisible(sure, config.showFullMeta);
         }
 
-        // Album art boyutu — cihaza göre
+        // Album art boyutu — cihaza göre (PNG home-1024: kapak footer yüksekliğiyle ~88px)
         var albumArt = document.querySelector('.footer__album-art');
         if (albumArt) {
-            var size = device === 'embedded' ? 80 : (device === '4k-tv' ? 140 : (device === 'desktop' ? 120 : 100));
+            var size = device === 'embedded' ? 88 : (device === '4k-tv' ? 140 : (device === 'desktop' ? 120 : 100));
             albumArt.style.width = size + 'px';
             albumArt.style.height = size + 'px';
         }

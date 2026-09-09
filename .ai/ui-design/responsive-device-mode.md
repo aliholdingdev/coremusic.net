@@ -1,13 +1,13 @@
 ---
 type: architecture
 category: ui-design
-title: "CoreMusic — Responsive Device Mode Architecture"
+title: "CoreMusic - Responsive Device Mode Architecture"
 date: 2026-08-19
-updated: 2026-09-06
+updated: 2026-09-08
 status: active
 version: 3.2.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+governance: Red Team * Human Mode * Truth Mode
 reference:
   authority: ".ai/ui-design/responsive-device-mode.md"
   source_of_truth:

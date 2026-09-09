@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-006: Performance Targets"
 status: frozen
 date: 2026-02-10

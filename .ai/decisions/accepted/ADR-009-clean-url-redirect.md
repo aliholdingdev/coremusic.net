@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-009: Clean URL Redirect"
 status: frozen
 date: 2026-03-01

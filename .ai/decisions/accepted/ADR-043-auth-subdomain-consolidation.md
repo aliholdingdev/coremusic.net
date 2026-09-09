@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-043: Auth Subdomain Consolidation"
 status: active
 date: 2026-08-04

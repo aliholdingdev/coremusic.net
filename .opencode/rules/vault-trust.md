@@ -1,4 +1,4 @@
-﻿# Vault Trust Protocol
+# Vault Trust Protocol
 
 ## Temel Kural: Vault'a HER ZAMAN Güven
 

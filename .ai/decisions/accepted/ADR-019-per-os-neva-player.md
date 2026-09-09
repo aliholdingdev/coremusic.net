@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-019: Per-OS Neva Player"
 status: frozen
 date: 2026-04-15

@@ -1,9 +1,14 @@
 ---
-title: "Layout Pattern — Split Home (42/58)"
+title: "Layout Pattern - Split Home (42/58)"
+type: layout-prompt
 category: layout-pattern
-version: "1.0.0"
-date: "2026-08-11"
-viewport: "1024×600"
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
+viewport: "1024x600"
 ---
 
 # Layout Pattern: Split Home (42/58)
@@ -60,3 +65,10 @@ Her widget alanı cam efektli (glass) bir paneldir:
 | C09 Mini Card (C03) | Widget 2: Son Çalınanlar |
 | C01×8 Kart | Widget 3: Öneri Listesi |
 | C09×6 Kart | Widget 4: Hızlı Erişim |
+
+---
+
+*Layout Pattern v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

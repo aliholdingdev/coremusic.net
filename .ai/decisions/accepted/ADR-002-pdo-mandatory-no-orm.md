@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-002: PDO Mandatory, ORM Yasak"
 status: frozen
 date: 2026-01-20

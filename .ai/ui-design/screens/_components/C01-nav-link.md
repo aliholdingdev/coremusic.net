@@ -1,8 +1,14 @@
 ---
-title: CoreMusic — C01 Nav Link Component Spec
+title: "CoreMusic - C01 Nav Link Component Spec"
+type: component-spec
+category: component-spec
 date: 2026-08-11
+updated: 2026-09-08
+status: active
 version: 2.0.0
-platform: home-1024 (Linux Embedded RPi5, 1024×600)
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
+platform: home-1024
 ---
 
 # C01 — Navigation Link
@@ -50,3 +56,10 @@ Tek nav-link:
 ## ITCSS: 03_Layout (_header.css)
 ## WCAG: ❌ İHLAL — 48px olmalı
 ## Kullanım: Tüm app ekranları
+
+---
+
+*Component Spec C01 Nav Link v2.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

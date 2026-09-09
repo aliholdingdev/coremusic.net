@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\packages\shared\src\Contract\Repository Baglam"
 type: context
 folder: "C:\www\coremusic.net\packages\shared\src\Contract\Repository"

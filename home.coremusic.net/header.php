@@ -85,6 +85,19 @@ $headerTierClass = $dm->shouldRender4kLayout()
 
         <div class="site-header__actions" aria-label="Sistem ve kullanıcı">
 
+            <!-- C03 — Kullanıcı hapı (PNG: avatar hapı pill'lerden ÖNCE gelir) -->
+            <div class="header-user" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
+                <img class="header-user__avatar" src="<?= $cookieImage ?>" alt="Avatar" width="35" height="35" loading="lazy"/>
+                <span class="header-user__name"><?= $cookieUsername ?></span>
+                <span class="header-user__arrow">&#9660;</span>
+                <div class="header-user-dropdown" role="menu">
+                    <a href="/profil" role="menuitem" data-no-spa>Profilim</a>
+                    <a href="/ayarlar" role="menuitem" data-no-spa>Ayarlar</a>
+                    <a href="/gecmis" role="menuitem" data-no-spa>Geçmiş</a>
+                    <a href="/logout" class="logout-btn" role="menuitem" data-no-spa>Çıkış Yap</a>
+                </div>
+            </div>
+
             <!-- C02 — WiFi + Bluetooth kapsülü (65×37.4px, radius 50px) -->
             <div class="header-border header-border--wifi" title="Bağlantı Durumu">
                 <div class="header-widget header-widget--signal">
@@ -99,19 +112,6 @@ $headerTierClass = $dm->shouldRender4kLayout()
             <div class="header-border header-border--battery" title="Güç Durumu">
                 <img src="<?= $cookiePower ?>" alt="Pil" width="22" height="22" loading="lazy"/>
                 <span class="battery-pct"><?= $cookiePowerTxt ?></span>
-            </div>
-
-            <!-- C03 — Kullanıcı hapı (avatar 35×35 + isim + dropdown) -->
-            <div class="header-user" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
-                <img class="header-user__avatar" src="<?= $cookieImage ?>" alt="Avatar" width="35" height="35" loading="lazy"/>
-                <span class="header-user__name"><?= $cookieUsername ?></span>
-                <span class="header-user__arrow">&#9660;</span>
-                <div class="header-user-dropdown" role="menu">
-                    <a href="/profil" role="menuitem" data-no-spa>Profilim</a>
-                    <a href="/ayarlar" role="menuitem" data-no-spa>Ayarlar</a>
-                    <a href="/gecmis" role="menuitem" data-no-spa>Geçmiş</a>
-                    <a href="/logout" class="logout-btn" role="menuitem" data-no-spa>Çıkış Yap</a>
-                </div>
             </div>
 
             <div class="header-border header-border--actions">

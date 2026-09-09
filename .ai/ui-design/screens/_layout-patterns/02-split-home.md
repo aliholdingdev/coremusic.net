@@ -1,10 +1,13 @@
 ---
-title: CoreMusic — Split Home Layout Pattern
-date: 2026-08-11
-updated: 2026-08-11
+title: "CoreMusic - Split Home Layout Pattern"
 type: spec
+category: layout-pattern
+date: 2026-08-11
+updated: 2026-09-08
 status: active
 version: 2.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 ---
 
 # CoreMusic — Split Home Layout Pattern
@@ -61,4 +64,7 @@ Ana Sayfa (Dashboard)
 
 ---
 
-*Split Home Layout v2.0.0 — CoreMusic UI Design System*
+*Split Home Layout Pattern v2.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

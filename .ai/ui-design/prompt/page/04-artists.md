@@ -1,8 +1,13 @@
 ---
-title: "Sayfa Prompt — Sanatçılar"
+title: "Sayfa Prompt - Sanatçılar"
+type: page-prompt
 category: page-prompt
-version: "1.0.0"
-date: "2026-08-11"
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 route: "/artists"
 layout: "standard-60-40"
 ---
@@ -54,3 +59,10 @@ layout: "standard-60-40"
     Sanatçı Adı    14px, bold, center
     12 Albüm       12px, muted, center
 ```
+
+---
+
+*Page Prompt Artists v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

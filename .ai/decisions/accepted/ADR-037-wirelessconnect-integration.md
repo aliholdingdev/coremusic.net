@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-037: WirelessConnect Integration"
 status: frozen
 date: 2026-07-01

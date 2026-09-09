@@ -7,7 +7,11 @@ bem_class: ".detail-panel"
 itcss_layer: "03_Layout"
 target_file: "css/03_Layout/_detail-panel.css"
 version: 1.0.0
+date: 2026-09-08
+updated: 2026-09-08
 status: active
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 author: "UI Designer Agent"
 ---
 
@@ -204,3 +208,10 @@ author: "UI Designer Agent"
 - `object-fit: cover` ile görsel kırpılır
 - Scrollbar, WebKit tarayıcıları için özelleştirilmiş
 - Metadata area: year, genre, track count gibi bilgiler
+
+---
+
+*C10 Detail Panel v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

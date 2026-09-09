@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-027: Dual-Mode Storage Strategy"
 status: frozen
 date: 2026-05-20

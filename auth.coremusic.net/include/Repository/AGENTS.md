@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\auth.coremusic.net\include\Repository Agent Talimatlari"
 type: agent-registry
 folder: "C:\www\coremusic.net\auth.coremusic.net\include\Repository"

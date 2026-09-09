@@ -1,10 +1,10 @@
-/**
- * CoreMusic — Phone Device CSS
- * ≤767px — Mobile-first, touch-only
+﻿/**
+ * CoreMusic â€” Phone Device CSS
+ * â‰¤767px â€” Mobile-first, touch-only
  * ITCSS Layer: 08_Devices
- * Version: 1.0.0 — 2026-08-16
+ * Version: 1.0.0 â€” 2026-08-16
  *
- * device-loader.js breakpoint: ≤767px
+ * device-loader.js breakpoint: â‰¤767px
  * Target: Mobile phone (portrait/landscape)
  * Input: Touch-only
  */
@@ -18,18 +18,19 @@
 @import '../02_Base/b-base-core.css';
 @import '../03_Layout/_header.css';
 @import '../03_Layout/_footer.css';
+@import '../06_Utilities/u-helpers-utility.css';   /* .is-hidden — footer pause/play ikonu */
 @import '../04_Components/c-footer-seek.css';
 @import '../04_Components/c-footer-volume.css';
 @import '../05_Pages/_home.css';
 
 /* ============================================================
-   DEVICE TOKEN OVERRIDES (Phone ≤767px)
-   NOT: Layout token'ları a-layout-tokens.css'ten gelir.
-   Bu dosya SADECE behavioral override içerir.
+   DEVICE TOKEN OVERRIDES (Phone â‰¤767px)
+   NOT: Layout token'larÄ± a-layout-tokens.css'ten gelir.
+   Bu dosya SADECE behavioral override iÃ§erir.
    ============================================================ */
 
 /* ============================================================
-   GLOBAL OVERRIDES — Phone
+   GLOBAL OVERRIDES â€” Phone
    ============================================================ */
 html {
   font-size: 14px;
@@ -46,7 +47,7 @@ body {
 }
 
 /* ============================================================
-   HEADER — Minimal (Phone)
+   HEADER â€” Minimal (Phone)
    ============================================================ */
 .site-header {
   height: 56px;
@@ -72,7 +73,7 @@ body {
 }
 
 /* ============================================================
-   FOOTER — Compact Player (Phone)
+   FOOTER â€” Compact Player (Phone)
    ============================================================ */
 .footer {
   height: 72px;
@@ -110,7 +111,7 @@ body {
 }
 
 /* ============================================================
-   HOME LAYOUT — Single Column
+   HOME LAYOUT â€” Single Column
    ============================================================ */
 .home-layout {
   grid-template-columns: 1fr;
@@ -125,7 +126,7 @@ body {
 }
 
 /* ============================================================
-   HOME COMPONENTS — Phone Grid
+   HOME COMPONENTS â€” Phone Grid
    ============================================================ */
 .home-quick-links {
   grid-template-columns: repeat(2, 1fr);
@@ -158,7 +159,7 @@ body {
 }
 
 /* ============================================================
-   SCROLLBAR — Thin (Phone)
+   SCROLLBAR â€” Thin (Phone)
    ============================================================ */
 ::-webkit-scrollbar {
   width: 4px;
@@ -179,26 +180,26 @@ body {
 }
 
 /* ============================================================
-   LAYOUT CLASSES — Device-based conditional layout
+   LAYOUT CLASSES â€” Device-based conditional layout
    ============================================================ */
 
-/* Phone layout (≤767px) — mobile-first */
+/* Phone layout (â‰¤767px) â€” mobile-first */
 .layout--phone {
   /* Single column layout */
   --layout-split-left: 100%;
   --layout-split-right: 100%;
 
-  /* Card sizes — smaller for phone */
+  /* Card sizes â€” smaller for phone */
   --card-thumb-size: 100%;
   --now-playing-art: 80px;
   --mini-card-art: 50px;
   --widget-min-h: 80px;
 
-  /* Footer — compact */
+  /* Footer â€” compact */
   --footer-h: 72px;
   --footer-player-art: 60px;
 
-  /* Header — compact */
+  /* Header â€” compact */
   --header-h: 56px;
 
   /* Content */
@@ -206,7 +207,7 @@ body {
   --content-padding-bottom: 12px;
   --page-padding-x: 12px;
 
-  /* Font — smaller scale */
+  /* Font â€” smaller scale */
   --text-base: 13px;
   --text-lg: 15px;
 

@@ -1,4 +1,4 @@
-﻿---
+---
 type: system
 category: agent-index
 title: "CoreMusic — Agent Profiles Index"
@@ -33,7 +33,7 @@ governance: Red Team · Human Mode · Truth Mode
 | 10 | Audio Hardware Engineer | [[.agents/audio-hardware-engineer]] |
 | 11 | DSP Firmware Engineer | [[.agents/dsp-firmware-engineer]] |
 | 12 | Windows Software Engineer | [[.agents/windows-software-engineer]] |
-| 13 | Vault Updater | [[.agents/master-orchestrator]] |
+| 13 | Vault Updater | [[.agents/vault-updater]] |
 
 ## 2. Notlar
 

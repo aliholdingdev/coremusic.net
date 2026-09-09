@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\shared\src\Api\Middleware Baglam"
 type: context
 folder: "C:\www\coremusic.net\shared\src\Api\Middleware"

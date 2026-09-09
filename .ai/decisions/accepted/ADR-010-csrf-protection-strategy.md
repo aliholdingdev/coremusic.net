@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-010: CSRF Protection Strategy"
 status: frozen
 date: 2026-01-05

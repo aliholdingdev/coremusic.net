@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-033: SQL Normalization Strategy"
 status: frozen
 date: 2026-06-15

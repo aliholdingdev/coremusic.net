@@ -20,7 +20,8 @@
 .home-layout {
   display: flex;
   flex-direction: column;
-  width: calc(100% - var(--sidebar-offset, 0px));
+  /* Viewport tabanlı genişlik (vw) — % yerine; sidebar offset düşülür */
+  width: calc(100vw - var(--sidebar-offset, 0px));
   gap: var(--grid-gap, 10px);
   margin-top: var(--header-h, 60px);
   min-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
@@ -34,12 +35,21 @@
   opacity: 1;
   transition: opacity 200ms ease-in-out, width 280ms cubic-bezier(0.4, 0, 0.2, 1);
   /* Ultra-wide content constraint */
-  max-width: var(--content-max-w, none);
   margin-inline: auto;
 }
 
-/* Sidebar açıkken content offset */
-body:not(.sidebar-collapsed) .home-layout {
+/* Scroll sözleşmesi: scroll YALNIZCA .home-layout container'ında.
+   Header/footer fixed — document scroll'u kilitlenir (çift scroll önlenir).
+   Not: :has() desteklenmeyen tarayıcıda davranış bugünkü gibi kalır (zararsız fallback). */
+body:has(.page-home) {
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* Sidebar açıkken content offset.
+   Not: SidebarManager 'sidebar-collapsed' class'ını <html>'e (documentElement) ekler —
+   body seçici yanlıştı, offset 280px takılı kalıyordu (home container %100 genişlik bug'ı). */
+html:not(.sidebar-collapsed) .home-layout {
   --sidebar-offset: var(--sidebar-w, 280px);
 }
 
@@ -47,7 +57,7 @@ body:not(.sidebar-collapsed) .home-layout {
 @media (max-width: 767px) {
   .home-layout {
     --sidebar-offset: 0px;
-    width: 100%;
+    width: 100vw;
   }
 }
 
@@ -98,20 +108,17 @@ body:not(.sidebar-collapsed) .home-layout {
 
 .home-layout__bottom-left {
   min-width: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
+  overflow: visible;
 }
 
 .home-layout__bottom-center {
   min-width: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
+  overflow: visible;
 }
 
 .home-layout__bottom-right {
   min-width: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
+  overflow: visible;
 }
 
 /* Widget Grid — 2×2 düzen (Hoparlörler, Hava, Tarih, Klasörler) */
@@ -185,6 +192,8 @@ body:not(.sidebar-collapsed) .home-layout {
   font-size: var(--text-lg, 14px);
   font-weight: var(--font-semibold, 600);
   color: var(--color-text, rgba(255,255,255,0.9));
+  /* Arka plandan ayrışma: metin derinlik gölgesi */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 0 10px rgba(0, 0, 0, 0.20);
   margin-bottom: var(--space-2, 8px);
   padding: 0;
 }
@@ -197,8 +206,7 @@ body:not(.sidebar-collapsed) .home-layout {
   display: grid;
   grid-template-columns: repeat(var(--grid-cols, 3), 1fr);
   gap: var(--grid-gap, 8px);
-  overflow-y: auto;
-  scrollbar-width: thin;
+  overflow: visible;
 }
 
 .card-grid--scroll {
@@ -226,6 +234,7 @@ body:not(.sidebar-collapsed) .home-layout {
   color: var(--color-text-muted, rgba(255,255,255,0.6));
   cursor: pointer;
   min-height: var(--touch-min, 48px);
+  text-shadow: var(--ts-xs);
 }
 
 /* ============================================================
@@ -282,6 +291,7 @@ body:not(.sidebar-collapsed) .home-layout {
   -webkit-backdrop-filter: blur(16px) saturate(160%);
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 12px;
+  box-shadow: var(--shadow-md);
 }
 
 .phone-now-playing__art {
@@ -315,6 +325,7 @@ body:not(.sidebar-collapsed) .home-layout {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-shadow: var(--ts-md);
 }
 
 .phone-now-playing__album,
@@ -323,6 +334,7 @@ body:not(.sidebar-collapsed) .home-layout {
   font-size: 11px;
   color: rgba(255, 255, 255, 0.7);
   margin: 0;
+  text-shadow: var(--ts-sm);
 }
 
 .phone-now-playing__seek {
@@ -401,7 +413,7 @@ body:not(.sidebar-collapsed) .home-layout {
   gap: var(--grid-gap, 12px);
 }
 .layout--desktop .home-widget-grid {
-  grid-template-columns: repeat(var(--widget-grid-cols, 3), 1fr);
+  grid-template-columns: repeat(var(--widget-grid-cols, 2), 1fr); /* PNG home-1920: 2 kolonlu küme */
 }
 .layout--desktop .section-title {
   font-size: var(--text-xl, 16px);
@@ -420,7 +432,7 @@ body:not(.sidebar-collapsed) .home-layout {
   gap: var(--grid-gap, 16px);
 }
 .layout--4k-tv .home-widget-grid {
-  grid-template-columns: repeat(var(--widget-grid-cols, 3), 1fr);
+  grid-template-columns: repeat(var(--widget-grid-cols, 2), 1fr); /* 4K = 1920 tasarımın zoom ölçeği — 2 kolon */
 }
 .layout--4k-tv .section-title {
   font-size: var(--text-xl, 28px);
@@ -436,7 +448,7 @@ body:not(.sidebar-collapsed) .home-layout {
   gap: var(--grid-gap, 16px);
 }
 .layout--4k-monitor .home-widget-grid {
-  grid-template-columns: repeat(var(--widget-grid-cols, 4), 1fr);
+  grid-template-columns: repeat(var(--widget-grid-cols, 2), 1fr); /* 4K = 1920 tasarımın zoom ölçeği — 2 kolon */
 }
 .layout--4k-monitor .section-title {
   font-size: var(--text-xl, 28px);
@@ -528,6 +540,7 @@ body:not(.sidebar-collapsed) .home-layout {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
   margin: 0 0 10px;
+  text-shadow: var(--ts-sm);
 }
 
 .home-welcome-banner__btn {
@@ -570,6 +583,7 @@ body:not(.sidebar-collapsed) .home-layout {
   font-family: 'Avalon Medium', system-ui, sans-serif;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.85);
+  text-shadow: var(--ts-xs);
 }
 
 /* ============================================================
@@ -641,6 +655,11 @@ body:not(.sidebar-collapsed) .home-layout {
   gap: 8px;
 }
 
+/* PNG home-1920: widget kümesi 2 kolon — token (--widget-grid-cols:3) home-scope'ta ezilir */
+.home-layout--wide .home-widget-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
 /* Alt satır: 3 sütun (En Son | Playlistler | Boş) */
 .home-layout--wide .home-layout__bottom--wide {
   display: grid;
@@ -659,6 +678,7 @@ body:not(.sidebar-collapsed) .home-layout {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-height: 0;
 }
 
 /* ============================================================
@@ -751,7 +771,7 @@ body:not(.sidebar-collapsed) .home-layout {
   }
 
   .home-widget-grid {
-    grid-template-columns: repeat(var(--widget-grid-cols, 3), 1fr);
+    grid-template-columns: repeat(var(--widget-grid-cols, 2), 1fr); /* 4K = 1920 tasarımın zoom ölçeği */
     gap: var(--grid-gap, 16px);
   }
 
@@ -768,7 +788,7 @@ body:not(.sidebar-collapsed) .home-layout {
   }
 
   .home-widget-grid {
-    grid-template-columns: repeat(var(--widget-grid-cols, 4), 1fr);
+    grid-template-columns: repeat(var(--widget-grid-cols, 2), 1fr); /* 4K = 1920 tasarımın zoom ölçeği */
   }
 }
 
@@ -812,6 +832,7 @@ body:not(.sidebar-collapsed) .home-layout {
   font-weight: 600;
   color: rgba(255, 255, 255, 0.9);
   margin: 0 0 12px;
+  text-shadow: var(--ts-md);
 }
 
 .home-fallback__message {
@@ -820,6 +841,7 @@ body:not(.sidebar-collapsed) .home-layout {
   color: rgba(255, 255, 255, 0.6);
   margin: 0 0 20px;
   line-height: 1.5;
+  text-shadow: var(--ts-sm);
 }
 
 .home-fallback__specs {
@@ -842,6 +864,7 @@ body:not(.sidebar-collapsed) .home-layout {
   font-family: var(--font-body, 'Arima', sans-serif);
   font-size: 12px;
   color: rgba(255, 255, 255, 0.5);
+  text-shadow: var(--ts-xs);
 }
 
 .home-fallback__spec-value {
@@ -849,6 +872,7 @@ body:not(.sidebar-collapsed) .home-layout {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
+  text-shadow: var(--ts-xs);
 }
 
 .home-fallback__hint {
@@ -857,4 +881,5 @@ body:not(.sidebar-collapsed) .home-layout {
   color: rgba(255, 183, 3, 0.8);
   margin: 0;
   font-style: italic;
+  text-shadow: var(--ts-xs);
 }

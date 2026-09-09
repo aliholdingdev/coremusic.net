@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\shared\src\ViewMode Baglam"
 type: context
 folder: "C:\www\coremusic.net\shared\src\ViewMode"

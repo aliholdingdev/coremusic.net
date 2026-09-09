@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-013: Rate Limiting APCu"
 status: frozen
 date: 2026-01-20

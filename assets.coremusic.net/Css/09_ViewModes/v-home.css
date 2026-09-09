@@ -13,15 +13,15 @@
    Tam kaplama, cover, fixed
    ============================================================ */
 html[data-gender="female"] body {
-  background-image: url('/Image/background/login-bg-female.png');
+  background-image: url('//assets.coremusic.net/Image/background/login-bg-female.png');
 }
 
 html[data-gender="male"] body {
-  background-image: url('/Image/background/login-bg-male.png');
+  background-image: url('//assets.coremusic.net/Image/background/login-bg-male.png');
 }
 
 html[data-gender="neutral"] body {
-  background-image: url('/Image/background/login-bg-neutral.png');
+  background-image: url('//assets.coremusic.net/Image/background/login-bg-neutral.png');
 }
 
 body {

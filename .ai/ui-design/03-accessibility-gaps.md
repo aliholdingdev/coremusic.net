@@ -1,7 +1,13 @@
 ---
-title: "CoreMusic — Accessibility Gaps (WCAG 2.2 AA, v3.1.0)"
+title: "CoreMusic - Accessibility Gaps (WCAG 2.2 AA, v3.1.0)"
 type: reference
+category: accessibility
+date: 2026-08-11
+updated: 2026-09-08
+status: active
 version: 3.2.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 ---
 
 # CoreMusic — Accessibility Gaps (WCAG 2.2 AA, v3.1.0)

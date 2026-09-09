@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-085: Shared Library Architecture (Hybrid)"
 status: active
 date: 2026-08-12

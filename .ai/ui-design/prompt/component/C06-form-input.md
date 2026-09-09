@@ -7,7 +7,11 @@ bem_class: ".form-input"
 itcss_layer: "04_Components"
 target_file: "css/04_Components/_form-input.css"
 version: 1.0.0
+date: 2026-09-08
+updated: 2026-09-08
 status: active
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 author: "UI Designer Agent"
 ---
 
@@ -212,3 +216,10 @@ author: "UI Designer Agent"
 - Hata mesajı, `aria-describedby` ile input'a referans vermeli
 - `autocomplete` attribute'u, şifre ve email alanları için zorunludur
 - Autofill arka plan rengi CSS ileOverride edilmeli
+
+---
+
+*C06 Form Input v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

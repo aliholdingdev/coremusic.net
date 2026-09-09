@@ -1,9 +1,10 @@
 /**
  * CoreMusic — Theme Config Tokens
- * Global design system: spacing, radius, shadows, z-index, transitions, keyframes
+ * Global design system: spacing, radius, blur, z-index, transitions, keyframes
+ * Shadow + text-shadow tokenleri: a-design-tokens.css (SSOT)
  * Renk tokenleri: a-colors-token.css (--color-*) ve a-semantic-token.css (--theme-*, --bg-*, vb.)
  * ITCSS Layer: 01_Abstracts
- * Version: 2.1.0 — 2026-06-03
+ * Version: 2.2.0 — 2026-09-09
  */
 
 :root {
@@ -36,23 +37,9 @@
   --r-full: 9999px;
 
   /* ============================================================
-     SHADOWS (Box)
+     SHADOWS — a-design-tokens.css'e taşındı (SSOT, 2026-09-09)
+     Box: --shadow-* · Metin: --ts-*
      ============================================================ */
-  --shadow-sm:    0 2px 8px rgba(0,0,0,0.2);
-  --shadow-md:    0 4px 16px rgba(0,0,0,0.25);
-  --shadow-lg:    0 8px 32px rgba(0,0,0,0.3);
-  --shadow-xl:    0 16px 48px rgba(0,0,0,0.4);
-  --shadow-2xl:   0 24px 64px rgba(0,0,0,0.5);
-
-  /* ============================================================
-     TEXT-SHADOWS — Metin Okunabilirlik Sistemi
-     Tüm sayfalara otomatik uygulanır (b-base-core.css)
-     ============================================================ */
-  --ts-xs:    0 1px 1px rgba(0, 0, 0, 0.75);    /* nav, label, badge, caption */
-  --ts-sm:    0 1px 3px rgba(0, 0, 0, 0.65);    /* body metni, kart içerikleri */
-  --ts-md:    0 2px 8px rgba(0, 0, 0, 0.55);    /* başlıklar, panel başlıkları */
-  --ts-lg:    0 3px 14px rgba(0, 0, 0, 0.55);    /* hero başlık, logo */
-  --ts-glow:  0 0 12px rgba(255, 79, 216, 0.45); /* neon pembe glow — vurgu */
 
   /* ============================================================
      BLUR VALUES

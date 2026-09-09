@@ -1,4 +1,4 @@
-﻿-- coremusic_system — SİSTEM, i18n, VERİTABANI
+-- coremusic_system — SİSTEM, i18n, VERİTABANI
 -- Version: 8.0.0
 -- BCNF Normalized
 -- Author: CoreMusic Data Engineer

@@ -1,7 +1,13 @@
 ---
-title: "CoreMusic — Vault Registration (Kalıcı Kayıt, v4.0.0)"
+title: "CoreMusic - Vault Registration (Kalıcı Kayıt, v4.0.0)"
 type: plan
+category: vault-registration
+date: 2026-08-11
+updated: 2026-09-08
+status: active
 version: 4.1.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 ---
 
 # CoreMusic — Vault Registration (v4.0.0)

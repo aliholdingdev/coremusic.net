@@ -1,17 +1,20 @@
 ---
-title: "Sayfa Prompt — Ana Sayfa"
+title: "Sayfa Prompt - Ana Sayfa"
+type: page-prompt
 category: page-prompt
-version: "2.0.0"
-date: "2026-08-11"
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 2.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 route: "/"
 layout: "split-home-42-58"
-platform: "home-1024 (Linux Embedded RPi5, 1024×600)"
+platform: "home-1024 (Linux Embedded RPi5, 1024x600)"
 references:
   - [[screens/B-home/dashboard]]
   - [[screens/00-ascii-art-views]] §1
   - [[screens/_layout-patterns/02-split-home]]
-  - [[01-component-inventory]] C01, C02, C03, C09, C14
-  - [[01-1024-embedded]]
 ---
 
 # Ana Sayfa (Home Page) — Detaylı Prompt
@@ -304,7 +307,7 @@ assets.coremusic.net/Css/
 
 ---
 
-*Home Page Prompt v2.0.0 — CoreMusic UI Design System*
+*Home Page Prompt v2.0.0 - CoreMusic UI Design System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-11*
-*Mode: Red Team · Human Mode · Truth Mode*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

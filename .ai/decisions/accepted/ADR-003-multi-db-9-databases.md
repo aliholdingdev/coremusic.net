@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-003: Multi-DB 9 BCNF VeritabanÄ±"
 status: frozen
 date: 2026-01-25

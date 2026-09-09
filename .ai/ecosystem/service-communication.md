@@ -1,4 +1,4 @@
-﻿---
+---
 type: ecosystem
 category: service-communication
 title: "Service Communication — CoreMusic İletişim Protokolleri"

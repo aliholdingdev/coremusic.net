@@ -18,8 +18,10 @@
   --glass-border-light: rgba(255, 255, 255, 0.2);
   --glass-border-glow:  rgba(255, 255, 255, 0.3);
 
-  /* Glass shadows */
-  --glass-shadow:       0 8px 32px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255,255,255,0.1);
+  /* Glass shadows
+     --glass-shadow: SSOT a-design-tokens.css (koyu tema).
+     Mode override'ları aşağıdaki light-mode bloklarında (ADR-044).
+     -deep / -float yalnızca bu dosyada (ek kademeler). */
   --glass-shadow-deep:  0 16px 48px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.12);
   --glass-shadow-float: 0 24px 64px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.15);
 

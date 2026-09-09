@@ -616,7 +616,26 @@ document.cookie = 'cm_viewport_h=' + h + ';path=/;max-age=86400;SameSite=Lax';
 
 ---
 
-*PHP Implementasyon Rehberi v2.0.0 — CoreMusic 4-Tier Conditional Rendering System*
+## 11. Faz 2c Doğrulama Notları (2026-09-08)
+
+Bu rehber Faz 0-2c taramalarıyla çapraz doğrulandı:
+
+| İddia | Kanıt | Durum |
+|-------|-------|-------|
+| `DeviceManager.php` 7 cihaz, 4 tier, 9 toggle | brain §18B + `shared/src/Device/DeviceManager.php` v2.0.0 | ✅ |
+| `DeviceDetector` 11 tespit kuralı | brain §18B öncelik listesi | ✅ |
+| Viewport cookie hattı | `device-loader.js` + PageRouter + HtmlShellRenderer | ✅ (§6.1/6.2 kod örnekleri gerçek eklerle uyumlu) |
+| Fallback her zaman false | brain §18B `shouldShowFallback()` | ✅ |
+| Test matrisi 9 viewport | brain §18B Test Sonuçları tablosu | ✅ |
+| scale*.js referansları | **SİLİNDİ** — ScaleManager.js ile değişti (html-shell-renderer §11) | ⚠️ bu rehberde scale referansı yok — temiz |
+
+**Bu rehberin konumu:** l2-routing'den bağımsız kök düzey mimari doküman; DeviceManager kullanım rehberidir. Satır hedefi ~482 boş-hariç — mikro farkla hedefte kabul edildi (içerik tamam, dolgu yasak).
+
+**Çapraz referanslar:** [[l2-routing/html-shell-renderer]] §24 DeviceCssMap · [[../brain]] §18B/§18C · [[../l2-routing/index]] §8 viewport akışı.
+
+---
+
+*PHP Implementasyon Rehberi v2.1.0 — CoreMusic 4-Tier Conditional Rendering System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-04*
+*Last Updated: 2026-09-08*
 *Mode: Red Team · Human Mode · Truth Mode*

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-039: 7-Service Platform Architecture"
 status: active
 date: 2026-07-20

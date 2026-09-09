@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\packages\shared\src\DTO\Auth Agent Talimatlari"
 type: agent-registry
 folder: "C:\www\coremusic.net\packages\shared\src\DTO\Auth"

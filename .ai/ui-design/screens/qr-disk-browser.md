@@ -1,6 +1,13 @@
 ---
-title: "Disk Browser — Quick Reference"
+title: "Disk Browser - Quick Reference"
 type: ascii-qr
+category: ascii-qr
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 screen_id: "S09"
 resolution: "1024x600"
 layout_pattern: "3-column"
@@ -126,3 +133,10 @@ Sidebar satır yüksekliği: ~21px (WCAG İHLALİ — 48px olmalı)
   background: rgba(255,255,255,0.2);
 }
 ```
+
+---
+
+*QR Disk Browser v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

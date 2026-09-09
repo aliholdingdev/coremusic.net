@@ -1,6 +1,13 @@
 ---
-title: "File List — Quick Reference"
+title: "File List - Quick Reference"
 type: ascii-qr
+category: ascii-qr
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 screen_id: "S10"
 resolution: "1024x600"
 layout_pattern: "3-column + detail"
@@ -140,3 +147,10 @@ Sağ panel'de donut chart + bar charts + pie chart
   border-radius: var(--card-radius);
 }
 ```
+
+---
+
+*QR File List v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

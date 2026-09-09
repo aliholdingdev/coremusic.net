@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-044: Dynamic User Theme Engine"
 status: active
 date: 2026-08-04

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.opencode\skills\skill-maker\references Baglam"
 type: context
 folder: "C:\www\coremusic.net\.opencode\skills\skill-maker\references"

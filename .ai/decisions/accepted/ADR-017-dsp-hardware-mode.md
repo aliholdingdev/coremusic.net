@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-017: DSP Hardware Mode (XMOS, JUCE, ASIO)"
 status: frozen
 date: 2026-04-05

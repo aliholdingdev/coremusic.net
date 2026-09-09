@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-016: URL Normalization"
 status: frozen
 date: 2026-04-01

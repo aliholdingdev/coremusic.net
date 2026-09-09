@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-032: IPC Contract Versioning"
 status: frozen
 date: 2026-06-10

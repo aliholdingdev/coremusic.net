@@ -44,20 +44,33 @@
 
 #seekbar::-webkit-slider-runnable-track {
     background: transparent;
+    height: 16px;
 }
 
+/* Thumb: GÖRÜNMEZ ama BOYUTLU (16×16) — boyutsuz thumb'ta Chrome native
+   tıklama/drag hit-testi çalışmıyor (seekbar ilerlememe hatasının kökü).
+   Görüntü #seekbar2 (fill) tarafından çizilir; thumb salt etkileşim alanıdır. */
 #seekbar::-webkit-slider-thumb {
     -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
     background: transparent;
     border: none;
-}
-
-#seekbar::-moz-range-thumb {
-    background: transparent;
-    border: none;
+    border-radius: 0;
+    cursor: pointer;
 }
 
 #seekbar::-moz-range-track {
     background: transparent;
     border: none;
+    height: 16px;
+}
+
+#seekbar::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
 }

@@ -1,8 +1,13 @@
 ---
-title: "CoreMusic — Mockup Index (19 PNG, home-1024 + home-1920 + shared-1024, Linux)"
+title: "CoreMusic - Mockup Index (19 PNG, home-1024 + home-1920 + shared-1024, Linux)"
 type: reference
+category: mockup-index
+date: 2026-08-11
+updated: 2026-09-08
+status: active
 version: 6.1.0
-updated: 2026-09-04
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 ---
 
 # CoreMusic — Mockup Index (v6.1.0)

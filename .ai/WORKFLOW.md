@@ -405,10 +405,10 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 |------|---------|------|
 | 1 | Boot protokolünü çalıştır (13 dosya) | Max 36s |
 | 1.5 | ROLE.md oku (Senior Architect rol tanımı) | Max 3s |
-| 2a | prompt0 oku (Genel Ana Prompt) | [[archives/prompt0-genel-ana-prompt-2026-08-13]] | 5s |
-| 2b | prompt1 oku (SPA Router) | [[archives/prompt1-spa-router-2026-08-13]] | 3s |
-| 2c | prompt2 oku (Auth) | [[archives/prompt2-auth-2026-08-13]] | 3s |
-| 2d | prompt3 oku (API) | [[archives/prompt3-api-2026-08-13]] | 3s |
+| 2a | prompt0 oku (Genel Ana Prompt) | [[archives/prompt0-genel-ana-prompt-2026-09-01]] | 5s |
+| 2b | prompt1 oku (SPA Router) | [[archives/prompt1-spa-router-2026-09-01]] | 3s |
+| 2c | prompt2 oku (Auth) | [[archives/prompt2-auth-2026-09-01]] | 3s |
+| 2d | prompt3 oku (API) | [[archives/prompt3-api-2026-09-01]] | 3s |
 | 3 | Session Vault Sync Protocol başlat (5 soru) | Max 10s |
 | 4 | Session başlangıç kaydı oluştur | Anlık |
 | 5 | Görev bağlamını anla | Değişken |
@@ -439,7 +439,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 
 **⚠️ ZORUNLULUK:** Her session başında ve sonunda `.ai/` dizinindeki tüm root .md dosyaları okunmalı ve güncellenmelidir.
 
-#### Root .md Dosyaları (11 adet)
+#### Root .md Dosyaları (12 adet — glossary.md Faz 1'de eklendi)
 
 | # | Dosya | Amaç | Session Başında | Session Sonunda |
 |---|-------|------|-----------------|-----------------|
@@ -454,17 +454,18 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 9 | `engine.md` | Orkestrasyon motoru | ✅ Oku | ✅ Gerekirse güncelle |
 | 10 | `ROLE.md` | Rol tanımı | ✅ Oku | ✅ Gerekirse güncelle |
 | 11 | `ULTRA-THINKING.md` | Ultra düşünme protokolü | ✅ Oku | ✅ Gerekirse güncelle |
+| 12 | `glossary.md` | Terim sözlüğü (75 terim, kod-referanslı) | ✅ Oku | ✅ Gerekirse güncelle |
 
-#### Session Başında (11 Dosya)
+#### Session Başında (12 Dosya)
 
 | Adım | Aksiyon | Kontrol |
 |------|---------|---------|
-| 1 | Tüm 11 root .md dosyasını oku | Dosya var mı? |
+| 1 | Tüm 12 root .md dosyasını oku | Dosya var mı? |
 | 2 | Son değişiklikleri kontrol et | `git log` veya timestamp |
 | 3 | Çelişki varsa düzelt | SSOT hierarchy: CLAUDE.md > AGENTS.md > WORKFLOW.md |
 | 4 | Eksik referansları tespit et | Wiki-link kontrolü |
 
-#### Session Sonunda (11 Dosya)
+#### Session Sonunda (12 Dosya)
 
 | Adım | Aksiyon | Kontrol |
 |------|---------|---------|
@@ -479,17 +480,17 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 
 ```
 Session Başında:
-  CLAUDE.md → AGENTS.md → WORKFLOW.md → brain.md → index.md → keys.md → MEMORY.md → log.md → engine.md → ROLE.md → ULTRA-THINKING.md
+  CLAUDE.md → AGENTS.md → WORKFLOW.md → brain.md → index.md → keys.md → MEMORY.md → log.md → engine.md → ROLE.md → ULTRA-THINKING.md → glossary.md
 
 Session Sonunda:
-  MEMORY.md → log.md → brain.md → index.md → keys.md → engine.md → AGENTS.md → WORKFLOW.md → CLAUDE.md → ROLE.md → ULTRA-THINKING.md
+  MEMORY.md → log.md → brain.md → index.md → keys.md → engine.md → AGENTS.md → WORKFLOW.md → CLAUDE.md → ROLE.md → ULTRA-THINKING.md → glossary.md
 ```
 
 #### Kritik Kurallar
 
 | # | Kural | İhlal Sonucu |
 |---|-------|--------------|
-| 1 | Session başında 11 dosya okunmadan kod yazılamaz | İşlem durdurulur |
+| 1 | Session başında 12 dosya okunmadan kod yazılamaz | İşlem durdurulur |
 | 2 | Session sonunda değişen dosyalar güncellenmezse vault tutarsızlığı | CRITICAL log |
 | 3 | Çelişki varsa SSOT hierarchy takip edilir | CLAUDE.md öncelikli |
 | 4 | Timestamp'ler her zaman güncel olmalı | Eski timestamp = eski bilgi |
@@ -718,11 +719,9 @@ Session Sonunda:
 | Hard Gates | 4 |
 | Warnings | 7 |
 | Glossary Terms | 15 |
-| Warnings | 7 |
-| Glossary Terms | 15 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-13
+**Last Updated:** 2026-09-08
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -1,7 +1,13 @@
 ---
-title: CoreMusic — C16 Network Row Component Spec
+title: "CoreMusic - C16 Network Row Component Spec"
+type: component-spec
+category: component-spec
 date: 2026-08-11
+updated: 2026-09-08
+status: active
 version: 2.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 platform: home-1024
 ---
 
@@ -34,3 +40,10 @@ Yükseklik: ~48px ✅
 ## ITCSS: 04_Components
 ## WCAG: ✅ UYGUN (48px)
 ## Kullanım: WiFi, Bluetooth
+
+---
+
+*Component Spec C16 Network Row v2.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

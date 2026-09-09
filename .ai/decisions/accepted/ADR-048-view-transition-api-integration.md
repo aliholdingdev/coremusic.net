@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-048: View Transition API Integration"
 status: active
 date: 2026-08-08

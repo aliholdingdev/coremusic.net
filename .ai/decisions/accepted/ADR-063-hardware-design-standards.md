@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-063: Hardware Design Standards"
 status: active
 date: 2026-08-09

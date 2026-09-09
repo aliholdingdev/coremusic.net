@@ -1,7 +1,13 @@
 ---
-title: CoreMusic — C06 Form Input Component Spec
+title: "CoreMusic - C06 Form Input Component Spec"
+type: component-spec
+category: component-spec
 date: 2026-08-11
+updated: 2026-09-08
+status: active
 version: 2.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 platform: home-1024
 ---
 
@@ -44,3 +50,10 @@ platform: home-1024
 ## ITCSS: 04_Components
 ## WCAG: ✅ UYGUN (56px)
 ## Kullanım: Auth, WiFi Connect
+
+---
+
+*Component Spec C06 Form Input v2.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*

@@ -1,7 +1,13 @@
 ---
-title: "CoreMusic — Implementation Plan (15-Step CSS, v3.1.0)"
+title: "CoreMusic - Implementation Plan (15-Step CSS, v3.1.0)"
 type: plan
+category: implementation-plan
+date: 2026-08-11
+updated: 2026-09-08
+status: active
 version: 3.2.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
 ---
 
 # CoreMusic — Implementation Plan (v3.1.0)

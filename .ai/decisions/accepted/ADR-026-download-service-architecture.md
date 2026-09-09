@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-026: Download Service Architecture"
 status: frozen
 date: 2026-05-15

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\.claude\skills\database-normalize-maker\templates Agent Talimatlari"
 type: agent-registry
 folder: "C:\www\coremusic.net\.claude\skills\database-normalize-maker\templates"

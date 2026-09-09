@@ -1,4 +1,4 @@
-﻿---
+---
 title: "ADR-072: Social Database Schema"
 status: active
 date: 2026-08-10

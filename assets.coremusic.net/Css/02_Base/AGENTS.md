@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\assets.coremusic.net\Css\02_Base Agent Talimatlari"
 type: agent-registry
 folder: "C:\www\coremusic.net\assets.coremusic.net\Css\02_Base"

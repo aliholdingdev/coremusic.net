@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic - C:\www\coremusic.net\shared\src\Events\Domain Baglam"
 type: context
 folder: "C:\www\coremusic.net\shared\src\Events\Domain"

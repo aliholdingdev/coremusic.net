@@ -1,9 +1,14 @@
 ---
-title: "Layout Pattern — Fullscreen"
+title: "Layout Pattern - Fullscreen"
+type: layout-prompt
 category: layout-pattern
-version: "1.0.0"
-date: "2026-08-11"
-viewport: "1024×600"
+date: 2026-08-11
+updated: 2026-09-08
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team * Human Mode * Truth Mode
+viewport: "1024x600"
 ---
 
 # Layout Pattern: Fullscreen
@@ -57,3 +62,10 @@ Mini player sol alt köşede sabitlenmiştir:
 - Sadece sol üstte geri oku butonu bulunur
 - Video alanı ağırlıklı, parça listesi yan panel
 - Mini player sol alt köşede
+
+---
+
+*Layout Pattern Fullscreen v1.0.0 - CoreMusic UI Design System*
+*Authority: Bayram Ali / Vault Steward*
+*Last Updated: 2026-09-08*
+*Mode: Red Team * Human Mode * Truth Mode*
