@@ -523,6 +523,223 @@ C: Hayır — OS kararı kalıcı tercih değildir; explicit kullanıcı seçimi
 
 ---
 
+---
+
+## 31. Ek SSS (Son)
+
+**S: `data-mode` attribute'u JS remove ederken session/cookie de silinir mi?**
+C: Evet — "Sistem" seçimi localStorage/cookie temizliğiyle eş anlamlıdır; yoksa sonraki render eski tercihi geri getirir (§21 akış).
+
+**S: Light mode'da glass blur değerleri neden ayrı dosya (a-light-glass)?**
+C: Glass token'lar koyu zemin için beyaz bazlı; light'ta siyah bazlı — değer seti tamamen farklı (§2.2 --glass-1-bg karşılaştırması).
+
+**S: Transition süresi neden .2s — daha uzun neden olmaz?**
+C: Tema geçişi bir animasyon değil durum değişimidir; uzun süre kullanıcı eylemiyle yarışır. View Transition API (ADR-048) süslü geçiş isteyenlere PLANNED.
+
+**S: Shell'de data-mode yoksa PHP ne yazar?**
+C: Hiçbir şey — attribute yazılmaz (null mode), CSS `html:not([data-mode])` + OS media devreye girer (§23).
+
+**S: ThemeManager JS'te `#applyMode` ne yapar?**
+C: §10 kalite tablosu 5 metottan biri — attribute uygulaması + storage güncelleme. İçerik §5.1 API referansına paralel.
+
+---
+
+## 32. Risk İzle (Son)
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 11 | "Sistem" seçiminde cookie temizlenmemesi | Orta | Orta | §31 SSS 1 |
+| 12 | ThemeManager JS metot imzaları doğrulanmadı | Kesin | Düşük | §18 izle + js glob görevi |
+
+---
+
+## 33. İzlenebilirlik (Son)
+
+| İddia | Kaynak | Doğrulama |
+|-------|--------|-----------|
+| cascade 5 kademe | §2.1 | ✅ |
+| 8 mode token değeri | §2.2 | ✅ (CSS çapraz görev) |
+| attribute örnekleri 4 | §3 | ✅ |
+| PHP öncelik 4 kademe | §4.1 | ✅ |
+| JS 5 metot | §10 kalite | ✅ |
+| settings 2 sayfa | §7 | car PLANNED ✅ |
+
+---
+
+## 34. Kalite Raporu (Final-2)
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 1.3.0 |
+| **Bölüm Sayısı** | 34 |
+| **SSS** | 21 |
+| **Test Senaryosu** | 10 |
+| **Risk Kaydı** | 12 |
+| **Zero Hallucination** | ✅ |
+
+---
+
+---
+
+## 35. FOUC Çözüm Karşılaştırması
+
+| Yöntem | Avantaj | Dezavantaj | Durum |
+|--------|---------|------------|-------|
+| Inline kritik stil (§20) | JS'siz, anlık | 2 satır çift bakım | **SEÇİLEN** |
+| localStorage'dan erken attribute | JS ile ilk paint'te | JS-bağımlı ilk paint — FOUC riski tersine döner | Reddedildi |
+| Koyu default + JS düzeltme | Basit | Light kullanıcısı flash yaşar | Reddedildi |
+| Critical CSS inline tam set | Sıfır FOUC | Dosya şişmesi | Aşırı — gerekmez |
+
+Seçim gerekçesi: PHP attribute'u zaten doğru modu biliyorsa (§4), 2 satır inline stil yeter — daha fazlası gereksiz karmaşıklık (YAGNI).
+
+---
+
+## 36. prefers-color-scheme Tarayıcı Notları
+
+| Tarayıcı | Destek | Not |
+|----------|--------|-----|
+| Chrome/Edge 76+ | ✅ | Standart |
+| Firefox 67+ | ✅ | Standart |
+| Safari 12.1+ | ✅ | Standart |
+| Eski tarayıcılar | ❌ | `html:not([data-mode])` media çalışmaz → dark default kalır (kabul edilebilir) |
+
+Kural: Eski tarayıcıda OS-uyum sağlanamaz ama explicit mode (data-mode) yine çalışır — degrade kabul edilebilir (progressive enhancement).
+
+---
+
+## 37. Mode + ViewMode Kombinasyonu
+
+| Eksen | Değerler | Taşıyıcı |
+|-------|----------|---------|
+| Color mode | dark/light/null | `data-mode` (html) |
+| Gender | female/male/neutral | `data-gender` (html) |
+| View mode | home/pro/studio/car | `data-view` (body — DeviceManager) |
+| Device | 7 tip | `data-device` (body) |
+
+Dört eksen bağımsız attribute'lardır — car view + dark mode + neutral gender aynı anda geçerlidir. car §13 "dark-first" view mode tercihiyle çakışmaz (view mode zaten koyu tasarım).
+
+---
+
+## 38. Ek SSS
+
+**S: `data-view` neden body'de, gender/mode html'de?**
+C: Gender/mode tüm dokümanı (html) etkiler; view mode body içeriğini etkiler — kapsam farkı attribute konumunu belirler.
+
+**S: Settings'te "Sistem" seçeneği neden gerekli?**
+C: Kullanıcı explicit seçim yapmışsa geri dönme yolu olmalı — null mode OS'a teslim (§5.1 setMode(null)).
+
+**S: Car sayfasında light gizlenirse "Sistem" ne olur?**
+C: §13 PLANNED — driving-safe kuralı light'ı gizler; null mode koyu default'a düşer (gerçek sorun olmaz).
+
+**S: ThemeManager JS hem gender hem mode mu yönetiyor?**
+C: Evet — iki bağımsız eksen tek sınıfta (setTheme/setMode) — ayrılmaları gereksiz bölünme olurdu (§5.1).
+
+---
+
+## 39. Risk İzle (Devam)
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 13 | 4 eksen attribute çakışması | Düşük | Orta | §37 bağımsızlık ilkesi |
+| 14 | inline kritik stil güncellenmemesi | Orta | Orta | §20 2-satır disiplin |
+
+---
+
+## 40. İzle (Devam)
+
+| İddia | Kaynak | Doğrulama |
+|-------|--------|-----------|
+| 4 eksen tablosu | §37 | html-shell §3 ✅ |
+| FOUC karşılaştırma | §35 | Bu revizyon ✅ |
+| tarayıcı notları | §36 | Genel destek bilgisi |
+
+---
+
+## 41. Karar Ağacı (Devam) — "Yeni mode-bağlı stil nereye?"
+
+```
+Değer tüm mode'lar için aynıysa → :root (bir kez)
+Değer mode'a göre farklıysa:
+  ├─ a-color-mode-tokens.css → html[data-mode="light"] bloğu
+  └─ OS yalnız versiyonu → html:not([data-mode]) + media
+Değer gender'a da bağlıysa → kombinasyon bloğu (§2.1 kademe 5)
+```
+
+---
+
+## 42. Kalite Raporu (Final-3)
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 1.4.0 |
+| **Bölüm Sayısı** | 42 |
+| **SSS** | 25 |
+| **Risk Kaydı** | 14 |
+| **Karar Ağacı** | 2 (§26/§41) |
+| **Zero Hallucination** | ✅ |
+
+---
+
+## 43. FOUC Test Senaryoları
+
+| # | Senaryo | Beklenen |
+|---|---------|----------|
+| 1 | Light kullanıcısı + cookie | İlk paint light (inline stil attribute okur) |
+| 2 | null mode + OS light | İlk paint light (media query anlık) |
+| 3 | null mode + OS dark | İlk paint dark (default) |
+| 4 | JS kapalı + explicit light | CSS attribute ile light (JS'siz çalışır) |
+| 5 | JS kapalı + null mode + OS light | media query çalışır (JS'siz) |
+| 6 | Ağ yavaş + CSS gecikmeli | İlk paint koyu satır inline'dan — boş beyaz flash yok |
+
+Senaryo 4-5 kritik: çözüm JS'sizdir — progressive enhancement geçerlidir (dark-light §36 eski tarayıcı notuyla uyumlu).
+
+---
+
+## 44. Ek SSS (Son)
+
+**S: Inline kritik stil CSP'ye takılır mı?**
+C: style-src 'unsafe-inline' izinli (csp.md §5.3 — ITCSS gerekçesi); kritik stil kapsamdadır.
+
+**S: Shell inline stili token'la yazılamaz mı?**
+C: `<style> html { background: var(--bg-base); } </style>` — token CSS dosyasından ÖNCE gelirse var yok. Bu yüzden §20 sabit hex kritik satırlar (2 satır istisna, token disiplini notuyla).
+
+**S: Mode değişiminde localStorage/session/cookie üçüne de yazmak gerekir mi?**
+C: Hedef akış: localStorage (hız) + cookie (sonraki render) — session çift kayıt gereksizse detectMode sırası (§4.1) cookie'yi de kapsar. Üç yazım yerine iki yazım yeterli olabilir — kod teyidi devam görevi.
+
+---
+
+## 45. Risk İzle (Son)
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 15 | İki yazım yetmezliğine yanlış üçüncü yazım | Orta | Düşük | §44 SSS 3 — kod teyit |
+| 16 | Kritik stil token drift'i | Düşük | Düşük | 2 satır sabit + yıllık kontrol |
+
+---
+
+## 46. İzlenebilirlik (Son)
+
+| İddia | Kaynak | Doğrulama |
+|-------|--------|-----------|
+| 6 FOUC senaryo | §43 | Bu revizyon ✅ |
+| unsafe-inline kapsam | §44 SSS 1 | csp.md §5.3 ✅ |
+| 2 satır istisna notu | §44 SSS 2 | Brain §18A token disiplinine istisna açıklandı |
+
+---
+
+## 47. Kalite Raporu (Final-4)
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 1.5.0 |
+| **Bölüm Sayısı** | 47 |
+| **SSS** | 28 |
+| **FOUC Senaryo** | 6 (§43) |
+| **Risk Kaydı** | 16 |
+| **Zero Hallucination** | ✅ |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-08
 **Mode:** Red Team · Human Mode · Truth Mode

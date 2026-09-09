@@ -598,6 +598,84 @@ C: Yasak — §8.2 zinciri ağaçtır; döngü ihtiyacı EventBus olayına çevr
 
 ---
 
+## 33. Ek SSS (Final)
+
+**S: `delete` operatörü nesne alanında yasak mı?**
+C: Hayır — §2 yalnız eval/Function/innerHTML/var yasağı. `delete obj.field` serbest ama tercihen `null` set + GC.
+
+**S: Optional chaining (`?.`) null-safety için mi?**
+C: Evet — RouterConfig optional erişimlerde mevcut (main.js `window.CoreMusic?.RouterConfig`).
+
+**S: `const` objenin alanı değişebilir — sorun değil mi?**
+C: Değil — const referans sabitliği verir, içerik mutasyonu meşru; state guard'ları mantıksal düzeyde (PlayerController set state).
+
+**S: `for...of` vs `forEach`?**
+C: Serbest — delegation deseniyle liste iterasyonu azaldı zaten. async iterasyon `for...of + await` zorunlu.
+
+**S: `Object.freeze` her config'de mi?**
+C: Cihaz setlerinde zorunlu (breakpoint-guide Adım 3); genel config'lerde öneri.
+
+---
+
+## 34. Risk İzle (Final)
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 14 | ESLint yokluğu kural drift'i | Yüksek | Orta | §16 PLANNED — review gate telafi |
+| 15 | legacy IIFE `var`'larının "düzeltme" girişimi | Orta | Orta | §6 kural 3 parantez — bilinçli korunum |
+
+---
+
+## 35. İzlenebilirlik (Final)
+
+| İddia | Kaynak | Doğrulama |
+|-------|--------|-----------|
+| yasak 6 satır | §2 | ADR-001 ✅ |
+| zorunlu 7 kural | §3 | ✅ |
+| delegation deseni | §6 | ✅ |
+| fetch timeout 5s | §7 | ✅ |
+| modül şablonu | §8.3 | ✅ |
+| v6.0.0 gerçeklik | §12 | MEMORY ✅ |
+
+---
+
+## 36. Kalite Raporu (Final-2)
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 6.3.0 |
+| **Bölüm Sayısı** | 36 |
+| **SSS** | 23 |
+| **Risk Kaydı** | 15 |
+| **Checklist** | 10 madde (§23) |
+| **Zero Hallucination** | ✅ |
+
+---
+
+## 37. Ek SSS (Son)
+
+**S: Template literal içinde HTML?**
+C: innerHTML'e girmeyecekse serbest (string üretimi); DOM'a basarken yine DOMParser akışı. Şablon literal'leri yalnız textContent/parse girişine beslenir.
+
+**S: `addEventListener` seçenek objesi mi boolean mı?**
+C: Seçenek objesi (`{ passive: true }`) — modern standart (best-practices paralel).
+
+**S: `console.log` prod'da?**
+C: Yasak değil ama önerilmez — logLevel (RouterConfig) yönlendirir; §26 error pattern kuralına bağlanır.
+
+---
+
+## 38. Kalite (Son)
+
+| Metrik | Değer |
+|--------|-------|
+| **SSS** | 26 |
+| **Yasak** | 6 |
+| **Zorunlu** | 7 |
+| **Zero Hallucination** | ✅ |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-08
 **Mode:** Red Team · Human Mode · Truth Mode

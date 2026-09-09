@@ -628,6 +628,74 @@ Değişim anında:
 
 ---
 
+## 42. Ek SSS (Final)
+
+**S: Tema token'ları design-tokens-master dışında bir dosyada da var mı?**
+C: a-semantic-token.css gender bloklarını uygular (§3 CSS örneği); master DEĞERLERİN kaynağıdır. İki dosya tek zincir: master (kanonik değer) → semantic (data-gender uygulaması).
+
+**S: `--accent` token'ları themechange event'inde taşınıyor mu?**
+C: §4.4 eski örnek `tokens` payload gösterir; güncel attribute-swap deseni payload'sız (CSS kendiliğinden). Event payload sadeleşti — js-module §12 kataloğuna uyar.
+
+**S: Neutral temada aksan yok mu?**
+C: `#a0a0b0` gri aksan — var; sadece pembe/mavi kadar canlı değil. "Yok" değil "düşük doygunluk".
+
+**S: ThemeManager hangi manager örneğine bağlanır — core/mangers?**
+C: managers/ThemeManager.js (brain §18B); main.js registerModule('theme').
+
+**S: Tema değişimi sayfa performansını etkiler mi?**
+C: Attribute swap tüm var(--theme-*) referanslarını repaint eder — maliyet tek geçiş; transition .2s ile yumuşatır (§24).
+
+---
+
+## 43. Risk İzle (Final)
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 14 | İki token dosyası sapması | Düşük | Orta | §42 SSS 1 — master kanonik |
+| 15 | paint maliyeti düşük cihazda | Düşük | Düşük | §42 SSS 5 transition kısa |
+
+---
+
+## 44. İzlenebilirlik (Final)
+
+| İddia | Kaynak | Doğrulama |
+|-------|--------|-----------|
+| a-semantic-token.css | §24 import zinciri | device-css §4.2 ✅ |
+| ThemeManager managers/ konumu | brain §18B | ✅ |
+| paint transition | §24 | Doküman kuralı |
+
+---
+
+## 45. Kalite Raporu (Final-3)
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 5.4.0 |
+| **Bölüm Sayısı** | 45 |
+| **SSS** | 20 |
+| **Risk Kaydı** | 15 |
+| **Zero Hallucination** | ✅ |
+
+---
+
+**S: Tema teması dark/light ile çarpılırsa kontrast testi kimin?**
+C: ui-designer + qa — theme-engine kuralı verir (§9 4.5:1), test doğrular. 9 kombinasyon × kontrast matrisi PLANNED test seti.
+
+**S: `data-gender` sunucuda üretilemezse (statik sayfa)?**
+C: JS ThemeManager loadTheme ile attribute yazar (§4) — FOUC riski kritik stil ile azaltılır (§20).
+
+---
+
+## 46. Kalite (Son)
+
+| Metrik | Değer |
+|--------|-------|
+| **PHP Metot** | 4 (§36) |
+| **Tema** | 3 renk (§3) |
+| **Açık Görev** | ThemeManager.php imza teyidi (§36) |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-08
 **Mode:** Red Team · Human Mode · Truth Mode

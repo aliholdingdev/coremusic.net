@@ -92,9 +92,27 @@ return [
         cacheable: true,
     ),
     'albumler' => new SpaRoute(
-        page: 'home',
+        page: 'albums',
         requiresAuth: true,
         title: 'Albümler',
+        cacheable: true,
+    ),
+    'albumler/detay' => new SpaRoute(
+        page: 'album-detail',
+        requiresAuth: true,
+        title: 'Albüm Detayı',
+        cacheable: true,
+    ),
+    'sanatcilar' => new SpaRoute(
+        page: 'artists',
+        requiresAuth: true,
+        title: 'Sanatçılar',
+        cacheable: true,
+    ),
+    'playlist' => new SpaRoute(
+        page: 'playlist',
+        requiresAuth: true,
+        title: 'Playlist',
         cacheable: true,
     ),
     'ayarlar' => new SpaRoute(

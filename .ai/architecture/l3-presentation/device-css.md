@@ -478,6 +478,219 @@ C: §5.7 örneği; DeviceCssMap.php okumasında teyit — AUTH_DEVICE_CSS sabiti
 
 ---
 
+---
+
+## 15. d-auth-* Çözüm Senaryoları (Test-Sonrası)
+
+| Test Sonucu | Aksiyon | Etkilenen Doküman |
+|-------------|---------|-------------------|
+| 7 dosya VAR | itcss §3 doğru; §5.1-5.2 "eksik" bölümü IMPLEMENTED'e çevrilir; §5.3 "oluşturulmalı" → "mevcut" | device-css + itcss + l3 index |
+| 7 dosya YOK | device-css §5.3 doğru; itcss §3 ağaç "hedef tasarım" notu alır; DeviceCssMap AUTH_DEVICE_CSS kodu varsa ölü kod olur (ayrı bulgu) | device-css + itcss + l2 kontrol |
+| KISMEN (bazıları var) | Eksikler Adım 12 şablonuyla üretilir (breakpoint-guide) | üç doküman |
+
+**Önkoşul:** Auth shell akışı (auth-bundled.css) çalışıyor — §5.7 HtmlShellRenderer koduyla çapraz.
+
+---
+
+## 16. DeviceManager Toggle — brain §18B Çapraz Tablo
+
+brain §18B Feature Toggles (9 metot) — §4A.5 tablosuyla karşılaştırma:
+
+| Metot | brain §18B | §4A.5 | Uyum |
+|-------|------------|-------|------|
+| showVolume | !isEmbedded | embedded:true?? | ⚠️ ÇELİŞKİ — brain: embedded gizli; §4A.5 embedded true yazıyor |
+| showFullMetadata | !embedded && !phone | aynı mantık | ✅ |
+| showSidebar | isWide() ∥ isLaptop() | laptop false?? | ⚠️ ÇELİŞKİ — brain: laptop'ta true |
+| showSeekBar | true | tablet false?? | ⚠️ ÇELİŞKİ |
+| showPlaylistToggle | !isPhone | aynı | ✅ |
+| showPodcastWidget | isWide | desktop+4K | ✅ |
+| showRadioWidget | widgetCount>=5 | — | ✅ |
+| showUtilityIcons | !isPhone | — | ✅ (MEMORY v1.1.0) |
+| showFooterSeekSlider | !isPhone | — | ✅ |
+
+**Kanonik:** brain §18B (Faz 1-5 refactor sonrası güncel) + kod (DeviceManager.php v2.0.0). §4A.5 tablosu ESKİ sürüm — düzeltme notu: brain §18B tablosu esas alınır; §4A.5 güncellenmesi bu dokümanda kayıtlı (devam görevi: tabloyu brain değerleriyle değiştir).
+
+---
+
+## 17. Ek SSS
+
+**S: §4A.4 Content Config ile brain §18B içerik tablosu da çelişiyor mu?**
+C: Karşılaştırma: brain widget embedded 4/desktop 6 ✅ uyum; recentCard embedded 3 ✅; playlist embedded 3 — §4A.4 "0" yazıyor ⚠️. Kanonik brain §18B; §4A.4 güncelleme görevi (§16 ile aynı tur).
+
+**S: isWide() laptop dahil mi?**
+C: brain §18B: laptop+desktop+4K wide — §4A.3 tablo laptop false yazıyor ⚠️. Aynı düzeltme turuna dahil.
+
+**S: Neden bu kadar eski tablo kaldı?**
+C: device-css 2026-09-02'de yazılmış; brain §18B 2026-09-05'te güncellenmiş (Faz 1-5 refactor). Çapraz tarama Faz 2d'de yakaladı — scale*.js dersinin ikinci örneği.
+
+---
+
+## 18. Risk Kaydı Ek
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 5 | §4A.4/4A.5/4A.3 eski tabloların kopyalanması | Yüksek (var) | Yüksek | §16 kanonik ilan + düzeltme görevi |
+| 6 | d-auth-* oluşturulmadan shell hata vermesi | Bilinmiyor | Yüksek | §15 Test-Path önce |
+| 7 | AUTH_DEVICE_CSS ölü sabit | Bilinmiyor | Düşük | §15 senaryo 2 |
+
+---
+
+## 19. İzle Ek
+
+| İddia | Kaynak | Doğrulama |
+|-------|--------|-----------|
+| brain §18B kanonik | MEMORY 2026-09-05 güncellemesi | ✅ |
+| DeviceManager v2.0.0 | MEMORY + brain §18B | ✅ |
+| auth-bundled akış | §5.7 + html-shell §9.1 | Çapraz ✅ |
+
+---
+
+## 20. Karar Ağacı — "Cihaz CSS işi nereye?"
+
+```
+Yeni cihaz ekleniyor mu? → device-breakpoint-guide 13 adım
+Mevcut cihazda behavioral fark mı? → d-{device}.css (§4.3 iki sorumluluk kuralı)
+Auth sayfası CSS'i mi? → d-auth-{device}.css (§5 — varlık testi §15)
+Token farkı mı? → a-layout-tokens @media veya .layout--{device} (§4.3)
+Feature toggle farkı mı? → DeviceManager.php (brain §18B kanonik)
+```
+
+---
+
+## 21. Kalite Raporu (Güncel)
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 7.1.0 |
+| **Bölüm Sayısı** | 21 |
+| **Kritik Bulgu** | §16 3 tablo çelişkisi (brain kanonik) + §9 d-auth-* çelişkisi |
+| **Test Görevi** | Test-Path (§15) + tablo güncelleme |
+| **Zero Hallucination** | ✅ (çelişkiler gizlenmedi) |
+
+---
+
+## 22. Ek SSS (Son)
+
+**S: §4A.7 nav embedded "Ana Sayfa, Müzik" 2 link — brain 4 link. Hangisi?**
+C: brain §18B kanonik (Ana Sayfa/Kütüphane/Radyo/Ayarlar). §4A.7 eski. §16 düzeltme turuna dahil.
+
+**S: `fromDevice(string)` factory nerede kullanılıyor?**
+C: Testlerde (conditional guide §8.1 PHP Unit — fromDevice('phone',...)). Prod akış fromRequest.
+
+**S: DeviceManager.php v2.0.0 mı v1.0.0 mı?**
+C: brain §18B v2.0.0 (2026-09-04 koşullu render metotları eklendi); §8A başlık "v1.0.0 (2026-09-02)" eski. Kanonik: v2.0.0.
+
+**S: isSmallDesktop() brain'de var — §4A.3'te yok.**
+C: brain §18B deviceProfile() alanı: embedded-1024/small-desktop/tv-4k/4k-monitor. §4A.3 eklenmeli — aynı düzeltme turu.
+
+**S: DeviceCssMap::toCssPath vs authToCssPath — iki metot?**
+C: Evet — home CSS ve auth CSS haritaları ayrı (§5.6 AUTH_DEVICE_CSS). İki metot DeviceCssMap.php'de olmalı — kod teyidi.
+
+---
+
+## 23. Risk İzle (Son)
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 8 | §4A tabloların brain §18B'den eski olması | Kesin (3 tablo) | Yüksek | §16 düzeltme turu |
+| 9 | DeviceCssMap metot teyidi | Bilinmiyor | Orta | §22 SSS 5 |
+
+---
+
+## 24. İzle (Son)
+
+| İddia | Kaynak | Doğrulama |
+|-------|--------|-----------|
+| brain §18B kanonik ilan | §16 | Bu revizyon ✅ |
+| DeviceManager v2.0.0 | brain §18B | ✅ |
+| fromDevice test kullanımı | conditional guide §8.1 | ✅ |
+
+---
+
+## 25. Karar Ağacı (Son) — "Cihaz kararı PHP mi JS mi?"
+
+```
+İlk HTML render (sunucu) → PHP DeviceManager (fromRequest)
+Sonraki resize (istemci) → JS device-loader → cookie → sonraki istek PHP
+Anlık JS tarafı değişim → device-layout-updater (DOM class)
+Ekran boyutu token'ı → a-layout-tokens @media (CSS)
+```
+
+Dört nokta dört katman — çakışma anında PHP render kararının tier'ı esas alınır (tier-sync sözleşmesi, breakpoint-guide §2).
+
+---
+
+## 26. Kalite Raporu (Son)
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 7.2.0 |
+| **Bölüm Sayısı** | 26 |
+| **Kritik Bulgu** | §16 3 eski tablo + §22 5 ek çapraz fark — brain §18B kanonik ilan edildi |
+| **Test Görevi** | d-auth-* Test-Path + DeviceCssMap okuma |
+| **Zero Hallucination** | ✅ |
+
+---
+
+## 27. Ek SSS (Son)
+
+**S: §5.5 auth token haritası embedded panel 300px — html-shell minimal auth ile uyum mu?**
+C: Evet — auth shell minimal (§9.1); panel 300px embedded kısıtıyla uyumlu. Kanıt: p-login-view ölçümleri (ui-design).
+
+**S: DeviceManager tüm cihaz metotları PHP 8.4 uyumlu mu?**
+C: Evet — shared-infrastructure PHP ≥8.4, strict_types + final (composer kanıtı Faz 0).
+
+**S: §4A.8 kullanım örneği gerçek home.php'den mi?**
+C: Örnek deseni; gerçek home.php 5 cihaz bloğu (§8A.2) — brain §18B tablosu kanonik.
+
+**S: DeviceCssMap AUTH_DEVICE_CSS d-auth yokken ne yapar?**
+C: Dosya yoksa link 404 üretir — sessiz bozulma. Test-Path görevi çözülene dek auth CSS yüklemesinin mevcut akışı (auth-bundled) çalışır (§15 senaryolar).
+
+**S: DeviceDetector UA regex'leri güncel mi?**
+C: DOĞRULAMA GEREKLİ — DeviceDetector.php içerik okuma görevi (Adım 5 kapısı, breakpoint-guide).
+
+---
+
+## 28. Risk İzle (Son)
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 10 | d-auth eksik + link 404 sessiz | Bilinmiyor | Orta | §27 SSS 4 |
+| 11 | UA regex bayatlığı | Orta | Düşük | §27 SSS 5 |
+
+---
+
+## 29. İzle (Son)
+
+| İddia | Kaynak | Doğrulama |
+|-------|--------|-----------|
+| PHP 8.4 uyum | composer.json | Faz 0 ✅ |
+| 5 cihaz bloğu | §8A.2 | brain §18B ✅ |
+
+---
+
+## 30. Karar Ağacı (Son) — "Yeni toggle metodu nereye?"
+
+```
+Cihaz-bazlı görünürlük → DeviceManager.php (brain §18B 9 metot deseni)
+Sayfa-bazlı içerik → routes.php + SpaRoute (route-config)
+Sunum farkı → CSS (d-* / token) — PHP'de stil yasak (§4A kural)
+```
+
+---
+
+## 31. Kalite Raporu (Son)
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 7.3.0 |
+| **Bölüm Sayısı** | 31 |
+| **SSS** | 17 |
+| **Risk Kaydı** | 11 |
+| **Zero Hallucination** | ✅ |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-08
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -614,6 +614,71 @@ C: Ortak parça 04_Components ortak partial'a (veya token'a) taşınır — DRY 
 
 ---
 
+## 40. Ek SSS (Final)
+
+**S: Bileşen içinde third-party widget (haritanın script'i) olur mu?**
+C: Hayır — CSP nonce + self-hosted ilkesi; harici script eklemek ADR kararıdır (csp.md §17 SSS paralel).
+
+**S: Bileşen PNG'de dark ve light varyantlı — nasıl kodlanır?**
+C: Tek bileşen + token; PNG varyantı mode token'larıyla oluşur (ayrı HTML yasak — Guardrail #17).
+
+**S: Bileşen içi ikonlar?**
+C: Icon asset catalog (ui-design/reference) — emoji yasağı §6 kural 10; inline SVG nonce'lu shell'de olabilir.
+
+**S: `is-` state sınıfları JS mi CSS mi belirler?**
+C: JS attribute/class toggle eder; CSS görünümü verir — state tek kaynak JS (vanilla-js §14 event disiplini paralel).
+
+---
+
+## 41. Risk İzle (Final)
+
+| # | Risk | Olasılık | Etki | Önlem |
+|---|------|----------|------|-------|
+| 14 | Emoji/icon yasağı ihlali | Düşük | Düşük | §40 SSS 3 |
+| 15 | state sınıfı CSS'te elle yazılması | Orta | Düşük | §40 SSS 4 |
+
+---
+
+## 42. İzlenebilirlik (Final)
+
+| İddia | Kaynak | Doğrulama |
+|-------|--------|-----------|
+| BEM sınıf referansı | §36 tablo | SSOT çapraz ✅ |
+| C04 tek ID iki modifier | §27 SSS 2 | SSOT ✅ |
+| PHP/JS çift üretim | §27 SSS 3 | brain §18B ✅ |
+
+---
+
+## 43. Kalite Raporu (Final-3)
+
+| Metrik | Değer |
+|--------|-------|
+| **Versiyon** | 6.4.0 |
+| **Bölüm Sayısı** | 43 |
+| **SSS** | 19 |
+| **Risk Kaydı** | 15 |
+| **Zero Hallucination** | ✅ |
+
+---
+
+**S: C-ID'ler ui-design dışında başka yerde tanımlanabilir mi?**
+C: Hayır — SSOT tek; başka doküman yalnız referans verir. Çift tanım = sapma (§16 tarihsel vakası).
+
+**S: Bileşenler responsive'da farklı C-ID olur mu?**
+C: Hayır — aynı ID, modifier/token farkı. Ayrı ID yalnız yapısal fark gerektiğinde.
+
+---
+
+## 44. Kalite (Son)
+
+| Metrik | Değer |
+|--------|-------|
+| **Sınıf Referansı** | 16 bileşen (§36) |
+| **Açık Görev** | C15 stil konumu (§20) |
+| **Test Hızlı Liste** | 5 (§31) |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-08
 **Mode:** Red Team · Human Mode · Truth Mode

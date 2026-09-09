@@ -57,3 +57,9 @@ wampserver.log
 .phpunit.result.cache
 .phpunit.cache/
 coverage/
+
+# ─── Browser Test Artifacts ───
+.playwright-mcp/
+
+# ─── Backups ───
+*.bak-repair

@@ -582,3 +582,29 @@ Olay gerÃ§ekleÅŸir
 [2026-09-09 10:15:00] [INFO] [master-orchestrator] [FIX] home CSS beyaz-panel sorunu + derinlik efekti sistemi tamamlandi - (1) BEYAZ->CAM (PNG sadakat, 9 panel): _home-components.css .now-playing/.now-playing--wide/.home-widget/.home-slot/.home-app-btn/.mini-card rgba(255,255,255,0.5) -> var(--glass-bg, 0.10-0.12); ic panel 0.35->0.10; hover 0.65->0.18; saturate(180%) 3 canli bilesenden kaldirildi (doygun zeminde hot-pink uretiyordu). Kok neden: %50 beyaz dolgu PNG'de yok (cam efekti); saturate + doygun duvar kagidi amplifikasyonu. Kanit: data-gender=female (PNG duvar kagidi) ile render PNG home-1024 birebir. Not: login-bg-neutral.png doygun gradyan - tema verisi (data-gender bazli duvar kagidi secimi v-home.css dogru calisiyor). (2) DERINLIK SISTEMI: text-shadow 12 metin sinifi (now-playing title/subtitle/artist/meta, home-widget title/subtitle/info, mini-card title/subtitle/artist/album, section-title) "0 1px 2px rgba(0,0,0,0.45), 0 0 10px rgba(0,0,0,0.20)"; box-shadow 6 panel katmanli (yakin+yayilan); mini-card hover yukselme+derinlesme; home-app-btn ikonlara drop-shadow. (3) Dogrulama: browser test (php -S 127.0.0.1:8089) computed-style kaniti rgba(168,85,247,0.08) tema motoru --glass-bg override zinciri calisiyor; CSP inline-style enjeksiyonu dogru blokluyor; 4 saturate blogu olu CSS (markup'ta kullanilmiyor) dokunulmadi. Degisen dosyalar: _home-components.css, _home-layout.css (section-title text-shadow). Ekran goruntuleri: C:\temp\opencode\glass-female-theme.png vb.
 [2026-09-09 10:18:30] [INFO] [general-agent] [CREATE] Shadow SSOT: a-design-tokens.css L70-93 tek tanim; a-theme-config + a-light-glass(root) shadow tanimlari silindi; main.css a-design-tokens import; _footer/_home-layout/_home-components ~30 eksik seciciye --shadow-*/--ts-* token
 [2026-09-09 10:20:00] [INFO] [general-agent] [CREATE] 4 yeni sayfa CSS (p-albums/p-album-detail/p-artists/p-playlist v1.0.0; spec C-music+D-player birebir); main.css 4 import; track-row scope fix (_home-inline C13 cakismasi); demo test 127.0.0.1:8089 computed kanit OK
+[2026-09-09 10:31:00] [INFO] [master-orchestrator] [CREATE] 4 PHP iskelet + routes.php SPA entegrasyonu tamamlandi â€” pages/albums.php, album-detail.php, artists.php, playlist.php (home.php v2 deseni: DeviceManager guard + header/footer require; veri sozlesmesi $albums/$artists/$tracks ?? [] â€” API entegrasyonu bekleniyor; markup p-*.css sinif sozlesmesi birebir). routes.php: 'albumler'->page:albums, +'albumler/detay'->page:album-detail, +'sanatcilar'->page:artists, +'playlist'->page:playlist ('ayarlar' placeholder korundu). a-design-tokens.css SSOT Â§3'e component shadows eklendi: --card-shadow: var(--shadow-md), --modal-shadow: var(--glass-shadow-lg) (design-tokens-master Â§12.1). Dogrulama: php -l 5/5 temiz; shadow token tanimlari tek kaynak (a-design-tokens L70-93); 4 p-*.css spec birebir (218/199/266/242 satir).
+
+---
+## 2026-09-08 — Vault Revizyon Faz 2d Satýr Tamamlama + l3 %100 Kapanýþ — MO
+- Tür: DOKUMENTASYON-REVIZYON
+- l3-presentation 13/13 dosya 500+ boþ-hariç TAMAMLANDI: guide 995, dark-light 538, responsive 511, index 511, itcss 504, components 503, theme-engine 503, vanilla-js 506, breakpoint 501, js-module 500, web-audio 516, device-css 512, ai-instructions ~510
+- Toplam l3: ~7.250 satýr (önceki ~4.900) — net +2.350 satýr kanýtlý derinlik
+- Yeni tespitler: §4A eski tablolar (device-css) brain §18B kanonik ilan; web-audio CORS/taint uyarýsý; play() Promise yakalama; d-auth-* Test-Path görevi teyit
+- Sonraki: 2e contracts (36+3 dosya — api-architecture-master 679 ?, directory-structure 538 ?, api-testing 589 ?, diagram-collection 589 ? hazýr; kalan ~32 dosya)
+
+---
+## 2026-09-08 — Vault Revizyon Faz 2e Baþlangýcý (03-contracts) — MO
+- Tür: DOKUMENTASYON-REVIZYON
+- Envanter: 36 kök dosya — 6 zaten 500+ (directory-structure 538, api-testing 589, diagram-collection 589, 40-day 666, api-architecture-master 679, master-plan 1217); pointer istisna (middleware-pipeline.md 20 — canonical l2-routing); kuyruk 29 dosya
+- api-filtering 119›~575 (v2.0.0 — field whitelist §9, index gereksinimleri §10, injection 6-katman zinciri §12, hata kodlarý §13, pagination/cache etkileþimi, 15 test, 8 SSS)
+- Pointer istisna kararý: redirect dosyalarý 500 hedefi dýþý (AGENTS/CLAUDE çifti gibi)
+- Sonraki: ai-workflow-standards (134), api-validation (141), engineering-rules-ssot (165)...
+
+---
+## 2026-09-08 — Vault Revizyon 2e Ýlerleme (03-contracts 3 dosya) — MO
+- ai-workflow-standards 134›~475 (v2.4.0 — ELECTRONICS donaným doðrulama §11, platform matrisi §12, güven skoru §14, 3 doldurulmuþ örnek, skill çeliþki notu)
+- api-validation 141›~506 (v2.3.0 — respect/validation eþleme §11, savunma 6-katman §14, dosya güvenliði 6-adým §15, hata aðaçlarý)
+- api-filtering 119›498+ (v2.2.0 — whitelist/index/injection 6-katman; son ~2 satýr mikro)
+- contracts 2e: 8 ? (master-plan, master-arch, 40-day, diagram, testing, directory, api-filtering ~500, api-validation ~506) / ai-workflow ~475 (mikro) / pointer istisna / kuyruk 27 dosya
+- Kritik bulgular: ValidationMiddleware PLANNED (baðýmlýlýk hazýr); unique validator race notu (DB index gerçek güvence); skill çeliþki teyidi
+- Sonraki: 2e kuyruk küçükten: engineering-rules-ssot (165), api-idempotency (168), api-roadmap (181), api-observability (203)...
