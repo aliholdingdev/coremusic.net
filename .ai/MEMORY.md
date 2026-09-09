@@ -345,6 +345,7 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | 2026-09-04 | CLAUDE.md Rewrite — Root CLAUDE.md v4.0.0 yeniden yazıldı, mükerrer bölümler kaldırıldı, .ai/models/index.md, .ai/issues/index.md, .ai/scripts/index.md oluşturuldu | ✅ Root CLAUDE.md v4.0.0 (18 bölüm, temiz yapı), 3 yeni index dosyası | — | MO |
 | 2026-09-04 | 40-Day Implementation Plan — .ai/architecture/03-contracts/40-day-implementation-plan.md oluşturuldu (5 faz, 40 gün, 200+ görev) | ✅ 5 faz (Foundation, Backend, Frontend, Integration, Production), bağımlılık grafisi, risk matrisi, kalite kapıları | ADR-087 | vault-updater |
 | 2026-09-05 | Device-Aware Rendering Vault Update — brain.md §18C (Backend/Frontend sorumluluk sınırları, token değerleri, WCAG 2.2 AA, katman ihlal kontrolü), keys.md §3.4A (8 yeni device-aware keyword), responsive-device-mode.md v3.0.0 (4-Tier Conditional Rendering) | ✅ 3 vault dosyası güncellendi: brain.md (§18C Device-Aware Rendering Kuralları), keys.md (+8 keyword), MEMORY.md (session history +1) | — | vault-updater |
+| 2026-09-09 | Session Management + Vault Post-Update Automation — session-save.mjs, vault-post-update.mjs, settings.json hooks, opencode.json command, vault-sync-post skill, OpenCode kaynak kodu güncelleme | ✅ 10+ dosya: 2 yeni script, 1 hook, 1 command, 2 skill, 4 OpenCode dosyası güncellendi | — | MO |
 
 ---
 
@@ -390,12 +391,12 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 
 | Ozellik | Deger |
 |---------|-------|
-| Session Date | 2026-09-08 |
-| Active Task | Vault Revizyon Faz 1 — kök 12 boot dosyası satır-satır revizyonu (500+ satır hedefi, kod cross-check) |
-| Domain | Vault Documentation (Faz 0 tamamen tamamlandı; Faz 1 yürütülüyor) |
-| Last Action | engine.md/glossary.md/ROLE.md/ULTRA-THINKING.md 500+ satıra genişletildi; index.md sayım düzeltmeleri (787 dosya, 19 PNG, ADR 001-088); AGENTS.md skill/domain-okuma düzeltmeleri |
-| Changed Files | engine.md, glossary.md, ROLE.md, ULTRA-THINKING.md, index.md, AGENTS.md, MEMORY.md (bu oturum) |
-| Known Issue | SessionInitializer duplicate namespace (engine §8.1 #1) + 3 tanımsız sabit: SESSION_NAME/PAGES_PATH/TRUSTED_PROXIES (engine §8.1 #7) — kod değişikliği ADR/onay bekliyor |
+| Session Date | 2026-09-09 |
+| Active Task | Session Management + Vault Post-Update Automation — session-save.mjs, vault-post-update.mjs, hooks, skills |
+| Domain | Vault Automation (otomatik session kaydi ve vault guncelleme) |
+| Last Action | session-save.mjs ve vault-post-update.mjs olusturuldu, settings.json hooks eklendi, opencode.json command eklendi, vault-sync-post skill olusturuldu, OpenCode kaynak kodu guncellendi |
+| Changed Files | .ai/scripts/session-save.mjs (yeni), .ai/scripts/vault-post-update.mjs (yeni), .claude/settings.json, .opencode/opencode.json, .opencode/skills/vault-sync-post/SKILL.md (yeni), .claude/skills/vault-sync-post/SKILL.md (yeni), .ai/scripts/index.md, .ai/.agents/vault-updater.md |
+| Known Issue | Shell ortaminda komut calistirilamiyor (exit code 5) — scriptler manuel test edilmeli |
 
 ### Frontend Mimarisi (v2.0.0 — 2026-09-05)
 

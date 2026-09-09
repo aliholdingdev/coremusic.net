@@ -1,4 +1,11 @@
 {
+  "hooks": {
+    "preCompact": [
+      {
+        "command": "node .ai/scripts/session-save.mjs --task \"Session ending\" --status completed --agent mo"
+      }
+    ]
+  },
   "instructions": [
     "CLAUDE.md",
     ".ai/CLAUDE.md",
