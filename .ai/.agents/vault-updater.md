@@ -63,13 +63,34 @@ node .ai/scripts/vault-cmd.mjs onar --file .ai/log.md
 | Okuma | Tüm `.ai/` vault'u |
 | Yazma | `.ai/` (yalnızca vault-utf8-writer.mjs üzerinden), `log.md` (append-only) |
 
-## 5. İlgili Kaynaklar
+## 5. Post-Operation Vault Sync (ZORUNLU)
+
+Her vault islemi sonrasi asagidaki adimlari calistir:
+
+### Adim 1: Session Kaydi
+```bash
+node .ai/scripts/session-save.mjs --task "<gorev-aciklamasi>" --status completed --agent vu
+```
+
+### Adim 2: Vault Guncelleme
+```bash
+node .ai/scripts/vault-post-update.mjs --scope root
+```
+
+### Adim 3: Dogrulama
+- `.ai/sessions/YYYY-MM-DD-HH-MM-SS.md` olusturuldu mu?
+- `.ai/MEMORY.md` guncellendi mi?
+- `.ai/log.md`'ye append edildi mi?
+
+## 6. İlgili Kaynaklar
 
 | Kaynak | Yol |
 |--------|-----|
 | Ana tanım | [[AGENTS.md]] |
 | Profiller indeksi | [[.agents/AGENTS.md]] |
 | Yazma aracı | `.ai/scripts/vault-utf8-writer.mjs` |
+| Session kaydetme | `.ai/scripts/session-save.mjs` |
+| Vault guncelleme | `.ai/scripts/vault-post-update.mjs` |
 | Script kataloğu | [[../scripts/index.md]] |
 | Templates | `.ai/.templates/documentation/WikiPage-Template.md` |
 
