@@ -3,7 +3,7 @@ title: "CoreMusic — Agent Registry & Coordination Protocol"
 type: guide
 category: agent-registry
 date: 2026-08-08
-updated: 2026-08-13
+updated: 2026-09-15
 status: active
 version: 21.0.0
 authority: Single Source of Truth (SSOT)
@@ -95,17 +95,17 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 
 ## 6. Keyword → Agent Yönlendirmesi
 
-| Keyword Grubu | Birincil Agent | İkincil Agent |
-|---------------|----------------|---------------|
-| API, endpoint, routing, middleware, PHP, controller, repository | Backend Architect | Security Engineer |
-| CSS, UI, responsive, accessibility, ITCSS, BEM, frontend, design, JS, mockup, ui-design, c01-c16 | UI Designer | QA Engineer |
-| CSRF, CSP, XSS, OWASP, auth, encryption, security, session, rate limit | Security Engineer | Backend Architect |
-| database, SQL, BCNF, migration, query, schema, MySQL, PDO, index | Data Engineer | Backend Architect |
-| C++, ASIO, JUCE, audio, DSP, Neva Engine, ring buffer, WASAPI, hardware | Embedded Engineer | DevOps Engineer |
-| test, coverage, PHPUnit, Vitest, Playwright, E2E, unit test, integration | QA Engineer | — |
-| CI/CD, GitHub Actions, deploy, infrastructure, pipeline, monitoring, GitLeaks | DevOps Engineer | QA Engineer |
-| vault, documentation, ADR, wiki-link, index, keys, brain | MO (vault-updater) | — |
-| template, şablon, şablon, template usage, .templates | Tüm ajanlar (guardrail #16) | MO (koordinasyon) |
+| Keyword Grubu                                                                                    | Birincil Agent              | İkincil Agent     |
+| ------------------------------------------------------------------------------------------------ | --------------------------- | ----------------- |
+| API, endpoint, routing, middleware, PHP, controller, repository                                  | Backend Architect           | Security Engineer |
+| CSS, UI, responsive, accessibility, ITCSS, BEM, frontend, design, JS, mockup, ui-design, c01-c16 | UI Designer                 | QA Engineer       |
+| CSRF, CSP, XSS, OWASP, auth, encryption, security, session, rate limit                           | Security Engineer           | Backend Architect |
+| database, SQL, BCNF, migration, query, schema, MySQL, PDO, index                                 | Data Engineer               | Backend Architect |
+| C++, ASIO, JUCE, audio, DSP, Neva Engine, ring buffer, WASAPI, hardware                          | Embedded Engineer           | DevOps Engineer   |
+| test, coverage, PHPUnit, Vitest, Playwright, E2E, unit test, integration                         | QA Engineer                 | —                 |
+| CI/CD, GitHub Actions, deploy, infrastructure, pipeline, monitoring, GitLeaks                    | DevOps Engineer             | QA Engineer       |
+| vault, documentation, ADR, wiki-link, index, keys, brain                                         | MO (vault-updater)          | —                 |
+| template, şablon, şablon, template usage, .templates                                             | Tüm ajanlar (guardrail #16) | MO (koordinasyon) |
 
 ---
 

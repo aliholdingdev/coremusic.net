@@ -3,7 +3,7 @@ type: system
 category: agent-role
 title: "CoreMusic — Senior Software Architect Role Definition"
 date: 2026-08-19
-updated: 2026-09-08
+updated: 2026-09-15
 status: active
 version: 6.0.0
 authority: Single Source of Truth (SSOT)

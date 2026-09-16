@@ -3,7 +3,7 @@ title: "CoreMusic — Engineering Brain (Enterprise SSOT)"
 type: brain
 category: architecture-decisions
 date: 2026-08-08
-updated: 2026-08-13
+updated: 2026-09-15
 status: active
 version: 23.0.0
 authority: Single Source of Truth (SSOT)

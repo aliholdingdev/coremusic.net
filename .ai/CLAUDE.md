@@ -3,7 +3,7 @@ title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
 date: 2026-08-08
-updated: 2026-08-19
+updated: 2026-09-15
 status: active
 version: 23.0.0
 authority: Single Source of Truth (SSOT)

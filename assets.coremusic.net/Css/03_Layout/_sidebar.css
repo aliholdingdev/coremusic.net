@@ -390,7 +390,7 @@
 .sidebar--resizing .sidebar__resize-handle::after {
     background: #ff4fd8;
     height: 80px;
-    box-shadow: 0 0 8px rgba(255, 79, 216, 0.5);
+    box-shadow: var(--glow-play);
 }
 
 /* ============================================================
@@ -643,7 +643,7 @@ body.sidebar-collapsed .page-home {
     .sidebar__item:focus-visible {
         outline: 4px solid #ff4fd8;
         outline-offset: 4px;
-        box-shadow: 0 0 16px rgba(255, 79, 216, 0.6);
+        box-shadow: var(--glow-play);
     }
 }
 

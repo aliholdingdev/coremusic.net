@@ -243,7 +243,7 @@
     border-radius: 50%;
     object-fit: cover;
     border: 1.5px solid rgba(255, 79, 216, 0.5);
-    box-shadow: 0 0 8px rgba(255, 79, 216, 0.3);
+    box-shadow: var(--glow-play);
     flex-shrink: 0;
 }
 
@@ -281,7 +281,7 @@
     flex-direction: column;
     gap: 4px;
     z-index: 200;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    box-shadow: var(--shadow-md);
     backdrop-filter: blur(10px);
 }
 
@@ -716,7 +716,7 @@
 .site-header--tv .header-action-btn:focus-visible {
     outline: 4px solid #ff4fd8;
     outline-offset: 4px;
-    box-shadow: 0 0 16px rgba(255, 79, 216, 0.6);
+    box-shadow: var(--glow-play);
 }
 
 .header-user--tv .header-user__name {

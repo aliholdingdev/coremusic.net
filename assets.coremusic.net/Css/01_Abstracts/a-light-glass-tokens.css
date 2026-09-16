@@ -161,7 +161,6 @@
     --glass-bg-heavy:     rgba(0, 0, 0, 0.10);
     --glass-border-light: rgba(0, 0, 0, 0.10);
     --glass-border-glow:  rgba(0, 0, 0, 0.15);
-    --glass-shadow:       0 8px 32px rgba(0, 0, 0, 0.10), inset 0 1px 0 rgba(255,255,255,0.5);
     --glass-shadow-deep:  0 16px 48px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255,255,255,0.6);
     --glass-shadow-float: 0 24px 64px rgba(0, 0, 0, 0.20), inset 0 1px 0 rgba(255,255,255,0.7);
     --glass-highlight:    linear-gradient(180deg, rgba(255,255,255,0.5) 0%, transparent 100%);
@@ -178,7 +177,6 @@ html[data-mode="light"] {
   --glass-bg-heavy:     rgba(0, 0, 0, 0.10);
   --glass-border-light: rgba(0, 0, 0, 0.10);
   --glass-border-glow:  rgba(0, 0, 0, 0.15);
-  --glass-shadow:       0 8px 32px rgba(0, 0, 0, 0.10), inset 0 1px 0 rgba(255,255,255,0.5);
   --glass-shadow-deep:  0 16px 48px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255,255,255,0.6);
   --glass-shadow-float: 0 24px 64px rgba(0, 0, 0, 0.20), inset 0 1px 0 rgba(255,255,255,0.7);
   --glass-highlight:    linear-gradient(180deg, rgba(255,255,255,0.5) 0%, transparent 100%);

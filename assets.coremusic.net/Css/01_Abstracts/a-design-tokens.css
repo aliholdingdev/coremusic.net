@@ -95,6 +95,14 @@
   --ts-md: 0 2px 8px rgba(0, 0, 0, 0.55);     /* başlıklar, panel başlıkları */
   --ts-lg: 0 3px 14px rgba(0, 0, 0, 0.55);    /* hero başlık, logo */
   --ts-glow: 0 0 12px rgba(255, 79, 216, 0.45); /* neon pembe glow — vurgu */
+
+  /* GLOW TOKENS — Neon glow efektleri (PNG'de mevcut, korunur) */
+  --glow-progress: 0 0 10px #ff00d5, 0 0 4px #ff4fd8;
+  --glow-play:     0 0 8px rgba(255, 79, 216, 0.6);
+  --glow-tv-focus: 0 0 24px rgba(255, 79, 216, 0.8);
+  --glow-widget:   0 0 20px rgba(255, 79, 216, 0.7);
+  --glow-seek:     0 0 8px rgba(255, 46, 182, 0.6);
+  --glow-knob:     0 0 6px #ff2eb6;
 }
 
 /* ============================================================

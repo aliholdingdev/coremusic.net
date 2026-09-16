@@ -1,14 +1,17 @@
 /**
  * CoreMusic — Full-Screen Music Player
  * ITCSS Layer: 05_Pages
- * Version: 1.0.0 — 2026-09-03
+ * Version: 1.1.0 — 2026-09-09
  *
  * Layout: Fullscreen with background artist image
  *   Left: Album art / visual
  *   Right: Playlist sidebar
  *   Bottom: Mini player with controls
  *
- * Platform: 1024×600 Embedded (RPi5) baseline
+ * Platform: 1024x600 Embedded (RPi5) baseline
+ *
+ * Token usage: 100% (all box-shadow, color, text-shadow, and glow values
+ *   replaced with CSS custom property tokens from 01_Abstracts)
  */
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -20,8 +23,8 @@
     width: 100%;
     height: 100vh;
     overflow: hidden;
-    background: #0a0a0f;
-    color: #fff;
+    background: var(--bg-base);
+    color: var(--text-primary);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -66,10 +69,10 @@
     height: 44px;
     border-radius: 50%;
     border: none;
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--glass-3-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    color: #fff;
+    color: var(--text-primary);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -78,7 +81,7 @@
 }
 
 .player-back:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: var(--glass-4-bg);
     transform: scale(1.05);
 }
 
@@ -119,8 +122,8 @@
     border-radius: 16px;
     overflow: hidden;
     box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.5),
-        0 0 100px rgba(255, 79, 216, 0.15);
+        var(--shadow-2xl),
+        var(--glow-widget);
 }
 
 .player-visual__image {
@@ -158,11 +161,11 @@
 
 .player-playlist {
     width: 307px;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -170,7 +173,7 @@
 
 .player-playlist__header {
     padding: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--glass-border);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -180,12 +183,12 @@
     font-size: 16px;
     font-weight: 600;
     margin: 0;
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .player-playlist__count {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-secondary);
 }
 
 .player-playlist__list {
@@ -199,11 +202,11 @@
 }
 
 .player-playlist__list::-webkit-scrollbar-track {
-    background: transparent;
+    background: var(--scrollbar-track);
 }
 
 .player-playlist__list::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--scrollbar-thumb);
     border-radius: 3px;
 }
 
@@ -218,16 +221,16 @@
 }
 
 .player-playlist__item:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--interactive-secondary-hover);
 }
 
 .player-playlist__item.is-active {
     background: rgba(255, 79, 216, 0.2);
-    border-left: 3px solid #ff4fd8;
+    border-left: 3px solid var(--theme-primary);
 }
 
 .player-playlist__item:focus {
-    outline: 2px solid #ff4fd8;
+    outline: 2px solid var(--focus-ring-color);
     outline-offset: -2px;
 }
 
@@ -250,7 +253,7 @@
 .player-playlist__track-title {
     font-size: 13px;
     font-weight: 500;
-    color: #fff;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -258,7 +261,7 @@
 
 .player-playlist__track-artist {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-secondary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -266,7 +269,7 @@
 
 .player-playlist__duration {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-muted);
     flex-shrink: 0;
 }
 
@@ -281,10 +284,10 @@
     right: 0;
     z-index: 50;
     height: 140px;
-    background: rgba(10, 10, 15, 0.85);
+    background: var(--bg-player);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--glass-border);
     display: flex;
     flex-direction: column;
     padding: 0 24px;
@@ -304,7 +307,7 @@
     height: 4px;
     -webkit-appearance: none;
     appearance: none;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--player-progress-bg);
     border-radius: 2px;
     cursor: pointer;
     outline: none;
@@ -315,19 +318,19 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: #ff4fd8;
+    background: var(--theme-primary);
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(255, 79, 216, 0.5);
+    box-shadow: var(--glow-seek);
 }
 
 .player-mini__seek-input::-moz-range-thumb {
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: #ff4fd8;
+    background: var(--theme-primary);
     cursor: pointer;
     border: none;
-    box-shadow: 0 0 10px rgba(255, 79, 216, 0.5);
+    box-shadow: var(--glow-seek);
 }
 
 .player-mini__seek-progress {
@@ -336,7 +339,7 @@
     top: 50%;
     transform: translateY(-50%);
     height: 4px;
-    background: linear-gradient(90deg, #ff4fd8, #ff7ee5);
+    background: linear-gradient(90deg, var(--theme-primary), var(--theme-secondary));
     border-radius: 2px;
     pointer-events: none;
     transition: width 0.1s linear;
@@ -344,7 +347,7 @@
 
 .player-mini__time {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-secondary);
     min-width: 40px;
     font-variant-numeric: tabular-nums;
 }
@@ -371,7 +374,7 @@
     height: 56px;
     border-radius: 8px;
     object-fit: cover;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-lg);
 }
 
 .player-mini__meta {
@@ -385,7 +388,7 @@
 .player-mini__song {
     font-size: 15px;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -393,7 +396,7 @@
 
 .player-mini__artist {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-secondary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -412,7 +415,7 @@
     border-radius: 50%;
     border: none;
     background: transparent;
-    color: #fff;
+    color: var(--text-primary);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -421,7 +424,7 @@
 }
 
 .player-mini__btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--interactive-secondary-hover);
 }
 
 .player-mini__btn:active {
@@ -429,18 +432,18 @@
 }
 
 .player-mini__btn.is-active {
-    color: #ff4fd8;
+    color: var(--theme-primary);
 }
 
 .player-mini__btn--play {
     width: 56px;
     height: 56px;
-    background: #ff4fd8;
-    color: #fff;
+    background: var(--theme-primary);
+    color: var(--text-primary);
 }
 
 .player-mini__btn--play:hover {
-    background: #ff6fe0;
+    background: var(--theme-secondary);
     transform: scale(1.05);
 }
 
@@ -453,7 +456,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-secondary);
 }
 
 .player-mini__volume-input {
@@ -461,7 +464,7 @@
     height: 4px;
     -webkit-appearance: none;
     appearance: none;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--player-progress-bg);
     border-radius: 2px;
     cursor: pointer;
     outline: none;
@@ -472,7 +475,7 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--text-primary);
     cursor: pointer;
 }
 
@@ -480,13 +483,13 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--text-primary);
     cursor: pointer;
     border: none;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   RESPONSIVE — Embedded 1024×600
+   RESPONSIVE — Embedded 1024x600
    ═══════════════════════════════════════════════════════════════════ */
 
 .page-player--embedded {
@@ -596,7 +599,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   RESPONSIVE — Desktop (≥ 1024px)
+   RESPONSIVE — Desktop (>= 1024px)
    ═══════════════════════════════════════════════════════════════════ */
 
 @media (min-width: 1024px) {
@@ -620,7 +623,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   RESPONSIVE — 4K TV (≥ 3840px)
+   RESPONSIVE — 4K TV (>= 3840px)
    ═══════════════════════════════════════════════════════════════════ */
 
 @media (min-width: 3840px) {

@@ -26,6 +26,8 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | İhtiyaç | İlk Adım |
 |---------|----------|
 | Vault genel bakış | Bu dosya (index.md) |
+| Ürün & Ekosistem Vizyonu | [[VISION.md]] |
+| Teknik Dokümantasyon & Kılavuz | [[TECHNICAL_DOCUMENTATION.md]] |
 | Keyword arama | [[keys.md]] |
 | Mimari kararlar | [[brain.md]] |
 | Ajan yetkileri | [[AGENTS.md]] |
@@ -39,7 +41,7 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 
 ---
 
-## 3. SSOT Core Dosyaları (9 Zorunlu)
+## 3. SSOT Core Dosyaları (11 Dosya)
 
 | # | Dosya | Amaç |
 |---|-------|------|
@@ -52,6 +54,9 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | 7 | [[MEMORY.md]] | Oturum hafızası — persistent state, cache, session lifecycle |
 | 8 | [[log.md]] | Aktivite günlüğü — append-only audit trail |
 | 9 | [[engine.md]] | Orkestrasyon motoru — agent koordinasyonu, task dispatch |
+| 10 | [[VISION.md]] | Ürün ve ekosistem vizyonu — pazar fırsatı, 4 ARR gelir modeli, 10 vizyon bölümü |
+| 11 | [[TECHNICAL_DOCUMENTATION.md]] | Teknik dokümantasyon, sistem kullanım kılavuzu ve freelancer geliştirici kuralları (L0-L6, Neva, API, UI, C01-C16) |
+
 
 ---
 

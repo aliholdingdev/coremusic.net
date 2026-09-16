@@ -3,7 +3,7 @@ title: "CoreMusic — Vault Keyword Map & Concept Router"
 type: system
 category: vault-navigation
 date: 2026-08-12
-updated: 2026-09-05
+updated: 2026-09-15
 status: active
 version: 28.0.0
 authority: Single Source of Truth (SSOT)

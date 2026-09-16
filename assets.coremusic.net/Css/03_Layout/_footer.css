@@ -183,7 +183,7 @@
     font-size: 10px;
     letter-spacing: 13.5%;
     color: var(--fp-text);
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+    text-shadow: var(--ts-xs);
     filter: drop-shadow(0px 0.5px 1px rgba(0,0,0,0.80));
     white-space: nowrap;
     overflow: hidden;
@@ -204,7 +204,7 @@
 
 .footer__sure time, .footer__sure span{
     font-size: 13px;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+    text-shadow: var(--ts-xs);
     filter: drop-shadow(0px 0.5px 1px rgba(0,0,0,0.80));
 }
 
@@ -286,7 +286,7 @@
 .player-btn:hover {
     border-color: var(--fp-accent);
     color: var(--fp-accent);
-    box-shadow: 0 0 12px rgba(255, 79, 216, 0.45);
+    box-shadow: var(--glow-play);
     transform: scale(1.08);
 }
 

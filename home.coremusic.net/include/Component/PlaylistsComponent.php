@@ -28,7 +28,7 @@ final class PlaylistsComponent extends AbstractComponent
             $playlists ?? $this->defaultPlaylists()
         );
 
-        $this->cards = $variant->isWide() ? $cards : array_slice($cards, 0, 4);
+        $this->cards = $variant->isWide() ? $cards : array_slice($cards, 0, 3);
     }
 
     public function key(): string

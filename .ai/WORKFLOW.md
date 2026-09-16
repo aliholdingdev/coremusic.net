@@ -3,7 +3,7 @@ title: "CoreMusic — Vault Workflows & Engineering Processes"
 type: guide
 category: workflow
 date: 2026-08-08
-updated: 2026-08-13
+updated: 2026-09-15
 status: active
 version: 21.0.0
 authority: Single Source of Truth (SSOT)

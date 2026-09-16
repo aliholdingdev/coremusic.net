@@ -2,21 +2,36 @@
  * welcome-modal.js — Welcome Modal (PNG S02, embedded-only)
  * JS Layer: features
  * Sözleşme: #welcomeModalOverlay + .welcome-modal__btn/__input
- * Açılış: YALNIZCA embedded (RPi5 1024) cihazda; sessionStorage 'cm_welcome_dismissed'
+ * Açılış: YALNIZCA embedded (RPi5 1024) cihazda; localStorage 'cm_welcome_dismissed'
  *         yoksa açılır. devicechange ile cihaz embedded'a geçtiğinde de açılır.
  * Kapanış: Başla butonu / Escape (PNG'de × close butonu YOK)
  * A11y: focus trap, Escape, aria-modal dialog
- * Version: 1.1.0 — 2026-09-08 (cihaz kapısı + devicechange açılışı — popup açılmıyor fix'i)
+ * Version: 1.2.0 — 2026-09-09 (günlük sıfırlama: localStorage + tarih kontrolü)
  */
 (function () {
     'use strict';
 
     const DISMISS_KEY = 'cm_welcome_dismissed';
+    const DATE_KEY = 'cm_welcome_dismiss_date';
 
     function isEmbeddedDevice() {
         const bodyDevice = document.body ? document.body.dataset.device : null;
         const coreDevice = window.CoreMusic && window.CoreMusic.deviceType;
         return bodyDevice === 'embedded' || coreDevice === 'embedded';
+    }
+
+    function getTodayStr() {
+        const d = new Date();
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
+    function isDismissedToday() {
+        try {
+            const savedDate = localStorage.getItem(DATE_KEY);
+            return savedDate === getTodayStr();
+        } catch (err) {
+            return false;
+        }
     }
 
     function getFocusable(modal) {
@@ -37,9 +52,10 @@
 
         function dismiss() {
             try {
-                sessionStorage.setItem(DISMISS_KEY, '1');
+                localStorage.setItem(DISMISS_KEY, '1');
+                localStorage.setItem(DATE_KEY, getTodayStr());
             } catch (err) {
-                /* sessionStorage kapalıysa yalnızca gizle */
+                /* localStorage kapalıysa yalnızca gizle */
             }
             overlay.classList.add('is-hidden');
             document.removeEventListener('keydown', onKeydown);
@@ -71,13 +87,7 @@
 
         function open() {
             if (opened) return;
-            let dismissed = false;
-            try {
-                dismissed = sessionStorage.getItem(DISMISS_KEY) === '1';
-            } catch (err) {
-                dismissed = false;
-            }
-            if (dismissed) return;
+            if (isDismissedToday()) return;
             opened = true;
             lastFocused = document.activeElement;
             overlay.classList.remove('is-hidden');

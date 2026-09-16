@@ -15,7 +15,7 @@ authority: Single Source of Truth (SSOT)
 
 ## 1. Bağlam
 
-Tüm subdomainler bu kütüphaneye bağımlıdır (L0→L2 ortak katman). Değişiklik yayılımı en geniş klasördür: tek middleware değişikliği 9 domaini etkileyebilir. `packages/shared` paketi bu klasörün sözleşme alt kümesidir (ADR-085 hibrit geçiş).
+Tüm subdomainler bu kütüphaneye bağımlıdır (L0→L2 ortak katman). Değişiklik yayılımı en geniş klasördür: tek middleware değişikliği 9 domaini etkileyebilir. Tek ortak kütüphanedir (ADR-085: Shared Library Hybrid).
 
 ## 2. Mevcut Durum
 
@@ -27,7 +27,7 @@ Tüm subdomainler bu kütüphaneye bağımlıdır (L0→L2 ortak katman). Deği�
 | OAuth provider | 12 |
 | PageRouter dosyası | 14 |
 | Test klasörleri | 4 grup (Api, Events, OAuth, Unit×4) |
-| Bilinen risk | `packages/shared` ile çift kaynak; `Theme`/`ViewMode` tek dosyalık — test kapsamı dışında |
+| Bilinen risk | `Theme`/`ViewMode` tek dosyalık — test kapsamı dışında |
 
 ## 3. Komşu İlişkiler
 
@@ -36,14 +36,13 @@ Tüm subdomainler bu kütüphaneye bağımlıdır (L0→L2 ortak katman). Deği�
 | Parent | [[../AGENTS.md]] | Kök registry |
 | Tüketen | [[../auth.coremusic.net/CLAUDE.md]] | Middleware + Session + Security |
 | Tüketen | [[../home.coremusic.net/CLAUDE.md]] | RuntimeBootstrap + Config + Session |
-| Sözleşme paketi | [[../packages/shared/CLAUDE.md]] | Contract alt kümesi |
 | Device CSS köprüsü | [[../assets.coremusic.net/CLAUDE.md]] | DeviceCssMap ↔ devices.config.js |
 
 ## 4. Değişiklik Protokolü
 
 1. Katman değişikliği → ilgili `.ai/architecture/l*/` dokümanı okunur → uyum → test → audit
 2. Güvenlik etkili değişiklik → security-audit workflow → `.ai/log.md` kaydı
-3. Breaking contract değişikliği → ADR + packages/shared senkronu aynı iş biriminde
+3. Breaking contract değişikliği → ADR + versiyon güncellemesi aynı iş biriminde
 4. Vault etkisi varsa → vault-sync workflow çalıştırılır
 
 ---

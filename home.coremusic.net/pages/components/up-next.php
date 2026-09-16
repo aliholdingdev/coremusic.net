@@ -7,4 +7,6 @@
  */
 ?>
 <h2 class="section-title">Sıradaki Şarkılar</h2>
-<?= $this->card ?>
+<div class="up-next-panel">
+    <?= $this->card ?>
+</div>

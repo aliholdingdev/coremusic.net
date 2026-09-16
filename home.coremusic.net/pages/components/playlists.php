@@ -21,6 +21,9 @@
 <?php foreach ($this->cards as $card): ?>
                 <?= $card ?>
 <?php endforeach; ?>
+    <button type="button" class="playlist-list-card" data-action="show-playlist-list">
+        <svg class="playlist-list-card__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        <span>Playlist listesini görüntüle</span>
+    </button>
 </div>
-<button type="button" class="toggle-row" data-action="show-playlist-list">Playlister Listesini Görüntüle</button>
 <?php endif; ?>

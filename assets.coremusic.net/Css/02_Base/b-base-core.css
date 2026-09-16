@@ -24,14 +24,15 @@ body {
   color: var(--text-primary, #fff);
   background: var(--theme-bg-base, #0d0a14);
   background-image: var(--body-bg-image, none);
-  background-attachment: var(--body-bg-attachment, scroll);
-  background-size: var(--body-bg-size, auto);
+  background-attachment: var(--body-bg-attachment, fixed);
+  background-size: var(--body-bg-size, cover);
   background-position: var(--body-bg-position, center center);
   background-repeat: var(--body-bg-repeat, no-repeat);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   min-height: 100dvh;
+  width: 100%;
   text-shadow: var(--ts-sm, 0 1px 3px rgba(0, 0, 0, 0.65));
 }
 

@@ -223,7 +223,7 @@ Her mimari değişiklik aşağıdakileri gerektirir:
 | Bölge | Kapsam | Giriş |
 |-------|--------|-------|
 | `.ai/` | Vault: decisions (87), architecture (20), ui-design (25), templates (10), electronic (6) | [[.ai/AGENTS.md]] |
-| `shared/` + `packages/` | Paylaşılan PHP altyapısı (L0-L2) | [[shared/AGENTS.md]] |
+| `shared/` | Paylaşılan PHP altyapısı (L0-L2) | [[shared/AGENTS.md]] |
 | `assets.coremusic.net/` | Statik asset servisi (L3) | [[assets.coremusic.net/AGENTS.md]] |
 | `auth.coremusic.net/` | Auth servisi | [[auth.coremusic.net/AGENTS.md]] |
 | `home.coremusic.net/` | Home Media Center (RPi5) | [[home.coremusic.net/AGENTS.md]] |

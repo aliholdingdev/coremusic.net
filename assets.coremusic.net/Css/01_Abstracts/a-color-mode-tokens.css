@@ -102,6 +102,34 @@
     --theme-bg-elevated:#f0eef5;
     --theme-shadow:     0 2px 8px rgba(0, 0, 0, 0.08);
     --theme-shadow-lg:  0 4px 16px rgba(0, 0, 0, 0.12), 0 8px 32px rgba(0, 0, 0, 0.06);
+
+    /* --- Shadow overrides (light mode — açık arka plan için hafif gölgeler) --- */
+    --shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-sm:  0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md:  0 4px 16px rgba(0, 0, 0, 0.08);
+    --shadow-lg:  0 8px 32px rgba(0, 0, 0, 0.10);
+    --shadow-xl:  0 16px 48px rgba(0, 0, 0, 0.12);
+    --shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.15);
+    --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+
+    /* Component shadows — light mode */
+    --card-shadow:    var(--shadow-md);
+    --modal-shadow:   var(--glass-shadow-lg);
+
+    /* Glass shadows — light mode (daha hafif + inset highlight) */
+    --glass-shadow:   0 8px 32px rgba(0, 0, 0, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    --glass-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+    /* Brand shadows — light mode */
+    --shadow-brand:    0 4px 14px rgba(255, 79, 216, 0.15);
+    --shadow-brand-lg: 0 8px 24px rgba(255, 79, 216, 0.20);
+
+    /* Text shadows — light mode (çok hafif, okunabilirlik için) */
+    --ts-xs:   0 1px 1px rgba(0, 0, 0, 0.20);
+    --ts-sm:   0 1px 3px rgba(0, 0, 0, 0.15);
+    --ts-md:   0 2px 8px rgba(0, 0, 0, 0.12);
+    --ts-lg:   0 3px 14px rgba(0, 0, 0, 0.12);
+    --ts-glow: 0 0 12px rgba(255, 79, 216, 0.30);
   }
 }
 
