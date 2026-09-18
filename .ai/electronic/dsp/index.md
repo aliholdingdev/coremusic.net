@@ -1,24 +1,24 @@
----
+﻿---
 type: system
 category: dsp-engine
-title: "CoreMusic Electronics — DSP Engine Index"
+title: "CoreMusic Electronics â€” DSP Engine Index"
 date: 2026-08-09
 updated: 2026-08-09
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+governance: Red Team Â· Human Mode Â· Truth Mode
 ---
 
-# CoreMusic Electronics — DSP Engine
+# CoreMusic Electronics â€” DSP Engine
 
-**Zorunlu Bağlantılar:** [[electronic/index]] · [[brain.md]] · [[architecture/06-audio/index]]
+**Zorunlu BaÄŸlantÄ±lar:** [[electronic/index]] Â· [[brain.md]] Â· [[architecture/k0-k5-software/k3-audio-engine]]
 
 ---
 
-## 1. Amaç
+## 1. AmaÃ§
 
-DSP Engine, CoreMusic ELECTRONICS platformunun gerçek zamanlı ses işleme motorudur. Tüm EQ, compressor, limiter, crossover, reverb, delay ve filtreleme işlemleri bu katmanda yürütülür.
+DSP Engine, CoreMusic ELECTRONICS platformunun gerÃ§ek zamanlÄ± ses iÅŸleme motorudur. TÃ¼m EQ, compressor, limiter, crossover, reverb, delay ve filtreleme iÅŸlemleri bu katmanda yÃ¼rÃ¼tÃ¼lÃ¼r.
 
 ---
 
@@ -26,33 +26,33 @@ DSP Engine, CoreMusic ELECTRONICS platformunun gerçek zamanlı ses işleme moto
 
 ```
 Input Signal
-    ↓
+    â†“
 Input Gain
-    ↓
+    â†“
 Noise Gate
-    ↓
+    â†“
 High Pass Filter
-    ↓
+    â†“
 Low Pass Filter
-    ↓
+    â†“
 Parametric EQ
-    ↓
+    â†“
 Graphic EQ
-    ↓
+    â†“
 Compressor
-    ↓
+    â†“
 Limiter
-    ↓
+    â†“
 Loudness
-    ↓
+    â†“
 Crossover
-    ↓
+    â†“
 Delay
-    ↓
+    â†“
 Reverb
-    ↓
+    â†“
 Output Gain
-    ↓
+    â†“
 Output Routing
 ```
 
@@ -60,15 +60,15 @@ Detay: [[dsp-pipeline]]
 
 ---
 
-## 3. DSP Bileşenleri
+## 3. DSP BileÅŸenleri
 
-| Bileşen | Dosya | Kapsam |
+| BileÅŸen | Dosya | Kapsam |
 |---------|-------|--------|
-| DSP Pipeline | [[dsp-pipeline]] | İşleme hattı akışı |
+| DSP Pipeline | [[dsp-pipeline]] | Ä°ÅŸleme hattÄ± akÄ±ÅŸÄ± |
 | Equalizer | [[equalizer]] | Graphic + Parametric EQ |
 | Dynamics | [[dynamics]] | Compressor, Limiter, Gate |
 | Filters | [[filters]] | FIR, IIR, FFT |
-| Crossover | [[crossover]] | Frekans dağıtımı |
+| Crossover | [[crossover]] | Frekans daÄŸÄ±tÄ±mÄ± |
 | Effects | [[effects]] | Reverb, Delay, Room Correction |
 | Loudness | [[loudness]] | Loudness, ReplayGain |
 
@@ -76,7 +76,7 @@ Detay: [[dsp-pipeline]]
 
 ## 4. DSP Hardware
 
-| bileşen | Özellik | Referans |
+| bileÅŸen | Ã–zellik | Referans |
 |---------|---------|----------|
 | XMOS XU316 | USB Audio + DSP | [[ADR-017-dsp-hardware-mode]] |
 | PCM3168A | 8-kanal DAC | [[ADR-038-8.1-sound-card-chip-selection]] |
@@ -87,12 +87,12 @@ Detay: [[dsp-pipeline]]
 ## 5. Equalizer Sistemi
 
 ### Graphic Equalizer
-- 2 Band → 31 Band arası
-- Kullanıcı tarafından ayarlanabilir
+- 2 Band â†’ 31 Band arasÄ±
+- KullanÄ±cÄ± tarafÄ±ndan ayarlanabilir
 
 ### Parametric Equalizer
 - Frekans, Gain, Q Factor
-- Tamamen özelleştirilebilir
+- Tamamen Ã¶zelleÅŸtirilebilir
 
 Detay: [[equalizer]]
 
@@ -101,14 +101,14 @@ Detay: [[equalizer]]
 ## 6. Crossover Engine
 
 ```
-20Hz    → Subwoofer (LFE)
-120Hz   → Woofer
-500Hz   → Midrange
-3500Hz  → Tweeter
-20kHz   → Upper Limit
+20Hz    â†’ Subwoofer (LFE)
+120Hz   â†’ Woofer
+500Hz   â†’ Midrange
+3500Hz  â†’ Tweeter
+20kHz   â†’ Upper Limit
 ```
 
-Her kanal bağımsız olarak yapılandırılabilir.
+Her kanal baÄŸÄ±msÄ±z olarak yapÄ±landÄ±rÄ±labilir.
 
 Detay: [[crossover]]
 
@@ -120,34 +120,34 @@ Detay: [[crossover]]
 |----------|----------|
 | Dinamik | Compressor, Limiter, Gate, Expander |
 | Frekans | Graphic EQ, Parametric EQ, FIR, IIR |
-| Mekânsal | Reverb, Delay, Echo, Stereo Width |
+| MekÃ¢nsal | Reverb, Delay, Echo, Stereo Width |
 | Bass | Bass Boost, Bass Management, LFE Routing |
 
 Detay: [[effects]]
 
 ---
 
-## 8. Gerçek Zamanlı Performans Hedefleri
+## 8. GerÃ§ek ZamanlÄ± Performans Hedefleri
 
 | Metrik | Hedef |
 |--------|-------|
 | Latency | <10ms (ASIO), <20ms (WASAPI) |
-| CPU Kullanımı | <%15 (8+1 kanal) |
-| Bellek | <%50MB (tüm DSP chain) |
-| Örnekleme | 48kHz standart, 96/192kHz destek |
-| Bit Derinliği | 32-bit float |
+| CPU KullanÄ±mÄ± | <%15 (8+1 kanal) |
+| Bellek | <%50MB (tÃ¼m DSP chain) |
+| Ã–rnekleme | 48kHz standart, 96/192kHz destek |
+| Bit DerinliÄŸi | 32-bit float |
 
 ---
 
-## 9. Zero-Allocation Kuralları (C++)
+## 9. Zero-Allocation KurallarÄ± (C++)
 
-Audio thread'de ❌ yasak:
+Audio thread'de âŒ yasak:
 - `malloc()`, `free()`, `new`, `delete`
 - `std::make_shared`, `std::vector` push_back
 - I/O blocking
 - `throw`
 
-✅ İzin:
+âœ… Ä°zin:
 - Stack tahsisi
 - `std::atomic`
 - SIMD (SSE2/AVX2/NEON)
@@ -158,7 +158,7 @@ Referans: [[brain.md]]#c++-audio-rules
 
 ---
 
-## 10. ADR Referansları
+## 10. ADR ReferanslarÄ±
 
 | ADR | Konu |
 |-----|------|
@@ -168,17 +168,18 @@ Referans: [[brain.md]]#c++-audio-rules
 
 ---
 
-## 11. Çapraz Referanslar
+## 11. Ã‡apraz Referanslar
 
-| Kaynak | Hedef | İlişki |
+| Kaynak | Hedef | Ä°liÅŸki |
 |--------|-------|--------|
-| DSP Engine | [[architecture/06-audio/index]] | Audio service |
-| DSP Engine | [[electronic/drivers/index]] | Driver katmanı |
-| DSP Engine | [[electronic/amplifier/index]] | Amplifier çıkışı |
-| DSP Engine | [[electronic/hardware/index]] | Donanım platformu |
+| DSP Engine | [[architecture/k0-k5-software/k3-audio-engine]] | Audio service |
+| DSP Engine | [[electronic/drivers/index]] | Driver katmanÄ± |
+| DSP Engine | [[electronic/amplifier/index]] | Amplifier Ã§Ä±kÄ±ÅŸÄ± |
+| DSP Engine | [[electronic/hardware/index]] | DonanÄ±m platformu |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-08-09
-**Mode:** Red Team · Human Mode · Truth Mode
+**Mode:** Red Team Â· Human Mode Â· Truth Mode
+

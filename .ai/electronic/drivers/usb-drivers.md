@@ -57,7 +57,20 @@ USB Audio Drivers, CoreMusic platformunun USB ses cihazlarıyla (XMOS XU316, PCM
 
 ---
 
-## 5. USB Driver Akışı
+## 5. XMOS Sürücüsü ↔ UAC 2.0 Karşılaştırması (Faz 6 Doğrulaması)
+
+Aşağıdaki tablo, CoreMusic platformunun ses mimarisinde XMOS Native Driver ve Standart UAC 2.0 (USB Audio Class 2.0) sınıfları arasındaki farkları belgeler:
+
+| Karşılaştırma Kriteri | XMOS Native Driver (Windows/Custom) | Standart UAC 2.0 (macOS/Linux) |
+|-----------------------|-------------------------------------|--------------------------------|
+| **Latency (Gecikme)** | Ultra-Düşük (<2ms, ASIO ile) | Düşük (<5ms) |
+| **Buffer Yönetimi** | Doğrudan donanım erişimi (Direct DMA) | OS seviyesinde buffer yönetimi |
+| **Örnekleme Yönetimi** | 192kHz/32-bit (Kilitlenebilir/Lock) | 192kHz'ye kadar esnek (OS tabanlı) |
+| **Özelleştirme** | DSP Register okuma/yazma tam kontrolü | Temel Ses ve Volüm kontrolü |
+
+---
+
+## 6. USB Driver Akışı
 
 ```
 USB Tak ──▶ USB Enumeration ──▶ {Cihaz Tanımla}

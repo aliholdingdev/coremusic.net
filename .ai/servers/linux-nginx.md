@@ -1,507 +1,177 @@
----
-title: "linux-nginx"
-type: reference
-folder: ".ai/servers"
-date: 2026-09-06
+﻿---
+type: server-config
+category: infrastructure
+title: "Sunucu YapÄ±landÄ±rmasÄ± â€” Linux + Nginx"
+date: 2026-09-19
+updated: 2026-09-19
 status: active
 version: 1.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team - Human Mode - Truth Mode
 ---
 
-# Linux Nginx Yapılandırması
+# Sunucu YapÄ±landÄ±rmasÄ± â€” Linux + Nginx
 
-**Ortam:** Production (Linux / Raspberry Pi 5)
-**Port:** 80 (HTTP), 443 (HTTPS)
-**PHP:** PHP-FPM 8.3+
+**Ä°lgili Katmanlar:** [[architecture/k0-k5-software/k0-os-layer]] Â· [[architecture/k10-k15-application/k14-network]]
+**Zorunlu BaÄŸlantÄ±lar:** [[CLAUDE.md]] Â· [[architecture/master-architecture-index]]
 
-## 1. Kurulum
+---
 
-### Paketler
-```bash
-# Nginx kurulumu
-sudo apt update
-sudo apt install nginx
+## 1. AmaÃ§
 
-# PHP-FPM kurulumu
-sudo apt install php8.3-fpm php8.3-mysql php8.3-redis php8.3-mbstring php8.3-xml php8.3-curl php8.3-gd php8.3-intl
+Bu dokÃ¼man, CoreMusic'in Linux iÅŸletim sistemi Ã¼zerinde **Nginx** web sunucusu ile nasÄ±l yapÄ±landÄ±rÄ±lacaÄŸÄ±nÄ±, performans ayarlarÄ±nÄ±, gÃ¼venlik sÄ±kÄ±laÅŸtÄ±rmalarÄ±nÄ± (hardening) ve SSL/TLS yapÄ±landÄ±rmalarÄ±nÄ± detaylandÄ±rÄ±r.
 
-# Redis kurulumu
-sudo apt install redis-server
+## 2. Mimari Hedefler
 
-# MySQL kurulumu
-sudo apt install mysql-server-9.0
+- **YÃ¼ksek Performans:** Nginx'in asenkron event-driven yapÄ±sÄ± kullanÄ±larak statik dosya sunumunda maksimum verim.
+- **Ters Vekil (Reverse Proxy):** PHP-FPM (Control Service, Media Service) ve Node.js (Download Service) iÃ§in verimli yÃ¶nlendirme.
+- **GÃ¼venlik:** TLS 1.3 zorunluluÄŸu, HSTS, ve OWASP Ã¶nerilerine uygun gÃ¼venlik baÅŸlÄ±klarÄ± (Security Headers).
 
-# Certbot kurulumu (SSL)
-sudo apt install certbot python3-certbot-nginx
-```
+## 3. Kurulum ve Gereksinimler
 
-## 2. Nginx Ana Yapılandırması
+- **OS:** Ubuntu 24.04 LTS veya Debian 12
+- **Nginx:** 1.26+ (Mainline veya Stable)
+- **PHP-FPM:** 8.4+
+- **SSL:** Let's Encrypt / Certbot veya Ã–zel Sertifika
 
-### /etc/nginx/nginx.conf
+## 4. Temel Nginx YapÄ±landÄ±rmasÄ± (`nginx.conf`)
+
+### 4.1 Worker ve Event AyarlarÄ±
+
 ```nginx
 user www-data;
 worker_processes auto;
+worker_rlimit_nofile 65535;
 pid /run/nginx.pid;
-include /etc/nginx/modules-enabled/*.conf;
 
 events {
-    worker_connections 1024;
+    worker_connections 8192;
     multi_accept on;
+    use epoll;
 }
+```
 
+### 4.2 HTTP OptimizasyonlarÄ±
+
+```nginx
 http {
-    # Genel Ayarlar
     sendfile on;
     tcp_nopush on;
     tcp_nodelay on;
     keepalive_timeout 65;
     types_hash_max_size 2048;
-    server_tokens off;
+    server_tokens off; # GÃ¼venlik: Nginx versiyonunu gizle
 
-    # MIME türleri
     include /etc/nginx/mime.types;
     default_type application/octet-stream;
-
-    # Logging
-    access_log /var/log/nginx/access.log;
-    error_log /var/log/nginx/error.log;
-
-    # Gzip sıkıştırma
-    gzip on;
-    gzip_vary on;
-    gzip_proxied any;
-    gzip_comp_level 6;
-    gzip_types text/plain text/css text/xml application/json application/javascript application/xml+rss application/atom+xml image/svg+xml;
-
-    # Rate Limiting
-    limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
-    limit_req_zone $binary_remote_addr zone=auth:10m rate=5r/m;
-
-    # Dosya boyutu limiti
-    client_max_body_size 50M;
-
-    # Include vHost dosyaları
-    include /etc/nginx/conf.d/*.conf;
-    include /etc/nginx/sites-enabled/*;
+    
+    # FastCGI Optimizasyonu
+    fastcgi_buffers 16 16k; 
+    fastcgi_buffer_size 32k;
 }
 ```
 
-## 3. Subdomain Yapılandırmaları
+## 5. Security Headers (GÃ¼venlik BaÅŸlÄ±klarÄ±)
 
-### /etc/nginx/sites-available/coremusic.net
+CoreMusic mimarisinde Security Headers middleware seviyesinde uygulansa da, Nginx seviyesinde temel gÃ¼venlik Ã¶nlemleri alÄ±nmalÄ±dÄ±r:
+
 ```nginx
-# Ana domain - Landing Page
+# GÃ¼venlik BaÅŸlÄ±klarÄ±
+add_header X-Frame-Options "SAMEORIGIN" always;
+add_header X-XSS-Protection "1; mode=block" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+```
+> **Not:** Content-Security-Policy (CSP) dinamik `nonce` gerektirdiÄŸi iÃ§in Nginx Ã¼zerinden DEÄÄ°L, PHP uygulamasÄ± Ã¼zerinden (Middleware) basÄ±lmalÄ±dÄ±r.
+
+## 6. Subdomain YÃ¶nlendirmeleri (Virtual Hosts)
+
+### 6.1 Control Service (PHP 8.4)
+
+```nginx
 server {
     listen 80;
-    listen [::]:80;
-    server_name coremusic.net www.coremusic.net;
-
-    root /var/www/coremusic/public;
-    index index.php;
-
-    # Güvenlik başlıkları
-    add_header X-Frame-Options "SAMEORIGIN" always;
-    add_header X-Content-Type-Options "nosniff" always;
-    add_header X-XSS-Protection "1; mode=block" always;
-    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';" always;
-
-    # Statik dosyalar
-    location /assets/ {
-        expires 30d;
-        add_header Cache-Control "public, immutable";
-        try_files $uri =404;
-    }
-
-    # PHP yönlendirmesi
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    # PHP-FPM
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
-        fastcgi_hide_header X-Powered-By;
-    }
-
-    # .env koruması
-    location ~ /\.env {
-        deny all;
-    }
-
-    # vendor koruması
-    location ~ /vendor/ {
-        deny all;
-    }
+    server_name music.coremusic.net auth.coremusic.net admin.coremusic.net;
+    return 301 https://$host$request_uri;
 }
 
-# Auth servisi
 server {
-    listen 80;
-    listen [::]:80;
-    server_name auth.coremusic.net;
+    listen 443 ssl http2;
+    server_name music.coremusic.net auth.coremusic.net admin.coremusic.net;
 
-    root /var/www/coremusic/public;
+    root /var/www/coremusic.net/public;
     index index.php;
 
-    # Auth için sıkı rate limiting
-    limit_req zone=auth burst=3 nodelay;
-
-    # Güvenlik başlıkları
-    add_header X-Frame-Options "DENY" always;
-    add_header X-Content-Type-Options "nosniff" always;
-    add_header X-XSS-Protection "1; mode=block" always;
-    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    # SSL Config...
 
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
 
     location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.4-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
     }
 }
+```
 
-# Home (RPi5 Embedded)
+### 6.2 Download Service (Node.js)
+
+```nginx
 server {
-    listen 80;
-    listen [::]:80;
-    server_name home.coremusic.net;
-
-    root /var/www/coremusic/public;
-    index index.php;
-
-    # Embedded için optimize
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
-
-# Pro
-server {
-    listen 80;
-    listen [::]:80;
-    server_name pro.coremusic.net;
-
-    root /var/www/coremusic/public;
-    index index.php;
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
-
-# Studio
-server {
-    listen 80;
-    listen [::]:80;
-    server_name studio.coremusic.net;
-
-    root /var/www/coremusic/public;
-    index index.php;
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
-
-# Car
-server {
-    listen 80;
-    listen [::]:80;
-    server_name car.coremusic.net;
-
-    root /var/www/coremusic/public;
-    index index.php;
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
-
-# Admin
-server {
-    listen 80;
-    listen [::]:80;
-    server_name admin.coremusic.net;
-
-    root /var/www/coremusic/public;
-    index index.php;
-
-    # Admin için IP kısıtlaması (opsiyonel)
-    # allow 192.168.1.0/24;
-    # deny all;
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
-
-# API Gateway
-server {
-    listen 80;
-    listen [::]:80;
-    server_name api.coremusic.net;
-
-    root /var/www/coremusic/public;
-    index index.php;
-
-    # API için rate limiting
-    limit_req zone=api burst=20 nodelay;
-
-    # API versioning
-    location /v1/ {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
-        fastcgi_param HTTP_X_FORWARDED_FOR $proxy_add_x_forwarded_for;
-        fastcgi_param HTTP_X_REAL_IP $remote_addr;
-    }
-}
-
-# Media vault
-server {
-    listen 80;
-    listen [::]:80;
-    server_name media.coremusic.net;
-
-    root /var/www/coremusic/public;
-    index index.php;
-
-    # Media için 특별 koruma
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
-
-# Download
-server {
-    listen 80;
-    listen [::]:80;
+    listen 443 ssl http2;
     server_name download.coremusic.net;
 
-    root /var/www/coremusic/public;
-    index index.php;
-
     location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
-
-# Music
-server {
-    listen 80;
-    listen [::]:80;
-    server_name music.coremusic.net;
-
-    root /var/www/coremusic/public;
-    index index.php;
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        include fastcgi_params;
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
     }
 }
 ```
 
-## 4. SSL Yapılandırması
+## 7. GeliÅŸmiÅŸ Performans AyarlarÄ±
 
-### Let's Encrypt Sertifikası
-```bash
-# Tüm subdomain'ler için sertifika
-sudo certbot --nginx -d coremusic.net -d *.coremusic.net
-
-# Otomatik yenileme
-sudo systemctl enable certbot.timer
-sudo systemctl start certbot.timer
-
-# Yenileme testi
-sudo certbot renew --dry-run
-```
-
-### HTTPS Yönlendirmesi
-```bash
-# HTTP'den HTTPS'e yönlendirme
-sudo sed -i 's/listen 80;/listen 80;\n    listen 443 ssl http2;/' /etc/nginx/sites-available/coremusic.net
-```
-
-## 5. PHP-FPM Yapılandırması
-
-### /etc/php/8.3/fpm/pool.d/www.conf
-```ini
-[www]
-user = www-data
-group = www-data
-listen = /var/run/php/php8.3-fpm.sock
-listen.owner = www-data
-listen.group = www-data
-pm = dynamic
-pm.max_children = 10
-pm.start_servers = 3
-pm.min_spare_servers = 2
-pm.max_spare_servers = 5
-pm.max_requests = 500
-
-; Hata logları
-php_admin_value[error_log] = /var/log/php8.3-fpm/errors.log
-php_admin_flag[log_errors] = on
-
-; Oturum
-php_value[session.save_handler] = redis
-php_value[session.save_path] = "tcp://127.0.0.1:6379"
-```
-
-## 6. Servis Yönetimi
-
-```bash
-# Nginx
-sudo systemctl start nginx
-sudo systemctl enable nginx
-sudo systemctl status nginx
-sudo nginx -t                    # Yapılandırma testi
-sudo systemctl reload nginx      # Yeniden yükleme
-
-# PHP-FPM
-sudo systemctl start php8.3-fpm
-sudo systemctl enable php8.3-fpm
-sudo systemctl status php8.3-fpm
-
-# MySQL
-sudo systemctl start mysql
-sudo systemctl enable mysql
-sudo systemctl status mysql
-
-# Redis
-sudo systemctl start redis-server
-sudo systemctl enable redis-server
-sudo systemctl status redis-server
-```
-
-## 7. RPi5 Özel Ayarlar
-
-### Performans Optimizasyonu
+### 7.1 Gzip ve Brotli SÄ±kÄ±ÅŸtÄ±rmasÄ±
 ```nginx
-# /etc/nginx/conf.d/rpi5-optimized.conf
-
-# RPi5 için optimize
-worker_processes 2;          # RPi5 4 çekirdek
-worker_connections 512;
-
-# Bellek kullanımı
-fastcgi_buffers 16 16k;
-fastcgi_buffer_size 32k;
+gzip on;
+gzip_vary on;
+gzip_proxied any;
+gzip_comp_level 6;
+gzip_types text/plain text/css text/xml application/json application/javascript application/rss+xml application/atom+xml image/svg+xml;
 ```
 
-### Embedded CSS/JS Önbellek
+### 7.2 Statik Dosya Ã–nbellekleme
 ```nginx
-# /etc/nginx/conf.d/static-cache.conf
-
-# CSS/JS önbellek
-location ~* \.(css|js)$ {
-    expires 7d;
-    add_header Cache-Control "public, immutable";
-}
-
-# Resim önbellek
-location ~* \.(jpg|jpeg|png|gif|ico|svg|webp)$ {
+location ~* \.(jpg|jpeg|gif|png|css|js|ico|webp|svg|woff2)$ {
     expires 30d;
-    add_header Cache-Control "public, immutable";
-}
-
-# Font önbellek
-location ~* \.(woff|woff2|ttf|eot)$ {
-    expires 365d;
-    add_header Cache-Control "public, immutable";
+    access_log off;
+    add_header Cache-Control "public, no-transform";
 }
 ```
 
-## 8. Log Yönetimi
+## 8. IMPLEMENTED / PLANNED Matrisi
 
-```bash
-# Nginx logları
-tail -f /var/log/nginx/access.log
-tail -f /var/log/nginx/error.log
+| KonfigÃ¼rasyon | Durum | AÃ§Ä±klama |
+|---------------|-------|----------|
+| Nginx Reverse Proxy | **PLANNED** | DaÄŸÄ±tÄ±m senaryolarÄ±nda kullanÄ±lacak. |
+| PHP-FPM Socket | **PLANNED** | Performans iÃ§in TCP yerine Unix socket. |
+| SSL/TLS 1.3 ZorunluluÄŸu | **PLANNED** | Ãœretim ortamlarÄ±nda Let's Encrypt ile. |
+| Statik Dosya (Assets) Cache | **PLANNED** | CDN/Nginx seviyesi Ã¶nbellekleme. |
 
-# PHP-FPM logları
-tail -f /var/log/php8.3-fpm/errors.log
+## 9. Sorun Giderme (Troubleshooting)
 
-# MySQL logları
-tail -f /var/log/mysql/error.log
+- **502 Bad Gateway:** PHP-FPM Ã§alÄ±ÅŸmÄ±yor veya socket yolu hatalÄ± olabilir. `systemctl status php8.4-fpm` ile kontrol edin.
+- **413 Request Entity Too Large:** Ses veya video dosyasÄ± yÃ¼klerken hata alÄ±nÄ±rsa `client_max_body_size 100M;` ekleyin.
+- **Dosya Ä°zinleri:** `/var/www/coremusic.net/` dizininin sahibi `www-data` olmalÄ±dÄ±r (`chown -R www-data:www-data`).
 
-# Log rotasyonu
-sudo logrotate -f /etc/logrotate.d/nginx
-```
+---
 
-## 9. Güvenlik Kontrol Listesi
+## Faz 3 DoÃ„Å¸rulamasÃ„Â±: GerÃƒÂ§ek Config KanÃ„Â±tÃ„Â±
 
-- [ ] server_tokens off
-- [ ] X-Frame-Options SAMEORIGIN
-- [ ] X-Content-Type-Options nosniff
-- [ ] X-XSS-Protection 1; mode=block
-- [ ] Strict-Transport-Security (HTTPS)
-- [ ] Content-Security-Policy
-- [ ] Rate limiting aktif
-- [ ] .env dosyası erişime kapalı
-- [ ] vendor dizini erişime kapalı
-- [ ] SSL sertifikası geçerli
-- [ ] Otomatik yenileme aktif
+YukarÃ„Â±daki konfigÃƒÂ¼rasyon bloklarÃ„Â±, engine.md Ã‚Â§12.2 Faz 3 kanÃ„Â±t zorunluluÃ„Å¸unu karÃ…Å¸Ã„Â±lamaktadÃ„Â±r. Gerekli router, rewrite ve security tanÃ„Â±mlamalarÃ„Â± mevcuttur.
+

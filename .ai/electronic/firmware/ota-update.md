@@ -1,70 +1,71 @@
----
+﻿---
 type: electronic
 category: ota-update
-title: "CoreMusic — OTA Firmware Update"
+title: "CoreMusic â€” OTA Firmware Update"
 date: 2026-08-09
 updated: 2026-08-09
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+governance: Red Team Â· Human Mode Â· Truth Mode
 ---
 
-# CoreMusic — OTA Firmware Update
+# CoreMusic â€” OTA Firmware Update
 
-**See also:** [[electronic/firmware/index]] · [[architecture/07-security/driver-signing]]
-
----
-
-## 1. Amaç
-
-OTA Firmware Update, CoreMusic ELECTRONICS platformunun kablosuz firmware güncelleme mekanizmasını tanımlar.
+**See also:** [[electronic/firmware/index]] Â· [[architecture/k6-k7-security/k07-security-detail]]
 
 ---
 
-## 2. OTA Akışı
+## 1. AmaÃ§
+
+OTA Firmware Update, CoreMusic ELECTRONICS platformunun kablosuz firmware gÃ¼ncelleme mekanizmasÄ±nÄ± tanÄ±mlar.
+
+---
+
+## 2. OTA AkÄ±ÅŸÄ±
 
 ```
 Download Firmware (HTTPS)
-    ↓
+    â†“
 Verify Checksum (SHA-256)
-    ↓
+    â†“
 Verify Signature (RSA-2048)
-    ↓
+    â†“
 Backup Current Firmware
-    ↓
+    â†“
 Write New Firmware
-    ↓
+    â†“
 Reboot
-    ↓
+    â†“
 Verify New Firmware
-    ↓
+    â†“
 Or: Rollback to Backup
 ```
 
 ---
 
-## 3. Güvenlik
+## 3. GÃ¼venlik
 
-| Özellik | Değer |
+| Ã–zellik | DeÄŸer |
 |---------|-------|
-| İmza | RSA-2048 |
-| Şifreleme | AES-256-GCM |
+| Ä°mza | RSA-2048 |
+| Åifreleme | AES-256-GCM |
 | Checksum | SHA-256 |
-| Rollback | Mevcut firmware yedeği |
+| Rollback | Mevcut firmware yedeÄŸi |
 | Fail-safe | Dual-bank flash |
 
 ---
 
-## 4. ADR Referansları
+## 4. ADR ReferanslarÄ±
 
 | ADR | Konu |
 |-----|------|
-| [[ADR-022-database-hardened-security]] | Şifreleme |
+| [[ADR-022-database-hardened-security]] | Åifreleme |
 | [[ADR-034-credential-vault-normalization]] | Credential vault |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-08-09
-**Mode:** Red Team · Human Mode · Truth Mode
+**Mode:** Red Team Â· Human Mode Â· Truth Mode
+

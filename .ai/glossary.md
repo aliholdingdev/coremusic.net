@@ -1,9 +1,10 @@
 ---
+reference_doc: Freelancer Technical Documentation v1.0
 type: system
 category: reference
 title: "CoreMusic — Glossary"
 date: 2026-08-19
-updated: 2026-09-08
+updated: 2026-09-18
 status: active
 version: 2.0.0
 authority: Single Source of Truth (SSOT)

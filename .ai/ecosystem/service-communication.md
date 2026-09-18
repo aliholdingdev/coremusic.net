@@ -1,13 +1,13 @@
----
+﻿---
 type: ecosystem
 category: service-communication
-title: "Service Communication — CoreMusic İletişim Protokolleri"
+title: "Service Communication â€” CoreMusic Ä°letiÅŸim Protokolleri"
 date: 2026-08-15
 updated: 2026-08-15
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+governance: Red Team Â· Human Mode Â· Truth Mode
 reference:
   authority: ".ai/ecosystem/service-communication.md"
   adr:
@@ -16,35 +16,35 @@ reference:
     - "decisions/accepted/ADR-086-event-driven-architecture"
 ---
 
-# Service Communication — CoreMusic İletişim Protokolleri
+# Service Communication â€” CoreMusic Ä°letiÅŸim Protokolleri
 
-**İlgili ADR:** [[decisions/accepted/ADR-032-ipc-contract-versioning]] · [[decisions/accepted/ADR-084-api-gateway-architecture]] · [[decisions/accepted/ADR-086-event-driven-architecture]]
+**Ä°lgili ADR:** [[decisions/accepted/ADR-032-ipc-contract-versioning]] Â· [[decisions/accepted/ADR-084-api-gateway-architecture]] Â· [[decisions/accepted/ADR-086-event-driven-architecture]]
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[ecosystem/7-service-integration]] · [[architecture/00-overview/architecture-master]]
+**Zorunlu BaÄŸlantÄ±lar:** [[CLAUDE.md]] Â· [[ecosystem/7-service-integration]] Â· [[architecture/master-architecture-index]]
 
 ---
 
-## 1. Amaç
+## 1. AmaÃ§
 
-7 servis arasındaki tüm iletişim protokollerini, mesaj formatlarını, retry stratejilerini ve versiyonlama kurallarını tanımlar.
+7 servis arasÄ±ndaki tÃ¼m iletiÅŸim protokollerini, mesaj formatlarÄ±nÄ±, retry stratejilerini ve versiyonlama kurallarÄ±nÄ± tanÄ±mlar.
 
 ---
 
 ## 2. Protokol Matrisi
 
-| Protokol | Kullanım | Gecikme | Güvenlik | Servisler |
+| Protokol | KullanÄ±m | Gecikme | GÃ¼venlik | Servisler |
 |----------|----------|---------|----------|-----------|
-| **HTTP REST** | Senkron API | 50-200ms | TLS 1.3 | Tümü |
-| **WebSocket** | Gerçek zamanlı | 10-50ms | WSS | Media, Audio, Download |
-| **gRPC** | Yüksek performans IPC | 1-10ms | mTLS | Servisler arası (gelecek) |
-| **Shared Memory** | Zero-copy veri | <0.1ms | Process-level | Audio ↔ Device |
-| **WebRTC** | P2P ses akışı | 5-50ms | DTLS | Network Audio |
+| **HTTP REST** | Senkron API | 50-200ms | TLS 1.3 | TÃ¼mÃ¼ |
+| **WebSocket** | GerÃ§ek zamanlÄ± | 10-50ms | WSS | Media, Audio, Download |
+| **gRPC** | YÃ¼ksek performans IPC | 1-10ms | mTLS | Servisler arasÄ± (gelecek) |
+| **Shared Memory** | Zero-copy veri | <0.1ms | Process-level | Audio â†” Device |
+| **WebRTC** | P2P ses akÄ±ÅŸÄ± | 5-50ms | DTLS | Network Audio |
 
 ---
 
-## 3. HTTP REST Kuralları
+## 3. HTTP REST KurallarÄ±
 
-### 3.1 Request Formatı
+### 3.1 Request FormatÄ±
 
 ```
 POST /api/v1/{resource}
@@ -63,7 +63,7 @@ X-Service-Name: {source-service}
 }
 ```
 
-### 3.2 Response Formatı
+### 3.2 Response FormatÄ±
 
 ```json
 {
@@ -82,34 +82,34 @@ X-Service-Name: {source-service}
 }
 ```
 
-### 3.3 HTTP Status Kodları
+### 3.3 HTTP Status KodlarÄ±
 
-| Kod | Kullanım |
+| Kod | KullanÄ±m |
 |-----|----------|
-| 200 | Başarılı |
-| 201 | Oluşturuldu |
-| 204 | İçerik yok (başarılı) |
-| 400 | Geçersiz istek |
+| 200 | BaÅŸarÄ±lÄ± |
+| 201 | OluÅŸturuldu |
+| 204 | Ä°Ã§erik yok (baÅŸarÄ±lÄ±) |
+| 400 | GeÃ§ersiz istek |
 | 401 | Yetkisiz |
 | 403 | Yasak |
-| 404 | Bulunamadı |
-| 409 | Çakışma |
-| 422 | İşlenemedi |
+| 404 | BulunamadÄ± |
+| 409 | Ã‡akÄ±ÅŸma |
+| 422 | Ä°ÅŸlenemedi |
 | 429 | Rate limit |
-| 500 | Sunucu hatası |
-| 503 | Servis kullanılamıyor |
+| 500 | Sunucu hatasÄ± |
+| 503 | Servis kullanÄ±lamÄ±yor |
 
 ---
 
-## 4. WebSocket Kuralları
+## 4. WebSocket KurallarÄ±
 
-### 4.1 Bağlantı
+### 4.1 BaÄŸlantÄ±
 
 ```
 wss://{service}:{port}/ws?token={jwt}
 ```
 
-### 4.2 Mesaj Formatı
+### 4.2 Mesaj FormatÄ±
 
 ```json
 {
@@ -122,7 +122,7 @@ wss://{service}:{port}/ws?token={jwt}
 
 ### 4.3 Heartbeat
 
-| Parametre | Değer |
+| Parametre | DeÄŸer |
 |-----------|-------|
 | Interval | 30s |
 | Timeout | 10s |
@@ -132,13 +132,13 @@ wss://{service}:{port}/ws?token={jwt}
 
 ## 5. Event Bus (PSR-14)
 
-### 5.1 Event Yayını
+### 5.1 Event YayÄ±nÄ±
 
 ```
-Service A → EventDispatcher → [Listener1, Listener2, Listener3]
+Service A â†’ EventDispatcher â†’ [Listener1, Listener2, Listener3]
 ```
 
-### 5.2 Event Formatı
+### 5.2 Event FormatÄ±
 
 ```php
 final class TrackDownloadedEvent
@@ -155,7 +155,7 @@ final class TrackDownloadedEvent
 
 ### 5.3 Event Kategorileri
 
-| Kategori | Event'ler | Yayınlayan |
+| Kategori | Event'ler | YayÄ±nlayan |
 |----------|-----------|-----------|
 | **Auth** | UserAuthenticated, UserLoggedOut, SessionExpired | Control |
 | **Media** | TrackAdded, AlbumUpdated, LibrarySynced | Media |
@@ -166,7 +166,7 @@ final class TrackDownloadedEvent
 
 ---
 
-## 6. IPC Sözleşmeleri (ADR-032)
+## 6. IPC SÃ¶zleÅŸmeleri (ADR-032)
 
 ### 6.1 Versiyonlama
 
@@ -174,25 +174,25 @@ final class TrackDownloadedEvent
 /api/v{major}/{resource}
 ```
 
-| Version | Değişiklik | Geriye Dönük |
+| Version | DeÄŸiÅŸiklik | Geriye DÃ¶nÃ¼k |
 |---------|------------|--------------|
-| major | Breaking change | ❌ |
-| minor | New feature | ✅ |
-| patch | Bug fix | ✅ |
+| major | Breaking change | âŒ |
+| minor | New feature | âœ… |
+| patch | Bug fix | âœ… |
 
 ### 6.2 Contract First
 
 ```
-OpenAPI Spec → DTO → Contract → Validation → Use Case → Kod
+OpenAPI Spec â†’ DTO â†’ Contract â†’ Validation â†’ Use Case â†’ Kod
 ```
 
-**Kod hiçbir zaman sözleşmeden önce yazılmaz.**
+**Kod hiÃ§bir zaman sÃ¶zleÅŸmeden Ã¶nce yazÄ±lmaz.**
 
 ---
 
 ## 7. Retry & Timeout Stratejisi
 
-| Parametre | Değer |
+| Parametre | DeÄŸer |
 |-----------|-------|
 | Connect Timeout | 5s |
 | Read Timeout | 30s |
@@ -200,48 +200,48 @@ OpenAPI Spec → DTO → Contract → Validation → Use Case → Kod
 | Initial Delay | 100ms |
 | Max Delay | 5000ms |
 | Backoff | Exponential (x2) |
-| Jitter | ±20% |
+| Jitter | Â±20% |
 
-### 7.1 Retry Kuralı
+### 7.1 Retry KuralÄ±
 
-| HTTP Kodu | Retry? | Açıklama |
+| HTTP Kodu | Retry? | AÃ§Ä±klama |
 |-----------|--------|----------|
-| 2xx | ❌ | Başarılı |
-| 4xx | ❌ | İstemci hatası |
-| 429 | ✅ | Rate limit — Retry-After header'ı |
-| 5xx | ✅ | Sunucu hatası |
-| Timeout | ✅ | Bağlantı kopması |
+| 2xx | âŒ | BaÅŸarÄ±lÄ± |
+| 4xx | âŒ | Ä°stemci hatasÄ± |
+| 429 | âœ… | Rate limit â€” Retry-After header'Ä± |
+| 5xx | âœ… | Sunucu hatasÄ± |
+| Timeout | âœ… | BaÄŸlantÄ± kopmasÄ± |
 
 ---
 
 ## 8. Service Discovery
 
-| Yöntem | Kullanım | Durum |
+| YÃ¶ntem | KullanÄ±m | Durum |
 |--------|----------|-------|
-| Static config | Basit kurulum | ✅ Mevcut |
-| DNS | Subdomain tabanlı | ✅ Mevcut |
-| Service Registry | Dinamik keşif | 📋 Gelecek |
+| Static config | Basit kurulum | âœ… Mevcut |
+| DNS | Subdomain tabanlÄ± | âœ… Mevcut |
+| Service Registry | Dinamik keÅŸif | ğŸ“‹ Gelecek |
 
 ---
 
 ## 9. Cross References
 
-| Dosya | Amaç |
+| Dosya | AmaÃ§ |
 |-------|------|
 | [[ecosystem/7-service-integration]] | Servis entegrasyonu |
-| [[ecosystem/service-health-check]] | Sağlık kontrolü |
+| [[ecosystem/service-health-check]] | SaÄŸlÄ±k kontrolÃ¼ |
 | [[ecosystem/error-recovery]] | Hata kurtarma |
 | [[architecture/03-contracts/api-architecture-master]] | API mimarisi |
-| [[architecture/10-network]] | Ağ protokolleri |
+| [[architecture/10-network]] | AÄŸ protokolleri |
 
 ---
 
 ## 10. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | **Version** | 1.0.0 |
-| **Status** | Red Team · Human Mode · Truth Mode verified |
+| **Status** | Red Team Â· Human Mode Â· Truth Mode verified |
 | **Protocol Count** | 5 |
 | **Event Categories** | 6 |
 | **HTTP Status Codes** | 11 |
@@ -251,4 +251,19 @@ OpenAPI Spec → DTO → Contract → Validation → Use Case → Kod
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-08-15
-**Mode:** Red Team · Human Mode · Truth Mode
+**Mode:** Red Team Â· Human Mode Â· Truth Mode
+
+---
+
+## Faz 3 DoÃ„Å¸rulamasÃ„Â±: Servis Durum Matrisi
+
+| Servis | Entegrasyon Durumu | KanÃ„Â±t / AÃƒÂ§Ã„Â±klama |
+|--------|--------------------|------------------|
+| Control Service | **IMPLEMENTED** | shared/src/, uth.coremusic.net/ aktif |
+| Media Service | **PLANNED** | TasarÃ„Â±m aÃ…Å¸amasÃ„Â±nda |
+| Audio Service | **PLANNED** | C++ NevaEngine taslak |
+| Device Service | **PLANNED** | DonanÃ„Â±m (I2S/BLE) beklemede |
+| Network Audio | **PLANNED** | WebRTC mimarisi ÃƒÂ§izildi |
+| AI Service | **PLANNED** | Python entegrasyonu planlandÃ„Â± |
+| Download Service | **PLANNED** | Node.js servis klasÃƒÂ¶rÃƒÂ¼ yok |
+

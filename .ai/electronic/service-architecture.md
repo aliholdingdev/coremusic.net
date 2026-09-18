@@ -1,4 +1,4 @@
----
+﻿---
 type: system
 category: electronics-service
 title: "CoreMusic Electronics Service Architecture"
@@ -7,281 +7,281 @@ updated: 2026-08-10
 status: active
 version: 2.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+governance: Red Team Â· Human Mode Â· Truth Mode
 ---
 
 # CoreMusic Electronics Service Architecture
 
-**Zorunlu Bağlantılar:** [[electronic/software-architecture]] · [[electronic/device-architecture]] · [[electronic/device-ecosystem]] · [[ecosystem/7-service-integration]] · [[ADR-039-7-service-platform-architecture]]
+**Zorunlu BaÄŸlantÄ±lar:** [[electronic/software-architecture]] Â· [[electronic/device-architecture]] Â· [[electronic/device-ecosystem]] Â· [[ecosystem/7-service-integration]] Â· [[ADR-039-7-service-platform-architecture]]
 
 ---
 
-## 1. Amaç
+## 1. AmaÃ§
 
-CoreMusic ELECTRONICS **tek bir uygulama değildir**. Bağımsız servislerden oluşur ve her servisin net bir sorumluluk alanı vardır. Servisler arası iletişim message bus üzerinden gerçekleştirilir. Her servis: tek sorumluluk, bağımsız geliştirme, bağımsız test, bağımsız dağıtım prensibiyle çalışır.
+CoreMusic ELECTRONICS **tek bir uygulama deÄŸildir**. BaÄŸÄ±msÄ±z servislerden oluÅŸur ve her servisin net bir sorumluluk alanÄ± vardÄ±r. Servisler arasÄ± iletiÅŸim message bus Ã¼zerinden gerÃ§ekleÅŸtirilir. Her servis: tek sorumluluk, baÄŸÄ±msÄ±z geliÅŸtirme, baÄŸÄ±msÄ±z test, baÄŸÄ±msÄ±z daÄŸÄ±tÄ±m prensibiyle Ã§alÄ±ÅŸÄ±r.
 
 ---
 
 ## 2. Servis Mimarisi (13 Servis)
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        API Gateway                              │
-│              (Routing, Auth, Rate Limit)                        │
-├─────────────────────────────────────────────────────────────────┤
-│  Core Services          │  Media Services        │  System     │
-│  ├── 1. Auth Service    │  ├── 4. Audio Service  │  Services   │
-│  ├── 2. User Service    │  ├── 5. DSP Service    │  ├── 9. AI  │
-│  └── 3. Device Service  │  ├── 6. Streaming      │  ├── 10. Update
-│                         │  ├── 7. Download       │  ├── 11. Notify
-│                         │  └── 8. Media Library  │  ├── 12. Monitor
-│                         │                        │  └── 13. Log
-├─────────────────────────────────────────────────────────────────┤
-│                     Message Bus (Event Driven)                   │
-└─────────────────────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                        API Gateway                              â”‚
+â”‚              (Routing, Auth, Rate Limit)                        â”‚
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚  Core Services          â”‚  Media Services        â”‚  System     â”‚
+â”‚  â”œâ”€â”€ 1. Auth Service    â”‚  â”œâ”€â”€ 4. Audio Service  â”‚  Services   â”‚
+â”‚  â”œâ”€â”€ 2. User Service    â”‚  â”œâ”€â”€ 5. DSP Service    â”‚  â”œâ”€â”€ 9. AI  â”‚
+â”‚  â””â”€â”€ 3. Device Service  â”‚  â”œâ”€â”€ 6. Streaming      â”‚  â”œâ”€â”€ 10. Update
+â”‚                         â”‚  â”œâ”€â”€ 7. Download       â”‚  â”œâ”€â”€ 11. Notify
+â”‚                         â”‚  â””â”€â”€ 8. Media Library  â”‚  â”œâ”€â”€ 12. Monitor
+â”‚                         â”‚                        â”‚  â””â”€â”€ 13. Log
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚                     Message Bus (Event Driven)                   â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ---
 
-## 3. Servis Detayları (13 Servis)
+## 3. Servis DetaylarÄ± (13 Servis)
 
 ### 3.1 Auth Service
 
-| İşlev | Açıklama |
+| Ä°ÅŸlev | AÃ§Ä±klama |
 |-------|----------|
-| Login | Kullanıcı girişi (username/password, OAuth) |
+| Login | KullanÄ±cÄ± giriÅŸi (username/password, OAuth) |
 | Logout | Oturum kapatma |
-| Token Management | JWT üretme, yenileme, iptal |
-| Device Auth | Cihaz kimlik doğrulama (X.509) |
-| Session Management | Oturum yönetimi (cross-subdomain) |
-| MFA | Çoklu faktörlü kimlik doğrulama |
+| Token Management | JWT Ã¼retme, yenileme, iptal |
+| Device Auth | Cihaz kimlik doÄŸrulama (X.509) |
+| Session Management | Oturum yÃ¶netimi (cross-subdomain) |
+| MFA | Ã‡oklu faktÃ¶rlÃ¼ kimlik doÄŸrulama |
 
 **API Endpoints:**
-- `POST /auth/login` — Kullanıcı girişi
-- `POST /auth/logout` — Oturum kapatma
-- `POST /auth/token/refresh` — Token yenileme
-- `POST /auth/device/register` — Cihaz kaydı
-- `GET /auth/session/check` — Oturum kontrolü
+- `POST /auth/login` â€” KullanÄ±cÄ± giriÅŸi
+- `POST /auth/logout` â€” Oturum kapatma
+- `POST /auth/token/refresh` â€” Token yenileme
+- `POST /auth/device/register` â€” Cihaz kaydÄ±
+- `GET /auth/session/check` â€” Oturum kontrolÃ¼
 
-Detaylar: [[architecture/08-auth/index]], [[ADR-043-auth-subdomain-consolidation]]
+Detaylar: [[architecture/k6-k7-security/k06-auth-layer/index]], [[ADR-043-auth-subdomain-consolidation]]
 
 ### 3.2 User Service
 
-| İşlev | Açıklama |
+| Ä°ÅŸlev | AÃ§Ä±klama |
 |-------|----------|
-| Profile Management | Profil görüntüleme/güncelleme |
-| Roles | Rol yönetimi (admin, user, device) |
-| Permissions | İzin yönetimi (RBAC) |
+| Profile Management | Profil gÃ¶rÃ¼ntÃ¼leme/gÃ¼ncelleme |
+| Roles | Rol yÃ¶netimi (admin, user, device) |
+| Permissions | Ä°zin yÃ¶netimi (RBAC) |
 | Preferences | Tercihler (tema, dil, birim) |
-| Theme | Tema seçimi (ADR-044) |
-| Language | Dil seçimi |
+| Theme | Tema seÃ§imi (ADR-044) |
+| Language | Dil seÃ§imi |
 
 **API Endpoints:**
-- `GET /users/me` — Mevcut kullanıcı
-- `PUT /users/me` — Profil güncelleme
-- `GET /users/:id/roles` — Roller
-- `PUT /users/me/preferences` — Tercihler
+- `GET /users/me` â€” Mevcut kullanÄ±cÄ±
+- `PUT /users/me` â€” Profil gÃ¼ncelleme
+- `GET /users/:id/roles` â€” Roller
+- `PUT /users/me/preferences` â€” Tercihler
 
 Detaylar: [[ADR-044-dynamic-user-theme-engine]]
 
 ### 3.3 Device Service
 
-| İşlev | Açıklama |
+| Ä°ÅŸlev | AÃ§Ä±klama |
 |-------|----------|
-| Registration | Cihaz kaydı |
-| Discovery | Cihaz algılama (mDNS, SSDP) |
-| Health Check | Sağlık izleme |
-| Configuration | Uzaktan yapılandırma |
-| Firmware Version | Firmware versiyon yönetimi |
-| Driver Version | Sürücü versiyon yönetimi |
+| Registration | Cihaz kaydÄ± |
+| Discovery | Cihaz algÄ±lama (mDNS, SSDP) |
+| Health Check | SaÄŸlÄ±k izleme |
+| Configuration | Uzaktan yapÄ±landÄ±rma |
+| Firmware Version | Firmware versiyon yÃ¶netimi |
+| Driver Version | SÃ¼rÃ¼cÃ¼ versiyon yÃ¶netimi |
 
 **API Endpoints:**
-- `GET /devices` — Cihaz listesi
-- `POST /devices` — Cihaz kaydı
-- `GET /devices/:id/health` — Sağlık durumu
-- `PUT /devices/:id/config` — Yapılandırma
-- `POST /devices/:id/update` — Güncelleme başlatma
+- `GET /devices` â€” Cihaz listesi
+- `POST /devices` â€” Cihaz kaydÄ±
+- `GET /devices/:id/health` â€” SaÄŸlÄ±k durumu
+- `PUT /devices/:id/config` â€” YapÄ±landÄ±rma
+- `POST /devices/:id/update` â€” GÃ¼ncelleme baÅŸlatma
 
 ### 3.4 Audio Service
 
-| İşlev | Açıklama |
+| Ä°ÅŸlev | AÃ§Ä±klama |
 |-------|----------|
 | Playback | Ses oynatma (play, pause, stop, seek) |
-| Queue | Oynatma kuyruğu |
-| Playlist | Çalma listesi yönetimi |
-| Audio Session | Ses oturumu yönetimi |
-| Volume | Ses seviyesi kontrolü |
+| Queue | Oynatma kuyruÄŸu |
+| Playlist | Ã‡alma listesi yÃ¶netimi |
+| Audio Session | Ses oturumu yÃ¶netimi |
+| Volume | Ses seviyesi kontrolÃ¼ |
 | Equalizer | EQ ayarlama |
 
 **API Endpoints:**
-- `POST /audio/play` — Oynat
-- `POST /audio/pause` — Duraklat
-- `POST /audio/stop` — Durdur
-- `PUT /audio/seek` — İlerle
-- `GET /audio/queue` — Kuyruk
-- `PUT /audio/volume` — Ses seviyesi
+- `POST /audio/play` â€” Oynat
+- `POST /audio/pause` â€” Duraklat
+- `POST /audio/stop` â€” Durdur
+- `PUT /audio/seek` â€” Ä°lerle
+- `GET /audio/queue` â€” Kuyruk
+- `PUT /audio/volume` â€” Ses seviyesi
 
 ### 3.5 DSP Service
 
-| İşlev | Açıklama |
+| Ä°ÅŸlev | AÃ§Ä±klama |
 |-------|----------|
 | EQ | 31-bant parametrik equalizer |
-| Compressor | Sıkıştırıcı |
+| Compressor | SÄ±kÄ±ÅŸtÄ±rÄ±cÄ± |
 | Limiter | Limiter |
-| Crossover | Bass/treble ayrımı |
+| Crossover | Bass/treble ayrÄ±mÄ± |
 | Delay | Gecikme |
-| Reverb | Yankı |
+| Reverb | YankÄ± |
 | FIR Filter | Finite Impulse Response |
 | IIR Filter | Infinite Impulse Response |
 | FFT Analysis | Frekans analizi |
 
 **API Endpoints:**
-- `GET /dsp/preset` — Mevcut preset
-- `PUT /dsp/eq` — EQ ayarlama
-- `PUT /dsp/compressor` — Compressor ayarlama
-- `POST /dsp/preset` — Preset kaydetme
-- `GET /dsp/fft` — FFT analizi
+- `GET /dsp/preset` â€” Mevcut preset
+- `PUT /dsp/eq` â€” EQ ayarlama
+- `PUT /dsp/compressor` â€” Compressor ayarlama
+- `POST /dsp/preset` â€” Preset kaydetme
+- `GET /dsp/fft` â€” FFT analizi
 
 Detaylar: [[electronic/dsp/index]], [[ADR-062-dsp-pipeline-architecture]], [[ADR-025-professional-eq-system]]
 
 ### 3.6 Streaming Service
 
-| İşlev | Açıklama |
+| Ä°ÅŸlev | AÃ§Ä±klama |
 |-------|----------|
 | HTTP Streaming | HTTP/HTTPS streaming |
 | Local Streaming | Yerel dosya streaming |
-| Multi-Room | Çoklu oda senkronizasyon |
+| Multi-Room | Ã‡oklu oda senkronizasyon |
 | Adaptive Streaming | Adaptive bitrate |
 | Protocol Support | RTSP, HLS, DASH |
 
 **API Endpoints:**
-- `POST /stream/start` — Stream başlat
-- `POST /stream/stop` — Stream durdur
-- `PUT /stream/zone` — Zone yapılandırma
-- `GET /stream/status` — Stream durumu
+- `POST /stream/start` â€” Stream baÅŸlat
+- `POST /stream/stop` â€” Stream durdur
+- `PUT /stream/zone` â€” Zone yapÄ±landÄ±rma
+- `GET /stream/status` â€” Stream durumu
 
 ### 3.7 Download Service
 
-| İşlev | Açıklama |
+| Ä°ÅŸlev | AÃ§Ä±klama |
 |-------|----------|
-| Queue Management | İndirme kuyruğu yönetimi |
-| Resume | Kesintili indirme devamı |
+| Queue Management | Ä°ndirme kuyruÄŸu yÃ¶netimi |
+| Resume | Kesintili indirme devamÄ± |
 | Retry | Otomatik yeniden deneme |
-| Cache | Önbellekleme |
-| Metadata | Metadata çıkarma |
+| Cache | Ã–nbellekleme |
+| Metadata | Metadata Ã§Ä±karma |
 
 **API Endpoints:**
-- `POST /download/add` — İndirme ekle
-- `DELETE /download/:id` — İndirmeyi kaldır
-- `GET /download/queue` — Kuyruk listesi
-- `PUT /download/:id/pause` — Duraklat
-- `PUT /download/:id/resume` — Devam
+- `POST /download/add` â€” Ä°ndirme ekle
+- `DELETE /download/:id` â€” Ä°ndirmeyi kaldÄ±r
+- `GET /download/queue` â€” Kuyruk listesi
+- `PUT /download/:id/pause` â€” Duraklat
+- `PUT /download/:id/resume` â€” Devam
 
 Detaylar: [[projects/download-service]], [[ADR-026-download-service-architecture]]
 
 ### 3.8 Media Library Service
 
-| İşlev | Açıklama |
+| Ä°ÅŸlev | AÃ§Ä±klama |
 |-------|----------|
 | Scan | Medya tarama |
-| Index | Dizin oluşturma |
-| Metadata | Metadata çıkarma/güncelleme |
-| Album | Albüm yönetimi |
-| Artist | Sanatçı yönetimi |
-| Genre | Tür yönetimi |
+| Index | Dizin oluÅŸturma |
+| Metadata | Metadata Ã§Ä±karma/gÃ¼ncelleme |
+| Album | AlbÃ¼m yÃ¶netimi |
+| Artist | SanatÃ§Ä± yÃ¶netimi |
+| Genre | TÃ¼r yÃ¶netimi |
 | Search | Tam metin arama |
 
 **API Endpoints:**
-- `GET /library/scan` — Tarama başlat
-- `GET /library/songs` — Şarkı listesi
-- `GET /library/albums` — Albüm listesi
-- `GET /library/artists` — Sanatçı listesi
-- `GET /library/search?q=` — Arama
+- `GET /library/scan` â€” Tarama baÅŸlat
+- `GET /library/songs` â€” ÅarkÄ± listesi
+- `GET /library/albums` â€” AlbÃ¼m listesi
+- `GET /library/artists` â€” SanatÃ§Ä± listesi
+- `GET /library/search?q=` â€” Arama
 
 ### 3.9 AI Service
 
-| İşlev | Açıklama |
+| Ä°ÅŸlev | AÃ§Ä±klama |
 |-------|----------|
-| Sistem Analizi | Donanım/yazılımperformans analizi |
-| Kod Analizi | Kod kalitesi, güvenlik analizi |
-| Donanım Analizi | PCB, termal, sinyal analizi |
-| Dokümantasyon | Otomatik doküman üretimi |
+| Sistem Analizi | DonanÄ±m/yazÄ±lÄ±mperformans analizi |
+| Kod Analizi | Kod kalitesi, gÃ¼venlik analizi |
+| DonanÄ±m Analizi | PCB, termal, sinyal analizi |
+| DokÃ¼mantasyon | Otomatik dokÃ¼man Ã¼retimi |
 | Hata Analizi | Root cause, troubleshooting |
-| Tahmine Dayalı Bakım | Predictive maintenance |
-| Müzik Önerisi | Kişiselleştirilmiş öneri |
+| Tahmine DayalÄ± BakÄ±m | Predictive maintenance |
+| MÃ¼zik Ã–nerisi | KiÅŸiselleÅŸtirilmiÅŸ Ã¶neri |
 | Otomatik EQ | AI destekli EQ ayarlama |
 
 Detaylar: [[architecture/ai/ai-engine]], [[architecture/ai/ai-workflow]], [[ADR-030-ai-strategy-core]]
 
 ### 3.10 Update Service
 
-| İşlev | Açıklama |
+| Ä°ÅŸlev | AÃ§Ä±klama |
 |-------|----------|
-| Firmware Update | Firmware güncelleme |
-| Driver Update | Sürücü güncelleme |
-| DSP Profile Update | DSP profili güncelleme |
-| AI Model Update | AI model güncelleme |
-| Config Update | Konfigürasyon güncelleme |
-| UI Assets Update | UI varlık güncelleme |
+| Firmware Update | Firmware gÃ¼ncelleme |
+| Driver Update | SÃ¼rÃ¼cÃ¼ gÃ¼ncelleme |
+| DSP Profile Update | DSP profili gÃ¼ncelleme |
+| AI Model Update | AI model gÃ¼ncelleme |
+| Config Update | KonfigÃ¼rasyon gÃ¼ncelleme |
+| UI Assets Update | UI varlÄ±k gÃ¼ncelleme |
 
 **API Endpoints:**
-- `GET /update/check` — Güncelleme kontrolü
-- `POST /update/apply` — Güncelleme uygula
-- `POST /update/rollback` — Geri dönüş
-- `GET /update/history` — Güncelleme geçmişi
+- `GET /update/check` â€” GÃ¼ncelleme kontrolÃ¼
+- `POST /update/apply` â€” GÃ¼ncelleme uygula
+- `POST /update/rollback` â€” Geri dÃ¶nÃ¼ÅŸ
+- `GET /update/history` â€” GÃ¼ncelleme geÃ§miÅŸi
 
 ### 3.11 Notification Service
 
-| İşlev | Açıklama |
+| Ä°ÅŸlev | AÃ§Ä±klama |
 |-------|----------|
 | Push Notification | Push bildirim |
 | Email | E-posta bildirimi |
-| In-App | Uygulama içi bildirim |
+| In-App | Uygulama iÃ§i bildirim |
 | Webhook | Webhook bildirimi |
 
 ### 3.12 Monitoring Service
 
-| Metrik | Açıklama | Eşik |
+| Metrik | AÃ§Ä±klama | EÅŸik |
 |--------|----------|------|
-| CPU Usage | İşlemci kullanımı | >90% |
-| RAM Usage | Bellek kullanımı | >85% |
-| Disk Usage | Disk kullanımı | >90% |
-| Network | Ağ trafiği | >1Gbps |
-| DSP Load | DSP yükü | >80% |
-| Driver Errors | Sürücü hataları | >0 |
-| Temperature | Sıcaklık | >80°C |
+| CPU Usage | Ä°ÅŸlemci kullanÄ±mÄ± | >90% |
+| RAM Usage | Bellek kullanÄ±mÄ± | >85% |
+| Disk Usage | Disk kullanÄ±mÄ± | >90% |
+| Network | AÄŸ trafiÄŸi | >1Gbps |
+| DSP Load | DSP yÃ¼kÃ¼ | >80% |
+| Driver Errors | SÃ¼rÃ¼cÃ¼ hatalarÄ± | >0 |
+| Temperature | SÄ±caklÄ±k | >80Â°C |
 | Audio Buffer | Ses buffer | Underrun |
 | Latency | Gecikme | >20ms |
 
 **API Endpoints:**
-- `GET /monitoring/metrics` — Metrikler
-- `GET /monitoring/health` — Sağlık durumu
-- `GET /monitoring/alerts` — Uyarılar
+- `GET /monitoring/metrics` â€” Metrikler
+- `GET /monitoring/health` â€” SaÄŸlÄ±k durumu
+- `GET /monitoring/alerts` â€” UyarÄ±lar
 
 ### 3.13 Logging Service
 
-| İşlev | Açıklama |
+| Ä°ÅŸlev | AÃ§Ä±klama |
 |-------|----------|
-| Structured Logging | Yapılandırılmış günlük |
+| Structured Logging | YapÄ±landÄ±rÄ±lmÄ±ÅŸ gÃ¼nlÃ¼k |
 | Audit Trail | Denetim izi |
-| Log Aggregation | Günlük toplama |
-| Log Rotation | Günlük döndürme |
+| Log Aggregation | GÃ¼nlÃ¼k toplama |
+| Log Rotation | GÃ¼nlÃ¼k dÃ¶ndÃ¼rme |
 
 Detaylar: [[log.md]], [[ADR-004-multi-domain-spa]]
 
 ---
 
-## 4. Servis İletişimi
+## 4. Servis Ä°letiÅŸimi
 
-### 4.1 İletişim Akışı
+### 4.1 Ä°letiÅŸim AkÄ±ÅŸÄ±
 
 ```
-Application Contract → Message Bus → Target Service
+Application Contract â†’ Message Bus â†’ Target Service
 ```
 
-Tüm servislerarası iletişim **event-driven** message bus üzerinden gerçekleşir. Servisler birbirinin DB'sine **erişemez**.
+TÃ¼m servislerarasÄ± iletiÅŸim **event-driven** message bus Ã¼zerinden gerÃ§ekleÅŸir. Servisler birbirinin DB'sine **eriÅŸemez**.
 
-### 4.2 Event Kataloğu
+### 4.2 Event KataloÄŸu
 
 | Event | Kaynak | Hedef |
 |-------|--------|-------|
@@ -299,62 +299,62 @@ Tüm servislerarası iletişim **event-driven** message bus üzerinden gerçekle
 | `HealthCheckFailed` | Monitoring Service | Notification, Logging |
 | `SecurityAlertDetected` | Auth Service | Notification, Logging |
 
-### 4.3 Service İletişim Kuralları
+### 4.3 Service Ä°letiÅŸim KurallarÄ±
 
-| Kural | Açıklama |
+| Kural | AÃ§Ä±klama |
 |-------|----------|
-| Async First | Tüm iletişim asenkron |
+| Async First | TÃ¼m iletiÅŸim asenkron |
 | Event Sourcing | Olaylar kaydedilir |
-| Idempotency | Tekrarlanabilir işlemler |
-| Circuit Breaker | Bağımlılık kırılma noktası |
-| Retry with Backoff | Üstel geri çekilme ile yeniden deneme |
-| Dead Letter Queue | Başarısız mesajlar |
-| Service Isolation | Hiçbir servis diğerinin DB'sine erişmez |
+| Idempotency | Tekrarlanabilir iÅŸlemler |
+| Circuit Breaker | BaÄŸÄ±mlÄ±lÄ±k kÄ±rÄ±lma noktasÄ± |
+| Retry with Backoff | Ãœstel geri Ã§ekilme ile yeniden deneme |
+| Dead Letter Queue | BaÅŸarÄ±sÄ±z mesajlar |
+| Service Isolation | HiÃ§bir servis diÄŸerinin DB'sine eriÅŸmez |
 
 ---
 
-## 5. Servis Yaşam Döngüsü
+## 5. Servis YaÅŸam DÃ¶ngÃ¼sÃ¼
 
 ```
-Initialize → Config → Dependency → Health → Ready → Running → Monitoring → Shutdown
+Initialize â†’ Config â†’ Dependency â†’ Health â†’ Ready â†’ Running â†’ Monitoring â†’ Shutdown
 ```
 
-| Aşama | Açıklama |
+| AÅŸama | AÃ§Ä±klama |
 |-------|----------|
-| Initialize | Servis başlatma, bağımlılıklar kontrol |
-| Config | Konfigürasyon yükleme (env, DB, file) |
-| Dependency | Bağımlılık servislerinin hazır olması |
-| Health | İlk sağlık kontrolü |
-| Ready | Trafik almaya hazır |
+| Initialize | Servis baÅŸlatma, baÄŸÄ±mlÄ±lÄ±klar kontrol |
+| Config | KonfigÃ¼rasyon yÃ¼kleme (env, DB, file) |
+| Dependency | BaÄŸÄ±mlÄ±lÄ±k servislerinin hazÄ±r olmasÄ± |
+| Health | Ä°lk saÄŸlÄ±k kontrolÃ¼ |
+| Ready | Trafik almaya hazÄ±r |
 | Running | Aktif servis |
-| Monitoring | Sürekli izleme, metrik toplama |
+| Monitoring | SÃ¼rekli izleme, metrik toplama |
 | Shutdown | Graceful kapanma, cleanup |
 
 ---
 
 ## 6. API Gateway
 
-| Özellik | Açıklama |
+| Ã–zellik | AÃ§Ä±klama |
 |---------|----------|
-| Routing | URL tabanlı yönlendirme |
-| Authentication | Token doğrulama |
-| Rate Limiting | İstek sınırlandırma (60 req/60s) |
-| Validation | Giriş doğrulama |
-| Logging | İstek günlüğü |
-| Load Balancing | Yük dengeleme |
-| Circuit Breaker | Servis koruması |
+| Routing | URL tabanlÄ± yÃ¶nlendirme |
+| Authentication | Token doÄŸrulama |
+| Rate Limiting | Ä°stek sÄ±nÄ±rlandÄ±rma (60 req/60s) |
+| Validation | GiriÅŸ doÄŸrulama |
+| Logging | Ä°stek gÃ¼nlÃ¼ÄŸÃ¼ |
+| Load Balancing | YÃ¼k dengeleme |
+| Circuit Breaker | Servis korumasÄ± |
 
 Detaylar: [[architecture/03-contracts/api-architecture-master]], [[architecture/03-contracts/api-rate-limit]]
 
 ---
 
-## 7. Servis Sağlık Kontrolü
+## 7. Servis SaÄŸlÄ±k KontrolÃ¼
 
-| Durum | Tanım | Aksiyon |
+| Durum | TanÄ±m | Aksiyon |
 |-------|-------|---------|
 | Healthy | Servis normal | Devam |
-| Degraded | Yavaş yanıt | Uyarı |
-| Failed | Servis çalışmıyor | Escalation |
+| Degraded | YavaÅŸ yanÄ±t | UyarÄ± |
+| Failed | Servis Ã§alÄ±ÅŸmÄ±yor | Escalation |
 | Unknown | Durum bilinmiyor | Yeniden kontrol |
 
 Detaylar: [[ecosystem/service-health-check]]
@@ -363,17 +363,17 @@ Detaylar: [[ecosystem/service-health-check]]
 
 ## 8. AI Servis Entegrasyonu
 
-| AI Yeteneği | Kullanım |
+| AI YeteneÄŸi | KullanÄ±m |
 |-------------|----------|
-| Sistem Analizi | Donanım/yazılım performans analizi |
-| Kod Analizi | Kod kalitesi, güvenlik taraması |
-| Donanım Analizi | PCB, termal, sinyal kalitesi |
-| Dokümantasyon | Otomatik doküman üretimi |
+| Sistem Analizi | DonanÄ±m/yazÄ±lÄ±m performans analizi |
+| Kod Analizi | Kod kalitesi, gÃ¼venlik taramasÄ± |
+| DonanÄ±m Analizi | PCB, termal, sinyal kalitesi |
+| DokÃ¼mantasyon | Otomatik dokÃ¼man Ã¼retimi |
 | Hata Analizi | Root cause, troubleshooting |
-| Predictive Maintenance | Tahmine dayalı bakım |
-| Music Recommendation | Kişiselleştirilmiş öneri |
+| Predictive Maintenance | Tahmine dayalÄ± bakÄ±m |
+| Music Recommendation | KiÅŸiselleÅŸtirilmiÅŸ Ã¶neri |
 | Auto-EQ | Otomatik equalizer ayarlama |
-| Room Correction | Oda akustik düzeltmesi |
+| Room Correction | Oda akustik dÃ¼zeltmesi |
 
 Detaylar: [[architecture/ai/ai-engine]], [[architecture/ai/ai-workflow]], [[ADR-030-ai-strategy-core]]
 
@@ -383,12 +383,12 @@ Detaylar: [[architecture/ai/ai-engine]], [[architecture/ai/ai-workflow]], [[ADR-
 
 | Dosya | Kapsam |
 |-------|--------|
-| [[electronic/software-architecture]] | Yazılım mimarisi |
+| [[electronic/software-architecture]] | YazÄ±lÄ±m mimarisi |
 | [[electronic/device-architecture]] | Cihaz mimarisi |
 | [[electronic/device-ecosystem]] | Cihaz ekosistemi |
 | [[ecosystem/7-service-integration]] | Servis entegrasyonu |
 | [[ecosystem/service-health-check]] | Health check |
-| [[ecosystem/service-communication]] | Servis iletişim |
+| [[ecosystem/service-communication]] | Servis iletiÅŸim |
 | [[ADR-039-7-service-platform-architecture]] | 7-servis ADR |
 | [[ADR-062-dsp-pipeline-architecture]] | DSP pipeline |
 
@@ -396,18 +396,19 @@ Detaylar: [[architecture/ai/ai-engine]], [[architecture/ai/ai-workflow]], [[ADR-
 
 ## 10. Quality Report
 
-| Metrik | Değer |
+| Metrik | DeÄŸer |
 |--------|-------|
 | Version | 2.0.0 |
-| Status | Red Team · Human Mode · Truth Mode verified |
+| Status | Red Team Â· Human Mode Â· Truth Mode verified |
 | Services | 13 |
 | API Endpoints | 50+ |
 | Event Types | 13+ |
-| Service Lifecycle | 8 aşamalı |
+| Service Lifecycle | 8 aÅŸamalÄ± |
 | Cross References | 8 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-08-10
-**Mode:** Red Team · Human Mode · Truth Mode
+**Mode:** Red Team Â· Human Mode Â· Truth Mode
+

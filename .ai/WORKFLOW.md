@@ -1,9 +1,10 @@
 ---
+reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic — Vault Workflows & Engineering Processes"
 type: guide
 category: workflow
 date: 2026-08-08
-updated: 2026-09-15
+updated: 2026-09-18
 status: active
 version: 21.0.0
 authority: Single Source of Truth (SSOT)
@@ -719,6 +720,63 @@ Session Sonunda:
 | Hard Gates | 4 |
 | Warnings | 7 |
 | Glossary Terms | 15 |
+
+---
+
+## 19. PDF Sistem Mimarisi Özeti
+
+### 4 Katmanlı Basitleştirilmiş Mimari
+
+```
+L3 Uygulama Katmanı → Web, Mobile, Car, TV, Studio, Panel
+    ↓
+L2 Servis Katmanı → API, Microservices, AI, Media, Sync
+    ↓
+L1 Güvenlik Katmanı → Auth, Session, CSRF, Rate Limit, Security Headers
+    ↓
+L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
+```
+
+### 7 Katmanlı Detaylı Mimari
+
+| # | Katman | Kapsam |
+|---|--------|--------|
+| 01 | Kullanıcı Deneyimi | Desktop App, Web Portal, Smart TV, Mobile App |
+| 02 | Uygulama Servis | User Service, Media, Playlist, AI, Subscription |
+| 03 | Native Ses İşleme | Audio Engine (ASIO/WASAPI), Mixer, Effects, DSP |
+| 04 | Yapay Zeka | Music Analysis, Recommendation, Voice, AI Generation |
+| 05 | Alan (Domain) | Music/Artist/Album, User Profile, Business Rules |
+| 06 | Veri Yönetimi | Local DB, Cache, Data Optimization, File Management |
+| 07 | Altyapı ve Bulut | Streaming Server, On-Premise, Docker/K8s |
+
+### Servis Diyagramı
+
+```
+Kullanıcı → Web/Mobile/Car/TV → API Gateway → Microservices
+                                                    ↓
+                                    ┌───────────────┼───────────────┐
+                                    ↓               ↓               ↓
+                               Media Service   Audio Service   AI Service
+                                    ↓               ↓               ↓
+                               MySQL 9        Neva Engine    TensorFlow
+                               Redis Cache    ASIO/WASAPI    PyTorch
+                               File Storage   DSP Chain      Inference
+```
+
+### Veri Akışı
+
+```
+Müzik Dosyası → Metadata Çıkarma → DB Kaydı → İndeksleme → Arama → Oynatma
+     │              │                  │            │          │        │
+     ▼              ▼                  ▼            ▼          ▼        ▼
+  FFmpeg        ID3/FLAC          MySQL 9      FULLTEXT    Search   Neva
+  Transcode     Tag Parse         INSERT       Index       API     Engine
+```
+
+### İlgili Dosyalar
+- [[architecture/master-architecture-index]] — 21 katmanlı mimari
+- [[VISION]] — Vizyon ve hedefler
+- [[PROJECTS]] — Proje tanımı
 
 ---
 

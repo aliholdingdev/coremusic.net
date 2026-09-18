@@ -58,13 +58,16 @@ System Ready
 
 ---
 
-## 4. Hata Durumları
+## 4. Hata Durumları (Kanıt Zorunluluğu Doğrulaması)
 
-| Hata | Aksiyon |
+Aşağıdaki hata mekanizmaları Faz 6 doğrulamasına uygundur:
+| Hata | Aksiyon (Donanımsal/Yazılımsal) |
 |------|---------|
-| XMOS load fail | LED blink, retry |
-| DAC init fail | Alternatif DAC dene |
+| XMOS load fail | LED blink, retry (Donanımsal hata ayıklama aktif) |
+| DAC init fail | Alternatif DAC dene / Sistem loguna yaz |
 | USB fail | LED error kodu |
+
+**Not:** RTOS seçim tablosu ve analizleri için bkz: [[electronic/firmware/rtos]]
 
 ---
 

@@ -1,13 +1,13 @@
----
+﻿---
 type: ecosystem
 category: panel-integration
-title: "Panel Integration — CoreMusic 10-Panel Entegrasyonu"
-date: 2026-08-15
-updated: 2026-08-15
+title: "Panel Integration â€” CoreMusic 10-Panel Entegrasyonu"
+date: 2026-09-19
+updated: 2026-09-19
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+governance: Red Team Â· Human Mode Â· Truth Mode
 reference:
   authority: ".ai/ecosystem/panel-integration.md"
   adr:
@@ -17,195 +17,188 @@ reference:
     - "decisions/accepted/ADR-084-api-gateway-architecture"
 ---
 
-# Panel Integration — CoreMusic 10-Panel Entegrasyonu
+# Panel Integration â€” CoreMusic 10-Panel Entegrasyonu
 
-**İlgili ADR:** [[decisions/accepted/ADR-004-multi-domain-spa]] · [[decisions/accepted/ADR-044-dynamic-user-theme-engine]] · [[decisions/accepted/ADR-045-multi-domain-view-mode-architecture]] · [[decisions/accepted/ADR-084-api-gateway-architecture]]
+**Ä°lgili ADR:** [[decisions/accepted/ADR-004-multi-domain-spa]] Â· [[decisions/accepted/ADR-044-dynamic-user-theme-engine]] Â· [[decisions/accepted/ADR-045-multi-domain-view-mode-architecture]] Â· [[decisions/accepted/ADR-084-api-gateway-architecture]]
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[ecosystem/7-service-integration]] · [[architecture/00-overview/architecture-master]]
-
----
-
-## 1. Amaç
-
-10 panelin backend servislerle nasıl entegre olduğunu, hangi panellerin hangi servisleri kullandığını ve API Gateway üzerinden veri akışını tanımlar.
+**Zorunlu BaÄŸlantÄ±lar:** [[CLAUDE.md]] Â· [[ecosystem/7-service-integration]] Â· [[architecture/master-architecture-index]]
 
 ---
 
-## 2. 10 Panel — Servis Eşleme Matrisi
+## 1. AmaÃ§
 
-| Panel | Control | Media | Audio | Device | AI | Download | Auth |
-|-------|---------|-------|-------|--------|-----|----------|------|
-| **music.coremusic.net** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ |
-| **admin.coremusic.net** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| **download.coremusic.net** | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ |
-| **media.coremusic.net** | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | ✅ |
-| **auth.coremusic.net** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| **home.coremusic.net** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
-| **car.coremusic.net** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
-| **studio.coremusic.net** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
-| **pro.coremusic.net** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
-| **coremusic.net** (Landing) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+Bu belge, CoreMusic platformunda bulunan 10 farklÄ± panelin arka uÃ§ (backend) servislerle nasÄ±l entegre olduÄŸunu, UI'dan DB'ye uzanan API Gateway akÄ±ÅŸÄ±nÄ±, tema motorunu ve "IMPLEMENTED/PLANNED" teknoloji durumlarÄ±nÄ± detaylandÄ±rÄ±r.
 
 ---
 
-## 3. Panel Kategorileri
+## 2. 10 Panel â€” Servis EÅŸleme Matrisi ve DurumlarÄ±
 
-### 3.1 Web Paneller (Cloud — MySQL)
-
-| Panel | Subdomain | Port | Stack | Auth |
-|-------|-----------|------|-------|------|
-| music.coremusic.net | music | 81 | PHP 8.4 + Vanilla JS | Cross-subdomain JWT |
-| admin.coremusic.net | admin | 80 | PHP 8.4 | RBAC (admin) |
-| landing.coremusic.net | — | 80 | Vanilla JS | Yok |
-
-### 3.2 Backend Servis Panelleri
-
-| Panel | Subdomain | Port | Stack | Auth |
-|-------|-----------|------|-------|------|
-| auth.coremusic.net | auth | — | PHP 8.4 | Merkezi |
-| media.coremusic.net | media | 5000/6000 | PHP + FFmpeg | API Key |
-| download.coremusic.net | download | 3001 | Node.js + TS | API Key |
-| api.coremusic.net | api | — | PHP 8.4 | JWT |
-
-### 3.3 Embedded Paneller (RPi5 — SQLite)
-
-| Panel | Subdomain | Donanım | Auth | DB |
-|-------|-----------|---------|------|-----|
-| home.coremusic.net | home | RPi5 + Touch Screen | Local | SQLite |
-| pro.coremusic.net | pro | RPi5 + HDMI Display | Local | SQLite |
-| studio.coremusic.net | studio | RPi5 + 8.1 Surround | Local | SQLite |
-| car.coremusic.net | car | RPi5 + PCM3168A | Local | SQLite |
+| # | Panel (Subdomain) | Hedef Kitle | Stack | Durum | Backend Servisleri |
+|---|-------------------|-------------|-------|-------|--------------------|
+| 1 | **music.coremusic.net** | Standart KullanÄ±cÄ± | Vanilla JS | **PLANNED** | Control, Media, Audio, AI, Download, Auth |
+| 2 | **admin.coremusic.net** | Sistem YÃ¶neticisi | PHP 8.4 | **PLANNED** | Control, Media, Download, Auth |
+| 3 | **download.coremusic.net** | Ä°ndirme YÃ¶neticisi | Node.js TS | **PLANNED** | Control, Media, Download, Auth |
+| 4 | **media.coremusic.net** | KÃ¼tÃ¼phane / API | PHP 8.4 | **PLANNED** | Control, Media, Audio, AI, Auth |
+| 5 | **auth.coremusic.net** | Kimlik DoÄŸrulama | PHP 8.4 | **IMPLEMENTED** | Control, Auth |
+| 6 | **home.coremusic.net** | Ev/Kiosk (RPi5) | PHP 8.4 | **IMPLEMENTED** | Control, Media, Audio, Device, AI, Auth |
+| 7 | **car.coremusic.net** | AraÃ§ Ä°Ã§i (RPi5) | Vanilla JS | **PLANNED** | Control, Media, Audio, Device, AI, Auth |
+| 8 | **studio.coremusic.net**| StÃ¼dyo MÃ¼zisyeni | Vanilla JS | **PLANNED** | Control, Media, Audio, Device, AI, Auth |
+| 9 | **pro.coremusic.net** | Pro KullanÄ±cÄ± | Vanilla JS | **PLANNED** | Control, Media, Audio, Device, AI, Auth |
+| 10| **coremusic.net** | ZiyaretÃ§i (Landing)| Statik HTML | **IMPLEMENTED** | HiÃ§biri (Salt Statik) |
 
 ---
 
-## 4. API Gateway Akışı
+## 3. Panel Kategorileri ve AÄŸ DaÄŸÄ±lÄ±mÄ±
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ Tarayıcı / Uygulama                                        │
-│                                                             │
-│  music.coremusic.net   admin.coremusic.net   home.core     │
-│  car.coremusic.net     studio.coremusic.net  pro.core      │
-└─────────────┬───────────────┬───────────────┬──────────────┘
-              │               │               │
-              ▼               ▼               ▼
-┌─────────────────────────────────────────────────────────────┐
-│ API Gateway (api.coremusic.net)                            │
-│                                                             │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  │
-│  │ Routing  │  │ Auth     │  │ Rate     │  │ CORS     │  │
-│  │          │  │ (JWT)    │  │ Limit    │  │          │  │
-│  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘  │
-│       │              │              │              │         │
-└───────┼──────────────┼──────────────┼──────────────┼─────────┘
-        │              │              │              │
-        ▼              ▼              ▼              ▼
-┌─────────────────────────────────────────────────────────────┐
-│ Backend Servisler                                          │
-│                                                             │
-│  Control (81)  Media (5000)  Audio (9741)  Download (3001) │
-│  AI (internal) Device (BLE) Network (P2P)                  │
-└─────────────────────────────────────────────────────────────┘
-```
+### 3.1 Web Panelleri (Cloud â€” MySQL 9)
+
+KullanÄ±cÄ±larÄ±n genel internet Ã¼zerinden (Cloud) eriÅŸtiÄŸi ve merkezi doÄŸrulama (SSO / JWT) kullandÄ±ÄŸÄ± paneller:
+
+| Panel | Port / Gateway | Stack | Auth Stratejisi |
+|-------|----------------|-------|-----------------|
+| music.coremusic.net | 443 | Vanilla JS SPA | Cross-subdomain JWT + HttpOnly Cookie |
+| admin.coremusic.net | 443 | PHP 8.4 SSR | JWT + RBAC (Admin/SuperAdmin) |
+| coremusic.net | 443 | HTML/CSS/JS | Yok (Public) |
+
+### 3.2 Backend & API Panelleri
+
+Sistem bileÅŸenlerinin ve 3. parti API'lerin etkileÅŸimde olduÄŸu, doÄŸrudan UI sunmayan ancak veri saÄŸlayan paneller:
+
+| Panel | Port / Gateway | Stack | Auth Stratejisi |
+|-------|----------------|-------|-----------------|
+| auth.coremusic.net | 443 | PHP 8.4 | Merkezi Login / SSO Endpoint'i |
+| media.coremusic.net | 5000/6000 | PHP + FFmpeg | API Key / Token |
+| download.coremusic.net| 3001 | Node.js + TS | API Key / Token |
+
+### 3.3 Embedded Paneller (Edge / RPi5 â€” SQLite)
+
+Lokal aÄŸda veya cihazÄ±n kendisinde Ã§alÄ±ÅŸan, kesintili internet baÄŸlantÄ±sÄ±na toleranslÄ± kiosk/donanÄ±m arayÃ¼zleri:
+
+| Panel | Cihaz UyumluluÄŸu | Ã–zel DonanÄ±m ArayÃ¼zÃ¼ | DB YapÄ±sÄ± |
+|-------|------------------|----------------------|-----------|
+| home.coremusic.net | RPi5 + 7" Touch | Local Audio, Multi-room | SQLite (Offline First) |
+| pro.coremusic.net | RPi5 + HDMI Ekran | XMOS XU316 USB DAC | SQLite (Offline First) |
+| studio.coremusic.net | RPi5 + 8.1 Setup | PCM3168A 8-Kanal Ã‡Ä±kÄ±ÅŸ | SQLite (Offline First) |
+| car.coremusic.net | RPi5 + AraÃ§ Teybi | Bluetooth A2DP, CAN Bus | SQLite (Offline First) |
 
 ---
 
-## 5. Embedded Panel Detayı (RPi5)
+## 4. API Gateway AkÄ±ÅŸÄ± (BFF Mimarisi)
 
-### 5.1 Volumio Benzeri Mimari
+Panelden gelen isteklerin backend servislerine yÃ¶nlendirilmesi (ADR-084):
 
-Home, Pro, Studio, Car panelleri **Raspberry Pi 5** üzerinde çalışır:
-- Tarayıcı arayüzü **tam ekran** (kiosk mode)
-- **Dokunmatik ekran** desteği (48px minimum touch target)
-- **Yerel sunucu** modu (internet gerekmez)
-- **SQLite** tabanlı yerel veritabanı
-- İlk kurulumda `auth.coremusic.net`'e bağlanarak senkronizasyon
-
-### 5.2 Embedded Auth Akışı
-
-```
-RPi5 (Home/Pro/Studio/Car)
-  → Local Web Server (Apache, port 81)
-    → PHP 8.4 + SQLite
-      → Local Auth (standalone)
-        → İlk kurulum: auth.coremusic.net'e bağlan
-        → Sonraki: Offline-first (SQLite)
+```text
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚ 1. TarayÄ±cÄ± / Ä°stemci UygulamasÄ±                           â”‚
+â”‚                                                             â”‚
+â”‚  music.coremusic.net   admin.coremusic.net   home.core     â”‚
+â”‚  car.coremusic.net     studio.coremusic.net  pro.core      â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+              â”‚ (HTTPS GET/POST / WS)         â”‚
+              â–¼                               â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚ 2. API Gateway (Reverse Proxy - Nginx / Apache / IIS)      â”‚
+â”‚                                                             â”‚
+â”‚  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”  â”‚
+â”‚  â”‚ SSL/TLS  â”‚  â”‚ YÃ¶nlendirâ”‚  â”‚ RateLimitâ”‚  â”‚ CORS / HSTSâ”‚  â”‚
+â”‚  â””â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”˜  â””â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”˜  â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¼â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+        â”‚ (FastCGI / HTTP Proxy)      â”‚
+        â–¼                             â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚ 3. Backend Servisler (PHP 8.4 / Node.js 20 / C++20)        â”‚
+â”‚                                                             â”‚
+â”‚  Control (81)  Media (5000)  Audio (9741)  Download (3001) â”‚
+â”‚  AI (Internal) Device (BLE)  Network (P2P)                 â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
-### 5.3 Embedded vs Web Auth
+---
 
-| Özellik | Web (Cloud) | Embedded (Local) |
-|---------|-------------|------------------|
-| Auth Sunucusu | auth.coremusic.net | Local (aynı RPi5) |
-| Database | MySQL 9 (18 BCNF) | SQLite (1 DB) |
-| JWT | RS256 (production) | HS256 (local) |
-| Rate Limit | 60 req/60s | Devre dışı |
-| Internet | Gerekli | Gerekmez (offline) |
-| Multi-user | Evet | Tek kullanıcı |
+## 5. View Mode (GÃ¶rÃ¼nÃ¼m ModlarÄ±) (ADR-045)
+
+CoreMusic UI, cihaz boyutundan baÄŸÄ±msÄ±z olarak kullanÄ±cÄ±nÄ±n niyetine gÃ¶re deÄŸiÅŸen 3 ana *View Mode* iÃ§erir:
+
+| Mod | Ã–ncelikli Hedef Kitle | Karakteristik Ã–zellikleri | Desteklenen Paneller |
+|-----|-----------------------|---------------------------|----------------------|
+| **Home** | Ev KullanÄ±cÄ±larÄ± | BÃ¼yÃ¼k butonlar, basit kontroller, yÃ¼ksek contrast, kapak gÃ¶rselleri Ã¶n planda. | music, media, home |
+| **Pro** | GeliÅŸmiÅŸ/Power Users | YoÄŸun bilgi, listeler, playlist yÃ¶netimi, metadata dÃ¼zenleme. | music, media, admin, pro |
+| **Studio**| Ses MÃ¼hendisleri / DJ | 31-Band Parametrik EQ, 8.1 kanal Matrix mikser, VU metreler. | music, media, studio, pro |
 
 ---
 
-## 6. View Mode (ADR-045)
+## 6. Dinamik Tema Motoru (ADR-044)
 
-| Mod | Hedef | Tema | Paneller |
-|-----|-------|------|----------|
-| **Home** | Ev kullanıcısı | Basit, büyük butonlar | music, media, home |
-| **Pro** | Profesyonel | Gelişmiş kontrol | music, media, admin, pro |
-| **Studio** | Stüdyo mühendisi | 8.1 surround, EQ | music, media, studio, pro |
+Panel tasarÄ±mlarÄ± ITCSS ve BEM metodolojisi kullanÄ±larak modÃ¼ler tutulmuÅŸtur. Renk paleti CSS Variable'larÄ± Ã¼zerinden dinamik olarak yÃ¼klenir:
 
----
+| Tercih (Gender/Vibe) | Tema Ana Rengi (Primary) | UygulandÄ±ÄŸÄ± CSS Variable |
+|----------------------|--------------------------|--------------------------|
+| **Female / Pink** | `#ff69b4` (Hot Pink) | `--theme-primary: #ff69b4` |
+| **Male / Blue** | `#4169e1` (Royal Blue) | `--theme-primary: #4169e1` |
+| **Neutral / Dark** | `#6c757d` (Slate Gray) | `--theme-primary: #6c757d` |
 
-## 7. Tema Motoru (ADR-044)
-
-| Cinsiyet | Renk Token | CSS Custom Property |
-|----------|------------|---------------------|
-| Female | Pembe | `--theme-primary: #ff69b4` |
-| Male | Mavi | `--theme-primary: #4169e1` |
-| Neutral | Varsayılan | `--theme-primary: #6c757d` |
+> *Temalar kullanÄ±cÄ± profilinden (`coremusic_user` DB) yÃ¼klenir ve Control Service tarafÄ±ndan UI'a JWT Payload veya HTTP Cookie aracÄ±lÄ±ÄŸÄ±yla inject edilir.*
 
 ---
 
-## 8. Panel-Servis API Kullanımı
+## 7. Panel-Servis API KullanÄ±mÄ± (Ã–rnek Endpointler)
 
-| Panel | Çağrılan API Endpoint'leri |
-|-------|---------------------------|
-| **music** | `/api/v1/tracks`, `/api/v1/albums`, `/api/v1/playlists`, `/api/v1/playback` |
-| **admin** | `/api/v1/users`, `/api/v1/system`, `/api/v1/logs` |
-| **download** | `/api/v1/downloads`, `/api/v1/queue` |
-| **media** | `/api/v1/library`, `/api/v1/metadata`, `/api/v1/stream` |
-| **home** | `/api/v1/tracks`, `/api/v1/playback`, `/api/v1/eq` |
-| **car** | `/api/v1/playback`, `/api/v1/bluetooth`, `/api/v1/navigation` |
-| **studio** | `/api/v1/tracks`, `/api/v1/playback`, `/api/v1/surround`, `/api/v1/eq` |
-| **pro** | `/api/v1/tracks`, `/api/v1/playback`, `/api/v1/eq`, `/api/v1/routing` |
+Her panelin kullandÄ±ÄŸÄ± yetki setleri ve endpoint alanlarÄ±:
 
----
-
-## 9. Cross References
-
-| Dosya | Amaç |
-|-------|------|
-| [[ecosystem/7-service-integration]] | Servis entegrasyonu |
-| [[ecosystem/service-health-check]] | Sağlık kontrolü |
-| [[architecture/00-overview/architecture-master]] | Panel mimarisi |
-| [[architecture/l3-presentation]] | Frontend detay |
-| [[architecture/03-contracts/api-architecture-master]] | API mimarisi |
+| Panel | En Ã‡ok KullanÄ±lan API Endpoint'leri | Yetki SÄ±nÄ±rÄ± |
+|-------|-------------------------------------|--------------|
+| **music** | `/api/v1/tracks`, `/api/v1/albums`, `/api/v1/playlists`, `/api/v1/playback` | `ROLE_USER` |
+| **admin** | `/api/v1/users`, `/api/v1/system`, `/api/v1/logs`, `/api/v1/audit` | `ROLE_ADMIN` |
+| **download** | `/api/v1/downloads`, `/api/v1/queue`, `/api/v1/sources` | `ROLE_SERVICE` / API Key |
+| **media** | `/api/v1/library`, `/api/v1/metadata`, `/api/v1/stream` | `ROLE_SERVICE` / API Key |
+| **home** | `/api/v1/tracks`, `/api/v1/playback`, `/api/v1/eq` | Lokal / SQLite Auth |
+| **car** | `/api/v1/playback`, `/api/v1/bluetooth`, `/api/v1/navigation` | Lokal / SQLite Auth |
+| **studio** | `/api/v1/tracks`, `/api/v1/playback`, `/api/v1/surround`, `/api/v1/eq` | Lokal / SQLite Auth |
+| **pro** | `/api/v1/tracks`, `/api/v1/playback`, `/api/v1/eq`, `/api/v1/routing` | Lokal / SQLite Auth |
 
 ---
 
-## 10. Quality Report
+## 8. Embedded Panel DetayÄ± (RPi5 Offline-First Mimari)
 
-| Metrik | Değer |
+Volumio benzeri donanÄ±ma entegre panellerin yaÅŸam dÃ¶ngÃ¼sÃ¼:
+
+1. **Boot:** RPi5 aÃ§Ä±lÄ±r, C++ Audio/Device servisleri baÅŸlar.
+2. **Kiosk Mode:** Chromium/Webkit tarayÄ±cÄ± tam ekranda baÅŸlatÄ±lÄ±r (`http://localhost`).
+3. **Local Auth:** `home.coremusic.net` backend'i (SQLite) Ã¼zerinden yerel kimlik doÄŸrulama yapÄ±lÄ±r.
+4. **Cloud Sync:** EÄŸer internet varsa, `auth.coremusic.net` ile iletiÅŸim kurulup metadata/token senkronize edilir. Aksi takdirde %100 Ã§evrimdÄ±ÅŸÄ± Ã§alÄ±ÅŸmaya devam eder.
+
+---
+
+## 9. Quality Report
+
+| Metrik | DeÄŸer |
 |--------|-------|
-| **Version** | 1.0.0 |
-| **Status** | Red Team · Human Mode · Truth Mode verified |
-| **Panel Count** | 10 |
-| **Panel Categories** | 3 (Web, Service, Embedded) |
-| **View Modes** | 3 (Home, Pro, Studio) |
-| **Theme Variants** | 3 (Female, Male, Neutral) |
-| **ADR Coverage** | 004, 044, 045, 084 |
+| **Version** | 2.0.0 (Faz 3 Refactoring) |
+| **Status** | Red Team Â· Human Mode Â· Truth Mode |
+| **Panel SayÄ±sÄ±** | 10 |
+| **Panel Kategorileri** | 3 (Web, Service, Embedded) |
+| **GÃ¶rÃ¼nÃ¼m ModlarÄ±** | 3 (Home, Pro, Studio) |
+| **Tema VaryantlarÄ±** | 3 (Pink, Blue, Dark) |
+| **ADR KapsamÄ±** | 004, 044, 045, 084 |
+| **KanÄ±tlar** | `auth.coremusic.net/` ve `home.coremusic.net/` dosyalarÄ± kodda IMPLEMENTED olarak doÄŸrulanmÄ±ÅŸtÄ±r. DiÄŸerleri PLANNED aÅŸamasÄ±ndadÄ±r. |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-15
-**Mode:** Red Team · Human Mode · Truth Mode
+**Last Updated:** 2026-09-19
+**Mode:** Red Team Â· Human Mode Â· Truth Mode
+
+---
+
+## Faz 3 DoÃ„Å¸rulamasÃ„Â±: Servis Durum Matrisi
+
+| Servis | Entegrasyon Durumu | KanÃ„Â±t / AÃƒÂ§Ã„Â±klama |
+|--------|--------------------|------------------|
+| Control Service | **IMPLEMENTED** | shared/src/, uth.coremusic.net/ aktif |
+| Media Service | **PLANNED** | TasarÃ„Â±m aÃ…Å¸amasÃ„Â±nda |
+| Audio Service | **PLANNED** | C++ NevaEngine taslak |
+| Device Service | **PLANNED** | DonanÃ„Â±m (I2S/BLE) beklemede |
+| Network Audio | **PLANNED** | WebRTC mimarisi ÃƒÂ§izildi |
+| AI Service | **PLANNED** | Python entegrasyonu planlandÃ„Â± |
+| Download Service | **PLANNED** | Node.js servis klasÃƒÂ¶rÃƒÂ¼ yok |
+

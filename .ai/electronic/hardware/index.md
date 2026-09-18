@@ -1,179 +1,179 @@
----
+﻿---
 type: system
 category: hardware-design
-title: "CoreMusic Electronics — Hardware Design Index"
+title: "CoreMusic Electronics â€” Hardware Design Index"
 date: 2026-08-09
 updated: 2026-08-09
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+governance: Red Team Â· Human Mode Â· Truth Mode
 ---
 
-# CoreMusic Electronics — Hardware Design
+# CoreMusic Electronics â€” Hardware Design
 
-**Zorunlu Bağlantılar:** [[electronic/index]] · [[brain.md]] · [[architecture/l0-infrastructure]]
-
----
-
-## 1. Amaç
-
-Hardware Design, CoreMusic ELECTRONICS platformunun tüm fiziksel donanım tasarımını, PCB yerleşimini, EMI/EMC uyumluluğunu ve ses yönlendirmesini kapsar.
+**Zorunlu BaÄŸlantÄ±lar:** [[electronic/index]] Â· [[brain.md]] Â· [[architecture/k0-k5-software/k0-os-layer]]
 
 ---
 
-## 2. Donanım Bileşenleri
+## 1. AmaÃ§
 
-| Bileşen | Dosya | Kapsam |
+Hardware Design, CoreMusic ELECTRONICS platformunun tÃ¼m fiziksel donanÄ±m tasarÄ±mÄ±nÄ±, PCB yerleÅŸimini, EMI/EMC uyumluluÄŸunu ve ses yÃ¶nlendirmesini kapsar.
+
+---
+
+## 2. DonanÄ±m BileÅŸenleri
+
+| BileÅŸen | Dosya | Kapsam |
 |---------|-------|--------|
-| PCB Tasarımı | [[pcb-design]] | Modüler PCB, montaj |
+| PCB TasarÄ±mÄ± | [[pcb-design]] | ModÃ¼ler PCB, montaj |
 | EMI/EMC | [[emi-emc]] | Elektromanyetik uyumluluk |
-| Audio Routing | [[audio-routing]] | Analog/digital ses yönlendirme |
-| Ground Plane | [[ground-plane]] | Topraklama, güç dağıtımı |
+| Audio Routing | [[audio-routing]] | Analog/digital ses yÃ¶nlendirme |
+| Ground Plane | [[ground-plane]] | Topraklama, gÃ¼Ã§ daÄŸÄ±tÄ±mÄ± |
 
 ---
 
-## 3. İşlemci Platformları
+## 3. Ä°ÅŸlemci PlatformlarÄ±
 
-| Platform | Mimari | Kullanım | Durum |
+| Platform | Mimari | KullanÄ±m | Durum |
 |----------|--------|----------|-------|
-| XMOS XU316 | xcore | USB Audio + DSP | ✅ Ana platform |
-| Raspberry Pi | ARM64 | Embedded audio | ✅ |
-| STM32 | ARM Cortex-M | MCU tabanlı | ✅ |
-| ESP32 | Xtensa | IoT audio | ✅ |
-| Intel/AMD | x86/x64 | Desktop/Server | ✅ |
+| XMOS XU316 | xcore | USB Audio + DSP | âœ… Ana platform |
+| Raspberry Pi | ARM64 | Embedded audio | âœ… |
+| STM32 | ARM Cortex-M | MCU tabanlÄ± | âœ… |
+| ESP32 | Xtensa | IoT audio | âœ… |
+| Intel/AMD | x86/x64 | Desktop/Server | âœ… |
 
 ---
 
-## 4. Bellek Yapıları
+## 4. Bellek YapÄ±larÄ±
 
-| Tip | Kullanım |
+| Tip | KullanÄ±m |
 |-----|----------|
-| SRAM | Hızlı erişim |
+| SRAM | HÄ±zlÄ± eriÅŸim |
 | DDR4/DDR5 | Ana bellek |
 | Flash | Firmware depolama |
-| EEPROM | Konfigürasyon |
-| eMMC | Gömülü depolama |
+| EEPROM | KonfigÃ¼rasyon |
+| eMMC | GÃ¶mÃ¼lÃ¼ depolama |
 
 ---
 
-## 5. Ses Bağlantıları
+## 5. Ses BaÄŸlantÄ±larÄ±
 
-| Bağlantı | Tip | Kullanım |
+| BaÄŸlantÄ± | Tip | KullanÄ±m |
 |----------|-----|----------|
 | RCA | Analog | Ev ses |
 | TRS (6.35mm) | Analog | Profesyonel |
-| XLR | Analog | Stüdyo |
+| XLR | Analog | StÃ¼dyo |
 | Optical (TOSLINK) | Dijital | Ev sinema |
 | SPDIF | Dijital | Dijital ses |
 | AES/EBU | Dijital | Profesyonel |
 | HDMI ARC | Dijital | TV entegrasyonu |
-| HDMI eARC | Dijital | Yüksek bant genişliği |
+| HDMI eARC | Dijital | YÃ¼ksek bant geniÅŸliÄŸi |
 | USB | Dijital | Audio interface |
-| I2S | Dijital | Dahili haberleşme |
+| I2S | Dijital | Dahili haberleÅŸme |
 
 ---
 
-## 6. Haberleşme Arabirimleri
+## 6. HaberleÅŸme Arabirimleri
 
-| Arabirim | Hız | Kullanım |
+| Arabirim | HÄ±z | KullanÄ±m |
 |----------|-----|----------|
-| USB 2.0 | 480 Mbps | Ses cihazları |
-| USB 3.x | 5-20 Gbps | Yüksek hızlı |
-| Ethernet 1Gbps | 1 Gbps | Ağ ses |
+| USB 2.0 | 480 Mbps | Ses cihazlarÄ± |
+| USB 3.x | 5-20 Gbps | YÃ¼ksek hÄ±zlÄ± |
+| Ethernet 1Gbps | 1 Gbps | AÄŸ ses |
 | Wi-Fi | 150Mbps-6Gbps | Kablosuz ses |
-| Bluetooth/BLE | 1-3 Mbps | Kablosuz kulaklık |
+| Bluetooth/BLE | 1-3 Mbps | Kablosuz kulaklÄ±k |
 | UART | 115K-4Mbps | Debug, GPIO |
-| SPI | 10-50MHz | Yüksek hızlı |
-| I2C | 100-400KHz | Düşük hızlı |
+| SPI | 10-50MHz | YÃ¼ksek hÄ±zlÄ± |
+| I2C | 100-400KHz | DÃ¼ÅŸÃ¼k hÄ±zlÄ± |
 | CAN Bus | 125K-1Mbps | Automotive |
 
 ---
 
-## 7. Donanım Tasarım İlkeleri
+## 7. DonanÄ±m TasarÄ±m Ä°lkeleri
 
-| İlke | Açıklama |
+| Ä°lke | AÃ§Ä±klama |
 |------|----------|
-| Modüler PCB | Her modül bağımsız kart |
-| EMI/EMC Uyumlu | CE, RoHS standartları |
-| Düşük Gürültü | Low noise design |
-| Yüksek Verimlilik | <%10 kayıp |
-| Kolay Bakım | Servis edilebilir |
-| Genişletilebilir | Yeni modül desteği |
-| Firmware Güncellenebilir | OTA + USB |
+| ModÃ¼ler PCB | Her modÃ¼l baÄŸÄ±msÄ±z kart |
+| EMI/EMC Uyumlu | CE, RoHS standartlarÄ± |
+| DÃ¼ÅŸÃ¼k GÃ¼rÃ¼ltÃ¼ | Low noise design |
+| YÃ¼ksek Verimlilik | <%10 kayÄ±p |
+| Kolay BakÄ±m | Servis edilebilir |
+| GeniÅŸletilebilir | Yeni modÃ¼l desteÄŸi |
+| Firmware GÃ¼ncellenebilir | OTA + USB |
 
 ---
 
-## 8. Güç Yönetimi
+## 8. GÃ¼Ã§ YÃ¶netimi
 
-| Gerilim | Kullanım |
+| Gerilim | KullanÄ±m |
 |---------|----------|
 | 3.3V | Dijital lojik |
 | 5V | USB, Arduino |
-| 12V–24V DC | **Ana güç girişi (DC adaptör/batarya)** |
-| ±42V DC | Class AB amfi (Boost converter ile yükseltilir) |
-| PoE | Ağ cihazları |
-| USB-C PD | Taşınabilir |
+| 12Vâ€“24V DC | **Ana gÃ¼Ã§ giriÅŸi (DC adaptÃ¶r/batarya)** |
+| Â±42V DC | Class AB amfi (Boost converter ile yÃ¼kseltilir) |
+| PoE | AÄŸ cihazlarÄ± |
+| USB-C PD | TaÅŸÄ±nabilir |
 
 ---
 
-## 9. Türkiye Tedarik Stratejisi
+## 9. TÃ¼rkiye Tedarik Stratejisi
 
-### 9.1 Türk Tedarikçiler
+### 9.1 TÃ¼rk TedarikÃ§iler
 
-| # | Tedarikçi | Web | Kapsam | Kargo |
+| # | TedarikÃ§i | Web | Kapsam | Kargo |
 |---|----------|-----|--------|-------|
 | 1 | **West-Electronic** | tr.west-electronic.com | LM3886, entegre devreler | DHL/UPS/FedEx |
-| 2 | **E-Komponent** | e-komponent.com | DigiKey Türkiye yetkili | Haftalık yükleme |
-| 3 | **Fidersan** | fidersan.com | DigiKey + Mouser | 5-8 iş günü |
-| 4 | **Ayson Elektronik** | aysonelektronik.com | İstanbul DigiKey | Aynı gün |
-| 5 | **Ulutaş Elektronik** | ulutaselektronik.com | IRS2092S, TDA7564 | Yurtiçi |
-| 6 | **Park Component** | parkcomponent.com | Genel elektronik | Kapı teslim |
+| 2 | **E-Komponent** | e-komponent.com | DigiKey TÃ¼rkiye yetkili | HaftalÄ±k yÃ¼kleme |
+| 3 | **Fidersan** | fidersan.com | DigiKey + Mouser | 5-8 iÅŸ gÃ¼nÃ¼ |
+| 4 | **Ayson Elektronik** | aysonelektronik.com | Ä°stanbul DigiKey | AynÄ± gÃ¼n |
+| 5 | **UlutaÅŸ Elektronik** | ulutaselektronik.com | IRS2092S, TDA7564 | YurtiÃ§i |
+| 6 | **Park Component** | parkcomponent.com | Genel elektronik | KapÄ± teslim |
 
-### 9.2 Online Satın Alma
+### 9.2 Online SatÄ±n Alma
 
-| # | Platform | Kapsam | Kargo | Süre |
+| # | Platform | Kapsam | Kargo | SÃ¼re |
 |---|----------|--------|-------|------|
-| 1 | **AliExpress** (tr.aliexpress.com) | TPA3255, LM3886 board'lar | Ücretsiz kargo | 15-30 gün |
-| 2 | **DigiKey** (E-Komponent üzerinden) | Tüm çipler | 5-8 iş günü | Hızlı |
-| 3 | **Mouser** (Fidersan üzerinden) | Tüm çipler | 5-8 iş günü | Hızlı |
+| 1 | **AliExpress** (tr.aliexpress.com) | TPA3255, LM3886 board'lar | Ãœcretsiz kargo | 15-30 gÃ¼n |
+| 2 | **DigiKey** (E-Komponent Ã¼zerinden) | TÃ¼m Ã§ipler | 5-8 iÅŸ gÃ¼nÃ¼ | HÄ±zlÄ± |
+| 3 | **Mouser** (Fidersan Ã¼zerinden) | TÃ¼m Ã§ipler | 5-8 iÅŸ gÃ¼nÃ¼ | HÄ±zlÄ± |
 
-### 9.3 Satın Alma Stratejisi
+### 9.3 SatÄ±n Alma Stratejisi
 
-| Strateji | Yol | Süre | Maliyet |
+| Strateji | Yol | SÃ¼re | Maliyet |
 |----------|-----|------|---------|
-| **En Hızlı** | West-Electronic + Ulutaş | 1-2 gün | Yüksek |
-| **En Hızlı (geniş)** | E-Komponent + Fidersan | 5-8 gün | Orta |
-| **En Ucuz** | AliExpress | 15-30 gün | Düşük |
-| **En Güvenilir** | DigiKey (E-Komponent) | 5-8 gün | Orta-Yüksek |
+| **En HÄ±zlÄ±** | West-Electronic + UlutaÅŸ | 1-2 gÃ¼n | YÃ¼ksek |
+| **En HÄ±zlÄ± (geniÅŸ)** | E-Komponent + Fidersan | 5-8 gÃ¼n | Orta |
+| **En Ucuz** | AliExpress | 15-30 gÃ¼n | DÃ¼ÅŸÃ¼k |
+| **En GÃ¼venilir** | DigiKey (E-Komponent) | 5-8 gÃ¼n | Orta-YÃ¼ksek |
 
-### 9.4 Bileşen Fiyatları (Türkiye)
+### 9.4 BileÅŸen FiyatlarÄ± (TÃ¼rkiye)
 
-| Bileşen | Kaynak | Fiyat (TRY) | Stok |
+| BileÅŸen | Kaynak | Fiyat (TRY) | Stok |
 |---------|--------|-------------|------|
-| LM3886TF/NOPB | West-Electronic | ~₺150-200 | ✅ 5173 adet |
-| IRS2092S | Ulutaş Elektronik | ~₺100-150 | ✅ |
-| TPA3255 Board | AliExpress | ~₺500-1000 | ✅ |
-| TPA3118D2 Board | AliExpress | ~₺100-200 | ✅ |
-| LM3886 Board | AliExpress | ~₺200-400 | ✅ |
-| TDA7294 Board | AliExpress | ~₺200-300 | ✅ |
-| XMOS XU316 | DigiKey (E-Komponent) | ~₺800-1200 | ✅ |
-| PCM3168A | DigiKey (Fidersan) | ~₺100-150 | ✅ |
+| LM3886TF/NOPB | West-Electronic | ~â‚º150-200 | âœ… 5173 adet |
+| IRS2092S | UlutaÅŸ Elektronik | ~â‚º100-150 | âœ… |
+| TPA3255 Board | AliExpress | ~â‚º500-1000 | âœ… |
+| TPA3118D2 Board | AliExpress | ~â‚º100-200 | âœ… |
+| LM3886 Board | AliExpress | ~â‚º200-400 | âœ… |
+| TDA7294 Board | AliExpress | ~â‚º200-300 | âœ… |
+| XMOS XU316 | DigiKey (E-Komponent) | ~â‚º800-1200 | âœ… |
+| PCM3168A | DigiKey (Fidersan) | ~â‚º100-150 | âœ… |
 
-### 9.5 Türkiye Tedarik Kuralları
+### 9.5 TÃ¼rkiye Tedarik KurallarÄ±
 
-| # | Kural | Açıklama |
+| # | Kural | AÃ§Ä±klama |
 |---|-------|----------|
-| 1 | **Önce Türkiye** | Türk tedarikçilerden kontrol et |
-| 2 | **Orijinal Parça** | DigiKey/Mouser yetkili üzerinden al |
-| 3 | **Garanti** | Orijinal parça garantisi zorunlu |
-| 4 | **Hızlı Kargo** | Acil durumda West-Electronic/Ulutaş |
-| 5 | **Maliyet** | Toplu alımda indirim iste |
-| 6 | **Stok Kontrolü** | Sipariş öncesi stok doğrula |
+| 1 | **Ã–nce TÃ¼rkiye** | TÃ¼rk tedarikÃ§ilerden kontrol et |
+| 2 | **Orijinal ParÃ§a** | DigiKey/Mouser yetkili Ã¼zerinden al |
+| 3 | **Garanti** | Orijinal parÃ§a garantisi zorunlu |
+| 4 | **HÄ±zlÄ± Kargo** | Acil durumda West-Electronic/UlutaÅŸ |
+| 5 | **Maliyet** | Toplu alÄ±mda indirim iste |
+| 6 | **Stok KontrolÃ¼** | SipariÅŸ Ã¶ncesi stok doÄŸrula |
 
 ---
 
-## 10. ADR Referansları
+## 10. ADR ReferanslarÄ±
 
 | ADR | Konu |
 |-----|------|
@@ -182,17 +182,18 @@ Hardware Design, CoreMusic ELECTRONICS platformunun tüm fiziksel donanım tasar
 
 ---
 
-## 10. Çapraz Referanslar
+## 10. Ã‡apraz Referanslar
 
-| Kaynak | Hedef | İlişki |
+| Kaynak | Hedef | Ä°liÅŸki |
 |--------|-------|--------|
-| Hardware | [[electronic/firmware/index]] | Firmware katmanı |
-| Hardware | [[electronic/drivers/index]] | Driver katmanı |
-| Hardware | [[electronic/amplifier/index]] | Amplifier tasarımı |
-| Hardware | [[electronic/dsp/index]] | DSP donanımı |
+| Hardware | [[electronic/firmware/index]] | Firmware katmanÄ± |
+| Hardware | [[electronic/drivers/index]] | Driver katmanÄ± |
+| Hardware | [[electronic/amplifier/index]] | Amplifier tasarÄ±mÄ± |
+| Hardware | [[electronic/dsp/index]] | DSP donanÄ±mÄ± |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-08-09
-**Mode:** Red Team · Human Mode · Truth Mode
+**Mode:** Red Team Â· Human Mode Â· Truth Mode
+

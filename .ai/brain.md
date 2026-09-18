@@ -1,23 +1,24 @@
----
-title: "CoreMusic — Engineering Brain (Enterprise SSOT)"
+﻿---
+reference_doc: Freelancer Technical Documentation v1.0
+title: "CoreMusic â€” Engineering Brain (Enterprise SSOT)"
 type: brain
 category: architecture-decisions
 date: 2026-08-08
-updated: 2026-09-15
+updated: 2026-09-18
 status: active
-version: 23.0.0
+version: 25.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+governance: Red Team Â· Human Mode Â· Truth Mode
 reference:
   authority: ".ai/brain.md"
-  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .ai/brain.md · .ai/index.md"
+  source_of_truth: ".ai/CLAUDE.md Â· .ai/AGENTS.md Â· .ai/WORKFLOW.md Â· .ai/brain.md Â· .ai/index.md"
 ---
 
-# CoreMusic — Engineering Brain (Enterprise SSOT)
+# CoreMusic â€” Engineering Brain (Enterprise SSOT)
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] Â· [[AGENTS.md]] Â· [[WORKFLOW.md]] Â· [[index.md]] Â· [[keys.md]] Â· [[MEMORY.md]] Â· [[log.md]] Â· [[.templates/index]] Â· [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (10 skill â€” Guardrail #16 zorunlu)
 
 ---
 
@@ -29,7 +30,7 @@ CoreMusic platformunun tüm mühendisleri ve AI ajanları için mimari kararlar�
 
 ## 2. Scope
 
-C++ Audio DSP (ASIO, WASAPI, ring buffer, zero-allocation, 32-bit float PCM), 8+1 Surround (Class AB, XMOS XU316, PCM3168A/AK4458), PHP Middleware Pipeline (SessionManager→Csrf), 18 BCNF DB, AES-256-GCM Credential Vault, 10 panel mimarisi, AI Auto-Download (YouTube→deemix→FLAC), 3 fazlı geliştirme, 5 deployment modu, 5 audio division.
+C++ Audio DSP (ASIO, WASAPI, ring buffer, zero-allocation, 32-bit float PCM), 8+1 Surround (Class AB, XMOS XU316, PCM3168A/AK4458), PHP Middleware Pipeline (SessionManagerâ†’Csrf), 18 BCNF DB, AES-256-GCM Credential Vault, 10 panel mimarisi, AI Auto-Download (YouTubeâ†’deemixâ†’FLAC), 3 fazlı geliştirme, 5 deployment modu, 5 audio division.
 
 ---
 
@@ -38,7 +39,7 @@ C++ Audio DSP (ASIO, WASAPI, ring buffer, zero-allocation, 32-bit float PCM), 8+
 | Prensipl | Açıklama |
 |----------|----------|
 | SOLID | Tek Sorumluluk, Açık Kapalılık, Yerine Koyma, Arayüz Ayrımı, Bağımlılık Tersi |
-| Clean Architecture (L0-L6) | Infrastructure → Security → Routing → Presentation → Domain → Services → Electronics |
+| Clean Architecture (L0-L6) | Infrastructure â†’ Security â†’ Routing â†’ Presentation â†’ Domain â†’ Services â†’ Electronics |
 | Hexagonal Architecture | Adapter/Port pattern ile bağımsızlık |
 | DRY | Tekrarlanan kod yasağı |
 | YAGNI | Gereksiz özellik ekleme yasağı |
@@ -55,14 +56,14 @@ C++ Audio DSP (ASIO, WASAPI, ring buffer, zero-allocation, 32-bit float PCM), 8+
 | Frontend | Vanilla JS ES6+ (framework YASAK) | ES2022 |
 | CSS | ITCSS + BEM | 7-layer |
 | Database | MySQL / MariaDB (PDO, ORM YASAK) | 18 BCNF |
-| Audio Engine | C++20, JUCE 9, ASIO SDK 2.3.4 | — |
-| Hardware | XMOS XU316, PCM3168A | PCM5122 REDDEDİLMİŞ |
+| Audio Engine | C++20, JUCE 9, ASIO SDK 2.3.4 | â€” |
+| Hardware | XMOS XU316, PCM3168A | PCM5122 REDDEDİLMİÅ |
 | Rate Limiting | APCu | 60 req/60s |
 | Encryption | AES-256-GCM, Argon2id | NIST SP 800-38D |
 
 **ASIO SDK Download:** https://www.steinberg.net/developers/asiosdk-open/
 
-### 4A. Enterprise Composer Stack (prompt0 + prompt2 — "Build Business Logic, Not Infrastructure")
+### 4A. Enterprise Composer Stack (prompt0 + prompt2 â€” "Build Business Logic, Not Infrastructure")
 
 Temel ilke: **Önce standart çözüm, sonra Composer paketi, en son özel implementasyon.**
 
@@ -71,31 +72,31 @@ Temel ilke: **Önce standart çözüm, sonra Composer paketi, en son özel imple
 | Kategori | Paket | PSR | Amaç |
 |----------|-------|-----|------|
 | **DI** | `php-di/php-di` | PSR-11 | Dependency Injection Container |
-| **Router** | `nikic/fast-route` | — | Enterprise Router |
+| **Router** | `nikic/fast-route` | â€” | Enterprise Router |
 | **HTTP Message** | `nyholm/psr7` | PSR-7 | HTTP Message Implementation |
-| **HTTP Emitter** | `laminas/laminas-httphandlerrunner` | — | Response Emitter |
-| **JWT** | `lcobucci/jwt` | — | JWT Token Yönetimi (RS256) |
-| **UUID** | `ramsey/uuid` | — | UUID Üretimi |
+| **HTTP Emitter** | `laminas/laminas-httphandlerrunner` | â€” | Response Emitter |
+| **JWT** | `lcobucci/jwt` | â€” | JWT Token Yönetimi (RS256) |
+| **UUID** | `ramsey/uuid` | â€” | UUID Üretimi |
 | **Logger** | `monolog/monolog` | PSR-3 | Structured Logging |
-| **Env** | `vlucas/phpdotenv` | — | Environment Variables |
-| **Validation** | `respect/validation` | — | Request/DTO Validation |
-| **CSRF** | `symfony/security-csrf` | — | CSRF Koruması |
+| **Env** | `vlucas/phpdotenv` | â€” | Environment Variables |
+| **Validation** | `respect/validation` | â€” | Request/DTO Validation |
+| **CSRF** | `symfony/security-csrf` | â€” | CSRF Koruması |
 | **Cache** | `symfony/cache` | PSR-6 | Cache (Redis, APCu, File) |
-| **Redis** | `predis/predis` | — | Redis Client |
+| **Redis** | `predis/predis` | â€” | Redis Client |
 | **Event** | `symfony/event-dispatcher` | PSR-14 | Event Dispatcher |
-| **Rate Limit** | `symfony/rate-limiter` | — | Rate Limiting |
-| **Filesystem** | `league/flysystem` | — | Dosya Sistemi Abstraction |
+| **Rate Limit** | `symfony/rate-limiter` | â€” | Rate Limiting |
+| **Filesystem** | `league/flysystem` | â€” | Dosya Sistemi Abstraction |
 | **HTTP Client** | `guzzlehttp/guzzle` | PSR-18 | HTTP Client |
-| **Encryption** | `paragonie/halite` | — | AES-256-GCM Encryption |
-| **HTML Sanitizer** | `ezyang/htmlpurifier` | — | XSS Koruması |
-| **Device** | `mobiledetect/mobiledetectlib` | — | Cihaz Algılama |
-| **Scheduler** | `dragonmantank/cron-expression` | — | Cron Expression |
-| **Migration** | `robmorgan/phinx` | — | DB Migration |
-| **DBAL** | `doctrine/dbal` | — | Database Abstraction (PDO üstü) |
-| **Serializer** | `symfony/serializer` | — | DTO/JSON/XML Dönüşümleri |
-| **Mailer** | `symfony/mailer` | — | Mail Gönderimi |
-| **Console** | `symfony/console` | — | CLI Komutları |
-| **Lock** | `symfony/lock` | — | Distributed Lock |
+| **Encryption** | `paragonie/halite` | â€” | AES-256-GCM Encryption |
+| **HTML Sanitizer** | `ezyang/htmlpurifier` | â€” | XSS Koruması |
+| **Device** | `mobiledetect/mobiledetectlib` | â€” | Cihaz Algılama |
+| **Scheduler** | `dragonmantank/cron-expression` | â€” | Cron Expression |
+| **Migration** | `robmorgan/phinx` | â€” | DB Migration |
+| **DBAL** | `doctrine/dbal` | â€” | Database Abstraction (PDO üstü) |
+| **Serializer** | `symfony/serializer` | â€” | DTO/JSON/XML Dönüşümleri |
+| **Mailer** | `symfony/mailer` | â€” | Mail Gönderimi |
+| **Console** | `symfony/console` | â€” | CLI Komutları |
+| **Lock** | `symfony/lock` | â€” | Distributed Lock |
 
 #### PSR Standartları
 
@@ -112,7 +113,7 @@ psr/event-dispatcher, psr/cache, psr/simple-cache
 | `lcobucci/jwt` | JWT token yönetimi (RS256) |
 | `paragonie/sodium_compat` | Libsodium wrapper |
 | `paragonie/constant_time_encoding` | Timing attack koruması |
-| `symfony/password-hasher` | Şifre hashleme wrapper |
+| `symfony/password-hasher` | Åifre hashleme wrapper |
 | `pragmarx/google2fa` | MFA/2FA (TOTP) |
 | `endroid/qr-code` | QR kod üretimi |
 | `league/oauth2-server` | OAuth2 Server |
@@ -136,19 +137,19 @@ psr/event-dispatcher, psr/cache, psr/simple-cache
 | Doctrine ORM | ORM yasak (ADR-002) | PDO + Doctrine DBAL |
 | Laravel Eloquent | ORM yasak (ADR-002) | PDO |
 | Propel | ORM yasak (ADR-002) | PDO |
-| `firebase/php-jwt` | Yasaklı — RS256 için `lcobucci/jwt` kullanılır | `lcobucci/jwt` |
+| `firebase/php-jwt` | Yasaklı â€” RS256 için `lcobucci/jwt` kullanılır | `lcobucci/jwt` |
 | `mysql_*` fonksiyonları | Deprecated | PDO |
 | MD5/SHA1 | Güvensiz hash | Argon2id |
 | mcrypt | Deprecated | paragonie/halite |
 
-### 4B. API Architecture (prompt3 — API-First, Gateway, BFF, CQRS)
+### 4B. API Architecture (prompt3 â€” API-First, Gateway, BFF, CQRS)
 
 CoreMusic API tek bir büyük API değil, servis bazlıdır. Tüm istemciler API Gateway üzerinden bağlanır.
 
 #### Temel Prensip: Contract First
 
 ```
-OpenAPI Spec → DTO → Contract → Validation → Use Case → Kod
+OpenAPI Spec â†’ DTO â†’ Contract â†’ Validation â†’ Use Case â†’ Kod
 ```
 
 **Kod hiçbir zaman sözleşmeden önce yazılmaz.**
@@ -175,8 +176,8 @@ Her istemci tipi kendi BFF'sini kullanır:
 Yazma ve okuma işlemleri tamamen ayrılır:
 
 ```
-Write: Command → Use Case → Repository → MySQL Master
-Read:  Query → Read Model → Cache → Response
+Write: Command â†’ Use Case â†’ Repository â†’ MySQL Master
+Read:  Query â†’ Read Model â†’ Cache â†’ Response
 ```
 
 #### Event Driven (ADR-086)
@@ -184,51 +185,92 @@ Read:  Query → Read Model → Cache → Response
 Servisler birbirini doğrudan çağırmaz, event yayınlar:
 
 ```
-Service A → Event Bus (PSR-14) → Service B, C, D
+Service A â†’ Event Bus (PSR-14) â†’ Service B, C, D
 ```
 
-#### SPA → ApiClient Kuralı
+#### SPA â†’ ApiClient Kuralı
 
 ```
-SPA → ApiClient → HTTP → Gateway → Middleware → Use Case → Domain → Repository → Infrastructure
+SPA â†’ ApiClient â†’ HTTP â†’ Gateway â†’ Middleware â†’ Use Case â†’ Domain â†’ Repository â†’ Infrastructure
 ```
 
 SPA **asla** PDO, MySQL, Repository, Entity, Infrastructure, Filesystem, FFmpeg, Redis, Cache veya SQL **görmez.**
 
 ---
 
-## 5. Architecture Layers L0-L6
+## 5. K0-K20 21-Katmanlı Sistem Mimarisi (1000+ Bileşen)
 
-*Detaylı metadata için bakınız: [[architecture/00-overview/architecture-master]] §2*
+*Detaylı metadata için bakınız: [[architecture/master-architecture-index]] Â§2*
 
-| Katman | İçerik | Teknoloji |
-|--------|--------|-----------|
-| L6 Electronics | Hardware, firmware, driver, DSP, audio engine | C++20, JUCE 9, ASIO, XMOS |
-| L5 Services | Application services, use cases, CQRS, event bus | PHP 8.4, PSR-14 |
-| L4 Domain | Business rules, entities, value objects, aggregates | DDD, SOLID, Clean Architecture |
-| L3 Presentation | Frontend, UI, DOM | Vanilla JS, ITCSS, TrustedTypes |
-| L2 Routing | Router, middleware, dispatch | PHP 8.4 PageRouter |
-| L1 Security | Session, Auth, CSRF, CSP | Middleware Pipeline |
-| L0 Infrastructure | Database, cache, fs | PDO, APCu, Redis |
+Tüm CoreMusic altyapısı açık kaynak (GitHub) destekli 16 ana katmandan oluşur.
 
-Bağımlılık: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1→L0 | ❌ L0→L2/L3, L1→L3, L3→L0. Layer Violation → derhal revert.
+| Katman | İsim | Kapsam | GitHub/Teknoloji Ref |
+|-------|--------|--------|-----------|
+| **K15** | Medya & Streaming | FFmpeg, FLAC, HLS, DASH, ID3 | FFmpeg, Icecast |
+| **K14** | Ağ & İletişim | HTTP/3, WebRTC, DLNA, AirPlay | WebRTC, libupnp |
+| **K13** | CI/CD & Deploy | GitHub Actions, Playwright, Vitest | Docker, K8s |
+| **K12** | İzleme & Log | App Logs, Prometheus, Grafana | Prometheus |
+| **K11** | Kullanıcı Deneyimi | ITCSS, BEM, Design Tokens, PWA | Vanilla JS |
+| **K10** | Uygulama | Web, Mobile, Car, TV, Studio, Panel | PWA, SPA |
+| **K9** | API & Routing | Gateway, BFF, CQRS, Event Bus | OpenAPI |
+| **K8** | Servis | Control, Media, Audio, Network | Koel, Ampache |
+| **K7** | Middleware | OriginCheck, Session, CORS | PHP 8.4 PSR-15 |
+| **K6** | Güvenlik | Auth, Session, CSRF, RBAC | JWT, AES-256 |
+| **K5** | Veri Yönetimi | MySQL 9 BCNF, Redis, APCu | MySQL, Redis |
+| **K4** | Yapay Zeka (AI) | Music Analysis, Recommendation | Python, ML |
+| **K3** | Ses İşleme Motoru | Neva Engine, DSP, EQ, Crossover | JUCE, EasyEffects |
+| **K2** | Sürücü | ASIO, WASAPI, ALSA, PipeWire, I2S | ASIO4ALL |
+| **K1** | Donanım Altyapısı | XMOS, Class AB, Push-Pull DC-DC | KiCad OSHW |
+| **K0** | İşletim Sistemi | Windows, Linux, macOS, RPi5 | Linux, ReactOS |
+
+### Electronics Registry (K1 Alt Sistemleri)
+
+| Document | Content | Date |
+|----------|---------|------|
+| `electronics/amplifier-classab-circuit.md` | Circuit design, schematic, BOM (single channel), bias procedure, test protocol | 2026-09-18 |
+| `electronics/bom-classab.md` | Full 8-channel BOM: 1,018 components, ~$415 (1+), ~$293 (100+) | 2026-09-18 |
+| `electronics/pcb-classab.md` | 6-layer PCB rules: stackup, impedance, thermal, placement, EMI | 2026-09-18 |
+| `electronics/thermal-design-classab.md` | Thermal management, heatsink selection, fan control | 2026-09-18 |
+| `electronics/power-supply-classab.md` | Â±40V Push-Pull Boost (SG3525): 12V-24V DC giriş, merkez-uçlu trafo, Hi-Fi Filtre | 2026-09-18 |
+
+### Kritik Bileşenler (K1 Donanım Alt Sistemleri)
+
+| Kod | Bileşen | Kapsam | Teknoloji |
+|-----|---------|--------|-----------|
+| H1 | Class AB Amplifikatör | 50W/kanal, 8 kanal modüler, MJL21194/MJL21193 | C++20, STM32/RP2040 MCU |
+| H2 | Güç Kaynağı | Â±40V Push-Pull (SG3525), 12V-24V DC Giriş | Voltaj çökmesini önleyen Hi-Fi LC Filtre |
+| H3 | Termal Tasarım | Fischer SK82-150-SA heatsink, Noctua NF-A8 fan | Sıcaklık kontrollü sessiz fan |
+
+### H1: Class AB Amplifikatör (K1)
+
+| Bileşen | Tanım |
+|---------|-------|
+| Q1,Q2 (BC546B) | Diferansiyel çift |
+| Q5 (BC556B) | Akım havuzu |
+| Q9 (KSC3503) | VAS transistor |
+| Q10 (BD139) | Vbe çarpımı |
+| Q15 (MJL21194) | Output NPN |
+| Q17 (MJL21193) | Output PNP |
+| SG3525/KA3525 | Push-Pull DC-DC kontrolcüsü (12V-24V -> Â±40V) |
+
+Bağımlılık: âœ… Katmanlar dışarıya çıkmadan içe doğru bağlanır (K15â†’K0). âŒ Katman atlanamaz. Layer Violation â†’ derhal revert.
 
 ---
 
-## 6. Middleware Pipeline (Sıra Değişmez — ADR-010/011/012/013/022)
+## 6. Middleware Pipeline (Sıra Değişmez â€” ADR-010/011/012/013/022)
 
 ```
-1. OriginCheckMiddleware()      — Köken doğrulama (whitelist CORS)
-2. CorsMiddleware()             — CORS header'ları (whitelist only)
-3. RateLimiterMiddleware()      — APCu: 60 req/60s
-4. SecurityHeadersMiddleware()  — CSP nonce üret, strict-dynamic, HSTS, X-Frame
-5. SessionManagerMiddleware()   — Session başlat, CSP nonce'u session'a kaydet
-6. CsrfMiddleware()             — csrf_token doğrulama (POST/PUT/DELETE)
-7. BypassAuthMiddleware()       — Test bypass (production'da devre dışı)
-8. AuthMiddleware()             — Auth bilgisi inject (session'dan okur)
-9. PermissionMiddleware()       — RBAC yetki kontrolü (regular/premium/studio/car/admin/system)
-10. ValidationMiddleware()      — Request/DTO validasyonu
-→ Controller
+1. OriginCheckMiddleware()      â€” Köken doğrulama (whitelist CORS)
+2. CorsMiddleware()             â€” CORS header'ları (whitelist only)
+3. RateLimiterMiddleware()      â€” APCu: 60 req/60s
+4. SecurityHeadersMiddleware()  â€” CSP nonce üret, strict-dynamic, HSTS, X-Frame
+5. SessionManagerMiddleware()   â€” Session başlat, CSP nonce'u session'a kaydet
+6. CsrfMiddleware()             â€” csrf_token doğrulama (POST/PUT/DELETE)
+7. BypassAuthMiddleware()       â€” Test bypass (production'da devre dışı)
+8. AuthMiddleware()             â€” Auth bilgisi inject (session'dan okur)
+9. PermissionMiddleware()       â€” RBAC yetki kontrolü (regular/premium/studio/car/admin/system)
+10. ValidationMiddleware()      â€” Request/DTO validasyonu
+â†’ Controller
 ```
 
 CSP nonce üretimi SecurityHeaders (#4) içindedir. SessionManager (#5) bu nonce'u session'a kaydeder. Sıra değiştirilirse CSP bozulur.
@@ -239,7 +281,7 @@ CSP nonce üretimi SecurityHeaders (#4) içindedir. SessionManager (#5) bu nonce
 
 ### 7.1 Zero-Allocation Kuralı
 
-Real-time audio callback içerisinde ❌ yasak: `malloc()`, `free()`, `new`, `delete`, `std::make_shared`, `std::vector` push_back, I/O blocking, `throw`. ✅ İzin: Stack tahsisi, `std::atomic`, SIMD (SSE2/AVX2/NEON), `constexpr`, member değişkenler, `alignas(64)`.
+Real-time audio callback içerisinde âŒ yasak: `malloc()`, `free()`, `new`, `delete`, `std::make_shared`, `std::vector` push_back, I/O blocking, `throw`. âœ… İzin: Stack tahsisi, `std::atomic`, SIMD (SSE2/AVX2/NEON), `constexpr`, member değişkenler, `alignas(64)`.
 
 ### 7.2 ASIO Callback
 
@@ -271,8 +313,8 @@ void processAudioBlock(float** output, const float** input,
 | XMOS XU316 | USB Audio Class 2.0, zero-latency DSP |
 | PCM3168A | 6-in/8-out codec, 24-bit, DAC 192kHz, ADC 96kHz, SNR 112dB (DAC) |
 | AK4458 (opsiyonel) | 8-kanal high-end DAC, 32-bit, 768kHz |
-| PCM5122 | ❌ REDDEDİLMİŞ — Sadece 2 kanal, 8.1 için yetersiz (H001) |
-| Class AB Amp | 100W @ 8Ω, THD+N <0.01%, SNR >100dB, ±42V DC |
+| PCM5122 | âŒ REDDEDİLMİÅ â€” Sadece 2 kanal, 8.1 için yetersiz (H001) |
+| Class AB Amp | 50W @ 8Î©, THD+N <0.01%, SNR >100dB, Â±35V DC, MJL21194/MJL21193 output (ADR-089) |
 
 ASIO Buffer: 512 sample varsayılan (64-1024), 48kHz, 32-bit float, ~10.67ms gecikme.
 
@@ -280,7 +322,7 @@ ASIO Buffer: 512 sample varsayılan (64-1024), 48kHz, 32-bit float, ~10.67ms gec
 
 ## 9. 8.1 Surround
 
-8 kanal + 1 LFE subwoofer. Kanallar: Front L/R (20Hz–20kHz), Center (100Hz–8kHz), Surround L/R (100Hz–16kHz), Rear L/R (100Hz–16kHz), Height L/R (200Hz–16kHz), Subwoofer LFE (20Hz–120Hz). Bass management: Linkwitz-Riley 4. nesil, crossover 80Hz.
+8 kanal + 1 LFE subwoofer. Kanallar: Front L/R (20Hzâ€“20kHz), Center (100Hzâ€“8kHz), Surround L/R (100Hzâ€“16kHz), Rear L/R (100Hzâ€“16kHz), Height L/R (200Hzâ€“16kHz), Subwoofer LFE (20Hzâ€“120Hz). Bass management: Linkwitz-Riley 4. nesil, crossover 80Hz.
 
 ---
 
@@ -304,13 +346,13 @@ PDO: Prepared statement zorunlu, SELECT * yasak, explicit column list.
 
 ## 11. 18 BCNF Databases (ADR-040)
 
-*Detaylı metadata için bakınız: [[architecture/00-overview/architecture-master]] §3*
+*Detaylı metadata için bakınız: [[architecture/master-architecture-index]] Â§3*
 
 | # | Veritabanı | Amaç | Tablo Sayısı |
 |---|------------|------|-------------|
 | 1 | coremusic_auth | Kullanıcılar, roller, session, token, credential vault, API key | 13 |
 | 2 | coremusic_user | Profiller, tercihler, geçmiş, favoriler | 7 |
-| 3 | coremusic_musics | Şarkılar, sanatçılar, türler, sözler, dosyalar, podcast, video, radyo | 22 |
+| 3 | coremusic_musics | Åarkılar, sanatçılar, türler, sözler, dosyalar, podcast, video, radyo | 22 |
 | 4 | coremusic_albums | Albüm koleksiyonları, diskler, istatistikler | 5 |
 | 5 | coremusic_playlist | Kullanıcı ve AI çalma listeleri, işbirlikçiler, takipçiler | 5 |
 | 6 | coremusic_catalog | Referans verileri (tür listesi, sanatçı rolleri, enstrümanlar, ruh halleri) | 8 |
@@ -325,7 +367,7 @@ PDO: Prepared statement zorunlu, SELECT * yasak, explicit column list.
 | 15 | coremusic_download | İndirme kuyruğu, geçmiş, önbellek, kaynak API'leri | 4 |
 | 16 | coremusic_neva | EQ preset'leri, DSP ayarları, yönlendirme matrisi, spektrum analizi | 4 |
 | 17 | coremusic_studio | Stüdyo oturumları, parçalar, preset'ler, ekipman | 6 |
-| 18 | coremusic_patch | Şema sürümleri, migration logları, yamalar | 3 |
+| 18 | coremusic_patch | Åema sürümleri, migration logları, yamalar | 3 |
 | | **TOPLAM** | | **156** |
 
 Kurallar: ORM yasak, SELECT * yasak, BCNF zorunlu, soft delete (`is_deleted = 0`), prepared statement, snake_case naming.
@@ -335,7 +377,7 @@ Kurallar: ORM yasak, SELECT * yasak, BCNF zorunlu, soft delete (`is_deleted = 0`
 ## 12. AI Auto-Download Pipeline
 
 ```
-YouTube URL → nova-search-engine → deemix PHP port (Deezer FLAC) → 24/32-bit FLAC → coremusic_musics DB metadata
+YouTube URL â†’ nova-search-engine â†’ deemix PHP port (Deezer FLAC) â†’ 24/32-bit FLAC â†’ coremusic_musics DB metadata
 ```
 
 Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşitliliği. Kalite: FLAC 24/32-bit, MP3 320kbps fallback.
@@ -390,7 +432,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 
 | ADR | Konu |
 |-----|------|
-| ADR-038 | XMOS XU316 + PCM3168A (PCM5122 REDDEDİLMİŞ) |
+| ADR-038 | XMOS XU316 + PCM3168A (PCM5122 REDDEDİLMİÅ) |
 | ADR-039 | 7-servis platform mimarisi |
 | ADR-040 | 18 BCNF veritabanı otoritesi |
 | ADR-041 | DB normalizasyon ek bilgi |
@@ -419,6 +461,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | ADR-086 | Event Driven Architecture (PSR-14) |
 | ADR-087 | Master Implementation Plan (Sıfırdan Geliştirme Kapsamı) |
 | ADR-088 | Gender-Based Social OAuth (cinsiyet bazlı sosyal medya bağlantıları) |
+| ADR-089 | Class AB Amplifikatör + 6S LiPo + Â±35V Boost (Draft â€” 50W/kanal, MJL21194/MJL21193) |
 
 ---
 
@@ -426,9 +469,9 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 
 | Faz | Hedef | Donanım | Süre |
 |-----|-------|---------|------|
-| Faz 1 — MVP | Mevcut PC/laptop'da temel platform | Mevcut ses kartları (WASAPI/ASIO) | 6–12 ay |
-| Faz 2 — Premium | CoreMusic Audio donanım entegrasyonu | PCM3168A, AK4458, XMOS XU316, Class AB | 12–24 ay |
-| Faz 3 — Professional | Tam entegre stüdyo ve araç içi | 8.1 surround, multi-room, NAS | 24–36 ay |
+| Faz 1 â€” MVP | Mevcut PC/laptop'da temel platform | Mevcut ses kartları (WASAPI/ASIO) | 6â€“12 ay |
+| Faz 2 â€” Premium | CoreMusic Audio donanım entegrasyonu | PCM3168A, AK4458, XMOS XU316, Class AB | 12â€“24 ay |
+| Faz 3 â€” Professional | Tam entegre stüdyo ve araç içi | 8.1 surround, multi-room, NAS | 24â€“36 ay |
 
 ---
 
@@ -436,11 +479,11 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 
 | Tier | OS | Durum |
 |------|-----|-------|
-| Tier 1 (Primary) | Windows (XP–11, Server 2012 R2+) | ✅ Ana geliştirme |
-| Tier 2 | Linux (Ubuntu, Debian, Fedora, Arch) | ✅ Destekli |
-| Tier 3 | macOS (Monterey–Sonoma) | ✅ Destekli |
-| Tier 4 | Raspberry Pi (ARM64, Debian) | ✅ Destekli |
-| Tier 5 | ReactOS | ⚠️ Experimental |
+| Tier 1 (Primary) | Windows (XPâ€“11, Server 2012 R2+) | âœ… Ana geliştirme |
+| Tier 2 | Linux (Ubuntu, Debian, Fedora, Arch) | âœ… Destekli |
+| Tier 3 | macOS (Montereyâ€“Sonoma) | âœ… Destekli |
+| Tier 4 | Raspberry Pi (ARM64, Debian) | âœ… Destekli |
+| Tier 5 | ReactOS | âš ï¸ Experimental |
 
 ---
 
@@ -462,12 +505,12 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 |---|-------|-------------|
 | 1 | Zero-Allocation: Audio thread'de heap allocation yasak | Ses takılması / crash |
 | 2 | Lock-Free: Audio thread'de mutex yasak | Deadlock |
-| 3 | Layer Violation: L0 → L3 import yasak | Derhal revert |
+| 3 | Layer Violation: L0 â†’ L3 import yasak | Derhal revert |
 | 4 | SELECT *: Açık sütun listesi zorunlu | SQL injection riski |
 | 5 | Hardcoded Secret: API key/log'da yasak | Güvenlik ihlali |
 | 6 | csrf_token: Key ismi değişmez (ADR-010) | CSRF bozulması |
 | 7 | Zero Code Before Plan: Plan onayı olmadan kod yok | Mimari bozulma |
-| 8 | Zero Hallucination: Doğrulanamayan bilgi → VERIFICATION REQUIRED (ADR-005) | İçerik silinir |
+| 8 | Zero Hallucination: Doğrulanamayan bilgi â†’ VERIFICATION REQUIRED (ADR-005) | İçerik silinir |
 | 9 | In-Place Refactoring: Dosya adı/konumu değişmez | Link kırılması |
 | 10 | ORM Yasak: Sadece PDO prepared (ADR-002) | SQL injection |
 | 11 | Framework Yasak: Sadece Vanilla JS (ADR-001) | Bağımlılık artışı |
@@ -493,16 +536,16 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | Özellik | Değer | Kaynak |
 |---------|-------|--------|
 | Token Konsolidasyonu | Tek dosyada (`a-layout-tokens.css`) tüm responsive breakpoint'ler | [[architecture/l3-presentation]] |
-| Default Viewport | 1024×600 (RPi5 embedded, mockup reference) | [[ui-design/00-mockup-index]] |
-| Media Query Breakpoints | 4 adet: tablet (768-1024), mobile (≤767), desktop (≥1920), 4K TV (≥3840) | — |
-| Token Kategorileri | Header/Footer heights, spacing, font scale, touch targets, glass blur, z-index | — |
-| Device CSS Dönüşümü | `d-embedded.css`, `d-desktop.css`, `d-tablet.css` → sadece behavioral overrides (hover, touch, scrollbar) | — |
+| Default Viewport | 1024Ã—600 (RPi5 embedded, mockup reference) | [[ui-design/00-mockup-index]] |
+| Media Query Breakpoints | 4 adet: tablet (768-1024), mobile (â‰¤767), desktop (â‰¥1920), 4K TV (â‰¥3840) | â€” |
+| Token Kategorileri | Header/Footer heights, spacing, font scale, touch targets, glass blur, z-index | â€” |
+| Device CSS Dönüşümü | `d-embedded.css`, `d-desktop.css`, `d-tablet.css` â†’ sadece behavioral overrides (hover, touch, scrollbar) | â€” |
 
-### Responsive CSS Mimarisi Kuralı (Zorunlu — Guardrail #17)
+### Responsive CSS Mimarisi Kuralı (Zorunlu â€” Guardrail #17)
 
-**1024×600 PNG mockup = Design Reference (Kanonik SSOT)**
-- Kanonik İndeks: [[ui-design/00-mockup-index]] (19 PNG: 12 home-1024 + 1 home-1920 + 6 shared-1024 — Faz 1 sayım düzeltmesi)
-- Kanonik Bileşen Envanteri: [[ui-design/01-component-inventory]] (C01–C16 BEM ve piksel standartları)
+**1024Ã—600 PNG mockup = Design Reference (Kanonik SSOT)**
+- Kanonik İndeks: [[ui-design/00-mockup-index]] (19 PNG: 12 home-1024 + 1 home-1920 + 6 shared-1024 â€” Faz 1 sayım düzeltmesi)
+- Kanonik Bileşen Envanteri: [[ui-design/01-component-inventory]] (C01â€“C16 BEM ve piksel standartları)
 - Kanonik ASCII Wireframe Haritası: [[ui-design/screens/00-ascii-art-index]] (Header 60px y:0-60, İçerik 450px y:60-510, Footer 90px y:510-600)
 - 15 Adımlık CSS Uygulama Planı: [[ui-design/02-implementation-plan]]
 - Pixel reference: Tüm ölçüler PNG'den çıkarılır
@@ -511,9 +554,9 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 
 **Frontend Implementasyon Kuralları:**
 1. TEK component sistemi + responsive CSS
-2. Ayrı HTML oluşturma → YASAK (Kod revert edilir)
-3. Ayrı frontend branch oluşturma → YASAK
-4. Hardcoded resolution lock → YASAK
+2. Ayrı HTML oluşturma â†’ YASAK (Kod revert edilir)
+3. Ayrı frontend branch oluşturma â†’ YASAK
+4. Hardcoded resolution lock â†’ YASAK
 5. CSS variables + media queries ile breakpoint yönetimi
 6. Device CSS dosyaları = sadece behavioral overrides (hover, touch, scrollbar)
 
@@ -525,7 +568,7 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 - `@media (min-width: 768px) and (max-width: 1024px)` = Tablet override
 
 **Yasak Örüntüleri:**
-| ❌ Yasak | ✅ Doğru |
+| âŒ Yasak | âœ… Doğru |
 |----------|----------|
 | home-1024.html, home-desktop.html | Tek HTML + responsive CSS |
 | `if (screenWidth === 1024) { separate code }` | CSS media query + var() |
@@ -535,17 +578,17 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 
 **Dosya Yapısı:**
 ```
-01_Abstracts/a-layout-tokens.css  → Tüm token tanımları + media query overrides
-08_Devices/d-embedded.css         → Sadece behavioral overrides (hover, touch, scrollbar)
-08_Devices/d-desktop.css          → Sadece behavioral overrides
-03_Layout/_header.css             → `var(--header-h)` kullanır
-03_Layout/_footer.css             → `var(--footer-h)` kullanır
-04_Components/*.css               → `var(--token)` kullanır
+01_Abstracts/a-layout-tokens.css  â†’ Tüm token tanımları + media query overrides
+08_Devices/d-embedded.css         â†’ Sadece behavioral overrides (hover, touch, scrollbar)
+08_Devices/d-desktop.css          â†’ Sadece behavioral overrides
+03_Layout/_header.css             â†’ `var(--header-h)` kullanır
+03_Layout/_footer.css             â†’ `var(--footer-h)` kullanır
+04_Components/*.css               â†’ `var(--token)` kullanır
 ```
 
 ---
 
-## 18B. 4-Tier Device Manager Sistemi (v3.0.0 — 2026-09-05)
+## 18B. 4-Tier Device Manager Sistemi (v3.0.0 â€” 2026-09-05)
 
 **4-Tier Conditional Rendering** sistemi `DeviceManager.php` tarafından yönetilir. 7 cihaz türü, 4 layout tier'ı, 9 feature toggle ve cihaz bazlı nav link/content config içerir.
 
@@ -554,57 +597,57 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 | Sabit | Değer | Tanım |
 |-------|-------|-------|
 | `EMBEDDED` | `'embedded'` | Raspberry Pi 5, 7" touchscreen, Linux ARM |
-| `PHONE` | `'phone'` | Mobil telefon (≤767px) |
+| `PHONE` | `'phone'` | Mobil telefon (â‰¤767px) |
 | `TABLET` | `'tablet'` | Tablet (768-1024px) |
 | `LAPTOP` | `'laptop'` | Laptop (1025-1440px) |
 | `DESKTOP` | `'desktop'` | Masaüstü (1441-2560px) |
-| `FOUR_K_TV` | `'4k-tv'` | 4K Smart TV (≥3840px, TV User-Agent) |
-| `FOUR_K_MON` | `'4k-monitor'` | 4K Monitör (≥2561px, Desktop OS) |
+| `FOUR_K_TV` | `'4k-tv'` | 4K Smart TV (â‰¥3840px, TV User-Agent) |
+| `FOUR_K_MON` | `'4k-monitor'` | 4K Monitör (â‰¥2561px, Desktop OS) |
 
 ### 4 Tier Layout Sistemi
 
 | Tier | Cihazlar | Viewport | Layout | Mockup |
 |------|----------|----------|--------|--------|
-| **Tier 1: Phone** | PHONE | ≤767px | Tek sütun, dikey scroll, kompakt kartlar | — |
-| **Tier 2: Embedded** | EMBEDDED, TABLET | ≤1024px | 42/58 split, 2×2 widget, sidebar yok | Image 2 (1024px) |
+| **Tier 1: Phone** | PHONE | â‰¤767px | Tek sütun, dikey scroll, kompakt kartlar | â€” |
+| **Tier 2: Embedded** | EMBEDDED, TABLET | â‰¤1024px | 42/58 split, 2Ã—2 widget, sidebar yok | Image 2 (1024px) |
 | **Tier 3: Wide** | LAPTOP, DESKTOP | 1025-2560px | 3-sütun, tam widget, sidebar var | Image 3 (1920px) |
-| **Tier 4: 4K** | FOUR_K_TV, FOUR_K_MON | ≥2561px | 4K ölçeklendirilmiş, büyük ekran | — |
+| **Tier 4: 4K** | FOUR_K_TV, FOUR_K_MON | â‰¥2561px | 4K ölçeklendirilmiş, büyük ekran | â€” |
 
 ### Tasarım Kararları
 
 | Karar | Değer | Gerekçe |
 |-------|-------|---------|
-| Phone Layout | ≤767px viewport | Kompakt dokunmatik arayüz |
-| Embedded Layout | EMBEDDED/TABLET veya viewport≤1024px | RPi5 optimized (ama phone hariç) |
+| Phone Layout | â‰¤767px viewport | Kompakt dokunmatik arayüz |
+| Embedded Layout | EMBEDDED/TABLET veya viewportâ‰¤1024px | RPi5 optimized (ama phone hariç) |
 | Wide Layout | 1025-2560px (phone, embedded, 4K hariç) | Standart masaüstü/laptop |
-| 4K Layout | FOUR_K_TV/FOUR_K_MON veya viewport≥2561px | 4K TV/Monitör ölçeklendirme |
-| Welcome Popup | YALNIZCA embedded 1024×600 (RPi5) | Karşılama ekranı |
+| 4K Layout | FOUR_K_TV/FOUR_K_MON veya viewportâ‰¥2561px | 4K TV/Monitör ölçeklendirme |
+| Welcome Popup | YALNIZCA embedded 1024Ã—600 (RPi5) | Karşılama ekranı |
 
 ### Viewport Bilgi Akışı
 
 ```
 JS (device-loader.js)
-  → Cookie: cm_viewport_w, cm_viewport_h (max-age=86400)
-    → PHP (DeviceManager::fromRequest)
-      → $_SERVER['VIEWPORT_W'] ?? $_COOKIE['cm_viewport_w'] ?? varsayılan
-        → DeviceDetector::detect(UA, viewportW, viewportH) → device string
-          → DeviceManager → 4-Tier karar metotları
+  â†’ Cookie: cm_viewport_w, cm_viewport_h (max-age=86400)
+    â†’ PHP (DeviceManager::fromRequest)
+      â†’ $_SERVER['VIEWPORT_W'] ?? $_COOKIE['cm_viewport_w'] ?? varsayılan
+        â†’ DeviceDetector::detect(UA, viewportW, viewportH) â†’ device string
+          â†’ DeviceManager â†’ 4-Tier karar metotları
 ```
 
 ### DeviceDetector Tespit Önceliği
 
 ```
-1. HTTP Header: X-Device-Type: embedded     → 'embedded'
-2. User-Agent: "Raspberry Pi" içeriği        → 'embedded'
-3. User-Agent: "Tizen/webOS/SmartTV"         → '4k-tv'
-4. Viewport: ≤767px                          → 'phone'
-5. Viewport: 768-1024px + h≤600             → 'embedded'
-6. Viewport: 768-1024px + h≥768             → 'laptop'
-7. Viewport: ≤1440px                         → 'laptop'
-8. Viewport: ≤2560px                         → 'desktop'
-9. Viewport: ≤3840px + TV UA                → '4k-tv'
-10. Viewport: ≤3840px + Desktop OS          → '4k-monitor'
-11. Hiçbiri eşleşmezse                       → 'desktop' (varsayılan)
+1. HTTP Header: X-Device-Type: embedded     â†’ 'embedded'
+2. User-Agent: "Raspberry Pi" içeriği        â†’ 'embedded'
+3. User-Agent: "Tizen/webOS/SmartTV"         â†’ '4k-tv'
+4. Viewport: â‰¤767px                          â†’ 'phone'
+5. Viewport: 768-1024px + hâ‰¤600             â†’ 'embedded'
+6. Viewport: 768-1024px + hâ‰¥768             â†’ 'laptop'
+7. Viewport: â‰¤1440px                         â†’ 'laptop'
+8. Viewport: â‰¤2560px                         â†’ 'desktop'
+9. Viewport: â‰¤3840px + TV UA                â†’ '4k-tv'
+10. Viewport: â‰¤3840px + Desktop OS          â†’ '4k-monitor'
+11. Hiçbiri eşleşmezse                       â†’ 'desktop' (varsayılan)
 ```
 
 ### DeviceManager Karar Metotları
@@ -615,10 +658,10 @@ $dm = DeviceManager::fromRequest(
     viewportH: (int)($_SERVER['VIEWPORT_H'] ?? 0) ?: null,
 );
 
-$isPhone    = $dm->isPhone();                        // ≤767px
-$isEmbedded = $dm->shouldRenderEmbeddedLayout();      // Embedded/Tablet/viewport≤1024
+$isPhone    = $dm->isPhone();                        // â‰¤767px
+$isEmbedded = $dm->shouldRenderEmbeddedLayout();      // Embedded/Tablet/viewportâ‰¤1024
 $isWide     = $dm->shouldRenderWideLayout();          // 1025-2560px
-$is4k       = $dm->shouldRender4kLayout();            // ≥2561px
+$is4k       = $dm->shouldRender4kLayout();            // â‰¥2561px
 ```
 
 ### shouldRenderEmbeddedLayout() Mantığı
@@ -656,7 +699,7 @@ public function shouldRender4kLayout(): bool
 }
 ```
 
-### shouldShowFallback() — ARTIK HER ZAMAN FALSE
+### shouldShowFallback() â€” ARTIK HER ZAMAN FALSE
 
 ```php
 public function shouldShowFallback(): bool
@@ -665,12 +708,12 @@ public function shouldShowFallback(): bool
 }
 ```
 
-### shouldRenderWelcomePopup() — SADECE RPi5
+### shouldRenderWelcomePopup() â€” SADECE RPi5
 
 ```php
 public function shouldRenderWelcomePopup(): bool
 {
-    return $this->isEmbedded1024();  // Yalnızca 1024×600 gömülü cihazlar
+    return $this->isEmbedded1024();  // Yalnızca 1024Ã—600 gömülü cihazlar
 }
 ```
 
@@ -724,15 +767,15 @@ $dm->dataAttributes()  // 'data-device="desktop" data-touch="false" data-wide="t
 
 | Viewport | Cihaz | Tier | Beklenen | Sonuç |
 |----------|-------|------|----------|-------|
-| 375×812 | Phone (iPhone) | Phone | Phone Layout | ✅ |
-| 1024×600 | Embedded (RPi5) | Embedded | Embedded Layout + Welcome Popup | ✅ |
-| 820×1180 | Tablet (iPad) | Embedded | Embedded Layout | ✅ |
-| 1366×768 | Laptop (Windows) | Wide | Wide Layout | ✅ |
-| 1920×1080 | Desktop (Windows) | Wide | Wide Layout | ✅ |
-| 2560×1440 | Desktop (Windows) | Wide | Wide Layout | ✅ |
-| 3840×2160 | 4K TV (webOS) | 4K | 4K Layout | ✅ |
-| 3840×2160 | 4K Monitor (Windows) | 4K | 4K Layout | ✅ |
-| 1024×600 | Desktop (Windows) | Embedded | Embedded Layout (viewport≤1024) | ✅ |
+| 375Ã—812 | Phone (iPhone) | Phone | Phone Layout | âœ… |
+| 1024Ã—600 | Embedded (RPi5) | Embedded | Embedded Layout + Welcome Popup | âœ… |
+| 820Ã—1180 | Tablet (iPad) | Embedded | Embedded Layout | âœ… |
+| 1366Ã—768 | Laptop (Windows) | Wide | Wide Layout | âœ… |
+| 1920Ã—1080 | Desktop (Windows) | Wide | Wide Layout | âœ… |
+| 2560Ã—1440 | Desktop (Windows) | Wide | Wide Layout | âœ… |
+| 3840Ã—2160 | 4K TV (webOS) | 4K | 4K Layout | âœ… |
+| 3840Ã—2160 | 4K Monitor (Windows) | 4K | 4K Layout | âœ… |
+| 1024Ã—600 | Desktop (Windows) | Embedded | Embedded Layout (viewportâ‰¤1024) | âœ… |
 
 ### Dosya Etki Alanı
 
@@ -743,16 +786,16 @@ $dm->dataAttributes()  // 'data-device="desktop" data-touch="false" data-wide="t
 | `home.coremusic.net/pages/home.php` | v10.0.0 | 4 koşullu render (phone/embedded/wide/4k) |
 | `home.coremusic.net/header.php` | v8.0.0 | Phone bottom nav + tier bazlı header |
 | `home.coremusic.net/footer.php` | v11.0.0 | Phone compact player + tier bazlı footer |
-| `shared/src/Device/DeviceCssMap.php` | — | 7 device CSS + 4 view mode CSS |
-| `assets.coremusic.net/js/device-loader.js` | — | Cookie yazma + client-side tespit |
-| `shared/src/PageRouter/HtmlShellRenderer.php` | — | Auth route branching (6 if bloğu) |
-| `shared/src/PageRouter/PageRouter.php` | — | Cookie okuma |
+| `shared/src/Device/DeviceCssMap.php` | â€” | 7 device CSS + 4 view mode CSS |
+| `assets.coremusic.net/js/device-loader.js` | â€” | Cookie yazma + client-side tespit |
+| `shared/src/PageRouter/HtmlShellRenderer.php` | â€” | Auth route branching (6 if bloğu) |
+| `shared/src/PageRouter/PageRouter.php` | â€” | Cookie okuma |
 
 Detay: [[ui-design/responsive-device-mode]] v3.0.0, [[architecture/conditional-rendering-php-guide]] v2.0.0
 
 ---
 
-## 18C. Device-Aware Rendering Kuralları (v1.0.0 — 2026-09-05)
+## 18C. Device-Aware Rendering Kuralları (v1.0.0 â€” 2026-09-05)
 
 **Cihaz duyarlı render kuralları, backend ve frontend arasındaki sorumluluk sınırlarını tanımlar.** Bu kurallar Guardrail #17 ile uyumludur ve `responsive-device-mode.md` v3.0.0'e referansla çalışır.
 
@@ -765,7 +808,7 @@ Detay: [[ui-design/responsive-device-mode]] v3.0.0, [[architecture/conditional-r
 | Davranışsal fark CSS'te | Cihaz farkları CSS/konfigürasyon katmanında yönetilir | Layer violation |
 | PHP'de sunum kararı yok | PHP tarafında `margin`, `padding`, `width`, `height`, `font-size` kodlanamaz | Kod revert edilir |
 
-### Backend Sorumluluk Sınırları (PHP — L2/L3)
+### Backend Sorumluluk Sınırları (PHP â€” L2/L3)
 
 PHP tarafında yalnızca **davranışsal konfigürasyonlar** yönetilir:
 
@@ -783,17 +826,17 @@ PHP tarafında yalnızca **davranışsal konfigürasyonlar** yönetilir:
 **Yasak PHP Kodları (Sunum Kararları):**
 
 ```php
-// ❌ YASAK — Sunum kararı PHP'de
+// âŒ YASAK â€” Sunum kararı PHP'de
 $dm->isPhone() ? 'padding: 8px' : 'padding: 16px';
 $dm->isEmbedded() ? 'font-size: 14px' : 'font-size: 16px';
 echo '<div style="width: ' . ($dm->is4k() ? '800px' : '400px') . '">';
 
-// ✅ DOĞRU — Davranışsal karar PHP'de
+// âœ… DOÄRU â€” Davranışsal karar PHP'de
 if ($dm->showVolume()) { /* volume HTML */ }
 $cssClass = $dm->layoutClass(); // "layout--embedded"
 ```
 
-### Frontend Sorumluluk Sınırları (CSS — L3)
+### Frontend Sorumluluk Sınırları (CSS â€” L3)
 
 CSS tarafında **tüm sunum kararları** yönetilir:
 
@@ -807,11 +850,11 @@ CSS tarafında **tüm sunum kararları** yönetilir:
 
 ### Cihaz Bazlı Token Değerleri (Referans)
 
-| Token | Embedded (1024) | Wide (1920) | 4K (3840) | Phone (≤767) |
+| Token | Embedded (1024) | Wide (1920) | 4K (3840) | Phone (â‰¤767) |
 |-------|-----------------|-------------|-----------|--------------|
-| `--header-h` | 60px | 70px | 80px | — (bottom tab) |
+| `--header-h` | 60px | 70px | 80px | â€” (bottom tab) |
 | `--footer-h` | 90px | 104px | 120px | 80px (kompakt) |
-| `--content-h` | 450px | ~906px | ~1960px | — (full scroll) |
+| `--content-h` | 450px | ~906px | ~1960px | â€” (full scroll) |
 | `--home-top-split` | 42% 58% | 1fr 1.2fr 1fr | 1fr 1.2fr 1fr | tek sütun |
 | `--widget-grid-cols` | 2 | 3 | 3 | 1 |
 
@@ -819,17 +862,17 @@ CSS tarafında **tüm sunum kararları** yönetilir:
 
 | Cihaz | Touch Target | Focus Visible | Contrast |
 |-------|-------------|---------------|----------|
-| Phone | min 48×48px | `:focus-visible` outline | 4.5:1 |
-| Embedded | min 48×48px | `:focus-visible` outline | 4.5:1 |
-| Wide | min 24×24px | `:focus-visible` outline | 4.5:1 |
-| 4K | min 24×24px (ölçekli) | `:focus-visible` outline | 4.5:1 |
+| Phone | min 48Ã—48px | `:focus-visible` outline | 4.5:1 |
+| Embedded | min 48Ã—48px | `:focus-visible` outline | 4.5:1 |
+| Wide | min 24Ã—24px | `:focus-visible` outline | 4.5:1 |
+| 4K | min 24Ã—24px (ölçekli) | `:focus-visible` outline | 4.5:1 |
 
 ### Katman İhlal Kontrolü
 
 ```
-L3 (Presentation) → L2 (Routing): ✅ İzinli (PageRouter çağrısı)
-L3 (Presentation) → L0 (Infrastructure): ❌ YASAK (PDO, SQL, Repository)
-L2 (Routing) → L0 (Infrastructure): ❌ YASAK (Controller→Repository direkt)
+L3 (Presentation) â†’ L2 (Routing): âœ… İzinli (PageRouter çağrısı)
+L3 (Presentation) â†’ L0 (Infrastructure): âŒ YASAK (PDO, SQL, Repository)
+L2 (Routing) â†’ L0 (Infrastructure): âŒ YASAK (Controllerâ†’Repository direkt)
 ```
 
 **İhlal Durumunda:** Derhal revert + `log.md`'ye CRITICAL giriş.
@@ -840,14 +883,14 @@ L2 (Routing) → L0 (Infrastructure): ❌ YASAK (Controller→Repository direkt)
 
 | Edge Case | Tetikleyici | Çözüm | ADR |
 |-----------|-------------|-------|-----|
-| ASIO Device Loss | USB kopması | WASAPI fallback → Null Output | [[ADR-017-dsp-hardware-mode]] |
-| Cache Stampede | Yüksek load | Mutex ile single load | [[architecture/l0-infrastructure]] |
+| ASIO Device Loss | USB kopması | WASAPI fallback â†’ Null Output | [[ADR-017-dsp-hardware-mode]] |
+| Cache Stampede | Yüksek load | Mutex ile single load | [[architecture/k0-k5-software/k0-os-layer]] |
 | Multi-Tab CSRF | Birden fazla sekme | Token session-bound sabit | [[ADR-010-csrf-protection-strategy]] |
-| Layer Violation | L0 → L3 import | Derhal revert | [[CLAUDE.md]] |
+| Layer Violation | L0 â†’ L3 import | Derhal revert | [[CLAUDE.md]] |
 | PCM5122 Kullanımı | 8.1 surround denemesi | PCM3168A veya AK4458 | [[ADR-038-8.1-sound-card-chip-selection]] |
-| Network Outage | İnternet kopması | Offline-First + SQLite queue | [[architecture/00-overview/architecture-master]] |
-| BCNF Violation | Yeni tablo | 3NF → BCNF audit | [[ADR-040-database-authority]] |
-| Buffer Underrun | CPU %100 | Fade-out → 50ms sessizlik → restart | [[engine.md]] |
+| Network Outage | İnternet kopması | Offline-First + SQLite queue | [[architecture/master-architecture-index]] |
+| BCNF Violation | Yeni tablo | 3NF â†’ BCNF audit | [[ADR-040-database-authority]] |
+| Buffer Underrun | CPU %100 | Fade-out â†’ 50ms sessizlik â†’ restart | [[engine.md]] |
 | Session Timeout | 3600s idle | Otomatik yeniden auth | [[ADR-011-session-management]] |
 
 ---
@@ -870,19 +913,19 @@ L2 (Routing) → L0 (Infrastructure): ❌ YASAK (Controller→Repository direkt)
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § Amaç | [[CLAUDE.md]] | Ana sözleşme |
-| § Mimari | [[architecture/00-overview/architecture-master]] | L0-L6 |
-| § C++ Audio | [[ADR-017-dsp-hardware-mode]] | XMOS, JUCE |
-| § 8.1 Surround | [[ADR-038-8.1-sound-card-chip-selection]] | PCM3168A, H001 |
-| § PHP Middleware | [[ADR-010-csrf-protection-strategy]] | csrf_token |
-| § Cache/Vault | [[ADR-022-database-hardened-security]] | AES-256-GCM |
-| § 18 BCNF DB | [[ADR-040-database-authority]] | 18 DB |
-| § Audio Org | **DOĞRULAMA GEREKLİ** — `electronic/audio-organization.md` vault'ta yok (Faz 1) | 5 bölüm |
-| § Hardware | **DOĞRULAMA GEREKLİ** — `electronic/hardware-roadmap.md` vault'ta yok (Faz 1) | 3 fazlı yol haritası |
-| § 22 (Prompt Arsivi) | [[architecture/ai/prompt-engine]] | Prompt üretim motoru |
-| § 22 (Prompt Arsivi) | [[CLAUDE#26-prompt-entegrasyonu]] | Boot protokolünde prompt entegrasyonu |
-| § UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi — 19 PNG |
-| § Mockup PNG'ler | `.ai/.png/home-1024/` (12) + `.ai/.png/home-1920/` (1) + `.ai/.png/shared-1024/` (6) | 19 PNG mockup |
+| Â§ Amaç | [[CLAUDE.md]] | Ana sözleşme |
+| Â§ Mimari | [[architecture/master-architecture-index]] | L0-L6 |
+| Â§ C++ Audio | [[ADR-017-dsp-hardware-mode]] | XMOS, JUCE |
+| Â§ 8.1 Surround | [[ADR-038-8.1-sound-card-chip-selection]] | PCM3168A, H001 |
+| Â§ PHP Middleware | [[ADR-010-csrf-protection-strategy]] | csrf_token |
+| Â§ Cache/Vault | [[ADR-022-database-hardened-security]] | AES-256-GCM |
+| Â§ 18 BCNF DB | [[ADR-040-database-authority]] | 18 DB |
+| Â§ Audio Org | **DOÄRULAMA GEREKLİ** â€” `electronic/audio-organization.md` vault'ta yok (Faz 1) | 5 bölüm |
+| Â§ Hardware | **DOÄRULAMA GEREKLİ** â€” `electronic/hardware-roadmap.md` vault'ta yok (Faz 1) | 3 fazlı yol haritası |
+| Â§ 22 (Prompt Arsivi) | [[architecture/ai/prompt-engine]] | Prompt üretim motoru |
+| Â§ 22 (Prompt Arsivi) | [[CLAUDE#26-prompt-entegrasyonu]] | Boot protokolünde prompt entegrasyonu |
+| Â§ UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi â€” 19 PNG |
+| Â§ Mockup PNG'ler | `.ai/.png/home-1024/` (12) + `.ai/.png/home-1920/` (1) + `.ai/.png/shared-1024/` (6) | 19 PNG mockup |
 
 ---
 
@@ -901,15 +944,15 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 
 | Prompt İçeriği | Vault'daki Karşılığı | ADR |
 |----------------|----------------------|-----|
-| prompt0: 11 alt domain | brain.md § 4A (Composer Stack) | ADR-087 |
-| prompt0: 10 panel | brain.md § 9 (Paneller) | ADR-039 |
+| prompt0: 11 alt domain | brain.md Â§ 4A (Composer Stack) | ADR-087 |
+| prompt0: 10 panel | brain.md Â§ 9 (Paneller) | ADR-039 |
 | prompt0: 20 analiz görevi | WORKFLOW.md genişletilmiş prompt bölümü | ADR-042 |
-| prompt0: Zorunlu Kurallar | CLAUDE.md § 7 (Hard Guardrails) | ADR-007 |
-| prompt1: Enterprise Router | architecture/l2-routing/spa-router.md § 1A | ADR-083 |
-| prompt2: Central Auth | architecture/08-auth/auth-cross-domain.md, ADR-043 | ADR-043 |
-| prompt2: Middleware Pipeline | brain.md § 6 | ADR-010/011/012/013/022 |
+| prompt0: Zorunlu Kurallar | CLAUDE.md Â§ 7 (Hard Guardrails) | ADR-007 |
+| prompt1: Enterprise Router | architecture/l2-routing/spa-router.md Â§ 1A | ADR-083 |
+| prompt2: Central Auth | architecture/k6-k7-security/k06-auth-layer/auth-cross-domain.md, ADR-043 | ADR-043 |
+| prompt2: Middleware Pipeline | brain.md Â§ 6 | ADR-010/011/012/013/022 |
 | prompt3: API Gateway | ADR-084 (API Gateway Architecture) | ADR-084 |
-| prompt3: CQRS | brain.md § 4B (API Architecture) | ADR-086 |
+| prompt3: CQRS | brain.md Â§ 4B (API Architecture) | ADR-086 |
 | prompt3: Event Driven | ADR-086 (Event Driven Architecture) | ADR-086 |
 
 ---
@@ -918,23 +961,60 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 23.0.0 |
-| Status | Red Team · Human Mode · Truth Mode verified |
-| ADR Coverage | 001–088 (79 karar: 37 Frozen + 30 Active + 12 Rejected) |
-| Panel Count | 10 (hedef — fiziksel: auth + home + assets; Faz 0) |
+| Version | 25.0.0 |
+| Status | Red Team Â· Human Mode Â· Truth Mode verified |
+| ADR Coverage | 001â€“089 (80 karar: 37 Frozen + 30 Active + 12 Rejected + 1 Draft) |
+| Panel Count | 10 (hedef â€” fiziksel: auth + home + assets; Faz 0) |
 | Service Count | 7 |
 | DB Count | 18 BCNF |
 | Audio Channels | 8+1 Surround |
 | EQ Bands | 31 |
-| Hardware Phases | 3 (MVP → Premium → Professional) |
+| Hardware Phases | 3 (MVP â†’ Premium â†’ Professional) |
 | Platform Tiers | 5 |
 | Hard Guardrails | 14 |
 | Edge Cases | 10 |
 | Warnings | 7 |
 | Implementation Plan | 5 faz, 40 gün, 22 bölüm (ADR-087) |
+| Class AB Amplifikatör | K16-K18: 50W/kanal, 8 kanal, MJL21194/MJL21193, Â±35V boost, 800W (ADR-089 Draft) |
+
+---
+
+## PDF Freelancer Teknik Dokümantasyon v1.0 â€” Mimari Karşılıkları
+
+### Â§02 Sistem Mimarisi Eşleştirme
+
+| PDF Katman | Mevcut Karşılık | Durum |
+|------------|-----------------|-------|
+| L0 Altyapı | K0 İşletim Sistemi + K5 Veri Yönetimi | âœ… |
+| L1 Güvenlik | K6 Güvenlik + K7 Middleware | âœ… |
+| L2 Servis | K8 Servis + K9 API & Routing | âœ… |
+| L3 Uygulama | K10 Uygulama + K11 UX | âœ… |
+| 01 Kullanıcı Deneyimi | K11 UX | âœ… |
+| 02 Uygulama Servis | K8 Servis | âœ… |
+| 03 Native Ses İşleme | K3 Ses Motoru | âœ… |
+| 04 Yapay Zeka | K4 Yapay Zeka | âœ… |
+| 05 Alan (Domain) | K8 Domain | âœ… |
+| 06 Veri Yönetimi | K5 Veri | âœ… |
+| 07 Altyapı ve Bulut | K0 OS | âœ… |
+
+### PDF Mimari Kararları
+
+| Karar | Açıklama |
+|-------|----------|
+| Hibrit Mimari | Online Cloud + Offline-First çalışma |
+| Modüler Servis | 7 bağımsız backend servisi |
+| 18 BCNF Veritabanı | İlişkisel veri yönetimi |
+| 10 Uzmanlık Paneli | 10 alt domain (music, admin, home, car, studio, download, landing, pro, media, auth) |
+| 11 Agent Sistemi | AI destekli otomasyon |
+| API-First | OpenAPI sözleşmesi ile tüm endpoint'ler |
+
+### İlgili Referanslar
+- [[../architecture/master-architecture-index]] â€” Mimari indeks
+- [[../CLAUDE.md]] â€” Anayasa
+- [[VISION]] â€” Vizyon
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-08
-**Mode:** Red Team · Human Mode · Truth Mode
+**Last Updated:** 2026-09-18
+**Mode:** Red Team Â· Human Mode Â· Truth Mode

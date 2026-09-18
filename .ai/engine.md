@@ -530,20 +530,17 @@ Kural: Tür belirlenemeyen belirsizlik `teknik` varsayılır ve `düşük` sever
 
 Kurallar: Her faz sonunda `log.md` append + satır sayacı raporu; `vault-sync` çalıştırılır. Kapsam istisnaları (log.md append-only, MEMORY.md state koruma, .templates/arşiv dışı) plan onayıyla sabitlenmiştir.
 
-### 12.1 Faz 2 Alt-Fazları (architecture/)
+### 12.1 Faz 2 Alt-Fazları (architecture/ K0-K20)
 
-| Alt-faz | Klasör | Dosya | Doğrulama Kanalı |
-|---------|--------|-------|------------------|
-| 2a | `l0-infrastructure/` | 7 | CacheManager gerçek zinciri (Apcu→Memory), DatabaseManager PDO parametreleri |
-| 2b | `l1-security/` | 8 | CsrfMiddleware (bypass: set-gender), SecurityHeadersMiddleware (buildCsp + _csp_nonce), RateLimiterMiddleware (rl:, 60/60sn) gerçek kod eşleşmesi |
-| 2c | `l2-routing/` | 12 | PageRouter::dispatch imzası, AuthGuard::check 6 kontrol zinciri |
-| 2d | `l3-presentation/` | 15 | ITCSS katman sırası, BEM sınıf adları ↔ ui-design tokens |
-| 2e | `03-contracts/` | 36+3 | Endpoint sözleşmeleri ↔ routes.php (3.3KB), auth-routes.php (1.6KB) |
-| 2f | `07-security/` | 14+3 | owasp-compliance, encryption, api_security_master eşleşmesi |
-| 2g | `08-auth/` | 9+2 | auth-cross-domain ↔ HomeAuthBridge (TTL 300sn, 2 retry, validate-key POST) |
-| 2h | `06-audio/` | 11 | audio pipeline ↔ electronic/ çapraz referans |
-| 2i | `05-data/` | 7 | BCNF ↔ .ai/.sql/mysql/ 18 şema |
-| 2j | `ai/` | 13+2 | ADR-030 AI stratejisi eşleşmesi |
+| Alt-faz | Klasör | Dosya Grubu | Doğrulama Kanalı |
+|---------|--------|-------------|------------------|
+| 2a | `k0-k5-software/` | OS, Hardware, Drivers, Audio Engine, AI, Data | C++ NevaEngine, MySQL 18 BCNF DB schemas, Hardware I2S/BLE API |
+| 2b | `k6-k11-application/` | Security, Middleware, Services, Routing, UX | 10-layer middleware pipeline, Argon2id/AES, API Routes, ITCSS/Vanilla JS |
+| 2c | `k12-k15-cross-cutting/` | Monitoring, CI/CD, Network, Media Streaming | Logging configs, Playwright tests, WebRTC streaming, Nginx/IIS configs |
+| 2d | `electronics/` (K16-K18) | PCB Design, Amplifier (Class AB), Power | ADR-089 (Class AB), PCM3168A DAC, 112dB SNR test reports |
+| 2e | `firmware/` (K19-K20) | Bootloader, RTOS/Bare-Metal | XMOS XU316 bare-metal firmware, MCU sync |
+
+*(Not: Faz 2 kapsamında bu klasörlerdeki tüm .md dosyalarına otomatik IMPLEMENTED/PLANNED kanıt matrisi işlenir.)*
 
 ### 12.2 Faz 3 Kapsam Detayı
 

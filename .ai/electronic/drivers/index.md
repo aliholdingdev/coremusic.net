@@ -1,47 +1,47 @@
----
+﻿---
 type: system
 category: driver-framework
-title: "CoreMusic Electronics — Driver Framework Index"
+title: "CoreMusic Electronics â€” Driver Framework Index"
 date: 2026-08-09
 updated: 2026-08-09
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+governance: Red Team Â· Human Mode Â· Truth Mode
 ---
 
-# CoreMusic Electronics — Driver Framework
+# CoreMusic Electronics â€” Driver Framework
 
-**Zorunlu Bağlantılar:** [[electronic/index]] · [[brain.md]] · [[architecture/07-security/index]]
-
----
-
-## 1. Amaç
-
-Driver Framework, CoreMusic ELECTRONICS platformunun tüm işletim sistemlerinde ses donanımıyla iletişim kuran sürücü altyapısını yönetir.
+**Zorunlu BaÄŸlantÄ±lar:** [[electronic/index]] Â· [[brain.md]] Â· [[architecture/k6-k7-security/k6-security]]
 
 ---
 
-## 2. Driver Katmanları
+## 1. AmaÃ§
+
+Driver Framework, CoreMusic ELECTRONICS platformunun tÃ¼m iÅŸletim sistemlerinde ses donanÄ±mÄ±yla iletiÅŸim kuran sÃ¼rÃ¼cÃ¼ altyapÄ±sÄ±nÄ± yÃ¶netir.
+
+---
+
+## 2. Driver KatmanlarÄ±
 
 ```
 Application
-    ↓
+    â†“
 CoreMusic API
-    ↓
+    â†“
 Platform Abstraction Layer (PAL)
-    ↓
+    â†“
 Driver Layer
-    ├── ASIO Driver
-    ├── WASAPI Driver
-    ├── WDM Driver
-    ├── ALSA Driver
-    ├── CoreAudio Driver
-    ├── Virtual Audio Driver
-    └── Hardware Driver
-    ↓
+    â”œâ”€â”€ ASIO Driver
+    â”œâ”€â”€ WASAPI Driver
+    â”œâ”€â”€ WDM Driver
+    â”œâ”€â”€ ALSA Driver
+    â”œâ”€â”€ CoreAudio Driver
+    â”œâ”€â”€ Virtual Audio Driver
+    â””â”€â”€ Hardware Driver
+    â†“
 Kernel Driver
-    ↓
+    â†“
 Hardware
 ```
 
@@ -49,14 +49,14 @@ Hardware
 
 ## 3. Driver Listesi
 
-| Driver | Dosya | OS | Kullanım |
+| Driver | Dosya | OS | KullanÄ±m |
 |--------|-------|-----|----------|
 | ASIO | [[asio-driver]] | Windows | Profesyonel ses |
 | WASAPI/WDM | [[wasapi-wdm]] | Windows | Genel ses |
 | ALSA | [[alsa-coreaudio]] | Linux | Linux ses |
 | CoreAudio | [[alsa-coreaudio]] | macOS | macOS ses |
-| Virtual | [[virtual-audio]] | Tümü | Sanal ses |
-| Hardware | [[hardware-driver]] | Tümü | Fiziksel donanım |
+| Virtual | [[virtual-audio]] | TÃ¼mÃ¼ | Sanal ses |
+| Hardware | [[hardware-driver]] | TÃ¼mÃ¼ | Fiziksel donanÄ±m |
 
 ---
 
@@ -64,33 +64,33 @@ Hardware
 
 ### Windows Audio Stack
 ```
-Application → CoreMusic API → WASAPI → ASIO → Kernel Streaming → WDM → Hardware
+Application â†’ CoreMusic API â†’ WASAPI â†’ ASIO â†’ Kernel Streaming â†’ WDM â†’ Hardware
 ```
 
 ### Linux Audio Stack
 ```
-Application → CoreMusic API → PipeWire → PulseAudio → ALSA → Kernel → Hardware
+Application â†’ CoreMusic API â†’ PipeWire â†’ PulseAudio â†’ ALSA â†’ Kernel â†’ Hardware
 ```
 
 ### macOS Audio Stack
 ```
-Application → CoreMusic API → CoreAudio → IOKit → Hardware
+Application â†’ CoreMusic API â†’ CoreAudio â†’ IOKit â†’ Hardware
 ```
 
 Detay: [[driver-stack-diagrams]]
 
 ---
 
-## 5. Driver Öncelik Sırası
+## 5. Driver Ã–ncelik SÄ±rasÄ±
 
 ### Windows
-1. ASIO (en düşük gecikme)
+1. ASIO (en dÃ¼ÅŸÃ¼k gecikme)
 2. WASAPI Exclusive
 3. WASAPI Shared
 4. WDM
 
 ### Linux
-1. ALSA (en düşük gecikme)
+1. ALSA (en dÃ¼ÅŸÃ¼k gecikme)
 2. PipeWire
 3. JACK
 4. PulseAudio
@@ -103,9 +103,9 @@ Detay: [[driver-stack-diagrams]]
 
 ## 6. Virtual Audio Driver
 
-Sanal ses sürücüsü gerçek donanım olmadan ses cihazı oluşturur.
+Sanal ses sÃ¼rÃ¼cÃ¼sÃ¼ gerÃ§ek donanÄ±m olmadan ses cihazÄ± oluÅŸturur.
 
-Kullanım alanları:
+KullanÄ±m alanlarÄ±:
 - Audio Routing
 - Virtual Microphone
 - Virtual Speaker
@@ -117,73 +117,74 @@ Detay: [[virtual-audio]]
 
 ---
 
-## 7. Hot Plug Desteği
+## 7. Hot Plug DesteÄŸi
 
-Sistem cihazların çalışma sırasında bağlanmasını/çıkarılmasını destekler:
+Sistem cihazlarÄ±n Ã§alÄ±ÅŸma sÄ±rasÄ±nda baÄŸlanmasÄ±nÄ±/Ã§Ä±karÄ±lmasÄ±nÄ± destekler:
 
-- USB ses kartı takılması
-- Bluetooth kulaklık bağlanması
-- HDMI monitör değiştirilmesi
+- USB ses kartÄ± takÄ±lmasÄ±
+- Bluetooth kulaklÄ±k baÄŸlanmasÄ±
+- HDMI monitÃ¶r deÄŸiÅŸtirilmesi
 - Harici DAC eklenmesi
 
-Audio Engine yeniden başlatılmadan cihaz değişimi mümkün olmalıdır.
+Audio Engine yeniden baÅŸlatÄ±lmadan cihaz deÄŸiÅŸimi mÃ¼mkÃ¼n olmalÄ±dÄ±r.
 
 ---
 
-## 8. Driver Güvenliği
+## 8. Driver GÃ¼venliÄŸi
 
-| Kural | Açıklama | ADR |
+| Kural | AÃ§Ä±klama | ADR |
 |-------|----------|-----|
-| Dijital İmza | Tüm driver'lar imzalı olmalı | [[ADR-022-database-hardened-security]] |
-| Secure Boot | Firmware imzalı açılmalı | [[ADR-022-database-hardened-security]] |
-| Bellek Koruma | Taşma/taşırma engeli | — |
-| Yetki Doğrulama | Yetkisiz erişim engeli | — |
+| Dijital Ä°mza | TÃ¼m driver'lar imzalÄ± olmalÄ± | [[ADR-022-database-hardened-security]] |
+| Secure Boot | Firmware imzalÄ± aÃ§Ä±lmalÄ± | [[ADR-022-database-hardened-security]] |
+| Bellek Koruma | TaÅŸma/taÅŸÄ±rma engeli | â€” |
+| Yetki DoÄŸrulama | Yetkisiz eriÅŸim engeli | â€” |
 
-Detay: [[architecture/07-security/driver-signing]]
-
----
-
-## 9. Device Discovery Akışı
-
-```
-Sistem Başlat
-    ↓
-Donanımı Tara
-    ↓
-Ses Cihazlarını Tara
-    ↓
-Sürücüleri Kontrol Et
-    ↓
-Uyumluluğu Doğrula
-    ↓
-Varsayılan Cihazı Seç
-    ↓
-Audio Engine'i Başlat
-```
+Detay: [[architecture/k6-k7-security/k07-security-detail]]
 
 ---
 
-## 10. ADR Referansları
+## 9. Device Discovery AkÄ±ÅŸÄ±
+
+```
+Sistem BaÅŸlat
+    â†“
+DonanÄ±mÄ± Tara
+    â†“
+Ses CihazlarÄ±nÄ± Tara
+    â†“
+SÃ¼rÃ¼cÃ¼leri Kontrol Et
+    â†“
+UyumluluÄŸu DoÄŸrula
+    â†“
+VarsayÄ±lan CihazÄ± SeÃ§
+    â†“
+Audio Engine'i BaÅŸlat
+```
+
+---
+
+## 10. ADR ReferanslarÄ±
 
 | ADR | Konu |
 |-----|------|
 | [[ADR-017-dsp-hardware-mode]] | XMOS, JUCE, ASIO |
 | [[ADR-019-per-os-neva-player]] | Per-OS player |
-| [[ADR-022-database-hardened-security]] | Driver güvenliği |
+| [[ADR-022-database-hardened-security]] | Driver gÃ¼venliÄŸi |
 
 ---
 
-## 11. Çapraz Referanslar
+## 11. Ã‡apraz Referanslar
 
-| Kaynak | Hedef | İlişki |
+| Kaynak | Hedef | Ä°liÅŸki |
 |--------|-------|--------|
-| Drivers | [[electronic/dsp/index]] | DSP-engine bağlantısı |
-| Drivers | [[electronic/firmware/index]] | Firmware güncellemesi |
-| Drivers | [[electronic/hardware/index]] | Donanım erişimi |
-| Drivers | [[architecture/07-security/index]] | Driver signing |
+| Drivers | [[electronic/dsp/index]] | DSP-engine baÄŸlantÄ±sÄ± |
+| Drivers | [[electronic/firmware/index]] | Firmware gÃ¼ncellemesi |
+| Drivers | [[electronic/hardware/index]] | DonanÄ±m eriÅŸimi |
+| Drivers | [[architecture/k6-k7-security/k6-security]] | Driver signing |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-08-09
-**Mode:** Red Team · Human Mode · Truth Mode
+**Mode:** Red Team Â· Human Mode Â· Truth Mode
+

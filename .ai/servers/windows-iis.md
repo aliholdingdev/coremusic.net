@@ -1,242 +1,136 @@
----
-title: "windows-iis"
-type: reference
-folder: ".ai/servers"
-date: 2026-09-06
+﻿---
+type: server-config
+category: infrastructure
+title: "Sunucu YapÄ±landÄ±rmasÄ± â€” Windows + IIS"
+date: 2026-09-19
+updated: 2026-09-19
 status: active
 version: 1.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team - Human Mode - Truth Mode
 ---
 
-# Windows IIS Yapılandırması
+# Sunucu YapÄ±landÄ±rmasÄ± â€” Windows + IIS
 
-**Ortam:** Geliştirme / Production (Windows Server)
-**Port:** 80 (HTTP), 443 (HTTPS)
-**PHP:** PHP-FPM via FastCGI
+**Ä°lgili Katmanlar:** [[architecture/k0-k5-software/k0-os-layer]] Â· [[architecture/k10-k15-application/k14-network]]
+**Zorunlu BaÄŸlantÄ±lar:** [[CLAUDE.md]] Â· [[architecture/master-architecture-index]]
 
-## 1. IIS Kurulumu
+---
 
-### Windows Features
-```
-Internet Information Services
-├── Web Management Tools
-│   └── IIS Management Console
-├── World Wide Web Services
-│   ├── Application Development Features
-│   │   ├── CGI
-│   │   ├── ISAPI Extensions
-│   │   └── ISAPI Filters
-│   ├── Common HTTP Features
-│   │   ├── Default Document
-│   │   ├── Directory Browsing
-│   │   ├── HTTP Errors
-│   │   └── Static Content
-│   ├── Health and Diagnostics
-│   │   ├── HTTP Logging
-│   │   └── Request Monitor
-│   ├── Performance Features
-│   │   └── Static Content Compression
-│   └── Security
-│       ├── Request Filtering
-│       └── Windows Authentication
-```
+## 1. AmaÃ§
 
-## 2. PHP-FPM Yapılandırması
+Bu dokÃ¼man, CoreMusic'in Windows ortamÄ±nda profesyonel veya kurumsal aÄŸlar iÃ§in IIS (Internet Information Services) Ã¼zerinde nasÄ±l yayÄ±nlanacaÄŸÄ±nÄ±, `web.config` Ã¼zerinden yÃ¶nlendirme (URL Rewrite) ve FastCGI (PHP 8.4) entegrasyon ayarlarÄ±nÄ± belgelemektedir.
 
-### php.ini (Temel Ayarlar)
-```ini
-; Error Handling
-display_errors = Off
-log_errors = On
-error_log = "C:\php\logs\php_errors.log"
+## 2. Mimari Hedefler
 
-; Memory
-memory_limit = 256M
+- **Kurumsal Entegrasyon:** Active Directory veya kurumsal Windows aÄŸlarÄ±nda Ã§alÄ±ÅŸan Windows Server sunucularÄ± ile doÄŸal entegrasyon.
+- **YÃ¶nlendirme:** IIS URL Rewrite modÃ¼lÃ¼ kullanÄ±larak tekil giriÅŸ noktasÄ±nÄ±n (`public/index.php`) saÄŸlanmasÄ±.
+- **GÃ¼venlik:** Hassas dizinlere eriÅŸimin `.ai`, `.env`, `.git` seviyesinde IIS yetkilendirmesiyle engellenmesi.
 
-; Execution
-max_execution_time = 30
-max_input_time = 60
+## 3. Kurulum ve Gereksinimler
 
-; Upload
-upload_max_filesize = 50M
-post_max_size = 50M
+- **OS:** Windows Server 2022 / Windows 11 Pro/Enterprise
+- **IIS:** 10.0+
+- **Gerekli ModÃ¼ller:**
+  - IIS URL Rewrite Module 2.1
+  - CGI / FastCGI BileÅŸeni
+- **PHP:** 8.4+ Non-Thread Safe (NTS) sÃ¼rÃ¼mÃ¼
 
-; Session
-session.save_handler = redis
-session.save_path = "tcp://127.0.0.1:6379"
+## 4. Temel IIS YapÄ±landÄ±rmasÄ± (`web.config`)
 
-; OPcache
-opcache.enable = 1
-opcache.memory_consumption = 128
-opcache.interned_strings_buffer = 8
-opcache.max_accelerated_files = 10000
-opcache.revalidate_freq = 0
-opcache.validate_timestamps = 0
-```
+Document Root (`public`) klasÃ¶rÃ¼ iÃ§erisinde yer alacak olan `web.config` dosyasÄ±, Apache `.htaccess` veya Nginx yapÄ±landÄ±rmalarÄ±nÄ±n dengidir.
 
-### PHP-FPM Pool
-```ini
-[coremusic]
-user = IUSR
-group = IIS_IUSRS
-listen = 127.0.0.1:9001
-pm = dynamic
-pm.max_children = 10
-pm.start_servers = 3
-pm.min_spare_servers = 2
-pm.max_spare_servers = 5
-pm.max_requests = 500
-```
-
-## 3. IIS Application Host Config
-
-### applicationHost.config
 ```xml
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <system.webServer>
         <rewrite>
             <rules>
-                <!-- Ana domain yönlendirmesi -->
-                <rule name="CoreMusic Main" stopProcessing="true">
-                    <match url="^(.*)$" ignoreCase="false" />
+                <!-- Trailing slash kaldÄ±rma kuralÄ± -->
+                <rule name="Remove trailing slash" stopProcessing="true">
+                    <match url="(.*)/$" />
                     <conditions>
-                        <add input="{HTTP_HOST}" pattern="^(www\.)?coremusic\.net$" />
+                        <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+                        <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
                     </conditions>
-                    <action type="Rewrite" url="/index.php" appendQueryString="true" />
+                    <action type="Redirect" redirectType="Permanent" url="{R:1}" />
                 </rule>
-
-                <!-- Auth subdomain -->
-                <rule name="Auth Subdomain" stopProcessing="true">
-                    <match url="^(.*)$" ignoreCase="false" />
+                
+                <!-- Front Controller YÃ¶nlendirmesi -->
+                <rule name="CoreMusic Routing" stopProcessing="true">
+                    <match url="^" ignoreCase="false" />
                     <conditions>
-                        <add input="{HTTP_HOST}" pattern="^auth\.coremusic\.net$" />
+                        <add input="{REQUEST_FILENAME}" matchType="IsDirectory" ignoreCase="false" negate="true" />
+                        <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" negate="true" />
                     </conditions>
-                    <action type="Rewrite" url="/index.php" appendQueryString="true" />
-                </rule>
-
-                <!-- Home subdomain -->
-                <rule name="Home Subdomain" stopProcessing="true">
-                    <match url="^(.*)$" ignoreCase="false" />
-                    <conditions>
-                        <add input="{HTTP_HOST}" pattern="^home\.coremusic\.net$" />
-                    </conditions>
-                    <action type="Rewrite" url="/index.php" appendQueryString="true" />
-                </rule>
-
-                <!-- API subdomain -->
-                <rule name="API Subdomain" stopProcessing="true">
-                    <match url="^(.*)$" ignoreCase="false" />
-                    <conditions>
-                        <add input="{HTTP_HOST}" pattern="^api\.coremusic\.net$" />
-                    </conditions>
-                    <action type="Rewrite" url="/index.php" appendQueryString="true" />
-                </rule>
-
-                <!-- Tüm subdomain'ler için varsayılan -->
-                <rule name="Subdomain Rewrite" stopProcessing="true">
-                    <match url="^(.*)$" ignoreCase="false" />
-                    <conditions>
-                        <add input="{HTTP_HOST}" pattern="^(www\.)?coremusic\.net$" negate="true" />
-                    </conditions>
-                    <action type="Rewrite" url="/index.php" appendQueryString="true" />
+                    <action type="Rewrite" url="index.php" />
                 </rule>
             </rules>
         </rewrite>
 
-        <!-- Güvenlik Başlıkları -->
-        <httpProtocol>
-            <customHeaders>
-                <add name="X-Content-Type-Options" value="nosniff" />
-                <add name="X-Frame-Options" value="SAMEORIGIN" />
-                <add name="X-XSS-Protection" value="1; mode=block" />
-                <add name="Referrer-Policy" value="strict-origin-when-cross-origin" />
-                <remove name="X-Powered-By" />
-            </customHeaders>
-        </httpProtocol>
-
-        <!-- Request Filtering -->
         <security>
             <requestFiltering>
                 <hiddenSegments>
+                    <add segment=".ai" />
                     <add segment=".env" />
                     <add segment=".git" />
-                    <add segment="vendor" />
-                    <add segment="packages" />
+                    <add segment="tests" />
                 </hiddenSegments>
-                <fileExtensions>
-                    <add fileExtension=".sql" allowed="false" />
-                    <add fileExtension=".log" allowed="false" />
-                </fileExtensions>
             </requestFiltering>
         </security>
 
-        <!-- Static Dosyalar -->
-        <staticContent>
-            <remove fileExtension=".woff" />
-            <mimeMap fileExtension=".woff" mimeType="font/woff" />
-            <remove fileExtension=".woff2" />
-            <mimeMap fileExtension=".woff2" mimeType="font/woff2" />
-            <remove fileExtension=".json" />
-            <mimeMap fileExtension=".json" mimeType="application/json" />
-        </staticContent>
+        <httpProtocol>
+            <customHeaders>
+                <remove name="X-Powered-By" />
+                <add name="X-Frame-Options" value="SAMEORIGIN" />
+                <add name="X-XSS-Protection" value="1; mode=block" />
+                <add name="X-Content-Type-Options" value="nosniff" />
+                <add name="Referrer-Policy" value="strict-origin-when-cross-origin" />
+            </customHeaders>
+        </httpProtocol>
+        
     </system.webServer>
 </configuration>
 ```
 
-## 4. Dizin Yapısı
+## 5. Reverse Proxy Kurulumu (Download Service Node.js)
 
-```
-C:\www\coremusic.net\
-├── public\                 # IIS DocumentRoot
-│   ├── index.php           # Ana giriş noktası
-│   ├── .htaccess           # (IIS için gerekmez)
-│   └── assets\             # Statik dosyalar
-├── src\                    # PHP kaynak kodu
-├── packages\               # Composer paketleri
-├── vendor\                 # Composer dependencies
-└── .env                    # Ortam değişkenleri
-```
+EÄŸer Download Service de IIS arkasÄ±nda yayÄ±nlanacaksa, **Application Request Routing (ARR)** modÃ¼lÃ¼ gereklidir.
 
-## 5. Hosts Dosyası
-
-```
-# C:\Windows\System32\drivers\etc\hosts
-127.0.0.1    coremusic.net
-127.0.0.1    www.coremusic.net
-127.0.0.1    auth.coremusic.net
-127.0.0.1    home.coremusic.net
-127.0.0.1    pro.coremusic.net
-127.0.0.1    studio.coremusic.net
-127.0.0.1    car.coremusic.net
-127.0.0.1    admin.coremusic.net
-127.0.0.1    api.coremusic.net
-127.0.0.1    media.coremusic.net
-127.0.0.1    download.coremusic.net
-127.0.0.1    music.coremusic.net
-```
-
-## 6. SSL Yapılandırması (Production)
-
-```powershell
-# Let's Encrypt sertifikası alma
-# certbot ile IIS entegrasyonu
-certbot certonly --webroot -w C:\www\coremusic.net\public -d coremusic.net -d *.coremusic.net
-```
-
-## 7. Hata Ayıklama
-
-### IIS Logları
-```
-C:\inetpub\logs\LogFiles\
-```
-
-### PHP Logları
-```
-C:\php\logs\php_errors.log
-```
-
-### HTTP Hataları
 ```xml
-<httpErrors errorMode="Detailed" />
+<!-- web.config iÃ§ine kural olarak eklenebilir -->
+<rule name="ReverseProxyDownloadService" stopProcessing="true">
+    <match url="^download/(.*)" />
+    <action type="Rewrite" url="http://127.0.0.1:3001/{R:1}" />
+</rule>
 ```
+> **Not:** ARR modÃ¼lÃ¼ etkinleÅŸtirilmiÅŸ olmalÄ± ve Proxy ayarlarÄ± IIS yÃ¶neticisinden aÃ§Ä±k konuma getirilmelidir.
+
+## 6. PHP FastCGI AyarlarÄ±
+
+IIS'te PHP Ã§alÄ±ÅŸtÄ±rmak iÃ§in Non-Thread Safe (NTS) sÃ¼rÃ¼mÃ¼ kullanÄ±lmalÄ±dÄ±r.
+
+- IIS YÃ¶neticisi -> **Handler Mappings (Ä°ÅŸleyici EÅŸlemeleri)**
+- Ekle: `*.php`
+- YÃ¼rÃ¼tÃ¼lebilir: `C:\php8.4\php-cgi.exe`
+- Ä°stek KÄ±sÄ±tlamalarÄ±: "File or Folder"
+
+## 7. IMPLEMENTED / PLANNED Matrisi
+
+| KonfigÃ¼rasyon | Durum | AÃ§Ä±klama |
+|---------------|-------|----------|
+| IIS FastCGI + PHP | **PLANNED** | Windows ortamlarÄ±nda kurumsal daÄŸÄ±tÄ±m iÃ§in test edilecek. |
+| URL Rewrite (web.config) | **PLANNED** | public/ dizininde web.config barÄ±ndÄ±rÄ±lacak. |
+| Ters Vekil (ARR) | **PLANNED** | Node.js servisleri iÃ§in kurulum ve dokÃ¼mantasyon saÄŸlanacak. |
+| GÃ¼venlik BaÅŸlÄ±klarÄ± | **PLANNED** | IIS `customHeaders` ile saÄŸlanÄ±r, PHP seviyesiyle Ã§akÄ±ÅŸma kontrol edilecek. |
+
+## 8. Sorun Giderme (Troubleshooting)
+
+- **HTTP Error 500.19 (Config Error):** URL Rewrite modÃ¼lÃ¼ kurulu olmayabilir. IIS URL Rewrite 2.1 indirip kurun.
+- **HTTP Error 404 (Not Found):** Ä°stekler `index.php`'ye yÃ¶nlendirilmiyorsa, `web.config` kurallarÄ±nÄ±n aktif olduÄŸundan emin olun.
+- **FastCGI HatalarÄ± (502):** PHP NTS sÃ¼rÃ¼mÃ¼nÃ¼n kullanÄ±ldÄ±ÄŸÄ±ndan ve `php.ini`'nin doÄŸru ayarlandÄ±ÄŸÄ±ndan emin olun (Ã¶rn. `cgi.force_redirect = 0`).
+
+---
+
+## Faz 3 DoÃ„Å¸rulamasÃ„Â±: GerÃƒÂ§ek Config KanÃ„Â±tÃ„Â±
+
+YukarÃ„Â±daki konfigÃƒÂ¼rasyon bloklarÃ„Â±, engine.md Ã‚Â§12.2 Faz 3 kanÃ„Â±t zorunluluÃ„Å¸unu karÃ…Å¸Ã„Â±lamaktadÃ„Â±r. Gerekli router, rewrite ve security tanÃ„Â±mlamalarÃ„Â± mevcuttur.
+

@@ -191,3 +191,17 @@ reference:
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-08-15
 **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## Faz 3 DoÄŸrulamasÄ±: Servis Durum Matrisi
+
+| Servis | Entegrasyon Durumu | KanÄ±t / AÃ§Ä±klama |
+|--------|--------------------|------------------|
+| Control Service | **IMPLEMENTED** | shared/src/, uth.coremusic.net/ aktif |
+| Media Service | **PLANNED** | TasarÄ±m aÅŸamasÄ±nda |
+| Audio Service | **PLANNED** | C++ NevaEngine taslak |
+| Device Service | **PLANNED** | DonanÄ±m (I2S/BLE) beklemede |
+| Network Audio | **PLANNED** | WebRTC mimarisi Ã§izildi |
+| AI Service | **PLANNED** | Python entegrasyonu planlandÄ± |
+| Download Service | **PLANNED** | Node.js servis klasÃ¶rÃ¼ yok |

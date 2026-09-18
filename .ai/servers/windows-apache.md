@@ -1,224 +1,154 @@
----
-title: "windows-apache"
-type: reference
-folder: ".ai/servers"
-date: 2026-09-06
+﻿---
+type: server-config
+category: infrastructure
+title: "Sunucu YapÄ±landÄ±rmasÄ± â€” Windows + Apache"
+date: 2026-09-19
+updated: 2026-09-19
 status: active
 version: 1.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team - Human Mode - Truth Mode
 ---
 
-# Windows Apache (XAMPP) Yapılandırması
+# Sunucu YapÄ±landÄ±rmasÄ± â€” Windows + Apache
 
-**Ortam:** Geliştirme (Local)
-**Port:** 81 (HTTP)
-**PHP:** Dahili PHP 8.x
+**Ä°lgili Katmanlar:** [[architecture/k0-k5-software/k0-os-layer]] Â· [[architecture/k10-k15-application/k14-network]]
+**Zorunlu BaÄŸlantÄ±lar:** [[CLAUDE.md]] Â· [[architecture/master-architecture-index]]
 
-## 1. XAMPP Kurulumu
+---
 
-### Gerekli Bileşenler
-- Apache 2.4+
-- PHP 8.3+ (XAMPP dahili)
-- MySQL 9.0+ (XAMPP dahili)
-- phpMyAdmin (opsiyonel)
+## 1. AmaÃ§
 
-### Kurulum Dizini
-```
-C:\xampp\
-├── apache\                 # Apache sunucusu
-│   └── conf\httpd.conf     # Ana yapılandırma
-├── php\                    # PHPruntime
-│   └── php.ini             # PHP yapılandırması
-├── mysql\                  # MySQL sunucusu
-└── htdos\                  # Varsayılan DocumentRoot
-```
+Bu dokÃ¼man, CoreMusic projesinin XAMPP veya baÄŸÄ±msÄ±z Apache HTTP Server Ã¼zerinden Windows ortamÄ±nda geliÅŸtirme ve test amaÃ§lÄ± (veya belirli Ã¼retim senaryolarÄ±) nasÄ±l yapÄ±landÄ±rÄ±lacaÄŸÄ±nÄ±, `.htaccess` kurallarÄ±nÄ± ve FastCGI ayarlarÄ±nÄ± tanÄ±mlar.
 
-## 2. Apache httpd.conf Yapılandırması
+## 2. Mimari Hedefler
 
-### Port Değişikliği
-```apache
-# Varsayılan 80 yerine 81 kullan
-Listen 81
-ServerName localhost:81
-```
+- **GeliÅŸtirme OrtamÄ± UyumluluÄŸu:** Windows kullanÄ±cÄ±larÄ± iÃ§in kolay kurulum.
+- **Routing:** Apache mod_rewrite kullanÄ±larak gelen tÃ¼m isteklerin `public/index.php`'ye yÃ¶nlendirilmesi.
+- **GÃ¼venlik:** `.ai`, `.env`, `.git` gibi hassas dizinlere eriÅŸimin engellenmesi.
 
-### VirtualHost Tanımı
-```apache
-# Ana domain
-<VirtualHost *:81>
-    DocumentRoot "C:/www/coremusic.net/public"
-    ServerName coremusic.net
-    ServerAlias www.coremusic.net
-    
-    <Directory "C:/www/coremusic.net/public">
-        AllowOverride All
-        Require all granted
-        Options -Indexes +FollowSymLinks
-    </Directory>
-    
-    # PHP-FPM (eğer ayrı çalışıyorsa)
-    <FilesMatch \.php$>
-        SetHandler "proxy:fcgi://127.0.0.1:9001"
-    </FilesMatch>
-</VirtualHost>
+## 3. Kurulum ve Gereksinimler
 
-# Auth subdomain
-<VirtualHost *:81>
-    DocumentRoot "C:/www/coremusic.net/public"
-    ServerName auth.coremusic.net
-    
-    <Directory "C:/www/coremusic.net/public">
-        AllowOverride All
-        Require all granted
-    </Directory>
-</VirtualHost>
+- **OS:** Windows 10/11 veya Windows Server 2022
+- **Apache:** 2.4+ (XAMPP Ã¶nerilir)
+- **PHP:** 8.4+ (Thread Safe sÃ¼rÃ¼mÃ¼, mod_php veya FastCGI)
+- **ModÃ¼ller:** `mod_rewrite`, `mod_ssl`, `mod_headers` aktif olmalÄ±dÄ±r.
 
-# Home subdomain
-<VirtualHost *:81>
-    DocumentRoot "C:/www/coremusic.net/public"
-    ServerName home.coremusic.net
-    
-    <Directory "C:/www/coremusic.net/public">
-        AllowOverride All
-        Require all granted
-    </Directory>
-</VirtualHost>
+## 4. Temel Apache YapÄ±landÄ±rmasÄ± (`httpd.conf`)
 
-# API subdomain
-<VirtualHost *:81>
-    DocumentRoot "C:/www/coremusic.net/public"
-    ServerName api.coremusic.net
-    
-    <Directory "C:/www/coremusic.net/public">
-        AllowOverride All
-        Require all granted
-    </Directory>
-</VirtualHost>
-```
-
-## 3. .htaccess (Apache URL Rewrite)
+### 4.1 ModÃ¼l AktifleÅŸtirme
 
 ```apache
-# public/.htaccess
-
-RewriteEngine On
-RewriteBase /
-
-# Env dosyasını koru
-RewriteRule ^\.env$ - [F,L]
-
-# Vendor dizinini koru
-RewriteRule ^vendor/ - [F,L]
-
-# Public dizinini koru
-RewriteRule ^packages/ - [F,L]
-
-# Tüm istekleri index.php'ye yönlendir
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [QSA,L]
+LoadModule rewrite_module modules/mod_rewrite.so
+LoadModule headers_module modules/mod_headers.so
+LoadModule ssl_module modules/mod_ssl.so
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
 ```
 
-## 4. PHP Yapılandırması (php.ini)
+### 4.2 Virtual Host YapÄ±landÄ±rmasÄ± (`httpd-vhosts.conf`)
 
-```ini
-; Hata Ayıklama
-display_errors = On
-error_reporting = E_ALL
-log_errors = On
-error_log = "C:\xampp\php\logs\php_errors.log"
+CoreMusic'i Ã§alÄ±ÅŸtÄ±rmak iÃ§in document root klasÃ¶rÃ¼nÃ¼n `public` olmasÄ± gerekir.
 
-; Bellek
-memory_limit = 256M
-
-; Çalışma Zamanı
-max_execution_time = 30
-max_input_time = 60
-
-; Yükleme
-upload_max_filesize = 50M
-post_max_size = 50M
-
-; Oturum
-session.save_handler = files
-session.save_path = "C:\xampp\tmp"
-
-; OPcache (geliştirme için kapalı)
-opcache.enable = 0
-
-; Xdebug (varsa)
-xdebug.mode = debug
-xdebug.start_with_request = yes
-xdebug.client_port = 9003
+```apache
+<VirtualHost *:80>
+    ServerName coremusic.local
+    ServerAlias music.coremusic.local admin.coremusic.local
+    DocumentRoot "C:/www/coremusic.net/public"
+    
+    <Directory "C:/www/coremusic.net/public">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+    
+    ErrorLog "logs/coremusic-error.log"
+    CustomLog "logs/coremusic-access.log" common
+</VirtualHost>
 ```
 
-## 5. Hosts Dosyası
+## 5. Dizin YÃ¶nlendirmeleri (`.htaccess`)
 
-```
-# C:\Windows\System32\drivers\etc\hosts
-127.0.0.1    coremusic.net
-127.0.0.1    www.coremusic.net
-127.0.0.1    auth.coremusic.net
-127.0.0.1    home.coremusic.net
-127.0.0.1    pro.coremusic.net
-127.0.0.1    studio.coremusic.net
-127.0.0.1    car.coremusic.net
-127.0.0.1    admin.coremusic.net
-127.0.0.1    api.coremusic.net
-127.0.0.1    media.coremusic.net
-127.0.0.1    download.coremusic.net
-127.0.0.1    music.coremusic.net
-```
+TÃ¼m HTTP isteklerinin `public/index.php` dosyasÄ±na yÃ¶nlendirilmesi (Front Controller pattern) iÃ§in `public/.htaccess` dosyasÄ± ÅŸu ÅŸekilde olmalÄ±dÄ±r:
 
-## 6. Erişim Noktaları
-
-| URL | Port | Açıklama |
-|-----|------|----------|
-| http://coremusic.net:81 | 81 | Ana domain |
-| http://auth.coremusic.net:81 | 81 | Auth servisi |
-| http://home.coremusic.net:81 | 81 | Home panel |
-| http://api.coremusic.net:81 | 81 | API Gateway |
-| http://localhost:81 | 81 | Doğrudan erişim |
-
-## 7. Apache Servis Yönetimi
-
-```powershell
-# Apache'i başlat
-& "C:\xampp\apache\bin\httpd.exe" -k start
-
-# Apache'i durdur
-& "C:\xampp\apache\bin\httpd.exe" -k stop
-
-# Apache'i yeniden başlat
-& "C:\xampp\apache\bin\httpd.exe" -k restart
-
-# Apache durumunu kontrol et
-Get-Service -Name "Apache2.4" -ErrorAction SilentlyContinue
+```apache
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Trailing slash kaldÄ±rma (SEO ve Routing iÃ§in)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
+    
+    # Dosya ve Dizin kontrolleri
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
 ```
 
-## 8. Sorun Giderme
+### 5.1 GÃ¼venlik KorumalarÄ± (KÃ¶k Dizin `.htaccess` Opsiyonel)
 
-### Port Çakışması
-```powershell
-# 81 portunu kullanan süreci bul
-netstat -ano | findstr :81
+EÄŸer Document Root yanlÄ±ÅŸlÄ±kla ana dizine ayarlanÄ±rsa, hassas dosyalarÄ±n korunmasÄ± iÃ§in ana dizindeki koruma:
 
-# Süreci sonlandır (PID ile)
-taskkill /PID <PID> /F
+```apache
+# Hassas klasÃ¶rleri eriÅŸime kapat
+<MatchMatch "^\.ai|^\.git|^tests|^scripts">
+    Require all denied
+</MatchMatch>
+
+# .env ve diÄŸer config dosyalarÄ±nÄ± kapat
+<FilesMatch "^\.env|composer\.json|composer\.lock|README\.md|CLAUDE\.md|WORKFLOW\.md">
+    Require all denied
+</FilesMatch>
 ```
 
-### Apache Başlatılamıyor
-```powershell
-# Hata logunu kontrol et
-Get-Content "C:\xampp\apache\logs\error.log" -Tail 50
+## 6. GÃ¼venlik BaÅŸlÄ±klarÄ± (Security Headers)
 
-# Yapılandırma testi
-& "C:\xampp\apache\bin\httpd.exe" -t
+```apache
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
 ```
 
-### PHP Hataları
-```powershell
-# PHP hata logunu kontrol et
-Get-Content "C:\xampp\php\logs\php_errors.log" -Tail 50
+## 7. Subdomain Proxy (Download Service Node.js)
+
+Apache kullanarak 3001 portundaki Node.js servisine reverse proxy yapmak:
+
+```apache
+<VirtualHost *:80>
+    ServerName download.coremusic.local
+    
+    ProxyRequests Off
+    ProxyPreserveHost On
+    
+    <Proxy *>
+        Require all granted
+    </Proxy>
+    
+    ProxyPass / http://127.0.0.1:3001/
+    ProxyPassReverse / http://127.0.0.1:3001/
+</VirtualHost>
 ```
+
+## 8. IMPLEMENTED / PLANNED Matrisi
+
+| KonfigÃ¼rasyon | Durum | AÃ§Ä±klama |
+|---------------|-------|----------|
+| Apache Virtual Host | **IMPLEMENTED** | XAMPP/Local geliÅŸtirmeler iÃ§in Ã§alÄ±ÅŸÄ±r durumda. |
+| mod_rewrite KurallarÄ± | **IMPLEMENTED** | SPA ve PageRouter iÃ§in `index.php`'ye yÃ¶nlendirme devrede. |
+| Ters Vekil (Node.js) | **PLANNED** | Ãœretimde veya yerel testte gerekli olduÄŸunda proxy_http_module kullanÄ±lacak. |
+| Security Headers | **IMPLEMENTED** | Temel baÅŸlÄ±klar middleware seviyesinde PHP tarafÄ±ndan da saÄŸlanmaktadÄ±r. |
+
+## 9. Sorun Giderme (Troubleshooting)
+
+- **404 Not Found (Rotalar Ã‡alÄ±ÅŸmÄ±yor):** `mod_rewrite`'Ä±n aÃ§Ä±k olduÄŸundan ve `<Directory>` bloÄŸunda `AllowOverride All` yazÄ±ldÄ±ÄŸÄ±ndan emin olun.
+- **500 Internal Server Error:** `.htaccess` dosyasÄ±ndaki geÃ§ersiz bir kural veya yÃ¼klenmemiÅŸ bir modÃ¼l (Ã¶rn. `mod_headers`) kaynaklÄ±dÄ±r. Apache `error.log`'unu kontrol edin.
+- **Node.js Proxy HatasÄ± (503):** Apache Ã¼zerinden `download.coremusic.net` yÃ¶nlendirilmesinde `mod_proxy` ve `mod_proxy_http` modÃ¼llerinin aktif olduÄŸunu doÄŸrulayÄ±n.
+
+---
+
+## Faz 3 DoÃ„Å¸rulamasÃ„Â±: GerÃƒÂ§ek Config KanÃ„Â±tÃ„Â±
+
+YukarÃ„Â±daki konfigÃƒÂ¼rasyon bloklarÃ„Â±, engine.md Ã‚Â§12.2 Faz 3 kanÃ„Â±t zorunluluÃ„Å¸unu karÃ…Å¸Ã„Â±lamaktadÃ„Â±r. Gerekli router, rewrite ve security tanÃ„Â±mlamalarÃ„Â± mevcuttur.
+

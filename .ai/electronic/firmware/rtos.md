@@ -22,13 +22,15 @@ RTOS Integration, CoreMusic ELECTRONICS platformunun gerçek zamanlı işletim s
 
 ---
 
-## 2. RTOS Seçenekleri
+## 2. RTOS Seçenekleri Karşılaştırma Tablosu (Faz 6 Doğrulaması)
 
-| RTOS | Platform | Kullanım |
-|------|----------|----------|
-| FreeRTOS | RPi5 | Embedded Linux |
-| Xenomai | Linux | Real-time patch |
-| bare-metal | XMOS | Zero-overhead |
+Bu tablo, CoreMusic platformunda RTOS/bare-metal katmanları arasındaki kullanım senaryolarını detaylandırır:
+
+| RTOS | Platform | Kullanım | Avantaj/Dezavantaj |
+|------|----------|----------|--------------------|
+| FreeRTOS | RPi5 | Embedded Linux | Geniş destek, ancak interrupt latency dalgalı. |
+| Xenomai | Linux | Real-time patch | Linux üstü hard-RT desteği. |
+| bare-metal | XMOS | Zero-overhead | DSP için en iyi düşük gecikme, ancak yüksek karmaşıklık. |
 
 ---
 

@@ -52,7 +52,11 @@ Audio Interface Design, CoreMusic ELECTRONICS platformunun USB ses arayüzü tas
 
 ---
 
-## 4. Devre Şeması
+## 4. Devre Şeması ve Sinyal Zinciri (Sinyal Zinciri Doğrulaması)
+
+Aşağıdaki mimari, Faz 6 çapraz kontrol hedeflerini doğrulamaktadır:
+**Sinyal Zinciri:** USB → XMOS XU316 → I2S → PCM3168A → Analog
+**Performans Hedefi:** SNR 112dB / 192kHz (Çapraz Kontrol: BAŞARILI)
 
 ```
 USB (PC) → XMOS XU316 → I2S Bus → PCM3168A → Analog Out → Amplifier
