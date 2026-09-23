@@ -180,7 +180,7 @@ Kanonik terimlerin projedeki **doğrulanmış** kullanım yerleri. Yöntem: Faz 
 | **DDD / Hexagonal** | auth servisi include düzeni: Container/Controller/Domain/Handler/Middleware/Repository/Service | `auth.coremusic.net/include/` (7 klasör) |
 | **CQRS** | Command/Handler örnek deseni | `.ai/ROLE.md` §20.3 |
 | **ADR** | 67 accepted + 12 rejected = 79 karar; kapsam 001-088 | `.ai/decisions/` |
-| **SSOT** | `.ai/` vault — tüm kararlara tek referans | `.ai/*.md` (12 boot dosyası) |
+| **SSOT** | `.ai/` vault — tüm kararlara tek referans | `.ai/*.md` (14 boot dosyası) |
 | **OWASP** | OWASP uyumluluk dokümanı | `.ai/architecture/07-security/` |
 | **Argon2id** | Şifre hash politikası (64MB/4/2 parametreleri) | `.ai/reports/` (faz5 password-hashing raporu) |
 | **AES-256-GCM** | Şifreleme katmanı dokümantasyonu | `.ai/architecture/07-security/encryption*` |
@@ -600,7 +600,7 @@ Kural: Agent routing sonrası ilk okumada bu küme sözlükte doğrulanır; teri
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 2.0.0 |
+| Version | 2.1.0 |
 | Term Count | 32 kanonik (§2) + 43 teknoloji terimi (§3) = 75 |
 | Derin açıklama | 24 blok (§4.1.1-4.1.24) |
 | Kanıtlı kullanım haritası | 53 satır (§4-§5) + 14 alan sözlüğü (§5.1) |
@@ -622,16 +622,16 @@ Terimlerin sistem içindeki ilişkisi — tek bakışta konumlandırma:
 ```text
                           ┌────────────────────────────┐
                           │        .ai VAULT (SSOT)    │
-                          │  boot 12 · decisions 79    │
+                          │  boot 14 · decisions 79    │
                           └─────────────┬──────────────┘
                                         │
-        ┌───────────────┬───────────────┼────────────────┬──────────────┐
-        ▼               ▼               ▼                ▼              ▼
-  ┌───────────┐  ┌────────────┐  ┌─────────────┐  ┌───────────┐  ┌───────────┐
-  │  shared/  │  │ packages/  │  │   auth.     │  │  home.    │  │  assets.  │
-  │ PHP 8.4   │  │ PHP 8.3    │  │  PHP 8.4    │  │ PHP 8.4   │  │  statik   │
-  │ 19 modül  │  │ uuid+sodium│  │ hexagonal 7 │  │ minimal 3 │  │ Css/Fonts │
-  └─────┬─────┘  └────────────┘  └──────┬──────┘  └─────┬─────┘  └───────────┘
+        ┌───────────────────────────────┼────────────────┬──────────────┐
+        ▼                               ▼                ▼              ▼
+  ┌───────────┐                  ┌─────────────┐  ┌───────────┐  ┌───────────┐
+  │  shared/  │                  │   auth.     │  │  home.    │  │  assets.  │
+  │ PHP 8.4   │                  │  PHP 8.4    │  │ PHP 8.4   │  │  statik   │
+  │ 19 modül  │                  │ hexagonal 7 │  │ minimal 3 │  │ Css/Fonts │
+  └─────┬─────┘                  └──────┬──────┘  └─────┬─────┘  └───────────┘
         │                               │  validate-key  │
         │        CacheManager ◄─────────┼────────────────┘ (HomeAuthBridge
         │        Apcu→Memory            │                  TTL 300sn)

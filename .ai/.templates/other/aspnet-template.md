@@ -11,7 +11,7 @@ authority: SSOT
 
 # CoreMusic — ASP.NET 9 / C# 13 Backend Template
 
-**Zorunlu Bağlantılar:** [[.ai/.templates/index.md]] · [[.ai/CLAUDE.md]] · [[.ai/brain.md]] · [[.ai/.templates/other/cpp-template.md]] · [[.ai/log.md]]
+**Zorunlu Bağlantılar:** [[../../.templates/index.md]] · [[../../CLAUDE.md]] · [[../../brain.md]] · [[../../.templates/other/cpp-template.md]] · [[../../log.md]]
 
 ---
 
@@ -465,16 +465,16 @@ static IResult ApiError(HttpContext ctx, int status, string title, params (strin
         });
 ```
 
-**REFACTOR REPORT:** FILE: aspnet-template.md · PURPOSE: ASP.NET 9 / C# 13 Backend Template (hazır bulunduruluyor) · VALIDATION: 7 alan + §1-§7 + Truth Mode §1.1 + bilgi korunumu · RELATED: [[.ai/.templates/index.md]] · [[.ai/CLAUDE.md]]
+**REFACTOR REPORT:** FILE: aspnet-template.md · PURPOSE: ASP.NET 9 / C# 13 Backend Template (hazır bulunduruluyor) · VALIDATION: 7 alan + §1-§7 + Truth Mode §1.1 + bilgi korunumu · RELATED: [[../../.templates/index.md]] · [[../../CLAUDE.md]]
 
 ---
 
 ## §7. Referanslar
 
-- [[.ai/.templates/index.md]] — şablon registry
-- [[.ai/CLAUDE.md]] — AI anayasası, Hard Guardrails
-- [[.ai/AGENTS.md]] — routing (§6: backend/API → Backend Architect; §25.2 stack kanıtı = PHP 8.4 IMPLEMENTED)
-- [[.ai/.templates/other/cpp-template.md]] — kalıp kaynak (§1-§7 iskeleti)
+- [[../../.templates/index.md]] — şablon registry
+- [[../../CLAUDE.md]] — AI anayasası, Hard Guardrails
+- [[../../AGENTS.md]] — routing (§6: backend/API → Backend Architect; §25.2 stack kanıtı = PHP 8.4 IMPLEMENTED)
+- [[../../.templates/other/cpp-template.md]] — kalıp kaynak (§1-§7 iskeleti)
 - `.ai/brain.md` — §13 ADR listesi
 
 İlgili ADR'ler (§2.1 karar kapıları):
@@ -487,7 +487,7 @@ static IResult ApiError(HttpContext ctx, int status, string title, params (strin
 | ADR-013 | APCu, 60 req/60s | §3.4 RateLimit muadili |
 | ADR-006 | <200ms TTFB, <100ms API | §3.6 performans testi hedefi |
 
-> ⚠️ ADR dosyaları diskte ayrı `.md` olarak bulunmamaktadır (bkz. [[.ai/.templates/adr/adr-index.md]] §2.0); numaralar `brain.md` §13.1 kaynaklıdır.
+> ⚠️ ADR dosyaları diskte ayrı `.md` olarak bulunmamaktadır (bkz. [[../../.templates/adr/adr-index.md]] §2.0); numaralar `brain.md` §13.1 kaynaklıdır.
 
 ---
 

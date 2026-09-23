@@ -11,7 +11,7 @@ authority: SSOT
 
 # C++ / Neva Audio Engine Template — DSP Çekirdek Şablonu
 
-**Zorunlu Bağlantılar:** [[.ai/index]] · [[.ai/brain]] · [[.ai/.templates/index]] · [[.ai/adr/adr-012]] · [[.ai/adr/adr-013]]
+**Zorunlu Bağlantılar:** [[../../index]] · [[../../brain]] · [[../../.templates/index]] · [[.ai/adr/adr-012]] · [[.ai/adr/adr-013]]
 
 ---
 

@@ -618,10 +618,10 @@ P3: testing/*, ui-design/*, personas/*
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 28.0.0 |
+| Version | 28.2.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | ADR Coverage | 001-088 (79 karar: 37 Frozen + 30 Active + 12 Rejected) |
-| Vault Envanteri | 787 .md dosyasi, 79 ADR, 18 BCNF DB, hedef 10 panel / 7 servis (fiziksel: 4 domain + assets), shared/ hybrid yapı — Faz 0 sayımı 2026-09-08 |
+| Vault Envanteri | 518 .md dosyasi, 79 ADR, 18 BCNF DB, hedef 10 panel / 7 servis (fiziksel: 4 domain + assets), shared/ hybrid yapı — sahip doğrulaması 2026-09-23 |
 
 ---
 

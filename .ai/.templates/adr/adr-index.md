@@ -11,7 +11,7 @@ authority: SSOT
 
 # CoreMusic — ADR Dizin / Navigasyon Rehberi
 
-**Zorunlu Bağlantılar:** [[.ai/brain.md]] · [[.ai/CLAUDE.md]] · [[.ai/.templates/index.md]] · [[.ai/log.md]] · [[.ai/.templates/adr/adr-template.md]]
+**Zorunlu Bağlantılar:** [[../../brain.md]] · [[../../CLAUDE.md]] · [[../../.templates/index.md]] · [[../../log.md]] · [[../../.templates/adr/adr-template.md]]
 
 ---
 
@@ -209,15 +209,15 @@ flowchart TD
 
 | # | Kural | Doğru | Yanlış |
 |---|---|---|---|
-| B1 | format `[[relative/path]]` | `[[.ai/brain.md]]` | `[brain.md](brain.md)` |
-| B2 | repoya göre göreli yol | `[[.ai/.templates/index.md]]` | `[[/c/www/...]]` |
-| B3 | uzantı dahil | `[[.ai/log.md]]` | `[[.ai/log]]` |
+| B1 | format `[[relative/path]]` | `[[../../brain.md]]` | `[brain.md](brain.md)` |
+| B2 | repoya göre göreli yol | `[[../../.templates/index.md]]` | `[[/c/www/...]]` |
+| B3 | uzantı dahil | `[[../../log.md]]` | `[[../../log]]` |
 | B4 | ADR slug'ı §2.3 gerçek örneklerden | `[[ADR-010-csrf-protection-strategy]]` | `[[ADR-999-yok-boyle]]` |
 | B5 | kırık hedef varsa ⚠️ düş | `[[ADR-017-dsp-hardware-mode]] ⚠️ diskte yok` | sessiz kırmızı link |
 
 ```markdown
 # Şablon üst satırı (zorunlu bağlantı bloğu örneği)
-**Zorunlu Bağlantılar:** [[.ai/brain.md]] · [[.ai/CLAUDE.md]] · [[.ai/.templates/index.md]] · [[.ai/log.md]]
+**Zorunlu Bağlantılar:** [[../../brain.md]] · [[../../CLAUDE.md]] · [[../../.templates/index.md]] · [[../../log.md]]
 ```
 
 ### §3.4 Yaşam Döngüsü

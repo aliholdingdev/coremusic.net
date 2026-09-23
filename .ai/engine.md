@@ -2,7 +2,7 @@
 title: "CoreMusic - Orchestration Engine"
 type: system
 category: orchestration
-version: 20.0.0
+version: 21.0.0
 status: active
 authority: "Orchestration Index — SSOT: .ai/AGENTS.md (v22.0.0)"
 updated: 2026-09-23
@@ -218,15 +218,15 @@ Alt agent'lar belirsizlikle karşılaştığında stdout'ta şu format kullanıl
 | Vault MD dosyası | 741 | `Get-ChildItem .ai -Recurse -Filter *.md` |
 | Vault toplam satır | 136.261 | `Measure-Object -Line` toplamı |
 | Ortalama satır/dosya | 184 | Toplam ÷ dosya |
-| Kök boot dosyası | 12 | `.ai/*.md` (glossary.md dahil) |
+| Kök boot dosyası | 14 | `.ai/*.md` (glossary.md dahil) |
 | ADR accepted | 70 dosya (67 ADR + 3 meta) | `decisions/accepted/*.md` sayımı |
 | ADR rejected | 15 dosya (12 R + 3 meta) | `decisions/rejected/*.md` sayımı |
 | ADR toplam kapsam | 001-088 (79 karar) | index.md §5 cross-check |
 | Skill klasörü | 10/10 mevcut | `.opencode/skills/` Test-Path |
-| Template | 25 (+ adr-index.md) | `.ai/.templates/` sayımı |
+| Template | 19 (.md, sahip doğrulaması — disk glob 26: ⚠️ VERIFICATION REQUIRED) | `.ai/.templates/` sayımı |
 | Mockup PNG | 19 (12 home-1024 + 1 home-1920 + 6 shared-1024) | `.ai/.png/` sayımı |
 | SQL şema | 18 dosya | `.ai/.sql/mysql/` sayımı |
-| Fiziksel domain | 5 (shared, packages, auth, home, assets) | Test-Path kök dizinler |
+| Fiziksel domain | 4 (shared, auth, home, assets) | Test-Path kök dizinler |
 
 ### 7.3 İzleme Protokolleri
 
@@ -602,7 +602,7 @@ verified-against: "kod yolu listesi"
 | 1 | Satır sayacı | Kapsamdaki her dosya ≥500 (boş-hariç) | dosya → satır listesi |
 | 2 | İzlenebilirlik | Her dosyada kanıt yolu / `DOĞRULAMA GEREKLİ` etiketi | bölüm referansları |
 | 3 | Kırık referans | Yeni `[[...]]` hedefleri Test-Path | 0 kırık hedef |
-| 4 | Sayım tutarlılığı | PNG 19, ADR 79, root 12, total_files 787 | boot dosyaları birleşik |
+| 4 | Sayım tutarlılığı | PNG 19, ADR 79, root 14, total_files 518 | boot dosyaları birleşik |
 | 5 | IMPLEMENTED/PLANNED | Kod iddiaları etiketli | domain matris güncel |
 | 6 | log.md append | Faz özeti + dosya listesi + timestamp | audit kayıt no |
 | 7 | Structure korunumu | Silinen başlık/bölüm yok (yalnız düzeltme + ekleme) | edit sayısı raporu |
@@ -654,5 +654,5 @@ Sonraki faz:      Faz 2 (architecture/) — önkoşul: Faz 1 kapanış raporu
 ---
 
 *Orchestration Engine v21.0.0 — CoreMusic Enterprise*
-*Last Updated: 2026-09-08*
+*Last Updated: 2026-09-23*
 *Mode: Red Team · Human Mode · Truth Mode*

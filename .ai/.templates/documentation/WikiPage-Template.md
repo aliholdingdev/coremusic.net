@@ -310,7 +310,7 @@ Wiki sayfası yazımında uygulanan zorunlu/yasak kurallar. Çapraz referans bü
 
 | Hata | Yanlış | Doğru |
 |------|--------|-------|
-| Mutlak yol | `[[.ai/CLAUDE.md]]` | `[[../CLAUDE.md]]` (göreli) |
+| Mutlak yol | `[[../../CLAUDE.md]]` | `[[../CLAUDE.md]]` (göreli) |
 | Eklenti tekrarı | `[[file.md]]` vs `[[file]]` | Vault içi tutarlı biçim |
 | Hedefsiz link | `[[olmayan-dosya]]` | `⚠️ VERIFICATION REQUIRED` veya sil |
 | ADR düzenleme | frozen metni değiştirmek | Yalnız `[[ADR-NNN-...]]` referansı |

@@ -203,7 +203,7 @@ Sistem analizi → mimari → API sözleşmesi → DB → auth → session → m
 | Sistem analizi | Faz 0 cross-check (bu revizyon) | TAMAMLANDI |
 | Mimari | ADR seti (79 karar) + architecture/ | DOKÜMANTE |
 | API sözleşmesi | architecture/03-contracts (36+3 dosya) | DOKÜMANTE |
-| DB | .ai/.sql/mysql (18 şema) + migrations/ | ŞEMA HAZIR |
+| DB | .ai/.sql/mysql (18 şema) + migrations/ | ŞEMA HAZIR |
 | Auth | auth.coremusic.net (IMPLEMENTED) | KOD VAR |
 | Session | SessionManager + SessionInitializer | KOD VAR (kopya sorunu: engine §8.1 #1) |
 | Middleware | 4 IMPLEMENTED middleware sınıfı | KOD VAR |
@@ -408,7 +408,7 @@ OWASP Top 10:2025, CSRF, CSP, rate limiting, prepared statements, RBAC.
 
 CoreMusic, bireysel kullanıcılar, profesyoneller, stüdyolar, araç içi ve ev medya merkezleri için tasarlanmış dijital medya yönetim platformu.
 
-**Fiziksel gerçeklik (Faz 0):** Şu an kodda mevcut bileşenler: shared altyapı, packages/shared, auth servisi, home servisi, statik asset servisi (5). Diğer 9 domain (api, music, admin, car, studio, pro, media, download, landing) hedef mimaride tanımlı, kod yok.
+**Fiziksel gerçeklik (Faz 0):** Şu an kodda mevcut bileşenler: shared altyapı, auth servisi, home servisi, statik asset servisi (4). Diğer 9 domain (api, music, admin, car, studio, pro, media, download, landing) hedef mimaride tanımlı, kod yok.
 
 ---
 
@@ -675,6 +675,6 @@ Komutlar PowerShell 5.1 uyumludur ve Faz 0 taramasında (2026-09-08) fiilen çal
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-08
+**Last Updated:** 2026-09-23
 **Mode:** Red Team · Human Mode · Truth Mode
 

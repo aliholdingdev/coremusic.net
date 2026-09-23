@@ -11,7 +11,7 @@ authority: SSOT
 
 # PHPUnit Test Template — Backend Test Şablonu
 
-**Zorunlu Bağlantılar:** [[.ai/index]] · [[.ai/brain]] · [[.ai/.templates/index]] · [[shared/tests/index]]
+**Zorunlu Bağlantılar:** [[../../index]] · [[../../brain]] · [[../../.templates/index]] · [[shared/tests/index]]
 
 ---
 

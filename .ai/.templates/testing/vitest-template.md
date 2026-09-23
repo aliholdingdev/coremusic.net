@@ -11,7 +11,7 @@ authority: SSOT
 
 # Vitest Frontend Test Template — JS/React Test Şablonu
 
-**Zorunlu Bağlantılar:** [[.ai/index]] · [[.ai/brain]] · [[.ai/.templates/index]] · [[.ai/.templates/frontend/js-template]]
+**Zorunlu Bağlantılar:** [[../../index]] · [[../../brain]] · [[../../.templates/index]] · [[../../.templates/frontend/js-template]]
 
 ---
 

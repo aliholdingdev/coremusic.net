@@ -11,7 +11,7 @@ authority: SSOT
 
 # CoreMusic — C11 Embedded Driver Template (GCC / ISR / MMIO)
 
-**Zorunlu Bağlantılar:** [[.ai/.templates/index.md]] · [[.ai/CLAUDE.md]] · [[.ai/brain.md]] · [[.ai/.templates/other/cpp-template.md]] · [[.ai/log.md]]
+**Zorunlu Bağlantılar:** [[../../.templates/index.md]] · [[../../CLAUDE.md]] · [[../../brain.md]] · [[../../.templates/other/cpp-template.md]] · [[../../log.md]]
 
 ---
 
@@ -19,7 +19,7 @@ authority: SSOT
 
 Bu şablon, CoreMusic donanım katmanında **C11 + GCC** ile yazılacak gömülü sürücü kodunu (I2C/SPI register erişimi, ISR, memory-mapped I/O, DMA ring) standartlaştırır.
 
-> **Truth Mode (§1.1):** **Saf C sürücü kodu CoreMusic'te şu an bulunmuyor — bu şablon hazır bulunduruluyor.** Kanıt: `glob('**/*.{c,h}')` → 0 dosya (2026-09-23). Neva Engine'in mevcut ses kodu C++20/JUCE'dir (`[[.ai/.templates/other/cpp-template.md]]`, `glob('**/*.cpp')` → bkz. §2.1). XMOS XU316 firmware'i (ADR-017) için C gerekirse bu şablon devreye girer.
+> **Truth Mode (§1.1):** **Saf C sürücü kodu CoreMusic'te şu an bulunmuyor — bu şablon hazır bulunduruluyor.** Kanıt: `glob('**/*.{c,h}')` → 0 dosya (2026-09-23). Neva Engine'in mevcut ses kodu C++20/JUCE'dir (`[[../../.templates/other/cpp-template.md]]`, `glob('**/*.cpp')` → bkz. §2.1). XMOS XU316 firmware'i (ADR-017) için C gerekirse bu şablon devreye girer.
 
 ### §1.1 Truth Mode Durum Tablosu
 
@@ -473,16 +473,16 @@ grep -rn "(volatile" drivers/mmio.h                 # → her MMIO'da volatile
 glob('**/*.{c,h}')                                  # → Truth Mode §1.1
 ```
 
-**REFACTOR REPORT:** FILE: c-template.md · PURPOSE: C11 Embedded Driver Template (GCC/ISR/MMIO) · VALIDATION: 7 alan + §1-§7 + cpp farkları §1.2 + bilgi korunumu · RELATED: [[.ai/.templates/index.md]] · [[.ai/.templates/other/cpp-template.md]]
+**REFACTOR REPORT:** FILE: c-template.md · PURPOSE: C11 Embedded Driver Template (GCC/ISR/MMIO) · VALIDATION: 7 alan + §1-§7 + cpp farkları §1.2 + bilgi korunumu · RELATED: [[../../.templates/index.md]] · [[../../.templates/other/cpp-template.md]]
 
 ---
 
 ## §7. Referanslar
 
-- [[.ai/.templates/index.md]] — şablon registry
-- [[.ai/CLAUDE.md]] — AI anayasası, Hard Guardrails
-- [[.ai/AGENTS.md]] — routing (§6: C++/ASIO/DSP → Embedded; XMOS/I2S → DSP Firmware Engineer)
-- [[.ai/.templates/other/cpp-template.md]] — kalıp kaynak + §1.2 fark tablosunun muhatabı
+- [[../../.templates/index.md]] — şablon registry
+- [[../../CLAUDE.md]] — AI anayasası, Hard Guardrails
+- [[../../AGENTS.md]] — routing (§6: C++/ASIO/DSP → Embedded; XMOS/I2S → DSP Firmware Engineer)
+- [[../../.templates/other/cpp-template.md]] — kalıp kaynak + §1.2 fark tablosunun muhatabı
 - `.ai/brain.md` — §13 ADR listesi
 
 İlgili ADR'ler:
@@ -495,7 +495,7 @@ glob('**/*.{c,h}')                                  # → Truth Mode §1.1
 | ADR-062 | DSP Pipeline Architecture | §3.4 main döngüsü hattı |
 | ADR-005 | Zero hallucination | §3.3 register adresi doğrulaması |
 
-> ⚠️ ADR dosyaları diskte ayrı `.md` olarak bulunmamaktadır (bkz. [[.ai/.templates/adr/adr-index.md]] §2.0); numaralar `brain.md` §13 kaynaklıdır.
+> ⚠️ ADR dosyaları diskte ayrı `.md` olarak bulunmamaktadır (bkz. [[../../.templates/adr/adr-index.md]] §2.0); numaralar `brain.md` §13 kaynaklıdır.
 
 ### §7.1 Şablon Karşılaştırma Tablosu (C ↔ C++ ↔ ASP.NET)
 

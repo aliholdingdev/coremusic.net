@@ -11,7 +11,7 @@ authority: SSOT
 
 # CoreMusic — Ses/Audio ADR Şablonu (Sinyal / DSP / Latency / Donanım)
 
-**Zorunlu Bağlantılar:** [[.ai/brain.md]] · [[.ai/CLAUDE.md]] · [[.ai/.templates/adr/adr-template.md]] · [[.ai/.templates/other/cpp-template.md]] · [[.ai/log.md]]
+**Zorunlu Bağlantılar:** [[../../brain.md]] · [[../../CLAUDE.md]] · [[../../.templates/adr/adr-template.md]] · [[../../.templates/other/cpp-template.md]] · [[../../log.md]]
 
 ---
 

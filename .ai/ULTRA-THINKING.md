@@ -4,7 +4,7 @@ type: protocol
 category: ai
 title: "AI Düşünme Protokolü — Ultra Thinking Protocol"
 date: 2026-09-19
-updated: 2026-09-19
+updated: 2026-09-23
 status: active
 version: 2.0.0
 authority: Single Source of Truth (SSOT)
@@ -51,28 +51,28 @@ CoreMusic projesinde çalışan tüm AI agentlarının kullanacağı **düşünm
 │  │    Uzun vadeli etki, mimari bütünlük, teknik borç          │   │
 │  │    Tetikleyici: Yeni özellik, mimari değişiklik, ADR       │   │
 │  │    Araçlar: ADR-087 Master Plan, architecture/index.md     │   │
-│  │    Süre: 5-15 dakika思考 süresi                             │   │
+│  │    Süre: 5-15 dakika düşünme süresi                        │   │
 │  └─────────────────────────────────────────────────────────────┘   │
 │  ┌─────────────────────────────────────────────────────────────┐   │
 │  │ KATMAN 3: TAKTİKSEL DÜŞÜNME                               │   │
 │  │    Kısa vadeli çözüm, optimizasyon, performans             │   │
 │  │    Tetikleyici: Bug fix, refactor, optimizasyon            │   │
 │  │    Araçlar: brain.md, ADR kararları, glossary              │   │
-│  │    Süre: 3-8 dakika思考 süresi                              │   │
+│  │    Süre: 3-8 dakika düşünme süresi                         │   │
 │  └─────────────────────────────────────────────────────────────┘   │
 │  ┌─────────────────────────────────────────────────────────────┐   │
 │  │ KATMAN 2: OPERASYONEL DÜŞÜNME                              │   │
 │  │    Günlük görevler, bug düzeltmeleri, test                 │   │
 │  │    Tetikleyici: Debug, test yazma, küçük düzeltme          │   │
 │  │    Araçlar: log.md, MEMORY.md, session context             │   │
-│  │    Süre: 1-3 dakika思考 süresi                              │   │
+│  │    Süre: 1-3 dakika düşünme süresi                         │   │
 │  └─────────────────────────────────────────────────────────────┘   │
 │  ┌─────────────────────────────────────────────────────────────┐   │
 │  │ KATMAN 1: TEMEL DÜŞÜNME                                    │   │
 │  │    Kod okuma, dosya arama, basit sorular                   │   │
 │  │    Tetikleyici: Dosya okuma, arama, açıklama isteği        │   │
 │  │    Araçlar: Read, Grep, Glob, smart_outline                │   │
-│  │    Süre: 0-1 dakika思考 süresi                              │   │
+│  │    Süre: 0-1 dakika düşünme süresi                         │   │
 │  └─────────────────────────────────────────────────────────────┘   │
 │                                                                     │
 └─────────────────────────────────────────────────────────────────────┘
@@ -132,7 +132,7 @@ Güvenlik her zaman kazanır.
 
 **Durum 2: ADR vs Kullanıcı İsteği**
 ```
-ADR önceliklidir. Kullanıcıya ADR'nin neden这样设计 olduğu açıklanır.
+ADR önceliklidir. Kullanıcıya ADR'nin neden bu şekilde tasarlandığı açıklanır.
 Örnek: Kullanıcı "React kullanalım" der → ADR-001 Vanilla JS yasağı.
 Çözüm: Kullanıcıya ADR-001 gösterilir, alternatif Vanilla JS çözümleri sunulur.
 ```
@@ -328,14 +328,14 @@ Her kod yazımından **önce** bu 15 madde kontrol edilir:
 | DOMParser | innerHTML yerine DOMParser + TrustedTypes |
 | Event delegation | Tek event listener, bubbling ile yönetimi |
 | Async/await | Promise zincirleri yerine async/await |
-| ITCSS katmanı | CSS写的 önce hangi ITCSS katmanına ait olduğunu belirle |
+| ITCSS katmanı | CSS yazılırken önce hangi ITCSS katmanına ait olduğunu belirle |
 
 ### 8.3 Hardware (C++) İçin
 
 | Kural | Açıklama |
 |-------|----------|
 | Zero-allocation | Real-time ses işlemede bellek tahsisi yasak |
-| Lock-free | Multithread làmada kilit kullanma |
+| Lock-free | Multithread işlemede kilit kullanma |
 | noexcept | Tüm fonksiyonlarda noexcept belirtisi |
 | Cache-line alignment | 64-byte hizalama zorunlu |
 | RAII | Kaynak yönetimi için RAII pattern |

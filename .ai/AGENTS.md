@@ -463,6 +463,10 @@ Ajan dosyaya erişmek ister
 | 8 | `.ai/MEMORY.md` | Session hafızası |
 | 9 | `.ai/log.md` | Audit trail |
 | 10 | `.ai/ULTRA-THINKING.md` | Ultra düşünme protokolü |
+| 11 | `.ai/engine.md` | Orkestrasyon motoru — agent koordinasyonu |
+| 12 | `.ai/glossary.md` | Terim sözlüğü — kod-referanslı |
+| 13 | `.ai/VISION.md` | Vizyon ve yol haritası |
+| 14 | `.ai/PROJECTS.md` | Proje envanteri |
 
 #### §24.3 Domain-Based Reading
 
@@ -547,7 +551,7 @@ Her dosya için kontrol et:
 | Faz | Kapsam | Durum |
 |-----|--------|-------|
 | 0 | Envanter + kaynak kod cross-check | TAMAMLANDI |
-| 1 | Kök 12 boot dosyası (satır-satır edit, 500+ hedef) | ÇALIŞIYOR |
+| 1 | Kök 14 boot dosyası (satır-satır edit, 500+ hedef) | ÇALIŞIYOR |
 | 2 | architecture/ alt fazlar | Pending |
 | 3 | ecosystem, servers, subdomains, scripts | Pending |
 | 4 | ui-design çekirdek + tokens + flow | Pending |
@@ -574,7 +578,7 @@ Her dosya için kontrol et:
 
 #### §25.4 Boot List Compatibility
 
-Bu dosya §24.2 (10 dosya) ile [[MEMORY.md]] §5 (16 adım) arasındaki adım sayısı farkı bilinen durumdur: 16 adım listesi prompt arşivlerini (12-15) ve mockup indeksini (16) ekstra içerir. Faz 1'de arşiv yolları 2026-09-01'e hizalandı; iki listenin birleşik kanonik versiyonu [[CLAUDE.md]] §7A ve [[WORKFLOW.md]] §8.6'dır (13 dosya + frontend eki).
+Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sayısı farkı bilinen durumdur: §5 genişletilmiş okuma setidir (`.claude/rules/*`, prompt arşivleri ve mockup indeksi dahil). Kanonik kök boot listesi bu dosyanın §24.2'si ve [[WORKFLOW.md]] §8.7A'dır (14 .ai kök dosya); FULL boot 17 öğedir (root CLAUDE.md + root WORKFLOW.md + root README.md + 14 .ai kök dosya + 3 dizin: .workflows, .ai/.templates, .ai/.agents).
 
 ---
 

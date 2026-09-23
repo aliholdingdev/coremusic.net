@@ -11,7 +11,7 @@ authority: SSOT
 
 # Query Template (SQL) — Çekirdek Sorgu Şablonu
 
-**Zorunlu Bağlantılar:** [[.ai/index]] · [[.ai/brain]] · [[.ai/.templates/index]] · [[.ai/.sql/index]]
+**Zorunlu Bağlantılar:** [[../../index]] · [[../../brain]] · [[../../.templates/index]] · [[.ai/.sql/index]]
 
 ---
 

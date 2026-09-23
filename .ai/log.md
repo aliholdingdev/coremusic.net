@@ -250,7 +250,7 @@ governance: Red Team · Human Mode · Truth Mode
   - **Kontrol karakteri temizliği:** U+009E (§6 `DEĞİŞTİRİLEMEZ` içinde) ve U+0090 (§6B `→ Tek paket` içinde) silindi → kontrol/mojibake karakter = 0
   - **§6B cümle onarımı:** `tek Composer paketi:  bu bir **composer paketidir**` → ``Tek Composer paketi: `coremusic/shared` — bu bir **composer paketidir**.``
   - **§5.1 Layer Dependency Matrix:** yasaklı satırlar `✅ Hayır` → `❌ Hayır`; eksik `L6→L5`, `L5→L4`, `L4→L3` satırları eklendi (6 → 9 satır; boot kuralıyla uyumlu: L0→L3 ve L1→L3 asla)
-  - **SSOT dedup:** §1 "Felsefe" maddesi → [[VISION.md]] / [[PROJECTS.md]] linkine indirildi; §18A 23 satırlık template tablosu → [[.templates/index]] linkine indirildi (disk ağacıyla çelişiyordu: arduino/avr/pic template'leri diskte YOK; agents/cpp/hardware template'leri tabloda eksikti); `[[.ai/.templates/index]]` → `[[.templates/index]]` ×2
+  - **SSOT dedup:** §1 "Felsefe" maddesi → [[VISION.md]] / [[PROJECTS.md]] linkine indirildi; §18A 23 satırlık template tablosu → [[.templates/index]] linkine indirildi (disk ağacıyla çelişiyordu: arduino/avr/pic template'leri diskte YOK; agents/cpp/hardware template'leri tabloda eksikti); `[[.templates/index]]` → `[[.templates/index]]` ×2
   - **Faz 6 adlandırma hizası:** `00-mockup-index` → `01-mockup-index` ×4 · `01-component-inventory` → `02-component-inventory` ×3 · `responsive-device-mode.md` → `05-responsive-architecture.md` ×1 (tüm hedefler diskte mevcut)
   - **§29 Quality Report sayaç düzeltmesi:** Cross References 8 → 11 · Forbidden Patterns 10 → 11 · Edge Cases 10 → 9 · Glossary Terms 30+ → 75 (SSOT [[glossary]]) — diğer satırlar (Guardrails 16, Soft 4, Warnings 7, Skills 10, Profiles 11) sayaçlarla teyit edildi
   - **Korunanlar:** 16 guardrail satırı (1-14, 16, 17 — #15 boşluğu kasıtlı), 7 frontmatter alanı, 7 H2 + H1 = 8 bölüm, v27.0.0 (versiyon bump YOK), tüm `[[wiki-link]]` hedefleri, §31/§5/§16 içerikleri
@@ -280,3 +280,32 @@ governance: Red Team · Human Mode · Truth Mode
   - **Exec:** `C:/temp/opencode/ops-workflow.json` + `vault-patch.mjs` (geçici) → `vault-utf8-writer write` (vault yazımı tek arayüzden); PowerShell write cmdlet kullanılmadı; yedek `C:/temp/opencode/vault-backups/WORKFLOW.md.bak`
   - REFACTOR REPORT: FILE: WORKFLOW.md | PURPOSE: Vault Workflows & Processes SSOT — iskelet teyidi + terminoloji birleştirme + sayaç düzeltmesi + garble işaretleme | VALIDATION: mojibake 0 · FM 7/7 · bölüm 8/8 · S3 11 satır · S16 stub · Sousuz → VERIFICATION REQUIRED | RELATED: [[CLAUDE.md]] · [[AGENTS.md]] · [[brain.md]] · [[index.md]] · [[keys.md]] · [[MEMORY.md]] · [[reports/faz6-link-ledger]] · [[log.md]]
 | 2026-09-23 | vault-rewrite | Faz 2 tamamlandı: .templates 26 dosya / 12.549 satır — 16 şablon derin yeniden yazım + 7 yeni üretim (adr-frontend/database/security/audio/index, aspnet, c) + 500+ derinlik doğrulandı (24/24) | vault-updater |
+
+2026-09-23 23:10:00 | vault_normalization_14_root | agent=coremusic-vault-docs-specialist | scope=14 kök .ai dosyası normalizasyonu (sayı/versiyon/tarih/başlık/encoding; silme yok):
+  - Sahip doğrulaması yayılımı: toplam .md 518 (index fm 531→518, §18 787→518, engine §12.6 787→518, keys Vault Envanteri 787→518); kök boot 14 (index/engine/glossary/keys/MEMORY/WORKFLOW/AGENTS satırları); FULL boot 17 (MEMORY §24.2 + AGENTS §25.4); PNG 19 (index §2 satırı 18→19); template 19 (index 25→19, engine 25→19 + disk glob 26 VERIFICATION REQUIRED); fiziksel domain 4 — shared, auth, home, assets (ROLE §15, engine §7.2, glossary §11 packages sütunu kaldırıldı, index §19.3 satır 2).
+  - Quality↔frontmatter hizası (higher-wins): engine fm 20.0.0→21.0.0, glossary Quality 2.0.0→2.1.0, keys Quality 28.0.0→28.2.0, MEMORY fm 24.5.0→25.0.0, brain Quality 25.0.0→26.0.0; index §18 Versiyon 27.2.0→28.1.
+  - Mükerrer bölüm başlıkları: VISION §20 Quality→§21 (+Sections 20→21), PROJECTS §16 Quality→§17 (+Sections 16→17).
+  - Encoding: brain C1×6, ROLE C1×2 temizlendi; ULTRA-THINKING CJK/Vietnamca artıkları 7 satırda düzeltildi (思考×4, 这样设计,写的, làmada); PROJECTS 拓扑→Topoloji.
+  - Sahte çapraz referans düzeltmesi: MEMORY §24.2 ve AGENTS §25.4 kanonik kaynak iddiası CLAUDE §16/§7A → AGENTS §24.2 + WORKFLOW §8.7A olarak düzeltildi.
+  - ATLANANLAR (gerekçeli): CLAUDE.md `Sections | 8` (önceki seans 8-bölüm iskeleti olarak doğruladı — 8→33 SAHİP ONAYI GEREKİR); engine §7.2 başlık/741/136.261, §12.7 örnek Faz Raporu, index §19.1/§19.2 tarihsel sayım satırları, MEMORY Max-36sn (satır 112) + satır 577 tarihsel, AGENTS/WORKFLOW/CLAUDE Quality `Sections | 8` iskelet metrikleri, glossary §3/§4 packages kod-kanıtı satırları, skills sayıları (sahip erteledi), index §23.2 `total_files: 850` tarihsel not.
+  - BOŞLUK: .ai/scripts/session-save.mjs ve vault-post-update.mjs diskte YOK — post-op senkron betikleri çalıştırılamadı; bu giriş sync kaydı olarak hizmet eder.
+  - Yazım: node .ai/scripts/vault-utf8-writer.mjs (12 dosya write + log append + verify); yedekler C:/temp/opencode/vault-backups. CLAUDE.md bu turda değiştirilmedi (C1=0, Sections atlandı).
+  - REFACTOR REPORT: FILES: index, engine, glossary, keys, MEMORY, WORKFLOW, AGENTS, ROLE, VISION, PROJECTS, ULTRA-THINKING, brain, log (append) · PURPOSE: sayı/versiyon/tarih/başlık/encoding tutarlılığı · VALIDATION: iddia-sayımlı geçici besteci + writer verify · RELATED: [[index.md]] [[keys.md]] [[MEMORY.md]] [[AGENTS.md]] [[WORKFLOW.md]] [[engine.md]] [[glossary.md]]
+
+## Quality Report
+
+| Metrik | Değer |
+|--------|-------|
+| Version | 1.1.0 |
+| Sections | N/A (append-only defter) |
+| Last Updated | 2026-09-23 |
+| 2026-09-23 | vault-rewrite | Faz 3 tamamlandı: .ai/.agents/ 12/12 dosya yeniden yazım (7 Faz 3a + 5 Faz 3b) — tümü 500+ satır, mojibake 0, CJK 0, IMPLEMENTED/PLANNED etiketli | vault-updater |
+
+## 2026-09-24 00:33 — Faz 6-B Birleşim: paralel oturum (S282) birikimi + final kapı
+
+- KAPSAM: Diğer oturumun commitsiz son işi (11 profil + 12 kök/boot + .agents registry + log) ve kendi 3 commit'i (83db410 silme / 453cf01 şablon-tamamlama / 7287d89 boot-cila) bu gisle alındı; benim FIX-A = 100 `.ai/`-onekli wiki-link hedef-eşlemeli onarım + FP 25→69 (şablon örnek-hedefleri).
+- KAPI (faz6-ayni mantik): 358 link / 277 hedef (baseline 351/278) · YENI GERCEK KIRIK 0 · kabul 1 (stale `[[../../.workflows/session.md]]`, gerçek hedef session-init — semantik tahmin yok) · FM7 regresyon 0 · mojibake 0 (log meta-alıntı hariç) · non-utf8 0 · CJK dokunulan 0 · baseline regresyon 0 → PASS.
+- INDEX: total_files 518 → 538 (faz6 bazı 531 + 7 yeni şablon), updated 2026-09-24.
+- UYARI (engel değil): 4 şablonda bölüm etiketi birleşimi (cpp/Query/phpunit/vitest); miras CJK ~100 dosya (architecture/ui-design/ecosistem + bu logun meta-alıntıları) kapsam-dışı rapor.
+- DEFTER: ADR-sınıfı 216 KRITIK + 134 ledger = [[reports/faz6-link-ledger.md]] geçerli; ADR-rebuild 3 seçenek sahip kararı bekliyor.
+- RELATED: [[reports/faz6-link-ledger.md]] [[index.md]] [[AGENTS.md]] [[.templates/index]]

@@ -4,7 +4,7 @@ type: project
 category: core
 title: "CoreMusic — Proje Tanımı, Yetenekler, Ekosistem Modeli ve Proje Envanteri"
 date: 2026-09-19
-updated: 2026-09-19
+updated: 2026-09-23
 status: active
 version: 3.0.0
 authority: Single Source of Truth (SSOT)
@@ -313,7 +313,7 @@ CoreMusic, her sektörel ihtiyacı ayrı bir alt alan adı (*subdomain*) ile dik
 #### 7.2.2 Güç Kaynağı — ±35V LM5122 Boost (K17)
 | Özellik | Değer |
 |---------|-------|
-|拓扑 | LM5122 Dual Interleaved Boost |
+| Topoloji | LM5122 Dual Interleaved Boost |
 | Giriş | 6S LiPo (22.2V nominal) veya 19-24V DC adapter |
 | Çıkış | ±35V simetrik |
 | Güç | 800W |
@@ -685,13 +685,13 @@ jobs:
 
 ---
 
-## 16. Quality Report
+## 17. Quality Report
 
 | Metrik | Değer |
 |--------|-------|
 | Version | 3.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
-| Sections | 16 |
+| Sections | 17 |
 | Total Lines | 500+ |
 | Cross References | 7 (Zorunlu Bağlantılar) |
 | Software Projects | 13 (detaylı) |
@@ -711,6 +711,6 @@ jobs:
 
 **Authority:** Bayram Ali / Vault Steward
 **Kaynak Doküman:** Freelancer Technical Documentation v1.0 (CoreMusic: Software Audio Hardware AI)
-**Last Updated:** 2026-09-19
+**Last Updated:** 2026-09-23
 **Version:** 3.0.0
 **Mode:** Red Team · Human Mode · Truth Mode

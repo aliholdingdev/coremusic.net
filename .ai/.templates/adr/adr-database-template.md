@@ -11,7 +11,7 @@ authority: SSOT
 
 # CoreMusic — Veritabanı ADR Şablonu (Şema / BCNF / Index / Migration)
 
-**Zorunlu Bağlantılar:** [[.ai/brain.md]] · [[.ai/CLAUDE.md]] · [[.ai/.templates/adr/adr-template.md]] · [[.ai/.templates/index.md]] · [[.ai/log.md]]
+**Zorunlu Bağlantılar:** [[../../brain.md]] · [[../../CLAUDE.md]] · [[../../.templates/adr/adr-template.md]] · [[../../.templates/index.md]] · [[../../log.md]]
 
 ---
 

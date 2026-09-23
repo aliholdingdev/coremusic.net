@@ -354,7 +354,7 @@ Müzik Dosyası → Metadata Çıkarma → DB Kaydı → İndeksleme → Arama �
 | New Feature | 20-Fazlı lifecycle, Phase 7 Hard Gate |
 | Security Audit | OWASP Top 10:2025 tam liste, ADR referanslı |
 | Deployment | Pre-flight + post-flight, Hard Gate |
-| Session Init | 10 dosya, 25s timeout, 5 soru |
+| Session Init | 14 dosya, 25s timeout, 5 soru |
 | Vault Sync | 5 soru + 6 adım, wiki-link doğrulama |
 | YAML Formatter | 2 boşluk girinti, single-quote, 120 char limit |
 
@@ -541,7 +541,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 
 | Adım | Aksiyon | Süre |
 |------|---------|------|
-| 1 | Boot protokolünü çalıştır (13 dosya) | Max 36s |
+| 1 | Boot protokolünü çalıştır (14 dosya) | Max 36s |
 | 1.5 | ROLE.md oku (Senior Architect rol tanımı) | Max 3s |
 | 2a | prompt0 oku (Genel Ana Prompt) | [[archives/prompt0-genel-ana-prompt-2026-09-01]] | 5s |
 | 2b | prompt1 oku (SPA Router) | [[archives/prompt1-spa-router-2026-09-01]] | 3s |
@@ -577,7 +577,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 
 **⚠️ ZORUNLULUK:** Her session başında ve sonunda `.ai/` dizinindeki tüm root .md dosyaları okunmalı ve güncellenmelidir.
 
-#### Root .md Files (12 — added in glossary Phase 1)
+#### Root .md Files (14 — added in glossary Phase 1)
 
 | # | Dosya | Amaç | Session Başında | Session Sonunda |
 |---|-------|------|-----------------|-----------------|
@@ -593,17 +593,19 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 10 | `ROLE.md` | Rol tanımı | ✅ Oku | ✅ Gerekirse güncelle |
 | 11 | `ULTRA-THINKING.md` | Ultra düşünme protokolü | ✅ Oku | ✅ Gerekirse güncelle |
 | 12 | `glossary.md` | Terim sözlüğü (75 terim, kod-referanslı) | ✅ Oku | ✅ Gerekirse güncelle |
+| 13 | `VISION.md` | Vizyon ve yol haritası | ✅ Oku | ✅ Gerekirse güncelle |
+| 14 | `PROJECTS.md` | Proje envanteri | ✅ Oku | ✅ Gerekirse güncelle |
 
-#### Per Session (12 Files)
+#### Per Session (14 Files)
 
 | Adım | Aksiyon | Kontrol |
 |------|---------|---------|
-| 1 | Tüm 12 root .md dosyasını oku | Dosya var mı? |
+| 1 | Tüm 14 root .md dosyasını oku | Dosya var mı? |
 | 2 | Son değişiklikleri kontrol et | `git log` veya timestamp |
 | 3 | Çelişki varsa düzelt | SSOT hierarchy: CLAUDE.md > AGENTS.md > WORKFLOW.md |
 | 4 | Eksik referansları tespit et | Wiki-link kontrolü |
 
-#### End of Session (12 Files)
+#### End of Session (14 Files)
 
 | Adım | Aksiyon | Kontrol |
 |------|---------|---------|
@@ -618,17 +620,17 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 
 ```
 Session Başında:
-  CLAUDE.md → AGENTS.md → WORKFLOW.md → brain.md → index.md → keys.md → MEMORY.md → log.md → engine.md → ROLE.md → ULTRA-THINKING.md → glossary.md
+  CLAUDE.md → AGENTS.md → WORKFLOW.md → brain.md → index.md → keys.md → MEMORY.md → log.md → engine.md → ROLE.md → ULTRA-THINKING.md → glossary.md → VISION.md → PROJECTS.md
 
 Session Sonunda:
-  MEMORY.md → log.md → brain.md → index.md → keys.md → engine.md → AGENTS.md → WORKFLOW.md → CLAUDE.md → ROLE.md → ULTRA-THINKING.md → glossary.md
+  MEMORY.md → log.md → brain.md → index.md → keys.md → engine.md → AGENTS.md → WORKFLOW.md → CLAUDE.md → ROLE.md → ULTRA-THINKING.md → glossary.md → VISION.md → PROJECTS.md
 ```
 
 #### Critical Rules
 
 | # | Kural | İhlal Sonucu |
 |---|-------|--------------|
-| 1 | Session başında 12 dosya okunmadan kod yazılamaz | İşlem durdurulur |
+| 1 | Session başında 14 dosya okunmadan kod yazılamaz | İşlem durdurulur |
 | 2 | Session sonunda değişen dosyalar güncellenmezse vault tutarsızlığı | CRITICAL log |
 | 3 | Çelişki varsa SSOT hierarchy takip edilir | CLAUDE.md öncelikli |
 | 4 | Timestamp'ler her zaman güncel olmalı | Eski timestamp = eski bilgi |
