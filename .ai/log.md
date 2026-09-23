@@ -204,3 +204,11 @@ governance: Red Team · Human Mode · Truth Mode
   - **Boot-liste uzlaşması kaydedildi:** kanonik = CLAUDE §16 (13 dosya); MEMORY §5 = genişletilmiş 16-adım seti; AGENTS §25.4 çapraz referans
   - **log.md:** append-only korundu (Faz 1 girdisi + bu girdi)
   - **Link kapısı:** 0 yeni kırık link (brain/MEMORY taraması temiz)
+
+- 2026-09-23 21:05:00 | vault_refactor_engine_faz3 | session=current | **FAZ 3 — NAVİGASYON (Vault Refactor Engine):**
+  - **Dosyalar (3):**
+    1. `.ai/index.md` v28.0.0→v28.1.0 — **eksik frontmatter alanları tamamlandı** (category/status/updated yoktu) + §23 (iskelet eşlemesi + Faz 3 doğrulama)
+    2. `.ai/keys.md` v28.1.0→v28.2.0 — frontmatter + §19 (iskelet eşlemesi + REFACTOR REPORT)
+    3. `.ai/glossary.md` v2.0.0→v2.1.0 — frontmatter + §13 (iskelet eşlemesi + REFACTOR REPORT)
+  - **SSOT conflict defterine işlendi (Faz 6):** index `total_files: 850` + `total_adr: 79` yeniden sayılacak; CLAUDE ADR aralığı 001-088 ile çelişiyor; `total_files` 14 kök + 12 .agents + 19 template sayımı ile doğrulanacak
+  - **Link kapısı:** 0 yeni kırık link (yeni eklenen tüm [[wiki-link]]'ler çözüldü)

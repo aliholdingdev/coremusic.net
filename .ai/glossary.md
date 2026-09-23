@@ -4,9 +4,9 @@ type: system
 category: reference
 title: "CoreMusic — Glossary"
 date: 2026-08-19
-updated: 2026-09-18
+updated: 2026-09-23
 status: active
-version: 2.0.0
+version: 2.1.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -663,6 +663,35 @@ Sürüm sorumlusu: Vault Steward; her terim eklemesi Faz kontrol listesinin (eng
 
 ---
 
+## 13. Doküman İskeleti (8-Bölüm Uyumu — Vault Refactor Engine 2026-09-23)
+
+> **Not:** v2.0.0 → v2.1.0 (normalize: minor+1); satır-edit + ekleme (ADR-042), §1-§12 korundu.
+
+### 13.1 İskelet Eşlemesi
+
+| İskelet Bölümü | Karşılık Gelen § |
+|----------------|------------------|
+| Başlık | H1 + frontmatter (7 zorunlu alan) |
+| Amaç | §1 Amaç |
+| Kapsam | §2 Sözlük (Kanonik 32 Terim) |
+| Mimari | §3 Teknoloji Yığını Terimleri + §11 Kavram Haritası (ASCII) |
+| Kurallar | §7 Yazım ve Kullanım Kuralları |
+| Workflow | §4-§6 (Kullanım/Proje/ADR haritaları) + §9 Agent → Terim Hattı |
+| Doğrulama | §8 Doğrulama Kaydı + §10 Quality Report + bu bölüm §13.2 |
+| Referanslar | §6 Terim → ADR Eşlemesi + §12 Terim Versiyon Geçmişi |
+
+### 13.2 Faz 3 Doğrulama (2026-09-23)
+
+- [x] Frontmatter 7 alan tam; version 2.1.0; updated 2026-09-23
+- [x] §1-§12 korundu, silme yok; yeni bölüm §13 eklendi
+- [x] REFACTOR REPORT: FILE: glossary.md · PURPOSE: Kanonik terim sözlüğü SSOT · VALIDATION: § + link korundu · RELATED: [[index.md]] · [[keys.md]] · [[CLAUDE.md]] · [[brain.md]] · [[log.md]]
+
+### 13.3 İlgili Dosyalar
+
+[[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[index.md]] · [[keys.md]] · [[log.md]]
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-08
+**Last Updated:** 2026-09-23
 **Mode:** Red Team · Human Mode · Truth Mode

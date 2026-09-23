@@ -1,8 +1,11 @@
 ---
-title: "CoreMusic Vault — Master Index"
+title: "CoreMusic Vault - Master Index"
 type: system
+category: vault-navigation
+status: active
 authority: SSOT
-version: 28.0.0
+version: 28.1.0
+updated: 2026-09-23
 total_files: 850
 total_adr: 79
 ---
@@ -654,6 +657,35 @@ Bu bölüm, vault genelinde tespit edilen kırık referans kümelerini ve çöz�
 
 ---
 
+## 23. Doküman İskeleti (8-Bölüm Uyumu — Vault Refactor Engine 2026-09-23)
+
+> **Not:** v28.0.0 → v28.1.0; eksik frontmatter alanları tamamlandı (category, status, updated). Satır-edit + ekleme (ADR-042), §1-§22 korundu.
+
+### 23.1 İskelet Eşlemesi
+
+| İskelet Bölümü | Karşılık Gelen § |
+|----------------|------------------|
+| Başlık | H1 + frontmatter (7 zorunlu alan — bu turda category/status/updated eklendi) |
+| Amaç | §1 Amaç |
+| Kapsam | §2 Quick Reference + §3 SSOT Core Dosyaları (13 Dosya) |
+| Mimari | §4-§4A (L0-L6 + UI Design) + §6-§8 (Panel/Servis/Agent/DB) + §10 Donanım |
+| Kurallar | §11B Skills (Guardrail #16) + §12 Vault Altyapısı + [[CLAUDE.md]] §16 |
+| Workflow | §13-§14 (Deployment + Tiers) + §19-§20 (Faz doğrulama + stack özeti) |
+| Doğrulama | §19 Faz 1 Anlık Görüntü + §21 Kırık Referans Kataloğu + bu bölüm §23.2 |
+| Referanslar | §17 Cross References + §18 Metadata + §22 PDF |
+
+### 23.2 Faz 3 Doğrulama (2026-09-23)
+
+- [x] Frontmatter 7 alan TAMAMLANDI (category/status/updated eksikti); version 28.1.0
+- [x] `total_files: 850` + `total_adr: 79` → **yeniden sayım Faz 6'ya ertelendi** (ADR aralığı CLAUDE'da 001-088 ile çelişiyor — SSOT conflict defterine işlendi)
+- [x] §1-§22 korundu, silme yok; yeni bölüm §23 eklendi
+
+### 23.3 İlgili Dosyalar
+
+[[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[keys.md]] · [[glossary.md]] · [[MEMORY.md]] · [[log.md]]
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-05
+**Last Updated:** 2026-09-23
 **Mode:** Red Team · Human Mode · Truth Mode

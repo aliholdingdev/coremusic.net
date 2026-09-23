@@ -4,9 +4,9 @@ title: "CoreMusic — Vault Keyword Map & Concept Router"
 type: system
 category: vault-navigation
 date: 2026-08-12
-updated: 2026-09-18
+updated: 2026-09-23
 status: active
-version: 28.1.0
+version: 28.2.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -656,6 +656,35 @@ P3: testing/*, ui-design/*, personas/*
 
 ---
 
+## 19. Doküman İskeleti (8-Bölüm Uyumu — Vault Refactor Engine 2026-09-23)
+
+> **Not:** v28.1.0 → v28.2.0 (normalize: minor+1); satır-edit + ekleme (ADR-042), §1-§18 korundu.
+
+### 19.1 İskelet Eşlemesi
+
+| İskelet Bölümü | Karşılık Gelen § |
+|----------------|------------------|
+| Başlık | H1 + frontmatter (7 zorunlu alan) |
+| Amaç | §1 Amac |
+| Kapsam | §2-§10 (Core/Layer/Security/DB/Audio/HW/AI/Panel/Theme/ADR keyword grupları) |
+| Mimari | §3 L0-L6 Layer Keywords + [[brain.md]] §5 |
+| Kurallar | §12 Navigation Rules (ADR-042 Uyumlu) + §15 Critical Warnings |
+| Workflow | §11 Decision Tree + §13 Troubleshooting + §14 Quick Reference |
+| Doğrulama | §17 Quality Report + bu bölüm §19.2 |
+| Referanslar | §16 Cross References + §18 PDF Keyword Haritası |
+
+### 19.2 Faz 3 Doğrulama (2026-09-23)
+
+- [x] Frontmatter 7 alan tam; version 28.2.0; updated 2026-09-23
+- [x] §1-§18 korundu, silme yok; yeni bölüm §19 eklendi
+- [x] REFACTOR REPORT: FILE: keys.md · PURPOSE: Keyword router SSOT · VALIDATION: § + link korundu · RELATED: [[index.md]] · [[CLAUDE.md]] · [[glossary.md]] · [[log.md]]
+
+### 19.3 İlgili Dosyalar
+
+[[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[index.md]] · [[glossary.md]] · [[log.md]]
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-08-19
+**Last Updated:** 2026-09-23
 **Mode:** Red Team · Human Mode · Truth Mode
