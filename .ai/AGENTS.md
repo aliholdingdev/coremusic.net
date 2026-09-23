@@ -39,7 +39,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 
 ### §2.1 Registry Authority
 
-Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` alt registry (profil detayları) olarak hizmet eder (§26.2). Çelişkide kök dosya kazanır.
+Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil indeksi** olarak hizmet eder — v1.0.0 iken kendi SSOT iddiasını taşırken Faz 4'te (2026-09-23) demote edilmiştir: v1.1.0, `authority: Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)` (detay §26.2). Çelişkide kök dosya kazanır.
 
 ---
 
@@ -84,7 +84,104 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` alt registry 
 
 ---
 
-## 6. Keyword → Agent Yönlendirmesi
+### §15 Agent Details
+
+| # | Agent | Katman | Teknoloji | Profil |
+|---|-------|--------|-----------|--------|
+| 1 | Master Orchestrator | Koordinasyon | Vault System, log.md | [[.agents/master-orchestrator]] |
+| 2 | Backend Architect | L2 (Routing) | PHP 8.4, PDO, PageRouter | [[.agents/backend-architect]] |
+| 3 | UI Designer | L3 (Presentation) | Vanilla JS ES6+, ITCSS 9-layer | [[.agents/ui-designer]] |
+| 4 | Security Engineer | L1 (Security) | OWASP, Argon2id, AES-256-GCM | [[.agents/security-engineer]] |
+| 5 | Data Engineer | L0 (Infrastructure) | MySQL 9, PDO, BCNF | [[.agents/data-engineer]] |
+| 6 | Embedded Engineer | L0 (Hardware) | C++20, JUCE 9, ASIO SDK 2.3.4 | [[.agents/embedded-engineer]] |
+| 7 | QA Engineer | Cross-cutting | PHPUnit 11, Vitest, Playwright | [[.agents/qa-engineer]] |
+| 8 | DevOps Engineer | CI/CD | GitHub Actions, GitLeaks | [[.agents/devops-engineer]] |
+| 9 | Audio HW Engineer | HW | PCM3168A, AK4458, Class AB | [[.agents/audio-hardware-engineer]] |
+| 10 | DSP Firmware Engineer | FW | XMOS XU316, I2S, TDM | [[.agents/dsp-firmware-engineer]] |
+| 11 | Windows SW Engineer | PLAT | WASAPI, COM, WinRT, WDK | [[.agents/windows-software-engineer]] |
+
+**Stack notu (Faz 1):** Agent tablosundaki "Teknoloji" sütunları hedef yığınları yansıtır; fiziksel kanıt sütunu için §25.2 tablosuna bak. IMPLEMENTED/PLANNED etiket disiplini [[engine.md]] §9.2 matrisiyle birebir uyumludur.
+
+**Detaylı profiller için:** [[.agents/AGENTS.md]]
+
+---
+
+## Rules
+
+### §13 — Reading Order & Mockup Gate
+
+**Kurallar:**
+1. P0 → P1 → P2 → P3 sırasıyla okunur
+2. Fallback: `index.md`
+3. Token aşımı önlenir: gereksiz dosya okunmaz
+4. **İstisna:** Görsel referanslar (`.ai/ui-design/screens/**`, `.ai/.png/**`)
+
+**Mockup Before Frontend:** CSS/HTML/JS/layout/bileşen görevlerinde `.ai/ui-design/` altındaki ilgili görsel okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir.
+
+---
+
+### §14 Mandatory 5 Skills (ADR-042/C4)
+
+> **Faz 1 doğrulama notu (2026-09-08):** Bu tablo **disiplin maskesidir** — diskte mevcut skill klasörleri `.opencode/skills/` altındaki 10 kanonik skill'dir ([[index.md]] §11B). `/brainstorming` ve `/vault-sync` için ayrı skill klasörü YOKTUR; bu işlevler sırasıyla sistem promptundaki brainstorming becerisi ve `.workflows/vault-sync.md` akışıyla yürütülür.
+
+| # | Skill | Amaç | Kullanım |
+|---|-------|------|----------|
+| 1 | `/prompt-maker` | Prompt üretim motoru | Her görev başlangıcında |
+| 2 | `/brainstorming` | Fikir üretimi ve keşif *(klasör yok — sistem becerisi)* | Yaratıcı work öncesi |
+| 3 | `/vault-sync` | Vault senkronizasyonu *(klasör yok — .workflows akışı)* | Seans sonunda |
+| 4 | `/hallucination-control` | Halüsinasyon doğrulama | Kod yazma öncesi |
+| 5 | `Red Team · Truth Mode · Human Mode` | Her zaman aktif | Sürekli |
+| 6 | `Template Mandatory` | Yeni dosya için template zorunlu (Guardrail #16) | Her dosya oluşturmada |
+
+#### §14.1 Prompt-Agent Mapping Table
+
+| Prompt | Birincil Agent | İkincil Agent | Kullanım Anı |
+|--------|----------------|---------------|-------------|
+| prompt0 (Genel) | MO (dağıtıyor) | Tüm agentlar | Her görev başında zorunlu |
+| prompt1 (SPA Router) | Backend Architect | UI Designer | SPA route tasarımında |
+| prompt2 (Auth) | Security Engineer | Backend Architect | Auth middleware'de |
+| prompt3 (API) | Backend Architect | DevOps Engineer | API gateway'de |
+
+**Kural:** prompt0 her zaman okunur. prompt1-3 sadece ilgili domain görevlerinde okunur. *(Faz 1 düzeltmesi: prompt arşiv dosyaları `archives/prompt*-2026-09-01` konumundadır — eski `2026-08-13` hedefleri güncellenmiştir.)*
+
+---
+
+### §17 Edge Cases
+
+| # | Senaryo | Çözüm |
+|---|---------|-------|
+| 1 | Aynı dosyaya eşzamanlı erişim | Context Lock + Queue |
+| 3 | Sensitive data log'da | `[REDACTED]` ile maskeleme |
+| 4 | Ajan timeout (30s+) | Max 3 retry, sonra queue reset |
+| 5 | Bilinmeyen class/API | `// ⚠️ VERIFICATION REQUIRED` |
+| 6 | ASIO device loss | WASAPI fallback |
+| 7 | Layer violation | Derhal revert + log ERROR |
+| 8 | PCM5122 kullanımı | PCM3168A / AK4458 öner |
+| 9 | Network outage | Offline-First + SQLite queue |
+| 10 | Vault corruption | `git checkout` + son commit |
+
+> ⚠️ Not: Orijinal tabloda 2 numaralı satır yok (Faz 1'den beri bilinen boşluk — korunmuştur).
+
+---
+
+### §18 Warnings
+
+| # | Uyarı | Sonuc |
+|---|-------|-------|
+| 1 | Domain boundary ihlali | Sistem durur, MO müdahale eder |
+| 2 | Agent timeout 30s+ | Max 3 retry, sonra escalation |
+| 3 | Hallüsinasyon | `VERIFICATION REQUIRED` etiketi |
+| 4 | Token overflow | Görev başarısız |
+| 5 | Vault bozulması | Git ile kurtarma |
+| 6 | Layer violation | Kod revert edilir |
+| 7 | ORM kullanımı | SQL injection riski |
+| 8 | Framework kullanımı | Bağımlılık artışı |
+
+---
+
+## Workflow
+
+### §6 Keyword → Agent Routing
 
 | Keyword Grubu                                                                                    | Birincil Agent              | İkincil Agent     |
 | ------------------------------------------------------------------------------------------------ | --------------------------- | ----------------- |
@@ -136,12 +233,7 @@ Kullanıcı İsteği
 
 #### §7.3 Step 3: Task Assignment
 
-| Öncelik | Tanım | Timeout | Max Retry |
-|---------|-------|---------|-----------|
-| CRITICAL | Sistem durması, güvenlik açığı | 5s | 1 |
-| HIGH | Kritik işlev kaybı | 15s | 3 |
-| MEDIUM | Normal geliştirme görevi | 30s | 3 |
-| LOW | İyileştirme, optimizasyon | 60s | 2 |
+Öncelik seviyeleri, timeout ve retry değerleri: §8 Priority Levels.
 
 #### §7.4 Step 4: Execution
 
@@ -172,7 +264,7 @@ Gerekirse diğer ajana transfer. Handover protokolü §9'da tanımlıdır.
 
 ---
 
-## 8. Öncelik Seviyeleri
+### §8 Priority Levels
 
 | Öncelik | Tanım | Timeout | Max Retry | Yanıt Süresi |
 |---------|-------|---------|-----------|-------------|
@@ -183,13 +275,13 @@ Gerekirse diğer ajana transfer. Handover protokolü §9'da tanımlıdır.
 
 ---
 
-## 9. Handover Protokolü
+### §9 Handover Protocol
 
 ```
 [Kaynak Agent] → [Handover Request] → [Hedef Agent] → [Onay/Red] → [Confirmation]
 ```
 
-### 9.1 Handover Mesaj Formatı
+#### §9.1 Handover Message Format
 
 | Alan | Değer |
 |------|-------|
@@ -202,7 +294,7 @@ Gerekirse diğer ajana transfer. Handover protokolü §9'da tanımlıdır.
 | Onay Durumu | PENDING / APPROVED / REJECTED |
 | Timestamp | `YYYY-MM-DD HH:MM:SS` (UTC) |
 
-### 9.2 Handover Kuralları
+#### §9.2 Handover Rules
 
 | Kural | Değer |
 |-------|-------|
@@ -212,7 +304,7 @@ Gerekirse diğer ajana transfer. Handover protokolü §9'da tanımlıdır.
 | Red durumunda | MO devreye girer |
 | Logging | Tüm handover'lar `log.md`'ye yazılır |
 
-### 9.3 Handover Senaryoları
+#### §9.3 Handover Scenarios
 
 | Senaryo | Kaynak | Hedef | Öncelik |
 |---------|--------|-------|---------|
@@ -227,13 +319,13 @@ Gerekirse diğer ajana transfer. Handover protokolü §9'da tanımlıdır.
 
 ---
 
-## 10. Eskalasyon Protokolü
+### §10 Escalation Protocol
 
 ```
 Level 1 (Domain Lead) → Level 2 (Tech Lead) → Level 3 (Arch Lead) → İnsan
 ```
 
-### 10.1 Eskalasyon Senaryoları
+#### §10.1 Escalation Scenarios
 
 | Senaryo | Başlangıç | Hedef | Timeout |
 |---------|-----------|-------|---------|
@@ -247,7 +339,7 @@ Level 1 (Domain Lead) → Level 2 (Tech Lead) → Level 3 (Arch Lead) → İnsan
 | Güvenlik açığı | L2 | L3 | 15s |
 | Sistem durması | L2 | İnsan | Anlık |
 
-### 10.2 Eskalasyon Kuralları
+#### §10.2 Escalation Rules
 
 | Kural | Değer |
 |-------|-------|
@@ -259,9 +351,9 @@ Level 1 (Domain Lead) → Level 2 (Tech Lead) → Level 3 (Arch Lead) → İnsan
 
 ---
 
-## 11. Sağlık Kontrolü
+### §11 Health Check
 
-### 11.1 Sağlık Parametreleri
+#### §11.1 Health Parameters
 
 | Parametre | Değer |
 |-----------|-------|
@@ -270,7 +362,7 @@ Level 1 (Domain Lead) → Level 2 (Tech Lead) → Level 3 (Arch Lead) → İnsan
 | Check Interval | Her görev başında |
 | Heartbeat | 10 saniye |
 
-### 11.2 Sağlık Durumları
+#### §11.2 Health States
 
 | Durum | Kod | Açıklama |
 |-------|-----|----------|
@@ -280,7 +372,7 @@ Level 1 (Domain Lead) → Level 2 (Tech Lead) → Level 3 (Arch Lead) → İnsan
 | Failed | 500 | 3 retry başarısız, queue reset |
 | Dead | 503 | Yanıt yok, escalation |
 
-### 11.3 Sağlık Kontrolü Akışı
+#### §11.3 Health Check Flow
 
 ```
 Görev başlangıcı
@@ -295,11 +387,11 @@ Görev başlangıcı
 
 ---
 
-## 12. Context Lock
+### §12 Context Lock
 
 Eşzamanlı erişimi önlemek için dosya kilitleme mekanizması.
 
-### 12.1 Lock Kuralları
+#### §12.1 Lock Rules
 
 | Kurallar | Değer |
 |---------|-------|
@@ -308,7 +400,7 @@ Eşzamanlı erişimi önlemek için dosya kilitleme mekanizması.
 | Öncelik | CRITICAL > HIGH > MEDIUM > LOW |
 | Logging | Lock acquire/release `log.md`'ye yazılır |
 
-### 12.2 Lock Akışı
+#### §12.2 Lock Flow
 
 ```
 Ajan dosyaya erişmek ister
@@ -318,7 +410,7 @@ Ajan dosyaya erişmek ister
       → Timeout → escalation
 ```
 
-### 12.3 Deadlock Önleme
+#### §12.3 Deadlock Prevention
 
 | Yöntem | Açıklama |
 |--------|----------|
@@ -329,110 +421,7 @@ Ajan dosyaya erişmek ister
 
 ---
 
-**Kurallar:**
-1. P0 → P1 → P2 → P3 sırasıyla okunur
-2. Fallback: `index.md`
-3. Token aşımı önlenir: gereksiz dosya okunmaz
-4. **İstisna:** Görsel referanslar (`.ai/ui-design/screens/**`, `.ai/.png/**`)
-
-**Mockup Before Frontend:** CSS/HTML/JS/layout/bileşen görevlerinde `.ai/ui-design/` altındaki ilgili görsel okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir.
-
----
-
-## 14. Zorunlu 5 Skills (ADR-042/C4)
-
-> **Faz 1 doğrulama notu (2026-09-08):** Bu tablo **disiplin maskesidir** — diskte mevcut skill klasörleri `.opencode/skills/` altındaki 10 kanonik skill'dir ([[index.md]] §11B). `/brainstorming` ve `/vault-sync` için ayrı skill klasörü YOKTUR; bu işlevler sırasıyla sistem promptundaki brainstorming becerisi ve `.workflows/vault-sync.md` akışıyla yürütülür.
-
-| # | Skill | Amaç | Kullanım |
-|---|-------|------|----------|
-| 1 | `/prompt-maker` | Prompt üretim motoru | Her görev başlangıcında |
-| 2 | `/brainstorming` | Fikir üretimi ve keşif *(klasör yok — sistem becerisi)* | Yaratıcı work öncesi |
-| 3 | `/vault-sync` | Vault senkronizasyonu *(klasör yok — .workflows akışı)* | Seans sonunda |
-| 4 | `/hallucination-control` | Halüsinasyon doğrulama | Kod yazma öncesi |
-| 5 | `Red Team · Truth Mode · Human Mode` | Her zaman aktif | Sürekli |
-| 6 | `Template Mandatory` | Yeni dosya için template zorunlu (Guardrail #16) | Her dosya oluşturmada |
-
-### 14.1 Prompt-Agent Eşleştirme Tablosu
-
-| Prompt | Birincil Agent | İkincil Agent | Kullanım Anı |
-|--------|----------------|---------------|-------------|
-| prompt0 (Genel) | MO (dağıtıyor) | Tüm agentlar | Her görev başında zorunlu |
-| prompt1 (SPA Router) | Backend Architect | UI Designer | SPA route tasarımında |
-| prompt2 (Auth) | Security Engineer | Backend Architect | Auth middleware'de |
-| prompt3 (API) | Backend Architect | DevOps Engineer | API gateway'de |
-
-**Kural:** prompt0 her zaman okunur. prompt1-3 sadece ilgili domain görevlerinde okunur. *(Faz 1 düzeltmesi: prompt arşiv dosyaları `archives/prompt*-2026-09-01` konumundadır — eski `2026-08-13` hedefleri güncellenmiştir.)*
-
----
-
-## 15. Agent Detayları
-
-| # | Agent | Katman | Teknoloji | Profil |
-|---|-------|--------|-----------|--------|
-| 1 | Master Orchestrator | Koordinasyon | Vault System, log.md | [[.agents/master-orchestrator]] |
-| 2 | Backend Architect | L2 (Routing) | PHP 8.4, PDO, PageRouter | [[.agents/backend-architect]] |
-| 3 | UI Designer | L3 (Presentation) | Vanilla JS ES6+, ITCSS 9-layer | [[.agents/ui-designer]] |
-| 4 | Security Engineer | L1 (Security) | OWASP, Argon2id, AES-256-GCM | [[.agents/security-engineer]] |
-| 5 | Data Engineer | L0 (Infrastructure) | MySQL 9, PDO, BCNF | [[.agents/data-engineer]] |
-| 6 | Embedded Engineer | L0 (Hardware) | C++20, JUCE 9, ASIO SDK 2.3.4 | [[.agents/embedded-engineer]] |
-| 7 | QA Engineer | Cross-cutting | PHPUnit 11, Vitest, Playwright | [[.agents/qa-engineer]] |
-| 8 | DevOps Engineer | CI/CD | GitHub Actions, GitLeaks | [[.agents/devops-engineer]] |
-| 9 | Audio HW Engineer | HW | PCM3168A, AK4458, Class AB | [[.agents/audio-hardware-engineer]] |
-| 10 | DSP Firmware Engineer | FW | XMOS XU316, I2S, TDM | [[.agents/dsp-firmware-engineer]] |
-| 11 | Windows SW Engineer | PLAT | WASAPI, COM, WinRT, WDK | [[.agents/windows-software-engineer]] |
-
-**Stack notu (Faz 1):** Agent tablosundaki "Teknoloji" sütunları hedef yığınları yansıtır; fiziksel kanıt sütunu için §25.2 tablosuna bak. IMPLEMENTED/PLANNED etiket disiplini [[engine.md]] §9.2 matrisiyle birebir uyumludur.
-
-**Detaylı profiller için:** [[.agents/AGENTS.md]]
-
----
-
-## 16. Kalite Standartları (Agent Başına)
-
-| Agent | Standart | Hedef |
-|-------|----------|-------|
-| Backend | strict_types, PSR-12, prepared statement | %100 |
-| UI | ITCSS uyum, BEM namespace, WCAG 2.2 AA, ui-design C01-C16 uyumu | %100 |
-| Security | OWASP Top 10, CSRF=`csrf_token`, Argon2id | %100 |
-| Data | BCNF, no ORM, no SELECT *, prepared | %100 |
-| Embedded | Zero-allocation, lock-free, noexcept | %100 |
-| QA | Test coverage ≥80%, flaky test %0 | ≥80% |
-| DevOps | CI/CD success ≥95%, GitLeaks clean | ≥95% |
-
----
-
-## 17. Edge Cases
-
-| # | Senaryo | Çözüm |
-|---|---------|-------|
-| 1 | Aynı dosyaya eşzamanlı erişim | Context Lock + Queue |
-| 3 | Sensitive data log'da | `[REDACTED]` ile maskeleme |
-| 4 | Ajan timeout (30s+) | Max 3 retry, sonra queue reset |
-| 5 | Bilinmeyen class/API | `// ⚠️ VERIFICATION REQUIRED` |
-| 6 | ASIO device loss | WASAPI fallback |
-| 7 | Layer violation | Derhal revert + log ERROR |
-| 8 | PCM5122 kullanımı | PCM3168A / AK4458 öner |
-| 9 | Network outage | Offline-First + SQLite queue |
-| 10 | Vault corruption | `git checkout` + son commit |
-
----
-
-## 18. Uyarılar
-
-| # | Uyarı | Sonuc |
-|---|-------|-------|
-| 1 | Domain boundary ihlali | Sistem durur, MO müdahale eder |
-| 2 | Agent timeout 30s+ | Max 3 retry, sonra escalation |
-| 3 | Hallüsinasyon | `VERIFICATION REQUIRED` etiketi |
-| 4 | Token overflow | Görev başarısız |
-| 5 | Vault bozulması | Git ile kurtarma |
-| 6 | Layer violation | Kod revert edilir |
-| 7 | ORM kullanımı | SQL injection riski |
-| 8 | Framework kullanımı | Bağımlılık artışı |
-
----
-
-## 19. İleriye Yönelik Yol Haritası
+### §19 Forward-Looking Roadmap
 
 | Versiyon | Özellik |
 |----------|---------|
@@ -444,85 +433,11 @@ Ajan dosyaya erişmek ister
 
 ---
 
-## 20. İlgili Dokümanlar
-
-| Dosya | Amaç |
-|-------|------|
-| [[CLAUDE.md]] | Ana sözleşme, AI anayasası |
-| [[WORKFLOW.md]] | Süreçler, fazlar |
-| [[index.md]] | Master katalog |
-| [[keys.md]] | Keyword haritası |
-| [[brain.md]] | Mimari kararlar |
-| [[MEMORY.md]] | Session hafızası |
-| [[log.md]] | Audit trail |
-| [[engine.md]] | Orkestrasyon motoru indeksi |
-
----
-
-## 21. Çapraz Referanslar
-
-| Bölüm | Hedef | İlişki |
-|-------|-------|--------|
-| § 5 Domain | [[CLAUDE.md]] §5 | L0-L6 katmanları |
-| § 6 Routing | [[engine.md]] §2 | Orkestrasyon bölümleri |
-| § 9 Handover | [[WORKFLOW.md]] §7.6 | Session init |
-| § 10 Eskalasyon | [[ADR-008-bypass-auth-middleware]] | Auth bypass |
-| § 15 Agent | [[.agents/AGENTS.md]] | Agent profilleri |
-| § 17 Edge | [[ADR-017-dsp-hardware-mode]] | ASIO/WASAPI |
-
----
-
-## 22. Sözlük
-
-| Terim | Tanım |
-|-------|-------|
-| **Agent** | Belirli bir alanda uzmanlaşmış AI birimi |
-| **MO** | Master Orchestrator — Koordinasyon birimi |
-| **Handover** | Görev transferi |
-| **Eskalasyon** | Seviye yukarı çıkarma |
-| **Context Lock** | Dosya kilitleme |
-| **Health Check** | Sağlık kontrolü |
-| **Task Queue** | Görev kuyruğu |
-| **Pre-flight** | Görev öncesi kontrol |
-| **Domain Boundary** | Alan sınırları |
-| **Layer Violation** | Katman ihlali |
-| **Deadlock** | Kilitleme çelişkisi |
-| **Retry** | Yeniden deneme |
-| **Heartbeat** | Sağlık atışı |
-| **Stack Etiketi** | IMPLEMENTED (kod kanıtlı) / PLANNED (hedef) ayırımı — engine §9.2 |
-| **Uncertainty Flag** | Alt agent belirsizlik raporu formatı — engine §6.4 |
-| **Faz Kapanışı** | 8 maddelik kontrol listesi tamamı — engine §12.6 |
-
----
-
-## 23. Quality Report
-
-| Metrik | Değer |
-|--------|-------|
-| Version | 21.0.0 |
-| Status | Red Team · Human Mode · Truth Mode verified |
-| Sections | 23 |
-| Agent Count | 11 (1 MO + 10 specialist) |
-| Domain Boundaries | 12 dosya tipi |
-| Routing Rules | 11 keyword grubu |
-| Edge Cases | 10 |
-| Mandatory Skills | 5 |
-| Handover Scenarios | 8 |
-| Escalasyon Senaryoları | 9 |
-| Health States | 5 |
-| Lock Rules | 4 |
-| Quality Standards | 7 |
-| Faz Kaydı | §25 — 7 faz tablosu + stack kanıt + boot uzlaşması |
-| Stack Kanıtı | §25.2 — agent→”teknoloji satırları (ROLE §11 ile uyumlu) |
-| Orkestrasyon Kuralları | §25.3 — 5 kural (satır edit, frozen dokunulmaz, append-only, stack direktifi, faz kapanışı) |
-
----
-
-## 24. Ultra Düşünme Protokolü (OpenCode Entegrasyonu)
+### §24 Ultra Thinking Protocol (OpenCode Integration)
 
 **⚠️ ZORUNLULUK:** Tüm agent'lar kod yazmadan önce bu protokolü uygulamak ZORUNDADIR.
 
-### 24.1 5 Adımlı Düşünme Protokolü
+#### §24.1 5-Step Thinking Protocol
 
 | Adım | Kontrol | Kaynak | Timeout |
 |------|---------|--------|---------|
@@ -532,7 +447,7 @@ Ajan dosyaya erişmek ister
 | 4. Sonuç Tahmini | Etki alanı, edge cases, performance | Düşünce | Değişken |
 | 5. Doğrulama | LSP, typecheck, test, template uyumu | Build araçları | Anlık |
 
-### 24.2 .ai Referans Takibi
+#### §24.2 .ai Reference Tracking
 
 **Her görev başında bu dosyaları OKU:**
 
@@ -549,21 +464,21 @@ Ajan dosyaya erişmek ister
 | 9 | `.ai/log.md` | Audit trail |
 | 10 | `.ai/ULTRA-THINKING.md` | Ultra düşünme protokolü |
 
-### 24.3 Domain-Based Okuma
+#### §24.3 Domain-Based Reading
 
 > *Faz 1 düzeltmesi: `testing/*.md` ve `.sql/*.sql` eski yolları gerçek mevcut yollarla değiştirildi; kanıt: [[ULTRA-THINKING.md]] §3.2.*
 
 | Agent | Zorunlu Okuma |
 |-------|---------------|
 | Backend | `architecture/l2-routing/*.md`, `ADR-083*.md`, `shared/src/PageRouter/` |
-| Frontend | `ui-design/00-mockup-index.md`, `ui-design/01-component-inventory.md`, `architecture/l3-presentation/*.md` |
+| Frontend | `ui-design/01-mockup-index.md`, `ui-design/02-component-inventory.md`, `architecture/l3-presentation/*.md` |
 | Security | `architecture/l1-security/*.md`, `ADR-010*.md`, `shared/src/Middleware/` |
 | Data | `architecture/k0-k5-software/k0-os-layer/*.md`, `.ai/.sql/mysql/*.sql`, `shared/src/Database/` |
 | Embedded | `projects/NevaEngine/*.md`, `electronic/dsp/*.md`, `electronic/firmware/*.md` |
 | QA | `ui-design/03-accessibility-gaps.md`, `ui-design/screens/**/*.md`, `reports/` |
 | DevOps | `architecture/02-deployment/*.md`, `ecosystem/*.md` |
 
-### 24.4 Otomatik Temizlik
+#### §24.4 Automatic Cleanup
 
 | Durum | Aksiyon |
 |-------|---------|
@@ -572,7 +487,7 @@ Ajan dosyaya erişmek ister
 | Çelişki | DUR + kullanıcıya sor |
 | Eksik dosya | Hemen tamamla veya sil |
 
-### 24.5 Kalite Kontrol Listesi
+#### §24.5 Quality Checklist
 
 Her dosya için kontrol et:
 - [ ] Syntax doğru mu?
@@ -586,64 +501,60 @@ Her dosya için kontrol et:
 
 ---
 
----
+## Validation
 
-## PDF §1.4 — Hedef Kullanıcılar
+### §16 Quality Standards (Per Agent)
 
-| # | Kullanıcı | İhtiyaçlar | Sorumlu Agent |
-|---|-----------|------------|---------------|
-| 1 | Bireysel Kullanıcı | Kolay kullanım, kişisel arşiv, çoklu cihaz, AI öneriler | ui-designer, backend-architect |
-| 2 | Hi-Fi / Audiophile | Kayıpsız ses (FLAC/WAV), DSP/EQ, ASIO/WASAPI, donanım | embedded-engineer, audio-hardware-engineer |
-| 3 | Profesyonel Stüdyo | Stüdyo referansı, 8.1 surround, proje bazlı çalışma | embedded-engineer, dsp-firmware-engineer |
-| 4 | Araç Kullanıcısı | CarPlay, düşük gecikme, araç uyumlu arayüz | embedded-engineer, windows-software-engineer |
-| 5 | Ev Medya Kullanıcısı | Multi-room, NAS/DLNA, Smart TV | embedded-engineer, devops-engineer |
-| 6 | Geliştirici / Freelancer | Açık dokümantasyon, template, API | Tüm agentlar |
-
-## PDF §1.5 — Sektörel Çözümler
-
-| # | Çözüm | Subdomain | Sorumlu Agent |
-|---|-------|-----------|---------------|
-| 1 | Otomotiv Araç İçi | car.coremusic.net | embedded-engineer |
-| 2 | Akıllı Ev & Çok Odalı | home.coremusic.net | embedded-engineer |
-| 3 | Profesyonel Stüdyo | studio.coremusic.net | embedded-engineer |
-| 4 | Odyofil / Hi-Fi | — | audio-hardware-engineer |
-| 5 | Offline Arşivleme | download.coremusic.net | devops-engineer |
-| 6 | Kurumsal Medya | media.coremusic.net | backend-architect |
-
-## PDF §1.6 — Çözülen Sorunlar
-
-| # | Sorun | CoreMusic Çözümü |
-|---|-------|-----------------|
-| 1 | Platform bağımlılığı | Offline-first, mülkiyet odaklı |
-| 2 | Cihazlar arası senkronizasyon | Çapraz cihaz handoff |
-| 3 | Ses kalitesi kaybı | Neva Engine, bit-perfect aktarım |
-| 4 | Kayıplı sıkıştırma | FLAC, WAV, 32-bit Float desteği |
-| 5 | Dağınık arşiv | Merkezi medya depolama |
-| 6 | Eksik offline destek | Yerel SSD önbellek |
+| Agent | Standart | Hedef |
+|-------|----------|-------|
+| Backend | strict_types, PSR-12, prepared statement | %100 |
+| UI | ITCSS uyum, BEM namespace, WCAG 2.2 AA, ui-design C01-C16 uyumu | %100 |
+| Security | OWASP Top 10, CSRF=`csrf_token`, Argon2id | %100 |
+| Data | BCNF, no ORM, no SELECT *, prepared | %100 |
+| Embedded | Zero-allocation, lock-free, noexcept | %100 |
+| QA | Test coverage ≥80%, flaky test %0 | ≥80% |
+| DevOps | CI/CD success ≥95%, GitLeaks clean | ≥95% |
 
 ---
 
-**Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
-**Mode:** Red Team · Human Mode · Truth Mode
+### §23 Quality Report
+
+| Metrik | Değer |
+|--------|-------|
+| Version | 22.0.0 |
+| Status | Red Team · Human Mode · Truth Mode verified |
+| Sections | 8 |
+| Agent Count | 11 (1 MO + 10 specialist) |
+| Domain Boundaries | 12 dosya tipi |
+| Routing Rules | 9 keyword grubu |
+| Edge Cases | 9 |
+| Mandatory Skills | 5 başlık + 2 kural satırı (§14 tablosu 6 satır) |
+| Handover Scenarios | 8 |
+| Escalasyon Senaryoları | 9 |
+| Health States | 5 |
+| Lock Rules | 4 |
+| Quality Standards | 7 |
+| Faz Kaydı | §25 — 7 faz tablosu + stack kanıt + boot uzlaşması |
+| Stack Kanıtı | §25.2 — agent → teknoloji satırları (ROLE §11 ile uyumlu) |
+| Orkestrasyon Kuralları | §25.3 — 5 kural (satır edit, frozen dokunulmaz, append-only, stack direktifi, faz kapanışı) |
 
 ---
 
-## 25. Orkestrasyon Faz Kaydı (Vault Revizyonu 2026-09-08)
+### §25 Orchestration Phase Record (Vault Revision 2026-09-08)
 
-### 25.1 Faz Tablosu (canlı)
+#### §25.1 Phase Table (live)
 
 | Faz | Kapsam | Durum |
 |-----|--------|-------|
 | 0 | Envanter + kaynak kod cross-check | TAMAMLANDI |
-| 1 | Kök 12 boot dosyası (satır-satır edit, 500+ hedef) | ÇALIŞIYOR |
+| 1 | Kök 12 boot dosyası (satır-satır edit, 500+ hedef) | ÇALIŞIYOR |
 | 2 | architecture/ alt fazlar | Pending |
 | 3 | ecosystem, servers, subdomains, scripts | Pending |
 | 4 | ui-design çekirdek + tokens + flow | Pending |
 | 5 | decisions appendix (frozen ADR'ler) | Pending |
 | 6 | electronic, projects | Pending |
 
-### 25.2 Agent →” Stack Kanıt Tablosu (ROLE §11 özeti)
+#### §25.2 Agent Stack Evidence Table (ROLE §11 summary)
 
 | Agent | Teknoloji | Kanıt (IMPLEMENTED) |
 |-------|-----------|---------------------|
@@ -653,7 +564,7 @@ Her dosya için kontrol et:
 | QA | PHPUnit ^10.5/^11.0, PHPStan | require-dev |
 | UI/Embedded/DSP/Windows/DevOps | Vanilla JS/C++20/xcc/C#/CI | PLANNED (spec mevcut) |
 
-### 25.3 Bu Revizyondaki Orkestrasyon Kuralları
+#### §25.3 Orchestration Rules of This Revision
 
 1. **Satır-satır edit:** Yapı korunur (ADR-042); silme yerine düzeltme+ekleme.
 2. **Frozen dokunulmaz:** ADR metinleri okunur, referans edilir — değiştirilmez.
@@ -661,30 +572,30 @@ Her dosya için kontrol et:
 4. **Teknoloji direktifi:** Dinamik stack (Node.js/C++/C#/PHP + diğer) — [[engine.md]] §9, [[ROLE.md]] §11.
 5. **Faz kapanışı:** engine §12.6 kontrol listesi 8/8 → §12.7 rapor → vault-sync.
 
-### 25.4 Boot Listesi Uyumu
+#### §25.4 Boot List Compatibility
 
-Bu dosya §24.2 (10 dosya) ile [[MEMORY.md]] §5 (16 adım) arasındaki adım sayısı farkı bilinen durumdur: 16 adım listesi prompt arşivlerini (12-15) ve mockup indeksini (16) ekstra içerir. Faz 1'de arşiv yolları 2026-09-01'e hizalandı; iki listenin birleşik kanonik versiyonu [[CLAUDE.md]] §16'dır (13 dosya + frontend eki).
+Bu dosya §24.2 (10 dosya) ile [[MEMORY.md]] §5 (16 adım) arasındaki adım sayısı farkı bilinen durumdur: 16 adım listesi prompt arşivlerini (12-15) ve mockup indeksini (16) ekstra içerir. Faz 1'de arşiv yolları 2026-09-01'e hizalandı; iki listenin birleşik kanonik versiyonu [[CLAUDE.md]] §7A ve [[WORKFLOW.md]] §8.6'dır (13 dosya + frontend eki).
 
 ---
 
-## 26. Doküman İskeleti & SSOT Birleştirme (Vault Refactor Engine — 2026-09-23)
+### §26 Document Skeleton & SSOT Reconciliation (Vault Refactor Engine — 2026-09-23)
 
-> **Not:** Bu dosya Vault Refactor Engine ile v21.0.0 → v22.0.0'a yükseltildi (satır-edit + ekleme, ADR-042 hibrit; silme yok).
+> **Not:** Bu dosya Vault Refactor Engine ile v21.0.0 → v22.0.0'a yükseltildi; 8 bölümlük evrensel iskelete göre yeniden düzenlendi (içerik taşındı, silinmedi).
 
-### 26.1 8-Bölüm İskelet Eşlemesi
+#### §26.1 8-Section Skeleton Mapping
 
 | İskelet Bölümü | Karşılık Gelen § |
 |----------------|------------------|
 | Başlık | H1 + frontmatter (7 zorunlu alan) |
-| Amaç | §1 |
-| Kapsam | §2 + §3 Terminoloji |
-| Mimari | §4 Agent Genel Bakış + §15 Agent Detayları + [[.agents/AGENTS.md]] §2 ASCII mimari |
-| Kurallar | §5 Domain Sınırları + §16 Kalite + §17 Edge Cases |
-| Workflow | §7 Görev Dağıtımı + §9 Handover + §10 Eskalasyon |
-| Doğrulama | §11 Sağlık + §13 Pre-flight + §18 Uyarılar + bu bölüm §26.2-§26.3 |
-| Referanslar | §20 İlgili Dokümanlar + §21 Çapraz Referanslar |
+| Amaç | §1 Purpose |
+| Kapsam | §2 Scope |
+| Mimari | §4 Agent Overview + §5 Domain Boundaries + §15 Agent Details + [[.agents/AGENTS.md]] |
+| Kurallar | §13 Reading Order + §14 Mandatory Skills + §17 Edge Cases + §18 Warnings |
+| Workflow | §6 Routing + §7 Task Dispatch + §8-§12 + §19 Roadmap + §24 Ultra Thinking |
+| Doğrulama | §16 Quality Standards + §23 Quality Report + §25 Phase Record + §26 |
+| Referanslar | §3 Terminology + §20 Related Documents + §21 Cross References + §22 Glossary + PDF §1.4-§1.6 |
 
-### 26.2 SSOT Çelişki Çözümü (Registry Birleştirme)
+#### §26.2 SSOT Conflict Resolution (Registry Reconciliation)
 
 | Kaynak | Eski Durum | Yeni Durum |
 |--------|-----------|------------|
@@ -693,10 +604,89 @@ Bu dosya §24.2 (10 dosya) ile [[MEMORY.md]] §5 (16 adım) arasındaki adım sa
 
 Çözüm kuralı: SSOT hiyerarşisinde çelişkide kök dosya kazanır. Alt registry yalnızca profil/özet detayını taşır; routing, handover, escalation, öncelik kurallarının tamamı bu dosyadadır.
 
-### 26.3 Faz 1 Doğrulama
+**Faz 4 notu (2026-09-23):** `.ai/.agents/AGENTS.md` v1.0.0 → v1.1.0 olarak **profil indeksine demote edildi** (kendi SSOT iddiası kaldırıldı, `authority: Alt Registry`); aynı fazda 11 agent profili `.ai/.agents/*.md` v1.0.0 → v2.0.0 olarak yeniden yazıldı. Alt registry artık yalnızca bu profillerin indeksidir — routing/handover/escalation/öncelik bu dosyanın tekelindedir.
+
+#### §26.3 Phase 1 Verification
 
 - [x] Frontmatter 7 alan; version 22.0.0; updated 2026-09-23
 - [x] Mojibake temizlendi (vault geneli 745 düzeltme)
 - [x] §1-§25 korundu, silme yok; yeni bölüm §26 olarak eklendi
 - [x] `.agents/AGENTS.md` SSOT iddiası kaldırıldı → alt registry uyarısı + H1 düzeltmesi eklendi
 - [x] REFACTOR REPORT: FILE: AGENTS.md · PURPOSE: Agent Registry SSOT · VALIDATION: § korundu, link hedefleri korundu · RELATED: [[CLAUDE.md]] · [[WORKFLOW.md]] · [[.agents/AGENTS.md]] · [[index.md]] · [[log.md]]
+
+---
+
+## References
+
+### §3 Terminology (Stub)
+
+> 📌 **Stub:** Aşağıdaki 12 terim bu dosyaya özgüdür ve satır içinde tutulur; son 3 terim eski §22 Glossary tablosundan birleştirildi (SSOT dedup, 2026-09-23). ⚠️ VERIFICATION REQUIRED: Hiçbiri glossary.md'de yer almıyor — sonraki fazda eklenmeli. Tam terim sözlüğü: [[glossary]].
+
+| Terim | Tanım |
+|-------|-------|
+| **Agent** | CoreMusic ekosisteminde belirli bir alanda uzmanlaşmış yapay zeka birimi |
+| **Master Orchestrator (MO)** | Tüm ajanları koordine eden ana kontrol birimi |
+| **Domain Boundary** | Her ajanın yalnızca kendi alanında çalışması kuralı |
+| **Handover** | Bir ajanın görevi başka bir ajana transfer etmesi |
+| **Eskalasyon** | Bir sorunun çözülemediği durumda daha üst seviyeye çıkması |
+| **Context Lock** | Eşzamanlı dosya erişimini önlemek için kilitleme mekanizması |
+| **Health Check** | Ajanların çalışma durumunu kontrol eden mekanizma |
+| **Task Queue** | Görevlerin öncelik sırasıyla beklediği kuyruk |
+| **Pre-flight Check** | Görev başlamadan önce yapılan kontroller |
+| **Stack Etiketi** | IMPLEMENTED (kod kanıtlı) / PLANNED (hedef) ayırımı — engine §9.2 |
+| **Uncertainty Flag** | Alt agent belirsizlik raporu formatı — engine §6.4 |
+| **Faz Kapanışı** | 8 maddelik kontrol listesi tamamı — engine §12.6 |
+
+---
+
+### §20 Related Documents
+
+| Dosya | Amaç |
+|-------|------|
+| [[CLAUDE.md]] | Ana sözleşme, AI anayasası |
+| [[WORKFLOW.md]] | Süreçler, fazlar |
+| [[index.md]] | Master katalog |
+| [[keys.md]] | Keyword haritası |
+| [[brain.md]] | Mimari kararlar |
+| [[MEMORY.md]] | Session hafızası |
+| [[log.md]] | Audit trail |
+| [[engine.md]] | Orkestrasyon motoru indeksi |
+
+---
+
+### §21 Cross References
+
+| Bölüm | Hedef | İlişki |
+|-------|-------|--------|
+| § 5 Domain | [[CLAUDE.md]] §5 | L0-L6 katmanları |
+| § 6 Routing | [[engine.md]] §2 | Orkestrasyon bölümleri |
+| § 9 Handover | [[WORKFLOW.md]] §8.6 | Session init |
+| § 10 Eskalasyon | [[ADR-008-bypass-auth-middleware]] | Auth bypass |
+| § 15 Agent | [[.agents/AGENTS.md]] | Agent profilleri |
+| § 17 Edge | [[ADR-017-dsp-hardware-mode]] | ASIO/WASAPI |
+
+---
+
+### §22 Glossary
+
+> 📌 **Stub (SSOT dedup — 2026-09-23):** Bu tablo §3 Terminology ile birleştirildi. 16 terimin 13'ü §3'teki karşılıklarıyla örtüşüyor; benzersiz 3 terim (**Stack Etiketi**, **Uncertainty Flag**, **Faz Kapanışı**) §3 tablosuna taşındı — bilgi silinmedi. Genel/proje terimleri için: [[glossary]].
+
+---
+
+### PDF §1.4 — Target Users
+
+İçerik (6 hedef kitle + sorumlu agent eşlemesi): [[PROJECTS.md]] §4 — Hedef Kullanıcı Profilleri (6 Kitle)
+
+### PDF §1.5 — Sectoral Solutions
+
+İçerik (6 sektörel çözüm + subdomain eşlemesi): [[PROJECTS.md]]
+
+### PDF §1.6 — Problems Solved
+
+İçerik (6 sorun + CoreMusic çözüm eşlemesi): [[VISION.md]]
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-23
+**Mode:** Red Team · Human Mode · Truth Mode

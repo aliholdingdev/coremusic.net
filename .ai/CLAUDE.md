@@ -24,7 +24,7 @@ updated: 2026-09-23
 
 Geleneksel müzik çalarların sunduğu basit dosya oynatma deneyiminin ötesine geçerek; çevrim içi bulut akışı ve internet bağlantısı olmadan çalışabilen **Offline-First** mimarisi sayesinde kullanıcının FLAC, WAV ve MP3 formatındaki ses koleksiyonunu tam mülkiyet altında tutmasını sağlar.
 
-* **Felsefe:** *"Aynı Müzik Her Yerde Seninle"* — Mülkiyet ve Özgürlük Odaklı Felsefe (Kullanıcı veri mülkiyeti, kiralama modeline son, kalıcı kayıpsız arşiv) ve Kesintisiz Bütünleşik Yaşam Deneyimi (Handoff ile evden arabaya milisaniyesiz aktarım).
+* **Felsefe:** *"Aynı Müzik Her Yerde Seninle"* — Mülkiyet, özgürlük ve kesintisiz bütünleşik yaşam deneyimi (handoff) özetidir; vizyon ve felsefe metninin SSOT'u [[VISION.md]], yetenek/hedef kitle detayları [[PROJECTS.md]] dosyalarıdır.
 * **Temel Başvuru Belgeleri:** Proje vizyonu, pazar krizi ve problem-çözüm matrisi için [[VISION.md]], 10 temel yetenek, hedef kitleler ve sektörel çözümler için [[PROJECTS.md]] dosyaları esastır.
 
 Bu dosya, tüm AI ajanlarının ve mühendislerin mutlaka uyması gereken anayasal sözleşmedir (AI Constitution). Bu belge tek başına yeterli bilgi içermelidir. Başka bir AI sistemi, yalnızca bu dosyayı okuyarak CoreMusic'in temel kurallarını, yasaklarını, mimari katmanlarını ve çalışma prensiplerini tam olarak anlamalıdır.
@@ -166,12 +166,15 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 | Kaynak → Hedef | İzinli mi? |
 |-----------------|------------|
+| L6 → L5 | ✅ Evet |
+| L5 → L4 | ✅ Evet |
+| L4 → L3 | ✅ Evet |
 | L3 → L2 | ✅ Evet |
 | L2 → L1 | ✅ Evet |
 | L1 → L0 | ✅ Evet |
-| L0 → L2/L3 | ✅ Hayır (Layer Violation) |
-| L1 → L3 | ✅ Hayır (Layer Violation) |
-| L3 → L0 | ✅ Hayır (Layer Violation) |
+| L0 → L2/L3 | ❌ Hayır (Layer Violation) |
+| L1 → L3 | ❌ Hayır (Layer Violation) |
+| L3 → L0 | ❌ Hayır (Layer Violation) |
 
 **Layer Violation İhlali:** Tespit edilirse derhal revert + log CRITICAL.
 
@@ -196,7 +199,7 @@ OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → 
 | 9 | **Permission** | RBAC yetki kontrolü (regular/premium/studio/car/admin/system) | — |
 | 10 | **Validation** | Request/DTO validasyonu | — |
 
-**Kritik Not:** CSP nonce üretimi SecurityHeaders (#4) içindedir. SessionManager (#5) bu nonce'u session'a kaydeder. Sıra değiştirilirse CSP bozulur. Middleware sırası **DEĞİŞTİRİLEMEZ**.
+**Kritik Not:** CSP nonce üretimi SecurityHeaders (#4) içindedir. SessionManager (#5) bu nonce'u session'a kaydeder. Sıra değiştirilirse CSP bozulur. Middleware sırası **DEĞİŞTİRİLEMEZ**.
 
 ---
 
@@ -212,7 +215,7 @@ OpenAPI Spec → DTO → Contract → Validation → Use Case → Kod
 
 Tüm istemcilerin tek giriş noktası `api.coremusic.net`'tir. Gateway; routing, auth, rate limit, validation, logging, correlation ID görevini üstlenir.
 
-### BFF (Backend for Frontend)
+#### §6A.2 BFF (Backend for Frontend)
 
 Her istemci tipi kendi BFF'sini kullanır:
 
@@ -225,7 +228,7 @@ Her istemci tipi kendi BFF'sini kullanır:
 | Admin | Admin BFF | Full + audit |
 | Car | Car BFF | Touch-optimized |
 
-### CQRS
+#### §6A.3 CQRS
 
 Yazma ve okuma işlemleri tamamen ayrılır:
 
@@ -234,7 +237,7 @@ Write: Command → Use Case → Repository → MySQL Master
 Read:  Query → Read Model → Cache → Response
 ```
 
-### Event Driven (ADR-086)
+#### §6A.4 Event Driven (ADR-086)
 
 Servisler birbirini doğrudan çağırmaz, event yayınlar:
 
@@ -242,7 +245,7 @@ Servisler birbirini doğrudan çağırmaz, event yayınlar:
 Service A → Event Bus (PSR-14) → Service B, C, D
 ```
 
-### SPA → ApiClient Kuralı
+#### §6A.5 SPA → ApiClient Rule
 
 ```
 SPA → ApiClient → HTTP → Gateway → Middleware → Use Case → Domain → Repository → Infrastructure
@@ -252,92 +255,21 @@ SPA **asla** PDO, MySQL, Repository, Entity, Infrastructure, Filesystem, FFmpeg,
 
 ---
 
-## 6B. Shared Library — Hybrid Yapı (ADR-085 v3.0)
+### §6B Shared Library — Hybrid Structure (ADR-085 v3.0)
 
-Tek `shared/` dizini + PSR-4 namespace ile modüler ayrım. tek Composer paketi:  bu bir **composer paketidir**
+Tek `shared/` dizini + PSR-4 namespace ile modüler ayrım. Tek Composer paketi: `coremusic/shared` — bu bir **composer paketidir**.
 
 ```
 shared/
-├── composer.json              → Tek paket: coremusic/shared
+├── composer.json              → Tek paket: coremusic/shared
 ├── src/
 └── tests/
 ```
 
 ---
 
-## 7. Hard Guardrails (17 Kural)
 
-| # | Kural | Uygulama | İhlal Sonucu |
-|---|-------|----------|--------------|
-| 1 | Zero Code Before Plan | Plan onayı olmadan kod yok | Kod revert edilir |
-| 2 | Vault First | Kod yazmadan önce AI vault'u oku (§5 boot protokolü) | Kod geçersiz |
-| 3 | Zero Hallucination | Doğrulanamayan bilgi → `VERIFICATION REQUIRED` | İçerik silinir |
-| 4 | In-Place Refactoring | Dosya adı/yolu değişmez | Dosya geri yüklenir |
-| 5 | Single Source of Truth | Bilgi sadece `.ai/` vault'tan | Harici bilgi reddedilir |
-| 6 | CSRF Token = `csrf_token` | `_csrf_token` yasak (2026-05-30) | Token reddedilir |
-| 7 | Middleware Order Immutable | Sıra değişmez | Sistem durdurulur |
-| 8 | Port 81 = music.coremusic.net | PHP 8.4 | Yanlış port yasak |
-| 9 | No ORM | Raw PDO only (ADR-002) | ORM kullanımı reddedilir |
-| 10 | No Frameworks | Vanilla JS + ITCSS (ADR-001) | Framework reddedilir |
-| 11 | **Mockup Before Frontend** | **KESİNLİKLE YASAK:** Frontend görevinde `.ai/ui-design/00-mockup-index.md` + `.ai/ui-design/01-component-inventory.md` (19 PNG mockup, C01-C16 envanteri) + `.ai/ui-design/tokens/design-tokens-master.md` OKUNMADAN kod yazılamaz. **45-tier cihaz matrisi** (`00-mockup-index.md`) ve **10 referans dosyası** (`reference/01-10`) okunmadan Frontend bileşeni kodlanamaz. Görsel okunamıyorsa DUR ve bildir. | **Kod derhal revert edilir + CRITICAL log** |
-| 12 | Contradiction Gate | Vault'ta çelişki varsa kullanıcıya sor, onay bekle | İşlem durur |
-| 13 | Session Continuity | Her oturum başlangıcında geçmiş session'dan devam et | Bağlam kaybolur |
-| 14 | Human Approval Gate | Mimari karar öncesi kullanıcı onayı zorunlu | Kod revert edilir |
-| 15 | Vault-First Mandatory | AI, .ai/ vault'unu (CLAUDE.md + AGENTS.md + WORKFLOW.md + brain.md + ROLE.md) OKUMADAN hiçbir plan/kod/faaliyet başlatamaz | İşlem derhal durdurulur + revert |
-| 16 | Template Mandatory | Yeni dosya oluşturulurken `.ai/.templates/index.md`'den uygun template seçilmek ZORUNLU | Dosya geçersiz |
-| 17 | Single Component Responsive | 1024x600 mockup = pixel reference ([[ui-design/screens/00-ascii-art-index]]: Header 60px y:0-60, İçerik 450px y:60-510, Footer 90px y:510-600). Tek component sistemi + responsive CSS. Ayrı HTML/branch YASAK. CSS variables + media queries. Device CSS sadece behavioral override. | Kod revert edilir |
-
-### 7.1 Guardrail #11 Detay — Frontend Zorunlu Okuma Protokolü
-
-**⚠️ ZORUNLULUK:** Tüm frontend (HTML/CSS/JS/PHP layout) geliştirme görevlerinde aşağıdaki dosyalar OKUNMADAN kod KESİNLİKLE YASAKTIR:
-
-| Sıra | Dosya | İçerik | Kullanım Anı |
-|------|-------|--------|-------------|
-| 1 | `.ai/ui-design/00-mockup-index.md` | 19 PNG mockup indeksi (home-1024 + home-1920 + shared-1024), hangi görsellerin mevcut olduğu | İlk okunacak — hangi ekranlar var? |
-| 2 | `.ai/ui-design/01-component-inventory.md` | C01-C16 BEM sınıfları, pixel ölçümleri, token referansları | Bileşen kodlarken |
-| 3 | `.ai/ui-design/tokens/design-tokens-master.md` | Renk, boşluk, tipografi, cam token'ları | CSS yazarken |
-| 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: [[screens/B-home/dashboard-1920]]) | Layout hizalamada |
-| 5 | `.ai/ui-design/responsive-device-mode.md` | Cihaz bazlı CSS override kuralları — **§7.4 4K No-Center (4K'da ortalamama YASAK)** ve **§12 Geriye Dönük Uyumluluk (fallback ZORUNLU)** bağlayıcıdır | Device-specific CSS'te |
-
-**Referans Sıralaması (çelişki durumunda):** PNG > ASCII art > Component Inventory > Tokens > Implementation Plan.
-
-**İhlal Prosedürü:**
-1. Mockup okunmadan kod tespit edilir → Kod derhal revert edilir
-2. `log.md`'ye CRITICAL giriş eklenir
-3. Vault Steward'a bildirim yapılır
-4. Görsel okunamıyorsa DUR ve kullanıcıya bildir
-
----
-
-## 7A. Hibrit Kodlama Modeli (İnsan + Yapay Zeka)
-
-Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kurallar her iki taraf için de zorunludur.
-
-| # | Kural | Açıklama |
-|---|-------|----------|
-| 1 | **Vault-First Mandatory** | AI, vault'u okumadan kod yazamaz. Okuma sırası: CLAUDE.md → AGENTS.md → WORKFLOW.md → index.md → keys.md → brain.md → MEMORY.md → log.md → engine.md → ROLE.md → (Frontend görevlerinde [[ui-design/01-mockup-index]] ve [[ui-design/02-component-inventory]] ZORUNLU) |
-| 2 | **Çelişki Durumu** | Vault'ta çelişki varsa DUR ve kullanıcıya sor. Onay alınmadan hiçbir işlem yapılmaz |
-| 3 | **Onay Zorunlu** | Mimari karar, yeni dosya, büyük değişiklik öncesi kullanıcı onayı zorunlu |
-| 4 | **Session Continuity** | Her oturum başında geçmiş session'dan devam et. `log.md` ve `MEMORY.md` okunur |
-| 5 | **Prompt Uyumu** | Verilen promptlar birebir uygulanır. Kafadan ekleme, değiştirme veya yorumlama yapılmaz |
-| 6 | **İnsan Kodlaması** | İnsan kodladığında da aynı kurallar geçerli. Vault referansları kullanılabilir |
-| 7 | **AI Kodlaması** | AI kodladığında template zorunlu, plan zorunlu, vault-okuma zorunlu |
-| 8 | **Tutarlılık** | İnsan ve AI arasında kod tutarlılığı sağlamak için aynı standartlar kullanılır |
-
----
-
-## 8. Soft Constraints (4 Kural)
-
-| # | Kural | Esnetme Koşulu | Onay |
-|---|-------|----------------|------|
-| 1 | %80 test coverage | Geçici %75, teknik borç kabulü | Tech Lead |
-| 2 | 30s timeout | Uzun batch işlemi (60s'e kadar) | Tech Lead |
-| 3 | Coverage raporlama esnekliği | Bu satır orijinal listede yok — bilinçli silme mi eksiklik mi belirsiz | DOĞRULAMA GEREKLİ (Vault Steward) |
-| 4 | BypassAuth devre dışı | Test ortamında aktif edilebilir | Security Engineer |
-
----
-
-## 9. Servis Haritası — 10 Panel
+### §9 Service Map — 10 Panels
 
 > **Faz 1 gerçeklik notu (2026-09-08):** Bu tablo **hedef mimaridir**. Kod tarafında fiziksel olarak mevcut paneller: auth ✅, home ✅ (+ assets statik servisi). Diğer panellerin dizini kod ağacında YOK (Test-Path, Faz 0). Durum sütunu hedef tanımı yansıtır.
 
@@ -358,7 +290,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
-## 10. Servis Haritası — 7 Backend Servis
+### §10 Service Map — 7 Backend Services
 
 | # | Servis | Port | Protocol | Stack | Sorumluluk |
 |---|--------|------|----------|-------|------------|
@@ -372,7 +304,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
-## 11. Port Kaydı
+### §11 Port Register
 
 | Port | Servis | Protokol |
 |------|--------|----------|
@@ -386,7 +318,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
-## 12. Teknoloji Yığını
+### §12 Technology Stack
 
 | Katman | Teknoloji | Versiyon |
 |--------|-----------|---------|
@@ -408,7 +340,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
-## 13. Platform Katmanları (Tier)
+### §13 Platform Layers (Tier)
 
 | Tier | OS | Durum | Ses Sürücüsü |
 |------|-----|-------|-------------|
@@ -420,7 +352,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
-## 14. Deployment Modları
+### §14 Deployment Modes
 
 | Mod | Platform | Donanım |
 |-----|----------|---------|
@@ -432,7 +364,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
-## 15. Tema Motoru (ADR-044)
+### §15 Theme Engine (ADR-044)
 
 - **Gender-based:** female→pink, male→blue, neutral→default
 - **PHP:** `ThemeEngine.php` — DB + user gender çözümleme
@@ -442,7 +374,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
-## 16. Audio Organizasyonu (5 Bölüm)
+### §16 Audio Organization (5 Sections)
 
 | Division | Sorumluluk |
 |----------|------------|
@@ -454,18 +386,8 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
-## 17. Test Kapsama Hedefleri
 
-| Modül | Minimum | Hedef | Framework |
-|-------|---------|-------|-----------|
-| Backend (PHP) | ≥80% | ≥90% | PHPUnit 11 |
-| Frontend (JS) | ≥80% | ≥90% | Vitest |
-| Audio Engine (C++) | ≥80% | ≥90% | Google Test |
-| Download Service | ≥80% | ≥90% | Vitest |
-
----
-
-## 18. 18 BCNF Veritabanı (ADR-040)
+### §18 18 BCNF Databases (ADR-040)
 
 *Detaylı metadata için bakınız: [[architecture/index]] §3*
 
@@ -495,43 +417,9 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
-## 18A. Template Sistemi (Zorunlu)
 
-**⚠️ ZORUNLULUK:** Yeni dosya oluşturulurken `.ai/.templates/index.md`'den uygun template seçilmek ZORUNLU. Template olmadan dosya oluşturulamaz (Guardrail #16).
 
-| Kategori | Template | Kullanım Alanı |
-|----------|----------|----------------|
-| adr/ | adr-template.md | Yeni ADR oluştururken |
-| adr/ | adr-frontend-template.md | Frontend ADR |
-| adr/ | adr-database-template.md | Database ADR |
-| adr/ | adr-security-template.md | Güvenlik ADR |
-| adr/ | adr-audio-template.md | Audio/Hardware ADR |
-| backend/ | php-template.md | PHP backend geliştirme |
-| backend/ | nodejs-template.md | Node.js backend |
-| frontend/ | js-template.md | JavaScript geliştirme |
-| frontend/ | css-template.md | CSS/ITCSS geliştirme |
-| testing/ | phpunit-template.md | PHPUnit test |
-| testing/ | vitest-template.md | Vitest test |
-| infrastructure/ | migration-template.md | DB migration |
-| infrastructure/ | github-actions-template.md | CI/CD pipeline |
-| documentation/ | api-doc-template.md | API dokümantasyonu |
-| documentation/ | security-audit-template.md | Güvenlik denetimi |
-| documentation/ | WikiPage-Template.md | Wiki sayfası |
-| hardware/ | arduino-template.md | Arduino/IoT |
-| hardware/ | avr-template.md | AVR mikrodenetleyici |
-| hardware/ | pic-template.md | PIC mikrodenetleyici |
-| query/ | Query-Template.md | SQL sorguları |
-| session/ | session-log-template.md | Oturum kaydı |
-| other/ | aspnet-template.md | ASP.NET backend |
-| other/ | c-template.md | C/C++ geliştirme |
-
-**Kullanım:** Template'i kopyala → Değişkenleri doldur (`{{VARIABLE}}`) → Gereksiz bölümleri kaldır.
-
-**Detay:** [[.ai/.templates/index]]
-
----
-
-## 19. Audio Engine Standartları
+### §19 Audio Engine Standards
 
 | Özellik | Değer |
 |---------|-------|
@@ -546,72 +434,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
-## 20. Kritik ADR'ler
-
-| ADR | Konu | Durum |
-|-----|------|-------|
-| [[decisions/accepted/ADR-001-vanilla-js-itcss]] | Vanilla JS + ITCSS, framework yasak | Frozen |
-| [[decisions/accepted/ADR-002-pdo-mandatory-no-orm]] | PDO mandatory, ORM yasak | Frozen |
-| [[decisions/accepted/ADR-010-csrf-protection-strategy]] | CSRF token = `csrf_token` | Frozen |
-| [[decisions/accepted/ADR-011-session-management]] | Session yönetimi | Frozen |
-| [[decisions/accepted/ADR-022-database-hardened-security]] | DB güvenlik sertleştirme | Frozen |
-| [[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]] | PCM3168A + XMOS XU316 | Active |
-| [[decisions/accepted/ADR-040-database-authority]] | 18 BCNF DB otoritesi | Active |
-| [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault restructuring, PHP 8.4, port 81 | Active |
-| [[decisions/accepted/ADR-044-dynamic-user-theme-engine]] | Dynamic theme engine | Active |
-| [[.decisions/draft/ADR-089-classab-24v]] | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Draft |
-
----
-
-## 21. Yasak Örüntüleri
-
-| ✅ Yasak | ✅ Doğru |
-|----------|----------|
-| `_csrf_token` | `csrf_token` |
-| ORM (Eloquent, Doctrine) | Raw PDO |
-| `SELECT *` | Explicit columns |
-| `innerHTML` | `DOMParser` + `TrustedTypes` |
-| React / Vue / Angular | Vanilla JS |
-| Hardcoded secrets | `.env` / credential vault |
-| `eval()` / `Function()` | Safe alternatives |
-| `localStorage` for auth | Session-based auth (HTTPOnly cookie) |
-| `sessionStorage` for auth | Session-based auth (HTTPOnly cookie) |
-| `var` | `const` / `let` |
-| PCM5122 (8.1 surround) | PCM3168A / AK4458 |
-
----
-
-## 22. Edge Cases
-
-| Durum | Çözüm | ADR |
-|-------|-------|-----|
-| USB cihaz çıkarma | WASAPI fallback | [[ADR-017-dsp-hardware-mode]] |
-| Multi-Tab CSRF | Session-bound tek token | [[ADR-010-csrf-protection-strategy]] |
-| BCNF violation | 3NF → BCNF audit | [[ADR-040-database-authority]] |
-| Session timeout (3600s) | Otomatik yeniden auth | [[ADR-011-session-management]] |
-| Layer violation | Derhal revert | CLAUDE.md §7 |
-| PCM5122 kullanımı | PCM3168A veya AK4458 | [[ADR-038-8.1-sound-card-chip-selection]] |
-| Network outage | Offline-First + SQLite queue | — |
-| Cache stampede | Mutex ile single load | L0 |
-| ADR conflict | Escalation protocol | [[engine.md]] |
-
----
-
-## 23. Kritik Uyarılar
-
-| # | Uyarı | Sonuc |
-|---|-------|-------|
-| 1 | Middleware sırası değiştirme | CSP nonce üretimi bozulur, güvenlik açığı |
-| 2 | `SELECT *` kullanma | SQL injection riski |
-| 3 | Hardcoded secret kodda/log'da | Veri sızıntısı |
-| 4 | PCM5122 ile 8.1 surround | Sistem hatası (H001 REJECT) |
-| 5 | Plan olmadan kod yazma | Mimari bütünlük bozulur |
-| 6 | ASIO Exclusive Lock | Aynı anda sadece tek uygulama |
-| 7 | DC Offset Riski | Class AB amfide >0.5V DC offset koruma rölesi |
-
----
-
-## 24. Bağımlılıklar
+### §24 Dependencies
 
 | Bağımlılık | Tür | Versiyon | Zorunlu mu? |
 |------------|-----|---------|-------------|
@@ -629,7 +452,197 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
-## 25. İleriye Yönelik Yol Haritası
+### §32 Freelancer Technical Documentation v1.0 (Architecture Extract)
+
+> 🔁 **Dedup (2026-09-23):** §01 CoreMusic Tanımı ve §01.2 Temel Özellikler (10 Ana Başlık) bu dosyadan çıkarıldı → [[VISION]] · [[PROJECTS]]. Aşağıda yalnızca §02 katman tabloları korunur; [[WORKFLOW.md]] §19 bu bölüme link verir.
+
+### §02 System Architecture
+
+#### 4-Layer Simplified Architecture
+
+```
+L3 Uygulama Katmanı → Web, Mobile, Car, TV, Studio, Panel
+    ↓
+L2 Servis Katmanı → API, Microservices, AI, Media, Sync
+    ↓
+L1 Güvenlik Katmanı → Auth, Session, CSRF, Rate Limit, Security Headers
+    ↓
+L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
+```
+
+#### 7-Layer Detailed Architecture (PDF)
+
+| # | Katman | Kapsam |
+|---|--------|--------|
+| 01 | Kullanıcı Deneyimi | Desktop App, Web Portal, Smart TV, Mobile App |
+| 02 | Uygulama Servis | User Service, Media, Playlist, AI, Subscription |
+| 03 | Native Ses İşleme | Audio Engine (ASIO/WASAPI), Mixer, Effects, DSP |
+| 04 | Yapay Zeka | Music Analysis, Recommendation, Voice, AI Generation |
+| 05 | Alan (Domain) | Music/Artist/Album, User Profile, Business Rules |
+| 06 | Veri Yönetimi | Local DB, Cache, Data Optimization, File Management |
+| 07 | Altyapı ve Bulut | Streaming Server, On-Premise, Docker/K8s |
+
+#### Architecture Qualities
+
+| Nitelik | Açıklama |
+|---------|----------|
+| MODÜLER | Her bileşen bağımsız geliştirilebilir |
+| ÖLÇEKLENEBİLİR | Dikey ve yatay ölçekleme |
+| GÜVENLİ | 10 adımlı middleware, Argon2id, AES-256-GCM |
+| SÜRDÜRÜLEBİLİR | Açık mimari, pluggable yapı |
+| GELECEĞE HAZIR | AI entegrasyonu, yeni format desteği |
+
+#### Related References
+- [[VISION]] — CoreMusic vizyonu
+- [[PROJECTS]] — Proje tanımı
+- [[WORKFLOW]] — Sistem çalışma şekli
+- [[architecture/index]] — 21 katmanlı mimari
+
+---
+
+## Rules
+
+### §7 Hard Guardrails (16 Rules)
+
+| # | Kural | Uygulama | İhlal Sonucu |
+|---|-------|----------|--------------|
+| 1 | Zero Code Before Plan | Plan onayı olmadan kod yok | Kod revert edilir |
+| 2 | Vault First (eski #2 + #15 birleşimi) | Kod yazmadan önce AI vault'u oku (§5 boot protokolü); AI, .ai/ vault'unu (CLAUDE.md + AGENTS.md + WORKFLOW.md + brain.md + ROLE.md) OKUMADAN hiçbir plan/kod/faaliyet başlatamaz | Kod geçersiz; işlem derhal durdurulur + revert |
+| 3 | Zero Hallucination | Doğrulanamayan bilgi → `VERIFICATION REQUIRED` | İçerik silinir |
+| 4 | In-Place Refactoring | Dosya adı/yolu değişmez | Dosya geri yüklenir |
+| 5 | Single Source of Truth | Bilgi sadece `.ai/` vault'tan | Harici bilgi reddedilir |
+| 6 | CSRF Token = `csrf_token` | `_csrf_token` yasak (2026-05-30) | Token reddedilir |
+| 7 | Middleware Order Immutable | Sıra değişmez | Sistem durdurulur |
+| 8 | Port 81 = music.coremusic.net | PHP 8.4 | Yanlış port yasak |
+| 9 | No ORM | Raw PDO only (ADR-002) | ORM kullanımı reddedilir |
+| 10 | No Frameworks | Vanilla JS + ITCSS (ADR-001) | Framework reddedilir |
+| 11 | **Mockup Before Frontend** | **KESİNLİKLE YASAK:** Frontend görevinde `.ai/ui-design/01-mockup-index.md` + `.ai/ui-design/02-component-inventory.md` (19 PNG mockup, C01-C16 envanteri) + `.ai/ui-design/tokens/design-tokens-master.md` OKUNMADAN kod yazılamaz. **45-tier cihaz matrisi** (`01-mockup-index.md`) ve **10 referans dosyası** (`reference/01-10`) okunmadan Frontend bileşeni kodlanamaz. Görsel okunamıyorsa DUR ve bildir. | **Kod derhal revert edilir + CRITICAL log** |
+| 12 | Contradiction Gate | Vault'ta çelişki varsa kullanıcıya sor, onay bekle | İşlem durur |
+| 13 | Session Continuity | Her oturum başlangıcında geçmiş session'dan devam et | Bağlam kaybolur |
+| 14 | Human Approval Gate | Mimari karar öncesi kullanıcı onayı zorunlu | Kod revert edilir |
+| 16 | Template Mandatory | Yeni dosya oluşturulurken `.ai/.templates/index.md`'den uygun template seçilmek ZORUNLU | Dosya geçersiz |
+| 17 | Single Component Responsive | 1024x600 mockup = pixel reference ([[ui-design/screens/00-ascii-art-index]]: Header 60px y:0-60, İçerik 450px y:60-510, Footer 90px y:510-600). Tek component sistemi + responsive CSS. Ayrı HTML/branch YASAK. CSS variables + media queries. Device CSS sadece behavioral override. | Kod revert edilir |
+
+#### §7.1 Guardrail #11 Detail — Frontend Mandatory Reading Protocol
+
+**⚠️ ZORUNLULUK:** Tüm frontend (HTML/CSS/JS/PHP layout) geliştirme görevlerinde aşağıdaki dosyalar OKUNMADAN kod KESİNLİKLE YASAKTIR:
+
+| Sıra | Dosya | İçerik | Kullanım Anı |
+|------|-------|--------|-------------|
+| 1 | `.ai/ui-design/01-mockup-index.md` | 19 PNG mockup indeksi (home-1024 + home-1920 + shared-1024), hangi görsellerin mevcut olduğu | İlk okunacak — hangi ekranlar var? |
+| 2 | `.ai/ui-design/02-component-inventory.md` | C01-C16 BEM sınıfları, pixel ölçümleri, token referansları | Bileşen kodlarken |
+| 3 | `.ai/ui-design/tokens/design-tokens-master.md` | Renk, boşluk, tipografi, cam token'ları | CSS yazarken |
+| 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: [[screens/B-home/dashboard-1920]]) | Layout hizalamada |
+| 5 | `.ai/ui-design/05-responsive-architecture.md` | Cihaz bazlı CSS override kuralları — **§7.4 4K No-Center (4K'da ortalamama YASAK)** ve **§12 Geriye Dönük Uyumluluk (fallback ZORUNLU)** bağlayıcıdır | Device-specific CSS'te |
+
+**Referans Sıralaması (çelişki durumunda):** PNG > ASCII art > Component Inventory > Tokens > Implementation Plan.
+
+**İhlal Prosedürü:**
+1. Mockup okunmadan kod tespit edilir → Kod derhal revert edilir
+2. `log.md`'ye CRITICAL giriş eklenir
+3. Vault Steward'a bildirim yapılır
+4. Görsel okunamıyorsa DUR ve kullanıcıya bildir
+
+#### §7.2 Footnote — Guardrail #15 → #2 Merge
+
+- Eski Guardrail #15 (Vault-First Mandatory), #2 (Vault First) ile birleştirildi (2026-09-23, Vault Refactor Engine v27.0.0). Toplam: 17 → 16 madde; satır numaraları 1-14, 16, 17 olarak korundu.
+- ⚠️ VERIFICATION REQUIRED: [[ROLE.md]] §435 hâlâ "Guardrail #15" referansı içerir — ROLE.md bu revizyon kapsamı dışıdır; referansın #2'ye güncellenmesi gerekir.
+
+---
+
+### §7A Hybrid Coding Model (Human + AI)
+
+Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kurallar her iki taraf için de zorunludur.
+
+| # | Kural | Açıklama |
+|---|-------|----------|
+| 1 | **Vault-First Mandatory** | AI, vault'u okumadan kod yazamaz. Okuma sırası: CLAUDE.md → AGENTS.md → WORKFLOW.md → index.md → keys.md → brain.md → MEMORY.md → log.md → engine.md → ROLE.md → (Frontend görevlerinde [[ui-design/01-mockup-index]] ve [[ui-design/02-component-inventory]] ZORUNLU) |
+| 2 | **Çelişki Durumu** | Vault'ta çelişki varsa DUR ve kullanıcıya sor. Onay alınmadan hiçbir işlem yapılmaz |
+| 3 | **Onay Zorunlu** | Mimari karar, yeni dosya, büyük değişiklik öncesi kullanıcı onayı zorunlu |
+| 4 | **Session Continuity** | Her oturum başında geçmiş session'dan devam et. `log.md` ve `MEMORY.md` okunur |
+| 5 | **Prompt Uyumu** | Verilen promptlar birebir uygulanır. Kafadan ekleme, değiştirme veya yorumlama yapılmaz |
+| 6 | **İnsan Kodlaması** | İnsan kodladığında da aynı kurallar geçerli. Vault referansları kullanılabilir |
+| 7 | **AI Kodlaması** | AI kodladığında template zorunlu, plan zorunlu, vault-okuma zorunlu |
+| 8 | **Tutarlılık** | İnsan ve AI arasında kod tutarlılığı sağlamak için aynı standartlar kullanılır |
+
+---
+
+### §8 Soft Constraints (4 Rules)
+
+| # | Kural | Esnetme Koşulu | Onay |
+|---|-------|----------------|------|
+| 1 | %80 test coverage | Geçici %75, teknik borç kabulü | Tech Lead |
+| 2 | 30s timeout | Uzun batch işlemi (60s'e kadar) | Tech Lead |
+| 3 | Coverage raporlama esnekliği | Bu satır orijinal listede yok — bilinçli silme mi eksiklik mi belirsiz | DOĞRULAMA GEREKLİ (Vault Steward) |
+| 4 | BypassAuth devre dışı | Test ortamında aktif edilebilir | Security Engineer |
+
+---
+
+### §18A Template System (Mandatory)
+
+**⚠️ ZORUNLULUK:** Yeni dosya oluşturulurken `.ai/.templates/index.md`'den uygun template seçilmek ZORUNLU. Template olmadan dosya oluşturulamaz (Guardrail #16).
+
+**Kategoriler (SSOT):** adr/, agents/, backend/, frontend/, testing/, infrastructure/, documentation/, hardware/, query/, session/, other/ kırılımı ve güncel dosya listesi [[.templates/index]] dosyasındadır; bu dosyada tekrar edilmez (SSOT dedup).
+
+**Kullanım:** Template'i kopyala → Değişkenleri doldur (`{{VARIABLE}}`) → Gereksiz bölümleri kaldır.
+
+**Detay:** [[.templates/index]]
+
+> ⚠️ VERIFICATION REQUIRED: Eski kayıt 26 template iddia ediyordu; disk taraması 19 template dosyası buldu. Sayım [[.templates/index]] üzerinden doğrulanmalı.
+
+---
+
+### §21 Forbidden Patterns
+
+| ✅ Yasak | ✅ Doğru |
+|----------|----------|
+| `_csrf_token` | `csrf_token` |
+| ORM (Eloquent, Doctrine) | Raw PDO |
+| `SELECT *` | Explicit columns |
+| `innerHTML` | `DOMParser` + `TrustedTypes` |
+| React / Vue / Angular | Vanilla JS |
+| Hardcoded secrets | `.env` / credential vault |
+| `eval()` / `Function()` | Safe alternatives |
+| `localStorage` for auth | Session-based auth (HTTPOnly cookie) |
+| `sessionStorage` for auth | Session-based auth (HTTPOnly cookie) |
+| `var` | `const` / `let` |
+| PCM5122 (8.1 surround) | PCM3168A / AK4458 |
+
+---
+
+### §22 Edge Cases
+
+| Durum | Çözüm | ADR |
+|-------|-------|-----|
+| USB cihaz çıkarma | WASAPI fallback | [[ADR-017-dsp-hardware-mode]] |
+| Multi-Tab CSRF | Session-bound tek token | [[ADR-010-csrf-protection-strategy]] |
+| BCNF violation | 3NF → BCNF audit | [[ADR-040-database-authority]] |
+| Session timeout (3600s) | Otomatik yeniden auth | [[ADR-011-session-management]] |
+| Layer violation | Derhal revert | CLAUDE.md §7 |
+| PCM5122 kullanımı | PCM3168A veya AK4458 | [[ADR-038-8.1-sound-card-chip-selection]] |
+| Network outage | Offline-First + SQLite queue | — |
+| Cache stampede | Mutex ile single load | L0 |
+| ADR conflict | Escalation protocol | [[engine.md]] |
+
+---
+
+### §23 Critical Warnings
+
+| # | Uyarı | Sonuc |
+|---|-------|-------|
+| 1 | Middleware sırası değiştirme | CSP nonce üretimi bozulur, güvenlik açığı |
+| 2 | `SELECT *` kullanma | SQL injection riski |
+| 3 | Hardcoded secret kodda/log'da | Veri sızıntısı |
+| 4 | PCM5122 ile 8.1 surround | Sistem hatası (H001 REJECT) |
+| 5 | Plan olmadan kod yazma | Mimari bütünlük bozulur |
+| 6 | ASIO Exclusive Lock | Aynı anda sadece tek uygulama |
+| 7 | DC Offset Riski | Class AB amfide >0.5V DC offset koruma rölesi |
+
+---
+
+## Workflow
+
+### §25 Forward-Looking Roadmap
 
 | Faz | Hedef | Süre |
 |-----|-------|------|
@@ -639,7 +652,138 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
-## 26. İlgili Dokümanlar
+### §30 .ai Reference Tracking Protocol (OpenCode Integration)
+
+> Detaylı protokol için bkz: [[AGENTS.md]] §24
+
+---
+
+## Validation
+
+### §17 Test Coverage Targets
+
+| Modül | Minimum | Hedef | Framework |
+|-------|---------|-------|-----------|
+| Backend (PHP) | ≥80% | ≥90% | PHPUnit 11 |
+| Frontend (JS) | ≥80% | ≥90% | Vitest |
+| Audio Engine (C++) | ≥80% | ≥90% | Google Test |
+| Download Service | ≥80% | ≥90% | Vitest |
+
+---
+
+### §29 Quality Report
+
+| Metrik | Değer |
+|--------|-------|
+| Version | 27.0.0 |
+| Status | Red Team · Human Mode · Truth Mode verified |
+| Sections | 8 |
+| Hard Guardrails | 16 |
+| Soft Constraints | 4 |
+| Panels | 10 |
+| Services | 7 |
+| Databases | 18 BCNF |
+| Platform Tiers | 5 |
+| Deployment Modes | 5 |
+| Audio Divisions | 5 |
+| ADR Coverage | 001-089 (80 karar: 37 Frozen + 30 Active + 12 Rejected + 1 Draft) |
+| Cross References | 11 |
+| Glossary Terms | 75 (SSOT: [[glossary]]) |
+| Forbidden Patterns | 11 |
+| Edge Cases | 9 |
+| Skills | 10 |
+| Agent Profiles | 11 |
+| Critical Warnings | 7 |
+
+---
+
+### §31 Phase 1 Verification Record (2026-09-08)
+
+Bu dosyada Faz 1 revizyonunda yapılan düzeltmeler:
+
+| # | Düzeltme | Konum | Kanıt |
+|---|----------|-------|-------|
+| 1 | ADR kapsamı 038-087 → 038-088 (79 karar) | §3, §29, §26 | decisions/ sayımı |
+| 2 | 18 → 19 PNG (12+1+6) | Guardrail #11, §12A | .ai/.png/ sayımı |
+| 3 | Redis L0 hedef→PLANNED notu | §5 | CacheManager kod okuma |
+| 4 | Glossary 32 → 75 terim | §26, §28 | glossary.md v2.0.0 |
+| 5 | Soft Constraints #3 eksik satırı işaretlendi | §8 | Truth Mode — DOĞRULAMA GEREKLİ |
+| 6 | Panel haritası "hedef mimari" notu | §9 | Test-Path Faz 0 |
+| 7 | Dinamik stack ilkesi | §24 Node.js satırı bağlamı | engine §9, ROLE §11 |
+
+İlke: Bu dosya anayasadır — içerik ekleme/düzeltme yapılırken Guardrail #4 (In-Place) ve #14 (Human Approval) korunmuştur; bu revizyon kullanıcı direktifiyle (2026-09-08, "tüm vault'u satır satır revize et") yetkilendirilmiştir.
+
+> ⚠️ VERIFICATION REQUIRED: Tabloda "§12A" referansı geçiyor — CLAUDE.md'de §12A yok (§18'i mi kastettiği belirsiz; §27 ve §31'de de geçer).
+
+---
+
+### §33 Document Skeleton & Validation (8-Section Alignment — Vault Refactor Engine 2026-09-23)
+
+> **Not (Vault Refactor Engine, 2026-09-23):** Bu dosya 8 bölümlük evrensel iskelete göre yeniden düzenlendi (v26.0.0 → v27.0.0). İçerik taşındı, silinmedi; § numaraları ve `[[wiki-link]]` hedefleri korundu.
+
+#### §33.1 8-Section Skeleton Mapping
+
+| İskelet Bölümü | Karşılık Gelen § |
+|----------------|------------------|
+| Başlık | H1 + frontmatter (7 zorunlu alan) |
+| Amaç | §1 Purpose |
+| Kapsam | §2 Scope |
+| Mimari | §4, §5, §6, §6A, §6B, §9-§16, §18, §19, §24, §32 |
+| Kurallar | §7 (16 guardrail; #15 → #2), §7.1, §7.2, §7A, §8, §18A, §21, §22, §23 |
+| Workflow | §25, §30 (+ [[WORKFLOW.md]] §8-§13) |
+| Doğrulama | §17, §29, §31, §33 |
+| Referanslar | §3, §20, §26, §27, §27A, §27B, §28 |
+
+#### §33.2 Validation Checklist (Phase 1 — 2026-09-23)
+
+- [x] Frontmatter 7 alan tam: title, type, category, version (27.0.0), status, authority, updated (2026-09-23)
+- [x] Mojibake temizliği: 745 düzeltme (fix-mojibake.py + genişletilmiş varyantlar)
+- [x] `§x.y` numaraları korundu (satır-edit, silme yok)
+- [x] `[[wiki-link]]` hedef adları korundu (kırık link taraması Faz 6'da)
+- [x] SSOT: bu dosya hiyerarşinin 1. sırasında (CLAUDE > AGENTS > WORKFLOW > brain > index)
+
+#### §33.3 Related Files
+
+[[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[MEMORY.md]] · [[index.md]] · [[keys.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
+
+---
+
+## References
+
+### §3 Terminology (Stub)
+
+> 📌 **Stub:** Terimlerin tamamı için bkz: [[glossary]] (75 terim). Aşağıdaki 5 terim bu dosyaya özgüdür ve satır içi tutulur. ⚠️ VERIFICATION REQUIRED: Bu 5 terim glossary.md'de henüz yer almıyor (WASAPI sadece tesadüfi geçiyor) — sonraki fazda eklenmeli.
+
+| Terim | Tanım |
+|-------|-------|
+| **Hard Gate** | Kullanıcı onayı olmadan geçilemeyen kritik faz geçiş noktası. |
+| **Zero Code Before Plan** | Plan onayı olmadan kod yazma yasağı. |
+| **Zero Hallucination** | Doğrulanamayan bilginin `VERIFICATION REQUIRED` olarak işaretlenmesi. |
+| **Layer Violation** | Mimari katman bağımlılık kurallarının ihlali. |
+| **WASAPI** | Windows Audio Session API — Windows ses oturum yönetimi. |
+
+Diğer terimler → [[glossary]]: SSOT, ADR, CSRF, CSP, BCNF, RBAC, OWASP, ASIO, DSP, FLAC, PCM, LFE.
+
+---
+
+### §20 Critical ADRs
+
+| ADR | Konu | Durum |
+|-----|------|-------|
+| [[decisions/accepted/ADR-001-vanilla-js-itcss]] | Vanilla JS + ITCSS, framework yasak | Frozen |
+| [[decisions/accepted/ADR-002-pdo-mandatory-no-orm]] | PDO mandatory, ORM yasak | Frozen |
+| [[decisions/accepted/ADR-010-csrf-protection-strategy]] | CSRF token = `csrf_token` | Frozen |
+| [[decisions/accepted/ADR-011-session-management]] | Session yönetimi | Frozen |
+| [[decisions/accepted/ADR-022-database-hardened-security]] | DB güvenlik sertleştirme | Frozen |
+| [[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]] | PCM3168A + XMOS XU316 | Active |
+| [[decisions/accepted/ADR-040-database-authority]] | 18 BCNF DB otoritesi | Active |
+| [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault restructuring, PHP 8.4, port 81 | Active |
+| [[decisions/accepted/ADR-044-dynamic-user-theme-engine]] | Dynamic theme engine | Active |
+| [[.decisions/draft/ADR-089-classab-24v]] | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Draft |
+
+---
+
+### §26 Related Documents
 
 | Dosya | Amaç |
 |-------|------|
@@ -657,7 +801,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | [[archives/prompt3-api-2026-09-01]] | API mimarisi promptu |
 | [[glossary]] | Teknik terimler sözlüğü (75 terim) |
 
-### 26.1 Prompt Entegrasyonu (prompt0-3)
+#### §26.1 Prompt Integration (prompt0-3)
 
 Her oturum başlangıcında sırayla okunur:
 
@@ -670,7 +814,7 @@ Her oturum başlangıcında sırayla okunur:
 
 **Toplam max süre:** 14s
 
-### 26.2 Prompt-Domain Eşleşmesi
+#### §26.2 Prompt-Domain Matching
 
 | Prompt | Sorumlu Agent'lar | Kullanım Anı |
 |--------|-------------------|-------------|
@@ -679,7 +823,7 @@ Her oturum başlangıcında sırayla okunur:
 | prompt2 | Security Engineer, Backend Architect | Auth middleware, session, JWT, CORS |
 | prompt3 | Backend Architect, DevOps Engineer | API gateway, servis mimarisi, CQRS |
 
-### 26.3 Zorunlu Kurallar
+#### §26.3 Mandatory Rules
 
 1. Prompt kuralları CLAUDE.md ile çelişirse → CLAUDE.md öncelikli (SSOT)
 2. Prompt içeriği vault'a işlenmiştir. Tekrar prompt okumak yerine ilgili vault dosyası okunur
@@ -687,7 +831,7 @@ Her oturum başlangıcında sırayla okunur:
 
 ---
 
-## 27. Çapraz Referanslar
+### §27 Cross-references
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
@@ -705,7 +849,7 @@ Her oturum başlangıcında sırayla okunur:
 
 ---
 
-## 27A. Skills Registry (10 Skill — Guardrail #16 Zorunlu)
+### §27A Skills Registry (10 Skill — Guardrail #16 Mandatory)
 
 | # | Skill | Amaç | Kullanım |
 |---|-------|------|----------|
@@ -726,180 +870,18 @@ Her oturum başlangıcında sırayla okunur:
 
 ---
 
-## 27B. Agent Profiles (11 Agent — .ai/.agents/)
+### §27B Agent Profiles (11 Agent — .ai/.agents/)
 
-| # | Agent | Profil Dosyası |
-|---|-------|---------------|
-| 1 | Master Orchestrator | [[.agents/master-orchestrator]] |
-| 2 | Backend Architect | [[.agents/backend-architect]] |
-| 3 | UI Designer | [[.agents/ui-designer]] |
-| 4 | Security Engineer | [[.agents/security-engineer]] |
-| 5 | Data Engineer | [[.agents/data-engineer]] |
-| 6 | Embedded Engineer | [[.agents/embedded-engineer]] |
-| 7 | QA Engineer | [[.agents/qa-engineer]] |
-| 8 | DevOps Engineer | [[.agents/devops-engineer]] |
-| 9 | Audio HW Engineer | [[.agents/audio-hardware-engineer]] |
-| 10 | DSP Firmware Engineer | [[.agents/dsp-firmware-engineer]] |
-| 11 | Windows SW Engineer | [[.agents/windows-software-engineer]] |
+Agent listesi ve profil tablosu (11 agent): [[AGENTS.md]] §4 (Agent Overview) ve [[AGENTS.md]] §15 (Agent Details) — bu dosyada SSOT'tur.
 
 **Konum:** `.ai/.agents/*.md`
 **İndeks:** [[.agents/AGENTS.md]]
 
 ---
 
-## 28. Sözlük
+### §28 Glossary
 
 > Detaylı sözlük için bkz: [[glossary]] (75 terim)
-
----
-
-## 29. Quality Report
-
-| Metrik | Değer |
-|--------|-------|
-| Version | 27.0.0 |
-| Status | Red Team · Human Mode · Truth Mode verified |
-| Sections | 30 |
-| Hard Guardrails | 17 |
-| Soft Constraints | 4 |
-| Panels | 10 |
-| Services | 7 |
-| Databases | 18 BCNF |
-| Platform Tiers | 5 |
-| Deployment Modes | 5 |
-| Audio Divisions | 5 |
-| ADR Coverage | 001-089 (80 karar: 37 Frozen + 30 Active + 12 Rejected + 1 Draft) |
-| Cross References | 8 |
-| Glossary Terms | 30+ |
-| Forbidden Patterns | 10 |
-| Edge Cases | 10 |
-| Skills | 10 |
-| Agent Profiles | 11 |
-| Critical Warnings | 7 |
-
----
-
-## 30. .ai Referans Takibi Protokolü (OpenCode Entegrasyonu)
-
-> Detaylı protokol için bkz: [[AGENTS.md]] §24
-
----
-
-## 31. Faz 1 Doğrulama Kaydı (2026-09-08)
-
-Bu dosyada Faz 1 revizyonunda yapılan düzeltmeler:
-
-| # | Düzeltme | Konum | Kanıt |
-|---|----------|-------|-------|
-| 1 | ADR kapsamı 038-087 → 038-088 (79 karar) | §3, §29, §26 | decisions/ sayımı |
-| 2 | 18 → 19 PNG (12+1+6) | Guardrail #11, §12A | .ai/.png/ sayımı |
-| 3 | Redis L0 hedef→PLANNED notu | §5 | CacheManager kod okuma |
-| 4 | Glossary 32 → 75 terim | §26, §28 | glossary.md v2.0.0 |
-| 5 | Soft Constraints #3 eksik satırı işaretlendi | §8 | Truth Mode — DOĞRULAMA GEREKLİ |
-| 6 | Panel haritası "hedef mimari" notu | §9 | Test-Path Faz 0 |
-| 7 | Dinamik stack ilkesi | §24 Node.js satırı bağlamı | engine §9, ROLE §11 |
-
-İlke: Bu dosya anayasadır — içerik ekleme/düzeltme yapılırken Guardrail #4 (In-Place) ve #14 (Human Approval) korunmuştur; bu revizyon kullanıcı direktifiyle (2026-09-08, "tüm vault'u satır satır revize et") yetkilendirilmiştir.
-
----
-
-## 32. CoreMusic Freelancer Teknik Dokümantasyon v1.0
-
-### §01 Giriş — CoreMusic Tanımı
-
-CoreMusic; trilyon dolarlık küresel dijital medya, otomotiv ses sistemleri ve tüketici elektroniği pazarındaki yapısal açıkları kapatmak ve doğrudan yüksek kârlılığa dönüştürmek amacıyla geliştirilmiş kurumsal seviyede bir **Ticari Dijital Medya Ekosistemi ve Gelir Platformudur**.
-
-**Mülkiyet ve Özgürlük Odaklı Felsefe:** Kullanıcının sahip olduğu kayıpsız ses koleksiyonu (FLAC, WAV, MP3) kalıcı, bağımsız ve ilişkisel bir dijital varlık olarak korunur.
-
-**Kesintisiz Bütünleşik Yaşam Deneyimi:** Akıllı telefondan araç içi bilgi-eğlence panellerine (`car.coremusic.net`), ev medya merkezlerinden (`home.coremusic.net` - RPi5) profesyonel mastering stüdyolarına kadar her temas noktasında yaşayan bütünleşik bir ses standardıdır.
-
-### §01.2 Temel Özellikler (10 Ana Başlık)
-
-| # | Özellik | Açıklama |
-|---|---------|----------|
-| 1 | Hibrit Mimari (Online + Offline) | Kesintisiz yerel akış, çift yönlü bulut eşzamanlaması |
-| 2 | Hi-Fi Ses Motoru | C++20 Neva Engine, Zero-Allocation, True Peak Limiter |
-| 3 | Ses İşleme Hassasiyeti | 32-bit Float aktif, 64-bit Float yol haritası |
-| 4 | Hoparlör Matrisi | 1.0 Mono'dan 8.1 Surround'a (+1 LFE) |
-| 5 | Canlı Temalar & AI Theme Maker | Ambient aura, glassmorphism, doğal dil ile tema üretimi |
-| 6 | Çapraz Cihaz Ekosistemi | Mobil, tablet, PC, TV, araç, ev medya — kesintisiz geçiş |
-| 7 | Merkezi Medya Depolama | `media.coremusic.net` — otomatik indirme ve indeksleme |
-| 8 | Network Audio | DLNA/UPnP, WebRTC/P2P, Multi-Room |
-| 9 | AI Müzik Intelligence | Öneri, akıllı playlist, otomatik EQ, ses analizi |
-| 10 | Otonom İndirme & Dışa Aktarım | YouTube, Deezer (FLAC), USB, CD yazma |
-
-### §02 Sistem Mimarisi
-
-#### 4 Katmanlı Basitleştirilmiş Mimari
-
-```
-L3 Uygulama Katmanı → Web, Mobile, Car, TV, Studio, Panel
-    ↓
-L2 Servis Katmanı → API, Microservices, AI, Media, Sync
-    ↓
-L1 Güvenlik Katmanı → Auth, Session, CSRF, Rate Limit, Security Headers
-    ↓
-L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
-```
-
-#### 7 Katmanlı Detaylı Mimari (PDF)
-
-| # | Katman | Kapsam |
-|---|--------|--------|
-| 01 | Kullanıcı Deneyimi | Desktop App, Web Portal, Smart TV, Mobile App |
-| 02 | Uygulama Servis | User Service, Media, Playlist, AI, Subscription |
-| 03 | Native Ses İşleme | Audio Engine (ASIO/WASAPI), Mixer, Effects, DSP |
-| 04 | Yapay Zeka | Music Analysis, Recommendation, Voice, AI Generation |
-| 05 | Alan (Domain) | Music/Artist/Album, User Profile, Business Rules |
-| 06 | Veri Yönetimi | Local DB, Cache, Data Optimization, File Management |
-| 07 | Altyapı ve Bulut | Streaming Server, On-Premise, Docker/K8s |
-
-#### Mimari Nitelikler
-
-| Nitelik | Açıklama |
-|---------|----------|
-| MODÜLER | Her bileşen bağımsız geliştirilebilir |
-| ÖLÇEKLENEBİLİR | Dikey ve yatay ölçekleme |
-| GÜVENLİ | 10 adımlı middleware, Argon2id, AES-256-GCM |
-| SÜRDÜRÜLEBİLİR | Açık mimari, pluggable yapı |
-| GELECEĞE HAZIR | AI entegrasyonu, yeni format desteği |
-
-### İlgili Referanslar
-- [[VISION]] — CoreMusic vizyonu
-- [[PROJECTS]] — Proje tanımı
-- [[WORKFLOW]] — Sistem çalışma şekli
-- [[architecture/index]] — 21 katmanlı mimari
-
----
-
-## 33. Doküman İskeleti & Doğrulama (8-Bölüm Uyumu — Vault Refactor Engine 2026-09-23)
-
-> **Not (Vault Refactor Engine, 2026-09-23):** Bu dosya ADR-042 hibrit kuralıyla satır-edit + ekleme yöntemiyle revize edildi (v26.0.0 → v27.0.0). Yeni içerik sona eklendi; mevcut § numaraları ve `[[wiki-link]]` hedefleri korundu. Vault genelinde mojibake temizliği yapıldı (745 düzeltme).
-
-### 33.1 8-Bölüm İskelet Eşlemesi
-
-| İskelet Bölümü | Karşılık Gelen § | Durum |
-|----------------|------------------|-------|
-| Başlık | H1 + frontmatter (7 zorunlu alan) | ✅ |
-| Amaç | §1 Amaç ve Proje Tanımı | ✅ |
-| Kapsam | §2 Kapsam + §3 Terminoloji | ✅ |
-| Mimari | §5 Mimari (K0-K20 katmanları) + §12 Teknoloji | ✅ |
-| Kurallar | §16 Guardrails (16 madde) + §6 Middleware sıraları | ✅ |
-| Workflow | §14 Promptlar + [[WORKFLOW.md]] §6-§13 (tek kaynak) | ✅ |
-| Doğrulama | §24 Zero Hallucination + bu bölüm §33.2 | ✅ (yeni) |
-| Referanslar | §27 Çapraz Referanslar + §32 | ✅ |
-
-### 33.2 Doğrulama Kontrol Listesi (Faz 1 — 2026-09-23)
-
-- [x] Frontmatter 7 alan tam: title, type, category, version (27.0.0), status, authority, updated (2026-09-23)
-- [x] Mojibake temizliği: 745 düzeltme (fix-mojibake.py + genişletilmiş varyantlar)
-- [x] `§x.y` numaraları korundu (satır-edit, silme yok)
-- [x] `[[wiki-link]]` hedef adları korundu (kırık link taraması Faz 6'da)
-- [x] SSOT: bu dosya hiyerarşinin 1. sırasında (CLAUDE > AGENTS > WORKFLOW > brain > index)
-
-### 33.3 İlgili Dosyalar
-
-[[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[MEMORY.md]] · [[index.md]] · [[keys.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
 ---
 

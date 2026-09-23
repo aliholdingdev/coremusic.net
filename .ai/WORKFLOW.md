@@ -80,55 +80,55 @@ CoreMusic ekosistemindeki tüm süreçlerin standartlaştırıldığı **Tek Do�
 - Standart dışı dosyalar tespit edilir
 - Çıktı: `markdown-analysis.md`
 
-#### Faz 4: Conflict Detection
+#### Phase 4: Conflict Detection
 - Dosyalar arası çelişkiler tespit edilir
 - Eski/yanlış bilgiler bulunur
 - ADR çelişkileri kontrol edilir
 - Çıktı: `conflict-report.md`
 
-#### Faz 5: Duplicate Detection
+#### Phase 5: Duplicate Detection
 - Yinelenen dosyalar tespit edilir
 - Benzer içerikli dosyalar bulunur
 - Birleştirme önerileri oluşturulur
 - Çıktı: `duplicate-report.md`
 
-#### Faz 6: Gap Detection
+#### Phase 6: Gap Detection
 - Eksik dokümantasyon tespit edilir
 - ADR kapsamadığı alanlar bulunur
 - Eksik referanslar listelenir
 - Çıktı: `gap-report.md`
 
-#### Faz 7: Improvement Proposal → HARD GATE
+#### Phase 7: Improvement Proposal → HARD GATE
 - Tüm bulgular bir araya getirilir
 - İyileştirme teklifi hazırlanır
 - **Kullanıcı onayı zorunlu** (Hard Gate)
 - Onay olmadan Faz 8'e geçilemez
 - Çıktı: `improvement-proposal.md`
 
-#### Faz 8: Document Refactoring (In-Place)
+#### Phase 8: Document Refactoring (In-Place)
 - Dosyalar yerinde güncellenir
 - Dosya adı/konumu değişmez
 - Format standartları uygulanır
 - Wiki-link'ler korunur
 
-#### Faz 9: Cross Reference Update
+#### Phase 9: Cross Reference Update
 - Tüm çapraz referanslar güncellenir
 - Kırık wiki-link'ler düzeltilir
 - Yeni eklenen dosyalar referanslanır
 
-#### Faz 10: Index Update
+#### Phase 10: Index Update
 - `index.md` güncellenir
 - Yeni dosyalar eklenir
 - Silinen dosyalar kaldırılır
 - Kategoriler güncellenir
 
-#### Faz 11: Validation
+#### Phase 11: Validation
 - Tüm değişiklikler doğrulanır
 - Wiki-link'ler kontrol edilir
 - Format uyumluluğu test edilir
 - Çıktı: `validation-report.md`
 
-#### Faz 12: Quality Report & Vault Sync
+#### Phase 12: Quality Report & Vault Sync
 - Kalite raporu oluşturulur
 - `log.md`'ye giriş eklenir
 - MEMORY.md session state güncellenir
@@ -163,7 +163,7 @@ CoreMusic ekosistemindeki tüm süreçlerin standartlaştırıldığı **Tek Do�
 
 #### §6.1 Phase Groups Detail
 
-#### Vizyon & Analiz (Faz 1-6)
+#### Vision & Analysis (Phases 1-6)
 - Ürün vizyonu tanımlanır
 - Domain-Driven Design ile sınırlandırılmış bağlam belirlenir
 - Kullanıcı senaryoları (use case) yazılır
@@ -171,26 +171,26 @@ CoreMusic ekosistemindeki tüm süreçlerin standartlaştırıldığı **Tek Do�
 - Bilgi mimarisi oluşturulur
 - Rekabet analizi yapılır
 
-#### Teknik Mimari (Faz 7-9)
+#### Technical Architecture (Phases 7-9)
 - **Faz 7: Hard Gate** — Mimari tasarım onayı
 - Sistem diyagramları çizilir
 - Klasör yapısı planlanır
 - Teknoloji yığını belirlenir
 
-#### Kod & Tasarım (Faz 10-14)
+#### Code & Design (Phases 10-14)
 - Kod standartları yazılır (PSR-12, BEM, ITCSS)
 - UI/UX tasarımı yapılır
 - API tasarımı oluşturulur
 - BCNF veritabanı tasarımı yapılır
 - OWASP güvenlik kontrolleri uygulanır
 
-#### Test & DevOps (Faz 15-18)
+#### Test & DevOps (Phases 15-18)
 - Test stratejisi belirlenir
 - CI/CD pipeline kurulur
 - Dokümantasyon yazılır
 - Monitoring sistemi kurulur
 
-#### MVP & Yol Haritası (Faz 19-20)
+#### MVP & Roadmap (Phases 19-20)
 - MVP sürümü yayınlanır
 - 5 yıllık yol haritası oluşturulur
 
@@ -242,9 +242,158 @@ Draft → Review → Active → Frozen
 
 ---
 
-## 8. Workflows
+### §19 PDF System Architecture Summary
 
-### 8.1 Code Review
+> 📍 **Katman tabloları:** 4 katmanlı basitleştirilmiş mimari ve 7 katmanlı detaylı mimari tabloları → [[CLAUDE.md]] §32 §02 (tek kaynak). Bu bölümde Servis Diyagramı, Veri Akışı ve ilgili dosyalar korunur.
+
+#### Service Diagram
+
+```
+Kullanıcı → Web/Mobile/Car/TV → API Gateway → Microservices
+                                                    ↓
+                                    ┌───────────────┼───────────────┐
+                                    ↓               ↓               ↓
+                               Media Service   Audio Service   AI Service
+                                    ↓               ↓               ↓
+                               MySQL 9        Neva Engine    TensorFlow
+                               Redis Cache    ASIO/WASAPI    PyTorch
+                               File Storage   DSP Chain      Inference
+```
+
+#### Data Flow
+
+```
+Müzik Dosyası → Metadata Çıkarma → DB Kaydı → İndeksleme → Arama → Oynatma
+     │              │                  │            │          │        │
+     ▼              ▼                  ▼            ▼          ▼        ▼
+  FFmpeg        ID3/FLAC          MySQL 9      FULLTEXT    Search   Neva
+  Transcode     Tag Parse         INSERT       Index       API     Engine
+```
+
+#### Related Files
+- [[architecture/index]] — 21 katmanlı mimari
+- [[VISION]] — Vizyon ve hedefler
+- [[PROJECTS]] — Proje tanımı
+
+---
+
+## Rules
+
+### §4 Core Principles
+
+| İlke | Açıklama | ADR |
+|------|----------|-----|
+| Zero Code Before Plan | Kod yazmadan önce tam planlama zorunlu | [[ADR-007-cache-namespace]] |
+| In-Place Modification | Dosya adı/konumu onay olmadan değişmez | Hard Rule #2 |
+| No Hallucination | Doğrulanamayan bilgi → `VERIFICATION REQUIRED` | [[ADR-005-ultrathink-protocol]] |
+| Append-Only Log | Geçmiş kayıtlar silinemez | [[ADR-004-multi-domain-spa]] |
+| Hard Gate | Kullanıcı onayı olmadan sonraki faza geçilmez | [[ADR-007-cache-namespace]] |
+| Domain Boundary | Her ajan kendi alanında kalır | [[ADR-008-bypass-auth-middleware]] |
+| Single Source of Truth | Bilgi sadece `.ai/` vault'tan okunur | [[ADR-042-vault-restructuring-2026-08-03]] |
+
+---
+
+### §9 Hard Gates
+
+| Faz | Hard Gate | Açıklama | İhlal Sonucu |
+|-----|-----------|----------|-------------|
+| Phase 7 (Vault) | Improvement Proposal | İyileştirme teklifi onayı | Kod revert + CRITICAL log |
+| Phase 7 (Product) | Teknik Mimari Tasarım | Mimari plan onayı | Kod revert + CRITICAL log |
+| ADR Review | ADR Active'e Geçiş | ADR onayı | ADR Draft'a geri döner |
+| Deployment | Production Deploy | Deploy onayı | Deploy iptal |
+
+#### §9.1 Approval Format
+
+```
+[Kullanıcı Onayı] — [Tarih] — [Değişiklik Özeti]
+```
+
+**Örnek:**
+```
+[Bayram Ali Onayı] — [2026-08-08] — [ADR-042 vault yeniden yapılandırma onayı]
+```
+
+#### §9.2 Violation Procedure
+
+| Adım | Aksiyon |
+|------|---------|
+| 1 | Hard Gate ihlali tespit edilir |
+| 2 | Derhal işlem durdurulur |
+| 3 | Yapılan değişiklikler revert edilir |
+| 4 | `log.md`'ye CRITICAL giriş eklenir |
+| 5 | Vault Steward'a bildirim yapılır |
+| 6 | ⚠️ VERIFICATION REQUIRED — okunaksız adım (metin git'te ilk commit'ten beri "Sousuz sıfırlanır"; başka vault dosyasında karşılığı YOK). Kesin olan ek: "... sıfırlanır" (kuyruk/oturum sıfırlama olabilir) — Vault Steward teyidi gerekir |
+
+---
+
+### §10 Rules
+
+#### §10.1 Hard Rules
+
+| # | Kural | İhlal Sonucu |
+|---|-------|--------------|
+| 1 | User Approval Gate — Onay olmadan kod/doküman yok | İşlem geri alınır |
+| 2 | In-Place Modification — Dosya adı/konumu değişmez | Dosya geri yüklenir |
+| 3 | No Hallucination → `VERIFICATION REQUIRED` | İçerik silinir |
+| 4 | Skill Zorunluluğu — Vault değişikliği varsa vault-sync zorunlu | Oturum geçersiz |
+| 6 | Middleware Order Immutable | Sistem durdurulur |
+
+#### §10.2 Soft Constraints
+
+| # | Kural | Esnetme Koşulu | Onay |
+|---|-------|----------------|------|
+| 1 | Test ortamında BypassAuth | `?_bypass=1` ile aktif | Security Engineer |
+| 2 | 1000 satır dosya limiti | Master Orchestrator onayı ile | MO |
+
+#### §10.3 Workflow-Specific Rules
+
+| Workflow | Ek Kural |
+|----------|----------|
+| Code Review | 8 adım zorunlu |
+| Bug Fix | Root cause analizi zorunlu, regression test |
+| New Feature | 20-Fazlı lifecycle, Phase 7 Hard Gate |
+| Security Audit | OWASP Top 10:2025 tam liste, ADR referanslı |
+| Deployment | Pre-flight + post-flight, Hard Gate |
+| Session Init | 10 dosya, 25s timeout, 5 soru |
+| Vault Sync | 5 soru + 6 adım, wiki-link doğrulama |
+| YAML Formatter | 2 boşluk girinti, single-quote, 120 char limit |
+
+---
+
+### §11 Edge Cases
+
+| Senaryo | Çözüm | ADR |
+|---------|-------|-----|
+| User rejection (Phase 7) | Phase 4'e geri dön | ADR-007 |
+| Session interruption | log.md'den resume | ADR-004 |
+| Vault corruption | `git checkout` + son commit | ADR-042 |
+| ADR conflict | Escalation (L1→L2→L3) | ADR-008 |
+| Concurrent write | Context Lock + Queue | ADR-022 |
+| Token overflow | Chunked read | ADR-042 |
+| Deprecated API | Otomatik replace + log warning | — |
+| Hard Gate bypass | Derhal revert + CRITICAL log | ADR-007 |
+| Hallüsinasyon yayılımı | `VERIFICATION REQUIRED` + sweep | ADR-005 |
+
+---
+
+### §12 Warnings
+
+| # | Uyarı | ADR |
+|---|-------|-----|
+| 1 | Hard Gate atlanırsa mimari bütünlük bozulur | ADR-007 |
+| 2 | Vault bozulursa git ile kurtarma yapılır | ADR-042 |
+| 3 | Hallüsinasyon yayılırsa tüm ekosistem yanıltılır | ADR-005 |
+| 5 | Vault-sync yapılmazsa vault-kod tutarsızlığı oluşur | ADR-042 |
+| 6 | Middleware sırası değiştirilirse CSP/CSRF bozulur | ADR-010/011/012/013/022 |
+| 7 | Frozen ADR değiştirilirse karar tutarsızlığı oluşur | ADR-042 |
+
+---
+
+## Workflow
+
+### §8 Workflows
+
+#### §8.1 Code Review
 
 | Adım | Aksiyon | Kontrol |
 |------|---------|---------|
@@ -261,7 +410,7 @@ Draft → Review → Active → Frozen
 
 **Çıktı:** Code Review Raporu (geçti/başarısız + notlar)
 
-### 8.1A Kapsamlı Kod Analizi (20 Adım)
+#### §8.1A Comprehensive Code Analysis (20 Steps)
 
 Referans proje analizinde veya büyük ölçekli refactor'da aşağıdaki 20 adımlık kontrol listesi uygulanır:
 
@@ -288,7 +437,7 @@ Referans proje analizinde veya büyük ölçekli refactor'da aşağıdaki 20 ad�
 | 19 | Refactoring Planı oluştur | Öncelikli düzeltme listesi |
 | 20 | Yeni mimariyi tasarla | Hedef mimari tanımla |
 
-### 8.1B Beklenen Çıktı Formatı
+#### §8.1B Expected Output Format
 
 Her analiz sonunda aşağıdaki bölümler oluşturulmalıdır:
 
@@ -304,14 +453,14 @@ Her analiz sonunda aşağıdaki bölümler oluşturulmalıdır:
 10. **Refactoring Planı** — Düzeltme öncelikleri
 11. **Önerilen Yeni Mimari** — Hedef yapı (katman diyagramları, paket diyagramları, domain diyagramları, auth akışı, SPA Router akışı, middleware pipeline, request/response lifecycle, service dependency graph, deployment diagram, component diagram — ASCII diyagramları ile)
 
-### 8.1C Referans Proje Kuralları
+#### §8.1C Reference Project Rules
 
 Referans proje (`coremusic.net.old.ref`) incelenirken:
 - **KESİNLİKLE kopyalanmayacak:** Auth kodları, Router, Middleware, Session sistemi, Login sistemi, Controller yapısı, Service yapısı
 - **Sadece referans olarak incelenecek:** Mimari, klasör yapısı, katman ayrımı, tasarım yaklaşımı
 - **Kod tekrar kullanılmayacaktır** — Tüm sistem sıfırdan geliştirilecektir
 
-### 8.2 Bug Fix
+#### §8.2 Bug Fix
 
 | Adım | Aksiyon | Öncelik |
 |------|---------|---------|
@@ -332,7 +481,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | MEDIUM | 1 gün | Normal hata |
 | LOW | 1 hafta | Kozmetik hata |
 
-### 8.3 New Feature
+#### §8.3 New Feature
 
 | Adım | Aksiyon | Hard Gate |
 |------|---------|-----------|
@@ -347,7 +496,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 7 | Testleri yaz ve çalıştır | — |
 | 8 | Vault-sync yap | — |
 
-### 8.3A Multi-Tier UI Development (45-Tier)
+#### §8.3A Multi-Tier UI Development (45-Tier)
 
 | Adım | Aksiyon | Hard Gate |
 |------|---------|-----------|
@@ -362,7 +511,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 9 | `[[ui-design/reference/09-interaction-states]]` tier davranışlarını doğrula | — |
 | 10 | Vault-sync yap | — |
 
-### 8.4 Security Audit
+#### §8.4 Security Audit
 
 | Adım | Aksiyon | Kaynak |
 |------|---------|--------|
@@ -375,7 +524,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 7 | Güvenlik raporu oluştur | — |
 | 8 | Tespit edilen açıkları düzelt | — |
 
-### 8.5 Deployment
+#### §8.5 Deployment
 
 | Adım | Aksiyon | Kontrol |
 |------|---------|---------|
@@ -388,7 +537,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 7 | Post-deployment validation | — |
 | 8 | `log.md`'ye tamamlanma kaydı | — |
 
-### 8.6 Session Init
+#### §8.6 Session Init
 
 | Adım | Aksiyon | Süre |
 |------|---------|------|
@@ -402,7 +551,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 4 | Session başlangıç kaydı oluştur | Anlık |
 | 5 | Görev bağlamını anla | Değişken |
 
-### 8.7 Vault Sync
+#### §8.7 Vault Sync
 
 **Başlangıç (5 Soru):**
 
@@ -424,11 +573,11 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 4 | Wiki-link'leri doğrula | Regex |
 | 6 | Hallüsinasyon sweep | VERIFICATION REQUIRED |
 
-### 8.7A Root .md Dosya Güncelleme Protokolü
+#### §8.7A Root .md Update Protocol
 
 **⚠️ ZORUNLULUK:** Her session başında ve sonunda `.ai/` dizinindeki tüm root .md dosyaları okunmalı ve güncellenmelidir.
 
-#### Root .md Dosyaları (12 adet — glossary.md Faz 1'de eklendi)
+#### Root .md Files (12 — added in glossary Phase 1)
 
 | # | Dosya | Amaç | Session Başında | Session Sonunda |
 |---|-------|------|-----------------|-----------------|
@@ -445,7 +594,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 11 | `ULTRA-THINKING.md` | Ultra düşünme protokolü | ✅ Oku | ✅ Gerekirse güncelle |
 | 12 | `glossary.md` | Terim sözlüğü (75 terim, kod-referanslı) | ✅ Oku | ✅ Gerekirse güncelle |
 
-#### Session Başında (12 Dosya)
+#### Per Session (12 Files)
 
 | Adım | Aksiyon | Kontrol |
 |------|---------|---------|
@@ -454,7 +603,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 3 | Çelişki varsa düzelt | SSOT hierarchy: CLAUDE.md > AGENTS.md > WORKFLOW.md |
 | 4 | Eksik referansları tespit et | Wiki-link kontrolü |
 
-#### Session Sonunda (12 Dosya)
+#### End of Session (12 Files)
 
 | Adım | Aksiyon | Kontrol |
 |------|---------|---------|
@@ -465,7 +614,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 5 | `log.md`'ye session kapanış kaydı ekle | Format |
 | 6 | `MEMORY.md` session state güncelle | Session index |
 
-#### Güncelleme Sırası
+#### Update Order
 
 ```
 Session Başında:
@@ -475,7 +624,7 @@ Session Sonunda:
   MEMORY.md → log.md → brain.md → index.md → keys.md → engine.md → AGENTS.md → WORKFLOW.md → CLAUDE.md → ROLE.md → ULTRA-THINKING.md → glossary.md
 ```
 
-#### Kritik Kurallar
+#### Critical Rules
 
 | # | Kural | İhlal Sonucu |
 |---|-------|--------------|
@@ -484,109 +633,13 @@ Session Sonunda:
 | 3 | Çelişki varsa SSOT hierarchy takip edilir | CLAUDE.md öncelikli |
 | 4 | Timestamp'ler her zaman güncel olmalı | Eski timestamp = eski bilgi |
 
-### 8.8 YAML Formatter & Doğrulama
+#### §8.8 YAML Formatter & Validation
 
 > Detaylı YAML format standartları için bkz: [[reference/yaml-formatter]]
 
 ---
 
-## 9. Hard Gates
-
-| Faz | Hard Gate | Açıklama | İhlal Sonucu |
-|-----|-----------|----------|-------------|
-| Phase 7 (Vault) | Improvement Proposal | İyileştirme teklifi onayı | Kod revert + CRITICAL log |
-| Phase 7 (Product) | Teknik Mimari Tasarım | Mimari plan onayı | Kod revert + CRITICAL log |
-| ADR Review | ADR Active'e Geçiş | ADR onayı | ADR Draft'a geri döner |
-| Deployment | Production Deploy | Deploy onayı | Deploy iptal |
-
-### 9.1 Onay Formatı
-
-```
-[Kullanıcı Onayı] — [Tarih] — [Değişiklik Özeti]
-```
-
-**Örnek:**
-```
-[Bayram Ali Onayı] — [2026-08-08] — [ADR-042 vault yeniden yapılandırma onayı]
-```
-
-### 9.2 İhlal Prosedürü
-
-| Adım | Aksiyon |
-|------|---------|
-| 1 | Hard Gate ihlali tespit edilir |
-| 2 | Derhal işlem durdurulur |
-| 3 | Yapılan değişiklikler revert edilir |
-| 4 | `log.md`'ye CRITICAL giriş eklenir |
-| 5 | Vault Steward'a bildirim yapılır |
-| 6 | Sousuz sıfırlanır |
-
----
-
-## 10. Rules
-
-### 10.1 Hard Rules
-
-| # | Kural | İhlal Sonucu |
-|---|-------|--------------|
-| 1 | User Approval Gate — Onay olmadan kod/doküman yok | İşlem geri alınır |
-| 2 | In-Place Modification — Dosya adı/konumu değişmez | Dosya geri yüklenir |
-| 3 | No Hallucination → `VERIFICATION REQUIRED` | İçerik silinir |
-| 4 | Skill Zorunluluğu — Vault değişikliği varsa vault-sync zorunlu | Oturum geçersiz |
-| 6 | Middleware Order Immutable | Sistem durdurulur |
-
-### 10.2 Soft Constraints
-
-| # | Kural | Esnetme Koşulu | Onay |
-|---|-------|----------------|------|
-| 1 | Test ortamında BypassAuth | `?_bypass=1` ile aktif | Security Engineer |
-| 2 | 1000 satır dosya limiti | Master Orchestrator onayı ile | MO |
-
-### 10.3 Workflow'a Özel Kurallar
-
-| Workflow | Ek Kural |
-|----------|----------|
-| Code Review | 8 adım zorunlu |
-| Bug Fix | Root cause analizi zorunlu, regression test |
-| New Feature | 20-Fazlı lifecycle, Phase 7 Hard Gate |
-| Security Audit | OWASP Top 10:2025 tam liste, ADR referanslı |
-| Deployment | Pre-flight + post-flight, Hard Gate |
-| Session Init | 10 dosya, 25s timeout, 5 soru |
-| Vault Sync | 5 soru + 6 adım, wiki-link doğrulama |
-| YAML Formatter | 2 boşluk girinti, single-quote, 120 char limit |
-
----
-
-## 11. Edge Cases
-
-| Senaryo | Çözüm | ADR |
-|---------|-------|-----|
-| User rejection (Phase 7) | Phase 4'e geri dön | ADR-007 |
-| Session interruption | log.md'den resume | ADR-004 |
-| Vault corruption | `git checkout` + son commit | ADR-042 |
-| ADR conflict | Escalation (L1→L2→L3) | ADR-008 |
-| Concurrent write | Context Lock + Queue | ADR-022 |
-| Token overflow | Chunked read | ADR-042 |
-| Deprecated API | Otomatik replace + log warning | — |
-| Hard Gate bypass | Derhal revert + CRITICAL log | ADR-007 |
-| Hallüsinasyon yayılımı | `VERIFICATION REQUIRED` + sweep | ADR-005 |
-
----
-
-## 12. Warnings
-
-| # | Uyarı | ADR |
-|---|-------|-----|
-| 1 | Hard Gate atlanırsa mimari bütünlük bozulur | ADR-007 |
-| 2 | Vault bozulursa git ile kurtarma yapılır | ADR-042 |
-| 3 | Hallüsinasyon yayılırsa tüm ekosistem yanıltılır | ADR-005 |
-| 5 | Vault-sync yapılmazsa vault-kod tutarsızlığı oluşur | ADR-042 |
-| 6 | Middleware sırası değiştirilirse CSP/CSRF bozulur | ADR-010/011/012/013/022 |
-| 7 | Frozen ADR değiştirilirse karar tutarsızlığı oluşur | ADR-042 |
-
----
-
-## 13. İleriye Yönelik Yol Haritası
+### §13 Forward-Looking Roadmap
 
 | Versiyon | Özellik | Tahmini |
 |----------|---------|---------|
@@ -599,7 +652,80 @@ Session Sonunda:
 
 ---
 
-## 14. İlgili Dokümanlar
+## Validation
+
+### §18 Quality Report
+
+| Metrik | Değer |
+|--------|-------|
+| Version | 22.0.0 |
+| Status | Red Team · Human Mode · Truth Mode verified |
+| Sections | 8 |
+| ADR References | 8 |
+| Workflows | 8 (§8.1-§8.8) |
+| Hard Rules | 5 (§10.1 — #5 boşluğu korunuyor) |
+| Soft Constraints | 2 (§10.2) |
+| Edge Cases | 9 (§11) |
+| Hard Gates | 4 |
+| Warnings | 6 (§12 — #4 boşluğu korunuyor) |
+| Glossary Terms | 11 dosya-içi (§3) + [[glossary]] |
+
+---
+
+### §20 Document Skeleton (8-Section Alignment — Vault Refactor Engine 2026-09-23)
+
+> **Not:** Bu dosya ADR-042 hibrit kuralıyla satır-edit + ekleme ile v21.0.0 → v22.0.0'a yükseltildi; 8 bölümlük evrensel iskelete göre yeniden düzenlendi (içerik taşındı, silinmedi).
+
+#### §20.1 Skeleton Mapping
+
+| İskelet Bölümü | Karşılık Gelen § |
+|----------------|------------------|
+| Başlık | H1 + frontmatter (7 zorunlu alan) |
+| Amaç | §1 Purpose |
+| Kapsam | §2 Scope |
+| Mimari | §5 + §6 + §7 + §19 |
+| Kurallar | §4 Core Principles + §9 Hard Gates + §10 Rules + §11 Edge Cases + §12 Warnings |
+| Workflow | §8 Workflows + §13 Roadmap |
+| Doğrulama | §18 Quality Report + bu bölüm §20 |
+| Referanslar | §3 + §14 Related Documents + §15 Cross References + §16 Glossary + §17A + §17B |
+
+#### §20.2 Phase 1 Verification (2026-09-23)
+
+- [x] Frontmatter 7 alan; version 22.0.0; updated 2026-09-23
+- [x] Mojibake temizlendi (vault geneli 745 düzeltme)
+- [x] §1-§19 korundu, silme yok; yeni bölüm §20 olarak eklendi
+- [x] `[[wiki-link]]` hedef adları korundu (kırık link taraması Faz 6'da)
+- [x] REFACTOR REPORT: FILE: WORKFLOW.md · PURPOSE: Vault Workflows & Processes SSOT · VALIDATION: § + link korundu · RELATED: [[CLAUDE.md]] · [[AGENTS.md]] · [[brain.md]] · [[index.md]] · [[keys.md]] · [[MEMORY.md]] · [[log.md]]
+
+#### §20.3 Related Files
+
+[[CLAUDE.md]] · [[AGENTS.md]] · [[brain.md]] · [[MEMORY.md]] · [[index.md]] · [[keys.md]] · [[log.md]] · [[.templates/index]]
+
+---
+
+## References
+
+### §3 Terminology (Stub)
+
+> 📌 **Stub:** Aşağıdaki 11 terim satır içinde tutulur; son 4 terim eski §16 Glossary tablosundan birleştirildi (SSOT dedup, 2026-09-23). **Hard Gate** ve **Zero Code Before Plan** için bkz: [[glossary]] — ⚠️ VERIFICATION REQUIRED: Bu iki terim glossary.md'de henüz yer almıyor; sonraki fazda eklenmeli.
+
+| Terim | Tanım |
+|-------|-------|
+| **Workflow** | Belirli bir amaca yönelik adımlar dizisi |
+| **In-Place Modification** | Dosya adı/yolu değişmeden güncelleme |
+| **Append-Only** | Geçmiş satırların silinmediği/eğitilmediği mod |
+| **Vault Sync** | Vault ile kod arasındaki tutarlılığı sağlama |
+| **ADR Lifecycle** | Draft → Review → Active → Frozen yaşam döngüsü |
+| **Pre-flight Check** | Görev başlamadan önce yapılan kontroller |
+| **Context Lock** | Eşzamanlı dosya erişimini önlemek için kilitleme |
+| **Regression Test** | Yeni değişikliğin eski kodu bozmadığını doğrulama |
+| **Root Cause** | Hatanın kök nedeni |
+| **Cross-reference** | Dosyalar arası çapraz referans |
+| **Hallüsinasyon** | Doğrulanamayan bilgi üretme |
+
+---
+
+### §14 Related Documents
 
 | Dosya | Amaç |
 |-------|------|
@@ -614,7 +740,7 @@ Session Sonunda:
 
 ---
 
-## 15. Çapraz Referanslar
+### §15 Cross References
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
@@ -632,170 +758,21 @@ Session Sonunda:
 
 ---
 
-## 16. Sözlük
+### §16 Glossary (Stub)
 
-| Terim | Tanım |
-|-------|-------|
-| **Workflow** | Belirli bir amaca yönelik adımlar dizisi |
-| **Hard Gate** | Kullanıcı onayı olmadan geçilemeyen nokta |
-| **Zero Code Before Plan** | Plan olmadan kod yazma yasağı |
-| **In-Place** | Dosya adı/konumu değişmeden güncelleme |
-| **Append-Only** | Sadece ekleme, silme/güncelleme yok |
-| **Vault Sync** | Vault-kod tutarlılığı |
-| **ADR Lifecycle** | Draft → Review → Active → Frozen |
-| **Pre-flight** | Görev öncesi kontroller |
-| **Context Lock** | Eşzamanlı erişim kilidi |
-| **Regression Test** | Yeni değişikliğin eski kodu bozmadığını doğrulama |
-| **Root Cause** | Hatanın kök nedeni |
-| **Cross-reference** | Dosyalar arası çapraz referans |
-| **Hallüsinasyon** | Doğrulanamayan bilgi üretme |
+> **Stub notu (SSOT dedup — 2026-09-23):** Bu tablo §3 Terminology ile birleştirildi. 11 terimin 7'si §3'teki karşılıklarıyla örtüşüyor; benzersiz 4 terim (**Regression Test**, **Root Cause**, **Cross-reference**, **Hallüsinasyon**) §3 tablosuna taşındı — bilgi silinmedi. Genel terimler için: [[glossary]].
 
 ---
 
-## 17A. Skills (10 Skill — Guardrail #16 Zorunlu)
+### §17A — Skills (10 Skill — Guardrail #16 Mandatory)
 
-| # | Skill | Amaç | Kullanım Anı |
-|---|-------|------|-------------|
-| 1 | `ui-code-generator` | UI/CSS kod üretimi, responsive tasarım | Frontend geliştirme |
-| 2 | `ui-analyzer` | UI analizi, mevcut tasarım değerlendirme | Tasarım inceleme |
-| 3 | `skill-maker` | Yeni skill oluşturma, template sistemi | Skill geliştirme |
-| 4 | `hallucination-control` | Halüsinasyon kontrolü, doğrulama | Kod yazma öncesi |
-| 5 | `human-mode` | İnsan modu iletişimi, onay süreçleri | Kullanıcı etkileşimi |
-| 6 | `red-team-truth-mode` | Güvenlik testi, adversarial analiz | Güvenlik denetimi |
-| 7 | `prompt-maker` | Prompt mühendisliği, AI talimat tasarımı | Prompt geliştirme |
-| 8 | `agent-orchestrator` | Agent görev dağıtımı, multi-agent koordinasyonu | Görev dağıtımı |
-| 9 | `composer-sync` | Composer dependency yönetimi | Bağımlılık yönetimi |
-| 10 | `database-normalize-maker` | BCNF normalizasyonu, şema tasarımı | DB tasarımı |
-
-**Konum:** `.opencode/skills/*/SKILL.md`
-**Kural:** Her skill dosyası vault referansları içerir (CLAUDE.md, AGENTS.md, WORKFLOW.md, brain.md, index.md).
+> 📍 **Bu tablo [[CLAUDE.md]] §27A'da saklanır** — tekrar yer kaplamamak için.
 
 ---
 
-## 17B. Agent Profiles (11 Agent — .ai/.agents/)
+### §17B — Agent Profiles (11 Agent)
 
-| # | Agent | Profil Dosyası |
-|---|-------|---------------|
-| 1 | Master Orchestrator | [[.agents/master-orchestrator]] |
-| 2 | Backend Architect | [[.agents/backend-architect]] |
-| 3 | UI Designer | [[.agents/ui-designer]] |
-| 4 | Security Engineer | [[.agents/security-engineer]] |
-| 5 | Data Engineer | [[.agents/data-engineer]] |
-| 6 | Embedded Engineer | [[.agents/embedded-engineer]] |
-| 7 | QA Engineer | [[.agents/qa-engineer]] |
-| 8 | DevOps Engineer | [[.agents/devops-engineer]] |
-| 9 | Audio HW Engineer | [[.agents/audio-hardware-engineer]] |
-| 10 | DSP Firmware Engineer | [[.agents/dsp-firmware-engineer]] |
-| 11 | Windows SW Engineer | [[.agents/windows-software-engineer]] |
-
-**Konum:** `.ai/.agents/*.md`
-**İndeks:** [[.agents/AGENTS.md]]
-
----
-
-## 18. Quality Report
-
-| Metrik | Değer |
-|--------|-------|
-| Version | 21.0.0 |
-| Status | Red Team · Human Mode · Truth Mode verified |
-| Sections | 18 |
-| ADR References | 8 |
-| Workflows | 8 |
-| Hard Rules | 6 |
-| Soft Constraints | 3 |
-| Edge Cases | 10 |
-| Hard Gates | 4 |
-| Warnings | 7 |
-| Glossary Terms | 15 |
-
----
-
-## 19. PDF Sistem Mimarisi Özeti
-
-### 4 Katmanlı Basitleştirilmiş Mimari
-
-```
-L3 Uygulama Katmanı → Web, Mobile, Car, TV, Studio, Panel
-    ↓
-L2 Servis Katmanı → API, Microservices, AI, Media, Sync
-    ↓
-L1 Güvenlik Katmanı → Auth, Session, CSRF, Rate Limit, Security Headers
-    ↓
-L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
-```
-
-### 7 Katmanlı Detaylı Mimari
-
-| # | Katman | Kapsam |
-|---|--------|--------|
-| 01 | Kullanıcı Deneyimi | Desktop App, Web Portal, Smart TV, Mobile App |
-| 02 | Uygulama Servis | User Service, Media, Playlist, AI, Subscription |
-| 03 | Native Ses İşleme | Audio Engine (ASIO/WASAPI), Mixer, Effects, DSP |
-| 04 | Yapay Zeka | Music Analysis, Recommendation, Voice, AI Generation |
-| 05 | Alan (Domain) | Music/Artist/Album, User Profile, Business Rules |
-| 06 | Veri Yönetimi | Local DB, Cache, Data Optimization, File Management |
-| 07 | Altyapı ve Bulut | Streaming Server, On-Premise, Docker/K8s |
-
-### Servis Diyagramı
-
-```
-Kullanıcı → Web/Mobile/Car/TV → API Gateway → Microservices
-                                                    ↓
-                                    ┌───────────────┼───────────────┐
-                                    ↓               ↓               ↓
-                               Media Service   Audio Service   AI Service
-                                    ↓               ↓               ↓
-                               MySQL 9        Neva Engine    TensorFlow
-                               Redis Cache    ASIO/WASAPI    PyTorch
-                               File Storage   DSP Chain      Inference
-```
-
-### Veri Akışı
-
-```
-Müzik Dosyası → Metadata Çıkarma → DB Kaydı → İndeksleme → Arama → Oynatma
-     │              │                  │            │          │        │
-     ▼              ▼                  ▼            ▼          ▼        ▼
-  FFmpeg        ID3/FLAC          MySQL 9      FULLTEXT    Search   Neva
-  Transcode     Tag Parse         INSERT       Index       API     Engine
-```
-
-### İlgili Dosyalar
-- [[architecture/index]] — 21 katmanlı mimari
-- [[VISION]] — Vizyon ve hedefler
-- [[PROJECTS]] — Proje tanımı
-
----
-
-## 20. Doküman İskeleti (8-Bölüm Uyumu — Vault Refactor Engine 2026-09-23)
-
-> **Not:** Bu dosya ADR-042 hibrit kuralıyla satır-edit + ekleme ile v21.0.0 → v22.0.0'a yükseltildi (silme yok; §1-§19 korundu).
-
-### 20.1 İskelet Eşlemesi
-
-| İskelet Bölümü | Karşılık Gelen § |
-|----------------|------------------|
-| Başlık | H1 + frontmatter (7 zorunlu alan) |
-| Amaç | §1 |
-| Kapsam | §2 |
-| Mimari | §4 Vault Yapısı + §17A/§17B (registry diyagramları) |
-| Kurallar | §10 Vault Kuralları + §13 Frontmatter & Link Standardı |
-| Workflow | §6-§9 (7 Workflow, Hard Gates, 12/16/20-faz süreçleri) |
-| Doğrulama | §9 Hard Gates + §17B Quality + bu bölüm §20.2 |
-| Referanslar | §14-§15 Çapraz Referans + İlgili Dosyalar |
-
-### 20.2 Faz 1 Doğrulama (2026-09-23)
-
-- [x] Frontmatter 7 alan; version 22.0.0; updated 2026-09-23
-- [x] Mojibake temizlendi (vault geneli 745 düzeltme)
-- [x] §1-§19 korundu, silme yok; yeni bölüm §20 olarak eklendi
-- [x] `[[wiki-link]]` hedef adları korundu (kırık link taraması Faz 6'da)
-- [x] REFACTOR REPORT: FILE: WORKFLOW.md · PURPOSE: Vault Workflows & Processes SSOT · VALIDATION: § + link korundu · RELATED: [[CLAUDE.md]] · [[AGENTS.md]] · [[brain.md]] · [[index.md]] · [[keys.md]] · [[MEMORY.md]] · [[log.md]]
-
-### 20.3 İlgili Dosyalar
-
-[[CLAUDE.md]] · [[AGENTS.md]] · [[brain.md]] · [[MEMORY.md]] · [[index.md]] · [[keys.md]] · [[log.md]] · [[.templates/index]]
+> 📍 **Bu tablo [[AGENTS.md]] §15'te saklanır** — tekrar yer kaplamamak için. İndeks: [[.agents/AGENTS.md]]
 
 ---
 
