@@ -2,16 +2,11 @@
 title: "CoreMusic — PHP Backend Development Template"
 type: template
 category: template
+date: 2026-09-06
+updated: 2026-09-23
 version: 2.0.0
 status: active
-authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
-updated: 2026-09-23
-date: 2026-09-23
-reference_doc: Freelancer Technical Documentation v1.0
-governance: Red Team · Human Mode · Truth Mode
-reference:
-  authority: ".ai/CLAUDE.md"
-  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/brain.md"
+authority: SSOT
 ---
 
 # CoreMusic — PHP Backend Development Template
@@ -20,21 +15,60 @@ reference:
 **Katman:** K8 (Servis) / K9 (API & Routing)
 **Sorumlu Agent:** Backend Architect
 
-**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../../AGENTS.md]] · [[CLAUDE.md]] · [[brain.md]] · [[WORKFLOW.md]] · [[architecture/k8-servis/README.md]]
+**Zorunlu Bağlantılar:** [[.templates/index]] · [[../CLAUDE.md]] · [[../../AGENTS.md]] · [[CLAUDE.md]] · [[brain.md]] · [[WORKFLOW.md]] · [[architecture/k8-servis/README.md]]
 
-## 1. Amaç
+---
 
-Bu şablon, CoreMusic backend geliştirme standartlarını ve kod iskeletlerini tanımlar; **Guardrail #16** gereği yeni PHP backend dosyası (Controller/Service/Repository/Middleware/Validation) bu şablondan üretilmek ZORUNLUDUR. Şablon; ADR-002 (PDO mandatory), ADR-010 (csrf_token), ADR-011/012/013 (oturum, CSP, rate limit), ADR-022 (şifreleme) ve ADR-040 (18 BCNF veritabanı) kararlarını kod iskeletine gömer. **ADR-042 hibrit:** `.templates/*` tam yeniden yazıma açıktır (bu dosya v2.0.0 ile yeniden yazıldı).
+## §1 Amaç
 
-## 2. Kapsam
+Bu şablon, CoreMusic backend geliştirme standartlarını ve kod iskeletlerini tanımlar; **Guardrail #16** gereği yeni PHP backend dosyası (Controller / Service / Repository / Middleware / Validation) bu şablondan üretilmek ZORUNLUDUR. Şablon; ADR-002 (PDO mandatory), ADR-010 (csrf_token), ADR-011/012/013 (oturum, CSP, rate limit), ADR-022 (şifreleme) ve ADR-040 (18 BCNF veritabanı) kararlarını kod iskeletine gömer. **ADR-042 hibrit kuralı:** `.templates/*` dosyaları tam yeniden yazıma açıktır (bu dosya v2.0.0 ile yeniden yazıldı).
 
-- **Geçerli dosya tipleri:** `src/Controller/`, `src/Service/`, `src/Repository/`, `src/Model/`, `src/Middleware/`, `src/Validation/`, `src/Config/` altındaki PHP 8.4 dosyaları (K8 Servis / K9 API & Routing katmanları).
-- **Kullananlar:** Backend Architect (birincil), Security Engineer (middleware/CSRF review), Data Engineer (Repository/BCNF), QA Engineer (test edilebilirlik).
-- **Kapsam dışı:** frontend dosyaları (→ `[[../../.templates/frontend/js-template]]`), testler (→ phpunit-template), migration (→ infrastructure/migration-template).
+| Alan | Değer |
+|------|-------|
+| Template Name | `php-template.md` |
+| Template Path | `.ai/.templates/backend/php-template.md` |
+| Hedef Dosya Tipi | PHP 8.4 backend dosyaları (Controller, Service, Repository, Model, Middleware, Validation, Config) |
+| Guardrail | #16 (Template Mandatory) |
+| Birincil Yazar | Backend Architect |
+| İkincil Yazarlar | Security Engineer (middleware/CSRF), Data Engineer (Repository/BCNF), QA Engineer (test edilebilirlik) |
+| Katmanlar | K8 (Servis) · K9 (API & Routing) |
+| Kanıt — Kod | `shared/src/**` (PageRouter, Bff, Api, Database, Middleware), 4× `composer.json` (shared, home, auth) |
+| Kanıt — Veritabanı | `.ai/.sql/mysql/*.sql` — 18 BCNF şema dosyası (glob kanıtı) |
+| Kanıt — Mimari | `architecture/k8-servis/README.md` |
+| Korunan İskelet | H1 + §1 Hard Guardrails → §10 İlgili Dokümanlar (10 bölüm) + 7 kod bloğu |
+| Değişken Formatı | `{{VARIABLE}}` (MODULE, MIDDLEWARE, TABLE, COLUMN_1, COLUMN_2, TITLE, DATE, VERSION) |
+| Dil | Türkçe (ç ğ ı İ ö ş ü doğru; mojibake YASAK); kod/sınıf/tablo adı İngilizce |
+| Versiyon | 2.0.0 (Vault Refactor Engine yeniden yazımı) |
+| Authority | SSOT (bu dosya); üretilen dosya kendi authority değerini taşır |
+| Governance | Red Team · Human Mode · Truth Mode |
+| Kayıt Defteri | `.ai/.templates/index.md` (envanter SRP — bu şablonda tekrarlanmaz) |
+| İlişkili Şablonlar | `testing/phpunit-template.md`, `infrastructure/migration-template.md` |
+| Son Kontrol | 2026-09-23 |
 
-## 3. Mimari
+---
 
-Şablonun tam iskeleti (placeholder'lı frontmatter + H1 + dosya yapısı + 5 kod şablonu + BCNF + ADR/doküman bölümleri, eksiksiz):
+## §2 Kapsam
+
+Şablonun kapsadığı ve kapsam dışında bıraktığı alanlar. Kapsam sınırı, katman kuralını korur: PHP backend kodu K8/K9'da yaşar, veri erişimi Data Engineer'a, test QA Engineer'a aittir.
+
+| Kapsam | Kapsam Dışı |
+|--------|-------------|
+| `src/Controller/`, `src/Service/`, `src/Repository/`, `src/Model/`, `src/Middleware/`, `src/Validation/`, `src/Config/` altındaki PHP 8.4 dosyaları | Frontend dosyaları (→ `[[../frontend/js-template]]`, `[[../frontend/css-template]]`) |
+| K8 Servis / K9 API & Routing katmanları | Test dosyaları (→ `[[../testing/phpunit-template]]`) |
+| Controller / Service / Repository / Middleware / Validation kod iskeletleri | Migration / şema dosyaları (→ `[[../infrastructure/migration-template]]`) |
+| BCNF veritabanı kuralları (18 DB) | CI/CD pipeline tanımları (→ `[[../infrastructure/github-actions-template]]`) |
+| Hard Guardrail tablosu (8 madde) + ADR referansları | Sorgu şablonları (→ `[[../query/Query-Template]]`) |
+| `{{PLACEHOLDER}}` doldurma ve Guardrail #16 doğrulaması | Node.js backend (→ `[[./nodejs-template]]`) |
+| Wiki-link ile çapraz referans | API dokümanı üretimi (→ `[[../documentation/api-doc-template]]`) |
+| Türkçe doğruluk + mojibake denetimi | `.ai/log.md` append-only kayıt (üst görevin işi) |
+
+**Dosya tipi:** PHP 8.4 · **Uzantı:** `.php` · **Standart:** PSR-12 · **Guardrail:** #16
+
+---
+
+## §3 Mimari
+
+Şablonun tam iskeleti (placeholder'lı frontmatter + H1 + künye + dosya yapısı + 7 kod şablonu + BCNF + ADR/doküman bölümleri, eksiksiz). Dört-çit ` ```markdown ` bloğu iskeletin kendi üç-çit kod bloklarını korur.
 
 ````markdown
 ---
@@ -402,9 +436,11 @@ final class {{MODULE}}Validator
 *Mode: Red Team · Human Mode · Truth Mode*
 ````
 
-## 4. Kurallar
+---
 
-**Hard Guardrails (iskelet §1 — kesinlikle yasak, ihlalde kod revert edilir):**
+## §4 Kurallar
+
+Hard Guardrails (iskelet §1 — kesinlikle yasak, ihlalde kod revert edilir). 8 madde birebir korunmuştur.
 
 | # | Kural | İhlal Sonucu |
 |---|-------|-------------|
@@ -417,11 +453,11 @@ final class {{MODULE}}Validator
 | 7 | Hardcoded secret yasak — `.env` / credential vault | Veri sızıntısı |
 | 8 | PSR-12 kodlama standartları | Kod tutarsızlığı |
 
-**BCNF Veritabanı Kuralları (iskelet §8):**
+**BCNF Veritabanı Kuralları (iskelet §8 — 6 madde):**
 
 | Kural | Açıklama |
 |-------|----------|
-| BCNF zorunlu | 18 veritabanı BCNF kurallarına uymalıdır |
+| BCNF zorunlu | 18 veritabanı BCNF kurallarına uymalıdır (`.ai/.sql/mysql/*.sql` — 18 dosya kanıtı) |
 | Soft delete | `is_deleted = 0` koşulu her sorguda olmalı |
 | Snake_case | Tablo ve sütun isimleri snake_case |
 | Timestamp | `created_at`, `updated_at`, `deleted_at` zorunlu |
@@ -430,38 +466,85 @@ final class {{MODULE}}Validator
 
 **Genel kurallar:**
 
-1. **Guardrail #16:** Yeni PHP backend dosyası bu şablondan üretilir; dış iskelet silinemez.
-2. **Katman sınırı:** K8/K9 dışında veri erişimi (raw SQL dosyaları) → Data Engineer'a handover.
-3. **İlgili ADR'ler:** ADR-002 · ADR-010 · ADR-011 · ADR-012 · ADR-013 · ADR-022 · ADR-040.
-4. **Belirsizlik:** Bilinmeyen class/API `⚠️ VERIFICATION REQUIRED` ile işaretlenir.
+1. **Guardrail #16:** Yeni PHP backend dosyası bu şablondan üretilir; dış iskelet (H1 + §1-§10) silinemez.
+2. **Katman sınırı:** K8/K9 dışında veri erişimi (raw SQL dosyaları) → Data Engineer'a handover (`[[../../AGENTS.md]]` §9.3).
+3. **İlgili ADR'ler:** ADR-002 · ADR-010 · ADR-011 · ADR-012 · ADR-013 · ADR-022 · ADR-040 (iskelet §9 tablosu korunur).
+4. **Belirsizlik:** Bilinmeyen class/API `// ⚠️ VERIFICATION REQUIRED` ile işaretlenir; uydurma API yazılmaz.
+5. **Placeholder disiplini:** `{{MODULE}}`, `{{MIDDLEWARE}}`, `{{TABLE}}`, `{{COLUMN_1}}`, `{{COLUMN_2}}`, `{{TITLE}}`, `{{DATE}}` doldurulmadan commit yasak.
+6. **SRP:** Envanter/envanter satırı bu şablonda tekrarlanmaz → `[[.templates/index]]`.
+7. **DIP:** Routing/escalation değerleri `[[../../AGENTS.md]]` dosyasından okunur.
+8. **DRY:** Kategori § başlıkları birebir aynıdır (§1 Amaç → §7 Referanslar).
+9. **YAGNI:** Uydurma dosya/yol adı yazılmaz; kanıt `shared/src/**` ve `.ai/.sql/mysql/*.sql` glob'larıdır.
+10. **Yazım:** Türkçe karakterler (ç ğ ı İ ö ş ü) doğru; mojibake YASAK; kod adları İngilizce.
 
-## 5. Workflow
+---
 
-ŞABLONU SEÇ → KOPYALA → `{{PLACEHOLDER}}` DOLDUR → GUARDRAIL #16 DOĞRULA → COMMIT
+## §5 Workflow
 
-1. **ŞABLONU SEÇ:** `backend/php-template.md`.
-2. **KOPYALA:** İlgili katman dizinine (Controller/Service/Repository/Middleware/Validation/Config) kopyala.
-3. **`{{PLACEHOLDER}}` DOLDUR:** `{{MODULE}}`, `{{MIDDLEWARE}}`, `{{TABLE}}`, `{{COLUMN_1}}`, `{{COLUMN_2}}`, `{{TITLE}}`, `{{DATE}}` alanlarını gerçek modül/sütun/tarihlerle değiştir; Interface ve DTO dosyalarını ekle.
-4. **GUARDRAIL #16 DOĞRULA:** §6 kontrol listesi + §4 Hard Guardrails (8 madde) + BCNF (6 madde).
-5. **COMMIT:** PSR-12 + test (phpunit-template) ile commit; registry + log güncel.
+```
+ŞABLONU SEÇ → KOPYALA → {{PLACEHOLDER}} DOLDUR → GUARDRAIL #16 DOĞRULA → COMMIT
+```
 
-## 6. Doğrulama
+| Adım | Eylem | Detay | Çıktı |
+|------|-------|-------|-------|
+| 1 | ŞABLONU SEÇ | `.ai/.templates/backend/php-template.md` | Şablon kopyası |
+| 2 | KOPYALA | İlgili katman dizinine (Controller/Service/Repository/Middleware/Validation/Config) kopyala | Yeni dosya iskeleti |
+| 3 | DOLDUR | `{{MODULE}}`, `{{MIDDLEWARE}}`, `{{TABLE}}`, `{{COLUMN_1}}`, `{{COLUMN_2}}`, `{{TITLE}}`, `{{DATE}}` alanlarını gerçek modül/sütun/tarihlerle değiştir; Interface ve DTO dosyalarını ekle | Dolu PHP dosyaları |
+| 4 | DOĞRULA | §6 kontrol listesi + §4 Hard Guardrails (8 madde) + BCNF (6 madde) | 8/8 gate |
+| 5 | COMMIT | PSR-12 + test (`[[../testing/phpunit-template]]`) ile commit; registry (`[[.templates/index]]`) + log güncel | Vault senkronu |
 
-- [ ] 7 alanlı frontmatter var (`title`, `type`, `category`, `version`, `status`, `authority`, `updated`)
-- [ ] 8 bölüm var (H1 + §1-§7)
-- [ ] tüm `{{PLACEHOLDER}}`'lar dolduruldu (`{{MODULE}}`, `{{TABLE}}`, `{{COLUMN_*}}`, `{{DATE}}` dahil)
-- [ ] dosya bu şablona uygun (PHP backend dosyası)
-- [ ] Hard Guardrails 8/8 + BCNF 6/6 + `declare(strict_types=1)` + prepared statement doğrulandı
+**Adım 3 detayı — doldurma sırası:** (a) dosya yapısındaki tüm `{{MODULE}}` adlarını değiştir, (b) `{{MIDDLEWARE}}` adını yaz, (c) Repository'de `{{TABLE}}` + `{{COLUMN_*}}` sütunlarını gerçek BCNF şemasıyla eşleştir (`.ai/.sql/mysql/*.sql`), (d) Controller/Service metot gövdelerini doldur, (e) Validation kurallarını `{{COLUMN_*}}` için yaz, (f) `{{TITLE}}` ve `{{DATE}}` künyesini güncelle, (g) Interface ve DTO dosyalarını oluştur.
 
-**REFACTOR REPORT:** FILE: php-template.md · PURPOSE: PHP backend geliştirme standardı + kod iskeletleri (Guardrail #16) · VALIDATION: 7 alan + §1-§7 + bilgi korunumu (48 placeholder, 7 kod bloğu korundu) · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
+---
 
-## 7. Referanslar
+## §6 Doğrulama
 
-- [[CLAUDE.md]] — ana sözleşme (iskelet §10 İlgili Dokümanlar tablosu)
-- [[brain.md]] — mimari kararlar
-- [[WORKFLOW.md]] — süreçler
-- [[architecture/k8-servis/README.md]] — servis mimarisi
-- [[.templates/index]] — Template Registry
-- [[../CLAUDE.md]] · [[../../AGENTS.md]] — vault ana sözleşme + agent registry
+Dosya commit edilmeden önce kalite kapıları sırayla kontrol edilir; tek bir madde bile ✅ değilse commit yapılmaz.
+
+| # | Kontrol | Beklenen | Durum |
+|---|---------|----------|-------|
+| 1 | Frontmatter 7 zorunlu alan var mı? | title, type, category, date, updated, version, status, authority | ✅/❌ |
+| 2 | H1 + §1-§10 iskeleti eksiksiz mi? | 10 bölüm silinmemiş | ✅/❌ |
+| 3 | Tüm `{{PLACEHOLDER}}`'lar dolduruldu mu? | MODULE, TABLE, COLUMN_*, TITLE, DATE dahil | ✅/❌ |
+| 4 | `declare(strict_types=1)` her dosyada var mı? | 8/8 Hard Guardrail #1 | ✅/❌ |
+| 5 | ORM / `SELECT *` / hardcoded secret yok mu? | Guardrail #2, #3, #7 | ✅/❌ |
+| 6 | Prepared statement + açık sütun listesi kullanıldı mı? | Guardrail #3, #4 | ✅/❌ |
+| 7 | CSRF token = `csrf_token` yazıldı mı? | Guardrail #5 (ADR-010) | ✅/❌ |
+| 8 | Middleware sırası korundu mu? | Guardrail #6 (ADR-010/011/012/013/022) | ✅/❌ |
+| 9 | PSR-12 uyumu sağlandı mı? | Guardrail #8 | ✅/❌ |
+| 10 | BCNF 6 madde tamam mı? | is_deleted, snake_case, timestamp, prepared, no ORM | ✅/❌ |
+| 11 | 7 kod bloğu korundu mu? | Controller, Service, Repository, Middleware, Validation + dosya yapısı | ✅/❌ |
+| 12 | Wiki-link'ler hedefe ulaşıyor mu? | `[[relative/path]]` formatı, kırık link yok | ✅/❌ |
+| 13 | Türkçe doğruluk + mojibake yok mu? | ç ğ ı İ ö ş ü doğru; Ã- kalıntısı yok | ✅/❌ |
+| 14 | Doğrulanamayan alan işaretlendi mi? | `⚠️ VERIFICATION REQUIRED` | ✅/❌ |
+| 15 | Secret / credential yazılmadı mı? | REDACTED politikası | ✅/❌ |
+| 16 | Envanter SRP ihlali yok mu? | Envanter `[[.templates/index]]`'de | ✅/❌ |
+| 17 | § başlıkları kategori tutarlılığına uygun mu? | §1 Amaç → §7 Referanslar (DRY) | ✅/❌ |
+
+**REFACTOR REPORT:** FILE: php-template.md · PURPOSE: PHP backend geliştirme standardı + kod iskeletleri (Guardrail #16) · VALIDATION: 7 alan + §1-§7 + bilgi korunumu (48 placeholder, 7 kod bloğu, 8 Hard Guardrail, 6 BCNF, 7 ADR korundu) · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
+
+---
+
+## §7 Referanslar
+
+| Kaynak | Wiki-Link | Rol |
+|--------|-----------|-----|
+| Template Registry | [[.templates/index]] | Bu şablonun kaydı (envanter SRP) |
+| Vault ana sözleşmesi | [[../CLAUDE.md]] | 16 Hard Guardrail, Guardrail #16 kaynağı |
+| Agent Registry (SSOT) | [[../../AGENTS.md]] | Routing §6 (PHP → Backend Architect), handover §9.3 |
+| Ana sözleşme (iskelet §10) | [[CLAUDE.md]] | İlgili Dokümanlar tablosu |
+| Mimari kararlar (iskelet §10) | [[brain.md]] | ADR özetleri |
+| Süreçler (iskelet §10) | [[WORKFLOW.md]] | Fazlar, session protokolü |
+| Servis mimarisi (iskelet §10) | [[architecture/k8-servis/README.md]] | K8 katmanı |
+| Kod kanıtı | `shared/src/**` | PageRouter, Bff, Api, Database, Middleware |
+| BCNF şema kanıtı | `.ai/.sql/mysql/*.sql` | 18 veritabanı (glob kanıtı) |
+| Eşdeğer backend şablonu | [[./nodejs-template]] | Node.js / TypeScript alternatifi |
+| Test şablonu | [[../testing/phpunit-template]] | PHPUnit 11 test iskeleti |
+| Migration şablonu | [[../infrastructure/migration-template]] | Şema geçişleri |
 
 **İlgili ADR'ler:** ADR-002 (PDO, ORM yasak) · ADR-010 (csrf_token) · ADR-011 (COREMUSIC_SESS, 3600s) · ADR-012 (strict-dynamic CSP) · ADR-013 (APCu, 60 req/60s) · ADR-022 (AES-256-GCM, Argon2id) · ADR-040 (18 BCNF otoritesi)
+
+---
+
+**Template Version:** 2.0.0
+**Last Updated:** 2026-09-23

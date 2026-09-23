@@ -1,211 +1,101 @@
 ---
-reference_doc: Freelancer Technical Documentation v1.0
-title: "CoreMusic — PHPUnit Test Template"
-type: testing-template
-category: template
+title: "PHPUnit Test Template — Backend Test Şablonu"
+type: template
+category: testing
+date: 2026-09-06
+updated: 2026-09-23
 version: 2.0.0
 status: active
-authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
-updated: 2026-09-23
-date: 2026-09-23
-governance: Red Team · Human Mode · Truth Mode
-reference:
-  authority: ".ai/CLAUDE.md"
-  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/brain.md"
+authority: SSOT
 ---
 
-# CoreMusic — PHPUnit Test Template
+# PHPUnit Test Template — Backend Test Şablonu
 
-**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../../AGENTS.md]]
-
-## 1. Amaç
-
-CoreMusic backend unit/integration testlerini standartlaştırmaktır: test dosya yapısı, Service ve Controller test metodu iskeletleri (mock repository/service/validator, Arrange-Act-Assert, dataProvider), `phpunit.xml` konfigürasyonu ve çalıştırma komutlarını tek şablonda sunar. Kaynak: `reference_doc: Freelancer Technical Documentation v1.0`.
-
-## 2. Kapsam
-
-| Kapsam | Kapsam Dışı |
-|--------|-------------|
-| `tests/**/*.php` PHPUnit 11 unit/integration testleri | Üretim kodu (Controller/Service/Repository) |
-| `phpunit.xml` konfigürasyonu + coverage raporu | Frontend testleri (bkz. vitest-template) |
-| Mock, assertion, dataProvider kalıpları | E2E testleri (Playwright) |
-
-- **Dosya tipi:** PHP test dosyası + Markdown şablon dokümanı
-- **Teknoloji:** PHPUnit 11, PHP 8.4, strict_types
-- **Kullanan agent:** QA Engineer (birincil · AGENTS.md §6: test, coverage, PHPUnit), Backend Architect (ikincil)
-- **Hedef Coverage:** ≥80% (minimum), ≥90% (hedef) · **Guardrail:** #16 (Template Mandatory)
-
-## 3. Mimari
-
-Şablonun tam gövdesi. Not: gömme nedeniyle şablon başlıkları iki seviye derinleştirilmiştir (H1 → `###`, H2 → `####`); tüm `{{PLACEHOLDER}}`, PHP/XML/bash kod blokları ve `//` yorum satırları (`// Arrange`, `// Act`, `// Assert`) birebir korunmuştur. Coverage ve test standartları §4.1'dedir.
-
-### {{TITLE}}
-
-**Teknoloji:** PHPUnit 11, PHP 8.4, strict_types
-**Kapsam:** Backend unit test
-**Hedef Coverage:** ≥80% (minimum), ≥90% (hedef)
+**Zorunlu Bağlantılar:** [[.ai/index]] · [[.ai/brain]] · [[.ai/.templates/index]] · [[shared/tests/index]]
 
 ---
 
-#### 3.1 Dosya Yapısı
+## §1 Amaç ve Disk Kanıtı
 
-```
-tests/
-├── Unit/
-│   ├── Controller/
-│   │   └── {{MODULE}}ControllerTest.php
-│   ├── Service/
-│   │   └── {{MODULE}}ServiceTest.php
-│   └── Repository/
-│       └── {{MODULE}}RepositoryTest.php
-├── Integration/
-│   └── {{MODULE}}IntegrationTest.php
-├── Fixtures/
-│   └── {{MODULE}}Fixture.php
-└── bootstrap.php
+Şablon, `shared/tests/` altındaki **22 gerçek test dosyası** ile `shared/phpunit.xml` (5 suite) yapısına göre yazılır.
+
+| Kanıt | Değer |
+|---|---|
+| Test dizini | `shared/tests/` — 22 dosya (AuthApi, CrudApi, CSRF, EventBus, Container, Router, Security, Cookie, RateLimiter, Validation…) |
+| Config | `shared/phpunit.xml` |
+| Suite'ler | `Unit`, `Api`, `Events`, `Security`, `Middleware` |
+| Auth config | `auth.coremusic.net/phpunit.xml` |
+| Kod kalitesi | infection (mutation) + infection.json5 |
+| Run | `vendor/bin/phpunit` (proje kökünde) |
+
+```bash
+# Tüm suite
+vendor/bin/phpunit -c shared/phpunit.xml
+# Tek dosya
+vendor/bin/phpunit -c shared/phpunit.xml shared/tests/SecurityTest.php
 ```
 
 ---
 
-#### 3.2 Test Şablonu (Service)
+## §2 Frontmatter / Değişkenler
+
+Test dosyaları sınıf tabanlıdır; şablon değişkenleri:
+
+| Değişken | Açıklama | Örnek |
+|---|---|---|
+| `{{CLASS_NAME}}` | `{Test}` sonekli sınıf | `RateLimiterTest` |
+| `{{SUBJECT}}` | Test edilen birim | `RateLimiter` |
+| `{{METHOD_NAME}}` | test metodu `{verilen}_{beklenen}` | `testValidToken_returnsTrue` |
+
+---
+
+## §3 Dosya İskeleti (gerçek imzalarla)
 
 ```php
 <?php
 declare(strict_types=1);
 
-namespace CoreMusic\Tests\Unit\{{MODULE}};
+namespace Tests\Unit;              // suite'e göre Unit|Api|Events|Security|Middleware
 
 use PHPUnit\Framework\TestCase;
-use CoreMusic\Service\{{MODULE}}Service;
-use CoreMusic\Repository\Interface\{{MODULE}}RepositoryInterface;
+use CoreMusic\{{SUBJECT}};
 
-final class {{MODULE}}ServiceTest extends TestCase
+final class {{CLASS_NAME}} extends TestCase
 {
-    private {{MODULE}}Service $service;
-    private $mockRepository;
+    private {{SUBJECT}} $subject;
 
     protected function setUp(): void
     {
-        $this->mockRepository = $this->createMock(
-            {{MODULE}}RepositoryInterface::class
-        );
-        $this->service = new {{MODULE}}Service($this->mockRepository);
+        parent::setUp();
+        $this->subject = new {{SUBJECT}}();
     }
 
-    public function testFindAllReturnsArray(): void
+    protected function tearDown(): void
     {
-        // Arrange
-        $expected = [
-            ['id' => 1, 'name' => 'Test'],
-            ['id' => 2, 'name' => 'Test 2'],
-        ];
-        $this->mockRepository
-            ->method('findAll')
-            ->willReturn($expected);
-
-        // Act
-        $result = $this->service->findAll();
-
-        // Assert
-        $this->assertIsArray($result);
-        $this->assertCount(2, $result);
-        $this->assertEquals($expected, $result);
-    }
-
-    public function testFindByIdReturnsEntity(): void
-    {
-        // Arrange
-        $expected = ['id' => 1, 'name' => 'Test'];
-        $this->mockRepository
-            ->method('findById')
-            ->with(1)
-            ->willReturn($expected);
-
-        // Act
-        $result = $this->service->findById(1);
-
-        // Assert
-        $this->assertNotNull($result);
-        $this->assertEquals(1, $result['id']);
-    }
-
-    public function testFindByIdReturnsNullForNonexistent(): void
-    {
-        // Arrange
-        $this->mockRepository
-            ->method('findById')
-            ->with(999)
-            ->willReturn(null);
-
-        // Act
-        $result = $this->service->findById(999);
-
-        // Assert
-        $this->assertNull($result);
-    }
-
-    public function testCreateReturnsCreatedEntity(): void
-    {
-        // Arrange
-        $data = ['name' => 'New Item'];
-        $this->mockRepository
-            ->method('insert')
-            ->with($data)
-            ->willReturn(1);
-
-        // Act
-        $result = $this->service->create($data);
-
-        // Assert
-        $this->assertIsArray($result);
-        $this->assertArrayHasKey('id', $result);
-    }
-
-    public function testDeleteReturnsTrue(): void
-    {
-        // Arrange
-        $this->mockRepository
-            ->method('softDelete')
-            ->with(1)
-            ->willReturn(true);
-
-        // Act
-        $result = $this->service->delete(1);
-
-        // Assert
-        $this->assertTrue($result);
-    }
-
-    public function testDeleteReturnsFalseForNonexistent(): void
-    {
-        // Arrange
-        $this->mockRepository
-            ->method('softDelete')
-            ->with(999)
-            ->willReturn(false);
-
-        // Act
-        $result = $this->service->delete(999);
-
-        // Assert
-        $this->assertFalse($result);
+        parent::tearDown();
     }
 
     /**
-     * @dataProvider invalidDataProvider
+     * @test
+     * @dataProvider provideCases
      */
-    public function testCreateWithInvalidDataThrowsException(array $data): void
+    public function test_{{behavior}}_{{expected}}(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->service->create($data);
+        // Arrange
+        $input = '...';
+
+        // Act
+        $result = $this->subject->do($input);
+
+        // Assert
+        $this->assertSame($expected, $result);
     }
 
-    public static function invalidDataProvider(): array
+    public static function provideCases(): array
     {
         return [
-            'empty name' => [['name' => '']],
-            'missing name' => [[]],
-            'name too long' => [['name' => str_repeat('a', 256)]],
+            'normal'  => ['input', 'expected'],
+            'edge'    => ['', 'fallback'],
         ];
     }
 }
@@ -213,233 +103,403 @@ final class {{MODULE}}ServiceTest extends TestCase
 
 ---
 
-#### 3.3 Controller Test Şablonu
+## §4 Assertion Kataloğu
+
+| Assertion | Kullanım | Örnek |
+|---|---|---|
+| `assertSame` | tip+sütun eşitliği (katı) | `assertSame(200, $code)` |
+| `assertEquals` | sayısal/gevşek | `assertEquals(10, $count)` |
+| `assertTrue/False` | bool | `assertTrue($ok)` |
+| `assertNull/NotNull` | null kontrolü | `assertNull($row)` |
+| `assertInstanceOf` | tip | `assertInstanceOf(Router::class, $r)` |
+| `assertCount` | koleksiyon | `assertCount(3, $routes)` |
+| `assertArrayHasKey` | dizi anahtarı | `assertArrayHasKey('id', $row)` |
+| `assertStringContainsString` | gövde | `assertStringContainsString('oauth', $html)` |
+| `expectException` | hata yolu | `expectException(InvalidArgumentException::class)` |
+
+| Şablon | Metin |
+|---|---|
+| `{bug-github}-475` | Regression: koş `assertSame` ile eski davranış kilidi |
+
+---
+
+## §5 Auth API Test Deseni (kanıt: AuthApiTest/CrudApiTest)
 
 ```php
-<?php
-declare(strict_types=1);
-
-namespace CoreMusic\Tests\Unit\Controller;
-
-use PHPUnit\Framework\TestCase;
-use CoreMusic\Controller\{{MODULE}}Controller;
-use CoreMusic\Service\Interface\{{MODULE}}ServiceInterface;
-use CoreMusic\Validation\{{MODULE}}Validator;
-use Psr\Http\Message\ServerRequestInterface;
-
-final class {{MODULE}}ControllerTest extends TestCase
+public function testCreateUser_returns201_withValidToken(): void
 {
-    private {{MODULE}}Controller $controller;
-    private $mockService;
-    private $mockValidator;
+    $payload = json_encode(['email' => 'a@b.com', 'password' => 's3cret'], JSON_THROW_ON_ERROR);
 
-    protected function setUp(): void
-    {
-        $this->mockService = $this->createMock(
-            {{MODULE}}ServiceInterface::class
-        );
-        $this->mockValidator = $this->createMock(
-            {{MODULE}}Validator::class
-        );
-        $this->controller = new {{MODULE}}Controller(
-            $this->mockService,
-            $this->mockValidator
-        );
-    }
+    $response = $this->postJson('/api/users', $payload, [
+        'Authorization: Bearer ' . self::TOKEN,
+        'Content-Type: application/json',
+    ]);
 
-    public function testIndexReturns200(): void
-    {
-        // Arrange
-        $request = $this->createMock(ServerRequestInterface::class);
-        $this->mockService
-            ->method('findAll')
-            ->willReturn([]);
+    $this->assertSame(201, $response['status']);
+    $this->assertArrayHasKey('id', $response['body']);
+}
 
-        // Act
-        $response = $this->controller->index($request);
+public function testCreateUser_returns401_withoutToken(): void
+{
+    $this->expectException(AuthException::class);   // veya status assert
+}
+```
 
-        // Assert
-        $this->assertEquals(200, $response->getStatusCode());
-    }
+| API test kuralı | Değer |
+|---|---|
+| Body | `json_encode(..., JSON_THROW_ON_ERROR)` |
+| Header | `Content-Type: application/json` |
+| Auth | `Authorization: Bearer` (CSRF testleri ayrı suite) |
+| Assert hedefi | HTTP status + response body anahtarları |
 
-    public function testShowReturns200ForExisting(): void
-    {
-        // Arrange
-        $request = $this->createMock(ServerRequestInterface::class);
-        $request->method('getAttribute')->with('id')->willReturn(1);
-        $this->mockService
-            ->method('findById')
-            ->with(1)
-            ->willReturn(['id' => 1, 'name' => 'Test']);
+---
 
-        // Act
-        $response = $this->controller->show($request);
+## §6 Event/Security/Middleware Suite Kuralları
 
-        // Assert
-        $this->assertEquals(200, $response->getStatusCode());
-    }
+| Suite | Ne test edilir | Örnek dosya |
+|---|---|---|
+| `Events` | EventBus publish/subscribe, dinleyici sırası | `EventBusTest.php` |
+| `Security` | token doğrulama, imza, XSS temizleme | `SecurityTest.php` |
+| `Middleware` | CSRF, RateLimiter, Cookie | `CSRFTest.php`, `RateLimiterTest.php`, `CookieTest.php` |
+| `Unit` | saf sınıf (Container, Router, Validation) | `ContainerTest.php` |
+| `Api` | uçtan uca HTTP davranışı | `AuthApiTest.php`, `CrudApiTest.php` |
 
-    public function testShowReturns404ForNonexistent(): void
-    {
-        // Arrange
-        $request = $this->createMock(ServerRequestInterface::class);
-        $request->method('getAttribute')->with('id')->willReturn(999);
-        $this->mockService
-            ->method('findById')
-            ->with(999)
-            ->willReturn(null);
+```bash
+# Suite'e göre filtre
+vendor/bin/phpunit -c shared/phpunit.xml --testsuite Security
+```
 
-        // Act
-        $response = $this->controller->show($request);
+---
 
-        // Assert
-        $this->assertEquals(404, $response->getStatusCode());
-    }
+## §7 Doğrulama & Hata Masası
 
-    public function testStoreReturns201(): void
-    {
-        // Arrange
-        $request = $this->createMock(ServerRequestInterface::class);
-        $request->method('getParsedBody')->willReturn(['name' => 'New']);
-        $this->mockValidator
-            ->method('validateCreate')
-            ->willReturn([]);
-        $this->mockService
-            ->method('create')
-            ->willReturn(['id' => 1, 'name' => 'New']);
+| # | Adım | Beklenen |
+|---|---|---|
+| 1 | `vendor/bin/phpunit -c shared/phpunit.xml` | 0 failure |
+| 2 | Yeni test suite adıyla eşleşiyor mu | adımsız `Tests\{Suite}` namespace |
+| 3 | Mutation | `infection` (infection.json5) — mutation skoru düşüşü yok |
+| 4 | Bağımlılık | gerçek DB/network yerine sahte (Unit suite saf kalmalı) |
 
-        // Act
-        $response = $this->controller->store($request);
+| Hata | Neden | Çözüm |
+|---|---|---|
+| `Class not found` | autoload/test namespace | composer `autoload-dev` `Tests\` kontrol |
+| Suite'te görünmüyor | yanlış namespace/klasör | `phpunit.xml` testsuite yolu |
+| `risky test` | assertion yok | en az 1 assert ekle |
+| DB bağlantı hatası | Unit suite'te gerçek DB | Unit saf; Api suite'te sahte sunucu |
 
-        // Assert
-        $this->assertEquals(201, $response->getStatusCode());
-    }
+---
+
+## §8 Gerçek Test Dosyası Galerisi (22 dosya — ızgara)
+
+| # | Dosya | Suite | Ne doğrular |
+|---|---|---|---|
+| 1 | `AuthApiTest.php` | Api | login/register/token uçları, 201/401 |
+| 2 | `CrudApiTest.php` | Api | create/read/update/delete durum kodları |
+| 3 | `CSRFTest.php` | Middleware | token yokken 403, yanlış token reddi |
+| 4 | `RateLimiterTest.php` | Middleware | limit aşımında 429, pencere sıfırlama |
+| 5 | `CookieTest.php` | Middleware | HttpOnly/SameSite bayrakları |
+| 6 | `EventBusTest.php` | Events | publish→subscribe sırası, unsubscribe |
+| 7 | `ContainerTest.php` | Unit | singleton/transient çözümleme, döngü hatası |
+| 8 | `RouterTest.php` | Unit | route eşleşme, method 405, param yakalama |
+| 9 | `SecurityTest.php` | Security | token imza, XSS temizleme, hash doğrulama |
+| 10-22 | Validation, DB, Helper… | ilgili suite | `ls shared/tests/` |
+
+```bash
+# tek suite koşusu
+vendor/bin/phpunit -c shared/phpunit.xml --testsuite Events
+```
+
+### §8.1 EventBus Test Örneği (Events suite)
+
+```php
+public function testPublish_invokesSubscriberInOrder(): void
+{
+    $bus = new EventBus();
+    $seen = [];
+    $bus->on('route:change', function ($p) use (&$seen) { $seen[] = 'a'; });
+    $bus->on('route:change', function ($p) use (&$seen) { $seen[] = 'b'; });
+
+    $bus->publish('route:change', ['path' => '/x']);
+
+    $this->assertSame(['a', 'b'], $seen);
+}
+
+public function testUnsubscribe_stopsDelivery(): void
+{
+    $bus = new EventBus();
+    $spy = $this->createMock(\stdClass::class);   // veya vi.fn benzeri callable sarmalayıcı
+    $id = $bus->on('e', function () {});
+    $bus->off($id);
+    $bus->publish('e', []);
+    $this->addToAssertionCount(1);               // çağrı olmadı
+}
+```
+
+### §8.2 CSRF / RateLimiter Test Deseni (Middleware)
+
+```php
+public function testMissingToken_returns403(): void
+{
+    $mw = new CsrfMiddleware();
+    $result = $mw->handle(new Request(headers: []));
+    $this->assertSame(403, $result->status);
+}
+
+public function testBurstOverLimit_returns429(): void
+{
+    $rl = new RateLimiter(limit: 3, windowSeconds: 60);
+    for ($i = 0; $i < 3; $i++) { $this->assertTrue($rl->allow('ip:1.2.3.4')); }
+    $this->assertFalse($rl->allow('ip:1.2.3.4'));   // 4. istek reddi
+}
+```
+
+### §8.3 Validation / Router (Unit)
+
+```php
+public function testRouteParams_areExtracted(): void
+{
+    $router = new Router();
+    $router->get('/user/{id}', fn() => 'ok');
+    $match = $router->match('GET', '/user/42');
+    $this->assertTrue($match->found);
+    $this->assertSame('42', $match->params['id']);
+}
+
+public function testInvalidEmail_failsRule(): void
+{
+    $v = Validator::make(['email' => 'not-an-email'], ['email' => 'required|email']);
+    $this->assertTrue($v->fails());
+    $this->assertArrayHasKey('email', $v->errors());
 }
 ```
 
 ---
 
-#### 3.4 phpunit.xml Konfigürasyonu
+## §9 Mock / Double Kataloğu
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         colors="true"
-         verbose="true"
-         stopOnFailure="false"
-         failOnRisky="true"
-         failOnWarning="true">
+| Teknik | Kullanım | Örnek |
+|---|---|---|
+| `createMock(Class::class)` | tam sahte | `MailerInterface` |
+| `method('x')->willReturn()` | dönüş değeri | API 201 sahtesi |
+| `expects($this->once())` | çağrı sayısı | event bir kez yayın |
+| `willReturnOnConsecutiveCalls` | sıra dönüşleri | 429 sonrası 200 |
+| inline anonim sınıf | basit stub | repository |
+| gerçek + saf (Unit) | mümkünse mock'siz | Container/Router |
 
-    <testsuites>
-        <testsuite name="Unit">
-            <directory>tests/Unit</directory>
-        </testsuite>
-        <testsuite name="Integration">
-            <directory>tests/Integration</directory>
-        </testsuite>
-    </testsuites>
-
-    <source>
-        <include>
-            <directory>src</directory>
-        </include>
-    </source>
-
-    <coverage>
-        <report>
-            <html outputDirectory="coverage/html"/>
-            <text outputFile="coverage.txt"/>
-            <clover outputFile="coverage.xml"/>
-        </report>
-    </coverage>
-
-    <php>
-        <ini name="memory_limit" value="512M"/>
-        <env name="APP_ENV" value="testing"/>
-        <env name="DB_DATABASE" value="coremusic_test"/>
-    </php>
-</phpunit>
+```php
+$mailer = $this->createMock(MailerInterface::class);
+$mailer->expects($this->once())
+       ->method('send')
+       ->with($this->callback(fn($m) => str_contains($m->to, 'a@b.com')));
 ```
 
 ---
 
-#### 3.5 Çalıştırma
+## §10 Mutation & Kalite (infection)
+
+| Kavram | Aksiyon | Eşik |
+|---|---|---|
+| Mutation | `vendor/bin/infection` (`infection.json5`) | drift olmamalı |
+| Riskli alan | assertion kırılganlığı | §4 assert katı |
+| Coverage | clover `coverage.xml` | hedef ≥ %80 (AGENTS.md) |
+| Test kodu | PHPStan benzeri denetim | kendi CI'ında |
 
 ```bash
-# Tüm testler
-./vendor/bin/phpunit
-
-# Sadece unit testler
-./vendor/bin/phpunit --testsuite Unit
-
-# Coverage ile
-./vendor/bin/phpunit --coverage-html coverage/html
-
-# Tek dosya
-./vendor/bin/phpunit tests/Unit/Service/{{MODULE}}ServiceTest.php
+vendor/bin/infection --threads=4 --only-covered --min-msi=80
 ```
 
 ---
 
-## 4. Kurallar
+## §11 Hata Masası (geniş)
 
-Zorunlu / yasak kurallar ve kod standartları:
+| Hata | Neden | Çözüm |
+|---|---|---|
+| `failed asserting that ... identical` | `==` vs `===` beklentisi | `assertSame`/`assertEquals` eşleştir |
+| `Test code or tested code did not (only) throw` | fazladan throw beklentisi | `expectException` doğru metoda |
+| Suite boş (0 test) | wrong namespace/dir | `Tests\{Suite}` + phpunit.xml yolu |
+| Sahte zaman sızması | timer mock | `tearDown` restore |
+| Api suite ağ hatası | gerçek HTTP | yerel sahte sunucu / process izole |
+| `risky` etiketi | assertion yok | min 1 assert + `addToAssertionCount` |
+| infection bulguları | specsiz kalan dal | veri sağlayıcı ile dal kapat |
 
-#### 4.1 Test & Coverage Standartları
+---
+
+## §12 Test Verisi & İzolasyon
+
+| Kural | Uygulama |
+|---|---|
+| Sıfır durum | `setUp` her testte yeni nesne |
+| DB (Api suite) | transaction rollback / sahte repository |
+| Saat | sabit timestamp (gerçek `now` yasak) |
+| Rastgelelik | seed'li RNG, deterministik |
+| Dosya | `sys_get_temp_dir()` + test sonu temizlik |
+| Global | `$_SERVER/$_GET` yazma → `Request` sarmalayıcı |
+
+```php
+private const FROZEN_NOW = '2026-09-23 12:00:00';
+
+protected function setUp(): void
+{
+    parent::setUp();
+    $this->clock = new FrozenClock(self::FROZEN_NOW);
+}
+```
+
+### §12.1 Veri sağlayıcı (data provider) deseni
+
+```php
+public static function tokenCases(): array
+{
+    return [
+        'geçerli'        => [self::VALID, true],
+        'süresi dolmuş'  => [self::EXPIRED, false],
+        'bozuk imza'     => [self::TAMPERED, false],
+        'boş'            => ['', false],
+    ];
+}
+
+/** @test @dataProvider tokenCases */
+public function testToken_validation(string $token, bool $expected): void
+{
+    $svc = new TokenService(new FrozenClock(self::FROZEN_NOW));
+    $this->assertSame($expected, $svc->verify($token));
+}
+```
+
+---
+
+## §13 Performans & Bütçe
+
+| Metrik | Hedef | Ölçüm |
+|---|---|---|
+| Suite süresi (tüm) | < 60 sn | phpunit `--log-junit` |
+| Tek test | < 2 sn | risky timeout |
+| Coverage (kod) | ≥ %80 | clover `coverage.xml` |
+| Mutation MSI | ≥ %80 | infection |
+| Sahte oranı | makul (oversmocking yok) | kod incelemesi |
+
+```bash
+vendor/bin/phpunit -c shared/phpunit.xml --log-junit build/junit.xml
+# süre raporu için junit çıktısını yorumla
+```
+
+---
+
+## §14 CI Köprüsü (bağlantı)
+
+| Konu | Referans |
+|---|---|
+| `php-test` job komutu | [[../infrastructure/github-actions-template]] §3.2 |
+| Coverage çıktısı CI | aynı dosya §8.4 (artefakt) |
+| Migration guard | aynı dosya §8.3 |
+| JS birimi ayrı katman | [[vitest-template]] |
+
+```yaml
+# CI içi çalıştırma (hedef — workflows YOK, onay akışı §4.1)
+      - run: vendor/bin/phpunit -c shared/phpunit.xml --coverage-clover=coverage.xml
+```
+
+---
+
+## §15 Öncelik Sırası (yazım sırası)
+
+```
+1. Regresyon testi (yaşanan hata)     → ilk yazılır, asla silinmez
+2. Hata yolu (exception/4xx/5xx)
+3. Kenar durum (boş, tek, çok büyük)
+4. Mutlu yol (happy path)
+5. Performans/limit (rate, timeout)
+```
+
+| Kural | Aksiyon |
+|---|---|
+| Her public API | en az 1 mutlu + 1 hata testi |
+| Hata düzeltildi | o hata için test zorunlu (bug-*) |
+| Silinen davranış | test de silinir (kodla birlikte) |
+| Test adı | ne yazıyorsa o: `{konu}_{durum}_{beklenen}` |
+
+---
+
+## §16 Sık Yazılan Test Parçaları
+
+### §16.1 Exception & status
+
+```php
+public function testExpiredToken_throwsAuthException(): void
+{
+    $clock = new FrozenClock('2026-09-23 12:00:00');
+    $svc   = new TokenService($clock, ttlSeconds: 60);
+    $token = $svc->issue('user-1');           // 12:00:00
+    $clock->advance(61);                      // 12:01:01 → süresi doldu
+
+    $this->expectException(AuthException::class);
+    $this->expectExceptionMessage('token expired');
+    $svc->verify($token);
+}
+```
+
+### §16.2 Koleksiyon & sıralama
+
+```php
+public function testRouter_routesAreMatchedInRegistrationOrder(): void
+{
+    $router = new Router();
+    $router->get('/a', fn() => 'first');
+    $router->get('/a/b', fn() => 'second');
+
+    $this->assertSame('first', $router->dispatch('GET', '/a'));
+    $this->assertSame('second', $router->dispatch('GET', '/a/b'));
+    $this->assertCount(2, $router->routes());
+}
+```
+
+### §16.3 Zeit/Saat (frozen clock)
+
+```php
+public function testRateLimit_windowResetsAfterWindow(): void
+{
+    $clock = new FrozenClock('2026-09-23 12:00:00');
+    $rl = new RateLimiter(limit: 2, windowSeconds: 60, clock: $clock);
+
+    $this->assertTrue($rl->allow('k'));
+    $this->assertTrue($rl->allow('k'));
+    $this->assertFalse($rl->allow('k'));       // 3. reddi
+
+    $clock->advance(61);
+    $this->assertTrue($rl->allow('k'));        // pencere sıfır
+}
+```
+
+### §16.4 String/Hash
+
+```php
+public function testHash_verifyMatches_andRoundsDiffer(): void
+{
+    $h1 = password_hash('secret', PASSWORD_BCRYPT);
+    $this->assertTrue(password_verify('secret', $h1));
+    $this->assertFalse(password_verify('wrong', $h1));
+    $this->assertNotSame($h1, password_hash('secret', PASSWORD_BCRYPT)); // tuz farkı
+}
+```
+
+---
+
+## §17 Test İsimlendirme Sözlüğü
+
+| Türkçe kalıp | İngilizce kalıp | Örnek |
+|---|---|---|
+| `{konu}_gecerliDoner{Beklenen}` | `valid_returns{Expected}` | `token_gecerliDonerTrue` |
+| `{konu}_{durum}Atar{Kod}` | `{case}_throws{Exception}` | `token_sresiDolmusAtarAuth` |
+| `{konu}_{sinirde}` | `{subject}_boundary{N}` | `limiter_sinirdeTamEsitlik` |
+| regression etiketi | `testGitHub475_...` | hata numarası gövdede |
 
 | Kural | Değer |
-|-------|-------|
-| Hedef Coverage | ≥80% (minimum), ≥90% (hedef) |
-| Risky/warning test | `failOnRisky="true"`, `failOnWarning="true"` |
-| Sınıf yapısı | `final class … extends TestCase` + `declare(strict_types=1)` |
-| Mock hedefi | Yalnızca interface (`*Interface::class`) |
-| Metot kalıbı | `// Arrange` → `// Act` → `// Assert` |
-| Assertion'sız test | Yasak (risky kabul edilir) |
-
-Ek kurallar:
-
-- **Zorunlu:** her test metodu bir Arrange-Act-Assert akışı izler; en az bir assertion içerir (§3.2, §3.3).
-- **Zorunlu:** mock'lar `setUp(): void` içinde oluşturulur; `createMock()` yalnızca interface'lere uygulanır (`{{MODULE}}RepositoryInterface`, `{{MODULE}}ServiceInterface`).
-- **Zorunlu:** parametreli testler `@dataProvider` + `public static function …Provider(): array` ile yazılır (§3.2 `invalidDataProvider`).
-- **Zorunlu:** `APP_ENV=testing`, `DB_DATABASE=coremusic_test` (§3.4); testler CI'daki `php-test` job'ında `--coverage-clover=coverage.xml` ile çalışır (github-actions-template §3.1).
-- **Yasak:** `{{TITLE}}`, `{{MODULE}}`, `{{DATE}}` placeholder'ları doldurulmadan test dosyası commit edilemez; assertion'sız/`assertTrue(true)` gibi boş test yazılamaz.
-- **Uyarı:** coverage %80 altına düşerse AGENTS.md §10.1 eskalasyonu (L1 QA → L2, timeout 60s); bilinmeyen behavior `⚠️ VERIFICATION REQUIRED`.
-
-## 5. Workflow
-
-```
-ŞABLONU SEÇ → KOPYALA → {{PLACEHOLDER}} DOLDUR → GUARDRAIL #16 DOĞRULA → COMMIT
-```
-
-1. **ŞABLONU SEÇ:** `.ai/.templates/testing/phpunit-template.md` (Guardrail #16).
-2. **KOPYALA:** §3.1 dosya yapısına göre `tests/Unit/...` altına test dosyası oluştur; §3.4 `phpunit.xml` konfigürasyonunu kopyala.
-3. **{{PLACEHOLDER}} DOLDUR:** `{{TITLE}}`, `{{MODULE}}` (namespace, class, import, dataProvider yolları dahil).
-4. **GUARDRAIL #16 DOĞRULA:** 7 alanlı frontmatter + §1-§7 + tüm placeholder'lar doldu + §4.1 standartları (coverage ≥80%, assertion'lı, interface mock) geçti.
-5. **COMMIT:** `./vendor/bin/phpunit --coverage-html coverage/html` ile yerelde doğrula; CI `php-test` job geçmeli; `log.md`'ye giriş ekle.
-
-## 6. Doğrulama
-
-- [ ] 7 alanlı frontmatter var (title, type, category, version, status, authority, updated)
-- [ ] §1-§7 var
-- [ ] tüm {{PLACEHOLDER}}'lar dolduruldu
-- [ ] dosya bu şablona uygun
-- [ ] Coverage ≥80%; her test Arrange-Act-Assert + assertion içeriyor; mock'lar interface'
-
-**REFACTOR REPORT:** FILE: phpunit-template.md · PURPOSE: PHPUnit Test Template · VALIDATION: 7 alan + §1-§7 + bilgi korunumu · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
-
-## 7. Referanslar
-
-- [[.templates/index]] — şablon registry (`.ai/.templates/index.md`)
-- [[../CLAUDE.md]] — AI anayasası, 16 Hard Guardrail
-- [[../../AGENTS.md]] — routing (§6: test/PHPUnit → QA Engineer), kalite standardı §16 (coverage ≥80%, flaky %0), eskalasyon §10.1 (coverage < %80)
-- `.ai/CLAUDE.md` · `.ai/AGENTS.md` · `.ai/brain.md` (frontmatter `reference`)
-- `reference_doc: Freelancer Technical Documentation v1.0`
+|---|---|
+| `test` öneki veya `@test` | ikisi tutarlı kullanılacak |
+| tek davranışı anlatır | “ve/and” yok (iki durum → iki test) |
+| assert tek odak | test başına ana 1 assert + opsiyonel guard |
 
 ---
 
-*PHPUnit Test Template v2.0.0 — CoreMusic Testing Standards*
-*Authority: Bayram Ali / Vault Steward*
-*Last Updated: {{DATE}}*
-*Mode: Red Team · Human Mode · Truth Mode*
+**Template Version:** 2.0.0
+**Last Updated:** 2026-09-23

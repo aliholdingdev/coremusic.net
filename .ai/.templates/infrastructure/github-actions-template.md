@@ -1,52 +1,69 @@
 ---
-reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic — GitHub Actions CI/CD Template"
 type: cicd-template
-category: template
+category: infrastructure
+date: 2026-09-06
+updated: 2026-09-23
 version: 2.0.0
 status: active
-authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
-updated: 2026-09-23
-date: 2026-09-23
-governance: Red Team · Human Mode · Truth Mode
-reference:
-  authority: ".ai/CLAUDE.md"
-  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/brain.md"
+authority: SSOT
 ---
 
 # CoreMusic — GitHub Actions CI/CD Template
 
-**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../../AGENTS.md]]
+**Platform:** GitHub Actions · **Durum:** TANIM YOK (diskte `.github/workflows/` bulunmuyor) · **Sorumlu Agent:** DevOps Engineer
+
+**Zorunlu Bağlantılar:** [[.templates/index]] · [[../CLAUDE.md]] · [[../../AGENTS.md]] · [[../testing/phpunit-template]] · [[../infrastructure/migration-template]]
+
+---
 
 ## 1. Amaç
 
-CoreMusic CI/CD pipeline'ını standartlaştırmaktır: CI pipeline (PHP lint/test, JS lint/test, security audit), CD pipeline (deploy), branch protection ayarları ve secrets yönetimi için hazır YAML iskeletleri sunar. Kaynak: `reference_doc: Freelancer Technical Documentation v1.0`.
+Bu şablon, CoreMusic CI/CD pipeline'ını standartlaştırmaktır: CI iş akışı (PHP lint/test, JS/EDR denetimi, güvenlik taraması), CD/deploy taslaığı, branch protection ve secrets envanteri için hazır YAML iskeletleri sunar. **Guardrail #16:** yeni workflow dosyası bu şablondan üretilmek ZORUNLUDUR.
+
+| Karar | Kaynak | Şablona gömülü karşılığı |
+|-------|--------|-------------------------- |
+| CI/CD tanımı henüz yok — "vault dokümantasyon aşamasında" | `.github/CLAUDE.md` §2 | §3.1 disk kanıtı + §4.4 |
+| Yeni workflow = DevOps taslağı + kullanıcı onayı | `.github/CLAUDE.md` §4 | §5 Workflow 1-2 |
+| Secret'lar repo settings'te; vault'a yazılmaz | `.github/CLAUDE.md` §4.2 | §4.1 #6, §3.5 |
+| CI/CD success ≥ %95, GitLeaks clean | AGENTS.md §16 | §6 #9 |
+| Test komutları | `phpunit-template` / `vitest-template` | §3.2 job adları |
+
+---
 
 ## 2. Kapsam
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
-| `.github/workflows/*.yml` CI/CD pipeline tanımları | Uygulama kodu (`.php`, `.js`) |
-| `.github/settings.yml` branch protection | Veritabanı migration içeriği (bkz. migration-template) |
-| Secrets envanteri ve deploy adımları | Donanım/firmware (bkz. hardware-template) |
+| `.github/workflows/*.yml` — CI ve CD iş akışı tanımları | Uygulama kodu (`.php`, `.js`, `.css`) |
+| `.github/settings.yml` — branch protection (Probot) | Migration içeriği → `[[../infrastructure/migration-template]]` |
+| Secrets envanteri (yalnız adlar; değer YOK) | Donanım/firmware → `[[../hardware/hardware-template]]` |
+| `codeowners`, issue şablonları (mevcut: 1 adet) | Test yazımı → `[[../testing/phpunit-template]]` |
 
-- **Dosya tipi:** YAML workflow + Markdown doküman
-- **Kullanan agent:** DevOps Engineer (birincil · AGENTS.md §6), QA Engineer (ikincil — test job'ları)
-- **Branch:** main, develop · **Guardrail:** #16 (Template Mandatory)
-
-## 3. Mimari
-
-Şablonun tam gövdesi. Not: gömme nedeniyle şablon başlıkları iki seviye derinleştirilmiştir (H1 → `###`, H2 → `####`); YAML `on:` / `jobs:` / `steps:` blokları ve tüm `${{ ... }}` GitHub ifadeleri **bozulmadan** korunmuştur. YAML içindeki `{{...}}` ifadeleri GitHub expression'ıdır — doldurulacak şablon placeholder'ı değildir. Secrets kuralları §4.1'dedir.
-
-### {{TITLE}}
-
-**Platform:** GitHub Actions
-**Kapsam:** CI/CD Pipeline
-**Branch:** main, develop
+- **Kullananlar:** DevOps Engineer (birincil), QA Engineer (test job'ları), Security Engineer (tarama job'ları).
+- **Dosya tipi:** YAML workflow + Markdown şablon dokümanı.
+- **Ön koşul:** `.github/CLAUDE.md` §4.1 — workflow ekleme önce taslak, sonra kullanıcı onayı; onaysız commit YOK.
 
 ---
 
-#### 3.1 CI Pipeline (.github/workflows/ci.yml)
+## 3. Mimari
+
+Şablonun gövdesi: disk kanıtı, CI/CD YAML iskeletleri, branch protection ve secrets envanteri. YAML içindeki `${{ ... }}` ifadeleri GitHub expression'ıdır; `{{VARIABLE}}` placeholder'ları ile karıştırılmaz, doldurulmaz.
+
+### 3.1 Disk Kanıtı — `.github/` Envanteri
+
+| Yol (disk kanıtı) | Durum |
+|-------------------|-------|
+| `.github/CLAUDE.md` | Mevcut — "Workflow (Actions): Yok — CI/CD tanımı vault dokümantasyon aşamasında" |
+| `.github/ISSUE_TEMPLATE/01-bug-report.md` | Mevcut — tek issue şablonu |
+| `.github/ISSUE_TEMPLATE/CLAUDE.md` | Mevcut — klasör bağlamı |
+| `.github/workflows/` | **YOK** — workflow dizini henüz oluşturulmadı |
+| `.github/settings.yml` | **YOK** — branch protection tanımsız |
+| `.github/CODEOWNERS` | **YOK** ⚠️ VERIFICATION REQUIRED |
+
+**Kural:** bu şablon bir *hedef/tasarım* şablonudur; diskte varmış gibi sunulmaz. YAML'lar §3.2-§3.4'te iskelet olarak verilir ve kullanıcı onayıyla oluşturulur (§5).
+
+### 3.2 CI Pipeline İskeleti (`.github/workflows/ci.yml`)
 
 ```yaml
 name: CI Pipeline
@@ -71,90 +88,60 @@ jobs:
         with:
           php-version: ${{ env.PHP_VERSION }}
           tools: php-cs-fixer, phpstan
-      - name: Run PHP CS Fixer
+      - name: PHP CS Fixer
         run: php-cs-fixer fix --dry-run --diff
-      - name: Run PHPStan
-        run: phpstan analyse src --level=8
+      - name: PHPStan
+        run: phpstan analyse shared/src --level=8
 
   php-test:
     name: PHP Tests
     runs-on: ubuntu-latest
     needs: php-lint
-    services:
-      mysql:
-        image: mysql:9
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: coremusic_test
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
+    defaults:
+      run:
+        working-directory: shared
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
           extensions: pdo, pdo_mysql
-          coverage: xdebug
-      - name: Install Dependencies
+      - name: Install dependencies
         run: composer install --no-progress --prefer-dist
-      - name: Run Tests
-        run: vendor/bin/phpunit --coverage-clover=coverage.xml
-      - name: Upload Coverage
-        uses: codecov/codecov-action@v4
-        with:
-          file: coverage.xml
+      - name: PHPUnit
+        run: vendor/bin/phpunit
 
-  js-lint:
-    name: JavaScript Lint
+  js-check:
+    name: JS Static Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run lint
-
-  js-test:
-    name: JavaScript Tests
-    runs-on: ubuntu-latest
-    needs: js-lint
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run test:coverage
+      - name: Syntax kontrolü (node --check)
+        run: |
+          find assets.coremusic.net/js -name "*.js" -print0 |
+            xargs -0 -n1 node --check
 
   security:
     name: Security Audit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ env.PHP_VERSION }}
-      - name: Composer Audit
-        run: composer audit
-      - name: npm Audit
+      - name: Composer audit
+        run: composer audit --working-dir=shared
+      - name: npm audit
         run: npm audit --audit-level=high
-      - name: GitLeaks Scan
+      - name: GitLeaks
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
----
+> **Not (disk kanıtı):** `package.json` içinde yalnız `playwright ^1.62.1` vardır; vitest script'leri (`npm run test:coverage`) mevcut DEĞİLDİR. JS test job'ı, `[[../testing/vitest-template]]` kurulumu tamamlanana kadar yalnız `node --check` / Playwright E2E ile sınırlıdır (§4.4).
 
-#### 3.2 CD Pipeline (.github/workflows/deploy.yml)
+### 3.3 CD / Deploy İskeleti (`.github/workflows/deploy.yml`)
 
 ```yaml
 name: Deploy
@@ -180,11 +167,8 @@ jobs:
         with:
           php-version: '8.4'
 
-      - name: Install Dependencies
-        run: composer install --no-dev --optimize-autoloader
-
-      - name: Run Migrations
-        run: vendor/bin/phinx migrate --environment production
+      - name: Install dependencies
+        run: composer install --no-dev --optimize-autoloader --working-dir=shared
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
@@ -196,92 +180,366 @@ jobs:
             cd ${{ env.DEPLOY_PATH }}
             git pull origin main
             composer install --no-dev --optimize-autoloader
-            php artisan migrate --force
-            php artisan cache:clear
-            php artisan config:cache
 ```
 
----
+> **⚠️ VERIFICATION REQUIRED:** deploy adımları (SSH komutları, `composer`/migration çalıştırma sırası) gerçek sunucu kurulumuyla doğrulanmadan üretime alınmaz; `php artisan` kalıpları bu projede KULLANILMAZ (Laravel yok).
 
-#### 3.3 Branch Protection
+### 3.4 Branch Protection İskeleti (`.github/settings.yml`)
 
 ```yaml
-# .github/settings.yml (Probot)
+# Probot/settings — branch protection
 branches:
-  main:
+  - name: main
     protection:
       required_status_checks:
         strict: true
         contexts:
           - PHP Lint
           - PHP Tests
-          - JavaScript Lint
-          - JavaScript Tests
+          - JS Static Check
           - Security Audit
       required_pull_request_reviews:
         required_approving_review_count: 1
-      restrictions: null
       enforce_admins: false
+      restrictions: null
+```
+
+> `contexts` listesi §3.2'deki `name:` alanlarıyla birebir eşleşmelidir (§4.1 #5).
+
+### 3.5 Secrets Envanteri (yalnız adlar — değer asla vault'a yazılmaz)
+
+| Secret adı | Amaç | Kullanan job |
+|------------|------|--------------|
+| `GITHUB_TOKEN` | Otomatik token | security (GitLeaks) |
+| `SERVER_HOST` | Sunucu adresi | deploy |
+| `SERVER_USER` | SSH kullanıcısı | deploy |
+| `SSH_KEY` | SSH private key | deploy |
+| `DB_PASSWORD` | Veritabanı şifresi | deploy/migration |
+| `CSRF_SECRET` | CSRF anahtarı | deploy |
+| `JWT_SECRET` | JWT imzalama anahtarı | deploy |
+
+**REDACTED:** tabloda yalnız adlar bulunur; değerler, `.env` içeriği ve log kayıtları vault'a KONMAZ (Guardrail REDACTED).
+
+### 3.6 Job Bağımlılık Şeması
+
+```
+push / pull_request
+        │
+        ├──► php-lint ─────────────► php-test
+        │
+        ├──► js-check (node --check)
+        │
+        └──► security (composer audit + npm audit + GitLeaks)
+                        │
+                        └──► [main] deploy (environment: production)
 ```
 
 ---
 
 ## 4. Kurallar
 
-Zorunlu / yasak kurallar ve kod standartları:
+### 4.1 Hard Guardrails
 
-- **Zorunlu:** YAML `on:`, `jobs:`, `steps:` blokları kopyalanırken **bozulmaz**; girinti ve `uses:`/`run:` sırası korunur.
-- **Zorunlu:** YAML içindeki `${{ env.* }}` / `${{ secrets.* }}` ifadeleri GitHub expression'ıdır; `{{PLACEHOLDER}}` gibi doldurulmaz, aynen kalır.
-- **Zorunlu:** §3.3 branch protection `contexts` listesi §3.1'deki job adlarıyla (PHP Lint, PHP Tests, JavaScript Lint, JavaScript Tests, Security Audit) birebir eşleşir.
-- **Zorunlu:** test coverage işi `vendor/bin/phpunit --coverage-clover=coverage.xml` üretir; hedef coverage ≥80% (AGENTS.md §16).
-- **Yasak:** secret değerleri YAML'e gömülmez, log'a yazılmaz — yalnızca §4.1 tablosundaki adlar `secrets.*` üzerinden kullanılır.
-- **Yasak:** `production` environment'sız deploy job'ı yok; `environment: production` korunur.
-- **Uyarı:** SSH script'indeki `php artisan migrate/cache:clear/config:cache` adımları özgün şablondadır; bu proje Phinx kullandığından proje gerçeğiyle uyumu **⚠️ VERIFICATION REQUIRED**.
+| # | Kural | İhlal Sonucu |
+|---|-------|-------------|
+| 1 | Workflow YAML'ında secret değeri yazmaz; yalnız `${{ secrets.* }}` | Sızıntı |
+| 2 | `on:` / `jobs:` / `steps:` yapısı ve girinti bozulmaz | Workflow çalışmaz |
+| 3 | `${{ ... }}` ifadeleri `{{VARIABLE}}` gibi doldurulmaz | YAML bozulması |
+| 4 | `environment: production` korunur; onaysız deploy job'ı yok | Kontrolsüz yayım |
+| 5 | `required_status_checks.contexts` job adlarıyla eşleşir | Branch protection kırılır |
+| 6 | `.github/CLAUDE.md` §4.1 onay akışı zorunlu (taslak → onay) | Yetkisiz değişiklik |
+| 7 | Diskte olmayan job/script adı iddia edilmez | Halüsinasyon |
 
-#### 4.1 Secrets Yönetimi
+### 4.2 Ek Kurallar
 
-| Secret | Amaç |
-|--------|------|
-| `SERVER_HOST` | Production sunucu |
-| `SERVER_USER` | SSH kullanıcı |
-| `SSH_KEY` | SSH private key |
-| `DB_PASSWORD` | Veritabanı şifresi |
-| `CSRF_SECRET` | CSRF token secret |
-| `JWT_SECRET` | JWT signing key |
+- **Zorunlu:** coverage işi varsa `--coverage-clover=coverage.xml` üretilir; hedef ≥ %80 (AGENTS.md §16, `[[../testing/phpunit-template]]`).
+- **Zorunlu:** migration gerektiren deploy, `migration-template` §4.1 ile uyumlu (forward-only) çalıştırır.
+- **Zorunlu:** tüm job adları §3.2'deki gibi Türkçe/İngilizce tutarlı ve tektir; branch protection listesi bu adları yansıtır.
+- **Yasak:** vault dosyalarına (`.ai/**`) CI'dan yazma; CI yalnızca okur ve raporlar.
+- **Yasak:** log çıktısına token/şifre basmak; ihlalde job durdurulur ve `[REDACTED]` ile maskelenir.
+- **Uyarı:** `.github/workflows/` diskte yoktur — bu şablon "mevcut pipeline" değil, "oluşturulacak pipeline" tanımlar (§3.1).
+
+### 4.3 İzinli / Yasak Komutlar
+
+| Katman | İzinli | Yasak |
+|--------|--------|-------|
+| CI (okuma) | `composer install`, `phpunit`, `node --check`, `npm audit`, `gitleaks` | `git push --force`, `docker rm` |
+| CI (test) | `vendor/bin/phpunit`, Playwright E2E | Test verisini üretim DB'ye yazmak |
+| CD (deploy) | `git pull`, `composer install --no-dev` | Secrets'ı yazdırmak, `rm -rf` |
+| Vault | Okuma | `.ai/**` içine CI yazması |
+
+### 4.4 Bilinen Boşluklar (disk kanıtı)
+
+| # | Boşluk | Durum | Eylem |
+|---|--------|-------|-------|
+| 1 | `.github/workflows/` yok | Tasarım aşaması | §3.2-§3.3 onayla → oluştur |
+| 2 | `.github/settings.yml` yok | Branch protection kapalı | §3.4 |
+| 3 | vitest yok (`package.json` yalnız playwright) | JS test job'ı kısıtlı | `[[../testing/vitest-template]]` |
+| 4 | `CODEOWNERS` yok ⚠️ | Doğrulanmadı | Eklenip eklenmeyeceğine karar |
+| 5 | `phpunit.xml` 2 kökte (shared, auth) | Suite dağılımı | Job working-directory ayrımı (§3.2) |
+
+---
 
 ## 5. Workflow
 
 ```
-ŞABLONU SEÇ → KOPYALA → {{PLACEHOLDER}} DOLDUR → GUARDRAIL #16 DOĞRULA → COMMIT
+İHTİYAÇ → ŞABLONU SEÇ → TASLAK YAML → KULLANICI ONAYI → .github/workflows/ OLUŞTUR → İLK ÇALIŞTIRMA → COMMIT
 ```
 
-1. **ŞABLONU SEÇ:** `.ai/.templates/infrastructure/github-actions-template.md` (Guardrail #16).
-2. **KOPYALA:** §3.1 → `.github/workflows/ci.yml`, §3.2 → `.github/workflows/deploy.yml`, §3.3 → `.github/settings.yml`.
-3. **{{PLACEHOLDER}} DOLDUR:** yalnızca `{{TITLE}}` (§ başlığı) ve varsa gerçek proje değerleri; `${{ ... }}` expression'larına dokunma.
-4. **GUARDRAIL #16 DOĞRULA:** 7 alanlı frontmatter + §1-§7 + tüm placeholder'lar doldu + YAML syntax doğrulandı (`on:`/`jobs:`/`steps:` bozulmadı) + §4.1 secret adları kayıtlı.
-5. **COMMIT:** workflow dosyalarını commit et; pipeline ilk çalıştırmada GitLeaks + `composer audit` + `npm audit` temizliğini doğrula, `log.md`'ye giriş ekle.
-
-## 6. Doğrulama
-
-- [ ] 7 alanlı frontmatter var (title, type, category, version, status, authority, updated)
-- [ ] §1-§7 var
-- [ ] tüm {{PLACEHOLDER}}'lar dolduruldu
-- [ ] dosya bu şablona uygun
-- [ ] YAML `on:`/`jobs:`/`steps:` + `${{ }}` ifadeleri bozulmadı; branch protection contexts job adlarıyla eşleşiyor
-
-**REFACTOR REPORT:** FILE: github-actions-template.md · PURPOSE: GitHub Actions CI/CD Template · VALIDATION: 7 alan + §1-§7 + bilgi korunumu · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
-
-## 7. Referanslar
-
-- [[.templates/index]] — şablon registry (`.ai/.templates/index.md`)
-- [[../CLAUDE.md]] — AI anayasası, 16 Hard Guardrail
-- [[../../AGENTS.md]] — routing (§6: CI/CD → DevOps Engineer, ikincil QA Engineer), kalite standardı §16 (CI/CD success ≥95%, GitLeaks clean)
-- `.ai/CLAUDE.md` · `.ai/AGENTS.md` · `.ai/brain.md` (frontmatter `reference`)
-- `reference_doc: Freelancer Technical Documentation v1.0`
+1. **İHTİYAÇ:** job gereksinimi (lint/test/tarama/deploy) netleştirilir.
+2. **ŞABLONU SEÇ:** `.ai/.templates/infrastructure/github-actions-template.md` (Guardrail #16).
+3. **TASLAK YAML:** §3.2-§3.4 iskeletlerini `{{VARIABLE}}` ile uyarla.
+4. **KULLANICI ONAYI:** `.github/CLAUDE.md` §4.1 — onay alınmadan dosya oluşturulmaz (DUR noktası).
+5. **OLUŞTUR:** `.github/workflows/{{file}}.yml` + gerekirse `.github/settings.yml`.
+6. **İLK ÇALIŞTIRMA:** GitLeaks + `composer audit` + `npm audit` temiz; job adları §3.4 ile eşleşiyor.
+7. **COMMIT:** `log.md` append'i parent yapar; secret değerleri vault'a yazılmaz.
 
 ---
 
-*GitHub Actions CI/CD Template v2.0.0 — CoreMusic DevOps Standards*
-*Authority: Bayram Ali / Vault Steward*
-*Last Updated: {{DATE}}*
-*Mode: Red Team · Human Mode · Truth Mode*
+## 6. Doğrulama
+
+| # | Kontrol | Kriter |
+|---|---------|--------|
+| 1 | Frontmatter | 7 zorunlu alan (title, type, category, date, updated, version, status, authority) |
+| 2 | Bölüm yapısı | §1-§7 numaralı, en fazla 3 başlık seviyesi |
+| 3 | Placeholder | `{{VARIABLE}}` kalmadı; `${{ }}` expression'ları KORUNMUŞ |
+| 4 | YAML | `on:`/`jobs:`/`steps:` girintisi ve girinti düzeni bozulmadı |
+| 5 | Secret | Dosyada gerçek değer yok; yalnız `secrets.*` referansı |
+| 6 | Eşleşme | §3.4 `contexts` ↔ §3.2 job `name:` alanları birebir |
+| 7 | Onay | `.github/CLAUDE.md` §4.1 akışı uygulandı |
+| 8 | Deploy | `environment: production` mevcut |
+| 9 | Halüsinasyon | Diskte olmayan dosya/job "mevcut" gibi sunulmadı (§3.1) |
+| 10 | Tarama | İlk çalıştırmada GitLeaks + audit temiz (AGENTS.md §16 ≥ %95) |
+
+---
+
+## 7. Referanslar
+
+| Kaynak | Yol / Kimlik | Amaç |
+|--------|--------------|------|
+| Template registry | [[.templates/index]] | Envanter (DRY) |
+| Vault anayasası | [[../CLAUDE.md]] | Hard Guardrails, ADR-042 |
+| Agent registry | [[../../AGENTS.md]] | §6 yönlendirme (CI/CD → DevOps Engineer), §16 kalite |
+| Klasör bağlamı | `.github/CLAUDE.md` | "Workflow yok" gerçeği + onay protokolü |
+| Test şablonu | [[../testing/phpunit-template]] | `php-test` job komutları |
+| Test şablonu (JS) | [[../testing/vitest-template]] | JS test job ön koşulu (kurulu değil) |
+| Migration şablonu | [[../infrastructure/migration-template]] | Deploy sırasında forward-only migration |
+| Disk kanıtı | `.github/` glob (3 dosya, workflows YOK) | §3.1 |
+| Kalite standardı | AGENTS.md §16 | CI/CD ≥ %95, GitLeaks clean |
+
+---
+
+## 8. Kapsamlı Workflow Şablonu Galerisi
+
+### §8.1 Gece Cron Job (Nightly Audit)
+
+```yaml
+name: Nightly Audit
+
+on:
+  schedule:
+    - cron: '0 3 * * *'      # her gece 03:00 UTC
+  workflow_dispatch:
+
+jobs:
+  dependency-audit:
+    name: Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+      - name: Composer audit
+        run: composer audit --working-dir=shared --format=plain
+      - name: npm audit (yalnız high/critical)
+        run: npm audit --audit-level=critical || true
+      - name: GitLeaks (tarih aralıksız)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+### §8.2 E2E Test Job (Playwright — kurulu paket)
+
+```yaml
+  e2e:
+    name: E2E Playwright
+    runs-on: ubuntu-latest
+    needs: php-test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Playwright install
+        run: npx playwright install --with-deps chromium
+      - name: E2E suite
+        run: npx playwright test
+        env:
+          BASE_URL: https://staging.coremusic.net
+```
+
+> Disk kanıtı: `package.json` → `playwright ^1.62.1` mevcut; bu job ilk işlenebilir JS test katmanıdır.
+
+### §8.3 Migration Guard Job
+
+```yaml
+  migration-guard:
+    name: Migration Guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: migration dosyalarını listele
+        run: ls -1 shared/database/migrations/*.php | tee migrations.txt
+      - name: down() kontrolü
+        run: |
+          for f in shared/database/migrations/*.php; do
+            grep -q "public function down()" "$f" || { echo "EKSİK down(): $f"; exit 1; }
+          done
+```
+
+> `database/migrations/` kökte YOK — gerçek yol `shared/database/migrations/` (glob kanıtı).
+
+### §8.4 Cache & Artefakt Desenleri
+
+| Desen | Adım | Not |
+|---|---|---|
+| Composer cache | `actions/cache@v4` → `vendor/` key = hashFiles('shared/composer.lock') | lock yoksa cache devre dışı |
+| npm cache | `setup-node` `cache: npm` | yalnız `package-lock.json` varsa |
+| Coverage artefact | `actions/upload-artifact@v4` → `coverage.xml` | phpunit `--coverage-clover` |
+| Test raporu | `actions/upload-artifact@v4` → Playwright `test-results/` | fail durumunda |
+| Gibhub Job Summary | `echo >> $GITHUB_STEP_SUMMARY` | sonuç tablosu |
+
+### §8.5 Matrix Stratejisi (PHP sürüm varyantı)
+
+```yaml
+  php-matrix:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+      - run: composer install --working-dir=shared
+      - run: vendor/bin/phpunit -c shared/phpunit.xml
+```
+
+---
+
+## 9. Rollback & Onarım
+
+| Senaryo | Tetik | Aksiyon |
+|---|---|---|
+| CI kırmızı (main) | push sonrası fail | hata düzelt → revert commit; force push YASAK |
+| Deploy sonrası 500 | health check fail | sunucuda `git reset --hard HEAD~1` (SSOT deponun son yeşil SHA'sı) |
+| Migration geri alınamaz | `down()` eksik | §8.3 guard → pre-merge'da yakalanır; elle SQL backup |
+| Secret sızdı | GitLeaks fail | GitHub Settings → secret rotasyonu + [REDACTED] log temizliği |
+| Cache zehirlendi | tuhav test fail | cache key bump / `actions/cache` restore-keys temizle |
+| Workflow deploy'u durdur | branch protection | Settings → environments → required reviewers |
+
+```bash
+# Sunucu tarafı hızlı rollback (deploy job'ı içinde de çağrılabilir)
+cd "$DEPLOY_PATH"
+git fetch origin && git reset --hard "${PREVIOUS_SHA}"
+composer install --no-dev --optimize-autoloader
+```
+
+⚠️ `PREVIOUS_SHA` bir önceki yeşil commit'tir; deployment öncesi job çıktısına yazılır (`VERIFICATION REQUIRED` — gerçek sunucu koşullarıyla doğrulanmalı).
+
+---
+
+## 10. Hata Masası (CI/CD)
+
+| Hata | Konum | Neden | Çözüm |
+|---|---|---|---|
+| `ModuleNotFoundError` | php-test | `working-directory` yanlış | `defaults.run.working-directory: shared` |
+| `permission denied (publickey)` | deploy | SSH_KEY eksik/yanlış | Settings → Secrets → `SSH_KEY` yenile |
+| `gitleaks: no commits found` | security | fetch derinliği | `fetch-depth: 0` checkout'a ekle |
+| Job takılmıyor, koşmuyor | onay eksik | §4.1 onayı verilmedi | kullanıcı onayı → commit |
+| `contexts` eşleşmiyor | settings.yml | job `name:` değişti | §3.2 ↔ §3.4 senkronu |
+| `npm ci` fail | js-check | lock yok | `npm install` veya lock oluştur |
+| Coverage yok | php-test | phpunit coverage sürücüsü | `XDEBUG_MODE=coverage` + `--coverage-clover` |
+| Cache hit yok | her job | key değişken | `hashFiles` lock dosyasına bağla |
+| `environment: production` uyarısı | deploy | environment tanımsız | Repo → Environments → `production` oluştur |
+
+---
+
+## 11. İdame Checklist (Sprint Sonu)
+
+| # | Kontrol | Sıklık |
+|---|---|---|
+| 1 | Actions pin sürümü (`@v4` → SHA pin önerilir) | aylık |
+| 2 | Secret son kullanma / rotasyon | 90 gün |
+| 3 | Job süreleri (runtime bütçesi) | sprint |
+| 4 | `composer audit` / `npm audit` temizliği | her gece (§8.1) |
+| 5 | Branch protection contexts = canlı job adları | job ekleme/çıkarma |
+| 6 | Rollback provası (staging) | çeyreklik |
+
+---
+
+## 12. Ek Workflow Paternleri
+
+### §12.1 İzin (Concurrency) & İptal
+
+```yaml
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true     # aynı ref'te eski koşuyu iptal (CI maliyet tasarrufu)
+```
+
+| Ayar | Değer | Neden |
+|---|---|---|
+| `cancel-in-progress` (CI) | `true` | eski commit koşusu gereksiz |
+| `cancel-in-progress` (deploy) | `false` | yarım deploy yasak |
+| Job timeout | `timeout-minutes: 15` | takılan job bütçeyi yakmasın |
+
+### §12.2 Manuel Tetik (workflow_dispatch) Girdileri
+
+```yaml
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Ortam'
+        required: true
+        default: 'staging'
+        type: choice
+        options: [staging, production]
+      skip_tests:
+        description: 'Test atla (acil hotfix)'
+        type: boolean
+        default: false
+```
+
+### §12.3 Şartlı Adım Kalıpları
+
+```yaml
+      - name: Migration çalıştır (yalnız production)
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: php shared/database/migrations/run.php
+      - name: Test adımı
+        if: ${{ !inputs.skip_tests }}
+        run: vendor/bin/phpunit -c shared/phpunit.xml
+```
+
+### §12.4 PR Yorumu & Özet
+
+```yaml
+      - name: Job Summary
+        if: always()
+        run: |
+          echo "### CI Sonucu" >> $GITHUB_STEP_SUMMARY
+          echo "- PHP: \`${{ job.status }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Commit: \`${GITHUB_SHA::7}\`" >> $GITHUB_STEP_SUMMARY
+```
+
+---
+
+**Template Version:** 2.0.0
+**Last Updated:** 2026-09-23
