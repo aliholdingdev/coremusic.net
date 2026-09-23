@@ -212,3 +212,12 @@ governance: Red Team · Human Mode · Truth Mode
     3. `.ai/glossary.md` v2.0.0→v2.1.0 — frontmatter + §13 (iskelet eşlemesi + REFACTOR REPORT)
   - **SSOT conflict defterine işlendi (Faz 6):** index `total_files: 850` + `total_adr: 79` yeniden sayılacak; CLAUDE ADR aralığı 001-088 ile çelişiyor; `total_files` 14 kök + 12 .agents + 19 template sayımı ile doğrulanacak
   - **Link kapısı:** 0 yeni kırık link (yeni eklenen tüm [[wiki-link]]'ler çözüldü)
+
+- 2026-09-23 21:15:00 | vault_refactor_engine_faz4 | session=current | **FAZ 4 — AGENT PROFilleri (.agents/, tam yeniden yazım):**
+  - **Dosya (11):** `master-orchestrator`, `backend-architect`, `ui-designer`, `security-engineer`, `data-engineer`, `embedded-engineer`, `qa-engineer`, `devops-engineer`, `audio-hardware-engineer`, `dsp-firmware-engineer`, `windows-software-engineer` — hepsi v1.0.0→**v2.0.0** (tam rewrite, ADR-042 istisnası)
+  - **10-Bölüm Formatı uygulandı (hepsinde):** Kimlik · Misyon · Sorumluluklar · İzinli Kapsam · Yasak Kapsam · Teknoloji Yığını · Mimari Kurallar · Workflow (OKU→PLAN→UYGULA→TEST→DOĞRULA) · Handover Protokolü · Versiyon
+  - **Frontmatter 7 alan** (title/type/category/version/status/authority/updated) 11/11 ✓; `authority` hepsinde `Agent Profile — SSOT: .ai/AGENTS.md (v22.0.0)` — self-SSOT iddiaları kaldırıldı (0 eşleşme)
+  - **Doğrulama:** otomatik betik ile 11/11 OK + §1-§10 başlık denetimi + 0 yeni kırık link
+  - **Exec:** 2 docs-writer subagent (paralel A5+B6; model parametresi `opencode/mimo-v2.6-flash-free` zorunlu — varsayılan model kullanılamıyor)
+  - **Bilgi korunumu:** eski tablolar/kurallar/edge-case'ler §3/§5/§7'ye taşındı; bilinmeyenler `⚠️ VERIFICATION REQUIRED`
+  - **Kapı:** 0 yeni kırık link (profildeki `ui-design/00-mockup-index` gibi önceden mevcut drift'ler Faz 6 defterinde)
