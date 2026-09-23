@@ -7,11 +7,16 @@ status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
 updated: 2026-09-23
 date: 2026-08-23
+template_id: TPL-SESSION-LOG
+risk: "Düşük — salt metin şablon; {PLACEHOLDER} kalırsa yanlış oturum kaydı riski"
+reuse_note: "Oturum kapanışında kopyalanır; §3 alanları doldurulur (Guardrail #16)"
 ---
 
 # Session Log Template
 
-**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../AGENTS.md]]
+**Zorunlu Bağlantılar:** [[.templates/index]] · [[../CLAUDE.md]] · [[../AGENTS.md]]
+
+---
 
 ## 1. Amaç
 
@@ -133,6 +138,6 @@ Zorunlu / yasak kurallar:
 
 ---
 
-**Template Version:** 2.0.0
-**Created:** 2026-08-23
+**Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-23
+**Mode:** Red Team · Human Mode · Truth Mode

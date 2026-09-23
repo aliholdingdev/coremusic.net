@@ -1,17 +1,11 @@
 ---
-reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic — Agent Registry & Coordination Protocol"
 type: guide
 category: agent-registry
-date: 2026-08-08
-updated: 2026-09-23
-status: active
 version: 22.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
-reference:
-  authority: ".ai/AGENTS.md"
-  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .ai/brain.md · .ai/index.md"
+status: active
+authority: SSOT
+updated: 2026-09-23
 ---
 
 # CoreMusic — Agent Registry & Coordination Protocol
@@ -22,7 +16,9 @@ reference:
 
 ---
 
-## 1. Amaç
+## Purpose
+
+### §1 Purpose
 
 CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzman); ses analizinden donanım optimizasyonuna, bilgi bankası/RAG yönetiminden prompt üretimine kadar tüm AI süreçlerini koordine eden yetki sınırlarını, rollerini, iletişim protokollerini ve kalite standartlarını tanımlayan **Tek Doğruluk Kaynağıdır (SSOT)**.
 - **Ekosistem Vizyonu & Mülkiyet Felsefesi:** [[VISION.md]]
@@ -30,7 +26,9 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 
 ---
 
-## 2. Kapsam
+## Scope
+
+### §2 Scope
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
@@ -39,25 +37,15 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 | Ajanlar arası handover ve eskalasyon protokolü | Veritabanı işlemleri |
 | Sağlık kontrolü ve context lock mekanizması | Güvenlik politikası |
 
----
+### §2.1 Registry Authority
 
-## 3. Terminoloji
-
-| Terim | Tanım |
-|-------|-------|
-| **Agent** | CoreMusic ekosisteminde belirli bir alanda uzmanlaşmış yapay zeka birimi |
-| **Master Orchestrator (MO)** | Tüm ajanları koordine eden ana kontrol birimi |
-| **Domain Boundary** | Her ajanın yalnızca kendi alanında çalışması kuralı |
-| **Handover** | Bir ajanın görevi başka bir ajana transfer etmesi |
-| **Eskalasyon** | Bir sorunun çözülemediği durumda daha üst seviyeye çıkması |
-| **Context Lock** | Eşzamanlı dosya erişimini önlemek için kilitleme mekanizması |
-| **Health Check** | Ajanların çalışma durumunu kontrol eden mekanizma |
-| **Task Queue** | Görevlerin öncelik sırasıyla beklediği kuyruk |
-| **Pre-flight Check** | Görev başlamadan önce yapılan kontroller |
+Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` alt registry (profil detayları) olarak hizmet eder (§26.2). Çelişkide kök dosya kazanır.
 
 ---
 
-## 4. Agent Genel Bakış
+## Architecture
+
+### §4 Agent Overview
 
 | # | Agent | Kod Adı | Domain | Katman | Teknoloji |
 |---|-------|---------|--------|--------|-----------|
@@ -75,7 +63,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 
 ---
 
-## 5. Domain Sınırları
+### §5 Domain Boundaries
 
 | Dosya Tipi | Sorumlu Agent | Diğerleri Erişebilir mi? |
 |------------|---------------|--------------------------|
@@ -112,7 +100,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 
 ---
 
-## 7. Görev Dağıtımı Algoritması
+### §7 Task Dispatch Algorithm
 
 ```
 Kullanıcı İsteği
@@ -125,7 +113,7 @@ Kullanıcı İsteği
               → [7. Completion] — Görevi tamamla ve logla
 ```
 
-### 7.1 Adım 1: Analiz
+#### §7.1 Step 1: Analysis
 
 | Kontrol | Yöntem | Kaynak |
 |---------|--------|--------|
@@ -134,19 +122,19 @@ Kullanıcı İsteği
 | Öncelik belirleme | CRITICAL > HIGH > MEDIUM > LOW | Bu dosya §8 |
 | Ajan seçimi | Birincil + ikincil ajan | Bu dosya §6 |
 
-### 7.2 Adım 2: Pre-flight Checks
+#### §7.2 Step 2: Pre-flight Checks
 
 | Kontrol | Değer | İhlal |
 |---------|-------|-------|
 | Domain boundary | Doğru ajan | Layer violation → revert |
 | Dosya etkileniyor mu? | Eşzamanlı erişim | Context lock |
 | Bağımlılık var mı? | Handover gerekli | Transfer başlat |
-| UI Design uyumu | [[ui-design/00-mockup-index]] (19 PNG + 45-tier cihaz matrisi) ve C01-C16 kontrolü; referans sırası: PNG > ASCII art > Inventory > Tokens > Reference (01-10) | Mockup okunmadıysa → DUR |
+| UI Design uyumu | [[ui-design/01-mockup-index]] (19 PNG + 45-tier cihaz matrisi) ve C01-C16 kontrolü; referans sırası: PNG > ASCII art > Inventory > Tokens > Reference (01-10) | Mockup okunmadıysa → DUR |
 | 45-Tier uyumu | [[ui-design/reference/10-device-specific-guidelines]] tier kontrolü; responsive token'lar | Tier kuralı ihlal edilmişse → RED |
-| Responsive uyum | [[ui-design/responsive-device-mode]] §7.4 (4K'da ortalamama) + §12 (fallback zorunlu) | Tier kuralı ihlal edilmişse → RED |
+| Responsive uyum | [[ui-design/05-responsive-architecture]] §7.4 (4K'da ortalamama) + §12 (fallback zorunlu) | Tier kuralı ihlal edilmişse → RED |
 | Önceki görev başarısız mı? | Retry / escalation | Max 3 retry |
 
-### 7.3 Adım 3: Görev Atama
+#### §7.3 Step 3: Task Assignment
 
 | Öncelik | Tanım | Timeout | Max Retry |
 |---------|-------|---------|-----------|
@@ -155,18 +143,18 @@ Kullanıcı İsteği
 | MEDIUM | Normal geliştirme görevi | 30s | 3 |
 | LOW | İyileştirme, optimizasyon | 60s | 2 |
 
-### 7.4 Adım 4: Yürütme
+#### §7.4 Step 4: Execution
 
 Ajan görevi yürütür. Kurallar:
 - Domain boundary'yi koru
 - Zero Code Before Plan uygula
 - Çıktıyı standardize et
 
-### 7.5 Adım 5: Handover
+#### §7.5 Step 5: Handover
 
 Gerekirse diğer ajana transfer. Handover protokolü §9'da tanımlıdır.
 
-### 7.6 Adım 6: Doğrulama
+#### §7.6 Step 6: Verification
 
 | Kontrol | Değer |
 |---------|-------|
@@ -175,7 +163,7 @@ Gerekirse diğer ajana transfer. Handover protokolü §9'da tanımlıdır.
 | Cross-reference | Geçerli wiki-link'ler |
 | Security | Hassas veri redaction |
 
-### 7.7 Adım 7: Tamamlanma
+#### §7.7 Step 7: Completion
 
 - Görev tamamlanır
 - `log.md`'ye giriş eklenir

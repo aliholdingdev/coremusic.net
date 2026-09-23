@@ -134,7 +134,7 @@ Doğrulanabilir karşılık: Rol profili, `.ai/.agents/AGENTS.md`'de kayıtlı 1
 
 CoreMusic mimarisi, L0-L6 katman bağımlılık kuralları ve teknoloji yığını.
 
-**Faz 0 doğrulama notu:** L0-L3 katman adlandırması vault dokümanında kavramsal etikettir; `shared/src/` fiziksel klasörleri katman adı taşımaz (19 modül: AI, Api, Bootstrap, Cache, Config, Contracts, Database, Device, Events, Exception, Interfaces, Log, Middleware, OAuth, PageRouter, Security, Session, Theme, ViewMode). Katman → modül eşlemesi [[architecture/k0-k5-software/k0-os-layer]] ve [[architecture/l1-security]] index'lerinde yürütülür.
+**Faz 0 doğrulama notu:** L0-L3 katman adlandırması vault dokümanında kavramsal etikettir; `shared/src/` fiziksel klasörleri katman adı taşımaz (19 modül: AI, Api, Bootstrap, Cache, Config, Contracts, Database, Device, Events, Exception, Interfaces, Log, Middleware, OAuth, PageRouter, Security, Session, Theme, ViewMode). Katman → modül eşlemesi [[architecture/k0-isletim-sistemi]] ve [[architecture/k6-guvenlik]] index'lerinde yürütülür.
 
 ---
 
@@ -153,7 +153,7 @@ Merkezi auth.coremusic.net kimlik servisi, hybrid JWT+session, RBAC, middleware 
 
 ## 5. SPA Router Vizyonu
 
-> Detaylı SPA router için bkz: [[CLAUDE.md]] §6A, [[architecture/l2-routing/spa-router]]
+> Detaylı SPA router için bkz: [[CLAUDE.md]] §6A, [[architecture/k9-api-routing/spa-router]]
 
 SPA Router, History API, partial rendering, backend-controlled auth.
 
@@ -235,9 +235,9 @@ Sıfırdan geliştirme, clean architecture, merkezi auth, security-first, zero c
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § 2 Uzmanlık | [[AGENTS.md]] | Agent yetkileri |
-| § 3 Mimari | [[architecture/master-architecture-index]] | Sistem genel bakışı |
+| § 3 Mimari | [[architecture/index]] | Sistem genel bakışı |
 | § 4 Auth | [[architecture/07-security/middleware-security]] | Güvenlik pipeline'ı |
-| § 5 SPA | [[architecture/l3-presentation/index]] | Frontend layer |
+| § 5 SPA | [[architecture/k11-ux/index]] | Frontend layer |
 | § 6 API | [[architecture/03-contracts/api-architecture-master]] | API mimarisi |
 | § 7 Teknoloji | [[brain.md]] | Teknik kararlar |
 | § 8 Kodlama | [[architecture/03-contracts/project-structure]] | Proje yapısı |
@@ -245,9 +245,9 @@ Sıfırdan geliştirme, clean architecture, merkezi auth, security-first, zero c
 | § 5 SPA Vizyonu | [[archives/prompt1-spa-router-2026-09-01]] | SPA router kaynağı (tarih düzeltildi, Faz 1) |
 | § 6 API Vizyonu | [[archives/prompt3-api-2026-09-01]] | API mimarisi kaynağı (tarih düzeltildi, Faz 1) |
 | § 7 Teknoloji Seçimi | [[archives/prompt0-genel-ana-prompt-2026-09-01]] | Composer paket öncelik sırası (tarih düzeltildi, Faz 1) |
-| § UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi — 19 PNG, frontend ZORUNLU |
+| § UI Design | [[ui-design/01-mockup-index]] | Mockup indeksi — 19 PNG, frontend ZORUNLU |
 | § Mockup PNG'ler | `.ai/.png/home-1024/` + `.ai/.png/home-1920/` + `.ai/.png/shared-1024/` | 12 + 1 + 6 = 19 PNG (RPi5 1024×600 + Desktop 1920×1080) |
-| § Responsive Kuralları | [[ui-design/responsive-device-mode]] | 4K No-Center (§7.4) + Backward-Compat (§12) bağlayıcı |
+| § Responsive Kuralları | [[ui-design/05-responsive-architecture]] | 4K No-Center (§7.4) + Backward-Compat (§12) bağlayıcı |
 | § 11 Rol Eşlemesi | [[.agents/AGENTS.md]] | 11 profil kayıt defteri |
 | § 21 Bulgular | [[engine.md]] §8.1 | Bilinen sorunlar tablosu |
 
@@ -394,7 +394,7 @@ PHP strict_types + PSR-12, Vanilla JS ES6+ (framework yasak — web panel kapsam
 
 ## 14. Security Practices
 
-> Güvenlik uygulamaları için bkz: [[CLAUDE.md]] §6, [[architecture/l1-security/]]
+> Güvenlik uygulamaları için bkz: [[CLAUDE.md]] §6, [[architecture/k6-guvenlik/]]
 
 OWASP Top 10:2025, CSRF, CSP, rate limiting, prepared statements, RBAC.
 

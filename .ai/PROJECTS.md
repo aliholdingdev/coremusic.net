@@ -27,7 +27,7 @@ governance: Red Team · Human Mode · Truth Mode
 | [[index.md]] | Vault master kataloğu |
 | [[AGENTS.md]] | Agent kayıt defteri |
 | [[WORKFLOW.md]] | Süreçler ve fazlar |
-| [[architecture/master-architecture-index]] | 21 katmanlı mimari indeks |
+| [[architecture/index]] | 21 katmanlı mimari indeks |
 
 ---
 

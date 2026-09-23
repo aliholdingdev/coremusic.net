@@ -12,7 +12,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # CoreMusic — 1000+ Katmanlı Mimari Yeniden Yapılandırma Planı
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[brain.md]] · [[ui-design/00-mockup-index]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[brain.md]] · [[ui-design/01-mockup-index]]
 
 ---
 

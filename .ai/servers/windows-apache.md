@@ -10,8 +10,8 @@ version: 1.0.0
 
 # Sunucu Yapılandırması — Windows + Apache
 
-**İlgili Katmanlar:** [[architecture/k0-k5-software/k0-os-layer]] · [[architecture/k10-k15-application/k14-network]]
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[architecture/master-architecture-index]]
+**İlgili Katmanlar:** [[architecture/k0-isletim-sistemi]] · [[architecture/k14-ag]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[architecture/index]]
 
 ---
 

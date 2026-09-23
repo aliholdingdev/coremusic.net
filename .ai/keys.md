@@ -610,7 +610,7 @@ P3: testing/*, ui-design/*, personas/*
 
 ## 17A. Implementasyon Dosyaları
 
-> Detaylı dosya yapısı için: [[architecture/03-contracts/project-structure]] ve [[shared/]] dizin yapısı
+> Detaylı dosya yapısı için: [[architecture/03-contracts/project-structure]] ve [[../shared/]] dizin yapısı
 
 ---
 
@@ -630,29 +630,29 @@ P3: testing/*, ui-design/*, personas/*
 ### Sistem Terimleri
 | Keyword | Tanım | İlgili Dosya |
 |---------|-------|-------------|
-| Neva Engine | C++20 ses işleme motoru | [[architecture/k0-k5-software/k3-audio-engine]] |
+| Neva Engine | C++20 ses işleme motoru | [[architecture/k3-ses-motoru]] |
 | Offline-First | İnternet olmadan çalışma | [[VISION]] |
-| FLAC | Kayıpsız ses formatı | [[architecture/k0-k5-software/k15-media-streaming]] |
-| ASIO | Düşük gecikmeli ses protokolü | [[architecture/k0-k5-software/k2-driver-layer]] |
-| WASAPI | Windows ses oturumu | [[architecture/k0-k5-software/k2-driver-layer]] |
-| 8.1 Surround | 8 hoparlör + 1 subwoofer | [[architecture/k0-k5-software/k1-hardware-layer]] |
+| FLAC | Kayıpsız ses formatı | [[architecture/k15-medya-streaming]] |
+| ASIO | Düşük gecikmeli ses protokolü | [[architecture/k2-surucu]] |
+| WASAPI | Windows ses oturumu | [[architecture/k2-surucu]] |
+| 8.1 Surround | 8 hoparlör + 1 subwoofer | [[architecture/k1-donanim]] |
 | Class AB | Amplifikatör topolojisi | [[architecture/k16-k20-electronics/amfii/amplifier-classab-circuit]] |
 | LM5122 | Boost converter | [[architecture/k16-k20-electronics/power/power-supply-classab]] |
 | MJL21194 | NPN output transistör | [[architecture/k16-k20-electronics/amfii/amplifier-classab-circuit]] |
-| 31-Band EQ | Parametrik EQ | [[architecture/k0-k5-software/k3-audio-engine]] |
-| Multi-Room | Çok odalı ses | [[architecture/k10-k15-application/k14-network]] |
-| DLNA | Medya paylaşım protokolü | [[architecture/k10-k15-application/k14-network]] |
-| WebRTC | P2P iletişim | [[architecture/k10-k15-application/k14-network]] |
+| 31-Band EQ | Parametrik EQ | [[architecture/k3-ses-motoru]] |
+| Multi-Room | Çok odalı ses | [[architecture/k14-ag]] |
+| DLNA | Medya paylaşım protokolü | [[architecture/k14-ag]] |
+| WebRTC | P2P iletişim | [[architecture/k14-ag]] |
 
 ### Platform Terimleri
 | Keyword | Tanım | İlgili Dosya |
 |---------|-------|-------------|
-| car.coremusic.net | Araç içi bilgi-eğlence | [[architecture/k10-k15-application/k10-application]] |
-| home.coremusic.net | Ev medya merkezi | [[architecture/k10-k15-application/k10-application]] |
-| studio.coremusic.net | Profesyonel stüdyo | [[architecture/k10-k15-application/k10-application]] |
-| media.coremusic.net | Merkezi medya depo | [[architecture/k10-k15-application/k15-media-streaming]] |
-| download.coremusic.net | İndirme servisi | [[architecture/k8-k9-services/k8-services]] |
-| api.coremusic.net | API Gateway | [[architecture/k8-k9-services/k9-api-routing]] |
+| car.coremusic.net | Araç içi bilgi-eğlence | [[architecture/k10-uygulama]] |
+| home.coremusic.net | Ev medya merkezi | [[architecture/k10-uygulama]] |
+| studio.coremusic.net | Profesyonel stüdyo | [[architecture/k10-uygulama]] |
+| media.coremusic.net | Merkezi medya depo | [[architecture/k15-medya-streaming]] |
+| download.coremusic.net | İndirme servisi | [[architecture/k8-servis]] |
+| api.coremusic.net | API Gateway | [[architecture/k9-api-routing]] |
 
 ---
 

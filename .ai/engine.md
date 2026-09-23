@@ -1,7 +1,11 @@
 ---
-title: "CoreMusic — Orchestration Engine"
+title: "CoreMusic - Orchestration Engine"
 type: system
+category: orchestration
 version: 20.0.0
+status: active
+authority: "Orchestration Index — SSOT: .ai/AGENTS.md (v22.0.0)"
+updated: 2026-09-23
 ---
 
 # CoreMusic — Orchestration Engine
@@ -56,9 +60,9 @@ Bu bölümler sadece bu dosyada bulunur:
 | Eskalasyon | [[AGENTS.md]] §10 |
 | Sağlık kontrolü | [[AGENTS.md]] §11 |
 | Context lock | [[AGENTS.md]] §12 |
-| UI Design | [[ui-design/00-mockup-index]] |
+| UI Design | [[ui-design/01-mockup-index]] |
 | Mockup PNG'ler | `.ai/.png/home-1024/`, `.ai/.png/home-1920/`, `.ai/.png/shared-1024/` |
-| Responsive kuralları | [[ui-design/responsive-device-mode]] (4K No-Center §7.4, Backward-Compat §12) |
+| Responsive kuralları | [[ui-design/05-responsive-architecture]] (4K No-Center §7.4, Backward-Compat §12) |
 
 ---
 
@@ -511,9 +515,9 @@ Kural: Tür belirlenemeyen belirsizlik `teknik` varsayılır ve `düşük` sever
 | Context lock | [[AGENTS.md]] §12 |
 | Kuyruk durumu | Bu dosya §5 |
 | Teknoloji seçimi | Bu dosya §9 |
-| UI Design | [[ui-design/00-mockup-index]] |
+| UI Design | [[ui-design/01-mockup-index]] |
 | Mockup PNG'ler | `.ai/.png/home-1024/` (12), `.ai/.png/home-1920/` (1), `.ai/.png/shared-1024/` (6) — toplam 19 |
-| Responsive kuralları | [[ui-design/responsive-device-mode]] (4K No-Center §7.4, Backward-Compat §12) |
+| Responsive kuralları | [[ui-design/05-responsive-architecture]] (4K No-Center §7.4, Backward-Compat §12) |
 | Terim sözlüğü | [[glossary.md]] |
 | Faz yürütme planı | Bu dosya §12 |
 | Uncertainty türleri | Bu dosya §10.5 |

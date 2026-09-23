@@ -189,9 +189,9 @@ Wide layout (1920+) section'ında sadece `player-info` ve `recent-tracks` render
 
 | # | Kırık Link | Not |
 |---|------------|-----|
-| 19 | `[[architecture/master-architecture-index]]` | `architecture/index.md` var ama adı farklı |
-| 20 | `[[architecture/k0-k5-software/k0-os-layer]]` | Dizin yapısı farklı |
-| 21 | `[[architecture/k0-k5-software/k3-audio-engine]]` | Aynı |
+| 19 | `[[architecture/index]]` | `architecture/index.md` var ama adı farklı |
+| 20 | `[[architecture/k0-isletim-sistemi]]` | Dizin yapısı farklı |
+| 21 | `[[architecture/k3-ses-motoru]]` | Aynı |
 | 22 | `[[architecture/k0-k5-software/k5-data-layer/database_master]]` | Aynı |
 | 23 | `[[architecture/03-contracts/master-implementation-plan]]` | Dizin yapısı farklı |
 | 24 | `[[archives/prompt0-genel-ana-prompt-2026-09-01]]` | `archives/` dizini yok |
@@ -203,8 +203,8 @@ Wide layout (1920+) section'ında sadece `player-info` ve `recent-tracks` render
 
 | # | Kırık Link | Gerçek Karşılık |
 |---|------------|-----------------|
-| 28 | `[[ui-design/00-mockup-index]]` | `ui-design/01-mockup-index.md` |
-| 29 | `[[ui-design/01-component-inventory]]` | `ui-design/02-component-inventory.md` |
+| 28 | `[[ui-design/01-mockup-index]]` | `ui-design/01-mockup-index.md` |
+| 29 | `[[ui-design/02-component-inventory]]` | `ui-design/02-component-inventory.md` |
 | 30 | `[[screens/B-home/dashboard-1920]]` | `screens/` dizini vault'ta yok |
 
 ---

@@ -1,17 +1,11 @@
 ---
-reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic — Vault Workflows & Engineering Processes"
 type: guide
 category: workflow
-date: 2026-08-08
-updated: 2026-09-23
-status: active
 version: 22.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
-reference:
-  authority: ".ai/WORKFLOW.md"
-  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .ai/brain.md · .ai/index.md"
+status: active
+authority: SSOT
+updated: 2026-09-23
 ---
 
 # CoreMusic — Vault Workflows & Engineering Processes
@@ -22,7 +16,9 @@ reference:
 
 ---
 
-## 1. Amaç
+## Purpose
+
+### §1 Purpose
 
 CoreMusic ekosistemindeki tüm süreçlerin standartlaştırıldığı **Tek Doğruluk Kaynağıdır (SSOT)**. Zero Code Before Plan ve Hard Gate prensipleri uygulanır. Süreçler; projenin mülkiyet odaklı felsefesini, stüdyo referanslı ses kalitesini ve 6 ana problem çözümünü hayata geçirecek şekilde kurgulanmıştır.
 - **Ekosistem Vizyonu & Sorun-Çözüm:** [[VISION.md]]
@@ -30,7 +26,9 @@ CoreMusic ekosistemindeki tüm süreçlerin standartlaştırıldığı **Tek Do�
 
 ---
 
-## 2. Kapsam
+## Scope
+
+### §2 Scope
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
@@ -43,37 +41,9 @@ CoreMusic ekosistemindeki tüm süreçlerin standartlaştırıldığı **Tek Do�
 
 ---
 
-## 3. Terminoloji
+## Architecture
 
-| Terim | Tanım |
-|-------|-------|
-| **Workflow** | Belirli bir amaca yönelik adımlar dizisi |
-| **Hard Gate** | Kullanıcı onayı olmadan geçilemeyen kritik faz geçiş noktası |
-| **Zero Code Before Plan** | Plan onayı olmadan kod yazma yasağı |
-| **In-Place Modification** | Dosya adı/yolu değişmeden güncelleme |
-| **Append-Only** | Geçmiş satırların silinmediği/eğitilmediği mod |
-| **Vault Sync** | Vault ile kod arasındaki tutarlılığı sağlama |
-| **ADR Lifecycle** | Draft → Review → Active → Frozen yaşam döngüsü |
-| **Pre-flight Check** | Görev başlamadan önce yapılan kontroller |
-| **Context Lock** | Eşzamanlı dosya erişimini önlemek için kilitleme |
-
----
-
-## 4. Core Principles
-
-| İlke | Açıklama | ADR |
-|------|----------|-----|
-| Zero Code Before Plan | Kod yazmadan önce tam planlama zorunlu | [[ADR-007-cache-namespace]] |
-| In-Place Modification | Dosya adı/konumu onay olmadan değişmez | Hard Rule #2 |
-| No Hallucination | Doğrulanamayan bilgi → `VERIFICATION REQUIRED` | [[ADR-005-ultrathink-protocol]] |
-| Append-Only Log | Geçmiş kayıtlar silinemez | [[ADR-004-multi-domain-spa]] |
-| Hard Gate | Kullanıcı onayı olmadan sonraki faza geçilmez | [[ADR-007-cache-namespace]] |
-| Domain Boundary | Her ajan kendi alanında kalır | [[ADR-008-bypass-auth-middleware]] |
-| Single Source of Truth | Bilgi sadece `.ai/` vault'tan okunur | [[ADR-042-vault-restructuring-2026-08-03]] |
-
----
-
-## 5. 12-Phase Vault Refactoring
+### §5 12-Phase Vault Refactoring
 
 | Faz | Amaç | Çıktı | Hard Gate |
 |-----|------|-------|-----------|
@@ -90,21 +60,21 @@ CoreMusic ekosistemindeki tüm süreçlerin standartlaştırıldığı **Tek Do�
 | 11 | Validation | `validation-report.md` | — |
 | 12 | Quality Report & Vault Sync | `quality-report.md` + log | — |
 
-### 5.1 Faz Detayları
+#### §5.1 Phase Details
 
-#### Faz 1: Repository Discovery
+#### Phase 1: Repository Discovery
 - Tüm vault dosyaları taranır
 - Dosya boyutları, satır sayıları, format analiz edilir
 - Eksik dosyalar tespit edilir
 - Çıktı: `repository-inventory.md` (dosya listesi + metrikler)
 
-#### Faz 2: AI Knowledge Discovery
+#### Phase 2: AI Knowledge Discovery
 - AI ajanlarının bilgi ihtiyaçları analiz edilir
 - Mevcut bilgi gaps tespit edilir
 - Öneri listesi oluşturulur
 - Çıktı: `knowledge-gap-report.md`
 
-#### Faz 3: Existing Markdown Analysis
+#### Phase 3: Existing Markdown Analysis
 - Tüm markdown dosyaları format olarak analiz edilir
 - Wiki-link'ler, frontmatter, yapı kontrol edilir
 - Standart dışı dosyalar tespit edilir
@@ -166,7 +136,7 @@ CoreMusic ekosistemindeki tüm süreçlerin standartlaştırıldığı **Tek Do�
 
 ---
 
-## 6. 20-Phase Product Lifecycle
+### §6 20-Phase Product Lifecycle
 
 | Faz | Grup | Amaç | Hard Gate |
 |-----|------|------|-----------|
@@ -191,7 +161,7 @@ CoreMusic ekosistemindeki tüm süreçlerin standartlaştırıldığı **Tek Do�
 | 19 | MVP & Yol Haritası | MVP sürümü | — |
 | 20 | MVP & Yol Haritası | 5 yıllık yol haritası | — |
 
-### 6.1 Faz Grupları Detayı
+#### §6.1 Phase Groups Detail
 
 #### Vizyon & Analiz (Faz 1-6)
 - Ürün vizyonu tanımlanır
@@ -226,7 +196,7 @@ CoreMusic ekosistemindeki tüm süreçlerin standartlaştırıldığı **Tek Do�
 
 ---
 
-## 7. ADR Lifecycle
+### §7 ADR Lifecycle
 
 ```
 Draft → Review → Active → Frozen
@@ -239,7 +209,7 @@ Draft → Review → Active → Frozen
 | Active | Sadece minor güncelleme | Kalıcı | Arch Lead |
 | Frozen | Hiçbir değişiklik | Sonsuz | — |
 
-### 7.1 ADR Oluşturma Adımları
+#### §7.1 ADR Creation Steps
 
 | Adım | Aksiyon | Sorumlu |
 |------|---------|---------|
@@ -250,7 +220,7 @@ Draft → Review → Active → Frozen
 | 5 | Cross-reference'ları güncelle | MO |
 | 6 | `log.md`'ye kaydet | MO |
 
-### 7.2 ADR Güncelleme (Active)
+#### §7.2 ADR Update (Active)
 
 | Adım | Aksiyon | Sorumlu |
 |------|---------|---------|
@@ -261,7 +231,7 @@ Draft → Review → Active → Frozen
 | 5 | Cross-reference'ları güncelle | MO |
 | 6 | `log.md`'ye kaydet | MO |
 
-### 7.3 Frozen ADR Kuralları
+#### §7.3 Frozen ADR Rules
 
 | Kural | Değer |
 |-------|-------|
@@ -281,7 +251,7 @@ Draft → Review → Active → Frozen
 | 1 | `git diff` ile değişiklik listesini al | — |
 | 3 | İlgili ADR'leri kontrol et | ADR uyumluluğu |
 | 4 | Kod standartlarını doğrula (PSR-12, BEM, ITCSS) | Format |
-| 4.5 | Frontend ise: UI Design uyumunu doğrula ([[ui-design/00-mockup-index]], C01-C16, ölçüler, **45-tier cihaz matrisi**) | UI Design Gate |
+| 4.5 | Frontend ise: UI Design uyumunu doğrula ([[ui-design/01-mockup-index]], C01-C16, ölçüler, **45-tier cihaz matrisi**) | UI Design Gate |
 | 4.6 | Frontend ise: [[ui-design/reference/04-verification]] protocol uygula (tier bazlı validasyon) | Verification Gate |
 | 5 | Güvenlik kontrollerini yap (OWASP, CSRF, CSP) | Security |
 | 5.5 | Template uyumluluğunu kontrol et (Guardrail #16) | Template |
@@ -369,7 +339,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 1 | Gereksinimleri tanımla | — |
 | 1.5 | `.ai/.templates/index.md`'den uygun template seç | Template Mandatory (Guardrail #16) |
 | 2 | İlgili ADR'leri kontrol et | — |
-| 2.5 | Frontend ise: [[ui-design/00-mockup-index]] ve [[ui-design/01-component-inventory]] oku | ✅ HARD GATE (Guardrail #11) |
+| 2.5 | Frontend ise: [[ui-design/01-mockup-index]] ve [[ui-design/02-component-inventory]] oku | ✅ HARD GATE (Guardrail #11) |
 | 3 | 20-Fazlı yaşam döngüsünün ilgili fazlarını uygula | — |
 | 4 | Mimari planı hazırla (Phase 7) | ✅ HARD GATE |
 | 5 | Kullanıcı onayını al | — |
@@ -383,7 +353,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 |------|---------|-----------|
 | 1 | Hedef tier'ı belirle (Phone/Embedded/Laptop/Desktop/TV/Car/Watch/Console/AR-VR) | — |
 | 2 | `[[ui-design/reference/10-device-specific-guidelines]]` tier kılavuzunu oku | ✅ HARD GATE |
-| 3 | `[[ui-design/00-mockup-index]]` tier karşılığını bul | ✅ HARD GATE |
+| 3 | `[[ui-design/01-mockup-index]]` tier karşılığını bul | ✅ HARD GATE |
 | 4 | `[[ui-design/tokens/design-tokens-master]]` tier token'larını al | ✅ HARD GATE |
 | 5 | Tier bazlı CSS media query'yi planla | — |
 | 6 | `[[ui-design/reference/04-verification]]` tier validasyonunu planla | — |
@@ -656,9 +626,9 @@ Session Sonunda:
 | § 10 Rules | [[ADR-008-bypass-auth-middleware]] | Auth bypass |
 | § 11 Edge Cases | [[ADR-044-dynamic-user-theme-engine]] | Tema engine |
 | § 8.8 YAML Formatter | CI/CD, GitHub Actions | YAML format standartları |
-| § UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi — frontend görevlerinde ZORUNLU |
+| § UI Design | [[ui-design/01-mockup-index]] | Mockup indeksi — frontend görevlerinde ZORUNLU |
 | § Mockup PNG'ler | `.ai/.png/home-1024/` + `.ai/.png/home-1920/` + `.ai/.png/shared-1024/` | 19 PNG mockup (RPi5 1024×600 + Desktop 1920×1080) |
-| § Responsive Kuralları | [[ui-design/responsive-device-mode]] | 4K No-Center (§7.4) + Backward-Compat (§12) bağlayıcı — frontend gate'e dahil |
+| § Responsive Kuralları | [[ui-design/05-responsive-architecture]] | 4K No-Center (§7.4) + Backward-Compat (§12) bağlayıcı — frontend gate'e dahil |
 
 ---
 
@@ -792,7 +762,7 @@ Müzik Dosyası → Metadata Çıkarma → DB Kaydı → İndeksleme → Arama �
 ```
 
 ### İlgili Dosyalar
-- [[architecture/master-architecture-index]] — 21 katmanlı mimari
+- [[architecture/index]] — 21 katmanlı mimari
 - [[VISION]] — Vizyon ve hedefler
 - [[PROJECTS]] — Proje tanımı
 

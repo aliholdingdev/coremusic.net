@@ -10,16 +10,18 @@ date: 2026-08-09
 governance: Red Team · Human Mode · Truth Mode
 total_templates: 17
 total_files: 19
-total_lines: 4899
+total_lines: 5546
 ---
 
 # CoreMusic — Template Registry Index
 
-**Zorunlu Bağlantılar / See also:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[ui-design/01-mockup-index]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[ui-design/01-mockup-index]]
 
 **Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
 **Agents:** `.ai/.agents/` (11 agent profile)
-**UI Design:** `.ai/ui-design/` (100+ dosya) + `.ai/.png/` (18 PNG mockup)
+**UI Design:** `.ai/ui-design/` (115 dosya) + `.ai/.png/` (19 PNG)
+
+---
 
 ## 1. Amaç
 
@@ -109,7 +111,7 @@ updated: {{DATE}}
 2. **Registry otoritesi:** Şablon ekleme/çıkarma/güncelleme yalnızca bu dosyanın tablolarından yapılır; alt klasör `CLAUDE.md` dosyaları şablon listesi iddiası taşıyamaz.
 3. **SSOT self-claim yasak:** Bu dosya dışındaki hiçbir şablon/klasör dosyası "Single Source of Truth" iddiasında bulunamaz; authority alanı şablonlarda `Template (Guardrail #16) — Registry: .ai/.templates/index.md` değerindedir.
 4. **Frontmatter standardı:** Her şablon dosyasında 7 zorunlu alan bulunur: `title`, `type`, `category`, `version`, `status`, `authority`, `updated`.
-5. **Sayı senkronu:** `total_*` alanları disk gerçeğiyle tutarlıdır (17 şablon / 19 dosya / 4.899 satır — 2026-09-23 sayımı). Uyuşmazlık → güncelleme zorunlu.
+5. **Sayı senkronu:** `total_*` alanları disk gerçeğiyle tutarlıdır (17 şablon / 19 dosya / 5.546 satır — 2026-09-23 sayımı, Faz 1 sonrası yeniden ölçüldü). Uyuşmazlık → güncelleme zorunlu.
 6. **Bilinmeyen bilgi uydurulmaz:** Doğrulanamayan iddia `⚠️ VERIFICATION REQUIRED` etiketiyle işaretlenir.
 
 ## 5. Workflow
@@ -171,18 +173,18 @@ Yeni dosya oluştururken:
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 3.3.0 |
+| **Versiyon** | 4.0.0 |
 | **Toplam Template (diskte)** | 17 |
 | **Planlanan (Faz 6)** | 10 |
 | **Toplam Dosya** | 19 (17 şablon + index.md + CLAUDE.md) |
-| **Toplam Satır** | 4,899 (2026-09-23, 19 md dosyası) |
-| **Ortalama Satır/Template** | 258 |
-| **Minimum Satır** | 33 (CLAUDE.md — meta) |
-| **Maksimum Satır** | 504 (frontend/js-template.md) |
+| **Toplam Satır** | 5.546 (2026-09-23, 19 md dosyası — Faz 1 sonrası canlı ölçüm) |
+| **Ortalama Satır/Template** | 292 |
+| **Minimum Satır** | 89 (CLAUDE.md — meta) |
+| **Maksimum Satır** | 600 (frontend/js-template.md) |
 | **Kategori** | 10 dizin (adr, agents, backend, documentation, frontend, hardware, infrastructure, other, query, testing) + kök (index, CLAUDE.md, session-log-template) |
 | **Dizin Yapısı** | ✅ Alt dizinlere ayrılmış (§2 disk gerçeği) |
-| **Frontmatter Uyumlu** | ✅ 8 dosya v2.0.0 iskeletiyle yeniden yazıldı; kalan 9 şablon doğrulanmalı |
-| **Düzeltilen eski iddialar** | 25.000/22.786 satır → 4.899 · 26 template → 17 · 1.085 ort. → 258 · min 315 (adr-index) / max 1.693 (api-doc) → 33/504 · "9-10 kategori (session dahil)" → 10 dizin, `session/` klasörü yok, `agents/` eklendi |
+| **Frontmatter Uyumlu** | ✅ 19/19 7-alanlı FM + §7 başlığı (2026-09-23 doğrulandı) |
+| **Düzeltilen eski iddialar** | 25.000/22.786 satır → 5.546 · 26 template → 17 · 1.085 ort. → 292 · min 315 (adr-index) / max 1.693 (api-doc) → 89/600 · "9-10 kategori (session dahil)" → 10 dizin, `session/` klasörü yok, `agents/` eklendi · 4.899 → 5.546 (Faz 1 sonrası yeniden ölçüm) |
 
 **REFACTOR REPORT:** FILE: index.md · PURPOSE: Template Registry Index (şablon registry + dizin) · VALIDATION: 7 alan + §1-§7 + bilgi korunumu · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
 
@@ -266,7 +268,7 @@ Yeni dosya oluştururken:
 
 | # | Template | Format | Amaç | Satır | Durum | Dosya |
 |---|----------|--------|------|-------|-------|-------|
-| 25 | Session Log Template | Markdown | Oturum kaydı | 51 | ✅ diskte (139 satır) | [[session-log-template]] (kök) |
+| 25 | Session Log Template | Markdown | Oturum kaydı | 51 | ✅ diskte (143 satır, 2026-09-23 v2.0.0 sonrası) | [[session-log-template]] (kök) |
 
 *(Eski kayıtta `session/` klasörü geçiyordu; diskte `session/` klasörü YOKTUR, dosya köktedir.)*
 
@@ -288,7 +290,7 @@ Yeni dosya oluştururken:
 
 ---
 
-*Template Registry Index v3.3.0 — CoreMusic Template System*
+*Template Registry Index v4.0.0 — CoreMusic Template System*
 *Authority: Bayram Ali / Vault Steward*
 *Last Updated: 2026-09-23*
 *Mode: Red Team · Human Mode · Truth Mode*

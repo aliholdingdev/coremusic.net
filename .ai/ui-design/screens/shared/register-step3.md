@@ -18,7 +18,7 @@ reference:
 
 # CoreMusic — Register Step 3 (Phone + KVKK) — 1024×600
 
-**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]] · [[shared/register-step1]] · [[shared/register-step2]] · [[shared/login]]
+**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]] · [[../shared/register-step1]] · [[../shared/register-step2]] · [[../shared/login]]
 
 ---
 

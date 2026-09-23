@@ -6,8 +6,9 @@ status: active
 authority: SSOT
 version: 28.1.0
 updated: 2026-09-23
-total_files: 850
+total_files: 531
 total_adr: 79
+total_adr_disk: 0
 ---
 
 # CoreMusic Vault — Master Index
@@ -42,7 +43,7 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | ADR kataloğu | § 5 bu dosya |
 | Servis haritası | § 6 bu dosya |
 | Veritabanı | § 8 bu dosya |
-| UI / Mockup / Frontend | [[ui-design/00-mockup-index]] (19 PNG Mockup, C01-C16 Envanteri, 45-Tier Device Matrix) |
+| UI / Mockup / Frontend | [[ui-design/01-mockup-index]] (19 PNG Mockup, C01-C16 Envanteri, 45-Tier Device Matrix) |
 
 ---
 
@@ -69,20 +70,20 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 
 ## 4. Mimari — L0-L6 Katmanları
 
-*Detaylı metadata için bakınız: [[architecture/master-architecture-index]] §2*
+*Detaylı metadata için bakınız: [[architecture/index]] §2*
 
 Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1→L0 | ✅ L0→L2/L3, L1→L3, L3→L0
 
 | Katman | Dosya | Kapsam |
 |--------|-------|--------|
 | L6 Electronics | [[architecture/l6-electronics]] | Hardware, firmware, driver, DSP, audio engine |
-| L5 Services | [[architecture/l5-services]] | Application services, use cases, CQRS, event bus |
+| L5 Services | [[architecture/k8-servis]] | Application services, use cases, CQRS, event bus |
 | L4 Domain | [[architecture/l4-domain]] | Business rules, entities, value objects, aggregates |
-| L3 Presentation | [[architecture/l3-presentation]] · [[ui-design/00-mockup-index]] | Frontend, UI, DOM, responsive, 19 PNG mockup, C01-C16 |
+| L3 Presentation | [[architecture/k11-ux]] · [[ui-design/01-mockup-index]] | Frontend, UI, DOM, responsive, 19 PNG mockup, C01-C16 |
 | L3 Rehber | [[architecture/l3-presentation/scale-router-css-frontend-guide]] | Scale, Router, CSS & Frontend Entegrasyon Rehberi (adım adım) |
-| L2 Routing | [[architecture/l2-routing]] | SPA PageRouter, API Gateway, subdomain routing |
-| L1 Security | [[architecture/l1-security]] | Middleware pipeline, session, auth, CSRF, CSP |
-| L0 Infrastructure | [[architecture/k0-k5-software/k0-os-layer]] | Database, cache, filesystem, IPC, credential vault |
+| L2 Routing | [[architecture/k9-api-routing]] | SPA PageRouter, API Gateway, subdomain routing |
+| L1 Security | [[architecture/k6-guvenlik]] | Middleware pipeline, session, auth, CSRF, CSP |
+| L0 Infrastructure | [[architecture/k0-isletim-sistemi]] | Database, cache, filesystem, IPC, credential vault |
 
 ---
 
@@ -92,10 +93,10 @@ Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1�
 
 | Dosya / Dizin | İçerik ve Amaç | Zorunluluk |
 |---------------|----------------|------------|
-| [[ui-design/00-mockup-index]] | 19 PNG Mockup İndeksi (12 home-1024 + 6 shared-1024) | ✅ Tüm frontend görevlerinde İLK OKUNACAK |
-| [[ui-design/01-component-inventory]] | C01–C16 Kanonik Bileşen Envanteri (BEM, ölçüm, token) | ✅ Bileşen kodlarken ZORUNLU |
-| [[ui-design/02-implementation-plan]] | 15 Adımlık CSS Uygulama Yol Haritası | ✅ CSS yazarken ZORUNLU |
-| [[ui-design/03-accessibility-gaps]] | WCAG 2.2 AA Uyum ve Touch Target Denetimi (min 48px) | ✅ Erişilebilirlik için ZORUNLU |
+| [[ui-design/01-mockup-index]] | 19 PNG Mockup İndeksi (12 home-1024 + 6 shared-1024) | ✅ Tüm frontend görevlerinde İLK OKUNACAK |
+| [[ui-design/02-component-inventory]] | C01–C16 Kanonik Bileşen Envanteri (BEM, ölçüm, token) | ✅ Bileşen kodlarken ZORUNLU |
+| [[ui-design/03-implementation-plan]] | 15 Adımlık CSS Uygulama Yol Haritası | ✅ CSS yazarken ZORUNLU |
+| [[ui-design/04-accessibility-gaps]] | WCAG 2.2 AA Uyum ve Touch Target Denetimi (min 48px) | ✅ Erişilebilirlik için ZORUNLU |
 | [[ui-design/screens/00-ascii-art-index]] | Piksel düzeyinde ASCII Art ekran modelleri (x:0-1024, y:0-600) | ✅ Layout hizalamada ZORUNLU |
 | [[ui-design/tokens/design-tokens-master]] | Master CSS Design Tokens (Renk, Boşluk, Tipografi, Cam) | ✅ Token kullanımında ZORUNLU |
 | [[ui-design/prompt/00-prompt-index]] | Ekran, Bileşen, Layout ve Sayfa Prompt Şablonları | ✅ Kod üretiminde ZORUNLU |
@@ -121,13 +122,13 @@ Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1�
 | Ayrı dosya yasağı | `home-1024.php`, `home-desktop.html` YASAKTIR | Guardrail #17 |
 | Backend sorumluluğu | PHP: davranışsal konfigürasyon (widget count, feature toggle) | [[brain.md]] §18C |
 | Frontend sorumluluğu | CSS: sunum kararları (token, media query, grid) | [[brain.md]] §18C |
-| Tek bileşen + CSS | Fark CSS media query + CSS variables ile yönetilir | [[ui-design/responsive-device-mode]] |
-| WCAG 2.2 AA | Phone/Embedded: min 48px touch target | [[ui-design/03-accessibility-gaps]] |
+| Tek bileşen + CSS | Fark CSS media query + CSS variables ile yönetilir | [[ui-design/05-responsive-architecture]] |
+| WCAG 2.2 AA | Phone/Embedded: min 48px touch target | [[ui-design/04-accessibility-gaps]] |
 | Katman ihlal | PHP'de margin/padding/width/height kodlanamaz | [[brain.md]] §18C |
 
 | Dosya | İçerik | Kullanım |
 |-------|--------|----------|
-| [[ui-design/responsive-device-mode]] | 4-Tier Conditional Rendering mimarisi | Cihaz bazlı layout kararları |
+| [[ui-design/05-responsive-architecture]] | 4-Tier Conditional Rendering mimarisi | Cihaz bazlı layout kararları |
 | [[architecture/l3-presentation/device-css]] | 7 device CSS + 4 view mode CSS | Behavioral overrides |
 | [[brain.md]] §18A | Responsive CSS Architecture Rules | Token tanımları, yasak örüntüler |
 | [[brain.md]] §18B | 4-Tier Device Manager Sistemi | DeviceManager karar metotları |
@@ -220,7 +221,7 @@ Toplam 79 ADR (Frozen: 37, Active: 30, Rejected: 12). Frozen: 001-037 (değişti
 
 | Dosya | Kapsam |
 |-------|--------|
-| [[decisions/rejected/index]] | Reddedilen ADR listesi ve gerekçeleri |
+| [[.decisions/rejected/index]] | Reddedilen ADR listesi ve gerekçeleri |
 
 ---
 
@@ -423,17 +424,17 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | Prompt Engine | [[architecture/ai/prompt-engine]] | Prompt üretim ve yönetim motoru |
 | Knowledge | [[knowledge/verified]], [[knowledge/unverified]], [[knowledge/rejected]], [[confidence/README]] |
 | Subdomains | [[subdomains/README]], [[subdomains/auth.coremusic.net/index]], [[subdomains/music.coremusic.net/index]], [[subdomains/download.coremusic.net/domains/index]] |
-| UI-Design | [[ui-design/00-mockup-index]], [[ui-design/01-component-inventory]], [[ui-design/02-implementation-plan]], [[ui-design/03-accessibility-gaps]], [[ui-design/04-vault-registration]] |
+| UI-Design | [[ui-design/01-mockup-index]], [[ui-design/02-component-inventory]], [[ui-design/03-implementation-plan]], [[ui-design/04-accessibility-gaps]], [[ui-design/04-vault-registration]] |
 | UI-Design Screens | [[ui-design/screens/00-ascii-art-index]], [[ui-design/screens/A-auth/login]], [[ui-design/screens/B-home/dashboard]], [[ui-design/screens/C-music/albums]], [[ui-design/screens/D-player/playlist]], [[ui-design/screens/E-filemanager/disk-browser]], [[ui-design/screens/F-quickpanel/wifi]] |
 | PNG Mockups | `.ai/.png/home-1024/` (12 PNG) + `.ai/.png/home-1920/` (1 PNG) + `.ai/.png/shared-1024/` (6 PNG) = 19 PNG |
 | UI-Design Prompt | [[ui-design/prompt/00-prompt-index]], [[ui-design/prompt/screen/01-1024-embedded]], [[ui-design/prompt/component/C01-nav-link]], [[ui-design/prompt/layout/01-pattern-standard-60-40]], [[ui-design/prompt/page/01-home]] |
-| UI-Design Reference | [[ui-design/tokens/design-tokens-master]], [[ui-design/reference/02-php-source-architecture]], [[ui-design/reference/03-text-strings]], [[ui-design/reference/04-icon-asset-catalog]], [[ui-design/reference/05-verification]] |
+| UI-Design Reference | [[ui-design/tokens/design-tokens-master]], [[ui-design/reference/01-php-source-architecture]], [[ui-design/reference/02-text-strings]], [[ui-design/reference/03-icon-asset-catalog]], [[ui-design/reference/04-verification]] |
 | UI-Design Flow | [[ui-design/flow/00-flow-index]], [[ui-design/flow/auth/04-select-gender]] |
 | Research | [[research/verified/php84-strict-types]], [[research/verified/argon2id]], [[research/verified/aes-256-gcm]], [[research/verified/pcm3168a]], [[research/verified/asio-sdk]], [[research/verified/juce8]], [[research/verified/xmos-xu316]], [[research/verified/trusted-types-domparser]], [[research/verified/itcss-bemit-layer]], [[research/verified/wcag-22-aa]], [[research/verified/mariadb-1011]] |
 | Personas | [[personas/index]], [[personas/methodology]], [[personas/mood-taxonomy]] |
 | Templates | [[.templates/index]] — 25 template (PHP, JS, CSS, C++, PHPUnit, Vitest, Migration, GitHub Actions, API-doc, Security-audit, ADR, Arduino, AVR, PIC, C, Node.js, ASP.NET, WikiPage, Query, Session) |
-| Workflows | [[workflows/adr-creation]], [[workflows/dev-workflow]], [[workflows/code-review]], [[workflows/deployment]], [[workflows/hallucination-control]], [[workflows/security-audit]], [[workflows/session-init]], [[workflows/vault-sync-detailed]] |
-| Root | [[engine]], [[index-overview]], [[index-services]], [[index-adr]], [[decisions/index]], [[research/index]] |
+| Workflows | [[../.workflows/adr-creation]], [[workflows/dev-workflow]], [[workflows/code-review]], [[../.workflows/deployment]], [[../.workflows/hallucination-control]], [[../.workflows/security-audit]], [[../.workflows/session-init]], [[workflows/vault-sync-detailed]] |
+| Root | [[engine]], [[index-overview]], [[index-services]], [[index-adr]], [[.decisions/index]], [[research/index]] |
 
 ---
 
@@ -489,7 +490,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § 3 SSOT | [[CLAUDE.md]] | Ana sözleşme |
-| § 4 Mimari | [[architecture/k0-k5-software/k0-os-layer]] | L0-L6 katmanları |
+| § 4 Mimari | [[architecture/k0-isletim-sistemi]] | L0-L6 katmanları |
 | § 5 ADR | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault standardı |
 | § 6 Servisler | [[ecosystem/7-service-integration]] | Servis entegrasyonu |
 | § 7 Agentlar | [[AGENTS.md]] | Agent yetkileri |
@@ -497,7 +498,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | § 9 Projeler | [[projects/NevaEngine/overview]] | C++ ses motoru |
 | § 10 Donanım | [[electronic/hardware-roadmap]] | 3 fazlı geliştirme |
 | § 11 Test | [[testing/coverage-targets]] | Kapsama hedefleri |
-| § 4A UI Design | [[ui-design/00-mockup-index]] | 19 PNG, C01-C16, Mockup SSOT |
+| § 4A UI Design | [[ui-design/01-mockup-index]] | 19 PNG, C01-C16, Mockup SSOT |
 | § 4A.1 Device-Aware | [[brain.md]] §18C | Backend/Frontend sorumluluk sınırları, Tek Bileşen İlkesi |
 
 ---
@@ -653,7 +654,7 @@ Bu bölüm, vault genelinde tespit edilen kırık referans kümelerini ve çöz�
 ### İlgili Dosyalar
 - [[VISION]] — CoreMusic vizyonu
 - [[PROJECTS]] — Proje tanımı
-- [[../architecture/master-architecture-index]] — Mimari indeks
+- [[architecture/index]] — Mimari indeks
 
 ---
 

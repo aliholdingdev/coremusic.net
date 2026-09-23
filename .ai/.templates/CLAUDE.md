@@ -3,7 +3,7 @@ title: "CoreMusic — .ai/.templates Bağlam"
 type: template-guide
 category: template
 folder: ".ai/.templates"
-version: 2.0.0
+version: 2.1.0
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
 updated: 2026-09-23
@@ -12,7 +12,9 @@ date: 2026-09-06
 
 # .ai/.templates — CLAUDE.md
 
-**Zorunlu Bağlantılar / See also:** [[../CLAUDE.md]] · [[./index.md]] · [[../.agents/AGENTS.md]] · [[../AGENTS.md]]
+**Zorunlu Bağlantılar:** [[../CLAUDE.md]] · [[./index.md]] · [[../.agents/AGENTS.md]] · [[../AGENTS.md]]
+
+---
 
 ## 1. Amaç
 
@@ -84,3 +86,4 @@ Parent [[../CLAUDE.md]] · Index [[./index.md]] · Tüketen tüm agent profiller
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-23
+**Mode:** Red Team · Human Mode · Truth Mode

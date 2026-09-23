@@ -1,11 +1,12 @@
 ---
 reference_doc: Freelancer Technical Documentation v1.0
-title: "CoreMusic — Session Log"
+title: "CoreMusic - Session Log"
 type: log
+category: audit-log
 date: 2026-09-18
-updated: 2026-09-18
+updated: 2026-09-23
 status: active
-version: 1.0.0
+version: 1.1.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -230,3 +231,15 @@ governance: Red Team · Human Mode · Truth Mode
   - **Link onarımı (kapı öncesi):** 16 subdir dosyada `[[../X]]`→`[[../../X]]` seviye düzeltmesi (37 link), index'de 10 "Planlanan" kırık link → `` `düz metin` ``
   - **Exec:** 2 docs-writer subagent (paralel A8+B11, model: opencode/mimo-v2.6-flash-free) + otomatik kapı betiği
   - **Kapı:** 19/19 OK (7 alan + §1-§7 + v≥2.0.0 + SSOT yok); kalan 6 "kırık" sahte pozitif (placeholder/kod metni: `ADR-NNN-...`, `{{RELATED_PAGE_*}}`, `'name' =>`)
+
+- 2026-09-23 22:30:00 | vault_refactor_engine_faz6 | session=current | **FAZ 6 — DOĞRULAMA (vault geneli tarama + mekanik onarım + ledger):**
+  - **Kapsam:** 530 `.md` (tarama anı); link kapısı taraması şu dosyaları hariç tuttu — `archives/**` (dondurulmuş tarihî) + `reports/broken-files-report.md` (kırık listesi raporu); FP filtresi 25 sahte pozitif (`[[rules]]` TOML, `[[V]]` ASCII-art, `[[wiki-link]]` meta vb.)
+  - **Mekanik onarım (~90 link, hepsi existence-verified):** `master-architecture-index→architecture/index` 12 · k-grup önekleri (`k0-k5/k10-k15/k8-k9`→kN dizin) 24 · l-katman (l1→k6-guvenlik, l2→k9-api-routing, l3→k11-ux, l5→k8-servis) 16 · ui-design adlandırma 00→01/01→02/02→03/03→04 ~10 dosya · `responsive-device-mode→05-responsive-architecture` 6 · `.templates` bağıl seviye 37 (Faz 5) · `workflows/*→../.workflows/*` 5 · `shared/*→../shared/*` 10 · reference slug-yeniden-numara 4 · `../` fallback 4
+  - **Veri kurtarma:** `.ai/archives/` **12 dosya git'ten geri yüklendi** (`8ce113f~1`'de silinmiş; SSOT'un beklediği `prompt*-2026-09-01` serisi) → 20 link kapandı; ayrıca 2 rapor cp1252→**UTF-8** çevrildi (9 + 373 byte) → vault non-UTF8 = 0
+  - **KRİTİK BULGU (SAHİP KARARI):** `ADR-001..089` + `R-001..R-012` karar kayıtları **hiç var olmamış** — `.decisions/*` git tarihçesinde yalnızca placeholder, repo geneli `ADR-*.md` = 0 → **216 link / 151 hedef** kırık; üçlü SSOT çelişkisi: index `total_adr: 79` vs CLAUDE `001-088` vs **disk 0**. Seçenekler: (a) harici geri yükleme, (b) brain §13 + CLAUDE §12 özetlerinden yeniden inşa, (c) referansları frozen/markdown'a indirgeme
+  - **Ledger (134 link / 126 hedef, mekanik imkânsız):** electronic/* 22, projects/* 19, architecture/03-contracts/* 13, architecture/ai/* 12, research/verified/* 10, ecosystem/* 7, testing/* 6, screens harf→T-tier 5, knowledge/registry/personas/scaffold 10, tekil 30 — **tam liste: [[reports/faz6-link-ledger]] §6.3**
+  - **Frontmatter/ölçü:** kök 14 = **14/14 ✓** (log +`category`, engine +4 alan bu fazda); vault geneli 106/530 (eksik 424 → gelecek faz); index.md `total_files: 850→531`, `total_adr_disk: 0` eklendi; gerçek mojibake = 0 (log §"Mojibake temizliği" alıntısı meta-kanıt)
+  - **Boot-listesi çelişkisi:** KAPANDI (Faz 2 — kanonik [[CLAUDE.md]] §16)
+  - **Kapı:** **0 YENİ kırık link** = PASS; kalan 351 (216 kritik + 134 ledger + 1 FP artığı) tamamı önceden mevcut, fazda artmadı
+  - REFACTOR REPORT: FILE: vault-geneli (20+ dosya link hedefi + 2 UTF-8 + log/index/engine frontmatter + archives×12) | PURPOSE: Faz 6 doğrulama + onarım + defter | VALIDATION: kapı PASS, 0 yeni kırık, mojibake 0, non-UTF8 0, kök 7-alan 14/14 | RELATED: [[reports/faz6-link-ledger]] · [[index.md]] · [[keys.md]] · [[log.md]]
+| 2026-09-23 | vault-rewrite | Faz 1 tamamlandı (4 dosya: subdomains/CLAUDE.md v2.0.0 ELI10, templates/CLAUDE.md, templates/index.md v4.0.0, session-log-template.md v2.0.0) | vault-updater |

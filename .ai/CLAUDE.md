@@ -1,17 +1,11 @@
 ---
-reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-date: 2026-08-08
-updated: 2026-09-23
-status: active
 version: 27.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
-reference:
-  authority: ".ai/CLAUDE.md"
-  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .ai/brain.md · .ai/index.md"
+status: active
+authority: SSOT
+updated: 2026-09-23
 ---
 
 # CoreMusic — AI Constitution & Master Vault Mandate
@@ -22,7 +16,9 @@ reference:
 
 ---
 
-## 1. Amaç ve Proje Tanımı
+## Purpose
+
+### §1 Purpose & Project Definition
 
 **CoreMusic**, trilyon dolarlık küresel dijital medya, otomotiv ses sistemleri ve tüketici elektroniği pazarındaki yapısal açıkları kapatmak ve doğrudan yüksek kârlılığa dönüştürmek amacıyla geliştirilmiş kurumsal seviyede bir **Ticari Dijital Medya Ekosistemi ve Gelir Platformudur**.
 
@@ -35,7 +31,9 @@ Bu dosya, tüm AI ajanlarının ve mühendislerin mutlaka uyması gereken anayas
 
 ---
 
-## 2. Kapsam
+## Scope
+
+### §2 Scope
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
@@ -44,37 +42,23 @@ Bu dosya, tüm AI ajanlarının ve mühendislerin mutlaka uyması gereken anayas
 | Tüm servisler ve paneller | Donanım üretimi süreçleri |
 | Vault (.ai/) ve tüm dokümantasyon | Kaynak kodu iç detayları |
 
----
+### §2.1 SSOT Priority Order
 
-## 3. Terminoloji
+Vault'taki bilgiler çelişirse aşağıdaki öncelik sırası geçerlidir:
 
-| Terim | Tanım |
-|-------|-------|
-| **SSOT** | Single Source of Truth — Tek Doğruluk Kaynağı. Tüm bilgiler `.ai/` vault'tan okunur. |
-| **ADR** | Architecture Decision Record — Mimari karar kaydı. Frozen (001-037) ve Active (038-088) olmak üzere iki türdür. |
-| **Hard Gate** | Kullanıcı onayı olmadan geçilemeyen kritik faz geçiş noktası. |
-| **Zero Code Before Plan** | Plan onayı olmadan kod yazma yasağı. |
-| **Zero Hallucination** | Doğrulanamayan bilginin `VERIFICATION REQUIRED` olarak işaretlenmesi. |
-| **Layer Violation** | Mimari katman bağımlılık kurallarının ihlali. |
-| **CSRF** | Cross-Site Request Forgery — Token key: `csrf_token` (NOT `_csrf_token`). |
-| **CSP** | Content Security Policy — nonce-based, strict-dynamic. |
-| **BCNF** | Boyce-Codd Normal Form — 18 BCNF veritabanı için zorunlu normalizasyon. |
-| **RBAC** | Role-Based Access Control — Rol bazlı erişim kontrolü. |
-| **OWASP** | Open Web Application Security Project — Güvenlik standartları. |
-| **ASIO** | Audio Stream Input/Output — Düşük gecikmeli ses protokolü. |
-| **WASAPI** | Windows Audio Session API — Windows ses oturum yönetimi. |
-| **DSP** | Digital Signal Processing — Dijital sinyal işleme. |
-| **FLAC** | Free Lossless Audio Codec — Kayıpsız ses formatı. |
-| **PCM** | Pulse-Code Modulation — Ham ses verisi formatı. |
-| **LFE** | Low Frequency Effects — Subwoofer kanalı (8.1 surround). |
+`.ai/CLAUDE.md` > `.ai/AGENTS.md` > `.ai/WORKFLOW.md` > `.ai/brain.md` > `.ai/index.md` > `.ai/.templates/`
+
+Prompt arşivleri (`archives/prompt*`) ile çelişen vault içeriği vault lehinedir (§26.3). Harici kaynaklar (web, model hafızası) her zaman vault'un altındadır.
 
 ---
 
-## 4. Sistem Tanımı
+## Architecture
+
+### §4 System Definition
 
 CoreMusic; araçta, evde ve profesyonel stüdyoda müzik dinlemek, müzik açmak ve müzik yönetmek için tasarlanmış, otomatik indirme yeteneğine sahip bir medya platformudur.
 
-### 4.1 Platform Tanımı
+#### §4.1 Platform Definition
 
 | Özellik | Değer |
 |---------|-------|
@@ -85,7 +69,7 @@ CoreMusic; araçta, evde ve profesyonel stüdyoda müzik dinlemek, müzik açmak
 | Lisans | Kapalı Kaynak |
 | Versiyon | 19.0.0 |
 
-### 4.2 Sistem Yetenekleri
+#### §4.2 System Capabilities
 
 CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahiptir:
 
@@ -106,9 +90,9 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 ---
 
-## 5. Mimari -- K0-K20 (21-Katmanlı Sistem — 1775 Bileşen)
+### §5 Architecture — K0-K20 (21-Layer System — 1775 Components)
 
-*Detaylı metadata için bakınız: [[architecture/master-architecture-index]] §2*
+*Detaylı metadata için bakınız: [[architecture/index]] §2*
 
 | Katman | Kapsam | Bileşen | Katı Kısıtlamalar (Hard Guardrails) |
 |--------|--------|:-------:|-------------------------------------|
@@ -135,7 +119,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | **K19** PCB Tasarım | 6-layer stackup, impedance matched, thermal vias, star ground | 50 | ENIG finish, 2oz copper |
 | **K20** BOM & Üretim | 1775 bileşen, Mouser/Digikey, ~$682 sistem maliyeti | 40 | Üretim araçları dahil |
 
-### Kritik Bileşenler (K1 Donanım Alt Sistemleri)
+### Critical Components (K1 Hardware Subsystems)
 
 | Kod | Bileşen | Kapsam | Teknoloji |
 |-----|---------|--------|-----------|
@@ -145,7 +129,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | **H4** | PCB Tasarım | 6-layer stackup, 200×100mm, 2oz copper, IPC Class 3 | 90Ω USB, 50Ω I2S impedans |
 | **H5** | BOM & Üretim | ~1,130 bileşen, ~$415 (1+), ~$293 (100+) | 8 kanal modüler BOM |
 
-### Kritik Bileşenler (K16-K20 Katmanları)
+### Critical Components (K16-K20 Layers)
 
 | Kod | Bileşen | Kapsam | Teknoloji |
 |-----|---------|--------|-----------|
@@ -155,7 +139,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | **K19** | PCB Tasarım | 6-layer stackup, impedance matched, thermal vias, star ground | ENIG finish, 2oz copper |
 | **K20** | BOM & Üretim | 1130 bileşen, Mouser/Digikey tedarik, ~$682 sistem maliyeti | Üretim araçları dahil |
 
-### Class AB Amplifikatör Sistemi
+### Class AB Amplifier System
 
 | Özellik | Değer |
 |---------|-------|
@@ -178,7 +162,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 > | **Data Layer** | Veri depolama | MySQL 9 (Primary), SQL Server (Backup/Reporting), MongoDB (Analytics), Redis (Cache), File Storage (Media) |
 > | **Infrastructure** | Dağıtım ve operasyon | Docker / Containers, Monitoring (Metrics/Logs), Backup (Disaster Recovery), CI/CD (GitHub Actions) |
 
-### 5.1 Katman Bağımlılık Matrisi
+#### §5.1 Layer Dependency Matrix
 
 | Kaynak → Hedef | İzinli mi? |
 |-----------------|------------|
@@ -193,7 +177,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 ---
 
-## 6. Middleware Pipeline (Immutable — ADR-010/011/012/013/022)
+### §6 Middleware Pipeline (Immutable — ADR-010/011/012/013/022)
 
 ```
 OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
@@ -216,7 +200,7 @@ OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → 
 
 ---
 
-## 6A. API-First Mimari (ADR-084)
+### §6A API-First Architecture (ADR-084)
 
 CoreMusic'te **hiçbir endpoint doğrudan kodlanmaz.** Önce OpenAPI sözleşmesi hazırlanır.
 
@@ -224,7 +208,7 @@ CoreMusic'te **hiçbir endpoint doğrudan kodlanmaz.** Önce OpenAPI sözleşmes
 OpenAPI Spec → DTO → Contract → Validation → Use Case → Kod
 ```
 
-### API Gateway
+#### §6A.1 API Gateway
 
 Tüm istemcilerin tek giriş noktası `api.coremusic.net`'tir. Gateway; routing, auth, rate limit, validation, logging, correlation ID görevini üstlenir.
 
@@ -331,7 +315,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | # | Kural | Açıklama |
 |---|-------|----------|
-| 1 | **Vault-First Mandatory** | AI, vault'u okumadan kod yazamaz. Okuma sırası: CLAUDE.md → AGENTS.md → WORKFLOW.md → index.md → keys.md → brain.md → MEMORY.md → log.md → engine.md → ROLE.md → (Frontend görevlerinde [[ui-design/00-mockup-index]] ve [[ui-design/01-component-inventory]] ZORUNLU) |
+| 1 | **Vault-First Mandatory** | AI, vault'u okumadan kod yazamaz. Okuma sırası: CLAUDE.md → AGENTS.md → WORKFLOW.md → index.md → keys.md → brain.md → MEMORY.md → log.md → engine.md → ROLE.md → (Frontend görevlerinde [[ui-design/01-mockup-index]] ve [[ui-design/02-component-inventory]] ZORUNLU) |
 | 2 | **Çelişki Durumu** | Vault'ta çelişki varsa DUR ve kullanıcıya sor. Onay alınmadan hiçbir işlem yapılmaz |
 | 3 | **Onay Zorunlu** | Mimari karar, yeni dosya, büyük değişiklik öncesi kullanıcı onayı zorunlu |
 | 4 | **Session Continuity** | Her oturum başında geçmiş session'dan devam et. `log.md` ve `MEMORY.md` okunur |
@@ -483,7 +467,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ## 18. 18 BCNF Veritabanı (ADR-040)
 
-*Detaylı metadata için bakınız: [[architecture/master-architecture-index]] §3*
+*Detaylı metadata için bakınız: [[architecture/index]] §3*
 
 | # | Veritabanı | Amaç |
 |---|------------|------|
@@ -707,17 +691,17 @@ Her oturum başlangıcında sırayla okunur:
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 5 Mimari | [[architecture/k0-k5-software/k0-os-layer]] | L0-L6 katmanları |
+| § 5 Mimari | [[architecture/k0-isletim-sistemi]] | L0-L6 katmanları |
 | § 6 Middleware | [[ADR-010-csrf-protection-strategy]] | Middleware sırası |
 | § 9 Paneller | [[decisions/accepted/ADR-043-auth-subdomain-consolidation]] | Auth konsolidasyonu |
 | § 12 Teknoloji | [[brain.md]] | Tech stack detayları |
 | § 15 Tema | [[ADR-044-dynamic-user-theme-engine]] | Theme engine |
 | § 18 DB | [[architecture/k0-k5-software/k5-data-layer/database_master]] | 18 BCNF şemaları |
-| § 19 Audio | [[architecture/k0-k5-software/k3-audio-engine]] | Audio engine |
+| § 19 Audio | [[architecture/k3-ses-motoru]] | Audio engine |
 | § 20 ADR | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault standardı |
 | § 20A Master Plan | [[architecture/03-contracts/master-implementation-plan]] | 5 faz, 40 gün implementasyon |
 | § 20B ADR-087 | [[decisions/accepted/ADR-087-master-implementation-plan]] | Master plan ADR |
-| § 12A UI Design | [[ui-design/00-mockup-index]] | 19 PNG Mockup, C01-C16, 1024x600 SSOT |
+| § 12A UI Design | [[ui-design/01-mockup-index]] | 19 PNG Mockup, C01-C16, 1024x600 SSOT |
 
 ---
 
@@ -884,7 +868,7 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 - [[VISION]] — CoreMusic vizyonu
 - [[PROJECTS]] — Proje tanımı
 - [[WORKFLOW]] — Sistem çalışma şekli
-- [[architecture/master-architecture-index]] — 21 katmanlı mimari
+- [[architecture/index]] — 21 katmanlı mimari
 
 ---
 

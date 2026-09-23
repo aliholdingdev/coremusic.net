@@ -18,7 +18,7 @@ reference:
 
 # CoreMusic — Register Step 1 (Name + Email) — 1024×600
 
-**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]] · [[shared/login]] · [[shared/register-step2]] · [[shared/register-step3]]
+**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]] · [[../shared/login]] · [[../shared/register-step2]] · [[../shared/register-step3]]
 
 ---
 

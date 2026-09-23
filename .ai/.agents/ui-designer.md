@@ -15,7 +15,7 @@ reference:
 
 # UI Designer — Agent Profile
 
-**Zorunlu Bağlantılar:** [[../AGENTS.md]] · [[../CLAUDE.md]] · [[../WORKFLOW.md]] · [[../brain.md]] · [[../MEMORY.md]] · [[../ui-design/00-mockup-index.md]]
+**Zorunlu Bağlantılar:** [[../AGENTS.md]] · [[../CLAUDE.md]] · [[../WORKFLOW.md]] · [[../brain.md]] · [[../MEMORY.md]] · [[../ui-design/01-mockup-index.md]]
 
 ---
 

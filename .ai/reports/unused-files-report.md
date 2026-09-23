@@ -1,5 +1,5 @@
 ---
-title: "CoreMusic — Unused Files Audit Report"
+title: "CoreMusic â€” Unused Files Audit Report"
 type: report
 category: code-audit
 date: 2026-09-23
@@ -8,316 +8,316 @@ version: 1.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# CoreMusic — Unused Files Audit Report
+# CoreMusic â€” Unused Files Audit Report
 
 **Tarih:** 2026-09-23
 **Kapsam:** home.coremusic.net/, shared/src/, assets.coremusic.net/, "copy" dizinleri
-**Yöntem:** Dosya listesi + grep referans taraması + main.css/main.js import zinciri analizi
+**YÃ¶ntem:** Dosya listesi + grep referans taramasÃ½ + main.css/main.js import zinciri analizi
 
 ---
 
-## Özet
+## Ã–zet
 
-| Kategori | Toplam | Kullanılan | Kullanılmayan | Eksik |
+| Kategori | Toplam | KullanÃ½lan | KullanÃ½lmayan | Eksik |
 |----------|--------|-----------|---------------|-------|
-| PHP (home) | 41 | 24 | 17 | — |
-| PHP (shared/src) | 100+ | ~60 | ~40 | — |
+| PHP (home) | 41 | 24 | 17 | â€” |
+| PHP (shared/src) | 100+ | ~60 | ~40 | â€” |
 | CSS (assets) | 70+ | ~35 | ~20 | 10 |
-| JS (assets) | 65 | 55 | 10 | — |
-| "COPY" dizinleri | 3 | 0 | 3 (tümü) | — |
-| Boş dizinler | 1 | — | 1 | — |
+| JS (assets) | 65 | 55 | 10 | â€” |
+| "COPY" dizinleri | 3 | 0 | 3 (tÃ¼mÃ¼) | â€” |
+| BoÃ¾ dizinler | 1 | â€” | 1 | â€” |
 
-**Toplam Kullanılmayan/Düşük Kullanımlı:** ~90 dosya + 3 tam kopya dizini
+**Toplam KullanÃ½lmayan/DÃ¼Ã¾Ã¼k KullanÃ½mlÃ½:** ~90 dosya + 3 tam kopya dizini
 
 ---
 
-## 1. KESİNLİKLE SİL: "COPY" Dizinleri (Tam Yedek)
+## 1. KESÃNLÃKLE SÃL: "COPY" Dizinleri (Tam Yedek)
 
-Bu dizinler ana dizinlerin birebir kopyasıdır. Hiçbir aktif kod tarafından referans almazlar.
+Bu dizinler ana dizinlerin birebir kopyasÃ½dÃ½r. HiÃ§bir aktif kod tarafÃ½ndan referans almazlar.
 
-| # | Dosya Yolu | Dosya Sayısı | Durum | Öneri |
+| # | Dosya Yolu | Dosya SayÃ½sÃ½ | Durum | Ã–neri |
 |---|-----------|-------------|-------|-------|
-| 1 | `home.coremusic.net copy/` | ~100+ (vendor dahil) | Tam yedek kopya | **SİL** — version control var |
-| 2 | `home.coremusic.net/include copy/` | 17 PHP | include/ yedeği | **SİL** |
-| 3 | `assets.coremusic.net/Css copy/` | ~80 CSS + CLAUDE.md | Css/ yedeği | **SİL** |
+| 1 | `home.coremusic.net copy/` | ~100+ (vendor dahil) | Tam yedek kopya | **SÃL** â€” version control var |
+| 2 | `home.coremusic.net/include copy/` | 17 PHP | include/ yedeÃ°i | **SÃL** |
+| 3 | `assets.coremusic.net/Css copy/` | ~80 CSS + CLAUDE.md | Css/ yedeÃ°i | **SÃL** |
 
-Ayrıca:
-| # | Dosya Yolu | Durum | Öneri |
+AyrÃ½ca:
+| # | Dosya Yolu | Durum | Ã–neri |
 |---|-----------|-------|-------|
-| 4 | `home.coremusic.net/pages/home copy.php` | home.php kopyası | **SİL** |
+| 4 | `home.coremusic.net/pages/home copy.php` | home.php kopyasÃ½ | **SÃL** |
 
-**Etki:** ~200+ dosya, ~10MB+ disk alanı boşaltılır.
+**Etki:** ~200+ dosya, ~10MB+ disk alanÃ½ boÃ¾altÃ½lÃ½r.
 
 ---
 
-## 2. Eksik CSS Dosyaları (main.css Import Ediyor Ama Dosya Yok)
+## 2. Eksik CSS DosyalarÃ½ (main.css Import Ediyor Ama Dosya Yok)
 
-`assets.coremusic.net/Css/main.css` aşağıdaki dosyaları import ediyor ancak diskte mevcut değiller:
+`assets.coremusic.net/Css/main.css` aÃ¾aÃ°Ã½daki dosyalarÃ½ import ediyor ancak diskte mevcut deÃ°iller:
 
 | # | Import Edilen Yol | Durum | Etki |
 |---|-------------------|-------|------|
-| 1 | `02_Base/l-main-structural.css` | **YOK** | CSS yüklenemez |
-| 2 | `05_Pages/_player.css` | **YOK** | Player sayfası stilsiz |
+| 1 | `02_Base/l-main-structural.css` | **YOK** | CSS yÃ¼klenemez |
+| 2 | `05_Pages/_player.css` | **YOK** | Player sayfasÃ½ stilsiz |
 | 3 | `05_Pages/p-albums.css` | **YOK** | Albums stilsiz |
 | 4 | `05_Pages/p-album-detail.css` | **YOK** | Album detail stilsiz |
 | 5 | `05_Pages/p-artists.css` | **YOK** | Artists stilsiz |
 | 6 | `05_Pages/p-playlist.css` | **YOK** | Playlist stilsiz |
 | 7 | `05_Pages/p-settings.css` | **YOK** | Settings stilsiz |
-| 8 | `09_ViewModes/v-home.css` | **YOK** | View mode çalışmaz |
-| 9 | `09_ViewModes/v-pro.css` | **YOK** | View mode çalışmaz |
-| 10 | `09_ViewModes/v-studio.css` | **YOK** | View mode çalışmaz |
-| 11 | `07_Vendors/v-bootstrap-lib.css` | **YOK** | Bootstrap yüklenemez |
+| 8 | `09_ViewModes/v-home.css` | **YOK** | View mode Ã§alÃ½Ã¾maz |
+| 9 | `09_ViewModes/v-pro.css` | **YOK** | View mode Ã§alÃ½Ã¾maz |
+| 10 | `09_ViewModes/v-studio.css` | **YOK** | View mode Ã§alÃ½Ã¾maz |
+| 11 | `07_Vendors/v-bootstrap-lib.css` | **YOK** | Bootstrap yÃ¼klenemez |
 | 12 | `01_Abstracts/a-semantic-token.css` | **YOK** | Token eksik |
 | 13 | `01_Abstracts/a-color-mode-tokens.css` | **YOK** | Token eksik |
 | 14 | `01_Abstracts/a-light-glass-tokens.css` | **YOK** | Token eksik |
 
-**Öneri:** Bu dosyalar ya oluşturulmalı ya da main.css import'ları kaldırılmalı.
+**Ã–neri:** Bu dosyalar ya oluÃ¾turulmalÃ½ ya da main.css import'larÃ½ kaldÃ½rÃ½lmalÃ½.
 
 ---
 
-## 3. Boş Dizinler
+## 3. BoÃ¾ Dizinler
 
-| # | Dizin | Durum | Öneri |
+| # | Dizin | Durum | Ã–neri |
 |---|-------|-------|-------|
-| 1 | `assets.coremusic.net/Css/09_ViewModes/` | **BOŞ** (0 dosya) | main.css'ten import kaldırılmalı veya dosyalar oluşturulmalı |
+| 1 | `assets.coremusic.net/Css/09_ViewModes/` | **BOÃ** (0 dosya) | main.css'ten import kaldÃ½rÃ½lmalÃ½ veya dosyalar oluÃ¾turulmalÃ½ |
 
 ---
 
-## 4. Mevcut Ama Kullanılmayan CSS Dosyaları
+## 4. Mevcut Ama KullanÃ½lmayan CSS DosyalarÃ½
 
-Bu dosyalar diskte var ama main.css'e import edilmemiş ve hiçbir yerde referans almıyor:
+Bu dosyalar diskte var ama main.css'e import edilmemiÃ¾ ve hiÃ§bir yerde referans almÃ½yor:
 
-| # | Dosya Yolu | Durum | Öneri |
+| # | Dosya Yolu | Durum | Ã–neri |
 |---|-----------|-------|-------|
-| 1 | `02_Base/page-layout.css` | Sadece d-4k.css ve d-laptop.css tarafından import ediliyor | **TUT** (koşullu kullanım) |
-| 2 | `08_Devices/d-auth-4k-monitor.css` | Auth device CSS — auth.coremusic.net yükler | **TUT** |
+| 1 | `02_Base/page-layout.css` | Sadece d-4k.css ve d-laptop.css tarafÃ½ndan import ediliyor | **TUT** (koÃ¾ullu kullanÃ½m) |
+| 2 | `08_Devices/d-auth-4k-monitor.css` | Auth device CSS â€” auth.coremusic.net yÃ¼kler | **TUT** |
 | 3 | `08_Devices/d-auth-4k-tv.css` | Auth device CSS | **TUT** |
 | 4 | `08_Devices/d-auth-desktop.css` | Auth device CSS | **TUT** |
 | 5 | `08_Devices/d-auth-embedded.css` | Auth device CSS | **TUT** |
 | 6 | `08_Devices/d-auth-laptop.css` | Auth device CSS | **TUT** |
 | 7 | `08_Devices/d-auth-phone.css` | Auth device CSS | **TUT** |
 | 8 | `08_Devices/d-auth-tablet.css` | Auth device CSS | **TUT** |
-| 9 | `11_OAuth/oauth.css` | Hiçbir PHP/HTML'de referans yok | **İNCELE** — auth.coremusic.net yükleyebilir |
-| 10 | `auth-bundled.css` | Sadece DeviceRenderer.php + test'te referans | **TUT** (auth için gerekli) |
+| 9 | `11_OAuth/oauth.css` | HiÃ§bir PHP/HTML'de referans yok | **ÃNCELE** â€” auth.coremusic.net yÃ¼kleyebilir |
+| 10 | `auth-bundled.css` | Sadece DeviceRenderer.php + test'te referans | **TUT** (auth iÃ§in gerekli) |
 
-**Öneri:** #1-8 (auth device CSS) tutulmalı — auth.coremusic.net tarafından yüklenir. #9 (oauth.css) incelenmeli.
+**Ã–neri:** #1-8 (auth device CSS) tutulmalÃ½ â€” auth.coremusic.net tarafÃ½ndan yÃ¼klenir. #9 (oauth.css) incelenmeli.
 
 ---
 
-## 5. Kullanılmayan JS Dosyaları
+## 5. KullanÃ½lmayan JS DosyalarÃ½
 
-| # | Dosya Yolu | Durum | Referans | Öneri |
+| # | Dosya Yolu | Durum | Referans | Ã–neri |
 |---|-----------|-------|---------|-------|
-| 1 | `js/router/SPARouterAdapter.js` | DEPRECATED olarak işaretli | Hiçbir import yok | **SİL** |
-| 2 | `js/oauth-manager.js` | main.js'de import yok, hiçbir PHP'de script tag yok | — | **İNCELE** — auth flow'da kullanılabilir |
-| 3 | `js/components/WidgetGrid.js` | main.js'de import yok | — | **İNCELE** — WidgetManager tarafından kullanılabilir |
-| 4 | `js/components/PlayerInfo.js` | main.js'de import yok | — | **İNCELE** |
-| 5 | `js/components/FooterPlayer.js` | main.js'de import yok | — | **İNCELE** |
-| 6 | `js/core/helper.js` | main.js'de import yok | — | **İNCELE** |
-| 7 | `js/core/footer.init.js` | main.js'de import yok | — | **İNCELE** |
+| 1 | `js/router/SPARouterAdapter.js` | DEPRECATED olarak iÃ¾aretli | HiÃ§bir import yok | **SÃL** |
+| 2 | `js/oauth-manager.js` | main.js'de import yok, hiÃ§bir PHP'de script tag yok | â€” | **ÃNCELE** â€” auth flow'da kullanÃ½labilir |
+| 3 | `js/components/WidgetGrid.js` | main.js'de import yok | â€” | **ÃNCELE** â€” WidgetManager tarafÃ½ndan kullanÃ½labilir |
+| 4 | `js/components/PlayerInfo.js` | main.js'de import yok | â€” | **ÃNCELE** |
+| 5 | `js/components/FooterPlayer.js` | main.js'de import yok | â€” | **ÃNCELE** |
+| 6 | `js/core/helper.js` | main.js'de import yok | â€” | **ÃNCELE** |
+| 7 | `js/core/footer.init.js` | main.js'de import yok | â€” | **ÃNCELE** |
 
-**Not:** coreplayer/ dosyaları footer.php tarafından `<script>` tag ile yükleniyor (import değil) — bu dosyalar KULLANILIYOR.
+**Not:** coreplayer/ dosyalarÃ½ footer.php tarafÃ½ndan `<script>` tag ile yÃ¼kleniyor (import deÃ°il) â€” bu dosyalar KULLANILIYOR.
 
 ---
 
-## 6. Kullanılmayan PHP Dosyaları (shared/src/)
+## 6. KullanÃ½lmayan PHP DosyalarÃ½ (shared/src/)
 
-### 6.1 AI Modülü — Sadece Kendi İçinde Kullanılıyor
+### 6.1 AI ModÃ¼lÃ¼ â€” Sadece Kendi ÃÃ§inde KullanÃ½lÃ½yor
 
-Bu sınıflar hiçbir tüketici (controller, service, bootstrap) tarafından instantiate edilmiyor. Sadece kendi interface'lerini import ediyorlar:
+Bu sÃ½nÃ½flar hiÃ§bir tÃ¼ketici (controller, service, bootstrap) tarafÃ½ndan instantiate edilmiyor. Sadece kendi interface'lerini import ediyorlar:
 
-| # | Dosya Yolu | Durum | Öneri |
+| # | Dosya Yolu | Durum | Ã–neri |
 |---|-----------|-------|-------|
-| 1 | `shared/src/AI/AIEngine.php` | Hiçbir instantiate yok | **PLANNED** olarak işaretle |
-| 2 | `shared/src/AI/AIOrchestrator.php` | Hiçbir instantiate yok | **PLANNED** |
-| 3 | `shared/src/AI/AIWorkflow.php` | Hiçbir import yok | **PLANNED** |
-| 4 | `shared/src/AI/KnowledgeBase.php` | Hiçbir instantiate yok | **PLANNED** |
-| 5 | `shared/src/AI/MemorySystem.php` | Hiçbir instantiate yok | **PLANNED** |
-| 6 | `shared/src/AI/PromptEngine.php` | Hiçbir instantiate yok | **PLANNED** |
-| 7 | `shared/src/AI/ToolCalling.php` | Hiçbir instantiate yok | **PLANNED** |
-| 8 | `shared/src/AI/Contracts/*.php` (6 dosya) | Sadece AI sınıfları tarafından kullanılıyor | **PLANNED** |
+| 1 | `shared/src/AI/AIEngine.php` | HiÃ§bir instantiate yok | **PLANNED** olarak iÃ¾aretle |
+| 2 | `shared/src/AI/AIOrchestrator.php` | HiÃ§bir instantiate yok | **PLANNED** |
+| 3 | `shared/src/AI/AIWorkflow.php` | HiÃ§bir import yok | **PLANNED** |
+| 4 | `shared/src/AI/KnowledgeBase.php` | HiÃ§bir instantiate yok | **PLANNED** |
+| 5 | `shared/src/AI/MemorySystem.php` | HiÃ§bir instantiate yok | **PLANNED** |
+| 6 | `shared/src/AI/PromptEngine.php` | HiÃ§bir instantiate yok | **PLANNED** |
+| 7 | `shared/src/AI/ToolCalling.php` | HiÃ§bir instantiate yok | **PLANNED** |
+| 8 | `shared/src/AI/Contracts/*.php` (6 dosya) | Sadece AI sÃ½nÃ½flarÃ½ tarafÃ½ndan kullanÃ½lÃ½yor | **PLANNED** |
 
-### 6.2 API Gateway & BFF — Sadece Kendi İçinde ve Testlerde Kullanılıyor
+### 6.2 API Gateway & BFF â€” Sadece Kendi ÃÃ§inde ve Testlerde KullanÃ½lÃ½yor
 
-| # | Dosya Yolu | Durum | Öneri |
+| # | Dosya Yolu | Durum | Ã–neri |
 |---|-----------|-------|-------|
-| 9 | `shared/src/Api/Gateway.php` | Testlerde kullanılıyor | **PLANNED** |
-| 10 | `shared/src/Api/Bff/SpaBff.php` | Hiçbir instantiate yok | **PLANNED** |
-| 11 | `shared/src/Api/Bff/MobileBff.php` | Hiçbir instantiate yok | **PLANNED** |
-| 12 | `shared/src/Api/Bff/EmbeddedBff.php` | Hiçbir instantiate yok | **PLANNED** |
-| 13 | `shared/src/Api/Bff/DesktopBff.php` | Hiçbir instantiate yok | **PLANNED** |
-| 14 | `shared/src/Api/Bff/BffLayer.php` | Hiçbir instantiate yok | **PLANNED** |
+| 9 | `shared/src/Api/Gateway.php` | Testlerde kullanÃ½lÃ½yor | **PLANNED** |
+| 10 | `shared/src/Api/Bff/SpaBff.php` | HiÃ§bir instantiate yok | **PLANNED** |
+| 11 | `shared/src/Api/Bff/MobileBff.php` | HiÃ§bir instantiate yok | **PLANNED** |
+| 12 | `shared/src/Api/Bff/EmbeddedBff.php` | HiÃ§bir instantiate yok | **PLANNED** |
+| 13 | `shared/src/Api/Bff/DesktopBff.php` | HiÃ§bir instantiate yok | **PLANNED** |
+| 14 | `shared/src/Api/Bff/BffLayer.php` | HiÃ§bir instantiate yok | **PLANNED** |
 | 15 | `shared/src/Api/Dto/Request/*.php` (6 dosya) | Sadece testlerde | **PLANNED** |
 | 16 | `shared/src/Api/Dto/Response/*.php` (5 dosya) | Sadece testlerde | **PLANNED** |
-| 17 | `shared/src/Api/Middleware/*.php` (6 dosya) | Sadece Gateway içinde | **PLANNED** |
-| 18 | `shared/src/Api/Registry/*.php` (3 dosya) | Hiçbir instantiate yok | **PLANNED** |
+| 17 | `shared/src/Api/Middleware/*.php` (6 dosya) | Sadece Gateway iÃ§inde | **PLANNED** |
+| 18 | `shared/src/Api/Registry/*.php` (3 dosya) | HiÃ§bir instantiate yok | **PLANNED** |
 | 19 | `shared/src/Api/Versioning/*.php` (3 dosya) | Sadece testlerde | **PLANNED** |
 
-### 6.3 Exception Sınıfları
+### 6.3 Exception SÃ½nÃ½flarÃ½
 
-| # | Dosya Yolu | Durum | Öneri |
+| # | Dosya Yolu | Durum | Ã–neri |
 |---|-----------|-------|-------|
-| 20 | `shared/src/Exception/AuthorizationException.php` | Hiçbir `use` yok | **İNCELE** |
-| 21 | `shared/src/Exception/BaseCoreMusicException.php` | Sadece extend edenler kullanıyor | **TUT** (base class) |
+| 20 | `shared/src/Exception/AuthorizationException.php` | HiÃ§bir `use` yok | **ÃNCELE** |
+| 21 | `shared/src/Exception/BaseCoreMusicException.php` | Sadece extend edenler kullanÃ½yor | **TUT** (base class) |
 
 ### 6.4 Session
 
-| # | Dosya Yolu | Durum | Öneri |
+| # | Dosya Yolu | Durum | Ã–neri |
 |---|-----------|-------|-------|
-| 22 | `shared/src/Session/SessionConfig.php` | Sadece SessionBootstrapper içinde kullanılıyor | **TUT** |
-| 23 | `shared/src/Session/SessionInitializer.php` (PageRouter) | Hiçbir import yok (farklı namespace) | **İNCELE** |
+| 22 | `shared/src/Session/SessionConfig.php` | Sadece SessionBootstrapper iÃ§inde kullanÃ½lÃ½yor | **TUT** |
+| 23 | `shared/src/Session/SessionInitializer.php` (PageRouter) | HiÃ§bir import yok (farklÃ½ namespace) | **ÃNCELE** |
 
 ### 6.5 Config
 
-| # | Dosya Yolu | Durum | Öneri |
+| # | Dosya Yolu | Durum | Ã–neri |
 |---|-----------|-------|-------|
-| 24 | `shared/src/Config/AuthRouteConfig.php` | 4 dosyada kullanılıyor | **TUT** |
-| 25 | `shared/src/Config/EnvParser.php` | constants.php'de kullanılıyor | **TUT** |
+| 24 | `shared/src/Config/AuthRouteConfig.php` | 4 dosyada kullanÃ½lÃ½yor | **TUT** |
+| 25 | `shared/src/Config/EnvParser.php` | constants.php'de kullanÃ½lÃ½yor | **TUT** |
 
 ### 6.6 Security
 
-| # | Dosya Yolu | Durum | Öneri |
+| # | Dosya Yolu | Durum | Ã–neri |
 |---|-----------|-------|-------|
-| 26 | `shared/src/Security/SessionKeys.php` | Hiçbir `use` yok | **İNCELE** |
+| 26 | `shared/src/Security/SessionKeys.php` | HiÃ§bir `use` yok | **ÃNCELE** |
 | 27 | `shared/src/Security/ReturnUrlPolicy.php` | Sadece testlerde | **TUT** (test coverage) |
 
 ### 6.7 Interfaces (Soyut)
 
-| # | Dosya Yolu | Durum | Öneri |
+| # | Dosya Yolu | Durum | Ã–neri |
 |---|-----------|-------|-------|
-| 28 | `shared/src/Interfaces/Auth/IUserRepository.php` | Hiçbir implementasyon yok | **PLANNED** |
-| 29 | `shared/src/Interfaces/Auth/ISessionManager.php` | Hiçbir implementasyon yok | **PLANNED** |
-| 30 | `shared/src/Interfaces/Auth/IAuthService.php` | Hiçbir implementasyon yok | **PLANNED** |
+| 28 | `shared/src/Interfaces/Auth/IUserRepository.php` | HiÃ§bir implementasyon yok | **PLANNED** |
+| 29 | `shared/src/Interfaces/Auth/ISessionManager.php` | HiÃ§bir implementasyon yok | **PLANNED** |
+| 30 | `shared/src/Interfaces/Auth/IAuthService.php` | HiÃ§bir implementasyon yok | **PLANNED** |
 
 ---
 
-## 7. Kullanılmayan PHP Dosyaları (home.coremusic.net/)
+## 7. KullanÃ½lmayan PHP DosyalarÃ½ (home.coremusic.net/)
 
-| # | Dosya Yolu | Durum | Referans | Öneri |
+| # | Dosya Yolu | Durum | Referans | Ã–neri |
 |---|-----------|-------|---------|-------|
-| 1 | `pages/home copy.php` | home.php kopyası | — | **SİL** |
-| 2 | `pages/redirect.php` | Bootstrap'te `/health` ve `/auth/callback` var, redirect-specific route yok | **İNCELE** |
-| 3 | `pages/health.php` | Bootstrap'te inline health check var (ayrı dosya gereksiz) | **İNCELE** — bootstrap inline'da zaten var |
-| 4 | `include copy/` (17 dosya) | include/ yedeği | — | **SİL** |
+| 1 | `pages/home copy.php` | home.php kopyasÃ½ | â€” | **SÃL** |
+| 2 | `pages/redirect.php` | Bootstrap'te `/health` ve `/auth/callback` var, redirect-specific route yok | **ÃNCELE** |
+| 3 | `pages/health.php` | Bootstrap'te inline health check var (ayrÃ½ dosya gereksiz) | **ÃNCELE** â€” bootstrap inline'da zaten var |
+| 4 | `include copy/` (17 dosya) | include/ yedeÃ°i | â€” | **SÃL** |
 
-### 7.1 Eksik Bileşen Dosyaları
+### 7.1 Eksik BileÃ¾en DosyalarÃ½
 
-ComponentLoader sadece 2 bileşen kayıtlı ama home.php 9 bileşen adı referans ediyor:
+ComponentLoader sadece 2 bileÃ¾en kayÃ½tlÃ½ ama home.php 9 bileÃ¾en adÃ½ referans ediyor:
 
-| # | Beklenen Bileşen | ComponentLoader'da | Dosya Mevcut mu? | Durum |
+| # | Beklenen BileÃ¾en | ComponentLoader'da | Dosya Mevcut mu? | Durum |
 |---|------------------|-------------------|-------------------|-------|
-| 1 | `player-info` | ? Kayıtlı | ? var | **OK** |
-| 2 | `recent-tracks` | ? Kayıtlı | ? var | **OK** |
-| 3 | `widget-grid` | ? Kayıtsız | ? Yok | **EKSİK** |
-| 4 | `welcome-banner` | ? Kayıtsız | ? Yok | **EKSİK** |
-| 5 | `playlists` | ? Kayıtsız | ? Yok | **EKSİK** |
-| 6 | `up-next` | ? Kayıtsız | ? Yok | **EKSİK** |
-| 7 | `now-playing` | ? Kayıtsız | ? Yok | **EKSİK** |
-| 8 | `welcome-modal` | ? Kayıtsız | ? Yok | **EKSİK** |
-| 9 | `home-widgets` | ? Kayıtsız | ? Yok | **EKSİK** |
+| 1 | `player-info` | ? KayÃ½tlÃ½ | ? var | **OK** |
+| 2 | `recent-tracks` | ? KayÃ½tlÃ½ | ? var | **OK** |
+| 3 | `widget-grid` | ? KayÃ½tsÃ½z | ? Yok | **EKSÃK** |
+| 4 | `welcome-banner` | ? KayÃ½tsÃ½z | ? Yok | **EKSÃK** |
+| 5 | `playlists` | ? KayÃ½tsÃ½z | ? Yok | **EKSÃK** |
+| 6 | `up-next` | ? KayÃ½tsÃ½z | ? Yok | **EKSÃK** |
+| 7 | `now-playing` | ? KayÃ½tsÃ½z | ? Yok | **EKSÃK** |
+| 8 | `welcome-modal` | ? KayÃ½tsÃ½z | ? Yok | **EKSÃK** |
+| 9 | `home-widgets` | ? KayÃ½tsÃ½z | ? Yok | **EKSÃK** |
 
-**Not:** home.php'de `$loader->display('widget-grid', ...)` çağrısı var ama ComponentLoader'da bu anahtar kayıtlı değil › runtime hatası.
+**Not:** home.php'de `$loader->display('widget-grid', ...)` Ã§aÃ°rÃ½sÃ½ var ama ComponentLoader'da bu anahtar kayÃ½tlÃ½ deÃ°il â€º runtime hatasÃ½.
 
 ---
 
-## 8. CSS Dosyalarında Eşitsizlik
+## 8. CSS DosyalarÃ½nda EÃ¾itsizlik
 
 ### 8.1 main.css'te Import Var Ama Dosya Yok (14 dosya)
 
-› Bölüm 2'de listelendi.
+â€º BÃ¶lÃ¼m 2'de listelendi.
 
 ### 8.2 Dosya Var Ama main.css'te Import Yok
 
-| # | Dosya Yolu | Durum | Öneri |
+| # | Dosya Yolu | Durum | Ã–neri |
 |---|-----------|-------|-------|
-| 1 | `02_Base/page-layout.css` | d-4k.css ve d-laptop.css tarafından import | **TUT** |
+| 1 | `02_Base/page-layout.css` | d-4k.css ve d-laptop.css tarafÃ½ndan import | **TUT** |
 | 2 | `05_Pages/_home-inline.css` | home.php'de inline style | **TUT** |
 | 3 | `05_Pages/_home-components.css` | home.php component'leri | **TUT** |
-| 4 | `05_Pages/p-login-view.css` | auth-bundled.css'de import olabilir | **İNCELE** |
-| 5 | `01_Abstracts/a-layout-tokens-1024.css` | Token dosyası — import edilmemiş | **İNCELE** |
-| 6 | `01_Abstracts/a-layout-tokens-1920.css` | Token dosyası — import edilmemiş | **İNCELE** |
-| 7 | `01_Abstracts/a-layout-tokens-3540.css` | Token dosyası — import edilmemiş | **İNCELE** |
-| 8 | `01_Abstracts/a-layout-tokens-3840.css` | Token dosyası — import edilmemiş | **İNCELE** |
-| 9 | `08_Devices/d-4k-monitor.css` | **YOK** — d-4k.css var ama d-4k-monitor yok | **EKSİK** |
+| 4 | `05_Pages/p-login-view.css` | auth-bundled.css'de import olabilir | **ÃNCELE** |
+| 5 | `01_Abstracts/a-layout-tokens-1024.css` | Token dosyasÃ½ â€” import edilmemiÃ¾ | **ÃNCELE** |
+| 6 | `01_Abstracts/a-layout-tokens-1920.css` | Token dosyasÃ½ â€” import edilmemiÃ¾ | **ÃNCELE** |
+| 7 | `01_Abstracts/a-layout-tokens-3540.css` | Token dosyasÃ½ â€” import edilmemiÃ¾ | **ÃNCELE** |
+| 8 | `01_Abstracts/a-layout-tokens-3840.css` | Token dosyasÃ½ â€” import edilmemiÃ¾ | **ÃNCELE** |
+| 9 | `08_Devices/d-4k-monitor.css` | **YOK** â€” d-4k.css var ama d-4k-monitor yok | **EKSÃK** |
 
 ---
 
-## 9. Bootstrap Vendor Dosyaları (32 dosya)
+## 9. Bootstrap Vendor DosyalarÃ½ (32 dosya)
 
-`07_Vendors/` dizininde 32 Bootstrap dosyası var (full, grid, reboot, utilities × normal + rtl + min + map) ama main.css'te `v-bootstrap-lib.css` import ediliyor — bu dosya **YOK**.
+`07_Vendors/` dizininde 32 Bootstrap dosyasÃ½ var (full, grid, reboot, utilities Ã— normal + rtl + min + map) ama main.css'te `v-bootstrap-lib.css` import ediliyor â€” bu dosya **YOK**.
 
-**Öneri:** Ya `v-bootstrap-lib.css` oluşturulmalı (içine gerekli Bootstrap parçaları import edilmeli) ya da mevcut Bootstrap dosyalarından hangisinin kullanılacağı belirlenmeli.
+**Ã–neri:** Ya `v-bootstrap-lib.css` oluÃ¾turulmalÃ½ (iÃ§ine gerekli Bootstrap parÃ§alarÃ½ import edilmeli) ya da mevcut Bootstrap dosyalarÃ½ndan hangisinin kullanÃ½lacaÃ°Ã½ belirlenmeli.
 
 ---
 
-## 10. Test Dosyaları
+## 10. Test DosyalarÃ½
 
-| # | Dosya Yolu | Test Kapsamı | Durum |
+| # | Dosya Yolu | Test KapsamÃ½ | Durum |
 |---|-----------|-------------|-------|
-| 1 | `shared/tests/Unit/Device/DeviceDetectorTest.php` | DeviceDetector | ? AKTİF |
-| 2 | `shared/tests/Unit/Device/DeviceRendererTest.php` | DeviceRenderer | ? AKTİF |
-| 3 | `shared/tests/Unit/Device/WelcomePopupRenderTest.php` | Welcome popup | ? AKTİF |
-| 4 | `shared/tests/Unit/PageRouter/SpaRouteTest.php` | SpaRoute | ? AKTİF |
-| 5 | `shared/tests/Unit/PageRouter/RouteRegistryTest.php` | RouteRegistry | ? AKTİF |
-| 6 | `shared/tests/Unit/PageRouter/AuthUrlBuilderTest.php` | AuthUrlBuilder | ? AKTİF |
-| 7 | `shared/tests/Unit/PageRouter/AuthGuardTest.php` | AuthGuard | ? AKTİF |
-| 8 | `shared/tests/Unit/Security/ReturnUrlPolicyTest.php` | ReturnUrlPolicy | ? AKTİF |
-| 9 | `shared/tests/Unit/Config/ConfigManagerTest.php` | ConfigManager | ? AKTİF |
-| 10 | `shared/tests/OAuth/OAuthManagerTest.php` | OAuthManager | ? AKTİF |
-| 11 | `shared/tests/Events/EventDispatcherTest.php` | EventDispatcher | ? AKTİF |
-| 12 | `shared/tests/Events/DomainEventTest.php` | Domain events | ? AKTİF |
-| 13 | `shared/tests/Api/DtoTest.php` | DTO | ? AKTİF |
-| 14 | `shared/tests/Api/ApiResponseTest.php` | ApiResponse | ? AKTİF |
-| 15 | `shared/tests/Api/VersioningTest.php` | API versioning | ? AKTİF |
+| 1 | `shared/tests/Unit/Device/DeviceDetectorTest.php` | DeviceDetector | ? AKTÃF |
+| 2 | `shared/tests/Unit/Device/DeviceRendererTest.php` | DeviceRenderer | ? AKTÃF |
+| 3 | `shared/tests/Unit/Device/WelcomePopupRenderTest.php` | Welcome popup | ? AKTÃF |
+| 4 | `shared/tests/Unit/PageRouter/SpaRouteTest.php` | SpaRoute | ? AKTÃF |
+| 5 | `shared/tests/Unit/PageRouter/RouteRegistryTest.php` | RouteRegistry | ? AKTÃF |
+| 6 | `shared/tests/Unit/PageRouter/AuthUrlBuilderTest.php` | AuthUrlBuilder | ? AKTÃF |
+| 7 | `shared/tests/Unit/PageRouter/AuthGuardTest.php` | AuthGuard | ? AKTÃF |
+| 8 | `shared/tests/Unit/Security/ReturnUrlPolicyTest.php` | ReturnUrlPolicy | ? AKTÃF |
+| 9 | `shared/tests/Unit/Config/ConfigManagerTest.php` | ConfigManager | ? AKTÃF |
+| 10 | `shared/tests/OAuth/OAuthManagerTest.php` | OAuthManager | ? AKTÃF |
+| 11 | `shared/tests/Events/EventDispatcherTest.php` | EventDispatcher | ? AKTÃF |
+| 12 | `shared/tests/Events/DomainEventTest.php` | Domain events | ? AKTÃF |
+| 13 | `shared/tests/Api/DtoTest.php` | DTO | ? AKTÃF |
+| 14 | `shared/tests/Api/ApiResponseTest.php` | ApiResponse | ? AKTÃF |
+| 15 | `shared/tests/Api/VersioningTest.php` | API versioning | ? AKTÃF |
 
-**Toplam:** 15 test dosyası, tümü aktif.
-**Eksik test:** Middleware, Cache, Device, Bootstrap için test yok.
+**Toplam:** 15 test dosyasÃ½, tÃ¼mÃ¼ aktif.
+**Eksik test:** Middleware, Cache, Device, Bootstrap iÃ§in test yok.
 
 ---
 
-## 11. Öncelikli Aksiyonlar
+## 11. Ã–ncelikli Aksiyonlar
 
-### ACİL (Bug Yaratabilir)
-1. **main.css'teki 14 eksik import** › CSS yüklenemez, sayfalar bozuk görünür
-2. **ComponentLoader'da 7 eksik bileşen kaydı** › runtime `InvalidArgumentException`
-3. **d-4k-monitor.css eksik** › 4K monitor'de device CSS çalışmaz
+### ACÃL (Bug Yaratabilir)
+1. **main.css'teki 14 eksik import** â€º CSS yÃ¼klenemez, sayfalar bozuk gÃ¶rÃ¼nÃ¼r
+2. **ComponentLoader'da 7 eksik bileÃ¾en kaydÃ½** â€º runtime `InvalidArgumentException`
+3. **d-4k-monitor.css eksik** â€º 4K monitor'de device CSS Ã§alÃ½Ã¾maz
 
-### YÜKSEK
+### YÃœKSEK
 4. **3 "copy" dizini sil** (~200+ dosya, ~10MB)
 5. **home copy.php sil**
-6. **SPARouterAdapter.js sil** (DEPRECATED, kullanılmıyor)
+6. **SPARouterAdapter.js sil** (DEPRECATED, kullanÃ½lmÃ½yor)
 
 ### ORTA
-7. **AI modülü** (8 dosya) › PLANNED olarak işaretle veya kullanıma al
-8. **API Gateway/BFF** (20+ dosya) › PLANNED olarak işaretle
-9. **OAuth css** › auth.coremusic.net'te kullanılıp kullanılmadığını kontrol et
-10. **09_ViewModes dizini** › ya dosyaları oluştur ya da main.css'ten kaldır
+7. **AI modÃ¼lÃ¼** (8 dosya) â€º PLANNED olarak iÃ¾aretle veya kullanÃ½ma al
+8. **API Gateway/BFF** (20+ dosya) â€º PLANNED olarak iÃ¾aretle
+9. **OAuth css** â€º auth.coremusic.net'te kullanÃ½lÃ½p kullanÃ½lmadÃ½Ã°Ã½nÃ½ kontrol et
+10. **09_ViewModes dizini** â€º ya dosyalarÃ½ oluÃ¾tur ya da main.css'ten kaldÃ½r
 
-### DÜŞÜK
-11. **SessionKeys.php** › Kullanılmıyor, sil veya kullanıma al
-12. **AuthorizationException.php** › Kullanılmıyor, sil veya kullanıma al
-13. **Bootstrap vendor** › Hangisi kullanılacaksa onu tut, diğerlerini kaldır
+### DÃœÃÃœK
+11. **SessionKeys.php** â€º KullanÃ½lmÃ½yor, sil veya kullanÃ½ma al
+12. **AuthorizationException.php** â€º KullanÃ½lmÃ½yor, sil veya kullanÃ½ma al
+13. **Bootstrap vendor** â€º Hangisi kullanÃ½lacaksa onu tut, diÃ°erlerini kaldÃ½r
 
 ---
 
-## 12. Çapraz Referanslar
+## 12. Ã‡apraz Referanslar
 
-| Kaynak | Hedef | İlişki |
+| Kaynak | Hedef | ÃliÃ¾ki |
 |--------|-------|--------|
 | main.css | 01_Abstracts/ | 12 token import |
 | main.css | 02_Base/ | 2 import (1 eksik) |
 | main.css | 05_Pages/ | 7 import (6 eksik) |
-| main.css | 09_ViewModes/ | 3 import (3 eksik, dizin boş) |
+| main.css | 09_ViewModes/ | 3 import (3 eksik, dizin boÃ¾) |
 | main.js | router/ | 25+ import |
 | main.js | core/ | 2 import |
 | main.js | managers/ | 5 import |
 | main.js | features/ | 5 import |
 | footer.php | coreplayer/ | 5 script tag |
 | HtmlShellRenderer.php | js/main.js, device-*.js | 4 script tag |
-| ComponentLoader.php | Component/ | 2 kayıt (7 eksik) |
+| ComponentLoader.php | Component/ | 2 kayÃ½t (7 eksik) |
 
 ---
 
 **Authority:** Vault Audit
 **Last Updated:** 2026-09-23
-**Mode:** Red Team · Human Mode · Truth Mode
+**Mode:** Red Team Â· Human Mode Â· Truth Mode

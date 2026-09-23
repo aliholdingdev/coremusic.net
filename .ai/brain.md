@@ -204,7 +204,7 @@ SPA **asla** PDO, MySQL, Repository, Entity, Infrastructure, Filesystem, FFmpeg,
 
 ## 5. K0-K20 21-Katmanlı Sistem Mimarisi (1000+ Bileşen)
 
-*Detaylı metadata için bakınız: [[architecture/master-architecture-index]] §2*
+*Detaylı metadata için bakınız: [[architecture/index]] §2*
 
 Tüm CoreMusic altyapısı açık kaynak (GitHub) destekli 16 ana katmandan oluşur.
 
@@ -350,7 +350,7 @@ PDO: Prepared statement zorunlu, SELECT * yasak, explicit column list.
 
 ## 11. 18 BCNF Databases (ADR-040)
 
-*Detaylı metadata için bakınız: [[architecture/master-architecture-index]] §3*
+*Detaylı metadata için bakınız: [[architecture/index]] §3*
 
 | # | Veritabanı | Amaç | Tablo Sayısı |
 |---|------------|------|-------------|
@@ -539,8 +539,8 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 
 | Özellik | Değer | Kaynak |
 |---------|-------|--------|
-| Token Konsolidasyonu | Tek dosyada (`a-layout-tokens.css`) tüm responsive breakpoint'ler | [[architecture/l3-presentation]] |
-| Default Viewport | 1024×600 (RPi5 embedded, mockup reference) | [[ui-design/00-mockup-index]] |
+| Token Konsolidasyonu | Tek dosyada (`a-layout-tokens.css`) tüm responsive breakpoint'ler | [[architecture/k11-ux]] |
+| Default Viewport | 1024×600 (RPi5 embedded, mockup reference) | [[ui-design/01-mockup-index]] |
 | Media Query Breakpoints | 4 adet: tablet (768-1024), mobile (≤767), desktop (≥1920), 4K TV (≥3840) | — |
 | Token Kategorileri | Header/Footer heights, spacing, font scale, touch targets, glass blur, z-index | — |
 | Device CSS Dönüşümü | `d-embedded.css`, `d-desktop.css`, `d-tablet.css` → sadece behavioral overrides (hover, touch, scrollbar) | — |
@@ -561,10 +561,10 @@ Anti-ban: Rate limiting, ARL token rotasyonu, proxy rotasyonu, User-Agent çeşi
 - **AR/VR:** Meta Quest 3 (future)
 
 **1024×600 PNG mockup = Design Reference (Kanonik SSOT)**
-- Kanonik İndeks: [[ui-design/00-mockup-index]] (19 PNG: 12 home-1024 + 1 home-1920 + 6 shared-1024 — Faz 1 sayım düzeltmesi)
-- Kanonik Bileşen Envanteri: [[ui-design/01-component-inventory]] (C01–C16 BEM ve piksel standartları)
+- Kanonik İndeks: [[ui-design/01-mockup-index]] (19 PNG: 12 home-1024 + 1 home-1920 + 6 shared-1024 — Faz 1 sayım düzeltmesi)
+- Kanonik Bileşen Envanteri: [[ui-design/02-component-inventory]] (C01–C16 BEM ve piksel standartları)
 - Kanonik ASCII Wireframe Haritası: [[ui-design/screens/00-ascii-art-index]] (Header 60px y:0-60, İçerik 450px y:60-510, Footer 90px y:510-600)
-- 15 Adımlık CSS Uygulama Planı: [[ui-design/02-implementation-plan]]
+- 15 Adımlık CSS Uygulama Planı: [[ui-design/03-implementation-plan]]
 - Pixel reference: Tüm ölçüler PNG'den çıkarılır
 - Layout authority: Layout kararı PNG mockup'a göredir
 - Component measurement source: Bileşen boyutları PNG piksel ölçümü
@@ -808,7 +808,7 @@ $dm->dataAttributes()  // 'data-device="desktop" data-touch="false" data-wide="t
 | `shared/src/PageRouter/HtmlShellRenderer.php` | — | Auth route branching (6 if bloğu) |
 | `shared/src/PageRouter/PageRouter.php` | — | Cookie okuma |
 
-Detay: [[ui-design/responsive-device-mode]] v3.0.0, [[architecture/conditional-rendering-php-guide]] v2.0.0
+Detay: [[ui-design/05-responsive-architecture]] v3.0.0, [[architecture/conditional-rendering-php-guide]] v2.0.0
 
 ---
 
@@ -901,11 +901,11 @@ L2 (Routing) → L0 (Infrastructure): ✅ YASAK (Controller→Repository direkt)
 | Edge Case | Tetikleyici | Çözüm | ADR |
 |-----------|-------------|-------|-----|
 | ASIO Device Loss | USB kopması | WASAPI fallback → Null Output | [[ADR-017-dsp-hardware-mode]] |
-| Cache Stampede | Yüksek load | Mutex ile single load | [[architecture/k0-k5-software/k0-os-layer]] |
+| Cache Stampede | Yüksek load | Mutex ile single load | [[architecture/k0-isletim-sistemi]] |
 | Multi-Tab CSRF | Birden fazla sekme | Token session-bound sabit | [[ADR-010-csrf-protection-strategy]] |
 | Layer Violation | L0 → L3 import | Derhal revert | [[CLAUDE.md]] |
 | PCM5122 Kullanımı | 8.1 surround denemesi | PCM3168A veya AK4458 | [[ADR-038-8.1-sound-card-chip-selection]] |
-| Network Outage | İnternet kopması | Offline-First + SQLite queue | [[architecture/master-architecture-index]] |
+| Network Outage | İnternet kopması | Offline-First + SQLite queue | [[architecture/index]] |
 | BCNF Violation | Yeni tablo | 3NF → BCNF audit | [[ADR-040-database-authority]] |
 | Buffer Underrun | CPU %100 | Fade-out → 50ms sessizlik → restart | [[engine.md]] |
 | Session Timeout | 3600s idle | Otomatik yeniden auth | [[ADR-011-session-management]] |
@@ -931,7 +931,7 @@ L2 (Routing) → L0 (Infrastructure): ✅ YASAK (Controller→Repository direkt)
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § Amaç | [[CLAUDE.md]] | Ana sözleşme |
-| § Mimari | [[architecture/master-architecture-index]] | L0-L6 |
+| § Mimari | [[architecture/index]] | L0-L6 |
 | § C++ Audio | [[ADR-017-dsp-hardware-mode]] | XMOS, JUCE |
 | § 8.1 Surround | [[ADR-038-8.1-sound-card-chip-selection]] | PCM3168A, H001 |
 | § PHP Middleware | [[ADR-010-csrf-protection-strategy]] | csrf_token |
@@ -941,7 +941,7 @@ L2 (Routing) → L0 (Infrastructure): ✅ YASAK (Controller→Repository direkt)
 | § Hardware | **DOĞRULAMA GEREKLİ** — `electronic/hardware-roadmap.md` vault'ta yok (Faz 1) | 3 fazlı yol haritası |
 | § 22 (Prompt Arsivi) | [[architecture/ai/prompt-engine]] | Prompt üretim motoru |
 | § 22 (Prompt Arsivi) | [[CLAUDE#26-prompt-entegrasyonu]] | Boot protokolünde prompt entegrasyonu |
-| § UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi — 19 PNG |
+| § UI Design | [[ui-design/01-mockup-index]] | Mockup indeksi — 19 PNG |
 | § Mockup PNG'ler | `.ai/.png/home-1024/` (12) + `.ai/.png/home-1920/` (1) + `.ai/.png/shared-1024/` (6) | 19 PNG mockup |
 
 ---
@@ -1026,7 +1026,7 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 | API-First | OpenAPI sözleşmesi ile tüm endpoint'ler |
 
 ### İlgili Referanslar
-- [[../architecture/master-architecture-index]] — Mimari indeks
+- [[architecture/index]] — Mimari indeks
 - [[../CLAUDE.md]] — Anayasa
 - [[VISION]] — Vizyon
 

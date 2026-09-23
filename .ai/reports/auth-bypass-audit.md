@@ -1,15 +1,15 @@
 ---
-title: "CoreMusic — Auth Bypass Security Audit"
+title: "CoreMusic â€” Auth Bypass Security Audit"
 type: security-audit
 category: auth-bypass
 date: 2026-09-23
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+governance: Red Team Â· Human Mode Â· Truth Mode
 ---
 
-# CoreMusic — Auth Bypass Security Audit
+# CoreMusic â€” Auth Bypass Security Audit
 
 **Tarama Tarihi:** 2026-09-23
 **Kapsam:** BypassAuthMiddleware, SecurityHelper, auth.coremusic.net/index.php, home.coremusic.net constants/bootstrap, .env dosyalari
@@ -50,7 +50,7 @@ governance: Red Team · Human Mode · Truth Mode
   4. `http://home.coremusic.net:81/auth/callback?auth_key=<bypassKey>`'e redirect
   5. home.coremusic.net auth_key'i auth.coremusic.net/validate-key'de dogrulamaya calisir
   6. validateSessionKey() DB'de bu key'i bulamaz -> BASARISIZ -> /login?error=invalid_key
-- **Sonuc:** Bypass redirect her zaman basarisiz olur ama bypass mekanizmasi production'da aktif ve her istekte gereksiz DB sorgusu + redirect döngüsü olusturur.
+- **Sonuc:** Bypass redirect her zaman basarisiz olur ama bypass mekanizmasi production'da aktif ve her istekte gereksiz DB sorgusu + redirect dÃ¶ngÃ¼sÃ¼ olusturur.
 - **Onerilen cozum:** `FORCE_AUTH_BYPASS=false` olarak degistir veya production'da bu .env degerini tamamen kaldir.
 - **Oncelik:** CRITICAL
 
@@ -319,4 +319,4 @@ home.coremusic.net'de:
 **Audit by:** CoreMusic Security Scan
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-23
-**Mode:** Red Team · Human Mode · Truth Mode
+**Mode:** Red Team Â· Human Mode Â· Truth Mode
