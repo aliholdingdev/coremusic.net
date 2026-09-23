@@ -1,3 +1,0 @@
-# Win32 API - Masaüstü Windows Uygulamaları
-
-Win32 API'sini kullanarak masaüstü Windows uygulamaları oluşturma. C++ ve Win32 API'sini kullanarak Windows bilgisayarları için masaüstü uygulamaları. Başlayın: Genel Bakış, Öğretici, İndir. Gelişmek: Masaüstü uygulaması teknolojileri, Masaüstü uygulamalarınızı modernleştirme. Başvuru: Windows API dizini, Win32 API programlama başvurusu. Kaynaklar: Sanal makine indirme, Windows Masaüstü Uygulama Programı, Uyumluluk, Windows geliştirici desteği. İlgili belgeler: Windows Uygulama SDK'sı, C++/WinRT, MSIX paketi, .NET, UWP. İlgili teknolojiler: Windows AI, Windows IoT Core, Sanallaştırma, Oyun Geliştirme.
