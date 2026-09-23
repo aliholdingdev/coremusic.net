@@ -7,11 +7,11 @@ total_files: 850
 total_adr: 79
 ---
 
-# CoreMusic Vault â€” Master Index
+# CoreMusic Vault — Master Index
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] Â· [[AGENTS.md]] Â· [[WORKFLOW.md]] Â· [[keys.md]] Â· [[brain.md]] Â· [[MEMORY.md]] Â· [[log.md]] Â· [[.templates/index]] Â· [[.agents/AGENTS.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (10 skill â€” Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
 
 ---
 
@@ -64,18 +64,18 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 
 ---
 
-## 4. Mimari â€” L0-L6 Katmanları
+## 4. Mimari — L0-L6 Katmanları
 
 *Detaylı metadata için bakınız: [[architecture/master-architecture-index]] §2*
 
-Bağımlılık kuralları: ✅ L6→’L5, L5→’L4, L4→’L3, L3→’L2, L2→’L1, L1→’L0 | âŒ L0→’L2/L3, L1→’L3, L3→’L0
+Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1→L0 | ✅ L0→L2/L3, L1→L3, L3→L0
 
 | Katman | Dosya | Kapsam |
 |--------|-------|--------|
 | L6 Electronics | [[architecture/l6-electronics]] | Hardware, firmware, driver, DSP, audio engine |
 | L5 Services | [[architecture/l5-services]] | Application services, use cases, CQRS, event bus |
 | L4 Domain | [[architecture/l4-domain]] | Business rules, entities, value objects, aggregates |
-| L3 Presentation | [[architecture/l3-presentation]] Â· [[ui-design/00-mockup-index]] | Frontend, UI, DOM, responsive, 19 PNG mockup, C01-C16 |
+| L3 Presentation | [[architecture/l3-presentation]] · [[ui-design/00-mockup-index]] | Frontend, UI, DOM, responsive, 19 PNG mockup, C01-C16 |
 | L3 Rehber | [[architecture/l3-presentation/scale-router-css-frontend-guide]] | Scale, Router, CSS & Frontend Entegrasyon Rehberi (adım adım) |
 | L2 Routing | [[architecture/l2-routing]] | SPA PageRouter, API Gateway, subdomain routing |
 | L1 Security | [[architecture/l1-security]] | Middleware pipeline, session, auth, CSRF, CSP |
@@ -231,12 +231,12 @@ Toplam 79 ADR (Frozen: 37, Active: 30, Rejected: 12). Frozen: 001-037 (değişti
 | admin.coremusic.net | 80 | PHP 8.4 |
 | download.coremusic.net | 3001 | Node.js + TypeScript |
 | media.coremusic.net | 5000/6000 | PHP + FFmpeg |
-| auth.coremusic.net | â€” | PHP 8.4 |
-| home.coremusic.net | â€” | Vanilla JS |
-| car.coremusic.net | â€” | Vanilla JS |
-| studio.coremusic.net | â€” | Vanilla JS |
-| pro.coremusic.net | â€” | Vanilla JS |
-| coremusic.net | â€” | Vanilla JS |
+| auth.coremusic.net | — | PHP 8.4 |
+| home.coremusic.net | — | Vanilla JS |
+| car.coremusic.net | — | Vanilla JS |
+| studio.coremusic.net | — | Vanilla JS |
+| pro.coremusic.net | — | Vanilla JS |
+| coremusic.net | — | Vanilla JS |
 
 ### 6.2 Backend Servisler
 
@@ -245,9 +245,9 @@ Toplam 79 ADR (Frozen: 37, Active: 30, Rejected: 12). Frozen: 001-037 (değişti
 | Control Service | 81 | HTTP | PHP 8.4 (Auth, Session, RBAC) |
 | Media Service | 5000/6000 | HTTP | PHP + FFmpeg (Library, Metadata) |
 | Audio Service | 9741/9742 | REST/WS | C++20 JUCE (Player, DSP, Mixer) |
-| Device Service | â€” | BLE/WiFi/USB | C++20 (Bluetooth, WiFi, USB) |
-| Network Audio | â€” | WebRTC/P2P | C++20 (Streaming, Multi-room) |
-| AI Service | â€” | Internal | PHP + Python (Recommendations) |
+| Device Service | — | BLE/WiFi/USB | C++20 (Bluetooth, WiFi, USB) |
+| Network Audio | — | WebRTC/P2P | C++20 (Streaming, Multi-room) |
+| AI Service | — | Internal | PHP + Python (Recommendations) |
 | Download Service | 3001 | HTTP/WS | Node.js + TypeScript |
 
 ### 6.3 Port Haritası
@@ -283,7 +283,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ---
 
-## 8. Veritabanı (18 BCNF â€” ADR-040)
+## 8. Veritabanı (18 BCNF — ADR-040)
 
 | # | Veritabanı | Dosya | Amaç | Tablo Sayısı |
 |---|------------|-------|------|-------------|
@@ -311,7 +311,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ## 9. Projeler
 
-> **Durum (2026-09-06):** `projects/` klasoru bos oldugu icin §9'daki isimli 20 referans icin STUB dosyalar olusturuldu (VERIFICATION REQUIRED; detay: [[projects/index]]). "EQ alt modülleri (7)" isimsizdir â€” doğrulanmadan stub üretilmez.
+> **Durum (2026-09-06):** `projects/` klasoru bos oldugu icin §9'daki isimli 20 referans icin STUB dosyalar olusturuldu (VERIFICATION REQUIRED; detay: [[projects/index]]). "EQ alt modülleri (7)" isimsizdir — doğrulanmadan stub üretilmez.
 
 ### 9.1 Neva Engine (C++ Audio)
 
@@ -345,11 +345,11 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ### 11.1 Test
 
-> **Durum (Faz 0, 2026-09-08):** `.ai/testing/` dizini vault ağacında MEVCUT DEÄİLDİR â€” aşağıdaki referanslar tarihsel plan kaydıdır; kullanılabilir karşılıklar: `ui-design/03-accessibility-gaps.md` (WCAG denetimi), `.ai/reports/` (3 rapor), `ui-design/screens/` (ekran spec'leri).
+> **Durum (Faz 0, 2026-09-08):** `.ai/testing/` dizini vault ağacında MEVCUT DEĞİLDİR — aşağıdaki referanslar tarihsel plan kaydıdır; kullanılabilir karşılıklar: `ui-design/03-accessibility-gaps.md` (WCAG denetimi), `.ai/reports/` (3 rapor), `ui-design/screens/` (ekran spec'leri).
 
 | Dosya | Kapsam |
 |-------|--------|
-| [[testing/strategy]] | Test stratejisi *(dizin yok â€” plan kaydı)* |
+| [[testing/strategy]] | Test stratejisi *(dizin yok — plan kaydı)* |
 | [[testing/coverage-targets]] | Kapsama hedefleri (≥80% min, ≥90% target) |
 | [[testing/e2e-template]] | E2E test şablonu |
 | [[testing/persona-test-protocol]] | Persona test protokolü |
@@ -375,19 +375,19 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | Dosya | Kapsam |
 |-------|--------|
 | [[architecture/ai/index]] | AI Architecture index |
-| [[architecture/ai/ai-engine]] | AI Engine â€” müzik önerileri, ses analizi, otomatik EQ |
-| [[architecture/ai/ai-orchestrator]] | AI Orchestrator â€” görev dağıtımı, context yönetimi |
-| [[architecture/ai/agent-system]] | Agent System â€” 11 ajanlı agent sistemi |
-| [[architecture/ai/knowledge-base]] | Knowledge Base â€” bilgi bankası, semantic search |
-| [[architecture/ai/memory-system]] | Memory System â€” session hafızası, persistence |
-| [[architecture/ai/prompt-engine]] | Prompt Engine â€” prompt üretimi, token management |
-| [[architecture/ai/tool-calling]] | Tool Calling â€” dış servis çağrısı |
-| [[architecture/ai/mcp-integration]] | MCP Integration â€” Model Context Protocol |
-| [[architecture/ai/ai-workflow]] | AI Workflow â€” recommendation, analysis, optimization |
+| [[architecture/ai/ai-engine]] | AI Engine — müzik önerileri, ses analizi, otomatik EQ |
+| [[architecture/ai/ai-orchestrator]] | AI Orchestrator — görev dağıtımı, context yönetimi |
+| [[architecture/ai/agent-system]] | Agent System — 11 ajanlı agent sistemi |
+| [[architecture/ai/knowledge-base]] | Knowledge Base — bilgi bankası, semantic search |
+| [[architecture/ai/memory-system]] | Memory System — session hafızası, persistence |
+| [[architecture/ai/prompt-engine]] | Prompt Engine — prompt üretimi, token management |
+| [[architecture/ai/tool-calling]] | Tool Calling — dış servis çağrısı |
+| [[architecture/ai/mcp-integration]] | MCP Integration — Model Context Protocol |
+| [[architecture/ai/ai-workflow]] | AI Workflow — recommendation, analysis, optimization |
 
 ---
 
-## 11B. Skills (10 Skill â€” Guardrail #16 Zorunlu)
+## 11B. Skills (10 Skill — Guardrail #16 Zorunlu)
 
 | # | Skill | Amaç | Konum |
 |---|-------|------|-------|
@@ -408,7 +408,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ## 12. Vault Altyapısı
 
-> **âš ï¸ Güncellik Notu (2026-09-06):** Aşağıda referans verilen `sessions/`, `registry/`, `scaffold/`, `knowledge/`, `confidence/`, `research/`, `personas/`, `workflows/`, `testing/`, `projects/` dizinleri vault ağacında mevcut DEÄİLDİR; bu bölümdeki ilgili wiki-linkler kırıktır. Düzeltme seçenekleri (yeniden kurma / referans temizliği) onay listesindedir.
+> **⚠️ Güncellik Notu (2026-09-06):** Aşağıda referans verilen `sessions/`, `registry/`, `scaffold/`, `knowledge/`, `confidence/`, `research/`, `personas/`, `workflows/`, `testing/`, `projects/` dizinleri vault ağacında mevcut DEĞİLDİR; bu bölümdeki ilgili wiki-linkler kırıktır. Düzeltme seçenekleri (yeniden kurma / referans temizliği) onay listesindedir.
 
 | Kategori | Dosyalar |
 |----------|----------|
@@ -428,7 +428,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | UI-Design Flow | [[ui-design/flow/00-flow-index]], [[ui-design/flow/auth/04-select-gender]] |
 | Research | [[research/verified/php84-strict-types]], [[research/verified/argon2id]], [[research/verified/aes-256-gcm]], [[research/verified/pcm3168a]], [[research/verified/asio-sdk]], [[research/verified/juce8]], [[research/verified/xmos-xu316]], [[research/verified/trusted-types-domparser]], [[research/verified/itcss-bemit-layer]], [[research/verified/wcag-22-aa]], [[research/verified/mariadb-1011]] |
 | Personas | [[personas/index]], [[personas/methodology]], [[personas/mood-taxonomy]] |
-| Templates | [[.templates/index]] â€” 25 template (PHP, JS, CSS, C++, PHPUnit, Vitest, Migration, GitHub Actions, API-doc, Security-audit, ADR, Arduino, AVR, PIC, C, Node.js, ASP.NET, WikiPage, Query, Session) |
+| Templates | [[.templates/index]] — 25 template (PHP, JS, CSS, C++, PHPUnit, Vitest, Migration, GitHub Actions, API-doc, Security-audit, ADR, Arduino, AVR, PIC, C, Node.js, ASP.NET, WikiPage, Query, Session) |
 | Workflows | [[workflows/adr-creation]], [[workflows/dev-workflow]], [[workflows/code-review]], [[workflows/deployment]], [[workflows/hallucination-control]], [[workflows/security-audit]], [[workflows/session-init]], [[workflows/vault-sync-detailed]] |
 | Root | [[engine]], [[index-overview]], [[index-services]], [[index-adr]], [[decisions/index]], [[research/index]] |
 
@@ -450,11 +450,11 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 | Tier | OS | Durum |
 |------|-----|-------|
-| Tier 1 (Primary) | Windows (XPâ€“11, Server 2012 R2+) | ✅ Ana geliştirme |
+| Tier 1 (Primary) | Windows (XP–11, Server 2012 R2+) | ✅ Ana geliştirme |
 | Tier 2 | Linux (Ubuntu, Debian, Fedora, Arch) | ✅ Destekli |
-| Tier 3 | macOS (Montereyâ€“Sonoma) | ✅ Destekli |
+| Tier 3 | macOS (Monterey–Sonoma) | ✅ Destekli |
 | Tier 4 | Raspberry Pi (ARM64, Debian) | ✅ Destekli |
-| Tier 5 | ReactOS | âš ï¸ Experimental |
+| Tier 5 | ReactOS | ⚠️ Experimental |
 
 ---
 
@@ -501,11 +501,11 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ## 18. Metadata
 
-- **Toplam dosya:** 787 (Faz 0 sayımı, 2026-09-08 â€” eski değer 726 güncel değildi)
+- **Toplam dosya:** 787 (Faz 0 sayımı, 2026-09-08 — eski değer 726 güncel değildi)
 - **Toplam ADR:** 79 (Frozen: 37, Active: 30, Rejected: 12)
 - **Versiyon:** 27.2.0
 - **Son Güncelleme:** 2026-09-08 (Faz 1: PNG 19, dosya 787, ADR 001-088, testing notu, §19-§20 doğrulama bölümleri)
-- **Governance:** Red Team Â· Human Mode Â· Truth Mode
+- **Governance:** Red Team · Human Mode · Truth Mode
 
 ---
 
@@ -549,8 +549,8 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | Arşiv tarihi | prompt*-2026-08-13 (12 link, 5 dosya) | ✅ 2026-09-01'e hizalandı |
 | .ai/testing/ | index.md §11, keys.md | ✅ "dizin yok" notu + gerçek karşılıklar |
 | .ai/workflows/ | index.md §12 | ✅ uyarı notu mevcut; kök `.workflows/` gerçek konum |
-| Electronic kök 8 dosya | keys.md §7, brain.md §21 | ✅ DOÄRULAMA GEREKLİ etiketi + alt klasör yönlendirme |
-| models/issues/scripts index | CLAUDE.md §17 | Bekliyor â€” dizinler yok; oluşturma kararı kullanıcıda |
+| Electronic kök 8 dosya | keys.md §7, brain.md §21 | ✅ DOĞRULAMA GEREKLİ etiketi + alt klasör yönlendirme |
+| models/issues/scripts index | CLAUDE.md §17 | Bekliyor — dizinler yok; oluşturma kararı kullanıcıda |
 
 ### 19.5 Boot Dosyası Revizyon Durumu
 
@@ -571,7 +571,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ### 19.6 Yöntem Notu
 
-1. Hedef metrik "boş-hariç satır"tır (`Measure-Object -Line`) â€” Faz 0 envanteriyle aynı ölçüt.
+1. Hedef metrik "boş-hariç satır"tır (`Measure-Object -Line`) — Faz 0 envanteriyle aynı ölçüt.
 2. Her genişletme satırı bilgi taşır: kanıt yolu, tablo, ASCII şema veya doğrulama kaydı; doldurma/fluff yasaktır.
 3. Frozen ADR metinlerine ve arşiv dosyalarına dokunulmadı; yalnız referanslar doğrulandı.
 
@@ -579,7 +579,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ## 20. Teknoloji Yığını Özeti (Dinamik Stack)
 
-**İlke:** Programlama dili ve teknoloji yığını proje gereksinimlerine göre belirlenir â€” Node.js Â· C++ Â· C# Â· PHP + proje niteliğinin gerektirdiği diğerleri. Detay: [[engine.md]] §9, [[ROLE.md]] §11.
+**İlke:** Programlama dili ve teknoloji yığını proje gereksinimlerine göre belirlenir — Node.js · C++ · C# · PHP + proje niteliğinin gerektirdiği diğerleri. Detay: [[engine.md]] §9, [[ROLE.md]] §11.
 
 | Katman | Teknoloji | Durum | Referans |
 |--------|-----------|-------|----------|
@@ -592,7 +592,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ---
 
-## 21. Kırık Referans Kataloğu (Faz 0 taraması â€” çözüm durumu)
+## 21. Kırık Referans Kataloğu (Faz 0 taraması — çözüm durumu)
 
 Bu bölüm, vault genelinde tespit edilen kırık referans kümelerini ve çözüm durumlarını izler. Kural: her çözüm `log.md`'ye kaydedilir; yenisi bulundukça buraya eklenir.
 
@@ -600,26 +600,26 @@ Bu bölüm, vault genelinde tespit edilen kırık referans kümelerini ve çöz�
 |---|------|--------------------|--------------|
 | 1 | `archives/prompt*-2026-08-13` (12 link) | brain.md §22, WORKFLOW §8.6, ROLE §10, MEMORY §5, keys §3B | ✅ 2026-09-01'e hizalandı |
 | 2 | `.ai/testing/` dizini (6 dosya) | index.md §11.1, keys.md §11/§14, ROLE.md, ULTRA-THINKING §3.2 | ✅ "dizin yok" notu + gerçek karşılıklar |
-| 3 | `.ai/workflows/` dizini (8 dosya) | index.md §12 | âš ï¸ uyarı notu mevcut; gerçek konum kök `.workflows/` |
-| 4 | Electronic kök 8 dosya | keys.md §7, brain.md §21, index.md §10 | ✅ DOÄRULAMA GEREKLİ + alt klasör yönlendirme |
+| 3 | `.ai/workflows/` dizini (8 dosya) | index.md §12 | ⚠️ uyarı notu mevcut; gerçek konum kök `.workflows/` |
+| 4 | Electronic kök 8 dosya | keys.md §7, brain.md §21, index.md §10 | ✅ DOĞRULAMA GEREKLİ + alt klasör yönlendirme |
 | 5 | `electronic/frequency-response` ve `snr-thd` yanlış yol | keys.md §7 | ✅ `electronic/hardware/` altına yönlendirildi |
-| 6 | `models/issues/scripts` index yok | CLAUDE.md §17 | âš ï¸ Kullanıcı kararı bekliyor (oluştur / referans kaldır) |
-| 7 | `subdomains/README` + download index | keys.md §8, index.md §12 | âš ï¸ Oluşturma kararı bekliyor |
-| 8 | `projects/NevaEngine/eq-dsp-chain` | keys.md §6 | âš ï¸ stub kapsamı dışı â€” index.md §9 notuyla tutarlı |
-| 9 | `research/`, `personas/`, `registry/`, `scaffold/`, `knowledge/`, `confidence/`, `sessions/` | index.md §12 | âš ï¸ §12 güncellik notu mevcut; yeniden kurma kararı kullanıcıda |
+| 6 | `models/issues/scripts` index yok | CLAUDE.md §17 | ⚠️ Kullanıcı kararı bekliyor (oluştur / referans kaldır) |
+| 7 | `subdomains/README` + download index | keys.md §8, index.md §12 | ⚠️ Oluşturma kararı bekliyor |
+| 8 | `projects/NevaEngine/eq-dsp-chain` | keys.md §6 | ⚠️ stub kapsamı dışı — index.md §9 notuyla tutarlı |
+| 9 | `research/`, `personas/`, `registry/`, `scaffold/`, `knowledge/`, `confidence/`, `sessions/` | index.md §12 | ⚠️ §12 güncellik notu mevcut; yeniden kurma kararı kullanıcıda |
 | 10 | `ui-design/reference/02-design-tokens` | keys.md §3A | ✅ `ui-design/tokens/design-tokens-master.md` |
-| 11 | l4/l5 flat vs index | (Obsidian fallback) | ✅ flat dosyalar mevcut â€” sorun değil |
-| 12 | `[[reference/yaml-formatter]]` | WORKFLOW §8.8 | âš ï¸ DOÄRULANAMADI â€” test edilmedi |
+| 11 | l4/l5 flat vs index | (Obsidian fallback) | ✅ flat dosyalar mevcut — sorun değil |
+| 12 | `[[reference/yaml-formatter]]` | WORKFLOW §8.8 | ⚠️ DOĞRULANAMADI — test edilmedi |
 
-**Özet:** 6 çözüldü Â· 6 kullanıcı kararı bekliyor. Bekleyenler kod üretimi gerektirmez; doküman/dizin kararıdır.
+**Özet:** 6 çözüldü · 6 kullanıcı kararı bekliyor. Bekleyenler kod üretimi gerektirmez; doküman/dizin kararıdır.
 
 ### 21.1 Metodoloji
 
 1. Referans çıkarma: boot + index dosyalarındaki `[[...]]` ve düz yol pattern'leri toplandı.
 2. Doğrulama: her hedef Test-Path ile sınandı (PowerShell 5.1, Faz 0).
 3. Kümeler: aynı kök nedenli kırıklar tek küme olarak gruplandı.
-4. Çözüm: kanıtlı karşılık varsa yönlendirme; yoksa DOÄRULAMA GEREKLİ/kullanıcı kararı.
-5. Bakım: bu katalog her faz kapanışında güncellenir â€” yeni kırık →’ yeni satır.
+4. Çözüm: kanıtlı karşılık varsa yönlendirme; yoksa DOĞRULAMA GEREKLİ/kullanıcı kararı.
+5. Bakım: bu katalog her faz kapanışında güncellenir — yeni kırık → yeni satır.
 
 ### 21.2 Kullanıcı Kararı Bekleyen Özet
 
@@ -628,7 +628,7 @@ Bu bölüm, vault genelinde tespit edilen kırık referans kümelerini ve çöz�
 | models/issues/scripts index | Oluştur / referans kaldır | CLAUDE.md §17 boot iddiası |
 | subdomains README + download index | Oluştur / keys.md satırını sil | §8 keyword yönlendirme |
 | research/personas/registry vb. dizinler | Yeniden kur / §12'den sil | 30+ satır katalog temizliği |
-| electronic kök 8 dosya | Yeniden üret / DOÄRULAMA GEREKLİ kalıcı | keys.md §7, brain §21 |
+| electronic kök 8 dosya | Yeniden üret / DOĞRULAMA GEREKLİ kalıcı | keys.md §7, brain §21 |
 
 ---
 
@@ -648,12 +648,12 @@ Bu bölüm, vault genelinde tespit edilen kırık referans kümelerini ve çöz�
 - Veri akışı
 
 ### İlgili Dosyalar
-- [[VISION]] â€” CoreMusic vizyonu
-- [[PROJECTS]] â€” Proje tanımı
-- [[../architecture/master-architecture-index]] â€” Mimari indeks
+- [[VISION]] — CoreMusic vizyonu
+- [[PROJECTS]] — Proje tanımı
+- [[../architecture/master-architecture-index]] — Mimari indeks
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-05
-**Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Mode:** Red Team · Human Mode · Truth Mode

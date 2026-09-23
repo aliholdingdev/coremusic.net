@@ -1,17 +1,17 @@
 ﻿---
 type: server-config
 category: infrastructure
-title: "Sunucu Yapılandırması â€” Linux + Nginx"
+title: "Sunucu Yapılandırması — Linux + Nginx"
 date: 2026-09-19
 updated: 2026-09-19
 status: active
 version: 1.0.0
 ---
 
-# Sunucu Yapılandırması â€” Linux + Nginx
+# Sunucu Yapılandırması — Linux + Nginx
 
-**Ä°lgili Katmanlar:** [[architecture/k0-k5-software/k0-os-layer]] Â· [[architecture/k10-k15-application/k14-network]]
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] Â· [[architecture/master-architecture-index]]
+**İlgili Katmanlar:** [[architecture/k0-k5-software/k0-os-layer]] · [[architecture/k10-k15-application/k14-network]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[architecture/master-architecture-index]]
 
 ---
 
@@ -81,7 +81,7 @@ add_header X-Content-Type-Options "nosniff" always;
 add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
 ```
-> **Not:** Content-Security-Policy (CSP) dinamik `nonce` gerektirdiği için Nginx üzerinden DEÄÄ°L, PHP uygulaması üzerinden (Middleware) basılmalıdır.
+> **Not:** Content-Security-Policy (CSP) dinamik `nonce` gerektirdiği için Nginx üzerinden DEĞİL, PHP uygulaması üzerinden (Middleware) basılmalıdır.
 
 ## 6. Subdomain Yönlendirmeleri (Virtual Hosts)
 
@@ -167,7 +167,7 @@ location ~* \.(jpg|jpeg|gif|png|css|js|ico|webp|svg|woff2)$ {
 
 - **502 Bad Gateway:** PHP-FPM çalışmıyor veya socket yolu hatalı olabilir. `systemctl status php8.4-fpm` ile kontrol edin.
 - **413 Request Entity Too Large:** Ses veya video dosyası yüklerken hata alınırsa `client_max_body_size 100M;` ekleyin.
-- **Dosya Ä°zinleri:** `/var/www/coremusic.net/` dizininin sahibi `www-data` olmalıdır (`chown -R www-data:www-data`).
+- **Dosya İzinleri:** `/var/www/coremusic.net/` dizininin sahibi `www-data` olmalıdır (`chown -R www-data:www-data`).
 
 ---
 

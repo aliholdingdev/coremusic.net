@@ -4,9 +4,9 @@ title: "CoreMusic — Vault Workflows & Engineering Processes"
 type: guide
 category: workflow
 date: 2026-08-08
-updated: 2026-09-18
+updated: 2026-09-23
 status: active
-version: 21.0.0
+version: 22.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -798,6 +798,37 @@ Müzik Dosyası → Metadata Çıkarma → DB Kaydı → İndeksleme → Arama �
 
 ---
 
+## 20. Doküman İskeleti (8-Bölüm Uyumu — Vault Refactor Engine 2026-09-23)
+
+> **Not:** Bu dosya ADR-042 hibrit kuralıyla satır-edit + ekleme ile v21.0.0 → v22.0.0'a yükseltildi (silme yok; §1-§19 korundu).
+
+### 20.1 İskelet Eşlemesi
+
+| İskelet Bölümü | Karşılık Gelen § |
+|----------------|------------------|
+| Başlık | H1 + frontmatter (7 zorunlu alan) |
+| Amaç | §1 |
+| Kapsam | §2 |
+| Mimari | §4 Vault Yapısı + §17A/§17B (registry diyagramları) |
+| Kurallar | §10 Vault Kuralları + §13 Frontmatter & Link Standardı |
+| Workflow | §6-§9 (7 Workflow, Hard Gates, 12/16/20-faz süreçleri) |
+| Doğrulama | §9 Hard Gates + §17B Quality + bu bölüm §20.2 |
+| Referanslar | §14-§15 Çapraz Referans + İlgili Dosyalar |
+
+### 20.2 Faz 1 Doğrulama (2026-09-23)
+
+- [x] Frontmatter 7 alan; version 22.0.0; updated 2026-09-23
+- [x] Mojibake temizlendi (vault geneli 745 düzeltme)
+- [x] §1-§19 korundu, silme yok; yeni bölüm §20 olarak eklendi
+- [x] `[[wiki-link]]` hedef adları korundu (kırık link taraması Faz 6'da)
+- [x] REFACTOR REPORT: FILE: WORKFLOW.md · PURPOSE: Vault Workflows & Processes SSOT · VALIDATION: § + link korundu · RELATED: [[CLAUDE.md]] · [[AGENTS.md]] · [[brain.md]] · [[index.md]] · [[keys.md]] · [[MEMORY.md]] · [[log.md]]
+
+### 20.3 İlgili Dosyalar
+
+[[CLAUDE.md]] · [[AGENTS.md]] · [[brain.md]] · [[MEMORY.md]] · [[index.md]] · [[keys.md]] · [[log.md]] · [[.templates/index]]
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-08
+**Last Updated:** 2026-09-23
 **Mode:** Red Team · Human Mode · Truth Mode

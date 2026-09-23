@@ -1,6 +1,6 @@
 ---
 reference_doc: Freelancer Technical Documentation v1.0
-title: "CoreMusic â€” Vault Keyword Map & Concept Router"
+title: "CoreMusic — Vault Keyword Map & Concept Router"
 type: system
 category: vault-navigation
 date: 2026-08-12
@@ -8,17 +8,17 @@ updated: 2026-09-18
 status: active
 version: 28.1.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team Â· Human Mode Â· Truth Mode
+governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/keys.md"
-  source_of_truth: ".ai/CLAUDE.md Â· .ai/AGENTS.md Â· .ai/WORKFLOW.md Â· .ai/brain.md Â· .ai/index.md"
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .ai/brain.md · .ai/index.md"
 ---
 
-# CoreMusic â€” Vault Keyword Map & Concept Router
+# CoreMusic — Vault Keyword Map & Concept Router
 
-**Zorunlu Baglantilar:** [[CLAUDE.md]] Â· [[AGENTS.md]] Â· [[WORKFLOW.md]] Â· [[index.md]] Â· [[brain.md]] Â· [[MEMORY.md]] Â· [[log.md]] Â· [[.templates/index]] Â· [[.agents/AGENTS.md]]
+**Zorunlu Baglantilar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (10 skill â€” Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
 
 ---
 
@@ -112,7 +112,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | device behavioral, hover disabled, touch target 48px, scrollbar override | architecture/l3-presentation/device-css.md |
 | backend scope, widget count, feature toggle, nav links, content config | brain.md §18C |
 | frontend scope, token override, media query, grid template, layout grid | brain.md §18C |
-| layer violation, presentation→’infrastructure, php sunum kararı yasak | brain.md §18C |
+| layer violation, presentation→infrastructure, php sunum kararı yasak | brain.md §18C |
 | home 1920 mockup, 1920 desktop home, 1920ascii art, 1920 pixel measurements | ui-design/mockups/02-home-screens-1920.md |
 | ui prompt, component prompt, page prompt, screen prompt, layout prompt | ui-design/prompt/00-prompt-index.md |
 | auth screens, login girl, select gender, register girl 1-3 | ui-design/screens/05-auth-layouts.md |
@@ -176,7 +176,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | css template, itcss şablonu | .ai/.templates/frontend/css-template.md |
 | phpunit template, test şablonu | .ai/.templates/testing/phpunit-template.md |
 | migration template, db migration | .ai/.templates/infrastructure/migration-template.md |
-| docker template, container | **Bilinen çelişki (Faz 1):** Dosya diskte VAR (`docker-template.md`) ancak not "Kaldırıldı" diyor â€” Docker kullanılmıyor; dosya kaldırma kararı Vault Steward'a bağlı |
+| docker template, container | **Bilinen çelişki (Faz 1):** Dosya diskte VAR (`docker-template.md`) ancak not "Kaldırıldı" diyor — Docker kullanılmıyor; dosya kaldırma kararı Vault Steward'a bağlı |
 | github actions, ci/cd şablonu | .ai/.templates/infrastructure/github-actions-template.md |
 | api doc, api dokümantasyonu | .ai/.templates/documentation/api-doc-template.md |
 | security audit, güvenlik denetimi | .ai/.templates/documentation/security-audit-template.md |
@@ -247,7 +247,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | welcome popup, shouldRenderWelcomePopup, RPi5 1024 | shared/src/Device/DeviceManager.php |
 | 4-tier conditional rendering, koşullu render, phone layout, 4k layout, wide layout, embedded layout, fallback always false | .ai/ui-design/responsive-device-mode.md |
 | cm_viewport_w, cm_viewport_h, viewport cookie | assets.coremusic.net/js/device-loader.js |
-| viewport whitelist, cookie-based viewport, JS→’PHP viewport | shared/src/PageRouter/PageRouter.php |
+| viewport whitelist, cookie-based viewport, JS→PHP viewport | shared/src/PageRouter/PageRouter.php |
 | conditional rendering php guide, php implementasyon rehberi, DeviceManager nasıl kullanılır, 4-tier render | .ai/architecture/conditional-rendering-php-guide.md |
 
 ---
@@ -338,17 +338,17 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | PCM3168A, 8 kanal, DAC | [[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]] |
 | PCM5122, REDDED, H001 | [[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]] |
 | XMOS XU316, DSP | [[decisions/accepted/ADR-017-dsp-hardware-mode]] |
-| AK4458, DAC opsiyonel | electronic/hardware/audio-interface.md *(Faz 1: electronic/ kök tasarım dosyaları kaldırıldı â€” gerçek konumlar alt klasörlerde)* |
-| Class AB, amfi, 100W | electronic/amplifier/ *(kök `amplifier-design.md` kaldırıldı â€” arşiv)* |
-| hardware roadmap, 3 faz | **DOÄRULAMA GEREKLİ** â€” `electronic/hardware-roadmap.md` vault'ta yok |
-| audio organization, 5 bolum | **DOÄRULAMA GEREKLİ** â€” `electronic/audio-organization.md` vault'ta yok |
-| ASIO driver | **DOÄRULAMA GEREKLİ** â€” `electronic/asio-driver-design.md` vault'ta yok; yakın karşılık `electronic/drivers/` |
-| xmos-pcm3168a, devre | **DOÄRULAMA GEREKLİ** â€” `electronic/xmos-pcm3168a-design.md` vault'ta yok; yakın karşılık `electronic/hardware/audio-interface.md` |
+| AK4458, DAC opsiyonel | electronic/hardware/audio-interface.md *(Faz 1: electronic/ kök tasarım dosyaları kaldırıldı — gerçek konumlar alt klasörlerde)* |
+| Class AB, amfi, 100W | electronic/amplifier/ *(kök `amplifier-design.md` kaldırıldı — arşiv)* |
+| hardware roadmap, 3 faz | **DOĞRULAMA GEREKLİ** — `electronic/hardware-roadmap.md` vault'ta yok |
+| audio organization, 5 bolum | **DOĞRULAMA GEREKLİ** — `electronic/audio-organization.md` vault'ta yok |
+| ASIO driver | **DOĞRULAMA GEREKLİ** — `electronic/asio-driver-design.md` vault'ta yok; yakın karşılık `electronic/drivers/` |
+| xmos-pcm3168a, devre | **DOĞRULAMA GEREKLİ** — `electronic/xmos-pcm3168a-design.md` vault'ta yok; yakın karşılık `electronic/hardware/audio-interface.md` |
 | audio interface, PCM3168A devre | electronic/hardware/audio-interface.md |
 | frequency response, frekans yaniti | electronic/hardware/frequency-response.md |
 | SNR, THD, THD+N, olcum | electronic/hardware/snr-thd-measurement.md |
-| test protokolu, hardware test | **DOÄRULAMA GEREKLİ** â€” `electronic/test-protocols.md` vault'ta yok |
-| termal analiz, is sicaklik | **DOÄRULAMA GEREKLİ** â€” `electronic/thermal-analysis.md` vault'ta yok; yakın karşılık `electronic/amplifier/thermal.md` |
+| test protokolu, hardware test | **DOĞRULAMA GEREKLİ** — `electronic/test-protocols.md` vault'ta yok |
+| termal analiz, is sicaklik | **DOĞRULAMA GEREKLİ** — `electronic/thermal-analysis.md` vault'ta yok; yakın karşılık `electronic/amplifier/thermal.md` |
 | DSP pipeline, equalizer, crossover | electronic/dsp/index.md |
 | driver framework, USB, BT, WiFi | electronic/drivers/index.md |
 | amplifier architecture, power supply | electronic/amplifier/index.md |
@@ -514,7 +514,7 @@ Istenen Bilgi -> Ilk Kontrol:
 |-- Veritabani -> ADR-040 + architecture/k0-k5-software/k5-data-layer/database_master.md + .sql/
 |-- Ses/Donanim -> ADR-017/038 + electronic/ + projects/NevaEngine/
 |-- Panel/Servis -> subdomains/ + architecture/06-audio/
-|-- Test -> ui-design/03-accessibility-gaps.md + reports/ (`.ai/testing/` dizini yok â€” Faz 1 notu)
+|-- Test -> ui-design/03-accessibility-gaps.md + reports/ (`.ai/testing/` dizini yok — Faz 1 notu)
 |-- Vault -> index.md -> keys.md (bu dosya)
 ```
 
@@ -569,12 +569,12 @@ P3: testing/*, ui-design/*, personas/*
 | Frontend | architecture/l3-presentation/ -> ADR-001 |
 | Backend | architecture/l2-routing/ -> ADR-002 |
 | Audio/Donanim | electronic/ -> ADR-017/038 |
-| Test | ui-design/03-accessibility-gaps.md -> reports/ (testing/ dizini yok â€” Faz 1 notu) |
+| Test | ui-design/03-accessibility-gaps.md -> reports/ (testing/ dizini yok — Faz 1 notu) |
 | Vault yapisi | index.md -> bu dosya (keys.md) |
 | Agent yetkileri | AGENTS.md -> .agents/ |
 | Servisler | ecosystem/7-service-integration.md |
 | Deploy | architecture/02-deployment/ |
-| Tema | ADR-044 -> [[brain.md]] §22 (prompt arşivi â€” tema kuralları) |
+| Tema | ADR-044 -> [[brain.md]] §22 (prompt arşivi — tema kuralları) |
 
 ### Section 3B: Prompt Archive Keywords
 
@@ -594,7 +594,7 @@ P3: testing/*, ui-design/*, personas/*
 | 1 | **Rastgele okuma yasak.** Her zaman keys.md kullanin. Token asimina yol acar. |
 | 2 | **PCM5122 REDDEDILMISTIR (H001).** 8.1 surround icin yetersiz. Sadece PCM3168A kullanin. |
 | 3 | **CSRF Token Key = csrf_token.** _csrf_token 2026-05-30'da kaldirildi. |
-| 4 | **Middleware sirasi degistirilemez.** OriginCheck →’ Cors →’ RateLimiter →’ SecurityHeaders →’ SessionManager →’ Csrf →’ BypassAuth →’ Auth →’ Permission →’ Validation →’ Controller |
+| 4 | **Middleware sirasi degistirilemez.** OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller |
 | 5 | **ORM yasak.** Sadece PDO prepared statement. SELECT * yasak -- acik kolon listesi zorunlu. |
 
 ---
@@ -619,9 +619,9 @@ P3: testing/*, ui-design/*, personas/*
 | Metrik | Deger |
 |--------|-------|
 | Version | 28.0.0 |
-| Status | Red Team Â· Human Mode Â· Truth Mode verified |
+| Status | Red Team · Human Mode · Truth Mode verified |
 | ADR Coverage | 001-088 (79 karar: 37 Frozen + 30 Active + 12 Rejected) |
-| Vault Envanteri | 787 .md dosyasi, 79 ADR, 18 BCNF DB, hedef 10 panel / 7 servis (fiziksel: 4 domain + assets), shared/ hybrid yapı â€” Faz 0 sayımı 2026-09-08 |
+| Vault Envanteri | 787 .md dosyasi, 79 ADR, 18 BCNF DB, hedef 10 panel / 7 servis (fiziksel: 4 domain + assets), shared/ hybrid yapı — Faz 0 sayımı 2026-09-08 |
 
 ---
 
@@ -658,4 +658,4 @@ P3: testing/*, ui-design/*, personas/*
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-08-19
-**Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Mode:** Red Team · Human Mode · Truth Mode

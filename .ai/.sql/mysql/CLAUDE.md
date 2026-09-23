@@ -1,5 +1,5 @@
 ---
-title: "CoreMusic â€” .ai/.sql/mysql Bağlam"
+title: "CoreMusic â€” .ai/.sql/mysql BaÃ°lam"
 type: context
 folder: ".ai/.sql/mysql"
 category: vault
@@ -11,20 +11,20 @@ authority: SSOT
 
 # .ai/.sql/mysql â€” CLAUDE.md
 
-**Zorunlu Bağlantılar:** ## 1. Bağlam
-18 DB'nin canlı şema referansı; Data Engineer ana kaynağı.
+**Zorunlu BaÃ°lantÃ½lar:** ## 1. BaÃ°lam
+18 DB'nin canlÃ½ Ã¾ema referansÃ½; Data Engineer ana kaynaÃ°Ã½.
 
 ## 2. Mevcut Durum
-| Durum | Değer |
+| Durum | DeÃ°er |
 |-------|-------|
 | Dosya | 18 SQL |
-| Kardeş klasörler | mssql/postgresql/sqlite (boş â€” gelecek desteği) |
+| KardeÃ¾ klasÃ¶rler | mssql/postgresql/sqlite (boÃ¾ â€” gelecek desteÃ°i) |
 
-## 3. Komşu Ä°lişkiler
-Parent [[../CLAUDE.md]] *(üretilecek)* Â· Data mimarisi [[../../architecture/k0-k5-software/k5-data-layer/CLAUDE.md]]
+## 3. KomÃ¾u Ä°liÃ¾kiler
+Parent [[../CLAUDE.md]] *(Ã¼retilecek)* Â· Data mimarisi [[../../architecture/k0-k5-software/k5-data-layer/CLAUDE.md]]
 
-## 4. Değişiklik Protokolü
-Yalnızca dump yenileme; elle edit yasak. Log + vault-sync.
+## 4. DeÃ°iÃ¾iklik ProtokolÃ¼
+YalnÃ½zca dump yenileme; elle edit yasak. Log + vault-sync.
 
 ---
 

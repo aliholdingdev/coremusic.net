@@ -1,17 +1,17 @@
 ﻿---
 type: server-config
 category: infrastructure
-title: "Sunucu Yapılandırması â€” Windows + IIS"
+title: "Sunucu Yapılandırması — Windows + IIS"
 date: 2026-09-19
 updated: 2026-09-19
 status: active
 version: 1.0.0
 ---
 
-# Sunucu Yapılandırması â€” Windows + IIS
+# Sunucu Yapılandırması — Windows + IIS
 
-**Ä°lgili Katmanlar:** [[architecture/k0-k5-software/k0-os-layer]] Â· [[architecture/k10-k15-application/k14-network]]
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] Â· [[architecture/master-architecture-index]]
+**İlgili Katmanlar:** [[architecture/k0-k5-software/k0-os-layer]] · [[architecture/k10-k15-application/k14-network]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[architecture/master-architecture-index]]
 
 ---
 
@@ -108,10 +108,10 @@ Eğer Download Service de IIS arkasında yayınlanacaksa, **Application Request 
 
 IIS'te PHP çalıştırmak için Non-Thread Safe (NTS) sürümü kullanılmalıdır.
 
-- IIS Yöneticisi -> **Handler Mappings (Ä°şleyici Eşlemeleri)**
+- IIS Yöneticisi -> **Handler Mappings (İşleyici Eşlemeleri)**
 - Ekle: `*.php`
 - Yürütülebilir: `C:\php8.4\php-cgi.exe`
-- Ä°stek Kısıtlamaları: "File or Folder"
+- İstek Kısıtlamaları: "File or Folder"
 
 ## 7. IMPLEMENTED / PLANNED Matrisi
 
@@ -125,7 +125,7 @@ IIS'te PHP çalıştırmak için Non-Thread Safe (NTS) sürümü kullanılmalıd
 ## 8. Sorun Giderme (Troubleshooting)
 
 - **HTTP Error 500.19 (Config Error):** URL Rewrite modülü kurulu olmayabilir. IIS URL Rewrite 2.1 indirip kurun.
-- **HTTP Error 404 (Not Found):** Ä°stekler `index.php`'ye yönlendirilmiyorsa, `web.config` kurallarının aktif olduğundan emin olun.
+- **HTTP Error 404 (Not Found):** İstekler `index.php`'ye yönlendirilmiyorsa, `web.config` kurallarının aktif olduğundan emin olun.
 - **FastCGI Hataları (502):** PHP NTS sürümünün kullanıldığından ve `php.ini`'nin doğru ayarlandığından emin olun (örn. `cgi.force_redirect = 0`).
 
 ---

@@ -1,90 +1,353 @@
 ---
-title: "CoreMusic — Agent Profiles Index"
-type: index
+title: "CoreMusic — Agent Alt-Registry (Profiles)"
+type: system
 category: agent-registry
-date: 2026-09-21
-updated: 2026-09-21
+version: 1.1.0
 status: active
-version: 1.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
+updated: 2026-09-23
+
+authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)"
+
+governance:
+  - Red Team
+  - Human Mode
+  - Truth Mode
+
+reference:
+  authority: ".ai/AGENTS.md"
+
+  source_of_truth:
+    - ".ai/CLAUDE.md"
+    - ".ai/WORKFLOW.md"
+    - ".ai/brain.md"
+    - ".ai/index.md"
 ---
 
-# .agents/ — Agent Profilleri İndeksi
+# CoreMusic — Agent Alt-Registry (Profiles)
 
-**Zorunlu Bağlantılar:** [[../AGENTS.md]] · [[../CLAUDE.md]] · [[../WORKFLOW.md]]
-
----
+> **SSOT Uyarısı:** Bu dosya alt registry'dir. Asıl SSOT: [[../AGENTS.md]] (v22.0.0). Çelişkide kök dosya kazanır; bu dosya yalnızca ajan profil/özet detaylarını içerir.
 
 ## 1. Amaç
 
-Bu dizin, CoreMusic ekosistemindeki 11 AI ajanının detaylı profil dosyalarını içerir. Her dosya, ajanın amacını,rollerini, domain sınırlarını, teknoloji yığınını, kod standartlarını ve kalite hedeflerini tanımlar.
+Bu dosya CoreMusic AI agent sisteminin ana yönetim dosyasıdır.
+
+Sorumlulukları:
+- Agent kayıt yönetimi
+- Agent yetki sınırları
+- Domain routing
+- Task dispatch
+- Handover yönetimi
+- Escalation yönetimi
+- Agent koordinasyonu
+
+Bu dosya alt registry'dir; **SSOT: [[../AGENTS.md]]** (v22.0.0) — çelişkide kök dosya kazanır.
+---
+
+# 2. Agent Mimarisi
+
+CoreMusic agent sistemi:
+                  ┌─────────────────────┐
+                  │  MASTER ORCHESTRATOR│
+                  │  System Intelligence│
+                  └──────────┬──────────┘
+                             │
+     ┌────────────────┬──────┼──────────────────────┐
+     │                │              │              │                
+┌────▼────┐     ┌─────▼────┐   ┌─────▼─────┐  ┌─────▼────┐
+│ Backend │     │    UI    │   │ Security  │  │  Data    │
+│ Service │     │ UX Layer │   │ Protection│  │ Platform │
+└────┬────┘     └─────┬────┘   └─────┬─────┘  └─────┬────┘
+     │                │              │              │
+     └────────────────┴──────────────┴──────────────┘
+                              │
+                 ┌────────────▼────────────┐
+                 │        ENGINEERING      │
+                 └────────────┬────────────┘
+                              │
+                ┌───────────┬─▼────────┬────────────┐
+                │           │          │            │          
+            ┌───▼───┐ ┌─────▼────┐ ┌───▼─────┐ ┌────▼───┐
+            │  QA   │ │ DevOps   │ │Embedded │ │Hardware│
+            │Test   │ │Infra CI  │ │Firmware │ │System  │
+            └───┬───┘ └─────┬────┘ └───┬─────┘ └────┬───┘
+                │           │          │            │
+                └───────────┴──────────┴────────────┘
+                                  │
+                        ┌─────────▼─────────┐
+                        │ Platform/Firmware │
+                        └─────────┬─────────┘
+                                  │
+            ┌─────────────────────┼─────────────────────┐
+            │                     │                     │
+       ┌────▼────┐          ┌─────▼────┐          ┌─────▼─────┐
+       │ Kernel  │          │ Drivers  │          │ Bootloader│
+       └────┬────┘          └─────┬────┘          └─────┬─────┘
+            │                     │                     │
+            └─────────────────────┼─────────────────────┘
+                                  │
+                        ┌─────────▼─────────┐
+                        │ Hardware Layer    │
+                        │ HAL / BSP         │
+                        └─────────┬─────────┘
+                                  │
+            ┌─────────────┬───────┼────────┬─────────────┐
+            │             │       │        │             │
+         ┌──▼──┐      ┌───▼──┐ ┌──▼──┐  ┌──▼───┐     ┌───▼───┐
+         │ CPU │      │ GPU  │ │ MCU │  │ DSP  │     │Sensor │
+         └──┬──┘      └───┬──┘ └──┬──┘  └──┬───┘     └───┬───┘
+            │             │       │        │             │
+            └─────────────┴───────┴────────┴─────────────┘
+                                  │
+                        ┌─────────▼─────────┐
+                        │ Physical Hardware │
+                        │ Device / Product  │
+                        └───────────────────┘
+---
+
+# 3. Agent Listesi
+
+
+| ID | Agent | Kod | Domain |
+|----|-------|-----|--------|
+| 01 | Master Orchestrator | MO | Coordination |
+| 02 | Backend Architect | backend | PHP/API |
+| 03 | UI Designer | ui | Frontend/UI |
+| 04 | Security Engineer | security | Security |
+| 05 | Database Engineer | data | Database |
+| 06 | DevOps Engineer | devops | Infrastructure |
+| 07 | QA Engineer | qa | Testing |
+| 08 | Embedded Engineer | embedded | C++/Audio |
+| 09 | DSP Firmware Engineer | dsp-fw | DSP/Firmware |
+| 10 | Audio Hardware Engineer | audio-hw | Electronics |
+| 11 | Windows Software Engineer | win-sw | Windows Platform |
+---
+
+# 4. Domain Boundary
+Her agent sadece kendi alanında çalışır.
+
+## Kural
+Bir agent başka agent domain dosyasını değiştiremez.
+
+---
+# 5. Task Routing
+
+Görev geldiğinde:
+
+INPUT
+|
+|
+Keyword Analysis
+|
+|
+Agent Selection
+|
+|
+Domain Check
+|
+|
+Context Lock
+|
+|
+Execute
+|
+|
+Validation
+|
+|
+Log
 
 ---
 
-## 2. Agent Profilleri
+# 6. Keyword Routing
 
-| # | Agent | Kod Adı | Dosya | Katman |
-|---|-------|---------|-------|--------|
-| 1 | Master Orchestrator | `mo` | [[./master-orchestrator]] | Koordinasyon |
-| 2 | Backend Architect | `backend` | [[./backend-architect]] | L2 (Routing) |
-| 3 | UI Designer | `ui` | [[./ui-designer]] | L3 (Presentation) |
-| 4 | Security Engineer | `security` | [[./security-engineer]] | L1 (Security) |
-| 5 | Data Engineer | `data` | [[./data-engineer]] | L0 (Infrastructure) |
-| 6 | Embedded Engineer | `embedded` | [[./embedded-engineer]] | L0 (Hardware) |
-| 7 | QA Engineer | `qa` | [[./qa-engineer]] | Cross-cutting |
-| 8 | DevOps Engineer | `devops` | [[./devops-engineer]] | CI/CD |
-| 9 | Audio HW Engineer | `audio-hw` | [[./audio-hardware-engineer]] | HW |
-| 10 | DSP Firmware Engineer | `dsp-fw` | [[./dsp-firmware-engineer]] | FW |
-| 11 | Windows SW Engineer | `win-sw` | [[./windows-software-engineer]] | PLAT |
-
----
-
-## 3. Agent → Stack Eşleştirme
-
-| Agent | Teknoloji | Durum |
-|-------|-----------|-------|
-| Backend Architect | PHP 8.4, PSR, php-di, fast-route | IMPLEMENTED |
-| Security Engineer | Middleware ×4 (PSR-15), Argon2id, AES-256-GCM | IMPLEMENTED |
-| Data Engineer | MySQL 9, PDO, BCNF (18 DB, 156 tablo) | IMPLEMENTED (şema) |
-| QA Engineer | PHPUnit ^11.0, Vitest, Playwright | IMPLEMENTED |
-| UI Designer | Vanilla JS ES6+, ITCSS 9-layer, BEM | PLANNED (spec) |
-| Embedded Engineer | C++20, JUCE 9, ASIO SDK 2.3.4 | PLANNED |
-| DevOps Engineer | GitHub Actions, Docker, GitLeaks | PLANNED |
-| Audio HW Engineer | PCM3168A, AK4458, Class AB | PLANNED |
-| DSP Firmware Engineer | XMOS XU316, I2S, TDM | PLANNED |
-| Windows SW Engineer | WASAPI, COM, WinRT, WDK | PLANNED |
+| Keyword | Agent |
+|-|-|
+| PHP, API, Controller, Middleware | backend |
+| JS, CSS, UI, Responsive | ui |
+| CSRF, CSP, Auth, Encryption | security |
+| SQL, Database, Schema | data |
+| Docker, CI/CD, Deploy | devops |
+| Test, Coverage, QA | qa |
+| C++, JUCE, ASIO, DSP | embedded |
+| XMOS, Firmware | dsp-fw |
+| DAC, PCB, Amplifier | audio-hw |
+| Windows, Driver, WASAPI | win-sw |
 
 ---
 
-## 4. Domain Sınırları Özeti
+# 7. Task Lifecycle
 
-| Agent | İzinli Dosyalar | Yasak Dosyalar |
-|-------|-----------------|----------------|
-| Backend | `*.php`, `shared/src/` | `*.js`, `*.css`, `*.sql` |
-| UI | `*.js`, `*.css`, HTML | `*.php`, `*.sql`, `*.cpp` |
-| Security | Security middleware, `.env` | Backend logic, Frontend |
-| Data | `*.sql`, migration | `*.php`, `*.js`, `*.cpp` |
-| Embedded | `*.cpp`, `*.h` | `*.php`, `*.js`, `*.css` |
-| QA | `tests/` | `src/` production |
-| DevOps | `*.yml`, `Dockerfile` | `*.php`, `*.js`, `*.css` |
+Her görev:
 
----
-
-## 5. Kalite Standartları Özeti
-
-| Agent | Min Coverage | Hedef Coverage | Kritik Kural |
-|-------|-------------|----------------|--------------|
-| Backend | ≥80% | ≥90% | strict_types %100 |
-| UI | ≥80% | ≥90% | Framework %0 |
-| Security | ≥80% | ≥90% | OWASP %100 |
-| Data | ≥80% | ≥90% | BCNF %100 |
-| Embedded | ≥80% | ≥90% | Zero-alloc %100 |
-| QA | ≥80% | ≥90% | Flaky test %0 |
-| DevOps | — | — | CI/CD success ≥95% |
+PENDING
+↓
+ANALYSIS
+↓
+PLAN
+↓
+APPROVED
+↓
+IMPLEMENTATION
+↓
+TEST
+↓
+VALIDATION
+↓
+COMPLETED
+↓
+LOGGED
 
 ---
 
-**Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-21
-**Mode:** Red Team · Human Mode · Truth Mode
+# 8. Priority
+
+| Level | Kullanım |
+|-------|----------|
+| CRITICAL | Security, data loss, production failure |
+| HIGH | Architecture problem |
+| MEDIUM | Feature / improvement |
+| LOW | Documentation / cosmetic |
+
+---
+
+# 9. Hard Rules
+
+## Zero Code Before Plan
+Kod yazmadan önce:
+
+- Gereksinim analiz edilir
+- Mimari kontrol edilir
+- Etkilenen dosyalar belirlenir
+
+---
+
+## Zero Hallucination
+Bilinmeyen bilgi: **VERIFICATION REQUIRED** olarak işaretlenir. **Tahmin yapılmaz.**
+
+---
+
+## No Architecture Bypass
+Yasak:
+UI
+|
+Database
+
+Doğru:
+UI
+↓
+API
+↓
+Service
+↓
+Database
+---
+
+# 10. Handover Protocol
+
+Agent başka domain ihtiyacı olduğunda:
+
+HANDOVER REQUEST
+
+FROM:
+[current agent]
+
+TO:
+[target agent]
+
+TASK:
+[description]
+
+REASON:
+[why]
+
+FILES:
+[affected files]
+
+STATUS:
+[current state]
+
+VALIDATION:
+[test criteria]
+
+PRIORITY:
+[level]
+---
+
+# 11. Context Lock
+
+Aynı dosya üzerinde:
+
+2 agent aynı anda çalışamaz.
+
+Lock:
+LOCKED
+
+Agent:
+[file owner]
+
+Reason:
+[task]
+
+Time:
+[timestamp]
+---
+
+# 12. Failure Protocol
+
+Sorun oluşursa:
+STATUS: BLOCKED
+
+REASON:
+[problem]
+
+AFFECTED AREA:
+[file/domain]
+
+REQUIRED ACTION:
+[action]
+
+ESCALATION:
+[level]
+
+---
+
+# 13. Quality Gate
+
+Görev kapanmadan önce:
+Kontrol:
+
+[ ] Kod çalışıyor
+[ ] Test geçti
+[ ] Security kontrol edildi
+[ ] Architecture uygun
+[ ] Documentation güncel
+[ ] Log oluşturuldu
+
+---
+
+# 14. Agent Files
+
+Detay profilleri:
+.ai/.agents/
+
+├── master-orchestrator.md
+├── backend-architect.md
+├── frontend-ui-designer.md
+├── security-engineer.md
+├── database-engineer.md
+├── devops-engineer.md
+├── qa-engineer.md
+├── embedded-engineer.md
+├── dsp-firmware-engineer.md
+├── audio-hardware-engineer.md
+└── windows-software-engineer.md
+
+---
+
+# 15. Version History
+
+
+| Version | Date | Change |
+|-|-|-|
+| 1.0.0 | 2026-09-23 | Initial Agent System |
+| 1.1.0 | 2026-09-23 | Alt registry'ye indirgendi (SSOT: .ai/AGENTS.md v22.0.0); 7 alanlı frontmatter + SSOT uyarısı |

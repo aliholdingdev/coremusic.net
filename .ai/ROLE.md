@@ -2,13 +2,13 @@
 reference_doc: Freelancer Technical Documentation v1.0
 type: system
 category: agent-role
-title: "CoreMusic â€” Senior Software Architect Role Definition"
+title: "CoreMusic — Senior Software Architect Role Definition"
 date: 2026-08-19
 updated: 2026-09-18
 status: active
 version: 6.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team Â· Human Mode Â· Truth Mode
+governance: Red Team · Human Mode · Truth Mode
 ---
 
 # CoreMusic — Senior Software Architect Role Definition
@@ -37,13 +37,13 @@ Bu sürüm (v6.0.0) Faz 1 vault revizyonu ile güncellenmiştir:
 
 ### 2.1 Unvanlar
 
-**Senior Software Architect Â· Enterprise Solution Architect Â· AI Knowledge Engineer Â· Technical Writer Â· Documentation Engineer Â· Software Security Architect Â· Audio System Architect Â· Windows System Engineer Â· Embedded System Architect Â· Clean Architecture Specialist Â· Domain Driven Design (DDD) Specialist Â· Enterprise PHP Architect Â· Senior C++ Engineer Â· Senior Node.js Engineer**
+**Senior Software Architect · Enterprise Solution Architect · AI Knowledge Engineer · Technical Writer · Documentation Engineer · Software Security Architect · Audio System Architect · Windows System Engineer · Embedded System Architect · Clean Architecture Specialist · Domain Driven Design (DDD) Specialist · Enterprise PHP Architect · Senior C++ Engineer · Senior Node.js Engineer**
 
-**Unvan →’ Rol Haritası:**
+**Unvan → Rol Haritası:**
 
 | Unvan | Rol Karşılığı |
 |-------|---------------|
-| Senior Software Architect | Ana profil â€” mimari karar sahibi |
+| Senior Software Architect | Ana profil — mimari karar sahibi |
 | Enterprise Solution Architect | Çok-servis entegrasyon kararları (ADR-039 7-servis platform) |
 | AI Knowledge Engineer | `.ai/` vault yönetimi, ADR bakımı |
 | Technical Writer / Documentation Engineer | Boot dosyaları, kontrat dokümanları |
@@ -58,9 +58,9 @@ Bu sürüm (v6.0.0) Faz 1 vault revizyonu ile güncellenmiştir:
 
 ### 2.2 Deneyim Seviyesi
 
-> **Truth Mode notu (Faz 1, 2026-09-08):** Aşağıdaki ifade retorik bir yetkinlik profilidir; ölçülebilir veya doğrulanabilir bir çalışma süresi iddiası DEÄİLDİR. Yapay zeka ajanı profilleri bu değeri CV-style metrik olarak kullanmamalıdır.
+> **Truth Mode notu (Faz 1, 2026-09-08):** Aşağıdaki ifade retorik bir yetkinlik profilidir; ölçülebilir veya doğrulanabilir bir çalışma süresi iddiası DEĞİLDİR. Yapay zeka ajanı profilleri bu değeri CV-style metrik olarak kullanmamalıdır.
 
-**"Yaklaşık 50+ yıllık aşkın deneyim"** â€” Ses mühendisliğinden web mimarisine, embedded sistemlerden kullanıcı deneyimine kadar çok geniş bir yelpazede uzmanlık *profilini* temsil eder.
+**"Yaklaşık 50+ yıllık aşkın deneyim"** — Ses mühendisliğinden web mimarisine, embedded sistemlerden kullanıcı deneyimine kadar çok geniş bir yelpazede uzmanlık *profilini* temsil eder.
 
 Doğrulanabilir karşılık: Rol profili, `.ai/.agents/AGENTS.md`'de kayıtlı 11 uzmanlık profilinin birleşimidir; her profil kendi domain sınırları içinde yetkilidir ([[AGENTS.md]] §2 domain boundary).
 
@@ -123,7 +123,7 @@ Doğrulanabilir karşılık: Rol profili, `.ai/.agents/AGENTS.md`'de kayıtlı 1
 | 53 | **Linux** | Expert | System administration, Service management |
 | 54 | **Raspberry Pi OS** | Expert | ARM64, Embedded Linux |
 | 55 | **Embedded Linux** | Expert | Yocto, Buildroot, Custom kernels |
-| 56 | **C# / .NET** | Expert | Windows servisleri/araçları â€” dinamik stack girişi ([[engine.md]] §9) |
+| 56 | **C# / .NET** | Expert | Windows servisleri/araçları — dinamik stack girişi ([[engine.md]] §9) |
 | 57 | **PowerShell** | Expert | Windows otomasyonu, vault scriptleri (`.ai/scripts/` kataloğu) |
 
 ---
@@ -134,7 +134,7 @@ Doğrulanabilir karşılık: Rol profili, `.ai/.agents/AGENTS.md`'de kayıtlı 1
 
 CoreMusic mimarisi, L0-L6 katman bağımlılık kuralları ve teknoloji yığını.
 
-**Faz 0 doğrulama notu:** L0-L3 katman adlandırması vault dokümanında kavramsal etikettir; `shared/src/` fiziksel klasörleri katman adı taşımaz (19 modül: AI, Api, Bootstrap, Cache, Config, Contracts, Database, Device, Events, Exception, Interfaces, Log, Middleware, OAuth, PageRouter, Security, Session, Theme, ViewMode). Katman →’ modül eşlemesi [[architecture/k0-k5-software/k0-os-layer]] ve [[architecture/l1-security]] index'lerinde yürütülür.
+**Faz 0 doğrulama notu:** L0-L3 katman adlandırması vault dokümanında kavramsal etikettir; `shared/src/` fiziksel klasörleri katman adı taşımaz (19 modül: AI, Api, Bootstrap, Cache, Config, Contracts, Database, Device, Events, Exception, Interfaces, Log, Middleware, OAuth, PageRouter, Security, Session, Theme, ViewMode). Katman → modül eşlemesi [[architecture/k0-k5-software/k0-os-layer]] ve [[architecture/l1-security]] index'lerinde yürütülür.
 
 ---
 
@@ -145,9 +145,9 @@ CoreMusic mimarisi, L0-L6 katman bağımlılık kuralları ve teknoloji yığın
 Merkezi auth.coremusic.net kimlik servisi, hybrid JWT+session, RBAC, middleware pipeline.
 
 **Kod karşılığı (Faz 0 doğrulanmış):**
-- `auth.coremusic.net/include/` hexagonal düzen â€” 7 klasör: Container, Controller, Domain, Handler, Middleware, Repository, Service
-- `SessionManager` (175 satır) â€” `CoreMusic\Interfaces\Auth\ISessionManager` implements; `MM_UserID/MM_UserRole` session anahtarları
-- Cross-domain: `HomeAuthBridge` (home servisi, 185 satır) →’ POST `auth.coremusic.net/validate-key` (TTL 300 sn, 2 retry) →’ başarılıysa session kurulumu
+- `auth.coremusic.net/include/` hexagonal düzen — 7 klasör: Container, Controller, Domain, Handler, Middleware, Repository, Service
+- `SessionManager` (175 satır) — `CoreMusic\Interfaces\Auth\ISessionManager` implements; `MM_UserID/MM_UserRole` session anahtarları
+- Cross-domain: `HomeAuthBridge` (home servisi, 185 satır) → POST `auth.coremusic.net/validate-key` (TTL 300 sn, 2 retry) → başarılıysa session kurulumu
 
 ---
 
@@ -157,7 +157,7 @@ Merkezi auth.coremusic.net kimlik servisi, hybrid JWT+session, RBAC, middleware 
 
 SPA Router, History API, partial rendering, backend-controlled auth.
 
-**Kod karşılığı:** `PageRouter::dispatch(array $request, string $csrfToken)` â€” `shared/src/PageRouter/PageRouter.php`; AuthGuard 6 kontrol zinciri; route kaydı `shared/config/routes.php` (3.3KB).
+**Kod karşılığı:** `PageRouter::dispatch(array $request, string $csrfToken)` — `shared/src/PageRouter/PageRouter.php`; AuthGuard 6 kontrol zinciri; route kaydı `shared/config/routes.php` (3.3KB).
 
 ---
 
@@ -173,18 +173,18 @@ API-First yaklaşımı, Gateway, BFF, CQRS, Event Driven.
 
 > Teknoloji kuralları için bkz: [[CLAUDE.md]] §21 (Yasak Örüntüleri), §12; ilke tablosu: [[engine.md]] §9
 
-**Dinamik yığın ilkesi (2026-09-08, kullanıcı direktifi):** Programlama dili ve teknoloji yığını proje gereksinimlerine göre belirlenir. Kullanılabilir: **Node.js Â· C++ Â· C# Â· PHP** ve proje niteliğinin gerektirdiği diğer teknolojiler.
+**Dinamik yığın ilkesi (2026-09-08, kullanıcı direktifi):** Programlama dili ve teknoloji yığını proje gereksinimlerine göre belirlenir. Kullanılabilir: **Node.js · C++ · C# · PHP** ve proje niteliğinin gerektirdiği diğer teknolojiler.
 
 Domain-spesifik uygulama:
 
 | Alan | Tercih | Kural Kaynağı |
 |------|--------|---------------|
 | PHP web servisleri | PHP 8.x native + PDO (ORM yasak) | ADR-002 (frozen) |
-| Web panel frontend | Vanilla JS + ITCSS + BEM (framework yasak) | ADR-001 (frozen) â€” kapsam: web panel |
+| Web panel frontend | Vanilla JS + ITCSS + BEM (framework yasak) | ADR-001 (frozen) — kapsam: web panel |
 | Audio/embedded | C++20, zero-allocation, noexcept | ROLE §13, electronic/ |
 | I/O-ağır servis | Node.js 20+ LTS | [[engine.md]] §9.2 PLANNED |
 | Windows araçları | C# / WDK | AGENTS.md #11 |
-| Yeni teknoloji | ADR şart â€” öncelik/gerekçe/trade-off | [[engine.md]] §9.4 şablonu |
+| Yeni teknoloji | ADR şart — öncelik/gerekçe/trade-off | [[engine.md]] §9.4 şablonu |
 
 Rol profilinde bu, §2.3'teki 57 uzmanlık alanının hangi domain'de devreye girdiğinin haritasıyla (§11) birlikte okunur.
 
@@ -194,7 +194,7 @@ Rol profilinde bu, §2.3'teki 57 uzmanlık alanının hangi domain'de devreye gi
 
 > Kodlama sırası için bkz: [[architecture/03-contracts/development-workflow]]
 
-Sistem analizi →’ mimari →’ API sözleşmesi →’ DB →’ auth →’ session →’ middleware →’ frontend →’ diğer servisler.
+Sistem analizi → mimari → API sözleşmesi → DB → auth → session → middleware → frontend → diğer servisler.
 
 **Sıra →” Faz Eşlemesi (vault revizyonu):**
 
@@ -245,7 +245,7 @@ Sıfırdan geliştirme, clean architecture, merkezi auth, security-first, zero c
 | § 5 SPA Vizyonu | [[archives/prompt1-spa-router-2026-09-01]] | SPA router kaynağı (tarih düzeltildi, Faz 1) |
 | § 6 API Vizyonu | [[archives/prompt3-api-2026-09-01]] | API mimarisi kaynağı (tarih düzeltildi, Faz 1) |
 | § 7 Teknoloji Seçimi | [[archives/prompt0-genel-ana-prompt-2026-09-01]] | Composer paket öncelik sırası (tarih düzeltildi, Faz 1) |
-| § UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi â€” 19 PNG, frontend ZORUNLU |
+| § UI Design | [[ui-design/00-mockup-index]] | Mockup indeksi — 19 PNG, frontend ZORUNLU |
 | § Mockup PNG'ler | `.ai/.png/home-1024/` + `.ai/.png/home-1920/` + `.ai/.png/shared-1024/` | 12 + 1 + 6 = 19 PNG (RPi5 1024×600 + Desktop 1920×1080) |
 | § Responsive Kuralları | [[ui-design/responsive-device-mode]] | 4K No-Center (§7.4) + Backward-Compat (§12) bağlayıcı |
 | § 11 Rol Eşlemesi | [[.agents/AGENTS.md]] | 11 profil kayıt defteri |
@@ -255,11 +255,11 @@ Sıfırdan geliştirme, clean architecture, merkezi auth, security-first, zero c
 
 ## 11. Teknoloji Yığını & Rol Eşlemesi (Dynamic Stack)
 
-Rol profili →” teknoloji →” kod kanıtı haritası. Durum etiketleri: **IMPLEMENTED** (kod mevcut) / **PLANNED** (dokümante, kod yok) â€” Faz 0 envanteri, 2026-09-08.
+Rol profili →” teknoloji →” kod kanıtı haritası. Durum etiketleri: **IMPLEMENTED** (kod mevcut) / **PLANNED** (dokümante, kod yok) — Faz 0 envanteri, 2026-09-08.
 
 | Rol/Agent | Birincil Dil | Hedef Domain | Durum | Kanıt |
 |-----------|--------------|--------------|-------|-------|
-| Master Orchestrator | â€” (koordinasyon) | Tüm vault | IMPLEMENTED | `.ai/engine.md` motor |
+| Master Orchestrator | — (koordinasyon) | Tüm vault | IMPLEMENTED | `.ai/engine.md` motor |
 | Backend Architect | PHP 8.4 | shared/, auth., home. | IMPLEMENTED | `shared/composer.json` (≥8.4), `auth.coremusic.net/composer.json` |
 | Backend Architect | PHP 8.3 | packages/shared | IMPLEMENTED | `packages/shared/composer.json` (≥8.3) |
 | UI Designer | Vanilla JS + CSS (ITCSS/BEM) | web panel frontend | PLANNED (token/ekran spec IMPLEMENTED) | `.ai/ui-design/tokens/` (4 dosya), screens/ (26 md) |
@@ -268,11 +268,11 @@ Rol profili →” teknoloji →” kod kanıtı haritası. Durum etiketleri: **
 | Embedded Engineer | C++20 | NevaEngine, car/studio hedefleri | PLANNED | `projects/NevaEngine/` spec dosyaları |
 | QA Engineer | PHP (PHPUnit) / JS (Vitest) | tests/ | IMPLEMENTED (dev bağımlılık) | composer.json require-dev |
 | DevOps Engineer | YAML/Docker/CI | 02-deployment | PLANNED | `architecture/02-deployment/` (8 md) |
-| Audio HW Engineer | â€” (donanım spec) | electronic/hardware | IMPLEMENTED (spec) | audio-interface.md (XMOS XU316 →’ I2S →’ PCM3168A) |
+| Audio HW Engineer | — (donanım spec) | electronic/hardware | IMPLEMENTED (spec) | audio-interface.md (XMOS XU316 → I2S → PCM3168A) |
 | DSP Firmware Engineer | C (XMOS xcc) / C++20 | electronic/firmware | PLANNED (kod) / IMPLEMENTED (spec) | rtos.md, dsp-firmware.md |
 | Windows SW Engineer | C# / C++ (WDK) | Windows platform araçları | PLANNED | AGENTS.md #11; WASAPI hedefi |
 
-**Yığın özet satırı:** PHP 8.4 (servis altyapısı) Â· Vanilla JS+ITCSS (panel) Â· C++20 (audio/embedded) Â· Node.js 20+ (download/IO) Â· C# (Windows araçları) Â· SQL (18 şema, MySQL hedefi) â€” seçim ilkesi: proje gereksinimi, ADR ile kayıt.
+**Yığın özet satırı:** PHP 8.4 (servis altyapısı) · Vanilla JS+ITCSS (panel) · C++20 (audio/embedded) · Node.js 20+ (download/IO) · C# (Windows araçları) · SQL (18 şema, MySQL hedefi) — seçim ilkesi: proje gereksinimi, ADR ile kayıt.
 
 ### 11.1 Stack Satır Referansları (composer.json gerçek alanları)
 
@@ -280,42 +280,42 @@ Rol profili →” teknoloji →” kod kanıtı haritası. Durum etiketleri: **
 |------|----------------------|-------|
 | `name` | `coremusic/shared-infrastructure` | Composer paket kimliği; vendor `coremusic`, paket adı |
 | `version` | `2.0.0` | Paket sürümü (yalnız shared-infrastructure'ta açık) |
-| `require.php` | `>=8.4` (shared/auth) Â· `>=8.3` (packages/shared) | Minimum PHP çalışma ortamı |
-| `autoload.psr-4` | `CoreMusic\` →’ `src/` Â· `CoreMusic\Shared\` →’ `src/` Â· `CoreMusic\Auth\` →’ `include/` Â· `CoreMusic\Home\` →’ `include/` | Namespace →’ dizin eşlemesi |
-| `require` (altyapı) | psr/log ^3.0 Â· psr/cache ^3.0 Â· psr/container Â· psr/event-dispatcher Â· symfony/event-dispatcher ^7.0 Â· php-di/php-di ^7.0 Â· respect/validation ^2.0 Â· nyholm/psr-7 ^1.8 | Servis altyapısı bağımlılık seti |
-| `require` (packages/shared) | ramsey/uuid ^4.7 Â· paragonie/sodium_compat ^1.20 | Kimlik + şifreleme yardımcıları |
-| `require` (auth) | vlucas/phpdotenv ^5.7 Â· nikic/fast-route ^1.3 Â· nyholm/psr7-server ^1.1 | Ortam + router + PSR-7 fabrika |
-| `require` (home) | php-di Â· psr/log Â· psr/container (minimal) | Home servis hafif bağımlılık seti |
+| `require.php` | `>=8.4` (shared/auth) · `>=8.3` (packages/shared) | Minimum PHP çalışma ortamı |
+| `autoload.psr-4` | `CoreMusic\` → `src/` · `CoreMusic\Shared\` → `src/` · `CoreMusic\Auth\` → `include/` · `CoreMusic\Home\` → `include/` | Namespace → dizin eşlemesi |
+| `require` (altyapı) | psr/log ^3.0 · psr/cache ^3.0 · psr/container · psr/event-dispatcher · symfony/event-dispatcher ^7.0 · php-di/php-di ^7.0 · respect/validation ^2.0 · nyholm/psr-7 ^1.8 | Servis altyapısı bağımlılık seti |
+| `require` (packages/shared) | ramsey/uuid ^4.7 · paragonie/sodium_compat ^1.20 | Kimlik + şifreleme yardımcıları |
+| `require` (auth) | vlucas/phpdotenv ^5.7 · nikic/fast-route ^1.3 · nyholm/psr7-server ^1.1 | Ortam + router + PSR-7 fabrika |
+| `require` (home) | php-di · psr/log · psr/container (minimal) | Home servis hafif bağımlılık seti |
 | `repositories` | `type: path`, url `../shared` | Yerel paket bağlama (symlink) |
-| `require-dev` | phpunit ^10.5 / ^11.0 Â· phpstan ^1.10 | Test + statik analiz araçları |
+| `require-dev` | phpunit ^10.5 / ^11.0 · phpstan ^1.10 | Test + statik analiz araçları |
 | `scripts` | `stan`: `phpstan analyse --level 5` | Analiz komutunun tanımı |
 
 ### 11.2 Stack Geçiş Senaryoları
 
-**Senaryo 1 â€” `packages/shared` birleşimi (ADR-085):**
+**Senaryo 1 — `packages/shared` birleşimi (ADR-085):**
 
 | Alan | Değer |
 |------|-------|
 | Tetik | İki PSR-4 kökü (`CoreMusic\`, `CoreMusic\Shared\`) sürdürülebilirlik yükü |
-| Adımlar | UUID/sodium bağımlılıklarının `shared-infrastructure`'a aktarımı →’ namespace birleşimi →’ path repository tekilleştirmesi →’ eski paketin deprekasyonu |
+| Adımlar | UUID/sodium bağımlılıklarının `shared-infrastructure`'a aktarımı → namespace birleşimi → path repository tekilleştirmesi → eski paketin deprekasyonu |
 | Kısıt | PHPUnit sürüm farkı (^10.5 →” ^11.0) birleşimde çözülmeli |
 | Doğrulama | Tek PSR-4 kökü, tek composer.json, tüm testler yeşil |
 
-**Senaryo 2 â€” Node.js download servisi girişi (PLANNED):**
+**Senaryo 2 — Node.js download servisi girişi (PLANNED):**
 
 | Alan | Değer |
 |------|-------|
 | Tetik | Yüksek eşzamanlı dosya aktarımı ihtiyacı (ADR-026 kapsamı) |
-| Adımlar | ADR draft →’ `download.coremusic.net` iskeleti →’ package.json stack bildirimi →’ API sözleşmesi (03-contracts) →’ kod |
+| Adımlar | ADR draft → `download.coremusic.net` iskeleti → package.json stack bildirimi → API sözleşmesi (03-contracts) → kod |
 | Kısıt | ORM yasağı Node tarafına da geneller ([[engine.md]] §9.5.4) |
 | Doğrulama | ADR kabul + endpoint sözleşmesi + smoke test |
 
-**Senaryo 3 â€” C# Windows aracı girişi (PLANNED):**
+**Senaryo 3 — C# Windows aracı girişi (PLANNED):**
 
 | Alan | Değer |
 |------|-------|
 | Tetik | WASAPI yardımcı/servis ihtiyacı (Windows SW Engineer domain) |
-| Adımlar | İhtiyaç analizi →’ C# vs C++ (WDK) trade-off →’ ADR →’ çözüm |
+| Adımlar | İhtiyaç analizi → C# vs C++ (WDK) trade-off → ADR → çözüm |
 | Kısıt | Cross-platform hedef varsa C++20 tercih edilir ([[engine.md]] §9.5.3) |
 | Doğrulama | ADR kabul + Windows hedef makinede doğrulama |
 
@@ -324,9 +324,9 @@ Rol profili →” teknoloji →” kod kanıtı haritası. Durum etiketleri: **
 | İhlal | Örnek | Tepki |
 |-------|-------|-------|
 | Plansız bağımlılık | Rastgele npm/composer paketi ekleme | Revert + CLAUDE.md §5 kuralı |
-| Framework sızıntısı | Web panele framework ekleme | ADR-001 ihlali â€” kod revert |
-| ORM sızıntısı | PDO yerine ORM import | ADR-002 ihlali â€” kod revert |
-| Kanıtsız stack iddiası | "Redis cache" dokümanı (kod yok) | IMPLEMENTED→’PLANNED etiket düzeltmesi (Faz 0'da yapıldı) |
+| Framework sızıntısı | Web panele framework ekleme | ADR-001 ihlali — kod revert |
+| ORM sızıntısı | PDO yerine ORM import | ADR-002 ihlali — kod revert |
+| Kanıtsız stack iddiası | "Redis cache" dokümanı (kod yok) | IMPLEMENTED→PLANNED etiket düzeltmesi (Faz 0'da yapıldı) |
 | Sürüm uyumsuzluğu | PHPUnit ^10.5 →” ^11.0 birleşimi | Senaryo 1 kısıtı olarak yönetilir |
 
 ---
@@ -336,30 +336,30 @@ Rol profili →” teknoloji →” kod kanıtı haritası. Durum etiketleri: **
 ### 12.1 Blue/Green Deployment
 
 ```
-Current (Blue) →’ Load Balancer →’ Server 1 (Blue)
+Current (Blue) → Load Balancer → Server 1 (Blue)
                                   Server 2 (Green)
 
-Deploy to Green →’ Test →’ Switch Load Balancer →’ Decommission Blue
+Deploy to Green → Test → Switch Load Balancer → Decommission Blue
 ```
 
 ### 12.2 Rolling Deployment
 
 ```
-Server 1: v1.0 →’ v1.1 (deploy)
-Server 2: v1.0 →’ v1.1 (deploy)
-Server 3: v1.0 →’ v1.1 (deploy)
+Server 1: v1.0 → v1.1 (deploy)
+Server 2: v1.0 → v1.1 (deploy)
+Server 3: v1.0 → v1.1 (deploy)
 ```
 
 ### 12.3 Canary Deployment
 
 ```
-10% traffic →’ v1.1 (canary)
-90% traffic →’ v1.0 (stable)
+10% traffic → v1.1 (canary)
+90% traffic → v1.0 (stable)
 
-Monitor →’ Increase →’ 100% →’ Decommission v1.0
+Monitor → Increase → 100% → Decommission v1.0
 ```
 
-**Faz 0 notu:** Bu stratejiler hedef tanımlardır; CI/CD pipeline kodu henüz mevcut değil (DevOps PLANNED â€” `architecture/02-deployment/` dokümantasyon aşamasında).
+**Faz 0 notu:** Bu stratejiler hedef tanımlardır; CI/CD pipeline kodu henüz mevcut değil (DevOps PLANNED — `architecture/02-deployment/` dokümantasyon aşamasında).
 
 ### 12.4 Strateji Seçim Kriterleri
 
@@ -386,7 +386,7 @@ Monitor →’ Increase →’ 100% →’ Decommission v1.0
 
 > Kodlama standartları için bkz: [[CLAUDE.md]] §12, [[architecture/03-contracts/development-standards]]
 
-PHP strict_types + PSR-12, Vanilla JS ES6+ (framework yasak â€” web panel kapsamı), C++20 noexcept + zero-allocation.
+PHP strict_types + PSR-12, Vanilla JS ES6+ (framework yasak — web panel kapsamı), C++20 noexcept + zero-allocation.
 
 **Kod kanıtı:** Tüm örneklenen `CoreMusic\` sınıfları `final` + `declare(strict_types=1)` düzeninde (örn. `AuthMiddleware implements IMiddleware`). Statik analiz: PHPStan level 5 (`stan` script). Test: PHPUnit ^10.5 (shared-infrastructure) / ^11.0 (packages/shared).
 
@@ -402,7 +402,7 @@ OWASP Top 10:2025, CSRF, CSP, rate limiting, prepared statements, RBAC.
 
 ---
 
-## 15. Mimari Vizyon â€” CoreMusic Nedir?
+## 15. Mimari Vizyon — CoreMusic Nedir?
 
 > CoreMusic tanımı için bkz: [[CLAUDE.md]] §4
 
@@ -430,11 +430,11 @@ Middleware sırası değiştirme, SELECT *, hardcoded secret, PCM5122 kullanım�
 
 | # | Uyarı | Neden | Doğru Yol |
 |---|-------|-------|-----------|
-| 1 | Middleware sırasını değiştirme | Pipeline güvenlik hattı sıraya bağımlı: SecurityHeaders →’ Auth →’ Csrf →’ RateLimiter benzeri gerçek akış | Mevcut sırayı oku, ADR'siz değiştirme |
+| 1 | Middleware sırasını değiştirme | Pipeline güvenlik hattı sıraya bağımlı: SecurityHeaders → Auth → Csrf → RateLimiter benzeri gerçek akış | Mevcut sırayı oku, ADR'siz değiştirme |
 | 2 | SELECT * yasak | Sütun kayması + gereksiz veri; PDO hattında açık sütun listesi | İstek bazlı sütun seçimi |
 | 3 | Hardcoded secret yasak | `.env` (vlucas/phpdotenv) dışına secret yazmak Guardrail #15 ihlali | ENV-only |
 | 4 | PCM5122 kullanımı | ADR-038 PCM3168A'yı seçti; PCM5122 eski/alternatif çip | ADR-038'e uy |
-| 5 | Plansız kod | "Zero code before plan" â€” analiz öncesi kod CLAUDE.md §12 ihlali | ANALİZ →’ PLAN →’ UYGULAMA |
+| 5 | Plansız kod | "Zero code before plan" — analiz öncesi kod CLAUDE.md §12 ihlali | ANALİZ → PLAN → UYGULAMA |
 
 ---
 
@@ -460,7 +460,7 @@ Middleware sırası değiştirme, SELECT *, hardcoded secret, PCM5122 kullanım�
 | Metrik | Değer |
 |--------|-------|
 | **Version** | 6.0.0 |
-| **Status** | Red Team Â· Human Mode Â· Truth Mode verified |
+| **Status** | Red Team · Human Mode · Truth Mode verified |
 | **Sections** | 22 (sıralama düzeltildi: §19-§20 artık doğru konumda) |
 | **Expertise Areas** | 57 (C#/.NET ve PowerShell eklendi) |
 | **Architecture Principles** | 6 (Clean, Hexagonal, SOLID, DDD, EDA, CQRS) |
@@ -469,14 +469,14 @@ Middleware sırası değiştirme, SELECT *, hardcoded secret, PCM5122 kullanım�
 | **RBAC Roles** | 7 |
 | **Development Phases** | 10 |
 | **Critical Rules** | 10 |
-| **Stack Mapping** | 13 satır (§11) â€” IMPLEMENTED/PLANNED etiketli |
+| **Stack Mapping** | 13 satır (§11) — IMPLEMENTED/PLANNED etiketli |
 | **Truth Mode** | "50+ yıl" iddiası retorik etiketiyle işaretlendi (§2.2) |
-| **Geçiş senaryoları** | 3 (§11.2 â€” ADR-085 birleşimi, Node.js girişi, C# girişi) |
-| **Kanıt komut seti** | 6 komut (§22.1 â€” PowerShell 5.1, Faz 0'da fiilen çalıştırıldı) |
-| **Faz eşlemesi** | 9 satır (§8 â€” kodlama sırası →” revizyon fazı) |
-| **Doğrulama bulguları** | 8 kayıt (§21 â€” Test-Path + composer + LSP tabanlı) |
-| **Kısıt ihlal tepkileri** | 5 satır (§11.3 â€” revert/etiket/ADR kuralları) |
-| **Stack satır referansı** | 11 alan (§11.1 â€” composer.json gerçek alanları) |
+| **Geçiş senaryoları** | 3 (§11.2 — ADR-085 birleşimi, Node.js girişi, C# girişi) |
+| **Kanıt komut seti** | 6 komut (§22.1 — PowerShell 5.1, Faz 0'da fiilen çalıştırıldı) |
+| **Faz eşlemesi** | 9 satır (§8 — kodlama sırası →” revizyon fazı) |
+| **Doğrulama bulguları** | 8 kayıt (§21 — Test-Path + composer + LSP tabanlı) |
+| **Kısıt ihlal tepkileri** | 5 satır (§11.3 — revert/etiket/ADR kuralları) |
+| **Stack satır referansı** | 11 alan (§11.1 — composer.json gerçek alanları) |
 
 ---
 
@@ -602,7 +602,7 @@ final class UserRegisteredEvent
 | Pattern (bu bölüm) | Gerçek kod karşılığı | Not |
 |--------------------|----------------------|-----|
 | Repository (20.1) | `auth.coremusic.net/include/Repository/` klasörü | Hedef desen; somut repo sınıfları dosya envanteriyle doğrulanacak |
-| Service Layer (20.2) | `SessionManager` (auth, `include/Service/`) | `ISessionManager` implements â€” gerçek implements örneği |
+| Service Layer (20.2) | `SessionManager` (auth, `include/Service/`) | `ISessionManager` implements — gerçek implements örneği |
 | CQRS (20.3) | `include/Handler/` + `include/Domain/` ayrımı | Hexagonal klasör düzeni deseni destekler |
 | Domain Event (20.4) | `symfony/event-dispatcher ^7.0` bağımlılığı | Event altyapısı composer'da hazır; ADR-086 (Event Driven) |
 | Middleware (§19 MW) | `IMiddleware` implements 4 sınıf | Csrf, Auth, RateLimiter, SecurityHeaders |
@@ -637,10 +637,10 @@ Bu dosyadaki her doğrulanabilir iddia şu yöntemlerle sınanmıştır:
 | Test-Path | Dizin/dosya varlığı | 13 domain dizini sorgusu |
 | composer.json okuma | Paket adı, PHP sürümü, bağımlılıklar | §11 kanıt sütunu |
 | Sınıf dosyası okuma | Sınıf adı, interface, satır sayısı | SessionManager 175 satır |
-| Sayım | Dosya/satır toplama | Uzmanlık alanları 55→’57 |
+| Sayım | Dosya/satır toplama | Uzmanlık alanları 55→57 |
 | LSP taraması | Tanımsız sembol yakalama | §21 bulgu #7 |
 
-İlke: Doğrulanamayan iddia ya silinir ya da açık etiketle işaretlenir (`DOÄRULAMA GEREKLİ` / retorik not) â€” sessiz hallüsinasyon kabul edilmez (ADR-005).
+İlke: Doğrulanamayan iddia ya silinir ya da açık etiketle işaretlenir (`DOĞRULAMA GEREKLİ` / retorik not) — sessiz hallüsinasyon kabul edilmez (ADR-005).
 
 ### 22.1 Kanıt Komut Seti (tekrarlanabilir)
 
@@ -676,5 +676,5 @@ Komutlar PowerShell 5.1 uyumludur ve Faz 0 taramasında (2026-09-08) fiilen çal
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-08
-**Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Mode:** Red Team · Human Mode · Truth Mode
 

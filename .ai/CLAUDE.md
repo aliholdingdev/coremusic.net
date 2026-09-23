@@ -1,24 +1,24 @@
 ---
 reference_doc: Freelancer Technical Documentation v1.0
-title: "CoreMusic â€” AI Constitution & Master Vault Mandate"
+title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
 date: 2026-08-08
-updated: 2026-09-19
+updated: 2026-09-23
 status: active
-version: 26.0.0
+version: 27.0.0
 authority: Single Source of Truth (SSOT)
-governance: Red Team Â· Human Mode Â· Truth Mode
+governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/CLAUDE.md"
-  source_of_truth: ".ai/CLAUDE.md Â· .ai/AGENTS.md Â· .ai/WORKFLOW.md Â· .ai/brain.md Â· .ai/index.md"
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .ai/brain.md · .ai/index.md"
 ---
 
-# CoreMusic â€” AI Constitution & Master Vault Mandate
+# CoreMusic — AI Constitution & Master Vault Mandate
 
-**Zorunlu Bağlantılar:** [[AGENTS.md]] Â· [[WORKFLOW.md]] Â· [[index.md]] Â· [[keys.md]] Â· [[brain.md]] Â· [[MEMORY.md]] Â· [[log.md]] Â· [[engine.md]] Â· [[.templates/index]] Â· [[.agents/AGENTS.md]]
+**Zorunlu Bağlantılar:** [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[engine.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (10 skill â€” Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
 
 ---
 
@@ -50,23 +50,23 @@ Bu dosya, tüm AI ajanlarının ve mühendislerin mutlaka uyması gereken anayas
 
 | Terim | Tanım |
 |-------|-------|
-| **SSOT** | Single Source of Truth â€” Tek Doğruluk Kaynağı. Tüm bilgiler `.ai/` vault'tan okunur. |
-| **ADR** | Architecture Decision Record â€” Mimari karar kaydı. Frozen (001-037) ve Active (038-088) olmak üzere iki türdür. |
+| **SSOT** | Single Source of Truth — Tek Doğruluk Kaynağı. Tüm bilgiler `.ai/` vault'tan okunur. |
+| **ADR** | Architecture Decision Record — Mimari karar kaydı. Frozen (001-037) ve Active (038-088) olmak üzere iki türdür. |
 | **Hard Gate** | Kullanıcı onayı olmadan geçilemeyen kritik faz geçiş noktası. |
 | **Zero Code Before Plan** | Plan onayı olmadan kod yazma yasağı. |
 | **Zero Hallucination** | Doğrulanamayan bilginin `VERIFICATION REQUIRED` olarak işaretlenmesi. |
 | **Layer Violation** | Mimari katman bağımlılık kurallarının ihlali. |
-| **CSRF** | Cross-Site Request Forgery â€” Token key: `csrf_token` (NOT `_csrf_token`). |
-| **CSP** | Content Security Policy â€” nonce-based, strict-dynamic. |
-| **BCNF** | Boyce-Codd Normal Form â€” 18 BCNF veritabanı için zorunlu normalizasyon. |
-| **RBAC** | Role-Based Access Control â€” Rol bazlı erişim kontrolü. |
-| **OWASP** | Open Web Application Security Project â€” Güvenlik standartları. |
-| **ASIO** | Audio Stream Input/Output â€” Düşük gecikmeli ses protokolü. |
-| **WASAPI** | Windows Audio Session API â€” Windows ses oturum yönetimi. |
-| **DSP** | Digital Signal Processing â€” Dijital sinyal işleme. |
-| **FLAC** | Free Lossless Audio Codec â€” Kayıpsız ses formatı. |
-| **PCM** | Pulse-Code Modulation â€” Ham ses verisi formatı. |
-| **LFE** | Low Frequency Effects â€” Subwoofer kanalı (8.1 surround). |
+| **CSRF** | Cross-Site Request Forgery — Token key: `csrf_token` (NOT `_csrf_token`). |
+| **CSP** | Content Security Policy — nonce-based, strict-dynamic. |
+| **BCNF** | Boyce-Codd Normal Form — 18 BCNF veritabanı için zorunlu normalizasyon. |
+| **RBAC** | Role-Based Access Control — Rol bazlı erişim kontrolü. |
+| **OWASP** | Open Web Application Security Project — Güvenlik standartları. |
+| **ASIO** | Audio Stream Input/Output — Düşük gecikmeli ses protokolü. |
+| **WASAPI** | Windows Audio Session API — Windows ses oturum yönetimi. |
+| **DSP** | Digital Signal Processing — Dijital sinyal işleme. |
+| **FLAC** | Free Lossless Audio Codec — Kayıpsız ses formatı. |
+| **PCM** | Pulse-Code Modulation — Ham ses verisi formatı. |
+| **LFE** | Low Frequency Effects — Subwoofer kanalı (8.1 surround). |
 
 ---
 
@@ -106,7 +106,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 ---
 
-## 5. Mimari â€" K0-K20 (21-Katmanlı Sistem — 1775 Bileşen)
+## 5. Mimari -- K0-K20 (21-Katmanlı Sistem — 1775 Bileşen)
 
 *Detaylı metadata için bakınız: [[architecture/master-architecture-index]] §2*
 
@@ -170,7 +170,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 **İlgili ADR:** [[ADR-089-classab-24v]]
 
-> **L1 Alt Tablolar â€” Service Layer & Data Layer & Infrastructure:**
+> **L1 Alt Tablolar — Service Layer & Data Layer & Infrastructure:**
 >
 > | Alt Katman | Kapsam | Teknolojiler |
 > |------------|--------|-------------|
@@ -180,39 +180,39 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 ### 5.1 Katman Bağımlılık Matrisi
 
-| Kaynak →’ Hedef | İzinli mi? |
+| Kaynak → Hedef | İzinli mi? |
 |-----------------|------------|
-| L3 →’ L2 | ✅ Evet |
-| L2 →’ L1 | ✅ Evet |
-| L1 →’ L0 | ✅ Evet |
-| L0 →’ L2/L3 | âŒ Hayır (Layer Violation) |
-| L1 →’ L3 | âŒ Hayır (Layer Violation) |
-| L3 →’ L0 | âŒ Hayır (Layer Violation) |
+| L3 → L2 | ✅ Evet |
+| L2 → L1 | ✅ Evet |
+| L1 → L0 | ✅ Evet |
+| L0 → L2/L3 | ✅ Hayır (Layer Violation) |
+| L1 → L3 | ✅ Hayır (Layer Violation) |
+| L3 → L0 | ✅ Hayır (Layer Violation) |
 
 **Layer Violation İhlali:** Tespit edilirse derhal revert + log CRITICAL.
 
 ---
 
-## 6. Middleware Pipeline (Immutable â€” ADR-010/011/012/013/022)
+## 6. Middleware Pipeline (Immutable — ADR-010/011/012/013/022)
 
 ```
-OriginCheck →’ Cors →’ RateLimiter →’ SecurityHeaders →’ SessionManager →’ Csrf →’ BypassAuth →’ Auth →’ Permission →’ Validation →’ Controller
+OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller
 ```
 
 | # | Middleware | Görev | Timeout |
 |---|-----------|-------|---------|
-| 1 | **OriginCheck** | Köken doğrulama (whitelist CORS) | â€” |
-| 2 | **Cors** | CORS header yönetimi | â€” |
+| 1 | **OriginCheck** | Köken doğrulama (whitelist CORS) | — |
+| 2 | **Cors** | CORS header yönetimi | — |
 | 3 | **RateLimiter** | APCu tabanlı, 60 req/60s | 60s |
-| 4 | **SecurityHeaders** | CSP strict-dynamic, X-Frame-Options, HSTS | â€” |
+| 4 | **SecurityHeaders** | CSP strict-dynamic, X-Frame-Options, HSTS | — |
 | 5 | **SessionManager** | Session başlatır, CSP nonce'u session'a kaydeder | 3600s idle |
-| 6 | **Csrf** | `csrf_token` doğrulama (POST/PUT/DELETE) | â€” |
-| 7 | **BypassAuth** | Test bypass (`?_bypass=1`), prod'da devre dışı | â€” |
-| 8 | **Auth** | Auth bilgisi inject (JWT + Session) | â€” |
-| 9 | **Permission** | RBAC yetki kontrolü (regular/premium/studio/car/admin/system) | â€” |
-| 10 | **Validation** | Request/DTO validasyonu | â€” |
+| 6 | **Csrf** | `csrf_token` doğrulama (POST/PUT/DELETE) | — |
+| 7 | **BypassAuth** | Test bypass (`?_bypass=1`), prod'da devre dışı | — |
+| 8 | **Auth** | Auth bilgisi inject (JWT + Session) | — |
+| 9 | **Permission** | RBAC yetki kontrolü (regular/premium/studio/car/admin/system) | — |
+| 10 | **Validation** | Request/DTO validasyonu | — |
 
-**Kritik Not:** CSP nonce üretimi SecurityHeaders (#4) içindedir. SessionManager (#5) bu nonce'u session'a kaydeder. Sıra değiştirilirse CSP bozulur. Middleware sırası **DEÄİŞTİRİLEMEZ**.
+**Kritik Not:** CSP nonce üretimi SecurityHeaders (#4) içindedir. SessionManager (#5) bu nonce'u session'a kaydeder. Sıra değiştirilirse CSP bozulur. Middleware sırası **DEĞİŞTİRİLEMEZ**.
 
 ---
 
@@ -221,7 +221,7 @@ OriginCheck →’ Cors →’ RateLimiter →’ SecurityHeaders →’ Session
 CoreMusic'te **hiçbir endpoint doğrudan kodlanmaz.** Önce OpenAPI sözleşmesi hazırlanır.
 
 ```
-OpenAPI Spec →’ DTO →’ Contract →’ Validation →’ Use Case →’ Kod
+OpenAPI Spec → DTO → Contract → Validation → Use Case → Kod
 ```
 
 ### API Gateway
@@ -246,8 +246,8 @@ Her istemci tipi kendi BFF'sini kullanır:
 Yazma ve okuma işlemleri tamamen ayrılır:
 
 ```
-Write: Command →’ Use Case →’ Repository →’ MySQL Master
-Read:  Query →’ Read Model →’ Cache →’ Response
+Write: Command → Use Case → Repository → MySQL Master
+Read:  Query → Read Model → Cache → Response
 ```
 
 ### Event Driven (ADR-086)
@@ -255,28 +255,28 @@ Read:  Query →’ Read Model →’ Cache →’ Response
 Servisler birbirini doğrudan çağırmaz, event yayınlar:
 
 ```
-Service A →’ Event Bus (PSR-14) →’ Service B, C, D
+Service A → Event Bus (PSR-14) → Service B, C, D
 ```
 
-### SPA →’ ApiClient Kuralı
+### SPA → ApiClient Kuralı
 
 ```
-SPA →’ ApiClient →’ HTTP →’ Gateway →’ Middleware →’ Use Case →’ Domain →’ Repository →’ Infrastructure
+SPA → ApiClient → HTTP → Gateway → Middleware → Use Case → Domain → Repository → Infrastructure
 ```
 
 SPA **asla** PDO, MySQL, Repository, Entity, Infrastructure, Filesystem, FFmpeg, Redis, Cache veya SQL **görmez.**
 
 ---
 
-## 6B. Shared Library â€” Hybrid Yapı (ADR-085 v3.0)
+## 6B. Shared Library — Hybrid Yapı (ADR-085 v3.0)
 
 Tek `shared/` dizini + PSR-4 namespace ile modüler ayrım. tek Composer paketi:  bu bir **composer paketidir**
 
 ```
 shared/
-â”œâ”€â”€ composer.json              → Tek paket: coremusic/shared
-â”œâ”€â”€ src/
-â””â”€â”€ tests/
+├── composer.json              → Tek paket: coremusic/shared
+├── src/
+└── tests/
 ```
 
 ---
@@ -287,7 +287,7 @@ shared/
 |---|-------|----------|--------------|
 | 1 | Zero Code Before Plan | Plan onayı olmadan kod yok | Kod revert edilir |
 | 2 | Vault First | Kod yazmadan önce AI vault'u oku (§5 boot protokolü) | Kod geçersiz |
-| 3 | Zero Hallucination | Doğrulanamayan bilgi →’ `VERIFICATION REQUIRED` | İçerik silinir |
+| 3 | Zero Hallucination | Doğrulanamayan bilgi → `VERIFICATION REQUIRED` | İçerik silinir |
 | 4 | In-Place Refactoring | Dosya adı/yolu değişmez | Dosya geri yüklenir |
 | 5 | Single Source of Truth | Bilgi sadece `.ai/` vault'tan | Harici bilgi reddedilir |
 | 6 | CSRF Token = `csrf_token` | `_csrf_token` yasak (2026-05-30) | Token reddedilir |
@@ -303,22 +303,22 @@ shared/
 | 16 | Template Mandatory | Yeni dosya oluşturulurken `.ai/.templates/index.md`'den uygun template seçilmek ZORUNLU | Dosya geçersiz |
 | 17 | Single Component Responsive | 1024x600 mockup = pixel reference ([[ui-design/screens/00-ascii-art-index]]: Header 60px y:0-60, İçerik 450px y:60-510, Footer 90px y:510-600). Tek component sistemi + responsive CSS. Ayrı HTML/branch YASAK. CSS variables + media queries. Device CSS sadece behavioral override. | Kod revert edilir |
 
-### 7.1 Guardrail #11 Detay â€” Frontend Zorunlu Okuma Protokolü
+### 7.1 Guardrail #11 Detay — Frontend Zorunlu Okuma Protokolü
 
-**âš ï¸ ZORUNLULUK:** Tüm frontend (HTML/CSS/JS/PHP layout) geliştirme görevlerinde aşağıdaki dosyalar OKUNMADAN kod KESİNLİKLE YASAKTIR:
+**⚠️ ZORUNLULUK:** Tüm frontend (HTML/CSS/JS/PHP layout) geliştirme görevlerinde aşağıdaki dosyalar OKUNMADAN kod KESİNLİKLE YASAKTIR:
 
 | Sıra | Dosya | İçerik | Kullanım Anı |
 |------|-------|--------|-------------|
-| 1 | `.ai/ui-design/00-mockup-index.md` | 19 PNG mockup indeksi (home-1024 + home-1920 + shared-1024), hangi görsellerin mevcut olduğu | İlk okunacak â€” hangi ekranlar var? |
+| 1 | `.ai/ui-design/00-mockup-index.md` | 19 PNG mockup indeksi (home-1024 + home-1920 + shared-1024), hangi görsellerin mevcut olduğu | İlk okunacak — hangi ekranlar var? |
 | 2 | `.ai/ui-design/01-component-inventory.md` | C01-C16 BEM sınıfları, pixel ölçümleri, token referansları | Bileşen kodlarken |
 | 3 | `.ai/ui-design/tokens/design-tokens-master.md` | Renk, boşluk, tipografi, cam token'ları | CSS yazarken |
 | 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: [[screens/B-home/dashboard-1920]]) | Layout hizalamada |
-| 5 | `.ai/ui-design/responsive-device-mode.md` | Cihaz bazlı CSS override kuralları â€” **§7.4 4K No-Center (4K'da ortalamama YASAK)** ve **§12 Geriye Dönük Uyumluluk (fallback ZORUNLU)** bağlayıcıdır | Device-specific CSS'te |
+| 5 | `.ai/ui-design/responsive-device-mode.md` | Cihaz bazlı CSS override kuralları — **§7.4 4K No-Center (4K'da ortalamama YASAK)** ve **§12 Geriye Dönük Uyumluluk (fallback ZORUNLU)** bağlayıcıdır | Device-specific CSS'te |
 
 **Referans Sıralaması (çelişki durumunda):** PNG > ASCII art > Component Inventory > Tokens > Implementation Plan.
 
 **İhlal Prosedürü:**
-1. Mockup okunmadan kod tespit edilir →’ Kod derhal revert edilir
+1. Mockup okunmadan kod tespit edilir → Kod derhal revert edilir
 2. `log.md`'ye CRITICAL giriş eklenir
 3. Vault Steward'a bildirim yapılır
 4. Görsel okunamıyorsa DUR ve kullanıcıya bildir
@@ -331,7 +331,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | # | Kural | Açıklama |
 |---|-------|----------|
-| 1 | **Vault-First Mandatory** | AI, vault'u okumadan kod yazamaz. Okuma sırası: CLAUDE.md →’ AGENTS.md →’ WORKFLOW.md →’ index.md →’ keys.md →’ brain.md →’ MEMORY.md →’ log.md →’ engine.md →’ ROLE.md →’ (Frontend görevlerinde [[ui-design/00-mockup-index]] ve [[ui-design/01-component-inventory]] ZORUNLU) |
+| 1 | **Vault-First Mandatory** | AI, vault'u okumadan kod yazamaz. Okuma sırası: CLAUDE.md → AGENTS.md → WORKFLOW.md → index.md → keys.md → brain.md → MEMORY.md → log.md → engine.md → ROLE.md → (Frontend görevlerinde [[ui-design/00-mockup-index]] ve [[ui-design/01-component-inventory]] ZORUNLU) |
 | 2 | **Çelişki Durumu** | Vault'ta çelişki varsa DUR ve kullanıcıya sor. Onay alınmadan hiçbir işlem yapılmaz |
 | 3 | **Onay Zorunlu** | Mimari karar, yeni dosya, büyük değişiklik öncesi kullanıcı onayı zorunlu |
 | 4 | **Session Continuity** | Her oturum başında geçmiş session'dan devam et. `log.md` ve `MEMORY.md` okunur |
@@ -348,12 +348,12 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 |---|-------|----------------|------|
 | 1 | %80 test coverage | Geçici %75, teknik borç kabulü | Tech Lead |
 | 2 | 30s timeout | Uzun batch işlemi (60s'e kadar) | Tech Lead |
-| 3 | Coverage raporlama esnekliği | Bu satır orijinal listede yok â€” bilinçli silme mi eksiklik mi belirsiz | DOÄRULAMA GEREKLİ (Vault Steward) |
+| 3 | Coverage raporlama esnekliği | Bu satır orijinal listede yok — bilinçli silme mi eksiklik mi belirsiz | DOĞRULAMA GEREKLİ (Vault Steward) |
 | 4 | BypassAuth devre dışı | Test ortamında aktif edilebilir | Security Engineer |
 
 ---
 
-## 9. Servis Haritası â€” 10 Panel
+## 9. Servis Haritası — 10 Panel
 
 > **Faz 1 gerçeklik notu (2026-09-08):** Bu tablo **hedef mimaridir**. Kod tarafında fiziksel olarak mevcut paneller: auth ✅, home ✅ (+ assets statik servisi). Diğer panellerin dizini kod ağacında YOK (Test-Path, Faz 0). Durum sütunu hedef tanımı yansıtır.
 
@@ -364,26 +364,26 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | 3 | Admin | `admin.coremusic.net` | 80 | PHP 8.4 | ✅ Yönetim |
 | 4 | Download | `download.coremusic.net` | 3001 | Node.js + TS | ✅ İndirme |
 | 5 | Media | `media.coremusic.net` | 5000/6000 | PHP + FFmpeg | ✅ Medya |
-| 6 | Auth | `auth.coremusic.net` | â€” | PHP 8.4 | ✅ Kimlik |
+| 6 | Auth | `auth.coremusic.net` | — | PHP 8.4 | ✅ Kimlik |
 | 7 | Home | `home.coremusic.net` | 81 | Vanilla JS | ✅ Ev merkezi |
-| 8 | Car | `car.coremusic.net` | â€” | Vanilla JS | ✅ Araç içi |
+| 8 | Car | `car.coremusic.net` | — | Vanilla JS | ✅ Araç içi |
 | 9 | Studio | `studio.coremusic.net` | 81 | Vanilla JS | ✅ Stüdyo |
 | 10 | Pro | `pro.coremusic.net` | 81 | Vanilla JS | ✅ Profesyonel |
 
-**Görünüm Modları:** Home, Pro, Studio â€” her panel için geçerli.
+**Görünüm Modları:** Home, Pro, Studio — her panel için geçerli.
 
 ---
 
-## 10. Servis Haritası â€” 7 Backend Servis
+## 10. Servis Haritası — 7 Backend Servis
 
 | # | Servis | Port | Protocol | Stack | Sorumluluk |
 |---|--------|------|----------|-------|------------|
 | 1 | Control Service | 81 | HTTP | PHP 8.4 | Auth, session, RBAC |
 | 2 | Media Service | 5000/6000 | HTTP | PHP + FFmpeg | Library, metadata, streaming |
 | 3 | Audio Service | 9741/9742 | REST/WS | C++20 JUCE | Player, DSP, mixer, EQ |
-| 4 | Device Service | â€” | BLE/WiFi/USB | C++20 | Bluetooth, WiFi, USB |
-| 5 | Network Audio | â€” | WebRTC/P2P | C++20 | Streaming, multi-room |
-| 6 | AI Service | â€” | Internal | PHP + Python | Recommendations |
+| 4 | Device Service | — | BLE/WiFi/USB | C++20 | Bluetooth, WiFi, USB |
+| 5 | Network Audio | — | WebRTC/P2P | C++20 | Streaming, multi-room |
+| 6 | AI Service | — | Internal | PHP + Python | Recommendations |
 | 7 | Download Service | 3001 | HTTP/WS | Node.js + TS | Deezer/YouTube indirme |
 
 ---
@@ -414,13 +414,13 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | Rate Limiting | APCu | 60 req/60s |
 | Encryption | AES-256-GCM, Argon2id | NIST SP 800-38D |
 | **Database (Primary)** | MySQL 9 | 18 BCNF |
-| **Database (Backup/Reporting)** | SQL Server | â€” |
-| **Database (Analytics)** | MongoDB | â€” |
+| **Database (Backup/Reporting)** | SQL Server | — |
+| **Database (Analytics)** | MongoDB | — |
 | **Cache** | Redis | IMPLEMENTED |
 | **Containerization** | Docker | 24+ |
-| **CI/CD** | GitHub Actions | â€” |
-| **Monitoring** | Metrics/Logs | â€” |
-| **Backup** | Disaster Recovery | â€” |
+| **CI/CD** | GitHub Actions | — |
+| **Monitoring** | Metrics/Logs | — |
+| **Backup** | Disaster Recovery | — |
 
 ---
 
@@ -430,9 +430,9 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 |------|-----|-------|-------------|
 | **Tier 1 (Primary)** | Windows (XP-11, Server 2012 R2+) | ✅ Ana geliştirme | ASIO, WASAPI |
 | **Tier 2** | Linux (Ubuntu, Debian, Fedora) | ✅ Destekli | ALSA, PipeWire |
-| **Tier 3** | macOS (Montereyâ€“Sonoma) | ✅ Destekli | CoreAudio |
+| **Tier 3** | macOS (Monterey–Sonoma) | ✅ Destekli | CoreAudio |
 | **Tier 4** | Raspberry Pi (ARM64) | ✅ Destekli | I2S |
-| **Tier 5** | ReactOS | âš ï¸ Experimental | Sınırlı |
+| **Tier 5** | ReactOS | ⚠️ Experimental | Sınırlı |
 
 ---
 
@@ -450,10 +450,10 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ## 15. Tema Motoru (ADR-044)
 
-- **Gender-based:** female→’pink, male→’blue, neutral→’default
-- **PHP:** `ThemeEngine.php` â€” DB + user gender çözümleme
-- **JS:** `ThemeManager.js` â€” CSS custom properties ile anında geçiş (sayfa yenileme yok)
-- **DB:** `user_preferences` tablosu â€” `user_id`, `device_type`, `theme_gender`
+- **Gender-based:** female→pink, male→blue, neutral→default
+- **PHP:** `ThemeEngine.php` — DB + user gender çözümleme
+- **JS:** `ThemeManager.js` — CSS custom properties ile anında geçiş (sayfa yenileme yok)
+- **DB:** `user_preferences` tablosu — `user_id`, `device_type`, `theme_gender`
 - **Admin:** Bağımsız tema sistemi (kullanıcı temalarından ayrı)
 
 ---
@@ -513,7 +513,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ## 18A. Template Sistemi (Zorunlu)
 
-**âš ï¸ ZORUNLULUK:** Yeni dosya oluşturulurken `.ai/.templates/index.md`'den uygun template seçilmek ZORUNLU. Template olmadan dosya oluşturulamaz (Guardrail #16).
+**⚠️ ZORUNLULUK:** Yeni dosya oluşturulurken `.ai/.templates/index.md`'den uygun template seçilmek ZORUNLU. Template olmadan dosya oluşturulamaz (Guardrail #16).
 
 | Kategori | Template | Kullanım Alanı |
 |----------|----------|----------------|
@@ -541,7 +541,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | other/ | aspnet-template.md | ASP.NET backend |
 | other/ | c-template.md | C/C++ geliştirme |
 
-**Kullanım:** Template'i kopyala →’ Değişkenleri doldur (`{{VARIABLE}}`) →’ Gereksiz bölümleri kaldır.
+**Kullanım:** Template'i kopyala → Değişkenleri doldur (`{{VARIABLE}}`) → Gereksiz bölümleri kaldır.
 
 **Detay:** [[.ai/.templates/index]]
 
@@ -553,7 +553,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 |---------|-------|
 | Sample Format | Float32 (32-bit) |
 | Sample Rate | 48kHz standart |
-| Kanal | 2.0 →’ 8.1 (7.1 surround) |
+| Kanal | 2.0 → 8.1 (7.1 surround) |
 | Latency Hedefi | <10ms (ASIO), <20ms (WASAPI) |
 | DSP Efektleri | EQ, Reverb, Compressor, Limiter |
 | Reverb Modları | Geniş Konser, Düğün Salonu, Oda, Stüdyo |
@@ -581,7 +581,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ## 21. Yasak Örüntüleri
 
-| âŒ Yasak | ✅ Doğru |
+| ✅ Yasak | ✅ Doğru |
 |----------|----------|
 | `_csrf_token` | `csrf_token` |
 | ORM (Eloquent, Doctrine) | Raw PDO |
@@ -603,11 +603,11 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 |-------|-------|-----|
 | USB cihaz çıkarma | WASAPI fallback | [[ADR-017-dsp-hardware-mode]] |
 | Multi-Tab CSRF | Session-bound tek token | [[ADR-010-csrf-protection-strategy]] |
-| BCNF violation | 3NF →’ BCNF audit | [[ADR-040-database-authority]] |
+| BCNF violation | 3NF → BCNF audit | [[ADR-040-database-authority]] |
 | Session timeout (3600s) | Otomatik yeniden auth | [[ADR-011-session-management]] |
 | Layer violation | Derhal revert | CLAUDE.md §7 |
 | PCM5122 kullanımı | PCM3168A veya AK4458 | [[ADR-038-8.1-sound-card-chip-selection]] |
-| Network outage | Offline-First + SQLite queue | â€” |
+| Network outage | Offline-First + SQLite queue | — |
 | Cache stampede | Mutex ile single load | L0 |
 | ADR conflict | Escalation protocol | [[engine.md]] |
 
@@ -649,9 +649,9 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Faz | Hedef | Süre |
 |-----|-------|------|
-| Faz 1 â€” MVP | Mevcut PC/laptop'da temel platform | 6â€“12 ay |
-| Faz 2 â€” Premium | CoreMusic Audio donanım entegrasyonu | 12â€“24 ay |
-| Faz 3 â€” Professional | Tam entegre stüdyo ve araç içi | 24â€“36 ay |
+| Faz 1 — MVP | Mevcut PC/laptop'da temel platform | 6–12 ay |
+| Faz 2 — Premium | CoreMusic Audio donanım entegrasyonu | 12–24 ay |
+| Faz 3 — Professional | Tam entegre stüdyo ve araç içi | 24–36 ay |
 
 ---
 
@@ -697,7 +697,7 @@ Her oturum başlangıcında sırayla okunur:
 
 ### 26.3 Zorunlu Kurallar
 
-1. Prompt kuralları CLAUDE.md ile çelişirse →’ CLAUDE.md öncelikli (SSOT)
+1. Prompt kuralları CLAUDE.md ile çelişirse → CLAUDE.md öncelikli (SSOT)
 2. Prompt içeriği vault'a işlenmiştir. Tekrar prompt okumak yerine ilgili vault dosyası okunur
 3. Prompt versiyonları: `prompt[N]-[topic]-YYYY-MM-DD.md` formatında, tarih güncellendikçe arşivde yeni dosya oluşturulur
 
@@ -721,7 +721,7 @@ Her oturum başlangıcında sırayla okunur:
 
 ---
 
-## 27A. Skills Registry (10 Skill â€” Guardrail #16 Zorunlu)
+## 27A. Skills Registry (10 Skill — Guardrail #16 Zorunlu)
 
 | # | Skill | Amaç | Kullanım |
 |---|-------|------|----------|
@@ -742,7 +742,7 @@ Her oturum başlangıcında sırayla okunur:
 
 ---
 
-## 27B. Agent Profiles (11 Agent â€” .ai/.agents/)
+## 27B. Agent Profiles (11 Agent — .ai/.agents/)
 
 | # | Agent | Profil Dosyası |
 |---|-------|---------------|
@@ -774,7 +774,7 @@ Her oturum başlangıcında sırayla okunur:
 | Metrik | Değer |
 |--------|-------|
 | Version | 27.0.0 |
-| Status | Red Team Â· Human Mode Â· Truth Mode verified |
+| Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 30 |
 | Hard Guardrails | 17 |
 | Soft Constraints | 4 |
@@ -807,21 +807,21 @@ Bu dosyada Faz 1 revizyonunda yapılan düzeltmeler:
 
 | # | Düzeltme | Konum | Kanıt |
 |---|----------|-------|-------|
-| 1 | ADR kapsamı 038-087 →’ 038-088 (79 karar) | §3, §29, §26 | decisions/ sayımı |
-| 2 | 18 →’ 19 PNG (12+1+6) | Guardrail #11, §12A | .ai/.png/ sayımı |
-| 3 | Redis L0 hedef→’PLANNED notu | §5 | CacheManager kod okuma |
-| 4 | Glossary 32 →’ 75 terim | §26, §28 | glossary.md v2.0.0 |
-| 5 | Soft Constraints #3 eksik satırı işaretlendi | §8 | Truth Mode â€” DOÄRULAMA GEREKLİ |
+| 1 | ADR kapsamı 038-087 → 038-088 (79 karar) | §3, §29, §26 | decisions/ sayımı |
+| 2 | 18 → 19 PNG (12+1+6) | Guardrail #11, §12A | .ai/.png/ sayımı |
+| 3 | Redis L0 hedef→PLANNED notu | §5 | CacheManager kod okuma |
+| 4 | Glossary 32 → 75 terim | §26, §28 | glossary.md v2.0.0 |
+| 5 | Soft Constraints #3 eksik satırı işaretlendi | §8 | Truth Mode — DOĞRULAMA GEREKLİ |
 | 6 | Panel haritası "hedef mimari" notu | §9 | Test-Path Faz 0 |
 | 7 | Dinamik stack ilkesi | §24 Node.js satırı bağlamı | engine §9, ROLE §11 |
 
-İlke: Bu dosya anayasadır â€” içerik ekleme/düzeltme yapılırken Guardrail #4 (In-Place) ve #14 (Human Approval) korunmuştur; bu revizyon kullanıcı direktifiyle (2026-09-08, "tüm vault'u satır satır revize et") yetkilendirilmiştir.
+İlke: Bu dosya anayasadır — içerik ekleme/düzeltme yapılırken Guardrail #4 (In-Place) ve #14 (Human Approval) korunmuştur; bu revizyon kullanıcı direktifiyle (2026-09-08, "tüm vault'u satır satır revize et") yetkilendirilmiştir.
 
 ---
 
 ## 32. CoreMusic Freelancer Teknik Dokümantasyon v1.0
 
-### §01 Giriş â€” CoreMusic Tanımı
+### §01 Giriş — CoreMusic Tanımı
 
 CoreMusic; trilyon dolarlık küresel dijital medya, otomotiv ses sistemleri ve tüketici elektroniği pazarındaki yapısal açıkları kapatmak ve doğrudan yüksek kârlılığa dönüştürmek amacıyla geliştirilmiş kurumsal seviyede bir **Ticari Dijital Medya Ekosistemi ve Gelir Platformudur**.
 
@@ -838,8 +838,8 @@ CoreMusic; trilyon dolarlık küresel dijital medya, otomotiv ses sistemleri ve 
 | 3 | Ses İşleme Hassasiyeti | 32-bit Float aktif, 64-bit Float yol haritası |
 | 4 | Hoparlör Matrisi | 1.0 Mono'dan 8.1 Surround'a (+1 LFE) |
 | 5 | Canlı Temalar & AI Theme Maker | Ambient aura, glassmorphism, doğal dil ile tema üretimi |
-| 6 | Çapraz Cihaz Ekosistemi | Mobil, tablet, PC, TV, araç, ev medya â€” kesintisiz geçiş |
-| 7 | Merkezi Medya Depolama | `media.coremusic.net` â€” otomatik indirme ve indeksleme |
+| 6 | Çapraz Cihaz Ekosistemi | Mobil, tablet, PC, TV, araç, ev medya — kesintisiz geçiş |
+| 7 | Merkezi Medya Depolama | `media.coremusic.net` — otomatik indirme ve indeksleme |
 | 8 | Network Audio | DLNA/UPnP, WebRTC/P2P, Multi-Room |
 | 9 | AI Müzik Intelligence | Öneri, akıllı playlist, otomatik EQ, ses analizi |
 | 10 | Otonom İndirme & Dışa Aktarım | YouTube, Deezer (FLAC), USB, CD yazma |
@@ -849,13 +849,13 @@ CoreMusic; trilyon dolarlık küresel dijital medya, otomotiv ses sistemleri ve 
 #### 4 Katmanlı Basitleştirilmiş Mimari
 
 ```
-L3 Uygulama Katmanı →’ Web, Mobile, Car, TV, Studio, Panel
-    →“
-L2 Servis Katmanı →’ API, Microservices, AI, Media, Sync
-    →“
-L1 Güvenlik Katmanı →’ Auth, Session, CSRF, Rate Limit, Security Headers
-    →“
-L0 Altyapı Katmanı →’ Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
+L3 Uygulama Katmanı → Web, Mobile, Car, TV, Studio, Panel
+    ↓
+L2 Servis Katmanı → API, Microservices, AI, Media, Sync
+    ↓
+L1 Güvenlik Katmanı → Auth, Session, CSRF, Rate Limit, Security Headers
+    ↓
+L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 ```
 
 #### 7 Katmanlı Detaylı Mimari (PDF)
@@ -878,16 +878,47 @@ L0 Altyapı Katmanı →’ Cloud, On-Premise, Docker, Kubernetes, Storage, Back
 | ÖLÇEKLENEBİLİR | Dikey ve yatay ölçekleme |
 | GÜVENLİ | 10 adımlı middleware, Argon2id, AES-256-GCM |
 | SÜRDÜRÜLEBİLİR | Açık mimari, pluggable yapı |
-| GELECEÄE HAZIR | AI entegrasyonu, yeni format desteği |
+| GELECEĞE HAZIR | AI entegrasyonu, yeni format desteği |
 
 ### İlgili Referanslar
-- [[VISION]] â€” CoreMusic vizyonu
-- [[PROJECTS]] â€” Proje tanımı
-- [[WORKFLOW]] â€” Sistem çalışma şekli
-- [[architecture/master-architecture-index]] â€” 21 katmanlı mimari
+- [[VISION]] — CoreMusic vizyonu
+- [[PROJECTS]] — Proje tanımı
+- [[WORKFLOW]] — Sistem çalışma şekli
+- [[architecture/master-architecture-index]] — 21 katmanlı mimari
+
+---
+
+## 33. Doküman İskeleti & Doğrulama (8-Bölüm Uyumu — Vault Refactor Engine 2026-09-23)
+
+> **Not (Vault Refactor Engine, 2026-09-23):** Bu dosya ADR-042 hibrit kuralıyla satır-edit + ekleme yöntemiyle revize edildi (v26.0.0 → v27.0.0). Yeni içerik sona eklendi; mevcut § numaraları ve `[[wiki-link]]` hedefleri korundu. Vault genelinde mojibake temizliği yapıldı (745 düzeltme).
+
+### 33.1 8-Bölüm İskelet Eşlemesi
+
+| İskelet Bölümü | Karşılık Gelen § | Durum |
+|----------------|------------------|-------|
+| Başlık | H1 + frontmatter (7 zorunlu alan) | ✅ |
+| Amaç | §1 Amaç ve Proje Tanımı | ✅ |
+| Kapsam | §2 Kapsam + §3 Terminoloji | ✅ |
+| Mimari | §5 Mimari (K0-K20 katmanları) + §12 Teknoloji | ✅ |
+| Kurallar | §16 Guardrails (16 madde) + §6 Middleware sıraları | ✅ |
+| Workflow | §14 Promptlar + [[WORKFLOW.md]] §6-§13 (tek kaynak) | ✅ |
+| Doğrulama | §24 Zero Hallucination + bu bölüm §33.2 | ✅ (yeni) |
+| Referanslar | §27 Çapraz Referanslar + §32 | ✅ |
+
+### 33.2 Doğrulama Kontrol Listesi (Faz 1 — 2026-09-23)
+
+- [x] Frontmatter 7 alan tam: title, type, category, version (27.0.0), status, authority, updated (2026-09-23)
+- [x] Mojibake temizliği: 745 düzeltme (fix-mojibake.py + genişletilmiş varyantlar)
+- [x] `§x.y` numaraları korundu (satır-edit, silme yok)
+- [x] `[[wiki-link]]` hedef adları korundu (kırık link taraması Faz 6'da)
+- [x] SSOT: bu dosya hiyerarşinin 1. sırasında (CLAUDE > AGENTS > WORKFLOW > brain > index)
+
+### 33.3 İlgili Dosyalar
+
+[[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[MEMORY.md]] · [[index.md]] · [[keys.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-19
-**Mode:** Red Team Â· Human Mode Â· Truth Mode
+**Last Updated:** 2026-09-23
+**Mode:** Red Team · Human Mode · Truth Mode

@@ -184,3 +184,15 @@ governance: Red Team · Human Mode · Truth Mode
     1. `home.coremusic.net/include/Auth/CLAUDE.md` — HomeAuthBridge akışı
   - **Toplam:** 24 dosya genişletildi, ~2000+ satır eklendi
   - **Kümülatif (2 tur):** 36+ dosya, ~4000+ satır
+
+- 2026-09-23 20:45:00 | vault_refactor_engine_faz1 | session=current | **FAZ 1 — ANAYASA YENİDEN YAZIMI (Vault Refactor Engine, branch: vault/refactor-engine):**
+  - **Master prompt kaydedildi:** `.ai/prompts/2026-09-23-vault-refactor-engine.md` (PICCO, 15 bölüm, tam Türkçe)
+  - **Dosyalar (4):**
+    1. `.ai/CLAUDE.md` v26.0.0→v27.0.0 — frontmatter 7 alan + §33 (8-bölüm iskelet eşlemesi, Faz 1 doğrulama) eklendi
+    2. `.ai/AGENTS.md` v21.0.0→v22.0.0 — frontmatter + §26 (iskelet eşlemesi + SSOT registry birleştirme) + footer 2026-09-23
+    3. `.ai/WORKFLOW.md` v21.0.0→v22.0.0 — frontmatter + §20 (8-bölüm iskelet + Faz 1 doğrulama)
+    4. `.ai/.agents/AGENTS.md` v1.0.0→v1.1.0 — **alt registry'ye indirgendi** (authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)"), SSOT iddiası §1'den kaldırıldı, H1 + version history güncellendi
+  - **SSOT çelişki çözüldü:** kök AGENTS.md (v22, tek SSOT) > .agents/AGENTS.md (v1.1, alt registry — profil detayları)
+  - **Mojibake temizliği:** 745 düzeltme / 11 dosya (fix-mojibake.py 152 + genişletilmiş varyantlar 593: `â€”(U+201D)`×248, `Ä+0x9E`(Ğ)×23, box-drawing ASCII ağaçları, `→’`, `â†’`)
+  - **Kural (ADR-042 hibrit):** satır-edit + ekleme; § numaraları ve `[[wiki-link]]` hedefleri korundu, silme yok; yeni bölümler §N+1
+  - **Link kapısı:** 0 YENİ kırık link. 54 ÖNCEDEN mevcut kırık link Faz 6 defterine işlendi: `[[decisions/*]]`→gerçek yol `.decisions/*`, `ui-design/00-mockup-index`→`01-*`, `01-component-inventory`→`02-*`, `archives/prompt*-2026-09-01` hedefi yok (`.ai/prompts/` bak), `architecture/master-architecture-index` + `k0-k5-software/*` + `reference/yaml-formatter` hedefleri yok

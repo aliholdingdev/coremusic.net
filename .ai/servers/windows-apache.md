@@ -1,17 +1,17 @@
 ﻿---
 type: server-config
 category: infrastructure
-title: "Sunucu Yapılandırması â€” Windows + Apache"
+title: "Sunucu Yapılandırması — Windows + Apache"
 date: 2026-09-19
 updated: 2026-09-19
 status: active
 version: 1.0.0
 ---
 
-# Sunucu Yapılandırması â€” Windows + Apache
+# Sunucu Yapılandırması — Windows + Apache
 
-**Ä°lgili Katmanlar:** [[architecture/k0-k5-software/k0-os-layer]] Â· [[architecture/k10-k15-application/k14-network]]
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] Â· [[architecture/master-architecture-index]]
+**İlgili Katmanlar:** [[architecture/k0-k5-software/k0-os-layer]] · [[architecture/k10-k15-application/k14-network]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[architecture/master-architecture-index]]
 
 ---
 
