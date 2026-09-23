@@ -1,4 +1,39 @@
 ---
+title: "CoreMusic — Architecture Decision Record Template"
+type: template
+category: template
+version: 2.0.0
+status: active
+authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
+updated: 2026-09-23
+date: 2026-09-23
+reference_doc: Freelancer Technical Documentation v1.0
+governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/CLAUDE.md"
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/brain.md"
+---
+
+# CoreMusic — Architecture Decision Record Template
+
+**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../../AGENTS.md]] · [[CLAUDE.md]] · [[brain.md]] · [[WORKFLOW.md]]
+
+## 1. Amaç
+
+Bu şablon, CoreMusic mimari kararlarının (Architecture Decision Record — ADR) standart biçimde kaydedilmesi için zorunludur. **Guardrail #16:** yeni bir ADR dosyası oluşturulurken bu şablondan başlamak ZORUNLUDUR. Şablon; Bağlam (Context), Karar (Decision), Alternatifler, Sonuçlar, Uygulama ve Onay bölümlerini sabitleyerek kararların izlenebilir, gerekçeli ve denetlenebilir kalmasını sağlar. **ADR-042 hibrit kuralı:** `.templates/*` dosyaları tam yeniden yazıma açıktır (bu dosya v2.0.0 ile yeniden yazıldı).
+
+## 2. Kapsam
+
+- **Geçerli dosya tipi:** ADR dosyaları — adlandırma: `ADR-NNN-<slug>.md` (ör. `ADR-008-bypass-auth-middleware.md`, `ADR-017-dsp-hardware-mode.md` — `[[../../AGENTS.md]]` wiki-link kanıtı).
+- **Durum döngüsü:** Draft → Review → Active → Frozen (iskelet künyesi: `{{STATUS}} (Draft/Review/Active/Frozen)`).
+- **Kullananlar:** Vault Steward (yazar + onay), Tech Lead (onay), Arch Lead (onay); karar domainini üreten uzman agent'lar (Backend/Security/Data/Embedded vb.).
+
+## 3. Mimari
+
+Şablonun tam iskeleti (placeholder'lı frontmatter + H1 + 7 domain bölümü, eksiksiz):
+
+````markdown
+---
 reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic — Architecture Decision Record Template"
 type: adr-template
@@ -156,3 +191,47 @@ reference:
 *Authority: Bayram Ali / Vault Steward*
 *Last Updated: {{DATE}}*
 *Mode: Red Team · Human Mode · Truth Mode*
+````
+
+## 4. Kurallar
+
+1. **Guardrail #16:** Yeni ADR bu şablondan üretilir; dış iskelet (künye + §1 Bağlam → §7 Onay) silinemez, yalnızca alanlar doldurulur.
+2. **Durum akışı:** Draft → Review → Active → Frozen; `status` alanı gerçek durumla yazılır (şablon dosyasının kendi `status` değeri `active`'dir).
+3. **Frozen dokunulmaz:** Frozen ADR metinleri okunur ve referans edilir — değiştirilmez (AGENTS.md §25.3 kural 2).
+4. **Onay zorunlu:** §7 Onay tablosu Vault Steward ✅ → Tech Lead ⏳ → Arch Lead ⏳ akışını tamamlamadan karar Active olamaz.
+5. **Placeholder disiplini:** Tüm `{{...}}` alanları (özellikle §1.3 web araştırması raporu ve §5.2 geri dönüş planı) gerçek değerlerle doldurulur; boş ADR yayımlanamaz. `⚠️ VERIFICATION REQUIRED` etiketi bilinmeyen bilgi için kullanılır.
+6. **Authority ayrımı:** Bu şablon dosyasının kendi frontmatter'ı registry'ye bağlıdır (`Template (Guardrail #16) — Registry: .ai/.templates/index.md`); §3 iskeletteki eski `authority: Single Source of Truth (SSOT)` örneği birebir korunur — üretilen ADR'nin authority değeri karar metninin kendisidir, şablon SSOT iddiası taşımaz.
+7. **Governance:** Red Team · Human Mode · Truth Mode.
+
+## 5. Workflow
+
+ŞABLONU SEÇ → KOPYALA → `{{PLACEHOLDER}}` DOLDUR → GUARDRAIL #16 DOĞRULA → COMMIT
+
+1. **ŞABLONU SEÇ:** `.ai/.templates/adr/adr-template.md` (kullanım amacına göre ilgili domain ADR şablonu — diskte yoksa Faz 6 Planlanan listesine bak).
+2. **KOPYALA:** Hedefe `ADR-NNN-<slug>.md` adıyla kopyala (NNN = sıradaki numara, slug = karar özeti).
+3. **`{{PLACEHOLDER}}` DOLDUR:** Durum/Tarih/Karar Veren + §1-§5 domain alanları + §7 Onay; web araştırması bölümünü gerçek sonuçlarla doldur.
+4. **GUARDRAIL #16 DOĞRULA:** §6 kontrol listesi + onay akışı (Vault Steward → Tech Lead → Arch Lead).
+5. **COMMIT:** İlgili wiki-link'leri (`[[ADR-NNN-...]]`) ilgili vault dosyalarına eklenir; registry + log güncellenir.
+
+## 6. Doğrulama
+
+- [ ] 7 alanlı frontmatter var (`title`, `type`, `category`, `version`, `status`, `authority`, `updated`)
+- [ ] 8 bölüm var (H1 + §1-§7)
+- [ ] tüm `{{PLACEHOLDER}}`'lar dolduruldu (Bağlam/Karar/Alternatifler/Sonuçlar/Uygulama/Onay dahil)
+- [ ] dosya bu şablona uygun (ADR dosyası)
+- [ ] Frozen kuralı + onay akışı biliniyor; SSOT self-claim yok
+
+**REFACTOR REPORT:** FILE: adr-template.md · PURPOSE: Architecture Decision Record şablonu (Guardrail #16) · VALIDATION: 7 alan + §1-§7 + bilgi korunumu · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
+
+## 7. Referanslar
+
+- [[CLAUDE.md]] — ana sözleşme (iskelet §6 İlgili Dokümanlar tablosu)
+- [[brain.md]] — mimari kararlar
+- [[WORKFLOW.md]] — süreçler
+- [[.templates/index]] — Template Registry (bu şablonun kaydı)
+- [[../CLAUDE.md]] — vault ana sözleşme
+- [[../../AGENTS.md]] — agent registry (ADR-NNN wiki-link kanıtları)
+
+---
+
+*ADR Template v2.0.0 — Vault Refactor Engine yeniden yazımı (2026-09-23)*

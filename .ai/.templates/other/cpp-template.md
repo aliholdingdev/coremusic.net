@@ -3,18 +3,43 @@ reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic — C++ Audio Engine Template"
 type: cpp-template
 category: template
-date: {{DATE}}
-updated: {{DATE}}
-status: draft
-version: 1.0.0
-authority: Single Source of Truth (SSOT)
+version: 2.0.0
+status: active
+authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
+updated: 2026-09-23
+date: 2026-09-23
 governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/CLAUDE.md"
   source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/brain.md"
 ---
 
-# {{TITLE}}
+# CoreMusic — C++ Audio Engine Template
+
+**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../../AGENTS.md]]
+
+## 1. Amaç
+
+CoreMusic Neva Engine'in C++20/JUCE audio kodunu standartlaştırmaktır: zero-allocation DSP chain, lock-free ring buffer, ASIO callback ve CMake build iskeletlerini; noexcept/zero-allocation kurallarını ve yasaklı örüntüleri tek şablon içinde sunar. Kaynak: `reference_doc: Freelancer Technical Documentation v1.0`.
+
+## 2. Kapsam
+
+| Kapsam | Kapsam Dışı |
+|--------|-------------|
+| `*.cpp` / `*.h` audio engine (K3 Ses Motoru / K2 Sürücü) | PHP/JS uygulama kodu |
+| DSP chain, ring buffer, ASIO callback, CMake | Web前端 / CSS |
+| Zero-allocation, lock-free, noexcept kuralları | Donanım PCB tasarımı (bkz. hardware-template) |
+
+- **Dosya tipi:** C++ header/kaynak + Markdown şablon dokümanı
+- **Teknoloji:** C++20, JUCE 9, ASIO SDK 2.3.4
+- **Kullanan agent:** Embedded Engineer (sorumlu agent · dosya başlığı; AGENTS.md §6: C++, ASIO, JUCE, audio, DSP, Neva Engine), Windows Software Engineer (ikincil — WASAPI)
+- **Katman:** K3 (Ses Motoru) / K2 (Sürücü) · **Guardrail:** #16 (Template Mandatory)
+
+## 3. Mimari
+
+Şablonun tam gövdesi. Not: gömme nedeniyle şablon başlıkları iki seviye derinleştirilmiştir (H1 → `###`, H2 → `####`); tüm `{{PLACEHOLDER}}`, C++/CMake kod blokları ve `//` yorum satırları birebir korunmuştur. Zero-allocation guardrails ve yasaklı örüntüler §4.1-§4.2'dedir.
+
+### {{TITLE}}
 
 **Teknoloji:** C++20, JUCE 9, ASIO SDK 2.3.4
 **Katman:** K3 (Ses Motoru) / K2 (Sürücü)
@@ -22,52 +47,7 @@ reference:
 
 ---
 
-## 1. Hard Guardrails (Zero-Allocation)
-
-| # | Kural | İhlal Sonucu |
-|---|-------|-------------|
-| 1 | Audio thread'de heap allocation yasak | Ses takılması / crash |
-| 2 | Audio thread'de mutex yasak | Deadlock |
-| 3 | `noexcept` (ASIO callback) zorunlu | Crash |
-| 4 | `alignas(64)` zorunlu (cache-line) | False sharing |
-| 5 | `constexpr` (buffer) zorunlu | Compile-time allocation |
-| 6 | `std::atomic` (read/write head) zorunlu | Race condition |
-| 7 | SIMD (SSE2/AVX2/NEON) kullanımı teşvik | Performans |
-
----
-
-## 2. Yasaklı Örüntüler (Audio Thread'de)
-
-```cpp
-// ❌ YASAK — Heap allocation
-void processBlock(float** output, const float** input, int channels, int samples) {
-    std::vector<float> buffer(samples);  // ❌ YASAK
-    float* temp = new float[samples];    // ❌ YASAK
-    auto ptr = std::make_shared<float>(); // ❌ YASAK
-}
-
-// ✅ DOĞRU — Stack veya member değişken
-class AudioProcessor {
-    static constexpr int MAX_SAMPLES = 4096;
-    alignas(64) float _buffer[MAX_SAMPLES]; // ✅ Stack/member
-
-    void processBlock(float** output, const float** input, int channels, int samples) noexcept {
-        for (int i = 0; i < samples; ++i) {
-            for (int ch = 0; ch < channels; ++ch) {
-                float s = input[ch][i];
-                s = _dspChain[ch].processEQ(s);
-                s = _dspChain[ch].processCompressor(s);
-                s = _dspChain[ch].processLimiter(s);
-                output[ch][i] = s;
-            }
-        }
-    }
-};
-```
-
----
-
-## 3. DSP Chain Şablonu
+#### 3.1 DSP Chain Şablonu
 
 ```cpp
 // src/dsp/DSPChain.h
@@ -146,7 +126,7 @@ private:
 
 ---
 
-## 4. Ring Buffer (Lock-Free)
+#### 3.2 Ring Buffer (Lock-Free)
 
 ```cpp
 // src/dsp/RingBuffer.h
@@ -220,7 +200,7 @@ private:
 
 ---
 
-## 5. ASIO Callback Şablonu
+#### 3.3 ASIO Callback Şablonu
 
 ```cpp
 // src/engine/ASIOCallback.h
@@ -267,7 +247,7 @@ private:
 
 ---
 
-## 6. Build Sistemi (CMake)
+#### 3.4 Build Sistemi (CMake)
 
 ```cmake
 # CMakeLists.txt
@@ -320,7 +300,91 @@ endif()
 
 ---
 
-## 7. İlgili ADR'ler
+## 4. Kurallar
+
+Zorunlu / yasak kurallar (kod standartları dahil):
+
+#### 4.1 Hard Guardrails (Zero-Allocation)
+
+| # | Kural | İhlal Sonucu |
+|---|-------|-------------|
+| 1 | Audio thread'de heap allocation yasak | Ses takılması / crash |
+| 2 | Audio thread'de mutex yasak | Deadlock |
+| 3 | `noexcept` (ASIO callback) zorunlu | Crash |
+| 4 | `alignas(64)` zorunlu (cache-line) | False sharing |
+| 5 | `constexpr` (buffer) zorunlu | Compile-time allocation |
+| 6 | `std::atomic` (read/write head) zorunlu | Race condition |
+| 7 | SIMD (SSE2/AVX2/NEON) kullanımı teşvik | Performans |
+
+#### 4.2 Yasaklı Örüntüler (Audio Thread'de)
+
+```cpp
+// ❌ YASAK — Heap allocation
+void processBlock(float** output, const float** input, int channels, int samples) {
+    std::vector<float> buffer(samples);  // ❌ YASAK
+    float* temp = new float[samples];    // ❌ YASAK
+    auto ptr = std::make_shared<float>(); // ❌ YASAK
+}
+
+// ✅ DOĞRU — Stack veya member değişken
+class AudioProcessor {
+    static constexpr int MAX_SAMPLES = 4096;
+    alignas(64) float _buffer[MAX_SAMPLES]; // ✅ Stack/member
+
+    void processBlock(float** output, const float** input, int channels, int samples) noexcept {
+        for (int i = 0; i < samples; ++i) {
+            for (int ch = 0; ch < channels; ++ch) {
+                float s = input[ch][i];
+                s = _dspChain[ch].processEQ(s);
+                s = _dspChain[ch].processCompressor(s);
+                s = _dspChain[ch].processLimiter(s);
+                output[ch][i] = s;
+            }
+        }
+    }
+};
+```
+
+Ek kurallar:
+
+- **Zorunlu:** header'lar `#pragma once` + `namespace coremusic::dsp` / `coremusic::engine` kullanır; tüm audio thread fonksiyonları `noexcept` imzalıdır (§3.1-§3.3).
+- **Zorunlu:** buffer'lar `static constexpr` + `alignas(64)` ile önceden ayrılır (`_tempBuffer`, `_dspChains`, `_buffer[Capacity]`) — zero-allocation.
+- **Zorunlu:** ring buffer read/write head'leri `std::memory_order_relaxed/acquire/release` ile `std::atomic` yönetilir (lock-free).
+- **Yasak:** audio thread'de `std::vector`, `new`, `std::make_shared`, mutex (§4.2).
+- **Yasak:** `{{TITLE}}` placeholder'ı doldurulmadan dosya commit edilemez.
+- **Standart:** C++20, `-Wall -Wextra -Wpedantic -Werror` (§3.4 CMake); derleme hatası → AGENTS.md §24.4 "FIX IMMEDIATELY", devam yasak.
+- **Uyarı:** doğrulanamayan API/sınıf `⚠️ VERIFICATION REQUIRED` ile işaretlenir.
+
+## 5. Workflow
+
+```
+ŞABLONU SEÇ → KOPYALA → {{PLACEHOLDER}} DOLDUR → GUARDRAIL #16 DOĞRULA → COMMIT
+```
+
+1. **ŞABLONU SEÇ:** `.ai/.templates/other/cpp-template.md` (Guardrail #16).
+2. **KOPYALA:** §3.1-§3.3 header'ları `src/dsp/` ve `src/engine/` altına; §3.4'ü kök `CMakeLists.txt`'e kopyala.
+3. **{{PLACEHOLDER}} DOLDUR:** yalnızca `{{TITLE}}`; kod iskeletini proje ihtiyaçına göre sınıf/fonksiyon ekleerek uyarla (guardrails ihlal etmeden).
+4. **GUARDRAIL #16 DOĞRULA:** 7 alanlı frontmatter + §1-§7 + tüm placeholder'lar doldu + §4.1/§4.2 zero-allocation/noexcept ihlali yok + C++20 derleme temiz (`-Werror`).
+5. **COMMIT:** kodu commit et; ADR-017/ADR-025/ADR-038/ADR-062 ile çelişki yoksa onayla, `log.md`'ye giriş ekle.
+
+## 6. Doğrulama
+
+- [ ] 7 alanlı frontmatter var (title, type, category, version, status, authority, updated)
+- [ ] §1-§7 var
+- [ ] tüm {{PLACEHOLDER}}'lar dolduruldu
+- [ ] dosya bu şablona uygun
+- [ ] §4.1 guardrails + §4.2 yasaklı örüntüler geçti; audio thread'de heap/mutex yok
+
+**REFACTOR REPORT:** FILE: cpp-template.md · PURPOSE: C++ Audio Engine Template · VALIDATION: 7 alan + §1-§7 + bilgi korunumu · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
+
+## 7. Referanslar
+
+- [[.templates/index]] — şablon registry (`.ai/.templates/index.md`)
+- [[../CLAUDE.md]] — AI anayasası, 16 Hard Guardrail
+- [[../../AGENTS.md]] — routing (§6: C++/ASIO/JUCE/DSP → Embedded Engineer), kalite standardı §16 (zero-allocation, lock-free, noexcept)
+- `.ai/CLAUDE.md` · `.ai/AGENTS.md` · `.ai/brain.md` (frontmatter `reference`)
+
+İlgili ADR'ler:
 
 | ADR | Konu |
 |-----|------|
@@ -331,7 +395,7 @@ endif()
 
 ---
 
-*C++ Audio Engine Template v1.0.0 — CoreMusic Development Standards*
+*C++ Audio Engine Template v2.0.0 — CoreMusic Development Standards*
 *Authority: Bayram Ali / Vault Steward*
 *Last Updated: {{DATE}}*
 *Mode: Red Team · Human Mode · Truth Mode*

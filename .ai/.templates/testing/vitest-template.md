@@ -3,18 +3,43 @@ reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic — Vitest Test Template"
 type: testing-template
 category: template
-date: {{DATE}}
-updated: {{DATE}}
-status: draft
-version: 1.0.0
-authority: Single Source of Truth (SSOT)
+version: 2.0.0
+status: active
+authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
+updated: 2026-09-23
+date: 2026-09-23
 governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/CLAUDE.md"
   source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/brain.md"
 ---
 
-# {{TITLE}}
+# CoreMusic — Vitest Test Template
+
+**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../../AGENTS.md]]
+
+## 1. Amaç
+
+CoreMusic frontend unit testlerini standartlaştırmaktır: test dosya yapısı, Component/Service/DOM Utils test metodu iskeletleri, global fetch mock'ı, `vitest.config.js` coverage eşikleri ve çalıştırma komutlarını tek şablonda sunar. Kaynak: `reference_doc: Freelancer Technical Documentation v1.0`.
+
+## 2. Kapsam
+
+| Kapsam | Kapsam Dışı |
+|--------|-------------|
+| `tests/**/*.test.js` Vitest unit/integration testleri | Backend testleri (bkz. phpunit-template) |
+| `vitest.config.js` + coverage thresholds (≥80%) | E2E testleri (Playwright) |
+| Component/Service/DOM Utils mock kalıpları | Üretim kodu (`assets/js/**`) |
+
+- **Dosya tipi:** JavaScript test dosyası + Markdown şablon dokümanı
+- **Teknoloji:** Vitest, happy-dom, ES6+
+- **Kullanan agent:** QA Engineer (birincil · AGENTS.md §6: test, coverage, Vitest), UI Designer (ikincil)
+- **Hedef Coverage:** ≥80% · **Guardrail:** #16 (Template Mandatory)
+
+## 3. Mimari
+
+Şablonun tam gövdesi. Not: gömme nedeniyle şablon başlıkları iki seviye derinleştirilmiştir (H1 → `###`, H2 → `####`); tüm `{{PLACEHOLDER}}`, JavaScript/bash kod blokları ve `//` yorum satırları birebir korunmuştur. Coverage ve test standartları §4.1'dedir.
+
+### {{TITLE}}
 
 **Teknoloji:** Vitest, happy-dom, ES6+
 **Kapsam:** Frontend unit test
@@ -22,7 +47,7 @@ reference:
 
 ---
 
-## 1. Dosya Yapısı
+#### 3.1 Dosya Yapısı
 
 ```
 tests/
@@ -40,7 +65,7 @@ tests/
 
 ---
 
-## 2. Component Test Şablonu
+#### 3.2 Component Test Şablonu
 
 ```javascript
 import { describe, it, expect, beforeEach, vi } from 'vitest';
@@ -121,7 +146,7 @@ describe('{{COMPONENT}}', () => {
 
 ---
 
-## 3. Service Test Şablonu
+#### 3.3 Service Test Şablonu
 
 ```javascript
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -202,7 +227,7 @@ describe('{{SERVICE}}Service', () => {
 
 ---
 
-## 4. DOM Utils Test Şablonu
+#### 3.4 DOM Utils Test Şablonu
 
 ```javascript
 import { describe, it, expect } from 'vitest';
@@ -276,7 +301,7 @@ describe('DOMUtils', () => {
 
 ---
 
-## 5. vitest.config.js
+#### 3.5 vitest.config.js
 
 ```javascript
 import { defineConfig } from 'vitest/config';
@@ -304,7 +329,7 @@ export default defineConfig({
 
 ---
 
-## 6. Çalıştırma
+#### 3.6 Çalıştırma
 
 ```bash
 # Tüm testler
@@ -322,7 +347,63 @@ npx vitest run tests/unit/components/{{COMPONENT}}.test.js
 
 ---
 
-*Vitest Test Template v1.0.0 — CoreMusic Testing Standards*
+## 4. Kurallar
+
+Zorunlu / yasak kurallar ve kod standartları:
+
+#### 4.1 Test & Coverage Standartları
+
+| Kural | Değer |
+|-------|-------|
+| Hedef Coverage | ≥80% (lines, functions, branches, statements) |
+| Environment | `happy-dom` + `globals: true` |
+| Coverage provider | `v8` — reporter: text, html, lcov |
+| Kapsam | `assets/js/**/*.js` — hariç: `assets/js/config/**` |
+| Fetch mock | `global.fetch = vi.fn()` (§3.3) |
+| CSRF | `X-CSRF-Token` header testi zorunlu (§3.3 create) |
+
+Ek kurallar:
+
+- **Zorunlu:** her test bir assertion içerir; DOM temizliği `afterEach` ile yapılır (§3.2 `container.remove()`).
+- **Zorunlu:** Service testlerinde fetch global olarak mock'lanır; `beforeEach(() => vi.clearAllMocks())` ile sıfırlanır (§3.3).
+- **Zorunlu:** write istekleri (POST) için `X-CSRF-Token` header'ı assert edilir (§3.3) — CSRF contract'ı korunur.
+- **Zorunlu:** `npx vitest --coverage` §3.5 thresholds'ları (80/80/80/80) sağlamalıdır; CI `js-test` job `npm run test:coverage` çalıştırır (github-actions-template §3.1).
+- **Yasak:** `{{TITLE}}`, `{{COMPONENT}}`, `{{SERVICE}}`, `{{MODULE}}`, `{{DATE}}` placeholder'ları doldurulmadan test dosyası commit edilemez; assertion'sız test yazılamaz.
+- **Uyarı:** coverage %80 altına düşerse AGENTS.md §10.1 eskalasyonu (L1 QA → L2, timeout 60s); bilinmeyen DOM behavior `⚠️ VERIFICATION REQUIRED`.
+
+## 5. Workflow
+
+```
+ŞABLONU SEÇ → KOPYALA → {{PLACEHOLDER}} DOLDUR → GUARDRAIL #16 DOĞRULA → COMMIT
+```
+
+1. **ŞABLONU SEÇ:** `.ai/.templates/testing/vitest-template.md` (Guardrail #16).
+2. **KOPYALA:** §3.1 dosya yapısına göre `tests/unit/...` altına test dosyasını oluştur; §3.5 `vitest.config.js` konfigürasyonunu kopyala.
+3. **{{PLACEHOLDER}} DOLDUR:** `{{TITLE}}`, `{{COMPONENT}}`, `{{SERVICE}}`, `{{MODULE}}` (import yolları, API URL'leri, describe adları dahil).
+4. **GUARDRAIL #16 DOĞRULA:** 7 alanlı frontmatter + §1-§7 + tüm placeholder'lar doldu + §4.1 standartları (coverage ≥80%, fetch mock, CSRF header assert) geçti.
+5. **COMMIT:** `npx vitest --coverage` ile yerelde doğrula; CI `js-test` job geçmeli; `log.md`'ye giriş ekle.
+
+## 6. Doğrulama
+
+- [ ] 7 alanlı frontmatter var (title, type, category, version, status, authority, updated)
+- [ ] §1-§7 var
+- [ ] tüm {{PLACEHOLDER}}'lar dolduruldu
+- [ ] dosya bu şablona uygun
+- [ ] Coverage ≥80% (4 threshold); her test assertion içeriyor; fetch mock + CSRF header assert mevcut
+
+**REFACTOR REPORT:** FILE: vitest-template.md · PURPOSE: Vitest Test Template · VALIDATION: 7 alan + §1-§7 + bilgi korunumu · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
+
+## 7. Referanslar
+
+- [[.templates/index]] — şablon registry (`.ai/.templates/index.md`)
+- [[../CLAUDE.md]] — AI anayasası, 16 Hard Guardrail
+- [[../../AGENTS.md]] — routing (§6: test/Vitest → QA Engineer), kalite standardı §16 (coverage ≥80%, flaky %0), eskalasyon §10.1 (coverage < %80)
+- `.ai/CLAUDE.md` · `.ai/AGENTS.md` · `.ai/brain.md` (frontmatter `reference`)
+- `reference_doc: Freelancer Technical Documentation v1.0`
+
+---
+
+*Vitest Test Template v2.0.0 — CoreMusic Testing Standards*
 *Authority: Bayram Ali / Vault Steward*
 *Last Updated: {{DATE}}*
 *Mode: Red Team · Human Mode · Truth Mode*

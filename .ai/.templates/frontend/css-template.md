@@ -1,4 +1,43 @@
 ---
+title: "CoreMusic — CSS/ITCSS Development Template"
+type: template
+category: template
+version: 2.0.0
+status: active
+authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
+updated: 2026-09-23
+date: 2026-09-23
+reference_doc: Freelancer Technical Documentation v1.0
+governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/CLAUDE.md"
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/brain.md"
+---
+
+# CoreMusic — CSS/ITCSS Development Template
+
+**Teknoloji:** ITCSS 9-layer, BEM naming, CSS Custom Properties
+**Katman:** K11 (UX)
+**Sorumlu Agent:** UI Designer
+
+**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../../AGENTS.md]]
+
+## 1. Amaç
+
+Bu şablon, CoreMusic stylesheet geliştirme standardını (ITCSS 9 katman, BEM, design token'lar) ve kod iskeletlerini tanımlar. **Guardrail #16:** yeni CSS dosyası bu şablondan üretilmek ZORUNLUDUR. Şablon; ADR-001 (Vanilla JS + ITCSS, framework yasak), ADR-018 (footer player), ADR-044 (cinsiyet bazlı tema), ADR-045 (multi-domain view mode) kararlarını stylesheet yapısına gömer. **ADR-042 hibrit:** `.templates/*` tam yeniden yazıma açıktır (bu dosya v2.0.0 ile yeniden yazıldı).
+
+## 2. Kapsam
+
+- **Geçerli dosya tipleri:** `assets/css/` altındaki tüm CSS dosyaları (01_Settings → 09_Themes + main.css), katman: K11 (UX).
+- **Kullananlar:** UI Designer (birincil), QA Engineer (WCAG/responsive doğrulama), Backend Architect (PHP'de inline style denetimi — yasak).
+- **Kapsam dışı:** JS dosyaları (→ `[[./js-template]]`), mockuplar (→ `[[ui-design/01-mockup-index]]`), component HTML/PHP (ilgili backend şablonu).
+
+## 3. Mimari
+
+Şablonun tam iskeleti (placeholder'lı frontmatter + H1 + Hard Guardrails + dosya yapısı + 6 kod şablonu + ADR bölümü, eksiksiz):
+
+````markdown
+---
 reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic — CSS/ITCSS Development Template"
 type: css-template
@@ -357,3 +396,58 @@ assets/css/
 *Authority: Bayram Ali / Vault Steward*
 *Last Updated: {{DATE}}*
 *Mode: Red Team · Human Mode · Truth Mode*
+````
+
+## 4. Kurallar
+
+**Hard Guardrails (iskelet §1 — kesinlikle yasak, ihlalde kod revert edilir):**
+
+| # | Kural | İhlal Sonucu |
+|---|-------|-------------|
+| 1 | Hardcoded pixel/değer yasak — CSS variables kullan *(eski kayıtta mojibake korunmuştur: `CSS variables使用`)* | Kod revert edilir |
+| 2 | `!important` yasak (maks. 3 istisna) | Kod revert edilir |
+| 3 | Inline style yasak (PHP'de sunum kararı yok) | Kod revert edilir |
+| 4 | Tek component sistemi + responsive CSS | Ayrı HTML yasak |
+| 5 | Device CSS = sadece behavioral overrides | Layout CSS device'da yasak |
+| 6 | BEM naming zorunlu | Kod revert edilir |
+| 7 | ITCSS 9-layer sırası değişmez | Katman ihlali |
+
+**Genel kurallar:**
+
+1. **Guardrail #16:** Yeni CSS dosyası bu şablondan üretilir; dış iskelet + ITCSS katman sırası silinemez.
+2. **ITCSS katman sırası sabit:** 01 Settings → 02 Tools → 03 Generic → 04 Elements → 05 Objects → 06 Components → 07 Utilities → 08 Devices → 09 Themes (main.css 01-07 import eder).
+3. **Design token zorunlu:** Tüm değerler `01_Settings/_variables.css` custom properties üzerinden alınır; responsive kırılımlar (1024/768/767/1920/3840) yalnızca token override ile yapılır.
+4. **WCAG:** touch target `--touch-min: 44px`; mockup okumadan CSS yazılmaz (`[[ui-design/01-mockup-index]]` — Mockup Before Frontend).
+5. **İlgili ADR'ler:** ADR-001 · ADR-018 · ADR-044 · ADR-045.
+6. **Bilinmeyen değer:** `⚠️ VERIFICATION REQUIRED` etiketi kullanılır.
+
+## 5. Workflow
+
+ŞABLONU SEÇ → KOPYALA → `{{PLACEHOLDER}}` DOLDUR → GUARDRAIL #16 DOĞRULA → COMMIT
+
+1. **ŞABLONU SEÇ:** `frontend/css-template.md`.
+2. **KOPYALA:** Hedef katmanın dizinine kopyala (yeni bileşen → `06_Components/_<bileşen>.css`; tema → `09_Themes/`; cihaz override → `08_Devices/`).
+3. **`{{PLACEHOLDER}}` DOLDUR:** `{{TITLE}}`, `{{DATE}}` alanlarını gerçek değerle değiştir; iskelet §3-§7 kod örneklerini ilgili bileşene uyarla (BEM bloğu adı, token değerleri).
+4. **GUARDRAIL #16 DOĞRULA:** §6 kontrol listesi + §4 Hard Guardrails (7 madde) + ITCSS katman sırası + mockup kontrolü.
+5. **COMMIT:** Responsive + WCAG doğrulamasıyla commit; registry + log güncel.
+
+## 6. Doğrulama
+
+- [ ] 7 alanlı frontmatter var (`title`, `type`, `category`, `version`, `status`, `authority`, `updated`)
+- [ ] 8 bölüm var (H1 + §1-§7)
+- [ ] tüm `{{PLACEHOLDER}}`'lar dolduruldu (`{{TITLE}}`, `{{DATE}}`)
+- [ ] dosya bu şablona uygun (CSS dosyası)
+- [ ] Hard Guardrails 7/7 + ITCSS katman sırası + BEM + token kullanımı + mockup okundu
+
+**REFACTOR REPORT:** FILE: css-template.md · PURPOSE: CSS/ITCSS geliştirme standardı + kod iskeletleri (Guardrail #16) · VALIDATION: 7 alan + §1-§7 + bilgi korunumu (4 placeholder, 7 kod bloğu korundu) · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
+
+## 7. Referanslar
+
+- [[.templates/index]] — Template Registry (bu şablonun kaydı)
+- [[../CLAUDE.md]] — vault ana sözleşme
+- [[../../AGENTS.md]] — agent registry
+- [[./js-template]] — eşdeğer frontend şablonu (JS)
+- [[ui-design/01-mockup-index]] — mockup indeksi (Mockup Before Frontend)
+- [[CLAUDE.md]] · [[brain.md]] · [[WORKFLOW.md]] — iskelet reference alanları
+
+**İlgili ADR'ler:** ADR-001 (Vanilla JS + ITCSS, framework yasak) · ADR-018 (Footer player vaporwave) · ADR-044 (Cinsiyet bazlı dinamik tema) · ADR-045 (Multi-domain view mode)

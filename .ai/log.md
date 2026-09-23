@@ -221,3 +221,12 @@ governance: Red Team · Human Mode · Truth Mode
   - **Exec:** 2 docs-writer subagent (paralel A5+B6; model parametresi `opencode/mimo-v2.6-flash-free` zorunlu — varsayılan model kullanılamıyor)
   - **Bilgi korunumu:** eski tablolar/kurallar/edge-case'ler §3/§5/§7'ye taşındı; bilinmeyenler `⚠️ VERIFICATION REQUIRED`
   - **Kapı:** 0 yeni kırık link (profildeki `ui-design/00-mockup-index` gibi önceden mevcut drift'ler Faz 6 defterinde)
+
+- 2026-09-23 21:30:00 | vault_refactor_engine_faz5 | session=current | **FAZ 5 — ŞABLONLAR (.templates/, tam yeniden yazım):**
+  - **Dosya (19/19):** index (v3.3.0→**4.0.0**), CLAUDE (v2.0.0, type: template-guide), agents-template (version'suz→2.0.0), adr/php/nodejs/css/js/hardware/github-actions/migration/cpp/Query/api-doc/security-audit/WikiPage/session-log/phpunit/vitest (hepsi v1.0.0→**v2.0.0**)
+  - **8-Bölüm İskeleti uygulandı (hepsinde):** H1 Başlık · §1 Amaç · §2 Kapsam · §3 Mimari ({{PLACEHOLDER}}'lı tam şablon iskeleti — bilgi korunumu: 175+ placeholder, 55+ kod bloğu) · §4 Kurallar · §5 Workflow (ŞABLONU SEÇ→KOPYALA→DOLDUR→GUARDRAIL #16 DOĞRULA→COMMIT) · §6 Doğrulama (+REFACTOR REPORT) · §7 Referanslar
+  - **Frontmatter 7 alan** 19/19 ✓; `authority` hepsinde `Template (Guardrail #16) — Registry: .ai/.templates/index.md` (self-SSOT iddiası 0); şablon dosyalarının kendi `updated: 2026-09-23` gerçek değeri, placeholder'lı örnek §3 içinde korundu
+  - **index.md gerçeklik düzeltmesi (Truth Mode):** disk ağacı 19 dosya ile hizalandı; diskte olmayan 10 şablon (adr-audio/database/frontend/security/index, arduino, avr, pic, aspnet, c-template) "Planlanan (diskte yok)" listesine TAŞINDI (silinmedi) + `total_templates: 26→17`, `total_files: 19`, `total_lines: 25000→4899` (gerçek sayaç), `ui-design/00→01-mockup-index` linki düzeltildi
+  - **Link onarımı (kapı öncesi):** 16 subdir dosyada `[[../X]]`→`[[../../X]]` seviye düzeltmesi (37 link), index'de 10 "Planlanan" kırık link → `` `düz metin` ``
+  - **Exec:** 2 docs-writer subagent (paralel A8+B11, model: opencode/mimo-v2.6-flash-free) + otomatik kapı betiği
+  - **Kapı:** 19/19 OK (7 alan + §1-§7 + v≥2.0.0 + SSOT yok); kalan 6 "kırık" sahte pozitif (placeholder/kod metni: `ADR-NNN-...`, `{{RELATED_PAGE_*}}`, `'name' =>`)

@@ -1,4 +1,44 @@
 ---
+title: "CoreMusic — Node.js Backend Template"
+type: template
+category: template
+version: 2.0.0
+status: active
+authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
+updated: 2026-09-23
+date: 2026-09-23
+reference_doc: Freelancer Technical Documentation v1.0
+governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/CLAUDE.md"
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/brain.md"
+---
+
+# CoreMusic — Node.js Backend Template
+
+**Teknoloji:** Node.js 20+, TypeScript 5+
+**Katman:** K8 (Download Service)
+**Port:** 3001
+**Sorumlu Agent:** DevOps Engineer
+
+**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../../AGENTS.md]]
+
+## 1. Amaç
+
+Bu şablon, CoreMusic download servisi (K8, port 3001) için Node.js 20+ / TypeScript 5+ backend dosya ve kod iskeletlerini tanımlar. **Guardrail #16:** yeni Node.js backend dosyası (server/route/controller/service/middleware) bu şablondan üretilmek ZORUNLUDUR. Şablon; helmet/CORS/rate-limit güvenlik katmanı, structured logging, health check ve merkezi error handler standartlarını sabitler. **ADR-042 hibrit:** `.templates/*` tam yeniden yazıma açıktır (bu dosya v2.0.0 ile yeniden yazıldı).
+
+## 2. Kapsam
+
+- **Geçerli dosya tipleri:** `download-service/src/**` altındaki TypeScript dosyaları (index, server, config, routes, controllers, services, middleware, utils) + `tests/*.test.ts` (K8 Download Service).
+- **Kullananlar:** DevOps Engineer (birincil, servis sahibi), Backend Architect (route/controller review), Security Engineer (auth/rate-limit), QA Engineer (vitest).
+- **Kapsam dışı:** PHP backend (→ `[[./php-template]]`), frontend JS (→ `[[../frontend/js-template]]`), CI/CD pipeline (→ `[[../infrastructure/github-actions-template]]`).
+
+## 3. Mimari
+
+Şablonun tam iskeleti (placeholder'lı frontmatter + H1 + dosya yapısı + 4 kod şablonu, eksiksiz):
+
+````markdown
+---
 reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic — Node.js Backend Template"
 type: backend-template
@@ -168,3 +208,42 @@ export class {{MODULE}}Service {
 *Authority: Bayram Ali / Vault Steward*
 *Last Updated: {{DATE}}*
 *Mode: Red Team · Human Mode · Truth Mode*
+````
+
+## 4. Kurallar
+
+1. **Guardrail #16:** Yeni Node.js backend dosyası bu şablondan üretilir; dış iskelet silinemez.
+2. **Güvenlik zorunlu (iskelet §2 — ihlalde servis yayımlanamaz):** `helmet()` + CORS (`origin: config.ALLOWED_ORIGINS`, `credentials: true`) + rate limit (`windowMs: 60_000`, `max: 60`, `standardHeaders: true`) + body limit `10mb`.
+3. **Yapı zorunlu:** TypeScript 5+ strict; her route `routes/`, her endpoint `controller` + `service` katmanına ayrılır; controller hata yakalar ve `next(error)` ile merkezi error handler'a iletir.
+4. **Logging + health:** `utils/logger.ts` structured log; `/health` endpoint'i zorunlu; hata log'unda `message` + `stack` taşınır.
+5. **Ortam/zarf:** `config.ALLOWED_ORIGINS` / `config.PORT` config üzerinden okunur; hardcoded secret yasak.
+6. **Bilinmeyen API:** `⚠️ VERIFICATION REQUIRED` etiketi kullanılır.
+7. **Port/servis:** Download Service = port 3001 (K8) — port çakışması → DevOps Engineer'a bildir.
+
+## 5. Workflow
+
+ŞABLONU SEÇ → KOPYALA → `{{PLACEHOLDER}}` DOLDUR → GUARDRAIL #16 DOĞRULA → COMMIT
+
+1. **ŞABLONU SEÇ:** `backend/nodejs-template.md`.
+2. **KOPYALA:** `download-service/src/` altındaki ilgili katmana (routes/controllers/services) kopyala.
+3. **`{{PLACEHOLDER}}` DOLDUR:** `{{MODULE}}` (routes/controller/service/test dosya adları + class isimleri), `{{TITLE}}`, `{{DATE}}`.
+4. **GUARDRAIL #16 DOĞRULA:** §6 kontrol listesi + §4 kuralları (helmet/CORS/rate-limit/health/error handler).
+5. **COMMIT:** `vitest` + `tsc --noEmit` ile doğrula; registry + log güncel.
+
+## 6. Doğrulama
+
+- [ ] 7 alanlı frontmatter var (`title`, `type`, `category`, `version`, `status`, `authority`, `updated`)
+- [ ] 8 bölüm var (H1 + §1-§7)
+- [ ] tüm `{{PLACEHOLDER}}`'lar dolduruldu (`{{MODULE}}`, `{{TITLE}}`, `{{DATE}}`)
+- [ ] dosya bu şablona uygun (Node.js/TypeScript backend dosyası)
+- [ ] helmet + CORS + rate-limit (60/60s) + health check + structured logger + `next(error)` akışı yerinde
+
+**REFACTOR REPORT:** FILE: nodejs-template.md · PURPOSE: Node.js (K8 download service) backend şablonu (Guardrail #16) · VALIDATION: 7 alan + §1-§7 + bilgi korunumu (15 placeholder, 5 kod bloğu korundu) · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
+
+## 7. Referanslar
+
+- [[.templates/index]] — Template Registry (bu şablonun kaydı)
+- [[../CLAUDE.md]] — vault ana sözleşme
+- [[../../AGENTS.md]] — agent registry
+- [[./php-template]] — eşdeğer backend şablonu (PHP)
+- [[../infrastructure/github-actions-template]] — CI/CD pipeline

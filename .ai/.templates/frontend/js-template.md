@@ -1,4 +1,43 @@
 ---
+title: "CoreMusic — JavaScript Frontend Development Template"
+type: template
+category: template
+version: 2.0.0
+status: active
+authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
+updated: 2026-09-23
+date: 2026-09-23
+reference_doc: Freelancer Technical Documentation v1.0
+governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/CLAUDE.md"
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/brain.md"
+---
+
+# CoreMusic — JavaScript Frontend Development Template
+
+**Teknoloji:** Vanilla JS ES6+ (Framework YASAK — ADR-001)
+**Katman:** K11 (UX) / K10 (Uygulama)
+**Sorumlu Agent:** UI Designer
+
+**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../../AGENTS.md]] · [[CLAUDE.md]] · [[brain.md]] · [[architecture/k11-ux/README.md]] · [[architecture/k9-api-routing/spa-router.md]]
+
+## 1. Amaç
+
+Bu şablon, CoreMusic frontend geliştirme standardını (Vanilla JS ES6+ — framework yasak, ITCSS ile hizalı) ve kod iskeletlerini (component, servis, DOM yardımcıları, SPA router, cookie yönetimi) tanımlar. **Guardrail #16:** yeni frontend JS dosyası bu şablondan üretilmek ZORUNLUDUR. Şablon; ADR-001, ADR-004 (multi-domain SPA), ADR-007 (cache namespace, Zero Code Before Plan), ADR-010 (csrf_token), ADR-083 (SPA Router), ADR-084 (API Gateway) kararlarını koda gömer. **ADR-042 hibrit:** `.templates/*` tam yeniden yazıma açıktır (bu dosya v2.0.0 ile yeniden yazıldı).
+
+## 2. Kapsam
+
+- **Geçerli dosya tipleri:** `assets/js/` altındaki tüm JS dosyaları (app, components, services, utils, router, config); katmanlar: K11 (UX) / K10 (Uygulama).
+- **Kullananlar:** UI Designer (birincil), QA Engineer (vitest + E2E), Security Engineer (XSS/CSRF review), Backend Architect (API sözleşmesi).
+- **Kapsam dışı:** CSS (→ `[[./css-template]]`), backend servis kodu (→ `[[../backend/php-template]]` / `[[../backend/nodejs-template]]`).
+
+## 3. Mimari
+
+Şablonun tam iskeleti (placeholder'lı frontmatter + H1 + Hard Guardrails + dosya yapısı + 5 kod şablonu + ITCSS/ADR/doküman bölümleri, eksiksiz):
+
+````markdown
+---
 reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic — JavaScript Frontend Development Template"
 type: frontend-template
@@ -501,3 +540,61 @@ export default SecureStorage;
 *Authority: Bayram Ali / Vault Steward*
 *Last Updated: {{DATE}}*
 *Mode: Red Team · Human Mode · Truth Mode*
+````
+
+## 4. Kurallar
+
+**Hard Guardrails (iskelet §1 — kesinlikle yasak, ihlalde kod revert/XSS riski):**
+
+| # | Kural | İhlal Sonucu |
+|---|-------|-------------|
+| 1 | Framework yasak — Vanilla JS ES6+ (ADR-001) | Kod revert edilir |
+| 2 | `var` yasak — `const`/`let` kullan | Kod revert edilir |
+| 3 | `innerHTML` yasak — `DOMParser` + `TrustedTypes` | XSS riski |
+| 4 | `eval()` / `Function()` yasak | Güvenlik açığı |
+| 5 | `localStorage` for auth yasak — Session-based auth | Veri sızıntısı |
+| 6 | Hardcoded secret yasak | Veri sızıntısı |
+| 7 | DOM manipulation: `document.createElement` + `appendChild` | Güvenli DOM |
+| 8 | Event delegation kullan | Performans |
+
+**Genel kurallar:**
+
+1. **Guardrail #16:** Yeni JS dosyası bu şablondan üretilir; dış iskelet silinemez (dosya yapısı: app → components → services → utils → router → config).
+2. **Auth modeli:** Session-based auth; token'lar yalnızca HTTPOnly cookie'de, CSRF `csrf_token` cookie'sinden okunur (ADR-010); `localStorage` auth için kullanılmaz.
+3. **Güvenli DOM:** Render `document.createDocumentFragment` + `createElement` + `textContent`; `innerHTML` yalnızca boşaltma (`''`) içindir ve TrustedTypes policy'sine bağlıdır; tüm tıklamalar `[data-action]` event delegation ile yakalanır.
+4. **API çağrısı standardı:** `fetch` + `Content-Type: application/json` + `X-Requested-With: XMLHttpRequest` + `credentials: 'same-origin'`; POST'larda `X-CSRF-Token`.
+5. **ITCSS hizası (iskelet §8):** 01 Settings → 09 Themes katman sırası JS değişkenleri için de geçerli.
+6. **İlgili ADR'ler:** ADR-001 · ADR-004 · ADR-007 · ADR-010 · ADR-083 · ADR-084.
+7. **Bilinmeyen API:** `⚠️ VERIFICATION REQUIRED` etiketi kullanılır.
+
+## 5. Workflow
+
+ŞABLONU SEÇ → KOPYALA → `{{PLACEHOLDER}}` DOLDUR → GUARDRAIL #16 DOĞRULA → COMMIT
+
+1. **ŞABLONU SEÇ:** `frontend/js-template.md`.
+2. **KOPYALA:** Hedef katmanın dizinine kopyala (bileşen → `assets/js/components/`, servis → `assets/js/services/`, router/utils → ilgili alt dizin).
+3. **`{{PLACEHOLDER}}` DOLDUR:** `{{COMPONENT}}`, `{{COMPONENT_LOWER}}`, `{{SERVICE}}`, `{{MODULE}}`, `{{TITLE}}`, `{{DATE}}` alanlarını gerçek değerlerle değiştir; action1/action2 handler'larını uygula; API_BASE yolunu modüle uyarla.
+4. **GUARDRAIL #16 DOĞRULA:** §6 kontrol listesi + §4 Hard Guardrails (8 madde) + mockup kontrolü (`[[ui-design/01-mockup-index]]`).
+5. **COMMIT:** `vitest` + (QA tarafında) E2E ile commit; registry + log güncel.
+
+## 6. Doğrulama
+
+- [ ] 7 alanlı frontmatter var (`title`, `type`, `category`, `version`, `status`, `authority`, `updated`)
+- [ ] 8 bölüm var (H1 + §1-§7)
+- [ ] tüm `{{PLACEHOLDER}}`'lar dolduruldu (`{{COMPONENT}}`, `{{SERVICE}}`, `{{MODULE}}`, `{{DATE}}` dahil)
+- [ ] dosya bu şablona uygun (frontend JS dosyası)
+- [ ] Hard Guardrails 8/8 + `var`/`innerHTML`/`eval` yok + event delegation + CSRF header doğrulandı
+
+**REFACTOR REPORT:** FILE: js-template.md · PURPOSE: Vanilla JS frontend geliştirme standardı + kod iskeletleri (Guardrail #16) · VALIDATION: 7 alan + §1-§7 + bilgi korunumu (17 placeholder, 7 kod bloğu korundu) · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
+
+## 7. Referanslar
+
+- [[CLAUDE.md]] — ana sözleşme (iskelet §10 İlgili Dokümanlar tablosu)
+- [[brain.md]] — mimari kararlar
+- [[architecture/k11-ux/README.md]] — UX mimarisi
+- [[architecture/k9-api-routing/spa-router.md]] — SPA Router
+- [[.templates/index]] — Template Registry
+- [[../CLAUDE.md]] · [[../../AGENTS.md]] — vault ana sözleşme + agent registry
+- [[./css-template]] — eşdeğer frontend şablonu (CSS)
+
+**İlgili ADR'ler:** ADR-001 (Vanilla JS + ITCSS, framework yasak) · ADR-004 (Multi-domain SPA) · ADR-007 (Cache namespace, Zero Code Before Plan) · ADR-010 (csrf_token) · ADR-083 (SPA Router Architecture) · ADR-084 (API Gateway Architecture)

@@ -1,4 +1,43 @@
 ---
+title: "CoreMusic — PHP Backend Development Template"
+type: template
+category: template
+version: 2.0.0
+status: active
+authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
+updated: 2026-09-23
+date: 2026-09-23
+reference_doc: Freelancer Technical Documentation v1.0
+governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/CLAUDE.md"
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/brain.md"
+---
+
+# CoreMusic — PHP Backend Development Template
+
+**Teknoloji:** PHP 8.4, strict_types=1
+**Katman:** K8 (Servis) / K9 (API & Routing)
+**Sorumlu Agent:** Backend Architect
+
+**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../../AGENTS.md]] · [[CLAUDE.md]] · [[brain.md]] · [[WORKFLOW.md]] · [[architecture/k8-servis/README.md]]
+
+## 1. Amaç
+
+Bu şablon, CoreMusic backend geliştirme standartlarını ve kod iskeletlerini tanımlar; **Guardrail #16** gereği yeni PHP backend dosyası (Controller/Service/Repository/Middleware/Validation) bu şablondan üretilmek ZORUNLUDUR. Şablon; ADR-002 (PDO mandatory), ADR-010 (csrf_token), ADR-011/012/013 (oturum, CSP, rate limit), ADR-022 (şifreleme) ve ADR-040 (18 BCNF veritabanı) kararlarını kod iskeletine gömer. **ADR-042 hibrit:** `.templates/*` tam yeniden yazıma açıktır (bu dosya v2.0.0 ile yeniden yazıldı).
+
+## 2. Kapsam
+
+- **Geçerli dosya tipleri:** `src/Controller/`, `src/Service/`, `src/Repository/`, `src/Model/`, `src/Middleware/`, `src/Validation/`, `src/Config/` altındaki PHP 8.4 dosyaları (K8 Servis / K9 API & Routing katmanları).
+- **Kullananlar:** Backend Architect (birincil), Security Engineer (middleware/CSRF review), Data Engineer (Repository/BCNF), QA Engineer (test edilebilirlik).
+- **Kapsam dışı:** frontend dosyaları (→ `[[../../.templates/frontend/js-template]]`), testler (→ phpunit-template), migration (→ infrastructure/migration-template).
+
+## 3. Mimari
+
+Şablonun tam iskeleti (placeholder'lı frontmatter + H1 + dosya yapısı + 5 kod şablonu + BCNF + ADR/doküman bölümleri, eksiksiz):
+
+````markdown
+---
 reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic — PHP Backend Development Template"
 type: backend-template
@@ -361,3 +400,68 @@ final class {{MODULE}}Validator
 *Authority: Bayram Ali / Vault Steward*
 *Last Updated: {{DATE}}*
 *Mode: Red Team · Human Mode · Truth Mode*
+````
+
+## 4. Kurallar
+
+**Hard Guardrails (iskelet §1 — kesinlikle yasak, ihlalde kod revert edilir):**
+
+| # | Kural | İhlal Sonucu |
+|---|-------|-------------|
+| 1 | `declare(strict_types=1)` zorunlu | Kod geçersiz |
+| 2 | ORM yasak (ADR-002) — Sadece PDO | SQL injection riski |
+| 3 | `SELECT *` yasak — Açık sütun listesi | SQL injection riski |
+| 4 | Prepared statement zorunlu | SQL injection riski |
+| 5 | CSRF token = `csrf_token` (ADR-010) | CSRF bozulması |
+| 6 | Middleware sırası değişmez (ADR-010/011/012/013/022) | CSP/CSRF bozulması |
+| 7 | Hardcoded secret yasak — `.env` / credential vault | Veri sızıntısı |
+| 8 | PSR-12 kodlama standartları | Kod tutarsızlığı |
+
+**BCNF Veritabanı Kuralları (iskelet §8):**
+
+| Kural | Açıklama |
+|-------|----------|
+| BCNF zorunlu | 18 veritabanı BCNF kurallarına uymalıdır |
+| Soft delete | `is_deleted = 0` koşulu her sorguda olmalı |
+| Snake_case | Tablo ve sütun isimleri snake_case |
+| Timestamp | `created_at`, `updated_at`, `deleted_at` zorunlu |
+| Prepared statement | PDO prepared statement zorunlu |
+| No ORM | Doctrine DBAL veya raw PDO |
+
+**Genel kurallar:**
+
+1. **Guardrail #16:** Yeni PHP backend dosyası bu şablondan üretilir; dış iskelet silinemez.
+2. **Katman sınırı:** K8/K9 dışında veri erişimi (raw SQL dosyaları) → Data Engineer'a handover.
+3. **İlgili ADR'ler:** ADR-002 · ADR-010 · ADR-011 · ADR-012 · ADR-013 · ADR-022 · ADR-040.
+4. **Belirsizlik:** Bilinmeyen class/API `⚠️ VERIFICATION REQUIRED` ile işaretlenir.
+
+## 5. Workflow
+
+ŞABLONU SEÇ → KOPYALA → `{{PLACEHOLDER}}` DOLDUR → GUARDRAIL #16 DOĞRULA → COMMIT
+
+1. **ŞABLONU SEÇ:** `backend/php-template.md`.
+2. **KOPYALA:** İlgili katman dizinine (Controller/Service/Repository/Middleware/Validation/Config) kopyala.
+3. **`{{PLACEHOLDER}}` DOLDUR:** `{{MODULE}}`, `{{MIDDLEWARE}}`, `{{TABLE}}`, `{{COLUMN_1}}`, `{{COLUMN_2}}`, `{{TITLE}}`, `{{DATE}}` alanlarını gerçek modül/sütun/tarihlerle değiştir; Interface ve DTO dosyalarını ekle.
+4. **GUARDRAIL #16 DOĞRULA:** §6 kontrol listesi + §4 Hard Guardrails (8 madde) + BCNF (6 madde).
+5. **COMMIT:** PSR-12 + test (phpunit-template) ile commit; registry + log güncel.
+
+## 6. Doğrulama
+
+- [ ] 7 alanlı frontmatter var (`title`, `type`, `category`, `version`, `status`, `authority`, `updated`)
+- [ ] 8 bölüm var (H1 + §1-§7)
+- [ ] tüm `{{PLACEHOLDER}}`'lar dolduruldu (`{{MODULE}}`, `{{TABLE}}`, `{{COLUMN_*}}`, `{{DATE}}` dahil)
+- [ ] dosya bu şablona uygun (PHP backend dosyası)
+- [ ] Hard Guardrails 8/8 + BCNF 6/6 + `declare(strict_types=1)` + prepared statement doğrulandı
+
+**REFACTOR REPORT:** FILE: php-template.md · PURPOSE: PHP backend geliştirme standardı + kod iskeletleri (Guardrail #16) · VALIDATION: 7 alan + §1-§7 + bilgi korunumu (48 placeholder, 7 kod bloğu korundu) · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
+
+## 7. Referanslar
+
+- [[CLAUDE.md]] — ana sözleşme (iskelet §10 İlgili Dokümanlar tablosu)
+- [[brain.md]] — mimari kararlar
+- [[WORKFLOW.md]] — süreçler
+- [[architecture/k8-servis/README.md]] — servis mimarisi
+- [[.templates/index]] — Template Registry
+- [[../CLAUDE.md]] · [[../../AGENTS.md]] — vault ana sözleşme + agent registry
+
+**İlgili ADR'ler:** ADR-002 (PDO, ORM yasak) · ADR-010 (csrf_token) · ADR-011 (COREMUSIC_SESS, 3600s) · ADR-012 (strict-dynamic CSP) · ADR-013 (APCu, 60 req/60s) · ADR-022 (AES-256-GCM, Argon2id) · ADR-040 (18 BCNF otoritesi)
