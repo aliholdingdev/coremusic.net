@@ -70,7 +70,7 @@ $headerTierClass = $dm->shouldRender4kLayout()
     ? 'site-header--4k site-header--tv'
     : ($dm->shouldRenderWideLayout() ? 'site-header--wide site-header--desktop' : 'site-header--1024 site-header--embedded');
 ?>
-<header class="site-header <?= $headerTierClass ?> <?= $dm->allClasses() ?>" role="banner" <?= $dm->dataAttributes() ?>>
+<header class="header site-header <?= $headerTierClass ?> <?= $dm->allClasses() ?>" role="banner" <?= $dm->dataAttributes() ?>>
     <div class="site-header__inner">
 
         <a href="/home" class="site-header__logo" aria-label="CoreMusic" data-no-spa>

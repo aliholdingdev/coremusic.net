@@ -1,0 +1,10 @@
+{
+  "url": "https://www.php.net/docs.php",
+  "title": "PHP Documentation - Manual Reference",
+  "content": "PHP: Documentation - Complete PHP Manual Reference. Getting Started: Introduction, Tutorial, Language Reference. Language Reference: Basic syntax, Types, Variables, Constants, Expressions, Operators, Control Structures, Functions, Classes and Objects, Namespaces, Enumerations, Errors, Exceptions, Fibers, Generators, Attributes, References. Security: General considerations, Session Security, Filesystem Security, Database Security. Features: HTTP authentication, Cookies, Sessions, File uploads, Remote files, Connection handling, Persistent Database Connections, Command line usage. Function Reference: Audio Formats, Authentication, CLI Extensions, Compression, Cryptography, Database, Date/Time, File System, Image Processing, Math, Session, Text Processing, Variable/Type, Web Services, XML. PHP 8.5 available. Download docs in multiple languages.",
+  "indexedAt": "2026-09-20T13:44:11.253Z",
+  "sessionID": "ses_f40f30e1bffessyQZz8qDUsUC1",
+  "tags": [
+    "web"
+  ]
+}

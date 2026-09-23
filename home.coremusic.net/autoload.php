@@ -22,6 +22,8 @@ if (file_exists($sharedVendor)) {
     spl_autoload_register(function (string $class): void {
         $prefixes = [
             'CoreMusic\\Home\\Session\\'   => __DIR__ . '/include/Session/',
+            'CoreMusic\\Home\\Class\\'   => __DIR__ . '/include/Class/',
+            'CoreMusic\\Home\\Interfaces\\' => __DIR__ . '/include/Interfaces/',
             'CoreMusic\\Home\\Auth\\'      => __DIR__ . '/include/Auth/',
             'CoreMusic\\Home\\Container\\' => __DIR__ . '/include/Container/',
             'CoreMusic\\Home\\Component\\' => __DIR__ . '/include/Component/',

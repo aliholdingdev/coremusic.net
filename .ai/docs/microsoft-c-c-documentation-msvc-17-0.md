@@ -1,0 +1,3 @@
+# Microsoft C/C++ Documentation - MSVC 17.0
+
+Microsoft C++, C, and Assembler documentation. Learn how to use C++, C, and assembly language to develop applications, services, and tools. Get started: Visual Studio IDE, Write C++ and C apps, Command-line tools, VS Code. Languages and frameworks: C++, C, Microsoft Assembler, C++/CX, C++/CLI, ATL, MFC, C++/WinRT. Workloads: UWP, Windows Desktop, Linux, Embedded, Mobile, Game development. Features: Build reliable programs, Edit/refactor, Build projects, Debug, Analyze, Profile, Port/upgrade, Sanitize. Libraries: C++ standard library, C runtime, MFC/ATL, Parallel programming, Cloud/networking, Azure SDK, UWP libraries, vcpkg. MSVC versions: 140, 150, 160, 170, 180.

@@ -8,19 +8,22 @@
  */
 
 require_once __DIR__ . '/autoload.php';
+require_once __DIR__ . '/config/constants.php';
 
-use CoreMusic\Config\ConfigManager;
-use CoreMusic\Config\DomainConfig;
+/* --- Opcache temizleme (sadece geliştirme ortamı için) --- */
+if (defined('DEBUG_MODE') && DEBUG_MODE && function_exists('opcache_reset')) {
+    opcache_reset();
+}
+
 use CoreMusic\Bootstrap\RuntimeBootstrap;
 
-/* ─── Config (constants + app) ─── */
-require_once __DIR__ . '/config/constants.php';
+/* --- Config (constants + app) --- */
 $appConfig = require __DIR__ . '/config/app.php';
 
 RuntimeBootstrap::boot(DEBUG_MODE);
 
-/* ─── Config Objects ─── */
+/* --- Config Objects --- */
 require_once __DIR__ . '/config/config.php';
 
-/* ─── Application Bootstrap & Routing ─── */
+/* --- Application Bootstrap & Routing --- */
 require_once __DIR__ . '/config/bootstrap.php';

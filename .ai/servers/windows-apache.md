@@ -1,40 +1,40 @@
 ﻿---
 type: server-config
 category: infrastructure
-title: "Sunucu YapÄ±landÄ±rmasÄ± â€” Windows + Apache"
+title: "Sunucu Yapılandırması â€” Windows + Apache"
 date: 2026-09-19
 updated: 2026-09-19
 status: active
 version: 1.0.0
 ---
 
-# Sunucu YapÄ±landÄ±rmasÄ± â€” Windows + Apache
+# Sunucu Yapılandırması â€” Windows + Apache
 
 **Ä°lgili Katmanlar:** [[architecture/k0-k5-software/k0-os-layer]] Â· [[architecture/k10-k15-application/k14-network]]
-**Zorunlu BaÄŸlantÄ±lar:** [[CLAUDE.md]] Â· [[architecture/master-architecture-index]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] Â· [[architecture/master-architecture-index]]
 
 ---
 
-## 1. AmaÃ§
+## 1. Amaç
 
-Bu dokÃ¼man, CoreMusic projesinin XAMPP veya baÄŸÄ±msÄ±z Apache HTTP Server Ã¼zerinden Windows ortamÄ±nda geliÅŸtirme ve test amaÃ§lÄ± (veya belirli Ã¼retim senaryolarÄ±) nasÄ±l yapÄ±landÄ±rÄ±lacaÄŸÄ±nÄ±, `.htaccess` kurallarÄ±nÄ± ve FastCGI ayarlarÄ±nÄ± tanÄ±mlar.
+Bu doküman, CoreMusic projesinin XAMPP veya bağımsız Apache HTTP Server üzerinden Windows ortamında geliştirme ve test amaçlı (veya belirli üretim senaryoları) nasıl yapılandırılacağını, `.htaccess` kurallarını ve FastCGI ayarlarını tanımlar.
 
 ## 2. Mimari Hedefler
 
-- **GeliÅŸtirme OrtamÄ± UyumluluÄŸu:** Windows kullanÄ±cÄ±larÄ± iÃ§in kolay kurulum.
-- **Routing:** Apache mod_rewrite kullanÄ±larak gelen tÃ¼m isteklerin `public/index.php`'ye yÃ¶nlendirilmesi.
-- **GÃ¼venlik:** `.ai`, `.env`, `.git` gibi hassas dizinlere eriÅŸimin engellenmesi.
+- **Geliştirme Ortamı Uyumluluğu:** Windows kullanıcıları için kolay kurulum.
+- **Routing:** Apache mod_rewrite kullanılarak gelen tüm isteklerin `public/index.php`'ye yönlendirilmesi.
+- **Güvenlik:** `.ai`, `.env`, `.git` gibi hassas dizinlere erişimin engellenmesi.
 
 ## 3. Kurulum ve Gereksinimler
 
 - **OS:** Windows 10/11 veya Windows Server 2022
-- **Apache:** 2.4+ (XAMPP Ã¶nerilir)
-- **PHP:** 8.4+ (Thread Safe sÃ¼rÃ¼mÃ¼, mod_php veya FastCGI)
-- **ModÃ¼ller:** `mod_rewrite`, `mod_ssl`, `mod_headers` aktif olmalÄ±dÄ±r.
+- **Apache:** 2.4+ (XAMPP önerilir)
+- **PHP:** 8.4+ (Thread Safe sürümü, mod_php veya FastCGI)
+- **Modüller:** `mod_rewrite`, `mod_ssl`, `mod_headers` aktif olmalıdır.
 
-## 4. Temel Apache YapÄ±landÄ±rmasÄ± (`httpd.conf`)
+## 4. Temel Apache Yapılandırması (`httpd.conf`)
 
-### 4.1 ModÃ¼l AktifleÅŸtirme
+### 4.1 Modül Aktifleştirme
 
 ```apache
 LoadModule rewrite_module modules/mod_rewrite.so
@@ -44,9 +44,9 @@ LoadModule proxy_module modules/mod_proxy.so
 LoadModule proxy_http_module modules/mod_proxy_http.so
 ```
 
-### 4.2 Virtual Host YapÄ±landÄ±rmasÄ± (`httpd-vhosts.conf`)
+### 4.2 Virtual Host Yapılandırması (`httpd-vhosts.conf`)
 
-CoreMusic'i Ã§alÄ±ÅŸtÄ±rmak iÃ§in document root klasÃ¶rÃ¼nÃ¼n `public` olmasÄ± gerekir.
+CoreMusic'i çalıştırmak için document root klasörünün `public` olması gerekir.
 
 ```apache
 <VirtualHost *:80>
@@ -65,15 +65,15 @@ CoreMusic'i Ã§alÄ±ÅŸtÄ±rmak iÃ§in document root klasÃ¶rÃ¼nÃ¼n `p
 </VirtualHost>
 ```
 
-## 5. Dizin YÃ¶nlendirmeleri (`.htaccess`)
+## 5. Dizin Yönlendirmeleri (`.htaccess`)
 
-TÃ¼m HTTP isteklerinin `public/index.php` dosyasÄ±na yÃ¶nlendirilmesi (Front Controller pattern) iÃ§in `public/.htaccess` dosyasÄ± ÅŸu ÅŸekilde olmalÄ±dÄ±r:
+Tüm HTTP isteklerinin `public/index.php` dosyasına yönlendirilmesi (Front Controller pattern) için `public/.htaccess` dosyası şu şekilde olmalıdır:
 
 ```apache
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # Trailing slash kaldÄ±rma (SEO ve Routing iÃ§in)
+    # Trailing slash kaldırma (SEO ve Routing için)
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]
     
@@ -84,23 +84,23 @@ TÃ¼m HTTP isteklerinin `public/index.php` dosyasÄ±na yÃ¶nlendirilmesi (Fro
 </IfModule>
 ```
 
-### 5.1 GÃ¼venlik KorumalarÄ± (KÃ¶k Dizin `.htaccess` Opsiyonel)
+### 5.1 Güvenlik Korumaları (Kök Dizin `.htaccess` Opsiyonel)
 
-EÄŸer Document Root yanlÄ±ÅŸlÄ±kla ana dizine ayarlanÄ±rsa, hassas dosyalarÄ±n korunmasÄ± iÃ§in ana dizindeki koruma:
+Eğer Document Root yanlışlıkla ana dizine ayarlanırsa, hassas dosyaların korunması için ana dizindeki koruma:
 
 ```apache
-# Hassas klasÃ¶rleri eriÅŸime kapat
+# Hassas klasörleri erişime kapat
 <MatchMatch "^\.ai|^\.git|^tests|^scripts">
     Require all denied
 </MatchMatch>
 
-# .env ve diÄŸer config dosyalarÄ±nÄ± kapat
+# .env ve diğer config dosyalarını kapat
 <FilesMatch "^\.env|composer\.json|composer\.lock|README\.md|CLAUDE\.md|WORKFLOW\.md">
     Require all denied
 </FilesMatch>
 ```
 
-## 6. GÃ¼venlik BaÅŸlÄ±klarÄ± (Security Headers)
+## 6. Güvenlik Başlıkları (Security Headers)
 
 ```apache
 <IfModule mod_headers.c>
@@ -133,22 +133,22 @@ Apache kullanarak 3001 portundaki Node.js servisine reverse proxy yapmak:
 
 ## 8. IMPLEMENTED / PLANNED Matrisi
 
-| KonfigÃ¼rasyon | Durum | AÃ§Ä±klama |
+| Konfigürasyon | Durum | Açıklama |
 |---------------|-------|----------|
-| Apache Virtual Host | **IMPLEMENTED** | XAMPP/Local geliÅŸtirmeler iÃ§in Ã§alÄ±ÅŸÄ±r durumda. |
-| mod_rewrite KurallarÄ± | **IMPLEMENTED** | SPA ve PageRouter iÃ§in `index.php`'ye yÃ¶nlendirme devrede. |
-| Ters Vekil (Node.js) | **PLANNED** | Ãœretimde veya yerel testte gerekli olduÄŸunda proxy_http_module kullanÄ±lacak. |
-| Security Headers | **IMPLEMENTED** | Temel baÅŸlÄ±klar middleware seviyesinde PHP tarafÄ±ndan da saÄŸlanmaktadÄ±r. |
+| Apache Virtual Host | **IMPLEMENTED** | XAMPP/Local geliştirmeler için çalışır durumda. |
+| mod_rewrite Kuralları | **IMPLEMENTED** | SPA ve PageRouter için `index.php`'ye yönlendirme devrede. |
+| Ters Vekil (Node.js) | **PLANNED** | Üretimde veya yerel testte gerekli olduğunda proxy_http_module kullanılacak. |
+| Security Headers | **IMPLEMENTED** | Temel başlıklar middleware seviyesinde PHP tarafından da sağlanmaktadır. |
 
 ## 9. Sorun Giderme (Troubleshooting)
 
-- **404 Not Found (Rotalar Ã‡alÄ±ÅŸmÄ±yor):** `mod_rewrite`'Ä±n aÃ§Ä±k olduÄŸundan ve `<Directory>` bloÄŸunda `AllowOverride All` yazÄ±ldÄ±ÄŸÄ±ndan emin olun.
-- **500 Internal Server Error:** `.htaccess` dosyasÄ±ndaki geÃ§ersiz bir kural veya yÃ¼klenmemiÅŸ bir modÃ¼l (Ã¶rn. `mod_headers`) kaynaklÄ±dÄ±r. Apache `error.log`'unu kontrol edin.
-- **Node.js Proxy HatasÄ± (503):** Apache Ã¼zerinden `download.coremusic.net` yÃ¶nlendirilmesinde `mod_proxy` ve `mod_proxy_http` modÃ¼llerinin aktif olduÄŸunu doÄŸrulayÄ±n.
+- **404 Not Found (Rotalar Çalışmıyor):** `mod_rewrite`'ın açık olduğundan ve `<Directory>` bloğunda `AllowOverride All` yazıldığından emin olun.
+- **500 Internal Server Error:** `.htaccess` dosyasındaki geçersiz bir kural veya yüklenmemiş bir modül (örn. `mod_headers`) kaynaklıdır. Apache `error.log`'unu kontrol edin.
+- **Node.js Proxy Hatası (503):** Apache üzerinden `download.coremusic.net` yönlendirilmesinde `mod_proxy` ve `mod_proxy_http` modüllerinin aktif olduğunu doğrulayın.
 
 ---
 
-## Faz 3 DoÃ„Å¸rulamasÃ„Â±: GerÃƒÂ§ek Config KanÃ„Â±tÃ„Â±
+## Faz 3 Doİ„Ş¸rulaması: Gerçek Config Kanıtı
 
-YukarÃ„Â±daki konfigÃƒÂ¼rasyon bloklarÃ„Â±, engine.md Ã‚Â§12.2 Faz 3 kanÃ„Â±t zorunluluÃ„Å¸unu karÃ…Å¸Ã„Â±lamaktadÃ„Â±r. Gerekli router, rewrite ve security tanÃ„Â±mlamalarÃ„Â± mevcuttur.
+Yukarıdaki konfigürasyon blokları, engine.md İ‚§12.2 Faz 3 kanıt zorunluluİ„Ş¸unu karİ…Ş¸ılamaktadır. Gerekli router, rewrite ve security tanımlamaları mevcuttur.
 

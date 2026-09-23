@@ -17,7 +17,7 @@ if (!defined('APP_ENV_MODE')) {
 $env = static fn(string $key, string|int|bool|null $default = null): mixed =>
     $_ENV[$key] ?? getenv($key) ?: $default;
 
-/* ─── Application ─── */
+/* --- Application --- */
 if (!defined('APP_ENV_MODE')) {
     $envMode = $env('APP_ENV_MODE', 'development');
     if (!in_array($envMode, ['development', 'production', 'test'], true)) {
@@ -31,7 +31,7 @@ if (!defined('APP_ENV_MODE')) {
     define('APP_TIMEZONE', $env('APP_TIMEZONE', 'Europe/Istanbul'));
 }
 
-/* ─── Database ─── */
+/* --- Database --- */
 if (!defined('DB_HOST')) {
     define('DB_HOST', $env('DB_HOST', 'localhost'));
     define('DB_AUTH_NAME', $env('DB_AUTH_NAME', 'coremusic_auth'));
@@ -41,22 +41,23 @@ if (!defined('DB_HOST')) {
     define('DB_CHARSET', $env('DB_CHARSET', 'utf8mb4'));
 }
 
-/* ─── Session ─── */
+/* --- Session --- */
 if (!defined('SESSION_NAME')) {
     define('SESSION_NAME', $env('SESSION_NAME', 'COREMUSIC_SESS'));
     define('SESSION_LIFETIME', (int)$env('SESSION_LIFETIME', 7200));
     define('SESSION_COOKIE_DOMAIN', $env('SESSION_COOKIE_DOMAIN', '.coremusic.net'));
-    define('SESSION_SAVE_PATH', $env('SESSION_SAVE_PATH', 'C:\temp'));
+    $sessionSavePath = $env('SESSION_SAVE_PATH', '') ?: sys_get_temp_dir() . '/coremusic_sessions';
+    define('SESSION_SAVE_PATH', $sessionSavePath);
 }
 
-/* ─── Security ─── */
+/* --- Security --- */
 if (!defined('CSRF_TOKEN_LENGTH')) {
     define('CSRF_TOKEN_LENGTH', (int)$env('CSRF_TOKEN_LENGTH', 32));
     define('RATE_LIMIT_MAX', (int)$env('RATE_LIMIT_MAX', 60));
     define('RATE_LIMIT_WINDOW', (int)$env('RATE_LIMIT_WINDOW', 60));
 }
 
-/* ─── Security (Pepper) ─── */
+/* --- Security (Pepper) --- */
 if (!defined('APP_PEPPER')) {
     $pepper = $env('APP_PEPPER', '');
     if ($pepper === '') {
@@ -67,18 +68,21 @@ if (!defined('APP_PEPPER')) {
     define('APP_PEPPER', $pepper);
 }
 
-/* ─── Mode Flags ─── */
+/* --- Mode Flags --- */
 if (!defined('TEST_MODE')) {
     define('TEST_MODE', in_array(strtolower((string)$env('TEST_MODE', 'false')), ['true', '1', 'yes', 'on'], true));
     define('FORCE_AUTH_BYPASS', in_array(strtolower((string)$env('FORCE_AUTH_BYPASS', 'false')), ['true', '1', 'yes', 'on'], true));
+    define('BYPASS_USER_UUID', $env('BYPASS_USER_UUID', '00000000000000000000000000000001'));
+    define('BYPASS_ROLE', $env('BYPASS_ROLE', 'admin'));
+    define('BYPASS_USERNAME', $env('BYPASS_USERNAME', 'test_user'));
 }
 
-/* ─── Trusted Proxies ─── */
+/* --- Trusted Proxies --- */
 if (!defined('TRUSTED_PROXIES')) {
     define('TRUSTED_PROXIES', ['127.0.0.1', '::1']);
 }
 
-/* ─── Path ─── */
+/* --- Path --- */
 if (!defined('ROOT_PATH')) {
     define('ROOT_PATH', dirname(__DIR__));
     define('PAGES_PATH', ROOT_PATH . '/pages');
@@ -86,9 +90,18 @@ if (!defined('ROOT_PATH')) {
     define('CONFIG_PATH', ROOT_PATH . '/config');
 }
 
-/* ─── URLs ─── */
+/* --- URLs --- */
+// Scheme otomatik algılama: HTTPS termination proxy varsa HTTPS, yoksa HTTP
+if (!defined('COREMUSIC_SCHEME')) {
+    $detectedScheme = (
+        (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+        || (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443)
+    ) ? 'https' : 'http';
+    define('COREMUSIC_SCHEME', $detectedScheme);
+}
 if (!defined('AUTH_URL')) {
-    define('AUTH_URL', $env('AUTH_URL', 'http://auth.coremusic.net'));
-    define('MUSIC_URL', $env('MUSIC_URL', 'http://home.coremusic.net:81'));
-    define('ASSETS_URL', $env('ASSETS_URL', 'http://assets.coremusic.net'));
+    define('AUTH_URL', $env('AUTH_URL', COREMUSIC_SCHEME . '://auth.coremusic.net'));
+    define('MUSIC_URL', $env('MUSIC_URL', COREMUSIC_SCHEME . '://home.coremusic.net'));
+    define('ASSETS_URL', $env('ASSETS_URL', COREMUSIC_SCHEME . '://assets.coremusic.net'));
 }

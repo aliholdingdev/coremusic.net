@@ -15,14 +15,9 @@ authority: Single Source of Truth (SSOT)
 
 ## 1. Bağlam
 
-Bir öneri tekrar geldiğinde önce buraya bakılır: 3×Frontend, 3×Database, 4×Architecture, 1×Security, 1×Mobile red kaydı mevcut.
-
-## 2. Mevcut Durum
-
-| Durum | Değer |
-|-------|-------|
-| Dosya | 13 (index + 12 R kaydı) |
-| En sık gerekçe | Framework yasağı (3), BCNF/ORM uyumsuz (3), over-engineering (3) |
+Bir öneri tekrar geldiğinde önce buraya bakılır:
+Öneri doğrulanır red ise "rejected" e gönderilir yani buraya 
+Eğer Öneri Onayaılır ise sonardan "accepted" e gönderilir taşınır.
 
 ## 3. Komşu İlişkiler
 

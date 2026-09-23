@@ -1,0 +1,260 @@
+/**
+ * CoreMusic — Player Info Component (v1.0)
+ * Figma SSOT: node-id=1646-17727 (1024: 392×131) / node-id=2849-21489 (1920: 469×184)
+ * BEM: .player-info, .player-info__cover, .player-info__title, etc.
+ * ITCSS Layer: 04_Components
+ * Version: 1.0.0 — 2026-09-22
+ */
+
+/* ═══ Player Info Container ═══ */
+.player-info {
+  display: flex;
+  gap: var(--space-3, 12px);
+  padding: var(--card-padding, 12px);
+  /* PNG sadakat: cam panel — duvar kağıdı seçilir (0.5 beyaz KALDIRILDI, PNG birebir) */
+  background: var(--glass-bg, rgba(255, 255, 255, 0.12));
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-card, 12px);
+  min-height: 0;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: var(--shadow-md);
+}
+
+/* ═══ Player Info Container  1920×1080 WIDESCREEN DESKTOP DÜZENİ BİLEŞENLERİ ═══ */
+.player-info--wide {
+  width: 400px;
+  height: 165px;
+  display: flex;
+  gap: 16px;
+  /* PNG sadakat: cam panel — duvar kağıdı seçilir (0.5 beyaz KALDIRILDI, PNG birebir) */
+  background: var(--glass-bg, rgba(255, 255, 255, 0.12));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  box-sizing: border-box;
+}
+
+/* ═══ Glass Bar 1 — Üst bilgi barı ═══ */
+.player-info::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.15) 80%,
+    transparent 100%
+  );
+}
+
+/* ═══ Glass Bar 2 — Alt progress barı ═══ */
+.player-info::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.12) 25%,
+    rgba(255, 255, 255, 0.20) 50%,
+    rgba(255, 255, 255, 0.12) 75%,
+    transparent 100%
+  );
+}
+
+/* ═══ Images & Icons ═══ */
+.player-info__text-img {
+  width: 12px !important;
+  height: 12px !important;
+  margin-top: 2px !important;
+  float: right;
+  position: absolute !important;
+}
+.player-info__cover {
+  width: var(--player-cover);
+  height: var(--player-cover);
+  border-radius: 5px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.player-info__cover img {
+  width: var(--player-cover);
+  height: var(--player-cover);
+  border-radius: 5px;
+}
+.player-info_stars img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+/* ═══ Text Label Icons ═══ */
+.player-info__label {
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 400;
+  /* Figma: 0.5px 0.5px 0.5px rgba(0,0,0,0.8) */
+  text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.player-info__label-value {
+  color: rgba(255, 255, 255, 0.95);
+  /* Figma: 0.5px 0.5px 0.5px rgba(0,0,0,0.8) */
+  text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.player-info__stars {
+  position: absolute;
+  margin-top: 2px;
+  margin-left: 5px;
+  display: inline-flex !important;
+}
+
+/* ═══ Track Info ═══ */
+.player-info__title {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.player-info__album {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.player-info__singer {
+font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.player-info__bitrate {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.player-info__star {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.player-info__duration {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ═══ Playlist Link ═══ */
+.player-info__playlist-link {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-primary);
+  opacity: 0.6;
+  text-decoration: none;
+}
+
+/* ═══ Progressbar: Figma 246×9 ═══ */
+.player-info__progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-left: 15px;
+  margin-top: 3px;
+}
+.player-info__progress__time {
+  font-family: 'Avalon Medium', 'DM Sans', monospace;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.05em;
+  text-shadow: var(--ts-sm);
+  flex-shrink: 0;
+}
+.player-info__progress__bar {
+  flex: 1;
+  height: 9px;
+  /* Figma: gradient from 0.17 → 0.45 → 0.11 */
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.11));
+  border-radius: 2px;
+  overflow: hidden;
+}
+.player-info__progress__fill {
+  height: 100%;
+  /* Figma: #FF65E9 */
+  background: #FF65E9;
+  box-shadow: var(--glow-progress);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.5s linear;
+}
+
+/* PNG home-1920: kart altı bar — pembe play dairesi (~22px) + 8px yuvarlak uçlu bar */
+.player-info__progress__play {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent, #ff4fd8);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--glow-play);
+}
+.player-info__progress--wide .player-info__progress__bar {
+  height: 9px;
+  border-radius: 4px;
+  /* Figma: gradient from 0.17 → 0.45 → 0.11 */
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.11));
+}
+.player-info__progress--wide .player-info__progress__fill {
+  border-radius: 4px;
+}
+.player-info__progress {
+  width: 200px;
+  height: 12px;
+}

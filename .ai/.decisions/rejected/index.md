@@ -22,10 +22,6 @@ total: 12
 
 | Kategori | Red Sayısı |
 |----------|------------|
-| Frontend | 3 |
-| Database | 3 |
-| Architecture | 4 |
-| Security | 1 |
 | **TOPLAM** | **12** |
 
 ---

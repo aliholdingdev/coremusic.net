@@ -39,14 +39,6 @@
   --radius-3xl: 24px;
   --radius-pill: 50px;
   --radius-full: 50%;
-
-  /* Component radius shortcuts */
-  --radius-card: var(--radius-md);
-  --radius-input: var(--radius-md);
-  --radius-button: var(--radius-md);
-  --radius-badge: var(--radius-sm);
-  --radius-modal: var(--radius-xl);
-  --radius-toggle: var(--radius-full);
 }
 
 /* ============================================================
@@ -547,7 +539,7 @@
 
   /* Home layout splits */
   --home-top-split: 42% 58%;
-  --home-bottom-split: 1fr 1.2fr 0.6fr;
+  --home-bottom-split: 1fr 1fr 1fr;
   --browse-sidebar-w: 167px;
 }
 

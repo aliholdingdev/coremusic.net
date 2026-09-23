@@ -10,18 +10,19 @@ namespace CoreMusic\Auth\Middleware;
  */
 final class OriginCheckMiddleware implements MiddlewareInterface
 {
-    private const ALLOWED_ORIGINS = [
-        'auth.coremusic.net',
-        'music.coremusic.net',
-        'admin.coremusic.net',
-        'home.coremusic.net',
-        'api.coremusic.net',
-        'media.coremusic.net',
-        'download.coremusic.net',
-        'coremusic.net',
-        'localhost',
-        '127.0.0.1',
-    ];
+    /** @var list<string> */
+    private array $allowedOrigins;
+
+    public function __construct()
+    {
+        $this->allowedOrigins = $this->loadAllowedHosts();
+    }
+
+    private function loadAllowedHosts(): array
+    {
+        $hosts = $_ENV['ORIGIN_ALLOWED_HOSTS'] ?? '';
+        return $hosts !== '' ? array_filter(array_map('trim', explode(',', $hosts))) : [];
+    }
 
     public function process(array $request, callable $next): array
     {

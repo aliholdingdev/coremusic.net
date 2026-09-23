@@ -1,0 +1,60 @@
+/**
+ * CoreMusic — Auth Desktop Device CSS
+ * 1441-2560px — Default auth split layout
+ * ITCSS Layer: 08_Devices
+ * Version: 1.2.0 — 2026-08-18
+ *
+ * NOTE: Token imports removed — auth-bundled.css already loads them.
+ * This file only contains desktop-specific overrides.
+ */
+
+:root {
+  --lgn-panel-w: 440px;
+  --lgn-font-size: 16px;
+}
+
+html { font-size: 16px; }
+
+/* ═══ PANEL — Fixed right dock ═══ */
+.lgn-panel {
+  width: clamp(340px, 22vw, 440px);
+  position: fixed !important;
+  right: 0 !important;
+  top: 0 !important;
+  height: 100% !important;
+  height: 100dvh !important;
+  z-index: 10 !important;
+  display: flex !important;
+  align-items: stretch !important;
+}
+
+.lgn-panel__glass {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, .28);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border-left: 1px solid rgba(255, 255, 255, .14);
+  overflow-y: auto;
+}
+
+/* ═══ HERO — Padding for panel ═══ */
+.lgn-hero {
+  padding-right: calc(clamp(340px, 22vw, 440px) + 4vw) !important;
+}
+
+/* ═══ FORM ELEMENTS ═══ */
+.lgn-form__input {
+  height: clamp(42px, 2vw, 52px);
+}
+
+.lgn-btn {
+  height: clamp(46px, 2vw, 56px);
+}
+
+.lgn-social {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Background image is controlled by auth-gender-bg.js for crossfade animation */

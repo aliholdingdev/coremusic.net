@@ -11,7 +11,7 @@ authority: Single Source of Truth (SSOT)
 
 # .ai/decisions — CLAUDE.md
 
-**Zorunlu Bağlantılar:** [[./AGENTS.md]] · [[../brain.md]]
+**Zorunlu Bağlantılar:** · [[../brain.md]]
 
 ## 1. Bağlam
 

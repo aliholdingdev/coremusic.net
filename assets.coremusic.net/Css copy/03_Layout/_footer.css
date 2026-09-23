@@ -1,0 +1,32 @@
+/**
+ * CoreMusic — Footer Player Styles (v2.0)
+ * Figma SSOT: node-id=1639-9773 (1024: 1025×90) / 2831-13747 child[1] (1920: 1923×92)
+ * BEM: .footer-player, .footer-player__cover, .footer-player__info, etc.
+ * ITCSS Layer: 03_Layout
+ * Version: 2.0.0 — 2026-09-22
+ */
+
+/* ═══ Base Footer ═══ */
+.footer {
+    --footer-accent:       #ff4fd8;
+    --footer-text:         rgba(255, 255, 255, 0.88);
+    --footer-text-meta:    rgba(255, 255, 255, 0.50);
+    --footer-glass:        rgba(255, 255, 255, 0.06);
+    --footer-track:        rgba(255, 255, 255, 0.30);
+    --footer-border:       rgba(255, 255, 255, 0.92);
+    --footer-btn-gap: 10px;
+    --footer-util-size:    22px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--footer-h);
+  backdrop-filter: blur(0.2px);
+  -webkit-backdrop-filter: blur(0.2px);
+  z-index: var(--z-footer);
+  display: flex;
+  flex-direction: column;
+}

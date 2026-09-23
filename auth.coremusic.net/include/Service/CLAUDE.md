@@ -1,38 +1,85 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\auth.coremusic.net\include\Service Baglam"
+title: "CoreMusic — auth.coremusic.net/include/Service Bağlam"
 type: context
-folder: "C:\www\coremusic.net\auth.coremusic.net\include\Service"
-category: layer3
-date: 2026-09-06
+folder: "auth.coremusic.net/include/Service"
+category: layer5-services
+date: 2026-09-21
+updated: 2026-09-21
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# Service - CLAUDE.md
+# Service — CLAUDE.md (Detaylı)
 
-**Zorunlu Baglantilar:** [[./AGENTS.md]] . [[../CLAUDE.md]]
+**Zorunlu Bağlantılar:** · [[../CLAUDE.md]] · [[../../shared/CLAUDE.md]]
 
-## 1. Baglam
-Is mantigi servisleri
+---
+
+## 1. Bağlam
+
+İş mantığı servisleri. AuthService login/register/logout işlemlerini, SessionManager session lifecycle'ı yönetir.
+
+---
 
 ## 2. Mevcut Durum
-| Durum | Deger |
+
+| Durum | Değer |
 |-------|-------|
-| Dosya | 2 |
-| Konum | C:\www\coremusic.net\auth.coremusic.net\include\Service |
+| Toplam dosya | 2 PHP dosyası |
 
-## 3. Komsu Iliskiler
-| Yon | Hedef | Iliski |
-|-----|-------|--------|
-| Parent | [[../CLAUDE.md]] | Ust baglam |
-| Talimatlar | [[../AGENTS.md]] | Ust kurallar |
+### 2.1 Dosya Envanteri
 
-## 4. Degisiklik Protokolu
-1. Degisiklik once ust talimatlarla uyum kontrolu
-2. Gerekirse ADR + [[../../.ai/log.md]] audit
+| Dosya | Amaç |
+|-------|------|
+| `AuthService.php` | Login, register, logout iş mantığı |
+| `SessionManager.php` | Session lifecycle yönetimi |
+
+---
+
+## 3. AuthService Detayları
+
+### 3.1 Metotlar
+
+| Metot | Görev |
+|-------|-------|
+| `login(LoginRequest)` | Email+şifre doğrulama, session başlatma |
+| `register(RegisterRequest)` | Yeni kullanıcı oluşturma, Argon2id hash |
+| `logout()` | Session sonlandırma |
+| `getCurrentUser()` | Mevcut kullanıcı bilgisi |
+
+### 3.2 Login Akışı
+
+```
+AuthService::login(LoginRequest)
+ → UserRepository::findByEmail()
+ → Password::verify() (Argon2id)
+ → SessionManager::start()
+ → AuthResponse döndür
+```
+
+### 3.3 Register Akışı
+
+```
+AuthService::register(RegisterRequest)
+ → Password::hash() (Argon2id)
+ → UserRepository::create()
+ → SessionManager::start()
+ → AuthResponse döndür
+```
+
+---
+
+## 4. Yasaklar
+
+| # | Yasak | Neden |
+|---|-------|-------|
+| 1 | Service'den HTTP response döndürmek | Katman ihlali |
+| 2 | Service'den direkt session yönetimi | SessionManager kullanılır |
+| 3 | Password hash'i service dışında üretmek | Tek nokta |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-21
+**Mode:** Red Team · Human Mode · Truth Mode

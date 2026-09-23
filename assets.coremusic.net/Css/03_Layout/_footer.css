@@ -1,534 +1,462 @@
 /**
- * _footer.css — CoreMusic Player Footer
- * Scope  : footer.php — tüm auth sayfaları
- * Design : footer-spec-v2.md · footer-player.md · design-tokens.md
- * Height : 138px (1920+) · 104px (<=1024)
- * Layer  : ITCSS 03_Layout
- * Version: 2.0.0 — 2026-06-03
+ * CoreMusic — Footer Player Bar (v3.2)
+ * Figma SSOT: node-id=1639-9773 (1024: 1025×90) / 2831-13747 child[1] (1920: 1923×92)
+ * BEM: .footer-player, .footer-player__cover, .footer-player__info, etc.
+ * ITCSS Layer: 03_Layout
+ * Version: 3.2.0 — 2026-09-23 (multi-screen responsive scaling)
  *
- * BEM: .footer → __inner
- *      → __meta-section: __album-art · __meta-stack · __text
- *      → __controls-section: __controls · .player-btn
- *      → __utility-section: __utility-icons · __volume
+ * Figma measurements (API extraction):
+ *   Album cover: 85×85
+ *   Progressbar: 1025×4.8
+ *   Player buttons: 297×62 (embedded) / 126×27 (desktop)
+ *   Media info: 367×73 (Avalon 10px w500)
+ *   Volume: 186×14 (embedded) / 353×14 (desktop)
  *
- * Background: login-bg-female.png + blur(16px) glass overlay
- * Accent    : #ff4fd8 (neon pink)
- * Font      : Avalon Medium, 10px, letter-spacing 0.135em
- * Scale     : d-4k.css zoom sözleşmesi (≥3840px body zoom:×2 — 1920 görünüm korunur)
- * Tokens    : a-layout-tokens.css — --footer-h, --footer-album-art-size, --footer-btn-min-size
- * Version: 2.1.0 — 2026-09-06 (4K token ölçeği + KAİ volume/seekbar yapısı + taşma düzeltmeleri)
- * Version: 2.2.0 — 2026-09-08 (Seekbar: container=input 16px eşit, bar 4px, taşma yok ·
- *            Volume: dip hizalı rail/fill + 14×14 KARE thumb + input/div denge)
- *            Spec: .ai/ui-design/screens/_layout-patterns/06-footer-player.md
- * Version: 2.3.0 — 2026-09-08 (Volume geometrisi 04_Components/c-footer-volume.css v2.1.0'a
- *            taşındı — referans proje yapısı: 180×10 container, absolute input+fill, 10×10
- *            KARE thumb; ID seçici > class, çift tanım çakışması giderildi)
- * Version: 2.3.1 — 2026-09-08 (≤1024 butonlar 48/52px — PNG birebir; ScaleManager skip
- *            sonrası transform küçülmesi kalktı, seekbar hit alanı 16px tam çalışır)
+ * Layout: meta (left) | play btns (absolute center) | utility btns + volume (right)
+ * Drop-shadow: 0.3 opacity (subtle, applied to all)
+ * Responsive: phone / 1024 / laptop / wide / 4K TV — proportional sizing
  */
 
-/* ============================================================
-   FOOTER — Custom Properties (footer-özel)
-   ============================================================ */
+/* ═══ Base Footer ═══ */
 .footer {
-    --fp-accent:       #ff4fd8;
-    --fp-text:         rgba(255, 255, 255, 0.88);
-    --fp-text-meta:    rgba(255, 255, 255, 0.50);
-    --fp-glass:        rgba(255, 255, 255, 0.06);
-    --fp-track:        rgba(255, 255, 255, 0.30);
-    --fp-border:       rgba(255, 255, 255, 0.92);
-    --fp-btn-gap: 10px;
-    --fp-util-size:    22px;
+    --footer-accent:       #ff4fd8;
+    --footer-text:         rgba(255, 255, 255, 0.88);
+    --footer-progresbar-bg:rgba(255, 255, 255, 0.2);
+    --footer-btn-hover:    rgba(255, 255, 255, 0.1);
+    --footer-btn-gap: 10px;
+    --footer-btn-util-size:    22px;
 }
 
-/* ============================================================
-   FOOTER — Ana Container
-   ============================================================ */
 .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: var(--footer-h, 104px);
-    width: 100%;
-    z-index: 100;
-    border-radius: 0;
-    overflow: visible;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    opacity: 100%;
-    will-change: transform;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--footer-h);
+  backdrop-filter: blur(0.2px);
+  -webkit-backdrop-filter: blur(0.2px);
+  z-index: var(--z-footer);
+  display: flex;
+  flex-direction: column;
+  border-top: solid 0.1px #ffffff30;
 }
 
-/* Glass + blur overlay */
-.footer::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 0;
+/* ═══ Progressbar: Figma 1025×4.8 ═══ */
+.footer-player__progress {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  background: var(--footer-progresbar-bg);
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
-/* ============================================================
-   FOOTER — Pembe İlerleme Çubuğu (bar 4px, hit alanı 16px)
-   Container = input = 16px (EŞİT) · taşma yok · bar üst kenara bitişik
-   Spec: .ai/ui-design/screens/_layout-patterns/06-footer-player.md §2
-   ============================================================ */
-.footer__progress {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 16px;
-    background: transparent;
-    z-index: 2;
+.footer-player__seek-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-/* Görsel track — 4px, footer üst kenarı (PNG ölçümü) */
-.footer__progress::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.15);
-    z-index: 0;
+.footer-player__progress-bar {
+  height: 100%;
+  background: var(--footer-accent);
+  width: 43%; /* Figma: 443/1025 */
+  pointer-events: none;
+  transition: width 0.3s ease;
 }
 
-.footer__progress-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 4px;
-    background: var(--fp-accent);
-    border-radius: 0;
-    transition: width 200ms linear;
-    pointer-events: none;
-    z-index: 1;
+/* ═══ Inner Layout ═══ */
+.footer-player__inner {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    "meta controls-main controls-utility volume";
+  align-items: center;
+  justify-items: center;
+  column-gap: 8px;
+  row-gap: 0;
+  min-height: 60px;
+  position: relative;
 }
 
-/* KAİ seek sözleşmesi — görünmez range input, container ile EŞİT (16px), footer içinde */
-.footer__progress input#seekbar {
-    -webkit-appearance: none;
-    appearance: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 16px;
-    margin: 0;
-    background: transparent;
-    opacity: 0;
-    z-index: 2;
-    cursor: pointer;
+.footer-player__inner > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 60px;
 }
 
-.footer__progress input#seekbar:focus-visible {
-    opacity: 1;
-    outline: 2px solid var(--fp-accent);
+/* ZON 1 — Sol hizalama */
+.footer-player__meta {
+  grid-area: meta;
+  justify-self: start;
 }
 
-/* ============================================================
-   FOOTER INNER — 3-Zone Flex
-   ============================================================ */
-.footer__inner {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    height: 100%;
-    position: relative;
-    z-index: 1;
+/* ZON 2a — Ana kontrol butonları (sol orta) */
+.footer-player__controls {
+  grid-area: controls-main;
+  justify-self: center;
+  position: relative;
 }
 
-/* ============================================================
-   ZON 1 — Sol: Meta (Kapak + Bilgiler) %32
-   ============================================================ */
-.footer__meta-section {
-    display: flex;
-    gap: 15px;
-    height: 100%;
-    align-items: center;
-    max-width: 34%;
-    overflow: hidden;
-    flex: 0 1 auto;
+/* Sadece play butonları (ilk .footer-player__controls) tam ortada */
+.footer-player__controls:not(:has(.footer__utility-icons)) {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
 }
 
-/* Albüm Kapağı — token: --footer-album-art-size (120/130/135/140/160/200px) */
-.footer__album-art {
-    height: var(--footer-album-art-size, 120px);
-    width: var(--footer-album-art-size, 120px);
-    opacity: 100%;
-    border-radius: 0px;
-    object-fit: cover;
-    flex-shrink: 0;
-}
-
-/* Metin Stack (4 satır) */
-.footer__meta-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    min-width: 0;
-    flex: 1;
-}
-
-/* Ortak metin stili */
-.footer__text {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-family: 'Avalon Medium';
-    font-size: 10px;
-    letter-spacing: 13.5%;
-    color: var(--fp-text);
-    text-shadow: var(--ts-xs);
-    filter: drop-shadow(0px 0.5px 1px rgba(0,0,0,0.80));
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.4;
-}
-
-/* Satır 1 — Şarkı Adı (biraz büyük) */
-.footer__song-name {
-    font-size: 13px;
-}.footer__album-name {
-    font-size: 13px;
-}.footer__singer-name {
-    font-size: 13px;
-}.footer__sure {
-    font-size: 13px;
-}
-
-.footer__sure time, .footer__sure span{
-    font-size: 13px;
-    text-shadow: var(--ts-xs);
-    filter: drop-shadow(0px 0.5px 1px rgba(0,0,0,0.80));
-}
-
-/* Satır 4 — Süre + Bitrate (küçük) */
-.footer__meta {
-    font-size: 9px;
-    color: rgb(255 255 255);
-    gap: 6px;
-}
-
-/* İkon sembolleri */
-.footer__text .fp-icon {
-    flex-shrink: 0;
-    font-size: 11px;
-    color: var(--fp-accent);
-    opacity: 0.8;
-}
-
-/* Satır ikonları — PNG mockup res-pink ikonları (music/cd/mic/timer/bit-rate) */
-.footer__text .fp-icon-img {
-    flex-shrink: 0;
-    display: block;
-    opacity: 0.9;
-    filter: drop-shadow(0px 0.5px 1px rgba(0, 0, 0, 0.80));
-}
-
-/* Label */
-.footer__text .fp-label {
-    color: var(--fp-text-meta);
-    flex-shrink: 0;
-}
-
-/* Value */
-.footer__text .fp-value {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* ============================================================
-   ZON 2 — Orta: Kontroller %36
-   ============================================================ */
-.footer__controls-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.footer__controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--fp-btn-gap);
-}
-
-/* Dairesel Buton */
-.player-btn {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 3px solid var(--fp-border);
-    background: transparent;
-    color: var(--fp-text);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color 220ms ease,
-                color 220ms ease,
-                box-shadow 220ms ease,
-                transform 220ms ease;
-    flex-shrink: 0;
-    padding: 0;
-}
-
-.player-btn:hover {
-    border-color: var(--fp-accent);
-    color: var(--fp-accent);
-    box-shadow: var(--glow-play);
-    transform: scale(1.08);
-}
-
-.player-btn:active {
-    transform: scale(0.94);
-}
-
-.player-btn:focus-visible {
-    outline: 3px solid var(--fp-accent);
-    outline-offset: 3px;
-}
-
-.player-btn svg {
-    display: block;
-    flex-shrink: 0;
-}
-
-/* Play butonu — biraz büyük */
-.player-btn--play {
-    width: 38px;
-    height: 38px;
-    border-width: 3px;
-}
-
-/* ============================================================
-   ZON 3 — Sağ: Utility + Volume %32
-   ============================================================ */
-.footer__utility-section {
-    display: flex;
-    gap: 15px;
-    position: absolute;
-    right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
-    align-items: center;
-}
-
-/* Utility İkon Grubu */
+.footer-player__controls + .footer-player__controls,
 .footer__utility-icons {
-    align-items: center;
-    gap: var(--fp-btn-gap);
-    display: flex;
+  grid-area: controls-utility;
+  justify-self: center;
 }
 
-.footer__utility-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: opacity 180ms ease, transform 180ms ease;
-    color: #ffffff;
-    flex-shrink: 0;
-    filter: drop-shadow(0.5px 0.5px 1px rgb(0 0 0 / 100%));
+/* ZON 3 — Sağ hizalama */
+.footer-player__volume {
+  grid-area: volume;
+  justify-self: end;
+}
+
+/* Volume gizli ise volume alanını kullanma */
+.footer-player__inner:not(:has(.footer-player__volume)) {
+  grid-template-areas: "meta controls-main controls-utility .";
+}
+
+/* Utility icons gizli ise */
+.footer-player__inner:not(:has(.footer__utility-icons)) {
+  grid-template-areas: "meta controls-main . volume";
+}
+
+/* ═══ ZON 1 — Meta Section ═══ */
+.footer-player__meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  color: var(--footer-text);
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+/* ═══ Album Cover: Figma 85×85 (0 padding, fit) ═══ */
+.footer-player__cover {
+  width: auto;
+  height: calc(var(--footer-h, 90px) - 6px);
+  max-height: calc(var(--footer-h, 90px) - 6px);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  flex-shrink: 0;
+  padding: 0;
+  margin: 0;
+  display: block;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* ═══ Responsive — Laptop/Desktop (utility icons görünür) ═══ */
+@media (min-width: 1025px) {
+  .footer-player__btn {
+    width: 36px;
+    height: 36px;
+    padding: 4px;
+  }
+
+  .footer-player__btn img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .footer__utility-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .footer__utility-icon img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .footer-player__volume img {
+    width: 22px;
+    height: 22px;
+  }
+
+  .footer__utility-icons {
+    gap: 4px;
+  }
+}
+
+/* ═══ Responsive — Wide / 2K (1441-2559px) ═══ */
+@media (min-width: 1441px) {
+  .footer-player__btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .footer-player__btn img {
+    width: 22px;
+    height: 22px;
+  }
+
+  .footer__utility-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .footer__utility-icon img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .footer-player__volume img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ═══ Responsive — 4K / TV (2560px+) ═══ */
+@media (min-width: 2560px) {
+  .footer-player__btn {
+    width: 56px;
+    height: 56px;
+    padding: 6px;
+  }
+
+  .footer-player__btn img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .footer__utility-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .footer__utility-icon img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .footer-player__volume img {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* ═══ Responsive — Phone (≤767px) ═══ */
+@media (max-width: 767px) {
+  .footer-player__btn {
+    width: 36px;
+    height: 36px;
+    padding: 4px;
+  }
+
+  .footer-player__btn img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .footer__utility-icons {
+    gap: 2px;
+  }
+}
+
+/* ═══ Media Info: Figma 367×73, Avalon 10px w500 ═══ */
+.footer-player__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+  max-width: var(--footer-media);
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  justify-content: center;
+}
+
+.footer-player__text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-body);
+  font-size: var(--footer-text-size);
+  font-weight: 500;
+  color: var(--footer-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.footer-player__icon {
+  width: var(--footer-icon);
+  height: var(--footer-icon);
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.footer-player__sep {
+  opacity: 0.5;
+  margin: 0 2px;
+}
+
+/* ═══ ZON 2 — Controls: Figma 297×62 (embedded) / 126×27 (desktop) ═══ */
+.footer-player__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  height: 100%;
+}
+
+.footer-player__controls > * {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-player__btn {
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 3px;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+  transform: scale(1);
+  transform-origin: center;
+  /* width: 32px; */
+  /* height: 32px; */
+  background: transparent;
+  border: none;
+  margin: 0;
+}
+
+.footer-player__btn:hover {
+  background:var(--footer-btn-hover);
+  transform: scale(1.05);
+}
+
+.footer-player__btn img {
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+  width: 40PX;
+  height: 40PX;
+  object-fit: contain;
+}
+
+.footer-player__play-icon--pause.is-hidden {
+  display: none;
+}
+
+/* ═══ ZON 3 — Volume: Figma 186×14 (embedded) / 353×14 (desktop) ═══ */
+.footer-player__volume {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0;
+  width: var(--footer-volume);
+  height: 100%;
+  padding: 0 4px;
+}
+
+.footer-player__volume img {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  filter: drop-shadow(0px 2px 3px rgba(0, 0, 0, 0.35));
+}
+
+.footer-player__volume-track {
+  flex: 1;
+  position: relative;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.footer-player__volume-slider {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.footer-player__volume-fill {
+  height: 100%;
+  background: var(--footer-accent);
+  border-radius: 2px;
+  width: 80%;
+  pointer-events: none;
+  transition: width 0.2s ease;
+}
+
+.footer-player__volume-value {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--footer-text);
+  white-space: nowrap;
+  min-width: 30px;
+}
+.footer__utility-icon{
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+  transform: scale(1);
+  transform-origin: center;
+  transition: background 0.2s ease, transform 0.15s ease;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
 }
 
 .footer__utility-icon img {
-    display: block;
-    object-fit: contain;
-    filter: drop-shadow(0.5px 0.5px 1px rgb(75 75 75 / 56%));
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+  object-fit: contain;
+  width: 18px;
+  height: 18px;
 }
 
 .footer__utility-icon:hover {
-    opacity: 1;
-    transform: scale(1.15);
+  background: var(--footer-btn-hover);
+  transform: scale(1.1);
 }
 
-.footer__utility-icon:focus-visible {
-    outline: 2px solid var(--fp-accent);
-    outline-offset: 3px;
-    border-radius: 3px;
-    opacity: 1;
+.footer__utility-icons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 100%;
+  padding: 0;
 }
-
-
-/* ============================================================
-   VOLUME — geometri + görsel: Css/04_Components/c-footer-volume.css v2.1.0
-   (#volumeclick 180×10 · #volume absolute üstte · #volume2 fill absolute ·
-    thumb 10×10 KARE — ID seçici buradaki class'ları ezer, TEK KAYNAK orada)
-   Spec: .ai/ui-design/screens/_layout-patterns/06-footer-player.md §3
-   ============================================================ */
-
-/* Volume % Text */
-.footer__volume-value {
-    font-family: 'Avalon Medium', system-ui, sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.05em;
-    color: rgba(255, 255, 255, 0.85);
-    min-width: 36px;
-    text-align: right;
-    white-space: nowrap;
-    text-shadow: var(--ts-xs);
-}
-
-/* Volume Group (KAİ: .volume-set-slider — icon + track + value) */
-.volume-set-slider {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* ============================================================
-    RESPONSIVE — 1024px Compact (90px — PNG home-1024 ölçümü)
-    ============================================================ */
-@media (max-width: 1024px) {
-    .footer {
-        --fp-btn-gap: 18px;
-    }
-
-    .footer__text {
-        font-size: 9px;
-        letter-spacing: 0.10em;
-    }
-
-    .footer__song-name {
-        font-size: 11px;
-    }
-
-    /* PNG home-1024: daireler ~44-50px — WCAG 2.5.8 min 48px touch target ile uyumlu.
-       Not: ScaleManager ≤1024'te artık skip — butonlar transform ile küçülmez (birebir PNG). */
-    .footer .player-btn {
-        width: 48px;
-        height: 48px;
-        border-width: 2.5px;
-    }
-
-    .footer .player-btn--play {
-        width: 52px;
-        height: 52px;
-    }
-
-    /* PNG home-1024: kapak footer yüksekliğiyle (~88px) birebir */
-    .footer__album-art {
-        width: 88px;
-        height: 88px;
-    }
-
-    .footer__meta-section {
-        max-width: 40%;
-    }
-
-    .footer {
-        --fp-util-size: 13px;
-    }
-
-    .footer__utility-icon,
-    .footer__utility-icon img {
-        width: 13px;
-        height: 13px;
-    }
-}
-
-/* ============================================================
-    RESPONSIVE — 4K Tier başlangıcı (≥2561px — ScaleManager skip sonrası CSS ölçeği)
-    ============================================================ */
-@media (min-width: 2561px) {
-    .footer__text {
-        font-size: 13px;
-    }
-
-    .footer__song-name {
-        font-size: 16px;
-    }
-
-    .footer .player-btn {
-        width: 44px;
-        height: 44px;
-    }
-
-    .footer .player-btn--play {
-        width: 52px;
-        height: 52px;
-    }
-
-    .footer__volume-value {
-        font-size: 14px;
-    }
-}
-
-/* NOT: ≥3840px ölçekleme d-4k.css zoom sözleşmesine (body zoom:×2) devredildi —
-   1920 tabanlı görünüm korunur; burada ek font/boyut bump'ı çift ölçek yaratırdı. */
-
-/* ============================================================
-   MOBILE — Fallback (< 768px)
-   ============================================================ */
-@media (max-width: 767px) {
-    .footer {
-        height: 80px;
-        --fp-btn-gap: 14px;
-    }
-
-    .footer__meta-section {
-        flex: 0 0 auto;
-        padding-right: 6px;
-    }
-
-    .footer__meta-stack {
-        display: none;
-    }
-
-    .footer__controls-section {
-        flex: 1;
-        position: static;
-        transform: none;
-    }
-
-    .footer__utility-section {
-        display: none;
-    }
-}
-
-@keyframes c-footer-marquee-scroll {
-    0%   { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
-
-.c-footer__marquee-wrap {
-    overflow: hidden;
-    white-space: nowrap;
-    position: absolute;
-    width: 100%;
-}
-
-.c-footer__marquee-inner {
-    display: inline-block;
-    animation: c-footer-marquee-scroll 20s linear infinite;
-}
-
-/* WCAG 2.2 §2.3.3 — animasyonu durdur */
-@media (prefers-reduced-motion: reduce) {
-    .c-footer__marquee-inner {
-        animation: none;
-    }
-}
-
-/* Mockup White Icons */
-.icon-white { filter: brightness(0) invert(1) drop-shadow(0.5px 0.5px 1px rgba(0,0,0,0.4)); }
-.c-desk-btn { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 2px solid rgba(255, 255, 255, 0.9); border-radius: 50%; background: transparent; cursor: pointer; transition: transform 200ms ease; }
-.c-desk-btn:hover { transform: scale(1.08); }
-.c-desk-btn-play { width: 52px; height: 52px; border-width: 2.5px; }
-
-.footer__utility-icon { filter: brightness(0) invert(1) drop-shadow(0.5px 0.5px 1px rgba(0,0,0,0.4)); }
-

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
 /**
- * CoreMusic Auth Service — Entry Point
+ * CoreMusic Auth Service â€” Entry Point
  *
- * Shared SPA Router (PageRouterKernel) kullanır.
+ * Shared SPA Router (PageRouterKernel) kullanÄ±r.
  * Auth-specific kodlar: include/ dizininde.
  * Auth-specific sayfalar: pages/ dizininde.
  */
@@ -24,17 +24,17 @@ use CoreMusic\Session\SessionBootstrapper;
 
 const MAX_REQUEST_BODY_SIZE = 8192;
 
-/* ─── Config (constants + app + cors) ─── */
+/* â”€â”€â”€ Config (constants + app + cors) â”€â”€â”€ */
 require_once __DIR__ . '/config/constants.php';
 $appConfig  = require __DIR__ . '/config/app.php';
 $corsConfig = require __DIR__ . '/config/cors.php';
 
 RuntimeBootstrap::boot(DEBUG_MODE);
 
-/* ─── Logger ─── */
+/* â”€â”€â”€ Logger â”€â”€â”€ */
 $logger = LoggerFactory::getInstance(dirname(__DIR__), DEBUG_MODE ? 'debug' : 'error');
 
-/* ─── HTTPS Detection ─── */
+/* â”€â”€â”€ HTTPS Detection â”€â”€â”€ */
 $isHttps = (
     (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
     || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
@@ -48,7 +48,7 @@ if (str_contains($currentHost, ':')) {
     $currentPort = (int)$portFromHost;
 }
 
-/* ─── Config Objects ─── */
+/* â”€â”€â”€ Config Objects â”€â”€â”€ */
 $domainConfig = new DomainConfig(dirname(__DIR__) . '/shared/config/domain.php');
 $scheme = $isHttps ? 'https' : 'http';
 $domainConfig->setOverrides($scheme, $currentHost, $currentPort);
@@ -56,13 +56,13 @@ $domainConfig->setOverrides($scheme, $currentHost, $currentPort);
 $appConfig['session']['cookie_secure'] = $isHttps;
 $config = new ConfigManager($appConfig);
 
-/* ─── Request Parsing ─── */
+/* â”€â”€â”€ Request Parsing â”€â”€â”€ */
 $requestUri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $method     = $_SERVER['REQUEST_METHOD'];
 $pageName   = ltrim($requestUri, '/');
 
-/* ─── 1. Special JSON Routes (before PageRouterKernel) ─── */
-if ($requestUri === '/health' || $requestUri === '/session' || $requestUri === '/validate-key') {
+/* â”€â”€â”€ 1. Special JSON Routes (before PageRouterKernel) â”€â”€â”€ */
+if ($requestUri === '/health' || $requestUri === '/session' || $requestUri === '/validate-key' || $requestUri === '/bypass-status') {
     $container  = AuthContainer::getInstance($config, $domainConfig);
     $controller = $container->get(AuthController::class);
 
@@ -76,6 +76,14 @@ if ($requestUri === '/health' || $requestUri === '/session' || $requestUri === '
             'body'         => $_POST + (json_decode(file_get_contents('php://input'), true) ?? []),
             'server'       => $_SERVER,
         ]),
+        '/bypass-status' => [
+            'httpStatus' => 200,
+            'force_auth_bypass' => defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS,
+            'test_mode' => defined('TEST_MODE') && TEST_MODE,
+            'bypass_uuid' => defined('BYPASS_USER_UUID') ? constant('BYPASS_USER_UUID') : '',
+            'bypass_role' => defined('BYPASS_ROLE') ? constant('BYPASS_ROLE') : '',
+            'bypass_username' => defined('BYPASS_USERNAME') ? constant('BYPASS_USERNAME') : '',
+        ],
         default => ['httpStatus' => 404],
     };
 
@@ -85,12 +93,21 @@ if ($requestUri === '/health' || $requestUri === '/session' || $requestUri === '
     exit;
 }
 
-/* ─── 2. Root Redirect (auth_key callback veya select-gender) ─── */
+/* â”€â”€â”€ 2. Root Redirect (auth_key callback veya select-gender) â”€â”€â”€ */
 if ($requestUri === '' || $requestUri === '/') {
+    // Auth bypass aktifse -> direkt home'a redirect et
+    if (defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS) {
+        $bypassKey = hash_hmac('sha256', 'bypass_' . date('Y-m-d'), defined('APP_PEPPER') ? APP_PEPPER : 'coremusic-bypass');
+        $redirectUrl = (defined('MUSIC_URL') ? MUSIC_URL : 'http://home.coremusic.net:81')
+            . '/auth/callback?auth_key=' . urlencode($bypassKey);
+        header('Location: ' . $redirectUrl, true, 302);
+        exit;
+    }
+
     $authKeyHandler = new AuthKeyRedirectHandler($config, $domainConfig);
     $authKeyHandler->handle();
 
-    // auth_key yoksa → select-gender'e yönlendir
+    // auth_key yoksa â†’ select-gender'e yÃ¶nlendir
     $redirectUri = MUSIC_URL . '/auth/callback';
     $params = http_build_query([
         'client_id'     => 'coremusic-web',
@@ -101,7 +118,14 @@ if ($requestUri === '' || $requestUri === '/') {
     exit;
 }
 
-/* ─── 3. Gender Gate: /login → /select-gender if no gender ─── */
+/* --- 3. Auth Bypass: Tum auth sayfalarini home'a yonlendir --- */
+if (defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS && $method !== 'POST') {
+    $redirectUrl = (defined('MUSIC_URL') ? MUSIC_URL : 'http://home.coremusic.net:81') . '/auth/callback';
+    header('Location: ' . $redirectUrl, true, 302);
+    exit;
+}
+
+/* â”€â”€â”€ 4. Gender Gate: /login â†’ /select-gender if no gender â”€â”€â”€ */
 if ($method !== 'POST' && $pageName === 'login') {
     SessionBootstrapper::ensureStarted();
     $sessionGender = $_SESSION['cm_gender'] ?? '';
@@ -113,7 +137,7 @@ if ($method !== 'POST' && $pageName === 'login') {
     }
 }
 
-/* ─── 4. Default OAuth Redirect (GET only, missing params) ─── */
+/* â”€â”€â”€ 4. Default OAuth Redirect (GET only, missing params) â”€â”€â”€ */
 $authPages = ['login', 'register', 'forgot-password', 'reset-password'];
 if ($method !== 'POST' && in_array($pageName, $authPages, true) && empty($_GET['client_id'])) {
     $defaultRedirectUri = MUSIC_URL . '/auth/callback';
@@ -126,11 +150,11 @@ if ($method !== 'POST' && in_array($pageName, $authPages, true) && empty($_GET['
     exit;
 }
 
-/* ─── 5. Authenticated User Auto-Redirect ─── */
+/* â”€â”€â”€ 5. Authenticated User Auto-Redirect â”€â”€â”€ */
 $autoHandler = new AutoRedirectHandler($config, $domainConfig);
 $autoHandler->handle($pageName, $method);
 
-/* ─── 6. PageRouterKernel (normal sayfa akışı) ─── */
+/* â”€â”€â”€ 6. PageRouterKernel (normal sayfa akÄ±ÅŸÄ±) â”€â”€â”€ */
 $container  = AuthContainer::getInstance($config, $domainConfig);
 $controller = $container->get(AuthController::class);
 $authHandler = new AuthPostHandler($controller);
@@ -175,5 +199,5 @@ try {
     ]);
     http_response_code(500);
     header('Content-Type: application/json; charset=utf-8');
-    echo json_encode(['success' => false, 'error' => ['code' => 'SERVER_INTERNAL_ERROR', 'message' => 'Sunucu hatası.']], JSON_UNESCAPED_UNICODE);
+    echo json_encode(['success' => false, 'error' => ['code' => 'SERVER_INTERNAL_ERROR', 'message' => 'Sunucu hatasÄ±.']], JSON_UNESCAPED_UNICODE);
 }

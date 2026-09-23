@@ -136,13 +136,15 @@ final class DeviceDetectorTest extends TestCase
         $this->assertFalse($dm2k->shouldRender4kLayout());
 
         // Tier 3: 4K TV & 4K Monitör (3840px)
+        // NOT: shouldRender4kLayout() v2.0.1'de deprecated — her zaman false döner.
+        // 4K cihazlar Wide layout kullanır, 4K ölçeklendirmesi CSS (d-4k.css) ile yapılır.
         $dm4kTv = DeviceManager::fromRequest($tvUa, 3840, 2160);
-        $this->assertTrue($dm4kTv->shouldRender4kLayout());
-        $this->assertFalse($dm4kTv->shouldRenderWideLayout());
+        $this->assertFalse($dm4kTv->shouldRender4kLayout(), '4K DOM tier removed in v2.0.1');
+        $this->assertTrue($dm4kTv->shouldRenderWideLayout(), '4K TV uses Wide layout with CSS scaling');
 
         $dm4kMon = DeviceManager::fromRequest($winUa, 3840, 2160);
-        $this->assertTrue($dm4kMon->shouldRender4kLayout());
-        $this->assertFalse($dm4kMon->shouldRenderWideLayout());
+        $this->assertFalse($dm4kMon->shouldRender4kLayout(), '4K DOM tier removed in v2.0.1');
+        $this->assertTrue($dm4kMon->shouldRenderWideLayout(), '4K Monitor uses Wide layout with CSS scaling');
 
         // Tier 4: Mobil Telefon (<=767px)
         $dmPhone = DeviceManager::fromRequest($phoneUa, 375, 812);

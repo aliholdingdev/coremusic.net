@@ -1,12 +1,41 @@
-# CoreMusic — .png Baglam
+# CoreMusic — .png Bağlam
 
-**Zorunlu Baglantilar:** [[../CLAUDE.md]] · [[./AGENTS.md]]
+**Zorunlu Bağlantılar:** [[../CLAUDE.md]]
 
-## 1. Baglam
+---
 
-Orijinal PNG mockup gorselleri: home-1024 (14), home-1920 (3), shared-1024 (8) = 25 PNG. Frontend gorunmez otorite (Guardrail #11); indeks: ui-design/00-mockup-index.md.
+## 1. Bağlam
 
-## 2. Protokol
+Orijinal PNG mockup görselleri. Frontend görünmez otorite (Guardrail #11). İndeks: `ui-design/00-mockup-index.md`.
 
-- Boot protocol uygulanir ([[../CLAUDE.md]] §16)
-- Degisiklikler [[../log.md]] audit izine yazilir
+---
+
+## 2. PNG Envanteri
+
+| Klasör | Görsel Sayısı | Kullanım |
+|--------|---------------|----------|
+| `home-1024/` | 12 PNG | Ana sayfa mockup'ları (1024×600 RPi5) |
+| `home-1920/` | 1 PNG | Ana sayfa mockup'ı (1920×1080 desktop) |
+| `shared-1024/` | 6 PNG | Paylaşılan ekran mockup'ları (1024×600) |
+| **TOPLAM** | **19 PNG** | Frontend geliştirme referansı |
+
+---
+
+## 3. Referans Sıralaması (Çelişki Durumunda)
+
+```
+PNG > ASCII art > Component Inventory > Tokens > Implementation Plan
+```
+
+---
+
+## 4. Protokol
+
+- Boot protocol uygulanır ([[../CLAUDE.md]] §16)
+- Değişiklikler [[../log.md]] audit izine yazılır
+- PNG okunamıyorsa DUR ve kullanıcıya bildir
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-21

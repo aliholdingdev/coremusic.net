@@ -1,0 +1,3 @@
+/* _welcome-banner.css — CLEARED: no usage in PHP templates (2026-09-23)
+   Welcome banner classes (.welcome-banner*) are not rendered in any template.
+   The welcome modal uses .welcome-modal* classes from _home-components.css instead. */

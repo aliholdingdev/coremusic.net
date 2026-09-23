@@ -1,38 +1,64 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\shared\src\Log Baglam"
+title: "CoreMusic — shared/src/Log Bağlam"
 type: context
-folder: "C:\www\coremusic.net\shared\src\Log"
-category: layer3
-date: 2026-09-06
+folder: "shared/src/Log"
+category: layer0-infrastructure
+date: 2026-09-21
+updated: 2026-09-21
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# Log - CLAUDE.md
+# Log — CLAUDE.md (Detaylı)
 
-**Zorunlu Baglantilar:** [[./AGENTS.md]] . [[../CLAUDE.md]]
+**Zorunlu Bağlantılar:** · [[../CLAUDE.md]] · [[../../.ai/architecture/k12-izleme]]
 
-## 1. Baglam
-Loglama altyapisi
+---
+
+## 1. Bağlam
+
+Loglama altyapısı. PSR-3 uyumlu structured logging. Hata, audit trail ve performans logları.
+
+---
 
 ## 2. Mevcut Durum
-| Durum | Deger |
+
+| Durum | Değer |
 |-------|-------|
-| Dosya | 2 |
-| Konum | C:\www\coremusic.net\shared\src\Log |
+| Toplam dosya | 2 PHP dosyası |
 
-## 3. Komsu Iliskiler
-| Yon | Hedef | Iliski |
+### 2.1 Dosya Envanteri
+
+| Dosya | Amaç |
+|-------|------|
+| `LoggerFactory.php` | Logger üretim fabrikası |
+| `FileHandler.php` | Dosya tabanlı log handler |
+
+---
+
+## 3. Log Seviyeleri
+
+| Seviye | Kullanım |
+|--------|----------|
+| DEBUG | Geliştirme bilgileri |
+| INFO | İşlem bilgileri |
+| WARNING | Uyarılar |
+| ERROR | Hatalar |
+| CRITICAL | Kritik hatalar (security, layer violation) |
+
+---
+
+## 4. Komşu İlişkileri
+
+| Yön | Hedef | İlişki |
 |-----|-------|--------|
-| Parent | [[../CLAUDE.md]] | Ust baglam |
-| Talimatlar | [[../AGENTS.md]] | Ust kurallar |
-
-## 4. Degisiklik Protokolu
-1. Degisiklik once ust talimatlarla uyum kontrolu
-2. Gerekirse ADR + [[../../.ai/log.md]] audit
+| Parent | [[../CLAUDE.md]] | Shared library üst bağlam |
+| Kullanıcı | [[../Middleware/CLAUDE.md]] | Middleware logging |
+| Referans | [[../../.ai/architecture/k12-izleme]] | İzleme mimarisi |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-21
+**Mode:** Red Team · Human Mode · Truth Mode

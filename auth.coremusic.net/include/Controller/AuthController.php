@@ -12,52 +12,22 @@ use CoreMusic\Exception\RateLimitException;
 use CoreMusic\Exception\ConflictException;
 use CoreMusic\Exception\ErrorResponse;
 use CoreMusic\Log\LoggerFactory;
+use CoreMusic\Security\SecurityHelper;
 
 /**
  * AuthController — Kimlik doğrulama endpoint'lerini yönetir.
  *
  * SRP: Tek sorumluluk — HTTP isteklerini Auth service'e yönlendirmek.
  * İş mantığı AuthService'de, Domain nesneleri kullanılır.
+ *
+ * Redirect validation: SecurityHelper → ReturnUrlPolicy (SSOT)
  */
 final class AuthController
 {
-    private const ALLOWED_REDIRECT_HOSTS = [
-        'music.coremusic.net',
-        'admin.coremusic.net',
-        'auth.coremusic.net',
-        'home.coremusic.net',
-        'coremusic.net',
-        'localhost',
-        '127.0.0.1',
-    ];
-
-    private const ALLOWED_PORTS = [80, 443, 81, 3001, 5000, 6000, 9741, 9742, 9743];
-
     public function __construct(
         private readonly IAuthService $authService,
         private readonly ISessionManager $session,
     ) {}
-
-    private static function isRedirectUriSafe(string $uri): bool
-    {
-        if ($uri === '' || $uri === '/' || str_starts_with($uri, '/')) {
-            return true;
-        }
-        $parsed = parse_url($uri);
-        if ($parsed === false || empty($parsed['host'])) {
-            return false;
-        }
-        $host = strtolower($parsed['host']);
-        if (isset($parsed['port']) && !in_array($parsed['port'], self::ALLOWED_PORTS, true)) {
-            return false;
-        }
-        foreach (self::ALLOWED_REDIRECT_HOSTS as $allowedHost) {
-            if ($host === $allowedHost || str_ends_with($host, '.' . $allowedHost)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private function buildAuthKeyUrl(string $redirectUrl, string $authKey): string
     {
@@ -76,7 +46,7 @@ final class AuthController
             ?? $queryParams
             ?? $defaultRedirect;
 
-        if (!self::isRedirectUriSafe($redirectUrl)) {
+        if (!SecurityHelper::isRedirectUriSafe($redirectUrl)) {
             return $defaultRedirect;
         }
         return $redirectUrl;
@@ -209,11 +179,13 @@ final class AuthController
 
         try {
             $result = $this->authService->register(
-                $registerRequest->username,
-                $registerRequest->email,
-                $registerRequest->password,
-                $registerRequest->gender,
-                $registerRequest->agreeTerms,
+                [
+                    'username' => $registerRequest->username,
+                    'email' => $registerRequest->email,
+                    'password' => $registerRequest->password,
+                    'gender' => $registerRequest->gender,
+                    'agreeTerms' => $registerRequest->agreeTerms,
+                ],
                 $clientIp,
                 $registerRequest->visitorGender,
             );
@@ -281,7 +253,7 @@ final class AuthController
         ]);
 
         $redirectUri = $request['query_params']['redirect_uri'] ?? $post['redirect_uri'] ?? '';
-        if ($redirectUri !== '' && !self::isRedirectUriSafe($redirectUri)) {
+        if ($redirectUri !== '' && !SecurityHelper::isRedirectUriSafe($redirectUri)) {
             $redirectUri = '';
         }
 

@@ -2,12 +2,11 @@
 
 namespace CoreMusic\PageRouter;
 
+use CoreMusic\Session\SessionConfig;
+
 final class SessionInitializer
 {
-    private const SESSION_MAX_LIFETIME = 1800;
-    private const SESSION_IDLE_TIMEOUT = 3600;
-    private const SESSION_ROTATION_INTERVAL = 1800;
-    private const COOKIE_EXPIRY_SECONDS = 42000;
+    // Sabitler artık SessionConfig'den okunur (SSOT)
 
     public function startOrExtend(?string $externalNonce = null): array
     {
@@ -51,7 +50,7 @@ final class SessionInitializer
         $now = time();
         if ($lastRotation === 0) {
             $_SESSION['_session_rotated_at'] = $now;
-        } elseif (($now - $lastRotation) >= self::SESSION_ROTATION_INTERVAL) {
+        } elseif (($now - $lastRotation) >= SessionConfig::ROTATION_INTERVAL) {
             session_regenerate_id(true);
             $_SESSION['_session_rotated_at'] = $now;
         }
@@ -71,7 +70,7 @@ final class SessionInitializer
         }
         if (ini_get('session.use_cookies')) {
             $params = session_get_cookie_params();
-            setcookie(session_name(), '', time() - self::COOKIE_EXPIRY_SECONDS, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+            setcookie(session_name(), '', time() - SessionConfig::COOKIE_EXPIRY, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
         }
         session_start();
         session_regenerate_id(true);
@@ -94,7 +93,7 @@ final class SessionInitializer
         if ($lastActive === null) {
             return false;
         }
-        return (time() - (int)$lastActive) >= self::SESSION_IDLE_TIMEOUT;
+        return (time() - (int)$lastActive) >= SessionConfig::IDLE_TIMEOUT;
     }
 
     private function isSessionExpired(): bool
@@ -103,7 +102,7 @@ final class SessionInitializer
         if ($createdAt === null) {
             return false;
         }
-        return (time() - (int)$createdAt) >= self::SESSION_MAX_LIFETIME;
+        return (time() - (int)$createdAt) >= SessionConfig::MAX_LIFETIME;
     }
 
     private function extendSession(): void
@@ -115,7 +114,7 @@ final class SessionInitializer
             $_SESSION['_session_created_at'] = $now;
             $createdAt = $now;
         }
-        if ((time() - (int)$createdAt) >= self::SESSION_MAX_LIFETIME) {
+        if ((time() - (int)$createdAt) >= SessionConfig::MAX_LIFETIME) {
             $this->destroy();
             session_start();
             $this->initSessionKeys();

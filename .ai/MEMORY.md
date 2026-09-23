@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — Memory System Index
 
-**Zorunlu Baglantilar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[brain.md]] · [[keys.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
+**Zorunlu Baglantilar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[brain.md]] · [[keys.md]] · [[log.md]] · [[VISION.md]] · [[PROJECTS.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
 **Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
 
@@ -24,7 +24,9 @@ reference:
 
 ## 1. Amac
 
-CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartlastirir ve vault ile kod arasindaki tutarliligi korur. audit trail ile izlenebilirlik garanti edilir. Bu dosya, tum AI ajanlarinin oturum baslangicinda okumasi gereken 9 zorunlu dosyadan biridir.
+CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartlastirir ve vault ile kod arasindaki tutarliligi korur. audit trail ile izlenebilirlik garanti edilir. Bu dosya, tum AI ajanlarinin oturum baslangicinda okumasi gereken zorunlu dosyalardan biridir.
+- **Ekosistem Vizyonu:** [[VISION.md]]
+- **Proje Tanımı & Kapsamı:** [[PROJECTS.md]]
 
 ---
 
@@ -55,6 +57,8 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | `brain.md` | En yuksek | Mimari kararlar, ADR 001-088 (79 karar) | Read-Write | 1000 satir |
 | `index.md` | Yuksek | Master katalog, tum vault indeksi | Read-Write | 1000 satir |
 | `AGENTS.md` | Yuksek | Agent tanimlari, yetkiler, handover | Read-Write | 1000 satir |
+| `VISION.md` | Yuksek | Ekosistem vizyonu, mülkiyet felsefesi, 6 sorun-çözüm | Read-Write | 1000 satir |
+| `PROJECTS.md` | Yuksek | Proje tanımı, 10 temel yetenek, 6 hedef kitle | Read-Write | 1000 satir |
 | `MEMORY.md` | Orta | Session state, bu dosya | Read-Write | 1000 satir |
 | `log.md` | En dusuk | Append-only audit trail | Append-Only | 1000 satir |
 
@@ -354,6 +358,7 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | 2026-09-05 | Device-Aware Rendering Vault Update — brain.md §18C (Backend/Frontend sorumluluk sınırları, token değerleri, WCAG 2.2 AA, katman ihlal kontrolü), keys.md §3.4A (8 yeni device-aware keyword), responsive-device-mode.md v3.0.0 (4-Tier Conditional Rendering) | ✅ 3 vault dosyası güncellendi: brain.md (§18C Device-Aware Rendering Kuralları), keys.md (+8 keyword), MEMORY.md (session history +1) | — | vault-updater |
 | 2026-09-09 | Session Management + Vault Post-Update Automation — session-save.mjs, vault-post-update.mjs, settings.json hooks, opencode.json command, vault-sync-post skill, OpenCode kaynak kodu güncelleme | ✅ 10+ dosya: 2 yeni script, 1 hook, 1 command, 2 skill, 4 OpenCode dosyası güncellendi | — | MO |
 | 2026-09-18 | 50W Class AB Amplifier Circuit Design — Tam devre tasarımı, BOM, bias prosedürü, koruma devreleri, PCB layout, test protokolü | ✅ .ai/architecture/amplifier-classab-circuit.md oluşturuldu (12 bölüm, tek kanal tasarımı) | ADR-061, ADR-063 | embedded-engineer |
+| 2026-09-21 | Agent Profilleri + CLAUDE.md Genişletme — 11 agent profili (.ai/.agents/) oluşturuldu, 4 kritik CLAUDE.md genişletildi (shared, auth, home, assets) | [OK] 12 dosya oluşturuldu/güncellendi, ~2000+ satır eklendi | — | vault-updater |
 
 ---
 

@@ -222,7 +222,7 @@ SPA **asla** PDO, MySQL, Repository, Entity, Infrastructure, Filesystem, FFmpeg,
 
 ## 6B. Shared Library — Hybrid Yapı (ADR-085 v3.0)
 
-Tek `shared/` dizini + PSR-4 namespace ile modüler ayrım. tek Composer paketi:  bu bir **compsoer paketidir**
+Tek `shared/` dizini + PSR-4 namespace ile modüler ayrım. tek Composer paketi:  bu bir **composer paketidir**
 
 ```
 shared/

@@ -11,9 +11,7 @@ authority: SSOT
 
 # .ai/subdomains/auth.coremusic.net — CLAUDE.md
 
-**Zorunlu Bağlantılar:** [[./AGENTS.md]]
-
-## 1. Bağlam
+**Zorunlu Bağlantılar:** ## 1. Bağlam
 Subdomain başına tek vault kayıt klasörü pattern'i; auth örneği.
 
 ## 2. Mevcut Durum

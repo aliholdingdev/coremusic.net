@@ -11,7 +11,7 @@ authority: Single Source of Truth (SSOT)
 
 # Contracts - CLAUDE.md
 
-**Zorunlu Baglantilar:** [[./AGENTS.md]] . [[../CLAUDE.md]]
+**Zorunlu Baglantilar:** . [[../CLAUDE.md]]
 
 ## 1. Baglam
 Sozlesme/interface katmani

@@ -33,6 +33,18 @@ if ($requestUri === '/auth/callback' || $requestUri === 'auth/callback') {
         'auth_key_prefix' => $authKeyRaw !== '' ? substr($authKeyRaw, 0, 8) . '...' : '',
     ]);
 
+    // Auth bypass aktifse → auth_key validate etme, direkt session oluştur
+    if (defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS) {
+        SessionBootstrapper::ensureStarted();
+        $_SESSION['MM_UserID']      = constant('BYPASS_USER_UUID');
+        $_SESSION['MM_UserRole']    = constant('BYPASS_ROLE');
+        $_SESSION['MM_Username']    = constant('BYPASS_USERNAME');
+        $_SESSION['MM_Permissions'] = [];
+        $homeLogger->debug('[Home] Auth bypass active — session created directly');
+        header('Location: /home', true, 302);
+        exit;
+    }
+
     if ($authKeyRaw === '') {
         $homeLogger->warning('[Home] Auth callback with empty auth_key, redirecting to /login');
         header('Location: /login', true, 302);

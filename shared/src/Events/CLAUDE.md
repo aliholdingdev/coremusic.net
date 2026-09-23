@@ -1,38 +1,67 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\shared\src\Events Baglam"
+title: "CoreMusic — shared/src/Events Bağlam"
 type: context
-folder: "C:\www\coremusic.net\shared\src\Events"
-category: layer3
-date: 2026-09-06
+folder: "shared/src/Events"
+category: layer2-routing
+date: 2026-09-21
+updated: 2026-09-21
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# Events - CLAUDE.md
+# Events — CLAUDE.md (Detaylı)
 
-**Zorunlu Baglantilar:** [[./AGENTS.md]] . [[../CLAUDE.md]]
+**Zorunlu Bağlantılar:** · [[../CLAUDE.md]] · [[../../.ai/architecture/k8-servis]]
 
-## 1. Baglam
-Olay tabanli mimari (ADR-086)
+---
+
+## 1. Bağlam
+
+Olay tabanlı mimari (ADR-086). PSR-14 EventDispatcher ile servisler arası iletişim. Servisler birbirini doğrudan çağırmaz, event yayınlar.
+
+---
 
 ## 2. Mevcut Durum
-| Durum | Deger |
+
+| Durum | Değer |
 |-------|-------|
-| Dosya | 2 |
-| Konum | C:\www\coremusic.net\shared\src\Events |
+| Toplam dosya | 3 PHP dosyası (Events/, Events/Domain/, Events/Integration/) |
+| Domain event | 9 |
+| Integration event | 3 |
+| ADR | ADR-086 (Event Driven Architecture) |
 
-## 3. Komsu Iliskiler
-| Yon | Hedef | Iliski |
+### 2.1 Dosya Envanteri
+
+| Dosya | Amaç |
+|-------|------|
+| `EventDispatcher.php` | PSR-14 EventDispatcher wrapper |
+| `Domain/*.php` | 9 domain event |
+| `Integration/*.php` | 3 integration event |
+
+---
+
+## 3. Event Akışı
+
+```
+Service A → Event Bus (PSR-14) → Service B, C, D
+```
+
+**Servisler birbirini doğrudan çağırmaz, event yayınlar.**
+
+---
+
+## 4. Komşu İlişkileri
+
+| Yön | Hedef | İlişki |
 |-----|-------|--------|
-| Parent | [[../CLAUDE.md]] | Ust baglam |
-| Talimatlar | [[../AGENTS.md]] | Ust kurallar |
-
-## 4. Degisiklik Protokolu
-1. Degisiklik once ust talimatlarla uyum kontrolu
-2. Gerekirse ADR + [[../../.ai/log.md]] audit
+| Parent | [[../CLAUDE.md]] | Shared library üst bağlam |
+| Kullanıcı | [[../Contracts/Events/CLAUDE.md]] | Event sözleşmeleri |
+| Referans | [[../../.ai/architecture/k8-servis]] | Servis mimarisi |
+| ADR | [[../../.ai/decisions/accepted/ADR-086-event-driven-architecture]] | Event Driven |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-21
+**Mode:** Red Team · Human Mode · Truth Mode

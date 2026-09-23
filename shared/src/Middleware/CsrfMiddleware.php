@@ -12,7 +12,9 @@ final class CsrfMiddleware implements IMiddleware
     /** @param list<string>|null $bypassRoutes */
     public function __construct(?array $bypassRoutes = null)
     {
-        $this->bypassRoutes = $bypassRoutes ?? ['set-gender'];
+        // CSRF bypass route'ları kaldırıldı — tüm state-changing istekler CSRF token gerektirir
+        // Önceki: ['set-gender'] — A01:2021 Broken Access Control riski taşıyordu
+        $this->bypassRoutes = $bypassRoutes ?? [];
     }
 
     public function handle(array $request, callable $next): array

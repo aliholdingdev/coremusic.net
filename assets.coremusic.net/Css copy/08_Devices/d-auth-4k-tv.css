@@ -1,0 +1,50 @@
+/**
+ * CoreMusic — Auth 4K TV Device CSS
+ * 2561-3840px — 10ft UI auth split layout
+ * ITCSS Layer: 08_Devices
+ * Version: 1.2.0 — 2026-08-18
+ *
+ * NOTE: Token imports removed — auth-bundled.css already loads them.
+ */
+
+:root {
+  --lgn-panel-w: 500px;
+  --lgn-font-size: 18px;
+  --touch-min: 56px;
+}
+
+html { font-size: 18px; }
+
+/* ═══ PANEL ═══ */
+.lgn-panel {
+  width: var(--lgn-panel-w);
+}
+
+/* ═══ HERO — Padding for panel ═══ */
+.lgn-hero {
+  padding-left: 6vw;
+  padding-right: calc(var(--lgn-panel-w) + 5vw) !important;
+}
+
+.lgn-hero__title {
+  font-size: clamp(1.4rem, 1.8vw, 2.2rem);
+}
+
+/* ═══ FORM ELEMENTS ═══ */
+.lgn-form__input {
+  height: clamp(46px, 2vw, 56px);
+}
+
+.lgn-btn {
+  height: clamp(50px, 2.2vw, 60px);
+}
+
+.lgn-social {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.lgn-social__btn {
+  height: clamp(40px, 2.2vw, 48px);
+}
+
+/* Background image is controlled by auth-gender-bg.js for crossfade animation */

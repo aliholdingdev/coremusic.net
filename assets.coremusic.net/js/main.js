@@ -27,6 +27,16 @@ import CardManager from './features/CardManager.js';
 import ScrollManager from './features/ScrollManager.js';
 import TouchManager from './features/TouchManager.js';
 
+/* --- Component System (v1.0) --- */
+import ComponentRegistry from './components/base/ComponentRegistry.js';
+import ComponentLoader from './components/base/ComponentLoader.js';
+import TabsComponent from './components/interactive/TabsComponent.js';
+import DropdownComponent from './components/interactive/DropdownComponent.js';
+import AccordionComponent from './components/interactive/AccordionComponent.js';
+import ToastComponent from './components/interactive/ToastComponent.js';
+import InfiniteScroll from './components/interactive/InfiniteScroll.js';
+import PlayerInfoComponent from './components/interactive/PlayerInfoComponent.js';
+
 (function () {
     'use strict';
 
@@ -100,6 +110,24 @@ import TouchManager from './features/TouchManager.js';
         const touch = new TouchManager(eventBus);
         touch.init();
         app.registerModule('touch', touch);
+
+        /* --- Component System v1.0 --- */
+        const componentRegistry = ComponentRegistry.getInstance();
+        componentRegistry
+            .register('cm-tabs', TabsComponent)
+            .register('cm-dropdown', DropdownComponent)
+            .register('cm-accordion', AccordionComponent)
+            .register('cm-toast', ToastComponent)
+            .register('cm-infinite-scroll', InfiniteScroll)
+            .register('cm-player-info', PlayerInfoComponent);
+
+        const componentLoader = new ComponentLoader(componentRegistry);
+        componentLoader.scan();
+        componentLoader.observe();
+        app.registerModule('components', { registry: componentRegistry, loader: componentLoader });
+
+        /* Toast singleton'ı global erişime aç */
+        window.CoreMusic.Toast = ToastComponent.getInstance();
 
         /* App ready */
         app.setRunning();

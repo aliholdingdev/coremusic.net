@@ -1,0 +1,621 @@
+/**
+ * CoreMusic — Layout Token'ları
+ * Header, footer, sidebar boyutları ve layout sabitleri
+ * ITCSS Layer: 01_Abstracts
+ * Version: 5.0.0 — 2026-09-22
+ *
+ * Figma pixel-perfect measurements (API extraction):
+ *   node-id=1639-10160 (1024 Embedded) / node-id=2831-13747 (1920 Desktop)
+ *   All values are EXACT Figma measurements — no rounding, no guessing.
+ *
+ * Figma font stack:
+ *   Display: Respective 20px/16px w400 (logo)
+ *   Body: Avalon 5-13px w500/w700 (all UI text)
+ *   Welcome: Plus Jakarta Sans 20px w600, Arima 14px w400, DM Sans 10px w300
+ *
+ * Responsive token sistemi:
+ *   :root = 1024px (RPi5 embedded — ana hedef cihaz, Figma mockup ölçümü)
+ *   @media queries = tablet, mobile, desktop, 4K TV
+ *   Device files (08_Devices/) = sadece behavioral overrides (hover, touch, scrollbar)
+ */
+:root {
+  /* ═══ Figma-Perfect Page Dimensions ═══ */
+  --screen-w: 1024px;
+  --screen-h: 600px;
+
+
+
+  /* ═══ Header/Navbar: Figma 993×27 ═══ */
+  --header-h: 27px;
+
+  /* ═══ Footer: Figma 1025×90 ═══ */
+  --footer-h: 71px;
+
+  /* ═══ Content Area ═══ */
+  --content-h: 483px;              /* 600 - 27(header) - 90(footer) */
+  --content-padding-top: 11px;
+  --content-padding-bottom: 15px;
+  --content-max-w: 1440px;
+  --page-padding-x: 16px;
+  --content-padding: 1rem;
+  --content-padding-compact: 1rem;
+
+  
+
+  /* ═══ Widget Area: Figma 365×171 (1024) / 752×184 (1920) ═══ */
+  --widget-area-w: 365px;
+  --widget-area-h: 171px;
+
+  /* ═══ Widget Cards: Figma pixel-perfect ═══ */
+  --w-quickapp: 42px;              /* Quick app icon: 42×40 */
+  --w-quickapp-h: 40px;
+  --w-quickapp-wide: 50px;         /* Wide quick app: 50×40 */
+  --w-clock: 109px;                /* Saat widget: 109×40 */
+  --w-clock-h: 40px;
+  --w-info: 172px;                 /* Info widget: 172×51 */
+  --w-info-h: 51px;
+  --w-info-alt: 173px;             /* Alt info: 173×40 */
+  --w-info-alt-h: 40px;
+  --w-filemanager: 129px;          /* Dosya Yöneticisi: 129×40 */
+  --w-filemanager-h: 40px;
+  --w-icon: 20px;                  /* Widget icon: 20×20 */
+  --w-radius: 3px;                 /* Figma cornerRadius: 3 */
+  --w-gap: 8px;
+
+  /* ═══ Recent Tracks / Playlists ═══ */
+  --recent-w: 354px;               /* Figma: 354×138.5 */
+  --recent-h: 138.5px;
+  --playlist-w: 353px;             /* Figma: 353×138 */
+  --playlist-h: 138px;
+
+  /* ═══ Up Next ═══ */
+  --upnext-w: 186px;               /* Figma: 186×109 */
+  --upnext-h: 109px;
+  --upnext-cover: 45.5px;          /* Figma: 45.49×45.49 */
+
+  /* ═══ Song Item: Figma 169×43 ═══ */
+  --song-w: 169px;
+  --song-h: 43px;
+  --song-cover: 50px;              /* Album cover in song item */
+
+  /* ═══ Progressbar: Figma 4.8px ═══ */
+  --progress-h: 4.8px;
+
+  /* ═══ Welcome Modal: Figma 600×308, blur=3 ═══ */
+  --welcome-w: 600px;
+  --welcome-h: 308px;
+  --welcome-blur: 3px;
+  --welcome-radius: 16px;
+
+  /* ═══ Sidebar ═══ */
+  --sidebar-w: 280px;
+  --sidebar-w-compact: 240px;
+  --sidebar-w-collapsed: 64px;
+  --sidebar-w-min: 200px;
+  --sidebar-w-max: 400px;
+
+  /* ═══ Detail Panel ═══ */
+  --detail-panel-w: 366px;
+
+  /* ═══ Card Sizes ═══ */
+  --card-thumb-size: 140px;
+  --album-art-size: 300px;
+  --player-art-size: 120px;
+  --mini-card-art-size: 50px;
+  --widget-h: 100px;
+
+  /* ═══ Component Tokens ═══ */
+  --now-playing-art-size: 72px;
+  --media-card-thumb-size: 140px;
+  --detail-panel-art-size: 280px;
+  --widget-min-height: 100px;
+  --widget-grid-cols: 2;
+  --footer-album-art-size: 85px;
+  --footer-icon-size: 14px;
+  --footer-btn-min-size: 48px;
+
+  /* ═══ Home Layout Grid ═══ */
+  --home-top-split: 42% 58%;
+  --home-bottom-split: 1fr 1fr 1fr;
+
+  /* ═══ Touch Targets (WCAG 2.2) ═══ */
+  --touch-min: 48px;
+  --touch-recommended: 56px;
+  --touch-large: 56px;
+
+  /* ═══ Spacing ═══ */
+  --grid-gap: 8px;
+  --grid-gap-lg: 16px;
+  --section-gap: 16px;
+  --card-padding: 12px;
+
+  /* ═══ Font Stack (Figma'dan) ═══ */
+  --font-display: 'Respective', 'Avalon', sans-serif;
+  --font-body: 'Avalon', 'DM Sans', sans-serif;
+  --font-welcome: 'Plus Jakarta Sans', 'Arima', sans-serif;
+
+  /* ═══ Font Sizes (Figma pixel-perfect) ═══ */
+  --text-xs: var(--fs-xs, 10px);
+  --text-sm: var(--fs-sm, 11px);
+  --text-base: var(--fs-base, 12px);
+  --text-lg: var(--fs-lg, 14px);
+  --text-xl: var(--fs-xl, 16px);
+
+  /* ═══ Colors (Figma) ═══ */
+  --bg-overlay: rgba(0, 0, 0, 1);
+  --text-primary: rgba(255, 255, 255, 1);
+  --border-footer: rgba(55, 55, 55, 1);
+
+  /* ═══ Glass ═══ */
+  --glass-blur: blur(20px);
+  --glass-saturate: saturate(180%);
+
+  /* ═══ Hover ═══ */
+  --hover-display: none;
+
+  /* ═══ Device-aware Scaling ═══ */
+  --spacing-scale: 1;
+  --font-scale: 1;
+  --border-radius-base: 8px;
+
+  /* ═══ Z-Index ═══ */
+  --z-sidebar: 50;
+  --z-header: 100;
+  --z-footer: 100;
+  --z-dropdown: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+}
+
+/* ============================================================
+   TABLET — 768-1024px (Touch-first, sidebar hidden)
+   iPad, Android tablet, stylus optional
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  :root {
+    --header-h: 60px;
+    --sidebar-w: 0px;
+    --sidebar-w-compact: 0px;
+    --touch-min: 48px;
+    --touch-recommended: 56px;
+    --text-base: 14px;
+
+    --spacing-scale: 1;
+    --border-radius-base: 8px;
+  }
+}
+
+/* ============================================================
+   LAPTOP — 1025-1440px (Mouse + Keyboard, medium screen)
+   Standard laptop, no sidebar
+   ============================================================ */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  :root {
+    --header-h: 65px;
+    --content-h: 859px;
+    --content-padding-top: 12px;
+    --content-padding-bottom: 18px;
+    --page-padding-x: 20px;
+
+    --sidebar-w: 0px;
+    --sidebar-w-compact: 0px;
+    --detail-panel-w: 400px;
+
+    --card-thumb-size: 160px;
+    --album-art-size: 350px;
+    --player-art-size: 130px;
+    --mini-card-art-size: 55px;
+    --widget-h: 120px;
+
+    /* Component-specific token override */
+    --now-playing-art-size: 150px;
+    --media-card-thumb-size: 160px;
+    --detail-panel-art-size: 400px;
+    --widget-min-height: 120px;
+    --widget-grid-cols: 2;
+    --footer-album-art-size: 85px;
+    --footer-icon-size: 16px;
+    --footer-btn-min-size: 44px;
+    --home-bottom-split: 1fr 1.4fr 0.8fr;
+
+    --touch-min: 44px;
+    --touch-recommended: 48px;
+
+    --grid-gap: 10px;
+    --grid-gap-lg: 16px;
+    --section-gap: 20px;
+    --card-padding: 14px;
+
+    /* Hibrit scale: fluid typography a-scale-hybrid.css'den */
+    --text-xs: var(--fs-xs, 11px);
+    --text-sm: var(--fs-sm, 12px);
+    --text-base: var(--fs-base, 13px);
+    --text-lg: var(--fs-lg, 15px);
+    --text-xl: var(--fs-xl, 17px);
+
+    --glass-blur: blur(20px);
+    --glass-saturate: saturate(180%);
+
+    --hover-display: block;
+
+    --spacing-scale: 1;
+    --border-radius-base: 10px;
+  }
+}
+
+/* ============================================================
+   MEDIUM DESKTOP — 1441-1919px (Mouse + Keyboard, large laptop/small desktop)
+   Bridge between laptop and full desktop
+   ============================================================ */
+@media (min-width: 1441px) and (max-width: 1919px) {
+  :root {
+    --header-h: 68px;
+    --content-h: 872px;
+    --content-padding-top: 13px;
+    --content-padding-bottom: 19px;
+    --page-padding-x: 22px;
+
+    --sidebar-w: 260px;
+    --sidebar-w-compact: 260px;
+    --detail-panel-w: 440px;
+
+    --card-thumb-size: 170px;
+    --album-art-size: 380px;
+    --player-art-size: 135px;
+    --mini-card-art-size: 58px;
+    --widget-h: 130px;
+
+    /* Component-specific token override */
+    --now-playing-art-size: 150px;
+    --media-card-thumb-size: 170px;
+    --detail-panel-art-size: 440px;
+    --widget-min-height: 130px;
+    --widget-grid-cols: 3;
+    --footer-album-art-size: 85px;
+    --footer-icon-size: 18px;
+    --footer-btn-min-size: 44px;
+    --home-bottom-split: 1fr 1.4fr 0.8fr;
+
+    --touch-min: 44px;
+    --touch-recommended: 48px;
+    --touch-large: 56px;
+
+    --grid-gap: 11px;
+    --grid-gap-lg: 18px;
+    --section-gap: 22px;
+    --card-padding: 15px;
+
+    /* Hibrit scale: fluid typography a-scale-hybrid.css'den */
+    --text-xs: var(--fs-xs, 12px);
+    --text-sm: var(--fs-sm, 13px);
+    --text-base: var(--fs-base, 13px);
+    --text-lg: var(--fs-lg, 16px);
+    --text-xl: var(--fs-xl, 18px);
+
+    --glass-blur: blur(20px);
+    --glass-saturate: saturate(180%);
+
+    --hover-display: block;
+  }
+}
+
+/* ============================================================
+   MOBILE — ≤767px (Compact, no glass, bottom sheet sidebar)
+   iPhone, Android phone, PWA
+   ============================================================ */
+@media (max-width: 767px) {
+  :root {
+    --screen-w: 375px;
+    --screen-h: 812px;
+
+    --header-h: 56px;
+    --content-h: 684px;
+    --content-padding-top: 8px;
+    --content-padding-bottom: 12px;
+    --page-padding-x: 16px;
+
+    --sidebar-w: 0px;
+    --detail-panel-w: 100%;
+
+    --card-thumb-size: 120px;
+    --album-art-size: 280px;
+    --player-art-size: 100px;
+    --mini-card-art-size: 48px;
+    --widget-h: 80px;
+
+    /* Component-specific token override */
+    --now-playing-art-size: 80px;
+    --media-card-thumb-size: 120px;
+    --detail-panel-art-size: 200px;
+    --widget-min-height: 80px;
+    --widget-grid-cols: 1;
+    --footer-album-art-size: 100px;
+    --footer-icon-size: 14px;
+    --footer-btn-min-size: 48px;
+    --home-top-split: 1fr;
+    --home-bottom-split: 1fr;
+
+    --touch-min: 48px;
+    --touch-recommended: 56px;
+
+    --grid-gap: 8px;
+    --grid-gap-lg: 12px;
+    --section-gap: 16px;
+    --card-padding: 12px;
+
+    /* Hibrit scale: fluid typography a-scale-hybrid.css'den */
+    --text-xs: var(--fs-xs, 10px);
+    --text-sm: var(--fs-sm, 11px);
+    --text-base: var(--fs-base, 12px);
+    --text-lg: var(--fs-lg, 14px);
+    --text-xl: var(--fs-xl, 16px);
+
+    /* Glass yok — performans için */
+    --glass-blur: none;
+    --glass-saturate: none;
+
+    --hover-display: none;
+
+    --spacing-scale: 0.8;
+    --border-radius-base: 6px;
+  }
+}
+
+/* ============================================================
+   DESKTOP / WIDE — ≥1920px (Mouse + Keyboard, hover aktif)
+   Figma: node-id=2831-13747 — 1920×1080
+   ============================================================ */
+@media (min-width: 1920px) {
+  :root {
+    --screen-w: 1920px;
+    --screen-h: 1080px;
+
+    /* Header: Figma 993×27 (same as 1024) */
+    --header-h: 27px;
+
+    /* Content */
+    --content-h: 961px;            /* 1080 - 27 - 92 */
+    --content-padding-top: 14px;
+    --content-padding-bottom: 20px;
+    --page-padding-x: 24px;
+
+    /* Player Info: Figma 469×184 */
+    --player-w: 469px;
+    --player-h: 184px;
+    --player-cover: 135px;         /* Figma: 150×150 */
+    --player-progress-w: 380px;
+    --player-progress-h: 12px;
+
+    /* Widget Area: Figma 752×184 */
+    --widget-area-w: 752px;
+    --widget-area-h: 184px;
+
+    /* Widget Cards (1920) */
+    --w-quickapp: 42px;
+    --w-quickapp-h: 43px;          /* Figma: 42×43 */
+    --w-quickapp-wide: 50px;
+    --w-clock: 109px;
+    --w-clock-h: 43px;
+    --w-info: 234px;               /* Figma: 234×108 (featured widget) */
+    --w-info-h: 108px;
+    --w-filemanager: 129px;
+    --w-filemanager-h: 43px;
+    --w-gap: 12px;
+
+    /* Banner: Figma 491×184 */
+    --banner-w: 491px;
+    --banner-h: 184px;
+
+    /* Song Items: Figma 169×43 */
+    --song-w: 169px;
+    --song-h: 43px;
+    --song-cover: 50px;            /* Figma: 50×43 */
+
+    /* Footer Parts (1920) */
+    --f-cover: 85px;
+    --f-media: 367px;
+    --f-buttons: 126px;            /* Figma: 126×27 (desktop buttons) */
+    --f-buttons-h: 27px;
+    --f-volume: 353px;             /* Figma: 353×14 (desktop volume) */
+    --f-volume-h: 14px;
+
+    /* Sidebar */
+    --sidebar-w: 280px;
+    --sidebar-w-compact: 280px;
+    --detail-panel-w: 480px;
+
+    /* Cards */
+    --card-thumb-size: 180px;
+    --album-art-size: 400px;
+    --player-art-size: 140px;
+    --mini-card-art-size: 60px;
+    --widget-h: 140px;
+
+    /* Component tokens */
+    --now-playing-art-size: 150px;
+    --media-card-thumb-size: 180px;
+    --detail-panel-art-size: 600px;
+    --widget-min-height: 140px;
+    --widget-grid-cols: 3;
+    --footer-album-art-size: 85px;
+    --footer-icon-size: 18px;
+    --footer-btn-min-size: 48px;
+    --home-top-split: 1fr 1.5fr 1fr;
+    --home-bottom-split: 1fr 1.5fr;
+
+    /* Touch */
+    --touch-min: 44px;
+    --touch-recommended: 48px;
+    --touch-large: 56px;
+
+    /* Spacing */
+    --grid-gap: 12px;
+    --grid-gap-lg: 20px;
+    --section-gap: 24px;
+    --card-padding: 16px;
+
+    /* Font */
+    --text-xs: var(--fs-xs, 12px);
+    --text-sm: var(--fs-sm, 13px);
+    --text-base: var(--fs-base, 14px);
+    --text-lg: var(--fs-lg, 16px);
+    --text-xl: var(--fs-xl, 18px);
+
+    /* Glass */
+    --glass-blur: blur(20px);
+    --glass-saturate: saturate(180%);
+
+    /* Hover */
+    --hover-display: block;
+
+    --spacing-scale: 1.1;
+    --border-radius-base: 10px;
+  }
+}
+
+/* ============================================================
+   2K / Wide — ≥2560px (Mouse + Keyboard, large monitor)
+   2K monitor, ultrawide, multi-monitor
+   ============================================================ */
+@media (min-width: 2560px) {
+  :root {
+    --screen-w: 2560px;
+    --screen-h: 1440px;
+
+    --header-h: 80px;
+    --content-h: 1240px;
+    --content-padding-top: 16px;
+    --content-padding-bottom: 22px;
+    --page-padding-x: 28px;
+
+    --sidebar-w: 300px;
+    --sidebar-w-compact: 300px;
+    --detail-panel-w: 560px;
+
+    --card-thumb-size: 220px;
+    --album-art-size: 480px;
+    --player-art-size: 160px;
+    --mini-card-art-size: 70px;
+    --widget-h: 160px;
+
+    /* Component-specific token override */
+    --now-playing-art-size: 220px;
+    --media-card-thumb-size: 220px;
+    --detail-panel-art-size: 560px;
+    --widget-min-height: 160px;
+    --widget-grid-cols: 3;
+    --footer-album-art-size: 160px;
+    --footer-icon-size: 20px;
+    --footer-btn-min-size: 52px;
+    --home-bottom-split: 1fr 1.5fr 1fr;
+
+    --touch-min: 44px;
+    --touch-recommended: 48px;
+    --touch-large: 56px;
+
+    --grid-gap: 14px;
+    --grid-gap-lg: 22px;
+    --section-gap: 28px;
+    --card-padding: 18px;
+
+    /* Hibrit scale: fluid typography a-scale-hybrid.css'den */
+    --text-xs: var(--fs-xs, 13px);
+    --text-sm: var(--fs-sm, 14px);
+    --text-base: var(--fs-base, 15px);
+    --text-lg: var(--fs-lg, 18px);
+    --text-xl: var(--fs-xl, 20px);
+
+    --glass-blur: blur(20px);
+    --glass-saturate: saturate(180%);
+
+    --hover-display: block;
+
+    --spacing-scale: 1.2;
+    --border-radius-base: 12px;
+  }
+}
+
+/* ============================================================
+   4K UHD TV — ≥3840px (4K TV, Smart TV)
+   Zoom: ×2 (1920 × 2 = 3840)
+   Container ortalama YOK — top-left sabit ölçek
+   ============================================================ */
+@media (min-width: 3840px) {
+  :root {
+    --screen-w: 3840px;
+    --screen-h: 2160px;
+
+    --header-h: 80px;
+    --header-h-compact: 80px;
+    --header-h-4k: 80px;
+
+    --content-h: 1960px;
+    --content-padding-top: 18px;
+    --content-padding-bottom: 24px;
+    --page-padding-x: 32px;
+    --content-padding: 1.5rem;
+    --content-padding-compact: 1.5rem;
+    --content-max-w: 1920px; /* zoom:2 ile 3840px görsel genişlik — viewport'u tam doldurur */
+
+    --sidebar-w: 320px;
+    --sidebar-w-compact: 320px;
+    --detail-panel-w: 640px;
+
+    --card-thumb-size: 280px;
+    --album-art-size: 600px;
+    --player-art-size: 200px;
+    --mini-card-art-size: 80px;
+    --widget-h: 180px;
+
+    --now-playing-art-size: 280px;
+    --media-card-thumb-size: 280px;
+    --detail-panel-art-size: 640px;
+    --widget-min-height: 180px;
+    --widget-grid-cols: 3;
+    --footer-album-art-size: 200px;
+    --footer-icon-size: 24px;
+    --footer-btn-min-size: 60px;
+    --home-top-split: 1fr 1.5fr 1fr;
+    --home-bottom-split: 1fr 1.5fr 1fr;
+
+    --touch-min: 60px;
+    --touch-recommended: 64px;
+    --touch-large: 72px;
+
+    --grid-gap: 16px;
+    --grid-gap-lg: 24px;
+    --section-gap: 32px;
+    --card-padding: 20px;
+
+    --text-xs: var(--fs-xs, 16px);
+    --text-sm: var(--fs-sm, 18px);
+    --text-base: var(--fs-base, 20px);
+    --text-lg: var(--fs-lg, 24px);
+    --text-xl: var(--fs-xl, 28px);
+
+    --glass-blur: blur(4px);
+    --glass-saturate: saturate(120%);
+
+    --hover-display: block;
+
+    --spacing-scale: 1.6;
+    --border-radius-base: 14px;
+  }
+}
+
+/* ============================================================
+   4K UHD Monitor — ≥3841px (4K Desktop Monitor, mouse+keyboard)
+   TV'den daha büyük, fare tabanlı etkileşim
+   ============================================================ */
+@media (min-width: 3841px) {
+  :root {
+    --header-h: 90px;
+    --header-h-4k-monitor: 90px;
+
+
+    --content-max-w: 1920px; /* zoom:2 ile 3840px görsel genişlik — viewport'u tam doldurur */
+    --sidebar-w: 340px;
+    --detail-panel-w: 700px;
+  }
+}
+

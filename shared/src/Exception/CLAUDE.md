@@ -1,38 +1,58 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\shared\src\Exception Baglam"
+title: "CoreMusic — shared/src/Exception Bağlam"
 type: context
-folder: "C:\www\coremusic.net\shared\src\Exception"
-category: layer3
-date: 2026-09-06
+folder: "shared/src/Exception"
+category: layer0-infrastructure
+date: 2026-09-21
+updated: 2026-09-21
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# Exception - CLAUDE.md
+# Exception — CLAUDE.md (Detaylı)
 
-**Zorunlu Baglantilar:** [[./AGENTS.md]] . [[../CLAUDE.md]]
+**Zorunlu Bağlantılar:** · [[../CLAUDE.md]]
 
-## 1. Baglam
-Istisna hiyerarsisi
+---
+
+## 1. Bağlam
+
+Exception hiyerarşisi. BaseCoreMusicException'dan türeyen 8 özel exception.
+
+---
 
 ## 2. Mevcut Durum
-| Durum | Deger |
+
+| Durum | Değer |
 |-------|-------|
-| Dosya | 8 |
-| Konum | C:\www\coremusic.net\shared\src\Exception |
+| Toplam dosya | 8 PHP dosyası |
 
-## 3. Komsu Iliskiler
-| Yon | Hedef | Iliski |
-|-----|-------|--------|
-| Parent | [[../CLAUDE.md]] | Ust baglam |
-| Talimatlar | [[../AGENTS.md]] | Ust kurallar |
+### 2.1 Exception Hiyerarşisi
 
-## 4. Degisiklik Protokolu
-1. Degisiklik once ust talimatlarla uyum kontrolu
-2. Gerekirse ADR + [[../../.ai/log.md]] audit
+```
+BaseCoreMusicException
+├── AuthenticationException ← Auth hataları
+├── AuthorizationException ← Yetki hataları
+├── ValidationException ← Validasyon hataları
+├── NotFoundException ← Bulunamayan kaynaklar
+├── ConflictException ← Çakışma hataları
+├── RateLimitException ← Rate limit aşımı
+├── DatabaseException ← DB hataları
+└── ExternalServiceException ← Dış servis hataları
+```
+
+---
+
+## 3. Yasaklar
+
+| # | Yasak | Neden |
+|---|-------|-------|
+| 1 | Generic Exception fırlatmak | Tanımsız hata |
+| 2 | Exception'da secret log'lamak | Güvenlik |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-21
+**Mode:** Red Team · Human Mode · Truth Mode

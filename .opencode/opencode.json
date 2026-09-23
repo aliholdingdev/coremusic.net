@@ -15,7 +15,10 @@
     ".ai/CLAUDE.md",
     ".ai/AGENTS.md",
     ".ai/brain.md",
-    ".ai/WORKFLOW.md"
+    ".ai/WORKFLOW.md",
+    ".ai/MEMORY.md",
+    ".ai/index.md",
+    ".ai/ULTRA-THINKING.md"
   ],
 
   "agent": {
@@ -81,7 +84,7 @@
     "data-engineer": {
       "description": "Database specialist for MySQL, BCNF normalization, and query optimization",
       "mode": "subagent",
-      "prompt": "You are CoreMusic Data Engineer. MySQL 9 BCNF, PDO, L0 Infrastructure.\n\n=== DOMAIN ===\nL0 Infrastructure - MySQL 11 BCNF, PDO, 11 databases (ADR-040).\n\n=== RULES ===\n1. SELECT * FORBIDDEN - explicit columns only - ADR-002\n2. ORM FORBIDDEN (No Doctrine, No Eloquent) - ADR-002\n3. Hard delete FORBIDDEN - soft delete mandatory (is_deleted=0)\n4. BCNF mandatory for all tables - ADR-040\n5. Prepared statements mandatory for ALL queries\n6. snake_case naming for tables, columns, indexes\n7. Forward-only migration (no rollback in production)\n8. Transaction isolation: REPEATABLE READ\n9. Index naming: idx_{table}_{column}\n10. Foreign key naming: fk_{table}_{referenced_table}\n\n=== LSP ===\nLSP hatalarini umursama. class not found normal.\n\nVault: @.ai/CLAUDE.md, @.ai/brain.md oku. Kodu direkt yaz, analiz yapma."
+      "prompt": "You are CoreMusic Data Engineer. MySQL 9 BCNF, PDO, L0 Infrastructure.\n\n=== DOMAIN ===\nL0 Infrastructure - MySQL 18 BCNF, PDO, 18 databases (ADR-040).\n\n=== RULES ===\n1. SELECT * FORBIDDEN - explicit columns only - ADR-002\n2. ORM FORBIDDEN (No Doctrine, No Eloquent) - ADR-002\n3. Hard delete FORBIDDEN - soft delete mandatory (is_deleted=0)\n4. BCNF mandatory for all tables - ADR-040\n5. Prepared statements mandatory for ALL queries\n6. snake_case naming for tables, columns, indexes\n7. Forward-only migration (no rollback in production)\n8. Transaction isolation: REPEATABLE READ\n9. Index naming: idx_{table}_{column}\n10. Foreign key naming: fk_{table}_{referenced_table}\n\n=== LSP ===\nLSP hatalarini umursama. class not found normal.\n\nVault: @.ai/CLAUDE.md, @.ai/brain.md oku. Kodu direkt yaz, analiz yapma."
     },
 
     // ──────────────────────────────────────────────────────────────
@@ -229,7 +232,6 @@
       "agent-orchestrator",
       "alt-agent-koordinasyon",
       "api-and-interface-design",
-      "ascii-art-viewer",
       "best-practices",
       "brainstorming",
       "browser-testing",
@@ -246,11 +248,9 @@
       "dispatching-parallel-agents",
       "documentation-and-adrs",
       "doubt-driven-development",
-      "effect",
       "executing-plans",
       "finishing-a-development-branch",
       "frontend-ui-engineering",
-      "gepeto",
       "git-workflow-and-versioning",
       "hallucination-control",
       "human-mode",
@@ -258,12 +258,16 @@
       "idea-refine",
       "incremental-implementation",
       "interview-me",
+      "memory-management",
+      "mysql-patterns",
+      "node-patterns",
       "observability-and-instrumentation",
+      "oop-best-practices",
       "opencode-orchestrator",
       "performance",
       "performance-optimization",
+      "php-patterns",
       "pixel-perfect-verification",
-      "pinokio",
       "planning-and-task-breakdown",
       "ponytail",
       "ponytail-audit",
@@ -271,6 +275,7 @@
       "ponytail-gain",
       "ponytail-help",
       "ponytail-review",
+      "pr-review",
       "proje-analizi",
       "prompt-maker",
       "receiving-code-review",
@@ -289,9 +294,11 @@
       "test-driven-development",
       "ui-code-generator",
       "ui-analyzer",
+      "ui-demo",
       "using-agent-skills",
       "using-git-worktrees",
       "using-superpowers",
+      "vault-sync-post",
       "verification-before-completion",
       "web-quality-audit",
       "writing-plans",
@@ -305,8 +312,8 @@
       "description": "CoreMusic vault - mimari, agent, karar ve standart dosyalari"
     },
     "rules": {
-      "path": ".claude/rules",
-      "description": "CoreMusic kurallar seti - PHP, JS, CSS, DB, Security, Test standartlari"
+      "path": ".opencode",
+      "description": "CoreMusic kurallar seti - .opencode/ dizinindeki tum kurallar"
     },
     "workflows": {
       "path": ".workflows",
@@ -343,8 +350,6 @@
         "npx",
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "C://",
-        "C://www",
         "C://www//coremusic.net",
         "C://www//coremusic.net.old.ref"
       ],
@@ -364,7 +369,10 @@
       ".git/**",
       "*.log",
       "*.cache",
-      ".env*"
+      ".env*",
+      "*.bak",
+      ".ai/sessions/**",
+      ".ai/.png/**"
     ]
   }
 }

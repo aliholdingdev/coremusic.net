@@ -8,7 +8,7 @@ version: 20.0.0
 
 **SSOT:** [[AGENTS.md]] (ana agent kayıt defteri ve orkestrasyon protokolü)
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[VISION.md]] · [[PROJECTS.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
 **Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
 
@@ -16,7 +16,10 @@ version: 20.0.0
 
 ## 1. Amaç
 
-Bu dosya, CoreMusic orkestrasyon motorunun indeksidir. Detaylı orkestrasyon protokolü [[AGENTS.md]]'de bulunur.
+Bu dosya, CoreMusic orkestrasyon motorunun indeksidir. CoreMusic ekosisteminin 11 uzmanlık alanındaki AI ajanlarının (ses analizi, donanım optimizasyonu, bilgi bankası/RAG, prompt üretimi vb.) koordinasyonunu ve görev dağıtımını yönetir.
+- **Ekosistem Vizyonu & Sorun-Çözüm:** [[VISION.md]]
+- **Proje Tanımı & 10 Temel Yetenek:** [[PROJECTS.md]]
+- **Detaylı Ajan Kayıt Defteri:** [[AGENTS.md]]
 
 ## 2. Orkestrasyon Bölümleri
 
@@ -45,6 +48,8 @@ Bu bölümler sadece bu dosyada bulunur:
 
 | İhtiyaç | İlk Adım |
 |---------|----------|
+| Ürün & Ekosistem Vizyonu | [[VISION.md]] |
+| Proje Tanımı & Yetenekler | [[PROJECTS.md]] |
 | Agent tanımları | [[AGENTS.md]] §15 |
 | Görev dağıtımı | [[AGENTS.md]] §7 |
 | Handover | [[AGENTS.md]] §9 |

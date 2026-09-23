@@ -14,6 +14,30 @@ final class ReturnUrlPolicy
         '127.0.0.1',
     ];
 
+    /**
+     * URL'nin güvenli olup olmadığını kontrol et (bool).
+     * SecurityHelper::isRedirectUriSafe() bu metoda yönlendirilir.
+     *
+     * Kural: getSafeUrl() orijinal URL'yi aynen döndürüyorsa → güvenli.
+     * '/' dönüyorsa → güvenli değil (redirect engellendi).
+     */
+    public static function isAllowed(string $url): bool
+    {
+        if ($url === '' || $url === '/') {
+            return true;
+        }
+
+        if (str_starts_with($url, '/')) {
+            return true;
+        }
+
+        $safeUrl = self::getSafeUrl($url);
+
+        // getSafeUrl, URL'yi decode eder ve parse eder.
+        // Eğer safeUrl orijinal URL ile aynıysa → izin verilmiş demektir.
+        return $safeUrl === $url;
+    }
+
     public static function getSafeUrl(?string $url, string $scheme = 'https'): string
     {
         if (empty($url)) {

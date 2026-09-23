@@ -45,9 +45,13 @@ final class DeviceManager
     private const NAV_LINKS = [
         self::EMBEDDED => [
             ['href' => '/home',       'label' => 'Ana Sayfa',  'active' => true],
-            ['href' => '/kutuphane',  'label' => 'Kütüphane',  'active' => false],
-            ['href' => '/radyo',      'label' => 'Radyo',      'active' => false],
+            ['href' => '/kesfet',     'label' => 'Keşfet',     'active' => false],
+            ['href' => '/albumler',   'label' => 'Albümler',   'active' => false],
+            ['href' => '/sanatcilar', 'label' => 'Sanatçılar', 'active' => false],
+            ['href' => '/goz-at',     'label' => 'Göz At',     'active' => false],
+            ['href' => '/gecmis',     'label' => 'Geçmiş',     'active' => false],
             ['href' => '/ayarlar',    'label' => 'Ayarlar',    'active' => false],
+            ['href' => '/hakkimizda', 'label' => 'Hakkımızda', 'active' => false],
         ],
         self::PHONE => [
             ['href' => '/home',      'label' => 'Ana Sayfa',  'active' => true],

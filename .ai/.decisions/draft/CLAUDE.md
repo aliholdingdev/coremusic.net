@@ -1,36 +1,35 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\.ai\decisions\draft Baglam"
+title: "CoreMusic — .ai/decisions/rejected Bağlam"
 type: context
-folder: "C:\www\coremusic.net\.ai\decisions\draft"
-category: layer3
+folder: ".ai/decisions/rejected"
+category: vault
 date: 2026-09-06
 status: active
 version: 1.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# draft - CLAUDE.md
+# .ai/decisions/rejected — CLAUDE.md
 
-**Zorunlu Baglantilar:** [[./AGENTS.md]] . [[../CLAUDE.md]]
+**Zorunlu Bağlantılar:** [[../CLAUDE.md]]
 
-## 1. Baglam
-Taslak ADRler
+## 1. Bağlam
 
-## 2. Mevcut Durum
-| Durum | Deger |
-|-------|-------|
-| Dosya | 0 |
-| Konum | C:\www\coremusic.net\.ai\decisions\draft |
+Bir öneri task yada doğrulanmak için bauara göndeirlri eğer doğrulaırsa direk ;
+Öneri doğrulanır red ise "rejected" e gönderilir yani buraya 
+Eğer Öneri Onayaılır ise sonardan "accepted" e gönderilir taşınır.
 
-## 3. Komsu Iliskiler
-| Yon | Hedef | Iliski |
+## 3. Komşu İlişkiler
+
+| Yön | Hedef | İlişki |
 |-----|-------|--------|
-| Parent | [[../CLAUDE.md]] | Ust baglam |
-| Talimatlar | [[../AGENTS.md]] | Ust kurallar |
+| Parent | [[../CLAUDE.md]] | Karar merkezi |
+| Karşıt bölge | [[../accepted/CLAUDE.md]] | Kabul edilenler |
 
-## 4. Degisiklik Protokolu
-1. Degisiklik once ust talimatlarla uyum kontrolu
-2. Gerekirse ADR + [[../../.ai/log.md]] audit
+## 4. Değişiklik Protokolü
+
+1. Yeni red → ADR-creation workflow red kolu → index + log
+2. Audit: `[[../../log.md]]`
 
 ---
 

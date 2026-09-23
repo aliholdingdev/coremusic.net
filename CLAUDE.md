@@ -2,27 +2,30 @@
 
 > **Single Source of Truth (SSOT)** — ADR-042 (Vault Restructuring)
 >
-> This file is a **pointer**. All AI instructions, guardrails, and architecture live in `.ai/`.
+> This file is a **pointer**. All AI instructions, guardrails, architecture, and vision live in `.ai/`.
 > **Do not use this file for instructions.** Read `.ai/CLAUDE.md` instead.
 
 ## Quick Context
 
-- **Project:** Enterprise digital media management platform (music, audio hardware, AI)
-- **Stack:** PHP 8.4, Vanilla JS, C++20 (NevaEngine), MySQL 9 (18 BCNF), Class AB amplifier
-- **Architecture:** 21 layers (K0-K20), 1000+ components, 10 web panels, 7 microservices
-- **Key Rules:** No ORM (PDO only), No frameworks (Vanilla JS only), CSRF token = `csrf_token`
-- **Amplifier:** Class AB Darlington, MJL21194/93, ±35V boost, 6S LiPo (22.2V)
+- **Project:** CoreMusic — Commercial Digital Media Ecosystem & Revenue Platform (Software, Audio Hardware, AI).
+- **Vision:** *"Aynı Müzik Her Yerde Seninle"* — Absolute Data Ownership (Offline-First), Seamless Handoff, Bit-Perfect Hi-Fi Audio.
+- **Problems Solved:** Fragmented platforms → Unified ecosystem; Lossy audio → 32-bit Float Neva Engine; Rental lock-in → Absolute ownership; Static UI → Ambient Aura & AI Theme Maker; Device mismatch → Handoff & Multi-Room; Lack of pro tools → Integrated 8.1 Surround, LUFS, 31-band EQ.
+- **Stack:** PHP 8.4, Vanilla JS, C++20 (NevaEngine), MySQL 9 (18 BCNF DBs, 156 Tables), Class AB 8x50W Amplifier (MJL21194/93).
+- **Architecture:** 21 Layers (K0-K20), 1130 Components, 10 Web Panels, 7 Microservices.
+- **Key Rules:** No ORM (PDO only), No JS frameworks (Vanilla JS only), CSRF token = `csrf_token`, Strict BCNF 3NF+.
+- **Hardware Power:** ±35V LM5122 Interleaved Dual Boost, 6S LiPo (22.2V) or 19-24V DC laptop adapter (DC-ONLY).
 
 ## SSOT Links (Read These)
 
 | Priority | File | Purpose |
-|----------|------|---------|
-| 1 | [.ai/CLAUDE.md](.ai/CLAUDE.md) | **AI Constitution** — All rules, guardrails, architecture |
-| 2 | [.ai/AGENTS.md](.ai/AGENTS.md) | Agent registry, permissions, handover protocols |
-| 3 | [.ai/WORKFLOW.md](.ai/WORKFLOW.md) | Processes, phases, workflow rules |
-| 4 | [.ai/brain.md](.ai/brain.md) | ADR decisions, engineering constraints |
-| 5 | [.ai/index.md](.ai/index.md) | Master catalog (787+ files) |
-| 6 | [.ai/engine.md](.ai/engine.md) | Orchestration engine, task dispatch |
+|:---:|:---|:---|
+| 1 | [.ai/CLAUDE.md](.ai/CLAUDE.md) | **AI Constitution** — 16 Hard Guardrails, architecture, all rules |
+| 2 | [.ai/VISION.md](.ai/VISION.md) | **Vision & Philosophy** — Market crisis, ownership, problem-solution matrix |
+| 3 | [.ai/PROJECTS.md](.ai/PROJECTS.md) | **Project Definition** — 10 core capabilities, 6 target users, 6 sectors |
+| 4 | [.ai/AGENTS.md](.ai/AGENTS.md) | Agent registry, permissions, handover protocols |
+| 5 | [.ai/WORKFLOW.md](.ai/WORKFLOW.md) | Processes, phases, workflow rules, hard gates |
+| 6 | [.ai/brain.md](.ai/brain.md) | ADR decisions (001-089), engineering constraints |
+| 7 | [.ai/architecture/master-architecture-index.md](.ai/architecture/master-architecture-index.md) | Master 21-layer architecture index (1130 components) |
 
 ## Quick Commands
 

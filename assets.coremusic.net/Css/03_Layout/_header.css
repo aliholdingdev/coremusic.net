@@ -14,9 +14,11 @@
  * Scale : Hibrit ölçeklendirme — a-scale-hybrid.css token'ları
  */
 
-/* ============================================================
-   HEADER — Temel Container
-   ============================================================ */
+.header{
+    --header-text: white;
+    --header-logo-hover: #fd00c6;
+}
+
 .site-header {
     position: fixed;
     top: 0;
@@ -57,7 +59,7 @@
     display: flex;
     align-items: baseline;
     gap: 2px;
-    color: rgba(255, 255, 255, 0.92);
+    color: var(--header-text);
     font-size: var(--fs-2xl, 25px);
     line-height: 1;
     transition: opacity 150ms ease;
@@ -68,14 +70,14 @@
 
 .site-header__logo:hover {
     opacity: 0.85;
-    color: #fd00c6;
+    color: var(--header-logo-hover);
     font-weight: 600;
     stroke-width: 0.5%;
     stroke: white;
 }
 
 .site-header__logo:focus-visible {
-    outline: 3px solid #ff4fd8;
+    outline: 3px solid var(--header-logo-hover);
     outline-offset: 4px;
     border-radius: 4px;
 }
@@ -93,12 +95,11 @@
 }
 
 /* ============================================================
-   HEADER — Nav (Orta Alan)
+   HEADER — Nav (Orta Alan — Centered)
    ============================================================ */
 .site-header__nav {
     display: flex;
-    align-items: center;
-    gap: 2px;
+    gap: 6px;
     flex: 1;
     margin-left: -20px;
 }
@@ -107,23 +108,27 @@
 .nav-link {
     display: inline-flex;
     align-items: center;
-    padding: 12px 20px; /* WCAG 2.5.8 — RPi5 touch target ≥48px */
+    justify-content: center;
+    padding: 12px 7px;
     font-size: var(--fs-sm, 13px);
     font-weight: var(--fw-regular, 400);
     color: rgb(255, 255, 255);
     text-decoration: none;
     border-radius: var(--radius-md, 6px);
-    transition: color 150ms ease, background 150ms ease;
+    transition: color 150ms ease, background 150ms ease, transform 150ms ease;
     white-space: nowrap;
     position: relative;
-    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.85));
-    text-shadow: var(--ts-xs, 0 1px 1px rgba(0, 0, 0, 0.75));
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
+    text-shadow: var(--ts-xs, 0 1px 1px rgba(0, 0, 0, 0.1));
+    transform: scale(0.95);
+    transform-origin: center;
 }
 
 /* Nav Link — Hover */
 .nav-link:hover {
     color: rgb(255, 0, 170);
     background: rgba(255, 255, 255, 0.06);
+    transform: scale(1.1);
 }
 
 /* Nav Link — Active (mevcut sayfa) */
@@ -175,7 +180,9 @@
 
 .header-widget img {
     display: block;
+    margin: 0 auto;
     object-fit: fill;
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
 }
 
 /* Batarya */
@@ -217,18 +224,19 @@
     background: rgba(145, 145, 145, 0.164);
     backdrop-filter: blur(0.5px);
     -webkit-backdrop-filter: blur(0.5px);
-    border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 999px;
     cursor: pointer;
-    transition: background 150ms ease, border-color 150ms ease;
+    transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
     white-space: nowrap;
-    filter: drop-shadow(0px 3px 2px rgb(55 55 55 / 25%));
-
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
+    transform: scale(0.95);
+    transform-origin: center;
 }
 
 .header-user:hover {
     background: rgba(255, 255, 255, 0.18);
     border-color: rgba(255, 255, 255, 0.18);
+    transform: scale(1.08);
 }
 
 .header-user:focus-visible {
@@ -245,6 +253,7 @@
     border: 1.5px solid rgba(255, 79, 216, 0.5);
     box-shadow: var(--glow-play);
     flex-shrink: 0;
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
 }
 
 .header-user__name {
@@ -328,22 +337,24 @@
     justify-content: center;
     width: 32px;
     height: 32px;
-    /* background: transparent; */
-    /* border: 1px solid rgba(255, 255, 255, 0.08); */
     border-radius: 50%;
     color: rgba(255, 255, 255, 0.55);
     text-decoration: none;
     cursor: pointer;
-    /* transition: background 150ms ease,
-                border-color 150ms ease,
-                color 150ms ease; */
+    transition: opacity 150ms ease, transform 150ms ease;
     flex-shrink: 0;
     padding: 0;
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
+    transform: scale(0.95);
+    transform-origin: center;
 }
 
 .header-action-btn img {
     display: block;
+    margin: 0 auto;
     transition: opacity 150ms ease;
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
+    object-fit: contain;
 }
 
 .header-action-btn img:hover {
@@ -354,6 +365,7 @@
 
 .header-action-btn:hover img {
     opacity: 1;
+    transform: scale(1.1);
 }
 
 .header-action-btn:focus-visible {
@@ -369,7 +381,7 @@
 .header-border {
     border: 1px solid rgba(255, 255, 255, 0.10); 
     background: rgba(145, 145, 145, 0.164);
-    filter: drop-shadow(0px 3px 2px rgb(55 55 55 / 25%));
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1));
     display: flex;
     align-items: center;
     gap: 5px;
@@ -379,11 +391,15 @@
     border-bottom-right-radius: 0;
     backdrop-filter: blur(0.5px);
     -webkit-backdrop-filter: blur(0.5px);
+    transition: transform 150ms ease, background 150ms ease;
+    transform: scale(0.95);
+    transform-origin: center;
 }
 
 .header-border:hover {
     background: rgba(255, 255, 255, 0.18);
     border-color: rgba(255, 255, 255, 0.18);
+    transform: scale(1.08);
 }
 
 .battery-pct {

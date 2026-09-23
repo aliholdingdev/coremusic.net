@@ -12,7 +12,12 @@ namespace CoreMusic\Session;
  */
 final class SessionConfig
 {
+    /** Merkezi session sabitleri — tek kaynak (SSOT) */
     public const COOKIE_EXPIRY = 42000;
+    public const MAX_LIFETIME = 1800;          // 30 dakika
+    public const IDLE_TIMEOUT = 3600;          // 1 saat
+    public const ROTATION_INTERVAL = 1800;     // 30 dakikada bir rotation
+    public const DIR_PERMISSIONS = 0750;       // Session dizin izinleri
 
     private function __construct(
         public readonly string $name,
@@ -25,9 +30,9 @@ final class SessionConfig
     {
         $name = defined('SESSION_NAME') ? SESSION_NAME : 'COREMUSIC_SESS';
 
-        $savePath = ini_get('session.save_path') ?: 'C:\temp';
+        $savePath = ini_get('session.save_path') ?: sys_get_temp_dir() . '/coremusic_sessions';
         if ($savePath !== '' && !is_dir($savePath)) {
-            @mkdir($savePath, 0777, true);
+            @mkdir($savePath, 0750, true);
         }
 
         $isHttps = (

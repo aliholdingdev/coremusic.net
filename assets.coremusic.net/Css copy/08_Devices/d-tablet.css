@@ -1,0 +1,103 @@
+﻿/**
+ * CoreMusic â€” Tablet Device CSS (768-1024px)
+ * ITCSS Layer: 08_Devices
+ * Version: 2.0.0 â€” 2026-08-18
+ *
+ * Self-contained: imports all base styles + device overrides
+ * Target: Tablet (iPad, Android tablet)
+ * Input: Touch-first, stylus optional
+ */
+
+@import '../01_Abstracts/a-theme-config.css';
+@import '../01_Abstracts/a-colors-token.css';
+@import '../01_Abstracts/a-semantic-token.css';
+@import '../01_Abstracts/a-color-mode-tokens.css';
+@import '../01_Abstracts/a-breakpoint-tokens.css';
+@import '../01_Abstracts/a-layout-tokens.css';
+@import '../02_Base/b-base-core.css';
+@import '../03_Layout/_header.css';
+@import '../03_Layout/_footer.css';
+@import '../06_Utilities/u-helpers-utility.css';   /* .is-hidden — footer pause/play ikonu */
+@import '../04_Components/c-footer-seek.css';
+@import '../04_Components/c-footer-volume.css';
+@import '../05_Pages/_home.css';
+
+/* ============================================================
+   BEHAVIORAL OVERRIDES â€” Tablet (Touch-first)
+   ============================================================ */
+
+/* Font scale */
+html {
+  font-size: 14px;
+}
+
+/* Touch scrolling */
+body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Touch behavior */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Sinyal, BT, Batarya â€” tablet'te gizle */
+.header-widget {
+  display: none;
+}
+
+/* Scrollbar â€” tablet (thin) */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* ============================================================
+   LAYOUT CLASSES â€” Device-based conditional layout
+   ============================================================ */
+
+/* Tablet layout (768-1024px) â€” touch-first */
+.layout--tablet {
+  /* Split: 45% / 55% */
+  --layout-split-left: 45%;
+  --layout-split-right: 55%;
+
+  /* Card sizes */
+  --card-thumb-size: 160px;
+  --now-playing-art: 120px;
+  --mini-card-art: 60px;
+  --widget-min-h: 120px;
+
+  /* Footer */
+  --footer-h: 95px;
+  --footer-player-art: 130px;
+
+  /* Header */
+  --header-h: 62px;
+
+  /* Content */
+  --content-padding-top: 12px;
+  --content-padding-bottom: 16px;
+  --page-padding-x: 18px;
+
+  /* Font */
+  --text-base: 13px;
+  --text-lg: 15px;
+
+  /* Grid */
+  --grid-gap: 10px;
+}

@@ -1,42 +1,42 @@
 ﻿---
 type: server-config
 category: infrastructure
-title: "Sunucu YapÄ±landÄ±rmasÄ± â€” Windows + IIS"
+title: "Sunucu Yapılandırması â€” Windows + IIS"
 date: 2026-09-19
 updated: 2026-09-19
 status: active
 version: 1.0.0
 ---
 
-# Sunucu YapÄ±landÄ±rmasÄ± â€” Windows + IIS
+# Sunucu Yapılandırması â€” Windows + IIS
 
 **Ä°lgili Katmanlar:** [[architecture/k0-k5-software/k0-os-layer]] Â· [[architecture/k10-k15-application/k14-network]]
-**Zorunlu BaÄŸlantÄ±lar:** [[CLAUDE.md]] Â· [[architecture/master-architecture-index]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] Â· [[architecture/master-architecture-index]]
 
 ---
 
-## 1. AmaÃ§
+## 1. Amaç
 
-Bu dokÃ¼man, CoreMusic'in Windows ortamÄ±nda profesyonel veya kurumsal aÄŸlar iÃ§in IIS (Internet Information Services) Ã¼zerinde nasÄ±l yayÄ±nlanacaÄŸÄ±nÄ±, `web.config` Ã¼zerinden yÃ¶nlendirme (URL Rewrite) ve FastCGI (PHP 8.4) entegrasyon ayarlarÄ±nÄ± belgelemektedir.
+Bu doküman, CoreMusic'in Windows ortamında profesyonel veya kurumsal ağlar için IIS (Internet Information Services) üzerinde nasıl yayınlanacağını, `web.config` üzerinden yönlendirme (URL Rewrite) ve FastCGI (PHP 8.4) entegrasyon ayarlarını belgelemektedir.
 
 ## 2. Mimari Hedefler
 
-- **Kurumsal Entegrasyon:** Active Directory veya kurumsal Windows aÄŸlarÄ±nda Ã§alÄ±ÅŸan Windows Server sunucularÄ± ile doÄŸal entegrasyon.
-- **YÃ¶nlendirme:** IIS URL Rewrite modÃ¼lÃ¼ kullanÄ±larak tekil giriÅŸ noktasÄ±nÄ±n (`public/index.php`) saÄŸlanmasÄ±.
-- **GÃ¼venlik:** Hassas dizinlere eriÅŸimin `.ai`, `.env`, `.git` seviyesinde IIS yetkilendirmesiyle engellenmesi.
+- **Kurumsal Entegrasyon:** Active Directory veya kurumsal Windows ağlarında çalışan Windows Server sunucuları ile doğal entegrasyon.
+- **Yönlendirme:** IIS URL Rewrite modülü kullanılarak tekil giriş noktasının (`public/index.php`) sağlanması.
+- **Güvenlik:** Hassas dizinlere erişimin `.ai`, `.env`, `.git` seviyesinde IIS yetkilendirmesiyle engellenmesi.
 
 ## 3. Kurulum ve Gereksinimler
 
 - **OS:** Windows Server 2022 / Windows 11 Pro/Enterprise
 - **IIS:** 10.0+
-- **Gerekli ModÃ¼ller:**
+- **Gerekli Modüller:**
   - IIS URL Rewrite Module 2.1
-  - CGI / FastCGI BileÅŸeni
-- **PHP:** 8.4+ Non-Thread Safe (NTS) sÃ¼rÃ¼mÃ¼
+  - CGI / FastCGI Bileşeni
+- **PHP:** 8.4+ Non-Thread Safe (NTS) sürümü
 
-## 4. Temel IIS YapÄ±landÄ±rmasÄ± (`web.config`)
+## 4. Temel IIS Yapılandırması (`web.config`)
 
-Document Root (`public`) klasÃ¶rÃ¼ iÃ§erisinde yer alacak olan `web.config` dosyasÄ±, Apache `.htaccess` veya Nginx yapÄ±landÄ±rmalarÄ±nÄ±n dengidir.
+Document Root (`public`) klasörü içerisinde yer alacak olan `web.config` dosyası, Apache `.htaccess` veya Nginx yapılandırmalarının dengidir.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -44,7 +44,7 @@ Document Root (`public`) klasÃ¶rÃ¼ iÃ§erisinde yer alacak olan `web.config
     <system.webServer>
         <rewrite>
             <rules>
-                <!-- Trailing slash kaldÄ±rma kuralÄ± -->
+                <!-- Trailing slash kaldırma kuralı -->
                 <rule name="Remove trailing slash" stopProcessing="true">
                     <match url="(.*)/$" />
                     <conditions>
@@ -54,7 +54,7 @@ Document Root (`public`) klasÃ¶rÃ¼ iÃ§erisinde yer alacak olan `web.config
                     <action type="Redirect" redirectType="Permanent" url="{R:1}" />
                 </rule>
                 
-                <!-- Front Controller YÃ¶nlendirmesi -->
+                <!-- Front Controller Yönlendirmesi -->
                 <rule name="CoreMusic Routing" stopProcessing="true">
                     <match url="^" ignoreCase="false" />
                     <conditions>
@@ -93,44 +93,44 @@ Document Root (`public`) klasÃ¶rÃ¼ iÃ§erisinde yer alacak olan `web.config
 
 ## 5. Reverse Proxy Kurulumu (Download Service Node.js)
 
-EÄŸer Download Service de IIS arkasÄ±nda yayÄ±nlanacaksa, **Application Request Routing (ARR)** modÃ¼lÃ¼ gereklidir.
+Eğer Download Service de IIS arkasında yayınlanacaksa, **Application Request Routing (ARR)** modülü gereklidir.
 
 ```xml
-<!-- web.config iÃ§ine kural olarak eklenebilir -->
+<!-- web.config içine kural olarak eklenebilir -->
 <rule name="ReverseProxyDownloadService" stopProcessing="true">
     <match url="^download/(.*)" />
     <action type="Rewrite" url="http://127.0.0.1:3001/{R:1}" />
 </rule>
 ```
-> **Not:** ARR modÃ¼lÃ¼ etkinleÅŸtirilmiÅŸ olmalÄ± ve Proxy ayarlarÄ± IIS yÃ¶neticisinden aÃ§Ä±k konuma getirilmelidir.
+> **Not:** ARR modülü etkinleştirilmiş olmalı ve Proxy ayarları IIS yöneticisinden açık konuma getirilmelidir.
 
-## 6. PHP FastCGI AyarlarÄ±
+## 6. PHP FastCGI Ayarları
 
-IIS'te PHP Ã§alÄ±ÅŸtÄ±rmak iÃ§in Non-Thread Safe (NTS) sÃ¼rÃ¼mÃ¼ kullanÄ±lmalÄ±dÄ±r.
+IIS'te PHP çalıştırmak için Non-Thread Safe (NTS) sürümü kullanılmalıdır.
 
-- IIS YÃ¶neticisi -> **Handler Mappings (Ä°ÅŸleyici EÅŸlemeleri)**
+- IIS Yöneticisi -> **Handler Mappings (Ä°şleyici Eşlemeleri)**
 - Ekle: `*.php`
-- YÃ¼rÃ¼tÃ¼lebilir: `C:\php8.4\php-cgi.exe`
-- Ä°stek KÄ±sÄ±tlamalarÄ±: "File or Folder"
+- Yürütülebilir: `C:\php8.4\php-cgi.exe`
+- Ä°stek Kısıtlamaları: "File or Folder"
 
 ## 7. IMPLEMENTED / PLANNED Matrisi
 
-| KonfigÃ¼rasyon | Durum | AÃ§Ä±klama |
+| Konfigürasyon | Durum | Açıklama |
 |---------------|-------|----------|
-| IIS FastCGI + PHP | **PLANNED** | Windows ortamlarÄ±nda kurumsal daÄŸÄ±tÄ±m iÃ§in test edilecek. |
-| URL Rewrite (web.config) | **PLANNED** | public/ dizininde web.config barÄ±ndÄ±rÄ±lacak. |
-| Ters Vekil (ARR) | **PLANNED** | Node.js servisleri iÃ§in kurulum ve dokÃ¼mantasyon saÄŸlanacak. |
-| GÃ¼venlik BaÅŸlÄ±klarÄ± | **PLANNED** | IIS `customHeaders` ile saÄŸlanÄ±r, PHP seviyesiyle Ã§akÄ±ÅŸma kontrol edilecek. |
+| IIS FastCGI + PHP | **PLANNED** | Windows ortamlarında kurumsal dağıtım için test edilecek. |
+| URL Rewrite (web.config) | **PLANNED** | public/ dizininde web.config barındırılacak. |
+| Ters Vekil (ARR) | **PLANNED** | Node.js servisleri için kurulum ve dokümantasyon sağlanacak. |
+| Güvenlik Başlıkları | **PLANNED** | IIS `customHeaders` ile sağlanır, PHP seviyesiyle çakışma kontrol edilecek. |
 
 ## 8. Sorun Giderme (Troubleshooting)
 
-- **HTTP Error 500.19 (Config Error):** URL Rewrite modÃ¼lÃ¼ kurulu olmayabilir. IIS URL Rewrite 2.1 indirip kurun.
-- **HTTP Error 404 (Not Found):** Ä°stekler `index.php`'ye yÃ¶nlendirilmiyorsa, `web.config` kurallarÄ±nÄ±n aktif olduÄŸundan emin olun.
-- **FastCGI HatalarÄ± (502):** PHP NTS sÃ¼rÃ¼mÃ¼nÃ¼n kullanÄ±ldÄ±ÄŸÄ±ndan ve `php.ini`'nin doÄŸru ayarlandÄ±ÄŸÄ±ndan emin olun (Ã¶rn. `cgi.force_redirect = 0`).
+- **HTTP Error 500.19 (Config Error):** URL Rewrite modülü kurulu olmayabilir. IIS URL Rewrite 2.1 indirip kurun.
+- **HTTP Error 404 (Not Found):** Ä°stekler `index.php`'ye yönlendirilmiyorsa, `web.config` kurallarının aktif olduğundan emin olun.
+- **FastCGI Hataları (502):** PHP NTS sürümünün kullanıldığından ve `php.ini`'nin doğru ayarlandığından emin olun (örn. `cgi.force_redirect = 0`).
 
 ---
 
-## Faz 3 DoÃ„Å¸rulamasÃ„Â±: GerÃƒÂ§ek Config KanÃ„Â±tÃ„Â±
+## Faz 3 Doİ„Ş¸rulaması: Gerçek Config Kanıtı
 
-YukarÃ„Â±daki konfigÃƒÂ¼rasyon bloklarÃ„Â±, engine.md Ã‚Â§12.2 Faz 3 kanÃ„Â±t zorunluluÃ„Å¸unu karÃ…Å¸Ã„Â±lamaktadÃ„Â±r. Gerekli router, rewrite ve security tanÃ„Â±mlamalarÃ„Â± mevcuttur.
+Yukarıdaki konfigürasyon blokları, engine.md İ‚§12.2 Faz 3 kanıt zorunluluİ„Ş¸unu karİ…Ş¸ılamaktadır. Gerekli router, rewrite ve security tanımlamaları mevcuttur.
 

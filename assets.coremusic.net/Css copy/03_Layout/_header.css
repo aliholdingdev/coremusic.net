@@ -1,0 +1,724 @@
+/**
+ * _header.css — CoreMusic Global Navigation Bar
+ * Scope  : header.php — tüm auth sayfaları
+ * Design : header-spec-v2.md · design-tokens.md
+ * Height : 70px (desktop) · 60px (1024)
+ * Layer  : ITCSS 03_Layout
+ * Version: 3.0.0 — 2026-09-04
+ *
+ * BEM: .site-header → __inner → __logo | __nav (.nav-link) | __actions
+ *      .header-widget | .header-user | .header-action-btn
+ *
+ * Text  : --fs-* token (a-scale-hybrid.css) + --ts-xs/--ts-lg (a-theme-config.css)
+ *
+ * Scale : Hibrit ölçeklendirme — a-scale-hybrid.css token'ları
+ */
+
+/* ============================================================
+   HEADER — Temel Container
+   ============================================================ */
+.site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--header-h, 70px);
+    z-index: var(--z-sticky, 100);
+    /* background: rgba(255, 255, 255, 0.08); */
+    /* backdrop-filter: blur(20px) saturate(180%); */
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    /* border-bottom: 1px solid rgba(255, 255, 255, 0.1); */
+    will-change: transform;
+    padding-top: 20px;
+}
+
+/* ============================================================
+   HEADER — Inner (Flex Container)
+   ============================================================ */
+.site-header__inner {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 8px;
+}
+
+.site-header__inner .site-header__logo {
+    padding: 0 24px;
+    margin-left: 10px;
+}
+
+/* ============================================================
+   HEADER — Logo
+   ============================================================ */
+.site-header__logo {
+    flex-shrink: 0;
+    margin-right: 16px;
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: var(--fs-2xl, 25px);
+    line-height: 1;
+    transition: opacity 150ms ease;
+    white-space: nowrap;
+    text-shadow: var(--ts-lg, 0 3px 14px rgba(0, 0, 0, 0.55)),
+                 0 0 18px rgba(255, 79, 216, 0.25);
+}
+
+.site-header__logo:hover {
+    opacity: 0.85;
+    color: #fd00c6;
+    font-weight: 600;
+    stroke-width: 0.5%;
+    stroke: white;
+}
+
+.site-header__logo:focus-visible {
+    outline: 3px solid #ff4fd8;
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* Logo: "Core" kısmı */
+.logo-core {
+    font-family: 'Bickham Script', 'Bickham Script Two', cursive;
+    font-weight: 400;
+}
+
+/* Logo: "Music" kısmı */
+.logo-music {
+    font-family: 'Respective', 'Segoe UI', system-ui, sans-serif;
+    font-weight: 400;
+}
+
+/* ============================================================
+   HEADER — Nav (Orta Alan)
+   ============================================================ */
+.site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+    margin-left: -20px;
+}
+
+/* Nav Link — Default */
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 20px; /* WCAG 2.5.8 — RPi5 touch target ≥48px */
+    font-size: var(--fs-sm, 13px);
+    font-weight: var(--fw-regular, 400);
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    border-radius: var(--radius-md, 6px);
+    transition: color 150ms ease, background 150ms ease;
+    white-space: nowrap;
+    position: relative;
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.85));
+    text-shadow: var(--ts-xs, 0 1px 1px rgba(0, 0, 0, 0.75));
+}
+
+/* Nav Link — Hover */
+.nav-link:hover {
+    color: rgb(255, 0, 170);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+/* Nav Link — Active (mevcut sayfa) */
+.nav-link.active,
+.nav-link[aria-current="page"] {
+    color: #ff4fd8;
+    font-weight: 600;
+}
+
+.nav-link.active::after,
+.nav-link[aria-current="page"]::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 12px;
+    right: 12px;
+    height: 2px;
+    background: #ff4fd8;
+    border-radius: 999px;
+}
+
+/* Nav Link — Focus (WCAG 2.2) */
+.nav-link:focus-visible {
+    outline: 3px solid #ff4fd8;
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+/* ============================================================
+   HEADER — Actions (Sağ Alan)
+   ============================================================ */
+.site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+/* ============================================================
+   HEADER WIDGET — Sistem İkonları (sinyal, bt, batarya)
+   ============================================================ */
+.header-widget {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.header-widget img {
+    display: block;
+    object-fit: fill;
+}
+
+/* Batarya */
+.header-widget--battery {
+    gap: 2px;
+}
+
+.header-widget--battery img {
+    width: 36px;
+    height: 36px;
+    transform: rotate(90deg);
+}
+
+.header-widget--battery .battery-pct {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.55);
+    margin-left: -8px;
+    text-shadow: var(--ts-xs, 0 1px 1px rgba(0, 0, 0, 0.75));
+}
+
+.header-widget--battery .battery-electric {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    margin-top: 11px;
+}
+
+/* ============================================================
+   HEADER — Kullanıcı Pill
+   ============================================================ */
+.header-user {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 34px;
+    padding: 0 10px 0 6px;
+    border: 1px solid rgba(255, 255, 255, 0.10); 
+    background: rgba(145, 145, 145, 0.164);
+    backdrop-filter: blur(0.5px);
+    -webkit-backdrop-filter: blur(0.5px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 150ms ease, border-color 150ms ease;
+    white-space: nowrap;
+    filter: drop-shadow(0px 3px 2px rgb(55 55 55 / 25%));
+
+}
+
+.header-user:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.header-user:focus-visible {
+    outline: 3px solid #ff4fd8;
+    outline-offset: 2px;
+}
+
+.header-user__avatar {
+    margin-left: -7px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid rgba(255, 79, 216, 0.5);
+    box-shadow: var(--glow-play);
+    flex-shrink: 0;
+}
+
+.header-user__name {
+    font-size: var(--fs-sm, 13px);
+    color: rgb(255, 255, 255);
+    font-weight: var(--fw-regular, 400);
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.85));
+    text-shadow: var(--ts-xs, 0 1px 1px rgba(0, 0, 0, 0.75));
+}
+
+.header-user__arrow {
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.40);
+    margin-left: 2px;
+}
+
+/* ============================================================
+   HEADER — User Dropdown Menu
+   WCAG 2.0 AA Contrast Compliant
+   ============================================================ */
+.header-user-dropdown {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: rgba(45, 26, 46, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 8px;
+    min-width: 150px;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 200;
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+}
+
+.header-user-dropdown--open {
+    display: flex !important;
+}
+
+.header-user-dropdown a {
+    color: #ffffff; /* Contrast > 4.5:1 on rgba(45, 26, 46, 0.95) */
+    text-decoration: none;
+    font-size: var(--fs-sm, 13px);
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: var(--radius-sm, 4px);
+    transition: background 150ms ease, color 150ms ease;
+}
+
+.header-user-dropdown a:hover,
+.header-user-dropdown a:focus-visible {
+    background: rgba(255, 255, 255, 0.1);
+    outline: 2px solid #ff4fd8;
+    outline-offset: -2px;
+}
+
+.header-user-dropdown a.logout-btn {
+    color: #ff8080; /* Lighter red for WCAG contrast on dark bg */
+}
+
+.header-user-dropdown a.logout-btn:hover,
+.header-user-dropdown a.logout-btn:focus-visible {
+    background: rgba(255, 80, 80, 0.15);
+    outline: 2px solid #ff8080;
+    outline-offset: -2px;
+}
+
+/* ============================================================
+   HEADER — Action Buttons (Ayarlar, Çıkış)
+   ============================================================ */
+.header-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    /* background: transparent; */
+    /* border: 1px solid rgba(255, 255, 255, 0.08); */
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: none;
+    cursor: pointer;
+    /* transition: background 150ms ease,
+                border-color 150ms ease,
+                color 150ms ease; */
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.header-action-btn img {
+    display: block;
+    transition: opacity 150ms ease;
+}
+
+.header-action-btn img:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.16);
+    border-radius: 50%;
+}
+
+.header-action-btn:hover img {
+    opacity: 1;
+}
+
+.header-action-btn:focus-visible {
+    outline: 3px solid #ff4fd8;
+    outline-offset: 2px;
+}
+
+/* Logout button — hafif kırmızı hover */
+.header-action-btn--logout:hover {
+    border-color: rgba(255, 80, 80, 0.3);
+}
+
+.header-border {
+    border: 1px solid rgba(255, 255, 255, 0.10); 
+    background: rgba(145, 145, 145, 0.164);
+    filter: drop-shadow(0px 3px 2px rgb(55 55 55 / 25%));
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 0;
+    backdrop-filter: blur(0.5px);
+    -webkit-backdrop-filter: blur(0.5px);
+}
+
+.header-border:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.battery-pct {
+    filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.85));
+    text-shadow: var(--ts-xs, 0 1px 1px rgba(0, 0, 0, 0.75));
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.85);
+}
+ 
+.header-widget--battery .battery-electric {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+    margin-left: 2px;
+}
+
+/* WiFi + Bluetooth Pill */
+.header-border--wifi {
+    border-radius: 50px;
+    height: 37.4px;
+    width: 65px;
+}
+
+/* WiFi icon padding */
+.header-widget--signal {
+    padding-left: 14px;
+}
+
+/* Battery Pill */
+.header-border--battery,
+.header-widget--battery {
+    border-radius: 50px;
+    height: 37.4px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    box-sizing: border-box;
+    padding-left: 12px;
+}
+
+.header-widget--battery img {
+    height: 20px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Settings + Logout Pill */
+.header-border--actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+/* ============================================================
+   RESPONSIVE — 1024px Compact (Hibrit scale)
+   ============================================================ */
+@media (max-width: 1024px) {
+    .site-header {
+        height: 60px;
+    }
+
+    .site-header__inner {
+        gap: 4px;
+    }
+
+    .site-header__logo {
+        font-size: var(--fs-xl, 20px);
+        margin-right: 10px;
+        padding: 0 14px;
+    }
+
+    .nav-link {
+        font-size: var(--fs-xs, 11px);
+        padding: 4px 8px;
+    }
+
+    .header-user__name {
+        font-size: var(--fs-xs, 11px);
+        max-width: 80px;
+    }
+
+    .header-action-btn {
+        width: var(--btn-size-sm, 30px);
+        height: var(--btn-size-sm, 30px);
+    }
+}
+
+/* ============================================================
+   TOUCH DEVICE — Nav Link Hit Area (WCAG 2.5.8 hibrit)
+   Görsel boyut PNG'de olduğu gibi kalır (compact);
+   dokunma hedefi ::before ile min 48×48px'e genişletilir.
+   Sadece dokunmatik (coarse pointer) cihazlarda etkin.
+   ============================================================ */
+@media (pointer: coarse) {
+    .nav-link::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        min-width: 48px;
+        min-height: 48px;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* ============================================================
+   RESPONSIVE — 4K / 2K (Hibrit scale)
+   ============================================================ */
+@media (min-width: 2560px) {
+    .site-header {
+        height: var(--header-h, 80px);
+    }
+
+    .site-header__logo {
+        font-size: var(--fs-3xl, 32px);
+    }
+
+    .nav-link {
+        font-size: var(--fs-lg, 16px);
+        padding: 8px 16px;
+    }
+
+    .header-user {
+        height: 40px;
+    }
+
+    .header-user__avatar {
+        width: 32px;
+        height: 32px;
+    }
+
+    .header-user__name {
+        font-size: var(--fs-lg, 16px);
+    }
+}
+
+@media (min-width: 3840px) {
+    .site-header {
+        height: var(--header-h, 80px);
+    }
+
+    .site-header__inner {
+        gap: 12px;
+        padding: 0 24px;
+    }
+
+    .site-header__logo {
+        font-size: var(--fs-3xl, 36px);
+        padding: 0 32px;
+    }
+
+    .nav-link {
+        font-size: var(--fs-xl, 20px);
+        padding: 10px 20px;
+        min-height: var(--touch-min, 60px);
+    }
+
+    .header-user {
+        height: 44px;
+    }
+
+    .header-user__avatar {
+        width: 36px;
+        height: 36px;
+    }
+
+    .header-user__name {
+        font-size: var(--fs-xl, 20px);
+    }
+
+    .header-action-btn {
+        min-width: var(--touch-min, 60px);
+        min-height: var(--touch-min, 60px);
+    }
+}
+
+/* 4K Monitor — 4K TV'den farklı: mouse+fare, daha büyük */
+@media (min-width: 3841px) {
+    .site-header {
+        height: var(--header-h, 90px);
+    }
+
+    .site-header__logo {
+        font-size: var(--fs-3xl, 40px);
+    }
+
+    .nav-link {
+        font-size: var(--fs-xl, 22px);
+        padding: 12px 24px;
+    }
+
+    .header-user {
+        height: 48px;
+    }
+
+    .header-user__avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    .header-user__name {
+        font-size: var(--fs-xl, 22px);
+    }
+}
+
+@media (max-width: 990px){
+    .site-header__inner .site-header__logo{
+        margin-left: -10px;
+    }
+}
+/* ============================================================
+   MOBILE (< 768px) — Minimal nav (Hibrit scale)
+   ============================================================ */
+@media (max-width: 767px) {
+    .site-header__nav {
+        display: none;
+    }
+
+    .header-widget {
+        display: none;
+    }
+
+    .site-header__logo {
+        font-size: var(--fs-lg, 18px);
+    }
+}
+
+/* ============================================================
+   MOBILE BOTTOM NAV — Fixed bottom bar (phone only)
+   ============================================================ */
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 200;
+    background: rgba(13, 10, 20, 0.95);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobile-bottom-nav__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: #fff;
+    font-size: var(--fs-2xs, 10px);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: var(--radius-md, 6px);
+    transition: color 150ms ease, background 150ms ease;
+    min-width: var(--touch-min, 44px);
+    min-height: var(--touch-min, 44px);
+    justify-content: center;
+}
+
+.mobile-bottom-nav__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+}
+
+.mobile-bottom-nav__label {
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.mobile-bottom-nav__link:hover,
+.mobile-bottom-nav__link.active,
+.mobile-bottom-nav__link--active {
+    color: #ff4fd8;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.mobile-bottom-nav__link:focus-visible {
+    outline: 2px solid #ff4fd8;
+    outline-offset: 2px;
+}
+
+/* ============================================================
+   DEVICE-AWARE HEADER MODIFIERS
+   ============================================================ */
+.site-header--embedded {
+    height: var(--header-h, 60px);
+    padding-top: 8px;
+}
+
+.site-header--embedded .site-header__nav {
+    gap: 2px;
+}
+
+.site-header--embedded .nav-link {
+    padding: 4px 6px;
+    font-size: var(--fs-sm, 12px);
+    min-height: var(--touch-recommended, 48px);
+    display: inline-flex;
+    align-items: center;
+}
+
+.site-header--tv {
+    height: var(--header-h, 90px);
+    padding-top: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.site-header--tv .site-header__logo--tv {
+    font-size: 34px;
+}
+
+.site-header--tv .nav-link {
+    font-size: var(--fs-xl, 20px);
+    padding: 10px 20px;
+    min-height: var(--touch-min, 60px);
+}
+
+.site-header--tv .nav-link:focus-visible,
+.site-header--tv .header-user:focus-visible,
+.site-header--tv .header-action-btn:focus-visible {
+    outline: 4px solid #ff4fd8;
+    outline-offset: 4px;
+    box-shadow: var(--glow-play);
+}
+
+.header-user--tv .header-user__name {
+    font-size: var(--fs-xl, 20px);
+}

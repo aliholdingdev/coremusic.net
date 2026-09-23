@@ -1,38 +1,65 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\shared\src\AI Baglam"
+title: "CoreMusic — shared/src/AI Bağlam"
 type: context
-folder: "C:\www\coremusic.net\shared\src\AI"
-category: layer3
-date: 2026-09-06
+folder: "shared/src/AI"
+category: layer4-ai
+date: 2026-09-21
+updated: 2026-09-21
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# AI - CLAUDE.md
+# AI — CLAUDE.md (Detaylı)
 
-**Zorunlu Baglantilar:** [[./AGENTS.md]] . [[../CLAUDE.md]]
+**Zorunlu Bağlantılar:** · [[../CLAUDE.md]] · [[../../.ai/architecture/k4-yapay-zeka]]
 
-## 1. Baglam
-Yapay zeka motoru katmani (ADR-030)
+---
+
+## 1. Bağlam
+
+Yapay zeka altyapısı (ADR-030). AIEngine, Orchestrator, KnowledgeBase, MemorySystem, PromptEngine ve ToolCalling bileşenleri.
+
+---
 
 ## 2. Mevcut Durum
-| Durum | Deger |
+
+| Durum | Değer |
 |-------|-------|
-| Dosya | 7 |
-| Konum | C:\www\coremusic.net\shared\src\AI |
+| Alt klasör | 2 (AI/, AI/Contracts/) |
+| ADR | ADR-030 (AI Strategy Core) |
 
-## 3. Komsu Iliskiler
-| Yon | Hedef | Iliski |
-|-----|-------|--------|
-| Parent | [[../CLAUDE.md]] | Ust baglam |
-| Talimatlar | [[../AGENTS.md]] | Ust kurallar |
+### 2.1 Dosya Envanteri
 
-## 4. Degisiklik Protokolu
-1. Degisiklik once ust talimatlarla uyum kontrolu
-2. Gerekirse ADR + [[../../.ai/log.md]] audit
+| Dosya | Amaç |
+|-------|------|
+| `AIEngine.php` | Ana AI motoru |
+| `Contracts/*.php` | AI sözleşme arayüzleri |
+
+---
+
+## 3. AI Bileşenleri
+
+| Bileşen | Görev |
+|---------|-------|
+| AIEngine | Müzik önerileri, ses analizi, otomatik EQ |
+| Orchestrator | Görev dağıtımı, context yönetimi |
+| KnowledgeBase | Bilgi bankası, semantic search |
+| MemorySystem | Session hafızası, persistence |
+| PromptEngine | Prompt üretimi, token management |
+| ToolCalling | Dış servis çağrısı |
+
+---
+
+## 4. Yasaklar
+
+| # | Yasak | Neden |
+|---|-------|-------|
+| 1 | AI'dan direkt DB erişimi | K5 harici veriye erişemez |
+| 2 | AI'dan frontend erişimi | Katman ihlali |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-21
+**Mode:** Red Team · Human Mode · Truth Mode

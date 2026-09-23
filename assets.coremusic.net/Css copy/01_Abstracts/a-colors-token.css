@@ -1,0 +1,165 @@
+/**
+ * CoreMusic — Primitif Renk Tokenleri
+ * Ham renk paleti. Doğrudan CSS'de kullanılmaz.
+ * Semantik tokenlar (a-semantic-token.css) üzerinden referans alınır.
+ * ITCSS Layer: 01_Abstracts
+ * Version: 2.0.0 — 2026-05-31
+ */
+
+:root {
+  /* ============================================================
+     NEUTRAL — Gri/Koyu Skalası
+     ============================================================ */
+  --color-neutral-0:    #FFFFFF;
+  --color-neutral-50:   #F8F9FA;
+  --color-neutral-100:  #F1F3F5;
+  --color-neutral-200:  #E9ECEF;
+  --color-neutral-300:  #DEE2E6;
+  --color-neutral-400:  #CED4DA;
+  --color-neutral-500:  #ADB5BD;
+  --color-neutral-600:  #868E96;
+  --color-neutral-700:  #495057;
+  --color-neutral-800:  #343A40;
+  --color-neutral-900:  #212529;
+  --color-neutral-950:  #141618;
+  --color-neutral-1000: #0D0F10;
+
+  /* ============================================================
+     DARK — Koyu Mor/Siyah (Tasarım dosyalarından)
+     ============================================================ */
+  --color-dark-900: #0d0a14;   /* Ana arka plan — en koyu */
+  --color-dark-800: #120d1a;   /* Kart/panel yüzeyi */
+  --color-dark-700: #1a1025;   /* Yükseltilmiş yüzey */
+  --color-dark-600: #231535;   /* Overlay/modal */
+  --color-dark-500: #2d1b4e;   /* Aktif/hover yüzey */
+  --color-dark-400: #3d1a35;   /* Kadın teması derin */
+
+  /* ============================================================
+     VIOLET — Ana Marka Rengi
+     ============================================================ */
+  --color-violet-50:  #F3F0FF;
+  --color-violet-100: #E9E3FF;
+  --color-violet-200: #D0BFFF;
+  --color-violet-300: #B197FC;
+  --color-violet-400: #9775FA;
+  --color-violet-500: #845EF7;
+  --color-violet-600: #7950F2;   /* PRIMARY BRAND */
+  --color-violet-700: #7048E8;
+  --color-violet-800: #6741D9;
+  --color-violet-900: #5F3DC4;
+
+  /* ============================================================
+     GRAPE — İkincil Marka Rengi
+     ============================================================ */
+  --color-grape-50:  #F8F0FC;
+  --color-grape-100: #F3D9FA;
+  --color-grape-200: #EEBEFA;
+  --color-grape-300: #E599F7;
+  --color-grape-400: #DA77F2;
+  --color-grape-500: #CC5DE8;   /* SECONDARY BRAND */
+  --color-grape-600: #BE4BDB;
+  --color-grape-700: #AE3EC9;
+  --color-grape-800: #9C36B5;
+  --color-grape-900: #862E9C;
+
+  /* ============================================================
+     PINK — Vurgu & Kadın Teması
+     ============================================================ */
+  --color-pink-50:  #FFF0F6;
+  --color-pink-100: #FFDEEB;
+  --color-pink-200: #FCC2D7;
+  --color-pink-300: #FAA2C1;
+  --color-pink-400: #F783AC;
+  --color-pink-500: #F06595;   /* ACCENT */
+  --color-pink-600: #E64980;
+  --color-pink-700: #D6336C;
+  --color-pink-800: #C2255C;
+  --color-pink-900: #A61E4D;
+
+  /* ============================================================
+     MAGENTA — Admin & Güçlü Vurgu
+     ============================================================ */
+  --color-magenta-100: #FCE4EC;
+  --color-magenta-200: #F8BBD0;
+  --color-magenta-300: #F48FB1;
+  --color-magenta-400: #F2A0B5;   /* Soft magenta */
+  --color-magenta-500: #E889A0;   /* Medium magenta */
+  --color-magenta-600: #E91E8C;   /* Hot pink — Admin buton */
+  --color-magenta-700: #C2185B;   /* Deep magenta */
+
+  /* ============================================================
+     HOT PINK — CoreMusic Marka Ana Rengi (Tasarım dosyalarından)
+     ============================================================ */
+  --color-hotpink-400: #FF69B4;   /* Light hot pink — hover */
+  --color-hotpink-500: #FF1493;   /* Deep pink — vurgu */
+  --color-hotpink-600: #E91E8C;   /* CoreMusic brand primary — ANA RENK */
+  --color-hotpink-700: #C2185B;   /* Pressed/active */
+  --color-hotpink-800: #AD1457;   /* Dark variant */
+
+  /* ============================================================
+     ROSE — Kadın Teması Soft
+     ============================================================ */
+  --color-rose-100: #fce4ec;
+  --color-rose-200: #f8bbd0;
+  --color-rose-300: #f48fb1;
+  --color-rose-400: #e8b4b8;   /* FEMALE PRIMARY */
+  --color-rose-500: #d496a0;   /* FEMALE SECONDARY */
+  --color-rose-600: #c2185b;
+
+  /* ============================================================
+     LAVENDER — Nötr Teması
+     ============================================================ */
+  --color-lav-50:  #F3E5F5;
+  --color-lav-100: #E1BEE7;
+  --color-lav-200: #CE93D8;
+  --color-lav-300: #B8A9C9;   /* NEUTRAL PRIMARY */
+  --color-lav-400: #9B8BB4;   /* NEUTRAL SECONDARY */
+  --color-lav-500: #8B6BAE;   /* NEUTRAL ACCENT */
+  --color-lav-600: #6A1B9A;
+
+  /* ============================================================
+     BLUE — Erkek Teması
+     ============================================================ */
+  --color-blue-50:  #E3F2FD;
+  --color-blue-100: #BBDEFB;
+  --color-blue-200: #A8D8EA;
+  --color-blue-300: #89C4D9;
+  --color-blue-400: #5B8FB9;   /* MALE PRIMARY */
+  --color-blue-500: #1565C0;
+  --color-blue-600: #0D47A1;
+
+  /* ============================================================
+     NAVY — Erkek Teması Arka Plan
+     ============================================================ */
+  --color-navy-900: #0d1a2e;   /* Erkek ana arka plan */
+  --color-navy-800: #1a2d4e;   /* Erkek yüzey */
+  --color-navy-700: #0d2035;   /* Erkek yükseltilmiş */
+
+  /* ============================================================
+     STATUS — Durum Renkleri
+     ============================================================ */
+  --color-green-400: #69DB7C;
+  --color-green-500: #51CF66;   /* Success / Terminal */
+  --color-green-600: #40C057;
+  --color-yellow-400: #FFD43B;
+  --color-yellow-500: #FCC419;  /* Warning */
+  --color-yellow-600: #FAB005;
+  --color-red-400:   #FF8787;
+  --color-red-500:   #FF6B6B;   /* Error */
+  --color-red-600:   #FA5252;
+  --color-red-700:   #F03E3E;
+  --color-info-400:  #4DABF7;
+  --color-info-500:  #339AF0;   /* Info */
+  --color-info-600:  #228BE6;
+
+  /* ============================================================
+     SOCIAL BRAND — Sosyal Medya Renkleri
+     ============================================================ */
+  --color-social-apple:    #000000;
+  --color-social-google:   #4285F4;
+  --color-social-spotify:  #1DB954;
+  --color-social-discord:  #5865F2;
+  --color-social-github:   #24292F;
+  --color-social-reddit:   #FF4500;
+  --color-social-tiktok:   #000000;
+}

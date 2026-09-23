@@ -11,7 +11,7 @@ authority: Single Source of Truth (SSOT)
 
 # .workflows — CLAUDE.md
 
-**Zorunlu Bağlantılar:** [[./AGENTS.md]] · [[../.ai/WORKFLOW.md]] · [[../AGENTS.md]]
+**Zorunlu Bağlantılar:** · [[../.ai/WORKFLOW.md]] · [[../AGENTS.md]]
 
 ## 1. Bağlam
 

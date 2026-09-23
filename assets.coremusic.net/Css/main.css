@@ -22,29 +22,36 @@
 @import url("./01_Abstracts/a-login-tokens.css?v=2.1.0");
 @import url("./01_Abstracts/a-breakpoint-tokens.css?v=2.1.0");
 @import url("./01_Abstracts/a-scale-hybrid.css?v=1.0.0");       /* Hibrit ölçeklendirme sistemi — layout tokens'tan ÖNCE */
-@import url("./01_Abstracts/a-layout-tokens.css?v=2.1.0");
+@import url("./01_Abstracts/a-layout-tokens.css?v=5.0.0");
+@import url("./01_Abstracts/a-widget-grid-tokens.css?v=1.0.0");
 
 @import url("./02_Base/b-base-core.css?v=2.1.0");
 @import url("./02_Base/l-main-structural.css?v=2.1.0");
 
-@import url("./03_Layout/_header.css?v=2.1.0");          /* header.php — 70px nav */
-@import url("./03_Layout/_footer.css?v=2.2.0");          /* footer.php — --footer-h token player */
+@import url("./03_Layout/_header.css?v=2.0.0");
+@import url("./03_Layout/_footer.css?v=2.0.0");
+
+@import url("./04_Components/_widget-grid.css?v=1.0.0");
+@import url("./04_Components/_player-info.css?v=1.0.0");
+@import url("./04_Components/_welcome-banner.css?v=1.0.0");
 
 
 @import url("./04_Components/c-scrollbar-accent.css?v=2.1.0");
 @import url("./04_Components/c-footer-seek.css?v=2.2.0");
 @import url("./04_Components/c-footer-volume.css?v=2.2.0");
+/* 04_Components: c-card, c-buttons, c-forms, c-modal, c-badge, c-toggle, c-toast, c-progress — REMOVED: unused in auth/home templates */
 
 
-@import url("./05_Pages/_home.css?v=2.1.0");             /* pages/home.php */
+@import url("./05_Pages/_home.css?v=6.0.0");             /* pages/home.php */
 @import url("./05_Pages/_player.css?v=1.0.0");            /* pages/player.php */
 @import url("./05_Pages/p-albums.css?v=1.0.0");           /* /albums — C-music spec */
 @import url("./05_Pages/p-album-detail.css?v=1.0.0");     /* /albums/:id — C-music spec */
 @import url("./05_Pages/p-artists.css?v=1.0.0");          /* /artists — C-music spec */
 @import url("./05_Pages/p-playlist.css?v=1.0.0");         /* /playlist — D-player spec */
+@import url("./05_Pages/p-settings.css?v=1.0.0");         /* /ayarlar — settings page */
 
 
-@import url("./06_Utilities/u-helpers-utility.css?v=2.1.0");
+/* 06_Utilities: REMOVED — only .is-hidden was used (now inline in footer.php) */
 
 @import url("./07_Vendors/v-bootstrap-lib.css?v=2.1.0");
 

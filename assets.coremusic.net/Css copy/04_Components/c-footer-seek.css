@@ -1,0 +1,76 @@
+/**
+ * c-footer-seek.css — CoreMusic Footer Seekbar (KAİ sözleşme)
+ * ITCSS Layer: 04_Components
+ * Version: 2.0.0 — 2026-09-06
+ *
+ * v2.0.0: KAİ coreplayer yapısı — #seekbarclick (container) + #seekbar (input) + #seekbar2 (fill)
+ *         Görsel bar PNG sadakatiyle _footer.css'te (.footer__progress, ≈4px pembe)
+ *         Temizlendi: eski .c-footer__seek-slider / .c-footer-seek-slider gradient katmanları
+ */
+
+/* ============================================================
+    SEEK SLIDER — Container davranışı
+    ============================================================ */
+#seekbarclick {
+    touch-action: none;
+    cursor: pointer;
+}
+
+/* ============================================================
+    SEEK SLIDER — Fill (KAİ: #seekbar2)
+    Genişlik JS (SeekView.updateProgressBar) veya PHP inline ile yönetilir.
+    ============================================================ */
+#seekbar2 {
+    pointer-events: none;
+}
+
+/* ============================================================
+    SEEK SLIDER — Range Input (KAİ: #seekbar)
+    Görünmez input — tıklama/drag alanı _footer.css'te tanımlı
+    (top:-6px, height:16px, opacity:0). Burada yalnız reset + a11y.
+    ============================================================ */
+#seekbar {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    margin: 0;
+    width: 100%;
+    border: none;
+}
+
+#seekbar:focus {
+    outline: none;
+}
+
+#seekbar::-webkit-slider-runnable-track {
+    background: transparent;
+    height: 16px;
+}
+
+/* Thumb: GÖRÜNMEZ ama BOYUTLU (16×16) — boyutsuz thumb'ta Chrome native
+   tıklama/drag hit-testi çalışmıyor (seekbar ilerlememe hatasının kökü).
+   Görüntü #seekbar2 (fill) tarafından çizilir; thumb salt etkileşim alanıdır. */
+#seekbar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+#seekbar::-moz-range-track {
+    background: transparent;
+    border: none;
+    height: 16px;
+}
+
+#seekbar::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+}

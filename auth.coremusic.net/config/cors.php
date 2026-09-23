@@ -8,17 +8,12 @@
  */
 
 return [
-    'allowed_origins' => [
-        'home'   => 'home.coremusic.net',
-        'music'  => 'music.coremusic.net',
-        'admin'  => 'admin.coremusic.net',
-        'coremusic' => 'coremusic.net',
-    ],
+    'allowed_origins' => array_filter(array_map('trim', explode(',', $_ENV['CORS_ALLOWED_ORIGINS'] ?? ''))),
     'allowed_methods' => ['GET', 'POST', 'OPTIONS'],
     'allowed_headers' => ['Content-Type', 'X-CSRF-Token', 'X-Requested-With'],
     'allow_credentials' => true,
-    'dev_fallback' => [
-        'http://home.coremusic.net',
-        'http://music.coremusic.net',
-    ],
+    'dev_fallback' => array_map(
+        fn(string $host) => 'http://' . $host,
+        array_filter(array_map('trim', explode(',', $_ENV['CORS_ALLOWED_ORIGINS'] ?? '')))
+    ),
 ];

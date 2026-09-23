@@ -1,38 +1,60 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\shared\src\ViewMode Baglam"
+title: "CoreMusic — shared/src/ViewMode Bağlam"
 type: context
-folder: "C:\www\coremusic.net\shared\src\ViewMode"
-category: layer3
-date: 2026-09-06
+folder: "shared/src/ViewMode"
+category: layer3-presentation
+date: 2026-09-21
+updated: 2026-09-21
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# ViewMode - CLAUDE.md
+# ViewMode — CLAUDE.md (Detaylı)
 
-**Zorunlu Baglantilar:** [[./AGENTS.md]] . [[../CLAUDE.md]]
+**Zorunlu Bağlantılar:** · [[../CLAUDE.md]] · [[../../.ai/architecture/k11-ux]]
 
-## 1. Baglam
-Gorunum modu yonetimi (ADR-045)
+---
+
+## 1. Bağlam
+
+Görünüm modu yönetimi (ADR-045). Home, Pro, Studio, Car olmak üzere 4 görünüm modu. Her panel için geçerli.
+
+---
 
 ## 2. Mevcut Durum
-| Durum | Deger |
+
+| Durum | Değer |
 |-------|-------|
-| Dosya | 1 |
-| Konum | C:\www\coremusic.net\shared\src\ViewMode |
+| Toplam dosya | 1 PHP dosyası |
+| ViewMode | 4 (home, pro, studio, car) |
+| ADR | ADR-045 (Multi-Domain View Mode) |
 
-## 3. Komsu Iliskiler
-| Yon | Hedef | Iliski |
+---
+
+## 3. ViewMode Yapısı
+
+```
+DB: user_preferences → view_mode
+PHP: ViewModeManager.php → View mode yönetimi
+JS: ViewModeManager.js → View mode geçişi
+CSS: 09_ViewModes/ → v-home.css, v-pro.css, v-studio.css, v-car.css
+```
+
+---
+
+## 4. Komşu İlişkileri
+
+| Yön | Hedef | İlişki |
 |-----|-------|--------|
-| Parent | [[../CLAUDE.md]] | Ust baglam |
-| Talimatlar | [[../AGENTS.md]] | Ust kurallar |
-
-## 4. Degisiklik Protokolu
-1. Degisiklik once ust talimatlarla uyum kontrolu
-2. Gerekirse ADR + [[../../.ai/log.md]] audit
+| Parent | [[../CLAUDE.md]] | Shared library üst bağlam |
+| Kullanıcı | [[../../home.coremusic.net/CLAUDE.md]] | Home view mode |
+| Kullanıcı | [[../../assets.coremusic.net/CLAUDE.md]] | ViewMode CSS |
+| Referans | [[../../.ai/architecture/k11-ux]] | UX mimarisi |
+| ADR | [[../../.ai/decisions/accepted/ADR-045-multi-domain-view-mode-architecture]] | View mode |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-21
+**Mode:** Red Team · Human Mode · Truth Mode

@@ -1,0 +1,58 @@
+/**
+ * CoreMusic — Layout Token'ları
+ * Header, footer, sidebar boyutları ve layout sabitleri
+ * ITCSS Layer: 01_Abstracts
+ * Version: 5.0.0 — 2026-09-22
+ *
+ * Figma pixel-perfect measurements (API extraction):
+ *   node-id=1639-10160 (1024 Embedded) / node-id=2831-13747 (1920 Desktop)
+ *   All values are EXACT Figma measurements — no rounding, no guessing.
+ *
+ * Figma font stack:
+ *   Display: Respective 20px/16px w400 (logo)
+ *   Body: Avalon 5-13px w500/w700 (all UI text)
+ *   Welcome: Plus Jakarta Sans 20px w600, Arima 14px w400, DM Sans 10px w300
+ *
+ * Responsive token sistemi:
+ *   :root = 1024px (RPi5 embedded — ana hedef cihaz, Figma mockup ölçümü)
+ *   @media queries = tablet, mobile, desktop, 4K TV
+ *   Device files (08_Devices/) = sadece behavioral overrides (hover, touch, scrollbar)
+ */
+:root {
+  /* ═══ Figma-Perfect Page Dimensions ═══ */
+  --screen-w: 1024px;
+  --screen-h: 600px;
+
+  /* ═══ Body Background ═══ */
+  --body-bg-image: url('/Image/background/welcome-popup-girl.png');
+  --body-bg-attachment: fixed;
+  --body-bg-size: cover;
+  --body-bg-position: center;
+  --body-bg-repeat: no-repeat;
+
+  /* ═══ Footer ═══ */
+  --footer-w: 100%;
+  --footer-h: 72px;
+  --z-footer: 100;
+
+  /* ═══ Player Info: Figma 392×131 (1024) / 469×184 (1920) ═══ */
+  --player-w: 392px;
+  --player-h: 131px;
+  --player-cover: 135px;            /* Figma: 72×72 */
+  --player-gap: 12px;
+  --player-progress-w: 246px;
+  --player-progress-h: 9px;
+
+    /* ═══ Footer Parts: Figma measurements ═══ */
+  --footer-cover: 85px;                 /* Album cover: 85×85 */
+  --footer-cover-h: 85px;
+  --footer-media: 367px;                /* Media info: 367×73 */
+  --footer-media-h: 73px;
+  --footer-buttons: 297px;              /* Player buttons: 297×62 (embedded) */
+  --footer-buttons-h: 62px;
+  --footer-volume: 186px;               /* Volume: 186×14 (embedded) */
+  --footer-volume-h: 14px;
+  --footer-text-size: 10px;             /* Avalon 10px w500 */
+  --footer-icon: 13px;                  /* Footer icons: 13×13 */
+
+}

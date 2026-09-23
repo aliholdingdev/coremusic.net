@@ -80,6 +80,22 @@ Bu sürüm (v2.0.0) Faz 1 vault revizyonu ile genişletilmiştir:
 | **TTFB** | Time To First Byte |
 | **WCAG** | Web Content Accessibility Guidelines |
 
+### 2.1 Ekosistem ve Vizyon Terimleri (Freelancer Technical Documentation v1.0)
+
+| Terim | Tanım |
+|-------|-------|
+| **Neva Engine** | C++20 tabanlı tescilli ses işleme motoru; 32-bit float DSP, True Peak brickwall limiter, psikoakustik reverb, sıfır bellek tahsisi (*zero-allocation*) ve lock-free kuyruklarla çalışır. |
+| **Offline-First** | İnternet bağlantısı olmasa dahi kullanıcının müzik koleksiyonuna, çalma listelerine ve yerel SSD önbelleğine tam erişim sağlayan, mülkiyet odaklı mimari felsefe. |
+| **Handoff** | Salonda başlayan bir parçanın, arabaya binildiğinde veya stüdyo iş istasyonuna geçildiğinde tek bir milisaniye dahi duraksamadan aynı akustik profille devam etmesini sağlayan kesintisiz geçiş standardı. |
+| **Ambient Aura** | Çalan albüm kapağının renk tonlarına ve müziğin enerjisine göre anlık nefes alan dinamik Glassmorphism görselleştirme ve aydınlatma arayüzü. |
+| **Theme Maker** | Kullanıcıların doğal dille komut vererek ("80'ler retro neon", "Gece mavisi akustik") anında kişiselleştirilmiş estetik temalar üretebilmesini sağlayan yapay zeka aracı. |
+| **Nova Search Engine** | YouTube ve YouTube Music API'leri üzerinden parça, albüm, sanatçı ve canlı performans aramalarını yürüten, doğru akış kimliğini yakalayan tescilli arama sürücüsü. |
+| **Deemix (Deezer Downloader)** | Deezer API akışları üzerinden doğrudan 16/24/32-bit Float FLAC, 32-bit Float WAV ve 320kbps MP3 formatında stüdyo kalitesinde müzik indiren bağımsız sürücü sınıfı. |
+| **Bit-Perfect** | İşletim sistemlerinin sesi bozan mikser, sıkıştırma ve yeniden örnekleme katmanlarını tamamen baypas ederek ses sinyalini DAC/amfiye stüdyodan çıktığı saf haliyle iletme standardı. |
+| **Multi-Room Audio** | WebRTC ve WebSocket altyapısıyla evin farklı odalarındaki hoparlörlere sıfıra yakın faz gecikmesiyle eşzamanlı veya bağımsız ses dağıtımı sağlayan çok odalı ağ ses mimarisi. |
+| **True Peak Limiter** | Ses sonuna kadar açılsa dahi dijital inter-sample tepe noktalarını yakalayarak dijital çatlamayı ve distorsiyonu engelleyen stüdyo seviyesi brickwall sınırlayıcı (THD+N <%0.005). |
+| **32-Bit Float DSP** | Dahili ses boru hattında 1528 dB teorik dinamik tavan sunan, ses sinyalini kırpılmadan (*clipping*) işleyen kayan noktalı sayısal ses işleme standardı. |
+
 ---
 
 ## 3. Teknoloji Yığını Terimleri (Dynamic Tech Stack)

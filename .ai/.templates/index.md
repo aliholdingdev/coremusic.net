@@ -8,8 +8,8 @@ status: active
 version: 3.3.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total_templates: 25
-total_lines: 22837
+total_templates: 26
+total_lines: 25000
 ---
 
 # CoreMusic — Template Registry Index

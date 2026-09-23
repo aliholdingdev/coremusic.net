@@ -1,38 +1,54 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\shared\src\Bootstrap Baglam"
+title: "CoreMusic — shared/src/Bootstrap Bağlam"
 type: context
-folder: "C:\www\coremusic.net\shared\src\Bootstrap"
-category: layer3
-date: 2026-09-06
+folder: "shared/src/Bootstrap"
+category: layer0-infrastructure
+date: 2026-09-21
+updated: 2026-09-21
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# Bootstrap - CLAUDE.md
+# Bootstrap — CLAUDE.md (Detaylı)
 
-**Zorunlu Baglantilar:** [[./AGENTS.md]] . [[../CLAUDE.md]]
+**Zorunlu Bağlantılar:** · [[../CLAUDE.md]]
 
-## 1. Baglam
-Calisma zamani bootstrap
+---
+
+## 1. Bağlam
+
+Ortak çalışma zamanı kurulumu. RuntimeBootstrap tüm subdomainler tarafından kullanılır.
+
+---
 
 ## 2. Mevcut Durum
-| Durum | Deger |
+
+| Durum | Değer |
 |-------|-------|
-| Dosya | 1 |
-| Konum | C:\www\coremusic.net\shared\src\Bootstrap |
+| Dosya | 1 PHP dosyası |
 
-## 3. Komsu Iliskiler
-| Yon | Hedef | Iliski |
-|-----|-------|--------|
-| Parent | [[../CLAUDE.md]] | Ust baglam |
-| Talimatlar | [[../AGENTS.md]] | Ust kurallar |
+| Dosya | Amaç |
+|-------|------|
+| `RuntimeBootstrap.php` | Uygulama başlatma, DI container, middleware kaydı |
 
-## 4. Degisiklik Protokolu
-1. Degisiklik once ust talimatlarla uyum kontrolu
-2. Gerekirse ADR + [[../../.ai/log.md]] audit
+---
+
+## 3. Bootstrap Akışı
+
+```
+1. index.php → RuntimeBootstrap::init()
+2. .env yükle (EnvParser)
+3. Config yükle (ConfigManager)
+4. DB bağlantısı kur (DatabaseManager)
+5. Session başlat (SessionBootstrapper)
+6. Middleware kaydet
+7. Route'ları yükle
+8. Request'i handle et
+```
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-21
+**Mode:** Red Team · Human Mode · Truth Mode

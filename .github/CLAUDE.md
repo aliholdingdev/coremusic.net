@@ -11,7 +11,7 @@ authority: Single Source of Truth (SSOT)
 
 # .github — CLAUDE.md
 
-**Zorunlu Bağlantılar:** [[./AGENTS.md]] · [[../AGENTS.md]]
+**Zorunlu Bağlantılar:** · [[../AGENTS.md]]
 
 ## 1. Bağlam
 

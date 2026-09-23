@@ -1,0 +1,194 @@
+/**
+ * CoreMusic — Login/Register Design Tokens
+ * ITCSS: 01_Abstracts — Variables only, no CSS output
+ * Gender-based glassmorphism system
+ */
+:root {
+  /* ============================================================
+     BRAND CORE
+     ============================================================ */
+  --cm-brand-pink:           #F2A0B5;
+  --cm-brand-pink-deep:      #E889A0;
+  --cm-brand-purple:         #B8A0D4;
+  --cm-brand-purple-deep:    #9B7EC4;
+  --cm-brand-blue:           #A0C4E8;
+  --cm-brand-blue-deep:      #7DA8D4;
+  --cm-brand-lavender:       #D4C0E8;
+
+  /* ============================================================
+     GENDER THEMES
+     ============================================================ */
+  /* Female — Romantic Soft Pink/Lavender */
+  --cm-female-primary:       #F8B4C8;
+  --cm-female-secondary:     #E89DB5;
+  --cm-female-accent:        #D4C5E2;
+  --cm-female-gradient:      linear-gradient(135deg, #F8B4C8 0%, #D4C5E2 40%, #C4B5D4 100%);
+  --cm-female-glow:          rgba(248, 180, 200, 0.3);
+  --cm-female-glass:         rgba(248, 180, 200, 0.12);
+
+  /* Male — Deep Blue/Cosmic */
+  --cm-male-primary:         #A0C4E2;
+  --cm-male-secondary:       #7BA8D4;
+  --cm-male-accent:          #8B7EC4;
+  --cm-male-gradient:        linear-gradient(135deg, #5B7FA5 0%, #7BA8D4 40%, #8B7EC4 100%);
+  --cm-male-glow:            rgba(160, 196, 226, 0.3);
+  --cm-male-glass:           rgba(100, 150, 210, 0.12);
+
+  /* Neutral — Soft Pink/Purple Dream */
+  --cm-neutral-primary:      #E8C8D4;
+  --cm-neutral-secondary:    #D0B0C0;
+  --cm-neutral-accent:       #C8B8D8;
+  --cm-neutral-gradient:     linear-gradient(135deg, #E8C8D4 0%, #D4C5E2 100%);
+  --cm-neutral-glow:         rgba(232, 200, 212, 0.3);
+  --cm-neutral-glass:        rgba(220, 200, 220, 0.12);
+
+  /* ============================================================
+     GLASS EFFECT
+     ============================================================ */
+  --cm-glass-bg:             rgba(255, 255, 255, 0.22);
+  --cm-glass-bg-hover:       rgba(255, 255, 255, 0.32);
+  --cm-glass-border:         rgba(255, 255, 255, 0.38);
+  --cm-glass-border-focus:   rgba(255, 255, 255, 0.60);
+  --cm-glass-shadow:         0 8px 32px rgba(0, 0, 0, 0.07), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --cm-glass-shadow-hover:   0 12px 40px rgba(0, 0, 0, 0.10), 0 4px 12px rgba(0, 0, 0, 0.06);
+  --cm-glass-blur:           20px;
+  --cm-glass-blur-strong:    30px;
+  --cm-glass-backdrop:       blur(20px) saturate(180%);
+
+  /* ============================================================
+     SURFACE + TEXT
+     ============================================================ */
+  --cm-surface-white:        rgba(255, 255, 255, 0.95);
+  --cm-surface-soft:         #FAF5F8;
+  --cm-text-primary:         #1A1A2E;
+  --cm-text-secondary:       #4A4A6A;
+  --cm-text-tertiary:        #8A8AAA;
+  --cm-text-white:           #FFFFFF;
+  --cm-text-white-soft:      rgba(255, 255, 255, 0.88);
+  --cm-text-white-muted:     rgba(255, 255, 255, 0.55);
+
+  /* ============================================================
+     INPUT
+     ============================================================ */
+  --cm-input-bg:             rgba(255, 255, 255, 0.14);
+  --cm-input-bg-focus:       rgba(255, 255, 255, 0.24);
+  --cm-input-border:         rgba(255, 255, 255, 0.28);
+  --cm-input-border-focus:   rgba(255, 255, 255, 0.55);
+  --cm-input-text:           #1A1A2E;
+  --cm-input-placeholder:    rgba(26, 26, 46, 0.38);
+  --cm-input-error:          #E74C3C;
+
+  /* ============================================================
+     BUTTON
+     ============================================================ */
+  --cm-btn-primary-bg:       linear-gradient(135deg, #F8B4C8 0%, #C4B5D4 100%);
+  --cm-btn-primary-hover:    linear-gradient(135deg, #E89DB5 0%, #A78BBA 100%);
+  --cm-btn-primary-text:     #FFFFFF;
+  --cm-btn-primary-shadow:   0 4px 16px rgba(248, 180, 200, 0.35);
+  --cm-btn-social-bg:        rgba(255, 255, 255, 0.18);
+  --cm-btn-social-hover:     rgba(255, 255, 255, 0.32);
+  --cm-btn-social-text:      #2A2A4A;
+  --cm-btn-height:           52px;
+  --cm-btn-radius:           14px;
+
+  /* ============================================================
+     SOCIAL BRAND COLORS
+     ============================================================ */
+  --cm-social-apple:         #000000;
+  --cm-social-google:        #4285F4;
+  --cm-social-spotify:       #1DB954;
+  --cm-social-discord:       #5865F2;
+  --cm-social-pinterest:     #E60023;
+  --cm-social-tiktok:        #000000;
+  --cm-social-instagram:     linear-gradient(135deg, #F58529 0%, #DD2A7B 50%, #8134AF 100%);
+  --cm-social-github:        #24292F;
+  --cm-social-reddit:        #FF4500;
+
+  /* ============================================================
+     TYPOGRAPHY
+     ============================================================ */
+  --cm-font-heading:         'Respective', system-ui, sans-serif;
+  --cm-font-body:            var(--font-body, 'Arima', system-ui, sans-serif);
+  --cm-font-display:         var(--font-handwriting, 'Bickham Script', Georgia, serif);
+  --cm-fs-hero:              clamp(2.5rem, 5vw, 4.5rem);
+  --cm-fs-title:             clamp(1.25rem, 2.5vw, 2rem);
+  --cm-fs-body:              0.95rem;
+  --cm-fs-sm:                0.85rem;
+  --cm-fs-xs:                0.75rem;
+  --cm-fw-light:             300;
+  --cm-fw-regular:           400;
+  --cm-fw-medium:            500;
+  --cm-fw-semibold:          600;
+  --cm-fw-bold:              700;
+  --cm-fw-extrabold:         800;
+  --cm-lh-tight:             1.15;
+  --cm-lh-normal:            1.5;
+  --cm-lh-relaxed:           1.65;
+
+  /* ============================================================
+     SPACING
+     ============================================================ */
+  --cm-space-xs:             0.25rem;
+  --cm-space-sm:             0.5rem;
+  --cm-space-md:             0.75rem;
+  --cm-space-lg:             1rem;
+  --cm-space-xl:             1.5rem;
+  --cm-space-2xl:            2rem;
+  --cm-space-3xl:            3rem;
+  --cm-space-4xl:            4rem;
+
+  /* ============================================================
+     RADIUS + SHADOW
+     ============================================================ */
+  --cm-radius-sm:            0.5rem;
+  --cm-radius-md:            0.75rem;
+  --cm-radius-lg:            1rem;
+  --cm-radius-xl:            1.25rem;
+  --cm-radius-2xl:           1.5rem;
+  --cm-radius-full:          9999px;
+  --cm-shadow-sm:            0 2px 8px rgba(0,0,0,0.05);
+  --cm-shadow-md:            0 4px 16px rgba(0,0,0,0.07);
+  --cm-shadow-lg:            0 8px 32px rgba(0,0,0,0.10);
+
+  /* ============================================================
+     TRANSITIONS + Z-INDEX
+     ============================================================ */
+  --cm-ease-fast:            150ms ease;
+  --cm-ease-normal:          300ms ease;
+  --cm-ease-slow:            500ms ease;
+  --cm-ease-dreamy:          800ms cubic-bezier(0.4, 0, 0.2, 1);
+  --cm-ease-bounce:          500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --cm-z-base:               0;
+  --cm-z-above:              1;
+  --cm-z-panel:              10;
+  --cm-z-overlay:            20;
+  --cm-z-tooltip:            40;
+}
+
+/* ============================================================
+   GENDER DATA ATTRIBUTES
+   ============================================================ */
+[data-gender="female"] {
+  --cm-theme-primary:        var(--cm-female-primary);
+  --cm-theme-secondary:      var(--cm-female-secondary);
+  --cm-theme-accent:         var(--cm-female-accent);
+  --cm-theme-gradient:       var(--cm-female-gradient);
+  --cm-theme-glow:           var(--cm-female-glow);
+  --cm-theme-glass:          var(--cm-female-glass);
+}
+[data-gender="male"] {
+  --cm-theme-primary:        var(--cm-male-primary);
+  --cm-theme-secondary:      var(--cm-male-secondary);
+  --cm-theme-accent:         var(--cm-male-accent);
+  --cm-theme-gradient:       var(--cm-male-gradient);
+  --cm-theme-glow:           var(--cm-male-glow);
+  --cm-theme-glass:          var(--cm-male-glass);
+}
+[data-gender="neutral"] {
+  --cm-theme-primary:        var(--cm-neutral-primary);
+  --cm-theme-secondary:      var(--cm-neutral-secondary);
+  --cm-theme-accent:         var(--cm-neutral-accent);
+  --cm-theme-gradient:       var(--cm-neutral-gradient);
+  --cm-theme-glow:           var(--cm-neutral-glow);
+  --cm-theme-glass:          var(--cm-neutral-glass);
+}

@@ -1,0 +1,59 @@
+/**
+ * CoreMusic — Home Page Layout
+ * ITCSS Layer: 05_Pages
+ * Version: 6.0.0 — 2026-09-22
+ *
+ * Layout Pattern: 2-Row Grid (Figma pixel-perfect)
+ * Row 1: Now Playing (left 42%) + Widgets (right 58%)
+ *   - Embedded: 2×2 widget grid + 1×5 quick apps × 2 rows
+ *   - Desktop: 4×4 widget grid + 1×8 quick apps × 2 rows
+ * Row 2: En Son Dinlenen (left) + Son Oluşturulan (center) + Sıradaki (right)
+ *   - Each: mini cards 169×43px
+ *
+ * Platform: home-1024 (RPi5 1024×600) — default
+ *
+ * v6.0.0: Figma pixel-perfect restructuring
+ *   1. Embedded (Linux ARM): 1024×600 Split 42/58 + 2×2 widgets + 1×5 quick apps
+ *   2. Wide (≥1920px): 3-Sütun (Now Playing | Welcome | Widgets) + 4×4 widgets
+ *   3. Fallback (1025-1919px): Desteklenmeyen çözünürlük ekranı
+ */
+
+/* ============================================================
+   HOME LAYOUT — 2-Row Grid
+   ============================================================ */
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  /* Viewport tabanlı genişlik (vw) — % yerine; sidebar offset düşülür */
+  width: calc(100vw - var(--sidebar-offset, 0px));
+  gap: var(--grid-gap, 10px);
+  margin-top: var(--header-h, 60px);
+  min-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
+  max-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
+  padding: 8px 16px 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  box-sizing: border-box;
+  /* Cihaz geçişlerinde yumuşak geçiş */
+  opacity: 1;
+  transition: opacity 200ms ease-in-out, width 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Ultra-wide content constraint */
+  margin-inline: auto;
+}
+
+/* Scroll sözleşmesi: scroll YALNIZCA .home-layout container'ında.
+   Header/footer fixed — document scroll'u kilitlenir (çift scroll önlenir).
+   Not: :has() desteklenmeyen tarayıcıda davranış bugünkü gibi kalır (zararsız fallback). */
+body:has(.page-layout) {
+  overflow: hidden;
+  height: 100vh;
+}
+
+
+/* Sidebar açıkken content offset.
+   Not: SidebarManager 'sidebar-collapsed' class'ını <html>'e (documentElement) ekler —
+   body seçici yanlıştı, offset 280px takılı kalıyordu (home container %100 genişlik bug'ı). */
+html:not(.sidebar-collapsed) .page-layout {
+  --sidebar-offset: var(--sidebar-w, 280px);
+}

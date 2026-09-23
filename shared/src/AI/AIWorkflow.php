@@ -113,10 +113,14 @@ class AIWorkflow
         $query = "{$analysis['key']} {$analysis['mood']} {$genre}";
         $knowledgeResults = $this->knowledge->search($query, 3);
 
-        // 4. DB'ye kaydet (track_id varsa)
+        // 4. DB'ye kaydet (track_id varsa) — prepared statement ile SQL injection koruması
         if ($trackId !== null) {
+            $bpm    = (float)($analysis['bpm'] ?? 0);
+            $keySig = (string)($analysis['key'] ?? '');
+            $energy = (float)($analysis['energy'] ?? 0);
             $this->toolCalling->callTool('db-query', [
-                'sql'      => "UPDATE tracks SET bpm = {$analysis['bpm']}, key_sig = '{$analysis['key']}', energy = {$analysis['energy']} WHERE id = {$trackId}",
+                'sql'      => "UPDATE tracks SET bpm = :bpm, key_sig = :key_sig, energy = :energy WHERE id = :id",
+                'params'   => ['bpm' => $bpm, 'key_sig' => $keySig, 'energy' => $energy, 'id' => (int)$trackId],
                 'database' => 'coremusic_musics',
             ]);
         }

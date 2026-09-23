@@ -1,0 +1,216 @@
+﻿/**
+ * CoreMusic â€” Phone Device CSS
+ * â‰¤767px â€” Mobile-first, touch-only
+ * ITCSS Layer: 08_Devices
+ * Version: 1.0.0 â€” 2026-08-16
+ *
+ * device-loader.js breakpoint: â‰¤767px
+ * Target: Mobile phone (portrait/landscape)
+ * Input: Touch-only
+ */
+
+@import '../01_Abstracts/a-theme-config.css';
+@import '../01_Abstracts/a-colors-token.css';
+@import '../01_Abstracts/a-semantic-token.css';
+@import '../01_Abstracts/a-color-mode-tokens.css';
+@import '../01_Abstracts/a-breakpoint-tokens.css';
+@import '../01_Abstracts/a-layout-tokens.css';
+@import '../02_Base/b-base-core.css';
+@import '../03_Layout/_header.css';
+@import '../03_Layout/_footer.css';
+@import '../06_Utilities/u-helpers-utility.css';   /* .is-hidden — footer pause/play ikonu */
+@import '../04_Components/c-footer-seek.css';
+@import '../04_Components/c-footer-volume.css';
+@import '../05_Pages/_home.css';
+
+/* ============================================================
+   DEVICE TOKEN OVERRIDES (Phone â‰¤767px)
+   NOT: Layout token'larÄ± a-layout-tokens.css'ten gelir.
+   Bu dosya SADECE behavioral override iÃ§erir.
+   ============================================================ */
+
+/* ============================================================
+   GLOBAL OVERRIDES â€” Phone
+   ============================================================ */
+html {
+  font-size: 14px;
+}
+
+body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Touch scrolling */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ============================================================
+   HEADER â€” Minimal (Phone)
+   ============================================================ */
+.site-header {
+  height: 56px;
+  padding: 0 var(--space-2);
+}
+
+.site-header__logo {
+  height: 28px;
+  font-size: 18px;
+}
+
+.site-header__nav {
+  display: none;
+}
+
+.header-widget {
+  display: none;
+}
+
+.header-user__name {
+  font-size: 11px;
+  max-width: 70px;
+}
+
+/* ============================================================
+   FOOTER â€” Compact Player (Phone)
+   ============================================================ */
+.footer {
+  height: 72px;
+  padding: var(--space-1) var(--space-2);
+}
+
+.footer__album-art {
+  width: 48px;
+  height: 48px;
+}
+
+.footer__controls {
+  gap: var(--space-1);
+}
+
+.player-btn {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-btn--play {
+  width: 50px;
+  height: 50px;
+}
+
+.footer__meta-stack {
+  display: none;
+}
+
+.footer__utility-section {
+  display: none;
+}
+
+/* ============================================================
+   HOME LAYOUT â€” Single Column
+   ============================================================ */
+.home-layout {
+  grid-template-columns: 1fr;
+}
+
+.home-sidebar {
+  display: none;
+}
+
+.home-main {
+  padding: var(--space-2);
+}
+
+/* ============================================================
+   HOME COMPONENTS â€” Phone Grid
+   ============================================================ */
+.home-quick-links {
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+}
+
+.home-quick-link {
+  min-height: 48px;
+  padding: var(--space-2) var(--space-3);
+}
+
+.home-folder-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+}
+
+.home-folder {
+  padding: var(--space-2);
+  min-height: 48px;
+}
+
+.home-recently {
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+}
+
+.home-recently__cover {
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+}
+
+/* ============================================================
+   SCROLLBAR â€” Thin (Phone)
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ============================================================
+   LAYOUT CLASSES â€” Device-based conditional layout
+   ============================================================ */
+
+/* Phone layout (â‰¤767px) â€” mobile-first */
+.layout--phone {
+  /* Single column layout */
+  --layout-split-left: 100%;
+  --layout-split-right: 100%;
+
+  /* Card sizes â€” smaller for phone */
+  --card-thumb-size: 100%;
+  --now-playing-art: 80px;
+  --mini-card-art: 50px;
+  --widget-min-h: 80px;
+
+  /* Footer â€” compact */
+  --footer-h: 72px;
+  --footer-player-art: 60px;
+
+  /* Header â€” compact */
+  --header-h: 56px;
+
+  /* Content */
+  --content-padding-top: 8px;
+  --content-padding-bottom: 12px;
+  --page-padding-x: 12px;
+
+  /* Font â€” smaller scale */
+  --text-base: 13px;
+  --text-lg: 15px;
+
+  /* Grid */
+  --grid-gap: 8px;
+}

@@ -1,0 +1,98 @@
+{
+  "id": "debate-1789993432793",
+  "topic": "CoreMusic Home Page: PNG Mockup vs Code Discrepancy Analysis — Welcome Popup, Now Playing, Widget Grid, Bottom Layout",
+  "createdAt": "2026-09-21T12:23:52.793Z",
+  "sessionID": "ses_f3c1ca5cfffeJ3LseGEfHgKzRl",
+  "agents": [
+    {
+      "name": "Senior Dev",
+      "role": "senior",
+      "roleInfo": {
+        "title": "Senior Gelistirici",
+        "perspective": "Tecrube, pratik cozumler, risk analizi",
+        "expertise": [
+          "Experience",
+          "Risk Assessment",
+          "Practical Solutions",
+          "Mentoring"
+        ]
+      },
+      "joinedAt": "2026-09-21T12:24:28.866Z"
+    },
+    {
+      "name": "Architect",
+      "role": "architect",
+      "roleInfo": {
+        "title": "Mimari Uzman",
+        "perspective": "Sistem mimarisi, tasarim desenleri, uzun vadeli surdurulebilirlik",
+        "expertise": [
+          "Clean Architecture",
+          "SOLID",
+          "Design Patterns",
+          "DDD"
+        ]
+      },
+      "joinedAt": "2026-09-21T12:24:31.144Z"
+    },
+    {
+      "name": "UI Dev",
+      "role": "developer",
+      "roleInfo": {
+        "title": "Gelistirici Uzman",
+        "perspective": "Kod kalitesi, uygulanabilirlik, performans",
+        "expertise": [
+          "TypeScript",
+          "Effect",
+          "React",
+          "Node.js"
+        ]
+      },
+      "joinedAt": "2026-09-21T12:24:33.190Z"
+    },
+    {
+      "name": "Junior Dev",
+      "role": "junior",
+      "roleInfo": {
+        "title": "Junior Gelistirici",
+        "perspective": "Yenilikci fikirler, ogrenme, sorular",
+        "expertise": [
+          "Learning",
+          "Questions",
+          "Fresh Ideas",
+          "Simplicity"
+        ]
+      },
+      "joinedAt": "2026-09-21T12:24:35.191Z"
+    }
+  ],
+  "messages": [
+    {
+      "agent": "Senior Dev",
+      "message": "## PNG vs Code Discrepancy Raporu — 7 Kritik Bulgu\n\nTüm PNG mockup spec'lerini (T08 1024×600 + T17 1920×1080), home.php, 7 component PHP, 12 component class, ve 3188 satırlık CSS dosyasını okudum. İşte tespit ettğim uyumsuzluklar:\n\n### 1. Welcome Modal — Layout Yanlış (KRİTİK)\n**Spec (welcome-popup.md):** Split layout — sol %50 görsel (plaj manzarası), sağ %50 içerik (logo + başlık + input + açıklama + buton). Modal 600×308px.\n**Mevcut kod:** Full background image approach — `welcome-popup-girl.png` tüm modal'ın background'ı. Sol/sağ split YOK.\n**Eksik:** \"İsmini Söyle Bize\" subtitle metni.\n\n### 2. Now Playing — Transport Controls Eksik (KRİTİK)\n**Spec (T08 line 50, T17 line 52):** Her iki variant'ta da [⏮] [▶] [⏭] [V] 🔁 transport kontrolleri Now Playing alanında görünüyor.\n**Mevcut kod:** Transport kontrolleri SADECE footer'da var. Now Playing component'inde yok.\n\n### 3. Now Playing — Album Art Boyutu Yanlış\n**Spec:** Embedded 120×120, Wide 160×160.\n**Kod:** Embedded 100×100, Wide 136×136.\n\n### 4. Bottom Layout — Sütun Sayısı Farklı\n**Spec (T08 line 57):** 2 sütun — Recent Tracks + Playlists.\n**Kod (home.php line 139):** 3 sütun — Recent + Playlists + Up Next.\n\n### 5. Card Counts — Embedded'da Farklı\n**Spec:** Recent 5 items, Playlists 5 items (button dahil).\n**Kod:** Recent 4 kart, Playlists 3 kart + button.\n\n### 6. Widget Grid — 3 Satır Gösterilmeli\n**Spec (T08 line 40-54):** Widget'lar 3 satır — Row1 (Hoparlör/Saat/Hava), Row2 (EQ+slots+apps), Row3 (İstatistikler/Popüler/Son Eklenenler).\n**Kod:** Sadece mevcut widget'lar var, Row3 (İstatistikler) eksik.\n\n### 7. Up Next Section — Spec'de Yok\n**Spec:** T08 bottom section'da \"Up Next\" ayrı bir sütun olarak gösterilmemiş.\n**Kod:** Ayrı bir `up-next.php` component'i var ve 3. sütun olarak render ediliyor.\n\nBu bulguları mimari ve uygulanabilirlik açısından değerlendirin.",
+      "timestamp": "2026-09-21T12:25:25.888Z"
+    }
+  ],
+  "votes": [
+    {
+      "agent": "Anonymous",
+      "choice": "abstain",
+      "timestamp": "2026-09-21T12:26:13.105Z"
+    },
+    {
+      "agent": "Anonymous",
+      "choice": "abstain",
+      "timestamp": "2026-09-21T12:26:25.845Z"
+    },
+    {
+      "agent": "Anonymous",
+      "choice": "abstain",
+      "timestamp": "2026-09-21T12:26:36.790Z"
+    },
+    {
+      "agent": "Anonymous",
+      "choice": "abstain",
+      "timestamp": "2026-09-21T12:26:45.298Z"
+    }
+  ],
+  "status": "active"
+}

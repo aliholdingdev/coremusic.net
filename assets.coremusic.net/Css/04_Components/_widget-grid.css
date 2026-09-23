@@ -1,0 +1,193 @@
+/**
+ * CoreMusic — Widget Grid Layout (v1.0)
+ * Figma SSOT: node-id=1639-9775 (1024: 365×171) / node-id=2850-21494 (1920: 752×184)
+ * BEM: .widget-grid, .widget-grid__row, .widget-card
+ * ITCSS Layer: 04_Components
+ * Version: 1.0.0 — 2026-09-22
+ */
+
+/* ═══ Widget Grid Container ═══ */
+.widget-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--w-gap);
+}
+
+/* ═══ Widget Grid Row ═══ */
+.widget-grid__row {
+  display: grid;
+  gap: var(--w-gap);
+}
+
+/* ═══ 1024 Embedded Rows ═══ */
+.widget-grid__row--quickapps {
+  grid-template-columns: repeat(4, var(--w-quickapp));
+}
+
+.widget-grid__row--info {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.widget-grid__row--info .widget-card--wide {
+  grid-column: span 2;
+}
+
+/* ═══ Widget Card Base ═══ */
+.widget-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--w-quickapp-h);
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--w-radius);
+  cursor: pointer;
+  transition: background 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.widget-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ═══ Quick App Card: 42×40 ═══ */
+.widget-card--quickapp {
+  width: var(--w-quickapp);
+  height: var(--w-quickapp-h);
+  flex-direction: column;
+  gap: 2px;
+}
+
+.widget-card--quickapp .widget-card__icon {
+  width: var(--w-icon);
+  height: var(--w-icon);
+}
+
+.widget-card--quickapp .widget-card__label {
+  font-size: 7px;
+}
+
+/* ═══ Clock Widget: 109×40 ═══ */
+.widget-card--clock {
+  width: var(--w-clock);
+  height: var(--w-clock-h);
+  flex-direction: row;
+  gap: 8px;
+  padding: 0 10px;
+}
+
+.widget-card--clock .widget-card__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.widget-card--clock .widget-card__time {
+  font-size: 9px;
+  font-weight: 700;
+}
+
+/* ═══ Info Widget: 172×51 ═══ */
+.widget-card--info {
+  width: var(--w-info);
+  height: var(--w-info-h);
+  flex-direction: row;
+  gap: 10px;
+  padding: 8px 10px;
+}
+
+.widget-card--info .widget-card__icon {
+  width: 30px;
+  height: 30px;
+}
+
+.widget-card--info .widget-card__label {
+  font-size: 8.5px;
+}
+
+.widget-card--info .widget-card__value {
+  font-size: 8px;
+  font-weight: 700;
+}
+
+/* ═══ File Manager Widget: 129×40 ═══ */
+.widget-card--filemanager {
+  width: var(--w-filemanager);
+  height: var(--w-filemanager-h);
+  flex-direction: row;
+  gap: 8px;
+  padding: 0 8px;
+}
+
+/* ═══ Featured Widget (1920): 234×108 ═══ */
+.widget-card--featured {
+  grid-column: span var(--wg-featured-span, 4);
+  min-height: var(--wg-featured-h, 108px);
+}
+
+/* ═══ Widget Card Content ═══ */
+.widget-card__icon {
+  width: var(--w-icon);
+  height: var(--w-icon);
+  flex-shrink: 0;
+}
+
+.widget-card__label {
+  font-family: var(--font-body);
+  font-size: var(--w-card-text);
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.widget-card__value {
+  font-family: var(--font-body);
+  font-size: var(--w-card-text-sub);
+  font-weight: 700;
+  color: var(--text-primary);
+  opacity: 0.8;
+}
+
+/* ═══ Wide/Desktop (1920) ═══ */
+@media (min-width: 1920px) {
+  .widget-grid__row--quickapps {
+    grid-template-columns: repeat(var(--wg-1920-row1-cols), var(--w-quickapp));
+    gap: var(--wg-1920-row1-gap);
+  }
+
+  .widget-grid__row--info {
+    grid-template-columns: repeat(var(--wg-1920-row2-cols), 1fr);
+    gap: var(--wg-1920-row2-gap);
+  }
+
+  .widget-card--quickapp {
+    height: var(--w-quickapp-h);
+  }
+
+  .widget-card--info {
+    width: auto;
+    min-width: var(--w-info);
+  }
+}
+
+/* ═══ Phone ═══ */
+@media (max-width: 767px) {
+  .widget-grid__row--quickapps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .widget-grid__row--info {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .widget-card--clock,
+  .widget-card--info,
+  .widget-card--filemanager {
+    width: 100%;
+  }
+}

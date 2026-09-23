@@ -1,0 +1,74 @@
+/**
+ * CoreMusic — Auth Embedded Device CSS
+ * RPi5 1024x600 — Touch-first auth layout
+ * ITCSS Layer: 08_Devices
+ * Version: 1.2.0 — 2026-08-18
+ *
+ * NOTE: Token imports removed — auth-bundled.css already loads them.
+ */
+
+:root {
+  --lgn-panel-w: 300px;
+  --lgn-font-size: 14px;
+  --touch-min: 48px;
+}
+
+html { font-size: 14px; }
+
+/* ═══ LAYOUT — Column-reverse stack ═══ */
+.lgn-page {
+  flex-direction: column-reverse !important;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* ═══ HERO — Centered, no decorations ═══ */
+.lgn-hero {
+  flex: none !important;
+  padding: clamp(12px, 2vw, 20px) 5vw !important;
+  padding-right: calc(var(--lgn-panel-w) + 4vw) !important;
+  text-align: center !important;
+  align-items: center !important;
+}
+
+.lgn-hero__poem,
+.lgn-hero__bottom {
+  display: none !important;
+}
+
+/* ═══ PANEL — Stacked, not fixed ═══ */
+.lgn-panel {
+  position: relative !important;
+  width: 100% !important;
+  max-width: var(--lgn-panel-w, 300px) !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  order: -1 !important;
+}
+
+.lgn-panel__glass {
+  padding: clamp(14px, 2vw, 22px) clamp(12px, 1.8vw, 20px);
+  border-radius: clamp(12px, 1.5vw, 16px) clamp(12px, 1.5vw, 16px) 0 0 !important;
+  border: 1px solid rgba(255, 255, 255, .15) !important;
+  border-bottom: 0 !important;
+}
+
+/* ═══ FORM ELEMENTS ═══ */
+.lgn-form__input {
+  height: clamp(32px, 2vw, 40px);
+}
+
+.lgn-btn {
+  height: clamp(34px, 2.5vw, 42px);
+}
+
+.lgn-social__btn {
+  height: clamp(26px, 2.5vw, 32px);
+}
+
+/* Background image is controlled by auth-gender-bg.js for crossfade animation */
+
+/* ═══ OVERFLOW FIX ═══ */
+html, body {
+  overflow-x: hidden !important;
+}

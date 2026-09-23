@@ -1,0 +1,48 @@
+/**
+ * CoreMusic — Auth 4K Monitor Device CSS
+ * ≥3841px — Ultra-wide auth split layout
+ * ITCSS Layer: 08_Devices
+ * Version: 1.1.0 — 2026-08-18
+ *
+ * NOTE: Token imports removed — auth-bundled.css already loads them.
+ */
+
+:root {
+  --lgn-panel-w: 560px;
+  --lgn-font-size: 20px;
+  --touch-min: 64px;
+}
+
+html { font-size: 20px; }
+
+/* Panel sizing */
+.lgn-panel {
+  width: var(--lgn-panel-w);
+}
+
+/* Hero padding for panel */
+.lgn-hero {
+  padding-left: 8vw;
+  padding-right: calc(var(--lgn-panel-w) + 5vw) !important;
+}
+
+.lgn-hero__title {
+  font-size: clamp(1.6rem, 1.6vw, 2.2rem);
+}
+
+/* Form elements */
+.lgn-form__input {
+  height: clamp(50px, 2.2vw, 60px);
+}
+
+.lgn-btn {
+  height: clamp(54px, 2.4vw, 64px);
+}
+
+.lgn-social {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.lgn-social__btn {
+  height: clamp(44px, 2.4vw, 52px);
+}

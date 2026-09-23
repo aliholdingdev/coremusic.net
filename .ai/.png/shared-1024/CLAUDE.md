@@ -11,9 +11,7 @@ authority: SSOT
 
 # .ai/.png/shared-1024 — CLAUDE.md
 
-**Zorunlu Bağlantılar:** [[./AGENTS.md]]
-
-## 1. Bağlam
+**Zorunlu Bağlantılar:** ## 1. Bağlam
 Auth ekranlarının görsel SSOT'u; auth.coremusic.net UI kodlaması buradan doğrulanır.
 
 ## 2. Mevcut Durum

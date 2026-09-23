@@ -1,0 +1,133 @@
+/**
+ * CoreMusic — Welcome Banner & Modal (v2.0)
+ * Figma SSOT: node-id=2831-10267 (1024: 600×308 modal)
+ *             node-id=2831-13747 (1920: inline banner)
+ * ITCSS Layer: 04_Components
+ * Version: 2.0.0 — 2026-09-22
+ */
+
+/* ═══ Welcome Banner (Inline — 1920 Wide) ═══ */
+.welcome-banner {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.welcome-banner__title {
+  font-family: var(--font-welcome);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.welcome-banner__name {
+  font-family: var(--font-welcome);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.welcome-banner__text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--text-primary);
+  opacity: 0.8;
+  max-width: 300px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.welcome-banner__brand {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--cm-primary, #ff4fd8);
+  margin: 0;
+}
+
+.welcome-banner__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: linear-gradient(135deg, var(--cm-primary, #ff4fd8), var(--cm-secondary, #a855f7));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.welcome-banner__cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(255, 79, 216, 0.3);
+}
+
+.welcome-banner__stats {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.welcome-banner__stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--text-primary);
+  opacity: 0.7;
+}
+
+.welcome-banner__stat-icon {
+  width: 12px;
+  height: 12px;
+  opacity: 0.6;
+}
+
+.welcome-banner__stat-value {
+  font-weight: 600;
+}
+
+/* ═══ Responsive ═══ */
+@media (max-width: 767px) {
+  .welcome-modal {
+    width: 90vw;
+    height: auto;
+    padding: 24px 20px;
+    gap: 10px;
+  }
+
+  .welcome-modal__name {
+    font-size: 18px;
+  }
+
+  .welcome-modal__stats {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1920px) {
+  .welcome-modal {
+    width: 700px;
+    height: 360px;
+    padding: 40px;
+  }
+}

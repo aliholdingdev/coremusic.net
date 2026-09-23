@@ -1,12 +1,33 @@
-# CoreMusic — subdomains Baglam
+# CoreMusic — .subdomains Bağlam
 
-**Zorunlu Baglantilar:** [[../CLAUDE.md]] · [[./AGENTS.md]]
+**Zorunlu Bağlantılar:** [[../CLAUDE.md]]
 
-## 1. Baglam
+---
 
-Subdomain dokumantasyonu: auth.coremusic.net, home.coremusic.net, music.coremusic.net (her biri 3 dosya). Index §12 referansi download.coremusic.net/domains/index bu klasorde YOK — kirik referans.
+## 1. Bağlam
 
-## 2. Protokol
+Subdomain dokümantasyonu. Her subdomain için vault kaydı.
 
-- Boot protocol uygulanir ([[../CLAUDE.md]] §16)
-- Degisiklikler [[../log.md]] audit izine yazilir
+---
+
+## 2. Subdomain Envanteri
+
+| Subdomain | Dosya Sayısı | Durum |
+|-----------|-------------|-------|
+| `auth.coremusic.net/` | 3 (CLAUDE.md, AGENTS.md, index.md) | ✅ Aktif |
+| `home.coremusic.net/` | 3 (CLAUDE.md, AGENTS.md, index.md) | ✅ Aktif |
+| `music.coremusic.net/` | 3 (CLAUDE.md, AGENTS.md, index.md) | ✅ Aktif |
+| `download.coremusic.net/` | — | ⚠️ Eksik |
+
+---
+
+## 3. Protokol
+
+- Boot protocol uygulanır ([[../CLAUDE.md]] §16)
+- Değişiklikler [[../log.md]] audit izine yazılır
+- Yeni subdomain → vault kaydı zorunlu
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-21

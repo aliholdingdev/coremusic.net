@@ -1,0 +1,286 @@
+/**
+ * c-buttons.css — CoreMusic Button Component (C04)
+ * ITCSS Layer: 04_Components
+ * SSOT: .ai/ui-design/02-component-inventory.md §C04
+ *       .ai/ui-design/tokens/component-tokens.md §5
+ * BEM: .btn -> --primary, --secondary, --ghost, --danger, --sm, --lg
+ *      .btn__icon, .btn__label, .btn__spinner
+ * Tier: Phone 44px min-h, TV 56px min-h
+ * Version: 1.0.0 — 2026-09-20
+ */
+
+/* ============================================================
+   BUTTON — Token Tanımları (C04)
+   ============================================================ */
+.btn {
+  --btn-bg: rgba(255, 255, 255, 0.06);
+  --btn-color: #ffffff;
+  --btn-border: 1px solid rgba(255, 255, 255, 0.12);
+  --btn-radius: 12px;
+  --btn-padding-x: 16px;
+  --btn-padding-y: 8px;
+  --btn-min-h: 36px;
+  --btn-font-size: 14px;
+  --btn-font-weight: 600;
+  --btn-gap: 8px;
+  --btn-transition: all 180ms ease;
+}
+
+/* ============================================================
+   BUTTON — Base
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-gap);
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  min-height: var(--btn-min-h);
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  border: var(--btn-border);
+  border-radius: var(--btn-radius);
+  font-family: inherit;
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--btn-transition);
+  white-space: nowrap;
+  user-select: none;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================================
+   BUTTON — Variants
+   ============================================================ */
+
+/* Primary —.pembe dolgu */
+.btn--primary {
+  background: #ff4fd8;
+  color: #ffffff;
+  border: 1px solid #ff4fd8;
+  box-shadow: 0 2px 12px rgba(255, 79, 216, 0.3);
+}
+
+.btn--primary:hover {
+  background: #ff7ee4;
+  border-color: #ff7ee4;
+  box-shadow: 0 4px 20px rgba(255, 79, 216, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn--primary:active {
+  background: #d63cb8;
+  transform: translateY(0);
+  box-shadow: 0 1px 6px rgba(255, 79, 216, 0.2);
+}
+
+/* Secondary — border only */
+.btn--secondary {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+/* Ghost — minimal */
+.btn--ghost {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid transparent;
+}
+
+.btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+/* Danger — kırmızı */
+.btn--danger {
+  background: #ef4444;
+  color: #ffffff;
+  border: 1px solid #ef4444;
+}
+
+.btn--danger:hover {
+  background: #f87171;
+  border-color: #f87171;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+}
+
+/* ============================================================
+   BUTTON — Sizes
+   ============================================================ */
+
+/* Small */
+.btn--sm {
+  --btn-padding-x: 12px;
+  --btn-padding-y: 6px;
+  --btn-min-h: 32px;
+  --btn-font-size: 12px;
+  --btn-radius: 8px;
+}
+
+/* Large */
+.btn--lg {
+  --btn-padding-x: 24px;
+  --btn-padding-y: 12px;
+  --btn-min-h: 44px;
+  --btn-font-size: 16px;
+  --btn-radius: 14px;
+}
+
+/* ============================================================
+   BUTTON — Full Width
+   ============================================================ */
+.btn--block {
+  width: 100%;
+}
+
+/* ============================================================
+   BUTTON — Icon Only (圆形)
+   ============================================================ */
+.btn--icon {
+  padding: 0;
+  min-width: var(--btn-min-h);
+  border-radius: 50%;
+}
+
+/* ============================================================
+   BUTTON — States
+   ============================================================ */
+
+/* Disabled */
+.btn:disabled,
+.btn--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Loading */
+.btn--loading {
+  color: transparent !important;
+  pointer-events: none;
+  position: relative;
+}
+
+.btn--loading::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: btn-spin 0.6s linear infinite;
+}
+
+@keyframes btn-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   BUTTON — Focus Visible (WCAG 2.2)
+   ============================================================ */
+.btn:focus-visible {
+  outline: 3px solid #ff4fd8;
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   BUTTON — İç İçe (group)
+   ============================================================ */
+.btn-group {
+  display: flex;
+  gap: 0;
+}
+
+.btn-group .btn {
+  border-radius: 0;
+}
+
+.btn-group .btn:first-child {
+  border-radius: var(--btn-radius) 0 0 var(--btn-radius);
+}
+
+.btn-group .btn:last-child {
+  border-radius: 0 var(--btn-radius) var(--btn-radius) 0;
+}
+
+.btn-group .btn + .btn {
+  margin-left: -1px;
+}
+
+/* ============================================================
+   BUTTON — Responsive: Phone (≤767px)
+   WCAG 2.5.8 — touch target ≥44px
+   ============================================================ */
+@media (max-width: 767px) {
+  .btn {
+    --btn-min-h: 44px;
+    --btn-padding-x: 16px;
+    --btn-font-size: 14px;
+  }
+
+  .btn--sm {
+    --btn-min-h: 40px;
+  }
+
+  .btn--lg {
+    --btn-min-h: 48px;
+  }
+}
+
+/* ============================================================
+   BUTTON — Responsive: Embedded (1024px)
+   Touch-first, büyük butonlar
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .btn {
+    --btn-min-h: 44px;
+  }
+}
+
+/* ============================================================
+   BUTTON — Responsive: 4K (≥3840px)
+   ============================================================ */
+@media (min-width: 3840px) {
+  .btn {
+    --btn-min-h: 56px;
+    --btn-padding-x: 32px;
+    --btn-padding-y: 16px;
+    --btn-font-size: 22px;
+    --btn-radius: 18px;
+  }
+
+  .btn:focus-visible {
+    outline: 4px solid #ff4fd8;
+    outline-offset: 4px;
+  }
+}
+
+/* ============================================================
+   BUTTON — Touch device hit area (WCAG 2.5.8)
+   ============================================================ */
+@media (pointer: coarse) {
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    min-width: 48px;
+    min-height: 48px;
+    transform: translate(-50%, -50%);
+  }
+}

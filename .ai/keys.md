@@ -1,4 +1,4 @@
-﻿---
+---
 reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic â€” Vault Keyword Map & Concept Router"
 type: system
@@ -32,15 +32,18 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
+| vizyon, vision, felsefe, pazar krizi, mülkiyet, handoff, sorunlar | VISION.md |
+| proje, projects, coremusic nedir, yetenekler, 10 ozellik, sektorler | PROJECTS.md |
 | index, master, katalog | index.md |
 | brain, mimari, dsp, kararlar | brain.md |
 | memory, bellek, persistent, session | MEMORY.md |
 | log, aktivite, audit, trail | log.md |
 | agent, yetki, roller, handover | AGENTS.md |
 | workflow, surec, faz, lifecycle | WORKFLOW.md |
-| claude, talimat, protokol | CLAUDE.md |
+| claude, talimat, protokol, anayasa | CLAUDE.md |
 | engine, orkestra, dispatch | engine.md |
 | keys, keyword, navigasyon | keys.md |
+| glossary, sozluk, terimler | glossary.md |
 | architecture-master, canonical count, metadata, ADR count, DB count, layer count | architecture/master-architecture-index.md |
 
 ---
@@ -104,12 +107,12 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | design tokens, ui tokens, platform tokens, color palettes, glass tokens | ui-design/tokens/design-tokens-master.md |
 | accessibility gaps, wcag 2.2 aa, touch target 48px, contrast check | ui-design/03-accessibility-gaps.md |
 | responsive device mode, embedded 1024, desktop 1920, mobile 375, tv 3840 | ui-design/responsive-device-mode.md |
-| device-aware rendering, tek bileşen, single component, conditional render | brain.md Â§18C |
+| device-aware rendering, tek bileşen, single component, conditional render | brain.md §18C |
 | device token, header-h, footer-h, content-h, spacing-scale | ui-design/tokens/design-tokens-master.md |
 | device behavioral, hover disabled, touch target 48px, scrollbar override | architecture/l3-presentation/device-css.md |
-| backend scope, widget count, feature toggle, nav links, content config | brain.md Â§18C |
-| frontend scope, token override, media query, grid template, layout grid | brain.md Â§18C |
-| layer violation, presentationâ†’infrastructure, php sunum kararı yasak | brain.md Â§18C |
+| backend scope, widget count, feature toggle, nav links, content config | brain.md §18C |
+| frontend scope, token override, media query, grid template, layout grid | brain.md §18C |
+| layer violation, presentation→’infrastructure, php sunum kararı yasak | brain.md §18C |
 | home 1920 mockup, 1920 desktop home, 1920ascii art, 1920 pixel measurements | ui-design/mockups/02-home-screens-1920.md |
 | ui prompt, component prompt, page prompt, screen prompt, layout prompt | ui-design/prompt/00-prompt-index.md |
 | auth screens, login girl, select gender, register girl 1-3 | ui-design/screens/05-auth-layouts.md |
@@ -141,7 +144,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | ASIO, WASAPI, JUCE, C++20 | architecture/l6-electronics.md |
 | amplifier, Class AB, 50W, MJL21194, MJL21193 | architecture/amplifier-classab-circuit.md |
 | bias, quiescent, thermal tracking, overcurrent | architecture/amplifier-classab-circuit.md |
-| power supply, Â±35V, boost, LM5122, interleaved | architecture/power-supply-classab.md |
+| power supply, ±35V, boost, LM5122, interleaved | architecture/power-supply-classab.md |
 | BOM, bill of materials, component count | architecture/bom-classab.md |
 | PCB, stackup, 6-layer, impedance, thermal | architecture/pcb-classab.md |
 | heatsink, fan control, thermal management | architecture/thermal-design-classab.md |
@@ -222,7 +225,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | screen spec, ekran özelliği, pixel exact | .ai/ui-design/screens/ |
 | layout pattern, standard 60/40, split home | .ai/ui-design/screens/_layout-patterns/ |
 | png mockup, .png dosyası, görsel referans, screenshot | .ai/.png/home-1024/ + .ai/.png/shared-1024/ |
-| home-1024, RPi5 mockup, 1024Ã—600 | .ai/.png/home-1024/ |
+| home-1024, RPi5 mockup, 1024×600 | .ai/.png/home-1024/ |
 | shared-1024, auth mockup, login png | .ai/.png/shared-1024/ |
 | png mockup index, mockup tablosu | .ai/ui-design/00-mockup-index.md |
 | component inventory, bileşen envanteri | .ai/ui-design/01-component-inventory.md |
@@ -244,7 +247,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | welcome popup, shouldRenderWelcomePopup, RPi5 1024 | shared/src/Device/DeviceManager.php |
 | 4-tier conditional rendering, koşullu render, phone layout, 4k layout, wide layout, embedded layout, fallback always false | .ai/ui-design/responsive-device-mode.md |
 | cm_viewport_w, cm_viewport_h, viewport cookie | assets.coremusic.net/js/device-loader.js |
-| viewport whitelist, cookie-based viewport, JSâ†’PHP viewport | shared/src/PageRouter/PageRouter.php |
+| viewport whitelist, cookie-based viewport, JS→’PHP viewport | shared/src/PageRouter/PageRouter.php |
 | conditional rendering php guide, php implementasyon rehberi, DeviceManager nasıl kullanılır, 4-tier render | .ai/architecture/conditional-rendering-php-guide.md |
 
 ---
@@ -571,7 +574,7 @@ P3: testing/*, ui-design/*, personas/*
 | Agent yetkileri | AGENTS.md -> .agents/ |
 | Servisler | ecosystem/7-service-integration.md |
 | Deploy | architecture/02-deployment/ |
-| Tema | ADR-044 -> [[brain.md]] Â§22 (prompt arşivi â€” tema kuralları) |
+| Tema | ADR-044 -> [[brain.md]] §22 (prompt arşivi â€” tema kuralları) |
 
 ### Section 3B: Prompt Archive Keywords
 
@@ -591,7 +594,7 @@ P3: testing/*, ui-design/*, personas/*
 | 1 | **Rastgele okuma yasak.** Her zaman keys.md kullanin. Token asimina yol acar. |
 | 2 | **PCM5122 REDDEDILMISTIR (H001).** 8.1 surround icin yetersiz. Sadece PCM3168A kullanin. |
 | 3 | **CSRF Token Key = csrf_token.** _csrf_token 2026-05-30'da kaldirildi. |
-| 4 | **Middleware sirasi degistirilemez.** OriginCheck â†’ Cors â†’ RateLimiter â†’ SecurityHeaders â†’ SessionManager â†’ Csrf â†’ BypassAuth â†’ Auth â†’ Permission â†’ Validation â†’ Controller |
+| 4 | **Middleware sirasi degistirilemez.** OriginCheck →’ Cors →’ RateLimiter →’ SecurityHeaders →’ SessionManager →’ Csrf →’ BypassAuth →’ Auth →’ Permission →’ Validation →’ Controller |
 | 5 | **ORM yasak.** Sadece PDO prepared statement. SELECT * yasak -- acik kolon listesi zorunlu. |
 
 ---
@@ -633,9 +636,9 @@ P3: testing/*, ui-design/*, personas/*
 | ASIO | Düşük gecikmeli ses protokolü | [[architecture/k0-k5-software/k2-driver-layer]] |
 | WASAPI | Windows ses oturumu | [[architecture/k0-k5-software/k2-driver-layer]] |
 | 8.1 Surround | 8 hoparlör + 1 subwoofer | [[architecture/k0-k5-software/k1-hardware-layer]] |
-| Class AB | Amplifikatör topolojisi | [[architecture/electronics/amplifier-classab-circuit]] |
-| LM5122 | Boost converter | [[architecture/electronics/power-supply-classab]] |
-| MJL21194 | NPN output transistör | [[architecture/electronics/amplifier-classab-circuit]] |
+| Class AB | Amplifikatör topolojisi | [[architecture/k16-k20-electronics/amfii/amplifier-classab-circuit]] |
+| LM5122 | Boost converter | [[architecture/k16-k20-electronics/power/power-supply-classab]] |
+| MJL21194 | NPN output transistör | [[architecture/k16-k20-electronics/amfii/amplifier-classab-circuit]] |
 | 31-Band EQ | Parametrik EQ | [[architecture/k0-k5-software/k3-audio-engine]] |
 | Multi-Room | Çok odalı ses | [[architecture/k10-k15-application/k14-network]] |
 | DLNA | Medya paylaşım protokolü | [[architecture/k10-k15-application/k14-network]] |

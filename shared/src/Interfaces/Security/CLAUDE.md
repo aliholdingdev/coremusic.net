@@ -11,7 +11,7 @@ authority: Single Source of Truth (SSOT)
 
 # Security - CLAUDE.md
 
-**Zorunlu Baglantilar:** [[./AGENTS.md]] . [[../CLAUDE.md]]
+**Zorunlu Baglantilar:** . [[../CLAUDE.md]]
 
 ## 1. Baglam
 Guvenlik yardimcilari

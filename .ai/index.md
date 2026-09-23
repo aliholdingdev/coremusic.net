@@ -1,9 +1,9 @@
-﻿---
-title: "CoreMusic Vault â€” Master Index"
+---
+title: "CoreMusic Vault — Master Index"
 type: system
 authority: SSOT
-version: 27.2.0
-total_files: 787
+version: 28.0.0
+total_files: 850
 total_adr: 79
 ---
 
@@ -27,44 +27,48 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 |---------|----------|
 | Vault genel bakış | Bu dosya (index.md) |
 | Ürün & Ekosistem Vizyonu | [[VISION.md]] |
+| Proje Tanımı & Hangi Sorunları Çözer | [[PROJECTS.md]] |
 | Teknik Dokümantasyon & Kılavuz | [[TECHNICAL_DOCUMENTATION.md]] |
 | Keyword arama | [[keys.md]] |
+| Terimler Sözlüğü | [[glossary.md]] |
 | Mimari kararlar | [[brain.md]] |
 | Ajan yetkileri | [[AGENTS.md]] |
 | Süreçler | [[WORKFLOW.md]] |
 | Bellek yönetimi | [[MEMORY.md]] |
 | Aktivite günlüğü | [[log.md]] |
-| ADR kataloğu | Â§ 5 bu dosya |
-| Servis haritası | Â§ 6 bu dosya |
-| Veritabanı | Â§ 8 bu dosya |
-| UI / Mockup / Frontend | [[ui-design/00-mockup-index]] (19 PNG Mockup, C01-C16 Envanteri) |
+| ADR kataloğu | § 5 bu dosya |
+| Servis haritası | § 6 bu dosya |
+| Veritabanı | § 8 bu dosya |
+| UI / Mockup / Frontend | [[ui-design/00-mockup-index]] (19 PNG Mockup, C01-C16 Envanteri, 45-Tier Device Matrix) |
 
 ---
 
-## 3. SSOT Core Dosyaları (11 Dosya)
+## 3. SSOT Core Dosyaları (13 Dosya)
 
 | # | Dosya | Amaç |
 |---|-------|------|
-| 1 | [[CLAUDE.md]] | Kanonik AI talimatı â€” boot protokolü, guardrails |
-| 2 | [[AGENTS.md]] | Agent kayıt defteri â€” 7 agent + MO, handover |
-| 3 | [[WORKFLOW.md]] | Süreçler â€” vault refactoring, ürün döngüsü |
-| 4 | [[index.md]] | Bu dosya â€” tüm vault dizin yapısı |
-| 5 | [[keys.md]] | Anahtar kelime haritası â€” keyword â†’ dosya yönlendirme |
-| 6 | [[brain.md]] | Mimari kararlar â€” ADR 001-088 (79 karar), L0-L6, engineering brain |
-| 7 | [[MEMORY.md]] | Oturum hafızası â€” persistent state, cache, session lifecycle |
-| 8 | [[log.md]] | Aktivite günlüğü â€” append-only audit trail |
-| 9 | [[engine.md]] | Orkestrasyon motoru â€” agent koordinasyonu, task dispatch |
-| 10 | [[VISION.md]] | Ürün ve ekosistem vizyonu â€” pazar fırsatı, 4 ARR gelir modeli, 10 vizyon bölümü |
-| 11 | [[TECHNICAL_DOCUMENTATION.md]] | Teknik dokümantasyon, sistem kullanım kılavuzu ve freelancer geliştirici kuralları (L0-L6, Neva, API, UI, C01-C16) |
+| 1 | [[CLAUDE.md]] | Kanonik AI talimatı — boot protokolü, guardrails |
+| 2 | [[AGENTS.md]] | Agent kayıt defteri — 11 uzmanlık alanı + MO, koordinasyon |
+| 3 | [[WORKFLOW.md]] | Süreçler — vault refactoring, ürün döngüsü |
+| 4 | [[index.md]] | Bu dosya — tüm vault dizin yapısı |
+| 5 | [[keys.md]] | Anahtar kelime haritası — keyword → dosya yönlendirme |
+| 6 | [[brain.md]] | Mimari kararlar — ADR 001-088 (79 karar), L0-L6, engineering brain |
+| 7 | [[MEMORY.md]] | Oturum hafızası — persistent state, cache, session lifecycle |
+| 8 | [[log.md]] | Aktivite günlüğü — append-only audit trail |
+| 9 | [[engine.md]] | Orkestrasyon motoru — agent koordinasyonu, task dispatch |
+| 10 | [[VISION.md]] | Ürün ve ekosistem vizyonu — mülkiyet felsefesi, 6 sorun-çözüm, handoff, hibrit omurga |
+| 11 | [[PROJECTS.md]] | CoreMusic nedir, 10 temel yetenek, 6 hedef kullanıcı, 9 kullanım senaryosu, sektörel çözümler |
+| 12 | [[glossary.md]] | Terimler sözlüğü — Neva Engine, Bit-Perfect, Ambient Aura, Deemix vb. |
+| 13 | [[TECHNICAL_DOCUMENTATION.md]] | Teknik dokümantasyon, sistem kullanım kılavuzu ve freelancer geliştirici kuralları |
 
 
 ---
 
 ## 4. Mimari â€” L0-L6 Katmanları
 
-*Detaylı metadata için bakınız: [[architecture/master-architecture-index]] Â§2*
+*Detaylı metadata için bakınız: [[architecture/master-architecture-index]] §2*
 
-Bağımlılık kuralları: âœ… L6â†’L5, L5â†’L4, L4â†’L3, L3â†’L2, L2â†’L1, L1â†’L0 | âŒ L0â†’L2/L3, L1â†’L3, L3â†’L0
+Bağımlılık kuralları: ✅ L6→’L5, L5→’L4, L4→’L3, L3→’L2, L2→’L1, L1→’L0 | âŒ L0→’L2/L3, L1→’L3, L3→’L0
 
 | Katman | Dosya | Kapsam |
 |--------|-------|--------|
@@ -85,36 +89,46 @@ Bağımlılık kuralları: âœ… L6â†’L5, L5â†’L4, L4â†’L3, L3�
 
 | Dosya / Dizin | İçerik ve Amaç | Zorunluluk |
 |---------------|----------------|------------|
-| [[ui-design/00-mockup-index]] | 19 PNG Mockup İndeksi (12 home-1024 + 6 shared-1024) | âœ… Tüm frontend görevlerinde İLK OKUNACAK |
-| [[ui-design/01-component-inventory]] | C01â€“C16 Kanonik Bileşen Envanteri (BEM, ölçüm, token) | âœ… Bileşen kodlarken ZORUNLU |
-| [[ui-design/02-implementation-plan]] | 15 Adımlık CSS Uygulama Yol Haritası | âœ… CSS yazarken ZORUNLU |
-| [[ui-design/03-accessibility-gaps]] | WCAG 2.2 AA Uyum ve Touch Target Denetimi (min 48px) | âœ… Erişilebilirlik için ZORUNLU |
-| [[ui-design/screens/00-ascii-art-index]] | Piksel düzeyinde ASCII Art ekran modelleri (x:0-1024, y:0-600) | âœ… Layout hizalamada ZORUNLU |
-| [[ui-design/tokens/design-tokens-master]] | Master CSS Design Tokens (Renk, Boşluk, Tipografi, Cam) | âœ… Token kullanımında ZORUNLU |
-| [[ui-design/prompt/00-prompt-index]] | Ekran, Bileşen, Layout ve Sayfa Prompt Åablonları | âœ… Kod üretiminde ZORUNLU |
-| `.ai/.png/home-1024/` & `shared-1024/` | 18 Orijinal PNG Mockup Görselleri | âœ… Görsel referans doğrulamada ZORUNLU |
+| [[ui-design/00-mockup-index]] | 19 PNG Mockup İndeksi (12 home-1024 + 6 shared-1024) | ✅ Tüm frontend görevlerinde İLK OKUNACAK |
+| [[ui-design/01-component-inventory]] | C01–C16 Kanonik Bileşen Envanteri (BEM, ölçüm, token) | ✅ Bileşen kodlarken ZORUNLU |
+| [[ui-design/02-implementation-plan]] | 15 Adımlık CSS Uygulama Yol Haritası | ✅ CSS yazarken ZORUNLU |
+| [[ui-design/03-accessibility-gaps]] | WCAG 2.2 AA Uyum ve Touch Target Denetimi (min 48px) | ✅ Erişilebilirlik için ZORUNLU |
+| [[ui-design/screens/00-ascii-art-index]] | Piksel düzeyinde ASCII Art ekran modelleri (x:0-1024, y:0-600) | ✅ Layout hizalamada ZORUNLU |
+| [[ui-design/tokens/design-tokens-master]] | Master CSS Design Tokens (Renk, Boşluk, Tipografi, Cam) | ✅ Token kullanımında ZORUNLU |
+| [[ui-design/prompt/00-prompt-index]] | Ekran, Bileşen, Layout ve Sayfa Prompt Şablonları | ✅ Kod üretiminde ZORUNLU |
+| `.ai/.png/home-1024/` & `shared-1024/` | 18 Orijinal PNG Mockup Görselleri | ✅ Görsel referans doğrulamada ZORUNLU |
+| [[ui-design/reference/01-php-source-architecture]] | PHP backend yapılandırması, DeviceManager entegrasyonu | ✅ Backend entegrasyonunda ZORUNLU |
+| [[ui-design/reference/02-text-strings]] | UI text stringleri (80+ Türkçe string) | ✅ Localization'da ZORUNLU |
+| [[ui-design/reference/03-icon-asset-catalog]] | İkon envanteri, asset yolları, tier bazlı boyutlar | ✅ İkon entegrasyonunda ZORUNLU |
+| [[ui-design/reference/04-verification]] | UI doğrulama protokolü, PNG karşılaştırma | ✅ Her frontend görevinden sonra ZORUNLU |
+| [[ui-design/reference/05-backend-reference]] | PHP API endpoint'leri, session/auth | ✅ Backend entegrasyonunda ZORUNLU |
+| [[ui-design/reference/06-frontend-reference]] | Vanilla JS + ITCSS 9-layer yapısı, BEM | ✅ Frontend geliştirme ZORUNLU |
+| [[ui-design/reference/07-session-notes]] | Geliştirme oturum notları, TODO'lar | ✅ Oturum devamında ZORUNLU |
+| [[ui-design/reference/08-css-design-tokens]] | CSS custom properties hızlı referans | ✅ CSS yazarken ZORUNLU |
+| [[ui-design/reference/09-interaction-states]] | Bileşen etkileşim durumları, touch vs mouse | ✅ Bileşen geliştirme ZORUNLU |
+| [[ui-design/reference/10-device-specific-guidelines]] | 10 cihaz kategorisi için UI kılavuzu | ✅ Tier bazlı geliştirme ZORUNLU |
 
 ### 4A.1 Device-Aware Rendering Kuralları (v1.0.0)
 
-**Tek bileşen ilkesi + cihaz bazlı CSS override sistemi. Detaylı kurallar: [[brain.md]] Â§18C**
+**Tek bileşen ilkesi + cihaz bazlı CSS override sistemi. Detaylı kurallar: [[brain.md]] §18C**
 
 | Kural | Açıklama | Referans |
 |-------|----------|----------|
 | Tek HTML yapısı | `home.php`, `header.php`, `footer.php` tek dosya | Guardrail #17 |
 | Ayrı dosya yasağı | `home-1024.php`, `home-desktop.html` YASAKTIR | Guardrail #17 |
-| Backend sorumluluğu | PHP: davranışsal konfigürasyon (widget count, feature toggle) | [[brain.md]] Â§18C |
-| Frontend sorumluluğu | CSS: sunum kararları (token, media query, grid) | [[brain.md]] Â§18C |
+| Backend sorumluluğu | PHP: davranışsal konfigürasyon (widget count, feature toggle) | [[brain.md]] §18C |
+| Frontend sorumluluğu | CSS: sunum kararları (token, media query, grid) | [[brain.md]] §18C |
 | Tek bileşen + CSS | Fark CSS media query + CSS variables ile yönetilir | [[ui-design/responsive-device-mode]] |
 | WCAG 2.2 AA | Phone/Embedded: min 48px touch target | [[ui-design/03-accessibility-gaps]] |
-| Katman ihlal | PHP'de margin/padding/width/height kodlanamaz | [[brain.md]] Â§18C |
+| Katman ihlal | PHP'de margin/padding/width/height kodlanamaz | [[brain.md]] §18C |
 
 | Dosya | İçerik | Kullanım |
 |-------|--------|----------|
 | [[ui-design/responsive-device-mode]] | 4-Tier Conditional Rendering mimarisi | Cihaz bazlı layout kararları |
 | [[architecture/l3-presentation/device-css]] | 7 device CSS + 4 view mode CSS | Behavioral overrides |
-| [[brain.md]] Â§18A | Responsive CSS Architecture Rules | Token tanımları, yasak örüntüler |
-| [[brain.md]] Â§18B | 4-Tier Device Manager Sistemi | DeviceManager karar metotları |
-| [[brain.md]] Â§18C | Device-Aware Rendering Kuralları | Backend/Frontend sorumluluk sınırları |
+| [[brain.md]] §18A | Responsive CSS Architecture Rules | Token tanımları, yasak örüntüler |
+| [[brain.md]] §18B | 4-Tier Device Manager Sistemi | DeviceManager karar metotları |
+| [[brain.md]] §18C | Device-Aware Rendering Kuralları | Backend/Frontend sorumluluk sınırları |
 
 ---
 
@@ -297,7 +311,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ## 9. Projeler
 
-> **Durum (2026-09-06):** `projects/` klasoru bos oldugu icin Â§9'daki isimli 20 referans icin STUB dosyalar olusturuldu (VERIFICATION REQUIRED; detay: [[projects/index]]). "EQ alt modülleri (7)" isimsizdir â€” doğrulanmadan stub üretilmez.
+> **Durum (2026-09-06):** `projects/` klasoru bos oldugu icin §9'daki isimli 20 referans icin STUB dosyalar olusturuldu (VERIFICATION REQUIRED; detay: [[projects/index]]). "EQ alt modülleri (7)" isimsizdir â€” doğrulanmadan stub üretilmez.
 
 ### 9.1 Neva Engine (C++ Audio)
 
@@ -336,7 +350,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | Dosya | Kapsam |
 |-------|--------|
 | [[testing/strategy]] | Test stratejisi *(dizin yok â€” plan kaydı)* |
-| [[testing/coverage-targets]] | Kapsama hedefleri (â‰¥80% min, â‰¥90% target) |
+| [[testing/coverage-targets]] | Kapsama hedefleri (≥80% min, ≥90% target) |
 | [[testing/e2e-template]] | E2E test şablonu |
 | [[testing/persona-test-protocol]] | Persona test protokolü |
 | [[testing/test-plan]] | Test planı |
@@ -436,10 +450,10 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 | Tier | OS | Durum |
 |------|-----|-------|
-| Tier 1 (Primary) | Windows (XPâ€“11, Server 2012 R2+) | âœ… Ana geliştirme |
-| Tier 2 | Linux (Ubuntu, Debian, Fedora, Arch) | âœ… Destekli |
-| Tier 3 | macOS (Montereyâ€“Sonoma) | âœ… Destekli |
-| Tier 4 | Raspberry Pi (ARM64, Debian) | âœ… Destekli |
+| Tier 1 (Primary) | Windows (XPâ€“11, Server 2012 R2+) | ✅ Ana geliştirme |
+| Tier 2 | Linux (Ubuntu, Debian, Fedora, Arch) | ✅ Destekli |
+| Tier 3 | macOS (Montereyâ€“Sonoma) | ✅ Destekli |
+| Tier 4 | Raspberry Pi (ARM64, Debian) | ✅ Destekli |
 | Tier 5 | ReactOS | âš ï¸ Experimental |
 
 ---
@@ -460,10 +474,10 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 | Modül | Minimum | Hedef |
 |-------|---------|-------|
-| Backend (PHP) | â‰¥80% | â‰¥90% |
-| Frontend (JS) | â‰¥80% | â‰¥90% |
-| Audio Engine (C++) | â‰¥80% | â‰¥90% |
-| Download Service | â‰¥80% | â‰¥90% |
+| Backend (PHP) | ≥80% | ≥90% |
+| Frontend (JS) | ≥80% | ≥90% |
+| Audio Engine (C++) | ≥80% | ≥90% |
+| Download Service | ≥80% | ≥90% |
 
 ---
 
@@ -471,17 +485,17 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| Â§ 3 SSOT | [[CLAUDE.md]] | Ana sözleşme |
-| Â§ 4 Mimari | [[architecture/k0-k5-software/k0-os-layer]] | L0-L6 katmanları |
-| Â§ 5 ADR | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault standardı |
-| Â§ 6 Servisler | [[ecosystem/7-service-integration]] | Servis entegrasyonu |
-| Â§ 7 Agentlar | [[AGENTS.md]] | Agent yetkileri |
-| Â§ 8 DB | [[architecture/k0-k5-software/k5-data-layer/database_master]] | 18 BCNF şemaları |
-| Â§ 9 Projeler | [[projects/NevaEngine/overview]] | C++ ses motoru |
-| Â§ 10 Donanım | [[electronic/hardware-roadmap]] | 3 fazlı geliştirme |
-| Â§ 11 Test | [[testing/coverage-targets]] | Kapsama hedefleri |
-| Â§ 4A UI Design | [[ui-design/00-mockup-index]] | 19 PNG, C01-C16, Mockup SSOT |
-| Â§ 4A.1 Device-Aware | [[brain.md]] Â§18C | Backend/Frontend sorumluluk sınırları, Tek Bileşen İlkesi |
+| § 3 SSOT | [[CLAUDE.md]] | Ana sözleşme |
+| § 4 Mimari | [[architecture/k0-k5-software/k0-os-layer]] | L0-L6 katmanları |
+| § 5 ADR | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault standardı |
+| § 6 Servisler | [[ecosystem/7-service-integration]] | Servis entegrasyonu |
+| § 7 Agentlar | [[AGENTS.md]] | Agent yetkileri |
+| § 8 DB | [[architecture/k0-k5-software/k5-data-layer/database_master]] | 18 BCNF şemaları |
+| § 9 Projeler | [[projects/NevaEngine/overview]] | C++ ses motoru |
+| § 10 Donanım | [[electronic/hardware-roadmap]] | 3 fazlı geliştirme |
+| § 11 Test | [[testing/coverage-targets]] | Kapsama hedefleri |
+| § 4A UI Design | [[ui-design/00-mockup-index]] | 19 PNG, C01-C16, Mockup SSOT |
+| § 4A.1 Device-Aware | [[brain.md]] §18C | Backend/Frontend sorumluluk sınırları, Tek Bileşen İlkesi |
 
 ---
 
@@ -490,7 +504,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 - **Toplam dosya:** 787 (Faz 0 sayımı, 2026-09-08 â€” eski değer 726 güncel değildi)
 - **Toplam ADR:** 79 (Frozen: 37, Active: 30, Rejected: 12)
 - **Versiyon:** 27.2.0
-- **Son Güncelleme:** 2026-09-08 (Faz 1: PNG 19, dosya 787, ADR 001-088, testing notu, Â§19-Â§20 doğrulama bölümleri)
+- **Son Güncelleme:** 2026-09-08 (Faz 1: PNG 19, dosya 787, ADR 001-088, testing notu, §19-§20 doğrulama bölümleri)
 - **Governance:** Red Team Â· Human Mode Â· Truth Mode
 
 ---
@@ -502,8 +516,8 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | Metrik | Değer | Yöntem |
 |--------|-------|--------|
 | Vault MD | 741 dosya / 136.261 satır (boş-hariç) | Get-ChildItem + Measure-Object |
-| Ortalama satır | 184/dosya | Toplam Ã· dosya |
-| Hedef (Faz 1) | â‰¥500 satır/dosya | Kullanıcı direktifi |
+| Ortalama satır | 184/dosya | Toplam ÷ dosya |
+| Hedef (Faz 1) | ≥500 satır/dosya | Kullanıcı direktifi |
 | Kırık referans kümesi | 60+ (5 kategori) | Test-Path taraması |
 | Sayım çelişkisi | 8 (hepsi bu revizyonda düzeltildi) | Cross-check |
 
@@ -514,7 +528,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | PNG mockup | 18 | **19** (12+1+6) | .ai/.png/ sayımı |
 | Vault dosya | 726 | **787** | stub'lar dahil sayım |
 | ADR kapsamı | 001-087 | **001-088** (79) | decisions sayımı |
-| Active ADR | 50 | **30** | Â§5.2 satır sayımı |
+| Active ADR | 50 | **30** | §5.2 satır sayımı |
 | Kök MD | 11 | **12** | glossary.md dahil |
 
 ### 19.3 Domain Uygulama Durumu (IMPLEMENTED/PLANNED)
@@ -532,28 +546,28 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 | Küme | Hedef | Çözüm |
 |------|-------|-------|
-| Arşiv tarihi | prompt*-2026-08-13 (12 link, 5 dosya) | âœ… 2026-09-01'e hizalandı |
-| .ai/testing/ | index.md Â§11, keys.md | âœ… "dizin yok" notu + gerçek karşılıklar |
-| .ai/workflows/ | index.md Â§12 | âœ… uyarı notu mevcut; kök `.workflows/` gerçek konum |
-| Electronic kök 8 dosya | keys.md Â§7, brain.md Â§21 | âœ… DOÄRULAMA GEREKLİ etiketi + alt klasör yönlendirme |
-| models/issues/scripts index | CLAUDE.md Â§17 | Bekliyor â€” dizinler yok; oluşturma kararı kullanıcıda |
+| Arşiv tarihi | prompt*-2026-08-13 (12 link, 5 dosya) | ✅ 2026-09-01'e hizalandı |
+| .ai/testing/ | index.md §11, keys.md | ✅ "dizin yok" notu + gerçek karşılıklar |
+| .ai/workflows/ | index.md §12 | ✅ uyarı notu mevcut; kök `.workflows/` gerçek konum |
+| Electronic kök 8 dosya | keys.md §7, brain.md §21 | ✅ DOÄRULAMA GEREKLİ etiketi + alt klasör yönlendirme |
+| models/issues/scripts index | CLAUDE.md §17 | Bekliyor â€” dizinler yok; oluşturma kararı kullanıcıda |
 
 ### 19.5 Boot Dosyası Revizyon Durumu
 
 | Dosya | Satır (boş-hariç) | Durum |
 |-------|-------------------|-------|
-| engine.md | 503 | âœ… |
-| glossary.md | ~500 | âœ… (v2.0.0 tam revizyon) |
-| ROLE.md | 500 | âœ… (v6.0.0 tam revizyon) |
-| ULTRA-THINKING.md | ~510 | âœ… (v2.0.0 tam revizyon) |
-| MEMORY.md | ~490 | âœ… (v25.0.0) |
-| CLAUDE.md | ~575 | âœ… (düzeltmeler) |
-| brain.md | ~745 | âœ… (düzeltmeler) |
-| keys.md | ~530 | âœ… (düzeltmeler) |
-| WORKFLOW.md | ~590 | âœ… (düzeltmeler) |
-| index.md | bu bölümle | âœ… |
-| AGENTS.md | ~500 | âœ… (düzeltmeler + Â§25) |
-| log.md | append-only | Faz kapanışında append (âœ… 2026-09-08 kaydı düştü) |
+| engine.md | 503 | ✅ |
+| glossary.md | ~500 | ✅ (v2.0.0 tam revizyon) |
+| ROLE.md | 500 | ✅ (v6.0.0 tam revizyon) |
+| ULTRA-THINKING.md | ~510 | ✅ (v2.0.0 tam revizyon) |
+| MEMORY.md | ~490 | ✅ (v25.0.0) |
+| CLAUDE.md | ~575 | ✅ (düzeltmeler) |
+| brain.md | ~745 | ✅ (düzeltmeler) |
+| keys.md | ~530 | ✅ (düzeltmeler) |
+| WORKFLOW.md | ~590 | ✅ (düzeltmeler) |
+| index.md | bu bölümle | ✅ |
+| AGENTS.md | ~500 | ✅ (düzeltmeler + §25) |
+| log.md | append-only | Faz kapanışında append (✅ 2026-09-08 kaydı düştü) |
 
 ### 19.6 Yöntem Notu
 
@@ -565,7 +579,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ## 20. Teknoloji Yığını Özeti (Dinamik Stack)
 
-**İlke:** Programlama dili ve teknoloji yığını proje gereksinimlerine göre belirlenir â€” Node.js Â· C++ Â· C# Â· PHP + proje niteliğinin gerektirdiği diğerleri. Detay: [[engine.md]] Â§9, [[ROLE.md]] Â§11.
+**İlke:** Programlama dili ve teknoloji yığını proje gereksinimlerine göre belirlenir â€” Node.js Â· C++ Â· C# Â· PHP + proje niteliğinin gerektirdiği diğerleri. Detay: [[engine.md]] §9, [[ROLE.md]] §11.
 
 | Katman | Teknoloji | Durum | Referans |
 |--------|-----------|-------|----------|
@@ -584,18 +598,18 @@ Bu bölüm, vault genelinde tespit edilen kırık referans kümelerini ve çöz�
 
 | # | Küme | Etkilenen Dosyalar | Çözüm Durumu |
 |---|------|--------------------|--------------|
-| 1 | `archives/prompt*-2026-08-13` (12 link) | brain.md Â§22, WORKFLOW Â§8.6, ROLE Â§10, MEMORY Â§5, keys Â§3B | âœ… 2026-09-01'e hizalandı |
-| 2 | `.ai/testing/` dizini (6 dosya) | index.md Â§11.1, keys.md Â§11/Â§14, ROLE.md, ULTRA-THINKING Â§3.2 | âœ… "dizin yok" notu + gerçek karşılıklar |
-| 3 | `.ai/workflows/` dizini (8 dosya) | index.md Â§12 | âš ï¸ uyarı notu mevcut; gerçek konum kök `.workflows/` |
-| 4 | Electronic kök 8 dosya | keys.md Â§7, brain.md Â§21, index.md Â§10 | âœ… DOÄRULAMA GEREKLİ + alt klasör yönlendirme |
-| 5 | `electronic/frequency-response` ve `snr-thd` yanlış yol | keys.md Â§7 | âœ… `electronic/hardware/` altına yönlendirildi |
-| 6 | `models/issues/scripts` index yok | CLAUDE.md Â§17 | âš ï¸ Kullanıcı kararı bekliyor (oluştur / referans kaldır) |
-| 7 | `subdomains/README` + download index | keys.md Â§8, index.md Â§12 | âš ï¸ Oluşturma kararı bekliyor |
-| 8 | `projects/NevaEngine/eq-dsp-chain` | keys.md Â§6 | âš ï¸ stub kapsamı dışı â€” index.md Â§9 notuyla tutarlı |
-| 9 | `research/`, `personas/`, `registry/`, `scaffold/`, `knowledge/`, `confidence/`, `sessions/` | index.md Â§12 | âš ï¸ Â§12 güncellik notu mevcut; yeniden kurma kararı kullanıcıda |
-| 10 | `ui-design/reference/02-design-tokens` | keys.md Â§3A | âœ… `ui-design/tokens/design-tokens-master.md` |
-| 11 | l4/l5 flat vs index | (Obsidian fallback) | âœ… flat dosyalar mevcut â€” sorun değil |
-| 12 | `[[reference/yaml-formatter]]` | WORKFLOW Â§8.8 | âš ï¸ DOÄRULANAMADI â€” test edilmedi |
+| 1 | `archives/prompt*-2026-08-13` (12 link) | brain.md §22, WORKFLOW §8.6, ROLE §10, MEMORY §5, keys §3B | ✅ 2026-09-01'e hizalandı |
+| 2 | `.ai/testing/` dizini (6 dosya) | index.md §11.1, keys.md §11/§14, ROLE.md, ULTRA-THINKING §3.2 | ✅ "dizin yok" notu + gerçek karşılıklar |
+| 3 | `.ai/workflows/` dizini (8 dosya) | index.md §12 | âš ï¸ uyarı notu mevcut; gerçek konum kök `.workflows/` |
+| 4 | Electronic kök 8 dosya | keys.md §7, brain.md §21, index.md §10 | ✅ DOÄRULAMA GEREKLİ + alt klasör yönlendirme |
+| 5 | `electronic/frequency-response` ve `snr-thd` yanlış yol | keys.md §7 | ✅ `electronic/hardware/` altına yönlendirildi |
+| 6 | `models/issues/scripts` index yok | CLAUDE.md §17 | âš ï¸ Kullanıcı kararı bekliyor (oluştur / referans kaldır) |
+| 7 | `subdomains/README` + download index | keys.md §8, index.md §12 | âš ï¸ Oluşturma kararı bekliyor |
+| 8 | `projects/NevaEngine/eq-dsp-chain` | keys.md §6 | âš ï¸ stub kapsamı dışı â€” index.md §9 notuyla tutarlı |
+| 9 | `research/`, `personas/`, `registry/`, `scaffold/`, `knowledge/`, `confidence/`, `sessions/` | index.md §12 | âš ï¸ §12 güncellik notu mevcut; yeniden kurma kararı kullanıcıda |
+| 10 | `ui-design/reference/02-design-tokens` | keys.md §3A | ✅ `ui-design/tokens/design-tokens-master.md` |
+| 11 | l4/l5 flat vs index | (Obsidian fallback) | ✅ flat dosyalar mevcut â€” sorun değil |
+| 12 | `[[reference/yaml-formatter]]` | WORKFLOW §8.8 | âš ï¸ DOÄRULANAMADI â€” test edilmedi |
 
 **Özet:** 6 çözüldü Â· 6 kullanıcı kararı bekliyor. Bekleyenler kod üretimi gerektirmez; doküman/dizin kararıdır.
 
@@ -605,29 +619,29 @@ Bu bölüm, vault genelinde tespit edilen kırık referans kümelerini ve çöz�
 2. Doğrulama: her hedef Test-Path ile sınandı (PowerShell 5.1, Faz 0).
 3. Kümeler: aynı kök nedenli kırıklar tek küme olarak gruplandı.
 4. Çözüm: kanıtlı karşılık varsa yönlendirme; yoksa DOÄRULAMA GEREKLİ/kullanıcı kararı.
-5. Bakım: bu katalog her faz kapanışında güncellenir â€” yeni kırık â†’ yeni satır.
+5. Bakım: bu katalog her faz kapanışında güncellenir â€” yeni kırık →’ yeni satır.
 
 ### 21.2 Kullanıcı Kararı Bekleyen Özet
 
 | Karar | Seçenekler | Etki |
 |-------|------------|------|
-| models/issues/scripts index | Oluştur / referans kaldır | CLAUDE.md Â§17 boot iddiası |
-| subdomains README + download index | Oluştur / keys.md satırını sil | Â§8 keyword yönlendirme |
-| research/personas/registry vb. dizinler | Yeniden kur / Â§12'den sil | 30+ satır katalog temizliği |
-| electronic kök 8 dosya | Yeniden üret / DOÄRULAMA GEREKLİ kalıcı | keys.md Â§7, brain Â§21 |
+| models/issues/scripts index | Oluştur / referans kaldır | CLAUDE.md §17 boot iddiası |
+| subdomains README + download index | Oluştur / keys.md satırını sil | §8 keyword yönlendirme |
+| research/personas/registry vb. dizinler | Yeniden kur / §12'den sil | 30+ satır katalog temizliği |
+| electronic kök 8 dosya | Yeniden üret / DOÄRULAMA GEREKLİ kalıcı | keys.md §7, brain §21 |
 
 ---
 
 ## 22. PDF Dokümantasyon Yapısı (v1.0)
 
-### Â§01 Giriş
+### §01 Giriş
 - CoreMusic tanımı ve vizyonu
 - 10 temel özellik
 - 7 kullanım alanı
 - 6 hedef kullanıcı grubu
 - 6 sektörel çözüm
 
-### Â§02 Sistem Mimarisi
+### §02 Sistem Mimarisi
 - 4 katmanlı basitleştirilmiş mimari (L0-L3)
 - 7 katmanlı detaylı mimari (K0-K6)
 - Servis diyagramı

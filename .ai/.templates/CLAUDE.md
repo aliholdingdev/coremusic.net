@@ -11,9 +11,7 @@ authority: SSOT
 
 # .ai/.templates — CLAUDE.md
 
-**Zorunlu Bağlantılar:** [[./AGENTS.md]]
-
-## 1. Bağlam
+**Zorunlu Bağlantılar:** ## 1. Bağlam
 Guardrail #16'nın uygulama noktası; her kod/doküman üretimi öncesi buradan şablon alınır.
 
 ## 2. Mevcut Durum

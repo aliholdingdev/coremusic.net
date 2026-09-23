@@ -11,9 +11,7 @@ authority: SSOT
 
 # .ai/.png/home-1920 — CLAUDE.md
 
-**Zorunlu Bağlantılar:** [[./AGENTS.md]]
-
-## 1. Bağlam
+**Zorunlu Bağlantılar:** ## 1. Bağlam
 Desktop 1920 mockup setinin başlangıcı; tek ekran mevcut.
 
 ## 2. Mevcut Durum

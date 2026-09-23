@@ -1,5 +1,5 @@
-﻿---
-title: "CoreMusic â€” .ai/.sql/mysql BaÄŸlam"
+---
+title: "CoreMusic — .ai/.sql/mysql Ba�lam"
 type: context
 folder: ".ai/.sql/mysql"
 category: vault
@@ -9,24 +9,22 @@ version: 1.0.0
 authority: SSOT
 ---
 
-# .ai/.sql/mysql â€” CLAUDE.md
+# .ai/.sql/mysql — CLAUDE.md
 
-**Zorunlu BaÄŸlantÄ±lar:** [[./AGENTS.md]]
-
-## 1. BaÄŸlam
-18 DB'nin canlÄ± ÅŸema referansÄ±; Data Engineer ana kaynaÄŸÄ±.
+**Zorunlu Ba�lant�lar:** ## 1. Ba�lam
+18 DB'nin canl� �ema referans�; Data Engineer ana kayna��.
 
 ## 2. Mevcut Durum
-| Durum | DeÄŸer |
+| Durum | De�er |
 |-------|-------|
 | Dosya | 18 SQL |
-| KardeÅŸ klasÃ¶rler | mssql/postgresql/sqlite (boÅŸ â€” gelecek desteÄŸi) |
+| Karde� klas�rler | mssql/postgresql/sqlite (bo� — gelecek deste�i) |
 
-## 3. KomÅŸu Ä°liÅŸkiler
-Parent [[../CLAUDE.md]] *(Ã¼retilecek)* Â· Data mimarisi [[../../architecture/k0-k5-software/k5-data-layer/CLAUDE.md]]
+## 3. Kom�u İli�kiler
+Parent [[../CLAUDE.md]] *(�retilecek)* · Data mimarisi [[../../architecture/k0-k5-software/k5-data-layer/CLAUDE.md]]
 
-## 4. DeÄŸiÅŸiklik ProtokolÃ¼
-YalnÄ±zca dump yenileme; elle edit yasak. Log + vault-sync.
+## 4. De�i�iklik Protokol�
+Yaln�zca dump yenileme; elle edit yasak. Log + vault-sync.
 
 ---
 

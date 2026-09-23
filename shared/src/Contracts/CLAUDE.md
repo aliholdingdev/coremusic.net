@@ -1,38 +1,50 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\shared\src\Contracts Baglam"
+title: "CoreMusic — shared/src/Contracts Bağlam"
 type: context
-folder: "C:\www\coremusic.net\shared\src\Contracts"
-category: layer3
-date: 2026-09-06
+folder: "shared/src/Contracts"
+category: layer4-domain
+date: 2026-09-21
+updated: 2026-09-21
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# Contracts - CLAUDE.md
+# Contracts — CLAUDE.md (Detaylı)
 
-**Zorunlu Baglantilar:** [[./AGENTS.md]] . [[../CLAUDE.md]]
+**Zorunlu Bağlantılar:** · [[../CLAUDE.md]]
 
-## 1. Baglam
-Sozlesme/interface katmani
+---
+
+## 1. Bağlam
+
+Sözleşme arayüzleri. API ve Events için interface tanımları.
+
+---
 
 ## 2. Mevcut Durum
-| Durum | Deger |
+
+| Durum | Değer |
 |-------|-------|
-| Dosya | 0 |
-| Konum | C:\www\coremusic.net\shared\src\Contracts |
+| Alt klasör | 2 (Contracts/Api/, Contracts/Events/) |
 
-## 3. Komsu Iliskiler
-| Yon | Hedef | Iliski |
-|-----|-------|--------|
-| Parent | [[../CLAUDE.md]] | Ust baglam |
-| Talimatlar | [[../AGENTS.md]] | Ust kurallar |
+| Klasör | İçerik |
+|--------|--------|
+| `Contracts/Api/` | API sözleşme arayüzleri |
+| `Contracts/Events/` | Event sözleşme arayüzleri (DomainEventInterface) |
 
-## 4. Degisiklik Protokolu
-1. Degisiklik once ust talimatlarla uyum kontrolu
-2. Gerekirse ADR + [[../../.ai/log.md]] audit
+---
+
+## 3. Sözleşme Kuralları
+
+| Kural | Detay |
+|-------|-------|
+| Interface segregation | Her interface tek sorumluluk |
+| Dependency inversion | High-level modül low-level'e bağımlı değil |
+| Contract-first | Önce sözleşme, sonra implementasyon |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-21
+**Mode:** Red Team · Human Mode · Truth Mode

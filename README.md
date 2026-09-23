@@ -1,12 +1,14 @@
 # 🎵 CoreMusic
 
-**Kurumsal Seviyede Dijital Medya Yönetim Platformu**
+> *"Hayatın ritmi sende gizli, müziğinle parla!"*  
+> **"Aynı Müzik Her Yerde Seninle" — Sınırların ötesinde bir müzik deneyimi.**  
+> *Software · Audio · Hardware · AI — Version 1.0*
 
 [![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?style=flat&logo=php&logoColor=white)](https://php.net)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES2022-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://tc39.es/ecma262/)
-[![C++](https://img.shields.io/badge/C++-20-00599C?style=flat&logo=cplusplus&logoColor=white)](https://isocpp.org/)
-[![MySQL](https://img.shields.io/badge/MySQL-9-4479A1?style=flat&logo=mysql&logoColor=white)](https://dev.mysql.com/)
-[![Architecture](https://img.shields.io/badge/Architecture-K0_to_K20-blue)](#mimari-yapı)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES2022%20Vanilla-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://tc39.es/ecma262/)
+[![C++](https://img.shields.io/badge/C++-20%20NevaEngine-00599C?style=flat&logo=cplusplus&logoColor=white)](https://isocpp.org/)
+[![MySQL](https://img.shields.io/badge/MySQL-9%20(18%20BCNF)-4479A1?style=flat&logo=mysql&logoColor=white)](https://dev.mysql.com/)
+[![Architecture](https://img.shields.io/badge/Architecture-21%20Layers%20(1130%20Components)-blue)](.ai/architecture/master-architecture-index.md)
 [![License](https://img.shields.io/badge/License-Proprietary-red)](#lisans)
 [![Status](https://img.shields.io/badge/Status-Aktif%20Geliştirme-brightgreen)](#proje-durumu)
 
@@ -14,187 +16,208 @@
 
 ## 📋 İçindekiler
 
-- [Proje Tanımı](#proje-tanımı)
-- [Vizyon](#vizyon)
-- [Temel Özellikler](#temel-özellikler)
-- [Teknoloji Yığını](#teknoloji-yığını)
-- [Mimari Yapı (K0-K20)](#mimari-yapı)
-- [Servis Haritası](#servis-haritası)
-- [Veritabanı Yapısı](#veritabanı-yapısı)
-- [Donanım ve Akustik Mimarisi](#donanım-ve-akustik-mimarisi)
-- [Kurulum Rehberi](#kurulum-rehberi)
-- [Geliştirme Ortamı](#geliştirme-ortamı)
-- [Yol Haritası](#yol-haritası)
-- [Lisans](#lisans)
-- [AI Engineering (Vault)](#ai-engineering)
-- [İletişim](#iletişim)
+- [1. Proje Tanımı ve Vizyon](#1-proje-tanımı-ve-vizyon)
+- [2. Hangi Sorunları Çözer? (Pazar Çözüm Matrisi)](#2-hangi-sorunları-çözer-pazar-çözüm-matrisi)
+- [3. Temel Yetenekler (10 Ana Başlık)](#3-temel-yetenekler-10-ana-başlık)
+- [4. Sektörel Çözümler ve Subdomain Ağı](#4-sektörel-çözümler-ve-subdomain-ağı)
+- [5. Hedef Kullanıcı Kitleleri](#5-hedef-kullanıcı-kitleleri)
+- [6. Mimari Yapı (21 Katman, 1130 Bileşen)](#6-mimari-yapı-21-katman-1130-bileşen)
+- [7. C++20 Neva Engine ve Ses Donanımı](#7-c20-neva-engine-ve-ses-donanımı)
+- [8. Teknoloji Yığını](#8-teknoloji-yığını)
+- [9. Kurulum ve Geliştirme](#9-kurulum-ve-geliştirme)
+- [10. Single Source of Truth (Vault .ai/)](#10-single-source-of-truth-vault-ai)
 
 ---
 
-## 🎯 Proje Tanımı
+## 1. Proje Tanımı ve Vizyon
 
-**CoreMusic**, bireysel kullanıcılar, profesyonel müzik üreticileri, stüdyolar, araç içi bilgi-eğlence ve ev medya merkezleri için tasarlanmış **kurumsal seviyede dijital medya yönetim platformudur**.
+### 1.1 CoreMusic Nedir?
+**CoreMusic**, müzik yönetimi, ses işleme, cihaz entegrasyonu ve medya dağıtımı süreçlerini tek bir platform altında birleştiren **kurumsal dijital ses ve medya ekosistemidir**.
 
-Sadece yazılımsal bir platform olmanın ötesinde, entegre C++ DSP motoru, Class AB amplifikatör donanım tasarımları ve 1000'den fazla bağımsız bileşene ev sahipliği yapan tam teşekküllü bir **Ecosystem** olarak inşa edilmiştir.
+Trilyon dolarlık küresel dijital medya, otomotiv ses sistemleri ve tüketici elektroniği pazarındaki yapısal açıkları kapatmak ve doğrudan yüksek kârlılığa dönüştürmek amacıyla geliştirilmiş kurumsal seviyede bir **Ticari Dijital Medya Ekosistemi ve Gelir Platformudur**.
 
-### Hedef Kullanıcılar
+Sıradan müzik çalarların sunduğu basit dosya oynatma deneyiminin ötesine geçerek; çevrim içi bulut akışı ve internet bağlantısı olmadan çalışabilen **Offline-First** mimarisi sayesinde kullanıcının FLAC, WAV ve MP3 formatındaki ses koleksiyonunu tam mülkiyet altında tutmasını sağlar.
 
-| Kullanıcı Grubu | Kullanım Senaryosu |
-|-----------------|-------------------|
-| 🎧 Bireysel Kullanıcılar | Kişisel müzik kütüphane yönetimi, çevrimdışı dinleme |
-| 🎛️ Profesyonel Üreticiler | Stüdyo kalitesinde ses, 31-band EQ, 64-bit float DSP |
-| 🏢 Stüdyolar | 8.1 surround ses (NevaEngine), çoklu oda senkronizasyonu |
-| 🚗 Araç İçi | Özel araç paneli (Car UI), düşük gecikmeli ses |
-| 🏠 Ev Medya | NAS entegrasyonu, multi-room ağ yayını (WebRTC/P2P) |
+### 1.2 Temel Felsefemiz
+* **Mülkiyet ve Özgürlük:** Kiralama modellerini ortadan kaldırır. Kullanıcının sahip olduğu kayıpsız ses koleksiyonu kalıcı, bağımsız ve ilişkisel bir dijital varlık olarak korunur; telif veya lisans iptalleriyle arşivden asla silinmez.
+* **Kesintisiz Bütünleşik Yaşam Deneyimi (Handoff):** Salonda başlatılan bir parça, arabaya binildiğinde (`car.coremusic.net`) veya iş istasyonuna geçildiğinde (`studio.coremusic.net`) tek bir milisaniye dahi duraksamadan, aynı akustik profille devam eder.
 
 ---
 
-## 🔭 Vizyon
+## 2. Hangi Sorunları Çözer? (Pazar Çözüm Matrisi)
 
-CoreMusic, müzik dinleme ve yönetme deneyimini **katmanlı, modüler ve uzatılabilir** bir yapıyla yeniden tanımlamayı hedefler:
+CoreMusic, günümüz müzik ekosistemindeki 6 kronik pazar krizini ortadan kaldırmak üzere tasarlanmıştır:
 
-- **Faz 1 (Yazılım Çekirdeği):** Mevcut PC/laptop'larda temel medya platformu
-- **Faz 2 (Donanım/Premium):** CoreMusic Audio donanım entegrasyonu (PCM3168A, XMOS XU316) ve Class AB 100W amplifikatör entegrasyonu (ADR-089).
-- **Faz 3 (Professional):** Tam entegre stüdyo (8.1 Surround NevaEngine) ve araç içi sistemler
-
----
-
-## ✨ Temel Özellikler
-
-### 🎵 Medya Yönetimi
-- Otonom müzik indirme servisleri
-- Kapsamlı müzik kütüphane yönetimi (sanatçı, albüm, tür, sözler)
-- AI destekli akıllı çalma listeleri ve metadata çekimi
-
-### 🔊 Profesyonel Ses (NevaEngine C++20)
-- 15 aşamalı DSP pipeline (ADR-062)
-- Zero-allocation memory, lock-free ring buffer
-- 8.1 surround ses desteği ve ASIO/WASAPI donanım köprüsü
-- Sınıfının en iyisi SNR (>112dB) performansı ile High-End ses çıkışı
-
-### 🖥️ Çoklu Panel & Mikroservis Ağı
-- 10 bağımsız web paneli (music, admin, download, auth, vb.)
-- 7 ana mikroservis mimarisi (Event Driven Architecture)
-- SSR + Vanilla JS Hybrid SPA (Frameworksüz saf performans)
-
-### 🔒 Güvenlik
-- 10-katmanlı bükülemez güvenlik middleware zinciri (OriginCheck → Validation)
-- AES-256-GCM / Argon2id kriptografi omurgası
-- BCNF izolasyonlu veritabanı ayrışımı
+| # | Mevcut Pazar Sorunları | CoreMusic Mühendislik Çözümleri |
+|:---:|:---|:---|
+| **01** | **Dağınık Platformlar:** Müzik arşivleri farklı platformlarda, cihazlarda ve uygulamalarda dağınık halde bulunur. | **Tek Ekosistem:** Tüm müzik arşiviniz tek platformda (`api.coremusic.net`), her cihazda senkronize ve anında erişilebilir. |
+| **02** | **Kalite Kayıpları:** Streaming servisleri sıkıştırılmış (*lossy*) ses sunar; işletim sistemi mikserleri sesi bozar. | **Yüksek Ses Kalitesi (Hi-Fi):** C++20 Neva Engine ile OS mikserlerini baypas eden bit-perfect aktarım, 32-bit Float DSP ve kayıpsız FLAC/WAV saflığı. |
+| **03** | **Platform Bağımlılığı & Mülkiyetsizlik:** Kullanıcılar verilerine sahip değildir; lisans iptalleriyle şarkılar silinir. | **Mutlak Veri Mülkiyeti:** Müzik arşiviniz tamamen sizin kontrolünüzdedir. Offline-First mimariyle internet olmadan da kesintisiz çalışır. |
+| **04** | **Sınırlı Kişiselleştirme:** Arayüzler statik ve tekdüzedir; gerçek duygusal bağ ve akustik uyum kurulamaz. | **Gerçek Kişiselleştirme:** 2 katmanlı AI öneri motoru, müziğin enerjisine göre renk alan Ambient Aura ve doğal dille tema üreten AI Theme Maker. |
+| **05** | **Cihaz Uyumsuzluğu:** Bir cihazdan diğerine geçerken müzik durur, senkronizasyon kopar. | **Tüm Cihazlarda Kusursuz Uyum:** Handoff (kesintisiz geçiş) ve WebRTC/WebSocket multi-room audio ile her ekranda tek akıcı deneyim. |
+| **06** | **Profesyonel Araç Eksikliği:** Tüketici oynatıcılarında stüdyo referansı dinleme ve izleme araçları yoktur. | **Entegre Profesyonel Araçlar:** 8.1 Surround ses, 31-band parametrik EQ, EBU R128 LUFS ölçümü, FFT spektrum analizi, ASIO/WASAPI donanım desteği. |
 
 ---
 
-## 🛠️ Teknoloji Yığını
+## 3. Temel Yetenekler (10 Ana Başlık)
 
-### Yazılım - Backend
-- **PHP 8.4+** (API, Middleware, Strict-types)
-- **Node.js (TypeScript)** (Download Service / Asenkron Kuyruklar)
-- **MySQL 9+** (18 İzole BCNF Şeması)
-- **Redis / APCu** (Event bus, Memory Caching)
-
-### Yazılım - Frontend
-- **Vanilla JS (ES2022)** (SPA router, DOM manipulation)
-- **ITCSS 7-Layer + BEM** (Saf CSS, Frameworksüz)
-- **TrustedTypes** (DOMParser ile saf güvenlik)
-
-### Ses ve Elektronik Donanımı
-- **C++20 (JUCE, ASIO SDK)** (NevaEngine)
-- **XMOS XU316** (USB Audio Class 2.0 / Multichannel)
-- **PCM3168A** (6-In / 8-Out 24-bit/192kHz DAC)
-- **Class AB 100W** (High-Fidelity Amplifikatör)
+1. **Hibrit Çalışma Mimarisi (Online Cloud & Offline-First):** İnternet kopsa dahi yerel SSD önbelleğinden duraksamadan çalma; internet geldiğinde çift yönlü sessiz senkronizasyon.
+2. **Audio DSP Engine & Canlı Mekân Akustiği:** C++20 Neva Engine ile sıfır bellek tahsisi (*zero-allocation*) ve kilitlenmeyen (*lock-free*) halka kuyruklar; Düğün Salonu, Konser Alanı & Arena, Canlı Stüdyo psikoakustik simülasyonları; 31-Band Parametrik & Grafik EQ; True Peak Brickwall Limiter (THD+N <%0.005, SNR >105dB).
+3. **Ses İşleme Hassasiyeti:** Dahili ses boru hattında anlık 1528 dB teorik dinamik tavan sunan 32-Bit Float mimari; 64-Bit Float çift duyarlılık yol haritası.
+4. **1.0'dan 8.1 Surround'a (+1 LFE) Hoparlör Matrisi:** 1.0 Mono, 2.0/2.1 Hi-Fi, 4.1 Quadraphonic, 5.1/7.1 Ev Sineması, 8.1 Stüdyo Referansı ve bağımsız aktif subwoofer (+1 LFE) faz hizalaması.
+5. **Büyüleyici Canlı Temalar & AI Theme Maker:** Müziğin enerjisine göre nefes alan dinamik Ambient Aura (Glassmorphism) ve doğal dil komutlarıyla çalışan AI Theme Maker Tool.
+6. **Çapraz Cihaz Ekosistemi & Handoff:** Mobil, PC, Akıllı TV, araç içi bilgi-eğlence ve ev sunucusu arasında anlık geçiş; odalar arası sıfır faz gecikmeli Multi-Room Audio.
+7. **Merkezi Medya Depolama & Otonom İndirme:** `NovaSearchEngine` ile YouTube aramaları; `DeezerDownloader` (Deemix) ile stüdyo kalitesinde FLAC (16/24/32-bit Float) ve WAV indirme; tek tıkla USB/HDD aktarımı (FAT32/exFAT/NTFS, ID3v2); Optik Audio CD (Red Book) ve MP3 CD yazma.
+8. **Yerel Ağ & Network Audio:** DLNA/UPnP ve WebRTC/P2P protokolleriyle ev ağındaki tüm cihazlara kayıpsız, ultra düşük gecikmeli medya yayını.
+9. **AI Müzik Intelligence:** Collaborative filtering + content-based öneri sistemi; parça analitiği (BPM, Key, Energy, Mood); oda akustiğini analiz eden AI Otomatik EQ.
+10. **Sektörel Donanım Entegrasyonu:** XMOS XU316 USB Audio işlemcisi, AK4458 DAC, PCM3168A ADC, 8x50W modüler discrete Class AB amplifikatör ve ±35V LM5122 interleaved boost güç kaynağı.
 
 ---
 
-## 🏗️ Mimari Yapı (Master Vault Architecture)
+## 4. Sektörel Çözümler ve Subdomain Ağı
 
-CoreMusic mimarisi, yazılımdan donanıma uzanan **21 Katmanlı (K0-K20)** ve **1000'den fazla** mikro-bileşen barındıran devasa bir matrise evrimleşmiştir (ADR-042).
+CoreMusic ekosistemi, 10 bağımsız uzmanlık paneli üzerinden modüler olarak çalışır:
 
-```text
-============================================================
-[ L4 ] K16-K20: DONANIM VE ELEKTRONİK (Electronics / PCB)
-       └── Amplifikatör, DSP Chip, DAC, PSU, Sensörler
-============================================================
-[ L3 ] K12-K15: ENİNE KESEN KATMANLAR (Cross-Cutting)
-       └── Loglama, CI/CD, Network Ağ, Medya Streaming
-============================================================
-[ L2 ] K6-K11: YAZILIM / UYGULAMA (Application Core)
-       └── Güvenlik, Middleware, Servisler, API Routing, UX
-============================================================
-[ L1 ] K0-K5: ALT-SİSTEM & ÇEKİRDEK (OS / Driver / C++)
-       └── OS Layer, Drivers, NevaEngine (Audio), AI Engine
-============================================================
+| Subdomain | Sektörel Kapsam | Öne Çıkan Fonksiyon |
+|:---|:---|:---|
+| **`music.coremusic.net`** | Son Kullanıcı Müzik Portalı | Hibrit SPA, Ambient Aura, AI öneri listeleri |
+| **`home.coremusic.net`** | Akıllı Ev & Medya Merkezi | RPi5 desteği, Multi-Room odalar arası ses, Smart TV modu |
+| **`car.coremusic.net`** | Otomotiv Bilgi-Eğlence | 48x48px dev dokunmatik butonlar, gece modu, offline önbellek |
+| **`studio.coremusic.net`**| Ses Mühendisliği & Mastering | 8.1 Surround izleme, 31-band EQ, LUFS ölçer, FFT analizi |
+| **`download.coremusic.net`**| Otonom İndirme & Arşiv | YouTube/Deezer kuyrukları, FAT32 USB ve CD/DVD yazıcı |
+| **`media.coremusic.net`** | Medya Deposu & Dağıtım | Çok kaynaklı kütüphane, FFmpeg transcode, DLNA sunucu |
+| **`admin.coremusic.net`** | Sistem Yönetim Konsolu | Kullanıcı, kota, veritabanı, güvenlik ve log yönetimi |
+| **`auth.coremusic.net`** | Kimlik ve Yetkilendirme | SSO, oturum yönetimi, RBAC yetki matrisi, Credential Vault |
+| **`pro.coremusic.net`** | Donanım & DSP Paneli | Neva Engine DSP denetimi, Class AB amfi telemetrisi |
+| **`coremusic.net`** | Ana Tanıtım & Portal | Ekosistem tanıtımı, açık kaynak dokümantasyon, indirme |
+
+---
+
+## 5. Hedef Kullanıcı Kitleleri
+
+1. **🎧 Bireysel Kullanıcılar:** Kolay kullanımlı şık arayüz, kişisel arşiv yönetimi, AI destekli müzik keşfi.
+2. **🎵 Hi-Fi / Audiophile:** 32-bit float kayıpsız ses (FLAC/WAV), ASIO/WASAPI desteği, 31-band EQ, saf analog amfi çıkışı.
+3. **🎛️ Profesyonel Stüdyo:** 8.1 surround ses izleme, <10ms sinyal gecikmesi, EBU R128 ses şiddeti ölçümü, mastering araçları.
+4. **🚗 Araç Kullanıcıları:** Güvenli sürüş için optimize edilmiş dokunmatik arayüz, tünellerde kesilmeyen offline yerel akış.
+5. **🏠 Ev Medya Kullanıcıları:** Raspberry Pi 5 ev sunucusu, odalar arası senkronize ses (Multi-Room), Smart TV Ambient Aura.
+6. **💻 Geliştirici / Freelancer:** Açık mimari dokümantasyonu, REST/WebSocket API'ler, modüler sürücü şablonları.
+
+---
+
+## 6. Mimari Yapı (21 Katman, 1130 Bileşen)
+
+CoreMusic, **L0 Altyapı'dan L6 Elektronik'e** kadar 21 dikey katman (K0-K20) ve 1130 bileşen üzerine inşa edilmiştir:
+
+```
+===========================================================================
+|                    COREMUSIC 21 KATMANLI MİMARİ                         |
+|                    1130 BİLEŞEN | DC-ONLY GÜÇ KAYNAĞI                   |
++-------------------------------------------------------------------------+
+|  K13: CI/CD           |  K12: İZLEME           |  K15: MEDYA & STREAMING|
+|  GitHub Actions / K8s |  App Logs / Prometheus |  FFmpeg - FLAC - HLS   |
+|  Docker / Playwright  |  Grafana / Audit Logs  |  DASH - Podcast - Radio|
++-------------------------------------------------------------------------+
+|  ELEKTRONİK & DONANIM ALTYAPISI (K16 - K20)                             |
++-------------------------------------------------------------------------+
+|  K20: BOM & ÜRETİM    -- 40 Bileşen: Transistör, Diyot, Direnç, BOM     |
+|  K19: PCB TASARIM     -- 50 Bileşen: 6-Layer, Controlled Z, Star GND    |
+|  K18: TERMAL TASARIM  -- 45 Bileşen: Fischer Heatsink, KSD301, PWM Fan  |
+|  K17: GÜÇ ±35V        -- 85 Bileşen: LM5122 Dual Boost, 6S LiPo, %96    |
+|  K16: CLASS AB AMP    -- 120 Bileşen: MJL21194/93, 8x50W, THD <0.005%   |
++-------------------------------------------------------------------------+
+|  KULLANICI DENEYİMİ & UYGULAMA (K10, K11, K14)                          |
++-------------------------------------------------------------------------+
+|  K11: UX & TASARIM    -- 45 Bileşen: ITCSS, BEM, Tokens, Theme, PWA     |
+|  K10: UYGULAMA        -- 50 Bileşen: Music, Home, Car, Studio, Admin    |
+|  K14: AĞ & İLETİŞİM   -- 50 Bileşen: HTTP/2/3, WebSocket, AirPlay       |
++-------------------------------------------------------------------------+
+|  SERVİS & ROUTING (K8 - K9)                                             |
++-------------------------------------------------------------------------+
+|  K9:  API & ROUTING   -- 45 Bileşen: Gateway, BFF, CQRS, SPA Router     |
+|  K8:  SERVİS KATMANI  -- 60 Bileşen: Control, Media, Audio, Device, AI  |
++-------------------------------------------------------------------------+
+|  GÜVENLİK & MIDDLEWARE PIPELINE (K6 - K7)                               |
++-------------------------------------------------------------------------+
+|  K7:  MIDDLEWARE      -- 40 Bileşen: OriginCheck, CORS, RateLimit, CSRF |
+|  K6:  GÜVENLİK        -- 45 Bileşen: Auth, RBAC, AES-256, Audit Trail   |
++-------------------------------------------------------------------------+
+|  VERİ YÖNETİMİ & YAPAY ZEKA (K4 - K5)                                   |
++-------------------------------------------------------------------------+
+|  K5:  VERİ YÖNETİMİ   -- 55 Bileşen: MySQL 18 DB (156 Tablo), Redis     |
+|  K4:  YAPAY ZEKA      -- 55 Bileşen: Music Analysis, Rec, Auto EQ, ML   |
++-------------------------------------------------------------------------+
+|  SES MOTORU & SÜRÜCÜ ÇEKİRDEĞİ (K2 - K3)                                |
++-------------------------------------------------------------------------+
+|  K3:  SES İŞLEM MOTORU-- 55 Bileşen: Neva Engine, DSP, EQ, Crossover    |
+|  K2:  SÜRÜCÜ KATMANI  -- 45 Bileşen: ASIO, WASAPI, ALSA, PipeWire       |
++-------------------------------------------------------------------------+
+|  TEMEL DONANIM PLATFORMU & OS (K0 - K1)                                 |
++-------------------------------------------------------------------------+
+|  K1:  DONANIM ALTYAPI -- 120 Bileşen: XMOS XU316, PCM3168A, AK4458 DAC  |
+|  K0:  İŞLETİM SİSTEMİ -- 50 Bileşen: Windows, Linux, macOS, RPi5, Docker|
++-------------------------------------------------------------------------+
+|  Toplam: 21 Katman | 1130 Bileşen | DC-ONLY | ~$682 Sistem Maliyeti     |
+===========================================================================
 ```
 
-**Kritik Kurallar:**
-- **ORM Kullanımı Kesinlikle Yasaktır:** Sadece ham PDO parametreli sorgular kullanılır.
-- **Frontend Framework Yasaktır:** React, Vue, Angular kullanılamaz; Vanilla JS standarttır.
-- **Güvenlik Pipeline'ı Değiştirilemez:** CSRF, Session, Auth başlıkları donanımsal mantıkla art arda çalışır.
+---
+
+## 7. C++20 Neva Engine ve Ses Donanımı
+
+CoreMusic'in kalbinde, işletim sisteminin sesi bozan katmanlarını baypas eden C++20 Neva Engine ve ayrık analog donanım amfisi yer alır:
+
+* **32-Bit Float DSP:** 15 aşamalı filtre zinciri (InputGain → Gate → HPF → LPF → 31-Band EQ → Dynamics → Delay → Reverb → True Peak Limiter).
+* **Discrete Class AB Amplifikatör:** 8 kanal bağımsız modüler yapı, MJL21194/MJL21193 tamamlayıcı çıkış çifti, 50W RMS @ 8Ω (80W @ 4Ω), THD+N <%0.005.
+* **±35V LM5122 Dual Boost Güç Kaynağı:** 6S LiPo (22.2V) veya 19-24V DC laptop adaptörü girişi; %96 tepe verimlilik, sıfır 50Hz şebeke gürültüsü sağlayan **DC-ONLY** güç mimarisi.
+* **Ses Kartı Köprüsü:** XMOS XU316 USB Audio Class 2.0 işlemcisi, PCM3168A 8-kanal ADC, AK4458 8-kanal DAC.
 
 ---
 
-## 🗺️ Servis Haritası
+## 8. Teknoloji Yığını
 
-CoreMusic, bağımsız ölçeklenebilen 7 mikroservisten oluşur (Faz 3 Entegrasyon standartları ile izlenmektedir):
-
-1. **Control Service:** PHP 8.4 (Auth, Session, Yönetim Paneli)
-2. **Media Service:** PHP + FFmpeg (Kütüphane indexleme)
-3. **Audio Service:** C++20 NevaEngine (Donanım/Ses işlemleri)
-4. **Device Service:** C++ (BLE, USB Cihaz Eşleşmeleri)
-5. **Network Audio:** C++ (WebRTC, P2P Multi-room aktarım)
-6. **AI Service:** Python/PHP (Öneri ve EQ algoritmaları)
-7. **Download Service:** Node.js (Platform dışı medya tedariği)
+* **Backend:** PHP 8.4+ (Strict types, PDO, PSR-15 Middleware), Node.js / TypeScript (Download microservice)
+* **Frontend:** Vanilla JavaScript (ES2022 SPA Router), ITCSS 9-Layer + BEM CSS, Glassmorphism UI
+* **Ses Motoru:** Modern C++20, JUCE 9 AudioProcessor, Steinberg ASIO SDK, Windows WASAPI Exclusive, Linux ALSA
+* **Veritabanı & Önbellek:** MySQL 9 (18 BCNF Normalleştirilmiş Veritabanı, 156 Tablo), Redis, APCu
+* **Güvenlik & Kriptografi:** Argon2id parola özeti, AES-256-GCM Credential Vault, CSP Nonce, CSRF koruması
 
 ---
 
-## 🗄️ Veritabanı Yapısı
+## 9. Kurulum ve Geliştirme
 
-Sistem, veri izolasyonu ve güvenlik (ADR-040) amacıyla birbirinden kesin çizgilerle ayrılmış **18 BCNF İzole Veritabanı** kullanır:
+```bash
+# 1. Depoyu klonlayın
+git clone https://github.com/coremusic/coremusic.net.git
+cd coremusic.net
 
-`coremusic_auth`, `coremusic_user`, `coremusic_musics`, `coremusic_system`, `coremusic_neva` (DSP Config), `coremusic_studio`... (Toplam 150+ Tablo)
+# 2. PHP Servisini Başlatın (Port 81)
+php -S localhost:81 -t public/
 
----
+# 3. İndirme Servisini Başlatın (Port 3001)
+cd download-service && npm install && npm run dev
 
-## 🔧 Donanım ve Akustik Mimarisi
-
-CoreMusic aynı zamanda kapalı-kutu bir ses donanımı projesidir. Devre tasarımları `.ai/electronics/` altında belgelenmiştir.
-
-- **Ses Yongası:** Texas Instruments PCM3168A (ADR-038)
-- **İşlemci (DSP):** XMOS XU316
-- **Amplifikasyon:** ±24V Dual-Rail Class AB (100W@8Ω) (ADR-089)
-- **Akustik Başarı:** >112dB SNR, %0.005 THD+N
-
----
-
-## 🤖 AI Engineering (Vault SSOT)
-
-CoreMusic, proje hafızasını ve mimari kararları `.ai/` klasöründeki AI Vault (Vault SSOT) üzerinden yürütür. Kök dizindeki dosyalar sadece yönlendiricidir (Pointer). 
-
-> [!WARNING]
-> **AI AGENT UYARISI:** Lütfen ortam bağlamını, iş akışlarını ve güvenlik kurallarını okumak için derhal [`.ai/CLAUDE.md`](.ai/CLAUDE.md) anayasasına başvurun. Vault dışında kalıcı mimari karar alınamaz.
-
-### Vault Hızlı Linkleri
-- **[AI Anayasası (CLAUDE.md)](.ai/CLAUDE.md)**
-- **[Agent Kayıt Defteri (AGENTS.md)](.ai/AGENTS.md)**
-- **[İş Akışları (WORKFLOW.md)](.ai/WORKFLOW.md)**
-- **[Mimari Kararlar (brain.md)](.ai/brain.md)**
-- **[Master İndeks (.ai/index.md)](.ai/index.md)**
+# 4. Testleri Çalıştırın
+cd shared && vendor/bin/phpunit
+```
 
 ---
 
-## 📊 Proje İstatistikleri (Faz 3 Sonrası)
+## 10. Single Source of Truth (Vault .ai/)
 
-| Metrik | Güncel Değer |
-|--------|-------|
-| **Mimari Katman** | 21 Katman (K0-K20) |
-| **Bileşen Sayısı** | 1000+ Komponent |
-| **ADR Kaydı** | 89 Kabul Edilmiş Karar (ADR) |
-| **Veritabanı** | 18 İzole Şema (BCNF) |
-| **Bağımsız Panel** | 10 (music, admin, download, home...) |
-| **Süreç Durumu** | Faz 3 Tamamlandı (Ecosystem / Servers) |
+CoreMusic projesinin tüm mimari kararları, anayasası, kuralları ve detaylı dokümanları `.ai/` dizinindeki **Vault** içerisinde toplanmıştır:
+
+| Doküman | Yol | Açıklama |
+|:---|:---|:---|
+| **Vizyon Belgesi** | [`.ai/VISION.md`](.ai/VISION.md) | Proje vizyonu, pazar krizi, mülkiyet felsefesi ve stratejik hedefler |
+| **Proje Tanımı** | [`.ai/PROJECTS.md`](.ai/PROJECTS.md) | 10 temel yetenek, sektörler, kullanıcı profilleri ve pazar çözümleri |
+| **AI Anayasası** | [`.ai/CLAUDE.md`](.ai/CLAUDE.md) | 16 Hard Guardrail, mühendislik standartları ve kurallar |
+| **Master İndeks** | [`.ai/architecture/master-architecture-index.md`](.ai/architecture/master-architecture-index.md) | 21 katman, 1130 bileşen, 18 BCNF DB ve ADR kayıt defteri |
+| **Devre Şeması** | [`.ai/architecture/electronics/amfii/amplifier-classab-circuit.md`](.ai/architecture/electronics/amfii/amplifier-classab-circuit.md) | Class AB 50W amfi devresi, Mermaid şeması ve test noktaları |
 
 ---
 
-## 📜 Lisans
-
-Bu proje **kapalı kaynak** (proprietary) lisansla yayınlanmaktadır. 
-Telif hakkı © 2026 CoreMusic. Tüm hakları saklıdır.
+**Authority:** Bayram Ali / Vault Steward  
+**Kaynak Doküman:** Freelancer Technical Documentation v1.0 (CoreMusic: Software Audio Hardware AI)  
+**Last Updated:** 2026-09-19  
+**Version:** 2.0.0  
+**Mode:** Red Team · Human Mode · Truth Mode

@@ -11,9 +11,7 @@ authority: SSOT
 
 # .ai/.png/home-1024 — CLAUDE.md
 
-**Zorunlu Bağlantılar:** [[./AGENTS.md]]
-
-## 1. Bağlam
+**Zorunlu Bağlantılar:** ## 1. Bağlam
 Kanonik 1024×600 referans seti; UI Designer birincil doğrulama kaynağı.
 
 ## 2. Mevcut Durum

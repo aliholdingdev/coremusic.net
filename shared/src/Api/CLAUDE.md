@@ -1,38 +1,72 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\shared\src\Api Baglam"
+title: "CoreMusic — shared/src/Api Bağlam"
 type: context
-folder: "C:\www\coremusic.net\shared\src\Api"
-category: layer3
-date: 2026-09-06
+folder: "shared/src/Api"
+category: layer2-routing
+date: 2026-09-21
+updated: 2026-09-21
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# Api - CLAUDE.md
+# Api — CLAUDE.md (Detaylı)
 
-**Zorunlu Baglantilar:** [[./AGENTS.md]] . [[../CLAUDE.md]]
+**Zorunlu Bağlantılar:** · [[../CLAUDE.md]] · [[../../.ai/architecture/k9-api-routing]]
 
-## 1. Baglam
-API gateway katmani (ADR-084)
+---
+
+## 1. Bağlam
+
+API Gateway katmanı (ADR-084). BFF×6, DTO, Middleware×6, Registry ve Versioning bileşenleri. Tüm istemciler API Gateway üzerinden bağlanır.
+
+---
 
 ## 2. Mevcut Durum
-| Durum | Deger |
+
+| Durum | Değer |
 |-------|-------|
-| Dosya | 3 |
-| Konum | C:\www\coremusic.net\shared\src\Api |
+| Toplam dosya | 10+ PHP dosyası (Api/, Api/Bff/, Api/Dto/, Api/Middleware/, Api/Registry/, Api/Versioning/) |
+| BFF | 6 (Desktop, Embedded, Mobile, Spa, Admin, Car) |
+| API Middleware | 6 (Auth, Authorization, RateLimit, Validation, CorrelationId, Logging) |
+| ADR | ADR-084 (API Gateway Architecture) |
 
-## 3. Komsu Iliskiler
-| Yon | Hedef | Iliski |
+---
+
+## 3. API-First Kuralı
+
+```
+OpenAPI Spec → DTO → Contract → Validation → Use Case → Kod
+```
+
+**Kod hiçbir zaman sözleşmeden önce yazılmaz.**
+
+---
+
+## 4. BFF Haritası
+
+| BFF | Hedef İstemci | Response |
+|-----|---------------|----------|
+| SpaBff | SPA (React/Vanilla) | Tam veri |
+| MobileBff | Mobil uygulama | Minimal |
+| EmbeddedBff | RPi5 (embedded) | Ultra-minimal, gzip |
+| DesktopBff | Masaüstü uygulama | Orta boy |
+| AdminBff | Admin paneli | Full + audit |
+| CarBff | Araç içi | Touch-optimized |
+
+---
+
+## 5. Komşu İlişkileri
+
+| Yön | Hedef | İlişki |
 |-----|-------|--------|
-| Parent | [[../CLAUDE.md]] | Ust baglam |
-| Talimatlar | [[../AGENTS.md]] | Ust kurallar |
-
-## 4. Degisiklik Protokolu
-1. Degisiklik once ust talimatlarla uyum kontrolu
-2. Gerekirse ADR + [[../../.ai/log.md]] audit
+| Parent | [[../CLAUDE.md]] | Shared library üst bağlam |
+| Kullanıcı | [[../../home.coremusic.net/CLAUDE.md]] | SPA API kullanımı |
+| Referans | [[../../.ai/architecture/k9-api-routing]] | API/Router mimarisi |
+| ADR | [[../../.ai/decisions/accepted/ADR-084-api-gateway-architecture]] | API Gateway |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-21
+**Mode:** Red Team · Human Mode · Truth Mode

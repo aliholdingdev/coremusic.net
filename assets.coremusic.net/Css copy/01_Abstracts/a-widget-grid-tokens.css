@@ -1,0 +1,38 @@
+/**
+ * CoreMusic — Widget Grid Token'ları
+ * ITCSS Layer: 01_Abstracts
+ * Version: 1.0.0 — 2026-09-22
+ *
+ * Figma pixel-perfect (API extraction):
+ *   1024: Row1=2col(42px cards), Row2=5col, Row3=5col
+ *   1920: Row1=4col(42px cards), Row2=8col, Row3=8col
+ */
+
+:root {
+  /* ═══ 1024 Embedded Widget Grid ═══ */
+  --wg-1024-row1-cols: 4;
+  --wg-1024-row1-gap: 8px;
+  --wg-1024-row2-cols: 5;
+  --wg-1024-row2-gap: 8px;
+  --wg-1024-row3-cols: 5;
+  --wg-1024-row3-gap: 8px;
+
+  /* ═══ 1920 Desktop Widget Grid ═══ */
+  --wg-1920-row1-cols: 4;
+  --wg-1920-row1-gap: 12px;
+  --wg-1920-row2-cols: 8;
+  --wg-1920-row2-gap: 12px;
+  --wg-1920-row3-cols: 8;
+  --wg-1920-row3-gap: 12px;
+
+  /* ═══ Widget Card Sizes ═══ */
+  --wg-card-icon: 20px;           /* Figma: 20×20 icon */
+  --wg-card-text: 9px;            /* Widget text */
+  --wg-card-text-sub: 8px;        /* Sub text */
+  --wg-card-radius: 3px;          /* Figma cornerRadius: 3 */
+
+  /* ═══ Featured Widget (1920) ═══ */
+  --wg-featured-w: 234px;         /* Figma: 234×108 */
+  --wg-featured-h: 108px;
+  --wg-featured-span: 4;          /* Grid column span */
+}

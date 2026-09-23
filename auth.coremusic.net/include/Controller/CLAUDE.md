@@ -1,38 +1,84 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\auth.coremusic.net\include\Controller Baglam"
+title: "CoreMusic — auth.coremusic.net/include/Controller Bağlam"
 type: context
-folder: "C:\www\coremusic.net\auth.coremusic.net\include\Controller"
-category: layer3
-date: 2026-09-06
+folder: "auth.coremusic.net/include/Controller"
+category: layer2-routing
+date: 2026-09-21
+updated: 2026-09-21
 status: active
-version: 1.0.0
+version: 2.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# Controller - CLAUDE.md
+# Controller — CLAUDE.md (Detaylı)
 
-**Zorunlu Baglantilar:** [[./AGENTS.md]] . [[../CLAUDE.md]]
+**Zorunlu Bağlantılar:** · [[../CLAUDE.md]] · [[../../shared/CLAUDE.md]]
 
-## 1. Baglam
-HTTP kontrolorleri
+---
+
+## 1. Bağlam
+
+HTTP kontrolörleri. AuthController tüm auth route'larını yönetir. Hexagonal mimaride Controller → Handler → Service → Repository akışı.
+
+---
 
 ## 2. Mevcut Durum
-| Durum | Deger |
+
+| Durum | Değer |
 |-------|-------|
-| Dosya | 1 |
-| Konum | C:\www\coremusic.net\auth.coremusic.net\include\Controller |
+| Toplam dosya | 1 PHP dosyası |
+| Controller | AuthController.php |
+| Pattern | Single controller, all routes |
 
-## 3. Komsu Iliskiler
-| Yon | Hedef | Iliski |
-|-----|-------|--------|
-| Parent | [[../CLAUDE.md]] | Ust baglam |
-| Talimatlar | [[../AGENTS.md]] | Ust kurallar |
+### 2.1 Dosya Envanteri
 
-## 4. Degisiklik Protokolu
-1. Degisiklik once ust talimatlarla uyum kontrolu
-2. Gerekirse ADR + [[../../.ai/log.md]] audit
+| Dosya | Amaç |
+|-------|------|
+| `AuthController.php` | Tüm auth HTTP isteklerini yönetir (login, register, logout, password reset, gender) |
+
+---
+
+## 3. AuthController Detayları
+
+### 3.1 Yönetilen Route'lar
+
+| Method | URL | Handler |
+|--------|-----|---------|
+| GET | /login | AuthKeyRedirect |
+| POST | /login | AuthPost |
+| GET | /register | AuthKeyRedirect |
+| POST | /register | AuthPost |
+| GET | /forgot-password | AuthKeyRedirect |
+| POST | /forgot-password | AuthPost |
+| GET | /reset-password | AuthKeyRedirect |
+| POST | /reset-password | AuthPost |
+| GET | /select-gender | AuthKeyRedirect |
+| POST | /set-gender | AuthPost |
+| GET | /logout | AutoRedirect |
+
+### 3.2 Request Akışı
+
+```
+HTTP Request → AuthController::handle()
+ → Route eşleştir
+ → Handler seç (AuthKeyRedirect / AuthPost / AutoRedirect)
+ → Handler::process()
+ → AuthService::login() / register() / logout()
+ → Response döndür
+```
+
+---
+
+## 4. Yasaklar
+
+| # | Yasak | Neden |
+|---|-------|-------|
+| 1 | Controller'a iş mantığı gömmek | SRP ihlali (mantık Service'te) |
+| 2 | Controller'dan direkt DB erişimi | Katman ihlali |
+| 3 | Response'a hardcoded header | Config-based |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-21
+**Mode:** Red Team · Human Mode · Truth Mode

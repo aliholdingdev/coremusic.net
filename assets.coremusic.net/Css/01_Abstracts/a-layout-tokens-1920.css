@@ -1,0 +1,25 @@
+/**
+ * CoreMusic — Layout Token'ları
+ * Header, footer, sidebar boyutları ve layout sabitleri
+ * ITCSS Layer: 01_Abstracts
+ * Version: 5.0.0 — 2026-09-22
+ *
+ * Figma pixel-perfect measurements (API extraction):
+ *   node-id=1639-10160 (1024 Embedded) / node-id=2831-13747 (1920 Desktop)
+ *   All values are EXACT Figma measurements — no rounding, no guessing.
+ *
+ * Figma font stack:
+ *   Display: Respective 20px/16px w400 (logo)
+ *   Body: Avalon 5-13px w500/w700 (all UI text)
+ *   Welcome: Plus Jakarta Sans 20px w600, Arima 14px w400, DM Sans 10px w300
+ *
+ * Responsive token sistemi:
+ *   :root = 1024px (RPi5 embedded — ana hedef cihaz, Figma mockup ölçümü)
+ *   @media queries = tablet, mobile, desktop, 4K TV
+ *   Device files (08_Devices/) = sadece behavioral overrides (hover, touch, scrollbar)
+ */
+:root {
+  /* ═══ Figma-Perfect Page Dimensions ═══ */
+  --screen-w: 1920px;
+  --screen-h: 1080px;
+}

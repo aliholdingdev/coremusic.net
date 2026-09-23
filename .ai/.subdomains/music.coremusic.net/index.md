@@ -86,6 +86,6 @@ Panel, `ADR-044-dynamic-user-theme-engine` gereğince kullanıcı profilindeki `
 
 ---
 
-## Faz 3 DoÄŸrulamasÄ±: Kod ReferanslarÄ±
+## Faz 3 Doğrulaması: Kod Referansları
 
-Bu dosya, engine.md Â§12.2 Faz 3 kanÄ±t zorunluluÄŸunu karÅŸÄ±lamaktadÄ±r. Gerekli controller eÅŸleÅŸmeleri, cookie adlarÄ± ve framework referanslarÄ± tablolarda belirtilmiÅŸtir.
+Bu dosya, engine.md §12.2 Faz 3 kanıt zorunluluğunu karşılamaktadır. Gerekli controller eşleşmeleri, cookie adları ve framework referansları tablolarda belirtilmiştir.

@@ -11,9 +11,7 @@ authority: SSOT
 
 # .ai/subdomains/music.coremusic.net — CLAUDE.md
 
-**Zorunlu Bağlantılar:** [[./AGENTS.md]]
-
-## 1. Bağlam
+**Zorunlu Bağlantılar:** ## 1. Bağlam
 Ana medya panelin vault kaydı; kod yok, plan var.
 
 ## 2. Mevcut Durum

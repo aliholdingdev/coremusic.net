@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — Vault Workflows & Engineering Processes
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[VISION.md]] · [[PROJECTS.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
 **Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
 
@@ -24,7 +24,9 @@ reference:
 
 ## 1. Amaç
 
-CoreMusic ekosistemindeki tüm süreçlerin standartlaştırıldığı **Tek Doğruluk Kaynağıdır (SSOT)**. Zero Code Before Plan ve Hard Gate prensipleri uygulanır.
+CoreMusic ekosistemindeki tüm süreçlerin standartlaştırıldığı **Tek Doğruluk Kaynağıdır (SSOT)**. Zero Code Before Plan ve Hard Gate prensipleri uygulanır. Süreçler; projenin mülkiyet odaklı felsefesini, stüdyo referanslı ses kalitesini ve 6 ana problem çözümünü hayata geçirecek şekilde kurgulanmıştır.
+- **Ekosistem Vizyonu & Sorun-Çözüm:** [[VISION.md]]
+- **Proje Tanımı & 10 Temel Yetenek:** [[PROJECTS.md]]
 
 ---
 
@@ -279,7 +281,8 @@ Draft → Review → Active → Frozen
 | 1 | `git diff` ile değişiklik listesini al | — |
 | 3 | İlgili ADR'leri kontrol et | ADR uyumluluğu |
 | 4 | Kod standartlarını doğrula (PSR-12, BEM, ITCSS) | Format |
-| 4.5 | Frontend ise: UI Design uyumunu doğrula ([[ui-design/00-mockup-index]], C01-C16, ölçüler) | UI Design Gate |
+| 4.5 | Frontend ise: UI Design uyumunu doğrula ([[ui-design/00-mockup-index]], C01-C16, ölçüler, **45-tier cihaz matrisi**) | UI Design Gate |
+| 4.6 | Frontend ise: [[ui-design/reference/04-verification]] protocol uygula (tier bazlı validasyon) | Verification Gate |
 | 5 | Güvenlik kontrollerini yap (OWASP, CSRF, CSP) | Security |
 | 5.5 | Template uyumluluğunu kontrol et (Guardrail #16) | Template |
 | 6 | Test coverage'ı kontrol et (min %80) | Coverage |
@@ -373,6 +376,21 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 6 | Kodlamaya başla (Zero Code Before Plan) | — |
 | 7 | Testleri yaz ve çalıştır | — |
 | 8 | Vault-sync yap | — |
+
+### 8.3A Multi-Tier UI Development (45-Tier)
+
+| Adım | Aksiyon | Hard Gate |
+|------|---------|-----------|
+| 1 | Hedef tier'ı belirle (Phone/Embedded/Laptop/Desktop/TV/Car/Watch/Console/AR-VR) | — |
+| 2 | `[[ui-design/reference/10-device-specific-guidelines]]` tier kılavuzunu oku | ✅ HARD GATE |
+| 3 | `[[ui-design/00-mockup-index]]` tier karşılığını bul | ✅ HARD GATE |
+| 4 | `[[ui-design/tokens/design-tokens-master]]` tier token'larını al | ✅ HARD GATE |
+| 5 | Tier bazlı CSS media query'yi planla | — |
+| 6 | `[[ui-design/reference/04-verification]]` tier validasyonunu planla | — |
+| 7 | Kodlamaya başla (Zero Code Before Plan) | — |
+| 8 | Tüm tier'larda test et (Phone→Embedded→Laptop→Desktop→4K→TV→Car→Watch→Console) | — |
+| 9 | `[[ui-design/reference/09-interaction-states]]` tier davranışlarını doğrula | — |
+| 10 | Vault-sync yap | — |
 
 ### 8.4 Security Audit
 

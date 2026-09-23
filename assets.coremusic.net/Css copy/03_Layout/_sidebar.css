@@ -1,0 +1,657 @@
+/**
+ * _sidebar.css — CoreMusic Sidebar Navigation
+ * Scope  : header.php — sidebar navigation component
+ * Design : design-tokens.md · responsive-device-mode.md
+ * Width  : 280px (default) · 200–400px (resizable)
+ * Layer  : ITCSS 03_Layout
+ * Version: 1.0.0 — 2026-09-04
+ *
+ * BEM: .sidebar → __inner → __header | __scroll | __section | __item | __resize-handle
+ *
+ * Responsive Modes:
+ *   ≥1024px  — Side-by-side (always visible, pushes content)
+ *   601-960px — Overlay (slides over content, backdrop overlay)
+ *   ≤600px   — Partially hidden (collapsed by default, toggle to show)
+ *   ≤767px   — Hidden (not rendered, phone uses bottom nav)
+ *
+ * Glassmorphism: backdrop-filter: blur(20px) saturate(180%)
+ * Micro-interactions: hover scale, glow, color transitions
+ * Resize: draggable handle, 200px–400px range
+ * Text overflow: max 280px with ellipsis (CSS)
+ */
+
+/* ============================================================
+   SIDEBAR — Container
+   ============================================================ */
+.sidebar {
+    position: fixed;
+    top: var(--header-h, 60px);
+    left: 0;
+    bottom: var(--footer-h, 90px);
+    width: var(--sidebar-w, 280px);
+    min-width: 200px;
+    max-width: 400px;
+    z-index: var(--z-sidebar, 50);
+    display: flex;
+    flex-direction: column;
+    background: rgba(15, 10, 25, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1),
+                width 200ms ease;
+    overflow: hidden;
+    will-change: transform;
+}
+
+/* ============================================================
+   SIDEBAR — Scroll Container
+   ============================================================ */
+.sidebar__scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 79, 216, 0.3) transparent;
+    padding: 8px 0;
+}
+
+.sidebar__scroll::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar__scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar__scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 79, 216, 0.3);
+    border-radius: 4px;
+}
+
+.sidebar__scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 79, 216, 0.5);
+}
+
+/* ============================================================
+   SIDEBAR — Section
+   ============================================================ */
+.sidebar__section {
+    margin-bottom: 2px;
+}
+
+.sidebar__section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 16px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: var(--font-body, 'DM Sans', 'Arima', system-ui, sans-serif);
+    font-size: var(--text-sm, 13px);
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease;
+    min-height: var(--touch-min, 44px);
+    position: relative;
+}
+
+.sidebar__section-header:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+}
+
+.sidebar__section-header:focus-visible {
+    outline: 2px solid #ff4fd8;
+    outline-offset: -2px;
+    border-radius: 4px;
+}
+
+/* ============================================================
+   SIDEBAR — Section Icon
+   ============================================================ */
+.sidebar__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: rgba(255, 79, 216, 0.7);
+    transition: color 150ms ease, transform 200ms ease;
+}
+
+.sidebar__section-header:hover .sidebar__icon {
+    color: #ff4fd8;
+    transform: scale(1.1);
+}
+
+/* ============================================================
+   SIDEBAR — Section Title
+   ============================================================ */
+.sidebar__section-title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+/* ============================================================
+   SIDEBAR — Section Count Badge
+   ============================================================ */
+.sidebar__section-count {
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 1px 6px;
+    border-radius: 10px;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* ============================================================
+   SIDEBAR — Section Arrow (Expand Indicator)
+   ============================================================ */
+.sidebar__section-arrow {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.35);
+    transition: transform 200ms ease;
+    flex-shrink: 0;
+}
+
+.sidebar__section--expanded .sidebar__section-arrow {
+    transform: rotate(90deg);
+    color: #ff4fd8;
+}
+
+/* ============================================================
+   SIDEBAR — Section Controls (View Toggle + Sort)
+   ============================================================ */
+.sidebar__section-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 16px 4px 46px;
+    opacity: 0;
+    transition: opacity 150ms ease;
+}
+
+.sidebar__section--expanded:hover .sidebar__section-controls,
+.sidebar__section-controls:focus-within {
+    opacity: 1;
+}
+
+.sidebar__view-toggle,
+.sidebar__sort-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.sidebar__view-toggle:hover,
+.sidebar__sort-btn:hover {
+    background: rgba(255, 79, 216, 0.15);
+    border-color: rgba(255, 79, 216, 0.3);
+    color: #ff4fd8;
+}
+
+.sidebar__view-toggle--active {
+    background: rgba(255, 79, 216, 0.2);
+    border-color: rgba(255, 79, 216, 0.4);
+    color: #ff4fd8;
+}
+
+/* ============================================================
+   SIDEBAR — Items Container
+   ============================================================ */
+.sidebar__items {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 0 8px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 250ms cubic-bezier(0.4, 0, 0.2, 1),
+                padding 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar__section--expanded .sidebar__items {
+    max-height: 2000px;
+    padding: 4px 8px 8px;
+}
+
+/* Grid görünümü */
+.sidebar__items--grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+}
+
+.sidebar__items--grid .sidebar__item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 8px 4px;
+    min-height: 80px;
+    justify-content: center;
+}
+
+.sidebar__items--grid .sidebar__item-icon {
+    margin-bottom: 4px;
+}
+
+/* ============================================================
+   SIDEBAR — Item (Link)
+   ============================================================ */
+.sidebar__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    color: rgba(255, 255, 255, 0.72);
+    text-decoration: none;
+    font-family: var(--font-body, 'DM Sans', 'Arima', system-ui, sans-serif);
+    font-size: var(--text-xs, 12px);
+    border-radius: 8px;
+    transition: background 150ms ease, color 150ms ease, transform 150ms ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    min-height: 36px;
+}
+
+/* Micro-interaction: hover glow + scale */
+.sidebar__item:hover {
+    background: rgba(255, 79, 216, 0.1);
+    color: #ffffff;
+    transform: translateX(3px);
+}
+
+.sidebar__item:hover .sidebar__item-icon {
+    color: #ff4fd8;
+    transform: scale(1.15);
+}
+
+.sidebar__item:active {
+    transform: translateX(1px) scale(0.98);
+}
+
+.sidebar__item:focus-visible {
+    outline: 2px solid #ff4fd8;
+    outline-offset: -2px;
+    background: rgba(255, 79, 216, 0.1);
+}
+
+/* Micro-interaction: ripple effect on click */
+.sidebar__item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), rgba(255, 79, 216, 0.3) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 300ms ease;
+    pointer-events: none;
+}
+
+.sidebar__item:active::after {
+    opacity: 1;
+}
+
+/* ============================================================
+   SIDEBAR — Item Icon
+   ============================================================ */
+.sidebar__item-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: rgba(255, 79, 216, 0.5);
+    transition: color 150ms ease, transform 200ms ease;
+}
+
+/* ============================================================
+   SIDEBAR — Item Label (Unlimited Text + CSS Overflow)
+   Max 280px with ellipsis
+   ============================================================ */
+.sidebar__item-label {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    line-height: 1.3;
+}
+
+/* ============================================================
+   SIDEBAR — Item Count
+   ============================================================ */
+.sidebar__item-count {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.35);
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+/* ============================================================
+   SIDEBAR — Resize Handle
+   Draggable, 6px wide, visual indicator
+   ============================================================ */
+.sidebar__resize-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 6px;
+    cursor: col-resize;
+    background: transparent;
+    transition: background 150ms ease;
+    z-index: 10;
+}
+
+.sidebar__resize-handle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    transition: background 150ms ease, height 150ms ease;
+}
+
+.sidebar__resize-handle:hover::after {
+    background: rgba(255, 79, 216, 0.5);
+    height: 60px;
+}
+
+/* Yeniden boyutlandırma sırasında */
+.sidebar--resizing {
+    transition: none !important;
+    user-select: none;
+}
+
+.sidebar--resizing .sidebar__resize-handle::after {
+    background: #ff4fd8;
+    height: 80px;
+    box-shadow: var(--glow-play);
+}
+
+/* ============================================================
+   SIDEBAR — Overlay Backdrop (Overlay Mode)
+   ============================================================ */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: calc(var(--z-sidebar, 50) - 1);
+    opacity: 0;
+    transition: opacity 250ms ease;
+}
+
+.sidebar-overlay--visible {
+    display: block;
+    opacity: 1;
+}
+
+/* ============================================================
+   SIDEBAR — Toggle Button (Hamburger)
+   ============================================================ */
+.sidebar-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease;
+    margin-right: 5px;
+    flex-shrink: 0;
+}
+
+.sidebar-toggle:hover {
+    background: rgba(255, 79, 216, 0.15);
+    color: #ff4fd8;
+}
+
+.sidebar-toggle:focus-visible {
+    outline: 2px solid #ff4fd8;
+    outline-offset: 2px;
+}
+
+/* ============================================================
+   RESPONSIVE — Side-by-Side (≥1024px)
+   Sidebar visible, pushes main content
+   ============================================================ */
+.sidebar--side-by-side {
+    transform: translateX(0);
+}
+
+/* ============================================================
+   RESPONSIVE — Overlay (601-960px)
+   Sidebar slides over content
+   ============================================================ */
+.sidebar--overlay {
+    transform: translateX(-100%) !important;
+}
+
+.sidebar--overlay.sidebar--collapsed,
+.sidebar--side-by-side.sidebar--collapsed {
+    transform: translateX(-100%) !important;
+}
+
+.sidebar--overlay:not(.sidebar--collapsed) {
+    transform: translateX(0) !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================================
+   RESPONSIVE — Partially Hidden (≤600px)
+   Sidebar collapsed by default, icon-only mode
+   ============================================================ */
+.sidebar--partial {
+    width: 64px;
+    min-width: 64px;
+    overflow: visible;
+}
+
+.sidebar--partial .sidebar__scroll {
+    overflow: visible;
+}
+
+.sidebar--partial .sidebar__section-header {
+    justify-content: center;
+    padding: 10px 8px;
+    min-height: 48px;
+}
+
+.sidebar--partial .sidebar__section-title,
+.sidebar--partial .sidebar__section-count,
+.sidebar--partial .sidebar__section-arrow,
+.sidebar--partial .sidebar__section-controls {
+    display: none;
+}
+
+.sidebar--partial .sidebar__items {
+    display: none;
+}
+
+.sidebar--partial .sidebar__icon {
+    width: 24px;
+    height: 24px;
+}
+
+.sidebar--partial .sidebar__resize-handle {
+    display: none;
+}
+
+/* Partial open: expanded on hover/click */
+.sidebar--partial.sidebar--partial-open {
+    width: var(--sidebar-w, 280px);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar--partial.sidebar--partial-open .sidebar__section-title,
+.sidebar--partial.sidebar--partial-open .sidebar__section-count,
+.sidebar--partial.sidebar--partial-open .sidebar__section-arrow {
+    display: inline;
+}
+
+.sidebar--partial.sidebar--partial-open .sidebar__section-controls {
+    display: flex;
+}
+
+/* ============================================================
+   RESPONSIVE — Hidden (≤767px)
+   Sidebar not rendered on phone
+   ============================================================ */
+.sidebar--hidden {
+    display: none;
+}
+
+/* ============================================================
+   SIDEBAR — Collapsed State
+   ============================================================ */
+.sidebar--collapsed {
+    transform: translateX(-100%) !important;
+}
+
+/* Side-by-side default: visible */
+.sidebar--side-by-side {
+    transform: translateX(0) !important;
+}
+
+/* ============================================================
+   HEADER — Sidebar Toggle Button Position
+   ============================================================ */
+.site-header__sidebar-toggle {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .site-header__sidebar-toggle {
+        display: flex;
+    }
+}
+
+/* ============================================================
+   LAYOUT — Main Content Shift (Side-by-Side Mode)
+   ============================================================ */
+/* body:not(.sidebar-collapsed) .page-home {
+    margin-left: var(--sidebar-w, 280px);
+} */
+
+body.sidebar-collapsed .page-home {
+    margin-left: 0;
+}
+
+/* Phone: no sidebar shift */
+@media (max-width: 767px) {
+    body .page-home {
+        margin-left: 0;
+    }
+}
+
+/* ============================================================
+   VIRTUAL SCROLL — Container Setup
+   ============================================================ */
+.sidebar__scroll {
+    position: relative;
+}
+
+.vs-item {
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.vs-spacer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+}
+
+/* ============================================================
+   ANIMATIONS — Micro-interactions
+   ============================================================ */
+@keyframes sidebar-glow {
+    0% { box-shadow: 0 0 0 rgba(255, 79, 216, 0); }
+    50% { box-shadow: 0 0 12px rgba(255, 79, 216, 0.15); }
+    100% { box-shadow: 0 0 0 rgba(255, 79, 216, 0); }
+}
+
+.sidebar__section--expanded {
+    animation: sidebar-glow 400ms ease-out;
+}
+
+/* ============================================================
+   FOCUS MANAGEMENT — WCAG 2.2 AA
+   ============================================================ */
+.sidebar *:focus-visible {
+    outline: 2px solid #ff4fd8;
+    outline-offset: 2px;
+}
+
+/* Remove outline for mouse users */
+.sidebar *:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* ============================================================
+   PREFERS-REDUCED-MOTION — Accessibility
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    .sidebar,
+    .sidebar__items,
+    .sidebar__item,
+    .sidebar__icon,
+    .sidebar__section-arrow,
+    .sidebar__resize-handle::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* ============================================================
+   4K TV — D-pad Focus Indicators
+   ============================================================ */
+@media (min-width: 3840px) {
+    .sidebar__section-header:focus-visible,
+    .sidebar__item:focus-visible {
+        outline: 4px solid #ff4fd8;
+        outline-offset: 4px;
+        box-shadow: var(--glow-play);
+    }
+}
+
+/* ============================================================
+   EMBEDDED — 1024px Compact
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .sidebar {
+        --sidebar-w: 240px;
+    }
+}

@@ -19,7 +19,7 @@ total-draft: 1
 
 ## 1. Amaç
 
-Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kategorilerini kataloglayan **ana navigasyon dosyası**dır.
+Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kategorilerini kataloglayan **ana navigasyon dosyası**dır. **Bağlam** da adr ler bauarda toplanır okunur yazılır.
 
 ## 2. Genel Bakış
 
