@@ -2,10 +2,10 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.0.0
+version: 27.1.0
 status: active
 authority: SSOT
-updated: 2026-09-23
+updated: 2026-09-24
 ---
 
 # CoreMusic — AI Constitution & Master Vault Mandate
@@ -374,7 +374,7 @@ shared/
 
 ---
 
-### §16 Audio Organization (5 Sections)
+### §34 Audio Organization (5 Sections)
 
 | Division | Sorumluluk |
 |----------|------------|
@@ -507,7 +507,7 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 | # | Kural | Uygulama | İhlal Sonucu |
 |---|-------|----------|--------------|
 | 1 | Zero Code Before Plan | Plan onayı olmadan kod yok | Kod revert edilir |
-| 2 | Vault First (eski #2 + #15 birleşimi) | Kod yazmadan önce AI vault'u oku (§5 boot protokolü); AI, .ai/ vault'unu (CLAUDE.md + AGENTS.md + WORKFLOW.md + brain.md + ROLE.md) OKUMADAN hiçbir plan/kod/faaliyet başlatamaz | Kod geçersiz; işlem derhal durdurulur + revert |
+| 2 | Vault First (eski #2 + #15 birleşimi) | Kod yazmadan önce AI vault'u oku (§16 boot protokolü); AI, .ai/ vault'unu (CLAUDE.md + AGENTS.md + WORKFLOW.md + brain.md + ROLE.md) OKUMADAN hiçbir plan/kod/faaliyet başlatamaz | Kod geçersiz; işlem derhal durdurulur + revert |
 | 3 | Zero Hallucination | Doğrulanamayan bilgi → `VERIFICATION REQUIRED` | İçerik silinir |
 | 4 | In-Place Refactoring | Dosya adı/yolu değişmez | Dosya geri yüklenir |
 | 5 | Single Source of Truth | Bilgi sadece `.ai/` vault'tan | Harici bilgi reddedilir |
@@ -547,6 +547,7 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 
 - Eski Guardrail #15 (Vault-First Mandatory), #2 (Vault First) ile birleştirildi (2026-09-23, Vault Refactor Engine v27.0.0). Toplam: 17 → 16 madde; satır numaraları 1-14, 16, 17 olarak korundu.
 - ⚠️ VERIFICATION REQUIRED: [[ROLE.md]] §435 hâlâ "Guardrail #15" referansı içerir — ROLE.md bu revizyon kapsamı dışıdır; referansın #2'ye güncellenmesi gerekir.
+- Kontrol (2026-09-24): [[ROLE.md]] §11.3 "Revert + CLAUDE.md §5 kuralı" satırı doğrulandı — §5 içindeki §5.1 Layer Dependency Matrix ("Layer Violation İhlali: derhal revert + log CRITICAL") ile eşleşir; referans geçerlidir, daha dar alternatif Guardrail #1 (Zero Code Before Plan) / #14 (Human Approval Gate) olurdu. ROLE.md kapsam dışı — satır değiştirilmedi.
 
 ---
 
@@ -575,6 +576,30 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | 2 | 30s timeout | Uzun batch işlemi (60s'e kadar) | Tech Lead |
 | 3 | Coverage raporlama esnekliği | Bu satır orijinal listede yok — bilinçli silme mi eksiklik mi belirsiz | DOĞRULAMA GEREKLİ (Vault Steward) |
 | 4 | BypassAuth devre dışı | Test ortamında aktif edilebilir | Security Engineer |
+
+---
+
+### §16 Boot Protocol (Canonical Reading List)
+
+**⚠️ ZORUNLULUK:** Aşağıdaki **13 kanonik `.ai/` dosyası**; oturum başında ve Guardrail #2 (Vault First) kapsamında okunmadan plan/kod/faaliyet başlatılamaz. Sıra = tablodaki Sıra sütunu (kaynak: [[AGENTS.md]] §24.2 sırası).
+
+| Sıra | Dosya | Amaç |
+|------|-------|------|
+| 1 | `.ai/AGENTS.md` | Agent sınırları, routing |
+| 2 | `.ai/WORKFLOW.md` | Süreçler, fazlar |
+| 3 | `.ai/brain.md` | Mimari kararlar |
+| 4 | `.ai/ROLE.md` | Rol tanımı |
+| 5 | `.ai/index.md` | Master katalog |
+| 6 | `.ai/keys.md` | Keyword haritası |
+| 7 | `.ai/MEMORY.md` | Session hafızası |
+| 8 | `.ai/log.md` | Audit trail (append-only, son 20 satır) |
+| 9 | `.ai/ULTRA-THINKING.md` | Ultra düşünme protokolü |
+| 10 | `.ai/engine.md` | Orkestrasyon motoru — agent koordinasyonu |
+| 11 | `.ai/glossary.md` | Terim sözlüğü — kod-referanslı |
+| 12 | `.ai/VISION.md` | Vizyon ve yol haritası |
+| 13 | `.ai/PROJECTS.md` | Proje envanteri |
+
+**13 = 14 − 1:** [[AGENTS.md]] §24.2 ve [[WORKFLOW.md]] §8.7A 14 kök root .md sayar; bu kanonik listede `.ai/CLAUDE.md`'nin kendisi hariçtir (liste bu dosyanın içinde yaşar). Uzlaşma: [[log.md]] "kanonik = CLAUDE §16 (13 dosya)" · varyantlar: [[AGENTS.md]] §25.4 (14 kök + FULL 17), [[MEMORY.md]] §5 (20 adımlık genişletilmiş set — bu liste DEĞİL). Eklendiği: Faz 2/3 boot-anchor onarımı (2026-09-24).
 
 ---
 
@@ -675,7 +700,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 27.0.0 |
+| Version | 27.1.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 |
 | Hard Guardrails | 16 |
@@ -728,8 +753,8 @@ Bu dosyada Faz 1 revizyonunda yapılan düzeltmeler:
 | Başlık | H1 + frontmatter (7 zorunlu alan) |
 | Amaç | §1 Purpose |
 | Kapsam | §2 Scope |
-| Mimari | §4, §5, §6, §6A, §6B, §9-§16, §18, §19, §24, §32 |
-| Kurallar | §7 (16 guardrail; #15 → #2), §7.1, §7.2, §7A, §8, §18A, §21, §22, §23 |
+| Mimari | §4, §5, §6, §6A, §6B, §9-§15, §18, §19, §24, §32, §34 |
+| Kurallar | §7 (16 guardrail; #15 → #2), §7.1, §7.2, §7A, §8, §16, §18A, §21, §22, §23 |
 | Workflow | §25, §30 (+ [[WORKFLOW.md]] §8-§13) |
 | Doğrulama | §17, §29, §31, §33 |
 | Referanslar | §3, §20, §26, §27, §27A, §27B, §28 |
@@ -741,6 +766,7 @@ Bu dosyada Faz 1 revizyonunda yapılan düzeltmeler:
 - [x] `§x.y` numaraları korundu (satır-edit, silme yok)
 - [x] `[[wiki-link]]` hedef adları korundu (kırık link taraması Faz 6'da)
 - [x] SSOT: bu dosya hiyerarşinin 1. sırasında (CLAUDE > AGENTS > WORKFLOW > brain > index)
+- [x] Boot-anchor onarımı (Faz 2/3, 2026-09-24): §16 Boot Protocol (13 kanonik dosya) eklendi; Audio Organization §16 → §34 taşındı; Guardrail #2 "(§5 boot protokolü)" → "(§16 boot protokolü)"; §33.1 eşlemesi güncellendi (Mimari §9-§15 + §34, Kurallar + §16); v27.0.0 → 27.1.0.
 
 #### §33.3 Related Files
 

@@ -663,7 +663,7 @@ Session Sonunda:
 | Version | 22.0.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 |
-| ADR References | 8 |
+| ADR References | 7 |
 | Workflows | 8 (§8.1-§8.8) |
 | Hard Rules | 5 (§10.1 — #5 boşluğu korunuyor) |
 | Soft Constraints | 2 (§10.2) |

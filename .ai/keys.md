@@ -6,7 +6,7 @@ category: vault-navigation
 date: 2026-08-12
 updated: 2026-09-23
 status: active
-version: 28.2.0
+version: 28.3.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -22,13 +22,17 @@ reference:
 
 ---
 
-## 1. Amac
+## Purpose
+
+### §1 Amac
 
 Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglayan Master Kavram ve Dizin Yonlendirme Haritasidir. Ajanlarin ilk basvurduğu referans dosyasidir.
 
 ---
 
-## 2. Core Vault Keywords
+## Scope
+
+### §2 Core Vault Keywords
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
@@ -48,211 +52,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 ---
 
-## 3. L0-L6 Layer Keywords
-
-### 3.1 L0 Infrastructure
-
-| Anahtar Kelime | Hedef Dosya |
-|---------------|-------------|
-| L0, altyapi, infrastructure, cache, APCu, Redis | architecture/k0-k5-software/k0-os-layer/ |
-| db, database, veritabani, PDO | architecture/k0-k5-software/k0-os-layer/database.md |
-| filesystem, IPC, shared memory | architecture/k0-k5-software/k0-os-layer/filesystem.md |
-| credential vault, secret, key | architecture/k0-k5-software/k0-os-layer/credential-vault.md |
-
-### 3.2 L1 Security
-
-| Anahtar Kelime | Hedef Dosya |
-|---------------|-------------|
-| L1, guvenlik, security, middleware, pipeline | architecture/l1-security/ |
-| session, oturum, cookie, CSRF, csrf_token | architecture/l1-security/session.md |
-| CSP, nonce, strict-dynamic, rate limit | architecture/l1-security/csp.md |
-| OWASP, zafiyet, tehdit | architecture/l1-security/ |
-
-### 3.3 L2 Routing
-
-| Anahtar Kelime | Hedef Dosya |
-|---------------|-------------|
-| L2, routing, SPA, single page, router | architecture/l2-routing/ |
-| URL, normalization, subdomain | architecture/l2-routing/url-normalization.md |
-| PageRouter, PageRouterKernel, HTML shell | architecture/l2-routing/spa-router.md |
-| RouteRegistry, SpaRoute, route config | architecture/l2-routing/route-config.md |
-| HtmlShellRenderer, CSP nonce, device CSS | architecture/l2-routing/html-shell-renderer.md |
-| AuthGuard, AuthUrlBuilder, guard pipeline | architecture/l2-routing/guard-pipeline.md |
-| JS Router, Router.js, DomPatcher, GuardPipeline | architecture/l2-routing/js-router.md |
-| Middleware pipeline, session, CSRF | architecture/l2-routing/middleware-pipeline.md |
-| Subdomain routing, port mapping | architecture/l2-routing/subdomain-routing.md |
-| URL normalization, clean URL | architecture/l2-routing/url-normalization.md |
-| Service discovery, health check | architecture/l2-routing/service-discovery.md |
-
-### 3.4 L3 Presentation
-
-| Anahtar Kelime | Hedef Dosya |
-|---------------|-------------|
-| L3, presentation, vanilla JS, framework yasak | architecture/l3-presentation/ |
-| ITCSS, BEM, BEMIT, TrustedTypes, DOMParser | architecture/l3-presentation/itcss-architecture.md |
-| Web Audio, ses API | architecture/l3-presentation/web-audio.md |
-| Device CSS, responsive device rendering, scale | architecture/l3-presentation/device-css.md |
-| Responsive frontend architecture, Single View | architecture/l3-presentation/responsive-frontend-architecture.md |
-| Scale sistemi, router, CSS rehberi, frontend entegrasyon, adım adım | architecture/l3-presentation/scale-router-css-frontend-guide.md |
-
-### 3.4A UI Design System & Mockup Otoritesi (SSOT)
-
-| Anahtar Kelime | Hedef Dosya |
-|---------------|-------------|
-| ui-design, mockup, 19 png, mockup index, home-1024, shared-1024, home-1920 | ui-design/00-mockup-index.md |
-| c01-c16, component inventory, bileşen envanteri, nav-link, media-card, status-widget | ui-design/01-component-inventory.md |
-| implementation plan, 15 step css, css uygulama planı, mockup to code | ui-design/02-implementation-plan.md |
-| ascii art, wireframe, ascii view, 1024x600 layout, screen spec | ui-design/screens/00-ascii-art-index.md |
-| ascii art views, all 18 views, wireframes, home layout, auth layout | ui-design/screens/00-ascii-art-views.md |
-| design tokens, ui tokens, platform tokens, color palettes, glass tokens | ui-design/tokens/design-tokens-master.md |
-| accessibility gaps, wcag 2.2 aa, touch target 48px, contrast check | ui-design/03-accessibility-gaps.md |
-| responsive device mode, embedded 1024, desktop 1920, mobile 375, tv 3840 | ui-design/responsive-device-mode.md |
-| device-aware rendering, tek bileşen, single component, conditional render | brain.md §18C |
-| device token, header-h, footer-h, content-h, spacing-scale | ui-design/tokens/design-tokens-master.md |
-| device behavioral, hover disabled, touch target 48px, scrollbar override | architecture/l3-presentation/device-css.md |
-| backend scope, widget count, feature toggle, nav links, content config | brain.md §18C |
-| frontend scope, token override, media query, grid template, layout grid | brain.md §18C |
-| layer violation, presentation→infrastructure, php sunum kararı yasak | brain.md §18C |
-| home 1920 mockup, 1920 desktop home, 1920ascii art, 1920 pixel measurements | ui-design/mockups/02-home-screens-1920.md |
-| ui prompt, component prompt, page prompt, screen prompt, layout prompt | ui-design/prompt/00-prompt-index.md |
-| auth screens, login girl, select gender, register girl 1-3 | ui-design/screens/05-auth-layouts.md |
-| home layouts, welcome popup, split 42/58, now playing 1024 | ui-design/screens/01-home-layouts.md |
-| connectivity layouts, wifi quick, bluetooth quick, wifi connect | ui-design/screens/04-connectivity-layouts.md |
-
-### 3A. L4 Domain
-
-| Anahtar Kelime | Hedef Dosya |
-|---------------|-------------|
-| L4, domain, business rules, entities, aggregates | architecture/l4-domain.md |
-| DDD, value object, domain event | architecture/l4-domain.md |
-| repository interface, use case interface | architecture/l4-domain.md |
-
-### 3B. L5 Services
-
-| Anahtar Kelime | Hedef Dosya |
-|---------------|-------------|
-| L5, services, application services, use case | architecture/l5-services.md |
-| CQRS, command, query, event bus, PSR-14 | architecture/l5-services.md |
-| transaction management, DTO mapping | architecture/l5-services.md |
-
-### 3C. L6 Electronics
-
-| Anahtar Kelime | Hedef Dosya |
-|---------------|-------------|
-| L6, electronics, hardware, firmware, driver, DSP | architecture/l6-electronics.md |
-| XMOS, PCM3168A, Class AB, audio engine | architecture/l6-electronics.md |
-| ASIO, WASAPI, JUCE, C++20 | architecture/l6-electronics.md |
-| amplifier, Class AB, 50W, MJL21194, MJL21193 | architecture/amplifier-classab-circuit.md |
-| bias, quiescent, thermal tracking, overcurrent | architecture/amplifier-classab-circuit.md |
-| power supply, ±35V, boost, LM5122, interleaved | architecture/power-supply-classab.md |
-| BOM, bill of materials, component count | architecture/bom-classab.md |
-| PCB, stackup, 6-layer, impedance, thermal | architecture/pcb-classab.md |
-| heatsink, fan control, thermal management | architecture/thermal-design-classab.md |
-
-### 3D. Skills Keywords
-
-| Anahtar Kelime | Hedef Dosya |
-|---------------|-------------|
-| skill, beceri, agentic, orkestrasyon | .opencode/skills/*/SKILL.md |
-| ui-code-generator, ui kod üretimi | .opencode/skills/ui-code-generator/SKILL.md |
-| ui-analyzer, ui analiz | .opencode/skills/ui-analyzer/SKILL.md |
-| skill-maker, skill oluştur | .opencode/skills/skill-maker/SKILL.md |
-| hallucination-control, halüsinasyon | .opencode/skills/hallucination-control/SKILL.md |
-| human-mode, insan onayı, HITL | .opencode/skills/human-mode/SKILL.md |
-| red-team, truth mode, adversarial | .opencode/skills/red-team-truth-mode/SKILL.md |
-| prompt-maker, prompt mühendisliği | .opencode/skills/prompt-maker/SKILL.md |
-| agent-orchestrator, görev dağıtımı | .opencode/skills/agent-orchestrator/SKILL.md |
-| composer-sync, vendor sync | .opencode/skills/composer-sync/SKILL.md |
-| database-normalize, bcnf, normalizasyon | .opencode/skills/database-normalize-maker/SKILL.md |
-
-### 3C. Templates Keywords
-
-| Anahtar Kelime | Hedef Dosya |
-|---------------|-------------|
-| template, şablon, şablon | .ai/.templates/index.md |
-| adr template, karar şablonu | .ai/.templates/adr/adr-template.md |
-| php template, backend şablonu | .ai/.templates/backend/php-template.md |
-| js template, frontend şablonu | .ai/.templates/frontend/js-template.md |
-| css template, itcss şablonu | .ai/.templates/frontend/css-template.md |
-| phpunit template, test şablonu | .ai/.templates/testing/phpunit-template.md |
-| migration template, db migration | .ai/.templates/infrastructure/migration-template.md |
-| docker template, container | **Bilinen çelişki (Faz 1):** Dosya diskte VAR (`docker-template.md`) ancak not "Kaldırıldı" diyor — Docker kullanılmıyor; dosya kaldırma kararı Vault Steward'a bağlı |
-| github actions, ci/cd şablonu | .ai/.templates/infrastructure/github-actions-template.md |
-| api doc, api dokümantasyonu | .ai/.templates/documentation/api-doc-template.md |
-| security audit, güvenlik denetimi | .ai/.templates/documentation/security-audit-template.md |
-| c template, embedded şablonu | .ai/.templates/other/c-template.md |
-| query template, sql şablonu | .ai/.templates/query/Query-Template.md |
-| session log, oturum kaydı | .ai/.templates/session/session-log-template.md |
-
-### 3D. Agent Profile Keywords
-
-| Anahtar Kelime | Hedef Dosya |
-|---------------|-------------|
-| agent profile, agent tanımlı | .ai/.agents/AGENTS.md |
-| master orchestrator, mo | .ai/.agents/master-orchestrator.md |
-| backend architect, php api | .ai/.agents/backend-architect.md |
-| ui designer, frontend | .ai/.agents/ui-designer.md |
-| security engineer, güvenlik | .ai/.agents/security-engineer.md |
-| data engineer, veritabanı | .ai/.agents/data-engineer.md |
-| embedded engineer, c++ | .ai/.agents/embedded-engineer.md |
-| qa engineer, test | .ai/.agents/qa-engineer.md |
-| devops engineer, ci/cd | .ai/.agents/devops-engineer.md |
-| audio hardware, dac/adc | .ai/.agents/audio-hardware-engineer.md |
-| dsp firmware, xmos | .ai/.agents/dsp-firmware-engineer.md |
-| windows software, wasapi | .ai/.agents/windows-software-engineer.md |
-
-### 3A. Frontend & UI Design Keywords
-
-| Anahtar Kelime | Hedef Dosya |
-|---------------|-------------|
-| frontend, css, html, ui, layout, bileşen, ekran, sayfa, tasarım | .ai/ui-design/00-mockup-index.md |
-| mockup, görsel, png, screenshot | .ai/ui-design/00-mockup-index.md + .ai/.png/** |
-| component, bileşen, C01-C16, BEM | .ai/ui-design/01-component-inventory.md |
-| implementation, uygulama, plan, css planı | .ai/ui-design/02-implementation-plan.md |
-| accessibility, erişilebilirlik, wcag, touch target | .ai/ui-design/03-accessibility-gaps.md |
-| header, footer, nav, navigation | .ai/ui-design/screens/_layout-patterns/ |
-| modal, popup, overlay | .ai/ui-design/screens/F-quickpanel/ |
-| auth, login, register, gender | .ai/ui-design/screens/A-auth/ |
-| home, ana sayfa, dashboard | .ai/ui-design/screens/B-home/ |
-| albums, albümler, artists, sanatçılar | .ai/ui-design/screens/C-music/ |
-| playlist, player, oynatıcı | .ai/ui-design/screens/D-player/ |
-| file manager, dosya yöneticisi, göz at | .ai/ui-design/screens/E-filemanager/ |
-| wifi, bluetooth, quick panel | .ai/ui-design/screens/F-quickpanel/ |
-| flow, akış, kullanıcı akışı | .ai/ui-design/flow/ |
-| prompt, şablon | .ai/ui-design/prompt/ |
-| design tokens, token, renk, yazı tipi | .ai/ui-design/tokens/design-tokens-master.md *(Faz 1: kırık `reference/02-design-tokens.md` hedefi düzeltildi)* |
-| ascii art, piksel, ölçü, layout view | .ai/ui-design/screens/00-ascii-art-index.md |
-| screen spec, ekran özelliği, pixel exact | .ai/ui-design/screens/ |
-| layout pattern, standard 60/40, split home | .ai/ui-design/screens/_layout-patterns/ |
-| png mockup, .png dosyası, görsel referans, screenshot | .ai/.png/home-1024/ + .ai/.png/shared-1024/ |
-| home-1024, RPi5 mockup, 1024×600 | .ai/.png/home-1024/ |
-| shared-1024, auth mockup, login png | .ai/.png/shared-1024/ |
-| png mockup index, mockup tablosu | .ai/ui-design/00-mockup-index.md |
-| component inventory, bileşen envanteri | .ai/ui-design/01-component-inventory.md |
-| implementation plan, uygulama planı | .ai/ui-design/02-implementation-plan.md |
-| accessibility gaps, wcag analizi | .ai/ui-design/03-accessibility-gaps.md |
-| vault registration, vault kayıt | .ai/ui-design/04-vault-registration.md |
-| device manager, cihaz yönetimi, DeviceManager.php, fromRequest, fromDevice | shared/src/Device/DeviceManager.php |
-| device-aware rendering, cihaz bazlı html, 5 cihaz bloğu, feature toggles | shared/src/Device/DeviceManager.php |
-| widget count, recent card count, playlist count, upNext count, content config | shared/src/Device/DeviceManager.php |
-| showVolume, showFullMetadata, showSidebar, showSeekBar, showPodcastWidget | shared/src/Device/DeviceManager.php |
-| layoutClass, allClasses, dataAttributes, css class helper | shared/src/Device/DeviceManager.php |
-| device nav links, device conditional, isEmbedded, isPhone, isLaptop, isDesktop, is4kTv | shared/src/Device/DeviceManager.php |
-| shouldRenderEmbeddedLayout, shouldRenderWideLayout, shouldRender4kLayout, shouldShowFallback, shouldRenderWelcomePopup, isSupportedResolution | shared/src/Device/DeviceManager.php |
-| device types, phone, tablet, embedded, laptop, desktop, 4k-tv, 4k-monitor, 7 cihaz | shared/src/Device/DeviceManager.php |
-| nav links, NAV_LINKS, device nav, cihaz navigasyonu | shared/src/Device/DeviceManager.php |
-| device profile, deviceProfile, embedded-1024, small-desktop, tv-4k, 4k-monitor | shared/src/Device/DeviceManager.php |
-| device queries, isTouch, isWide, isLarge, isMobile, isSmallDesktop, isTv | shared/src/Device/DeviceManager.php |
-| device content config, widgetCount, recentCardCount, playlistCount, upNextCount | shared/src/Device/DeviceManager.php |
-| welcome popup, shouldRenderWelcomePopup, RPi5 1024 | shared/src/Device/DeviceManager.php |
-| 4-tier conditional rendering, koşullu render, phone layout, 4k layout, wide layout, embedded layout, fallback always false | .ai/ui-design/responsive-device-mode.md |
-| cm_viewport_w, cm_viewport_h, viewport cookie | assets.coremusic.net/js/device-loader.js |
-| viewport whitelist, cookie-based viewport, JS→PHP viewport | shared/src/PageRouter/PageRouter.php |
-| conditional rendering php guide, php implementasyon rehberi, DeviceManager nasıl kullanılır, 4-tier render | .ai/architecture/conditional-rendering-php-guide.md |
-
----
-
-## 4. Security Keywords
+### §4 Security Keywords
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
@@ -278,7 +78,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 ---
 
-## 5. Database Keywords
+### §5 Database Keywords
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
@@ -310,7 +110,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 ---
 
-## 6. Audio Keywords
+### §6 Audio Keywords
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
@@ -331,7 +131,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 ---
 
-## 7. Hardware Keywords
+### §7 Hardware Keywords
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
@@ -370,7 +170,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 ---
 
-## 7A. AI Architecture Keywords
+### §7A AI Architecture Keywords
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
@@ -393,7 +193,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 ---
 
-## 8. Panel & Service Keywords
+### §8 Panel & Service Keywords
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
@@ -410,7 +210,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 ---
 
-## 9. Theme & CSS Keywords
+### §9 Theme & CSS Keywords
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
@@ -429,7 +229,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 ---
 
-## 10. ADR Keyword Mapping (001-050)
+### §10 ADR Keyword Mapping (001-050)
 
 | ADR | Anahtar Kelimeler | Kategori |
 |-----|-------------------|----------|
@@ -503,7 +303,252 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 ---
 
-## 11. Decision Tree
+## Architecture
+
+### §3 L0-L6 Layer Keywords
+
+### §3.1 L0 Infrastructure
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| L0, altyapi, infrastructure, cache, APCu, Redis | architecture/k0-k5-software/k0-os-layer/ |
+| db, database, veritabani, PDO | architecture/k0-k5-software/k0-os-layer/database.md |
+| filesystem, IPC, shared memory | architecture/k0-k5-software/k0-os-layer/filesystem.md |
+| credential vault, secret, key | architecture/k0-k5-software/k0-os-layer/credential-vault.md |
+
+### §3.2 L1 Security
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| L1, guvenlik, security, middleware, pipeline | architecture/l1-security/ |
+| session, oturum, cookie, CSRF, csrf_token | architecture/l1-security/session.md |
+| CSP, nonce, strict-dynamic, rate limit | architecture/l1-security/csp.md |
+| OWASP, zafiyet, tehdit | architecture/l1-security/ |
+
+### §3.3 L2 Routing
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| L2, routing, SPA, single page, router | architecture/l2-routing/ |
+| URL, normalization, subdomain | architecture/l2-routing/url-normalization.md |
+| PageRouter, PageRouterKernel, HTML shell | architecture/l2-routing/spa-router.md |
+| RouteRegistry, SpaRoute, route config | architecture/l2-routing/route-config.md |
+| HtmlShellRenderer, CSP nonce, device CSS | architecture/l2-routing/html-shell-renderer.md |
+| AuthGuard, AuthUrlBuilder, guard pipeline | architecture/l2-routing/guard-pipeline.md |
+| JS Router, Router.js, DomPatcher, GuardPipeline | architecture/l2-routing/js-router.md |
+| Middleware pipeline, session, CSRF | architecture/l2-routing/middleware-pipeline.md |
+| Subdomain routing, port mapping | architecture/l2-routing/subdomain-routing.md |
+| URL normalization, clean URL | architecture/l2-routing/url-normalization.md |
+| Service discovery, health check | architecture/l2-routing/service-discovery.md |
+
+### §3.4 L3 Presentation
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| L3, presentation, vanilla JS, framework yasak | architecture/l3-presentation/ |
+| ITCSS, BEM, BEMIT, TrustedTypes, DOMParser | architecture/l3-presentation/itcss-architecture.md |
+| Web Audio, ses API | architecture/l3-presentation/web-audio.md |
+| Device CSS, responsive device rendering, scale | architecture/l3-presentation/device-css.md |
+| Responsive frontend architecture, Single View | architecture/l3-presentation/responsive-frontend-architecture.md |
+| Scale sistemi, router, CSS rehberi, frontend entegrasyon, adım adım | architecture/l3-presentation/scale-router-css-frontend-guide.md |
+
+### §3.4A UI Design System & Mockup Otoritesi (SSOT)
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| ui-design, mockup, 19 png, mockup index, home-1024, shared-1024, home-1920 | ui-design/00-mockup-index.md |
+| c01-c16, component inventory, bileşen envanteri, nav-link, media-card, status-widget | ui-design/01-component-inventory.md |
+| implementation plan, 15 step css, css uygulama planı, mockup to code | ui-design/02-implementation-plan.md |
+| ascii art, wireframe, ascii view, 1024x600 layout, screen spec | ui-design/screens/00-ascii-art-index.md |
+| ascii art views, all 18 views, wireframes, home layout, auth layout | ui-design/screens/00-ascii-art-views.md |
+| design tokens, ui tokens, platform tokens, color palettes, glass tokens | ui-design/tokens/design-tokens-master.md |
+| accessibility gaps, wcag 2.2 aa, touch target 48px, contrast check | ui-design/03-accessibility-gaps.md |
+| responsive device mode, embedded 1024, desktop 1920, mobile 375, tv 3840 | ui-design/responsive-device-mode.md |
+| device-aware rendering, tek bileşen, single component, conditional render | brain.md §18C |
+| device token, header-h, footer-h, content-h, spacing-scale | ui-design/tokens/design-tokens-master.md |
+| device behavioral, hover disabled, touch target 48px, scrollbar override | architecture/l3-presentation/device-css.md |
+| backend scope, widget count, feature toggle, nav links, content config | brain.md §18C |
+| frontend scope, token override, media query, grid template, layout grid | brain.md §18C |
+| layer violation, presentation→infrastructure, php sunum kararı yasak | brain.md §18C |
+| home 1920 mockup, 1920 desktop home, 1920ascii art, 1920 pixel measurements | ui-design/mockups/02-home-screens-1920.md |
+| ui prompt, component prompt, page prompt, screen prompt, layout prompt | ui-design/prompt/00-prompt-index.md |
+| auth screens, login girl, select gender, register girl 1-3 | ui-design/screens/05-auth-layouts.md |
+| home layouts, welcome popup, split 42/58, now playing 1024 | ui-design/screens/01-home-layouts.md |
+| connectivity layouts, wifi quick, bluetooth quick, wifi connect | ui-design/screens/04-connectivity-layouts.md |
+
+### §3A L4 Domain
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| L4, domain, business rules, entities, aggregates | architecture/l4-domain.md |
+| DDD, value object, domain event | architecture/l4-domain.md |
+| repository interface, use case interface | architecture/l4-domain.md |
+
+### §3B L5 Services
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| L5, services, application services, use case | architecture/l5-services.md |
+| CQRS, command, query, event bus, PSR-14 | architecture/l5-services.md |
+| transaction management, DTO mapping | architecture/l5-services.md |
+
+### §3C L6 Electronics
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| L6, electronics, hardware, firmware, driver, DSP | architecture/l6-electronics.md |
+| XMOS, PCM3168A, Class AB, audio engine | architecture/l6-electronics.md |
+| ASIO, WASAPI, JUCE, C++20 | architecture/l6-electronics.md |
+| amplifier, Class AB, 50W, MJL21194, MJL21193 | architecture/amplifier-classab-circuit.md |
+| bias, quiescent, thermal tracking, overcurrent | architecture/amplifier-classab-circuit.md |
+| power supply, ±35V, boost, LM5122, interleaved | architecture/power-supply-classab.md |
+| BOM, bill of materials, component count | architecture/bom-classab.md |
+| PCB, stackup, 6-layer, impedance, thermal | architecture/pcb-classab.md |
+| heatsink, fan control, thermal management | architecture/thermal-design-classab.md |
+
+### §3D Skills Keywords
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| skill, beceri, agentic, orkestrasyon | .opencode/skills/*/SKILL.md |
+| ui-code-generator, ui kod üretimi | .opencode/skills/ui-code-generator/SKILL.md |
+| ui-analyzer, ui analiz | .opencode/skills/ui-analyzer/SKILL.md |
+| skill-maker, skill oluştur | .opencode/skills/skill-maker/SKILL.md |
+| hallucination-control, halüsinasyon | .opencode/skills/hallucination-control/SKILL.md |
+| human-mode, insan onayı, HITL | .opencode/skills/human-mode/SKILL.md |
+| red-team, truth mode, adversarial | .opencode/skills/red-team-truth-mode/SKILL.md |
+| prompt-maker, prompt mühendisliği | .opencode/skills/prompt-maker/SKILL.md |
+| agent-orchestrator, görev dağıtımı | .opencode/skills/agent-orchestrator/SKILL.md |
+| composer-sync, vendor sync | .opencode/skills/composer-sync/SKILL.md |
+| database-normalize, bcnf, normalizasyon | .opencode/skills/database-normalize-maker/SKILL.md |
+
+### §3C Templates Keywords
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| template, şablon, şablon | .ai/.templates/index.md |
+| adr template, karar şablonu | .ai/.templates/adr/adr-template.md |
+| php template, backend şablonu | .ai/.templates/backend/php-template.md |
+| js template, frontend şablonu | .ai/.templates/frontend/js-template.md |
+| css template, itcss şablonu | .ai/.templates/frontend/css-template.md |
+| phpunit template, test şablonu | .ai/.templates/testing/phpunit-template.md |
+| migration template, db migration | .ai/.templates/infrastructure/migration-template.md |
+| docker template, container | **Bilinen çelişki (Faz 1):** Dosya diskte VAR (`docker-template.md`) ancak not "Kaldırıldı" diyor — Docker kullanılmıyor; dosya kaldırma kararı Vault Steward'a bağlı |
+| github actions, ci/cd şablonu | .ai/.templates/infrastructure/github-actions-template.md |
+| api doc, api dokümantasyonu | .ai/.templates/documentation/api-doc-template.md |
+| security audit, güvenlik denetimi | .ai/.templates/documentation/security-audit-template.md |
+| c template, embedded şablonu | .ai/.templates/other/c-template.md |
+| query template, sql şablonu | .ai/.templates/query/Query-Template.md |
+| session log, oturum kaydı | .ai/.templates/session/session-log-template.md |
+
+### §3D Agent Profile Keywords
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| agent profile, agent tanımlı | .ai/.agents/AGENTS.md |
+| master orchestrator, mo | .ai/.agents/master-orchestrator.md |
+| backend architect, php api | .ai/.agents/backend-architect.md |
+| ui designer, frontend | .ai/.agents/ui-designer.md |
+| security engineer, güvenlik | .ai/.agents/security-engineer.md |
+| data engineer, veritabanı | .ai/.agents/data-engineer.md |
+| embedded engineer, c++ | .ai/.agents/embedded-engineer.md |
+| qa engineer, test | .ai/.agents/qa-engineer.md |
+| devops engineer, ci/cd | .ai/.agents/devops-engineer.md |
+| audio hardware, dac/adc | .ai/.agents/audio-hardware-engineer.md |
+| dsp firmware, xmos | .ai/.agents/dsp-firmware-engineer.md |
+| windows software, wasapi | .ai/.agents/windows-software-engineer.md |
+
+### §3A Frontend & UI Design Keywords
+
+| Anahtar Kelime | Hedef Dosya |
+|---------------|-------------|
+| frontend, css, html, ui, layout, bileşen, ekran, sayfa, tasarım | .ai/ui-design/00-mockup-index.md |
+| mockup, görsel, png, screenshot | .ai/ui-design/00-mockup-index.md + .ai/.png/** |
+| component, bileşen, C01-C16, BEM | .ai/ui-design/01-component-inventory.md |
+| implementation, uygulama, plan, css planı | .ai/ui-design/02-implementation-plan.md |
+| accessibility, erişilebilirlik, wcag, touch target | .ai/ui-design/03-accessibility-gaps.md |
+| header, footer, nav, navigation | .ai/ui-design/screens/_layout-patterns/ |
+| modal, popup, overlay | .ai/ui-design/screens/F-quickpanel/ |
+| auth, login, register, gender | .ai/ui-design/screens/A-auth/ |
+| home, ana sayfa, dashboard | .ai/ui-design/screens/B-home/ |
+| albums, albümler, artists, sanatçılar | .ai/ui-design/screens/C-music/ |
+| playlist, player, oynatıcı | .ai/ui-design/screens/D-player/ |
+| file manager, dosya yöneticisi, göz at | .ai/ui-design/screens/E-filemanager/ |
+| wifi, bluetooth, quick panel | .ai/ui-design/screens/F-quickpanel/ |
+| flow, akış, kullanıcı akışı | .ai/ui-design/flow/ |
+| prompt, şablon | .ai/ui-design/prompt/ |
+| design tokens, token, renk, yazı tipi | .ai/ui-design/tokens/design-tokens-master.md *(Faz 1: kırık `reference/02-design-tokens.md` hedefi düzeltildi)* |
+| ascii art, piksel, ölçü, layout view | .ai/ui-design/screens/00-ascii-art-index.md |
+| screen spec, ekran özelliği, pixel exact | .ai/ui-design/screens/ |
+| layout pattern, standard 60/40, split home | .ai/ui-design/screens/_layout-patterns/ |
+| png mockup, .png dosyası, görsel referans, screenshot | .ai/.png/home-1024/ + .ai/.png/shared-1024/ |
+| home-1024, RPi5 mockup, 1024×600 | .ai/.png/home-1024/ |
+| shared-1024, auth mockup, login png | .ai/.png/shared-1024/ |
+| png mockup index, mockup tablosu | .ai/ui-design/00-mockup-index.md |
+| component inventory, bileşen envanteri | .ai/ui-design/01-component-inventory.md |
+| implementation plan, uygulama planı | .ai/ui-design/02-implementation-plan.md |
+| accessibility gaps, wcag analizi | .ai/ui-design/03-accessibility-gaps.md |
+| vault registration, vault kayıt | .ai/ui-design/04-vault-registration.md |
+| device manager, cihaz yönetimi, DeviceManager.php, fromRequest, fromDevice | shared/src/Device/DeviceManager.php |
+| device-aware rendering, cihaz bazlı html, 5 cihaz bloğu, feature toggles | shared/src/Device/DeviceManager.php |
+| widget count, recent card count, playlist count, upNext count, content config | shared/src/Device/DeviceManager.php |
+| showVolume, showFullMetadata, showSidebar, showSeekBar, showPodcastWidget | shared/src/Device/DeviceManager.php |
+| layoutClass, allClasses, dataAttributes, css class helper | shared/src/Device/DeviceManager.php |
+| device nav links, device conditional, isEmbedded, isPhone, isLaptop, isDesktop, is4kTv | shared/src/Device/DeviceManager.php |
+| shouldRenderEmbeddedLayout, shouldRenderWideLayout, shouldRender4kLayout, shouldShowFallback, shouldRenderWelcomePopup, isSupportedResolution | shared/src/Device/DeviceManager.php |
+| device types, phone, tablet, embedded, laptop, desktop, 4k-tv, 4k-monitor, 7 cihaz | shared/src/Device/DeviceManager.php |
+| nav links, NAV_LINKS, device nav, cihaz navigasyonu | shared/src/Device/DeviceManager.php |
+| device profile, deviceProfile, embedded-1024, small-desktop, tv-4k, 4k-monitor | shared/src/Device/DeviceManager.php |
+| device queries, isTouch, isWide, isLarge, isMobile, isSmallDesktop, isTv | shared/src/Device/DeviceManager.php |
+| device content config, widgetCount, recentCardCount, playlistCount, upNextCount | shared/src/Device/DeviceManager.php |
+| welcome popup, shouldRenderWelcomePopup, RPi5 1024 | shared/src/Device/DeviceManager.php |
+| 4-tier conditional rendering, koşullu render, phone layout, 4k layout, wide layout, embedded layout, fallback always false | .ai/ui-design/responsive-device-mode.md |
+| cm_viewport_w, cm_viewport_h, viewport cookie | assets.coremusic.net/js/device-loader.js |
+| viewport whitelist, cookie-based viewport, JS→PHP viewport | shared/src/PageRouter/PageRouter.php |
+| conditional rendering php guide, php implementasyon rehberi, DeviceManager nasıl kullanılır, 4-tier render | .ai/architecture/conditional-rendering-php-guide.md |
+
+---
+
+## Rules
+
+### §12 Navigation Rules (ADR-042 Uyumlu)
+
+### §12.2 Zero Misdirection
+
+| Yanlis | Dogru |
+|-----------|----------|
+| Tahmin yurutme | keys.md'den keyword ara |
+| Recursive glob | Doğrudan glob kullan |
+| Web arama | Sadece vault + ADR referanslari |
+| Kodu okumadan tahmin | Once kodu oku, sonra ADR |
+| Uydurma API/endpoint | // VERIFICATION REQUIRED yaz |
+
+### §12.3 Oncelik Matrisi
+
+```
+P0: CLAUDE.md, AGENTS.md, WORKFLOW.md
+P1: index.md, keys.md, brain.md, MEMORY.md, log.md
+P2: decisions/accepted/ADR-NNN, architecture/L[0-3]/*
+P3: testing/*, ui-design/*, personas/*
+```
+
+---
+
+### §15 Critical Warnings
+
+| # | Uyari |
+|---|-------|
+| 1 | **Rastgele okuma yasak.** Her zaman keys.md kullanin. Token asimina yol acar. |
+| 2 | **PCM5122 REDDEDILMISTIR (H001).** 8.1 surround icin yetersiz. Sadece PCM3168A kullanin. |
+| 3 | **CSRF Token Key = csrf_token.** _csrf_token 2026-05-30'da kaldirildi. |
+| 4 | **Middleware sirasi degistirilemez.** OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller |
+| 5 | **ORM yasak.** Sadece PDO prepared statement. SELECT * yasak -- acik kolon listesi zorunlu. |
+
+---
+
+## Workflow
+
+### §11 Decision Tree
 
 ```
 Istenen Bilgi -> Ilk Kontrol:
@@ -520,30 +565,7 @@ Istenen Bilgi -> Ilk Kontrol:
 
 ---
 
-## 12. Navigation Rules (ADR-042 Uyumlu)
-
-### 12.2 Zero Misdirection
-
-| Yanlis | Dogru |
-|-----------|----------|
-| Tahmin yurutme | keys.md'den keyword ara |
-| Recursive glob | Doğrudan glob kullan |
-| Web arama | Sadece vault + ADR referanslari |
-| Kodu okumadan tahmin | Once kodu oku, sonra ADR |
-| Uydurma API/endpoint | // VERIFICATION REQUIRED yaz |
-
-### 12.3 Oncelik Matrisi
-
-```
-P0: CLAUDE.md, AGENTS.md, WORKFLOW.md
-P1: index.md, keys.md, brain.md, MEMORY.md, log.md
-P2: decisions/accepted/ADR-NNN, architecture/L[0-3]/*
-P3: testing/*, ui-design/*, personas/*
-```
-
----
-
-## 13. Troubleshooting
+### §13 Troubleshooting
 
 | Sorun | Cozum |
 |-------|-------|
@@ -559,7 +581,7 @@ P3: testing/*, ui-design/*, personas/*
 
 ---
 
-## 14. Quick Reference
+### §14 Quick Reference
 
 | Ihtiyac | Ilk Adim |
 |---------|----------|
@@ -587,19 +609,61 @@ P3: testing/*, ui-design/*, personas/*
 
 ---
 
-## 15. Critical Warnings
+## Validation
 
-| # | Uyari |
-|---|-------|
-| 1 | **Rastgele okuma yasak.** Her zaman keys.md kullanin. Token asimina yol acar. |
-| 2 | **PCM5122 REDDEDILMISTIR (H001).** 8.1 surround icin yetersiz. Sadece PCM3168A kullanin. |
-| 3 | **CSRF Token Key = csrf_token.** _csrf_token 2026-05-30'da kaldirildi. |
-| 4 | **Middleware sirasi degistirilemez.** OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller |
-| 5 | **ORM yasak.** Sadece PDO prepared statement. SELECT * yasak -- acik kolon listesi zorunlu. |
+### §17 Quality Report
+
+| Metrik | Deger |
+|--------|-------|
+| Version | 28.3.0 |
+| Status | Red Team · Human Mode · Truth Mode verified |
+| ADR Coverage | 001-088 (79 karar: 37 Frozen + 30 Active + 12 Rejected) |
+| Vault Envanteri | 518 .md dosyasi, 79 ADR, 18 BCNF DB, hedef 10 panel / 7 servis (fiziksel: 4 domain + assets), shared/ hybrid yapı — sahip doğrulaması 2026-09-23 — ⚠️ VERIFICATION REQUIRED (2026-09-24 disk ölçümü: 538 .md; sahip yeniden doğrulaması) |
 
 ---
 
-## 16. Cross References
+### §19 Doküman İskeleti (8-Bölüm Uyumu — Vault Refactor Engine 2026-09-23)
+
+> **Not:** v28.1.0 → v28.2.0 (normalize: minor+1); satır-edit + ekleme (ADR-042), §1-§18 korundu.
+
+### §19.1 İskelet Eşlemesi
+
+| İskelet Bölümü | Karşılık Gelen § |
+|----------------|------------------|
+| Başlık | H1 + frontmatter (7 zorunlu alan) |
+| Purpose | §1 Amac |
+| Scope | §2 Core + §4-§10 (Security/DB/Audio/HW/AI/Panel/Theme/ADR keyword grupları) |
+| Architecture | §3 L0-L6 Layer Keywords (§3.1-§3.4A, §3A-§3D alt grupları) + [[brain.md]] §5 |
+| Rules | §12 Navigation Rules (ADR-042 Uyumlu) + §15 Critical Warnings |
+| Workflow | §11 Decision Tree + §13 Troubleshooting + §14 Quick Reference (+ Section 3B Prompt Archive) |
+| Validation | §17 Quality Report + bu bölüm §19 (§19.1-§19.4) |
+| References | §16 Cross References + §17A Implementasyon Dosyaları + §18 PDF Keyword Haritası |
+
+### §19.2 Faz 3 Doğrulama (2026-09-23)
+
+- [x] Frontmatter 7 alan tam; version 28.3.0; updated 2026-09-23
+- [x] §1-§18 korundu, silme yok; yeni bölüm §19 eklendi
+- [x] REFACTOR REPORT: FILE: keys.md · PURPOSE: Keyword router SSOT · VALIDATION: § + link korundu · RELATED: [[index.md]] · [[CLAUDE.md]] · [[glossary.md]] · [[log.md]]
+
+### §19.3 İlgili Dosyalar
+
+[[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[index.md]] · [[glossary.md]] · [[log.md]]
+
+### §19.4 Faz 2-3 İskelet Yeniden Düzenleme (2026-09-23)
+
+- [x] 7 İngilizce H2 iskeleti uygulandı (Purpose/Scope/Architecture/Rules/Workflow/Validation/References); H1 korundu
+- [x] Eski H2/H3 başlıklar `### §N` olarak taşındı; numaralar birebir korundu (§3.4A, §7A, §17A dahil)
+- [x] Version 28.2.0 → 28.3.0 (frontmatter + §17 + §19.2)
+- [x] §19.1 İskelet Eşlemesi nihai gruplamayla güncellendi
+- [ ] ⚠️ VERIFICATION REQUIRED: yinelenen §3A/§3C/§3D etiketleri (×2) ve §12'de §12.1 boşluğu — kasıtlı korundu, sahip kararı bekleniyor
+- [ ] ⚠️ VERIFICATION REQUIRED: `.ai/.templates/session/session-log-template.md` hedefi diskte `.ai/.templates/session-log-template.md` konumunda (yol öncesi)
+- [x] REFACTOR REPORT: FILE: keys.md · PURPOSE: Keyword router SSOT (7-bölüm iskelet) · VALIDATION: 7 H2 + §-ankraj + mojibake 0 · RELATED: [[index.md]] · [[CLAUDE.md]] · [[glossary.md]] · [[log.md]]
+
+---
+
+## References
+
+### §16 Cross References
 
 | Kaynak | Hedef |
 |--------|-------|
@@ -608,24 +672,13 @@ P3: testing/*, ui-design/*, personas/*
 
 ---
 
-## 17A. Implementasyon Dosyaları
+### §17A Implementasyon Dosyaları
 
 > Detaylı dosya yapısı için: [[architecture/03-contracts/project-structure]] ve [[../shared/]] dizin yapısı
 
 ---
 
-## 17. Quality Report
-
-| Metrik | Deger |
-|--------|-------|
-| Version | 28.2.0 |
-| Status | Red Team · Human Mode · Truth Mode verified |
-| ADR Coverage | 001-088 (79 karar: 37 Frozen + 30 Active + 12 Rejected) |
-| Vault Envanteri | 518 .md dosyasi, 79 ADR, 18 BCNF DB, hedef 10 panel / 7 servis (fiziksel: 4 domain + assets), shared/ hybrid yapı — sahip doğrulaması 2026-09-23 |
-
----
-
-## 18. PDF Keyword Haritası
+### §18 PDF Keyword Haritası
 
 ### Sistem Terimleri
 | Keyword | Tanım | İlgili Dosya |
@@ -653,35 +706,6 @@ P3: testing/*, ui-design/*, personas/*
 | media.coremusic.net | Merkezi medya depo | [[architecture/k15-medya-streaming]] |
 | download.coremusic.net | İndirme servisi | [[architecture/k8-servis]] |
 | api.coremusic.net | API Gateway | [[architecture/k9-api-routing]] |
-
----
-
-## 19. Doküman İskeleti (8-Bölüm Uyumu — Vault Refactor Engine 2026-09-23)
-
-> **Not:** v28.1.0 → v28.2.0 (normalize: minor+1); satır-edit + ekleme (ADR-042), §1-§18 korundu.
-
-### 19.1 İskelet Eşlemesi
-
-| İskelet Bölümü | Karşılık Gelen § |
-|----------------|------------------|
-| Başlık | H1 + frontmatter (7 zorunlu alan) |
-| Amaç | §1 Amac |
-| Kapsam | §2-§10 (Core/Layer/Security/DB/Audio/HW/AI/Panel/Theme/ADR keyword grupları) |
-| Mimari | §3 L0-L6 Layer Keywords + [[brain.md]] §5 |
-| Kurallar | §12 Navigation Rules (ADR-042 Uyumlu) + §15 Critical Warnings |
-| Workflow | §11 Decision Tree + §13 Troubleshooting + §14 Quick Reference |
-| Doğrulama | §17 Quality Report + bu bölüm §19.2 |
-| Referanslar | §16 Cross References + §18 PDF Keyword Haritası |
-
-### 19.2 Faz 3 Doğrulama (2026-09-23)
-
-- [x] Frontmatter 7 alan tam; version 28.2.0; updated 2026-09-23
-- [x] §1-§18 korundu, silme yok; yeni bölüm §19 eklendi
-- [x] REFACTOR REPORT: FILE: keys.md · PURPOSE: Keyword router SSOT · VALIDATION: § + link korundu · RELATED: [[index.md]] · [[CLAUDE.md]] · [[glossary.md]] · [[log.md]]
-
-### 19.3 İlgili Dosyalar
-
-[[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[index.md]] · [[glossary.md]] · [[log.md]]
 
 ---
 
