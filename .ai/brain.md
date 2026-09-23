@@ -4,9 +4,9 @@ title: "CoreMusic — Engineering Brain (Enterprise SSOT)"
 type: brain
 category: architecture-decisions
 date: 2026-08-08
-updated: 2026-09-18
+updated: 2026-09-23
 status: active
-version: 25.0.0
+version: 26.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -1032,6 +1032,36 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 
 ---
 
+## 24. Doküman İskeleti (8-Bölüm Uyumu — Vault Refactor Engine 2026-09-23)
+
+> **Not:** v25.0.0 → v26.0.0; ADR-042 hibrit ile satır-edit + ekleme (silme yok, §1-§23 korundu). Mojibake temizliği Faz 1'de vault geneli yapıldı (89 düzeltme bu dosyada).
+
+### 24.1 İskelet Eşlemesi
+
+| İskelet Bölümü | Karşılık Gelen § |
+|----------------|------------------|
+| Başlık | H1 + frontmatter (7 zorunlu alan) |
+| Amaç | §1 Amaç & Ekosistem Misyonu |
+| Kapsam | §2 Scope |
+| Mimari | §4 Tech Stack + §5 K0-K20 + §6 Middleware + §11 18 BCNF + §12 AI Pipeline |
+| Kurallar | §3 Core Principles + §7 C++ + §10 PHP Security + §17 Guardrails + §18 Coding Standards |
+| Workflow | §14 Development Strategy + §22 Prompt Arşivi + [[WORKFLOW.md]] |
+| Doğrulama | §19 Edge Cases + §20 Warnings + §23 Quality + bu bölüm §24.2 |
+| Referanslar | §13 ADR Summary + §21 Cross References |
+
+### 24.2 Faz 2 Doğrulama (2026-09-23)
+
+- [x] Frontmatter 7 alan tam; version 26.0.0; updated 2026-09-23
+- [x] Frozen ADR dokunulmaz (§13 ADR Summary salt-okunur referans)
+- [x] §1-§23 korundu, silme yok; yeni bölüm §24 olarak eklendi
+- [x] REFACTOR REPORT: FILE: brain.md · PURPOSE: Engineering decisions SSOT · VALIDATION: § + wiki-link korundu · RELATED: [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[MEMORY.md]] · [[index.md]] · [[log.md]]
+
+### 24.3 İlgili Dosyalar
+
+[[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[MEMORY.md]] · [[index.md]] · [[keys.md]] · [[log.md]] · [[.templates/index]]
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-18
+**Last Updated:** 2026-09-23
 **Mode:** Red Team · Human Mode · Truth Mode

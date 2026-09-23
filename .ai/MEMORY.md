@@ -4,9 +4,9 @@ title: "CoreMusic — Memory System Index"
 type: system
 category: memory-management
 date: 2026-08-13
-updated: 2026-09-18
+updated: 2026-09-23
 status: active
-version: 24.4.0
+version: 24.5.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -642,3 +642,33 @@ Bu revizyonda her düzeltme üç kaynakla desteklendi: (1) Test-Path dosya varl�
 - Last operation: K6-K11 mimari katman dokümanları oluşturuldu: k6-security.md (40 bileşen), k7-middleware.md (35 bileşen), k8-services.md (50 bileşen), k9-api-routing.md (40 bileşen), k10-application.md (45 bileşen), k11-ux-layer.md (40 bileşen). Toplam: 250 bileşen. Tüm dosyalarda frontmatter, ASCII diyagramları, GitHub referansları ve wiki-link'ler mevcut. architecture/index.md §10 olarak K6-K11 cross-references eklendi.
 - Next: kaldigin yerden devam etmek icin vault_sync continue-last kullan
 <!-- vault-sync:auto-end -->
+
+---
+
+## 24. Doküman İskeleti (8-Bölüm Uyumu — Vault Refactor Engine 2026-09-23)
+
+> **Not:** v24.4.0 → v24.5.0 (normalize: minor+1); satır-edit + ekleme (ADR-042), §1-§23 korundu. Yukarıdaki `vault-sync:auto` bloğuna dokunulmadı.
+
+### 24.1 İskelet Eşlemesi
+
+| İskelet Bölümü | Karşılık Gelen § |
+|----------------|------------------|
+| Başlık | H1 + frontmatter (7 zorunlu alan) |
+| Amaç | §1 Amac |
+| Kapsam | §2 Terminoloji + §16 Limitations |
+| Mimari | §3 Memory Hierarchy + §9 Persistent State + §10 Cache Strategies |
+| Kurallar | §8 Okuma Kuralları + §12 Security Boundaries + §13 Conflict Resolution |
+| Workflow | §4 Session Lifecycle + §5 16-Step Boot + §6-§7 Vault Sync |
+| Doğrulama | §14 Debugging + §15 Warnings + §21 Quality + bu bölüm §24.2 |
+| Referanslar | §19 Cross References |
+
+### 24.2 Faz 2 Doğrulama (2026-09-23)
+
+- [x] Frontmatter 7 alan tam; version 24.5.0; updated 2026-09-23
+- [x] Boot-liste kanonikliği: birleşik kanonik liste [[CLAUDE.md]] §16'dır (13 dosya + frontend eki); §5 16-adım listesi genişletilmiş okuma setidir (bkz [[AGENTS.md]] §25.4)
+- [x] §1-§23 korundu, silme yok; yeni bölüm §24 eklendi (auto-block AFTER konumunda, vault-sync çakışmaz)
+- [x] REFACTOR REPORT: FILE: MEMORY.md · PURPOSE: Session memory/boot SSOT · VALIDATION: § + link korundu · RELATED: [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[index.md]] · [[log.md]]
+
+### 24.3 İlgili Dosyalar
+
+[[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[index.md]] · [[keys.md]] · [[log.md]]

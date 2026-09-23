@@ -196,3 +196,11 @@ governance: Red Team · Human Mode · Truth Mode
   - **Mojibake temizliği:** 745 düzeltme / 11 dosya (fix-mojibake.py 152 + genişletilmiş varyantlar 593: `â€”(U+201D)`×248, `Ä+0x9E`(Ğ)×23, box-drawing ASCII ağaçları, `→’`, `â†’`)
   - **Kural (ADR-042 hibrit):** satır-edit + ekleme; § numaraları ve `[[wiki-link]]` hedefleri korundu, silme yok; yeni bölümler §N+1
   - **Link kapısı:** 0 YENİ kırık link. 54 ÖNCEDEN mevcut kırık link Faz 6 defterine işlendi: `[[decisions/*]]`→gerçek yol `.decisions/*`, `ui-design/00-mockup-index`→`01-*`, `01-component-inventory`→`02-*`, `archives/prompt*-2026-09-01` hedefi yok (`.ai/prompts/` bak), `architecture/master-architecture-index` + `k0-k5-software/*` + `reference/yaml-formatter` hedefleri yok
+
+- 2026-09-23 20:55:00 | vault_refactor_engine_faz2 | session=current | **FAZ 2 — BELLEK DOSYALARI (Vault Refactor Engine):**
+  - **Dosyalar (2):**
+    1. `.ai/brain.md` v25.0.0→v26.0.0 — frontmatter 7 alan (updated 2026-09-23) + §24 (8-bölüm iskelet eşlemesi + Faz 2 doğrulama + REFACTOR REPORT)
+    2. `.ai/MEMORY.md` v24.4.0→v24.5.0 — frontmatter + §24 (iskelet eşlemesi + boot-liste kanonik notu: CLAUDE §16) — `vault-sync:auto` bloğu AFTER'ına eklendi, auto bloğa dokunulmadı
+  - **Boot-liste uzlaşması kaydedildi:** kanonik = CLAUDE §16 (13 dosya); MEMORY §5 = genişletilmiş 16-adım seti; AGENTS §25.4 çapraz referans
+  - **log.md:** append-only korundu (Faz 1 girdisi + bu girdi)
+  - **Link kapısı:** 0 yeni kırık link (brain/MEMORY taraması temiz)
