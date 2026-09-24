@@ -183,12 +183,27 @@ Bu rapor, Vault Refactor Engine **Faz 6 (Doğrulama)** kapısının kanıtıdır
 
 ---
 
-## Open Decision (2026-09-24)
+## Open Decision — RESOLVED (2026-09-24)
 
-> **Ledger §8 Sınıf b — 117 link / 78 hedef (repo geneli fiziksel ADR-*.md = 0 dosya, ölçüm 2026-09-24):** karar VERİLMEDİ — vault sahibine açık. 3 seçenek:
+> **Ledger §8 Sınıf b — 117 link / 78 hedef (repo geneli fiziksel ADR-*.md = 0 dosya, ölçüm 2026-09-24):** karar VERİLDİ (faz6-d, 2026-09-24) — **Seçenek 2 + Seçenek 3** uygulandı; Seçenek 1 (stub dosya) yasak kapsamında REDDEDİLDİ.
 
-1. **ADR stub dosyaları oluştur** — .ai/.decisions/ altında her ölü hedef için minimal stub (linkler yaşar; içerik brain.md ADR kayıtlarına referansla minimal).
-2. **brain.md ADR anchor'larına yeniden yönlendir** — 117 linki [[brain]] içindeki ADR kayıtlarına çevir (fiziksel dosya yok, karar maddesi var; frozen 001-037 metinlerine dokunulmaz).
-3. **Toplu işaretle (dead)** — tek turda bilinçli ölü-link işareti + açıklama (117 link; en ucuz, en şeffaf).
+**Uygulama (faz6-d, 2026-09-24):**
 
-**REFACTOR REPORT:** FILE: faz6-link-ledger.md · PURPOSE: Faz 6 final gate — VR backlog indeksi + ADR Open Decision · VALIDATION: 33 = 21 kapalı + 12 backlog; Open Decision 3 seçenek, karar sahipte; kaynak VR bayrakları silinmedi · RELATED: [[../log.md]] · [[../index.md]] · [[../CLAUDE.md]] · [[../keys.md]] · [[../glossary.md]]
+| Kategori | Link | Hedef | İşlem |
+|----------|------|-------|-------|
+| Repoint (Seçenek 2) | 100 | 63 | Yol-only: `[[brain.md]] <slug>` (kök .ai dosyaları) · `[[../brain.md]] <slug>` (.decisions/index.md, sibling konvansiyonu) · ADR-042 → `[[CLAUDE.md]]` §12 ADR tablosu (brain §13.2'de 042 satırı YOK) — etiket metni = slug, KORUNDU |
+| Dead-mark (Seçenek 3) | 13 | 13 | `<!-- dead-link: <slug> no source 2026-09-24 -->` — R-001..R-012 (rejected/index dosyası var ama tabloları BOŞ) + ADR-053/054 (kayıt hiç yok) |
+| FP — dokunulmadı | 4 | 2 | adr-index.md:215 `ADR-999-yok-boyle` + adr-index.md:316 ×2 slug-pattern örnekleri + migration-template.md:64 backtick `ADR-...` — kod örnekleri, link değil |
+
+**Uzlaştırma: 78 hedef = 63 mapped + 13 dead + 2 FP-only ✓ · 117 link = 100 repoint + 13 dead-mark + 4 FP ✓**
+
+**Edit tablosu (7 dosya / 113 edit):** `.decisions/index.md` 43 (31 repoint + 12 R-row dead) · `index.md` 31 · `keys.md` 16 · `CLAUDE.md` 12 · `MEMORY.md` 5 · `brain.md` 4 (self-link) · `WORKFLOW.md` 2. Frozen ADR 001-037: **0 edit** (yalnızca repoint-TO).
+
+**Kapsam dışı kalan (kayıt — yeni açık madde değil):**
+
+1. class-c 136 link / 76 hedef — frozen kapsam, bu decision dışı.
+2. `reports/broken-files-report.md` 10 link — §2 donmuş kapsam, dokunulmadı.
+3. ADR-042 alternatif kaynak bayrağı: brain.md §13.2'de 042 satırı yok → CLAUDE.md §12 tek kaynak (bayrak).
+4. `.decisions/rejected/index.md` tabloları boş — R-001..R-012 içeriği diskte yok (bayrak).
+
+**REFACTOR REPORT:** FILE: faz6-link-ledger.md · PURPOSE: Faz 6 final gate — VR backlog indeksi + ADR Open Decision · VALIDATION: 33 = 21 kapalı + 12 backlog; Open Decision RESOLVED — 100 repoint + 13 dead-mark + 4 FP = 117 ✓ · 78 = 63+13+2 ✓ · frozen 001-037 = 0 edit · kaynak VR bayrakları silinmedi · RELATED: [[../log.md]] · [[../index.md]] · [[../CLAUDE.md]] · [[../keys.md]] · [[../glossary.md]]

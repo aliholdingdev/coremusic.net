@@ -77,59 +77,59 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 | ADR | Başlık | Kategori |
 |-----|--------|----------|
-| [[ADR-038-8.1-sound-card-chip-selection]] | 8.1 Sound Card (PCM3168A + XMOS) | Audio |
-| [[ADR-039-7-service-platform-architecture]] | 7-Service Platform Architecture | Architecture |
-| [[ADR-040-database-authority]] | Database Authority (18 BCNF) | Database |
-| [[ADR-041-database-normalization-supplementary]] | DB Normalization Supplementary | Database |
-| [[ADR-042-vault-restructuring-2026-08-03]] | Vault Restructuring | Vault |
-| [[ADR-043-auth-subdomain-consolidation]] | Auth Subdomain Consolidation | Security |
-| [[ADR-044-dynamic-user-theme-engine]] | Dynamic User Theme Engine | Frontend |
-| [[ADR-045-multi-domain-view-mode-architecture]] | Multi-Domain View Mode | Frontend |
-| [[ADR-046-cross-view-state-preservation]] | Cross-View State Preservation | Frontend |
-| [[ADR-048-view-transition-api-integration]] | View Transition API | Frontend |
-| [[ADR-049-startup-prompt-loader]] | Startup Prompt Loader | AI |
-| [[ADR-050-multi-db-sync-strategy]] | Multi-DB Sync Strategy | Database |
-| [[ADR-061-electronics-architecture]] | Electronics Architecture (L6) | Electronics |
-| [[ADR-062-dsp-pipeline-architecture]] | DSP Pipeline Architecture | Electronics |
-| [[ADR-063-hardware-design-standards]] | Hardware Design Standards | Electronics |
-| [[ADR-064-electronics-platform-architecture]] | Electronics Platform Architecture | Electronics |
-| [[ADR-072-social-database-schema]] | Social DB Schema | Database |
-| [[ADR-073-podcast-database-schema]] | Podcast DB Schema | Database |
-| [[ADR-074-radio-database-schema]] | Radio DB Schema | Database |
-| [[ADR-075-ai-database-schema]] | AI DB Schema | Database |
-| [[ADR-076-video-database-schema]] | Video DB Schema | Database |
-| [[ADR-077-studio-database-schema]] | Studio DB Schema | Database |
-| [[ADR-078-cms-database-schema]] | CMS DB Schema | Database |
-| [[ADR-079-i18n-database-schema]] | i18n DB Schema | Database |
-| [[ADR-083-spa-router]] | SPA Router Architecture | Architecture |
-| [[ADR-084-api-gateway-architecture]] | API Gateway Architecture | Architecture |
-| [[ADR-085-modular-composer-packages]] | Shared Library Hybrid (tek shared/ + PSR-4 namespace) | Architecture |
-| [[ADR-086-event-driven-architecture]] | Event Driven Architecture | Architecture |
-| [[ADR-087-master-implementation-plan]] | Master Implementation Plan | Architecture |
-| [[ADR-088-gender-based-social-oauth]] | Gender-Based Social OAuth | Social |
+| [[../brain.md]] ADR-038-8.1-sound-card-chip-selection | 8.1 Sound Card (PCM3168A + XMOS) | Audio |
+| [[../brain.md]] ADR-039-7-service-platform-architecture | 7-Service Platform Architecture | Architecture |
+| [[../brain.md]] ADR-040-database-authority | Database Authority (18 BCNF) | Database |
+| [[../brain.md]] ADR-041-database-normalization-supplementary | DB Normalization Supplementary | Database |
+| [[../CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault Restructuring | Vault |
+| [[../brain.md]] ADR-043-auth-subdomain-consolidation | Auth Subdomain Consolidation | Security |
+| [[../brain.md]] ADR-044-dynamic-user-theme-engine | Dynamic User Theme Engine | Frontend |
+| [[../brain.md]] ADR-045-multi-domain-view-mode-architecture | Multi-Domain View Mode | Frontend |
+| [[../brain.md]] ADR-046-cross-view-state-preservation | Cross-View State Preservation | Frontend |
+| [[../brain.md]] ADR-048-view-transition-api-integration | View Transition API | Frontend |
+| [[../brain.md]] ADR-049-startup-prompt-loader | Startup Prompt Loader | AI |
+| [[../brain.md]] ADR-050-multi-db-sync-strategy | Multi-DB Sync Strategy | Database |
+| [[../brain.md]] ADR-061-electronics-architecture | Electronics Architecture (L6) | Electronics |
+| [[../brain.md]] ADR-062-dsp-pipeline-architecture | DSP Pipeline Architecture | Electronics |
+| [[../brain.md]] ADR-063-hardware-design-standards | Hardware Design Standards | Electronics |
+| [[../brain.md]] ADR-064-electronics-platform-architecture | Electronics Platform Architecture | Electronics |
+| [[../brain.md]] ADR-072-social-database-schema | Social DB Schema | Database |
+| [[../brain.md]] ADR-073-podcast-database-schema | Podcast DB Schema | Database |
+| [[../brain.md]] ADR-074-radio-database-schema | Radio DB Schema | Database |
+| [[../brain.md]] ADR-075-ai-database-schema | AI DB Schema | Database |
+| [[../brain.md]] ADR-076-video-database-schema | Video DB Schema | Database |
+| [[../brain.md]] ADR-077-studio-database-schema | Studio DB Schema | Database |
+| [[../brain.md]] ADR-078-cms-database-schema | CMS DB Schema | Database |
+| [[../brain.md]] ADR-079-i18n-database-schema | i18n DB Schema | Database |
+| [[../brain.md]] ADR-083-spa-router | SPA Router Architecture | Architecture |
+| [[../brain.md]] ADR-084-api-gateway-architecture | API Gateway Architecture | Architecture |
+| [[../brain.md]] ADR-085-modular-composer-packages | Shared Library Hybrid (tek shared/ + PSR-4 namespace) | Architecture |
+| [[../brain.md]] ADR-086-event-driven-architecture | Event Driven Architecture | Architecture |
+| [[../brain.md]] ADR-087-master-implementation-plan | Master Implementation Plan | Architecture |
+| [[../brain.md]] ADR-088-gender-based-social-oauth | Gender-Based Social OAuth | Social |
 
 ## 4A. Draft ADR'ler
 
 | ADR | Başlık | Kategori |
 |-----|--------|----------|
-| [[ADR-089-classab-24v]] | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Electronics (Draft) |
+| [[../brain.md]] ADR-089-classab-24v | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Electronics (Draft) |
 
 ## 5. Reddedilen ADR'ler
 
 | ADR | Başlık | Red Nedeni |
 |-----|--------|------------|
-| [[R-001-redux-style-state-management]] | Redux-Style State | Framework yasağı |
-| [[R-002-mongodb-document-store]] | MongoDB | BCNF uyumsuz |
-| [[R-003-jquery-ui-framework]] | jQuery | Framework yasağı |
-| [[R-004-webpack-bundle-system]] | Webpack | Over-engineering |
-| [[R-005-rest-only-api]] | REST-Only | WebSocket gerekli |
-| [[R-006-laravel-eloquent-orm]] | Eloquent ORM | ORM yasak |
-| [[R-007-firebase-authentication]] | Firebase Auth | Harici bağımlılık |
-| [[R-008-mysql-myisam-engine]] | MyISAM | Transaction eksik |
-| [[R-009-single-database-architecture]] | Single DB | Güvenlik/performans |
-| [[R-010-nodejs-backend-fullstack]] | Node.js Full Stack | PHP zorunlu |
-| [[R-011-graphql-api]] | GraphQL | Over-engineering |
-| [[R-012-microservices-architecture]] | Microservices | Erken optimizasyon |
+| [[R-001-redux-style-state-management]] <!-- dead-link: R-001-redux-style-state-management no source 2026-09-24 --> | Redux-Style State | Framework yasağı |
+| [[R-002-mongodb-document-store]] <!-- dead-link: R-002-mongodb-document-store no source 2026-09-24 --> | MongoDB | BCNF uyumsuz |
+| [[R-003-jquery-ui-framework]] <!-- dead-link: R-003-jquery-ui-framework no source 2026-09-24 --> | jQuery | Framework yasağı |
+| [[R-004-webpack-bundle-system]] <!-- dead-link: R-004-webpack-bundle-system no source 2026-09-24 --> | Webpack | Over-engineering |
+| [[R-005-rest-only-api]] <!-- dead-link: R-005-rest-only-api no source 2026-09-24 --> | REST-Only | WebSocket gerekli |
+| [[R-006-laravel-eloquent-orm]] <!-- dead-link: R-006-laravel-eloquent-orm no source 2026-09-24 --> | Eloquent ORM | ORM yasak |
+| [[R-007-firebase-authentication]] <!-- dead-link: R-007-firebase-authentication no source 2026-09-24 --> | Firebase Auth | Harici bağımlılık |
+| [[R-008-mysql-myisam-engine]] <!-- dead-link: R-008-mysql-myisam-engine no source 2026-09-24 --> | MyISAM | Transaction eksik |
+| [[R-009-single-database-architecture]] <!-- dead-link: R-009-single-database-architecture no source 2026-09-24 --> | Single DB | Güvenlik/performans |
+| [[R-010-nodejs-backend-fullstack]] <!-- dead-link: R-010-nodejs-backend-fullstack no source 2026-09-24 --> | Node.js Full Stack | PHP zorunlu |
+| [[R-011-graphql-api]] <!-- dead-link: R-011-graphql-api no source 2026-09-24 --> | GraphQL | Over-engineering |
+| [[R-012-microservices-architecture]] <!-- dead-link: R-012-microservices-architecture no source 2026-09-24 --> | Microservices | Erken optimizasyon |
 
 ## 6. Kategori Haritası
 

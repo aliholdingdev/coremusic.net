@@ -863,9 +863,9 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 | Cache Stampede | Yüksek load | Mutex ile single load | [[architecture/k0-isletim-sistemi]] |
 | Multi-Tab CSRF | Birden fazla sekme | Token session-bound sabit | [[ADR-010-csrf-protection-strategy]] |
 | Layer Violation | L0 → L3 import | Derhal revert | [[CLAUDE.md]] |
-| PCM5122 Kullanımı | 8.1 surround denemesi | PCM3168A veya AK4458 | [[ADR-038-8.1-sound-card-chip-selection]] |
+| PCM5122 Kullanımı | 8.1 surround denemesi | PCM3168A veya AK4458 | [[brain.md]] ADR-038-8.1-sound-card-chip-selection |
 | Network Outage | İnternet kopması | Offline-First + SQLite queue | [[architecture/index]] |
-| BCNF Violation | Yeni tablo | 3NF → BCNF audit | [[ADR-040-database-authority]] |
+| BCNF Violation | Yeni tablo | 3NF → BCNF audit | [[brain.md]] ADR-040-database-authority |
 | Buffer Underrun | CPU %100 | Fade-out → 50ms sessizlik → restart | [[engine.md]] |
 | Session Timeout | 3600s idle | Otomatik yeniden auth | [[ADR-011-session-management]] |
 
@@ -1035,10 +1035,10 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 | § Amaç | [[CLAUDE.md]] | Ana sözleşme |
 | § Mimari | [[architecture/index]] | L0-L6 |
 | § C++ Audio | [[ADR-017-dsp-hardware-mode]] | XMOS, JUCE |
-| § 8.1 Surround | [[ADR-038-8.1-sound-card-chip-selection]] | PCM3168A, H001 |
+| § 8.1 Surround | [[brain.md]] ADR-038-8.1-sound-card-chip-selection | PCM3168A, H001 |
 | § PHP Middleware | [[ADR-010-csrf-protection-strategy]] | csrf_token |
 | § Cache/Vault | [[ADR-022-database-hardened-security]] | AES-256-GCM |
-| § 18 BCNF DB | [[ADR-040-database-authority]] | 18 DB |
+| § 18 BCNF DB | [[brain.md]] ADR-040-database-authority | 18 DB |
 | § Audio Org | **DOĞRULAMA GEREKLİ** — `electronic/audio-organization.md` vault'ta yok (Faz 1) | 5 bölüm |
 | § Hardware | **DOĞRULAMA GEREKLİ** — `electronic/hardware-roadmap.md` vault'ta yok (Faz 1) | 3 fazlı yol haritası |
 | § 22 (Prompt Arsivi) | [[architecture/ai/prompt-engine]] | Prompt üretim motoru |

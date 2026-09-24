@@ -347,3 +347,25 @@ governance: Red Team · Human Mode · Truth Mode
 - RELATED: [[reports/faz6-link-ledger]] [[index.md]] [[CLAUDE.md]] [[AGENTS.md]] [[keys.md]] [[MEMORY.md]] [[glossary.md]] [[brain.md]] [[WORKFLOW.md]] [[log.md]]
 
 - OLAY (bu oturum): CLAUDE.md write hatasi - faz6-gate CRLF anchor bug (paragraf siniri ` `\n\n` ` bulunamadi -> s=0/e=EOF -> dosya 917->1 satira dustu). git checkout ile HEAD'e geri alindi + CRLF-guvenli fix-claude.mjs ile yeniden yazildi; son diff 1+/1- (pitch paragrafi), authority: SSOT L7, VR=5, trilyon=0 dogrulandi. 68/68 dosya writer verify: 64 temiz + 4 oncesi-kalmis (WikiPage L500 / security-audit L476 kasitli grep ornegi, log.md CJK 12=12 head==cur, ledger meta-alinti byte 4201 ayni) - hicbiri bu oturumda uretilmedi.
+## 2026-09-24 — Sahip Onaylı 2 VERIFICATION REQUIRED Kapatıldı (CLAUDE Sections / template sayacı)
+
+- **Sahip kararı 1:** `.ai/CLAUDE.md` §29 Quality Report `| Sections | 8 |` → `| Sections | 34 |`. Kanıt: 34 benzersiz `### §N` başlığı (§1-§34 tam; 35. eşleşme `### §02` (satır 459) §32 içindeki alıntılı alt bölümdür, gerçek bölüm değildir). "8" değeri 8-bölüm iskelet metriğiydi — gerçek bölüm sayısı kazandı.
+- **Sahip kararı 2:** Template sayacı sahiplenir: disk kazanır — `.ai/.templates` = 26 `.md` (+7, commit 2026-09-24 03:36); dün onaylanan 19 bayat ölçümdu.
+- **Değişiklik (CLAUDE.md, 3 satır):** satır 5 fm `version: 27.1.0`→`27.2.0` · satır 703 `| Version | 27.1.0 |`→`27.2.0` · satır 705 `| Sections | 8 |`→`| Sections | 34 |` · `updated: 2026-09-24` zaten güncel.
+- **index.md — bayt değişikliği YOK (no-op):** canlı şablon sayacı zaten 26 (kanıt: satır 349 "2026-09-24 sayım: 26 dosya", satır 515 düzeltme kaydı "518/template 19 → 538/26", satır 724 §18 Metadata "template 26"; fm `total_files: 538`). "template 19" yalnızca tarihi anlatıda geçiyor (önceki sahip doğrulaması 518/19 kaydı). Sahip onayı 26 olarak bu girişe işlendi.
+- **glossary.md — bayrak YOK (no-op):** "disk=26 vs owner=19" ibaresi bulunamadı; diğer 2 adet ⚠️ VERIFICATION REQUIRED (satır 657 packages/ yolu, satır 660 §9/§12.3 bölüm ref) kapsam dışı, dokunulmadı.
+- **Sürüm:** CLAUDE.md 27.1.0 → 27.2.0 (minor+1, konvansiyon); index.md +26 no-op olduğu için bump yok (§18 Versiyon 28.2.0 = fm, tutarlı).
+- REFACTOR REPORT: FILE: CLAUDE.md, log.md (append) · PURPOSE: sahip onaylı sayaç kapatma (Sections 34 + template 26) · VALIDATION: iddia-sayımlı besteci (unique-§N=34 assert, index/glossary anchor assert) + writer verify · RELATED: [[CLAUDE.md]] [[index.md]] [[glossary.md]] [[log.md]]
+- FIX (sahip onaylı "devam", 2026-09-24): satır 349'daki yapışık `##` başlığı tek bir `\r\n` ile ayrıldı — mekanik satır sonu onarımı, içerik değişikliği 0; content-strip eşit + writer verify.
+
+## 2026-09-24 — Faz 6-D: Open Decision Kapatıldı (117 dead ADR link onarımı)
+
+- KARAR: sınıf-b Open Decision kapatıldı — **Seçenek 2 + Seçenek 3** uygulandı (Seçenek 1 stub yasak kapsamında REDDEDİLDİ). Uzlaştırma: 117 link = 100 repoint + 13 dead-mark + 4 FP (kod örneği, dokunulmadı) ✓ · 78 hedef = 63 mapped + 13 dead + 2 FP-only ✓.
+- REPPOINT (100 link / 63 hedef): yol-only, etiket metni = slug KORUNDU — kök .ai dosyalarında `[[brain.md]] <slug>`, `.decisions/index.md` içinde sibling konvansiyonu `[[../brain.md]] <slug>`, ADR-042 → [[CLAUDE.md]] §12 ADR tablosu (brain §13.2'de 042 satırı YOK). Frozen ADR 001-037: 0 edit (yalnızca repoint-TO).
+- DEAD-MARK (13 link / 13 hedef): `<!-- dead-link: <slug> no source 2026-09-24 -->` — R-001..R-012 (`.decisions/rejected/index.md` fiziksel ama tabloları BOŞ) + ADR-053/054 (kayıt hiç yok).
+- FP DOKUNULMADI (4): adr-index.md:215 `ADR-999-yok-boyle` + adr-index.md:316 ×2 slug-pattern örneği + migration-template.md:64 backtick `ADR-...` — kod örneği, link değil.
+- EDİT: 7 dosya / 113 edit — `.decisions/index.md` 43 (31 repoint + 12 R-row dead) · `index.md` 31 · `keys.md` 16 · `CLAUDE.md` 12 · `MEMORY.md` 5 · `brain.md` 4 (self) · `WORKFLOW.md` 2. Doğrulama: faz6-verify.mjs (100/13/113 birebir) + git diff --stat; JSON/YAML: 0; log.md geçmiş satırları: 0 (append-only).
+- LEDGER: [[reports/faz6-link-ledger]] "Open Decision (2026-09-24)" → "Open Decision — RESOLVED (2026-09-24)" olarak yeniden yazıldı (yöntem 2+3 sayımları + edit tablosu + kapsam dışı 4 madde: class-c 136/76 · broken-files-report 10 link donmuş · ADR-042 alt-kaynak bayrağı · rejected/index boş tablolar).
+- COMMIT: vault(faz6-d): open-decision — 117 dead ADR link onarimi (repoint + dead-mark).
+- POST-OP SYNC: session-save.mjs + vault-post-update.mjs diskte YOK → zorunlu post-operation sync ÇALIŞTIRILAMADI; senkronizasyon manuel (bilinen durum).
+- RELATED: [[reports/faz6-link-ledger]] [[index.md]] [[CLAUDE.md]] [[brain.md]] [[keys.md]] [[MEMORY.md]] [[WORKFLOW.md]] [[log.md]]

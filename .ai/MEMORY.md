@@ -646,14 +646,14 @@ Bu revizyonda her düzeltme üç kaynakla desteklendi: (1) Test-Path dosya varl�
 
 | 2026-09-18 | ADR-089-classab-24v Draft oluşturuldu: Class AB Amplifikatör + 6S LiPo + ±35V Boost Mimarisi. MJL21194/MJL21193 output transistörleri, 50W/kanal, 8 kanal modüler, sıcaklık kontrollü sessiz fan. Draft status: draft. | ✅ completed | — | vault-updater |
 
-| 2026-08-04 | Dynamic Theme Engine | Vault tamamlandi, kodlama yok | [[ADR-044-dynamic-user-theme-engine]] | UI |
+| 2026-08-04 | Dynamic Theme Engine | Vault tamamlandi, kodlama yok | [[brain.md]] ADR-044-dynamic-user-theme-engine | UI |
 | 2026-08-05 | Auth SOLID Fixes + Tests | ✅ Tamamlandi (56 test, 0 failure) | [[ADR-010-csrf-protection-strategy]] | Security |
-| 2026-08-05 | Vault Activasyon + Session | ✅ Tamamlandi (12 adim) | [[ADR-042-vault-restructuring-2026-08-03]] | MO |
+| 2026-08-05 | Vault Activasyon + Session | ✅ Tamamlandi (12 adim) | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | MO |
 | 2026-08-06 | .workflows/ Trim | ✅ Tamamlandi (-87%, 584 satir) | — | MO |
 | 2026-08-06 | Template Vault v3.0.0 | ✅ Tamamlandi (19 template, 26K satir) | — | MO |
-| 2026-08-08 | Vault Rewrite (engine, MEMORY, log) | ✅ Tamamlandi | [[ADR-042-vault-restructuring-2026-08-03]] | MO |
-| 2026-08-09 | Platform Rewrite Vault Update | ✅ 4 yeni ADR + architecture guncellendi | [[ADR-053/054]] | MO |
-| 2026-08-09 | Electronics Vault Integration | ✅ 50+ dosya, L6 katmani, 3 yeni ADR (061-063) | [[ADR-061/062/063-electronics]] | MO |
+| 2026-08-08 | Vault Rewrite (engine, MEMORY, log) | ✅ Tamamlandi | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | MO |
+| 2026-08-09 | Platform Rewrite Vault Update | ✅ 4 yeni ADR + architecture guncellendi | [[ADR-053/054]] <!-- dead-link: ADR-053/054 no source 2026-09-24 --> | MO |
+| 2026-08-09 | Electronics Vault Integration | ✅ 50+ dosya, L6 katmani, 3 yeni ADR (061-063) | [[brain.md]] ADR-061/062/063-electronics | MO |
 | 2026-08-09 | AI Architecture + Vault Update | ✅ 12 yeni dosya (9 AI + 1 BCNF + 2 Security), OWASP 2025, PCM3168A duzeltmesi | [[ADR-030/035/036/049-ai]] | MO |
 | 2026-08-12 | Katmanlı Mimari Plan + ADR-083/084/085/086 + Vault Güncellemeleri | ✅ Tamamlandı | ADR-083, ADR-084, ADR-085, ADR-086 | MO |
 | 2026-08-13 | Master Implementation Plan + ADR-087 + Tüm Vault Revize | ✅ Tamamlandı (22 bölüm, 5 faz, 40 gün) | ADR-087, master-implementation-plan.md | MO |

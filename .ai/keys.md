@@ -72,9 +72,9 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | log_activity, log_system, redaction | architecture/07-security/deep-logging-system |
 | real-time log, dashboard log, monitor | architecture/07-security/deep-logging-system |
 | dosya rotasyonu, log rotation, arsiv | architecture/07-security/deep-logging-system |
-| social oauth, gender-based oauth, cinsiyet bazlı sosyal medya | [[decisions/accepted/ADR-088-gender-based-social-oauth]] |
-| OAuth provider, Pinterest, Instagram, TikTok, Discord, Reddit, X, LinkedIn, YouTube | [[decisions/accepted/ADR-088-gender-based-social-oauth]] |
-| oauth_connections, oauth_states, token şifreleme | [[decisions/accepted/ADR-088-gender-based-social-oauth]] |
+| social oauth, gender-based oauth, cinsiyet bazlı sosyal medya | [[brain.md]] ADR-088-gender-based-social-oauth |
+| OAuth provider, Pinterest, Instagram, TikTok, Discord, Reddit, X, LinkedIn, YouTube | [[brain.md]] ADR-088-gender-based-social-oauth |
+| oauth_connections, oauth_states, token şifreleme | [[brain.md]] ADR-088-gender-based-social-oauth |
 
 ---
 
@@ -82,12 +82,12 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| 18 BCNF, normalizasyon | [[decisions/accepted/ADR-040-database-authority]] |
+| 18 BCNF, normalizasyon | [[brain.md]] ADR-040-database-authority |
 | ORM, SELECT *, PDO | [[decisions/accepted/ADR-002-pdo-mandatory-no-orm]] |
 | multi-db, 18 veritabani | [[decisions/accepted/ADR-003-multi-db-9-databases]] |
 | migration, schema degisikligi | [[decisions/accepted/ADR-014-multi-db-migration-strategy]] |
 | SQL normalization | [[decisions/accepted/ADR-033-sql-normalization-strategy]] |
-| DB sync | [[decisions/accepted/ADR-050-multi-db-sync-strategy]] |
+| DB sync | [[brain.md]] ADR-050-multi-db-sync-strategy |
 | database master | architecture/k0-k5-software/k5-data-layer/database_master.md |
 | coremusic_musics | .sql/mysql/coremusic_musics.sql |
 | coremusic_auth | .sql/mysql/coremusic_auth.sql |
@@ -121,7 +121,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | spatial audio, surround | projects/NevaEngine/spatial-audio |
 | VST3, plugin, MIDI | projects/NevaEngine/vst3-hosting |
 | 32-bit float, ring buffer | architecture/06-audio/audio-pipeline.md |
-| 8.1 surround, PCM3168A | [[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]] |
+| 8.1 surround, PCM3168A | [[brain.md]] ADR-038-8.1-sound-card-chip-selection |
 | ASIO/WASAPI/CoreAudio | architecture/06-audio/audio-platform-decision.md |
 | audio service | architecture/06-audio/coremusic-audio-service.md |
 | device service, BT, WiFi | architecture/06-audio/coremusic-device-service.md |
@@ -135,8 +135,8 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| PCM3168A, 8 kanal, DAC | [[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]] |
-| PCM5122, REDDED, H001 | [[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]] |
+| PCM3168A, 8 kanal, DAC | [[brain.md]] ADR-038-8.1-sound-card-chip-selection |
+| PCM5122, REDDED, H001 | [[brain.md]] ADR-038-8.1-sound-card-chip-selection |
 | XMOS XU316, DSP | [[decisions/accepted/ADR-017-dsp-hardware-mode]] |
 | AK4458, DAC opsiyonel | electronic/hardware/audio-interface.md *(Faz 1: electronic/ kök tasarım dosyaları kaldırıldı — gerçek konumlar alt klasörlerde)* |
 | Class AB, amfi, 100W | electronic/amplifier/ *(kök `amplifier-design.md` kaldırıldı — arşiv)* |
@@ -186,7 +186,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | AI strategy, prompt engineering | [[decisions/accepted/ADR-030-ai-strategy-core]] |
 | system prompt, prompt standards | [[decisions/accepted/ADR-035-system-prompt-engineering]] |
 | multi-project prompt | [[decisions/accepted/ADR-036-multi-project-prompt-maker]] |
-| startup prompt loader | [[decisions/accepted/ADR-049-startup-prompt-loader]] |
+| startup prompt loader | [[brain.md]] ADR-049-startup-prompt-loader |
 | AI electronics engine | architecture/ai/ai-electronics-engine.md |
 | AI workflow electronics | architecture/ai/ai-workflow-electronics.md |
 | ai-workflow-standards | architecture/03-contracts/ai-workflow-standards.md |
@@ -204,7 +204,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | Control Service, port 81 | architecture/06-audio/coremusic-control-service.md |
 | Media Service, port 5000/6000 | architecture/06-audio/coremusic-media-service.md |
 | Audio Service, port 9741/9742 | architecture/06-audio/coremusic-audio-service.md |
-| 7 servis, platform | [[decisions/accepted/ADR-039-7-service-platform-architecture]] |
+| 7 servis, platform | [[brain.md]] ADR-039-7-service-platform-architecture |
 | servis entegrasyonu | ecosystem/7-service-integration.md |
 | health check | ecosystem/service-health-check.md |
 
@@ -214,12 +214,12 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| tema, theme, dinamik tema | [[decisions/accepted/ADR-044-dynamic-user-theme-engine]] |
-| cinsiyet, gender, pembe, mavi | [[decisions/accepted/ADR-044-dynamic-user-theme-engine]] |
-| data-gender, CSS tokens | [[decisions/accepted/ADR-044-dynamic-user-theme-engine]] |
-| multi-domain view mode | [[decisions/accepted/ADR-045-multi-domain-view-mode-architecture]] |
-| cross-view state | [[decisions/accepted/ADR-046-cross-view-state-preservation]] |
-| View Transition API | [[decisions/accepted/ADR-048-view-transition-api-integration]] |
+| tema, theme, dinamik tema | [[brain.md]] ADR-044-dynamic-user-theme-engine |
+| cinsiyet, gender, pembe, mavi | [[brain.md]] ADR-044-dynamic-user-theme-engine |
+| data-gender, CSS tokens | [[brain.md]] ADR-044-dynamic-user-theme-engine |
+| multi-domain view mode | [[brain.md]] ADR-045-multi-domain-view-mode-architecture |
+| cross-view state | [[brain.md]] ADR-046-cross-view-state-preservation |
+| View Transition API | [[brain.md]] ADR-048-view-transition-api-integration |
 | responsive, media query, breakpoint, token konsolidasyon | assets.coremusic.net/Css/01_Abstracts/a-layout-tokens.css |
 | 1024px default, mockup reference, RPi5 embedded | assets.coremusic.net/Css/01_Abstracts/a-layout-tokens.css |
 | device css, d-embedded, d-desktop, d-tablet, device override | assets.coremusic.net/Css/08_Devices/ |

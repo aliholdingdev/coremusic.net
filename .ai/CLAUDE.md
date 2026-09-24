@@ -2,7 +2,7 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.1.0
+version: 27.2.0
 status: active
 authority: SSOT
 updated: 2026-09-24
@@ -152,7 +152,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | Kanal | 1-8 (modüler) |
 | Heatsink | Fischer SK53-100-SA (300×75×49mm) |
 
-**İlgili ADR:** [[ADR-089-classab-24v]]
+**İlgili ADR:** [[brain.md]] ADR-089-classab-24v
 
 > **L1 Alt Tablolar — Service Layer & Data Layer & Infrastructure:**
 >
@@ -641,10 +641,10 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 |-------|-------|-----|
 | USB cihaz çıkarma | WASAPI fallback | [[ADR-017-dsp-hardware-mode]] |
 | Multi-Tab CSRF | Session-bound tek token | [[ADR-010-csrf-protection-strategy]] |
-| BCNF violation | 3NF → BCNF audit | [[ADR-040-database-authority]] |
+| BCNF violation | 3NF → BCNF audit | [[brain.md]] ADR-040-database-authority |
 | Session timeout (3600s) | Otomatik yeniden auth | [[ADR-011-session-management]] |
 | Layer violation | Derhal revert | CLAUDE.md §7 |
-| PCM5122 kullanımı | PCM3168A veya AK4458 | [[ADR-038-8.1-sound-card-chip-selection]] |
+| PCM5122 kullanımı | PCM3168A veya AK4458 | [[brain.md]] ADR-038-8.1-sound-card-chip-selection |
 | Network outage | Offline-First + SQLite queue | — |
 | Cache stampede | Mutex ile single load | L0 |
 | ADR conflict | Escalation protocol | [[engine.md]] |
@@ -700,9 +700,9 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 27.1.0 |
+| Version | 27.2.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
-| Sections | 8 |
+| Sections | 34 |
 | Hard Guardrails | 16 |
 | Soft Constraints | 4 |
 | Panels | 10 |
@@ -801,11 +801,11 @@ Diğer terimler → [[glossary]]: SSOT, ADR, CSRF, CSP, BCNF, RBAC, OWASP, ASIO,
 | [[decisions/accepted/ADR-010-csrf-protection-strategy]] | CSRF token = `csrf_token` | Frozen |
 | [[decisions/accepted/ADR-011-session-management]] | Session yönetimi | Frozen |
 | [[decisions/accepted/ADR-022-database-hardened-security]] | DB güvenlik sertleştirme | Frozen |
-| [[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]] | PCM3168A + XMOS XU316 | Active |
-| [[decisions/accepted/ADR-040-database-authority]] | 18 BCNF DB otoritesi | Active |
-| [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault restructuring, PHP 8.4, port 81 | Active |
-| [[decisions/accepted/ADR-044-dynamic-user-theme-engine]] | Dynamic theme engine | Active |
-| [[.decisions/draft/ADR-089-classab-24v]] | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Draft |
+| [[brain.md]] ADR-038-8.1-sound-card-chip-selection | PCM3168A + XMOS XU316 | Active |
+| [[brain.md]] ADR-040-database-authority | 18 BCNF DB otoritesi | Active |
+| [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault restructuring, PHP 8.4, port 81 | Active |
+| [[brain.md]] ADR-044-dynamic-user-theme-engine | Dynamic theme engine | Active |
+| [[brain.md]] ADR-089-classab-24v | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Draft |
 
 ---
 
@@ -863,14 +863,14 @@ Her oturum başlangıcında sırayla okunur:
 |-------|-------|--------|
 | § 5 Mimari | [[architecture/k0-isletim-sistemi]] | L0-L6 katmanları |
 | § 6 Middleware | [[ADR-010-csrf-protection-strategy]] | Middleware sırası |
-| § 9 Paneller | [[decisions/accepted/ADR-043-auth-subdomain-consolidation]] | Auth konsolidasyonu |
+| § 9 Paneller | [[brain.md]] ADR-043-auth-subdomain-consolidation | Auth konsolidasyonu |
 | § 12 Teknoloji | [[brain.md]] | Tech stack detayları |
-| § 15 Tema | [[ADR-044-dynamic-user-theme-engine]] | Theme engine |
+| § 15 Tema | [[brain.md]] ADR-044-dynamic-user-theme-engine | Theme engine |
 | § 18 DB | [[architecture/k0-k5-software/k5-data-layer/database_master]] | 18 BCNF şemaları |
 | § 19 Audio | [[architecture/k3-ses-motoru]] | Audio engine |
-| § 20 ADR | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault standardı |
+| § 20 ADR | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault standardı |
 | § 20A Master Plan | [[architecture/03-contracts/master-implementation-plan]] | 5 faz, 40 gün implementasyon |
-| § 20B ADR-087 | [[decisions/accepted/ADR-087-master-implementation-plan]] | Master plan ADR |
+| § 20B ADR-087 | [[brain.md]] ADR-087-master-implementation-plan | Master plan ADR |
 | § 12A UI Design | [[ui-design/01-mockup-index]] | 19 PNG Mockup, C01-C16, 1024x600 SSOT |
 
 ---

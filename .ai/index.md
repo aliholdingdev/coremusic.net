@@ -657,36 +657,36 @@ Toplam 79 ADR (Frozen: 37, Active: 30, Rejected: 12). Frozen: 001-037 (değişti
 
 | ADR | Konu | Kategori |
 |-----|------|----------|
-| [[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]] | 8.1 ses donanımı (PCM3168A + XMOS XU316) | Audio |
-| [[decisions/accepted/ADR-039-7-service-platform-architecture]] | 7-servis platform mimarisi | Architecture |
-| [[decisions/accepted/ADR-040-database-authority]] | 18 BCNF DB otoritesi | Database |
-| [[decisions/accepted/ADR-041-database-normalization-supplementary]] | DB normalizasyon ekı | Database |
-| [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault yeniden yapılandırma | Vault |
-| [[decisions/accepted/ADR-043-auth-subdomain-consolidation]] | Auth subdomain konsolidasyonu | Security |
-| [[decisions/accepted/ADR-044-dynamic-user-theme-engine]] | Dynamic theme engine | UI |
-| [[decisions/accepted/ADR-045-multi-domain-view-mode-architecture]] | Multi-domain view mode | UI |
-| [[decisions/accepted/ADR-046-cross-view-state-preservation]] | Cross-view state koruma | UI |
-| [[decisions/accepted/ADR-048-view-transition-api-integration]] | View Transition API entegrasyonu | UI |
-| [[decisions/accepted/ADR-049-startup-prompt-loader]] | Startup prompt loader | AI |
-| [[decisions/accepted/ADR-050-multi-db-sync-strategy]] | Multi-DB sync stratejisi | Database |
-| [[decisions/accepted/ADR-061-electronics-architecture]] | Electronics Architecture (L6 Layer) | Electronics |
-| [[decisions/accepted/ADR-062-dsp-pipeline-architecture]] | DSP Pipeline Architecture | Electronics |
-| [[decisions/accepted/ADR-063-hardware-design-standards]] | Hardware Design Standards | Electronics |
-| [[decisions/accepted/ADR-064-electronics-platform-architecture]] | Electronics Platform Architecture (L0-L6, 5 cihaz, 13 servis) | Electronics |
-| [[decisions/accepted/ADR-072-social-database-schema]] | Social DB Schema (comments, shares, activity, rooms, notifications) | Database |
-| [[decisions/accepted/ADR-073-podcast-database-schema]] | Podcast DB Schema (shows, episodes, subscriptions, transcripts) | Database |
-| [[decisions/accepted/ADR-074-radio-database-schema]] | Radio DB Schema (stations, schedules, now_playing) | Database |
-| [[decisions/accepted/ADR-075-ai-database-schema]] | AI DB Schema (preferences, features, recommendations, models) | Database |
-| [[decisions/accepted/ADR-076-video-database-schema]] | Video DB Schema (music_videos, playback, subtitles) | Database |
-| [[decisions/accepted/ADR-077-studio-database-schema]] | Studio DB Schema (sessions, tracks, presets, equipment) | Database |
-| [[decisions/accepted/ADR-078-cms-database-schema]] | CMS DB Schema (pages, blog, tags, media, FAQs, banners) | Database |
-| [[decisions/accepted/ADR-079-i18n-database-schema]] | i18n DB Schema (languages, translations, ui_strings, locale) | Database |
-| [[decisions/accepted/ADR-083-spa-router]] | SPA Router Architecture (PHP+JS Hybrid) | Routing |
-| [[decisions/accepted/ADR-084-api-gateway-architecture]] | API Gateway Architecture (API-First, BFF, CQRS) | Architecture |
-| [[decisions/accepted/ADR-085-modular-composer-packages]] | Shared Library Hybrid (tek shared/ + PSR-4 namespace) | Infrastructure |
-| [[decisions/accepted/ADR-086-event-driven-architecture]] | Event Driven Architecture (PSR-14) | Architecture |
-| [[decisions/accepted/ADR-087-master-implementation-plan]] | Master Implementation Plan (Sıfırdan Geliştirme Kapsamı) | Architecture |
-| [[decisions/accepted/ADR-088-gender-based-social-oauth]] | Gender-Based Social OAuth | Social |
+| [[brain.md]] ADR-038-8.1-sound-card-chip-selection | 8.1 ses donanımı (PCM3168A + XMOS XU316) | Audio |
+| [[brain.md]] ADR-039-7-service-platform-architecture | 7-servis platform mimarisi | Architecture |
+| [[brain.md]] ADR-040-database-authority | 18 BCNF DB otoritesi | Database |
+| [[brain.md]] ADR-041-database-normalization-supplementary | DB normalizasyon ekı | Database |
+| [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault yeniden yapılandırma | Vault |
+| [[brain.md]] ADR-043-auth-subdomain-consolidation | Auth subdomain konsolidasyonu | Security |
+| [[brain.md]] ADR-044-dynamic-user-theme-engine | Dynamic theme engine | UI |
+| [[brain.md]] ADR-045-multi-domain-view-mode-architecture | Multi-domain view mode | UI |
+| [[brain.md]] ADR-046-cross-view-state-preservation | Cross-view state koruma | UI |
+| [[brain.md]] ADR-048-view-transition-api-integration | View Transition API entegrasyonu | UI |
+| [[brain.md]] ADR-049-startup-prompt-loader | Startup prompt loader | AI |
+| [[brain.md]] ADR-050-multi-db-sync-strategy | Multi-DB sync stratejisi | Database |
+| [[brain.md]] ADR-061-electronics-architecture | Electronics Architecture (L6 Layer) | Electronics |
+| [[brain.md]] ADR-062-dsp-pipeline-architecture | DSP Pipeline Architecture | Electronics |
+| [[brain.md]] ADR-063-hardware-design-standards | Hardware Design Standards | Electronics |
+| [[brain.md]] ADR-064-electronics-platform-architecture | Electronics Platform Architecture (L0-L6, 5 cihaz, 13 servis) | Electronics |
+| [[brain.md]] ADR-072-social-database-schema | Social DB Schema (comments, shares, activity, rooms, notifications) | Database |
+| [[brain.md]] ADR-073-podcast-database-schema | Podcast DB Schema (shows, episodes, subscriptions, transcripts) | Database |
+| [[brain.md]] ADR-074-radio-database-schema | Radio DB Schema (stations, schedules, now_playing) | Database |
+| [[brain.md]] ADR-075-ai-database-schema | AI DB Schema (preferences, features, recommendations, models) | Database |
+| [[brain.md]] ADR-076-video-database-schema | Video DB Schema (music_videos, playback, subtitles) | Database |
+| [[brain.md]] ADR-077-studio-database-schema | Studio DB Schema (sessions, tracks, presets, equipment) | Database |
+| [[brain.md]] ADR-078-cms-database-schema | CMS DB Schema (pages, blog, tags, media, FAQs, banners) | Database |
+| [[brain.md]] ADR-079-i18n-database-schema | i18n DB Schema (languages, translations, ui_strings, locale) | Database |
+| [[brain.md]] ADR-083-spa-router | SPA Router Architecture (PHP+JS Hybrid) | Routing |
+| [[brain.md]] ADR-084-api-gateway-architecture | API Gateway Architecture (API-First, BFF, CQRS) | Architecture |
+| [[brain.md]] ADR-085-modular-composer-packages | Shared Library Hybrid (tek shared/ + PSR-4 namespace) | Infrastructure |
+| [[brain.md]] ADR-086-event-driven-architecture | Event Driven Architecture (PSR-14) | Architecture |
+| [[brain.md]] ADR-087-master-implementation-plan | Master Implementation Plan (Sıfırdan Geliştirme Kapsamı) | Architecture |
+| [[brain.md]] ADR-088-gender-based-social-oauth | Gender-Based Social OAuth | Social |
 
 ---
 
@@ -704,7 +704,7 @@ Toplam 79 ADR (Frozen: 37, Active: 30, Rejected: 12). Frozen: 001-037 (değişti
 |-------|-------|--------|
 | § 3 SSOT | [[CLAUDE.md]] | Ana sözleşme |
 | § 4 Mimari | [[architecture/k0-isletim-sistemi]] | L0-L6 katmanları |
-| § 5 ADR | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault standardı |
+| § 5 ADR | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault standardı |
 | § 6 Servisler | [[ecosystem/7-service-integration]] | Servis entegrasyonu |
 | § 7 Agentlar | [[AGENTS.md]] | Agent yetkileri |
 | § 8 DB | [[architecture/k0-k5-software/k5-data-layer/database_master]] | 18 BCNF şemaları |

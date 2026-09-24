@@ -289,7 +289,7 @@ Müzik Dosyası → Metadata Çıkarma → DB Kaydı → İndeksleme → Arama �
 | Append-Only Log | Geçmiş kayıtlar silinemez | [[ADR-004-multi-domain-spa]] |
 | Hard Gate | Kullanıcı onayı olmadan sonraki faza geçilmez | [[ADR-007-cache-namespace]] |
 | Domain Boundary | Her ajan kendi alanında kalır | [[ADR-008-bypass-auth-middleware]] |
-| Single Source of Truth | Bilgi sadece `.ai/` vault'tan okunur | [[ADR-042-vault-restructuring-2026-08-03]] |
+| Single Source of Truth | Bilgi sadece `.ai/` vault'tan okunur | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 |
 
 ---
 
@@ -752,7 +752,7 @@ Session Sonunda:
 | § 8.4 Security Audit | [[ADR-022-database-hardened-security]] | Şifreleme |
 | § 9 Hard Gates | [[ADR-007-cache-namespace]] | Onay mekanizması |
 | § 10 Rules | [[ADR-008-bypass-auth-middleware]] | Auth bypass |
-| § 11 Edge Cases | [[ADR-044-dynamic-user-theme-engine]] | Tema engine |
+| § 11 Edge Cases | [[brain.md]] ADR-044-dynamic-user-theme-engine | Tema engine |
 | § 8.8 YAML Formatter | CI/CD, GitHub Actions | YAML format standartları |
 | § UI Design | [[ui-design/01-mockup-index]] | Mockup indeksi — frontend görevlerinde ZORUNLU |
 | § Mockup PNG'ler | `.ai/.png/home-1024/` + `.ai/.png/home-1920/` + `.ai/.png/shared-1024/` | 19 PNG mockup (RPi5 1024×600 + Desktop 1920×1080) |
