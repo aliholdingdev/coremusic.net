@@ -2,7 +2,7 @@
 title: "CoreMusic — Agent Registry & Coordination Protocol"
 type: guide
 category: agent-registry
-version: 22.0.2
+version: 22.0.3
 status: active
 authority: SSOT
 updated: 2026-09-24
@@ -12,7 +12,7 @@ updated: 2026-09-24
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[VISION.md]] · [[PROJECTS.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (6 aktif + 9 arşiv skill — Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (8 aktif skill — arşiv kaldırıldı, 20 benzersiz dosya _archive-keep/ — Guardrail #16 zorunlu)
 
 ---
 
@@ -39,7 +39,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 
 ### §2.1 Registry Authority
 
-Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil indeksi** olarak hizmet eder — v1.0.0 iken kendi SSOT iddiasını taşırken Faz 4'te (2026-09-23) demote edilmiştir (kayıt: v1.1.0; güncel: **v1.2.1**), `authority: Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)` (detay §26.2). Çelişkide kök dosya kazanır.
+Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil indeksi** olarak hizmet eder — v1.0.0 iken kendi SSOT iddiasını taşırken Faz 4'te (2026-09-23) demote edilmiştir (kayıt: v1.1.0; güncel: **v1.2.3**), `authority: Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)` (detay §26.2). Çelişkide kök dosya kazanır.
 
 ---
 
@@ -134,7 +134,7 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 
 ### §14 Mandatory 5 Skills (ADR-042/C4)
 
-> **Faz 1 doğrulama notu (2026-09-08):** Bu tablo **disiplin maskesidir** — diskte mevcut skill klasörleri `.opencode/skills/` altındaki 6 aktif + 9 arşiv skill'dir (toplam 15 SKILL.md; [[index.md]] §11B). `/brainstorming` ve `/vault-sync` için ayrı skill klasörü YOKTUR; bu işlevler sırasıyla sistem promptundaki brainstorming becerisi ve `.workflows/vault-sync.md` akışıyla yürütülür.
+> **Faz 1 doğrulama notu (2026-09-08):** Bu tablo **disiplin maskesidir** — diskte mevcut skill klasörleri `.opencode/skills/` altındaki 8 aktif SKILL.md'dir: composer-sync, db-engine, orchestration, truth-engine, ui-workbench, vault-sync-post, agent-debate, context-report (_archive/ kaldırıldı; [[index.md]] §11B). `/brainstorming` ve `/vault-sync` için ayrı skill klasörü YOKTUR; bu işlevler sırasıyla sistem promptundaki brainstorming becerisi ve `.workflows/vault-sync.md` akışıyla yürütülür.
 
 | # | Skill | Amaç | Kullanım |
 |---|-------|------|----------|
@@ -538,7 +538,7 @@ Her dosya için kontrol et:
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 22.0.2 |
+| Version | 22.0.3 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 |
 | Agent Count | 11 (1 MO + 10 specialist) |
@@ -616,7 +616,7 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 
 | Kaynak | Eski Durum | Yeni Durum |
 |--------|-----------|------------|
-| `.ai/AGENTS.md` (kök) | v21.0.0, SSOT iddiası | **v22.0.2 — tek SSOT** |
+| `.ai/AGENTS.md` (kök) | v21.0.0, SSOT iddiası | **v22.0.3 — tek SSOT** |
 | `.ai/.agents/AGENTS.md` (alt) | v1.0.0, kendini SSOT ilan ediyordu | v1.2.1 — **alt registry** (`authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)"`) |
 
 Çözüm kuralı: SSOT hiyerarşisinde çelişkide kök dosya kazanır. Alt registry yalnızca profil/özet detayını taşır; routing, handover, escalation, öncelik kurallarının tamamı bu dosyadadır.

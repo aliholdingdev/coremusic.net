@@ -2,10 +2,10 @@
 title: "CoreMusic - Orchestration Engine"
 type: system
 category: orchestration
-version: 21.0.0
+version: 21.0.1
 status: active
-authority: "Orchestration Index — SSOT: .ai/AGENTS.md (v22.0.0)"
-updated: 2026-09-23
+authority: "Orchestration Index — SSOT: .ai/AGENTS.md (v22.0.3)"
+updated: 2026-09-24
 ---
 
 # CoreMusic — Orchestration Engine
@@ -14,7 +14,7 @@ updated: 2026-09-23
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[VISION.md]] · [[PROJECTS.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
 
 ---
 

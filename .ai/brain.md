@@ -4,9 +4,9 @@ title: "CoreMusic — Engineering Brain (Enterprise SSOT)"
 type: brain
 category: architecture-decisions
 date: 2026-08-08
-updated: 2026-09-23
+updated: 2026-09-24
 status: active
-version: 26.1.0
+version: 26.1.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -18,7 +18,7 @@ reference:
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[MEMORY.md]] · [[log.md]] · [[VISION.md]] · [[PROJECTS.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
 
 ---
 
@@ -889,10 +889,10 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 26.1.0 |
+| Version | 26.1.1 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 (H1 + 7 English H2 skeleton) |
-| ADR Coverage | 001–089 (80 karar: 37 Frozen + 30 Active + 12 Rejected + 1 Draft) |
+| ADR Coverage | 001–089 (80 karar: 37 Frozen + 30 Active + 12 Rejected + 1 Draft) (89 numaradan 80 dolu; 9 numara boşluk — DOĞRULAMA GEREKLİ) |
 | Panel Count | 10 (hedef — fiziksel: auth + home + assets; Faz 0) |
 | Service Count | 7 |
 | DB Count | 18 BCNF |

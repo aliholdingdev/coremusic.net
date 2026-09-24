@@ -3,8 +3,8 @@ title: "CoreMusic — Master Orchestrator Agent Profile"
 type: profile
 category: agent-registry
 date: 2026-08-08
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-24
+version: 2.0.1
 status: active
 authority: reference
 ---
@@ -32,7 +32,7 @@ authority: reference
 | Escalation Hedefi | İnsan (son çare — kök §10.2 L3 sonrası) |
 | Handover Ortakları | 10 uzman agent (`backend`, `ui`, `security`, `data`, `embedded`, `qa`, `devops`, `audio-hw`, `dsp-fw`, `win-sw`) |
 | Health Check Interval | Her görev başında + 10 sn heartbeat (kök §11.1) |
-| SSOT Hiyerarşisi | Bu profil (domain tekel) → kök [[../AGENTS.md]] (v22.0.0) → [[../CLAUDE.md]]; çelişkide **kök kazanır** |
+| SSOT Hiyerarşisi | Bu profil (domain tekel) → kök [[../AGENTS.md]] (v22.0.3) → [[../CLAUDE.md]]; çelişkide **kök kazanır** |
 | Son Doğrulama | 2026-09-23 (FAZ 3a, glob kanıtlı) |
 
 ---
@@ -97,7 +97,7 @@ authority: reference
 | UTF-8 yazım aracı | `.ai/scripts/vault-utf8-writer.mjs` | ✅ IMPLEMENTED | `.ai/scripts/` altında **tek** mjs betik (append/insert/write/verify/repair/scan) |
 | Oturum betikleri | `session-save.mjs`, `vault-post-update.mjs` | ⚠️ VERIFICATION REQUIRED | `.ai/scripts/` içinde **bulunamadı** — sistem çağrısıyla çelişiyor; uydurulmadı |
 | Workflow'lar | `.workflows/*.md` | ✅ IMPLEMENTED | glob → **8** dosya (session-init, vault-sync, security-audit, orchestrator-flow, hallucination-control, deployment, adr-creation, CLAUDE.md) |
-| Skills | `.opencode/skills/` | ✅ IMPLEMENTED | **6** aktif SKILL.md (orchestration, truth-engine, db-engine, ui-workbench, composer-sync, vault-sync-post) + 9 `_archive/`; kök "10 skill" iddiası ⚠️ VERIFICATION REQUIRED |
+| Skills | `.opencode/skills/` | ✅ IMPLEMENTED | **8** aktif SKILL.md (orchestration, truth-engine, db-engine, ui-workbench, composer-sync, vault-sync-post, agent-debate, context-report); `_archive/` kaldırıldı — benzersiz 20 dosya `_archive-keep/`; kök "10 skill" iddiası → doğrulandı, gerçek=8 (2026-09-24) |
 | Template sistemi | `.ai/.templates/` | ✅ IMPLEMENTED | registry iddiası 28/28 dosya (index §2, 2026-09-24 — +2 yeni şablon) |
 | Persistent state | git | ✅ IMPLEMENTED | Çalışma dizini git repo (env: `Is directory a git repo: yes`) |
 | İletişim | Handover / Eskalasyon protokolleri | ✅ IMPLEMENTED | Kök §9-§10 dokümante protokol (vault içi süreç, kod değil) |
@@ -153,7 +153,7 @@ MO hiçbir katmanda uygulama kodu üretmez; bu şema yalnız **denetim** içindi
 | 2 | Yeni ADR var mı? (Frozen 001-037 dokunulmaz, yeni ADR-088+) |
 | 3 | Kod değişikliği oldu mu? |
 | 4 | Vault'ta eski/çelişkili bilgi var mı? |
-| 5 | Skills durumu nedir? (6 aktif + 9 arşiv — §4 kanıtı) |
+| 5 | Skills durumu nedir? (8 aktif — 2 yeni: agent-debate, context-report; `_archive/` kaldırıldı, benzersiz 20 dosya `_archive-keep/` — §4 kanıtı) |
 
 **Bitiş — 6 Adım:**
 
@@ -499,9 +499,10 @@ Timestamp: 2026-09-23T21:20:00Z
 | 1.0.0 | 2026-09-21 | İlk profil |
 | 2.0.0 | 2026-09-23 | Vault Refactor Engine: 10-bölüm formatı, authority alt-profile indirgendi |
 | 2.0.0 (FAZ 3a) | 2026-09-23 | §1-§11 domain serisine tam yeniden yazım; §4 stack'e glob kanıtlı IMPLEMENTED/PLANNED/VERIFICATION REQUIRED etiketleri; kök §24.3/§25.2 çelişkileri §4/§10'da işaretlendi; bilgi korunumu: kimlik, 8 rol, yetki/yasak, lock, sync 5+6, health, handover, escalation |
+| 2.0.1 | 2026-09-24 | Skill sayım düzeltmesi: §4/§8 Skills 6+9→8 aktif (agent-debate, context-report eklendi; `_archive/` kaldırıldı → 20 dosya `_archive-keep/`); kök "10 skill" VERIFICATION bayrağı kaldırıldı |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-24
 **Mode:** Red Team · Human Mode · Truth Mode

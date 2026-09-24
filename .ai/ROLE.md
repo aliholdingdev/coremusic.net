@@ -4,9 +4,9 @@ type: system
 category: agent-role
 title: "CoreMusic — Senior Software Architect Role Definition"
 date: 2026-08-19
-updated: 2026-09-18
+updated: 2026-09-24
 status: active
-version: 6.0.0
+version: 6.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -15,7 +15,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[VISION.md]] · [[PROJECTS.md]] · [[.templates/index]] · [[.agents/AGENTS.md]] · [[engine.md]]
 
-**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
 
 ---
 

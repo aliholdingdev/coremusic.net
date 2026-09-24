@@ -4,9 +4,9 @@ type: agent-registry
 category: agent-registry
 date: 2026-09-23
 updated: 2026-09-24
-version: 1.2.2
+version: 1.2.3
 status: active
-authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.1)"
+authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.3)"
 ---
 
 # CoreMusic — Agent Alt-Registry (Profil İndeksi)
@@ -15,7 +15,7 @@ authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.1)"
 
 ---
 
-> **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.0.1). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
+> **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.0.3). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
 
 ---
 
@@ -38,7 +38,7 @@ Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hang
 | Seviye | Dosya | Rol |
 |--------|-------|-----|
 | 0 (SSOT) | [[../CLAUDE.md]] | AI anayasası, 16 Hard Guardrail |
-| 1 (SSOT) | [[../AGENTS.md]] (v22.0.1) | Agent registry — routing/handover/escalation/öncelik tekelinde |
+| 1 (SSOT) | [[../AGENTS.md]] (v22.0.3) | Agent registry — routing/handover/escalation/öncelik tekelinde |
 | 2 (Alt Registry) | Bu dosya (v1.2.2) | Profil indeksi + yazım kuralları + boot bağlantısı |
 | 3 (Profil) | `.ai/.agents/<agent>.md` | Tekil ajanın yetki belgesi (§1-§11 domain serisi) |
 
@@ -294,8 +294,8 @@ authority: SSOT
 
 | Kaynak | Disk Kanıtı | Not |
 |--------|-------------|-----|
-| `.opencode/skills/*/SKILL.md` | ✅ 6 aktif: `orchestration`, `truth-engine`, `db-engine`, `ui-workbench`, `composer-sync`, `vault-sync-post` | Kök [[../AGENTS.md]] "10 skill" iddiası → ⚠️ VERIFICATION REQUIRED (bkz. §8) |
-| `.opencode/skills/_archive/` | ✅ 9 arşiv skill (`prompt-maker`, `hallucination-control`, `red-team-truth-mode`, `human-mode`, `agent-orchestrator`, `ui-code-generator`, `ui-analyzer`, `database-normalize-maker`, `skill-maker`) | Arşiv = kullanımda değil |
+| `.opencode/skills/*/SKILL.md` | ✅ 8 aktif: `orchestration`, `truth-engine`, `db-engine`, `ui-workbench`, `composer-sync`, `vault-sync-post`, `agent-debate`, `context-report` | Kök [[../AGENTS.md]] "10 skill" iddiası → ✅ GİDERİLDİ (2026-09-24) — kök giriş/§14 "8 aktif skill" oldu (bkz. §8 #3) |
+| `.opencode/skills/_archive-keep/` | `_archive/` KALDIRILDI — geriye kalan 9 klasör / 20 vault dosyası `_archive-keep/` altında (SKILL.md 0) | Arşiv = kullanımda değil (2026-09-24 disk kanıtı) |
 | `.workflows/*.md` | ✅ 8 dosya: `session-init`, `vault-sync`, `security-audit`, `orchestrator-flow`, `hallucination-control`, `deployment`, `adr-creation`, `CLAUDE.md` | Şablon iddiası "8 dosya" ✅ tutuyor |
 | `.ai/scripts/vault-utf8-writer.mjs` | ✅ tek mjs betik | `session-save.mjs` / `vault-post-update.mjs` `.ai/scripts/` altında **YOK** → ⚠️ VERIFICATION REQUIRED (§8) |
 
@@ -369,7 +369,7 @@ authority: SSOT
 |---|----------------|-----------------------------------|-------|
 | 1 | "4 composer.json" (kök §25.2) | **3** adet: `shared/`, `home.coremusic.net/`, `auth.coremusic.net/` | ⚠️ VERIFICATION REQUIRED |
 | 2 | "Middleware ×4 (PSR-15)" (kök §25.2) | `shared/src/Middleware/` = **11** PHP dosyası (10 middleware + `MiddlewarePipeline`) | ⚠️ VERIFICATION REQUIRED |
-| 3 | "10 skill" (kök §14/Giriş) | 6 aktif SKILL.md + 9 `_archive/` | ⚠️ VERIFICATION REQUIRED |
+| 3 | "10 skill" (kök §14/Giriş) | 8 aktif SKILL.md (2 yeni: agent-debate, context-report); `_archive/` kaldırıldı — benzersiz 20 dosya `_archive-keep/` | ✅ GİDERİLDİ (2026-09-24) — doğrulandı, gerçek=8; kök giriş/§14 8 aktif olarak güncellendi |
 | 4 | `architecture/l1-security` · `l2-routing` · `l3-presentation` · `k0-k5-software/k0-os-layer` · `02-deployment` (kök §24.3) | **Hiçbiri yok** — gerçek ağaç: `k6-guvenlik` · `k9-api-routing` · `k11-ux` · `k0-isletim-sistemi` · `k13-cicd` | Kök §24.3 güncellemeli (üst görev) |
 | 5 | `ui-design/03-accessibility-gaps.md` (kök §24.3 QA satırı) | Dosya adı **`04-accessibility-gaps.md`** | Üst görev düzeltmeli |
 | 6 | `projects/NevaEngine/` · `electronic/dsp/` · `electronic/firmware/` (kök §24.3 Embedded) | **Hiçbiri yok** — karşılığı `architecture/firmware/` (8 md) | Embedded profili §8'de işaretledi |
@@ -430,7 +430,7 @@ authority: SSOT
 |---|----|--------|-------------|
 | 1 | qa/devops/audio-hw/dsp-fw/win-sw profilleri rewrite | 5 dosya §1-§11 | ✅ Tamamlandı — FAZ 3b (2026-09-23, §3.1'de ✅) |
 | 2 | 23:10:07 batch değişikliğinin sahipliğinin doğrulanması | 5 dosya git diff | ✅ Tamamlandı — sahip: Faz 3b oturumu (2026-09-23 23:20-23:25) |
-| 3 | Kök §14 "10 skill" · §25.2 "4 composer" / "×4" · §26.2 "v1.1.0" düzeltmesi | kök `.ai/AGENTS.md` | Evet — bu görevde kök yazımı yasak |
+| 3 | Kök §14 "10 skill" · §25.2 "4 composer" / "×4" · §26.2 "v1.1.0" düzeltmesi | kök `.ai/AGENTS.md` | ✅ "10 skill" GİDERİLDİ (2026-09-24, 8 aktif skill); §25.2/§26.2 kalemleri hâlâ beklemede |
 | 4 | `.ai/log.md` FAZ 3a append kaydı | append-only | ✅ Tamamlandı — FAZ 3 kaydı eklendi (bu birleştirme) |
 | 5 | `.ai/scripts/session-save.mjs` · `vault-post-update.mjs` varlığının netleşmesi | sistem çağrısı ≠ disk | Evet — §8 #9 · ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel |
 
@@ -494,6 +494,7 @@ authority: SSOT
 | 1.2.0 | 2026-09-23 | FAZ 3a: profil indeksi olarak tam yeniden yazım — §3 Profil Envanteri (12 dosya glob kanıtlı, eski §14 dosya adı hataları düzeltildi), §4 Agent→Template (index §5.1 kopyası), §5 Profil Yazım Kuralları (§1-§11 domain serisi), §6 Boot Bağlantıları (disk doğrulamalı, §6.2 çelişki tablosu), §7 Değişiklik Protokolü (14/14 checklist), §8 Truth Mode çelişki defteri |
 | 1.2.1 | 2026-09-23 | FAZ 3 birleştirme düzeltmeleri: §3.1'de 5 FAZ 3b satırı ⏳→✅ (549/560/533/548/549 satır), §8.1 sahiplik iddiası düzeltildi (Faz 3b oturumu, 23:20-23:25), 12/12 ≥500 + ` M` teyidi, ölçüm yöntemi notu (ReadAllLines; Measure-Object -Line yasak), §8.3 kuyruk/risk senkronu, kırık wiki-link düzeltmesi (.workflows/session → session-init + vault-sync) |
 | 1.2.2 | 2026-09-24 | Kök authority senkronu v22.0.1 |
+| 1.2.3 | 2026-09-24 | Skill sayım düzeltmesi (§6.3 + §8 #3: 8 aktif, _archive-keep/ 20 dosya; "10 skill" bayrağı giderildi); kök authority senkronu v22.0.3 |
 
 ---
 
@@ -516,5 +517,5 @@ authority: SSOT
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-24
 **Mode:** Red Team · Human Mode · Truth Mode

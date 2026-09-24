@@ -2,7 +2,7 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.3.0
+version: 27.3.1
 status: active
 authority: SSOT
 updated: 2026-09-24
@@ -12,7 +12,7 @@ updated: 2026-09-24
 
 **Zorunlu Bağlantılar:** [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[engine.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
 
 ---
 
@@ -90,7 +90,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 ---
 
-### §5 Architecture — K0-K20 (21-Layer System — 1775 Components)
+### §5 Architecture — K0-K20 (21-Layer System — 1775 Components) — ⚠️ DOĞRULAMA GEREKLİ: 1775 vs 1130 (P0 karar)
 
 *Detaylı metadata için bakınız: [[architecture/index]] §2*
 
@@ -117,7 +117,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | **K17** Güç Kaynağı ±35V | LM5122 ×2 (boost + inverting), 6S LiPo (22.2V), OR-ing, %96 verim | 85 | UVP/OVP/OCP/OTP koruma |
 | **K18** Termal Tasarım | Fischer SK53-100-SA, 80mm PWM fan, KSD301 thermal cutoff | 45 | 41W/kanal ısı yönetimi |
 | **K19** PCB Tasarım | 6-layer stackup, impedance matched, thermal vias, star ground | 50 | ENIG finish, 2oz copper |
-| **K20** BOM & Üretim | 1775 bileşen, Mouser/Digikey, ~$682 sistem maliyeti | 40 | Üretim araçları dahil |
+| **K20** BOM & Üretim | 1775 bileşen, Mouser/Digikey, ~$682 sistem maliyeti | 40 | Üretim araçları dahil · ⚠️ DOĞRULAMA GEREKLİ: 1775 vs 1130 (P0 karar) |
 
 ### Critical Components (K1 Hardware Subsystems)
 
@@ -137,7 +137,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | **K17** | Güç Kaynağı ±35V | LM5122 Boost Converter, 6S LiPo (22.2V), ±35V simetrik, %96 verim | UVP/OVP/OCP/OTP koruma |
 | **K18** | Termal Tasarım | Fischer SK53-100-SA heatsink, 80mm PWM fan, KSD301 thermal cutoff | Sıcaklık kontrollü sessiz fan |
 | **K19** | PCB Tasarım | 6-layer stackup, impedance matched, thermal vias, star ground | ENIG finish, 2oz copper |
-| **K20** | BOM & Üretim | 1130 bileşen, Mouser/Digikey tedarik, ~$682 sistem maliyeti | Üretim araçları dahil |
+| **K20** | BOM & Üretim | 1130 bileşen, Mouser/Digikey tedarik, ~$682 sistem maliyeti | Üretim araçları dahil · ⚠️ DOĞRULAMA GEREKLİ: 1775 vs 1130 (P0 karar) |
 
 ### Class AB Amplifier System
 
@@ -717,7 +717,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 27.3.0 |
+| Version | 27.3.1 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 34 |
 | Hard Guardrails | 16 |
@@ -728,7 +728,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | Platform Tiers | 5 |
 | Deployment Modes | 5 |
 | Audio Divisions | 5 |
-| ADR Coverage | 001-089 (80 karar: 37 Frozen + 30 Active + 12 Rejected + 1 Draft) |
+| ADR Coverage | 001-089 (80 karar: 37 Frozen + 30 Active + 12 Rejected + 1 Draft) (89 numaradan 80 dolu; 9 numara boşluk — DOĞRULAMA GEREKLİ) |
 | Cross References | 11 |
 | Glossary Terms | 75 (SSOT: [[glossary]]) |
 | Forbidden Patterns | 11 |
@@ -892,7 +892,9 @@ Her oturum başlangıcında sırayla okunur:
 
 ---
 
-### §27A Skills Registry (10 Skill — Guardrail #16 Mandatory)
+### §27A Skills Registry (8 Aktif Skill — Guardrail #16 Mandatory)
+
+> ⚠️ **DÜZELTME (2026-09-24):** Başlık 10 → **8 Aktif Skill** (disk kanıtı: `.opencode/skills/*/SKILL.md` = 8: agent-debate, composer-sync, context-report, db-engine, orchestration, truth-engine, ui-workbench, vault-sync-post). Aşağıdaki 10 satırlık tablo eski envanterdir — **silinmedi, korunmuştur** (ADR-042). Tablo isimleri diskteki 8 skill ile uyuşmuyor (yalnız `composer-sync) ortak) — **DOĞRULAMA GEREKLİ** (isim uyumu sonraki fazda).
 
 | # | Skill | Amaç | Kullanım |
 |---|-------|------|----------|

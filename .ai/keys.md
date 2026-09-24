@@ -4,9 +4,9 @@ title: "CoreMusic — Vault Keyword Map & Concept Router"
 type: system
 category: vault-navigation
 date: 2026-08-12
-updated: 2026-09-23
+updated: 2026-09-24
 status: active
-version: 28.3.0
+version: 28.3.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -18,7 +18,7 @@ reference:
 
 **Zorunlu Baglantilar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
 
 ---
 

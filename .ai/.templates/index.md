@@ -2,7 +2,7 @@
 title: "CoreMusic — Template Registry Index"
 type: template-index
 category: template
-version: 4.4.0
+version: 4.4.1
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
 updated: 2026-09-24
@@ -17,7 +17,7 @@ total_lines: 16503
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[ui-design/01-mockup-index]]
 
-**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
 **Agents:** `.ai/.agents/` (11 agent profile)
 **UI Design:** `.ai/ui-design/` (136 dosya · 119 md) + `.ai/.png/` (19 PNG)
 

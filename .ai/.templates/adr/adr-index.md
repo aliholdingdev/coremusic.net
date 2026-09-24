@@ -3,8 +3,8 @@ title: "CoreMusic — ADR Dizin / Navigasyon Rehberi (001-037 Frozen + Yazım Ak
 type: template
 category: adr
 date: 2026-09-23
-updated: 2026-09-23
-version: 1.0.0
+updated: 2026-09-24
+version: 1.0.1
 status: active
 authority: reference
 ---
@@ -142,7 +142,7 @@ Bu rehber, CoreMusic ADR (Architecture Decision Record) kümesine **sayısal nav
 | Active (038–…) | 30 | `brain.md` §13.2 | numara aralığı §13.2'de |
 | Rejected | 12 | `brain.md` §13 | bu dizinde listelenmez |
 | Draft | 1 | `brain.md` §13 | — |
-| **Toplam kayıt** | **80 karar (001–089)** | `brain.md` §13 Coverage satırı | ⚠️ 089'a kadar numaralandırma var, dolu/dolu olmayan ayrımı §13.2'de |
+| **Toplam kayıt** | **80 karar (001–089)** (89 numaradan 80 dolu; 9 numara boşluk — DOĞRULAMA GEREKLİ) | `brain.md` §13 Coverage satırı | ⚠️ 089'a kadar numaralandırma var, dolu/dolu olmayan ayrımı §13.2'de |
 
 ---
 
@@ -491,7 +491,7 @@ Haftalık sağlık döngüsü:
 |---|---|---|
 | `brain.md` §13.1 (line ~393) | Frozen 001–037 tek kaynak | §2.1 birebir |
 | `brain.md` §13.2 | Active 038+ | numara devamı |
-| `brain.md` §13 Coverage | 001–089 / 80 karar | §2.4 |
+| `brain.md` §13 Coverage | 001–089 / 80 karar (89 numaradan 80 dolu; 9 numara boşluk — DOĞRULAMA GEREKLİ) | §2.4 |
 | ⚠️ `**/ADR-*.md` | glob | 0 dosya |
 | `.ai/.templates/index.md` | şablon envanteri | parent senkron |
 | `.ai/log.md` | işlem kaydı | append-only |

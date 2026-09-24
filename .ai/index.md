@@ -4,7 +4,7 @@ type: system
 category: vault-navigation
 status: active
 authority: SSOT
-version: 28.2.0
+version: 28.2.1
 updated: 2026-09-24
 total_files: 538
 total_adr: 79
@@ -15,7 +15,7 @@ total_adr_disk: 0
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
 
 ---
 
@@ -305,7 +305,9 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ## Rules
 
-### §11B Skills (10 Skill — Guardrail #16 Zorunlu)
+### §11B Skills (8 Aktif Skill — Guardrail #16 Zorunlu)
+
+> **Düzeltme (2026-09-24):** Disk kanıtı = **8 aktif SKILL.md**: agent-debate · composer-sync · context-report · db-engine · orchestration · truth-engine · ui-workbench · vault-sync-post (`_archive/` kaldırıldı; eski9 üyenin vault dosyaları hariç her şey `_archive-keep/` altında, toplam 20 dosya). Aşağıdaki 10 satır eski envanterdir — ADR-042 gereği SİLİNMEDİ; güncel sayım kök [[AGENTS.md]] §14.
 
 | # | Skill | Amaç | Konum |
 |---|-------|------|-------|

@@ -2,7 +2,7 @@
 title: "CoreMusic — Vault Workflows & Engineering Processes"
 type: guide
 category: workflow
-version: 22.1.0
+version: 22.1.1
 status: active
 authority: SSOT
 updated: 2026-09-24
@@ -12,7 +12,7 @@ updated: 2026-09-24
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[VISION.md]] · [[PROJECTS.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
 
 ---
 
@@ -767,7 +767,9 @@ Session Sonunda:
 
 ---
 
-### §17A — Skills (10 Skill — Guardrail #16 Mandatory)
+### §17A — Skills (8 Aktif Skill — Guardrail #16 Mandatory)
+
+> ⚠️ **DÜZELTME (2026-09-24):** 10 → **8 Aktif Skill** (disk kanıtı). Tablo [[CLAUDE.md]] §27A'da korunuyor (ADR-042); tablo isimleri diskteki 8 skill ile uyuşmuyor — **DOĞRULAMA GEREKLİ**.
 
 > 📍 **Bu tablo [[CLAUDE.md]] §27A'da saklanır** — tekrar yer kaplamamak için.
 
