@@ -432,7 +432,7 @@ authority: SSOT
 | 2 | 23:10:07 batch değişikliğinin sahipliğinin doğrulanması | 5 dosya git diff | ✅ Tamamlandı — sahip: Faz 3b oturumu (2026-09-23 23:20-23:25) |
 | 3 | Kök §14 "10 skill" · §25.2 "4 composer" / "×4" · §26.2 "v1.1.0" düzeltmesi | kök `.ai/AGENTS.md` | Evet — bu görevde kök yazımı yasak |
 | 4 | `.ai/log.md` FAZ 3a append kaydı | append-only | ✅ Tamamlandı — FAZ 3 kaydı eklendi (bu birleştirme) |
-| 5 | `.ai/scripts/session-save.mjs` · `vault-post-update.mjs` varlığının netleşmesi | sistem çağrısı ≠ disk | Evet — §8 #9 |
+| 5 | `.ai/scripts/session-save.mjs` · `vault-post-update.mjs` varlığının netleşmesi | sistem çağrısı ≠ disk | Evet — §8 #9 · ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel |
 
 **Riskler (bu görev sonu):**
 

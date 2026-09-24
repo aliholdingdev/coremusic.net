@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K10 Uygulama Katmanı - Genel Bakış"
 layer: K10
 category: "Uygulama"

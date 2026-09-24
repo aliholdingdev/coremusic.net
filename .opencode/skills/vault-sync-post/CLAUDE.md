@@ -32,10 +32,10 @@ Islem sonrasi otomatik vault guncelleme skill'i. Session kaydi, root .md dosyala
 ## 4. Ilgili Scriptler
 | Script | Amaç |
 |--------|------|
-| `.ai/scripts/session-save.mjs` | Session kaydetme |
-| `.ai/scripts/vault-post-update.mjs` | Vault guncelleme |
+| `.ai/scripts/session-save.mjs` | Session kaydetme — ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel |
+| `.ai/scripts/vault-post-update.mjs` | Vault guncelleme — ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel |
 | `.ai/scripts/vault-utf8-writer.mjs` | UTF-8 guvenli yazma |
-| `.ai/scripts/vault-cmd.mjs` | Turkce komut arayuzu |
+| `.ai/scripts/vault-cmd.mjs` | Turkce komut arayuzu — ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel |
 
 ## 5. Kullanim Alanlari
 - Gorev tamamlandiktan sonra

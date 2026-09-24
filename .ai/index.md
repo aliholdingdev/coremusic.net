@@ -512,7 +512,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 1. Hedef metrik "boş-hariç satır"tır (`Measure-Object -Line`) — Faz 0 envanteriyle aynı ölçüt.
 2. Her genişletme satırı bilgi taşır: kanıt yolu, tablo, ASCII şema veya doğrulama kaydı; doldurma/fluff yasaktır.
 3. Frozen ADR metinlerine ve arşiv dosyalarına dokunulmadı; yalnız referanslar doğrulandı.
-4. **2026-09-24 taze ölçüm:** `.ai` recursive = 538 `.md` / 583 toplam dosya; `.ai/.templates` = 26 `.md` (`Get-ChildItem -Recurse -Force -Filter *.md`). §18'deki 518 / template 19 değerleri sahip doğrulamasıdır (2026-09-23) ve disk ölçümüyle fark var — ⚠️ VERIFICATION REQUIRED: sahip yeniden doğrulaması bekleniyor; sayılar bu nedenle değiştirilmedi.
+4. **2026-09-24 taze ölçüm:** `.ai` recursive = 538 `.md` / 583 toplam dosya; `.ai/.templates` = 26 `.md` (`Get-ChildItem -Recurse -Force -Filter *.md`). §18'deki 518 / template 19 değerleri bu disk ölçümüyle düzeltildi (538 / 26 — ölçüm 2026-09-24); sahip yeniden doğrulaması gerekirse §18 satırı üzerinden yapılır.
 
 ---
 
@@ -718,10 +718,10 @@ Toplam 79 ADR (Frozen: 37, Active: 30, Rejected: 12). Frozen: 001-037 (değişti
 
 ### §18 Metadata
 
-- **Toplam dosya:** 518 (sahip doğrulaması, 2026-09-23 — eski Faz 0 değeri 787 güncel değildi)
+- **Toplam dosya:** 538 (ölçüm 2026-09-24 — önceki sahip doğrulaması 518, 2026-09-23; eski Faz 0 değeri 787 güncel değildi)
 - **Toplam ADR:** 79 (Frozen: 37, Active: 30, Rejected: 12)
 - **Versiyon:** 28.2.0
-- **Son Güncelleme:** 2026-09-23 (sahip doğrulaması: toplam dosya 518, PNG 19, template 19, kök boot 14)
+- **Son Güncelleme:** 2026-09-24 (disk ölçümü: toplam dosya 538, PNG 19, template 26, kök boot 14 — ölçüm 2026-09-24; önceki sahip doğrulaması 518/19, 2026-09-23)
 - **Governance:** Red Team · Human Mode · Truth Mode
 
 ---

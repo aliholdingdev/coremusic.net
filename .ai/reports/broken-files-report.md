@@ -1,4 +1,4 @@
-﻿# CoreMusic Broken Files Report
+# CoreMusic Broken Files Report
 
 **Tarih:** 2026-09-23
 **Taranan Kapsam:** home.coremusic.net/, shared/src/, assets.coremusic.net/js/, .ai/ vault

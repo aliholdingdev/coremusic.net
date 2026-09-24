@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K0 - İşletim Sistemi Katmanı"
 layer: K0
 category: "İşletim Sistemi"

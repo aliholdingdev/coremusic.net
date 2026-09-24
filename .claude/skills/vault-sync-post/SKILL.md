@@ -25,7 +25,7 @@ Her islem tamamlandiktan sonra tum vault dosyalarini otomatik olarak gunceller. 
 
 ### Adim 1: Session Kaydi
 ```bash
-node .ai/scripts/session-save.mjs --task "<gorev-aciklamasi>" --status completed --agent <agent-adi>
+node .ai/scripts/session-save.mjs --task "<gorev-aciklamasi>" --status completed --agent <agent-adi> # ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel
 ```
 
 **Parametreler:**
@@ -36,12 +36,12 @@ node .ai/scripts/session-save.mjs --task "<gorev-aciklamasi>" --status completed
 
 **Ornek:**
 ```bash
-node .ai/scripts/session-save.mjs --task "Footer responsive duzeltme" --status completed --agent ui --files "footer.php,_footer.css"
+node .ai/scripts/session-save.mjs --task "Footer responsive duzeltme" --status completed --agent ui --files "footer.php,_footer.css" # ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel
 ```
 
 ### Adim 2: Vault Guncelleme
 ```bash
-node .ai/scripts/vault-post-update.mjs --scope root
+node .ai/scripts/vault-post-update.mjs --scope root # ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel
 ```
 
 **Parametreler:**
@@ -63,10 +63,10 @@ Sonuclari kontrol et:
 ```
 .ai/
 ├── scripts/
-│   ├── session-save.mjs          ← Session kaydetme araci
-│   ├── vault-post-update.mjs     ← Vault guncelleme araci
+│   ├── session-save.mjs          ← Session kaydetme araci ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel
+│   ├── vault-post-update.mjs     ← Vault guncelleme araci ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel
 │   ├── vault-utf8-writer.mjs     ← UTF-8 guvenli yazma (zorunlu kanal)
-│   └── vault-cmd.mjs             ← Turkce komut arayuzu
+│   └── vault-cmd.mjs             ← Turkce komut arayuzu ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel
 ├── sessions/                     ← Session dosyalari
 │   ├── YYYY-MM-DD-HH-MM-SS.md   ← Session loglari
 │   └── context/

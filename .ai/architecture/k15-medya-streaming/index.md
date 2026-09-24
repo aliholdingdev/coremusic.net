@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K15 Medya & Streaming Katmanı"
 layer: K15
 category: "Medya & Streaming"

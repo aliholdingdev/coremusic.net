@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K5 Veri Yönetimi Katmanı - Genel Bakış"
 layer: K5
 category: "Veri Yönetimi"

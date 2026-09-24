@@ -1,4 +1,4 @@
-﻿# CoreMusic 500 Sunucu Hata Raporu
+# CoreMusic 500 Sunucu Hata Raporu
 
 > **Tarih:** 2026-09-23
 > **Durum:** 3 AKTIF HATA KAYNAGI TESPIT EDILDI

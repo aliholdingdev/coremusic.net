@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K12 İzleme Katmanı"
 layer: K12
 category: "İzleme"

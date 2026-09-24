@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K8 Servis Katmanı - Genel Bakış"
 layer: K8
 category: "Servis"

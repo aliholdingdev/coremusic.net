@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K4 Yapay Zeka Katmanı - Genel Bakış"
 layer: K4
 category: "Yapay Zeka"

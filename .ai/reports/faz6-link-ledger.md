@@ -134,3 +134,23 @@ Bu rapor, Vault Refactor Engine **Faz 6 (Doğrulama)** kapısının kanıtıdır
 | [[../prompts/2026-09-23-vault-refactor-engine]] | Bu refactor'ün ana prompt'u |
 
 **REFACTOR REPORT:** FILE: faz6-link-ledger.md · PURPOSE: Faz 6 doğrulama kanıtı + kırık link defteri · VALIDATION: 7 alan + §1-§7 + 0 yeni kırık link (kendi bağlantıları: index/keys/CLAUDE/brain/log/decisions-index/prompts — hepsi çözülür) · RELATED: [[../log.md]] · [[../index.md]]
+
+
+---
+
+## 8. Sınıflandırma — ADR Linkleri (2026-09-24, Faz 6-C)
+
+§6.2'deki 216 KRİTİK ADR linki, hedefin diskte/varlık durumuna göre üç sınıfa ayrıldı (repo geneli `ADR-*.md` = 0 dosya; ölçüm 2026-09-24):
+
+| Sınıf | Tanım | Link | Hedef |
+|-------|-------|------|-------|
+| a — mevcut | Repo'da fiziksel `ADR-*.md` dosyasına giden | 0 | 0 |
+| b — hiç var olmamış | Tarihçede hiç var olmamış hedef (uydurulmaz) | 117 | 78 |
+| c — frozen (001-037) | Dondurulmuş ADR aralığına giden (metin değiştirilemez) | 136 | 76 |
+| **Toplam (yeni sayım)** | | **253** | **154** |
+
+**Uzlaştırma notu (açık bakiye):** yeni sınıflandırma toplamı 253 link / 154 hedef; §6.2 kaydı 216 link / 151 hedef. Fark: **+37 link / +3 hedef** — nedeni tarama regex kapsamı farklılığı (kapsam geniş ADR varyantları: `decisions/accepted/ADR-*`, `R-*`, draft yolları dahil). Fark **açık bakiye** olarak bırakıldı; dar kapsamlı yeniden sayım gelecek faz işidir (uydurma yok, Truth Mode).
+
+**Sınıf a sonucu:** 0 — ADR'lerin fiziksel dosyaları diskte hiç yok; §6.2 Çözüm seçenekleri 1-3 (sahip kararı) aynen geçerli.
+
+**REFACTOR REPORT:** FILE: faz6-link-ledger.md · PURPOSE: ADR link sınıflandırma eki (§8) · VALIDATION: §1-§7 + §8 · RELATED: [[../log.md]] · [[../index.md]]

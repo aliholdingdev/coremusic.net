@@ -613,7 +613,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 **Detay:** [[.templates/index]]
 
-> ⚠️ VERIFICATION REQUIRED: Eski kayıt 26 template iddia ediyordu; disk taraması 19 template dosyası buldu. Sayım [[.templates/index]] üzerinden doğrulanmalı.
+> ✅ GİDERİLDİ (ölçüm 2026-09-24): disk glob = 26 template dosyası; [[.templates/index]] üzerinden doğrulandı. (Eski kayıt: 19 — 2026-09-23 sahip doğrulaması.)
 
 ---
 

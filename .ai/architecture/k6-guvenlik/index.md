@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K6 Güvenlik Katmanı"
 layer: K6
 category: "Güvenlik"

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "CoreMusic — Broken, Unused & Dead Code Scan Report"
 type: report
 category: code-quality

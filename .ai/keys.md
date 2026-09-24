@@ -618,7 +618,7 @@ Istenen Bilgi -> Ilk Kontrol:
 | Version | 28.3.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | ADR Coverage | 001-088 (79 karar: 37 Frozen + 30 Active + 12 Rejected) |
-| Vault Envanteri | 518 .md dosyasi, 79 ADR, 18 BCNF DB, hedef 10 panel / 7 servis (fiziksel: 4 domain + assets), shared/ hybrid yapı — sahip doğrulaması 2026-09-23 — ⚠️ VERIFICATION REQUIRED (2026-09-24 disk ölçümü: 538 .md; sahip yeniden doğrulaması) |
+| Vault Envanteri | 538 .md dosyasi (ölçüm 2026-09-24), 79 ADR, 18 BCNF DB, hedef 10 panel / 7 servis (fiziksel: 4 domain + assets), shared/ hybrid yapı — önceki sahip doğrulaması 518 .md (2026-09-23) → disk ölçümüyle düzeltildi |
 
 ---
 

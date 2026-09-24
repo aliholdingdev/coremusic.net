@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K20 BOM & Üretim Katmanı"
 layer: K20
 category: "BOM & Üretim"

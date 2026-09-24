@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K3 Ses Motoru Katmanı"
 layer: K3
 category: "Ses Motoru"

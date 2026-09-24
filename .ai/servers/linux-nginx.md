@@ -1,4 +1,4 @@
-﻿---
+---
 type: server-config
 category: infrastructure
 title: "Sunucu Yapılandırması — Linux + Nginx"

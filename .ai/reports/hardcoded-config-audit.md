@@ -1,4 +1,4 @@
-﻿---
+---
 reference_doc: Freelancer Technical Documentation v1.0
 title: "CoreMusic — Hardcoded Config Audit Report"
 type: report

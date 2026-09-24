@@ -199,6 +199,6 @@ CBST = 100nF → Seçim: 100nF X7R ceramic
 ✅ Indüktör ve kapasitör hesaplamaları yapıldı  
 ✅ PCB layout kuralları belirlendi  
 ✅ Thermal analysis tamamlandı (junction < 100°C)  
-✅ Bootstrap ve gate drive tasarımı��rildi  
+✅ Bootstrap ve gate drive tasarım yapıldı  
 ⚠️ Proto tip testi bekleniyor  
 ⚠️ EMI ölçümü henüz yapılmadı

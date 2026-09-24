@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K18 Termal Tasarım Katmanı"
 layer: K18
 category: "Termal Tasarım"

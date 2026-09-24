@@ -119,7 +119,7 @@ Yeni bir sayfa hangi dizine konur? Karar verilmez, aşağıdaki tablodan okunur.
 | Alt dizinler | `.ai/.agents/`, `.ai/.decisions/`, `.ai/.templates/`, `.ai/.sql/` | ✅ MEVCUT |
 | Workflow'lar | `.workflows/*.md` | ✅ MEVCUT (8 dosya) |
 | Şablonlar | `.ai/.templates/**/*.md` | ✅ MEVCUT (19 dosya) |
-| `vault-cmd.mjs` scripti | `.ai/scripts/vault-cmd.mjs` | ⚠️ DOĞRULANACAK — yoksa manuel denetim |
+| `vault-cmd.mjs` scripti | `.ai/scripts/vault-cmd.mjs` | ⚠️ DOĞRULANACAK — yoksa manuel denetim · ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel |
 | Uydurma dizin/yol | — | ❌ YAZILMAZ |
 
 ### §2.3 Sayfa Boyutu ve Parçalama
@@ -348,6 +348,7 @@ Wiki sayfası yazımında uygulanan zorunlu/yasak kurallar. Çapraz referans bü
 
 ```bash
 node .ai/scripts/vault-cmd.mjs chk
+# ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel
 ```
 
 *(Script yoksa `⚠️ VERIFICATION REQUIRED` — manuel link denetimi yapılır.)*
@@ -499,7 +500,7 @@ grep -E '^(title|type|category|date|updated|version|status|authority):' <WIKI-PA
 grep -E 'Ã|Â|ï¿½' <WIKI-PAGE-FILE>
 ```
 
-*(`<WIKI-PAGE-FILE>` gerçek dosya yolu ile değiştirilir; script varsa `node .ai/scripts/vault-cmd.mjs chk` tercih edilir.)*
+*(`<WIKI-PAGE-FILE>` gerçek dosya yolu ile değiştirilir; script varsa `node .ai/scripts/vault-cmd.mjs chk` tercih edilir. ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel.)*
 
 ---
 

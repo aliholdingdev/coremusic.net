@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Firmware Katmanı - Genel Bakış"
 layer: Firmware
 category: "Firmware"

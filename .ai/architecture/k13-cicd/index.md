@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K13 CI/CD Katmanı - Genel Bakış"
 layer: K13
 category: "CI/CD"

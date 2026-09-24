@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K2 Sürücü Katmanı"
 layer: K2
 category: "Sürücü"

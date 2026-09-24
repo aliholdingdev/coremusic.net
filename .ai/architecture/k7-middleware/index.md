@@ -1,4 +1,4 @@
-﻿---
+---
 title: "K7 Middleware Katmanı - Genel Bakış"
 layer: K7
 category: "Middleware"

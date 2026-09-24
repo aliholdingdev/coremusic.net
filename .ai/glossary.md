@@ -547,7 +547,7 @@ Kural: Agent routing sonrası ilk okumada bu küme sözlükte doğrulanır; teri
 | §2 terim sayımı | 32/32 doğrulandı (satır sayımı) |
 | Kırık referans | Bu dosyada kırık link yok (Faz 0 taraması) |
 | Kod kanıtlı terim | §4-§5'te 40+ kanıt yolu Test-Path / composer.json okuma ile doğrulandı |
-| DOĞRULAMA GEREKLİ etiketli | HSTS, ALSA, LFE, TTFB (4 terim — kanıt bekliyor) |
+| DOĞRULAMA GEREKLİ etiketli | 8 işaret / 5 farklı terim: HSTS (§4 + §4.1.3), ALSA, LFE, AES-256-GCM, Argon2id, §5.1 type, §5.1 minimum-stability; TTFB satırı işaretsiz (ölçüm 2026-09-24) |
 | PLANNED etiketli | FLAC, Node.js, C#, npm/LTS (kod henüz yok) |
 
 ### §8.1 Bilinen Kod Bulguları (Faz 1'e taşınan)
@@ -608,16 +608,16 @@ C: index.md katalog (dosya → amaç), keys.md yönlendirme (keyword → dosya),
 | Metrik | Değer |
 |--------|-------|
 | Version | 2.2.0 |
-| Term Count | 32 kanonik (§2) + 43 teknoloji terimi (§3) = 75 |
+| Term Count | 32 kanonik (§2) + 51 teknoloji terimi (§3) = 83 (ölçüm 2026-09-24) |
 | Derin açıklama | 25 blok (§4.1.1-§4.1.25) |
-| Kanıtlı kullanım haritası | 53 satır (§4-§5) + 14 alan sözlüğü (§5.1) |
-| Kanıt oranı | ~95% (4 DOĞRULAMA GEREKLİ / 75 terim; 2 alan-level etiket §5.1) |
+| Kanıtlı kullanım haritası | 63 satır (§4-§5) + 11 alan sözlüğü (§5.1) (ölçüm 2026-09-24) |
+| Kanıt oranı | ~95% (8 DOĞRULAMA GEREKLİ işareti / 83 terim — 5 farklı terim [6 terim-level işaret] + 2 alan-level §5.1; ölçüm 2026-09-24) |
 | Source | CLAUDE.md §28 (extracted 2026-08-19) + Faz 0 kod taraması (2026-09-08) |
 | Kavram haritası | §11 — IMPLEMENTED sol blok / PLANNED sağ blok |
 | Versiyon geçmişi | §12 — kanonik 32 terim sabitlik ilkesi |
 | Agent kaynak hattı | §9 — agent routing sonrası öncelikli terim kümesi |
 | Kullanım kılavuzu | §1 — 3 adımlı okuma + katkı akışı |
-| Kırık kanıt takibi | §8 — DOĞRULAMA GEREKLİ etiketli 4 terim izlenir |
+| Kırık kanıt takibi | §8 — DOĞRULAMA GEREKLİ etiketli 8 işaret (5 farklı terim) izlenir (ölçüm 2026-09-24) |
 | Status | Red Team · Human Mode · Truth Mode verified |
 
 ### §13 Doküman İskeleti (8-Bölüm Uyumu — Vault Refactor Engine 2026-09-23)
@@ -655,8 +655,8 @@ C: index.md katalog (dosya → amaç), keys.md yönlendirme (keyword → dosya),
 - [x] §13.1 eşleme İngilizce sol sütuna güncellendi; §6 çakışması References'a çözüldü; Workflow = §4, §5, §9.
 - [x] §10 "Derin açıklama" sayacı düzeltildi: 24 → 25 blok (§4.1.1-§4.1.25 — dosya içi disk ölçümü).
 - [ ] ⚠️ VERIFICATION REQUIRED — `packages/shared/` yolu §4.1.10, §4.1.11, §4.1.17 ve §5 tablosunda geçiyor; depo kökünde `packages/` dizini yok (2026-09-24 Test-Path ölçümü). Sahip doğrulaması bekleniyor.
-- [ ] ⚠️ VERIFICATION REQUIRED — §10 sayaçları dosya içi sayımla uyuşmuyor: "43 teknoloji terimi (§3)" → 51 satır; "53 satır (§4-§5)" → 63 satır; "14 alan sözlüğü (§5.1)" → 11 satır. Sahip yeniden doğrulaması bekleniyor.
-- [ ] ⚠️ VERIFICATION REQUIRED — §8 tablosu "4 terim (HSTS, ALSA, LFE, TTFB)" derken dosyada 8 adet `DOĞRULAMA GEREKLİ` işareti var (HSTS §4+§4.1.3, ALSA, LFE, AES-256-GCM, Argon2id, §5.1 type, §5.1 minimum-stability); TTFB satırı işaretsiz. Sahip doğrulaması bekleniyor.
+- [x] ✅ GİDERİLDİ (ölçüm 2026-09-24): §10 sayaçları disk ölçümüyle düzeltildi — "43 teknoloji terimi (§3)" → 51, "53 satır (§4-§5)" → 63, "14 alan sözlüğü (§5.1)" → 11. (Önceki kayıt: sahip yeniden doğrulaması bekleniyordu.)
+- [x] ✅ GİDERİLDİ (ölçüm 2026-09-24): §8 tablosu ölçüme göre güncellendi — 8 `DOĞRULAMA GEREKLİ` işareti / 5 farklı terim (HSTS §4+§4.1.3, ALSA, LFE, AES-256-GCM, Argon2id, §5.1 type, §5.1 minimum-stability); TTFB satırı işaretsiz. (Önceki kayıt: §8 "4 terim (HSTS, ALSA, LFE, TTFB)" diyordu.)
 - [ ] ⚠️ VERIFICATION REQUIRED — Eski bölüm referansları: §7 kural 6 "(§9)" (Quality Report §10'dur) ve §9 son satır "§12.3" (böyle alt bölüm yok). Sahip doğrulaması bekleniyor.
 
 ---

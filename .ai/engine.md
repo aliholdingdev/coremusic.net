@@ -223,7 +223,7 @@ Alt agent'lar belirsizlikle karşılaştığında stdout'ta şu format kullanıl
 | ADR rejected | 15 dosya (12 R + 3 meta) | `decisions/rejected/*.md` sayımı |
 | ADR toplam kapsam | 001-088 (79 karar) | index.md §5 cross-check |
 | Skill klasörü | 10/10 mevcut | `.opencode/skills/` Test-Path |
-| Template | 19 (.md, sahip doğrulaması — disk glob 26: ⚠️ VERIFICATION REQUIRED) | `.ai/.templates/` sayımı |
+| Template | 26 (.md — ölçüm 2026-09-24) | `.ai/.templates/` sayımı |
 | Mockup PNG | 19 (12 home-1024 + 1 home-1920 + 6 shared-1024) | `.ai/.png/` sayımı |
 | SQL şema | 18 dosya | `.ai/.sql/mysql/` sayımı |
 | Fiziksel domain | 4 (shared, auth, home, assets) | Test-Path kök dizinler |
@@ -602,7 +602,7 @@ verified-against: "kod yolu listesi"
 | 1 | Satır sayacı | Kapsamdaki her dosya ≥500 (boş-hariç) | dosya → satır listesi |
 | 2 | İzlenebilirlik | Her dosyada kanıt yolu / `DOĞRULAMA GEREKLİ` etiketi | bölüm referansları |
 | 3 | Kırık referans | Yeni `[[...]]` hedefleri Test-Path | 0 kırık hedef |
-| 4 | Sayım tutarlılığı | PNG 19, ADR 79, root 14, total_files 518 | boot dosyaları birleşik |
+| 4 | Sayım tutarlılığı | PNG 19, ADR 79, root 14, total_files 538 (ölçüm 2026-09-24) | boot dosyaları birleşik |
 | 5 | IMPLEMENTED/PLANNED | Kod iddiaları etiketli | domain matris güncel |
 | 6 | log.md append | Faz özeti + dosya listesi + timestamp | audit kayıt no |
 | 7 | Structure korunumu | Silinen başlık/bölüm yok (yalnız düzeltme + ekleme) | edit sayısı raporu |
