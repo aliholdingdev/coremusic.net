@@ -110,7 +110,7 @@ Bu bölüm, CoreMusic vault'unda dosya üreten/yazan her agent ve geliştirici i
 | Kök md dosyaları | 6 | adlandirma-kurali · katman-baglilik-matrisi · katman-sayim-rehberi · frontend-restructuring-plan · github-referanslari · index |
 | **Toplam md (recursive)** | **340** | 322 katman + 8 firmware + 4 adr + 6 kök (disk ölçümü 2026-09-24) |
 
-⚠️ **VERIFICATION REQUIRED:** [[.ai/architecture/katman-baglilik-matrisi]] §10 sayımı 334 MD (318+8+2+6) der; güncel disk ölçümü 340 MD'dir (katman +4, adr +2). Fark gizlenmez, iki değer birlikte raporlanır; matris güncellemesi ayrı bir vault işlemidir.
+✅ **ÇÖZÜLDÜ (2026-09-24):** [[.ai/architecture/katman-baglilik-matrisi]] §10 = 340 MD = disk birebir (322 + 8 + 4 + 6; 24 klasör, scripts/ dipnotu .ps1 toplam dışı). Doğrulama: katman-sayim.ps1 EXIT=0.
 
 ### §2.4 Katman → Sorumlu Alan/Sorumlu Agent Eşlemesi
 
@@ -396,7 +396,7 @@ Her vault işleminden **hemen sonra** üç adım çalıştırılır:
 ### §10.1 VERIFICATION REQUIRED Kuralları
 
 1. Doğrulanamayan her iddia `⚠️ VERIFICATION REQUIRED` etiketiyle işaretlenir (kural #6).
-2. Etiketli iddia **işlem görmez**; sayım/raporlamada iki değer birlikte gösterilir (ör. 334 ↔ 340 MD).
+2. Etiketli iddia **işlem görmez**; sayım/raporlamada iki değer birlikte gösterilir (ör. 2026-09-24 öncesi 334 ↔ 340 MD farkı — çözüldü, §2.3).
 3. Uydurma sayı, tarih, ADR, dosya yolu veya karar üretmek yasaktır.
 4. Kaynak bulunamıyorsa DUR + kullanıcıya sor (çelişki → §10 kuralı: "Çelişki → DUR + kullanıcıya sor").
 

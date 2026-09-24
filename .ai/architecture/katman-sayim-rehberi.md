@@ -253,20 +253,20 @@ Her iki toplam da 5000 eşiğinin üzerindedir (5.152 ve 5.105); kabul kriteri b
 | k14-ag | 16 | |
 | k15-medya-streaming | 16 | ffmpeg-pipeline.md → ADR-025 sınırı |
 | k16-class-ab | 22 | |
-| k17-guc-kaynagi | 15 | |
-| k18-termal | 11 | |
-| k19-pcb | 11 | |
-| k20-bom | 11 | |
-| **K0-K20 toplam** | **318** | |
+| k17-guc-kaynagi | 16 | |
+| k18-termal | 12 | |
+| k19-pcb | 12 | |
+| k20-bom | 12 | |
+| **K0-K20 toplam** | **322** | |
 | firmware (K1.f) | 8 | Beklenen 8 ✅ (ADR-024) |
 | k-surucu | 0 | Beklenen 0 ✅ (ADR-024 birleşimi uygulanmış) |
-| adr | 2 | ADR-023, ADR-024 mevcut (frozen); ADR-025…026 yazılacak |
+| adr | 4 | ADR-023…026 mevcut (frozen) |
 | Kök .md (index, matris, plan, adlandırma, github-referanslari, sayım rehberi) | 6 | Sayım rehberi bu dosya |
-| **Genel toplam (.md)** | **334** | Dosya ≠ düğüm: 334 dosya ~5.152 düğüm HedefLENİR |
+| **Genel toplam (.md)** | **340** | 322 + 8 + 4 + 6 · Dosya ≠ düğüm: 340 dosya ~5.152 düğüm HedefLENİR |
 
 ### §7.1 Dosya-Düğüm Farkının Açıklaması
 
-Diskte 334 dosya varken hedef 5.152 düğümdür; bu çelişki değildir: düğüm sayımı, README bileşen satırları (kanıt ii) ve plan §2.1-§2.2 satırları (kanıt iii) ile birlikte sayıldığında dosya başına birden fazla düğüm oluşur. Sayım betiği üç kanıt türünü de tarar (§9).
+Diskte 340 dosya varken hedef 5.152 düğümdür; bu çelişki değildir: düğüm sayımı, README bileşen satırları (kanıt ii) ve plan §2.1-§2.2 satırları (kanıt iii) ile birlikte sayıldığında dosya başına birden fazla düğüm oluşur. Sayım betiği üç kanıt türünü de tarar (§9).
 
 ---
 
@@ -444,7 +444,7 @@ if ($enDusuk -ge $HedefMinimum) {
 
 | # | Yasak | Sonuç |
 |---|-------|-------|
-| 1 | Dosya sayısını düğüm saymak | Yanlış toplam (~334 ≠ 5.152) — RED |
+| 1 | Dosya sayısını düğüm saymak | Yanlış toplam (~340 ≠ 5.152) — RED |
 | 2 | Kanıtsız düğüm ekleyerek 5000'i doldurmak | Hallüsinasyon — revert + log ERROR |
 | 3 | K1/K13 sapmasını tablodan silmek veya düzeltmek | Kanıt şeffaflığı ihlali (ADR-026) |
 | 4 | Elle sayımla betik çıktısını geçersiz kılmak | §9.1 kural 1 ihlali |
@@ -458,7 +458,7 @@ if ($enDusuk -ge $HedefMinimum) {
 
 | # | Soru | Cevap |
 |---|------|-------|
-| 1 | 334 dosya ile 5.152 düğüm nasıl tutarlı? | Dosya ≠ düğüm; README satırları (ii) ve plan satırları (iii) ek düğüm üretir (§7.1) |
+| 1 | 340 dosya ile 5.152 düğüm nasıl tutarlı? | Dosya ≠ düğüm; README satırları (ii) ve plan satırları (iii) ek düğüm üretir (§7.1) |
 | 2 | Hangi toplam raporlanır? | İkisi: 4.891/5.105 (bağlayıcı) ve 4.938/5.152 (formül); kabul min ile sınar |
 | 3 | K1 ve K13 neden işaretli? | Bağlayıcı değer formülle uyuşmuyor (−17, −30); gizlemek yasak, düzeltmek de yasak — üst göreve sorulur |
 | 4 | 4. seviye ne zaman açılır? | Yalnız 3 kanıt türünden biriyle (ADR-023 hibrit derinlik) |

@@ -18,12 +18,12 @@ reference:
 
 **Toplam Katman:** 21 (K0-K20) — K16, K17, K18, K19, K20 dahil; beşi BAĞIMSIZ katmandır.
 **Toplam Bileşen:** 1,095 (§2 satır toplamı — tek değer)
-**Toplam Dosya:** 334 MD (disk sayımı 2026-09-24; başlık, §2 TOPLAM ve §4 özeti tek değer ile hizalı)
+**Toplam Dosya:** 340 MD (disk sayımı 2026-09-24; başlık, §2 TOPLAM ve §4 özeti tek değer ile hizalı)
 **Klasör:** 23 (21 katman klasörü + firmware + adr) + 6 kök dosya
 
 > **Tek Değer Notları (2026-09-24 — 3 turlu mimari tartışma kararı bağlayıcıdır):**
 >
-> 1. **Dosya sayısı tek değer = 334.** Başlık, §2 TOPLAM ve §4 sayım özeti gerçek disk sayımı (318 katman + 8 firmware + 2 adr + 6 kök = 334) ile hizalandı; envanter kararı 2026-09-24.
+> 1. **Dosya sayısı tek değer = 340.** Başlık, §2 TOPLAM ve §4 sayım özeti gerçek disk sayımı (322 katman + 8 firmware + 4 adr + 6 kök = 340) ile hizalandı; envanter kararı 2026-09-24.
 > 2. **K16-K20 bileşen toplamı tek değer = 340** (120 + 85 + 45 + 50 + 40). k16-class-ab/README.md içindeki ham BOM sayımı katman bileşen sayımı olarak kullanılmaz; çelişki durumunda geçerli değer 340'tır.
 > 3. **K15'in tek hedefi K14'tür.** Üretim/bileşen katmanlarına bağımlılık tamamen kaldırılmıştır (doğrulama: matris §2.1 K15 satırı — üretim sütunları boş).
 > 4. **Bağımlılık kuralları kanonik olarak [[katman-baglilik-matrisi]] dosyasındadır**; bu dosya §3 yalnızca bağlantı taşır (kendi zinciri yoktur).
@@ -109,11 +109,11 @@ reference:
 | K14 | Ağ & İletişim | 40 | 16 | — |
 | K15 | Medya & Streaming | 35 | 16 | — |
 | K16 | Class AB | 120 | 22 | ADR-089 |
-| K17 | Güç Kaynağı | 85 | 15 | ADR-089 |
-| K18 | Termal | 45 | 11 | ADR-089 |
-| K19 | PCB Tasarım (empedans alt konudur) | 50 | 11 | ADR-089 |
-| K20 | BOM & Üretim | 40 | 11 | ADR-089 |
-| | **TOPLAM** | **1,095** | **328 klasör + 6 kök = 334** | **30+** |
+| K17 | Güç Kaynağı | 85 | 16 | ADR-089 |
+| K18 | Termal | 45 | 12 | ADR-089 |
+| K19 | PCB Tasarım (empedans alt konudur) | 50 | 12 | ADR-089 |
+| K20 | BOM & Üretim | 40 | 12 | ADR-089 |
+| | **TOPLAM** | **1,095** | **334 klasör + 6 kök = 340** | **30+** |
 
 **§2 Sayım Notları (tek değer disiplini):**
 
@@ -121,7 +121,7 @@ reference:
 - K16, K17, K18, K19, K20 **beş bağımsız katmandır**; hiçbiri diğerinin alt klasörü değildir (eski §4 notları kaldırıldı).
 - K19 = **PCB Tasarım** katmanıdır; controlled-impedance.md yalnızca onun bir alt konusudur.
 - Dosya sütunu gerçek disk sayımıdır (2026-09-24 glob); her katman 8-23 dosya aralığındadır, ortalama ~14 dosyadır.
-- Eski kaba toplam ifadeleri 334 ile değiştirildi; başlık, §2 TOPLAM ve §4 özeti aynı değeri taşır (adr/ ve 6 kök dosya dahil).
+- Eski kaba toplam ifadeleri 340 ile değiştirildi; başlık, §2 TOPLAM ve §4 özeti aynı değeri taşır (adr/ ve 6 kök dosya dahil).
 
 ---
 
@@ -143,13 +143,13 @@ Bu dosya bağımlılık kuralı ÜRETMEZ; yalnız bağlar (AGENTS.md §25.3 — 
 ## 4. Dosya Yapısı (GERÇEK DISKTEN — 2026-09-24 sayımı)
 
     .ai/architecture/
-    ├── index.md                        ← Bu dosya (334 dosyalık envanterin sahibi)
+    ├── index.md                        ← Bu dosya (340 dosyalık envanterin sahibi)
     ├── katman-baglilik-matrisi.md      ← Katman bağımlılık matrisi (kanonik)
     ├── github-referanslari.md          ← GitHub referans tablosu (21 katman bölümü)
     ├── frontend-restructuring-plan.md  ← Frontend yeniden yapılandırma planı
     ├── adlandirma-kurali.md            ← K{n}.a.b.c adlandırma kuralı (SSOT)
     ├── katman-sayim-rehberi.md         ← Düğüm sayım rehberi (ADR-026)
-    ├── adr/                            ← ADR-023, ADR-024 (2 dosya — frozen)
+    ├── adr/                            ← ADR-023…026 (4 dosya — frozen)
     │
     ├── (eski sürücü klasörü → YOK — ADR-024 ile k2-surucu/ içine birleşti, 12 dosya taşındı)
 
@@ -485,8 +485,9 @@ Bu dosya bağımlılık kuralı ÜRETMEZ; yalnız bağlar (AGENTS.md §25.3 — 
     vas-stage.md
     vbe-multiplier.md
 
-**k17-guc-kaynagi/ — 15 dosya (bağımsız katman)**
+**k17-guc-kaynagi/ — 16 dosya (bağımsız katman)**
 
+    README.md
     CLAUDE.md
     index.md
     6s-lipo-battery.md
@@ -503,8 +504,9 @@ Bu dosya bağımlılık kuralı ÜRETMEZ; yalnız bağlar (AGENTS.md §25.3 — 
     thermal-management-power.md
     voltage-regulation.md
 
-**k18-termal/ — 11 dosya (bağımsız katman)**
+**k18-termal/ — 12 dosya (bağımsız katman)**
 
+    README.md
     CLAUDE.md
     index.md
     ambient-temperature.md
@@ -517,8 +519,9 @@ Bu dosya bağımlılık kuralı ÜRETMEZ; yalnız bağlar (AGENTS.md §25.3 — 
     thermal-resistance.md
     thermal-simulation.md
 
-**k19-pcb/ — 11 dosya (bağımsız katman; K19 = PCB Tasarım)**
+**k19-pcb/ — 12 dosya (bağımsız katman; K19 = PCB Tasarım)**
 
+    README.md
     CLAUDE.md
     index.md
     6-layer-stackup.md
@@ -531,8 +534,9 @@ Bu dosya bağımlılık kuralı ÜRETMEZ; yalnız bağlar (AGENTS.md §25.3 — 
     star-grounding.md
     thermal-vias.md
 
-**k20-bom/ — 11 dosya (bağımsız katman)**
+**k20-bom/ — 12 dosya (bağımsız katman)**
 
+    README.md
     CLAUDE.md
     index.md
     capacitor-list.md
@@ -556,12 +560,14 @@ Bu dosya bağımlılık kuralı ÜRETMEZ; yalnız bağlar (AGENTS.md §25.3 — 
     usb-audio-firmware.md
     xmos-firmware.md
 
-**adr/ — 2 dosya (ADR metinleri — frozen, AGENTS §25.3 kural 2)**
+**adr/ — 4 dosya (ADR metinleri — frozen, AGENTS §25.3 kural 2)**
 
     ADR-023-hibrit-derinlik.md
     ADR-024-surucu-firmware-birlesme.md
+    ADR-025-k8-2-k15-siniri.md
+    ADR-026-sayim-birimi-5000.md
 
-**Klasör sayım özeti:** 21 katman klasörü + firmware + adr = 23 klasör · 328 klasör içi dosya + 6 kök dosya = **334 MD** (2026-09-24 envanter kararı).
+**Klasör sayım özeti:** 21 katman klasörü + firmware + adr + scripts = 24 klasör · 334 klasör içi dosya + 6 kök dosya = **340 MD** (2026-09-24 envanter; scripts/ 1 .ps1 toplam dışı).
 
 ---
 
@@ -585,7 +591,7 @@ Bu dosya bağımlılık kuralı ÜRETMEZ; yalnız bağlar (AGENTS.md §25.3 — 
 - [x] 0 dosya silinmedi (git status delete = 0 — taşımalar Move ile yapıldı)
 - [x] K15 izin taraması: üretim/bileşen katmanına izin 0 ✓ (§3 zinciri kaldırıldı; matris §2.1 K15 satırı tek hedef K14 — sütun başlığı hariç)
 - [x] §3 artık yalnız [[katman-baglilik-matrisi]] bağlantısı taşır
-- [x] §2 TOPLAM = 334 dosya, 1,095 bileşen (tek değer; adr/ 2 + kök 6 dahil)
+- [x] §2 TOPLAM = 340 dosya, 1,095 bileşen (tek değer; adr/ 4 + kök 6 dahil)
 - [x] K16-K20 = 340 bileşen (tek değer; ham README sayımı reddedildi)
 - [x] §4 alt-katman notları kaldırıldı — K17-K20 bağımsız klasör olarak listelendi
 - [x] Eksik dosyalar eklendi: frontend-restructuring-plan.md, github-referanslari.md
