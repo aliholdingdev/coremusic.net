@@ -18,7 +18,10 @@
     ".ai/WORKFLOW.md",
     ".ai/MEMORY.md",
     ".ai/index.md",
-    ".ai/ULTRA-THINKING.md"
+    ".ai/ULTRA-THINKING.md",
+    ".ai/.rules/senior-mode.md",
+    "README.md",
+    "WORKFLOW.md"
   ],
 
   "agent": {
@@ -218,6 +221,31 @@
       "template": "Islem sonrasi vault guncelleme: session kaydi + root .md dosyalari + .claude/.opencode senkron. Calistir: node .ai/scripts/session-save.mjs --task \"<gorev>\" --status completed --agent <agent> && node .ai/scripts/vault-post-update.mjs --scope root — ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel",
       "description": "Islem sonrasi vault guncelleme",
       "agent": "vault-updater"
+    },
+    "prompt-maker": {
+      "template": "PROMPT MAKER: (1) Bu promptu /eli10 seviyesinde uzun paragrafa donustur, (2) .ai vault'dan referanslari oku, (3) ASKING QUESTIONS MODU ile P0/P1/P2 en fazla 10 soru sor ve cevaplari isle, (4) promptu Part 1..Part n bolumlerine bolerek Markdown'da yeniden olustur, (5) sonucu ilgili agent'lara dagit. Prompt: ",
+      "description": "Promptu iyilestir, soru sor, gorevlere bol",
+      "agent": "master-orchestrator"
+    },
+    "ask": {
+      "template": "ASKING QUESTIONS MODE: konuyu analiz et, bilinmeyenleri P0 (blocker) / P1 (onemli) / P2 (opsiyonel) olarak listele, en fazla 10 soru sor, tekrar sorma, cevaplari .ai vault'a isle ve yeniden analiz et. Konu: ",
+      "description": "P0/P1/P2 soru modu",
+      "agent": "master-orchestrator"
+    },
+    "context": {
+      "template": "CONTEXT RAPORU: CLAUDE.md + .ai/CLAUDE.md + .ai/AGENTS.md + .ai/brain.md + .ai/WORKFLOW.md + .ai/MEMORY.md oku; aktif agent'i, son kararlari (ADR), acik sorulari, etkilenen dosyalari ve token/baglam durumunu DETAYLI raporla. Kod yazma, sadece raporla.",
+      "description": "Detayli baglam raporu",
+      "agent": "plan"
+    },
+    "debate": {
+      "template": "MULTI-AGENT DEBATE: konuyu architect, developer, reviewer, security ve testing bakis acisiyla 5-10 tur tart; her turda pozisyon + kanit sun; konsensus/oylama ile sonuc belirle; kesin aksiyon listesi cikar. Konu: ",
+      "description": "Coklu-agent tartisma ve konsensüs",
+      "agent": "master-orchestrator"
+    },
+    "research": {
+      "template": "WEB RESEARCH: konudaki guncel/surume bagli bilgileri web'de ara; oncelik resmi dokumantasyon > repo > RFC; en az 2 bagimsiz kaynakla dogrula; CONFIRMED / INFERRED / UNKNOWN / NEEDS_VALIDATION etiketleriyle KAYNAKLI rapor ver. Konu: ",
+      "description": "Web arastirmasi ve kaynak dogrulama",
+      "agent": "master-orchestrator"
     }
   },
 
@@ -228,6 +256,7 @@
       "~/.config/opencode/skills"
     ],
     "force": [
+      "agent-debate",
       "accessibility",
       "agent-orchestrator",
       "alt-agent-koordinasyon",
@@ -240,8 +269,10 @@
       "code-review-and-quality",
       "code-simplification",
       "composer-sync",
+      "context-report",
       "context-engineering",
       "core-web-vitals",
+      "db-engine",
       "database-normalize-maker",
       "debugging-and-error-recovery",
       "deprecation-and-migration",
@@ -263,6 +294,7 @@
       "node-patterns",
       "observability-and-instrumentation",
       "oop-best-practices",
+      "orchestration",
       "opencode-orchestrator",
       "performance",
       "performance-optimization",
@@ -291,9 +323,11 @@
       "spec-driven-development",
       "subagent-driven-development",
       "systematic-debugging",
+      "truth-engine",
       "test-driven-development",
       "ui-code-generator",
       "ui-analyzer",
+      "ui-workbench",
       "ui-demo",
       "using-agent-skills",
       "using-git-worktrees",
