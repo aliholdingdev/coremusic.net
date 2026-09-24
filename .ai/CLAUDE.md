@@ -2,7 +2,7 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.3.1
+version: 27.3.2
 status: active
 authority: SSOT
 updated: 2026-09-24
@@ -90,7 +90,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 ---
 
-### §5 Architecture — K0-K20 (21-Layer System — 1775 Components) — ⚠️ DOĞRULAMA GEREKLİ: 1775 vs 1130 (P0 karar)
+### §5 Architecture — K0-K20 (21-Layer System — 1,095 bileşen · K20 BOM: 1,775 satır)
 
 *Detaylı metadata için bakınız: [[architecture/index]] §2*
 
@@ -117,7 +117,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | **K17** Güç Kaynağı ±35V | LM5122 ×2 (boost + inverting), 6S LiPo (22.2V), OR-ing, %96 verim | 85 | UVP/OVP/OCP/OTP koruma |
 | **K18** Termal Tasarım | Fischer SK53-100-SA, 80mm PWM fan, KSD301 thermal cutoff | 45 | 41W/kanal ısı yönetimi |
 | **K19** PCB Tasarım | 6-layer stackup, impedance matched, thermal vias, star ground | 50 | ENIG finish, 2oz copper |
-| **K20** BOM & Üretim | 1775 bileşen, Mouser/Digikey, ~$682 sistem maliyeti | 40 | Üretim araçları dahil · ⚠️ DOĞRULAMA GEREKLİ: 1775 vs 1130 (P0 karar) |
+| **K20** BOM & Üretim | 1,775 BOM satır, Mouser/Digikey, ~$682 sistem maliyeti | 40 | Üretim araçları dahil |
 
 ### Critical Components (K1 Hardware Subsystems)
 
@@ -127,7 +127,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | **H2** | Güç Kaynağı | ±40V Push-Pull (SG3525/LM5122), 12V-24V DC Giriş | Voltaj çökmesini önleyen Hi-Fi Filtreleme |
 | **H3** | Termal Tasarım | Fischer SK82-150-SA heatsink, Noctua NF-A8 fan | Sıcaklık kontrollü fan |
 | **H4** | PCB Tasarım | 6-layer stackup, 200×100mm, 2oz copper, IPC Class 3 | 90Ω USB, 50Ω I2S impedans |
-| **H5** | BOM & Üretim | ~1,130 bileşen, ~$415 (1+), ~$293 (100+) | 8 kanal modüler BOM |
+| **H5** | BOM & Üretim | ~1,130 bileşen ⚠️ P1: bom-classab.md (1018) ile çelişki, ~$415 (1+), ~$293 (100+) | 8 kanal modüler BOM |
 
 ### Critical Components (K16-K20 Layers)
 
@@ -137,7 +137,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | **K17** | Güç Kaynağı ±35V | LM5122 Boost Converter, 6S LiPo (22.2V), ±35V simetrik, %96 verim | UVP/OVP/OCP/OTP koruma |
 | **K18** | Termal Tasarım | Fischer SK53-100-SA heatsink, 80mm PWM fan, KSD301 thermal cutoff | Sıcaklık kontrollü sessiz fan |
 | **K19** | PCB Tasarım | 6-layer stackup, impedance matched, thermal vias, star ground | ENIG finish, 2oz copper |
-| **K20** | BOM & Üretim | 1130 bileşen, Mouser/Digikey tedarik, ~$682 sistem maliyeti | Üretim araçları dahil · ⚠️ DOĞRULAMA GEREKLİ: 1775 vs 1130 (P0 karar) |
+| **K20** | BOM & Üretim | 1,775 BOM satır, Mouser/Digikey tedarik, ~$682 sistem maliyeti | Üretim araçları dahil |
 
 ### Class AB Amplifier System
 
@@ -717,7 +717,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 27.3.1 |
+| Version | 27.3.2 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 34 |
 | Hard Guardrails | 16 |

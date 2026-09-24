@@ -4,7 +4,7 @@ type: system
 category: vault-navigation
 status: active
 authority: SSOT
-version: 28.2.1
+version: 28.2.2
 updated: 2026-09-24
 total_files: 538
 total_adr: 79

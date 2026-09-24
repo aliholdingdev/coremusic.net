@@ -133,7 +133,7 @@ Figma'dan çekilen değerler CSS custom property'lerine dönüştürülür:
 │  ├── L1.5  ±35V Güç Kaynağı (LM5122 Boost)                    │
 │  ├── L1.6  Termal Yönetim (Fischer heatsink)                   │
 │  ├── L1.7  PCB Tasarımı (6-layer, ENIG)                        │
-│  └── L1.8  BOM & Üretim (1130 bileşen)                         │
+│  └── L1.8  BOM & Üretim (1,775 BOM satır)                      │
 │                                                                 │
 │  L2  Sürücü Katmanı (K2)                                       │
 │  ├── L2.1  ASIO Driver (Steinberg SDK 2.3.4)                   │
