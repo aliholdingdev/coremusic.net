@@ -6,7 +6,7 @@ category: vault
 date: 2026-09-20
 status: active
 version: 1.0.0
-authority: SSOT
+authority: reference
 ---
 
 # K5 Veri Yönetimi — CLAUDE.md

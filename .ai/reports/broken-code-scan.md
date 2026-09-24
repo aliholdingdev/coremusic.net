@@ -5,7 +5,7 @@ category: code-quality
 date: 2026-09-23
 status: active
 version: 1.0.0
-authority: SSOT
+authority: reference
 governance: Red Team · Human Mode · Truth Mode
 ---
 

@@ -6,7 +6,7 @@ date: 2026-08-08
 updated: 2026-09-23
 version: 2.0.0
 status: active
-authority: SSOT
+authority: reference
 ---
 
 # Audio Hardware Engineer — Donanım & Analog Tasarım

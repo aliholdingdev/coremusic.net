@@ -6,7 +6,7 @@ date: 2026-09-23
 updated: 2026-09-23
 version: 1.0.0
 status: active
-authority: SSOT
+authority: reference
 ---
 
 # CoreMusic — Ses/Audio ADR Şablonu (Sinyal / DSP / Latency / Donanım)

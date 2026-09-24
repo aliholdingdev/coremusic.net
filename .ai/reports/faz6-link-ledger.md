@@ -154,3 +154,41 @@ Bu rapor, Vault Refactor Engine **Faz 6 (Doğrulama)** kapısının kanıtıdır
 **Sınıf a sonucu:** 0 — ADR'lerin fiziksel dosyaları diskte hiç yok; §6.2 Çözüm seçenekleri 1-3 (sahip kararı) aynen geçerli.
 
 **REFACTOR REPORT:** FILE: faz6-link-ledger.md · PURPOSE: ADR link sınıflandırma eki (§8) · VALIDATION: §1-§7 + §8 · RELATED: [[../log.md]] · [[../index.md]]
+
+
+---
+
+## VR Backlog (2026-09-24)
+
+> Faz 6 final gate sınıflandırması. Kök VR = 33 (log.md hariç, VERIFICATION REQUIRED occurrence; sayım log.md 2026-09-24 01:08 girişiyle birebir aynı). **Kapalı 21 + Backlog 12 = 33.** Kaynak dosyalardaki VR bayrakları kanıtlanmadıkları için SİLİNMEDİ — bu bölüm indekstir. (Parent kararı: ">15 numeric target" VOIDED.)
+
+| # | Dosya:satır | Bir satır gerekçe | Önerilen sahip |
+|---|-------------|-------------------|----------------|
+| 1 | keys.md:658 | Yinelenen §3A/§3C/§3D etiketleri (×2) + §12.1 boşluğu — kasıtlı korundu, karar bekleniyor | Vault Steward |
+| 2 | CLAUDE.md:549 | ROLE.md:435 "Guardrail #15" referansı hâlâ mevcut (2026-09-24 okundu ✓); ROLE.md düzeltmesi bu gate kapsamı dışı | Vault Steward (ROLE.md) |
+| 3 | CLAUDE.md:741 | "§12A" referansı belirsiz (§18 mi §27/§31 mi) — bölüm eşlemesi sahip kararı | Vault Steward |
+| 4 | CLAUDE.md:781 | 5 terim glossary'de YOK (ölçüm 2026-09-24: Hard Gate 0, Zero Code Before Plan 0, Zero Hallucination 0, Layer Violation 0, WASAPI 1 tesadüfi) | glossary sahibi |
+| 5 | WORKFLOW.md:325 | "Sousuz sıfırlanır" garble — Vault Steward teyidi gerekir | Vault Steward |
+| 6 | WORKFLOW.md:712 | Hard Gate + Zero Code Before Plan glossary'de YOK (ölçüm 2026-09-24: 0 / 0) | glossary sahibi |
+| 7 | index.md:72 | TECHNICAL_DOCUMENTATION.md diskte yok (Test-Path 2026-09-24: False; §3 satır 15 = boot 14 dışı) — dosya açma/satır kaldırma kararı | Vault Steward |
+| 8 | index.md:243 | 20 proje stub kaydı + "EQ alt modülleri (7)" isimsiz — doğrulanmadan stub üretilmez | PROJECTS sahibi |
+| 9 | index.md:349 | Arduino/AVR/PIC eski ad listesi diskte yok — liste sahip onayı açık | .templates/index sahibi |
+| 10 | glossary.md:657 | packages/shared/ yolları (§4.1.10/11/17 + §5) — packages/ = False (Test-Path); düzeltme sahip onayı | glossary sahibi |
+| 11 | glossary.md:660 | §7 kural 6 "(§9)" → Quality Report §10; §9 "§12.3" alt bölümü yok — düzeltme sahip onayı | glossary sahibi |
+| 12 | AGENTS.md:627 | 12 terim stub: ölçüm 2/12 glossary'de (Handover, Eskalasyon var; 10 yok) — "hiçbiri" iddiası kısmen çürütüldü, 10 terim ekleme işi | glossary sahibi |
+
+**Kapalı 21 (disk kanıtı ile):**
+- keys.md:659 — Test-Path 2026-09-24: .ai/.templates/session/ = False, .ai/.templates/session-log-template.md = True → iddia kanıtlandı VE keys.md:442 yanlış yol bu oturumda düzeltildi (ilk occurrence; VR metni L659 korundu).
+- 20 protokol/protokol-tanım satırı — her biri canonical kaynakla çapraz okundu; doğrulanamayan dış iddia taşımıyor: AGENTS.md 156/173/490 · brain.md 434/960 (ADR-005 kaydı) · CLAUDE.md 511/787 (Guardrail #3) · keys.md 524 · MEMORY.md 342/357/418/421 · ULTRA-THINKING.md 238/249 · WORKFLOW.md 288/337/375/563/574/614.
+
+---
+
+## Open Decision (2026-09-24)
+
+> **Ledger §8 Sınıf b — 117 link / 78 hedef (repo geneli fiziksel ADR-*.md = 0 dosya, ölçüm 2026-09-24):** karar VERİLMEDİ — vault sahibine açık. 3 seçenek:
+
+1. **ADR stub dosyaları oluştur** — .ai/.decisions/ altında her ölü hedef için minimal stub (linkler yaşar; içerik brain.md ADR kayıtlarına referansla minimal).
+2. **brain.md ADR anchor'larına yeniden yönlendir** — 117 linki [[brain]] içindeki ADR kayıtlarına çevir (fiziksel dosya yok, karar maddesi var; frozen 001-037 metinlerine dokunulmaz).
+3. **Toplu işaretle (dead)** — tek turda bilinçli ölü-link işareti + açıklama (117 link; en ucuz, en şeffaf).
+
+**REFACTOR REPORT:** FILE: faz6-link-ledger.md · PURPOSE: Faz 6 final gate — VR backlog indeksi + ADR Open Decision · VALIDATION: 33 = 21 kapalı + 12 backlog; Open Decision 3 seçenek, karar sahipte; kaynak VR bayrakları silinmedi · RELATED: [[../log.md]] · [[../index.md]] · [[../CLAUDE.md]] · [[../keys.md]] · [[../glossary.md]]

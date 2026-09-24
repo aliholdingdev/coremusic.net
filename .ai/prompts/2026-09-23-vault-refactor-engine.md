@@ -4,7 +4,7 @@ type: master-prompt
 category: vault-refactor
 version: 1.0.0
 status: active
-authority: SSOT
+authority: reference
 updated: 2026-09-23
 ---
 

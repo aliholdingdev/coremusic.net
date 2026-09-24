@@ -20,7 +20,7 @@ updated: 2026-09-24
 
 ### §1 Purpose & Project Definition
 
-**CoreMusic**, trilyon dolarlık küresel dijital medya, otomotiv ses sistemleri ve tüketici elektroniği pazarındaki yapısal açıkları kapatmak ve doğrudan yüksek kârlılığa dönüştürmek amacıyla geliştirilmiş kurumsal seviyede bir **Ticari Dijital Medya Ekosistemi ve Gelir Platformudur**.
+**CoreMusic** — kurumsal seviyede **Ticari Dijital Medya Ekosistemi ve Gelir Platformudur**; pazar büyüklüğü, konumlandırma ve pitch metninin SSOT'u: [[VISION.md]] §1 (SSOT dedup, 2026-09-24).
 
 Geleneksel müzik çalarların sunduğu basit dosya oynatma deneyiminin ötesine geçerek; çevrim içi bulut akışı ve internet bağlantısı olmadan çalışabilen **Offline-First** mimarisi sayesinde kullanıcının FLAC, WAV ve MP3 formatındaki ses koleksiyonunu tam mülkiyet altında tutmasını sağlar.
 

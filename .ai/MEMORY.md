@@ -42,14 +42,14 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 | Vault-Sync | Degisikliklerin `.ai/` dosyalarina senkronizasyonu |
 | Context Lock | Dosyanin gecici sure dondurulmesi |
 | Audit Trail | Tum degisikliklerin timestamp ile loglanmasi |
-| SSOT | Single Source of Truth — Tek Dogruluk Kaynagi |
+| SSOT | Tek Dogruluk Kaynagi - tanim: [[glossary]] |
 | Memory Hierarchy | Bellek oncelik sirasi: brain > index > AGENTS > MEMORY > log |
 | Hard Guardrail | Asilamayan sert mimari kural |
 | Zero Code Before Plan | Planlama yapilmadan kod yazma yasagi |
-| BCNF | Boyce-Codd Normal Form — 18 BCNF DB icin zorunlu normalizasyon |
+| BCNF | Boyce-Codd Normal Form - tanim: [[glossary]] (proje baglami: 18 BCNF DB) |
 | Immutability | ADR 001-037 frozen, degistirilemez |
 | Append-Only | Sadece ekleme, gecmis satirlar dokunulmaz |
-| Frontmatter | Dosya basligi, 7 zorunlu alan |
+| Frontmatter | Dosya basligi (7 zorunlu alan) - tanim: [[glossary]] |
 | Wiki-Link | `[[dosya/yolu]]` formatinda capraz referans |
 
 ---

@@ -6,7 +6,7 @@ category: asset
 date: 2026-09-06
 status: active
 version: 1.0.0
-authority: SSOT
+authority: reference
 ---
 
 # .ai/.png/home-1920 — CLAUDE.md

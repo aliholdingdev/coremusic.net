@@ -6,7 +6,7 @@ date: 2026-09-06
 updated: 2026-09-23
 version: 2.0.0
 status: active
-authority: SSOT
+authority: reference
 ---
 
 # CoreMusic — Node.js Backend Template

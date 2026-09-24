@@ -439,7 +439,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | security audit, güvenlik denetimi | .ai/.templates/documentation/security-audit-template.md |
 | c template, embedded şablonu | .ai/.templates/other/c-template.md |
 | query template, sql şablonu | .ai/.templates/query/Query-Template.md |
-| session log, oturum kaydı | .ai/.templates/session/session-log-template.md |
+| session log, oturum kaydı | .ai/.templates/session-log-template.md |
 
 ### §3D Agent Profile Keywords
 

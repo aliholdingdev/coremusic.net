@@ -6,7 +6,7 @@ date: 2026-09-06
 updated: 2026-09-23
 version: 2.0.0
 status: active
-authority: SSOT
+authority: reference
 ---
 
 # CoreMusic — Wiki Page Template
@@ -118,7 +118,7 @@ Yeni bir sayfa hangi dizine konur? Karar verilmez, aşağıdaki tablodan okunur.
 | Vault kök dosyaları | `.ai/*.md` (CLAUDE, AGENTS, WORKFLOW, brain, glossary, index) | ✅ MEVCUT |
 | Alt dizinler | `.ai/.agents/`, `.ai/.decisions/`, `.ai/.templates/`, `.ai/.sql/` | ✅ MEVCUT |
 | Workflow'lar | `.workflows/*.md` | ✅ MEVCUT (8 dosya) |
-| Şablonlar | `.ai/.templates/**/*.md` | ✅ MEVCUT (19 dosya) |
+| Şablonlar | `.ai/.templates/**/*.md` | ✅ MEVCUT (26 dosya) |
 | `vault-cmd.mjs` scripti | `.ai/scripts/vault-cmd.mjs` | ⚠️ DOĞRULANACAK — yoksa manuel denetim · ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel |
 | Uydurma dizin/yol | — | ❌ YAZILMAZ |
 
