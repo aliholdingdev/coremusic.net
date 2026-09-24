@@ -385,8 +385,13 @@
         "-y",
         "@modelcontextprotocol/server-filesystem",
         "C://www//coremusic.net",
-        "C://www//coremusic.net.old"
+        "C://www//coremusic.net.old.ref"
       ],
+      "enabled": true
+    },
+    "claude-mem": {
+      "type": "local",
+      "command": ["node", "c:/.claude/plugins/marketplaces/thedotmack/plugin/scripts/mcp-server.cjs"],
       "enabled": true
     }
   },
