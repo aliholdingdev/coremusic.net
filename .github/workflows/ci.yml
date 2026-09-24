@@ -1,0 +1,136 @@
+# CoreMusic — CI Pipeline (P0: .github/workflows/ 0 dosyadan ilk workflow)
+# Şablon (Guardrail #16): .ai/.templates/infrastructure/github-actions-template.md §3.2
+# Plan: .ai/architecture/k13-cicd/README.md (K13.1/K13.2) + ci-pipeline.md (§2.2 aşamaları)
+# Disk kanıtı: 3x composer.json (shared, auth.coremusic.net, home.coremusic.net) ·
+#   phpunit.xml x2 (shared, auth.coremusic.net) · shared composer.json scripts: test + stan ·
+#   package.json'da script YOK (yalnız playwright dependency) -> Node adımları YAZILMADI.
+name: CI Pipeline
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PHP_VERSION: '8.4'   # Kanıt: 3 composer.json -> "php": ">=8.4" (config.platform.php YOK)
+
+jobs:
+  php-lint:
+    name: PHP Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          tools: composer
+          extensions: apcu, mbstring, json, pdo, pdo_mysql
+          ini-values: apcu.enable_cli=1
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Composer install (shared)
+        run: composer install --no-progress --prefer-dist
+        working-directory: shared
+
+      - name: Composer install (auth.coremusic.net)
+        run: composer install --no-progress --prefer-dist
+        working-directory: auth.coremusic.net
+
+      - name: Composer install (home.coremusic.net)
+        run: composer install --no-progress --prefer-dist
+        working-directory: home.coremusic.net
+
+      # Disk kanıtı: shared/composer.json scripts.stan = "phpstan analyse src --level=5"
+      # (phpstan.neon YOK -> composer scripti esas; plan level=8 değil, disk kazanir)
+      - name: PHPStan (composer stan)
+        run: composer stan
+        working-directory: shared
+
+  php-test:
+    name: PHP Tests (${{ matrix.project }})
+    needs: php-lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - project: shared
+            args: ''
+          # auth phpunit.xml testsuites: Unit + Integration; tests/Integration dizini diskte YOK
+          # (glob kaniti) -> yalnizca Unit kosulur, failOnWarning kirilmasin.
+          - project: auth.coremusic.net
+            args: '--testsuite Unit'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          tools: composer
+          extensions: apcu, mbstring, json, pdo, pdo_mysql
+          ini-values: apcu.enable_cli=1
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/composer
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}-${{ matrix.project }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Composer install
+        run: composer install --no-progress --prefer-dist
+        working-directory: ${{ matrix.project }}
+
+      - name: PHPUnit
+        run: vendor/bin/phpunit ${{ matrix.args }}
+        working-directory: ${{ matrix.project }}
+
+  composer-audit:
+    name: Composer Audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          tools: composer
+
+      - name: Composer install + audit (shared)
+        run: |
+          composer install --no-progress --prefer-dist
+          composer audit
+        working-directory: shared
+
+      - name: Composer install + audit (auth.coremusic.net)
+        run: |
+          composer install --no-progress --prefer-dist
+          composer audit
+        working-directory: auth.coremusic.net
+
+      - name: Composer install + audit (home.coremusic.net)
+        run: |
+          composer install --no-progress --prefer-dist
+          composer audit
+        working-directory: home.coremusic.net
