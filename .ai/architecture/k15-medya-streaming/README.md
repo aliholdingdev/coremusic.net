@@ -150,6 +150,9 @@ Bu bölüm, K15 katmanını onaylı şema biçiminde (K15 → K15.a → K15.a.b 
 3. 21 ana katman sabittir (K0–K20; matris §1.1, §1.3 K3).
 4. K15 pipeline/protokol sahibidir (FFmpeg, transcode, HLS/DASH, ffmpeg-pipeline.md tümü K15'tedir); K15'ten K16–K20'ye ve K5'e yazmak yasaktır.
 5. Bağımlılık bağlamı: K15 → K14 (TEK hedef — matris §2.2, §1.3 K2). K15 → K5 yasaktır (matris §5.1 #6); K15 → K16–K20 yasaktır (matris §5.2 #17).
+
+> | K8 → K15 | FFmpeg/transcode K15'tedir; K15 yalnızca K14 üzerinden iletişim kurar → K8→K15 doğrudan çağrı SINIR DIŞI | CLAUDE §5 K15 |
+
 6. Onaylı sayımlar: a = alan, b = alan başına alt alan, c = yaprak; toplam = a×b + c.
 7. Kanıt türleri: disk MD başlığı (H2/H3/H4), README/index bileşen-tablosu satırı, plan §2.1-2.2 satırı.
 
