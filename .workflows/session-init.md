@@ -26,7 +26,8 @@ reference:
     - ".ai/log.md"
     - ".ai/engine.md"
   architecture:
-    - ".ai/ADR/"
+    - ".ai/.decisions/"
+    - ".ai/architecture/adr/"
     - "Existing project architecture"
     - "Existing codebase patterns"
   project_structure:
@@ -56,6 +57,11 @@ reference:
       - "boot sequence change"
       - "vault structure change"
 changelog:
+  - version: 1.1
+    date: 2026-09-24
+    changes:
+      - L0-L3 referansları K0-K20 / A0-A5 ile değiştirildi
+      - İki ADR serisi gerçeği eklendi (.ai/.decisions + .ai/architecture/adr)
   - version: 1.0
     date: 2026-08-15
     changes:
@@ -158,15 +164,16 @@ YENİ OTURUM
 ### Aşama 5: Mimari Kararlar
 
 - `.ai/brain.md` oku
-- L0-L3 katman yapısını anla
+- K0-K20 katman yapısını ve A0-A5 alan etiketlerini anla (kanonik: [[../.ai/architecture/katman-baglilik-matrisi]]; adlandırma: [[../.ai/architecture/adlandirma-kurali]])
 - Middleware pipeline sırasını kontrol et
 - C++ audio kurallarını yükle
 
 ### Aşama 6: ADR Kontrolü
 
-- Frozen ADR'leri tara (ADR-001 → ADR-037)
-- Aktif ADR'leri listele (ADR-038+)
-- Çakışma var mı kontrol et
+- İki ADR serisini ayır: `.ai/.decisions/` (karar serisi) + `.ai/architecture/adr/` (mimari seri, ADR-023…026) — birleştirme REDDEDİLDİ (ADR-026 §3.4)
+- Frozen ADR'leri tara (ADR-001 → ADR-037, immutable)
+- Aktif ADR'leri listele (`.ai/.decisions/index.md` — active ADR-038…088, draft 089)
+- Çakışma var mı kontrol et (aynı numara → slug + konum birlikte okunur)
 
 ### Aşama 7-8: Geçmiş Bilgisi
 
@@ -180,7 +187,7 @@ YENİ OTURUM
 | Dosya | Amaç |
 |-------|------|
 | `.ai/index.md` | Master katalog, 570+ dosya |
-| `.ai/keys.md` | Keyword haritası, L0-L3 mapping |
+| `.ai/keys.md` | Keyword haritası, K0-K20 / A0-A5 mapping |
 | `.ai/engine.md` | Orkestrasyon motoru indeksi |
 
 ### Aşama 12: Hazırlık Doğrulama

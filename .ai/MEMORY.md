@@ -683,18 +683,19 @@ Bu revizyonda her düzeltme üç kaynakla desteklendi: (1) Test-Path dosya varl�
 | 2026-09-09 | Session Management + Vault Post-Update Automation — session-save.mjs, vault-post-update.mjs, settings.json hooks, opencode.json command, vault-sync-post skill, OpenCode kaynak kodu güncelleme | ✅ 10+ dosya: 2 yeni script, 1 hook, 1 command, 2 skill, 4 OpenCode dosyası güncellendi | — | MO |
 | 2026-09-18 | 50W Class AB Amplifier Circuit Design — Tam devre tasarımı, BOM, bias prosedürü, koruma devreleri, PCB layout, test protokolü | ✅ .ai/architecture/amplifier-classab-circuit.md oluşturuldu (12 bölüm, tek kanal tasarımı) | ADR-061, ADR-063 | embedded-engineer |
 | 2026-09-21 | Agent Profilleri + CLAUDE.md Genişletme — 11 agent profili (.ai/.agents/) oluşturuldu, 4 kritik CLAUDE.md genişletildi (shared, auth, home, assets) | [OK] 12 dosya oluşturuldu/güncellendi, ~2000+ satır eklendi | — | vault-updater |
+| 2026-09-24 | Vault Workflow+Template Genişletme — WORKFLOW.md 27→502 satır (K0-K20, A0-A5, 23 klasör/340 MD, 3 tur/20 persona, iki ADR serisi, UTF-8/post-op), .workflows/architecture-write.md yeni (511 satır, batch ≤31, 0 silme, AC-01…AC-26), 4 yeni şablon (katman-readme 174, alt-katman 158, adr-nygard 209, agent-tartisma-turu 185), hedefli edit: session-init/vault-sync/adr-creation/.workflows CLAUDE/kök CLAUDE, templates index 325→338 (36/36 dosya, 16.503 satır, v4.4.0) | [OK] 0 dosya silindi; grep domain L* = 0; 334↔340 çelişkisi VERIFICATION REQUIRED korundu | — | vault-updater |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-24
 **Mode:** Red Team · Human Mode · Truth Mode
 
 <!-- vault-sync:auto-begin -->
 ## Session State (auto)
 
-- Last update: 2026-09-18 20:56:13
-- Last session: latest
-- Last operation: K6-K11 mimari katman dokümanları oluşturuldu: k6-security.md (40 bileşen), k7-middleware.md (35 bileşen), k8-services.md (50 bileşen), k9-api-routing.md (40 bileşen), k10-application.md (45 bileşen), k11-ux-layer.md (40 bileşen). Toplam: 250 bileşen. Tüm dosyalarda frontmatter, ASCII diyagramları, GitHub referansları ve wiki-link'ler mevcut. architecture/index.md §10 olarak K6-K11 cross-references eklendi.
+- Last update: 2026-09-24 00:00:00
+- Last session: ses_f2ced08e2ffeUEuh66DQmh1Z9p
+- Last operation: Vault workflow+tamplen genisletme tamamlandi: WORKFLOW.md 502 satir, architecture-write.md yeni is akisi (511), 4 yeni sablon (katman-readme, alt-katman, adr-nygard, agent-tartisma-turu), hedefli editler (session-init, vault-sync, adr-creation, .workflows/CLAUDE.md, koku CLAUDE.md), .templates/index.md 36/36 dosya v4.4.0 (16.503 satir). log.md append yapildi. session-save.mjs + vault-post-update.mjs DISKTE YOK — manuel senkron uygulandi (VERIFICATION REQUIRED: project-state.md de yok).
 - Next: kaldigin yerden devam etmek icin vault_sync continue-last kullan
 <!-- vault-sync:auto-end -->

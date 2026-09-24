@@ -29,7 +29,8 @@ reference:
     - ".ai/log.md"
 
   architecture:
-    - ".ai/ADR/"
+    - ".ai/.decisions/accepted/"
+    - ".ai/architecture/adr/"
     - "Existing architecture"
     - "Existing implementation"
 
@@ -38,6 +39,12 @@ update_policy:
   never_overwrite_decisions: true
 
 changelog:
+  - version: 3.1.0
+    date: 2026-09-24
+    changes:
+      - İki ADR serisi hizası: .ai/.decisions/ (karar) + .ai/architecture/adr/ (mimari ADR-023…026)
+      - Kayıt yolları düzeltildi (.ai/decisions → .ai/.decisions/accepted; .ai/ADR → iki seri)
+      - Numaralandırma bölümü: frozen 001-037 immutable, active 038-088, draft 089, yeni ≥088; birleştirme REDDEDİLDİ (ADR-026 §3.4)
   - version: 3.0.0
     date: 2026-08-15
     changes:
@@ -88,15 +95,17 @@ Mimari Karar Kaydı (ADR) oluşturma, inceleme ve onaylama süreci.
 - Uzun vadeli etkiler
 - Kanıt olmadan teknik karar alınmaz.
 
-- İlgili ADR'leri oku (ADR-001'den ADR-044'e kadar)
-- Frozen ADR'leri kontrol et (001-037 = de)
+- İlgili ADR'leri oku (karar serisi: ADR-001 → ADR-088 + draft 089, `.ai/.decisions/index.md`; mimari seri: `.ai/architecture/adr/` ADR-023…026)
+- Frozen ADR'leri kontrol et (001-037 = immutable)
 - Alternatifleri değerlendir
 - Teknik kanıt topla
 
 ### 3. ADR Taslağı Oluştur (1 saat)
-- ADR formatına uy (aşağıdaki şablona bak)
-- `.ai/decisions/accepted/adr-NNN-konu.md` olarak kaydet
-- Frontmatter zorunlu: type, id, title, status, date, deciders, tags
+- ADR formatına uy (aşağıdaki şablona bak; mimari kararlarda `[[../.ai/.templates/adr/adr-nygard-template]]` tercih edilir — Guardrail #16)
+- **Seriye göre kaydet:**
+  - Karar serisi → `.ai/.decisions/accepted/adr-NNN-slug.md`
+  - Mimari seri → `.ai/architecture/adr/ADR-NNN-slug.md` (ADR-023…026 dizini)
+- Frontmatter zorunlu: type, id, title, status, date, deciders, tags (+ 7 alanlı vault FM: title, type, category, version, status, authority, updated)
 
 ### 4. İnceleme (30 dk)
 - Kalite kontrol listesini uygula (aşağıdaki checklist)
@@ -200,30 +209,48 @@ Bu kararın sonuçları neler?
 Bu kararla ilişkili diğer ADR'ler
 ```
 
+> **Seri notu (2026-09-24):** İki ADR serisi **kasıtlı ayrıdır** — `.ai/.decisions/` (karar günlüğü) ile `.ai/architecture/adr/` (mimari seri). Aynı numara iki seride farklı slug ile bulunabilir (ör. ADR-024-ecosystem-modular-docs ≠ ADR-024-surucu-firmware-birlesme); her atıfta **slug + konum** birlikte yazılır. Tek seriye birleştirme **REDDEDİLDİ** (ADR-026 §3.4); istek üst karar ister (superstack/product-owner).
+
 ## ADR Numarandırma
-- Frozen: ADR-001 → ADR-037 (değiştirilemez)
-- Active: ADR-038+ (yeni kararlar)
+
+### Karar Serisi (`.ai/.decisions/`)
+
+- Frozen: ADR-001 → ADR-037 (değiştirilemez, immutable)
+- Active: ADR-038 → ADR-088 · Draft: ADR-089 (kaynak: `.ai/.decisions/index.md`)
+- **Yeni karar ADR'leri: ADR-088+** uzayında, index'ten boş numara seçilerek açılır
 - Numara asla yeniden kullanılmaz
 
+### Mimari Seri (`.ai/architecture/adr/`)
+
+- Kendi numara uzayında ardışık ilerler: mevcut **ADR-023 → ADR-026** (2026-09-24)
+- Dosya adı büyük harf: `ADR-NNN-slug.md`
+- Kapsam: katman sınırı, adlandırma, sayım, klasör birleşimi gibi mimari kararlar
+- Birleştirme (karar serisiyle) REDDEDİLDİ — ADR-026 §3.4
+
 ## Kalite Kontrol Checklist
-- [ ] Frontmatter eksiksiz mi?
+- [ ] Frontmatter eksiksiz mi? (7 alan + ADR alanları)
+- [ ] Doğru seri ve boş numara seçildi mi? (karar → .decisions index; mimari → architecture/adr)
 - [ ] Bağlam bölümü yeterli mi?
 - [ ] Gerekçe açık mı?
-- [ ] Alternatifler değerlendirildi mi?
-- [ ] Frozen ADR ile çelişki var mı?
-- [ ] Cross-reference'lar doğru mu?
+- [ ] Alternatifler değerlendirildi mi? (her red: REDDEDİLDİ — gerekçe)
+- [ ] Frozen ADR ile çelişki var mı? (001-037 immutable)
+- [ ] Cross-reference'lar doğru mu? (slug + konum)
 - [ ] Hallüsinasyon kontrolü yapıldı mı?
 
 ## Yasaklar
 - Frozen ADR'yi değiştirme (001-037)
+- İki ADR serisini birleştirme (ADR-026 §3.4 — REDDEDİLDİ)
 - Doğrulanamayan bilgi ekleme
 - Teknik kanıt olmadan karar verme
 
 ## Related Files
-- `.ai/decisions/accepted/` — ADR dosyaları
-- `.ai/decisions/index.md` — ADR indeksi
+- `.ai/.decisions/accepted/` — karar serisi ADR dosyaları
+- `.ai/.decisions/index.md` — karar serisi indeksi (001-089 aralığı)
+- `.ai/architecture/adr/` — mimari ADR serisi (ADR-023…026)
 - `.ai/brain.md` — Mimari kararlar
 - `.ai/WORKFLOW.md` — ADR yaşam döngüsü
+- `.ai/.templates/adr/adr-nygard-template.md` — Nygard ADR şablonu (Guardrail #16)
+- `.ai/.templates/adr/adr-template.md` — Vault klasik ADR şablonu
 
 ## Activation
 - "ADR", "karar", "mimari karar", "decision"

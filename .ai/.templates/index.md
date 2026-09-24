@@ -2,15 +2,15 @@
 title: "CoreMusic — Template Registry Index"
 type: template-index
 category: template
-version: 4.3.0
+version: 4.4.0
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
 updated: 2026-09-24
 date: 2026-08-09
 governance: Red Team · Human Mode · Truth Mode
-total_templates: 32
-total_files: 32
-total_lines: 15764
+total_templates: 36
+total_files: 36
+total_lines: 16503
 ---
 
 # CoreMusic — Template Registry Index
@@ -31,17 +31,19 @@ Bu dosya, CoreMusic ekosistemindeki tüm şablonların (template) merkezi indeks
 
 ## 2. Kapsam ve Mimari Dizin Yapısı
 
-Bu bölüm, `.templates/` dizininin disk gerçeğiyle birebir listingidir (2026-09-24 taze doğrulama — **32/32 dosya diskte**; aynı günün önceki kaydı: 28/28; 2026-09-23 Faz 2 kaydı: 26/26). Kullanıcılar: 11 agent profilinin tamamı (Guardrail #16) + insan geliştiriciler + Vault Steward.
+Bu bölüm, `.templates/` dizininin disk gerçeğiyle birebir listingidir (2026-09-24 taze doğrulama — **36/36 dosya diskte**; aynı günün önceki kayıtları: 32/32 → 28/28; 2026-09-23 Faz 2 kaydı: 26/26). Kullanıcılar: 11 agent profilinin tamamı (Guardrail #16) + insan geliştiriciler + Vault Steward.
 
 ```
 .templates/
 ├── index.md · CLAUDE.md · session-log-template.md                     (kök — 3)
 ├── adr/adr-template.md · adr-frontend-template.md · adr-database-template.md ·
-│   adr-security-template.md · adr-audio-template.md · adr-index.md    (6)
-├── agents/agents-template.md                                          (1)
+│   adr-security-template.md · adr-audio-template.md · adr-index.md ·
+│   adr-nygard-template.md                                             (7)
+├── agents/agents-template.md · agent-tartisma-turu-template.md        (2)
 ├── backend/php-template.md · nodejs-template.md                        (2)
 ├── documentation/api-doc-template.md · security-audit-template.md ·
-│   WikiPage-Template.md · claude-md-template.md · docs-md-template.md (5)
+│   WikiPage-Template.md · claude-md-template.md · docs-md-template.md ·
+│   katman-readme-template.md · alt-katman-template.md                 (7)
 ├── frontend/css-template.md · js-template.md                           (2)
 ├── hardware/hardware-template.md                                       (1)
 ├── infrastructure/github-actions-template.md · migration-template.md   (2)
@@ -52,9 +54,9 @@ Bu bölüm, `.templates/` dizininin disk gerçeğiyle birebir listingidir (2026-
     prompt-template.md · screen-spec-template.md                        (4)
 ```
 
-**Toplam: 32 dosya** = 30 şablon (29'u klasör içi + `session-log-template.md` kök) + 2 meta (`index.md`, `CLAUDE.md`). **Kategori: 11 dizin + kök.** `session/` klasörü YOKTUR (kayıt köktedir). *(2026-09-24: +2 şablon — `claude-md-template`, `docs-md-template`; aynı gün +4 şablon — `ui-design/` altı: `reference-template`, `flow-template`, `prompt-template`, `screen-spec-template`.)*
+**Toplam: 36 dosya** = 34 şablon (33'ü klasör içi + `session-log-template.md` kök) + 2 meta (`index.md`, `CLAUDE.md`). **Kategori: 11 dizin + kök.** `session/` klasörü YOKTUR (kayıt köktedir). *(2026-09-24: +2 şablon — `claude-md-template`, `docs-md-template`; aynı gün +4 şablon — `ui-design/` altı: `reference-template`, `flow-template`, `prompt-template`, `screen-spec-template`; aynı gün son +4 şablon — `documentation/katman-readme`, `documentation/alt-katman`, `adr/adr-nygard`, `agents/agent-tartisma-turu` → #33-#36, §7.1'e bak.)*
 
-✅ **2026-09-23 üretim tamamlandı — 26/26 mevcut** (2026-09-24: +2 → 28/28 — documentation/claude-md + docs-md, §7.1.6'ya bak; aynı gün +4 → **32/32** — ui-design/*, §7.1.12'ye bak) (Faz 2'de üretilen `adr-frontend`, `adr-database`, `adr-security`, `adr-audio`, `adr-index`, `aspnet`, `c` artık disktedir).
+✅ **2026-09-23 üretim tamamlandı — 26/26 mevcut** (2026-09-24: +2 → 28/28 — documentation/claude-md + docs-md, §7.1.6'ya bak; aynı gün +4 → 32/32 — ui-design/*, §7.1.12'ye bak; aynı gün +4 → **36/36** — katman/ADR/tartışma şablonları, §7.1.1/#7.1.6/#7.1.11'e bak) (Faz 2'de üretilen `adr-frontend`, `adr-database`, `adr-security`, `adr-audio`, `adr-index`, `aspnet`, `c` artık disktedir).
 
 ### Planlanan (diskte hâlâ yok — Faz 6 defteri)
 
@@ -113,7 +115,7 @@ updated: {{DATE}}
 2. **Registry otoritesi:** Şablon ekleme/çıkarma/güncelleme yalnızca bu dosyanın tablolarından yapılır; alt klasör `CLAUDE.md` dosyaları şablon listesi iddiası taşıyamaz.
 3. **SSOT self-claim yasak:** Bu dosya dışındaki hiçbir şablon/klasör dosyası "Single Source of Truth" iddiasında bulunamaz; authority alanı şablonlarda `Template (Guardrail #16) — Registry: .ai/.templates/index.md` değerindedir.
 4. **Frontmatter standardı:** Her şablon dosyasında 7 zorunlu alan bulunur: `title`, `type`, `category`, `version`, `status`, `authority`, `updated`.
-5. **Sayı senkronu:** `total_*` alanları disk gerçeğiyle tutarlıdır — `total_templates: 32` (registry kaydı: 30 şablon + 2 meta), `total_files: 32`, `total_lines: 15764` (15.764 — 2026-09-24 sayımı, 32 md). Uyuşmazlık → güncelleme zorunlu.
+5. **Sayı senkronu:** `total_*` alanları disk gerçeğiyle tutarlıdır — `total_templates: 36` (registry kaydı: 34 şablon + 2 meta), `total_files: 36`, `total_lines: 16503` (16.503 — 2026-09-24 2. geçiş sayımı, 36 md). Uyuşmazlık → güncelleme zorunlu.
 6. **Bilinmeyen bilgi uydurulmaz:** Doğrulanamayan iddia `⚠️ VERIFICATION REQUIRED` etiketiyle işaretlenir.
 
 ## 5. Workflow
@@ -135,7 +137,7 @@ Yeni dosya oluştururken:
 
 | Agent | Kullanacağı Template'ler |
 |-------|-------------------------|
-| Master Orchestrator | `documentation/WikiPage-Template.md`, `documentation/claude-md-template.md`, `documentation/docs-md-template.md`, `adr/adr-index.md` |
+| Master Orchestrator | `documentation/WikiPage-Template.md`, `documentation/claude-md-template.md`, `documentation/docs-md-template.md`, `adr/adr-index.md`, `documentation/katman-readme-template.md`, `documentation/alt-katman-template.md`, `adr/adr-nygard-template.md` |
 | Backend Architect | `backend/php-template.md`, `adr/adr-template.md` |
 | UI Designer | `frontend/js-template.md`, `frontend/css-template.md`, `adr/adr-frontend-template.md`, `ui-design/reference-template.md` (Kalıp A), `ui-design/flow-template.md` (Kalıp B), `ui-design/prompt-template.md` (Kalıp C), `ui-design/screen-spec-template.md` (Kalıp D) |
 | Security Engineer | `adr/adr-security-template.md`, `documentation/security-audit-template.md` |
@@ -146,6 +148,7 @@ Yeni dosya oluştururken:
 | Audio Hardware Engineer | `hardware/hardware-template.md`, `adr/adr-audio-template.md` |
 | DSP Firmware Engineer | `other/c-template.md`, `hardware/hardware-template.md` |
 | Windows Software Engineer | `other/c-template.md` |
+| Tüm ajanlar (tartışma protokolü) | `agents/agent-tartisma-turu-template.md` (3 tur/20 persona — `agent-debate` becerisi) |
 
 ✅ **2026-09-23 üretim tamamlandı — 26/26 mevcut** (2026-09-24: +2 → 28/28, +4 → **32/32**; yeni atıflar §7.1.6 documentation ve §7.1.12 ui-design satırlarında). Tablodaki `adr-index`, `adr-frontend`, `adr-database`, `adr-security`, `adr-audio`, `c-template` atıfları disktedir; diskte olmayan `arduino`/`avr`/`pic` atıfları `hardware/hardware-template.md` ile eşleştirilmiştir (o şablon üretilmedi — §2 "Planlanan").
 
@@ -163,6 +166,9 @@ Yeni dosya oluştururken:
 | UI Design Flow / Ekran spec'i | `ui-design/flow-template.md` (Kalıp B), `ui-design/screen-spec-template.md` (Kalıp D) |
 | UI Design Referans / Token dokümanı | `ui-design/reference-template.md` (Kalıp A) |
 | Hardware Design | `hardware/hardware-template.md` |
+| ADR yazımı (mimari seri / Nygard) | `adr/adr-nygard-template.md` (`.ai/architecture/adr/` — `.workflows/adr-creation.md` Adım 3) |
+| Katman/alt-katman dokümanı | `documentation/katman-readme-template.md`, `documentation/alt-katman-template.md` (K0-K20 / A0-A5) |
+| Multi-agent tartışma (3 tur) | `agents/agent-tartisma-turu-template.md` (Tur1 öneri → Tur2 çapraz → Tur3 uzlaşma+ADR) |
 
 ✅ **2026-09-23 üretim tamamlandı — 26/26 mevcut** (2026-09-24: +2 → 28/28, +4 → **32/32** — ui-design 3 yeni workflow satırı). Bu tablodaki `adr-security` atıfı disktedir; Hardware Design satırı, diskteki tek donanım şablonu olan `hardware/hardware-template.md`'yi gösterir (arduino/avr/pic üretilmedi — §2 "Planlanan").
 
@@ -178,23 +184,23 @@ Yeni dosya oluştururken:
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 4.3.0 |
-| **Toplam Dosya (registry)** | 32 md (30 şablon + 2 meta: index.md, CLAUDE.md) |
-| **Toplam Template** | 32 kayıt (`total_templates` = registry kayıtları; şablon alt kümesi 30) |
-| **500+ derinlik** | 29/29 klasör içi şablon 500+ satır (ölçüm 2026-09-24: min 501 `other/cpp` · max 649 `frontend/js`; aynı gün eklenen 4: `ui-design/reference` 509 · `flow` 506 · `prompt` 507 · `screen-spec` 545) |
-| **Kısa şablon** | 1 — `session-log-template.md` (144 satır; 500+ kuralı kapsamı dışı, bilinçli kısa şablon) |
+| **Versiyon** | 4.4.0 |
+| **Toplam Dosya (registry)** | 36 md (34 şablon + 2 meta: index.md, CLAUDE.md) |
+| **Toplam Template** | 36 kayıt (`total_templates` = registry kayıtları; şablon alt kümesi 34) |
+| **500+ derinlik** | 29/33 klasör içi şablon 500+ satır (ölçüm 2026-09-24: min 501 `other/cpp` · max 649 `frontend/js`; aynı gün eklenen 4 ui-design: `reference` 509 · `flow` 506 · `prompt` 507 · `screen-spec` 545) — **istisna: aynı gün eklenen 4 şablon bilinçli olarak 100-250 aralığında** (`katman-readme` 174 · `alt-katman` 158 · `adr-nygard` 209 · `agent-tartisma-turu` 185 — görev şartı: açıklamalı dolgu 100-250 satır) |
+| **Kısa şablon** | 5 — `session-log-template.md` (144 satır; 500+ kuralı kapsamı dışı, bilinçli kısa şablon) + 4 yeni 100-250 aralığı şablon (yukarıdaki istisna satırı) |
 | **Planlanan (Faz 6)** | 3 — `arduino`, `avr`, `pic` (§2'ye bak) |
-| **Toplam Satır** | 15.764 (2026-09-24, 32 md dosyası; o an: templates/CLAUDE.md 99) — eski: 14.695 (28 md) · 12.549 (2026-09-23, 26 md) |
-| **Ortalama Satır/Template** | 493 (15.764 ÷ 32 dosya) |
-| **Minimum Satır** | 99 (templates/CLAUDE.md — meta) · şablon min 144 (`session-log-template.md`) |
+| **Toplam Satır** | 16.503 (2026-09-24, 36 md dosyası; 2. geçiş ölçümü — `index.md` bu yazımla 325 → 338 oldu, delta +13 yansıtıldı) — eski: 15.764 (32 md) · 14.695 (28 md) · 12.549 (2026-09-23, 26 md) |
+| **Ortalama Satır/Template** | 458 (16.503 ÷ 36 dosya) |
+| **Minimum Satır** | 99 (templates/CLAUDE.md — meta) · şablon min 144 (`session-log-template.md`) · sonra 158 (`documentation/alt-katman-template.md`) |
 | **Maksimum Satır** | 649 (frontend/js-template.md) |
-| **Kategori** | 11 dizin (adr, agents, backend, documentation, frontend, hardware, infrastructure, other, query, testing, ui-design) + kök (index.md, CLAUDE.md, session-log-template) |
+| **Kategori** | 11 dizin (adr 7, agents 2, backend 2, documentation 7, frontend 2, hardware 1, infrastructure 2, other 3, query 1, testing 2, ui-design 4) + kök (index.md, CLAUDE.md, session-log-template) |
 | **Dizin Yapısı** | ✅ Alt dizinlere ayrılmış (§2 disk gerçeği) |
-| **Frontmatter Uyumlu** | ✅ 30/30 7-alanlı FM (2026-09-23 betik doğrulaması: FM BAD=0; 2026-09-24 yeni 4 şablon da 7 alan + `reference` bloğu) |
-| **Ölçüm notu** | ✅ Tazelendi (2026-09-24): 32 md disk sayımı; `total_*` bu yazımla senkron (28 eski şablonun satır sayısı değişmedi, 4 yeni şablon eklendi). Ölçüm yöntemi: dosya içeriğinin `\n` ile bölünmesi — `vault-utf8-writer verify` → `lines` ile aynı. `index.md` bu yazımla kendi satır sayısını değiştirir; `total_lines` 2. geçişte tazelenir. |
-| **Düzeltilen eski iddialar** | 25.000/5.546 satır → 12.549 · 17 şablon/19 dosya → 24 şablon/26 dosya · Planlanan 10 → 3 (7'si Faz 2'de üretildi) · ort. 292 → 483 · min 89/max 600 → 90/649 · "arduino/avr/pic diskte" → hardware tek dosya (`hardware-template.md`, 512) · "10 klasör (session dahil)" → 10 dizin + kök, `session/` klasörü yok · 26 dosya/12.549 satır → 28 dosya/14.695 → **32 dosya/15.764** (2026-09-24, +2 şablon: claude-md, docs-md; +4 şablon: ui-design/*) · `ui-design` "115 dosya" → **136 dosya (119 md)** |
+| **Frontmatter Uyumlu** | ✅ 34/34 7-alanlı FM (2026-09-23 betik doğrulaması: FM BAD=0; 2026-09-24 yeni 8 şablon da 7 alan + `reference` bloğu) |
+| **Ölçüm notu** | ✅ Tazelendi (2026-09-24): 36 md disk sayımı; `total_*` bu yazımla senkron (32 eski şablonun satır sayısı değişmedi, +4 şablon eklendi — adr-nygard 209, agent-tartisma 185, katman-readme 174, alt-katman 158 = 726 satır). Ölçüm yöntemi: dosya içeriğinin `\n` ile bölünmesi — `vault-utf8-writer verify` → `lines` ile aynı. `index.md` bu yazımla kendi satır sayısını değiştirir; `total_lines` 2. geçişte tazelenir. |
+| **Düzeltilen eski iddialar** | 25.000/5.546 satır → 12.549 · 17 şablon/19 dosya → 24 şablon/26 dosya · Planlanan 10 → 3 (7'si Faz 2'de üretildi) · ort. 292 → 458 · min 90/max 649 → 144/649 · "arduino/avr/pic diskte" → hardware tek dosya (`hardware-template.md`, 512) · "10 klasör (session dahil)" → 11 dizin + kök, `session/` klasörü yok · 26 dosya/12.549 satır → 28/14.695 → 32/15.764 → **36 dosya/16.503** (2026-09-24, +2: claude-md, docs-md; +4: ui-design/*; +4: katman-readme, alt-katman, adr-nygard, agent-tartisma-turu) · `ui-design` "115 dosya" → **136 dosya (119 md)** |
 
-**REFACTOR REPORT:** FILE: index.md · PURPOSE: Template Registry Index (şablon registry + dizin) · VALIDATION: 7 alan + §1-§7 + bilgi korunumu + envanter 32/32 disk sayımı (2026-09-24, ui-design/+4) · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
+**REFACTOR REPORT:** FILE: index.md · PURPOSE: Template Registry Index (şablon registry + dizin) · VALIDATION: 7 alan + §1-§7 + bilgi korunumu + envanter 36/36 disk sayımı (2026-09-24, +4 şablon: katman/ADR/tartışma) · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
 
 ## 7. Referanslar
 
@@ -210,6 +216,7 @@ Yeni dosya oluştururken:
 | 4 | ADR Security Template | Security ADR | 516 | ✅ Mevcut (2026-09-23 — Faz 2 üretimi) | [[adr/adr-security-template]] |
 | 5 | ADR Audio Template | Audio/Hardware ADR | 509 | ✅ Mevcut (2026-09-23 — Faz 2 üretimi) | [[adr/adr-audio-template]] |
 | 6 | ADR Index | ADR navigation guide | 504 | ✅ Mevcut (2026-09-23 — Faz 2 üretimi) | [[adr/adr-index]] |
+| 33 | ADR Nygard Template | Michael Nygard ADR (bağlam/alternatifler/sonuçlar) — `.ai/architecture/adr/` mimari seri | 209 | ✅ Mevcut (2026-09-24 — yeni üretim; 100-250 görev şartı) | [[adr/adr-nygard-template]] |
 
 #### 7.1.2 Backend Templates (backend/)
 
@@ -248,6 +255,8 @@ Yeni dosya oluştururken:
 | 17 | Wiki Page Template | Markdown, Mermaid | Wiki sayfası | 530 | ✅ Mevcut (2026-09-23) | [[documentation/WikiPage-Template]] |
 | 18 | CLAUDE.md Template | Markdown, AI yönerge | Proje CLAUDE.md üretimi | 552 | ✅ Mevcut (2026-09-24 — yeni üretim) | [[documentation/claude-md-template]] |
 | 19 | Docs Markdown Template | Markdown, 8-bölüm iskelet | Genel dokümantasyon .md | 558 | ✅ Mevcut (2026-09-24 — yeni üretim) | [[documentation/docs-md-template]] |
+| 35 | Katman README Template | Markdown, K0-K20 / A0-A5 | Katman düzeyi README (`architecture/<katman>/README.md`) | 174 | ✅ Mevcut (2026-09-24 — yeni üretim; 100-250 görev şartı) | [[documentation/katman-readme-template]] |
+| 36 | Alt Katman Template | Markdown, K{n}.a.b | Alt-katman dosyası (`architecture/<katman>/<kod>-<slug>.md`) | 158 | ✅ Mevcut (2026-09-24 — yeni üretim; 100-250 görev şartı) | [[documentation/alt-katman-template]] |
 
 *(2026-09-23: envanter #1-#26 arasında yeniden numaralandırıldı; eski kayıtta #15 numarası hiç kullanılmamıştı — bu bilgi korunur.)* *(2026-09-24: documentation/ 2 yeni şablon eklendi — #18-#19; #18-#26 → #20-#28 kaydırıldı. Aynı gün ui-design/ 4 yeni şablon — #27-#30; meta #27-#28 → #31-#32, envanter #1-#32.)*
 
@@ -286,6 +295,7 @@ Yeni dosya oluştururken:
 | # | Template | Teknoloji | Amaç | Satır | Durum | Dosya |
 |---|----------|-----------|------|-------|-------|-------|
 | 26 | Agent Profile Template | Markdown | Agent profil şablonu | 527 | ✅ Mevcut (2026-09-23) | [[agents/agents-template]] |
+| 34 | Agent Tartışma Türü Template | Markdown, 3 tur/20 persona | Multi-agent tartışma protokolü (Tur1 → Tur2 → Tur3+ADR) | 185 | ✅ Mevcut (2026-09-24 — yeni üretim; 100-250 görev şartı) | [[agents/agent-tartisma-turu-template]] |
 
 #### 7.1.12 UI Design Templates (ui-design/)
 
@@ -305,7 +315,7 @@ Yeni dosya oluştururken:
 | 31 | Registry Index | Şablon registry indeksi (bu dosya) | — | ✅ Mevcut | `index.md` — self-referans; ölçüm anı kendi sayımı (bu yazımla değişir) |
 | 32 | Templates CLAUDE | Klasör bağlam + değişiklik protokolü | — | ✅ Mevcut | `CLAUDE.md` — meta; ölçüm: 99 satır |
 
-*(Satır sütunu: #1-#17 ve #20-#26 = 2026-09-23 gerçek disk ölçümü (Faz 2 üretim sonrası); #18-#19 ve #27-#30 = 2026-09-24 yeni üretim ölçümü; eski 2026-08 tahmini değerler kaldırıldı. #31-#32 self-referans olduğu için sayısal iddia taşımaz — bkz. §6 "Ölçüm notu".)*
+*(Satır sütunu: #1-#17 ve #20-#26 = 2026-09-23 gerçek disk ölçümü (Faz 2 üretim sonrası); #18-#19 ve #27-#30 = 2026-09-24 yeni üretim ölçümü; #33-#36 = 2026-09-24 son üretim ölçümü (katman/ADR/tartışma şablonları — kategori tablolarına eklendi, global dizi #33-#36; meta #31-#32 korundu, yeniden numaralandırma yok — bilgi korunumu ilkesi); eski 2026-08 tahmini değerler kaldırıldı. #31-#32 self-referans olduğu için sayısal iddia taşımaz — bkz. §6 "Ölçüm notu".)*
 
 ### 7.2 Wiki-link Referansları
 
@@ -315,10 +325,13 @@ Yeni dosya oluştururken:
 - [[../WORKFLOW.md]] — süreçler
 - [[ui-design/01-mockup-index]] — mockup indeksi (düzeltildi: `00-mockup-index` → `01-mockup-index`, diskte doğrulandı)
 - [[ui-design/reference-template]] · [[ui-design/flow-template]] · [[ui-design/prompt-template]] · [[ui-design/screen-spec-template]] — UI Design şablonları (2026-09-24, Kalıp A-D)
+- [[documentation/katman-readme-template]] · [[documentation/alt-katman-template]] — katman/alt-katman doküman şablonları (2026-09-24, K0-K20 / A0-A5)
+- [[adr/adr-nygard-template]] — Nygard ADR şablonu (2026-09-24, `.ai/architecture/adr/` mimari seri)
+- [[agents/agent-tartisma-turu-template]] — 3 turlu/20 persona tartışma şablonu (2026-09-24)
 
 ---
 
-*Template Registry Index v4.3.0 — CoreMusic Template System*
+*Template Registry Index v4.4.0 — CoreMusic Template System*
 *Authority: Bayram Ali / Vault Steward*
 *Last Updated: 2026-09-24*
 *Mode: Red Team · Human Mode · Truth Mode*

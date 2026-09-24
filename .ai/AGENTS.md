@@ -50,11 +50,11 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 | # | Agent | Kod Adı | Domain | Katman | Teknoloji |
 |---|-------|---------|--------|--------|-----------|
 | 1 | **Master Orchestrator** | `mo` | Görev dağıtımı, koordinasyon | Koordinasyon | Vault System, log.md |
-| 2 | **Backend Architect** | `backend` | PHP 8.4 API, routing, middleware | L2 | PHP strict_types, PDO, PageRouter |
-| 3 | **UI Designer** | `ui` | Vanilla JS, ITCSS, CSS, responsive | L3 | Vanilla JS ES6+, ITCSS 9-layer |
-| 4 | **Security Engineer** | `security` | OWASP, encryption, CSRF, CSP | L1 | Argon2id, AES-256-GCM, APCu |
-| 5 | **Data Engineer** | `data` | MySQL 18 BCNF, PDO, migration | L0 | MySQL 9, PDO, BCNF |
-| 6 | **Embedded Engineer** | `embedded` | C++20, JUCE, ASIO, DSP | L0 | C++20, JUCE 9, ASIO SDK 2.3.4 |
+| 2 | **Backend Architect** | `backend` | PHP 8.4 API, routing, middleware | A2 | PHP strict_types, PDO, PageRouter |
+| 3 | **UI Designer** | `ui` | Vanilla JS, ITCSS, CSS, responsive | A3 | Vanilla JS ES6+, ITCSS 9-layer |
+| 4 | **Security Engineer** | `security` | OWASP, encryption, CSRF, CSP | A1 | Argon2id, AES-256-GCM, APCu |
+| 5 | **Data Engineer** | `data` | MySQL 18 BCNF, PDO, migration | A0 | MySQL 9, PDO, BCNF |
+| 6 | **Embedded Engineer** | `embedded` | C++20, JUCE, ASIO, DSP | A0 | C++20, JUCE 9, ASIO SDK 2.3.4 |
 | 7 | **QA Engineer** | `qa` | Test, coverage, E2E | Cross-cutting | PHPUnit 11, Vitest, Playwright |
 | 8 | **DevOps Engineer** | `devops` | CI/CD, GitHub Actions, deploy | CI/CD | GitHub Actions, GitLeaks |
 | 9 | **Audio Hardware Engineer** | `audio-hw` | DAC/ADC, PCB, amplifier | HW | PCM3168A, AK4458, Class AB |
@@ -80,7 +80,18 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 | `log.md` (audit trail) | Tüm ajanlar (append-only) | ✅ Sadece ekleme |
 | `.ai/` vault | MO (koordinasyon) | ✅ Okuma serbest |
 
-**Layer Violation:** L0 → L2/L3 veya L1 → L3 gibi kural ihlalleri tespit edilirse derhal revert + log ERROR.
+**A0-A5 Alan Etiketleri (yalnız etiket; kanonik K matrisi [[.ai/architecture/katman-baglilik-matrisi.md]]):**
+
+| Alan | K katmanları | Kapsam |
+|------|-------------|--------|
+| A0 | K0-K5 | Altyapı/Donanım (çekirdek, firmware K1.f, surucu, DSP, seyyar, PCB) |
+| A1 | K6-K7 | Güvenlik |
+| A2 | K8-K9 | Routing/Backend |
+| A3 | K10-K11 | Presentation/Gösterim |
+| A4 | K12-K15 | Veri/Entegrasyon |
+| A5 | K16-K20 | Bileşenler (donanım bileşenleri) |
+
+**Layer Violation:** Denetim K matrisine göre yapılır (A2 → A0/A4 ihlali = K8 → K0-K5 veya K12-K15 ihlali gibi); bu dosya yalnız bağlantıdır, ikinci kaynak değildir. İhlal tespit edilirse derhal revert + log ERROR.
 
 ---
 
@@ -89,11 +100,11 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 | # | Agent | Katman | Teknoloji | Profil |
 |---|-------|--------|-----------|--------|
 | 1 | Master Orchestrator | Koordinasyon | Vault System, log.md | [[.agents/master-orchestrator]] |
-| 2 | Backend Architect | L2 (Routing) | PHP 8.4, PDO, PageRouter | [[.agents/backend-architect]] |
-| 3 | UI Designer | L3 (Presentation) | Vanilla JS ES6+, ITCSS 9-layer | [[.agents/ui-designer]] |
-| 4 | Security Engineer | L1 (Security) | OWASP, Argon2id, AES-256-GCM | [[.agents/security-engineer]] |
-| 5 | Data Engineer | L0 (Infrastructure) | MySQL 9, PDO, BCNF | [[.agents/data-engineer]] |
-| 6 | Embedded Engineer | L0 (Hardware) | C++20, JUCE 9, ASIO SDK 2.3.4 | [[.agents/embedded-engineer]] |
+| 2 | Backend Architect | A2 (K8-K9) | PHP 8.4, PDO, PageRouter | [[.agents/backend-architect]] |
+| 3 | UI Designer | A3 (K10-K11) | Vanilla JS ES6+, ITCSS 9-layer | [[.agents/ui-designer]] |
+| 4 | Security Engineer | A1 (K6-K7) | OWASP, Argon2id, AES-256-GCM | [[.agents/security-engineer]] |
+| 5 | Data Engineer | A0 (K0-K5) | MySQL 9, PDO, BCNF | [[.agents/data-engineer]] |
+| 6 | Embedded Engineer | A0 (K1-K3) | C++20, JUCE 9, ASIO SDK 2.3.4 | [[.agents/embedded-engineer]] |
 | 7 | QA Engineer | Cross-cutting | PHPUnit 11, Vitest, Playwright | [[.agents/qa-engineer]] |
 | 8 | DevOps Engineer | CI/CD | GitHub Actions, GitLeaks | [[.agents/devops-engineer]] |
 | 9 | Audio HW Engineer | HW | PCM3168A, AK4458, Class AB | [[.agents/audio-hardware-engineer]] |
@@ -664,7 +675,7 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 5 Domain | [[CLAUDE.md]] §5 | L0-L6 katmanları |
+| § 5 Domain | [[CLAUDE.md]] §5 | K0-K20 katmanları |
 | § 6 Routing | [[engine.md]] §2 | Orkestrasyon bölümleri |
 | § 9 Handover | [[WORKFLOW.md]] §8.6 | Session init |
 | § 10 Eskalasyon | [[ADR-008-bypass-auth-middleware]] | Auth bypass |

@@ -1,7 +1,7 @@
 ---
 title: "CoreMusic — Vault Senkronizasyon Akışı"
 type: workflow-instruction
-version: 1.0
+version: 1.1
 authority: SSOT
 mode:
   - Red Team
@@ -26,7 +26,8 @@ reference:
     - ".ai/log.md"
     - ".ai/engine.md"
   architecture:
-    - ".ai/ADR/"
+    - ".ai/.decisions/"
+    - ".ai/architecture/adr/"
     - "Existing project architecture"
     - "Existing codebase patterns"
   project_structure:
@@ -56,6 +57,11 @@ reference:
       - "cross reference policy change"
       - "document lifecycle change"
 changelog:
+  - version: 1.1
+    date: 2026-09-24
+    changes:
+      - İki ADR serisi hizası (.ai/.decisions + .ai/architecture/adr ADR-023…026)
+      - Aşama 4'e adr/ index kaydı + Aşama 8 post-operation senkron eklendi
   - version: 1.0
     date: 2026-08-15
     changes:
@@ -146,10 +152,12 @@ Her soru için EVET/HAYIR cevabı ver:
 | İndeks | Güncellenme |
 |--------|-------------|
 | `.ai/index.md` | Yeni dosya eklendi mi? |
-| `.ai/keys.md` | Keyword eklendi mi? |
+| `.ai/keys.md` | Keyword eklendi mi? (K0-K20 / A0-A5 mapping) |
 | `.ai/brain.md` | Mimari karar değişti mi? |
 | `.ai/CLAUDE.md` | Kural değişti mi? |
 | `.ai/AGENTS.md` | Agent değişti mi? |
+| `.ai/.decisions/index.md` | Karar serisi ADR kaydı eklendi/güncellendi mi? (yeni no ≥ ADR-088) |
+| `.ai/architecture/adr/` (seri) | Mimari ADR serisi kaydı (ADR-023…026; kendi numara uzayı) |
 
 ### Aşama 5: Çapraz Referans Kontrolü
 
@@ -174,6 +182,18 @@ Her soru için EVET/HAYIR cevabı ver:
 - Çapraz referanslar doğru mu?
 - Log yazıldı mı?
 - Tutarlılık var mı?
+
+### Aşama 8: İşlem Sonrası Vault Senkronu (zorunlu — 2026-09-24)
+
+| # | Adım | Komut |
+|---|------|-------|
+| 1 | Session kaydı | `node .ai/scripts/session-save.mjs --task "<gorev-aciklamasi>" --status completed --agent <agent-adi>` |
+| 2 | Vault güncelleme | `node .ai/scripts/vault-post-update.mjs --scope root` |
+| 3 | Sonuç doğrulama | `log.md`, `MEMORY.md`, `project-state.md` güncellendi mi? (salt-okunur) |
+
+**Yoksayma sonucu:** audit trail boşluğu. Başarızsa `status: pending` + max 3 retry. Yazım sadece `vault-utf8-writer` ile yapılır (PowerShell yazım cmdlet'leri YASAK); `log.md` yalnız append.
+
+---
 
 ## 5. Hata Yönetimi
 
@@ -207,6 +227,6 @@ Her soru için EVET/HAYIR cevabı ver:
 
 ---
 
-*Vault Senkronizasyon Akışı v1.0.0 — CoreMusic Workflow System*
+*Vault Senkronizasyon Akışı v1.1.0 — CoreMusic Workflow System*
 *Authority: Bayram Ali / Vault Steward*
 *Mode: Red Team · Truth Mode · Human Mode*

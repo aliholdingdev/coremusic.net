@@ -22,12 +22,13 @@ Bu klasördeki dosyalar çalıştırılabilir süreç tanımlarıdır; oturum ba
 | Dosya | Tetikleyici | Çıktı |
 |-------|-------------|-------|
 | `session-init.md` | Her oturum başı | Vault boot (10+ dosya okuma) |
-| `adr-creation.md` | Mimari karar ihtiyacı | `.ai/decisions/` altına ADR |
+| `adr-creation.md` | Mimari karar ihtiyacı | İki seri: `.ai/.decisions/` (001-089) veya `.ai/architecture/adr/` (023-026) |
 | `vault-sync.md` | Vault değişikliği sonrası | Senkronizasyon + index güncelleme |
 | `security-audit.md` | Güvenlik değişikliği | Denetim raporu |
 | `deployment.md` | Sürüm çıkışı | Dağıtım onay akışı |
 | `hallucination-control.md` | Belirsiz bilgi tespiti | Verification required protokolü |
 | `orchestrator-flow.md` | Multi-agent görev | Görev dağıtım grafiği |
+| `architecture-write.md` | Mimari dosya yazımı | Batch ≤31 dosya, 0 silme, K0-K20/A0-A5 denetimli rapor |
 
 ## 3. Komşu İlişkiler
 
@@ -36,7 +37,7 @@ Bu klasördeki dosyalar çalıştırılabilir süreç tanımlarıdır; oturum ba
 | Parent | [[../AGENTS.md]] | Kök registry |
 | Canonical süreçler | [[../.ai/WORKFLOW.md]] | Süreç anayasası — bu klasör uygulama detayıdır |
 | Audit | [[../.ai/log.md]] | Her workflow çalışması append-only kayıt bırakır |
-| ADR hedefi | [[../.ai/decisions/index.md]] | adr-creation.md çıktı hedefi |
+| ADR hedefi | [[../.ai/.decisions/index.md]] | adr-creation.md çıktı hedefi (numaralı seri — mimari seri ayrı: `.ai/architecture/adr/`) |
 
 ## 4. Değişiklik Protokolü
 
@@ -47,4 +48,4 @@ Bu klasördeki dosyalar çalıştırılabilir süreç tanımlarıdır; oturum ba
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-24
