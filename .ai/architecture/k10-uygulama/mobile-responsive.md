@@ -9,7 +9,7 @@ date: 2026-09-20
 
 ## Genel Bakış
 
-Mobile Responsive modülü, COREMUSIC'in tüm panellerinin mobil cihazlarda sorunsuz çalışmasını sağlayan tasarım sistemi ve gesture管理ını içerir. Touch-first tasarım prensipleri, responsive breakpoint'leri, gesture识别 ve mobil-specific UI bileşenlerini kapsar.
+Mobile Responsive modülü, COREMUSIC'in tüm panellerinin mobil cihazlarda sorunsuz çalışmasını sağlayan tasarım sistemi ve gesture yönetimini içerir. Touch-first tasarım prensipleri, responsive breakpoint'leri, gesture tanıma ve mobil-specific UI bileşenlerini kapsar.
 
 ## Ekran/Diyagram
 

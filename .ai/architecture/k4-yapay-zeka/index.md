@@ -13,7 +13,7 @@ dependencies: [K0, K1, K2, K3, K5]
 
 ## Genel Bakış
 
-K4 Yapay Zeka katmanı, COREMUSIC Hi-Fi audio sisteminin akıllı özelliklerini sağlayan merkezi yapay zeka modülüdür. Bu katman, müzik analizi, öneri motorları, sesli asistan, otomatik EQ optimizasyonu, ve makine öğrenimi altyapısını kapsar. Tüm AI servisleri低级 donanım katmanlarıyla (K0-K3) doğrudan entegre çalışarak gerçek zamanlı ses işleme ve analiz kabiliyeti sunar.
+K4 Yapay Zeka katmanı, COREMUSIC Hi-Fi audio sisteminin akıllı özelliklerini sağlayan merkezi yapay zeka modülüdür. Bu katman, müzik analizi, öneri motorları, sesli asistan, otomatik EQ optimizasyonu, ve makine öğrenimi altyapısını kapsar. Tüm AI servisleri düşük seviyeli donanım katmanlarıyla (K0-K3) doğrudan entegre çalışarak gerçek zamanlı ses işleme ve analiz kabiliyeti sunar.
 
 ## Mimari Konum
 
@@ -147,9 +147,9 @@ GET    /health                 # Sağlık kontrolü
 - Tüm AI endpointleri JWT ile korunur
 - Model outputları sanitization'dan geçirilir
 - Voice data GDPR uyumlu işlenir
-- Edge AI本地 veri işleme (zero cloud dependency)
+- Edge AI yerel veri işleme (zero cloud dependency)
 - Model weights encrypted at rest
 
 ## Durum: Implementasyon
 
-K4 katmanı目前%65 tamamlanmıştır. Music Analysis ve Recommendation Engine production-ready durumdadır. Voice Assistant ve Edge AI development aşamasındadır. AI Generation modülü experimental fazdadır.
+K4 katmanı şu an %65 tamamlanmıştır. Music Analysis ve Recommendation Engine production-ready durumdadır. Voice Assistant ve Edge AI development aşamasındadır. AI Generation modülü experimental fazdadır.

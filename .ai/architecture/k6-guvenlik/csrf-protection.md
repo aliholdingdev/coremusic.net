@@ -174,7 +174,7 @@ function secureCookieMiddleware(
   res: Response,
   next: NextFunction
 ) {
-  // Tüm cookie'lere安全lı ayarları uygula
+  // Tüm cookie'lere güvenli ayarları uygula
   const originalCookie = res.cookie.bind(res);
 
   res.cookie = function(name: string, value: string, options: any = {}) {

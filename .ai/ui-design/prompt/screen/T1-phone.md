@@ -108,7 +108,7 @@ tier: T1-phone
 | Cover Art | 280×280px, centered | `--radius-lg: 16px` |
 | Seek Bar | Full-width, 4px height | `--accent` renk |
 | Controls | Play/Pause 64px, others 48px | `--touch-min: 48px` |
-| Volume | Slider,隐藏 on phone | `display: none` (phone) |
+| Volume | Slider, gizli on phone | `display: none` (phone) |
 
 ---
 

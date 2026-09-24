@@ -3,8 +3,8 @@ title: Audio Hardware Engineer — Donanım & Analog Tasarım Agent Profili
 type: agent-profile
 category: agents
 date: 2026-08-08
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-24
+version: 2.1.1
 status: active
 authority: reference
 ---
@@ -352,15 +352,15 @@ Her handover'ın sahibi ve zaman damgası vardır. Sahibsiz bulgu, `architect`'e
 
 | Kaynak | Neden | Ne Zaman |
 |---|---|---|
-| `.ai/AGENTS.md` | SSOT — yasaklar, routing | Her çalışma başı |
-| `.ai/ROLE.md` | Persona ve dil | Her çalışma başı |
+| [[../AGENTS.md]] | SSOT — yasaklar, routing | Her çalışma başı |
+| [[../ROLE.md]] | Persona ve dil | Her çalışma başı |
 | `.ai/.decisions/**` | Supra-otorite (PCM5122 yasağı vb.) | Tasarım öncesi |
-| `.ai/.templates/audio/hardware-template.md` | Donanım şablonu | Tasarım yazarken |
-| `.ai/.templates/audio/adr-audio-template.md` | Ses ADR şablonu | Ses kararı verirken |
-| `.ai/.templates/index.md` | Şablon eşleşmesi | Şablon ararken |
+| `.ai/.templates/audio/hardware-template.md` | Donanım şablonu | Tasarım yazarken ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| `.ai/.templates/audio/adr-audio-template.md` | Ses ADR şablonu | Ses kararı verirken ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| [[../.templates/index.md]] | Şablon eşleşmesi | Şablon ararken |
 | Datasheet (seçilen bileşen) | Ölçüm iddiası kanıtı | Seçim öncesi |
-| `.ai/log.md` | Geçmiş kararlar (salt-okunur) | Belirsizlikte |
-| `.ai/.templates/agents/agents-template.md` | İskelet | Profil güncellemesinde |
+| [[../log.md]] | Geçmiş kararlar (salt-okunur) | Belirsizlikte |
+| [[../.templates/agents/agents-template.md]] | İskelet | Profil güncellemesinde |
 | `electronic/audio/*.md` (§24.3) | Audio donanım dokümanı | Tasarım öncesi |
 | `electronic/dsp/*.md` (§24.3 kesişimi) | DSP donanım dokümanı | Eşleşme kararında |
 
@@ -492,16 +492,16 @@ En pahalı edge, gözlemlenemeyendir: kaynağı bilinmeyen bozulma, yanlış kat
 
 | # | Referans | Tür | Erişim |
 |---|---|---|---|
-| 1 | `.ai/AGENTS.md` | SSOT | Salt-okunur |
-| 2 | `.ai/ROLE.md` | Persona | Salt-okunur |
+| 1 | [[../AGENTS.md]] | SSOT | Salt-okunur |
+| 2 | [[../ROLE.md]] | Persona | Salt-okunur |
 | 3 | `.ai/.decisions/**` | Supra-otorite | Tasarım öncesi |
-| 4 | `.ai/.templates/audio/hardware-template.md` | Şablon | Tasarım yazarken |
-| 5 | `.ai/.templates/audio/adr-audio-template.md` | Ses ADR şablonu | Ses kararı |
-| 6 | `.ai/.templates/index.md` | Şablon indeksi | Eşleşme |
+| 4 | `.ai/.templates/audio/hardware-template.md` | Şablon | Tasarım yazarken ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| 5 | `.ai/.templates/audio/adr-audio-template.md` | Ses ADR şablonu | Ses kararı ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| 6 | [[../.templates/index.md]] | Şablon indeksi | Eşleşme |
 | 7 | Bileşen datasheet | Ölçüm kanıtı | Seçim öncesi |
-| 8 | `.ai/log.md` | Karar geçmişi | Salt-okunur |
-| 9 | `.ai/.templates/agents/agents-template.md` | İskelet | Profil güncellemesinde |
-| 10 | `.ai/WORKFLOW.md` | Yaşam döngüsü | Salt-okunur |
+| 8 | [[../log.md]] | Karar geçmişi | Salt-okunur |
+| 9 | [[../.templates/agents/agents-template.md]] | İskelet | Profil güncellemesinde |
+| 10 | [[../WORKFLOW.md]] | Yaşam döngüsü | Salt-okunur |
 | 11 | `electronic/audio/*.md` | Audio donanım dokümanı | §24.3 |
 | 12 | `electronic/dsp/*.md` | DSP donanım dokümanı | §24.3 |
 
@@ -509,14 +509,14 @@ En pahalı edge, gözlemlenemeyendir: kaynağı bilinmeyen bozulma, yanlış kat
 
 | Dosya | İlişki |
 |---|---|
-| `.ai/AGENTS.md` §6 | Routing tablosu kaynağı |
-| `.ai/AGENTS.md` §4/§15 | Audio HW satırı + profil linki |
-| `.ai/AGENTS.md` §17 | Edge #8 (PCM5122 → alternatif) |
+| [[../AGENTS.md]] §6 | Routing tablosu kaynağı |
+| [[../AGENTS.md]] §4/§15 | Audio HW satırı + profil linki |
+| [[../AGENTS.md]] §17 | Edge #8 (PCM5122 → alternatif) |
 | `.ai/.decisions/**` | Yasak/onay supra-otoritesi |
-| `.ai/.templates/index.md` §4.3/§5.1 | Audio-HW ↔ hardware/adr-audio eşleşmesi |
-| `.ai/.agents/AGENTS.md` | Alt registry — profil indeksi |
-| `.ai/.agents/dsp-firmware-engineer.md` | Register/pin eşleşme ortağı |
-| `.ai/.agents/embedded-systems.md` | PCB/üretim devri |
+| [[../.templates/index.md]] §4.3/§5.1 | Audio-HW ↔ hardware/adr-audio eşleşmesi |
+| [[AGENTS.md]] | Alt registry — profil indeksi |
+| [[dsp-firmware-engineer.md]] | Register/pin eşleşme ortağı |
+| `.ai/.agents/embedded-systems.md` | PCB/üretim devri ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
 
 ### Sürüm Geçmişi
 
@@ -525,9 +525,10 @@ En pahalı edge, gözlemlenemeyendir: kaynağı bilinmeyen bozulma, yanlış kat
 | 1.0.0 | 2026-09-21 | İlk profil |
 | 2.0.0 | 2026-09-23 | Vault Refactor Engine: 10-bölüm formatı, authority alt-profile indirgendi |
 | 2.1.0 | 2026-09-23 | Faz 3b: 11-bölüm § formatı, Truth Mode, 500+ satır |
+| 2.1.1 | 2026-09-24 | Wiki-link dönüşümü + frontmatter senkronu (2.0.1 → 2.1.1) |
 
 ---
 
 **Authority:** Agent Profile — SSOT: `.ai/AGENTS.md`
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-24
 **Mode:** STANDARD (implementation-ready)

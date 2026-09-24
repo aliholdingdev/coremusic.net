@@ -35,7 +35,7 @@ Audit logs, COREMUSIC platformunda gerçekleştirilen tüm önemli işlemlerin d
 | content.publish | İçerik yayınlama | INFO |
 | content.update | İçerik güncelleme | INFO |
 | content.moderate | İçerik moderasyonu | INFO |
-| content版权claim | Telif iddiası | WARNING |
+| content copyright claim | Telif iddiası | WARNING |
 
 ### Sistem Olayları
 

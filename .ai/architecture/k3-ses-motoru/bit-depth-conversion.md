@@ -35,9 +35,9 @@ COREMUSIC, farklı bit derinlikleri arasında dönüşüm sağlar. 16-bit, 24-bi
 class DitherProcessor {
 public:
     enum DitherType {
-        Rectangular,    // RPDF (概率密度均匀分布)
-        Triangular,     // TPDF (三角形概率密度分布)
-        HP              // HP dither (高通 dither)
+        Rectangular,    // RPDF (düzgün olasılık yoğunluğu dağılımı)
+        Triangular,     // TPDF (üçgen olasılık yoğunluğu dağılımı)
+        HP              // HP dither (high-pass dither)
     };
     
     DitherProcessor(uint32_t bitsPerSample, DitherType type) 

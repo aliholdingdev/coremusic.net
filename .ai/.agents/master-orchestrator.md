@@ -98,7 +98,7 @@ authority: reference
 | Oturum betikleri | `session-save.mjs`, `vault-post-update.mjs` | ⚠️ VERIFICATION REQUIRED | `.ai/scripts/` içinde **bulunamadı** — sistem çağrısıyla çelişiyor; uydurulmadı |
 | Workflow'lar | `.workflows/*.md` | ✅ IMPLEMENTED | glob → **8** dosya (session-init, vault-sync, security-audit, orchestrator-flow, hallucination-control, deployment, adr-creation, CLAUDE.md) |
 | Skills | `.opencode/skills/` | ✅ IMPLEMENTED | **6** aktif SKILL.md (orchestration, truth-engine, db-engine, ui-workbench, composer-sync, vault-sync-post) + 9 `_archive/`; kök "10 skill" iddiası ⚠️ VERIFICATION REQUIRED |
-| Template sistemi | `.ai/.templates/` | ✅ IMPLEMENTED | registry iddiası 26/26 dosya (index §2, Faz 2 üretim sonu) |
+| Template sistemi | `.ai/.templates/` | ✅ IMPLEMENTED | registry iddiası 28/28 dosya (index §2, 2026-09-24 — +2 yeni şablon) |
 | Persistent state | git | ✅ IMPLEMENTED | Çalışma dizini git repo (env: `Is directory a git repo: yes`) |
 | İletişim | Handover / Eskalasyon protokolleri | ✅ IMPLEMENTED | Kök §9-§10 dokümante protokol (vault içi süreç, kod değil) |
 | İzleme | Health Check (200/301/408/500/503) + Context Lock | ✅ IMPLEMENTED | Kök §11-§12 süreç tanımı |

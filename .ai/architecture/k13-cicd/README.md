@@ -59,7 +59,7 @@ Code Push → Lint → Test → Security → Build → Deploy → Verify
 | Blue/Green | Major release | Düşük |
 | Canary | Feature rollout | Orta |
 | Rolling | Bug fix | Düşük |
-| Recreate |紧急修复 | Yüksek |
+| Recreate | Acil onarım | Yüksek |
 
 ---
 

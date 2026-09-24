@@ -286,7 +286,7 @@ async function safeQuery() {
   // DOĞRU - Parameterized query
   const users = await prisma.user.findMany({
     where: {
-      email: userInput, // Parametre olarak传递
+      email: userInput, // Parametre olarak iletiliyor
     },
   });
 

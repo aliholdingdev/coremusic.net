@@ -9,7 +9,7 @@ date: 2026-09-20
 
 ## Genel Bakış
 
-XMOS XU316, COREMUSIC'ın USB arabirimi için kullanılan 16 çekirdekli bir xtENDIO mikrodenetleyicisidir. USB Audio Class 2.0 standardını destekler ve yüksek çözünürlüklü ses (hi-res audio) için gerekli toutesのtimer hassasiyetini sağlar. I2S arayüzü üzerinden DAC'a doğrudan bağlantı kurar.
+XMOS XU316, COREMUSIC'ın USB arabirimi için kullanılan 16 çekirdekli bir xtENDIO mikrodenetleyicisidir. USB Audio Class 2.0 standardını destekler ve yüksek çözünürlüklü ses (hi-res audio) için gerekli tüm timer hassasiyetini sağlar. I2S arayüzü üzerinden DAC'a doğrudan bağlantı kurar.
 
 ## Teknik Spesifikasyonlar
 

@@ -25,7 +25,7 @@ COREMUSIC, kesintisiz müzik reproduksiyonu için gapless playback ve crossfade 
 │                     ↓                               │
 │  [Track N+1] ──→ [Decode Buffer B] ──→ [Output]    │
 │                                                     │
-│  Gap = 0 samples (无缝隙)                           │
+│  Gap = 0 samples (aralıksız)                           │
 └─────────────────────────────────────────────────────┘
 ```
 

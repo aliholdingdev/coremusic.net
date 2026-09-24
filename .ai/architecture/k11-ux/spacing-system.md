@@ -521,7 +521,7 @@ $spacing-values: (
 | Card gap | $spacing-4 (16px) mobil, $spacing-6 (24px) masaüstü |
 | Section spacing | $spacing-16 (64px) default |
 | Page padding | Responsive: 16px → 24px → 32px |
-| Stack spacing | Cardinals之间一致 olan boşluk |
+| Stack spacing | Kardinal değerlerle tutarlı olan boşluk |
 | Negative margin | Overlay ve pull-up efektleri için |
 
 ## Bağımlılıklar

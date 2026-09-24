@@ -473,7 +473,7 @@ grep -Ei 'password|secret|api[_-]?key|token=' <AUDIT-REPORT-FILE>
 grep -Ev 'CRITICAL|HIGH|MEDIUM|LOW' <AUDIT-REPORT-FILE> | grep '^\|'
 
 # 4) Mojibake taraması — sonuç 0 olmalı
-grep -E 'Ã|Â|ï¿½' <AUDIT-REPORT-FILE>
+grep -aP 'Ã|Â|\x{FFFD}' <AUDIT-REPORT-FILE>
 ```
 
 *(`<AUDIT-REPORT-FILE>` gerçek dosya yolu ile değiştirilir; `[REDACTED]` maskesi hariç tutulur.)*

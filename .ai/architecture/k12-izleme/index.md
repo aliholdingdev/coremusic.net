@@ -71,7 +71,7 @@ K12 İzleme Katmanı, COREMUSIC platformunun tüm bileşenlerini gerçek zamanl�
 - Bağlantı havuzu durumu
 
 ### K7 - Middleware Katmanı
-- İstek/hat搪metrikleri
+- İstek/hata metrikleri
 - Oran sınırlama istatistikleri
 - Güvenlik olayları
 

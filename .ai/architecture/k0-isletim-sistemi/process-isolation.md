@@ -493,7 +493,7 @@ int setup_seccomp_filter() {
     return 0;
 }
 
-// BPF filter ile高级 sınırlama
+// BPF filter ile gelişmiş sınırlama
 int setup_bpf_filter() {
     struct sock_filter filter[] = {
         // System call numarasını yükle
@@ -608,7 +608,7 @@ CM_Status CM_Isolation_Destroy(void *isolated);
 
 1. **Defense in Depth**: Tüm izolasyon mekanizmalarını birlikte kullanın
 2. **Minimum Privilege**: Sadece gerekli yetkileri verin
-3. **seccomp**: Sistem call filtresi ile攻击 yüzeyini küçültün
+3. **seccomp**: Sistem call filtresi ile saldırı yüzeyini küçültün
 4. **Namespaces**: Process ve kaynak izolasyonu sağlayın
 5. **Regular Auditing**: İzolasyonconfigurations düzenli olarak denetleyin
 

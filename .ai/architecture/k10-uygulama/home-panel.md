@@ -155,10 +155,10 @@ interface Scene {
 ### Multi-Room Audio
 
 Sistem birden fazla odada senkronize ses çalmayı destekler:
-- **Same Source**: Tüm odalarda aynı şarkı同步
+- **Same Source**: Tüm odalarda aynı şarkı senkronizasyonu
 - **Independent**: Her odada farklı şarkı
 - **Zoned Grouping**: Odaları gruplayarak kontrol
-- **Handoff**: Oda之間 geçiş yaparken kesintisiz aktarım
+- **Handoff**: Odalar arasında geçiş yaparken kesintisiz aktarım
 - **Delay Compensation**: Odalar arası gecikme telafisi
 
 ### Senaryo (Scene) Motoru

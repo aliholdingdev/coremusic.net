@@ -15,7 +15,7 @@ dependencies:
 
 ## Genel Bakış
 
-Network Service, COREMUSIC'in ağ protokolü entegrasyonlarını yöneten merkezi servistir. DLNA/UPnP, AirPlay, WebRTC ve multi-room senkronizasyonu gibi tüm ağ tabanlı ses aktarım protokollerini orkestra eder. Servis, different network topologies ve protocols之间 seamless switching sağlar.
+Network Service, COREMUSIC'in ağ protokolü entegrasyonlarını yöneten merkezi servistir. DLNA/UPnP, AirPlay, WebRTC ve multi-room senkronizasyonu gibi tüm ağ tabanlı ses aktarım protokollerini orkestra eder. Servis, different network topologies ve protocols arasında seamless switching sağlar.
 
 Servis, high-fidelity audio streaming için optimized protokoller kullanarak, multi-room setups'ta sample-accurate synchronization sağlar. Network latency compensation, jitter buffering ve packet loss recovery gibi kritik işlevleri yönetir.
 

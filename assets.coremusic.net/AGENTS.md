@@ -12,7 +12,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 # assets.coremusic.net — AGENTS.md
 
-**Zorunlu Bağlantılar:** [[../AGENTS.md]] · [[./CLAUDE.md]] · [[../.ai/ui-design/00-mockup-index.md]]
+**Zorunlu Bağlantılar:** [[../AGENTS.md]] · [[./CLAUDE.md]] · [[../.ai/ui-design/01-mockup-index.md]]
 
 ## 1. Amaç
 
@@ -56,7 +56,7 @@ Statik asset servisi: tüm alt domainlerin CSS, JS, font ve görsel varlıkları
 ## 4. Kurallar
 
 ### Zorunlu
-1. Yeni UI kodu öncesi `[[../.ai/ui-design/00-mockup-index.md]]` ve ilgili PNG okunur (Guardrail #11)
+1. Yeni UI kodu öncesi `[[../.ai/ui-design/01-mockup-index.md]]` ve ilgili PNG okunur (Guardrail #11)
 2. Token tanımları `Css/01_Abstracts/`'ta; katman dışında ham hex/px token yazılmaz
 3. JS: Vanilla ES6+, `var` yasak, `eval()` yasak, `innerHTML` yasak (DOMParser + TrustedTypes)
 4. Device CSS ekleme → `js/devices.config.js` + `DeviceCssMap.php` (shared) ikisiyle senkron
@@ -72,7 +72,7 @@ Statik asset servisi: tüm alt domainlerin CSS, JS, font ve görsel varlıkları
 
 | Kaynak | Yol |
 |--------|-----|
-| Bileşen envanteri | [[../.ai/ui-design/01-component-inventory.md]] |
+| Bileşen envanteri | [[../.ai/ui-design/02-component-inventory.md]] |
 | Design tokens master | [[../.ai/ui-design/tokens/design-tokens-master.md]] |
 | CSS mimarisi | [[../.ai/architecture/l3-presentation/itcss-architecture.md]] |
 | JS mimarisi | [[../.ai/architecture/l3-presentation/js-module-architecture.md]] |

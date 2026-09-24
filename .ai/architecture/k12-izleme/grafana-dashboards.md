@@ -19,7 +19,7 @@ Grafana, COREMUSIC platformunda metrik görselleştirme ve dashboard yönetimi i
 ┌─────────────────────────────────────────────────────────────────┐
 │                    COREMUSIC ANA DASHBOARD                      │
 ├─────────────────────────────────────────────────────────────────┤
-│  [Sistem Durumu]  [Aktif Kullanıcılar]  [İstek/Hat塘]  [Uptime]  │
+│  [Sistem Durumu]  [Aktif Kullanıcılar]  [İstek/Hata]  [Uptime]  │
 ├─────────────────────────────────────────────────────────────────┤
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐         │
 │  │  Request/sec │  │  Error Rate  │  │  Latency     │         │

@@ -97,7 +97,7 @@ status: active
   <button class="star-rating__star is-filled" role="radio" aria-checked="true" aria-label="1 yıldız">
     <svg class="star-rating__icon">★</svg>
   </button>
-  <!-- ... 2-4同样的 filled stars ... -->
+  <!-- ... 2-4 aynı filled stars ... -->
   <button class="star-rating__star" role="radio" aria-checked="false" aria-label="5 yıldız">
     <svg class="star-rating__icon">☆</svg>
   </button>

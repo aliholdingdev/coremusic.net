@@ -72,7 +72,7 @@ I_out = 11.8μA × ln(10) = 11.8μA × 2.303
 I_out ≈ 27.2μA
 
 Not: Widlar posta pulu (postage stamp) etkisi nedeniyle
- gerçek değer料理 ayarlanır. Hedef: 100μA
+ gerçek değere ayarlanır. Hedef: 100μA
 ```
 
 ### Ayna Hata Analizi

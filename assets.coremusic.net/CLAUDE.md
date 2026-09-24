@@ -11,12 +11,12 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
  authority: "assets.coremusic.net/CLAUDE.md"
- source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/brain.md · .ai/ui-design/00-mockup-index.md"
+ source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/brain.md · .ai/ui-design/01-mockup-index.md"
 ---
 
 # assets.coremusic.net — CLAUDE.md (Detaylı Versiyon)
 
-**Zorunlu Bağlantılar:** · [[../.ai/ui-design/00-mockup-index.md]] · [[../.ai/ui-design/01-component-inventory.md]] · [[../.ai/ui-design/tokens/design-tokens-master.md]]
+**Zorunlu Bağlantılar:** · [[../.ai/ui-design/01-mockup-index.md]] · [[../.ai/ui-design/02-component-inventory.md]] · [[../.ai/ui-design/tokens/design-tokens-master.md]]
 
 ---
 

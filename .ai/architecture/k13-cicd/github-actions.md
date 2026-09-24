@@ -92,7 +92,7 @@ concurrency:
 
 ### Secret Management
 
-Pipeline'larda kullanılan秘密lar:
+Pipeline'larda kullanılan secret'lar:
 
 | Secret              | Açıklama                    | Ortam         |
 |---------------------|-----------------------------|---------------|

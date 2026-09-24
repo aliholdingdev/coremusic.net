@@ -173,8 +173,8 @@ CBST = 100nF → Seçim: 100nF X7R ceramic
 
 ## PCB Layout Kuralları
 
-1. **Bootstrap Loop:** BST-SW-HG南海 minimal alan
-2. **Gate Drive:** HG/LG南海 kısa, geniş copper pour
+1. **Bootstrap Loop:** BST-SW-HG yolu minimal alanda
+2. **Gate Drive:** HG/LG yolu kısa, geniş copper pour
 3. **Input Loop:** CIN-Q1-Q2 tight loop
 4. **Output Loop:** L1-D1-COUT tight loop
 5. **Ground:** Star ground, power ve signal ayrımı

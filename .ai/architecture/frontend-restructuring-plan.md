@@ -865,7 +865,7 @@ export class ComponentBase extends HTMLElement {
     this.onDestroy();
   }
 
-  /** Override:初始化 */
+  /** Override: başlatma */
   init() {}
 
   /** Override: Render HTML */

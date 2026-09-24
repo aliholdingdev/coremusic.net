@@ -17,7 +17,7 @@ dependencies:
 
 Control Service, COREMUSIC sisteminin merkezi yönetim noktasıdır. Kullanıcı hesap yönetimi, sistem ayarları, preferanslar ve genel kontrol operasyonlarını yönetir. Tümservisler arasındaki koordinasyonu sağlayan orkestratör rolü üstlenir.
 
-Servis, multi-tenant mimari destekli olup, kullanıcı bazlı izolasyon ve özel ayar yönetimini提供 eder. Sistem genelinde configuration management, feature flags ve operational controls bu servis üzerinden yürütülür.
+Servis, multi-tenant mimari destekli olup, kullanıcı bazlı izolasyon ve özel ayar yönetimini sağlar. Sistem genelinde configuration management, feature flags ve operational controls bu servis üzerinden yürütülür.
 
 ## Servis Arayüzü
 

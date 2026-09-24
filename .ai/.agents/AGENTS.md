@@ -3,10 +3,10 @@ title: "CoreMusic — Agent Alt-Registry (Profil İndeksi)"
 type: agent-registry
 category: agent-registry
 date: 2026-09-23
-updated: 2026-09-23
-version: 1.2.1
+updated: 2026-09-24
+version: 1.2.2
 status: active
-authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)"
+authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.1)"
 ---
 
 # CoreMusic — Agent Alt-Registry (Profil İndeksi)
@@ -15,7 +15,7 @@ authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)"
 
 ---
 
-> **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.0.0). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
+> **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.0.1). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
 
 ---
 
@@ -38,8 +38,8 @@ Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hang
 | Seviye | Dosya | Rol |
 |--------|-------|-----|
 | 0 (SSOT) | [[../CLAUDE.md]] | AI anayasası, 16 Hard Guardrail |
-| 1 (SSOT) | [[../AGENTS.md]] (v22.0.0) | Agent registry — routing/handover/escalation/öncelik tekelinde |
-| 2 (Alt Registry) | Bu dosya (v1.2.1) | Profil indeksi + yazım kuralları + boot bağlantısı |
+| 1 (SSOT) | [[../AGENTS.md]] (v22.0.1) | Agent registry — routing/handover/escalation/öncelik tekelinde |
+| 2 (Alt Registry) | Bu dosya (v1.2.2) | Profil indeksi + yazım kuralları + boot bağlantısı |
 | 3 (Profil) | `.ai/.agents/<agent>.md` | Tekil ajanın yetki belgesi (§1-§11 domain serisi) |
 
 ---
@@ -133,7 +133,7 @@ Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hang
 
 ## §4 Agent → Template Eşleştirme
 
-**Kaynak:** [[../.templates/index]] §5.1 (Agent-Template Eşleştirme Tablosu) — bu tablo **kopyadır**; şablon envanterinin kendisi o dosyadadır (SRP/DIP). 26/26 şablon diskte mevcuttur (2026-09-23 Faz 2 üretim sonu).
+**Kaynak:** [[../.templates/index]] §5.1 (Agent-Template Eşleştirme Tablosu) — bu tablo **kopyadır**; şablon envanterinin kendisi o dosyadadır (SRP/DIP). 28/28 dosya (26 şablon + 2 meta) diskte mevcuttur (2026-09-24 — +2 yeni şablon: claude-md, docs-md).
 
 ### §4.1 Agent → Template (11 satır)
 
@@ -197,7 +197,7 @@ authority: SSOT
 | `category` | ✅ | `agent-registry` (FAZ 3a standardı) |
 | `date` | ✅ | Orijinal türetme tarihi (2026-08-08) |
 | `updated` | ✅ | Son revizyon tarihi |
-| `version` | ✅ | Profiller `2.0.0`; bu dosya `1.2.1` |
+| `version` | ✅ | Profiller `2.0.0`; bu dosya `1.2.2` |
 | `status` | ✅ | `active` |
 | `authority` | ✅ | Profilde `SSOT` (domain tekel); hiyerarşi §1.1 — çelişkide kök kazanır |
 
@@ -335,7 +335,7 @@ authority: SSOT
 |-------|-------|
 | İlke | Append-only — mevcut satıra dokunulmaz, silme yok |
 | Profil revizyonu | Frontmatter `version` bump + §11 Version tablona yeni satır |
-| Alt registry revizyonu | `1.0.0` → `1.1.0` → `1.2.0` → `1.2.1` (bu dosya §9) |
+| Alt registry revizyonu | `1.0.0` → `1.1.0` → `1.2.0` → `1.2.1` → `1.2.2` (bu dosya §9) |
 | Major bump | İskelet (§1-§11) değişirse — onay gerektirir |
 | Tarih | `YYYY-MM-DD`, `updated` alanı ile senkron |
 | Kök §26.2 senkronu | Alt registry sürümü değişirse kök §26.2'deki "v1.1.0" ifadesi **eski kalır** → üst görevde güncellenmeli (bu görevde kök yasaklıdır) |
@@ -493,6 +493,7 @@ authority: SSOT
 | 1.1.0 | 2026-09-23 | Alt registry'ye indirgendi (SSOT: .ai/AGENTS.md v22.0.0); 7 alanlı frontmatter + SSOT uyarısı |
 | 1.2.0 | 2026-09-23 | FAZ 3a: profil indeksi olarak tam yeniden yazım — §3 Profil Envanteri (12 dosya glob kanıtlı, eski §14 dosya adı hataları düzeltildi), §4 Agent→Template (index §5.1 kopyası), §5 Profil Yazım Kuralları (§1-§11 domain serisi), §6 Boot Bağlantıları (disk doğrulamalı, §6.2 çelişki tablosu), §7 Değişiklik Protokolü (14/14 checklist), §8 Truth Mode çelişki defteri |
 | 1.2.1 | 2026-09-23 | FAZ 3 birleştirme düzeltmeleri: §3.1'de 5 FAZ 3b satırı ⏳→✅ (549/560/533/548/549 satır), §8.1 sahiplik iddiası düzeltildi (Faz 3b oturumu, 23:20-23:25), 12/12 ≥500 + ` M` teyidi, ölçüm yöntemi notu (ReadAllLines; Measure-Object -Line yasak), §8.3 kuyruk/risk senkronu, kırık wiki-link düzeltmesi (.workflows/session → session-init + vault-sync) |
+| 1.2.2 | 2026-09-24 | Kök authority senkronu v22.0.1 |
 
 ---
 

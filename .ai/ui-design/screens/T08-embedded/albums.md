@@ -36,7 +36,7 @@ reference:
 │     │  ┌─── LEFT PANEL (60%, w:614) ──────────────────┐  ┌─── RIGHT PANEL (40%, w:410) ────────────┐   │  │
 │     │  │                                                │  │                                          │   │  │
 │     │  │  Albümler                                      │  │  🎵 Albüm Kapak Görseli (300×300)       │   │  │
-│     │  │  Kütüphanede depolanan外界den besten Albümler  │  │  ┌──────────────────────────────┐       │   │  │
+│     │  │  Kütüphanede depolananharici Albümler  │  │  ┌──────────────────────────────┐       │   │  │
 │     │  │                                                │  │  │                              │       │   │  │
 │     │  │  [Tümü] [Pop] [Arabesk] [Dans] [Oyun Havaası]│  │  │                              │       │   │  │
 │     │  │  [Damard] [Org] [Yabancı Pop] [Kpop-Kore]    │  │  │                              │       │   │  │

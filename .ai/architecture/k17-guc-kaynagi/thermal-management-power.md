@@ -125,7 +125,7 @@ Termal yönetim, COREMUSIC'in güç aşama bileşenlerinin (MOSFET, indüktör, 
 │  THERMAL VİA MATRİSİ (LDO Pad Altı)                         │
 ├─────────────────────────────────────────────────────────────┤
 │                                                               │
-│  Top Copper Pad (LM317散热 pad)                              │
+│  Top Copper Pad (LM317 soğutma pad)                              │
 │  ┌───────────────────────────────────────────────────────┐  │
 │  │  ○   ○   ○   ○   ○   ○   ○   ○   ○   ○              │  │
 │  │    ○   ○   ○   ○   ○   ○   ○   ○   ○                │  │

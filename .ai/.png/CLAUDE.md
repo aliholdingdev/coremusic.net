@@ -6,7 +6,7 @@
 
 ## 1. Bağlam
 
-Orijinal PNG mockup görselleri. Frontend görünmez otorite (Guardrail #11). İndeks: `ui-design/00-mockup-index.md`.
+Orijinal PNG mockup görselleri. Frontend görünmez otorite (Guardrail #11). İndeks: `ui-design/01-mockup-index.md`.
 
 ---
 

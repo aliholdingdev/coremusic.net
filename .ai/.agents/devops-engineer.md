@@ -3,8 +3,8 @@ title: DevOps Engineer — Dağıtım & Altyapı Agent Profili
 type: agent-profile
 category: agents
 date: 2026-08-08
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-24
+version: 2.1.1
 status: active
 authority: reference
 ---
@@ -370,16 +370,16 @@ Release zincirinde sıra şöyledir: QA gate (davranış) → DevOps gate (altya
 
 | Kaynak | Neden | Ne Zaman |
 |---|---|---|
-| `.ai/AGENTS.md` | SSOT — routing, kurallar | Her çalışma başı |
-| `.ai/ROLE.md` | Persona ve dil | Her çalışma başı |
-| `.ai/WORKFLOW.md` | Yaşam döngüsü | Release öncesi |
+| [[../AGENTS.md]] | SSOT — routing, kurallar | Her çalışma başı |
+| [[../ROLE.md]] | Persona ve dil | Her çalışma başı |
+| [[../WORKFLOW.md]] | Yaşam döngüsü | Release öncesi |
 | `.github/CLAUDE.md` | Onay akışı (gerçek) | Her deploy öncesi |
 | `.github/ISSUE_TEMPLATE/01-bug-report.md` | Olay/bug şablonu | Olay akışında |
-| `.ai/.templates/ci-cd/github-actions-template.md` | Workflow şablonu | Workflow yazarken |
-| `.ai/.templates/deploy/**` | Deploy şablonları | Release planlarken |
-| `.ai/.templates/index.md` | Şablon eşleşmesi | Şablon ararken |
+| `.ai/.templates/ci-cd/github-actions-template.md` | Workflow şablonu | Workflow yazarken ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| `.ai/.templates/deploy/**` | Deploy şablonları | Release planlarken ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| [[../.templates/index.md]] | Şablon eşleşmesi | Şablon ararken |
 | `.ai/.decisions/**` | Yasak/onay kararları (supra-otorite) | Her onayda |
-| `.ai/log.md` | Geçmiş kararlar (salt-okunur) | Belirsizlikte |
+| [[../log.md]] | Geçmiş kararlar (salt-okunur) | Belirsizlikte |
 | `architecture/02-deployment/*.md` | §24.3 DevOps zorunlu okuma (SSOT) | Deploy öncesi |
 | `ecosystem/*.md` | §24.3 DevOps zorunlu okuma (SSOT) | Altyapı kararında |
 
@@ -519,16 +519,16 @@ Gözlemlenemeyen hiçbir edge yok sayılır: "olmaz" denilen senaryonun da kanı
 
 | # | Referans | Tür | Erişim |
 |---|---|---|---|
-| 1 | `.ai/AGENTS.md` | SSOT | Salt-okunur |
-| 2 | `.ai/WORKFLOW.md` | Yaşam döngüsü | Salt-okunur |
+| 1 | [[../AGENTS.md]] | SSOT | Salt-okunur |
+| 2 | [[../WORKFLOW.md]] | Yaşam döngüsü | Salt-okunur |
 | 3 | `.github/CLAUDE.md` | Onay akışı (gerçek dosya) | Zorunlu okuma |
 | 4 | `.github/ISSUE_TEMPLATE/01-bug-report.md` | Olay şablonu | Olay akışında |
-| 5 | `.ai/.templates/ci-cd/github-actions-template.md` | Şablon | Workflow yazarken |
-| 6 | `.ai/.templates/index.md` | İndeks | Eşleşme |
+| 5 | `.ai/.templates/ci-cd/github-actions-template.md` | Şablon | Workflow yazarken ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| 6 | [[../.templates/index.md]] | İndeks | Eşleşme |
 | 7 | `.ai/.decisions/**` | Supra-otorite | Her onayda |
-| 8 | `.ai/log.md` | Karar geçmişi | Salt-okunur |
-| 9 | `.ai/.templates/agents/agents-template.md` | İskelet | Profil güncellemesinde |
-| 10 | `.ai/ROLE.md` | Persona | Salt-okunur |
+| 8 | [[../log.md]] | Karar geçmişi | Salt-okunur |
+| 9 | [[../.templates/agents/agents-template.md]] | İskelet | Profil güncellemesinde |
+| 10 | [[../ROLE.md]] | Persona | Salt-okunur |
 | 11 | `architecture/02-deployment/*.md` | Deploy dokümanı | §24.3 |
 | 12 | `ecosystem/*.md` | Ekosistem dokümanı | §24.3 |
 
@@ -536,14 +536,14 @@ Gözlemlenemeyen hiçbir edge yok sayılır: "olmaz" denilen senaryonun da kanı
 
 | Dosya | İlişki |
 |---|---|
-| `.ai/AGENTS.md` §6 | Routing tablosu kaynağı |
-| `.ai/AGENTS.md` §16 | DevOps standardı (CI ≥%95, GitLeaks clean) |
-| `.ai/AGENTS.md` §17 | Edge cases kaynağı |
-| `.ai/AGENTS.md` §24.3 | DevOps zorunlu okuma listesi |
+| [[../AGENTS.md]] §6 | Routing tablosu kaynağı |
+| [[../AGENTS.md]] §16 | DevOps standardı (CI ≥%95, GitLeaks clean) |
+| [[../AGENTS.md]] §17 | Edge cases kaynağı |
+| [[../AGENTS.md]] §24.3 | DevOps zorunlu okuma listesi |
 | `.github/CLAUDE.md` | Onay akışı (IMPLEMENTED) |
-| `.ai/.templates/index.md` §4.3/§5.1 | DevOps ↔ github-actions eşleşmesi |
-| `.ai/.agents/AGENTS.md` | Alt registry — profil indeksi |
-| `.ai/.agents/qa-engineer.md` | Gate ortağı (QA) |
+| [[../.templates/index.md]] §4.3/§5.1 | DevOps ↔ github-actions eşleşmesi |
+| [[AGENTS.md]] | Alt registry — profil indeksi |
+| [[qa-engineer.md]] | Gate ortağı (QA) |
 
 ### Sürüm Geçmişi
 
@@ -552,9 +552,10 @@ Gözlemlenemeyen hiçbir edge yok sayılır: "olmaz" denilen senaryonun da kanı
 | 1.0.0 | 2026-09-21 | İlk profil |
 | 2.0.0 | 2026-09-23 | Vault Refactor Engine: 10-bölüm formatı, authority alt-profile indirgendi |
 | 2.1.0 | 2026-09-23 | Faz 3b: 11-bölüm § formatı, Truth Mode, 500+ satır |
+| 2.1.1 | 2026-09-24 | Wiki-link dönüşümü + frontmatter senkronu (2.0.1 → 2.1.1) |
 
 ---
 
 **Authority:** Agent Profile — SSOT: `.ai/AGENTS.md`
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-24
 **Mode:** STANDARD (implementation-ready)

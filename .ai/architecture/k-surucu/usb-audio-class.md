@@ -154,7 +154,7 @@ USB_AudioBuffer bufferA, bufferB;
 USB_AudioBuffer* activeBuffer = &bufferA;
 USB_AudioBuffer* backBuffer = &bufferB;
 
-// Buffer değişimi (双缓冲)
+// Buffer değişimi (çift tamponlama)
 void swapBuffers() {
     USB_AudioBuffer* temp = activeBuffer;
     activeBuffer = backBuffer;

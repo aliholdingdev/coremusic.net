@@ -3,8 +3,8 @@ title: Windows Software Engineer — Windows Platform & Sistem Yazılımı Agent
 type: agent-profile
 category: agents
 date: 2026-08-08
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-24
+version: 2.1.1
 status: active
 authority: reference
 ---
@@ -364,15 +364,15 @@ Ortak senaryoda sıra kuralı: firmware tarafı önce, platform tarafı sonra ö
 
 | Kaynak | Neden | Ne Zaman |
 |---|---|---|
-| `.ai/AGENTS.md` | SSOT — routing, kurallar | Her çalışma başı |
-| `.ai/ROLE.md` | Persona ve dil | Her çalışma başı |
+| [[../AGENTS.md]] | SSOT — routing, kurallar | Her çalışma başı |
+| [[../ROLE.md]] | Persona ve dil | Her çalışma başı |
 | `.ai/.decisions/**` | Supra-otorite | Tasarım öncesi |
-| `.ai/.templates/code/c-template.md` | C şablonu (profil eşleşmesi) | Kod yazarken |
-| `.ai/.templates/index.md` | Şablon eşleşmesi | Şablon ararken |
+| `.ai/.templates/code/c-template.md` | C şablonu (profil eşleşmesi) | Kod yazarken ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| [[../.templates/index.md]] | Şablon eşleşmesi | Şablon ararken |
 | WASAPI/Win32 dokümantasyonu | API sürüm doğrulama | Kod öncesi |
 | `shared/database/migrations/` | Migration gerçeği (phinx YOK) | DB işinde |
 | `.github/CLAUDE.md` | Onay akışı | Release öncesi |
-| `.ai/log.md` | Geçmiş kararlar (salt-okunur) | Belirsizlikte |
+| [[../log.md]] | Geçmiş kararlar (salt-okunur) | Belirsizlikte |
 | `architecture/l3-presentation/*.md` | §24.3 kesişim dokümanı | UI/platform kararında |
 
 ### §8.1 Okuma Sırası
@@ -508,31 +508,31 @@ En pahalı edge, ağ kesintisidir çünkü en sık göz ardı edilendir: offline
 
 | # | Referans | Tür | Erişim |
 |---|---|---|---|
-| 1 | `.ai/AGENTS.md` | SSOT | Salt-okunur |
-| 2 | `.ai/ROLE.md` | Persona | Salt-okunur |
+| 1 | [[../AGENTS.md]] | SSOT | Salt-okunur |
+| 2 | [[../ROLE.md]] | Persona | Salt-okunur |
 | 3 | `.ai/.decisions/**` | Supra-otorite | Tasarım öncesi |
-| 4 | `.ai/.templates/code/c-template.md` | C şablonu | Kod yazarken |
-| 5 | `.ai/.templates/index.md` | Şablon indeksi | Eşleşme |
+| 4 | `.ai/.templates/code/c-template.md` | C şablonu | Kod yazarken ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| 5 | [[../.templates/index.md]] | Şablon indeksi | Eşleşme |
 | 6 | WASAPI/Win32 dokümantasyonu | API kanıtı | Kod öncesi |
 | 7 | `shared/database/migrations/` | Migration kanıtı | DB işinde |
 | 8 | `.github/CLAUDE.md` | Onay akışı | Release öncesi |
-| 9 | `.ai/log.md` | Karar geçmişi | Salt-okunur |
-| 10 | `.ai/.templates/agents/agents-template.md` | İskelet | Profil güncellemesinde |
+| 9 | [[../log.md]] | Karar geçmişi | Salt-okunur |
+| 10 | [[../.templates/agents/agents-template.md]] | İskelet | Profil güncellemesinde |
 | 11 | `architecture/l3-presentation/*.md` | UI/platform dokümanı | §24.3 kesişimi |
-| 12 | `.ai/WORKFLOW.md` | Yaşam döngüsü | Salt-okunur |
+| 12 | [[../WORKFLOW.md]] | Yaşam döngüsü | Salt-okunur |
 
 ### §11.1 İlişkili Vault Dosyaları
 
 | Dosya | İlişki |
 |---|---|
-| `.ai/AGENTS.md` §6 | Routing tablosu kaynağı |
-| `.ai/AGENTS.md` §4/§15 | Windows SW satırı + profil linki |
-| `.ai/AGENTS.md` §17 | Edge #1 (offline), #6 (ASIO→WASAPI) |
+| [[../AGENTS.md]] §6 | Routing tablosu kaynağı |
+| [[../AGENTS.md]] §4/§15 | Windows SW satırı + profil linki |
+| [[../AGENTS.md]] §17 | Edge #1 (offline), #6 (ASIO→WASAPI) |
 | `.ai/.decisions/**` | Supra-otorite |
-| `.ai/.templates/index.md` §4.3/§5.1 | Win-SW ↔ c-template eşleşmesi |
-| `.ai/.agents/AGENTS.md` | Alt registry — profil indeksi |
-| `.ai/.agents/dsp-firmware-engineer.md` | Fallback/clock ortağı |
-| `.ai/.agents/audio-hardware-engineer.md` | Format/seviye ortağı |
+| [[../.templates/index.md]] §4.3/§5.1 | Win-SW ↔ c-template eşleşmesi |
+| [[AGENTS.md]] | Alt registry — profil indeksi |
+| [[dsp-firmware-engineer.md]] | Fallback/clock ortağı |
+| [[audio-hardware-engineer.md]] | Format/seviye ortağı |
 
 ### Sürüm Geçmişi
 
@@ -541,9 +541,10 @@ En pahalı edge, ağ kesintisidir çünkü en sık göz ardı edilendir: offline
 | 1.0.0 | 2026-09-21 | İlk profil |
 | 2.0.0 | 2026-09-23 | Vault Refactor Engine: 10-bölüm formatı, authority alt-profile indirgendi |
 | 2.1.0 | 2026-09-23 | Faz 3b: 11-bölüm § formatı, Truth Mode, 500+ satır |
+| 2.1.1 | 2026-09-24 | Wiki-link dönüşümü + frontmatter senkronu (2.0.1 → 2.1.1) |
 
 ---
 
 **Authority:** Agent Profile — SSOT: `.ai/AGENTS.md`
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-24
 **Mode:** STANDARD (implementation-ready)

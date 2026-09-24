@@ -9,7 +9,7 @@ date: 2026-09-20
 
 ## Genel Bakış
 
-Altyapı izleme, COREMUSIC platformunun çalışan tüm sunucuları, konteynerleri ve servislerinin temel metriklerini (CPU, RAM, disk, ağ) takip eder. Node Exporter, cAdvisor ve其他探针ları ile toplanan veriler, altyapı sağlığını ve performansını değerlendirir.
+Altyapı izleme, COREMUSIC platformunun çalışan tüm sunucuları, konteynerleri ve servislerinin temel metriklerini (CPU, RAM, disk, ağ) takip eder. Node Exporter, cAdvisor ve diğer problar ile toplanan veriler, altyapı sağlığını ve performansını değerlendirir.
 
 ## İzlenen Kaynaklar
 

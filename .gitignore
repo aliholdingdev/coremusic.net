@@ -63,3 +63,8 @@ coverage/
 
 # ─── Backups ───
 *.bak-repair
+
+# ---- Figma API token (local only) ----
+.ai/.env.figma
+.ai/.env.*
+!.env.example

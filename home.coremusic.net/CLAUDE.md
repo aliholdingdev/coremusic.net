@@ -132,11 +132,11 @@ $is4k = $dm->shouldRender4kLayout(); // ≥2561px
 
 | Adım | Aksiyon | Kontrol |
 |------|---------|---------|
-| 1 | Mockup oku | `.ai/ui-design/00-mockup-index.md` (Guardrail #11) |
-| 2 | Component inventarı oku | `.ai/ui-design/01-component-inventory.md` |
+| 1 | Mockup oku | `.ai/ui-design/01-mockup-index.md` (Guardrail #11) |
+| 2 | Component inventarı oku | `.ai/ui-design/02-component-inventory.md` |
 | 3 | Token'ları oku | `.ai/ui-design/tokens/design-tokens-master.md` |
 | 4 | ASCII art oku | `.ai/ui-design/screens/00-ascii-art-index.md` |
-| 5 | Responsive kuralları oku | `.ai/ui-design/responsive-device-mode.md` |
+| 5 | Responsive kuralları oku | `.ai/ui-design/05-responsive-architecture.md` |
 | 6 | Kod yaz | Tek dosya + responsive CSS |
 | 7 | Test et | Tüm tier'larda test |
 | 8 | Audit | `log.md`'ye yaz |
@@ -160,11 +160,11 @@ $is4k = $dm->shouldRender4kLayout(); // ≥2561px
 
 | Kaynak | Yol | İçerik |
 |--------|-----|--------|
-| Mockup indeksi | `.ai/ui-design/00-mockup-index.md` | 19 PNG mockup |
-| Component envanteri | `.ai/ui-design/01-component-inventory.md` | C01-C16 BEM |
+| Mockup indeksi | `.ai/ui-design/01-mockup-index.md` | 19 PNG mockup |
+| Component envanteri | `.ai/ui-design/02-component-inventory.md` | C01-C16 BEM |
 | Token'lar | `.ai/ui-design/tokens/design-tokens-master.md` | Renk, boşluk, tipografi |
 | ASCII art | `.ai/ui-design/screens/00-ascii-art-index.md` | Piksel düzeyinde layout |
-| Responsive | `.ai/ui-design/responsive-device-mode.md` | 4-tier CSS kuralları |
+| Responsive | `.ai/ui-design/05-responsive-architecture.md` | 4-tier CSS kuralları |
 | DeviceManager | `shared/src/Device/DeviceManager.php` | PHP cihaz yönetimi |
 | DeviceLoader | `assets.coremusic.net/js/device-loader.js` | JS cihaz tespiti |
 | ADR-044 | `.ai/decisions/accepted/ADR-044-dynamic-user-theme-engine.md` | Tema motoru |

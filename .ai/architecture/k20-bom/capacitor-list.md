@@ -92,4 +92,4 @@ COREMUSIC devresindeki kondansatörler, elektrolitik, seramik ve film tiplerinde
 
 ## Durum: Implementasyon
 
-Tüm kondansatörler选型 tamamlanmış ve stok doğrulaması yapılmıştır.
+Tüm kondansatörlerin seçimi tamamlanmış ve stok doğrulaması yapılmıştır.

@@ -402,7 +402,7 @@ CM_Status CM_StopService(const char* name);
 1. **UAC**: Yönetici yetkisi gerektiren işlemler için UAC elevation kullanın
 2. **Token Privileges**: Gereksiz privilege'ları devre dışı bırakın
 3. **Job Objects**: Kaynak sınırlamaları ile process koruması sağlayın
-4. **Registry Erişimi**:最小imal yetki ile erişim sağlayın
+4. **Registry Erişimi**: minimum yetki ile erişim sağlayın
 5. **Named Pipes**: Güvenli pipe security descriptor kullanın
 
 ## Durum: Implementasyon

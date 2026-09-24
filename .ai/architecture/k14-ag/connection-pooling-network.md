@@ -18,7 +18,7 @@ COREMUSIC connection pooling, TCP/UDP bağlantılarının yeniden kullanımını
 - **Idle Timeout**: Boşta kalma süresi
 - **Connection Lifetime**: Maksimum bağlantı yaşı
 - **Acquire Timeout**: Havuzdan bağlantı bekleme süresi
-- **Health Check**: Bağlantı健康 kontrolü
+- **Health Check**: Bağlantı sağlığı kontrolü
 
 ## Teknik Detaylar
 

@@ -210,7 +210,7 @@ Hedef: Tüm frekanslarda <100mΩ impedans
 │     ┌─────────────────────────────────────────────────────┐   │
 │     │  Her kapasitör pad'ine en az 1 via                 │   │
 │     │  Via çapı: ≥ 10mil (power), ≥ 8mil (signal)       │   │
-│     │  Via间距: Pad merkezinden ≥ 2× via çapı            │   │
+│     │  Via aralığı: Pad merkezinden ≥ 2× via çapı            │   │
 │     │  Thermal relief: GND plane için                    │   │
 │     └─────────────────────────────────────────────────────┘   │
 │                                                                 │

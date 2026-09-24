@@ -136,7 +136,7 @@ class RoomCorrection:
         # Peak detection
         peaks, properties = signal.find_peaks(
             20 * np.log10(np.abs(freq_response) + 1e-8),
-            height=6,  # 6dB 이상 peak
+            height=6,  # 6dB üzeri peak
             distance=10,
             prominence=3
         )

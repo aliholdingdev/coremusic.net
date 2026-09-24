@@ -65,7 +65,7 @@ status: "active"
 - **Not**: Hassas analog sinyaller bu katmanda corrozive edilmeli
 
 ### L2: Ground Plane (Inner 1)
-- **Amaç**: Sürekli referans düzlemi,低impedans dönüş yolu
+- **Amaç**: Sürekli referans düzlemi, düşük empedans dönüş yolu
 - **Özellik**: Delik openings minimize edilmeli
 - **Önem**: L1 sinyalleri için	return path
 - **Kurallar**:

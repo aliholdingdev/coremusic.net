@@ -111,7 +111,7 @@ class ChromaprintFingerprinter:
         
         for t in range(chroma.shape[1]):
             if np.any(peaks[:, t]):
-                # Peak olan frequency band'leri编码
+                # Peak olan frequency band'leri kodlama
                 active_bands = np.where(peaks[:, t])[0]
                 
                 for band in active_bands:

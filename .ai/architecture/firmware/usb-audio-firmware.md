@@ -9,7 +9,7 @@ date: 2026-09-20
 
 ## Genel Bakış
 
-USB Audio Class 2.0 (UAC2) firmware, COREMUSIC'ın USB üzerinden yüksek kaliteli ses传输ını yönetir. Isochronous transfer modu ile jitter-free audio streaming, adaptive USB frame senkronizasyonu ve çoklu format desteği sağlar. XMOS XU316 üzerinde optimized edilmiş USB Audio endpoint handling ile <1ms round-trip latency hedeflenmektedir.
+USB Audio Class 2.0 (UAC2) firmware, COREMUSIC'ın USB üzerinden yüksek kaliteli ses aktarımını yönetir. Isochronous transfer modu ile jitter-free audio streaming, adaptive USB frame senkronizasyonu ve çoklu format desteği sağlar. XMOS XU316 üzerinde optimized edilmiş USB Audio endpoint handling ile <1ms round-trip latency hedeflenmektedir.
 
 ## Firmware Mimarisi
 

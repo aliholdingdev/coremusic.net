@@ -284,7 +284,7 @@ Model             │ Murata BLM31AG121
 └──────────────────────────────────────┘
          │
     Clearance: 2mm
-    No copper跨越
+    No copper geçişi
 ```
 
 #### 2. Yumuşak Bölüm (Soft Split)

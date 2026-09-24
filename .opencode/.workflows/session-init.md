@@ -3,7 +3,7 @@ title: "CoreMusic — Session Init Workflow"
 type: workflow
 date: 2026-09-20
 status: active
-version: 1.0.0
+version: 1.1.0
 ---
 
 # Session Init Workflow
@@ -25,6 +25,8 @@ version: 1.0.0
 | 11 | `.ai/ULTRA-THINKING.md` | Düşünme protokolü | 2s |
 | 12 | `.ai/glossary.md` | Terim sözlüğü | 2s |
 | 13 | `.ai/PROJECTS.md` | Proje tanımı | 3s |
+| 14 | `.ai/ui-design/01-mockup-index.md` | Mockup indeksi — `[[ui-design/01-mockup-index]]` (19 PNG) | 1s |
+| 15 | `.ai/ui-design/00-device-matrix.md` | Cihaz matrisi — `[[ui-design/00-device-matrix]]` (45-tier) | 1s |
 
 ## Aşama 2: Prompt Entegrasyonu (Max 14s)
 

@@ -84,7 +84,7 @@ segment_044.ts
 ┌────────────────┬────────────────────────────────┐
 │ Segment Format │ Özellikler                     │
 ├────────────────┼────────────────────────────────┤
-│ MPEG-2 TS      │ Geleneksel,广泛的destek         │
+│ MPEG-2 TS      │ Geleneksel, yaygın destek         │
 │ fMP4 (CMAF)    │ Modern, low overhead           │
 │ AAC-hls        │ Audio-only segments            │
 │ AC-3-hls       │ Dolby Digital segments         │

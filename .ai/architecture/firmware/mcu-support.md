@@ -824,7 +824,7 @@ void debug_printf(const char *format, ...) {
     HAL_UART_Transmit(&huart1, (uint8_t *)buffer, strlen(buffer), 100);
 }
 
-// Debug komut处理
+// Debug komut işleme
 void debug_process_commands() {
     char cmd[64];
     int cmd_len = 0;
@@ -905,7 +905,7 @@ openocd -f interface/stlink.cfg -f target/stm32f4x.cfg \
 dfu-util -a 0 -D build/coremusic_stm32.bin
 
 # STM32CubeProgrammer GUI
-# firmware选择 → Download → Start
+# firmware seçimi → Download → Start
 ```
 
 ### Raspberry Pi Firmware Derleme

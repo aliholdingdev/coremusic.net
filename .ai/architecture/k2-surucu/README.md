@@ -52,7 +52,7 @@ K1 (Donanım)
 | # | Bileşen | Amaç | Öncelik |
 |---|---------|------|---------|
 | K2-01 | ASIO Driver | Low-latency Windows audio | HIGH |
-| K2-02 | WASAPI Driver | Windows通用 audio | HIGH |
+| K2-02 | WASAPI Driver | Windows genel amaçlı audio | HIGH |
 | K2-03 | ALSA Driver | Linux kernel audio | HIGH |
 | K2-04 | PipeWire Driver | Linux modern audio | MEDIUM |
 | K2-05 | CoreAudio Driver | macOS audio | HIGH |

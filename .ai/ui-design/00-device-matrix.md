@@ -4,9 +4,9 @@ title: "CoreMusic — 45-Tier Device Matrix"
 type: matrix
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-24
 status: active
-version: 5.0.0
+version: 6.0.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -94,6 +94,8 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 **Özellikler:** Welcome popup (T07), touch-first, minimal chrome, offline-first.
 
+> ⚠️ **Bilinen çelişki (SSOT dedup):** T07/T08 tier ID'leri bu bölümde Embedded (RPi5) için, §3 Tablet bölümünde iPad 10. nesil / Galaxy Tab S9 / iPad Pro 11" için kullanılmaktadır. Ayrı kategori, aynı ID. Çözüm kaydı: §3B.
+
 ### 💻 Laptop (T12-T16)
 
 | Tier | Cihaz | Viewport | DPI | Input | Font | Sidebar | Layout |
@@ -128,7 +130,7 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 **Özellikler:** Geniş content, yüksek çözünürlük, çoklu widget, NO-CENTER (4K).
 
-### 📺 Ultrawide (T22-T24 overlap — tam赶到 T22-T24 de Desktop tier'da)
+### 📺 Ultrawide (T22-T24 overlap — tamamı T22-T24 de Desktop tier'ı içinde yer alır)
 
 > Ultrawide tier'ları Desktop Monitor tier'ları ile çakışır. T22 (34" Ultrawide) ve T23 (40"/49" Ultrawide) Desktop Monitor section'ında tanımlıdır.
 
@@ -194,7 +196,9 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 **Özellikler:** Native titlebar, offline support, installable, system tray, IPC bridge, custom protocol.
 
-### 🥽 AR/VR (T30)
+### 🥽 AR/VR (T30) — CAKISMA ID
+
+> ⚠️ Başlıktaki "T30" ID'si Automotive (T30 = Apple CarPlay/Tesla) ile çakışır; gerçek AR/VR headset tier'ı §3 Web & Özel section'ında **T45**'tir. Çözüm kaydı: §3B.
 
 | Tier | Cihaz | Viewport | Input | Font | Layout |
 |------|-------|----------|-------|------|--------|
@@ -202,7 +206,9 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 **Özellikler:** Spatial UI, 3D depth, hand tracking, immersive mode.
 
-### ⌚ Smart Watch Ek (T31-T33)
+### ⌚ Smart Watch Ek (T31-T33) — CAKISMA/REDUNDANT
+
+> ⚠️ Bu bölüm, §3 içindeki birincil "Smart Watch (T31-T33)" tablosunun birebir kopyasıdır. **Birincil bölüm tek SSG'dir**; bu bölüm bilgi kaybı önlemleriyle korunmuştur (SSOT dedup, 2026-09-24).
 
 | Tier | Cihaz | Viewport | DPI | Input | Font | Layout |
 |------|-------|----------|-----|-------|------|--------|
@@ -212,7 +218,9 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 **Özellikler:** Micro UI, OLED power save, always-on display, haptic feedback.
 
-### 🎮 Oyun Konsolu Ek (T34-T36)
+### 🎮 Oyun Konsolu Ek (T34-T36) — CAKISMA/REDUNDANT
+
+> ⚠️ Bu bölüm, §3 içindeki birincil "Console (T34-T36)" tablosunun birebir kopyasıdır. **Birincil bölüm tek SSG'dir**; bu bölüm bilgi kaybı önlemleriyle korunmuştur (SSOT dedup, 2026-09-24).
 
 | Tier | Cihaz | Viewport | Input | Font | Touch | Layout |
 |------|-------|----------|-------|------|-------|--------|
@@ -222,7 +230,9 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 **Özellikler:** Controller navigation, handheld hybrid, gamepad UI.
 
-### 🖥️ Desktop Uygulama Ek (T37-T38)
+### 🖥️ Desktop Uygulama Ek (T37-T38) — CAKISMA/REDUNDANT
+
+> ⚠️ Bu bölüm, §3 içindeki birincil "Desktop App (T37-T38)" tablosunun birebir kopyasıdır. **Birincil bölüm tek SSG'dir**; bu bölüm bilgi kaybı önlemleriyle korunmuştur (SSOT dedup, 2026-09-24).
 
 | Tier | Cihaz | Runtime | Viewport | Font | Sidebar | Layout |
 |------|-------|---------|----------|------|---------|--------|
@@ -274,6 +284,58 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 ---
 
+## 3B. Viewport & Boyut Kapsamı + Dedup / Çelişki Kayıtları
+
+> Bu bölüm 45-tier sistemini DEĞİŞTİRMEZ; kullanıcının zorunlu viewport/boyut kapsamını doğrular ve diğer dokümanlarla bilinen çelişkileri listeler (SSOT dedup, 2026-09-24).
+
+### 3B.1 Zorunlu Viewport Kapsamı
+
+| Viewport | Karşılık Gelen Tier(lar) | Durum |
+|----------|--------------------------|-------|
+| 1024×600 | T07 Embedded (RPi5 7") | ✅ §3'te mevcut |
+| 1920×1080 | T12/T14 (Laptop FHD), T17/T18 (FHD Monitor), T25 (FHD TV) | ✅ §3'te mevcut |
+| 2560 (QHD) | T13/T16 (Laptop QHD), T19/T21 (QHD Monitor) | ✅ §3'te mevcut — **not:** kullanıcı isteğinde "2540" yazılmıştır; standart QHD genişliği olan **2560** uygulanmıştır (yazım hatası kabul edildi) |
+| 3840×2160 (4K) | T15 (4K Laptop), T20/T21/T24 (4K Monitor), T26-T28 (4K TV) | ✅ §3'te mevcut |
+
+### 3B.2 Ekran Boyutu Kapsamı (inç)
+
+| Kullanıcı Boyutu | Karşılık | Durum |
+|------------------|----------|-------|
+| Tablet 7" | T07 Embedded RPi5 7" | ✅ |
+| Tablet 10" | T08 Embedded RPi5 10" | ✅ |
+| Tablet 12" | T10/T11 (12.9" iPad Pro, ≈12") | ⚠️ türetildi (12.0" cihaz §3'te yok; en yakın 12.9") |
+| 5" / 7" | T01-T02 phone aralığı (5.5"-6.8" fiziksel) / T07 7" embedded | ⚠️ türetildi (inç eşleşmesi yaklaşık) |
+| 10" / 12" / 15" / 18" | T08 (10"), T10/T11 (≈12"), T14/T15 (15"/15.6"), 18" → §3'te cihaz yok | ⚠️ 18" türetildi — 18" cihaz §3'te YOK, sonraki fazda eklenmeli |
+
+### 3B.3 Zorunlu Cihaz Doğrulaması
+
+| İstenen Cihaz | §3 Karşılığı | Durum |
+|---------------|--------------|-------|
+| Galaxy J7 2016 | T01 | ✅ |
+| Galaxy S25 Ultra | T03 | ✅ |
+| Galaxy S26 Ultra | T03 | ✅ |
+| iPhone 14 Pro Max | T02 | ✅ |
+| iPhone 15 Pro Max | T02 | ✅ |
+| iPhone 16 Pro Max | T02 | ✅ |
+
+### 3B.4 Dedup Kayıtları
+
+1. **"Ek" bölümleri** (Smart Watch Ek, Oyun Konsolu Ek, Desktop Uygulama Ek) birincil tabloların kopyasıdır → birincil bölüm SSG, "Ek" bölümleri başlıkta `CAKISMA/REDUNDANT` etiketli.
+2. **T07/T08 çift anlamlı** → Embedded (RPi5) + Tablet (iPad/Tab S9) aynı ID'leri kullanır (§3 Embedded altındaki uyarıya bak).
+3. **AR/VR başlığı "T30"** → CarPlay/Tesla ile ID çakışması; gerçek AR/VR = T45.
+4. **§2.1 kategori tablosu** 12 kategori iddia ediyor, satır sayısı 11 (Embedded + AR/VR tabloda listelenmiyor) → bilinen sayı uyuşmazlığı, satır-satır edit kuralıyla dokunulmadı.
+
+### 3B.5 Diğer Dokümanlarla Çelişki Listesi
+
+| # | Kaynak | Çelişki | Geçerli Olan |
+|---|--------|---------|--------------|
+| 1 | `reference/10-device-specific-guidelines.md` | Kompakt **26-tier** numaralandırma: Phone T01-T04, Tablet T05-T06, Embedded T07-T08, Laptop T09-T10, Desktop T11-T12, Ultrawide T13-T14, TV T15-T18, Auto T19, Watch T20-T22, Console T23-T26 | **45-tier device matrix** (bu dosya) — SSOT sırası gereği |
+| 2 | `prompt/screen/T1-T10` | "T1-phone … T10-watch" **10 layout-sınıfı prompt'u**; tier ID değil, isim benzerliği | İkisi ayrı sistemler; T1≠T01, çakışma varsayılmamalı |
+| 3 | Bu dosya §3A | §3A tier aralıkları §3 cihaz tablolarıyla örtüşmüyor (örn. §3A "1280-1439 → T09 Laptop Küçük" ama §3'te T09 = Tablet; §3A "T05-T06 Tablet Küçük" ama T05 = Phone; §3A "T23-T26 TV" ama T23-T24 = Desktop) | §3 cihaz tabloları (tier → cihaz eşlemesi) |
+| 4 | `tokens/platform-tokens.md` (frontmatter source_of_truth) | Viewport breakpoint listesi bu dosyadaki tier viewport'larıyla eşleşmeli | Kırık wiki-link yok; doğrulama sonraki fazda |
+
+---
+
 ## 4. Cihaz Tespit Önceliği
 
 ```
@@ -306,10 +368,10 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 | Grid Range | 1-6 columns |
 | Viewport Range | 396×484 - 7680×4320 |
 | Cross References | 6 |
-| Last Updated | 2026-09-20 |
+| Last Updated | 2026-09-24 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-20
+**Last Updated:** 2026-09-24
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -1,0 +1,622 @@
+{
+    "colors":  {
+                   "Romantic_Background_03 (2) / fill":  "#FFFFFF",
+                   "Siyah Arkaplan Evekt / gradient stop 0":  "#000000",
+                   "Siyah Arkaplan Evekt / gradient stop 1":  "#120C14",
+                   "Ellipse 16 / gradient stop 0":  "#140E16",
+                   "KursatGurel / stroke":  "#707070",
+                   "ProgresbarValue / fill":  "#FF65E9",
+                   "Stroke Effect / fill":  "#373737",
+                   "ProgressbarValue / fill":  "#FF38E3",
+                   "ProgressbarTick / gradient stop 0":  "#FFBEF6",
+                   "Progressbar / gradient stop 1":  "#D5D5D5",
+                   "Core Music / stroke":  "#FE00E4",
+                   "Stroke Effect / gradient stop 0":  "#070607",
+                   "Stroke Effect / gradient stop 1":  "#5B5A5B",
+                   "bg / gradient stop 0":  "#FF00C8"
+               },
+    "typography":  {
+                       "Avalon Medium 12.7px w500":  {
+                                                         "fontFamily":  "Avalon",
+                                                         "fontSize":  12.7,
+                                                         "fontWeight":  500,
+                                                         "lineHeight":  17.146,
+                                                         "letterSpacing":  0.991,
+                                                         "lineHeightUnit":  "INTRINSIC_%",
+                                                         "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                         "exampleNodeId":  "I1639:9772;18:2983"
+                                                     },
+                       "Avalon Medium 10px w500":  {
+                                                       "fontFamily":  "Avalon",
+                                                       "fontSize":  10,
+                                                       "fontWeight":  500,
+                                                       "lineHeight":  13.501,
+                                                       "letterSpacing":  1.35,
+                                                       "lineHeightUnit":  "INTRINSIC_%",
+                                                       "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                       "exampleNodeId":  "I1639:9772;18:3004"
+                                                   },
+                       "Respective Regular 16px w400":  {
+                                                            "fontFamily":  "Respective",
+                                                            "fontSize":  16,
+                                                            "fontWeight":  400,
+                                                            "lineHeight":  16,
+                                                            "letterSpacing":  2.16,
+                                                            "lineHeightUnit":  "INTRINSIC_%",
+                                                            "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                            "exampleNodeId":  "I1639:9774;18:2909"
+                                                        },
+                       "Avalon Medium 9px w500":  {
+                                                      "fontFamily":  "Avalon",
+                                                      "fontSize":  9,
+                                                      "fontWeight":  500,
+                                                      "lineHeight":  12.151,
+                                                      "letterSpacing":  0.495,
+                                                      "lineHeightUnit":  "INTRINSIC_%",
+                                                      "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                      "exampleNodeId":  "I1639:9774;172:239"
+                                                  },
+                       "Avalon Medium 5px w500":  {
+                                                      "fontFamily":  "Avalon",
+                                                      "fontSize":  5,
+                                                      "fontWeight":  500,
+                                                      "lineHeight":  6.75,
+                                                      "letterSpacing":  0.675,
+                                                      "lineHeightUnit":  "INTRINSIC_%",
+                                                      "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                      "exampleNodeId":  "I1639:9774;900:19139;897:15863"
+                                                  },
+                       "Avalon Medium 9px w500 (2)":  {
+                                                          "fontFamily":  "Avalon",
+                                                          "fontSize":  9,
+                                                          "fontWeight":  500,
+                                                          "lineHeight":  12.151,
+                                                          "letterSpacing":  0.675,
+                                                          "lineHeightUnit":  "INTRINSIC_%",
+                                                          "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                          "exampleNodeId":  "2793:4148"
+                                                      },
+                       "Avalon Medium 9.5px w500":  {
+                                                        "fontFamily":  "Avalon",
+                                                        "fontSize":  9.5,
+                                                        "fontWeight":  500,
+                                                        "lineHeight":  12.826,
+                                                        "letterSpacing":  0.712,
+                                                        "lineHeightUnit":  "INTRINSIC_%",
+                                                        "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                        "exampleNodeId":  "1639:9839"
+                                                    },
+                       "Avalon Medium 8.5px w500":  {
+                                                        "fontFamily":  "Avalon",
+                                                        "fontSize":  8.5,
+                                                        "fontWeight":  500,
+                                                        "lineHeight":  11.476,
+                                                        "letterSpacing":  0.638,
+                                                        "lineHeightUnit":  "INTRINSIC_%",
+                                                        "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                        "exampleNodeId":  "1639:9854"
+                                                    },
+                       "Avalon Medium 8px w500":  {
+                                                      "fontFamily":  "Avalon",
+                                                      "fontSize":  8,
+                                                      "fontWeight":  500,
+                                                      "lineHeight":  10.801,
+                                                      "letterSpacing":  0.6,
+                                                      "lineHeightUnit":  "INTRINSIC_%",
+                                                      "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                      "exampleNodeId":  "1639:9855"
+                                                  },
+                       "Avalon Medium 6.5px w500":  {
+                                                        "fontFamily":  "Avalon",
+                                                        "fontSize":  6.5,
+                                                        "fontWeight":  500,
+                                                        "lineHeight":  8.776,
+                                                        "letterSpacing":  0.488,
+                                                        "lineHeightUnit":  "INTRINSIC_%",
+                                                        "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                        "exampleNodeId":  "1646:9384"
+                                                    },
+                       "Avalon Medium 7px w500":  {
+                                                      "fontFamily":  "Avalon",
+                                                      "fontSize":  7,
+                                                      "fontWeight":  500,
+                                                      "lineHeight":  9.451,
+                                                      "letterSpacing":  0.546,
+                                                      "lineHeightUnit":  "INTRINSIC_%",
+                                                      "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                      "exampleNodeId":  "1646:9414"
+                                                  },
+                       "Avalon Medium 13px w500":  {
+                                                       "fontFamily":  "Avalon",
+                                                       "fontSize":  13,
+                                                       "fontWeight":  500,
+                                                       "lineHeight":  17.551,
+                                                       "letterSpacing":  1.014,
+                                                       "lineHeightUnit":  "INTRINSIC_%",
+                                                       "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                       "exampleNodeId":  "1646:17700"
+                                                   },
+                       "Avalon Medium 12px w500":  {
+                                                       "fontFamily":  "Avalon",
+                                                       "fontSize":  12,
+                                                       "fontWeight":  500,
+                                                       "lineHeight":  16.201,
+                                                       "letterSpacing":  0.936,
+                                                       "lineHeightUnit":  "INTRINSIC_%",
+                                                       "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                       "exampleNodeId":  "1646:17701"
+                                                   },
+                       "Avalon Medium 10px w500 (2)":  {
+                                                           "fontFamily":  "Avalon",
+                                                           "fontSize":  10,
+                                                           "fontWeight":  500,
+                                                           "lineHeight":  13.501,
+                                                           "letterSpacing":  0.78,
+                                                           "lineHeightUnit":  "INTRINSIC_%",
+                                                           "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                           "exampleNodeId":  "1646:17709"
+                                                       },
+                       "Avalon Medium 10.5px w500":  {
+                                                         "fontFamily":  "Avalon",
+                                                         "fontSize":  10.5,
+                                                         "fontWeight":  500,
+                                                         "lineHeight":  14.176,
+                                                         "letterSpacing":  0.368,
+                                                         "lineHeightUnit":  "INTRINSIC_%",
+                                                         "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                         "exampleNodeId":  "1639:9898"
+                                                     },
+                       "Avalon Medium 7px w500 (2)":  {
+                                                          "fontFamily":  "Avalon",
+                                                          "fontSize":  7,
+                                                          "fontWeight":  500,
+                                                          "lineHeight":  9.451,
+                                                          "letterSpacing":  0,
+                                                          "lineHeightUnit":  "INTRINSIC_%",
+                                                          "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                          "exampleNodeId":  "I1639:9899;880:10305"
+                                                      },
+                       "Avalon Medium 11px w500":  {
+                                                       "fontFamily":  "Avalon",
+                                                       "fontSize":  11,
+                                                       "fontWeight":  500,
+                                                       "lineHeight":  14.851,
+                                                       "letterSpacing":  0.825,
+                                                       "lineHeightUnit":  "INTRINSIC_%",
+                                                       "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                       "exampleNodeId":  "1639:9902"
+                                                   },
+                       "Avalon Medium 8.5px w500 (2)":  {
+                                                            "fontFamily":  "Avalon",
+                                                            "fontSize":  8.5,
+                                                            "fontWeight":  500,
+                                                            "lineHeight":  11.476,
+                                                            "letterSpacing":  0,
+                                                            "lineHeightUnit":  "INTRINSIC_%",
+                                                            "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                            "exampleNodeId":  "I1639:9905;880:10219"
+                                                        },
+                       "Avalon Medium 8.5px w500 (3)":  {
+                                                            "fontFamily":  "Avalon",
+                                                            "fontSize":  8.5,
+                                                            "fontWeight":  500,
+                                                            "lineHeight":  11.476,
+                                                            "letterSpacing":  0.085,
+                                                            "lineHeightUnit":  "INTRINSIC_%",
+                                                            "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                            "exampleNodeId":  "I1639:9906;281:2335"
+                                                        },
+                       "Avalon Medium 9px w500 (3)":  {
+                                                          "fontFamily":  "Avalon",
+                                                          "fontSize":  9,
+                                                          "fontWeight":  500,
+                                                          "lineHeight":  12.151,
+                                                          "letterSpacing":  0.702,
+                                                          "lineHeightUnit":  "INTRINSIC_%",
+                                                          "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                          "exampleNodeId":  "1639:9913"
+                                                      },
+                       "Avalon Medium 8px w500 (2)":  {
+                                                          "fontFamily":  "Avalon",
+                                                          "fontSize":  8,
+                                                          "fontWeight":  500,
+                                                          "lineHeight":  10.801,
+                                                          "letterSpacing":  0.624,
+                                                          "lineHeightUnit":  "INTRINSIC_%",
+                                                          "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                          "exampleNodeId":  "1639:9914"
+                                                      },
+                       "Avalon Medium 7.5px w500":  {
+                                                        "fontFamily":  "Avalon",
+                                                        "fontSize":  7.5,
+                                                        "fontWeight":  500,
+                                                        "lineHeight":  10.126,
+                                                        "letterSpacing":  0.585,
+                                                        "lineHeightUnit":  "INTRINSIC_%",
+                                                        "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                        "exampleNodeId":  "1639:9915"
+                                                    },
+                       "Avalon Medium 11px w500 (2)":  {
+                                                           "fontFamily":  "Avalon",
+                                                           "fontSize":  11,
+                                                           "fontWeight":  500,
+                                                           "lineHeight":  14.851,
+                                                           "letterSpacing":  0.11,
+                                                           "lineHeightUnit":  "INTRINSIC_%",
+                                                           "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                           "exampleNodeId":  "2831:10276"
+                                                       },
+                       "DM Sans Light 10px w300":  {
+                                                       "fontFamily":  "DM Sans",
+                                                       "fontSize":  10,
+                                                       "fontWeight":  300,
+                                                       "lineHeight":  13.02,
+                                                       "letterSpacing":  0,
+                                                       "lineHeightUnit":  "INTRINSIC_%",
+                                                       "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                       "exampleNodeId":  "2831:10279"
+                                                   },
+                       "Arima Regular 14px w400":  {
+                                                       "fontFamily":  "Arima",
+                                                       "fontSize":  14,
+                                                       "fontWeight":  400,
+                                                       "lineHeight":  22.862,
+                                                       "letterSpacing":  0,
+                                                       "lineHeightUnit":  "INTRINSIC_%",
+                                                       "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                       "exampleNodeId":  "2831:10280"
+                                                   },
+                       "Plus Jakarta Sans SemiBold 20px w600":  {
+                                                                    "fontFamily":  "Plus Jakarta Sans",
+                                                                    "fontSize":  20,
+                                                                    "fontWeight":  600,
+                                                                    "lineHeight":  25.2,
+                                                                    "letterSpacing":  0,
+                                                                    "lineHeightUnit":  "INTRINSIC_%",
+                                                                    "letterSpacingUnit":  "API\u0027den gelmedi",
+                                                                    "exampleNodeId":  "2831:10281"
+                                                                }
+                   },
+    "shadows":  {
+                    "Playlist Status Div shadow":  {
+                                                       "type":  "DROP_SHADOW",
+                                                       "x":  0,
+                                                       "y":  4,
+                                                       "blur":  16,
+                                                       "spread":  null,
+                                                       "color":  "#373737",
+                                                       "alpha":  0.55,
+                                                       "spreadNote":  "spread: API\u0027den gelmedi"
+                                                   },
+                    "background shadow":  {
+                                              "type":  "DROP_SHADOW",
+                                              "x":  2,
+                                              "y":  4,
+                                              "blur":  4,
+                                              "spread":  null,
+                                              "color":  "#000000",
+                                              "alpha":  0.25,
+                                              "spreadNote":  "spread: API\u0027den gelmedi"
+                                          },
+                    "Şarkı Adı : Göksel - Sevil Neşelen shadow":  {
+                                                                      "type":  "DROP_SHADOW",
+                                                                      "x":  1,
+                                                                      "y":  0.5,
+                                                                      "blur":  1,
+                                                                      "spread":  null,
+                                                                      "color":  "#000000",
+                                                                      "alpha":  0.8,
+                                                                      "spreadNote":  "spread: API\u0027den gelmedi"
+                                                                  },
+                    "icons8-star-filled-48 shadow":  {
+                                                         "type":  "DROP_SHADOW",
+                                                         "x":  0,
+                                                         "y":  0.5,
+                                                         "blur":  1,
+                                                         "spread":  null,
+                                                         "color":  "#000000",
+                                                         "alpha":  0.8,
+                                                         "spreadNote":  "spread: API\u0027den gelmedi"
+                                                     },
+                    "media-back shadow":  {
+                                              "type":  "DROP_SHADOW",
+                                              "x":  0.5,
+                                              "y":  0.5,
+                                              "blur":  0.1,
+                                              "spread":  null,
+                                              "color":  "#000000",
+                                              "alpha":  0.8,
+                                              "spreadNote":  "spread: API\u0027den gelmedi"
+                                          },
+                    "/ shadow":  {
+                                     "type":  "DROP_SHADOW",
+                                     "x":  0,
+                                     "y":  1,
+                                     "blur":  1,
+                                     "spread":  null,
+                                     "color":  "#000000",
+                                     "alpha":  0.8,
+                                     "spreadNote":  "spread: API\u0027den gelmedi"
+                                 },
+                    "Progressbar shadow":  {
+                                               "type":  "DROP_SHADOW",
+                                               "x":  0,
+                                               "y":  0,
+                                               "blur":  1,
+                                               "spread":  null,
+                                               "color":  "#000000",
+                                               "alpha":  0.25,
+                                               "spreadNote":  "spread: API\u0027den gelmedi"
+                                           },
+                    "Profile shadow":  {
+                                           "type":  "DROP_SHADOW",
+                                           "x":  0,
+                                           "y":  3,
+                                           "blur":  2,
+                                           "spread":  null,
+                                           "color":  "#373737",
+                                           "alpha":  0.25,
+                                           "spreadNote":  "spread: API\u0027den gelmedi"
+                                       },
+                    "Batterylevel shadow":  {
+                                                "type":  "DROP_SHADOW",
+                                                "x":  0,
+                                                "y":  0.8,
+                                                "blur":  1,
+                                                "spread":  null,
+                                                "color":  "#000000",
+                                                "alpha":  0.8,
+                                                "spreadNote":  "spread: API\u0027den gelmedi"
+                                            },
+                    "22 shadow":  {
+                                      "type":  "DROP_SHADOW",
+                                      "x":  2,
+                                      "y":  2,
+                                      "blur":  4,
+                                      "spread":  null,
+                                      "color":  "#000000",
+                                      "alpha":  0.5,
+                                      "spreadNote":  "spread: API\u0027den gelmedi"
+                                  },
+                    "Hava Durmu shadow":  {
+                                              "type":  "DROP_SHADOW",
+                                              "x":  2,
+                                              "y":  2,
+                                              "blur":  4,
+                                              "spread":  null,
+                                              "color":  "#373737",
+                                              "alpha":  0.5,
+                                              "spreadNote":  "spread: API\u0027den gelmedi"
+                                          },
+                    "İstanbul shadow":  {
+                                            "type":  "DROP_SHADOW",
+                                            "x":  0.5,
+                                            "y":  0.05,
+                                            "blur":  0.1,
+                                            "spread":  null,
+                                            "color":  "#000000",
+                                            "alpha":  0.8,
+                                            "spreadNote":  "spread: API\u0027den gelmedi"
+                                        },
+                    "Depelama Yöneticsi shadow":  {
+                                                      "type":  "DROP_SHADOW",
+                                                      "x":  0,
+                                                      "y":  3,
+                                                      "blur":  4,
+                                                      "spread":  null,
+                                                      "color":  "#373737",
+                                                      "alpha":  0.25,
+                                                      "spreadNote":  "spread: API\u0027den gelmedi"
+                                                  },
+                    "Player Info shadow":  {
+                                               "type":  "DROP_SHADOW",
+                                               "x":  2,
+                                               "y":  2,
+                                               "blur":  4,
+                                               "spread":  null,
+                                               "color":  "#000000",
+                                               "alpha":  0.8,
+                                               "spreadNote":  "spread: API\u0027den gelmedi"
+                                           },
+                    "Süre : 00:00:00 / 00 :05 :00 shadow":  {
+                                                                "type":  "DROP_SHADOW",
+                                                                "x":  0.5,
+                                                                "y":  0.5,
+                                                                "blur":  0.1,
+                                                                "spread":  null,
+                                                                "color":  "#000000",
+                                                                "alpha":  1,
+                                                                "spreadNote":  "spread: API\u0027den gelmedi"
+                                                            },
+                    "Tümünü Görüntüle Plist shadow":  {
+                                                          "type":  "DROP_SHADOW",
+                                                          "x":  0,
+                                                          "y":  3,
+                                                          "blur":  15,
+                                                          "spread":  null,
+                                                          "color":  "#373737",
+                                                          "alpha":  0.5,
+                                                          "spreadNote":  "spread: API\u0027den gelmedi"
+                                                      },
+                    "Sıradaki Şarkı shadow":  {
+                                                  "type":  "DROP_SHADOW",
+                                                  "x":  0,
+                                                  "y":  1,
+                                                  "blur":  1,
+                                                  "spread":  null,
+                                                  "color":  "#373737",
+                                                  "alpha":  0.8,
+                                                  "spreadNote":  "spread: API\u0027den gelmedi"
+                                              },
+                    "Sıradaki Şarkı shadow (2)":  {
+                                                      "type":  "INNER_SHADOW",
+                                                      "x":  0,
+                                                      "y":  1,
+                                                      "blur":  1,
+                                                      "spread":  null,
+                                                      "color":  "#000000",
+                                                      "alpha":  0.8,
+                                                      "spreadNote":  "spread: API\u0027den gelmedi"
+                                                  },
+                    "Albüm : Hayat Rüya Gibi shadow":  {
+                                                           "type":  "DROP_SHADOW",
+                                                           "x":  0.5,
+                                                           "y":  0.5,
+                                                           "blur":  0.01,
+                                                           "spread":  null,
+                                                           "color":  "#000000",
+                                                           "alpha":  0.8,
+                                                           "spreadNote":  "spread: API\u0027den gelmedi"
+                                                       },
+                    "Welcome Div shadow":  {
+                                               "type":  "DROP_SHADOW",
+                                               "x":  0,
+                                               "y":  4,
+                                               "blur":  4,
+                                               "spread":  null,
+                                               "color":  "#000000",
+                                               "alpha":  0.15,
+                                               "spreadNote":  "spread: API\u0027den gelmedi"
+                                           },
+                    "text shadow":  {
+                                        "type":  "DROP_SHADOW",
+                                        "x":  0,
+                                        "y":  0.1,
+                                        "blur":  1,
+                                        "spread":  null,
+                                        "color":  "#000000",
+                                        "alpha":  0.8,
+                                        "spreadNote":  "spread: API\u0027den gelmedi"
+                                    },
+                    "Sana özel seçilen melodiler, zarif deneyimler ve unutulmaz anlar burada başlıyor. CoreMusic ile müziğin senin dünyana dönüşsün. 💜 shadow":  {
+                                                                                                                                                                      "type":  "DROP_SHADOW",
+                                                                                                                                                                      "x":  0.5,
+                                                                                                                                                                      "y":  0.5,
+                                                                                                                                                                      "blur":  1,
+                                                                                                                                                                      "spread":  null,
+                                                                                                                                                                      "color":  "#000000",
+                                                                                                                                                                      "alpha":  0.8,
+                                                                                                                                                                      "spreadNote":  "spread: API\u0027den gelmedi"
+                                                                                                                                                                  }
+                },
+    "radii":  {
+                  "KursatGurel radius":  5,
+                  "Profile radius":  [
+                                         0,
+                                         0,
+                                         0,
+                                         0
+                                     ],
+                  "Rectangle 7 radius":  50,
+                  "Rectangle 6 radius":  [
+                                             50,
+                                             0,
+                                             0,
+                                             50
+                                         ],
+                  "icons8-logout-48 radius":  13,
+                  "background radius":  3,
+                  "KursatGurel radius (2)":  115,
+                  "background radius (2)":  8,
+                  "ChatGPT Image 18 May 2026 17_55_17-topaz-upscale-4.8x-face-focus-lighting 1 radius":  [
+                                                                                                             0,
+                                                                                                             8,
+                                                                                                             8,
+                                                                                                             0
+                                                                                                         ]
+              },
+    "spacing":  {
+                    "space-22":  22,
+                    "space-6":  6,
+                    "space-4":  4,
+                    "space-3":  3,
+                    "space--7":  -7,
+                    "space-10":  10
+                },
+    "sizes":  {
+                  "Linux 1024 - Home Page":  {
+                                                 "width":  1024,
+                                                 "height":  600
+                                             },
+                  "Player Info":  {
+                                      "width":  392,
+                                      "height":  131
+                                  },
+                  "Diiv2 Button":  {
+                                       "width":  365,
+                                       "height":  171
+                                   },
+                  "Diiv2 Button / tile: 22":  {
+                                                  "width":  42,
+                                                  "height":  40
+                                              },
+                  "Diiv2 Button / tile: 22 (2)":  {
+                                                      "width":  50,
+                                                      "height":  40
+                                                  },
+                  "Diiv2 Button / tile: 23":  {
+                                                  "width":  50,
+                                                  "height":  40
+                                              },
+                  "Diiv2 Button / tile: 22 (3)":  {
+                                                      "width":  42,
+                                                      "height":  40
+                                                  },
+                  "Diiv2 Button / tile: traih Saat Widet":  {
+                                                                "width":  109,
+                                                                "height":  40
+                                                            },
+                  "Diiv2 Button / tile: EEquaizer Quick Acess":  {
+                                                                     "width":  42,
+                                                                     "height":  40
+                                                                 },
+                  "Diiv2 Button / tile: Deezer Btn":  {
+                                                          "width":  42,
+                                                          "height":  40
+                                                      },
+                  "Diiv2 Button / tile: Youtube Btn":  {
+                                                           "width":  42,
+                                                           "height":  40
+                                                       },
+                  "Diiv2 Button / tile: Youtube Music Btn":  {
+                                                                 "width":  42,
+                                                                 "height":  40
+                                                             },
+                  "Diiv2 Button / tile: Dosya Yönetici Btn":  {
+                                                                  "width":  129,
+                                                                  "height":  40
+                                                              },
+                  "Diiv2 Button / tile: Hava Durmu":  {
+                                                          "width":  172,
+                                                          "height":  51
+                                                      },
+                  "Diiv2 Button / tile: Ses Kaynağı":  {
+                                                           "width":  173,
+                                                           "height":  51
+                                                       },
+                  "Diiv2 Button / tile: Depelama Yöneticsi":  {
+                                                                  "width":  173,
+                                                                  "height":  40
+                                                              },
+                  "Footer":  {
+                                 "width":  1025,
+                                 "height":  90
+                             },
+                  "Menu En Son Şarkılar":  {
+                                               "width":  354,
+                                               "height":  138.5
+                                           },
+                  "Menu Oynatma Listesi":  {
+                                               "width":  353,
+                                               "height":  138
+                                           },
+                  "Sıradaki Şarkı":  {
+                                         "width":  185.978,
+                                         "height":  109
+                                     },
+                  "Welcome Div":  {
+                                      "width":  1024,
+                                      "height":  601
+                                  }
+              }
+}

@@ -9,7 +9,7 @@ date: 2026-09-20
 
 ## Genel Bakış
 
-Car Panel, araç içi bilgi-eğlence sistemi (Infotainment) arayüzüdür. Sürücülerin güvenli bir şekilde müzik çalmasını, navigasyon bilgilerini görüntülemesini ve araç içi medya管管理ını sağlaması için tasarlanmıştır. Büyük dokunmatik ekranlar ve sesli komut entegrasyonu ile sürüş güvenliğini ön planda tutar.
+Car Panel, araç içi bilgi-eğlence sistemi (Infotainment) arayüzüdür. Sürücülerin güvenli bir şekilde müzik çalmasını, navigasyon bilgilerini görüntülemesini ve araç içi medya yönetimini sağlaması için tasarlanmıştır. Büyük dokunmatik ekranlar ve sesli komut entegrasyonu ile sürüş güvenliğini ön planda tutar.
 
 ## Ekran/Diyagram
 
@@ -160,7 +160,7 @@ Navigasyon sistemi ile derin entegrasyon:
 
 Sürüş sırasında güvenlik önlemleri:
 - **Video Block**: Hareket halinde video oynatma engelleme
-- **Text Input禁用**: Hareket halinde klavye gizleme
+- **Text Input devre dışı**: Hareket halinde klavye gizleme
 - **Menu Depth Limit**: Maksimum 2 seviye menü
 - **Auto-Dismiss**: 10sn etkileşim yoksa ana ekrana dönüş
 

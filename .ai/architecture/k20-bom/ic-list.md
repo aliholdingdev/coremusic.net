@@ -105,4 +105,4 @@ COREMUSIC devresindeki entegre devreler, güç yönetimi, sinyal işleme ve ampl
 
 ## Durum: Implementasyon
 
-Tüm IC'ler选型 tamamlanmış ve ilk prototiplerde test edilmiştir.
+Tüm IC'lerin seçimi tamamlanmış ve ilk prototiplerde test edilmiştir.

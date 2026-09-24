@@ -167,7 +167,7 @@ Kalibrasyon Prosedürü:
 1. **Cold Start**: -40°C'de fan başlatma zorluğu
    - Çözüm: Düşük hızda starter motor
 2. **Dashboard Isısı**: Güneş altında +80°C
-   - Çözüm:隔热 malzeme, reflection
+   - Çözüm: yalıtım malzemesi, reflection
 3. **Nem Kondensasyonu**: Ani sıcaklık değişimi
    - Çözüm: Conformal coating, desiccant
 

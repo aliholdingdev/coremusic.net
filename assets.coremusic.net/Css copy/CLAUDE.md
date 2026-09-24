@@ -21,7 +21,7 @@ Tüm subdomainlerin stil kaynağı; ITCSS 9+ katman mimarisinin kod karşılığ
 | Giriş dosyası | main.css (tam site), auth-bundled.css (auth akışı) |
 
 ## 3. Komşu İlişkiler
-Parent [[../CLAUDE.md]] · Token SSOT [[../../.ai/ui-design/tokens/CLAUDE.md]] · Katman mimarisi [[../../.ai/architecture/l3-presentation/CLAUDE.md]]
+Parent [[../CLAUDE.md]] · Token SSOT [[../../.ai/ui-design/tokens/design-tokens-master.md]] · Katman mimarisi [[../../.ai/architecture/l3-presentation/CLAUDE.md]]
 
 ## 4. Değişiklik Protokolü
 Katman değişimi → mockup karşılaştırma → PNG doğrulama → log.

@@ -196,7 +196,7 @@ CoreMusic UI bileşenlerinin **tam envanteridir**. Her bileşen için BEM sını
 | Piksel | Embedded: 109×40px panel, 20px icon, 9px text; Desktop: 220×80px panel |
 | Token | `--cm-widget-area-*`, `--cm-widget-panel-*` |
 | Durumlar | default, with-icon, with-text |
-| Tier | Embedded: 2×2 grid (row1) + 1×5 (row2-3); Desktop: 4×4 (row1) + 1×8 (row2-3) |
+| Tier | **Grid kuralı (kullanıcı kuralı > Figma — `reference/figma/grid-rules.md`):** Embedded 1024 → row1 **2×2**, row2 **1×5**, row3 **1×5**; Desktop 1920 → row1 **4×4**, row2 **1×8**, row3 **1×8** (her row kendi başına sayılır; C18 quick-apps row2/row3 slotlarını doldurur) |
 
 ### C18: Quick Apps Row
 
@@ -206,7 +206,7 @@ CoreMusic UI bileşenlerinin **tam envanteridir**. Her bileşen için BEM sını
 | Piksel | Embedded: 129×40px button, 45px icon, 8.5px text; Desktop: 200×60px button |
 | Token | `--cm-quick-app-*` |
 | Durumlar | default, hover, active |
-| Tier | Embedded: 1×5 row; Desktop: 1×8 row |
+| Tier | **Grid kuralı ile hizalı** (`reference/figma/grid-rules.md`): Embedded 1024 → row2 ve row3'te **1×5**; Desktop 1920 → row2 ve row3'te **1×8** (row1 slotu C17 widget grid'inin 2×2 / 4×4'üdür) |
 
 ### C19: Mini Card
 

@@ -2,17 +2,17 @@
 title: "CoreMusic — Agent Registry & Coordination Protocol"
 type: guide
 category: agent-registry
-version: 22.0.0
+version: 22.0.2
 status: active
 authority: SSOT
-updated: 2026-09-23
+updated: 2026-09-24
 ---
 
 # CoreMusic — Agent Registry & Coordination Protocol
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[VISION.md]] · [[PROJECTS.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (10 skill — Guardrail #16 zorunlu)
+**Skills:** `.opencode/skills/` (6 aktif + 9 arşiv skill — Guardrail #16 zorunlu)
 
 ---
 
@@ -39,7 +39,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 
 ### §2.1 Registry Authority
 
-Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil indeksi** olarak hizmet eder — v1.0.0 iken kendi SSOT iddiasını taşırken Faz 4'te (2026-09-23) demote edilmiştir: v1.1.0, `authority: Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)` (detay §26.2). Çelişkide kök dosya kazanır.
+Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil indeksi** olarak hizmet eder — v1.0.0 iken kendi SSOT iddiasını taşırken Faz 4'te (2026-09-23) demote edilmiştir (kayıt: v1.1.0; güncel: **v1.2.1**), `authority: Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)` (detay §26.2). Çelişkide kök dosya kazanır.
 
 ---
 
@@ -115,6 +115,7 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 2. Fallback: `index.md`
 3. Token aşımı önlenir: gereksiz dosya okunmaz
 4. **İstisna:** Görsel referanslar (`.ai/ui-design/screens/**`, `.ai/.png/**`)
+5. **Şablon Zorunlu Okuma (Guardrail #16):** `.ai/ui-design/**` içine dosya yazmadan ÖNCE `.ai/.templates/ui-design/` altındaki kalıp şablonu okunur — referans/tokens/index → `[[.templates/ui-design/reference-template]]` (Kalıp A) · flow → `[[.templates/ui-design/flow-template]]` (Kalıp B) · prompt → `[[.templates/ui-design/prompt-template]]` (Kalıp C) · screens → `[[.templates/ui-design/screen-spec-template]]` (Kalıp D). Şablonsuz ui-design dosyası üretilmez (§7.3).
 
 **Mockup Before Frontend:** CSS/HTML/JS/layout/bileşen görevlerinde `.ai/ui-design/` altındaki ilgili görsel okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir.
 
@@ -122,7 +123,7 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 
 ### §14 Mandatory 5 Skills (ADR-042/C4)
 
-> **Faz 1 doğrulama notu (2026-09-08):** Bu tablo **disiplin maskesidir** — diskte mevcut skill klasörleri `.opencode/skills/` altındaki 10 kanonik skill'dir ([[index.md]] §11B). `/brainstorming` ve `/vault-sync` için ayrı skill klasörü YOKTUR; bu işlevler sırasıyla sistem promptundaki brainstorming becerisi ve `.workflows/vault-sync.md` akışıyla yürütülür.
+> **Faz 1 doğrulama notu (2026-09-08):** Bu tablo **disiplin maskesidir** — diskte mevcut skill klasörleri `.opencode/skills/` altındaki 6 aktif + 9 arşiv skill'dir (toplam 15 SKILL.md; [[index.md]] §11B). `/brainstorming` ve `/vault-sync` için ayrı skill klasörü YOKTUR; bu işlevler sırasıyla sistem promptundaki brainstorming becerisi ve `.workflows/vault-sync.md` akışıyla yürütülür.
 
 | # | Skill | Amaç | Kullanım |
 |---|-------|------|----------|
@@ -229,6 +230,7 @@ Kullanıcı İsteği
 | UI Design uyumu | [[ui-design/01-mockup-index]] (19 PNG + 45-tier cihaz matrisi) ve C01-C16 kontrolü; referans sırası: PNG > ASCII art > Inventory > Tokens > Reference (01-10) | Mockup okunmadıysa → DUR |
 | 45-Tier uyumu | [[ui-design/reference/10-device-specific-guidelines]] tier kontrolü; responsive token'lar | Tier kuralı ihlal edilmişse → RED |
 | Responsive uyum | [[ui-design/05-responsive-architecture]] §7.4 (4K'da ortalamama) + §12 (fallback zorunlu) | Tier kuralı ihlal edilmişse → RED |
+| Şablon zorunluluğu | `.ai/.templates/ui-design/{reference,flow,prompt,screen-spec}-template.md` (Kalıp A-D) — görev tipine göre ilgili şablon okundu mu? | Şablon okunmadıysa → DUR (Guardrail #16) |
 | Önceki görev başarısız mı? | Retry / escalation | Max 3 retry |
 
 #### §7.3 Step 3: Task Assignment
@@ -474,13 +476,13 @@ Ajan dosyaya erişmek ister
 
 | Agent | Zorunlu Okuma |
 |-------|---------------|
-| Backend | `architecture/l2-routing/*.md`, `ADR-083*.md`, `shared/src/PageRouter/` |
-| Frontend | `ui-design/01-mockup-index.md`, `ui-design/02-component-inventory.md`, `architecture/l3-presentation/*.md` |
-| Security | `architecture/l1-security/*.md`, `ADR-010*.md`, `shared/src/Middleware/` |
-| Data | `architecture/k0-k5-software/k0-os-layer/*.md`, `.ai/.sql/mysql/*.sql`, `shared/src/Database/` |
-| Embedded | `projects/NevaEngine/*.md`, `electronic/dsp/*.md`, `electronic/firmware/*.md` |
-| QA | `ui-design/03-accessibility-gaps.md`, `ui-design/screens/**/*.md`, `reports/` |
-| DevOps | `architecture/02-deployment/*.md`, `ecosystem/*.md` |
+| Backend | `architecture/k9-api-routing/*.md`, `.ai/.decisions/index.md` (ADR-083), `shared/src/PageRouter/` |
+| Frontend | `ui-design/01-mockup-index.md`, `ui-design/02-component-inventory.md`, `architecture/k11-ux/*.md`, `.ai/.templates/ui-design/*-template.md` (Kalıp A-D — Guardrail #16 zorunlu okuma) |
+| Security | `architecture/k6-guvenlik/*.md`, `.ai/.decisions/index.md` (ADR-010), `shared/src/Middleware/` |
+| Data | `architecture/k0-isletim-sistemi/*.md`, `.ai/.sql/mysql/*.sql`, `shared/src/Database/` |
+| Embedded | `.ai/projects/NevaEngine/*.md` ⚠️ VERIFICATION REQUIRED (dizin var, 0 dosya); `electronic/dsp/*.md`, `electronic/firmware/*.md` ⚠️ YOK → gerçek: `architecture/firmware/*.md`, `architecture/k3-ses-motoru/*.md`, `architecture/k1-donanim/*.md` |
+| QA | `ui-design/04-accessibility-gaps.md`, `ui-design/screens/**/*.md`, `.ai/reports/` |
+| DevOps | `architecture/k13-cicd/*.md`, `.ai/ecosystem/*.md` |
 
 #### §24.4 Automatic Cleanup
 
@@ -525,7 +527,7 @@ Her dosya için kontrol et:
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 22.0.0 |
+| Version | 22.0.2 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 |
 | Agent Count | 11 (1 MO + 10 specialist) |
@@ -554,7 +556,7 @@ Her dosya için kontrol et:
 | 1 | Kök 14 boot dosyası (satır-satır edit, 500+ hedef) | ÇALIŞIYOR |
 | 2 | architecture/ alt fazlar | Pending |
 | 3 | ecosystem, servers, subdomains, scripts | Pending |
-| 4 | ui-design çekirdek + tokens + flow | Pending |
+| 4 | ui-design çekirdek + tokens + flow (`.templates/ui-design/` Kalıp A-D üretildi 2026-09-24 — 4 şablon; ui-design dosyaları beklemede) | Pending |
 | 5 | decisions appendix (frozen ADR'ler) | Pending |
 | 6 | electronic, projects | Pending |
 
@@ -562,11 +564,11 @@ Her dosya için kontrol et:
 
 | Agent | Teknoloji | Kanıt (IMPLEMENTED) |
 |-------|-----------|---------------------|
-| Backend | PHP 8.4, PSR, php-di, fast-route | 4 composer.json |
-| Security | Middleware ×4 (PSR-15) | shared/src/Middleware/ |
+| Backend | PHP 8.4, PSR, php-di, fast-route | 3 composer.json |
+| Security | Middleware ×11 (PSR-15) | shared/src/Middleware/ |
 | Data | SQL şema (18 DB) | .ai/.sql/mysql/ |
-| QA | PHPUnit ^10.5/^11.0, PHPStan | require-dev |
-| UI/Embedded/DSP/Windows/DevOps | Vanilla JS/C++20/xcc/C#/CI | PLANNED (spec mevcut) |
+| QA | PHPUnit ^10.5/^11.0, PHPStan | require-dev · `shared/tests/` 22 dosya |
+| UI/Embedded/DSP/Windows/DevOps | Vanilla JS/C++20/xcc/C#/CI | PLANNED (spec mevcut; `.github/workflows/` = 0 dosya) |
 
 #### §25.3 Orchestration Rules of This Revision
 
@@ -603,8 +605,8 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 
 | Kaynak | Eski Durum | Yeni Durum |
 |--------|-----------|------------|
-| `.ai/AGENTS.md` (kök) | v21.0.0, SSOT iddiası | **v22.0.0 — tek SSOT** |
-| `.ai/.agents/AGENTS.md` (alt) | v1.0.0, kendini SSOT ilan ediyordu | v1.1.0 — **alt registry** (`authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)"`) |
+| `.ai/AGENTS.md` (kök) | v21.0.0, SSOT iddiası | **v22.0.2 — tek SSOT** |
+| `.ai/.agents/AGENTS.md` (alt) | v1.0.0, kendini SSOT ilan ediyordu | v1.2.1 — **alt registry** (`authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)"`) |
 
 Çözüm kuralı: SSOT hiyerarşisinde çelişkide kök dosya kazanır. Alt registry yalnızca profil/özet detayını taşır; routing, handover, escalation, öncelik kurallarının tamamı bu dosyadadır.
 
@@ -612,7 +614,7 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 
 #### §26.3 Phase 1 Verification
 
-- [x] Frontmatter 7 alan; version 22.0.0; updated 2026-09-23
+- [x] Frontmatter 7 alan; version 22.0.1; updated 2026-09-24
 - [x] Mojibake temizlendi (vault geneli 745 düzeltme)
 - [x] §1-§25 korundu, silme yok; yeni bölüm §26 olarak eklendi
 - [x] `.agents/AGENTS.md` SSOT iddiası kaldırıldı → alt registry uyarısı + H1 düzeltmesi eklendi
@@ -692,5 +694,5 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-24
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -382,7 +382,7 @@ SPA → /login redirect → auth.coremusic.net/login
 ### 10.3 Cross-Origin Koruması
 
 - Sadece beyaz listedeki subdomainler iletişim kurabilir
-- CORS header'ları严格 olarak yapılandırılmıştır
+- CORS header'ları katı olarak yapılandırılmıştır
 - `credentials: 'include'` ile cookie paylaşımı
 
 ---

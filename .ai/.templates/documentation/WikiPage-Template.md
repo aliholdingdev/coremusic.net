@@ -118,7 +118,7 @@ Yeni bir sayfa hangi dizine konur? Karar verilmez, aşağıdaki tablodan okunur.
 | Vault kök dosyaları | `.ai/*.md` (CLAUDE, AGENTS, WORKFLOW, brain, glossary, index) | ✅ MEVCUT |
 | Alt dizinler | `.ai/.agents/`, `.ai/.decisions/`, `.ai/.templates/`, `.ai/.sql/` | ✅ MEVCUT |
 | Workflow'lar | `.workflows/*.md` | ✅ MEVCUT (8 dosya) |
-| Şablonlar | `.ai/.templates/**/*.md` | ✅ MEVCUT (26 dosya) |
+| Şablonlar | `.ai/.templates/**/*.md` | ✅ MEVCUT (28 dosya) |
 | `vault-cmd.mjs` scripti | `.ai/scripts/vault-cmd.mjs` | ⚠️ DOĞRULANACAK — yoksa manuel denetim · ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel |
 | Uydurma dizin/yol | — | ❌ YAZILMAZ |
 
@@ -497,7 +497,7 @@ grep -o '\[\[[^]]*\]\]' <WIKI-PAGE-FILE>
 grep -E '^(title|type|category|date|updated|version|status|authority):' <WIKI-PAGE-FILE>
 
 # 4) Mojibake taraması — sonuç 0 olmalı
-grep -E 'Ã|Â|ï¿½' <WIKI-PAGE-FILE>
+grep -aP 'Ã|Â|\x{FFFD}' <WIKI-PAGE-FILE>
 ```
 
 *(`<WIKI-PAGE-FILE>` gerçek dosya yolu ile değiştirilir; script varsa `node .ai/scripts/vault-cmd.mjs chk` tercih edilir. ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel.)*

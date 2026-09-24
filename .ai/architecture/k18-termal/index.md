@@ -93,7 +93,7 @@ Isı Kaynağı (CPU, Amp, DAC)
          ▼
 ┌──────────────────┐
 │  Fan / Konveksiyon│  Active Soğutma
-│  Hava Akışı      │  (PWM Fan,自然 hava akımı)
+│  Hava Akışı      │  (PWM Fan, doğal hava akımı)
 └────────┬─────────┘
          │
          ▼

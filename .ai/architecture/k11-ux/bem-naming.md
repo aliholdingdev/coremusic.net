@@ -24,7 +24,7 @@ BEM (Block-Element-Modifier), CSS selector'larının maintainability ve readabil
 
 ### 1. Block
 
-Bir blok, bağımsız olarak yeniden kullanılabilen bileşendir. Hiçbir外部 bağımlılığı yoktur.
+Bir blok, bağımsız olarak yeniden kullanılabilen bileşendir. Hiçbir dış bağımlılığı yoktur.
 
 ```scss
 // ✅ DOĞRU: Bağımsız blok isimleri

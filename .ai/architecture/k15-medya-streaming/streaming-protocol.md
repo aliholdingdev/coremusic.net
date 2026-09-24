@@ -132,7 +132,7 @@ HLS vs DASH Karşılaştırması:
 │ Segment Format   │ TS / fMP4       │ fMP4            │
 │ Live Streaming   │ LL-HLS          │ LL-DASH         │
 │ Offline          │ Vanilla HLS     │ DASH.js         │
-│ Ekosistem        │ Apple主导        │ Open standard   │
+│ Ekosistem        │ Apple hâkim        │ Open standard   │
 │ phức tạplık      │ Düşük           │ Orta-Yüksek     │
 └──────────────────┴─────────────────┴─────────────────┘
 ```

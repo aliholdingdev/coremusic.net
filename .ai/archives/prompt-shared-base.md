@@ -51,7 +51,7 @@ changelog:
   - version: 2.0.0
     date: 2026-08-15
     changes:
-      - İlk versiyon —所有 promptların ortak temeli
+      - İlk versiyon — tüm promptların ortak temeli
       - ROLE, sistem tanımı, L0-L6, SOLID, Clean Code tek kaynak
 ---
 

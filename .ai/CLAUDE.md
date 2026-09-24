@@ -2,7 +2,7 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.2.0
+version: 27.3.0
 status: active
 authority: SSOT
 updated: 2026-09-24
@@ -520,7 +520,7 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 | 12 | Contradiction Gate | Vault'ta çelişki varsa kullanıcıya sor, onay bekle | İşlem durur |
 | 13 | Session Continuity | Her oturum başlangıcında geçmiş session'dan devam et | Bağlam kaybolur |
 | 14 | Human Approval Gate | Mimari karar öncesi kullanıcı onayı zorunlu | Kod revert edilir |
-| 16 | Template Mandatory | Yeni dosya oluşturulurken `.ai/.templates/index.md`'den uygun template seçilmek ZORUNLU | Dosya geçersiz |
+| 16 | Template Mandatory | Yeni dosya oluşturulurken `.ai/.templates/index.md`'den uygun template seçilmek ZORUNLU; **`.ai/ui-design/**` görevlerinde ayrıca Kalıp A-D şablonu okunur** (`.ai/.templates/ui-design/{reference,flow,prompt,screen-spec}-template.md` — §7.3) | Dosya geçersiz |
 | 17 | Single Component Responsive | 1024x600 mockup = pixel reference ([[ui-design/screens/00-ascii-art-index]]: Header 60px y:0-60, İçerik 450px y:60-510, Footer 90px y:510-600). Tek component sistemi + responsive CSS. Ayrı HTML/branch YASAK. CSS variables + media queries. Device CSS sadece behavioral override. | Kod revert edilir |
 
 #### §7.1 Guardrail #11 Detail — Frontend Mandatory Reading Protocol
@@ -548,6 +548,23 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 - Eski Guardrail #15 (Vault-First Mandatory), #2 (Vault First) ile birleştirildi (2026-09-23, Vault Refactor Engine v27.0.0). Toplam: 17 → 16 madde; satır numaraları 1-14, 16, 17 olarak korundu.
 - ⚠️ VERIFICATION REQUIRED: [[ROLE.md]] §435 hâlâ "Guardrail #15" referansı içerir — ROLE.md bu revizyon kapsamı dışıdır; referansın #2'ye güncellenmesi gerekir.
 - Kontrol (2026-09-24): [[ROLE.md]] §11.3 "Revert + CLAUDE.md §5 kuralı" satırı doğrulandı — §5 içindeki §5.1 Layer Dependency Matrix ("Layer Violation İhlali: derhal revert + log CRITICAL") ile eşleşir; referans geçerlidir, daha dar alternatif Guardrail #1 (Zero Code Before Plan) / #14 (Human Approval Gate) olurdu. ROLE.md kapsam dışı — satır değiştirilmedi.
+
+---
+
+#### §7.3 Guardrail #16 Detail — ui-design Şablon Zorunlu Okuma (Kalıp A-D)
+
+**⚠️ ZORUNLULUK:** `.ai/ui-design/**` altında yeni veya güncellenen `.md` üretilirken ilgili kalıp şablonu OKUNMADAN dosya yazılamaz. Registry: `[[.templates/index]]` · kalıp kaynağı (salt-okunur): `.ai/ui-design/reference/legacy-inventory.md` §"Şablon kalıpları".
+
+| Görev tipi | Dosya deseni | Zorunlu şablon | Kalıp |
+|------------|--------------|----------------|-------|
+| Referans / spec / token dokümanı | `ui-design/` kök `0*.md`, `tokens/*.md`, `reference/*.md`, `*index*.md` | `[[.templates/ui-design/reference-template]]` | A |
+| Flow dosyası | `ui-design/flow/<kategori>/NN-*.md` | `[[.templates/ui-design/flow-template]]` | B |
+| Kod üretim promptu | `ui-design/prompt/{component,page,screen,layout}/*.md` | `[[.templates/ui-design/prompt-template]]` | C |
+| Ekran spesifikasyonu | `ui-design/screens/<tier>/*.md` | `[[.templates/ui-design/screen-spec-template]]` | D |
+
+**İhlal Prosedürü:** şablonsuz ui-design dosyası → dosya geçersiz (Guardrail #16) → düzelt veya sil + `log.md` CRITICAL girişi.
+
+**Boot bağlantısı:** `session-init.md` boot listesine bu iş için 2 kayıt eklendi — `[[ui-design/01-mockup-index]]` (19 PNG mockup indeksi) ve `[[ui-design/00-device-matrix]]` (45-tier cihaz matrisi).
 
 ---
 
@@ -613,7 +630,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 **Detay:** [[.templates/index]]
 
-> ✅ GİDERİLDİ (ölçüm 2026-09-24): disk glob = 26 template dosyası; [[.templates/index]] üzerinden doğrulandı. (Eski kayıt: 19 — 2026-09-23 sahip doğrulaması.)
+> ✅ GİDERİLDİ (ölçüm 2026-09-24): disk glob = 28 template dosyası (+2 yeni şablon: claude-md + docs-md, 2026-09-24); [[.templates/index]] üzerinden doğrulandı. (Eski kayıtlar: 26 — 2026-09-24 sabah, 19 — 2026-09-23 sahip doğrulaması.)
 
 ---
 
@@ -700,7 +717,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 27.2.0 |
+| Version | 27.3.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 34 |
 | Hard Guardrails | 16 |
@@ -912,5 +929,5 @@ Agent listesi ve profil tablosu (11 agent): [[AGENTS.md]] §4 (Agent Overview) v
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-24
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -247,7 +247,7 @@ shared/
 | 8 | Port 81 = music.coremusic.net | PHP 8.4 | Yanlış port yasak |
 | 9 | No ORM | Raw PDO only (ADR-002) | ORM kullanımı reddedilir |
 | 10 | No Frameworks | Vanilla JS + ITCSS (ADR-001) | Framework reddedilir |
-| 11 | **Mockup Before Frontend** | **KESİNLİKLE YASAK:** Frontend görevinde `.ai/ui-design/00-mockup-index.md` + `.ai/ui-design/01-component-inventory.md` (19 PNG mockup, C01-C16 envanteri) + `.ai/ui-design/tokens/design-tokens-master.md` OKUNMADAN kod yazılamaz. Görsel okunamıyorsa DUR ve bildir. | **Kod derhal revert edilir + CRITICAL log** |
+| 11 | **Mockup Before Frontend** | **KESİNLİKLE YASAK:** Frontend görevinde `.ai/ui-design/01-mockup-index.md` + `.ai/ui-design/02-component-inventory.md` (19 PNG mockup, C01-C16 envanteri) + `.ai/ui-design/tokens/design-tokens-master.md` OKUNMADAN kod yazılamaz. Görsel okunamıyorsa DUR ve bildir. | **Kod derhal revert edilir + CRITICAL log** |
 | 12 | Contradiction Gate | Vault'ta çelişki varsa kullanıcıya sor, onay bekle | İşlem durur |
 | 13 | Session Continuity | Her oturum başlangıcında geçmiş session'dan devam et | Bağlam kaybolur |
 | 14 | Human Approval Gate | Mimari karar öncesi kullanıcı onayı zorunlu | Kod revert edilir |
@@ -261,11 +261,11 @@ shared/
 
 | Sıra | Dosya | İçerik | Kullanım Anı |
 |------|-------|--------|-------------|
-| 1 | `.ai/ui-design/00-mockup-index.md` | 19 PNG mockup indeksi (home-1024 + home-1920 + shared-1024), hangi görsellerin mevcut olduğu | İlk okunacak — hangi ekranlar var? |
-| 2 | `.ai/ui-design/01-component-inventory.md` | C01-C16 BEM sınıfları, pixel ölçümleri, token referansları | Bileşen kodlarken |
+| 1 | `.ai/ui-design/01-mockup-index.md` | 19 PNG mockup indeksi (home-1024 + home-1920 + shared-1024), hangi görsellerin mevcut olduğu | İlk okunacak — hangi ekranlar var? |
+| 2 | `.ai/ui-design/02-component-inventory.md` | C01-C16 BEM sınıfları, pixel ölçümleri, token referansları | Bileşen kodlarken |
 | 3 | `.ai/ui-design/tokens/design-tokens-master.md` | Renk, boşluk, tipografi, cam token'ları | CSS yazarken |
 | 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: [[screens/B-home/dashboard-1920]]) | Layout hizalamada |
-| 5 | `.ai/ui-design/responsive-device-mode.md` | Cihaz bazlı CSS override kuralları — **§7.4 4K No-Center (4K'da ortalamama YASAK)** ve **§12 Geriye Dönük Uyumluluk (fallback ZORUNLU)** bağlayıcıdır | Device-specific CSS'te |
+| 5 | `.ai/ui-design/05-responsive-architecture.md` | Cihaz bazlı CSS override kuralları — **§7.4 4K No-Center (4K'da ortalamama YASAK)** ve **§12 Geriye Dönük Uyumluluk (fallback ZORUNLU)** bağlayıcıdır | Device-specific CSS'te |
 
 **Referans Sıralaması (çelişki durumunda):** PNG > ASCII art > Component Inventory > Tokens > Implementation Plan.
 
@@ -283,7 +283,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | # | Kural | Açıklama |
 |---|-------|----------|
-| 1 | **Vault-First Mandatory** | AI, vault'u okumadan kod yazamaz. Okuma sırası: CLAUDE.md → AGENTS.md → WORKFLOW.md → index.md → keys.md → brain.md → MEMORY.md → log.md → engine.md → ROLE.md → (Frontend görevlerinde [[ui-design/00-mockup-index]] ve [[ui-design/01-component-inventory]] ZORUNLU) |
+| 1 | **Vault-First Mandatory** | AI, vault'u okumadan kod yazamaz. Okuma sırası: CLAUDE.md → AGENTS.md → WORKFLOW.md → index.md → keys.md → brain.md → MEMORY.md → log.md → engine.md → ROLE.md → (Frontend görevlerinde [[ui-design/01-mockup-index]] ve [[ui-design/02-component-inventory]] ZORUNLU) |
 | 2 | **Çelişki Durumu** | Vault'ta çelişki varsa DUR ve kullanıcıya sor. Onay alınmadan hiçbir işlem yapılmaz |
 | 3 | **Onay Zorunlu** | Mimari karar, yeni dosya, büyük değişiklik öncesi kullanıcı onayı zorunlu |
 | 4 | **Session Continuity** | Her oturum başında geçmiş session'dan devam et. `log.md` ve `MEMORY.md` okunur |
@@ -669,7 +669,7 @@ Her oturum başlangıcında sırayla okunur:
 | § 20 ADR | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault standardı |
 | § 20A Master Plan | [[architecture/03-contracts/master-implementation-plan]] | 5 faz, 40 gün implementasyon |
 | § 20B ADR-087 | [[decisions/accepted/ADR-087-master-implementation-plan]] | Master plan ADR |
-| § 12A UI Design | [[ui-design/00-mockup-index]] | 19 PNG Mockup, C01-C16, 1024x600 SSOT |
+| § 12A UI Design | [[ui-design/01-mockup-index]] | 19 PNG Mockup, C01-C16, 1024x600 SSOT |
 
 ---
 

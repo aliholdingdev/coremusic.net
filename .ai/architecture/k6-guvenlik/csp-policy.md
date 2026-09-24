@@ -46,7 +46,7 @@ Politika ihlalleri raporlama endpoint'ine gönderilir. Bu veriler güvenlik anal
 
 ### Strict-Dynamic
 
-`strict-dynamic` directive'i, meşru script'lerin yüklediği tüm script'leri otomatik olarak信任 eder. Bu sayede third-party script bağımlılığı azalır.
+`strict-dynamic` directive'i, meşru script'lerin yüklediği tüm script'leri otomatik olarak güvenir. Bu sayede third-party script bağımlılığı azalır.
 
 ## Konfigürasyon / Kod
 

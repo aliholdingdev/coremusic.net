@@ -316,7 +316,7 @@ void write_to_windows_shared_memory(SharedAudioBuffer *shared, float *data, int 
 
 ### 4. Message Queues
 
-POSIX Message Queues, reliable mesaj传递 için:
+POSIX Message Queues, reliable mesaj iletimi için:
 
 ```c
 #include <mqueue.h>

@@ -39,7 +39,7 @@ enum class BiquadType {
     LowPass,        // Düşük frekans geçirgen
     HighPass,       // Yüksek frekans geçirgen
     BandPass,       // Bant geçiren
-    Notch,          // Bant阻挡
+    Notch,          // Bant engelleme
     Peak,           // Peak (EQ için)
     LowShelf,       // Düşük raf
     HighShelf,      // Yüksek raf

@@ -9,7 +9,7 @@ date: 2026-09-20
 
 ## Genel Bakış
 
-Reverb efekti, sesin bir ortamda yankılanmasını simüle eder. COREMUSIC, Freeverb algoritmasını kullanarak oda modelleme ve erken yansıtma (early reflections) sağlar. Paralel ve seri allpass梳状 filtreler ile doğal reverb üretir.
+Reverb efekti, sesin bir ortamda yankılanmasını simüle eder. COREMUSIC, Freeverb algoritmasını kullanarak oda modelleme ve erken yansıtma (early reflections) sağlar. Paralel ve seri allpass ve comb filtreler ile doğal reverb üretir.
 
 ## Teknik Detaylar
 

@@ -112,4 +112,4 @@ COREMUSIC donanımında kullanılan konnektörler, profesyonel ses, tüketici el
 
 ## Durum: Implementasyon
 
-Tüm konnektörler选型 tamamlanmış ve mekanik uyumluluk doğrulanmıştır.
+Tüm konnektörlerin seçimi tamamlanmış ve mekanik uyumluluk doğrulanmıştır.

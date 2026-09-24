@@ -36,7 +36,7 @@ HTTP İsteği
 Handler (K6)
 ```
 
-Origin Check, CORS middleware'inden sonra çalışır. CORS门前osa Horse olsun, Origin Check第二个防线tır. CORS olmayan isteklerde bile doğrulama yapar.
+Origin Check, CORS middleware'inden sonra çalışır. CORS ister kapıda olsun ister olmasın, Origin Check ikinci savunma hattıdır. <!-- ⚠️ VERIFICATION REQUIRED: "门前osa Horse" bozuk metindi, bağlama göre yazıldı (2026-09-24) --> CORS olmayan isteklerde bile doğrulama yapar.
 
 ## Teknik Detaylar
 
@@ -283,4 +283,4 @@ public function test_valid_origin_passes_through(): void
 | Faz 2 | Origin ve Referer kontrolü | Planlandı |
 | Faz 3 | Wildcard ve pattern desteği | Planlandı |
 | Faz 4 | Blacklist entegrasyonu | Planlandı |
-| Faz 5 | Test覆盖率 ve edge case'ler | Planlandı |
+| Faz 5 | Test kapsamı ve edge case'ler | Planlandı |

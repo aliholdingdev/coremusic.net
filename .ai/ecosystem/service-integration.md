@@ -19,7 +19,7 @@ version: 1.0.0
 | WebSocket | Real-time | Audio, Download |
 | Event Bus | Async | PSR-14 |
 | gRPC | High-perf | Audio → Device |
-| IPC | Process间 | Native servisler |
+| IPC | Süreçler arası | Native servisler |
 
 ## Event Types
 

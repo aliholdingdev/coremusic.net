@@ -13,7 +13,7 @@ status: "draft"
 
 K7 Middleware katmanı, COREMUSIC web API'sinin HTTP isteklerini işleyen ara katmanları yönetir. Bu katman, PSR-15 standartlarına uygun HTTP middleware pipeline'ı kullanarak istek/yanıt döngüsünü denetler. Güvenlik, performans ve izlenebilirlik endişelerini merkezi bir noktada ele alır.
 
-Middleware'ler确诊Tween HTTP isteği (Request) ile uygulama mantığı (Handler) arasına yerleştirilir. Her middleware kendi sorumluluğunu yerine getirir, isteği değiştirir veya doğrudan yanıt döndürür.
+Middleware'ler, HTTP isteği (Request) ile uygulama mantığı (Handler) arasına yerleştirilir. Her middleware kendi sorumluluğunu yerine getirir, isteği değiştirir veya doğrudan yanıt döndürür.
 
 ## Pipeline Pozisyonu
 

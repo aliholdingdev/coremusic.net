@@ -33,7 +33,7 @@ tier: T9-car
 | Max text amount | Minimal | Dikkat dağıtma |
 | Animation | ≥400ms | Yavaş geçiş |
 | Color contrast | ≥7:1 | Güneş ışığında okunabilirlik |
-| Voice control | Zorunlu | Göz yolu讨论晴 |
+| Voice control | Zorunlu | Göz yolu kritik ⚠️ VERIFICATION REQUIRED |
 | Max menu depth | 2 | Hızlı erişim |
 | Font scale | 1.8× | Büyük okunabilirlik |
 

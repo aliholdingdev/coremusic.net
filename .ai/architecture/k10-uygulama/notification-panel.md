@@ -202,7 +202,7 @@ interface QuietHours {
 Anlık bildirimler için toast mekanizması:
 - **Position**: Üst sağ (varsayılan), alt sağ, üst orta
 - **Duration**: Varsayılan 5000ms, error 8000ms
-- **Stacking**: Maks 3同一 Anda visible toast
+- **Stacking**: Maks 3 aynı anda visible toast
 - **Dismiss**: Tıklama ile kapatma, otomatik kaybolma
 - **Action**: Tek tıklama ile işlem (indirme aç, ayarları göster)
 - **Queue**: Yeni toast'lar kuyruğa alınır

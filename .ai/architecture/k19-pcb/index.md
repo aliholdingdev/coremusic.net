@@ -88,7 +88,7 @@ PCB üzerindeki sinyaller üç ana kategoride sınıflandırılır:
 
 **1. Yüksek Hızlı Dijital Sinyaller**
 - I2S Bus: BCLK (12.288 MHz), LRCK (48 kHz), SDATA
-- SPI Flash:高达50 MHz clock
+- SPI Flash:50 MHz clock'a kadar
 - USB 2.0: 480 Mbps differential
 - GPIO expander communication
 

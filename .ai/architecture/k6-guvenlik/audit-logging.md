@@ -19,7 +19,7 @@ Güvenlik denetim kayıtları (audit logging), COREMUSIC platformunda gerçekle�
 ┌─────────────────────────────────────────────────────────┐
 │                   AUDIT LOG KATEGORİLERİ                │
 ├─────────────────┬───────────────────────────────────────┤
-│ Authentication  │ Login, logout,失败, token refresh    │
+│ Authentication  │ Login, logout, başarısızlık, token refresh    │
 │ Authorization   │ Permission grant, deny, role change   │
 │ Data Access     │ CRUD operations on sensitive data     │
 │ System Config   │ Config changes, secret rotation       │

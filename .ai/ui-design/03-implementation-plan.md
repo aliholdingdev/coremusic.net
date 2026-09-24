@@ -73,7 +73,7 @@ CoreMusic UI CSS implementasyonunun **15 adımlık yol haritasıdır**. Her adı
 ### Adım 7: Home Components (T=2)
 
 **Dosya:** `05_Pages/_home-components.css`
-**İçerik:** Widget grid, recent cards, playlist, up-next
+**İçerik:** Widget grid (kullanıcı grid kuralı — `reference/figma/grid-rules.md`): 1024 → row1 2×2, row2 1×5, row3 1×5; 1920 → row1 4×4, row2 1×8, row3 1×8 + recent cards, playlist, up-next
 **Bağımlılık:** Adım 6
 **Süre:** 3 saat
 

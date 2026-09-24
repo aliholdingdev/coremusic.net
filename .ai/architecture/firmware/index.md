@@ -68,7 +68,7 @@ firmware/
 │   │   │   ├── dsp.xc               # DSP processing chain
 │   │   │   └── gpio.xc              # GPIO control
 │   │   ├── module_*.xn              # XN dosyaları (board config)
-│   │   └── Makefile                 # xmos构建 sistemi
+│   │   └── Makefile                 # xmos build sistemi
 │   │
 │   └── modules/                     # Ortak modüller
 │       ├── usb_audio/               # USB Audio Class modülü

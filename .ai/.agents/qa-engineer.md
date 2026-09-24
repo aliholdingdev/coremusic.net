@@ -3,8 +3,8 @@ title: QA Engineer — Test Mühendisi Agent Profili
 type: agent-profile
 category: agents
 date: 2026-08-08
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-24
+version: 2.1.1
 status: active
 authority: reference
 ---
@@ -355,17 +355,17 @@ QA'nın kendi içine geri dönen handoverlar da vardır: `code-reviewer` test ek
 
 | Kaynak | Neden | Ne Zaman |
 |---|---|---|
-| `.ai/AGENTS.md` | SSOT — routing, eşikler, handover | Her çalışma başı |
-| `.ai/ROLE.md` | Persona ve dil kuralları | Her çalışma başı |
-| `.ai/.templates/agents/agents-template.md` | Profil iskeleti | Profil güncellemesinde |
-| `.ai/.templates/qa/phpunit-template.md` | Test şablonları | Test yazımında |
-| `.ai/.templates/qa/vitest-template.md` | Front-end test şablonu (PLANNED) | JS test yazımında |
-| `.ai/.templates/index.md` | Şablon eşleşme tablosu | Şablon ararken |
-| `.ai/log.md` | Geçmiş kararlar (salt-okunur) | Belirsizlikte |
+| [[../AGENTS.md]] | SSOT — routing, eşikler, handover | Her çalışma başı |
+| [[../ROLE.md]] | Persona ve dil kuralları | Her çalışma başı |
+| [[../.templates/agents/agents-template.md]] | Profil iskeleti | Profil güncellemesinde |
+| `.ai/.templates/qa/phpunit-template.md` | Test şablonları | Test yazımında ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| `.ai/.templates/qa/vitest-template.md` | Front-end test şablonu (PLANNED) | JS test yazımında ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| [[../.templates/index.md]] | Şablon eşleşme tablosu | Şablon ararken |
+| [[../log.md]] | Geçmiş kararlar (salt-okunur) | Belirsizlikte |
 | `phpunit.xml` | Koşu yapılandırması | Test koşturmadan önce |
 | `composer.json` (require-dev) | Bağımlılık kanıtı | Stack iddiasında |
 | `.ai/.decisions/**` | Yasak/onay kararları (supra-otorite) | Supra-otorite sorgusunda |
-| `.ai/.workflows/**` | İş akışı adımları | Uzun görev başında |
+| `.ai/.workflows/**` | İş akışı adımları | Uzun görev başında ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
 | `ui-design/03-accessibility-gaps.md` | §24.3 QA zorunlu okuma (SSOT) | Erişilebilirlik testinde |
 | `ui-design/screens/**/*.md` | §24.3 QA zorunlu okuma (SSOT) | UI test yazarken |
 | `reports/` | §24.3 QA zorunlu okuma (SSOT) | Rapor doğrularken |
@@ -506,33 +506,33 @@ Gözlemlenemeyen sinyal en pahalı edge case'dir: doğrulanamayan iddia, yanlı�
 
 | # | Referans | Tür | Erişim |
 |---|---|---|---|
-| 1 | `.ai/AGENTS.md` | SSOT | Salt-okunur, her çalışma başı |
-| 2 | `.ai/ROLE.md` | Persona | Salt-okunur |
-| 3 | `.ai/WORKFLOW.md` | Yaşam döngüsü | Salt-okunur |
-| 4 | `.ai/.templates/agents/agents-template.md` | Şablon | Zorunlu iskelet |
-| 5 | `.ai/.templates/qa/phpunit-template.md` | Test şablonu | Test yazarken |
-| 6 | `.ai/.templates/qa/vitest-template.md` | JS test şablonu | JS test yazarken |
-| 7 | `.ai/.templates/index.md` | Şablon indeksi | Eşleşme için |
+| 1 | [[../AGENTS.md]] | SSOT | Salt-okunur, her çalışma başı |
+| 2 | [[../ROLE.md]] | Persona | Salt-okunur |
+| 3 | [[../WORKFLOW.md]] | Yaşam döngüsü | Salt-okunur |
+| 4 | [[../.templates/agents/agents-template.md]] | Şablon | Zorunlu iskelet |
+| 5 | `.ai/.templates/qa/phpunit-template.md` | Test şablonu | Test yazarken ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| 6 | `.ai/.templates/qa/vitest-template.md` | JS test şablonu | JS test yazarken ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| 7 | [[../.templates/index.md]] | Şablon indeksi | Eşleşme için |
 | 8 | `phpunit.xml` | Yapılandırma | Koşu öncesi |
 | 9 | `composer.json` (require-dev) | Bağımlılık kanıtı | Stack doğrulama |
 | 10 | `shared/tests/**/*.php` | Test envanteri | Glob ile kanıt |
 | 11 | `.ai/.decisions/**` | Supra-otorite | Her onayda |
-| 12 | `.ai/log.md` | Karar geçmişi | Salt-okunur |
+| 12 | [[../log.md]] | Karar geçmişi | Salt-okunur |
 | 13 | `package.json` | Playwright/Vitest kanıtı | Stack doğrulama |
-| 14 | `.ai/.workflows/**` | İş akışları | Uzun görevde |
+| 14 | `.ai/.workflows/**` | İş akışları | Uzun görevde ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
 
 ### §11.1 İlişkili Vault Dosyaları
 
 | Dosya | İlişki |
 |---|---|
-| `.ai/AGENTS.md` §6 | Routing tablosu kaynağı |
-| `.ai/AGENTS.md` §16 | QA kalite standardı (≥%80, flaky %0) |
-| `.ai/AGENTS.md` §17 | Edge cases kaynağı |
-| `.ai/AGENTS.md` §24.3 | QA zorunlu okuma listesi |
-| `.ai/.templates/index.md` §4.3/§5.1 | QA ↔ phpunit/vitest eşleşmesi |
-| `.ai/.agents/AGENTS.md` | Alt registry — profil indeksi |
-| `.ai/.agents/code-reviewer.md` | Sınır komşusu (davranış vs tasarım) |
-| `.ai/.agents/devops-engineer.md` | Gate ortağı (CI/CD) |
+| [[../AGENTS.md]] §6 | Routing tablosu kaynağı |
+| [[../AGENTS.md]] §16 | QA kalite standardı (≥%80, flaky %0) |
+| [[../AGENTS.md]] §17 | Edge cases kaynağı |
+| [[../AGENTS.md]] §24.3 | QA zorunlu okuma listesi |
+| [[../.templates/index.md]] §4.3/§5.1 | QA ↔ phpunit/vitest eşleşmesi |
+| [[AGENTS.md]] | Alt registry — profil indeksi |
+| `.ai/.agents/code-reviewer.md` | Sınır komşusu (davranış vs tasarım) ⚠️ VERIFICATION REQUIRED (hedef diskte yok) |
+| [[devops-engineer.md]] | Gate ortağı (CI/CD) |
 
 ### Sürüm Geçmişi
 
@@ -541,9 +541,10 @@ Gözlemlenemeyen sinyal en pahalı edge case'dir: doğrulanamayan iddia, yanlı�
 | 1.0.0 | 2026-09-21 | İlk profil |
 | 2.0.0 | 2026-09-23 | Vault Refactor Engine: 10-bölüm formatı, authority alt-profile indirgendi |
 | 2.1.0 | 2026-09-23 | Faz 3b: 11-bölüm § formatı, Truth Mode (IMPLEMENTED/PLANNED), 500+ satır |
+| 2.1.1 | 2026-09-24 | Wiki-link dönüşümü + frontmatter senkronu (2.0.1 → 2.1.1) |
 
 ---
 
 **Authority:** Agent Profile — SSOT: `.ai/AGENTS.md`
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-24
 **Mode:** STANDARD (implementation-ready)

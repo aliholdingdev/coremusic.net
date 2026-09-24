@@ -12,7 +12,7 @@ status: "tamamlandı"
 
 API Gateway, COREMUSIC'in tüm dış isteklerini tek giriş noktasından yöneten merkezi bileşendir. TLS termination, authentication, rate limiting, request routing ve load balancing işlemlerini merkezi olarak gerçekleştirir. Her istemci türü için optimize edilmiş response'lar döndürür.
 
-Gateway, reverse proxy olarak çalışır ve upstream servisler之间的 health check, circuit breaking, retry mekanizmalarını yönetir. Kubernetes Ingress Controller veya bağımsız olarak deploy edilebilir.
+Gateway, reverse proxy olarak çalışır ve upstream servisler arasındaki health check, circuit breaking, retry mekanizmalarını yönetir. Kubernetes Ingress Controller veya bağımsız olarak deploy edilebilir.
 
 ## API Tanımı
 

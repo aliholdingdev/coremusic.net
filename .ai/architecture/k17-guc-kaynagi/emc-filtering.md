@@ -222,7 +222,7 @@ ESD Specs:
 │     • Ferrite beads: noise source'e yakın                    │
 │                                                               │
 │  4. SHIELDING                                                 │
-│     • Metal shield罩 over switching converter                │
+│     • Metal shield, switching converter üzerinde                │
 │     • Connector shield: chassis ground                       │
 │     • Cable shield: 360° termination                         │
 │                                                               │

@@ -9,7 +9,7 @@ date: 2026-09-20
 
 ## Genel Bakış
 
-6S LiPo (6 hücre seri, Lithium Polymer) batarya, COREMUSIC platformunun mobil güç kaynağıdır. 22.2V nominal gerilim, 2200mAh kapasite ile 48.8Wh enerji depolar. Yüksek能量密度, düşük iç direnç ve yüksek deşarj oranı (C-rate) ile profesyonel ses ekipmanları için idealdir. BMS entegrasyonu ile hücre dengesi ve koruma sağlanır.
+6S LiPo (6 hücre seri, Lithium Polymer) batarya, COREMUSIC platformunun mobil güç kaynağıdır. 22.2V nominal gerilim, 2200mAh kapasite ile 48.8Wh enerji depolar. Yüksek enerji yoğunluğu, düşük iç direnç ve yüksek deşarj oranı (C-rate) ile profesyonel ses ekipmanları için idealdir. BMS entegrasyonu ile hücre dengesi ve koruma sağlanır.
 
 ## Pil Konfigürasyonu
 
@@ -90,7 +90,7 @@ Akım (A)
   1.0 │ ████████████████████████████░░░░░░░░░░░░░░░░░  0.5C Yavaş
       │ ████████████████████████████░░░░░░░░░░░░░░░░░
       │                                              
-  0.0 │─────────────────────────────────────────────── cv겠
+  0.0 │─────────────────────────────────────────────── cv
       │                                              
       │  CC Aşaması  │     CV Aşaması               │
       0    30    60    90    120   150   180   210  Süre (dk)

@@ -537,7 +537,7 @@ CM_Status CM_ValidateHardenedRuntime(void);
 1. **App Sandbox**: Tüm uygulamalar sandboxed olarak çalıştırılmalı
 2. **Hardened Runtime**: Code signing ile runtime koruması
 3. **XPC**: Güvenli process arası iletişim
-4. **IOKit**:最小imal yetki ile donanım erişimi
+4. **IOKit**: minimum yetki ile donanım erişimi
 5. **Notary**: Uygulama doğrulama ve imzalama
 
 ## Durum: Implementasyon

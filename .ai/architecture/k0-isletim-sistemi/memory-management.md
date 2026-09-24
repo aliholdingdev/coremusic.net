@@ -550,4 +550,4 @@ CM_Status CM_DoubleBuffer_Destroy(void *db);
 **Sonraki Adımlar**:
 - Ring buffer performans testlerinin yapılması
 - Memory pool'un ses processing pipeline'ına entegrasyonu
-- Slab allocator'ın常用 nesne boyutlarının belirlenmesi
+- Slab allocator'ın yaygın nesne boyutlarının belirlenmesi

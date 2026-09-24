@@ -34,7 +34,7 @@ reference:
 │     │                                                                                                    │  │
 │     │  ┌─── LEFT PANEL (60%, w:614) ──────────────────┐  ┌─── RIGHT PANEL (40%, w:410) ────────────┐   │  │
 │     │  │ Sanatçılar                                     │  │  🎤 Sanatçı Foto (120×120, circle)      │   │  │
-│     │  │ Kütüphanede depolanan外界den besten Sanatçılar │  │  ┌────────────────────────┐              │   │  │
+│     │  │ Kütüphanede depolananharici Sanatçılar │  │  ┌────────────────────────┐              │   │  │
 │     │  │                                                │  │  │                        │              │   │  │
 │     │  │  [Tümü] [Pop] [Arabesk] [Dans] [Oyun Havaası]│  │  └────────────────────────┘              │   │  │
 │     │  │  [Damard] [Org] [Yabancı Pop] [Kpop-Kore]    │  │                                          │   │  │

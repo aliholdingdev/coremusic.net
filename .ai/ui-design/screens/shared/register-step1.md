@@ -483,7 +483,7 @@ Step 1 (Name+Email) → "Devam Et" → Step 2 (Password) → "Devam Et" → Step
 | T01-T05 (Phone) | ≤767px | Tam ekran form, brand gizli, fullscreen |
 | T06-T07 (Tablet) | 768-1024px | Split 50/50 |
 | T08 (Embedded) | 1024×600 | Split 60/40 (PNG reference) |
-| T12-T16 (Laptop) | 1025-2560px | Split 50/50,更大的 form |
+| T12-T16 (Laptop) | 1025-2560px | Split 50/50, daha büyük form |
 | T25-T28 (TV) | ≥3840px | Split 50/50, font scale 1.5x |
 
 ---

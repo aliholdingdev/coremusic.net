@@ -145,7 +145,7 @@ authority: Single Source of Truth (SSOT)
 
 | Durum | Davranış |
 |-------|----------|
-| 90Hz rendering | Stereo双眼, 1920×1080 per eye |
+| 90Hz rendering | Stereo çift göz, 1920×1080 per eye |
 | Hand tracking | Pinch to select, grab to move |
 | Eye tracking | Gaze reticle, foveated rendering |
 | 3DOF (rotation only) | Panel follows head rotation |

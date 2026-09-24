@@ -10,7 +10,7 @@ version: "1.0.0"
 
 ## Genel Bakış
 
-COREMUSIC deployment monitoring, her deploy sonrası uygulama sağlığını, performansını ve hata oranlarını gerçek zamanlı olarak izler. Prometheus metrics collection, Grafana dashboards, alerting rules ve deployment verification ile production güvenliği sağlanır. Deploy后 post-deploy verification ile otomatik rollback tetiklenebilir.
+COREMUSIC deployment monitoring, her deploy sonrası uygulama sağlığını, performansını ve hata oranlarını gerçek zamanlı olarak izler. Prometheus metrics collection, Grafana dashboards, alerting rules ve deployment verification ile production güvenliği sağlanır. Deploy sonrası post-deploy verification ile otomatik rollback tetiklenebilir.
 
 ## Pipeline Akışı
 

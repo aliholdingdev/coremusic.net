@@ -74,7 +74,7 @@ K0 katmanı, COREMUSIC'ın en düşük seviyeli yazılım katmanıdır ve doğru
 ## Temel İlkeler
 
 1. **Gerçek Zamanlılık**: Ses işleme için deterministik davranış
-2. **Düşük Gecikme**: Minimal overhead ile Maxim吞throughput
+2. **Düşük Gecikme**: Minimal overhead ile maksimum throughput
 3. **Çapraz Platform**: Tüm işletim sistemlerinde tutarlı API
 4. **Güvenlik**: Process izolasyonu, capability-based güvenlik
 5. **Ölçeklenebilirlik**: Yeni platform desteği için genişletilebilir mimari

@@ -124,7 +124,7 @@ Channel Mapping Matrix:
 │ Kaynak       │ Hedef        │ Yöntem                  │
 ├──────────────┼──────────────┼────────────────────────┤
 │ Stereo       │ Mono         │ (L+R)/2                │
-│ Stereo       │ Joint Stereo │ Mid/Side编码            │
+│ Stereo       │ Joint Stereo │ Mid/Side kodlama            │
 │ 5.1          │ Stereo       │ Downmix matrix          │
 │ 5.1          │ Mono         │ 5.1→Stereo→Mono         │
 │ 7.1          │ 5.1          │ Side channel removal    │

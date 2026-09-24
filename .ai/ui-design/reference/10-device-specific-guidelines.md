@@ -68,7 +68,7 @@ reference:
 | Header | 60-64px |
 | Footer | Player (90-96px) |
 | Welcome | Popup (T07 only) |
-|特殊 | Offline-first, minimal chrome |
+| Özel | Offline-first, minimal chrome |
 
 ### 2.4 Laptop (T09-T10)
 
@@ -109,7 +109,7 @@ reference:
 | Sidebar | 280-300px |
 | Header | 72-76px |
 | Footer | Player (112-116px) |
-|特殊 | Max content width: 1440px |
+| Özel | Max content width: 1440px |
 
 ### 2.7 Smart TV (T15-T18)
 
@@ -122,7 +122,7 @@ reference:
 | Sidebar | Yok |
 | Header | 80-104px |
 | Footer | Player (120-150px) |
-|特殊 | 10-foot UI, high contrast |
+| Özel | 10-foot UI, high contrast |
 | Focus | Large focus indicators |
 
 ### 2.8 Automotive (T19)
@@ -136,7 +136,7 @@ reference:
 | Sidebar | Yok |
 | Header | Yok |
 | Footer | Player (100px) |
-|特殊 | Safety-first, driver mode |
+| Özel | Safety-first, driver mode |
 | Voice | Voice command support |
 
 ### 2.9 Smart Watch (T20-T22)
@@ -150,7 +150,7 @@ reference:
 | Sidebar | Yok |
 | Header | Yok |
 | Footer | Yok |
-|特殊 | OLED power save, haptic |
+| Özel | OLED power save, haptic |
 | Battery | Low power mode |
 
 ### 2.10 Console (T23-T26)
@@ -164,7 +164,7 @@ reference:
 | Sidebar | Yok |
 | Header | 56-88px |
 | Footer | Player (88-130px) |
-|特殊 | 10-foot UI, controller nav |
+| Özel | 10-foot UI, controller nav |
 | Focus | Large focus ring |
 
 ---

@@ -13,7 +13,7 @@ dependencies: [K1, K5]
 
 ## Genel Bakış
 
-Migration Strategy modülü, COREMUSIC veritabanı şeması değişikliklerini versiyonlanmış, geri alınabilir ve zero-downtime şekilde yöneten migration altyapısını sağlar. Her migration forward ve backward移動iletirilebilir olmalıdır.
+Migration Strategy modülü, COREMUSIC veritabanı şeması değişikliklerini versiyonlanmış, geri alınabilir ve zero-downtime şekilde yöneten migration altyapısını sağlar. Her migration forward ve backward olarak uygulanabilir olmalıdır.
 
 ## Teknik Detaylar
 

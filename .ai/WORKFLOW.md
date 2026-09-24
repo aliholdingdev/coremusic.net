@@ -2,10 +2,10 @@
 title: "CoreMusic — Vault Workflows & Engineering Processes"
 type: guide
 category: workflow
-version: 22.0.0
+version: 22.1.0
 status: active
 authority: SSOT
-updated: 2026-09-23
+updated: 2026-09-24
 ---
 
 # CoreMusic — Vault Workflows & Engineering Processes
@@ -402,6 +402,7 @@ Müzik Dosyası → Metadata Çıkarma → DB Kaydı → İndeksleme → Arama �
 | 4 | Kod standartlarını doğrula (PSR-12, BEM, ITCSS) | Format |
 | 4.5 | Frontend ise: UI Design uyumunu doğrula ([[ui-design/01-mockup-index]], C01-C16, ölçüler, **45-tier cihaz matrisi**) | UI Design Gate |
 | 4.6 | Frontend ise: [[ui-design/reference/04-verification]] protocol uygula (tier bazlı validasyon) | Verification Gate |
+| 4.7 | Frontend ise: ui-design şablonunu oku — Kalıp A-D (`[[.templates/ui-design/reference-template]]`, `[[.templates/ui-design/flow-template]]`, `[[.templates/ui-design/prompt-template]]`, `[[.templates/ui-design/screen-spec-template]]`) | Template Gate (Guardrail #16) |
 | 5 | Güvenlik kontrollerini yap (OWASP, CSRF, CSP) | Security |
 | 5.5 | Template uyumluluğunu kontrol et (Guardrail #16) | Template |
 | 6 | Test coverage'ı kontrol et (min %80) | Coverage |
@@ -660,7 +661,7 @@ Session Sonunda:
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 22.0.0 |
+| Version | 22.1.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 |
 | ADR References | 7 |
@@ -779,5 +780,5 @@ Session Sonunda:
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-24
 **Mode:** Red Team · Human Mode · Truth Mode

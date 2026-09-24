@@ -77,7 +77,7 @@ class MySQLConnectionPool
         $connection->setBusy(false);
         $connection->setLastUsed(microtime(true));
         
-        // Bağlantı健康 kontrolü
+        // Bağlantı sağlığı kontrolü
         if (!$this->isHealthy($connection)) {
             $this->removeConnection($connection);
             $this->replaceConnection();

@@ -79,7 +79,7 @@ Bu rapor, Vault Refactor Engine **Faz 6 (Doğrulama)** kapısının kanıtıdır
 | Fiziksel ADR dosyası (`.decisions/**`) | **0** |
 | Toplam kırık link (FP sonrası) | 351 = 216 kritik + 134 ledger + 1 (`../../X` FP-artığı) |
 | Sahte pozitif filtrelenen | 25 |
-| Mojibake gerçek | 0 (log.md §"Mojibake temizliği" satırındaki `â€”` alıntısı = meta-kanıt, bozulma değil) |
+| Mojibake gerçek | 0 (log.md §"Mojibake temizliği" satırındaki `—` alıntısı = meta-kanıt, bozulma değil) |
 | non-UTF8 dosya | 0 |
 | 7 alanlı frontmatter — kök 14 dosya | 14/14 ✓ (log.md +`category`, engine.md +`category/status/authority/updated` bu fazda) |
 | 7 alanlı frontmatter — vault geneli | 106/530 (eksik 424: architecture 311, ui-design 76, archives 12-frozen, reports 8, diğer 17) → **gelecek faz işi** |

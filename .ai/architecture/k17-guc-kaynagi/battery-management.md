@@ -234,7 +234,7 @@ NTC Sensörleri (3 adet)
 │  • Tüm hücreler izleniyor                                │
 │  • Dengeleme aktif                                        │
 │  • MCU tam güçte çalışıyor                               │
-│  • Akım消耗: 5mA                                          │
+│  • Akım tüketimi: 5mA                                          │
 │                                                           │
 │  STANDBY MODE                                             │
 │  • Hücreler 10sn'de bir okunuyor                         │

@@ -140,7 +140,7 @@ governance: Red Team · Human Mode · Truth Mode
   - `shared/src/AI/AIWorkflow.php`
   - `shared/src/AI/Contracts/` (6 interface)
 - **Sorun:** Hiçbir PHP dosyası bu sınıfları `use` etmiyor (grep sonucu: 0 import, sadece kendi içlerindeki import'lar). Tüm AI katmanı PLANNED durumunda ve hiçbir tüketici yok.
-- **Önerilen Çözüm:** Bu dosyaları暂时 koruyun ama `CLAUDE.md`'de "PLANNED — no consumers" olarak işaretleyin. Veya `shared/src/AI/` dizinini tamamen PLANNED klasörüne taşıyın.
+- **Önerilen Çözüm:** Bu dosyaları şimdilik koruyun ama `CLAUDE.md`'de "PLANNED — no consumers" olarak işaretleyin. Veya `shared/src/AI/` dizinini tamamen PLANNED klasörüne taşıyın.
 - **Öncelik:** MEDIUM
 
 ### M3. Unused Event Sınıfları — Dead Code (9 domain + 3 integration)

@@ -193,7 +193,7 @@ public:
           sampleRate(sampleRate),
           channels(channels) {}
     
-    // UDP paket接收
+    // UDP paket alımı
     void onPacketReceived(const uint8_t* data, size_t size) {
         // Paketi parse et
         AudioPacket packet;
