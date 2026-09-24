@@ -106,7 +106,7 @@ CoreMusic ekosistemi, 10 bağımsız uzmanlık paneli üzerinden modüler olarak
 
 ## 6. Mimari Yapı (21 Katman, 1130 Bileşen)
 
-CoreMusic, **L0 Altyapı'dan L6 Elektronik'e** kadar 21 dikey katman (K0-K20) ve 1130 bileşen üzerine inşa edilmiştir:
+CoreMusic, **A0 Altyapı'dan A5 Bileşenler'e** uzanan 21 dikey katman (K0-K20, 6 alan etiketi A0-A5) ve 1130 bileşen üzerine inşa edilmiştir:
 
 ```
 ===========================================================================
