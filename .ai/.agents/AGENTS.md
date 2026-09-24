@@ -133,7 +133,7 @@ Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hang
 
 ## §4 Agent → Template Eşleştirme
 
-**Kaynak:** [[../.templates/index]] §5.1 (Agent-Template Eşleştirme Tablosu) — bu tablo **kopyadır**; şablon envanterinin kendisi o dosyadadır (SRP/DIP). 28/28 dosya (26 şablon + 2 meta) diskte mevcuttur (2026-09-24 — +2 yeni şablon: claude-md, docs-md).
+**Kaynak:** [[../.templates/index]] §5.1 (Agent-Template Eşleştirme Tablosu) — bu tablo **kopyadır**; şablon envanterinin kendisi o dosyadadır (SRP/DIP). 36/36 dosya diskte mevcuttur (2026-09-24 ölçüm — `.ai/.templates/` envanteri 36 `.md`; +2 yeni şablon claude-md / docs-md dahil).
 
 ### §4.1 Agent → Template (11 satır)
 
@@ -296,7 +296,7 @@ authority: SSOT
 |--------|-------------|-----|
 | `.opencode/skills/*/SKILL.md` | ✅ 8 aktif: `orchestration`, `truth-engine`, `db-engine`, `ui-workbench`, `composer-sync`, `vault-sync-post`, `agent-debate`, `context-report` | Kök [[../AGENTS.md]] "10 skill" iddiası → ✅ GİDERİLDİ (2026-09-24) — kök giriş/§14 "8 aktif skill" oldu (bkz. §8 #3) |
 | `.opencode/skills/_archive-keep/` | `_archive/` KALDIRILDI — geriye kalan 9 klasör / 20 vault dosyası `_archive-keep/` altında (SKILL.md 0) | Arşiv = kullanımda değil (2026-09-24 disk kanıtı) |
-| `.workflows/*.md` | ✅ 8 dosya: `session-init`, `vault-sync`, `security-audit`, `orchestrator-flow`, `hallucination-control`, `deployment`, `adr-creation`, `CLAUDE.md` | Şablon iddiası "8 dosya" ✅ tutuyor |
+| `.workflows/*.md` | ✅ 9 dosya: `session-init`, `vault-sync`, `security-audit`, `orchestrator-flow`, `hallucination-control`, `deployment`, `adr-creation`, `architecture-write`, `CLAUDE.md` | Şablon iddiası "8 dosya" ✗ → **disk 9** (2026-09-24) |
 | `.ai/scripts/vault-utf8-writer.mjs` | ✅ tek mjs betik | `session-save.mjs` / `vault-post-update.mjs` `.ai/scripts/` altında **YOK** → ⚠️ VERIFICATION REQUIRED (§8) |
 
 **Okuma sırası:** Boot (§6.1) → domain satırı (§6.2) → ilgili profilin §8'i → yalnızca gereken dosya (token aşımı önlenir). Görsel görevlerde istisna: `.ai/ui-design/**`, `.ai/.png/**` (kök §13).

@@ -308,7 +308,7 @@ CoreMusic, her sektörel ihtiyacı ayrı bir alt alan adı (*subdomain*) ile dik
 | Fan | Noctua NF-A8 PWM (80mm) |
 | Koruma | KSD301 thermal cutoff, DC offset koruma rölesi |
 | PCB | 6-layer, 200×100mm, 2oz copper, IPC Class 3 |
-| Durum | TASARIM AŞAMASINDA (ADR-089 Draft) |
+| Durum | TASARIM AŞAMASINDA (ADR-089 Accepted) |
 
 #### 7.2.2 Güç Kaynağı — ±35V LM5122 Boost (K17)
 | Özellik | Değer |

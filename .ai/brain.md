@@ -892,7 +892,7 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 | Version | 26.1.1 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 (H1 + 7 English H2 skeleton) |
-| ADR Coverage | 001–089 (80 karar: 37 Frozen + 30 Active + 12 Rejected + 1 Draft) (89 numaradan 80 dolu; 9 numara boşluk — DOĞRULAMA GEREKLİ) |
+| ADR Coverage | 001–089 (80 karar: 37 Frozen + 31 Active + 12 Rejected) (89 numaradan 80 dolu; 9 numara boşluk — DOĞRULAMA GEREKLİ) |
 | Panel Count | 10 (hedef — fiziksel: auth + home + assets; Faz 0) |
 | Service Count | 7 |
 | DB Count | 18 BCNF |
@@ -904,7 +904,7 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 | Edge Cases | 10 |
 | Warnings | 7 |
 | Implementation Plan | 5 faz, 40 gün, 22 bölüm (ADR-087) |
-| Class AB Amplifikatör | K16-K18: 50W/kanal, 8 kanal, MJL21194/MJL21193, ±35V boost, 800W (ADR-089 Draft) |
+| Class AB Amplifikatör | K16-K18: 50W/kanal, 8 kanal, MJL21194/MJL21193, ±35V boost, 800W (ADR-089) |
 
 ---
 
@@ -991,7 +991,7 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 | ADR-036 | Çoklu proje prompt üretimi |
 | ADR-037 | Kablosuz ağ entegrasyonu |
 
-### §13.2 Active (038-088)
+### §13.2 Active (038-089)
 
 | ADR | Konu |
 |-----|------|
@@ -1024,7 +1024,7 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 | ADR-086 | Event Driven Architecture (PSR-14) |
 | ADR-087 | Master Implementation Plan (Sıfırdan Geliştirme Kapsamı) |
 | ADR-088 | Gender-Based Social OAuth (cinsiyet bazlı sosyal medya bağlantıları) |
-| ADR-089 | Class AB Amplifikatör + 6S LiPo + ±35V Boost (Draft — 50W/kanal, MJL21194/MJL21193) |
+| ADR-089 | Class AB Amplifikatör + 6S LiPo + ±35V Boost (Accepted — 8×50W, 12-24V boost, 120dB+, hibrit MCU; MJL21194/MJL21193) |
 
 ---
 

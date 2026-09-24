@@ -355,7 +355,7 @@ Her § için asgari içerik aşağıdaki gibidir; eksik § varsa dosya §6.1'de 
 |-------|----------|
 | Dosya adı değişmez | `CLAUDE.md` yerine `CLAUDE-NEW.md` üretilmez |
 | Frozen ADR 001-037 | Metinleri okunur, referans edilir; değiştirilmez |
-| Yeni ADR | `ADR-088+` numarasıyla açılır (bu şablon ADR üretmez) |
+| Yeni ADR | `ADR-090+` numarasıyla açılır (bu şablon ADR üretmez) |
 | Silme yok | Çelişkiler silinmez; düzeltilir ve `log.md`'ye kaydedilir |
 
 ---

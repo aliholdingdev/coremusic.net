@@ -156,7 +156,7 @@ Her soru için EVET/HAYIR cevabı ver:
 | `.ai/brain.md` | Mimari karar değişti mi? |
 | `.ai/CLAUDE.md` | Kural değişti mi? |
 | `.ai/AGENTS.md` | Agent değişti mi? |
-| `.ai/.decisions/index.md` | Karar serisi ADR kaydı eklendi/güncellendi mi? (yeni no ≥ ADR-088) |
+| `.ai/.decisions/index.md` | Karar serisi ADR kaydı eklendi/güncellendi mi? (yeni no ≥ ADR-090) |
 | `.ai/architecture/adr/` (seri) | Mimari ADR serisi kaydı (ADR-023…026; kendi numara uzayı) |
 
 ### Aşama 5: Çapraz Referans Kontrolü

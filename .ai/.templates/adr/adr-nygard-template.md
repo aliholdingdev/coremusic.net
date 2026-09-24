@@ -12,7 +12,7 @@ updated: 2026-09-24
 
 **Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../AGENTS.md]] · [[adr-template]] · [[adr-index]] · [[../architecture/adlandirma-kurali]] · [[agent-tartisma-turu-template]]
 
-> **Kullanım:** Michael Nygard klasik ADR biçimi — **Status / Context / Decision / Consequences** çekirdeği. CoreMusic'te iki ADR serisi için de kullanılır: `.ai/.decisions/accepted/` (karar serisi, yeni numara ≥ ADR-088) ve `.ai/architecture/adr/` (mimari seri, kendi numara uzayı — son: ADR-026). **İki seri kasıtlı ayrıdır; birleştirme REDDEDİLDİ (ADR-026 §3.4).**
+> **Kullanım:** Michael Nygard klasik ADR biçimi — **Status / Context / Decision / Consequences** çekirdeği. CoreMusic'te iki ADR serisi için de kullanılır: `.ai/.decisions/accepted/` (karar serisi, yeni numara ≥ ADR-090) ve `.ai/architecture/adr/` (mimari seri, kendi numara uzayı — son: ADR-026). **İki seri kasıtlı ayrıdır; birleştirme REDDEDİLDİ (ADR-026 §3.4).**
 
 ---
 
@@ -34,9 +34,9 @@ Kararı **bağlam + sonuç** ile ikna eder; "ne yaptık" değil "o anda neden b�
 
 | Karar tipi | Konum | Numara |
 |------------|-------|--------|
-| Proje/engineering kararı (csrf, router, cache…) | `.ai/.decisions/accepted/` | `.decisions/index.md`'den; **≥ ADR-088** (frozen 001-037 immutable; active son 088, draft 089) |
+| Proje/engineering kararı (csrf, router, cache…) | `.ai/.decisions/accepted/` | `.decisions/index.md`'den; **≥ ADR-090** (frozen 001-037 immutable; active son 089, draft yok) |
 | Katman/klasör/sınır/sayım kararı | `.ai/architecture/adr/` | kendi uzayda ardışık (son: ADR-026) |
-| Karar verilemedi | `.ai/.decisions/draft/` | index'teki draft (ADR-089) |
+| Karar verilemedi | `.ai/.decisions/draft/` | index'teki draft (yok — son draft ADR-089 2026-09-24'te accepted oldu) |
 
 - **Karar kaynağı:** 3 tur / 20 persona tartışması ise `kaynak` alanına yazılır (ham kayıt: `agent-tartisma-turu-template`).
 

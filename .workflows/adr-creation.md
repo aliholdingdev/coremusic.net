@@ -44,7 +44,7 @@ changelog:
     changes:
       - İki ADR serisi hizası: .ai/.decisions/ (karar) + .ai/architecture/adr/ (mimari ADR-023…026)
       - Kayıt yolları düzeltildi (.ai/decisions → .ai/.decisions/accepted; .ai/ADR → iki seri)
-      - Numaralandırma bölümü: frozen 001-037 immutable, active 038-088, draft 089, yeni ≥088; birleştirme REDDEDİLDİ (ADR-026 §3.4)
+      - Numaralandırma bölümü: frozen 001-037 immutable, active 038-089, draft yok, yeni ≥090; birleştirme REDDEDİLDİ (ADR-026 §3.4)
   - version: 3.0.0
     date: 2026-08-15
     changes:
@@ -95,7 +95,7 @@ Mimari Karar Kaydı (ADR) oluşturma, inceleme ve onaylama süreci.
 - Uzun vadeli etkiler
 - Kanıt olmadan teknik karar alınmaz.
 
-- İlgili ADR'leri oku (karar serisi: ADR-001 → ADR-088 + draft 089, `.ai/.decisions/index.md`; mimari seri: `.ai/architecture/adr/` ADR-023…026)
+- İlgili ADR'leri oku (karar serisi: ADR-001 → ADR-089, draft yok, `.ai/.decisions/index.md`; mimari seri: `.ai/architecture/adr/` ADR-023…026)
 - Frozen ADR'leri kontrol et (001-037 = immutable)
 - Alternatifleri değerlendir
 - Teknik kanıt topla
@@ -216,8 +216,8 @@ Bu kararla ilişkili diğer ADR'ler
 ### Karar Serisi (`.ai/.decisions/`)
 
 - Frozen: ADR-001 → ADR-037 (değiştirilemez, immutable)
-- Active: ADR-038 → ADR-088 · Draft: ADR-089 (kaynak: `.ai/.decisions/index.md`)
-- **Yeni karar ADR'leri: ADR-088+** uzayında, index'ten boş numara seçilerek açılır
+- Active: ADR-038 → ADR-089 · Draft: yok (kaynak: `.ai/.decisions/index.md`)
+- **Yeni karar ADR'leri: ADR-090+** uzayında, index'ten boş numara seçilerek açılır
 - Numara asla yeniden kullanılmaz
 
 ### Mimari Seri (`.ai/architecture/adr/`)

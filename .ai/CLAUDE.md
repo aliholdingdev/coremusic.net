@@ -152,7 +152,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | Kanal | 1-8 (modüler) |
 | Heatsink | Fischer SK53-100-SA (300×75×49mm) |
 
-**İlgili ADR:** [[brain.md]] ADR-089-classab-24v
+**İlgili ADR:** [[.decisions/accepted/ADR-089-classab-24v]]
 
 > **L1 Alt Tablolar — Service Layer & Data Layer & Infrastructure:**
 >
@@ -332,7 +332,7 @@ shared/
 | **Database (Primary)** | MySQL 9 | 18 BCNF |
 | **Database (Backup/Reporting)** | SQL Server | — |
 | **Database (Analytics)** | MongoDB | — |
-| **Cache** | Redis | IMPLEMENTED |
+| **Cache** | APCu (CacheManager zinciri) — Redis: PLANNED (hedef: symfony/cache+predis; adapter yok) | IMPLEMENTED (APCu); PLANNED (Redis) |
 | **Containerization** | Docker | 24+ |
 | **CI/CD** | GitHub Actions | — |
 | **Monitoring** | Metrics/Logs | — |
@@ -728,7 +728,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | Platform Tiers | 5 |
 | Deployment Modes | 5 |
 | Audio Divisions | 5 |
-| ADR Coverage | 001-089 (80 karar: 37 Frozen + 30 Active + 12 Rejected + 1 Draft) (89 numaradan 80 dolu; 9 numara boşluk — DOĞRULAMA GEREKLİ) |
+| ADR Coverage | 001-089 (80 karar: 37 Frozen + 31 Active + 12 Rejected) (89 numaradan 80 dolu; 9 numara boşluk — DOĞRULAMA GEREKLİ) |
 | Cross References | 11 |
 | Glossary Terms | 75 (SSOT: [[glossary]]) |
 | Forbidden Patterns | 11 |
@@ -747,7 +747,7 @@ Bu dosyada Faz 1 revizyonunda yapılan düzeltmeler:
 |---|----------|-------|-------|
 | 1 | ADR kapsamı 038-087 → 038-088 (79 karar) | §3, §29, §26 | decisions/ sayımı |
 | 2 | 18 → 19 PNG (12+1+6) | Guardrail #11, §12A | .ai/.png/ sayımı |
-| 3 | Redis L0 hedef→PLANNED notu | §5 | CacheManager kod okuma |
+| 3 | Redis L0 hedef→PLANNED notu | §5 | CacheManager kod okuma (L335 satırı 2026-09-24'te ADR-007 şart 1 ile hizalandı) |
 | 4 | Glossary 32 → 75 terim | §26, §28 | glossary.md v2.0.0 |
 | 5 | Soft Constraints #3 eksik satırı işaretlendi | §8 | Truth Mode — DOĞRULAMA GEREKLİ |
 | 6 | Panel haritası "hedef mimari" notu | §9 | Test-Path Faz 0 |
@@ -822,7 +822,7 @@ Diğer terimler → [[glossary]]: SSOT, ADR, CSRF, CSP, BCNF, RBAC, OWASP, ASIO,
 | [[brain.md]] ADR-040-database-authority | 18 BCNF DB otoritesi | Active |
 | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault restructuring, PHP 8.4, port 81 | Active |
 | [[brain.md]] ADR-044-dynamic-user-theme-engine | Dynamic theme engine | Active |
-| [[brain.md]] ADR-089-classab-24v | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Draft |
+| [[.decisions/accepted/ADR-089-classab-24v]] | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Accepted |
 
 ---
 
@@ -834,7 +834,7 @@ Diğer terimler → [[glossary]]: SSOT, ADR, CSRF, CSP, BCNF, RBAC, OWASP, ASIO,
 | [[WORKFLOW.md]] | Süreçler, fazlar, workflow'lar |
 | [[index.md]] | Master katalog, tüm vault yapısı |
 | [[keys.md]] | Keyword haritası, yönlendirme |
-| [[brain.md]] | Mimari kararlar, ADR 001-088 |
+| [[brain.md]] | Mimari kararlar, ADR 001-089 |
 | [[MEMORY.md]] | Session hafızası, persistent state |
 | [[log.md]] | Audit trail, append-only günlük |
 | [[engine.md]] | Orkestrasyon motoru, task dispatch |

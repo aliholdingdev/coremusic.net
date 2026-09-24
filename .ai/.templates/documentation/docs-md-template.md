@@ -363,7 +363,7 @@ updated: {{DATE}}
 |-------|----------|
 | Dosya adı değişmez | `README.md` → `README-v2.md` üretilmez |
 | Frozen ADR 001-037 | Okunur, referans edilir; değiştirilmez |
-| Yeni ADR gerekirse | `ADR-088+` numarasıyla ayrı dosyada açılır |
+| Yeni ADR gerekirse | `ADR-090+` numarasıyla ayrı dosyada açılır |
 | Silinmezlik | Eski içerik düzeltilir, `log.md`'ye kaydedilir |
 
 ---

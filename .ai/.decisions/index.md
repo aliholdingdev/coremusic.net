@@ -3,16 +3,16 @@ type: index
 category: decisions
 title: "CoreMusic — Decisions Index"
 date: 2026-08-15
-updated: 2026-09-18
+updated: 2026-09-24
 status: active
-version: 1.1.0
+version: 1.1.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total-accepted: 67
+total-accepted: 68
 total-rejected: 12
 total-frozen: 37
-total-active: 30
-total-draft: 1
+total-active: 31
+total-draft: 0
 ---
 
 # CoreMusic — Decisions Index
@@ -26,9 +26,9 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Durum | Sayı | Açıklama |
 |-------|------|----------|
 | **Frozen** | 37 | Değiştirilemez (ADR-001 → ADR-037) |
-| **Active** | 30 | Güncellenebilir (ADR-038 → ADR-088) |
+| **Active** | 31 | Güncellenebilir (ADR-038 → ADR-089) |
 | **Rejected** | 12 | Reddedilen kararlar |
-| **Draft** | 1 | Taslak (ADR-089) |
+| **Draft** | 0 | Taslak yok (ADR-089 kabule terfi etti, 2026-09-24) |
 | **Toplam** | 80 | — |
 
 ## 3. Frozen ADR'ler (001-037)
@@ -73,7 +73,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[ADR-036-multi-project-prompt-maker]] | Multi-Project Prompt Maker | AI |
 | [[ADR-037-wirelessconnect-integration]] | WirelessConnect Integration | Audio |
 
-## 4. Active ADR'ler (038-088)
+## 4. Active ADR'ler (038-089)
 
 | ADR | Başlık | Kategori |
 |-----|--------|----------|
@@ -101,18 +101,20 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[../brain.md]] ADR-077-studio-database-schema | Studio DB Schema | Database |
 | [[../brain.md]] ADR-078-cms-database-schema | CMS DB Schema | Database |
 | [[../brain.md]] ADR-079-i18n-database-schema | i18n DB Schema | Database |
+| [[ADR-081-multi-provider-data-sync]] | Multi-Provider Data Sync (Outbox+WAL) | Database |
 | [[../brain.md]] ADR-083-spa-router | SPA Router Architecture | Architecture |
 | [[../brain.md]] ADR-084-api-gateway-architecture | API Gateway Architecture | Architecture |
 | [[../brain.md]] ADR-085-modular-composer-packages | Shared Library Hybrid (tek shared/ + PSR-4 namespace) | Architecture |
 | [[../brain.md]] ADR-086-event-driven-architecture | Event Driven Architecture | Architecture |
 | [[../brain.md]] ADR-087-master-implementation-plan | Master Implementation Plan | Architecture |
 | [[../brain.md]] ADR-088-gender-based-social-oauth | Gender-Based Social OAuth | Social |
+| [[accepted/ADR-089-classab-24v]] | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Electronics |
 
 ## 4A. Draft ADR'ler
 
 | ADR | Başlık | Kategori |
 |-----|--------|----------|
-| [[../brain.md]] ADR-089-classab-24v | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Electronics (Draft) |
+| — | Taslak yok — ADR-089 kabule terfi etti (2026-09-24, §4) | — |
 
 ## 5. Reddedilen ADR'ler
 
@@ -149,12 +151,12 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Social | 1 | 1 | 2 |
 | Mobile | 1 | 0 | 1 |
 | Vault | 0 | 1 | 1 |
-| Electronics | 0 | 4 | 4 (1 draft) |
-| **TOPLAM** | **37** | **30** | **67** |
+| Electronics | 0 | 5 | 5 |
+| **TOPLAM** | **37** | **31** | **68** |
 
 ---
 
-*Decisions Index v1.1.0 — CoreMusic Vault*
+*Decisions Index v1.1.1 — CoreMusic Vault*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-18*
+*Last Updated: 2026-09-24*
 *Mode: Red Team · Human Mode · Truth Mode*

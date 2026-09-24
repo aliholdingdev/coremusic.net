@@ -73,7 +73,7 @@ CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartla
 
 | Dosya | Oncelik | Icerik | Mod | Max Boyut |
 |-------|---------|--------|-----|-----------|
-| `brain.md` | En yuksek | Mimari kararlar, ADR 001-088 (79 karar) | Read-Write | 1000 satir |
+| `brain.md` | En yuksek | Mimari kararlar, ADR 001-089 (80 karar) | Read-Write | 1000 satir |
 | `index.md` | Yuksek | Master katalog, tum vault indeksi | Read-Write | 1000 satir |
 | `AGENTS.md` | Yuksek | Agent tanimlari, yetkiler, handover | Read-Write | 1000 satir |
 | `VISION.md` | Yuksek | Ekosistem vizyonu, mülkiyet felsefesi, 6 sorun-çözüm | Read-Write | 1000 satir |
@@ -457,7 +457,7 @@ Backend (home.coremusic.net):
 | Sections | 7 H2 + 24 § |
 | SSOT Authority | Memory System Index |
 | Last Updated | 2026-09-23 |
-| ADR Coverage | ADR-001 through ADR-088 (37 Frozen + 30 Active + 12 Rejected) |
+| ADR Coverage | ADR-001 through ADR-089 (37 Frozen + 31 Active + 12 Rejected) |
 | Security Boundary | REDACTED policy |
 | Session History | 24 oturum |
 | Cross References | 12 capraz referans |
@@ -696,6 +696,6 @@ Bu revizyonda her düzeltme üç kaynakla desteklendi: (1) Test-Path dosya varl�
 
 - Last update: 2026-09-24 00:00:00
 - Last session: ses_f2ced08e2ffeUEuh66DQmh1Z9p
-- Last operation: Vault workflow+tamplen genisletme tamamlandi: WORKFLOW.md 502 satir, architecture-write.md yeni is akisi (511), 4 yeni sablon (katman-readme, alt-katman, adr-nygard, agent-tartisma-turu), hedefli editler (session-init, vault-sync, adr-creation, .workflows/CLAUDE.md, koku CLAUDE.md), .templates/index.md 36/36 dosya v4.4.0 (16.503 satir). log.md append yapildi. session-save.mjs + vault-post-update.mjs DISKTE YOK — manuel senkron uygulandi (VERIFICATION REQUIRED: project-state.md de yok).
 - Next: kaldigin yerden devam etmek icin vault_sync continue-last kullan
+- Last operation: ADR-010-csrf-protection-strategy yazildi (status accepted, debate PENDING). 330 satir / 66.860 bayt, UTF-8 temiz (BOM/mojibake/CJK=0). 3 katman CSRF karari + 1.3 web arastirmasi (22 kaynak, 5 sorgu). Kanit: CsrfMiddleware.php (token, hash_equals), SessionInitializer.php SameSite=Lax, OriginCheckMiddleware.php fail-open. log.md append yapildi. session-save.mjs + vault-post-update.mjs DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED: project-state.md de yok).
 <!-- vault-sync:auto-end -->

@@ -72,7 +72,7 @@ authority: reference
 | # | Yasak Kapsam | Neden / Doğru Olan |
 |---|--------------|--------------------|
 | 1 | Doğrudan kod yazma (`*.php/js/css/sql/cpp/yml`) | Domain boundary → doğru ajanı ata |
-| 2 | Frozen ADR değiştirme (001-037) | Immutability → yeni ADR-088+ başlat |
+| 2 | Frozen ADR değiştirme (001-037) | Immutability → yeni ADR-090+ başlat |
 | 3 | Mevcut dosya silme / yeniden adlandırma | In-Place Refactoring → ekleme/güncelleme |
 | 4 | Hardcoded secret / token / `.env` içeriği | REDACTED → `[REDACTED]` maskesi |
 | 5 | Layer violation üretme (L0→L2/L3, L1→L3) | Mimari bütünlük → bağımlılık yönü L6→L0 |
@@ -91,14 +91,14 @@ authority: reference
 
 | Alan | Teknoloji | Durum | Kanıt / Not |
 |------|-----------|-------|-------------|
-| Koordinasyon | Vault System (`.ai/` markdown) | ✅ IMPLEMENTED | glob `.ai/*.md` → **14** kök dosya (CLAUDE, AGENTS, WORKFLOW, brain, ROLE, index, keys, MEMORY, log, ULTRA-THINKING, VISION, PROJECTS, engine, glossary) |
+| Koordinasyon | Vault System (`.ai/` markdown) | ✅ IMPLEMENTED | glob `.ai/*.md` → **15** kök dosya (CLAUDE, AGENTS, WORKFLOW, brain, ROLE, index, keys, MEMORY, log, ULTRA-THINKING, VISION, PROJECTS, engine, glossary, broken-links-report) |
 | Profil indeksi | `.ai/.agents/` | ✅ IMPLEMENTED | glob → **12** dosya (11 profil + AGENTS.md) |
 | Audit trail | `log.md` (append-only) | ✅ IMPLEMENTED | `.ai/log.md` mevcut |
 | UTF-8 yazım aracı | `.ai/scripts/vault-utf8-writer.mjs` | ✅ IMPLEMENTED | `.ai/scripts/` altında **tek** mjs betik (append/insert/write/verify/repair/scan) |
 | Oturum betikleri | `session-save.mjs`, `vault-post-update.mjs` | ⚠️ VERIFICATION REQUIRED | `.ai/scripts/` içinde **bulunamadı** — sistem çağrısıyla çelişiyor; uydurulmadı |
-| Workflow'lar | `.workflows/*.md` | ✅ IMPLEMENTED | glob → **8** dosya (session-init, vault-sync, security-audit, orchestrator-flow, hallucination-control, deployment, adr-creation, CLAUDE.md) |
+| Workflow'lar | `.workflows/*.md` | ✅ IMPLEMENTED | glob → **9** dosya (session-init, vault-sync, security-audit, orchestrator-flow, hallucination-control, deployment, adr-creation, architecture-write, CLAUDE.md) |
 | Skills | `.opencode/skills/` | ✅ IMPLEMENTED | **8** aktif SKILL.md (orchestration, truth-engine, db-engine, ui-workbench, composer-sync, vault-sync-post, agent-debate, context-report); `_archive/` kaldırıldı — benzersiz 20 dosya `_archive-keep/`; kök "10 skill" iddiası → doğrulandı, gerçek=8 (2026-09-24) |
-| Template sistemi | `.ai/.templates/` | ✅ IMPLEMENTED | registry iddiası 28/28 dosya (index §2, 2026-09-24 — +2 yeni şablon) |
+| Template sistemi | `.ai/.templates/` | ✅ IMPLEMENTED | registry iddiası 36/36 dosya (index §2 fm total_files=36, 2026-09-24 ölçüm) |
 | Persistent state | git | ✅ IMPLEMENTED | Çalışma dizini git repo (env: `Is directory a git repo: yes`) |
 | İletişim | Handover / Eskalasyon protokolleri | ✅ IMPLEMENTED | Kök §9-§10 dokümante protokol (vault içi süreç, kod değil) |
 | İzleme | Health Check (200/301/408/500/503) + Context Lock | ✅ IMPLEMENTED | Kök §11-§12 süreç tanımı |
@@ -150,7 +150,7 @@ MO hiçbir katmanda uygulama kodu üretmez; bu şema yalnız **denetim** içindi
 | # | Soru |
 |---|------|
 | 1 | Son session'dan bu yana ne değişti? |
-| 2 | Yeni ADR var mı? (Frozen 001-037 dokunulmaz, yeni ADR-088+) |
+| 2 | Yeni ADR var mı? (Frozen 001-037 dokunulmaz, yeni ADR-090+) |
 | 3 | Kod değişikliği oldu mu? |
 | 4 | Vault'ta eski/çelişkili bilgi var mı? |
 | 5 | Skills durumu nedir? (8 aktif — 2 yeni: agent-debate, context-report; `_archive/` kaldırıldı, benzersiz 20 dosya `_archive-keep/` — §4 kanıtı) |

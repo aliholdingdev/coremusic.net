@@ -353,7 +353,7 @@ grep -RE "[0-9]+px" "assets.coremusic.net/Css copy/04_Components"     # token ge
 | 5 | §10 token değişikliği inventory senkronu olmadan commit edilemez | Vault-kod tutarsızlığı |
 | 6 | Ayrı HTML/branch, framework, JS cihaz-branch'i Öneri satırında ❌ ile geçemez | Karar reddedilir |
 | 7 | Doğrulanamayan ölçüm/dosya `⚠️ VERIFICATION REQUIRED` | İçerik silinir |
-| 8 | Frozen ADR (001-037) çelişkisi → yeni ADR-088+ açılır | Karar durur |
+| 8 | Frozen ADR (001-037) çelişkisi → yeni ADR-090+ açılır | Karar durur |
 
 ### 4.1 Yasaklı Örüntüler (CSS/JS)
 
@@ -392,7 +392,7 @@ document.querySelector('.js-menu-toggle')        // ✅ yalnız davranış
 | #17 Single Component Responsive | §3.3 karar metni ("HTML DEĞİŞMEZ") + §3.12 | §6.3 |
 | ADR-001 Vanilla JS/ITCSS | §3.4 satır 5 + §4.1 vendor yasağı | §6.7 |
 | ADR-005 Zero hallucination | §6.7 `⚠️` denetimi | §6.7 |
-| Frozen 001–037 | §4 satır 8 → yeni ADR-088+ (⚠️ §1.3 numara çelişkisi) | Onay akışı |
+| Frozen 001–037 | §4 satır 8 → yeni ADR-090+ (⚠️ §1.3 numara çelişkisi) | Onay akışı |
 
 ### 4.3 Uçtan Uca Senaryo Tablosu (Domain Etkileşim Haritası)
 

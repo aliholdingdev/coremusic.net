@@ -6,8 +6,8 @@ status: active
 authority: SSOT
 version: 28.2.2
 updated: 2026-09-24
-total_files: 538
-total_adr: 79
+total_files: 587
+total_adr: 80
 total_adr_disk: 0
 ---
 
@@ -60,7 +60,7 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | 3 | [[WORKFLOW.md]] | Süreçler — vault refactoring, ürün döngüsü |
 | 4 | [[index.md]] | Bu dosya — tüm vault dizin yapısı |
 | 5 | [[keys.md]] | Anahtar kelime haritası — keyword → dosya yönlendirme |
-| 6 | [[brain.md]] | Mimari kararlar — ADR 001-088 (79 karar), L0-L6, engineering brain |
+| 6 | [[brain.md]] | Mimari kararlar — ADR 001-089 (80 karar), L0-L6, engineering brain |
 | 7 | [[MEMORY.md]] | Oturum hafızası — persistent state, cache, session lifecycle |
 | 8 | [[log.md]] | Aktivite günlüğü — append-only audit trail |
 | 9 | [[engine.md]] | Orkestrasyon motoru — agent koordinasyonu, task dispatch |
@@ -459,8 +459,8 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 |--------|------|------|-------|
 | PNG mockup | 18 | **19** (12+1+6) | .ai/.png/ sayımı |
 | Vault dosya | 726 | **787** | stub'lar dahil sayım |
-| ADR kapsamı | 001-087 | **001-088** (79) | decisions sayımı |
-| Active ADR | 50 | **30** | §5.2 satır sayımı |
+| ADR kapsamı | 001-087 | **001-089** (80) | decisions sayımı |
+| Active ADR | 50 | **31** | §5.2 satır sayımı |
 | Kök MD | 11 | **12** | glossary.md dahil |
 
 ---
@@ -514,7 +514,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 1. Hedef metrik "boş-hariç satır"tır (`Measure-Object -Line`) — Faz 0 envanteriyle aynı ölçüt.
 2. Her genişletme satırı bilgi taşır: kanıt yolu, tablo, ASCII şema veya doğrulama kaydı; doldurma/fluff yasaktır.
 3. Frozen ADR metinlerine ve arşiv dosyalarına dokunulmadı; yalnız referanslar doğrulandı.
-4. **2026-09-24 taze ölçüm:** `.ai` recursive = 538 `.md` / 583 toplam dosya; `.ai/.templates` = 26 `.md` (`Get-ChildItem -Recurse -Force -Filter *.md`). §18'deki 518 / template 19 değerleri bu disk ölçümüyle düzeltildi (538 / 26 — ölçüm 2026-09-24); sahip yeniden doğrulaması gerekirse §18 satırı üzerinden yapılır.
+4. **2026-09-24 taze ölçüm:** `.ai` recursive = 587 `.md` / 650 toplam dosya; `.ai/.templates` = 36 `.md` (`Get-ChildItem -Recurse -Force -Filter *.md`). §18'deki 518 / template 19 değerleri bu disk ölçümüyle düzeltildi (587 / 36 — ölçüm 2026-09-24 21:37); sahip yeniden doğrulaması gerekirse §18 satırı üzerinden yapılır. Not: eşzamanlı yazım nedeniyle `.md` ve toplam dosya sayıları gün içinde artabilir.
 
 ---
 
@@ -609,7 +609,7 @@ Bu bölüm, vault genelinde tespit edilen kırık referans kümelerini ve çöz�
 
 ### §5 Mimari Kararlar (ADR)
 
-Toplam 79 ADR (Frozen: 37, Active: 30, Rejected: 12). Frozen: 001-037 (değiştirilemez). Active: 038-088 (güncellenebilir).
+Toplam 80 ADR (Frozen: 37, Active: 31, Rejected: 12). Frozen: 001-037 (değiştirilemez). Active: 038-089 (güncellenebilir).
 
 ### §5.1 Frozen (001-037)
 
@@ -655,7 +655,7 @@ Toplam 79 ADR (Frozen: 37, Active: 30, Rejected: 12). Frozen: 001-037 (değişti
 
 ---
 
-### §5.2 Active (038-088)
+### §5.2 Active (038-089)
 
 | ADR | Konu | Kategori |
 |-----|------|----------|
@@ -689,6 +689,7 @@ Toplam 79 ADR (Frozen: 37, Active: 30, Rejected: 12). Frozen: 001-037 (değişti
 | [[brain.md]] ADR-086-event-driven-architecture | Event Driven Architecture (PSR-14) | Architecture |
 | [[brain.md]] ADR-087-master-implementation-plan | Master Implementation Plan (Sıfırdan Geliştirme Kapsamı) | Architecture |
 | [[brain.md]] ADR-088-gender-based-social-oauth | Gender-Based Social OAuth | Social |
+| [[.decisions/accepted/ADR-089-classab-24v]] | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Electronics |
 
 ---
 
@@ -720,10 +721,10 @@ Toplam 79 ADR (Frozen: 37, Active: 30, Rejected: 12). Frozen: 001-037 (değişti
 
 ### §18 Metadata
 
-- **Toplam dosya:** 538 (ölçüm 2026-09-24 — önceki sahip doğrulaması 518, 2026-09-23; eski Faz 0 değeri 787 güncel değildi)
-- **Toplam ADR:** 79 (Frozen: 37, Active: 30, Rejected: 12)
+- **Toplam dosya:** 587 (ölçüm 2026-09-24 — önceki sahip doğrulaması 518, 2026-09-23; eski Faz 0 değeri 787 güncel değildi)
+- **Toplam ADR:** 80 (Frozen: 37, Active: 31, Rejected: 12)
 - **Versiyon:** 28.2.0
-- **Son Güncelleme:** 2026-09-24 (disk ölçümü: toplam dosya 538, PNG 19, template 26, kök boot 14 — ölçüm 2026-09-24; önceki sahip doğrulaması 518/19, 2026-09-23)
+- **Son Güncelleme:** 2026-09-24 (disk ölçümü: toplam dosya 587, PNG 19, template 36, kök boot 15 — ölçüm 2026-09-24; önceki sahip doğrulaması 518/19, 2026-09-23)
 - **Governance:** Red Team · Human Mode · Truth Mode
 
 ---

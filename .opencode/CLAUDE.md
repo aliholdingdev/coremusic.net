@@ -45,7 +45,7 @@ Bu belge tek başına yeterli bilgi içermelidir. Başka bir AI sistemi, yalnız
 | Terim | Tanım |
 |-------|-------|
 | **SSOT** | Single Source of Truth — Tek Doğruluk Kaynağı. Tüm bilgiler `.ai/` vault'tan okunur. |
-| **ADR** | Architecture Decision Record — Mimari karar kaydı. Frozen (001-037) ve Active (038-088) olmak üzere iki türdür. |
+| **ADR** | Architecture Decision Record — Mimari karar kaydı. Frozen (001-037) ve Active (038-089) olmak üzere iki türdür. |
 | **Hard Gate** | Kullanıcı onayı olmadan geçilemeyen kritik faz geçiş noktası. |
 | **Zero Code Before Plan** | Plan onayı olmadan kod yazma yasağı. |
 | **Zero Hallucination** | Doğrulanamayan bilginin `VERIFICATION REQUIRED` olarak işaretlenmesi. |
@@ -527,7 +527,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | [[decisions/accepted/ADR-040-database-authority]] | 18 BCNF DB otoritesi | Active |
 | [[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]] | Vault restructuring, PHP 8.4, port 81 | Active |
 | [[decisions/accepted/ADR-044-dynamic-user-theme-engine]] | Dynamic theme engine | Active |
-| [[.decisions/draft/ADR-089-classab-24v]] | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Draft |
+| [[../.ai/.decisions/accepted/ADR-089-classab-24v]] | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Active |
 
 ---
 
@@ -615,7 +615,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | [[WORKFLOW.md]] | Süreçler, fazlar, workflow'lar |
 | [[index.md]] | Master katalog, tüm vault yapısı |
 | [[keys.md]] | Keyword haritası, yönlendirme |
-| [[brain.md]] | Mimari kararlar, ADR 001-088 |
+| [[brain.md]] | Mimari kararlar, ADR 001-089 |
 | [[MEMORY.md]] | Session hafızası, persistent state |
 | [[log.md]] | Audit trail, append-only günlük |
 | [[engine.md]] | Orkestrasyon motoru, task dispatch |
@@ -736,7 +736,7 @@ Her oturum başlangıcında sırayla okunur:
 | Platform Tiers | 5 |
 | Deployment Modes | 5 |
 | Audio Divisions | 5 |
-| ADR Coverage | 001-089 (80 karar: 37 Frozen + 30 Active + 12 Rejected + 1 Draft) |
+| ADR Coverage | 001-089 (80 karar: 37 Frozen + 31 Active + 12 Rejected) |
 | Cross References | 8 |
 | Glossary Terms | 30+ |
 | Forbidden Patterns | 10 |

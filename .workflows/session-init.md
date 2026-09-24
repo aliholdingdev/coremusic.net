@@ -172,7 +172,7 @@ YENİ OTURUM
 
 - İki ADR serisini ayır: `.ai/.decisions/` (karar serisi) + `.ai/architecture/adr/` (mimari seri, ADR-023…026) — birleştirme REDDEDİLDİ (ADR-026 §3.4)
 - Frozen ADR'leri tara (ADR-001 → ADR-037, immutable)
-- Aktif ADR'leri listele (`.ai/.decisions/index.md` — active ADR-038…088, draft 089)
+- Aktif ADR'leri listele (`.ai/.decisions/index.md` — active ADR-038…089, draft yok)
 - Çakışma var mı kontrol et (aynı numara → slug + konum birlikte okunur)
 
 ### Aşama 7-8: Geçmiş Bilgisi

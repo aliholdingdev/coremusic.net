@@ -15,7 +15,7 @@ updated: 2026-09-24
 # CoreMusic — Donanım / Devre Referansları Ekosistemi
 
 > **Kapsam:** Bu belge, `.ai/ecosystem/` altındaki 6 ekosistem dokümanından 4.'südür.
-> Kapsadığı K katmanları: **K1 (donanım/PCB), K16 (güç amplifikatörü), K17 (DAC dizisi), K19 (besleme/boost), K20 (çıkış stage / Class AB)**.
+> Kapsadığı K katmanları: **K1 (donanım — XMOS XU316, PCM3168A, AK4458 DAC), K16 (Class AB güç amplifikatörü), K17 (güç kaynağı ±35V boost), K18 (termal), K19 (PCB), K20 (BOM & üretim)** — bkz. aşağıdaki DÜZELTME bloğu.
 > Doğrulama tarihi: **2026-09-24 (exa web doğrulaması)**.
 > Yeni kaynak araştırması yok; sağlanan doğrulanmış exa sonuçları `.ai/architecture/github-referanslari.md` §2 ve `.ai/CLAUDE.md` §21-§22 ile çapraz bağlanır.
 
@@ -29,6 +29,19 @@ updated: 2026-09-24
 > 2026-09-24 — CoreMusic Ekosistem Serisi (4/6)
 
 ---
+
+> **⚠️ DÜZELTME (2026-09-24) — K Eşleme Hatası.** Bağlayıcı kaynak: `.ai/CLAUDE.md` (authority: SSOT) → **Critical Components (K16-K20 Layers)** tablosu. Bu belgedeki eski eşlemeler yanlıştı; doğrusu aşağıdadır. Bu düzeltme belge genelinde bağlayıcıdır (§1 kapsam satırı, §3.1, §3.2 dahil).
+>
+> | Konu | Eski (yanlış) | SSOT (doğru) |
+> |------|---------------|--------------|
+> | DAC dizisi (PCM3168A + AK4458) | K17 | **K1** (Donanım) |
+> | Güç amplifikatörü / Class AB ×8 | K16 + K20 | **K16** (Class AB Amplifikatör) |
+> | Boost / güç kaynağı ±35V (LM5122) | K19 | **K17** (Güç Kaynağı ±35V) |
+> | PCB tasarımı | K1 | **K19** (PCB Tasarım) |
+> | BOM & üretim | K20 | **K20** ✓ (doğru) |
+> | Termal tasarım | (eksik) | **K18** (Termal Tasarım) |
+>
+> Ayrıca **TPA3255 Class-D topolojisi ADR-089 ile REDDEDİLMİŞTİR** (§3.1) — belgede yalnızca topoloji dersi olarak referans kalır.
 
 ## Table of Contents
 
@@ -111,9 +124,9 @@ updated: 2026-09-24
 
 **Doğrulanmış olgu (2026-09-24):** TPA3255 referans devresi exa ile doğrulandı — Texas Instruments 315W/315W/160W stereo Class-D amplifikatör; CoreMusic github-referanslari §2'de donanım referansı olarak listeli.
 
-**Yapı dersi (K16):** TPA3255, filter-less (LC filtresiz) doğrudan çıkış mimarisiyle yüksek verimlilik sağlar; giriş aşaması differential, güç aşaması full-bridge. CoreMusic'in K16 güç amplifikatöründe bu topoloji **referans senaryodur** — Class AB×8 çıkış stage (K20) ile birlikte hibrit yerleşim düşünülebilir.
+**Yapı dersi (K16):** TPA3255, filter-less (LC filtresiz) doğrudan çıkış mimarisiyle yüksek verimlilik sağlar; giriş aşaması differential, güç aşaması full-bridge. **ADR-089 kararı gereği bu topoloji CoreMusic'te REDDEDİLDİ** (Class DC / Class D ret — ADR-089 §3.1); belge yalnızca **topoloji dersi** olarak referans alınır, K16'ya entegre edilmez.
 
-**Entegrasyon:** K16'ya "güç amplifikatörü referans şeması" olarak girer; CLAUDE.md §22'deki Class AB×8 çıkış stage ile **zincir bütünlüğü** korunur (TPA3255 = K16 sonrasi, Class AB = K20 çıkış).
+**Entegrasyon:** TPA3255 K16'ya **kopyalanmaz / entegre edilmez**; K16 = **Class AB ×8** (ADR-089). TPA3255 yalnızca filter-less / full-bridge **yapı dersi** kaydıdır; zincir bütünlüğü Class AB tarafında K16 → K20 (çıkış stage + BOM) üzerinden kurulur.
 
 ---
 
@@ -325,6 +338,30 @@ Yeni web araştırması YAPILMADI (kural gereği); sadece sağlanan exa sonuçla
 | **bu dosya (4/6)** | **K1/K16/K17/K19/K20** | — |
 | ekosistem-mimarileri.md | K8/K9/K14/K15 | Güç telemetri devri (§6.1) |
 | asio-wasapi-rehber.md | K2/K0 | Sürücü↔donanım keşfi (§6.1) |
+
+---
+
+### §3.11 ADR-089 Kapsamı — Class AB Amplifikatör Kararı (K16-K20)
+
+> **İlgili ADR:** [[../.decisions/accepted/ADR-089-classab-24v]] — Class AB Amplifikatör + 6S LiPo + ±35V Boost (**accepted**, 2026-09-24).
+
+**Karar özeti (8×50W · 1/2/4/6/8 kanal · 12-24V boost PSU · 120dB+ · hibrit MCU):**
+
+| Eksen | Karar | Kanıt |
+|-------|-------|-------|
+| Topoloji | **Class AB** (Darlington MJL21194/MJL21193) — **Class DC ve TPA3255 Class-D RET** | `.ai/CLAUDE.md` K16; ADR-089 §3.1 |
+| Güç | **12-24V DC giriş → ±35V boost (LM5122 ×2, %96)**; 6S LiPo 22.2V / 19-24V adaptör; DC-only | `.ai/CLAUDE.md` L18/L127 (H2), README L171; ADR-089 §2 |
+| Kanal | **1 / 2 / 4 / 6 / 8** modüler — her kanal bağımsız PCB, enable pinli | `.ai/PROJECTS.md` L306; ADR-089 §2 |
+| Gürültü | **120dB+ hedef** (DR); vault ölçülebilir referans: SNR >105dB / THD+N <0.005% | PROJECTS L305, brain L284; ADR-089 §4.3 ⚠️ ölçüm tanımı gerekli |
+| Kontrol | **Hibrit MCU**: XMOS XU316 (USB/DSP) + STM32H7·RP2040 (gerçek zamanlı MCU) + RPi5 (host); MCU↔modül haberleşme **zorunlu** | `.ai/CLAUDE.md` L126/L193, K0; ADR-089 §2.1 |
+
+**Güç kaynağı exa sonuçları (2026-09-24 — 19 aramanın 3'ü):**
+
+| Kaynak | Bulgu | K16-K20 etkisi |
+|--------|-------|----------------|
+| hifisonix **Ripple Eater** | Aktif ripple rejector: ±20-63V, 5A/20A, **40dB @20Hz-300kHz** / **50dB @200Hz-20kHz** | K17 (±35V boost) sonrası aktif filtraj adayı |
+| prydin **lateral MOSFET Class-AB** | 2SK1058/2SJ162, **±30V** | K16 alternatif çıkış stage (topoloji dersi — bu ADR kapsamı dışı) |
+| nathanpc **mini12** | **12V** TDA2030 tabanlı mini amplifikatör | 12-24V düşük güçlü referans senaryo |
 
 ---
 

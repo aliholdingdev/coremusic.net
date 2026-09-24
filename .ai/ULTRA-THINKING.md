@@ -518,7 +518,7 @@ TARİH: 2026-09-19 10:30
 KATMAN: 4 (Stratejik)
 KONU: Class AB Amplifikatör topoloji seçimi
 VAULT OKUMA: brain.md §8, architecture/k16-k20-electronics/amfii/
-ADR KONTROL: ADR-089 (Draft)
+ADR KONTROL: ADR-089 (Accepted)
 GÜVEN SKORU: 75 🟡
 KARAR: Darlington topolojisi seçildi (MBB150TH-1000 vs CFP vs Diamond)
 SONUÇ: ADR-089 draft'ı güncellendi, LTSpice simülasyonu başlatıldı

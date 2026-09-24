@@ -287,7 +287,7 @@ Tartışma sonucu yeni bir ilke kuruyorsa → `.ai/architecture/adr/` (mimari se
 |---|---|---|
 | Konum | `.ai/.decisions/` (accepted/draft/rejected + index.md) | `.ai/architecture/adr/` |
 | Kapsam | Proje/engineering kararları (csrf, orm, router…) | Mimari/katman kararları (derinlik, birleşme, sınır, sayım) |
-| Mevcut aralık | Frozen ADR-001…037 · Active ADR-038…088 · Draft ADR-089 | ADR-023…026 (2026-09-24, 4 dosya) |
+| Mevcut aralık | Frozen ADR-001…037 · Active ADR-038…089 · Draft yok | ADR-023…026 (2026-09-24, 4 dosya) |
 | Numara uzayı | `.ai/.decisions/index.md` tek otoritesi | Kendi uzayında ardışık |
 | Birleştirme | **REDDEDİLDİ** — ADR-026 §3.4 (alternatif D); üst karar (superstack/product-owner) gerekir | Aynı |
 
@@ -298,7 +298,7 @@ Tartışma sonucu yeni bir ilke kuruyorsa → `.ai/architecture/adr/` (mimari se
 | # | Kural |
 |---|-------|
 | 1 | Frozen ADR-001…037 **IMMUTABLE** — okunur, referans edilir, DEĞİŞTİRİLMEZ |
-| 2 | Yeni karar ADR'leri **ADR-088+** uzayında, `.ai/.decisions/index.md`'den boş numara seçilerek açılır (son kayıt: Active 088, Draft 089) |
+| 2 | Yeni karar ADR'leri **ADR-090+** uzayında, `.ai/.decisions/index.md`'den boş numara seçilerek açılır (son kayıt: Active 089, Draft yok — ADR-089 accepted 2026-09-24) |
 | 3 | Yeni mimari ADR'leri `.ai/architecture/adr/` kendi uzayında ardışık ilerler (son: ADR-026) |
 | 4 | Numara asla yeniden kullanılmaz; slug özeldir ve değişmez |
 | 5 | Dosya adı: `ADR-NNN-kisa-slug.md` (mimari seri, büyük harf) · `adr-NNN-slug.md` (karar serisi) |
@@ -458,7 +458,7 @@ Registry tek otoritesi: [[.ai/.templates/index]] — şablonsuz dosya üretimi y
 1. **In-Place Refactoring** — dosya adı onaysız DEĞİŞMEZ.
 2. **SSOT** — `.ai/` vault tek doğruluk kaynağı; bu dosya özettir, çelişkide vault kazanır.
 3. **Frozen ADR-001…037 IMMUTABLE.**
-4. **Yeni karar ADR'leri ADR-088+** (`.decisions/index.md`); mimari seri kendi uzayında (son: ADR-026).
+4. **Yeni karar ADR'leri ADR-090+** (`.decisions/index.md`); mimari seri kendi uzayında (son: ADR-026).
 5. **Her değişiklikte çapraz referans doğrulama** (kırık link 0).
 6. **Hallüsinasyon süpürmesi** — doğrulanamayan → `⚠️ VERIFICATION REQUIRED`.
 7. **`.ai/log.md`'ye SADECE append** (bayt düzeyi).

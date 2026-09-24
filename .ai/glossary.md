@@ -233,7 +233,7 @@ Kanonik terimlerin projedeki **doğrulanmış** kullanım yerleri. Yöntem: Faz 
 | **SOLID** | Tüm `CoreMusic\` sınıfları `final` + `declare(strict_types=1)`; interface implements | `shared/src/**` (örn. `AuthMiddleware implements IMiddleware`) |
 | **DDD / Hexagonal** | auth servisi include düzeni: Container/Controller/Domain/Handler/Middleware/Repository/Service | `auth.coremusic.net/include/` (7 klasör) |
 | **CQRS** | Command/Handler örnek deseni | `.ai/ROLE.md` §20.3 |
-| **ADR** | 67 accepted + 12 rejected = 79 karar; kapsam 001-088 | `.ai/decisions/` |
+| **ADR** | 68 accepted + 12 rejected = 80 karar; kapsam 001-089 | `.ai/decisions/` |
 | **SSOT** | `.ai/` vault — tüm kararlara tek referans | `.ai/*.md` (14 boot dosyası) |
 | **OWASP** | OWASP uyumluluk dokümanı | `.ai/architecture/07-security/` |
 | **Argon2id** | Şifre hash politikası (64MB/4/2 parametreleri) | `.ai/reports/` (faz5 password-hashing raporu) |
@@ -437,7 +437,7 @@ Auth vizyonunun iki kimlik taşıyıcısı.
 
 Şema değişikliklerinin sürümlendirilmiş, tekrarlanabilir uygulanması.
 
-- **Bağlam:** `shared/database/migrations/` klasörü mevcuttur; ADR-014 (Multi-DB Migration Strategy, frozen) stratejiyi, ADR-050 (Multi-DB Sync) güncel yaklaşımı tanımlar. 18 şema dosyası `.ai/.sql/mysql/` altında kanoniktir.
+- **Bağlam:** `shared/database/migrations/` klasörü mevcuttur; ADR-014 (Multi-DB Migration Strategy, accepted · debate ✅ 3 tur/20 persona, 18/2/0 KABUL — frozen değil) stratejiyi, ADR-050 (Multi-DB Sync) güncel yaklaşımı tanımlar. 18 şema dosyası `.ai/.sql/mysql/` altında kanoniktir.
 - **Kod kanıtı:** `shared/database/migrations/` + `.ai/.sql/mysql/` (18 .sql).
 - **İlişkili:** BCNF (§4.1.7), PDO (§4.1.15), ADR-003, ADR-014, ADR-040, ADR-050.
 
@@ -691,7 +691,7 @@ C: index.md katalog (dosya → amaç), keys.md yönlendirme (keyword → dosya),
 
 ### §6.1 ADR Durum Etiketi Kullanımı
 
-ADR'ler frozen (001-037, değiştirilemez) veya active (038-088) olabilir; glossary girişleri ADR metnini tekrar etmez, yalnız bağlantı kurar. Frozen ADR'nin kod karşılığı değiştiğinde: glossary girişi güncellenir, ADR metnine dokunulmaz — sapma `log.md`'ye ve (gerekirse) appendix dosyasına yazılır (engine §12.4 Faz 5 şablonu).
+ADR'ler frozen (001-037, değiştirilemez) veya active (038-089) olabilir; glossary girişleri ADR metnini tekrar etmez, yalnız bağlantı kurar. Frozen ADR'nin kod karşılığı değiştiğinde: glossary girişi güncellenir, ADR metnine dokunulmaz — sapma `log.md`'ye ve (gerekirse) appendix dosyasına yazılır (engine §12.4 Faz 5 şablonu).
 
 ### §12 Terim Versiyon Geçmişi
 

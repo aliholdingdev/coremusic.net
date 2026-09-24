@@ -475,7 +475,7 @@ for (std::uint32_t ch = 0; ch < numChannels; ++ch) {
 | ADR-012 | Neva Engine — hedef mimari | §1 honest scope |
 | ADR-013 | zero-copy veri yolu | blok işleme desenleri (§3.2) |
 | ADR-086 | teknoloji seçimi (en modern) | C++20 (§12) |
-| ADR-088+ | yeni ADR'ler | DSP kararları buradan |
+| ADR-090+ | yeni ADR'ler | DSP kararları buradan |
 
 ⚠️ `neva.io` kaynakları network ile indirilmeden (VERIFICATION REQUIRED) §7/§11 kodları **hazır kalıp**tır; gerçek API imzaları doğrulanarak uyarlanır.
 

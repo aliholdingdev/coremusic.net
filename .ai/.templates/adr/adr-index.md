@@ -48,7 +48,7 @@ Bu rehber, CoreMusic ADR (Architecture Decision Record) kümesine **sayısal nav
 - [ ] log.md append yapıldı
 ```
 
-> \* **Çelişki notu (⚠️ VERIFICATION REQUIRED):** Bu şablon setinin görev tanımı "yeni ADR'ler ADR-088+'tan başlar" derken; `brain.md` §13 "001–089 (37 Frozen + 30 Active + 12 Rejected + 1 Draft)" demektedir. İki kaynak uyuşmaz — **sonraki boş numara owner onayıyla belirlenmeli**, bu dosya numara tahmin etmez.
+> \* **Çelişki notu (⚠️ VERIFICATION REQUIRED):** Bu şablon setinin görev tanımı "yeni ADR'ler ADR-090+'tan başlar" derken; `brain.md` §13 "001–089 (37 Frozen + 31 Active + 12 Rejected)" demektedir. Çelişki 2026-09-24'te kapandı (ADR-089 accepted → brain §13 = 001-089 / 31 Active / Draft 0) — **sonraki boş numara owner onayıyla belirlenmeli**, bu dosya numara tahmin etmez.
 
 ---
 
@@ -153,7 +153,7 @@ Bu rehber, CoreMusic ADR (Architecture Decision Record) kümesine **sayısal nav
 | `.ai/.decisions/**` (hidden=true) | **6 dosya** | `index.md`, `CLAUDE.md`, `accepted/CLAUDE.md`, `draft/CLAUDE.md`, `rejected/index.md`, `rejected/CLAUDE.md` |
 | `.ai/decisions/**` (noktasız) | 0 dosya | §2.0 satırı bu yolu tarar — iki satır çelişmez, farklı yollar |
 | `.ai/.decisions/index.md` frontmatter | `total-accepted: 67`, `total-frozen: 37`, `total-active: 30`, `total-draft: 1`, `total-rejected: 12` | sayılar tek dosyadan okundu |
-| `.ai/.decisions/index.md` §2 | Frozen 001→037 · Active 038→088 · Draft 089 · Rejected 12 | numara aralığı kanıtı |
+| `.ai/.decisions/index.md` §2 | Frozen 001→037 · Active 038→089 · Draft 0 · Rejected 12 | numara aralığı kanıtı |
 | `.ai/.decisions/index.md` §5 | `R-001` → `R-012` | reddedilen karar aralığı |
 | `.ai/.decisions/index.md` §6 | 15 kategori; Frozen 37 + Active 30 = 67 | kategori sayımı |
 | `**/ADR-*.md` (hidden=true) | 0 dosya | §2.0 ile uyumlu: tek dosyalık ADR yok |
@@ -295,8 +295,8 @@ Dizin güncelleme akışı (append-only):
 | Aralık | Durum | Kim değiştirebilir | Kaynak |
 |---|---|---|---|
 | ADR-001 → ADR-037 | Frozen | kimse (immutable, kural #3) | `.ai/.decisions/index.md` §3 |
-| ADR-038 → ADR-088 | Active | Vault Steward onayıyla | `.ai/.decisions/index.md` §4 |
-| ADR-089 | Draft (1 adet) | taslak sahibi | `.ai/.decisions/index.md` §4A |
+| ADR-038 → ADR-089 | Active | Vault Steward onayıyla | `.ai/.decisions/index.md` §4 |
+| — | Taslak yok — ADR-089 accepted (2026-09-24) | — | `.ai/.decisions/index.md` §4A |
 | ADR-090+ | tahsis bekliyor | §3.6 formu ile | ⚠️ VERIFICATION REQUIRED: `brain.md` §13.2 teyidi |
 | R-001 → R-012 | Rejected | salt okunur | `.ai/.decisions/index.md` §5 |
 | — | yeni ADR başlangıcı | en yüksek numaradan sonra | sistem kuralı: yeni ADR'ler 088 ve sonrası |
@@ -334,7 +334,7 @@ Dizin güncelleme akışı (append-only):
 |---|---|---|
 | Accepted | Frozen 37 + Active 30 | 67 |
 | Rejected | `R-001` → `R-012` | 12 |
-| Draft | ADR-089 | 1 |
+| Draft | — | 0 |
 | Kayıt toplamı | 67 + 12 + 1 | 80 |
 | Dosya toplamı | `.ai/.decisions/**` | 6 dosya (indeks + CLAUDE + accepted/draft/rejected) |
 | Fiziksel ADR dosyası | `**/ADR-*.md` | 0 |

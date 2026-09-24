@@ -459,3 +459,39 @@ governance: Red Team · Human Mode · Truth Mode
 - **POST-OP SYNC:** .ai/scripts/session-save.mjs + vault-post-update.mjs Test-Path=False (YOK) → zorunlu post-op sync ÇALIŞTIRILAMADI; log.md, MEMORY.md, project-state.md senkronizasyonu manuel (bilinen durum, önceki seanslarla aynı).
 - REFACTOR REPORT: FILE: 8 dosya (.ai/CLAUDE.md, .ai/keys.md, .ai/architecture/k20-bom/CLAUDE.md, WORKFLOW.md, README.md, shared/CLAUDE.md, shared/AGENTS.md, kök CLAUDE.md) + log.md (append) · PURPOSE: P1 kararları — H5 dosya toplamı 639 fallback notu, K20 hedef/gerçekleşen etiket ayrımı, master-architecture-index→architecture/index repoint (8 link) + 1130→1,095 (4 nokta), 6 version patch bump · VALIDATION: vault-utf8-writer write 3 + append 1 + verify 3/3 + repo geneli 1130/master-architecture-index taraması + version 6/6 · RELATED: [[CLAUDE.md]] [[keys.md]] [[WORKFLOW.md]] [[architecture/index]] [[architecture/k20-bom/CLAUDE]] [[brain]] [[log]]
 ADR-003 yazildi (debate PENDING)
+ADR-003 yazıldı (debate PENDING)
+ADR-003 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+ADR-004 yazıldı (debate PENDING)
+ADR-004 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart\nADR-005 yazildi (debate PENDING)
+ADR-005 log notu: önceki satır ASCII 'yazildi' idi — doğru 'yazıldı'
+ADR-005 debate 3/20 kaydedildi (17/3/0 KABUL) + Tech Lead ✅ + 3 şartADR-006 yazıldı (debate PENDING)
+
+ADR-006 log notu: önceki kayıt satırının bitişinde newline eksikti — "ADR-006 yazıldı (debate PENDING)" kaydı ADR-005 debate satırına yapıştı; satır bütünlüğü bu notla belgelendi (append-only, geçmiş satıra dokunulmadı).
+ADR-006 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+2026-09-24 | adr-write | ADR-007 yazıldı (debate PENDING)
+2026-09-24 | adr-write | ADR-007 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart; CLAUDE.md L335 Redis→PLANNED düzeltildi\n
+> log notu (2026-09-24): önceki satırın sonunda gerçek newline eksikti ve `--text` argümanındaki `\n` literal iki karakter olarak yazıldı → bu notla LF + düzeltme eklendi (append-only, önceki satır içeriğine dokunulmadı). Satır UTF-8 doğrulandı: ✅ U+2705 · ş U+015F · → U+2192 · ü U+00FC.
+2026-09-24 | adr-write | ADR-008 yazıldı (debate PENDING)
+2026-09-24 | adr-write | ADR-008 debate 3/20 kaydedildi (19/1/0 KABUL) + Tech Lead ✅ + 3 şart
+2026-09-24 | ADR-009 yazıldı (debate PENDING) | .ai/.decisions/accepted/ADR-009-clean-url-redirect.md — 7 bölüm + §1.3 (5 sorgu / 24 kaynak), canonical https+apex+301 + iki katman + HSTS, status: accepted
+2026-09-24 | adr-write | ADR-009 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart; HSTS iddia düzeltildi (shared/src/Middleware/CLAUDE.md)
+2026-09-24 | ADR-010 yazildi (debate PENDING) | 7 bolum + 1.3 web arastirmasi, 22 kaynak; 3 katman CSRF (synchronizer token, SameSite Lax, Origin/Referer fail-closed); kanit: CsrfMiddleware, OriginCheck fail-open, SessionInitializer SameSite=Lax
+2026-09-24 | adr-write | ADR-010 debate 3/20 kaydedildi (19/1/0 KABUL) + Tech Lead ✅ + 3 şart
+2026-09-24 | ADR-011 yazıldı (debate PENDING)
+2026-09-24 | adr-write | ADR-011 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+2026-09-24 | ADR-012 yazıldı (debate PENDING)
+2026-09-24 | adr-write | ADR-012 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart; CLAUDE.md base64→hex düzeltildi
+Middleware/CLAUDE.md:94 base64→bin2hex düzeltildi (ADR-012 §5.1 #5 kapandı)
+2026-09-24 | ADR-013 yazıldı (debate PENDING)
+2026-09-24 | adr-debate (subagent) | ADR-013 debate 3/20 kaydedildi (19/1/0 KABUL) + Tech Lead ✅ + 3 şart
+2026-09-24 | ADR-089 yazildi (accepted) | .ai/.decisions/accepted/ADR-089-classab-24v.md — 10 alan frontmatter + §1-§7.1; 8x50W Class AB (MJL21194/MJL21193 Darlington), 12-24V DC -> ±35V boost (LM5122), 120dB+ hedef, 1/2/4/6/8 kanal, hibrit MCU; slug buyuk harf (ADR-089-classab-24v); 30/30 ic link COZULDU; debate ham transcript YOK -> §7.1 ozete dayali, oy sayisi uydurulmadi, ⚠️ VERIFICATION REQUIRED; PCM5122 yasak, Class D/TPA3255 §3.1'de RET, ADR-090 ACILMADI, 090/027 acilmadi
+2026-09-24 | vault-sync (ADR-089 terfi) | 24 dosya: .decisions/index.md (fm 67->68 / 30->31 / 1->0, §2 Active 31, §4 (038-089) + ADR-089 satiri, §4A taslak yok, §6 Electronics 0|5|5 + TOPLAM 37|31|68, footer v1.1.1); .ai/index.md (fm total_files 587 / total_adr 80, §19.2 L462-463, §5 L612, §5.2 (038-089) + satir, §18 L724-727); brain/keys/engine/CLAUDE/AGENTS/master-orchestrator sayim live-claim'leri; +15 dosya ikinci gecis (MEMORY L76/L460, PROJECTS L311, ULTRA-THINKING L521, glossary L236/L694, engine L224, index L63, brain L895/L994, CLAUDE L731/L837, master-orchestrator L75/L153, 6 sablon ADR-088+ -> ADR-090+); root (edit): WORKFLOW L290/L301/L461, .workflows adr-creation L47/L98/L219-220, vault-sync L159, session-init L175, .claude + .opencode CLAUDE L48/L530/L618/L739; dogrulama: yeni link KIRIK=0 (744 link tarandi), ADR-089 30/30 OK, katman-sayim EXIT=0 KABUL (kapasite 5105>=5000), writer verify 24/24 moji=0 bom=false; broken-links-report.md SALT-OKUNUR dokunulmadi; kalan 6 eslesme tarihsel/changelog (CLAUDE L748, index L587, ULTRA L524, ADR-081 L19, .claude/.opencode L762) bilincli dokunulmadi; PNG 19 DOGRU, total_adr_disk 0 DOKUNMAZ
+2026-09-24 | ADR-014 yazıldı (debate PENDING)
+2026-09-24 | ADR-014 yazıldı (debate PENDING)
+2026-09-24 | adr-debate (subagent) | ADR-014 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart (§5.4); glossary/data-engineer düzeltildi, k5 superseded
+2026-09-24 | ADR-015 yazıldı (debate PENDING)
+2026-09-24 | adr-debate (subagent) | ADR-015 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart (§5.4); data-engineer.md ADR-015 etiketi düzeltildi
+2026-09-24 | vault-documentation-specialist (subagent) | data-engineer.md [[WORKFLOW]] linki düzeltildi
+2026-09-24 | ADR-016 yazıldı (debate PENDING)
+2026-09-24 | adr-debate (subagent) | ADR-016 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+2026-09-24 | ADR-017 yazıldı (debate PENDING)
