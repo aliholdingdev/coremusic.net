@@ -6,7 +6,7 @@ category: shared
 date: 2026-09-21
 updated: 2026-09-21
 status: active
-version: 2.0.0
+version: 2.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -175,7 +175,7 @@ L3 (Presentation) → L2 (Routing/PageRouter) → L1 (Security/Middleware) → L
 
 | Kaynak | Yol | İçerik |
 |--------|-----|--------|
-| Mimari master | `../.ai/architecture/master-architecture-index.md` | 21 katman, 1130 bileşen |
+| Mimari master | `../.ai/architecture/index.md` | 21 katman, 1.095 bileşen |
 | API gateway | `../.ai/architecture/k9-api-routing/` | Gateway, BFF, CQRS |
 | Router katmanı | `../.ai/architecture/k9-api-routing/` | SPA PageRouter |
 | Güvenlik katmanı | `../.ai/architecture/k6-guvenlik/` | Middleware, auth, CSRF |

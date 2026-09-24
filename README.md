@@ -8,7 +8,7 @@
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2022%20Vanilla-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://tc39.es/ecma262/)
 [![C++](https://img.shields.io/badge/C++-20%20NevaEngine-00599C?style=flat&logo=cplusplus&logoColor=white)](https://isocpp.org/)
 [![MySQL](https://img.shields.io/badge/MySQL-9%20(18%20BCNF)-4479A1?style=flat&logo=mysql&logoColor=white)](https://dev.mysql.com/)
-[![Architecture](https://img.shields.io/badge/Architecture-21%20Layers%20(1130%20Components)-blue)](.ai/architecture/master-architecture-index.md)
+[![Architecture](https://img.shields.io/badge/Architecture-21%20Layers%20(1095%20Components)-blue)](.ai/architecture/index.md)
 [![License](https://img.shields.io/badge/License-Proprietary-red)](#lisans)
 [![Status](https://img.shields.io/badge/Status-Aktif%20Geliştirme-brightgreen)](#proje-durumu)
 
@@ -21,7 +21,7 @@
 - [3. Temel Yetenekler (10 Ana Başlık)](#3-temel-yetenekler-10-ana-başlık)
 - [4. Sektörel Çözümler ve Subdomain Ağı](#4-sektörel-çözümler-ve-subdomain-ağı)
 - [5. Hedef Kullanıcı Kitleleri](#5-hedef-kullanıcı-kitleleri)
-- [6. Mimari Yapı (21 Katman, 1130 Bileşen)](#6-mimari-yapı-21-katman-1130-bileşen)
+- [6. Mimari Yapı (21 Katman, 1095 Bileşen)](#6-mimari-yapı-21-katman-1095-bileşen)
 - [7. C++20 Neva Engine ve Ses Donanımı](#7-c20-neva-engine-ve-ses-donanımı)
 - [8. Teknoloji Yığını](#8-teknoloji-yığını)
 - [9. Kurulum ve Geliştirme](#9-kurulum-ve-geliştirme)
@@ -104,14 +104,14 @@ CoreMusic ekosistemi, 10 bağımsız uzmanlık paneli üzerinden modüler olarak
 
 ---
 
-## 6. Mimari Yapı (21 Katman, 1130 Bileşen)
+## 6. Mimari Yapı (21 Katman, 1095 Bileşen)
 
-CoreMusic, **A0 Altyapı'dan A5 Bileşenler'e** uzanan 21 dikey katman (K0-K20, 6 alan etiketi A0-A5) ve 1130 bileşen üzerine inşa edilmiştir:
+CoreMusic, **A0 Altyapı'dan A5 Bileşenler'e** uzanan 21 dikey katman (K0-K20, 6 alan etiketi A0-A5) ve 1095 bileşen üzerine inşa edilmiştir:
 
 ```
 ===========================================================================
 |                    COREMUSIC 21 KATMANLI MİMARİ                         |
-|                    1130 BİLEŞEN | DC-ONLY GÜÇ KAYNAĞI                   |
+|                    1095 BİLEŞEN | DC-ONLY GÜÇ KAYNAĞI                   |
 +-------------------------------------------------------------------------+
 |  K13: CI/CD           |  K12: İZLEME           |  K15: MEDYA & STREAMING|
 |  GitHub Actions / K8s |  App Logs / Prometheus |  FFmpeg - FLAC - HLS   |
@@ -156,7 +156,7 @@ CoreMusic, **A0 Altyapı'dan A5 Bileşenler'e** uzanan 21 dikey katman (K0-K20, 
 |  K1:  DONANIM ALTYAPI -- 120 Bileşen: XMOS XU316, PCM3168A, AK4458 DAC  |
 |  K0:  İŞLETİM SİSTEMİ -- 50 Bileşen: Windows, Linux, macOS, RPi5, Docker|
 +-------------------------------------------------------------------------+
-|  Toplam: 21 Katman | 1130 Bileşen | DC-ONLY | ~$682 Sistem Maliyeti     |
+|  Toplam: 21 Katman | 1095 Bileşen | DC-ONLY | ~$682 Sistem Maliyeti     |
 ===========================================================================
 ```
 
@@ -211,7 +211,7 @@ CoreMusic projesinin tüm mimari kararları, anayasası, kuralları ve detaylı 
 | **Vizyon Belgesi** | [`.ai/VISION.md`](.ai/VISION.md) | Proje vizyonu, pazar krizi, mülkiyet felsefesi ve stratejik hedefler |
 | **Proje Tanımı** | [`.ai/PROJECTS.md`](.ai/PROJECTS.md) | 10 temel yetenek, sektörler, kullanıcı profilleri ve pazar çözümleri |
 | **AI Anayasası** | [`.ai/CLAUDE.md`](.ai/CLAUDE.md) | 16 Hard Guardrail, mühendislik standartları ve kurallar |
-| **Master İndeks** | [`.ai/architecture/master-architecture-index.md`](.ai/architecture/master-architecture-index.md) | 21 katman, 1130 bileşen, 18 BCNF DB ve ADR kayıt defteri |
+| **Master İndeks** | [`.ai/architecture/index.md`](.ai/architecture/index.md) | 21 katman, 1.095 bileşen, 18 BCNF DB ve ADR kayıt defteri |
 | **Devre Şeması** | [`.ai/architecture/electronics/amfii/amplifier-classab-circuit.md`](.ai/architecture/electronics/amfii/amplifier-classab-circuit.md) | Class AB 50W amfi devresi, Mermaid şeması ve test noktaları |
 
 ---
@@ -219,5 +219,5 @@ CoreMusic projesinin tüm mimari kararları, anayasası, kuralları ve detaylı 
 **Authority:** Bayram Ali / Vault Steward  
 **Kaynak Doküman:** Freelancer Technical Documentation v1.0 (CoreMusic: Software Audio Hardware AI)  
 **Last Updated:** 2026-09-19  
-**Version:** 2.0.0  
+**Version:** 2.0.1  
 **Mode:** Red Team · Human Mode · Truth Mode

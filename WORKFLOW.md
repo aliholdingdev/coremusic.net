@@ -2,7 +2,7 @@
 title: "CoreMusic — Workflow Pointer + Mimari İş Akışı Özeti"
 type: workflow-pointer
 category: workflow
-version: 2.0.0
+version: 2.0.1
 status: active
 authority: "Pointer (ADR-042) — Bağlayıcı SSOT: .ai/WORKFLOW.md"
 updated: 2026-09-24
@@ -31,7 +31,7 @@ updated: 2026-09-24
 3. **[Proje Tanımı (PROJECTS.md)](.ai/PROJECTS.md)** 👈 *(10 temel yetenek, hedef kitleler, sektörel çözümler)*
 4. **[Faz Yürütme ve Matris (engine.md)](.ai/engine.md)** *(Orkestrasyon ve yürütme matrisi)*
 5. **[AI Anayasası (CLAUDE.md)](.ai/CLAUDE.md)** *(16 Hard Guardrail ve mühendislik anayasası)*
-6. **[Master Mimari İndeks (master-architecture-index.md)](.ai/architecture/master-architecture-index.md)** *(21 Katman, 1130 Bileşen, 18 BCNF DB)*
+6. **[Mimari İndeks (architecture/index.md)](.ai/architecture/index.md)** *(21 Katman, 1,095 Bileşen, 18 BCNF DB)*
 
 > [!NOTE]
 > **Genişletme notu (2026-09-24):** Aşağıdaki §1-§14 bölümleri bu dosyanın **bağlayıcı özeti (orientation summary)**'dir; tek otorite `.ai/` vault'unun ilgili dosyalarıdır. Çelişki durumunda SSOT kazanır: adlandırma → [[.ai/architecture/adlandirma-kurali]] · bağımlılık → [[.ai/architecture/katman-baglilik-matrisi]] · sayım → [[.ai/architecture/katman-sayim-rehberi]] · süreç → [[.ai/WORKFLOW.md]] · anayasa → [[.ai/CLAUDE.md]].
@@ -497,5 +497,5 @@ Registry tek otoritesi: [[.ai/.templates/index]] — şablonsuz dosya üretimi y
 
 **REFACTOR REPORT:** FILE: WORKFLOW.md · PURPOSE: Pointer + bağlayıcı iş akışı özeti (K0-K20 · A0-A5 · K{n}.a.b.c · 3 tur/20 persona · iki ADR serisi · UTF-8 + senkron) · VALIDATION: §1-§14 yeni eklenti; orijinal uyarı + 6 SSOT linki + footer korundu; 0 dosya silme · RELATED: [[.ai/WORKFLOW.md]] · [[.ai/architecture/adlandirma-kurali]] · [[.workflows/architecture-write]]
 
-*CoreMusic Workflow Pointer v2.0.0 — Authority: Bayram Ali / Vault Steward — Last Updated: 2026-09-24*
+*CoreMusic Workflow Pointer v2.0.1 — Authority: Bayram Ali / Vault Steward — Last Updated: 2026-09-24*
 *Mode: Red Team · Human Mode · Truth Mode*

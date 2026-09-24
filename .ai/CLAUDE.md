@@ -127,7 +127,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | **H2** | Güç Kaynağı | ±40V Push-Pull (SG3525/LM5122), 12V-24V DC Giriş | Voltaj çökmesini önleyen Hi-Fi Filtreleme |
 | **H3** | Termal Tasarım | Fischer SK82-150-SA heatsink, Noctua NF-A8 fan | Sıcaklık kontrollü fan |
 | **H4** | PCB Tasarım | 6-layer stackup, 200×100mm, 2oz copper, IPC Class 3 | 90Ω USB, 50Ω I2S impedans |
-| **H5** | BOM & Üretim | ~1,130 bileşen ⚠️ P1: bom-classab.md (1018) ile çelişki, ~$415 (1+), ~$293 (100+) | 8 kanal modüler BOM |
+| **H5** | BOM & Üretim | ~1,130 bileşen ⚠️ P1: dosya toplamı 639 — 1130 ve 1018 de doğrulanamadı (brain/log iddiası), ~$415 (1+), ~$293 (100+) | 8 kanal modüler BOM |
 
 ### Critical Components (K16-K20 Layers)
 

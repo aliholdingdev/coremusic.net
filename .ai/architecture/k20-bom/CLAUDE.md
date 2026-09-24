@@ -5,7 +5,7 @@ folder: "architecture/k20-bom"
 category: vault
 date: 2026-09-20
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: reference
 ---
 
@@ -15,7 +15,7 @@ authority: reference
 
 | Kategori | Hedef |
 |----------|-------|
-| Toplam bileşen | ~1000 |
+| Toplam bileşen | ~1000 (hedef; gerçekleşen özet: 500 — index.md "Toplam Bileşen Özeti") |
 | Toplam maliyet | <$430 |
 | Tedarikçi | Mouser/Digikey |
 
@@ -31,6 +31,6 @@ authority: reference
 
 ---
 
-*K20 CLAUDE.md v1.0.0 — CoreMusic*
+*K20 CLAUDE.md v1.0.1 — CoreMusic*
 *Authority: Bayram Ali / Vault Steward*
 *Last Updated: 2026-09-20*

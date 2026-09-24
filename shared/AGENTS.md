@@ -6,14 +6,14 @@ category: shared
 date: 2026-09-21
 updated: 2026-09-21
 status: active
-version: 2.0.0
+version: 2.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
 # shared — AGENTS.md
 
-**Zorunlu Bağlantılar:** [[../AGENTS.md]] · [[./CLAUDE.md]] · [[../.ai/architecture/master-architecture-index]]
+**Zorunlu Bağlantılar:** [[../AGENTS.md]] · [[./CLAUDE.md]] · [[../.ai/architecture/index]]
 
 ---
 
@@ -92,7 +92,7 @@ Paylaşılan PHP altyapısı (ADR-039): tüm subdomainlerin ortak middleware, ro
 
 | Kaynak | Yol |
 |--------|-----|
-| Mimari master | `[[../.ai/architecture/master-architecture-index]]` |
+| Mimari master | `[[../.ai/architecture/index]]` |
 | API gateway | `[[../.ai/architecture/k9-api-routing/]]` |
 | Router katmanı | `[[../.ai/architecture/k9-api-routing/]]` |
 | Güvenlik katmanı | `[[../.ai/architecture/k6-guvenlik/]]` |

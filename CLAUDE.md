@@ -27,7 +27,7 @@
 | 4 | [.ai/AGENTS.md](.ai/AGENTS.md) | Agent registry, permissions, handover protocols |
 | 5 | [.ai/WORKFLOW.md](.ai/WORKFLOW.md) | Processes, phases, workflow rules, hard gates |
 | 6 | [.ai/brain.md](.ai/brain.md) | ADR decisions (001-089), engineering constraints |
-| 7 | [.ai/architecture/master-architecture-index.md](.ai/architecture/master-architecture-index.md) | Master 21-layer architecture index (1,095 components) · ⚠️ hedef dosya diskte yok |
+| 7 | [.ai/architecture/index.md](.ai/architecture/index.md) | Master 21-layer architecture index (1,095 components) |
 | 8 | [.ai/architecture/adr/](.ai/architecture/adr/) | Architectural ADR series (ADR-023-026) — separate from `.ai/.decisions/` numbered series |
 
 ## Quick Commands

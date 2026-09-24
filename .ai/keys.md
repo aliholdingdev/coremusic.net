@@ -6,7 +6,7 @@ category: vault-navigation
 date: 2026-08-12
 updated: 2026-09-24
 status: active
-version: 28.3.1
+version: 28.3.2
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -48,7 +48,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | engine, orkestra, dispatch | engine.md |
 | keys, keyword, navigasyon | keys.md |
 | glossary, sozluk, terimler | glossary.md |
-| architecture-master, canonical count, metadata, ADR count, DB count, layer count | architecture/master-architecture-index.md |
+| architecture-master, canonical count, metadata, ADR count, DB count, layer count | architecture/index.md |
 
 ---
 
@@ -615,7 +615,7 @@ Istenen Bilgi -> Ilk Kontrol:
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 28.3.0 |
+| Version | 28.3.2 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | ADR Coverage | 001-088 (79 karar: 37 Frozen + 30 Active + 12 Rejected) |
 | Vault Envanteri | 538 .md dosyasi (ölçüm 2026-09-24), 79 ADR, 18 BCNF DB, hedef 10 panel / 7 servis (fiziksel: 4 domain + assets), shared/ hybrid yapı — önceki sahip doğrulaması 518 .md (2026-09-23) → disk ölçümüyle düzeltildi |
