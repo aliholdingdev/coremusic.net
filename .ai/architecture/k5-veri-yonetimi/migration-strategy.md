@@ -11,6 +11,9 @@ dependencies: [K1, K5]
 
 # Migration Strategy - Schema Versiyonlama
 
+> ⚠️ **SUPERSEDED (2026-09-24):** Bu dokümanın backward+down + tekil global `schema_migrations` stratejisi geçersiz; geçerli karar [[../../.decisions/accepted/ADR-014-multi-db-migration-strategy]] (forward-only, DB-bağımsız sequence).
+> İçerik silinmez (SSOT); bu not üstte kalır, çelişen satırlar ADR-014 lehine okunur.
+
 ## Genel Bakış
 
 Migration Strategy modülü, COREMUSIC veritabanı şeması değişikliklerini versiyonlanmış, geri alınabilir ve zero-downtime şekilde yöneten migration altyapısını sağlar. Her migration forward ve backward olarak uygulanabilir olmalıdır.

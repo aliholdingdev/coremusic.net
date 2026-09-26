@@ -4,8 +4,8 @@ type: system
 category: vault-navigation
 status: active
 authority: SSOT
-version: 28.2.2
-updated: 2026-09-24
+version: 28.3.0
+updated: 2026-09-26
 total_files: 587
 total_adr: 80
 total_adr_disk: 0
@@ -328,7 +328,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ### §12 Vault Altyapısı
 
-> **⚠️ Güncellik Notu (2026-09-06):** Aşağıda referans verilen `sessions/`, `registry/`, `scaffold/`, `knowledge/`, `confidence/`, `research/`, `personas/`, `workflows/`, `testing/`, `projects/` dizinleri vault ağacında mevcut DEĞİLDİR; bu bölümdeki ilgili wiki-linkler kırıktır. Düzeltme seçenekleri (yeniden kurma / referans temizliği) onay listesindedir.
+> **⚠️ Güncellik Notu (2026-09-26):** Aşağıda referans verilen `sessions/`, `registry/`, `scaffold/`, `knowledge/`, `confidence/`, `research/`, `workflows/`, `testing/`, `projects/` dizinleri vault ağacında mevcut DEĞİLDİR; bu bölümdeki ilgili wiki-linkler kırıktır. Düzeltme seçenekleri (yeniden kurma / referans temizliği) onay listesindedir. **`personas/` maddesi listeden ÇIKARILDI:** persona envanteri **`.ai/.personas/` altında yeniden kuruldu (2026-09-26, disk kanıtlı)** — 5 kök doküman (`index`, `methodology`, `mood-taxonomy`, `test-scenarios-mapping`, `research-bank`) + `test-senaryolari/` (6 dosya) + 6 grup klasörü (`kiz-cocuk`, `genc-kiz`, `erkek-cocuk`, `genc-erkek`, `yetiskin-kadin`, `yetiskin-erkek`); Persona satırı artık kırık değildir (ADR-023 Şart 1c — v1.1.0).
 
 | Kategori | Dosyalar |
 |----------|----------|
@@ -347,7 +347,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | UI-Design Reference | [[ui-design/tokens/design-tokens-master]], [[ui-design/reference/01-php-source-architecture]], [[ui-design/reference/02-text-strings]], [[ui-design/reference/03-icon-asset-catalog]], [[ui-design/reference/04-verification]] |
 | UI-Design Flow | [[ui-design/flow/00-flow-index]], [[ui-design/flow/auth/04-select-gender]] |
 | Research | [[research/verified/php84-strict-types]], [[research/verified/argon2id]], [[research/verified/aes-256-gcm]], [[research/verified/pcm3168a]], [[research/verified/asio-sdk]], [[research/verified/juce8]], [[research/verified/xmos-xu316]], [[research/verified/trusted-types-domparser]], [[research/verified/itcss-bemit-layer]], [[research/verified/wcag-22-aa]], [[research/verified/mariadb-1011]] |
-| Personas | [[personas/index]], [[personas/methodology]], [[personas/mood-taxonomy]] |
+| Personas | [[.personas/index]], [[.personas/methodology]], [[.personas/mood-taxonomy]], [[.personas/research-bank]], [[.personas/test-scenarios-mapping]] |
 | Templates | [[.templates/index]] — 2026-09-24 sayım: 28 dosya (26 şablon + index.md + CLAUDE.md; +2 yeni: claude-md, docs-md); eski ad listesi: PHP, JS, CSS, C++, PHPUnit, Vitest, Migration, GitHub Actions, API-doc, Security-audit, ADR, Arduino, AVR, PIC, C, Node.js, ASP.NET, WikiPage, Query, Session) — ⚠️ VERIFICATION REQUIRED: Arduino/AVR/PIC diskte yok, liste sahip onayına açık |
 | Workflows | [[../.workflows/adr-creation]], [[workflows/dev-workflow]], [[workflows/code-review]], [[../.workflows/deployment]], [[../.workflows/hallucination-control]], [[../.workflows/security-audit]], [[../.workflows/session-init]], [[workflows/vault-sync-detailed]] |
 | Root | [[engine]], [[index-overview]], [[index-services]], [[index-adr]], [[.decisions/index]], [[research/index]] |
@@ -408,7 +408,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | [[testing/strategy]] | Test stratejisi *(dizin yok — plan kaydı)* |
 | [[testing/coverage-targets]] | Kapsama hedefleri (≥80% min, ≥90% target) |
 | [[testing/e2e-template]] | E2E test şablonu |
-| [[testing/persona-test-protocol]] | Persona test protokolü |
+| [[.personas/methodology]] | Persona test protokolü *(yol düzeltildi 2026-09-26 — eski `testing/persona-test-protocol` hedefi yok)* |
 | [[testing/test-plan]] | Test planı |
 | [[testing/test-scenarios-mapping]] | Test senaryoları eşleme |
 
@@ -532,12 +532,12 @@ Bu bölüm, vault genelinde tespit edilen kırık referans kümelerini ve çöz�
 | 6 | `models/issues/scripts` index yok | CLAUDE.md §17 | ⚠️ Kullanıcı kararı bekliyor (oluştur / referans kaldır) |
 | 7 | `subdomains/README` + download index | keys.md §8, index.md §12 | ⚠️ Oluşturma kararı bekliyor |
 | 8 | `projects/NevaEngine/eq-dsp-chain` | keys.md §6 | ⚠️ stub kapsamı dışı — index.md §9 notuyla tutarlı |
-| 9 | `research/`, `personas/`, `registry/`, `scaffold/`, `knowledge/`, `confidence/`, `sessions/` | index.md §12 | ⚠️ §12 güncellik notu mevcut; yeniden kurma kararı kullanıcıda |
+| 9 | `research/`, `personas/` → **`.ai/.personas/` KURULDU (2026-09-26)**, `registry/`, `scaffold/`, `knowledge/`, `confidence/`, `sessions/` | index.md §12 | ✅ personas yeniden kuruldu (`.ai/.personas/` — 5 kök + 6 senaryo + 6 grup); `research/registry/scaffold/knowledge/confidence/sessions` ⚠️ §12 güncellik notu mevcut; yeniden kurma kararı kullanıcıda |
 | 10 | `ui-design/reference/02-design-tokens` | keys.md §3A | ✅ `ui-design/tokens/design-tokens-master.md` |
 | 11 | l4/l5 flat vs index | (Obsidian fallback) | ✅ flat dosyalar mevcut — sorun değil |
 | 12 | `[[reference/yaml-formatter]]` | WORKFLOW §8.8 | ⚠️ DOĞRULANAMADI — test edilmedi |
 
-**Özet:** 6 çözüldü · 6 kullanıcı kararı bekliyor. Bekleyenler kod üretimi gerektirmez; doküman/dizin kararıdır.
+**Özet:** 7 çözüldü (personas dahil — `.ai/.personas/` 2026-09-26) · 5 kullanıcı kararı bekliyor. Bekleyenler kod üretimi gerektirmez; doküman/dizin kararıdır.
 
 ---
 
@@ -557,7 +557,7 @@ Bu bölüm, vault genelinde tespit edilen kırık referans kümelerini ve çöz�
 |-------|------------|------|
 | models/issues/scripts index | Oluştur / referans kaldır | CLAUDE.md §17 boot iddiası |
 | subdomains README + download index | Oluştur / keys.md satırını sil | §8 keyword yönlendirme |
-| research/personas/registry vb. dizinler | Yeniden kur / §12'den sil | 30+ satır katalog temizliği |
+| research/personas/registry vb. dizinler | personas → **KURULDU** (`.ai/.personas/`, 2026-09-26); kalan research/registry vb. → Yeniden kur / §12'den sil | 30+ satır katalog temizliği |
 | electronic kök 8 dosya | Yeniden üret / DOĞRULAMA GEREKLİ kalıcı | keys.md §7, brain §21 |
 
 ---
@@ -617,7 +617,7 @@ Toplam 80 ADR (Frozen: 37, Active: 31, Rejected: 12). Frozen: 001-037 (değişti
 |-----|------|----------|
 | [[decisions/accepted/ADR-001-vanilla-js-itcss]] | Vanilla JS + ITCSS, framework yasak | Frontend |
 | [[decisions/accepted/ADR-002-pdo-mandatory-no-orm]] | PDO mandatory, ORM yasak | Database |
-| [[decisions/accepted/ADR-003-multi-db-9-databases]] | 9 BCNF veritabanı | Database |
+| [[decisions/accepted/ADR-003-multi-db-bcnf]] | 9 BCNF veritabanı | Database |
 | [[decisions/accepted/ADR-004-multi-domain-spa]] | Multi-domain SPA mimarisi | Architecture |
 | [[decisions/accepted/ADR-005-ultrathink-protocol]] | Zero hallucination protocol | Quality |
 | [[decisions/accepted/ADR-006-performance-targets]] | Performans hedefleri | Performance |

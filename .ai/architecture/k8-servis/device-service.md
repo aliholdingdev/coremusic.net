@@ -555,8 +555,8 @@ private:
 ## Durum: Implementasyon
 
 - **Core Device Management**: ✅ Tamamlandı
-- **DLNA Discovery**: ✅ Tamamlandı
-- **mDNS Discovery**: ✅ Tamamlandı
-- **Bluetooth Discovery**: 🔄 Devam ediyor
+- **DLNA Discovery**: ✅ Tamamlandı ⚠️ PLANNED (kod yok — ADR-037 şart 1a)
+- **mDNS Discovery**: ✅ Tamamlandı ⚠️ PLANNED (kod yok — ADR-037 şart 1a)
+- **Bluetooth Discovery**: 🔄 Devam ediyor ⚠️ PLANNED (kod yok — ADR-037 şart 1a)
 - **Health Monitoring**: ✅ Tamamlandı
 - **Remote Control**: 🔄 Devam ediyor

@@ -56,7 +56,8 @@ function backup(file) {
   const dir = "C:/temp/opencode/vault-backups";
   fs.mkdirSync(dir, { recursive: true });
   const bak = path.join(dir, path.basename(file) + ".bak");
-  if (!fs.existsSync(bak)) fs.copyFileSync(file, bak);
+  // Yeni dosya (kaynak yok) -> yedek alinmaz; yalnizca mevcut icerik korunur.
+  if (!fs.existsSync(bak) && fs.existsSync(file)) fs.copyFileSync(file, bak);
   return bak;
 }
 
@@ -82,7 +83,17 @@ const mode = process.argv[2];
 const args = parseArgs(process.argv.slice(3));
 
 try {
-  if (mode === "append") {
+  if (mode === "replace") {
+    const file = path.resolve(args.file);
+    const oldStr = resolveText(args.old);
+    const newStr = resolveText(args.text);
+    const { text: cur } = readUtf8(file);
+    const idx = oldStr ? cur.indexOf(oldStr) : -1;
+    if (idx < 0) { console.error(JSON.stringify({ ok: false, error: "old_not_found", old: String(oldStr).slice(0, 160) })); process.exit(2); }
+    const next = cur.slice(0, idx) + newStr + cur.slice(idx + oldStr.length);
+    writeUtf8(file, next);
+    console.log(JSON.stringify({ ok: true, mode: "replace", file, replacedBytes: Buffer.byteLength(newStr, "utf8") }, null, 2));
+  } else if (mode === "append") {
     const file = path.resolve(args.file);
     const text = resolveText(args.text);
     const cur = fs.readFileSync(file);

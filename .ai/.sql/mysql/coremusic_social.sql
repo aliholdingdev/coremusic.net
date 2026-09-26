@@ -133,7 +133,7 @@ CREATE TABLE listening_rooms (
   room_code VARCHAR(10) NOT NULL COMMENT 'Oda kodu (benzersiz, 6-10 karakter)',
   description TEXT NULL COMMENT 'Oda aciklamasi',
   room_type ENUM('public','private','invite_only') NOT NULL DEFAULT 'private' COMMENT 'Oda tipi',
-  max_members INT NOT NULL DEFAULT 10 COMMENT 'Maksimum uye sayisi',
+  max_members INT NOT NULL DEFAULT 50 COMMENT 'Maksimum uye sayisi', -- ADR-029 kapasite 50 (eski DEFAULT 10)
   current_music_id BINARY(16) NULL COMMENT 'Suan calinan sarki ID',
   current_position_sec INT NOT NULL DEFAULT 0 COMMENT 'Suan konum (saniye)',
   is_playing TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Suan caliniyor mu?',

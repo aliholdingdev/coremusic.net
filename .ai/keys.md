@@ -84,7 +84,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 |---------------|-------------|
 | 18 BCNF, normalizasyon | [[brain.md]] ADR-040-database-authority |
 | ORM, SELECT *, PDO | [[decisions/accepted/ADR-002-pdo-mandatory-no-orm]] |
-| multi-db, 18 veritabani | [[decisions/accepted/ADR-003-multi-db-9-databases]] |
+| multi-db, 18 veritabani | [[decisions/accepted/ADR-003-multi-db-bcnf]] |
 | migration, schema degisikligi | [[decisions/accepted/ADR-014-multi-db-migration-strategy]] |
 | SQL normalization | [[decisions/accepted/ADR-033-sql-normalization-strategy]] |
 | DB sync | [[brain.md]] ADR-050-multi-db-sync-strategy |
@@ -402,7 +402,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | amplifier, Class AB, 50W, MJL21194, MJL21193 | architecture/amplifier-classab-circuit.md |
 | bias, quiescent, thermal tracking, overcurrent | architecture/amplifier-classab-circuit.md |
 | power supply, ±35V, boost, LM5122, interleaved | architecture/power-supply-classab.md |
-| BOM, bill of materials, component count | architecture/bom-classab.md |
+| BOM, bill of materials, component count | architecture/k16-class-ab/bom-classab.md |
 | PCB, stackup, 6-layer, impedance, thermal | architecture/pcb-classab.md |
 | heatsink, fan control, thermal management | architecture/thermal-design-classab.md |
 
@@ -529,7 +529,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 P0: CLAUDE.md, AGENTS.md, WORKFLOW.md
 P1: index.md, keys.md, brain.md, MEMORY.md, log.md
 P2: decisions/accepted/ADR-NNN, architecture/L[0-3]/*
-P3: testing/*, ui-design/*, personas/*
+P3: testing/*, ui-design/*, .personas/*
 ```
 
 ---

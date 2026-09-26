@@ -3,15 +3,15 @@ title: "CoreMusic — Data Engineer Agent Profile"
 type: profile
 category: agent-registry
 date: 2026-08-08
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-24
+version: 2.0.1
 status: active
 authority: reference
 ---
 
 # CoreMusic — Data Engineer Agent Profile
 
-**Zorunlu Bağlantılar:** [[../AGENTS]] · [[../.agents/AGENTS]] · [[../ROLE]] · [[WORKFLOW]] · [[../.templates/agents/agents-template]] · [[../.decisions/index]] · [[../.decisions/CLAUDE]]
+**Zorunlu Bağlantılar:** [[../AGENTS]] · [[../.agents/AGENTS]] · [[../ROLE]] · [[../WORKFLOW]] · [[../.templates/agents/agents-template]] · [[../.decisions/index]] · [[../.decisions/CLAUDE]]
 
 ---
 
@@ -21,13 +21,13 @@ authority: reference
 |---|---|
 | Ad | Data Engineer (eski ad: Database Engineer — root §14'te "Database Engineer"; disk dosyası `data-engineer.md`) |
 | Rol seviyesi | Orta — uzmanlık (ROLE §4.5) |
-| Temel uzmanlık | MySQL veritabanı şema tasarımı, migration (Phinx), repository/query desenleri, veri akışı, cache stratejisi (ADR-015), CRUD doğrulama |
+| Temel uzmanlık | MySQL veritabanı şema tasarımı, migration (Phinx), repository/query desenleri, veri akışı, cache stratejisi (ADR atıfı ⚠️ V.R. — ADR-015 = Env Parser Strategy, cache DEĞİL), CRUD doğrulama |
 | Domain tekel | DB şema + sorgu + migration + veri modeli — eşleşme: `.ai/.templates/index.md` §5.1 → `data-engineer.md` (554 satır) |
 | SSOT hiyerarşisi | Bu profil domain tekel → root `.ai/AGENTS.md` (v22.0.0) genel üstün |
 | Aktiflik | active · 2026-08-08 · 2026-09-23 FAZ 3a rewrite |
 | Excluded | Backend service tasarımı (backend-architect) · güvenlik denetimi (security-engineer) · migration kod testi (qa-engineer, FAZ 3b) · deployment/backup (devops, FAZ 3b) · CI secret (devops) |
 
-**Tanım (Tek Cümle):** Data Engineer; CoreMusic'in 18 veritabanı envanteri, `.ai/.sql/mysql/` (18 .sql) ve `shared/database/migrations/` (Phinx) üzerinde tekel olan; şema/sorgu/migration tasarlayan, ADR-002 (repository/doğrudan SQL), ADR-014 (SELECT * yasak), ADR-015 (cache) kararlarını uygulayan orta seviye veri uzmanıdır.
+**Tanım (Tek Cümle):** Data Engineer; CoreMusic'in 18 veritabanı envanteri, `.ai/.sql/mysql/` (18 .sql) ve `shared/database/migrations/` (Phinx) üzerinde tekel olan; şema/sorgu/migration tasarlayan, ADR-002 (repository/doğrudan SQL), ADR-014 (SELECT * yasak), ADR-015 (Env Parser Strategy — `.env`/config erişimi tek kapı) kararlarını uygulayan orta seviye veri uzmanıdır.
 
 **Temel İlkeler:** (1) SELECT * yasak — her sorgu alanlarını açıkça listeler (ADR-014). (2) Repository deseni — iş mantığı SQL'e, controller sorguya karışmaz (ADR-002). (3) Migration tekilliği — şema değişikliği sadece Phinx migration ile (`.ai/.sql/mysql/` referans, live DB değil). (4) Kanıt = dosya — 18 .sql dosya adı = envanter; 156 tablo sayısı disk'te doğrulanamaz → `⚠️ VERIFICATION REQUIRED`.
 
@@ -40,7 +40,7 @@ authority: reference
 ```text
 [ Kaynak ]
   .ai/.sql/mysql/  (18 .sql — referans şema, glob-doğrulandı)
-  shared/database/migrations/  (2 Phinx migration)
+  shared/database/migrations/  (Phinx YOK; composer'da phinx YOK; 2 PHP $queries dosyası var — runner PLANNED, ADR-014)
   shared/src/Database/  (DatabaseManager · DatabaseRegistry — 2 dosya)
   .ai/architecture/k0-isletim-sistemi/ (15 md) · k5-veri-yonetimi/ (14 md)
         |
@@ -65,7 +65,7 @@ authority: reference
 | 2 | Migration (Phinx) | `shared/database/migrations/` — up/down + rollback |
 | 3 | Repository & query deseni | `shared/src/**/Repository` (varsa), ADR-002 uyumu |
 | 4 | Query optimizasyonu | index önerisi, execution plan, N+1 tespiti |
-| 5 | Cache stratejisi | ADR-015 (Hangfire değil — cache katmanı kararı) |
+| 5 | Cache stratejisi | Hangfire değil — cache katmanı kararı (ADR-015 **DEĞİL**: ADR-015 = Env Parser Strategy; cache ADR'si ⚠️ V.R.) |
 | 6 | Veri doğrulama/rapor | `.ai/reports/` — envanter, drift, çelişki |
 
 **Doğrulanmış envanter (2026-09-23 disk):**
@@ -92,7 +92,7 @@ authority: reference
 | Şema/tablo/index/alan tasarımı | Repository kullanım şekli → **backend-architect** | Service/controller kodu |
 | Migration yazma (Phinx up/down) | SQLi doğrulaması → **security-engineer** | Güvenlik politikası |
 | Sorgu optimizasyonu + plan | Test senaryosu → **qa-engineer** (FAZ 3b) | Test kodu |
-| Cache stratejisi taslağı (ADR-015) | Cache infra/invalidation runtime → **backend** + **sre** (FAZ 3b) | Cache sunucu kurulumu |
+| Cache stratejisi taslağı (ADR atıfı ⚠️ V.R. — ADR-015 = Env Parser Strategy) | Cache infra/invalidation runtime → **backend** + **sre** (FAZ 3b) | Cache sunucu kurulumu |
 | Veri envanteri/drift raporu | Backup/replication → **devops-engineer** (FAZ 3b) | Deploy/backup pipeline |
 | `.sql` referans dosyaları | Canlı DB değişikliği → **root** + change plan | Prod DDL (onaysız) |
 | ADR taslağı (≥088) | ADR → **root** | Frozen ADR (001-037) |
@@ -116,7 +116,7 @@ authority: reference
 | ORM | — | IMPLEMENTED **yok** (repository + raw SQL) | composer.json doctrine/laravel YOK |
 | SELECT * | yasak | IMPLEMENTED (kural) | ADR-014 index satırı |
 | Repository | zorunlu | IMPLEMENTED (kural) | ADR-002 index satırı |
-| Cache | ADR-015 kararı | IMPLEMENTED (kayıt) / kod kanıtı ⚠️ V.R. | psr/cache var, implementation yok |
+| Cache | ADR-015 **DEĞİL** (ADR-015 = Env Parser Strategy; cache kararı ⚠️ V.R.) | IMPLEMENTED (kayıt) / kod kanıtı ⚠️ V.R. | psr/cache var, implementation yok |
 | 156 tablo | — | ⚠️ VERIFICATION REQUIRED | sayım kanıtsız |
 | Backup/replication | — | ⚠️ PLANNED | altyapı kanıtı yok |
 | Query cache/APCu | RateLimit için APCu (ADR-013) | IMPLEMENTED (karar) | ADR-013 (veri cache ≠ rate-limit cache) |
@@ -235,7 +235,7 @@ authority: reference
 | 2 | SQLi / sanitization şüphesi | security-engineer | query + parametre + ADR-001/002/014 | Severity |
 | 3 | Migration/query senaryosu testi | qa-engineer (FAZ 3b) | migration adı + beklenen durum | Test type |
 | 4 | Backup/replication/deploy | devops-engineer (FAZ 3b) | tablo büyüklüğü + SLA | Infra |
-| 5 | Cache runtime invalidation/ölçüm | sre-engineer (FAZ 3b) + backend | ADR-015 + hit/miss hedefi | Metrics |
+| 5 | Cache runtime invalidation/ölçüm | sre-engineer (FAZ 3b) + backend | cache ADR'si ⚠️ V.R. (ADR-015 ≠ cache) + hit/miss hedefi | Metrics |
 | 6 | Şema kararı (Guardrail #16) | root + architect | 3 seçenek + boyut + risk | Decision owner |
 | 7 | Veri shape'i UI mockup'a | ui-designer | JSON örneği + tip | Schema |
 
@@ -268,7 +268,7 @@ authority: reference
 | 3 | `shared/database/migrations/` (2) | glob | Phinx gerçek (ESKİ yollar `.ai/migrations/` + `migrations/` YANLIŞ — düzeltilir) |
 | 4 | `shared/tests/**/*.php` (22) | glob | DB test koreografı (kod: qa) |
 | 5 | `.ai/architecture/k0-isletim-sistemi/` (15 md) · `k5-veri-yonetimi/` (14) | glob | Veri şartnamesi |
-| 6 | `.ai/.decisions/index.md` — ADR-002 repository · ADR-014 SELECT* · ADR-015 cache · ADR-001/004 input/SQL | read | Domain ADR kayıtları |
+| 6 | `.ai/.decisions/index.md` — ADR-002 repository · ADR-014 SELECT* · ADR-015 env parser (Env Parser Strategy — cache DEĞİL) · ADR-001/004 input/SQL | read | Domain ADR kayıtları |
 | 7 | `.ai/.templates/data-engineer.md` (554) | read | Kural kılavuzu |
 | 8 | 3 composer.json | read | ORM/phinx bağımlılık gerçeği (⚠️ phinx composer'da YOK) |
 | 9 | `home.coremusic.net/AGENTS.md` + `shared/AGENTS.md` | read | Veri tüketen API sözleşmeleri |
@@ -340,7 +340,7 @@ grep -RIn "SELECT \*" projects/*/src/                           # yıldız sorgu
 |-----|-------|------------------------|
 | ADR-002 | (eski profilden taşındı, `index.md` 9 satırında **yok**) | sorgu şablonlarını **kanıtsız kullanma**; gerektiğinde `⚠️ VERIFICATION REQUIRED` |
 | ADR-014 | (eski profilden taşındı, **yok**) | ORM kararı diskte doğrulanmadı — §4.5'te `ORM = ABSENT` |
-| ADR-015 | (eski profilden taşındı, **yok**) | migration aracı kararı doğrulanmadı — §4.5 phinx `⚠️` |
+| ADR-015 | (eski profilden taşındı, **yok**) | **Env Parser Strategy** (`.env`/config okuma) — migration aracı **DEĞİL**; migration aracı ayrı konu, §4.5 phinx `⚠️` |
 | ADR-010/011/012/013/019/022 | `index.md` 9 satırında **var** | ortak ADR — §4.6'ya bak |
 | ADR-083/084/085 | **var** | legacy/el-yazımı SQL politikası — `.ai/.sql/mysql/` geçerli |
 
@@ -502,9 +502,10 @@ Sonraki adım: [1 eylem, 2 dakika]
 |---|---|---|---|
 | 1.0.0 | 2026-08-08 | İlk profil | Claude |
 | 2.0.0 | 2026-09-23 | FAZ 3a §1-§11 rewrite; 7 alan; Truth Mode; 18 .sql + Database 2 + migrations 2 (shared/) disk-kanıtlı; 156 tablo/phinx-bağımlılık → ⚠️ V.R.; eski `.ai/migrations/` yolu düzeltildi | Claude (FAZ 3a) |
+| 2.0.1 | 2026-09-24 | ADR-015 etiket düzeltmesi (satır 24, 30, 68, 95, 119, 238, 271, 343): "cache stratejisi / migration aracı" yanlış atıfı → **ADR-015 = Env Parser Strategy** (ADR-015 §5.4 şart 3a) | Claude (adr-debate) |
 
 ---
 
 **Authority:** SSOT — domain tekel: Data Engineer (Orta — veri modeli/sorgu)  
-**Last Updated:** 2026-09-23  
+**Last Updated:** 2026-09-24  
 **Mode:** IMPLEMENTED (Truth Mode — disk doğrulanmış: 18 .sql, Database 2, shared migrations 2, tests 22, k0 15, k5 14; 156 tablo/backup/phinx composer = ⚠️)

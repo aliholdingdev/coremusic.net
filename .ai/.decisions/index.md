@@ -25,7 +25,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 | Durum | Sayı | Açıklama |
 |-------|------|----------|
-| **Frozen** | 37 | Değiştirilemez (ADR-001 → ADR-037) |
+| **Frozen** | 36 | Değiştirilemez (ADR-001 → ADR-036; ADR-037 debate ✅, frozen YOK) |
 | **Active** | 31 | Güncellenebilir (ADR-038 → ADR-089) |
 | **Rejected** | 12 | Reddedilen kararlar |
 | **Draft** | 0 | Taslak yok (ADR-089 kabule terfi etti, 2026-09-24) |
@@ -37,7 +37,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 |-----|--------|----------|
 | [[ADR-001-vanilla-js-itcss]] | Vanilla JS + ITCSS, Framework Yasak | Frontend |
 | [[ADR-002-pdo-mandatory-no-orm]] | PDO Mandatory, ORM Yasak | Database |
-| [[ADR-003-multi-db-9-databases]] | Multi-DB 9 BCNF Veritabanı | Database |
+| [[ADR-003-multi-db-bcnf]] | Multi-DB 9 BCNF Veritabanı | Database |
 | [[ADR-004-multi-domain-spa]] | Multi-Domain SPA Architecture | Architecture |
 | [[ADR-005-ultrathink-protocol]] | Ultrathink Protocol (Zero Hallucination) | Architecture |
 | [[ADR-006-performance-targets]] | Performance Targets | Architecture |
@@ -77,10 +77,10 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 | ADR | Başlık | Kategori |
 |-----|--------|----------|
-| [[../brain.md]] ADR-038-8.1-sound-card-chip-selection | 8.1 Sound Card (PCM3168A + XMOS) | Audio |
+| [[accepted/ADR-038-8-1-sound-card-chip-selection]] | 8.1 Sound Card (PCM3168A + XMOS) | Audio |
 | [[../brain.md]] ADR-039-7-service-platform-architecture | 7-Service Platform Architecture | Architecture |
-| [[../brain.md]] ADR-040-database-authority | Database Authority (18 BCNF) | Database |
-| [[../brain.md]] ADR-041-database-normalization-supplementary | DB Normalization Supplementary | Database |
+| [[accepted/ADR-040-database-authority]] | Database Authority (18 BCNF) | Database |
+| [[accepted/ADR-041-database-normalization-supplementary]] | DB Normalization Supplementary | Database |
 | [[../CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault Restructuring | Vault |
 | [[../brain.md]] ADR-043-auth-subdomain-consolidation | Auth Subdomain Consolidation | Security |
 | [[../brain.md]] ADR-044-dynamic-user-theme-engine | Dynamic User Theme Engine | Frontend |

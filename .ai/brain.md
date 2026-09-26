@@ -6,7 +6,7 @@ category: architecture-decisions
 date: 2026-08-08
 updated: 2026-09-24
 status: active
-version: 26.1.1
+version: 26.1.2
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -224,7 +224,7 @@ Tüm CoreMusic altyapısı açık kaynak (GitHub) destekli 16 ana katmandan olu�
 | Document | Content | Date |
 |----------|---------|------|
 | `electronics/amplifier-classab-circuit.md` | Circuit design, schematic, BOM (single channel), bias procedure, test protocol | 2026-09-18 |
-| `electronics/bom-classab.md` | Full 8-channel BOM: 1,018 components, ~$415 (1+), ~$293 (100+) | 2026-09-18 |
+| `architecture/k16-class-ab/bom-classab.md` | Full 8-channel BOM: 639 components (Toplam sutunu), ~$1,067.44 (8 kanal) / ~$133.43 (kanal) | 2026-09-26 |
 | `electronics/pcb-classab.md` | 6-layer PCB rules: stackup, impedance, thermal, placement, EMI | 2026-09-18 |
 | `electronics/thermal-design-classab.md` | Thermal management, heatsink selection, fan control | 2026-09-18 |
 | `electronics/power-supply-classab.md` | ±40V Push-Pull Boost (SG3525): 12V-24V DC giriş, merkez-uçlu trafo, Hi-Fi Filtre | 2026-09-18 |

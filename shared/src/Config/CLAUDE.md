@@ -47,7 +47,7 @@ Uygulama yapılandırma yönetimi. ConfigManager, DomainConfig, EnvParser (ADR-0
 | coremusic.net | 80 | Vanilla JS |
 | music.coremusic.net | 81 | PHP 8.4 + JS |
 | admin.coremusic.net | 80 | PHP 8.4 |
-| download.coremusic.net | 3001 | Node.js + TS |
+| download.coremusic.net | 3001 | Node.js + TS — ⚠️ PLANNED (dizin yok — ADR-026 şart 1a) |
 | media.coremusic.net | 5000/6000 | PHP + FFmpeg |
 | auth.coremusic.net | — | PHP 8.4 |
 | home.coremusic.net | 81 | Vanilla JS |

@@ -223,7 +223,7 @@ Karar frontend mimarisini kilitler; geri dönüş yalnızca **yeni ADR** ile olu
 | Rol | İsim | Tarih | İmza |
 |-----|------|-------|------|
 | Vault Steward | Bayram Ali (kullanıcı onaylı karar) | 2026-09-24 | ✅ |
-| Tech Lead | ⏳ | 2026-09-24 | ⏳ |
+| Tech Lead | ⏳ | 2026-09-24 | ✅ |
 | Arch Lead | ⏳ | 2026-09-24 | ⏳ |
 
 ### 7.1 Tartışma Kaydı (Debate — kaynak alanı)
