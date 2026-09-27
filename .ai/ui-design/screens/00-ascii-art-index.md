@@ -1,264 +1,123 @@
 ---
-title: "CoreMusic — Screen Specification Index (T08, T17 + All Tiers)"
+title: "CoreMusic — Screen Specification Index (T08 · Shared · T17)"
 type: spec
 category: index
-date: 2026-09-20
+date: 2026-09-27
 updated: 2026-09-27
-version: 2.1.0
+version: 6.0.0
 status: active
+authority: "Single Source of Truth (SSOT) — .ai/ui-design/screens/00-ascii-art-index.md"
+governance: Red Team · Human Mode · Truth Mode
+total_spec_files: 20
+total_active: 19
+total_draft: 1
+total_png_mockups: 19
+total_figma_frames: 22
+changelog: "v6.0.0 — screens/ dizini tamamen yıkılıp 20 yeni spec dosyasıyla yeniden yazıldı; merkezi indeks sıfırdan üretildi (eski indeks içeriği kullanılmadı)."
 ---
 
-# Screen Specification Index — T08, T17 + All Tiers
+# CoreMusic — Screen Specification Index (T08 · Shared · T17)
 
-CoreMusic UI screen specifications with ASCII art layouts based on 19 PNG mockups.
+**Zorunlu Bağlantılar:** [[../00-device-matrix]] · [[../01-mockup-index]] · [[../02-component-inventory]] · [[../03-implementation-plan]] · [[../04-accessibility-gaps]] · [[../05-responsive-architecture]] · [[../tokens/design-tokens-master]]
 
-## Quick Reference — Completed Screens
+---
 
-| Tier | Device | Viewport | Screen | Status |
-|------|--------|----------|--------|:------:|
-| T08 | RPi5 7" Touch (Embedded) | 1024×600 | home-dashboard.md | ✅ |
-| T08 | RPi5 7" Touch (Embedded) | 1024×600 | welcome-popup.md | ✅ |
-| T08 | RPi5 7" Touch (Embedded) | 1024×600 | albums.md | ✅ |
-| T08 | RPi5 7" Touch (Embedded) | 1024×600 | album-detail.md | ✅ |
-| T08 | RPi5 7" Touch (Embedded) | 1024×600 | artists.md | ✅ |
-| T08 | RPi5 7" Touch (Embedded) | 1024×600 | now-playing.md | ✅ |
-| T08 | RPi5 7" Touch (Embedded) | 1024×600 | file-browser.md | ✅ |
-| T08 | RPi5 7" Touch (Embedded) | 1024×600 | wifi-modal.md | ✅ |
-| T08 | RPi5 7" Touch (Embedded) | 1024×600 | bluetooth-modal.md | ✅ |
-| Shared | All Devices | 1024×600 | login.md | ✅ |
-| Shared | All Devices | 1024×600 | select-gender.md | ✅ |
-| Shared | All Devices | 1024×600 | register-step1.md | ✅ |
-| Shared | All Devices | 1024×600 | register-step2.md | ✅ |
-| Shared | All Devices | 1024×600 | register-step3.md | ✅ |
-| T17 | 22" FHD Monitor (Desktop) | 1920×1080 | home-dashboard.md | ✅ |
-| T17 | 22" FHD Monitor (Desktop) | 1920×1080 | welcome-popup.md | ✅ (draft — türetildi) |
-| T01 | Galaxy J7 (Phone HD) | 720×1280 | home-dashboard.md | ✅ |
-| T01 | Galaxy J7 (Phone HD) | 720×1280 | auth-login.md | ✅ |
-| T02 | iPhone 14-16 Pro Max (Phone FHD) | 1290×2796 | home-dashboard.md | ✅ |
-| T03 | Galaxy S25/S26 Ultra (Phone QHD) | 1440×3120 | home-dashboard.md | ✅ |
-| T25 | 43" FHD Smart TV | 1920×1080 | home-dashboard.md | ✅ |
-| T29 | Android Auto (Car) | 1280×720 | home-dashboard.md | ✅ |
-| T31 | Apple Watch 40mm | 396×484 | now-playing.md | ✅ |
+## 1. Kapsam, SSOT Sırası ve Okuma Protokolü
 
-## Screen Files — T08 Embedded (1024×600)
-
-| # | Screen | File | PNG Reference |
-|---|--------|------|---------------|
-| 1 | Home Dashboard | `T08-embedded/home-dashboard.md` | `Linux 1024 - Home Page.png` |
-| 2 | Welcome Popup | `T08-embedded/welcome-popup.md` | `Linux 1024 - Home Page Welcome Popup.png` |
-| 3 | Albums | `T08-embedded/albums.md` | `Linux 1024 - Albumler Page.png` |
-| 4 | Album Detail | `T08-embedded/album-detail.md` | `Linux 1024 - Albumler Details Detay Page.png` |
-| 5 | Artists | `T08-embedded/artists.md` | `Linux 1024 - Singer Page.png` |
-| 6 | Now Playing | `T08-embedded/now-playing.md` | `Linux 1024 - Playlist Page.png` |
-| 7 | File Browser | `T08-embedded/file-browser.md` | `Linux 1024 - Göz At Page.png` |
-| 8 | WiFi Modal | `T08-embedded/wifi-modal.md` | `Linux 1024 - Wifi Quick Page Base.png` |
-| 9 | Bluetooth Modal | `T08-embedded/bluetooth-modal.md` | `Linux 1024 - Bluetooth Quick Page Base.png` |
-
-## Screen Files — Shared (Auth Screens)
-
-| # | Screen | File | PNG Reference |
-|---|--------|------|---------------|
-| 10 | Login | `shared/login.md` | `Linux 1024 - Login Girl.png` |
-| 11 | Select Gender | `shared/select-gender.md` | `Linux 1024 - Select Gender.png` |
-| 12 | Register Step 1 | `shared/register-step1.md` | `Linux  1024 - Register Girl.png` |
-| 13 | Register Step 2 | `shared/register-step2.md` | `Linux  1024 - Register Girl step 2.png` |
-| 14 | Register Step 3 | `shared/register-step3.md` | `Linux  1024 - Register Girl step 3.png` |
-
-## Screen Files — T17 Desktop (1920×1080)
-
-| # | Screen | File | PNG Reference |
-|---|--------|------|---------------|
-| 15 | Home Dashboard | `T17-monitor-22fhd/home-dashboard.md` | `Linux - 1920 - Home.png` |
-| 16 | Welcome Popup | `T17-monitor-22fhd/welcome-popup.md` | ⚠️ 1920 welcome PNG **yok** — `Linux 1024 - Home Page Welcome Popup.png` + Figma `2831:10267`'den türetildi (status: draft) |
-
-## Screen Files — Other Tiers (Partial, 10 dosya)
-
-| # | Tier | Viewport | Screens |
-|---|------|----------|---------|
-| 17-18 | T01-phone-hd | 720×1280 | `home-dashboard.md`, `auth-login.md` |
-| 19 | T02-phone-fhd | 1290×2796 | `home-dashboard.md` |
-| 20 | T03-phone-qhd | 1440×3120 | `home-dashboard.md` |
-| 21 | T25-tv-43fhd | 1920×1080 | `home-dashboard.md` |
-| 22 | T29-car-android-auto | 1280×720 | `home-dashboard.md` |
-| 23 | T31-watch-apple-40mm | 396×484 | `now-playing.md` |
-
-**Disk toplamı (2026-09-27, glob doğrulaması):** 24 md = 1 indeks + 23 screen spec (eskı "151 dosya" iddiası hedef plandır, diskte değil).
-
-## Planned Screens (Pending)
-
-> **Not (2026-09-27):** T01/T02/T03/T25/T29/T31 ve shared register adları artık diskte mevcut (yukarıda "Other Tiers" tablosu) — bu tablo kalan eksik ekranları listeler.
-
-| Tier | Device | Viewport | Screens |
-|------|--------|----------|---------|
-| T01-T05 | Phone (Galaxy J7, iPhone 14-16, Galaxy S25-S26) | 720-1440 | auth, albums, artists, player (home: T01-T03 ✅; auth-login: T01 ✅) |
-| T06-T07 | Tablet (iPad Mini, iPad 10) | 1340-1840 | home, auth, albums, artists, player |
-| T09-T11 | Tablet (iPad Pro, Surface Pro) | 2048-2880 | home, auth, albums, artists, player |
-| T12-T16 | Laptop (MacBook Air/Pro) | 1920-3456 | home, auth, albums, artists, player, sidebar |
-| T18-T24 | Monitor (FHD/QHD/4K/Ultrawide) | 1920-5120 | home, auth, albums, artists, player (T17 tamamlandı, bu aralıkta değil) |
-| T25-T28 | Smart TV (43"-98") | 1920-3840 | player, settings (home: T25 ✅) |
-| T29-T30 | Car (Android Auto, CarPlay) | 800-1920 | player, navigation (home: T29 ✅) |
-| T31-T33 | Smart Watch (Apple Watch, Galaxy Watch) | 396-502 | controls (now-playing: T31 ✅) |
-| T34-T36 | Console (PS5, Switch, Steam Deck) | 1280-3840 | home, player, library |
-| T37-T38 | Desktop App (Electron, Tauri) | Responsive | home, auth, all screens |
-| T39-T40 | Mobile App (iOS, Android) | Responsive | home, auth, all screens |
-| T41-T45 | Web/Special (PWA, NAS, Speaker, AR/VR) | varies | minimal UI |
-
-## ASCII Art Layout Reference (1024×600)
+Bu dosya, `.ai/ui-design/screens/` altındaki **20 screen spec dosyasının tek indeksidir**. Alt dosyalar kendini indeks ilan edemez.
 
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ HEADER (h:60, y:0-60)                                                                                     │
-│ Logo(120×40)   Nav Links(8)                              User Avatar(40×40) + Theme Toggle + Search       │
-├────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ CONTENT (h:450, y:60-510)                                                                                 │
-│ ┌─── Left Panel (42-60%) ───┐  ┌─── Right Panel (40-58%) ──────────────────────────────────────────────┐ │
-│ │ Now Playing / Track List   │  │ Widgets / Detail Panel / Artist Info                                  │ │
-│ └────────────────────────────┘  └───────────────────────────────────────────────────────────────────────┘ │
-├────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ FOOTER PLAYER (h:90, y:510-600)                                                                           │
-│ 🎵 Song Info    [⏮][▶][⏹][⏭]    🔊 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ %100 │
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+PNG Mockup > Figma (extracted) > ASCII Art > Component Inventory > Tokens > Implementation Plan
 ```
 
-## Glassmorphism Design System
+- **PNG > Figma > ASCII:** çelişki durumunda PNG mockup kazanır; Figma yalnız koordinat/dolgu referansıdır; ASCII spec PNG'ye birebir hizalıdır.
+- Çelişki → spec içinde `ÇELİŞKİ` etiketi, doğrulanamayan değer → `⚠️ VERIFICATION REQUIRED` (uydurma sayılmaz).
+- **Okuma protokolü:** (1) tier satırını bul → (2) spec dosyasını aç, §1 ASCII yerleşim + §7 PNG referansı → (3) token'ları [[../tokens/design-tokens-master]] içinden uygula.
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--cm-primary` | #ff4fd8 | Pembe vurgu, progress bar, butonlar |
-| `--cm-bg-glass` | rgba(255,255,255,0.15) | Cam efekti |
-| `--cm-blur` | blur(20px) | Backdrop filter |
-| `--cm-radius-md` | 12px | Orta radius |
-| `--cm-radius-lg` | 16px | Büyük radius |
-| `--cm-gradient` | linear-gradient(135deg, #ff4fd8, #a855f7) | Buton gradient |
+## 2. Tier Matrisi (disk gerçeği — 2026-09-27 doğrulaması)
 
-## BEM Naming Convention
+| Tier | Dizin | Cihaz (spec frontmatter) | Viewport | Spec dosya | Status |
+|------|-------|--------------------------|----------|-----------|--------|
+| T08 | `screens/T08-embedded/` | RPi5 7" Touch (Embedded) | 1024×600 | 12 | 12 active |
+| T07 | `screens/shared/` | RPi5 7" Touch (Embedded) — auth ekranları | 1024×600 | 6 | 6 active |
+| T17 | `screens/T17-monitor-22fhd/` | 22" FHD Monitor (Desktop) | 1920×1080 | 2 | 1 active · 1 draft |
+| **Toplam** | — | — | — | **20** | **19 active · 1 draft** |
 
-| Prefix | Component | Example |
-|--------|-----------|---------|
-| `.home-*` | Home Dashboard | `.home-content__now-playing` |
-| `.album-*` | Albums | `.album-card__image` |
-| `.artist-*` | Artists | `.artist-card__name` |
-| `.track-*` | Track List | `.track-table__row` |
-| `.modal-*` | Modals | `.modal__content` |
-| `.wifi-*` | WiFi | `.wifi-network__badges` |
-| `.bt-*` | Bluetooth | `.bt-device__action` |
-| `.player-*` | Footer Player | `.player__controls` |
+> **⚠️ VERIFICATION REQUIRED (tier ataması):** dizin adı `T08-embedded` ve spec'ler `viewport: 1024x600` diyor; [[../00-device-matrix]] L92-93 ise `T07 = RPi5 7" 1024×600`, `T08 = RPi5 10" 1280×800`. `shared/*` spec'leri frontmatter'da `tier: T07`. Owner onayı bekleniyor — çelişki spec dosyalarında da `§8 ÇELİŞKİ` olarak etiketli.
+>
+> **PNG envanteri:** 19/19 PNG diskte mevcut (`.ai/.png/home-1024/` 12 · `.ai/.png/home-1920/` 1 · `.ai/.png/shared-1024/` 6 → [[../01-mockup-index]]). Spec başına tek PNG; **istisna:** T17 `welcome-popup.md` (draft) — 1920 popup PNG'si yok.
+
+## 3. Screen Files — T08 Embedded (1024×600) — 12 dosya
+
+| # | Dosya | Figma node (kök) | Kaynak PNG (`source_of_truth`) | Status | Açıklama |
+|---|-------|------------------|-------------------------------|:------:|----------|
+| 1 | [[T08-embedded/home-dashboard]] | `1639:10160` (COMPONENT) | `.ai/.png/home-1024/Linux  1024 - Home Page.png` | active | Ana ekran: header, Now Playing + widget sütunları, 3 sütun kart satırı, footer player |
+| 2 | [[T08-embedded/welcome-popup]] | `2831:10265` | `.ai/.png/home-1024/Linux  1024 - Home Page Welcome Popup.png` | active | Karşılama modalı: 600×308 manzara fotoğrafı + hoş geldin metni |
+| 3 | [[T08-embedded/albums]] | `2831:9176` | `.ai/.png/home-1024/Linux  1024 - Albumler Page.png` | active | Albümler: sol %60 kart grid, sağ %40 detay paneli |
+| 4 | [[T08-embedded/album-detail]] | `2831:10086` (h=612 ⚠️) | `.ai/.png/home-1024/Linux  1024 - Albumler Details Detay Page.png` | active | Albüm detay: 300×300 kapak, parça listesi, metadata |
+| 5 | [[T08-embedded/singer]] | `2831:9273` | `.ai/.png/home-1024/Linux  1024 - Singer Page.png` | active | Sanatçılar: dairesel kartlar (radius 50%), sağ detay paneli |
+| 6 | [[T08-embedded/playlist]] | `2831:9443` | `.ai/.png/home-1024/Linux  1024 - Playlist Page.png` | active | Çalma listeleri: sol liste, sağ seçili parça paneli |
+| 7 | [[T08-embedded/playlist-video]] | `2831:9710` | `.ai/.png/home-1024/Linux  1024 - Playlist Page - Video Played.png` | active | Çalma listesi + video oynatma görünümü |
+| 8 | [[T08-embedded/browse]] | `2831:9555` | `.ai/.png/home-1024/Linux  1024 - Göz At Page.png` | active | Dosya yöneticisi: disk/klasör ağacı ve gezinme çubuğu |
+| 9 | [[T08-embedded/browse-clicked]] | `2831:10282` (v5) + 4 varyant | `.ai/.png/home-1024/Linux  1024 - Göz At - Tıklama Clicked.png` | active | Tıklama sonrası dosya listesi: 4 kolonlu liste + sağ disk paneli (§6 varyantlar) |
+| 10 | [[T08-embedded/wifi-quick]] | `2831:9665` | `.ai/.png/home-1024/Linux  1024 - Wifi Quick Page Base.png` | active | WiFi quick panel: bağlı ağ + ağ listesi, sinyal badge'leri |
+| 11 | [[T08-embedded/wifi-connect-light]] | `2831:9644` | `.ai/.png/home-1024/Linux  1024 - Wifi Connect Light.png` | active | WiFi şifre modalı: Bağlan / İptal formu (overlay) |
+| 12 | [[T08-embedded/bluetooth-quick]] | `2831:9687` | `.ai/.png/home-1024/Linux  1024 - Bluetooth Quick Page Base.png` | active | Bluetooth quick panel: bağlı + aranabilir cihaz listesi |
+
+## 4. Screen Files — Shared / Auth (1024×600) — 6 dosya
+
+| # | Dosya | Figma node (kök) | Kaynak PNG (`source_of_truth`) | Status | Açıklama |
+|---|-------|------------------|-------------------------------|:------:|----------|
+| 13 | [[shared/login]] | `2831:9826` | `.ai/.png/shared-1024/Linux  1024 - Login Girl.png` | active | Giriş: e-posta/şifre formu, checkbox, sosyal giriş butonları |
+| 14 | [[shared/register-step1]] | `2831:9894` | `.ai/.png/shared-1024/Linux  1024 - Register Girl.png` | active | Kayıt adım 1: kullanıcı adı + e-posta, Devam Et |
+| 15 | [[shared/register-step2]] | `2831:9957` | `.ai/.png/shared-1024/Linux  1024 - Register Girl step 2.png` | active | Kayıt adım 2: şifre + şifre tekrar, Devam Et |
+| 16 | [[shared/register-step3]] | `2831:10020` | `.ai/.png/shared-1024/Linux  1024 - Register Girl step 3.png` | active | Kayıt adım 3: telefon, koşul checkbox'ı, Kayıt Ol |
+| 17 | [[shared/select-gender]] | `2831:9748` | `.ai/.png/shared-1024/Linux  1024 - Select Gender.png` | active | Cinsiyet seçimi: Kız / Erkek / Diğer 3 buton |
+| 18 | [[shared/select-gender-selected]] | `2831:9787` | `.ai/.png/shared-1024/Linux  1024 - Select Gender - selected.png` | active | Cinsiyet seçimi — seçili durum: pembe vurgulu buton, aktif Devam Et |
+
+## 5. Screen Files — T17 Desktop Monitor (1920×1080) — 2 dosya
+
+| # | Dosya | Figma node (kök) | Kaynak PNG (`source_of_truth`) | Status | Açıklama |
+|---|-------|------------------|-------------------------------|:------:|----------|
+| 19 | [[T17-monitor-22fhd/home-dashboard]] | `2831:13747` | `.ai/.png/home-1920/Linux - 1920 - Home.png` | active | 1920×1080 ana ekran: 3 sütun üst blok, 10+6 kart satırı, footer player |
+| 20 | [[T17-monitor-22fhd/welcome-popup]] | `2876:6439` (modal 600×308) | `⚠️ VERIFICATION REQUIRED — 1920 popup PNG'si yok` | **draft** | Karşılama modalı — 1024 popup PNG + Figma'dan türetildi, PNG doğrulaması bekliyor |
+
+## 6. Figma Kare Sayımı (22) + browse-clicked Varyantları
+
+**20 spec md ↔ 22 Figma frame:** 17 md tek kök kare (T08: 11 + shared: 6) + `browse-clicked` tek başına **5 varyant kare** → `17 + 5 = 22`.
+T17'nin 2 md'si bu 22'ye **dâhil değil** (kendi 1920 kareleri ayrı referanstır: `2831:13747` Home, `2876:6439` modal) → 1024+1920 toplam referans kare = 24.
+
+**browse-clicked varyantları (Figma 5 kare — spec §7):**
+
+| Varyant | Figma node | Not |
+|---------|-----------|-----|
+| v1 | `1976:11757` | sağ panel yok, footer kaymış |
+| v2 | `1976:12013` | playlist başlığı "Son Dinlenler" (typo) |
+| v3 | `1980:13448` | başlık metni değişimi (Favoriler) |
+| v4 | `1980:13692` | 4 playlist satırı + süreler |
+| **v5 (spec = bu)** | `2831:10282` | "Musics : Root" dosya listesi, 253×420 sağ panel |
+
+## 7. Quality Report (2026-09-27)
+
+| Kontrol | Sonuç |
+|---------|-------|
+| Spec dosya sayısı | **20/20** (T08 12 · shared 6 · T17 2) ✅ glob + frontmatter doğrulaması |
+| Status dağılımı | **19 active · 1 draft** (draft = `T17-monitor-22fhd/welcome-popup`) ✅ |
+| PNG eşleştirme | **19/19 PNG diskte var**; 1 spec PNG'siz (T17 welcome, `status: draft`) ✅ |
+| Figma kare | **22** (17 kök + browse-clicked 5 varyant) + 2 T17 referans kare ✅ |
+| `wiki-link` çözümü | **32 link · 27 benzersiz hedef → 27/27 çözülebilir** (20 spec + 7 üst doküman; çözülemeyen link yok) ✅ |
+| Yasaklar | 20 spec dosyası salt okunur; yazım yalnız bu indeks ✅ |
+| Yazma protokolü | `vault-utf8-writer.mjs write` — UTF-8, BOM'suz + verify (BOM/mojibake/CJK/NUL) ✅ |
+
+**⚠️ AÇIK KONULAR (VERIFICATION REQUIRED):**
+1. Tier ataması: `T08-embedded` (1024×600) ↔ [[../00-device-matrix]] `T07 = 1024×600` (§2 notu) — owner onayı.
+2. Node etiketi hataları (bu görevde spec'lere dokunulmadı): `shared/login` spec'i `2831:9838`'i "frame" yazıyor → gerçek `GROUP social/btns`, kök kare `2831:9826`; `shared/select-gender` `2831:9760` = `GROUP button/nötur` (kök `2831:9748`); `shared/select-gender-selected` `2831:9808` = `TEXT "Erkek"` (kök `2831:9787`); T17 welcome `2831:13747`'yi "Welcome Div" yazıyor → `2831:13747` = `FRAME "Linux - 1920 - Home"`, Welcome Div = `2831:10267`.
+3. [[../01-mockup-index]] §4 eski spec adlarını (`artists.md`, `wifi-modal.md`, `T07-embedded/`) listeler — bu indeks yeni 20 dosyayı esas alır; mockup-index düzeltmesi ayrı iş.
+4. `screens/T08-embedded/home-dashboard` kök node'u Figma **COMPONENT** (`1639:10160`), FRAME değil.
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-27
+**Version:** 6.0.0 — 20 spec dosyasının tamamı yeniden yazıldı; bu indeks sıfırdan üretildi (eski v2.1.0 içeriği bayat olduğu için yeniden kullanılmadı)
 **Mode:** Red Team · Human Mode · Truth Mode
-
-## Quick Reference
-
-| Tier | Device | Viewport | PPI | Class | Layout |
-|------|--------|----------|-----|-------|--------|
-| T1 | Galaxy J7 | 720×1280 | 267 | Phone HD | Stack, 3-tab bottom nav |
-| T2 | iPhone 16 Pro Max | 1290×2796 | 460 | Phone FHD | Stack, 3-tab bottom nav |
-| T3 | Galaxy S25 Ultra | 1440×3120 | 505 | Phone QHD | Stack, 3-tab bottom nav |
-| T4 | Galaxy Z Flip | 1080×2640 | 425 | Phone Foldable | Stack, 3-tab bottom nav |
-| T5 | OnePlus 12 | 1440×3168 | 510 | Phone Ultra | Stack, 3-tab bottom nav |
-| T6 | iPad Mini | 1488×2266 | 327 | Tablet 8" | 2-column compact |
-| T7 | iPad 10 | 1640×2360 | 264 | Tablet 10" | 2-column |
-| T8 | Tab S9 | 1600×2560 | 274 | Tablet 11" | 2-column |
-| T9 | iPad Pro 12.9 | 2048×2732 | 265 | Tablet 12" | 2-column wide |
-| T10 | Surface Pro | 2880×1920 | 267 | Tablet 13" | Landscape 2-col |
-| T11 | Tab S9 FE+ | 1200×2000 | 225 | Tablet 14" | 2-column |
-| T12 | MacBook Air 13 | 2560×1664 | 224 | Laptop 13" | Sidebar 200px + content |
-| T13 | MacBook Pro 14 | 3024×1964 | 254 | Laptop 14" | Sidebar 220px + content |
-| T14 | MacBook Air 15 | 2880×1864 | 224 | Laptop 15" | Sidebar 240px + content |
-| T15 | MacBook Pro 16 | 3456×2234 | 254 | Laptop 16" | Sidebar 260px + content |
-
-## Screen Files Per Tier
-
-Each tier contains 10 screen specification files:
-
-| # | Screen | T1-T5 (Phone) | T6-T11 (Tablet) | T12-T15 (Laptop) |
-|---|--------|----------------|-----------------|-------------------|
-| 1 | home.md | Stack + bottom tabs | 2-column grid | Sidebar + content |
-| 2 | auth-login.md | Full screen form | Split layout | Split layout |
-| 3 | auth-register.md | 3-step wizard | Split 3-step | Split 3-step |
-| 4 | auth-gender.md | Full screen select | Split select | Split select |
-| 5 | albums.md | Full screen grid | 2-column split | Sidebar + 60/40 |
-| 6 | album-detail.md | Track list scroll | Split detail | Split detail |
-| 7 | artists.md | Circular grid | 2-col circular | Sidebar + grid |
-| 8 | playlist.md | Stack playlist | Split playlist | Sidebar + playlist |
-| 9 | settings.md | Settings list | Split settings | Sidebar + settings |
-| 10 | player-bar.md | Mini player bar | Mini player bar | Mini player bar |
-
-## Device Class Layouts
-
-### Phone (T1-T5): Stack Layout
-```
-┌─────────────────────┐
-│     Status Bar      │
-├─────────────────────┤
-│                     │
-│     Content Area    │
-│     (scrollable)    │
-│                     │
-├─────────────────────┤
-│   Mini Player Bar   │
-├─────────────────────┤
-│  Tab Bar (3 items)  │
-└─────────────────────┘
-```
-
-### Tablet (T6-T11): 2-Column Layout
-```
-┌──────────────────────────────────┐
-│          Status Bar              │
-├──────────────┬───────────────────┤
-│              │                   │
-│   Sidebar    │   Content Area    │
-│   (200px)    │   (scrollable)    │
-│              │                   │
-├──────────────┴───────────────────┤
-│        Mini Player Bar           │
-└──────────────────────────────────┘
-```
-
-### Laptop (T12-T15): Sidebar + Content
-```
-┌─────────────────────────────────────────────┐
-│              Title Bar                      │
-├──────────┬──────────────────────────────────┤
-│          │                                  │
-│ Sidebar  │        Content Area              │
-│ (200-    │        (scrollable)              │
-│  260px)  │                                  │
-│          │                                  │
-├──────────┴──────────────────────────────────┤
-│            Mini Player Bar                  │
-└─────────────────────────────────────────────┘
-```
-
-## Reading Protocol
-
-1. **Identify target tier** from device class table
-2. **Read ASCII wireframe** for spatial layout
-3. **Map components** (C01-C16) to positions
-4. **Apply tokens** from design-tokens-master.md
-5. **Check responsive notes** for tier-specific overrides
-
-## Token Application
-
-All tiers reference tokens from:
-- `../tokens/design-tokens-master.md` — Core design tokens
-- `../02-component-inventory.md` — Component specifications (C01-C16)
-- `../03-implementation-plan.md` — CSS implementation roadmap
-
-## File Naming Convention
-
-```
-T{tier}-{device-class}/{screen}.md
-```
-
-Example: `T01-phone-hd/home.md`
-
----
-
-**Total files:** 151 hedef plandı (1 index + 15 tiers × 10 screens) · **Disk gerçeği (2026-09-27):** 24 md (1 index + 23 spec — T08:9, shared:5, T17:2, T01:2, T02-T03-T25-T29-T31: 1'er)
-**Created:** 2026-09-20 · **Updated:** 2026-09-27 (v2.1.0 — T17 welcome-popup + shared register-1/2/3 + diğer tier dosyaları eklendi)
-**Author:** Agent 3 — Screen Spec Writer
