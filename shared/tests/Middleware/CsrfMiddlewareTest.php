@@ -186,15 +186,17 @@ final class CsrfMiddlewareTest extends TestCase
     }
 
     /* ============================================================
-       BYPASS ROUTES
+       BYPASS ROUTES — varsayılan olarak YOK (ADR-010)
        ============================================================ */
 
-    public function testSetGenderRouteBypassesCsrf(): void
+    public function testSetGenderRouteRequiresCsrf(): void
     {
+        // ADR-010: bypass route'ları kaldırıldı — 'set-gender' artık da dahil
+        // tüm state-changing istekler CSRF token ister (A01:2021 riski).
         $middleware = new CsrfMiddleware();
         $coreCalled = false;
 
-        $middleware->handle(
+        $result = $middleware->handle(
             [
                 'method'  => 'POST',
                 'uri'     => 'set-gender',
@@ -207,7 +209,33 @@ final class CsrfMiddlewareTest extends TestCase
             }
         );
 
-        $this->assertTrue($coreCalled, 'set-gender route should bypass CSRF');
+        $this->assertFalse($coreCalled, 'set-gender route CSRF token olmadan geçmemeli');
+        $this->assertSame(403, $result['httpStatus']);
+        $this->assertSame('csrf_invalid', $result['body']['error']);
+        $this->assertTrue($result['halt'] ?? false, 'akış durdurulmalı');
+    }
+
+    public function testSetGenderRouteWithValidTokenPasses(): void
+    {
+        $middleware = new CsrfMiddleware();
+        $coreCalled = false;
+
+        $result = $middleware->handle(
+            [
+                'method'   => 'POST',
+                'uri'      => 'set-gender',
+                'headers'  => ['x-csrf-token' => 'valid_token_xyz'],
+                'body'     => ['gender' => 'male'],
+                '_session' => ['csrf_token' => 'valid_token_xyz'],
+            ],
+            function (array $req) use (&$coreCalled) {
+                $coreCalled = true;
+                return ['status' => 200];
+            }
+        );
+
+        $this->assertTrue($coreCalled, 'Geçerli token ile set-gender POST çalışmalı');
+        $this->assertSame(200, $result['status']);
     }
 
     public function testCustomBypassRoutesWork(): void
