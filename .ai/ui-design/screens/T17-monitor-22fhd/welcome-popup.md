@@ -5,7 +5,7 @@ type: spec
 category: ui-design
 date: 2026-09-27
 status: draft
-version: 1.0.0
+version: 1.1.0
 tier: T17
 viewport: 1920x1080
 device: 22" FHD Monitor (Desktop)
@@ -32,7 +32,7 @@ reference:
 │ y:0    ┌─── HOME DASHBOARD 1920 (arka plan — overlay karartık + blur) ──────────────────────────────────────────────────────────┐    │
 │        │ (header 8 öğeli nav, widget alanı 4x4+1x8+1x8 grid, en son dinlenenler, footer player)                                │    │
 │ y:1080 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘    │
-│        ┌─── OVERLAY .welcome-modal-overlay (inset:0, bg rgba(0,0,0,.35), blur 1.5px) ─────────────────────────────────────────┐    │
+│        ┌─── OVERLAY .welcome-modal-overlay (inset:0, bg rgba(0,0,0,.35), blur 3px) ───────────────────────────────────────────┐    │
 │        │                                                                                                                        │    │
 │        │        ┌─── MODAL .welcome-modal (x:660-1260, y:386-694, w:600, h:308, r:8, ORTALI) ────────────────────────────┐    │    │
 │        │        │  [BG IMAGE welcome-popup-girl.png — cover, opacity:.8]                                                 │    │    │
@@ -77,7 +77,7 @@ reference:
 
 | Kullanım | Token | Değer (master) |
 |----------|-------|----------------|
-| Overlay karartma | `cm-bg-overlay` | `var(--cm-bg-overlay)` — uygulama `.35` (Figma ile ✓) |
+| Overlay karartma | `cm-bg-overlay` | `var(--cm-bg-overlay)` — uygulama `.35` = **SSOT Figma** ✓; master değeri `0.60` → **deprecated** (CSS'te hâlâ .60, kod düzeltmesi backend/ui işi) → §6 · master `design-tokens-master.md` §2.1.2 |
 | Modal yarıçapı | `cm-modal-radius` | `var(--cm-modal-radius)` |
 | Modal gölgesi | `cm-modal-shadow` | `var(--cm-modal-shadow)` |
 | Glass overlay katmanı | `cm-glass-bg-strong` | `var(--cm-glass-bg-strong)` |
@@ -94,7 +94,10 @@ reference:
 |-------|---------|-----|
 | T17 Mouse tier | 32×32 px (öneri) | Hover affordans mevcut — `00-device-matrix.md` mouse sınıfı |
 | `.welcome-modal__btn` (Başla) | 105×25 px | T17'de 32px önerisinin altında ⚠️ (hover tier olduğu için GAP değil; WCAG 2.5.8 en az 24×24 → **24px PASS**, 25px ✓) |
+| `.welcome-modal__btn` — **mitigasyon** | hit-area **44×44 px**, görsel **105×25 px** | **Öneri (T08 ile aynı CSS):** `::after`/`::before` pseudo-element (veya `padding-block` + `background-clip: content-box`) ile vurulabilir alan 44px'e çıkarılır; **görsel boyut Figma'da 105×25 px olarak korunur** — sapma **yalnız erişilebilirlik katmanında**. **`Figma sapması, onay bekliyor`** — onaylanana kadar uygulanmaz, CSS'e dokunulmaz |
 | Yakınlık kuralı | ≥ 8 px boşluk | Btn–desc `margin-bottom: 18px` ✓ |
+
+> **⚠️ Mitigasyon notu (Truth Mode — `Figma sapması, onay bekliyor`):** Başla butonu görsel olarak **105×25 px**'tir (Figma `2831:10267` CTA, `extracted-1024.md` L736 — `bg` RECTANGLE `w=105 h=25`). T17 mouse tier'da WCAG 2.5.8 için 24×24 yeterli (PASS), ancak **dokunmatik hedef eşiği olan 44×44** için T08 ile **aynı bileşen** paylaşıldığından mitigasyon önerisi burada da geçerlidir: hit-area pseudo-element/padding ile 44px, **Figma görsel boyutu 105×25 değişmez** — sapma yalnız erişilebilirlik katmanındadır. **Onay bekliyor**; onay gelmeden CSS'e dokunulmaz.
 
 ---
 
@@ -114,8 +117,8 @@ reference:
 
 | Öğe | Değer |
 |-----|-------|
-| Overlay `backdrop-filter` | `blur(1.5px)` (L715) |
-| Overlay arka plan | `rgba(0,0,0,0.35)` (L714) |
+| Overlay `backdrop-filter` | **SSOT: Figma `BACKGROUND_BLUR blur=3`** (`2831:10268`, `extracted-1920.md` L544) — uygulama L715 `blur(1.5px)` → **deprecated**: CSS'te hâlâ 1.5, kod düzeltmesi **backend/ui işi** (bu dosyada CSS'e dokunulmadı) |
+| Overlay arka plan | **SSOT: Figma `#000000 opacity=0.35` → `rgba(0,0,0,0.35)`** ✓ (uygulama L714 ile aynı) — master `--cm-bg-overlay` **`0.60` → deprecated**: CSS'te hâlâ 0.60, kod düzeltmesi **backend/ui işi** (master kaydı: `tokens/design-tokens-master.md` §2.1.2) |
 | Modal arka plan | görsel + `::before` `rgba(255,255,255,.10)` |
 | Kenarlık | `1px solid rgba(255,255,255,0.21)` |
 | Gölge | `var(--modal-shadow)` |
@@ -125,9 +128,11 @@ reference:
 
 ## 7. PNG Referansı
 
-- **Dosya:** ⚠️ **VERIFICATION REQUIRED — PNG bulunamadı; spec görsel doğrulama olmadan TAMAMLANAMAZ**
+- **Dosya (Figma export):** `.ai/ui-design/reference/figma/png/1920 - Welcome Div.png` — node `2831:10267` "Welcome Div" (`GET /v1/images … format=png&scale=2`), **2048×1202 px (@2x)**, MD5 `82D18A759F6B4461242934CFECF19895` — `1024 - Welcome Div.png` ile **bayt-bayt aynı** (node her iki breakpoint'te ortak: `reference/figma/_extraction-notes.md` §2). ✅ **Figma export ile doğrulandı.**
+- **Klasör:** `reference/figma/png/` (12 Figma export PNG) · **Katman:** Figma (SSOT sırası: PNG > **Figma** > ASCII …)
+- **Gerçek uygulama PNG:** ⚠️ **VERIFICATION REQUIRED — `.ai/.png/home-1920/` altında welcome popup PNG'si yok**; spec görsel doğrulama olmadan TAMAMLANAMAZ. **Not: Figma export ile doğrulandı, gerçek uygulama PNG'si bekleniyor.**
 - **Mevcut 1920 PNG:** `.ai/.png/home-1920/Linux - 1920 - Home.png` (ana ekran; popup **içinde değil**)
-- **Türetme kaynağı:** `.ai/ui-design/screens/T08-embedded/welcome-popup.md` + `reference/figma/extracted-1920.md` §4 (`2831:10267`)
+- **Türetme kaynağı:** `.ai/ui-design/screens/T08-embedded/welcome-popup.md` + `reference/figma/extracted-1920.md` §4 (`2831:10267`) + yukarıdaki Figma export PNG
 - **Mockup indeksi:** [[01-mockup-index]]
 - **Kullanım sırası:** PNG > Figma > ASCII art > Inventory > Tokens > Reference
 

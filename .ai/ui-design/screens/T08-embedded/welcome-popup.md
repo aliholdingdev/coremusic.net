@@ -5,7 +5,7 @@ type: spec
 category: ui-design
 date: 2026-09-20
 status: active
-version: 2.0.0
+version: 2.1.0
 tier: T08
 viewport: 1024x600
 device: RPi5 7" Touch (Embedded)
@@ -75,7 +75,7 @@ reference:
 
 | Kullanım | Token | Değer (master) |
 |----------|-------|----------------|
-| Overlay karartma | `cm-bg-overlay` | `var(--cm-bg-overlay)` — master `rgba(0, 0, 0, 0.60)`; PNG/Figma `.35` → ⚠️ çelişki, §6 |
+| Overlay karartma | `cm-bg-overlay` | `var(--cm-bg-overlay)` — **SSOT: Figma `.35`** (PNG ile ✓); master değeri `rgba(0, 0, 0, 0.60)` → **deprecated** — CSS'te hâlâ 0.60, kod düzeltmesi backend/ui işi (bkz. §6 · master `design-tokens-master.md` §2.1.2) |
 | Modal yarıçapı | `cm-modal-radius` | `var(--cm-modal-radius)` (= `--cm-radius-2xl`) |
 | Modal gölgesi | `cm-modal-shadow` | `var(--cm-modal-shadow)` |
 | Glass overlay katmanı | `cm-glass-bg-strong` | `var(--cm-glass-bg-strong)` (`rgba(255,255,255,0.10)`) |
@@ -109,7 +109,7 @@ reference:
 |---|---------|--------|-------|
 | 1 | Metin kontrastı | ≥ 4.5:1 (beyaz metin, görsel arka plan + text-shadow) | GAP ⚠️ — görsel arka plan üstünde ölçülemiyor; `text-shadow var(--ts-md)` ile destekli, ölçüm gerekli |
 | 2 | Odak (focus) görünür | 2px+ outline, kontrast ≥ 3:1 | PASS — `.welcome-modal__btn:focus-visible { outline: 3px solid #fff }` (L884-887), input alt çizgi `#ff4fd8` (L828-830) |
-| 3 | Dokunma hedefi | ≥ 44×44 px | **GAP** ⚠️ — Başla 105×25px; `04-accessibility-gaps.md`'e işlenmeli |
+| 3 | Dokunma hedefi | ≥ 44×44 px | **GAP** ⚠️ — Başla 105×25px; `04-accessibility-gaps.md`'e işlenmeli · mitigasyon §4 (`Figma sapması, onay bekliyor`) |
 | 4 | Okuma sırası / DOM sırası | Görsel sıra = DOM sırası | PASS — logo→title→input→user→desc→btn (L762-769) |
 | 5 | Durum yalnız renkle anlatılmıyor | İkon/metin + aria | PASS — `role="dialog" aria-modal="true"` beklenir (uygulamada JS tarafı ⚠️ VERIFICATION REQUIRED) |
 
