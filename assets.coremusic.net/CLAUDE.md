@@ -195,7 +195,7 @@ Global değişken → Yasak (const/let zorunlu)
 
 | Yön | Hedef | İlişki | Etki |
 |-----|-------|--------|------|
-| Parent | [[../AGENTS.md]] | Kök registry | — |
+| Parent | [[../.ai/AGENTS.md]] | Kök registry | — |
 | Tüketen | [[../auth.coremusic.net/CLAUDE.md]] | Login/register CSS+JS çeker | Yüksek (görsel) |
 | Tüketen | [[../home.coremusic.net/CLAUDE.md]] | Home panel asset'leri çeker | Yüksek (görsel) |
 | Mimari | [[../.ai/architecture/k11-ux]] | Presentation katman kuralları | Yüksek |

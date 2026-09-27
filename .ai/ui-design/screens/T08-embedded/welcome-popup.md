@@ -30,7 +30,7 @@ reference:
 │ y:0  ┌─── HOME DASHBOARD (arka plan — overlay ile karartık + blur) ────────────────────┐    │
 │      │ (header, widget alanı, en son dinlenenler, footer player görünür ama bulanık)  │    │
 │ y:600└────────────────────────────────────────────────────────────────────────────────┘    │
-│      ┌─── OVERLAY .welcome-modal-overlay (inset:0, bg rgba(0,0,0,.35), blur 1.5px) ───┐    │
+│      ┌─── OVERLAY .welcome-modal-overlay (inset:0, bg rgba(0,0,0,.35), blur 3px) ─────┐    │
 │      │                                                                                │    │
 │      │    ┌─── MODAL .welcome-modal (x:212-812, y:146-454, w:600, h:308, r:8) ─────┐  │    │
 │      │    │  [BG IMAGE welcome-popup-girl.png — cover, opacity:.8]                 │  │    │
@@ -94,9 +94,12 @@ reference:
 |-------|---------|-----|
 | T08 Embedded (touch) | **44×44 px** | WCAG 2.2 AA 2.5.8 alt sınırı |
 | `.welcome-modal__btn` (Başla) | 105×**25** px | ⚠️ **GAP** — yükseklik 25px < 44px (uygulama L857-858; mobil medya sorgusunda 36px'e çıkar, 1024'te base kalır) |
+| `.welcome-modal__btn` — **mitigasyon** | hit-area **44×44 px**, görsel **105×25 px** | **Öneri:** `::after`/`::before` pseudo-element (veya `padding-block` + `background-clip: content-box`) ile tıklama alanı 44px'e çıkarılır; **görsel boyut Figma'da 105×25 olarak korunur** — sapma **yalnız erişilebilirlik katmanında**. **`Figma sapması, onay bekliyor`** — onaylanana kadar uygulanmaz, CSS'e dokunulmaz |
 | `.welcome-modal__input` (isim girişi) | 100% × ~54 px | Satır yüksekliği yeterli |
 | Yakınlık kuralı | ≥ 8 px boşluk | Btn–desc arası `margin-bottom: 18px` ✓ |
 | Kapatma | Escape + overlay tıklaması | × butonu PNG'de yok (L774-775) |
+
+> **⚠️ Mitigasyon notu (Truth Mode — `Figma sapması, onay bekliyor`):** 105×25px buton WCAG 2.2 AA 2.5.8'in **44px** alt sınırının altındadır. Önerilen çözüm **yalnız erişilebilirlik katmanını** değiştirir: vurulabilir alan (hit-area) pseudo-element/padding ile 44px'e genişletilir, **Figma'daki görsel 105×25px boyutuna dokunulmaz**. Kullanıcı onayı **bekliyor** — onay gelmeden bu satır uygulama planına alınmaz ve CSS'e dokunulmaz. Onay sonrası kayıt: `04-accessibility-gaps.md` §2.
 
 ---
 
@@ -116,8 +119,8 @@ reference:
 
 | Öğe | Değer |
 |-----|-------|
-| Overlay `backdrop-filter` | `blur(1.5px)` (uygulama L715) — Figma `BACKGROUND_BLUR blur=3` ile **çelişir** (uygulama kabul edildi: PNG ile görsel olarak eşleşen taraf uygulama) |
-| Overlay arka plan | `rgba(0,0,0,0.35)` (uygulama L714; Figma `#000000 opacity=0.35` ✓) — master `--cm-bg-overlay` (.60) ile **çelişir** → Figma/PNG kazanır, master token revizyonu raporlanır |
+| Overlay `backdrop-filter` | **SSOT: Figma `BACKGROUND_BLUR blur=3`** (`2831:10268`, `extracted-1024.md` L726) — uygulama L715 `blur(1.5px)` → **deprecated**: CSS'te hâlâ 1.5, kod düzeltmesi **backend/ui işi** (bu dosyada CSS'e dokunulmadı) |
+| Overlay arka plan | **SSOT: Figma `#000000 opacity=0.35` → `rgba(0,0,0,0.35)`** ✓ (uygulama L714 ile aynı) — master `--cm-bg-overlay` **`0.60` → deprecated**: CSS'te hâlâ 0.60, kod düzeltmesi **backend/ui işi** (master kaydı: `tokens/design-tokens-master.md` §2.1.2) |
 | Modal arka plan | görsel + `::before` `rgba(255,255,255,.10)` (Figma `bg-white opacity 0.10`) |
 | Kenarlık | `1px solid rgba(255,255,255,0.21)` (Figma stroke `#FFFFFF` weight 1, opacity .21) |
 | Gölge | `var(--modal-shadow)`; Figma `0 4px 4px rgba(0,0,0,.15)` |

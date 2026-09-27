@@ -532,7 +532,7 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 | 1 | `.ai/ui-design/01-mockup-index.md` | 19 PNG mockup indeksi (home-1024 + home-1920 + shared-1024), hangi görsellerin mevcut olduğu | İlk okunacak — hangi ekranlar var? |
 | 2 | `.ai/ui-design/02-component-inventory.md` | C01-C16 BEM sınıfları, pixel ölçümleri, token referansları | Bileşen kodlarken |
 | 3 | `.ai/ui-design/tokens/design-tokens-master.md` | Renk, boşluk, tipografi, cam token'ları | CSS yazarken |
-| 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: [[screens/B-home/dashboard-1920]]) | Layout hizalamada |
+| 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: screens/B-home/dashboard-1920) | Layout hizalamada |
 | 5 | `.ai/ui-design/05-responsive-architecture.md` | Cihaz bazlı CSS override kuralları — **§7.4 4K No-Center (4K'da ortalamama YASAK)** ve **§12 Geriye Dönük Uyumluluk (fallback ZORUNLU)** bağlayıcıdır | Device-specific CSS'te |
 
 **Referans Sıralaması (çelişki durumunda):** PNG > ASCII art > Component Inventory > Tokens > Implementation Plan.
@@ -656,10 +656,10 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Durum | Çözüm | ADR |
 |-------|-------|-----|
-| USB cihaz çıkarma | WASAPI fallback | [[ADR-017-dsp-hardware-mode]] |
-| Multi-Tab CSRF | Session-bound tek token | [[ADR-010-csrf-protection-strategy]] |
+| USB cihaz çıkarma | WASAPI fallback | [[.decisions/accepted/ADR-017-dsp-hardware-mode]] |
+| Multi-Tab CSRF | Session-bound tek token | [[.decisions/accepted/ADR-010-csrf-protection-strategy]] |
 | BCNF violation | 3NF → BCNF audit | [[brain.md]] ADR-040-database-authority |
-| Session timeout (3600s) | Otomatik yeniden auth | [[ADR-011-session-management]] |
+| Session timeout (3600s) | Otomatik yeniden auth | [[.decisions/accepted/ADR-011-session-management]] |
 | Layer violation | Derhal revert | CLAUDE.md §7 |
 | PCM5122 kullanımı | PCM3168A veya AK4458 | [[brain.md]] ADR-038-8.1-sound-card-chip-selection |
 | Network outage | Offline-First + SQLite queue | — |
@@ -813,11 +813,11 @@ Diğer terimler → [[glossary]]: SSOT, ADR, CSRF, CSP, BCNF, RBAC, OWASP, ASIO,
 
 | ADR | Konu | Durum |
 |-----|------|-------|
-| [[decisions/accepted/ADR-001-vanilla-js-itcss]] | Vanilla JS + ITCSS, framework yasak | Frozen |
-| [[decisions/accepted/ADR-002-pdo-mandatory-no-orm]] | PDO mandatory, ORM yasak | Frozen |
-| [[decisions/accepted/ADR-010-csrf-protection-strategy]] | CSRF token = `csrf_token` | Frozen |
-| [[decisions/accepted/ADR-011-session-management]] | Session yönetimi | Frozen |
-| [[decisions/accepted/ADR-022-database-hardened-security]] | DB güvenlik sertleştirme | Frozen |
+| [[.decisions/accepted/ADR-001-vanilla-js-itcss]] | Vanilla JS + ITCSS, framework yasak | Frozen |
+| [[.decisions/accepted/ADR-002-pdo-mandatory-no-orm]] | PDO mandatory, ORM yasak | Frozen |
+| [[.decisions/accepted/ADR-010-csrf-protection-strategy]] | CSRF token = `csrf_token` | Frozen |
+| [[.decisions/accepted/ADR-011-session-management]] | Session yönetimi | Frozen |
+| [[.decisions/accepted/ADR-022-database-hardened-security]] | DB güvenlik sertleştirme | Frozen |
 | [[brain.md]] ADR-038-8.1-sound-card-chip-selection | PCM3168A + XMOS XU316 | Active |
 | [[brain.md]] ADR-040-database-authority | 18 BCNF DB otoritesi | Active |
 | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault restructuring, PHP 8.4, port 81 | Active |
@@ -879,14 +879,14 @@ Her oturum başlangıcında sırayla okunur:
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § 5 Mimari | [[architecture/k0-isletim-sistemi]] | L0-L6 katmanları |
-| § 6 Middleware | [[ADR-010-csrf-protection-strategy]] | Middleware sırası |
+| § 6 Middleware | [[.decisions/accepted/ADR-010-csrf-protection-strategy]] | Middleware sırası |
 | § 9 Paneller | [[brain.md]] ADR-043-auth-subdomain-consolidation | Auth konsolidasyonu |
 | § 12 Teknoloji | [[brain.md]] | Tech stack detayları |
 | § 15 Tema | [[brain.md]] ADR-044-dynamic-user-theme-engine | Theme engine |
-| § 18 DB | [[architecture/k0-k5-software/k5-data-layer/database_master]] | 18 BCNF şemaları |
+| § 18 DB | architecture/k0-k5-software/k5-data-layer/database_master | 18 BCNF şemaları |
 | § 19 Audio | [[architecture/k3-ses-motoru]] | Audio engine |
 | § 20 ADR | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault standardı |
-| § 20A Master Plan | [[architecture/03-contracts/master-implementation-plan]] | 5 faz, 40 gün implementasyon |
+| § 20A Master Plan | architecture/03-contracts/master-implementation-plan | 5 faz, 40 gün implementasyon |
 | § 20B ADR-087 | [[brain.md]] ADR-087-master-implementation-plan | Master plan ADR |
 | § 12A UI Design | [[ui-design/01-mockup-index]] | 19 PNG Mockup, C01-C16, 1024x600 SSOT |
 
