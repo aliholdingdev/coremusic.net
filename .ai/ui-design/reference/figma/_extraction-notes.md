@@ -94,3 +94,80 @@ ile işaretlendi. Uydurma değer kullanılmadı.
   (doğrulandı: `git check-ignore` eşleşiyor).
 - Anahtar hiçbir `.md` dosyasına, ham JSON'a, PNG'ye, loga veya
   `_extraction-notes.md` içine yazılmamıştır.
+
+---
+
+## 7. Extract: node 1047:15802 (2026-09-27)
+
+- **Talep:** Figma node `1047:15802` (file `NFpX9bq58oApWJPgBK5Heo`) API'den çekilecek;
+  ham JSON, PNG, extracted Markdown, token güncellemesi `.ai\ui-design` altına yazılacak.
+- **Node:** `Core Music - Linux Pi` / tipi `CANVAS` (sayfa) / breakpoint **1024**
+  (27 child'ın çoğu 1024×600 FRAME) → hedef `tokens-1024.json`.
+- **API sürümü:** `lastModified=2026-09-21T17:51:56Z`, `version=2401752188763178639`.
+- **Token kaynağı:** yalnız `C:\www\coremusic.net\.ai\.env.figma` (bu dosyaya yazılmadı).
+
+### 7.1 Üretilen dosyalar
+
+| Dosya | Boyut |
+| --- | --- |
+| `reference\figma\raw\node-1047-15802.json` | 11.754.459 byte |
+| `reference\figma\png\Core Music - Linux Pi.png` (scale=2) | 18.897.781 byte |
+| `reference\figma\extracted-1047-15802.md` (13.314 satır, 13.225 node) | 3.089.672 byte |
+| `tokens\tokens-1024.json` (birleştirildi) | 189.634 byte |
+
+### 7.2 Token öncesi → sonrası (`tokens-1024.json`)
+
+| Section | Önce | Sonra | Eklenen | Çakışan |
+| --- | ---: | ---: | ---: | ---: |
+| colors | 14 | 190 | +176 | 3 anahtar |
+| typography | 26 | 130 | +104 | 12 anahtar |
+| shadows | 22 | 84 | +62 | 2 anahtar |
+| radii | 9 | 26 | +17 | 2 anahtar |
+| spacing | 6 | 42 | +36 | 0 |
+| **toplam** | | | **395 ekleme** | **567 çakışma / 19 anahtar** |
+
+Doğrulama: eski hiçbir anahtar veya değer ezilmedi, `sizes` hiç değişmedi
+(yedek: `C:\temp\opencode\tokens-1024.backup.json`).
+
+### 7.3 Çakışma özeti (19 benzersiz anahtar — hiçbiri ezilmedi)
+
+| Section | Anahtar | Mevcut (korundu) | Gelen (reddedildi) | Adet |
+| --- | --- | --- | --- | ---: |
+| colors | `bg / gradient stop 0` | `#FF00C8` | `#FFD0F5` | 1 |
+| colors | `ProgresbarValue / fill` | `#FF65E9` | `#FF00D5`, `#FF3CE3` | 9 |
+| colors | `Stroke Effect / fill` | `#373737` | `#E2E2E2` | 221 |
+| radii | `Background radius` | `3` | `[2,2,0,0]` | 6 |
+| radii | `KursatGurel radius` | `5` | `47`, `344.341` | 19 |
+| shadows | `Progressbar shadow` | `y=0 blur=1 a=0.25` | `y=1 blur=1 a=0.15` | 9 |
+| shadows | `Text shadow` | `0/0.1/1 a=0.8` | `0.1..0.5 / 0.5 / 0.5` varyantları | 14 |
+| typography | `Avalon Medium 10.5px w500` | ls=0.368 | ls=0.105 | 2 |
+| typography | `Avalon Medium 10px w500` | ls=1.35 | ls=0 / 0.1 / 0.2 / 0.85 | 16 |
+| typography | `Avalon Medium 11px w500` | ls=0.825 | ls=0 | 1 |
+| typography | `Avalon Medium 12px w500` | ls=0.936 | ls=0.12 | 1 |
+| typography | `Avalon Medium 13px w500` | ls=1.014 | ls=0.13 | 1 |
+| typography | `Avalon Medium 5px w500` | ls=0.675 | ls=0 / 0.39 | 17 |
+| typography | `Avalon Medium 6.5px w500` | ls=0.488 | ls=0 | 2 |
+| typography | `Avalon Medium 7px w500` | ls=0.546 | ls=0.595 / 0.945 | 45 |
+| typography | `Avalon Medium 8.5px w500` | ls=0.638 | ls=0.298 / 1.148 | 89 |
+| typography | `Avalon Medium 8px w500` | ls=0.6 | ls=0 / 1.08 | 41 |
+| typography | `Avalon Medium 9.5px w500` | ls=0.712 | ls=1.283 | 50 |
+| typography | `Avalon Medium 9px w500` | ls=0.495 | ls=0 / 0.765 | 23 |
+
+12 typography çakışmasının **tamamı yalnız `letterSpacing` farkıdır**; `fontFamily`,
+`fontSize`, `fontWeight`, `lineHeight`, `lineHeightUnit` birebir aynı.
+
+### 7.4 Ekran spec kararı
+
+**Screen spec üretilmedi.** `1047:15802` bir ekran değil, **CANVAS (sayfa)**;
+27 doğrudan child'ı ayrı ekran/frame. Tek bir Kalıp D screen spec'i bu 27 ekranın
+hiçbirini doğru temsil etmez; ayrıca `screens\00-ascii-art-index.md` CANVAS seviyesinde
+anlamsız olurdu. Ekran spec'i istenirse child frame'lerden (ör. `1639:10160`
+"Linux  1024 - Home Page") tek tek üretilmeli.
+
+### 7.5 API'de olmayan alanlar (`API'den gelmedi` işaretlendi)
+
+- `letterSpacingUnit` → API düz sayı döndürür, birim alanı yok.
+- Gölge `spread` → API'de yok (`spreadNote` alanı ile işaretlendi).
+- `absoluteBoundingBox` → CANVAS düğümünde yok.
+- GLASS efektinde `radius` → API yanıtında yok.
+- Bazı auto-layout'lerde `itemSpacing`/padding alanları eksik.
