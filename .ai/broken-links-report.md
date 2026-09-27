@@ -1,96 +1,75 @@
 ---
-title: Kırık Wiki-Link Raporu (Kapsam Dışı — Önceden Var)
+title: Kırık Wiki-Link Raporu (Önceden Var — Onarım Kaydı)
 type: report
 status: active
+version: 2.0.0
 created: 2026-09-24
-updated: 2026-09-24
+updated: 2026-09-27
 author: coremusic-vault-docs
 authority: report
 ---
 
-# Kırık Wiki-Link Raporu (Kapsam Dışı — Önceden Var)
+# Kırık Wiki-Link Raporu (Önceden Var — Onarım Kaydı)
 
-> **NE ZAMAN OKUNUR:** Vault link hijyeni, ADR arşivi kurtarma veya dead-mark temizliği yapılacak her görevde bu rapor okunur; her yeni tarama sonunda güncellenir. **Düzeltme yapmaz — salt rapordur.**
+> **NE ZAMAN OKUNUR:** Vault link hijyeni, ADR link retarget'i veya dead-mark temizliği yapılacak her görevde bu rapor okunur; her yeni tarama sonunda güncellenir. v1 (2026-09-24) salt rapordu — **v2 (2026-09-27) onarım kaydıdır**: 22 retarget `fixed`, 9 eşdeğersiz `unresolved`, 16 satır9/26'da dışsal olarak çözülmüş.
 
-Tarama: 2026-09-24 · Yöntem: kod bloğu/inline-code strip + 6 adaylı çözüm (dosya-göreli, `.ai/` önekli, kök-göreli, ±`index.md`) · Kapsam: bu raporun listelenen 5 dosyadaki tüm `[[...]]` linkleri (ui-design düzeltmeleri hariç — onlar 2026-09-24 kapatıldı).
+**Özet (2026-09-27):** v1 kaydı 34 satır → bugün 6 dosyada tarama 31 aday (`.opencode/CLAUDE.md` 12 yeni dahil) → onarım: **fixed 22 · unresolved 9 · dışsal çözülen 16** → onarım sonrası taze tarama: **kırık link 0 / 6 dosya**.
 
-**Toplam: 34 kırık link / 5 dosya** (`.claude/CLAUDE.md` 27 · `assets.coremusic.net/AGENTS.md` 3 · `home.coremusic.net/CLAUDE.md` 2 · `assets.coremusic.net/CLAUDE.md` 1 · `assets.coremusic.net/Css copy/CLAUDE.md` 1)
+**Retarget desenleri:** (1) ADR → gerçek kayıt dosyası `[[.decisions/accepted/<slug>]]` (kısa slug'lar tam yola, `decisions/`→`.decisions/` nokta öneki); (2) kök registry → `[[../.ai/AGENTS.md]]`; (3) taşınan mimari dosya → yeni k-yolu (`k11-ux/itcss-9-layer`); (4) eşdeğer kanıtlanamayan hedef → link kaldırılmadı, **düz metne çevrildi** (`unresolved`).
 
-## Özet — Ölü hedef kategorileri
+## A. Onarılan — `status: fixed` (22)
 
-| Kategori | Adet | Ölü hedef durumu |
-|---|---|---|
-| ADR arşivi (`decisions/`, `ADR-*`) | 20 | `.ai/decisions/` + kök `decisions/` diskte YOK (tüm repo recursive arama boş — faz6-D "10 link donmuş" ile tutarlı) |
-| Mimari dosyalar (`architecture/`) | 9 | `architecture-master`, `l0-infrastructure`, `database_master`, `06-audio/index`, `master-implementation-plan`, `l3-presentation/*` diskte YOK |
-| Kök/alan `AGENTS.md` | 3 | Kök `AGENTS.md` YOK (`.ai/AGENTS.md` var) |
-| Subdomain indeksi | 1 | `.ai/.subdomains/home.coremusic.net/index.md` YOK |
-| Mockup hedefi (`B-home/dashboard-1920`) | 1 | B-home dizini YOK (T01-T31 + shared var); link metni zorunlu referans olarak korundu |
-| Konvansiyon sahte-pozitifi | 0 | Hedef VAR — kök-göreli konvansiyon, düzeltme gerekmez |
+| Dosya | Satır | Eski hedef | Yeni hedef |
+|---|---|---|---|
+| `.claude/CLAUDE.md` | 659 | `[[ADR-017-dsp-hardware-mode]]` | `[[.decisions/accepted/ADR-017-dsp-hardware-mode]]` |
+| `.claude/CLAUDE.md` | 660 | `[[ADR-010-csrf-protection-strategy]]` | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` |
+| `.claude/CLAUDE.md` | 662 | `[[ADR-011-session-management]]` | `[[.decisions/accepted/ADR-011-session-management]]` |
+| `.claude/CLAUDE.md` | 816 | `[[decisions/accepted/ADR-001-vanilla-js-itcss]]` | `[[.decisions/accepted/ADR-001-vanilla-js-itcss]]` |
+| `.claude/CLAUDE.md` | 817 | `[[decisions/accepted/ADR-002-pdo-mandatory-no-orm]]` | `[[.decisions/accepted/ADR-002-pdo-mandatory-no-orm]]` |
+| `.claude/CLAUDE.md` | 818 | `[[decisions/accepted/ADR-010-csrf-protection-strategy]]` | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` |
+| `.claude/CLAUDE.md` | 819 | `[[decisions/accepted/ADR-011-session-management]]` | `[[.decisions/accepted/ADR-011-session-management]]` |
+| `.claude/CLAUDE.md` | 820 | `[[decisions/accepted/ADR-022-database-hardened-security]]` | `[[.decisions/accepted/ADR-022-database-hardened-security]]` |
+| `.claude/CLAUDE.md` | 882 | `[[ADR-010-csrf-protection-strategy]]` | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` |
+| `.opencode/CLAUDE.md` | 659,660,662,816-820,882 | `.claude` ile hash-esit ayna — aynı 9 retarget | aynı |
+| `assets.coremusic.net/AGENTS.md` | 15 | `[[../AGENTS.md]]` | `[[../.ai/AGENTS.md]]` |
+| `assets.coremusic.net/AGENTS.md` | 77 | `[[../.ai/architecture/l3-presentation/itcss-architecture.md]]` | `[[../.ai/architecture/k11-ux/itcss-9-layer.md]]` |
+| `home.coremusic.net/CLAUDE.md` | 123 | `[[../AGENTS.md]]` | `[[../.ai/AGENTS.md]]` |
+| `assets.coremusic.net/CLAUDE.md` | 198 | `[[../AGENTS.md]]` | `[[../.ai/AGENTS.md]]` |
 
-## Tam liste
+> ADR hedeflerinin tümü diskte gerçek dosyaya bağlandı: `.ai/.decisions/accepted/` altında ADR-001/002/010/011/017/022 dosyaları mevcut (9/26, commit `9695a2e` ile oluştu — frozen ADR metinlerine dokunulmadı, yalnız link yolu).
 
-### `.claude/CLAUDE.md` (27)
+## B. Çözülmeyen — `status: unresolved` (9)
 
-| Satır | Ölü hedef | Önerilen aksiyon |
-|---|---|---|
-| 105 | `[[architecture/00-overview/architecture-master]]` | architecture-master dosyasi hic olusmamis. Vault mimari indeksine (varsa) repoint veya dead-mark; sahip onayi gerekir. |
-| 267 | `[[screens/B-home/dashboard-1920]]` | Hedef mockup YOK (screens/ altinda T01-T31 + shared var, B-home dizini yok). Link metni bilincli korundu (zorunlu referans); sahip onayiyla dead-mark veya hedef uretilmeli. |
-| 438 | `[[architecture/00-overview/architecture-master]]` | architecture-master dosyasi hic olusmamis. Vault mimari indeksine (varsa) repoint veya dead-mark; sahip onayi gerekir. |
-| 521 | `[[decisions/accepted/ADR-001-vanilla-js-itcss]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 522 | `[[decisions/accepted/ADR-002-pdo-mandatory-no-orm]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 523 | `[[decisions/accepted/ADR-010-csrf-protection-strategy]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 524 | `[[decisions/accepted/ADR-011-session-management]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 525 | `[[decisions/accepted/ADR-022-database-hardened-security]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 526 | `[[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 527 | `[[decisions/accepted/ADR-040-database-authority]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 528 | `[[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 529 | `[[decisions/accepted/ADR-044-dynamic-user-theme-engine]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 530 | `[[.decisions/draft/ADR-089-classab-24v]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 556 | `[[ADR-017-dsp-hardware-mode]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 557 | `[[ADR-010-csrf-protection-strategy]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 558 | `[[ADR-040-database-authority]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 559 | `[[ADR-011-session-management]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 561 | `[[ADR-038-8.1-sound-card-chip-selection]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 662 | `[[architecture/l0-infrastructure]]` | Hedef diskte yok — sahip onayiyla repoint veya dead-mark. |
-| 663 | `[[ADR-010-csrf-protection-strategy]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 664 | `[[decisions/accepted/ADR-043-auth-subdomain-consolidation]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 666 | `[[ADR-044-dynamic-user-theme-engine]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 667 | `[[architecture/05-data/database_master]]` | Hedef diskte yok — sahip onayiyla repoint veya dead-mark. |
-| 668 | `[[architecture/06-audio/index]]` | Hedef diskte yok — sahip onayiyla repoint veya dead-mark. |
-| 669 | `[[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
-| 670 | `[[architecture/03-contracts/master-implementation-plan]]` | Hedef diskte yok — sahip onayiyla repoint veya dead-mark. |
-| 671 | `[[decisions/accepted/ADR-087-master-implementation-plan]]` | ADR arsivi diskte YOK (tum repo recursive arama bos). ADR sluglari [[CLAUDE.md]] §12 ADR tablosuna repoint edilmeli veya `<!-- dead-link: <slug> no source 2026-09-24 -->` dead-mark (faz6-D deseni) koyulmali. |
+| Dosya | Satır | Hedef | Neden |
+|---|---|---|---|
+| `.claude/CLAUDE.md` | 535 | `screens/B-home/dashboard-1920` | B-home dizini yok (`screens/` = shared + T01-T31); eşleştirilecek aynı ekran dosyası kanıtlanamadı — düz metin bırakıldı |
+| `.claude/CLAUDE.md` | 886 | `architecture/k0-k5-software/k5-data-layer/database_master` | `k0-k5-software` dizini yok; `k5-veri-yonetimi/mysql-18-database.md` içinde `database_master` geçmiyor — eşdeğer kanıtlanamadı |
+| `.claude/CLAUDE.md` | 889 | `architecture/03-contracts/master-implementation-plan` | `03-contracts` dizini yok; ADR-087 dosyası da yok (yalnızca `.decisions/index.md` kaydı var) |
+| `.opencode/CLAUDE.md` | 535,886,889 | aynı 3 hedef | hash-esit ayna — aynı nedenler |
+| `assets.coremusic.net/AGENTS.md` | 78 | `../.ai/architecture/l3-presentation/js-module-architecture.md` | `l3-presentation` dizini yok; `js-module-architecture` repo genelinde yok |
+| `home.coremusic.net/CLAUDE.md` | 127 | `../.ai/.subdomains/home.coremusic.net/index.md` | `.ai/.subdomains/` altında yalnızca `CLAUDE.md` var; `home.coremusic.net/` dizini + `index.md` yok |
+| `assets.coremusic.net/Css copy/CLAUDE.md` | 24 | `../../.ai/architecture/l3-presentation/CLAUDE.md` | `l3-presentation` dizini yok; `architecture/` altında `CLAUDE.md` yok |
 
-### `assets.coremusic.net/AGENTS.md` (3)
+> Kurallar gereği link **kaldırılmadı** — hedef metni düz metne çevrildi (kural: silme yok, yönlendirme + raporlama).
 
-| Satır | Ölü hedef | Önerilen aksiyon |
-|---|---|---|
-| 15 | `[[../AGENTS.md]]` | Kök AGENTS.md yok. `.ai/AGENTS.md` (vault SSOT) veya alt-domain AGENTS.md gerekli mi sahip onayi; degilse linki kaldir. |
-| 77 | `[[../.ai/architecture/l3-presentation/itcss-architecture.md]]` | l3-presentation mimari dosyalari diskte YOK (dizin dahil). Mimari dosyalar baska yere tasinmissa repoint, yoksa dead-mark. |
-| 78 | `[[../.ai/architecture/l3-presentation/js-module-architecture.md]]` | l3-presentation mimari dosyalari diskte YOK (dizin dahil). Mimari dosyalar baska yere tasinmissa repoint, yoksa dead-mark. |
+## C. Dışsal çözülen — 9/26 commit `9695a2e` (16 satır / 14 hedef)
 
-### `home.coremusic.net/CLAUDE.md` (2)
+v1'de (9/24) kırıkken9/26'da ADR arşivinin `.ai/.decisions/accepted/` altına oluşması ve dosyaların yeniden düzenlenmesiyle kendiliğinden çözülenler:
 
-| Satır | Ölü hedef | Önerilen aksiyon |
-|---|---|---|
-| 123 | `[[../AGENTS.md]]` | Kök AGENTS.md yok. `.ai/AGENTS.md` (vault SSOT) veya alt-domain AGENTS.md gerekli mi sahip onayi; degilse linki kaldir. |
-| 127 | `[[../.ai/.subdomains/home.coremusic.net/index.md]]` | subdomain indeksi diskte YOK. `.ai/.subdomains/` olusturulmali veya link kaldirilmali — sahip onayi gerekir. |
+`architecture/00-overview/architecture-master` · `decisions/accepted/ADR-038-8.1-...` · `decisions/accepted/ADR-040-...` · `decisions/accepted/ADR-042-...` · `decisions/accepted/ADR-044-...` · `.decisions/draft/ADR-089-classab-24v` · `ADR-040-database-authority` · `ADR-038-8.1-...` · `architecture/l0-infrastructure` · `decisions/accepted/ADR-043-...` · `ADR-044-...` · `architecture/05-data/database_master` · `architecture/06-audio/index` · `decisions/accepted/ADR-087-...`
 
-### `assets.coremusic.net/CLAUDE.md` (1)
+- Sayım: v1 34 satır = 18 carry-over + 16 dışsal çözülen (hedef bazlı benzersiz: 14).
+- Bugün 31 aday = 18 carry-over + `.opencode` 12 (v1 kapsamı dışındaydı, kural3 ile dahil) + 1 yeni hedef (`k0-k5-software/.../database_master` — dosya9/26'da yeni yolla yazılmış).
 
-| Satır | Ölü hedef | Önerilen aksiyon |
-|---|---|---|
-| 198 | `[[../AGENTS.md]]` | Kök AGENTS.md yok. `.ai/AGENTS.md` (vault SSOT) veya alt-domain AGENTS.md gerekli mi sahip onayi; degilse linki kaldir. |
+## D. Doğrulama
 
-### `assets.coremusic.net/Css copy/CLAUDE.md` (1)
-
-| Satır | Ölü hedef | Önerilen aksiyon |
-|---|---|---|
-| 24 | `[[../../.ai/architecture/l3-presentation/CLAUDE.md]]` | l3-presentation mimari dosyalari diskte YOK (dizin dahil). Mimari dosyalar baska yere tasinmissa repoint, yoksa dead-mark. |
+- Onarım sonrası taze tarama (6 adaylı çözücü + kod bloğu strip): **6/6 dosya `broken: 0`**.
+- Writer verify: **6/6 OK** (BOM=0, mojibake=0, cjk=0, NUL=0); satır sayıları korundu (936/936/85/188/252/33).
+- `.claude/CLAUDE.md` ↔ `.opencode/CLAUDE.md` hash eşit (onarım sonrası da).
 
 ## Kurallar
 
-- **Bu rapor salt-okunurdur:** düzeltme için sahip onayı + ayrı görev gerekir (In-Place Refactoring).
-- Frozen ADR (001-037) linkleri: slug metni KORUNUR, yalnızca repoint/`dead-mark` uygulanır (faz6-D deseni).
-- Yeni kırık link çıkarsa bu dosya yeniden üretilir (`collect-broken-links.mjs` + bu şablon); eski kayıt silinmez, `updated` tarihi güncellenir.
+- Bu rapor salt-okunurdur; yeni düzeltme için ayrıca onay gerekir.
+- Frozen ADR (001-037): yalnız link hedefi değişti, metin 0 edit.
+- `unresolved` 9 hedef: eşdeğer dosya üretilince yeniden retarget edilir; düz metinler bilinçli bırakılır.
 - Figma token / secret bu rapora YAZILMAZ (REDACTED politikası).
