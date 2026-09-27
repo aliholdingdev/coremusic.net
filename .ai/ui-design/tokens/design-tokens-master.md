@@ -4,9 +4,9 @@ title: "CoreMusic — Master Design Tokens"
 type: tokens
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-27
 status: active
-version: 5.0.0
+version: 6.1.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -131,6 +131,29 @@ CoreMusic UI tasarım sisteminin **tek tasarım token kaynağıdır**. Tüm CSS 
   --cm-focus-ring: 0 0 0 2px #ff4fd8;
 }
 ```
+
+#### 2.1.1 Figma Çıkarım Renk Hex'leri (SSOT: `tokens-1024.json` · `tokens-1920.json`)
+
+> **Kaynak:** Figma API çıkarımı — `tokens/tokens-1024.json` colors: 14 · `tokens/tokens-1920.json` colors: 12 → birleşim **17 anahtar · 14 benzersiz hex**. SSOT sırası: PNG > Figma extracted > ASCII > Inventory > Tokens. Ayrıntılı eşleme matrisi: `[[color-palettes]]` §6.1. Doğrulama: 2026-09-27 — ortak 9 anahtarın 9/9'u iki tier'da aynı hex (çelişki yok).
+
+| # | Hex | Figma Anahtar(lar) | Tier | Durum |
+|---|-----|--------------------|------|-------|
+| 1 | `#707070` | `KursatGurel / stroke` | 1024+1920 | Eklendi — tema token'ıyla çelişmiyor (`--cm-text-tertiary #707088` farklı rol) |
+| 2 | `#373737` | `Stroke Effect / fill` | 1024+1920 | Eklendi — CSS token karşılığı **atanmadı** ⚠️ VERIFICATION REQUIRED |
+| 3 | `#070607` | `Stroke Effect / gradient stop 0` | 1024+1920 | Eklendi — CSS token karşılığı **atanmadı** ⚠️ VERIFICATION REQUIRED |
+| 4 | `#5B5A5B` | `Stroke Effect / gradient stop 1` | 1024+1920 | Eklendi — CSS token karşılığı **atanmadı** ⚠️ VERIFICATION REQUIRED |
+| 5 | `#FF38E3` | `ProgressbarValue / fill` | 1024+1920 | Eklendi — CSS token karşılığı **atanmadı** ⚠️ VERIFICATION REQUIRED |
+| 6 | `#FF65E9` | `ProgresbarValue / fill` (1024, Figma yazım hatası) · `ProgressbarTick / gradient stop 1` (1920) | 1024+1920 | Eklendi — **kod kanıtlı:** `_player-info.css` L196 `/* Figma: #FF65E9 */ background: #FF65E9` |
+| 7 | `#FFBEF6` | `ProgressbarTick / gradient stop 0` | 1024+1920 | Eklendi — CSS token karşılığı **atanmadı** ⚠️ VERIFICATION REQUIRED |
+| 8 | `#D5D5D5` | `Progressbar / gradient stop 1` | 1024+1920 | Eklendi — CSS token karşılığı **atanmadı** ⚠️ VERIFICATION REQUIRED |
+| 9 | `#FE00E4` | `Core Music / stroke` | 1024+1920 | Eklendi — CSS token karşılığı **atanmadı** ⚠️ VERIFICATION REQUIRED |
+| 10 | `#FF00C8` | `bg / gradient stop 0` | 1024+1920 | Eklendi — **kod kanıtlı:** `_home-components.css` L860 `--pink-primary-button-*` fallback tabanı (`rgba(255,0,200,…)`) — bu üç token `:root`'ta **tanımsız** (bilinen açık) |
+| 11 | `#120C14` | `Siyah Arkaplan Evekt / gradient stop 1` | 1024 | Eklendi — CSS token karşılığı **atanmadı** ⚠️ VERIFICATION REQUIRED |
+| 12 | `#000000` | `Siyah Arkaplan Evekt / gradient stop 0` · `Ana Sayfa / stroke` | 1024 (gradient) · 1920 (stroke) | Eklendi — `#000` zaten `--cm-bg-overlay`/`--cm-bg-scrim` tabanında kullanılıyor |
+| 13 | `#FFFFFF` | `Romantic_Background_03 (2) / fill` · `Linux - 1920 - Home / fill` | 1024 · 1920 | Eklendi — `--cm-text-primary #ffffff` ile aynı hex, rol farklı (zemin vs metin) |
+| 14 | `#140E16` | `Ellipse 16 / gradient stop 0` | 1024 | Eklendi — CSS token karşılığı **atanmadı** ⚠️ VERIFICATION REQUIRED |
+
+**Çelişki / Deprecated kontrolü:** Figma hex'leri tema primary'leriyle (`--cm-primary #ff4fd8` / `#4f9fff` / `#a0a0b0`) **aynı rolde çelişmiyor** → hiçbir mevcut token **deprecated** yapılmadı. Üstteki CSS bloğu (§2.1) değiştirilmedi; bu alt bölüm yalnız Figma çıkarımını kayıt altına alır.
 
 ### 2.2 Tipografi Token'ları (42 Token)
 
@@ -590,11 +613,12 @@ CoreMusic UI tasarım sisteminin **tek tasarım token kaynağıdır**. Tüm CSS 
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 6.0.0 |
+| Version | 6.1.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Total Tokens | 326 |
 | Categories | 9 (Color, Typography, Spacing, Layout, Border, Shadow, Animation, Z-Index, Glass) |
 | Color Tokens | 85 |
+| Figma Extracted Colors | 14 benzersiz hex · 17 anahtar (1024: 14 · 1920: 12) — §2.1.1 |
 | Typography Tokens | 42 |
 | Spacing Tokens | 38 |
 | Layout Tokens | 45 |
@@ -607,10 +631,10 @@ CoreMusic UI tasarım sisteminin **tek tasarım token kaynağıdır**. Tüm CSS 
 | Responsive Breakpoints | 10 |
 | Theme Variants | 3 (female, male, neutral) |
 | Cross References | 6 |
-| Last Updated | 2026-09-22 |
+| Last Updated | 2026-09-27 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-22
+**Last Updated:** 2026-09-27
 **Mode:** Red Team · Human Mode · Truth Mode

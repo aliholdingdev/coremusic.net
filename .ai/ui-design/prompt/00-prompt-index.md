@@ -4,42 +4,50 @@ title: "CoreMusic UI Design — Master Prompt Index"
 type: prompt-index
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-27
 status: active
-version: 1.0.0
+version: 1.1.0
 authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/ui-design/prompt/00-prompt-index.md"
-  source_of_truth: ".ai/ui-design/01-mockup-index.md · .ai/CLAUDE.md"
+  source_of_truth: ".ai/ui-design/prompt/ (disk glob, 2026-09-27) · .ai/ui-design/01-mockup-index.md"
 ---
 
 # CoreMusic UI Design — Master Prompt Index
 
-**Zorunlu Bağlantılar:** [[../01-mockup-index]] · [[../02-component-inventory]] · [[../03-implementation-plan]]
+**Zorunlu Bağlantılar:** [[../01-mockup-index]] · [[../02-component-inventory]] · [[../03-implementation-plan]] · [[../05-responsive-architecture]]
 
 ---
 
 ## 1. Amaç
 
-CoreMusic UI tasarımında AI ile kod üretimi için kullanılacak prompt şablonlarının merkezi indeksidir. Her prompt; JSON prompt formatı, gerekli girdiler ve beklenen çıktı formatını içerir.
+CoreMusic UI tasarımında AI ile kod üretimi için kullanılacak prompt dosyalarının **tek indeksidir**. Tüm tablolar 2026-09-27 disk glob'u ile doğrulanmıştır; dosya adları diskteki birebir adlardır.
+
+> ⚠️ **Truth Mode notu:** Sürüm 1.0.0 bu dosyada "175 prompt (45 tier × 3 ekran = 135 screen + 14 page)" iddiası vardı — diskte karşılığı **yoktur** (screen promptu tier başına 1 adet, page promptu 12 adettir). Bu sürümde sayım glob ile yeniden alındı: **48 prompt + 2 indeks + 1 araştırma = 51 md**.
 
 ---
 
 ## 2. Prompt Kategorileri
 
 | # | Kategori | Prompt Sayısı | Dosya Yolu |
-|---|----------|---------------|------------|
-| 1 | **Screen** | 45 tier × 3 ekran = 135 | `prompt/screen/` |
+|---|----------|:---:|------------|
+| 1 | **Screen** | 10 | `prompt/screen/` |
 | 2 | **Component** | 16 | `prompt/component/` |
 | 3 | **Layout** | 10 | `prompt/layout/` |
-| 4 | **Page** | 14 | `prompt/page/` |
-| | **TOPLAM** | **175** | |
+| 4 | **Page** | 12 | `prompt/page/` |
+| | **Prompt alt toplam** | **48** | |
+| 5 | İndeks dosyaları | 2 | `prompt/00-prompt-index.md` · `prompt/screen/00-prompt-index.md` |
+| 6 | Araştırma | 1 | `prompt/web-research.md` |
+| | **TOPLAM (disk md)** | **51** | |
+
+**Disk kanıtı (2026-09-27, glob):** `prompt/` altında 51 `.md` = 48 prompt + 2 indeks + 1 web-research. Kategori dışı klasör yoktur.
 
 ---
 
 ## 3. Screen Prompts (10 Tier)
 
-Her tier; tanım, layout pattern, token overrides, code example içerir.
+Her tier; tanım, layout pattern, token overrides, code example içerir. Alt indeks: `screen/00-prompt-index.md` (v2.0.0).
 
 | # | Tier | Viewport | Dosya |
 |---|------|----------|-------|
@@ -54,6 +62,8 @@ Her tier; tanım, layout pattern, token overrides, code example içerir.
 | 9 | T9-car | Değişken | `screen/T9-car.md` |
 | 10 | T10-watch | ≤400px | `screen/T10-watch.md` |
 
+> ⚠️ Eski sürüm "45 tier × 3 ekran = 135" satırı yanlıştı; gerçek: **10 screen prompt dosyası** (tier başına 1). Tier matrisi ayrı dosyadır: `00-device-matrix.md` (45 tier).
+
 ---
 
 ## 4. Component Prompts (16)
@@ -61,21 +71,23 @@ Her tier; tanım, layout pattern, token overrides, code example içerir.
 | # | Component | Dosya |
 |---|-----------|-------|
 | C01 | Nav Link | `component/C01-nav-link.md` |
-| C02 | Search Bar | `component/C02-search-bar.md` |
-| C03 | Album Card | `component/C03-album-card.md` |
-| C04 | Artist Circle | `component/C04-artist-circle.md` |
-| C05 | Track Row | `component/C05-track-row.md` |
-| C06 | Widget Card | `component/C06-widget-card.md` |
-| C07 | Player Controls | `component/C07-player-controls.md` |
-| C08 | Seek Bar | `component/C08-seek-bar.md` |
-| C09 | Volume Slider | `component/C09-volume-slider.md` |
-| C10 | Playlist Item | `component/C10-playlist-item.md` |
-| C11 | Genre Chip | `component/C11-genre-chip.md` |
-| C12 | Notification Badge | `component/C12-notification-badge.md` |
-| C13 | Modal Overlay | `component/C13-modal-overlay.md` |
-| C14 | Toast Notification | `component/C14-toast-notification.md` |
-| C15 | Loading Spinner | `component/C15-loading-spinner.md` |
-| C16 | Empty State | `component/C16-empty-state.md` |
+| C02 | Status Widget | `component/C02-status-widget.md` |
+| C03 | User Pill | `component/C03-user-pill.md` |
+| C04 | Primary Button | `component/C04-primary-button.md` |
+| C05 | Secondary Button | `component/C05-secondary-button.md` |
+| C06 | Form Input | `component/C06-form-input.md` |
+| C07 | Gender Button | `component/C07-gender-button.md` |
+| C08 | Social Login | `component/C08-social-login.md` |
+| C09 | Media Card | `component/C09-media-card.md` |
+| C10 | Detail Panel | `component/C10-detail-panel.md` |
+| C11 | Genre Tabs | `component/C11-genre-tabs.md` |
+| C12 | Star Rating | `component/C12-star-rating.md` |
+| C13 | Track List | `component/C13-track-list.md` |
+| C14 | Modal | `component/C14-modal.md` |
+| C15 | Toggle | `component/C15-toggle.md` |
+| C16 | Network Row | `component/C16-network-row.md` |
+
+> ⚠️ Eski sürüm adları (`C02-search-bar`, `C03-album-card`, `C07-player-controls` …) diskte **yok**; bu tablo 2026-09-27 glob'undan alınmıştır. Bileşen tanım SSOT'u: `02-component-inventory.md`.
 
 ---
 
@@ -83,43 +95,45 @@ Her tier; tanım, layout pattern, token overrides, code example içerir.
 
 | # | Layout | Dosya |
 |---|--------|-------|
-| 1 | Phone Stack | `layout/01-pattern-mobile-stack.md` |
-| 2 | Tablet Grid | `layout/02-pattern-tablet-grid.md` |
-| 3 | Embedded Split | `layout/03-pattern-embedded-split.md` |
-| 4 | Laptop Sidebar | `layout/04-pattern-laptop-sidebar.md` |
-| 5 | Desktop 3-Column | `layout/05-pattern-desktop-3col.md` |
-| 6 | 4K Expanded | `layout/06-pattern-4k-expanded.md` |
-| 7 | TV Focus | `layout/07-pattern-tv-focus.md` |
-| 8 | Car Simplified | `layout/08-pattern-car-simplified.md` |
-| 9 | Watch Micro | `layout/09-pattern-watch-micro.md` |
-| 10 | Spatial AR/VR | `layout/10-pattern-spatial.md` |
+| 1 | Mobile Stack | `layout/01-mobile-stack.md` |
+| 2 | Tablet Grid | `layout/02-tablet-grid.md` |
+| 3 | Embedded Split | `layout/03-embedded-split.md` |
+| 4 | Laptop Sidebar | `layout/04-laptop-sidebar.md` |
+| 5 | Desktop 3-Column | `layout/05-desktop-3col.md` |
+| 6 | 4K Expanded | `layout/06-4k-expanded.md` |
+| 7 | TV Focus | `layout/07-tv-focus.md` |
+| 8 | Car Touch | `layout/08-car-touch.md` |
+| 9 | Watch Micro | `layout/09-watch-micro.md` |
+| 10 | Spatial AR | `layout/10-spatial-ar.md` |
+
+> ⚠️ Eski sürümde dosya adları `01-pattern-mobile-stack.md` biçimindeydi — diskte bu adlar **yoktur**; gerçek adlar `NN-<kebab>.md` şeklindedir.
 
 ---
 
-## 6. Page Prompts (14)
+## 6. Page Prompts (12)
 
 | # | Page | Dosya |
 |---|------|-------|
 | 1 | Home | `page/01-home.md` |
-| 2 | Library | `page/02-library.md` |
-| 3 | Albums | `page/03-albums.md` |
+| 2 | Albums | `page/02-albums.md` |
+| 3 | Album Detail | `page/03-album-detail.md` |
 | 4 | Artists | `page/04-artists.md` |
-| 5 | Player | `page/05-player.md` |
-| 6 | Search | `page/06-search.md` |
+| 5 | Playlist | `page/05-playlist.md` |
+| 6 | Browse | `page/06-browse.md` |
 | 7 | Settings | `page/07-settings.md` |
-| 8 | Auth Login | `page/08-auth-login.md` |
-| 9 | Auth Register | `page/09-auth-register.md` |
-| 10 | Auth Gender | `page/10-auth-gender.md` |
-| 11 | Auth Forgot | `page/11-auth-forgot.md` |
-| 12 | Profile | `page/12-profile.md` |
-| 13 | Playlist Detail | `page/13-playlist-detail.md` |
-| 14 | 404 | `page/14-404.md` |
+| 8 | Login | `page/08-login.md` |
+| 9 | Register | `page/09-register.md` |
+| 10 | Gender Select | `page/10-gender-select.md` |
+| 11 | WiFi | `page/11-wifi.md` |
+| 12 | Bluetooth | `page/12-bluetooth.md` |
+
+> ⚠️ Eski sürüm 14 page (`02-library`, `05-player`, `06-search`, `11-auth-forgot`, `12-profile`, `13-playlist-detail`, `14-404`) iddia ediyordu — diskte **12 dosya** var; Library/Player/Search/404 vb. prompt dosyaları yoktur (kapsam dışı bırakılmış).
 
 ---
 
 ## 7. Prompt Formatı
 
-Her prompt aşağıdaki formatta yazılır:
+Her prompt (`type: prompt` — şablon: `.ai/.templates/ui-design/prompt-template.md`, Kalıp C) aşağıdaki formatta yazılır:
 
 ```markdown
 ---
@@ -155,8 +169,10 @@ component: C01
 | Kaynak | Hedef | İlişki |
 |--------|-------|--------|
 | `00-prompt-index.md` | `01-mockup-index.md` | PNG referansları |
-| `00-prompt-index.md` | `02-component-inventory.md` | Bileşen tanımları |
+| `00-prompt-index.md` | `02-component-inventory.md` | Bileşen tanımları (C01-C16) |
 | `00-prompt-index.md` | `03-implementation-plan.md` | Uygulama planı |
+| `00-prompt-index.md` | `screen/00-prompt-index.md` | Screen alt indeksi (v2.0.0) |
+| `00-prompt-index.md` | `web-research.md` | Araştırma promptları (kapsam dışı) |
 
 ---
 
@@ -164,15 +180,21 @@ component: C01
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 1.0.0 |
-| Screen Prompts | 135 (45 tier × 3) |
-| Component Prompts | 16 |
-| Layout Prompts | 10 |
-| Page Prompts | 14 |
-| Total Prompts | 175 |
+| Version | 1.1.0 |
+| Status | Red Team · Human Mode · Truth Mode verified |
+| Cross References | 4 |
+| Screen Prompts | 10 (T1-T10) |
+| Component Prompts | 16 (C01-C16) |
+| Layout Prompts | 10 (01-10) |
+| Page Prompts | 12 (01-12) |
+| Prompt Files | 48 |
+| Index Files | 2 (`00-prompt-index.md`, `screen/00-prompt-index.md`) |
+| Research Files | 1 (`web-research.md`) |
+| Total md (disk) | 51 |
+| Last Updated | 2026-09-27 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-20
+**Last Updated:** 2026-09-27
 **Mode:** Red Team · Human Mode · Truth Mode

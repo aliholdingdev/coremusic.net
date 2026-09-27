@@ -4,9 +4,9 @@ title: "CoreMusic — Color Palettes"
 type: tokens
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-27
 status: active
-version: 3.0.0
+version: 3.1.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -223,24 +223,59 @@ CoreMusic renk paletlerinin **tek kaynağıdır**. 3 tema, semantik renkler, gri
 | İkincil metin | `--cm-text-secondary` | `#b0b0c0` |
 | Cam arka plan | `--cm-glass-bg` | `rgba(255,255,255,0.05)` |
 
+### 6.1 Figma Çıkarım Renkleri (SSOT: `tokens-1024.json` · `tokens-1920.json`)
+
+> **Kaynak:** `tokens/tokens-1024.json` (colors: 14) + `tokens/tokens-1920.json` (colors: 12) — Figma API çıkarımı. Birleşim: **17 anahtar · 14 benzersiz hex**. SSOT sırası: PNG > Figma extracted > ASCII > Inventory > Tokens — bu tablo "Figma extracted" katmanıdır (AGENTS §7.2).
+>
+> **Çapraz doğrulama (2026-09-27):** İki dosyada ortak **9 anahtarın 9'u da aynı hex** → tierler arası renk çelişkisi yok. Hex'lerin hiçbiri bu dosyada daha önce bulunmuyordu → tamamı eklendi.
+>
+> **Kod kanıtı:** `#FF65E9` → `Css/04_Components/_player-info.css` L195-196 (`/* Figma: #FF65E9 */`) · `#FF00C8` → `Css/05_Pages/_home-components.css` L860 (`--pink-primary-button-*` fallback'ları `rgba(255, 0, 200, …)` = #FF00C8 tabanı).
+
+| # | Figma Anahtar | 1024 | 1920 | Hex | Kanıt / Not |
+|---|---------------|:----:|:----:|-----|-------------|
+| 1 | `KursatGurel / stroke` | ✓ | ✓ | `#707070` | Avatar stroke (`extracted-1920.md` L31, L113); `--cm-text-tertiary #707088`'e yakın ama **farklı rol/değer** → eşlenmedi |
+| 2 | `Stroke Effect / fill` | ✓ | ✓ | `#373737` | Widget stroke dolgusu; master'da karşılığı yok ⚠️ |
+| 3 | `Stroke Effect / gradient stop 0` | ✓ | ✓ | `#070607` | Stroke gradient başlangıcı ⚠️ |
+| 4 | `Stroke Effect / gradient stop 1` | ✓ | ✓ | `#5B5A5B` | Stroke gradient bitişi ⚠️ |
+| 5 | `ProgressbarValue / fill` | ✓ | ✓ | `#FF38E3` | Ana progressbar değeri (`extracted-1920.md` L36) ⚠️ |
+| 6 | `ProgressbarTick / gradient stop 0` | ✓ | ✓ | `#FFBEF6` | Tick gradient kenarı ⚠️ |
+| 7 | `Progressbar / gradient stop 1` | ✓ | ✓ | `#D5D5D5` | Progressbar ray ortası (`extracted-1920.md` L65) ⚠️ |
+| 8 | `Core Music / stroke` | ✓ | ✓ | `#FE00E4` | Logo stroke (`extracted-1920.md` L76) ⚠️ |
+| 9 | `bg / gradient stop 0` | ✓ | ✓ | `#FF00C8` | **Kod kanıtlı:** `_home-components.css` L860 — `--pink-primary-button-*` bu dokümanda/`design-tokens-master`'da **tanımsız** (bilinen açık çelişki) |
+| 10 | `Romantic_Background_03 (2) / fill` | ✓ | — | `#FFFFFF` | Romantik zemin; `--cm-text-primary #ffffff` ile aynı hex, **rol farklı** |
+| 11 | `Siyah Arkaplan Evekt / gradient stop 0` | ✓ | — | `#000000` | Siyah overlay gradient 0 ⚠️ |
+| 12 | `Siyah Arkaplan Evekt / gradient stop 1` | ✓ | — | `#120C14` | Siyah overlay gradient 1 ⚠️ |
+| 13 | `Ellipse 16 / gradient stop 0` | ✓ | — | `#140E16` | Dekoratif elips zemini ⚠️ |
+| 14 | `ProgresbarValue / fill` | ✓ | — | `#FF65E9` | Anahtar Figma'da yazım hatalı (1024: `Progresbar`); **kod kanıtlı:** `_player-info.css` L196 |
+| 15 | `Linux - 1920 - Home / fill` | — | ✓ | `#FFFFFF` | 1920 sayfa zemini |
+| 16 | `Ana Sayfa / stroke` | — | ✓ | `#000000` | 1920 sayfa stroke ⚠️ |
+| 17 | `ProgressbarTick / gradient stop 1` | — | ✓ | `#FF65E9` | 1920 tick orta stop — 1024'te aynı hex farklı anahtarda (`ProgresbarValue`) |
+
+**Çelişki / Deprecated kontrolü (Truth Mode):**
+
+- Figma hex'leri mevcut tema hex'leriyle (`--cm-primary #ff4fd8` vb.) **aynı rolde çelişmiyor** (roller: progressbar/overlay/stroke vs tema primary) → **deprecated işaretlenmedi.**
+- Tek yakın değer: `#707070` (Figma stroke) vs `--cm-text-tertiary #707088` — eşit değil, rol farklı; ikisi de korunur.
+- **⚠️ VERIFICATION REQUIRED:** 14 hex'ten yalnız `#FF65E9` ve `#FF00C8` kodda kanıtlanabildi; kalan 12'sine CSS custom property adı **atanmadı** (uydurma yasak) — token adlandırma kararı gerektirir.
+
 ---
 
 ## 7. Quality Report
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 3.0.0 |
+| Version | 3.1.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Theme Count | 3 (female, male, neutral) |
 | Semantic Scales | 4 (success, warning, error, info) × 10 |
 | Gray Scale | 11 steps (50-950) |
 | Glass Colors | 15 |
-| Total Color Values | 85+ |
+| Figma Extracted Colors | 14 benzersiz hex · 17 anahtar (1024: 14 · 1920: 12) |
+| Total Color Values | 99+ |
 | Cross References | 3 |
-| Last Updated | 2026-09-20 |
+| Last Updated | 2026-09-27 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-20
+**Last Updated:** 2026-09-27
 **Mode:** Red Team · Human Mode · Truth Mode

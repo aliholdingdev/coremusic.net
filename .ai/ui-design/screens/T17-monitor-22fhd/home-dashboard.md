@@ -98,6 +98,15 @@ reference:
 | Sidebar | Yok | 240px |
 | Touch Target | 48px | 24px |
 
+**Widget alanı grid kuralı (kullanıcı kuralı > Figma — `reference/figma/grid-rules.md`):**
+
+| Breakpoint | 1. satır | 2. satır | 3. satır |
+|:----------:|:--------:|:--------:|:--------:|
+| 1024 | 2×2 | 1×5 | 1×5 |
+| **1920 (bu tier)** | **4×4** | **1×8** | **1×8** |
+
+> Not: Figma'da widget alanı "4×4 grid" görünür; uygulama 2./3. satırları **1×8** sıralıdır (4×4'e direkt değil). Widget alanı node'u `2850:21494` (w=752 h=184.44, GROUP — auto-layout yok, `layoutGrids` API'de 0 isabet). Kural kullanıcı beyanıdır, Figma çizimi bilgi amaçlıdır.
+
 ---
 
 ## 4. PNG Referansı

@@ -237,6 +237,15 @@ reference:
 | T17-T24 (Desktop) | 2561-3840px | 3-4 sütun, sidebar var |
 | T25-T28 (TV) | ≥3840px | 4 sütun, D-pad nav |
 
+**Widget alanı grid kuralı (kullanıcı kuralı > Figma — `reference/figma/grid-rules.md`):**
+
+| Breakpoint | 1. satır | 2. satır | 3. satır |
+|:----------:|:--------:|:--------:|:--------:|
+| **1024 (bu tier)** | **2×2** | **1×5** | **1×5** |
+| 1920 | 4×4 | 1×8 | 1×8 |
+
+> Not: Figma'da widget alanı "2×2 grid" görünür; uygulama 2./3. satırları **1×5** sıralıdır (2×2'ye direkt değil). `02-component-inventory.md` §C17/C18 ve `03-implementation-plan.md` adım 6 ile hizalıdır. Figma `layoutGrids` API'de yok (1077 node 0 isabet) — kural kullanıcı beyanıdır, bağlayıcıdır.
+
 ---
 
 ## 9. State Durumları

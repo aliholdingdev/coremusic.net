@@ -3,8 +3,8 @@ title: "CoreMusic — Screen Specification Index (T08, T17 + All Tiers)"
 type: spec
 category: index
 date: 2026-09-20
-updated: 2026-09-20
-version: 2.0.0
+updated: 2026-09-27
+version: 2.1.0
 status: active
 ---
 
@@ -27,7 +27,18 @@ CoreMusic UI screen specifications with ASCII art layouts based on 19 PNG mockup
 | T08 | RPi5 7" Touch (Embedded) | 1024×600 | bluetooth-modal.md | ✅ |
 | Shared | All Devices | 1024×600 | login.md | ✅ |
 | Shared | All Devices | 1024×600 | select-gender.md | ✅ |
+| Shared | All Devices | 1024×600 | register-step1.md | ✅ |
+| Shared | All Devices | 1024×600 | register-step2.md | ✅ |
+| Shared | All Devices | 1024×600 | register-step3.md | ✅ |
 | T17 | 22" FHD Monitor (Desktop) | 1920×1080 | home-dashboard.md | ✅ |
+| T17 | 22" FHD Monitor (Desktop) | 1920×1080 | welcome-popup.md | ✅ (draft — türetildi) |
+| T01 | Galaxy J7 (Phone HD) | 720×1280 | home-dashboard.md | ✅ |
+| T01 | Galaxy J7 (Phone HD) | 720×1280 | auth-login.md | ✅ |
+| T02 | iPhone 14-16 Pro Max (Phone FHD) | 1290×2796 | home-dashboard.md | ✅ |
+| T03 | Galaxy S25/S26 Ultra (Phone QHD) | 1440×3120 | home-dashboard.md | ✅ |
+| T25 | 43" FHD Smart TV | 1920×1080 | home-dashboard.md | ✅ |
+| T29 | Android Auto (Car) | 1280×720 | home-dashboard.md | ✅ |
+| T31 | Apple Watch 40mm | 396×484 | now-playing.md | ✅ |
 
 ## Screen Files — T08 Embedded (1024×600)
 
@@ -49,25 +60,44 @@ CoreMusic UI screen specifications with ASCII art layouts based on 19 PNG mockup
 |---|--------|------|---------------|
 | 10 | Login | `shared/login.md` | `Linux 1024 - Login Girl.png` |
 | 11 | Select Gender | `shared/select-gender.md` | `Linux 1024 - Select Gender.png` |
+| 12 | Register Step 1 | `shared/register-step1.md` | `Linux  1024 - Register Girl.png` |
+| 13 | Register Step 2 | `shared/register-step2.md` | `Linux  1024 - Register Girl step 2.png` |
+| 14 | Register Step 3 | `shared/register-step3.md` | `Linux  1024 - Register Girl step 3.png` |
 
 ## Screen Files — T17 Desktop (1920×1080)
 
 | # | Screen | File | PNG Reference |
 |---|--------|------|---------------|
-| 12 | Home Dashboard | `T17-monitor-22fhd/home-dashboard.md` | `Linux - 1920 - Home.png` |
+| 15 | Home Dashboard | `T17-monitor-22fhd/home-dashboard.md` | `Linux - 1920 - Home.png` |
+| 16 | Welcome Popup | `T17-monitor-22fhd/welcome-popup.md` | ⚠️ 1920 welcome PNG **yok** — `Linux 1024 - Home Page Welcome Popup.png` + Figma `2831:10267`'den türetildi (status: draft) |
+
+## Screen Files — Other Tiers (Partial, 10 dosya)
+
+| # | Tier | Viewport | Screens |
+|---|------|----------|---------|
+| 17-18 | T01-phone-hd | 720×1280 | `home-dashboard.md`, `auth-login.md` |
+| 19 | T02-phone-fhd | 1290×2796 | `home-dashboard.md` |
+| 20 | T03-phone-qhd | 1440×3120 | `home-dashboard.md` |
+| 21 | T25-tv-43fhd | 1920×1080 | `home-dashboard.md` |
+| 22 | T29-car-android-auto | 1280×720 | `home-dashboard.md` |
+| 23 | T31-watch-apple-40mm | 396×484 | `now-playing.md` |
+
+**Disk toplamı (2026-09-27, glob doğrulaması):** 24 md = 1 indeks + 23 screen spec (eskı "151 dosya" iddiası hedef plandır, diskte değil).
 
 ## Planned Screens (Pending)
 
+> **Not (2026-09-27):** T01/T02/T03/T25/T29/T31 ve shared register adları artık diskte mevcut (yukarıda "Other Tiers" tablosu) — bu tablo kalan eksik ekranları listeler.
+
 | Tier | Device | Viewport | Screens |
 |------|--------|----------|---------|
-| T01-T05 | Phone (Galaxy J7, iPhone 14-16, Galaxy S25-S26) | 720-1440 | home, auth, albums, artists, player |
+| T01-T05 | Phone (Galaxy J7, iPhone 14-16, Galaxy S25-S26) | 720-1440 | auth, albums, artists, player (home: T01-T03 ✅; auth-login: T01 ✅) |
 | T06-T07 | Tablet (iPad Mini, iPad 10) | 1340-1840 | home, auth, albums, artists, player |
 | T09-T11 | Tablet (iPad Pro, Surface Pro) | 2048-2880 | home, auth, albums, artists, player |
 | T12-T16 | Laptop (MacBook Air/Pro) | 1920-3456 | home, auth, albums, artists, player, sidebar |
-| T18-T24 | Monitor (FHD/QHD/4K/Ultrawide) | 1920-5120 | home, auth, albums, artists, player |
-| T25-T28 | Smart TV (43"-98") | 1920-3840 | home, player, settings |
-| T29-T30 | Car (Android Auto, CarPlay) | 800-1920 | home, player, navigation |
-| T31-T33 | Smart Watch (Apple Watch, Galaxy Watch) | 396-502 | now-playing, controls |
+| T18-T24 | Monitor (FHD/QHD/4K/Ultrawide) | 1920-5120 | home, auth, albums, artists, player (T17 tamamlandı, bu aralıkta değil) |
+| T25-T28 | Smart TV (43"-98") | 1920-3840 | player, settings (home: T25 ✅) |
+| T29-T30 | Car (Android Auto, CarPlay) | 800-1920 | player, navigation (home: T29 ✅) |
+| T31-T33 | Smart Watch (Apple Watch, Galaxy Watch) | 396-502 | controls (now-playing: T31 ✅) |
 | T34-T36 | Console (PS5, Switch, Steam Deck) | 1280-3840 | home, player, library |
 | T37-T38 | Desktop App (Electron, Tauri) | Responsive | home, auth, all screens |
 | T39-T40 | Mobile App (iOS, Android) | Responsive | home, auth, all screens |
@@ -117,7 +147,7 @@ CoreMusic UI screen specifications with ASCII art layouts based on 19 PNG mockup
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-20
+**Last Updated:** 2026-09-27
 **Mode:** Red Team · Human Mode · Truth Mode
 
 ## Quick Reference
@@ -229,6 +259,6 @@ Example: `T01-phone-hd/home.md`
 
 ---
 
-**Total files:** 151 (1 index + 15 tiers × 10 screens)
-**Created:** 2026-09-20
+**Total files:** 151 hedef plandı (1 index + 15 tiers × 10 screens) · **Disk gerçeği (2026-09-27):** 24 md (1 index + 23 spec — T08:9, shared:5, T17:2, T01:2, T02-T03-T25-T29-T31: 1'er)
+**Created:** 2026-09-20 · **Updated:** 2026-09-27 (v2.1.0 — T17 welcome-popup + shared register-1/2/3 + diğer tier dosyaları eklendi)
 **Author:** Agent 3 — Screen Spec Writer

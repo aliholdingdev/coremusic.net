@@ -4,9 +4,9 @@ title: "CoreMusic UI Design — Master Flow Index"
 type: flow-index
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-27
 status: active
-version: 3.0.0
+version: 3.1.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -22,7 +22,7 @@ reference:
 
 ## 1. Amaç
 
-CoreMusic UI tasarımında tüm kullanıcı akışlarının (flow) merkezi indeksidir. 17 akış, 4 kategoride organize edilmiştir. Her akış; **akış diyagramı** (decision flow), **state machine**, **hata senaryoları** ve **tier-bazlı varyasyonları** içerir.
+CoreMusic UI tasarımında tüm kullanıcı akışlarının (flow) merkezi indeksidir. **20 akış, 6 kategoride** organize edilmiştir. Her akış; **akış diyagramı** (decision flow), **state machine**, **hata senaryoları** ve **tier-bazlı varyasyonları** içerir.
 
 ---
 
@@ -34,7 +34,11 @@ CoreMusic UI tasarımında tüm kullanıcı akışlarının (flow) merkezi indek
 | 2 | **Music** | 5 | `flow/music/` | ✅ |
 | 3 | **Settings** | 4 | `flow/settings/` | ✅ |
 | 4 | **Navigation** | 3 | `flow/navigation/` | ✅ |
-| | **TOPLAM** | **17** | | |
+| 5 | **Automotive** | 2 | `flow/automotive/` | ✅ |
+| 6 | **Watch** | 1 | `flow/watch/` | ✅ |
+| | **TOPLAM** | **20** | | |
+
+**Disk kanıtı (2026-09-27, glob):** `flow/` altında **21 md** = 1 indeks + 20 flow; dolu kategori sayısı **6**. `flow/spatial/` ve `flow/voice/` dizinleri diskte mevcut ama **0 md** içerir (boş — sayıya dâhil değildir).
 
 ---
 
@@ -183,7 +187,28 @@ Kullanılan karakterler:
 
 ---
 
-## 9. Cross References
+## 9. Automotive Flows (2)
+
+| # | Flow | Dosya | Tanım | Flow Diagram | State Machine |
+|---|------|-------|-------|:---:|:---:|
+| 1 | Android Auto Layout | `automotive/01-android-auto-layout.md` | Android Auto layout kuralları + ekran akışları | ✅ (`Akış Şeması`) | — |
+| 2 | Apple CarPlay Layout | `automotive/02-carplay-layout.md` | CarPlay layout kuralları + ekran akışları | ✅ (`Akış Şeması`) | — |
+
+> ⚠️ **Şablon notu (Truth Mode):** Bu iki dosya Kalıp B altı bölüm iskeletini (`Akış Diyagramı → Ekran Akışı → Hata Senaryoları → Tier → BEM → Adımlar`) **taşımaz**; `§1 Amaç → §2 Akış Şeması → §3 Layout Kuralları → §4 Ekran Akışları → §5 Quality Report` yapısındadır. Şablon uyumu sonraki vault görevine bırakıldı.
+
+---
+
+## 10. Watch Flows (1)
+
+| # | Flow | Dosya | Tanım | Flow Diagram | State Machine |
+|---|------|-------|-------|:---:|:---:|
+| 1 | Now Playing | `watch/01-now-playing.md` | Apple Watch now-playing ekran akışı + layout kuralları | ✅ (`Akış Şeması`) | — |
+
+> ⚠️ **Şablon notu (Truth Mode):** `watch/01-now-playing.md` da Kalıp B iskeleti yerine `§1 Amaç → §5 Quality Report` yapısındadır (automotive ile aynı sapma).
+
+---
+
+## 11. Cross References
 
 | Kaynak | Hedef | İlişki |
 |--------|-------|--------|
@@ -194,23 +219,29 @@ Kullanılan karakterler:
 
 ---
 
-## 10. Quality Report
+## 12. Quality Report
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 3.0.0 |
-| Total Flows | 17 |
+| Version | 3.1.0 |
+| Status | Red Team · Human Mode · Truth Mode verified |
+| Cross References | 4 |
+| Total Flows | 20 |
+| Categories | 6 (Auth, Music, Settings, Navigation, Automotive, Watch) |
 | Auth Flows | 5 |
 | Music Flows | 5 |
 | Settings Flows | 4 |
 | Navigation Flows | 3 |
-| Flow Diagrams | 17/17 ✅ |
-| State Machines | 3 (Playback, WiFi, Bluetooth) |
+| Automotive Flows | 2 |
+| Watch Flows | 1 |
+| Flow Diagrams | 20/20 ✅ (16 `Akış Diyagramı` · 1 `ASCII Flow Diagram` · 3 `Akış Şeması`) |
+| State Machines | 5 (Playback, Header Nav, Footer Player, WiFi, Bluetooth) |
+| Empty Categories | 2 (`spatial/`, `voice/` — 0 md, sayıya dâhil değil) |
 | Tier Coverage | 7 (Phone, Tablet, Embedded, Desktop, TV, Car, Watch) |
-| Last Updated | 2026-09-20 |
+| Last Updated | 2026-09-27 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-20
+**Last Updated:** 2026-09-27
 **Mode:** Red Team · Human Mode · Truth Mode
