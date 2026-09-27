@@ -1,0 +1,118 @@
+/**
+ * CoreMusic — Main Structural Layout
+ * App shell, page containers, grid system
+ * ITCSS Layer: 03_Layout
+ */
+
+/* ============================================================
+   APP SHELL
+   ============================================================ */
+
+#app,
+.cm-app {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   PAGE CONTAINER
+   ============================================================ */
+
+.cm-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ============================================================
+   CONTAINER WIDTHS
+   ============================================================ */
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: var(--sp-8, 2rem);
+}
+
+.container--sm  { max-width: var(--bp-sm); }
+.container--md  { max-width: var(--bp-md); }
+.container--lg  { max-width: var(--bp-lg); }
+.container--xl  { max-width: var(--bp-xl); }
+.container--2xl { max-width: var(--bp-2xl); }
+
+/* ============================================================
+   FULL SCREEN LAYOUT (for login/landing pages)
+   ============================================================ */
+
+.layout-fullscreen {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+.layout-split {
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  min-height: 100vh;
+}
+
+@media (max-width: 1200px) {
+  .layout-split {
+    grid-template-columns: 1fr 420px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .layout-split {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+}
+
+/* ============================================================
+   MAIN ELEMENT
+   ============================================================ */
+
+main {
+  max-width: var(--viewport-max-width, 100%);
+  margin-inline: auto;
+}
+
+/* ============================================================
+   FLEX UTILITIES
+   ============================================================ */
+
+.flex        { display: flex; }
+.flex-col    { display: flex; flex-direction: column; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between{ display: flex; align-items: center; justify-content: space-between; }
+.flex-wrap   { flex-wrap: wrap; }
+.flex-1      { flex: 1; }
+
+/* ============================================================
+   GRID UTILITIES
+   ============================================================ */
+
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-4); }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-4); }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-4); }
+
+/* ============================================================
+   POSITION UTILITIES
+   ============================================================ */
+
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed    { position: fixed; }
+.sticky   { position: sticky; }
+.inset-0  { inset: 0; }
+
+/* ============================================================
+   OVERFLOW
+   ============================================================ */
+
+.overflow-hidden { overflow: hidden; }
+.overflow-auto   { overflow: auto; }

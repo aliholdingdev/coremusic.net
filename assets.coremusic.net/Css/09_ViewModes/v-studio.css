@@ -1,0 +1,108 @@
+/**
+ * CoreMusic — Studio View Mode
+ * Stüdyo üretim görünümü — mixing/recording odaklı
+ * ITCSS Layer: 09_ViewModes
+ * Version: 1.0.0 — 2026-08-05
+ *
+ * Kullanım: 8.1 surround, EQ, DSP, recording
+ * Cookie: view-mode=studio
+ */
+
+/* ============================================================
+   STUDIO VIEW — Token Overrides
+   ============================================================ */
+:root {
+  --view-bg: #0d0d0d;
+  --view-surface: #1a1a1a;
+  --view-text: #d0d0d0;
+  --view-accent: #ff6600;
+}
+
+/* ============================================================
+   STUDIO VIEW — Layout: Wide Sidebar
+   ============================================================ */
+.view-studio .home-layout {
+  grid-template-columns: 320px 1fr;
+}
+
+.view-studio .home-sidebar {
+  background: var(--view-surface);
+  border-right: 2px solid #333;
+}
+
+/* ============================================================
+   STUDIO VIEW — Main Content: Wide
+   ============================================================ */
+.view-studio .home-main {
+  background: var(--view-bg);
+  padding: var(--sp-4);
+}
+
+.view-studio .home-quick-links {
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-3);
+}
+
+.view-studio .home-folder-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-4);
+}
+
+.view-studio .home-recently {
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-4);
+}
+
+/* ============================================================
+   STUDIO VIEW — Components: Professional
+   ============================================================ */
+.view-studio .home-now-playing {
+  background: var(--view-surface);
+  border: 1px solid #444;
+}
+
+.view-studio .home-widget {
+  background: var(--view-surface);
+  border: 1px solid #444;
+}
+
+/* ============================================================
+   STUDIO VIEW — EQ/DSP Panel Placeholder
+   ============================================================ */
+.view-studio .studio-eq-panel {
+  display: block;
+  background: var(--view-surface);
+  border: 1px solid #444;
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  margin-top: var(--sp-4);
+}
+
+.view-studio .studio-surround-panel {
+  display: block;
+  background: var(--view-surface);
+  border: 1px solid #444;
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  margin-top: var(--sp-4);
+}
+
+/* ============================================================
+   DATA ATTRIBUTE SELECTOR
+   ============================================================ */
+[data-view="studio"] .home-layout {
+  grid-template-columns: 320px 1fr;
+}
+
+[data-view="studio"] .home-sidebar {
+  background: var(--view-surface);
+  border-right: 2px solid #333;
+}
+
+[data-view="studio"] .home-main {
+  background: var(--view-bg);
+}
+
+[data-view="studio"] .home-quick-links {
+  grid-template-columns: repeat(4, 1fr);
+}
