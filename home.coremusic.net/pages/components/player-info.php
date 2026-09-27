@@ -5,6 +5,7 @@
  * @var \CoreMusic\Home\Component\PlayerInfoComponent $this
  */
 $isWide = $this->variant->isWide();
+$nonce  = $this->h((string)($_SESSION['csp_nonce'] ?? ''));
 ?>
 <?php if ($isWide): ?>
 <player_info class="player-info player-info--wide" aria-label="Şu an çalan" data-cm-component="cm-player-info" data-cm-config='<?= htmlspecialchars(json_encode(["song" => strip_tags($this->song), "artist" => strip_tags($this->artist), "progress" => $this->seekPct], JSON_HEX_TAG | JSON_HEX_APOS), ENT_QUOTES, 'UTF-8') ?>'>
@@ -45,7 +46,7 @@ $isWide = $this->variant->isWide();
         
         <img src="<?= $this->h($this->iconPlay) ?>" class="player-info__text-img" loading="lazy">    
         <div class="player-info__progress" role="progressbar" aria-label="Medya ilerlemesi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?= $this->seekPct ?>">
-            <div class="player-info__progress__bar"><div class="player-info__progress__fill" data-progress="<?= $this->seekPct ?>" style="width: <?= $this->seekPct ?>%;"></div></div>
+            <div class="player-info__progress__bar"><div class="player-info__progress__fill" data-progress="<?= $this->seekPct ?>" style="width: <?= $this->seekPct ?>%;" nonce="<?= $nonce ?>"></div></div>
         </div>
     </div>
 </player_info>
@@ -59,7 +60,7 @@ $isWide = $this->variant->isWide();
         
         <div class="media-progress" role="progressbar" aria-label="Medya ilerlemesi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?= $this->seekPct ?>" aria-valuetext="<?= $this->elapsed ?> / <?= $this->duration ?>">
             <span class="media-progress__time" id="np_time_current"><?= $this->elapsed ?></span>
-            <div class="media-progress__bar"><div class="media-progress__fill" data-progress="<?= $this->seekPct ?>" style="width: <?= $this->seekPct ?>%;"></div></div>
+            <div class="media-progress__bar"><div class="media-progress__fill" data-progress="<?= $this->seekPct ?>" style="width: <?= $this->seekPct ?>%;" nonce="<?= $nonce ?>"></div></div>
             <span class="media-progress__time media-progress__time--total" id="np_time_total"><?= $this->duration ?></span>
         </div>
     </div>

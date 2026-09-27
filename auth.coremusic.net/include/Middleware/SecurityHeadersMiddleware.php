@@ -28,7 +28,7 @@ final class SecurityHeadersMiddleware implements MiddlewareInterface
         // CSP nonce varsa ekle
         $nonce = $request['server']['csp_nonce'] ?? '';
         if ($nonce !== '') {
-            header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-{$nonce}'; style-src 'self' 'unsafe-inline'");
+            header("Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-{$nonce}'; style-src 'self' 'unsafe-inline'; style-src-attr 'unsafe-inline'");
         }
 
         return $result;
