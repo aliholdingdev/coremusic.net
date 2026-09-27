@@ -4,9 +4,9 @@ type: project
 category: core
 title: "CoreMusic — Proje Tanımı, Yetenekler, Ekosistem Modeli ve Proje Envanteri"
 date: 2026-09-19
-updated: 2026-09-23
+updated: 2026-09-27
 status: active
-version: 3.0.0
+version: 3.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -526,7 +526,7 @@ OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → 
 
 | Modül | Framework | Minimum Coverage | Hedef Coverage |
 |-------|-----------|-----------------|----------------|
-| Backend (PHP) | PHPUnit 11 | ≥80% | ≥90% |
+| Backend (PHP) | PHPUnit ^10.5 (composer.json kanıtı) | ≥80% | ≥90% |
 | Frontend (JS) | Vitest | ≥80% | ≥90% |
 | Audio Engine (C++) | Google Test | ≥80% | ≥90% |
 | Download Service | Vitest | ≥80% | ≥90% |
@@ -711,6 +711,6 @@ jobs:
 
 **Authority:** Bayram Ali / Vault Steward
 **Kaynak Doküman:** Freelancer Technical Documentation v1.0 (CoreMusic: Software Audio Hardware AI)
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-27
 **Version:** 3.0.0
 **Mode:** Red Team · Human Mode · Truth Mode

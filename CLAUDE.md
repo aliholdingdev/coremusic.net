@@ -13,7 +13,7 @@
 - **Stack:** PHP 8.4, Vanilla JS, C++20 (NevaEngine), MySQL 9 (18 BCNF DBs, 156 Tables), Class AB 8x50W Amplifier (MJL21194/93).
 - **Architecture:** 21 Layers (K0-K20) in 6 alt-layers (A0-A5: A0=K0-K5, A1=K6-K7, A2=K8-K9, A3=K10-K11, A4=K12-K15, A5=K16-K20), 1,095 Components, 10 Web Panels, 7 Microservices.
 - **Vault Inventory:** 24 folders (21 K layers + firmware + adr + scripts) — 340 MD files on disk, matrix §10 matches disk exactly (verified 2026-09-24; scripts/ holds katman-sayim.ps1, non-MD, counted as note only).
-- **ADR Series (two, do not merge — ADR-026 §3.4):** `.ai/.decisions/` = numbered series 001-089 (001-037 frozen, next new = 088+); `.ai/architecture/adr/` = architectural series 023-026 (023 hibrit-derinlik, 024 sürücü-firmware birleşme, 025 K8↔K15 sınırı, 026 sayım birimi 5.000).
+- **ADR Series (two, do not merge — ADR-026 §3.4):** `.ai/.decisions/` = numbered series 001-090 — 46 fiziksel ADR dosyası (001-043, 081, 089, 090; 001-037 frozen; 044-080 ve 082-088 arası kararlar `.ai/brain.md` metnindedir — ölçüm 2026-09-27), **next new = 091**; `.ai/architecture/adr/` = architectural series 023-026 (023 hibrit-derinlik, 024 sürücü-firmware birleşme, 025 K8↔K15 sınırı, 026 sayım birimi 5.000).
 - **Key Rules:** No ORM (PDO only), No JS frameworks (Vanilla JS only), CSRF token = `csrf_token`, Strict BCNF 3NF+.
 - **Hardware Power:** ±35V LM5122 Interleaved Dual Boost, 6S LiPo (22.2V) or 19-24V DC laptop adapter (DC-ONLY).
 
@@ -44,4 +44,4 @@ cd shared && vendor/bin/phpunit
 ```
 
 ---
-*Vault Steward: Bayram Ali | SSOT: .ai/ | Last Updated: 2026-09-24*
+*Vault Steward: Bayram Ali | SSOT: .ai/ | Last Updated: 2026-09-27*

@@ -2,10 +2,10 @@
 title: "CoreMusic — Agent Registry & Coordination Protocol"
 type: guide
 category: agent-registry
-version: 22.0.3
+version: 22.0.4
 status: active
 authority: SSOT
-updated: 2026-09-24
+updated: 2026-09-27
 ---
 
 # CoreMusic — Agent Registry & Coordination Protocol
@@ -55,7 +55,7 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 | 4 | **Security Engineer** | `security` | OWASP, encryption, CSRF, CSP | A1 | Argon2id, AES-256-GCM, APCu |
 | 5 | **Data Engineer** | `data` | MySQL 18 BCNF, PDO, migration | A0 | MySQL 9, PDO, BCNF |
 | 6 | **Embedded Engineer** | `embedded` | C++20, JUCE, ASIO, DSP | A0 | C++20, JUCE 9, ASIO SDK 2.3.4 |
-| 7 | **QA Engineer** | `qa` | Test, coverage, E2E | Cross-cutting | PHPUnit 11, Vitest, Playwright |
+| 7 | **QA Engineer** | `qa` | Test, coverage, E2E | Cross-cutting | PHPUnit ^10.5 (composer.json kanıtı), Vitest, Playwright |
 | 8 | **DevOps Engineer** | `devops` | CI/CD, GitHub Actions, deploy | CI/CD | GitHub Actions, GitLeaks |
 | 9 | **Audio Hardware Engineer** | `audio-hw` | DAC/ADC, PCB, amplifier | HW | PCM3168A, AK4458, Class AB |
 | 10 | **DSP Firmware Engineer** | `dsp-fw` | XMOS, PCM3168A, DSP chain | FW | XMOS XU316, I2S, TDM |
@@ -105,7 +105,7 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 | 4 | Security Engineer | A1 (K6-K7) | OWASP, Argon2id, AES-256-GCM | [[.agents/security-engineer]] |
 | 5 | Data Engineer | A0 (K0-K5) | MySQL 9, PDO, BCNF | [[.agents/data-engineer]] |
 | 6 | Embedded Engineer | A0 (K1-K3) | C++20, JUCE 9, ASIO SDK 2.3.4 | [[.agents/embedded-engineer]] |
-| 7 | QA Engineer | Cross-cutting | PHPUnit 11, Vitest, Playwright | [[.agents/qa-engineer]] |
+| 7 | QA Engineer | Cross-cutting | PHPUnit ^10.5 (composer.json kanıtı), Vitest, Playwright | [[.agents/qa-engineer]] |
 | 8 | DevOps Engineer | CI/CD | GitHub Actions, GitLeaks | [[.agents/devops-engineer]] |
 | 9 | Audio HW Engineer | HW | PCM3168A, AK4458, Class AB | [[.agents/audio-hardware-engineer]] |
 | 10 | DSP Firmware Engineer | FW | XMOS XU316, I2S, TDM | [[.agents/dsp-firmware-engineer]] |
@@ -538,7 +538,7 @@ Her dosya için kontrol et:
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 22.0.3 |
+| Version | 22.0.4 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 |
 | Agent Count | 11 (1 MO + 10 specialist) |
@@ -579,7 +579,7 @@ Her dosya için kontrol et:
 | Security | Middleware ×11 (PSR-15) | shared/src/Middleware/ |
 | Data | SQL şema (18 DB) | .ai/.sql/mysql/ |
 | QA | PHPUnit ^10.5/^11.0, PHPStan | require-dev · `shared/tests/` 22 dosya |
-| UI/Embedded/DSP/Windows/DevOps | Vanilla JS/C++20/xcc/C#/CI | PLANNED (spec mevcut; `.github/workflows/` = 0 dosya) |
+| UI/Embedded/DSP/Windows/DevOps | Vanilla JS/C++20/xcc/C#/CI | DevOps: ✅ IMPLEMENTED (workflow dosyaları mevcut, çalışma durumu doğrulanmadı — CI'nin geçtiği doğrulanmadı) — `.github/workflows/` = 2 dosya (`ci.yml`, `secret-scan.yml`; ölçüm 2026-09-27) · UI/Embedded/DSP/Windows: ⚠️ PLANNED (spec mevcut) |
 
 #### §25.3 Orchestration Rules of This Revision
 
@@ -616,7 +616,7 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 
 | Kaynak | Eski Durum | Yeni Durum |
 |--------|-----------|------------|
-| `.ai/AGENTS.md` (kök) | v21.0.0, SSOT iddiası | **v22.0.3 — tek SSOT** |
+| `.ai/AGENTS.md` (kök) | v21.0.0, SSOT iddiası | **v22.0.4 — tek SSOT** |
 | `.ai/.agents/AGENTS.md` (alt) | v1.0.0, kendini SSOT ilan ediyordu | v1.2.1 — **alt registry** (`authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)"`) |
 
 Çözüm kuralı: SSOT hiyerarşisinde çelişkide kök dosya kazanır. Alt registry yalnızca profil/özet detayını taşır; routing, handover, escalation, öncelik kurallarının tamamı bu dosyadadır.
@@ -705,5 +705,5 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-27
 **Mode:** Red Team · Human Mode · Truth Mode
