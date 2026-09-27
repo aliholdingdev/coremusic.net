@@ -1,0 +1,106 @@
+/**
+ * c-badge.css — CoreMusic Badge Component (C10)
+ * ITCSS Layer: 04_Components
+ * SSOT: .ai/ui-design/02-component-inventory.md §C10
+ *       .ai/ui-design/tokens/component-tokens.md §11
+ * BEM: .badge -> --primary, --success, --error, --warning, --info
+ * Versiyon: 1.0.0 — 2026-09-20
+ */
+
+/* ============================================================
+   BADGE — Token Tanımları (C10)
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  background: rgba(255, 79, 216, 0.15);
+  color: #ff4fd8;
+}
+
+/* ============================================================
+   BADGE — Variants
+   ============================================================ */
+.badge--primary {
+  background: rgba(255, 79, 216, 0.15);
+  color: #ff4fd8;
+}
+
+.badge--success {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.badge--error {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.badge--warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+}
+
+.badge--info {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+/* ============================================================
+   BADGE — Neutral
+   ============================================================ */
+.badge--neutral {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ============================================================
+   BADGE — With dot indicator
+   ============================================================ */
+.badge--dot::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   BADGE — Sizes
+   ============================================================ */
+.badge--sm {
+  padding: 1px 6px;
+  font-size: 10px;
+}
+
+.badge--lg {
+  padding: 4px 12px;
+  font-size: 14px;
+}
+
+/* ============================================================
+   BADGE — Responsive: 4K
+   ============================================================ */
+@media (min-width: 3840px) {
+  .badge {
+    font-size: 18px;
+    padding: 4px 14px;
+  }
+
+  .badge--sm {
+    font-size: 14px;
+    padding: 2px 10px;
+  }
+
+  .badge--lg {
+    font-size: 22px;
+    padding: 6px 18px;
+  }
+}

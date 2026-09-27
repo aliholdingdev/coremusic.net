@@ -1,0 +1,146 @@
+/**
+ * c-progress.css — CoreMusic Progress Bar Component (C15)
+ * ITCSS Layer: 04_Components
+ * SSOT: .ai/ui-design/02-component-inventory.md §C15
+ *       .ai/ui-design/tokens/component-tokens.md §16
+ * BEM: .progress -> __bar, __fill, __label
+ *      .progress--indeterminate, .progress--error
+ * Versiyon: 1.0.0 — 2026-09-20
+ */
+
+/* ============================================================
+   PROGRESS — Token Tanımları (C15)
+   ============================================================ */
+.progress {
+  --progress-h: 4px;
+  --progress-bg: rgba(255, 255, 255, 0.10);
+  --progress-fill: #ff4fd8;
+  --progress-fill-gradient: linear-gradient(90deg, #ff4fd8, #ff7ee4);
+  --progress-radius: 9999px;
+}
+
+/* ============================================================
+   PROGRESS — Base
+   ============================================================ */
+.progress {
+  position: relative;
+  width: 100%;
+  height: var(--progress-h);
+  background: var(--progress-bg);
+  border-radius: var(--progress-radius);
+  overflow: hidden;
+}
+
+/* ============================================================
+   PROGRESS — Fill
+   ============================================================ */
+.progress__fill {
+  height: 100%;
+  background: var(--progress-fill);
+  border-radius: var(--progress-radius);
+  transition: width 300ms ease-out;
+  min-width: 0;
+}
+
+/* Gradient variant */
+.progress--gradient .progress__fill {
+  background: var(--progress-fill-gradient);
+}
+
+/* ============================================================
+   PROGRESS — Bar (inline, determinate)
+   ============================================================ */
+.progress__bar {
+  height: 100%;
+  background: var(--progress-fill);
+  border-radius: var(--progress-radius);
+  transition: width 300ms ease-out;
+}
+
+/* ============================================================
+   PROGRESS — Label (yüzde gösterimi)
+   ============================================================ */
+.progress__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 6px;
+}
+
+.progress__label span:last-child {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ============================================================
+   PROGRESS — Indeterminate (sürekli animasyon)
+   ============================================================ */
+.progress--indeterminate .progress__fill {
+  width: 100% !important;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--progress-fill) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: progress-indeterminate 1.5s ease-in-out infinite;
+}
+
+@keyframes progress-indeterminate {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ============================================================
+   PROGRESS — Error state
+   ============================================================ */
+.progress--error .progress__fill {
+  background: #ef4444;
+}
+
+/* ============================================================
+   PROGRESS — Success state
+   ============================================================ */
+.progress--success .progress__fill {
+  background: #10b981;
+}
+
+/* ============================================================
+   PROGRESS — Thick variant
+   ============================================================ */
+.progress--thick {
+  --progress-h: 8px;
+}
+
+/* ============================================================
+   PROGRESS — Responsive: 4K
+   ============================================================ */
+@media (min-width: 3840px) {
+  .progress {
+    --progress-h: 6px;
+  }
+
+  .progress--thick {
+    --progress-h: 12px;
+  }
+
+  .progress__label {
+    font-size: 18px;
+  }
+}
+
+/* ============================================================
+   WCAG 2.2 §2.3.3 — reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .progress__fill {
+    transition: none;
+  }
+
+  .progress--indeterminate .progress__fill {
+    animation: none;
+  }
+}

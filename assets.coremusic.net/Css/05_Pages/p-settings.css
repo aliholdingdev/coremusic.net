@@ -1,0 +1,183 @@
+/**
+ * p-settings.css — CoreMusic Settings Page
+ * ITCSS Layer: 05_Pages
+ * Scope: /ayarlar — tema ayarları, gender seçimi, profil
+ * Source: home.coremusic.net/pages/ayarlar.php
+ * Layer: ITCSS 05_Pages
+ * Version: 1.0.0 — 2026-09-20
+ *
+ * CSS custom property fallback'leri mevcut token yapısıyla uyumlu
+ * BEM: .settings-page -> __title, __section, __option, __grid
+ */
+
+/* ============================================================
+   SETTINGS — Layout
+   ============================================================ */
+.settings-page {
+  padding: var(--content-padding-top, 11px) var(--page-padding-x, 16px);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   SETTINGS — Title
+   ============================================================ */
+.settings-title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xl, 16px);
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  margin-bottom: var(--section-gap, 16px);
+}
+
+/* ============================================================
+   SETTINGS — Section
+   ============================================================ */
+.settings-section {
+  margin-bottom: var(--section-gap, 24px);
+  padding: var(--card-padding, 12px);
+  background: var(--bg-surface, rgba(255, 255, 255, 0.06));
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.06));
+}
+
+.settings-section__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-lg, 14px);
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+  margin: 0 0 4px 0;
+}
+
+.settings-section__desc {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  color: var(--text-muted, rgba(255, 255, 255, 0.55));
+  margin: 0 0 var(--grid-gap, 8px) 0;
+}
+
+/* ============================================================
+   SETTINGS — Options (radio-like buttons)
+   ============================================================ */
+.settings-options {
+  display: flex;
+  gap: var(--grid-gap, 8px);
+  flex-wrap: wrap;
+}
+
+.settings-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: var(--grid-gap, 8px) var(--grid-gap-lg, 16px);
+  background: var(--bg-elevated, rgba(255, 255, 255, 0.04));
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 150ms ease, background 150ms ease;
+  min-width: 100px;
+  min-height: var(--touch-min, 48px);
+  color: var(--text-primary, #ffffff);
+  font-family: var(--font-body, 'Arima', sans-serif);
+}
+
+.settings-option:hover {
+  background: var(--bg-overlay, rgba(255, 255, 255, 0.06));
+}
+
+.settings-option--active {
+  border-color: var(--theme-primary, #ff4fd8);
+  background: var(--bg-overlay, rgba(255, 255, 255, 0.06));
+}
+
+.settings-option:focus-visible {
+  outline: 3px solid #ff4fd8;
+  outline-offset: 2px;
+}
+
+.settings-option__icon {
+  font-size: 24px;
+  color: var(--theme-primary, #ff4fd8);
+}
+
+.settings-option__swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border-default, rgba(255, 255, 255, 0.10));
+}
+
+.settings-option__label {
+  font-size: var(--text-base, 12px);
+  font-weight: 600;
+}
+
+.settings-option__desc {
+  font-size: var(--text-xs, 10px);
+  color: var(--text-muted, rgba(255, 255, 255, 0.55));
+}
+
+/* ============================================================
+   SETTINGS — Grid (color swatches)
+   ============================================================ */
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 8px;
+}
+
+/* ============================================================
+   SETTINGS — Responsive: Phone (≤767px)
+   ============================================================ */
+@media (max-width: 767px) {
+  .settings-page {
+    padding: 8px 12px;
+  }
+
+  .settings-option {
+    min-width: 80px;
+    min-height: 44px;
+    padding: 8px 12px;
+  }
+
+  .settings-option__icon {
+    font-size: 20px;
+  }
+}
+
+/* ============================================================
+   SETTINGS — Responsive: 4K (≥3840px)
+   ============================================================ */
+@media (min-width: 3840px) {
+  .settings-page {
+    max-width: 900px;
+  }
+
+  .settings-title {
+    font-size: 28px;
+  }
+
+  .settings-section__title {
+    font-size: 22px;
+  }
+
+  .settings-section__desc {
+    font-size: 18px;
+  }
+
+  .settings-option {
+    min-width: 140px;
+    min-height: 64px;
+    padding: 16px 24px;
+    border-radius: 18px;
+  }
+
+  .settings-option__icon {
+    font-size: 36px;
+  }
+
+  .settings-option__label {
+    font-size: 20px;
+  }
+}

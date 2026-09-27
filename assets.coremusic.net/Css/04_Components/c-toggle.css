@@ -1,0 +1,143 @@
+/**
+ * c-toggle.css — CoreMusic Toggle Component (C08)
+ * ITCSS Layer: 04_Components
+ * SSOT: .ai/ui-design/02-component-inventory.md §C08
+ *       .ai/ui-design/tokens/component-tokens.md §9
+ * BEM: .toggle -> --active, __knob
+ * Versiyon: 1.0.0 — 2026-09-20
+ */
+
+/* ============================================================
+   TOGGLE — Token Tanımları (C08)
+   ============================================================ */
+.toggle {
+  --toggle-w: 44px;
+  --toggle-h: 24px;
+  --toggle-radius: 9999px;
+  --toggle-bg: rgba(255, 255, 255, 0.12);
+  --toggle-bg-active: #ff4fd8;
+  --toggle-knob-size: 18px;
+  --toggle-knob-color: #ffffff;
+}
+
+/* ============================================================
+   TOGGLE — Base
+   ============================================================ */
+.toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: var(--toggle-w);
+  height: var(--toggle-h);
+  background: var(--toggle-bg);
+  border-radius: var(--toggle-radius);
+  cursor: pointer;
+  transition: background 200ms ease;
+  flex-shrink: 0;
+  border: none;
+  padding: 0;
+}
+
+/* ============================================================
+   TOGGLE — Knob (inner circle)
+   ============================================================ */
+.toggle__knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: var(--toggle-knob-size);
+  height: var(--toggle-knob-size);
+  background: var(--toggle-knob-color);
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ============================================================
+   TOGGLE — Active state
+   ============================================================ */
+.toggle--active {
+  background: var(--toggle-bg-active);
+}
+
+.toggle--active .toggle__knob {
+  transform: translateX(20px);
+}
+
+/* ============================================================
+   TOGGLE — Disabled
+   ============================================================ */
+.toggle:disabled,
+.toggle--disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   TOGGLE — Focus Visible (WCAG 2.2)
+   ============================================================ */
+.toggle:focus-visible {
+  outline: 3px solid #ff4fd8;
+  outline-offset: 3px;
+}
+
+/* ============================================================
+   TOGGLE — Label (yanında metin)
+   ============================================================ */
+.toggle-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  min-height: 44px; /* WCAG touch target */
+}
+
+.toggle-label__text {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ============================================================
+   TOGGLE — Responsive: Phone (≤767px)
+   ============================================================ */
+@media (max-width: 767px) {
+  .toggle {
+    --toggle-w: 48px;
+    --toggle-h: 26px;
+    --toggle-knob-size: 20px;
+  }
+
+  .toggle--active .toggle__knob {
+    transform: translateX(22px);
+  }
+}
+
+/* ============================================================
+   TOGGLE — Responsive: 4K (≥3840px)
+   ============================================================ */
+@media (min-width: 3840px) {
+  .toggle {
+    --toggle-w: 64px;
+    --toggle-h: 34px;
+    --toggle-knob-size: 26px;
+  }
+
+  .toggle--active .toggle__knob {
+    transform: translateX(30px);
+  }
+
+  .toggle:focus-visible {
+    outline: 4px solid #ff4fd8;
+    outline-offset: 4px;
+  }
+}
+
+/* ============================================================
+   TOGGLE — Touch device
+   ============================================================ */
+@media (pointer: coarse) {
+  .toggle {
+    min-width: 48px;
+    min-height: 48px;
+  }
+}
