@@ -17,6 +17,7 @@ use CoreMusic\Middleware\CorsMiddleware;
 use CoreMusic\Middleware\PermissionMiddleware;
 use CoreMusic\Middleware\ValidationMiddleware;
 use CoreMusic\Middleware\MiddlewarePipeline;
+use CoreMusic\Log\Redactor;
 
 final class PageRouterKernel
 {
@@ -128,11 +129,13 @@ final class PageRouterKernel
 
         } catch (\Throwable $e) {
             $errorMsg = date('c') . ' [' . $traceId . '] ' . get_class($e) . ': ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine() . "\n" . $e->getTraceAsString() . "\n";
+            // Merkezi redaction (§17 Edge Case 3): trace argümanlarındaki hassas alanlar maskelenir.
+            $errorMsg = Redactor::redact($errorMsg);
             $logDir = $this->config->get('app.log_dir', dirname(__DIR__, 3));
             @file_put_contents($logDir . '/coremusic_php_errors.log', $errorMsg, FILE_APPEND | LOCK_EX);
             @file_put_contents($logDir . '/coremusic_php_kernel_debug.log', $errorMsg, FILE_APPEND | LOCK_EX);
-            error_log('[PageRouterKernel] FATAL traceId=' . $traceId . ' ' . $e->getMessage()
-                . ' in ' . $e->getFile() . ':' . $e->getLine());
+            error_log(Redactor::redact('[PageRouterKernel] FATAL traceId=' . $traceId . ' ' . $e->getMessage()
+                . ' in ' . $e->getFile() . ':' . $e->getLine()));
 
             $response = [
                 'httpStatus' => 500,
