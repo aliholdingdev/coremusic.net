@@ -36,11 +36,11 @@
     /* ============================================================
        CSS FILE MAP — devices.config.js'den yüklenir (SSOT)
        ============================================================ */
-    var DEVICES = window.CoreMusic && window.CoreMusic.DEVICES ? window.CoreMusic.DEVICES : {};
-    var HOME_CSS = DEVICES.HOME_CSS || {};
-    var AUTH_CSS = DEVICES.AUTH_CSS || {};
-    var VIEW_CSS = DEVICES.VIEW_CSS || {};
-    var ALL_DEVICES = DEVICES.ALL || Object.keys(HOME_CSS);
+    const DEVICES = window.CoreMusic && window.CoreMusic.DEVICES ? window.CoreMusic.DEVICES : {};
+    const HOME_CSS = DEVICES.HOME_CSS || {};
+    const AUTH_CSS = DEVICES.AUTH_CSS || {};
+    const VIEW_CSS = DEVICES.VIEW_CSS || {};
+    const ALL_DEVICES = DEVICES.ALL || Object.keys(HOME_CSS);
 
     /* ============================================================
        DEVICE DETECTION
@@ -54,7 +54,7 @@
      */
     function detect(w, h) {
         // Embedded device (RPi5, ARM Linux) — viewport'a bakmadan embedded
-        var ua = navigator.userAgent || '';
+        const ua = navigator.userAgent || '';
         if (/Raspberry Pi|RPi|aarch64|armv7|armv8|CrOS/i.test(ua)) return 'embedded';
 
         if (w <= BP.PHONE_MAX) return 'phone';
@@ -109,9 +109,9 @@
      * @returns {string}
      */
     function cssBuster() {
-        var rc = window.CoreMusic && window.CoreMusic.RouterConfig;
+        const rc = window.CoreMusic && window.CoreMusic.RouterConfig;
         if (rc && rc.cssVersion) return String(rc.cssVersion);
-        var el = document.querySelector('script[data-cm-device-loader]');
+        const el = document.querySelector('script[data-cm-device-loader]');
         return el ? (el.getAttribute('data-cm-css-buster') || '') : '';
     }
 
@@ -122,19 +122,19 @@
      * @returns {HTMLLinkElement}
      */
     function loadCSS(href, id) {
-        var buster = cssBuster();
+        const buster = cssBuster();
         if (buster) {
             href += (href.indexOf('?') > -1 ? '&' : '?') + 'v=' + buster;
         }
 
-        var existing = document.getElementById(id);
+        const existing = document.getElementById(id);
         if (existing) {
             // Aynı dosya zaten yüklüyse atlama
             if (existing.getAttribute('href') === href) return existing;
             existing.remove();
         }
 
-        var link = document.createElement('link');
+        const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = href;
         link.id = id;
@@ -147,7 +147,7 @@
      * @param {string} id
      */
     function removeCSS(id) {
-        var el = document.getElementById(id);
+        const el = document.getElementById(id);
         if (el) el.remove();
     }
 
@@ -159,7 +159,7 @@
      * @param {string} baseUrl   CSS base URL
      */
     function loadAll(device, isAuth, viewMode, baseUrl) {
-        var base = baseUrl || '/Css/';
+        const base = baseUrl || '/Css/';
 
         if (isAuth) {
             // Auth: auth-bundled (base) THEN device CSS (overrides)
@@ -181,7 +181,7 @@
      * @param {string} baseUrl
      */
     function loadDeviceOnly(device, isAuth, baseUrl) {
-        var base = baseUrl || '/Css/';
+        const base = baseUrl || '/Css/';
 
         if (isAuth) {
             loadCSS(base + AUTH_CSS[device], 'cm-device-css');
@@ -198,7 +198,7 @@
      * 4k-monitor cihazları 'wide' tier'a map edilir (tier-sync reload döngüsü önlenir).
      */
     function getTier(device, w) {
-        var ua = navigator.userAgent || '';
+        const ua = navigator.userAgent || '';
         if (/Raspberry Pi|RPi|aarch64|armv7|armv8|CrOS/i.test(ua)) return 'embedded';
         if (device === 'phone' || (w && w <= BP.PHONE_MAX)) return 'phone';
         if (device === '4k-tv' || device === '4k-monitor' || (w && w > BP.DESKTOP_MAX)) return 'wide';
@@ -209,17 +209,17 @@
     /* ============================================================
        RESIZE OBSERVER (debounced 300ms)
        ============================================================ */
-    var resizeTimer = null;
-    var lastDevice = null;
+    let resizeTimer = null;
+    let lastDevice = null;
 
     function onResize(state) {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () {
-            var w = window.innerWidth || document.documentElement.clientWidth;
-            var h = window.innerHeight || document.documentElement.clientHeight;
-            var newDevice = detect(w, h);
-            var ua = navigator.userAgent || '';
-            var uaDevice = detectUA(ua);
+            const w = window.innerWidth || document.documentElement.clientWidth;
+            const h = window.innerHeight || document.documentElement.clientHeight;
+            let newDevice = detect(w, h);
+            const ua = navigator.userAgent || '';
+            const uaDevice = detectUA(ua);
             if (uaDevice && (uaDevice === 'phone' || uaDevice === 'tablet' || uaDevice === 'embedded')) {
                 newDevice = uaDevice;
             }
@@ -230,8 +230,8 @@
                 document.cookie = 'cm_viewport_h=' + h + ';path=/;max-age=86400;SameSite=Lax';
             } catch (e) {}
 
-            var oldTier = getTier(lastDevice, w);
-            var newTier = getTier(newDevice, w);
+            const oldTier = getTier(lastDevice, w);
+            const newTier = getTier(newDevice, w);
 
             // Tier sınırı aşıldıysa koşullu HTML bloklarının sunucudan yeniden yüklenmesi gerekir
             if (newTier !== oldTier) {
@@ -245,11 +245,11 @@
             }
 
             if (newDevice !== lastDevice) {
-                var oldDevice = lastDevice;
+                const oldDevice = lastDevice;
                 lastDevice = newDevice;
 
                 // Cihaz geçiş animasyonu: fade-out → CSS yükle → fade-in (CSP-safe)
-                var main = document.querySelector('.page-home, main[data-device]');
+                const main = document.querySelector('.page-home, main[data-device]');
                 if (main) {
                     main.classList.add('cm-device-transitioning');
                 }
@@ -301,26 +301,26 @@
      */
     function init(opts) {
         opts = opts || {};
-        var assetsUrl = opts.assetsUrl || '';
-        var isAuth = !!opts.isAuth;
-        var viewMode = opts.viewMode || 'home';
-        var baseUrl = assetsUrl ? assetsUrl + '/Css/' : '/Css/';
+        const assetsUrl = opts.assetsUrl || '';
+        const isAuth = !!opts.isAuth;
+        const viewMode = opts.viewMode || 'home';
+        const baseUrl = assetsUrl ? assetsUrl + '/Css/' : '/Css/';
 
         // State oluştur
-        var state = {
+        const state = {
             isAuth: isAuth,
             viewMode: viewMode,
             baseUrl: baseUrl,
         };
 
         // Viewport'tan tespit
-        var w = window.innerWidth || document.documentElement.clientWidth;
-        var h = window.innerHeight || document.documentElement.clientHeight;
-        var device = detect(w, h);
+        const w = window.innerWidth || document.documentElement.clientWidth;
+        const h = window.innerHeight || document.documentElement.clientHeight;
+        let device = detect(w, h);
 
         // User-Agent mobile/embedded kontrolü
-        var ua = navigator.userAgent || '';
-        var uaDevice = detectUA(ua);
+        const ua = navigator.userAgent || '';
+        const uaDevice = detectUA(ua);
         if (uaDevice && (uaDevice === 'phone' || uaDevice === 'tablet' || uaDevice === 'embedded')) {
             device = uaDevice;
         }
@@ -335,7 +335,7 @@
         // Viewport tespiti her zaman öncelikli (DevTools resize senaryosu için)
         if (opts.serverDevice && ALL_DEVICES.indexOf(opts.serverDevice) !== -1) {
             if (device === 'desktop' && opts.serverDevice !== 'desktop') {
-                var viewportIsSpecific = (device !== 'desktop');
+                const viewportIsSpecific = (device !== 'desktop');
                 if (!viewportIsSpecific) {
                     device = opts.serverDevice;
                 }
@@ -343,17 +343,17 @@
         }
 
         // İlk yüklemede sunucu render edilen tier ile tespit edilen tier uyuşmazlığını kontrol et
-        var detectedTier = getTier(device, w);
-        var mainEl = document.querySelector('main[data-tier]');
-        var renderedTier = mainEl ? mainEl.getAttribute('data-tier') : null;
+        const detectedTier = getTier(device, w);
+        const mainEl = document.querySelector('main[data-tier]');
+        const renderedTier = mainEl ? mainEl.getAttribute('data-tier') : null;
 
         // Treat '4k' and 'wide' as equivalent — 4K devices use Wide markup + d-4k.css zoom scaling
-        var tiersMatch = (renderedTier === detectedTier) ||
+        const tiersMatch = (renderedTier === detectedTier) ||
                          (renderedTier === '4k' && detectedTier === 'wide') ||
                          (renderedTier === 'wide' && detectedTier === '4k');
 
         if (renderedTier && !tiersMatch) {
-            var syncAttempts = parseInt(sessionStorage.getItem('cm_tier_sync_count') || '0', 10);
+            const syncAttempts = parseInt(sessionStorage.getItem('cm_tier_sync_count') || '0', 10);
             if (syncAttempts < 2) {
                 sessionStorage.setItem('cm_tier_sync_count', String(syncAttempts + 1));
                 if (window.CoreMusic && window.CoreMusic.Router && typeof window.CoreMusic.Router.navigate === 'function') {
@@ -403,7 +403,7 @@
        ============================================================ */
     if (typeof document !== 'undefined') {
         document.addEventListener('DOMContentLoaded', function () {
-            var script = document.querySelector('script[data-cm-device-loader]');
+            const script = document.querySelector('script[data-cm-device-loader]');
             if (script) {
                 init({
                     assetsUrl:   script.getAttribute('data-assets-url') || '',

@@ -15,14 +15,14 @@
        DEVICE LAYOUT CONFIG
        Her cihaz için hangi elementler gösterilir/gizlenir
        ============================================================ */
-    var DEVICE_LAYOUT = {
+    const DEVICE_LAYOUT = {
         embedded: {
             navLinks: 4,        // PHP DeviceManager::NAV_LINKS: Ana Sayfa, Kütüphane, Radyo, Ayarlar
             widgets: 4,         // 2×2 grid
             recentCards: 3,     // PHP: recentCardCount() = 3
             playlists: 3,       // PHP: playlistCount() = 3
             upNext: 3,          // PHP: upNextCount() = 3
-            showVolume: true,   // PNG home-1024: footer'da volume VAR (DeviceManager::showVolume() ile senkron)
+            showVolume: true,   // PNG home-1024: footer'da volume MEVCUT (DeviceManager::showVolume() ile senkron)
             showFullMeta: true, // PNG home-1024 footer: 4 meta satırı (Şarkı/Album/Sanatçı/Süre) — PNG birebir
             showBattery: true,
             showSettingsBtn: true,
@@ -107,7 +107,7 @@
        Her cihaz için hangi nav link'ler gösterilir
        NOT: Bu NAV_LINKS, DeviceManager.php'deki NAV_LINKS ile senkronize olmalı
        ============================================================ */
-    var NAV_LINKS = {
+    const NAV_LINKS = {
         // PHP DeviceManager::NAV_LINKS ile birebir aynı
         embedded: [
             { href: '/home', label: 'Ana Sayfa' },
@@ -207,10 +207,10 @@
      * @param {string} device  Yeni cihaz türü
      */
     function updateLayoutClasses(device) {
-        var tier = getTier(device);
+        const tier = getTier(device);
 
         // Main element — layout--* ve data-tier güncelle
-        var main = document.querySelector('main.page-home, main.home-layout');
+        const main = document.querySelector('main.page-home, main.home-layout');
         if (main) {
             main.className = main.className.replace(/layout--\S+/g, '').replace(/home-layout--(phone|embedded|wide|4k)\b/g, '').trim();
             main.classList.add('layout--' + device);
@@ -227,7 +227,7 @@
         }
 
         // Header — BEM modifier'ları güncelle
-        var header = document.querySelector('.site-header');
+        const header = document.querySelector('.site-header');
         if (header) {
             header.className = header.className.replace(/site-header--(embedded|phone|tablet|laptop|desktop|4k-tv|4k-monitor|tv|wide|1920|1024)\b/g, '').trim();
             if (tier === 'phone') {
@@ -244,7 +244,7 @@
         }
 
         // Footer — BEM modifier'ları güncelle
-        var footer = document.querySelector('footer');
+        const footer = document.querySelector('footer');
         if (footer) {
             footer.className = footer.className.replace(/footer--(mobile|embedded|phone|tablet|laptop|desktop|4k-tv|4k-monitor|tv|wide|1920|1024)\b/g, '').trim();
             if (tier === 'phone') {
@@ -267,20 +267,20 @@
      * @param {string} device  Cihaz türü
      */
     function updateNavLinks(device) {
-        var nav = document.querySelector('.site-header__nav');
+        const nav = document.querySelector('.site-header__nav');
         if (!nav) return;
 
         // Cihaz için link listesini al (yoksa desktop kullan)
-        var links = NAV_LINKS[device] || NAV_LINKS.desktop;
+        const links = NAV_LINKS[device] || NAV_LINKS.desktop;
 
         // DocumentFragment ile toplu DOM güncellemesi (reflow önleme)
-        var fragment = document.createDocumentFragment();
+        const fragment = document.createDocumentFragment();
 
         links.forEach(function (linkDef, index) {
-            var a = document.createElement('a');
+            const a = document.createElement('a');
 
             // URL doğrulama — sadece relative path'e izin ver
-            var href = linkDef.href;
+            const href = linkDef.href;
             if (typeof href !== 'string' || !href.startsWith('/') || href.includes('://')) {
                 return; // Zararlı URL'yi atla
             }
@@ -309,17 +309,17 @@
      * @param {string} device  Cihaz türü
      */
     function updateWidgets(device) {
-        var config = DEVICE_LAYOUT[device] || DEVICE_LAYOUT.desktop;
-        var grid = document.querySelector('.home-widget-grid');
+        const config = DEVICE_LAYOUT[device] || DEVICE_LAYOUT.desktop;
+        const grid = document.querySelector('.home-widget-grid');
         if (!grid) return;
 
-        var widgets = grid.querySelectorAll('.home-widget');
+        const widgets = grid.querySelectorAll('.home-widget');
         widgets.forEach(function (widget, index) {
             setVisible(widget, index < config.widgets);
         });
 
         // Grid sütun sayısını CSS variable ile güncelle
-        var isWide = (device === 'desktop' || device === '4k-tv' || device === '4k-monitor');
+        const isWide = (device === 'desktop' || device === '4k-tv' || device === '4k-monitor');
         grid.style.setProperty('--widget-grid-cols', isWide ? '3' : '2');
     }
 
@@ -328,30 +328,30 @@
      * @param {string} device  Cihaz türü
      */
     function updateCards(device) {
-        var config = DEVICE_LAYOUT[device] || DEVICE_LAYOUT.desktop;
+        const config = DEVICE_LAYOUT[device] || DEVICE_LAYOUT.desktop;
 
         // Recent cards
-        var recentSection = document.querySelector('.home-layout__bottom-left');
+        const recentSection = document.querySelector('.home-layout__bottom-left');
         if (recentSection) {
-            var recentCards = recentSection.querySelectorAll('.media-card');
+            const recentCards = recentSection.querySelectorAll('.media-card');
             recentCards.forEach(function (card, index) {
                 setVisible(card, index < config.recentCards);
             });
         }
 
         // Playlists
-        var playlistSection = document.querySelector('.home-layout__bottom-center');
+        const playlistSection = document.querySelector('.home-layout__bottom-center');
         if (playlistSection) {
-            var playlistCards = playlistSection.querySelectorAll('.media-card');
+            const playlistCards = playlistSection.querySelectorAll('.media-card');
             playlistCards.forEach(function (card, index) {
                 setVisible(card, index < config.playlists);
             });
         }
 
         // Up next
-        var upNextSection = document.querySelector('.home-layout__bottom-right');
+        const upNextSection = document.querySelector('.home-layout__bottom-right');
         if (upNextSection) {
-            var upNextCards = upNextSection.querySelectorAll('.mini-card');
+            const upNextCards = upNextSection.querySelectorAll('.mini-card');
             upNextCards.forEach(function (card, index) {
                 setVisible(card, index < config.upNext);
             });
@@ -366,11 +366,11 @@
      * @param {string} device  Cihaz türü
      */
     function updateFooter(device) {
-        var config = DEVICE_LAYOUT[device] || DEVICE_LAYOUT.desktop;
-        var isPhone = (device === 'phone');
+        const config = DEVICE_LAYOUT[device] || DEVICE_LAYOUT.desktop;
+        const isPhone = (device === 'phone');
 
         // Footer — phone'da footer--mobile, diğerlerinde cihaz adı
-        var footer = document.querySelector('footer');
+        const footer = document.querySelector('footer');
         if (footer) {
             if (isPhone) {
                 // Phone: sadece basitleştirilmiş footer'ı göster
@@ -379,26 +379,26 @@
         }
 
         // Volume section — phone'da gizle
-        var volumeSection = document.querySelector('.footer__utility-section');
+        const volumeSection = document.querySelector('.footer__utility-section');
         if (volumeSection) {
             setVisible(volumeSection, config.showVolume);
         }
 
         // Full metadata — phone'da gizle
-        var metaStack = document.querySelector('.footer__meta-stack');
+        const metaStack = document.querySelector('.footer__meta-stack');
         if (metaStack) {
-            var albumName = metaStack.querySelector('.footer__album-name');
-            var singerName = metaStack.querySelector('.footer__singer-name');
-            var sure = metaStack.querySelector('.footer__sure');
+            const albumName = metaStack.querySelector('.footer__album-name');
+            const singerName = metaStack.querySelector('.footer__singer-name');
+            const sure = metaStack.querySelector('.footer__sure');
             if (albumName) setVisible(albumName, config.showFullMeta);
             if (singerName) setVisible(singerName, config.showFullMeta);
             if (sure) setVisible(sure, config.showFullMeta);
         }
 
         // Album art boyutu — cihaza göre (PNG home-1024: kapak footer yüksekliğiyle ~88px)
-        var albumArt = document.querySelector('.footer__album-art');
+        const albumArt = document.querySelector('.footer__album-art');
         if (albumArt) {
-            var size = device === 'embedded' ? 88 : (device === '4k-tv' ? 140 : (device === 'desktop' ? 120 : 100));
+            const size = device === 'embedded' ? 88 : (device === '4k-tv' ? 140 : (device === 'desktop' ? 120 : 100));
             albumArt.style.width = size + 'px';
             albumArt.style.height = size + 'px';
         }
@@ -411,28 +411,41 @@
      * @param {string} device  Cihaz türü
      */
     function updateHeader(device) {
-        var config = DEVICE_LAYOUT[device] || DEVICE_LAYOUT.desktop;
-        var isPhone = (device === 'phone');
+        const config = DEVICE_LAYOUT[device] || DEVICE_LAYOUT.desktop;
+        const isPhone = (device === 'phone');
 
         // Site header — phone'da gizle, diğerlerinde göster
-        var siteHeader = document.querySelector('.site-header');
+        const siteHeader = document.querySelector('.site-header');
         if (siteHeader) {
             setVisible(siteHeader, !isPhone);
         }
 
         // Mobile bottom nav — phone'da göster/gizle, yoksa oluştur
-        var mobileNav = document.querySelector('.mobile-bottom-nav');
+        let mobileNav = document.querySelector('.mobile-bottom-nav');
         if (isPhone) {
             if (!mobileNav) {
                 // Mobile nav yoksa oluştur
                 mobileNav = document.createElement('nav');
                 mobileNav.className = 'mobile-bottom-nav';
                 mobileNav.setAttribute('aria-label', 'Mobil navigasyon');
-                mobileNav.innerHTML =
-                    '<a href="/home" class="mobile-bottom-nav__link active" aria-current="page" data-no-spa>Ana Sayfa</a>' +
-                    '<a href="/kesfet" class="mobile-bottom-nav__link" data-no-spa>Keşfet</a>' +
-                    '<a href="/filemanager" class="mobile-bottom-nav__link" data-no-spa>Dosya</a>' +
-                    '<a href="/about" class="mobile-bottom-nav__link" data-no-spa>Profil</a>';
+                // Mobile nav öğeleri config tablosu (OCP) — DOM builder, innerHTML yok
+                const MOBILE_NAV_ITEMS = [
+                    { href: '/home', label: 'Ana Sayfa', active: true },
+                    { href: '/kesfet', label: 'Keşfet' },
+                    { href: '/filemanager', label: 'Dosya' },
+                    { href: '/about', label: 'Profil' },
+                ];
+                MOBILE_NAV_ITEMS.forEach(function (item) {
+                    const link = document.createElement('a');
+                    link.setAttribute('href', item.href);
+                    link.className = 'mobile-bottom-nav__link' + (item.active ? ' active' : '');
+                    link.setAttribute('data-no-spa', '');
+                    if (item.active) {
+                        link.setAttribute('aria-current', 'page');
+                    }
+                    link.textContent = item.label;
+                    mobileNav.appendChild(link);
+                });
                 // Header'ın hemen önüne ekle
                 if (siteHeader && siteHeader.parentNode) {
                     siteHeader.parentNode.insertBefore(mobileNav, siteHeader);
@@ -446,19 +459,19 @@
         }
 
         // Battery pill
-        var batteryPill = document.querySelector('.header-border--battery');
+        const batteryPill = document.querySelector('.header-border--battery');
         if (batteryPill) {
             setVisible(batteryPill, config.showBattery);
         }
 
         // Settings button
-        var settingsBtn = document.querySelector('.header-action-btn[aria-label="Ayarlar"]');
+        const settingsBtn = document.querySelector('.header-action-btn[aria-label="Ayarlar"]');
         if (settingsBtn) {
             setVisible(settingsBtn, config.showSettingsBtn);
         }
 
         // Logout button
-        var logoutBtn = document.querySelector('.header-action-btn--logout');
+        const logoutBtn = document.querySelector('.header-action-btn--logout');
         if (logoutBtn) {
             setVisible(logoutBtn, config.showLogoutBtn);
         }
@@ -470,10 +483,10 @@
      * @param {string} device  Cihaz türü
      */
     function updateWelcomeModal(device) {
-        var modal = document.getElementById('welcomeModalOverlay');
+        const modal = document.getElementById('welcomeModalOverlay');
         if (!modal) return;
 
-        var isEmbedded = (device === 'embedded');
+        const isEmbedded = (device === 'embedded');
         if (!isEmbedded) {
             // Masaüstü, laptop, 4K TV veya telefona geçildiğinde modalı kapat
             modal.style.display = 'none';
@@ -502,13 +515,13 @@
 
     // devicechange event'ini dinle
     window.addEventListener('devicechange', function (e) {
-        var device = e.detail?.device || 'desktop';
+        const device = e.detail?.device || 'desktop';
         updateAll(device);
     });
 
     // İlk yükleme
     document.addEventListener('DOMContentLoaded', function () {
-        var device = window.CoreMusic?.deviceType || document.body?.dataset?.device || 'desktop';
+        const device = window.CoreMusic?.deviceType || document.body?.dataset?.device || 'desktop';
         updateAll(device);
     });
 

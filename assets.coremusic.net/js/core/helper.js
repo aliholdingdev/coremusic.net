@@ -11,7 +11,7 @@
      *
      * İçerik:
      *   - window.dbg : debug logger (AppConfig.verboseConsole() guard'lı)
-     *   - window.escapeHtml : XSS kaçış fonksiyonu (DOM-based, güvenli)
+     *   - window.escapeHtml : XSS kaçış fonksiyonu (regex tabanlı, güvenli)
      *   - window.formatTime : HH:MM:SS süre formatlayıcı
      *   - window.CoreHelper : birleşik API — cookies, dom, time
      */
@@ -40,11 +40,17 @@
 
     window.dbg = dbg;
 
+    const HTML_ESCAPES = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    };
+
     function escapeHtml(str) {
         if (str === null || str === undefined) { return ''; }
-        const div = document.createElement('div');
-        div.textContent = String(str);
-        return div.innerHTML;
+        return String(str).replace(/[&<>"']/g, ch => HTML_ESCAPES[ch]);
     }
 
     window.escapeHtml = escapeHtml;

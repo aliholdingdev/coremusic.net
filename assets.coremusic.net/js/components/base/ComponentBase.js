@@ -4,7 +4,7 @@
  * Lifecycle: constructor → init() → mount() → [update()]* → destroy()
  * State: Private #state + setState() partial update (shallow diff)
  * Events: AbortController-based auto-cleanup
- * DOM: DOMParser + TrustedTypes (innerHTML PROHIBITED)
+ * DOM: DOMParser + sanitizer (innerHTML PROHIBITED — TrustedTypes sink'e gerek yok)
  *
  * @package CoreMusic\Components\Base
  */

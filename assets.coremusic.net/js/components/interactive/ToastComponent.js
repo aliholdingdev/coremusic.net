@@ -8,6 +8,27 @@
  */
 import ComponentBase from '../base/ComponentBase.js';
 
+/** Statik (kod içi) HTML parçalarını temizleyen sanitizer — innerHTML sink YOK */
+const DANGEROUS_ELEMENTS = 'script, iframe, object, embed, applet, form, base, link[rel="import"]';
+
+/**
+ * Statik HTML'i (ikon SVG'leri) parse + sanitize edip fragment döndürür.
+ * @param {string} html
+ * @returns {DocumentFragment}
+ */
+function parseStaticHtml(html) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    for (const el of doc.querySelectorAll(DANGEROUS_ELEMENTS)) el.remove();
+    for (const el of doc.querySelectorAll('*')) {
+        for (const attr of [...el.attributes]) {
+            if (attr.name.toLowerCase().startsWith('on')) el.removeAttribute(attr.name);
+        }
+    }
+    const fragment = document.createDocumentFragment();
+    if (doc.body) fragment.append(...doc.body.childNodes);
+    return fragment;
+}
+
 export default class ToastComponent extends ComponentBase {
     /** @type {HTMLElement} Toast container */
     #container = null;
@@ -84,10 +105,6 @@ export default class ToastComponent extends ComponentBase {
         }
 
         // Toast element oluştur
-        const toast = document.createElement('div');
-        toast.className = `cm-toast cm-toast--${type}`;
-        toast.setAttribute('role', 'alert');
-
         const icons = {
             success: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
             error: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
@@ -95,11 +112,34 @@ export default class ToastComponent extends ComponentBase {
             info: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v4M8 5h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>',
         };
 
-        toast.innerHTML = `
-            <span class="cm-toast__icon">${icons[type] || icons.info}</span>
-            <span class="cm-toast__message">${this.#escapeHtml(message)}</span>
-            ${dismissible ? '<button class="cm-toast__close" aria-label="Kapat">&times;</button>' : ''}
-        `;
+        // Bilinmeyen type → C16 BEM modifier seti dışına çıkma (yalnız --success/--error/--warning/--info)
+        const variant = Object.prototype.hasOwnProperty.call(icons, type) ? type : 'info';
+
+        const toast = document.createElement('div');
+        toast.className = `cm-toast cm-toast--${variant}`;
+        toast.setAttribute('role', 'alert');
+
+        // İkon — statik SVG, DOMParser + sanitizer
+        const iconEl = document.createElement('span');
+        iconEl.className = 'cm-toast__icon';
+        iconEl.appendChild(parseStaticHtml(icons[variant]));
+        toast.appendChild(iconEl);
+
+        // Mesaj — kullanıcı türevli veri → textContent (XSS yok)
+        const messageEl = document.createElement('span');
+        messageEl.className = 'cm-toast__message';
+        messageEl.textContent = message == null ? '' : String(message);
+        toast.appendChild(messageEl);
+
+        // Kapat butonu — statik DOM
+        if (dismissible) {
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'cm-toast__close';
+            closeBtn.type = 'button';
+            closeBtn.setAttribute('aria-label', 'Kapat');
+            closeBtn.textContent = '×';
+            toast.appendChild(closeBtn);
+        }
 
         this.#container.appendChild(toast);
         this.#toasts.push(toast);
@@ -156,17 +196,6 @@ export default class ToastComponent extends ComponentBase {
         }, 300);
 
         this.emit('cm:toast:dismiss');
-    }
-
-    /**
-     * Basit HTML escape.
-     * @param {string} str
-     * @returns {string}
-     */
-    #escapeHtml(str) {
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
     }
 
     destroy() {

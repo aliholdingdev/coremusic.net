@@ -60,7 +60,7 @@ export default class ComponentLoader {
                                 this.#mountElement(el);
                             }
 
-                            // İçinde component var mı?
+                            // İçinde component bulunuyor mu?
                             const children = el.querySelectorAll?.('[data-cm-component]');
                             children?.forEach((child) => this.#mountElement(child));
                         }
