@@ -75,7 +75,7 @@ Statik asset servisi: tüm alt domainlerin CSS, JS, font ve görsel varlıkları
 | Bileşen envanteri | [[../.ai/ui-design/02-component-inventory.md]] |
 | Design tokens master | [[../.ai/ui-design/tokens/design-tokens-master.md]] |
 | CSS mimarisi | [[../.ai/architecture/k11-ux/itcss-9-layer.md]] |
-| JS mimarisi | ../.ai/architecture/l3-presentation/js-module-architecture.md |
+| JS mimarisi | ../.ai/architecture/l3-presentation/js-module-architecture.md ⚠️ DEAD (faz6-D): ../.ai/architecture/l3-presentation/js-module-architecture.md — l3-presentation dizini yok; repo genelinde yok |
 | CSS şablonu | [[../.ai/.templates/frontend/css-template.md]] |
 
 ---

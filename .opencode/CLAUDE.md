@@ -532,7 +532,7 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 | 1 | `.ai/ui-design/01-mockup-index.md` | 19 PNG mockup indeksi (home-1024 + home-1920 + shared-1024), hangi görsellerin mevcut olduğu | İlk okunacak — hangi ekranlar var? |
 | 2 | `.ai/ui-design/02-component-inventory.md` | C01-C16 BEM sınıfları, pixel ölçümleri, token referansları | Bileşen kodlarken |
 | 3 | `.ai/ui-design/tokens/design-tokens-master.md` | Renk, boşluk, tipografi, cam token'ları | CSS yazarken |
-| 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: screens/B-home/dashboard-1920) | Layout hizalamada |
+| 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: screens/B-home/dashboard-1920) ⚠️ DEAD (faz6-D): screens/B-home/dashboard-1920 — B-home dizini yok (screens/ = shared + T01-T31) | Layout hizalamada |
 | 5 | `.ai/ui-design/05-responsive-architecture.md` | Cihaz bazlı CSS override kuralları — **§7.4 4K No-Center (4K'da ortalamama YASAK)** ve **§12 Geriye Dönük Uyumluluk (fallback ZORUNLU)** bağlayıcıdır | Device-specific CSS'te |
 
 **Referans Sıralaması (çelişki durumunda):** PNG > ASCII art > Component Inventory > Tokens > Implementation Plan.
@@ -883,10 +883,10 @@ Her oturum başlangıcında sırayla okunur:
 | § 9 Paneller | [[brain.md]] ADR-043-auth-subdomain-consolidation | Auth konsolidasyonu |
 | § 12 Teknoloji | [[brain.md]] | Tech stack detayları |
 | § 15 Tema | [[brain.md]] ADR-044-dynamic-user-theme-engine | Theme engine |
-| § 18 DB | architecture/k0-k5-software/k5-data-layer/database_master | 18 BCNF şemaları |
+| § 18 DB | architecture/k0-k5-software/k5-data-layer/database_master ⚠️ DEAD (faz6-D): architecture/k0-k5-software/k5-data-layer/database_master — k0-k5-software dizini yok; eşdeğer kanıtlanamadı | 18 BCNF şemaları |
 | § 19 Audio | [[architecture/k3-ses-motoru]] | Audio engine |
 | § 20 ADR | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault standardı |
-| § 20A Master Plan | architecture/03-contracts/master-implementation-plan | 5 faz, 40 gün implementasyon |
+| § 20A Master Plan | architecture/03-contracts/master-implementation-plan ⚠️ DEAD (faz6-D): architecture/03-contracts/master-implementation-plan — 03-contracts dizini yok; ADR-087 dosyası da yok | 5 faz, 40 gün implementasyon |
 | § 20B ADR-087 | [[brain.md]] ADR-087-master-implementation-plan | Master plan ADR |
 | § 12A UI Design | [[ui-design/01-mockup-index]] | 19 PNG Mockup, C01-C16, 1024x600 SSOT |
 

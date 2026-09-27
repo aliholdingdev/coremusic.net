@@ -124,7 +124,7 @@ $is4k = $dm->shouldRender4kLayout(); // ≥2561px
 | Auth | [[../auth.coremusic.net/CLAUDE.md]] | HomeAuthBridge + auth_callback.php | Yüksek (auth akışı) |
 | Asset | [[../assets.coremusic.net/CLAUDE.md]] | CSS (ITCSS) + JS (Vanilla) + DeviceLoader | Yüksek (görsel) |
 | Paylaşılan | [[../shared/CLAUDE.md]] | RuntimeBootstrap, Config, Session, DeviceManager | Yüksek (altyapı) |
-| Vault | ../.ai/.subdomains/home.coremusic.net/index.md | Subdomain vault kaydı | Düşük |
+| Vault | ../.ai/.subdomains/home.coremusic.net/index.md ⚠️ DEAD (faz6-D): ../.ai/.subdomains/home.coremusic.net/index.md — .ai/.subdomains/ altında home.coremusic.net/ dizini yok | Subdomain vault kaydı | Düşük |
 
 ---
 
