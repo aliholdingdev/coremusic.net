@@ -1,4 +1,6 @@
 ---
+name: ui-code-generator
+description: "Use when generating frontend code from screen specs with ITCSS layers, BEM naming, and --cm-* design tokens."
 title: "CoreMusic — UI Kod Üretim Motoru"
 type: skill-instruction
 version: 4.1

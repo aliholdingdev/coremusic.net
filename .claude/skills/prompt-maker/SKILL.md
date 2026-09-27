@@ -1,4 +1,6 @@
 ---
+name: prompt-maker
+description: "Use at the start of every task — /prompt-maker expands a rough request into a structured multi-part prompt with P0/P1/P2 questions."
 title: "CoreMusic — Prompt Engineering Motoru"
 type: skill-instruction
 version: 11.0.0

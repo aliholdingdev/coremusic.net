@@ -1,4 +1,6 @@
 ---
+name: db-engine
+description: "Use when designing MySQL schemas, BCNF normalization, candidate keys, or raw PDO query strategy for the 18 CoreMusic databases."
 title: "CoreMusic — DB Engine"
 type: skill-instruction
 version: 1.0

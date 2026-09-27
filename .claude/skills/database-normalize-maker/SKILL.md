@@ -1,4 +1,6 @@
 ---
+name: database-normalize-maker
+description: "Use when normalizing a table to BCNF, deriving candidate keys, or writing migration SQL for CoreMusic databases."
 title: "CoreMusic — Veritabanı Oluşturma & Normalizasyon Motoru"
 type: skill-instruction
 version: 5.0

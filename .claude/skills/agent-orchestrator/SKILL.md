@@ -1,4 +1,6 @@
 ---
+name: agent-orchestrator
+description: "Use when spawning and coordinating subagent teams with load balancing, task queues, and parallel distribution."
 title: "CoreMusic Agent Orchestrator"
 type: skill-instruction
 version: 4.0

@@ -1,4 +1,6 @@
 ---
+name: composer-sync
+description: "Use when composer dependencies drift between shared/ and subdomain composer.json files, autoload breaks, or vendor junction sync is needed."
 title: "CoreMusic — Composer Vendor Senkronizasyon"
 type: skill-instruction
 version: 3.0

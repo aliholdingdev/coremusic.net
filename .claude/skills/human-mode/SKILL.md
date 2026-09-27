@@ -1,4 +1,6 @@
 ---
+name: human-mode
+description: "Use when confirming actions with the user — approval gates, onay akışı, and Turkish-language confirmation prompts."
 title: "CoreMusic — Human-in-the-Loop Control System"
 type: skill-instruction
 version: 5.0.0

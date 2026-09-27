@@ -1,4 +1,6 @@
 ---
+name: truth-engine
+description: "Use when verifying any count, version, or claim against disk evidence, or when enforcing Zero-Hallucination (VERIFICATION REQUIRED) in vault or code."
 title: "CoreMusic — Truth Engine"
 type: skill-instruction
 version: 1.0

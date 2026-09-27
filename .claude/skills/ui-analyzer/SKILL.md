@@ -1,4 +1,6 @@
 ---
+name: ui-analyzer
+description: "Use when analyzing existing UI code against mockups and design tokens before redesign or refactor."
 title: "CoreMusic — UI Analiz Motoru"
 type: skill-instruction
 version: 1.1

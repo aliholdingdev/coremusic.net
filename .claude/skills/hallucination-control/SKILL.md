@@ -1,4 +1,6 @@
 ---
+name: hallucination-control
+description: "Use before writing code or vault claims — cross-check every value against disk evidence and flag unverifiable statements."
 title: "CoreMusic — Hallucination Control System"
 type: skill-instruction
 version: 6.0.0

@@ -1,4 +1,6 @@
 ---
+name: ui-workbench
+description: "Use when building or modifying frontend components — ITCSS/BEM tokens, mockup reading order, and 45-tier responsive rules before any UI code."
 title: "CoreMusic — UI Workbench"
 type: skill-instruction
 version: 1.0

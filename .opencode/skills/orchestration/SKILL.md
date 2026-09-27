@@ -1,4 +1,6 @@
 ---
+name: orchestration
+description: "Use when coordinating multi-agent workflows, dispatching tasks to specialist agents, or running checkpoint loops across the CoreMusic team."
 title: "CoreMusic — Orchestration Engine"
 type: skill-instruction
 version: 1.0

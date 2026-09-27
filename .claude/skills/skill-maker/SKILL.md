@@ -1,4 +1,6 @@
 ---
+name: skill-maker
+description: "Use when creating or rewriting a CoreMusic skill — template rules, frontmatter fields, and registry checks apply."
 title: "CoreMusic — Skill Oluşturucu Meta-Skill"
 type: skill-instruction
 version: 3.1

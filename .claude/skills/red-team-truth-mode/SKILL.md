@@ -1,4 +1,6 @@
 ---
+name: red-team-truth-mode
+description: "Use when auditing adversarially — attack paths, rejected pattern database (H001-H039), and red-team review of code or vault."
 title: "CoreMusic — Red Team & Truth Mode"
 type: skill-instruction
 version: 7.0.0
