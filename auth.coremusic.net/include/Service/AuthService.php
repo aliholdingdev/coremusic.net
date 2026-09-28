@@ -292,6 +292,7 @@ final class AuthService implements IAuthService
                 throw AuthenticationException::invalidCredentials();
             }
             return [
+                'id'           => $record['user_id'],
                 'user_id'      => $record['user_id'],
                 'username'     => $record['username'],
                 'email'        => $record['email'],
@@ -306,6 +307,7 @@ final class AuthService implements IAuthService
         $this->userRepository->markAuthKeyUsed((string)$tokenId);
 
         return [
+            'id'           => $record['user_id'],
             'user_id'      => $record['user_id'],
             'username'     => $record['username'],
             'email'        => $record['email'],
