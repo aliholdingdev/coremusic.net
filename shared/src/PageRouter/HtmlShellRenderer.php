@@ -126,6 +126,9 @@ final class HtmlShellRenderer
             : ' data-device="' . $h($deviceType) . '" data-view="' . $h($viewMode) . '"';
 
         echo '<body' . $bodyClass . '>';
+        /* Kalıcı medya elementi — SPA navigasyonunda shell sabit kalır,
+           footer.init.js (getAudio) + PlaybackRepository #audio'yu bekler. */
+        echo '<audio id="audio" class="vdisplay" preload="metadata"></audio>';
         echo '<input type="hidden" name="csrf_token" id="csrf-global" value="' . $csrfEsc . '">';
 
         if ($isAuthRoute) {

@@ -2,6 +2,7 @@
 
 use CoreMusic\Home\Container\HomeContainer;
 use CoreMusic\Home\Auth\HomeAuthBridge;
+use CoreMusic\Home\Stream\MusicStreamHandler;
 use CoreMusic\PageRouter\PageRouterKernel;
 use CoreMusic\Session\SessionBootstrapper;
 
@@ -21,6 +22,17 @@ if ($requestUri === '/health') {
         'version' => APP_VERSION,
         'time'    => date('c'),
     ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+// Music stream — byte-range destekli ses akışı (HTML shell'e girmez)
+if (preg_match('#^/stream/([0-9a-fA-F]{32})$#', $requestUri, $streamMatch) === 1) {
+    MusicStreamHandler::dispatch($streamMatch[1]);
+}
+if (str_starts_with($requestUri, '/stream')) {
+    http_response_code(404);
+    header('Content-Type: text/plain; charset=utf-8');
+    echo 'Not Found';
     exit;
 }
 

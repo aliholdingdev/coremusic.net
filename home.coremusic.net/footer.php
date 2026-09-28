@@ -170,5 +170,5 @@ $footerTierClass = $dm->shouldRender4kLayout()
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.controls.js?v=2.0.0"></script>
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.progressbar.js?v=2.0.0"></script>
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/core/helper.js?v=2.0.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/core/footer.init.js?v=2.0.0"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/core/footer.init.js?v=2.0.1"></script>
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/features/welcome-modal.js?v=2.0.0"></script>

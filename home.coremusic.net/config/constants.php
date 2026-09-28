@@ -116,6 +116,7 @@ if (!defined('AUTH_URL')) {
 if (!defined('DB_HOST')) {
     define('DB_HOST', $env('DB_HOST', 'localhost'));
     define('DB_HOME_NAME', $env('DB_HOME_NAME', 'coremusic_user'));
+    define('DB_MUSIC_NAME', $env('DB_MUSIC_NAME', 'coremusic_musics'));
     define('DB_USER', $env('DB_USER', ''));
     define('DB_PASSWORD', $env('DB_PASSWORD', ''));
     define('DB_PORT', (int)$env('DB_PORT', 3306));
