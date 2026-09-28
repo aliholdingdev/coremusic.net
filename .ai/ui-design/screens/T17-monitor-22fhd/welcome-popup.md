@@ -5,7 +5,7 @@ device: "Desktop Monitor (Mouse Tier)"
 viewport: { width: 1920, height: 1080 }
 path: "/home (welcome-modal)"
 status: draft
-version: 1.0.0
+version: 1.1.0
 source_of_truth: "⚠️ VERIFICATION REQUIRED — PNG bekleniyor"
 related_tokens:
   - "--cm-font-family-heading"
@@ -19,7 +19,7 @@ related_tokens:
 related_components:
   - "C07 Modal (kategori — welcome-modal envanterde YOK)"
 wcag_target: "WCAG 2.2 AA"
-last_verified: "2026-09-27"
+last_verified: "2026-09-28"
 author: "Bayram Ali (Vault Steward)"
 ---
 
@@ -36,8 +36,9 @@ author: "Bayram Ali (Vault Steward)"
 ## 1. ASCII Layout (Piksel Düzeyinde — x:0-1920, y:0-1080)
 
 > **Kaynak lejantı:** `[PNG]` = PNG piksel doğrulaması · `[Figma]` = Figma node verisi
-> (`2831:13747` Welcome Div export'u) · `[türetilmiş]` = T17 1920×1080 yerleşimi iki
+> (`2831:10267` "Welcome Div" export'u) · `[türetilmiş]` = T17 1920×1080 yerleşimi iki
 > kaynaktan türetilmiştir — **gerçek T17 PNG hâlâ yok** (`source_of_truth` §7).
+> **Node etiketi düzeltildi (2026-09-28):** `2831:13747` "Welcome Div" yazımı → `2831:13747` = FRAME "Linux - 1920 - Home" (origin 606,−589); "Welcome Div" = GROUP `2831:10267` (1024×601). Kaynak: `reference/figma/extracted-1920.md` L9 (FRAME), L529 (GROUP).
 >
 > **Koordinat sistemi:** Her iki kutu da kendi sol-üst köşesi (0,0)'a göredir.
 > Kutu A = T17 viewport (1920×1080), Kutu B = Figma asset (1024×601).
@@ -102,8 +103,8 @@ x:0        128       256       384       512       640       768       896  1023
 | Portrait | `2831:10277` | 641 | 212 | 171 × 242 |
 
 > **⚠️ ÇELİŞKI §1-1 (yerleşim/boyut — en iyi bölüm: §1):**
-> **Kırılım:** Figma'da popup, `2831:13747` "Welcome Div" (1024×601) frame'i içinde
-> tanımlı (`2831:10267` abs(1751,−339) → frame'e göreli (1145,250)); bu 14 çocuklu
+> **Kırılım:** Figma'da popup, `2831:10267` "Welcome Div" (1024×601) GROUP'unda
+> tanımlı (abs(1751,−339) → `2831:13747` FRAME'e göreli (1145,250)); bu 14 çocuklu
 > T17 frame'inin çocuğu DEĞİL — 1145+1024 = 2169 > 1920 olduğu için çerçeveye
 > sığmıyor (249px taşma). PNG export'u çerçeve bağlamı taşımaz.
 > **SSOT sırası:** PNG > Figma > ASCII. **Etkilenen bölüm:** §1 (bu kutular).
@@ -268,6 +269,7 @@ x:0        128       256       384       512       640       768       896  1023
   **1026×601** (indleme PNG'si) — minör boyut farkı, not.
 - Figma `2831:10267` "Welcome Div" grup abs(1751,−339), frame `2831:13747`
   origin (606,−589) → frame'e göreli (1145,250) — §1-1 çelişkisinin kaynağı.
+> ⚠️ Node etiketi düzeltildi (2026-09-28): §1 lejantı (satır 39) ve §1-1 çelişki bloğu (satır 105-106) düzeltildi — `2831:13747` = FRAME "Linux - 1920 - Home" (1920×1080, origin 606,−589), "Welcome Div" = GROUP `2831:10267` (1024×601, abs(1751,−339)). Kaynak: `reference/figma/extracted-1920.md` L9/L529; L269-270 zaten doğrudur.
 
 ---
 
@@ -323,6 +325,7 @@ x:0        128       256       384       512       640       768       896  1023
 - ✅ PNG: 1/3 gerçek T17 PNG **VERIFICATION REQUIRED**; 3 mevcut referans.
 - ✅ Responsive: 6 aralık + 1920–3839 boşluk notu.
 - ✅ State: 6 durum (1 VERIFICATION).
+- ✅ **Node etiketi düzeltmesi (2026-09-28):** `2831:13747` "Welcome Div" etiketi düzeltildi → `2831:13747` = FRAME "Linux - 1920 - Home", Welcome Div = GROUP `2831:10267` (§1 lejant + §1-1 çelişki bloğu + §7 notu). Kanıt: `reference/figma/extracted-1920.md` L9/L529. Versiyon 1.0.0 → 1.1.0.
 - ✅ **Etiketli çelişki: 4** (§1-1 yerleşim, §1-2 metin, §6-1 overlay, §8-1 tier gate).
 - ✅ Quality Report `## 10.` DEĞİL, §9 sonrası numarasız.
 - ✅ Yetki footer'ı mevcut.

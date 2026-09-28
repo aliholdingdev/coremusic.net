@@ -5,12 +5,12 @@ device: "RPi5 7\" Touch (Embedded)"
 viewport: { width: 1024, height: 600 }
 path: "screens/shared/"
 status: active
-version: 1.0.0
+version: 1.1.0
 source_of_truth: ".ai/.png/shared-1024/Linux  1024 - Select Gender - selected.png"
 related_tokens: [tokens/design-tokens-master]
 related_components: [02-component-inventory]
 wcag_target: "WCAG 2.2 AA"
-last_verified: "2026-09-27"
+last_verified: "2026-09-28"
 author: "Bayram Ali"
 ---
 
@@ -54,7 +54,7 @@ y=600└────────────────────────
 
 Bant toplamı: 120 + 34 + 59 + 175 + 26 + 130 + 23 + 33 = 600 ✓
 
-**Koordinat Kanıtı (SSOT = PNG):** Tüm koordinatlar PNG frame-rel; Figma frame `2831:9808` (origin 1751, 3890) ile birebir. Bu ekran `select-gender.md`'nin seçili durumudur — tek fark Kız butonu dolgusu ve Devam Et gradyan 3. katmanı.
+**Koordinat Kanıtı (SSOT = PNG):** Tüm koordinatlar PNG frame-rel; Figma frame `2831:9787` (origin 1751, 3890) ile birebir. Bu ekran `select-gender.md`'nin seçili durumudur — tek fark Kız butonu dolgusu ve Devam Et gradyan 3. katmanı.
 
 ## 2. BEM Sınıfları
 
@@ -132,8 +132,9 @@ Not: `--cm-bg-overlay` (0.60 DEPRECATED) bu ekranda kullanılmaz → SSOT düzel
 
 - **PNG (SSOT):** `.ai/.png/shared-1024/Linux  1024 - Select Gender - selected.png`
   - 1024×600; Kız butonu x776-996/y213-253 `#FF69DF α.35` dolgulu; `Devam Et` tam gradyanlı.
-- **Figma (referans):** frame `2831:9808` `Select Gender - selected` (origin 1751,3890); seçili bg `2831:9810`, hero `2831:9825`, Devam Et gradyan `2831:9797`.
+- **Figma (referans):** frame `2831:9787` `Linux  1024 - Select Gender - selected` (origin 1751,3890); seçili bg `2831:9810`, hero `2831:9825`, Devam Et gradyan `2831:9797`.
 - **Figma PNG export:** `1024 - Select Gender - selected.png`.
+> ⚠️ Node etiketi düzeltildi (2026-09-28): kök frame `2831:9808` → `2831:9787` (satır 57, 135, 166); 9808 = TEXT "Erkek". Sibling `9810/9825/9797` zaten doğrudu ✓. Kaynak: `reference/figma/extracted-1047-15802.md` L11616 (kök FRAME "Linux  1024 - Select Gender - selected", origin 1751,3890), L11638 (9808 = TEXT "Erkek").
 - **SSOT sırası:** PNG > Figma → çelişki yok, §1 etiket yok.
 
 ## 8. Responsive Davranış
@@ -163,7 +164,8 @@ Not: Genişlik kırılımı **API'den gelmedi** (matrix'te T07 = 1024×600 tek s
 
 **Quality Report**
 
-- **Doğrulama:** PNG (SSOT) + Figma frame `2831:9808` + C04/C03 + token master karşılaştırıldı; `select-gender.md` ile koordinat farkı yalnızca seçili durum katmanları.
+- **Doğrulama:** PNG (SSOT) + Figma frame `2831:9787` + C04/C03 + token master karşılaştırıldı; `select-gender.md` ile koordinat farkı yalnızca seçili durum katmanları.
+- **Node etiketi düzeltmesi (2026-09-28):** kök frame `2831:9808` → `2831:9787` (3 yer: §1 koordinat kanıtı, §7 Figma referansı, bu satır); 9808 = TEXT "Erkek", sibling `9810/9825/9797` doğrulandı ✓. Kanıt: `reference/figma/extracted-1047-15802.md` L11616-11655. Versiyon 1.0.0 → 1.1.0.
 - **Çelişki:** 0.
 - **Eksik veri:** focus/disabled/alternatif-seçim görselleri, `--cm-select-selected-bg` token adı → §4/§5/§9 `⚠️ VERIFICATION REQUIRED`.
 - **Kapsam dışı:** `04-accessibility-gaps.md` GAP kaydı (erişim dışı — §5'te not edildi).

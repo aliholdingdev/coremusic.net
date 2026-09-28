@@ -5,12 +5,12 @@ device: "RPi5 7\" Touch (Embedded)"
 viewport: { width: 1024, height: 600 }
 path: "screens/shared/"
 status: active
-version: 1.0.0
+version: 1.1.0
 source_of_truth: ".ai/.png/shared-1024/Linux  1024 - Login Girl.png"
 related_tokens: [tokens/design-tokens-master]
 related_components: [02-component-inventory]
 wcag_target: "WCAG 2.2 AA"
-last_verified: "2026-09-27"
+last_verified: "2026-09-28"
 author: "Bayram Ali"
 ---
 
@@ -62,7 +62,7 @@ y=600└────────────────────────
 
 Bant toplamı: 120 + 34 + 35 + 138 + 63 + 120 + 57 + 33 = 600 ✓
 
-**Koordinat Kanıtı (SSOT = PNG):** Figma frame `2831:9838` (origin 2869, 3890). Koordinatlar frame-rel; input `y261` subpixel `0.849` değerleri PNG'de `y+0`'a yuvarlanır (Register Step 3 frame'inde GetPixel ile doğrulandı). Bu ekranda hero illüstrasyonu **yoktur** (Figma ve PNG'de ortak).
+**Koordinat Kanıtı (SSOT = PNG):** Figma frame `2831:9826` (origin 2869, 3890). Koordinatlar frame-rel; input `y261` subpixel `0.849` değerleri PNG'de `y+0`'a yuvarlanır (Register Step 3 frame'inde GetPixel ile doğrulandı). Bu ekranda hero illüstrasyonu **yoktur** (Figma ve PNG'de ortak).
 
 ## 2. BEM Sınıfları
 
@@ -145,8 +145,9 @@ Not: `--cm-bg-overlay` 0.60 DEPRECATED → bu ekran overlay kullanmaz; SSOT düz
 
 - **PNG (SSOT):** `.ai/.png/shared-1024/Linux  1024 - Login Girl.png`
   - 1024×600; inputlar x776-996/y204-223 ve y248-267; sosyal grid y415/450/485; hero **yok**.
-- **Figma (referans):** frame `2831:9838` `Login` (origin 2869,3890); layout `2831:9840` (220×138 @(776,189)), input1 `2831:9842`, input2 `2831:9851`, Checkbox `2831:9853`, forgot `2831:9860`, btn `2831:9861`, social `2831:9863`.
+- **Figma (referans):** frame `2831:9826` `Linux  1024 - Login Girl` (origin 2869,3890); layout `2831:9874` (220×138 @(776,189)), input1 `2831:9880`, input2 `2831:9882`, Checkbox `2831:9883`, forgot `2831:9878`, btn `2831:9875`, social `2831:9838`.
 - **Figma PNG export:** `1024 - Login Girl.png`.
+> ⚠️ Node etiketi düzeltildi (2026-09-28): kök frame `2831:9838` → `2831:9826` (satır 65, 148, 181); 9838 = GROUP "social/btns". Kaynak: `reference/figma/extracted-1047-15802.md` — L11656 kök FRAME "Linux  1024 - Login Girl" (origin 2869,3890), L11669 = GROUP social/btns, L11705/11711/11715/11718/11709/11706 = layout/input1/input2/Checkbox/forgot/btn.
 - **SSOT sırası:** PNG > Figma → bu ekranda çelişki yok; §1 etiket yok.
 
 ## 8. Responsive Davranış
@@ -178,7 +179,8 @@ Not: Genişlik kırılımı **API'den gelmedi** (matrix T07 tek satır 1024×600
 
 **Quality Report**
 
-- **Doğrulama:** PNG (SSOT) + Figma frame `2831:9838` + C05/C04/C01 + token master; Register Step 3 frame'inde pixel-scan ile koordinat yöntemi doğrulandı (aynı extraction).
+- **Doğrulama:** PNG (SSOT) + Figma frame `2831:9826` + C05/C04/C01 + token master; Register Step 3 frame'inde pixel-scan ile koordinat yöntemi doğrulandı (aynı extraction).
+- **Node etiketi düzeltmesi (2026-09-28):** kök frame `2831:9838` → `2831:9826` (3 yer: §1 koordinat kanıtı, §7 Figma referansı, bu satır) + §7 sibling IDleri `2831:9840/9842/9851/9853/9860/9861/9863` → `2831:9874/9880/9882/9883/9878/9875/9838`. Kanıt: `reference/figma/extracted-1047-15802.md` L11656-11718. Versiyon 1.0.0 → 1.1.0.
 - **Çelişki:** 0.
 - **Eksik veri:** focus/error/loading/checked state görselleri, checkbox token'ı, placeholder opaklık değeri, Avalon font token'ı → §4/§5/§6/§9 `⚠️ VERIFICATION REQUIRED`.
 - **Kapsam dışı:** `04-accessibility-gaps.md` GAP kaydı (erişim dışı — §5'te not edildi).

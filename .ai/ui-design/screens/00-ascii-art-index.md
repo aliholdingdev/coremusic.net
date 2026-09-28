@@ -3,8 +3,8 @@ title: "CoreMusic — Screen Specification Index (T08 · Shared · T17)"
 type: spec
 category: index
 date: 2026-09-27
-updated: 2026-09-27
-version: 6.0.0
+updated: 2026-09-28
+version: 6.1.0
 status: active
 authority: "Single Source of Truth (SSOT) — .ai/ui-design/screens/00-ascii-art-index.md"
 governance: Red Team · Human Mode · Truth Mode
@@ -13,7 +13,7 @@ total_active: 19
 total_draft: 1
 total_png_mockups: 19
 total_figma_frames: 22
-changelog: "v6.0.0 — screens/ dizini tamamen yıkılıp 20 yeni spec dosyasıyla yeniden yazıldı; merkezi indeks sıfırdan üretildi (eski indeks içeriği kullanılmadı)."
+changelog: "v6.0.0 — screens/ dizini tamamen yıkılıp 20 yeni spec dosyasıyla yeniden yazıldı; merkezi indeks sıfırdan üretildi (eski indeks içeriği kullanılmadı). v6.1.0 (2026-09-28) — §7 açık konular: madde 2 (4 spec node etiketi v1.1.0) ve madde 3 (mockup-index v6.1.0 senkronu) düzeltildi; madde 1 = T08→T07 taşıma ÖNERİSİ (owner onayı)."
 ---
 
 # CoreMusic — Screen Specification Index (T08 · Shared · T17)
@@ -97,7 +97,7 @@ T17'nin 2 md'si bu 22'ye **dâhil değil** (kendi 1920 kareleri ayrı referanst�
 | v4 | `1980:13692` | 4 playlist satırı + süreler |
 | **v5 (spec = bu)** | `2831:10282` | "Musics : Root" dosya listesi, 253×420 sağ panel |
 
-## 7. Quality Report (2026-09-27)
+## 7. Quality Report (2026-09-28)
 
 | Kontrol | Sonuç |
 |---------|-------|
@@ -106,18 +106,18 @@ T17'nin 2 md'si bu 22'ye **dâhil değil** (kendi 1920 kareleri ayrı referanst�
 | PNG eşleştirme | **19/19 PNG diskte var**; 1 spec PNG'siz (T17 welcome, `status: draft`) ✅ |
 | Figma kare | **22** (17 kök + browse-clicked 5 varyant) + 2 T17 referans kare ✅ |
 | `wiki-link` çözümü | **32 link · 27 benzersiz hedef → 27/27 çözülebilir** (20 spec + 7 üst doküman; çözülemeyen link yok) ✅ |
-| Yasaklar | 20 spec dosyası salt okunur; yazım yalnız bu indeks ✅ |
+| Yasaklar | Yazım: bu indeks + 4 düzeltilen spec (İŞ 2 node etiketi, v1.1.0, 2026-09-28); diğer 16 spec'e dokunulmadı ✅ |
 | Yazma protokolü | `vault-utf8-writer.mjs write` — UTF-8, BOM'suz + verify (BOM/mojibake/CJK/NUL) ✅ |
 
 **⚠️ AÇIK KONULAR (VERIFICATION REQUIRED):**
-1. Tier ataması: `T08-embedded` (1024×600) ↔ [[../00-device-matrix]] `T07 = 1024×600` (§2 notu) — owner onayı.
-2. Node etiketi hataları (bu görevde spec'lere dokunulmadı): `shared/login` spec'i `2831:9838`'i "frame" yazıyor → gerçek `GROUP social/btns`, kök kare `2831:9826`; `shared/select-gender` `2831:9760` = `GROUP button/nötur` (kök `2831:9748`); `shared/select-gender-selected` `2831:9808` = `TEXT "Erkek"` (kök `2831:9787`); T17 welcome `2831:13747`'yi "Welcome Div" yazıyor → `2831:13747` = `FRAME "Linux - 1920 - Home"`, Welcome Div = `2831:10267`.
-3. [[../01-mockup-index]] §4 eski spec adlarını (`artists.md`, `wifi-modal.md`, `T07-embedded/`) listeler — bu indeks yeni 20 dosyayı esas alır; mockup-index düzeltmesi ayrı iş.
-4. `screens/T08-embedded/home-dashboard` kök node'u Figma **COMPONENT** (`1639:10160`), FRAME değil.
+1. **Tier ataması — ÖNERİ (2026-09-28; taşınmadı, owner onayı bekleniyor):** `T08-embedded/` dizin adı 1024×600 viewport ile çelişiyor. Kanıt: [[../00-device-matrix]] L92 `T07 = RPi5 7" 1024×600`, L93 `T08 = RPi5 10" 1280×800`, L95 "Welcome popup (T07)", L295 "1024×600 → T07 Embedded (RPi5 7")". **Önerilen taşıma (owner kararı):** `screens/T08-embedded/` → `screens/T07-embedded/` + 12 spec frontmatter `tier: T08 → T07` (`shared/*` 6 spec zaten `tier: T07` ✓; T17 değişmez). Bu görevde **TAŞIMA YAPILMADI** — yalnız öneri kaydedildi.
+2. ✅ **düzeltildi (2026-09-28 — node etiketi düzeltmesi, 4 spec v1.1.0):** `shared/login` `2831:9838` → kök `2831:9826` (9838 = GROUP social/btns); `shared/select-gender` `2831:9760` → `2831:9748` (9760 = GROUP button/nötur); `shared/select-gender-selected` `2831:9808` → `2831:9787` (9808 = TEXT "Erkek"); T17 welcome `2831:13747` "Welcome Div" yazımı → Welcome Div = GROUP `2831:10267` (`2831:13747` = FRAME "Linux - 1920 - Home"). Kanıt: spec §7 yerinde düzeltme notları + `reference/figma/extracted-1047-15802.md` / `extracted-1920.md`.
+3. ✅ **düzeltildi (2026-09-28):** [[../01-mockup-index]] v6.1.0 — §4 = 20 spec (dosya · Figma node · PNG · status, tier bazlı), §7 = yeni adlar + eski ad haritası (silinenler → yeni karşılık).
+4. `screens/T08-embedded/home-dashboard` kök node'u Figma **COMPONENT** (`1639:10160`), FRAME değil. *(bilgi notu — madde 1 taşınması önerilirse korunmalı)*
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-27
-**Version:** 6.0.0 — 20 spec dosyasının tamamı yeniden yazıldı; bu indeks sıfırdan üretildi (eski v2.1.0 içeriği bayat olduğu için yeniden kullanılmadı)
+**Last Updated:** 2026-09-28
+**Version:** 6.1.0 — §7 açık konular güncellendi: madde 2-3 düzeltildi (4 spec node etiketi v1.1.0 + mockup-index v6.1.0), madde 1 = T08→T07 taşıma ÖNERİSİ (owner onayı) — v6.0.0: 20 spec dosyasının tamamı yeniden yazıldı; bu indeks sıfırdan üretildi (eski v2.1.0 içeriği bayat olduğu için yeniden kullanılmadı)
 **Mode:** Red Team · Human Mode · Truth Mode

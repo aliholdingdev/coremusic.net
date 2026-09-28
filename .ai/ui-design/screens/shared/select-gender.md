@@ -5,12 +5,12 @@ device: "RPi5 7\" Touch (Embedded)"
 viewport: { width: 1024, height: 600 }
 path: "screens/shared/"
 status: active
-version: 1.0.0
+version: 1.1.0
 source_of_truth: ".ai/.png/shared-1024/Linux  1024 - Select Gender.png"
 related_tokens: [tokens/design-tokens-master]
 related_components: [02-component-inventory]
 wcag_target: "WCAG 2.2 AA"
-last_verified: "2026-09-27"
+last_verified: "2026-09-28"
 author: "Bayram Ali"
 ---
 
@@ -54,7 +54,7 @@ y=600└────────────────────────
 Bant toplamı: 120 + 34 + 59 + 175 + 26 + 130 + 23 + 33 = 600 ✓ (hero bandı y414-544 yalnızca Select Gender ekranlarında var)
 
 **Koordinat Kanıtı (SSOT = PNG):**
-- Figma frame `2831:9760` origin (640, 3890). Text koordinatları frame-rel; PNG ile piksel taramasında birebir eşleşti (aynı yapıdaki Register Step 3 frame'de checkbox/Text koordinatları GetPixel ile doğrulandı → `0.326` subpixel offsetleri PNG'de `y+0`'a yuvarlanır).
+- Figma frame `2831:9748` origin (640, 3890). Text koordinatları frame-rel; PNG ile piksel taramasında birebir eşleşti (aynı yapıdaki Register Step 3 frame'de checkbox/Text koordinatları GetPixel ile doğrulandı → `0.326` subpixel offsetleri PNG'de `y+0`'a yuvarlanır).
 - Tüm x/y değerleri **PNG frame-rel** olarak alınmıştır; görselde ölçülen kenarlar Figma koordinatlarıyla ±1px içinde.
 
 ⚠️ VERIFICATION REQUIRED (ölçüm notu): Kontrast oranları ve focus göstergesi kod aşamasında ölçülecek — §5'e bakınız.
@@ -144,8 +144,9 @@ Not: `--cm-bg-overlay: rgba(0,0,0,0.60)` master'da **DEPRECATED**; SSOT `rgba(0,
 
 - **PNG (SSOT):** `.ai/.png/shared-1024/Linux  1024 - Select Gender.png`
   - 1024×600; sağ glass panel x749-1024, hero art x788-984/y414-544, butonlar x776-996 — ölçüler §1 ile birebir.
-- **Figma (referans):** frame `2831:9760` `Select Gender` (origin 640,3890); seçenek düğümleri `2831:9787/9791`, nötur `button/nötur` `2831:9793`, hero `2831:9786`, Kız bg `2831:9788`, Devam Et `2831:9796/9797`.
+- **Figma (referans):** frame `2831:9748` `Linux  1024 - Select Gender` (origin 640,3890); seçenek düğümleri `2831:9770/9765`, nötur `button/nötur` `2831:9760`, hero `2831:9786`, Kız bg `2831:9771`, Devam Et `2831:9757/9758`.
 - **Figma PNG export:** `1024 - Select Gender.png` (bu dosyanın üretildiği export — içerik PNG ile aynı).
+> ⚠️ Node etiketi düzeltildi (2026-09-28): kök frame `2831:9760` → `2831:9748` (satır 57, 147, 179); 9760 = GROUP "button/nötur". §7 sibling hataları da düzeltildi: seçenek `9787/9791` → `9770/9765` (kız/erkek), nötur `9793` → `9760`, Kız bg `9788` → `9771`, Devam Et `9796/9797` → `9757/9758`; hero `2831:9786` zaten doğrudu. Kaynak: `reference/figma/extracted-1047-15802.md` L11576 (kök FRAME), L11585-11606, L11615.
 - **SSOT sırası:** PNG > Figma. Bu ekranda çelişki yok → §1'de etiket yok.
 
 ## 8. Responsive Davranış
@@ -176,7 +177,8 @@ Not: T07 Tier zaten sabit viewport (1024×600) — bu tablo olası diğer T07 ci
 
 **Quality Report**
 
-- **Doğrulama:** PNG (SSOT) + Figma frame `2831:9760` + component inventory (C04/C05) + token master karşılaştırıldı. Pixel-scan kanıtı: Register Step 3 eş frame'inde koordinat/outline doğrulaması (aynı extraction).
+- **Doğrulama:** PNG (SSOT) + Figma frame `2831:9748` + component inventory (C04/C05) + token master karşılaştırıldı. Pixel-scan kanıtı: Register Step 3 eş frame'inde koordinat/outline doğrulaması (aynı extraction).
+- **Node etiketi düzeltmesi (2026-09-28):** kök frame `2831:9760` → `2831:9748` (3 yer: §1 koordinat kanıtı, §7 Figma referansı, bu satır) + §7 sibling IDleri düzeltildi (`9787/9791`→`9770/9765`, `9793`→`9760`, `9788`→`9771`, `9796/9797`→`9757/9758`). Kanıt: `reference/figma/extracted-1047-15802.md` L11576-11615. Versiyon 1.0.0 → 1.1.0.
 - **Çelişki:** 0 (§1-§9 arasında etiketli çelişki bloğu yok).
 - **Eksik veri:** focus/disabled state görselleri, `--cm-select-selected-bg` token adı, kontrast ölçümleri → §4/§5 `⚠️ VERIFICATION REQUIRED`.
 - **Kapsam dışı:** `04-accessibility-gaps.md` GAP kaydı bu görevde yapılmayacak (erişim dışı — not: GAP tespitleri §5'te listelenmiştir).
