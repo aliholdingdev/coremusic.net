@@ -633,3 +633,31 @@ ADR-043 debate 3/20 kaydedildi (19/1/0 KABUL) + Tech Lead ✅ + 3 şart
 - KRITIK BULGU 1 (onarildi): `4da334d` 26 css/js dosyasini `Css/js copy`'e tasidi -> `affb3ee` klon silinince 404/ORB. Ana yola geri yuklendi: `eed525d` (26 dosya) + `704fb86` (9 dosya); HTTP 200/206 hepsi dogrulandi. Vault .md silmelerine ve `js copy` olu koduna (FooterPlayer/PlayerInfo/WidgetGrid/DataBinder/TemplateEngine - import yok) DOKUNULMADI.
 - KRITIK BULGU 2 (Faz5 dev): oynatma hatti hic kurulmamis - repo'da `<audio id="audio">` hic olmamis (vault: shell'de kalici olmali), stream endpoint yok, `coremusic_musics.musics/music_files` 0 satir, `RecentTracksComponent` hardcoded demo. Dispatch: backend-architect -> (1) import script `scripts/import-music-folder.php` (MUSIC_LIBRARY_PATH, 7506 dosya, artist=ust klasor), (2) `GET /stream/{id}` auth+zorunlu Range 206, (3) shell `<audio id="audio">`, (4) DB'den liste + click-to-play. IMPORT+E2E CALISMA TESTI BEKLENIYOR.
 - ACIK KONULAR: skill icerik rewrite kullanici onayi bekliyor; claude-mem openrouter kotasi dolu (session kaydi yok, akisi etkilemiyor); bir kez 500 goren `GET /?auth_key=` tekrarlanmadi (transient, notta).
+
+## 2026-09-28 — Faz 5 oynatma hatti + login zincir fix (commits 365efbd, aa1f713)
+
+### Faz 5 (365efbd, 9 dosya)
+- Import: scripts/import-music-folder.php calisti — C:\Users\Bayram Ali\Music 7506 dosya -> artists 162 / musics 7007 / music_files 7007 (499 duplicate atlandi, ~1.1s, idempotent 2. kosuda +0).
+- Stream: GET /stream/{32hex} (MusicStreamHandler) — auth zorunlu (auth'suz 302 login), MUSIC_LIBRARY_PATH traversal guard, Range 206/416, ETag/304, MIME map; curl kanitlari: 206 Content-Range 0-99/4977920 + 100 byte govde, 404, 416.
+- Shell: HtmlShellRenderer <body> hemen ardina kalici <audio id="audio" preload="metadata">.
+- Liste: RecentTracksComponent DB JOIN (musics x artists x music_files is_primary=1, ORDER LIMIT 12, demo fallback), HomeSongButton data-stream/title/artist.
+- Click-to-play: footer.init.js delegated handler (preventDefault + cm:player:trackchange); footer.php v=2.0.0 -> 2.0.1 cache-bust.
+
+### Login zincir fix (aa1f713, 4 dosya) — 3 bug kapatildi
+1. AuthService.validateSessionKey: 'id' eksik -> SessionManager L18 Undefined array key -> 500 (repro: /?auth_key=).
+2. ReturnUrlPolicy.isAllowed (4da334d): raw vs urldecode karsilastirmasi -> redirect_uri %2F icin false -> auth root fallback. Normalize + raw parse/host guard eklendi; 6 yeni test (evil.com/javascript/userpass/@evil/spoof false).
+3. AuthKeyRedirectHandler: goreli Location /home -> auth domain 404; MUSIC_URL/home oldu.
+
+### IIS/HTTP.sys stale cache bulgusu
+footer.init.js?v=2.0.0 ayni URL 27 Sep'den beri eski govde verdi (date 27 Sep, last-modified 8 Sep); fiziksel dosya yeni. Cache URL anahtarli -> surum bump ile asildi. Ders: statik varlik degisikliginde ?v artirilmali.
+
+### Dogrulama (hepsi MO'da)
+phpunit: home 23/54, shared 211/521, auth unit 31/59 · php -l 0 · node --check 0.
+E2E (Playwright): logout -> login -> dogrudan home:81/home (500/404 yok) · 9 data-stream link · tikla -> /home'da kal (preventDefault) -> GET /stream/... => 206 -> audio paused=false currentTime=8.1s duration=203.9s readyState=4 · konsol 0 hata.
+
+### Acik konular
+- 14 case-variant duplicate baslik (7007 vs 6993 distinct) — case-insensitive dedupe veya kabul (MVP: kabul).
+- Sureler NULL (ffprobe yok) — ileride import pass.
+- ReturnUrlPolicy: //evil.com/ protocol-relative onceden de true (L30 str_starts_with early-return) — bu oturumda bilincli olarak dokunulmadi, ayri fix.
+- Stream icin PHPUnit HTTP testi yok (curl kaniti yeterli, suite'e dokunulmadi).
+- Skill icerik rewrite kullanici onayi bekiyor.
