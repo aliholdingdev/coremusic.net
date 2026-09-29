@@ -56,7 +56,7 @@ return [
             'validation'  => [
                 // identity: e-posta VEYA kullanıcı adı (LoginRequest::fromArray)
                 'email'    => ['required' => true, 'type' => 'string'],
-                'password' => ['required' => true, 'type' => 'string', 'min' => 12],
+                'password' => ['required' => true, 'type' => 'string', 'min' => 8],
                 'gender'   => ['in' => ['male', 'female', 'neutral']],
             ],
         ],
@@ -69,7 +69,7 @@ return [
             'validation'  => [
                 'username'    => ['required' => true, 'type' => 'string', 'regex' => '/^[a-zA-Z0-9_]{3,30}$/'],
                 'email'       => ['required' => true, 'type' => 'email'],
-                'password'    => ['required' => true, 'type' => 'string', 'min' => 12],
+                'password'    => ['required' => true, 'type' => 'string', 'min' => 8],
                 'gender'      => ['required' => true, 'in' => ['male', 'female', 'neutral']],
                 'agree_terms' => ['required' => true, 'type' => 'bool'],
             ],
@@ -92,7 +92,7 @@ return [
             'implemented' => true,
             'validation'  => [
                 'token'    => ['required' => true, 'type' => 'string'],
-                'password' => ['required' => true, 'type' => 'string', 'min' => 12],
+                'password' => ['required' => true, 'type' => 'string', 'min' => 8],
             ],
         ],
         '/api/v1/auth/set-gender' => [

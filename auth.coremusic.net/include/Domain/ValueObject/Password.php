@@ -10,6 +10,9 @@ namespace CoreMusic\Auth\Domain\ValueObject;
  */
 final class Password
 {
+    /** Asgari şifre uzunluğu (AuthService::MIN_PASSWORD_LENGTH ile aynı değer). */
+    private const MIN_PASSWORD_LENGTH = 8;
+
     private function __construct(
         private readonly string $raw,
     ) {}
@@ -17,13 +20,13 @@ final class Password
     /**
      * Ham şifreden Password oluştur.
      *
-     * Faz 1b: asgari uzunluk 12 (ADR-020 şifre gücü). argon2id parametreleri
-     * değişmez (memory 65536 / time 4 / threads 2).
+     * Faz 1b: asgari uzunluk 8 (kullanıcı kararı; AuthService ile aynı kural).
+     * argon2id parametreleri değişmez (memory 65536 / time 4 / threads 2).
      */
     public static function create(string $rawPassword): self
     {
-        if (strlen($rawPassword) < 12) {
-            throw \CoreMusic\Exception\ValidationException::passwordTooShort(12);
+        if (strlen($rawPassword) < self::MIN_PASSWORD_LENGTH) {
+            throw \CoreMusic\Exception\ValidationException::passwordTooShort(self::MIN_PASSWORD_LENGTH);
         }
 
         return new self($rawPassword);

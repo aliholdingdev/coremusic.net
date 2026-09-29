@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace CoreMusic\Api\Test\Unit;
 
+use CoreMusic\Api\Middleware\RequestValidationMiddleware;
+use CoreMusic\Api\Middleware\Validator;
 use CoreMusic\Api\Routing\RouteTable;
 use PHPUnit\Framework\TestCase;
 
@@ -119,12 +121,13 @@ final class RouteConfigTest extends TestCase
             $this->assertNotEmpty($rules, "{$path} validation kural seti boş olamaz");
         }
 
-        // Şifre gücü: ≥ 12 (ADR-020) — login ve register kuralında da görünmeli
+        // Şifre gücü: ≥ 8 (ADR-020 — kullanıcı kararıyla 12 → 8)
+        // login ve register kuralında da görünmeli
         foreach (['/api/v1/auth/login', '/api/v1/auth/register', '/api/v1/auth/reset-password'] as $path) {
             $this->assertSame(
-                12,
+                8,
                 $this->routes['POST'][$path]['validation']['password']['min'] ?? null,
-                "{$path} password min=12 olmalı"
+                "{$path} password min=8 olmalı"
             );
         }
 
@@ -137,6 +140,46 @@ final class RouteConfigTest extends TestCase
             ['male', 'female', 'neutral'],
             $register['gender']['in'] ?? null
         );
+    }
+
+    /**
+     * Şifre tabanı sınırı (12 → 8 kararı):
+     *   tam 8 karakter GEÇERLİ · 7 karakter 422 VALIDATION_ERROR + error.fields.password
+     * Gerçek route kuralı (config/routes.php) + gerçek kural motoru (Validator)
+     * + gerçek middleware (RequestValidationMiddleware) üzerinden koşulur.
+     */
+    public function testPasswordBoundary8CharsPassesAnd7CharsYields422(): void
+    {
+        $route  = $this->routes['POST']['/api/v1/auth/register'];
+        $rules  = $route['validation'];
+        $base   = [
+            'username'    => 'demo',
+            'email'       => 'demo@example.com',
+            'gender'      => 'female',
+            'agree_terms' => true,
+        ];
+
+        // 1) 8 karakter → kural motoru password hatası üretmez
+        $errors8 = (new Validator())->validate($base + ['password' => 'abcd1234'], $rules);
+        $this->assertArrayNotHasKey('password', $errors8, 'Tam 8 karakterlik şifre geçerli olmalı');
+
+        // 2) 7 karakter → 422 VALIDATION_ERROR + error.fields.password
+        http_response_code(200);
+        $middleware = new RequestValidationMiddleware();
+        $response   = $middleware(
+            [
+                'method' => 'POST',
+                'server' => ['CONTENT_TYPE' => 'application/json'],
+                'body'   => json_encode($base + ['password' => 'abc1234'], JSON_THROW_ON_ERROR),
+                '_route' => $route,
+            ],
+            static fn (array $request): array => ['passthrough' => true]
+        );
+
+        $this->assertSame('VALIDATION_ERROR', $response['error']['code'] ?? null, '7 karakter 422 VALIDATION_ERROR');
+        $this->assertArrayNotHasKey('passthrough', $response, 'Kısa şifre handler\'a geçmemeli');
+        $this->assertSame(422, http_response_code());
+        $this->assertStringContainsString('8', (string) ($response['error']['fields']['password'] ?? ''));
     }
 
     public function testLogoutHasNoValidationRulesSoBodylessPostPasses(): void

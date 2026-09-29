@@ -56,8 +56,8 @@ if ($csrfTokenEsc === '') {
     <input type="hidden" name="token" value="">
     <div class="lgn-form__field">
       <label class="lgn-form__label" for="rp-pw">Yeni Şifre</label>
-      <input class="lgn-form__input" type="password" id="rp-pw" name="password" placeholder="En az 12 karakter" autocomplete="new-password" required minlength="12">
-      <p class="lgn-form__label" style="font-size:.7rem;opacity:.75;margin-top:6px;">İpucu: Yeni şifreniz en az 12 karakter olmalı.</p>
+      <input class="lgn-form__input" type="password" id="rp-pw" name="password" placeholder="En az 8 karakter" autocomplete="new-password" required minlength="8">
+      <p class="lgn-form__label" style="font-size:.7rem;opacity:.75;margin-top:6px;">İpucu: Yeni şifreniz en az 8 karakter olmalı.</p>
     </div>
     <button type="submit" class="lgn-btn" id="rp-submit">Şifremi Güncelle</button>
   </form>
@@ -112,8 +112,8 @@ if ($csrfTokenEsc === '') {
             return;
         }
         var pw=pwInput.value;
-        if(pw.length<12){
-            showMsg('Yeni şifre en az 12 karakter olmalı.',false);
+        if(pw.length<8){
+            showMsg('Yeni şifre en az 8 karakter olmalı.',false);
             pwInput.focus();
             return;
         }
