@@ -4,7 +4,7 @@ type: "architecture-decision"
 category: "infrastructure"
 date: "2026-09-29"
 updated: "2026-09-29"
-version: "1.1.1"
+version: "1.1.2"
 status: "accepted"
 authority: "SSOT — media.coremusic.net medya ağacı yerleşimi: tek disk ekseni (sanatçı → albüm → parça), iki kök (audio/video), ULID kalıcı kimlik, yan-JSON meta, kontrolü taksonomi + serbest etiket"
 kaynak: "Kullanıcı karar metni (2026-09-29) + disk kanıtı: ADR-039 L120, VISION.md L136, CLAUDE.md §2.1, C: sürücü ölçümü (2026-09-29), şablon .ai/.templates/adr/adr-template.md"
@@ -191,11 +191,11 @@ C:\www\coremusic.net\media.coremusic.net\     ← proje kökü (repo içinde, AD
 | # | Adım | Sorumlu | Süre | Durum |
 |---|------|---------|------|-------|
 | 1 | Bu ADR'yi şablondan üret + künye/§1-§7 dolu (Guardrail #16) | Vault Steward | 2 dk | ✅ UYGULANDI (2026-09-29) |
-| 2 | İskeleniz: `media\` + `src\` + `config\` + `docs\` ayrımı (yalnız dizin/config/docs — **taşınma yok**) | Backend + Data | 1 gün | ✅ UYGULANDI (2026-09-29 — 62 dizin + config 3 + docs 2) · `Test-Path 'C:\www\coremusic.net\media.coremusic.net\media'` = **True** |
-| 3 | `config\taxonomy.json` (kapalı taksonomi) + şema örnekleri `config/schema/*.json` + audit (regex/UTF-8) | Data Engineer | 2 gün | ⏳ PLANNED |
+| 2 | İskeleniz: `media\` + `src\` + `config\` + `docs\` ayrımı (yalnız dizin/config/docs — **taşınma yok**) — **Faz 2 alt maddeleri (2026-09-29):**<br>• **PHP CLI (Faz 2):** `bin/{scan,audit,ingest}.php` + `src/Media/{Slugger,Ulid,Taxonomy,Validator,CatalogWriter}.php` + `composer.json` → commit `50f8734` (2.060 satır PHP); `audit.php` ADR §6.1/§7.1 kurallarını denetler; `ingest.php` dry-run (CSV), `--commit` olmadan tek bayt kopyalamaz (tek kopya noktası `ingest.php:328`) — **⚠️ PHP bu makinede yok → `php -l`/çalışma testi YAPILMADI**<br>• **MySQL türetilmiş indeks:** `.ai/.sql/mysql/media_catalog.sql` — DB `media_catalog`, 9 tablo + `v_asset_search` (FULLTEXT), `utf8mb4_tr_0900_ai_ci`, BCNF, taxonomy 98 seed (17 anahtar), `asset_tag`→`taxonomy` FK — **⚠️ MySQL yok → DDL çalıştırılamadı**; `coremusic_media` BAŞKA DB (ana uygulamanın cihaz-senkron şeması, v8.0.0) — ezilmedi, geri alındı<br>• **Git kuralı:** `catalog/ reports/ vendor/ *.log` ignore + `!src/Media/` negasyonu (`media/` çapasızdı, `src/Media/` PHP kodunu yutuyordu)<br>• **Kararlar:** boş slug yedeği = `isimsiz` (2026-09-29) · audit/scan `--deep` bayrağı, varsayılan hafif mod = yeniden hash YOK (§6.1 k.5 ile uyumlu)<br>• **Test:** statik denetim 13 PASS / 1 FAIL (scan koşulsuz hash → düzeltildi) / 4 VR<br>• **Ertelenen:** GUI (faz 3) — başka oturum `.ai/ui-design/` dosyasını sıfırdan yeniden yazıyor, çakışma riski; ingest `--commit` ile dosya kopyalama ⏳ | Backend + Data | 1 gün | ✅ UYGULANDI (2026-09-29 — 62 dizin + config 3 + docs 2) · `Test-Path 'C:\www\coremusic.net\media.coremusic.net\media'` = **True** |
+| 3 | `config\taxonomy.json` (kapalı taksonomi) + şema örnekleri `config/schema/*.json` + audit (regex/UTF-8) | Data Engineer | 2 gün | ✅ UYGULANDI (2026-09-29 — `config/taxonomy.json` 17 anahtar + şema `config/media.schema.json` (`config/schema/*.json` yolu YOK — yol sapması, disk kanıtı) + `audit.php` statik denetim 13 PASS / 1 FAIL (scan koşulsuz hash → düzeltildi) / 4 VR; ayrıntı adım 2 alt maddesi) · **⚠️ PHP yok → `php -l`/çalışma testi YAPILMADI** |
 | 4 | Kaynak sayım (7.551 dosya / 38,33 GB) doğrulaması — **salt-okunur**, taşınmadan | Data Engineer | 2 saat | ⏳ PLANNED (R1) |
 | 5 | `inbox → aktif → saklı → tekrar → arşiv` yaşam döngüsü akışı + C: <31 GB izleme | Backend + DevOps | 3 gün | ⏳ PLANNED |
-| 6 | MySQL türetilmiş indeks (`utf8mb4_tr_0900_ai_ci`) + yeniden indeksleme çalıştırması | Data Engineer | 2 gün | ⏳ PLANNED |
+| 6 | MySQL türetilmiş indeks (`utf8mb4_tr_0900_ai_ci`) + yeniden indeksleme çalıştırması | Data Engineer | 2 gün | ✅ UYGULANDI (2026-09-29 — `media_catalog.sql` YAZILDI: 9 tablo + `v_asset_search` FULLTEXT, `utf8mb4_tr_0900_ai_ci`, BCNF; ayrıntı adım 2 alt maddesi) · ⏳ **DDL + yeniden indeksleme ÇALIŞTIRILAMADI — ⚠️ VERIFICATION REQUIRED (MySQL bu makinede yok)** · NOT: `coremusic_media` ezilmedi, geri alındı |
 | 7 | `.ai/.decisions/index.md` kayıt satırı (ADR-092) — **ayrı işlem, bu görevde YAZILMADI** | MO (vault-updater) | 1 dk | ⏳ PLANNED |
 
 ### §5.3 Geri Dönüş Planı
@@ -268,7 +268,7 @@ C:\www\coremusic.net\media.coremusic.net\     ← proje kökü (repo içinde, AD
 
 ---
 
-*ADR-092 v1.1.1 — CoreMusic Architecture Decision Record*
+*ADR-092 v1.1.2 — CoreMusic Architecture Decision Record*
 *Authority: ADR-092 Karar Metni (SSOT)*
 *Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*
