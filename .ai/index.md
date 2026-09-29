@@ -256,7 +256,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ### §9.3 Diğer Projeler
 
-[[projects/download-service]], [[projects/ipc-contracts]], [[projects/cpp-projects]], [[projects/WirelessConnect/proj-wireless-connect]], [[projects/NevaConnect/proj-neva-connect]]
+[[architecture/k8-servis/download-service]], [[projects/ipc-contracts]], [[projects/cpp-projects]], [[projects/WirelessConnect/proj-wireless-connect]], [[projects/NevaConnect/proj-neva-connect]]
 
 ---
 
@@ -341,12 +341,12 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | Knowledge | [[knowledge/verified]], [[knowledge/unverified]], [[knowledge/rejected]], [[confidence/README]] |
 | Subdomains | [[subdomains/README]], [[subdomains/auth.coremusic.net/index]], [[subdomains/music.coremusic.net/index]], [[subdomains/download.coremusic.net/domains/index]] |
 | UI-Design | [[ui-design/01-mockup-index]], [[ui-design/02-component-inventory]], [[ui-design/03-implementation-plan]], [[ui-design/04-accessibility-gaps]], [[ui-design/04-vault-registration]] |
-| UI-Design Screens | [[ui-design/screens/00-ascii-art-index]], [[ui-design/screens/A-auth/login]], [[ui-design/screens/B-home/dashboard]], [[ui-design/screens/C-music/albums]], [[ui-design/screens/D-player/playlist]], [[ui-design/screens/E-filemanager/disk-browser]], [[ui-design/screens/F-quickpanel/wifi]] |
+| UI-Design Screens | [[ui-design/screens/00-ascii-art-index]], [[ui-design/screens/shared/login]], [[ui-design/screens/B-home/dashboard]], [[ui-design/screens/T07-embedded/albums]], [[ui-design/screens/T07-embedded/playlist]], [[ui-design/screens/E-filemanager/disk-browser]], [[ui-design/screens/F-quickpanel/wifi]] |
 | PNG Mockups | `.ai/.png/home-1024/` (12 PNG) + `.ai/.png/home-1920/` (1 PNG) + `.ai/.png/shared-1024/` (6 PNG) = 19 PNG |
 | UI-Design Prompt | [[ui-design/prompt/00-prompt-index]], [[ui-design/prompt/screen/01-1024-embedded]], [[ui-design/prompt/component/C01-nav-link]], [[ui-design/prompt/layout/01-pattern-standard-60-40]], [[ui-design/prompt/page/01-home]] |
 | UI-Design Reference | [[ui-design/tokens/design-tokens-master]], [[ui-design/reference/01-php-source-architecture]], [[ui-design/reference/02-text-strings]], [[ui-design/reference/03-icon-asset-catalog]], [[ui-design/reference/04-verification]] |
 | UI-Design Flow | [[ui-design/flow/00-flow-index]], [[ui-design/flow/auth/04-select-gender]] |
-| Research | [[research/verified/php84-strict-types]], [[research/verified/argon2id]], [[research/verified/aes-256-gcm]], [[research/verified/pcm3168a]], [[research/verified/asio-sdk]], [[research/verified/juce8]], [[research/verified/xmos-xu316]], [[research/verified/trusted-types-domparser]], [[research/verified/itcss-bemit-layer]], [[research/verified/wcag-22-aa]], [[research/verified/mariadb-1011]] |
+| Research | [[research/verified/php84-strict-types]], [[research/verified/argon2id]], [[research/verified/aes-256-gcm]], [[research/verified/pcm3168a]], [[research/verified/asio-sdk]], [[research/verified/juce8]], [[architecture/k1-donanim/xmos-xu316]], [[research/verified/trusted-types-domparser]], [[research/verified/itcss-bemit-layer]], [[research/verified/wcag-22-aa]], [[research/verified/mariadb-1011]] |
 | Personas | [[.personas/index]], [[.personas/methodology]], [[.personas/mood-taxonomy]], [[.personas/research-bank]], [[.personas/test-scenarios-mapping]] |
 | Templates | [[.templates/index]] — 2026-09-24 sayım: 28 dosya (26 şablon + index.md + CLAUDE.md; +2 yeni: claude-md, docs-md); eski ad listesi: PHP, JS, CSS, C++, PHPUnit, Vitest, Migration, GitHub Actions, API-doc, Security-audit, ADR, Arduino, AVR, PIC, C, Node.js, ASP.NET, WikiPage, Query, Session) — ⚠️ VERIFICATION REQUIRED: Arduino/AVR/PIC diskte yok, liste sahip onayına açık |
 | Workflows | [[../.workflows/adr-creation]], [[workflows/dev-workflow]], [[workflows/code-review]], [[../.workflows/deployment]], [[../.workflows/hallucination-control]], [[../.workflows/security-audit]], [[../.workflows/session-init]], [[workflows/vault-sync-detailed]] |
@@ -410,7 +410,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | [[testing/e2e-template]] | E2E test şablonu |
 | [[.personas/methodology]] | Persona test protokolü *(yol düzeltildi 2026-09-26 — eski `testing/persona-test-protocol` hedefi yok)* |
 | [[testing/test-plan]] | Test planı |
-| [[testing/test-scenarios-mapping]] | Test senaryoları eşleme |
+| [[.personas/test-scenarios-mapping]] | Test senaryoları eşleme |
 
 ---
 
@@ -615,43 +615,43 @@ Toplam 80 ADR (Frozen: 37, Active: 31, Rejected: 12). Frozen: 001-037 (değişti
 
 | ADR | Konu | Kategori |
 |-----|------|----------|
-| [[decisions/accepted/ADR-001-vanilla-js-itcss]] | Vanilla JS + ITCSS, framework yasak | Frontend |
-| [[decisions/accepted/ADR-002-pdo-mandatory-no-orm]] | PDO mandatory, ORM yasak | Database |
-| [[decisions/accepted/ADR-003-multi-db-bcnf]] | 9 BCNF veritabanı | Database |
-| [[decisions/accepted/ADR-004-multi-domain-spa]] | Multi-domain SPA mimarisi | Architecture |
-| [[decisions/accepted/ADR-005-ultrathink-protocol]] | Zero hallucination protocol | Quality |
-| [[decisions/accepted/ADR-006-performance-targets]] | Performans hedefleri | Performance |
-| [[decisions/accepted/ADR-007-cache-namespace]] | Cache namespace standardı | Infrastructure |
-| [[decisions/accepted/ADR-008-bypass-auth-middleware]] | Auth bypass middleware | Security |
-| [[decisions/accepted/ADR-009-clean-url-redirect]] | Clean URL redirect | Routing |
-| [[decisions/accepted/ADR-010-csrf-protection-strategy]] | CSRF koruma stratejisi | Security |
-| [[decisions/accepted/ADR-011-session-management]] | Session yönetimi | Security |
-| [[decisions/accepted/ADR-012-csp-nonce-strict-dynamic]] | CSP nonce + strict-dynamic | Security |
-| [[decisions/accepted/ADR-013-rate-limiting-apcu]] | APCu rate limiting | Security |
-| [[decisions/accepted/ADR-014-multi-db-migration-strategy]] | Multi-DB migration | Database |
-| [[decisions/accepted/ADR-015-env-parser-strategy]] | Env parser stratejisi | Infrastructure |
-| [[decisions/accepted/ADR-016-url-normalization]] | URL normalization | Routing |
-| [[decisions/accepted/ADR-017-dsp-hardware-mode]] | DSP hardware mode (XMOS, JUCE) | Audio |
-| [[decisions/accepted/ADR-018-footer-player-vaporwave]] | Footer player vaporwave | UI |
-| [[decisions/accepted/ADR-019-per-os-neva-player]] | Per-OS Neva Player | Audio |
-| [[decisions/accepted/ADR-020-api-public-security]] | API public security | Security |
-| [[decisions/accepted/ADR-021-spa-router-immutable-contract]] | SPA router contract | Routing |
-| [[decisions/accepted/ADR-022-database-hardened-security]] | DB hardened security | Security |
-| [[decisions/accepted/ADR-023-persona-driven-testing]] | Persona-driven testing | Testing |
-| [[decisions/accepted/ADR-024-ecosystem-modular-docs]] | Ecosystem modular docs | Documentation |
-| [[decisions/accepted/ADR-025-professional-eq-system]] | Professional EQ system | Audio |
-| [[decisions/accepted/ADR-026-download-service-architecture]] | Download service arch | Architecture |
-| [[decisions/accepted/ADR-027-dual-mode-storage-strategy]] | Dual-mode storage | Infrastructure |
-| [[decisions/accepted/ADR-028-anti-ban-system]] | Anti-ban system | Download |
-| [[decisions/accepted/ADR-029-listening-rooms-social]] | Listening rooms social | Social |
-| [[decisions/accepted/ADR-030-ai-strategy-core]] | AI strategy core | AI |
-| [[decisions/accepted/ADR-031-mobile-strategy-pwa-flutter]] | Mobile strategy PWA/Flutter | Mobile |
-| [[decisions/accepted/ADR-032-ipc-contract-versioning]] | IPC contract versioning | Architecture |
-| [[decisions/accepted/ADR-033-sql-normalization-strategy]] | SQL normalization | Database |
-| [[decisions/accepted/ADR-034-credential-vault-normalization]] | Credential vault normalization | Security |
-| [[decisions/accepted/ADR-035-system-prompt-engineering]] | System prompt engineering | AI |
-| [[decisions/accepted/ADR-036-multi-project-prompt-maker]] | Multi-project prompt maker | AI |
-| [[decisions/accepted/ADR-037-wirelessconnect-integration]] | WirelessConnect integration | Integration |
+| [[.decisions/accepted/ADR-001-vanilla-js-itcss]] | Vanilla JS + ITCSS, framework yasak | Frontend |
+| [[.decisions/accepted/ADR-002-pdo-mandatory-no-orm]] | PDO mandatory, ORM yasak | Database |
+| [[.decisions/accepted/ADR-003-multi-db-bcnf]] | 9 BCNF veritabanı | Database |
+| [[.decisions/accepted/ADR-004-multi-domain-spa]] | Multi-domain SPA mimarisi | Architecture |
+| [[.decisions/accepted/ADR-005-ultrathink-protocol]] | Zero hallucination protocol | Quality |
+| [[.decisions/accepted/ADR-006-performance-targets]] | Performans hedefleri | Performance |
+| [[.decisions/accepted/ADR-007-cache-namespace]] | Cache namespace standardı | Infrastructure |
+| [[.decisions/accepted/ADR-008-bypass-auth-middleware]] | Auth bypass middleware | Security |
+| [[.decisions/accepted/ADR-009-clean-url-redirect]] | Clean URL redirect | Routing |
+| [[.decisions/accepted/ADR-010-csrf-protection-strategy]] | CSRF koruma stratejisi | Security |
+| [[.decisions/accepted/ADR-011-session-management]] | Session yönetimi | Security |
+| [[.decisions/accepted/ADR-012-csp-nonce-strict-dynamic]] | CSP nonce + strict-dynamic | Security |
+| [[.decisions/accepted/ADR-013-rate-limiting-apcu]] | APCu rate limiting | Security |
+| [[.decisions/accepted/ADR-014-multi-db-migration-strategy]] | Multi-DB migration | Database |
+| [[.decisions/accepted/ADR-015-env-parser-strategy]] | Env parser stratejisi | Infrastructure |
+| [[.decisions/accepted/ADR-016-url-normalization]] | URL normalization | Routing |
+| [[.decisions/accepted/ADR-017-dsp-hardware-mode]] | DSP hardware mode (XMOS, JUCE) | Audio |
+| [[.decisions/accepted/ADR-018-footer-player-vaporwave]] | Footer player vaporwave | UI |
+| [[.decisions/accepted/ADR-019-per-os-neva-player]] | Per-OS Neva Player | Audio |
+| [[.decisions/accepted/ADR-020-api-public-security]] | API public security | Security |
+| [[.decisions/accepted/ADR-021-spa-router-immutable-contract]] | SPA router contract | Routing |
+| [[.decisions/accepted/ADR-022-database-hardened-security]] | DB hardened security | Security |
+| [[.decisions/accepted/ADR-023-persona-driven-testing]] | Persona-driven testing | Testing |
+| [[.decisions/accepted/ADR-024-ecosystem-modular-docs]] | Ecosystem modular docs | Documentation |
+| [[.decisions/accepted/ADR-025-professional-eq-system]] | Professional EQ system | Audio |
+| [[.decisions/accepted/ADR-026-download-service-architecture]] | Download service arch | Architecture |
+| [[.decisions/accepted/ADR-027-dual-mode-storage-strategy]] | Dual-mode storage | Infrastructure |
+| [[.decisions/accepted/ADR-028-anti-ban-system]] | Anti-ban system | Download |
+| [[.decisions/accepted/ADR-029-listening-rooms-social]] | Listening rooms social | Social |
+| [[.decisions/accepted/ADR-030-ai-strategy-core]] | AI strategy core | AI |
+| [[.decisions/accepted/ADR-031-mobile-strategy-pwa-flutter]] | Mobile strategy PWA/Flutter | Mobile |
+| [[.decisions/accepted/ADR-032-ipc-contract-versioning]] | IPC contract versioning | Architecture |
+| [[.decisions/accepted/ADR-033-sql-normalization-strategy]] | SQL normalization | Database |
+| [[.decisions/accepted/ADR-034-credential-vault-normalization]] | Credential vault normalization | Security |
+| [[.decisions/accepted/ADR-035-system-prompt-engineering]] | System prompt engineering | AI |
+| [[.decisions/accepted/ADR-036-multi-project-prompt-maker]] | Multi-project prompt maker | AI |
+| [[.decisions/accepted/ADR-037-wirelessconnect-integration]] | WirelessConnect integration | Integration |
 
 ---
 

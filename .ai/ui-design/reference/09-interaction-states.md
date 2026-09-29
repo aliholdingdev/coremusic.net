@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — Interaction States
 
-**Zorunlu Bağlantılar:** [[02-component-inventory]] · [[tokens/component-tokens]] · [[04-accessibility-gaps]]
+**Zorunlu Bağlantılar:** [[ui-design/02-component-inventory]] · [[ui-design/tokens/component-tokens]] · [[ui-design/04-accessibility-gaps]]
 
 ---
 

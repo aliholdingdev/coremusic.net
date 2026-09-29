@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — Master Design Tokens
 
-**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[color-palettes]] · [[platform-tokens]] · [[component-tokens]]
+**Zorunlu Bağlantılar:** [[ui-design/00-device-matrix]] · [[ui-design/01-mockup-index]] · [[ui-design/02-component-inventory]] · [[color-palettes]] · [[platform-tokens]] · [[component-tokens]]
 
 ---
 

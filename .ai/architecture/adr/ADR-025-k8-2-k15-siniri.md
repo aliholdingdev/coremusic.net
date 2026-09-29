@@ -72,9 +72,9 @@ Belirsizlik üç sorun üretir:
 
 | # | Kısıt | Açıklama | Kaynak |
 |---|-------|----------|--------|
-| 1 | Dependency Rule | Alt katman üst katmana bakmaz; K15, K8.2'yi tanımaz | [[katman-baglilik-matrisi]] |
+| 1 | Dependency Rule | Alt katman üst katmana bakmaz; K15, K8.2'yi tanımaz | [[architecture/katman-baglilik-matrisi]] |
 | 2 | Tek SSOT | Bir konu tek dosyada anlatılır | [[CLAUDE.md]] guardrail |
-| 3 | K matrisi izni | K8.2 → K15 çağrısı matristeki izinli oklardan biri olmalı | [[katman-baglilik-matrisi]] §2.1-§2.2 |
+| 3 | K matrisi izni | K8.2 → K15 çağrısı matristeki izinli oklardan biri olmalı | [[architecture/katman-baglilik-matrisi]] §2.1-§2.2 |
 | 4 | K8.2 düğüm tanımı | K8.2 = servis ucu (iş emri, akış URL'si, kitaplık CRUD) — bağlayıcı | 3 tur uzlaşma |
 | 5 | K15 sahipliği | K15 = boru hattı/protokol sahibi (FFmpeg, transcode, HLS/DASH) — bağlayıcı | 3 tur uzlaşma |
 | 6 | Mevcut dosya değişikliği yasak | Bu görev mevcut README'leri değiştirmez; cümle gelecek adımda yazılır | Görev direktifi |
@@ -184,7 +184,7 @@ Belirsizlik üç sorun üretir:
 
 - FFmpeg'in tek SSOT'u: k15-medya-streaming/ffmpeg-pipeline.md — k8-servis/media-service.md'deki tekrar (§3.1) kapatılır.
 - K8.2 → K15 izinli ok; katman denetimi matriste tek satırla izlenir.
-- K8.2 sahip olduğu uçlar netleşir: iş emri, akış URL'si, kitaplık CRUD — sayımı [[katman-sayim-rehberi]] K8 satırında K8.2 düğümü olarak geçer.
+- K8.2 sahip olduğu uçlar netleşir: iş emri, akış URL'si, kitaplık CRUD — sayımı [[architecture/katman-sayim-rehberi]] K8 satırında K8.2 düğümü olarak geçer.
 - Birebir aynı cümle iki README'de görünürce tutarlılığı sağlar (birebir denetlenebilir).
 - FFmpeg sürüm atlamaları yalnız K15'i etkiler.
 
@@ -238,9 +238,9 @@ Sınır uygulanamazsa (örn. K15 arayüzü iş emrini taşıyamıyorsa): (1) cü
 
 | Dosya | İlişki |
 |-------|--------|
-| [[adlandirma-kurali]] | §1.1: K8.2 = servis ucu, K15 = boru hattı sahibi (bağlayıcı) |
-| [[katman-baglilik-matrisi]] | K8.2 → K15 izinli oku; K15 → K16-20 izni YOK (tek hedef K14) |
-| [[katman-sayim-rehberi]] | K8 (a=10) ve K15 (a=9) satırlarında K8.2 düğümü |
+| [[architecture/adlandirma-kurali]] | §1.1: K8.2 = servis ucu, K15 = boru hattı sahibi (bağlayıcı) |
+| [[architecture/katman-baglilik-matrisi]] | K8.2 → K15 izinli oku; K15 → K16-20 izni YOK (tek hedef K14) |
+| [[architecture/katman-sayim-rehberi]] | K8 (a=10) ve K15 (a=9) satırlarında K8.2 düğümü |
 | [[ADR-023-hibrit-derinlik]] | Sınır kararının derinlik/kanıt bağlamı |
 | [[ADR-024-surucu-firmware-birlesme]] | Benzer sınır/sahiplik kararı (firmware → K1.f) |
 | [[ADR-026-sayim-birimi-5000]] | K8.2 düğümünün sayım birimiyle eşlenmesi |

@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — Session Notes
 
-**Zorunlu Bağlantılar:** [[05-responsive-architecture]] · [[10-device-specific-guidelines]]
+**Zorunlu Bağlantılar:** [[ui-design/05-responsive-architecture]] · [[10-device-specific-guidelines]]
 
 ---
 

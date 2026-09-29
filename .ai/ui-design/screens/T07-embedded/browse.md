@@ -18,7 +18,7 @@ reference:
 
 # CoreMusic — Browse (T07 Embedded 1024×600)
 
-**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
+**Zorunlu Bağlantılar:** [[ui-design/00-device-matrix]] · [[ui-design/01-mockup-index]] · [[ui-design/02-component-inventory]] · [[ui-design/tokens/design-tokens-master]]
 
 ---
 
@@ -150,7 +150,7 @@ reference:
 
 - **Dosya:** `.ai/.png/home-1024/Linux  1024 - Göz At Page.png`
 - **Klasör:** `home-1024/` (12 PNG) · Alternatif açı: `.ai/.png/home-1920/Linux - 1920 - Home.png`
-- **Mockup indeksi:** [[01-mockup-index]]
+- **Mockup indeksi:** [[ui-design/01-mockup-index]]
 - **Kullanım sırası:** PNG > ASCII art > Inventory > Tokens > Reference (AGENTS.md §7.2)
 - **Figma:** frame `2831:9555` "Linux  1024 - Göz At Page" (typo yok) · Disk Buttons `18:3607` ailesi · Navigate `891:9227` (gizli alt elemanlar dâhil)
 

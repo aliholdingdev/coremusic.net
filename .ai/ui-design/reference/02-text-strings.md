@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — Text Strings (80+ Turkish UI)
 
-**Zorunlu Bağlantılar:** [[02-component-inventory]] · [[01-mockup-index]]
+**Zorunlu Bağlantılar:** [[ui-design/02-component-inventory]] · [[ui-design/01-mockup-index]]
 
 ---
 

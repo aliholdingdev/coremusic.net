@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — CSS Design Tokens Quick Reference
 
-**Zorunlu Bağlantılar:** [[tokens/design-tokens-master]] · [[tokens/color-palettes]]
+**Zorunlu Bağlantılar:** [[ui-design/tokens/design-tokens-master]] · [[ui-design/tokens/color-palettes]]
 
 ---
 

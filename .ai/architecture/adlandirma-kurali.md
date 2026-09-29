@@ -16,7 +16,7 @@ governance: Red Team · Human Mode · Truth Mode
 # CoreMusic — Katman Adlandırma Kuralı
 
 **Durum:** önerildi · **Tarih:** 2026-09-24 · **Kaynak:** 3 turlu agent tartışması 20 persona
-**Konum:** .ai/architecture/adlandirma-kurali.md · **İlgili:** [[katman-sayim-rehberi]] · [[ADR-023-hibrit-derinlik]]
+**Konum:** .ai/architecture/adlandirma-kurali.md · **İlgili:** [[katman-sayim-rehberi]] · [[architecture/adr/ADR-023-hibrit-derinlik]]
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index]] · [[brain.md]] · [[katman-baglilik-matrisi]] · [[frontend-restructuring-plan]] · [[.templates/index]]
 
@@ -147,7 +147,7 @@ Geçerli düğüm adı şu düzenli ifadeyle eşleşmelidir:
 | K{n} | 21 | Bağlayıcı karar — 21 ana katman sabit |
 | K{n}.a | Katman sayım tablosundaki "alt" değeri | [[katman-sayim-rehberi]] §4 |
 | K{n}.a.b | Katman sayım tablosundaki "orta" değeri (her a başına) | [[katman-sayim-rehberi]] §4 |
-| K{n}.a.b.c | Katman sayım tablosundaki "tavan" değeri + kanıt zorunluluğu | [[ADR-023-hibrit-derinlik]] |
+| K{n}.a.b.c | Katman sayım tablosundaki "tavan" değeri + kanıt zorunluluğu | [[architecture/adr/ADR-023-hibrit-derinlik]] |
 
 ### §3.3 4. Seviye Kanıt Üçlüsü (Zorunlu)
 
@@ -164,7 +164,7 @@ Bir K{n}.a.b.c düğümü **yalnızca** aşağıdaki kanıtlardan **en az biri**
 1. Kanıt (i) diskte ise düğüm kalıcıdır; README güncellenmemiş olsa da (i) tek başına yeterlidir.
 2. Kanıt yalnız (iii) ise (plan satırı) düğüm **PLANNED** etiketiyle işaretlenir; dosya üretilince (i) kazanılır.
 3. Üç kanıt da yoksa 4. seviye **yazım yasağı** — sayım scripti bu düğümü saymaz.
-4. Kanıt, kanıt tarihiyle birlikte sayım raporunda listelenir (şeffaflık → [[ADR-026-sayim-birimi-5000]]).
+4. Kanıt, kanıt tarihiyle birlikte sayım raporunda listelenir (şeffaflık → [[architecture/adr/ADR-026-sayim-birimi-5000]]).
 5. Kanıt silinirse (dosya/README/plan satırı) düğüm bir sonraki sayım turunda düşer; sessizce tutulamaz.
 
 ### §3.4 Derinlik Denetimi
@@ -291,7 +291,7 @@ Kapsam kanıtları: [[index]] §1 K0 satırı (Windows, Linux, macOS, RPi5, Reac
 
 ### §6.2 Link Taraması Zorunluluğu
 
-Taşımadan **önce ve sonra** wiki-link taraması zorunludur (bkz. [[ADR-024-surucu-firmware-birlesme]]):
+Taşımadan **önce ve sonra** wiki-link taraması zorunludur (bkz. [[architecture/adr/ADR-024-surucu-firmware-birlesme]]):
 
 | Aşama | Tarama | Kabul |
 |-------|--------|-------|
@@ -498,10 +498,10 @@ Get-ChildItem .ai -Recurse -Filter *.md | Select-String -Pattern '\[\[k-surucu/'
 | [[index]] | Katman kök adları ve bileşen sayıları |
 | [[frontend-restructuring-plan]] | §2.1-§2.2 — L şeması + 4. seviye kanıt (iii) |
 | [[katman-sayim-rehberi]] | Sayım birimi, 21 katman tablosu, script |
-| [[ADR-023-hibrit-derinlik]] | Derinlik ve tavan kararı (Aday C) |
-| [[ADR-024-surucu-firmware-birlesme]] | k-surucu→k2-surucu + K1.f ayrıntısı |
-| [[ADR-025-k8-2-k15-siniri]] | K8.2 → K15 çağrı okunun gerekçesi |
-| [[ADR-026-sayim-birimi-5000]] | Düğüm birimi ve kanıt şeffaflığı |
+| [[architecture/adr/ADR-023-hibrit-derinlik]] | Derinlik ve tavan kararı (Aday C) |
+| [[architecture/adr/ADR-024-surucu-firmware-birlesme]] | k-surucu→k2-surucu + K1.f ayrıntısı |
+| [[architecture/adr/ADR-025-k8-2-k15-siniri]] | K8.2 → K15 çağrı okunun gerekçesi |
+| [[architecture/adr/ADR-026-sayim-birimi-5000]] | Düğüm birimi ve kanıt şeffaflığı |
 
 ### §11.2 Değişiklik Geçmişi
 
@@ -511,7 +511,7 @@ Get-ChildItem .ai -Recurse -Filter *.md | Select-String -Pattern '\[\[k-surucu/'
 
 ---
 
-**REFACTOR REPORT:** FILE: adlandirma-kurali.md · PURPOSE: K{n}.a.b.c adlandırma dili, K7.0.x red, K0-01…K0-20 eşlemesi, L→K dönüşümü, A0-A5, ihlal denetimi · VALIDATION: yeni dosya, mevcut dosya değiştirilmedi · RELATED: [[katman-sayim-rehberi]] · [[ADR-023-hibrit-derinlik]] · [[ADR-024-surucu-firmware-birlesme]] · [[ADR-025-k8-2-k15-siniri]] · [[ADR-026-sayim-birimi-5000]]
+**REFACTOR REPORT:** FILE: adlandirma-kurali.md · PURPOSE: K{n}.a.b.c adlandırma dili, K7.0.x red, K0-01…K0-20 eşlemesi, L→K dönüşümü, A0-A5, ihlal denetimi · VALIDATION: yeni dosya, mevcut dosya değiştirilmedi · RELATED: [[katman-sayim-rehberi]] · [[architecture/adr/ADR-023-hibrit-derinlik]] · [[architecture/adr/ADR-024-surucu-firmware-birlesme]] · [[architecture/adr/ADR-025-k8-2-k15-siniri]] · [[architecture/adr/ADR-026-sayim-birimi-5000]]
 
 *CoreMusic Katman Adlandırma Kuralı v1.0.0 — Durum: önerildi · Tarih: 2026-09-24 · Kaynak: 3 turlu agent tartışması 20 persona*
 *Mode: Red Team · Human Mode · Truth Mode*

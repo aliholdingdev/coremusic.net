@@ -8,7 +8,7 @@ status: draft
 authority: PICCO / prompt-maker v11.0.0
 framework: PICCO
 source_figma: "https://www.figma.com/design/NFpX9bq58oApWJPgBK5Heo/Core-Music?node-id=1047-15802"
-related: "[[02-component-inventory]] · [[.templates/frontend/js-template]] · [[.templates/frontend/css-template]]"
+related: "[[ui-design/02-component-inventory]] · [[.templates/frontend/js-template]] · [[.templates/frontend/css-template]]"
 ---
 
 # CoreMusic Component System — MASTER PROMPT

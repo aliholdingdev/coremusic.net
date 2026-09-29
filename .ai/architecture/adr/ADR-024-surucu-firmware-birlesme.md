@@ -67,12 +67,12 @@ Vault'ta sürücü içeriği iki klasöre bölünmüştü; firmware ise üçünc
 
 | # | Kısıt | Açıklama | Kaynak |
 |---|-------|----------|--------|
-| 1 | 21 katman sabit | firmware için yeni ana katman (örn. K21) AÇILAMAZ | 3 tur uzlaşma / [[adlandirma-kurali]] |
+| 1 | 21 katman sabit | firmware için yeni ana katman (örn. K21) AÇILAMAZ | 3 tur uzlaşma / [[architecture/adlandirma-kurali]] |
 | 2 | Silme yasağı | Vault içinden dosya silmek revert + CRITICAL tetikler | In-Place Refactoring #4 |
 | 3 | Link bütünlüğü | Taşıma sonrası kırık wiki-link kalmaz | [[CLAUDE.md]] guardrail |
-| 4 | Dependency Rule | firmware ↔ K1 dosya düzeyinde bağımlılık kurmaz; K2 sürücüleri firmware'e dokunmaz | [[katman-baglilik-matrisi]] |
-| 5 | Sayım bütünlüğü | K1.f, [[katman-sayim-rehberi]] K1 satırında sayılır (ayrı satır değil) | [[ADR-026-sayim-birimi-5000]] |
-| 6 | Kanıt zorunluluğu | K1.f harfli segmenti yalnız firmware/ disk kanıtına dayanır (kanıt türü i) | [[adlandirma-kurali]] §3.3 |
+| 4 | Dependency Rule | firmware ↔ K1 dosya düzeyinde bağımlılık kurmaz; K2 sürücüleri firmware'e dokunmaz | [[architecture/katman-baglilik-matrisi]] |
+| 5 | Sayım bütünlüğü | K1.f, [[architecture/katman-sayim-rehberi]] K1 satırında sayılır (ayrı satır değil) | [[ADR-026-sayim-birimi-5000]] |
+| 6 | Kanıt zorunluluğu | K1.f harfli segmenti yalnız firmware/ disk kanıtına dayanır (kanıt türü i) | [[architecture/adlandirma-kurali]] §3.3 |
 
 ### §3.4 Web Araştırması Raporu
 
@@ -179,7 +179,7 @@ Vault'ta sürücü içeriği iki klasöre bölünmüştü; firmware ise üçünc
 - Tek sürücü klasörü: k2-surucu/ = K2 matris karşılığı (2026-09-24: 14 dosya).
 - 12 dosya kaybolmadı (move); k-surucu/ = 0 dosya — üç bağımsız ölçümle doğrulandı (glob, read, link taraması).
 - firmware/ yerinde: 8 dosya → K1.f; 21 katman sabitliği korundu.
-- K1.f sayımı K1 satırına bindi: [[katman-sayim-rehberi]] K1 (a=12) satırında başlık sütunu k1-donanim + firmware.
+- K1.f sayımı K1 satırına bindi: [[architecture/katman-sayim-rehberi]] K1 (a=12) satırında başlık sütunu k1-donanim + firmware.
 - Link taraması hem giriş (baseline) hem çıkış (sıfır kalıntı) kanıtı üretti.
 
 ### §6.2 Olumsuz Sonuçlar
@@ -236,14 +236,14 @@ Birleşim sakat bulunursa: (1) taşınan 12 dosya k2-surucu/ → k-surucu/ yön�
 
 | Dosya | İlişki |
 |-------|--------|
-| [[adlandirma-kurali]] | §6: k-surucu/k2-surucu/firmware klasör kuralı + K1.f |
-| [[katman-sayim-rehberi]] | §7 disk ölçümü (k-surucu=0, firmware=8) + betik kalemleri |
+| [[architecture/adlandirma-kurali]] | §6: k-surucu/k2-surucu/firmware klasör kuralı + K1.f |
+| [[architecture/katman-sayim-rehberi]] | §7 disk ölçümü (k-surucu=0, firmware=8) + betik kalemleri |
 | [[ADR-023-hibrit-derinlik]] | K1.f harfli segmentinin derinlik/sınır bağlamı |
 | [[ADR-025-k8-2-k15-siniri]] | Benzer sınır kararı (servis vs boru hattı sahibi) |
 | [[ADR-026-sayim-birimi-5000]] | Sayım birimi; firmware'in K1 satırında sayılması |
-| [[katman-baglilik-matrisi]] | K2 satırı (k2-surucu 14 dosya) + K2→K1 yönü |
+| [[architecture/katman-baglilik-matrisi]] | K2 satırı (k2-surucu 14 dosya) + K2→K1 yönü |
 | [[index]] | §5 ADR-024 Birleşim Kaydı |
-| [[github-referanslari]] | ADR-024 notları (k-surucu = 0) |
+| [[architecture/github-referanslari]] | ADR-024 notları (k-surucu = 0) |
 
 ---
 

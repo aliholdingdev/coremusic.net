@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — Icon Asset Catalog (50+ Icons)
 
-**Zorunlu Bağlantılar:** [[02-component-inventory]] · [[01-mockup-index]]
+**Zorunlu Bağlantılar:** [[ui-design/02-component-inventory]] · [[ui-design/01-mockup-index]]
 
 ---
 

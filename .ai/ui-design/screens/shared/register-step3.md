@@ -16,7 +16,7 @@ author: "Bayram Ali"
 
 # CoreMusic — Register Step 3 (T07 Embedded 1024×600)
 
-**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
+**Zorunlu Bağlantılar:** [[ui-design/00-device-matrix]] · [[ui-design/01-mockup-index]] · [[ui-design/02-component-inventory]] · [[ui-design/tokens/design-tokens-master]]
 
 ---
 

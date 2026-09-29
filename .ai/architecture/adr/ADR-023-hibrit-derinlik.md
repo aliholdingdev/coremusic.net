@@ -51,9 +51,9 @@ Ayrıca vault'ta iki ayrı "derinlik" fikri birlikte yaşamaktadır:
 
 | Kaynak | Derinlik Fikri | Durum |
 |--------|----------------|-------|
-| [[frontend-restructuring-plan]] §2.2 | 4. seviye (L11.1.4.13 = c-player.css) — 4 katmanlı kod dosyası planı | Mevcut, kanıtlı |
+| [[architecture/frontend-restructuring-plan]] §2.2 | 4. seviye (L11.1.4.13 = c-player.css) — 4 katmanlı kod dosyası planı | Mevcut, kanıtlı |
 | [[CLAUDE.md]] §32 | 4/7 katmanlı basitleştirilmiş L0-L3 şeması | Mevcut (ikinci "L" uzayı) |
-| [[adlandirma-kurali]] (bu tartışma) | K şeması: 3 seviye zorunlu + 4. seviye koşullu | Önerildi (bu ADR) |
+| [[architecture/adlandirma-kurali]] (bu tartışma) | K şeması: 3 seviye zorunlu + 4. seviye koşullu | Önerildi (bu ADR) |
 
 ### §3.2 Sorun Tanımı
 
@@ -70,12 +70,12 @@ Ayrıca vault'ta iki ayrı "derinlik" fikri birlikte yaşamaktadır:
 | # | Kısıt | Açıklama | Kaynak |
 |---|-------|----------|--------|
 | 1 | 21 ana katman sabit | K0-K20; K16-K20 bağımsız, K16-K20'ye yeni katman eklenmez | 3 tur uzlaşma |
-| 2 | Dependency Rule | Alt katman üst katmana bakmaz; derinlik bağımlılık yaratmaz | [[katman-baglilik-matrisi]] |
+| 2 | Dependency Rule | Alt katman üst katmana bakmaz; derinlik bağımlılık yaratmaz | [[architecture/katman-baglilik-matrisi]] |
 | 3 | Kanıt zorunluluğu | Kanıtsız düğüm uydurmadır; hallüsinasyon sayılır | [[CLAUDE.md]] guardrail |
 | 4 | 5000+ hedefi | min kapasite ≥ 5000 (betikle sınanır) | [[ADR-026-sayim-birimi-5000]] |
-| 5 | İkinci "L" uzayı | CLAUDE §32'nin 4 katmanlı L şeması K'ya otomatik çevrilmez | [[adlandirma-kurali]] §7.3 |
+| 5 | İkinci "L" uzayı | CLAUDE §32'nin 4 katmanlı L şeması K'ya otomatik çevrilmez | [[architecture/adlandirma-kurali]] §7.3 |
 | 6 | Uygulama maliyeti | Derin klasör ağacı (>4 seviye) navigasyon ve link bakımı pahalı | Vault kuralı (In-Place #4) |
-| 7 | Sayım denetlenebilirliği | Derinlik kuralı PowerShell betiğiyle taranabilir olmalı | [[katman-sayim-rehberi]] §9 |
+| 7 | Sayım denetlenebilirliği | Derinlik kuralı PowerShell betiğiyle taranabilir olmalı | [[architecture/katman-sayim-rehberi]] §9 |
 
 ### §3.4 Web Araştırması Raporu
 
@@ -131,10 +131,10 @@ K{n}.0.x                → YASAK (ara numara reddi, §4 madde 6)
 
 | Katman Sütunu | Ait Olduğu Tablo | Örnek Kullanım |
 |---------------|------------------|----------------|
-| Alt (a üst sınırı) | [[katman-sayim-rehberi]] §4 | K11 için a=11 → K11.1…K11.11 |
-| Orta (b üst sınırı) | [[katman-sayim-rehberi]] §4 | K11 için b=7 → K11.1.1…K11.1.7 |
-| Tavan (4. seviye üst sınırı) | [[katman-sayim-rehberi]] §4 | K11 için 330 — yalnız kanıtla |
-| Gerçek 4. seviye örneği | [[frontend-restructuring-plan]] §2.2 | L11.1.4.13 → K11.1.4.13 (c-player.css) |
+| Alt (a üst sınırı) | [[architecture/katman-sayim-rehberi]] §4 | K11 için a=11 → K11.1…K11.11 |
+| Orta (b üst sınırı) | [[architecture/katman-sayim-rehberi]] §4 | K11 için b=7 → K11.1.1…K11.1.7 |
+| Tavan (4. seviye üst sınırı) | [[architecture/katman-sayim-rehberi]] §4 | K11 için 330 — yalnız kanıtla |
+| Gerçek 4. seviye örneği | [[architecture/frontend-restructuring-plan]] §2.2 | L11.1.4.13 → K11.1.4.13 (c-player.css) |
 
 ---
 
@@ -143,7 +143,7 @@ K{n}.0.x                → YASAK (ara numara reddi, §4 madde 6)
 | # | Alternatif | Artıları | Eksileri | Neden Reddedildi |
 |---|-----------|----------|----------|-----------------|
 | A | **Şişirilmiş derinlik:** K9'u 30 slot yerine 240 slot (a×b) yapay genişletmek; kanıt olmadan 4. seviye açmak | Sayı hedefi kolayca şişer; betik erken yeşil döner | Kanıtsız düğüm = hallüsinasyon; K9 (k9-api-routing, 14 dosya) 240 yuvayla anlamsızlaşır; SRP ve izlenebilirlik çöker; link bakımı patlar | **RED:** Sayım hedefi içerik doğruluğunun önüne geçer; kanıt şeffaflığı ilkesi (ADR-026) ihlal edilir; 3 tur tartışmada 20 persona'nın çoğunluğu kanıtsız derinliği reddetti |
-| B | **Sığlaştırma:** 4. seviye tümüyle yasak; yalnız K{n}.a.b (3 seviye) | En basit kural; link grafiği minimal; denetim kolay | 3 seviyeyle tavan 1.500-3.500 bandına düşer → **5000 altı** kalır; kabul kriteri (min ≥ 5000) süresiz başarısız; [[frontend-restructuring-plan]] §2.2'deki kanıtlı L11.1.4.13 gibi 4. seviye satırları yetim kalır | **RED:** ADR-026'nın 5000+ bağlayıcı hedefi ile çelişir; mevcut kanıtlı 4. seviye planı çöpe gider |
+| B | **Sığlaştırma:** 4. seviye tümüyle yasak; yalnız K{n}.a.b (3 seviye) | En basit kural; link grafiği minimal; denetim kolay | 3 seviyeyle tavan 1.500-3.500 bandına düşer → **5000 altı** kalır; kabul kriteri (min ≥ 5000) süresiz başarısız; [[architecture/frontend-restructuring-plan]] §2.2'deki kanıtlı L11.1.4.13 gibi 4. seviye satırları yetim kalır | **RED:** ADR-026'nın 5000+ bağlayıcı hedefi ile çelişir; mevcut kanıtlı 4. seviye planı çöpe gider |
 | C | **Hibrit kanıt-üstü derinlik (SEÇİLEN)** | 3 seviye zorunlu + kanıtla 4. seviye; hedef bandı (5.152+) kanıtla ulaşılır; uydurma yok; 5. seviye tavanı sayesinde bakım sınırlı | Kanıt üretimi ek iş (README/plan satırı yazmak); betik ve tablo senkronu tutulmalı | — **SEÇİLDİ** — A ve B'nin tek başına kalıcı olmadığı tek formül; tüm kısıtları (§3.3) aynı anda karşılar |
 
 ### §5.1 Reddedilenlerin Karşılaştırma Matrisi
@@ -184,7 +184,7 @@ K{n}.0.x                → YASAK (ara numara reddi, §4 madde 6)
 | 2 | Sayım betiği ile tablo senkronu bozulur | Orta | Orta | Tablo + betik birlikte revize (katman-sayim-rehberi §9.1 kural 1) |
 | 3 | 5. seviye sessizce açılır (alışkanlık) | Düşük | Yüksek | regex denetimi: 4 noktadan fazla = RED; yeni ADR gerektirir |
 | 4 | K1/K13 sapması gizlenerek "düzeltilir" | Düşük | Orta | ADR-026 şeffaflık kuralı; ⚠️ satırları silinemez |
-| 5 | İki "L" uzayı karıştırılıp CLAUDE §32 düğümleri K'ya çevrilir | Orta | Orta | [[adlandirma-kurali]] §7.3 otomatik dönüşüm yasağı |
+| 5 | İki "L" uzayı karıştırılıp CLAUDE §32 düğümleri K'ya çevrilir | Orta | Orta | [[architecture/adlandirma-kurali]] §7.3 otomatik dönüşüm yasağı |
 | 6 | Alternatif A'ya geri dönüş baskısı ("sayım düşük kaldı") | Düşük | Yüksek | Bu ADR §5.1 matrisi; geri dönüş = yeni ADR + supersede |
 
 ---
@@ -195,8 +195,8 @@ K{n}.0.x                → YASAK (ara numara reddi, §4 madde 6)
 
 | # | Adım | Sorumlu | Durum |
 |---|------|---------|-------|
-| 1 | [[adlandirma-kurali]] yazımı (şablon, K7.0.x red, kanıt türleri, L→K) | Architect agent | ✅ 2026-09-24 |
-| 2 | [[katman-sayim-rehberi]] yazımı (tablo, ayrıştırma, betik, kabul kriteri) | Architect agent | ✅ 2026-09-24 |
+| 1 | [[architecture/adlandirma-kurali]] yazımı (şablon, K7.0.x red, kanıt türleri, L→K) | Architect agent | ✅ 2026-09-24 |
+| 2 | [[architecture/katman-sayim-rehberi]] yazımı (tablo, ayrıştırma, betik, kabul kriteri) | Architect agent | ✅ 2026-09-24 |
 | 3 | Bu ADR (ADR-023) + ADR-024/025/026 yazımı | Architect agent | ✅ 2026-09-24 |
 | 4 | scripts/katman-sayim.ps1 dosyasının diske yazılması ve ilk KABUL çıktısı | DevOps / Vault Steward | ⏳ |
 | 5 | README/index bileşen tablosu (kanıt ii) satırlarının 4. seviyeyle eşlenmesi | Domain agent'lar | ⏳ |
@@ -221,13 +221,13 @@ Derinlik kuralı uygulanamaz veya sakat bulunursa: (1) betik exit 1'i durdurucu 
 
 | Dosya | İlişki |
 |-------|--------|
-| [[adlandirma-kurali]] | Bu kararı yürürlüğe koyan adlandırma kuralı |
-| [[katman-sayim-rehberi]] | Sayım tablosu + betik + kabul kriteri |
+| [[architecture/adlandirma-kurali]] | Bu kararı yürürlüğe koyan adlandırma kuralı |
+| [[architecture/katman-sayim-rehberi]] | Sayım tablosu + betik + kabul kriteri |
 | [[ADR-026-sayim-birimi-5000]] | Sayım birimi ve 5000 hedefi |
 | [[ADR-024-surucu-firmware-birlesme]] | K1.f ve k-surucu derinlik kararları |
 | [[ADR-025-k8-2-k15-siniri]] | K8.2/K15 servis-boru hattı sınırı |
-| [[katman-baglilik-matrisi]] | Bağımlılık okları (derinlikten bağımsız) |
-| [[frontend-restructuring-plan]] | Kanıt türü (iii) kaynağı (L11.1.4.13) |
+| [[architecture/katman-baglilik-matrisi]] | Bağımlılık okları (derinlikten bağımsız) |
+| [[architecture/frontend-restructuring-plan]] | Kanıt türü (iii) kaynağı (L11.1.4.13) |
 | [[CLAUDE.md]] | §32 ikinci L uzayı (dönüşüm yasağı gerekçesi) |
 
 ---

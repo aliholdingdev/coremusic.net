@@ -10,9 +10,9 @@ updated: 2026-09-29
 
 # Agent Tartışma Turu Şablonu (3 Tur / 20 Persona)
 
-**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../AGENTS.md]] · [[adr-nygard-template]] · [[../architecture/adlandirma-kurali]] · [[../WORKFLOW.md]]
+**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[AGENTS.md]] · [[.templates/adr/adr-nygard-template]] · [[architecture/adlandirma-kurali]] · [[WORKFLOW.md]]
 
-> **Kullanım:** Mimari/katman/sınır/sayım kararı gerektiren her konuda **3 turlu, 20 participantlı** tartışma kaydını üretir. Çıktının kendisi bir **karar metni (ADR)** ile biter; ham tur kayıtları bu şablonda özetlenir. Tetikleme ve tur kuralları: [[../WORKFLOW.md]] §6.
+> **Kullanım:** Mimari/katman/sınır/sayım kararı gerektiren her konuda **3 turlu, 20 participantlı** tartışma kaydını üretir. Çıktının kendisi bir **karar metni (ADR)** ile biter; ham tur kayıtları bu şablonda özetlenir. Tetikleme ve tur kuralları: [[WORKFLOW.md]] §6.
 
 ---
 

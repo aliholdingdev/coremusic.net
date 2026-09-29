@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — PHP Source Architecture Reference
 
-**Zorunlu Bağlantılar:** [[05-responsive-architecture]] · [[10-device-specific-guidelines]]
+**Zorunlu Bağlantılar:** [[ui-design/05-responsive-architecture]] · [[10-device-specific-guidelines]]
 
 ---
 

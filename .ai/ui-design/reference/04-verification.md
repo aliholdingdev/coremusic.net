@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — UI Verification Protocol
 
-**Zorunlu Bağlantılar:** [[01-mockup-index]] · [[02-component-inventory]] · [[04-accessibility-gaps]]
+**Zorunlu Bağlantılar:** [[ui-design/01-mockup-index]] · [[ui-design/02-component-inventory]] · [[ui-design/04-accessibility-gaps]]
 
 ---
 

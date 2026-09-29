@@ -80,7 +80,7 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 | `log.md` (audit trail) | Tüm ajanlar (append-only) | ✅ Sadece ekleme |
 | `.ai/` vault | MO (koordinasyon) | ✅ Okuma serbest |
 
-**A0-A5 Alan Etiketleri (yalnız etiket; kanonik K matrisi [[.ai/architecture/katman-baglilik-matrisi.md]]):**
+**A0-A5 Alan Etiketleri (yalnız etiket; kanonik K matrisi [[architecture/katman-baglilik-matrisi.md]]):**
 
 | Alan | K katmanları | Kapsam |
 |------|-------------|--------|
@@ -678,9 +678,9 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 | § 5 Domain | [[CLAUDE.md]] §5 | K0-K20 katmanları |
 | § 6 Routing | [[engine.md]] §2 | Orkestrasyon bölümleri |
 | § 9 Handover | [[WORKFLOW.md]] §8.6 | Session init |
-| § 10 Eskalasyon | [[ADR-008-bypass-auth-middleware]] | Auth bypass |
+| § 10 Eskalasyon | [[.decisions/accepted/ADR-008-bypass-auth-middleware]] | Auth bypass |
 | § 15 Agent | [[.agents/AGENTS.md]] | Agent profilleri |
-| § 17 Edge | [[ADR-017-dsp-hardware-mode]] | ASIO/WASAPI |
+| § 17 Edge | [[.decisions/accepted/ADR-017-dsp-hardware-mode]] | ASIO/WASAPI |
 
 ---
 

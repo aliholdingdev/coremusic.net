@@ -276,7 +276,7 @@ Must follow:
 | 3 | Domain Boundary korunur | [[../../AGENTS.md]] §5 |
 | 4 | ADR kararlarına uyulur | [[../decisions/index]] |
 | 5 | SSOT kuralı (çelişkide kök kazanır) | [[../../AGENTS.md]] §26.2 |
-| 6 | Zero Code Before Plan | [[../WORKFLOW.md]] |
+| 6 | Zero Code Before Plan | [[WORKFLOW.md]] |
 | 7 | Template Mandatory (Guardrail #16) | [[../../.templates/index]] |
 | 8 | log.md append-only | [[../../AGENTS.md]] §25.3 |
 | 9 | Frozen ADR metni değiştirilmez | [[../../AGENTS.md]] §25.3 |

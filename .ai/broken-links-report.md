@@ -21,20 +21,20 @@ authority: report
 
 | Dosya | Satır | Eski hedef | Yeni hedef |
 |---|---|---|---|
-| `.claude/CLAUDE.md` | 659 | `[[ADR-017-dsp-hardware-mode]]` | `[[.decisions/accepted/ADR-017-dsp-hardware-mode]]` |
-| `.claude/CLAUDE.md` | 660 | `[[ADR-010-csrf-protection-strategy]]` | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` |
-| `.claude/CLAUDE.md` | 662 | `[[ADR-011-session-management]]` | `[[.decisions/accepted/ADR-011-session-management]]` |
-| `.claude/CLAUDE.md` | 816 | `[[decisions/accepted/ADR-001-vanilla-js-itcss]]` | `[[.decisions/accepted/ADR-001-vanilla-js-itcss]]` |
-| `.claude/CLAUDE.md` | 817 | `[[decisions/accepted/ADR-002-pdo-mandatory-no-orm]]` | `[[.decisions/accepted/ADR-002-pdo-mandatory-no-orm]]` |
-| `.claude/CLAUDE.md` | 818 | `[[decisions/accepted/ADR-010-csrf-protection-strategy]]` | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` |
-| `.claude/CLAUDE.md` | 819 | `[[decisions/accepted/ADR-011-session-management]]` | `[[.decisions/accepted/ADR-011-session-management]]` |
-| `.claude/CLAUDE.md` | 820 | `[[decisions/accepted/ADR-022-database-hardened-security]]` | `[[.decisions/accepted/ADR-022-database-hardened-security]]` |
-| `.claude/CLAUDE.md` | 882 | `[[ADR-010-csrf-protection-strategy]]` | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` |
+| `.claude/CLAUDE.md` | 659 | `[[.decisions/accepted/ADR-017-dsp-hardware-mode]]` | `[[.decisions/accepted/ADR-017-dsp-hardware-mode]]` |
+| `.claude/CLAUDE.md` | 660 | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` |
+| `.claude/CLAUDE.md` | 662 | `[[.decisions/accepted/ADR-011-session-management]]` | `[[.decisions/accepted/ADR-011-session-management]]` |
+| `.claude/CLAUDE.md` | 816 | `[[.decisions/accepted/ADR-001-vanilla-js-itcss]]` | `[[.decisions/accepted/ADR-001-vanilla-js-itcss]]` |
+| `.claude/CLAUDE.md` | 817 | `[[.decisions/accepted/ADR-002-pdo-mandatory-no-orm]]` | `[[.decisions/accepted/ADR-002-pdo-mandatory-no-orm]]` |
+| `.claude/CLAUDE.md` | 818 | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` |
+| `.claude/CLAUDE.md` | 819 | `[[.decisions/accepted/ADR-011-session-management]]` | `[[.decisions/accepted/ADR-011-session-management]]` |
+| `.claude/CLAUDE.md` | 820 | `[[.decisions/accepted/ADR-022-database-hardened-security]]` | `[[.decisions/accepted/ADR-022-database-hardened-security]]` |
+| `.claude/CLAUDE.md` | 882 | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` |
 | `.opencode/CLAUDE.md` | 659,660,662,816-820,882 | `.claude` ile hash-esit ayna — aynı 9 retarget | aynı |
-| `assets.coremusic.net/AGENTS.md` | 15 | `[[../AGENTS.md]]` | `[[../.ai/AGENTS.md]]` |
+| `assets.coremusic.net/AGENTS.md` | 15 | `[[AGENTS.md]]` | `[[../.ai/AGENTS.md]]` |
 | `assets.coremusic.net/AGENTS.md` | 77 | `[[../.ai/architecture/l3-presentation/itcss-architecture.md]]` | `[[../.ai/architecture/k11-ux/itcss-9-layer.md]]` |
-| `home.coremusic.net/CLAUDE.md` | 123 | `[[../AGENTS.md]]` | `[[../.ai/AGENTS.md]]` |
-| `assets.coremusic.net/CLAUDE.md` | 198 | `[[../AGENTS.md]]` | `[[../.ai/AGENTS.md]]` |
+| `home.coremusic.net/CLAUDE.md` | 123 | `[[AGENTS.md]]` | `[[../.ai/AGENTS.md]]` |
+| `assets.coremusic.net/CLAUDE.md` | 198 | `[[AGENTS.md]]` | `[[../.ai/AGENTS.md]]` |
 
 > ADR hedeflerinin tümü diskte gerçek dosyaya bağlandı: `.ai/.decisions/accepted/` altında ADR-001/002/010/011/017/022 dosyaları mevcut (9/26, commit `9695a2e` ile oluştu — frozen ADR metinlerine dokunulmadı, yalnız link yolu).
 

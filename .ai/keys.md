@@ -56,13 +56,13 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| CSRF, csrf_token, koruma | [[decisions/accepted/ADR-010-csrf-protection-strategy]] |
-| Session, COREMUSIC_SESS, idle | [[decisions/accepted/ADR-011-session-management]] |
-| CSP nonce, strict-dynamic | [[decisions/accepted/ADR-012-csp-nonce-strict-dynamic]] |
-| Rate Limit, APCu, 60 req/60s | [[decisions/accepted/ADR-013-rate-limiting-apcu]] |
-| Argon2id, AES-256-GCM, sifreleme | [[decisions/accepted/ADR-022-database-hardened-security]] |
-| credential vault, secret | [[decisions/accepted/ADR-034-credential-vault-normalization]] |
-| BypassAuth, test bypass | [[decisions/accepted/ADR-008-bypass-auth-middleware]] |
+| CSRF, csrf_token, koruma | [[.decisions/accepted/ADR-010-csrf-protection-strategy]] |
+| Session, COREMUSIC_SESS, idle | [[.decisions/accepted/ADR-011-session-management]] |
+| CSP nonce, strict-dynamic | [[.decisions/accepted/ADR-012-csp-nonce-strict-dynamic]] |
+| Rate Limit, APCu, 60 req/60s | [[.decisions/accepted/ADR-013-rate-limiting-apcu]] |
+| Argon2id, AES-256-GCM, sifreleme | [[.decisions/accepted/ADR-022-database-hardened-security]] |
+| credential vault, secret | [[.decisions/accepted/ADR-034-credential-vault-normalization]] |
+| BypassAuth, test bypass | [[.decisions/accepted/ADR-008-bypass-auth-middleware]] |
 | auth, kimlik dogrulama | subdomains/auth.coremusic.net/index |
 | OWASP, Top 10 | architecture/07-security/security/owasp-compliance |
 | encryption | architecture/07-security/encryption |
@@ -83,10 +83,10 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
 | 18 BCNF, normalizasyon | [[brain.md]] ADR-040-database-authority |
-| ORM, SELECT *, PDO | [[decisions/accepted/ADR-002-pdo-mandatory-no-orm]] |
-| multi-db, 18 veritabani | [[decisions/accepted/ADR-003-multi-db-bcnf]] |
-| migration, schema degisikligi | [[decisions/accepted/ADR-014-multi-db-migration-strategy]] |
-| SQL normalization | [[decisions/accepted/ADR-033-sql-normalization-strategy]] |
+| ORM, SELECT *, PDO | [[.decisions/accepted/ADR-002-pdo-mandatory-no-orm]] |
+| multi-db, 18 veritabani | [[.decisions/accepted/ADR-003-multi-db-bcnf]] |
+| migration, schema degisikligi | [[.decisions/accepted/ADR-014-multi-db-migration-strategy]] |
+| SQL normalization | [[.decisions/accepted/ADR-033-sql-normalization-strategy]] |
 | DB sync | [[brain.md]] ADR-050-multi-db-sync-strategy |
 | database master | architecture/k0-k5-software/k5-data-layer/database_master.md |
 | coremusic_musics | .sql/mysql/coremusic_musics.sql |
@@ -114,7 +114,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| ASIO, ses surucusu, low latency | [[decisions/accepted/ADR-017-dsp-hardware-mode]] |
+| ASIO, ses surucusu, low latency | [[.decisions/accepted/ADR-017-dsp-hardware-mode]] |
 | Neva Engine, C++, JUCE | projects/NevaEngine/overview |
 | equalizer, EQ, 31-band | projects/NevaEngine/equalizer-system |
 | DSP chain, routing matrix | projects/NevaEngine/eq-dsp-chain |
@@ -137,7 +137,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 |---------------|-------------|
 | PCM3168A, 8 kanal, DAC | [[brain.md]] ADR-038-8.1-sound-card-chip-selection |
 | PCM5122, REDDED, H001 | [[brain.md]] ADR-038-8.1-sound-card-chip-selection |
-| XMOS XU316, DSP | [[decisions/accepted/ADR-017-dsp-hardware-mode]] |
+| XMOS XU316, DSP | [[.decisions/accepted/ADR-017-dsp-hardware-mode]] |
 | AK4458, DAC opsiyonel | electronic/hardware/audio-interface.md *(Faz 1: electronic/ kök tasarım dosyaları kaldırıldı — gerçek konumlar alt klasörlerde)* |
 | Class AB, amfi, 100W | electronic/amplifier/ *(kök `amplifier-design.md` kaldırıldı — arşiv)* |
 | hardware roadmap, 3 faz | **DOĞRULAMA GEREKLİ** — `electronic/hardware-roadmap.md` vault'ta yok |
@@ -183,9 +183,9 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | tool calling, external tools | architecture/ai/tool-calling.md |
 | MCP, model context protocol | architecture/ai/mcp-integration.md |
 | AI workflow, recommendation engine | architecture/ai/ai-workflow.md |
-| AI strategy, prompt engineering | [[decisions/accepted/ADR-030-ai-strategy-core]] |
-| system prompt, prompt standards | [[decisions/accepted/ADR-035-system-prompt-engineering]] |
-| multi-project prompt | [[decisions/accepted/ADR-036-multi-project-prompt-maker]] |
+| AI strategy, prompt engineering | [[.decisions/accepted/ADR-030-ai-strategy-core]] |
+| system prompt, prompt standards | [[.decisions/accepted/ADR-035-system-prompt-engineering]] |
+| multi-project prompt | [[.decisions/accepted/ADR-036-multi-project-prompt-maker]] |
 | startup prompt loader | [[brain.md]] ADR-049-startup-prompt-loader |
 | AI electronics engine | architecture/ai/ai-electronics-engine.md |
 | AI workflow electronics | architecture/ai/ai-workflow-electronics.md |
@@ -668,7 +668,7 @@ Istenen Bilgi -> Ilk Kontrol:
 | Kaynak | Hedef |
 |--------|-------|
 | keys.md | [[CLAUDE.md]], [[AGENTS.md]], [[WORKFLOW.md]], [[index.md]], [[brain.md]], [[MEMORY.md]], [[log.md]] |
-| keys.md | [[decisions/accepted/ADR-004-multi-domain-spa]], [[decisions/accepted/ADR-005-ultrathink-protocol]] |
+| keys.md | [[.decisions/accepted/ADR-004-multi-domain-spa]], [[.decisions/accepted/ADR-005-ultrathink-protocol]] |
 
 ---
 

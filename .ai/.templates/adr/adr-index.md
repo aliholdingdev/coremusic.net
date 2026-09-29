@@ -128,10 +128,10 @@ Bu rehber, CoreMusic ADR (Architecture Decision Record) kümesine **sayısal nav
 
 | ADR | Slug (gerçek, `brain.md` §20/§22'de geçen) |
 |---|---|
-| ADR-010 | `[[ADR-010-csrf-protection-strategy]]` |
-| ADR-011 | `[[ADR-011-session-management]]` |
-| ADR-017 | `[[ADR-017-dsp-hardware-mode]]` |
-| ADR-022 | `[[ADR-022-database-hardened-security]]` |
+| ADR-010 | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` |
+| ADR-011 | `[[.decisions/accepted/ADR-011-session-management]]` |
+| ADR-017 | `[[.decisions/accepted/ADR-017-dsp-hardware-mode]]` |
+| ADR-022 | `[[.decisions/accepted/ADR-022-database-hardened-security]]` |
 
 > ⚠️ Slug'lar `brain.md` içinde düz metin olarak geçer; slug'ın hedeflediği dosya diskte glob ile **bulunamadı** (bkz. §2.0). Yeni slug üretirken bu 4 gerçek örüntüyü esas al.
 
@@ -212,8 +212,8 @@ flowchart TD
 | B1 | format `[[relative/path]]` | `[[../../brain.md]]` | `[brain.md](brain.md)` |
 | B2 | repoya göre göreli yol | `[[../../.templates/index.md]]` | `[[/c/www/...]]` |
 | B3 | uzantı dahil | `[[../../log.md]]` | `[[../../log]]` |
-| B4 | ADR slug'ı §2.3 gerçek örneklerden | `[[ADR-010-csrf-protection-strategy]]` | `[[ADR-999-yok-boyle]]` |
-| B5 | kırık hedef varsa ⚠️ düş | `[[ADR-017-dsp-hardware-mode]] ⚠️ diskte yok` | sessiz kırmızı link |
+| B4 | ADR slug'ı §2.3 gerçek örneklerden | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` | `[[ADR-999-yok-boyle]]` |
+| B5 | kırık hedef varsa ⚠️ düş | `[[.decisions/accepted/ADR-017-dsp-hardware-mode]] ⚠️ diskte yok` | sessiz kırmızı link |
 
 ```markdown
 # Şablon üst satırı (zorunlu bağlantı bloğu örneği)
@@ -313,7 +313,7 @@ Dizin güncelleme akışı (append-only):
 | Dizin sağlığı | bu şablon §6.2 | haftalık metrikler | haftalık |
 | İşlem kaydı | `[[../../log.md]]` | append-only (kural #7) | her işlem |
 
-> Slug kalıbı gerçek örneklerle sabit: `[[ADR-010-csrf-protection-strategy]]`, `[[ADR-089-classab-24v]]`, `[[R-001-redux-style-state-management]]` (§2.3 + `.ai/.decisions/index.md` §3/§5). Uydurma slug yasak; hedef diskte yoksa ⚠️ taşır (§2.0).
+> Slug kalıbı gerçek örneklerle sabit: `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]`, `[[.decisions/accepted/ADR-089-classab-24v]]`, `[[R-001-redux-style-state-management]]` (§2.3 + `.ai/.decisions/index.md` §3/§5). Uydurma slug yasak; hedef diskte yoksa ⚠️ taşır (§2.0).
 
 ### §3.9 Çapraz Referans Doğrulama Adımları (DOMAIN)
 
@@ -387,7 +387,7 @@ Dizin güncelleme akışı (append-only):
 
 ```markdown
 ❌ YANLIŞ: [ADR-010](decisions/ADR-010.md)        -- hedef yok + düz link
-✅ DOĞRU:  [[ADR-010-csrf-protection-strategy]] ⚠️ diskte yok -- brain.md §13.1
+✅ DOĞRU:  [[.decisions/accepted/ADR-010-csrf-protection-strategy]] ⚠️ diskte yok -- brain.md §13.1
 ```
 
 ---

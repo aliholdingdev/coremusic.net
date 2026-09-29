@@ -16,7 +16,7 @@ governance: Red Team · Human Mode · Truth Mode
 # CoreMusic — Katman Sayım Rehberi
 
 **Durum:** önerildi · **Tarih:** 2026-09-24 · **Kaynak:** 3 turlu agent tartışması 20 persona
-**Konum:** .ai/architecture/katman-sayim-rehberi.md · **İlgili:** [[adlandirma-kurali]] · [[ADR-026-sayim-birimi-5000]] · [[ADR-023-hibrit-derinlik]] · [[ADR-024-surucu-firmware-birlesme]]
+**Konum:** .ai/architecture/katman-sayim-rehberi.md · **İlgili:** [[adlandirma-kurali]] · [[architecture/adr/ADR-026-sayim-birimi-5000]] · [[architecture/adr/ADR-023-hibrit-derinlik]] · [[architecture/adr/ADR-024-surucu-firmware-birlesme]]
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index]] · [[brain.md]] · [[katman-baglilik-matrisi]] · [[frontend-restructuring-plan]] · [[.templates/index]]
 
@@ -472,9 +472,9 @@ if ($enDusuk -ge $HedefMinimum) {
 | Dosya | İlişki |
 |-------|--------|
 | [[adlandirma-kurali]] | Düğüm adlandırma sözdizimi ve 4. seviye kanıtları |
-| [[ADR-026-sayim-birimi-5000]] | Sayım birimi = DÜĞÜM kararı, 5000 hedefi |
-| [[ADR-023-hibrit-derinlik]] | Derinlik senaryosu (A/B/C) — hibrit derinlik |
-| [[ADR-024-surucu-firmware-birlesme]] | k-surucu = 0, firmware = 8 kontrol kalemleri |
+| [[architecture/adr/ADR-026-sayim-birimi-5000]] | Sayım birimi = DÜĞÜM kararı, 5000 hedefi |
+| [[architecture/adr/ADR-023-hibrit-derinlik]] | Derinlik senaryosu (A/B/C) — hibrit derinlik |
+| [[architecture/adr/ADR-024-surucu-firmware-birlesme]] | k-surucu = 0, firmware = 8 kontrol kalemleri |
 | [[katman-baglilik-matrisi]] | Bağımlılık okları (sayıma girmez) |
 | [[frontend-restructuring-plan]] | Kanıt türü (iii) kaynağı (§2.1-§2.2) |
 | [[index]] | Katman kataloğu |

@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — Device-Specific Guidelines (10 Categories)
 
-**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[tokens/platform-tokens]] · [[04-accessibility-gaps]]
+**Zorunlu Bağlantılar:** [[ui-design/00-device-matrix]] · [[ui-design/tokens/platform-tokens]] · [[ui-design/04-accessibility-gaps]]
 
 ---
 

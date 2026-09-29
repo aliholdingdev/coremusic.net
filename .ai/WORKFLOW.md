@@ -283,12 +283,12 @@ Müzik Dosyası → Metadata Çıkarma → DB Kaydı → İndeksleme → Arama �
 
 | İlke | Açıklama | ADR |
 |------|----------|-----|
-| Zero Code Before Plan | Kod yazmadan önce tam planlama zorunlu | [[ADR-007-cache-namespace]] |
+| Zero Code Before Plan | Kod yazmadan önce tam planlama zorunlu | [[.decisions/accepted/ADR-007-cache-namespace]] |
 | In-Place Modification | Dosya adı/konumu onay olmadan değişmez | Hard Rule #2 |
-| No Hallucination | Doğrulanamayan bilgi → `VERIFICATION REQUIRED` | [[ADR-005-ultrathink-protocol]] |
-| Append-Only Log | Geçmiş kayıtlar silinemez | [[ADR-004-multi-domain-spa]] |
-| Hard Gate | Kullanıcı onayı olmadan sonraki faza geçilmez | [[ADR-007-cache-namespace]] |
-| Domain Boundary | Her ajan kendi alanında kalır | [[ADR-008-bypass-auth-middleware]] |
+| No Hallucination | Doğrulanamayan bilgi → `VERIFICATION REQUIRED` | [[.decisions/accepted/ADR-005-ultrathink-protocol]] |
+| Append-Only Log | Geçmiş kayıtlar silinemez | [[.decisions/accepted/ADR-004-multi-domain-spa]] |
+| Hard Gate | Kullanıcı onayı olmadan sonraki faza geçilmez | [[.decisions/accepted/ADR-007-cache-namespace]] |
+| Domain Boundary | Her ajan kendi alanında kalır | [[.decisions/accepted/ADR-008-bypass-auth-middleware]] |
 | Single Source of Truth | Bilgi sadece `.ai/` vault'tan okunur | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 |
 
 ---
@@ -747,12 +747,12 @@ Session Sonunda:
 
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
-| § 4 Core Principles | [[ADR-007-cache-namespace]] | Zero Code Before Plan |
-| § 7 ADR Lifecycle | [[ADR-004-multi-domain-spa]] | Vault versiyonlama |
-| § 8.4 Security Audit | [[ADR-010-csrf-protection-strategy]] | CSRF |
-| § 8.4 Security Audit | [[ADR-022-database-hardened-security]] | Şifreleme |
-| § 9 Hard Gates | [[ADR-007-cache-namespace]] | Onay mekanizması |
-| § 10 Rules | [[ADR-008-bypass-auth-middleware]] | Auth bypass |
+| § 4 Core Principles | [[.decisions/accepted/ADR-007-cache-namespace]] | Zero Code Before Plan |
+| § 7 ADR Lifecycle | [[.decisions/accepted/ADR-004-multi-domain-spa]] | Vault versiyonlama |
+| § 8.4 Security Audit | [[.decisions/accepted/ADR-010-csrf-protection-strategy]] | CSRF |
+| § 8.4 Security Audit | [[.decisions/accepted/ADR-022-database-hardened-security]] | Şifreleme |
+| § 9 Hard Gates | [[.decisions/accepted/ADR-007-cache-namespace]] | Onay mekanizması |
+| § 10 Rules | [[.decisions/accepted/ADR-008-bypass-auth-middleware]] | Auth bypass |
 | § 11 Edge Cases | [[brain.md]] ADR-044-dynamic-user-theme-engine | Tema engine |
 | § 8.8 YAML Formatter | CI/CD, GitHub Actions | YAML format standartları |
 | § UI Design | [[ui-design/01-mockup-index]] | Mockup indeksi — frontend görevlerinde ZORUNLU |

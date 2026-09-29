@@ -20,7 +20,7 @@ related:
 
 # CoreMusic — Albums (T07 Embedded 1024×600)
 
-Zorunlu Bağlantılar: [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
+Zorunlu Bağlantılar: [[ui-design/00-device-matrix]] · [[ui-design/01-mockup-index]] · [[ui-design/02-component-inventory]] · [[ui-design/tokens/design-tokens-master]]
 
 ---
 
@@ -164,14 +164,14 @@ Uygulama kuralı (şablon §6 + token master §2.1.2 — bu ekran için kesin ku
 
 **PNG (yerel):** `C:\www\coremusic.net\.png\home-1024\Linux  1024 - Albumler Page.png` (1024×600) ✅ okundu
 **Figma (tier alt kümesi):** node `2862:8464` (Anahtar Kelime 4-5 "Albüm Page" 1024×600, extracted: `.ai/ui-design/_extracted/`)
-**Mockup dizini:** `.ai/ui-design/` → [[01-mockup-index]]
+**Mockup dizini:** `.ai/ui-design/` → [[ui-design/01-mockup-index]]
 **ASCII:** §1 bu dosyada.
 
 Çatışma yok: PNG ↔ ASCII hizalı (footer y510, panel (21,69)). Kategori (Pop/Arabesk vb.) metinleri Figma'dan, kapaklar/görseller PNG'den; API verisi yok → `API'den gelmedi`.
 
 ## 8. Responsive Davranış (Tier Etkisi)
 
-Bu ekran **sabit 1024×600** içindir; davranış → [[05-responsive-architecture]] §7.4 + §12. Tier davranışı (matrix):
+Bu ekran **sabit 1024×600** içindir; davranış → [[ui-design/05-responsive-architecture]] §7.4 + §12. Tier davranışı (matrix):
 
 - T07 sabit: CSS `zoom`/ölçekleme (Figma scaleFactor 1.0) — grid 4 kolon sabit kalır, `clamp()` ile değil.
 - Farklı görüntü alanlarına kaydırma/boyut sözü verilmez; kırılma davranışı bu dosyanın konusu değildir.

@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — Component Tokens (C01-C16)
 
-**Zorunlu Bağlantılar:** [[design-tokens-master]] · [[02-component-inventory]] · [[platform-tokens]]
+**Zorunlu Bağlantılar:** [[design-tokens-master]] · [[ui-design/02-component-inventory]] · [[platform-tokens]]
 
 ---
 

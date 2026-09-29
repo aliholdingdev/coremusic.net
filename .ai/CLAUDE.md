@@ -656,10 +656,10 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Durum | Çözüm | ADR |
 |-------|-------|-----|
-| USB cihaz çıkarma | WASAPI fallback | [[ADR-017-dsp-hardware-mode]] |
-| Multi-Tab CSRF | Session-bound tek token | [[ADR-010-csrf-protection-strategy]] |
+| USB cihaz çıkarma | WASAPI fallback | [[.decisions/accepted/ADR-017-dsp-hardware-mode]] |
+| Multi-Tab CSRF | Session-bound tek token | [[.decisions/accepted/ADR-010-csrf-protection-strategy]] |
 | BCNF violation | 3NF → BCNF audit | [[brain.md]] ADR-040-database-authority |
-| Session timeout (3600s) | Otomatik yeniden auth | [[ADR-011-session-management]] |
+| Session timeout (3600s) | Otomatik yeniden auth | [[.decisions/accepted/ADR-011-session-management]] |
 | Layer violation | Derhal revert | CLAUDE.md §7 |
 | PCM5122 kullanımı | PCM3168A veya AK4458 | [[brain.md]] ADR-038-8.1-sound-card-chip-selection |
 | Network outage | Offline-First + SQLite queue | — |
@@ -813,11 +813,11 @@ Diğer terimler → [[glossary]]: SSOT, ADR, CSRF, CSP, BCNF, RBAC, OWASP, ASIO,
 
 | ADR | Konu | Durum |
 |-----|------|-------|
-| [[decisions/accepted/ADR-001-vanilla-js-itcss]] | Vanilla JS + ITCSS, framework yasak | Frozen |
-| [[decisions/accepted/ADR-002-pdo-mandatory-no-orm]] | PDO mandatory, ORM yasak | Frozen |
-| [[decisions/accepted/ADR-010-csrf-protection-strategy]] | CSRF token = `csrf_token` | Frozen |
-| [[decisions/accepted/ADR-011-session-management]] | Session yönetimi | Frozen |
-| [[decisions/accepted/ADR-022-database-hardened-security]] | DB güvenlik sertleştirme | Frozen |
+| [[.decisions/accepted/ADR-001-vanilla-js-itcss]] | Vanilla JS + ITCSS, framework yasak | Frozen |
+| [[.decisions/accepted/ADR-002-pdo-mandatory-no-orm]] | PDO mandatory, ORM yasak | Frozen |
+| [[.decisions/accepted/ADR-010-csrf-protection-strategy]] | CSRF token = `csrf_token` | Frozen |
+| [[.decisions/accepted/ADR-011-session-management]] | Session yönetimi | Frozen |
+| [[.decisions/accepted/ADR-022-database-hardened-security]] | DB güvenlik sertleştirme | Frozen |
 | [[brain.md]] ADR-038-8.1-sound-card-chip-selection | PCM3168A + XMOS XU316 | Active |
 | [[brain.md]] ADR-040-database-authority | 18 BCNF DB otoritesi | Active |
 | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault restructuring, PHP 8.4, port 81 | Active |
@@ -880,7 +880,7 @@ Her oturum başlangıcında sırayla okunur:
 | Bölüm | Hedef | İlişki |
 |-------|-------|--------|
 | § 5 Mimari | [[architecture/k0-isletim-sistemi]] | L0-L6 katmanları |
-| § 6 Middleware | [[ADR-010-csrf-protection-strategy]] | Middleware sırası |
+| § 6 Middleware | [[.decisions/accepted/ADR-010-csrf-protection-strategy]] | Middleware sırası |
 | § 9 Paneller | [[brain.md]] ADR-043-auth-subdomain-consolidation | Auth konsolidasyonu |
 | § 12 Teknoloji | [[brain.md]] | Tech stack detayları |
 | § 15 Tema | [[brain.md]] ADR-044-dynamic-user-theme-engine | Theme engine |

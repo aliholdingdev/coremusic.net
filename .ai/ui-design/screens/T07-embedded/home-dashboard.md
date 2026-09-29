@@ -18,7 +18,7 @@ reference:
 
 # CoreMusic — Home Dashboard (T07 Embedded 1024×600)
 
-**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
+**Zorunlu Bağlantılar:** [[ui-design/00-device-matrix]] · [[ui-design/01-mockup-index]] · [[ui-design/02-component-inventory]] · [[ui-design/tokens/design-tokens-master]]
 
 ---
 
@@ -137,7 +137,7 @@ reference:
 
 - **Dosya:** `.ai/.png/home-1024/Linux  1024 - Home Page.png`
 - **Klasör:** `home-1024/` (12 PNG) · Alternatif açı: `.ai/.png/home-1920/Linux - 1920 - Home.png`
-- **Mockup indeksi:** [[01-mockup-index]]
+- **Mockup indeksi:** [[ui-design/01-mockup-index]]
 - **Kullanım sırası:** PNG > Figma extracted > ASCII — çelişki §5'e "ÇELİŞKİ" olarak yazılır (AGENTS.md §7.2)
 - **`screens/00-ascii-art-index.md` satırı:** BEKLEMEDE (bu görevde indeks dosyası yazım yasağı)
 
@@ -145,10 +145,10 @@ reference:
 
 | Davranış | Kural | Kaynak |
 |----------|-------|--------|
-| Kırılma davranışı | T07 1024×600 sabit grid (widget row1 2×2 · row2/row3 1×5 — C17/C18 kuralı); yeniden akış yok | [[05-responsive-architecture]] §7.4 + §12 |
-| Tier sıçraması | `T01 → T03 → T07 → T17 → T25 → T29 → T31` | [[00-device-matrix]] |
+| Kırılma davranışı | T07 1024×600 sabit grid (widget row1 2×2 · row2/row3 1×5 — C17/C18 kuralı); yeniden akış yok | [[ui-design/05-responsive-architecture]] §7.4 + §12 |
+| Tier sıçraması | `T01 → T03 → T07 → T17 → T25 → T29 → T31` | [[ui-design/00-device-matrix]] |
 | Görsel ölçek | Piksel ölçüler `rem`/token'a çevrilir; ham px yalnız ASCII Layout'ta | Token-First |
-| Fallback | Tier'a ait spec yoksa bir üst/alt tier spec'i + §12 fallback kuralı | [[05-responsive-architecture]] §12 |
+| Fallback | Tier'a ait spec yoksa bir üst/alt tier spec'i + §12 fallback kuralı | [[ui-design/05-responsive-architecture]] §12 |
 | Portre/Dikey | `N/A (landscape-only)` | `reference/10-device-specific-guidelines` |
 
 ## 9. State Durumları

@@ -18,7 +18,7 @@ reference:
 
 # CoreMusic — Browse Clicked / Dosya Listesi (T07 Embedded 1024×600)
 
-**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
+**Zorunlu Bağlantılar:** [[ui-design/00-device-matrix]] · [[ui-design/01-mockup-index]] · [[ui-design/02-component-inventory]] · [[ui-design/tokens/design-tokens-master]]
 
 ---
 
@@ -144,7 +144,7 @@ reference:
 ## 7. PNG Referansı
 
 - **Dosya:** `.ai/.png/home-1024/Linux  1024 - Göz At - Tıklama Clicked.png`
-- **Klasör:** `home-1024/` (12 PNG) · Mockup indeksi: [[01-mockup-index]]
+- **Klasör:** `home-1024/` (12 PNG) · Mockup indeksi: [[ui-design/01-mockup-index]]
 - **Kullanım sırası:** PNG > ASCII art > Inventory > Tokens > Reference (AGENTS.md §7.2)
 - **Figma:** frame `2831:10282` (v5, abs 1751,2186 · 1024×600) · Items `2831:10359` · label `2831:10364` · Search `2831:10370` · Actions `2831:10374` · Sağ Panel `2831:10380`
 

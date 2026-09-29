@@ -26,9 +26,9 @@ author: "Bayram Ali (Vault Steward)"
 # CoreMusic — Welcome Popup (T17 Desktop Monitor 1920×1080)
 
 **Zorunlu bağlantılar:**
-- [[01-mockup-index.md]]
-- [[02-component-inventory.md]]
-- [[04-accessibility-gaps.md]]
+- [[ui-design/01-mockup-index]]
+- [[ui-design/02-component-inventory]]
+- [[ui-design/04-accessibility-gaps]]
 - [[../../tokens/design-tokens-master]]
 
 ---

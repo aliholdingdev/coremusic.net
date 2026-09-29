@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — Frontend Reference (ITCSS, Vanilla JS, BEM)
 
-**Zorunlu Bağlantılar:** [[05-responsive-architecture]] · [[02-component-inventory]] · [[03-implementation-plan]]
+**Zorunlu Bağlantılar:** [[ui-design/05-responsive-architecture]] · [[ui-design/02-component-inventory]] · [[ui-design/03-implementation-plan]]
 
 ---
 

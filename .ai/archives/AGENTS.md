@@ -24,7 +24,7 @@ Tarihsel prompt arşivi: prompt0-genel, prompt1-spa-router, prompt2-auth, prompt
 2. Canlı promptlar buraya yazılmaz
 
 ## 5. İlgili Kaynaklar
-[[../../prompt/AGENTS.md]] · [[../../decisions/accepted/ADR-035-system-prompt-engineering.md]]
+[[../../prompt/AGENTS.md]] · [[.decisions/accepted/ADR-035-system-prompt-engineering.md]]
 
 ---
 

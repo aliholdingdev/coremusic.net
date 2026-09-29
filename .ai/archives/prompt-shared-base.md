@@ -4,7 +4,7 @@ type: prompt-base
 category: shared
 date: 2026-08-15
 ---
-> **⚠️ ARŞİV — Bu dosya tarihsel bir belgedir.** Middleware pipeline ve nonce akışı hakkında güncel bilgi için [[.ai/CLAUDE.md]] §6 ve [[.ai/brain.md]] §6 okunur.
+> **⚠️ ARŞİV — Bu dosya tarihsel bir belgedir.** Middleware pipeline ve nonce akışı hakkında güncel bilgi için [[CLAUDE.md]] §6 ve [[brain.md]] §6 okunur.
 updated: 2026-08-15
 status: active
 version: 2.0.0
@@ -59,7 +59,7 @@ changelog:
 
 **⚠️ ZORUNLU:** Bu dosya tüm promptların (prompt0-3) ortak temelidir. Her prompt dosyası bu dosyaya referans verir. ROLE, sistem tanımı ve standartlar burada tanımlıdır — promptlarda tekrar edilmez.
 
-**Zorunlu Bağlantılar:** [[../../CLAUDE.md]] · [[../../AGENTS.md]] · [[../../WORKFLOW.md]] · [[../../brain.md]] · [[../../index.md]] · [[../../keys.md]] · [[../../ROLE.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[index.md]] · [[keys.md]] · [[ROLE.md]]
 
 ---
 
@@ -142,7 +142,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 ## 3. L0-L6 Katman Mimarisi
 
-*Detaylı metadata: [[../../brain.md]] §5, [[../../architecture/l0-infrastructure/index]]*
+*Detaylı metadata: [[brain.md]] §5, [[../../architecture/l0-infrastructure/index]]*
 
 ### 3.1 Katman Tanımları
 
@@ -176,7 +176,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 ## 4. SOLID Prensipleri
 
-*Detaylı metadata: [[../../brain.md]] §3, [[../../ROLE.md]] §20*
+*Detaylı metadata: [[brain.md]] §3, [[ROLE.md]] §20*
 
 | Prensipl | Açıklama | Uygulama |
 |----------|----------|----------|
@@ -202,7 +202,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 ## 5. Clean Code Standartları
 
-*Detaylı metadata: [[../../brain.md]] §18*
+*Detaylı metadata: [[brain.md]] §18*
 
 ### 5.1 PHP Standartları
 
@@ -247,7 +247,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 ## 6. Yasak Örüntüler (Forbidden Patterns)
 
-*Detaylı metadata: [[../../CLAUDE.md]] §21*
+*Detaylı metadata: [[CLAUDE.md]] §21*
 
 | ❌ Yasak | ✅ Doğru | ADR |
 |----------|----------|-----|
@@ -271,7 +271,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 
 ## 7. Hard Guardrails (16 Kural)
 
-*Detaylı metadata: [[../../CLAUDE.md]] §7*
+*Detaylı metadata: [[CLAUDE.md]] §7*
 
 | # | Kural | İhlal Sonucu |
 |---|-------|-------------|
@@ -319,7 +319,7 @@ HTTP Request
 
 ## 9. Teknoloji Yığını
 
-*Detaylı metadata: [[../../brain.md]] §4, §4A, §4B*
+*Detaylı metadata: [[brain.md]] §4, §4A, §4B*
 
 ### 9.1 Temel Stack
 
@@ -372,16 +372,16 @@ HTTP Request
 
 | Bölüm | Hedef Vault Dosyası | İlişki |
 |-------|---------------------|--------|
-| §1 ROLE | [[../../ROLE.md]] | 55 uzmanlık alanı |
-| §2 Sistem | [[../../CLAUDE.md]] §4 | Platform tanımı |
-| §3 Katmanlar | [[../../brain.md]] §5 | L0-L6 tanımları |
-| §4 SOLID | [[../../brain.md]] §3 | Mühendislik prensipleri |
-| §5 Clean Code | [[../../brain.md]] §18 | Kodlama standartları |
-| §6 Yasaklar | [[../../CLAUDE.md]] §21 | Forbidden patterns |
-| §7 Guardrails | [[../../CLAUDE.md]] §7 | 16 hard guardrail |
+| §1 ROLE | [[ROLE.md]] | 55 uzmanlık alanı |
+| §2 Sistem | [[CLAUDE.md]] §4 | Platform tanımı |
+| §3 Katmanlar | [[brain.md]] §5 | L0-L6 tanımları |
+| §4 SOLID | [[brain.md]] §3 | Mühendislik prensipleri |
+| §5 Clean Code | [[brain.md]] §18 | Kodlama standartları |
+| §6 Yasaklar | [[CLAUDE.md]] §21 | Forbidden patterns |
+| §7 Guardrails | [[CLAUDE.md]] §7 | 16 hard guardrail |
 | §8 Middleware | [[../../architecture/l1-security/middleware]] | Pipeline |
-| §9 Tech Stack | [[../../brain.md]] §4 | Teknoloji yığını |
-| §10 Referanslar | [[../../index.md]] | Master katalog |
+| §9 Tech Stack | [[brain.md]] §4 | Teknoloji yığını |
+| §10 Referanslar | [[index.md]] | Master katalog |
 
 ---
 

@@ -18,7 +18,7 @@ reference:
 
 # CoreMusic — Wifi Quick Panel (T07 Embedded 1024×600)
 
-**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
+**Zorunlu Bağlantılar:** [[ui-design/00-device-matrix]] · [[ui-design/01-mockup-index]] · [[ui-design/02-component-inventory]] · [[ui-design/tokens/design-tokens-master]]
 
 ---
 
@@ -127,7 +127,7 @@ reference:
 ## 7. PNG Referansı
 
 - **Dosya:** `.ai/.png/home-1024/Linux  1024 - Wifi Quick Page Base.png`
-- **Klasör:** `home-1024/` (12 PNG) · Mockup indeksi: [[01-mockup-index]]
+- **Klasör:** `home-1024/` (12 PNG) · Mockup indeksi: [[ui-design/01-mockup-index]]
 - **Kullanım sırası:** PNG > ASCII art > Inventory > Tokens > Reference (AGENTS.md §7.2)
 - **Figma:** frame abs (640,3106) · 1024×600 · panel "Wifi Quick" (356,147 · 312×308) · connected bg (371,249.356 · 279×30) · items y:313/359/405 · Switch (399,199 · 24×10)
 - **İçerik (PNG SSOT):** 1 bağlı ağ ("Bayram Ali - Home" · desc "…2.4GB Kullanıldı") + 3 kullanılabilir ağ (hepsi "Bayram Ali - Home" · desc "…Güvenli Bağlantı").

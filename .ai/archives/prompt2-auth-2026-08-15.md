@@ -4,7 +4,7 @@ type: prompt
 category: security
 date: 2026-08-15
 ---
-> **⚠️ ARŞİV — Bu dosya tarihsel bir belgedir.** Middleware pipeline ve nonce akışı hakkında güncel bilgi için [[.ai/CLAUDE.md]] §6 ve [[.ai/brain.md]] §6 okunur.
+> **⚠️ ARŞİV — Bu dosya tarihsel bir belgedir.** Middleware pipeline ve nonce akışı hakkında güncel bilgi için [[CLAUDE.md]] §6 ve [[brain.md]] §6 okunur.
 updated: 2026-08-15
 status: active
 version: 2.0.0
@@ -50,7 +50,7 @@ changelog:
 
 **Ortak Temel:** [[prompt-shared-base]] (ROLE, sistem tanımı, L0-L6, SOLID, Clean Code — bu dosyada tekrar edilmez)
 
-**Zorunlu Bağlantılar:** [[../../CLAUDE.md]] · [[../../AGENTS.md]] · [[../../brain.md]] · [[../../architecture/l1-security/index]] · [[../../architecture/08-auth/index]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[brain.md]] · [[../../architecture/l1-security/index]] · [[../../architecture/08-auth/index]]
 
 **Kullanım Anı:** Auth middleware, session, JWT, CORS, RBAC geliştirme görevleri
 **Sorumlu Agent'lar:** Security Engineer (L1), Backend Architect (L2)
@@ -95,7 +95,7 @@ CoreMusic AUTH, sıradan bir giriş ekranı veya basit bir üyelik tablosu deği
 
 ## 3. Merkezi Auth
 
-*Detaylı metadata: [[ADR-043]], [[ADR-056]]*
+*Detaylı metadata: [[.decisions/accepted/ADR-043-auth-subdomain-consolidation]], [[ADR-056]]*
 
 ### 3.1 Subdomain Auth Yapısı
 
@@ -134,7 +134,7 @@ Kullanıcı bir kez giriş yaptığında:
 
 ## 4. Hybrid JWT+Session
 
-*Detaylı metadata: [[ADR-011]], [[ADR-010]]*
+*Detaylı metadata: [[.decisions/accepted/ADR-011-session-management]], [[.decisions/accepted/ADR-010-csrf-protection-strategy]]*
 
 ### 4.1 Hybrid Mimari
 
@@ -304,7 +304,7 @@ final readonly class SessionManagerMiddleware
 
 ## 7. Session Yönetimi
 
-*Detaylı metadata: [[ADR-011]], [[../../architecture/l1-security/session]]*
+*Detaylı metadata: [[.decisions/accepted/ADR-011-session-management]], [[../../architecture/l1-security/session]]*
 
 ### 7.1 Session Lifecycle
 
@@ -337,7 +337,7 @@ Login → Session oluştur → Cookie set et → 3600s idle timeout
 
 ## 8. CSRF Koruması
 
-*Detaylı metadata: [[ADR-010]], [[../../architecture/l1-security/csrf]]*
+*Detaylı metadata: [[.decisions/accepted/ADR-010-csrf-protection-strategy]], [[../../architecture/l1-security/csrf]]*
 
 ### 8.1 CSRF Token Kuralları
 
@@ -370,7 +370,7 @@ if (!hash_equals($sessionCsrfToken, $requestCsrfToken)) {
 
 ## 9. CSP (Content Security Policy)
 
-*Detaylı metadata: [[ADR-012]], [[../../architecture/l1-security/csp]]*
+*Detaylı metadata: [[.decisions/accepted/ADR-012-csp-nonce-strict-dynamic]], [[../../architecture/l1-security/csp]]*
 
 ### 9.1 CSP Directives
 
@@ -475,7 +475,7 @@ final class LoginUseCase
 
 ## 11. Clean Code (PHP 8.4)
 
-*Detaylı metadata: [[../../brain.md]] §18*
+*Detaylı metadata: [[brain.md]] §18*
 
 ### 11.1 PHP Auth Standartları
 
@@ -675,17 +675,17 @@ final class Argon2idPasswordHasher implements PasswordHasherInterface
 | Bölüm | Hedef Vault Dosyası | İlişki |
 |-------|---------------------|--------|
 | §2 Vizyon | [[../../architecture/l1-security/auth]] | L1 Security |
-| §3 Merkezi Auth | [[ADR-043]] | Auth konsolidasyonu |
-| §4 JWT+Session | [[ADR-011]], [[ADR-010]] | Hybrid auth |
+| §3 Merkezi Auth | [[.decisions/accepted/ADR-043-auth-subdomain-consolidation]] | Auth konsolidasyonu |
+| §4 JWT+Session | [[.decisions/accepted/ADR-011-session-management]], [[.decisions/accepted/ADR-010-csrf-protection-strategy]] | Hybrid auth |
 | §5 RBAC | [[ADR-056]] | Rol sistemi |
 | §6 Middleware | [[../../architecture/l1-security/middleware]] | Pipeline |
-| §7 Session | [[ADR-011]], [[../../architecture/l1-security/session]] | Session |
-| §8 CSRF | [[ADR-010]], [[../../architecture/l1-security/csrf]] | Korumа |
-| §9 CSP | [[ADR-012]], [[../../architecture/l1-security/csp]] | Policy |
+| §7 Session | [[.decisions/accepted/ADR-011-session-management]], [[../../architecture/l1-security/session]] | Session |
+| §8 CSRF | [[.decisions/accepted/ADR-010-csrf-protection-strategy]], [[../../architecture/l1-security/csrf]] | Korumа |
+| §9 CSP | [[.decisions/accepted/ADR-012-csp-nonce-strict-dynamic]], [[../../architecture/l1-security/csp]] | Policy |
 | §10 SOLID | [[prompt-shared-base]] §4 | Prensipler |
-| §11 Clean Code | [[../../brain.md]] §18 | Standartlar |
+| §11 Clean Code | [[brain.md]] §18 | Standartlar |
 | §12 Entity | [[ADR-056]] | Domain |
-| §14 Yasaklar | [[ADR-010]], [[ADR-011]], [[ADR-022]] | Forbidden |
+| §14 Yasaklar | [[.decisions/accepted/ADR-010-csrf-protection-strategy]], [[.decisions/accepted/ADR-011-session-management]], [[.decisions/accepted/ADR-022-database-hardened-security]] | Forbidden |
 
 ---
 

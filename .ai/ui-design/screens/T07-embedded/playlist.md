@@ -20,7 +20,7 @@ related:
 
 # CoreMusic — Playlist (T07 Embedded 1024×600)
 
-Zorunlu Bağlantılar: [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
+Zorunlu Bağlantılar: [[ui-design/00-device-matrix]] · [[ui-design/01-mockup-index]] · [[ui-design/02-component-inventory]] · [[ui-design/tokens/design-tokens-master]]
 
 ---
 
@@ -168,14 +168,14 @@ Uygulama kuralı (şablon §6 + token master §2.1.2 — bu ekran için kesin ku
 
 **PNG (yerel):** `C:\www\coremusic.net\.png\home-1024\Linux  1024 - Playlist Page.png` (1024×600) ✅ okundu
 **Figma (tier alt kümesi):** node — `C:\temp\opencode\figma-a\05-playlist.md` (extracted koordinatlar)
-**Mockup dizini:** `.ai/ui-design/` → [[01-mockup-index]]
+**Mockup dizini:** `.ai/ui-design/` → [[ui-design/01-mockup-index]]
 **ASCII:** §1 bu dosyada.
 
 Çatışma yok: PNG ↔ ASCII hizalı (panel (23,69), footer y510). Şarkı/albüm/sanatçı metinleri Figma'dan, kapaklar PNG'den; API verisi yok → `API'den gelmedi`.
 
 ## 8. Responsive Davranış (Tier Etkisi)
 
-Bu ekran **sabit 1024×600** içindir; davranış → [[05-responsive-architecture]] §7.4 + §12. Tier davranışı (matrix):
+Bu ekran **sabit 1024×600** içindir; davranış → [[ui-design/05-responsive-architecture]] §7.4 + §12. Tier davranışı (matrix):
 
 - T07 sabit: CSS `zoom`/ölçekleme (Figma scaleFactor 1.0) — 6 sütunlu tablo sabit kalır, `clamp()` ile değil.
 - Farklı ekranlara kaydırma/boyut sözü verilmez; kırılma davranışı bu dosyanın konusu değildir.

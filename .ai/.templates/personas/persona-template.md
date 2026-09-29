@@ -128,7 +128,7 @@ updated: {{DATE}}
 
 # CoreMusic Persona — {{PERSONA_AD_SOYAD}}
 
-**Zorunlu Bağlantılar:** [[personas/index]] · [[personas/mood-taxonomy]] · [[../.templates/index]]
+**Zorunlu Bağlantılar:** [[personas/index]] · [[.personas/mood-taxonomy]] · [[.templates/index]]
 
 ---
 
@@ -169,7 +169,7 @@ updated: {{DATE}}
 
 **Bu persona dosyasını yazmadan ÖNCE `.ai/.templates/` dizinindeki ilgili şablonu oku:**
 
-1. Şablonu `[[../.templates/index]]` §7.1 tablolarından seç → persona için `personas/persona-template.md`.
+1. Şablonu `[[.templates/index]]` §7.1 tablolarından seç → persona için `personas/persona-template.md`.
 2. Şablonu oku; `{{VARIABLE}}` alanlarını doldur, gereksiz anlatım bloklarını kaldır (§3.5 alan havuzu KALIR).
 3. **Şablon varsa ona göre yaz.**
 4. **Şablon yoksa** bu belgedeki 8-bölüm formatına göre yaz ve `⚠️ VERIFICATION REQUIRED` notuyla `log.md`'ye şablon eksiğini bildir.
@@ -292,7 +292,7 @@ updated: {{DATE}}
 | **UI etkisi** | {{MOOD_UI_ETKISI}} (öneri sırası, renk/tema, boş durum metni) |
 ````
 
-**Küme adı zorunlu olarak `[[personas/mood-taxonomy]]` listesinden alınır** — uydurma küme adı yazılmaz. Taksonomi diskte yoksa: `⚠️ VERIFICATION REQUIRED` + mevcut en yakın küme adı kullanılır ve `log.md`'ye eksiklik kaydedilir.
+**Küme adı zorunlu olarak `[[.personas/mood-taxonomy]]` listesinden alınır** — uydurma küme adı yazılmaz. Taksonomi diskte yoksa: `⚠️ VERIFICATION REQUIRED` + mevcut en yakın küme adı kullanılır ve `log.md`'ye eksiklik kaydedilir.
 
 #### §3.5.5 Müzik DNA'sı
 
@@ -410,7 +410,7 @@ Davranış notları:
 | 12 | Bağlantı yavaşlatma | {{INTERNET_HIZI}} simülasyonu, hata yok | Network throttling + trace |
 ````
 
-**Asgari 10 satır.** Her satırda 3 sütun zorunlu: `Adım` · `Beklenen` · `Doğrulama yöntemi`. Seviye karşılıkları: `[[personas/methodology]]` Level 1 (AI rol) · Level 2 (Browser MCP) · Level 3 (Playwright E2E).
+**Asgari 10 satır.** Her satırda 3 sütun zorunlu: `Adım` · `Beklenen` · `Doğrulama yöntemi`. Seviye karşılıkları: `[[.personas/methodology]]` Level 1 (AI rol) · Level 2 (Browser MCP) · Level 3 (Playwright E2E).
 
 #### §3.5.11 Kaynak & Doğrulama Tablosu
 
@@ -499,7 +499,7 @@ Davranış notları:
 |----------|-----------|
 | `[[../index]]` | `[index](../index.md)` |
 | `[[.templates/index]]` | `[reg](C:\www\coremusic.net\.ai\.templates\index.md)` |
-| `[[personas/mood-taxonomy]]` | `https://iç-sistem/personas/mood-taxonomy` |
+| `[[.personas/mood-taxonomy]]` | `https://iç-sistem/personas/mood-taxonomy` |
 | Harici URL düz metin | `https://...` (wiki-link yapılmaz) |
 
 **Göreli yol kuralı:** bağlantı, dosyanın kendi dizininden göreli yazılır; hedef diskte yoksa §7.1 tablosunda `📋 planlanan` olarak işaretlenir ve `log.md`'ye kaydedilir.
@@ -564,7 +564,7 @@ Davranış notları:
 | Adım | Aksiyon | Çıktı | Süre |
 |------|---------|-------|------|
 | 1 | Şablonu oku | `personas/persona-template.md` | 3 dk |
-| 2 | `[[.templates/index]]` §4 + `[[personas/mood-taxonomy]]` + `[[personas/methodology]]` oku | Küme adı + test seviyeleri | 5 dk |
+| 2 | `[[.templates/index]]` §4 + `[[.personas/mood-taxonomy]]` + `[[.personas/methodology]]` oku | Küme adı + test seviyeleri | 5 dk |
 | 3 | Segment ve hedef akışı belirle; eski vault/persona örneğini salt-okunur incele | Kapsam kararı | 5 dk |
 | 4 | Şablonu kopyala → `{{VARIABLE}}` alanlarını doldur | Taslak | 15 dk |
 | 5 | §3.5 alan havuzunun 11/11 alt bölümünü doldur | Dolu §3 | 20 dk |
@@ -644,7 +644,7 @@ Davranış notları:
 
 Bu persona, CoreMusic'te **{{SEGMENT}}** segmentini temsil eder; Level 1 (AI rol) ve Level 2 (Browser MCP) testleri için kullanılır.
 Hedef kitle: QA Engineer, UI Designer, test otomasyonu.
-Vault bağlantısı: mood → `[[personas/mood-taxonomy]]`, metodoloji → `[[personas/methodology]]`, registry → `[[.templates/index]]`.
+Vault bağlantısı: mood → `[[.personas/mood-taxonomy]]`, metodoloji → `[[.personas/methodology]]`, registry → `[[.templates/index]]`.
 
 ## §2 Kapsam
 
@@ -671,11 +671,11 @@ Kapsam dışı için: genel doküman → `[[.templates/documentation/docs-md-tem
 | `[[.templates/index]]` | Şablon registry'si — bu şablonun kayıt defteri | ✅ `.ai/.templates/index.md` |
 | `[[.templates/documentation/docs-md-template]]` | Yapısal anahtar (8-bölüm, 7 alan, §3.3, §4.3-§4.6) | ✅ `.ai/.templates/documentation/docs-md-template.md` |
 | `[[personas/index]]` | Persona kataloğu | 📋 planlanan — `.ai/personas/index.md` (bu şablonla üretilecek) |
-| `[[personas/methodology]]` | Test seviyeleri (Level 1/2/3) ve akışı | 📋 planlanan — `.ai/personas/methodology.md` |
-| `[[personas/mood-taxonomy]]` | Mood küme adları (§3.5.4 kaynağı) | 📋 planlanan — `.ai/personas/mood-taxonomy.md` |
+| `[[.personas/methodology]]` | Test seviyeleri (Level 1/2/3) ve akışı | 📋 planlanan — `.ai/personas/methodology.md` |
+| `[[.personas/mood-taxonomy]]` | Mood küme adları (§3.5.4 kaynağı) | 📋 planlanan — `.ai/personas/mood-taxonomy.md` |
 | `[[testing/persona-test-protocol]]` | Teknik test protokolü | 📋 planlanan — `.ai/testing/persona-test-protocol.md` |
-| `[[ADR-023-persona-driven-testing]]` | Persona-driven testing kararı (frozen) | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` — göreli biçim: `[[../.decisions/accepted/ADR-023-persona-driven-testing]]` |
-| `[[ADR-005-ultrathink-protocol]]` | Zero-hallucination protokolü (§4.5 dayanağı) | ✅ `.ai/.decisions/accepted/ADR-005-ultrathink-protocol.md` — göreli biçim: `[[../.decisions/accepted/ADR-005-ultrathink-protocol]]` |
+| `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | Persona-driven testing kararı (frozen) | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` — göreli biçim: `[[.decisions/accepted/ADR-023-persona-driven-testing]]` |
+| `[[.decisions/accepted/ADR-005-ultrathink-protocol]]` | Zero-hallucination protokolü (§4.5 dayanağı) | ✅ `.ai/.decisions/accepted/ADR-005-ultrathink-protocol.md` — göreli biçim: `[[.decisions/accepted/ADR-005-ultrathink-protocol]]` |
 
 *`📋 planlanan` satırlar hedef dosyalar diskte oluşana kadar kırık kabul edilir; oluştuğunda bu satır `✅`ye çevrilir ve `log.md`'ye append edilir.*
 

@@ -10,7 +10,7 @@ updated: 2026-09-29
 
 # Nygard ADR Şablonu (ADR-NNN)
 
-**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../AGENTS.md]] · [[adr-template]] · [[adr-index]] · [[../architecture/adlandirma-kurali]] · [[agent-tartisma-turu-template]]
+**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[AGENTS.md]] · [[adr-template]] · [[adr-index]] · [[architecture/adlandirma-kurali]] · [[.templates/agents/agent-tartisma-turu-template]]
 
 > **Kullanım:** Michael Nygard klasik ADR biçimi — **Status / Context / Decision / Consequences** çekirdeği. CoreMusic'te iki ADR serisi için de kullanılır: `.ai/.decisions/accepted/` (karar serisi, yeni numara ≥ ADR-090) ve `.ai/architecture/adr/` (mimari seri, kendi numara uzayı — son: ADR-026). **İki seri kasıtlı ayrıdır; birleştirme REDDEDİLDİ (ADR-026 §3.4).**
 
@@ -165,7 +165,7 @@ kaynak: "3 turlu agent tartışması 20 persona"
 **Konum:** .ai/architecture/adr/ADR-025-k8-2-k15-siniri.md (ayrı seri —
 numara notu: .decisions kayıtlarındaki ADR-025-professional-eq-system ile
 aynı numara, farklı slug)
-**İlgili ADR'ler:** [[ADR-023-hibrit-derinlik]] · [[ADR-026-sayim-birimi-5000]]
+**İlgili ADR'ler:** [[architecture/adr/ADR-023-hibrit-derinlik]] · [[architecture/adr/ADR-026-sayim-birimi-5000]]
 
 ## 1. Status
 Önerildi — Tur 3 uzlaşması; kabul sonrası frozen'a taşınmaz (revizyon ADR ister).

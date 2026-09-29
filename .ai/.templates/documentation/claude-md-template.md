@@ -509,8 +509,8 @@ Harici kaynaklar (web, model hafızası) her zaman vault'un altındadır.
 | Dosya | Amaç |
 |-------|------|
 | `[[../index]]` | Vault kataloğu |
-| `[[../WORKFLOW]]` | Süreçler |
-| `[[../log]]` | Audit trail |
+| `[[WORKFLOW]]` | Süreçler |
+| `[[log]]` | Audit trail |
 
 | Tarih | Versiyon | Değişiklik |
 |-------|----------|------------|

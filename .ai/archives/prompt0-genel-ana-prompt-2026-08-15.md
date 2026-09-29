@@ -8,7 +8,7 @@ date: 2026-08-15
 
 **Ortak Temel:** [[prompt-shared-base]] (ROLE, sistem tanımı, L0-L6, SOLID, Clean Code — bu dosyada tekrar edilmez)
 
-**Zorunlu Bağlantılar:** [[../../CLAUDE.md]] · [[../../AGENTS.md]] · [[../../WORKFLOW.md]] · [[../../brain.md]] · [[../../index.md]] · [[../../keys.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[index.md]] · [[keys.md]]
 
 ---
 
@@ -22,7 +22,7 @@ Bu prompt, CoreMusic ekosisteminin **tamamını** kapsayan genel ana prompttur. 
 
 ## 2. 10 Panel Tanımı
 
-*Detaylı metadata: [[../../brain.md]] §9, [[../../index.md]] §6*
+*Detaylı metadata: [[brain.md]] §9, [[index.md]] §6*
 
 | # | Panel | Subdomain | Port | Stack | Sorumluluk |
 |---|-------|-----------|------|-------|------------|
@@ -103,7 +103,7 @@ Bu prompt, CoreMusic ekosisteminin **tamamını** kapsayan genel ana prompttur. 
 
 ## 3. 7 Backend Servis
 
-*Detaylı metadata: [[../../brain.md]] §4B, [[ADR-039]]*
+*Detaylı metadata: [[brain.md]] §4B, [[.decisions/accepted/ADR-039-7-service-platform-architecture]]*
 
 | # | Servis | Port | Protocol | Stack | Sorumluluk |
 |---|--------|------|----------|-------|------------|
@@ -126,7 +126,7 @@ Bu prompt, CoreMusic ekosisteminin **tamamını** kapsayan genel ana prompttur. 
 
 ## 4. 10 Subdomain
 
-*Detaylı metadata: [[../../brain.md]] §9, [[ADR-043]]*
+*Detaylı metadata: [[brain.md]] §9, [[.decisions/accepted/ADR-043-auth-subdomain-consolidation]]*
 
 | # | Subdomain | Amaç | Port |
 |---|-----------|------|------|
@@ -158,7 +158,7 @@ Bu prompt, CoreMusic ekosisteminin **tamamını** kapsayan genel ana prompttur. 
 
 ## 5. Port Haritası
 
-*Detaylı metadata: [[../../brain.md]] §11*
+*Detaylı metadata: [[brain.md]] §11*
 
 | Port | Servis | Protokol | Katman |
 |------|--------|----------|--------|
@@ -175,7 +175,7 @@ Bu prompt, CoreMusic ekosisteminin **tamamını** kapsayan genel ana prompttur. 
 
 ## 6. 18 BCNF Veritabanı
 
-*Detaylı metadata: [[ADR-040]], [[../../architecture/05-data/]]*
+*Detaylı metadata: [[.decisions/accepted/ADR-040-database-authority]], [[../../architecture/05-data/]]*
 
 | # | Veritabanı | Amaç | Tablo |
 |---|------------|------|-------|
@@ -212,7 +212,7 @@ Bu prompt, CoreMusic ekosisteminin **tamamını** kapsayan genel ana prompttur. 
 
 ## 7. Enterprise Composer Stack
 
-*Detaylı metadata: [[../../brain.md]] §4A, [[ADR-085]]*
+*Detaylı metadata: [[brain.md]] §4A, [[ADR-085]]*
 
 ### 7.1 Shared Library Yapısı (ADR-085 v3.0)
 
@@ -248,7 +248,7 @@ psr/event-dispatcher, psr/cache, psr/simple-cache
 
 ## 8. Audio Engine Kuralları
 
-*Detaylı metadata: [[ADR-017]], [[../../brain.md]] §7*
+*Detaylı metadata: [[.decisions/accepted/ADR-017-dsp-hardware-mode]], [[brain.md]] §7*
 
 ### 8.1 Zero-Allocation Kuralı
 
@@ -284,7 +284,7 @@ void processAudioBlock(float** output, const float** input,
 
 ## 9. Güvenlik Standartları
 
-*Detaylı metadata: [[ADR-022]], [[ADR-034]], [[../../architecture/l1-security/]]*
+*Detaylı metadata: [[.decisions/accepted/ADR-022-database-hardened-security]], [[.decisions/accepted/ADR-034-credential-vault-normalization]], [[../../architecture/l1-security/]]*
 
 ### 9.1 Şifreleme Parametreleri
 
@@ -318,7 +318,7 @@ void processAudioBlock(float** output, const float** input,
 
 ## 10. 20 Analiz Görevi
 
-*Detaylı metadata: [[../../WORKFLOW.md]] §8.1A*
+*Detaylı metadata: [[WORKFLOW.md]] §8.1A*
 
 Her analiz görevinde aşağıdaki 20 adımlık kontrol listesi uygulanır:
 
@@ -364,7 +364,7 @@ Her analiz sonunda aşağıdaki bölümler oluşturulmalıdır:
 
 ## 11. Deployment Modları
 
-*Detaylı metadata: [[../../CLAUDE.md]] §14*
+*Detaylı metadata: [[CLAUDE.md]] §14*
 
 | Mod | Platform | Donanım |
 |-----|----------|---------|
@@ -378,7 +378,7 @@ Her analiz sonunda aşağıdaki bölümler oluşturulmalıdır:
 
 ## 12. Platform Tiers
 
-*Detaylı metadata: [[../../CLAUDE.md]] §13*
+*Detaylı metadata: [[CLAUDE.md]] §13*
 
 | Tier | OS | Durum | Ses Sürücüsü |
 |------|-----|-------|-------------|
@@ -392,7 +392,7 @@ Her analiz sonunda aşağıdaki bölümler oluşturulmalıdır:
 
 ## 13. Test Kapsama Hedefleri
 
-*Detaylı metadata: [[../../CLAUDE.md]] §17*
+*Detaylı metadata: [[CLAUDE.md]] §17*
 
 | Modül | Minimum | Hedef | Framework |
 |-------|---------|-------|-----------|
@@ -418,7 +418,7 @@ Her analiz sonunda aşağıdaki bölümler oluşturulmalıdır:
 
 ## 14. Hard Guardrails Özeti
 
-*Detaylı metadata: [[../../CLAUDE.md]] §7, [[prompt-shared-base]] §7*
+*Detaylı metadata: [[CLAUDE.md]] §7, [[prompt-shared-base]] §7*
 
 | # | Kural | Katman |
 |---|-------|--------|
@@ -443,7 +443,7 @@ Her analiz sonunda aşağıdaki bölümler oluşturulmalıdır:
 
 ## 15. Prompt-Domain Eşleşmesi
 
-*Detaylı metadata: [[../../CLAUDE.md]] §26.2, [[../../AGENTS.md]] §14.1*
+*Detaylı metadata: [[CLAUDE.md]] §26.2, [[AGENTS.md]] §14.1*
 
 | Prompt | Sorumlu Agent | Kullanım Anı |
 |--------|---------------|-------------|
@@ -458,7 +458,7 @@ Her analiz sonunda aşağıdaki bölümler oluşturulmalıdır:
 
 ## 16. Referans Proje Kuralları
 
-*Detaylı metadata: [[../../WORKFLOW.md]] §8.1C*
+*Detaylı metadata: [[WORKFLOW.md]] §8.1C*
 
 Referans proje (`C:\www\coremusic.net.old.ref`) incelenirken:
 
@@ -472,20 +472,20 @@ Referans proje (`C:\www\coremusic.net.old.ref`) incelenirken:
 
 | Bölüm | Hedef Vault Dosyası | İlişki |
 |-------|---------------------|--------|
-| §2 Paneller | [[../../brain.md]] §9 | 10 panel |
-| §3 Servisler | [[../../brain.md]] §4B | 7 servis |
-| §4 Subdomainler | [[ADR-043]] | Auth konsolidasyonu |
-| §5 Portlar | [[../../brain.md]] §11 | Port haritası |
-| §6 DB | [[ADR-040]] | 18 BCNF |
-| §7 Composer | [[../../brain.md]] §4A | shared/ hybrid yapı |
-| §8 Audio | [[ADR-017]] | C++ kuralları |
-| §9 Güvenlik | [[ADR-022]] | Şifreleme |
-| §10 Analiz | [[../../WORKFLOW.md]] §8.1A | 20 görev |
-| §11 Deploy | [[../../CLAUDE.md]] §14 | 5 mod |
-| §12 Platform | [[../../CLAUDE.md]] §13 | 5 tier |
-| §13 Test | [[../../CLAUDE.md]] §17 | Coverage |
-| §14 Guardrails | [[../../CLAUDE.md]] §7 | 16 kural |
-| §15 Prompt | [[../../CLAUDE.md]] §26 | Eşleşme |
+| §2 Paneller | [[brain.md]] §9 | 10 panel |
+| §3 Servisler | [[brain.md]] §4B | 7 servis |
+| §4 Subdomainler | [[.decisions/accepted/ADR-043-auth-subdomain-consolidation]] | Auth konsolidasyonu |
+| §5 Portlar | [[brain.md]] §11 | Port haritası |
+| §6 DB | [[.decisions/accepted/ADR-040-database-authority]] | 18 BCNF |
+| §7 Composer | [[brain.md]] §4A | shared/ hybrid yapı |
+| §8 Audio | [[.decisions/accepted/ADR-017-dsp-hardware-mode]] | C++ kuralları |
+| §9 Güvenlik | [[.decisions/accepted/ADR-022-database-hardened-security]] | Şifreleme |
+| §10 Analiz | [[WORKFLOW.md]] §8.1A | 20 görev |
+| §11 Deploy | [[CLAUDE.md]] §14 | 5 mod |
+| §12 Platform | [[CLAUDE.md]] §13 | 5 tier |
+| §13 Test | [[CLAUDE.md]] §17 | Coverage |
+| §14 Guardrails | [[CLAUDE.md]] §7 | 16 kural |
+| §15 Prompt | [[CLAUDE.md]] §26 | Eşleşme |
 
 ---
 

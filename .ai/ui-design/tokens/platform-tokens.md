@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — Platform Tokens (45-Tier)
 
-**Zorunlu Bağlantılar:** [[design-tokens-master]] · [[00-device-matrix]] · [[component-tokens]]
+**Zorunlu Bağlantılar:** [[design-tokens-master]] · [[ui-design/00-device-matrix]] · [[component-tokens]]
 
 ---
 

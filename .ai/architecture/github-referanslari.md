@@ -16,8 +16,8 @@ categories:
 
 Bu dosya, COREMUSIC projesinin farklı katmanları için GitHub üzerindeki açık kaynak projeleri ve referansları içerir.
 
-**Kanonik katman kaynağı:** [[.ai/architecture/katman-baglilik-matrisi.md]] (21 katman: K0-K20).
-**Kanonik envanter:** [[.ai/architecture/index.md]] §4 (diskten doğrulanmış klasör listesi).
+**Kanonik katman kaynağı:** [[architecture/katman-baglilik-matrisi]] (21 katman: K0-K20).
+**Kanonik envanter:** [[architecture/index.md]] §4 (diskten doğrulanmış klasör listesi).
 
 ---
 

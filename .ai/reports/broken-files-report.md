@@ -161,29 +161,29 @@ Wide layout (1920+) section'ında sadece `player-info` ve `recent-tracks` render
 
 | # | Kırık Link | Muhtemel Gerçek Karşılık |
 |---|------------|------------------------|
-| 1 | `[[decisions/accepted/ADR-001-vanilla-js-itcss]]` | `.decisions/` dizininde ADR dosyaları yok |
-| 2 | `[[decisions/accepted/ADR-002-pdo-mandatory-no-orm]]` | Aynı |
-| 3 | `[[decisions/accepted/ADR-010-csrf-protection-strategy]]` | Aynı |
-| 4 | `[[decisions/accepted/ADR-011-session-management]]` | Aynı |
-| 5 | `[[decisions/accepted/ADR-022-database-hardened-security]]` | Aynı |
+| 1 | `[[.decisions/accepted/ADR-001-vanilla-js-itcss]]` | `.decisions/` dizininde ADR dosyaları yok |
+| 2 | `[[.decisions/accepted/ADR-002-pdo-mandatory-no-orm]]` | Aynı |
+| 3 | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` | Aynı |
+| 4 | `[[.decisions/accepted/ADR-011-session-management]]` | Aynı |
+| 5 | `[[.decisions/accepted/ADR-022-database-hardened-security]]` | Aynı |
 | 6 | `[[decisions/accepted/ADR-038-8.1-sound-card-chip-selection]]` | Aynı |
-| 7 | `[[decisions/accepted/ADR-040-database-authority]]` | Aynı |
-| 8 | `[[decisions/accepted/ADR-042-vault-restructuring-2026-08-03]]` | Aynı |
-| 9 | `[[decisions/accepted/ADR-043-auth-subdomain-consolidation]]` | Aynı |
-| 10 | `[[decisions/accepted/ADR-044-dynamic-user-theme-engine]]` | Aynı |
+| 7 | `[[.decisions/accepted/ADR-040-database-authority]]` | Aynı |
+| 8 | `[[.decisions/accepted/ADR-042-vault-restructuring-2026-08-03]]` | Aynı |
+| 9 | `[[.decisions/accepted/ADR-043-auth-subdomain-consolidation]]` | Aynı |
+| 10 | `[[.decisions/accepted/ADR-044-dynamic-user-theme-engine]]` | Aynı |
 | 11 | `[[decisions/accepted/ADR-087-master-implementation-plan]]` | Aynı |
 
 ### 3.2 ADR Referansları (Kısa Form — Dosya Yok)
 
 | # | Kırık Link | Not |
 |---|------------|-----|
-| 12 | `[[ADR-010-csrf-protection-strategy]]` | Kök dizinde ADR dosyası yok |
-| 13 | `[[ADR-011-session-management]]` | Aynı |
-| 14 | `[[ADR-017-dsp-hardware-mode]]` | Aynı |
+| 12 | `[[.decisions/accepted/ADR-010-csrf-protection-strategy]]` | Kök dizinde ADR dosyası yok |
+| 13 | `[[.decisions/accepted/ADR-011-session-management]]` | Aynı |
+| 14 | `[[.decisions/accepted/ADR-017-dsp-hardware-mode]]` | Aynı |
 | 15 | `[[ADR-038-8.1-sound-card-chip-selection]]` | Aynı |
-| 16 | `[[ADR-040-database-authority]]` | Aynı |
-| 17 | `[[ADR-044-dynamic-user-theme-engine]]` | Aynı |
-| 18 | `[[ADR-089-classab-24v]]` | `.decisions/draft/` dizininde dosya yok |
+| 16 | `[[.decisions/accepted/ADR-040-database-authority]]` | Aynı |
+| 17 | `[[.decisions/accepted/ADR-044-dynamic-user-theme-engine]]` | Aynı |
+| 18 | `[[.decisions/accepted/ADR-089-classab-24v]]` | `.decisions/draft/` dizininde dosya yok |
 
 ### 3.3 Mimari/Arşiv Dosyaları (Dizin/Dosya Yok)
 

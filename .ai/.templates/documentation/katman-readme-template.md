@@ -10,7 +10,7 @@ updated: 2026-09-29
 
 # Katman README Şablonu (K{n})
 
-**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../AGENTS.md]] · [[../architecture/adlandirma-kurali]] · [[../architecture/katman-baglilik-matrisi]] · [[../architecture/katman-sayim-rehberi]]
+**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[AGENTS.md]] · [[architecture/adlandirma-kurali]] · [[architecture/katman-baglilik-matrisi]] · [[architecture/katman-sayim-rehberi]]
 
 > **Kullanım:** `.ai/architecture/k{n}-<slug>/README.md` dosyaları bu şablondan üretilir (Guardrail #16). `{{PLACEHOLDER}}` alanlarını doldur; §7'deki dolu örnek kılavuzdur. README olmayan katman klasörü olmaz — her 21 katman (K0-K20) bu iskeleti taşır.
 
@@ -90,7 +90,7 @@ Bir katman README'si üç işi aynı anda yapar: (1) katmanın **kimliğini** (K
 → DENETİM (§6) → UTF-8 verify → log append → senkron
 ```
 
-**Agent eşlemesi:** README'nin katmanı → [[../AGENTS.md]] §5/WORKFLOW §2.4'teki sorumlu agent; sınır aşımında handover protokolü.
+**Agent eşlemesi:** README'nin katmanı → [[AGENTS.md]] §5/WORKFLOW §2.4'teki sorumlu agent; sınır aşımında handover protokolü.
 
 ## §6 Doğrulama (checklist)
 
@@ -123,7 +123,7 @@ updated: 2026-09-24
 
 **Künye:** K6 · Alan: A1 (K6-K7) · Klasör: `k6-guvenlik/` · Durum: active
 **Bağımlılık (matris kanonik):** K6 → K7 (middleware'e arayüz) · bağımlı ok yok
-**İlgili ADR:** [[../adr/ADR-025-k8-2-k15-siniri]] (komşu sınırlar için)
+**İlgili ADR:** [[architecture/adr/ADR-025-k8-2-k15-siniri]] (komşu sınırlar için)
 
 ## Amaç
 K6, tüm ekosistemin güvenlik politikasını sahiplenir: kimlik doğrulama,
@@ -160,7 +160,7 @@ politikanın SAHİBİDİR, K7 taşıyıcısıdır.
 - Yeni güvenlik oku → önce matris satırı, sonra README.
 
 ## İlgili Dosyalar
-[[../index]] · [[../katman-baglilik-matrisi]] · [[../adlandirma-kurali]] · [[../adr]]
+[[../index]] · [[architecture/katman-baglilik-matrisi]] · [[architecture/adlandirma-kurali]] · [[../adr]]
 ```
 
 *(Örnek iskelet gösterim amaçlıdır; gerçek k6 içeriği diskteki dosyalardan türetilir ve uydurma satır içermez.)*

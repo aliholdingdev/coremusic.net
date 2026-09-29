@@ -130,14 +130,14 @@ reference:
 
 ```
 # CoreMusic — <Screen> (<Tier> <viewport>)
-**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
+**Zorunlu Bağlantılar:** [[ui-design/00-device-matrix]] · [[ui-design/01-mockup-index]] · [[ui-design/02-component-inventory]] · [[ui-design/tokens/design-tokens-master]]
 ```
 
 **Örnek (diskte):** `# CoreMusic — Home Dashboard (T07 Embedded 1024×600)`
 
 **Kurallar:**
 1. H1 kalıbı birebir: `CoreMusic — <Screen> (<Tier> <viewport>)`; tier adı harfli uzun form (`T07 Embedded`), viewport `×` ile.
-2. Alt klasördeki dosyalarda wiki-link'ler **klasör adı olmadan**, kök içindekiler `tokens/` önekiyle yazılır (mevcut dosyalarda kalıp: `[[00-device-matrix]]`, `[[tokens/design-tokens-master]]`).
+2. Alt klasördeki dosyalarda wiki-link'ler **klasör adı olmadan**, kök içindekiler `tokens/` önekiyle yazılır (mevcut dosyalarda kalıp: `[[ui-design/00-device-matrix]]`, `[[ui-design/tokens/design-tokens-master]]`).
 3. Zorunlu Bağlantılar tek satır, ` · ` ile ayrık; 4 bağlantı sabittir.
 4. H1 ile `## 1.` arasında tek `---` ayracı vardır.
 
@@ -340,7 +340,7 @@ reference:
 
 # CoreMusic — {{Screen}} ({{Tier}} {{W}}×{{H}})
 
-**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
+**Zorunlu Bağlantılar:** [[ui-design/00-device-matrix]] · [[ui-design/01-mockup-index]] · [[ui-design/02-component-inventory]] · [[ui-design/tokens/design-tokens-master]]
 
 ---
 

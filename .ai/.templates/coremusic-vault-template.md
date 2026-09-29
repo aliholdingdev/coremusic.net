@@ -273,7 +273,7 @@ References: §3 Terminology · §20 Critical ADRs · §26 Related Documents
 |---|---|
 | §1 Bağlam | "Bu klasördeki dosyalar **çalıştırılabilir süreç tanımlarıdır**"; kök `WORKFLOW.md` pointer bu klasöre yönlendirir |
 | §2 Mevcut Durum | 8 dosya tetikleyici/çıktı tablosu (session-init: her oturum başı · adr-creation: mimari karar · vault-sync: vault değişikliği · security-audit: güvenlik değişikliği · deployment: sürüm çıkışı · hallucination-control: belirsiz bilgi · orchestrator-flow: multi-agent görev · architecture-write: **Batch ≤31 dosya, 0 silme**) |
-| §3 Komşu ilişkiler | Parent `[[../AGENTS.md]]` ⚠️ kırık · Canonical `[[../.ai/WORKFLOW.md]]` · Audit `[[../.ai/log.md]]` · ADR hedefi `.ai/.decisions/index.md` |
+| §3 Komşu ilişkiler | Parent `[[../AGENTS.md]]` ⚠️ kırık · Canonical `[[WORKFLOW.md]]` · Audit `[[log.md]]` · ADR hedefi `.ai/.decisions/index.md` |
 | §4 Değişiklik protokolü | Yeni workflow → `.ai/WORKFLOW.md` dosya tablosuna kayıt → **kullanıcı onayı**; güncelleme → ilgili dosya + log audit; silme onaya tabi |
 
 ### 3.5 `.workflows/security-audit.md` (10 bölüm başlığı)
@@ -458,7 +458,7 @@ Bkz. §3.5 ve §3.6 (bölüm başlıkları gerçek).
 | §17B Agent Profiles | **11 agent** |
 
 > **[ŞABLON NOTU]** §5/§6'daki fazların tek tek adları bu dosyada listelenmemiştir —
-> kaynak `[[.ai/WORKFLOW.md]]` §5/§6'ya atıfla verilir (uydurma yok).
+> kaynak `[[WORKFLOW.md]]` §5/§6'ya atıfla verilir (uydurma yok).
 
 ---
 

@@ -450,7 +450,7 @@ updated: {{DATE}}
 
 Bu doküman, **{{PROJECT_NAME}}** içindeki {{SCOPE_DESCRIPTION}} sürecini adım adım anlatır.
 Hedef kitle: bu dizin üzerinde çalışan geliştiriciler ve AI ajanları.
-Vault bağlantısı: kurallar → `[[../CLAUDE.md]]`, süreçler → `[[../WORKFLOW]]`.
+Vault bağlantısı: kurallar → `[[../CLAUDE.md]]`, süreçler → `[[WORKFLOW]]`.
 
 ## §2 Kapsam
 
@@ -516,7 +516,7 @@ shared/src/
 | Dosya | Amaç |
 |-------|------|
 | `[[../index]]` | Vault kataloğu |
-| `[[../WORKFLOW]]` | Süreçler |
+| `[[WORKFLOW]]` | Süreçler |
 
 | Tarih | Versiyon | Değişiklik |
 |-------|----------|------------|

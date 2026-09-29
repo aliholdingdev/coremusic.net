@@ -10,7 +10,7 @@ updated: 2026-09-29
 
 # Alt Katman md Şablonu (K{n}.a.b)
 
-**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[../AGENTS.md]] · [[../architecture/adlandirma-kurali]] · [[../architecture/katman-baglilik-matrisi]] · [[katman-readme-template]]
+**Zorunlu Bağlantılar / See also:** [[.templates/index]] · [[../CLAUDE.md]] · [[AGENTS.md]] · [[architecture/adlandirma-kurali]] · [[architecture/katman-baglilik-matrisi]] · [[katman-readme-template]]
 
 > **Kullanım:** `.ai/architecture/k{n}-<slug>/<konu>.md` dosyaları bu şablondan üretilir. Her alt katman md'si **3. seviye bir düğümdür** (`K{n}.a.b`); dosyanın kendisi kanıt türü (i)'dir ve sayım girdisidir. Dosya adı düğüm adıyla uyumlu olmalı (`<konu>` slug'ı README Dosya Haritası ile birebir).
 
@@ -144,7 +144,7 @@ SAHİPLİĞİ bu düğümde DEĞİLDİR (ADR-025): FFmpeg/transcode/HLS-DASH K15
 | K8.2 → K15 | **çağrı** | ADR-025 (servis ucu → boru hattı sahibi) |
 
 ## İlgili Dosyalar
-[[k8-servis/README]] · [[../k15-medya-streaming/README]] · [[../adr/ADR-025-k8-2-k15-siniri]]
+[[k8-servis/README]] · [[../k15-medya-streaming/README]] · [[architecture/adr/ADR-025-k8-2-k15-siniri]]
 ```
 
 *(Örnek kurgusal gösterimdir; gerçek içerik diskteki md'lerden türetilir.)*

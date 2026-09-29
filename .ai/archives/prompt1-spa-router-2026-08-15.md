@@ -8,7 +8,7 @@ date: 2026-08-15
 
 **Ortak Temel:** [[prompt-shared-base]] (ROLE, sistem tanımı, L0-L6, SOLID, Clean Code — bu dosyada tekrar edilmez)
 
-**Zorunlu Bağlantılar:** [[../../CLAUDE.md]] · [[../../AGENTS.md]] · [[../../brain.md]] · [[../../architecture/l2-routing/index]] · [[../../architecture/l3-presentation/index]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[brain.md]] · [[../../architecture/l2-routing/index]] · [[../../architecture/l3-presentation/index]]
 
 **Kullanım Anı:** SPA router geliştirme, route tasarımı, frontend routing görevleri
 **Sorumlu Agent'lar:** Backend Architect (L2), UI Designer (L3)
@@ -25,7 +25,7 @@ Bu prompt, CoreMusic SPA Router mimarisini **L2 Routing** ve **L3 Presentation**
 
 ## 2. SPA Router Vizyonu
 
-*Detaylı metadata: [[../../architecture/l2-routing/spa-router]]*
+*Detaylı metadata: [[architecture/k9-api-routing/spa-router]]*
 
 ### 2.1 L2 Routing Katmanı
 
@@ -48,7 +48,7 @@ SPA **asla** middleware, session, CSRF, auth doğrudan görmez. Tüm güvenlik k
 
 ## 3. Enterprise Router Gereksinimleri
 
-*Detaylı metadata: [[ADR-083]], [[ADR-021]]*
+*Detaylı metadata: [[ADR-083]], [[.decisions/accepted/ADR-021-spa-router-immutable-contract]]*
 
 | # | Özellik | Açıklama | ADR |
 |---|---------|----------|-----|
@@ -67,7 +67,7 @@ SPA **asla** middleware, session, CSRF, auth doğrudan görmez. Tüm güvenlik k
 
 ## 4. Router Mimari Diyagramı
 
-*Detaylı metadata: [[../../architecture/l2-routing/spa-router]] §1A*
+*Detaylı metadata: [[architecture/k9-api-routing/spa-router]] §1A*
 
 ### 4.1 Klasör Yapısı
 
@@ -195,7 +195,7 @@ Her route kendi middleware zincirini tanımlayabilir:
 
 ## 7. Subdomain Routing
 
-*Detaylı metadata: [[ADR-016]], [[ADR-043]]*
+*Detaylı metadata: [[.decisions/accepted/ADR-016-url-normalization]], [[.decisions/accepted/ADR-043-auth-subdomain-consolidation]]*
 
 ### 7.1 Subdomain Eşleşmesi
 
@@ -308,7 +308,7 @@ final class Router
 
 ## 9. Clean Code (L3 Presentation)
 
-*Detaylı metadata: [[ADR-001]], [[../../architecture/l3-presentation/vanilla-js-rules]]*
+*Detaylı metadata: [[.decisions/accepted/ADR-001-vanilla-js-itcss]], [[../../architecture/l3-presentation/vanilla-js-rules]]*
 
 ### 9.1 Vanilla JS Kuralları
 
@@ -357,7 +357,7 @@ SpaRouter.init();
 
 ## 10. Auth Entegrasyonu
 
-*Detaylı metadata: [[ADR-043]], [[ADR-047]]*
+*Detaylı metadata: [[.decisions/accepted/ADR-043-auth-subdomain-consolidation]], [[ADR-047]]*
 
 ### 10.1 SPA ↔ Auth İletişimi
 
@@ -389,7 +389,7 @@ SPA → /login redirect → auth.coremusic.net/login
 
 ## 11. State Management
 
-*Detaylı metadata: [[ADR-045]], [[ADR-046]], [[ADR-048]]*
+*Detaylı metadata: [[.decisions/accepted/ADR-045-multi-domain-view-mode-architecture]], [[.decisions/accepted/ADR-046-cross-view-state-preservation]], [[ADR-048]]*
 
 ### 11.1 View Mode
 
@@ -544,18 +544,18 @@ function updateContent(html) {
 
 | Bölüm | Hedef Vault Dosyası | İlişki |
 |-------|---------------------|--------|
-| §2 Vizyon | [[../../architecture/l2-routing/spa-router]] | L2 Routing |
+| §2 Vizyon | [[architecture/k9-api-routing/spa-router]] | L2 Routing |
 | §3 Gereksinimler | [[ADR-083]] | SPA Router ADR |
-| §4 Mimari | [[../../architecture/l2-routing/spa-router]] §1A | Klasör yapısı |
+| §4 Mimari | [[architecture/k9-api-routing/spa-router]] §1A | Klasör yapısı |
 | §5 Route | [[ADR-083]] | Attribute-based |
 | §6 Middleware | [[../../architecture/l1-security/middleware]] | Pipeline |
-| §7 Subdomain | [[ADR-016]], [[ADR-043]] | Routing |
+| §7 Subdomain | [[.decisions/accepted/ADR-016-url-normalization]], [[.decisions/accepted/ADR-043-auth-subdomain-consolidation]] | Routing |
 | §8 SOLID | [[prompt-shared-base]] §4 | Prensipler |
-| §9 Clean Code | [[ADR-001]] | JS kuralları |
-| §10 Auth | [[ADR-043]], [[ADR-047]] | Entegrasyon |
-| §11 State | [[ADR-045]], [[ADR-046]], [[ADR-048]] | View mode |
-| §13 Yasaklar | [[ADR-001]] | Forbidden patterns |
-| §14 Kod | [[../../brain.md]] §18 | Standartlar |
+| §9 Clean Code | [[.decisions/accepted/ADR-001-vanilla-js-itcss]] | JS kuralları |
+| §10 Auth | [[.decisions/accepted/ADR-043-auth-subdomain-consolidation]], [[ADR-047]] | Entegrasyon |
+| §11 State | [[.decisions/accepted/ADR-045-multi-domain-view-mode-architecture]], [[.decisions/accepted/ADR-046-cross-view-state-preservation]], [[ADR-048]] | View mode |
+| §13 Yasaklar | [[.decisions/accepted/ADR-001-vanilla-js-itcss]] | Forbidden patterns |
+| §14 Kod | [[brain.md]] §18 | Standartlar |
 
 ---
 

@@ -18,7 +18,7 @@ reference:
 
 # CoreMusic — Bluetooth Quick Panel (T07 Embedded 1024×600)
 
-**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
+**Zorunlu Bağlantılar:** [[ui-design/00-device-matrix]] · [[ui-design/01-mockup-index]] · [[ui-design/02-component-inventory]] · [[ui-design/tokens/design-tokens-master]]
 
 ---
 
@@ -134,7 +134,7 @@ reference:
 ## 7. PNG Referansı
 
 - **Dosya:** `.ai/.png/home-1024/Linux  1024 - Bluetooth Quick Page Base.png`
-- **Klasör:** `home-1024/` (12 PNG) · Mockup indeksi: [[01-mockup-index]]
+- **Klasör:** `home-1024/` (12 PNG) · Mockup indeksi: [[ui-design/01-mockup-index]]
 - **Kullanım sırası:** PNG > ASCII art > Inventory > Tokens > Reference (AGENTS.md §7.2)
 - **Figma:** frame abs (1751,3113) · 1024×600 · overlay (2,0 · 1024×601) · panel (356,147 · 312×308) · connected `2831:9696` (371,249 · 148×17) · items y:313/360/407
 - **İçerik (PNG SSOT):** 1 bağlı cihaz ("Km - 50" · "Kulaklık . Mükemmel sinyal: 100% . AAC . Pil : 100%") + 3 kullanılabilir cihaz: "Km - 50" (Şifresiz · Bağlı Değil) · "Car BT" (tag metinleri ⚠️ VERIFICATION REQUIRED) · "Samsung TV" (Pin Kodlu · Bağlı Değil · "Televizyon . Mükemmel sinyal: 100%").
