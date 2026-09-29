@@ -78,4 +78,64 @@ final class ReturnUrlPolicyTest extends TestCase
         $this->assertFalse(ReturnUrlPolicy::isAllowed('http://home.coremusic.net%23@evil.com/'));
         $this->assertFalse(ReturnUrlPolicy::isAllowed('http://home.coremusic.net%40evil.com/'));
     }
+
+    public function testProtocolRelativeUrlIsRejected(): void
+    {
+        // Açık redirect: '//' ve '/\' tarayıcıda dış host'a gider.
+        // '/%2F...' ham tarafta masum görünür, decode sonrası protokol-relative.
+        $this->assertFalse(ReturnUrlPolicy::isAllowed('//evil.com/'));
+        $this->assertFalse(ReturnUrlPolicy::isAllowed('/\\evil.com/'));
+        $this->assertFalse(ReturnUrlPolicy::isAllowed('/%2Fevil.com/'));
+
+        // Korunan davranış: tek '/' ile başlayan path'ler aynı-origin.
+        $this->assertTrue(ReturnUrlPolicy::isAllowed('/dashboard'));
+        $this->assertTrue(ReturnUrlPolicy::isAllowed('/'));
+    }
+
+    public function testProtocolRelativeGetSafeUrlFallsBackToSlash(): void
+    {
+        $this->assertSame('/', ReturnUrlPolicy::getSafeUrl('//evil.com/'));
+        $this->assertSame('/', ReturnUrlPolicy::getSafeUrl('/\\evil.com/'));
+        $this->assertSame('/dashboard', ReturnUrlPolicy::getSafeUrl('/dashboard'));
+    }
+
+    /* ============================================================
+       Tab/newline varyantı — WHATWG parser \t \n \r siler,
+       '/%09/evil.com' tarayıcıda '//evil.com' olur (gerçek open redirect)
+       ============================================================ */
+
+    public function testTabAndNewlineProtocolRelativeVariantsAreRejected(): void
+    {
+        $this->assertFalse(ReturnUrlPolicy::isAllowed('/%09/evil.com/'));
+        $this->assertFalse(ReturnUrlPolicy::isAllowed('/%0A/evil.com/'));
+        $this->assertFalse(ReturnUrlPolicy::isAllowed('/%0D/evil.com/'));
+        $this->assertFalse(ReturnUrlPolicy::isAllowed('/%0Aevil.com/'));
+        $this->assertFalse(ReturnUrlPolicy::isAllowed("/\t/evil.com/"));
+        $this->assertFalse(ReturnUrlPolicy::isAllowed("/\n/evil.com/"));
+
+        // Korunan davranış: normal path'ler temizlikten etkilenmemeli.
+        $this->assertTrue(ReturnUrlPolicy::isAllowed('/dashboard'));
+        $this->assertTrue(ReturnUrlPolicy::isAllowed('/muzik/dinle'));
+    }
+
+    public function testEncodedControlCharInQueryIsRejected(): void
+    {
+        // Query içi varyant: '%0A' tek katman decode'da literal newline
+        // olur; hiçbir meşru redirect URL'inde ham kontrol karakteri yok.
+        $this->assertFalse(ReturnUrlPolicy::isAllowed('return%0A=1'));
+        $this->assertFalse(ReturnUrlPolicy::isAllowed('/dashboard?next=%0Aevil.com'));
+
+        // getSafeUrl() ikinci savunma hattı da aynı reddetmeyi üretir;
+        // kontrol karakteri içermeyen normal path'ler korunur.
+        $this->assertSame('/', ReturnUrlPolicy::getSafeUrl('return%0A=1'));
+        $this->assertSame('/', ReturnUrlPolicy::getSafeUrl('/dashboard?next=%0Aevil.com'));
+        $this->assertSame('/dashboard', ReturnUrlPolicy::getSafeUrl('/dashboard'));
+    }
+
+    public function testTabProtocolRelativeIsSanitizedToSlashInGetSafeUrl(): void
+    {
+        $this->assertSame('/', ReturnUrlPolicy::getSafeUrl('/%09/evil.com/'));
+        $this->assertSame('/', ReturnUrlPolicy::getSafeUrl("/\t/evil.com/"));
+        $this->assertSame('/muzik/dinle', ReturnUrlPolicy::getSafeUrl('/muzik/dinle'));
+    }
 }
