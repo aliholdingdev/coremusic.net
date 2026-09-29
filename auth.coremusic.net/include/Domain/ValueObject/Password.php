@@ -16,11 +16,14 @@ final class Password
 
     /**
      * Ham şifreden Password oluştur.
+     *
+     * Faz 1b: asgari uzunluk 12 (ADR-020 şifre gücü). argon2id parametreleri
+     * değişmez (memory 65536 / time 4 / threads 2).
      */
     public static function create(string $rawPassword): self
     {
-        if (strlen($rawPassword) < 8) {
-            throw \CoreMusic\Exception\ValidationException::passwordTooShort(8);
+        if (strlen($rawPassword) < 12) {
+            throw \CoreMusic\Exception\ValidationException::passwordTooShort(12);
         }
 
         return new self($rawPassword);

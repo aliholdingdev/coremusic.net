@@ -29,7 +29,21 @@ if (file_exists($sharedVendor)) {
     exit(1);
 }
 
-// 3) API-specific sınıflar: kendi vendor'ı yoksa manuel fallback
+// 3) SSOT auth kodu (Faz 1b): auth.coremusic.net/include — kopyalama YOK.
+//    Her koşulda kayıt olur (vendor dump'ı bu namespace'i kapsamayabilir).
+spl_autoload_register(function (string $class): void {
+    $prefix = 'CoreMusic\\Auth\\';
+    if (!str_starts_with($class, $prefix)) {
+        return;
+    }
+    $file = __DIR__ . '/../auth.coremusic.net/include/'
+        . str_replace('\\', '/', substr($class, strlen($prefix))) . '.php';
+    if (file_exists($file)) {
+        require_once $file;
+    }
+});
+
+// 4) API-specific sınıflar: kendi vendor'ı yoksa manuel fallback
 if (!file_exists($apiVendor)) {
     spl_autoload_register(function (string $class): void {
         $prefixes = [

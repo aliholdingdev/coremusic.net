@@ -57,10 +57,11 @@ final class GatewayMethodRoutingTest extends TestCase
     {
         $result = $this->dispatch('POST', '/api/v1/auth/login');
 
-        $this->assertArrayNotHasKey('data', $result, 'POST login henüz handlera bağlı değil');
-        $this->assertSame('METHOD_NOT_ALLOWED', $result['error']['code'] ?? null);
-        $this->assertSame(405, http_response_code() >= 400 ? http_response_code() : 0);
-        $this->assertStringContainsString('GET', (string) ($result['headers']['Allow'] ?? ''));
+        // Faz 1b: POST login implemented=true → handler'a gider (405 kalktı).
+        // Bu testte Gateway'e resolver verilmez → Faz 0 placeholder gövdesi döner.
+        $this->assertSame('auth', $result['data']['service'] ?? null);
+        $this->assertArrayNotHasKey('error', $result, 'POST login artık 404/405 değil');
+        $this->assertLessThan(400, http_response_code() ?: 200);
     }
 
     public function testMethodMismatchReturns405WithAllowHeader(): void
@@ -103,7 +104,9 @@ final class GatewayMethodRoutingTest extends TestCase
         $this->assertIsArray($captured, '_route pipeline array\'ine taşınmalı (Faz 2 notu #2)');
         $this->assertSame('auth', $captured['service']);
         $this->assertTrue($captured['public']);
-        $this->assertFalse($captured['implemented']);
+        // Faz 1b: AuthController bağlantısı
+        $this->assertTrue($captured['implemented']);
+        $this->assertSame('login', $captured['action']);
     }
 
     public function testUnmatchedRouteStillEntersPipeline(): void

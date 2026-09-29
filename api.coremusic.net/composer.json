@@ -26,7 +26,8 @@
     },
     "autoload": {
         "psr-4": {
-            "CoreMusic\\Api\\": "include/"
+            "CoreMusic\\Api\\": "include/",
+            "CoreMusic\\Auth\\": "../auth.coremusic.net/include/"
         }
     },
     "autoload-dev": {

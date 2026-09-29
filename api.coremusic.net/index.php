@@ -80,6 +80,17 @@ $jsonResponse = static function (array $payload, int $status = 200): never {
 $requestUri = rtrim((string)parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
 $method     = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
+/* --- 0. Alias: Faz 3a UI `API_URL + '/v1/...'` çağırır (api.coremusic.net/v1/...),
+ *     route tablosu ise `/api/v1/...` kayıtlıdır → tek kaynak kabul noktası.      */
+if (str_starts_with($requestUri, '/v1/') || $requestUri === '/v1') {
+    $rawUri   = (string) ($_SERVER['REQUEST_URI'] ?? '/');
+    $queryPos = strpos($rawUri, '?');
+    $suffix   = $queryPos === false ? '' : substr($rawUri, $queryPos);
+
+    $requestUri            = '/api' . $requestUri;
+    $_SERVER['REQUEST_URI'] = '/api' . $rawUri . $suffix;
+}
+
 $logger->info("Request: {$method} {$requestUri}", [
     'ip' => $_SERVER['REMOTE_ADDR'] ?? '-',
 ]);
@@ -96,6 +107,12 @@ if ($requestUri === '/health') {
 
 /* --- 2. API Gateway (/api/v1/*) --- */
 if (str_starts_with($requestUri, '/api/')) {
+    // Auth uçları SSOT AuthService ile çalışır → $_SESSION şart (Faz 1b).
+    // Aynı SessionBootstrapper = auth.coremusic.net ile aynı cookie/save path.
+    if (preg_match('#^/api/v1/auth(/|$)#', $requestUri) === 1) {
+        \CoreMusic\Session\SessionBootstrapper::ensureStarted();
+    }
+
     // Middleware pipeline'ının beklediği request formatı (Cors: server + method).
     $pipelineRequest = [
         'server' => $_SERVER,
@@ -126,6 +143,9 @@ if (str_starts_with($requestUri, '/api/')) {
             new ServiceRegistry(),
             $pipeline,
             $routeTable,
+            // Faz 1b: route['action'] → AuthController (SSOT auth.coremusic.net/include)
+            static fn (array $route, array $request): array =>
+                \CoreMusic\Api\Container\ApiAuthContainer::controller()->handle($route, $request),
         );
         $result = $gateway->dispatch($pipelineRequest);
 

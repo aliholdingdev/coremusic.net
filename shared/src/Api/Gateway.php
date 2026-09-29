@@ -29,7 +29,8 @@ final class Gateway implements GatewayInterface
         private readonly VersionResolver $versionResolver,
         private readonly ServiceRegistryInterface $serviceRegistry,
         private readonly ApiMiddlewarePipeline $middlewarePipeline,
-        private readonly ?RouteTable $routeTable = null
+        private readonly ?RouteTable $routeTable = null,
+        private readonly ?\Closure $handlerResolver = null
     ) {}
 
     /**
@@ -138,11 +139,26 @@ final class Gateway implements GatewayInterface
 
     /**
      * Invoke the route handler.
+     *
+     * Faz 1b: route'ta `action` varsa ve entry-point bir `handlerResolver`
+     * verdiyse controller çağrılır (api.coremusic.net/index.php →
+     * ApiAuthContainer::controller()). Resolver yoksa ya da route'ta action
+     * yoksa davranış değişmez: placeholder yanıt döner (Faz 0/1a testleri).
+     *
+     * @param array<string, mixed> $route
+     * @param array<string, mixed> $request
+     * @return array<string, mixed>
      */
     private function invokeHandler(array $route, array $request): array
     {
-        // This would be implemented with actual service resolution
-        // For now, return a placeholder response
+        if ($this->handlerResolver !== null && !empty($route['action'])) {
+            $response = ($this->handlerResolver)($route, $request);
+
+            if (is_array($response)) {
+                return $response;
+            }
+        }
+
         return ApiResponse::ok([
             'service' => $route['service'],
             'handler' => $route['handler'],

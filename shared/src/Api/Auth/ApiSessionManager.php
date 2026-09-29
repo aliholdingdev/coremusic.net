@@ -51,12 +51,22 @@ final class ApiSessionManager implements ISessionManager
         }
         $user = $this->read('user');
 
-        return isset($user['id']) ? (string) $user['id'] : null;
+        if (isset($user['id'])) {
+            return (string) $user['id'];
+        }
+
+        // Web oturumu (auth.coremusic.net SessionManager) MM_* anahtarları yazar;
+        // aynı cookie/paylaşılan save path ile API de o oturumu tanımalı (Faz 1b).
+        $legacy = $this->read('MM_UserID');
+
+        return (is_string($legacy) && $legacy !== '') ? $legacy : null;
     }
 
     public function isAuthenticated(): bool
     {
-        return $this->authenticated || $this->read('user') !== null;
+        return $this->authenticated
+            || $this->read('user') !== null
+            || $this->getUserId() !== null;
     }
 
     public function destroy(): void

@@ -10,10 +10,10 @@ use CoreMusic\Auth\Domain\ValueObject\Gender;
 use CoreMusic\Auth\Domain\DTO\LoginRequest;
 use CoreMusic\Auth\Domain\DTO\RegisterRequest;
 use CoreMusic\Auth\Domain\DTO\AuthResponse;
-use CoreMusic\Interfaces\Auth\IAuthService;
-use CoreMusic\Interfaces\Auth\ISessionManager;
-use CoreMusic\Interfaces\Auth\IUserRepository;
-use CoreMusic\Interfaces\Security\IRateLimiter;
+use CoreMusic\Contracts\Auth\IAuthService;
+use CoreMusic\Contracts\Auth\ISessionManager;
+use CoreMusic\Contracts\Auth\IUserRepository;
+use CoreMusic\Contracts\Security\IRateLimiter;
 use CoreMusic\Exception\AuthenticationException;
 use CoreMusic\Exception\ConflictException;
 use CoreMusic\Exception\RateLimitException;
@@ -27,7 +27,7 @@ use CoreMusic\Exception\ValidationException;
  */
 final class AuthService implements IAuthService
 {
-    private const MIN_PASSWORD_LENGTH = 8;
+    private const MIN_PASSWORD_LENGTH = 12;
     private const MAX_LOGIN_ATTEMPTS = 5;
     private const LOGIN_WINDOW_SECONDS = 900;
     private const MAX_REGISTER_ATTEMPTS = 3;
@@ -39,6 +39,8 @@ final class AuthService implements IAuthService
     private const PASSWORD_RESET_RATE_KEY_PREFIX = 'rate_limit:password_reset:';
     private const PASSWORD_RESET_MAX_ATTEMPTS = 3;
     private const PASSWORD_RESET_WINDOW_SECONDS = 3600;
+    /** Sıfırlama token'ı ömrü (Faz 1b sözleşmesi): 900 saniye = 15 dakika. */
+    public const PASSWORD_RESET_TOKEN_TTL = 900;
 
     public function __construct(
         private readonly IUserRepository $userRepository,
@@ -239,7 +241,7 @@ final class AuthService implements IAuthService
 
         $rawToken  = bin2hex(random_bytes(32));
         $tokenHash = hash('sha256', $rawToken);
-        $expiresAt = date('Y-m-d H:i:s', time() + self::PASSWORD_RESET_WINDOW_SECONDS);
+        $expiresAt = date('Y-m-d H:i:s', time() + self::PASSWORD_RESET_TOKEN_TTL);
 
         $userId = UserId::fromHex($row['id']);
         $this->userRepository->saveResetToken((string)$userId, $tokenHash, $expiresAt, $clientIp);

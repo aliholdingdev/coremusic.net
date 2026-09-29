@@ -86,7 +86,13 @@ final class RequestValidationMiddleware
 
         $errors = $this->validator->validate($data, $rules);
         if ($errors !== []) {
-            return ApiResponse::error('VALIDATION_ERROR', 'Validation failed', 422, $errors);
+            // Faz 3a UI sözleşmesi: 422 GÖVDESİNDE error.fields zorunlu.
+            // error.details (Faz 2 sözleşmesi) korunur — iki anahtar da aynı
+            // {alan: mesaj} haritasını taşır.
+            $response = ApiResponse::error('VALIDATION_ERROR', 'Validation failed', 422, $errors);
+            $response['error']['fields'] = $errors;
+
+            return $response;
         }
 
         return $next($request);

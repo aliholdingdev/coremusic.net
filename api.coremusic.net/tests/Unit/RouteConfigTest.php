@@ -7,10 +7,11 @@ use CoreMusic\Api\Routing\RouteTable;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Faz 1a route sözleşmesi (ADR-084 Contract First · ADR-020 §1.1-B.1):
- *   - 6 POST auth kaydı tanımlı ama implemented=false → 405 + Allow (404 değil)
- *   - GET /api/v1/auth/login public=true → 200 davranışı korunur
- *   - Auth POST'larında henüz validation kuralı yok (Faz 1b işi)
+ * Faz 1b route sözleşmesi (ADR-084 Contract First · ADR-020 §1.1-B.1):
+ *   - 6 POST auth ucu implemented=true + AuthController action'ı (405 kalktı)
+ *   - doğrulama kuralları tanımlı (422 + error.fields)
+ *   - GET /api/v1/auth/login public=true, GET /api/v1/auth/me private
+ *   - set-gender public (gender gate girişten önce çalışır)
  */
 final class RouteConfigTest extends TestCase
 {
@@ -31,22 +32,27 @@ final class RouteConfigTest extends TestCase
         $this->assertArrayHasKey('POST', $this->routes);
     }
 
-    public function testSixPostAuthRoutesAreDeclaredButNotImplemented(): void
+    public function testSixPostAuthRoutesAreImplementedWithActions(): void
     {
         $expected = [
-            '/api/v1/auth/login',
-            '/api/v1/auth/register',
-            '/api/v1/auth/forgot-password',
-            '/api/v1/auth/reset-password',
-            '/api/v1/auth/set-gender',
-            '/api/v1/auth/logout',
+            '/api/v1/auth/login'          => 'login',
+            '/api/v1/auth/register'       => 'register',
+            '/api/v1/auth/forgot-password' => 'forgotPassword',
+            '/api/v1/auth/reset-password' => 'resetPassword',
+            '/api/v1/auth/set-gender'     => 'setGender',
+            '/api/v1/auth/logout'         => 'logout',
         ];
 
-        foreach ($expected as $path) {
+        foreach ($expected as $path => $action) {
             $this->assertArrayHasKey($path, $this->routes['POST'], "{$path} POST kaydı tanımlı olmalı");
-            $this->assertFalse(
-                (bool) ($this->routes['POST'][$path]['implemented'] ?? true),
-                "{$path} implemented=false olmalı (Faz 1b'ye kadar 405 + Allow)"
+            $this->assertTrue(
+                (bool) ($this->routes['POST'][$path]['implemented'] ?? false),
+                "{$path} implemented=true olmalı (Faz 1b — AuthController bağlı)"
+            );
+            $this->assertSame(
+                $action,
+                $this->routes['POST'][$path]['action'] ?? null,
+                "{$path} action anahtarı AuthController dispatch'i için zorunlu"
             );
         }
     }
@@ -62,14 +68,24 @@ final class RouteConfigTest extends TestCase
         $this->assertFalse((bool) ($this->routes['POST']['/api/v1/auth/logout']['public'] ?? true));
     }
 
-    public function testPostLoginYields405WithAllowHeaderListingGet(): void
+    public function testSetGenderIsPublicBecauseGenderGateRunsPreLogin(): void
     {
-        $result = $this->table->match('/api/v1/auth/login', 'POST');
+        $this->assertTrue((bool) ($this->routes['POST']['/api/v1/auth/set-gender']['public'] ?? false));
+    }
 
-        $this->assertSame(RouteTable::STATUS_METHOD_NOT_ALLOWED, $result['status'], 'POST login 405 dönmeli (404 değil)');
+    public function testPostLoginIsRoutableNowAndMethodMismatchStillYields405(): void
+    {
+        $ok = $this->table->match('/api/v1/auth/login', 'POST');
+        $this->assertSame(RouteTable::STATUS_OK, $ok['status'], 'POST login artık handlera gider (405 değil)');
+        $this->assertSame('login', $ok['route']['action'] ?? null);
+
+        // Yol biliniyor, method sunulmuyor → 405 + Allow (RFC 9110 §15.5.6)
+        $result = $this->table->match('/api/v1/auth/login', 'PUT');
+        $this->assertSame(RouteTable::STATUS_METHOD_NOT_ALLOWED, $result['status']);
         $this->assertContains('GET', $result['allow']);
+        $this->assertContains('POST', $result['allow']);
         $this->assertContains('OPTIONS', $result['allow']);
-        $this->assertNotContains('POST', $result['allow']);
+        $this->assertNotContains('PUT', $result['allow']);
     }
 
     public function testUnknownPathIsNotFoundNot405(): void
@@ -85,14 +101,46 @@ final class RouteConfigTest extends TestCase
         $this->assertTrue((bool) ($result['route']['public'] ?? false));
     }
 
-    public function testAuthPostRoutesCarryNoValidationRulesYet(): void
+    public function testGetMeRouteIsImplementedAndPrivate(): void
     {
-        foreach (array_keys($this->routes['POST']) as $path) {
-            $this->assertArrayNotHasKey(
-                'validation',
-                $this->routes['POST'][$path],
-                "{$path} validation kuralı Faz 1b'de eklenmeli (şimdilik çıplak POST 415/422'ye düşmemeli)"
+        $result = $this->table->match('/api/v1/auth/me', 'GET');
+
+        $this->assertSame(RouteTable::STATUS_OK, $result['status']);
+        $this->assertSame('me', $result['route']['action'] ?? null);
+        $this->assertFalse((bool) ($result['route']['public'] ?? true));
+        $this->assertTrue((bool) ($result['route']['implemented'] ?? false));
+    }
+
+    public function testAuthPostRoutesCarryValidationRules(): void
+    {
+        foreach (['/api/v1/auth/login', '/api/v1/auth/register', '/api/v1/auth/forgot-password', '/api/v1/auth/reset-password', '/api/v1/auth/set-gender'] as $path) {
+            $rules = $this->routes['POST'][$path]['validation'] ?? null;
+            $this->assertIsArray($rules, "{$path} validation kuralı zorunlu (422 + error.fields)");
+            $this->assertNotEmpty($rules, "{$path} validation kural seti boş olamaz");
+        }
+
+        // Şifre gücü: ≥ 12 (ADR-020) — login ve register kuralında da görünmeli
+        foreach (['/api/v1/auth/login', '/api/v1/auth/register', '/api/v1/auth/reset-password'] as $path) {
+            $this->assertSame(
+                12,
+                $this->routes['POST'][$path]['validation']['password']['min'] ?? null,
+                "{$path} password min=12 olmalı"
             );
         }
+
+        // Zorunlu alanlar (Faz 3a UI sözleşmesi)
+        $register = $this->routes['POST']['/api/v1/auth/register']['validation'];
+        foreach (['username', 'email', 'password', 'gender', 'agree_terms'] as $field) {
+            $this->assertTrue((bool) ($register[$field]['required'] ?? false), "register.{$field} required olmalı");
+        }
+        $this->assertSame(
+            ['male', 'female', 'neutral'],
+            $register['gender']['in'] ?? null
+        );
+    }
+
+    public function testLogoutHasNoValidationRulesSoBodylessPostPasses(): void
+    {
+        $this->assertArrayNotHasKey('validation', $this->routes['POST']['/api/v1/auth/logout']);
     }
 }
