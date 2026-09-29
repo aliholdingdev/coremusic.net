@@ -6,7 +6,7 @@ category: vault-navigation
 date: 2026-08-12
 updated: 2026-09-29
 status: active
-version: 28.3.3
+version: 28.3.4
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -356,25 +356,26 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| ui-design, mockup, 19 png, mockup index, home-1024, shared-1024, home-1920 | ui-design/00-mockup-index.md |
-| c01-c16, component inventory, bileşen envanteri, nav-link, media-card, status-widget | ui-design/01-component-inventory.md |
-| implementation plan, 15 step css, css uygulama planı, mockup to code | ui-design/02-implementation-plan.md |
+| ui-design, mockup, 19 png, mockup index, home-1024, shared-1024, home-1920 | ui-design/01-mockup-index.md |
+| c01-c16, component inventory, bileşen envanteri, nav-link, media-card, status-widget | ui-design/02-component-inventory.md |
+| implementation plan, 15 step css, css uygulama planı, mockup to code | ui-design/03-implementation-plan.md |
 | ascii art, wireframe, ascii view, 1024x600 layout, screen spec | ui-design/screens/00-ascii-art-index.md |
-| ascii art views, all 18 views, wireframes, home layout, auth layout | ui-design/screens/00-ascii-art-views.md |
+| ascii art views, all views, wireframes, home layout, auth layout | ui-design/screens/00-ascii-art-index.md (eski `00-ascii-art-views.md` Faz 7'de diskte YOK — tek indeks 00-ascii-art-index + 20 spec) |
 | design tokens, ui tokens, platform tokens, color palettes, glass tokens | ui-design/tokens/design-tokens-master.md |
-| accessibility gaps, wcag 2.2 aa, touch target 48px, contrast check | ui-design/03-accessibility-gaps.md |
-| responsive device mode, embedded 1024, desktop 1920, mobile 375, tv 3840 | ui-design/responsive-device-mode.md |
+| accessibility gaps, wcag 2.2 aa, touch target 48px, contrast check | ui-design/04-accessibility-gaps.md |
+| responsive device mode, embedded 1024, desktop 1920, mobile 375, tv 3840 | ui-design/05-responsive-architecture.md (eski `responsive-device-mode.md` diskte YOK — taşınma kaydı) |
 | device-aware rendering, tek bileşen, single component, conditional render | brain.md §18C |
 | device token, header-h, footer-h, content-h, spacing-scale | ui-design/tokens/design-tokens-master.md |
-| device behavioral, hover disabled, touch target 48px, scrollbar override | architecture/l3-presentation/device-css.md |
+| device behavioral, hover disabled, touch target 48px, scrollbar override | ui-design/05-responsive-architecture.md (eski `architecture/l3-presentation/device-css.md` diskte YOK — katman adı k11-ux'e taşındı) |
 | backend scope, widget count, feature toggle, nav links, content config | brain.md §18C |
 | frontend scope, token override, media query, grid template, layout grid | brain.md §18C |
 | layer violation, presentation→infrastructure, php sunum kararı yasak | brain.md §18C |
-| home 1920 mockup, 1920 desktop home, 1920ascii art, 1920 pixel measurements | ui-design/mockups/02-home-screens-1920.md |
+| widget grid kanonik kuralı, 12 slot, 20 slot | AGENTS.md §13.9 kural 1 (Figma API çıktısından önceliklidir) |
+| home 1920 mockup, 1920 desktop home, 1920 ascii art, 1920 pixel measurements | .ai/.png/home-1920/ + ui-design/screens/T17-monitor-22fhd/home-dashboard.md (eski `ui-design/mockups/02-home-screens-1920.md` diskte YOK) |
 | ui prompt, component prompt, page prompt, screen prompt, layout prompt | ui-design/prompt/00-prompt-index.md |
-| auth screens, login girl, select gender, register girl 1-3 | ui-design/screens/05-auth-layouts.md |
-| home layouts, welcome popup, split 42/58, now playing 1024 | ui-design/screens/01-home-layouts.md |
-| connectivity layouts, wifi quick, bluetooth quick, wifi connect | ui-design/screens/04-connectivity-layouts.md |
+| auth screens, login girl, select gender, register girl 1-3 | ui-design/screens/shared/ (eski `screens/05-auth-layouts.md` diskte YOK) |
+| home layouts, welcome popup, split 42/58, now playing 1024 | ui-design/screens/T07-embedded/ (home-dashboard · welcome-popup — eski `01-home-layouts.md` YOK) |
+| connectivity layouts, wifi quick, bluetooth quick, wifi connect | ui-design/screens/T07-embedded/ (wifi-quick · wifi-connect-light · bluetooth-quick — eski `04-connectivity-layouts.md` YOK) |
 
 ### §3A L4 Domain
 
@@ -462,33 +463,36 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| frontend, css, html, ui, layout, bileşen, ekran, sayfa, tasarım | .ai/ui-design/00-mockup-index.md |
-| mockup, görsel, png, screenshot | .ai/ui-design/00-mockup-index.md + .ai/.png/** |
-| component, bileşen, C01-C16, BEM | .ai/ui-design/01-component-inventory.md |
-| implementation, uygulama, plan, css planı | .ai/ui-design/02-implementation-plan.md |
-| accessibility, erişilebilirlik, wcag, touch target | .ai/ui-design/03-accessibility-gaps.md |
-| header, footer, nav, navigation | .ai/ui-design/screens/_layout-patterns/ |
-| modal, popup, overlay | .ai/ui-design/screens/F-quickpanel/ |
-| auth, login, register, gender | .ai/ui-design/screens/A-auth/ |
-| home, ana sayfa, dashboard | .ai/ui-design/screens/B-home/ |
-| albums, albümler, artists, sanatçılar | .ai/ui-design/screens/C-music/ |
-| playlist, player, oynatıcı | .ai/ui-design/screens/D-player/ |
-| file manager, dosya yöneticisi, göz at | .ai/ui-design/screens/E-filemanager/ |
-| wifi, bluetooth, quick panel | .ai/ui-design/screens/F-quickpanel/ |
+| frontend, css, html, ui, layout, bileşen, ekran, sayfa, tasarım | .ai/ui-design/01-mockup-index.md |
+| mockup, görsel, png, screenshot | .ai/ui-design/01-mockup-index.md + .ai/.png/** |
+| component, bileşen, C01-C16, BEM | .ai/ui-design/02-component-inventory.md |
+| implementation, uygulama, plan, css planı | .ai/ui-design/03-implementation-plan.md |
+| accessibility, erişilebilirlik, wcag, touch target | .ai/ui-design/04-accessibility-gaps.md |
+| header, footer, nav, navigation | .ai/ui-design/flow/navigation/ (01-spa-routing · 02-header-nav · 03-footer-player) |
+| modal, popup, overlay, welcome | .ai/ui-design/screens/T07-embedded/welcome-popup.md |
+| auth, login, register, gender | .ai/ui-design/screens/shared/ (login · register-step1/2/3 · select-gender[-selected]) |
+| home, ana sayfa, dashboard | .ai/ui-design/screens/T07-embedded/home-dashboard.md |
+| albums, albümler, artists, sanatçılar | .ai/ui-design/screens/T07-embedded/ (albums · album-detail · singer) |
+| playlist, player, oynatıcı | .ai/ui-design/screens/T07-embedded/ (playlist · playlist-video) |
+| file manager, dosya yöneticisi, göz at | .ai/ui-design/screens/T07-embedded/ (browse · browse-clicked) |
+| wifi, bluetooth, quick panel | .ai/ui-design/screens/T07-embedded/ (wifi-quick · wifi-connect-light · bluetooth-quick) |
 | flow, akış, kullanıcı akışı | .ai/ui-design/flow/ |
 | prompt, şablon | .ai/ui-design/prompt/ |
 | design tokens, token, renk, yazı tipi | .ai/ui-design/tokens/design-tokens-master.md *(Faz 1: kırık `reference/02-design-tokens.md` hedefi düzeltildi)* |
 | ascii art, piksel, ölçü, layout view | .ai/ui-design/screens/00-ascii-art-index.md |
 | screen spec, ekran özelliği, pixel exact | .ai/ui-design/screens/ |
-| layout pattern, standard 60/40, split home | .ai/ui-design/screens/_layout-patterns/ |
-| png mockup, .png dosyası, görsel referans, screenshot | .ai/.png/home-1024/ + .ai/.png/shared-1024/ |
+| layout pattern, standard 60/40, split home | .ai/ui-design/prompt/layout/ (01-mobile-stack … 09-watch-micro) |
+| png mockup, .png dosyası, görsel referans, screenshot | .ai/.png/home-1024/ + .ai/.png/home-1920/ + .ai/.png/shared-1024/ |
 | home-1024, RPi5 mockup, 1024×600 | .ai/.png/home-1024/ |
+| home-1920, desktop mockup, 1920×1080 | .ai/.png/home-1920/ |
 | shared-1024, auth mockup, login png | .ai/.png/shared-1024/ |
-| png mockup index, mockup tablosu | .ai/ui-design/00-mockup-index.md |
-| component inventory, bileşen envanteri | .ai/ui-design/01-component-inventory.md |
-| implementation plan, uygulama planı | .ai/ui-design/02-implementation-plan.md |
-| accessibility gaps, wcag analizi | .ai/ui-design/03-accessibility-gaps.md |
-| vault registration, vault kayıt | .ai/ui-design/04-vault-registration.md |
+| png mockup index, mockup tablosu | .ai/ui-design/01-mockup-index.md |
+| component inventory, bileşen envanteri | .ai/ui-design/02-component-inventory.md |
+| implementation plan, uygulama planı | .ai/ui-design/03-implementation-plan.md |
+| accessibility gaps, wcag analizi | .ai/ui-design/04-accessibility-gaps.md |
+| device matrix, cihaz matrisi, 45-tier, CatID | .ai/ui-design/00-device-matrix.md |
+| responsive architecture, tier fallback, 4K ortalamama | .ai/ui-design/05-responsive-architecture.md |
+| vault registration, vault kayıt | .ai/ui-design/04-vault-registration.md — ⚠️ VERIFICATION REQUIRED (Faz 7: dosya diskte YOK; kayıt/registry fiilen `.ai/index.md` §4A'da — sahip kararı) |
 | device manager, cihaz yönetimi, DeviceManager.php, fromRequest, fromDevice | shared/src/Device/DeviceManager.php |
 | device-aware rendering, cihaz bazlı html, 5 cihaz bloğu, feature toggles | shared/src/Device/DeviceManager.php |
 | widget count, recent card count, playlist count, upNext count, content config | shared/src/Device/DeviceManager.php |
@@ -502,10 +506,10 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | device queries, isTouch, isWide, isLarge, isMobile, isSmallDesktop, isTv | shared/src/Device/DeviceManager.php |
 | device content config, widgetCount, recentCardCount, playlistCount, upNextCount | shared/src/Device/DeviceManager.php |
 | welcome popup, shouldRenderWelcomePopup, RPi5 1024 | shared/src/Device/DeviceManager.php |
-| 4-tier conditional rendering, koşullu render, phone layout, 4k layout, wide layout, embedded layout, fallback always false | .ai/ui-design/responsive-device-mode.md |
+| 4-tier conditional rendering, koşullu render, phone layout, 4k layout, wide layout, embedded layout, fallback always false | .ai/ui-design/05-responsive-architecture.md (eski hedef `responsive-device-mode.md` Faz 7'de diskte bulunamadı — taşınma kaydı) |
 | cm_viewport_w, cm_viewport_h, viewport cookie | assets.coremusic.net/js/device-loader.js |
 | viewport whitelist, cookie-based viewport, JS→PHP viewport | shared/src/PageRouter/PageRouter.php |
-| conditional rendering php guide, php implementasyon rehberi, DeviceManager nasıl kullanılır, 4-tier render | .ai/architecture/conditional-rendering-php-guide.md |
+| conditional rendering php guide, php implementasyon rehberi, DeviceManager nasıl kullanılır, 4-tier render | .ai/architecture/conditional-rendering-php-guide.md — ⚠️ VERIFICATION REQUIRED (Faz 7: dosya diskte YOK; en yakın mevcut hedef `architecture/k8-servis/device-service.md` — eşdeğerlik sahip onayı bekliyor) |
 
 ---
 
@@ -543,6 +547,17 @@ P3: testing/*, ui-design/*, .personas/*
 | 3 | **CSRF Token Key = csrf_token.** _csrf_token 2026-05-30'da kaldirildi. |
 | 4 | **Middleware sirasi degistirilemez.** OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → Csrf → BypassAuth → Auth → Permission → Validation → Controller |
 | 5 | **ORM yasak.** Sadece PDO prepared statement. SELECT * yasak -- acik kolon listesi zorunlu. |
+| 6 | **PowerShell 5.1 `.ps1` dosyalari UTF-8 BOM ile kaydedilir (Faz 7 — 2026-09-29).** BOM'suz `.ps1`, PS 5.1 tarafindan ANSI kod sayfasiyla okunur; Turkce bolum basliklari bozulur ve kapi betikleri **yanlis basarisizlik** uretir (2026-09-29: `kalip-abc-check.ps1` BOM'suzken **91 sahte hata**, BOM eklendikten sonra **gercek 69 hata** kaldi; Faz 6 kalip duzeltmelerinden sonraki koku olcumde `A:0 B:0 C:0 = GECTI`). Buna karsilik **`.md` dosyalari `.ai` disk gerceginde BOM'SUZ yazilir** (sablon §4.2). Ikisi karistirilmaz: uzanti = kod sayfasi kurali. |
+
+---
+
+### §15.1 Guardrail #16 Kaydi — Sablon Zorunlu Okuma + Kapi Betikleri (Faz 7, 2026-09-29)
+
+1. **Guardrail #16 (sablon):** `.ai/ui-design/**` altina `.md` yazmadan önce ilgili kalip okunur — referans/tokens/root indeks → Kalıp A · `flow/` → Kalıp B · `prompt/` → Kalıp C · `screens/` → Kalıp D (`[[.templates/ui-design/reference-template]]` · `flow-template` · `prompt-template` · `screen-spec-template`). Şablonsuz ui-design dosyası geçersizdir (detay: [[CLAUDE.md]] §7.3, [[AGENTS.md]] §13 kural 5).
+2. **Kapi betikleri (repo KÖKÜNDEN calisir):** `screens-frontmatter-check.ps1` → `dosya 21 | sorunlu 0` · `kalip-abc-check.ps1` → `A:0 B:0 C:0 (GECTI)` · `wiki-link-check.ps1` → `227 link, gercek kirik 0`. Ek denetimler: `device-matrix-catid.ps1` · `figma-extract.ps1` · `figma-tokens.ps1`.
+3. **6 sahte kirik link — DÜZELTILEMEZ:** `flow/auth/01-login.md` `[[C]]` · `flow/auth/04-select-gender.md` `[[V]]` · `flow/music/01-playback.md` `[[V]]` · `flow/settings/04-general.md` `[[V]]` (ASCII art kacis dizgesi) · `reference/legacy-inventory.md` `[[link]]` x2 (```` ```yaml ```` blogu icinde). Bunlar sablon degiskenidir, gercek kirik link degildir; "onarmaya" kalkisan sablonu bozar.
+4. **Token SSOT:** `FIGMA_TOKEN` / `FIGMA_FILE_KEY` **yalnz `.ai/.env.figma`'dan** okunur (`.gitignore:69`); anahtar hicbir `.md` / `.json` / `.log`'a yazilmaz — `figma-extract.ps1` ve `figma-tokens.ps1`'de sabit anahtar yoktur.
+5. **Kod sayfasi madde 6 ile birlikte okunur:** `.ps1` → BOM'lu, `.md` → BOM'suz (§15 madde 6 · sablon §4.2).
 
 ---
 
@@ -559,7 +574,7 @@ Istenen Bilgi -> Ilk Kontrol:
 |-- Veritabani -> ADR-040 + architecture/k0-k5-software/k5-data-layer/database_master.md + .sql/
 |-- Ses/Donanim -> ADR-017/038 + electronic/ + projects/NevaEngine/
 |-- Panel/Servis -> subdomains/ + architecture/06-audio/
-|-- Test -> ui-design/03-accessibility-gaps.md + reports/ (`.ai/testing/` dizini yok — Faz 1 notu)
+|-- Test -> ui-design/04-accessibility-gaps.md + reports/ (`.ai/testing/` dizini yok — Faz 1 notu)
 |-- Vault -> index.md -> keys.md (bu dosya)
 ```
 
@@ -591,7 +606,7 @@ Istenen Bilgi -> Ilk Kontrol:
 | Frontend | architecture/l3-presentation/ -> ADR-001 |
 | Backend | architecture/l2-routing/ -> ADR-002 |
 | Audio/Donanim | electronic/ -> ADR-017/038 |
-| Test | ui-design/03-accessibility-gaps.md -> reports/ (testing/ dizini yok — Faz 1 notu) |
+| Test | ui-design/04-accessibility-gaps.md -> reports/ (testing/ dizini yok — Faz 1 notu) |
 | Vault yapisi | index.md -> bu dosya (keys.md) |
 | Agent yetkileri | AGENTS.md -> .agents/ |
 | Servisler | ecosystem/7-service-integration.md |

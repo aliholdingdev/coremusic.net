@@ -4,7 +4,7 @@ type: system
 category: vault-navigation
 status: active
 authority: SSOT
-version: 28.4.0
+version: 28.4.2
 updated: 2026-09-29
 total_files: 587
 total_adr: 80
@@ -48,6 +48,8 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | Servis haritası | § 6 bu dosya |
 | Veritabanı | § 8 bu dosya |
 | UI / Mockup / Frontend | [[ui-design/01-mockup-index]] (19 PNG Mockup, C01-C16 Envanteri, 45-Tier Device Matrix) |
+| Session Checklist | [[CHECKLIST.md]] (Baş/Orta/Kapanış - §A/§B/§C, 5'er madde) |
+| Açık İş Listesi | [[TODO.md]] (P0/P1/P2 - 19 madde, kaynak notlu) |
 
 ---
 
@@ -101,7 +103,7 @@ Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1�
 
 | Dosya / Dizin | İçerik ve Amaç | Zorunluluk |
 |---------------|----------------|------------|
-| [[ui-design/01-mockup-index]] | 19 PNG Mockup İndeksi (12 home-1024 + 6 shared-1024) | ✅ Tüm frontend görevlerinde İLK OKUNACAK |
+| [[ui-design/01-mockup-index]] | 19 PNG Mockup İndeksi (12 home-1024 + 1 home-1920 + 6 shared-1024) | ✅ Tüm frontend görevlerinde İLK OKUNACAK |
 | [[ui-design/02-component-inventory]] | C01–C16 Kanonik Bileşen Envanteri (BEM, ölçüm, token) | ✅ Bileşen kodlarken ZORUNLU |
 | [[ui-design/03-implementation-plan]] | 15 Adımlık CSS Uygulama Yol Haritası | ✅ CSS yazarken ZORUNLU |
 | [[ui-design/04-accessibility-gaps]] | WCAG 2.2 AA Uyum ve Touch Target Denetimi (min 48px) | ✅ Erişilebilirlik için ZORUNLU |
@@ -340,10 +342,10 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | Prompt Engine | [[architecture/ai/prompt-engine]] | Prompt üretim ve yönetim motoru |
 | Knowledge | [[knowledge/verified]], [[knowledge/unverified]], [[knowledge/rejected]], [[confidence/README]] |
 | Subdomains | [[subdomains/README]], [[subdomains/auth.coremusic.net/index]], [[subdomains/music.coremusic.net/index]], [[subdomains/download.coremusic.net/domains/index]] |
-| UI-Design | [[ui-design/01-mockup-index]], [[ui-design/02-component-inventory]], [[ui-design/03-implementation-plan]], [[ui-design/04-accessibility-gaps]], [[ui-design/04-vault-registration]] |
-| UI-Design Screens | [[ui-design/screens/00-ascii-art-index]], [[ui-design/screens/shared/login]], [[ui-design/screens/B-home/dashboard]], [[ui-design/screens/T07-embedded/albums]], [[ui-design/screens/T07-embedded/playlist]], [[ui-design/screens/E-filemanager/disk-browser]], [[ui-design/screens/F-quickpanel/wifi]] |
+| UI-Design | [[ui-design/00-device-matrix]], [[ui-design/01-mockup-index]], [[ui-design/02-component-inventory]], [[ui-design/03-implementation-plan]], [[ui-design/04-accessibility-gaps]], [[ui-design/05-responsive-architecture]] |
+| UI-Design Screens | [[ui-design/screens/00-ascii-art-index]] + 20 spec: [[ui-design/screens/T07-embedded/home-dashboard]], [[ui-design/screens/T07-embedded/albums]], [[ui-design/screens/T07-embedded/singer]], [[ui-design/screens/T07-embedded/playlist]], [[ui-design/screens/T07-embedded/browse]], [[ui-design/screens/T07-embedded/wifi-quick]], [[ui-design/screens/T17-monitor-22fhd/home-dashboard]], [[ui-design/screens/shared/login]] … |
 | PNG Mockups | `.ai/.png/home-1024/` (12 PNG) + `.ai/.png/home-1920/` (1 PNG) + `.ai/.png/shared-1024/` (6 PNG) = 19 PNG |
-| UI-Design Prompt | [[ui-design/prompt/00-prompt-index]], [[ui-design/prompt/screen/01-1024-embedded]], [[ui-design/prompt/component/C01-nav-link]], [[ui-design/prompt/layout/01-pattern-standard-60-40]], [[ui-design/prompt/page/01-home]] |
+| UI-Design Prompt | [[ui-design/prompt/00-prompt-index]], [[ui-design/prompt/screen/00-prompt-index]], [[ui-design/prompt/component/C01-nav-link]], [[ui-design/prompt/layout/01-mobile-stack]], [[ui-design/prompt/page/01-home]] |
 | UI-Design Reference | [[ui-design/tokens/design-tokens-master]], [[ui-design/reference/01-php-source-architecture]], [[ui-design/reference/02-text-strings]], [[ui-design/reference/03-icon-asset-catalog]], [[ui-design/reference/04-verification]] |
 | UI-Design Flow | [[ui-design/flow/00-flow-index]], [[ui-design/flow/auth/04-select-gender]] |
 | Research | [[research/verified/php84-strict-types]], [[research/verified/argon2id]], [[research/verified/aes-256-gcm]], [[research/verified/pcm3168a]], [[research/verified/asio-sdk]], [[research/verified/juce8]], [[architecture/k1-donanim/xmos-xu316]], [[research/verified/trusted-types-domparser]], [[research/verified/itcss-bemit-layer]], [[research/verified/wcag-22-aa]], [[research/verified/mariadb-1011]] |
@@ -401,7 +403,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 
 ### §11.1 Test
 
-> **Durum (Faz 0, 2026-09-08):** `.ai/testing/` dizini vault ağacında MEVCUT DEĞİLDİR — aşağıdaki referanslar tarihsel plan kaydıdır; kullanılabilir karşılıklar: `ui-design/03-accessibility-gaps.md` (WCAG denetimi), `.ai/reports/` (3 rapor), `ui-design/screens/` (ekran spec'leri).
+> **Durum (Faz 0, 2026-09-08):** `.ai/testing/` dizini vault ağacında MEVCUT DEĞİLDİR — aşağıdaki referanslar tarihsel plan kaydıdır; kullanılabilir karşılıklar: `.ai/reports/` (3 rapor), `ui-design/04-accessibility-gaps.md` (WCAG denetimi — eski `03-accessibility-gaps.md` adı geçersiz), `ui-design/screens/` (ekran spec'leri).
 
 | Dosya | Kapsam |
 |-------|--------|
@@ -487,6 +489,21 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | .ai/workflows/ | index.md §12 | ✅ uyarı notu mevcut; kök `.workflows/` gerçek konum |
 | Electronic kök 8 dosya | keys.md §7, brain.md §21 | ✅ DOĞRULAMA GEREKLİ etiketi + alt klasör yönlendirme |
 | models/issues/scripts index | CLAUDE.md §17 | Bekliyor — dizinler yok; oluşturma kararı kullanıcıda |
+
+---
+
+### §19.5 UI-Design Disk Gerçekliği (Faz 7 ölçümü — 2026-09-29)
+
+> Bu tablo `.ai/ui-design/` sayımının **tek güncel kaynağıdır**; eski sayaç ifadeleri bu ölçümle geçersizdir. Faz/commit kanıtı: [[AGENTS.md]] §13.8 · kapı betikleri: [[WORKFLOW.md]] §8.7A.
+
+| Yüzey | Sayım |
+|-------|-------|
+| Kök `0*.md` | **6** — `00-device-matrix` · `01-mockup-index` · `02-component-inventory` · `03-implementation-plan` · `04-accessibility-gaps` · `05-responsive-architecture` |
+| `screens/` | **21 md** = 1 indeks + **20 spec** (T07-embedded **12** · T17-monitor-22fhd **2** · shared **6**) |
+| `flow/` | **21 md** = `00-flow-index` + 20 (auth 5 · music 5 · settings 4 · navigation 3 · automotive 2 · watch 1) |
+| `prompt/` | **51 md** = **48 içerik** (component **16** · page **12** · layout **10** · screen **10**) + `prompt/00-prompt-index` + `screen/00-prompt-index` + `web-research` |
+| `reference/` · `tokens/` | **17 md** (11 üst düzey + `figma/` 6) · **4 md + 7 json** |
+| Görsel / ham | `.ai/.png` **19 PNG** (12 · 1 · 6) · `reference/figma/png` **149/151** (2 eksik → `figma-extract.ps1 -ImagesOnly`) · `reference/figma/raw` **19 JSON / 79.7 MB** (15 sayfanın **4'ü boş**) |
 
 ---
 
@@ -723,8 +740,9 @@ Toplam 80 ADR (Frozen: 37, Active: 31, Rejected: 12). Frozen: 001-037 (değişti
 
 - **Toplam dosya:** 587 (ölçüm 2026-09-24 — önceki sahip doğrulaması 518, 2026-09-23; eski Faz 0 değeri 787 güncel değildi)
 - **Toplam ADR:** 80 (Frozen: 37, Active: 31, Rejected: 12)
-- **Versiyon:** 28.4.0
-- **Son Güncelleme:** 2026-09-27 (disk ölçümü: toplam dosya 587, PNG 19, template 36, kök boot 15 — ölçüm 2026-09-24; önceki sahip doğrulaması 518/19, 2026-09-23)
+- **Versiyon:** 28.4.2
+- **Son Güncelleme:** 2026-09-29 (Faz 7 guardrail hizalaması — ui-design disk gerçekliği §19.5, kırık ekran/prompt yolları düzeltildi, PNG kırılımı 12+1+6; önceki: 2026-09-27 disk ölçümü 587/PNG 19/template 36)
+  - **28.4.2 — Faz 7 (2026-09-29):** §19.5 disk gerçekliği (kök 6 · screens 21 · flow 21 · prompt 51 · reference 17 · tokens 4+7 · PNG 19 · figma png 149/151 · raw 19 JSON/79.7 MB) eklendi; §4A/§11'de olmayan ekran ve prompt yolları diskteki gerçek adlarla değiştirildi (B-home, E-filemanager, F-quickpanel, 04-vault-registration, 01-1024-embedded, 01-pattern-standard-60-40 → mevcut dosyalar); mockup-index kırılımı 12+1+6'ya tamamlandı.
   - **28.4.0 — Faz 2 (2026-09-27):** .personas 68/68 persona yeniden yazıldı (35.026 satır, ≥500 oranı %100), 4 dosya yeniden adlandırıldı, kırık wiki-link 7→0, personas/index.md sayaçları disk gerçeğiyle hizalandı, templates registry #38.
 - **Governance:** Red Team · Human Mode · Truth Mode
 

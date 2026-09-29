@@ -2,7 +2,7 @@
 title: "CoreMusic — Vault Workflows & Engineering Processes"
 type: guide
 category: workflow
-version: 22.1.2
+version: 22.1.3
 status: active
 authority: SSOT
 updated: 2026-09-29
@@ -636,6 +636,67 @@ Session Sonunda:
 | 3 | Çelişki varsa SSOT hierarchy takip edilir | CLAUDE.md öncelikli |
 | 4 | Timestamp'ler her zaman güncel olmalı | Eski timestamp = eski bilgi |
 
+#### Faz 0–8 Durum Tablosu (ui-design vault yeniden yazım — ölçüm 2026-09-29)
+
+> **Numara uyarısı:** Bu seri **vault revizyon fazları değildir** (§8.7A'nın "14 dosya" işi ayrı bir numara serisidir). Faz/commit tablosunun SSOT'u: [[AGENTS.md]] §13.8 (§25.5 subject metinlerini taşır). Konu sütunundaki tüm hash'ler `git log -1` ile 2026-09-29'da doğrulanmıştır.
+
+| Faz | Commit | Konu | Durum |
+|-----|--------|------|-------|
+| 0 | `cdd5665` | baseline — sıfırdan yazım öncesi .ai yedeği | ✅ TAMAMLANDI |
+| 1+2 | `f02d02b` | Figma 15 sayfa çekim (59 MB ham) + token üretimi (7 breakpoint, FAIL=0) | ✅ TAMAMLANDI |
+| 3 | `04764f9` | hata düzeltmeleri 5/5 — CatID sütunu + şablon disk gerçeği | ✅ TAMAMLANDI |
+| 4 | `21f357d` | kök 6 md yeniden yazım + PNG 149/151 + envanter SSOT | ✅ TAMAMLANDI |
+| 5 | `1042cf4` | screens frontmatter Kalıp D hizalaması (13 dosya) | ✅ TAMAMLANDI |
+| 6 | `02a98b9` | Kalıp A/B/C hizalaması (70 dosya) — A:0 B:0 C:0 | ✅ TAMAMLANDI |
+| 7 | — | Guardrail 6 dosya: `AGENTS` · `CLAUDE` · `WORKFLOW` · `index` · `keys` · `log` | 🔄 BU REVİZYON — commit orchestrator'da |
+| 8 | — | QA kapısı — `[[ui-design/reference/04-verification]]` protokolü | ⏳ Faz 7 commit'i sonrası |
+
+**Disk gerçekliği (2026-09-29 sayımı — eski sayaçlar bunlarla geçersizdir):**
+
+| Yüzey | Sayım |
+|-------|-------|
+| `ui-design/` kök `0*.md` | **6** (`00-device-matrix` … `05-responsive-architecture`) |
+| `screens/` | **21 md** = 1 indeks (`00-ascii-art-index`) + **20 spec** (T07-embedded 12 · T17-monitor-22fhd 2 · shared 6) |
+| `flow/` | **21 md** = `00-flow-index` + 20 (auth 5 · music 5 · settings 4 · navigation 3 · automotive 2 · watch 1) |
+| `prompt/` | **51 md** = **48 içerik** (component 16 · page 12 · layout 10 · screen 10) + `prompt/00-prompt-index` + `screen/00-prompt-index` + `web-research` |
+| `reference/` · `tokens/` | **17 md** (11 üst düzey `01-php-source-architecture` … `10-device-specific-guidelines` + `legacy-inventory`, `figma/` 6) · **4 md + 7 json** |
+| Görsel / ham veri | `.ai/.png` **19 PNG** (home-1024 12 · shared-1024 6 · home-1920 1) · `reference/figma/png` **149/151 (2 eksik)** · `reference/figma/raw` **19 JSON / 79.7 MB** (15 sayfa + `node-1047-15802` + `nodes-1024-1920` + `nodes-user-12` + `images-1024-1920`) · Figma 15 sayfanın **4'ü boş**: `326:3386`, `16:106`, `1801:12472`, `1801:12473` |
+
+> *Zaman uyumu:* Faz 1+2 commit subject'indeki **59 MB**, o günün (2026-09-29 öncesi) ham çekimidir; bugünkü ölçüm **79.7 MB / 19 JSON** olup Faz 4 genişletmesinin sonucudur. İkisi de doğrudur, biri diğerini **ezmez** — tarih belirtilmeden tek sayı kullanılmaz.
+
+**Gate komutları — repo KÖKÜNDEN çalıştırılır** (`.ai/` içinden değil; bkz. [[AGENTS.md]] §13.6):
+
+```powershell
+powershell -File .ai/scripts/screens-frontmatter-check.ps1   # beklenti: dosya 21 | sorunlu 0
+powershell -File .ai/scripts/kalip-abc-check.ps1             # beklenti: A:0 B:0 C:0 → GECTI  (A 21 · B 21 · C 51)
+powershell -File .ai/scripts/wiki-link-check.ps1             # beklenti: 227 link / 6 raporlanan = GERÇEK KIRIK 0 (AGENTS §13.7 sahte)
+powershell -File .ai/scripts/device-matrix-catid.ps1         # CatID sütunu denetimi (11 kategori öneki)
+```
+
+**Kalıp içerik şartları (Faz 6 çıktısı — `kalip-abc-check.ps1` bunlara bakar):**
+
+| Kalıp | Alan | Sabit yapı |
+|-------|------|-----------|
+| **A** (reference / root / tokens) | 12 alan | `§1 Amaç` + Quality Report + footer |
+| **B** (flow) | 10 alan | 6 sabit bölüm: `## 1. Akış Diyagramı (Decision Flow)` … `## 6. Adımlar`; fazla bölüm `## 1A.` ara numarasıyla eklenir |
+| **C** (prompt) | 9 alan | **tek H2** `## AI Code Generation Prompt` + 6 H3 (Context · Required Inputs · ASCII Reference · Prompt Template · Expected Output · Validation) + H1 kategori kalıpları |
+
+**SSOT betikleri:** `figma-extract.ps1` / `figma-tokens.ps1` `FIGMA_TOKEN` **ve** `FIGMA_FILE_KEY`'i **yalnız** `.ai/.env.figma`'dan okur — betikte sabit anahtar yoktur (AGENTS §13.9 kural 3).
+
+#### §8.7B Session Checklist (Baş / Orta / Kapanış — 2026-09-29)
+
+Session yaşam döngüsünün **tek işaretlenme yüzeyi** [[CHECKLIST.md]]; açık işlerin listesi [[TODO.md]]:
+
+| Aşama | Ne zaman | Uygulanan | Bağlı mevcut adım |
+|---|---|---|---|
+| 🔴 Başlama | Boot sonrası, görev yazılmadan önce | [[CHECKLIST.md]] §A (5 madde) | §8.6 Session Init · [[MEMORY.md]] §6 (5 soru) |
+| 🟡 Orta | İş bloğu değişiminde, session başına en az 1 kez | [[CHECKLIST.md]] §B (5 madde) | §8.1 Code Review · kalite kontrolü |
+| 🟢 Kapanış | "Tamamlandı" denmeden önce | [[CHECKLIST.md]] §C (5 madde) | §8.7 Bitiş (5 adım) · `.workflows/vault-sync.md` Aşama 8 |
+
+**Kural:** §A tamamlanmadan plan/kod başlamaz (Guardrail #1 ve #2); §C tamamlanmadan session kapanmaz; adaylar arası çelişkide §8.7A Critical Rules #3 (SSOT hiyerarşisi) uygulanır.
+
+**Sürekli güçlendirme (her session sonu — 2-3 satır):** §C tamamlandıktan sonra 20 hedef dosya (kök `CLAUDE.md`/`README.md`/`WORKFLOW.md` + `.ai/` kök 17 md) sırayla gözden geçirilir: bu session'da değişenler 2-4 satırla güçlendirilir, değişmeyen dosyaya dokunulmaz. Sınıflandırma esas: [[CHECKLIST.md]] §A (CRITICAL 16 / ON-DEMAND 3 / LOG 1). Kayıt: [[log.md]] 1 satır + `.workflows/vault-sync.md` Aşama 8 satır 5.
+
 #### §8.8 YAML Formatter & Validation
 
 > Detaylı YAML format standartları için bkz: [[reference/yaml-formatter]]
@@ -661,7 +722,7 @@ Session Sonunda:
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 22.1.0 |
+| Version | 22.1.3 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 |
 | ADR References | 7 |

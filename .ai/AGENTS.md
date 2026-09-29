@@ -2,7 +2,7 @@
 title: "CoreMusic — Agent Registry & Coordination Protocol"
 type: guide
 category: agent-registry
-version: 22.0.5
+version: 22.0.6
 status: active
 authority: SSOT
 updated: 2026-09-29
@@ -39,7 +39,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 
 ### §2.1 Registry Authority
 
-Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil indeksi** olarak hizmet eder — v1.0.0 iken kendi SSOT iddiasını taşırken Faz 4'te (2026-09-23) demote edilmiştir (kayıt: v1.1.0; güncel: **v1.2.5**), `authority: Alt Registry — SSOT: .ai/AGENTS.md (v22.0.5)` (detay §26.2). Çelişkide kök dosya kazanır.
+Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil indeksi** olarak hizmet eder — v1.0.0 iken kendi SSOT iddiasını taşırken Faz 4'te (2026-09-23) demote edilmiştir (kayıt: v1.1.0; güncel: **v1.2.5**), `authority: Alt Registry — SSOT: .ai/AGENTS.md (v22.0.6)` (detay §26.2; alt registry'nin `v22.0.5` sabitlemesi Faz 8'de senkronlanacak). Çelişkide kök dosya kazanır.
 
 ---
 
@@ -127,8 +127,35 @@ Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil inde
 3. Token aşımı önlenir: gereksiz dosya okunmaz
 4. **İstisna:** Görsel referanslar (`.ai/ui-design/screens/**`, `.ai/.png/**`)
 5. **Şablon Zorunlu Okuma (Guardrail #16):** `.ai/ui-design/**` içine dosya yazmadan ÖNCE `.ai/.templates/ui-design/` altındaki kalıp şablonu okunur — referans/tokens/index → `[[.templates/ui-design/reference-template]]` (Kalıp A) · flow → `[[.templates/ui-design/flow-template]]` (Kalıp B) · prompt → `[[.templates/ui-design/prompt-template]]` (Kalıp C) · screens → `[[.templates/ui-design/screen-spec-template]]` (Kalıp D). Şablonsuz ui-design dosyası üretilmez (§7.3).
+6. **Gate Script Çalıştırma Yeri (Faz 7):** `.ai/scripts/*.ps1` doğrulama scriptleri yalnızca **repo kökünden** (`C:\www\coremusic.net`) çalıştırılır — `screens-frontmatter-check.ps1` göreli yolları `.ai/` içinden çözemediği için **19 adet sahte "PNG yok"** üretir. 2026-09-29 kök ölçümü: frontmatter `21 ekran / 0 sorunlu` · `kalip-abc-check` `A:21·0 / B:21·0 / C:51·0 → GECTI` · `wiki-link-check` `227 link / 6 kırık`.
+7. **Bilinen 6 Sahte Kırık Link (düzeltme YASAK):** `flow/auth/01-login.md [[C]]` · `flow/auth/04-select-gender.md [[V]]` · `flow/music/01-playback.md [[V]]` · `flow/settings/04-general.md [[V]]` · `reference/legacy-inventory.md [[link]]` ×2 (L225, ```` ```yaml ```` bloğu içinde). Bunlar şablon değişkeni/kaçış dizgesidir, gerçek kırık link değildir; "onarmaya" kalkışmak şablonu bozar. Sayım 6'da kalır ve kusur sayılmaz.
 
 **Mockup Before Frontend:** CSS/HTML/JS/layout/bileşen görevlerinde `.ai/ui-design/` altındaki ilgili görsel okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir.
+
+#### §13.8 Faz Durumu & Commit Kanıtları (ui-design vault yeniden yazım — ölçüm 2026-09-29)
+
+> **Kapsam uyarısı:** Bu tablo `.ai/ui-design/` sıfırdan yeniden yazımının faz/commit kanıtıdır — §25.1'in *vault revizyon* fazlarıyla (boot dosyaları, architecture, decisions) **aynı numara serisi değildir**. Konu sütunu commit subject'idir; dosya-bazlı sayımlar §7.2 (envanter) ve §24.3 (veri bütünlüğü)tedir. Çalışma akışı karşılığı: [[WORKFLOW.md]] §8.7A.
+
+| Faz | Kapsam | Commit | Durum |
+|-----|--------|--------|-------|
+| 0 | baseline + `.env.figma` gitignore | `cdd5665` | ✅ TAMAMLANDI |
+| 1+2 | Figma 15 sayfa çekimi + token yeniden üretimi | `f02d02b` | ✅ TAMAMLANDI |
+| 3 | 5 hata düzeltmesi (CatID + şablon disk gerçeği) | `04764f9` | ✅ TAMAMLANDI |
+| 4 | root 6 md yeniden yazımı + PNG 149/151 + env SSOT | `21f357d` | ✅ TAMAMLANDI |
+| 5 | screens frontmatter Kalıp D (13 dosya) | `1042cf4` | ✅ TAMAMLANDI |
+| 6 | reference+flow+prompt Kalıp A/B/C (70 dosya) | `02a98b9` | ✅ TAMAMLANDI |
+| 7 | Guardrail 6 dosyanın disk/commit gerçeğiyle hizalanması (`AGENTS` · `CLAUDE` · `WORKFLOW` · `index` · `keys` · `log`) | — | 🔄 BU REVİZYON — **commit'i orchestrator atar, subagent atmaz** |
+| 8 | QA denetimi → `[[ui-design/reference/04-verification]]` protokolü | — | ⏳ BEKLEMEDE (Faz 7 commit'i sonrası) |
+
+**Kalan tek açık:** Faz 8 QA kapısı. Faz 0–6 commit'leri doğrulanmıştır (§25.5 aynı listeyi subject metinleriyle taşır); Faz 7/8'in commit'i **henüz yoktur** — tabloda uydurma hash yazılmaz.
+
+#### §13.9 Değiştirilemez Kullanıcı Kuralları (Faz 7 kaydı — bağlayıcı)
+
+1. **Widget grid kanonik kuralı** (Figma API çıktısından **önceliklidir**): `1024` → satır1 **2×2**, satır2 **1×5**, satır3 **1×5** = 12 slot · `1920` → satır1 **4×4**, satır2 **1×8**, satır3 **1×8** = 20 slot. Bu kurala aykırı sayım/render revize edilir, kural değil.
+2. **İsimlendirme yasağı:** `ui-design/screens/T07-embedded/` dizin adı **DEĞİŞTİRİLMEZ** (~489 wiki-link buna bağlı); tier/ CatID ayrıştırması dosya yolu yerine **`CatID` sütunuyla** yapılır.
+3. **Figma token SSOT:** `FIGMA_TOKEN` / `FIGMA_FILE_KEY` **yalnız** `.ai/.env.figma`'dan okunur (`.gitignore:69`); anahtar asla `.md` / `.json` / `.log` içine yazılmaz. `figma-extract.ps1` ve `figma-tokens.ps1` bu kuraldadır — betikte sabit anahtar yoktur.
+4. **Dokunulmaz yüzeyler:** `.ai/.png/**` (salt-okunur SSOT) · frozen ADR'ler · `*.php` / `*.js` / `*.css` / `*.sql` kaynak kod (bu revizyon Markdown dışı **yazmaz**).
+5. **Üretim ve kapanış:** yeni `.md` dosyaları `.ai/.templates/ui-design/` Kalıp A–D'ye uyar (Guardrail #16); **`git commit` subagent tarafından ATILMAZ — orkestratöre aittir.**
 
 ---
 
@@ -242,6 +269,8 @@ Kullanıcı İsteği
 | 45-Tier uyumu | [[ui-design/reference/10-device-specific-guidelines]] tier kontrolü; responsive token'lar | Tier kuralı ihlal edilmişse → RED |
 | Responsive uyum | [[ui-design/05-responsive-architecture]] §7.4 (4K'da ortalamama) + §12 (fallback zorunlu) | Tier kuralı ihlal edilmişse → RED |
 | Şablon zorunluluğu | `.ai/.templates/ui-design/{reference,flow,prompt,screen-spec}-template.md` (Kalıp A-D) — görev tipine göre ilgili şablon okundu mu? | Şablon okunmadıysa → DUR (Guardrail #16) |
+| Gate script sonucu | Repo **kökünden** `screens-frontmatter-check` `21/0` · `kalip-abc-check` `A:0 B:0 C:0 → GECTI` · `wiki-link-check` `227 link / 6 raporlanan` = **gerçek kırık 0** (6'sı §13.7 sahte) | `.ai/` içinden çalıştırıldıysa → geçersiz, kökten tekrar çalıştır (§13.6) |
+| Varlık envanteri (Faz 0–6 kanıtı — 2026-09-29 sayımı) | **MD:** ui-design kök **6** (`00-device-matrix` … `05-responsive-architecture`) · `screens/` **21** (1 indeks + 20 spec: T07-embedded 12 · T17-monitor-22fhd 2 · shared 6) · `flow/` **21** (indeks + auth 5 · music 5 · settings 4 · navigation 3 · automotive 2 · watch 1) · `prompt/` **51** (48 içerik: component 16 · page 12 · layout 10 · screen 10 + `prompt/00-prompt-index` + `screen/00-prompt-index` + `web-research`) · `reference/` **17** (11 üst düzey + `figma/` 6) · `tokens/` **4 md + 7 json** — **GÖRSEL/VERİ:** `.ai/.png` **19 PNG** (home-1024 12 · home-1920 1 · shared-1024 6) · `reference/figma/png` **149/151** (2 eksik → `figma-extract.ps1 -ImagesOnly`) · `reference/figma/raw` **19 JSON / 79.7 MB** (15 sayfa; 4'ü boş: `326:3386`, `16:106`, `1801:12472`, `1801:12473`) | Envanter ile görev iddiası uyuşmuyorsa → DUR |
 | Önceki görev başarısız mı? | Retry / escalation | Max 3 retry |
 
 #### §7.3 Step 3: Task Assignment
@@ -495,6 +524,18 @@ Ajan dosyaya erişmek ister
 | QA | `ui-design/04-accessibility-gaps.md`, `ui-design/screens/**/*.md`, `.ai/reports/` |
 | DevOps | `architecture/k13-cicd/*.md`, `.ai/ecosystem/*.md` |
 
+> **Faz 6–7 veri bütünlüğü notu (2026-09-29 — okuma sırasında karşılaşılan açık `⚠️` işaretleri; bunlar hata değil, eksik-veri işaretidir ve "kaynak alındı" diye kullanılamaz):**
+>
+> | Yüzey | Ölçüm | Davranış |
+> |-------|-------|----------|
+> | **Faz 6 içerik kaybı** | **0** — silinen kume eklenen kumenin alt kümesi; `title`/`date`/`version`/`status` **51/51 byte-birebir** | Kayıp yoktur; sorun *işaretsiz eksiklik* değil, **işaretli eksikliktir** (aşağıdaki satırlar) |
+> | `ui-design/flow/**` | **44 `⚠️ VERIFICATION REQUIRED` stub'u / 21 dosyanın 19'unda** | İlgili alan `⚠️ VERIFICATION REQUIRED` olarak muamele görür, tamamlanmış sayılmaz |
+> | `ui-design/prompt/**` | **92 ana işaret** (Prompt Template **41** · Validation **26** · ASCII Reference **13** · Required Inputs **12**) + 1 voice-control satırı = **93 `⚠️` satırı / 51 dosyanın 41'inde** | **Uydurma ölç/token/JSON yazılmaz**; eksik girdi kullanıcıya sorulur — Faz 8 QA'da sahip atanacak |
+> | `ui-design/screens/T17-monitor-22fhd/welcome-popup.md` | `status: draft` + `source_of_truth: ⚠️ VERIFICATION REQUIRED — PNG bekleniyor` (20 spec'in tek draft'ı; **uydurma PNG yok**) | Draft ekran frontend kanıtı olarak kullanılmaz |
+> | `ui-design/tokens/tokens-3840.json`, `tokens-tv.json` | **boş** (tasarım yok) → mobile/tablet/TV/4K katmanları `status: planlanmış` + `⚠️ VERIFICATION REQUIRED` | 3840/TV token'ı Figma'dan gelmez; **asla uydurulmaz** — türetme kullanıcı kuralı + `05-responsive-architecture` üzerinden |
+> | `reference/figma/png` | **149/151 — 2 eksik** | `figma-extract.ps1 -ImagesOnly` ile yeniden denenir; eksikken "151 var" denmez |
+> | Figma raw | 4/15 sayfa boş (`326:3386`, `16:106`, `1801:12472`, `1801:12473` — 0.9 KB, 0 node) | Boş sayfadan veri iddiası üretilmez |
+
 #### §24.4 Automatic Cleanup
 
 | Durum | Aksiyon |
@@ -538,7 +579,7 @@ Her dosya için kontrol et:
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 22.0.5 |
+| Version | 22.0.6 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 |
 | Agent Count | 11 (1 MO + 10 specialist) |
@@ -552,6 +593,7 @@ Her dosya için kontrol et:
 | Lock Rules | 4 |
 | Quality Standards | 7 |
 | Faz Kaydı | §25 — 7 faz tablosu + stack kanıt + boot uzlaşması |
+| Faz Kanıtı (ui-design) | §13.8 — Faz 0–6 commit hash'leri · §13.6-§13.7 kapı betikleri · §13.9 değiştirilemez kullanıcı kuralları · §24.3 veri bütünlüğü |
 | Stack Kanıtı | §25.2 — agent → teknoloji satırları (ROLE §11 ile uyumlu) |
 | Orkestrasyon Kuralları | §25.3 — 5 kural (satır edit, frozen dokunulmaz, append-only, stack direktifi, faz kapanışı) |
 
@@ -593,6 +635,23 @@ Her dosya için kontrol et:
 
 Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sayısı farkı bilinen durumdur: §5 genişletilmiş okuma setidir (`.claude/rules/*`, prompt arşivleri ve mockup indeksi dahil). Kanonik kök boot listesi bu dosyanın §24.2'si ve [[WORKFLOW.md]] §8.7A'dır (14 .ai kök dosya); FULL boot 17 öğedir (root CLAUDE.md + root WORKFLOW.md + root README.md + 14 .ai kök dosya + 3 dizin: .workflows, .ai/.templates, .ai/.agents).
 
+#### §25.5 UI-Design Vault Yeniden Yazım Kaydı (Faz 0–8 — 2026-09-29)
+
+> **Numaralandırma uyarısı:** Bu tablo **§25.1'in faz tablosu DEĞİLDİR** — §25.1 vault revizyon fazlarını (boot dosyaları, architecture, decisions), bu tablo ise `.ai/ui-design/` sıfırdan yeniden yazımını (Figma çekim → şablon hizalama) taşır. İkisi ayrı numara serisidir; birbirine çevrilemez. Konu sütunu commit subject'lerinin **birebir** kopyasıdır.
+
+| Faz | Commit | Konu (commit subject) | Durum |
+|-----|--------|----------------------|-------|
+| 0 | `cdd5665` | baseline: ui-design sirfirdan yeniden yazim oncesi .ai yedegi | ✅ TAMAMLANDI |
+| 1+2 | `f02d02b` | figma: 15 sayfa tam cekim (59MB ham) + token yeniden uretimi (7 breakpoint, FAIL=0) | ✅ TAMAMLANDI |
+| 3 | `04764f9` | ui-design: Faz 3 hata duzeltmeleri (5/5) - CatID sutunu + sablon disk gercegi | ✅ TAMAMLANDI |
+| 4 | `21f357d` | ui-design: Faz 4 kok 6 md yeniden yazim + PNG 149/151 + env SSOT | ✅ TAMAMLANDI |
+| 5 | `1042cf4` | ui-design: Faz 5 screens frontmatter Kalip D hizalamasi (13 dosya) | ✅ TAMAMLANDI |
+| 6 | `02a98b9` | ui-design: Faz 6 Kalip A/B/C hizalamasi (70 dosya) - A:0 B:0 C:0 | ✅ TAMAMLANDI |
+| 7 | — | Guardrail 6 dosyanın disk/commit gerçeğiyle hizalanması (`AGENTS`, `CLAUDE`, `WORKFLOW`, `index`, `keys`, `log`) | 🔄 BU REVİZYON — commit'ı orchestrator atar |
+| 8 | — | Kalite/QA kapısı — `[[ui-design/reference/04-verification]]` protokolü | ⏳ BEKLEMEDE |
+
+**Kalan tek açık:** Faz 8 (`04-verification.md` akışı) — Faz 7 commit'i sonrası çalıştırılır.
+
 ---
 
 ### §26 Document Skeleton & SSOT Reconciliation (Vault Refactor Engine — 2026-09-23)
@@ -616,8 +675,8 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 
 | Kaynak | Eski Durum | Yeni Durum |
 |--------|-----------|------------|
-| `.ai/AGENTS.md` (kök) | v21.0.0, SSOT iddiası | **v22.0.5 — tek SSOT** |
-| `.ai/.agents/AGENTS.md` (alt) | v1.0.0, kendini SSOT ilan ediyordu | v1.2.5 — **alt registry** (`authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.5)"`) |
+| `.ai/AGENTS.md` (kök) | v21.0.0, SSOT iddiası | **v22.0.6 — tek SSOT** |
+| `.ai/.agents/AGENTS.md` (alt) | v1.0.0, kendini SSOT ilan ediyordu | v1.2.5 — **alt registry** (`authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.5)"`) ⚠️ Faz 8: alt registry'deki bu sürüm sabitlemesi kökün v22.0.6 sürümüne senkronlanacak (bu dosya kapsamı dışında) |
 
 Çözüm kuralı: SSOT hiyerarşisinde çelişkide kök dosya kazanır. Alt registry yalnızca profil/özet detayını taşır; routing, handover, escalation, öncelik kurallarının tamamı bu dosyadadır.
 

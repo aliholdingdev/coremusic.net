@@ -2,7 +2,7 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.3.5
+version: 27.3.6
 status: active
 authority: SSOT
 updated: 2026-09-29
@@ -532,7 +532,7 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 | 1 | `.ai/ui-design/01-mockup-index.md` | 19 PNG mockup indeksi (home-1024 + home-1920 + shared-1024), hangi görsellerin mevcut olduğu | İlk okunacak — hangi ekranlar var? |
 | 2 | `.ai/ui-design/02-component-inventory.md` | C01-C16 BEM sınıfları, pixel ölçümleri, token referansları | Bileşen kodlarken |
 | 3 | `.ai/ui-design/tokens/design-tokens-master.md` | Renk, boşluk, tipografi, cam token'ları | CSS yazarken |
-| 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: [[screens/B-home/dashboard-1920]]) | Layout hizalamada |
+| 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: `ui-design/screens/T17-monitor-22fhd/home-dashboard.md` — 20 spec + 1 indeks, Faz 7 sayımı) | Layout hizalamada |
 | 5 | `.ai/ui-design/05-responsive-architecture.md` | Cihaz bazlı CSS override kuralları — **§7.4 4K No-Center (4K'da ortalamama YASAK)** ve **§12 Geriye Dönük Uyumluluk (fallback ZORUNLU)** bağlayıcıdır | Device-specific CSS'te |
 
 **Referans Sıralaması (çelişki durumunda):** PNG > ASCII art > Component Inventory > Tokens > Implementation Plan.
@@ -565,6 +565,22 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 **İhlal Prosedürü:** şablonsuz ui-design dosyası → dosya geçersiz (Guardrail #16) → düzelt veya sil + `log.md` CRITICAL girişi.
 
 **Boot bağlantısı:** `session-init.md` boot listesine bu iş için 2 kayıt eklendi — `[[ui-design/01-mockup-index]]` (19 PNG mockup indeksi) ve `[[ui-design/00-device-matrix]]` (45-tier cihaz matrisi).
+
+---
+
+#### §7.4 Veri Bütünlüğü — Faz 6–7 Eksik-İçerik İşaretleri (2026-09-29)
+
+**Sonuç:** Faz 6'da **içerik kaybı 0** (silinen kume eklenen kumenin alt kümesi; `title`/`date`/`version`/`status` **51/51 byte-birebir**). Ancak **işaretli eksik içerik** var — bunlar "tamamlandı" diye kullanılmaz, Faz 8 QA'da sahip atanır:
+
+| Yüzey | Ölçüm | Kural |
+|-------|-------|-------|
+| `ui-design/flow/**` | **44 `⚠️ VERIFICATION REQUIRED` stub'u** (21 dosyanın 19'unda) | İlgili alan eksik sayılır |
+| `ui-design/prompt/**` | **92 ana işaret** — Prompt Template **41** · Validation **26** · ASCII Reference **13** · Required Inputs **12** (+1 voice-control satırı = 93 toplam / 51 dosyanın 41'inde) | **Uydurma ölç/token/JSON yazılmaz**; eksik girdi kullanıcıya sorulur |
+| `screens/T17-monitor-22fhd/welcome-popup.md` | `status: draft` + `source_of_truth: ⚠️ VERIFICATION REQUIRED — PNG bekleniyor` | Uydurma PNG yok; draft frontend kanıtı değildir |
+| `tokens/tokens-3840.json` · `tokens-tv.json` | **boş** (tasarım yok) → mobile/tablet/TV/4K katmanları `status: planlanmış` + `⚠️ VERIFICATION REQUIRED` | Token asla uydurulmaz |
+| `reference/figma/png` | **149/151 — 2 eksik** | `figma-extract.ps1 -ImagesOnly` ile yeniden denenir |
+
+*Ayrıntı:* [[AGENTS.md]] §24.3 · kapı betikleri [[AGENTS.md]] §13.6-§13.7 · faz/commit kanıtı [[AGENTS.md]] §13.8.
 
 ---
 
@@ -620,6 +636,18 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 ---
 
+#### §16A Session Checklist — Baş / Orta / Kapanış (2026-09-29)
+
+**Session başında:** [[CHECKLIST.md]] §A (🔴 Başlama, 5 madde) uygulanır — §16 boot protokolü + `git status`/`git log -10` + [[TODO.md]] P0 taraması + hedefin tek cümlede yazılması (Guardrail #1 ve #2).
+**Session ortasında:** iş bloğu değişiminde, en az 1 kez [[CHECKLIST.md]] §B (🟡 Orta, 5 madde) — yarım iş kontrolü, kalite kontrolü, Guardrail taraması, mockup gate, çelişki çözümü.
+**Session kapanışında:** [[CHECKLIST.md]] §C (🟢 Kapanış, 5 madde) — kanıtla doğrulama + [[WORKFLOW.md]] §8.7 Bitiş + `.workflows/vault-sync.md` Aşama 8 + [[TODO.md]] güncellemesi + sonraki adım satırı.
+
+**Sürekli güçlendirme döngüsü (her session sonu):** Kapanışta hedef seti = kök `CLAUDE.md` · `README.md` · `WORKFLOW.md` + `.ai/` kök 17 md (**20 dosya**; sınıflandırma [[CHECKLIST.md]] §A: CRITICAL 16 / ON-DEMAND 3 / LOG 1) gözden geçirilir → bu session'da değişenler **2-4 satırla güçlendirilir**, değişmeyenlere dokunulmaz (in-place, dosya adı sabit).
+**Bağlantılar:** başta `.workflows/session-init.md` §1 (set tanımı) · ortada [[CHECKLIST.md]] §B (3 dosya tazelenir) · sonda [[CHECKLIST.md]] §C-Güçlendirme + `.workflows/vault-sync.md` Aşama 8 satır 5 → kayıt [[log.md]] 1 satır.
+
+*İlgili:* [[CHECKLIST.md]] · [[TODO.md]] · [[WORKFLOW.md]] §8.7B · [[MEMORY.md]] §6-§7 · [[log.md]]
+
+---
 ### §18A Template System (Mandatory)
 
 **⚠️ ZORUNLULUK:** Yeni dosya oluşturulurken `.ai/.templates/index.md`'den uygun template seçilmek ZORUNLU. Template olmadan dosya oluşturulamaz (Guardrail #16).
@@ -649,6 +677,9 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | `sessionStorage` for auth | Session-based auth (HTTPOnly cookie) |
 | `var` | `const` / `let` |
 | PCM5122 (8.1 surround) | PCM3168A / AK4458 |
+| **Bayat sayım iddiaları** (screens/prompt dosya sayısı, prompt alt kırılımı, "sayfa" ve "kategori" adedi — eski rakamlar bilerek yazılmaz; sağ sütun tek kaynaktır) | **Faz 7 disk ölçümü (2026-09-29):** screens **21 md** (1 indeks + 20 spec: T07-embedded 12 · T17-monitor-22fhd 2 · shared 6) · prompt **51 md** (48 içerik + `prompt/00-prompt-index` + `screen/00-prompt-index` + `web-research`) · page prompt **12 dosya** · 4 kategori: component **16** · page **12** · layout **10** · screen **10** |
+| **"Figma'da grid tasarımı yok" iddiasını tek alt küme ölçümüne genellemek** | O ölçüm yalnız `nodes-1024-1920.json` **alt kümesi** için geçerlidir. layoutGrids gerçek sayımları: **1024 → 1** · **1920 → 2** · **system → 21** (bağlayıcı kanıt: [[ui-design/05-responsive-architecture]] §13). İlgili gerçekler: **CatID = 11 kategori öneki** (T07 çakışması Faz 3'te çözüldü) · **token FAIL = 0 / 7 breakpoint** |
+| **Yanlış dosya adları:** `artists` · `file-browser` · `now-playing` · `wifi-modal` | Doğruları: `singer` · `browse` · `playlist` · `wifi-quick` (`ui-design/screens/T07-embedded/`) |
 
 ---
 
@@ -717,7 +748,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 27.3.4 |
+| Version | 27.3.6 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 34 |
 | Hard Guardrails | 16 |
@@ -731,7 +762,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | ADR Coverage | 46 fiziksel ADR dosyası (001-043, 081, 089, 090 — `.ai/.decisions/accepted/`, ölçüm 2026-09-27) + brain.md metin kararları; ADR-090 mevcut → sonraki yeni numara **091**; 044-080 ve 082-088 arası kararlar yalnız brain.md metnindedir (081 hariç — faz 5 karar appendix'i) · *(eski kayıt: 001-089 — 80 karar: 37 Frozen + 31 Active + 12 Rejected; 89 numaradan 80 dolu, 9 numara boşluk — DOĞRULAMA GEREKLİ)* |
 | Cross References | 11 |
 | Glossary Terms | 75 (SSOT: [[glossary]]) |
-| Forbidden Patterns | 11 |
+| Forbidden Patterns | 14 |
 | Edge Cases | 9 |
 | Skills | 10 |
 | Agent Profiles | 11 |
