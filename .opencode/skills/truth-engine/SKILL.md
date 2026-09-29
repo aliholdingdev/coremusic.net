@@ -3,7 +3,8 @@ name: truth-engine
 description: "Use when verifying any count, version, or claim against disk evidence, or when enforcing Zero-Hallucination (VERIFICATION REQUIRED) in vault or code."
 title: "CoreMusic — Truth Engine"
 type: skill-instruction
-version: 1.0
+version: 1.1
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -33,6 +34,13 @@ reference:
     - ".ai/AGENTS.md"
     - ".ai/brain.md"
 changelog:
+  - version: 1.1
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi — ".ai/decisions/ → .ai/.decisions/ (ADR SSOT)"
+      - "H023/H028 '9 DB'/'Tam olarak 9' → 18 DB (ADR-040 + .ai/.sql/mysql/ = 18 .sql)"
+      - "H026/H027 disk kanıtıyla çelişiyor → ⚠️ VERIFICATION REQUIRED işareti"
+      - ".ai/knowledge/* klasörleri diskte yok → uyarı işareti (ADR-042: silinmedi)"
   - version: 1.0
     date: 2026-09-20
     changes:
@@ -75,7 +83,7 @@ Temel prensip: **Doğrulanamayan bilgi üretilmez. Tahmin yok, kanıt var.**
 |----------|------|-----------|
 | Resmi Dokümantasyon | 40 | php.net, MDN, dev.mysql.com, owasp.org |
 | Standartlar (RFC/ISO) | 25 | OWASP Top 10 2025, PSR-12 |
-| Vault Kanıtı | 15 | .ai/decisions/, brain.md, CLAUDE.md |
+| Vault Kanıtı | 15 | .ai/.decisions/, brain.md, CLAUDE.md |
 | Topluluk (yüksek puan) | 10 | StackOverflow accepted, GitHub issues |
 | Bilinmeyen/Eski kaynak | -50 | Blog, Medium, Wikipedia, pre-2024 |
 
@@ -164,12 +172,12 @@ Her inceleme için:
 | H020 | Versiyon uyumsuz SQL fonksiyonu | MySQL 9 docs kontrol |
 | H021 | SELECT * kullanımı | Açık kolon listesi |
 | H022 | ORM kullanımı | PDO prepared (ADR-002) |
-| H023 | Çapraz DB foreign key | 9 DB BCNF izolasyonu |
+| H023 | Çapraz DB foreign key | 18 DB BCNF izolasyonu (ADR-040, `.ai/.sql/mysql/` = 18 .sql) |
 | H024 | DELETE soft delete olmadan | deleted_at zorunlu |
 | H025 | DB adı 'coremusic_music' | 'coremusic_musics' |
-| H026 | DB adı 'coremusic_download' | 'coremusic_catalog' |
-| H027 | 'coremusic_neva' veya 'coremusic_credential' | Config'de yok |
-| H028 | 10 veritabanı iddiası | Tam olarak 9 |
+| H026 | DB adı 'coremusic_download' | ⚠️ 2026-09-29 VERIFICATION REQUIRED — `.ai/.sql/mysql/coremusic_download.sql` VAR ve `.ai/CLAUDE.md` DB tablosunda #15; "'coremusic_catalog'" hükmü disk kanıtıyla çelişiyor, MO onayı bekleniyor |
+| H027 | 'coremusic_neva' veya 'coremusic_credential' | ⚠️ 2026-09-29 KISMEN GEÇERSİZ — `coremusic_neva.sql` VAR (`.ai/CLAUDE.md` #16); yalnız `coremusic_credential` diskte yok → VERIFICATION REQUIRED |
+| H028 | 9 veya 10 veritabanı iddiası | Tam olarak 18 (ADR-040, `.ai/.sql/mysql/` = 18 .sql) |
 | H029 | SQL string birleştirme | Prepared statement |
 
 ### 5.4 API/Middleware (H030-H039)
@@ -194,10 +202,11 @@ Her inceleme için:
 ### Vault Bakım Sırası
 
 ```
-1. .ai/knowledge/verified/     → Doğrudan kullan
-2. .ai/knowledge/unverified/   → 30 gün kontrol + kullanıcı onayı
-3. .ai/knowledge/rejected/     → Reddedilen örüntü kontrolü
-4. .ai/decisions/accepted/     → ADR kararları
+⚠️ 2026-09-29 (faz2 denetim): 1-3 yolları diskte YOK (.ai/knowledge/ klasörü oluşmadı) — VERIFICATION REQUIRED, silinmedi (ADR-042).
+1. .ai/knowledge/verified/     → Doğrudan kullan        [ÖLÜ REFERANS — klasör yok]
+2. .ai/knowledge/unverified/   → 30 gün kontrol         [ÖLÜ REFERANS — klasör yok]
+3. .ai/knowledge/rejected/     → Reddedilen örüntü      [ÖLÜ REFERANS — klasör yok]
+4. .ai/.decisions/accepted/    → ADR kararları
 5. .ai/brain.md                → Merkezi kararlar
 6. .ai/architecture/           → Katman tanımları
 7. CLAUDE.md                   → Proje kuralları
@@ -207,7 +216,7 @@ Her inceleme için:
 
 | Kaynak Tipi | Format |
 |-------------|--------|
-| Vault referansı | `[[.ai/decisions/accepted/ADR-XXX]]` |
+| Vault referansı | `[[.ai/.decisions/accepted/ADR-XXX]]` |
 | Resmi docs | `[PHP Manual - PDO::prepare](url)` |
 | Datasheet | `[TI PCM3168A Datasheet](url)` |
 | Standart | `[OWASP SQL Injection](url)` |
@@ -280,7 +289,7 @@ Her kritik çıktı bu bloğu içermeli:
 
 ---
 
-*Truth Engine v1.0 — CoreMusic*
+*Truth Engine v1.1 — CoreMusic*
 *Authority: Vault Steward*
 *Mode: Red Team · Truth Mode · Human Mode*
 *Zero tolerance for hallucinations*

@@ -3,7 +3,8 @@ name: composer-sync
 description: "Use when composer dependencies drift between shared/ and subdomain composer.json files, autoload breaks, or vendor junction sync is needed."
 title: "CoreMusic — Composer Vendor Senkronizasyon"
 type: skill-instruction
-version: 3.0
+version: 3.1
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -24,7 +25,7 @@ reference:
     - ".ai/brain.md"
     - ".ai/index.md"
   architecture:
-    - ".ai/ADR/"
+    - ".ai/.decisions/"
     - "Existing project architecture"
   templates:
     - ".ai/.templates/index.md"
@@ -36,6 +37,7 @@ reference:
     - "coremusic.net/shared/"
     - "auth.coremusic.net/"
     - "home.coremusic.net/"
+    # ⚠️ 2026-09-29 (faz2 denetim): asagidaki 8 subdomain klasoru diskte YOK (yalniz auth./home. var) — VERIFICATION REQUIRED
     - "music.coremusic.net/"
     - "admin.coremusic.net/"
     - "api.coremusic.net/"
@@ -64,6 +66,12 @@ triggers:
   - "class not found"
   - "shared güncelle"
 changelog:
+  - version: 3.1
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi — ".ai/ADR/ → .ai/.decisions/; ADR-042 yolu tam dosya adıyla düzeltildi"
+      - "Dup-ID notu eklendi (kaynak bu dosya; .claude/skills/composer-sync daha eski kopya, ADR-042 gereği silinmedi)"
+      - "project_structure: diskte olmayan 8 subdomain klasörü uyarı işareti aldı"
   - version: 3.0
     date: 2026-08-15
     changes:
@@ -428,12 +436,16 @@ foreach ($sub in $subdomains) {
 ## 10. Bağlantılar
 
 - **Kaynak:** `C:\www\coremusic.net\shared\` — Ortak kütüphane
-- **Vault:** `.ai/ADR/ADR-042-vault-restructuring-2026-08-03`
+- **Vault:** `.ai/.decisions/accepted/ADR-042-vault-restructuring-2026-08-03.md`
 - **Log:** `.ai/log.md` — vendor fix kayıtları
 - **Routing:** `agent-orchestrator` — shared library yönlendirmesi
+- **⚠️ Dup-ID notu (2026-09-29, faz2 denetim):** `composer-sync` ID'si iki dosyada var.
+  **KAYNAK = bu dosya** (`.opencode/skills/composer-sync/SKILL.md`) — `.ai/index.md` L310, `.ai/keys.md` L422 ve `.ai/log.md` kayıtlarına göre `.opencode` sürümü üstün; opencode katalogdaki 8 aktif skill'den biri.
+  `.claude/skills/composer-sync/SKILL.md` daha eski bir kopyadır (`name`+`description` alanları yok) ve **ADR-042 (vault yeniden yapılandırma) gereği SİLİNMEDİ** — üzerinde oynama yok, silme yasak.
+  Yeni değişiklikler yalnız bu dosyaya yapılır.
 
 ---
 
-*Composer Sync v3.0 — CoreMusic Shared Library Senkronizasyon Motoru*
+*Composer Sync v3.1 — CoreMusic Shared Library Senkronizasyon Motoru*
 *Authority: Bayram Ali / Vault Steward*
 *Mode: Red Team · Truth Mode · Human Mode*

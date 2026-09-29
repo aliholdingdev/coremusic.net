@@ -3,7 +3,8 @@ name: ui-code-generator
 description: "Use when generating frontend code from screen specs with ITCSS layers, BEM naming, and --cm-* design tokens."
 title: "CoreMusic — UI Kod Üretim Motoru"
 type: skill-instruction
-version: 4.1
+version: 4.2
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -24,7 +25,7 @@ reference:
     - ".ai/brain.md"
     - ".ai/index.md"
   architecture:
-    - ".ai/ADR/"
+    - ".ai/.decisions/"
     - "Existing project architecture"
   templates:
     - ".ai/.templates/frontend/js-template.md"
@@ -34,8 +35,8 @@ reference:
     - ".ai/.agents/AGENTS.md"
     - ".ai/.agents/ui-designer.md"
   skills:
-    - ".opencode/skills/ui-analyzer/SKILL.md"
-    - ".opencode/skills/hallucination-control/SKILL.md"
+    - ".claude/skills/ui-analyzer/SKILL.md"
+    - ".claude/skills/hallucination-control/SKILL.md"
   project_structure:
     - "coremusic.net/"
     - "shared/"
@@ -60,6 +61,10 @@ triggers:
   - "mockup to code"
   - "ui analiz"
 changelog:
+  - version: 4.2
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi — ".ai/ADR/ → .ai/.decisions/; cross-skill ref .opencode → .claude/skills/ (diskte .opencode altında yok)"
   - version: 4.1
     date: 2026-08-15
     changes:
@@ -67,7 +72,7 @@ changelog:
       - Added triggers to frontmatter
 ---
 
-# UI CODE GENERATOR v4.0.0 — ARAYÜZ KOD ÜRETİM MOTORU
+# UI CODE GENERATOR v4.2.0 — ARAYÜZ KOD ÜRETİM MOTORU
 
 ## 1. KİMLİK
 

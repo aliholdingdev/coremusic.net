@@ -3,7 +3,8 @@ name: ui-workbench
 description: "Use when building or modifying frontend components — ITCSS/BEM tokens, mockup reading order, and 45-tier responsive rules before any UI code."
 title: "CoreMusic — UI Workbench"
 type: skill-instruction
-version: 1.0
+version: 1.1
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -39,11 +40,17 @@ reference:
     - ".ai/CLAUDE.md"
     - ".ai/AGENTS.md"
     - ".ai/brain.md"
-    - ".ai/ui-design/00-mockup-index.md"
-    - ".ai/ui-design/01-component-inventory.md"
+    - ".ai/ui-design/01-mockup-index.md"
+    - ".ai/ui-design/02-component-inventory.md"
     - ".ai/ui-design/tokens/design-tokens-master.md"
     - ".ai/ui-design/screens/00-ascii-art-index.md"
 changelog:
+  - version: 1.1
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi — ".ai/ui-design/ dosya adları disk gerçeğiyle hizalandı"
+      - "00-mockup-index → 01-mockup-index; 01-component-inventory → 02-component-inventory"
+      - "responsive-device-mode.md (diskte yok) → 05-responsive-architecture.md + 00-device-matrix.md eklendi"
   - version: 1.0
     date: 2026-09-20
     changes:
@@ -71,11 +78,12 @@ Bu skill, CoreMusic UI'ını **analiz eder ve üretim kalitesinde kod üretir.**
 
 | Sıra | Dosya | Amaç |
 |------|-------|------|
-| 1 | `.ai/ui-design/00-mockup-index.md` | Hangi PNG mockup'lar mevcut? |
-| 2 | `.ai/ui-design/01-component-inventory.md` | C01-C16 BEM sınıfları, ölçümler |
+| 1 | `.ai/ui-design/01-mockup-index.md` | Hangi PNG mockup'lar mevcut? |
+| 2 | `.ai/ui-design/02-component-inventory.md` | C01-C16 BEM sınıfları, ölçümler |
 | 3 | `.ai/ui-design/tokens/design-tokens-master.md` | Renk, boşluk, tipografi token'ları |
 | 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | Piksel düzeyinde ASCII layout |
-| 5 | `.ai/ui-design/responsive-device-mode.md` | Cihaz bazlı CSS kuralları |
+| 5 | `.ai/ui-design/05-responsive-architecture.md` | Cihaz bazlı CSS kuralları |
+| 6 | `.ai/ui-design/00-device-matrix.md` | Cihaz/matris tanımı (T1-T17) |
 
 **Referans sırası (çelişki durumunda):** PNG > ASCII art > Inventory > Tokens
 
@@ -221,6 +229,6 @@ Bu skill, CoreMusic UI'ını **analiz eder ve üretim kalitesinde kod üretir.**
 
 ---
 
-*UI Workbench v1.0 — CoreMusic*
+*UI Workbench v1.1 — CoreMusic*
 *Authority: Vault Steward*
 *Mode: Red Team · Truth Mode · Human Mode*

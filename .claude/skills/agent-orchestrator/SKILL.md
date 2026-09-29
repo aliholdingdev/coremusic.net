@@ -3,7 +3,8 @@ name: agent-orchestrator
 description: "Use when spawning and coordinating subagent teams with load balancing, task queues, and parallel distribution."
 title: "CoreMusic Agent Orchestrator"
 type: skill-instruction
-version: 4.0
+version: 4.1
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -30,7 +31,7 @@ reference:
     - ".ai/log.md"
     - ".ai/engine.md"
   architecture:
-    - ".ai/ADR/"
+    - ".ai/.decisions/"
     - "Existing project architecture"
     - "Existing codebase patterns"
   templates:
@@ -49,6 +50,8 @@ reference:
     - ".ai/.agents/dsp-firmware-engineer.md"
     - ".ai/.agents/windows-software-engineer.md"
   project_structure:
+    # ⚠️ 2026-09-29 (faz2 denetim): diskte yalnız "shared/", "auth.coremusic.net/" ve "home.coremusic.net/" var —
+    # diğer subdomain klasörleri henüz OLUŞMADI (planlanan yapı) — VERIFICATION REQUIRED
     - "coremusic.net/"
     - "shared/"
     - "api.coremusic.net/"
@@ -76,6 +79,10 @@ reference:
       - "architecture change"
       - "handover protocol change"
 changelog:
+  - version: 4.1
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi: ölü referans ".ai/ADR/" → ".ai/.decisions/" (disk kanıtı), project_structure disk uyarısı eklendi
   - version: 4.0
     date: 2026-08-15
     changes:
@@ -719,6 +726,6 @@ A task is NOT complete when:
 
 ---
 
-*CoreMusic Agent Orchestrator v4.0.0 — Single Source of Truth*
+*CoreMusic Agent Orchestrator v4.1.0 — Single Source of Truth*
 *Authority: Bayram Ali / Vault Steward*
 *Mode: Red Team · Truth Mode · Human Mode*

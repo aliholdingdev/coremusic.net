@@ -3,7 +3,8 @@ name: red-team-truth-mode
 description: "Use when auditing adversarially — attack paths, rejected pattern database (H001-H039), and red-team review of code or vault."
 title: "CoreMusic — Red Team & Truth Mode"
 type: skill-instruction
-version: 7.0.0
+version: 7.1.0
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -27,15 +28,17 @@ reference:
     - ".ai/keys.md"
     - ".ai/log.md"
   architecture:
-    - ".ai/ADR/"
+    - ".ai/.decisions/"
     - "Existing project architecture"
   templates:
     - ".ai/.templates/index.md"
   agents:
     - ".ai/.agents/AGENTS.md"
   skills:
-    - ".opencode/skills/hallucination-control/SKILL.md"
+    - ".claude/skills/hallucination-control/SKILL.md"
   project_structure:
+    # ⚠️ 2026-09-29 (faz2 denetim): diskte yalnız "auth.coremusic.net/" ve "home.coremusic.net/" var;
+    # api/music/admin/car/studio/pro/media/download.coremusic.net/ ve kök "coremusic.net/" klasörleri OLUŞMADI — VERIFICATION REQUIRED
     - "coremusic.net/"
     - "shared/"
   update_policy:
@@ -60,6 +63,15 @@ triggers:
   - "her kod üretimi"
   - "her vault güncellemesi"
 changelog:
+  - version: 7.1.0
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi — ölü/karşı-çelişkili referans düzeltmesi
+      - ".ai/ADR/ ve .ai/decisions/ → .ai/.decisions/ (ADR SSOT dizini)"
+      - "Cross-skill ref .opencode/skills/hallucination-control → .claude/skills/ (diskte .opencode altında yok)"
+      - "H023/H028 '9 DB' → 18 DB (ADR-040 + .ai/.sql/mysql/ = 18 .sql)"
+      - "H026/H027 disk kanıtıyla çelişiyor → ⚠️ VERIFICATION REQUIRED işaretlendi"
+      - ".ai/knowledge/*, .claude/scripts/*.sh, .claude/rules/*.md, Router.js#L682 → diskte yok, uyarıyla işaretlendi"
   - version: 7.0.0
     date: 2026-08-15
     changes:
@@ -92,7 +104,7 @@ Every agent output, every technical claim, every architectural decision — adve
 | Field | Value |
 |-------|-------|
 | System Name | Red Team & Truth Mode |
-| Version | 7.0.0 |
+| Version | 7.1.0 |
 | Authority | SSOT (Single Source of Truth) |
 | Scope | All 11 CoreMusic Agents |
 | Enforcement | AUTOMATIC — triggers on every output |
@@ -242,7 +254,7 @@ Adapted from OWASP GenAI Red Teaming Guide + NIST/Gray Swan competition data (25
 | Attack | CoreMusic Vector | Defense |
 |--------|------------------|---------|
 | Schema fabrication | Wrong DB names | H025-H028 enforcement |
-| Cross-database FK | 9-DB BCNF isolation | H023 (ADR-040) |
+| Cross-database FK | 18-DB BCNF isolation | H023 (ADR-040) |
 | SELECT * data leakage | Explicit columns | H021 enforcement |
 | Soft delete bypass | deleted_at mandatory | H024 enforcement |
 | SQL string concatenation | PDO prepared only | H029 enforcement |
@@ -287,7 +299,7 @@ Based on HTC (Holistic Trajectory Calibration) and SAVeR (Self-Audited Verified 
 |----------|--------|---------|
 | Official Documentation | 40 pts | php.net, MDN, dev.mysql.com, owasp.org, vendor datasheets (TI, AKM) |
 | Standards (RFC/ISO/OWASP) | 25 pts | RFC 9106, ISO 27001, OWASP Top 10 2025, PSR-12 |
-| Local Vault Evidence | 15 pts | .ai/decisions/, .ai/brain.md, CLAUDE.md |
+| Local Vault Evidence | 15 pts | .ai/.decisions/, .ai/brain.md, CLAUDE.md |
 | Community (High Score) | 10 pts | StackOverflow accepted, GitHub issues with maintainer response |
 | Unknown/Old Source | -50 pts | Blog, Medium, Wikipedia, pre-2024 sources |
 
@@ -476,11 +488,11 @@ Every factual claim MUST include a citation in one of these formats:
 
 | Source Type | Citation Format |
 |-------------|----------------|
-| Vault reference | `[[.ai/decisions/accepted/ADR-XXX]]` |
+| Vault reference | `[[.ai/.decisions/accepted/ADR-XXX]]` |
 | Official docs | `[PHP Manual - PDO::prepare](https://www.php.net/...)` |
 | Datasheet | `[TI PCM3168A Datasheet](https://www.ti.com/...)` |
 | Standard | `[OWASP SQL Injection Prevention](https://owasp.org/...)` |
-| Code reference | `assets.coremusic.net/js/router/Router.js#L682` |
+| Code reference | `assets.coremusic.net/js/router/Router.js#L682` ⚠️ 2026-09-29: `Router.js` diskte 85 satır — L682 OLAMAZ, VERIFICATION REQUIRED |
 
 ### 6.3 VERIFICATION REQUIRED Format
 
@@ -564,12 +576,12 @@ These patterns are AUTOMATIC REJECT triggers. Match = immediate rejection, no ex
 | H020 | Non-existent or version-mismatched SQL functions | Check MySQL 9 docs |
 | H021 | SELECT * usage | Explicit column list mandatory |
 | H022 | ORM usage | Raw PDO + Prepared Statements (ADR-002) |
-| H023 | Cross-database foreign key | 9 DB BCNF isolation (ADR-040) |
+| H023 | Cross-database foreign key | 18 DB BCNF isolation (ADR-040, `.ai/.sql/mysql/` = 18 .sql) ⚠️ 2026-09-29: "9 DB" idi → düzeltildi |
 | H024 | DELETE without soft delete | deleted_at timestamp mandatory |
 | H025 | DB name 'coremusic_music' | 'coremusic_musics' (plural, ADR-040) |
-| H026 | DB name 'coremusic_download' | 'coremusic_catalog' |
-| H027 | DB 'coremusic_neva' or 'coremusic_credential' | Not in config |
-| H028 | Claim of 10 databases | Config has exactly 9 |
+| H026 | DB name 'coremusic_download' | ⚠️ 2026-09-29 VERIFICATION REQUIRED — DOĞRULAYAMADIK: `.ai/.sql/mysql/coremusic_download.sql` DOSYASI VAR ve `.ai/CLAUDE.md` DB tablosunda #15; "'coremusic_catalog'" hükmü disk kanıtıyla çelişiyor, MO onayı bekleniyor |
+| H027 | DB 'coremusic_neva' or 'coremusic_credential' | ⚠️ 2026-09-29 KISMEN GEÇERSİZ — `coremusic_neva.sql` VAR (`.ai/CLAUDE.md` #16); yalnız `coremusic_credential` diskte yok → VERIFICATION REQUIRED |
+| H028 | Claim of 9 or 10 databases | Exactly 18 (ADR-040, `.ai/.sql/mysql/` = 18 .sql) ⚠️ 2026-09-29: "Config has exactly 9" idi → düzeltildi |
 | H029 | String concatenation in SQL | Prepared statements mandatory |
 
 ### 7.4 API/Middleware (H030-H039)
@@ -623,10 +635,11 @@ Adapted from Google AI Red Team's strict rules of engagement protocol.
 ### 9.1 Vault Knowledge Base Lookup Order
 
 ```
-1. .ai/knowledge/verified/      → Use directly
-2. .ai/knowledge/unverified/    → 30-day check + user approval
-3. .ai/knowledge/rejected/      → Rejected pattern check
-4. .ai/decisions/accepted/      → ADR architecture decisions
+⚠️ 2026-09-29 (faz2 denetim): 1-3 yolları diskte YOK (.ai/knowledge/ klasörü oluşmadı) — VERIFICATION REQUIRED, sildik: işaretliyoruz (ADR-042).
+1. .ai/knowledge/verified/      → Use directly        [ÖLÜ REFERANS — klasör yok]
+2. .ai/knowledge/unverified/    → 30-day check        [ÖLÜ REFERANS — klasör yok]
+3. .ai/knowledge/rejected/      → Rejected check      [ÖLÜ REFERANS — klasör yok]
+4. .ai/.decisions/accepted/     → ADR architecture decisions
 5. .ai/brain.md                 → Central decision records
 6. .ai/architecture/            → L0-L3 layer specifications
 7. CLAUDE.md                    → Project rules and architecture
@@ -635,10 +648,11 @@ Adapted from Google AI Red Team's strict rules of engagement protocol.
 ### 9.2 Automation Scripts
 
 ```
-.claude/scripts/validate-vault-links.sh      → Wiki-link integrity
-.claude/scripts/check-frontmatter.sh         → YAML metadata
-.claude/scripts/validate-adrs.sh             → ADR immutability (001-037 frozen)
-.claude/scripts/validate-hallucination-control.sh  → Skill self-validation
+⚠️ 2026-09-29 (faz2 denetim): aşağıdaki 4 script .claude/scripts/ altında DISKTE YOK — VERIFICATION REQUIRED (silinmedi, işaretlendi; ADR-042).
+.claude/scripts/validate-vault-links.sh      → Wiki-link integrity      [ÖLÜ REFERANS]
+.claude/scripts/check-frontmatter.sh         → YAML metadata            [ÖLÜ REFERANS]
+.claude/scripts/validate-adrs.sh             → ADR immutability         [ÖLÜ REFERANS]
+.claude/scripts/validate-hallucination-control.sh → Skill self-validation [ÖLÜ REFERANS]
 ```
 
 ### 9.3 CI/CD Gate Integration
@@ -729,7 +743,7 @@ Every task must complete ALL items before delivery:
 
 - [ ] No ORM usage (ADR-002, H022)
 - [ ] Explicit column lists (H021)
-- [ ] 9 database BCNF isolation (H023, ADR-040)
+- [ ] 18 database BCNF isolation (H023, ADR-040)
 - [ ] Correct DB names (H025-H028)
 - [ ] Prepared statements only (H029)
 - [ ] Soft delete pattern (H024)
@@ -776,8 +790,9 @@ Every task must complete ALL items before delivery:
 | 3.0.0 | 2026-08-01 | Agent-specific rules |
 | 4.0.0 | 2026-08-02 | Agentic orchestration |
 | 5.0.0 | 2026-08-08 | Merged with hallucination-control |
-| 6.0.0 | 2008-08-15 | Hallucination-control v6.0 rewrite |
+| 6.0.0 | 2026-08-15 | Hallucination-control v6.0 rewrite |
 | 7.0.0 | 2026-08-15 | **Standalone rewrite** — Research-based (Google, Microsoft, OWASP, NIST, ACL 2026) |
+| 7.1.0 | 2026-09-29 | Faz2 içerik kalite denetimi — ADR yolu, cross-skill ref, 9→18 DB, H026/H027 ⚠️ işareti, ölü referans uyarıları |
 
 ### 12.2 Research Sources
 
@@ -798,20 +813,20 @@ Every task must complete ALL items before delivery:
 ```
 SKILL.md (this file)
     +-- hallucination-control/SKILL.md (complementary, H001-H039 shared)
-    +-- .claude/rules/core-rules.md
-    +-- .claude/rules/security-standards.md
+    +-- .claude/rules/core-rules.md          [⚠️ 2026-09-29: .claude/rules/ diskte YOK — VERIFICATION REQUIRED]
+    +-- .claude/rules/security-standards.md  [⚠️ 2026-09-29: .claude/rules/ diskte YOK — VERIFICATION REQUIRED]
     +-- .ai/brain.md (Section 18: Zero Hallucination)
     +-- .ai/CLAUDE.md (Section 7: Hallucination Control)
-    +-- .ai/knowledge/verified/
-    +-- .ai/knowledge/unverified/
-    +-- .ai/knowledge/rejected/
-    +-- .ai/decisions/accepted/
+    +-- .ai/knowledge/verified/      [⚠️ 2026-09-29: klasör diskte YOK — VERIFICATION REQUIRED]
+    +-- .ai/knowledge/unverified/    [⚠️ 2026-09-29: klasör diskte YOK — VERIFICATION REQUIRED]
+    +-- .ai/knowledge/rejected/      [⚠️ 2026-09-29: klasör diskte YOK — VERIFICATION REQUIRED]
+    +-- .ai/.decisions/accepted/
     +-- .ai/log.md
 ```
 
 ---
 
-*Red Team & Truth Mode v7.0.0 — CoreMusic Adversarial Review System*
+*Red Team & Truth Mode v7.1.0 — CoreMusic Adversarial Review System*
 *Authority: Vault Steward / AI Orchestrator*
 *Mandatory for all agents — No exceptions — Every output is an attack surface*
 *Research: Google, Microsoft AIRT, OWASP, NIST, ACL 2026*

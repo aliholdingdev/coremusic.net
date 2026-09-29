@@ -3,7 +3,8 @@ name: ui-analyzer
 description: "Use when analyzing existing UI code against mockups and design tokens before redesign or refactor."
 title: "CoreMusic — UI Analiz Motoru"
 type: skill-instruction
-version: 1.1
+version: 1.2
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -24,7 +25,7 @@ reference:
     - ".ai/brain.md"
     - ".ai/index.md"
   architecture:
-    - ".ai/ADR/"
+    - ".ai/.decisions/"
     - "Existing project architecture"
   templates:
     - ".ai/.templates/frontend/js-template.md"
@@ -33,7 +34,7 @@ reference:
     - ".ai/.agents/AGENTS.md"
     - ".ai/.agents/ui-designer.md"
   skills:
-    - ".opencode/skills/ui-code-generator/SKILL.md"
+    - ".claude/skills/ui-code-generator/SKILL.md"
   project_structure:
     - "coremusic.net/"
     - "shared/"
@@ -55,6 +56,10 @@ triggers:
   - "görsel analiz"
   - "screenshot analiz"
 changelog:
+  - version: 1.2
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi — ".ai/ADR/ → .ai/.decisions/; cross-skill ref .opencode → .claude/skills/ui-code-generator (diskte .opencode altında yok)"
   - version: 1.1
     date: 2026-08-15
     changes:
@@ -62,7 +67,7 @@ changelog:
       - Added triggers to frontmatter
 ---
 
-# UI ANALYZER v1.0.0 — ARAYÜZ ANALİZ MOTORU
+# UI ANALYZER v1.2.0 — ARAYÜZ ANALİZ MOTORU
 
 ## 1. KİMLİK
 

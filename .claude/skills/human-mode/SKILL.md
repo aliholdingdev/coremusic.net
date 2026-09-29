@@ -3,7 +3,8 @@ name: human-mode
 description: "Use when confirming actions with the user — approval gates, onay akışı, and Turkish-language confirmation prompts."
 title: "CoreMusic — Human-in-the-Loop Control System"
 type: skill-instruction
-version: 5.0.0
+version: 5.1.0
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -25,7 +26,7 @@ reference:
     - ".ai/brain.md"
     - ".ai/index.md"
   architecture:
-    - ".ai/ADR/"
+    - ".ai/.decisions/"
     - "Existing project architecture"
     - "Existing codebase patterns"
   templates:
@@ -33,9 +34,11 @@ reference:
   agents:
     - ".ai/.agents/AGENTS.md"
   skills:
-    - ".opencode/skills/agent-orchestrator/SKILL.md"
-    - ".opencode/skills/hallucination-control/SKILL.md"
+    - ".claude/skills/agent-orchestrator/SKILL.md"
+    - ".claude/skills/hallucination-control/SKILL.md"
   project_structure:
+    # ⚠️ 2026-09-29 (faz2 denetim): diskte yalnız "auth.coremusic.net/" ve "home.coremusic.net/" var;
+    # api/music/admin/car/studio/pro/media/download.coremusic.net/ ve kök "coremusic.net/" klasörleri OLUŞMADI — VERIFICATION REQUIRED
     - "coremusic.net/"
     - "shared/"
     - "api.coremusic.net/"
@@ -55,9 +58,9 @@ reference:
     - "Existing implementation"
     - "User requirements"
   cross_references:
-    - ".opencode/skills/agent-orchestrator/SKILL.md"
-    - ".opencode/skills/hallucination-control/SKILL.md"
-    - ".opencode/skills/vault-sync/SKILL.md"
+    - ".claude/skills/agent-orchestrator/SKILL.md"
+    - ".claude/skills/hallucination-control/SKILL.md"
+    - ".claude/skills/vault-sync-post/SKILL.md"
   update_policy:
     preserve_existing_structure: true
     require_approval_for:
@@ -94,6 +97,11 @@ triggers:
   - "insan kontrolü"
   - "intervene"
 changelog:
+  - version: 5.1.0
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi: ölü cross-reference düzeltmesi (.opencode/skills/{agent-orchestrator,hallucination-control,vault-sync} → diskteki gerçek yollar)
+      - ".ai/ADR/" → ".ai/.decisions/" (disk kanıtı); project_structure olmayan subdomain klasörleri işaretlendi
   - version: 5.0.0
     date: 2026-08-15
     changes:
@@ -125,7 +133,7 @@ Agent-orchestrator görevleri yönlendirir. Hallucination-control doğru bilgiyi
 | Field | Value |
 |-------|-------|
 | System Name | Human-in-the-Loop Control System |
-| Version | 5.0.0 |
+| Version | 5.1.0 |
 | Authority | SSOT (Single Source of Truth) |
 | Scope | All 11 CoreMusic Agents |
 | Enforcement | AUTOMATIC — triggers on every high-risk action |
@@ -895,6 +903,6 @@ Her HITL kararından önce bu kontrol listesi tamamlanmalıdır:
 
 ---
 
-*Human-in-the-Loop Control System v5.0.0 — CoreMusic*
+*Human-in-the-Loop Control System v5.1.0 — CoreMusic*
 *Authority: Vault Steward / AI Orchestrator*
 *Mandatory for all agents — Human control preserved at critical decision points*

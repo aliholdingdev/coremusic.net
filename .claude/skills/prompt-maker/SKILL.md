@@ -3,7 +3,8 @@ name: prompt-maker
 description: "Use at the start of every task — /prompt-maker expands a rough request into a structured multi-part prompt with P0/P1/P2 questions."
 title: "CoreMusic — Prompt Engineering Motoru"
 type: skill-instruction
-version: 11.0.0
+version: 11.1.0
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -24,16 +25,17 @@ reference:
     - ".ai/brain.md"
     - ".ai/index.md"
   architecture:
-    - ".ai/ADR/"
+    - ".ai/.decisions/"
     - "Existing project architecture"
   templates:
     - ".ai/.templates/index.md"
   agents:
     - ".ai/.agents/AGENTS.md"
   skills:
-    - ".opencode/skills/hallucination-control/SKILL.md"
-    - ".opencode/skills/human-mode/SKILL.md"
+    - ".claude/skills/hallucination-control/SKILL.md"
+    - ".claude/skills/human-mode/SKILL.md"
   project_structure:
+    # ⚠️ 2026-09-29 (faz2 denetim): diskte yalnız "shared/" var; "coremusic.net/" alt klasörü yok (repo kök adı) — VERIFICATION REQUIRED
     - "coremusic.net/"
     - "shared/"
   update_policy:
@@ -59,6 +61,12 @@ triggers:
   - "PICCO"
   - "prompt template"
 changelog:
+  - version: 11.1.0
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi (içerik zaten güncel doğrulandı — PICCO v11 korundu)
+      - Ölü referans düzeltmesi: .ai/decisions → .ai/.decisions, .opencode/skills → .claude/skills, vault-sync → vault-sync-post
+      - §8 eşik çelişkisi giderildi (Step 8 ↔ §8.1 tablosu), sürüm satırları 11.1.0 ile hizalandı
   - version: 11.0.0
     date: 2026-08-15
     changes:
@@ -84,7 +92,7 @@ It transforms scattered ideas into executable, production-grade master prompts.
 | Field | Value |
 |-------|-------|
 | System Name | Prompt Engineering Motoru |
-| Version | 11.0.0 |
+| Version | 11.1.0 |
 | Authority | SSOT |
 | Framework | PICCO (Persona, Instructions, Context, Constraints, Output) |
 | Methodology | Context Engineering (4-stage pipeline) |
@@ -236,7 +244,7 @@ SOFT RULES (can negotiate):
 DECIDE:
   - Which stack / pattern / tools
   - If needed: create ADR
-  - Document: .ai/decisions/accepted/
+  - Document: .ai/.decisions/accepted/
 ```
 
 ### Step 7: Generate MASTER PROMPT
@@ -260,7 +268,8 @@ RULE: Every line must define system behavior
   7. Depth (sufficient detail)
   8. Documentation (self-describing)
 
-THRESHOLD: Each category ≥ 85/100
+THRESHOLD: Per-category thresholds in §8.1 (80-90/100; overall pass >=85/100, Security >=90/100)
+  ⚠️ 2026-09-29: Eski "Each category ≥85/100" ifadesi §8.1 tablosuyla (80/85/90) çelişiyordu — tablo esastır
 ```
 
 ### Step 9: Save
@@ -474,7 +483,7 @@ This skill uses the full hallucination control pipeline:
 - Integrator Agent (storage)
 - Red Team Review (3-way)
 
-See: `.opencode/skills/hallucination-control/SKILL.md`
+See: `.claude/skills/hallucination-control/SKILL.md`
 
 ### 6.3 Atomic Claim Decomposition
 
@@ -619,9 +628,9 @@ SKILL.md (this file)
     +-- .ai/brain.md (architectural decisions)
     +-- .ai/index.md (master catalog)
     +-- .ai/prompts/ (generated prompts)
-    +-- .ai/decisions/accepted/ (ADRs)
-    +-- .opencode/skills/hallucination-control/SKILL.md
-    +-- .opencode/skills/human-mode/SKILL.md
+    +-- .ai/.decisions/accepted/ (ADRs)
+    +-- .claude/skills/hallucination-control/SKILL.md
+    +-- .claude/skills/human-mode/SKILL.md
 ```
 
 ### 10.2 Related Skills
@@ -630,7 +639,7 @@ SKILL.md (this file)
 |-------|--------------|
 | **hallucination-control** | Verification pipeline for prompt outputs |
 | **human-mode** | Orchestration and execution rules |
-| **vault-sync** | Vault integrity validation |
+| **vault-sync-post** | Vault integrity validation (⚠️ 2026-09-29: "vault-sync" skill adı diskte yok → `.claude/skills/vault-sync-post/SKILL.md` ve `.opencode/skills/vault-sync-post/SKILL.md`) |
 
 ### 10.3 Changelog
 
@@ -641,6 +650,7 @@ SKILL.md (this file)
 | 10.0.0 | 2026-08-08 | Merged with red-team-truth-mode |
 | 10.1.0 | 2026-08-15 | Standardized YAML frontmatter |
 | 11.0.0 | 2026-08-15 | Complete rewrite — PICCO framework, 2026 techniques, injection defense |
+| 11.1.0 | 2026-09-29 | Faz2 kalite denetimi: ölü referanslar, §8 eşik çelişkisi, sürüm hizalaması |
 
 ### 10.4 Research Sources
 
@@ -655,7 +665,7 @@ SKILL.md (this file)
 
 ---
 
-*Prompt Engineering Motoru v11.0.0 — CoreMusic MIM Format*
+*Prompt Engineering Motoru v11.1.0 — CoreMusic MIM Format*
 *Framework: PICCO (Persona, Instructions, Context, Constraints, Output)*
 *Authority: Vault Steward / AI Orchestrator*
 *Mandatory for all prompt generation — No exceptions*
