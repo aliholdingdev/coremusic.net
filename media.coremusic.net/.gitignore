@@ -1,0 +1,2 @@
+# Medya arşivi içeriği asla git'e girmez (ADR-092 — varlık baytı repo'ya girmez; 38 GB+ risk)
+media/
