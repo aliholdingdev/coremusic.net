@@ -12,10 +12,15 @@ final class RouteTableTest extends TestCase
 {
     private function table(): RouteTable
     {
+        // Yeni sözleşme: "alt kaynak" yalnızca TABLODA açıkça kayıtla vardır.
+        //   - `/api/v1/auth/profile` POST kaydıyla  → GET prefix fallback çalışır
+        //   - `/api/v1/auth/settings` GET kaydıyla  → POST 405 + Allow: GET
+        //   - hiç kaydı olmayan alt yol (ör. does-not-exist) → 404
         return RouteTable::fromArray([
             'GET' => [
                 '/api/v1/auth'      => ['service' => 'auth', 'handler' => 'authController'],
                 '/api/v1/auth/login' => ['service' => 'auth', 'handler' => 'authController', 'public' => true],
+                '/api/v1/auth/settings' => ['service' => 'auth', 'handler' => 'authController'],
             ],
             'POST' => [
                 '/api/v1/auth/login' => [
@@ -24,6 +29,7 @@ final class RouteTableTest extends TestCase
                     'public'      => true,
                     'implemented' => false,
                 ],
+                '/api/v1/auth/profile' => ['service' => 'auth', 'handler' => 'authController'],
                 '/api/v1/user' => ['service' => 'user', 'handler' => 'userController'],
             ],
         ]);
@@ -49,6 +55,9 @@ final class RouteTableTest extends TestCase
 
     public function testPrefixMatchStillWorksForDeclaredResource(): void
     {
+        // `/api/v1/auth/profile` tabloda POST kaydıyla tanımlı ("declared") →
+        // GET isteği exact bulamaz, prefix fallback collection route'unu döndürür.
+        // Hiç tanımlı olmayan alt yollar için bkz. testUnknownSubPathUnderDeclaredPrefixYields404.
         $match = $this->table()->match('/api/v1/auth/profile', 'GET');
 
         $this->assertSame(RouteTable::STATUS_OK, $match['status']);
@@ -84,6 +93,29 @@ final class RouteTableTest extends TestCase
             $this->assertNull($match['route']);
             $this->assertSame([], $match['allow'], '404 yanıtında Allow başlığı olmamalı');
         }
+    }
+
+    /**
+     * Prefix + tanımsız alt yol → 404 (RouteConfigTest tetikleyicisi:
+     * `GET /api/v1/auth/does-not-exist` eski davranışta prefix fallback ile
+     * private route'a düşüp 401 dönüyordu).
+     */
+    public function testUnknownSubPathUnderDeclaredPrefixYields404(): void
+    {
+        foreach (['GET', 'POST', 'PUT', 'DELETE'] as $method) {
+            $match = $this->table()->match('/api/v1/auth/does-not-exist', $method);
+
+            $this->assertSame(
+                RouteTable::STATUS_NOT_FOUND,
+                $match['status'],
+                "{$method}: prefix altı tanımsız yol 404 (eski: 401/405)"
+            );
+            $this->assertNull($match['route'], 'Prefix route\'una fallback yapılmamalı');
+            $this->assertSame([], $match['allow'], '404 yanıtında Allow başlığı olmamalı');
+        }
+
+        // Prefix kökü (collection ucu) exact kayıt → davranış değişmez
+        $this->assertSame(RouteTable::STATUS_OK, $this->table()->match('/api/v1/auth', 'GET')['status']);
     }
 
     public function testPostOnResourceWithoutPostRouteYields405(): void

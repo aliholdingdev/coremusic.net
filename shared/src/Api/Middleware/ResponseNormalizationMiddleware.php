@@ -53,7 +53,9 @@ final class ResponseNormalizationMiddleware
     {
         header('Content-Type: application/json; charset=utf-8');
         header('X-Content-Type-Options: nosniff');
-        header('X-Frame-Options: DENY');
+        // X-Frame-Options: tek kaynak = IIS (api.coremusic.net/web.config customHeaders).
+        // PHP yalnızca gateway yolunda basıyordu; /health ve 404'te yoktu → IIS tüm
+        // API yanıtlarını kapsadığı için (ADR-020 tek-kaynak) PHP sürümü kaldırıldı.
     }
 
     /**

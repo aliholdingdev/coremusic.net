@@ -94,6 +94,19 @@ final class RouteConfigTest extends TestCase
     public function testUnknownPathIsNotFoundNot405(): void
     {
         $this->assertSame(RouteTable::STATUS_NOT_FOUND, $this->table->match('/api/v1/unknown', 'GET')['status']);
+
+        // Gerçek tetikleyici: GET prefix kaydının (/api/v1/auth) altındaki
+        // TANIMSIZ yol. Eski davranış: str_starts_with prefix fallback →
+        // private route → authenticate edilmemiş istemciye 401 (sözleşme ihlali).
+        // Sözleşme: tanımsız alt yol = rota yok → 404, route null, Allow'sız.
+        $result = $this->table->match('/api/v1/auth/does-not-exist', 'GET');
+        $this->assertSame(RouteTable::STATUS_NOT_FOUND, $result['status']);
+        $this->assertNull($result['route'], 'Prefix route\'una fallback yapılmamalı');
+        $this->assertSame([], $result['allow'], '404 yanıtında Allow başlığı olmamalı');
+
+        // Aynı kural POST ve diğer prefix aileleri için de geçerli
+        $this->assertSame(RouteTable::STATUS_NOT_FOUND, $this->table->match('/api/v1/auth/does-not-exist', 'POST')['status']);
+        $this->assertSame(RouteTable::STATUS_NOT_FOUND, $this->table->match('/api/v1/user/does-not-exist', 'GET')['status']);
     }
 
     public function testGetLoginIsMethodNotAllowed405(): void

@@ -17,7 +17,8 @@ namespace CoreMusic\Api\Routing;
  * Üç ayrık sonuç üretir:
  *   - ok                  → route + method eşleşti (handler çağrılır)
  *   - method_not_allowed  → yol biliniyor, method sunulmuyor → 405 + Allow
- *   - not_found           → yol hiç yok → 404
+ *   - not_found           → yol tabloda yok → 404 (prefix altı tanımsız alt
+ *                           yollar dahil — bkz. find()/isDeclared())
  *
  * Route tanımı pipeline'a `_route` olarak aktarılır; Authentication /
  * Authorization / RequestValidation / ResponseNormalization aynı kaydı okur.
@@ -88,7 +89,8 @@ final class RouteTable
 
     /**
      * Gateway constructor'a route verilmediğinde kullanılan varsayılan tablo
-     * (eski hardcoded GET prefix kayıtları — davranış değişmez).
+     * (eski hardcoded GET prefix kayıtları — kök uçlar aynen eşleşir;
+     * tanımsız alt yollar 404).
      */
     public static function defaults(): self
     {
@@ -177,7 +179,21 @@ final class RouteTable
     }
 
     /**
-     * Exact eşleşme önce, sonra prefix — method içinde kayıt sırasıyla.
+     * Exact eşleşme önce; prefix fallback yalnızca yol TABLODA kayıtlıysa.
+     *
+     * Eski davranış: `str_starts_with` ile prefix'e düşen HER alt yol (ör.
+     * `/api/v1/auth/does-not-exist`) collection route'unu geri döndürüyordu →
+     * private route muamelesi görüp authenticate edilmemiş istemciye **401**
+     * (404 değil) dönüyordu. Sözleşme ihlali: tanımsız yol = rota yok.
+     *
+     * Yeni ayrım (ADR-084 Contract First):
+     *   - exact kayıt (istenen methodta)        → route (405/401 davranışı değişmez)
+     *   - yol tabloda BİR methodda kayıtlıysa   → prefix fallback (davranış değişmez:
+     *     bilinen POST-only uçlar eski gibi çözümlemeye devam eder)
+     *   - tabloda TANIMSIZ alt yol              → null → 404 (Allow'sız)
+     *
+     * 405 ayrımı bozulmaz: yol biliniyor ama method sunulmuyorsa `match()`
+     * `allowedMethods()` üzerinden yine 405 + Allow üretir (RFC 9110 §15.5.6).
      *
      * @return array{path: string, route: array<string, mixed>}|null
      */
@@ -191,13 +207,39 @@ final class RouteTable
             }
         }
 
+        // Tanımsız yol: prefix'e fallback YOK → 404 (eski: 401/405 üretirdi).
+        if (!$this->isDeclared($uri)) {
+            return null;
+        }
+
+        // Segment sınırı: `/api/v1/auth` yalnızca gerçek alt yollarda eşleşir
+        // (`/api/v1/authorize` gibi).
         foreach ($entries as $entry) {
-            if (str_starts_with($uri, $entry['path'])) {
+            if (str_starts_with($uri, $entry['path'] . '/')) {
                 return $entry;
             }
         }
 
         return null;
+    }
+
+    /**
+     * Yol tabloda (herhangi bir methodta) exact kayıt olarak tanımlı mı?
+     *
+     * "Bilinen yol" tanımı: exact kayıt varsa method eksikliği 405'e,
+     * hiç kayıt yoksa 404'e gider.
+     */
+    private function isDeclared(string $uri): bool
+    {
+        foreach ($this->routes as $entries) {
+            foreach ($entries as $entry) {
+                if ($entry['path'] === $uri) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private static function normalize(string $path): string
