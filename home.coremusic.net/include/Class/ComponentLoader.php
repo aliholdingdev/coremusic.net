@@ -5,6 +5,7 @@ namespace CoreMusic\Home\Class;
 use CoreMusic\Home\Interfaces\ComponentInterface;
 use CoreMusic\Home\Component\PlayerInfoComponent;
 use CoreMusic\Home\Component\RecentTracksComponent;
+use CoreMusic\Home\Repository\MusicRepository;
 
 /**
  * ComponentLoader — dinamik bileşen kayıt + yükleme merkezi (v3.0.0)
@@ -69,11 +70,19 @@ final class ComponentLoader
 
     /**
      * Anahtar + varyant ile bileşen örneği üretir (immutable).
+     *
+     * Composition root: DB bağımlılığı yalnız burada injection edilir
+     * (component içi `new DatabaseManager` yasak — ADR-002 / katman kuralı).
      */
     public function make(string $key, HomeLayoutVariant $variant = HomeLayoutVariant::Embedded): ComponentInterface
     {
         $class = $this->registry[$key]
             ?? throw new \InvalidArgumentException("Bilinmeyen bileşen: {$key}");
+
+        if ($class === RecentTracksComponent::class) {
+            return new $class($variant, null, MusicRepository::fromEnvironment());
+        }
+
         return new $class($variant);
     }
 

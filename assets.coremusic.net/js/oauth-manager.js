@@ -173,10 +173,13 @@ const OAuthManager = (() => {
         const container = document.getElementById(containerId);
         if (!container) return;
 
-        container.innerHTML = '';
+        container.replaceChildren();
 
         if (!platforms || platforms.length === 0) {
-            container.innerHTML = '<p class="oauth-empty">No platforms available for your profile.</p>';
+            const empty = document.createElement('p');
+            empty.className = 'oauth-empty';
+            empty.textContent = 'No platforms available for your profile.';
+            container.appendChild(empty);
             return;
         }
 
@@ -195,23 +198,34 @@ const OAuthManager = (() => {
         card.dataset.provider = platform.provider;
         card.style.setProperty('--platform-color', platform.color);
 
-        card.innerHTML = `
-            <div class="oauth-platform-icon">
-                <i class="oauth-icon oauth-icon--${platform.icon}"></i>
-            </div>
-            <div class="oauth-platform-info">
-                <h3 class="oauth-platform-name">${escapeHtml(platform.name)}</h3>
-                <span class="oauth-platform-stats">${platform.female_percent || ''}% ${getGenderLabel(platform)}</span>
-            </div>
-            <div class="oauth-platform-actions">
-                <button class="oauth-connect-btn" data-provider="${platform.provider}">
-                    Connect
-                </button>
-            </div>
-        `;
+        // DOM API ile kurulur — markup ataması yasak (ADR-001, assets AGENTS.md §4.3).
+        const icon = document.createElement('div');
+        icon.className = 'oauth-platform-icon';
+        const iconGlyph = document.createElement('i');
+        iconGlyph.className = 'oauth-icon oauth-icon--' + safeClassToken(platform.icon);
+        icon.appendChild(iconGlyph);
+
+        const info = document.createElement('div');
+        info.className = 'oauth-platform-info';
+        const nameEl = document.createElement('h3');
+        nameEl.className = 'oauth-platform-name';
+        nameEl.textContent = String(platform.name ?? '');
+        const stats = document.createElement('span');
+        stats.className = 'oauth-platform-stats';
+        stats.textContent = (platform.female_percent || '') + '% ' + getGenderLabel(platform);
+        info.append(nameEl, stats);
+
+        const actions = document.createElement('div');
+        actions.className = 'oauth-platform-actions';
+        const btn = document.createElement('button');
+        btn.className = 'oauth-connect-btn';
+        btn.dataset.provider = platform.provider;
+        btn.textContent = 'Connect';
+        actions.appendChild(btn);
+
+        card.append(icon, info, actions);
 
         // Connect button click handler
-        const btn = card.querySelector('.oauth-connect-btn');
         btn.addEventListener('click', async () => {
             btn.disabled = true;
             btn.textContent = 'Connecting...';
@@ -246,21 +260,19 @@ const OAuthManager = (() => {
     }
 
     /**
-     * HTML escape.
-     */
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    /**
      * Gender label döndür.
      */
     function getGenderLabel(platform) {
         if (platform.female_percent > 50) return 'female';
         if (platform.female_percent < 50) return 'male';
         return 'neutral';
+    }
+
+    /**
+     * Sınıf adı segmentini güvenlikli hale getir (yalnız [A-Za-z0-9_-]).
+     */
+    function safeClassToken(value) {
+        return String(value ?? '').replace(/[^\w-]/g, '');
     }
 
     /**

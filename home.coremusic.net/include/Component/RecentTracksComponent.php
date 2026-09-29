@@ -5,8 +5,7 @@ namespace CoreMusic\Home\Component;
 use CoreMusic\Home\Class\AbstractComponent;
 use CoreMusic\Home\Class\HomeLayoutVariant;
 use CoreMusic\Home\Component\HomeSongButton;
-use CoreMusic\Database\Config\DatabaseConfig;
-use CoreMusic\Database\DatabaseManager;
+use CoreMusic\Home\Repository\MusicRepository;
 
 /**
  * RecentTracksComponent — En Son Dinlenen Şarkılar (v2.1.0)
@@ -17,9 +16,6 @@ use CoreMusic\Database\DatabaseManager;
  */
 final class RecentTracksComponent extends AbstractComponent
 {
-    /** Veritabanından çekilecek en fazla kayıt sayısı */
-    private const DB_LIMIT = 12;
-
     /** Wide/4K satırında gösterilecek kart sayısı (Figma home-1920 = 9 kart) */
     private const WIDE_CARDS = 9;
 
@@ -29,12 +25,14 @@ final class RecentTracksComponent extends AbstractComponent
     /**
      * @param list<array{t: string, a: string, d: string, art: string, stream?: string}>|null $tracks
      *        override verisi — null ise DB, DB yoksa PNG varsayılanları kullanılır
+     * @param MusicRepository|null $repository
+     *        veri erişimi (ComponentLoader::make injection'ı) — null ise fallback davranışı korunur
      */
-    public function __construct(HomeLayoutVariant $variant, ?array $tracks = null)
+    public function __construct(HomeLayoutVariant $variant, ?array $tracks = null, ?MusicRepository $repository = null)
     {
         parent::__construct($variant);
 
-        $data = $tracks ?? $this->dbTracks() ?? $this->defaultTracks();
+        $data = $tracks ?? $this->dbTracks($repository) ?? $this->defaultTracks();
 
         $cards = array_map(
             fn (array $t): string => HomeSongButton::html(
@@ -65,38 +63,14 @@ final class RecentTracksComponent extends AbstractComponent
      * @return list<array{t: string, a: string, d: string, art: string, stream: string}>|null
      *         null = DB yok / hata / boş liste → demo fallback
      */
-    private function dbTracks(): ?array
+    private function dbTracks(?MusicRepository $repository): ?array
     {
         if (!defined('DB_HOST')) {
             return null;
         }
 
-        $dbName = defined('DB_MUSIC_NAME') ? DB_MUSIC_NAME : 'coremusic_musics';
-
-        $sql = 'SELECT HEX(m.id)      AS music_hex,
-                       m.title         AS title,
-                       m.duration_sec  AS duration_sec,
-                       a.name          AS artist_name
-                  FROM musics m
-                  JOIN artists a   ON a.id = m.artist_id
-                  JOIN music_files f ON f.music_id = m.id
-                 WHERE m.is_deleted = 0
-                   AND a.is_deleted = 0
-                   AND f.is_deleted = 0
-                   AND f.is_primary = 1
-                 ORDER BY m.created_at DESC, m.id ASC
-                 LIMIT ' . self::DB_LIMIT;
-
         try {
-            $db  = new DatabaseManager(new DatabaseConfig(
-                (string)DB_HOST,
-                (string)$dbName,
-                (string)DB_USER,
-                (string)DB_PASSWORD,
-                (int)DB_PORT,
-                (string)DB_CHARSET,
-            ));
-            $rows = $db->execute($sql);
+            $rows = ($repository ?? MusicRepository::fromEnvironment())->findRecentTracks();
         } catch (\Throwable) {
             return null;
         }

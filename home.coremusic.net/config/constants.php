@@ -35,32 +35,20 @@ if (!defined('APP_ENV_MODE')) {
 if (!defined('TEST_MODE')) {
     define('TEST_MODE', in_array(strtolower((string)$env('TEST_MODE', 'false')), ['true', '1', 'yes', 'on'], true));
 
-    // Auth bypass — auth.coremusic.net'in /bypass-status endpoint'inden HTTP ile okunur
-    // SSRF koruması: Host allowlist + scheme validation + timeout
-    $authBypassDefault = 'false';
-    $bypassUuid = '';
-    $bypassRole = '';
-    $bypassUsername = '';
-    $authUrl = defined('AUTH_URL') ? AUTH_URL : 'http://auth.coremusic.net';
-    $authHost = parse_url($authUrl, PHP_URL_HOST);
-    $authScheme = parse_url($authUrl, PHP_URL_SCHEME);
-    $allowedAuthHosts = ['auth.coremusic.net', 'localhost', '127.0.0.1'];
-    if (in_array($authScheme, ['http', 'https'], true) && in_array($authHost, $allowedAuthHosts, true)) {
-        $ctx = stream_context_create(['http' => ['timeout' => 3, 'ignore_errors' => true]]);
-        $authConfigResponse = @file_get_contents($authUrl . '/bypass-status', false, $ctx);
-        if ($authConfigResponse !== false) {
-            $authConfig = json_decode($authConfigResponse, true);
-            if (is_array($authConfig)) {
-                if (isset($authConfig['force_auth_bypass'])) {
-                    $authBypassDefault = $authConfig['force_auth_bypass'] ? 'true' : 'false';
-                }
-                $bypassUuid = $authConfig['bypass_uuid'] ?? '';
-                $bypassRole = $authConfig['bypass_role'] ?? '';
-                $bypassUsername = $authConfig['bypass_username'] ?? '';
-            }
-        }
+    // Auth bypass — YALNIZ yerel yapılandırma (.env). Uzak HTTP fetch yasak (fail-closed).
+    // APP_ENV_MODE=production → bayrak hiç okunmaz.
+    $isProdEnv     = defined('APP_ENV_MODE') && APP_ENV_MODE === 'production';
+    $bypassRaw     = '';
+    $bypassUuid    = '';
+    $bypassRole    = '';
+    $bypassUsername= '';
+    if (!$isProdEnv) {
+        $bypassRaw      = (string)$env('FORCE_AUTH_BYPASS', 'false');
+        $bypassUuid     = (string)$env('BYPASS_USER_UUID', '00000000000000000000000000000001');
+        $bypassRole     = (string)$env('BYPASS_ROLE', 'admin');
+        $bypassUsername = (string)$env('BYPASS_USERNAME', 'test_user');
     }
-    define('FORCE_AUTH_BYPASS', in_array(strtolower($authBypassDefault), ['true', '1', 'yes', 'on'], true));
+    define('FORCE_AUTH_BYPASS', !$isProdEnv && in_array(strtolower($bypassRaw), ['true', '1', 'yes', 'on'], true));
     define('BYPASS_USER_UUID', $bypassUuid);
     define('BYPASS_ROLE', $bypassRole);
     define('BYPASS_USERNAME', $bypassUsername);

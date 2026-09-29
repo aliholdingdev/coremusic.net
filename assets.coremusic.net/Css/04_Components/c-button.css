@@ -1,4 +1,11 @@
 /* 04_Components/c-button.css */
+/* @deprecation — 2026-09-29 (CSS duplicate raporu):
+   BU DOSYA ÇALIŞMA ANINDA YÜKLENMEZ. Tek giriş referansı main.css:51'dir;
+   main.css hiçbir runtime headLinks'te emit edilmez (shared/src/Device/DeviceRenderer.php
+   headLinks() → auth: auth-bundled.css+d-auth-* / non-auth: d-{device}.css+v-{viewMode}.css
+   +03_Layout/_sidebar.css). CANONICAL (SSOT): 04_Components/c-buttons.css
+   → import eden: 08_Devices/d-4k.css, d-desktop.css, d-laptop.css (satır 1).
+   Silinmesi kullanıcı onayına bağlıdır — bkz. rapor "ölü dosyalar" listesi. */
 /* C04 Button — Figma page 18:2907 (1024: 27×12 r2 stroke .5 / 1920: 47×20 r2) */
 /* BEM: .btn -> --primary, --secondary, --ghost, --danger ; .is-loading, .is-disabled */
 /* Token kaynağı: 01_Abstracts/a-primitive-tokens.css (ham hex/px YASAK) */

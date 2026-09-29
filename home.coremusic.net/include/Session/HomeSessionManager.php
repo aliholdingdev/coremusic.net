@@ -2,7 +2,7 @@
 
 namespace CoreMusic\Home\Session;
 
-use CoreMusic\Interfaces\Auth\ISessionManager;
+use CoreMusic\Contracts\Auth\ISessionManager;
 use CoreMusic\Session\SessionBootstrapper;
 
 /**

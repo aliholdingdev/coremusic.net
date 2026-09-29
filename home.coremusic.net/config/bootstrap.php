@@ -45,8 +45,11 @@ if ($requestUri === '/auth/callback' || $requestUri === 'auth/callback') {
         'auth_key_prefix' => $authKeyRaw !== '' ? substr($authKeyRaw, 0, 8) . '...' : '',
     ]);
 
-    // Auth bypass aktifse → auth_key validate etme, direkt session oluştur
-    if (defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS) {
+    // Auth bypass — yalnız yerel .env kaynaklı, üretim dışı ve UUID dolu olmalı (fail-closed)
+    $bypassActive = (defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS)
+        && (defined('APP_ENV_MODE') && APP_ENV_MODE !== 'production')
+        && (defined('BYPASS_USER_UUID') && (string)constant('BYPASS_USER_UUID') !== '');
+    if ($bypassActive) {
         SessionBootstrapper::ensureStarted();
         $_SESSION['MM_UserID']      = constant('BYPASS_USER_UUID');
         $_SESSION['MM_UserRole']    = constant('BYPASS_ROLE');

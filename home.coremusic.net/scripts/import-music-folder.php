@@ -23,6 +23,8 @@ if (PHP_SAPI !== 'cli') {
 require __DIR__ . '/../autoload.php';
 
 use CoreMusic\Config\EnvParser;
+use CoreMusic\Database\Config\DatabaseConfig;
+use CoreMusic\Database\DatabaseManager;
 use CoreMusic\Security\UuidV7;
 
 /* ─── Ortam ─── */
@@ -146,19 +148,17 @@ if ($files === []) {
     exit(1);
 }
 
-/* ─── DB bağlantısı (ADR-002: prepared statements) ─── */
+/* ─── DB bağlantısı (ADR-002: yalnız DatabaseManager üzerinden, prepared statements) ─── */
 try {
-    $pdo = new PDO(
-        sprintf('mysql:host=%s;port=%d;dbname=%s;charset=%s', $dbHost, $dbPort, $dbName, $dbCharset),
+    $db = new DatabaseManager(new DatabaseConfig(
+        $dbHost,
+        $dbName,
         $dbUser,
         $dbPassword,
-        [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,
-        ]
-    );
-} catch (PDOException $e) {
+        $dbPort,
+        $dbCharset,
+    ));
+} catch (Throwable $e) {
     fwrite(STDERR, 'HATA: DB bağlantı hatası: ' . $e->getMessage() . "\n");
     exit(1);
 }
@@ -170,15 +170,15 @@ $musicKeys         = [];   // HEX(artist_id) . '|' . title => binary id
 $musicSlugs        = [];   // slug => true
 $knownPaths        = [];   // file_path => true
 
-foreach ($pdo->query('SELECT id, name, slug FROM artists WHERE is_deleted = 0') as $row) {
+foreach ($db->execute('SELECT id, name, slug FROM artists WHERE is_deleted = 0') as $row) {
     $artistByName[(string)$row['name']] = (string)$row['id'];
     $artistSlugs[(string)$row['slug']]  = true;
 }
-foreach ($pdo->query('SELECT id, artist_id, slug, title FROM musics WHERE is_deleted = 0') as $row) {
+foreach ($db->execute('SELECT id, artist_id, slug, title FROM musics WHERE is_deleted = 0') as $row) {
     $musicKeys[bin2hex((string)$row['artist_id']) . '|' . (string)$row['title']] = (string)$row['id'];
     $musicSlugs[(string)$row['slug']] = true;
 }
-foreach ($pdo->query('SELECT file_path FROM music_files WHERE is_deleted = 0') as $row) {
+foreach ($db->execute('SELECT file_path FROM music_files WHERE is_deleted = 0') as $row) {
     $knownPaths[(string)$row['file_path']] = true;
 }
 
@@ -186,9 +186,8 @@ $existingArtists = count($artistByName);
 $existingMusics  = count($musicKeys);
 
 /* ─── Hazırlayıcılar ─── */
-$stmtArtist = $pdo->prepare(
-    'INSERT INTO artists (id, name, slug) VALUES (UNHEX(:id), :name, :slug)'
-);
+$artistInsertSql =
+    'INSERT INTO artists (id, name, slug) VALUES (UNHEX(:id), :name, :slug)';
 
 $musicInsertTpl  = 'INSERT INTO musics (id, title, slug, artist_id) VALUES ';
 $fileInsertTpl   = 'INSERT INTO music_files (id, music_id, file_format, file_path, file_size, is_primary, quality_level) VALUES ';
@@ -205,7 +204,7 @@ $skippedTitle    = 0;
 $skippedLongPath = 0;
 $unknownArtist   = 'Bilinmeyen Sanatçı';
 
-$flush = static function () use (&$pendingMusics, &$pendingFiles, $pdo, $musicInsertTpl, $fileInsertTpl, &$insertedMusics, &$insertedFiles): void {
+$flush = static function () use (&$pendingMusics, &$pendingFiles, $db, $musicInsertTpl, $fileInsertTpl, &$insertedMusics, &$insertedFiles): void {
     if ($pendingMusics !== []) {
         $parts   = [];
         $params  = [];
@@ -216,7 +215,7 @@ $flush = static function () use (&$pendingMusics, &$pendingFiles, $pdo, $musicIn
             $params['s' . $i] = $row['slug'];
             $params['a' . $i] = $row['artist_id'];
         }
-        $pdo->prepare($musicInsertTpl . implode(', ', $parts))->execute($params);
+        $db->write($musicInsertTpl . implode(', ', $parts), $params);
         $insertedMusics += count($pendingMusics);
         $pendingMusics = [];
     }
@@ -233,13 +232,13 @@ $flush = static function () use (&$pendingMusics, &$pendingFiles, $pdo, $musicIn
             $params['sz' . $i]  = $row['size'];
             $params['q' . $i]   = $row['quality'];
         }
-        $pdo->prepare($fileInsertTpl . implode(', ', $parts))->execute($params);
+        $db->write($fileInsertTpl . implode(', ', $parts), $params);
         $insertedFiles += count($pendingFiles);
         $pendingFiles = [];
     }
 };
 
-$pdo->beginTransaction();
+$db->beginTransaction();
 
 try {
     foreach ($files as $file) {
@@ -254,7 +253,7 @@ try {
         if ($artistId === null) {
             $artistId = UuidV7::generateBinary();
             $artistSlug = $uniqueSlug($slugify($artistName, 180), $artistSlugs);
-            $stmtArtist->execute(['id' => bin2hex($artistId), 'name' => $artistName, 'slug' => $artistSlug]);
+            $db->write($artistInsertSql, ['id' => bin2hex($artistId), 'name' => $artistName, 'slug' => $artistSlug]);
             $artistByName[$artistName] = $artistId;
             $insertedArtists++;
             $createdArtists++;
@@ -303,9 +302,9 @@ try {
     }
 
     $flush();
-    $pdo->commit();
+    $db->commit();
 } catch (Throwable $e) {
-    $pdo->rollBack();
+    $db->rollBack();
     fwrite(STDERR, 'HATA: Import başarısız (transaction geri alındı): ' . $e->getMessage() . "\n");
     exit(1);
 }
@@ -313,9 +312,9 @@ try {
 $finishedAt = microtime(true);
 
 /* ─── Sonuç sayımı (DB kanıtı) ─── */
-$artistCount = (int)$pdo->query('SELECT COUNT(*) AS c FROM artists')->fetch()['c'];
-$musicCount  = (int)$pdo->query('SELECT COUNT(*) AS c FROM musics')->fetch()['c'];
-$fileCount   = (int)$pdo->query('SELECT COUNT(*) AS c FROM music_files')->fetch()['c'];
+$artistCount = (int)$db->execute('SELECT COUNT(*) AS c FROM artists')[0]['c'];
+$musicCount  = (int)$db->execute('SELECT COUNT(*) AS c FROM musics')[0]['c'];
+$fileCount   = (int)$db->execute('SELECT COUNT(*) AS c FROM music_files')[0]['c'];
 
 echo "─── IMPORT RAPOR ───\n";
 printf("Süre              : %.1f sn (tarama %.1f sn)\n", $finishedAt - $startedAt, $scannedAt - $startedAt);

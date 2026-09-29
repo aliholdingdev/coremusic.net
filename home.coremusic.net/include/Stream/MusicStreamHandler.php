@@ -2,8 +2,7 @@
 
 namespace CoreMusic\Home\Stream;
 
-use CoreMusic\Database\Config\DatabaseConfig;
-use CoreMusic\Database\DatabaseManager;
+use CoreMusic\Home\Repository\MusicRepository;
 use CoreMusic\PageRouter\PageRouterHelper;
 use CoreMusic\Session\SessionBootstrapper;
 
@@ -48,14 +47,14 @@ final class MusicStreamHandler
 
     private function __construct(
         private readonly string $libraryPath,
-        private readonly DatabaseManager $db,
+        private readonly MusicRepository $repository,
     ) {
     }
 
     /** bootstrap.php special-route girişi — yanıt gönderir ve çıkar. */
     public static function dispatch(string $musicIdHex): never
     {
-        (new self(self::libraryPath(), self::database()))->run(strtolower($musicIdHex));
+        (new self(self::libraryPath(), MusicRepository::fromEnvironment()))->run(strtolower($musicIdHex));
     }
 
     private function run(string $musicIdHex): never
@@ -159,24 +158,7 @@ final class MusicStreamHandler
     /** @return array{file_path: string, file_format: string, file_size: int}|null */
     private function findFile(string $musicIdHex): ?array
     {
-        if (strlen($musicIdHex) !== 32 || !ctype_xdigit($musicIdHex)) {
-            return null;
-        }
-
-        $sql = 'SELECT f.file_path, f.file_format, f.file_size
-                  FROM music_files f
-                  JOIN musics m ON m.id = f.music_id
-                 WHERE f.music_id = UNHEX(:id)
-                   AND m.is_deleted = 0
-                   AND f.is_deleted = 0
-                 ORDER BY f.is_primary DESC, f.id ASC
-                 LIMIT 1';
-
-        $stmt = $this->db->getPdo()->prepare($sql);
-        $stmt->execute(['id' => $musicIdHex]);
-        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-
-        return is_array($row) ? $row : null;
+        return $this->repository->findPrimaryFile($musicIdHex);
     }
 
     /**
@@ -388,20 +370,5 @@ final class MusicStreamHandler
             : (string)(($_ENV['MUSIC_LIBRARY_PATH'] ?? getenv('MUSIC_LIBRARY_PATH')) ?: '');
 
         return $path !== '' ? $path : 'C:\\Users\\Bayram Ali\\Music';
-    }
-
-    private static function database(): DatabaseManager
-    {
-        $name = defined('DB_MUSIC_NAME')
-            ? (string)DB_MUSIC_NAME
-            : (string)(($_ENV['DB_MUSIC_NAME'] ?? getenv('DB_MUSIC_NAME')) ?: 'coremusic_musics');
-
-        $host = defined('DB_HOST') ? (string)DB_HOST : (string)($_ENV['DB_HOST'] ?? 'localhost');
-        $user = defined('DB_USER') ? (string)DB_USER : (string)($_ENV['DB_USER'] ?? '');
-        $pass = defined('DB_PASSWORD') ? (string)DB_PASSWORD : (string)($_ENV['DB_PASSWORD'] ?? '');
-        $port = defined('DB_PORT') ? (int)DB_PORT : (int)($_ENV['DB_PORT'] ?? 3306);
-        $cs   = defined('DB_CHARSET') ? (string)DB_CHARSET : (string)(($_ENV['DB_CHARSET'] ?? '') ?: 'utf8mb4');
-
-        return new DatabaseManager(new DatabaseConfig($host, $name, $user, $pass, $port, $cs));
     }
 }

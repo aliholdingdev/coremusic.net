@@ -1,6 +1,19 @@
 /**
  * CoreMusic Master Stylesheet
- * ITCSS Architecture: Abstracts → Vendors → Base → Layout → Components → Pages → Utilities
+ * @deprecation — 2026-09-29 (CSS duplicate raporu): ORPHAN ENTRY — bu dosya çalışma
+ *   anında HİÇBİR yerde linklenmez. Kanıt: shared/src/Device/DeviceRenderer.php:120-130
+ *   headLinks() yalnız auth-bundled.css / d-{device}.css / v-{viewMode}.css /
+ *   03_Layout/_sidebar.css emit eder; HtmlShellRenderer.php:104,118 bunu aynen yazar;
+ *   repo genelinde rel="stylesheet" üretimi DeviceRenderer.php:154'dedir.
+ *   js/device-loader.js loadAll() (161-175) aynı CSS haritasını kullanır.
+ *   Aşağıdaki c-button/c-input/c-slider/c-skeleton/c-tabs/c-dropdown/c-avatar/
+ *   c-tooltip/c-hero/c-quick-apps/c-mini-card ve a-primitive-tokens sadece bu dosyadan
+ *   erişilebilir → runtime'da ölü. CANONICAL girişler: 08_Devices/d-*.css (+ auth-bundled.css).
+ *   Silinmesi kullanıcı onayına bağlıdır — bkz. rapor "ölü dosyalar" listesi.
+ *
+ * ITCSS Architecture (gerçek import sırası — 2026-09-29 doğrulandı):
+ *   01_Abstracts → 02_Base → 03_Layout → 04_Components → 05_Pages → 07_Vendors → 09_ViewModes
+ *   06_Utilities ve 08_Devices main.css'te import edilmez; 08_Devices bundle'ları kendi import'unu yapar
  *
  * Domain-based gruplama:
  *   03_Layout/_header.css  → header.php
@@ -40,7 +53,11 @@
 @import url("./04_Components/c-scrollbar-accent.css?v=2.1.0");
 @import url("./04_Components/c-footer-seek.css?v=2.2.0");
 @import url("./04_Components/c-footer-volume.css?v=2.2.0");
-/* 04_Components: c-card, c-buttons, c-forms, c-modal, c-toast, c-progress — REMOVED: unused in auth/home templates */
+/* 04_Components durum tablosu (2026-09-29 · disk doğrulaması):
+   c-card / c-modal / c-toast / c-progress → main.css'te AŞAĞIDA import ediliyor (satır 71-74).
+   c-buttons / c-forms / c-home-song-btn → main.css'te import EDİLMİYOR; dosyalar diskte var ve
+   yalnızca 08_Devices bundle'larında import ediliyor (c-buttons+c-forms: d-4k, d-desktop, d-laptop;
+   c-home-song-btn: d-4k, d-laptop). "REMOVED" değildi — main.css kapsamı dışında. */
 /* 04_Components — Faz 2 Batch 1 (Figma 18:2907 primitive'leri) */
 @import url("./04_Components/c-button.css?v=1.0.0");
 @import url("./04_Components/c-input.css?v=1.0.0");
@@ -50,8 +67,9 @@
 @import url("./04_Components/c-skeleton.css?v=1.0.0");
 
 /* --- Composites (Faz 2 Batch 2 — Figma 18:2907 · envanter C01-C19) --- */
-/* Not: c-forms / c-buttons / c-home-song-btn henüz import edilmedi —
-   c-button ile çakışma riski Faz 3 denetiminde karara bağlanacak. */
+/* Not: c-forms / c-buttons / c-home-song-btn main.css'te henüz import edilmedi (dosyalar diskte) —
+   c-button ile çakışma riski Faz 3 denetiminde karara bağlanacak. 08_Devices bundle'ları bu üçünden
+   c-buttons ve c-forms'u (d-4k/d-desktop/d-laptop), c-home-song-btn'i (d-4k/d-laptop) import ediyor. */
 @import url("./04_Components/c-tabs.css?v=1.0.0");
 @import url("./04_Components/c-dropdown.css?v=1.0.0");
 @import url("./04_Components/c-avatar.css?v=1.0.0");
@@ -76,10 +94,16 @@
 @import url("./05_Pages/p-settings.css?v=1.0.0");         /* /ayarlar — settings page */
 
 
-/* 06_Utilities: REMOVED — only .is-hidden was used (now inline in footer.php) */
+/* 06_Utilities: main.css'te import edilmez — ama "REMOVED" DEĞİL:
+   06_Utilities/u-helpers-utility.css diskte VAR ve 08_Devices bundle'ları onu import ediyor
+   (d-4k-monitor:19, d-4k-tv, d-4k, d-desktop, d-embedded, d-laptop, d-phone, d-tablet).
+   .is-hidden tanımı 02_Base/b-base-core.css:111'dedir (main.css onu import eder);
+   footer.php:101'de sınıf hâlâ kullanılıyor. */
 
 @import url("./07_Vendors/v-bootstrap-lib.css?v=2.1.0");
 
+/* 09_ViewModes: v-home / v-pro / v-studio main.css'te import edilir (aşağıda).
+   09_ViewModes/v-car.css diskte VAR ama hiçbir CSS bundle'ında import edilmiyor (grep: 0 referans). */
 @import url("./09_ViewModes/v-home.css?v=2.1.0");
 @import url("./09_ViewModes/v-pro.css?v=2.1.0");
 @import url("./09_ViewModes/v-studio.css?v=2.1.0");
