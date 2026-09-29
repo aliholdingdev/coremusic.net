@@ -1,0 +1,63 @@
+# Medya Arşivi — Kabul Denetimi Listesi (checklist)
+
+> **Kapsam:** `media.coremusic.net/` · Faz 1–3 · **Tarih:** 2026-09-29
+> **Yer:** `media.coremusic.net/docs/checklist.md` · **Eş:** [`todos.md`](./todos.md) (sıralı iş listesi)
+> **Kural:** Kanıtsız `- [x]` yok. Çalıştırılamayan her madde `- [ ]` + `⚠️ VR` kalır ve kapanış koşulu satırda yazar.
+> **Yeniden denetim:** Her maddenin `Denet:` alanı tek komutluktur; o satır koşularak madde tekrar denetlenir.
+> **Kanıt türü etiketleri:** `dosya:satır` = diskte okundu · `grep` = bu oturumda sayıldı · `commit` = `git log` ile görüldü · `kayıt` = önceki oturum denetim kaydı (bu oturumda yeniden koşulmadı, satırda işaretli).
+
+---
+
+## Faz 1 — iskelet + config + docs
+
+- [x] **62 dizin, `media\` altında 0 dosya · eski yanlış kök `C:\www\media.coremusic.net` silindi** · Kanıt: `docs/dizin-yapisi.md:211` + `:217` (F1.5 bağımsız denetim, kontrol komutu satır içinde yazılı) · `:219` uyarısı = sayıma `bin\`/`src\` Faz 2 eklenmeden önce karar verildi, yeniden sayılmadı · Denet: `Get-ChildItem -Directory -Recurse -Force | Measure-Object` (bu oturumda PowerShell dosya/tarama komutları izin reddi — sayımdır, `kayıt`)
+- [x] **`.gitignore` → `media/`** · Kanıt: `media.coremusic.net/.gitignore:2` = `media/` · genişleme `:4` `catalog/`, `:5` `reports/`, `:7` `vendor/`, `:10-11` `!src/Media/` + `!src/Media/**` (çapa negasyonu) · son değiştiren commit `50f8734` (`git log --oneline -1 -- media.coremusic.net/.gitignore`) · Denet: `git check-ignore -v media.coremusic.net/media/x.mp3` (bu oturumda izin reddedildi; dosya satırları okunarak doğrulandı)
+- [x] **`config\media.schema.json` — schema v2 + zorunlu alan + enum hizası** · Kanıt: `$defs/schema_v2` referansları `:152, :242, :368, :659` · sanatçı varlığında **13** zorunlu alan `:150` (`schema,id,slug,durum,kimlik,biyografi,muzik,iliski,kaynak_id,gorsel,varsayilan_tag,ek,eklenme`) · enumlar `config/taxonomy.json:5-21` (17 anahtar) ile aynı değer seti · Denet: `Get-Content config\media.schema.json -Raw | ConvertFrom-Json` (JSON kırılırsa cmdlet hata verir — bu oturumda izin reddedildi, `kayıt`)
+- [x] **`config\taxonomy.json` 17 anahtar / 98 değer · `config\mojibake-fix.json` 21 eşleşme** · Kanıt: `taxonomy.json:5-21` = 17 anahtar (grep), değer toplamı 98 (satır satır sayım: 14+8+6+7+5+5+12+5+6+6+4+4+4+2+3+3+4) · `mojibake-fix.json:21-41` = 21 esleme (grep, `$comment`/`updated`/`yon` satırları sayıma girmez) · Denet: `(Get-Content config\taxonomy.json -Raw | ConvertFrom-Json).definitions.PSObject.Properties.Count` → 17
+- [x] **`docs\dizin-yapisi.md` + `docs\adlandirma.md` (6 kural) · eski yol / `henüz yazılmadı` = 0/0** · Kanıt: `adlandirma.md:6` = "6 kural: 1) ASCII fold · 2) Ön ekler · 3) Çakışma · 4) Kimlik (ULID) · 5) Kodlama · 6) Mojibake"; kural başlıkları `:22, :60, :76, :89, :104, :116` · `docs\` içinde `henüz yazılmadı` = 0, `C:\www\media.coremusic.net` = 0 (bu oturumda grep ile sayıldı) · Denet: `grep -rn "henüz yazılmadı" docs/` → 0
+- [x] **ADR-092 kaydı: decisions index v1.1.3 + ADR v1.1.2 + log append** · Kanıt: `.ai/.decisions/index.md:8` = `version: 1.1.3`, `:114` = ADR-092 satırı (Active, Infrastructure) · `.ai/.decisions/accepted/ADR-092-media-dizin-ekseni-ve-ulid.md:7` = `version: "1.1.2"`, `:6` = `updated: "2026-09-29"` · commit zinciri `671dea7` → `6d23e6b` (`git log --oneline -1 <sha>` ile ikisi de görüldü) · Denet: `git log --oneline -- .ai/.decisions/accepted/ADR-092-media-dizin-ekseni-ve-ulid.md`
+- [ ] **⚠️ VR-1 — DoD #2: kaynak sayımı** · Durum: `C:\Users\Bayram Ali\Music` **7.551 dosya / 38,33 GB** (kayıt) — **bu makinede veri yok**, bu oturumda doğrulanamadı · Kapanış: verinin olduğu makinede `Get-ChildItem -Recurse -File | Measure-Object` (adet) + `... | Measure-Object -Property Length -Sum` (bayt → 38,33 GB) · Sayılar tutarsa madde `- [x]` olur
+
+---
+
+## Faz 2 — PHP CLI + MySQL şeması
+
+- [x] **`bin\{scan,audit,ingest}.php` + `src\Media\` 5 sınıf + `composer.json` · commit `50f8734`** · Kanıt: dosya listesi diskte (grep/glob): `bin/scan.php`, `bin/audit.php`, `bin/ingest.php`, `src/Media/{Validator,Ulid,Taxonomy,Slugger,CatalogWriter}.php`, `composer.json` · `composer.json:16-18` PSR-4 `Media\ → src/Media/`, `:20-24` bin listesi, `:29-38` lint = **tam 8 dosya** · `50f8734` (`git log --oneline -1`) · toplam 2.060 satır = Faz 2 denetim sayımı (`kayıt`; bu oturumda satır sayımı izin reddi nedeniyle tekrarlanmadı) · Denet: `(Get-Content composer.json,bin/*.php,src/Media/*.php | Measure-Object).Count`
+- [x] **`ingest.php` kopyalama kilidi: `--commit` yoksa tek bayt yok** · Kanıt: `ingest.php:10` (dosya başı sözleşme: "commit YOKKEN … tek bayt bile kopyalama/yazma/silme YOKTUR") · onay kapısı `:297-301` (`ONAY` yazısı + `fgets(STDIN)` + `!== 'evet'` → çıkış) · **tek** `copy(` = `:328` (grep: dosyada tek eşleşme, `:327` yorum satırı ikinci eşleşmeyi yapmaz) · yazım tahmini `:209` "gerçek yazım --commit dalında" · Denet: `grep -n "copy(" bin/ingest.php` → 1 gerçek çağrı
+- [x] **Yasaklı çağrı `eval|exec|shell_exec|passthru|system|proc_open` = 0** · Kanıt: bu oturumda `media.coremusic.net/` içinde `\b(eval|exec|shell_exec|passthru|system|proc_open)\s*\(` regexi → **0 eşleşme** · Denet: aynı grep → 0
+- [x] **ADR §6.1 k.5 ihlali kapatıldı: `scan.php` koşulsuz hash → hafif mod + `--deep`** · Kanıt: `scan.php:64` `--deep` bayrağı, `:145` "Hafif (varsayilan): hash_file() CALISMAZ", `:147` deep tanımı, `:155` **tek gerçek** `hash_file(...)` çağrısı, `:253` `MOD: deep|hafif` çıktısı · `audit.php:391` yorum + `:398` `hash_file('sha256', $tam)` (yalnız deep dalı) · Denet: `grep -n "hash_file" bin/scan.php` → 1 gerçek çağrı (145 yorum)
+- [x] **`.gitignore` genişledi (`catalog/ reports/ vendor/ *.log`) + `!src/Media/` negasyonu** · Kanıt: `media.coremusic.net/.gitignore:4,5,7` + `:9` yorum ("media/ kuralına yanlışlıkla yakalanmasın") + `:10-11` `!src/Media/`, `!src/Media/**` · Denet: `git check-ignore -v media.coremusic.net/src/Media/Slugger.php` → negasyon satırı (`:11`) dönmeli
+- [x] **`.ai/.sql/mysql/media_catalog.sql` — 9 tablo + view + collate + 17 INSERT + `coremusic_media` 0** · Kanıt (bu oturumda grep): `CREATE TABLE` = `artist:49`, `album:78`, `koleksiyon:119`, `asset:148`, `variant:220`, `taxonomy:248`, `asset_tag:357`, `path_history:383`, `ingest_batch:406` → **9** · `CREATE OR REPLACE VIEW v_asset_search` `:434` · `COLLATE utf8mb4_tr_0900_ai_ci` `:31,65,107,134,208,231,256,368,395,420` · `INSERT INTO taxonomy` = **17** (`:261`…`:342`) · `BCNF` gerekçe satırları `:20,42,66,71,115,141,215,232,350,351,378,402` · dosyada `coremusic_media` = **0** · Denet: `grep -c "CREATE TABLE" .ai/.sql/mysql/media_catalog.sql` → 9
+- [x] **Kaza kurtarımı: `coremusic_media.sql` HEAD'e döndürüldü** · Kanıt: `.ai/.sql/mysql/coremusic_media.sql` diskte tam, son satır `:235` (`-- End of coremusic_media schema`), `:224` = `coremusic_media Database v8.0.0`, `:11/15` `CREATE DATABASE`/`USE` → **235 satır** (kayıtta 222 yazıyordu; bkz. §Düzeltmeler) · geveci `.bak` = 0 (glob `**/*.bak` → yok) · Denet: `(Get-Content .ai/.sql/mysql/coremusic_media.sql).Count` → 235
+- [x] **Statik kabul denetimi: 15 maddede 13 PASS / 1 FAIL / 4 VR** · Durum: sayısal kayıt (`kayıt`) — FAIL madde 8/14 düzeltildi, yeniden koşum aşağıdaki açık maddede (Faz 2 · 4. madde) · Denet: F2.4 yöntemi (salt statik grep + satır okuma) tekrarlanır
+- [x] **Kararlar: boş slug yedeği `isimsiz` · `--deep` bayrağı** · Kanıt: `src/Media/Slugger.php:19` karar yorumu + `:20` `public const YEDEK = 'isimsiz';` (kullanım belgesi `:11`) · `adlandirma.md` §8.7'ye yazıldı (Slugger `:19` yorumu kaynak gösteriyor) · `--deep`: `scan.php:64`, `audit.php` deep dalı · Denet: `grep -n "isimsiz" src/Media/Slugger.php docs/adlandirma.md`
+- [x] **Vault: ADR-092 → v1.1.2 (§5.2 adım 2/3/6) + log append · commit `6d23e6b`** · Kanıt: ADR-092 `:7` = `version: "1.1.2"` (diskte) · `6d23e6b` = "adr(092): v1.1.2 - Faz 2 uygulama kaydi (PHP CLI + media_catalog.sql, §5.2 adim 2/3/6)" (`git log --oneline -1 6d23e6b`) · Denet: `git show --stat 6d23e6b`
+- [ ] **⚠️ VR-2 — PHP ortamı yok, çalıştırılamadı** · Durum: bu makinede PHP 8.4 kurulu değil → `php -l` ve CLI koşumu yapılamadı · Kapanış: `php -l` **8 dosya** (`composer.json:29-38` lint listesi) 0 hata + `php bin/audit.php` → exit 0 + `php bin/scan.php --dry-run` → exit 0 · Sahip: backend-architect
+- [ ] **⚠️ VR-3 — DDL çalıştırılamadı** · Durum: MySQL yok → `media_catalog.sql` hiç yüklenmedi, `taxonomy` satır sayısı veritabanında doğrulanmadı · Kapanış: `mysql -u<user> -p media_catalog < .ai/.sql/mysql/media_catalog.sql` + `SELECT COUNT(*) FROM taxonomy;` → **98** + `SHOW FULL TABLES;` → 9 tablo + 1 view · Sahip: data-engineer
+- [ ] **⚠️ VR-4 — `--deep` / HASH-FARK gerçek veride test edilmedi** · Durum: bu makinede medya ağacı yok; boş ağaçta test anlamsız · Kapanış: gerçek medya ile `php bin/scan.php --deep` + kasıtlı 1 sahte hash sapması → `HASH-FARK` satırı produce etmeli, `--deep` OLMADAN aynı dosya raporda fark vermemeli · Sahip: qa-engineer
+- [ ] **FAIL düzeltmesi (`scan --deep`) yeniden statik denetimle teyit edilmedi** · Durum: düzeltme diskte görünüyor ama F2.4 ile aynı denetim **yeniden koşulmadı** · Bu oturumda ara kanıt: `grep -n "hash_file" bin/scan.php` → gerçek çağrı **yalnız** `:155` (deep dalı), `:145` yorum · Kapanış: madde 8/14 (scan hafif mod) + madde 6 (yasaklı çağrı) tekrar koşulur, ikisi de 0 ihlal → madde `- [x]` · Sahip: qa-engineer
+- [x] **Commit'ler push edildi → `671dea7..6d23e6b`** · Kanıt: commit varlıkları doğrulandı (`git log --oneline -1`): `671dea7` (F1 iskelet), `50f8734` (Faz 2 CLI + şema), `6d23e6b` (ADR-092 v1.1.2), `4b5a5ca` (Faz 3 GUI on-spec) · push sonucu = önceki oturum kaydı: exit 0, 447 MB 3. denemede geçti (`git config http.version HTTP/1.1` + `-c http.postBuffer=524288000`) · Denet: `git status -sb` → `main...origin/main` eşit (bu oturumda branch izleme komutu izin reddedildi — push çıktısı `kayıt`)
+
+---
+
+## Faz 3 (ön spec — asıl iş açık)
+
+- [x] **`docs\faz3-gui-spec.md` (493 satır · §3 8 ekran · 8 ASCII wireframe) · commit `4b5a5ca` · `.ai/ui-design/`'e yazılmadı** · Kanıt: son satır `:493`; `:70` "Ekran envanteri (8 ekran)"; `:87` ekran başına 1 ASCII wireframe + `:481` doğrulama tablosu `ASCII wireframe = 8`; `:466` "§9. Bu doküman ÖN spec'tir"; `:381` BEM `Cxx` numarası `—` olarak bırakıldı (uydurulmadı) · `.ai/ui-design/` içinde bu spec yok (çakışma koruması) · `4b5a5ca` commit'ı görüldü · Denet: `(Get-Content docs/faz3-gui-spec.md).Count` → 493
+- [ ] **⚠️ VR-5 — breakpoint kararı** · Durum: çakışma belgelenmiş, karar verilmedi · Kanıt: `faz3-gui-spec.md:402-405` = **640 / 768 / 1024 / 1440**; `:409` = `⚠️ VERIFICATION REQUIRED` ve `.ai/architecture/k11-ux` token'ları **576 / 768 / 992 / 1200 / 1400** · Kapanış: tek set seçilir → spec §6 tablosu + responsive token dosyası güncellenir → madde `- [x]` · Sahip: sen (onay) → ui-designer
+- [ ] **⚠️ VR-6 — BEM `Cxx` bileşen numaraları eşleşmedi** · Durum: envanter dosyası yeniden yazılıyor · Kanıt: `faz3-gui-spec.md:381` = envanter `02-component-inventory.md` (C01–C16) salt referans, bu ön spec'te `Cxx` uydurulmadı (`—`) + `⚠️` işareti · Kapanış: `02-component-inventory.md` bittikten sonra spec §5.2'deki bileşen listesi envanterle tek tek eşlenir · Sahip: ui-designer
+- [ ] **⚠️ VR-7 — port rolleri belirsiz** · Durum: ADR-039'daki `:5000` / `:6000` ayrımı (router vs FFmpeg) netleştirilmedi · Kapanış: ADR-039'a netleştirme notu → spec §7 (veri akışı) port tablosu ile hizalanır · Sahip: vault-updater
+- [ ] **Asıl screen-spec → Kalıp D'ye çevrilecek** · Durum: `.ai/ui-design/` yazım kuyruğu dolu olduğu için bekliyor · Kanıt: spec `:466-474` §9 girdisi hazır (ön spec'in sınırları + Kalıp D referansı `:472`) · Kapanış: `.ai/ui-design/` serbestleşince `.ai/.templates/ui-design/screen-spec-template.md` (Kalıp D) okunup ekranlar tek tek üretilir (Guardrail #16) · Sahip: frontend-developer
+
+---
+
+## Oturum düzeltmeleri (kayıt ↔ disk farkları — bu oturumda düzeltildi)
+
+| # | Eski kayıt | Disk gerçeği | Kanıt |
+|---|-----------|--------------|-------|
+| 1 | `media.schema.json` "12 zorunlu alan" | **13** zorunlu alan (sanatçı varlığı) | `config/media.schema.json:150` |
+| 2 | `coremusic_media.sql` "222 satır" | **235** satır | son satır `:235`, `v8.0.0` `:224` |
+| 3 | `faz3-gui-spec.md` "494 satır" | **493** satır | son satır `:493` |
+
+**Bu oturumda çalıştırılamayıp `kayıt`/`⚠️` bırakılanlar:** PowerShell dosya okuma ve `Get-ChildItem -Recurse` (izin reddi) · `git check-ignore` / `git show` / `git status -sb` / `refs/remotes/origin/main` (izin reddi) · PHP 8.4 yok (VR-2) · MySQL yok (VR-3) · kaynak medya yok (VR-1, VR-4).
+
+**Yasak ihlali:** yok — yalnız bu dosya ve `todos.md` yazıldı; docs/config/kod/vault değiştirilmedi.
