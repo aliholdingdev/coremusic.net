@@ -52,7 +52,7 @@ PNG Mockup > Figma (extracted) > ASCII Art > Component Inventory > Tokens > Impl
 | # | Dosya | Figma node (kök) | Kaynak PNG (`source_of_truth`) | Status | Açıklama |
 |---|-------|------------------|-------------------------------|:------:|----------|
 | 1 | [[T07-embedded/home-dashboard]] | `1639:10160` (COMPONENT) | `.ai/.png/home-1024/Linux  1024 - Home Page.png` | active | Ana ekran: header, Now Playing + widget sütunları, 3 sütun kart satırı, footer player |
-| 2 | [[T07-embedded/welcome-popup]] | `2831:10265` | `.ai/.png/home-1024/Linux  1024 - Home Page Welcome Popup.png` | active | Karşılama modalı: 600×308 manzara fotoğrafı + hoş geldin metni |
+| 2 | [[T07-embedded/welcome-popup]] | `2831:10267` | `.ai/.png/home-1024/Linux  1024 - Home Page Welcome Popup.png` | active | Karşılama modalı: 600×308 manzara fotoğrafı + hoş geldin metni |
 | 3 | [[T07-embedded/albums]] | `2831:9176` | `.ai/.png/home-1024/Linux  1024 - Albumler Page.png` | active | Albümler: sol %60 kart grid, sağ %40 detay paneli |
 | 4 | [[T07-embedded/album-detail]] | `2831:10086` (h=612 ⚠️) | `.ai/.png/home-1024/Linux  1024 - Albumler Details Detay Page.png` | active | Albüm detay: 300×300 kapak, parça listesi, metadata |
 | 5 | [[T07-embedded/singer]] | `2831:9273` | `.ai/.png/home-1024/Linux  1024 - Singer Page.png` | active | Sanatçılar: dairesel kartlar (radius 50%), sağ detay paneli |

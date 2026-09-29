@@ -175,7 +175,7 @@
 
 Eski referansta 4 tekrar eden kalıp var. 114 md'nin 72'sinde `reference_doc:` frontmatter; ~26 dosya tam iskeleti uyguluyor.
 
-### Kalıp A — Reference/Spec/Token dokümanı (kök 6 + tokens 4 + reference 10 + indexler)
+### Kalıp A — Reference/Spec/Token dokümanı (kök 6 + tokens 4 + reference 11 + reference/figma 6 — disk kanıtı 2026-09-29)
 
 ```yaml
 ---

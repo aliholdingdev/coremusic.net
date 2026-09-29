@@ -28,7 +28,7 @@ reference:
 
 Bu şablon, CoreMusic ui-design vault'unda **referans / envanter / matris / plan / analiz / mimari / token / index** tipindeki dokümanların tek dış yapısını (frontmatter 12 alan → `## 1. Amaç` → içerik bölümleri → `## N. Quality Report` → Authority footer) tanımlar. **Guardrail #16:** bu tipte yeni bir `.md` bu şablondan üretilmek ZORUNLUDUR; şablonsuz üretilen referans dosyası geçersiz sayılır ve revert edilir.
 
-**Kapsadığı gerçek dosyalar (disk kanıtı, 2026-09-24):** kök 6 çekirdek md + `tokens/` 4 md + `reference/` 10 md + `legacy-inventory.md` + 4 indeks dosyası ≈ **25 doküman** bu kalıbı uygular.
+**Kapsadığı gerçek dosyalar (disk kanıtı, 2026-09-29 — Figma tam çekim sonrası):** kök 6 çekirdek md (`00-device-matrix`…`05-responsive-architecture`) + `tokens/` 4 md + `reference/` 11 md (`01`-`10` + `legacy-inventory.md`) + `reference/figma/` 6 md (`extracted-1024`, `extracted-1920`, `extracted-1047-15802`, `grid-rules`, `token-conflicts`, `_extraction-notes`) = **27 doküman** bu kalıbı uygular. `reference/figma/raw/*.json` ve `reference/figma/png/*.png` md değildir, kalıba girmez.
 
 | Karar | Kaynak | Şablona gömülü karşılığı |
 |-------|--------|--------------------------|

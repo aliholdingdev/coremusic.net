@@ -6,7 +6,7 @@ category: ui-design
 date: 2026-09-20
 updated: 2026-09-29
 status: active
-version: 6.0.1
+version: 6.1.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -28,22 +28,41 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 ## 2. Device Tier Sistemi
 
-### 2.1 12 Kategori × 45 Tier
+### 2.1 11 Kategori × 45 Tier
 
-| Kategori | Tier Sayısı | Aralık |
-|----------|:-----------:|--------|
-| 📱 Phone | 5 | T01-T05 |
-| 📱 Tablet | 6 | T06-T11 |
-| 💻 Laptop | 5 | T12-T16 |
-| 🖥️ Desktop Monitor | 8 | T17-T24 |
-| 📺 Smart TV | 4 | T25-T28 |
-| 🚗 Automotive | 2 | T29-T30 |
-| ⌚ Smart Watch | 3 | T31-T33 |
-| 🎮 Console | 3 | T34-T36 |
-| 🖥️ Desktop App | 2 | T37-T38 |
-| 📱 Mobil Uygulama | 2 | T39-T40 |
-| 🌐 Web & Özel | 5 | T41-T45 |
-| **Toplam** | **45** | |
+| Kategori | CatID Öneki | Tier Sayısı | Aralık |
+|----------|-------------|:-----------:|--------|
+| 📱 Phone | `PH` | 5 | T01-T05 |
+| 📱 Tablet | `TB` | 6 | T06-T11 |
+| 💻 Laptop | `LP` | 5 | T12-T16 |
+| 🖥️ Desktop Monitor | `DM` | 8 | T17-T24 |
+| 📺 Smart TV | `TV` | 4 | T25-T28 |
+| 🚗 Automotive | `AU` | 2 | T29-T30 |
+| ⌚ Smart Watch | `WS` | 3 | T31-T33 |
+| 🎮 Console | `CS` | 3 | T34-T36 |
+| 🖥️ Desktop App | `DA` | 2 | T37-T38 |
+| 📱 Mobil Uygulama | `MO` | 2 | T39-T40 |
+| 🌐 Web & Özel | `WB` | 5 | T41-T45 |
+| **Toplam** | | **45** | |
+
+> **Düzeltme (2026-09-29):** Başlık eski haliyle "12 Kategori" iddia ediyordu, satır sayısı 11'di (Embedded + AR/VR ayrı satır değildi). Sayı 11'e çekildi; **Embedded bir kategori değil, Tablet'in alt kümesidir** (T07-T08'i Tablet ile paylaşır) ve AR/VR'ın gerçek tier'ı Web & Özel içindeki **T45**'tir. Kategori sayısı toplamı 45 tier'ı korur.
+
+### 2.2 CatID — Kategoriler Arası ID Çakışması Çözümü
+
+**Problem:** Tier ID'leri (`T01`…`T45`) kategori içinde benzersiz, kategoriler arasında **değil**:
+
+| Çakışan ID | Kullanım 1 | Kullanım 2 | Çözüm |
+|-----------|-----------|-----------|-------|
+| `T07` | 📱 Tablet — iPad (10. nesil), Galaxy Tab S9, Xiaomi Pad 6 | 🖥️ Embedded — RPi5 7" | `TB-T07` ↔ `EM-T07` |
+| `T08` | 📱 Tablet — iPad Pro 11" (M2) | 🖥️ Embedded — RPi5 10" | `TB-T08` ↔ `EM-T08` |
+| `T30` | 🚗 Automotive — Apple CarPlay / Tesla | 🥽 AR/VR başlığı (eski, yanlış etiket) | `AU-T30` ↔ gerçek AR/VR = `WB-T45` |
+
+**Kural:**
+
+1. **`CatID = <Önek>-<Tier>`** (ör. `EM-T07`) benzersiz anahtardır; dokümanlarda çakışma riski taşıyan referanslar CatID ile yazılır.
+2. **Tier ID tek başına yazıldığında §3'teki sıradaki ilk eşleşmedir** (Tablet `T07` = §3.2); Embedded'i kasteden yazım `EM-T07` olmalıdır.
+3. **`screens/T07-embedded/` dizin ADI DEĞİŞMEZ** — ~489 wiki-link bu adı kullanır; dizin CatID'nin `EM-*` kanonik karşılığıdır (`EM-T07` → `screens/T07-embedded/`). Dizin adı + CatID eşlemesi: [[01-mockup-index]] §CatID Eşleme.
+4. **`EM-T07` kanonik ekranları:** `screens/T07-embedded/` (12 md). `TB-T07` için ekran spec'i **yok** → `⚠️ VERIFICATION REQUIRED` (Figma'da Tablet T07 tasarımı bulunmuyor, 2026-09-29 tam çekim doğruladı).
 
 ---
 
@@ -51,82 +70,82 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 ### 📱 Phone (T01-T05)
 
-| Tier | Cihaz | Viewport | DPI | Touch | Font | Layout |
-|------|-------|----------|-----|-------|------|--------|
-| T01 | Samsung Galaxy J7 (2016) | 720×1280 | 2x | 48px | 0.875 | Tek sütun |
-| T01 | Samsung Galaxy A13 | 720×1600 | 2x | 48px | 0.875 | Tek sütun |
-| T02 | iPhone 14 Pro Max | 1290×2796 | 3x | 48px | 1 | Tek sütun |
-| T02 | iPhone 15 Pro Max | 1290×2796 | 3x | 48px | 1 | Tek sütun |
-| T02 | iPhone 16 Pro Max | 1320×2868 | 3x | 48px | 1 | Tek sütun |
-| T03 | Samsung Galaxy S25 Ultra | 1440×3120 | 3.5x | 48px | 1 | Tek sütun |
-| T03 | Samsung Galaxy S26 Ultra | 1440×3120 | 3.5x | 48px | 1 | Tek sütun |
-| T04 | Samsung Galaxy Z Flip5 | 1080×2640 | 3x | 48px | 1 | Tek sütun (katlı/açık) |
-| T05 | OnePlus 12 | 1440×3168 | 3.5x | 48px | 1 | Tek sütun |
-| T05 | ASUS ROG Phone 8 | 1080×2400 | 3x | 48px | 1 | Tek sütun |
+| CatID | Tier | Cihaz | Viewport | DPI | Touch | Font | Layout |
+|------|------|-------|----------|-----|-------|------|--------|
+| PH-T01 | T01 | Samsung Galaxy J7 (2016) | 720×1280 | 2x | 48px | 0.875 | Tek sütun |
+| PH-T01 | T01 | Samsung Galaxy A13 | 720×1600 | 2x | 48px | 0.875 | Tek sütun |
+| PH-T02 | T02 | iPhone 14 Pro Max | 1290×2796 | 3x | 48px | 1 | Tek sütun |
+| PH-T02 | T02 | iPhone 15 Pro Max | 1290×2796 | 3x | 48px | 1 | Tek sütun |
+| PH-T02 | T02 | iPhone 16 Pro Max | 1320×2868 | 3x | 48px | 1 | Tek sütun |
+| PH-T03 | T03 | Samsung Galaxy S25 Ultra | 1440×3120 | 3.5x | 48px | 1 | Tek sütun |
+| PH-T03 | T03 | Samsung Galaxy S26 Ultra | 1440×3120 | 3.5x | 48px | 1 | Tek sütun |
+| PH-T04 | T04 | Samsung Galaxy Z Flip5 | 1080×2640 | 3x | 48px | 1 | Tek sütun (katlı/açık) |
+| PH-T05 | T05 | OnePlus 12 | 1440×3168 | 3.5x | 48px | 1 | Tek sütun |
+| PH-T05 | T05 | ASUS ROG Phone 8 | 1080×2400 | 3x | 48px | 1 | Tek sütun |
 
 **Özellikler:** Bottom tab nav, kompakt kartlar, dikey scroll, tam width.
 
 ### 📱 Tablet (T06-T11)
 
-| Tier | Cihaz | Viewport | DPI | Orientation | Touch | Font | Layout |
-|------|-------|----------|-----|-------------|-------|------|--------|
-| T06 | iPad Mini (6. nesil) | 1488×2266 | 2x | Portrait | 48px | 1 | 2 sütun |
-| T06 | Samsung Galaxy Tab A9 | 1340×800 | 1.5x | Landscape | 48px | 1 | 2 sütun |
-| T07 | iPad (10. nesil) | 1640×2360 | 2x | Portrait | 48px | 1 | 2 sütun |
-| T07 | Samsung Galaxy Tab S9 | 1752×2800 | 2x | Portrait | 48px | 1 | 2 sütun |
-| T07 | Xiaomi Pad 6 | 1840×2800 | 2x | Portrait | 48px | 1 | 2 sütun |
-| T08 | iPad Pro 11" (M2) | 1668×2388 | 2x | Portrait | 48px | 1 | 2 sütun + split |
-| T09 | iPad Pro 12.9" (M2) | 2048×2732 | 2x | Portrait | 48px | 1 | 3 sütun |
-| T09 | Samsung Galaxy Tab S9 Ultra | 2960×1848 | 2x | Landscape | 48px | 1 | 3 sütun |
-| T10 | Microsoft Surface Pro 9 | 2880×1920 | 2x | Landscape | 48px | 1 | 3 sütun |
-| T10 | Lenovo Tab P12 Pro | 2560×1600 | 2x | Landscape | 48px | 1 | 3 sütun |
-| T11 | iPad Pro 12.9" (M4) | 2732×2048 | 2x | Landscape | 48px | 1 | 3 sütun |
-| T11 | Samsung Galaxy Tab S9 FE+ | 2560×1600 | 2x | Landscape | 48px | 1 | 3 sütun |
+| CatID | Tier | Cihaz | Viewport | DPI | Orientation | Touch | Font | Layout |
+|------|------|-------|----------|-----|-------------|-------|------|--------|
+| TB-T06 | T06 | iPad Mini (6. nesil) | 1488×2266 | 2x | Portrait | 48px | 1 | 2 sütun |
+| TB-T06 | T06 | Samsung Galaxy Tab A9 | 1340×800 | 1.5x | Landscape | 48px | 1 | 2 sütun |
+| TB-T07 | T07 | iPad (10. nesil) | 1640×2360 | 2x | Portrait | 48px | 1 | 2 sütun |
+| TB-T07 | T07 | Samsung Galaxy Tab S9 | 1752×2800 | 2x | Portrait | 48px | 1 | 2 sütun |
+| TB-T07 | T07 | Xiaomi Pad 6 | 1840×2800 | 2x | Portrait | 48px | 1 | 2 sütun |
+| TB-T08 | T08 | iPad Pro 11" (M2) | 1668×2388 | 2x | Portrait | 48px | 1 | 2 sütun + split |
+| TB-T09 | T09 | iPad Pro 12.9" (M2) | 2048×2732 | 2x | Portrait | 48px | 1 | 3 sütun |
+| TB-T09 | T09 | Samsung Galaxy Tab S9 Ultra | 2960×1848 | 2x | Landscape | 48px | 1 | 3 sütun |
+| TB-T10 | T10 | Microsoft Surface Pro 9 | 2880×1920 | 2x | Landscape | 48px | 1 | 3 sütun |
+| TB-T10 | T10 | Lenovo Tab P12 Pro | 2560×1600 | 2x | Landscape | 48px | 1 | 3 sütun |
+| TB-T11 | T11 | iPad Pro 12.9" (M4) | 2732×2048 | 2x | Landscape | 48px | 1 | 3 sütun |
+| TB-T11 | T11 | Samsung Galaxy Tab S9 FE+ | 2560×1600 | 2x | Landscape | 48px | 1 | 3 sütun |
 
 **Özellikler:** Grid layout, tablet nav, portrait/landscape geçiş, stylus desteği.
 
 ### 🖥️ Embedded (T07-T08)
 
-| Tier | Cihaz | Viewport | OS | Touch | Font | Layout |
-|------|-------|----------|-----|-------|------|--------|
-| T07 | RPi5 7" | 1024×600 | Debian ARM | 48px | 1 | 2 sütun, sidebar yok |
-| T08 | RPi5 10" | 1280×800 | Debian ARM | 48px | 1 | 3 sütun |
+| CatID | Tier | Cihaz | Viewport | OS | Touch | Font | Layout |
+|------|------|-------|----------|-----|-------|------|--------|
+| EM-T07 | T07 | RPi5 7" | 1024×600 | Debian ARM | 48px | 1 | 2 sütun, sidebar yok |
+| EM-T08 | T08 | RPi5 10" | 1280×800 | Debian ARM | 48px | 1 | 3 sütun |
 
 **Özellikler:** Welcome popup (T07), touch-first, minimal chrome, offline-first.
 
-> ⚠️ **Bilinen çelişki (SSOT dedup):** T07/T08 tier ID'leri bu bölümde Embedded (RPi5) için, §3 Tablet bölümünde iPad 10. nesil / Galaxy Tab S9 / iPad Pro 11" için kullanılmaktadır. Ayrı kategori, aynı ID. Çözüm kaydı: §3B.
+> **CatID çözümü (2026-09-29):** Bu bölümdeki `EM-T07`/`EM-T08` (RPi5) ile §3 Tablet bölümündeki `TB-T07`/`TB-T08` (iPad/Tab S9) aynı tier ID'ini paylaşır. Çözüm: **CatID sütunu** eklendi (§2.2) — benzersiz anahtar `EM-*` vs `TB-*`. `screens/T07-embedded/` dizin adı değişmez (wiki-link bütünlüğü). Çözüm kaydı: §3B.4.
 
 ### 💻 Laptop (T12-T16)
 
-| Tier | Cihaz | Viewport | DPI | Input | Font | Sidebar | Layout |
-|------|-------|----------|-----|-------|------|---------|--------|
-| T12 | 13" Ultrabook (FHD) | 1920×1080 | 1x | Mouse+KB | 1 | 220px | 3 sütun |
-| T12 | MacBook Air M2 13" | 2560×1664 | 2x | Trackpad+KB | 1 | 240px | 3 sütun |
-| T13 | 14" Creator (QHD) | 2560×1600 | 1.5x | Mouse+KB | 1 | 240px | 3 sütun |
-| T13 | MacBook Pro 14" M3 | 3024×1964 | 2x | Trackpad+KB | 1 | 260px | 3 sütun |
-| T14 | 15" Laptop (FHD) | 1920×1080 | 1x | Mouse+KB | 1 | 240px | 3 sütun |
-| T14 | MacBook Air 15" M3 | 2880×1864 | 2x | Trackpad+KB | 1 | 260px | 3 sütun |
-| T15 | 15.6" Creator (4K) | 3840×2160 | 1.5x | Mouse+KB | 1.25 | 280px | 3 sütun |
-| T16 | 16" Gaming (QHD+) | 2560×1600 | 1.5x | Mouse+KB | 1 | 260px | 3 sütun |
-| T16 | MacBook Pro 16" M3 Max | 3456×2234 | 2x | Trackpad+KB | 1 | 280px | 3 sütun |
+| CatID | Tier | Cihaz | Viewport | DPI | Input | Font | Sidebar | Layout |
+|------|------|-------|----------|-----|-------|------|---------|--------|
+| LP-T12 | T12 | 13" Ultrabook (FHD) | 1920×1080 | 1x | Mouse+KB | 1 | 220px | 3 sütun |
+| LP-T12 | T12 | MacBook Air M2 13" | 2560×1664 | 2x | Trackpad+KB | 1 | 240px | 3 sütun |
+| LP-T13 | T13 | 14" Creator (QHD) | 2560×1600 | 1.5x | Mouse+KB | 1 | 240px | 3 sütun |
+| LP-T13 | T13 | MacBook Pro 14" M3 | 3024×1964 | 2x | Trackpad+KB | 1 | 260px | 3 sütun |
+| LP-T14 | T14 | 15" Laptop (FHD) | 1920×1080 | 1x | Mouse+KB | 1 | 240px | 3 sütun |
+| LP-T14 | T14 | MacBook Air 15" M3 | 2880×1864 | 2x | Trackpad+KB | 1 | 260px | 3 sütun |
+| LP-T15 | T15 | 15.6" Creator (4K) | 3840×2160 | 1.5x | Mouse+KB | 1.25 | 280px | 3 sütun |
+| LP-T16 | T16 | 16" Gaming (QHD+) | 2560×1600 | 1.5x | Mouse+KB | 1 | 260px | 3 sütun |
+| LP-T16 | T16 | MacBook Pro 16" M3 Max | 3456×2234 | 2x | Trackpad+KB | 1 | 280px | 3 sütun |
 
 **Özellikler:** Persistent sidebar, hover states, mouse cursor, keyboard nav, macOS/Windows uyumlu.
 
 ### 🖥️ Desktop Monitor (T17-T24)
 
-| Tier | Cihaz | Viewport | DPI | Input | Font | Sidebar | Layout |
-|------|-------|----------|-----|-------|------|---------|--------|
-| T17 | 22" FHD Monitor | 1920×1080 | 1x | Mouse+KB | 1 | 240px | 3 sütun |
-| T18 | 24" FHD Monitor | 1920×1080 | 1x | Mouse+KB | 1 | 240px | 3 sütun |
-| T19 | 27" QHD Monitor | 2560×1440 | 1x | Mouse+KB | 1 | 260px | 4 sütun |
-| T20 | 27" 4K Monitor | 3840×2160 | 1.5x | Mouse+KB | 1.25 | 280px | 4 sütun |
-| T21 | 32" QHD Monitor | 2560×1440 | 1x | Mouse+KB | 1 | 280px | 4 sütun |
-| T21 | 32" 4K Monitor | 3840×2160 | 1.5x | Mouse+KB | 1.25 | 300px | 4 sütun |
-| T22 | 34" Ultrawide QHD | 3440×1440 | 1x | Mouse+KB | 1 | 280px | 5 sütun |
-| T23 | 40" Ultrawide WUHD | 5120×2160 | 1x | Mouse+KB | 1.125 | 300px | 5 sütun |
-| T23 | 49" Super Ultrawide | 5120×1440 | 1x | Mouse+KB | 1.125 | 300px | 6 sütun |
-| T24 | 32" 4K Reference | 3840×2160 | 1.5x | Mouse+KB | 1.25 | 300px | 4 sütun |
-| T24 | 27" 5K Studio | 5120×2880 | 2x | Mouse+KB | 1 | 280px | 4 sütun |
+| CatID | Tier | Cihaz | Viewport | DPI | Input | Font | Sidebar | Layout |
+|------|------|-------|----------|-----|-------|------|---------|--------|
+| DM-T17 | T17 | 22" FHD Monitor | 1920×1080 | 1x | Mouse+KB | 1 | 240px | 3 sütun |
+| DM-T18 | T18 | 24" FHD Monitor | 1920×1080 | 1x | Mouse+KB | 1 | 240px | 3 sütun |
+| DM-T19 | T19 | 27" QHD Monitor | 2560×1440 | 1x | Mouse+KB | 1 | 260px | 4 sütun |
+| DM-T20 | T20 | 27" 4K Monitor | 3840×2160 | 1.5x | Mouse+KB | 1.25 | 280px | 4 sütun |
+| DM-T21 | T21 | 32" QHD Monitor | 2560×1440 | 1x | Mouse+KB | 1 | 280px | 4 sütun |
+| DM-T21 | T21 | 32" 4K Monitor | 3840×2160 | 1.5x | Mouse+KB | 1.25 | 300px | 4 sütun |
+| DM-T22 | T22 | 34" Ultrawide QHD | 3440×1440 | 1x | Mouse+KB | 1 | 280px | 5 sütun |
+| DM-T23 | T23 | 40" Ultrawide WUHD | 5120×2160 | 1x | Mouse+KB | 1.125 | 300px | 5 sütun |
+| DM-T23 | T23 | 49" Super Ultrawide | 5120×1440 | 1x | Mouse+KB | 1.125 | 300px | 6 sütun |
+| DM-T24 | T24 | 32" 4K Reference | 3840×2160 | 1.5x | Mouse+KB | 1.25 | 300px | 4 sütun |
+| DM-T24 | T24 | 27" 5K Studio | 5120×2880 | 2x | Mouse+KB | 1 | 280px | 4 sütun |
 
 **Özellikler:** Geniş content, yüksek çözünürlük, çoklu widget, NO-CENTER (4K).
 
@@ -136,73 +155,75 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 ### 📺 Smart TV (T25-T28)
 
-| Tier | Cihaz | Viewport | DPI | Input | Font | Touch | Layout |
-|------|-------|----------|-----|-------|------|-------|--------|
-| T25 | 43" FHD TV | 1920×1080 | 1x | D-pad | 1.5 | 80px | 4 sütun |
-| T25 | 50" FHD TV | 1920×1080 | 1x | D-pad | 1.5 | 80px | 4 sütun |
-| T26 | 55" 4K TV | 3840×2160 | 1x | D-pad | 1.75 | 96px | 4 sütun |
-| T26 | Samsung QN85B 55" | 3840×2160 | 1x | D-pad | 1.75 | 96px | 4 sütun |
-| T27 | 65" 4K TV | 3840×2160 | 1x | D-pad | 2 | 104px | 4 sütun |
-| T27 | LG C3 65" OLED | 3840×2160 | 1x | D-pad | 2 | 104px | 4 sütun |
-| T28 | 75" 4K TV | 3840×2160 | 1x | D-pad | 2 | 112px | 4 sütun |
-| T28 | 85" 4K TV | 3840×2160 | 1x | D-pad | 2.25 | 120px | 5 sütun |
-| T28 | 98" 4K TV | 3840×2160 | 1x | D-pad | 2.5 | 128px | 5 sütun |
+| CatID | Tier | Cihaz | Viewport | DPI | Input | Font | Touch | Layout |
+|------|------|-------|----------|-----|-------|------|-------|--------|
+| TV-T25 | T25 | 43" FHD TV | 1920×1080 | 1x | D-pad | 1.5 | 80px | 4 sütun |
+| TV-T25 | T25 | 50" FHD TV | 1920×1080 | 1x | D-pad | 1.5 | 80px | 4 sütun |
+| TV-T26 | T26 | 55" 4K TV | 3840×2160 | 1x | D-pad | 1.75 | 96px | 4 sütun |
+| TV-T26 | T26 | Samsung QN85B 55" | 3840×2160 | 1x | D-pad | 1.75 | 96px | 4 sütun |
+| TV-T27 | T27 | 65" 4K TV | 3840×2160 | 1x | D-pad | 2 | 104px | 4 sütun |
+| TV-T27 | T27 | LG C3 65" OLED | 3840×2160 | 1x | D-pad | 2 | 104px | 4 sütun |
+| TV-T28 | T28 | 75" 4K TV | 3840×2160 | 1x | D-pad | 2 | 112px | 4 sütun |
+| TV-T28 | T28 | 85" 4K TV | 3840×2160 | 1x | D-pad | 2.25 | 120px | 5 sütun |
+| TV-T28 | T28 | 98" 4K TV | 3840×2160 | 1x | D-pad | 2.5 | 128px | 5 sütun |
 
 **Özellikler:** 10-foot UI, D-pad navigation, large focus indicators, high contrast, ambient mode.
 
 ### 🚗 Automotive (T29-T30)
 
-| Tier | Cihaz | Viewport | DPI | Input | Font | Touch | Layout |
-|------|-------|----------|-----|-------|------|-------|--------|
-| T29 | Android Auto (Küçük) | 800×480 | 1x | Touch+Voice | 1.125 | 80px | 2 sütun |
-| T29 | Android Auto (Orta) | 1280×720 | 1x | Touch+Voice | 1.125 | 80px | 2 sütun |
-| T30 | Apple CarPlay (Küçük) | 800×480 | 1x | Touch+Voice | 1.125 | 80px | 2 sütun |
-| T30 | Apple CarPlay (Büyük) | 1920×720 | 1x | Touch+Voice | 1.25 | 80px | 3 sütun |
-| T30 | Tesla Model 3/Y | 1920×1200 | 1x | Touch | 1.25 | 80px | 2 sütun |
+| CatID | Tier | Cihaz | Viewport | DPI | Input | Font | Touch | Layout |
+|------|------|-------|----------|-----|-------|------|-------|--------|
+| AU-T29 | T29 | Android Auto (Küçük) | 800×480 | 1x | Touch+Voice | 1.125 | 80px | 2 sütun |
+| AU-T29 | T29 | Android Auto (Orta) | 1280×720 | 1x | Touch+Voice | 1.125 | 80px | 2 sütun |
+| AU-T30 | T30 | Apple CarPlay (Küçük) | 800×480 | 1x | Touch+Voice | 1.125 | 80px | 2 sütun |
+| AU-T30 | T30 | Apple CarPlay (Büyük) | 1920×720 | 1x | Touch+Voice | 1.25 | 80px | 3 sütun |
+| AU-T30 | T30 | Tesla Model 3/Y | 1920×1200 | 1x | Touch | 1.25 | 80px | 2 sütun |
 
 **Özellikler:** Safety-first, 80px+ touch targets, minimal text, voice-first, driver mode, ambient lighting uyumlu.
 
 ### ⌚ Smart Watch (T31-T33)
 
-| Tier | Cihaz | Viewport | DPI | Input | Font | Layout |
-|------|-------|----------|-----|-------|------|--------|
-| T31 | Apple Watch SE (40mm) | 396×484 | 2x | Crown+Touch | 0.75 | Tek sütun |
-| T31 | Apple Watch Series 9 (41mm) | 396×484 | 2x | Crown+Touch | 0.75 | Tek sütun |
-| T32 | Apple Watch Ultra 2 (49mm) | 502×410 | 3x | Crown+Touch | 0.875 | Tek sütun |
-| T32 | Samsung Galaxy Watch 6 (44mm) | 450×450 | 2x | Bezel+Touch | 0.8125 | Dairesel |
-| T33 | Samsung Galaxy Watch 6 Classic (47mm) | 480×480 | 2x | Bezel+Touch | 0.8125 | Dairesel |
+| CatID | Tier | Cihaz | Viewport | DPI | Input | Font | Layout |
+|------|------|-------|----------|-----|-------|------|--------|
+| WS-T31 | T31 | Apple Watch SE (40mm) | 396×484 | 2x | Crown+Touch | 0.75 | Tek sütun |
+| WS-T31 | T31 | Apple Watch Series 9 (41mm) | 396×484 | 2x | Crown+Touch | 0.75 | Tek sütun |
+| WS-T32 | T32 | Apple Watch Ultra 2 (49mm) | 502×410 | 3x | Crown+Touch | 0.875 | Tek sütun |
+| WS-T32 | T32 | Samsung Galaxy Watch 6 (44mm) | 450×450 | 2x | Bezel+Touch | 0.8125 | Dairesel |
+| WS-T33 | T33 | Samsung Galaxy Watch 6 Classic (47mm) | 480×480 | 2x | Bezel+Touch | 0.8125 | Dairesel |
 
 **Özellikler:** Micro UI, OLED power save, always-on display, haptic feedback, rotating crown/bezel.
 
 ### 🎮 Console (T34-T36)
 
-| Tier | Cihaz | Viewport | DPI | Input | Font | Touch | Layout |
-|------|-------|----------|-----|-------|------|-------|--------|
-| T34 | PlayStation 5 | 1920×1080 | 1x | D-pad | 1.5 | 80px | 4 sütun |
-| T34 | Xbox Series X | 3840×2160 | 1x | D-pad | 1.75 | 96px | 4 sütun |
-| T35 | Nintendo Switch (Handheld) | 1280×720 | 1x | Joy-Con+Touch | 1 | 56px | 2 sütun |
-| T35 | Nintendo Switch OLED | 1280×720 | 1x | Joy-Con+Touch | 1 | 56px | 2 sütun |
-| T36 | Steam Deck | 1280×800 | 1x | Pad+Stick | 1 | 48px | 2 sütun |
-| T36 | ASUS ROG Ally | 1920×1080 | 1x | Pad+Stick | 1 | 48px | 2 sütun |
+| CatID | Tier | Cihaz | Viewport | DPI | Input | Font | Touch | Layout |
+|------|------|-------|----------|-----|-------|------|-------|--------|
+| CS-T34 | T34 | PlayStation 5 | 1920×1080 | 1x | D-pad | 1.5 | 80px | 4 sütun |
+| CS-T34 | T34 | Xbox Series X | 3840×2160 | 1x | D-pad | 1.75 | 96px | 4 sütun |
+| CS-T35 | T35 | Nintendo Switch (Handheld) | 1280×720 | 1x | Joy-Con+Touch | 1 | 56px | 2 sütun |
+| CS-T35 | T35 | Nintendo Switch OLED | 1280×720 | 1x | Joy-Con+Touch | 1 | 56px | 2 sütun |
+| CS-T36 | T36 | Steam Deck | 1280×800 | 1x | Pad+Stick | 1 | 48px | 2 sütun |
+| CS-T36 | T36 | ASUS ROG Ally | 1920×1080 | 1x | Pad+Stick | 1 | 48px | 2 sütun |
 
 **Özellikler:** Controller navigation, handheld hybrid, gamepad UI, large focus indicators.
 
 ### 🖥️ Desktop App (T37-T38)
 
-| Tier | Cihaz | Runtime | Viewport | Font | Sidebar | Layout |
-|------|-------|---------|----------|------|---------|--------|
-| T37 | Electron Desktop | Chromium | Responsive | 1 | 240px | 3 sütun |
-| T38 | Tauri Desktop | WebView2 | Responsive | 1 | 240px | 3 sütun |
+| CatID | Tier | Cihaz | Runtime | Viewport | Font | Sidebar | Layout |
+|------|------|-------|---------|----------|------|---------|--------|
+| DA-T37 | T37 | Electron Desktop | Chromium | Responsive | 1 | 240px | 3 sütun |
+| DA-T38 | T38 | Tauri Desktop | WebView2 | Responsive | 1 | 240px | 3 sütun |
 
 **Özellikler:** Native titlebar, offline support, installable, system tray, IPC bridge, custom protocol.
 
-### 🥽 AR/VR (T30) — CAKISMA ID
+### 🥽 AR/VR (Gerçek tier: `WB-T45`)
 
-> ⚠️ Başlıktaki "T30" ID'si Automotive (T30 = Apple CarPlay/Tesla) ile çakışır; gerçek AR/VR headset tier'ı §3 Web & Özel section'ında **T45**'tir. Çözüm kaydı: §3B.
+> **CatID düzeltmesi (2026-09-29):** Başlık eski haliyle "T30" taşıyordu ve Automotive `AU-T30` (CarPlay/Tesla) ile çakışıyordu. AR/VR'ın kanonik tier'ı **Web & Özel `T45`**'tir (`WB-T45`); aşağıdaki tablo tarihsel kayıt olarak `Meta Quest 3` spesifikasyonunu taşır. Çözüm kaydı: §2.2, §3B.4.
 
-| Tier | Cihaz | Viewport | Input | Font | Layout |
-|------|-------|----------|-------|------|--------|
-| T30 | Meta Quest 3 | 2064×2208 | Controller+Hand | 1.25 | 3 sütun |
+| CatID | Tier | Cihaz | Viewport | Input | Font | Layout |
+|-------|------|-------|----------|-------|------|--------|
+| AR-T30 | T30 | Meta Quest 3 | 2064×2208 | Controller+Hand | 1.25 | 3 sütun |
+
+> `AR-T30` yalnız bu bölümün iç etiketidir; **sistem genelinde AR/VR = `WB-T45`**.
 
 **Özellikler:** Spatial UI, 3D depth, hand tracking, immersive mode.
 
@@ -210,11 +231,11 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 > ⚠️ Bu bölüm, §3 içindeki birincil "Smart Watch (T31-T33)" tablosunun birebir kopyasıdır. **Birincil bölüm tek SSG'dir**; bu bölüm bilgi kaybı önlemleriyle korunmuştur (SSOT dedup, 2026-09-24).
 
-| Tier | Cihaz | Viewport | DPI | Input | Font | Layout |
-|------|-------|----------|-----|-------|------|--------|
-| T31 | Apple Watch SE 40mm | 396×484 | 2x | Crown+Touch | 0.75 | Tek sütun |
-| T32 | Apple Watch Ultra 49mm | 502×410 | 3x | Crown+Touch | 0.875 | Tek sütun |
-| T33 | Samsung Galaxy Watch 6 44mm | 450×450 | 2x | Bezel+Touch | 0.8125 | Dairesel |
+| CatID | Tier | Cihaz | Viewport | DPI | Input | Font | Layout |
+|------|------|-------|----------|-----|-------|------|--------|
+| WS-T31 | T31 | Apple Watch SE 40mm | 396×484 | 2x | Crown+Touch | 0.75 | Tek sütun |
+| WS-T32 | T32 | Apple Watch Ultra 49mm | 502×410 | 3x | Crown+Touch | 0.875 | Tek sütun |
+| WS-T33 | T33 | Samsung Galaxy Watch 6 44mm | 450×450 | 2x | Bezel+Touch | 0.8125 | Dairesel |
 
 **Özellikler:** Micro UI, OLED power save, always-on display, haptic feedback.
 
@@ -222,11 +243,11 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 > ⚠️ Bu bölüm, §3 içindeki birincil "Console (T34-T36)" tablosunun birebir kopyasıdır. **Birincil bölüm tek SSG'dir**; bu bölüm bilgi kaybı önlemleriyle korunmuştur (SSOT dedup, 2026-09-24).
 
-| Tier | Cihaz | Viewport | Input | Font | Touch | Layout |
-|------|-------|----------|-------|------|-------|--------|
-| T34 | PlayStation 5 | 1920×1080 | D-pad | 1.5 | 80px | 4 sütun |
-| T35 | Nintendo Switch (Handheld) | 1280×720 | Joy-Con+Touch | 1 | 56px | 2 sütun |
-| T36 | Steam Deck / ROG Ally | 1280×800 | Pad+Stick | 1 | 48px | 2 sütun |
+| CatID | Tier | Cihaz | Viewport | Input | Font | Touch | Layout |
+|------|------|-------|----------|-------|------|-------|--------|
+| CS-T34 | T34 | PlayStation 5 | 1920×1080 | D-pad | 1.5 | 80px | 4 sütun |
+| CS-T35 | T35 | Nintendo Switch (Handheld) | 1280×720 | Joy-Con+Touch | 1 | 56px | 2 sütun |
+| CS-T36 | T36 | Steam Deck / ROG Ally | 1280×800 | Pad+Stick | 1 | 48px | 2 sütun |
 
 **Özellikler:** Controller navigation, handheld hybrid, gamepad UI.
 
@@ -234,19 +255,19 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 > ⚠️ Bu bölüm, §3 içindeki birincil "Desktop App (T37-T38)" tablosunun birebir kopyasıdır. **Birincil bölüm tek SSG'dir**; bu bölüm bilgi kaybı önlemleriyle korunmuştur (SSOT dedup, 2026-09-24).
 
-| Tier | Cihaz | Runtime | Viewport | Font | Sidebar | Layout |
-|------|-------|---------|----------|------|---------|--------|
-| T37 | Electron Desktop | Chromium | Responsive | 1 | 240px | 3 sütun |
-| T38 | Tauri Desktop | WebView2 | Responsive | 1 | 240px | 3 sütun |
+| CatID | Tier | Cihaz | Runtime | Viewport | Font | Sidebar | Layout |
+|------|------|-------|---------|----------|------|---------|--------|
+| DA-T37 | T37 | Electron Desktop | Chromium | Responsive | 1 | 240px | 3 sütun |
+| DA-T38 | T38 | Tauri Desktop | WebView2 | Responsive | 1 | 240px | 3 sütun |
 
 **Özellikler:** Native titlebar, offline support, installable, system tray, IPC bridge.
 
 ### 📱 Mobil Uygulama (T39-T40)
 
-| Tier | Cihaz | Platform | Viewport | Input | Font | Layout |
-|------|-------|----------|----------|-------|------|--------|
-| T39 | iOS Native App | Swift/SwiftUI | Responsive | Touch | 1 | Tek sütun |
-| T40 | Android Native App | Kotlin/Material | Responsive | Touch | 1 | Tek sütun |
+| CatID | Tier | Cihaz | Platform | Viewport | Input | Font | Layout |
+|------|------|-------|----------|----------|-------|------|--------|
+| MO-T39 | T39 | iOS Native App | Swift/SwiftUI | Responsive | Touch | 1 | Tek sütun |
+| MO-T40 | T40 | Android Native App | Kotlin/Material | Responsive | Touch | 1 | Tek sütun |
 
 **Özellikler:** Platform HIG uyumlu, native navigation, gesture support.
 
@@ -321,9 +342,10 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 ### 3B.4 Dedup Kayıtları
 
 1. **"Ek" bölümleri** (Smart Watch Ek, Oyun Konsolu Ek, Desktop Uygulama Ek) birincil tabloların kopyasıdır → birincil bölüm SSG, "Ek" bölümleri başlıkta `CAKISMA/REDUNDANT` etiketli.
-2. **T07/T08 çift anlamlı** → Embedded (RPi5) + Tablet (iPad/Tab S9) aynı ID'leri kullanır (§3 Embedded altındaki uyarıya bak).
-3. **AR/VR başlığı "T30"** → CarPlay/Tesla ile ID çakışması; gerçek AR/VR = T45.
-4. **§2.1 kategori tablosu** 12 kategori iddia ediyor, satır sayısı 11 (Embedded + AR/VR tabloda listelenmiyor) → bilinen sayı uyuşmazlığı, satır-satır edit kuralıyla dokunulmadı.
+2. **T07/T08 çift anlamlı** → Embedded (RPi5) + Tablet (iPad/Tab S9) aynı ID'leri kullanıyordu → **ÇÖZÜLDÜ (2026-09-29):** §3 tablolarına `CatID` sütunu eklendi (`EM-T07` / `TB-T07`); kural §2.2'de. `screens/T07-embedded/` dizin adı korundu.
+3. **AR/VR başlığı "T30"** → CarPlay/Tesla ile ID çakışması; gerçek AR/VR = `WB-T45` (§2.2). Başlık etiketi düzeltildi.
+4. **§2.1 kategori tablosu** 12 kategori iddia ediyordu, satır sayısı 11'di → **ÇÖZÜLDÜ (2026-09-29):** başlık "11 Kategori" oldu + `CatID Öneki` sütunu eklendi; Embedded'in kategori değil Tablet alt kümesi olduğu, AR/VR'ın Web & Özel içindeki T45 olduğu belgelendi.
+5. **§3A tier aralıkları §3 ile örtüşmüyor** → §3.5 kaydı #3'te; §3A bakir bırakıldı, tier → cihaz eşlemesi §3'tedir.
 
 ### 3B.5 Diğer Dokümanlarla Çelişki Listesi
 
@@ -358,17 +380,19 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 6.0.0 |
+| Version | 6.1.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Total Tiers | 45 |
-| Categories | 12 |
+| Categories | 11 (+ Embedded = Tablet alt kümesi) |
+| CatID Sütunu | 15 tabloya uygulandı, 82 CatID satırı |
 | Specific Devices | 50+ |
 | Touch Target Range | 48px-128px |
 | Font Scale Range | 0.75-2.5 |
 | Grid Range | 1-6 columns |
 | Viewport Range | 396×484 - 7680×4320 |
 | Cross References | 6 |
-| Last Updated | 2026-09-24 |
+| Çözülen Çakışmalar | T07, T08, T30, 12/11 kategori (§2.2, §3B.4) |
+| Last Updated | 2026-09-29 |
 
 ---
 

@@ -105,7 +105,7 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 19 PNG
 | # | Screen Spec Dosyası | Figma node (kök) | Kaynak PNG (`source_of_truth`) | Status |
 |---|---------------------|------------------|-------------------------------|:------:|
 | 1 | `screens/T07-embedded/home-dashboard.md` | `1639:10160` (COMPONENT) | `.ai/.png/home-1024/Linux  1024 - Home Page.png` | active |
-| 2 | `screens/T07-embedded/welcome-popup.md` | `2831:10265` | `.ai/.png/home-1024/Linux  1024 - Home Page Welcome Popup.png` | active |
+| 2 | `screens/T07-embedded/welcome-popup.md` | `2831:10267` | `.ai/.png/home-1024/Linux  1024 - Home Page Welcome Popup.png` | active |
 | 3 | `screens/T07-embedded/albums.md` | `2831:9176` | `.ai/.png/home-1024/Linux  1024 - Albumler Page.png` | active |
 | 4 | `screens/T07-embedded/album-detail.md` | `2831:10086` (h=612 ⚠️) | `.ai/.png/home-1024/Linux  1024 - Albumler Details Detay Page.png` | active |
 | 5 | `screens/T07-embedded/singer.md` | `2831:9273` | `.ai/.png/home-1024/Linux  1024 - Singer Page.png` | active |
@@ -135,7 +135,28 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 19 PNG
 | 19 | `screens/T17-monitor-22fhd/home-dashboard.md` | `2831:13747` | `.ai/.png/home-1920/Linux - 1920 - Home.png` | active |
 | 20 | `screens/T17-monitor-22fhd/welcome-popup.md` | `2876:6439` (modal 600×308) | `⚠️ VERIFICATION REQUIRED — 1920 popup PNG'si yok` | **draft** |
 
-> **Tier notu (çelişki — ✅ taşındı, 2026-09-29):** dizin `screens/T07-embedded/`'e taşındı + 12 spec `tier: T07` (owner onayı); viewport 1024×600 = `00-device-matrix` L92'de **T07** (L93: T08 = 1280×800). Kapanış: `screens/00-ascii-art-index.md` §7 madde 1.
+> **Tier notu (çelişki — ✅ taşındı, 2026-09-29):** dizin `screens/T07-embedded/`'e taşındı + 12 spec `tier: T07` (owner onayı); viewport 1024×600 = `00-device-matrix` `EM-T07` (Embedded, RPi5 7"), 1280×800 = `EM-T08`. Kapanış: `screens/00-ascii-art-index.md` §7 madde 1. **CatID ile:** dizin kanonik karşılığı `EM-T07` (§4.4).
+
+### 4.4 CatID Eşleme (Dizin ↔ Benzersiz Anahtar)
+
+> CatID = `<Önek>-<Tier>`; kategoriler arası tier ID çakışmasını çözer. Kural: `00-device-matrix` §2.2.
+
+| Dizin | CatID | Tier | Viewport | Ekran spec | Figma tasarım durumu |
+|-------|-------|------|----------|-----------|----------------------|
+| `screens/T07-embedded/` | `EM-T07` | T07 | 1024×600 | 12 md | ✅ `1047:15802` (Linux Pi sayfası) |
+| `screens/T17-monitor-22fhd/` | `DM-T17` | T17 | 1920×1080 | 2 md | ✅ `462:5874` (Linux 1920 sayfası) |
+| `screens/shared/` | `EM-T07` (frontmatter `tier: T07`) | T07 | 1024×600 | 6 md | ✅ `2135:19832` (Linux Pi Son Kullanıcı) |
+
+**Çakışan tier'lar ve durumları:**
+
+| Tier | CatID (Tablet) | CatID (Embedded) | Tablet ekran spec | Figma Tablet tasarımı |
+|------|----------------|------------------|-------------------|----------------------|
+| T07 | `TB-T07` (iPad 10., Tab S9, Xiaomi Pad 6) | `EM-T07` (RPi5 7") | ❌ yok | ❌ yok — 2026-09-29 tam çekim: Tablet tier'ı için ayrı frame bulunmuyor |
+| T08 | `TB-T08` (iPad Pro 11") | `EM-T08` (RPi5 10") | ❌ yok | ❌ yok |
+
+> ⚠️ `TB-T07`/`TB-T08` ekran spec'leri **yoktur** ve Figma'da karşılığı bulunmamıştır → `⚠️ VERIFICATION REQUIRED` · `status: planlanmış`. Uydurma ASCII art üretilmez (Guardrail #11).
+
+**Tier ID'siz (tek başına `T07`) referanslarda yorum:** §3'te ilk eşleşmedir = Tablet (`TB-T07`). `screens/**` bağlamındaki `T07` **her zaman `EM-T07`** demektir (dizin adı gereği).
 
 ---
 

@@ -29,7 +29,7 @@ reference:
 
 Bu şablon, CoreMusic ui-design vault'unda **makineye (LLM/agent) verilen kod üretim promptlarının** tek biçimini tanımlar: bağlam, girdiler, ASCII referans, JSON prompt gövdesi, beklenen HTML+CSS çıktısı ve doğrulama listesi. **Guardrail #16:** `prompt/` altında yeni bir `.md` bu şablondan üretilmek ZORUNLUDUR.
 
-**Disk gerçeği (2026-09-24):** `prompt/` altında **50 md** vardır — 1 master indeks + **49 prompt**, 4 alt kategori: `component/` 16 (C01-C16) · `page/` 12 · `screen/` 11 (indeks + T1-T10) · `layout/` 10. `00-prompt-index.md` içindeki "175 prompt", "14 page", `C02-search-bar`, `01-pattern-mobile-stack`, `page/02-library` iddiaları disk gerçeğiyle ÇELİŞİR — yeni prompt yazarken dosya adları glob ile doğrulanır.
+**Disk gerçeği (2026-09-29):** `prompt/` altında **51 md** vardır — 1 master indeks (`00-prompt-index.md`) + 1 araştırma notu (`web-research.md`) + **49 prompt**, 4 alt kategori: `component/` 16 (C01-C16) · `page/` 12 · `screen/` 11 (indeks + T1-T10) · `layout/` 10. `00-prompt-index.md` içindeki "175 prompt", "14 page", `C02-search-bar`, `01-pattern-mobile-stack`, `page/02-library` iddiaları disk gerçeğiyle ÇELİŞİR — yeni prompt yazarken dosya adları glob ile doğrulanır.
 
 | Karar | Kaynak | Şablona gömülü karşılığı |
 |-------|--------|--------------------------|

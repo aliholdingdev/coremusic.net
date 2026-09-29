@@ -29,19 +29,15 @@ reference:
 
 Bu şablon, CoreMusic ui-design vault'unda **bir ekranın piksel düzeyinde spesifikasyonunu** tanımlar: nerede hangi kutunun durduğu (ASCII Layout), hangi BEM sınıflarının açıldığı, hangi token'ların kullanıldığı, dokunma hedefi/erişilebilirlik/glassmorphism kuralları, hangi PNG'nin kaynak olduğu, responsive davranış ve durumlar. **Guardrail #16:** `screens/` altında yeni bir `.md` bu şablondan üretilmek ZORUNLUDUR.
 
-**Disk gerçeği (2026-09-24):** `screens/` altında **23 md** vardır — **1 indeks** (`00-ascii-art-index.md`) + **5 shared** ekran + **17 tier ekranı**, **8 tier dizini**:
+**Disk gerçeği (2026-09-29, Figma tam çekim sonrası):** `screens/` altında **21 md** vardır — **1 indeks** (`00-ascii-art-index.md`) + **6 shared** ekran + **14 tier ekranı**, **3 tier dizini**:
 
 | Tier dizini | Ekran adı (md) |
 |-------------|----------------|
-| `T01-phone-hd/` | 2 (`auth-login`, `home-dashboard`) |
-| `T02-phone-fhd/` | 1 (`home-dashboard`) |
-| `T03-phone-qhd/` | 1 (`home-dashboard`) |
-| `T07-embedded/` | 9 (`album-detail`, `albums`, `artists`, `bluetooth-modal`, `file-browser`, `home-dashboard`, `now-playing`, `welcome-popup`, `wifi-modal`) |
-| `T17-monitor-22fhd/` | 1 (`home-dashboard`) |
-| `T25-tv-43fhd/` | 1 (`home-dashboard`) |
-| `T29-car-android-auto/` | 1 (`home-dashboard`) |
-| `T31-watch-apple-40mm/` | 1 (`now-playing`) |
-| `shared/` | 5 (`login`, `register-step1`, `register-step2`, `register-step3`, `select-gender`) |
+| `T07-embedded/` | 12 (`album-detail`, `albums`, `bluetooth-quick`, `browse`, `browse-clicked`, `home-dashboard`, `playlist`, `playlist-video`, `singer`, `welcome-popup`, `wifi-connect-light`, `wifi-quick`) |
+| `T17-monitor-22fhd/` | 2 (`home-dashboard`, `welcome-popup`) |
+| `shared/` | 6 (`login`, `register-step1`, `register-step2`, `register-step3`, `select-gender`, `select-gender-selected`) |
+
+> **v1.0.1'deki eski tablo (yànlış):** "23 md / 8 tier / `T01-phone-hd` `T02-phone-fhd` `T03-phone-qhd` `T25-tv-43fhd` `T29-car-android-auto` `T31-watch-apple-40mm` dizinleri" → bu dizinler diskte **hiç var olmadı**; `artists`/`file-browser`/`now-playing`/`wifi-modal` adları da yanlış (doğru adlar: `singer`/`browse`/`playlist`/`wifi-quick`). 2026-09-29 Figma tam çekimi (15 sayfa) ile düzeltildi.
 
 **PNG kanıtı:** `.ai/.png/` altında **19 PNG** vardır — `home-1024/` 12 · `home-1920/` 1 (`Linux - 1920 - Home.png`) · `shared-1024/` 6. `reference.source_of_truth` yalnızca bu 19 dosyadan birini gösterebilir.
 
@@ -507,22 +503,17 @@ node .ai/scripts/vault-utf8-writer.mjs verify --file <vault-yolu>
 | Prompt şablonu | [[prompt-template]] | Kalıp C |
 | CSS şablonu | [[../frontend/css-template]] | Üretilen CSS'in gerçek şablonu |
 
-### 7.1 Tier → Ekran Eşleşmesi (disk kanıtı, 2026-09-24)
+### 7.1 Tier → Ekran Eşleşmesi (disk kanıtı, 2026-09-29 — Figma 15 sayfa tam çekim sonrası)
 
 | Tier | Dizin | Ekranlar |
 |------|-------|----------|
-| T01 Phone HD | `T01-phone-hd/` | `auth-login`, `home-dashboard` |
-| T02 Phone FHD | `T02-phone-fhd/` | `home-dashboard` |
-| T03 Phone QHD | `T03-phone-qhd/` | `home-dashboard` |
-| T07 Embedded | `T07-embedded/` | `album-detail`, `albums`, `artists`, `bluetooth-modal`, `file-browser`, `home-dashboard`, `now-playing`, `welcome-popup`, `wifi-modal` |
-| T17 Monitor 22" FHD | `T17-monitor-22fhd/` | `home-dashboard` |
-| T25 TV 43" FHD | `T25-tv-43fhd/` | `home-dashboard` |
-| T29 Car Android Auto | `T29-car-android-auto/` | `home-dashboard` |
-| T31 Watch Apple 40mm | `T31-watch-apple-40mm/` | `now-playing` |
-| Shared | `shared/` | `login`, `register-step1`, `register-step2`, `register-step3`, `select-gender` |
-| **TOPLAM** | 9 dizin | **22 ekran + 1 indeks = 23 md** |
+| T07 Embedded | `T07-embedded/` | `album-detail`, `albums`, `bluetooth-quick`, `browse`, `browse-clicked`, `home-dashboard`, `playlist`, `playlist-video`, `singer`, `welcome-popup`, `wifi-connect-light`, `wifi-quick` (12) |
+| T17 Monitor 22" FHD | `T17-monitor-22fhd/` | `home-dashboard`, `welcome-popup` (2) |
+| Shared | `shared/` | `login`, `register-step1`, `register-step2`, `register-step3`, `select-gender`, `select-gender-selected` (6) |
+| İndeks | `screens/` (root) | `00-ascii-art-index.md` (1) |
+| **TOPLAM** | **3 tier dizini + root** | **20 ekran + 1 indeks = 21 md** |
 
-> ⚠️ **Truth Mode notu:** `00-ascii-art-index.md` ve `01-mockup-index.md` içindeki tier/PNG sayıları dönem dönem disk gerçeğiyle (23 md / 19 PNG) çelişebilir — yeni spec yazarken sayılar **glob ile tazelenir**, eski sayı kopyalanmaz.
+> ⚠️ **Truth Mode notu:** `00-ascii-art-index.md` ve `01-mockup-index.md` içindeki tier/PNG sayıları dönem dönem disk gerçeğiyle (21 md / 19 PNG) çelişebilir — yeni spec yazarken sayılar **glob ile tazelenir**, eski sayı kopyalanmaz. `T01-phone-hd/`, `T02-phone-fhd/`, `T03-phone-qhd/`, `T25-tv-43fhd/`, `T29-car-android-auto/`, `T31-watch-apple-40mm/` dizinleri diskte **hiç var olmadı** — bunlara spec yazılacaksa önce dizin + indeks satırı birlikte oluşturulur.
 
 ### 7.2 Red Team — Sık Yapılan Hatalar
 
