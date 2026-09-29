@@ -1,7 +1,7 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\shared\src\AI\Contracts Baglam"
+title: "CoreMusic - C:\www\coremusic.net\shared\src\Contracts\Config Baglam"
 type: context
-folder: "C:\www\coremusic.net\shared\src\AI\Contracts"
+folder: "C:\www\coremusic.net\shared\src\Contracts\Config"
 category: layer3
 date: 2026-09-06
 status: active
@@ -9,18 +9,18 @@ version: 1.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# Contracts - CLAUDE.md
+# Config - CLAUDE.md
 
 **Zorunlu Baglantilar:** . [[../CLAUDE.md]]
 
 ## 1. Baglam
-Sozlesme/interface katmani
+Konfigurasyon yonetimi
 
 ## 2. Mevcut Durum
 | Durum | Deger |
 |-------|-------|
-| Dosya | 6 |
-| Konum | C:\www\coremusic.net\shared\src\AI\Contracts |
+| Dosya | 1 |
+| Konum | C:\www\coremusic.net\shared\src\Contracts\Config |
 
 ## 3. Komsu Iliskiler
 | Yon | Hedef | Iliski |

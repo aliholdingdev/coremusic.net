@@ -6,11 +6,18 @@ final class RequestNormalizer
 {
     private const MAX_PORT = 65535;
 
+    /** @var array<int, string> */
+    private const DEFAULT_TRUSTED_PROXIES = ['127.0.0.1', '::1'];
+
     private array $envOverrides = [];
 
-    public function __construct(array $envOverrides = [])
+    /** @var array<int, string>|null */
+    private ?array $trustedProxies = null;
+
+    public function __construct(array $envOverrides = [], ?array $trustedProxies = null)
     {
-        $this->envOverrides = $envOverrides;
+        $this->envOverrides   = $envOverrides;
+        $this->trustedProxies = $trustedProxies;
     }
 
     public function normalize(): array
@@ -91,12 +98,64 @@ final class RequestNormalizer
         $_SERVER['SERVER_PORT']    = (string)$port;
         $_SERVER['REQUEST_SCHEME'] = $scheme;
 
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $ips = array_map('trim', explode(',', (string)$_SERVER['HTTP_X_FORWARDED_FOR']));
-            if (!empty($ips[0])) {
-                $_SERVER['REMOTE_ADDR'] = $ips[0];
-            }
+        // IP spoof koruması (ADR-013 rate-limit bypass): X-Forwarded-For asla doğrudan
+        // REMOTE_ADDR'e yazılmaz; yalnızca güvenilir proxy zinciri üzerinden çözülür.
+        $clientIp = $this->resolveClientIp();
+        if (filter_var($clientIp, FILTER_VALIDATE_IP) !== false) {
+            $_SERVER['REMOTE_ADDR'] = $clientIp;
         }
+    }
+
+    private function resolveClientIp(): string
+    {
+        $remoteAddr = $this->get('REMOTE_ADDR', '');
+        if (filter_var($remoteAddr, FILTER_VALIDATE_IP) === false) {
+            return $remoteAddr;
+        }
+        if (!$this->isTrustedProxy($remoteAddr)) {
+            return $remoteAddr;
+        }
+        $xff = $this->get('HTTP_X_FORWARDED_FOR', '');
+        if ($xff === '') {
+            return $remoteAddr;
+        }
+        $chain = array_map('trim', explode(',', $xff));
+        for ($i = count($chain) - 1; $i >= 0; $i--) {
+            $hop = $this->parseHop($chain[$i]);
+            if ($hop === null || $this->isTrustedProxy($hop)) {
+                continue;
+            }
+            return $hop;
+        }
+        return $remoteAddr;
+    }
+
+    private function parseHop(string $entry): ?string
+    {
+        if ($entry === '') {
+            return null;
+        }
+        $host = $entry;
+        if (preg_match('/^\[([^\]]+)\](?::(\d+))?$/', $entry, $matches) === 1) {
+            $host = $matches[1];
+            if (($matches[2] ?? '') !== '' && (int)$matches[2] > self::MAX_PORT) {
+                return null;
+            }
+        } elseif (substr_count($entry, ':') === 1) {
+            [$rawHost, $rawPort] = explode(':', $entry, 2);
+            if ($rawPort === '' || !ctype_digit($rawPort) || (int)$rawPort < 1 || (int)$rawPort > self::MAX_PORT) {
+                return null;
+            }
+            $host = $rawHost;
+        }
+        return filter_var($host, FILTER_VALIDATE_IP) !== false ? $host : null;
+    }
+
+    private function isTrustedProxy(string $ip): bool
+    {
+        $trusted = $this->trustedProxies
+            ?? (defined('TRUSTED_PROXIES') && is_array(TRUSTED_PROXIES) ? TRUSTED_PROXIES : self::DEFAULT_TRUSTED_PROXIES);
+        return in_array($ip, $trusted, true);
     }
 
     private function get(string $key, string $default = ''): string

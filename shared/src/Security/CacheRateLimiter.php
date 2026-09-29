@@ -2,7 +2,7 @@
 
 namespace CoreMusic\Security;
 
-use CoreMusic\Interfaces\Security\IRateLimiter;
+use CoreMusic\Contracts\Security\IRateLimiter;
 use CoreMusic\Cache\CacheInterface;
 
 final class CacheRateLimiter implements IRateLimiter

@@ -4,11 +4,11 @@
  * 
  * Prompt üretim ve yönetim motoru arayüzü.
  *
- * @package CoreMusic\AI\Contracts
+ * @package CoreMusic\Contracts\AI
  * @version 1.0.0
  */
 
-namespace CoreMusic\AI\Contracts;
+namespace CoreMusic\Contracts\AI;
 
 interface PromptEngineInterface
 {
@@ -42,7 +42,7 @@ interface PromptEngineInterface
     /**
      * Template listeler.
      *
-     * @return array<int, array{name: string, category: string, description: string, tokenEstimate: int}>
+     * @return array<string, array{name: string, category: string, description: string, tokenEstimate: int}>
      */
     public function listTemplates(): array;
 

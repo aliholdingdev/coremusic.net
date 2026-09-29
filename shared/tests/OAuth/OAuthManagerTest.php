@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace CoreMusic\Tests\OAuth;
+namespace CoreMusic\Test\OAuth;
 
 use PHPUnit\Framework\TestCase;
 use CoreMusic\OAuth\OAuthManager;
@@ -94,7 +94,6 @@ final class OAuthManagerTest extends TestCase
 
         $reflection = new \ReflectionClass($manager);
         $encryptMethod = $reflection->getMethod('encrypt');
-        $encryptMethod->setAccessible(true);
 
         $plaintext = 'my-super-secret-access-token-12345';
         $encrypted = $encryptMethod->invoke($manager, $plaintext);
@@ -116,7 +115,6 @@ final class OAuthManagerTest extends TestCase
 
         $reflection = new \ReflectionClass($manager);
         $encryptMethod = $reflection->getMethod('encrypt');
-        $encryptMethod->setAccessible(true);
 
         $text = 'same-token';
         $encrypted1 = $encryptMethod->invoke($manager, $text);
@@ -136,7 +134,6 @@ final class OAuthManagerTest extends TestCase
 
         $reflection = new \ReflectionClass($manager1);
         $encryptMethod = $reflection->getMethod('encrypt');
-        $encryptMethod->setAccessible(true);
 
         $encrypted = $encryptMethod->invoke($manager1, 'secret');
 

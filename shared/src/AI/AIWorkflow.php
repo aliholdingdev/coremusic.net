@@ -109,15 +109,16 @@ class AIWorkflow
         $analysis = $this->engine->analyzeAudio($filePath);
 
         // 3. Knowledge enrich — benzer şarkıları bul
-        $genre = $analysis['genre'] ?? '';
+        // analyzeAudio() 'genre' anahtarını döndürmez -> tür bilgisi her zaman boş.
+        $genre = '';
         $query = "{$analysis['key']} {$analysis['mood']} {$genre}";
         $knowledgeResults = $this->knowledge->search($query, 3);
 
         // 4. DB'ye kaydet (track_id varsa) — prepared statement ile SQL injection koruması
         if ($trackId !== null) {
-            $bpm    = (float)($analysis['bpm'] ?? 0);
-            $keySig = (string)($analysis['key'] ?? '');
-            $energy = (float)($analysis['energy'] ?? 0);
+            $bpm    = (float)$analysis['bpm'];
+            $keySig = (string)$analysis['key'];
+            $energy = (float)$analysis['energy'];
             $this->toolCalling->callTool('db-query', [
                 'sql'      => "UPDATE tracks SET bpm = :bpm, key_sig = :key_sig, energy = :energy WHERE id = :id",
                 'params'   => ['bpm' => $bpm, 'key_sig' => $keySig, 'energy' => $energy, 'id' => (int)$trackId],

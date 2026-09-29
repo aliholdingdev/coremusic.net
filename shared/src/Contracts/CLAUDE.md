@@ -26,12 +26,13 @@ Sözleşme arayüzleri. API ve Events için interface tanımları.
 
 | Durum | Değer |
 |-------|-------|
-| Alt klasör | 2 (Contracts/Api/, Contracts/Events/) |
+| Alt klasör | 8 (Api, Events, AI, Auth, Config, Database, Middleware, Security) |
 
 | Klasör | İçerik |
 |--------|--------|
 | `Contracts/Api/` | API sözleşme arayüzleri |
 | `Contracts/Events/` | Event sözleşme arayüzleri (DomainEventInterface) |
+| `Contracts/AI/` + `Contracts/Auth/` + Config, Database, Middleware, Security | AI + I-prefix arayuzler (eski src/Interfaces/ tasinmasi, 2026-09-29) |
 
 ---
 

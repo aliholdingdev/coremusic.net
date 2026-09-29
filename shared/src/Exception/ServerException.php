@@ -4,9 +4,9 @@ namespace CoreMusic\Exception;
 
 final class ServerException extends BaseCoreMusicException
 {
-    private function __construct(string $message, string $errorCode)
+    private function __construct(string $message, string $errorCode, int $httpCode = 500, ?\Throwable $previous = null)
     {
-        parent::__construct($message, $errorCode, 500);
+        parent::__construct($message, $errorCode, $httpCode, $previous);
     }
 
     public static function configError(string $key): self

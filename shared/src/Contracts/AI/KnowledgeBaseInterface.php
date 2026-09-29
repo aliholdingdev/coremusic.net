@@ -4,11 +4,11 @@
  * 
  * Bilgi bankası arayüzü — semantic search, RAG, knowledge lifecycle.
  *
- * @package CoreMusic\AI\Contracts
+ * @package CoreMusic\Contracts\AI
  * @version 1.0.0
  */
 
-namespace CoreMusic\AI\Contracts;
+namespace CoreMusic\Contracts\AI;
 
 interface KnowledgeBaseInterface
 {

@@ -4,7 +4,7 @@ namespace CoreMusic\Test\Middleware;
 
 use PHPUnit\Framework\TestCase;
 use CoreMusic\Middleware\MiddlewarePipeline;
-use CoreMusic\Interfaces\Middleware\IMiddleware;
+use CoreMusic\Contracts\Middleware\IMiddleware;
 
 /**
  * MiddlewarePipeline — Sıra Doğrulama Testleri

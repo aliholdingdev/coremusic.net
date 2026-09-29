@@ -148,7 +148,7 @@ abstract class AbstractComponent implements ComponentInterface
      */
     final protected function renderChild(string $name): string
     {
-        return $this->children[$name]?->render() ?? '';
+        return isset($this->children[$name]) ? $this->children[$name]->render() : '';
     }
 
     /* ═══════════════════════════════════════════════════════════

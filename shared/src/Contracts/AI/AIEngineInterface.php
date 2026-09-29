@@ -5,12 +5,12 @@
  * Ana AI işleme motoru arayüzü.
  * Recommendation, Audio Analysis, EQ Optimization, Hardware Analysis, Fault Prediction.
  *
- * @package CoreMusic\AI\Contracts
+ * @package CoreMusic\Contracts\AI
  * @version 1.0.0
  * @since   2026-09-01
  */
 
-namespace CoreMusic\AI\Contracts;
+namespace CoreMusic\Contracts\AI;
 
 /**
  * AI Engine ana arayüzü.

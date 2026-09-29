@@ -10,6 +10,9 @@ final class ResponseEmitter
         'Cache-Control'          => 'no-store, no-cache, must-revalidate, max-age=0',
     ];
 
+    /** Pipeline dışı yanıtlar için yedek CSP (ADR-012 — nonce yokken 'self' varyantı). */
+    private const FALLBACK_CSP = "default-src 'self'; script-src 'self' https:; style-src 'self' https://assets.coremusic.net fonts.googleapis.com; style-src-attr 'unsafe-inline'; img-src 'self' data: https://assets.coremusic.net; font-src 'self' https://assets.coremusic.net fonts.gstatic.com; connect-src 'self' https://assets.coremusic.net; media-src 'self' https://assets.coremusic.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'";
+
     public function emit(array $response, ?string $traceId = null, bool $isSpa = false, array $extraHeaders = []): never
     {
         $httpStatus = $response['httpStatus'] ?? 200;
@@ -94,7 +97,67 @@ final class ResponseEmitter
             header('X-Trace-Id: ' . $traceId);
         }
         foreach ($extraHeaders as $name => $value) {
+            if (strcasecmp((string)$name, 'Vary') === 0) {
+                $value = $this->mergeVary((string)$value);
+            }
             header($name . ': ' . $value);
         }
+        $this->applyFallbackSecurityHeaders();
+    }
+
+    /** Eklenen Vary token'ını daha önce gönderilmiş Vary ile birleştirir (Cookie vary korunur). */
+    private function mergeVary(string $value): string
+    {
+        foreach (headers_list() as $sent) {
+            if (stripos($sent, 'Vary:') !== 0) {
+                continue;
+            }
+            $existing = trim(substr($sent, strlen('Vary:')));
+            foreach (explode(',', $existing) as $token) {
+                $token = trim($token);
+                if ($token !== '' && stripos($value, $token) === false) {
+                    $value .= ', ' . $token;
+                }
+            }
+        }
+
+        return $value;
+    }
+
+    /**
+     * Pipeline dışında üretilen yanıtlar (kernel catch 500, OriginCheck 403,
+     * RateLimiter 429/503, auth pre-kernel) için yedek güvenlik başlıkları.
+     * SecurityHeadersMiddleware (ADR-012) zaten CSP yazdıysa DOKUNMAZ — nonce zinciri değişmez.
+     */
+    private function applyFallbackSecurityHeaders(): void
+    {
+        if (headers_sent()) {
+            return;
+        }
+
+        $fallback = [
+            'Content-Security-Policy' => self::FALLBACK_CSP,
+            'X-Content-Type-Options'  => 'nosniff',
+            'X-Frame-Options'         => 'DENY',
+            'Referrer-Policy'         => 'strict-origin-when-cross-origin',
+        ];
+
+        foreach ($fallback as $name => $value) {
+            if (!$this->hasSentHeader($name)) {
+                header($name . ': ' . $value);
+            }
+        }
+    }
+
+    private function hasSentHeader(string $name): bool
+    {
+        $prefix = strtolower($name) . ':';
+        foreach (headers_list() as $sent) {
+            if (stripos($sent, $prefix) === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

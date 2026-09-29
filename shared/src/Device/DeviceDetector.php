@@ -19,7 +19,6 @@ namespace CoreMusic\Device;
 final class DeviceDetector
 {
     private const PHONE_MAX      = 767;
-    private const TABLET_MIN     = 768;
     private const TABLET_MAX     = 1024;
     private const EMBEDDED_MAX   = 1024;
     private const LAPTOP_MAX     = 1440;
@@ -106,7 +105,7 @@ final class DeviceDetector
             return 'phone';
         }
 
-        if ($width >= self::TABLET_MIN && $width <= self::TABLET_MAX) {
+        if ($width <= self::TABLET_MAX) {
             // RPi5 7" 1024x600 = embedded
             if ($height !== null && $height <= 600) {
                 return 'embedded';
@@ -149,7 +148,7 @@ final class DeviceDetector
         if ($width <= self::PHONE_MAX) {
             return 'phone';
         }
-        if ($width >= self::TABLET_MIN && $width <= self::TABLET_MAX) {
+        if ($width <= self::TABLET_MAX) {
             // RPi5 1024x600 = embedded, 1024x768 = laptop, diğer = tablet
             if ($height !== null && $height <= 600) {
                 return 'embedded';
@@ -288,7 +287,7 @@ final class DeviceDetector
             return false;
         }
 
-        if ($viewportW !== null && $viewportW > 1024) {
+        if ($viewportW !== null && $viewportW > self::EMBEDDED_MAX) {
             return false;
         }
 

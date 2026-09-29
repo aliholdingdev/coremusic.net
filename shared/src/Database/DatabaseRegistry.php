@@ -3,8 +3,8 @@
 namespace CoreMusic\Database;
 
 use CoreMusic\Database\Config\DatabaseConfig;
-use CoreMusic\Interfaces\Database\IDatabaseManager;
-use CoreMusic\Interfaces\Database\IDatabaseRegistry;
+use CoreMusic\Contracts\Database\IDatabaseManager;
+use CoreMusic\Contracts\Database\IDatabaseRegistry;
 
 final class DatabaseRegistry implements IDatabaseRegistry
 {

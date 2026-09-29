@@ -1,7 +1,7 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\shared\src\Interfaces\Middleware Baglam"
+title: "CoreMusic - C:\www\coremusic.net\shared\src\Contracts\Auth Baglam"
 type: context
-folder: "C:\www\coremusic.net\shared\src\Interfaces\Middleware"
+folder: "C:\www\coremusic.net\shared\src\Contracts\Auth"
 category: layer3
 date: 2026-09-06
 status: active
@@ -9,18 +9,18 @@ version: 1.0.0
 authority: Single Source of Truth (SSOT)
 ---
 
-# Middleware - CLAUDE.md
+# Auth - CLAUDE.md
 
 **Zorunlu Baglantilar:** . [[../CLAUDE.md]]
 
 ## 1. Baglam
-Middleware zinciri
+Auth ekran JS katmani
 
 ## 2. Mevcut Durum
 | Durum | Deger |
 |-------|-------|
-| Dosya | 1 |
-| Konum | C:\www\coremusic.net\shared\src\Interfaces\Middleware |
+| Dosya | 3 |
+| Konum | C:\www\coremusic.net\shared\src\Contracts\Auth |
 
 ## 3. Komsu Iliskiler
 | Yon | Hedef | Iliski |

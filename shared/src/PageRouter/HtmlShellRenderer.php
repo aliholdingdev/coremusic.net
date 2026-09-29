@@ -25,6 +25,22 @@ final class HtmlShellRenderer
         $this->footerPath = $footerPath ?? (defined('FOOTER_PATH') ? (string)FOOTER_PATH : '');
     }
 
+    /**
+     * Shell header dosyası yolu.
+     */
+    public function getHeaderPath(): string
+    {
+        return $this->headerPath;
+    }
+
+    /**
+     * Shell footer dosyası yolu.
+     */
+    public function getFooterPath(): string
+    {
+        return $this->footerPath;
+    }
+
     public function render(
         string $container,
         string $route,
@@ -138,11 +154,14 @@ final class HtmlShellRenderer
         }
 
         // Inline script — window.CoreMusic.RouterConfig
-        $jsDomain     = json_encode(['host' => $this->domainConfig->getHost(), 'port' => $this->domainConfig->getPort(), 'scheme' => $this->domainConfig->getScheme(), 'isHttps' => $this->domainConfig->isHttps()], JSON_UNESCAPED_UNICODE);
-        $jsAssetsUrl  = json_encode($assetsUrl, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-        $jsAppName    = json_encode($appName, JSON_UNESCAPED_UNICODE);
-        $jsRoute      = json_encode($route, JSON_UNESCAPED_SLASHES);
-        $jsProtected  = json_encode(array_values($protectedRoutes), JSON_UNESCAPED_SLASHES);
+        // XSS: inline <script> içine gömülü JSON, `</script>` / `<!--` ile kapanışı kırabilir;
+        // HEX_* flag'leri `<`, `>`, `&`, `'`, `"` karakterlerini \uXXXX'e çevirir (BUKİ).
+        $hexFlags     = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT;
+        $jsDomain     = json_encode(['host' => $this->domainConfig->getHost(), 'port' => $this->domainConfig->getPort(), 'scheme' => $this->domainConfig->getScheme(), 'isHttps' => $this->domainConfig->isHttps()], $hexFlags | JSON_UNESCAPED_UNICODE);
+        $jsAssetsUrl  = json_encode($assetsUrl, $hexFlags | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $jsAppName    = json_encode($appName, $hexFlags | JSON_UNESCAPED_UNICODE);
+        $jsRoute      = json_encode($route, $hexFlags | JSON_UNESCAPED_SLASHES);
+        $jsProtected  = json_encode(array_values($protectedRoutes), $hexFlags | JSON_UNESCAPED_SLASHES);
 
         echo '<script' . $nonceAttr . '>';
         echo 'window.CoreMusic = window.CoreMusic || {};';
@@ -153,8 +172,8 @@ final class HtmlShellRenderer
         echo 'domain: ' . $jsDomain . ',';
         echo 'initialRoute: ' . $jsRoute . ',';
         echo 'protectedRoutes: ' . $jsProtected . ',';
-        echo 'logLevel: ' . json_encode($isDebug ? 'debug' : 'info') . ',';
-        echo 'cssVersion: ' . json_encode($cacheBuster) . ',';
+        echo 'logLevel: ' . json_encode($isDebug ? 'debug' : 'info', $hexFlags) . ',';
+        echo 'cssVersion: ' . json_encode($cacheBuster, $hexFlags) . ',';
         echo 'user: null';
         echo '};';
         echo '</script>';
@@ -174,21 +193,21 @@ final class HtmlShellRenderer
             echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/js/device-layout-updater.js?v=' . $cacheBuster . '" defer></script>';
         }
 
-        // Auth-specific JS (theme engine + gender background + page scripts)
+        // Auth-specific JS (gender background + page scripts)
+        // Disk kanıtı (assets.coremusic.net/js/auth/): YALNIZ auth-gender-bg.js + gender-select.js VAR.
+        // auth-theme.js, login.js, register.js YOK → 404 üreten script etiketleri kaldırıldı (ADR-042:
+        // dosya yolu değil, render edilen referans silindi). Dizin adı lowercase `js` (büyük J yok).
         if ($isAuthRoute) {
-            echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/Js/auth/auth-theme.js?v=' . $cacheBuster . '" defer></script>';
-            echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/Js/auth/auth-gender-bg.js?v=' . $cacheBuster . '"'
+            echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/js/auth/auth-gender-bg.js?v=' . $cacheBuster . '"'
                 . ' data-cm-gender-bg'
                 . ' data-assets-url="' . $assetsEsc . '"'
                 . ' defer></script>';
             $authJsMap = [
                 'select-gender' => 'gender-select.js',
-                'login'         => 'login.js',
-                'register'      => 'register.js',
             ];
             $authPageName = ltrim($route, '/');
             if (isset($authJsMap[$authPageName])) {
-                echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/Js/auth/' . $authJsMap[$authPageName] . '?v=' . $cacheBuster . '" defer></script>';
+                echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/js/auth/' . $authJsMap[$authPageName] . '?v=' . $cacheBuster . '" defer></script>';
             }
         }
 

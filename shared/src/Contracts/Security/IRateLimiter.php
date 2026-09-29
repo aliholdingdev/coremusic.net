@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace CoreMusic\Interfaces\Security;
+namespace CoreMusic\Contracts\Security;
 
 interface IRateLimiter
 {

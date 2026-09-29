@@ -12,6 +12,9 @@
         <testsuite name="Api">
             <directory>tests/Api</directory>
         </testsuite>
+        <testsuite name="Repository">
+            <directory>tests/Repository</directory>
+        </testsuite>
         <testsuite name="Events">
             <directory>tests/Events</directory>
         </testsuite>
@@ -23,6 +26,9 @@
         </testsuite>
         <testsuite name="Component">
             <directory>tests/Component</directory>
+        </testsuite>
+        <testsuite name="OAuth">
+            <directory>tests/OAuth</directory>
         </testsuite>
     </testsuites>
     <source>

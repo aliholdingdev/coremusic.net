@@ -12,7 +12,7 @@
 
 namespace CoreMusic\AI;
 
-use CoreMusic\AI\Contracts\AIEngineInterface;
+use CoreMusic\Contracts\AI\AIEngineInterface;
 use CoreMusic\Config\ConfigManager;
 
 /**
@@ -27,27 +27,20 @@ use CoreMusic\Config\ConfigManager;
  */
 class AIEngine implements AIEngineInterface
 {
-    private const RECOMMENDATION_WEIGHTS = [
-        'bpm'           => 0.15,
-        'key'           => 0.10,
-        'energy'        => 0.20,
-        'danceability'  => 0.15,
-        'valence'       => 0.10,
-        'acousticness'  => 0.10,
-        'genre'         => 0.10,
-        'artist'        => 0.10,
-    ];
-
     private const MAX_RECOMMENDATIONS = 20;
     private const MIN_SCORE = 0.7;
     private const DIVERSITY_TARGET = 0.30;
 
-    private ConfigManager $config;
-    private ?string $dbConnection = null;
-
-    public function __construct(ConfigManager $config)
+    public function __construct(private readonly ConfigManager $config)
     {
-        $this->config = $config;
+    }
+
+    /**
+     * Yapılandırma erişimi.
+     */
+    public function getConfig(): ConfigManager
+    {
+        return $this->config;
     }
 
     /**
@@ -185,13 +178,13 @@ class AIEngine implements AIEngineInterface
         }
 
         if ($snr < 90) {
-            $risk = max($risk, 'medium') === 'low' ? 'medium' : $risk;
+            $risk = $risk === 'low' ? 'medium' : $risk;
             $probability += 0.2;
             $alerts[] = "Düşük SNR: {$snr}dB";
         }
 
         if ($thd > 0.1) {
-            $risk = max($risk, 'medium') === 'low' ? 'medium' : $risk;
+            $risk = $risk === 'low' ? 'medium' : $risk;
             $probability += 0.15;
             $alerts[] = "Yüksek THD: {$thd}%";
         }

@@ -3,7 +3,7 @@
 namespace CoreMusic\Config;
 
 use CoreMusic\Exception\ServerException;
-use CoreMusic\Interfaces\Config\IConfigManager;
+use CoreMusic\Contracts\Config\IConfigManager;
 
 final class ConfigManager implements IConfigManager
 {

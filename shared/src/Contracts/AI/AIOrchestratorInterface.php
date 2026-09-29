@@ -4,11 +4,11 @@
  * 
  * Görev dağıtımı ve orkestrasyon arayüzü.
  *
- * @package CoreMusic\AI\Contracts
+ * @package CoreMusic\Contracts\AI
  * @version 1.0.0
  */
 
-namespace CoreMusic\AI\Contracts;
+namespace CoreMusic\Contracts\AI;
 
 interface AIOrchestratorInterface
 {

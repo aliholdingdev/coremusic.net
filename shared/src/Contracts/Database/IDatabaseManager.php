@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace CoreMusic\Interfaces\Database;
+namespace CoreMusic\Contracts\Database;
 
 interface IDatabaseManager
 {

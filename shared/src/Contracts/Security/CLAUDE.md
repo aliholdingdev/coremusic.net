@@ -1,7 +1,7 @@
 ---
-title: "CoreMusic - C:\www\coremusic.net\shared\src\Interfaces\Security Baglam"
+title: "CoreMusic - C:\www\coremusic.net\shared\src\Contracts\Security Baglam"
 type: context
-folder: "C:\www\coremusic.net\shared\src\Interfaces\Security"
+folder: "C:\www\coremusic.net\shared\src\Contracts\Security"
 category: layer3
 date: 2026-09-06
 status: active
@@ -20,7 +20,7 @@ Guvenlik yardimcilari
 | Durum | Deger |
 |-------|-------|
 | Dosya | 1 |
-| Konum | C:\www\coremusic.net\shared\src\Interfaces\Security |
+| Konum | C:\www\coremusic.net\shared\src\Contracts\Security |
 
 ## 3. Komsu Iliskiler
 | Yon | Hedef | Iliski |

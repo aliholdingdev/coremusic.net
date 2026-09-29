@@ -2,7 +2,7 @@
 
 namespace CoreMusic\Middleware;
 
-use CoreMusic\Interfaces\Middleware\IMiddleware;
+use CoreMusic\Contracts\Middleware\IMiddleware;
 use CoreMusic\Config\DomainConfig;
 
 final class SecurityHeadersMiddleware implements IMiddleware

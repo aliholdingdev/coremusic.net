@@ -2,7 +2,7 @@
 
 namespace CoreMusic\Middleware;
 
-use CoreMusic\Interfaces\Middleware\IMiddleware;
+use CoreMusic\Contracts\Middleware\IMiddleware;
 
 final class CsrfMiddleware implements IMiddleware
 {

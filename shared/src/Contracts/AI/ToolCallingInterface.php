@@ -4,11 +4,11 @@
  * 
  * Dış servis ve araç çağrısı arayüzü.
  *
- * @package CoreMusic\AI\Contracts
+ * @package CoreMusic\Contracts\AI
  * @version 1.0.0
  */
 
-namespace CoreMusic\AI\Contracts;
+namespace CoreMusic\Contracts\AI;
 
 interface ToolCallingInterface
 {
@@ -35,7 +35,7 @@ interface ToolCallingInterface
     /**
      * Kayıtlı tool'ları listeler.
      *
-     * @return array<int, array{name: string, description: string, parameters: array<int, array{name: string, type: string}>, category: string}>
+     * @return array<string, array{name: string, description: string, parameters: array<int, array{name: string, type: string, required: bool, description: string}>, category: string}>
      */
     public function listTools(): array;
 
@@ -43,7 +43,7 @@ interface ToolCallingInterface
      * Tool kategorisi filtreler.
      *
      * @param string $category Kategori (file, database, api, audio, hardware, security)
-     * @return array<int, array{name: string, description: string}>
+     * @return array<string, array{name: string, description: string}>
      */
     public function getToolsByCategory(string $category): array;
 

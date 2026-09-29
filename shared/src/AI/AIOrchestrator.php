@@ -10,7 +10,7 @@
 
 namespace CoreMusic\AI;
 
-use CoreMusic\AI\Contracts\AIOrchestratorInterface;
+use CoreMusic\Contracts\AI\AIOrchestratorInterface;
 use CoreMusic\Config\ConfigManager;
 
 /**
@@ -48,22 +48,21 @@ class AIOrchestrator implements AIOrchestratorInterface
         'testing'           => ['agent' => 'qa',       'priority' => 'medium'],
     ];
 
-    private const PRIORITY_WEIGHTS = [
-        'critical' => 4,
-        'high'     => 3,
-        'medium'   => 2,
-        'low'      => 1,
-    ];
-
-    private ConfigManager $config;
-    /** @var array<string, array{id: string, type: string, status: string, priority: string, result: mixed, error: ?string, created_at: string, completed_at: ?string}> */
+    /** @var array<string, array{id: string, type: string, status: string, priority: string, agent: string, params: array<string, mixed>, result: mixed, error: ?string, created_at: string, completed_at: ?string}> */
     private array $tasks = [];
     /** @var array<string, array<string, mixed>> */
     private array $contexts = [];
 
-    public function __construct(ConfigManager $config)
+    public function __construct(private readonly ConfigManager $config)
     {
-        $this->config = $config;
+    }
+
+    /**
+     * Yapılandırma erişimi.
+     */
+    public function getConfig(): ConfigManager
+    {
+        return $this->config;
     }
 
     /**

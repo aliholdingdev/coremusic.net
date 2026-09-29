@@ -24,6 +24,14 @@ final class PageRouter
         $this->handlers = $handlers;
     }
 
+    /**
+     * Sayfa önbelleği erişimi.
+     */
+    public function getPageCache(): ?PageCacheInterface
+    {
+        return $this->pageCache;
+    }
+
     public function dispatch(array $request, string $csrfToken = '', bool $isSpaRequest = false): array
     {
         $uri = $this->resolveUri($request);

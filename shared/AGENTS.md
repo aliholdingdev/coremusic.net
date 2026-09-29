@@ -32,7 +32,7 @@ Paylaşılan PHP altyapısı (ADR-039): tüm subdomainlerin ortak middleware, ro
 | `config/domain.php` | Domain haritası (9 subdomain) |
 | `config/oauth-platforms.php` | OAuth sağlayıcı listesi |
 | `database/migrations/` | oauth_connections + oauth_states migration'ları |
-| `src/AI/` + `src/AI/Contracts/` | AIEngine, Orchestrator, KnowledgeBase, MemorySystem, PromptEngine, ToolCalling (ADR-030) |
+| `src/AI/` + `src/Contracts/AI/` | AIEngine, Orchestrator, KnowledgeBase, MemorySystem, PromptEngine, ToolCalling (ADR-030) |
 | `src/Api/` | Gateway, ApiRequest/Response |
 | `src/Api/Bff/` | BffLayer + Desktop/Embedded/Mobile/Spa BFF (ADR-084) |
 | `src/Api/Dto/Request\|Response/` | API DTO'ları |
@@ -42,12 +42,12 @@ Paylaşılan PHP altyapısı (ADR-039): tüm subdomainlerin ortak middleware, ro
 | `src/Bootstrap/RuntimeBootstrap.php` | Ortak çalışma zamanı kurulumu |
 | `src/Cache/` | Apcu, Memory, PageCache adapter'ları (ADR-007) |
 | `src/Config/` | ConfigManager, DomainConfig, EnvParser (ADR-015), AuthRouteConfig |
-| `src/Contracts/` | Api + Events sözleşmeleri |
+| `src/Contracts/` | TEK interface kok: Api, Events, AI, Auth, Config, Database, Middleware, Security + sözleşmeleri |
 | `src/Database/` | DatabaseManager, DatabaseRegistry (ADR-003/022) |
 | `src/Device/` | DeviceDetector, DeviceManager, DeviceCssMap |
 | `src/Events/` + `Domain/` + `Integration/` | EventDispatcher + 9 domain event + 3 integration event (ADR-086) |
 | `src/Exception/` | 8 exception (BaseCoreMusicException hiyerarşisi) |
-| `src/Interfaces/` | Auth, Config, Database, Middleware, Security interface'leri |
+| ~~`src/Interfaces/`~~ | TASIINDI -> `src/Contracts/` (2026-09-29, tek namespace `CoreMusic\Contracts\`) |
 | `src/Log/` | LoggerFactory, FileHandler |
 | `src/Middleware/` | 10+ HTTP middleware (Auth, BypassAuth ADR-008, CSRF ADR-010, RateLimiter ADR-013, SecurityHeaders, Session, CORS, Origin, Permission) |
 | `src/OAuth/` + `Provider/` | OAuthManager + 12 provider (Base + Discord, Facebook, Instagram, LinkedIn, Pinterest, Reddit, Snapchat, TikTok, ...) |

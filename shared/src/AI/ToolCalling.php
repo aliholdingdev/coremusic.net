@@ -10,7 +10,7 @@
 
 namespace CoreMusic\AI;
 
-use CoreMusic\AI\Contracts\ToolCallingInterface;
+use CoreMusic\Contracts\AI\ToolCallingInterface;
 
 /**
  * Tool Calling — Tool registry, executor, permission check.
@@ -213,7 +213,10 @@ class ToolCalling implements ToolCallingInterface
             'executor'    => function(array $params): array {
                 $path = $params['path'] ?? '.';
                 $files = glob($path . '/' . $params['pattern']);
-                return ['files' => $files ?? [], 'count' => count($files ?? [])];
+                if ($files === false) {
+                    $files = [];
+                }
+                return ['files' => $files, 'count' => count($files)];
             },
             'category'    => 'file',
         ];

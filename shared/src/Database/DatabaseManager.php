@@ -3,7 +3,7 @@
 namespace CoreMusic\Database;
 
 use CoreMusic\Database\Config\DatabaseConfig;
-use CoreMusic\Interfaces\Database\IDatabaseManager;
+use CoreMusic\Contracts\Database\IDatabaseManager;
 
 final class DatabaseManager implements IDatabaseManager
 {
@@ -32,7 +32,7 @@ final class DatabaseManager implements IDatabaseManager
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
         $result = $stmt->fetchAll();
-        return is_array($result) ? $result : [];
+        return $result;
     }
 
     public function write(string $sql, array $params = []): bool

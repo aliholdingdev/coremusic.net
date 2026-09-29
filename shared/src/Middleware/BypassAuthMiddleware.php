@@ -2,13 +2,13 @@
 
 namespace CoreMusic\Middleware;
 
-use CoreMusic\Interfaces\Middleware\IMiddleware;
+use CoreMusic\Contracts\Middleware\IMiddleware;
 use CoreMusic\Security\SecurityHelper;
 use CoreMusic\Config\ConfigManager;
 
 final class BypassAuthMiddleware implements IMiddleware
 {
-    /** @var array{uuid: string, role: string, username: string}|empty Boş array = fail-closed */
+    /** @var array{uuid: string, role: string, username: string}|array{} Boş array = fail-closed */
     private array $bypassConfig;
 
     public function __construct(

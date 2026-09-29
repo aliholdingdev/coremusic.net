@@ -12,6 +12,14 @@ final class AuthUrlBuilder
         private readonly PageRouterHelper $authHelper,
     ) {}
 
+    /**
+     * Auth yardımcı erişimi.
+     */
+    public function getAuthHelper(): PageRouterHelper
+    {
+        return $this->authHelper;
+    }
+
     public function buildAuthRedirect(string $path, ?string $returnPath = null): array
     {
         $url = $this->buildAuthUrl($path, $returnPath);

@@ -10,7 +10,7 @@
 
 namespace CoreMusic\AI;
 
-use CoreMusic\AI\Contracts\KnowledgeBaseInterface;
+use CoreMusic\Contracts\AI\KnowledgeBaseInterface;
 
 /**
  * Knowledge Base — Semantic search, RAG, knowledge lifecycle.
@@ -187,9 +187,8 @@ class KnowledgeBase implements KnowledgeBaseInterface
             }
         }
 
-        if (count($queryWords) > 0) {
-            $score += ($matchCount / count($queryWords)) * 0.1;
-        }
+        // explode() her zaman en az bir eleman döndürür; bölüm asla 0 olmaz.
+        $score += ($matchCount / count($queryWords)) * 0.1;
 
         return $score;
     }

@@ -2,7 +2,7 @@
 
 namespace CoreMusic\Middleware;
 
-use CoreMusic\Interfaces\Middleware\IMiddleware;
+use CoreMusic\Contracts\Middleware\IMiddleware;
 
 /**
  * Cors Middleware (L1 — Pipeline #2)

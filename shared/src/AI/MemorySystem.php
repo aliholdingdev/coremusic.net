@@ -10,7 +10,7 @@
 
 namespace CoreMusic\AI;
 
-use CoreMusic\AI\Contracts\MemorySystemInterface;
+use CoreMusic\Contracts\AI\MemorySystemInterface;
 
 /**
  * Memory System — Session state, persistent cache, memory hierarchy.
@@ -28,12 +28,6 @@ class MemorySystem implements MemorySystemInterface
         'agents' => 4,
         'memory' => 3,
         'log'    => 1, // En düşük
-    ];
-
-    private const CACHE_TTL = [
-        'l1' => 0,      // Oturum sonu (süresiz session'da)
-        'l2' => 3600,   // 1 saat
-        'l3' => 86400,  // 24 saat
     ];
 
     /** @var array<string, array<string, array{value: mixed, expires_at: ?int}>> */

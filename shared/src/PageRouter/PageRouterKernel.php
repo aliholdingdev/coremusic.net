@@ -31,7 +31,7 @@ final class PageRouterKernel
     private readonly StructuredLogger  $logger;
     private readonly RouteRegistry     $registry;
     private readonly PageRouter        $router;
-    /** @var \CoreMusic\Interfaces\Middleware\IMiddleware[] */
+    /** @var \CoreMusic\Contracts\Middleware\IMiddleware[] */
     private readonly array $middlewares;
     /** @var array<string, object> */
     private readonly array $handlers;
@@ -100,22 +100,17 @@ final class PageRouterKernel
             $isSpa           = self::isSpaRequest($request);
             $protectedRoutes = $this->registry->getProtectedRouteKeys();
 
+            // Route meta'sını pipeline BAŞINDA (routing sonrası, middleware çalıştırma ÖNCESİ) set et.
+            // Permission (#9) ve Validation (#10) middleware'leri request'i görmeli — fail-closed.
+            // Middleware SIRASI değişmez (ADR-010/011/012/013/022).
+            $request['_route_meta'] = $this->resolveRouteMeta((string)($request['uri'] ?? ''));
+
             $response = $this->runMiddlewareStack(
                 $this->middlewares,
                 $request,
                 function (array $req) use ($isSpa, $protectedRoutes): array {
                     // CSRF token'ı session'dan al
                     $csrfToken = $req['_session']['csrf_token'] ?? $_SESSION['csrf_token'] ?? '';
-
-                    // Route meta'sını request'e enjekte et (PermissionMiddleware için)
-                    $uri = trim($req['uri'] ?? '', '/');
-                    $route = $this->registry->resolve($uri);
-                    if ($route !== null) {
-                        $req['_route_meta'] = [
-                            'requiredRole'       => $route->requiredRole,
-                            'requiredPermission' => $route->requiredPermission,
-                        ];
-                    }
 
                     $result = $this->router->dispatch($req, $csrfToken, $isSpa);
                     if (!$isSpa) {
@@ -149,6 +144,18 @@ final class PageRouterKernel
 
             $this->emitter->emit($response, $traceId, $isSpa);
         }
+    }
+
+    private function resolveRouteMeta(string $uri): array
+    {
+        $route = $this->registry->resolve(trim($uri, '/'));
+        if ($route === null) {
+            return [];
+        }
+        return [
+            'requiredRole'       => $route->requiredRole,
+            'requiredPermission' => $route->requiredPermission,
+        ];
     }
 
     private function wrapInHtmlShell(array $result, array $protectedRoutes = [], array $request = []): array
@@ -266,11 +273,14 @@ final class PageRouterKernel
         return false;
     }
 
-    /** @return \CoreMusic\Interfaces\Middleware\IMiddleware[] */
+    /** @return \CoreMusic\Contracts\Middleware\IMiddleware[] */
     private function buildDefaultMiddlewares(): array
     {
         $sessionInit = new \CoreMusic\Session\SessionLifecycle();
-        $isProduction = (APP_ENV_MODE ?? 'development') === 'production';
+        // APP_ENV_MODE is defined by each subdomain bootstrap (config/constants.php);
+        // when it is not defined (e.g. unit tests running standalone) -> development.
+        $envMode = defined('APP_ENV_MODE') ? (string) constant('APP_ENV_MODE') : 'development';
+        $isProduction = $envMode === 'production';
         $corsCfg = $this->corsConfig;
         return [
             new OriginCheckMiddleware($isProduction, $corsCfg),

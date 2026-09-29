@@ -10,7 +10,7 @@
 
 namespace CoreMusic\AI;
 
-use CoreMusic\AI\Contracts\PromptEngineInterface;
+use CoreMusic\Contracts\AI\PromptEngineInterface;
 
 /**
  * Prompt Engine — Prompt üretimi, token yönetimi, validasyon.
@@ -309,7 +309,7 @@ PROMPT
         $contextStart = strpos($text, '## Context');
         if ($contextStart === false) {
             // Context yoksa son portion'u kes
-            $chars = (int) ($maxTokens * 3.5 * 0.8);
+            $chars = (int) ($maxTokens * 3.5 * self::COMPRESSION_THRESHOLD);
             return mb_substr($text, 0, $chars, 'UTF-8') . "\n... (truncated)";
         }
 

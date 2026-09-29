@@ -28,13 +28,13 @@ use CoreMusic\OAuth\Provider\{
  */
 final class OAuthManager
 {
-    private \PDO $pdo;
+    private OAuthRepository $repository;
     private array $platformConfig;
     private string $encryptionKey;
 
     public function __construct(\PDO $pdo, array $platformConfig, string $encryptionKey)
     {
-        $this->pdo = $pdo;
+        $this->repository = new OAuthRepository($pdo);
         $this->platformConfig = $platformConfig;
         $this->encryptionKey = $encryptionKey;
     }
@@ -116,30 +116,11 @@ final class OAuthManager
             ? $this->encrypt($tokenData['refresh_token'])
             : null;
 
-        $stmt = $this->pdo->prepare(
-            'INSERT INTO oauth_connections
-                (user_id, provider, provider_user_id, provider_username,
-                 access_token_encrypted, refresh_token_encrypted,
-                 token_expires_at, scopes, profile_data)
-             VALUES
-                (:user_id, :provider, :provider_user_id, :provider_username,
-                 :access_token, :refresh_token,
-                 :expires_at, :scopes, :profile_data)
-             ON DUPLICATE KEY UPDATE
-                 access_token_encrypted = VALUES(access_token_encrypted),
-                 refresh_token_encrypted = VALUES(refresh_token_encrypted),
-                 token_expires_at = VALUES(token_expires_at),
-                 scopes = VALUES(scopes),
-                 profile_data = VALUES(profile_data),
-                 is_active = 1,
-                 updated_at = CURRENT_TIMESTAMP'
-        );
-
         $expiresAt = isset($tokenData['expires_in'])
             ? date('Y-m-d H:i:s', time() + $tokenData['expires_in'])
             : null;
 
-        $stmt->execute([
+        return $this->repository->upsertConnection([
             'user_id' => $userId,
             'provider' => $provider,
             'provider_user_id' => $userData['provider_user_id'],
@@ -150,8 +131,6 @@ final class OAuthManager
             'scopes' => $tokenData['scope'] ?? null,
             'profile_data' => json_encode($userData['profile_data'] ?? []),
         ]);
-
-        return (int)$this->pdo->lastInsertId();
     }
 
     /**
@@ -161,14 +140,7 @@ final class OAuthManager
      */
     public function getUserConnections(int $userId): array
     {
-        $stmt = $this->pdo->prepare(
-            'SELECT id, provider, provider_username, connected_at, last_used_at, is_active
-             FROM oauth_connections
-             WHERE user_id = :user_id AND is_deleted = 0'
-        );
-        $stmt->execute(['user_id' => $userId]);
-
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+        return $this->repository->findUserConnections($userId);
     }
 
     /**
@@ -176,16 +148,7 @@ final class OAuthManager
      */
     public function disconnect(int $userId, string $provider): bool
     {
-        $stmt = $this->pdo->prepare(
-            'UPDATE oauth_connections
-             SET is_deleted = 1, is_active = 0
-             WHERE user_id = :user_id AND provider = :provider'
-        );
-
-        return $stmt->execute([
-            'user_id' => $userId,
-            'provider' => $provider,
-        ]);
+        return $this->repository->softDeleteConnection($userId, $provider);
     }
 
     /**
@@ -193,12 +156,7 @@ final class OAuthManager
      */
     public function saveState(string $state, string $provider, int $userId, ?string $codeVerifier = null): void
     {
-        $stmt = $this->pdo->prepare(
-            'INSERT INTO oauth_states (state_token, provider, user_id, code_verifier, expires_at)
-             VALUES (:state, :provider, :user_id, :code_verifier, DATE_ADD(NOW(), INTERVAL 10 MINUTE))'
-        );
-
-        $stmt->execute([
+        $this->repository->insertState([
             'state' => hash('sha256', $state),
             'provider' => $provider,
             'user_id' => $userId,
@@ -213,27 +171,13 @@ final class OAuthManager
     {
         $hash = hash('sha256', $state);
 
-        $stmt = $this->pdo->prepare(
-            'SELECT code_verifier FROM oauth_states
-             WHERE state_token = :state AND provider = :provider
-               AND user_id = :user_id AND expires_at > NOW()'
-        );
-        $stmt->execute([
-            'state' => $hash,
-            'provider' => $provider,
-            'user_id' => $userId,
-        ]);
-
-        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-        if ($row === false) {
+        $row = $this->repository->findValidState($hash, $provider, $userId);
+        if ($row === null) {
             return null;
         }
 
         // State'i sil (tek kullanımlık)
-        $deleteStmt = $this->pdo->prepare(
-            'DELETE FROM oauth_states WHERE state_token = :state'
-        );
-        $deleteStmt->execute(['state' => $hash]);
+        $this->repository->deleteState($hash);
 
         return ['code_verifier' => $row['code_verifier'] ?? null];
     }
