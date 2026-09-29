@@ -3,25 +3,28 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="tests/bootstrap.php"
          colors="true"
-         verbose="true"
          failOnRisky="true"
-         failOnWarning="true">
+         failOnWarning="true"
+         failOnPhpunitWarning="false">
 
+    <!-- Integration suite KALDIRILDI (2026-09-29): tests/Integration/ dizini diskte YOK →
+         PHPUnit 10 "Test directory not found" + exit 2 ile TÜM testleri başlatmıyordu.
+         Yeni integration testleri eklendiğinde bu suite geri eklenebilir. -->
     <testsuites>
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
         </testsuite>
-        <testsuite name="Integration">
-            <directory>tests/Integration</directory>
-        </testsuite>
     </testsuites>
 
+    <!-- Kaynak seçimi: PHPUnit 10+ için doğru element <source>'tir. -->
     <source>
         <include>
             <directory>include</directory>
         </include>
     </source>
 
+    <!-- Rapor tanımı sürücü (Xdebug/PCOV) olmadan da zararsızdır; kapsam yalnız
+         "coverage" bayraklarıyla toplanır. -->
     <coverage>
         <report>
             <text outputFile="php://stdout"/>

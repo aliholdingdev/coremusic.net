@@ -2,8 +2,8 @@
 
 namespace CoreMusic\Auth\Repository;
 
-use CoreMusic\Interfaces\Auth\IUserRepository;
-use CoreMusic\Interfaces\Database\IDatabaseRegistry;
+use CoreMusic\Contracts\Auth\IUserRepository;
+use CoreMusic\Contracts\Database\IDatabaseRegistry;
 use CoreMusic\Security\UuidV7;
 
 /**
@@ -24,7 +24,7 @@ final class UserRepository implements IUserRepository
         private readonly IDatabaseRegistry $registry
     ) {}
 
-    private function db(): \CoreMusic\Interfaces\Database\IDatabaseManager
+    private function db(): \CoreMusic\Contracts\Database\IDatabaseManager
     {
         return $this->registry->get(self::DB_KEY);
     }

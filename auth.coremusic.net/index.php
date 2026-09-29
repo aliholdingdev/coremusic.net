@@ -56,15 +56,37 @@ $domainConfig->setOverrides($scheme, $currentHost, $currentPort);
 $appConfig['session']['cookie_secure'] = $isHttps;
 $config = new ConfigManager($appConfig);
 
+$isProductionEnv = defined('APP_ENV_MODE') && APP_ENV_MODE === 'production';
+$bypassActive     = !$isProductionEnv && defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS;
+
 /* â”€â”€â”€ Request Parsing â”€â”€â”€ */
 $requestUri = rtrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $method     = $_SERVER['REQUEST_METHOD'];
 $pageName   = ltrim($requestUri, '/');
 
 /* â”€â”€â”€ 1. Special JSON Routes (before PageRouterKernel) â”€â”€â”€ */
-if ($requestUri === '/health' || $requestUri === '/session' || $requestUri === '/validate-key' || $requestUri === '/bypass-status') {
+if ($requestUri === '/health' || $requestUri === '/session' || $requestUri === '/validate-key') {
     $container  = AuthContainer::getInstance($config, $domainConfig);
     $controller = $container->get(AuthController::class);
+
+    // ADR-013 §5.4 şart 1d: tek kaynak RateLimiterMiddleware (paylaşımlı sınıf).
+    // Bu uçlar PageRouterKernel ÖNCESİ çalıştığı için pipeline'a girmez; aynı sınıf,
+    // aynı sayaç anahtarlarıyla burada da uygulanır (iki limiter yarışı yok).
+    $rateLimited = (new \CoreMusic\Middleware\RateLimiterMiddleware())->handle(
+        ['method' => $method, 'server' => $_SERVER],
+        static fn (array $req): array => ['httpStatus' => 0, 'type' => 'json'],
+    );
+    if (($rateLimited['halt'] ?? false) === true) {
+        http_response_code((int)$rateLimited['httpStatus']);
+        header('Content-Type: application/json; charset=utf-8');
+        header("Content-Security-Policy: default-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
+        header('X-Content-Type-Options: nosniff');
+        foreach (($rateLimited['headers'] ?? []) as $hName => $hValue) {
+            header($hName . ': ' . $hValue);
+        }
+        echo json_encode($rateLimited['body'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        exit;
+    }
 
     SessionBootstrapper::ensureStarted();
 
@@ -76,19 +98,13 @@ if ($requestUri === '/health' || $requestUri === '/session' || $requestUri === '
             'body'         => $_POST + (json_decode(file_get_contents('php://input'), true) ?? []),
             'server'       => $_SERVER,
         ]),
-        '/bypass-status' => [
-            'httpStatus' => 200,
-            'force_auth_bypass' => defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS,
-            'test_mode' => defined('TEST_MODE') && TEST_MODE,
-            'bypass_uuid' => defined('BYPASS_USER_UUID') ? constant('BYPASS_USER_UUID') : '',
-            'bypass_role' => defined('BYPASS_ROLE') ? constant('BYPASS_ROLE') : '',
-            'bypass_username' => defined('BYPASS_USERNAME') ? constant('BYPASS_USERNAME') : '',
-        ],
         default => ['httpStatus' => 404],
     };
 
     http_response_code($result['httpStatus'] ?? 200);
     header('Content-Type: application/json; charset=utf-8');
+    header("Content-Security-Policy: default-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
+    header('X-Content-Type-Options: nosniff');
     echo json_encode($result, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
 }
@@ -96,7 +112,7 @@ if ($requestUri === '/health' || $requestUri === '/session' || $requestUri === '
 /* â”€â”€â”€ 2. Root Redirect (auth_key callback veya select-gender) â”€â”€â”€ */
 if ($requestUri === '' || $requestUri === '/') {
     // Auth bypass aktifse -> direkt home'a redirect et
-    if (defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS) {
+    if ($bypassActive) {
         $bypassKey = hash_hmac('sha256', 'bypass_' . date('Y-m-d'), defined('APP_PEPPER') ? APP_PEPPER : 'coremusic-bypass');
         $redirectUrl = (defined('MUSIC_URL') ? MUSIC_URL : 'http://home.coremusic.net:81')
             . '/auth/callback?auth_key=' . urlencode($bypassKey);
@@ -119,7 +135,7 @@ if ($requestUri === '' || $requestUri === '/') {
 }
 
 /* --- 3. Auth Bypass: Tum auth sayfalarini home'a yonlendir --- */
-if (defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS && $method !== 'POST') {
+if ($bypassActive && $method !== 'POST') {
     $redirectUrl = (defined('MUSIC_URL') ? MUSIC_URL : 'http://home.coremusic.net:81') . '/auth/callback';
     header('Location: ' . $redirectUrl, true, 302);
     exit;
@@ -199,5 +215,8 @@ try {
     ]);
     http_response_code(500);
     header('Content-Type: application/json; charset=utf-8');
+    header("Content-Security-Policy: default-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
+    header('X-Content-Type-Options: nosniff');
+    header('X-Frame-Options: DENY');
     echo json_encode(['success' => false, 'error' => ['code' => 'SERVER_INTERNAL_ERROR', 'message' => 'Sunucu hatasÄ±.']], JSON_UNESCAPED_UNICODE);
 }

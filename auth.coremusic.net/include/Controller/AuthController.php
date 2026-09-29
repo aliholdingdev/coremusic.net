@@ -4,8 +4,8 @@ namespace CoreMusic\Auth\Controller;
 
 use CoreMusic\Auth\Domain\DTO\LoginRequest;
 use CoreMusic\Auth\Domain\DTO\RegisterRequest;
-use CoreMusic\Interfaces\Auth\IAuthService;
-use CoreMusic\Interfaces\Auth\ISessionManager;
+use CoreMusic\Contracts\Auth\IAuthService;
+use CoreMusic\Contracts\Auth\ISessionManager;
 use CoreMusic\Exception\AuthenticationException;
 use CoreMusic\Exception\ValidationException;
 use CoreMusic\Exception\RateLimitException;

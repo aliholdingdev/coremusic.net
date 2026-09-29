@@ -54,7 +54,7 @@ final class AutoRedirectHandler
         }
 
         $container = AuthContainer::getInstance($this->config, $this->domainConfig);
-        $repo      = $container->get(\CoreMusic\Interfaces\Auth\IUserRepository::class);
+        $repo      = $container->get(\CoreMusic\Contracts\Auth\IUserRepository::class);
         $clientIp  = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
         $authKey   = bin2hex(random_bytes(32));
         $expiresAt = date('Y-m-d H:i:s', time() + 300);

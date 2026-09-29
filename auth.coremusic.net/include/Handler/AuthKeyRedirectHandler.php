@@ -50,7 +50,7 @@ final class AuthKeyRedirectHandler
 
         if (($result['httpStatus'] ?? 0) === 200 && !empty($result['body']['success'])) {
             $user = $result['body']['user'];
-            $session = $container->get(\CoreMusic\Interfaces\Auth\ISessionManager::class);
+            $session = $container->get(\CoreMusic\Contracts\Auth\ISessionManager::class);
             $session->setAuthUser($user);
             if (!empty($user['gender'])) {
                 $session->setGender($user['gender']);
