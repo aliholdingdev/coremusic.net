@@ -48,6 +48,7 @@ final class SecurityHeadersMiddleware implements IMiddleware
     private function buildCsp(array $request): string
     {
         $assetsOrigin = $this->resolveAssetsOrigin($request);
+        $apiOrigin     = $this->resolveApiOrigin($request);
         $nonce        = $request['_csp_nonce'] ?? '';
 
         $scriptSrc = $nonce !== ''
@@ -65,7 +66,7 @@ final class SecurityHeadersMiddleware implements IMiddleware
             "style-src-attr 'unsafe-inline'; " .
             "img-src 'self' data: {$assetsOrigin}; " .
             "font-src 'self' {$assetsOrigin} fonts.gstatic.com; " .
-            "connect-src 'self' {$assetsOrigin}; " .
+            "connect-src 'self' {$assetsOrigin} {$apiOrigin}; " .
             "media-src 'self' {$assetsOrigin}; " .
             "frame-ancestors 'none'; " .
             "base-uri 'self'; " .
@@ -74,16 +75,30 @@ final class SecurityHeadersMiddleware implements IMiddleware
 
     private function resolveAssetsOrigin(array $request): string
     {
+        return $this->resolveOrigin('assets', 'https://assets.coremusic.net');
+    }
+
+    /** connect-src — API origin (auth sayfaları fetch -> api.coremusic.net). */
+    private function resolveApiOrigin(array $request): string
+    {
+        return $this->resolveOrigin('api', 'https://api.coremusic.net');
+    }
+
+    private function resolveOrigin(string $name, string $fallback): string
+    {
         if ($this->domainConfig !== null) {
-            $assetsUrl = $this->domainConfig->getUrl('assets');
-            if ($assetsUrl !== '') {
-                $parsed = parse_url($assetsUrl);
+            $url = $this->domainConfig->getUrl($name);
+            if ($url !== '') {
+                $parsed = parse_url($url);
                 $scheme = $parsed['scheme'] ?? 'http';
-                $host   = $parsed['host']   ?? 'assets.coremusic.net';
+                $host   = $parsed['host']   ?? '';
                 $port   = isset($parsed['port']) ? ':' . $parsed['port'] : '';
-                return $scheme . '://' . $host . $port;
+                if ($host !== '') {
+                    return $scheme . '://' . $host . $port;
+                }
             }
         }
-        return 'https://assets.coremusic.net';
+
+        return $fallback;
     }
 }

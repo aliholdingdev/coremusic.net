@@ -6,15 +6,15 @@ date: "2026-09-29"
 updated: "2026-09-29"
 version: "1.0.0"
 status: "accepted"
-authority: "SSOT — CoreMusic merkezi auth kararı: (a) `auth.coremusic.net` TEK auth noktası — tüm subdomain'ler kimlik için oraya gider, (b) servisler-arası güven = server→server `POST /validate-key` + (kilit açıldığında) imzalı JWT/JWKS — servis kendi session'ını KURMAZ, (c) erişilebilirlik = auth down ise **fail-closed** (yeni kimlik doğrulama reddedilir), mevcut oturum için **sınırlı servis-içi son-şans okuma** — fail-open YOK, (d) migrasyon = mevcut dağık auth'dan tek noktaya 5 fazlı kademeli geçiş (ADR-043 planı ile), (e) sınır = ADR-043/047/052/056/039/011'i uygular, yeniden karar vermez"
+authority: "SSOT — CoreMusic merkezi auth kararı: (a) `auth.coremusic.net` TEK auth noktası — tüm subdomain'ler kimlik için oraya gider, (b) servisler-arası güven = server→server `POST /validate-key` + (kilit açıldığında) imzalı JWT/JWKS — servis kendi session'ını KURMAZ, (c) erişilebilirlik = auth down ise **fail-closed** (yeni kimlik doğrulama reddedilir), mevcut oturum için **sınırlı servis-içi son-şans okuma** — fail-open YOK, (d) migrasyon = mevcut dağınık auth'dan tek noktaya 5 fazlı kademeli geçiş (ADR-043 planı ile), (e) sınır = ADR-043/047/052/056/039/011'i uygular, yeniden karar vermez"
 kaynak: "Disk/kod kanıtı taraması (2026-09-29: auth.coremusic.net vendor-dışı 69 dosya/42 PHP/343.848 B → OriginCheckMiddleware.php:35 validate-key origin muafiyeti → HomeAuthBridge.php:128 doğrudan HTTP POST → shared/src/Config/CLAUDE.md:47-55 9 subdomain servis tablosu → .coremusic.net cookie literal 13 PHP dosyası + 1 JS dosyası 3 satır → SessionBootstrapper::ensureStarted 4 ayrı noktada → auth 13 / home 2 / api 3 / shared 48 auth-session dosyası) + web araştırması (17 sorgu / ~30 adlandırılmış kaynak)"
 governance: "Red Team → Human Mode → Truth Mode"
-debate: "⏳ PENDING"
+debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 ---
 
 # CoreMusic — ADR-058: Merkezi Auth Servisi (tek auth noktası + servisler-arası güven + HA + migrasyon)
 
-> **Durum:** ✅ **ACCEPTED** — **Tarih:** 2026-09-29 — **Debate:** ⏳ **PENDING** — **Tech Lead:** ⏳ — **Arch Lead:** ⏳
+> **Durum:** ✅ **ACCEPTED** — **Tarih:** 2026-09-29 — **Debate:** ✅ **TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)** — **Tech Lead:** ✅ — **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` — **Slug:** `ADR-058-centralized-auth-service`
 > **İlgili kararlar:** [[ADR-043-auth-subdomain-consolidation]] (subdomain/cookie konsolidasyonu — bu ADR onun **kapsam (a)+(b)** kararını yazar) · [[ADR-047-login-redirect-session-bridge]] (imzalı köprü token'ı + `/validate-key` akışı) · [[ADR-052-hybrid-auth-session-jwt]] (hibrit session/JWT zemini) · [[ADR-056-auth-module-implementation]] (RBAC + Permission middleware — authz bu ADR'nin **kapsamı değil**) · [[ADR-039-7-service-platform-architecture]] (11 servis + **servis↔servis doğrudan HTTP yasağı**) · [[ADR-011-session-management]] (session yaşam döngüsü + cookie domain) · [[ADR-020-api-public-security]] (API auth üçlüsü + Bearer kilidi) · [[ADR-010-csrf-protection-strategy]] · [[ADR-012-csp-nonce-strict-dynamic]] · [[ADR-013-rate-limiting-apcu]] · [[ADR-008-bypass-auth-middleware]] · [[ADR-004-multi-domain-spa]] · [[ADR-007-cache-namespace]] · [[../index.md]] · [[../../CLAUDE.md]] · [[../../brain.md]]
 > **Index durumu:** `.ai/.decisions/index.md` **ADR-051–ADR-060 satırlarını İÇERMEZ** — dizin 050 (satır 91) → 061 (satır 92) arasında **atlıyor** (bu işlemde yeniden doğrulandı). Bu işlemde index.md'ye **yeni satır eklenmedi** (report-only — In-Place Refactoring + SRP); satır ekleme **bir sonraki vault reset'ine ertelenmiştir** (§5.1 adım 8).
@@ -109,7 +109,7 @@ Dört sorun üst üste binmektedir:
 3. **Auth aşağı düşünce ne olacağı yazılmamış.** Bugün `HomeAuthBridge` **fail-open değil fail-null**: curl hata/401 → `null` → session kurulmaz (doğru). Ama **mevcut oturumlu kullanıcının** auth yokken ne olacağı, ve **hiçbir doğrulama kopyası bulunmadığı için** auth'ın tüm siteyi kilitlenme eşiği tanımsız. SSO literatürü bunu "tek nokta arıza + break-glass zorunluluğu" olarak adlandırır.
 4. **ADR-039 ile gerilim çözülmedi.** `HomeAuthBridge` sunucu→sunucu doğrudan HTTP POST atıyor; ADR-043 §5.1 adım 7 bu sorunu "olay/IPC'ye taşıma ya da ADR-039'a istisna kaydı" diye açmıştı — **karar verilmedi**.
 
-### 1.3 Web'den Araştırması Raporu & Sonuçları
+### 1.3 Web'den Araştırma Raporu & Sonuçları
 
 Protokol: `.claude/skills/prompt-maker/references/10-web-research-protocol.md` (diskte mevcut) · **17 sorgu** (exa 13 + web search 4) · **~30 adlandırılmış kaynak**.
 
@@ -120,7 +120,7 @@ Protokol: `.claude/skills/prompt-maker/references/10-web-research-protocol.md` (
 | Web Search **Bağlamı** | CoreMusic'te `auth.coremusic.net` tek kimlik üretir; `home` **doğrudan HTTP** ile `validate-key` çağırır; cookie `domain=.coremusic.net` tüm alt alanlara yayılır; `/validate-key` origin denetimi dışındadır; auth down ise site ne olur **yazılı değildir** |
 | Web Search **Kısa Açıklama** | Merkezi auth **güvenlik öncelikli bir mimaridir**: SSOJet/Verizon 2025 DBIR verisi (temel web saldırılarının **%88'i** çalınmış kimlik bilgisi), NIST SP 800-63B federatif modeli ve SOC 2 CC6, kimlik yüzeyini uygulama başına **tek yerde** toplamayı şart koşar. Aynı literatür **bedeli de açıkça yazar**: IdP "tek nokta hem arıza hem saldırı"dır — RSA Conference ("çoğu uygulama güvenli yedek auth'a geri düşecek şekilde tasarlanmamış"), Duo/IdP concentration risk, SCW IdP dependency mapping (izleme sistemi bile aynı IdP'den auth alır → kaskad), AWS break-glass (2026-08) federatif kimlik **arızalandığında kümelere erişimi kilitleyen** döngüyü kıran acil yol tanımlar. Servisler-arası güvende 2025-26 literatürü **katmanlı**:model = ağ katmanı **mTLS/SPIFFE (NIST SP 800-207 zero-trust)**, token katmanı **imzalı JWT + JWKS + `exp/aud/scope`** (authlayer/codelit/bmf-tech), **tek başına API key yeterli değil**; `mTLS varsayılan, JWT kimlik taşır` uzlaşımı (learnixo, josephraymund, ContentWave). Migrasyonda **flag day yasak**: WorkOS 4 fazlı playbook (2026-06) ve IdP Migration Planning 2026 → **çift doğrulama penceresi**, ölçülebilir çıkış ölçütü, geri alma. |
 | Web Search **Uzun Açıklama** | **(i) Merkezileştirme gerekçesi:** SSOJet, kimlik tek noktada toplanınca MFA politikasının, denetim kaydının ve **deprovisioning'in tek yol** hâline geldiğini; "uygulama artık parola görmüyor" (NIST SP 800-63B relying party modeli) ile credential stuffing'in **yapısal** olarak kapandığını yazıyor. DevOps Consulting'in SSO mimarisi (2025-08) IdP → SP redirect + JWT doğrulama akışını **tam olarak CoreMusic'in `auth → home` köprüsünün** genel şeklini verir; babble-open-source authentication-as-a-service ise **alt-alan SSO** için `COOKIE_DOMAIN=.company.com` + `/auth/validate` ucu ile **`auth.coremusic.net`'in yapısıyla eşleşen** bir referans uygulamadır (exa.ai multi-product identity paper, 2025-10-30: gateway = ana token doğrulama noktası + **önbellekli** doğrulama + key rotation). **(ii) Tek nokta arıza bedeli:** nhimg "IdP SPOF" (misyon operasyonları aynı anda durur), Hive Security (2026) "üç AZ'de çalışan servis tek regional control plane + tek IdP'ye bağlıysa **şema redundant, arıza yolu değil**"), Rack2Cloud (break-glass, **session survivability**, bağımsız trust authority), RSA Conference (merkezi auth'a rağmen SPOF — **uygulamalar fallback'e tasarlanmamış**). Bu kaynakların ortak reçetesi: **(a) mevcut oturumlar yaşasın (session survivability), (b) yeni doğrulama fail-closed, (c) break-glass/acil yol test edilmiş olsun.** ArchMan "Complete Mediation + Fail Securely": her erişim isteği her seferinde kontrol edilir; hata durumunda **izin verme, reddet** — fail-closed'un kaynağı. **(iii) Servisler-arası güven:** bmf-tech üç katman (network/token/identity; RFC 8693 token exchange, SPIFFE, NIST SP 800-207), codelit/learnixo (mTLS + service account + JWT propagation + API key rotation), authlayer (**Servis B, auth sunucusunun public key'leriyle JWKS üzerinden doğrular — kullanıcı token'ıyla aynı işlem**), josephraymund (**mTLS servis kimliği + imzalı JWT attestation ile identity propagation**), zta-internal-api-prototype (mTLS + RFC 8705 certificate-bound token referans uygulaması), Medium (2026) "zero-trust'ta **mTLS varsayılanınız olsun**". **(iv) Migrasyon:** WorkOS "without a flag day" **4 faz** (paralel çalıştır → kademeli yönlendirme → ölç → kesme), softwaremodernization IdP Migration Planning 2026 (çift-write/dual-validation penceresi, rollback), idmanagement.gov Cloud Identity Playbook (fazlı benimseme). **(v) Cookie/SSO:** dev.to forceki ve medium jsmmmkt123 **paylaşımlı cookie'nin SSO'nun standard yolu** olduğunu; Okta devforum/next-auth #2414 aynı sonuca varır; auth0 SSO yazısı redirect + cookie akışını anlatır — hepsi `domain=.coremusic.net` kararını **destekler**, ADR-043'ün parent-domain cookie riski bulgusuyla **çelişmez** (aynı kaynaklar riski de kabul eder). |
-| Web Search **Paragraf Veri Uzun** | 17 sorgu / ~30 adlandıranteed kaynak; her iddia en az 2 bağımsız kaynakla çaprazlandı. **Birincil standart/çerçeve:** NIST SP 800-63B (federatif authentication), NIST SP 800-207 (zero trust), RFC 8725 (JWT BCP), RFC 8693 (token exchange), RFC 8705 (certificate-bound token), SOC 2 CC6. **Sektör verisi:** Verizon 2025 DBIR (%88 credential). **Analiz/kılavuz:** AWS break-glass (2026-08-26), Duo IdP concentration, SCW IdP dependency mapping, RSA Conference SPOF, Rack2Cloud, Hive Security (2026), nhimg ×2, ArchMan fail-securely, Rack2Cloud. **Ürün/uygulama:** WorkOS zero-downtime playbook (2026-06-03), authlayer, codelit, learnixo, bmf-tech, josephraymund, ContentWave, Medium mTLS-vs-JWT (2026), zta-internal-api-prototype, babble-open-source authentication-as-a-service, exa.ai identity paper (2025-10-30), dev.to forceki, medium jsmmkt123, auth0, Okta devforum, next-auth #2414, group107 CAS (2026), devgenius multi-tenant, paddo.dev subdomain isolation, softwaremodernization IdP 2026, idmanagement.gov playbook. **Zafiyet/olay:** IdP SPOF kaskad senaryoları (SCW/hivesecurity). |
+| Web Search **Paragraf Veri Uzun** | 17 sorgu / ~30 adlandırılmış kaynak; her iddia en az 2 bağımsız kaynakla çaprazlandı. **Birincil standart/çerçeve:** NIST SP 800-63B (federatif authentication), NIST SP 800-207 (zero trust), RFC 8725 (JWT BCP), RFC 8693 (token exchange), RFC 8705 (certificate-bound token), SOC 2 CC6. **Sektör verisi:** Verizon 2025 DBIR (%88 credential). **Analiz/kılavuz:** AWS break-glass (2026-08-26), Duo IdP concentration, SCW IdP dependency mapping, RSA Conference SPOF, Rack2Cloud, Hive Security (2026), nhimg ×2, ArchMan fail-securely, Rack2Cloud. **Ürün/uygulama:** WorkOS zero-downtime playbook (2026-06-03), authlayer, codelit, learnixo, bmf-tech, josephraymund, ContentWave, Medium mTLS-vs-JWT (2026), zta-internal-api-prototype, babble-open-source authentication-as-a-service, exa.ai identity paper (2025-10-30), dev.to forceki, medium jsmmkt123, auth0, Okta devforum, next-auth #2414, group107 CAS (2026), devgenius multi-tenant, paddo.dev subdomain isolation, softwaremodernization IdP 2026, idmanagement.gov playbook. **Zafiyet/olay:** IdP SPOF kaskad senaryoları (SCW/hivesecurity). |
 | Web Search **Sonucu** | (1) **`auth.coremusic.net`'i TEK auth noktası yapmak destekleniyor** — merkezileştirme NIST/DBIR/SOC2 gerekçesiyle savunulur; ama kaynaklar **aynı anda** "IdP = tek nokta arıza + en yüksek değerli hedef" uyarısını da yapar → §4.3 riskleri. (2) **Erişilebilirlik kararı için kaynak oyu: mevcut oturum yaşar + yeni doğrulama fail-closed + test edilmiş break-glass.** Fail-open (her şeyi geçir) **hiçbir** kaynakta önerilmiyor; RSA Conference "fallback yok" eleştirisi **fail-open değil, güvenli acil yol** istiyor. (3) **Servisler-arası güven: JWKS ile imzalı JWT + (ağ katmanında) mTLS/SPIFFE hedefi; `validate-key` bugünün IMPLEMENTED yolu, JWKS/rotasyon ADR-043/052 PLANNED'i.** Tek başına API key yeterli değil. (4) **Migrasyon: flag day yasak, 4-5 faz + çift doğrulama penceresi + çıkış ölçütü + rollback** → ADR-043'ün 5 faz planı literatürle uyumlu, bu ADR onu uygular. (5) **`domain=.coremusic.net` korunur** (SSO ön koşulu — paylaşımlı cookie kalıbı), savunma Origin + nonce + CSRF + kısa oturum ile katmanlanır (ADR-043 R1 aynı sonuca varmıştı). **Karşıt bulgu: yazarların hiçbiri "merkezileştirmeyi yapma" demiyor** — tek itiraz concentration risk'i ve bu, §4.3 + §5.1 ile mitige ediliyor. |
 | Web Search **Alınan Karar** | **(a) Tek auth noktası:** kimlik üretimi + login/logout + oturum **yalnız `auth.coremusic.net`**; diğer alt alanlar session **KURMAZ**, yalnızca doğrular (bugünkü `HomeAuthBridge` yolu korunur, API/JWT yolu eklenir). Cookie `domain=.coremusic.net` **korunur**. **(b) Servisler-arası güven:** bugün = server→server `POST /validate-key` (imza/nonce + Origin denetimi **kapatılır**, rate limit **kapsama alınır**); hedef = imzalı JWT + JWKS/`kid` rotasyonu (ADR-043/052 PLANNED), ağ katmanı mTLS/SPIFFE **PLANNED** (deploy'a bağlı, `⚠️ VERIFICATION REQUIRED`). Her servis **kendi** oturumunu kuramaz. **(c) Yüksek erişilebilirlik:** **fail-closed** (yeni doğrulama reddedilir) + **mevcut oturum için servis-içi son-şans okuma** (son bilinen doğrulanmış durum, TTL'li APCu — ADR-007 namespace'i) + **break-glass** (acil yol, test edilir). **Fail-open YOK.** **(d) Migrasyon:** 5 faz, big-bang yok, her fazda çıkış ölçütü + rollback; **çift doğrulama penceresi** faz 2-3'te kapanır. |
 | Web Search **Sonuç** | Karar **destekleniyor**: merkezileştirme, katmanlı s2s güveni, fail-closed + session survivability ve fazlı migrasyon **bağımsız kaynaklarda oybirliğiyle** var. **Tek gerilim** = tek nokta arıza; bu, bu ADR'nin §2.2-c (HA) + §4.3 (riskler) + §5.1 (adım 5 break-glass) ile **koşullu** kabul edildi. **⚠️ VERIFICATION REQUIRED:** mTLS/SPIFFE'nin CoreMusic deploy'unda uygulanabilirliği ve JWKS yayım yolu **kod kanıtıyla doğrulanmadı** (yalnız dış kaynak + ADR-043 PLANNED). |
@@ -136,7 +136,7 @@ Protokol: `.claude/skills/prompt-maker/references/10-web-research-protocol.md` (
 | UTF-8 yazım protokolü | Tüm vault yazımları `vault-utf8-writer.mjs` üzerinden; log.md yalnız `append` |
 | Hallucination sweep | Diskte olmayan dosyaya wiki-link **yok**; ADR-051/053-055/057/059/060 = düz metin + ⚠️ |
 | Kanıt = kod | Yalnız `Test-Path`/satır numarası ile doğrulanan iddialar; uygulanmamış şey **PLANNED** |
-| Debate | `debate: ⏳ PENDING` — §7.1'e debate kaydı girilmedi; debate tamamlanmadan Tech Lead ✅ yazılmaz |
+| Debate | `debate: ✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)` — §7.1'e debate kaydı girildi; **3 bağlayıcı şart** §5.1 adımlar 10-12'ye işlendi; **Tech Lead ✅** (debate sonrası) |
 | REDACTED | `.env`, JWT imzalama anahtarı, DB parolası vb. **hiçbir** ADR'ye yazılmaz |
 
 ---
@@ -179,7 +179,7 @@ Merkezi auth servisinin dört başlığı **aşağıdaki gibi** sabitlenir:
 
 **Gerekçe:** Literatür, IdP arızasında **uygulamaların güvenli yedeğe sahip olmadığını** (RSA Conference) ve **izleme/kurtarma yollarının bile aynı IdP'ye bağlı olduğunu** (SCW) gösteriyor → yani "auth down = her şey durur" hem operasyonel hem güvenlik açısından kabul edilebilir; buna karşılık **fail-open**, tek bir curl hatasının **tüm siteyi girişsiz** bırakmasına izin verir ve ADR-008 bypass'ının üretimde fail-closed olmasını **bozar**.
 
-### (d) Migrasyon — dağık auth'dan tek noktaya kademeli geçiş (ADR-043 planı ile)
+### (d) Migrasyon — dağınık auth'dan tek noktaya kademeli geçiş (ADR-043 planı ile)
 
 Flag day **YOK**; WorkOS/IdP-2026 literatürüyle hizalı **5 faz**, her fazda **çıkış ölçütü + rollback**:
 
@@ -237,7 +237,7 @@ Merkezileştirme zaten **fiziksel gerçek** (`auth.coremusic.net` = tek kimlik �
 - **Tek nokta arıza kalıcı olarak kabul edilir** — hafifletilir (L2/L3), ortadan kaldırılmaz.
 - **`index.md` hâlâ 051–060 satırlarını içermiyor**; bu ADR dizinde **görünmez** (report-only, §5.1 adım 8'e ertelendi).
 - **`brain.md`'de ADR-058 slotu YOK** (grep = 0) → özet MO tarafından eklenmeyi bekliyor (**⚠️ VERIFICATION REQUIRED**).
-- **Debate `⏳ PENDING`** — 3 tur / persona debate **çalıştırılmadı**; kabul, debate tamamlanmadan **kesin sayılmaz** (§7.1).
+- **Debate ✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)** — Tech Lead ✅ (§7.1); ama **3 bağlayıcı şart** (§5.1 adımlar 10-12 + §6 şart notu) kapanana kadar **Frozen'a geçiş YOK**.
 - **PLANNED yükü yüksek:** JWKS, mTLS, L2 cache TTL, break-glass içeriği, Origin kilit — hiçbiri bugün kodda yok (`⚠️ VERIFICATION REQUIRED`).
 - **Numara serisi riski:** ADR-058 arşiv tarafından **daha önce ADR-056'da "diskte YOK" olarak anılmıştı**; bu dosya o numarayı doldurur. **ADR-059 (MFA) hâlâ diskte yok.**
 - **ADR-039 §2.1-4 (media "dizin YOK")** ile disk gerçeği (**dizin VAR, 18 dosya**) **çelişiyor** — bu ADR düzeltmez, raporlar (§5.1 adım 6).
@@ -271,7 +271,10 @@ Merkezileştirme zaten **fiziksel gerçek** (`auth.coremusic.net` = tek kimlik �
 | 6 | **Ölçüm — `media.coremusic.net` envanteri + ADR-039 çelişkisi:** dizin VAR (18 dosya) ama ADR-039 §2.1-4 "dizin YOK" diyor → auth bağımlılığı ölçülür, ADR-039 çelişki defterine (C1/C2) kayıt; `api.coremusic.net` C2 durumu teyit edilir | Data + Backend | 1 gün |
 | 7 | **ERTELENEN — index/numara:** `.ai/.decisions/index.md`'ye ADR-058 satırı **eklenmedi**; 051–060 boşluğu + ADR-088+ kuralı ile numara serisi çelişkisi **raporlandı** (düzeltme YAPILMAZ) | Vault Steward | sonraki reset |
 | 8 | **ERTELENEN — `.ai/.decisions/index.md` ADR-056/058 satırı + `brain.md` ADR-058 slotu** bir sonraki vault reset'ine ertelendi (report-only; In-Place Refactoring + SRP; brain slotu **⚠️ VERIFICATION REQUIRED** — MO işi) | Vault Steward / MO | sonraki reset |
-| 9 | **Debate:** 3 tur / persona debate çalıştırılır → `debate` alanı `⏳ PENDING` → ✅/❌ güncellenir; **Tech Lead ancak debate sonrası ✅** alır | Vault Steward + Tech Lead | 1 gün |
+| 9 | **Debate TAMAMLANDI (2026-09-29):** 3 tur / 20 persona → **18 kabul / 2 çekimser / 0 red → KABUL**; `debate` alanı ✅, **Tech Lead ✅** (§7.1) | Vault Steward + Tech Lead | 1 gün |
+| 10 | **Debate Şart 1 (bağlayıcı):** (1a) **SPOF savunması** — L2 TTL cache + break-glass + **fail-closed (fail-open YOK)**; (1b) **bypass kapısı** — JWKS+mTLS hedef yolu + origin doğrulama kapısı (ADR-043 Şart 1b ile aynı kapı) | Security + Backend | 2 gün |
+| 11 | **Debate Şart 2 (bağlayıcı):** `media.coremusic.net` envanter düzeltmesi + ADR-039 §2.1-4 çelişkisine satır ekleme (adım 4/6 ile birlikte) | Vault Steward + Data | 1 gün |
+| 12 | **Debate Şart 3 (bağlayıcı):** migrasyon **çift doğrulama penceresi** (faz 2-3) + **geri alma testi** — çıkış ölçütü olarak kanıtlanır | QA + Backend | 1 gün |
 
 ### 5.2 Geri Dönüş Planı
 
@@ -318,6 +321,8 @@ Bu ADR **kod üretmez** (karar kaydıdır) → doğrudan geri dönüş riski yok
 
 **Düz metin referanslar (diskte YOK → wiki-link KURULMAZ, `⚠️ VERIFICATION REQUIRED`):** ADR-051 · ADR-053 · ADR-054 · ADR-055 · ADR-057 · **ADR-059 (`ADR-059-mfa`)** · ADR-060 · `.ai/architecture/08-auth/auth-domain.md` · `.ai/architecture/08-auth/auth-flow.md`
 
+**Debate şartları (§7.1 — bağlayıcı; §5.1 adımlar 10-12 ile eşleştirilmiş):** (1) **SPOF savunması + bypass kapısı** → §5.1 adım 10 · [[ADR-043-auth-subdomain-consolidation]] Şart 1b · (2) **envanter/ADR-039 düzeltmesi** → §5.1 adım 11 · [[ADR-039-7-service-platform-architecture]] §2.1-4 / §2.2-b · (3) **migrasyon çift-doğrulama + geri alma testi** → §5.1 adım 12 · §2.2-d faz 2-3.
+
 ---
 
 ## 7. Onay
@@ -325,22 +330,24 @@ Bu ADR **kod üretmez** (karar kaydıdır) → doğrudan geri dönüş riski yok
 | Rol | İsim | Tarih | İmza |
 |-----|------|-------|------|
 | Vault Steward | CoreMusic Vault Documentation Specialist | 2026-09-29 | ✅ |
-| Tech Lead | CoreMusic Tech Lead | ⏳ | ⏳ |
+| Tech Lead | CoreMusic Tech Lead | 2026-09-29 | ✅ |
 | Arch Lead | ⏳ | ⏳ | ⏳ |
 
 ### 7.1 Debate Kaydı
 
 | Alan | Değer |
 |------|-------|
-| Debate durumu | ⏳ **PENDING** |
-| Tur sayısı | ⏳ (çalıştırılmadı) |
-| Persona | ⏳ |
-| Oy dağılımı | ⏳ |
-| Sonuç | ⏳ — debate tamamlanmadan **Tech Lead ✅ yazılmaz** (§5.1 adım 9) |
-| Tech Lead | ⏳ |
-| Arch Lead | ⏳ |
+| Debate durumu | ✅ **TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)** |
+| Tur sayısı | **3** — Tur 1 bulgu/oy · Tur 2 itiraz→çözüm · Tur 3 oylama |
+| Persona | **20** (Tur 1: 16 kabul/neutral + 4 uyarı — Cloud: SPOF şart · QA: migrasyon testi · Critic: bypass + media çelişkisi şart) |
+| Tur 1 — bulgu/oy | home → `/validate-key` doğrudan çağırıyor (origin muaf) · `OriginCheckMiddleware:66` tanımsız `self::ALLOWED_ORIGINS` (latent 500) + `:40,51,60` boş-Origin fail-open · `media.coremusic.net` dizin VAR (18 dosya) ↔ ADR-039 "YOK" çelişkisi (raporlandı, düzeltilmedi) · ADR-043 "8 setcookie" iddiası ≠ yöntem bulgusu → **V.R.** · karar: tek auth noktası + validate-key bugün / JWKS+mTLS hedef + fail-closed + L2 TTL + break-glass (**fail-open YOK**) + 5 fazlı migrasyon · ~30 kaynak / 17 sorgu (NIST 800-63B/800-207, RFC 8725/8693/8705) · E4 yeni bulgu · ADR-039 gerilimi (`/validate-key` izinli tek uç — In-Place satır §5.1 adım 4) · index 051-060 satırı YOK (reset'e) · 051/053-055/057/060 atlanan boşluk notu · 16 kabul/neutral + 4 uyarı |
+| Tur 2 — itiraz→çözüm | (1) SPOF → L2 TTL cache + break-glass + fail-closed (**fail-open YOK**) → **Şart 1a** · (2) validate-key bypass yüzeyi → JWKS+mTLS hedef yolu + origin doğrulama kapısı (ADR-043 şartı) → **Şart 1b** · (3) media.coremusic.net çelişkisi + ADR-039 gerilimi → envanter düzeltme + ADR-039'a satır ekleme → **Şart 2** · (4) migrasyon testi yok → çift doğrulama penceresi + geri alma testi → **Şart 3** |
+| Oy dağılımı (Tur 3) | **18 kabul / 2 çekimser / 0 red** |
+| Sonuç | ✅ **KABUL** — **3 bağlayıcı şart:** (1) SPOF savunması + bypass kapısı (1a-1b) · (2) envanter/ADR-039 düzeltmesi · (3) migrasyon çift-doğrulama + geri alma testi → §5.1 adımlar 10-12 + §6 şart notu |
+| Tech Lead | ✅ **(2026-09-29 — debate sonrası)** |
+| Arch Lead | ⏳ (ayrı onay — bu işlem kapsamı dışında) |
 
-> **Bu ADR persona debate'den GEÇMEMİŞTİR** (`debate: ⏳ PENDING`). `status: accepted` yalnızca **kullanıcı onaylı kapsam** (§2 a-d) içindir; debate + Tech Lead ✅ tamamlanmadan **kesin karar sayılmaz** ve **Frozen'a geçiş YOK**.
+> **Bu ADR persona debate'den GEÇMİŞTİR** (`debate: ✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)` — §7.1); **Tech Lead ✅ (2026-09-29)**. `status: accepted` kapsamı (§2 a-d) + **3 bağlayıcı şart** (§5.1 adımlar 10-12) uygulanana kadar **Frozen'a geçiş YOK**.
 > **Kaynaksız numara boşlukları (not):** ADR-051, ADR-053, ADR-054, ADR-055, ADR-057, **ADR-059**, ADR-060 diskte dosya olarak **yok** ve bu ADR tarafından **atlandı** (kaynak = `.ai/.decisions/accepted/` glob taraması, 2026-09-29). Bu numaralar bu ADR'nin **kapsamı dışındadır**; her biri kendi kanıtıyla doldurulmalıdır.
 > **Index boşluğu (not):** `.ai/.decisions/index.md` **051–060 satırlarını içermez** (050 → 061 atlıyor, satır 91/92); bu ADR'nin dizin satırı **eklenmedi** — §5.1 adım 8'de sonraki reset'e ertelendi.
 

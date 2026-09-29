@@ -248,6 +248,31 @@ final class MiddlewarePipelineTest extends TestCase
     }
 
     /* ============================================================
+       CSP CONNECT-SRC REGRESSION (api.coremusic.net)
+       ============================================================ */
+
+    public function testCspConnectSrcAllowsApiOrigin(): void
+    {
+        $middleware = new \CoreMusic\Middleware\SecurityHeadersMiddleware(new \CoreMusic\Config\DomainConfig());
+
+        $response = $middleware->handle(['method' => 'GET'], static fn (): array => ['httpStatus' => 200]);
+
+        $csp = $response['headers']['Content-Security-Policy'] ?? '';
+        $this->assertStringContainsString("connect-src 'self' ", $csp);
+        $this->assertMatchesRegularExpression("/connect-src [^;]*api\.coremusic\.net/", $csp);
+        $this->assertMatchesRegularExpression("/connect-src [^;]*assets\.coremusic\.net/", $csp);
+    }
+
+    public function testFallbackCspConnectSrcAllowsApiOrigin(): void
+    {
+        $ref = new \ReflectionClass(\CoreMusic\PageRouter\ResponseEmitter::class);
+        $csp = (string) $ref->getReflectionConstant('FALLBACK_CSP')->getValue();
+
+        $this->assertMatchesRegularExpression("/connect-src [^;]*api\.coremusic\.net/", $csp);
+        $this->assertMatchesRegularExpression("/connect-src [^;]*assets\.coremusic\.net/", $csp);
+    }
+
+    /* ============================================================
        HELPER
        ============================================================ */
 
