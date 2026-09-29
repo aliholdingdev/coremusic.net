@@ -5,8 +5,8 @@ type: template
 category: ui-design
 pattern: B
 date: 2026-09-24
-updated: 2026-09-24
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
 governance: Red Team · Human Mode · Truth Mode
@@ -195,7 +195,7 @@ Ekran akışı **görsel sahne sırasıdır**, diyagramın tekrarı değildir. �
 |---|---------------|--------------|--------------|
 | 1 | Login formu   | `screens/shared/login.md` | açılış |
 | 2 | Hata kartı    | (form içi)   | doğrulama başarısız |
-| 3 | Home dashboard| `screens/T08-embedded/home-dashboard.md` | oturum kuruldu |
+| 3 | Home dashboard| `screens/T07-embedded/home-dashboard.md` | oturum kuruldu |
 ```
 
 **Kural:** her satır `screens/` altında bir karşılık göstermeli ya da `(form içi)` gibi bileşen-içi olduğunu belirtmelidir. Karşılığı olmayan sahne `⚠️ VERIFICATION REQUIRED` işaretlenir.
@@ -501,5 +501,5 @@ Yeni flow eklenirken önce bu tabloya bakılır; `NN` kategorinin en büyük num
 
 *UI Design Flow Template (Kalıp B) v1.0.0 — CoreMusic Template System*
 **Template Version:** 1.0.0
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

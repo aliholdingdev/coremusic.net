@@ -4,8 +4,8 @@ title: "CoreMusic — UI Design Reference/Spec/Token Dokümanı Şablonu (Kalıp
 type: template
 category: ui-design
 date: 2026-09-24
-updated: 2026-09-24
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
 governance: Red Team · Human Mode · Truth Mode
@@ -233,7 +233,7 @@ Her içerik bölümü aşağıdaki dört biçimden birini kullanır; karma (hem 
 
 | Tier | Viewport | Cihaz sınıfı | Ölçü önceliği |
 |------|----------|--------------|---------------|
-| T08  | 1024×600 | RPi5 7" touch | Touch 44px |
+| T07  | 1024×600 | RPi5 7" touch | Touch 44px |
 | T17  | 1920×1080 | Desktop monitor | Hover 40px |
 ```
 
@@ -504,5 +504,5 @@ reference:
 
 *UI Design Reference Template (Kalıp A) v1.0.0 — CoreMusic Template System*
 **Template Version:** 1.0.0
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode
