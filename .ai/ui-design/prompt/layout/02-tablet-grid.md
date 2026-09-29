@@ -1,16 +1,21 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 02 Tablet Grid Layout Prompt"
 type: prompt
 category: ui-design
 layout_id: "02"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
-# 02 — Tablet Grid Layout
+# Tablet Grid Layout (820×1180)
 
-## 1. Layout Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -19,7 +24,24 @@ status: active
 | **Usage** | Ana sayfa, albüm listesi |
 | **Type** | 2-column grid, top navigation |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Region | Grid Area | Height |
+|--------|-----------|--------|
+| Header | 1 / 1 / 2 / -1 | 60px |
+| Content Left | 2 / 1 | flex:1 |
+| Content Right | 2 / 2 | flex:1 |
+| Footer | 3 / 1 / 4 / -1 | 90px |
+
+**Responsive Behavior**
+
+| Breakpoint | Change |
+|------------|--------|
+| 768px | 2 columns, compact |
+| 900px | 2 columns, wider |
+| 1024px | Transition to embedded layout |
+
+### ASCII Reference
 
 ```
 ┌─── TABLET (820×1180) ────────────────────────────────┐
@@ -41,7 +63,11 @@ status: active
 └──────────────────────────────────────────────────────┘
 ```
 
-## 3. Grid Structure
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```css
 /* Tablet Grid Layout */
@@ -57,24 +83,7 @@ status: active
 .layout--tablet__footer { grid-column: 1 / -1; }
 ```
 
-## 4. Regions
-
-| Region | Grid Area | Height |
-|--------|-----------|--------|
-| Header | 1 / 1 / 2 / -1 | 60px |
-| Content Left | 2 / 1 | flex:1 |
-| Content Right | 2 / 2 | flex:1 |
-| Footer | 3 / 1 / 4 / -1 | 90px |
-
-## 5. Responsive Behavior
-
-| Breakpoint | Change |
-|------------|--------|
-| 768px | 2 columns, compact |
-| 900px | 2 columns, wider |
-| 1024px | Transition to embedded layout |
-
-## 6. Code Example
+**Code Example**
 
 ```css
 @media (min-width: 768px) and (max-width: 1024px) {
@@ -98,6 +107,16 @@ status: active
 }
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
 ---
 
 *02 Tablet Grid Layout v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

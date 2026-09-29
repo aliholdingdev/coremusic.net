@@ -1,16 +1,21 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Screen Prompt T3 Tablet Large"
 type: prompt
 category: ui-design
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 tier: T3-tablet-large
 ---
 
 # T3: Tablet Large Screen Prompt
 
-## 1. Tier Tanımı
+## AI Code Generation Prompt
+
+### Context
 
 | Özellik | Değer |
 |---------|-------|
@@ -26,7 +31,7 @@ tier: T3-tablet-large
 
 ---
 
-## 2. Genel Kurallar
+### Required Inputs
 
 | Kural | Değer |
 |-------|-------|
@@ -56,48 +61,15 @@ tier: T3-tablet-large
 
 ---
 
-## 3. Ekran Promptları
+### ASCII Reference
 
-### 3.1 Home
+> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
 
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Sticky top 60px | `--header-h: 60px` |
-| Sidebar (Left) | 220px, browse sayfasında | `--sidebar-w: 220px` |
-| Content Grid | 2 sütun, 16px gap | `--grid-gap: 16px` |
-| Footer Player | Fixed bottom 88px | `--footer-h: 88px` |
+### Prompt Template
 
-**Notlar:** Tablet-large'da landscape modda sidebar görünebilir. Portrait'da header tab'ları.
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-### 3.2 Auth Login
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Logo | Center, 96px | `--font-size-2xl: 28px` |
-| Form | Max-width 440px, centered | `margin: 0 auto` |
-| Input | Full-width, 48px | `min-height: 48px` |
-
-### 3.3 Albums
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Sticky, tabs | `--header-h: 60px` |
-| Sidebar | 220px (browse) | `--sidebar-w: 220px` |
-| Album Grid | 2-3 sütun | `grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))` |
-
-### 3.4 Player
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Footer Player | Fixed bottom 88px | `--footer-h: 88px` |
-| Cover Art | 64×64px | `--radius-md: 10px` |
-| Seek Bar | Full-width | `--accent` |
-| Controls | Play 56px, others 48px | `--touch-min: 48px` |
-| Volume | Slider görünür | `display: block` |
-
----
-
-## 4. Code Example
+### Expected Output
 
 ```css
 @media (min-width: 1024px) and (max-width: 1279px) {
@@ -201,7 +173,52 @@ tier: T3-tablet-large
 
 ---
 
-## 5. Yasaklar
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
+### Ekran Promptları
+
+### 3.1 Home
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Sticky top 60px | `--header-h: 60px` |
+| Sidebar (Left) | 220px, browse sayfasında | `--sidebar-w: 220px` |
+| Content Grid | 2 sütun, 16px gap | `--grid-gap: 16px` |
+| Footer Player | Fixed bottom 88px | `--footer-h: 88px` |
+
+**Notlar:** Tablet-large'da landscape modda sidebar görünebilir. Portrait'da header tab'ları.
+
+### 3.2 Auth Login
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Logo | Center, 96px | `--font-size-2xl: 28px` |
+| Form | Max-width 440px, centered | `margin: 0 auto` |
+| Input | Full-width, 48px | `min-height: 48px` |
+
+### 3.3 Albums
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Sticky, tabs | `--header-h: 60px` |
+| Sidebar | 220px (browse) | `--sidebar-w: 220px` |
+| Album Grid | 2-3 sütun | `grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))` |
+
+### 3.4 Player
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Footer Player | Fixed bottom 88px | `--footer-h: 88px` |
+| Cover Art | 64×64px | `--radius-md: 10px` |
+| Seek Bar | Full-width | `--accent` |
+| Controls | Play 56px, others 48px | `--touch-min: 48px` |
+| Volume | Slider görünür | `display: block` |
+
+---
+
+### Yasaklar
 
 | Yasak | Doğru |
 |-------|-------|
@@ -209,3 +226,9 @@ tier: T3-tablet-large
 | `backdrop-filter: blur(20px)` | `blur(12px)` |
 | Font < 13px | Min 13px |
 | Fixed sidebar (tüm sayfalarda) | Sadece browse |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

@@ -167,7 +167,7 @@ governance: Red Team · Human Mode · Truth Mode
 | **Car** | Voice input | Voice dictation | Sesli uyarı |
 | **Watch** | Micro input | Crown scroll | Haptic |
 
-## 5. Token Süresi
+## 4A. Token Süresi
 
 | Parametre | Değer |
 |-----------|-------|
@@ -175,6 +175,17 @@ governance: Red Team · Human Mode · Truth Mode
 | Geçerlilik süresi | 15 dakika |
 | Max deneme | 3 |
 | Yenileme cooldown | 60 saniye |
+
+---
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
 
 ---
 

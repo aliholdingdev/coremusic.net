@@ -12,20 +12,23 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
-# Car Simplified Layout Prompt (1280×720)
+# Car Simplified Layout (1280×720)
 
 ## AI Code Generation Prompt
 
 ### Context
+
 CoreMusic Android Auto için simplified layout şablonu. 1280×720 viewport, safety-first, large buttons, minimal text.
 
 ### Required Inputs
+
 - `touchTargetSize`: Min touch target (varsayılan: 80px)
 - `fontScale`: Font ölçekleme (varsayılan: 1.125)
 - `maxTextLength`: Maksimum metin uzunluğu (varsayılan: 20 karakter)
 - `animationDisabled`: Animasyonlar devre dışı (varsayılan: true)
 
-### ASCII Layout Reference
+### ASCII Reference
+
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────┐
 │ STATUS BAR (h:48)                                                                            │
@@ -53,20 +56,8 @@ CoreMusic Android Auto için simplified layout şablonu. 1280×720 viewport, saf
 └──────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Safety Rules
-```
-KURALLAR:
-1. Minimal Text: Sürücü dikkatini dağıtacak uzun metin yok
-2. Large Buttons: Min 80×80px touch target
-3. Voice-First: Sesli komut öncelikli
-4. Dark Mode: Gece sürüşü için koyu tema
-5. High Contrast: Güneş ışığında okunabilirlik
-6. No Animations: Sürüş sırasında dikkat dağıtıcı animasyon yok
-7. Simple Navigation: Maksimum 5 nav item
-8. Quick Actions: Sık kullanılan işlemler ana ekranda
-```
-
 ### Prompt Template
+
 ```json
 {
   "task": "Create car simplified layout for CoreMusic",
@@ -89,6 +80,7 @@ KURALLAR:
 ```
 
 ### Expected Output
+
 HTML + CSS with:
 - Status bar: h:48, system info
 - Content: 50/50 split
@@ -98,9 +90,30 @@ HTML + CSS with:
 - No animations
 
 ### Validation
+
 - [ ] Touch targets ≥80px
 - [ ] Font scale 1.125x
 - [ ] No animations
 - [ ] Dark theme applied
 - [ ] Max text 20ch
 - [ ] Voice commands available
+
+### Safety Rules
+
+```
+KURALLAR:
+1. Minimal Text: Sürücü dikkatini dağıtacak uzun metin yok
+2. Large Buttons: Min 80×80px touch target
+3. Voice-First: Sesli komut öncelikli
+4. Dark Mode: Gece sürüşü için koyu tema
+5. High Contrast: Güneş ışığında okunabilirlik
+6. No Animations: Sürüş sırasında dikkat dağıtıcı animasyon yok
+7. Simple Navigation: Maksimum 5 nav item
+8. Quick Actions: Sık kullanılan işlemler ana ekranda
+```
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

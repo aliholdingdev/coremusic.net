@@ -1,16 +1,21 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Screen Prompt T10 Smart Watch"
 type: prompt
 category: ui-design
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 tier: T10-watch
 ---
 
 # T10: Smart Watch Screen Prompt
 
-## 1. Tier Tanımı
+## AI Code Generation Prompt
+
+### Context
 
 | Özellik | Değer |
 |---------|-------|
@@ -26,7 +31,7 @@ tier: T10-watch
 
 ---
 
-## 2. Micro UI Kuralları
+### Required Inputs
 
 | Kural | Değer | Gerekçe |
 |-------|-------|---------|
@@ -40,7 +45,7 @@ tier: T10-watch
 
 ---
 
-## 3. Genel Kurallar
+**Genel Kurallar**
 
 | Kural | Değer |
 |-------|-------|
@@ -61,40 +66,15 @@ tier: T10-watch
 
 ---
 
-## 4. Ekran Promptları
+### ASCII Reference
 
-### 4.1 Now Playing
+> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
 
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Cover Art | 80×80px, center | `--radius-full` |
-| Track Title | 16px bold, center | Truncate |
-| Artist | 14px muted, center | Truncate |
-| Controls | Row: prev, play/pause, next | 44×44px each |
-| Seek | Minimal bar | `--accent` |
+### Prompt Template
 
-**Notlar:** Crown ile seek. Touch ile play/pause.
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-### 4.2 Library (List)
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| List Items | 44px height, single line | `--touch-min: 44px` |
-| Scroll | Crown ile dikey | `overscroll-behavior: contain` |
-| Active Item | Accent background | `--accent` |
-| Max Items Visible | 4-5 | Overflow scroll |
-
-### 4.3 Controls
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Volume | Vertical slider | Crown ile ayarlama |
-| Source | Toggle | 44×44px button |
-| EQ | Quick toggle | 44×44px button |
-
----
-
-## 5. Code Example
+### Expected Output
 
 ```css
 @media (max-width: 400px) {
@@ -287,7 +267,44 @@ tier: T10-watch
 
 ---
 
-## 6. Crown Navigasyon JS
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
+### Ekran Promptları
+
+### 4.1 Now Playing
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Cover Art | 80×80px, center | `--radius-full` |
+| Track Title | 16px bold, center | Truncate |
+| Artist | 14px muted, center | Truncate |
+| Controls | Row: prev, play/pause, next | 44×44px each |
+| Seek | Minimal bar | `--accent` |
+
+**Notlar:** Crown ile seek. Touch ile play/pause.
+
+### 4.2 Library (List)
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| List Items | 44px height, single line | `--touch-min: 44px` |
+| Scroll | Crown ile dikey | `overscroll-behavior: contain` |
+| Active Item | Accent background | `--accent` |
+| Max Items Visible | 4-5 | Overflow scroll |
+
+### 4.3 Controls
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Volume | Vertical slider | Crown ile ayarlama |
+| Source | Toggle | 44×44px button |
+| EQ | Quick toggle | 44×44px button |
+
+---
+
+### Crown Navigasyon JS
 
 ```javascript
 // Digital Crown handler
@@ -314,7 +331,7 @@ function initCrownNavigation(scrollElement) {
 
 ---
 
-## 7. Yasaklar
+### Yasaklar
 
 | Yasak | Doğru |
 |-------|-------|
@@ -326,3 +343,9 @@ function initCrownNavigation(scrollElement) {
 | Derin menü | Max 2 seviye |
 | Animated transitions | ≥200ms, basit |
 | Beyaz arka plan | Siyah (OLED) |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

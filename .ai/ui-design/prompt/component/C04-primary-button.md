@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C04 Primary Button Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".btn-primary"
 itcss_layer: "04_Components"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C04
 ---
 
-# C04 — Primary Button (.btn-primary)
+# Primary Button Component Prompt (C04)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,36 @@ status: active
 | **Usage** | Form submit, ana aksiyonlar, CTA |
 | **Type** | Primary action button with gradient |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Tier | Height | Font | Padding |
+|------|--------|------|---------|
+| Phone | 52px | 16px | 0 20px |
+| Embedded | 56px | 16px | 0 24px |
+| Desktop | 56px | 16px | 0 24px |
+| 4K TV | 64px | 18px | 0 32px |
+
+**Variants**
+
+| Variant | Class | Description |
+|---------|-------|-------------|
+| Default | `.btn-primary` | Gradient arka plan |
+| Small | `.btn-primary--sm` | h:40px, font:14px |
+| Icon Only | `.btn-primary--icon` | 56×56px kare |
+| Full Width | `.btn-primary` (in form) | width:100% |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Default | Gradient bg, white text |
+| Hover | %10 darker gradient, subtle shadow |
+| Active | scale(0.97), 100ms transition |
+| Focus-visible | 3px outline + 6px shadow ring |
+| Disabled | opacity: 0.5, cursor: not-allowed |
+| Loading | Spinner, text transparent |
+
+### ASCII Reference
 
 ```
 ┌─── PRIMARY BUTTON (default) ─────────────────┐
@@ -38,46 +73,11 @@ status: active
 └───────────────────────────────────────────────┘
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Tier | Height | Font | Padding |
-|------|--------|------|---------|
-| Phone | 52px | 16px | 0 20px |
-| Embedded | 56px | 16px | 0 24px |
-| Desktop | 56px | 16px | 0 24px |
-| 4K TV | 64px | 18px | 0 32px |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. Variants
-
-| Variant | Class | Description |
-|---------|-------|-------------|
-| Default | `.btn-primary` | Gradient arka plan |
-| Small | `.btn-primary--sm` | h:40px, font:14px |
-| Icon Only | `.btn-primary--icon` | 56×56px kare |
-| Full Width | `.btn-primary` (in form) | width:100% |
-
-## 5. States
-
-| State | Visual |
-|-------|--------|
-| Default | Gradient bg, white text |
-| Hover | %10 darker gradient, subtle shadow |
-| Active | scale(0.97), 100ms transition |
-| Focus-visible | 3px outline + 6px shadow ring |
-| Disabled | opacity: 0.5, cursor: not-allowed |
-| Loading | Spinner, text transparent |
-
-## 6. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Touch target | min 44×44px (56px height) |
-| Focus visible | 3px outline + shadow ring |
-| ARIA | `aria-busy="true"` when loading, `aria-disabled="true"` |
-| Keyboard | Enter/Space to activate |
-| High contrast | Border visible in forced-colors mode |
-
-## 7. Code Example
+### Expected Output
 
 ```css
 /* C04 — Primary Button | ITCSS: 04_Components */
@@ -149,6 +149,22 @@ status: active
 <button type="button" class="btn-primary btn-primary--sm">Kaydet</button>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Touch target | min 44×44px (56px height) |
+| Focus visible | 3px outline + shadow ring |
+| ARIA | `aria-busy="true"` when loading, `aria-disabled="true"` |
+| Keyboard | Enter/Space to activate |
+| High contrast | Border visible in forced-colors mode |
+
 ---
 
 *C04 Primary Button v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

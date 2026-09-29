@@ -1,6 +1,34 @@
+﻿---
+reference_doc: CoreMusic UI Design System
+title: "CoreMusic — Legacy Inventory — ui-design (Eski Referans + Mevcut Durum)"
+type: inventory
+category: ui-design
+date: 2026-09-24
+updated: 2026-09-29
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/ui-design/reference/legacy-inventory.md"
+  source_of_truth: ".ai/ui-design/ · .ai/.png/ · .ai/AGENTS.md · .ai/CLAUDE.md · .ai/WORKFLOW.md"
+---
+
 # Legacy Inventory — ui-design (Eski Referans + Mevcut Durum)
 
+**Zorunlu Bağlantılar:** [[../00-device-matrix]] · [[../01-mockup-index]] · [[../../index]] · [[../../CLAUDE.md]] · [[../../AGENTS.md]]
+
 **Tarih:** 2026-09-24 · **Kaynak:** salt-okunur tarama · **Durum:** .ai copy\ui-design diskte YOK
+
+---
+
+## 1. Amaç
+
+Bu dosya, CoreMusic `ui-design` vault'unun **salt-okunur tarama envanteridir**: eski referans seti (`.ai copy\ui-design`) diskte mevcut mu, mevcut `.ai\ui-design` ağacı hangi dosyalardan oluşuyor, hangi vault dosyaları bu ağacı referans alıyor ve Kalıp A-D kalıpları hangi kanıtla tanımlandı — tümü bu belgede toplanır.
+
+> **Kaynak:** salt-okunur tarama (glob/grep/read); dosya içerik üretmez, yalnızca diskte görüleni kaydeder.
+
+---
 
 ## Eski referans (.ai copy\ui-design)
 
@@ -220,3 +248,22 @@ Frontmatter'da `type: prompt` + `component: Cxx` (governance alanı BAZEN yok). 
 
 ### Kalıp D — Screen spec (`screens/<tier>/*.md`)
 Frontmatter + `reference.source_of_truth` → birebir PNG dosya adı. H1 `CoreMusic — <Screen> (<Tier> <viewport>)` + Zorunlu Bağlantılar → `## 1. ASCII Layout (Piksel Düzeyinde — x:0-1024, y:0-600)` → `## 2. BEM Sınıfları` → `## 3. Token Referansları` → `## 4. Touch Target` → `## 5. WCAG Uyumu` → `## 6. Glassmorphism Stili` → `## 7. PNG Referansı` → `## 8. Responsive Davranış` → `## 9. State Durumları` → Authority footer.
+
+---
+
+## 7. Quality Report
+
+| Metrik | Değer |
+|---|---|
+| Version | 1.0.0 |
+| Status | Red Team · Human Mode · Truth Mode verified |
+| Cross References | 15 |
+| Last Updated | 2026-09-29 |
+
+> Sayım (şablon §3.10 komutu): 15 = 13 çözülebilir wiki-link + 2 yer tutucu (Kalıp A örnek yaml bloğu — yanlış pozitif, korunmuştur).
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

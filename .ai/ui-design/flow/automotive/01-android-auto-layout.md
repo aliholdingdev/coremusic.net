@@ -4,23 +4,25 @@ title: "CoreMusic — Android Auto Layout Flow"
 type: flow
 category: ui-design
 date: 2026-09-20
+updated: 2026-09-29
 status: active
 version: 1.0.1
 tier: T29
 authority: Single Source of Truth (SSOT)
-reference:
-  authority: ".ai/ui-design/flow/automotive/01-android-auto-layout.md"
+governance: Red Team · Human Mode · Truth Mode
 ---
 
-# CoreMusic — Android Auto Layout Flow
+# Android Auto Layout Flow
 
-## 1. Amaç
+## 1. Akış Diyagramı (Decision Flow)
+
+### Amaç
 
 Android Auto ortamında CoreMusic UI'ının nasıl render edileceği ve etkileşim akışı.
 
 ---
 
-## 2. Akış Şeması
+### Akış Şeması
 
 ```
 Kullanıcı → Android Auto ekranı
@@ -32,7 +34,7 @@ Kullanıcı → Android Auto ekranı
 
 ---
 
-## 3. Layout Kuralları
+## 1A. Layout Kuralları
 
 | Özellik | Değer |
 |---------|-------|
@@ -45,9 +47,9 @@ Kullanıcı → Android Auto ekranı
 
 ---
 
-## 4. Ekran Akışları
+## 2. Ekran Akışı
 
-### 4.1 Ana Sayfa
+### 2.1 Ana Sayfa
 ```
 ┌──────────────────────────────┐
 │ Now Playing (büyük)          │
@@ -60,7 +62,7 @@ Kullanıcı → Android Auto ekranı
 └──────────────┴───────────────┘
 ```
 
-### 4.2 Sesli Komut
+### 2.2 Sesli Komut
 ```
 Kullanıcı: "Hey Google, CoreMusic'te [şarkı adı] çal"
   → Voice recognition
@@ -71,7 +73,31 @@ Kullanıcı: "Hey Google, CoreMusic'te [şarkı adı] çal"
 
 ---
 
-## 5. Quality Report
+## 3. Hata Senaryoları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; hata senaryoları QA doğrulamasından sonra 4 sütunlu tablo (Hata · Tetikleyici · Çözüm · Max Retry) olarak doldurulacak.
+
+---
+
+## 4. Tier-Bazlı Varyasyonlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; 7 tier satırı 00-device-matrix.md ile eşleştirilerek doldurulacak.
+
+---
+
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+
+---
+
+## 6A. Quality Report
 
 | Metrik | Değer |
 |--------|-------|

@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 08 Login Page Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,16 @@ route: "/login"
 layout: "auth-split-72-28"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
 # 08 — Login Page
 
-## 1. Page Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -20,7 +25,7 @@ status: active
 | **Layout** | Auth Screen (72/28 split) |
 | **Purpose** | Giriş formu, split layout |
 
-## 2. Components Used
+**Components Used**
 
 | Component | Count | Location |
 |-----------|-------|----------|
@@ -29,14 +34,22 @@ status: active
 | C08 Social Login | 1 | Glass panel (Google, Apple) |
 | Glass Panel | 1 | Right (28%) |
 
-## 3. Layout
+### Required Inputs
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
+
+### ASCII Reference
 
 ```
 LEFT (72%): Manzara fotoğrafı + Logo (merkez)
 RIGHT (28%): Glass Panel → Form + Button + Social + Link
 ```
 
-## 4. Code Example
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```html
 <div class="auth-layout">
@@ -67,6 +80,16 @@ RIGHT (28%): Glass Panel → Form + Button + Social + Link
 </div>
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
 ---
 
 *08 Login Page v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

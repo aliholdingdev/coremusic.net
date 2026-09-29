@@ -4,6 +4,7 @@ title: "CoreMusic — SPA Routing Flow"
 type: flow
 category: ui-design
 date: 2026-09-20
+updated: 2026-09-29
 status: active
 version: 1.0.1
 authority: Single Source of Truth (SSOT)
@@ -12,7 +13,9 @@ governance: Red Team · Human Mode · Truth Mode
 
 # SPA Routing Flow
 
-## ASCII Flow Diagram
+## 1. Akış Diyagramı (Decision Flow)
+
+### ASCII Flow Diagram
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -69,7 +72,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## Route Tablosu
+## 1A. Route Tablosu
 
 | Route | Sayfa | Auth | Footer |
 |-------|-------|:----:|:------:|
@@ -83,7 +86,7 @@ governance: Red Team · Human Mode · Truth Mode
 | `/auth/register` | Register | ❌ | ❌ |
 | `/auth/gender` | Select Gender | ❌ | ❌ |
 
-## Animasyonlar
+## 1B. Animasyonlar
 
 | Geçiş | Süre | Easing |
 |-------|------|--------|
@@ -93,6 +96,36 @@ governance: Red Team · Human Mode · Truth Mode
 | Footer show/hide | 200ms | ease |
 
 ---
+## 2. Ekran Akışı
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; ekran/sahne listesi screens/ karşılıkları doğrulanarak doldurulacak.
+
+---
+
+## 3. Hata Senaryoları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; hata senaryoları QA doğrulamasından sonra 4 sütunlu tablo (Hata · Tetikleyici · Çözüm · Max Retry) olarak doldurulacak.
+
+---
+
+## 4. Tier-Bazlı Varyasyonlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; 7 tier satırı 00-device-matrix.md ile eşleştirilerek doldurulacak.
+
+---
+
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+
+---
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

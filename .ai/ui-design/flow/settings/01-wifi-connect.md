@@ -13,7 +13,9 @@ governance: Red Team · Human Mode · Truth Mode
 
 # WiFi Connect Flow
 
-## 1. Akış Diyagramı (Connection Flow)
+## 1. Akış Diyagramı (Decision Flow)
+
+### Connection Flow
 
 ```
 ┌─────────────────┐
@@ -68,7 +70,7 @@ governance: Red Team · Human Mode · Truth Mode
    │  └───────┘ └──────────┘
 ```
 
-## 2. State Machine
+## 1A. State Machine
 
 ```
 ┌──────────────┐  Scan   ┌──────────────┐  Select  ┌──────────┐
@@ -97,7 +99,7 @@ governance: Red Team · Human Mode · Truth Mode
 | Connecting | Başarısız | Available | Hata mesajı |
 | Connected | Bağlantıyı Kes | Disconnected | Toggle OFF |
 
-## 3. Ekran Akışı
+## 2. Ekran Akışı
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -164,7 +166,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 4. Hata Senaryoları
+## 3. Hata Senaryoları
 
 | Hata | Çözüm | Max Retry |
 |------|-------|:---------:|
@@ -175,6 +177,19 @@ governance: Red Team · Human Mode · Truth Mode
 | DNS hatası | "DNS çözülemedi" + tekrar dene | 2 |
 | Sinyal zayıf | "Sinyal gücü düşük" uyarısı | — |
 
+## 4. Tier-Bazlı Varyasyonlar
+
+| Tier | Modal Tipi | Ağ Listesi | Şifre |
+|------|------------|------------|-------|
+| **Phone** | Full-screen | Scroll list | On-screen keyboard |
+| **Tablet** | Split-panel | List | On-screen keyboard |
+| **Embedded** | Modal overlay | List | On-screen keyboard |
+| **Desktop** | Side panel | Detailed list | Physical keyboard |
+| **TV** | Full-screen modal | Large cards | Remote input |
+| **Car** | Simplified list | Auto-connect | Saved passwords |
+| **Watch** | Micro modal | Saved only | Auto-connect |
+
+---
 ## 5. BEM Sınıfları
 
 | BEM Sınıfı | Açıklama |
@@ -191,17 +206,9 @@ governance: Red Team · Human Mode · Truth Mode
 | `.wifi-status__success` | Başarılı mesajı |
 | `.wifi-status__error` | Hata mesajı |
 
-## 6. Tier-Bazlı Varyasyonlar
+## 6. Adımlar
 
-| Tier | Modal Tipi | Ağ Listesi | Şifre |
-|------|------------|------------|-------|
-| **Phone** | Full-screen | Scroll list | On-screen keyboard |
-| **Tablet** | Split-panel | List | On-screen keyboard |
-| **Embedded** | Modal overlay | List | On-screen keyboard |
-| **Desktop** | Side panel | Detailed list | Physical keyboard |
-| **TV** | Full-screen modal | Large cards | Remote input |
-| **Car** | Simplified list | Auto-connect | Saved passwords |
-| **Watch** | Micro modal | Saved only | Auto-connect |
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
 
 ---
 

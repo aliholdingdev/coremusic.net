@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C16 Network Row Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".network-row"
 itcss_layer: "04_Components"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C16
 ---
 
-# C16 — Network Row (.network-row)
+# Network Row Component Prompt (C16)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,34 @@ status: active
 | **Usage** | WiFi/BT connection listesinde her satır |
 | **Type** | Network/device list item |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Tier | Row Height | Icon | Font |
+|------|------------|------|------|
+| Phone | 48px | 18px | 13px |
+| Embedded | 48px | 20px | 14px |
+| Desktop | 48px | 20px | 14px |
+| 4K TV | 56px | 24px | 16px |
+
+**Variants**
+
+| Variant | Class | Description |
+|---------|-------|-------------|
+| WiFi | `.network-row--wifi` | WiFi ağı |
+| Bluetooth | `.network-row--bluetooth` | BT cihazı |
+| Connected | `.network-row.is-connected` | Bağlı durum |
+| Secured | `.network-row__status--secured` | Şifreli |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Default | Glass bg, transparent border |
+| Hover | bg: white×0.08, border: glass-border |
+| Connected | bg: primary×0.08, border: primary×0.3, icon: primary |
+| Disabled | opacity: 0.5, pointer-events: none |
+
+### ASCII Reference
 
 ```
 ┌─── NETWORK ROW (WiFi) ────────────────────────────────┐
@@ -39,45 +72,11 @@ status: active
 └────────────────────────────────────────────────────────┘
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Tier | Row Height | Icon | Font |
-|------|------------|------|------|
-| Phone | 48px | 18px | 13px |
-| Embedded | 48px | 20px | 14px |
-| Desktop | 48px | 20px | 14px |
-| 4K TV | 56px | 24px | 16px |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. Variants
-
-| Variant | Class | Description |
-|---------|-------|-------------|
-| WiFi | `.network-row--wifi` | WiFi ağı |
-| Bluetooth | `.network-row--bluetooth` | BT cihazı |
-| Connected | `.network-row.is-connected` | Bağlı durum |
-| Secured | `.network-row__status--secured` | Şifreli |
-
-## 5. States
-
-| State | Visual |
-|-------|--------|
-| Default | Glass bg, transparent border |
-| Hover | bg: white×0.08, border: glass-border |
-| Connected | bg: primary×0.08, border: primary×0.3, icon: primary |
-| Disabled | opacity: 0.5, pointer-events: none |
-
-## 6. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Role | `role="listitem"` on row, `list` on container |
-| Icon label | `aria-label="WiFi: Bağlı"` |
-| Status text | Screen reader: "Bağlı" / "Şifre gerekli" |
-| Connect btn | `aria-label="Bağlan"` |
-| Focus | 2px outline on row |
-| Touch target | min 44×44px (48px height) |
-
-## 7. Code Example
+### Expected Output
 
 ```css
 /* C16 — Network Row | ITCSS: 04_Components */
@@ -155,6 +154,23 @@ status: active
 </div>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Role | `role="listitem"` on row, `list` on container |
+| Icon label | `aria-label="WiFi: Bağlı"` |
+| Status text | Screen reader: "Bağlı" / "Şifre gerekli" |
+| Connect btn | `aria-label="Bağlan"` |
+| Focus | 2px outline on row |
+| Touch target | min 44×44px (48px height) |
+
 ---
 
 *C16 Network Row v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 07 Settings Page Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,16 @@ route: "/settings"
 layout: "04-laptop-sidebar"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
 # 07 — Settings Page
 
-## 1. Page Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -20,7 +25,7 @@ status: active
 | **Layout** | 04-laptop-sidebar |
 | **Purpose** | Ayarlar, settings list |
 
-## 2. Components Used
+**Components Used**
 
 | Component | Count | Location |
 |-----------|-------|----------|
@@ -28,18 +33,19 @@ status: active
 | C15 Toggle | N | Settings items |
 | C06 Form Input | N | Settings forms |
 
-## 3. Settings Sections
+### Required Inputs
 
-| Section | Items |
-|---------|-------|
-| Genel | Dil, Tema, Bildirimler |
-| Ses | EQ, Çıkış cihazı, Ses seviyesi |
-| Ağ | WiFi, Bluetooth, Proxy |
-| Güvenlik | Şifre, 2FA, Oturumlar |
-| Medya | İndirme klasörü, Önbellek, Kalite |
-| Hakkında | Versiyon, Lisans,Destek |
+> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
 
-## 4. Code Example
+### ASCII Reference
+
+> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
+
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```html
 <main class="layout--laptop__content">
@@ -65,6 +71,27 @@ status: active
 </main>
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
+### Settings Sections
+
+| Section | Items |
+|---------|-------|
+| Genel | Dil, Tema, Bildirimler |
+| Ses | EQ, Çıkış cihazı, Ses seviyesi |
+| Ağ | WiFi, Bluetooth, Proxy |
+| Güvenlik | Şifre, 2FA, Oturumlar |
+| Medya | İndirme klasörü, Önbellek, Kalite |
+| Hakkında | Versiyon, Lisans,Destek |
+
 ---
 
 *07 Settings Page v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

@@ -12,20 +12,23 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
-# Desktop 3-Column Layout Prompt (1920×1080)
+# Desktop 3-Column Layout (1920×1080)
 
 ## AI Code Generation Prompt
 
 ### Context
+
 CoreMusic Desktop FHD için 3-sütun layout şablonu. 1920×1080 viewport, persistent sidebar, mouse+keyboard.
 
 ### Required Inputs
+
 - `sidebarWidth`: Sidebar genişliği (varsayılan: 240px)
 - `headerHeight`: Header yüksekliği (varsayılan: 60px)
 - `footerHeight`: Footer yüksekliği (varsayılan: 90px)
 - `columnCount`: Sütun sayısı (varsayılan: 3)
 
-### ASCII Layout Reference
+### ASCII Reference
+
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ HEADER (h:60)                                                                                  │
@@ -50,6 +53,7 @@ CoreMusic Desktop FHD için 3-sütun layout şablonu. 1920×1080 viewport, persi
 ```
 
 ### Prompt Template
+
 ```json
 {
   "task": "Create desktop 3-column layout for CoreMusic",
@@ -71,6 +75,7 @@ CoreMusic Desktop FHD için 3-sütun layout şablonu. 1920×1080 viewport, persi
 ```
 
 ### Expected Output
+
 HTML + CSS with:
 - Header: h:60, full width
 - Sidebar: w:240px, persistent, glass bg
@@ -78,9 +83,16 @@ HTML + CSS with:
 - Footer: h:90, full width
 
 ### Validation
+
 - [ ] Sidebar w:240px
 - [ ] Header h:60px
 - [ ] Footer h:90px
 - [ ] 3 columns render correctly
 - [ ] Mouse hover states work
 - [ ] Glass effect applied
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

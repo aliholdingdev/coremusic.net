@@ -13,7 +13,9 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Register Flow (3 Adımlı Wizard)
 
-## 1. Akış Diyagramı (Wizard Flow)
+## 1. Akış Diyagramı (Decision Flow)
+
+### Wizard Flow
 
 ```
 ┌─────────────────┐
@@ -195,7 +197,7 @@ governance: Red Team · Human Mode · Truth Mode
 | Fotoğraf formatı hatalı | 3 | "JPG/PNG destekleniyor" | — |
 | Network hatası | 1-3 | "Bağlantı yok" + retry | 3 |
 
-## 4. Wizard Bileşenleri
+## 3A. Wizard Bileşenleri
 
 | BEM Sınıfı | Açıklama |
 |------------|----------|
@@ -208,7 +210,7 @@ governance: Red Team · Human Mode · Truth Mode
 | `.wizard__back` | Geri butonu |
 | `.wizard__next` | Devam Et butonu |
 
-## 5. Tier-Bazlı Varyasyonlar
+## 4. Tier-Bazlı Varyasyonlar
 
 | Tier | Wizard Tipi | Navigasyon | Fotoğraf |
 |------|-------------|------------|----------|
@@ -219,6 +221,12 @@ governance: Red Team · Human Mode · Truth Mode
 | **TV** | Large modal | Remote navigation | USB import |
 | **Car** | Simplified | Voice/simplified | — |
 | **Watch** | Micro wizard | Crown scroll | — |
+
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
 
 ## 6. Adımlar
 

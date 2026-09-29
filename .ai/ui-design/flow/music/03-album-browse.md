@@ -13,7 +13,9 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Album Browse Flow
 
-## 1. Akış Diyagramı (Navigation Flow)
+## 1. Akış Diyagramı (Decision Flow)
+
+### Navigation Flow
 
 ```
 ┌─────────────────┐
@@ -107,7 +109,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 3. Filtre Akışı
+## 2A. Filtre Akışı
 
 ```
 ┌─────────────────┐
@@ -132,7 +134,7 @@ governance: Red Team · Human Mode · Truth Mode
     └─────────┘
 ```
 
-## 4. Hata Senaryoları
+## 3. Hata Senaryoları
 
 | Hata | Çözüm |
 |------|-------|
@@ -141,7 +143,7 @@ governance: Red Team · Human Mode · Truth Mode
 | Şarkı listesi boş | "Bu albümde şarkı yok" |
 | Network hatası | Cache'den göster |
 
-## 5. Tier-Bazlı Varyasyonlar
+## 4. Tier-Bazlı Varyasyonlar
 
 | Tier | Grid | Detay | Oynatma |
 |------|------|-------|---------|
@@ -152,6 +154,17 @@ governance: Red Team · Human Mode · Truth Mode
 | **TV** | 2 sütun, large | Large cards | Large controls |
 | **Car** | List view | Simplified | Voice |
 | **Watch** | List | Micro | Crown |
+
+---
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
 
 ---
 

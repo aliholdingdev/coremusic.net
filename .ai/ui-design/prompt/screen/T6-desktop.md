@@ -1,16 +1,21 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Screen Prompt T6 Desktop FHD"
 type: prompt
 category: ui-design
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 tier: T6-desktop
 ---
 
 # T6: Desktop FHD Screen Prompt
 
-## 1. Tier Tanımı
+## AI Code Generation Prompt
+
+### Context
 
 | Özellik | Değer |
 |---------|-------|
@@ -26,7 +31,7 @@ tier: T6-desktop
 
 ---
 
-## 2. Genel Kurallar
+### Required Inputs
 
 | Kural | Değer |
 |-------|-------|
@@ -63,49 +68,15 @@ tier: T6-desktop
 
 ---
 
-## 3. Ekran Promptları
+### ASCII Reference
 
-### 3.1 Home
+> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
 
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Sticky top 70px | `--header-h: 70px` |
-| Sidebar | 280px, sol | `--sidebar-w: 280px` |
-| Content | 3-column grid | `--grid-gap: 16px` |
-| Footer Player | Fixed bottom 104px | `--footer-h: 104px` |
-| Max Content | 1440px centered | `max-width: 1440px; margin: 0 auto` |
+### Prompt Template
 
-### 3.2 Auth Login
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Logo | Center, 96px | `--font-size-2xl: 28.8px` |
-| Form | Max-width 480px, centered | `margin: 0 auto` |
-| Input | Full-width, 48px | `min-height: 48px` |
-| Button | Full-width, 48px | `min-height: 48px` |
-
-### 3.3 Albums
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Sticky, 70px | `--header-h: 70px` |
-| Sidebar | 280px | `--sidebar-w: 280px` |
-| Album Grid | 4 sütun | `grid-template-columns: repeat(4, 1fr)` |
-
-### 3.4 Player
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Footer Player | Fixed bottom 104px | `--footer-h: 104px` |
-| Cover Art | 80×80px | `--radius-md: 10px` |
-| Seek Bar | Full-width | `--accent` |
-| Controls | Play 64px, others 48px | `min-width: 44px` |
-| Volume | Slider | `display: block` |
-| Queue | 280px panel | Sidebar'da |
-
----
-
-## 4. Code Example
+### Expected Output
 
 ```css
 @media (min-width: 1920px) and (max-width: 2559px) {
@@ -215,7 +186,53 @@ tier: T6-desktop
 
 ---
 
-## 5. Yasaklar
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
+### Ekran Promptları
+
+### 3.1 Home
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Sticky top 70px | `--header-h: 70px` |
+| Sidebar | 280px, sol | `--sidebar-w: 280px` |
+| Content | 3-column grid | `--grid-gap: 16px` |
+| Footer Player | Fixed bottom 104px | `--footer-h: 104px` |
+| Max Content | 1440px centered | `max-width: 1440px; margin: 0 auto` |
+
+### 3.2 Auth Login
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Logo | Center, 96px | `--font-size-2xl: 28.8px` |
+| Form | Max-width 480px, centered | `margin: 0 auto` |
+| Input | Full-width, 48px | `min-height: 48px` |
+| Button | Full-width, 48px | `min-height: 48px` |
+
+### 3.3 Albums
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Sticky, 70px | `--header-h: 70px` |
+| Sidebar | 280px | `--sidebar-w: 280px` |
+| Album Grid | 4 sütun | `grid-template-columns: repeat(4, 1fr)` |
+
+### 3.4 Player
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Footer Player | Fixed bottom 104px | `--footer-h: 104px` |
+| Cover Art | 80×80px | `--radius-md: 10px` |
+| Seek Bar | Full-width | `--accent` |
+| Controls | Play 64px, others 48px | `min-width: 44px` |
+| Volume | Slider | `display: block` |
+| Queue | 280px panel | Sidebar'da |
+
+---
+
+### Yasaklar
 
 | Yasak | Doğru |
 |-------|-------|
@@ -223,3 +240,9 @@ tier: T6-desktop
 | 5+ sütun grid | Max 4 sütun |
 | Font < 14.4px | Min 14.4px (1.2×) |
 | Hover olmayan eleman | Tümüne hover |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

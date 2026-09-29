@@ -1,9 +1,12 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Screen Prompt Index"
 type: prompt-index
 category: ui-design
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 

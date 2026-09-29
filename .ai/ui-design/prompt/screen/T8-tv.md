@@ -1,16 +1,21 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Screen Prompt T8 Smart TV"
 type: prompt
 category: ui-design
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 tier: T8-tv
 ---
 
 # T8: Smart TV Screen Prompt
 
-## 1. Tier Tanımı
+## AI Code Generation Prompt
+
+### Context
 
 | Özellik | Değer |
 |---------|-------|
@@ -26,7 +31,7 @@ tier: T8-tv
 
 ---
 
-## 2. 10-Foot UI Kuralları
+### Required Inputs
 
 | Kural | Değer | Gerekçe |
 |-------|-------|---------|
@@ -40,7 +45,7 @@ tier: T8-tv
 
 ---
 
-## 3. Genel Kurallar
+**Genel Kurallar**
 
 | Kural | Değer |
 |-------|-------|
@@ -62,38 +67,15 @@ tier: T8-tv
 
 ---
 
-## 4. Ekran Promptları
+### ASCII Reference
 
-### 4.1 Home
+> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
 
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Fixed top, 90px + overscan | `--header-h: 90px; --overscan: 30px` |
-| Content Grid | 4 sütun, large cards | `--grid-gap: 20px` |
-| Footer Player | Fixed bottom, 138px + overscan | `--footer-h: 138px` |
-| Focus State | 3px outline + glow | `box-shadow: 0 0 20px var(--accent-glow)` |
+### Prompt Template
 
-**Notlar:** D-pad ile navigasyon. ↑↓ satır, ←→ sütun. OK = seç. Back = geri.
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-### 4.2 Albums
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Album Grid | 5 sütun | `grid-template-columns: repeat(5, 1fr)` |
-| Album Card | Large (300×300px) | `--radius-lg: 20px` |
-| Focus | Scale 1.02 + glow | `transform: scale(1.02)` |
-
-### 4.3 Player
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Footer Player | Fixed bottom 138px + overscan | `--footer-h: 138px` |
-| Cover Art | 120×120px | `--radius-lg: 20px` |
-| Controls | Play 80px, others 64px | `--dpad-min: 60px` |
-
----
-
-## 5. Code Example
+### Expected Output
 
 ```css
 @media (min-width: 3840px) {
@@ -280,7 +262,42 @@ function initDpadNavigation() {
 
 ---
 
-## 6. Yasaklar
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
+### Ekran Promptları
+
+### 4.1 Home
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Fixed top, 90px + overscan | `--header-h: 90px; --overscan: 30px` |
+| Content Grid | 4 sütun, large cards | `--grid-gap: 20px` |
+| Footer Player | Fixed bottom, 138px + overscan | `--footer-h: 138px` |
+| Focus State | 3px outline + glow | `box-shadow: 0 0 20px var(--accent-glow)` |
+
+**Notlar:** D-pad ile navigasyon. ↑↓ satır, ←→ sütun. OK = seç. Back = geri.
+
+### 4.2 Albums
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Album Grid | 5 sütun | `grid-template-columns: repeat(5, 1fr)` |
+| Album Card | Large (300×300px) | `--radius-lg: 20px` |
+| Focus | Scale 1.02 + glow | `transform: scale(1.02)` |
+
+### 4.3 Player
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Footer Player | Fixed bottom 138px + overscan | `--footer-h: 138px` |
+| Cover Art | 120×120px | `--radius-lg: 20px` |
+| Controls | Play 80px, others 64px | `--dpad-min: 60px` |
+
+---
+
+### Yasaklar
 
 | Yasak | Doğru |
 |-------|-------|
@@ -291,3 +308,9 @@ function initDpadNavigation() {
 | `cursor: pointer` | Gerekmez (fare yok) |
 | Parallax efekti | Yasak |
 | Scroll animasyonu | Yasak |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

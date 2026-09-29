@@ -1,16 +1,21 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Screen Prompt T2 Tablet Small"
 type: prompt
 category: ui-design
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 tier: T2-tablet-small
 ---
 
 # T2: Tablet Small Screen Prompt
 
-## 1. Tier Tanımı
+## AI Code Generation Prompt
+
+### Context
 
 | Özellik | Değer |
 |---------|-------|
@@ -26,7 +31,7 @@ tier: T2-tablet-small
 
 ---
 
-## 2. Genel Kurallar
+### Required Inputs
 
 | Kural | Değer |
 |-------|-------|
@@ -61,50 +66,15 @@ tier: T2-tablet-small
 
 ---
 
-## 3. Ekran Promptları
+### ASCII Reference
 
-### 3.1 Home
+> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
 
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Sticky top 56px | `--header-h: 56px` |
-| Welcome Section | Full-width | `--space-xl: 24px` padding |
-| Widget Grid | 2 sütun, 12px gap | `--grid-gap: 12px` |
-| Recent Cards | Horizontal scroll | `scroll-snap-type: x mandatory` |
-| Footer Player | Fixed bottom 80px | `--footer-h: 80px` |
+### Prompt Template
 
-**Notlar:** Tablet-small'da top header, bottom'da player bar. Tab bar header içinde.
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-### 3.2 Auth Login
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Logo | Center, 80px | `--font-size-2xl: 24px` |
-| Form Container | Max-width 400px, centered | `margin: 0 auto` |
-| Input | Full-width, 48px | `min-height: 48px` |
-| Button | Full-width, 48px | `--touch-min: 48px` |
-
-### 3.3 Albums
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Sticky, tab'lar | `--header-h: 56px` |
-| Genre Tabs | Horizontal scroll | `--radius-full` |
-| Album Grid | 2 sütun, 12px gap | `grid-template-columns: repeat(2, 1fr)` |
-| Album Card | Cover (1:1) + info | `--radius-md: 10px` |
-
-### 3.4 Player
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Footer Player | Fixed bottom 80px | `--footer-h: 80px` |
-| Cover Art | 56×56px mini | `--radius-sm: 6px` |
-| Seek Bar | Full-width | `--accent` |
-| Controls | Play 56px, others 44px | `--touch-min: 44px` |
-
----
-
-## 4. Code Example
+### Expected Output
 
 ```css
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -206,7 +176,54 @@ tier: T2-tablet-small
 
 ---
 
-## 5. Yasaklar
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
+### Ekran Promptları
+
+### 3.1 Home
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Sticky top 56px | `--header-h: 56px` |
+| Welcome Section | Full-width | `--space-xl: 24px` padding |
+| Widget Grid | 2 sütun, 12px gap | `--grid-gap: 12px` |
+| Recent Cards | Horizontal scroll | `scroll-snap-type: x mandatory` |
+| Footer Player | Fixed bottom 80px | `--footer-h: 80px` |
+
+**Notlar:** Tablet-small'da top header, bottom'da player bar. Tab bar header içinde.
+
+### 3.2 Auth Login
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Logo | Center, 80px | `--font-size-2xl: 24px` |
+| Form Container | Max-width 400px, centered | `margin: 0 auto` |
+| Input | Full-width, 48px | `min-height: 48px` |
+| Button | Full-width, 48px | `--touch-min: 48px` |
+
+### 3.3 Albums
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Sticky, tab'lar | `--header-h: 56px` |
+| Genre Tabs | Horizontal scroll | `--radius-full` |
+| Album Grid | 2 sütun, 12px gap | `grid-template-columns: repeat(2, 1fr)` |
+| Album Card | Cover (1:1) + info | `--radius-md: 10px` |
+
+### 3.4 Player
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Footer Player | Fixed bottom 80px | `--footer-h: 80px` |
+| Cover Art | 56×56px mini | `--radius-sm: 6px` |
+| Seek Bar | Full-width | `--accent` |
+| Controls | Play 56px, others 44px | `--touch-min: 44px` |
+
+---
+
+### Yasaklar
 
 | Yasak | Doğru |
 |-------|-------|
@@ -215,3 +232,9 @@ tier: T2-tablet-small
 | Sidebar (fixed) | Header tab'ları |
 | Font < 12px | Min 12px |
 | `vw/vh` header/footer | `px` birimleri |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

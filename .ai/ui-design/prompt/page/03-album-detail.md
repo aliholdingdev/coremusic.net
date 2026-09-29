@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 03 Album Detail Page Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,16 @@ route: "/album/:id"
 layout: "05-desktop-3col"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
 # 03 — Album Detail Page
 
-## 1. Page Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -20,7 +25,7 @@ status: active
 | **Layout** | 05-desktop-3col (60/40 split) |
 | **Purpose** | Albüm detayı, track list, info panel |
 
-## 2. Components Used
+**Components Used**
 
 | Component | Count | Location |
 |-----------|-------|----------|
@@ -30,14 +35,22 @@ status: active
 | C04 Primary Button | 1 | Detail panel |
 | C05 Secondary Button | 1 | Detail panel |
 
-## 3. Layout
+### Required Inputs
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
+
+### ASCII Reference
 
 ```
 LEFT (60%): Track List (C13) + Star Rating (C12)
 RIGHT (40%): Detail Panel (C10) — Art + Title + Meta + Actions
 ```
 
-## 4. Code Example
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```html
 <main class="layout--desktop__content">
@@ -59,6 +72,16 @@ RIGHT (40%): Detail Panel (C10) — Art + Title + Meta + Actions
 </main>
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
 ---
 
 *03 Album Detail Page v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

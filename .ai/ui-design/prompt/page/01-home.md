@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 01 Home Page Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,16 @@ route: "/"
 layout: "03-embedded-split"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
 # 01 — Home Page
 
-## 1. Page Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -21,7 +26,7 @@ status: active
 | **Platform** | home-1024 (RPi5 7" Touch, 1024×600) |
 | **Purpose** | Ana sayfa, widget grid, recent playing, playlist |
 
-## 2. Components Used
+**Components Used**
 
 | Component | Count | Location | Description |
 |-----------|-------|----------|-------------|
@@ -32,7 +37,23 @@ status: active
 | C04 Primary Button | 1 | Now Playing | Hemen Çal |
 | Glass Widgets | 4 | Right panel | Hoparlör, Hava, Takvim, Klasör |
 
-## 3. Layout Structure
+**Interactions**
+
+| Element | Action |
+|---------|--------|
+| Nav links | Navigate to page |
+| Now Playing Card | Navigate to album detail |
+| Media cards | Navigate to album/playlist |
+| Widget panels | Open corresponding modal/page |
+| Transport controls | Play/pause/prev/next |
+| Seek bar | Drag to seek |
+| Volume slider | Adjust volume |
+
+### Required Inputs
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
+
+### ASCII Reference
 
 ```
 ┌─── HEADER (h=60px) ──────────────────────────────────────┐
@@ -58,19 +79,11 @@ status: active
 └────────────────────────────────────────────────────────────┘
 ```
 
-## 4. Interactions
+### Prompt Template
 
-| Element | Action |
-|---------|--------|
-| Nav links | Navigate to page |
-| Now Playing Card | Navigate to album detail |
-| Media cards | Navigate to album/playlist |
-| Widget panels | Open corresponding modal/page |
-| Transport controls | Play/pause/prev/next |
-| Seek bar | Drag to seek |
-| Volume slider | Adjust volume |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 5. Code Example
+### Expected Output
 
 ```html
 <div class="layout layout--embedded">
@@ -98,6 +111,16 @@ status: active
 </div>
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
 ---
 
 *01 Home Page v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

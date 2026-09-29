@@ -1,16 +1,21 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Screen Prompt T7 Desktop 4K"
 type: prompt
 category: ui-design
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 tier: T7-desktop-4k
 ---
 
 # T7: Desktop 4K Screen Prompt
 
-## 1. Tier Tanımı
+## AI Code Generation Prompt
+
+### Context
 
 | Özellik | Değer |
 |---------|-------|
@@ -26,7 +31,7 @@ tier: T7-desktop-4k
 
 ---
 
-## 2. Genel Kurallar
+### Required Inputs
 
 | Kural | Değer |
 |-------|-------|
@@ -62,37 +67,15 @@ tier: T7-desktop-4k
 
 ---
 
-## 3. Ekran Promptları
+### ASCII Reference
 
-### 3.1 Home
+> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
 
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Sticky top 80px | `--header-h: 80px` |
-| Sidebar | 320px | `--sidebar-w: 320px` |
-| Content | 4-column grid | `--grid-gap: 24px` |
-| Footer Player | Fixed bottom 120px | `--footer-h: 120px` |
-| Max Content | 1800px | `max-width: 1800px; margin: 0 auto` |
+### Prompt Template
 
-### 3.2 Albums
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Album Grid | 5 sütun | `grid-template-columns: repeat(5, 1fr)` |
-| Album Card | Cover (1:1) + bilgi | `--radius-lg: 16px` |
-
-### 3.3 Player
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Footer Player | Fixed bottom 120px | `--footer-h: 120px` |
-| Cover Art | 96×96px | `--radius-md: 10px` |
-| Seek Bar | Full-width, 6px | `--accent` |
-| Controls | Play 72px, others 56px | `min-width: 44px` |
-
----
-
-## 4. Code Example
+### Expected Output
 
 ```css
 @media (min-width: 2560px) and (max-width: 3839px) {
@@ -184,10 +167,50 @@ tier: T7-desktop-4k
 
 ---
 
-## 5. Yasaklar
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
+### Ekran Promptları
+
+### 3.1 Home
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Sticky top 80px | `--header-h: 80px` |
+| Sidebar | 320px | `--sidebar-w: 320px` |
+| Content | 4-column grid | `--grid-gap: 24px` |
+| Footer Player | Fixed bottom 120px | `--footer-h: 120px` |
+| Max Content | 1800px | `max-width: 1800px; margin: 0 auto` |
+
+### 3.2 Albums
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Album Grid | 5 sütun | `grid-template-columns: repeat(5, 1fr)` |
+| Album Card | Cover (1:1) + bilgi | `--radius-lg: 16px` |
+
+### 3.3 Player
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Footer Player | Fixed bottom 120px | `--footer-h: 120px` |
+| Cover Art | 96×96px | `--radius-md: 10px` |
+| Seek Bar | Full-width, 6px | `--accent` |
+| Controls | Play 72px, others 56px | `min-width: 44px` |
+
+---
+
+### Yasaklar
 
 | Yasak | Doğru |
 |-------|-------|
 | Font < 16px | Min 16px (1.4×) |
 | 4K'da ortalamama | `max-width` + `margin: 0 auto` |
 | Sidebar < 280px | Min 320px |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

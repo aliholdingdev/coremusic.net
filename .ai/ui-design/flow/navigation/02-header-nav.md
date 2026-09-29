@@ -13,7 +13,9 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Header Navigation Flow
 
-## 1. Akış Diyagramı (Menu Flow)
+## 1. Akış Diyagramı (Decision Flow)
+
+### Menu Flow
 
 ```
 ┌─────────────────┐
@@ -118,7 +120,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 3. State Machine
+## 2A. State Machine
 
 ```
 ┌──────────────┐  Click  ┌──────────────┐  Select  ┌──────────┐
@@ -132,7 +134,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────┘                               └──────────────┘
 ```
 
-## 4. Hata Senaryoları
+## 3. Hata Senaryoları
 
 | Hata | Çözüm |
 |------|-------|
@@ -140,7 +142,7 @@ governance: Red Team · Human Mode · Truth Mode
 | Network hatası | "Bağlantı yok" banner |
 | Menü açıkken sayfa değişimi | Menü otomatik kapanır |
 
-## 5. Tier-Bazlı Varyasyonlar
+## 4. Tier-Bazlı Varyasyonlar
 
 | Tier | Menü Tipi | Öğe Sayısı | Davranış |
 |------|-----------|:----------:|----------|
@@ -152,7 +154,7 @@ governance: Red Team · Human Mode · Truth Mode
 | **Car** | Voice + simplified | 3 | Voice |
 | **Watch** | Crown scroll | 3 | Crown |
 
-## 6. Nav Link'ler (Cihaz Bazlı)
+## 4A. Nav Link'ler (Cihaz Bazlı)
 
 | Cihaz | Linkler | Sayısı |
 |-------|---------|:------:|
@@ -160,6 +162,17 @@ governance: Red Team · Human Mode · Truth Mode
 | Embedded | Ana Sayfa, Kütüphane, Radyo, Ayarlar | 4 |
 | Tablet | Ana Sayfa, Keşfet, Albümler, Kütüphane, Ayarlar | 5 |
 | Desktop | Ana Sayfa, Keşfet, Albümler, Sanatçılar, Göz At, Geçmiş, Ayarlar, Hakkımızda | 8 |
+
+---
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
 
 ---
 

@@ -13,7 +13,9 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Bluetooth Connect Flow
 
-## 1. Akış Diyagramı (Pairing Flow)
+## 1. Akış Diyagramı (Decision Flow)
+
+### Pairing Flow
 
 ```
 ┌─────────────────┐
@@ -75,7 +77,7 @@ governance: Red Team · Human Mode · Truth Mode
    │  └───────┘└─────────┘
 ```
 
-## 2. State Machine
+## 1A. State Machine
 
 ```
 ┌──────────────┐  Scan   ┌──────────────┐  Select  ┌──────────┐
@@ -107,7 +109,7 @@ governance: Red Team · Human Mode · Truth Mode
 | Pairing | Reddedildi | Found | Listeye dön |
 | Connected | Bağlantıyı kes | Off | — |
 
-## 3. Ekran Akışı
+## 2. Ekran Akışı
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -172,7 +174,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 4. Hata Senaryoları
+## 3. Hata Senaryoları
 
 | Hata | Çözüm | Max Retry |
 |------|-------|:---------:|
@@ -182,7 +184,7 @@ governance: Red Team · Human Mode · Truth Mode
 | Şarj düşük | "Cihazın şarjı düşük" uyarısı | — |
 | Sinyal zayıf | "Sinyal gücü düşük" uyarısı | — |
 
-## 5. Tier-Bazlı Varyasyonlar
+## 4. Tier-Bazlı Varyasyonlar
 
 | Tier | Modal Tipi | Cihaz Listesi | Eşleşme |
 |------|------------|---------------|---------|
@@ -193,6 +195,17 @@ governance: Red Team · Human Mode · Truth Mode
 | **TV** | Full-screen modal | Large cards | Remote onay |
 | **Car** | Auto-connect | Saved only | Otomatik |
 | **Watch** | Micro modal | Saved only | Crown onay |
+
+---
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
 
 ---
 

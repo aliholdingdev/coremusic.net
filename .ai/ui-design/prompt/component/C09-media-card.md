@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C09 Media Card Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".media-card"
 itcss_layer: "04_Components"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C09
 ---
 
-# C09 — Media Card (.media-card)
+# Media Card Component Prompt (C09)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,33 @@ status: active
 | **Usage** | Album, artist, playlist kartları (grid/list) |
 | **Type** | Media thumbnail card |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Tier | Thumb | Width | Grid Cols |
+|------|-------|-------|-----------|
+| Phone | 120×120px | auto | 3 cols |
+| Embedded | 140×140px | 140px | 4 cols |
+| Desktop | 160×160px | 160px | auto-fill |
+| 4K TV | 200×200px | 200px | auto-fill |
+
+**Variants**
+
+| Variant | Class | Description |
+|---------|-------|-------------|
+| Default | `.media-card` | Kare thumbnail |
+| Circular | `.media-card--circle` | Dairesel (sanatçı) |
+| Wide | `.media-card--wide` | 16:9 landscape |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Default | Thumb + text |
+| Hover | translateY(-4px), shadow-md, play overlay visible |
+| Focus-visible | 2px outline + 4px offset |
+| Playing | Thumb border: primary, equalizer icon |
+
+### ASCII Reference
 
 ```
 ┌─── MEDIA CARD ─────────────────────┐
@@ -42,43 +74,11 @@ status: active
   140px width, gap: 12px in grid
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Tier | Thumb | Width | Grid Cols |
-|------|-------|-------|-----------|
-| Phone | 120×120px | auto | 3 cols |
-| Embedded | 140×140px | 140px | 4 cols |
-| Desktop | 160×160px | 160px | auto-fill |
-| 4K TV | 200×200px | 200px | auto-fill |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. Variants
-
-| Variant | Class | Description |
-|---------|-------|-------------|
-| Default | `.media-card` | Kare thumbnail |
-| Circular | `.media-card--circle` | Dairesel (sanatçı) |
-| Wide | `.media-card--wide` | 16:9 landscape |
-
-## 5. States
-
-| State | Visual |
-|-------|--------|
-| Default | Thumb + text |
-| Hover | translateY(-4px), shadow-md, play overlay visible |
-| Focus-visible | 2px outline + 4px offset |
-| Playing | Thumb border: primary, equalizer icon |
-
-## 6. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Image alt | `alt` zorunlu (albüm adı) |
-| Heading | `<h3>` or lower |
-| Play button | `aria-label="Şarkıyı çal"` |
-| Keyboard | Tab to card, Enter to open |
-| Focus | Visible outline on card |
-
-## 7. Code Example
+### Expected Output
 
 ```css
 /* C09 — Media Card | ITCSS: 04_Components */
@@ -143,6 +143,22 @@ status: active
 </a>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Image alt | `alt` zorunlu (albüm adı) |
+| Heading | `<h3>` or lower |
+| Play button | `aria-label="Şarkıyı çal"` |
+| Keyboard | Tab to card, Enter to open |
+| Focus | Visible outline on card |
+
 ---
 
 *C09 Media Card v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

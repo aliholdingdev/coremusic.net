@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C13 Track List Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".track-row"
 itcss_layer: "04_Components"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C13
 ---
 
-# C13 — Track List (.track-row)
+# Track List Component Prompt (C13)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,25 @@ status: active
 | **Usage** | Albüm detay, playlist, queue track listesi |
 | **Type** | Track list row with actions |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Row Height | Font Title | Font Artist | Thumb |
+|------------|------------|-------------|-------|
+| Phone: 52px | 14px | 12px | 40px |
+| Embedded: 48px | 14px | 12px | 40px |
+| Desktop: 48px | 14px | 12px | 44px |
+| 4K TV: 56px | 16px | 14px | 48px |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Default | border-bottom: subtle |
+| Hover | bg: white×0.05 |
+| Playing | bg: primary×0.08, title: primary, anim icon |
+| Focus-visible | 2px outline, inset |
+
+### ASCII Reference
 
 ```
 ┌─── TRACK ROW (default) ──────────────────────────────────────┐
@@ -38,36 +62,11 @@ status: active
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Row Height | Font Title | Font Artist | Thumb |
-|------------|------------|-------------|-------|
-| Phone: 52px | 14px | 12px | 40px |
-| Embedded: 48px | 14px | 12px | 40px |
-| Desktop: 48px | 14px | 12px | 44px |
-| 4K TV: 56px | 16px | 14px | 48px |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. States
-
-| State | Visual |
-|-------|--------|
-| Default | border-bottom: subtle |
-| Hover | bg: white×0.05 |
-| Playing | bg: primary×0.08, title: primary, anim icon |
-| Focus-visible | 2px outline, inset |
-
-## 5. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Role | `role="listitem"` on row, `list` on container |
-| Playing | `aria-current="track"` |
-| Play button | `aria-label="Şarkıyı çal"` |
-| More menu | `aria-label="Daha fazla seçenek"` |
-| Keyboard | Enter/Space to play |
-| Touch target | min 44×44px |
-
-## 6. Code Example
+### Expected Output
 
 ```css
 /* C13 — Track List | ITCSS: 04_Components */
@@ -138,6 +137,23 @@ status: active
 </div>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Role | `role="listitem"` on row, `list` on container |
+| Playing | `aria-current="track"` |
+| Play button | `aria-label="Şarkıyı çal"` |
+| More menu | `aria-label="Daha fazla seçenek"` |
+| Keyboard | Enter/Space to play |
+| Touch target | min 44×44px |
+
 ---
 
 *C13 Track List v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

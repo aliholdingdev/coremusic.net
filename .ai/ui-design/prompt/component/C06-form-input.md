@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C06 Form Input Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".form-input"
 itcss_layer: "04_Components"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C06
 ---
 
-# C06 — Form Input (.form-input)
+# Form Input Component Prompt (C06)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,36 @@ status: active
 | **Usage** | Login, register, search, tüm form alanları |
 | **Type** | Text input with glass background |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Tier | Height | Font | Icon Size |
+|------|--------|------|-----------|
+| Phone | 52px | 16px | 18px |
+| Embedded | 56px | 16px | 20px |
+| Desktop | 56px | 16px | 20px |
+| 4K TV | 64px | 18px | 24px |
+
+**Variants**
+
+| Variant | Class | Description |
+|---------|-------|-------------|
+| Default | `.form-input` | Text input |
+| With Icon | `.form-input--icon` | Left icon |
+| Password | `.form-input--password` | Toggle show/hide |
+| Error | `.form-input--error` | Red border + message |
+| Success | `.form-input--success` | Green border |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Default | Glass bg, border-subtle |
+| Focus | border: theme-primary, 3px glow ring |
+| Error | border: color-danger, error message below |
+| Success | border: color-success |
+| Disabled | opacity: 0.5, cursor: not-allowed |
+
+### ASCII Reference
 
 ```
 ┌─── FORM INPUT (default) ────────────────────┐
@@ -44,47 +79,11 @@ status: active
 └──────────────────────────────────────────────┘
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Tier | Height | Font | Icon Size |
-|------|--------|------|-----------|
-| Phone | 52px | 16px | 18px |
-| Embedded | 56px | 16px | 20px |
-| Desktop | 56px | 16px | 20px |
-| 4K TV | 64px | 18px | 24px |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. Variants
-
-| Variant | Class | Description |
-|---------|-------|-------------|
-| Default | `.form-input` | Text input |
-| With Icon | `.form-input--icon` | Left icon |
-| Password | `.form-input--password` | Toggle show/hide |
-| Error | `.form-input--error` | Red border + message |
-| Success | `.form-input--success` | Green border |
-
-## 5. States
-
-| State | Visual |
-|-------|--------|
-| Default | Glass bg, border-subtle |
-| Focus | border: theme-primary, 3px glow ring |
-| Error | border: color-danger, error message below |
-| Success | border: color-success |
-| Disabled | opacity: 0.5, cursor: not-allowed |
-
-## 6. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Label | `<label for>` zorunlu |
-| Error | `aria-describedby` error message |
-| Required | `aria-required="true"` |
-| Autocomplete | `autocomplete` attribute for email/password |
-| Font size | ≥16px (iOS zoom prevention) |
-| Touch target | min 44×44px (56px height) |
-
-## 7. Code Example
+### Expected Output
 
 ```css
 /* C06 — Form Input | ITCSS: 04_Components */
@@ -151,6 +150,23 @@ status: active
 </div>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Label | `<label for>` zorunlu |
+| Error | `aria-describedby` error message |
+| Required | `aria-required="true"` |
+| Autocomplete | `autocomplete` attribute for email/password |
+| Font size | ≥16px (iOS zoom prevention) |
+| Touch target | min 44×44px (56px height) |
+
 ---
 
 *C06 Form Input v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

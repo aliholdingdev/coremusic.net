@@ -13,7 +13,9 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Equalizer Flow
 
-## 1. Akış Diyagramı (EQ Settings)
+## 1. Akış Diyagramı (Decision Flow)
+
+### EQ Settings
 
 ```
 ┌─────────────────┐
@@ -92,7 +94,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 3. Preset Seçimi
+## 2A. Preset Seçimi
 
 ```
 ┌─────────────────┐
@@ -126,7 +128,7 @@ governance: Red Team · Human Mode · Truth Mode
     └─────────┘
 ```
 
-## 4. Hata Senaryoları
+## 3. Hata Senaryoları
 
 | Hata | Çözüm |
 |------|-------|
@@ -135,7 +137,7 @@ governance: Red Team · Human Mode · Truth Mode
 | EQ bant sayısı tutarsız | Varsayılan 31-band |
 | DB kaydetme hatası | "Ayarlar kaydedilemedi" |
 
-## 5. Tier-Bazlı Varyasyonlar
+## 4. Tier-Bazlı Varyasyonlar
 
 | Tier | EQ Tipi | Bant Sayısı | Kaydetme |
 |------|---------|:-----------:|----------|
@@ -147,7 +149,7 @@ governance: Red Team · Human Mode · Truth Mode
 | **Car** | Preset only | — | Otomatik |
 | **Watch** | Preset only | — | Otomatik |
 
-## 6. Preset Listesi
+## 4A. Preset Listesi
 
 | # | Preset | Bantlar | Kullanım |
 |---|--------|---------|----------|
@@ -159,6 +161,17 @@ governance: Red Team · Human Mode · Truth Mode
 | 6 | Dance | Bass boost | Dans müzik |
 | 7 | Bass Boost | 20-200Hz boost | Bass ağırlıklı |
 | 8 | Vocal | 1-4kHz boost | Vokal ağırlıklı |
+
+---
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
 
 ---
 

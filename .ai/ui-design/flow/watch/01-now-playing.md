@@ -4,23 +4,25 @@ title: "CoreMusic — Apple Watch Now Playing Flow"
 type: flow
 category: ui-design
 date: 2026-09-20
+updated: 2026-09-29
 status: active
 version: 1.0.1
 tier: T31
 authority: Single Source of Truth (SSOT)
-reference:
-  authority: ".ai/ui-design/flow/watch/01-now-playing.md"
+governance: Red Team · Human Mode · Truth Mode
 ---
 
-# CoreMusic — Apple Watch Now Playing Flow
+# Apple Watch Now Playing Flow
 
-## 1. Amaç
+## 1. Akış Diyagramı (Decision Flow)
+
+### Amaç
 
 Apple Watch'ta müzik oynatma kontrolü ve micro UI akışı.
 
 ---
 
-## 2. Akış Şeması
+### Akış Şeması
 
 ```
 Kullanıcı → Watch ekranı
@@ -32,7 +34,7 @@ Kullanıcı → Watch ekranı
 
 ---
 
-## 3. Layout Kuralları
+## 1A. Layout Kuralları
 
 | Özellik | Değer |
 |---------|-------|
@@ -45,9 +47,9 @@ Kullanıcı → Watch ekranı
 
 ---
 
-## 4. Ekran Akışları
+## 2. Ekran Akışı
 
-### 4.1 Now Playing (Mikro)
+### 2.1 Now Playing (Mikro)
 ```
 ┌─────────────────┐
 │  ┌───────────┐  │
@@ -68,7 +70,7 @@ Kullanıcı → Watch ekranı
 └─────────────────┘
 ```
 
-### 4.2 Quick Controls
+### 2.2 Quick Controls
 ```
 ┌─────────────────┐
 │  🔊 Ses: 75%    │
@@ -84,7 +86,31 @@ Kullanıcı → Watch ekranı
 
 ---
 
-## 5. Quality Report
+## 3. Hata Senaryoları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; hata senaryoları QA doğrulamasından sonra 4 sütunlu tablo (Hata · Tetikleyici · Çözüm · Max Retry) olarak doldurulacak.
+
+---
+
+## 4. Tier-Bazlı Varyasyonlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; 7 tier satırı 00-device-matrix.md ile eşleştirilerek doldurulacak.
+
+---
+
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+
+---
+
+## 6A. Quality Report
 
 | Metrik | Değer |
 |--------|-------|

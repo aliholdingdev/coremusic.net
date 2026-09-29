@@ -13,7 +13,9 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Playback Flow
 
-## 1. Akış Diyagramı (Control Flow)
+## 1. Akış Diyagramı (Decision Flow)
+
+### Control Flow
 
 ```
 ┌─────────────────┐
@@ -67,7 +69,7 @@ governance: Red Team · Human Mode · Truth Mode
 └───────┘ └───────┘ └─────────┘
 ```
 
-## 2. State Machine (Durum Makinesi)
+## 1A. State Machine (Durum Makinesi)
 
 ```
          ┌──────────┐
@@ -98,7 +100,7 @@ governance: Red Team · Human Mode · Truth Mode
 | PAUSED | Play | PLAYING | Devam et |
 | PAUSED | Stop | STOPPED | Durdur |
 
-## 3. Ekran Akışı
+## 2. Ekran Akışı
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -143,7 +145,17 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 4. Kontroller
+## 3. Hata Senaryoları
+
+| Hata | Çözüm | Otomatik |
+|------|-------|:--------:|
+| Şarkı bulunamadı | Sonraki şarkıya geç | ✅ |
+| Network hatası | Offline mode (cached) | ✅ |
+| Buffer underrun | Pause → 50ms → Resume | ✅ |
+| Format desteklenmiyor | Uyarı + sonraki şarkı | ✅ |
+| Codec hatası | Uyarı + sonraki şarkı | ✅ |
+
+## 3A. Kontroller
 
 | Kontrol | Aksiyon | Kısayol | Durum |
 |---------|---------|---------|:-----:|
@@ -156,17 +168,7 @@ governance: Red Team · Human Mode · Truth Mode
 | ❤️ | Favori toggle | F | Toggle |
 | [T] | Seek (tıklama) | — | Sadece PLAYING |
 
-## 5. Hata Senaryoları
-
-| Hata | Çözüm | Otomatik |
-|------|-------|:--------:|
-| Şarkı bulunamadı | Sonraki şarkıya geç | ✅ |
-| Network hatası | Offline mode (cached) | ✅ |
-| Buffer underrun | Pause → 50ms → Resume | ✅ |
-| Format desteklenmiyor | Uyarı + sonraki şarkı | ✅ |
-| Codec hatası | Uyarı + sonraki şarkı | ✅ |
-
-## 6. Tier-Bazlı Varyasyonlar
+## 4. Tier-Bazlı Varyasyonlar
 
 | Tier | Player Tipi | Kontroller | Seek |
 |------|-------------|------------|------|
@@ -177,6 +179,17 @@ governance: Red Team · Human Mode · Truth Mode
 | **TV** | Large controls, focus ring | D-pad | Large seek |
 | **Car** | Steering wheel + voice | Voice/physical | Simplified |
 | **Watch** | Crown + wrist gesture | Crown/gesture | Crown scroll |
+
+---
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
 
 ---
 

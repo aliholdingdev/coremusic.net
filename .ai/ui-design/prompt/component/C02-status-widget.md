@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C02 Status Widget Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".header-widget"
 itcss_layer: "03_Layout"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C02
 ---
 
-# C02 — Status Widget (.header-widget)
+# Status Widget Component Prompt (C02)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,34 @@ status: active
 | **Usage** | Header'da WiFi + Bluetooth + Battery durum göstergesi |
 | **Type** | Status indicator pill |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Tier | Pill Height | Font Size | Icon Size |
+|------|-------------|-----------|-----------|
+| Phone | 32px | 10px | 12px |
+| Embedded | 37px | 11px | 14px |
+| Desktop | 37px | 11px | 14px |
+| 4K TV | 44px | 13px | 16px |
+
+**Variants**
+
+| Variant | Class | Description |
+|---------|-------|-------------|
+| WiFi | `.header-widget--wifi` | WiFi sinyal durumu |
+| Bluetooth | `.header-widget--bluetooth` | Bluetooth bağlantı durumu |
+| Battery | `.header-widget--battery` | Pil seviyesi + bar |
+| Combined | `.header-widget--combined` | WiFi+BT tek pill |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Connected | Yeşil icon, normal glass bg |
+| Disconnected | Gri icon, low opacity |
+| Warning (battery) | Sarı icon, pulse animation |
+| Critical (battery <10%) | Kırmızı icon, blink |
+
+### ASCII Reference
 
 ```
 ┌─── STATUS WIDGET GROUP ─────────────────────┐
@@ -35,43 +68,11 @@ status: active
 └─────────────────────────────────────────────┘
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Tier | Pill Height | Font Size | Icon Size |
-|------|-------------|-----------|-----------|
-| Phone | 32px | 10px | 12px |
-| Embedded | 37px | 11px | 14px |
-| Desktop | 37px | 11px | 14px |
-| 4K TV | 44px | 13px | 16px |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. Variants
-
-| Variant | Class | Description |
-|---------|-------|-------------|
-| WiFi | `.header-widget--wifi` | WiFi sinyal durumu |
-| Bluetooth | `.header-widget--bluetooth` | Bluetooth bağlantı durumu |
-| Battery | `.header-widget--battery` | Pil seviyesi + bar |
-| Combined | `.header-widget--combined` | WiFi+BT tek pill |
-
-## 5. States
-
-| State | Visual |
-|-------|--------|
-| Connected | Yeşil icon, normal glass bg |
-| Disconnected | Gri icon, low opacity |
-| Warning (battery) | Sarı icon, pulse animation |
-| Critical (battery <10%) | Kırmızı icon, blink |
-
-## 6. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Touch target | ≥44×44px |
-| Screen reader | `role="status"`, `aria-live="polite"` |
-| Icon labels | `aria-label="WiFi: Bağlı"`, `aria-label="Bluetooth: Kapalı"` |
-| Color alone | Icon + text birlikte (sadece renk yeterli değil) |
-
-## 7. Code Example
+### Expected Output
 
 ```css
 /* C02 — Status Widget | ITCSS: 03_Layout */
@@ -140,6 +141,21 @@ status: active
 </div>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Touch target | ≥44×44px |
+| Screen reader | `role="status"`, `aria-live="polite"` |
+| Icon labels | `aria-label="WiFi: Bağlı"`, `aria-label="Bluetooth: Kapalı"` |
+| Color alone | Icon + text birlikte (sadece renk yeterli değil) |
+
 ---
 
 *C02 Status Widget v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

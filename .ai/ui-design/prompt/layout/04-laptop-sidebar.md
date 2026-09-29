@@ -1,16 +1,21 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 04 Laptop Sidebar Layout Prompt"
 type: prompt
 category: ui-design
 layout_id: "04"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
-# 04 — Laptop Sidebar Layout
+# Laptop Sidebar Layout (1366×768)
 
-## 1. Layout Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -19,7 +24,24 @@ status: active
 | **Usage** | Göz At sayfası, ayarlar |
 | **Type** | Sidebar + content, fixed width sidebar |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Region | Grid Position | Size |
+|--------|---------------|------|
+| Header | row 1, col 1/-1 | 70px |
+| Sidebar | row 2, col 1 | 240px, full height |
+| Content | row 2, col 2 | flex:1, scrollable |
+| Footer | row 3, col 1/-1 | 104px |
+
+**Responsive Behavior**
+
+| Breakpoint | Change |
+|------------|--------|
+| 1025px | Sidebar appears, 240px |
+| 1200px | Wider content area |
+| 1440px | Transition to desktop 3-col |
+
+### ASCII Reference
 
 ```
 ┌─── LAPTOP (1366×768) ─────────────────────────────────────┐
@@ -43,7 +65,11 @@ status: active
 └────────────────────────────────────────────────────────────┘
 ```
 
-## 3. Grid Structure
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```css
 /* Laptop Sidebar Layout */
@@ -60,24 +86,7 @@ status: active
 .layout--laptop__footer { grid-column: 1 / -1; }
 ```
 
-## 4. Regions
-
-| Region | Grid Position | Size |
-|--------|---------------|------|
-| Header | row 1, col 1/-1 | 70px |
-| Sidebar | row 2, col 1 | 240px, full height |
-| Content | row 2, col 2 | flex:1, scrollable |
-| Footer | row 3, col 1/-1 | 104px |
-
-## 5. Responsive Behavior
-
-| Breakpoint | Change |
-|------------|--------|
-| 1025px | Sidebar appears, 240px |
-| 1200px | Wider content area |
-| 1440px | Transition to desktop 3-col |
-
-## 6. Code Example
+**Code Example**
 
 ```css
 @media (min-width: 1025px) and (max-width: 1440px) {
@@ -117,6 +126,16 @@ status: active
 }
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
 ---
 
 *04 Laptop Sidebar Layout v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

@@ -1,16 +1,21 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 06 4K Expanded Layout Prompt"
 type: prompt
 category: ui-design
 layout_id: "06"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
-# 06 — 4K Expanded Layout
+# 4K Expanded Layout (3840×2160)
 
-## 1. Layout Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -19,7 +24,17 @@ status: active
 | **Usage** | Tüm sayfalar |
 | **Type** | Expanded sidebar + 3-column content, scaled fonts |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Token | Desktop | 4K |
+|-------|---------|-----|
+| `--header-h` | 70px | 80px |
+| `--footer-h` | 104px | 120px |
+| `--sidebar-w` | 260px | 340px |
+| `--font-size-base` | 16px | 18px |
+| `--spacing-scale` | 1 | 1.5 |
+
+### ASCII Reference
 
 ```
 ┌─── 4K (3840×2160) ────────────────────────────────────────┐
@@ -44,7 +59,11 @@ status: active
 └────────────────────────────────────────────────────────────┘
 ```
 
-## 3. Grid Structure
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```css
 /* 4K Expanded Layout */
@@ -67,17 +86,7 @@ status: active
 .layout--4k__footer { grid-column: 1 / -1; }
 ```
 
-## 4. Token Overrides
-
-| Token | Desktop | 4K |
-|-------|---------|-----|
-| `--header-h` | 70px | 80px |
-| `--footer-h` | 104px | 120px |
-| `--sidebar-w` | 260px | 340px |
-| `--font-size-base` | 16px | 18px |
-| `--spacing-scale` | 1 | 1.5 |
-
-## 5. Code Example
+**Code Example**
 
 ```css
 @media (min-width: 2561px) {
@@ -102,6 +111,16 @@ status: active
 }
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
 ---
 
 *06 4K Expanded Layout v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

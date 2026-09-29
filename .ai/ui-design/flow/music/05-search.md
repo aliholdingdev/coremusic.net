@@ -13,7 +13,9 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Search Flow
 
-## 1. Akış Diyagramı (Search & Filter)
+## 1. Akış Diyagramı (Decision Flow)
+
+### Search & Filter
 
 ```
 ┌─────────────────┐
@@ -83,7 +85,7 @@ governance: Red Team · Human Mode · Truth Mode
 └─────────────────┘
 ```
 
-## 2. Autocomplete Akışı
+## 1A. Autocomplete Akışı
 
 ```
 ┌─────────────────┐
@@ -126,7 +128,7 @@ governance: Red Team · Human Mode · Truth Mode
         │  └───────────────┘
 ```
 
-## 3. Ekran Akışı
+## 2. Ekran Akışı
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -165,7 +167,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 4. Hata Senaryoları
+## 3. Hata Senaryoları
 
 | Hata | Çözüm |
 |------|-------|
@@ -174,7 +176,7 @@ governance: Red Team · Human Mode · Truth Mode
 | API hatası | "Arama başarısız" + tekrar dene |
 | Çok fazla sonuç | Sayfalama (20/sayfa) |
 
-## 5. Tier-Bazlı Varyasyonlar
+## 4. Tier-Bazlı Varyasyonlar
 
 | Tier | Arama Tipi | Sonuçlar | Filtre |
 |------|------------|----------|--------|
@@ -186,12 +188,23 @@ governance: Red Team · Human Mode · Truth Mode
 | **Car** | Voice-first | Simplified list | Voice |
 | **Watch** | Crown input | Micro list | Crown |
 
-## 6. API Endpoint
+## 4A. API Endpoint
 
 | Endpoint | Method | Parametre | Açıklama |
 |----------|--------|-----------|----------|
 | `/api/search` | GET | `q`, `type`, `limit` | Tam arama |
 | `/api/search/autocomplete` | GET | `q`, `limit` | Autocomplete |
+
+---
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
 
 ---
 

@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 02 Albums Page Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,16 @@ route: "/albums"
 layout: "05-desktop-3col"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
 # 02 — Albums Page
 
-## 1. Page Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -20,7 +25,7 @@ status: active
 | **Layout** | 05-desktop-3col (60/40 split) |
 | **Purpose** | Albüm listesi, card grid, detail panel |
 
-## 2. Components Used
+**Components Used**
 
 | Component | Count | Location |
 |-----------|-------|----------|
@@ -29,14 +34,7 @@ status: active
 | C09 Media Card | 9+ | Content left (60%) |
 | C10 Detail Panel | 1 | Content right (40%) |
 
-## 3. Layout
-
-```
-LEFT (60%): Genre Tabs → Card Grid (3×3, 140px cards)
-RIGHT (40%): Detail Panel (album art + metadata + actions)
-```
-
-## 4. Interactions
+**Interactions**
 
 | Element | Action |
 |---------|--------|
@@ -45,7 +43,22 @@ RIGHT (40%): Detail Panel (album art + metadata + actions)
 | Play button | Start playing album |
 | Shuffle button | Shuffle play |
 
-## 5. Code Example
+### Required Inputs
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
+
+### ASCII Reference
+
+```
+LEFT (60%): Genre Tabs → Card Grid (3×3, 140px cards)
+RIGHT (40%): Detail Panel (album art + metadata + actions)
+```
+
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```html
 <div class="layout layout--desktop">
@@ -64,6 +77,16 @@ RIGHT (40%): Detail Panel (album art + metadata + actions)
 </div>
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
 ---
 
 *02 Albums Page v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

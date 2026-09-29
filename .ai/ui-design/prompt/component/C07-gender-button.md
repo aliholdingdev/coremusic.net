@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C07 Gender Button Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".gender-btn"
 itcss_layer: "05_Pages"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C07
 ---
 
-# C07 — Gender Button (.gender-btn)
+# Gender Button Component Prompt (C07)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,25 @@ status: active
 | **Usage** | Auth sayfası gender seçimi (female/male/neutral) |
 | **Type** | Gender selection button (card-style) |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Tier | Height | Font | Icon |
+|------|--------|------|------|
+| Phone | 56px | 14px | 20px |
+| Embedded | 60px | 16px | 24px |
+| Desktop | 60px | 16px | 24px |
+| 4K TV | 72px | 18px | 28px |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Default | Glass bg, border-subtle |
+| Hover | border: rgba(255,255,255,0.2), bg: white×0.08 |
+| Selected | border: theme-primary, bg: primary×0.1, shadow ring |
+| Focus-visible | border: primary, shadow ring |
+
+### ASCII Reference
 
 ```
 ┌─── GENDER BUTTON (default) ──────────────────┐
@@ -40,35 +64,11 @@ status: active
 └───────────────────────────────────────────────┘
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Tier | Height | Font | Icon |
-|------|--------|------|------|
-| Phone | 56px | 14px | 20px |
-| Embedded | 60px | 16px | 24px |
-| Desktop | 60px | 16px | 24px |
-| 4K TV | 72px | 18px | 28px |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. States
-
-| State | Visual |
-|-------|--------|
-| Default | Glass bg, border-subtle |
-| Hover | border: rgba(255,255,255,0.2), bg: white×0.08 |
-| Selected | border: theme-primary, bg: primary×0.1, shadow ring |
-| Focus-visible | border: primary, shadow ring |
-
-## 5. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Role | `role="radiogroup"` on container |
-| Radio | `role="radio"` on each button |
-| Selected | `aria-checked="true"` |
-| Keyboard | Arrow keys to move, Space/Enter to select |
-| Touch target | min 44×44px (60px height) |
-
-## 6. Code Example
+### Expected Output
 
 ```css
 /* C07 — Gender Button | ITCSS: 05_Pages */
@@ -139,6 +139,22 @@ status: active
 </div>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Role | `role="radiogroup"` on container |
+| Radio | `role="radio"` on each button |
+| Selected | `aria-checked="true"` |
+| Keyboard | Arrow keys to move, Space/Enter to select |
+| Touch target | min 44×44px (60px height) |
+
 ---
 
 *C07 Gender Button v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

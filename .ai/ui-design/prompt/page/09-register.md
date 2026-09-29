@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 09 Register Page Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,16 @@ route: "/register"
 layout: "auth-split-72-28"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
-# 09 — Register Page (3-Step Wizard)
+# 09 — Register Page
 
-## 1. Page Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -20,15 +25,7 @@ status: active
 | **Layout** | Auth Screen (72/28 split) |
 | **Purpose** | Kayıt formu, 3-step wizard |
 
-## 2. Steps
-
-| Step | Content |
-|------|---------|
-| 1 | Temel Bilgiler (Ad, Email, Şifre) |
-| 2 | Profil (Cinsiyet, Fotoğraf, Tercihler) |
-| 3 | KVKK Onay |
-
-## 3. Components Used
+**Components Used**
 
 | Component | Count | Location |
 |-----------|-------|----------|
@@ -38,7 +35,19 @@ status: active
 | C08 Social Login | 1 | Step 1 |
 | Progress Indicator | 1 | Top of form |
 
-## 4. Code Example
+### Required Inputs
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
+
+### ASCII Reference
+
+> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
+
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```html
 <div class="auth-layout">
@@ -78,6 +87,24 @@ status: active
 </div>
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
+### Steps
+
+| Step | Content |
+|------|---------|
+| 1 | Temel Bilgiler (Ad, Email, Şifre) |
+| 2 | Profil (Cinsiyet, Fotoğraf, Tercihler) |
+| 3 | KVKK Onay |
+
 ---
 
 *09 Register Page v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

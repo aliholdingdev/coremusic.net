@@ -1,16 +1,21 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Screen Prompt T9 Automotive"
 type: prompt
 category: ui-design
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 tier: T9-car
 ---
 
 # T9: Automotive Screen Prompt
 
-## 1. Tier Tanımı
+## AI Code Generation Prompt
+
+### Context
 
 | Özellik | Değer |
 |---------|-------|
@@ -25,7 +30,7 @@ tier: T9-car
 
 ---
 
-## 2. Güvenlik Birinci Kuralları
+### Required Inputs
 
 | Kural | Değer | Gerekçe |
 |-------|-------|---------|
@@ -39,7 +44,7 @@ tier: T9-car
 
 ---
 
-## 3. Genel Kurallar
+**Genel Kurallar**
 
 | Kural | Değer |
 |-------|-------|
@@ -60,40 +65,15 @@ tier: T9-car
 
 ---
 
-## 4. Ekran Promptları
+### ASCII Reference
 
-### 4.1 Home (Dashboard)
+> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
 
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Now Playing | Large card, sol | `--radius-lg: 16px` |
-| Quick Actions | 2-3 buton, sağ | `--touch-min: 80px` |
-| Navigation Hint | Alt bar | `--text-muted` |
-| Transport Controls | Bottom fixed 100px | `--footer-h: 100px` |
+### Prompt Template
 
-**Notlar:** Sürüş sırasında minimum etkileşim. Voice-first tasarım.
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-### 4.2 Player
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Cover Art | 120×120px, sol | `--radius-lg: 16px` |
-| Track Info | Büyük font | `--font-size-2xl: 48px` |
-| Controls | Play 96px, others 80px | `--touch-min: 80px` |
-| Seek Bar | Full-width, 8px | `--accent` |
-| Voice Button | Large, center | `--touch-min: 96px` |
-
-### 4.3 Settings (Minimal)
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Volume | Slider, 80px high | `--touch-min: 80px` |
-| Source | Toggle buttons | `--touch-min: 80px` |
-| EQ Preset | 3-4 buton | `--touch-min: 80px` |
-
----
-
-## 5. Code Example
+### Expected Output
 
 ```css
 @media (pointer: coarse) and (min-width: 720px) {
@@ -260,7 +240,44 @@ tier: T9-car
 
 ---
 
-## 6. Voice Control Entegrasyonu
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
+### Ekran Promptları
+
+### 4.1 Home (Dashboard)
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Now Playing | Large card, sol | `--radius-lg: 16px` |
+| Quick Actions | 2-3 buton, sağ | `--touch-min: 80px` |
+| Navigation Hint | Alt bar | `--text-muted` |
+| Transport Controls | Bottom fixed 100px | `--footer-h: 100px` |
+
+**Notlar:** Sürüş sırasında minimum etkileşim. Voice-first tasarım.
+
+### 4.2 Player
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Cover Art | 120×120px, sol | `--radius-lg: 16px` |
+| Track Info | Büyük font | `--font-size-2xl: 48px` |
+| Controls | Play 96px, others 80px | `--touch-min: 80px` |
+| Seek Bar | Full-width, 8px | `--accent` |
+| Voice Button | Large, center | `--touch-min: 96px` |
+
+### 4.3 Settings (Minimal)
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Volume | Slider, 80px high | `--touch-min: 80px` |
+| Source | Toggle buttons | `--touch-min: 80px` |
+| EQ Preset | 3-4 buton | `--touch-min: 80px` |
+
+---
+
+### Voice Control Entegrasyonu
 
 ```javascript
 // Voice command mapping
@@ -278,7 +295,7 @@ const voiceCommands = {
 
 ---
 
-## 7. Yasaklar
+### Yasaklar
 
 | Yasak | Doğru |
 |-------|-------|
@@ -289,3 +306,9 @@ const voiceCommands = {
 | Kontrast < 7:1 | Min 7:1 |
 | Glass blur | Yok |
 | Kompleks grid | Max 3 sütun |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

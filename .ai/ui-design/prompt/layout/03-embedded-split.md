@@ -12,20 +12,23 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
-# Embedded Split Layout Prompt (1024×600)
+# Embedded Split Layout (1024×600)
 
 ## AI Code Generation Prompt
 
 ### Context
+
 CoreMusic RPi5 7" touch device için split layout şablonu. 1024×600 viewport, glassmorphism tema, pembe (#ff4fd8) accent.
 
 ### Required Inputs
+
 - `splitRatio`: Sol/sağ oranı (varsayılan: 42/58)
 - `headerHeight`: Header yüksekliği (varsayılan: 60px)
 - `footerHeight`: Footer yüksekliği (varsayılan: 90px)
 - `glassBlur`: Cam efekti blur miktarı (varsayılan: 20px)
 
-### ASCII Layout Reference
+### ASCII Reference
+
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │ HEADER (h:60)                                                  │
@@ -43,6 +46,7 @@ CoreMusic RPi5 7" touch device için split layout şablonu. 1024×600 viewport, 
 ```
 
 ### Prompt Template
+
 ```json
 {
   "task": "Create embedded split layout for CoreMusic",
@@ -65,6 +69,7 @@ CoreMusic RPi5 7" touch device için split layout şablonu. 1024×600 viewport, 
 ```
 
 ### Expected Output
+
 HTML + CSS with:
 - Header: flex, space-between, glass bg
 - Content: grid, 2 columns (42% 58%)
@@ -72,9 +77,16 @@ HTML + CSS with:
 - All tokens applied
 
 ### Validation
+
 - [ ] Header h:60px
 - [ ] Footer h:90px
 - [ ] Content h:450px (600-60-90)
 - [ ] Split ratio matches input
 - [ ] Glass effect applied
 - [ ] Touch targets ≥48px
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

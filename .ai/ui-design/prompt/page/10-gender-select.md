@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 10 Gender Select Page Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,16 @@ route: "/gender-select"
 layout: "auth-split-72-28"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
-# 10 — Gender Select Page (First Step)
+# 10 — Gender Select Page
 
-## 1. Page Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -20,28 +25,26 @@ status: active
 | **Layout** | Auth Screen (72/28 split) |
 | **Purpose** | Cinsiyet seçimi, auth akışının ilk adımı |
 
-## 2. Components Used
+**Components Used**
 
 | Component | Count | Location |
 |-----------|-------|----------|
 | C07 Gender Button | 3 | Glass panel |
 | C04 Primary Button | 1 | Glass panel |
 
-## 3. Theme Mapping
+### Required Inputs
 
-| Gender | Theme | Color |
-|--------|-------|-------|
-| Kadın | Pembe | #FF69B4 → `--theme-primary` |
-| Erkek | Mavi | #4A90D9 → `--theme-primary` |
-| Nötr | Varsayılan | #888888 → `--theme-primary` |
+> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
 
-## 4. Auth Flow
+### ASCII Reference
 
-```
-Select Gender (/gender-select) → Login (/login) → Register (/register)
-```
+> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
 
-## 5. Code Example
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```html
 <div class="auth-layout">
@@ -82,6 +85,30 @@ Select Gender (/gender-select) → Login (/login) → Register (/register)
 </div>
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
+### Theme Mapping
+
+| Gender | Theme | Color |
+|--------|-------|-------|
+| Kadın | Pembe | #FF69B4 → `--theme-primary` |
+| Erkek | Mavi | #4A90D9 → `--theme-primary` |
+| Nötr | Varsayılan | #888888 → `--theme-primary` |
+
+### Auth Flow
+
+```
+Select Gender (/gender-select) → Login (/login) → Register (/register)
+```
+
 ---
 
 *10 Gender Select Page v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

@@ -13,7 +13,9 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Playlist & Queue Flow
 
-## 1. Akış Diyagramı (Queue Management)
+## 1. Akış Diyagramı (Decision Flow)
+
+### Queue Management
 
 ```
 ┌─────────────────┐
@@ -55,7 +57,7 @@ governance: Red Team · Human Mode · Truth Mode
          └─────────┘
 ```
 
-## 2. Şarkı Ekleme Akışı
+## 1A. Şarkı Ekleme Akışı
 
 ```
 ┌─────────────────┐
@@ -97,7 +99,7 @@ governance: Red Team · Human Mode · Truth Mode
     └─────────┘
 ```
 
-## 3. Sıra Değiştirme Akışı
+## 1B. Sıra Değiştirme Akışı
 
 ```
 ┌─────────────────┐
@@ -137,7 +139,7 @@ governance: Red Team · Human Mode · Truth Mode
 └─────────────────┘
 ```
 
-## 4. Ekran Akışı
+## 2. Ekran Akışı
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -159,7 +161,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 5. Hata Senaryoları
+## 3. Hata Senaryoları
 
 | Hata | Çözüm |
 |------|-------|
@@ -169,7 +171,7 @@ governance: Red Team · Human Mode · Truth Mode
 | Sıra değiştirme başarısız | Eski sıraya geri dön |
 | Şarkı silinmiş | listeden kaldır |
 
-## 6. Tier-Bazlı Varyasyonlar
+## 4. Tier-Bazlı Varyasyonlar
 
 | Tier | Ekleme | Sıra Değiştirme | Silme |
 |------|--------|-----------------|-------|
@@ -180,6 +182,17 @@ governance: Red Team · Human Mode · Truth Mode
 | **TV** | Remote select | D-pad reorder | Long press |
 | **Car** | Voice | Voice reorder | Voice delete |
 | **Watch** | Crown | Crown scroll | Crown press |
+
+---
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
 
 ---
 

@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C08 Social Login Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".social-btn"
 itcss_layer: "05_Pages"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C08
 ---
 
-# C08 — Social Login Button (.social-btn)
+# Social Login Button Component Prompt (C08)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,35 @@ status: active
 | **Usage** | Auth sayfası Google/Apple/GitHub login |
 | **Type** | Social OAuth login button (icon-only) |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Tier | Button Size | Icon | Gap |
+|------|-------------|------|-----|
+| Phone | 48×48px | 20px | 12px |
+| Embedded | 52×52px | 24px | 16px |
+| Desktop | 52×52px | 24px | 16px |
+| 4K TV | 64×64px | 28px | 20px |
+
+**Provider Variants**
+
+| Provider | Class | Hover Color |
+|----------|-------|-------------|
+| Google | `.social-btn--google` | #ea4335 (red) |
+| Apple | `.social-btn--apple` | #a2aaad (silver) |
+| GitHub | `.social-btn--github` | #6e40c9 (purple) |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Default | Glass bg, icon centered |
+| Hover | bg: white×0.12, shadow-sm, translateY(-2px) |
+| Active | translateY(0), no shadow |
+| Focus-visible | 3px outline |
+| Loading | Spinner overlay |
+| Disabled | opacity: 0.5 |
+
+### ASCII Reference
 
 ```
 ┌─── SOCIAL BUTTON GROUP ──────────────────────┐
@@ -38,44 +72,11 @@ status: active
 └──────────────────────────────────────────────┘
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Tier | Button Size | Icon | Gap |
-|------|-------------|------|-----|
-| Phone | 48×48px | 20px | 12px |
-| Embedded | 52×52px | 24px | 16px |
-| Desktop | 52×52px | 24px | 16px |
-| 4K TV | 64×64px | 28px | 20px |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. Provider Variants
-
-| Provider | Class | Hover Color |
-|----------|-------|-------------|
-| Google | `.social-btn--google` | #ea4335 (red) |
-| Apple | `.social-btn--apple` | #a2aaad (silver) |
-| GitHub | `.social-btn--github` | #6e40c9 (purple) |
-
-## 5. States
-
-| State | Visual |
-|-------|--------|
-| Default | Glass bg, icon centered |
-| Hover | bg: white×0.12, shadow-sm, translateY(-2px) |
-| Active | translateY(0), no shadow |
-| Focus-visible | 3px outline |
-| Loading | Spinner overlay |
-| Disabled | opacity: 0.5 |
-
-## 6. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Touch target | min 44×44px (52×52) |
-| Label | `aria-label="Google ile giriş yap"` |
-| Role | `button` |
-| Keyboard | Enter/Space |
-
-## 7. Code Example
+### Expected Output
 
 ```css
 /* C08 — Social Login | ITCSS: 05_Pages */
@@ -122,6 +123,21 @@ status: active
 </div>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Touch target | min 44×44px (52×52) |
+| Label | `aria-label="Google ile giriş yap"` |
+| Role | `button` |
+| Keyboard | Enter/Space |
+
 ---
 
 *C08 Social Login v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

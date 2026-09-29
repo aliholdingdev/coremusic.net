@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C03 User Pill Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".header-user"
 itcss_layer: "03_Layout"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C03
 ---
 
-# C03 — User Pill (.header-user)
+# User Pill Component Prompt (C03)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,25 @@ status: active
 | **Usage** | Header'da kullanıcı avatar + isim + dropdown |
 | **Type** | User profile pill with dropdown |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Tier | Avatar | Font | Dropdown Width |
+|------|--------|------|----------------|
+| Phone | Hidden (icon only) | — | 200px |
+| Embedded | 35px | 13px | 200px |
+| Desktop | 35px | 13px | 220px |
+| 4K TV | 44px | 15px | 260px |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Default | Glass pill, avatar + name + arrow |
+| Hover | Slightly lighter glass bg |
+| Open | Arrow rotated 180°, dropdown visible |
+| Focus-visible | Outline on pill |
+
+### ASCII Reference
 
 ```
 ┌─── USER PILL ──────────────────────────────┐
@@ -44,35 +68,11 @@ status: active
 └─────────────────────────────────────────────┘
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Tier | Avatar | Font | Dropdown Width |
-|------|--------|------|----------------|
-| Phone | Hidden (icon only) | — | 200px |
-| Embedded | 35px | 13px | 200px |
-| Desktop | 35px | 13px | 220px |
-| 4K TV | 44px | 15px | 260px |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. States
-
-| State | Visual |
-|-------|--------|
-| Default | Glass pill, avatar + name + arrow |
-| Hover | Slightly lighter glass bg |
-| Open | Arrow rotated 180°, dropdown visible |
-| Focus-visible | Outline on pill |
-
-## 5. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Touch target | min 44×44px |
-| ARIA | `aria-haspopup="true"`, `aria-expanded` |
-| Keyboard | Enter/Space toggle, Escape close, Arrow keys in menu |
-| Focus trap | Within dropdown when open |
-| Return focus | Back to trigger on close |
-
-## 6. Code Example
+### Expected Output
 
 ```css
 /* C03 — User Pill | ITCSS: 03_Layout */
@@ -179,6 +179,22 @@ status: active
 </div>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Touch target | min 44×44px |
+| ARIA | `aria-haspopup="true"`, `aria-expanded` |
+| Keyboard | Enter/Space toggle, Escape close, Arrow keys in menu |
+| Focus trap | Within dropdown when open |
+| Return focus | Back to trigger on close |
+
 ---
 
 *C03 User Pill v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

@@ -1,16 +1,21 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Screen Prompt T1 Phone"
 type: prompt
 category: ui-design
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 tier: T1-phone
 ---
 
 # T1: Phone Screen Prompt
 
-## 1. Tier Tanımı
+## AI Code Generation Prompt
+
+### Context
 
 | Özellik | Değer |
 |---------|-------|
@@ -26,7 +31,7 @@ tier: T1-phone
 
 ---
 
-## 2. Genel Kurallar
+### Required Inputs
 
 | Kural | Değer |
 |-------|-------|
@@ -62,57 +67,15 @@ tier: T1-phone
 
 ---
 
-## 3. Ekran Promptları
+### ASCII Reference
 
-### 3.1 Home
+> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
 
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Sticky top 56px | `--header-h: 56px` |
-| Welcome Section | Full-width hero | `--space-lg: 16px` padding |
-| Widget Grid | 2 sütun, 8px gap | `--grid-gap: 8px` |
-| Recent Cards | Horizontal scroll row | `scroll-snap-type: x mandatory` |
-| Mini Player | Bottom fixed 72px | `--footer-h: 72px` |
-| Bottom Tab Bar | 5 ikon, fixed bottom | Tab.active = accent renk |
+### Prompt Template
 
-**Notlar:** Phone'da sidebar yok. Bottom tab bar ana navigasyon. Swipe gesture ile sayfa geçişi.
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-### 3.2 Auth Login
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Logo | Center top, 64px | `--font-size-2xl: 22px` |
-| Form Input | Full-width, 48px yükseklik | `min-height: 48px` |
-| Primary Button | Full-width, 48px | `--touch-min: 48px` |
-| Social Login Buttons | Row, 48px each | `--space-md: 12px` gap |
-| Footer Text | Center, muted | `--text-muted` |
-
-**Notlar:** Mobilde klavye açılınca `padding-bottom` artmalı. `env(keyboard-inset-height)` kullanılabilir.
-
-### 3.3 Albums / Library
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Sticky, "Kütüphane" başlığı | `--header-h: 56px` |
-| Genre Tabs | Horizontal scroll, chip format | `--radius-full` |
-| Album Grid | 2 sütun, 8px gap | `grid-template-columns: repeat(2, 1fr)` |
-| Album Card | Cover (1:1) + başlık + sanatçı | `--radius-md: 10px` |
-| Bottom Tab | 5 ikon aktif | `--footer-h: 72px` |
-
-### 3.4 Player (Mini → Full)
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Mini Player | Above tab bar, 64px | `position: fixed; bottom: 72px` |
-| Full Player | Swipe up → fullscreen | `transition: transform 300ms ease` |
-| Cover Art | 280×280px, centered | `--radius-lg: 16px` |
-| Seek Bar | Full-width, 4px height | `--accent` renk |
-| Controls | Play/Pause 64px, others 48px | `--touch-min: 48px` |
-| Volume | Slider, gizli on phone | `display: none` (phone) |
-
----
-
-## 4. Code Example
+### Expected Output
 
 ### 4.1 Phone Layout CSS
 
@@ -273,7 +236,61 @@ tier: T1-phone
 
 ---
 
-## 5. Yasaklar
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
+### Ekran Promptları
+
+### 3.1 Home
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Sticky top 56px | `--header-h: 56px` |
+| Welcome Section | Full-width hero | `--space-lg: 16px` padding |
+| Widget Grid | 2 sütun, 8px gap | `--grid-gap: 8px` |
+| Recent Cards | Horizontal scroll row | `scroll-snap-type: x mandatory` |
+| Mini Player | Bottom fixed 72px | `--footer-h: 72px` |
+| Bottom Tab Bar | 5 ikon, fixed bottom | Tab.active = accent renk |
+
+**Notlar:** Phone'da sidebar yok. Bottom tab bar ana navigasyon. Swipe gesture ile sayfa geçişi.
+
+### 3.2 Auth Login
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Logo | Center top, 64px | `--font-size-2xl: 22px` |
+| Form Input | Full-width, 48px yükseklik | `min-height: 48px` |
+| Primary Button | Full-width, 48px | `--touch-min: 48px` |
+| Social Login Buttons | Row, 48px each | `--space-md: 12px` gap |
+| Footer Text | Center, muted | `--text-muted` |
+
+**Notlar:** Mobilde klavye açılınca `padding-bottom` artmalı. `env(keyboard-inset-height)` kullanılabilir.
+
+### 3.3 Albums / Library
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Sticky, "Kütüphane" başlığı | `--header-h: 56px` |
+| Genre Tabs | Horizontal scroll, chip format | `--radius-full` |
+| Album Grid | 2 sütun, 8px gap | `grid-template-columns: repeat(2, 1fr)` |
+| Album Card | Cover (1:1) + başlık + sanatçı | `--radius-md: 10px` |
+| Bottom Tab | 5 ikon aktif | `--footer-h: 72px` |
+
+### 3.4 Player (Mini → Full)
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Mini Player | Above tab bar, 64px | `position: fixed; bottom: 72px` |
+| Full Player | Swipe up → fullscreen | `transition: transform 300ms ease` |
+| Cover Art | 280×280px, centered | `--radius-lg: 16px` |
+| Seek Bar | Full-width, 4px height | `--accent` renk |
+| Controls | Play/Pause 64px, others 48px | `--touch-min: 48px` |
+| Volume | Slider, gizli on phone | `display: none` (phone) |
+
+---
+
+### Yasaklar
 
 | Yasak | Doğru |
 |-------|-------|
@@ -284,3 +301,9 @@ tier: T1-phone
 | Scroll bar görünür | `scrollbar-width: none` |
 | Font < 11px | Min 11px (badge) |
 | `vw/vh` header/footer | `px` + `env()` safe area |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

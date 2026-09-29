@@ -12,20 +12,23 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
-# Watch Micro Layout Prompt (396×484)
+# Watch Micro Layout (396×484)
 
 ## AI Code Generation Prompt
 
 ### Context
+
 CoreMusic Apple Watch için micro layout şablonu. 396×484 viewport, OLED power save, crown rotation.
 
 ### Required Inputs
+
 - `touchTargetSize`: Min touch target (varsayılan: 44px)
 - `fontScale`: Font ölçekleme (varsayılan: 0.75)
 - `oledBlack`: OLED siyah arka plan (varsayılan: true)
 - `crownSupport`: Crown rotasyon desteği (varsayılan: true)
 
-### ASCII Layout Reference
+### ASCII Reference
+
 ```
 ┌──────────────────────────────────────────────┐
 │ STATUS (h:20)                                │
@@ -58,23 +61,8 @@ CoreMusic Apple Watch için micro layout şablonu. 396×484 viewport, OLED power
 └──────────────────────────────────────────────┘
 ```
 
-### Watch Gestures
-```
-GESTURES:
-┌─────────────────────────────────────┐
-│ Crown Rotation: Volume kontrolü     │
-│ Haptic Feedback: Buton tıklamasında │
-│ Always-On Display: Düşük güç modu   │
-│ OLED Power Save: Siyah arka plan    │
-│ Swipe Left: Sonraki şarkı           │
-│ Swipe Right: Önceki şarkı           │
-│ Swipe Up: Volume                    │
-│ Swipe Down: Kapat                   │
-│ Force Touch: Menü                   │
-└─────────────────────────────────────┘
-```
-
 ### Prompt Template
+
 ```json
 {
   "task": "Create watch micro layout for CoreMusic",
@@ -95,6 +83,7 @@ GESTURES:
 ```
 
 ### Expected Output
+
 HTML + CSS with:
 - Status: h:20, minimal
 - Content: centered, micro layout
@@ -103,8 +92,32 @@ HTML + CSS with:
 - OLED black background
 
 ### Validation
+
 - [ ] Touch targets ≥44px
 - [ ] Font scale 0.75x
 - [ ] OLED black bg
 - [ ] Crown rotation works
 - [ ] Haptic feedback enabled
+
+### Watch Gestures
+
+```
+GESTURES:
+┌─────────────────────────────────────┐
+│ Crown Rotation: Volume kontrolü     │
+│ Haptic Feedback: Buton tıklamasında │
+│ Always-On Display: Düşük güç modu   │
+│ OLED Power Save: Siyah arka plan    │
+│ Swipe Left: Sonraki şarkı           │
+│ Swipe Right: Önceki şarkı           │
+│ Swipe Up: Volume                    │
+│ Swipe Down: Kapat                   │
+│ Force Touch: Menü                   │
+└─────────────────────────────────────┘
+```
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

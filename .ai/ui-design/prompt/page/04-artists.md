@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 04 Artists Page Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,16 @@ route: "/artists"
 layout: "05-desktop-3col"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
 # 04 — Artists Page
 
-## 1. Page Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -20,7 +25,7 @@ status: active
 | **Layout** | 05-desktop-3col (60/40 split) |
 | **Purpose** | Sanatçı listesi, circular cards |
 
-## 2. Components Used
+**Components Used**
 
 | Component | Count | Location |
 |-----------|-------|----------|
@@ -28,14 +33,22 @@ status: active
 | C09 Media Card (circular) | 9+ | Content left |
 | C10 Detail Panel (artist) | 1 | Content right |
 
-## 3. Layout
+### Required Inputs
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
+
+### ASCII Reference
 
 ```
 LEFT (60%): Genre Tabs → Circular Card Grid (3×3, 140px circles)
 RIGHT (40%): Artist Detail (circular photo + bio + stats)
 ```
 
-## 4. Code Example
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```html
 <section class="content-left">
@@ -54,6 +67,16 @@ RIGHT (40%): Artist Detail (circular photo + bio + stats)
 </section>
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
 ---
 
 *04 Artists Page v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

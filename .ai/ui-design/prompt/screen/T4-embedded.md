@@ -1,16 +1,21 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Screen Prompt T4 Embedded RPi5"
 type: prompt
 category: ui-design
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 tier: T4-embedded
 ---
 
 # T4: Embedded RPi5 Screen Prompt
 
-## 1. Tier Tanımı
+## AI Code Generation Prompt
+
+### Context
 
 | Özellik | Değer |
 |---------|-------|
@@ -27,7 +32,7 @@ tier: T4-embedded
 
 ---
 
-## 2. Genel Kurallar
+### Required Inputs
 
 | Kural | Değer |
 |-------|-------|
@@ -68,50 +73,15 @@ tier: T4-embedded
 
 ---
 
-## 3. Ekran Promptları
+### ASCII Reference
 
-### 3.1 Home
+> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
 
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Sticky top 60px | `--header-h: 60px` |
-| Split Layout | 42% sol / 58% sağ | `grid-template-columns: 42% 58%` |
-| Widget Grid | 2×2 grid, sağ taraf | `--grid-gap: 12px` |
-| Footer Player | Fixed bottom 90px | `--footer-h: 90px` |
-| Welcome Popup | Centered modal | Sadece embedded |
+### Prompt Template
 
-**Notlar:** 1024×600 tek boyutlu platform. Responsive breakpoint yok.
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-### 3.2 Auth Login
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Logo | Center top, 64px | `--font-size-2xl: 24px` |
-| Form | Max-width 360px, centered | `margin: 0 auto` |
-| Input | Full-width, 48px | `min-height: 48px` |
-| Button | Full-width, 48px | `--touch-min: 48px` |
-
-### 3.3 Albums
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Sticky, 60px | `--header-h: 60px` |
-| Sidebar | 167px (browse) | `--sidebar-w: 167px` |
-| Album Grid | 3 sütun | `grid-template-columns: repeat(3, 1fr)` |
-
-### 3.4 Player
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Footer Player | Fixed bottom 90px | `--footer-h: 90px` |
-| Cover Art | 64×64px | `--radius-md: 10px` |
-| Seek Bar | Full-width, 4px | `--accent` |
-| Controls | Play 56px, others 48px | `--touch-min: 48px` |
-| Volume | Slider | `display: block` |
-
----
-
-## 4. Code Example
+### Expected Output
 
 ```css
 .embedded-device {
@@ -246,7 +216,54 @@ tier: T4-embedded
 
 ---
 
-## 5. Yasaklar
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
+### Ekran Promptları
+
+### 3.1 Home
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Sticky top 60px | `--header-h: 60px` |
+| Split Layout | 42% sol / 58% sağ | `grid-template-columns: 42% 58%` |
+| Widget Grid | 2×2 grid, sağ taraf | `--grid-gap: 12px` |
+| Footer Player | Fixed bottom 90px | `--footer-h: 90px` |
+| Welcome Popup | Centered modal | Sadece embedded |
+
+**Notlar:** 1024×600 tek boyutlu platform. Responsive breakpoint yok.
+
+### 3.2 Auth Login
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Logo | Center top, 64px | `--font-size-2xl: 24px` |
+| Form | Max-width 360px, centered | `margin: 0 auto` |
+| Input | Full-width, 48px | `min-height: 48px` |
+| Button | Full-width, 48px | `--touch-min: 48px` |
+
+### 3.3 Albums
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Sticky, 60px | `--header-h: 60px` |
+| Sidebar | 167px (browse) | `--sidebar-w: 167px` |
+| Album Grid | 3 sütun | `grid-template-columns: repeat(3, 1fr)` |
+
+### 3.4 Player
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Footer Player | Fixed bottom 90px | `--footer-h: 90px` |
+| Cover Art | 64×64px | `--radius-md: 10px` |
+| Seek Bar | Full-width, 4px | `--accent` |
+| Controls | Play 56px, others 48px | `--touch-min: 48px` |
+| Volume | Slider | `display: block` |
+
+---
+
+### Yasaklar
 
 | Yasak | Doğru |
 |-------|-------|
@@ -257,3 +274,9 @@ tier: T4-embedded
 | `touch-action: none` | `touch-action: manipulation` |
 | Responsive breakpoint | Tek boyut (1024×600) |
 | Welcome popup (diğer tier'lar) | Sadece embedded |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

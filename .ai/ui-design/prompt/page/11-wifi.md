@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 11 WiFi Page Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,16 @@ route: "overlay"
 layout: "modal"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
-# 11 — WiFi Modal
+# 11 — WiFi Modal Page
 
-## 1. Page Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -20,7 +25,7 @@ status: active
 | **Layout** | Modal Overlay |
 | **Purpose** | WiFi ayarları, ağ listesi |
 
-## 2. Components Used
+**Components Used**
 
 | Component | Count | Location |
 |-----------|-------|----------|
@@ -29,7 +34,11 @@ status: active
 | C16 Network Row | N | Modal body |
 | Close Button | 1 | Modal header |
 
-## 3. Modal Structure
+### Required Inputs
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
+
+### ASCII Reference
 
 ```
 ┌─── C14 Modal ──────────────────────────┐
@@ -47,7 +56,11 @@ status: active
 └────────────────────────────────────────┘
 ```
 
-## 4. Code Example
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```html
 <div class="modal-overlay is-open" aria-hidden="false">
@@ -72,6 +85,16 @@ status: active
 </div>
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
 ---
 
 *11 WiFi Modal v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

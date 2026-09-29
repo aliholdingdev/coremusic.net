@@ -13,7 +13,9 @@ governance: Red Team · Human Mode · Truth Mode
 
 # Footer Player Flow
 
-## 1. Akış Diyagramı (Player Control Flow)
+## 1. Akış Diyagramı (Decision Flow)
+
+### Player Control Flow
 
 ```
 ┌─────────────────┐
@@ -60,7 +62,7 @@ governance: Red Team · Human Mode · Truth Mode
 └───────┘ └───────┘ └─────────┘
 ```
 
-## 2. State Machine
+## 1A. State Machine
 
 ```
 ┌──────────────┐  Play   ┌──────────────┐  Pause  ┌──────────┐
@@ -74,7 +76,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────┘                               └──────────────┘
 ```
 
-## 3. Ekran Akışı
+## 2. Ekran Akışı
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -132,7 +134,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 4. Kontroller
+## 2A. Kontroller
 
 | Kontrol | Aksiyon | Kısayol | Durum |
 |---------|---------|---------|:-----:|
@@ -148,7 +150,7 @@ governance: Red Team · Human Mode · Truth Mode
 | ⬇️ | İndir | D | Her zaman |
 | ⋯ | Daha fazla | — | Her zaman |
 
-## 5. Hata Senaryoları
+## 3. Hata Senaryoları
 
 | Hata | Çözüm |
 |------|-------|
@@ -157,7 +159,7 @@ governance: Red Team · Human Mode · Truth Mode
 | Ses değiştirme başarısız | Mevcut ses seviyesi korunur |
 | Footer gizli | Otomatik göster (şarkı çalıyorsa) |
 
-## 6. Tier-Bazlı Varyasyonlar
+## 4. Tier-Bazlı Varyasyonlar
 
 | Tier | Footer Tipi | Kontroller | Seek |
 |------|-------------|------------|------|
@@ -169,7 +171,7 @@ governance: Red Team · Human Mode · Truth Mode
 | **Car** | Steering wheel | Voice/physical | Simplified |
 | **Watch** | Crown + wrist | Crown/gesture | Crown scroll |
 
-## 7. BEM Sınıfları
+## 5. BEM Sınıfları
 
 | BEM Sınıfı | Açıklama |
 |------------|----------|
@@ -181,6 +183,11 @@ governance: Red Team · Human Mode · Truth Mode
 | `.footer-player__volume` | Ses kontrolü |
 | `.footer-player__actions` | Ek aksiyon butonları |
 | `.footer-player--expanded` | Tam ekran modu |
+
+---
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
 
 ---
 

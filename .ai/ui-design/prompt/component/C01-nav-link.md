@@ -16,15 +16,18 @@ governance: Red Team · Human Mode · Truth Mode
 ## AI Code Generation Prompt
 
 ### Context
+
 CoreMusic navigasyon linki bileşeni. Header ve bottom tab'da kullanılır.
 
 ### Required Inputs
+
 - `label`: Link metni
 - `icon`: İkon (opsiyonel)
 - `active`: Aktif durum (boolean)
 - `href`: Yönlendirme URL'i
 
 ### ASCII Reference
+
 ```
 Default:     [Ana Sayfa]           opacity: 0.7, font-weight: 400
 Hover:       [Ana Sayfa]           opacity: 1, color: #ff4fd8, underline
@@ -33,6 +36,7 @@ Focus:       [Ana Sayfa]           outline: 2px solid #ff4fd8
 ```
 
 ### Prompt Template
+
 ```json
 {
   "task": "Create nav link component for CoreMusic",
@@ -49,6 +53,7 @@ Focus:       [Ana Sayfa]           outline: 2px solid #ff4fd8
 ```
 
 ### Expected Output
+
 ```html
 <a class="nav-link nav-link--active" href="/home">
   <span class="nav-link__icon">🏠</span>
@@ -74,7 +79,14 @@ Focus:       [Ana Sayfa]           outline: 2px solid #ff4fd8
 ```
 
 ### Validation
+
 - [ ] Min height 44px (touch target)
 - [ ] Focus visible outline
 - [ ] Active state clear
 - [ ] Hover transition smooth
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

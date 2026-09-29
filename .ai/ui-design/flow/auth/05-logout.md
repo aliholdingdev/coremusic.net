@@ -108,7 +108,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 3. Temizlik Kontrol Listesi
+## 2A. Temizlik Kontrol Listesi
 
 | # | Temizlik | Konum | Yöntem |
 |---|----------|-------|--------|
@@ -121,7 +121,7 @@ governance: Red Team · Human Mode · Truth Mode
 | 7 | Player state | JS | `PlayerController.stop()` |
 | 8 | UI state | JS | `ViewModeManager.reset()` |
 
-## 4. Hata Senaryoları
+## 3. Hata Senaryoları
 
 | Hata | Çözüm |
 |------|-------|
@@ -130,7 +130,7 @@ governance: Red Team · Human Mode · Truth Mode
 | Network hatası | Lokal temizlik + yönlendirme |
 | Modal açıkken sayfa değişimi | Modal otomatik kapanır |
 
-## 5. Tier-Bazlı Varyasyonlar
+## 4. Tier-Bazlı Varyasyonlar
 
 | Tier | Logout Butonu | Onay Tipi | Temizlik |
 |------|---------------|-----------|----------|
@@ -142,12 +142,23 @@ governance: Red Team · Human Mode · Truth Mode
 | **Car** | Voice "çıkış yap" | Sesli onay | Anlık |
 | **Watch** | Crown press | Haptic onay | Anlık |
 
-## 6. API Endpoint
+## 4A. API Endpoint
 
 | Endpoint | Method | Auth | Açıklama |
 |----------|--------|:----:|----------|
 | `/api/auth/logout` | POST | ✅ | Session sonlandır |
 | `/api/auth/logout` | DELETE | ✅ | Token sil |
+
+---
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
 
 ---
 

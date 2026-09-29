@@ -12,20 +12,23 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
-# Mobile Stack Layout Prompt (720×1280)
+# Mobile Stack Layout (720×1280)
 
 ## AI Code Generation Prompt
 
 ### Context
+
 CoreMusic Phone HD için stack layout şablonu. 720×1280 viewport, tek sütun, bottom tab navigation.
 
 ### Required Inputs
+
 - `tabCount`: Bottom tab sayısı (varsayılan: 3)
 - `headerHeight`: Header yüksekliği (varsayılan: 56px)
 - `statusBarHeight`: Status bar yüksekliği (varsayılan: 24px)
 - `tabBarHeight`: Tab bar yüksekliği (varsayılan: 80px)
 
-### ASCII Layout Reference
+### ASCII Reference
+
 ```
 ┌──────────────────────────────┐
 │ STATUS BAR (h:24)            │
@@ -50,6 +53,7 @@ CoreMusic Phone HD için stack layout şablonu. 720×1280 viewport, tek sütun, 
 ```
 
 ### Prompt Template
+
 ```json
 {
   "task": "Create mobile stack layout for CoreMusic",
@@ -71,6 +75,7 @@ CoreMusic Phone HD için stack layout şablonu. 720×1280 viewport, tek sütun, 
 ```
 
 ### Expected Output
+
 HTML + CSS with:
 - Status bar: h:24, fixed top
 - Header: h:56, glass bg
@@ -78,9 +83,16 @@ HTML + CSS with:
 - Tab nav: h:80, fixed bottom, 3 tabs
 
 ### Validation
+
 - [ ] Status bar h:24px
 - [ ] Header h:56px
 - [ ] Tab nav h:80px
 - [ ] Content scrollable
 - [ ] Touch targets ≥48px
 - [ ] Glass effect applied
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

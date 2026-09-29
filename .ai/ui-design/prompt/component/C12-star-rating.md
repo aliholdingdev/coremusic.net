@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C12 Star Rating Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".star-rating"
 itcss_layer: "04_Components"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C12
 ---
 
-# C12 — Star Rating (.star-rating)
+# Star Rating Component Prompt (C12)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,17 +28,7 @@ status: active
 | **Usage** | Şarkı/albüm puanlama (1-5 yıldız) |
 | **Type** | Interactive star rating input |
 
-## 2. ASCII Wireframe
-
-```
-┌─── STAR RATING ──────────────────────────────┐
-│  ★ ★ ★ ★ ☆   4.5 (128)                     │
-│  filled filled filled filled empty           │
-│  20×20px icons, 4px gap, min 44px hit area   │
-└──────────────────────────────────────────────┘
-```
-
-## 3. Tier Sizes
+### Required Inputs
 
 | Tier | Star Size | Hit Area | Font |
 |------|-----------|----------|------|
@@ -41,7 +37,7 @@ status: active
 | Desktop | 20×20px | 44×44px | 14px |
 | 4K TV | 24×24px | 48×48px | 16px |
 
-## 4. States
+**States**
 
 | State | Visual |
 |-------|--------|
@@ -51,18 +47,21 @@ status: active
 | Half star (optional) | 50% fill |
 | Read-only | No interaction, cursor: default |
 
-## 5. Accessibility
+### ASCII Reference
 
-| Criterion | Requirement |
-|-----------|-------------|
-| Role | `role="radiogroup"` on container |
-| Radio | `role="radio"` on each star |
-| Label | `aria-label="4 yıldız ver"` |
-| Keyboard | Arrow keys 1-5, Space/Enter to confirm |
-| Screen reader | "4/5 yıldız" announced |
-| Focus | 2px outline on focused star |
+```
+┌─── STAR RATING ──────────────────────────────┐
+│  ★ ★ ★ ★ ☆   4.5 (128)                     │
+│  filled filled filled filled empty           │
+│  20×20px icons, 4px gap, min 44px hit area   │
+└──────────────────────────────────────────────┘
+```
 
-## 6. Code Example
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```css
 /* C12 — Star Rating | ITCSS: 04_Components */
@@ -106,6 +105,23 @@ status: active
 </div>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Role | `role="radiogroup"` on container |
+| Radio | `role="radio"` on each star |
+| Label | `aria-label="4 yıldız ver"` |
+| Keyboard | Arrow keys 1-5, Space/Enter to confirm |
+| Screen reader | "4/5 yıldız" announced |
+| Focus | 2px outline on focused star |
+
 ---
 
 *C12 Star Rating v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

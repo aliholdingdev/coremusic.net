@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C14 Modal Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".modal"
 itcss_layer: "04_Components"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C14
 ---
 
-# C14 — Modal (.modal)
+# Modal Component Prompt (C14)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,34 @@ status: active
 | **Usage** | WiFi/BT connection, Welcome, Settings, Confirm dialogs |
 | **Type** | Overlay modal with glass background |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Tier | Max Width | Padding | Border Radius |
+|------|-----------|---------|---------------|
+| Phone | calc(100vw - 32px) | 20px | 16px |
+| Embedded | 380px | 24px | 20px |
+| Desktop | 380px | 24px | 20px |
+| 4K TV | 480px | 32px | 24px |
+
+**Variants**
+
+| Variant | Class | Width |
+|---------|-------|-------|
+| Default | `.modal` | 380px |
+| Large | `.modal--lg` | 600px |
+| Small | `.modal--sm` | 320px |
+| Fullscreen | `.modal--fullscreen` | 100vw |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Closed | opacity: 0, visibility: hidden, translateY(20px) |
+| Open | opacity: 1, visible, translateY(0), spring animation |
+| Focus trap | Tab cycles within modal only |
+| Scroll lock | body.modal-open, overflow: hidden |
+
+### ASCII Reference
 
 ```
 ┌─── OVERLAY ──────────────────────────────────────────┐
@@ -43,47 +76,11 @@ status: active
 └───────────────────────────────────────────────────────┘
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Tier | Max Width | Padding | Border Radius |
-|------|-----------|---------|---------------|
-| Phone | calc(100vw - 32px) | 20px | 16px |
-| Embedded | 380px | 24px | 20px |
-| Desktop | 380px | 24px | 20px |
-| 4K TV | 480px | 32px | 24px |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. Variants
-
-| Variant | Class | Width |
-|---------|-------|-------|
-| Default | `.modal` | 380px |
-| Large | `.modal--lg` | 600px |
-| Small | `.modal--sm` | 320px |
-| Fullscreen | `.modal--fullscreen` | 100vw |
-
-## 5. States
-
-| State | Visual |
-|-------|--------|
-| Closed | opacity: 0, visibility: hidden, translateY(20px) |
-| Open | opacity: 1, visible, translateY(0), spring animation |
-| Focus trap | Tab cycles within modal only |
-| Scroll lock | body.modal-open, overflow: hidden |
-
-## 6. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Role | `role="dialog"` |
-| Label | `aria-labelledby` (title) |
-| Description | `aria-describedby` (body) |
-| Modal | `aria-modal="true"` |
-| Close | `aria-label="Kapat"` |
-| Focus trap | Tab within modal |
-| Escape | Close modal |
-| Return focus | Back to trigger element |
-
-## 7. Code Example
+### Expected Output
 
 ```css
 /* C14 — Modal | ITCSS: 04_Components */
@@ -158,6 +155,25 @@ status: active
 </div>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Role | `role="dialog"` |
+| Label | `aria-labelledby` (title) |
+| Description | `aria-describedby` (body) |
+| Modal | `aria-modal="true"` |
+| Close | `aria-label="Kapat"` |
+| Focus trap | Tab within modal |
+| Escape | Close modal |
+| Return focus | Back to trigger element |
+
 ---
 
 *C14 Modal v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

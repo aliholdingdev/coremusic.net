@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C10 Detail Panel Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".detail-panel"
 itcss_layer: "03_Layout"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C10
 ---
 
-# C10 — Detail Panel (.detail-panel)
+# Detail Panel Component Prompt (C10)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,32 @@ status: active
 | **Usage** | Albüm/sanatçı detay sayfası, split layout sağ taraf |
 | **Type** | Split layout panel (art + content) |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Tier | Art Size | Panel Width | Font |
+|------|----------|-------------|------|
+| Phone | 200×200px | 100% (stacked) | 14px |
+| Embedded | 300×300px | 394px (40%) | 16px |
+| Desktop | 320×320px | 420px (40%) | 16px |
+| 4K TV | 400×400px | 500px (40%) | 18px |
+
+**Variants**
+
+| Variant | Class | Description |
+|---------|-------|-------------|
+| Album | `.detail-panel--album` | Kare art, track list |
+| Artist | `.detail-panel--artist` | Dairesel art, bio |
+| Playlist | `.detail-panel--playlist` | Playlist cover |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Default | Art + metadata + actions |
+| Loading | Skeleton placeholder |
+| Error | Fallback art + error message |
+
+### ASCII Reference
 
 ```
 ┌─── DETAIL PANEL (394px) ─────────────────────┐
@@ -48,42 +79,11 @@ status: active
 └───────────────────────────────────────────────┘
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Tier | Art Size | Panel Width | Font |
-|------|----------|-------------|------|
-| Phone | 200×200px | 100% (stacked) | 14px |
-| Embedded | 300×300px | 394px (40%) | 16px |
-| Desktop | 320×320px | 420px (40%) | 16px |
-| 4K TV | 400×400px | 500px (40%) | 18px |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. Variants
-
-| Variant | Class | Description |
-|---------|-------|-------------|
-| Album | `.detail-panel--album` | Kare art, track list |
-| Artist | `.detail-panel--artist` | Dairesel art, bio |
-| Playlist | `.detail-panel--playlist` | Playlist cover |
-
-## 5. States
-
-| State | Visual |
-|-------|--------|
-| Default | Art + metadata + actions |
-| Loading | Skeleton placeholder |
-| Error | Fallback art + error message |
-
-## 6. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Image alt | `alt` zorunlu |
-| Heading | `<h1>` for title |
-| Actions | Button links with labels |
-| Scroll | `role="region"` for track list |
-| Keyboard | Tab through all interactive elements |
-
-## 7. Code Example
+### Expected Output
 
 ```css
 /* C10 — Detail Panel | ITCSS: 03_Layout */
@@ -147,6 +147,22 @@ status: active
 </div>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Image alt | `alt` zorunlu |
+| Heading | `<h1>` for title |
+| Actions | Button links with labels |
+| Scroll | `role="region"` for track list |
+| Keyboard | Tab through all interactive elements |
+
 ---
 
 *C10 Detail Panel v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

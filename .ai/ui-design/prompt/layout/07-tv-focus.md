@@ -12,20 +12,23 @@ authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
 
-# TV Focus Layout Prompt (1920×1080)
+# TV Focus Layout (1920×1080)
 
 ## AI Code Generation Prompt
 
 ### Context
+
 CoreMusic Smart TV için focus-based layout şablonu. 1920×1080 viewport, D-pad navigation, large touch targets.
 
 ### Required Inputs
+
 - `focusIndicatorSize`: Focus göstergesi boyutu (varsayılan: 4px)
 - `touchTargetSize`: Min touch target (varsayılan: 80px)
 - `fontScale`: Font ölçekleme (varsayılan: 1.5)
 - `safeArea`: TV safe area (varsayılan: 40px)
 
-### ASCII Layout Reference
+### ASCII Reference
+
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ HEADER (h:80, font: 1.5x)                                                                      │
@@ -53,25 +56,8 @@ CoreMusic Smart TV için focus-based layout şablonu. 1920×1080 viewport, D-pad
 └────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### D-pad Navigation
-```
-Navigation Sırası:
-┌─────────────────────────────────────┐
-│ Header → Content (sol üst) →       │
-│ Content (sağ üst) →                │
-│ Content (sol orta) →               │
-│ Content (sağ orta) →               │
-│ Content (sol alt) →                │
-│ Content (sağ alt) →                │
-│ Footer Player                      │
-└─────────────────────────────────────┘
-
-Focus Ring: 4px solid #ff4fd8
-Focus Shadow: 0 0 20px rgba(255,79,216,0.5)
-Focus Offset: 8px
-```
-
 ### Prompt Template
+
 ```json
 {
   "task": "Create TV focus layout for CoreMusic",
@@ -95,6 +81,7 @@ Focus Offset: 8px
 ```
 
 ### Expected Output
+
 HTML + CSS with:
 - Header: h:80, large font
 - Content: focus-based navigation
@@ -102,8 +89,34 @@ HTML + CSS with:
 - Focus indicators on all interactive elements
 
 ### Validation
+
 - [ ] Focus indicators visible (4px outline)
 - [ ] Touch targets ≥80px
 - [ ] Font scale 1.5x
 - [ ] Safe area respected
 - [ ] D-pad navigation works
+
+### D-pad Navigation
+
+```
+Navigation Sırası:
+┌─────────────────────────────────────┐
+│ Header → Content (sol üst) →       │
+│ Content (sağ üst) →                │
+│ Content (sol orta) →               │
+│ Content (sağ orta) →               │
+│ Content (sol alt) →                │
+│ Content (sağ alt) →                │
+│ Footer Player                      │
+└─────────────────────────────────────┘
+
+Focus Ring: 4px solid #ff4fd8
+Focus Shadow: 0 0 20px rgba(255,79,216,0.5)
+Focus Offset: 8px
+```
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

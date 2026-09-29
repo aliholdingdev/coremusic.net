@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 06 Browse Page Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,16 @@ route: "/browse"
 layout: "04-laptop-sidebar"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
-# 06 — Browse Page (Disk)
+# 06 — Browse Page
 
-## 1. Page Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -20,7 +25,7 @@ status: active
 | **Layout** | 04-laptop-sidebar + 3-column content |
 | **Purpose** | Dosya tarayıcı, disk/kategori listesi |
 
-## 2. Components Used
+**Components Used**
 
 | Component | Count | Location |
 |-----------|-------|----------|
@@ -28,14 +33,22 @@ status: active
 | File Browser | 1 | Content left |
 | Info Panel | 1 | Content right (220px) |
 
-## 3. Layout
+### Required Inputs
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
+
+### ASCII Reference
 
 ```
 SIDEBAR: Disk/kategori listesi (scrollable)
 CONTENT: 3-column (Disk List | File Browser | Info Panel)
 ```
 
-## 4. Code Example
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```html
 <main class="layout--laptop__content" style="display:grid;grid-template-columns:167px 1fr 220px;gap:16px">
@@ -48,6 +61,16 @@ CONTENT: 3-column (Disk List | File Browser | Info Panel)
 </main>
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
 ---
 
 *06 Browse Page v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

@@ -90,7 +90,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 3. Theme Mapping
+## 2A. Theme Mapping
 
 | Seçim | Theme | Primary Color | Secondary | Öneri Tonu |
 |-------|-------|---------------|-----------|------------|
@@ -98,7 +98,7 @@ governance: Red Team · Human Mode · Truth Mode
 | 👨 Erkek | mavi | `#4A90D9` | `#89C2F4` | Mavi tonları |
 | [[V]] Nötr | default | `#6C757D` | `#ADB5BD` | Nötr tonları |
 
-## 4. CSS Variable Güncellemesi
+## 2B. CSS Variable Güncellemesi
 
 ```css
 /* Kız Theme */
@@ -117,7 +117,7 @@ governance: Red Team · Human Mode · Truth Mode
 --accent: #868E96;
 ```
 
-## 5. Hata Senaryoları
+## 3. Hata Senaryoları
 
 | Hata | Çözüm |
 |------|-------|
@@ -125,7 +125,7 @@ governance: Red Team · Human Mode · Truth Mode
 | API hatası | "Bir hata oluştu, tekrar dene" |
 | Network hatası | "Bağlantı yok" + retry |
 
-## 6. Tier-Bazlı Varyasyonlar
+## 4. Tier-Bazlı Varyasyonlar
 
 | Tier | Seçim Tipi | Buton | Animasyon |
 |------|------------|-------|-----------|
@@ -137,13 +137,24 @@ governance: Red Team · Human Mode · Truth Mode
 | **Car** | Voice-first | Dokunmatik, büyük | — |
 | **Watch** | Crown scroll | Haptic tap | Haptic |
 
-## 7. Preference Kaydı
+## 4A. Preference Kaydı
 
 | Alan | Değer | DB Tablosu |
 |------|-------|------------|
 | `user_id` | Mevcut kullanıcı | `coremusic_user` |
 | `theme_gender` | female/male/neutral | `user_preferences` |
 | `created_at` | Timestamp | — |
+
+---
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
 
 ---
 

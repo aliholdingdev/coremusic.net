@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — 05 Playlist Page Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,16 @@ route: "/playlist/:id"
 layout: "05-desktop-3col"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 ---
 
 # 05 — Playlist Page
 
-## 1. Page Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -20,7 +25,7 @@ status: active
 | **Layout** | 05-desktop-3col (60/40 split) |
 | **Purpose** | Çalma listesi, tablo görünümü |
 
-## 2. Components Used
+**Components Used**
 
 | Component | Count | Location |
 |-----------|-------|----------|
@@ -29,14 +34,22 @@ status: active
 | C10 Detail Panel | 1 | Content right |
 | Transport Icons | 3 | Above table (Play, Shuffle, Repeat) |
 
-## 3. Layout
+### Required Inputs
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
+
+### ASCII Reference
 
 ```
 LEFT (60%): Transport icons → Track Table (C13) → Star Rating (C12)
 RIGHT (40%): Playlist Detail (Cover + Name + Creator + Stats)
 ```
 
-## 4. Code Example
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```html
 <section class="content-left">
@@ -50,6 +63,16 @@ RIGHT (40%): Playlist Detail (Cover + Name + Creator + Stats)
 </section>
 ```
 
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
 ---
 
 *05 Playlist Page v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

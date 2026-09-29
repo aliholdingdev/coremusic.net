@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C15 Toggle Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".toggle"
 itcss_layer: "04_Components"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C15
 ---
 
-# C15 — Toggle (.toggle)
+# Toggle Component Prompt (C15)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,26 @@ status: active
 | **Usage** | Settings, notification toggle, on/off switches |
 | **Type** | Custom checkbox toggle switch |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Tier | Track | Thumb | Hit Area |
+|------|-------|-------|----------|
+| Phone | 44×24px | 18×18px | 44×44px |
+| Embedded | 50×28px | 22×22px | 44×44px |
+| Desktop | 50×28px | 22×22px | 44×44px |
+| 4K TV | 60×34px | 26×26px | 48×48px |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Off | track: border-subtle, thumb: white, left |
+| On | track: theme-primary, thumb: white, right (translateX(22px)) |
+| Hover | Subtle brightness change |
+| Focus-visible | 2px outline on track |
+| Disabled | opacity: 0.5, pointer-events: none |
+
+### ASCII Reference
 
 ```
 ┌─── TOGGLE (OFF) ─────────────────────┐
@@ -40,36 +65,11 @@ status: active
 └──────────────────────────────────────┘
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Tier | Track | Thumb | Hit Area |
-|------|-------|-------|----------|
-| Phone | 44×24px | 18×18px | 44×44px |
-| Embedded | 50×28px | 22×22px | 44×44px |
-| Desktop | 50×28px | 22×22px | 44×44px |
-| 4K TV | 60×34px | 26×26px | 48×48px |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. States
-
-| State | Visual |
-|-------|--------|
-| Off | track: border-subtle, thumb: white, left |
-| On | track: theme-primary, thumb: white, right (translateX(22px)) |
-| Hover | Subtle brightness change |
-| Focus-visible | 2px outline on track |
-| Disabled | opacity: 0.5, pointer-events: none |
-
-## 5. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Role | `role="switch"` |
-| Label | `aria-label="WiFi aç/kapat"` |
-| Checked | `aria-checked="true"/"false"` |
-| Keyboard | Space/Enter to toggle |
-| Focus | Visible outline on track |
-
-## 6. Code Example
+### Expected Output
 
 ```css
 /* C15 — Toggle | ITCSS: 04_Components */
@@ -127,6 +127,22 @@ status: active
 </label>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Role | `role="switch"` |
+| Label | `aria-label="WiFi aç/kapat"` |
+| Checked | `aria-checked="true"/"false"` |
+| Keyboard | Space/Enter to toggle |
+| Focus | Visible outline on track |
+
 ---
 
 *C15 Toggle v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

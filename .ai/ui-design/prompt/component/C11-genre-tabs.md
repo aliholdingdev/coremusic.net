@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C11 Genre Tabs Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".genre-tabs"
 itcss_layer: "04_Components"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C11
 ---
 
-# C11 — Genre Tabs (.genre-tabs)
+# Genre Tabs Component Prompt (C11)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,25 @@ status: active
 | **Usage** | Müzik türü filtreleme (Pop, Rock, Jazz, vb.) |
 | **Type** | Horizontal scrollable tab bar |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Tier | Height | Font | Gap |
+|------|--------|------|-----|
+| Phone | 44px | 13px | 6px |
+| Embedded | 48px | 13px | 8px |
+| Desktop | 48px | 14px | 8px |
+| 4K TV | 56px | 16px | 10px |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Default | Glass bg, muted text |
+| Hover | bg: white×0.1, text: normal |
+| Active | bg: theme-primary, text: white |
+| Focus-visible | 2px outline + offset |
+
+### ASCII Reference
 
 ```
 ┌─── GENRE TABS (scrollable) ─────────────────────────────┐
@@ -34,35 +58,11 @@ status: active
 └──────────────────────────────────────────────────────────┘
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Tier | Height | Font | Gap |
-|------|--------|------|-----|
-| Phone | 44px | 13px | 6px |
-| Embedded | 48px | 13px | 8px |
-| Desktop | 48px | 14px | 8px |
-| 4K TV | 56px | 16px | 10px |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. States
-
-| State | Visual |
-|-------|--------|
-| Default | Glass bg, muted text |
-| Hover | bg: white×0.1, text: normal |
-| Active | bg: theme-primary, text: white |
-| Focus-visible | 2px outline + offset |
-
-## 5. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Role | `role="tablist"` on container |
-| Tab | `role="tab"` on each |
-| Selected | `aria-selected="true"` |
-| Keyboard | Arrow keys between tabs |
-| Scroll | Visible scroll indicators |
-
-## 6. Code Example
+### Expected Output
 
 ```css
 /* C11 — Genre Tabs | ITCSS: 04_Components */
@@ -123,6 +123,22 @@ status: active
 </div>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Role | `role="tablist"` on container |
+| Tab | `role="tab"` on each |
+| Selected | `aria-selected="true"` |
+| Keyboard | Arrow keys between tabs |
+| Scroll | Visible scroll indicators |
+
 ---
 
 *C11 Genre Tabs v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

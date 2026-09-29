@@ -1,4 +1,5 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — C05 Secondary Button Prompt"
 type: prompt
 category: ui-design
@@ -7,12 +8,17 @@ bem_class: ".btn-secondary"
 itcss_layer: "04_Components"
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
+component: C05
 ---
 
-# C05 — Secondary Button (.btn-secondary)
+# Secondary Button Component Prompt (C05)
 
-## 1. Component Definition
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +28,36 @@ status: active
 | **Usage** | İkincil aksiyonlar, cancel, back |
 | **Type** | Secondary/outline action button |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Tier | Height | Font | Padding |
+|------|--------|------|---------|
+| Phone | 44px | 14px | 0 16px |
+| Embedded | 48px | 14px | 0 20px |
+| Desktop | 48px | 14px | 0 20px |
+| 4K TV | 56px | 16px | 0 24px |
+
+**Variants**
+
+| Variant | Class | Description |
+|---------|-------|-------------|
+| Default | `.btn-secondary` | Outline, primary border |
+| Ghost | `.btn-secondary--ghost` | No border, transparent |
+| Danger | `.btn-secondary--danger` | Red border, red text |
+| Small | `.btn-secondary--sm` | h:36px, font:12px |
+| Icon Only | `.btn-secondary--icon` | 48×48px kare |
+
+**States**
+
+| State | Visual |
+|-------|--------|
+| Default | Transparent bg, primary border/text |
+| Hover | Filled primary bg, white text (inverse) |
+| Active | scale(0.98) |
+| Focus-visible | 3px outline + offset |
+| Disabled | opacity: 0.5, pointer-events: none |
+
+### ASCII Reference
 
 ```
 ┌─── SECONDARY BUTTON (default) ──────────────┐
@@ -40,45 +75,11 @@ status: active
 └─────────────────────────────────────────────┘
 ```
 
-## 3. Tier Sizes
+### Prompt Template
 
-| Tier | Height | Font | Padding |
-|------|--------|------|---------|
-| Phone | 44px | 14px | 0 16px |
-| Embedded | 48px | 14px | 0 20px |
-| Desktop | 48px | 14px | 0 20px |
-| 4K TV | 56px | 16px | 0 24px |
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-## 4. Variants
-
-| Variant | Class | Description |
-|---------|-------|-------------|
-| Default | `.btn-secondary` | Outline, primary border |
-| Ghost | `.btn-secondary--ghost` | No border, transparent |
-| Danger | `.btn-secondary--danger` | Red border, red text |
-| Small | `.btn-secondary--sm` | h:36px, font:12px |
-| Icon Only | `.btn-secondary--icon` | 48×48px kare |
-
-## 5. States
-
-| State | Visual |
-|-------|--------|
-| Default | Transparent bg, primary border/text |
-| Hover | Filled primary bg, white text (inverse) |
-| Active | scale(0.98) |
-| Focus-visible | 3px outline + offset |
-| Disabled | opacity: 0.5, pointer-events: none |
-
-## 6. Accessibility
-
-| Criterion | Requirement |
-|-----------|-------------|
-| Touch target | min 44×44px |
-| Focus visible | Outline + shadow |
-| Keyboard | Enter/Space |
-| High contrast | Border visible |
-
-## 7. Code Example
+### Expected Output
 
 ```css
 /* C05 — Secondary Button | ITCSS: 04_Components */
@@ -124,6 +125,21 @@ status: active
 <button type="button" class="btn-secondary btn-secondary--danger">Sil</button>
 ```
 
+### Validation
+
+| Criterion | Requirement |
+|-----------|-------------|
+| Touch target | min 44×44px |
+| Focus visible | Outline + shadow |
+| Keyboard | Enter/Space |
+| High contrast | Border visible |
+
 ---
 
 *C05 Secondary Button v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

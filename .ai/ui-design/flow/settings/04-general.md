@@ -13,7 +13,9 @@ governance: Red Team · Human Mode · Truth Mode
 
 # General Settings Flow
 
-## 1. Akış Diyagramı (Settings Flow)
+## 1. Akış Diyagramı (Decision Flow)
+
+### Settings Flow
 
 ```
 ┌─────────────────┐
@@ -100,7 +102,7 @@ governance: Red Team · Human Mode · Truth Mode
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 3. Tema Seçimi Akışı
+## 2A. Tema Seçimi Akışı
 
 ```
 ┌─────────────────┐
@@ -138,7 +140,7 @@ governance: Red Team · Human Mode · Truth Mode
         │└─────┘│  └─────────────┘
 ```
 
-## 4. Hata Senaryoları
+## 3. Hata Senaryoları
 
 | Hata | Çözüm |
 |------|-------|
@@ -147,7 +149,7 @@ governance: Red Team · Human Mode · Truth Mode
 | Kaydetme başarısız | "Kaydetme başarısız" + tekrar dene |
 | DB hatası | "Ayarlar kaydedilemedi" |
 
-## 5. Tier-Bazlı Varyasyonlar
+## 4. Tier-Bazlı Varyasyonlar
 
 | Tier | Ayar Tipi | Kaydetme | Önizleme |
 |------|-----------|----------|----------|
@@ -159,7 +161,7 @@ governance: Red Team · Human Mode · Truth Mode
 | **Car** | Simplified list | Otomatik | — |
 | **Watch** | Micro toggle | Otomatik | — |
 
-## 6. Ayar Kategorileri
+## 4A. Ayar Kategorileri
 
 | # | Kategori | Ayarlar | Varsayılan |
 |---|----------|---------|------------|
@@ -167,6 +169,17 @@ governance: Red Team · Human Mode · Truth Mode
 | 2 | Dil | Türkçe/İngilizce/Almanca | Türkçe |
 | 3 | Bildirimler | Push/Email/SMS toggle | Tümü açık |
 | 4 | Oynatma | Karışık/Tekrar/Kalite | Varsayılan |
+
+---
+## 5. BEM Sınıfları
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+
+---
+
+## 6. Adımlar
+
+> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
 
 ---
 

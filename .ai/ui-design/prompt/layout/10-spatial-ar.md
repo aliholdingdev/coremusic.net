@@ -1,17 +1,20 @@
 ---
 reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Layout Pattern: Spatial AR/VR"
-type: spec
+type: prompt
 category: ui-design
 date: 2026-09-20
 status: active
 version: 1.0.1
 authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 ---
 
-# CoreMusic — Layout Pattern: Spatial AR/VR
+# Spatial AR/VR Layout (1920×1080)
 
-## 1. Viewport Aralığı
+## AI Code Generation Prompt
+
+### Context
 
 | Property | Value |
 |----------|-------|
@@ -22,7 +25,20 @@ authority: Single Source of Truth (SSOT)
 | **Refresh** | 90Hz-120Hz (stereo rendering) |
 | **IPD** | 58-72mm (interpupillary distance) |
 
-## 2. ASCII Wireframe
+### Required Inputs
+
+| Token | Base Value | Spatial Value | Reason |
+|-------|-----------|---------------|--------|
+| `--touch-min` | 44px | **40px** | Hand tracking precision |
+| `--font-size-title` | 16px | **24px** | 3D depth readability |
+| `--font-size-body` | 14px | **18px** | 3D depth readability |
+| `--panel-width` | — | **600px** | Virtual panel at 1m |
+| `--panel-bg` | var(--surface) | **rgba(20,20,30,0.85)** | Glassmorphism in 3D |
+| `--panel-blur` | — | **20px** | Spatial depth effect |
+| `--panel-border` | 1px solid var(--border) | **1px solid rgba(255,255,255,0.1)** | Subtle 3D edge |
+| `--depth-z` | — | **-1000px** | Default panel depth |
+
+### ASCII Reference
 
 ```
 ┌─── Spatial Canvas (3D Environment) ─────────────────────────┐
@@ -56,7 +72,11 @@ authority: Single Source of Truth (SSOT)
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## 3. Grid Tanımı
+### Prompt Template
+
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+
+### Expected Output
 
 ```css
 /* Spatial Layout — 3D positioned, not 2D grid */
@@ -107,20 +127,11 @@ authority: Single Source of Truth (SSOT)
 }
 ```
 
-## 4. Token Değişiklikleri
+### Validation
 
-| Token | Base Value | Spatial Value | Reason |
-|-------|-----------|---------------|--------|
-| `--touch-min` | 44px | **40px** | Hand tracking precision |
-| `--font-size-title` | 16px | **24px** | 3D depth readability |
-| `--font-size-body` | 14px | **18px** | 3D depth readability |
-| `--panel-width` | — | **600px** | Virtual panel at 1m |
-| `--panel-bg` | var(--surface) | **rgba(20,20,30,0.85)** | Glassmorphism in 3D |
-| `--panel-blur` | — | **20px** | Spatial depth effect |
-| `--panel-border` | 1px solid var(--border) | **1px solid rgba(255,255,255,0.1)** | Subtle 3D edge |
-| `--depth-z` | — | **-1000px** | Default panel depth |
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
 
-## 5. BEM Sınıfları
+### BEM Sınıfları
 
 ```
 .layout--spatial
@@ -141,7 +152,7 @@ authority: Single Source of Truth (SSOT)
 .is-pointing                      → Finger pointing
 ```
 
-## 6. Responsive Davranış
+### Responsive Davranış
 
 | Durum | Davranış |
 |-------|----------|
@@ -155,7 +166,7 @@ authority: Single Source of Truth (SSOT)
 | Multi-panel | Up to 3 panels simultaneously |
 | Passthrough AR | Panels overlaid on real world |
 
-## 7. Spatial Interaction Patterns
+### Spatial Interaction Patterns
 
 | Gesture | Action |
 |---------|--------|
@@ -168,7 +179,7 @@ authority: Single Source of Truth (SSOT)
 | Pull (fingers close) | Summon panel |
 | Voice | "Play", "Pause", "Next", "Volume up" |
 
-## 8. Quality Report
+### Quality Report
 
 | Metrik | Değer |
 |--------|-------|
@@ -181,3 +192,9 @@ authority: Single Source of Truth (SSOT)
 | Glassmorphism | ✅ Backdrop blur in 3D |
 | BEM Classes | 11 spatial-specific |
 | ASCII Wireframe | ✅ |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode

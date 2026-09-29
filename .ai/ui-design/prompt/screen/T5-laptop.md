@@ -1,16 +1,21 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Screen Prompt T5 Laptop"
 type: prompt
 category: ui-design
 date: 2026-09-20
 version: 2.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 status: active
 tier: T5-laptop
 ---
 
 # T5: Laptop Screen Prompt
 
-## 1. Tier Tanımı
+## AI Code Generation Prompt
+
+### Context
 
 | Özellik | Değer |
 |---------|-------|
@@ -26,7 +31,7 @@ tier: T5-laptop
 
 ---
 
-## 2. Genel Kurallar
+### Required Inputs
 
 | Kural | Değer |
 |-------|-------|
@@ -63,50 +68,15 @@ tier: T5-laptop
 
 ---
 
-## 3. Ekran Promptları
+### ASCII Reference
 
-### 3.1 Home
+> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
 
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Sticky top 64px | `--header-h: 64px` |
-| Sidebar | 240px, sol taraf | `--sidebar-w: 240px` |
-| Content | Grid 3-4 sütun | `--grid-gap: 16px` |
-| Footer Player | Fixed bottom 96px | `--footer-h: 96px` |
+### Prompt Template
 
-**Notlar:** Laptop'da sidebar her zaman görünür (1280px+). Mouse hover aktif.
+> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
 
-### 3.2 Auth Login
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Logo | Center, 96px | `--font-size-2xl: 28px` |
-| Form | Max-width 440px, centered | `margin: 0 auto` |
-| Input | Full-width, 44px | `min-height: 44px` |
-| Button | Full-width, 44px | `min-height: 44px` |
-
-### 3.3 Albums
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Header | Sticky, 64px | `--header-h: 64px` |
-| Sidebar | 240px | `--sidebar-w: 240px` |
-| Album Grid | 3-4 sütun | `grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))` |
-
-### 3.4 Player
-
-| Bileşen | Konum | Token |
-|---------|-------|-------|
-| Footer Player | Fixed bottom 96px | `--footer-h: 96px` |
-| Cover Art | 72×72px | `--radius-md: 10px` |
-| Seek Bar | Full-width | `--accent` |
-| Controls | Play 56px, others 48px | `min-width: 44px` |
-| Volume | Slider görünür | `display: block` |
-| Queue | Mini queue panel | Sidebar içi |
-
----
-
-## 4. Code Example
+### Expected Output
 
 ```css
 @media (min-width: 1280px) and (max-width: 1919px) {
@@ -265,7 +235,54 @@ tier: T5-laptop
 
 ---
 
-## 5. Yasaklar
+### Validation
+
+> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+
+### Ekran Promptları
+
+### 3.1 Home
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Sticky top 64px | `--header-h: 64px` |
+| Sidebar | 240px, sol taraf | `--sidebar-w: 240px` |
+| Content | Grid 3-4 sütun | `--grid-gap: 16px` |
+| Footer Player | Fixed bottom 96px | `--footer-h: 96px` |
+
+**Notlar:** Laptop'da sidebar her zaman görünür (1280px+). Mouse hover aktif.
+
+### 3.2 Auth Login
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Logo | Center, 96px | `--font-size-2xl: 28px` |
+| Form | Max-width 440px, centered | `margin: 0 auto` |
+| Input | Full-width, 44px | `min-height: 44px` |
+| Button | Full-width, 44px | `min-height: 44px` |
+
+### 3.3 Albums
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Header | Sticky, 64px | `--header-h: 64px` |
+| Sidebar | 240px | `--sidebar-w: 240px` |
+| Album Grid | 3-4 sütun | `grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))` |
+
+### 3.4 Player
+
+| Bileşen | Konum | Token |
+|---------|-------|-------|
+| Footer Player | Fixed bottom 96px | `--footer-h: 96px` |
+| Cover Art | 72×72px | `--radius-md: 10px` |
+| Seek Bar | Full-width | `--accent` |
+| Controls | Play 56px, others 48px | `min-width: 44px` |
+| Volume | Slider görünür | `display: block` |
+| Queue | Mini queue panel | Sidebar içi |
+
+---
+
+### Yasaklar
 
 | Yasak | Doğru |
 |-------|-------|
@@ -274,3 +291,9 @@ tier: T5-laptop
 | Font < 14px | Min 14px (1.1× scale) |
 | 5+ sütun grid | Max 4 sütun |
 | Hover olmayan interaktif eleman | Tümüne hover |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode
