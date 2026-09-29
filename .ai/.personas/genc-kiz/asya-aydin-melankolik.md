@@ -2,10 +2,10 @@
 title: "CoreMusic — Persona: Asya Aydın"
 type: persona
 category: personas
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Persona — SSOT: personas/genc-kiz/asya-aydin-melankolik"
-updated: 2026-09-26
+updated: 2026-09-29
 group: genc-kiz
 age: 13
 mood: Melankolik
@@ -503,5 +503,5 @@ Davranış notları:
 ---
 
 **Authority:** Persona — SSOT: personas/genc-kiz/asya-aydin-melankolik
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -1,7 +1,10 @@
 ---
+name: skill-maker
+description: "Use when creating or rewriting a CoreMusic skill — template rules, frontmatter fields, and registry checks apply."
 title: "CoreMusic — Skill Oluşturucu Meta-Skill"
 type: skill-instruction
-version: 3.1
+version: 3.2
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -22,7 +25,7 @@ reference:
     - ".ai/brain.md"
     - ".ai/index.md"
   architecture:
-    - ".ai/ADR/"
+    - ".ai/.decisions/"
     - "Existing project architecture"
   templates:
     - ".ai/.templates/index.md"
@@ -45,6 +48,10 @@ triggers:
   - "agentic skill üret"
   - "orchestration skill"
 changelog:
+  - version: 3.2
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi — ".ai/ADR/ → .ai/.decisions/ (ADR SSOT dizini, disk kanıtı)"
   - version: 3.1
     date: 2026-08-15
     changes:

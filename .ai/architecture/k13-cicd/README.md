@@ -4,10 +4,10 @@ title: "CoreMusic — K13 CI/CD Layer"
 type: architecture-layer
 category: architecture
 date: 2026-09-20
-updated: 2026-09-24
+updated: 2026-09-29
 source: "3 turlu agent tartışması"
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -499,5 +499,5 @@ Sözlük yeni bilgi taşımaz; yalnızca bu belgedeki kullanımı sabitler.
 
 *K13 Alt Katman Şeması + Kanıt Kataloğu v1.1.0 — 2026-09-24 · kaynak: 3 turlu agent tartışması*
 
-*Last Updated: 2026-09-24*
+*Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*

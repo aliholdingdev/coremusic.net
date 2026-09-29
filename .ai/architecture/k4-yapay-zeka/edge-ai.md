@@ -3,7 +3,7 @@ title: "Edge AI Modülü"
 layer: K4
 category: "Yapay Zeka"
 date: 2026-09-20
-version: 1.0.0
+version: 1.0.1
 status: development
 components: 6
 dependencies: [K0, K1, K4]

@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-023: Persona-Driven Testing (20 Persona Test Matrisi �
 type: adr
 category: testing
 date: 2026-09-25
-updated: 2026-09-26
-version: 1.1.0
+updated: 2026-09-29
+version: 1.1.1
 status: accepted
 authority: ADR-023 Karar Metni (SSOT)
 governance: Red Team · Human Mode · Truth Mode
@@ -337,6 +337,6 @@ Doğrulama: her gerçek-dünya iddia ≥2 bağımsız kaynak — `.ai/.personas/
 
 *ADR-023 v1.1.0 — CoreMusic Architecture Decision Record*
 *Authority: ADR-023 Karar Metni (SSOT) · Mode: Red Team · Human Mode · Truth Mode*
-*Last Updated: 2026-09-26*
+*Last Updated: 2026-09-29*
 
 *ADR-023 debate | 2026-09-25 | ✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL) · Tech Lead ✅ · Arch Lead ⏳ · 3 şart §5.4 · frozen YOK*

@@ -2,6 +2,8 @@
 
 namespace CoreMusic\PageRouter;
 
+use CoreMusic\Log\Redactor;
+
 final class StructuredLogger
 {
     private const LEVELS = ['debug' => 0, 'info' => 1, 'warn' => 2, 'error' => 3];
@@ -64,7 +66,10 @@ final class StructuredLogger
             'traceId'   => $this->traceId,
         ], $extra);
 
-        error_log('[CoreMusic] ' . json_encode($record, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        $payload = '[CoreMusic] ' . json_encode($record, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        // Merkezi redaction (§17 Edge Case 3): hassas alanlar [REDACTED] olur.
+        error_log(Redactor::redact($payload));
     }
 
     private function shouldLog(string $level): bool

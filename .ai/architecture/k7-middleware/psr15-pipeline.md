@@ -3,7 +3,7 @@ title: "PSR-15 Pipeline Middleware"
 layer: K7
 category: "Middleware"
 date: 2026-09-20
-version: "1.0.0"
+version: "1.0.1"
 status: "draft"
 ---
 

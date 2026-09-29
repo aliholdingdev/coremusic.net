@@ -2,10 +2,10 @@
 title: "CoreMusic — Test Senaryosu: Müzik Keşfi (MZK)"
 type: test-scenario
 category: testing
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Test Senaryosu — SSOT: personas/test-senaryolari/muzik-kesfi"
-updated: 2026-09-26
+updated: 2026-09-29
 ---
 
 # CoreMusic — Test Senaryosu: Müzik Keşfi (MZK)

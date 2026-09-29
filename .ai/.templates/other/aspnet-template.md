@@ -3,8 +3,8 @@ title: "CoreMusic — ASP.NET 9 / C# 13 Backend Template"
 type: template
 category: other
 date: 2026-09-23
-updated: 2026-09-23
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: active
 authority: reference
 ---
@@ -513,4 +513,4 @@ static IResult ApiError(HttpContext ctx, int status, string title, params (strin
 ---
 
 **Template Version:** 1.0.0
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29

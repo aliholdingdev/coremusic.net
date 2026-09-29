@@ -4,8 +4,8 @@ title: WirelessConnect Integration — Cihaz Eşleştirme + Bağlantı Yönetimi
 type: adr
 category: audio
 date: 2026-09-26
-updated: 2026-09-26
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: accepted
 authority: ADR-037 Karar Metni (SSOT)
 debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"

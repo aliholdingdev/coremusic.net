@@ -3,7 +3,7 @@ title: "ML Altyapısı"
 layer: K4
 category: "Yapay Zeka"
 date: 2026-09-20
-version: 1.0.0
+version: 1.0.1
 status: stable
 components: 14
 dependencies: [K0, K1, K3, K5]

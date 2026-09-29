@@ -4,7 +4,7 @@ layer: K0
 category: "İşletim Sistemi"
 platform: "Raspberry Pi 5"
 date: 2026-09-20
-version: 1.0.0
+version: 1.0.1
 ---
 
 # RPi5 Core

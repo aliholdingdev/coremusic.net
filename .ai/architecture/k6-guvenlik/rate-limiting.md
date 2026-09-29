@@ -325,7 +325,7 @@ async function ddosProtection(req: Request, res: Response, next: NextFunction) {
 ## Güvenlik Kontrolleri
 
 - [ ] Login endpoint'leri sıkı rate limiting ile korunmalı (5/dk)
-- [ ] AI endpoint'leri带宽 sınırlı olmalı
+- [ ] AI endpoint'leri bant genişliği sınırlı olmalı <!-- ⚠️ VERIFICATION REQUIRED: orijinal Çince glif 'bant genişliği' anlamına geliyordu; bağlama göre çevrildi, rate-limit de kastedilmiş olabilir (2026-09-29) -->
 - [ ] Upload endpoint'leri dosya boyutu ve adet sınırı ile korunmalı
 - [ ] Rate limit aşımlarında audit log tutulmalı
 - [ ] Tekrarlayan ihallerde IP blacklist'e eklenmeli

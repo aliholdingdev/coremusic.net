@@ -3,7 +3,7 @@ title: "Ses Parmak İzi Modülü"
 layer: K4
 category: "Yapay Zeka"
 date: 2026-09-20
-version: 1.0.0
+version: 1.0.1
 status: stable
 components: 5
 dependencies: [K0, K2, K4, K5]

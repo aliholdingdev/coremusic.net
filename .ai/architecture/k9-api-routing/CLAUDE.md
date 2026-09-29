@@ -5,7 +5,7 @@ folder: "architecture/k9-api-routing"
 category: vault
 date: 2026-09-20
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: reference
 ---
 
@@ -49,4 +49,4 @@ FFmpeg, Redis, Cache veya SQL GÖRMEZ.
 
 *K9 CLAUDE.md v1.0.0 — CoreMusic*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-20*
+*Last Updated: 2026-09-29*

@@ -3,8 +3,8 @@ title: "CoreMusic — Agent Profile Template"
 type: template
 category: template
 date: 2026-09-06
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-29
+version: 2.0.1
 status: active
 authority: reference
 ---
@@ -523,4 +523,4 @@ Bu şablonun dayandığı vault kaynakları. Envanter listesi burada tekrarlanma
 ---
 
 **Template Version:** 2.0.0
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29

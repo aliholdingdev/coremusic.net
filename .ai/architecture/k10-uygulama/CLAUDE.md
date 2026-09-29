@@ -5,7 +5,7 @@ folder: "architecture/k10-uygulama"
 category: vault
 date: 2026-09-20
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: reference
 ---
 
@@ -51,4 +51,4 @@ authority: reference
 
 *K10 CLAUDE.md v1.0.0 — CoreMusic*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-20*
+*Last Updated: 2026-09-29*

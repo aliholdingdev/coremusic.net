@@ -10,14 +10,14 @@
     'use strict';
 
     function init() {
-        var btns = document.querySelectorAll('.lgn-gender-btn');
-        var input = document.getElementById('gender-input');
-        var submitBtn = document.getElementById('continue-btn');
-        var errEl = document.getElementById('lgn-err');
-        var form = document.getElementById('gender-form');
+        const btns = document.querySelectorAll('.lgn-gender-btn');
+        const input = document.getElementById('gender-input');
+        const submitBtn = document.getElementById('continue-btn');
+        const errEl = document.getElementById('lgn-err');
+        const form = document.getElementById('gender-form');
         if (!form || !input || !submitBtn) return;
 
-        var redirectUri = (new URLSearchParams(window.location.search)).get('redirect_uri') || '';
+        const redirectUri = (new URLSearchParams(window.location.search)).get('redirect_uri') || '';
 
         // Gender button selection
         btns.forEach(function (btn) {
@@ -34,16 +34,16 @@
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             e.stopImmediatePropagation();
-            var gender = input.value;
+            const gender = input.value;
             if (!gender) return;
 
             submitBtn.disabled = true;
             submitBtn.textContent = 'Kaydediliyor...';
 
-            var params = {};
+            const params = {};
             if (redirectUri) params['redirect_uri'] = redirectUri;
-            var qs = Object.keys(params).length ? '?' + new URLSearchParams(params).toString() : '';
-            var postUrl = '/set-gender' + qs;
+            const qs = Object.keys(params).length ? '?' + new URLSearchParams(params).toString() : '';
+            const postUrl = '/set-gender' + qs;
 
             fetch(postUrl, {
                 method: 'POST',
@@ -61,9 +61,9 @@
                     try { localStorage.setItem('cm_gender', gender); } catch (e) {}
                     window.location.href = d.redirect;
                 } else {
-                    var loginParams = {};
+                    const loginParams = {};
                     if (redirectUri) loginParams['redirect_uri'] = redirectUri;
-                    var loginQs = Object.keys(loginParams).length ? '?' + new URLSearchParams(loginParams).toString() : '';
+                    const loginQs = Object.keys(loginParams).length ? '?' + new URLSearchParams(loginParams).toString() : '';
                     window.location.href = '/login' + loginQs;
                 }
             })

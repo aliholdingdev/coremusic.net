@@ -6,6 +6,28 @@
  * @version 5.0.0
  * @requires core/EventBus
  */
+
+const DANGEROUS_ELEMENTS = 'script, iframe, object, embed, applet, form, base, link[rel="import"]';
+
+/**
+ * Statik HTML'i (ikon SVG) parse + sanitize edip DocumentFragment döndürür.
+ * innerHTML sink kullanmaz — ADR-012 CSP uyumu.
+ * @param {string} html
+ * @returns {DocumentFragment}
+ */
+function parseStaticHtml(html) {
+    const doc = new DOMParser().parseFromString(typeof html === 'string' ? html : '', 'text/html');
+    for (const el of doc.querySelectorAll(DANGEROUS_ELEMENTS)) el.remove();
+    for (const el of doc.querySelectorAll('*')) {
+        for (const attr of [...el.attributes]) {
+            if (attr.name.toLowerCase().startsWith('on')) el.removeAttribute(attr.name);
+        }
+    }
+    const fragment = document.createDocumentFragment();
+    if (doc.body) fragment.append(...doc.body.childNodes);
+    return fragment;
+}
+
 export default class PlayerController {
     #eventBus;
 
@@ -140,7 +162,8 @@ export default class PlayerController {
     #updatePlayButton(icon) {
         const btn = document.querySelector('[data-action="play"]');
         if (!btn) return;
-        btn.innerHTML = PlayerController.ICONS[icon];
+        // Statik SVG ikonu: DOMParser + sanitizer ile değiştir (innerHTML yok)
+        btn.replaceChildren(parseStaticHtml(PlayerController.ICONS[icon]));
         btn.setAttribute('aria-label', icon === 'pause' ? 'Duraklat' : 'Oynat');
     }
 

@@ -3,8 +3,8 @@ title: QA Engineer — Test Mühendisi Agent Profili
 type: agent-profile
 category: agents
 date: 2026-08-08
-updated: 2026-09-24
-version: 2.1.1
+updated: 2026-09-29
+version: 2.1.3
 status: active
 authority: reference
 ---
@@ -32,7 +32,7 @@ authority: reference
 | Supra-otorite Tanır | `.ai/.decisions/**` bu profildeki her kuralı ezebilir |
 | Etkileştiği Agent'lar | `developer`, `code-reviewer`, `devops-engineer`, `build-engineer` |
 | Katman | Cross-cutting (§4 Agent Overview) |
-| Teknoloji (hedef) | PHPUnit 11, Vitest, Playwright |
+| Teknoloji (hedef) | PHPUnit ^10.5 (composer.json kanıtı — 3/3 proje), Vitest, Playwright |
 | Profil Dosyası | `.ai/.agents/qa-engineer.md` |
 | Registry Satırı | `[[../AGENTS.md]]` §4/§15 — QA Engineer |
 
@@ -546,5 +546,5 @@ Gözlemlenemeyen sinyal en pahalı edge case'dir: doğrulanamayan iddia, yanlı�
 ---
 
 **Authority:** Agent Profile — SSOT: `.ai/AGENTS.md`
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** STANDARD (implementation-ready)

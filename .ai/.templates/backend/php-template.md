@@ -3,8 +3,8 @@ title: "CoreMusic — PHP Backend Development Template"
 type: template
 category: template
 date: 2026-09-06
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-29
+version: 2.0.2
 status: active
 authority: reference
 ---
@@ -539,7 +539,7 @@ Dosya commit edilmeden önce kalite kapıları sırayla kontrol edilir; tek bir 
 | Kod kanıtı | `shared/src/**` | PageRouter, Bff, Api, Database, Middleware |
 | BCNF şema kanıtı | `.ai/.sql/mysql/*.sql` | 18 veritabanı (glob kanıtı) |
 | Eşdeğer backend şablonu | [[./nodejs-template]] | Node.js / TypeScript alternatifi |
-| Test şablonu | [[../testing/phpunit-template]] | PHPUnit 11 test iskeleti |
+| Test şablonu | [[../testing/phpunit-template]] | PHPUnit ^10.5 test iskeleti (composer.json kanıtı) |
 | Migration şablonu | [[../infrastructure/migration-template]] | Şema geçişleri |
 
 **İlgili ADR'ler:** ADR-002 (PDO, ORM yasak) · ADR-010 (csrf_token) · ADR-011 (COREMUSIC_SESS, 3600s) · ADR-012 (strict-dynamic CSP) · ADR-013 (APCu, 60 req/60s) · ADR-022 (AES-256-GCM, Argon2id) · ADR-040 (18 BCNF otoritesi)
@@ -547,4 +547,4 @@ Dosya commit edilmeden önce kalite kapıları sırayla kontrol edilir; tek bir 
 ---
 
 **Template Version:** 2.0.0
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29

@@ -2,10 +2,10 @@
 title: "CoreMusic - Test Senaryoları - Persona Eşleme Matrisi (68 Persona × 6 Senaryo × 3 Cihaz)"
 type: reference
 category: testing
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: reference
-updated: 2026-09-26
+updated: 2026-09-29
 author: docs-md
 source: ADR-023 §5.4 (şart 1c) + eski vault (read-only)
 ---

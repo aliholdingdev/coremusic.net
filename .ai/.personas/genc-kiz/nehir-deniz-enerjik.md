@@ -2,10 +2,10 @@
 title: "CoreMusic — Persona: Nehir Deniz"
 type: persona
 category: personas
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Persona — SSOT: personas/genc-kiz/nehir-deniz-enerjik"
-updated: 2026-09-26
+updated: 2026-09-29
 group: genc-kiz
 age: 16
 mood: Enerjik
@@ -505,5 +505,5 @@ Davranış notları:
 ---
 
 **Authority:** Persona — SSOT: personas/genc-kiz/nehir-deniz-enerjik
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

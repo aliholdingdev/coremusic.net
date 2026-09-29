@@ -4,7 +4,7 @@ type: report
 category: code-quality
 date: 2026-09-23
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: reference
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -125,7 +125,7 @@ governance: Red Team · Human Mode · Truth Mode
 
 ### M1. `FORCE_AUTH_BYPASS` Tanımlı Ama Kullanılmıyor (auth.coremusic.net)
 - **Dosya:** `auth.coremusic.net/config/constants.php` satır 73
-- **Sorun:** `FORCE_AUTH_BYPASS` sabiti tanımlanmış ve `app.php`'de array'e eklenmiş, `/bypass-status` endpoint'inde de döndürülüyor. Ancak auth.coremusic.net içinde hiçbir middleware veya handler bu sabiti okuyarak auth bypass uygulamıyor. Değer her zaman `false` (`.env`'de tanımsızsa). Bypass行为 `BypassAuthMiddleware` (shared/src/) tarafından kontrol ediliyor, ama o da `TEST_MODE`'a bakıyor, `FORCE_AUTH_BYPASS`'a değil.
+- **Sorun:** `FORCE_AUTH_BYPASS` sabiti tanımlanmış ve `app.php`'de array'e eklenmiş, `/bypass-status` endpoint'inde de döndürülüyor. Ancak auth.coremusic.net içinde hiçbir middleware veya handler bu sabiti okuyarak auth bypass uygulamıyor. Değer her zaman `false` (`.env`'de tanımsızsa). Bypass davranışı `BypassAuthMiddleware` (shared/src/) tarafından kontrol ediliyor, ama o da `TEST_MODE`'a bakıyor, `FORCE_AUTH_BYPASS`'a değil.
 - **Önerilen Çözüm:** Ya `BypassAuthMiddleware`'e `FORCE_AUTH_BYPASS` kontrolü ekleyin ya da gereksiz sabiti kaldırın.
 - **Öncelik:** MEDIUM
 
@@ -298,5 +298,5 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

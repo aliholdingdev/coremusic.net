@@ -3,10 +3,10 @@ title: "CoreMusic — Agent Alt-Registry (Profil İndeksi)"
 type: agent-registry
 category: agent-registry
 date: 2026-09-23
-updated: 2026-09-24
-version: 1.2.3
+updated: 2026-09-29
+version: 1.2.5
 status: active
-authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.3)"
+authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.4)"
 ---
 
 # CoreMusic — Agent Alt-Registry (Profil İndeksi)
@@ -15,7 +15,7 @@ authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.3)"
 
 ---
 
-> **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.0.3). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
+> **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.0.4). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
 
 ---
 
@@ -38,7 +38,7 @@ Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hang
 | Seviye | Dosya | Rol |
 |--------|-------|-----|
 | 0 (SSOT) | [[../CLAUDE.md]] | AI anayasası, 16 Hard Guardrail |
-| 1 (SSOT) | [[../AGENTS.md]] (v22.0.3) | Agent registry — routing/handover/escalation/öncelik tekelinde |
+| 1 (SSOT) | [[../AGENTS.md]] (v22.0.4) | Agent registry — routing/handover/escalation/öncelik tekelinde |
 | 2 (Alt Registry) | Bu dosya (v1.2.2) | Profil indeksi + yazım kuralları + boot bağlantısı |
 | 3 (Profil) | `.ai/.agents/<agent>.md` | Tekil ajanın yetki belgesi (§1-§11 domain serisi) |
 
@@ -378,7 +378,7 @@ authority: SSOT
 | 9 | `.ai/scripts/session-save.mjs` · `vault-post-update.mjs` (sistem çağrısı) | `.ai/scripts/` altında **yalnız** `vault-utf8-writer.mjs` var | ⚠️ VERIFICATION REQUIRED |
 | 10 | ADR'lerin `.ai/decisions/accepted/` yolu (eski backend profili §7.7) | `.ai/decisions/` **YOK**; tek karar kaynağı `.ai/.decisions/index.md` (+ `CLAUDE.md`) — ADR-010/011/012/013/019/022/083/084/085 satırları ✅ orada | FAZ 3a profillerinde düzeltildi |
 | 11 | lcobucci/jwt · monolog · symfony/cache (eski backend stack tablosu) | Üç composer.json'da da **geçmiyor** | ⚠️ VERIFICATION REQUIRED |
-| 12 | `.github/workflows/` CI (DevOps domaini) | Dizinde **0** dosya | ⚠️ PLANNED |
+| 12 | `.github/workflows/` CI (DevOps domaini) | ~~Dizinde **0** dosya~~ → **2 dosya** (`ci.yml`, `secret-scan.yml`; ölçüm 2026-09-27) | ✅ GİDERİLDİ (2026-09-27) — workflow dosyaları mevcut, çalışma durumu doğrulanmadı (CI'nin geçtiği doğrulanmadı) |
 | 13 | Kök §24.2 "10 dosya" (bu dosya §6.1 başlığı) | Kök §24.2 tablosu artık **14 satır** taşır (10 ana + engine/glossary/VISION/PROJECTS) — küme aynı, sayı ifadesi farklı | §6.1 dipnotu ile uyumlu; ifade üst görevde netleştirilebilir |
 
 ### §8.1 Kanıt Protokolü ve FAZ 3a İşlem Özeti
@@ -495,6 +495,7 @@ authority: SSOT
 | 1.2.1 | 2026-09-23 | FAZ 3 birleştirme düzeltmeleri: §3.1'de 5 FAZ 3b satırı ⏳→✅ (549/560/533/548/549 satır), §8.1 sahiplik iddiası düzeltildi (Faz 3b oturumu, 23:20-23:25), 12/12 ≥500 + ` M` teyidi, ölçüm yöntemi notu (ReadAllLines; Measure-Object -Line yasak), §8.3 kuyruk/risk senkronu, kırık wiki-link düzeltmesi (.workflows/session → session-init + vault-sync) |
 | 1.2.2 | 2026-09-24 | Kök authority senkronu v22.0.1 |
 | 1.2.3 | 2026-09-24 | Skill sayım düzeltmesi (§6.3 + §8 #3: 8 aktif, _archive-keep/ 20 dosya; "10 skill" bayrağı giderildi); kök authority senkronu v22.0.3 |
+| 1.2.4 | 2026-09-27 | §8 #12 düzeltmesi: `.github/workflows/` = 0 → 2 dosya (`ci.yml`, `secret-scan.yml`; disk ölçümü 2026-09-27) — workflow dosyaları mevcut, çalışma durumu doğrulanmadı; kök authority senkronu v22.0.4 |
 
 ---
 
@@ -517,5 +518,5 @@ authority: SSOT
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

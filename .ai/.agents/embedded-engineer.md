@@ -3,8 +3,8 @@ title: "CoreMusic — Embedded Engineer Agent Profile"
 type: profile
 category: agent-registry
 date: 2026-08-08
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-29
+version: 2.0.1
 status: active
 authority: reference
 ---
@@ -502,5 +502,5 @@ Sonraki adım: [1 eylem, 2 dakika]
 ---
 
 **Authority:** SSOT — domain tekel: Embedded Engineer (Orta — Neva Engine/firmware şartname)  
-**Last Updated:** 2026-09-23  
+**Last Updated:** 2026-09-29  
 **Mode:** MIXED (şartname IMPLEMENTED: firmware 8, k1 23, k3 18, k2/k15/k19/k17/k18 · kod ⚠️ PLANNED: cpp/h=0, NevaEngine/electronic/CMakeLists yok · ADR-019 kayıt IMPLEMENTED, tam metin ⚠️)

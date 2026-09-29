@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-090: Kanal Varyant Ürün Ailesi (mono · 2 · 2+1 · 
 type: "architecture-decision"
 category: "electronics"
 date: "2026-09-26"
-updated: "2026-09-26"
-version: "1.0.0"
+updated: "2026-09-29"
+version: "1.0.1"
 status: "accepted"
 authority: "SSOT — kanal varyant matrisi, maliyet kademesi ve SKU politikası; K16-K20 amfi katmanları ve PCM3168A çekirdeği bu karara bağlanır"
 kaynak: "Kullanıcı onaylı karar kapsamı (ADR-038 §5.3 yönlendirmesinin gerçek hedefi) + disk kanıtı taraması + exa web araştırması"
@@ -326,5 +326,5 @@ Tarama: `channel | kanal | subwoofer | LFE | SKU | variant` → `shared/` (php/j
 
 *ADR-090 v1.0.0 — CoreMusic Architecture Decision Record*
 *Authority: ADR-090 Karar Metni (SSOT)*
-*Last Updated: 2026-09-26*
+*Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*

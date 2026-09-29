@@ -4,7 +4,7 @@ type: prompt
 category: ui-design
 layout_id: "06"
 date: 2026-09-20
-version: 2.0.0
+version: 2.0.1
 status: active
 ---
 

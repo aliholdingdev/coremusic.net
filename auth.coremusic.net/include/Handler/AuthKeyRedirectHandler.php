@@ -60,7 +60,9 @@ final class AuthKeyRedirectHandler
                 'user_id' => $user['id'] ?? '-',
             ]);
 
-            header('Location: /home', true, 302);
+            // Göreli /home auth domain'de 404 veriyordu (auth.coremusic.net/home)
+            // → cross-domain home URL'e yönlendir.
+            header('Location: ' . (defined('MUSIC_URL') ? MUSIC_URL : 'http://home.coremusic.net:81') . '/home', true, 302);
             exit;
         }
 

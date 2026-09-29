@@ -2,10 +2,10 @@
 title: "CoreMusic — Template Registry Index"
 type: template-index
 category: template
-version: 4.6.0
+version: 4.6.1
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
-updated: 2026-09-28
+updated: 2026-09-29
 date: 2026-08-09
 governance: Red Team · Human Mode · Truth Mode
 total_templates: 38
@@ -346,5 +346,5 @@ Yeni dosya oluştururken:
 
 *Template Registry Index v4.6.0 — CoreMusic Template System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-28*
+*Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*

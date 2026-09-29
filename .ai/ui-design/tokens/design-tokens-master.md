@@ -4,9 +4,9 @@ title: "CoreMusic — Master Design Tokens"
 type: tokens
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-29
 status: active
-version: 5.0.0
+version: 6.2.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -65,7 +65,7 @@ CoreMusic UI tasarım sisteminin **tek tasarım token kaynağıdır**. Tüm CSS 
   --cm-bg-tertiary: #1a1a25;
   --cm-bg-elevated: #22222e;
   --cm-bg-surface: #2a2a38;
-  --cm-bg-overlay: rgba(0, 0, 0, 0.60);
+  --cm-bg-overlay: rgba(0, 0, 0, 0.60); /* ⚠️ DEPRECATED — SSOT: 0.35 (Figma 2831:10268, bkz. §2.1.2); CSS'te hâlâ 0.60, kod düzeltmesi backend/ui işi */
   --cm-bg-scrim: rgba(0, 0, 0, 0.32);
 
   /* ═══ Text Colors ═══ */
@@ -131,6 +131,42 @@ CoreMusic UI tasarım sisteminin **tek tasarım token kaynağıdır**. Tüm CSS 
   --cm-focus-ring: 0 0 0 2px #ff4fd8;
 }
 ```
+
+#### 2.1.1 Figma Çıkarım Renk Hex'leri (SSOT: `tokens-1024.json` · `tokens-1920.json`)
+
+> **Kaynak:** Figma API çıkarımı — `tokens/tokens-1024.json` colors: 14 · `tokens/tokens-1920.json` colors: 12 → birleşim **17 anahtar · 14 benzersiz hex**. SSOT sırası: PNG > Figma extracted > ASCII > Inventory > Tokens. Ayrıntılı eşleme matrisi: `[[color-palettes]]` §6.1. Doğrulama: 2026-09-27 — ortak 9 anahtarın 9/9'u iki tier'da aynı hex (çelişki yok).
+
+| # | Hex | Token Adı (yeni) | Figma Anahtar(lar) | Tier | Durum |
+|---|-----|------------------|--------------------|------|-------|
+| 1 | `#707070` | `--cm-avatar-stroke` | `KursatGurel / stroke` | 1024+1920 | Token adı atandı — `--cm-text-tertiary #707088` ile **farklı hex/farklı rol** (avatar kenarlığı vs metin) |
+| 2 | `#373737` | `--cm-stroke-effect-fill` | `Stroke Effect / fill` | 1024+1920 | Token adı atandı — `:root` tanımı **yok** (CSS'e dokunulmadı) |
+| 3 | `#070607` | `--cm-stroke-effect-gradient-stop-0` | `Stroke Effect / gradient stop 0` | 1024+1920 | Token adı atandı — `:root` tanımı **yok** (CSS'e dokunulmadı) |
+| 4 | `#5B5A5B` | `--cm-stroke-effect-gradient-stop-1` | `Stroke Effect / gradient stop 1` | 1024+1920 | Token adı atandı — `:root` tanımı **yok** (CSS'e dokunulmadı) |
+| 5 | `#FF38E3` | `--cm-progressbar-value-fill` | `ProgressbarValue / fill` | 1024+1920 | Token adı atandı — `:root` tanımı **yok** (CSS'e dokunulmadı) |
+| 6 | `#FF65E9` | `--cm-progressbar-tick-stop-1` | `ProgresbarValue / fill` (1024, Figma yazım hatası) · `ProgressbarTick / gradient stop 1` (1920) | 1024+1920 | Token adı atandı — **kod kanıtlı:** `_player-info.css` L196 `/* Figma: #FF65E9 */ background: #FF65E9` |
+| 7 | `#FFBEF6` | `--cm-progressbar-tick-stop-0` | `ProgressbarTick / gradient stop 0` | 1024+1920 | Token adı atandı — `:root` tanımı **yok** (CSS'e dokunulmadı) |
+| 8 | `#D5D5D5` | `--cm-progressbar-gradient-stop-1` | `Progressbar / gradient stop 1` | 1024+1920 | Token adı atandı — `:root` tanımı **yok** (CSS'e dokunulmadı) |
+| 9 | `#FE00E4` | `--cm-logo-stroke` | `Core Music / stroke` | 1024+1920 | Token adı atandı — `:root` tanımı **yok** (CSS'e dokunulmadı) |
+| 10 | `#FF00C8` | `--cm-pink-primary-button` | `bg / gradient stop 0` | 1024+1920 | Token adı atandı — **kod kanıtlı:** `_home-components.css` L860 `--pink-primary-button-*` fallback tabanı (`rgba(255,0,200,…)`) — o üç değişken `:root`'ta **tanımsız** (bilinen açık) |
+| 11 | `#120C14` | `--cm-black-bg-effect-gradient-stop-1` | `Siyah Arkaplan Evekt / gradient stop 1` | 1024 | Token adı atandı — `:root` tanımı **yok** (CSS'e dokunulmadı) |
+| 12 | `#000000` | `--cm-black-bg-effect-gradient-stop-0` | `Siyah Arkaplan Evekt / gradient stop 0` · `Ana Sayfa / stroke` | 1024 (gradient) · 1920 (stroke) | Token adı atandı — aynı hex `--cm-bg-overlay`/`--cm-bg-scrim` tabanında; **rol farklı** (gradient stop vs scrim tabanı) |
+| 13 | `#FFFFFF` | `--cm-page-background-fill` | `Romantic_Background_03 (2) / fill` · `Linux - 1920 - Home / fill` | 1024 · 1920 | Token adı atandı — `--cm-text-primary #ffffff` ile **aynı hex, rol farklı** (zemin vs metin) |
+| 14 | `#140E16` | `--cm-ellipse-16-gradient-stop-0` | `Ellipse 16 / gradient stop 0` | 1024 | Token adı atandı — `:root` tanımı **yok** (CSS'e dokunulmadı) |
+
+**Adlandırma kuralı (2026-09-27):** adlar İngilizce, kebab-case, `--cm-` öneki; türetme kaynağı Figma node adıdır (`KursatGurel` → `avatar`, `Core Music` → `logo`, `Siyah Arkaplan Evekt` → `black-bg-effect`, `bg` → kod kanıtlı `pink-primary-button`). **Çakışma taraması:** 14 adın 14'ü repo genelinde (`*.md` · `*.css` · `*.json` · `*.php` · `*.js`) **0 eşleşme** → mevcut tema token'ı (`--cm-primary` / `--cm-bg-*` / `--cm-text-*` …) ile ad çakışması yok → **`-figma` soneki gerekmedi**. İleride bir ad mevcut bir tema token'ı ile çakışırsa `-figma` soneki eklenir. **Bu adlar yalnızca vault tablosu düzeyindedir — hiçbir `:root` CSS tanımı eklenmedi (CSS'e dokunma yasağı).**
+
+**Çelişki / Deprecated kontrolü:** Figma hex'leri tema primary'leriyle (`--cm-primary #ff4fd8` / `#4f9fff` / `#a0a0b0`) **aynı rolde çelişmiyor** → renk token'larının hiçbirisi **deprecated** yapılmadı. Tek deprecated kayıt **alpha/blur** tarafındadır → §2.1.2. Üstteki CSS bloğu (§2.1) yalnız `--cm-bg-overlay` satırına yorum eklenerek işaretlendi; değer değiştirilmedi.
+
+#### 2.1.2 Overlay Alpha & Blur — Figma SSOT (Çelişki Kaydı)
+
+> **Kaynak:** Figma `2831:10268` RECTANGLE "welcome back bulur" — `fill: SOLID #000000 alpha=1 opacity=0.35` · `effect: BACKGROUND_BLUR blur=3` (`reference/figma/extracted-1024.md` L726 · `extracted-1920.md` L544). Kullanıcı kuralı: **Figma/PNG > her şey.**
+
+| Parametre | Figma (SSOT) | Eski değer (master/spec) | Durum |
+|-----------|--------------|--------------------------|-------|
+| Overlay alpha | **`0.35`** (`rgba(0,0,0,0.35)`) | `0.60` (`--cm-bg-overlay`, §2.1) | `0.60` → **deprecated** — CSS'te hâlâ 0.60, kod düzeltmesi **backend/ui işi** |
+| Overlay `backdrop-filter` blur | **`3px`** (`BACKGROUND_BLUR blur=3`) | `1.5px` (uygulama `_home-components.css` L715) | `1.5` → **deprecated** — CSS'te hâlâ 1.5, kod düzeltmesi **backend/ui işi** |
+
+**SSOT kararı:** overlay alpha **0.35**, blur **3** — bu iki değer bağlayıcıdır; `0.60`/`1.5` yalnızca "CSS'te uygulanmış hâli" olarak deprecated işaretlidir. **Bu dosyada CSS değerine dokunulmadı** (§2.1 bloğu aynen korunur) — düzeltme kod katmanında (L0-L2) yapılır. Ekran spec'lerindeki karşılığı: `screens/T07-embedded/welcome-popup.md` §6 · `screens/T17-monitor-22fhd/welcome-popup.md` §6.
 
 ### 2.2 Tipografi Token'ları (42 Token)
 
@@ -590,11 +626,14 @@ CoreMusic UI tasarım sisteminin **tek tasarım token kaynağıdır**. Tüm CSS 
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 6.0.0 |
+| Version | 6.2.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Total Tokens | 326 |
 | Categories | 9 (Color, Typography, Spacing, Layout, Border, Shadow, Animation, Z-Index, Glass) |
 | Color Tokens | 85 |
+| Figma Extracted Colors | 14 benzersiz hex · 17 anahtar (1024: 14 · 1920: 12) — §2.1.1 |
+| Figma Token Names | 14 ad atandı (çakışma 0 → `-figma` soneki gerekmedi) — §2.1.1 |
+| Overlay SSOT | alpha `0.35` + blur `3px` (Figma `2831:10268`) · `0.60`/`1.5` deprecated — §2.1.2 |
 | Typography Tokens | 42 |
 | Spacing Tokens | 38 |
 | Layout Tokens | 45 |
@@ -606,11 +645,11 @@ CoreMusic UI tasarım sisteminin **tek tasarım token kaynağıdır**. Tüm CSS 
 | Platform Tiers | 45 |
 | Responsive Breakpoints | 10 |
 | Theme Variants | 3 (female, male, neutral) |
-| Cross References | 6 |
-| Last Updated | 2026-09-22 |
+| Cross References | 7 |
+| Last Updated | 2026-09-27 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-22
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

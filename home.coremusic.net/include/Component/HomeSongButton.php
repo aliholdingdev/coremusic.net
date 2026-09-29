@@ -15,14 +15,25 @@ final class HomeSongButton
     }
 
     /**
-     * @param array{t: string, s?: string, art: string} $item ham (escape edilmemiş) kart verisi
+     * @param array{t: string, s?: string, art: string, stream?: string} $item ham (escape edilmemiş) kart verisi
      */
     public static function html(array $item, string $metaClass, string $metaLabel): string
     {
         $h = static fn (string $v): string => htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         $fallback = (defined('ASSETS_URL') ? ASSETS_URL : 'http://assets.coremusic.net') . '/Image/res-pink/default-album.png';
         $art = is_string($item['art'] ?? null) && $item['art'] !== '' ? $item['art'] : $fallback;
-        return '<a href="/playlist" class="home-song__mini-card" data-no-spa>'
+
+        /* Oynatma bağı — yalnızca geçerli /stream/{32hex} değeri eklenir,
+           böylece XSS ile attribute enjeksiyonu imkânsızdır. */
+        $stream = is_string($item['stream'] ?? null) ? $item['stream'] : '';
+        $streamAttr = '';
+        if (preg_match('#^/stream/[0-9a-f]{32}$#i', $stream) === 1) {
+            $streamAttr = ' data-stream="' . $h($stream) . '"'
+                . ' data-title="' . $h((string)$item['t']) . '"'
+                . ' data-artist="' . $h((string)($item['s'] ?? '')) . '"';
+        }
+
+        return '<a href="/playlist" class="home-song__mini-card" data-no-spa' . $streamAttr . '>'
             . '<div class="home-song__mini-card__art"><img src="' . $h($art) . '" alt="" width="50" height="50" loading="lazy"/></div>'
             . '<div class="home-song__mini-card__info">'
             . '<h3 class="home-song__mini-card__title">' . $h((string)$item['t']) . '</h3>'

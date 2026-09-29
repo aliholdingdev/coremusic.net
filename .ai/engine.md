@@ -2,10 +2,10 @@
 title: "CoreMusic - Orchestration Engine"
 type: system
 category: orchestration
-version: 21.0.1
+version: 21.0.3
 status: active
-authority: "Orchestration Index — SSOT: .ai/AGENTS.md (v22.0.3)"
-updated: 2026-09-24
+authority: "Orchestration Index — SSOT: .ai/AGENTS.md (v22.0.4)"
+updated: 2026-09-29
 ---
 
 # CoreMusic — Orchestration Engine
@@ -654,5 +654,5 @@ Sonraki faz:      Faz 2 (architecture/) — önkoşul: Faz 1 kapanış raporu
 ---
 
 *Orchestration Engine v21.0.0 — CoreMusic Enterprise*
-*Last Updated: 2026-09-23*
+*Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*

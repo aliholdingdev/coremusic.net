@@ -3,8 +3,8 @@ title: "CoreMusic — Node.js Backend Template"
 type: template
 category: template
 date: 2026-09-06
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-29
+version: 2.0.2
 status: active
 authority: reference
 ---
@@ -57,7 +57,7 @@ CoreMusic backend'i ikili bir yapıya sahiptir: PHP 8.4 (K8/K9 — `[[./php-temp
 | Runtime | PHP 8.4 | Node.js 20+ |
 | Dil | PHP (strict_types=1) | TypeScript 5+ (strict) |
 | Güvenlik | PSR-15 middleware pipeline (10 katman) | helmet + CORS + express-rate-limit |
-| Test | PHPUnit 11 (`[[../testing/phpunit-template]]`) | vitest (`[[../testing/vitest-template]]`) |
+| Test | PHPUnit ^10.5 (composer.json kanıtı) (`[[../testing/phpunit-template]]`) | vitest (`[[../testing/vitest-template]]`) |
 | ORM/DB | PDO (ORM yasak — ADR-002) | Servis katmanı (DB erişimi PHP tarafında) |
 | Port | Sunucu config'i | 3001 (K8 Download Service) |
 | Hata yönetimi | Merkezi error handler | `next(error)` → merkezi error handler |
@@ -505,4 +505,4 @@ Dosya commit edilmeden önce kalite kapıları sırayla kontrol edilir; tek bir 
 ---
 
 **Template Version:** 2.0.0
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29

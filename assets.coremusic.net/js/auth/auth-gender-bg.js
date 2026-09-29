@@ -21,17 +21,17 @@
     /* ============================================================
        CONFIGURATION
        ============================================================ */
-    var ASSETS_URL = '';
-    var BG_BASE = '/Image/background/';
-    var CROSSFADE_MS = 600;
-    var EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
+    let ASSETS_URL = '';
+    const BG_BASE = '/Image/background/';
+    const CROSSFADE_MS = 600;
+    const EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
 
     /**
      * Cihaz çözünürlüğüne göre görsel dosya adı haritası
      * Anahtar: cihaz türü
      * Değer: çözünürlük soneki (boş = orijinal)
      */
-    var RESOLUTION_MAP = {
+    const RESOLUTION_MAP = {
         'phone':      '-small',
         'tablet':     '',
         'embedded':   '',
@@ -44,7 +44,7 @@
     /**
      * Cinsiyet → arka plan görsel haritası
      */
-    var GENDER_BG = {
+    const GENDER_BG = {
         'female':  'login-bg-female.png',
         'male':    'login-bg-male.png',
         'neutral': 'login-bg-neutral.png'
@@ -53,7 +53,7 @@
     /**
      * Cinsiyet → animasyon rengi haritası (ambient glow, particle renkleri)
      */
-    var GENDER_COLORS = {
+    const GENDER_COLORS = {
         'female':  { primary: '#F8B4C8', glow: 'rgba(248,180,200,0.25)', particle: 'rgba(232,180,184,0.4)' },
         'male':    { primary: '#A0C4E2', glow: 'rgba(160,196,226,0.25)', particle: 'rgba(91,143,185,0.4)' },
         'neutral': { primary: '#E8C8D4', glow: 'rgba(232,200,212,0.25)', particle: 'rgba(184,169,201,0.4)' }
@@ -62,10 +62,10 @@
     /* ============================================================
        STATE
        ============================================================ */
-    var currentGender = null;
-    var bgElement = null;
-    var overlayEl = null;
-    var isAnimating = false;
+    let currentGender = null;
+    let bgElement = null;
+    let overlayEl = null;
+    let isAnimating = false;
 
     /* ============================================================
        HELPERS
@@ -78,8 +78,8 @@
         if (window.CoreMusic && window.CoreMusic.deviceType) {
             return window.CoreMusic.deviceType;
         }
-        var w = window.innerWidth || document.documentElement.clientWidth;
-        var h = window.innerHeight || document.documentElement.clientHeight;
+        const w = window.innerWidth || document.documentElement.clientWidth;
+        const h = window.innerHeight || document.documentElement.clientHeight;
         if (w <= 767) return 'phone';
         if (w <= 1024 && h <= 600) return 'embedded';
         if (w <= 1024) return 'tablet';
@@ -93,8 +93,8 @@
      * Ekran çözünürlüğünü al (px cinsinden)
      */
     function getResolution() {
-        var w = window.screen ? window.screen.width : window.innerWidth;
-        var h = window.screen ? window.screen.height : window.innerHeight;
+        const w = window.screen ? window.screen.width : window.innerWidth;
+        const h = window.screen ? window.screen.height : window.innerHeight;
         return { width: w, height: h, total: w * h };
     }
 
@@ -102,10 +102,10 @@
      * Cinsiyet ve cihaz türüne göre arka plan URL'i oluştur
      */
     function buildBgUrl(gender, device) {
-        var base = GENDER_BG[gender] || GENDER_BG['neutral'];
-        var suffix = RESOLUTION_MAP[device] || '';
-        var ext = base.split('.').pop();
-        var name = base.replace('.' + ext, '');
+        const base = GENDER_BG[gender] || GENDER_BG['neutral'];
+        const suffix = RESOLUTION_MAP[device] || '';
+        const ext = base.split('.').pop();
+        const name = base.replace('.' + ext, '');
         return ASSETS_URL + BG_BASE + name + suffix + '.' + ext;
     }
 
@@ -114,7 +114,7 @@
      */
     function preloadImage(url) {
         return new Promise(function (resolve) {
-            var img = new Image();
+            const img = new Image();
             img.onload = function () { resolve({ ok: true, width: img.naturalWidth, height: img.naturalHeight }); };
             img.onerror = function () { resolve({ ok: false }); };
             img.src = url;
@@ -151,7 +151,7 @@
      * CSS data-gender attribute'unu güncelle (tüm sayfa için)
      */
     function updateDataGender(gender) {
-        var page = document.querySelector('.lgn-page');
+        const page = document.querySelector('.lgn-page');
         if (page) {
             page.setAttribute('data-gender', gender);
         }
@@ -174,7 +174,7 @@
         overlayEl.style.transition = 'none';
         overlayEl.style.opacity = '0';
         // Mevcut bg'yi overlay'deki görselle güncelle
-        var currentBg = overlayEl.style.backgroundImage;
+        const currentBg = overlayEl.style.backgroundImage;
         if (currentBg && currentBg !== 'none' && bgElement) {
             bgElement.style.backgroundImage = currentBg;
         }
@@ -201,8 +201,8 @@
         }
 
         isAnimating = true;
-        var overlay = ensureOverlay();
-        var newUrl = buildBgUrl(newGender, device);
+        const overlay = ensureOverlay();
+        const newUrl = buildBgUrl(newGender, device);
 
         // Yeni görseli arka planda yükle
         preloadImage(newUrl).then(function (result) {
@@ -249,7 +249,7 @@
      * İlk yükleme — animasyonsuz direkt ayarla
      */
     function setInitialBg(gender, device) {
-        var url = buildBgUrl(gender, device);
+        const url = buildBgUrl(gender, device);
         if (bgElement) {
             bgElement.style.backgroundImage = 'url("' + url + '")';
         }
@@ -265,13 +265,13 @@
      * Gender butonuna tıklama — animasyonlu geçiş
      */
     function onGenderClick(e) {
-        var btn = e.target.closest('.lgn-gender-btn');
+        const btn = e.target.closest('.lgn-gender-btn');
         if (!btn) return;
 
-        var gender = btn.getAttribute('data-gender');
+        const gender = btn.getAttribute('data-gender');
         if (!gender) return;
 
-        var device = getDeviceType();
+        const device = getDeviceType();
         transitionBg(gender, device);
     }
 
@@ -279,7 +279,7 @@
      * URL'den cinsiyet oku (sayfa ilk yüklendiğinde)
      */
     function getGenderFromUrl() {
-        var params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(window.location.search);
         return params.get('gender') || null;
     }
 
@@ -287,7 +287,7 @@
      * HTML'den mevcut cinsiyeti oku
      */
     function getGenderFromDOM() {
-        var section = document.querySelector('.lgn-page');
+        const section = document.querySelector('.lgn-page');
         if (section) {
             return section.getAttribute('data-gender') || null;
         }
@@ -310,7 +310,7 @@
        ============================================================ */
     function init() {
         // ASSETS_URL'i data attribute'dan al
-        var script = document.querySelector('script[data-cm-gender-bg]');
+        const script = document.querySelector('script[data-cm-gender-bg]');
         if (script) {
             ASSETS_URL = script.getAttribute('data-assets-url') || '';
         }
@@ -319,23 +319,23 @@
         bgElement = document.querySelector('.lgn-bg');
 
         // Mevcut cinsiyeti belirle (öncelik: DOM > URL > Storage > default)
-        var gender = getGenderFromDOM() || getGenderFromUrl() || getGenderFromStorage() || 'female';
+        const gender = getGenderFromDOM() || getGenderFromUrl() || getGenderFromStorage() || 'female';
 
         // İlk yükleme — animasyonsuz
-        var device = getDeviceType();
+        const device = getDeviceType();
         setInitialBg(gender, device);
 
         // Event delegation — gender butonları için
         document.addEventListener('click', onGenderClick);
 
         // Cihaz değişikliğini dinle (resize)
-        var resizeTimer = null;
+        let resizeTimer = null;
         window.addEventListener('resize', function () {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function () {
                 if (currentGender) {
-                    var newDevice = getDeviceType();
-                    var newUrl = buildBgUrl(currentGender, newDevice);
+                    const newDevice = getDeviceType();
+                    const newUrl = buildBgUrl(currentGender, newDevice);
                     if (bgElement) {
                         bgElement.style.backgroundImage = 'url("' + newUrl + '")';
                     }
@@ -346,7 +346,7 @@
         // DeviceLoader event'ini dinle (cihaz değiştiğinde arka planı güncelle)
         window.addEventListener('devicechange', function (e) {
             if (currentGender && e.detail && e.detail.device) {
-                var newUrl = buildBgUrl(currentGender, e.detail.device);
+                const newUrl = buildBgUrl(currentGender, e.detail.device);
                 if (bgElement) {
                     bgElement.style.backgroundImage = 'url("' + newUrl + '")';
                 }

@@ -4,8 +4,8 @@ title: "Sound Card Chip Selection — PCM3168A + XMOS XU316 (8-kanal ses kartı 
 type: adr
 category: audio
 date: 2026-09-26
-updated: 2026-09-26
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: accepted
 authority: ADR-038 Karar Metni (SSOT)
 debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
@@ -310,5 +310,5 @@ ADR-017 adım 5'teki kanal eşlemesi (PCM3168A/AK4458 girişi) bu planla **bireb
 
 *ADR-038 v1.0.0 — CoreMusic Architecture Decision Record*
 *Authority: ADR-038 Karar Metni (SSOT)*
-*Last Updated: 2026-09-26*
+*Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*

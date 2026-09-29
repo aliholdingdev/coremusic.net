@@ -2,10 +2,10 @@
 title: "CoreMusic - Persona: Atlas Arslan"
 type: persona
 category: personas
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: reference
-updated: 2026-09-26
+updated: 2026-09-29
 group: erkek-cocuk
 age: 10
 mood: Enerjik
@@ -517,5 +517,5 @@ Davranış notları:
 ---
 
 **Authority:** Persona — SSOT: personas/erkek-cocuk/atlas-arslan
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

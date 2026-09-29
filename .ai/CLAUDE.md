@@ -2,10 +2,10 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.3.3
+version: 27.3.5
 status: active
 authority: SSOT
-updated: 2026-09-24
+updated: 2026-09-29
 ---
 
 # CoreMusic — AI Constitution & Master Vault Mandate
@@ -630,7 +630,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 **Detay:** [[.templates/index]]
 
-> ✅ GİDERİLDİ (ölçüm 2026-09-24): disk glob = 28 template dosyası (+2 yeni şablon: claude-md + docs-md, 2026-09-24); [[.templates/index]] üzerinden doğrulandı. (Eski kayıtlar: 26 — 2026-09-24 sabah, 19 — 2026-09-23 sahip doğrulaması.)
+> ✅ GİDERİLDİ (ölçüm 2026-09-27): disk glob = 36 template dosyası (`.ai/.templates` recursive; `index.md` ve `CLAUDE.md` hariç); [[.templates/index]] üzerinden doğrulandı. (Eski kayıtlar: 28 — 2026-09-24, +2 yeni şablon: claude-md + docs-md; 26 — 2026-09-24 sabah; 19 — 2026-09-23 sahip doğrulaması.)
 
 ---
 
@@ -706,7 +706,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Modül | Minimum | Hedef | Framework |
 |-------|---------|-------|-----------|
-| Backend (PHP) | ≥80% | ≥90% | PHPUnit 11 |
+| Backend (PHP) | ≥80% | ≥90% | PHPUnit ^10.5 (composer.json kanıtı — 3/3 proje) |
 | Frontend (JS) | ≥80% | ≥90% | Vitest |
 | Audio Engine (C++) | ≥80% | ≥90% | Google Test |
 | Download Service | ≥80% | ≥90% | Vitest |
@@ -717,7 +717,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 27.3.2 |
+| Version | 27.3.4 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 34 |
 | Hard Guardrails | 16 |
@@ -728,7 +728,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | Platform Tiers | 5 |
 | Deployment Modes | 5 |
 | Audio Divisions | 5 |
-| ADR Coverage | 001-089 (80 karar: 37 Frozen + 31 Active + 12 Rejected) (89 numaradan 80 dolu; 9 numara boşluk — DOĞRULAMA GEREKLİ) |
+| ADR Coverage | 46 fiziksel ADR dosyası (001-043, 081, 089, 090 — `.ai/.decisions/accepted/`, ölçüm 2026-09-27) + brain.md metin kararları; ADR-090 mevcut → sonraki yeni numara **091**; 044-080 ve 082-088 arası kararlar yalnız brain.md metnindedir (081 hariç — faz 5 karar appendix'i) · *(eski kayıt: 001-089 — 80 karar: 37 Frozen + 31 Active + 12 Rejected; 89 numaradan 80 dolu, 9 numara boşluk — DOĞRULAMA GEREKLİ)* |
 | Cross References | 11 |
 | Glossary Terms | 75 (SSOT: [[glossary]]) |
 | Forbidden Patterns | 11 |
@@ -823,6 +823,7 @@ Diğer terimler → [[glossary]]: SSOT, ADR, CSRF, CSP, BCNF, RBAC, OWASP, ASIO,
 | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault restructuring, PHP 8.4, port 81 | Active |
 | [[brain.md]] ADR-044-dynamic-user-theme-engine | Dynamic theme engine | Active |
 | [[.decisions/accepted/ADR-089-classab-24v]] | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Accepted |
+| [[.decisions/accepted/ADR-090-channel-variant-product-family]] | Kanal varyant ürün ailesi (mono → 8+1 SKU), maliyet kademesi, SKU politikası — Accepted 2026-09-26 | Accepted |
 
 ---
 
@@ -834,7 +835,7 @@ Diğer terimler → [[glossary]]: SSOT, ADR, CSRF, CSP, BCNF, RBAC, OWASP, ASIO,
 | [[WORKFLOW.md]] | Süreçler, fazlar, workflow'lar |
 | [[index.md]] | Master katalog, tüm vault yapısı |
 | [[keys.md]] | Keyword haritası, yönlendirme |
-| [[brain.md]] | Mimari kararlar, ADR 001-089 |
+| [[brain.md]] | Mimari kararlar — metin kararları ADR 001-089 (ADR-090 yalnız fiziksel dosyadadır; brain.md'de yok — ölçüm 2026-09-27) |
 | [[MEMORY.md]] | Session hafızası, persistent state |
 | [[log.md]] | Audit trail, append-only günlük |
 | [[engine.md]] | Orkestrasyon motoru, task dispatch |
@@ -931,5 +932,5 @@ Agent listesi ve profil tablosu (11 agent): [[AGENTS.md]] §4 (Agent Overview) v
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

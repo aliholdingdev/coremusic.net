@@ -2,10 +2,10 @@
 title: "CoreMusic — Test Senaryosu: Sosyal Paylaşım (SOS)"
 type: test-scenario
 category: testing
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Test Senaryosu — SSOT: personas/test-senaryolari/sosyal-paylasim"
-updated: 2026-09-26
+updated: 2026-09-29
 ---
 
 # CoreMusic — Test Senaryosu: Sosyal Paylaşım (SOS)

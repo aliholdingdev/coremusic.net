@@ -3,8 +3,8 @@ title: "CoreMusic — Frontend Architecture Decision Record Template"
 type: template
 category: adr
 date: 2026-09-23
-updated: 2026-09-23
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: active
 authority: reference
 ---
@@ -514,5 +514,5 @@ grep -RE "[0-9]+px" "assets.coremusic.net/Css copy/04_Components" || echo "PASS:
 
 ---
 
-**Template Version:** 1.0.0 · **Last Updated:** 2026-09-23
+**Template Version:** 1.0.0 · **Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

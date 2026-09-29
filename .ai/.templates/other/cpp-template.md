@@ -3,8 +3,8 @@ title: "C++ / Neva Audio Engine Template — DSP Çekirdek Şablonu"
 type: template
 category: other
 date: 2026-09-06
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-29
+version: 2.0.1
 status: active
 authority: reference
 ---
@@ -497,4 +497,4 @@ for (std::uint32_t ch = 0; ch < numChannels; ++ch) {
 ---
 
 **Template Version:** 2.0.0
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29

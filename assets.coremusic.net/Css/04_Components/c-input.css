@@ -1,0 +1,128 @@
+/* 04_Components/c-input.css */
+/* C05 Input — Figma page 18:2907 (Light 108×19 r3 stroke .2 / 1920: 136×30 r3 · Dark fill %35) */
+/* BEM: .input -> __label, __field, __hint ; --error, --success, --disabled */
+/* Token kaynağı: 01_Abstracts/a-primitive-tokens.css (ham hex/px YASAK) */
+/* Karar #6: dokunma alanı sarmalayıcı .input::before 48×48px
+   (input/form elemanlarında ::before basılmaz — kök <input> ise hit-area üretilemez, bkz. rapor) */
+
+.input {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--space-1, 4px);
+  font-family: var(--cm-font-ui);
+}
+
+.input__label {
+  font-size: var(--cm-input-label-size);
+  font-weight: var(--cm-ui-font-xs-weight);
+  color: var(--cm-input-color);
+}
+
+.input__field {
+  width: var(--cm-input-field-w);
+  min-height: var(--cm-input-field-h);
+  padding: 0 var(--space-1, 4px);
+  border: var(--cm-input-field-stroke) solid var(--cm-input-field-stroke-color);
+  border-radius: var(--cm-input-field-radius);
+  background: var(--cm-input-field-fill);   /* Dark: %35 — Light: şeffaf (token override) */
+  color: var(--cm-input-color);
+  font-family: var(--cm-font-ui);
+  font-size: var(--cm-ui-font-xs);
+  font-weight: var(--cm-ui-font-xs-weight);
+  line-height: 1.4;
+  transition:
+    background-color var(--duration-fast) var(--ease-in-out),
+    border-color var(--duration-fast) var(--ease-in-out);
+}
+
+.input__field::placeholder {
+  color: var(--cm-input-placeholder);
+  opacity: 1;
+}
+
+.input__field:hover:not(:disabled) {
+  border-color: var(--cm-input-color);
+}
+
+.input__field:focus-visible {
+  outline: var(--focus-ring-width) var(--focus-ring-style) var(--cm-input-field-stroke-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.input__field:disabled {
+  cursor: not-allowed;
+}
+
+.input__hint {
+  font-size: var(--cm-ui-font-xs);
+  color: var(--cm-input-placeholder);
+}
+
+/* ─── Durumlar (envanter C05: error / success / disabled) ─── */
+.input--error .input__field {
+  border-color: var(--cm-input-error-stroke-color);
+}
+
+.input--error .input__hint {
+  color: var(--cm-input-error-stroke-color);
+}
+
+.input--success .input__field {
+  border-color: var(--cm-input-success-stroke-color);
+}
+
+.input--success .input__hint {
+  color: var(--cm-input-success-stroke-color);
+}
+
+.input--disabled {
+  opacity: var(--cm-button-disabled-opacity);
+}
+
+.input--disabled .input__label,
+.input--disabled .input__hint {
+  pointer-events: none;
+}
+
+/* ─── Kök doğrudan <input class="input"> ise (sarmalayıcı yok) ─── */
+input.input {
+  display: inline-block;
+  width: var(--cm-input-field-w);
+  min-height: var(--cm-input-field-h);
+  padding: 0 var(--space-1, 4px);
+  border: var(--cm-input-field-stroke) solid var(--cm-input-field-stroke-color);
+  border-radius: var(--cm-input-field-radius);
+  background: var(--cm-input-field-fill);
+  color: var(--cm-input-color);
+  font-family: var(--cm-font-ui);
+  font-size: var(--cm-ui-font-xs);
+}
+
+/* ─── Karar #6 — 48×48px dokunma alanı (yalnız sarmalayıcı kök) ─── */
+label.input::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--cm-hit-target);
+  height: var(--cm-hit-target);
+  pointer-events: none;
+}
+
+/* ─── Tier: 1920 (136×30) token media query'den gelir — bileşen tekrarlamaz ─── */
+@media (min-width: 1920px) {
+  .input__field,
+  input.input {
+    width: var(--cm-input-field-w);
+    min-height: var(--cm-input-field-h);
+  }
+}
+
+/* ─── Tercih: hareket azaltma ─── */
+@media (prefers-reduced-motion: reduce) {
+  .input__field {
+    transition: none;
+  }
+}

@@ -4,7 +4,7 @@ type: archive
 folder: ".ai/archives"
 date: 2026-09-06
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team - Human Mode - Truth Mode
 ---

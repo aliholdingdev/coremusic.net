@@ -4,9 +4,9 @@ title: "CoreMusic — Engineering Brain (Enterprise SSOT)"
 type: brain
 category: architecture-decisions
 date: 2026-08-08
-updated: 2026-09-24
+updated: 2026-09-29
 status: active
-version: 26.1.2
+version: 26.1.3
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -1085,5 +1085,5 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -2,10 +2,10 @@
 title: "CoreMusic — Faz 6 Kırık Link Ledger & Doğrulama Raporu"
 type: report
 category: report
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Report — SSOT: .ai/index.md"
-updated: 2026-09-23
+updated: 2026-09-29
 ---
 
 # CoreMusic — Faz 6 Kırık Link Ledger & Doğrulama Raporu

@@ -4,10 +4,10 @@ title: "CoreMusic — K3 Ses İşleme Motoru Layer"
 type: architecture-layer
 category: architecture
 date: 2026-09-20
-updated: 2026-09-24
+updated: 2026-09-29
 last_update_note: "3 turlu agent tartışması"
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -659,5 +659,5 @@ Katalog notları:
 
 *K3 Ses İşleme Motoru Layer v1.0.0 — CoreMusic Architecture*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-24 — genişletme: 3 turlu agent tartışması*
+*Last Updated: 2026-09-29 — genişletme: 3 turlu agent tartışması*
 *Mode: Red Team · Human Mode · Truth Mode*

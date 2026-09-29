@@ -3,8 +3,8 @@ title: "CoreMusic — .ai/.subdomains Bağlam (ELI10)"
 type: context
 category: vault
 date: 2026-09-21
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-29
+version: 2.0.1
 status: active
 authority: reference
 ---
@@ -94,5 +94,5 @@ Bu yüzden `shared/` değişikliği = HIGH öncelikli + ekstra test zorunlu.
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

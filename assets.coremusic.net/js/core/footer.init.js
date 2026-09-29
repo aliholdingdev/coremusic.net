@@ -105,6 +105,78 @@
     bindPlayerAction('stopBtn', function () { if (window.mstop) window.mstop(); });
     bindPlayerAction('nextBtn', function () { if (window.mileri) window.mileri(); });
 
+    /* ── Şarkı kartı → stream oynatma ──────────────────────────────
+       Delegated listener: SPA router main içeriğini yeniden render ettiğinde
+       kartlar değişir, listener hayatta kalır (documentElement bayrağı ile
+       çift bağlama engellenir). PlayerInfoComponent.updateTrack selector'ları
+       ve ComponentBase.emit adlandırma (cm: prefix) kullanılır; yeni global yok. */
+    const updateNowPlaying = function (title, artist) {
+      if (title) {
+        const footerSong = document.getElementById('footer_songname');
+        if (footerSong) footerSong.textContent = title;
+        const infoTitle = document.querySelector('.player-info__title .now-playing__meta-value, .now-playing__title');
+        if (infoTitle) infoTitle.textContent = title;
+      }
+      if (artist) {
+        const footerArtist = document.getElementById('footer_sanatci');
+        if (footerArtist) footerArtist.textContent = artist;
+        const infoArtist = document.querySelector('.player-info__singer .now-playing__meta-value, .now-playing__artist');
+        if (infoArtist) infoArtist.textContent = artist;
+      }
+      document.dispatchEvent(new CustomEvent('cm:player:trackchange', {
+        detail: { title: title, artist: artist },
+        bubbles: true,
+        composed: true,
+      }));
+    };
+
+    const formatTime = function (seconds) {
+      const total = isFinite(seconds) && seconds > 0 ? Math.floor(seconds) : 0;
+      const h = Math.floor(total / 3600);
+      const m = Math.floor((total % 3600) / 60);
+      const s = total % 60;
+      const pad = function (n) { return n < 10 ? '0' + n : String(n); };
+      return pad(h) + ':' + pad(m) + ':' + pad(s);
+    };
+
+    const bindTrackStream = function () {
+      const root = document.documentElement;
+      if (root.hasAttribute('data-cm-stream-bound')) return;
+      root.setAttribute('data-cm-stream-bound', '1');
+
+      if (audio) {
+        audio.addEventListener('loadedmetadata', function () {
+          const dur = document.getElementById('footer_sure');
+          if (dur) dur.textContent = formatTime(audio.duration);
+        });
+      }
+
+      document.addEventListener('click', function (e) {
+        const target = e.target instanceof Element
+          ? e.target.closest('a.home-song__mini-card[data-stream]')
+          : null;
+        if (!target) return;
+
+        const stream = target.getAttribute('data-stream');
+        if (!stream) return;
+        e.preventDefault();
+
+        const media = document.getElementById('audio') || document.getElementById('main-audio');
+        if (!media) return;
+
+        media.src = stream;
+        const played = media.play();
+        if (played && typeof played.catch === 'function') played.catch(function () {});
+
+        updateNowPlaying(
+          target.getAttribute('data-title') || '',
+          target.getAttribute('data-artist') || ''
+        );
+      });
+    };
+
+    bindTrackStream();
+
     /* Setup volume input range sync with percentage text & fill */
     const volumeInput = document.getElementById('volume');
     const volumeFill = document.getElementById('volume2');

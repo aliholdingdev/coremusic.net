@@ -4,9 +4,9 @@ title: "CoreMusic — Vault Keyword Map & Concept Router"
 type: system
 category: vault-navigation
 date: 2026-08-12
-updated: 2026-09-24
+updated: 2026-09-29
 status: active
-version: 28.3.2
+version: 28.3.3
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -710,5 +710,5 @@ Istenen Bilgi -> Ilk Kontrol:
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-009: Clean URL Redirect (Tek Canonical Yöne 301 + İk
 type: adr
 category: routing
 date: 2026-09-24
-updated: 2026-09-24
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: accepted
 authority: ADR-009 Karar Metni (SSOT)
 governance: Red Team · Human Mode · Truth Mode

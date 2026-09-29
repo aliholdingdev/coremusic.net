@@ -1,503 +1,179 @@
 ---
-reference_doc: CoreMusic UI Design System
-title: "CoreMusic — Register Step 1 Screen Specification (Name + Email)"
-type: spec
-category: ui-design
-date: 2026-09-20
+title: "CoreMusic — Register Step 1 (Kayıt · Adım 1 — Kullanıcı Adı & E-posta)"
+tier: T07
+device: "RPi5 7\" Touch (Embedded)"
+viewport: { width: 1024, height: 600 }
+path: "screens/shared/"
 status: active
-version: 1.0.0
-tier: shared-1024
-viewport: 1024x600
-device: Linux Embedded (Shared 1024px)
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
-reference:
-  authority: ".ai/ui-design/screens/shared/register-step1.md"
-  source_of_truth: ".ai/.png/shared-1024/Linux  1024 - Register Girl.png"
+version: 1.0.1
+source_of_truth: ".ai/.png/shared-1024/Linux  1024 - Register Girl.png"
+related_tokens: [tokens/design-tokens-master]
+related_components: [02-component-inventory]
+wcag_target: "WCAG 2.2 AA"
+last_verified: "2026-09-27"
+author: "Bayram Ali"
 ---
 
-# CoreMusic — Register Step 1 (Name + Email) — 1024×600
+# CoreMusic — Register Step 1 (T07 Embedded 1024×600)
 
-**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]] · [[../shared/login]] · [[../shared/register-step2]] · [[../shared/register-step3]]
+**Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
 
 ---
 
 ## 1. ASCII Layout (Piksel Düzeyinde — x:0-1024, y:0-600)
 
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│ x:0                                                                                                    x:1024  │
-│                                                                                                              │
-│ ┌─── LEFT SIDE (60%, w:614) ──────────────────┐  ┌─── RIGHT SIDE (40%, w:410) ──────────────────────────┐  │
-│ │                                              │  │                                                          │  │
-│ │  🌸 Pembe sunset manzara arka planı          │  │  (y:28-60)  👤 Kadın ikonu (48×48, dairesel)            │  │
-│ │  (dağ, çiçekler, gün batımı pembe)           │  │  (y:68)      ★ Hesap Oluştur                            │  │
-│ │                                              │  │  (y:88)      CoreMusic ailesine katıl,                   │  │
-│ │  (y:240)  ┌─── Brand Area ──────────────┐   │  │              müziğin keyfini çıkar                        │  │
-│ │           │                              │   │  │                                                          │  │
-│ │           │  ✨ Core Music ✨            │   │  │  (y:140) ── Kullanıcı Adı ──────────────────────────── │  │
-│ │           │  Logo: ♪ not + çiçek         │   │  │  (y:155)  ┌────────────────────────────────────────┐  │  │
-│ │           │                              │   │  │           │ Adınızı yazın? (placeholder)           │  │  │
-│ │           │  "İşte karşınızda"            │   │  │           │ bg:#fff, border:#e0e0e0, h:48          │  │  │
-│ │           │  "mükemminel!"               │   │  │           │ ● sol kenarda pink/pembe accent        │  │  │
-│ │           │  "sistem. Milyonlarca şarkı,  │   │  │           └────────────────────────────────────────┘  │  │
-│ │           │  özel seçilmiş playlistler,   │   │  │                                                          │  │
-│ │           │  sonsuz müzik keyfi. Burada." │   │  │  (y:210) ── E-posta ────────────────────────────────── │  │
-│ │           │                              │   │  │  (y:225)  ┌────────────────────────────────────────┐  │  │
-│ │           └──────────────────────────────┘   │  │           │ E-postanızı yazın? (placeholder)        │  │  │
-│ │                                              │  │           │ bg:#fff, border:#e0e0e0, h:48          │  │  │
-│ │                                              │  │           │ ● sol kenarda pink/pembe accent        │  │  │
-│ │                                              │  │           └────────────────────────────────────────┘  │  │
-│ │                                              │  │                                                          │  │
-│ │                                              │  │  (y:290)  ┌────────────────────────────────────────┐  │  │
-│ │                                              │  │           │ ▶ Devam Et (gradient pembe-mor)         │  │  │
-│ │                                              │  │           │    linear-gradient(#ff4fd8, #a855f7)   │  │  │
-│ │                                              │  │           │    h:48, radius:8px, bold               │  │  │
-│ │                                              │  │           └────────────────────────────────────────┘  │  │
-│ │                                              │  │                                                          │  │
-│ │                                              │  │  (y:350)  ─────── veya şu linkler ile devam et ───────  │  │
-│ │                                              │  │                                                          │  │
-│ │                                              │  │  (y:380)  [🍎Apple] [🔍Google] [📘Facebook]             │  │
-│ │                                              │  │  (y:420)  [💬WhatsApp] [📷Instagram] [🎵TikTok]         │  │
-│ │                                              │  │  (y:460)  [🤖Telegram]                                   │  │
-│ │                                              │  │                                                          │  │
-│ │                                              │  │  (y:510)                    Hesabın yok mu? Kayıt Ol  │  │
-│ │                                              │  │                              ↑ "Kayıt Ol" bold/link   │  │
-│ └──────────────────────────────────────────────┘  └──────────────────────────────────────────────────────────┘  │
-│                                                                                                              │
-└────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+y=0 ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+    │ [0,0] Romantik_Background_03 (1024×600) + Siyah Arkaplan Evekt gradient (α .12→.04)                          │
+y=120├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+    │ glass panel (x749,y0,275×600, #FFF α.2 + blur 2)  · bg-art 100×100 @(836,15)                                 │
+    │ "Hesap Oluştur" (841,120) 90×16 PJS 13/600                                                                    │
+y=133├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+    │ "CoreMusic ailesine katıl, müziğin keyfini çıkar" (785,141) 202×13 DM Sans 10/300 #DCDCDC                    │
+y=141├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+    │ logo 30×30 @(64,249) · "Core Music" 58×25 @(101,251) Bickham Script Two 15                                   │
+    │ left title "Seni /      Tanıyalım " (64,301) 73×30  (son karakter U+00A0 NBSP)                               │
+    │ left desc "Deneyimini sana özel hale getirmek için bir seçim yapman yeterli." (62,338) 295×13                │
+y=189├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+    │ "Kullanıcı Adı" (776,202) 43×10 PJS 8/500                                                                    │
+    │ [input#reg-username] (776,217) 220×19 r3 · stroke #F200D0 0.2 · ph (784,221)                                 │
+    │ "Eposta" (776,246) 26×10                                                                                     │
+    │ [input#reg-email] (776,261) 220×19 r3 · stroke #F200D0 0.2 · ph (784,265)                                    │
+y=311├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+    │ [Devam Et] (776,299) 220×25 r5 · text (870,307) 33×9 PJS 7/500                                                │
+y=342├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+    │ social "____________________veya şununla devam et____________________" (777,390) 218×10                       │
+    │ row1 y415: [Apple](776) [Google](853) [Facebook](931)  65×25 · icon 15×15                                     │
+    │ row2 y450: [Spotify](776) [İnstagram](853) [Tiktok](931) 65×25                                               │
+    │ row3 y485: [Github](776) [Google](853) [Facebook](931) 65×25                                                 │
+y=462├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+    │ (boş alan — hero art YOK)                                                                                     │
+    │ privacy "Devam ederek Gizlilik Politikası'nı kabul etmiş olursunuz." (786,567) 207×10 DM Sans 8/300            │
+y=567├──────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+    │ footer: "Gizlilik"(16,583) · Ellipse(35,587) · "Kullanım Koşulları"(38,583) · Ellipse(87,587) ·               │
+    │   "Destek    © 2026  Coremusic"(90,583) 95×8 · Ellipse(112,587)                                              │
+    │ glass footer "Hesabın yok mu? Kayıt Ol" (839,567) 94×10                                                       │
+y=600└──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
----
+Bant toplamı: 120 + 34 + 48 + 122 + 66 + 120 + 57 + 33 = 600 ✓
 
-## 2. Adım Akışı (3-Step Registration)
+**Koordinat Kanıtı (SSOT = PNG):** Figma frame (origin 3969, 3890); koordinatlar frame-rel. Input `y261.849` gibi subpixel değerler PNG'de `y+0`'a yuvarlanır (Register Step 3 frame'inde GetPixel ile doğrulandı). Hero illüstrasyonu bu adımda yok.
 
-| Adım | Dosya | Form Alanları | CTA | Not |
-|:----:|-------|---------------|-----|-----|
-| **1** | `Register Girl.png` | Kullanıcı Adı + E-posta | Devam Et | İlk kayıt — kimlik bilgisi |
-| **2** | `Register Girl step 2.png` | Şifre + Şifre Tekrar | Devam Et | Güvenlik — şifre oluşturma |
-| **3** | `Register Girl step 3.png` | Telefon + KVKK checkbox | Kayıt Ol | Tamamlama — doğrulama |
+## 2. BEM Sınıfları
 
-**Flow Mantığı:**
-```
-Step 1 (Name+Email) → "Devam Et" → Step 2 (Password) → "Devam Et" → Step 3 (Phone) → "Kayıt Ol" → Home
-```
+| BEM Sınıfı | Bileşen | Kullanım Yeri (bu ekran) |
+|---|---|---|
+| `.input` | C05 | Kullanıcı adı + Eposta alanları |
+| `.btn` | C04 | `Devam Et` (birincil) + 9 sosyal buton (`.btn--social`) |
+| `.nav-link` | C01 | `Giriş Yap` bağlantı (glass footer'da `Kayıt Ol` bu ekranın kendisi) |
+| `.card` | C03 | Sosyal buton arka planı 65×25 |
+| `.progress` | C15 | Adım göstergesi **API'den gelmedi** (PNG'de 1/2/3 dots yok) |
+| `.modal` | C07 | Yok |
 
----
+Bu ekran özel notlar:
+- 3 adımlı akışın 1. adımı; step göstergesi PNG/Figma'da yok → `progress` opsiyonel, **API'den gelmedi**.
+- Sosyal blok tüm register adımlarında aynıdır (aynı koordinatlar).
+- Ayırıcı tek text node (`...veya şununla devam et...`) → CSS'te `border + span`.
 
-## 3. Step 1 Detaylı bileşen
-
-### 3.1 Form Alanları
-
-| # | Alan | Placeholder | Tip | Validasyon | Hata Mesajı |
-|---|------|-------------|-----|------------|-------------|
-| 1 | Kullanıcı Adı | "Adınızı yazın?" | text | zorunlu, 2-50 char, a-zA-ZçğıöşüÇĞIİÖŞÜ | "Adınızı girin (2-50 karakter)" |
-| 2 | E-posta | "E-postanızı yazın?" | email | zorunlu, RFC 5322 format | "Geçerli bir e-posta girin" |
-
-### 3.2 Devam Et Butonu
-
-| Özellik | Değer |
-|---------|-------|
-| Metin | "Devam Et" |
-| Gradient | `linear-gradient(135deg, #ff4fd8, #a855f7)` |
-| Yükseklik | 48px |
-| Radius | 8px |
-| Font | 16px, weight 600, color white |
-| Hover | translateY(-1px) + boxShadow |
-| Disabled | Step 1: her iki alan da dolu değilse disabled |
-
----
-
-## 4. BEM Sınıfları
-
-| BEM Sınıfı | Açıklama | Piksel |
-|------------|----------|--------|
-| `.register-page` | Ana container (flex row) | 1024×600, flex |
-| `.register-page__brand` | Sol taraf (manzara + logo) | w:60%, overflow:hidden |
-| `.register-page__form` | Sağ taraf (form paneli) | w:40%, bg:rgba(255,255,255,0.95) |
-| `.register-brand__logo` | Core Music logosu | 40×40, ♪ not ikonu |
-| `.register-brand__title` | "İşte karşınızda" | font:24px/700, cursive |
-| `.register-brand__subtitle` | "mükemminel!" | font:28px/700, cursive, italic |
-| `.register-brand__desc` | "sistem. Milyonlarca..." | font:14px/400 |
-| `.register-form__avatar` | Kadın ikonu | 48×48, dairesel, border |
-| `.register-form__title` | "Hesap Oluştur" | font:28px/700 |
-| `.register-form__subtitle` | "CoreMusic ailesine katıl..." | font:14px/400, color:#666 |
-| `.register-form__group` | Input grubu (label+input) | flex column, gap:4px |
-| `.register-form__label` | "Kullanıcı Adı" / "E-posta" | font:12px/600, color:#333 |
-| `.register-form__input` | Input field | h:48, radius:8px, bg:#fff, border:1px solid #e0e0e0 |
-| `.register-form__input--accent` | Sol kenar pink accent | border-left:3px solid #ff4fd8 |
-| `.register-form__submit` | "Devam Et" butonu | gradient, h:48, radius:8px |
-| `.register-form__divider` | "veya şu linkler ile devam et" | flex row, gap:8px, text gray |
-| `.register-form__social` | Sosyal medya grid | 3 sütun, gap:12px |
-| `.register-form__social-btn` | Sosyal buton | h:40, radius:8px, border:1px solid #e0e0e0 |
-| `.register-form__footer` | "Hesabın yok mu?" | font:14px, color:#666 |
-| `.register-form__footer-link` | "Kayıt Ol" | font:14px, bold, color:#ff4fd8 |
-
----
-
-## 5. Token Referansları
+## 3. Token Referansları
 
 | Token | Değer | Kullanım |
-|-------|-------|----------|
-| `--cm-primary` | #ff4fd8 | Submit butonu gradient başlangıcı, sol accent, linkler |
-| `--cm-primary-end` | #a855f7 | Submit butonu gradient bitişi |
-| `--cm-bg-form` | rgba(255,255,255,0.95) | Form arka planı (glassmorphism) |
-| `--cm-bg-input` | #ffffff | Input arka planı |
-| `--cm-border-input` | #e0e0e0 | Input kenarlığı |
-| `--cm-border-accent` | #ff4fd8 | Sol kenar accent (input focus) |
-| `--cm-text-heading` | #0a0a0f | Başlık |
-| `--cm-text-body` | #333333 | Label |
-| `--cm-text-secondary` | #666666 | Açıklayıcı metin, subtitle |
-| `--cm-text-placeholder` | #999999 | Input placeholder |
-| `--cm-radius-md` | 8px | Input/button radius |
-| `--cm-spacing-xs` | 4px | Label-input gap |
-| `--cm-spacing-sm` | 8px | Divider gap |
-| `--cm-spacing-md` | 16px | Form padding horizontal |
-| `--cm-spacing-lg` | 24px | Form gap (alanlar arası) |
-| `--cm-spacing-xl` | 40px | Form padding top/bottom |
-| `--cm-font-size-sm` | 12px | Label, divider text |
-| `--cm-font-size-md` | 14px | Subtitle, description |
-| `--cm-font-size-lg` | 16px | Submit buton text |
-| `--cm-font-size-2xl` | 28px | Form başlığı, brand subtitle |
-| `--cm-font-size-3xl` | 32px | Brand title |
-| `--cm-shadow-sm` | 0 2px 8px rgba(0,0,0,0.08) | Form paneli gölgesi |
-| `--cm-shadow-input-focus` | 0 0 0 3px rgba(255,79,216,0.15) | Input focus gölgesi |
+|---|---|---|
+| `--cm-primary` | `var(--cm-primary)` | Input stroke gradyanı |
+| `--cm-error` | `var(--cm-error)` | Hata mesajı |
+| `--cm-glass-bg` / `--cm-glass-blur` | `var(--cm-glass-bg)` / `var(--cm-glass-blur)` | Sağ panel `.2` + `blur(2px)` |
+| `--cm-radius-sm` | `var(--cm-radius-sm)` | r3 input / r5 buton |
+| `--cm-space-2` … `--cm-space-4` | `var(--cm-space-2)` … | label-input arası, satır aralığı |
+| `--cm-font-display` / `--cm-font-body` | `var(--cm-font-display)` / `var(--cm-font-body)` | Başlık / gövde |
+| `--cm-touch-target` | `var(--cm-touch-target)` | 44px — §4 GAP |
+| `--cm-shadow-focus` | `var(--cm-shadow-focus)` | Focus (§9) |
 
----
+Not: Placeholder font "Avalon" ve adım göstergesi token'ı **API'den gelmedi**. Ham hex/rgba §6'da.
 
-## 6. Touch Target
+## 4. Touch Target (WCAG 2.5.8 / 2.5.5)
 
-| Cihaz | Min Touch | Uygulama |
-|-------|-----------|----------|
-| T08 Embedded (1024×600) | 48×48px | Input h:48, Button h:48, Social btn h:40 |
-| T01 Phone (≤767px) | 48×48px | Tüm interaktif elemanlar |
-| T25 TV (≥3840px) | 80×80px | D-pad navigasyon için |
+| Öğe | PNG Boyutu | Minimum | Token | Durum |
+|---|---|---|---|---|
+| Input ×2 | 220×19 | 44px | 44px | ⚠️ GAP: 19px < 44px |
+| `Devam Et` | 220×25 | 44px | 44px | ⚠️ GAP: 25px < 44px |
+| Sosyal butonlar ×9 | 65×25 | 44px T07 | 44px | ⚠️ GAP: 25px yükseklik |
+| `Giriş Yap` linki (glass footer) | 94×10 | 24px | — | ⚠️ GAP |
+| Divider link metni | 218×10 | 24px | — | ⚠️ GAP |
 
----
+Notlar:
+- Ölçüler PNG'den (Figma 220×19 / 220×25 / 65×25).
+- Tab sırası: username → email → Devam Et → sosyal (tasarım okuma sırası §5).
+- Padding telafisi **API'den gelmedi** → VERIFICATION REQUIRED (kod aşamasında `--cm-touch-target`).
 
-## 7. WCAG Uyumu
+## 5. WCAG Uyumu (2.2 AA)
 
-| Kontrol | Durum | Detay |
-|---------|:-----:|-------|
-| Kontrast 4.5:1 | ✅ | Başlık #0a0a0f beyaz arka plan üzerinde |
-| Kontrast 3:1 | ✅ | Placeholder #999 yeterli mi? → #666 önerilir |
-| Keyboard | ✅ | Tab sırası: Kullanıcı Adı → E-posta → Devam Et → Social butonlar |
-| Focus Visible | ✅ | Input focus: border #ff4fd8, outline 2px, box-shadow |
-| Screen Reader | ✅ | `aria-label="Kullanıcı Adı"`, `aria-required="true"`, form `role="form"` |
-| Error State | ✅ | Hatalı input: border #ef4444, aria-describedby ile hata mesajı |
-| Autocomplete | ✅ | `autocomplete="name"`, `autocomplete="email"` |
-| Heading Hierarchy | ✅ | h1: "Hesap Oluştur", h2: "Kullanıcı Adı" |
-| Landmark | ✅ | `<main>`, `<form>`, `<footer>` landmark'ları |
+| Kural | Gereksinim | Durum | Kanıt |
+|---|---|---|---|
+| 1.4.3 Kontrast | 4.5:1 | PASS | #DCDCDC ~9:1; label açık/siyah zemin |
+| 1.4.11 Kontrast (non-text) | 3:1 | ⚠️ VERIFICATION REQUIRED | Input stroke α.2 / sosyal ikonlar — kodda ölçüm |
+| 2.4.7 Focus | Görünür focus | ⚠️ GAP | PNG'de focus yok → `--cm-shadow-focus` |
+| 2.5.5 / 2.5.8 | 44 / 24px | ⚠️ GAP | §4: 19/25/10px |
+| 3.3.1 Error Identification | Hata tanıma | PASS (tasarım) | `.input--error` + `--cm-error` (state görseli **API'den gelmedi**) |
+| 3.3.2 Labels / 3.3.8 | Label + autocomplete | PASS / VERIFICATION | Görünür label var; `autocomplete` değerleri kod aşamasında |
+| 1.4.1 Use of Color | Renk tek değil | PASS | Hata durumu ikon+metin öngörülüyor (state **API'den gelmedi**) |
+| 1.3.1 / 2.1.1 | Yapı + klavye | PASS (tasarım) | Form; Enter ile Devam |
 
----
+Not: GAP kaydı `04-accessibility-gaps.md` bu görevde düzenlenmeyecek (erişim dışı).
 
-## 8. Form Stili
+## 6. Glassmorphism Stili
 
-```css
-/* ═══ Page Container ═══ */
-.register-page {
-  display: flex;
-  width: 1024px;
-  height: 600px;
-  overflow: hidden;
-}
+| Öğe | Değer | Kaynak |
+|---|---|---|
+| Sağ panel | `rgba(255,255,255,0.2)` + `backdrop-filter: blur(2px)` | Figma `Sağ Panel` blur=2 |
+| frame fill | `#000000` | Figma |
+| arkaplan degrade | `linear-gradient(rgba(0,0,0,.12), rgba(0,0,0,.04))` | `Siyah Arkaplan Evekt` |
+| input stroke | `#F200D0` α.2, 0.2px | Figma input stroke |
+| divider | `rgba(255,255,255,.5)` çizgi + label | Figma text fill (PNG ile uyumlu) |
 
-/* ═══ Brand Side ═══ */
-.register-page__brand {
-  width: 60%;
-  position: relative;
-  background: url('register-bg.jpg') center/cover no-repeat;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 40px;
-}
+Not: `--cm-bg-overlay` 0.60 DEPRECATED → bu ekran overlay kullanmaz (SSOT düzeltmesi `screens/T17-monitor-22fhd/welcome-popup.md` §6).
 
-.register-brand__logo {
-  width: 40px;
-  height: 40px;
-}
+## 7. PNG Referansı
 
-.register-brand__title {
-  font-size: 32px;
-  font-weight: 700;
-  font-style: italic;
-  color: #fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
+- **PNG (SSOT):** `.ai/.png/shared-1024/Linux  1024 - Register Girl.png`
+  - 1024×600; inputlar y217-236 / y261-280; `Devam Et` y299-324; sosyal grid y415/450/485.
+- **Figma (referans):** Register frame (origin 3969,3890); layout inputları `2831:9882` (Kullanıcı Adı), `2831:9885` (Eposta), `2831:9887` Devam Et, social `2831:9891`.
+- **Figma PNG export:** `1024 - Register Girl.png`.
+- **SSOT sırası:** PNG > Figma → çelişki yok; §1 etiket yok.
 
-.register-brand__subtitle {
-  font-size: 28px;
-  font-weight: 700;
-  font-style: italic;
-  color: #fff;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
+## 8. Responsive Davranış
 
-.register-brand__desc {
-  font-size: 14px;
-  color: rgba(255,255,255,0.85);
-  max-width: 280px;
-  line-height: 1.5;
-}
+| Kural | Davranış |
+|---|---|
+| 1024-1440px | Sabit sahne; panel 275px |
+| >1440px | Panel `min(35vw,380px)` (opsiyonel) |
+| <1024px | Dikey istifleme: başlık → form → Devam → sosyal → footer |
+| Orientation | T07 landscape sabit |
+| Touch | 44px padding telafisi |
 
-/* ═══ Form Side ═══ */
-.register-page__form {
-  width: 40%;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  padding: 24px 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  overflow-y: auto;
-}
-
-/* ═══ Avatar ═══ */
-.register-form__avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 2px solid #e0e0e0;
-  object-fit: cover;
-}
-
-/* ═══ Title ═══ */
-.register-form__title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #0a0a0f;
-  margin-top: 8px;
-}
-
-.register-form__subtitle {
-  font-size: 13px;
-  color: #666;
-  text-align: center;
-  margin-top: 4px;
-  margin-bottom: 16px;
-}
-
-/* ═══ Input Group ═══ */
-.register-form__group {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin-bottom: 12px;
-}
-
-.register-form__label {
-  font-size: 12px;
-  font-weight: 600;
-  color: #333;
-}
-
-.register-form__input {
-  width: 100%;
-  height: 48px;
-  padding: 0 16px;
-  border: 1px solid #e0e0e0;
-  border-left: 3px solid #ff4fd8;
-  border-radius: 8px;
-  font-size: 14px;
-  background: #fff;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.register-form__input:focus {
-  outline: none;
-  border-color: #ff4fd8;
-  border-left-color: #ff4fd8;
-  box-shadow: 0 0 0 3px rgba(255, 79, 216, 0.15);
-}
-
-.register-form__input::placeholder {
-  color: #999;
-  font-style: italic;
-}
-
-/* ═══ Submit Button ═══ */
-.register-form__submit {
-  width: 100%;
-  height: 48px;
-  background: linear-gradient(135deg, #ff4fd8, #a855f7);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  margin-top: 8px;
-}
-
-.register-form__submit:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(255, 79, 216, 0.3);
-}
-
-.register-form__submit:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-/* ═══ Divider ═══ */
-.register-form__divider {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin: 16px 0;
-  gap: 8px;
-}
-
-.register-form__divider-line {
-  flex: 1;
-  height: 1px;
-  background: #e0e0e0;
-}
-
-.register-form__divider-text {
-  font-size: 12px;
-  color: #999;
-  white-space: nowrap;
-}
-
-/* ═══ Social Grid ═══ */
-.register-form__social {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  width: 100%;
-}
-
-.register-form__social-btn {
-  height: 40px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  background: white;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s ease, transform 0.1s ease;
-  font-size: 16px;
-}
-
-.register-form__social-btn:hover {
-  background: #f5f5f5;
-  transform: translateY(-1px);
-}
-
-/* ═══ Footer ═══ */
-.register-form__footer {
-  font-size: 14px;
-  color: #666;
-  margin-top: auto;
-  padding-top: 16px;
-}
-
-.register-form__footer-link {
-  color: #ff4fd8;
-  font-weight: 700;
-  text-decoration: none;
-  margin-left: 4px;
-}
-
-.register-form__footer-link:hover {
-  text-decoration: underline;
-}
-
-/* ═══ Error State ═══ */
-.register-form__input--error {
-  border-color: #ef4444;
-  border-left-color: #ef4444;
-}
-
-.register-form__input--error:focus {
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
-}
-
-.register-form__error-message {
-  color: #ef4444;
-  font-size: 12px;
-  margin-top: 2px;
-}
-
-/* ═══ Success State ═══ */
-.register-form__input--success {
-  border-color: #22c55e;
-  border-left-color: #22c55e;
-}
-
-.register-form__check-icon {
-  color: #22c55e;
-  font-size: 14px;
-  margin-left: 8px;
-}
-```
-
----
+Not: Genişlik kırılımı **API'den gelmedi** → VERIFICATION REQUIRED.
 
 ## 9. State Durumları
 
-| Durum | Görsel Değişiklik | JS Davranışı |
-|-------|-------------------|--------------|
-| Default | Input bg:#fff, border:#e0e0e0, sol accent:#ff4fd8 | — |
-| Focus | Border:#ff4fd8, box-shadow glow | — |
-| Filled | Sol accent korunur, validation başlar | Real-time validation |
-| Error | Border:#ef4444, hata mesajı göster | aria-describedby, aria-invalid |
-| Success | Border:#22c55e, ✓ ikonu | Geçerli input |
-| Loading | Submit spinner animasyonu | API çağrısı |
-| Disabled | Opacity:0.5, cursor:not-allowed | Buton disabled |
+| State | Tanım | Kaynak |
+|---|---|---|
+| default | Boş alanlar, placeholder görünür | PNG (SSOT) |
+| focus | `--cm-shadow-focus` + stroke α.6 | **API'den gelmedi** (PNG yok) |
+| error | `--cm-error` + mesaj (örn. e-posta formatı) | **API'den gelmedi** |
+| success | Alan doğrulandı (step geçişi) | **API'den gelmedi** |
+| loading | `Devam Et` spinner | **API'den gelmedi** |
+| step-indicator (1/2/3) | Adım göstergesi | **API'den gelmedi** (PNG'de yok) |
+
+> ⚠️ VERIFICATION REQUIRED — focus/error/loading/step-gösterge state PNG'leri yok.
 
 ---
 
-## 10. Validasyon Kuralları
+**Quality Report**
 
-### Kullanıcı Adı
-| Kural | Değer | Hata |
-|-------|-------|------|
-| Zorunlu | true | "Adınızı girin" |
-| Min uzunluk | 2 | "En az 2 karakter girin" |
-| Max uzunluk | 50 | "En fazla 50 karakter girin" |
-| Pattern | `[a-zA-ZçğıöşüÇĞIİÖŞÜ ]` | "Sadece harf ve boşluk kullanın" |
-| İlk karakter | Harf olmalı | "İlk karakter harf olmalı" |
+- **Doğrulama:** PNG (SSOT) + Figma Register frame (origin 3969) + C05/C04/C01 + token master; koordinat yöntemi Register Step 3 pixel-scan ile doğrulandı (aynı extraction).
+- **Çelişki:** 0.
+- **Eksik veri:** step göstergesi, focus/error/loading state PNG'leri, Avalon token'ı → §2/§5/§9 `⚠️ VERIFICATION REQUIRED`.
+- **Kapsam dışı:** `04-accessibility-gaps.md` GAP kaydı (erişim dışı — §5'te not edildi).
+- **Kontrol:** §1-§9 sırası; touch 44px §4; status `active` (PNG doğrulanmış).
 
-### E-posta
-| Kural | Değer | Hata |
-|-------|-------|------|
-| Zorunlu | true | "E-posta adresinizi girin" |
-| Pattern | RFC 5322 | "Geçerli bir e-posta adresi girin" |
-| Unique | DB kontrol | "Bu e-posta zaten kayıtlı" |
-
----
-
-## 11. Responsive Davranış
-
-| Tier | Viewport | Layout Değişikliği |
-|------|----------|-------------------|
-| T01-T05 (Phone) | ≤767px | Tam ekran form, brand gizli, fullscreen |
-| T06-T07 (Tablet) | 768-1024px | Split 50/50 |
-| T08 (Embedded) | 1024×600 | Split 60/40 (PNG reference) |
-| T12-T16 (Laptop) | 1025-2560px | Split 50/50, daha büyük form |
-| T25-T28 (TV) | ≥3840px | Split 50/50, font scale 1.5x |
-
----
-
-## 12. PNG Referansı
-
-| PNG | Viewport | Dosya Yolu | Sıra |
-|-----|----------|------------|:----:|
-| `Linux 1024 - Register Girl.png` | 1024×600 | `.ai/.png/shared-1024/` | Step 1 |
-| `Linux 1024 - Register Girl step 2.png` | 1024×600 | `.ai/.png/shared-1024/` | Step 2 |
-| `Linux 1024 - Register Girl step 3.png` | 1024×600 | `.ai/.png/shared-1024/` | Step 3 |
-
----
-
-**Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-20
-**Mode:** Red Team · Human Mode · Truth Mode
+**Authority:** Bayram Ali / Vault Steward · 2026-09-27 · Red Team · Human Mode · Truth Mode

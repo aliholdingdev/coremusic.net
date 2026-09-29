@@ -2,10 +2,10 @@
 title: "CoreMusic — Test Senaryosu: Erişilebilirlik (A11Y)"
 type: test-scenario
 category: testing
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Test Senaryosu — SSOT: personas/test-senaryolari/a11y-erisilebilirlik"
-updated: 2026-09-26
+updated: 2026-09-29
 ---
 
 # CoreMusic — Test Senaryosu: Erişilebilirlik (A11Y)
@@ -515,5 +515,5 @@ await cdp.send('Network.emulateNetworkConditions', {
 ---
 
 **Authority:** Test Senaryosu — SSOT: personas/test-senaryolari/a11y-erisilebilirlik
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

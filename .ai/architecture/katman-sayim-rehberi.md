@@ -3,11 +3,11 @@ title: "CoreMusic — Katman Sayım Rehberi (Düğüm Sayımı ve 5000 Hedefi)"
 type: architecture-rule
 category: architecture
 date: 2026-09-24
-updated: 2026-09-24
+updated: 2026-09-29
 tarih: 2026-09-24
 durum: önerildi
 status: proposed
-version: 1.0.0
+version: 1.0.1
 kaynak: "3 turlu agent tartışması 20 persona"
 authority: "SSOT — katman sayım kuralları (adlandirma-kurali.md ile birlikte)"
 governance: Red Team · Human Mode · Truth Mode
@@ -524,5 +524,5 @@ Select-String -Path .aiarchitecturekatman-sayim-rehberi.md -Pattern "5.105 ≥ 5
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

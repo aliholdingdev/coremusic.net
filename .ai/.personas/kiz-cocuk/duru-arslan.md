@@ -2,10 +2,10 @@
 title: "CoreMusic — Persona: Duru Arslan"
 type: persona
 category: personas
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Persona — SSOT: personas/kiz-cocuk/duru-arslan"
-updated: 2026-09-26
+updated: 2026-09-29
 group: kiz-cocuk
 age: 11
 mood: Enerjik
@@ -510,5 +510,5 @@ Davranış notları:
 ---
 
 **Authority:** Persona — SSOT: personas/kiz-cocuk/duru-arslan
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

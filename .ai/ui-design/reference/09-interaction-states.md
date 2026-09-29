@@ -4,9 +4,9 @@ title: "CoreMusic — Interaction States"
 type: reference
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-29
 status: active
-version: 2.0.0
+version: 2.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -103,5 +103,5 @@ Tüm UI bileşenlerinin **etkileşim durumlarının** (touch vs mouse) tanımıd
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-20
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-003: Multi-Domain BCNF Veritabanı Mimarisi"
 type: adr
 category: database
 date: 2026-09-24
-updated: 2026-09-24
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: accepted
 authority: ADR-003 Karar Metni (SSOT)
 governance: Red Team · Human Mode · Truth Mode

@@ -21,8 +21,33 @@
  *
  * Layer: L3 Presentation
  * ITCSS: 03_Layout
- * Version: 1.0.0 — 2026-09-04
+ * Version: 1.1.0 — 2026-09-27 (innerHTML sink kaldırıldı: DOMParser + fragment)
  */
+
+/* ============================================================
+   0. Statik HTML sanitizer (SRP — tek noktada parse + temizlik)
+   Kullanım: kod içi SVG/HTML şablonları. Kullanıcı türevli metin
+   HER ZAMAN textContent ile yazılır (aşağıda renderer).
+   ============================================================ */
+const DANGEROUS_ELEMENTS = 'script, iframe, object, embed, applet, form, base, link[rel="import"]';
+
+/**
+ * Statik HTML'i parse + sanitize edip DocumentFragment döndürür.
+ * @param {string} html
+ * @returns {DocumentFragment}
+ */
+function parseStaticHtml(html) {
+    const doc = new DOMParser().parseFromString(typeof html === 'string' ? html : '', 'text/html');
+    for (const el of doc.querySelectorAll(DANGEROUS_ELEMENTS)) el.remove();
+    for (const el of doc.querySelectorAll('*')) {
+        for (const attr of [...el.attributes]) {
+            if (attr.name.toLowerCase().startsWith('on')) el.removeAttribute(attr.name);
+        }
+    }
+    const fragment = document.createDocumentFragment();
+    if (doc.body) fragment.append(...doc.body.childNodes);
+    return fragment;
+}
 
 /* ============================================================
    1. SidebarCache — Per-User localStorage (SRP)
@@ -214,8 +239,9 @@ export class VirtualScroller {
 
             const content = this.#renderFn(item, i);
             if (typeof content === 'string') {
-                node.innerHTML = content;
-            } else if (content instanceof HTMLElement) {
+                // String içerik: DOMParser + sanitizer → fragment (innerHTML sink yok)
+                node.appendChild(parseStaticHtml(content));
+            } else if (content instanceof Node) {
                 node.appendChild(content);
             }
 
@@ -353,79 +379,192 @@ export class SidebarRenderer {
     }
 
     /**
-     * Sidebar sections'un HTML'ini oluşturur
+     * Sidebar sections'un DOM yapısını oluşturur
      * @param {Array<SectionConfig>} sections
-     * @returns {string}
+     * @returns {DocumentFragment}
      */
     renderSections(sections) {
-        return sections.map(s => this.#renderSection(s)).join('');
+        const fragment = document.createDocumentFragment();
+        sections.forEach(section => fragment.appendChild(this.#renderSection(section)));
+        return fragment;
     }
 
     /**
      * @param {SectionConfig} section
-     * @returns {string}
+     * @returns {HTMLElement}
      */
     #renderSection(section) {
-        const icon = section.icon ? `<span class="sidebar__icon" aria-hidden="true">${section.icon}</span>` : '';
-        const expandable = section.children ? ' sidebar__section--expandable' : '';
-        const expanded = section.expanded ? ' sidebar__section--expanded' : '';
+        const sectionEl = document.createElement('div');
+        sectionEl.className = 'sidebar__section'
+            + (section.children ? ' sidebar__section--expandable' : '')
+            + (section.expanded ? ' sidebar__section--expanded' : '');
+        sectionEl.setAttribute('data-section-id', section.id);
 
-        let childrenHtml = '';
+        sectionEl.appendChild(this.#renderSectionHeader(section));
+
         if (section.children && section.children.length > 0) {
-            const itemsHtml = section.children.map(child => {
-                const childIcon = child.icon ? `<span class="sidebar__item-icon" aria-hidden="true">${child.icon}</span>` : '';
-                return `
-                    <a href="${child.href || '#'}" class="sidebar__item" role="menuitem" data-no-spa
-                       tabindex="0" title="${child.label}">
-                        ${childIcon}
-                        <span class="sidebar__item-label">${child.label}</span>
-                        ${child.count !== undefined ? `<span class="sidebar__item-count">${child.count}</span>` : ''}
-                    </a>`;
-            }).join('');
+            sectionEl.appendChild(this.#renderSectionBody(section));
+        }
+        return sectionEl;
+    }
 
-            childrenHtml = `
-                <div class="sidebar__section-controls">
-                    ${section.viewToggle ? `
-                        <button class="sidebar__view-toggle" type="button" aria-label="Görünüm değiştir"
-                                data-section="${section.id}" data-view="list" title="Liste görünümü">
-                            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
-                                <rect x="0" y="2" width="16" height="2" rx="1"/><rect x="0" y="7" width="16" height="2" rx="1"/>
-                                <rect x="0" y="12" width="16" height="2" rx="1"/>
-                            </svg>
-                        </button>
-                        <button class="sidebar__view-toggle" type="button" aria-label="Grid görünümü"
-                                data-section="${section.id}" data-view="grid" title="Grid görünümü">
-                            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
-                                <rect x="0" y="0" width="7" height="7" rx="1.5"/><rect x="9" y="0" width="7" height="7" rx="1.5"/>
-                                <rect x="0" y="9" width="7" height="7" rx="1.5"/><rect x="9" y="9" width="7" height="7" rx="1.5"/>
-                            </svg>
-                        </button>
-                    ` : ''}
-                    ${section.sortable ? `
-                        <button class="sidebar__sort-btn" type="button" aria-label="Sırala"
-                                data-section="${section.id}" title="Sırala">
-                            <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
-                                <path d="M3 4h10M5 8h6M7 12h2"/>
-                            </svg>
-                        </button>
-                    ` : ''}
-                </div>
-                <div class="sidebar__items">${itemsHtml}</div>`;
+    /**
+     * Bölüm başlığı: ikon + başlık + rozet + ok
+     * @param {SectionConfig} section
+     * @returns {HTMLElement}
+     */
+    #renderSectionHeader(section) {
+        const header = document.createElement('button');
+        header.className = 'sidebar__section-header';
+        header.type = 'button';
+        header.setAttribute('role', 'button');
+        header.setAttribute('tabindex', '0');
+        header.setAttribute('aria-expanded', section.expanded ? 'true' : 'false');
+
+        if (section.icon) {
+            const icon = document.createElement('span');
+            icon.className = 'sidebar__icon';
+            icon.setAttribute('aria-hidden', 'true');
+            icon.appendChild(parseStaticHtml(section.icon));
+            header.appendChild(icon);
         }
 
-        return `
-            <div class="sidebar__section${expandable}${expanded}" data-section-id="${section.id}">
-                <button class="sidebar__section-header" type="button" aria-expanded="${section.expanded ? 'true' : 'false'}"
-                        tabindex="0" role="button">
-                    ${icon}
-                    <span class="sidebar__section-title">${section.label}</span>
-                    ${section.count !== undefined ? `<span class="sidebar__section-count">${section.count}</span>` : ''}
-                    ${section.children ? '<span class="sidebar__section-arrow" aria-hidden="true">▸</span>' : ''}
-                </button>
-                ${childrenHtml}
-            </div>`;
+        const title = document.createElement('span');
+        title.className = 'sidebar__section-title';
+        title.textContent = section.label;
+        header.appendChild(title);
+
+        if (section.count !== undefined) {
+            const count = document.createElement('span');
+            count.className = 'sidebar__section-count';
+            count.textContent = String(section.count);
+            header.appendChild(count);
+        }
+
+        if (section.children) {
+            const arrow = document.createElement('span');
+            arrow.className = 'sidebar__section-arrow';
+            arrow.setAttribute('aria-hidden', 'true');
+            arrow.textContent = '▸';
+            header.appendChild(arrow);
+        }
+        return header;
+    }
+
+    /**
+     * Bölüm gövdesi: kontrol butonları + madde listesi
+     * @param {SectionConfig} section
+     * @returns {DocumentFragment}
+     */
+    #renderSectionBody(section) {
+        const fragment = document.createDocumentFragment();
+
+        const controls = document.createElement('div');
+        controls.className = 'sidebar__section-controls';
+
+        if (section.viewToggle) {
+            controls.appendChild(this.#renderControlButton({
+                className: 'sidebar__view-toggle',
+                ariaLabel: 'Görünüm değiştir',
+                buttonTitle: 'Liste görünümü',
+                attrs: { 'data-section': section.id, 'data-view': 'list' },
+                svg: ICON_VIEW_LIST
+            }));
+            controls.appendChild(this.#renderControlButton({
+                className: 'sidebar__view-toggle',
+                ariaLabel: 'Grid görünümü',
+                buttonTitle: 'Grid görünümü',
+                attrs: { 'data-section': section.id, 'data-view': 'grid' },
+                svg: ICON_VIEW_GRID
+            }));
+        }
+
+        if (section.sortable) {
+            controls.appendChild(this.#renderControlButton({
+                className: 'sidebar__sort-btn',
+                ariaLabel: 'Sırala',
+                buttonTitle: 'Sırala',
+                attrs: { 'data-section': section.id },
+                svg: ICON_SORT
+            }));
+        }
+        fragment.appendChild(controls);
+
+        const items = document.createElement('div');
+        items.className = 'sidebar__items';
+        section.children.forEach(child => items.appendChild(this.#renderItem(child)));
+        fragment.appendChild(items);
+
+        return fragment;
+    }
+
+    /**
+     * Kontrol butonu — statik SVG içeriği DOMParser + sanitizer ile eklenir
+     * @param {{className: string, ariaLabel: string, buttonTitle: string, attrs: Object<string,string>, svg: string}}
+     * @returns {HTMLElement}
+     */
+    #renderControlButton({ className, ariaLabel, buttonTitle, attrs, svg }) {
+        const button = document.createElement('button');
+        button.className = className;
+        button.type = 'button';
+        button.setAttribute('aria-label', ariaLabel);
+        button.title = buttonTitle;
+        for (const [name, value] of Object.entries(attrs)) {
+            button.setAttribute(name, value);
+        }
+        button.appendChild(parseStaticHtml(svg));
+        return button;
+    }
+
+    /**
+     * Sidebar maddesi
+     * @param {SectionItem} child
+     * @returns {HTMLElement}
+     */
+    #renderItem(child) {
+        const link = document.createElement('a');
+        link.setAttribute('href', child.href || '#');
+        link.className = 'sidebar__item';
+        link.setAttribute('role', 'menuitem');
+        link.setAttribute('data-no-spa', '');
+        link.setAttribute('tabindex', '0');
+        link.title = child.label;
+
+        if (child.icon) {
+            const icon = document.createElement('span');
+            icon.className = 'sidebar__item-icon';
+            icon.setAttribute('aria-hidden', 'true');
+            icon.appendChild(parseStaticHtml(child.icon));
+            link.appendChild(icon);
+        }
+
+        const label = document.createElement('span');
+        label.className = 'sidebar__item-label';
+        label.textContent = child.label;
+        link.appendChild(label);
+
+        if (child.count !== undefined) {
+            const count = document.createElement('span');
+            count.className = 'sidebar__item-count';
+            count.textContent = String(child.count);
+            link.appendChild(count);
+        }
+        return link;
     }
 }
+
+/* ============================================================
+   4b. Statik SVG ikon sabitleri (kontrol butonları)
+   ============================================================ */
+const ICON_VIEW_LIST = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">'
+    + '<rect x="0" y="2" width="16" height="2" rx="1"/><rect x="0" y="7" width="16" height="2" rx="1"/>'
+    + '<rect x="0" y="12" width="16" height="2" rx="1"/></svg>';
+const ICON_VIEW_GRID = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">'
+    + '<rect x="0" y="0" width="7" height="7" rx="1.5"/><rect x="9" y="0" width="7" height="7" rx="1.5"/>'
+    + '<rect x="0" y="9" width="7" height="7" rx="1.5"/><rect x="9" y="9" width="7" height="7" rx="1.5"/></svg>';
+const ICON_SORT = '<svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">'
+    + '<path d="M3 4h10M5 8h6M7 12h2"/></svg>';
+
 
 /* ============================================================
    5. SectionConfig — Section Data Interface
@@ -889,8 +1028,8 @@ export default class SidebarManager {
         scrollContainer.setAttribute('role', 'navigation');
         scrollContainer.setAttribute('aria-label', 'Sidebar navigasyon');
 
-        // Bölüm HTML'ini oluştur
-        scrollContainer.innerHTML = this.#renderer.renderSections(this.#sections);
+        // Bölüm DOM yapısını oluştur (innerHTML yerine fragment)
+        scrollContainer.appendChild(this.#renderer.renderSections(this.#sections));
 
         this.#sidebarEl.insertBefore(scrollContainer, resizeHandle);
 

@@ -4,9 +4,9 @@ title: "CoreMusic — Component Inventory (C01-C16)"
 type: inventory
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-29
 status: active
-version: 4.0.0
+version: 4.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -235,5 +235,5 @@ CoreMusic UI bileşenlerinin **tam envanteridir**. Her bileşen için BEM sını
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-22
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

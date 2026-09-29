@@ -2,14 +2,14 @@
 title: "ASIO / WASAPI Rehberi — Ses Kartı Sürücü Sözleşmesi"
 type: guide
 category: ecosystem
-version: 1.0.0
+version: 1.0.1
 description: "ASIO SDK açık kaynak lisans dağıtım kuralları, WASAPI exclusive vs ASIO gecikme karşılaştırması, evrensel yerleşik ASIO'nun yalnız 64-bit sürücü desteklemesi ve CoreMusic K2/K0 stratejisi."
 durum: active
 tarih: 2026-09-24
 kaynak: exa web doğrulaması (2026-09-24); ASIO SDK open-source lisans duyurusu, WASAPI exclusive-mode Microsoft dokümantasyonu, universal built-in ASIO (64-bit only / no 32-bit driver) teknik notu, JUCE AudioIODeviceType (K3 referansı)
 status: active
 authority: "ASIO/WASAPI sürücü sözleşmesi; CoreMusic K2/K0 katmanlarının birincil referansıdır — ASIO SDK lisans kuralları dağıtımda bağlayıcıdır."
-updated: 2026-09-24
+updated: 2026-09-29
 ---
 
 # CoreMusic — ASIO / WASAPI Rehberi — Ses Kartı Sürücü Sözleşmesi

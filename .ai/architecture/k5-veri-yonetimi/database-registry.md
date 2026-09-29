@@ -3,7 +3,7 @@ title: "Veritabanı Kayıt Sistemi"
 layer: K5
 category: "Veri Yönetimi"
 date: 2026-09-20
-version: 1.0.0
+version: 1.0.1
 status: stable
 components: 4
 dependencies: [K5]

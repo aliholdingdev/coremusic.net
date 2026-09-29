@@ -3,7 +3,7 @@ title: "K13 CI/CD Katmanı - Genel Bakış"
 layer: K13
 category: "CI/CD"
 date: 2026-09-20
-version: "1.0.0"
+version: "1.0.1"
 ---
 
 # K13 CI/CD Katmanı

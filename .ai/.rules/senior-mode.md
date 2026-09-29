@@ -2,10 +2,10 @@
 title: "CoreMusic — Senior Mode Rule"
 type: rule
 category: ai-workflow
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: SSOT (companion to .ai/CLAUDE.md)
-updated: 2026-09-24
+updated: 2026-09-29
 ---
 
 # COREMUSIC SENIOR MODE
@@ -214,5 +214,5 @@ Tum vault yazimlari SADECE `node .ai/scripts/vault-utf8-writer.mjs` ile yapilir
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

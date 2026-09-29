@@ -2,10 +2,10 @@
 title: "CoreMusic — Persona: Emirhan Çelik"
 type: persona
 category: personas
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Persona — SSOT: personas/genc-erkek/emirhan-celik-hiphop"
-updated: 2026-09-26
+updated: 2026-09-29
 group: genc-erkek
 age: 14
 mood: Hip-Hop
@@ -512,5 +512,5 @@ Davranış notları:
 ---
 
 **Authority:** Persona — SSOT: personas/genc-erkek/emirhan-celik-hiphop
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

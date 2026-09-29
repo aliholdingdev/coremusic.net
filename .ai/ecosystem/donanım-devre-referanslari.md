@@ -2,14 +2,14 @@
 title: "Donanım / Devre Referansları Ekosistemi"
 type: guide
 category: ecosystem
-version: 1.0.0
+version: 1.0.1
 description: "TPA3255 güç amplifikatörü, XMOS XU316+ES9039 DAC, MT3608 boost, rp2040-dac-amp, modular-amplituner, PBA MK1, DA15, spin-dac ve OpAmp-Headphone devreleri — CoreMusic K1/K16/K17/K19/K20 katmanlarına birebir eşleşme haritası."
 durum: active
 tarih: 2026-09-24
 kaynak: exa web doğrulaması (2026-09-24); TPA3255, ddabidov Headphone-DAC-AMP (XMOS XU316 + ES9039), BoostCore (MT3608), modular-amplituner, PBA MK1, DA15, spin-dac, OpAmp-Headphone, rp2040-dac-amp GitHub depoları
 status: active
 authority: "Donanım/devre referansları; CoreMusic donanım katmanlarında K1/K16/K17/K19/K20 referansıdır — PCM5122 yasaklıdır."
-updated: 2026-09-24
+updated: 2026-09-29
 ---
 
 # CoreMusic — Donanım / Devre Referansları Ekosistemi

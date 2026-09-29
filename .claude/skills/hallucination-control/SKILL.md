@@ -1,7 +1,10 @@
 ---
+name: hallucination-control
+description: "Use before writing code or vault claims — cross-check every value against disk evidence and flag unverifiable statements."
 title: "CoreMusic — Hallucination Control System"
 type: skill-instruction
-version: 6.0.0
+version: 6.1.0
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -22,15 +25,16 @@ reference:
     - ".ai/brain.md"
     - ".ai/index.md"
   architecture:
-    - ".ai/ADR/"
+    - ".ai/.decisions/"
     - "Existing project architecture"
   templates:
     - ".ai/.templates/index.md"
   agents:
     - ".ai/.agents/AGENTS.md"
   skills:
-    - ".opencode/skills/red-team-truth-mode/SKILL.md"
+    - ".claude/skills/red-team-truth-mode/SKILL.md"
   project_structure:
+    # ⚠️ 2026-09-29 (faz2 denetim): diskte yalnız "shared/" var; "coremusic.net/" alt klasörü yok (repo kök adı) — VERIFICATION REQUIRED
     - "coremusic.net/"
     - "shared/"
   update_policy:
@@ -53,6 +57,12 @@ triggers:
   - "source citation"
   - "confidence check"
 changelog:
+  - version: 6.1.0
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi: ölü referans düzeltmesi (.ai/decisions → .ai/.decisions, .opencode/skills → .claude/skills)
+      - H023/H028 "9 DB" → "18 DB" (ADR-040 + .ai/.sql/mysql/ = 18 .sql disk kanıtıyla çelişen iddia)
+      - Olmayan yollar (.ai/knowledge/*, .claude/scripts/*.sh, .claude/rules/*.md, Router.js#L682) İŞARETLENDİ, silinmedi (ADR-042)
   - version: 6.0.0
     date: 2026-08-15
     changes:
@@ -65,9 +75,24 @@ changelog:
       - Added multi-layer defense pipeline
 ---
 
-# HALLUCINATION CONTROL — Machine Instruction Manual
+# HALLUCINATION CONTROL - Machine Instruction Manual
 
-**THIS SYSTEM IS NOT A PREFERENCE — IT IS AN ABSOLUTE MANDATE. NO EXCEPTIONS.**
+> ⚠️ **DÜZELTME 2026-09-29 (faz2 içerik kalite denetimi) — ÖLÜ REFERANS UYARISI / VERIFICATION REQUIRED**
+> Aşağıdaki yollar **diskte YOKTUR**; ADR-042 gereği **silinmedi, yalnızca İŞARETLENDİ**:
+> - `.ai/knowledge/verified/` · `.ai/knowledge/unverified/` · `.ai/knowledge/rejected/` · `.ai/knowledge/rejected/archive/`
+>   → bilgi bankası dizinleri henüz OLUŞTURULMADI (§3.2 tablosu, §4.1, §5.2, §6.1, §6.2, §7.3, §7.4, §11).
+> - `.claude/scripts/validate-vault-links.sh` · `check-frontmatter.sh` · `validate-adrs.sh` · `validate-hallucination-control.sh`
+>   → `.claude/scripts/` dizini YOK (gerçek: `.ai/scripts/vault-utf8-writer.mjs`, `vault-faz4-sweep.mjs`, `fix-mojibake.py`) (§4.2, §4.3, §11).
+> - `.claude/rules/core-rules.md` · `php-standards.md` · `js-standards.md` · `database-standards.md` · `security-standards.md` · `devops-standards.md`
+>   → `.claude/rules/` dizini YOK (gerçek: `.ai/.rules/senior-mode.md`) (§11).
+> - `.ai/projects/NevaEngine/neva-engine-integration.md` → `.ai/projects/NevaEngine/` klasörü BOŞ (§7.2 örneği).
+> - `Router.js#L682` → `assets.coremusic.net/js/router/Router.js` = **85 satır**, 682. satır YOK (§7.2 örnek satır no).
+>
+> **Bu denetimde DÜZELTİLENLER:** `.ai/ADR/` → `.ai/.decisions/` · `.ai/decisions/` → `.ai/.decisions/` ·
+> `.opencode/skills/red-team-truth-mode/SKILL.md` → `.claude/skills/red-team-truth-mode/SKILL.md` ·
+> `ADR-038.md` → `ADR-038-8-1-sound-card-chip-selection.md` · ADR-010 yolu · H023/H028 "9 DB" → "18 DB" (ADR-040).
+
+**THIS SYSTEM IS NOT A PREFERENCE - IT IS AN ABSOLUTE MANDATE. NO EXCEPTIONS.**
 
 This document is the MANDATORY hallucination prevention system for ALL CoreMusic AI agents.
 Every agent, every session, every technical claim — without exception.
@@ -81,7 +106,7 @@ Every agent, every session, every technical claim — without exception.
 | Field | Value |
 |-------|-------|
 | System Name | Hallucination Control System |
-| Version | 6.0.0 |
+| Version | 6.1.0 |
 | Authority | SSOT (Single Source of Truth) |
 | Scope | All 11 CoreMusic Agents |
 | Enforcement | AUTOMATIC — triggers on every technical claim |
@@ -161,7 +186,7 @@ When confidence < 90:
 |----------|--------|---------|
 | Official Documentation | 40 pts | php.net, MDN, dev.mysql.com, owasp.org, caniuse.com, vendor PDFs |
 | Standards (RFC/ISO/OWASP) | 25 pts | RFC 9106, ISO 27001, OWASP Top 10 2025, PSR-12 |
-| Local Vault Evidence | 15 pts | .ai/decisions/, .ai/brain.md, .ai/architecture/, CLAUDE.md |
+| Local Vault Evidence | 15 pts | .ai/.decisions/, .ai/brain.md, .ai/architecture/, CLAUDE.md |
 | Community (High Score) | 10 pts | StackOverflow accepted, GitHub issues with maintainer response |
 | Unknown/Old Source | -50 pts | Blog, Medium, Wikipedia, pre-2024 sources |
 
@@ -253,12 +278,12 @@ Match = immediate rejection, no exceptions.
 | H020 | Non-existent or version-mismatched SQL functions | Check MySQL 9 docs |
 | H021 | SELECT * usage | Explicit column list mandatory |
 | H022 | ORM usage | Raw PDO + Prepared Statements (ADR-002) |
-| H023 | Cross-database foreign key | 9 DB BCNF isolation (ADR-040) |
+| H023 | Cross-database foreign key | 18 DB BCNF isolation (ADR-040, `.ai/.sql/mysql/` = 18 .sql) ⚠️ 2026-09-29: "9 DB" idi → düzeltildi |
 | H024 | DELETE without soft delete | deleted_at timestamp mandatory |
 | H025 | DB name 'coremusic_music' | 'coremusic_musics' (plural, ADR-040) |
-| H026 | DB name 'coremusic_download' | 'coremusic_catalog' |
-| H027 | DB 'coremusic_neva' or 'coremusic_credential' | Not in config |
-| H028 | Claim of 10 databases | Config has exactly 9 |
+| H026 | DB name 'coremusic_download' | ⚠️ 2026-09-29 VERIFICATION REQUIRED — DOĞRULAYAMADIK: `.ai/.sql/mysql/coremusic_download.sql` DOSYASI VAR ve `.ai/CLAUDE.md` DB tablosunda #15; "'coremusic_catalog'" hükmü disk kanıtıyla çelişiyor, MO onayı bekleniyor |
+| H027 | DB 'coremusic_neva' or 'coremusic_credential' | ⚠️ 2026-09-29 KISMEN GEÇERSİZ — `coremusic_neva.sql` VAR (`.ai/CLAUDE.md` #16); yalnız `coremusic_credential` diskte yok → VERIFICATION REQUIRED |
+| H028 | Claim of 9 or 10 databases | Exactly 18 (ADR-040, `.ai/.sql/mysql/` = 18 .sql) ⚠️ 2026-09-29: "Config has exactly 9" idi → düzeltildi |
 | H029 | String concatenation in SQL | Prepared statements mandatory |
 
 ### 3.4 API/Middleware (H030-H039)
@@ -286,7 +311,7 @@ Match = immediate rejection, no exceptions.
 1. .ai/knowledge/verified/      → Use directly
 2. .ai/knowledge/unverified/    → 30-day check + user approval
 3. .ai/knowledge/rejected/      → Rejected pattern check
-4. .ai/decisions/accepted/      → ADR architecture decisions
+4. .ai/.decisions/accepted/     → ADR architecture decisions
 5. .ai/brain.md                 → Central decision records
 6. .ai/architecture/            → L0-L3 layer specifications
 7. CLAUDE.md                    → Project rules and architecture
@@ -316,7 +341,7 @@ Match = immediate rejection, no exceptions.
 | Backend Architect | PHP/API/DB | php.net, dev.mysql.com, CLAUDE.md |
 | UI Designer | Vanilla JS/CSS/UX | MDN, caniuse.com |
 | Security Engineer | OWASP/Auth/Crypto | owasp.org, nist.gov |
-| Data Engineer | MySQL/BCNF/Optimization | dev.mysql.com, .ai/decisions/ |
+| Data Engineer | MySQL/BCNF/Optimization | dev.mysql.com, .ai/.decisions/ |
 | Embedded Engineer | C++/Audio/Hardware | TI.com datasheet, .ai/electronic/ |
 | QA Engineer | Testing/E2E/Browsers | playwright.dev, vitest.dev |
 | DevOps Engineer | CI/CD/Deploy | official docs, .github/workflows/ |
@@ -356,7 +381,7 @@ Match = immediate rejection, no exceptions.
   "task": "verify_pcm3168a_specs",
   "input": {"claim": "PCM3168A supports 8-channel DAC at 192kHz"},
   "sources": [
-    {"type": "vault", "path": ".ai/decisions/accepted/ADR-038.md"},
+    {"type": "vault", "path": ".ai/.decisions/accepted/ADR-038-8-1-sound-card-chip-selection.md"},
     {"type": "official", "url": "https://www.ti.com/product/PCM3168A"}
   ],
   "output": {"score": 95, "status": "VERIFIED", "evidence": "TI Datasheet + ADR-038"}
@@ -414,7 +439,7 @@ Truth Mode Block Output
 3. VAULT LOOKUP
    - .ai/knowledge/verified/   -> +40 points
    - .ai/knowledge/unverified/ -> +20 points (30-day check)
-   - .ai/decisions/accepted/   -> +15 points (ADR reference)
+   - .ai/.decisions/accepted/   -> +15 points (ADR reference)
    - CLAUDE.md / .ai/brain.md  -> +15 points
 
 4. OFFICIAL DOCS CHECK
@@ -526,7 +551,7 @@ Every critical output that passes hallucination control MUST end with:
   1. [PHP Manual - PDO::prepare](https://www.php.net/manual/en/pdo.prepare.php) — Official Docs (40 pts)
   2. [OWASP SQL Injection Prevention](https://owasp.org/www-community/attacks/SQL_Injection) — Standard (25 pts)
   3. [CoreMusic CLAUDE.md](CLAUDE.md) — Internal Vault Architecture Rules (15 pts)
-  4. [.ai/decisions/accepted/ADR-010-csrf-protection-strategy.md](ADR-010) — Architecture Decision (15 pts)
+  4. [.ai/.decisions/accepted/ADR-010-csrf-protection-strategy.md](ADR-010) - Architecture Decision (15 pts)
 - **Automated Checks Passed:**
   - [x] H001-H039 Rejected Pattern Scan
   - [x] Vault Knowledge Base Lookup
@@ -600,7 +625,7 @@ SKILL.md (this file)
 
 ---
 
-*Hallucination Control System v6.0.0 — CoreMusic MIM Format*
+*Hallucination Control System v6.1.0 — CoreMusic MIM Format*
 *Authority: Vault Steward / AI Orchestrator*
 *Mandatory for all agents — No exceptions — Zero tolerance for hallucinations*
 *Research: MDPI 2026 Survey, OpenAI 2025, UniCR Framework, EY Guardrails*

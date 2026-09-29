@@ -491,5 +491,5 @@ Referans proje (`C:\www\coremusic.net.old.ref`) incelenirken:
 
 *Prompt 0: Genel Ana Prompt v2.0.0 — CoreMusic Prompt System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-08-15*
+*Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*

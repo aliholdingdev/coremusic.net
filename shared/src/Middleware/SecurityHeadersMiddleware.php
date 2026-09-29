@@ -62,6 +62,7 @@ final class SecurityHeadersMiddleware implements IMiddleware
             "default-src 'self'; " .
             "script-src {$scriptSrc}; " .
             "style-src {$styleSrc}; " .
+            "style-src-attr 'unsafe-inline'; " .
             "img-src 'self' data: {$assetsOrigin}; " .
             "font-src 'self' {$assetsOrigin} fonts.gstatic.com; " .
             "connect-src 'self' {$assetsOrigin}; " .

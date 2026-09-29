@@ -4,9 +4,9 @@ type: system
 category: agent-role
 title: "CoreMusic — Senior Software Architect Role Definition"
 date: 2026-08-19
-updated: 2026-09-24
+updated: 2026-09-29
 status: active
-version: 6.0.1
+version: 6.0.2
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -675,6 +675,6 @@ Komutlar PowerShell 5.1 uyumludur ve Faz 0 taramasında (2026-09-08) fiilen çal
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode
 

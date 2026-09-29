@@ -4,9 +4,9 @@ type: system
 category: reference
 title: "CoreMusic — Glossary"
 date: 2026-08-19
-updated: 2026-09-23
+updated: 2026-09-29
 status: active
-version: 2.2.0
+version: 2.2.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -709,5 +709,5 @@ Sürüm sorumlusu: Vault Steward; her terim eklemesi Faz kontrol listesinin (eng
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

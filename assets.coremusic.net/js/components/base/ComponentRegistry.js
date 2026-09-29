@@ -4,7 +4,11 @@
  * Maps BEM block names to ComponentBase subclasses.
  * Lazy instantiation with instance caching.
  *
+ * Faz 2 / Batch 1 — eklenen: duplicate-register guard (aynı ad iki kez
+ * register edilmez; mevcut sınıf korunur, konsol uyarısı basılır).
+ *
  * @package CoreMusic\Components\Base
+ * @version 2.0.0
  */
 export default class ComponentRegistry {
     /** @type {Map<string, typeof ComponentBase>} Name → Class mapping */
@@ -32,6 +36,13 @@ export default class ComponentRegistry {
         // Runtime validation — prototype chain kontrolü
         if (typeof componentClass !== 'function') {
             console.error(`[ComponentRegistry] ${name}: must be a class constructor`);
+            return this;
+        }
+        // Duplicate guard (Faz 2): mevcut sınıf korunur, sessiz ezme yok
+        if (this.#registry.has(name)) {
+            console.warn(
+                `[ComponentRegistry] ${name}: zaten kayıtlı — mevcut sınıf korundu, yenisi yok sayıldı.`
+            );
             return this;
         }
         this.#registry.set(name, componentClass);
@@ -81,10 +92,17 @@ export default class ComponentRegistry {
     }
 
     /**
-     * Tüm instance'ları destroy eder.
+     * Tüm instance'ları destroy eder (her biri try/catch — bozuk instance
+     * temizliği durdurmaz; Faz 2 sağlamlaştırma).
      */
     destroyAll() {
-        this.#instances.forEach((inst) => inst.destroy());
+        this.#instances.forEach((inst) => {
+            try {
+                inst.destroy();
+            } catch {
+                // Bozuk instance — yut, temizliğe devam et
+            }
+        });
         this.#instances.clear();
     }
 

@@ -4,10 +4,10 @@ title: "CoreMusic — K17 Güç Kaynağı Layer"
 type: architecture-layer
 category: architecture
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-29
 son_guncelleme: "2026-09-24, kaynak: 3 turlu agent tartışması"
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:

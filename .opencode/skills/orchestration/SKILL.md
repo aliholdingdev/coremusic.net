@@ -1,7 +1,10 @@
 ---
+name: orchestration
+description: "Use when coordinating multi-agent workflows, dispatching tasks to specialist agents, or running checkpoint loops across the CoreMusic team."
 title: "CoreMusic — Orchestration Engine"
 type: skill-instruction
-version: 1.0
+version: 1.1
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -36,6 +39,10 @@ reference:
     - ".ai/WORKFLOW.md"
     - ".ai/brain.md"
 changelog:
+  - version: 1.1
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi — ölü referans YOK bulundu; "Port 81 = music.coremusic.net | ADR-042" atfı `.ai/keys.md` L201+L277 ile, "SELECT * | H021" H021 kaydı ile DOĞRULANDI
   - version: 1.0
     date: 2026-09-20
     changes:
@@ -219,6 +226,6 @@ reference:
 
 ---
 
-*Orchestration Engine v1.0 — CoreMusic*
+*Orchestration Engine v1.1 — CoreMusic*
 *Authority: Vault Steward*
 *Mode: Red Team · Truth Mode · Human Mode*

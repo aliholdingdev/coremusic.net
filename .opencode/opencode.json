@@ -166,7 +166,7 @@
     }
   },
 
-  "command": {
+  "commands": {
     "vault-sync": {
       "template": "Vault dosyalarini senkronize et, butunlugu dogrula, referanslari kontrol et. Tum yazim islemleri node .ai/scripts/vault-utf8-writer.mjs ile (append | write | verify). PowerShell dosya yazimi yasak.",
       "description": "Vault senkronizasyonu yap",

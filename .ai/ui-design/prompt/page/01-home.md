@@ -6,7 +6,7 @@ page_id: "01"
 route: "/"
 layout: "03-embedded-split"
 date: 2026-09-20
-version: 2.0.0
+version: 2.0.1
 status: active
 ---
 

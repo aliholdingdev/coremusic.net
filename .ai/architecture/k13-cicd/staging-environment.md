@@ -3,14 +3,14 @@ title: "Staging Environment"
 layer: K13
 category: "CI/CD"
 date: 2026-09-20
-version: "1.0.0"
+version: "1.0.1"
 ---
 
 # Staging Environment
 
 ## Genel Bakış
 
-COREMUSIC staging environment, production ile mümkün olduğunca aynı yapıda bir test ortamıdır. Environment parity prensibi ile生产和staging arasındaki farkları minimize eder. Bu ortam, deployment öncesi final validation, performance testing ve UAT (User Acceptance Testing) için kullanılır. Automatik deploy main branch merge sonrası tetiklenir.
+COREMUSIC staging environment, production ile mümkün olduğunca aynı yapıda bir test ortamıdır. Environment parity prensibi ile üretim ve staging arasındaki farkları minimize eder. Bu ortam, deployment öncesi final validation, performance testing ve UAT (User Acceptance Testing) için kullanılır. Automatik deploy main branch merge sonrası tetiklenir.
 
 ## Pipeline Akışı
 

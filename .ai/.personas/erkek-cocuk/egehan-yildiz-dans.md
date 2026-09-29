@@ -2,10 +2,10 @@
 title: "CoreMusic - Persona: Egehan Yıldız"
 type: persona
 category: personas
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: reference
-updated: 2026-09-26
+updated: 2026-09-29
 group: erkek-cocuk
 age: 11
 mood: Dans Sporcu
@@ -520,5 +520,5 @@ Davranış notları:
 ---
 
 **Authority:** Persona — SSOT: personas/erkek-cocuk/egehan-yildiz-dans
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

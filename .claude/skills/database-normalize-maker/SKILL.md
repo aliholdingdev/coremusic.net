@@ -1,7 +1,10 @@
 ---
+name: database-normalize-maker
+description: "Use when normalizing a table to BCNF, deriving candidate keys, or writing migration SQL for CoreMusic databases."
 title: "CoreMusic — Veritabanı Oluşturma & Normalizasyon Motoru"
 type: skill-instruction
-version: 5.0
+version: 5.1
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -25,7 +28,7 @@ reference:
     - ".ai/brain.md"
     - ".ai/index.md"
   architecture:
-    - ".ai/ADR/"
+    - ".ai/.decisions/"
     - "Existing project architecture"
     - "Existing database schemas"
   templates:
@@ -36,6 +39,7 @@ reference:
     - ".ai/.agents/AGENTS.md"
     - ".ai/.agents/data-engineer.md"
   project_structure:
+    # ⚠️ 2026-09-29 (faz2 denetim): diskte yalnız "shared/" var — "coremusic.net/" alt klasörü yok (repo kök adı) — VERIFICATION REQUIRED
     - "coremusic.net/"
     - "shared/"
     - ".ai/.sql/"
@@ -81,6 +85,12 @@ triggers:
   - "transaction"
   - "view oluştur"
 changelog:
+  - version: 5.1
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi: ölü referans ".ai/ADR/" → ".ai/.decisions/" (2 yer), ADR-021 → ADR-002 (ORM yasak)
+      - §2.1 bayat 11-DB envanteri işaretlendi (SSOT = 18 DB, ADR-040) + coremusic_users → coremusic_user düzeltmesi
+      - project_structure disk uyarısı
   - version: 5.0
     date: 2026-08-15
     changes:
@@ -112,7 +122,7 @@ Bu skill, CoreMusic projesinde:
 - **Güvenlik kontrolleri** uygular (PII, şifreleme, audit)
 
 **Kullanmaz:**
-- ORM (ADR-021: ORM yasak — sadece PDO prepared statements)
+- ORM (ADR-002: ORM yasak - sadece PDO prepared statements)  <!-- ⚠️ 2026-09-29: ADR-021 idi, doğru karar ADR-002-pdo-mandatory-no-orm (ADR-021 = SPA router contract) -->
 - Framework (ADR-001: Framework yasak)
 - `SELECT *` (yasak — tüm kolonları açıkla)
 - `FLOAT` para birimi (yasak — `DECIMAL(10,2)` kullan)
@@ -125,10 +135,21 @@ Bu skill, CoreMusic projesinde:
 
 ### 2.1 11 BCNF Veritabanı
 
+> ⚠️ **2026-09-29 (faz2 kalite denetimi) — BAYAT ENVANTER / VERIFICATION REQUIRED:**
+> Aşağıdaki 11 satır **ilk sürümün kısmi listesidir, tam envanter DEĞİLDİR.**
+> Vault SSOT: `.ai/.sql/mysql/*.sql` = **18 dosya** → CoreMusic **18 BCNF veritabanı**
+> (kaynak: [[.ai/.decisions/accepted/ADR-040-database-authority]], `.ai/CLAUDE.md` DB tablosu,
+> `.ai/.agents/data-engineer.md` §4.4 "18 Veritabanı Envanteri").
+> Eksik 7 DB: `coremusic_ai`, `coremusic_api`, `coremusic_cms`, `coremusic_download`,
+> `coremusic_neva`, `coremusic_studio`, `coremusic_patch`.
+> Tablo adı düzeltildi: `coremusic_users` → **`coremusic_user`** (disk kanıtı: `.ai/.sql/mysql/coremusic_user.sql`).
+> Tablo sayıları da bayattır (toplam 68 vs. gerçek 156 tablo — ADR-033/ADR-040).
+> **ADR-042 gereği satırlar SİLİNMEDİ; tam kaynak yukarıdaki SSOT dosyalarıdır.**
+
 | # | Veritabanı | Amaç | Tablo Sayısı |
 |---|-----------|------|--------------|
 | 1 | `coremusic_auth` | Kimlik doğrulama | 5 |
-| 2 | `coremusic_users` | Kullanıcı yönetimi | 8 |
+| 2 | `coremusic_user` | Kullanıcı yönetimi | 8 |
 | 3 | `coremusic_musics` | Müzik kataloğu | 12 |
 | 4 | `coremusic_albums` | Albüm yönetimi | 6 |
 | 5 | `coremusic_playlist` | Çalma listeleri | 5 |
@@ -1083,7 +1104,7 @@ Alt dizindeki detaylı referans dosyaları:
 ## 14. Bağlantılar
 
 - **Vault:** `.ai/brain.md` — Veritabanı mimarisi kararları
-- **ADR:** `.ai/ADR/` — Veritabanı ile ilgili ADR'ler
+- **ADR:** `.ai/.decisions/` - Veritabanı ile ilgili ADR'ler
 - **SQL:** `.ai/.sql/` — Mevcut şema dosyaları
 - **Routing:** `agent-orchestrator` — database keyword yönlendirmesi
 - **Agent:** `data-engineer` — Veritabanı uzmanı
@@ -1091,7 +1112,7 @@ Alt dizindeki detaylı referans dosyaları:
 
 ---
 
-*Veritabanı Oluşturma & Normalizasyon Motoru v5.0*
+*Veritabanı Oluşturma & Normalizasyon Motoru v5.1*
 *Authority: Bayram Ali / Vault Steward*
 *Mode: Red Team · Truth Mode · Human Mode*
 *Last Updated: 2026-08-15*

@@ -4,9 +4,9 @@ title: "CoreMusic — UI Design Web Araştırması Raporu (16 Konu)"
 type: research
 category: ui-design
 date: 2026-09-24
-updated: 2026-09-24
+updated: 2026-09-29
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -894,5 +894,5 @@ proc_open($cmd, $desc, $pipes);   // Windows'ta otomatik bypass_shell
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

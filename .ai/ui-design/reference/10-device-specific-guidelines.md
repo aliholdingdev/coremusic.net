@@ -4,9 +4,9 @@ title: "CoreMusic — Device-Specific Guidelines (10 Categories)"
 type: reference
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-29
 status: active
-version: 3.0.0
+version: 3.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -199,5 +199,5 @@ reference:
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-20
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

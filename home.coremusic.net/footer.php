@@ -130,7 +130,7 @@ $footerTierClass = $dm->shouldRender4kLayout()
                 <button class="footer__utility-icon" aria-label="Wi-Fi" data-action="openWifiPopup" title="Wi-Fi">
                     <img src="<?= $h($assetsUrl . '/Image/res-pink/wifi-1-on.png') ?>" height="20" width="20" title="Wi-Fi" />
                 </button>
-                <button class="footer__utility-icon" aria-label="Bluetooth" data-action="openBluetoothPopup" title="Bluetooth" style="width:13px;height:13px;">
+                <button class="footer__utility-icon" aria-label="Bluetooth" data-action="openBluetoothPopup" title="Bluetooth" style="width:13px;height:13px;" nonce="<?= $nonce ?>">
                     <img src="<?= $h($assetsUrl . '/Image/res-pink/bluethoot1.png') ?>" height="16" width="16" title="Bluetooth" />
                 </button>
                 <button class="footer__utility-icon" aria-label="Ayarlar" data-action="openQuickSettingsPopup" title="Ayarlar">
@@ -170,5 +170,5 @@ $footerTierClass = $dm->shouldRender4kLayout()
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.controls.js?v=2.0.0"></script>
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/coreplayer/coreplayer.progressbar.js?v=2.0.0"></script>
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/core/helper.js?v=2.0.0"></script>
-<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/core/footer.init.js?v=2.0.0"></script>
+<script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/core/footer.init.js?v=2.0.1"></script>
 <script nonce="<?= $nonce ?>" src="<?= $h($assetsUrl) ?>/js/features/welcome-modal.js?v=2.0.0"></script>

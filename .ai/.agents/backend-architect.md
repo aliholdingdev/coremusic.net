@@ -3,8 +3,8 @@ title: "CoreMusic — Backend Architect Agent Profile"
 type: profile
 category: agent-registry
 date: 2026-08-08
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-29
+version: 2.0.2
 status: active
 authority: reference
 ---
@@ -187,7 +187,7 @@ authority: reference
 |--------|-------|-------|
 | `lcobucci/jwt` · `monolog` · `symfony/cache` | Üç dosyada da **geçmiyor** | ⚠️ VERIFICATION REQUIRED (§4 #8-#10) |
 | 4. composer.json iddiası (kök §25.2) | Diskte **3** var | ⚠️ VERIFICATION REQUIRED (registry §8 #1) |
-| `require-dev` phpunit tek çatı | Hepsi `^10.5` (kök §4'teki "PHPUnit 11" hedefi ≠ disk) | IMPLEMENTED = ^10.5 · ^11 ⚠️ PLANNED |
+| `require-dev` phpunit tek çatı | Hepsi `^10.5` (3/3 composer.json — kök §4 2026-09-27'de `^10.5` olarak düzeltildi, çelişki kapandı) | ✅ IMPLEMENTED = ^10.5 (3/3) |
 | `ext-apcu` zorunlu | Rate-limit ADR-013 için canlı altyapı | IMPLEMENTED |
 | `platform-check: false` (home/auth) | runtime PHP sürüm kontrolü kapalı | IMPLEMENTED (bilgi) |
 
@@ -517,5 +517,5 @@ Sonraki adım: [1 eylem, 2 dakika]
 ---
 
 **Authority:** SSOT — domain tekel: Backend Architect (Orta — mimari)  
-**Last Updated:** 2026-09-23  
+**Last Updated:** 2026-09-29  
 **Mode:** IMPLEMENTED (Truth Mode — disk doğrulanmış: 3 composer.json, Middleware 11, PageRouter 14, Database 2, tests 22, k7 14, k9 14)

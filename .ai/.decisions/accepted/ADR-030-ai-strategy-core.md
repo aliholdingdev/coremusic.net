@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-030: AI Strategy Core (Kullanım Alanları · API Biri
 type: adr
 category: ai
 date: 2026-09-25
-updated: 2026-09-25
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: accepted
 authority: ADR-030 Karar Metni (SSOT)
 governation: Red Team · Human Mode · Truth Mode

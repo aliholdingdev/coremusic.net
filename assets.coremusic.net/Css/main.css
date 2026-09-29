@@ -24,6 +24,7 @@
 @import url("./01_Abstracts/a-scale-hybrid.css?v=1.0.0");       /* Hibrit ölçeklendirme sistemi — layout tokens'tan ÖNCE */
 @import url("./01_Abstracts/a-layout-tokens.css?v=5.0.0");
 @import url("./01_Abstracts/a-widget-grid-tokens.css?v=1.0.0");
+@import url("./01_Abstracts/a-primitive-tokens.css?v=1.1.0");   /* Faz 2 Batch 1 — C04/C05/C08/C09/C10/C13 token'ları */
 
 @import url("./02_Base/b-base-core.css?v=2.1.0");
 @import url("./02_Base/l-main-structural.css?v=2.1.0");
@@ -39,7 +40,31 @@
 @import url("./04_Components/c-scrollbar-accent.css?v=2.1.0");
 @import url("./04_Components/c-footer-seek.css?v=2.2.0");
 @import url("./04_Components/c-footer-volume.css?v=2.2.0");
-/* 04_Components: c-card, c-buttons, c-forms, c-modal, c-badge, c-toggle, c-toast, c-progress — REMOVED: unused in auth/home templates */
+/* 04_Components: c-card, c-buttons, c-forms, c-modal, c-toast, c-progress — REMOVED: unused in auth/home templates */
+/* 04_Components — Faz 2 Batch 1 (Figma 18:2907 primitive'leri) */
+@import url("./04_Components/c-button.css?v=1.0.0");
+@import url("./04_Components/c-input.css?v=1.0.0");
+@import url("./04_Components/c-toggle.css?v=1.1.0");
+@import url("./04_Components/c-slider.css?v=1.0.0");
+@import url("./04_Components/c-badge.css?v=1.1.0");
+@import url("./04_Components/c-skeleton.css?v=1.0.0");
+
+/* --- Composites (Faz 2 Batch 2 — Figma 18:2907 · envanter C01-C19) --- */
+/* Not: c-forms / c-buttons / c-home-song-btn henüz import edilmedi —
+   c-button ile çakışma riski Faz 3 denetiminde karara bağlanacak. */
+@import url("./04_Components/c-tabs.css?v=1.0.0");
+@import url("./04_Components/c-dropdown.css?v=1.0.0");
+@import url("./04_Components/c-avatar.css?v=1.0.0");
+@import url("./04_Components/c-tooltip.css?v=1.0.0");
+@import url("./04_Components/c-hero.css?v=1.0.0");
+@import url("./04_Components/c-quick-apps.css?v=1.0.0");
+@import url("./04_Components/c-mini-card.css?v=1.0.0");
+
+/* --- Batch 2 öncesi yazılmış ama hiç import edilmemiş dosyalar --- */
+@import url("./04_Components/c-card.css?v=1.0.0");
+@import url("./04_Components/c-modal.css?v=1.0.0");
+@import url("./04_Components/c-toast.css?v=1.0.0");
+@import url("./04_Components/c-progress.css?v=1.0.0");
 
 
 @import url("./05_Pages/_home.css?v=6.0.0");             /* pages/home.php */

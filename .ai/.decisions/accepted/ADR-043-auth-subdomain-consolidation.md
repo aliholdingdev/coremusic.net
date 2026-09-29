@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-043: Auth Subdomain Consolidation (tek kimlik otorites
 type: "architecture-decision"
 category: "security"
 date: "2026-09-26"
-updated: "2026-09-26"
-version: "1.0.0"
+updated: "2026-09-29"
+version: "1.0.1"
 status: "accepted"
 authority: "SSOT — CoreMusic kimlik konsolidasyonu: oturum/cookie domaini tek auth.coremusic.net, diğer alt alanlar yalnızca token doğrular; cross-subdomain Origin/CSRF/nonce kuralları; imzalama anahtarı tek kaynak + rotasyon; OAuth2/PKCE federasyonu ve kademeli geçiş fazları"
 kaynak: "Kullanıcı onaylı tam kapsam (a-e) + disk/kod kanıtı taraması (2026-09-26: auth 70 dosya/46 PHP, cookie domain 8 nokta, OriginCheck/JWT doğrulaması) + web araştırması (6 sorgu / 35 kaynak)"
@@ -408,6 +408,6 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 
 *ADR-043 v1.0.0 — CoreMusic Architecture Decision Record*
 *Authority: ADR-043 Karar Metni (SSOT)*
-*Last Updated: 2026-09-26*
+*Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*
 *Debate: ✅ TAMAMLANDI (3/20, 19/1/0 KABUL) · Tech Lead: ✅ · Arch Lead: ⏳*

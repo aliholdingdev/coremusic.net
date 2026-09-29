@@ -4,9 +4,9 @@ title: "CoreMusic — Responsive Architecture (45-Tier Token-First)"
 type: architecture
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-29
 status: active
-version: 4.0.0
+version: 5.1.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -173,15 +173,81 @@ assets.coremusic.net/Css/
 | Hardcoded `width: 280px` | `width: var(--cm-sidebar-w)` |
 | PHP'de `margin: 16px` | CSS'de `margin: var(--cm-space-4)` |
 
+### 7.4 4K / High-DPI — Bileşen Ortalamama (No-Center)
+
+**Bağlayıcı referanslar:** `.ai/CLAUDE.md` L536 · `.ai/AGENTS.md` L243 (§7.2 pre-flight) · `.ai/WORKFLOW.md` L760 · `00-device-matrix.md` §3 ("NO-CENTER (4K)") · `.templates/ui-design/flow-template.md` §3.7 (T18 satırı).
+
+| # | Kural | ✅ Doğru | ❌ Yasak | Kaynak |
+|---|-------|---------|----------|--------|
+| 1 | **No-Center** | 3840px ve üzerinde layout **tam genişlikte akar**; grid sütunları tier token'ı ile genişler | 1920 genişliğinde sabit bloğun `width: 1920px; margin: 0 auto` ile ortalanması | `00-device-matrix.md` (NO-CENTER) · CLAUDE.md L536 |
+| 2 | **2× ölçek + max-width** | 3840 = 2 × 1920 → 1920 tier'ından türeyen **layout/konteyner ölçüsü 2 katıdır**; `max-width` ile üst sınır verilir, ölçek token'ı ile uygulanır | Ölçüleri iki breakpoint arasında **ortalayarak** (uzlaşı değere düşürerek) sabitlemek | Görev kuralı · §3 breakpoint 3840 |
+| 3 | **Tipografi ayrı ölçek** | `--cm-font-scale` tier bloğundan okunur (4K: 1.25) | Font ölçeğini layout ölçeğiyle karıştırmak | `tokens/platform-tokens.md` T12 · `tokens/component-tokens.md` §18 |
+| 4 | **High-DPI (DPR ≥ 2)** | CSS piksel değeri DPR ile çarpılmaz; büyüme yalnızca viewport/token ölçeğiyle | `devicePixelRatio` ile px çarpmak | §2 Token-First |
+
+```css
+/* ✅ 4K No-Center — max-width + ölçek (3840 = 1920 × 2) */
+@media (min-width: 3840px) {
+  :root {
+    --cm-grid-cols: 4;                 /* platform-tokens T12 */
+    --cm-widget-grid-cols: 4;
+    --cm-font-scale: 1.25;             /* tipografi: ayrı ölçek */
+    --cm-border-radius-scale: 1.25;
+  }
+}
+.layout {
+  max-width: 100%;                     /* sınır: max-width — akış korunur */
+  padding-inline: var(--cm-content-padding);
+}
+
+/* ❌ 4K'da ortalamama (YASAK) */
+/* .layout { width: 1920px; margin: 0 auto; } */
+```
+
+> ⚠️ **Truth Mode — açık çelişki (vault steward kararı bekliyor):** Kural 2 "1920 × 2" der; buna karşılık `tokens/platform-tokens.md` T12 (4K) bloğu ölçüleri 1920'ye oranla **~1.25×** verir (font 1.25 · radius 1.25 · grid 3→4). Bu dosya **2× kuralını layout/konteyner ölçeği için bağlayıcı** yazar; tipografi/spacing değerleri T12 token bloğundan okunmaya devam eder. İki ölçeği tek değere indirgemek §7.4 ihlalidir.
+
+---
+
+## 12. Geriye Dönük Uyumluluk (Fallback ZORUNLU)
+
+**Bağlayıcı referanslar:** `.ai/AGENTS.md` L243 (fallback eksikse → **RED**) · `.ai/CLAUDE.md` L536 · `.templates/ui-design/screen-spec-template.md` §3.11 (spec fallback zinciri) · `decisions/accepted/ADR-006-performance-targets.md` (fallback → CLS/LCP ölçüm bağlamı).
+
+> **Numaralandırma notu:** Bu bölümün numarası **12**'dir — vault çapraz referansları (AGENTS.md §7.2, CLAUDE.md L536, engine.md) adı sabitler. `Quality Report`, Kalıp A §3.3-4 gereği dosyanın **son H2'si** olarak §8'de kalır; §9-§11 bu sürümde açılmamıştır (boş başlık yasak — Kalıp A §6.1 #5).
+
+| # | Senaryo | Fallback zinciri (zorunlu) | Kaynak |
+|---|---------|---------------------------|--------|
+| 1 | Tier'a ait screen spec yoksa | En yakın tier spec'i (önce bir üst, sonra bir alt viewport) → `:root` default (1024×600 embedded) | `screens/00-ascii-art-index` · Kalıp D §3.11 |
+| 2 | Media query eşleşmezse | `:root` default token'ları her viewport'ta geçerlidir — ekran asla **stilssiz** açılmaz | §3 · §6 |
+| 3 | Token tanımsızsa | `var(--token, <yedek-değer>)` — her token'ın gömülü yedeği vardır | §5 Token-First |
+| 4 | `backdrop-filter` desteklenmiyorsa | Solid `rgba()` arka plan (`background` fallback satırı zorunlu) | Kalıp D §3.9.2 |
+| 5 | Boyut sıçraması (CLS) | Fallback değeri sabit boyut/token'dan gelir; `auto → px` sıçraması yasak (CLS gate) | ADR-006 (ölçüm bağlamı) |
+| 6 | Fallback hiç yoksa | **RED** — AGENTS.md §7.2 pre-flight kapısı | AGENTS.md L243 |
+
+```css
+/* ✅ Fallback zinciri — her katmanda yedek değer */
+.header {
+  height: var(--cm-header-h, 60px);     /* token yoksa gömülü yedek */
+  background: rgba(0, 0, 0, .7);        /* glass desteklemeyen tarayıcı: solid */
+}
+@supports (backdrop-filter: blur(1px)) {
+  .header { backdrop-filter: blur(20px); }
+}
+
+/* ❌ Fallback'siz — token tanımsızsa layout kırılır (boş ekran / CLS) */
+/* .header { height: var(--cm-header-h); } */
+```
+
+**Kapı:** Responsive uyum kontrolünde bu dosyanın **§7.4 ve §12** birlikte okunur; fallback eksikse görev RED ile döner.
+
 ---
 
 ## 8. Quality Report
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 5.0.0 |
+| Version | 5.1.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
-| Architecture Principle | Token-First + Figma Pixel-Perfect |
+| Sections | 9 H2 (§1-§8 + §12) + 1 H3 (§7.4) — §9-§11 açılmadı (boş başlık yasak) |
+| Architecture Principle | Token-First + Figma Pixel-Perfect + 4K No-Center (§7.4) |
 | CSS Files | 25+ |
 | Device CSS | 7 |
 | View Mode CSS | 4 |
@@ -189,10 +255,11 @@ assets.coremusic.net/Css/
 | New Components | Widget Area, Quick Apps, Mini Card |
 | Figma Sources | 1024×600 + 1920×1080 |
 | Cross References | 4 |
-| Last Updated | 2026-09-22 |
+| Last Updated | 2026-09-27 |
+| Version Notu (Truth Mode) | Frontmatter 4.0.0 ↔ Quality Report 5.0.0 uyuşmazlığı bu sürümde tek değerde birleştirildi (5.1.0); kaynak: bu dosya L9 / L182 (önceki sürüm) |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-22
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

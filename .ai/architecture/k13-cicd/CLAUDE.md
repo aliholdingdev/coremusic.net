@@ -5,7 +5,7 @@ folder: "architecture/k13-cicd"
 category: vault
 date: 2026-09-20
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: reference
 ---
 
@@ -38,4 +38,4 @@ Code Push → Lint → Test → Security → Build → Deploy → Verify
 
 *K13 CLAUDE.md v1.0.0 — CoreMusic*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-20*
+*Last Updated: 2026-09-29*

@@ -3,8 +3,8 @@ title: "CoreMusic — ADR Dizin / Navigasyon Rehberi (001-037 Frozen + Yazım Ak
 type: template
 category: adr
 date: 2026-09-23
-updated: 2026-09-24
-version: 1.0.1
+updated: 2026-09-29
+version: 1.0.2
 status: active
 authority: reference
 ---
@@ -500,4 +500,4 @@ Haftalık sağlık döngüsü:
 ---
 
 **Template Version:** 1.0.0
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29

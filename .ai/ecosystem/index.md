@@ -2,13 +2,13 @@
 title: "CoreMusic — Ekosistem İndeksi"
 type: guide
 category: ecosystem
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: reference
 durum: active
 tarih: 2026-09-24
 kaynak: exa web doğrulaması (2026-09-24)
-updated: 2026-09-24
+updated: 2026-09-29
 ---
 
 # CoreMusic — Ekosistem İndeksi
@@ -503,5 +503,5 @@ EKOSİSTEM DOSYASI OKU → K KATMANI EŞLE → LİSANS KAPISI → SOMUT GİRİŞ
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

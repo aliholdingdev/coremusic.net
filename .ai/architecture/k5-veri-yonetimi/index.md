@@ -3,7 +3,7 @@ title: "K5 Veri Yönetimi Katmanı - Genel Bakış"
 layer: K5
 category: "Veri Yönetimi"
 date: 2026-09-20
-version: 1.0.0
+version: 1.0.1
 status: stable
 components: 78
 dependencies: [K0, K1, K2]

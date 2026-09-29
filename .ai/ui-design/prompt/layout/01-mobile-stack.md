@@ -5,7 +5,7 @@ type: prompt
 category: ui-design
 date: 2026-09-20
 status: active
-version: 1.0.0
+version: 1.0.1
 tier: T01
 viewport: 720x1280
 authority: Single Source of Truth (SSOT)

@@ -5,8 +5,8 @@ type: template
 category: ui-design
 pattern: D
 date: 2026-09-24
-updated: 2026-09-24
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
 governance: Red Team · Human Mode · Truth Mode
@@ -36,7 +36,7 @@ Bu şablon, CoreMusic ui-design vault'unda **bir ekranın piksel düzeyinde spes
 | `T01-phone-hd/` | 2 (`auth-login`, `home-dashboard`) |
 | `T02-phone-fhd/` | 1 (`home-dashboard`) |
 | `T03-phone-qhd/` | 1 (`home-dashboard`) |
-| `T08-embedded/` | 9 (`album-detail`, `albums`, `artists`, `bluetooth-modal`, `file-browser`, `home-dashboard`, `now-playing`, `welcome-popup`, `wifi-modal`) |
+| `T07-embedded/` | 9 (`album-detail`, `albums`, `artists`, `bluetooth-modal`, `file-browser`, `home-dashboard`, `now-playing`, `welcome-popup`, `wifi-modal`) |
 | `T17-monitor-22fhd/` | 1 (`home-dashboard`) |
 | `T25-tv-43fhd/` | 1 (`home-dashboard`) |
 | `T29-car-android-auto/` | 1 (`home-dashboard`) |
@@ -104,7 +104,7 @@ reference:
 5. `reference.source_of_truth` **birebir** diskteki PNG adıdır (iki boşluk dâhil: `Linux  1024 - Home Page.png`); PNG yoksa alan `⚠️ VERIFICATION REQUIRED — PNG bekleniyor` değeri alır.
 6. `reference:` bloğu bu dosyada **zorunludur** (Kalıp A'daki gibi opsiyonel değildir).
 
-### 3.2 Örnek — Doldurulmuş frontmatter (gerçek dosyadan, `screens/T08-embedded/home-dashboard.md`)
+### 3.2 Örnek — Doldurulmuş frontmatter (gerçek dosyadan, `screens/T07-embedded/home-dashboard.md`)
 
 ```yaml
 ---
@@ -115,13 +115,13 @@ category: ui-design
 date: 2026-09-20
 status: active
 version: 1.0.0
-tier: T08
+tier: T07
 viewport: 1024x600
 device: RPi5 7" Touch (Embedded)
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
-  authority: ".ai/ui-design/screens/T08-embedded/home-dashboard.md"
+  authority: ".ai/ui-design/screens/T07-embedded/home-dashboard.md"
   source_of_truth: ".ai/.png/home-1024/Linux  1024 - Home Page.png"
 ---
 ```
@@ -133,10 +133,10 @@ reference:
 **Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
 ```
 
-**Örnek (diskte):** `# CoreMusic — Home Dashboard (T08 Embedded 1024×600)`
+**Örnek (diskte):** `# CoreMusic — Home Dashboard (T07 Embedded 1024×600)`
 
 **Kurallar:**
-1. H1 kalıbı birebir: `CoreMusic — <Screen> (<Tier> <viewport>)`; tier adı harfli uzun form (`T08 Embedded`), viewport `×` ile.
+1. H1 kalıbı birebir: `CoreMusic — <Screen> (<Tier> <viewport>)`; tier adı harfli uzun form (`T07 Embedded`), viewport `×` ile.
 2. Alt klasördeki dosyalarda wiki-link'ler **klasör adı olmadan**, kök içindekiler `tokens/` önekiyle yazılır (mevcut dosyalarda kalıp: `[[00-device-matrix]]`, `[[tokens/design-tokens-master]]`).
 3. Zorunlu Bağlantılar tek satır, ` · ` ile ayrık; 4 bağlantı sabittir.
 4. H1 ile `## 1.` arasında tek `---` ayracı vardır.
@@ -167,7 +167,7 @@ Bölüm adı **sabittir**; parantezdeki eksen aralığı tier viewport'una göre
 1. Dil etiketsiz kod bloğu (yalnız ` ``` `).
 2. Kutu karakterleri sabittir: `─ │ ┌ ┐ └ ┘ ├ ┤ ┬ ┴` (`flow/00-flow-index.md §8` ile aynı aile).
 3. Her blokta `x:<sol>-<sağ>` ve `y:<üst>` köşe işaretleri + `(w:… / h:… / %…)` ölçü bulunur.
-4. Yükseklikler toplam viewport'a eşittir (T08: `60 + 450 + … = 600`) — toplam tutmuyorsa spec hatalıdır.
+4. Yükseklikler toplam viewport'a eşittir (T07: `60 + 450 + … = 600`) — toplam tutmuyorsa spec hatalıdır.
 5. Emoji/görsel simgeler yalnızca içerik yer tutucusudur; gerçek asset adı §7'dedir.
 6. `y` ekseninde artış her satırda **azalan koordinat** olarak tekrarlanır (soldaki cetvel).
 
@@ -514,7 +514,7 @@ node .ai/scripts/vault-utf8-writer.mjs verify --file <vault-yolu>
 | T01 Phone HD | `T01-phone-hd/` | `auth-login`, `home-dashboard` |
 | T02 Phone FHD | `T02-phone-fhd/` | `home-dashboard` |
 | T03 Phone QHD | `T03-phone-qhd/` | `home-dashboard` |
-| T08 Embedded | `T08-embedded/` | `album-detail`, `albums`, `artists`, `bluetooth-modal`, `file-browser`, `home-dashboard`, `now-playing`, `welcome-popup`, `wifi-modal` |
+| T07 Embedded | `T07-embedded/` | `album-detail`, `albums`, `artists`, `bluetooth-modal`, `file-browser`, `home-dashboard`, `now-playing`, `welcome-popup`, `wifi-modal` |
 | T17 Monitor 22" FHD | `T17-monitor-22fhd/` | `home-dashboard` |
 | T25 TV 43" FHD | `T25-tv-43fhd/` | `home-dashboard` |
 | T29 Car Android Auto | `T29-car-android-auto/` | `home-dashboard` |
@@ -540,5 +540,5 @@ node .ai/scripts/vault-utf8-writer.mjs verify --file <vault-yolu>
 
 *UI Design Screen Specification Template (Kalıp D) v1.0.0 — CoreMusic Template System*
 **Template Version:** 1.0.0
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -1,12 +1,28 @@
 /**
  * ComponentBase — Abstract base class for all CoreMusic JS components.
  *
+ * Faz 2 / Batch 1 — yeniden yazım (API birebir korunmuş, 2 hata düzeltilmiş).
+ *
  * Lifecycle: constructor → init() → mount() → [update()]* → destroy()
  * State: Private #state + setState() partial update (shallow diff)
  * Events: AbortController-based auto-cleanup
- * DOM: DOMParser + TrustedTypes (innerHTML PROHIBITED)
+ * DOM: DOMParser + sanitizer (innerHTML PROHIBITED — TrustedTypes sink'e gerek yok)
+ *
+ * Faz 2 düzeltmeleri (davranış bozmadan):
+ * 1. onUpdate(prev, next) artık tanımlı (varsayılan no-op) — eski kod setState içinde
+ *    çağırdığı halde tanım yoktu → her setState TypeError atıyordu.
+ * 2. Observer kaydı: addObserver() ile eklenen MutationObserver/ResizeObserver/
+ *    IntersectionObserver destroy() içinde otomatik disconnect edilir.
+ *
+ * Uyumluluk (main.js + 6 mevcut alt sınıf korunur):
+ * - constructor(element, initialState={}) + abstract check
+ * - defaultState() METOT (getter değil)
+ * - on(target, event, handler, options) — hedef odaklı imza
+ * - emit('select') → 'cm:select' (cm: prefix; tam ad isteyen 'cm:button:click' verir)
+ * - get state/el/isMounted/id/signal + _setMounted
  *
  * @package CoreMusic\Components\Base
+ * @version 2.0.0
  */
 export default class ComponentBase {
     /** @type {object} Reactive state */
@@ -15,7 +31,7 @@ export default class ComponentBase {
     /** @type {HTMLElement|null} Root DOM element */
     #el = null;
 
-    /** @type {AbortController} Event cleanup controller */
+    /** @type {AbortController} Event cleanup controller (sinyalin sahibi) */
     #abortController = null;
 
     /** @type {boolean} Lifecycle state */
@@ -26,6 +42,9 @@ export default class ComponentBase {
 
     /** @type {Map<string, ComponentBase>} Child components */
     #children = new Map();
+
+    /** @type {Set<MutationObserver|ResizeObserver|IntersectionObserver>} destroy'da disconnect */
+    #observers = new Set();
 
     /**
      * @param {HTMLElement} element — Root DOM element (PHP tarafından render edilmiş)
@@ -58,19 +77,44 @@ export default class ComponentBase {
      * LIFECYCLE
      * ═══════════════════════════════════════════════════════════ */
 
-    /** Başlangıç — constructor'dan sonra bir kez */
+    /** Başlangıç — constructor'dan sonra bir kez (ComponentLoader çağırır) */
     init() {}
 
-    /** DOM'a bağlanır, event'ler kurulur */
+    /** DOM'a bağlanır, event'ler kurulur (ComponentLoader çağırır) */
     mount() {}
 
-    /** Cleanup: event'ler, observer'lar, child component'ler */
+    /**
+     * Cleanup: event'ler (abort), observer'lar (disconnect), child component'ler.
+     * OVERRIDE edilirse super.destroy() SONDA çağrılmalı.
+     */
     destroy() {
         this.#children.forEach((child) => child.destroy());
         this.#children.clear();
+
+        this.#observers.forEach((observer) => {
+            try {
+                observer.disconnect();
+            } catch {
+                // Zaten kopmuş — yut
+            }
+        });
+        this.#observers.clear();
+
         this.#abortController.abort();
         this.#el = null;
         this.#mounted = false;
+    }
+
+    /**
+     * Observer'ı kaydet → destroy() otomatik disconnect eder.
+     * Yeni API (Faz 2, ekleme — mevcut kodu etkilemez).
+     *
+     * @param {MutationObserver|ResizeObserver|IntersectionObserver} observer
+     * @returns {typeof observer} Zincirleme için this
+     */
+    addObserver(observer) {
+        if (observer) this.#observers.add(observer);
+        return observer;
     }
 
     /* ═══════════════════════════════════════════════════════════
@@ -79,15 +123,29 @@ export default class ComponentBase {
 
     /**
      * Partial state update — shallow merge.
-     * DataBinder varsa otomatik tetikler.
+     * Tek render noktası: onUpdate(prev, next) bir kez çağrılır.
      *
      * @param {object} partial — Güncellenen alanlar
+     * @returns {ComponentBase} Zincirleme için this
      */
     setState(partial) {
         const prev = { ...this.#state };
         this.#state = { ...this.#state, ...partial };
         this.onUpdate(prev, this.#state);
         this.emit('cm:component:update', { prev, next: this.#state });
+        return this;
+    }
+
+    /**
+     * State değişiminden sonra çağrılır — tek render/güncelleme kancası.
+     * Varsayılan no-op'tur (Faz 2 düzeltmesi: eski kodda çağrı vardı, tanım yoktu).
+     * Alt sınıflar DOM güncellemesini burada yapar.
+     *
+     * @param {object} prev — Önceki state (kopya)
+     * @param {object} next — Yeni state
+     */
+    onUpdate(prev, next) {
+        // no-op — subclass override eder
     }
 
     /**
@@ -126,6 +184,7 @@ export default class ComponentBase {
 
     /**
      * Event listener ekler — AbortController ile otomatik cleanup.
+     * destroy() → abort() tüm bu listener'ları kapatır.
      *
      * @param {EventTarget} target — Event kaynağı
      * @param {string} event — Event adı
@@ -141,8 +200,10 @@ export default class ComponentBase {
 
     /**
      * CustomEvent dispatch eder — cm: prefix otomatik.
+     * Ad biçimi (master prompt): tam ad 'cm:button:click' gibi verilirse aynen kullanılır;
+     * kısa ad 'select' verilirse 'cm:select' olur (eski davranış korunur).
      *
-     * @param {string} eventName — Event adı (ör: 'select', 'cm:select' olur)
+     * @param {string} eventName — Event adı (ör: 'select' → 'cm:select')
      * @param {*} [detail] — Event verisi
      */
     emit(eventName, detail) {
@@ -179,7 +240,7 @@ export default class ComponentBase {
     }
 
     /**
-     * Tüm çocukları destroy eder.
+     * Tüm çocukları destroy eder (idempotent).
      */
     destroyChildren() {
         this.#children.forEach((child) => child.destroy());

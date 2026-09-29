@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-040: Database Authority (18 BCNF sahiplik matrisi · t
 type: "architecture-decision"
 category: "database"
 date: "2026-09-26"
-updated: "2026-09-26"
-version: "1.0.0"
+updated: "2026-09-29"
+version: "1.0.1"
 status: "accepted"
 authority: "SSOT — CoreMusic veritabanı otoritesi: hangi veri hangi DB (18 satır), tek yazar servis kuralı, cross-DB FK politikası (varsayılan yasak + 28 istisna + fazlı temizlik) ve şema/migration tek kapısı"
 kaynak: "Kullanıcı onaylı kapsam (tam: sahiplik + erişim + yetki) + disk/kod kanıtı taraması (18 SQL, 156 tablo, 82 FK) + web araştırması (5 sorgu / 25 kaynak)"
@@ -390,5 +390,5 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 *ADR-040 v1.0.0 — CoreMusic Architecture Decision Record*
 *Authority: ADR-040 Karar Metni (SSOT)*
-*Last Updated: 2026-09-26*
+*Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*

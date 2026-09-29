@@ -4,9 +4,9 @@ title: "CoreMusic — Service Integration"
 type: ecosystem
 category: ecosystem
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-29
 status: active
-version: 1.0.0
+version: 1.0.1
 ---
 
 # Service Integration
@@ -35,4 +35,4 @@ version: 1.0.0
 
 *Service Integration v1.0.0 — CoreMusic*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-20*
+*Last Updated: 2026-09-29*

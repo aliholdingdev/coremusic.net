@@ -1,7 +1,10 @@
 ---
+name: db-engine
+description: "Use when designing MySQL schemas, BCNF normalization, candidate keys, or raw PDO query strategy for the 18 CoreMusic databases."
 title: "CoreMusic — DB Engine"
 type: skill-instruction
-version: 1.0
+version: 1.1
+updated: 2026-09-29
 authority: SSOT
 mode:
   - Red Team
@@ -33,6 +36,10 @@ reference:
     - ".ai/brain.md"
     - ".ai/.sql/mysql/"
 changelog:
+  - version: 1.1
+    date: 2026-09-29
+    changes:
+      - Faz2 içerik kalite denetimi — "Cross-database FK '9 DB' → 18 DB (ADR-040 + .ai/.sql/mysql/ = 18 .sql disk kanıtı)"
   - version: 1.0
     date: 2026-09-20
     changes:
@@ -231,7 +238,7 @@ Kontrol listesi:
 | ORM kullanımı | ADR-002 — PDO prepared only |
 | SELECT * | Açık kolon listesi zorunlu |
 | FLOAT para birimi | DECIMAL(10,2) |
-| Cross-database FK | 9 DB BCNF izolasyonu |
+| Cross-database FK | 18 DB BCNF izolasyonu (ADR-040) |
 | Hard delete | Soft delete (deleted_at) |
 | Stored procedure (iş mantığı) | PHP'de yapılmalı |
 | ENUM sabitleri | Lookup tablosu kullan |

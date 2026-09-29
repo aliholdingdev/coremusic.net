@@ -2,10 +2,10 @@
 title: "CoreMusic Vault — Proje Şablonu (Yeniden Kullanılabilir Vault İskeleti)"
 type: playbook
 category: templates
-version: "1.1.0"
+version: "1.1.2"
 status: active
 authority: super-primary
-updated: 2026-09-25
+updated: 2026-09-29
 ---
 
 # CoreMusic Vault — Proje Şablonu
@@ -199,12 +199,12 @@ C:\www\coremusic.net\
 | SSOT Links | 8 satır öncelik listesi: `.ai/CLAUDE.md` → `VISION` → `PROJECTS` → `AGENTS` → `WORKFLOW` → `brain` → `architecture/index` → `architecture/adr/` |
 | Quick Commands | `php -S localhost:81 -t public/` · `cd download-service && npm run dev` · `cd shared && vendor/bin/phpunit` |
 | Key Rules | No ORM (PDO only) · No JS frameworks (Vanilla JS only) · CSRF = `csrf_token` · Strict BCNF 3NF+ |
-| Footer | `Vault Steward: Bayram Ali | SSOT: .ai/ | Last Updated: 2026-09-24` |
+| Footer | `Vault Steward: Bayram Ali | SSOT: .ai/ | Last Updated: 2026-09-29` |
 
 **İki ADR serisi (kök CLAUDE.md — birleştirme REDDEDİLDİ, ADR-026 §3.4):**
 
 ```text
-.ai/.decisions/       → numaralı seri 001-089 (001-037 frozen; yeni için "next new = 088+")
+.ai/.decisions/       → numaralı seri 001-090 (001-037 frozen; yeni için "next new = 091")
 .ai/architecture/adr/ → mimari seri 023-026 (023 hibrit-derinlik, 024 sürücü-firmware birleşimi,
                         025 K8↔K15 sınırı, 026 sayım birimi 5.000)
 ```
@@ -403,11 +403,11 @@ Aşama 4: İndeks Güncelleme    Aşama 8: İşlem Sonrası Vault Senkronu (zoru
 **Numaralandırma (dosya §"ADR Numaralandırma" — 2026-09-24 seri notu):**
 
 ```text
-frozen: ADR-001 → ADR-037 (immutable)      active: ADR-038 → ADR-089 (güncellenebilir)
-draft:  yok                                yeni:   ≥ ADR-090   ( ".workflows/adr-creation.md" )
-kök CLAUDE.md:                              "next new = 088+"
+frozen: ADR-001 → ADR-037 (immutable)      active: ADR-038 → ADR-090 (güncellenebilir)
+draft:  yok                                yeni:   ≥ ADR-091   ( ADR-090 dolu; eski iddia ".workflows/adr-creation.md" )
+kök CLAUDE.md:                              "next new = 091" (2026-09-27'de düzeltildi)
 İki seri kasıtlı ayrıdır (birleştirme REDDEDİLDİ — ADR-026 §3.4):
-  .ai/.decisions/ = karar serisi (001-089)  |  .ai/architecture/adr/ = mimari seri (023-026)
+  .ai/.decisions/ = karar serisi (001-090)  |  .ai/architecture/adr/ = mimari seri (023-026)
 Şablon: .ai/.templates/adr/* · Hedef: .ai/.decisions/{status}/ + index.md
 ```
 
@@ -474,7 +474,7 @@ Bkz. §3.5 ve §3.6 (bölüm başlıkları gerçek).
 | 4 | **Security Engineer** | `security` | OWASP, encryption, CSRF, CSP | A1 | Argon2id, AES-256-GCM, APCu |
 | 5 | **Data Engineer** | `data` | MySQL 18 BCNF, PDO, migration | A0 | MySQL 9, PDO, BCNF |
 | 6 | **Embedded Engineer** | `embedded` | C++20, JUCE, ASIO, DSP | A0 | C++20, JUCE 9, ASIO SDK 2.3.4 |
-| 7 | **QA Engineer** | `qa` | Test, coverage, E2E | Cross-cutting | PHPUnit 11, Vitest, Playwright |
+| 7 | **QA Engineer** | `qa` | Test, coverage, E2E | Cross-cutting | PHPUnit ^10.5 (composer.json kanıtı), Vitest, Playwright |
 | 8 | **DevOps Engineer** | `devops` | CI/CD, GitHub Actions, deploy | CI/CD | GitHub Actions, GitLeaks |
 | 9 | **Audio Hardware Engineer** | `audio-hw` | DAC/ADC, PCB, amplifier | HW | PCM3168A, AK4458, Class AB |
 | 10 | **DSP Firmware Engineer** | `dsp-fw` | XMOS, PCM3168A, DSP chain | FW | XMOS XU316, I2S, TDM |
@@ -581,7 +581,7 @@ vault/documentation/ADR → vault-updater        UI görevleri → ui-designer (
 | Standart | Gerçek değer | Kaynak |
 |---|---|---|
 | **Test kapsamı hedefi** | **min ≥%80 · hedef ≥%90** (modül bazlı) | `.ai/CLAUDE.md` §17 |
-| Modüller | Backend (PHP) `PHPUnit 11` · Frontend (JS) `Vitest` · Audio Engine (C++) `Google Test` · Download Service `Vitest` | §17 |
+| Modüller | Backend (PHP) `PHPUnit ^10.5` · Frontend (JS) `Vitest` · Audio Engine (C++) `Google Test` · Download Service `Vitest` | §17 |
 | Test komutu | `cd shared && vendor/bin/phpunit` | kök CLAUDE.md / README §9 |
 | QA agent eşiği | ≥%80 min, ≥%90 modül hedefi; pyramid Unit 70 / Integration 20 / E2E 10 | opencode.json qa-engineer |
 | Frontend standardı | ITCSS 9-layer + BEM + WCAG 2.2 AA + Design Tokens | §5/§11 |

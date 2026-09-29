@@ -108,6 +108,9 @@ final class FileHandler
 
         $line = "[{$timestamp}] [{$logLevel}] [{$method} {$uri}] [{$ip}] {$message}{$contextStr}" . PHP_EOL;
 
+        // Merkezi redaction (§17 Edge Case 3): hassas alanlar [REDACTED] olur.
+        $line = Redactor::redact($line);
+
         // Error her zaman coremusic_php_errors.log'a yazılır
         $this->appendToFile('coremusic_php_errors.log', $line);
 

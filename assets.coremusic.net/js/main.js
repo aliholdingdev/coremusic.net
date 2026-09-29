@@ -30,12 +30,37 @@ import TouchManager from './features/TouchManager.js';
 /* --- Component System (v1.0) --- */
 import ComponentRegistry from './components/base/ComponentRegistry.js';
 import ComponentLoader from './components/base/ComponentLoader.js';
-import TabsComponent from './components/interactive/TabsComponent.js';
-import DropdownComponent from './components/interactive/DropdownComponent.js';
 import AccordionComponent from './components/interactive/AccordionComponent.js';
-import ToastComponent from './components/interactive/ToastComponent.js';
 import InfiniteScroll from './components/interactive/InfiniteScroll.js';
 import PlayerInfoComponent from './components/interactive/PlayerInfoComponent.js';
+
+/* Batch 3 migrasyonu (2026-09-27) — cm-tabs/cm-dropdown/cm-toast → composites/.
+   Gerekçe: şablonlarda data-cm-component="cm-tabs|cm-dropdown|cm-toast" YOK,
+   .cm-* için CSS YOK (stilsiz); .toast için c-toast.css var.
+   interactive/{Tabs,Dropdown,Toast}Component.js silinmez — ayrı onay turu. */
+import TabsComponent from './components/composites/TabsComponent.js';
+import DropdownComponent from './components/composites/DropdownComponent.js';
+import ToastComponent from './components/composites/ToastComponent.js';
+
+/* --- Primitives (Faz 2 Batch 1 — Figma 18:2907) --- */
+import ButtonComponent from './components/primitives/ButtonComponent.js';
+import InputComponent from './components/primitives/InputComponent.js';
+import ToggleComponent from './components/primitives/ToggleComponent.js';
+import SliderComponent from './components/primitives/SliderComponent.js';
+import BadgeComponent from './components/primitives/BadgeComponent.js';
+import SkeletonComponent from './components/primitives/SkeletonComponent.js';
+
+/* --- Composites (Faz 2 Batch 2 — Figma 18:2907) --- */
+import NavLinkComponent from './components/composites/NavLinkComponent.js';
+import HeroComponent from './components/composites/HeroComponent.js';
+import CardComponent from './components/composites/CardComponent.js';
+import ModalComponent from './components/composites/ModalComponent.js';
+import AvatarComponent from './components/composites/AvatarComponent.js';
+import TooltipComponent from './components/composites/TooltipComponent.js';
+import ProgressComponent from './components/composites/ProgressComponent.js';
+import WidgetAreaComponent from './components/composites/WidgetAreaComponent.js';
+import QuickAppsComponent from './components/composites/QuickAppsComponent.js';
+import MiniCardComponent from './components/composites/MiniCardComponent.js';
 
 (function () {
     'use strict';
@@ -119,7 +144,25 @@ import PlayerInfoComponent from './components/interactive/PlayerInfoComponent.js
             .register('cm-accordion', AccordionComponent)
             .register('cm-toast', ToastComponent)
             .register('cm-infinite-scroll', InfiniteScroll)
-            .register('cm-player-info', PlayerInfoComponent);
+            .register('cm-player-info', PlayerInfoComponent)
+            /* Faz 2 Batch 1 — primitive bileşenler (Figma 18:2907) */
+            .register('cm-button', ButtonComponent)
+            .register('cm-input', InputComponent)
+            .register('cm-toggle', ToggleComponent)
+            .register('cm-slider', SliderComponent)
+            .register('cm-badge', BadgeComponent)
+            .register('cm-skeleton', SkeletonComponent)
+            /* Faz 2 Batch 2 — composite bileşenler (Figma 18:2907) */
+            .register('cm-nav-link', NavLinkComponent)
+            .register('cm-hero', HeroComponent)
+            .register('cm-card', CardComponent)
+            .register('cm-modal', ModalComponent)
+            .register('cm-avatar', AvatarComponent)
+            .register('cm-tooltip', TooltipComponent)
+            .register('cm-progress', ProgressComponent)
+            .register('cm-home-widget-grid', WidgetAreaComponent)
+            .register('cm-home-quick-apps', QuickAppsComponent)
+            .register('cm-home-mini-card', MiniCardComponent);
 
         const componentLoader = new ComponentLoader(componentRegistry);
         componentLoader.scan();

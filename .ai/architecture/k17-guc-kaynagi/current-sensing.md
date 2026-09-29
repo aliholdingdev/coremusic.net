@@ -9,7 +9,7 @@ date: 2026-09-20
 
 ## Genel Bakış
 
-Akım ölçme devresi, COREMUSIC'in tüm güç rail'lerindeki akımı izleyerek aşırı akım koruması, güç tüketimi izleme ve batarya SOC hesaplamasını sağlar. ACS711 hall-effect sensör galvanik izolasyon sağlarken, shunt resistor tabanlı ölçüm yüksek hassasiyet sunar. Her iki method birlikte kullanılarak红冗da giámiz Consolidated data elde edilir.
+Akım ölçme devresi, COREMUSIC'in tüm güç rail'lerindeki akımı izleyerek aşırı akım koruması, güç tüketimi izleme ve batarya SOC hesaplamasını sağlar. ACS711 hall-effect sensör galvanik izolasyon sağlarken, shunt resistor tabanlı ölçüm yüksek hassasiyet sunar. Her iki method birlikte kullanılarak consolidated data elde edilir. <!-- ⚠️ VERIFICATION REQUIRED: orijinal cümlede okunamayan Çince glifler vardı; bağlama göre sadeleştirildi (2026-09-29) -->
 
 ## Akım Ölçüm Mimarisi
 

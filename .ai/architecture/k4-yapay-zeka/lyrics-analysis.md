@@ -3,7 +3,7 @@ title: "Şarkı Sözü Analizi Modülü"
 layer: K4
 category: "Yapay Zeka"
 date: 2026-09-20
-version: 1.0.0
+version: 1.0.1
 status: stable
 components: 3
 dependencies: [K4, K5]
