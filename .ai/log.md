@@ -661,3 +661,26 @@ E2E (Playwright): logout -> login -> dogrudan home:81/home (500/404 yok) · 9 da
 - ReturnUrlPolicy: //evil.com/ protocol-relative onceden de true (L30 str_starts_with early-return) — bu oturumda bilincli olarak dokunulmadi, ayri fix.
 - Stream icin PHPUnit HTTP testi yok (curl kaniti yeterli, suite'e dokunulmadi).
 - Skill icerik rewrite kullanici onayi bekiyor.
+| 2026-09-29 | vault-rewrite | Faz 4 sweep tamamlandı: 9 CJK dosya onarımı (log.md hariç frozen) + 473 dosyada version patch+1 / 277 dosyada updated→2026-09-29 / 207 footer→2026-09-29 + kök AGENTS.md alıntı senkronu (v22.0.5 / alt v1.2.5) | vault-updater |
+
+## 2026-09-29 — ReturnUrlPolicy open-redirect sertlestirmesi + 14 SKILL.md kalite denetimi (2c0359b, 1b85af6)
+
+### Security (2c0359b) — ReturnUrlPolicy 3 katman bypass kapatildi
+1. Protocol-relative: isAllowed('//evil.com/') false, getSafeUrl -> '/' (isProtocolRelative helper, raw+decode, // ve /\).
+2. Tab/newline (WHATWG strip): /%09/, /%0A/, /%0D/, literal \t\n\r varyantlari reddedildi (hasControlChars guard raw+urldecode).
+3. Test zayiflatilmadi: L112 assertFalse korundu, cozum implementasyonda (kontrol karakteri iceren redirect URL'si tamamen ret - mevzu yok).
+- ~14 yeni assert; MO dogrulama: policy-check 11/11 ALL PASS, shared 216/545, auth unit 31/59, php -l 0.
+- Not: subagent'larin cogu turunde shell permission.rejected -> tum phpunit/php kod calistirma MO'da yapildi (verification-before-completion).
+- Rate limit: 28 Aksam + 29 Sabah dispatch'ler dustu, yeni gun ile yeniden dispatch ile asildi.
+
+### Skills (1b85af6) — 14 SKILL.md icerik denetimi (faz2'de ertelenen karar)
+- Bulgular: .ai/ADR/ -> .ai/.decisions/ (9 dosya), yanlis ADR ref (ADR-021 -> ADR-002), "9 DB" -> 18 DB (ADR-040), coremusic_users -> coremusic_user, olu Router.js#L682, ui-workbench mockup dosya yollari, 5 dosyada footer/body/title version uyusmazligi.
+- 14/14 minor bump + updated: 2026-09-29; name/description 14/14 degismedi; mojibake 0; verify script 14/14 PASS.
+- composer-sync dup-ID: .opencode/skills/composer-sync KAYNAK olarak isaretlendi; .claude kopyasi silinmedi (ADR-042) ve frontmatter'i commit'li halde yok (acik).
+
+### Acik konular (MO)
+- .claude/skills/composer-sync: name/description yok (00be18f eklemisti, sonraki halde yok) + dup-ID - karar: onceden planlanan frontmatter eklensin mi?
+- H026/H027 (truth/hallucination sozluk) .ai/CLAUDE.md #15/16 ile isaretlendi ama sozluk duzeltilmedi - vault-updater'a birakildi.
+- Cakisan skill kurallari: orchestration "max 400 satir" vs skill-maker "max 2000"; truth-engine "web arama yasak" vs prompt-maker/skill-maker zorunlu arama.
+- updated: alaninin skill-maker sablonuna islenmesi karari.
+- Eski acik madde durumu: case-variant duplicate baslik (14) kabul edildi; sureler NULL (ffprobe yok).
