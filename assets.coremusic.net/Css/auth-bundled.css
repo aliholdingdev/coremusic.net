@@ -5,6 +5,9 @@
  *
  * Import order: Tokens → Pages (fonts loaded via a-fonts-token.css)
  * Device-specific overrides are loaded separately via DeviceCssMap.
+ *
+ * NOT (2026-09-29 · 07_Vendors bootstrap tanımı): auth sayfaları Bootstrap grid KULLANMIYOR
+ *   (grep: class="row" / col-* / .container → 0 referans) → bootstrap import EDİLMEDİ; eklenirse reboot, b-base-core'i ezer.
  */
 
 /* 01_Abstracts — Design Tokens */
