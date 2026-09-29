@@ -1,16 +1,22 @@
 ---
-version: 1.1.0
+reference_doc: CoreMusic UI Design System
+title: "CoreMusic — Playlist Video Screen Specification"
+type: spec
+category: ui-design
 date: 2026-09-27
 status: active
-device: RPi5 7" Touch (Embedded)
+version: 1.1.0
 tier: T07
 viewport: 1024x600
+device: RPi5 7" Touch (Embedded)
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
 screen: Playlist Video
 screen_id: 06
 kalip: D
 reference:
-  authority: Figma > extracted > PNG > ASCII
-  source_of_truth: .png/home-1024/Linux  1024 - Playlist Page - Video Played.png
+  authority: ".ai/ui-design/screens/T07-embedded/playlist-video.md"
+  source_of_truth: ".ai/.png/home-1024/Linux  1024 - Playlist Page - Video Played.png"
 related:
   - .ai/ui-design/00-device-matrix.md
   - .ai/ui-design/01-mockup-index.md

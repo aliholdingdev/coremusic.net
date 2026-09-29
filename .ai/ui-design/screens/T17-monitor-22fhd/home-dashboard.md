@@ -1,12 +1,20 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Home Dashboard (Ana Ekran · 22\" FHD)"
-tier: T17
-device: "22\" FHD Monitor (Desktop)"
-viewport: { width: 1920, height: 1080 }
-path: "screens/T17-monitor-22fhd/"
+type: spec
+category: ui-design
+date: 2026-09-27
 status: active
 version: 1.0.1
-source_of_truth: ".ai/.png/home-1920/Linux - 1920 - Home.png"
+tier: T17
+viewport: 1920x1080
+device: "22\" FHD Monitor (Desktop)"
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/ui-design/screens/T17-monitor-22fhd/home-dashboard.md"
+  source_of_truth: ".ai/.png/home-1920/Linux - 1920 - Home.png"
+path: "screens/T17-monitor-22fhd/"
 related_tokens: [tokens/design-tokens-master]
 related_components: [02-component-inventory]
 wcag_target: "WCAG 2.2 AA"

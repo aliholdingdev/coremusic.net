@@ -1,12 +1,20 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Select Gender Selected (Cinsiyet Seçimi · Seçili Durum)"
-tier: T07
-device: "RPi5 7\" Touch (Embedded)"
-viewport: { width: 1024, height: 600 }
-path: "screens/shared/"
+type: spec
+category: ui-design
+date: 2026-09-28
 status: active
 version: 1.1.1
-source_of_truth: ".ai/.png/shared-1024/Linux  1024 - Select Gender - selected.png"
+tier: T07
+viewport: 1024x600
+device: "RPi5 7\" Touch (Embedded)"
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/ui-design/screens/shared/select-gender-selected.md"
+  source_of_truth: ".ai/.png/shared-1024/Linux  1024 - Select Gender - selected.png"
+path: "screens/shared/"
 related_tokens: [tokens/design-tokens-master]
 related_components: [02-component-inventory]
 wcag_target: "WCAG 2.2 AA"

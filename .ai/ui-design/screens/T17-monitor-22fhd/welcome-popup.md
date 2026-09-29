@@ -1,12 +1,20 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Karşılama (Welcome) Popup"
-tier: T17-monitor-22fhd
-device: "Desktop Monitor (Mouse Tier)"
-viewport: { width: 1920, height: 1080 }
-path: "/home (welcome-modal)"
+type: spec
+category: ui-design
+date: 2026-09-28
 status: draft
 version: 1.1.1
-source_of_truth: "⚠️ VERIFICATION REQUIRED — PNG bekleniyor"
+tier: T17
+viewport: 1920x1080
+device: "Desktop Monitor (Mouse Tier)"
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/ui-design/screens/T17-monitor-22fhd/welcome-popup.md"
+  source_of_truth: "⚠️ VERIFICATION REQUIRED — PNG bekleniyor"
+path: "/home (welcome-modal)"
 related_tokens:
   - "--cm-font-family-heading"
   - "--cm-font-family-body"

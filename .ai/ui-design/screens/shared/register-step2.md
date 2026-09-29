@@ -1,12 +1,20 @@
 ---
+reference_doc: CoreMusic UI Design System
 title: "CoreMusic — Register Step 2 (Kayıt · Adım 2 — Şifre & Şifre Tekrar)"
-tier: T07
-device: "RPi5 7\" Touch (Embedded)"
-viewport: { width: 1024, height: 600 }
-path: "screens/shared/"
+type: spec
+category: ui-design
+date: 2026-09-27
 status: active
 version: 1.0.1
-source_of_truth: ".ai/.png/shared-1024/Linux  1024 - Register Girl step 2.png"
+tier: T07
+viewport: 1024x600
+device: "RPi5 7\" Touch (Embedded)"
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/ui-design/screens/shared/register-step2.md"
+  source_of_truth: ".ai/.png/shared-1024/Linux  1024 - Register Girl step 2.png"
+path: "screens/shared/"
 related_tokens: [tokens/design-tokens-master]
 related_components: [02-component-inventory]
 wcag_target: "WCAG 2.2 AA"
