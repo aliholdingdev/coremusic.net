@@ -171,3 +171,40 @@ anlamsız olurdu. Ekran spec'i istenirse child frame'lerden (ör. `1639:10160`
 - `absoluteBoundingBox` → CANVAS düğümünde yok.
 - GLASS efektinde `radius` → API yanıtında yok.
 - Bazı auto-layout'lerde `itemSpacing`/padding alanları eksik.
+---
+
+## Extract: tam cekim (2026-09-29 13:18:41)
+
+| Node | Ad | Breakpoint | Top | Toplam | Boyut | Durum |
+|---|---|---|---|---|---|---|
+| `1991:12056` | Plan | bp=- | top=624 | toplam node=2618 | 2248 KB | OK |
+| `1047:15802` | Linux-Pi | bp=1024 | top=27 | toplam node=13225 | 11478 KB | OK |
+| `462:5874` | Linux-1920 | bp=1920 | top=15 | toplam node=758 | 714 KB | OK |
+| `2161:12438` | Music-Admin | bp=1920 | top=4 | toplam node=223 | 229 KB | OK |
+| `2135:19832` | Linux-Pi-Sonn-Kullanici | bp=1024 | top=2 | toplam node=66 | 61 KB | OK |
+| `2003:24752` | Mobil-Sonn-Kullanici | bp=mobile | top=2 | toplam node=39 | 33 KB | OK |
+| `1988:14156` | Kurumsal | bp=1920 | top=16 | toplam node=10831 | 9228 KB | OK |
+| `319:2789` | Web-Laptop-1920 | bp=1920 | top=3 | toplam node=2752 | 2432 KB | OK |
+| `326:3386` | Web-Monitor-3840 | bp=3840 | top=0 | toplam node=0 | 1 KB | BOS (tasarim yok) |
+| `608:11052` | Web-Sonn-Kullanici-1920 | bp=1920 | top=2 | toplam node=1144 | 1106 KB | OK |
+| `16:106` | Tizen-OS-Samsung | bp=tv | top=0 | toplam node=0 | 1 KB | BOS (tasarim yok) |
+| `1801:12472` | Windows-CPP-App | bp=1920 | top=0 | toplam node=0 | 1 KB | BOS (tasarim yok) |
+| `1801:12473` | Windows-CPP-Fullscreen | bp=1920 | top=0 | toplam node=0 | 1 KB | BOS (tasarim yok) |
+| `15:403` | Web-Design-Eski | bp=1920 | top=46 | toplam node=9777 | 8892 KB | OK |
+| `18:2907` | Design-System-XD | bp=system | top=38 | toplam node=21767 | 15840 KB | OK |
+
+---
+
+## Extract: tam cekim (2026-09-29 13:20:22)
+
+| Node | Ad | Breakpoint | Top | Toplam | Boyut | Durum |
+|---|---|---|---|---|---|---|
+| `12 node` | kullanici linkleri | - | - | - | 16834 KB | OK |
+
+---
+
+## Extract: tam cekim (2026-09-29 13:35:43)
+
+| Node | Ad | Breakpoint | Top | Toplam | Boyut | Durum |
+|---|---|---|---|---|---|---|
+| PNG | 151 hedef | scale=2 | - | - | - | 129 dosya indirildi |
