@@ -578,7 +578,7 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 | `ui-design/prompt/**` | **92 ana işaret** — Prompt Template **41** · Validation **26** · ASCII Reference **13** · Required Inputs **12** (+1 voice-control satırı = 93 toplam / 51 dosyanın 41'inde) | **Uydurma ölç/token/JSON yazılmaz**; eksik girdi kullanıcıya sorulur |
 | `screens/T17-monitor-22fhd/welcome-popup.md` | `status: draft` + `source_of_truth: ⚠️ VERIFICATION REQUIRED — PNG bekleniyor` | Uydurma PNG yok; draft frontend kanıtı değildir |
 | `tokens/tokens-3840.json` · `tokens-tv.json` | **boş** (tasarım yok) → mobile/tablet/TV/4K katmanları `status: planlanmış` + `⚠️ VERIFICATION REQUIRED` | Token asla uydurulmaz |
-| `reference/figma/png` | **149/151 — 2 eksik** | `figma-extract.ps1 -ImagesOnly` ile yeniden denenir |
+| `reference/figma/png` | **151 hedef · 136 indirilen · 15 gizli node (`visible: false`) → API NULL, indirilemez · 13 legacy · dizin 149** (Faz 8b ölçümü — önceki "eksik" okuması geçersizdir) | "151 var" denmez; `figma-extract.ps1 -ImagesOnly` yeniden denemesi 15/15 NULL verir. Ayrıntı: [[AGENTS.md]] §24.3 · `ui-design/reference/04-verification` §7.1 |
 
 *Ayrıntı:* [[AGENTS.md]] §24.3 · kapı betikleri [[AGENTS.md]] §13.6-§13.7 · faz/commit kanıtı [[AGENTS.md]] §13.8.
 

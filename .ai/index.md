@@ -505,7 +505,7 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | `flow/` | **21 md** = `00-flow-index` + 20 (auth 5 · music 5 · settings 4 · navigation 3 · automotive 2 · watch 1) |
 | `prompt/` | **51 md** = **48 içerik** (component **16** · page **12** · layout **10** · screen **10**) + `prompt/00-prompt-index` + `screen/00-prompt-index` + `web-research` |
 | `reference/` · `tokens/` | **17 md** (11 üst düzey + `figma/` 6) · **4 md + 7 json** |
-| Görsel / ham | `.ai/.png` **19 PNG** (12 · 1 · 6) · `reference/figma/png` **149/151** (2 eksik → `figma-extract.ps1 -ImagesOnly`) · `reference/figma/raw` **19 JSON / 79.7 MB** (15 sayfanın **4'ü boş**) |
+| Görsel / ham | `.ai/.png` **19 PNG** (12 · 1 · 6) · `reference/figma/png` **151 hedef · 136 indirilen · 15 gizli node (`visible: false`) → API NULL · 13 legacy · dizin 149** (Faz 8b — `ui-design/reference/04-verification` §7.1) · `reference/figma/raw` **19 JSON / 79.7 MB** (15 sayfanın **4'ü boş**) |
 
 ---
 
@@ -742,9 +742,10 @@ Toplam 80 ADR (Frozen: 37, Active: 31, Rejected: 12). Frozen: 001-037 (değişti
 
 - **Toplam dosya:** 587 (ölçüm 2026-09-24 — önceki sahip doğrulaması 518, 2026-09-23; eski Faz 0 değeri 787 güncel değildi)
 - **Toplam ADR:** 80 (Frozen: 37, Active: 31, Rejected: 12)
-- **Versiyon:** 28.4.2
-- **Son Güncelleme:** 2026-09-29 (Faz 7 guardrail hizalaması — ui-design disk gerçekliği §19.5, kırık ekran/prompt yolları düzeltildi, PNG kırılımı 12+1+6; önceki: 2026-09-27 disk ölçümü 587/PNG 19/template 36)
-  - **28.4.2 — Faz 7 (2026-09-29):** §19.5 disk gerçekliği (kök 6 · screens 21 · flow 21 · prompt 51 · reference 17 · tokens 4+7 · PNG 19 · figma png 149/151 · raw 19 JSON/79.7 MB) eklendi; §4A/§11'de olmayan ekran ve prompt yolları diskteki gerçek adlarla değiştirildi (B-home, E-filemanager, F-quickpanel, 04-vault-registration, 01-1024-embedded, 01-pattern-standard-60-40 → mevcut dosyalar); mockup-index kırılımı 12+1+6'ya tamamlandı.
+- **Versiyon:** 28.4.3
+- **Son Güncelleme:** 2026-09-29 (Faz 8b PNG envanter gerçeği §19.5 + §18 changelog; aynı gün önceki: Faz 7 guardrail hizalaması — ui-design disk gerçekliği §19.5, kırık ekran/prompt yolları düzeltildi, PNG kırılımı 12+1+6; önceki: 2026-09-27 disk ölçümü 587/PNG 19/template 36)
+  - **28.4.3 — Faz 8b (2026-09-29):** PNG envanter gerçeği: 151 hedef · 136 indirilen · 15 gizli node visible:false → API NULL · 13 legacy · toplam 149; "149/151 = 2 eksik" iddiası geçersiz.
+  - **28.4.2 — Faz 7 (2026-09-29):** §19.5 disk gerçekliği (kök 6 · screens 21 · flow 21 · prompt 51 · reference 17 · tokens 4+7 · PNG 19 · figma png 151 hedef / 136 indirilen · raw 19 JSON/79.7 MB) eklendi; §4A/§11'de olmayan ekran ve prompt yolları diskteki gerçek adlarla değiştirildi (B-home, E-filemanager, F-quickpanel, 04-vault-registration, 01-1024-embedded, 01-pattern-standard-60-40 → mevcut dosyalar); mockup-index kırılımı 12+1+6'ya tamamlandı.
   - **28.4.0 — Faz 2 (2026-09-27):** .personas 68/68 persona yeniden yazıldı (35.026 satır, ≥500 oranı %100), 4 dosya yeniden adlandırıldı, kırık wiki-link 7→0, personas/index.md sayaçları disk gerçeğiyle hizalandı, templates registry #38.
 - **Governance:** Red Team · Human Mode · Truth Mode
 

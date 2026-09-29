@@ -216,3 +216,69 @@ anlamsız olurdu. Ekran spec'i istenirse child frame'lerden (ör. `1639:10160`
 | Node | Ad | Breakpoint | Top | Toplam | Boyut | Durum |
 |---|---|---|---|---|---|---|
 | PNG | 151 hedef | scale=2 | - | - | - | 149 dosya indirildi |
+
+---
+
+## Extract: tam cekim (2026-09-29 19:16:45)
+
+| Node | Ad | Breakpoint | Top | Toplam | Boyut | Durum |
+|---|---|---|---|---|---|---|
+| PNG | 151 hedef | scale=2 | - | - | - | 149 dosya indirildi |
+
+---
+
+## PNG hedef kırılımı (Faz 8b, 2026-09-29)
+
+> Bu bölüm **üstteki ham çekim loglarını yalanlamaz** — `149 dosya indirildi` satırları o anki betik çıktısıdır ve korunur. Aşağıda o 149 sayısının **nasıl oluştuğu** ve neden "151 hedefin 2 eksiği" olarak **okunamayacağı** vardır.
+
+**Ölçüm (API üzerinden kanıtlandı):**
+
+```
+151 hedef = 136 indirilen + 15 indirilemeyen (gizli node)
+149 dizin = 136 id-prefixed (`^\d+-\d+-`) + 13 legacy (eski adlandırma)
+136 + 15 = 151
+```
+
+- **Hedef = 151**: 11 kullanıcı node'u + 15 sayfanın top-level export edilebilir child'ları; `figma-extract.ps1` çıktısındaki "PNG hedef sayisi: 151" ile aynı.
+- **İndirilen = 136**: id-prefixed dosya sayısı dizinden elle sayıldı.
+- **Dizin toplamı 149**: 136 yeni + 13 eski adlandırmalı dosya → **149 sayısı "151 − 2" diye yorumlanamaz**, çünkü o 13'ün çoğu için id-prefixed karşılık zaten diskte duruyor.
+
+**İndirilemeyen 15 node — kök neden `visible: false`:**
+
+Figma `/v1/images` endpoint'i bu 15 node için **NULL** döndürüyor (HTTP 200, `images.<id> = null`). Test kapsamı: **scale=1** ve **scale=2**, **20'lik parti** sorgu ve **tek tek** sorgu → sonuç **15/15 NULL**. Ham JSON'dan geometri okunarak **15/15 node'un `visible: false` (gizli)** olduğu kanıtlandı. Figma export API gizli node'lara PNG vermez; bu yüzden `-ImagesOnly` ile yeniden denemek sonucu değiştirmez.
+
+| id | type | W×H | page | name |
+|---|---|---|---|---|
+| `1491:37281` | GROUP | 4456×1476 | page-1047-15802 | Pink - Dark |
+| `1491:37282` | GROUP | 4503×1569 | page-1047-15802 | other mavi |
+| `1047:29966` | FRAME | 2170×60 | page-1047-15802 | Frame 4 |
+| `1976:11757` | FRAME | 1024×600 | page-1047-15802 | Linux 1024 - Göz At - Tıklama Clikced |
+| `1976:12013` | FRAME | 1024×600 | page-1047-15802 | Linux 1024 - Göz At - Tıklama Clikced |
+| `1980:13448` | FRAME | 1024×600 | page-1047-15802 | Linux 1024 - Göz At - Tıklama Clikced |
+| `1980:13692` | FRAME | 1024×600 | page-1047-15802 | Linux 1024 - Göz At - Tıklama Clikced |
+| `1491:37718` | GROUP | 3880×1080 | page-462-5874 | mavi |
+| `2831:13458` | INSTANCE | 506.2×198.2 | page-462-5874 | Playlist Status Div |
+| `2161:12439` | GROUP | 3880×1080 | page-2161-12438 | mavi |
+| `1988:15821` | GROUP | 4456×1476 | page-1988-14156 | Pink - Dark |
+| `1988:16433` | GROUP | 4503×1569 | page-1988-14156 | other mavi |
+| `1988:17767` | FRAME | 2170×60 | page-1988-14156 | Frame 4 |
+| `1988:18007` | FRAME | 1024×600 | page-1988-14156 | Linux 1024 - Singer Page Serach = Dilso'z |
+| `1988:18031` | FRAME | 1024×600 | page-1988-14156 | Linux 1024 - Singer Page Serach = S |
+
+**13 legacy dosya** (id-prefixed olmayan ad → önceki çekim adlandırmasından; çoğu için id-prefixed karşılık diskte mevcut):
+
+1. `1024 - Diiv2 Button.png`
+2. `1024 - Footer.png`
+3. `1024 - Menu En Son Şarkılar.png`
+4. `1024 - Menu Oynatma Listesi.png`
+5. `1024 - Player Info.png`
+6. `1024 - Sıradaki Şarkı.png`
+7. `1024 - Welcome Div.png`
+8. `1920 - Div2 Button.png`
+9. `1920 - Player Info.png`
+10. `1920 - Welcome Div.png`
+11. `Core Music - Linux Pi.png`
+12. `Linux  1024 - Home Page.png`
+13. `Linux - 1920 - Home.png`
+
+**Kapanan iddiası:** "dizin 149 = hedef 151'den 2 eksik" **geçersizdir**. Doğru ifade: **151 hedef · 136 indirilen · 15 gizli node (`visible: false`) API'den NULL → indirilemez · 13 legacy · dizin toplamı 149.** Kaynak: `ui-design/reference/04-verification.md` §7.1.

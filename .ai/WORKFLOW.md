@@ -660,7 +660,7 @@ Session Sonunda:
 | `flow/` | **21 md** = `00-flow-index` + 20 (auth 5 · music 5 · settings 4 · navigation 3 · automotive 2 · watch 1) |
 | `prompt/` | **51 md** = **48 içerik** (component 16 · page 12 · layout 10 · screen 10) + `prompt/00-prompt-index` + `screen/00-prompt-index` + `web-research` |
 | `reference/` · `tokens/` | **17 md** (11 üst düzey `01-php-source-architecture` … `10-device-specific-guidelines` + `legacy-inventory`, `figma/` 6) · **4 md + 7 json** |
-| Görsel / ham veri | `.ai/.png` **19 PNG** (home-1024 12 · shared-1024 6 · home-1920 1) · `reference/figma/png` **149/151 (2 eksik)** · `reference/figma/raw` **19 JSON / 79.7 MB** (15 sayfa + `node-1047-15802` + `nodes-1024-1920` + `nodes-user-12` + `images-1024-1920`) · Figma 15 sayfanın **4'ü boş**: `326:3386`, `16:106`, `1801:12472`, `1801:12473` |
+| Görsel / ham veri | `.ai/.png` **19 PNG** (home-1024 12 · shared-1024 6 · home-1920 1) · `reference/figma/png` **151 hedef · 136 indirilen · 15 gizli node (`visible: false`) → API NULL · 13 legacy · dizin 149** (Faz 8b — bkz. `ui-design/reference/04-verification` §7.1) · `reference/figma/raw` **19 JSON / 79.7 MB** (15 sayfa + `node-1047-15802` + `nodes-1024-1920` + `nodes-user-12` + `images-1024-1920`) · Figma 15 sayfanın **4'ü boş**: `326:3386`, `16:106`, `1801:12472`, `1801:12473` |
 
 > *Zaman uyumu:* Faz 1+2 commit subject'indeki **59 MB**, o günün (2026-09-29 öncesi) ham çekimidir; bugünkü ölçüm **79.7 MB / 19 JSON** olup Faz 4 genişletmesinin sonucudur. İkisi de doğrudur, biri diğerini **ezmez** — tarih belirtilmeden tek sayı kullanılmaz.
 
