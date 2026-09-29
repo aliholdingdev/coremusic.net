@@ -2,15 +2,15 @@
 title: "CoreMusic — Template Registry Index"
 type: template-index
 category: template
-version: 4.6.1
+version: 4.7.0
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
 updated: 2026-09-29
 date: 2026-08-09
 governance: Red Team · Human Mode · Truth Mode
-total_templates: 38
-total_files: 38
-total_lines: 17984
+total_templates: 41
+total_files: 41
+total_lines: 20088
 ---
 
 # CoreMusic — Template Registry Index
@@ -31,7 +31,7 @@ Bu dosya, CoreMusic ekosistemindeki tüm şablonların (template) merkezi indeks
 
 ## 2. Kapsam ve Mimari Dizin Yapısı
 
-Bu bölüm, `.templates/` dizininin disk gerçeğiyle birebir listingidir (2026-09-26 taze doğrulama — **38/38 dosya diskte**; önceki kayıtlar: 2026-09-26 37/37 (personas/persona-template) → 2026-09-24 36/36 → 32/32 → 28/28; 2026-09-23 Faz 2 kaydı: 26/26). Kullanıcılar: 11 agent profilinin tamamı (Guardrail #16) + insan geliştiriciler + Vault Steward.
+Bu bölüm, `.templates/` dizininin disk gerçeğiyle birebir listingidir (2026-09-29 taze doğrulama — **41/41 dosya diskte**; önceki kayıtlar: 2026-09-26 38/38 (coremusic-vault-template) → 2026-09-26 37/37 (personas/persona-template) → 2026-09-24 36/36 → 32/32 → 28/28; 2026-09-23 Faz 2 kaydı: 26/26). Kullanıcılar: 11 agent profilinin tamamı (Guardrail #16) + insan geliştiriciler + Vault Steward.
 
 ```
 .templates/
@@ -45,7 +45,8 @@ Bu bölüm, `.templates/` dizininin disk gerçeğiyle birebir listingidir (2026-
 │   WikiPage-Template.md · claude-md-template.md · docs-md-template.md ·
 │   katman-readme-template.md · alt-katman-template.md                 (7)
 ├── frontend/css-template.md · js-template.md                           (2)
-├── hardware/hardware-template.md                                       (1)
+├── hardware/arduino-template.md · avr-template.md · pic-template.md ·
+│   hardware-template.md                                  (4)
 ├── infrastructure/github-actions-template.md · migration-template.md   (2)
 ├── other/cpp-template.md · aspnet-template.md · c-template.md          (3)
 ├── personas/persona-template.md                                        (1)
@@ -55,17 +56,13 @@ Bu bölüm, `.templates/` dizininin disk gerçeğiyle birebir listingidir (2026-
     prompt-template.md · screen-spec-template.md                        (4)
 ```
 
-**Toplam: 38 dosya** = 36 şablon (34'ü klasör içi + `session-log-template.md` ve `coremusic-vault-template.md` kök) + 2 meta (`index.md`, `CLAUDE.md`). **Kategori: 12 dizin + kök.** `session/` klasörü YOKTUR (kayıt köktedir). *(2026-09-24: +2 şablon — `claude-md-template`, `docs-md-template`; aynı gün +4 şablon — `ui-design/` altı: `reference-template`, `flow-template`, `prompt-template`, `screen-spec-template`; aynı gün son +4 şablon — `documentation/katman-readme`, `documentation/alt-katman`, `adr/adr-nygard`, `agents/agent-tartisma-turu` → #33-#36, §7.1'e bak.)* *(2026-09-26: +1 şablon — `personas/persona-template` → #37, §7.1.14'e bak.)* *(2026-09-26: +1 şablon — `coremusic-vault-template` → #38, §7.1.10'a bak.)*
+**Toplam: 41 dosya** = 39 şablon (37'ü klasör içi + `session-log-template.md` ve `coremusic-vault-template.md` kök) + 2 meta (`index.md`, `CLAUDE.md`). **Kategori: 12 dizin + kök.** `session/` klasörü YOKTUR (kayıt köktedir). *(2026-09-24: +2 şablon — `claude-md-template`, `docs-md-template`; aynı gün +4 şablon — `ui-design/` altı: `reference-template`, `flow-template`, `prompt-template`, `screen-spec-template`; aynı gün son +4 şablon — `documentation/katman-readme`, `documentation/alt-katman`, `adr/adr-nygard`, `agents/agent-tartisma-turu` → #33-#36, §7.1'e bak.)* *(2026-09-26: +1 şablon — `personas/persona-template` → #37, §7.1.14'e bak.)* *(2026-09-26: +1 şablon — `coremusic-vault-template` → #38, §7.1.10'a bak.)* *(2026-09-29: +3 şablon — `hardware/arduino-template`, `hardware/avr-template`, `hardware/pic-template` → #39-#41, §7.1.7'ye bak; Faz 6 defteri kapandı.)*
 
-✅ **2026-09-23 üretim tamamlandı — 26/26 mevcut** (2026-09-24: +2 → 28/28 — documentation/claude-md + docs-md, §7.1.6'ya bak; aynı gün +4 → 32/32 — ui-design/*, §7.1.12'ye bak; aynı gün +4 → **36/36** — katman/ADR/tartışma şablonları, §7.1.1/#7.1.6/#7.1.11'e bak) (Faz 2'de üretilen `adr-frontend`, `adr-database`, `adr-security`, `adr-audio`, `adr-index`, `aspnet`, `c` artık disktedir). (2026-09-26: +1 → **37/37** — `personas/persona-template`, §7.1.14'e bak; aynı gün +1 → **38/38** — `coremusic-vault-template`, §7.1.10'a bak)
+✅ **2026-09-23 üretim tamamlandı — 26/26 mevcut** (2026-09-24: +2 → 28/28 — documentation/claude-md + docs-md, §7.1.6'ya bak; aynı gün +4 → 32/32 — ui-design/*, §7.1.12'ye bak; aynı gün +4 → **36/36** — katman/ADR/tartışma şablonları, §7.1.1/#7.1.6/#7.1.11'e bak) (Faz 2'de üretilen `adr-frontend`, `adr-database`, `adr-security`, `adr-audio`, `adr-index`, `aspnet`, `c` artık disktedir). (2026-09-26: +1 → **37/37** — `personas/persona-template`, §7.1.14'e bak; aynı gün +1 → **38/38** — `coremusic-vault-template`, §7.1.10'a bak) (2026-09-29: +3 → **41/41** — `hardware/{arduino,avr,pic}-template`, §7.1.7'ye bak — Faz 6 defteri kapandı)
 
 ### Planlanan (diskte hâlâ yok — Faz 6 defteri)
 
-Faz 2 üretiminden sonra yalnız aşağıdaki 3 dosya diskte değildir; SİLİNMEMİŞ, planlanan olarak taşınmıştır:
-
-- `hardware/arduino-template.md`
-- `hardware/avr-template.md`
-- `hardware/pic-template.md`
+**✅ 2026-09-29 KAPANDI — 3/3 dosya üretildi ve diskte:** `hardware/arduino-template.md` (766), `hardware/avr-template.md` (650), `hardware/pic-template.md` (687). Kaynak: eski vault `.ai/.templates/` (arduino 1273 / avr 1119 / pic 1205 satır) → güncel 7 alanlı frontmatter + §1-§7 iskeletine dönüştürüldü; sürüm/standart iddiaları web'den doğrulandı (avr-gcc 15/16, XC8 4.00, MPLAB X 6.35, EN IEC 63000, MISRA C:2025). Artık planlanan dosya YOKTUR.
 
 *(Eski "Planlanan" listesindeki 7 dosya — adr-frontend/database/security/audio/index, aspnet, c — 2026-09-23'te üretilip listeden çıkarılmıştır.)*
 
@@ -116,7 +113,7 @@ updated: {{DATE}}
 2. **Registry otoritesi:** Şablon ekleme/çıkarma/güncelleme yalnızca bu dosyanın tablolarından yapılır; alt klasör `CLAUDE.md` dosyaları şablon listesi iddiası taşıyamaz.
 3. **SSOT self-claim yasak:** Bu dosya dışındaki hiçbir şablon/klasör dosyası "Single Source of Truth" iddiasında bulunamaz; authority alanı şablonlarda `Template (Guardrail #16) — Registry: .ai/.templates/index.md` değerindedir.
 4. **Frontmatter standardı:** Her şablon dosyasında 7 zorunlu alan bulunur: `title`, `type`, `category`, `version`, `status`, `authority`, `updated`.
-5. **Sayı senkronu:** `total_*` alanları disk gerçeğiyle tutarlıdır — `total_templates: 38` (registry kaydı: 36 şablon + 2 meta), `total_files: 38`, `total_lines: 17984` (17.984 — 2026-09-28 ReadAllLines sayımı, 38 md). Uyuşmazlık → güncelleme zorunlu.
+5. **Sayı senkronu:** `total_*` alanları disk gerçeğiyle tutarlıdır — `total_templates: 41` (registry kaydı: 39 şablon + 2 meta), `total_files: 41`, `total_lines: 20088` (2026-09-29 ReadAllLines sayımı, 41 md). Uyuşmazlık → güncelleme zorunlu.
 6. **Bilinmeyen bilgi uydurulmaz:** Doğrulanamayan iddia `⚠️ VERIFICATION REQUIRED` etiketiyle işaretlenir.
 
 ## 5. Workflow
@@ -143,7 +140,7 @@ Yeni dosya oluştururken:
 | UI Designer | `frontend/js-template.md`, `frontend/css-template.md`, `adr/adr-frontend-template.md`, `ui-design/reference-template.md` (Kalıp A), `ui-design/flow-template.md` (Kalıp B), `ui-design/prompt-template.md` (Kalıp C), `ui-design/screen-spec-template.md` (Kalıp D) |
 | Security Engineer | `adr/adr-security-template.md`, `documentation/security-audit-template.md` |
 | Data Engineer | `adr/adr-database-template.md`, `query/Query-Template.md`, `infrastructure/migration-template.md` |
-| Embedded Engineer | `other/c-template.md`, `adr/adr-audio-template.md` |
+| Embedded Engineer | `other/c-template.md`, `adr/adr-audio-template.md`, `hardware/avr-template.md`, `hardware/pic-template.md`, `hardware/arduino-template.md` |
 | QA Engineer | `testing/phpunit-template.md`, `testing/vitest-template.md`, `personas/persona-template.md` |
 | DevOps Engineer | `infrastructure/github-actions-template.md` |
 | Audio Hardware Engineer | `hardware/hardware-template.md`, `adr/adr-audio-template.md` |
@@ -151,7 +148,7 @@ Yeni dosya oluştururken:
 | Windows Software Engineer | `other/c-template.md` |
 | Tüm ajanlar (tartışma protokolü) | `agents/agent-tartisma-turu-template.md` (3 tur/20 persona — `agent-debate` becerisi) |
 
-✅ **2026-09-23 üretim tamamlandı — 26/26 mevcut** (2026-09-24: +2 → 28/28, +4 → **32/32**; yeni atıflar §7.1.6 documentation ve §7.1.12 ui-design satırlarında). Tablodaki `adr-index`, `adr-frontend`, `adr-database`, `adr-security`, `adr-audio`, `c-template` atıfları disktedir; diskte olmayan `arduino`/`avr`/`pic` atıfları `hardware/hardware-template.md` ile eşleştirilmiştir (o şablon üretilmedi — §2 "Planlanan").
+✅ **2026-09-23 üretim tamamlandı — 26/26 mevcut** (2026-09-24: +2 → 28/28, +4 → **32/32**; yeni atıflar §7.1.6 documentation ve §7.1.12 ui-design satırlarında). Tablodaki `adr-index`, `adr-frontend`, `adr-database`, `adr-security`, `adr-audio`, `c-template` atıfları disktedir; `arduino`/`avr`/`pic` atıfları **2026-09-29'da üretilip** `hardware/arduino-template`, `hardware/avr-template`, `hardware/pic-template` olarak disktedir (§7.1.7).
 
 ### 5.2 Workflow-Template Eşleştirme
 
@@ -172,7 +169,7 @@ Yeni dosya oluştururken:
 | Multi-agent tartışma (3 tur) | `agents/agent-tartisma-turu-template.md` (Tur1 öneri → Tur2 çapraz → Tur3 uzlaşma+ADR) |
 | Persona üretimi (Level 1/2/3) | `personas/persona-template.md` (8-bölüm + 11 alan havuzu, ≥500 satır) |
 
-✅ **2026-09-23 üretim tamamlandı — 26/26 mevcut** (2026-09-24: +2 → 28/28, +4 → **32/32** — ui-design 3 yeni workflow satırı). Bu tablodaki `adr-security` atıfı disktedir; Hardware Design satırı, diskteki tek donanım şablonu olan `hardware/hardware-template.md`'yi gösterir (arduino/avr/pic üretilmedi — §2 "Planlanan").
+✅ **2026-09-23 üretim tamamlandı — 26/26 mevcut** (2026-09-24: +2 → 28/28, +4 → **32/32** — ui-design 3 yeni workflow satırı). Bu tablodaki `adr-security` atıfı disktedir; Hardware Design satırı artık `hardware/` altındaki 4 şablonu kapsar (`hardware-template`, `arduino`, `avr`, `pic` — son 3'ü 2026-09-29'da üretildi, §7.1.7).
 
 ## 6. Doğrulama
 
@@ -186,27 +183,27 @@ Yeni dosya oluştururken:
 
 | Metrik | Değer |
 |--------|-------|
-| **Versiyon** | 4.6.0 |
-| **Toplam Dosya (registry)** | 38 md (36 şablon + 2 meta: index.md, CLAUDE.md) |
-| **Toplam Template** | 38 kayıt (`total_templates` = registry kayıtları; şablon alt kümesi 36) |
-| **500+ derinlik** | 30/34 klasör içi şablon 500+ satır (ölçüm 2026-09-26: `personas/persona-template` 695; önceki ölçüm 2026-09-24: min 501 `other/cpp` · max 649 `frontend/js`; aynı gün eklenen 4 ui-design: `reference` 509 · `flow` 506 · `prompt` 507 · `screen-spec` 545) — **istisna: aynı gün eklenen 4 şablon bilinçli olarak 100-250 aralığında** (`katman-readme` 174 · `alt-katman` 158 · `adr-nygard` 209 · `agent-tartisma-turu` 185 — görev şartı: açıklamalı dolgu 100-250 satır) |
-| **Kısa şablon** | 5 — `session-log-template.md` (144 satır; 500+ kuralı kapsamı dışı, bilinçli kısa şablon) + 4 yeni 100-250 aralığı şablon (yukarıdaki istisna satırı) |
-| **Planlanan (Faz 6)** | 3 — `arduino`, `avr`, `pic` (§2'ye bak) |
-| **Toplam Satır** | 17.984 (2026-09-28, 38 md dosyası; ReadAllLines sayımı) — eski: 17.209 (2026-09-26, 37 md · 3. geçiş, +`personas/persona-template` 695) · 16.503 (2026-09-24, 36 md · 2. geçiş) · 15.764 (32 md) · 14.695 (28 md) · 12.549 (2026-09-23, 26 md) |
-| **Ortalama Satır/Template** | 473 (17.984 ÷ 38 dosya) |
-| **Minimum Satır** | 99 (templates/CLAUDE.md — meta) · şablon min 144 (`session-log-template.md`) · sonra 158 (`documentation/alt-katman-template.md`) |
-| **Maksimum Satır** | 810 (coremusic-vault-template.md) — eski: 695 (personas/persona-template.md) · 649 (frontend/js-template.md) |
-| **Kategori** | 12 dizin (adr 7, agents 2, backend 2, documentation 7, frontend 2, hardware 1, infrastructure 2, other 3, personas 1, query 1, testing 2, ui-design 4) + kök (index.md, CLAUDE.md, session-log-template, coremusic-vault-template) |
+| **Versiyon** | 4.7.0 |
+| **Toplam Dosya (registry)** | 41 md (39 şablon + 2 meta: index.md, CLAUDE.md) |
+| **Toplam Template** | 41 kayıt (`total_templates` = registry kayıtları; şablon alt kümesi 39) |
+| **500+ derinlik** | 33/37 klasör içi şablon 500+ satır (ölçüm 2026-09-29: yeni 3 hardware şablonu da 500+ — arduino 766 · pic 687 · avr 650; önceki ölçüm 2026-09-26: `personas/persona-template` 695; min 500 `other/cpp` · max 649 `frontend/js`) — **istisna: 4 şablon bilinçli olarak 100-250 aralığında** (`katman-readme` 173 · `alt-katman` 157 · `adr-nygard` 208 · `agent-tartisma-turu` 184 — görev şartı: açıklamalı dolgu 100-250 satır) |
+| **Kısa şablon** | 5 — `session-log-template.md` (143 satır; 500+ kuralı kapsamı dışı, bilinçli kısa şablon) + 4 yeni 100-250 aralığı şablon (yukarıdaki istisna satırı) |
+| **Planlanan (Faz 6)** | **0 — KAPANDI (2026-09-29)**: `arduino` (766), `avr` (650), `pic` (687) üretildi → §7.1.7 |
+| **Toplam Satır** | 20.088 (2026-09-29, 41 md dosyası; ReadAllLines sayımı) — eski: 17.984 (2026-09-28, 38 md) · 17.209 (2026-09-26, 37 md) · 16.503 (2026-09-24, 36 md) · 15.764 (32 md) · 14.695 (28 md) · 12.549 (2026-09-23, 26 md) |
+| **Ortalama Satır/Template** | 490 (20.088 ÷ 41 dosya) |
+| **Minimum Satır** | 98 (templates/CLAUDE.md — meta) · şablon min 143 (`session-log-template.md`) · sonra 157 (`documentation/alt-katman-template.md`) |
+| **Maksimum Satır** | 810 (coremusic-vault-template.md) — eski: 766 (`hardware/arduino-template.md`, 2026-09-29) · 695 (personas/persona-template.md) · 648 (frontend/js-template.md) |
+| **Kategori** | 12 dizin (adr 7, agents 2, backend 2, documentation 7, frontend 2, hardware **4**, infrastructure 2, other 3, personas 1, query 1, testing 2, ui-design 4) + kök (index.md, CLAUDE.md, session-log-template, coremusic-vault-template) |
 | **Dizin Yapısı** | ✅ Alt dizinlere ayrılmış (§2 disk gerçeği) |
-| **Frontmatter Uyumlu** | ✅ 36/36 7-alanlı FM (2026-09-23 betik doğrulaması: FM BAD=0; 2026-09-24 yeni 8 şablon da 7 alan + `reference` bloğu; 2026-09-26 `personas/persona-template` de 7 alan; 2026-09-26 `coremusic-vault-template` de 7 alan) |
-| **Ölçüm notu** | ✅ Tazelendi (2026-09-28): 38 md disk sayımı; `total_*` bu yazımla senkron (32 eski şablonun satır sayısı değişmedi, +4 şablon eklendi — adr-nygard 209, agent-tartisma 185, katman-readme 174, alt-katman 158 = 726 satır; 2026-09-26: +1 şablon personas/persona-template 695 satır; +1 şablon coremusic-vault-template 810 satır — 4. geçiş). Ölçüm yöntemi: `[IO.File]::ReadAllLines($p).Count` (PowerShell 5.1) — 2026-09-28 taze ölçümünde 38 md dosya için uygulandı; önceki ölçüm dosya içeriğinin `\n` ile bölünmesi yöntemiyle alınmışı (fark 37 satır). `index.md` bu yazımla kendi satır sayısını değiştirir; `total_lines` 2026-09-28 taze ölçümünde tazelenir (17.984). |
-| **Düzeltilen eski iddialar** | 25.000/5.546 satır → 12.549 · 17 şablon/19 dosya → 24 şablon/26 dosya · Planlanan 10 → 3 (7'si Faz 2'de üretildi) · ort. 292 → 458 · min 90/max 649 → 144/649 · "arduino/avr/pic diskte" → hardware tek dosya (`hardware-template.md`, 512) · "10 klasör (session dahil)" → 11 dizin + kök, `session/` klasörü yok · 26 dosya/12.549 satır → 28/14.695 → 32/15.764 → **36 dosya/16.503** (2026-09-24, +2: claude-md, docs-md; +4: ui-design/*; +4: katman-readme, alt-katman, adr-nygard, agent-tartisma-turu) → **37 dosya/17.209** (2026-09-26, +1: personas/persona-template) → **38 dosya/17.984** (2026-09-28, ReadAllLines ölçümü; +1: coremusic-vault-template) · `ui-design` "115 dosya" → **136 dosya (119 md)** |
+| **Frontmatter Uyumlu** | ✅ 39/39 7-alanlı FM (2026-09-23 betik doğrulaması: FM BAD=0; 2026-09-24 yeni 8 şablon; 2026-09-26 personas + coremusic-vault; 2026-09-29 hardware {arduino,avr,pic} de 7 alan) |
+| **Ölçüm notu** | ✅ Tazelendi (2026-09-29): 41 md disk sayımı; `total_*` bu yazımla senkron (+3 şablon: arduino 766, avr 650, pic 687 = 2.103 satır; index.md kendi satırını da değiştirdi). Ölçüm yöntemi: `[IO.File]::ReadAllLines($p).Count` (PowerShell 5.1). |
+| **Düzeltilen eski iddialar** | 25.000/5.546 satır → 12.549 · 17 şablon/19 dosya → 24 şablon/26 dosya · Planlanan 10 → 3 → **0 (2026-09-29 kapandı)** · ort. 292 → 490 · min 90/max 649 → 143/810 · "arduino/avr/pic diskte (2026-06 eski vault iddiası) → hardware tek dosya → **2026-09-29 4/4 dosya gerçekten diskte** · "10 klasör (session dahil)" → 12 dizin + kök, `session/` klasörü yok · 26 dosya/12.549 satır → 28/14.695 → 32/15.764 → 36/16.503 → 37/17.209 → 38/17.984 (2026-09-28) → **41 dosya/20.088 satır** (2026-09-29, +3: hardware arduino/avr/pic) · `ui-design` "115 dosya" → **136 dosya (119 md)** |
 
-**REFACTOR REPORT:** FILE: index.md · PURPOSE: Template Registry Index (şablon registry + dizin) · VALIDATION: 7 alan + §1-§7 + bilgi korunumu + envanter 38/38 disk sayımı (2026-09-26, +1 şablon: coremusic-vault-template — 4. geçiş) · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
+**REFACTOR REPORT:** FILE: index.md · PURPOSE: Template Registry Index (şablon registry + dizin) · VALIDATION: 7 alan + §1-§7 + bilgi korunumu + envanter 41/41 disk sayımı (2026-09-29, +3 şablon: hardware {arduino,avr,pic} — 5. geçiş, Faz 6 kapandı) · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
 
 ## 7. Referanslar
 
-### 7.1 Template List (registry tabloları — disk durumuyla, 2026-09-26 gerçek ölçüm)
+### 7.1 Template List (registry tabloları — disk durumuyla, 2026-09-29 gerçek ölçüm)
 
 #### 7.1.1 ADR Templates (adr/)
 
@@ -266,9 +263,12 @@ Yeni dosya oluştururken:
 
 | # | Template | Teknoloji | Amaç | Satır | Durum | Dosya |
 |---|----------|-----------|------|-------|-------|-------|
-| 20 | Hardware Template | Donanım genel | Hardware development | 512 | ✅ Mevcut (2026-09-23) | [[hardware/hardware-template]] |
+| 20 | Hardware Template | Donanım genel | Hardware development | 511 | ✅ Mevcut (2026-09-23) | [[hardware/hardware-template]] |
+| 39 | Arduino Template | Arduino, PlatformIO, C++17 | Arduino firmware governance | 766 | ✅ Mevcut (2026-09-29 — Faz 6 üretimi) | [[hardware/arduino-template]] |
+| 40 | AVR Template | AVR bare-metal, avr-gcc, C11 | AVR firmware governance | 650 | ✅ Mevcut (2026-09-29 — Faz 6 üretimi) | [[hardware/avr-template]] |
+| 41 | PIC Template | Microchip PIC, XC8, C99 | PIC firmware governance | 687 | ✅ Mevcut (2026-09-29 — Faz 6 üretimi) | [[hardware/pic-template]] |
 
-*(Gerçek disk durumu: `hardware/` altında TEK dosya vardır — `hardware-template.md`. Eski kayıtta geçen `arduino`/`avr`/`pic` şablonları diskte YOKTUR ve üretilmemiştir; §2 "Planlanan" listesindedir.)*
+*(2026-09-29: `hardware/` altında artık 4 dosya vardır — Faz 6 defterindeki `arduino`/`avr`/`pic` şablonları eski vault içeriğinden güncel iskelete dönüştürülerek üretildi; registry'ye #39-#41 olarak eklendi (meta #31-#32 korundu, yeniden numaralandırma yok).)*
 
 #### 7.1.8 Query Templates (query/)
 
@@ -341,10 +341,11 @@ Yeni dosya oluştururken:
 - [[agents/agent-tartisma-turu-template]] — 3 turlu/20 persona tartışma şablonu (2026-09-24)
 - [[personas/persona-template]] — persona şablonu (2026-09-26, 8-bölüm + 11 alan havuzu, 695 satır)
 - [[coremusic-vault-template]] — vault iskeleti şablonu (2026-09-26, yeniden kullanılabilir .ai/ iskeleti, 810 satır)
+- [[hardware/arduino-template]] · [[hardware/avr-template]] · [[hardware/pic-template]] — hardware teknoloji şablonları (2026-09-29, Faz 6: 766 · 650 · 687 satır)
 
 ---
 
-*Template Registry Index v4.6.0 — CoreMusic Template System*
+*Template Registry Index v4.7.0 — CoreMusic Template System*
 *Authority: Bayram Ali / Vault Steward*
 *Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*
