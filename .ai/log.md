@@ -746,3 +746,4 @@ ADR-056 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
 - **İşaretli açık borçlar (uydurulmadı):** `flow/` 44 `⚠️ VERIFICATION REQUIRED` (19 dosya) · `prompt/` 93 (41 dosya) · T17 `welcome-popup.md` `status: draft` · `tokens-3840.json`/`tokens-tv.json` boş (tasarım yok) · 15 gizli node indirilemez (kasıtlı) · `FAIL=0` için betik içi kanıt yok.
 - **Doğrulama:** bayat tarama (`23 md`, `50 md`, `175 prompt`, `14 page`, `12 kategori`, `0/1077`) → **0 hit**; "2 eksik" 2 hit, ikisi de zorunlu alıntı/uyarı metni · bağımsız PNG sayımı `136 + 13 = 149` ve `136 + 15 = 151` tutuyor · 6/6 dosya BOM'suz, mojibake=0 · `git status` kapsamı yalnız bu 6 dosya.
 - **Not (kapsam dışı bırakıldı):** `.ai/.decisions/accepted/ADR-048/049/050/052/056` untracked + `log.md` içindeki 2 ADR-056 satırı başka oturuma ait → UI commit'lerine swept edilmedi; ADR satırları log append'inde aynen korundu.
+ADR-058 yazıldı (debate PENDING)
