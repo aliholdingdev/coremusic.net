@@ -18,6 +18,8 @@
  * Faz 1b sözleşmesi (Faz 3a UI — DEĞİŞTİRİLEMEZ):
  *   POST /v1/auth/login|register|set-gender|forgot-password|reset-password|logout
  *   GET  /v1/auth/me
+ *
+ * GET'ler POST-only uçlardır → 405 + Allow: POST, OPTIONS (yalnızca GET /v1/auth/me 200/401).
  */
 return [
     'GET' => [
@@ -30,10 +32,11 @@ return [
         '/api/v1/download' => ['service' => 'download', 'handler' => 'downloadController'],
 
         // Public auth uçları — exact kayıt, prefix `/api/v1/auth` ile çakışmasın
-        '/api/v1/auth/login'          => ['service' => 'auth', 'handler' => 'authController', 'public' => true],
-        '/api/v1/auth/register'       => ['service' => 'auth', 'handler' => 'authController', 'public' => true],
-        '/api/v1/auth/forgot-password' => ['service' => 'auth', 'handler' => 'authController', 'public' => true],
-        '/api/v1/auth/reset-password' => ['service' => 'auth', 'handler' => 'authController', 'public' => true],
+        // Bu 4 uç POST-only'dir: GET implemented=false → 405 + Allow: POST, OPTIONS
+        '/api/v1/auth/login'          => ['service' => 'auth', 'handler' => 'authController', 'public' => true, 'implemented' => false],
+        '/api/v1/auth/register'       => ['service' => 'auth', 'handler' => 'authController', 'public' => true, 'implemented' => false],
+        '/api/v1/auth/forgot-password' => ['service' => 'auth', 'handler' => 'authController', 'public' => true, 'implemented' => false],
+        '/api/v1/auth/reset-password' => ['service' => 'auth', 'handler' => 'authController', 'public' => true, 'implemented' => false],
 
         // Faz 1b: oturumdaki kullanıcıyı döndürür (200 {data:{user}} | 401)
         '/api/v1/auth/me' => [

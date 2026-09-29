@@ -82,9 +82,10 @@ final class RouteConfigTest extends TestCase
         $this->assertSame('login', $ok['route']['action'] ?? null);
 
         // Yol biliniyor, method sunulmuyor → 405 + Allow (RFC 9110 §15.5.6)
+        // GET /auth/login implemented=false → Allow listesinde GET YOK (yalnız POST + OPTIONS)
         $result = $this->table->match('/api/v1/auth/login', 'PUT');
         $this->assertSame(RouteTable::STATUS_METHOD_NOT_ALLOWED, $result['status']);
-        $this->assertContains('GET', $result['allow']);
+        $this->assertNotContains('GET', $result['allow'], 'GET login POST-only → Allow listesinde yok');
         $this->assertContains('POST', $result['allow']);
         $this->assertContains('OPTIONS', $result['allow']);
         $this->assertNotContains('PUT', $result['allow']);
@@ -95,11 +96,16 @@ final class RouteConfigTest extends TestCase
         $this->assertSame(RouteTable::STATUS_NOT_FOUND, $this->table->match('/api/v1/unknown', 'GET')['status']);
     }
 
-    public function testGetLoginIsFound(): void
+    public function testGetLoginIsMethodNotAllowed405(): void
     {
         $result = $this->table->match('/api/v1/auth/login', 'GET');
 
-        $this->assertSame(RouteTable::STATUS_OK, $result['status']);
+        // GET login POST-only → implemented=false → 405 + Allow (RFC 9110 §15.5.6)
+        $this->assertSame(RouteTable::STATUS_METHOD_NOT_ALLOWED, $result['status']);
+        $this->assertContains('POST', $result['allow']);
+        $this->assertContains('OPTIONS', $result['allow']);
+        $this->assertNotContains('GET', $result['allow']);
+        $this->assertFalse((bool) ($result['route']['implemented'] ?? true));
         $this->assertTrue((bool) ($result['route']['public'] ?? false));
     }
 
