@@ -22,6 +22,7 @@ use CoreMusic\Api\Middleware\RateLimitMiddleware;
 use CoreMusic\Api\Middleware\RequestValidationMiddleware;
 use CoreMusic\Api\Middleware\ResponseNormalizationMiddleware;
 use CoreMusic\Api\Registry\ServiceRegistry;
+use CoreMusic\Api\Routing\RouteTable;
 use CoreMusic\Api\Versioning\VersionResolver;
 use CoreMusic\Bootstrap\RuntimeBootstrap;
 use CoreMusic\Cache\ApcuAdapter;
@@ -32,10 +33,11 @@ use CoreMusic\Log\LoggerFactory;
 use CoreMusic\Middleware\CorsMiddleware;
 use CoreMusic\Security\CacheRateLimiter;
 
-/* --- Config (constants + app + cors) --- */
+/* --- Config (constants + app + cors + routes) --- */
 require_once __DIR__ . '/config/constants.php';
-$appConfig  = require __DIR__ . '/config/app.php';
-$corsConfig = require __DIR__ . '/config/cors.php';
+$appConfig    = require __DIR__ . '/config/app.php';
+$corsConfig   = require __DIR__ . '/config/cors.php';
+$routeTable   = RouteTable::fromArray(require __DIR__ . '/config/routes.php');
 
 RuntimeBootstrap::boot(DEBUG_MODE);
 
@@ -123,6 +125,7 @@ if (str_starts_with($requestUri, '/api/')) {
             new VersionResolver(),
             new ServiceRegistry(),
             $pipeline,
+            $routeTable,
         );
         $result = $gateway->dispatch($pipelineRequest);
 

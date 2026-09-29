@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace CoreMusic\Api\Middleware;
 
 use CoreMusic\Api\ApiResponse;
+use CoreMusic\Api\Routing\RouteTable;
 
 /**
  * Authorization Middleware for RBAC validation.
@@ -23,10 +24,18 @@ final class AuthorizationMiddleware
      */
     public function __invoke(array $request, callable $next): array
     {
+        // 404 / 405: handler çalışmayacak → RBAC uygulanmaz, yanıt Gateway'de
+        // üretilir (bilinmeyen yol 404, method uyuşmazlığı 405 + Allow).
+        $routeStatus = $request['_route_status'] ?? null;
+        if ($routeStatus === RouteTable::STATUS_NOT_FOUND
+            || $routeStatus === RouteTable::STATUS_METHOD_NOT_ALLOWED
+        ) {
+            return $next($request);
+        }
+
         // Public route'larda auth/authorization zorunlu değildir; aksi halde
-        // login/register uçları 401 ile kilitlenir (AuthenticationMiddleware
-        // ile aynı liste paylaşılır).
-        if ($this->isPublicRoute()) {
+        // login/register uçları 401 ile kilitlenir.
+        if ($this->isPublicRoute($request)) {
             return $next($request);
         }
 
@@ -42,8 +51,9 @@ final class AuthorizationMiddleware
 
         // Get route configuration
         $route = $request['_route'] ?? null;
-        if ($route === null) {
-            // No route config, allow access (should not happen in normal flow)
+        if (!is_array($route)) {
+            // Eşleşmeyen yol (404) veya method uyuşmazlığı (405): route
+            // yapılandırması yok → RBAC uygulanmaz, yanıt Gateway'de üretilir.
             return $next($request);
         }
 
@@ -77,11 +87,17 @@ final class AuthorizationMiddleware
     }
 
     /**
-     * Public route kontrolü — AuthenticationMiddleware::PUBLIC_ROUTE_PATTERNS
-     * tek kaynaktır.
+     * Public route kontrolü — pipeline'a aktarılan `_route['public']`
+     * (RouteTable) + `AuthenticationMiddleware::PUBLIC_ROUTE_PATTERNS`
+     * fallback'i.
      */
-    private function isPublicRoute(): bool
+    private function isPublicRoute(array $request): bool
     {
+        $route = $request['_route'] ?? null;
+        if (is_array($route) && !empty($route['public'])) {
+            return true;
+        }
+
         $uri = $_SERVER['REQUEST_URI'] ?? '/';
 
         foreach (AuthenticationMiddleware::PUBLIC_ROUTE_PATTERNS as $pattern) {

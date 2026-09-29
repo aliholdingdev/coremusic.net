@@ -13,6 +13,7 @@ namespace CoreMusic\Api;
 
 use CoreMusic\Contracts\Api\GatewayInterface;
 use CoreMusic\Contracts\Api\ServiceRegistryInterface;
+use CoreMusic\Api\Routing\RouteTable;
 use CoreMusic\Api\Versioning\ApiVersion;
 use CoreMusic\Api\Versioning\VersionResolver;
 use CoreMusic\Api\Middleware\ApiMiddlewarePipeline;
@@ -27,7 +28,8 @@ final class Gateway implements GatewayInterface
     public function __construct(
         private readonly VersionResolver $versionResolver,
         private readonly ServiceRegistryInterface $serviceRegistry,
-        private readonly ApiMiddlewarePipeline $middlewarePipeline
+        private readonly ApiMiddlewarePipeline $middlewarePipeline,
+        private readonly ?RouteTable $routeTable = null
     ) {}
 
     /**
@@ -53,12 +55,26 @@ final class Gateway implements GatewayInterface
         $version = $this->versionResolver->resolve($apiRequest);
         $apiRequest = $apiRequest->withAttribute('version', $version);
 
+        // Route eşleşmesi pipeline'ın DIŞINDA yapılır ki `_route` (ve 405/404
+        // durumu) Authentication / Authorization / RequestValidation /
+        // ResponseNormalization middleware'lerine ulaşsın (Faz 2 notu #2).
+        $match = $this->matchRoute($apiRequest);
+        $request['_route']        = $match['route'];
+        $request['_route_status'] = $match['status'];
+        $request['_route_allow']  = $match['allow'];
+
         try {
             return $this->middlewarePipeline->process(
                 $request,
                 function (array $request) use ($apiRequest, $version): array {
-                    $route = $this->matchRoute($apiRequest, $version);
-                    if ($route === null) {
+                    $status = $request['_route_status'] ?? RouteTable::STATUS_NOT_FOUND;
+                    $route  = $request['_route'] ?? null;
+
+                    if ($status === RouteTable::STATUS_METHOD_NOT_ALLOWED) {
+                        return $this->methodNotAllowedResponse($request['_route_allow'] ?? []);
+                    }
+
+                    if ($status !== RouteTable::STATUS_OK || !is_array($route)) {
                         return ApiResponse::error('NOT_FOUND', 'Route not found', 404);
                     }
 
@@ -85,35 +101,39 @@ final class Gateway implements GatewayInterface
     }
 
     /**
-     * Match route against registered routes.
+     * Route eşleşmesi — method-aware tablo (405 / 404 ayrımı).
+     *
+     * @return array{status: string, route: array<string, mixed>|null, allow: string[]}
      */
-    private function matchRoute(ApiRequest $request, ApiVersion $version): ?array
+    private function matchRoute(ApiRequest $request): array
     {
-        $uri = $request->getUri();
-        $method = $request->getMethod();
+        $table = $this->routeTable ?? RouteTable::defaults();
 
-        // This is a simplified route matching
-        // In production, this would use a proper router
-        $routes = [
-            'GET' => [
-                '/api/v1/auth' => ['service' => 'auth', 'handler' => 'authController'],
-                '/api/v1/user' => ['service' => 'user', 'handler' => 'userController'],
-                '/api/v1/music' => ['service' => 'music', 'handler' => 'musicController'],
-                '/api/v1/playlist' => ['service' => 'playlist', 'handler' => 'playlistController'],
-                '/api/v1/media' => ['service' => 'media', 'handler' => 'mediaController'],
-                '/api/v1/download' => ['service' => 'download', 'handler' => 'downloadController'],
-            ],
-        ];
+        return $table->match($request->getUri(), $request->getMethod());
+    }
 
-        $methodRoutes = $routes[$method] ?? [];
+    /**
+     * Yol biliniyor, method sunulmuyor → 405 + Allow başlığı.
+     *
+     * `Allow` yalnızca gerçekten sunulan methodları listeler (implemented
+     * route'lar); Faz 1b AuthController bağlandığında POST satırı
+     * `implemented: true` olur ve 405 ortadan kalkar.
+     *
+     * @param string[] $allow
+     */
+    private function methodNotAllowedResponse(array $allow): array
+    {
+        $header = implode(', ', $allow);
 
-        foreach ($methodRoutes as $pattern => $route) {
-            if (str_starts_with($uri, $pattern)) {
-                return $route;
-            }
-        }
+        $response = ApiResponse::error(
+            'METHOD_NOT_ALLOWED',
+            'Method not allowed for this endpoint',
+            405,
+            ['allow' => $header]
+        );
+        $response['headers'] = ['Allow' => $header];
 
-        return null;
+        return $response;
     }
 
     /**

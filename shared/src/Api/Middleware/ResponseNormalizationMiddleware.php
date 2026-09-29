@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Response Normalization Middleware for API responses.
  *
  * @file ResponseNormalizationMiddleware.php
- * @version 1.0.0
+ * @version 1.1.0
  * @see ADR-084-api-gateway-architecture
  */
 
@@ -13,6 +13,11 @@ namespace CoreMusic\Api\Middleware;
 
 /**
  * Response Normalization Middleware for standardized responses.
+ *
+ * Faz 2 açık #5 kapatıldı:
+ *   - `no-store` yanıtta artık ETag basılmaz (ETag yalnız `cacheable` route'da).
+ *   - 304 yolu `exit` ile index.php'yi bypass etmiyor; `halt` + boş gövde
+ *     döner, header kopyalama/index.php akışı korunur.
  */
 final class ResponseNormalizationMiddleware
 {
@@ -22,18 +27,22 @@ final class ResponseNormalizationMiddleware
     public function __invoke(array $request, callable $next): array
     {
         $response = $next($request);
-        
+
         // Add standard headers
         $this->addStandardHeaders($response);
-        
-        // Add ETag if response has data
-        if (isset($response['data']) && !empty($response['data'])) {
-            $this->addETag($response);
-        }
-        
+
+        $route     = $request['_route'] ?? null;
+        $cacheable = is_array($route) && !empty($route['cacheable']);
+        $cacheTtl  = is_array($route) ? (int) ($route['cacheTtl'] ?? 0) : 0;
+
         // Add Cache-Control headers
-        $this->addCacheControl($request, $response);
-        
+        $this->sendCacheControl($cacheable, $cacheTtl);
+
+        // Add ETag only for cacheable responses (no-store + ETag çelişkisi yok).
+        if ($cacheable && isset($response['data']) && !empty($response['data'])) {
+            $response = $this->withETag($response);
+        }
+
         return $response;
     }
 
@@ -48,30 +57,34 @@ final class ResponseNormalizationMiddleware
     }
 
     /**
-     * Add ETag header for caching.
+     * ETag üret; eşleşirse gövdesiz 304 döndür (exit YOK — pipeline/index.php
+     * akışı korunur, Cors header'ları kaybolmaz).
+     *
+     * @param array<string, mixed> $response
+     * @return array<string, mixed>
      */
-    private function addETag(array $response): void
+    private function withETag(array $response): array
     {
-        $etag = md5(json_encode($response));
+        $etag = md5((string) json_encode($response));
         header('ETag: "' . $etag . '"');
-        
-        // Check if client has matching ETag
+
         $ifNoneMatch = $_SERVER['HTTP_IF_NONE_MATCH'] ?? '';
         if ($ifNoneMatch === '"' . $etag . '"') {
             http_response_code(304);
-            exit;
+
+            $response['httpStatus'] = 304;
+            $response['halt']       = true;
+            $response['body']       = '';
         }
+
+        return $response;
     }
 
     /**
-     * Add Cache-Control headers based on route.
+     * Cache-Control header'ları.
      */
-    private function addCacheControl(array $request, array $response): void
+    private function sendCacheControl(bool $cacheable, int $cacheTtl): void
     {
-        $route = $request['_route'] ?? null;
-        $cacheable = $route['cacheable'] ?? false;
-        $cacheTtl = $route['cacheTtl'] ?? 0;
-        
         if ($cacheable && $cacheTtl > 0) {
             header("Cache-Control: public, max-age={$cacheTtl}");
         } else {

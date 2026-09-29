@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace CoreMusic\Api\Auth;
 
-use CoreMusic\Interfaces\Auth\ISessionManager;
+use CoreMusic\Contracts\Auth\ISessionManager;
 
 /**
  * api.coremusic.net için session köprüsü.

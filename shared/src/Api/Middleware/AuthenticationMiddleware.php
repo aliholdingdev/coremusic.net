@@ -11,8 +11,9 @@ declare(strict_types=1);
 
 namespace CoreMusic\Api\Middleware;
 
-use CoreMusic\Interfaces\Auth\ISessionManager;
+use CoreMusic\Contracts\Auth\ISessionManager;
 use CoreMusic\Api\ApiResponse;
+use CoreMusic\Api\Routing\RouteTable;
 
 /**
  * Authentication Middleware for hybrid session/JWT authentication.
@@ -40,6 +41,16 @@ final class AuthenticationMiddleware
      */
     public function __invoke(array $request, callable $next): array
     {
+        // 404 / 405: handler hiç çalışmayacak (yanıtı Gateway üretir) → auth
+        // kontrolü burada 401 ile sonlanmamalı; bilinmeyen yol 404, tanımlı
+        // olmayan method 405 + Allow döner (RFC 9110).
+        $routeStatus = $request['_route_status'] ?? null;
+        if ($routeStatus === RouteTable::STATUS_NOT_FOUND
+            || $routeStatus === RouteTable::STATUS_METHOD_NOT_ALLOWED
+        ) {
+            return $next($request);
+        }
+
         // Skip authentication for public routes
         if ($this->isPublicRoute($request)) {
             return $next($request);
@@ -74,9 +85,18 @@ final class AuthenticationMiddleware
 
     /**
      * Check if the route is public (no auth required).
+     *
+     * Kaynak: pipeline'a aktarılan `_route['public']` (RouteTable) VEYA
+     * `PUBLIC_ROUTE_PATTERNS` — ikisi de public ise erişim açıktır
+     * (pattern listesi route eşleşmediğinde fallback olarak kalır).
      */
     private function isPublicRoute(array $request): bool
     {
+        $route = $request['_route'] ?? null;
+        if (is_array($route) && !empty($route['public'])) {
+            return true;
+        }
+
         $uri = $_SERVER['REQUEST_URI'] ?? '/';
 
         foreach (self::PUBLIC_ROUTE_PATTERNS as $pattern) {

@@ -5,119 +5,165 @@ declare(strict_types=1);
  * Request Validation Middleware for API requests.
  *
  * @file RequestValidationMiddleware.php
- * @version 1.0.0
+ * @version 1.1.0
  * @see ADR-084-api-gateway-architecture
+ * @see ADR-020-api-public-security (§2.2 istek doğrulama → 422 + alan hataları)
  */
 
 namespace CoreMusic\Api\Middleware;
 
 use CoreMusic\Api\ApiResponse;
-use Respect\Validation\Exceptions\NestedValidationException;
-use Respect\Validation\Exceptions\ValidationException;
-use Respect\Validation\Validatable;
-use Respect\Validation\Validator as v;
 
 /**
- * Request Validation Middleware using Respect/Validation.
+ * Route'a bağlı istek doğrulaması.
+ *
+ * Faz 2'deki riskler kapatıldı:
+ *  1. Route verisi pipeline'da olmadığı için middleware fiilen atıldı →
+ *     Gateway artık `$request['_route']` aktarıyor.
+ *  2. Latent TypeError: return type'ı var olmayan bir sınıfı gösteriyordu →
+ *     class-typed return kalmadı; kural motoru `CoreMusic\Api\Middleware\Validator`
+ *     (bağımlılıksız). vendor/Respect kaybı olsa bile fatal mümkün değil.
+ *
+ * Ayrıştırılan gövde doğrulanır (pipeline request'i değil):
+ *   - Content-Type yok / JSON değil → 415
+ *   - JSON bozuksa                 → 400
+ *   - Kural ihlali                  → 422 + {field: message}
  */
 final class RequestValidationMiddleware
 {
+    private const BODY_METHODS = ['POST', 'PUT', 'PATCH'];
+
+    private readonly Validator $validator;
+
+    public function __construct(?Validator $validator = null)
+    {
+        $this->validator = $validator ?? new Validator();
+    }
+
     /**
      * Process request validation.
      */
     public function __invoke(array $request, callable $next): array
     {
-        // Get validation rules from route
         $route = $request['_route'] ?? null;
-        if ($route === null || !isset($route['validation'])) {
+        $rules = is_array($route) ? ($route['validation'] ?? null) : null;
+
+        // Route kural içermiyorsan hiçbir girdi kısıtı uygulanmaz
+        // (Faz 1b AuthController validation sözleşmelerini buraya bağlar).
+        if (!is_array($rules) || $rules === []) {
             return $next($request);
         }
-        
-        $rules = $route['validation'];
-        $data = $request;
-        
-        try {
-            $this->buildValidator($rules)->assert($data);
-            
-            return $next($request);
-        } catch (NestedValidationException $e) {
-            // Respect/Validation 2.x:Aggregate exception -> field => message
-            $errors = $e->getMessages();
-            
-            return ApiResponse::error(
-                'VALIDATION_ERROR',
-                'Validation failed',
-                422,
-                $errors
-            );
-        } catch (ValidationException $e) {
-            // Tek kural exception'u (nested olmayan) -> tek mesaj
-            return ApiResponse::error(
-                'VALIDATION_ERROR',
-                'Validation failed',
-                422,
-                [$e->getId() => $e->getMessage()]
-            );
+
+        $method  = strtoupper((string) ($request['method'] ?? ($_SERVER['REQUEST_METHOD'] ?? 'GET')));
+        $isBody  = in_array($method, self::BODY_METHODS, true);
+
+        if ($isBody) {
+            $contentType = $this->contentType($request);
+
+            if ($contentType === null || !$this->isAcceptedContentType($contentType)) {
+                return ApiResponse::error(
+                    'UNSUPPORTED_MEDIA_TYPE',
+                    'Content-Type must be application/json',
+                    415,
+                    ['content_type' => $contentType ?? '']
+                );
+            }
+
+            $decoded = $this->decodeBody($request, $contentType);
+            if ($decoded['error'] !== null) {
+                return ApiResponse::error('INVALID_JSON', 'Request body is not valid JSON', 400, [
+                    'reason' => $decoded['error'],
+                ]);
+            }
+
+            $data = $decoded['data'];
+        } else {
+            $data = $request['query'] ?? $_GET;
+            if (!is_array($data)) {
+                $data = [];
+            }
         }
+
+        $errors = $this->validator->validate($data, $rules);
+        if ($errors !== []) {
+            return ApiResponse::error('VALIDATION_ERROR', 'Validation failed', 422, $errors);
+        }
+
+        return $next($request);
     }
 
     /**
-     * Build validator from rules array.
-     *
-     * @param array<string, array<string, mixed>> $rules
+     * Content-Type başlığı (pipeline `server` dizilimi → superglobal fallback).
      */
-    private function buildValidator(array $rules): Validatable
+    private function contentType(array $request): ?string
     {
-        $validators = [];
-        
-        foreach ($rules as $field => $rule) {
-            $validators[] = v::key($field, $this->mapRuleToValidator($rule));
+        $server = is_array($request['server'] ?? null) ? $request['server'] : $_SERVER;
+
+        $value = $server['CONTENT_TYPE'] ?? $server['HTTP_CONTENT_TYPE'] ?? null;
+        if (is_string($value) && $value !== '') {
+            return $value;
         }
-        
-        return v::create(...$validators);
+
+        return null;
+    }
+
+    private function isAcceptedContentType(string $contentType): bool
+    {
+        $lower = strtolower($contentType);
+
+        return str_contains($lower, 'application/json')
+            || str_contains($lower, 'application/problem+json')
+            || str_contains($lower, 'application/x-www-form-urlencoded');
     }
 
     /**
-     * Map rule configuration to Respect/Validation validator.
+     * Gövdeyi çöz.
      *
-     * @param array<string, mixed> $rule
+     * `server['CONTENT_TYPE']` yoksa `$_SERVER['CONTENT_TYPE']` okunur —
+     * yanlış content-type testi `text/plain` göndererek 415 alır.
+     *
+     * @return array{data: array<string, mixed>, error: string|null}
      */
-    private function mapRuleToValidator(array $rule): Validatable
+    private function decodeBody(array $request, string $contentType): array
     {
-        $validators = [];
-        
-        if (isset($rule['required']) && $rule['required']) {
-            $validators[] = v::notEmpty();
+        // Test / önceden çözülmüş gövde: `$request['body']` varsa onu kullan.
+        if (array_key_exists('body', $request)) {
+            $body = $request['body'];
+
+            if (is_array($body)) {
+                return ['data' => $body, 'error' => null];
+            }
+
+            if (is_string($body)) {
+                return $this->decodeJson($body);
+            }
+
+            return ['data' => [], 'error' => 'unsupported_body_type'];
         }
-        
-        if (isset($rule['type'])) {
-            $validators[] = match ($rule['type']) {
-                'string' => v::stringType(),
-                'int' => v::intVal(),
-                'float' => v::floatVal(),
-                'bool' => v::boolVal(),
-                'email' => v::email(),
-                'array' => v::arrayType(),
-                default => v::alwaysValid(),
-            };
+
+        if (str_contains(strtolower($contentType), 'application/x-www-form-urlencoded')) {
+            return ['data' => $_POST, 'error' => null];
         }
-        
-        if (isset($rule['min'])) {
-            $validators[] = v::min($rule['min']);
+
+        $raw = file_get_contents('php://input');
+        if ($raw === false || trim($raw) === '') {
+            return ['data' => [], 'error' => null];
         }
-        
-        if (isset($rule['max'])) {
-            $validators[] = v::max($rule['max']);
+
+        return $this->decodeJson($raw);
+    }
+
+    /**
+     * @return array{data: array<string, mixed>, error: string|null}
+     */
+    private function decodeJson(string $raw): array
+    {
+        $decoded = json_decode($raw, true);
+
+        if (!is_array($decoded)) {
+            return ['data' => [], 'error' => json_last_error_msg()];
         }
-        
-        if (isset($rule['regex'])) {
-            $validators[] = v::regex($rule['regex']);
-        }
-        
-        if (isset($rule['in'])) {
-            $validators[] = v::in($rule['in']);
-        }
-        
-        return v::create(...$validators);
+
+        return ['data' => $decoded, 'error' => null];
     }
 }
