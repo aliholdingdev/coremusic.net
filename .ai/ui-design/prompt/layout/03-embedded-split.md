@@ -5,8 +5,8 @@ type: prompt
 category: ui-design
 date: 2026-09-20
 status: active
-version: 1.0.0
-tier: T08
+version: 1.1.0
+tier: T07
 viewport: 1024x600
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode

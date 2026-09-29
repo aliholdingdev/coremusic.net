@@ -5,18 +5,18 @@ type: spec
 category: ui-design
 date: 2026-09-27
 status: active
-version: 1.0.0
-tier: T08
+version: 1.1.0
+tier: T07
 viewport: 1024x600
 device: RPi5 7" Touch (Embedded)
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
-  authority: ".ai/ui-design/screens/T08-embedded/wifi-connect-light.md"
+  authority: ".ai/ui-design/screens/T07-embedded/wifi-connect-light.md"
   source_of_truth: ".ai/.png/home-1024/Linux  1024 - Wifi Connect Light.png"
 ---
 
-# CoreMusic — Wifi Connect Light / Şifre Modalı (T08 Embedded 1024×600)
+# CoreMusic — Wifi Connect Light / Şifre Modalı (T07 Embedded 1024×600)
 
 **Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
 
@@ -55,7 +55,7 @@ reference:
 
 > **ÇELİŞKİ (overlay yüksekliği):** Figma overlay 1024**×601** — canvas 600px, 1px taşar. PNG'de tam ekran karartma görünür → PNG kazanır; overlay `inset: 0` (100%) olarak uygulanır.
 > **ÇELİŞKİ (navbar):** Alt ekrandaki katman "Göz At" ↔ metin "Sanatcılar" (tüm ekranlarda ortak, browse.md §1). Alt ekran bu spec kapsamında değil — karartma altında.
-> **ÇELİŞKİ (tier viewport):** `00-device-matrix.md` L93: `T08 = 1280×800`; L295: `1024×600 = T07` — bu spec `viewport: 1024x600` (PNG kanıtı), dizin `T08-embedded` korundu (§8'de tam metin).
+> **ÇELİŞKİ (tier viewport):** `00-device-matrix.md` L93: `T08 = 1280×800`; L295: `1024×600 = T07` — bu spec `viewport: 1024x600` (PNG kanıtı), dizin `T07-embedded`'e taşındı (owner onayı, matrix L92; §8'de tam metin).
 
 ## 2. BEM Sınıfları
 
@@ -129,10 +129,10 @@ reference:
 |----------|-------|--------|
 | Modal konumu | Yatay ortalanmış: x=356 = (1024−312)/2 → 1280'de x=484; dikey sabit y=236 | `05-responsive-architecture` §7.4 (4K'da ortalamama) |
 | Overlay | Her viewport'ta `inset:0` tam ekran | `05-responsive-architecture` §12 (fallback zorunlu) |
-| Tier sıçraması | `T01 → T03 → T08 → T17 → T25 → T29 → T31` | `00-device-matrix` |
+| Tier sıçraması | `T01 → T03 → T07 → T17 → T25 → T29 → T31` | `00-device-matrix` |
 | Fallback | Tier'a ait spec yoksa bir üst/alt tier spec'i + §12 fallback kuralı | `05-responsive-architecture` §12 |
 | Portre/Dikey | `N/A (landscape-only)` — 1024×600 gömülü ekran | `reference/10-device-specific-guidelines` |
-| **ÇELİŞKİ (tier viewport)** | `00-device-matrix.md` L93: `T08 = 1280×800 (RPi5 10")`; L295: `1024×600 = T07 (RPi5 7")` — bu spec `viewport: 1024x600` (PNG kanıtı), dizin `T08-embedded` korundu. ⚠️ VERIFICATION REQUIRED — tier ataması owner onayı | `00-device-matrix` L93/L295 |
+| **ÇELİŞKİ (tier viewport)** | `00-device-matrix.md` L93: `T08 = 1280×800 (RPi5 10")`; L295: `1024×600 = T07 (RPi5 7")` — bu spec `viewport: 1024x600` (PNG kanıtı), dizin `T07-embedded`'e taşındı. ✅ TAŞINDI — tier: T07 (owner onayı, matrix L92) | `00-device-matrix` L93/L295 |
 
 ## 9. State Durumları
 
@@ -145,10 +145,20 @@ reference:
 | Disabled | şifre boş / uzunluk yetersiz | Bağlan `opacity:.4` + `not-allowed` | `aria-disabled="true"` |
 | Loading | bağlanıyor | spinner/bar `var(--cm-progressbar-fill)` | `aria-busy="true"` |
 
-> T08 dokunmatik tier — `reference/09-interaction-states.md` gereği `Hover` satırı yok, `Pressed` kullanılır.
+> T07 dokunmatik tier — `reference/09-interaction-states.md` gereği `Hover` satırı yok, `Pressed` kullanılır.
+
+---
+
+**Quality Report**
+
+| Metrik | Değer |
+|--------|-------|
+| Sections (§1-§9) | 9/9 |
+| Version | 1.1.0 |
+| Tier düzeltmesi | tier T08→T07 düzeltildi (matrix L92) |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-27
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

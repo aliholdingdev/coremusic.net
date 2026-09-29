@@ -6,7 +6,7 @@ component_id: "C10"
 bem_class: ".detail-panel"
 itcss_layer: "03_Layout"
 date: 2026-09-20
-version: 2.0.0
+version: 2.0.1
 status: active
 ---
 

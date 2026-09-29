@@ -4,9 +4,9 @@ title: "CoreMusic — Frontend Reference (ITCSS, Vanilla JS, BEM)"
 type: reference
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-29
 status: active
-version: 3.0.0
+version: 3.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -104,5 +104,5 @@ Frontend geliştirme standartlarının **referans kaynağıdır**. ITCSS katmanl
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-20
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

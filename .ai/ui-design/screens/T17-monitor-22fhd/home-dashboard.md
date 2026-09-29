@@ -5,7 +5,7 @@ device: "22\" FHD Monitor (Desktop)"
 viewport: { width: 1920, height: 1080 }
 path: "screens/T17-monitor-22fhd/"
 status: active
-version: 1.0.0
+version: 1.0.1
 source_of_truth: ".ai/.png/home-1920/Linux - 1920 - Home.png"
 related_tokens: [tokens/design-tokens-master]
 related_components: [02-component-inventory]

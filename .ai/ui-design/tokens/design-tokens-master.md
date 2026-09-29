@@ -4,9 +4,9 @@ title: "CoreMusic — Master Design Tokens"
 type: tokens
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-27
+updated: 2026-09-29
 status: active
-version: 6.2.0
+version: 6.2.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -166,7 +166,7 @@ CoreMusic UI tasarım sisteminin **tek tasarım token kaynağıdır**. Tüm CSS 
 | Overlay alpha | **`0.35`** (`rgba(0,0,0,0.35)`) | `0.60` (`--cm-bg-overlay`, §2.1) | `0.60` → **deprecated** — CSS'te hâlâ 0.60, kod düzeltmesi **backend/ui işi** |
 | Overlay `backdrop-filter` blur | **`3px`** (`BACKGROUND_BLUR blur=3`) | `1.5px` (uygulama `_home-components.css` L715) | `1.5` → **deprecated** — CSS'te hâlâ 1.5, kod düzeltmesi **backend/ui işi** |
 
-**SSOT kararı:** overlay alpha **0.35**, blur **3** — bu iki değer bağlayıcıdır; `0.60`/`1.5` yalnızca "CSS'te uygulanmış hâli" olarak deprecated işaretlidir. **Bu dosyada CSS değerine dokunulmadı** (§2.1 bloğu aynen korunur) — düzeltme kod katmanında (L0-L2) yapılır. Ekran spec'lerindeki karşılığı: `screens/T08-embedded/welcome-popup.md` §6 · `screens/T17-monitor-22fhd/welcome-popup.md` §6.
+**SSOT kararı:** overlay alpha **0.35**, blur **3** — bu iki değer bağlayıcıdır; `0.60`/`1.5` yalnızca "CSS'te uygulanmış hâli" olarak deprecated işaretlidir. **Bu dosyada CSS değerine dokunulmadı** (§2.1 bloğu aynen korunur) — düzeltme kod katmanında (L0-L2) yapılır. Ekran spec'lerindeki karşılığı: `screens/T07-embedded/welcome-popup.md` §6 · `screens/T17-monitor-22fhd/welcome-popup.md` §6.
 
 ### 2.2 Tipografi Token'ları (42 Token)
 
@@ -651,5 +651,5 @@ CoreMusic UI tasarım sisteminin **tek tasarım token kaynağıdır**. Tüm CSS 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-27
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -4,9 +4,9 @@ title: "CoreMusic — 45-Tier Device Matrix"
 type: matrix
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-24
+updated: 2026-09-29
 status: active
-version: 6.0.0
+version: 6.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -373,5 +373,5 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -6,7 +6,7 @@ page_id: "02"
 route: "/albums"
 layout: "05-desktop-3col"
 date: 2026-09-20
-version: 2.0.0
+version: 2.0.1
 status: active
 ---
 

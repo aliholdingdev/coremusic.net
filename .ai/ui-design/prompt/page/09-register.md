@@ -6,7 +6,7 @@ page_id: "09"
 route: "/register"
 layout: "auth-split-72-28"
 date: 2026-09-20
-version: 2.0.0
+version: 2.0.1
 status: active
 ---
 

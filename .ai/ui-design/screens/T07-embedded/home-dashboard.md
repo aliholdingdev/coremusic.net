@@ -5,18 +5,18 @@ type: spec
 category: ui-design
 date: 2026-09-27
 status: active
-version: 1.0.0
-tier: T08
+version: 1.1.0
+tier: T07
 viewport: 1024x600
 device: RPi5 7" Touch (Embedded)
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
-  authority: ".ai/ui-design/screens/T08-embedded/home-dashboard.md"
+  authority: ".ai/ui-design/screens/T07-embedded/home-dashboard.md"
   source_of_truth: ".ai/.png/home-1024/Linux  1024 - Home Page.png"
 ---
 
-# CoreMusic — Home Dashboard (T08 Embedded 1024×600)
+# CoreMusic — Home Dashboard (T07 Embedded 1024×600)
 
 **Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
 
@@ -93,9 +93,9 @@ reference:
 
 | Sınıf | Minimum | Not |
 |-------|---------|-----|
-| T08 Embedded (matrix `Touch` = 48px) | **48×48 px** | `00-device-matrix.md` Embedded tablosu bağlayıcı; şablonun 44px tabanından katı |
+| T07 Embedded (matrix `Touch` = 48px) | **48×48 px** | `00-device-matrix.md` Embedded tablosu bağlayıcı; şablonun 44px tabanından katı |
 | WCAG 2.2 AA 2.5.8 (yasal alt sınır) | 24×24 px | Bu spec'teki mini-card (43) / app-btn (40) / chip (25) bu sınırın üstünde |
-| Şablon geneli (T01-T08, T29, T31) | 44×44 px | `--cm-touch-target: 44px` (master) — T08'de 48px'e yükseltilir |
+| Şablon geneli (T01-T08, T29, T31) | 44×44 px | `--cm-touch-target: 44px` (master) — T07'de 48px'e yükseltilir |
 | Yakınlık kuralı | ≥ 8 px boşluk | Yanlış basma önleme (widget satır aralığı 14px) |
 | Komut satırı | `touch target >= 44px (tier embedded/phone)` | Prompt `constraints` ile aynı ifade |
 
@@ -106,7 +106,7 @@ reference:
 | 1 | Metin kontrastı | ≥ 4.5:1 (normal), ≥ 3:1 (≥24px / 18.66px bold) | GAP — PNG medyan zemin ölçümü: beyaz metin ≈ **2.96:1** (§7 PNG örnekleme) |
 | 2 | Odak (focus) görünür | 2px outline, kontrast ≥ 3:1 | PASS — `:focus-visible` + `var(--cm-focus-ring)` (`.home-app-btn:focus-visible`, `.playlist-list-card:focus-visible`) |
 | 3 | Dokunma hedefi (WCAG 2.5.8) | ≥ 24×24 px | PASS — mini-card 43, app-btn 40, widget 51, chip 25 (15px yıldız yok) |
-| 4 | Tier touch (T08, matrix `Touch`=48px) | ≥ 48×48 px | GAP — `--cm-touch-target: 44px` < 48; küçük hedefler (chip 25) |
+| 4 | Tier touch (T07, matrix `Touch`=48px) | ≥ 48×48 px | GAP — `--cm-touch-target: 44px` < 48; küçük hedefler (chip 25) |
 | 5 | Okuma sırası / DOM sırası | Görsel sıra = DOM sırası | PASS — header → content (widget → paneller) → footer |
 | 6 | Durum yalnız renkle anlatılmıyor | İkon/metin + aria | PASS — `aria-current="page"` (header.php L82) + `role="contentinfo" aria-label` (footer.php L66) |
 
@@ -116,7 +116,7 @@ reference:
 
 **§5 ÇELİŞKİ sayısı: 2**
 
-**ÇELİŞKİ-1 — Tier/viewport (00-device-matrix ↔ bu dosya):** matrix L92 `T07 | RPi5 7" | 1024×600` ve L295 `1024×600 → T07 Embedded` derken L93 `T08 = 1280×800` (RPi5 10"); bu spec `screens/T08-embedded/` dizininde ve `viewport: 1024x600`. Ek kanıt: L95 "Welcome popup (T07)", L97 T07/T08 dual-ID çelişkisi. Karar: `tier: T08` + `1024x600` **korunur** (görev/dizin tanımı); matrix düzeltmesi **BEKLEMEDE** (`00-device-matrix.md`'e bu görevde dokunma yasağı).
+**ÇELİŞKİ-1 — Tier/viewport (00-device-matrix ↔ bu dosya):** matrix L92 `T07 | RPi5 7" | 1024×600` ve L295 `1024×600 → T07 Embedded` derken L93 `T08 = 1280×800` (RPi5 10"); bu spec `screens/T07-embedded/` dizininde ve `viewport: 1024x600`. Ek kanıt: L95 "Welcome popup (T07)", L97 T07/T08 dual-ID çelişkisi. Karar: `tier: T07` + `1024x600` **taşındı** (owner onayı, matrix L92); matrix düzeltmesi **GEREKMEDİ** (`00-device-matrix.md`'e bu görevde dokunma yasağı).
 
 **ÇELİŞKİ-2 — Player Info ↔ Playlist Status Div (Figma ↔ PNG):** Figma'da her ikisi de (32,84) orijininde — `Player Info` 392×131 ve `Playlist Status Div` 506×198 (üst üste binen iki düğüm). PNG'de yalnız `Player Info` görünür → SSOT PNG kazanır: `Playlist Status Div` bu spec'te **yok sayılır**.
 
@@ -145,8 +145,8 @@ reference:
 
 | Davranış | Kural | Kaynak |
 |----------|-------|--------|
-| Kırılma davranışı | T08 1024×600 sabit grid (widget row1 2×2 · row2/row3 1×5 — C17/C18 kuralı); yeniden akış yok | [[05-responsive-architecture]] §7.4 + §12 |
-| Tier sıçraması | `T01 → T03 → T08 → T17 → T25 → T29 → T31` | [[00-device-matrix]] |
+| Kırılma davranışı | T07 1024×600 sabit grid (widget row1 2×2 · row2/row3 1×5 — C17/C18 kuralı); yeniden akış yok | [[05-responsive-architecture]] §7.4 + §12 |
+| Tier sıçraması | `T01 → T03 → T07 → T17 → T25 → T29 → T31` | [[00-device-matrix]] |
 | Görsel ölçek | Piksel ölçüler `rem`/token'a çevrilir; ham px yalnız ASCII Layout'ta | Token-First |
 | Fallback | Tier'a ait spec yoksa bir üst/alt tier spec'i + §12 fallback kuralı | [[05-responsive-architecture]] §12 |
 | Portre/Dikey | `N/A (landscape-only)` | `reference/10-device-specific-guidelines` |
@@ -169,7 +169,7 @@ reference:
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 1.0.0 |
+| Version | 1.1.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | PNG doğrulama | ✅ okundu → `status: active` |
 | ASCII yükseklik | 60 + 450 + 90 = 600 ✓ |
@@ -177,10 +177,11 @@ reference:
 | §6 ÇELİŞKİ | 0 |
 | `00-ascii-art-index.md` | BEKLEMEDE (bu görevde yazım yasağı) |
 | Cross References | 5 |
+| Tier düzeltmesi | tier T08→T07 düzeltildi (matrix L92) |
 | Last Updated | 2026-09-27 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-27
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

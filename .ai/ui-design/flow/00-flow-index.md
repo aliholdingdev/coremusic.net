@@ -4,9 +4,9 @@ title: "CoreMusic UI Design — Master Flow Index"
 type: flow-index
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-27
+updated: 2026-09-29
 status: active
-version: 3.1.0
+version: 3.1.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -243,5 +243,5 @@ Kullanılan karakterler:
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-27
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

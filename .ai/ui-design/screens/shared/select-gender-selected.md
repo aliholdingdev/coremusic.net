@@ -5,7 +5,7 @@ device: "RPi5 7\" Touch (Embedded)"
 viewport: { width: 1024, height: 600 }
 path: "screens/shared/"
 status: active
-version: 1.1.0
+version: 1.1.1
 source_of_truth: ".ai/.png/shared-1024/Linux  1024 - Select Gender - selected.png"
 related_tokens: [tokens/design-tokens-master]
 related_components: [02-component-inventory]

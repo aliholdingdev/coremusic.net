@@ -1,9 +1,9 @@
 ---
-version: 1.0.0
+version: 1.1.0
 date: 2026-09-27
 status: active
 device: RPi5 7" Touch (Embedded)
-tier: T08
+tier: T07
 viewport: 1024x600
 screen: Singer
 screen_id: 04
@@ -18,7 +18,7 @@ related:
   - .ai/ui-design/tokens/design-tokens-master.md
 ---
 
-# CoreMusic — Singer (T08 Embedded 1024×600)
+# CoreMusic — Singer (T07 Embedded 1024×600)
 
 Zorunlu Bağlantılar: [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
 
@@ -109,7 +109,7 @@ Tüm değerler `design-tokens-master.md` §3/§6 kaynağından alınmıştır; b
 
 | Kural | Değer | Uygulama (bu ekran) | Kaynak |
 |-------|-------|---------------------|--------|
-| Tier T08 zorunlu | ≥48×48 px | Çip 25 px, arama 25 px, stat çipleri ~16 px, eylem butonları 40 px sarmalayıcı; kart 120×150 ✓ | 00-device-matrix (§5 çatışma 4) |
+| Tier T07 zorunlu | ≥48×48 px | Çip 25 px, arama 25 px, stat çipleri ~16 px, eylem butonları 40 px sarmalayıcı; kart 120×150 ✓ | 00-device-matrix (§5 çatışma 4) |
 | WCAG 2.5.8 (AA) | ≥24×24 px | Küçük çipler 25 px PASS; stat çipleri ~16 px → GAP riski | WCAG 2.2 |
 | Şablon varsayılanı | 44×44 px | Çip/arama 25 px, stat çipleri 16 px → 44 altı | screen-spec-template (§4.4) |
 | Yakınlık (fiziksel) | ≥8 px boşluk | Kart kolon arası 20 px, satır arası ~20 px ✓ | Figma çıkarımı |
@@ -124,7 +124,7 @@ Bu tier 48 px çatışması `.ai/ui-design/04-accessibility-gaps.md` dosyasına 
 | 1 | Metin kontrastı | AA (1.4.3) | ⚠️ GAP | PNG median kontrast: **2.85** (hedef ≥4.50; media `assets.coremusic.net/Css/05_Pages/p-artists.css`) |
 | 2 | Odak görünürlüğü | AA (2.4.7) | ✅ PASS | `:focus-visible` + `var(--cm-focus-ring)` (şablon §6.1) |
 | 3 | Boyut (dokunma) | AA (2.5.8) | ⚠️ GAP | Stat çipleri ~16 px < 24 px (PNG ölçüleri); ana çipler 25 px PASS |
-| 4 | Tier dokunma boyutu | Tier T08 (48 px) | ⚠️ GAP | Çip/arama 25 px, stat çipleri 16 px; `.ai/ui-design/04-accessibility-gaps.md`: BEKLEMEDE |
+| 4 | Tier dokunma boyutu | Tier T07 (48 px) | ⚠️ GAP | Çip/arama 25 px, stat çipleri 16 px; `.ai/ui-design/04-accessibility-gaps.md`: BEKLEMEDE |
 | 5 | Semantik DOM | A (1.3.1) | ✅ PASS | Header/footer landmark + `nav` (header.php L82 `aria-current="page"`, footer.php L66 `role="contentinfo"`); grid/liste semantiği kodda doğrulanmalı |
 | 6 | Durum (renk dışı) + aria | A (1.4.1 / 4.1.2) | ✅ PASS | Aktif çip: `.is-active` zemin + kontrast (biçim de değişir); `aria-current` header.php L82, JS `role="tab"` kodda doğrulanmalı |
 
@@ -132,7 +132,7 @@ Bu tier 48 px çatışması `.ai/ui-design/04-accessibility-gaps.md` dosyasına 
 
 **§5 ÇELİŞKİ sayısı: 1**
 
-1. **Tier çatışması (1024×600):** `00-device-matrix.md` L95 "Görsel Katman `T08-embedded` → 1024×600" + L97 "`touch target >= 44px`" — Tier tablosu 48 px, şablon §4.4 44×44: yorum gerilimi (25 px çipler ikisinin de altında).
+1. **Tier çatışması (1024×600) — ✅ KAPANDI (tier taşındı, matrix L92):** `00-device-matrix.md` L95 "Görsel Katman `T07-embedded` → 1024×600" + L97 "`touch target >= 44px`" — Tier tablosu 48 px, şablon §4.4 44×44: yorum gerilimi (25 px çipler ikisinin de altında).
 
 Not: grid 2. satırının alttan kırpılması (y413 + 150 > 510) çelişki değildir — kaydırılabilir liste davranışıdır (PNG'de scrollbar (760,88) 3×385 mevcut).
 
@@ -178,12 +178,12 @@ Uygulama kuralı (şablon §6 + token master §2.1.2 — bu ekran için kesin ku
 
 Bu ekran **sabit 1024×600** içindir; davranış → [[05-responsive-architecture]] §7.4 + §12. Tier davranışı (matrix):
 
-- T08 sabit: CSS `zoom`/ölçekleme (Figma scaleFactor 1.0) — grid 5 kolon sabit kalır, `clamp()` ile değil.
+- T07 sabit: CSS `zoom`/ölçekleme (Figma scaleFactor 1.0) — grid 5 kolon sabit kalır, `clamp()` ile değil.
 - Farklı ekranlara kaydırma/boyut sözü verilmez; kırılma davranışı bu dosyanın konusu değildir.
 
 | Viewport | Grid | Panel | Navbar | Not |
 |----------|------|-------|--------|-----|
-| 1024×600 (T08) | 5 kolon × 120 px (satır 2 kırpılmış) | 743+219 px | 993×27 | PNG kanıtı |
+| 1024×600 (T07) | 5 kolon × 120 px (satır 2 kırpılmış) | 743+219 px | 993×27 | PNG kanıtı |
 | Daha geniş ekran | — | — | — | Kapsam dışı |
 
 ## 9. State (Durumlar)
@@ -216,6 +216,8 @@ Bu ekran **sabit 1024×600** içindir; davranış → [[05-responsive-architectu
 | Figma | verified |
 | ASCII ↔ PNG | hizalı (panel (20,69), footer y510) |
 | Cross References | 5 |
+| Version | 1.1.0 |
+| Tier düzeltmesi | tier T08→T07 düzeltildi (matrix L92) |
 | `00-ascii-art-index.md` | BEKLEMEDE (yazılmadı — yetki dışı) |
 
 ---

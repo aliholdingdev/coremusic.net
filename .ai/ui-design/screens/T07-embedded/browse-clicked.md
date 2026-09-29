@@ -5,18 +5,18 @@ type: spec
 category: ui-design
 date: 2026-09-27
 status: active
-version: 1.0.0
-tier: T08
+version: 1.1.0
+tier: T07
 viewport: 1024x600
 device: RPi5 7" Touch (Embedded)
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
-  authority: ".ai/ui-design/screens/T08-embedded/browse-clicked.md"
+  authority: ".ai/ui-design/screens/T07-embedded/browse-clicked.md"
   source_of_truth: ".ai/.png/home-1024/Linux  1024 - Göz At - Tıklama Clicked.png"
 ---
 
-# CoreMusic — Browse Clicked / Dosya Listesi (T08 Embedded 1024×600)
+# CoreMusic — Browse Clicked / Dosya Listesi (T07 Embedded 1024×600)
 
 **Zorunlu Bağlantılar:** [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
 
@@ -166,11 +166,11 @@ reference:
 | Davranış | Kural | Kaynak |
 |----------|-------|--------|
 | Kırılma davranışı | 1280→1024: sol panel 760→743 (0.9775) · sağ panel 438→253 (42% shrink; taşma: 785+253=1038 > 1024) | `05-responsive-architecture` §7.4 (4K'da ortalamama) + §12 (fallback zorunlu) |
-| Tier sıçraması | `T01 → T03 → T08 → T17 → T25 → T29 → T31` | `00-device-matrix` |
+| Tier sıçraması | `T01 → T03 → T07 → T17 → T25 → T29 → T31` | `00-device-matrix` |
 | Grid davranışı | Liste 4 kolon (Şarkı Adı / Album Adı / Sanatcı / Süre) korunur | `05-responsive-architecture` §7.4 |
 | Fallback | Tier'a ait spec yoksa bir üst/alt tier spec'i + §12 fallback kuralı | `05-responsive-architecture` §12 |
 | Portre/Dikey | `N/A (landscape-only)` — 1024×600 gömülü ekran | `reference/10-device-specific-guidelines` |
-| **ÇELİŞKİ (tier viewport)** | `00-device-matrix.md` L93: `T08 = 1280×800 (RPi5 10")`; L295: `1024×600 = T07 (RPi5 7")` — bu spec `viewport: 1024x600` (PNG kanıtı), dizin `T08-embedded` korundu. ⚠️ VERIFICATION REQUIRED — tier ataması owner onayı | `00-device-matrix` L93/L295 |
+| **ÇELİŞKİ (tier viewport)** | `00-device-matrix.md` L93: `T08 = 1280×800 (RPi5 10")`; L295: `1024×600 = T07 (RPi5 7")` — bu spec `viewport: 1024x600` (PNG kanıtı), dizin `T07-embedded`'e taşındı. ✅ TAŞINDI — tier: T07 (owner onayı, matrix L92) | `00-device-matrix` L93/L295 |
 
 ## 9. State Durumları
 
@@ -183,10 +183,20 @@ reference:
 | Disabled | disk yok / yetki yok | `opacity:.4` + `not-allowed` | `aria-disabled="true"` |
 | Loading | liste yükleniyor | skeleton (C13) / progress `var(--cm-progressbar-fill)` | `aria-busy="true"` |
 
-> T08 dokunmatik tier — `reference/09-interaction-states.md` gereği `Hover` satırı yok, `Pressed` kullanılır.
+> T07 dokunmatik tier — `reference/09-interaction-states.md` gereği `Hover` satırı yok, `Pressed` kullanılır.
+
+---
+
+**Quality Report**
+
+| Metrik | Değer |
+|--------|-------|
+| Sections (§1-§9) | 9/9 |
+| Version | 1.1.0 |
+| Tier düzeltmesi | tier T08→T07 düzeltildi (matrix L92) |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-27
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

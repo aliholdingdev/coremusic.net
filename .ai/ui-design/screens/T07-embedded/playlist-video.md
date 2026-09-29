@@ -1,9 +1,9 @@
 ---
-version: 1.0.0
+version: 1.1.0
 date: 2026-09-27
 status: active
 device: RPi5 7" Touch (Embedded)
-tier: T08
+tier: T07
 viewport: 1024x600
 screen: Playlist Video
 screen_id: 06
@@ -18,7 +18,7 @@ related:
   - .ai/ui-design/tokens/design-tokens-master.md
 ---
 
-# CoreMusic — Playlist Video (T08 Embedded 1024×600)
+# CoreMusic — Playlist Video (T07 Embedded 1024×600)
 
 Zorunlu Bağlantılar: [[00-device-matrix]] · [[01-mockup-index]] · [[02-component-inventory]] · [[tokens/design-tokens-master]]
 
@@ -105,7 +105,7 @@ Tüm değerler `design-tokens-master.md` §3/§6 kaynağından alınmıştır; b
 
 | Kural | Değer | Uygulama (bu ekran) | Kaynak |
 |-------|-------|---------------------|--------|
-| Tier T08 zorunlu | ≥48×48 px | Geri 40×40, liste satırı h30, yıldızlar 15 px, mini oynatıcı düğmeleri (~40 altı tahmin) | 00-device-matrix (§5 çatışma 4) |
+| Tier T07 zorunlu | ≥48×48 px | Geri 40×40, liste satırı h30, yıldızlar 15 px, mini oynatıcı düğmeleri (~40 altı tahmin) | 00-device-matrix (§5 çatışma 4) |
 | WCAG 2.5.8 (AA) | ≥24×24 px | ⚠️ 15 px yıldızlar (x44..100 y569) → GAP; geri 40 px PASS | WCAG 2.2 |
 | Şablon varsayılanı | 44×44 px | Geri 40 px / satır 30 px / yıldız 15 px → 44 altı | screen-spec-template (§4.4) |
 | Yakınlık (fiziksel) | ≥8 px boşluk | Liste satır arası 15 px boşluk (30+15 adım 45) ✓ | Figma çıkarımı |
@@ -120,7 +120,7 @@ Bu tier 48 px çatışması `.ai/ui-design/04-accessibility-gaps.md` dosyasına 
 | 1 | Metin kontrastı | AA (1.4.3) | ⚠️ GAP | PNG median kontrast: **3.95** (hedef ≥4.50; media `assets.coremusic.net/Css/01_Core/` + `05_Pages/_player.css`) |
 | 2 | Odak görünürlüğü | AA (2.4.7) | ✅ PASS | `:focus` outline (CSS doğrulandı) + `var(--cm-focus-ring)` (şablon §6.1) |
 | 3 | Boyut (dokunma) | AA (2.5.8) | ⚠️ GAP | Yıldızlar ~15 px < 24 px (PNG ölçüleri) |
-| 4 | Tier dokunma boyutu | Tier T08 (48 px) | ⚠️ GAP | Geri 40 / satır 30 / yıldız 15 px; `.ai/ui-design/04-accessibility-gaps.md`: BEKLEMEDE |
+| 4 | Tier dokunma boyutu | Tier T07 (48 px) | ⚠️ GAP | Geri 40 / satır 30 / yıldız 15 px; `.ai/ui-design/04-accessibility-gaps.md`: BEKLEMEDE |
 | 5 | Semantik DOM | A (1.3.1) | ✅ PASS (kısmi) | Oynatıcı landmark/markup PHP'de yok (repoda video sayfası markup'ı yok) — CSS var; HTML `aria-label` doğrulaması BEKLEMEDE |
 | 6 | Durum (renk dışı) + aria | A (1.4.1 / 4.1.2) | ✅ PASS | Aktif satır: `.is-active` → `border-left: 3px` + zemin (renk dışı ikinci işaret, CSS kanıtı) + `:focus` outline; `aria-current` header.php L82 (bu ekranda header yok) / `aria-*` HTML BEKLEMEDE |
 
@@ -128,7 +128,7 @@ Bu tier 48 px çatışması `.ai/ui-design/04-accessibility-gaps.md` dosyasına 
 
 **§5 ÇELİŞKİ sayısı: 1**
 
-1. **Tier çatışması (1024×600):** `00-device-matrix.md` L95 "Görsel Katman `T08-embedded` → 1024×600" + L97 "`touch target >= 44px`" — Tier tablosu 48 px, şablon §4.4 44×44: yorum gerilimi (geri 40 / satır 30 / yıldız 15 px ikisinin de altında).
+1. **Tier çatışması (1024×600) — ✅ KAPANDI (tier taşındı, matrix L92):** `00-device-matrix.md` L95 "Görsel Katman `T07-embedded` → 1024×600" + L97 "`touch target >= 44px`" — Tier tablosu 48 px, şablon §4.4 44×44: yorum gerilimi (geri 40 / satır 30 / yıldız 15 px ikisinin de altında).
 
 Not: bu ekranda navbar/footer yok (tam ekran oynatıcı) — standart 60+450+90 iskeleti uygulanmaz; §1'de tüm yükseklik video/liste/mini oynatıcı ile 600'e tamamlanır (pembe bar (0,595) 1024×5). Çelişki değil, ekran tipi farkı.
 
@@ -176,12 +176,12 @@ Uygulama kuralı (şablon §6 + token master §2.1.2 — bu ekran için kesin ku
 
 Bu ekran **sabit 1024×600** içindir; davranış → [[05-responsive-architecture]] §7.4 + §12. Tier davranışı (matrix):
 
-- T08 sabit: CSS `zoom`/ölçekleme (Figma scaleFactor 1.0) — video/liste bölünmesi (696+276 px) sabit kalır, `clamp()` ile değil.
+- T07 sabit: CSS `zoom`/ölçekleme (Figma scaleFactor 1.0) — video/liste bölünmesi (696+276 px) sabit kalır, `clamp()` ile değil.
 - Farklı ekranlara kaydırma/boyut sözü verilmez; kırılma davranışı bu dosyanın konusu değildir.
 
 | Viewport | Video alanı | Playlist | Öğeler | Not |
 |----------|-------------|----------|--------|-----|
-| 1024×600 (T08) | ~x0-696 (tam boy) | (723,31) 276×538, 10 satır | geri 40×40, mini (48,400) 290×120 | PNG kanıtı |
+| 1024×600 (T07) | ~x0-696 (tam boy) | (723,31) 276×538, 10 satır | geri 40×40, mini (48,400) 290×120 | PNG kanıtı |
 | Daha geniş ekran | — | — | — | Kapsam dışı |
 
 ## 9. State (Durumlar)
@@ -214,6 +214,8 @@ Bu ekran **sabit 1024×600** içindir; davranış → [[05-responsive-architectu
 | Figma | verified |
 | ASCII ↔ PNG | hizalı (pembe bar y595 → 600) |
 | Cross References | 5 |
+| Version | 1.1.0 |
+| Tier düzeltmesi | tier T08→T07 düzeltildi (matrix L92) |
 | `00-ascii-art-index.md` | BEKLEMEDE (yazılmadı — yetki dışı) |
 
 ---

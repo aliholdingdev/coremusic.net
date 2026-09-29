@@ -4,9 +4,9 @@ title: "CoreMusic — Color Palettes"
 type: tokens
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-27
+updated: 2026-09-29
 status: active
-version: 3.2.0
+version: 3.2.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -281,5 +281,5 @@ CoreMusic renk paletlerinin **tek kaynağıdır**. 3 tema, semantik renkler, gri
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-27
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

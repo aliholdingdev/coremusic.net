@@ -3,7 +3,7 @@ title: "CoreMusic — Screen Prompt T2 Tablet Small"
 type: prompt
 category: ui-design
 date: 2026-09-20
-version: 2.0.0
+version: 2.0.1
 status: active
 tier: T2-tablet-small
 ---

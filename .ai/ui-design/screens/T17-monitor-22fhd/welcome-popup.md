@@ -5,7 +5,7 @@ device: "Desktop Monitor (Mouse Tier)"
 viewport: { width: 1920, height: 1080 }
 path: "/home (welcome-modal)"
 status: draft
-version: 1.1.0
+version: 1.1.1
 source_of_truth: "⚠️ VERIFICATION REQUIRED — PNG bekleniyor"
 related_tokens:
   - "--cm-font-family-heading"
@@ -155,9 +155,9 @@ x:0        128       256       384       512       640       768       896  1023
 > kaydı (`02-component-inventory.md` L91–97) — bu ekranın sınıfları envantere
 > **kaydedilmemiş** → `⚠️ VERIFICATION REQUIRED`. Kategori ID'si: **C07 Modal**.
 >
-> **Not:** T08-embedded task'ında `.welcome-modal__overlay` adı kullanılmış;
+> **Not:** T07-embedded task'ında `.welcome-modal__overlay` adı kullanılmış;
 > CSS gerçeği `.welcome-modal-overlay` (**`__` yok, block-name tek parça**).
-> Bu spec, kod gerçeğini esas alır → `⚠️ VERIFICATION REQUIRED` (T08 çıktısıyla
+> Bu spec, kod gerçeğini esas alır → `⚠️ VERIFICATION REQUIRED` (T07 çıktısıyla
 > çakışabilir).
 >
 > **Not:** CSS'te `__close`/`.welcome-modal__close` YOK — L774–775 yorumu
