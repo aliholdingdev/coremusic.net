@@ -23,6 +23,13 @@ final class AuthorizationMiddleware
      */
     public function __invoke(array $request, callable $next): array
     {
+        // Public route'larda auth/authorization zorunlu değildir; aksi halde
+        // login/register uçları 401 ile kilitlenir (AuthenticationMiddleware
+        // ile aynı liste paylaşılır).
+        if ($this->isPublicRoute()) {
+            return $next($request);
+        }
+
         // Check if user is authenticated
         $authUser = $request['_auth_user'] ?? null;
         if ($authUser === null) {
@@ -67,5 +74,22 @@ final class AuthorizationMiddleware
         }
 
         return $next($request);
+    }
+
+    /**
+     * Public route kontrolü — AuthenticationMiddleware::PUBLIC_ROUTE_PATTERNS
+     * tek kaynaktır.
+     */
+    private function isPublicRoute(): bool
+    {
+        $uri = $_SERVER['REQUEST_URI'] ?? '/';
+
+        foreach (AuthenticationMiddleware::PUBLIC_ROUTE_PATTERNS as $pattern) {
+            if (str_starts_with($uri, $pattern)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

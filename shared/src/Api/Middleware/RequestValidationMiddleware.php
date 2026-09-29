@@ -12,8 +12,10 @@ declare(strict_types=1);
 namespace CoreMusic\Api\Middleware;
 
 use CoreMusic\Api\ApiResponse;
-use Respect\Validation\Validator as v;
+use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Exceptions\ValidationException;
+use Respect\Validation\Validatable;
+use Respect\Validation\Validator as v;
 
 /**
  * Request Validation Middleware using Respect/Validation.
@@ -35,15 +37,12 @@ final class RequestValidationMiddleware
         $data = $request;
         
         try {
-            $validator = $this->buildValidator($rules);
-            $validator->assert($data);
+            $this->buildValidator($rules)->assert($data);
             
             return $next($request);
-        } catch (ValidationException $e) {
-            $errors = [];
-            foreach ($e->getMessages() as $field => $message) {
-                $errors[$field] = $message;
-            }
+        } catch (NestedValidationException $e) {
+            // Respect/Validation 2.x:Aggregate exception -> field => message
+            $errors = $e->getMessages();
             
             return ApiResponse::error(
                 'VALIDATION_ERROR',
@@ -51,66 +50,74 @@ final class RequestValidationMiddleware
                 422,
                 $errors
             );
+        } catch (ValidationException $e) {
+            // Tek kural exception'u (nested olmayan) -> tek mesaj
+            return ApiResponse::error(
+                'VALIDATION_ERROR',
+                'Validation failed',
+                422,
+                [$e->getId() => $e->getMessage()]
+            );
         }
     }
 
     /**
      * Build validator from rules array.
+     *
+     * @param array<string, array<string, mixed>> $rules
      */
-    private function buildValidator(array $rules): Validator
+    private function buildValidator(array $rules): Validatable
     {
-        $validator = v::noneOf();
+        $validators = [];
         
         foreach ($rules as $field => $rule) {
-            $fieldValidator = $this->mapRuleToValidator($rule);
-            $validator = $validator->addValidator(
-                v::key($field, $fieldValidator)
-            );
+            $validators[] = v::key($field, $this->mapRuleToValidator($rule));
         }
         
-        return $validator;
+        return v::create(...$validators);
     }
 
     /**
      * Map rule configuration to Respect/Validation validator.
+     *
+     * @param array<string, mixed> $rule
      */
-    private function mapRuleToValidator(array $rule): Validator
+    private function mapRuleToValidator(array $rule): Validatable
     {
-        $validator = v::noneOf();
+        $validators = [];
         
         if (isset($rule['required']) && $rule['required']) {
-            $validator = $validator->addValidator(v::notEmpty());
+            $validators[] = v::notEmpty();
         }
         
         if (isset($rule['type'])) {
-            $typeValidator = match ($rule['type']) {
+            $validators[] = match ($rule['type']) {
                 'string' => v::stringType(),
                 'int' => v::intVal(),
                 'float' => v::floatVal(),
                 'bool' => v::boolVal(),
                 'email' => v::email(),
                 'array' => v::arrayType(),
-                default => v::noneOf(),
+                default => v::alwaysValid(),
             };
-            $validator = $validator->addValidator($typeValidator);
         }
         
         if (isset($rule['min'])) {
-            $validator = $validator->addValidator(v::min($rule['min']));
+            $validators[] = v::min($rule['min']);
         }
         
         if (isset($rule['max'])) {
-            $validator = $validator->addValidator(v::max($rule['max']));
+            $validators[] = v::max($rule['max']);
         }
         
         if (isset($rule['regex'])) {
-            $validator = $validator->addValidator(v::regex($rule['regex']));
+            $validators[] = v::regex($rule['regex']);
         }
         
         if (isset($rule['in'])) {
-            $validator = $validator->addValidator(v::in($rule['in']));
+            $validators[] = v::in($rule['in']);
         }
         
-        return $validator;
+        return v::create(...$validators);
     }
 }

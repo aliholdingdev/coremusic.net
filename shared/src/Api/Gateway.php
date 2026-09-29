@@ -13,8 +13,11 @@ namespace CoreMusic\Api;
 
 use CoreMusic\Contracts\Api\GatewayInterface;
 use CoreMusic\Contracts\Api\ServiceRegistryInterface;
+use CoreMusic\Api\Versioning\ApiVersion;
 use CoreMusic\Api\Versioning\VersionResolver;
 use CoreMusic\Api\Middleware\ApiMiddlewarePipeline;
+use CoreMusic\Log\LoggerFactory;
+use CoreMusic\Security\UuidV7;
 
 /**
  * API Gateway implementation following GatewayInterface.
@@ -28,42 +31,56 @@ final class Gateway implements GatewayInterface
     ) {}
 
     /**
+     * Kayıt defteri erişimi (sağlık tanımı / servis keşfi için).
+     */
+    public function getServiceRegistry(): ServiceRegistryInterface
+    {
+        return $this->serviceRegistry;
+    }
+
+    /**
      * Dispatch an API request through the middleware pipeline.
+     *
+     * Route matching middleware pipeline'ın İÇİNDE çalışır: CORS, rate limit,
+     * auth ve validation eşleşmeyen rotalarda bile atlanmaz (ADR-020 §1.1-B.1).
      */
     public function dispatch(array $request): array
     {
         // Create API request object
         $apiRequest = new ApiRequest();
-        
+
         // Resolve API version
         $version = $this->versionResolver->resolve($apiRequest);
         $apiRequest = $apiRequest->withAttribute('version', $version);
-        
-        // Match route
-        $route = $this->matchRoute($apiRequest, $version);
-        if ($route === null) {
-            return ApiResponse::error('NOT_FOUND', 'Route not found', 404);
-        }
-        
-        $apiRequest = $apiRequest->withAttribute('route', $route);
-        
-        // Execute middleware pipeline
+
         try {
-            $response = $this->middlewarePipeline->process(
+            return $this->middlewarePipeline->process(
                 $request,
-                function (array $request) use ($route) {
+                function (array $request) use ($apiRequest, $version): array {
+                    $route = $this->matchRoute($apiRequest, $version);
+                    if ($route === null) {
+                        return ApiResponse::error('NOT_FOUND', 'Route not found', 404);
+                    }
+
+                    $apiRequest->withAttribute('route', $route);
+
                     return $this->invokeHandler($route, $request);
                 }
             );
-            
-            return $response;
         } catch (\Throwable $e) {
-            return ApiResponse::error(
-                'INTERNAL_ERROR',
-                'An internal error occurred',
-                500,
-                ['exception' => $e->getMessage()]
-            );
+            $traceId = UuidV7::generate();
+
+            LoggerFactory::getInstance()->error('API Gateway unhandled exception', [
+                'trace_id'  => $traceId,
+                'exception' => $e::class,
+                'message'   => $e->getMessage(),
+                'file'      => $e->getFile() . ':' . $e->getLine(),
+                'uri'       => $apiRequest->getUri(),
+                'method'    => $apiRequest->getMethod(),
+            ]);
+
+            // ADR-020 §2.2F / OWASP API3: exception detayı istemciye asla dönmez.
+            return ApiResponse::error('INTERNAL_ERROR', 'Servis hatası, tekrar deneyin.', 500);
         }
     }
 
@@ -74,7 +91,7 @@ final class Gateway implements GatewayInterface
     {
         $uri = $request->getUri();
         $method = $request->getMethod();
-        
+
         // This is a simplified route matching
         // In production, this would use a proper router
         $routes = [
@@ -87,15 +104,15 @@ final class Gateway implements GatewayInterface
                 '/api/v1/download' => ['service' => 'download', 'handler' => 'downloadController'],
             ],
         ];
-        
+
         $methodRoutes = $routes[$method] ?? [];
-        
+
         foreach ($methodRoutes as $pattern => $route) {
             if (str_starts_with($uri, $pattern)) {
                 return $route;
             }
         }
-        
+
         return null;
     }
 
