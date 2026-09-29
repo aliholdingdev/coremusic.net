@@ -671,6 +671,7 @@ powershell -File .ai/scripts/screens-frontmatter-check.ps1   # beklenti: dosya 2
 powershell -File .ai/scripts/kalip-abc-check.ps1             # beklenti: A:0 B:0 C:0 → GECTI  (A 21 · B 21 · C 51)
 powershell -File .ai/scripts/wiki-link-check.ps1             # beklenti: 227 link / 6 raporlanan = GERÇEK KIRIK 0 (AGENTS §13.7 sahte)
 powershell -File .ai/scripts/device-matrix-catid.ps1         # CatID sütunu denetimi (11 kategori öneki)
+powershell -File .ai/scripts/figma-tokens.ps1                # beklenti: SONUC -> toplam=7 | pass=5 | bos=2 | fail=0 | bos_bp=3840,tv  (+ BITTI, exit 0)
 ```
 
 **Kalıp içerik şartları (Faz 6 çıktısı — `kalip-abc-check.ps1` bunlara bakar):**

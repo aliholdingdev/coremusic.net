@@ -6,7 +6,7 @@ category: ui-design
 date: 2026-09-20
 updated: 2026-09-29
 status: active
-version: 3.1.1
+version: 3.1.2
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -152,7 +152,7 @@ Her frontend görevinden sonra uygulanacak **UI doğrulama protokolüdür**. PNG
 | 2 | `screens-frontmatter-check.ps1` | 21 / 0 | `dosya: 21 \| sorunlu: 0` | ✅ |
 | 3 | `wiki-link-check.ps1` | 227 link · gerçek kırık 0 | `kontrol edilen link: 227` · `kirik link: 6` · 6'sı da yanlış pozitif (§6.3) | ✅ |
 | 4 | `device-matrix-catid.ps1` | CatID sütunu · T07 çözümlü | `Tablo: 0 \| CatID eklenen satir: 0` + belge ölçümü §6.4 | ✅ (açıklama §6.4) |
-| 5 | `figma-tokens.ps1` | 7 breakpoint · FAIL=0 | 7 breakpoint satırı + `BITTI` · **FAIL metni betikte yok** → ⚠️ (§8-#6) | ⚠️ |
+| 5 | `figma-tokens.ps1` | 7 breakpoint · **kapı: `DURUM` + `SONUC` + exit kodu** | `SONUC -> toplam=7 \| pass=5 \| bos=2 \| fail=0 \| bos_bp=3840,tv` + `BITTI` · **exit 0** (§6.5, Faz 9 ölçümü) | ✅ |
 
 ### 6.1 `kalip-abc-check.ps1`
 
@@ -216,20 +216,21 @@ Betik gerçek çıktısı: `Tablo: 0 | CatID eklenen satir: 0`. **Neden 0:** `00
 ### 6.5 `figma-tokens.ps1`
 
 ```
-mobile -> tokens-mobile.json | node=40 | c=21 t=7 s=2 r=11 sp=2 sz=35 | korunan eski=0
-1024 -> tokens-1024.json | node=13901 | c=3678 t=777 s=866 r=1364 sp=117 sz=8228 | korunan eski=340
-3840 -> tokens-3840.json | node=1 | c=0 t=0 s=0 r=0 sp=0 sz=0 | korunan eski=0
-plan -> tokens-plan.json | node=2619 | c=1212 t=172 s=304 r=234 sp=10 sz=1982 | korunan eski=0
-tv -> tokens-tv.json | node=1 | c=0 t=0 s=0 r=0 sp=0 sz=0 | korunan eski=0
-system -> tokens-system.json | node=21768 | c=9492 t=724 s=401 r=360 sp=14 sz=17804 | korunan eski=0
-1920 -> tokens-1920.json | node=25979 | c=7220 t=3040 s=1517 r=2115 sp=191 sz=17855 | korunan eski=48
+mobile -> tokens-mobile.json | node=40 | c=21 t=7 s=2 r=11 sp=2 sz=35 | korunan eski=0 | DURUM: PASS
+1024 -> tokens-1024.json | node=13901 | c=3678 t=777 s=866 r=1364 sp=117 sz=8228 | korunan eski=340 | DURUM: PASS
+3840 -> tokens-3840.json | node=1 | c=0 t=0 s=0 r=0 sp=0 sz=0 | korunan eski=0 | BOS: tasarim yok | DURUM: BOS
+plan -> tokens-plan.json | node=2619 | c=1212 t=172 s=304 r=234 sp=10 sz=1982 | korunan eski=0 | DURUM: PASS
+tv -> tokens-tv.json | node=1 | c=0 t=0 s=0 r=0 sp=0 sz=0 | korunan eski=0 | BOS: tasarim yok | DURUM: BOS
+system -> tokens-system.json | node=21768 | c=9492 t=724 s=401 r=360 sp=14 sz=17804 | korunan eski=0 | DURUM: PASS
+1920 -> tokens-1920.json | node=25979 | c=7220 t=3040 s=1517 r=2115 sp=191 sz=17855 | korunan eski=48 | DURUM: PASS
 
 Cakisma logu: C:\www\coremusic.net\.ai\ui-design\reference\figma\token-conflicts.md (400 satir)
+SONUC -> toplam=7 | pass=5 | bos=2 | fail=0 | bos_bp=3840,tv
 
 BITTI
 ```
 
-**7 breakpoint** üretildi ✅ · çakışma logu **406 satır** (400 veri satırı, betik sınırı 400) · betik çıktısında `FAIL` ifadesi **yok** → round-trip FAIL ölçümü bu kapıdan doğrulanamadı (§8-#6).
+**7 breakpoint** üretildi ✅ · çakışma logu **406 satır** (400 veri satırı, betik sınırı 400) · **Faz 9 doğrulama kapısı eklendi (2026-09-29):** her `$bp` için R1–R6 kontrolü (eksik kaynak/JSON okuma · token yazma + geri okuma + `_meta` / `_meta.counts` · `_meta.sections` ↔ disk sayımı · 6 haneli hex · boş üretim) → satır sonu `DURUM: PASS|BOS|FAIL`, sonda `SONUC -> toplam=7 | pass=5 | bos=2 | fail=0 | bos_bp=3840,tv` + `BITTI` ve **exit 0**. Round-trip `FAIL` ölçümü artık **betik içi kanıttır** (§8-#6 kapatıldı).
 
 ### 6.6 layoutGrids sayımı (`.ai/ui-design/reference/figma/raw/*.json`)
 
@@ -374,8 +375,8 @@ Faz 0–7 commit'leri bu listenin **dışında (daha eski)** — §5'te `git cat
 | 3 | `screens/T17-monitor-22fhd/welcome-popup.md` | `status: draft` + `source_of_truth: ⚠️ VERIFICATION REQUIRED — PNG bekleniyor` (20 spec'in tek draft'ı) | Draft ekran frontend kanıtı yapılmaz |
 | 4 | `tokens/tokens-3840.json` (**1367 bayt**) · `tokens/tokens-tv.json` (**1363 bayt**) | `_meta.counts` → `nodes:1`, `sections` tamamı **0** (c/t/s/r/sp/sz = 0) → tasarım yok | mobile/tablet/TV/4K katmanları `status: planlanmış`; token Figma'dan gelmez, **uydurulmaz** |
 | 5 | `reference/figma/png` envanter okuması | Önceki okuma **yanlıştı** (Faz 8b ölçümü): dizin **149** = **136** id-prefixed + **13** legacy; hedef **151** = 136 indirilen + **15 indirilemeyen node** (`/v1/images` → NULL, hepsi `visible: false`). Ham çekim logu korunur: `_extraction-notes.md` → `Extract: tam cekim (2026-09-29 19:16:45) = 149 dosya indirildi` (log yalanlanmaz, §7.1'de açıklanır). `figma-extract.ps1 -ImagesOnly` bu denetimde **yeniden çalıştırılmadı** (başka dosyaya yazar → yazma kapsamı ihlali); API tarafı scale 1/2 + 20'lik parti + tek tek sorgu ile **15/15 NULL** ölçüldü (§7.1) | İddia kapatıldı: "151 var" denmeyeceği gibi **"eksik" de denmez** — doğru ifade §7.1'dedir |
-| 6 | Token round-trip **FAIL=0** | `figma-tokens.ps1` çıktısında `FAIL` **geçmiyor** (yalnız 7 breakpoint + `BITTI`); iddia yalnız commit subject (`f02d02b`) ve plan satırında | `⚠️ VERIFICATION REQUIRED` — kapıdan doğrulanmadı |
-| 7 | PS 5.1 `.ps1` BOM kuralı (keys.md §15 madde 6 / Guardrail #16) | `.ai/scripts/*.ps1` → **6 dosyanın 1'inde** BOM var (`kalip-abc-check.ps1`); **5'inde yok** (`device-matrix-catid`, `figma-extract`, `figma-tokens`, `screens-frontmatter-check`, `wiki-link-check`) | Kural ihlali açık borç; bu denetimde kapılar Türkçe mojibake üretmeden çalıştı |
+| 6 | ~~Token round-trip **FAIL=0**~~ — **KAPATILDI (Faz 9, 2026-09-29)** | Kapı betiğe eklendi; gerçek ölçüm: `SONUC -> toplam=7 \| pass=5 \| bos=2 \| fail=0 \| bos_bp=3840,tv` · `BITTI` · **exit 0** (§6.5) | **Kapatıldı** — iddia artık betik çıktısıyla kanıtlanır; commit subject (`f02d02b`) tek dayanak olmaktan çıktı |
+| 7 | PS 5.1 `.ps1` BOM kuralı (keys.md §15 madde 6 / Guardrail #16) | `.ai/scripts/*.ps1` → **6 dosyanın 2'sinde** BOM var (`kalip-abc-check.ps1` · `figma-tokens.ps1` — Faz 9'da eklendi); **4'ünde yok** (`device-matrix-catid`, `figma-extract`, `screens-frontmatter-check`, `wiki-link-check`) | `figma-tokens.ps1` ihlali kapatıldı; kalan 4 dosya açık borç — bu denetimde kapılar Türkçe mojibake üretmeden çalıştı |
 | 8 | `00-device-matrix.md` §3 `Web & Özel (T41-T45)` tablosu | `CatID` başlığı **yok** (tablo `| Tier |` ile başlıyor) → §2.1'de `WB` öneki tanımlı, §3'te `WB-*` veri satırı **0** | Açık borç; T07 çakışmasını etkilemez |
 | 9 | Figma anahtarı md/json içine yazılmaz (Guardrail #3) | Gizli token (`FIGMA_TOKEN` değeri / `figd_`) ui-design genelinde **0 eşleşme** ✅ · Figma **file key** ise 7 token JSON'un `_meta.source` satırında + `tokens-1024.json` içinde 2 figma.com URL anahtarı | Token yokluğu doğrulandı; file key yayını **açık borç** (orkestratör kararı) |
 | 10 | `.env.figma` SSOT | `.gitignore:68` = `.ai/.env.figma` · `:69` = `.ai/.env.*` ✅ | Token hiçbir `.md`'ye yazılmaz; ayrıca `.md` = BOM'suz, `.ps1` = BOM'lu |
@@ -398,8 +399,8 @@ Faz 0–7 commit'leri bu listenin **dışında (daha eski)** — §5'te `git cat
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 3.1.1 |
-| Status | QA denetim tamamlandı — kapı 1-4 GECTI (A:0 B:0 C:0 · frontmatter 21/0 · wiki-link gerçek kırık 0 · CatID T07 çözümlü), kapı 5 kısmi (7 breakpoint ✅ / FAIL ölçülmedi → §8-#6); **PNG envanter gerçeği işlendi (Faz 8b §7.1 — 151/136/15/13/149)** |
+| Version | 3.1.2 |
+| Status | QA denetim tamamlandı — kapı 1-5 GECTI (A:0 B:0 C:0 · frontmatter 21/0 · wiki-link gerçek kırık 0 · CatID T07 çözümlü · **figma-tokens: `SONUC -> toplam=7 \| pass=5 \| bos=2 \| fail=0 \| bos_bp=3840,tv` + exit 0 — Faz 9 kapısı**); **PNG envanter gerçeği işlendi (Faz 8b §7.1 — 151/136/15/13/149)** |
 | Verification Steps | 6 |
 | Tier Matrix | 6 rows |
 | Red Flags | 7 |
@@ -407,7 +408,7 @@ Faz 0–7 commit'leri bu listenin **dışında (daha eski)** — §5'te `git cat
 | Gate Scripts | 5 (§6 — birebir çıktı) |
 | Faz Kaydı | 8 faz (§5 — Faz 0-7 commit kanıtlı 7/7, Faz 8 commit'i orkestratörde) |
 | Disk Envanteri | §7 — 120 md · 27 json · 19 PNG · PNG **151 hedef / 136 indirilen / 15 gizli node** (§7.1) · raw 79.7 MB |
-| Açık Borç | 10 satır (§8 — flow 44 · prompt 93 · draft 1 · boş token 2 · PNG envanter 15 gizli (§7.1) · BOM 5 · file key 7) |
+| Açık Borç | 9 satır açık + 1 kapatıldı (§8 — flow 44 · prompt 93 · draft 1 · boş token 2 · PNG envanter 15 gizli (§7.1) · BOM 4 · file key 7; **#6 Faz 9 kapısıyla kapatıldı**) |
 | Last Updated | 2026-09-29 |
 
 ---

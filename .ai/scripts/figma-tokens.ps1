@@ -1,4 +1,4 @@
-#Requires -Version 5.1
+﻿#Requires -Version 5.1
 <#
   figma-tokens.ps1 — CoreMusic design token üretimi (Figma ham JSON -> tokens-*.json)
   Kural: Figma taze degeri SSOT; eski anahtarlar korunur (veri kaybi yok);
@@ -21,6 +21,14 @@ $KEY = ([regex]::Match($ENVRAW, 'FIGMA_FILE_KEY=(\S+)')).Groups[1].Value
 if (-not $KEY) { throw 'FIGMA_FILE_KEY bos' }
 $stamp = Get-Date -Format 'yyyy-MM-dd'
 $script:CONFLICT_OVERFLOW = 0
+
+# --- Faz 9: dogrulama kapasi (global durum sayaclari) ---
+# Kural seti (R1-R6) ana dongu icinde uygulanir; token uretimi, Merge-Old, cakisma logu
+# ve SSOT (.env.figma regex'i) AYNEN KALIR - yalnizca dogrulama + raporlama eklenir.
+$SECTIONS     = @('colors','typography','shadows','radii','spacing','sizes')
+$EXPECT_EMPTY = @('3840','tv')   # Figma'da bos sayfalar (olcum: raw 326:3386 / 16:106 -> 0 token)
+$passCount = 0; $bosCount = 0; $failCount = 0
+$bosBps = @(); $failBps = @()
 
 New-Item -ItemType Directory -Force -Path $TOK | Out-Null
 
@@ -199,10 +207,12 @@ $report = @()
 foreach ($bp in $SRC.Keys) {
   $bag = New-Bag
   $filesUsed = @()
+  $fails = @()   # bu breakpoint icin tetiklenen kurallar (bosssa ve ihlal yoksa -> BOS)
   foreach ($f in $SRC[$bp]) {
     $p = Join-Path $RAW $f
-    if (-not (Test-Path $p)) { Write-Host "EKSIK KAYNAK: $f ($bp)" -ForegroundColor Yellow; continue }
-    $j = Read-JsonFile $p
+    if (-not (Test-Path $p)) { $fails += "R1 EKSIK KAYNAK: $f"; Write-Host "EKSIK KAYNAK: $f ($bp)" -ForegroundColor Yellow; continue }
+    try { $j = Read-JsonFile $p }
+    catch { $fails += "R1 JSON OKUMA HATASI: $f -> $($_.Exception.Message)"; Write-Host "JSON OKUMA HATASI: $f ($bp)" -ForegroundColor Yellow; continue }
     if (-not $j.nodes) { continue }
     foreach ($k in $j.nodes.PSObject.Properties.Name) {
       # nodes-user-12.json sadece ilgili breakpoint node'larini verir
@@ -217,7 +227,8 @@ foreach ($bp in $SRC.Keys) {
   }
 
   $oldPath = Join-Path $TOK "tokens-$bp.json"
-  $kept = Merge-Old $bag $oldPath
+  $kept = 0
+  try { $kept = Merge-Old $bag $oldPath } catch { $fails += "R1 ESKI TOKEN OKUMA HATASI: $($_.Exception.Message)" }
 
   $meta = [ordered]@{
     generated = $stamp
@@ -235,9 +246,54 @@ foreach ($bp in $SRC.Keys) {
   $out = [ordered]@{ _meta = $meta }
   foreach ($sec in @('colors','typography','shadows','radii','spacing','sizes')) { $out[$sec] = $bag[$sec] }
 
-  $emptyDesign = ($bag._counts.nodes -eq 0)
-  Save-Json $oldPath $out
-  $line = "$bp -> tokens-$bp.json | node=$($bag._counts.nodes) | c=$($bag.colors.Count) t=$($bag.typography.Count) s=$($bag.shadows.Count) r=$($bag.radii.Count) sp=$($bag.spacing.Count) sz=$($bag.sizes.Count) | korunan eski=$kept" + $(if($emptyDesign){' | BOS: tasarim yok'}else{''})
+  # ---- R2: token yazildi mi? geri okunup parse edilebildi mi? _meta / _meta.counts var mi? ----
+  try { Save-Json $oldPath $out } catch { $fails += "R2 token yazma hatasi: $($_.Exception.Message)" }
+
+  $rj = $null
+  if (-not (Test-Path $oldPath)) { $fails += 'R2 token dosyasi diskte yok' }
+  else {
+    try { $rj = Read-JsonFile $oldPath } catch { $fails += "R2 geri okuma/parse hatasi: $($_.Exception.Message)" }
+    if ($null -eq $rj) { $fails += 'R2 geri okunamadi' }
+  }
+  if ($null -ne $rj) {
+    if (-not $rj.PSObject.Properties['_meta']) { $fails += 'R2 _meta yok' }
+    else {
+      if (-not $rj._meta.PSObject.Properties['counts']) { $fails += 'R2 _meta.counts yok' }
+      # ---- R3: _meta.sections <> diskteki gercek bolum sayimi ----
+      foreach ($sec in $SECTIONS) {
+        $decl = $null
+        if ($rj._meta.PSObject.Properties['sections'] -and $rj._meta.sections.PSObject.Properties[$sec]) { $decl = $rj._meta.sections.$sec }
+        $disk = 0
+        if ($rj.PSObject.Properties[$sec] -and $null -ne $rj.$sec) { $disk = @($rj.$sec.PSObject.Properties).Count }
+        if ($null -eq $decl) { $fails += "R3 _meta.sections.$sec yok" }
+        elseif ([int]$decl -ne [int]$disk) { $fails += "R3 $sec sayim uyusmazligi: meta=$decl disk=$disk" }
+      }
+    }
+    # ---- R4: colors degeri 6 haneli hex (Hex() AABBCC uretir, disa '#'+deger yazilir; '@opaklik' eki serbest) ----
+    if ($rj.PSObject.Properties['colors'] -and $null -ne $rj.colors) {
+      foreach ($p2 in $rj.colors.PSObject.Properties) {
+        $v = [string]$p2.Value
+        if ($v -notmatch '^#[0-9A-Fa-f]{6}( @[0-9.]+)?$') { $fails += "R4 gecersiz hex: $($p2.Name) = [$v]"; break }
+      }
+    }
+  }
+
+  # ---- R5: bos siniflandirmasi (olcum: sayfa kok node sayildigi icin 3840/tv nodes=1, bolum toplami 0) ----
+  $nodeCount = [int]$bag._counts.nodes
+  $secSum = 0
+  foreach ($sec in $SECTIONS) { $secSum += [int]$bag.$sec.Count }
+  $emptyDesign = ($nodeCount -eq 0 -or $secSum -eq 0)
+  if ($emptyDesign -and ($EXPECT_EMPTY -notcontains $bp)) {
+    $fails += "R5 bos uretim: nodes=$nodeCount bolum_toplami=$secSum (Figma'da tasarim var)"
+  }
+
+  # ---- R6: hicbir kural tetiklenmediyse PASS ----
+  $status = if ($fails.Count -gt 0) { 'FAIL' } elseif ($emptyDesign) { 'BOS' } else { 'PASS' }
+  if ($status -eq 'FAIL') { $failCount++; $failBps += $bp }
+  elseif ($status -eq 'BOS') { $bosCount++; $bosBps += $bp }
+  else { $passCount++ }
+
+  $line = "$bp -> tokens-$bp.json | node=$($bag._counts.nodes) | c=$($bag.colors.Count) t=$($bag.typography.Count) s=$($bag.shadows.Count) r=$($bag.radii.Count) sp=$($bag.spacing.Count) sz=$($bag.sizes.Count) | korunan eski=$kept" + $(if($emptyDesign){' | BOS: tasarim yok'}else{''}) + " | DURUM: $status" + $(if($fails.Count -gt 0){' | HATA: ' + ($fails -join ' ; ')}else{''})
   $report += $line
   Write-Host $line
 }
@@ -249,4 +305,9 @@ if ($script:CONFLICTS.Count -gt 0) {
   [System.IO.File]::WriteAllText("$FIG\token-conflicts.md", $md, $enc)
   Write-Host "`nCakisma logu: $FIG\token-conflicts.md ($($script:CONFLICTS.Count) satir)"
 }
+# ---- Faz 9: ozet satiri (BITTI'den hemen once) + exit kodu ----
+$bosList = if ($bosBps.Count -gt 0) { $bosBps -join ',' } else { '-' }
+$sonuc = "SONUC -> toplam=$($SRC.Keys.Count) | pass=$passCount | bos=$bosCount | fail=$failCount | bos_bp=$bosList"
+Write-Host $sonuc -ForegroundColor $(if ($failCount -gt 0) { 'Red' } else { 'Green' })
 Write-Host "`nBITTI" -ForegroundColor Green
+if ($failCount -gt 0) { exit 1 } else { exit 0 }
