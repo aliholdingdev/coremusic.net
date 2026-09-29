@@ -158,7 +158,14 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.card`, `.card__image`, `.card__title` | blok — albüm grid kartları (bu dosya L75-L87); TV tier "Large cards" (L154) | default, hover, active, loading, skeleton | 02-component-inventory.md L55 (C03) |
+| `.btn`, `.btn--primary` | blok — [▶ Tümünü Oynat] / [🔀 Karışık] (bu dosya L100), satır [▶] (L103-L106) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+| `.dropdown`, `.dropdown__item` | blok — Filtre Butonu: Tür / Yıl / Sanatçı (bu dosya L33, L120-L126) | closed, open, item-hover, item-active | 02-component-inventory.md L165 (C14) |
+| `.toast`, `.toast--error` | blok — "Albüm bulunamadı" / "Bu albümde şarkı yok" (bu dosya L141, L143) | showing, hiding, success, error, info | 02-component-inventory.md L185 (C16) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`).
 
 ---
 

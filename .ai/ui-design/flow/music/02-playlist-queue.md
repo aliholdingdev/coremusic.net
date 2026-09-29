@@ -186,7 +186,14 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.btn`, `.btn--primary`, `.btn--danger` | blok — "+" Butonu (bu dosya L68), [+ Şarkı Ekle] / [Playlisti Sil] (L159) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+| `.modal`, `.modal__footer` | blok — silme onayı "Emin misin?" (bu dosya L41-L43); tier tablosu "Tap + modal" (L179-L180) | closed, opening, open, closing | 02-component-inventory.md L95 (C07) |
+| `.dropdown`, `.dropdown__menu` | blok — [⋯] satır menüsü (bu dosya L149) ve Desktop "Right-click menu" (L181) | closed, open, item-hover, item-active | 02-component-inventory.md L165 (C14) |
+| `.card`, `.card__title` | blok — playlist detay kartı (bu dosya L148-L160) | default, hover, active, loading, skeleton | 02-component-inventory.md L55 (C03) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`).
 
 ---
 

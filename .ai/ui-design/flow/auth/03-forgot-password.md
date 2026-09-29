@@ -179,7 +179,15 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.input`, `.input__label` | eleman — E-posta (bu dosya L95), token alanı (L112), yeni şifre + tekrar (L130-L131) | default, focus, error, success, disabled | 02-component-inventory.md L75 (C05) |
+| `.btn`, `.btn--primary` | blok — [▶ Sıfırlama Linki Gönder] (L97), [▶ Doğrula] (L116), [▶ Şifreyi Güncelle] (L135) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+| `.progress`, `.progress__fill` | blok — "Şifre gücü: ██████░░░░ (Orta)" çubuğu (bu dosya L133) | determinate, indeterminate, error | 02-component-inventory.md L175 (C15) |
+| `.modal` | blok — Embedded tier "Modal overlay" form tipi (bu dosya L164) | closed, opening, open, closing | 02-component-inventory.md L95 (C07) |
+| `.nav-link` | eleman — "← Giriş Yap'a Dön" geri bağlantısı (bu dosya L99) | default, hover, active, disabled | 02-component-inventory.md L35 (C01) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`).
 
 ---
 

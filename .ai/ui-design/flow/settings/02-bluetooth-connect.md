@@ -199,7 +199,14 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.modal`, `.modal__content` | blok — MODAL (w:480 / w:400 / w:400, glass) ekranları (bu dosya L118, L141, L158); Embedded tier "Modal overlay" (L193) | closed, opening, open, closing | 02-component-inventory.md L95 (C07) |
+| `.toggle`, `.toggle--active` | blok — "Bluetooth ⟷ (toggle: pembe)" (bu dosya L121); durum tablosu Toggle ON/OFF (L102-L103) | off, on, disabled | 02-component-inventory.md L105 (C08) |
+| `.btn`, `.btn--primary`, `.btn--secondary` | blok — [Eşleştir] (L127-L129), [Bağlantıyı Kes] (L124), [+ Yeni Cihaz Tara] (L131), [İptal] (L148) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+| `.toast`, `.toast--error` | blok — "Eşleşme başarısız" / "Cihaz bulunamadı" / "Sinyal gücü düşük" uyarıları (bu dosya L181-L185) | showing, hiding, success, error, info | 02-component-inventory.md L185 (C16) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`).
 
 ---
 

@@ -169,7 +169,14 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.card`, `.card__image` | blok — sanatçı grid kartları (bu dosya L80-L89) ve albüm kartları (L112-L116) | default, hover, active, loading, skeleton | 02-component-inventory.md L55 (C03) |
+| `.tab`, `.tab-list`, `.tab--active` | eleman — [Albümler] [Popüler] [İlişkili] sekme satırı (bu dosya L104) | default, hover, active, disabled | 02-component-inventory.md L85 (C06) |
+| `.avatar` | blok — sanatçı FOTOĞRAF alanı (bu dosya L43, L98-L100) | default, with-image, with-initials, online, offline | 02-component-inventory.md L135 (C11) |
+| `.btn`, `.btn--primary`, `.btn--ghost` | blok — [▶ Tümünü Oynat], [❤️ Takip] (bu dosya L101-L102) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`).
 
 ---
 

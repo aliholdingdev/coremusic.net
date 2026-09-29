@@ -98,7 +98,31 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 2. Ekran Akışı
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; ekran/sahne listesi screens/ karşılıkları doğrulanarak doldurulacak.
+| # | Ekran / Sahne | Kaynak dosya | Geçiş koşulu |
+|---|---------------|--------------|--------------|
+| 1 | home-dashboard | `screens/T07-embedded/home-dashboard.md` | `/home` (bu dosya L80) |
+| 2 | welcome-popup | `screens/T07-embedded/welcome-popup.md` | — |
+| 3 | albums | `screens/T07-embedded/albums.md` | `/albums` (bu dosya L81) |
+| 4 | album-detail | `screens/T07-embedded/album-detail.md` | — |
+| 5 | singer | `screens/T07-embedded/singer.md` | `/artists` (bu dosya L82) |
+| 6 | playlist | `screens/T07-embedded/playlist.md` | — |
+| 7 | playlist-video | `screens/T07-embedded/playlist-video.md` | — |
+| 8 | browse | `screens/T07-embedded/browse.md` | — |
+| 9 | browse-clicked | `screens/T07-embedded/browse-clicked.md` | — |
+| 10 | wifi-quick | `screens/T07-embedded/wifi-quick.md` | — |
+| 11 | wifi-connect-light | `screens/T07-embedded/wifi-connect-light.md` | — |
+| 12 | bluetooth-quick | `screens/T07-embedded/bluetooth-quick.md` | — |
+| 13 | login | `screens/shared/login.md` | `/auth/login` (bu dosya L85) |
+| 14 | register-step1 | `screens/shared/register-step1.md` | `/auth/register` (bu dosya L86) |
+| 15 | register-step2 | `screens/shared/register-step2.md` | `/auth/register` (bu dosya L86) |
+| 16 | register-step3 | `screens/shared/register-step3.md` | `/auth/register` (bu dosya L86) |
+| 17 | select-gender | `screens/shared/select-gender.md` | `/auth/gender` (bu dosya L87) |
+| 18 | select-gender-selected | `screens/shared/select-gender-selected.md` | `/auth/gender` (bu dosya L87) |
+| 19 | home-dashboard (1920) | `screens/T17-monitor-22fhd/home-dashboard.md` | `/home` (bu dosya L80) |
+| 20 | welcome-popup (1920) | `screens/T17-monitor-22fhd/welcome-popup.md` | — *(status: draft)* |
+| 21 | Screen Specification Index | `screens/00-ascii-art-index.md` | yukarıdaki 20 satırın kaynağı (§3 L50-L65, §4 L67-L76, §5 L78-L83) |
+
+> **Kaynak:** [[../../screens/00-ascii-art-index]] v6.2.0 — §3 (T07 12 dosya), §4 (shared 6 dosya), §5 (T17 2 dosya) + bu indeks = **21 dosya** (index L27 "20 screen spec", L44 toplam 20). `singer` ↔ `/artists` eşlemesi: index L58 ("Sanatçılar: dairesel kartlar") + bu dosya L82 (Artists Page). Route tablosunda karşılığı olmayan sahne "—" ile işaretlendi (uydurma geçiş yazılmadı). T17 `welcome-popup` `status: draft` + PNG yok (index L83) → frontend kanıtı olarak kullanılamaz.
 
 ---
 
@@ -110,13 +134,24 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 4. Tier-Bazlı Varyasyonlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; 7 tier satırı 00-device-matrix.md ile eşleştirilerek doldurulacak.
+| Tier | Cihaz | Varyasyon tipi | Örnek davranış | Kaynak |
+|------|-------|----------------|----------------|--------|
+| Phone (PH-T01–PH-T05) | T01–T05 telefonlar | Alt tab navigasyon | Bottom Tab: [🏠 Ana Sayfa] [📚 Kütüphane] [⚙️ Ayarlar] (bu dosya L29); matrix özellikleri "Bottom tab nav" (L86) | 00-device-matrix.md L71-L86 |
+| T07 (EM-T07) | RPi5 7" — 1024×600 | 2 sütun, sidebar yok | Header Nav 4 öğe (bu dosya L24) | 00-device-matrix.md L111 |
+| T17 (DM-T17) | 22" FHD Monitor — 1920×1080 | 3 sütun | Header Nav 8 öğe (bu dosya L24-L25) | 00-device-matrix.md L138 |
+
+> **Kaynak:** [[../../00-device-matrix]] §3 (L69-L284). Bu dosyanın frontmatter'ında `tier:` alanı yok (L1-L12); satırlar yalnızca dosya içi kanıtla (L24-L29) eşleştirildi — kanıtsız tier için satır üretilmedi. Route Handler tier'dan bağımsızdır (bu dosya L48-L57).
 
 ---
 
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.nav-link`, `.nav-link--active` | eleman — Header Nav linkleri (bu dosya L24-L25) ve `#header-nav.active` (L62) | default, hover, active, disabled | 02-component-inventory.md L35 (C01) |
+| `.tab`, `.tab-list`, `.tab--active` | eleman — Bottom Tab: [🏠 Ana Sayfa] [📚 Kütüphane] [⚙️ Ayarlar] (bu dosya L29) | default, hover, active, disabled | 02-component-inventory.md L85 (C06) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`). Footer player'ın `#footer-player.show()` durumu (bu dosya L63) DOM/id katmanıdır, BEM sınıfı değildir.
 
 ---
 

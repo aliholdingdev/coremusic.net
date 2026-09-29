@@ -152,7 +152,15 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.modal`, `.modal__content` | blok — Onay Modalı "Çıkış yapmak istediğine emin misin?" (bu dosya L29-L35, L76-L84) | closed, opening, open, closing | 02-component-inventory.md L95 (C07) |
+| `.btn`, `.btn--secondary`, `.btn--danger` | blok — [Hayır, Kalsın] / [Evet, Çıkış Yap] (bu dosya L82) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+| `.nav-link` | eleman — header menü öğesi [🚪 Logout] (bu dosya L72); tier tablosunda "Menu item" (L138, L140) | default, hover, active, disabled | 02-component-inventory.md L35 (C01) |
+| `.avatar` | blok — header'da [👤 Kullanıcı Adı] (bu dosya L72) | default, with-image, with-initials, online, offline | 02-component-inventory.md L135 (C11) |
+| `.toast`, `.toast--error` | blok — "Çıkış yapılamadı" hata mesajı (bu dosya L129) | showing, hiding, success, error, info | 02-component-inventory.md L185 (C16) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`).
 
 ---
 

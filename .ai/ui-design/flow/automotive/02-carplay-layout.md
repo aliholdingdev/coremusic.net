@@ -92,13 +92,24 @@ Kullanıcı: "Hey Siri, CoreMusic'te devam et"
 
 ## 4. Tier-Bazlı Varyasyonlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; 7 tier satırı 00-device-matrix.md ile eşleştirilerek doldurulacak.
+| Tier | Cihaz | Varyasyon tipi | Örnek davranış | Kaynak |
+|------|-------|----------------|----------------|--------|
+| T30 (AU-T30) | Apple CarPlay (Küçük) — 800×480 | Touch+Voice, 2 sütun | viewport 800×480 (bu dosya L41), grid 2-3 sütun (L42), touch 80px (L43) | 00-device-matrix.md L178 |
+| T30 (AU-T30) | Apple CarPlay (Büyük) — 1920×720 | Touch+Voice, 3 sütun | viewport 1920×720 (bu dosya L41); alt tab bar (L45) | 00-device-matrix.md L179 |
+
+> **Kaynak:** [[../../00-device-matrix]] §3 "🚗 Automotive (T29-T30)" (L172-L182); bu dosyanın frontmatter `tier: T30` (L10) ile eşleşir. Matrix AU-T30 üçüncü cihaz satırı — Tesla Model 3/Y 1920×1200 (L180) — bu dosyanın viewport listesinde (L41) geçmiyor → kapsam dışı. Android Auto (AU-T29) bu akışın değildir → `flow/automotive/01-android-auto-layout.md`.
 
 ---
 
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.tab`, `.tab-list` | eleman — Navigation: "Tab bar (alt)" (bu dosya L45) | default, hover, active, disabled | 02-component-inventory.md L85 (C06) |
+| `.btn`, `.btn--lg` | blok — [◀◀] [▶] [▶▶] / [🔀] [♥] [🔊] kontrol butonları (bu dosya L69-L70) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+| `.slider`, `.slider__thumb` | blok — seek çubuğu "══════════○═══════════" (bu dosya L66) | default, dragging, disabled | 02-component-inventory.md L115 (C09) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`). Geri/ileri [◀] [⋯] ikonları (bu dosya L55) navigasyon ikonudur, envanterde ayrı sınıfı yoktur.
 
 ---
 

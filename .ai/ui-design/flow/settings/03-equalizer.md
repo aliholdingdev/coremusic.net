@@ -165,7 +165,14 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.modal`, `.modal__content` | blok — MODAL (w:600, glass) (bu dosya L71) | closed, opening, open, closing | 02-component-inventory.md L95 (C07) |
+| `.slider`, `.slider__track`, `.slider__fill` | blok — EQ Slider / 31-band parametrik bantlar (bu dosya L36-L39, L76-L88); Phone/Tablet "Slider-based" (L144-L145) | default, dragging, disabled | 02-component-inventory.md L115 (C09) |
+| `.tab`, `.tab--active` | eleman — [Preset] [Custom] sekme seçimi (bu dosya L73) | default, hover, active, disabled | 02-component-inventory.md L85 (C06) |
+| `.btn`, `.btn--secondary` | blok — [+6dB] [0dB] [-6dB] [Sıfırla] [Kaydet] (bu dosya L91) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`). Preset listesi (bu dosya L154-L163) veri tablosudur, BEM sınıfı değildir.
 
 ---
 

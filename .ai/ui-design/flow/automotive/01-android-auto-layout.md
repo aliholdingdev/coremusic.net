@@ -81,13 +81,24 @@ Kullanıcı: "Hey Google, CoreMusic'te [şarkı adı] çal"
 
 ## 4. Tier-Bazlı Varyasyonlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; 7 tier satırı 00-device-matrix.md ile eşleştirilerek doldurulacak.
+| Tier | Cihaz | Varyasyon tipi | Örnek davranış | Kaynak |
+|------|-------|----------------|----------------|--------|
+| T29 (AU-T29) | Android Auto (Küçük) — 800×480 | Touch+Voice, 2 sütun | viewport 800×480, grid 2 sütun, touch target 80px (bu dosya L41-L43) | 00-device-matrix.md L176 |
+| T29 (AU-T29) | Android Auto (Orta) — 1280×720 | Touch+Voice, 2 sütun | viewport 1280×720 (bu dosya L41), font 1.125 (matrix) | 00-device-matrix.md L177 |
+
+> **Kaynak:** [[../../00-device-matrix]] §3 "🚗 Automotive (T29-T30)" (L172-L182); bu dosyanın frontmatter `tier: T29` (L10) ile eşleşir. Matrix'in AU-T30 satırları (L178-L180) bu akışın kapsamı değildir → `flow/automotive/02-carplay-layout.md`.
 
 ---
 
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.card`, `.card--compact` | blok — "Son Çalınan (2 kart)" / "Radyo (1 kart)" (bu dosya L60-L61) | default, hover, active, loading, skeleton | 02-component-inventory.md L55 (C03) |
+| `.btn`, `.btn--lg` | blok — kontrol butonları [◀◀] [▶] [▶▶] [🔀] [🔊] (bu dosya L58) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+| `.slider`, `.slider__thumb` | blok — seek çubuğu "══════○═══════════════════" (bu dosya L57) | default, dragging, disabled | 02-component-inventory.md L115 (C09) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`). Güvenlik kuralı "Animasyon devre dışı" (bu dosya L46) tier davranışıdır, sınıf değildir.
 
 ---
 

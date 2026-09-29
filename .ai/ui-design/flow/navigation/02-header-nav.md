@@ -166,7 +166,15 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.nav-link`, `.nav-link--active` | eleman — header menü öğeleri (bu dosya L72-L73, L94) ve hamburger menü linkleri (L107-L116) | default, hover, active, disabled | 02-component-inventory.md L35 (C01) |
+| `.input`, `.input__label` | eleman — "Arama Input" (bu dosya L42) ve header 🔍 alanı (L74) | default, focus, error, success, disabled | 02-component-inventory.md L75 (C05) |
+| `.dropdown`, `.dropdown__menu` | blok — hamburger menü overlay ("Menü Aç Overlay", bu dosya L43, L99-L118) | closed, open, item-hover, item-active | 02-component-inventory.md L165 (C14) |
+| `.avatar` | blok — header ikonu [👤] (bu dosya L74) | default, with-image, with-initials, online, offline | 02-component-inventory.md L135 (C11) |
+| `.toast`, `.toast--error` | blok — "Bağlantı yok" banner'ı (bu dosya L142) | showing, hiding, success, error, info | 02-component-inventory.md L185 (C16) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`).
 
 ---
 

@@ -224,7 +224,14 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.btn`, `.btn--primary` | blok — "Devam Et" / "Kayıt Ol" butonları; seçim yapılmadan `disabled` (bu dosya L70-L72, L134, L176, L195) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+| `.input`, `.input__label` | eleman — Ad Soyad / E-posta / Şifre / Şifre Tekrar alanları (bu dosya L127-L130) | default, focus, error, success, disabled | 02-component-inventory.md L75 (C05) |
+| `.modal` | blok — Desktop "Modal wizard" ve TV "Large modal" tier'ları (bu dosya L220-L221) | closed, opening, open, closing | 02-component-inventory.md L95 (C07) |
+| `.avatar` | blok — 3. adımda profil fotoğrafı yükleme alanı (bu dosya L167-L172) | default, with-image, with-initials, online, offline | 02-component-inventory.md L135 (C11) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`). Bu akışa özgü `.wizard__*` sınıfları §3A'da tanımlıdır (bu dosya L200-L211) — envanterde (C01-C19) karşılığı yoktur, eşleştirilmedi.
 
 ---
 

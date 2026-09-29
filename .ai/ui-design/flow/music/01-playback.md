@@ -183,7 +183,14 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.btn`, `.btn--primary` | blok — oynatma kontrolleri [⏮] [▶] [⏹] [⏭] (bu dosya L125, L162-L164) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+| `.toggle`, `.toggle--active` | blok — Karışık / Tekrar / Favori toggle'ları (bu dosya L166-L168) | off, on, disabled | 02-component-inventory.md L105 (C08) |
+| `.slider`, `.slider__fill` | blok — ses seviyesi "🔊 ━━━ %" (bu dosya L125) ve seek [T] (L169) | default, dragging, disabled | 02-component-inventory.md L115 (C09) |
+| `.progress`, `.progress__fill` | blok — "Progress Bar" (bu dosya L65) / "━━━━━━━━━━━━ 100%" (L142) | determinate, indeterminate, error | 02-component-inventory.md L175 (C15) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`).
 
 ---
 

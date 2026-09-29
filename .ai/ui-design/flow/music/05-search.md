@@ -198,7 +198,15 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.input`, `.input__label`, `.input__hint` | eleman — "Arama Inputu" (bu dosya L26) ve ekran [🔍 ____] alanı (L138) | default, focus, error, success, disabled | 02-component-inventory.md L75 (C05) |
+| `.dropdown`, `.dropdown__menu` | blok — autocomplete önerileri (bu dosya L31-L33, L116-L122) | closed, open, item-hover, item-active | 02-component-inventory.md L165 (C14) |
+| `.tab`, `.tab-list` | eleman — Desktop tier "Tabbed results" (bu dosya L186) | default, hover, active, disabled | 02-component-inventory.md L85 (C06) |
+| `.modal` | blok — Embedded/TV tier filtre "Modal" (bu dosya L185, L187) | closed, opening, open, closing | 02-component-inventory.md L95 (C07) |
+| `.card` | blok — sonuç kutuları (Şarkı/Albüm/Sanatçı/Playlist, bu dosya L143-L165) | default, hover, active, loading, skeleton | 02-component-inventory.md L55 (C03) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`).
 
 ---
 

@@ -94,13 +94,24 @@ Kullanıcı → Watch ekranı
 
 ## 4. Tier-Bazlı Varyasyonlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; 7 tier satırı 00-device-matrix.md ile eşleştirilerek doldurulacak.
+| Tier | Cihaz | Varyasyon tipi | Örnek davranış | Kaynak |
+|------|-------|----------------|----------------|--------|
+| T31 (WS-T31) | Apple Watch SE (40mm) / Series 9 (41mm) — 396×484 | Crown+Touch, tek sütun | viewport 396×484 (bu dosya L41), grid tek sütun (L42) | 00-device-matrix.md L188, L189 |
+| T32 (WS-T32) | Apple Watch Ultra 2 (49mm) — 502×410 | Crown+Touch, tek sütun | viewport 502×410 "Ultra" (bu dosya L41); crown ile ses/seek (L46) | 00-device-matrix.md L190 |
+
+> **Kaynak:** [[../../00-device-matrix]] §3 "⌚ Smart Watch (T31-T33)" (L184-L194); bu dosyanın frontmatter `tier: T31` (L10) ile eşleşir. Matrix WS-T32'nin Samsung Galaxy Watch 6 (44mm) satırı (L191) ve WS-T33 (L192, 480×480 dairesel) bu dosyada viewport olarak geçmiyor → kapsam dışı. Yinelenen §"Smart Watch Ek" bölümü (L230+) kullanılmadı — birincil bölüm SSG'dir.
 
 ---
 
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.btn`, `.btn--sm` | blok — [◀◀] [▶] [▶▶] (bu dosya L65) ve [Durdur] (L83) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+| `.slider`, `.slider__fill` | blok — ses "════════○════" (bu dosya L77) ve seek "═══○═══════════" (L63) | default, dragging, disabled | 02-component-inventory.md L115 (C09) |
+| `.toggle`, `.toggle--active` | blok — 🔀 Karışık / 🔁 Tekrarla / ♡ Favori (bu dosya L79-L81) | off, on, disabled | 02-component-inventory.md L105 (C08) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`). Crown/Press kontrolleri (bu dosya L68-L69) donanım girdisidir, BEM sınıfı değildir.
 
 ---
 

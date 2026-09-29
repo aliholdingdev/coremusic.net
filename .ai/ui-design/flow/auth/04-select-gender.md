@@ -148,7 +148,12 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.btn`, `.btn--primary` | blok — [▶ Devam Et] (bu dosya L88); seçim yapılmadan disabled (L41-L43, L124) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+| `.card`, `.card--compact` | blok — Kız / Erkek seçim kartları (bu dosya L75-L80); TV tier "Large cards" (L136) | default, hover, active, loading, skeleton | 02-component-inventory.md L55 (C03) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`). Tema renk değişkenleri (bu dosya L103-L118) token katmanına aittir, BEM sınıfı değildir.
 
 ---
 

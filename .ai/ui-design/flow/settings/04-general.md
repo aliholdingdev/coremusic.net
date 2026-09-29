@@ -173,7 +173,14 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 5. BEM Sınıfları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; sınıflar 02-component-inventory.md (C01-C16) ile eşleştirilerek doldurulacak.
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.modal`, `.modal__content` | blok — MODAL (w:500, glass) (bu dosya L77); Embedded tier "Modal" (L158) | closed, opening, open, closing | 02-component-inventory.md L95 (C07) |
+| `.toggle`, `.toggle--active` | blok — Push / Email / SMS / Karışık / Tekrar toggle'ları (bu dosya L90-L96) | off, on, disabled | 02-component-inventory.md L105 (C08) |
+| `.dropdown`, `.dropdown__menu` | blok — dil seçimi [Türkçe ▼] (bu dosya L87) ve kalite [Otomatik ▼] (L97) | closed, open, item-hover, item-active | 02-component-inventory.md L165 (C14) |
+| `.btn`, `.btn--primary`, `.btn--ghost` | blok — [İptal] [Kaydet] (bu dosya L99) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`).
 
 ---
 
