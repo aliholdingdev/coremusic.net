@@ -1,0 +1,15 @@
+# CoreMusic — gitleaks config
+# Kapı: .github/workflows/secret-scan.yml (gitleaks-action@v2 kökteki bu dosyayı otomatik kullanır)
+# Kural (ADR-034 §5.2 madde 5 + §4.1-R6): allowlist YALNIZ test dosyasındaki sahte
+# şifreleri kapsar — üretimi/ortamı kapsayan allowlist yasaktır, bulgu = PR engeli.
+
+title = "CoreMusic gitleaks"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Test dosyasindaki sahte/ornek sifreler (ADR-034 §5.2/5) - uretim kodu asla allowlist girmez"
+paths = [
+  '''auth\.coremusic\.net/tests/Unit/Domain/DTO/LoginRequestTest\.php$''',
+]

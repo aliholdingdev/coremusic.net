@@ -101,7 +101,9 @@ jobs:
         working-directory: ${{ matrix.project }}
 
       - name: PHPUnit
-        run: vendor/bin/phpunit ${{ matrix.args }}
+        run: vendor/bin/phpunit "$PHPUNIT_ARGS"
+        env:
+          PHPUNIT_ARGS: ${{ matrix.args }}
         working-directory: ${{ matrix.project }}
 
   composer-audit:
