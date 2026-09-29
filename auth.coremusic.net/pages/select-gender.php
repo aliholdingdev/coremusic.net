@@ -13,6 +13,21 @@ $genderAttr = htmlspecialchars($gender, ENT_QUOTES, 'UTF-8');
 $redirectUri = $_GET['redirect_uri'] ?? '';
 $clientId    = $_GET['client_id'] ?? 'coremusic-web';
 $responseType = $_GET['response_type'] ?? 'session';
+$cspNonce   = $_SESSION['csp_nonce'] ?? '';
+$nonceEsc   = htmlspecialchars($cspNonce, ENT_QUOTES, 'UTF-8');
+
+// API tabanı (Faz 3a): backend sözleşmesi değişmez — config'te tanımlı değilse varsayılan.
+// Sözleşme varsayılanı http://api.coremusic.net — sayfa HTTPS ise mixed-content engeli olmaması için scheme
+// AUTH_URL/MUSIC_URL ile aynı kuralda (COREMUSIC_SCHEME, ortam http ise sonuç aynen http olur).
+$apiUrl    = (defined('API_URL') && API_URL)
+    ? API_URL
+    : ((defined('COREMUSIC_SCHEME') && COREMUSIC_SCHEME) ? COREMUSIC_SCHEME : 'http') . '://api.coremusic.net';
+$apiUrlEsc = htmlspecialchars(rtrim((string)$apiUrl, '/'), ENT_QUOTES, 'UTF-8');
+
+// Session başlatılamadıysa set-gender POST'u CSRF reddiyle düşer — JS catch'i bunu loglar, kök neden burada loglanır.
+if ($csrf === '') {
+    error_log(json_encode(['level' => 'error', 'service' => 'auth.coremusic.net', 'message' => 'select-gender.php: csrf_token missing in session - POST /v1/auth/set-gender will be rejected']));
+}
 ?>
 <section class="lgn-page" data-gender="<?=$genderAttr?>">
 <div class="lgn-bg" aria-hidden="true"></div>
@@ -53,7 +68,7 @@ $responseType = $_GET['response_type'] ?? 'session';
     </div>
   </div>
   <div class="lgn-panel__inner-mid">
-  <div class="lgn-error" id="lgn-err"></div>
+  <div class="lgn-error" id="lgn-err" role="alert" aria-live="polite"></div>
   <form id="gender-form" method="post" action="/set-gender" class="lgn-gender-form">
     <input type="hidden" name="csrf_token" value="<?=$csrf?>">
     <input type="hidden" name="client_id" value="<?=htmlspecialchars($clientId, ENT_QUOTES, 'UTF-8')?>">
@@ -90,3 +105,84 @@ $responseType = $_GET['response_type'] ?? 'session';
 </div></div>
 </section>
 <!-- gender-select.js + auth-gender-bg.js loaded by HtmlShellRenderer -->
+<script nonce="<?=$nonceEsc?>">
+(function(){
+    var form=document.getElementById('gender-form');
+    if(!form) return;
+    var input=document.getElementById('gender-input');
+    var btn=document.getElementById('continue-btn');
+    var errEl=document.getElementById('lgn-err');
+    var API_URL='<?=$apiUrlEsc?>';
+    function showError(msg){
+        errEl.textContent=msg;
+        errEl.classList.add('lgn-error--on');
+    }
+    function resetBtn(){btn.disabled=false;btn.textContent='Devam Et';}
+    function focusFirstGender(){
+        var first=document.querySelector('.lgn-gender-btn');
+        if(first) first.focus();
+    }
+    /* HTTP koduna göre Türkçe mesaj — API sözleşmesi (Faz 3a) */
+    function messageFor(status,d){
+        var e=(d&&d.error)||{};
+        if(status===422){
+            var f=e.fields||null;
+            if(f){var ks=Object.keys(f);if(ks.length){var parts=[];ks.forEach(function(k){parts.push(f[k]);});return{msg:parts.join(' '),first:ks[0]};}}
+            return{msg:'Alan hatası.'};
+        }
+        switch(status){
+            case 429:return{msg:'Çok fazla deneme. Lütfen bekleyin.'};
+            case 500:return{msg:'Sistem hatası.'};
+            case 503:return{msg:'Bağlantı hatası, tekrar deneyin.'};
+        }
+        return{msg:e.message||'Seçimin kaydedilemedi. Lütfen tekrar deneyin.'};
+    }
+    // gender-select.js de submit dinler; aynı sayfada iki POST atılmaması için bu dinleyici
+    // kayıt sırası gereği önce çalışır ve stopImmediatePropagation ile dış modülü kapatır.
+    form.addEventListener('submit',function(e){
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        var gender=input.value;
+        if(!gender){
+            showError('Lütfen bir cinsiyet seçin.');
+            focusFirstGender();
+            return;
+        }
+        btn.disabled=true;
+        btn.textContent='Kaydediliyor...';
+        errEl.classList.remove('lgn-error--on');
+        try{localStorage.setItem('cm_gender',gender);}catch(ex){console.error('[auth] select-gender: localStorage write failed',ex);}
+        var redirectUri=(new URLSearchParams(window.location.search)).get('redirect_uri')||'';
+        fetch(API_URL+'/v1/auth/set-gender',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'X-Requested-With':'XMLHttpRequest',
+                'X-CSRF-Token':document.querySelector('[name=csrf_token]').value
+            },
+            body:JSON.stringify({gender:gender}),
+            credentials:'include'
+        }).then(function(r){return r.json().catch(function(){return null;}).then(function(b){return{status:r.status,body:b};});})
+        .then(function(res){
+            var d=res.body||{};
+            if(res.status>=200&&res.status<300){
+                try{localStorage.setItem('cm_gender',gender);}catch(ex){console.error('[auth] select-gender: localStorage write failed',ex);if(errEl){showError('Tema tercihi bu tarayıcıda kaydedilemedi.');}}
+                var data=d.data||d;
+                var target=data.redirect||d.redirect;
+                if(target){window.location.href=target;return;}
+                window.location.href=redirectUri?('/login?redirect_uri='+encodeURIComponent(redirectUri)):'/login';
+                return;
+            }
+            console.error('[auth] select-gender: api error',res.status,d);
+            var m=messageFor(res.status,d);
+            showError(m.msg);
+            resetBtn();
+            if(m.first==='gender'){focusFirstGender();}
+        }).catch(function(cause){
+            console.error('[auth] select-gender: request failed',cause);
+            showError('Bağlantı hatası. Lütfen tekrar deneyin.');
+            resetBtn();
+        });
+    });
+})();
+</script>

@@ -4,6 +4,19 @@ $genderEsc     = htmlspecialchars($_SESSION['cm_gender'] ?? $_SESSION['gender'] 
 $csrfTokenEsc  = htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8');
 $cspNonce      = $_SESSION['csp_nonce'] ?? '';
 $nonceEsc      = htmlspecialchars($cspNonce, ENT_QUOTES, 'UTF-8');
+
+// API tabanı (Faz 3a): backend sözleşmesi değişmez — config'te tanımlı değilse varsayılan.
+// Sözleşme varsayılanı http://api.coremusic.net — sayfa HTTPS ise mixed-content engeli olmaması için scheme
+// AUTH_URL/MUSIC_URL ile aynı kuralda (COREMUSIC_SCHEME, ortam http ise sonuç aynen http olur).
+$apiUrl    = (defined('API_URL') && API_URL)
+    ? API_URL
+    : ((defined('COREMUSIC_SCHEME') && COREMUSIC_SCHEME) ? COREMUSIC_SCHEME : 'http') . '://api.coremusic.net';
+$apiUrlEsc = htmlspecialchars(rtrim((string)$apiUrl, '/'), ENT_QUOTES, 'UTF-8');
+
+// Session başlatılamadıysa set-gender POST'u CSRF reddiyle düşer — JS catch'i bunu loglar, kök neden burada loglanır.
+if ($csrfTokenEsc === '') {
+    error_log(json_encode(['level' => 'error', 'service' => 'auth.coremusic.net', 'message' => 'set-gender.php: csrf_token missing in session - POST /set-gender will be rejected']));
+}
 ?>
 <section class="lgn-page" data-gender="neutral">
 <div class="lgn-bg" aria-hidden="true"></div>
@@ -42,7 +55,7 @@ $nonceEsc      = htmlspecialchars($cspNonce, ENT_QUOTES, 'UTF-8');
     </div>
   </div>
   <div class="lgn-panel__inner-mid">
-  <div class="lgn-error" id="gender-err"></div>
+  <div class="lgn-error" id="gender-err" role="alert" aria-live="polite"></div>
   <form id="gender-form" method="post" action="/set-gender" class="lgn-gender-form">
     <input type="hidden" name="csrf_token" value="<?=$csrfTokenEsc?>">
     <input type="hidden" id="gender-input" name="gender" value="neutral">
@@ -68,10 +81,39 @@ $nonceEsc      = htmlspecialchars($cspNonce, ENT_QUOTES, 'UTF-8');
     var input = document.getElementById('gender-input');
     var btn = document.getElementById('continue-btn');
     var btns = document.querySelectorAll('.lgn-gender-btn');
-    var errEl = document.createElement('div');
-    errEl.className = 'lgn-error';
-    errEl.id = 'gender-err';
-    form.insertBefore(errEl, form.firstChild);
+    // Aynı id'ye ikinci bir element üretme (duplicate id a11y hatası) — var olan kutuyu kullan.
+    var errEl = document.getElementById('gender-err');
+    if (!errEl) {
+        errEl = document.createElement('div');
+        errEl.className = 'lgn-error';
+        errEl.id = 'gender-err';
+        errEl.setAttribute('role', 'alert');
+        errEl.setAttribute('aria-live', 'polite');
+        form.insertBefore(errEl, form.firstChild);
+    }
+    var API_URL = '<?=$apiUrlEsc?>';
+    /* HTTP koduna göre Türkçe mesaj — API sözleşmesi (Faz 3a) */
+    function messageFor(status, d) {
+        var e = (d && d.error) || {};
+        if (status === 422) {
+            var f = e.fields || null;
+            if (f) {
+                var ks = Object.keys(f);
+                if (ks.length) {
+                    var parts = [];
+                    ks.forEach(function(k){ parts.push(f[k]); });
+                    return { msg: parts.join(' '), first: ks[0] };
+                }
+            }
+            return { msg: 'Alan hatası.' };
+        }
+        switch (status) {
+            case 429: return { msg: 'Çok fazla deneme. Lütfen bekleyin.' };
+            case 500: return { msg: 'Sistem hatası.' };
+            case 503: return { msg: 'Bağlantı hatası, tekrar deneyin.' };
+        }
+        return { msg: e.message || 'Seçimin kaydedilemedi. Lütfen tekrar deneyin.' };
+    }
 
     btns.forEach(function(b){
         b.addEventListener('click', function(){
@@ -95,9 +137,13 @@ $nonceEsc      = htmlspecialchars($cspNonce, ENT_QUOTES, 'UTF-8');
         btn.textContent = 'Devam ediliyor...';
         errEl.style.display = 'none';
 
-        try { localStorage.setItem('cm_gender', gender); } catch(ex) {}
+        try { localStorage.setItem('cm_gender', gender); } catch(ex) {
+            console.error('[auth] set-gender: localStorage write failed', ex);
+            errEl.textContent = 'Tema tercihi bu tarayıcıda kaydedilemedi.';
+            errEl.style.display = 'block';
+        }
 
-        fetch('/set-gender', {
+        fetch(API_URL + '/v1/auth/set-gender', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -107,13 +153,33 @@ $nonceEsc      = htmlspecialchars($cspNonce, ENT_QUOTES, 'UTF-8');
             body: JSON.stringify({ gender: gender }),
             credentials: 'include'
         })
-        .then(function(r){ return r.json(); })
-        .then(function(d){
-            if (d.redirect) { window.location.href = d.redirect; }
-            else { window.location.href = '/login'; }
+        .then(function(r){ return r.json().catch(function(){ return null; }).then(function(b){ return { status: r.status, body: b }; }); })
+        .then(function(res){
+            var d = res.body || {};
+            if (res.status >= 200 && res.status < 300) {
+                var data = d.data || d;
+                var target = data.redirect || d.redirect;
+                if (target) { window.location.href = target; return; }
+                window.location.href = '/login';
+                return;
+            }
+            console.error('[auth] set-gender: api error', res.status, d);
+            var m = messageFor(res.status, d);
+            errEl.textContent = m.msg;
+            errEl.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = 'Devam Et';
+            if (m.first === 'gender') {
+                var firstBtn = document.querySelector('.lgn-gender-btn');
+                if (firstBtn) { firstBtn.focus(); }
+            }
         })
-        .catch(function(){
-            window.location.href = '/login';
+        .catch(function(cause){
+            console.error('[auth] set-gender: request failed', cause);
+            errEl.textContent = 'Bağlantı hatası. Lütfen tekrar deneyin.';
+            errEl.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = 'Devam Et';
         });
     });
 })();

@@ -4,6 +4,19 @@ $genderEsc     = htmlspecialchars($_SESSION['cm_gender'] ?? $_SESSION['gender'] 
 $csrfTokenEsc  = htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8');
 $cspNonce      = $_SESSION['csp_nonce'] ?? '';
 $nonceEsc      = htmlspecialchars($cspNonce, ENT_QUOTES, 'UTF-8');
+
+// API tabanı (Faz 3a): backend sözleşmesi değişmez — config'te tanımlı değilse varsayılan.
+// Sözleşme varsayılanı http://api.coremusic.net — sayfa HTTPS ise mixed-content engeli olmaması için scheme
+// AUTH_URL/MUSIC_URL ile aynı kuralda (COREMUSIC_SCHEME, ortam http ise sonuç aynen http olur).
+$apiUrl    = (defined('API_URL') && API_URL)
+    ? API_URL
+    : ((defined('COREMUSIC_SCHEME') && COREMUSIC_SCHEME) ? COREMUSIC_SCHEME : 'http') . '://api.coremusic.net';
+$apiUrlEsc = htmlspecialchars(rtrim((string)$apiUrl, '/'), ENT_QUOTES, 'UTF-8');
+
+// Session başlatılamadıysa logout POST'u CSRF reddiyle düşer — JS catch'i bunu loglar, kök neden burada loglanır.
+if ($csrfTokenEsc === '') {
+    error_log(json_encode(['level' => 'error', 'service' => 'auth.coremusic.net', 'message' => 'logout.php: csrf_token missing in session - POST /logout will be rejected']));
+}
 ?>
 <section class="lgn-page" data-gender="<?=$genderEsc?>">
 <div class="lgn-bg" aria-hidden="true"></div>
@@ -37,6 +50,7 @@ $nonceEsc      = htmlspecialchars($cspNonce, ENT_QUOTES, 'UTF-8');
     </div>
   </div>
   <div class="lgn-panel__inner-mid">
+  <div class="lgn-error" id="lgn-err" role="alert" aria-live="polite"></div>
     <p style="text-align:center;margin-bottom:16px;">Oturumunuz kapatıldı. Tekrar hoş geldiniz!</p>
     <a href="/login" class="lgn-btn" style="display:block;text-align:center;text-decoration:none;">Tekrar Giriş Yap</a>
   </div>
@@ -47,8 +61,40 @@ $nonceEsc      = htmlspecialchars($cspNonce, ENT_QUOTES, 'UTF-8');
 </section>
 <script nonce="<?=$nonceEsc?>">
 (function(){
-    fetch('/logout',{method:'POST',headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest','X-CSRF-Token':'<?= $csrfTokenEsc ?>'},credentials:'include'}).then(function(r){return r.json();}).then(function(d){
-        if(d.redirect){window.location.href=d.redirect;}
-    }).catch(function(){});
+    const showLogoutError = function(message){
+        const el = document.getElementById('lgn-err');
+        if (el) { el.textContent = message; el.classList.add('lgn-error--on'); }
+    };
+    var API_URL='<?=$apiUrlEsc?>';
+    /* HTTP koduna göre Türkçe mesaj — API sözleşmesi (Faz 3a) */
+    const logoutMessage = function(status, d){
+        const e = (d && d.error) || {};
+        switch (status) {
+            case 429: return 'Çok fazla deneme. Lütfen bekleyin.';
+            case 500: return 'Sistem hatası.';
+            case 503: return 'Bağlantı hatası, tekrar deneyin.';
+        }
+        return e.message || 'Çıkış işlemi tamamlanamadı. Lütfen tekrar deneyin.';
+    };
+    fetch(API_URL+'/v1/auth/logout',{method:'POST',headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest','X-CSRF-Token':'<?= $csrfTokenEsc ?>'},credentials:'include'})
+    .then(function(r){return r.json().catch(function(){return null;}).then(function(b){return{status:r.status,body:b};});})
+    .then(function(res){
+        const d = res.body || {};
+        const data = (d && d.data) || d || {};
+        const target = data.redirect || (d && d.redirect);
+        if (res.status >= 200 && res.status < 300) {
+            if (target) { window.location.href = target; return; }
+            console.error('[auth] logout: unexpected response', d);
+            showLogoutError('Çıkış işlemi tamamlanamadı. Lütfen tekrar deneyin.');
+            return;
+        }
+        // 401: oturum zaten kapatılmış — kullanıcıyı giriş sayfasına götür.
+        if (res.status === 401) { window.location.href = '/login'; return; }
+        console.error('[auth] logout: api error', res.status, d);
+        showLogoutError(logoutMessage(res.status, d));
+    }).catch(function(cause){
+        console.error('[auth] logout: request failed',cause);
+        showLogoutError('Çıkış işlemi tamamlanamadı. Lütfen tekrar deneyin.');
+    });
 })();
 </script>

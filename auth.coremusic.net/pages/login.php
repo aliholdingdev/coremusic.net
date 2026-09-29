@@ -14,9 +14,22 @@ $genderAttr = htmlspecialchars($gender, ENT_QUOTES, 'UTF-8');
 $redirectUri = $_GET['redirect_uri'] ?? '';
 $clientId    = $_GET['client_id'] ?? 'coremusic-web';
 $responseType = $_GET['response_type'] ?? 'session';
+
+// API tabanı (Faz 3a): backend sözleşmesi değişmez — config'te tanımlı değilse varsayılan.
+// Sözleşme varsayılanı http://api.coremusic.net — sayfa HTTPS ise mixed-content engeli olmaması için scheme
+// AUTH_URL/MUSIC_URL ile aynı kuralda (COREMUSIC_SCHEME, ortam http ise sonuç aynen http olur).
+$apiUrl    = (defined('API_URL') && API_URL)
+    ? API_URL
+    : ((defined('COREMUSIC_SCHEME') && COREMUSIC_SCHEME) ? COREMUSIC_SCHEME : 'http') . '://api.coremusic.net';
+$apiUrlEsc = htmlspecialchars(rtrim((string)$apiUrl, '/'), ENT_QUOTES, 'UTF-8');
+
+// Session başlatılamadıysa login POST'u CSRF reddiyle düşer — JS catch'i "Bağlantı hatası" gösterir, kök neden loglanır.
+if ($csrf === '') {
+    error_log(json_encode(['level' => 'error', 'service' => 'auth.coremusic.net', 'message' => 'login.php: csrf_token missing in session - POST /login will be rejected']));
+}
 ?>
 <section class="lgn-page" data-gender="<?=$genderAttr?>">
-<script nonce="<?=$nonce?>">(function(){var s=document.currentScript.parentElement;if(s.dataset.gender==='neutral'){try{var g=localStorage.getItem('cm_gender');if(g&&['female','male','neutral'].indexOf(g)!==-1)s.dataset.gender=g;}catch(e){}}})();</script>
+<script nonce="<?=$nonce?>">(function(){var s=document.currentScript.parentElement;if(s.dataset.gender==='neutral'){try{var g=localStorage.getItem('cm_gender');if(g&&['female','male','neutral'].indexOf(g)!==-1)s.dataset.gender=g;}catch(e){console.error('[auth] login: localStorage gender read failed',e);document.addEventListener('DOMContentLoaded',function(){const el=document.getElementById('lgn-err');if(el){el.textContent='Tema tercihi yüklenemedi, varsayılan tema kullanılıyor.';el.classList.add('lgn-error--on');}});}}})();</script>
 <div class="lgn-bg" aria-hidden="true"></div>
 <div class="lgn-particles" aria-hidden="true"><?php for($i=0;$i<8;$i++)echo'<div class="lgn-particle"></div>'; ?></div>
 
@@ -62,7 +75,7 @@ $responseType = $_GET['response_type'] ?? 'session';
     </div>
   </div>
   <div class="lgn-panel__inner-mid">
-  <div class="lgn-error" id="lgn-err"></div>
+  <div class="lgn-error" id="lgn-err" role="alert" aria-live="polite"></div>
   <form class="lgn-form" id="lgn-form" method="post" action="/login" novalidate>
     <input type="hidden" name="csrf_token" value="<?=$csrf?>">
     <input type="hidden" name="client_id" value="<?=htmlspecialchars($clientId, ENT_QUOTES, 'UTF-8')?>">
@@ -134,31 +147,65 @@ $responseType = $_GET['response_type'] ?? 'session';
     var eyeBtn=document.querySelector('.lgn-form__pw-eye');
     var pwInput=document.getElementById('lgn-pw');
     if(eyeBtn&&pwInput){eyeBtn.addEventListener('click',function(){var t=pwInput.type==='password'?'text':'password';pwInput.type=t;eyeBtn.setAttribute('aria-label',t==='password'?'Şifreyi göster':'Şifreyi gizle');});}
+    var API_URL='<?=$apiUrlEsc?>';
+    var FIELD_FOCUS={email:'lgn-id',username:'lgn-id',password:'lgn-pw'};
+    function resetBtn(){btn.disabled=false;btn.classList.remove('lgn-btn--loading');btn.textContent='Giriş Yap';}
+    function showError(msg,focusField){
+        errEl.textContent=msg;errEl.classList.add('lgn-error--on');
+        if(focusField&&FIELD_FOCUS[focusField]){var el=document.getElementById(FIELD_FOCUS[focusField]);if(el)el.focus();}
+    }
+    /* HTTP koduna göre Türkçe mesaj — API sözleşmesi (Faz 3a) */
+    function messageFor(status,d){
+        var e=(d&&d.error)||{};
+        var f=e.fields||null;
+        if(status===422){
+            if(f){var ks=Object.keys(f);if(ks.length){var parts=[];ks.forEach(function(k){parts.push(f[k]);});return{msg:parts.join(' '),first:ks[0]};}}
+            return{msg:'Alan hatası.'};
+        }
+        switch(status){
+            case 400:return{msg:'Link geçersiz veya süresi dolmuş.'};
+            case 401:return{msg:'E-posta veya şifre hatalı.'};
+            case 403:return{msg:'Bu hesap giriş yapamaz.'};
+            case 409:return{msg:e.code==='USERNAME_TAKEN'?'Bu kullanıcı adı kullanılıyor.':'Bu e-posta kullanılıyor.'};
+            case 429:return{msg:'Çok fazla deneme. Lütfen bekleyin.'};
+            case 500:return{msg:'Sistem hatası.'};
+            case 503:return{msg:'Bağlantı hatası, tekrar deneyin.'};
+        }
+        return{msg:e.message||(d&&d.message)||'Giriş başarısız.'};
+    }
     var urlParams=new URLSearchParams(window.location.search);
     var redirectUri=urlParams.get('redirect_uri')||'';
     form.addEventListener('submit',function(e){
         e.preventDefault();
         e.stopImmediatePropagation();
         btn.disabled=true;btn.classList.add('lgn-btn--loading');btn.textContent='Giriş yapılıyor...';errEl.classList.remove('lgn-error--on');
-        var postUrl='/login';
+        var postUrl=API_URL+'/v1/auth/login';
         if(redirectUri) postUrl+='?redirect_uri='+encodeURIComponent(redirectUri);
         fetch(postUrl,{
             method:'POST',
             headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest','X-CSRF-Token':document.querySelector('[name=csrf_token]').value},
             body:JSON.stringify({email:document.getElementById('lgn-id').value,password:pwInput.value,redirect_uri:redirectUri}),
             credentials:'include'
-        }).then(function(r){return r.json();}).then(function(d){
-            if((d.success||d.redirect)&&d.redirect){
-                window.location.href=d.redirect;
+        }).then(function(r){return r.json().catch(function(){return null;}).then(function(b){return{status:r.status,body:b};});})
+        .then(function(res){
+            var d=res.body||{};
+            if(res.status>=200&&res.status<300){
+                var data=d.data||d;
+                var target=data.redirect||d.redirect;
+                if(target){window.location.href=target;return;}
+                showError((d.error&&d.error.message)||d.message||'Giriş başarısız.');
+                resetBtn();
                 return;
             }
-            var msg=(d.error&&d.error.message)||d.message||'Giriş başarısız.';
-            errEl.textContent=msg;errEl.classList.add('lgn-error--on');
-            btn.disabled=false;btn.classList.remove('lgn-btn--loading');btn.textContent='Giriş Yap';
+            console.error('[auth] login: api error',res.status,d);
+            var m=messageFor(res.status,d);
+            showError(m.msg,m.first);
+            resetBtn();
             if(d.csrf_token){var ci=document.querySelector('[name=csrf_token]');if(ci)ci.value=d.csrf_token;}
-        }).catch(function(){
-            errEl.textContent='Bağlantı hatası.';errEl.classList.add('lgn-error--on');
-            btn.disabled=false;btn.classList.remove('lgn-btn--loading');btn.textContent='Giriş Yap';
+        }).catch(function(cause){
+            console.error('[auth] login: request failed',cause);
+            showError('Bağlantı hatası. Lütfen tekrar deneyin.');
+            resetBtn();
         });
     });
 })();

@@ -14,6 +14,19 @@ $genderAttr = htmlspecialchars($gender, ENT_QUOTES, 'UTF-8');
 $redirectUri = $_GET['redirect_uri'] ?? '';
 $clientId    = $_GET['client_id'] ?? 'coremusic-web';
 $responseType = $_GET['response_type'] ?? 'session';
+
+// API tabanı (Faz 3a): backend sözleşmesi değişmez — config'te tanımlı değilse varsayılan.
+// Sözleşme varsayılanı http://api.coremusic.net — sayfa HTTPS ise mixed-content engeli olmaması için scheme
+// AUTH_URL/MUSIC_URL ile aynı kuralda (COREMUSIC_SCHEME, ortam http ise sonuç aynen http olur).
+$apiUrl    = (defined('API_URL') && API_URL)
+    ? API_URL
+    : ((defined('COREMUSIC_SCHEME') && COREMUSIC_SCHEME) ? COREMUSIC_SCHEME : 'http') . '://api.coremusic.net';
+$apiUrlEsc = htmlspecialchars(rtrim((string)$apiUrl, '/'), ENT_QUOTES, 'UTF-8');
+
+// Session başlatılamadıysa register POST'u CSRF reddiyle düşer — JS catch'i "Bağlantı hatası" gösterir, kök neden loglanır.
+if ($csrf === '') {
+    error_log(json_encode(['level' => 'error', 'service' => 'auth.coremusic.net', 'message' => 'register.php: csrf_token missing in session - POST /register will be rejected']));
+}
 ?>
 <section class="lgn-page" data-gender="<?=$genderAttr?>">
 <div class="lgn-bg" aria-hidden="true"></div>
@@ -63,7 +76,7 @@ $responseType = $_GET['response_type'] ?? 'session';
   <div class="lgn-panel__inner-mid">
   <!-- 4-step wizard indicator -->
   <div class="lgn-wizard"><div class="lgn-wizard__step lgn-wizard__step--active" data-step="1"></div><div class="lgn-wizard__step" data-step="2"></div><div class="lgn-wizard__step" data-step="3"></div><div class="lgn-wizard__step" data-step="4"></div></div>
-  <div class="lgn-error" id="lgn-err"></div>
+  <div class="lgn-error" id="lgn-err" role="alert" aria-live="polite"></div>
   <form class="lgn-form" id="lgn-form" method="post" action="/register" novalidate>
     <input type="hidden" name="csrf_token" value="<?=$csrf?>">
     <input type="hidden" name="client_id" value="<?=htmlspecialchars($clientId, ENT_QUOTES, 'UTF-8')?>">
@@ -104,7 +117,7 @@ $responseType = $_GET['response_type'] ?? 'session';
 
     <!-- STEP 3: Cinsiyet Seçimi -->
     <div class="lgn-form__step" data-step="3" hidden>
-      <input type="hidden" id="reg-gender-input" name="gender" value="<?=$genderAttr?>">
+      <input type="hidden" id="reg-gender-input" name="gender" value="">
       <p class="lgn-form__label" style="text-align:center;margin-bottom:12px;">Cinsiyetini seç</p>
       <button type="button" class="lgn-gender-btn" data-gender="female" aria-label="Kadın">
         <span class="lgn-gender-btn__icon"><img src="<?= ASSETS_URL ?>/Image/res-pink/kız-gender-select.png" alt="" width="28" height="28"></span>
@@ -215,33 +228,89 @@ $responseType = $_GET['response_type'] ?? 'session';
         b.classList.add('selected');
         regGenderInput.value=b.dataset.gender;
         document.querySelector('.lgn-page').dataset.gender=b.dataset.gender;
-        try{localStorage.setItem('cm_gender',b.dataset.gender);}catch(e){}
+        try{localStorage.setItem('cm_gender',b.dataset.gender);}catch(e){console.error('[auth] register: localStorage gender write failed',e);errEl.textContent='Tema tercihi bu tarayıcıda kaydedilemedi.';errEl.classList.add('lgn-error--on');}
         step3Next.disabled=false;
     });});
     step3Next.addEventListener('click',function(){errEl.classList.remove('lgn-error--on');showStep(4);});
     var form=document.getElementById('lgn-form');
     var submitBtn=document.getElementById('lgn-submit');
+    var API_URL='<?=$apiUrlEsc?>';
+    var FIELD_FOCUS={username:'lgn-usr',email:'lgn-email',password:'lgn-pw1',phone:'lgn-phone',agree_terms:'lgn-terms'};
+    function resetSubmit(){submitBtn.disabled=false;submitBtn.classList.remove('lgn-btn--loading');submitBtn.textContent='Kayıt Ol';}
+    function showError(msg,focusField){
+        errEl.textContent=msg;errEl.classList.add('lgn-error--on');
+        if(focusField==='gender'){
+            showStep(3);
+            var gb=document.querySelector('[data-step="3"] .lgn-gender-btn');
+            if(gb)gb.focus();
+            return;
+        }
+        // Alan hatası hangi adımdaysa o adıma dön, sonra ilk hatalı alana odaklan.
+        if(focusField==='username'||focusField==='email'){showStep(1);}
+        else if(focusField==='password'){showStep(2);}
+        else if(focusField==='phone'||focusField==='agree_terms'){showStep(4);}
+        if(focusField&&FIELD_FOCUS[focusField]){var el=document.getElementById(FIELD_FOCUS[focusField]);if(el)el.focus();}
+    }
+    /* HTTP koduna göre Türkçe mesaj — API sözleşmesi (Faz 3a) */
+    function messageFor(status,d){
+        var e=(d&&d.error)||{};
+        var f=e.fields||null;
+        if(status===422){
+            if(f){var ks=Object.keys(f);if(ks.length){var parts=[];ks.forEach(function(k){parts.push(f[k]);});return{msg:parts.join(' '),first:ks[0]};}}
+            return{msg:'Alan hatası.'};
+        }
+        switch(status){
+            case 400:return{msg:'Link geçersiz veya süresi dolmuş.'};
+            case 401:return{msg:'E-posta veya şifre hatalı.'};
+            case 403:return{msg:'Bu hesap giriş yapamaz.'};
+            case 409:return{msg:e.code==='USERNAME_TAKEN'?'Bu kullanıcı adı kullanılıyor.':'Bu e-posta kullanılıyor.',first:e.code==='USERNAME_TAKEN'?'username':'email'};
+            case 429:return{msg:'Çok fazla deneme. Lütfen bekleyin.'};
+            case 500:return{msg:'Sistem hatası.'};
+            case 503:return{msg:'Bağlantı hatası, tekrar deneyin.'};
+        }
+        return{msg:e.message||(d&&d.message)||'Kayıt başarısız.'};
+    }
     form.addEventListener('submit',function(e){
         e.preventDefault();
         e.stopImmediatePropagation();
+        // Cinsiyet zorunlu (UX kontrolü — asıl güvenlik backend'de)
+        var chosenGender=regGenderInput.value;
+        if(chosenGender!=='female'&&chosenGender!=='male'&&chosenGender!=='neutral'){
+            showStep(3);
+            errEl.textContent='Lütfen cinsiyet seçin.';errEl.classList.add('lgn-error--on');
+            var firstGenderBtn=document.querySelector('[data-step="3"] .lgn-gender-btn');
+            if(firstGenderBtn)firstGenderBtn.focus();
+            return;
+        }
         var phone=document.getElementById('lgn-phone').value.trim();
-        if(!/^\+?[0-9\s\-\(\)]{10,20}$/.test(phone)){errEl.textContent='Geçerli bir telefon numarası girin.';errEl.classList.add('lgn-error--on');return;}
-        if(!document.getElementById('lgn-terms').checked){errEl.textContent='Hizmet Şartları\u0027nı kabul etmelisiniz.';errEl.classList.add('lgn-error--on');return;}
+        if(!/^\+?[0-9\s\-\(\)]{10,20}$/.test(phone)){errEl.textContent='Geçerli bir telefon numarası girin.';errEl.classList.add('lgn-error--on');document.getElementById('lgn-phone').focus();return;}
+        if(!document.getElementById('lgn-terms').checked){errEl.textContent='Hizmet Şartları\u0027nı kabul etmelisiniz.';errEl.classList.add('lgn-error--on');document.getElementById('lgn-terms').focus();return;}
         submitBtn.disabled=true;submitBtn.classList.add('lgn-btn--loading');submitBtn.textContent='Kayıt olunuyor...';errEl.classList.remove('lgn-error--on');
-        fetch('/register',{
+        fetch(API_URL+'/v1/auth/register',{
             method:'POST',
             headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest','X-CSRF-Token':document.querySelector('[name=csrf_token]').value},
-            body:JSON.stringify({username:document.getElementById('lgn-usr').value,email:document.getElementById('lgn-email').value,password:pwInput.value,phone:phone,agree_terms:true,gender:regGenderInput.value||'neutral'}),
+            body:JSON.stringify({username:document.getElementById('lgn-usr').value,email:document.getElementById('lgn-email').value,password:pwInput.value,phone:phone,agree_terms:true,gender:chosenGender}),
             credentials:'include'
-        }).then(function(r){return r.json();}).then(function(d){
-            if(d.success&&d.redirect){window.location.href=d.redirect;return;}
-            var msg=(d.error&&d.error.message)||d.message||'Kayıt başarısız.';
-            if(d.error&&d.error.details){var det=d.error.details;var msgs=[];for(var k in det)msgs.push(det[k]);msg=msgs.join(' ');}
-            errEl.textContent=msg;errEl.classList.add('lgn-error--on');
-            submitBtn.disabled=false;submitBtn.classList.remove('lgn-btn--loading');submitBtn.textContent='Kayıt Ol';
-        }).catch(function(){
-            errEl.textContent='Bağlantı hatası.';errEl.classList.add('lgn-error--on');
-            submitBtn.disabled=false;submitBtn.classList.remove('lgn-btn--loading');submitBtn.textContent='Kayıt Ol';
+        }).then(function(r){return r.json().catch(function(){return null;}).then(function(b){return{status:r.status,body:b};});})
+        .then(function(res){
+            var d=res.body||{};
+            if(res.status>=200&&res.status<300){
+                var data=d.data||d;
+                var target=data.redirect||d.redirect;
+                if(target){window.location.href=target;return;}
+                showError((d.error&&d.error.message)||d.message||'Kayıt başarısız.');
+                resetSubmit();
+                return;
+            }
+            console.error('[auth] register: api error',res.status,d);
+            var m=messageFor(res.status,d);
+            showError(m.msg,m.first);
+            resetSubmit();
+            if(d.csrf_token){var ci=document.querySelector('[name=csrf_token]');if(ci)ci.value=d.csrf_token;}
+        }).catch(function(cause){
+            console.error('[auth] register: request failed',cause);
+            showError('Bağlantı hatası. Lütfen tekrar deneyin.');
+            resetSubmit();
         });
     });
 })();
