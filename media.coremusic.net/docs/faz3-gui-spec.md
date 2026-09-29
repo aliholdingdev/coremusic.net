@@ -378,7 +378,7 @@ media\**\meta.json · artist.json · album.json · koleksiyon.json   ← SSOT
 - Önek **`cm-`** zorunlu; biçim `.cm-block__element--modifier`.
 - Tek dosya = tek blok; element ebeveyn bloğun adını baştan alır (`.cm-tracklist__row`, `.cm-tracklist__row--active`).
 - Durum modifiersi `--` ile (`--active`, `--error`, `--warn`); layout `__` ile.
-- Bileşen envanteri `.ai/ui-design/02-component-inventory.md` (C01–C16) **salt referanstır** — bu ön spec'te `Cxx` numarası **uydurulmaz** (`—`). ⚠️ VERIFICATION REQUIRED: asıl screen-spec'te envanter eşleşmesi yapılacak.
+- Bileşen envanteri `.ai/ui-design/02-component-inventory.md` **salt referanstır** — bu ön spec'te `Cxx` numarası **uydurulmaz**; kesin olmayan eşleşme `≈`, karşılıksız `—` ile yazılır. **Ön eşleme: §5.4 (VR-6)** — asıl screen-spec'te eşleme tazelenir. Envanter kapsamı **C01–C19** (dosya başlığı "C01–C16" eskimiş → Tespit A, §5.4).
 
 ### 5.3 `--cm-*` token adayları (yalnız AD — değer kopyalanmaz)
 
@@ -392,6 +392,50 @@ media\**\meta.json · artist.json · album.json · koleksiyon.json   ← SSOT
 | Düzen/süre | `--cm-header-h`, `--cm-sidebar-w`, `--cm-grid-cols`, `--cm-duration-fast/normal`, `--cm-ease-out`, `--cm-z-header/sidebar/modal/toast` |
 
 **Kural:** Tabloya **değer yazılmaz** (ham hex/px yasak) — değer master token dosyasından okunur; bu spec yalnız **ad uyumunu** bağlar.
+
+### 5.4 BEM ↔ Bileşen Envanteri Eşlemesi (VR-6)
+
+**Kaynak:** `.ai/ui-design/02-component-inventory.md` (updated 2026-09-29 · **salt okunur** — bu eşleme envantere **yazmaz**). **Kapsam:** §4'teki **46** BEM bloğu (`--cm-*` tasarım token'ları blok değildir, §5.3). **İşaret:** `Cxx` = kesin eşleşme · `≈` = en yakın aday (kesin değil) · `—` = envanterde karşılık yok.
+
+| Spec bloğu | Envanter (C-no) | Not |
+|------------|-----------------|-----|
+| **① Eşleşenler (kesin) — 5 blok** | | |
+| `.cm-btn` | `C04` Button | `--primary` / `--ghost` / `--sm` / `--disabled` (§4.2, §4.5) |
+| `.cm-card` | `C03` Card | albüm kartı `--album` + `__img` / `__title` / `__meta` (§4.3) |
+| `.cm-badge` | `C10` Badge | `--album-tip` / `--fiziksel` / `--durum` / `--kaynak` (§4.4, §4.8) |
+| `.cm-search` | `C05` Input | arama girişi `__input` + `__clear` (§4.1) |
+| `.cm-tag-input` | `C05` Input | serbest `etiket[]` girişi → `C05`'in varyantı (§4.2) |
+| `.cm-note` | — | envanterde karşılık yok → **boşluk** (Tespit C); kalıcı satır içi not ≠ `C16` Toast (geçici) |
+| **② Domain blokları — 21 blok** | — | **domain bloğu (envanter dışı, arşive özel):** `.cm-album` · `.cm-artist` · `.cm-parca` · `.cm-tracklist` · `.cm-discog` · `.cm-catalog` · `.cm-collection` · `.cm-ingest` · `.cm-audit` · `.cm-kredi` · `.cm-kural` · `.cm-hash` · `.cm-path` · `.cm-tech` · `.cm-variant` · `.cm-stat` · `.cm-decision` · `.cm-decision--hata` · `.cm-severity` · `.cm-alpha` · `.cm-block` — medya arşivinin alan modelini taşır (E1–E8) |
+| **③ Yardımcılar — 2 blok** | — | **utility (C-numarası yok):** `.cm-u-mono` · `.cm-u-visually-hidden` — ITCSS `7-utilities` (§5.1) |
+| **④ Eşleşmeyen UI blokları — 17 blok (esas bulgu)** | | |
+| `.cm-sidebar` | ≈ `C17` Widget Area | E1 facet konteyneri; C17 "widget alanı" ile örtüşmesi tartışmalı → P1'de doğrula |
+| `.cm-crumb` | ≈ `C01` NavLink | breadcrumb ≠ ana menü; en yakın konum linki (§4.3) |
+| `.cm-filter` | — | **boşluk** — filtre paneli konteyneri (`__panel` / `__footer` / `--inline`, §4.2); en yakın C yok |
+| `.cm-filter--drawer` | ≈ `C07` Modal | davranış örtüşmesi: `Esc` + odak tuzağı + açana odak iadesi (§4.2); drawer ≠ modal → P1 |
+| `.cm-filterbar` | — | **boşluk** — yatay denetim çubuğu (`__toggle` / `__select` / `__count`, §4.7); `__select` tek başına `C14`'e düşer ama blok yok |
+| `.cm-sort` | ≈ `C14` Dropdown | `__select` bir dropdown; blok etiketli sıralama seçicisi (§4.1) |
+| `.cm-pager` | — | **boşluk** — sayfalama (§4.1); `C01` NavLink değil (sayfa düğmesi ≠ link listesi) |
+| `.cm-grid` | — | **boşluk** — ITCSS `5-objects` (§5.1); envanter bileşen seviyesinde değil |
+| `.cm-layout` | — | **boşluk** — ITCSS `5-objects` (§5.1) |
+| `.cm-chip` | ≈ `C10` Badge | `__remove` ile kaldırılabilir etiket ≠ kalıcı rozet (§4.2) |
+| `.cm-banner` | ≈ `C16` Toast | **takdir:** en yakın `C16`; ama spec banner'ı **kalıcı** (`role="status"`), toast **geçici** → `C02` Hero Banner **değil** (hero = sayfa üstü görsel blok, ≠ uyarı şeridi) |
+| `.cm-banner--success` | ≈ `C16` Toast | aynı gerekçe (§4.7) |
+| `.cm-banner--warn` | ≈ `C16` Toast | aynı gerekçe (§4.3) |
+| `.cm-alert` | — | **boşluk** — kalıcı hata bölgesi + "tekrar dene" (§4.1); `C16` geçici, `C10` içerik rozeti → eşleşme yok |
+| `.cm-alert--error` | — | **boşluk** (§4.1, §4.5, §4.8) |
+| `.cm-facet` | ≈ `C08` Toggle | yalnız `__toggle` yüzeyi örtüşür; blok `<fieldset>` grubu → envantere facet grubu yok (§4.2) |
+| `.cm-tag-list` | ≈ `C10` Badge | etiket rozeti listesi, `--free` açık set (§4.4) |
+
+> `cm-facet` ve `cm-tag-list` girdi sınıflandırmasında yer almıyordu; bu eşlemede ④ grubuna alındı (her ikisi de `≈`).
+
+**Sayım (46 = 46):** kesin eşleşen **5** + `≈` **10** + boşluk/`—` **8** + domain **21** + utility **2** = **46**.
+
+- **Tespit A — envanter başlığı eskimiş:** `02-component-inventory.md` başlığı "C01–C16" der, dosya içeriği **C01–C19** taşır (19 bileşen) → başlık/İçerik uyuşmazlığı. Düzeltme envanter dosyasında yapılır; **sahip: ui-design oturumu**. Bu spec envantere **yazmaz** (salt okunur referans).
+- **Tespit B — envanterde olup bu spec'te kullanılmayanlar (13):** `C02` Hero Banner · `C06` Tab · `C07` Modal · `C08` Toggle · `C09` Slider · `C11` Avatar · `C12` Tooltip · `C13` Skeleton · `C14` Dropdown · `C15` Progress · `C17` Widget Area · `C18` Quick Apps Row · `C19` Mini Card. §4'te **dolaylı yüzey** görünenler: `C06` → `.cm-tracklist__disk-tabs` (`role="tablist"`, §4.4), `C11` → `.cm-artist__avatar` (§4.3), `C12` → E5 "açıklama tooltip" (§4.5), `C13` → `__row--skeleton` / facet skeleton (§4.1–§4.2), `C07` → `.cm-filter--drawer`, `C14` → `.cm-sort__select`, `C17` → `.cm-sidebar`; **`C02`, `C09`, `C15`, `C18`, `C19` için §4'te karşılık yok** → 8 ekran bunları zorunlu kılıyor mu? Faz 4 screen-spec'inde karar (P1).
+- **Tespit C — boşluk listesi → P1 kararı:** kesin boşluk **8 blok**: `.cm-note`, `.cm-filter`, `.cm-filterbar`, `.cm-pager`, `.cm-grid`, `.cm-layout`, `.cm-alert`, `.cm-alert--error` (+ **10** aday `≈` onay bekliyor). Faz 3'te iki seçenek: (a) bu bloklar için spec'e **yeni `Cxx` talebi**, (b) blokların **envantere eklenmesi** → **karar: kullanıcı onayı (P1)**.
+
+> Bu eşleme VR-6 kapısıdır; envanter (`02-component-inventory.md`) yeniden yazıldığında (Faz 4, 2026-09-29) eşleme tazeledi. Detay: docs/checklist.md VR-6.
 
 ---
 
@@ -484,7 +528,7 @@ Bu dosya **girdi**dir; `.ai/ui-design/` kuralı (Guardrail #16) gereği **asıl 
 | 5 | `.ai/ui-design/**` yazma | **Yok** (git status ile kanıtlanır) |
 | 6 | Mojibake / BOM | `mojibake=0 · BOM yok` (UTF-8, doğrulandı) |
 | 7 | Breakpoint çakışması | ⚠️ VERIFICATION REQUIRED (§6) |
-| 8 | BEM `Cxx` envanter eşleşmesi | ⚠️ VERIFICATION REQUIRED (§5.2) |
+| 8 | BEM `Cxx` envanter eşleşmesi | **Eşleme §5.4 (VR-6):** 46 = 5 kesin + 10 `≈` + 8 boşluk + 21 domain + 2 utility — boşluk/`≈` kararı P1 |
 
 ---
 
