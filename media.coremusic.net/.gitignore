@@ -1,2 +1,11 @@
 # Medya arşivi içeriği asla git'e girmez (ADR-092 — varlık baytı repo'ya girmez; 38 GB+ risk)
 media/
+# türetilmiş indeks + raporlar — yeniden üretilebilir, commit edilmez
+catalog/
+reports/
+# PHP çalışma artıkları (faz 2 ortamında oluşur)
+vendor/
+*.log
+# src/Media/ kod dizinidir — media/ kuralına yanlışlıkla yakalanmasın (ADR-092'nin hedefi kök media/ arşividir)
+!src/Media/
+!src/Media/**

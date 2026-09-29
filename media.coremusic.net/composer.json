@@ -1,0 +1,46 @@
+{
+    "name": "coremusic/media",
+    "description": "coremusic.net medya arsivi CLI — scan (tarama + katalog), audit (denetim), ingest (dry-run tasma). ADR-092, ADR-039.",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.4",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-pdo": "*"
+    },
+    "suggest": {
+        "ext-pdo_mysql": "MySQL media_catalog türetilmiş indeksi için (yoksa JSONL ile devam edilir)"
+    },
+    "autoload": {
+        "psr-4": {
+            "Media\\": "src/Media/"
+        }
+    },
+    "bin": [
+        "bin/scan.php",
+        "bin/audit.php",
+        "bin/ingest.php"
+    ],
+    "scripts": {
+        "scan": "php bin/scan.php",
+        "audit": "php bin/audit.php",
+        "ingest": "php bin/ingest.php",
+        "lint": [
+            "@php -l bin/scan.php",
+            "@php -l bin/audit.php",
+            "@php -l bin/ingest.php",
+            "@php -l src/Media/Slugger.php",
+            "@php -l src/Media/Ulid.php",
+            "@php -l src/Media/Taxonomy.php",
+            "@php -l src/Media/Validator.php",
+            "@php -l src/Media/CatalogWriter.php"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

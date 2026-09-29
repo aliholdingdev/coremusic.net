@@ -173,7 +173,7 @@ Sanatçıya bağlanamayan derleme olsaydı: `media\audio\_cesitli\o\ornek-koleks
 4. **Yol kaçışı:** `..`, `.`, boş slug, mutlak yol parçası (`C:`).
 5. **ASCII dışı harf:** Türkçe/başka kodlama karakteri (kural 1 ve 5 ihlali).
 6. **Çok-eksen klasör adı:** tür, dönem, ruh hâli, kullanım **klasör adı yapılamaz** — bunlar `meta.json` tag'idir (`../docs/dizin-yapisi.md` §1.1).
-7. **Boş slug (fold sonrası 0 karakter):** slug üretilmez; yedek değer spec'te tanımlı değil → **⚠️ VERIFICATION REQUIRED** (fallback kararı verilmedi).
+7. **Boş slug (fold sonrası 0 karakter):** slug üretilmez, **yedek değer `isimsiz`** — **Karar (2026-09-29):** fold sonrası boş çıkan slug için `Slugger::YEDEK = 'isimsiz'` (ADR-092 §6.1 ile uyumlu). Kod: `../src/Media/Slugger.php:19`.
 
 ---
 

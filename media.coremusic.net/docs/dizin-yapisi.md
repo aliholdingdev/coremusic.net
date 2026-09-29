@@ -14,6 +14,7 @@
 6. [Ölçek ve büyüme kuralları](#6-ölçek-ve-büyüme-kuralları)
 7. [Yaşam döngüsü](#7-yaşam-döngüsü)
 8. [Mevcut durum](#8-mevcut-durum)
+9. [Araçlar (faz 2)](#9-araçlar-faz-2)
 
 ---
 
@@ -57,6 +58,10 @@ Aşağıdaki ağaç **birebir** hedef yerleşimdir (`media.coremusic.net` kökü
 
 ```
 C:\www\coremusic.net\media.coremusic.net\
+├─ .gitignore                      ← genişletildi (ağaç altındaki not)
+├─ composer.json                   (php ^8.4 · PSR-4 `Media\` → `src/Media\` · composer bu makinede YOK)
+├─ bin\                            ← faz 2 CLI: scan.php · audit.php · ingest.php
+├─ src\Media\                      ← faz 2 kod: Slugger · Ulid · Taxonomy · Validator · CatalogWriter (.php)
 ├─ media\                          ← SADECE MEDYA
 │  ├─ audio\
 │  │  ├─ _cesitli\{a-z}\{koleksiyon-slug}\{01-parca-slug}\
@@ -77,10 +82,13 @@ C:\www\coremusic.net\media.coremusic.net\
 │  ├─ _inbox\{YYYY-AA-GG}\                     ← tarih partisyonlu, işlenmemiş
 │  └─ _hurda\                                  ← çöp (audio hariç)
 ├─ config\   (media.schema.json · taxonomy.json · mojibake-fix.json)
+├─ catalog\  ← `scan.php` ilk çalıştırmada üretir: catalog.jsonl (türetilmiş, git'e girmez → §3.2)
 └─ docs\     (bu dosya + adlandirma.md)
 ```
 
-**Ağaç dışı not:** ADR-092 §2.2 yerleşiminde kod `src\` klasöründedir ve **media dışındadır**. Kod, config ve docs `media\` ağacına **girmez** (ADR-092 §2.2, §7.1 kriter 1). `src\` bu ağacın parçası olmadığı için yukarıda sayılmamıştır.
+> **`.gitignore` (faz 2 — genişletildi):** `media/` · `catalog/` · `reports/` · `vendor/` · `*.log` + **`!src/Media/` negasyonu** (ve `!src/Media/**`). Gerekçe: `media/` **çapasız** idi → `src/Media/` PHP kodunu yutuyordu; **negasyon şart** (aksi hâlde kod repoya girmez).
+
+**Ağaç dışı not:** ADR-092 §2.2 yerleşiminde kod `src\` klasöründedir ve **media dışındadır**. Kod, config, docs ile `bin\`, `src\`, `.gitignore`, `composer.json` `media\` ağacına **girmez** (ADR-092 §2.2, §7.1 kriter 1). Bunlar **proje kök seviyesindedir** (faz 2) — `media\` altı değil; `media\` ağaç bölümü değişmemiştir.
 
 ---
 
@@ -100,6 +108,9 @@ C:\www\coremusic.net\media.coremusic.net\
 | `media\_hurda\` | Çöp / reddedilen — **audio hariç** (ses asla buraya atılmaz) | Sağlam ses ve video |
 | `config\` | `media.schema.json`, `taxonomy.json`, `mojibake-fix.json` | Medya dosyası |
 | `docs\` | Bu dosya + `adlandirma.md` | Medya, config |
+| `bin\` | Faz 2 CLI: `scan.php` (tarama + katalog), `audit.php` (arşiv denetimi), `ingest.php` (dry-run taşma) | Medya, config, docs |
+| `src\Media\` | Faz 2 PHP kodu: `Slugger`, `Ulid`, `Taxonomy`, `Validator`, `CatalogWriter` (PSR-4 `Media\`) | Medya, config, docs |
+| `catalog\` | `catalog.jsonl` — `scan.php` ile üretilen **türetilmiş** indeks (yeniden üretilebilir, git'e girmez) → §3.2 | Medya, kalıcı SSOT (JSON'dur) |
 
 ### 3.1 `derived\` YOKTUR
 
@@ -107,6 +118,14 @@ C:\www\coremusic.net\media.coremusic.net\
 - FFmpeg çıktısı (transcode, HLS parçası, önizleme) **uygulama `cache\`**'indedir ve bu **medyanın dışındadır**; faz 2'de kurulur, silinip yeniden üretilebilir.
 - **`derived` yerine ne?** Varyant dosyalar **düz durur**: `audio.mp3` (ses varyantı), `video-720p.mp4` (video varyantı) — hepsi parça klasörünün içinde, alt klasör yok.
 - Gerekçe: arşiv = **orijinal + kapak + meta**; üretim sonucu arşivde tutulursa "orijinal mi?" belirsizleşir (ADR-092 §2.3).
+
+### 3.2 `catalog\` ve SQL şeması (faz 2)
+
+- **`catalog\catalog.jsonl`** — `bin\scan.php` üretir (klasör yoksa ilk yazımda açılır). **Yeniden üretilebilir türetilmiş indeks**; git'e girmez.
+- **Kalıcı sorgu katmanı:** `.ai/.sql/mysql/media_catalog.sql` → DB **`media_catalog`**, **BCNF** (ADR-040), **`utf8mb4_tr_0900_ai_ci`** (Türkçe sıralama zorunlu), **9 tablo** (`artist`, `album`, `koleksiyon`, `asset`, `variant`, `taxonomy`, `asset_tag`, `path_history`, `ingest_batch`) + **`v_asset_search` FULLTEXT view**.
+- **DB türetilmiş indekstir — JSON hâlâ SSOT** (`meta.json` + yan JSON); `scan.php --rebuild` ile yeniden üretilir. DB çökse arşiv yaşar.
+- **Taxonomy:** 98 seed (17 anahtar) + `asset_tag` → `taxonomy` **FK** ile drift **imkânsız**.
+- **⚠️ KARIŞTIRMA YOK:** `coremusic_media` ana uygulamanın (cihaz senkron) şemasıdır, **arşive ait değildir**.
 
 ---
 
@@ -196,6 +215,20 @@ inbox  →  aktif  →  sakli  →  tekrar  →  arsiv
 - Kaynak koleksiyon (`C:\Users\...\Music`, 7.551 dosya / 38,33 GB) **taşınmadı** — bu faz yalnız iskelet + config + docs (ADR-092 §1.4 "TAŞIMA YOK").
 
 **Sayaç notu:** **62 dizin / 0 dosya — 2026-09-29 bağımsız denetim (F1.5) ile doğrulandı** (ilk sayım: F1.1 raporu · kontrol komutu: `Get-ChildItem -Directory -Recurse | Measure-Object`).
+
+> **Faz 2 eklentisi (2026-09-29):** proje köküne `bin\`, `src\Media\`, `composer.json`, `.gitignore` eklendi — **62/0 sayımı bu eklemeden önceki denetime aittir, yeniden sayım YAPILMADI.**
+
+---
+
+## 9. Araçlar (faz 2)
+
+| Araç | Ne yapar |
+|---|---|
+| `bin\scan.php` | `media\` → **`catalog\catalog.jsonl`** (+ MySQL `media_catalog`). `--rebuild` = JSONL'i ve MySQL varlık tablolarını boşaltıp yeniden kurar · `--dry-run` = yalnızca yazılacakları stdout'a basar. **Mod (ADR-092 §6.1 k.5):** varsayılan **hafif** — `teknik.sha256` yan-JSON'dan okunur, **yeniden hash yok**; JSON'da yoksa `sha256: null` + özet `HASH OLMAYAN: N`. `--deep` = gerçek `hash_file()` + JSON değeriyle karşılaştırma, fark → **HASH-FARK** (HATA); özet `MOD: hafif` / `MOD: deep`. MySQL **varsa** PDO ile `media_catalog`'e de yazar, **yoksa** tek uyarı + JSONL ile devam eder. |
+| `bin\audit.php` | Arşiv lint'i (ADR-092 **§6.1/§7.1**). **Varsayılan hafif mod: yeniden hash YOK** (ADR-092 §6.1 kural 5 — sha256 yalnız girişte). `--deep` = gerçek sha256 karşılaştırması; JSON `teknik.sha256` ile fark → **HASH-FARK** (HATA). Salt okunur, `media\`'ya hiçbir şey yazmaz. |
+| `bin\ingest.php` | Kaynak → arşiv **taşma**; rapor `reports\ingest-YYYYMMDD-HHMM.csv`. Varsayılan **dry-run**: `--commit` **yokken tek bayt kopyalamaz** (`ingest.php:291` kilidi) · tek kopya noktası `ingest.php:328` (`copy()`). `--commit` ayrıca STDIN'den `evet` onayı ister. |
+
+> **⚠️ PHP 8.4 bu makinede yok → `php -l` / çalışma testi YAPILMADI (faz 2 ortamı).** Üçü de bu uyarıyı taşır; `composer` da bu makinede YOK (`composer.json` yazıldı, `vendor\` hiç oluşmadı).
 
 ---
 
