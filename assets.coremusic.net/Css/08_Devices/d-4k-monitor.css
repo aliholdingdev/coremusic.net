@@ -8,6 +8,7 @@
  * Target: 4K monitor or ultra-wide display
  */
 
+@import '../01_Abstracts/a-primitive-tokens.css?v=1.1.0';
 @import '../01_Abstracts/a-theme-config.css';
 @import '../01_Abstracts/a-colors-token.css';
 @import '../01_Abstracts/a-semantic-token.css';
