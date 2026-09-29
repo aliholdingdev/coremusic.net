@@ -4,7 +4,7 @@ type: "architecture-decision"
 category: "infrastructure"
 date: "2026-09-29"
 updated: "2026-09-29"
-version: "1.0.0"
+version: "1.1.1"
 status: "accepted"
 authority: "SSOT — media.coremusic.net medya ağacı yerleşimi: tek disk ekseni (sanatçı → albüm → parça), iki kök (audio/video), ULID kalıcı kimlik, yan-JSON meta, kontrolü taksonomi + serbest etiket"
 kaynak: "Kullanıcı karar metni (2026-09-29) + disk kanıtı: ADR-039 L120, VISION.md L136, CLAUDE.md §2.1, C: sürücü ölçümü (2026-09-29), şablon .ai/.templates/adr/adr-template.md"
@@ -90,14 +90,18 @@ governance: "Red Team · Human Mode · Truth Mode"
 ### §2.2 Yerleşim (fiziksel)
 
 ```
-C:\www\media.coremusic.net\
-├── media\          ← SADECE MEDYA AĞACI (audio\ + video\ + yan meta)
-├── src\            ← kod        (media DIŞI)
-├── config\         ← taxonomy.json vb. (media DIŞI)
-└── docs\           ← dokümanlar (media DIŞI)
+C:\www\coremusic.net\media.coremusic.net\     ← proje kökü (repo içinde, ADR-039 servisi)
+├─ .gitignore          ← media/ hariç (medya baytı git'e girmez)
+├─ media\              ← SADECE MEDYA
+├─ config\  docs\      ← medya dışı
+└─ [faz 2: public\ src\ bin\ cache\ reports\ catalog\]
 ```
 
 **Kural:** `media\` içine **yalnız medya ağacı** girer; kod / config / docs **media dışında** kalır (§7.1 kabul kriteri 1).
+
+**git kuralı:** `media/` .gitignore'da; repo yalnız kod/config/docs track eder (ADR-092 §6.1 kural 6 + §4.3 R2 ile uyumlu — C: izleme).
+
+> **Doğrulama (2026-09-29):** `media.coremusic.net\.gitignore` diskte mevcut → `git check-ignore media.coremusic.net/media` → `media.coremusic.net/.gitignore:2:media/` ✓ (38 GB+ medya baytı repo'ya girmez). Kast edilen bağ: **§6.1 kural 6 + §4.3 R2** (C: <31 GB izleme).
 
 ### §2.3 Neden Bu Seçenek? (Rationale)
 
@@ -187,7 +191,7 @@ C:\www\media.coremusic.net\
 | # | Adım | Sorumlu | Süre | Durum |
 |---|------|---------|------|-------|
 | 1 | Bu ADR'yi şablondan üret + künye/§1-§7 dolu (Guardrail #16) | Vault Steward | 2 dk | ✅ UYGULANDI (2026-09-29) |
-| 2 | İskeleniz: `media\` + `src\` + `config\` + `docs\` ayrımı (yalnız dizin/config/docs — **taşınma yok**) | Backend + Data | 1 gün | ⏳ PLANNED |
+| 2 | İskeleniz: `media\` + `src\` + `config\` + `docs\` ayrımı (yalnız dizin/config/docs — **taşınma yok**) | Backend + Data | 1 gün | ✅ UYGULANDI (2026-09-29 — 62 dizin + config 3 + docs 2) · `Test-Path 'C:\www\coremusic.net\media.coremusic.net\media'` = **True** |
 | 3 | `config\taxonomy.json` (kapalı taksonomi) + şema örnekleri `config/schema/*.json` + audit (regex/UTF-8) | Data Engineer | 2 gün | ⏳ PLANNED |
 | 4 | Kaynak sayım (7.551 dosya / 38,33 GB) doğrulaması — **salt-okunur**, taşınmadan | Data Engineer | 2 saat | ⏳ PLANNED (R1) |
 | 5 | `inbox → aktif → saklı → tekrar → arşiv` yaşam döngüsü akışı + C: <31 GB izleme | Backend + DevOps | 3 gün | ⏳ PLANNED |
@@ -264,7 +268,7 @@ C:\www\media.coremusic.net\
 
 ---
 
-*ADR-092 v1.0.0 — CoreMusic Architecture Decision Record*
+*ADR-092 v1.1.1 — CoreMusic Architecture Decision Record*
 *Authority: ADR-092 Karar Metni (SSOT)*
 *Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*
