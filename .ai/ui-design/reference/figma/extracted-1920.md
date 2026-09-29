@@ -6,6 +6,10 @@
 - cekilen node sayisi: 4
 - tum degerler API yanitindan alinmistir; API'de olmayan alanlar "API'den gelmedi" ile isaretlenmistir.
 
+- durum: eski nesil (ilk çekim 2026-09-24) — veri bayatlamadı, doğrulama 2026-09-29
+- doğrulama: ham JSON lastModified/version değişmedi → içerik hâlâ güncel
+- ilişkili: reference/figma/extracted-1047-15802.md (yeni nesil çekim) · reference/figma/_extraction-notes.md · reference/figma/token-conflicts.md
+
 ## 1. "Linux - 1920 - Home" (`2831:13747`) - FRAME
 
 - **boyut**: w=1920 h=1080 @x=606 y=-589
@@ -558,3 +562,12 @@ Yöneticisi" (w=78 h=18 @x=1721 y=-336.52) | fill: SOLID #FFFFFF alpha=1 | strok
     - `2831:10280` TEXT "Hoş gelidn" (w=66 h=23 @x=2237 y=-100) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW offset(x=0.5, y=0.5) blur=1 spread=API'den gelmedi color=#000000 alpha=0.8 | font: font=Arima size=14px weight=400 style=Regular ps=Arima-Regular align=LEFT line-height=22.862px (INTRINSIC_% 100%) letter-spacing=0 (unit: API'den gelmedi) | metin: "Hoş gelidn   "
     - `2831:10281` TEXT "Prenses Işıl Peri" (w=118 h=25 @x=2204 y=-57) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW offset(x=0.5, y=0.5) blur=1 spread=API'den gelmedi color=#000000 alpha=0.8 | font: font=Plus Jakarta Sans size=20px weight=600 style=SemiBold ps=PlusJakartaSans-SemiBold align=LEFT line-height=25.2px (INTRINSIC_% 100%) letter-spacing=0 (unit: API'den gelmedi) | metin: "Prenses Işıl Peri"
 
+---
+
+## Doğrulama
+
+- **Ölçüm tarihi:** 2026-09-29
+- **Doğrulanan raw dosya:** `reference/figma/raw/nodes-1024-1920.json` (başlıktaki `lastModified 2026-09-21T17:51:56Z | version 2401752188763178639` birebir aynı) · `reference/figma/raw/page-462-5874.json` (aynı lastModified/version, dosya adı `Core Music`)
+- **Bölüm/anahtar uyumu:** bu dosyada H2 = **4** bölüm · hamda 1920 grubu = **3** key (`2831:13747`, `2849:21489`, `2850:21494`) + paylaşılan `2831:10267` "Welcome Div" (1024 dosyasında da var) → başlıktaki `cekilen node sayisi: 4` bölüm sayısıyla tutarlı; sayılar değiştirilmemiştir.
+- **`layoutGrids` gerçeği (tüm raw set, sayfa bazında):** 1024:1 · 1920:2 · system:21 · 3840:0 · tv:0 (tekrarsız toplam 24) → ayrıntı ve ölçüm yöntemi: `reference/figma/grid-rules.md` §Doğrulama
+- **Açık borç:** yok (bu dosyada `⚠️` işaretli alan yok)
