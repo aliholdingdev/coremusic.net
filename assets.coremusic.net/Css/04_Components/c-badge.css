@@ -86,7 +86,84 @@
 }
 
 /* ============================================================
-   BADGE — Responsive: 4K
+   FIGMA (page 18:2907) — Faz 2 / Batch 1 EKLEME
+   Taşı → sonra sil protokolü: C10 Figma ölçü/renkleri (--cm-badge-* token'ları).
+   padding 2×8 · radius 9999 · font 12px/600 · bg = renk %20 tint.
+   ============================================================ */
+.badge {
+  gap: var(--space-1, 4px);
+  padding: var(--cm-badge-padding-y) var(--cm-badge-padding-x);
+  border-radius: var(--cm-badge-radius);
+  background: var(--cm-badge-primary-bg);
+  color: var(--cm-badge-pink-color);
+  font-family: var(--cm-font-ui);
+  font-size: var(--cm-badge-font-size);
+  font-weight: var(--cm-badge-font-weight);
+  transition: background-color var(--duration-fast) var(--ease-in-out);
+}
+
+.badge--primary {
+  background: var(--cm-badge-primary-bg);
+  color: var(--cm-badge-pink-color);
+}
+
+.badge--success {
+  background: var(--cm-badge-success-bg);
+  color: var(--cm-badge-green-color);
+}
+
+.badge--error {
+  background: var(--cm-badge-error-bg);
+  color: var(--cm-badge-orange-color);
+}
+
+.badge--neutral {
+  background: var(--cm-badge-neutral-bg);
+  color: var(--cm-badge-neutral-color);
+}
+
+/* legacy modifier'lar → Figma paleti (amber/blue-500 hex kaldırıldı) */
+.badge--warning {
+  background: var(--cm-badge-warning-bg);
+  color: var(--cm-badge-warning-color);
+}
+
+.badge--info {
+  background: var(--cm-badge-info-bg);
+  color: var(--cm-badge-info-color);
+}
+
+/* Sayı rozeti (JS: cm-badge count) */
+.badge--count {
+  min-width: calc(var(--cm-badge-font-size) + var(--cm-badge-padding-x));
+  justify-content: center;
+}
+
+/* Karar #6 — 48×48px dokunma alanı (yalnız etkileşimli kök;
+   ::after — ::before dot modifier'ının dolgusuyla çakışmasın) */
+.badge:is(button, a, [role="button"])::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--cm-hit-target);
+  height: var(--cm-hit-target);
+}
+
+/* Etkileşimli rozetlerde konum bağlamı oluşturur */
+.badge:is(button, a, [role="button"]) {
+  position: relative;
+  cursor: pointer;
+}
+
+.badge:is(button, a, [role="button"]):focus-visible {
+  outline: var(--focus-ring-width) var(--focus-ring-style) var(--cm-badge-pink-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ============================================================
+   BADGE — Responsive: 4K (legacy — taşınan Figma bloğu bu dosyanın sonunda ezilir)
    ============================================================ */
 @media (min-width: 3840px) {
   .badge {
@@ -102,5 +179,16 @@
   .badge--lg {
     font-size: 22px;
     padding: 6px 18px;
+  }
+}
+
+/* ============================================================
+   FIGMA — 3840 tier: primitive ölçüsü Figma'da YOK → 1920/1024 değeri miras
+   (Figma C10: tüm tier'larda aynı yapı — 12px, padding 2×8)
+   ============================================================ */
+@media (min-width: 3840px) {
+  .badge {
+    padding: var(--cm-badge-padding-y) var(--cm-badge-padding-x);
+    font-size: var(--cm-badge-font-size);
   }
 }

@@ -5,7 +5,7 @@ folder: ".ai/archives"
 category: vault
 date: 2026-09-06
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: reference
 ---
 
@@ -29,4 +29,4 @@ Tarihsel prompt arşivi: prompt0-genel, prompt1-spa-router, prompt2-auth, prompt
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-29

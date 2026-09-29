@@ -3,7 +3,7 @@ title: "K4 Yapay Zeka Katmanı - Genel Bakış"
 layer: K4
 category: "Yapay Zeka"
 date: 2026-09-20
-version: 1.0.0
+version: 1.0.1
 status: development
 components: 89
 dependencies: [K0, K1, K2, K3, K5]

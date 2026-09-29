@@ -2,10 +2,10 @@
 title: "CoreMusic — Agent Tartışma Turu Şablonu (3 Tur / 20 Persona)"
 type: template
 category: template
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
-updated: 2026-09-24
+updated: 2026-09-29
 ---
 
 # Agent Tartışma Turu Şablonu (3 Tur / 20 Persona)

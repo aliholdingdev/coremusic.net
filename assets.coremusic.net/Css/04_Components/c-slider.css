@@ -1,0 +1,96 @@
+/* 04_Components/c-slider.css */
+/* C09 Slider — Figma page 18:2907 (track h1, radius 50 · fill --cm-pink · thumb 14px) */
+/* BEM: .slider -> __input, __track, __fill, __thumb ; --disabled */
+/* Token kaynağı: 01_Abstracts/a-primitive-tokens.css */
+/* Karar #6: görsel track 1px'te kalır; dokunma alanı .slider__input'ın 48px yüksekliğidir
+   (<input>::before basılmaz — pseudo-element yerine kutu yüksekliği kullanıldı) */
+
+.slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--cm-hit-target);
+  font-family: var(--cm-font-ui);
+}
+
+/* Yer tutucu: JS/HTML iç yapıyı oluşturana kadar boyut korur */
+.slider__track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: var(--cm-slider-track-h);
+  border-radius: var(--cm-slider-track-radius);
+  background: var(--cm-slider-track-bg);
+  pointer-events: none;
+}
+
+.slider__fill {
+  display: block;
+  height: 100%;
+  width: var(--cm-slider-progress, 0%);
+  border-radius: var(--cm-slider-track-radius);
+  background: var(--cm-slider-fill-bg);
+}
+
+.slider__thumb {
+  position: absolute;
+  left: var(--cm-slider-progress, 0%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--cm-slider-thumb-size);
+  height: var(--cm-slider-thumb-size);
+  border: var(--cm-button-stroke) solid var(--cm-slider-thumb-stroke-color);
+  border-radius: 50%;
+  background: var(--cm-slider-thumb-color);
+  pointer-events: none;
+  transition: transform var(--duration-fast) var(--ease-in-out);
+}
+
+/* Şeffaf yerel range — tüm erişilebilirlik (klavye/aria/dokunma) buradan gelir */
+.slider__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+.slider__input:disabled {
+  cursor: not-allowed;
+}
+
+/* ─── Odak (görünür halka .slider kökünde) ─── */
+.slider:has(.slider__input:focus-visible) {
+  outline: var(--focus-ring-width) var(--focus-ring-style) var(--cm-slider-thumb-stroke-color);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--cm-slider-track-radius);
+}
+
+/* ─── Durumlar (envanter C09: dragging / disabled) ─── */
+.slider__input:active ~ .slider__thumb {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+.slider--disabled {
+  opacity: var(--cm-button-disabled-opacity);
+  pointer-events: none;
+}
+
+.slider--disabled .slider__fill {
+  background: var(--cm-slider-track-bg);
+}
+
+/* ─── Tercih: hareket azaltma ─── */
+@media (prefers-reduced-motion: reduce) {
+  .slider__thumb {
+    transition: none;
+  }
+}

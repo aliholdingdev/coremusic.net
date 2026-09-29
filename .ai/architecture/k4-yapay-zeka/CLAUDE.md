@@ -5,7 +5,7 @@ folder: "architecture/k4-yapay-zeka"
 category: vault
 date: 2026-09-20
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: reference
 ---
 
@@ -44,4 +44,4 @@ Audio Input → Feature Extraction → Model Inference → Post-processing → O
 
 *K4 CLAUDE.md v1.0.0 — CoreMusic*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-20*
+*Last Updated: 2026-09-29*

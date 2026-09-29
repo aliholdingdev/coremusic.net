@@ -5,7 +5,7 @@ folder: "architecture/k15-medya-streaming"
 category: vault
 date: 2026-09-20
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: reference
 ---
 
@@ -42,4 +42,4 @@ ffmpeg -i input.flac -b:a 320k output.mp3
 
 *K15 CLAUDE.md v1.0.0 — CoreMusic*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-20*
+*Last Updated: 2026-09-29*

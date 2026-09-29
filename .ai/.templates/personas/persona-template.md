@@ -2,10 +2,10 @@
 title: "CoreMusic — Persona Şablonu"
 type: template
 category: personas
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
-updated: 2026-09-26
+updated: 2026-09-29
 ---
 
 # CoreMusic — Persona Şablonu
@@ -690,5 +690,5 @@ Kapsam dışı için: genel doküman → `[[.templates/documentation/docs-md-tem
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -2,14 +2,14 @@
 title: "Ekosistem Mimarileri — Streaming Devi Pipeline Dersleri"
 type: guide
 category: ecosystem
-version: 1.0.0
+version: 1.0.1
 description: "Spotify microservice hesap/yükleme/arama/playlist kullanıcı servisleri ve transcode pipeline'ı, Apple Music ve YouTube Music mimarileri — CoreMusic K8/K9/K14/K15 katmanlarına server+client ikili rol ve session çıkarımlarıyla entegrasyon planı."
 durum: active
 tarih: 2026-09-24
 kaynak: exa web doğrulaması (2026-09-24); Spotify Engineering (account/upload/search/playlist/user microservices + transcode pipeline), Apple Music mimarisi, YouTube Music mimarisi, Koel 17.175★ MIT, Ampache 3.809★ AGPL-3.0
 status: active
 authority: "Streaming devi mimarileri; CoreMusic sunucu/istemci katmanlarında K8/K9/K14/K15 referansıdır — AGPL kod asla kopyalanmaz."
-updated: 2026-09-24
+updated: 2026-09-29
 ---
 
 # CoreMusic — Ekosistem Mimarileri — Streaming Devi Pipeline Dersleri

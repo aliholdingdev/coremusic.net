@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-091: TemplateEngine eval() Kaldırımı (Guardrail §2
 type: "architecture-decision"
 category: "security"
 date: "2026-09-27"
-updated: "2026-09-27"
-version: "1.0.0"
+updated: "2026-09-29"
+version: "1.0.1"
 status: "accepted"
 authority: "SSOT — TemplateEngine renderString yürütme stratejisi; Guardrail §21 (eval yasağı) kod tarafında tek karşılığı bu karardır"
 kaynak: "Kullanıcı onayı (2026-09-27): 'eval'siz aynı davranış' — tam DSL'e geçiş YOK + disk kanıtı taraması (shared/src/Component/TemplateEngine.php:70)"
@@ -186,5 +186,5 @@ try {
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-27
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

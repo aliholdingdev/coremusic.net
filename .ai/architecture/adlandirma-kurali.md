@@ -3,11 +3,11 @@ title: "CoreMusic — Katman Adlandırma Kuralı (K{n}.a.b.c)"
 type: architecture-rule
 category: architecture
 date: 2026-09-24
-updated: 2026-09-24
+updated: 2026-09-29
 tarih: 2026-09-24
 durum: önerildi
 status: proposed
-version: 1.0.0
+version: 1.0.1
 kaynak: "3 turlu agent tartışması 20 persona"
 authority: "SSOT — mimari adlandırma kuralı (.ai/CLAUDE.md §5 hiyerarşisine bağlı)"
 governance: Red Team · Human Mode · Truth Mode
@@ -82,7 +82,7 @@ Geçerli düğüm adı şu düzenli ifadeyle eşleşmelidir:
 | n aralığı | 0-20 (21 katman sabit) | K21+ reddedilir |
 | Segment sıfır yasağı | Hiçbir ara segment 0 olamaz (\.[1-9][0-9]*) | §4 K7.0.x red gerekçesi |
 | Maksimum derinlik | 3 nokta = 4 seviye | 5. seviye reddedilir |
-| Segment yazımı | Ondalık, süresiz genişleyebilir (a=1…99) | Kısaltma/eksi写 yasak |
+| Segment yazımı | Ondalık, süresiz genişleyebilir (a=1…99) | Kısaltma/eksi yazım yasak <!-- ⚠️ VERIFICATION REQUIRED: orijinal metindeki Çince glif bağlama göre "yazım" olarak çevrildi (2026-09-29) --> |
 
 ### §2.3 Geçerli ve Geçersiz Örnekler
 

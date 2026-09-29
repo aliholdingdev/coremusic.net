@@ -4,9 +4,9 @@ title: "CoreMusic — Master Architecture Index"
 type: architecture-index
 category: architecture
 date: 2026-09-20
-updated: 2026-09-24
+updated: 2026-09-29
 status: active
-version: 3.0.0
+version: 3.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -601,5 +601,5 @@ Bu dosya bağımlılık kuralı ÜRETMEZ; yalnız bağlar (AGENTS.md §25.3 — 
 
 *Master Architecture Index v3.0.0 — CoreMusic Architecture*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-24*
+*Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*

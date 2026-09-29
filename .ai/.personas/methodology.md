@@ -2,10 +2,10 @@
 title: "CoreMusic — Persona Test Metodolojisi (Seviye 1-4 · PREPARE → EXECUTE → REPORT · ADR-023 Coverage Gate)"
 type: methodology
 category: personas
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: reference
-updated: 2026-09-26
+updated: 2026-09-29
 ---
 
 # CoreMusic — Persona Test Metodolojisi
@@ -764,5 +764,5 @@ OKU (persona + research-bank + bu dosya) → PREPARE → SEVIYE 1 → SEVIYE 2 �
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -3,8 +3,8 @@ title: "CoreMusic — PHP Backend Development Template"
 type: template
 category: template
 date: 2026-09-06
-updated: 2026-09-27
-version: 2.0.1
+updated: 2026-09-29
+version: 2.0.2
 status: active
 authority: reference
 ---
@@ -547,4 +547,4 @@ Dosya commit edilmeden önce kalite kapıları sırayla kontrol edilir; tek bir 
 ---
 
 **Template Version:** 2.0.0
-**Last Updated:** 2026-09-27
+**Last Updated:** 2026-09-29

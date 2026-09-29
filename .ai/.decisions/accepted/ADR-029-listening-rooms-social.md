@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-029: Listening Rooms Social (Tam Senkron Dinleme Odas�
 type: adr
 category: social
 date: 2026-09-25
-updated: 2026-09-25
-version: 1.1.0
+updated: 2026-09-29
+version: 1.1.1
 status: accepted
 authority: ADR-029 Karar Metni (SSOT)
 governance: Red Team · Human Mode · Truth Mode

@@ -3,11 +3,11 @@ title: "ADR-025 — K8.2 / K15 Sınırı (Servis Ucu vs Boru Hattı Sahibi)"
 type: adr
 category: architecture
 date: 2026-09-24
-updated: 2026-09-24
+updated: 2026-09-29
 tarih: 2026-09-24
 durum: önerildi
 status: proposed
-version: 1.0.0
+version: 1.0.1
 kaynak: "3 turlu agent tartışması 20 persona"
 authority: "Karar metninin kendisi (Guardrail #16 adr-template iskeleti)"
 governance: Red Team · Human Mode · Truth Mode
@@ -56,7 +56,7 @@ FFmpeg ilgisi **iki ayrı yerde** tekrar ediyor (2026-09-24 glob kanıtı):
 | .ai/architecture/k8-servis/media-service.md | K8 (K8.2 Media Servis) | Medya servisi — transcode akışı anlatılıyor | Boru hattı detayı servis katmanına sızmış |
 | .ai/architecture/k15-medya-streaming/ffmpeg-pipeline.md | K15 Medya & Streaming | FFmpeg boru hattı — transcode akışı anlatılıyor | Asıl sahip burası |
 
-k8-servis/README.md (14 dosya) ile k15-medya-streaming/README.md (16 dosya)各自 indekslerinde medya sorumluluklarını listeler; iki indeks arasındaki sınır yazılı değildi.
+k8-servis/README.md (14 dosya) ile k15-medya-streaming/README.md (16 dosya) kendi indekslerinde medya sorumluluklarını listeler; iki indeks arasındaki sınır yazılı değildi.
 
 ### §3.2 Sorun Tanımı
 
@@ -271,5 +271,5 @@ Sınır uygulanamazsa (örn. K15 arayüzü iş emrini taşıyamıyorsa): (1) cü
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

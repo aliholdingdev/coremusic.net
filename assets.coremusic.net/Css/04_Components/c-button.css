@@ -1,0 +1,136 @@
+/* 04_Components/c-button.css */
+/* C04 Button — Figma page 18:2907 (1024: 27×12 r2 stroke .5 / 1920: 47×20 r2) */
+/* BEM: .btn -> --primary, --secondary, --ghost, --danger ; .is-loading, .is-disabled */
+/* Token kaynağı: 01_Abstracts/a-primitive-tokens.css (ham hex/px YASAK) */
+/* Karar #6: görsel boyut Figma'da kalır, dokunma alanı ::before 48×48px */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1, 4px);
+  min-width: var(--cm-button-w);          /* ErrorHandler.php <a class="btn"> yaşasın */
+  min-height: var(--cm-button-h);
+  padding: 0 var(--space-1, 4px);
+  border: var(--cm-button-stroke) solid transparent;
+  border-radius: var(--cm-button-radius);
+  background: var(--cm-button-primary-bg);
+  color: var(--cm-button-color);
+  font-family: var(--cm-font-ui);
+  font-size: var(--cm-ui-font-xs);
+  font-weight: var(--cm-ui-font-xs-weight);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-in-out),
+    color var(--duration-fast) var(--ease-in-out),
+    border-color var(--duration-fast) var(--ease-in-out);
+}
+
+/* ─── Durumlar (default → hover → active) ─── */
+.btn:hover {
+  background: var(--cm-button-primary-bg-hover);
+}
+
+.btn:active {
+  background: var(--cm-button-primary-bg-active);
+}
+
+.btn.is-loading {
+  cursor: progress;
+}
+
+.btn.is-disabled,
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: var(--cm-button-disabled-opacity);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Varyantlar (envanter C04) ─── */
+.btn--primary {
+  background: var(--cm-button-primary-bg);
+  color: var(--cm-button-color);
+  border-color: transparent;
+}
+
+.btn--primary:hover {
+  background: var(--cm-button-primary-bg-hover);
+}
+
+.btn--primary:active {
+  background: var(--cm-button-primary-bg-active);
+}
+
+.btn--secondary {
+  background: var(--cm-button-secondary-bg);
+  color: var(--cm-button-secondary-color);
+  border-color: var(--cm-button-secondary-stroke-color);
+}
+
+.btn--secondary:hover {
+  background: var(--cm-button-secondary-bg-hover);
+  color: var(--cm-button-secondary-color);
+}
+
+.btn--ghost {
+  background: var(--cm-button-ghost-bg);
+  color: var(--cm-button-ghost-color);
+  border-color: var(--cm-button-ghost-stroke-color);
+}
+
+.btn--ghost:hover {
+  background: var(--cm-button-ghost-bg-hover);
+}
+
+.btn--danger {
+  background: var(--cm-button-danger-bg);
+  color: var(--cm-button-danger-color);
+  border-color: transparent;
+}
+
+.btn--danger:hover {
+  background: var(--cm-button-danger-bg-hover);
+  color: var(--cm-button-color);
+}
+
+/* ─── Odak (WCAG 2.2 AA — token ring) ─── */
+.btn:focus-visible {
+  outline: var(--focus-ring-width) var(--focus-ring-style) var(--cm-button-stroke-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ─── Karar #6 — 48×48px dokunma alanı (görsel boyut değişmez) ─── */
+.btn::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--cm-hit-target);
+  height: var(--cm-hit-target);
+}
+
+/* ─── Loading: içeriği gizle, boşluk koru ─── */
+.btn.is-loading > * {
+  visibility: hidden;
+}
+
+/* ─── Tier 3840: 1920 değerleri miras (Figma primitive ölçüsü yok) ─── */
+@media (min-width: 1920px) {
+  .btn {
+    min-width: var(--cm-button-w);
+    min-height: var(--cm-button-h);
+  }
+}
+
+/* ─── Tercih: hareket azaltma ─── */
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+}

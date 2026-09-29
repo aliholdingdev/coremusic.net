@@ -2,10 +2,10 @@
 title: "CoreMusic — Persona: Elifsu Kaya-Arabesk"
 type: persona
 category: personas
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Persona — SSOT: personas/kiz-cocuk/elifsu-kaya-arabesk"
-updated: 2026-09-26
+updated: 2026-09-29
 group: kiz-cocuk
 age: 9
 mood: Arabesk Kaşif
@@ -510,5 +510,5 @@ Davranış notları:
 ---
 
 **Authority:** Persona — SSOT: personas/kiz-cocuk/elifsu-kaya-arabesk
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-027: Dual-Mode Storage Strategy (Online + Offline Yere
 type: adr
 category: infrastructure
 date: 2026-09-25
-updated: 2026-09-25
-version: 1.1.0
+updated: 2026-09-29
+version: 1.1.1
 status: accepted
 authority: ADR-027 Karar Metni (SSOT)
 governance: Red Team · Human Mode · Truth Mode

@@ -2,10 +2,10 @@
 title: "CoreMusic — Mood Taksonomisi (25 Küme · 6 Grup Eşlemesi)"
 type: reference
 category: personas
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: reference
-updated: 2026-09-26
+updated: 2026-09-29
 ---
 
 # CoreMusic — Mood Taksonomisi (25 Küme · 6 Grup Eşlemesi)
@@ -539,5 +539,5 @@ ADR-023 §2.2a satır bazlı eşleşme (mood adları bu taksonomidendir):
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

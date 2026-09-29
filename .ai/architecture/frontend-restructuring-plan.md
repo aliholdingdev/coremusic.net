@@ -5,7 +5,7 @@ type: architecture
 category: frontend-architecture
 date: 2026-09-23
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -1329,6 +1329,6 @@ Tüm ikonlar tek bir SVG sprite'ta toplanır:
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29
 **Version:** 1.0.0
 **Mode:** Red Team · Human Mode · Truth Mode

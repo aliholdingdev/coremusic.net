@@ -9,7 +9,7 @@ date: 2026-09-20
 
 ## Genel Bakış
 
-AirPlay 2, Apple cihazlardan COREMUSIC hoparlörlerine yüksek kaliteli, düşük gecikmeli ses akışı sağlayan protokoldür. Çoklu oda desteği, fikir birliği tabanlı senkronizasyon ve ALAC (Apple Lossless) codec entegrasyonu ile profesyonel ses dağıtımı sunar. <!-- ⚠️ VERIFICATION REQUIRED: "考古δε" anlamsız bozuk metindi, silindi (2026-09-24) -->
+AirPlay 2, Apple cihazlardan COREMUSIC hoparlörlerine yüksek kaliteli, düşük gecikmeli ses akışı sağlayan protokoldür. Çoklu oda desteği, fikir birliği tabanlı senkronizasyon ve ALAC (Apple Lossless) codec entegrasyonu ile profesyonel ses dağıtımı sunar. <!-- ⚠️ VERIFICATION REQUIRED: anlamsız Çince+Yunan karışımı bozuk metin (2 glif + "δε"), silindi (2026-09-24) -->
 
 ## Protokol Detayı
 

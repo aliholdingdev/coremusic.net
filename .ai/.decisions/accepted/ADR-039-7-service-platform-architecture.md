@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-039: 7-Service Platform Architecture (11 servis + PLAN
 type: "architecture-decision"
 category: "architecture"
 date: "2026-09-26"
-updated: "2026-09-26"
-version: "1.0.0"
+updated: "2026-09-29"
+version: "1.0.1"
 status: "accepted"
 authority: "SSOT — CoreMusic servis platformu: 11 servis listesi, servis sınırları (sahip + veri sınırı), iletişim sözleşmesi ve kademeli ayrışma sırası"
 kaynak: "Kullanıcı onaylı servis kapsamı (11 servis + PLANNED katmanlar) + disk/kod kanıtı taraması + exa web araştırması (18 kaynak)"
@@ -312,5 +312,5 @@ Ayrışma tetikleyicisi: **ölçülmüş** bir darboğaz (gecikte, deploy süres
 
 *ADR-039 v1.0.0 — CoreMusic Architecture Decision Record*
 *Authority: ADR-039 Karar Metni (SSOT)*
-*Last Updated: 2026-09-26*
+*Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*

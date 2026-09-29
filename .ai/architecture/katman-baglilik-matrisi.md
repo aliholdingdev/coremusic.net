@@ -1,8 +1,8 @@
 ---
 title: "COREMUSIC Katman Bağımlılık Matrisi"
-version: "1.1.0"
+version: "1.1.1"
 date: "2026-09-20"
-updated: "2026-09-24"
+updated: "2026-09-29"
 author: "COREMUSIC Mimari Ekibi"
 type: "mimari-referans"
 katman_araligi: "K0-K20"
@@ -520,4 +520,4 @@ Bu doküman, COREMUSIC projesinin 21 katmanı (K0–K20) arasındaki bağımlıl
 ---
 
 *Bu doküman COREMUSIC projesinin resmi mimari referansıdır. Herhangi bir değişiklik için Mimari Komite onayı gereklidir.*
-*Authority: Bayram Ali / Vault Steward · Last Updated: 2026-09-24 · Mode: Red Team · Human Mode · Truth Mode*
+*Authority: Bayram Ali / Vault Steward · Last Updated: 2026-09-29 · Mode: Red Team · Human Mode · Truth Mode*

@@ -3,9 +3,9 @@ type: index
 category: decisions
 title: "CoreMusic — Decisions Index"
 date: 2026-08-15
-updated: 2026-09-24
+updated: 2026-09-29
 status: active
-version: 1.1.1
+version: 1.1.2
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 total-accepted: 68
@@ -158,5 +158,5 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 *Decisions Index v1.1.1 — CoreMusic Vault*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-24*
+*Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*

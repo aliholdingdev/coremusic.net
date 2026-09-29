@@ -1,0 +1,75 @@
+/* 04_Components/c-tooltip.css */
+/* C12 Tooltip — Figma sayfa 18:2907 · Envanter: .ai/ui-design/02-component-inventory.md C12 */
+/* BEM: .tooltip, .tooltip--top, .tooltip--bottom, .tooltip__arrow, .tooltip__text ; durum: .is-visible */
+/* Token kaynağı: 01_Abstracts/a-primitive-tokens.css + a-design-tokens.css (ham hex/px YASAK) */
+
+.tooltip {
+    position: absolute;
+    z-index: 40;
+    display: inline-flex;
+    align-items: center;
+    max-inline-size: 240px;
+    padding: var(--space-1, 4px) var(--space-2, 8px);
+    border-radius: var(--cm-button-radius);
+    background: var(--cm-gray-dark);
+    color: var(--cm-gray-light);
+    font-family: var(--cm-font-ui);
+    font-size: var(--cm-ui-font-xs);
+    line-height: 1.4;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(2px);
+    transition:
+        opacity var(--duration-fast) var(--ease-in-out),
+        transform var(--duration-fast) var(--ease-in-out);
+}
+
+.tooltip.tooltip--top {
+    inset-block-end: calc(100% + var(--space-1, 4px));
+    inset-inline-start: 50%;
+    transform: translateX(-50%) translateY(2px);
+}
+
+.tooltip.tooltip--bottom {
+    inset-block-start: calc(100% + var(--space-1, 4px));
+    inset-inline-start: 50%;
+    transform: translateX(-50%) translateY(-2px);
+}
+
+.tooltip.is-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.tooltip.tooltip--bottom.is-visible {
+    transform: translateX(-50%) translateY(0);
+}
+
+.tooltip__arrow {
+    position: absolute;
+    inline-size: 6px;
+    block-size: 6px;
+    background: inherit;
+    transform: rotate(45deg);
+}
+
+.tooltip.tooltip--top .tooltip__arrow {
+    inset-block-end: -3px;
+    inset-inline-start: calc(50% - 3px);
+}
+
+.tooltip.tooltip--bottom .tooltip__arrow {
+    inset-block-start: -3px;
+    inset-inline-start: calc(50% - 3px);
+}
+
+.tooltip[hidden] {
+    display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tooltip {
+        transition: none;
+        transform: translateX(-50%);
+    }
+}

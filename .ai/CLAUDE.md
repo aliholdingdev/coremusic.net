@@ -2,10 +2,10 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.3.4
+version: 27.3.5
 status: active
 authority: SSOT
-updated: 2026-09-27
+updated: 2026-09-29
 ---
 
 # CoreMusic — AI Constitution & Master Vault Mandate
@@ -932,5 +932,5 @@ Agent listesi ve profil tablosu (11 agent): [[AGENTS.md]] §4 (Agent Overview) v
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-27
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

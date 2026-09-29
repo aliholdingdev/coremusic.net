@@ -141,3 +141,59 @@
     min-height: 48px;
   }
 }
+
+/* ============================================================
+   FIGMA (page 18:2907) — Faz 2 / Batch 1 EKLEME
+   Taşı → sonra sil protokolü: aşağıdaki bloklar Figma tier değerlerini
+   uygular (--cm-toggle-* token'ları, a-primitive-tokens.css).
+   Aynı dosyanın önceki kuralları kaynak sırasıyla ezilir; legacy silinmez.
+   Tier: 1024 = 12.5×5 r50 knob 5×5 · 1920 (ve 3840 mirası) = 24×10 r50 knob 8×8
+   ============================================================ */
+.toggle {
+  width: var(--cm-toggle-w);
+  height: var(--cm-toggle-h);
+  min-width: var(--cm-toggle-w);   /* pointer:coarse kuralı bu sayede geçersiz */
+  min-height: var(--cm-toggle-h);  /* Karar #6: görsel boyut Figma'da kalır */
+  padding: 0;
+  border: none;
+  background: var(--cm-toggle-bg);
+  border-radius: var(--cm-toggle-radius);
+  transition: background-color var(--duration-fast) var(--ease-in-out);
+}
+
+.toggle__knob {
+  top: 0;
+  left: 0;
+  width: var(--cm-toggle-knob-size);
+  height: var(--cm-toggle-knob-size);
+  max-width: var(--cm-toggle-h);
+  max-height: var(--cm-toggle-h);
+  margin-top: 0;
+  background: var(--cm-toggle-knob-color);
+  box-shadow: none;
+  transition: transform var(--duration-fast) var(--ease-in-out);
+}
+
+.toggle--active {
+  background: var(--cm-toggle-bg-on);
+}
+
+.toggle--active .toggle__knob {
+  transform: translateX(calc(var(--cm-toggle-w) - var(--cm-toggle-knob-size)));
+}
+
+.toggle:focus-visible {
+  outline: var(--focus-ring-width) var(--focus-ring-style) var(--cm-pink);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Karar #6 — 48×48px dokunma alanı (görsel boyut Figma'da kalır) */
+.toggle::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--cm-hit-target);
+  height: var(--cm-hit-target);
+}

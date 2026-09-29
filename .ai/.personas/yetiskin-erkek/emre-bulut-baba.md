@@ -2,10 +2,10 @@
 title: "CoreMusic — Persona: Emre Bulut"
 type: persona
 category: personas
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Persona — SSOT: personas/yetiskin-erkek/emre-bulut-baba"
-updated: 2026-09-26
+updated: 2026-09-29
 group: yetiskin-erkek
 age: 37
 mood: Baba
@@ -499,5 +499,5 @@ Davranış notları:
 ---
 
 **Authority:** Persona — SSOT: personas/yetiskin-erkek/emre-bulut-baba
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

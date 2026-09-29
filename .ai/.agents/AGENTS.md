@@ -3,8 +3,8 @@ title: "CoreMusic — Agent Alt-Registry (Profil İndeksi)"
 type: agent-registry
 category: agent-registry
 date: 2026-09-23
-updated: 2026-09-27
-version: 1.2.4
+updated: 2026-09-29
+version: 1.2.5
 status: active
 authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.4)"
 ---
@@ -518,5 +518,5 @@ authority: SSOT
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-27
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

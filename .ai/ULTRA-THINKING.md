@@ -4,9 +4,9 @@ type: protocol
 category: ai
 title: "AI Düşünme Protokolü — Ultra Thinking Protocol"
 date: 2026-09-19
-updated: 2026-09-23
+updated: 2026-09-29
 status: active
-version: 2.0.0
+version: 2.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
@@ -658,6 +658,6 @@ Ultra Thinking Protocol, zamanla **otomatik bir düşünme asistanına** dönü�
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-19
+**Last Updated:** 2026-09-29
 **Version:** 2.0.0
 **Mode:** Red Team · Human Mode · Truth Mode

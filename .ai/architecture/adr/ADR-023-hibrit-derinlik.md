@@ -3,11 +3,11 @@ title: "ADR-023 — Hibrit Derinlik Stratejisi (Kanıt-Üstü 4. Seviye)"
 type: adr
 category: architecture
 date: 2026-09-24
-updated: 2026-09-24
+updated: 2026-09-29
 tarih: 2026-09-24
 durum: önerildi
 status: proposed
-version: 1.0.0
+version: 1.0.1
 kaynak: "3 turlu agent tartışması 20 persona"
 authority: "Karar metninin kendisi (Guardrail #16 adr-template iskeleti)"
 governance: Red Team · Human Mode · Truth Mode
@@ -254,5 +254,5 @@ Derinlik kuralı uygulanamaz veya sakat bulunursa: (1) betik exit 1'i durdurucu 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

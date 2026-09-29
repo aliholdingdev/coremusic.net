@@ -4,8 +4,14 @@
  * Scans DOM for data-cm-component attributes, instantiates components via registry.
  * MutationObserver for dynamic content (SPA compatibility).
  *
+ * Faz 2 / Batch 1 — eklenen: constructor registry verilmezse singleton'a düşer;
+ * observe() ikinci kez çağrılınca eski observer disconnect edilir (sızıntı önlemi).
+ *
  * @package CoreMusic\Components\Base
+ * @version 2.0.0
  */
+import ComponentRegistry from './ComponentRegistry.js';
+
 export default class ComponentLoader {
     /** @type {import('./ComponentRegistry.js').default} */
     #registry = null;
@@ -20,7 +26,7 @@ export default class ComponentLoader {
      * @param {import('./ComponentRegistry.js').default} [registry] — Varsayılan: singleton
      */
     constructor(registry) {
-        this.#registry = registry;
+        this.#registry = registry ?? ComponentRegistry.getInstance();
     }
 
     /**
@@ -44,10 +50,12 @@ export default class ComponentLoader {
 
     /**
      * MutationObserver başlatır — dinamik eklenen element'leri otomatik mount eder.
+     * Tekrar çağrılırsa önceki observer disconnect edilir (Faz 2: sızıntı önlemi).
      *
      * @param {HTMLElement} [root=document.body]
      */
     observe(root = document.body) {
+        this.disconnect();
         this.#observer = new MutationObserver((mutations) => {
             for (const mutation of mutations) {
                 if (mutation.type === 'childList') {

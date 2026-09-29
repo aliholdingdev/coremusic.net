@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-019: Per-OS Neva Player (Windows ASIO/WASAPI · macOS 
 type: adr
 category: audio
 date: 2026-09-25
-updated: 2026-09-25
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: accepted
 authority: ADR-019 Karar Metni (SSOT)
 governance: Red Team · Human Mode · Truth Mode
@@ -356,6 +356,6 @@ public:
 
 *ADR-019 v1.0.0 — CoreMusic Architecture Decision Record*
 *Authority: ADR-019 Karar Metni (SSOT) · Mode: Red Team · Human Mode · Truth Mode*
-*Last Updated: 2026-09-25*
+*Last Updated: 2026-09-29*
 
 *ADR-019 debate | 2026-09-25 | ✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL) · Tech Lead ✅ · 3 şart (§5.4) · frozen YOK (Arch Lead ⏳)*

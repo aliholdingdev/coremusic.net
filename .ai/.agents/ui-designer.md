@@ -3,8 +3,8 @@ title: "CoreMusic — UI Designer Agent Profile"
 type: profile
 category: agent-registry
 date: 2026-08-08
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-29
+version: 2.0.1
 status: active
 authority: reference
 ---
@@ -503,5 +503,5 @@ Sonraki adım: [1 eylem, 2 dakika]
 ---
 
 **Authority:** SSOT — domain tekel: UI Designer (Orta — Uygulama Design System)  
-**Last Updated:** 2026-09-23  
+**Last Updated:** 2026-09-29  
 **Mode:** IMPLEMENTED (Truth Mode — disk doğrulanmış: 8 ITCSS katman, 65 CSS, 65 JS, ui-design 00-05 + tokens + prompt; 09_*/manifest/vitest = ⚠️ PLANNED)

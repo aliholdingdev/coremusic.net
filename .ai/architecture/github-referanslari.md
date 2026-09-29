@@ -2,7 +2,7 @@
 title: "GitHub Açık Kaynak Referansları"
 project: "COREMUSIC Architecture"
 created: 2026-09-20
-version: 2.0
+version: 2.0.1
 description: "COREMUSIC projesi için GitHub üzerindeki açık kaynak referansların derlenmesi — katman bazlı eşleme dahil"
 categories:
   - ses-isleme
@@ -506,5 +506,5 @@ Her referans tek bir birincil katmana atanır; çapraz referans gerekiyorsa ikin
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

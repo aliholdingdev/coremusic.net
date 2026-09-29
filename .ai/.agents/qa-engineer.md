@@ -3,8 +3,8 @@ title: QA Engineer — Test Mühendisi Agent Profili
 type: agent-profile
 category: agents
 date: 2026-08-08
-updated: 2026-09-27
-version: 2.1.2
+updated: 2026-09-29
+version: 2.1.3
 status: active
 authority: reference
 ---
@@ -546,5 +546,5 @@ Gözlemlenemeyen sinyal en pahalı edge case'dir: doğrulanamayan iddia, yanlı�
 ---
 
 **Authority:** Agent Profile — SSOT: `.ai/AGENTS.md`
-**Last Updated:** 2026-09-27
+**Last Updated:** 2026-09-29
 **Mode:** STANDARD (implementation-ready)

@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-041: Database Normalization Supplementary (şema adlan
 type: "architecture-decision"
 category: "database"
 date: "2026-09-26"
-updated: "2026-09-26"
-version: "1.0.0"
+updated: "2026-09-29"
+version: "1.0.1"
 status: "accepted"
 authority: "SSOT — ADR-033'ün tamamlayıcısı (birincil ADR-033'tür): adlandırma standardı, veri tipi standardı, view & materialized view politikası, trigger & procedure politikası, audit/log tablo hizası (ADR-022) ve N+1/erişim desenleri (ADR-002/ADR-039)"
 kaynak: "Kullanıcı onaylı 6 alt konu (a-f) + disk kanıtı taraması (18 SQL / 156 tablo / 260 PHP, 2026-09-26) + web araştırması (5 sorgu / 33 atıf / 31 benzersiz kaynak)"
@@ -400,5 +400,5 @@ Tüm sayımlar **2026-09-26** taramasıdır: `.ai/.sql/mysql/*.sql` (18 dosya) v
 
 *ADR-041 v1.0.0 — CoreMusic Architecture Decision Record*
 *Authority: ADR-041 Karar Metni (SSOT)*
-*Last Updated: 2026-09-26*
+*Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*

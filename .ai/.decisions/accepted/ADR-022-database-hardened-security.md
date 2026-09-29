@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-022: Database Hardened Security (Prepared Statement Ya
 type: adr
 category: security
 date: 2026-09-25
-updated: 2026-09-25
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: accepted
 authority: ADR-022 Karar Metni (SSOT)
 governance: Red Team · Human Mode · Truth Mode
@@ -339,6 +339,6 @@ Anahtar/kimlik = .env (ADR-015)  —  dump/backup'ta şifre REDACTED  ·  ad/tel
 
 *ADR-022 v1.0.0 — CoreMusic Architecture Decision Record*
 *Authority: ADR-022 Karar Metni (SSOT) · Mode: Red Team · Human Mode · Truth Mode*
-*Last Updated: 2026-09-25*
+*Last Updated: 2026-09-29*
 
 *ADR-022 debate | 2026-09-25 | ✅ TAMAMLANDI (3 tur/20 persona, 18/2/0 KABUL + 3 şart §5.4) · Tech Lead ✅ · Arch Lead ⏳ · frozen YOK*

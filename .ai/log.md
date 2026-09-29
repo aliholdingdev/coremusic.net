@@ -684,3 +684,4 @@ E2E (Playwright): logout -> login -> dogrudan home:81/home (500/404 yok) · 9 da
 - Cakisan skill kurallari: orchestration "max 400 satir" vs skill-maker "max 2000"; truth-engine "web arama yasak" vs prompt-maker/skill-maker zorunlu arama.
 - updated: alaninin skill-maker sablonuna islenmesi karari.
 - Eski acik madde durumu: case-variant duplicate baslik (14) kabul edildi; sureler NULL (ffprobe yok).
+| 2026-09-29 | vault-rewrite | Faz 4 sweep tamamlandı: CJK/mojibake 86 dosya onarımı (log.md hariç frozen), frontmatter updated→09-28/29 ×277, footer Last Updated→09-29 ×69, version patch+1, kök AGENTS.md alıntı v22.0.5/v1.2.5 senkronu; frontmatter'sız 423 dosya raporlandı (zorla eklenmedi) | vault-updater |

@@ -1,0 +1,80 @@
+/* 04_Components/c-mini-card.css */
+/* C19 Mini Card — Figma sayfa 18:2907 · Envanter: .ai/ui-design/02-component-inventory.md C19 */
+/* BEM: .home-mini-card, .home-mini-card__art, .home-mini-card__info, .home-mini-card__title,
+   .home-mini-card__subtitle, .home-mini-card__duration ; durum: .is-playing */
+/* Token kaynağı: 01_Abstracts/a-primitive-tokens.css + a-widget-grid-tokens.css (ham hex/px YASAK) */
+
+.home-mini-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2, 8px);
+    min-block-size: var(--cm-hit-target);
+    padding: var(--space-2, 8px);
+    border-radius: var(--cm-button-radius);
+    background: transparent;
+    color: var(--cm-gray-light);
+    font-family: var(--cm-font-ui);
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-in-out);
+}
+
+.home-mini-card:hover {
+    background: rgba(217, 217, 217, 0.14);
+}
+
+.home-mini-card:focus-visible {
+    outline: 2px solid var(--cm-pink);
+    outline-offset: 2px;
+}
+
+.home-mini-card.is-playing {
+    background: rgba(242, 0, 208, 0.14);
+}
+
+.home-mini-card__art {
+    inline-size: 40px;
+    block-size: 40px;
+    flex: 0 0 auto;
+    border-radius: var(--cm-button-radius);
+    object-fit: cover;
+    background: var(--cm-gray-dark);
+}
+
+.home-mini-card__art[hidden] {
+    display: none;
+}
+
+.home-mini-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-inline-size: 0;
+}
+
+.home-mini-card__title {
+    overflow: hidden;
+    font-size: var(--cm-ui-font-xs);
+    font-weight: var(--fw-medium, 500);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.home-mini-card__subtitle,
+.home-mini-card__duration {
+    overflow: hidden;
+    color: var(--cm-gray);
+    font-size: var(--cm-ui-font-xs);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.home-mini-card__subtitle[hidden],
+.home-mini-card__duration[hidden] {
+    display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-mini-card {
+        transition: none;
+    }
+}

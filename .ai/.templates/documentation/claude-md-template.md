@@ -2,10 +2,10 @@
 title: "CoreMusic — CLAUDE.md Üretim Şablonu"
 type: template
 category: template
-version: 2.0.0
+version: 2.0.1
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
-updated: 2026-09-24
+updated: 2026-09-29
 ---
 
 # CoreMusic — CLAUDE.md Üretim Şablonu
@@ -547,5 +547,5 @@ Harici kaynaklar (web, model hafızası) her zaman vault'un altındadır.
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

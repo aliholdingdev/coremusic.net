@@ -3,8 +3,8 @@ title: DevOps Engineer — Dağıtım & Altyapı Agent Profili
 type: agent-profile
 category: agents
 date: 2026-08-08
-updated: 2026-09-24
-version: 2.1.1
+updated: 2026-09-29
+version: 2.1.2
 status: active
 authority: reference
 ---
@@ -557,5 +557,5 @@ Gözlemlenemeyen hiçbir edge yok sayılır: "olmaz" denilen senaryonun da kanı
 ---
 
 **Authority:** Agent Profile — SSOT: `.ai/AGENTS.md`
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** STANDARD (implementation-ready)

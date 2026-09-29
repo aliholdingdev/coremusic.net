@@ -2,10 +2,10 @@
 title: "CoreMusic — Persona Araştırma Bankası (Research Bank)"
 type: research
 category: personas
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Research Bank — SSOT: personas/research-bank.md"
-updated: 2026-09-26
+updated: 2026-09-29
 ---
 
 # CoreMusic — Persona Araştırma Bankası (Research Bank)
@@ -898,5 +898,5 @@ OKU (şablon + paket) → 2 KAYNAKLA DOĞRULA → DURUM BELİRLE → SATIRI EKLE
 ---
 
 **Authority:** Research Bank — SSOT: personas/research-bank.md
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

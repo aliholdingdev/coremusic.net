@@ -2,10 +2,10 @@
 title: "CoreMusic Vault Refactor Engine — Master Prompt"
 type: master-prompt
 category: vault-refactor
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: reference
-updated: 2026-09-23
+updated: 2026-09-29
 ---
 
 # COREMUSIC VAULT REFACTOR ENGINE — MASTER PROMPT

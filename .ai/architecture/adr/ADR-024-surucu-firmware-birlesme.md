@@ -3,11 +3,11 @@ title: "ADR-024 — Sürücü-Firmware Birleşmesi (k-surucu → k2-surucu, firm
 type: adr
 category: architecture
 date: 2026-09-24
-updated: 2026-09-24
+updated: 2026-09-29
 tarih: 2026-09-24
 durum: önerildi
 status: proposed
-version: 1.0.0
+version: 1.0.1
 kaynak: "3 turlu agent tartışması 20 persona"
 authority: "Karar metninin kendisi (Guardrail #16 adr-template iskeleti)"
 governance: Red Team · Human Mode · Truth Mode
@@ -268,5 +268,5 @@ Birleşim sakat bulunursa: (1) taşınan 12 dosya k2-surucu/ → k-surucu/ yön�
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

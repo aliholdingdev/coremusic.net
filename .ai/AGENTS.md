@@ -2,10 +2,10 @@
 title: "CoreMusic — Agent Registry & Coordination Protocol"
 type: guide
 category: agent-registry
-version: 22.0.4
+version: 22.0.5
 status: active
 authority: SSOT
-updated: 2026-09-27
+updated: 2026-09-29
 ---
 
 # CoreMusic — Agent Registry & Coordination Protocol
@@ -39,7 +39,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 
 ### §2.1 Registry Authority
 
-Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil indeksi** olarak hizmet eder — v1.0.0 iken kendi SSOT iddiasını taşırken Faz 4'te (2026-09-23) demote edilmiştir (kayıt: v1.1.0; güncel: **v1.2.3**), `authority: Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)` (detay §26.2). Çelişkide kök dosya kazanır.
+Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil indeksi** olarak hizmet eder — v1.0.0 iken kendi SSOT iddiasını taşırken Faz 4'te (2026-09-23) demote edilmiştir (kayıt: v1.1.0; güncel: **v1.2.5**), `authority: Alt Registry — SSOT: .ai/AGENTS.md (v22.0.5)` (detay §26.2). Çelişkide kök dosya kazanır.
 
 ---
 
@@ -538,7 +538,7 @@ Her dosya için kontrol et:
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 22.0.4 |
+| Version | 22.0.5 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 |
 | Agent Count | 11 (1 MO + 10 specialist) |
@@ -616,8 +616,8 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 
 | Kaynak | Eski Durum | Yeni Durum |
 |--------|-----------|------------|
-| `.ai/AGENTS.md` (kök) | v21.0.0, SSOT iddiası | **v22.0.4 — tek SSOT** |
-| `.ai/.agents/AGENTS.md` (alt) | v1.0.0, kendini SSOT ilan ediyordu | v1.2.1 — **alt registry** (`authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.0)"`) |
+| `.ai/AGENTS.md` (kök) | v21.0.0, SSOT iddiası | **v22.0.5 — tek SSOT** |
+| `.ai/.agents/AGENTS.md` (alt) | v1.0.0, kendini SSOT ilan ediyordu | v1.2.5 — **alt registry** (`authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.5)"`) |
 
 Çözüm kuralı: SSOT hiyerarşisinde çelişkide kök dosya kazanır. Alt registry yalnızca profil/özet detayını taşır; routing, handover, escalation, öncelik kurallarının tamamı bu dosyadadır.
 
@@ -705,5 +705,5 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-27
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

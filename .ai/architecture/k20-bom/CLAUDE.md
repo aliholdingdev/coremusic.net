@@ -5,7 +5,7 @@ folder: "architecture/k20-bom"
 category: vault
 date: 2026-09-20
 status: active
-version: 1.0.1
+version: 1.0.2
 authority: reference
 ---
 
@@ -33,4 +33,4 @@ authority: reference
 
 *K20 CLAUDE.md v1.0.1 — CoreMusic*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-20*
+*Last Updated: 2026-09-29*

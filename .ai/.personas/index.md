@@ -2,10 +2,10 @@
 title: "CoreMusic — Persona Kataloğu (68 Persona · 6 Grup)"
 type: persona-index
 category: personas
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: reference
-updated: 2026-09-26
+updated: 2026-09-29
 ---
 
 # CoreMusic — Persona Kataloğu (68 Persona · 6 Grup)
@@ -505,5 +505,5 @@ envanter sayımıdır; temsil/iddia için [[research-bank]] gerekir (⚠️ VERI
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-26
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

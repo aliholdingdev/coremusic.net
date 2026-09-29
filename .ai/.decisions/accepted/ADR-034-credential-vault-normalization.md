@@ -4,8 +4,8 @@ title: Credential Vault Normalization — Tek SSOT Credential Deposu, `service.c
 type: adr
 category: security
 date: 2026-09-25
-updated: 2026-09-25
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: accepted
 authority: ADR-034 Karar Metni (SSOT)
 debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"

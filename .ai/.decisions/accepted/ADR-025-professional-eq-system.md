@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-025: Professional EQ System (31-Band Grafik EQ — ISO
 type: adr
 category: audio
 date: 2026-09-25
-updated: 2026-09-25
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: accepted
 authority: ADR-025 Karar Metni (SSOT)
 governance: Red Team · Human Mode · Truth Mode

@@ -3,8 +3,8 @@ title: "CoreMusic — Security Engineer Agent Profile"
 type: profile
 category: agent-registry
 date: 2026-08-08
-updated: 2026-09-23
-version: 2.0.0
+updated: 2026-09-29
+version: 2.0.1
 status: active
 authority: reference
 ---
@@ -501,5 +501,5 @@ Sonraki adım: [1 eylem, 2 dakika]
 ---
 
 **Authority:** SSOT — domain tekel: Security Engineer (Orta — Güvenlik + veto)  
-**Last Updated:** 2026-09-23  
+**Last Updated:** 2026-09-29  
 **Mode:** IMPLEMENTED (Truth Mode — disk doğrulanmış: CsrfMiddleware/ThemeManager hash_equals, OAuth aes-256-gcm, Password Argon2id L38, Middleware 11, k6-guvenlik 16, ADR 010-050 index satırları; JWT/ADR dosyaları/pentest araçları = ⚠️)

@@ -5,7 +5,7 @@ folder: ".ai/decisions/rejected"
 category: vault
 date: 2026-09-06
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: Single Source of Truth (SSOT)
 ---
 
@@ -32,4 +32,4 @@ Bir öneri doğrulanmış ise bauradarı ve buradan okunur.
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-29

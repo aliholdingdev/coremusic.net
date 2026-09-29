@@ -3,7 +3,7 @@ title: "Sinyal Bütünlüğü Analizi"
 layer: K19
 category: "PCB Tasarım"
 date: 2026-09-20
-version: "1.0.0"
+version: "1.0.1"
 status: "active"
 ---
 

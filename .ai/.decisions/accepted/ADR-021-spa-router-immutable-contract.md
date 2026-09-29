@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-021: SPA Router Immutable Contract (Path Şeması · P
 type: adr
 category: frontend
 date: 2026-09-25
-updated: 2026-09-25
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: accepted
 authority: ADR-021 Karar Metni (SSOT)
 governance: Red Team · Human Mode · Truth Mode
@@ -385,6 +385,6 @@ istemci router → golden fixture'ı OKUR (kopyalamaz)  →  drift = CI kırmız
 
 *ADR-021 v1.0.0 — CoreMusic Architecture Decision Record*
 *Authority: ADR-021 Karar Metni (SSOT) · Mode: Red Team · Human Mode · Truth Mode*
-*Last Updated: 2026-09-25*
+*Last Updated: 2026-09-29*
 
 *ADR-021 debate | 2026-09-25 | ✅ TAMAMLANDI (3 tur/20 persona, 18/2/0 KABUL + 3 şart §5.4) · Tech Lead ✅ · Arch Lead ⏳ · frozen YOK*

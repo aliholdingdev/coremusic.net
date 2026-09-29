@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-024: Ecosystem Modular Docs (Vault-Merkezli Modüler D
 type: adr
 category: documentation
 date: 2026-09-25
-updated: 2026-09-25
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: accepted
 authority: ADR-024 Karar Metni (SSOT)
 governance: Red Team · Human Mode · Truth Mode
@@ -366,5 +366,5 @@ CoreMusic dokümantasyonu **büyük ama sahipsiz**: 178 `CLAUDE.md`, 7 `AGENTS.m
 ---
 
 **Template Version:** 1.0.0 (adr-template.md v2.0.0 iskeleti — §1-§7)
-**Last Updated:** 2026-09-25
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

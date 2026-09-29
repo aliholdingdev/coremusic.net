@@ -2,10 +2,10 @@
 title: "CoreMusic — Alt Katman md Şablonu (K{n}.a.b)"
 type: template
 category: template
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
-updated: 2026-09-24
+updated: 2026-09-29
 ---
 
 # Alt Katman md Şablonu (K{n}.a.b)

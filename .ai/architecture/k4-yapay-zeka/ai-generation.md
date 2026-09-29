@@ -3,7 +3,7 @@ title: "AI Üretim Modülü"
 layer: K4
 category: "Yapay Zeka"
 date: 2026-09-20
-version: 1.0.0
+version: 1.0.1
 status: experimental
 components: 9
 dependencies: [K0, K3, K4, K5]

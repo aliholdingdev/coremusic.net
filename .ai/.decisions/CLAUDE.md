@@ -5,7 +5,7 @@ folder: ".ai/decisions"
 category: vault
 date: 2026-09-06
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: Single Source of Truth (SSOT)
 ---
 
@@ -44,4 +44,4 @@ Boot protocol 6. adımındaki `brain.md`'nin ayrıntılı kayıt deposu. Agent k
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-06
+**Last Updated:** 2026-09-29

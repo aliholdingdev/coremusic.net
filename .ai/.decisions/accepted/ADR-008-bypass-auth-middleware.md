@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-008: Bypass Auth Middleware (3 Mod Bypass + Default-De
 type: adr
 category: security
 date: 2026-09-24
-updated: 2026-09-24
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: accepted
 authority: ADR-008 Karar Metni (SSOT)
 governance: Red Team · Human Mode · Truth Mode

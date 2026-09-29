@@ -2,10 +2,10 @@
 title: "CoreMusic Vault — Proje Şablonu (Yeniden Kullanılabilir Vault İskeleti)"
 type: playbook
 category: templates
-version: "1.1.1"
+version: "1.1.2"
 status: active
 authority: super-primary
-updated: 2026-09-27
+updated: 2026-09-29
 ---
 
 # CoreMusic Vault — Proje Şablonu
@@ -199,7 +199,7 @@ C:\www\coremusic.net\
 | SSOT Links | 8 satır öncelik listesi: `.ai/CLAUDE.md` → `VISION` → `PROJECTS` → `AGENTS` → `WORKFLOW` → `brain` → `architecture/index` → `architecture/adr/` |
 | Quick Commands | `php -S localhost:81 -t public/` · `cd download-service && npm run dev` · `cd shared && vendor/bin/phpunit` |
 | Key Rules | No ORM (PDO only) · No JS frameworks (Vanilla JS only) · CSRF = `csrf_token` · Strict BCNF 3NF+ |
-| Footer | `Vault Steward: Bayram Ali | SSOT: .ai/ | Last Updated: 2026-09-24` |
+| Footer | `Vault Steward: Bayram Ali | SSOT: .ai/ | Last Updated: 2026-09-29` |
 
 **İki ADR serisi (kök CLAUDE.md — birleştirme REDDEDİLDİ, ADR-026 §3.4):**
 

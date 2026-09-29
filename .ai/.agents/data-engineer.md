@@ -3,8 +3,8 @@ title: "CoreMusic — Data Engineer Agent Profile"
 type: profile
 category: agent-registry
 date: 2026-08-08
-updated: 2026-09-24
-version: 2.0.1
+updated: 2026-09-29
+version: 2.0.2
 status: active
 authority: reference
 ---
@@ -507,5 +507,5 @@ Sonraki adım: [1 eylem, 2 dakika]
 ---
 
 **Authority:** SSOT — domain tekel: Data Engineer (Orta — veri modeli/sorgu)  
-**Last Updated:** 2026-09-24  
+**Last Updated:** 2026-09-29  
 **Mode:** IMPLEMENTED (Truth Mode — disk doğrulanmış: 18 .sql, Database 2, shared migrations 2, tests 22, k0 15, k5 14; 156 tablo/backup/phinx composer = ⚠️)

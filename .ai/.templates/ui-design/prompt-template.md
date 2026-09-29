@@ -5,8 +5,8 @@ type: template
 category: ui-design
 pattern: C
 date: 2026-09-24
-updated: 2026-09-24
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
 governance: Red Team · Human Mode · Truth Mode
@@ -502,5 +502,5 @@ node .ai/scripts/vault-utf8-writer.mjs verify --file <vault-yolu>
 
 *UI Design Prompt Template (Kalıp C) v1.0.0 — CoreMusic Template System*
 **Template Version:** 1.0.0
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

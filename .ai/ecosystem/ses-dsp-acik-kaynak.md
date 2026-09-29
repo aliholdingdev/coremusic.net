@@ -2,14 +2,14 @@
 title: "Ses / DSP Açık Kaynak Ekosistemi"
 type: guide
 category: ecosystem
-version: 1.0.0
+version: 1.0.1
 description: "JUCE 8.011, DaisySP, YUP, wolfsound, OL_DSP, Dusk Studio ve OpenStudio DSP ekosistemi — lisans matrisi, pedagojik dersler ve CoreMusic K3/K10/K2 katmanlarına entegrasyon planı."
 durum: active
 tarih: 2026-09-24
 kaynak: exa web doğrulaması (2026-09-24); JUCE GitHub (juce-framework/JUCE 8.011★), Sasha Martynov YUP (148★ ISC), wolfsound DSP-in-Plugins, eriknl/OL_DSP, austenweekes/DaisySP, Dusk Audio (dusdk.github.io), OpenStudio Docs (docs.openstudio.dev), Awesome-Audio-DSP (1.289★), gordongood/spa-build)
 status: active
 authority: "JUCE ve DSP açık kaynak ekosistemi; CoreMusic ses zincirinde K3/K10/K2 referansıdır — lisans seçimi ADR gerektirir."
-updated: 2026-09-24
+updated: 2026-09-29
 ---
 
 # CoreMusic — Ses / DSP Açık Kaynak Ekosistemi

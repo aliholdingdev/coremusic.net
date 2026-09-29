@@ -4,10 +4,10 @@ title: "CoreMusic — K16 Class AB Amplifikatör Layer"
 type: architecture-layer
 category: architecture
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-29
 son_guncelleme: "2026-09-24, kaynak: 3 turlu agent tartışması"
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -167,7 +167,7 @@ Layer 6: Signal (bottom) — Components, low-speed traces
 
 *K16 Class AB Amplifikatör Layer v1.0.0 — CoreMusic Architecture*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-24 — genişletme: 3 turlu agent tartışması*
+*Last Updated: 2026-09-29 — genişletme: 3 turlu agent tartışması*
 *Mode: Red Team · Human Mode · Truth Mode*
 
 

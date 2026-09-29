@@ -3,7 +3,7 @@ title: "K8 Servis Katmanı - Genel Bakış"
 layer: K8
 category: "Servis"
 date: 2026-09-20
-version: "1.0.0"
+version: "1.0.1"
 status: "implemented"
 ---
 

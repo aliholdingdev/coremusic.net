@@ -4,9 +4,9 @@ title: "CoreMusic — Memory System Index"
 type: system
 category: memory-management
 date: 2026-08-13
-updated: 2026-09-24
+updated: 2026-09-29
 status: active
-version: 25.1.1
+version: 25.1.2
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -688,7 +688,7 @@ Bu revizyonda her düzeltme üç kaynakla desteklendi: (1) Test-Path dosya varl�
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode
 
 <!-- vault-sync:auto-begin -->

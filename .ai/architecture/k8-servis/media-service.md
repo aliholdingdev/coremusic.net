@@ -3,7 +3,7 @@ title: "Media Service - Medya Servisi"
 layer: K8
 category: "Servis"
 date: "2026-09-20"
-version: "1.0.0"
+version: "1.0.1"
 status: "implemented"
 dependencies:
   - K7-Repository

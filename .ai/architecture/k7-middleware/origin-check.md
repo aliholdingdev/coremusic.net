@@ -3,7 +3,7 @@ title: "Origin Check Middleware"
 layer: K7
 category: "Middleware"
 date: 2026-09-20
-version: "1.0.0"
+version: "1.0.1"
 status: "draft"
 ---
 
@@ -36,7 +36,7 @@ HTTP İsteği
 Handler (K6)
 ```
 
-Origin Check, CORS middleware'inden sonra çalışır. CORS ister kapıda olsun ister olmasın, Origin Check ikinci savunma hattıdır. <!-- ⚠️ VERIFICATION REQUIRED: "门前osa Horse" bozuk metindi, bağlama göre yazıldı (2026-09-24) --> CORS olmayan isteklerde bile doğrulama yapar.
+Origin Check, CORS middleware'inden sonra çalışır. CORS ister kapıda olsun ister olmasın, Origin Check ikinci savunma hattıdır. <!-- ⚠️ VERIFICATION REQUIRED: "osa Horse" benzeri Çince+Latin karışımı anlamsız bozuk metindi, bağlama göre yazıldı (2026-09-24) --> CORS olmayan isteklerde bile doğrulama yapar.
 
 ## Teknik Detaylar
 

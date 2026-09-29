@@ -4,9 +4,9 @@ title: "CoreMusic — K0 Windows API Detail"
 type: architecture-detail
 category: architecture
 date: 2026-09-20
-updated: 2026-09-20
+updated: 2026-09-29
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -261,5 +261,5 @@ CoUninitialize();
 
 *K0 Windows API Detail v1.0.0 — CoreMusic Architecture*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-20*
+*Last Updated: 2026-09-29*
 *Mode: Red Team · Human Mode · Truth Mode*

@@ -3,8 +3,8 @@ title: "CoreMusic — Güvenlik ADR Şablonu (OWASP / Tehdit Modeli / Kontrol)"
 type: template
 category: adr
 date: 2026-09-23
-updated: 2026-09-23
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: active
 authority: reference
 ---
@@ -512,4 +512,4 @@ for i in $(seq 1 20); do curl -s -o /dev/null -w "%{http_code}\n" -X POST https:
 ---
 
 **Template Version:** 1.0.0
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-29

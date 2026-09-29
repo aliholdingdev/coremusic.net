@@ -5,7 +5,7 @@ folder: "architecture/k5-veri-yonetimi"
 category: vault
 date: 2026-09-20
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: reference
 ---
 
@@ -54,4 +54,4 @@ SELECT id, name FROM users WHERE is_deleted = 0 LIMIT :limit OFFSET :offset;
 
 *K5 CLAUDE.md v1.0.0 — CoreMusic*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-20*
+*Last Updated: 2026-09-29*

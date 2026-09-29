@@ -3,8 +3,8 @@ title: "CoreMusic — ADR-020: API Public Security (API Key Hash+Scope · JWT Be
 type: adr
 category: security
 date: 2026-09-25
-updated: 2026-09-25
-version: 1.0.0
+updated: 2026-09-29
+version: 1.0.1
 status: accepted
 authority: ADR-020 Karar Metni (SSOT)
 governance: Red Team · Human Mode · Truth Mode
@@ -372,6 +372,6 @@ CoreMusic'in **public API yüzeyi** (`api.coremusic.net` + Gateway `/api/v1/*` u
 
 *ADR-020 v1.0.0 — CoreMusic Architecture Decision Record*
 *Authority: ADR-020 Karar Metni (SSOT) · Mode: Red Team · Human Mode · Truth Mode*
-*Last Updated: 2026-09-25*
+*Last Updated: 2026-09-29*
 
 *ADR-020 debate | 2026-09-25 | ✅ TAMAMLANDI (3 tur / 20 persona, 19/1/0 KABUL) · Tech Lead ✅ · Arch Lead ⏳ · frozen YOK*

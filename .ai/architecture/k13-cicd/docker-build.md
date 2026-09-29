@@ -3,7 +3,7 @@ title: "Docker Multi-Stage Build"
 layer: K13
 category: "CI/CD"
 date: 2026-09-20
-version: "1.0.0"
+version: "1.0.1"
 ---
 
 # Docker Multi-Stage Build

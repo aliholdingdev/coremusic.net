@@ -1,0 +1,106 @@
+/* 04_Components/c-dropdown.css */
+/* C14 Dropdown — Figma sayfa 18:2907 · Envanter: .ai/ui-design/02-component-inventory.md C14 */
+/* BEM: .dropdown, .dropdown__menu, .dropdown__item, .dropdown__item--active ; durum: .is-open */
+/* Token kaynağı: 01_Abstracts/a-primitive-tokens.css + a-design-tokens.css (ham hex/px YASAK) */
+/* Not: .dropdown__menu üstüne binen Bootstrap .dropdown* kuralları 07_Vendors'tadır — burada yalnız BEM bloğu tanımlıdır. */
+
+.dropdown {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    font-family: var(--cm-font-ui);
+}
+
+.dropdown__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2, 8px);
+    min-width: var(--cm-input-field-w);
+    min-height: var(--cm-input-field-h);
+    padding: 0 var(--space-2, 8px);
+    border: var(--cm-input-field-stroke) solid var(--cm-input-field-stroke-color);
+    border-radius: var(--cm-input-field-radius);
+    background: var(--cm-input-field-fill);
+    color: var(--cm-input-color);
+    font-family: var(--cm-font-ui);
+    font-size: var(--cm-ui-font-xs);
+    cursor: pointer;
+    transition: border-color var(--duration-fast) var(--ease-in-out);
+}
+
+.dropdown__trigger:hover,
+.dropdown.is-open .dropdown__trigger {
+    border-color: var(--cm-pink);
+}
+
+.dropdown__trigger:focus-visible {
+    outline: 2px solid var(--cm-pink);
+    outline-offset: 2px;
+}
+
+.dropdown__trigger::after {
+    content: '';
+    inline-size: 6px;
+    block-size: 6px;
+    border-inline-end: var(--cm-input-field-stroke) solid currentColor;
+    border-block-end: var(--cm-input-field-stroke) solid currentColor;
+    transform: rotate(45deg) translate(-2px, -2px);
+}
+
+.dropdown__menu {
+    position: absolute;
+    inset-block-start: calc(100% + var(--space-1, 4px));
+    inset-inline-start: 0;
+    z-index: 20;
+    min-inline-size: 100%;
+    margin: 0;
+    padding: var(--space-1, 4px);
+    list-style: none;
+    border: var(--cm-input-field-stroke) solid var(--cm-gray-dark);
+    border-radius: var(--cm-input-field-radius);
+    background: var(--cm-gray-dark);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.dropdown__menu[hidden] {
+    display: none;
+}
+
+.dropdown__item {
+    min-height: var(--cm-hit-target);
+    padding: var(--space-2, 8px) var(--space-3, 12px);
+    border-radius: var(--cm-button-radius);
+    color: var(--cm-gray-light);
+    font-size: var(--cm-ui-font-xs);
+    cursor: pointer;
+    transition: background-color var(--duration-fast) var(--ease-in-out);
+}
+
+.dropdown__item:hover,
+.dropdown__item:focus-visible {
+    background: rgba(242, 0, 208, 0.14);
+    outline: none;
+}
+
+.dropdown__item.dropdown__item--active {
+    background: rgba(242, 0, 208, 0.24);
+    color: var(--cm-pink);
+}
+
+/* Dokunma alanını görseli bozmadan büyütür (Karar #6) */
+.dropdown__item::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: var(--cm-hit-target);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dropdown__trigger,
+    .dropdown__item {
+        transition: none;
+    }
+}

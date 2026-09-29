@@ -4,10 +4,10 @@ title: "CoreMusic — K5 Veri Yönetimi Layer"
 type: architecture-layer
 category: architecture
 date: 2026-09-20
-updated: 2026-09-24
+updated: 2026-09-29
 last_update_note: "3 turlu agent tartışması"
 status: active
-version: 1.0.0
+version: 1.0.1
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -611,12 +611,12 @@ Sync Protocol:
 4. **Tutarlılık — index.md L35 ağacı:** data-lifecycle/ diske yok (14 MD içinde yok); yaprak yok, katalogda temsil edilmiyor.
 5. **Tutarlılık — README §1.1 = disk (pozitif):** 18 DB adı ve tablo sayıları (13/7/22/5/5/8/22/8/17/9/5/6/4/8/4/4/6/3) .ai/.sql/mysql/ içindeki 18 dosyadaki CREATE TABLE sayılarıyla birebir; TOPLAM 156 = 156 grep sonucu.
 6. **Anti-fabrication:** tüm satır numaraları grep/read çıktısından kopyalandı; hiçbir sayı tahmin edilmedi; TOPLAM satırları (README L52, index L89) yaprak sayılmadı.
-7. **Tutarlılık — footer/frontmatter:** frontmatter updated: 2026-09-24 (bu revizyon), footer Last Updated: 2026-09-20 korunmuştur (mevcut içerik satırına dokunulmadı).
+7. **Tutarlılık — footer/frontmatter:** frontmatter updated: 2026-09-24 (bu revizyon), footer Last Updated: 2026-09-29 korunmuştur (mevcut içerik satırına dokunulmadı).
 
 
 ---
 
 *K5 Veri Yönetimi Layer v1.0.0 — CoreMusic Architecture*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-24 — genişletme: 3 turlu agent tartışması*
+*Last Updated: 2026-09-29 — genişletme: 3 turlu agent tartışması*
 *Mode: Red Team · Human Mode · Truth Mode*
