@@ -6,7 +6,7 @@ category: ui-design
 date: 2026-09-20
 updated: 2026-09-29
 status: active
-version: 3.0.1
+version: 3.1.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -73,7 +73,7 @@ CoreMusic UI CSS implementasyonunun **15 adımlık yol haritasıdır**. Her adı
 ### Adım 7: Home Components (T=2)
 
 **Dosya:** `05_Pages/_home-components.css`
-**İçerik:** Widget grid (kullanıcı grid kuralı — `reference/figma/grid-rules.md`): 1024 → row1 2×2, row2 1×5, row3 1×5; 1920 → row1 4×4, row2 1×8, row3 1×8 + recent cards, playlist, up-next
+**İçerik:** Widget grid (kullanıcı direktifi — kanonik kayıt `05-responsive-architecture` §13): 1024 → row1 2×2, row2 1×5, row3 1×5 (12 slot); 1920 → row1 4×4, row2 1×8, row3 1×8 (20 slot) + recent cards, playlist, up-next
 **Bağımlılık:** Adım 6
 **Süre:** 3 saat
 
@@ -165,17 +165,54 @@ Adım 1 (Tokens) ──┬──> Adım 2 (Base) ──> Adım 4 (Header)
 
 ---
 
-## 5. Quality Report
+## 5. Faz Durumu ve Rol Devri
+
+> **Kapsam kuralı:** Bu bölüm yalnız **faz durumu + kimin kime devrettiğini** yazar. **Kod adresi yazılmaz** (dosya satır numarası, PHP/JS/CSS kod içeriği bu dosyaya girmez — Markdown-only FAZ 4). Adımlar yalnız §2'deki dosya adlarıyla anılır; domain sınırı `AGENTS.md` §5'tedir.
+
+### 5.1 Faz Tablosu (commit kanıtı)
+
+| Faz | Kapsam | Durum | Kanıt |
+|-----|--------|:-----:|-------|
+| 0 | Vault tabanı — ui-design sıfırdan yeniden yazım öncesi `.ai` yedeği | ✅ | commit `cdd5665` |
+| 1 | Figma **15 sayfa** tam çekim (59 MB ham JSON + PNG arşivi) | ✅ | commit `f02d02b` |
+| 2 | **7 breakpoint** token yeniden üretimi (round-trip **FAIL=0**) | ✅ | commit `f02d02b` |
+| 3 | Hata düzeltmeleri 5/5 — **CatID sütunu** + şablon disk gerçeği | ✅ | commit `04764f9` |
+| 4 | Kök **6 çekirdek md**'nin Kalıp A ile yeniden yazımı (yalnız Markdown) | ✅ **bu görev** | 2026-09-29 · git commit **yok** (kapı gereği) |
+| 5 | ⏳ Pending | ⏳ PENDING | ⚠️ VERIFICATION REQUIRED — kapsam tanımsız |
+| 6 | ⏳ Pending | ⏳ PENDING | ⚠️ VERIFICATION REQUIRED — kapsam tanımsız |
+| 7 | ⏳ Pending | ⏳ PENDING | ⚠️ VERIFICATION REQUIRED — kapsam tanımsız |
+| 8 | ⏳ Pending | ⏳ PENDING | ⚠️ VERIFICATION REQUIRED — kapsam tanımsız |
+
+- **Faz 5-8 kapsamı** Master Orchestrator / vault steward kararıdır; bu dosyada **uydurulmaz** (Guardrail #3).
+- Faz 4 kapısı: `wiki-link-check.ps1` → **0 kırık link** + bayat sayı taraması **0 isabet**; ikisi de sağlanmadan Faz 5 açılmaz.
+
+### 5.2 Rol Devri (Handover)
+
+| # | Geçiş | Kaynak rol | Hedef rol | Tetikleyici / Onay |
+|---|-------|-----------|-----------|--------------------|
+| 1 | Faz 4 → Faz 5 | UI Designer | **backend-architect'e devredilir** | Markdown seti tamam + kapılar temiz; CSS/JS üretim başlangıcı için domain devri (`AGENTS.md` §7.5, onay zorunlu) |
+| 2 | Üretim → doğrulama | UI Designer | **QA Engineer** | Erişilebilirlik/tier doğrulaması — `04-accessibility-gaps` §2 (48px gate) + `00-device-matrix` §3B.3 (6 cihaz gate) (`AGENTS.md` §9.3) |
+| 3 | Vault → registry | UI Designer | **MO (vault-updater)** | `.templates/index.md` satırı + `log.md` append (`AGENTS.md` §9.3, LOW) |
+| 4 | Faz 5-8 kapsamı | MO | ilgili uzman agent | Kapsam tanımı yoksa görev **DUR** (`AGENTS.md` §7.2 pre-flight) |
+
+**Devir kuralları:** onay olmadan faz kapanmaz · max 3 retry · red durumunda MO devreye girer · tüm devirler `log.md`'ye yazılır (`AGENTS.md` §9.2).
+
+---
+
+## 6. Quality Report
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 3.0.0 |
+| Version | 3.1.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Total Steps | 15 |
 | Total Estimated Hours | 31 |
 | CSS Files | 25+ |
+| Faz Durumu | 5/9 tamam (Faz 0-4 ✅ commit kanıtlı · Faz 5-8 ⏳ kapsam tanımsız) |
+| Rol Devri | 4 handover (backend-architect · QA Engineer · MO · ilgili uzman) |
 | Cross References | 3 |
-| Last Updated | 2026-09-20 |
+| Last Updated | 2026-09-29 |
+| Version Notu (Truth Mode) | Önceki sürümde frontmatter `3.0.1` ↔ Quality Report `3.0.0` uyuşmazlığı vardı; bu sürümde tek değerde birleştirildi (**3.1.0**) |
 
 ---
 

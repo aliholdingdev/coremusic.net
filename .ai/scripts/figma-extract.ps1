@@ -19,14 +19,16 @@ $RAW    = "$FIG\raw"
 $PNG    = "$FIG\png"
 $ENVF   = "$ROOT\.env.figma"
 $LOGF   = "$FIG\_extraction-notes.md"
-$KEY    = 'NFpX9bq58oApWJPgBK5Heo'
 
 New-Item -ItemType Directory -Force -Path $RAW, $PNG | Out-Null
 
-# --- token ---
-if (-not (Test-Path $ENVF)) { throw "TOKEN YOK: $ENVF" }
-$T = ([regex]::Match((Get-Content -Raw $ENVF -Encoding UTF8), 'FIGMA_TOKEN=(\S+)')).Groups[1].Value
-if (-not $T) { throw 'FIGMA_TOKEN bos' }
+# --- token + file key (SSOT: yalniz .ai/.env.figma; betik icinde sabit anahtar YOK) ---
+if (-not (Test-Path $ENVF)) { throw "ENV YOK: $ENVF" }
+$ENVRAW = Get-Content -Raw $ENVF -Encoding UTF8
+$T  = ([regex]::Match($ENVRAW, 'FIGMA_TOKEN=(\S+)')).Groups[1].Value
+$KEY = ([regex]::Match($ENVRAW, 'FIGMA_FILE_KEY=(\S+)')).Groups[1].Value
+if (-not $T)   { throw 'FIGMA_TOKEN bos' }
+if (-not $KEY) { throw 'FIGMA_FILE_KEY bos' }
 $H = @{ 'X-Figma-Token' = $T }
 
 # --- 15 sayfa (dogrulanmis, 2026-09-29) ---

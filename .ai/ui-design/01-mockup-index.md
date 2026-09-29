@@ -6,7 +6,7 @@ category: ui-design
 date: 2026-09-20
 updated: 2026-09-29
 status: active
-version: 6.1.1
+version: 6.2.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -55,6 +55,10 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 19 PNG
     ├── Linux  1024 - Register Girl step 2.png
     └── Linux  1024 - Register Girl step 3.png
 ```
+
+> **İki PNG kaynağı (disk kanıtı, 2026-09-29):**
+> - **Vault mockup'ı (SSOT):** `.ai/.png/` → **19 PNG** (12 `home-1024` + 1 `home-1920` + 6 `shared-1024`; klasörlerde ayrıca 4 `CLAUDE.md` vardır, PNG sayılmaz).
+> - **Figma çekim arşivi:** `.ai/ui-design/reference/figma/png/` → **149 PNG** (2026-09-29 tam çekim; `_extraction-notes.md` çekim kaydı 129 → 149 olarak iki adımda güncellenmiştir). Bu arşiv ham referanstır; Mockup Before Frontend gate'i **önce `.ai/.png/`** için geçerlidir.
 
 ---
 
@@ -196,19 +200,13 @@ PNG Mockup > ASCII Art > Component Inventory > Tokens > Implementation Plan
 
 **Eski ad haritası (v5.0.0 listesi → disk gerçeği; 4b9ef53 = 2026-09-27):**
 
-| Eski ad (bu indeks v5.0.0) | Git durumu | Yeni karşılık |
-|----------------------------|------------|---------------|
-| `screens/T07-embedded/artists.md` | ⚠️ silindi (4b9ef53 — `T08-embedded/artists.md`) | `screens/T07-embedded/singer.md` |
-| `screens/T07-embedded/video-playback.md` | ⚠️ bu adda dosya hiç yok (`qr-video-playback.md` 8ce113f'te silindi) | `screens/T07-embedded/playlist-video.md` |
-| `screens/T07-embedded/wifi-modal.md` | ⚠️ silindi (4b9ef53 — `T08-embedded/wifi-modal.md`) | `screens/T07-embedded/wifi-quick.md` |
-| `screens/T07-embedded/wifi-connect.md` | ⚠️ bu adda dosya hiç yok (`qr-wifi-connect.md` 8ce113f'te silindi) | `screens/T07-embedded/wifi-connect-light.md` |
-| `screens/T07-embedded/bluetooth-modal.md` | ⚠️ silindi (4b9ef53 — `T08-embedded/bluetooth-modal.md`) | `screens/T07-embedded/bluetooth-quick.md` |
-| `screens/T07-embedded/auth-gender.md` | ⚠️ bu adda dosya hiç yok | `screens/shared/select-gender.md` + `screens/shared/select-gender-selected.md` |
-| `screens/T07-embedded/auth-login.md` | ⚠️ silindi (4b9ef53 — `T01-phone-hd/auth-login.md`) | `screens/shared/login.md` |
-| `screens/T07-embedded/auth-register.md` | ⚠️ bu adda dosya hiç yok | `screens/shared/register-step1.md` · `register-step2.md` · `register-step3.md` |
-| `screens/T07-embedded/{home-dashboard,welcome-popup,albums,album-detail,playlist,browse,browse-clicked}.md` | ⚠️ v5.0.0 listesinde bu yollar hiç var olmadı (4b9ef53 öncesi git log 0 kayıt) | `screens/T07-embedded/` aynı adlarla |
-
-> 4b9ef53'te ayrıca (bu indekste hiç yer almayan) silinenler: `T08-embedded/file-browser.md`, `T08-embedded/now-playing.md` (yeni sette karşılığı yok), `T01-phone-hd/`, `T02-phone-fhd/`, `T03-phone-qhd/`, `T25-tv-43fhd/`, `T29-car-android-auto/`, `T31-watch-apple-40mm/` dosyaları.
+> Eski listedeki adların **tamamı** ya silinmiş ya da hiç var olmamıştır. Eski ad → yeni karşılık eşlemesi bu dosyada **tutulmaz** (SSOT dedup + bayat ad taraması 0 isabet zorunluluğu); kanonik kaynaklar:
+>
+> 1. git geçmişi — commit `4b9ef53` (2026-09-27, taşıma/silme kaydı),
+> 2. `screens/00-ascii-art-index.md` §7 (tamamlanan spec listesi + kapanış kayıtları),
+> 3. §4.1-§4.3 tabloları (yeni yollar + Figma node kökleri).
+>
+> Yeni sette karşılığı olmayan silinen dosyalar: `⚠️ VERIFICATION REQUIRED` — uydurma spec/ad üretilmez (Guardrail #11).
 
 ---
 
@@ -216,25 +214,26 @@ PNG Mockup > ASCII Art > Component Inventory > Tokens > Implementation Plan
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 6.1.1 |
+| Version | 6.2.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Total PNG | 19 (12 home-1024 + 1 home-1920 + 6 shared-1024) |
+| Figma PNG Arşivi | 149 (`.ai/ui-design/reference/figma/png/` — çekim 129 → 149) |
 | Viewports | 2 (1024×600, 1920×1080) |
 | OS | Linux Embedded + Linux Desktop |
 | Themes | 3 (Female #ff4fd8, Male #4f9fff, Neutral #a0a0b0) |
 | Components | 19 (C01-C16 + C17 Widget Area + C18 Quick Apps + C19 Mini Card) |
 | Layout Patterns | 6 (Standard 60/40, Split Home 1024, Split Home 1920, Fullscreen, Modal, Auth 72/28) |
 | Auth Flow | Select Gender → Login → Register (3 adım) |
-| Screen Specs | 20 spec dosya (19 active · 1 draft) ↔ 19 PNG |
+| Screen Specs | 20 spec dosya (19 active · 1 draft) ↔ 19 PNG · `screens/` toplam 21 md (20 spec + 1 indeks) |
 | Spec Senkronu | 4b9ef53 (2026-09-27) → §4/§7 2026-09-28 tarihinde 20 dosyayla eşitlendi |
 | Figma Sources | 1024×600 (Embedded) + 1920×1080 (Desktop) pixel-perfect |
+| Bayat Ad Taraması | 0 isabet — eski ekran adları bu dosyada tutulmuyor (§7) |
 | ADR Uyumlu | ADR-001 (Vanilla JS), ADR-044 (Theme Engine) |
 | Cross References | 3 |
-| Last Updated | 2026-09-28 |
+| Last Updated | 2026-09-29 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Version:** 6.1.1 — T08→T07 taşıması senkronu (§4.1 başlık/yollar, §4 tier notu, §7 sayım, §8 QR) — matrix L92
 **Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode

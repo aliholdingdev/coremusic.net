@@ -6,7 +6,7 @@ category: ui-design
 date: 2026-09-20
 updated: 2026-09-29
 status: active
-version: 4.0.1
+version: 4.1.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -16,7 +16,7 @@ reference:
 
 # CoreMusic — Component Inventory (C01-C16)
 
-**Zorunlu Bağlantılar:** [[01-mockup-index]] · [[tokens/component-tokens]] · [[tokens/design-tokens-master]] · [[reference/09-interaction-states]]
+**Zorunlu Bağlantılar:** [[01-mockup-index]] · [[tokens/component-tokens]] · [[tokens/design-tokens-master]] · [[reference/09-interaction-states]] · [[05-responsive-architecture]]
 
 ---
 
@@ -196,7 +196,7 @@ CoreMusic UI bileşenlerinin **tam envanteridir**. Her bileşen için BEM sını
 | Piksel | Embedded: 109×40px panel, 20px icon, 9px text; Desktop: 220×80px panel |
 | Token | `--cm-widget-area-*`, `--cm-widget-panel-*` |
 | Durumlar | default, with-icon, with-text |
-| Tier | **Grid kuralı (kullanıcı kuralı > Figma — `reference/figma/grid-rules.md`):** Embedded 1024 → row1 **2×2**, row2 **1×5**, row3 **1×5**; Desktop 1920 → row1 **4×4**, row2 **1×8**, row3 **1×8** (her row kendi başına sayılır; C18 quick-apps row2/row3 slotlarını doldurur) |
+| Tier | **Grid kuralı (kullanıcı direktifi — kanonik kayıt `05-responsive-architecture` §13):** Embedded 1024 → row1 **2×2**, row2 **1×5**, row3 **1×5** (12 slot); Desktop 1920 → row1 **4×4**, row2 **1×8**, row3 **1×8** (20 slot). API `layoutGrids` bu kuralı **çürütmüyor, tamamlıyor** (§3 kanıtı); C18 quick-apps row2/row3 slotlarını doldurur |
 
 ### C18: Quick Apps Row
 
@@ -206,7 +206,7 @@ CoreMusic UI bileşenlerinin **tam envanteridir**. Her bileşen için BEM sını
 | Piksel | Embedded: 129×40px button, 45px icon, 8.5px text; Desktop: 200×60px button |
 | Token | `--cm-quick-app-*` |
 | Durumlar | default, hover, active |
-| Tier | **Grid kuralı ile hizalı** (`reference/figma/grid-rules.md`): Embedded 1024 → row2 ve row3'te **1×5**; Desktop 1920 → row2 ve row3'te **1×8** (row1 slotu C17 widget grid'inin 2×2 / 4×4'üdür) |
+| Tier | **Grid kuralı ile hizalı** (kanonik: `05-responsive-architecture` §13): Embedded 1024 → row2 ve row3'te **1×5** (5+5 slot); Desktop 1920 → row2 ve row3'te **1×8** (8+8 slot) — row1 slotu C17 widget grid'inin 2×2 / 4×4'üdür |
 
 ### C19: Mini Card
 
@@ -220,17 +220,37 @@ CoreMusic UI bileşenlerinin **tam envanteridir**. Her bileşen için BEM sını
 
 ---
 
-## 3. Quality Report
+## 3. Figma Bileşen Kanıtı (Design-System-XD)
+
+> Kaynak: `.ai/ui-design/reference/figma/raw/page-18-2907.json` (sayfa `18:2907`, breakpoint `system`, 2026-09-29 tam çekim). Amaç: C01-C19 envanterinin Figma bileşen kütüphanesiyle **çakışmadığını** kanıtlamak — Figma set adları BEM sınıf adlarımızla aynı değildir; sayılar grep ile diskten alındı.
+
+| Ölçü | Değer | Yöntem |
+|------|-------|--------|
+| Sayfa toplam node | 21.767 | `_extraction-notes.md` tam çekim tablosu |
+| `COMPONENT` node | 140 | grep `"name":"…","type":"COMPONENT"` |
+| `COMPONENT_SET` node | 23 | grep `"name":"…","type":"COMPONENT_SET"` |
+| `layoutGrids` tanımlı node | 21 | grep `"layoutGrids":` (grid kuralı kanıtı → `05-responsive-architecture` §13) |
+
+**COMPONENT_SET adları (23/23 — dosyadaki değerler):** `İnput` · `Şarkılar Item Btn` · `Albumler btn` · `Albumler List Item` · `Battery` · `Button` · `Button Flat` · `conneted bağlı olan bt` · `conneted bağlı olan ağ` · `Disk Buttons` · `Footer` · `Navbar` · `Navigate Div` · `Player İnfо Div` · `Player İnfо Div Mini` · `Playlist Items` (×2) · `Playlist Items Mini` · `Playlist Items Mini history` · `Playlist Status Div` · `Romantic_Background_03 (2)` · `Settings Btn Items` · `Switch`
+
+> **⚠️ VERIFICATION REQUIRED — Figma set ↔ C-bileşeni eşlemesi:** Figma adları ile C01-C19 arası birebir eşleme **yapılmadı** (uydurma eşleme Guardrail #3 ihlali olurdu). Eşleme, bileşen bazlı ekran spec'leri tamamlandığında üretilecek; bu dosyada yalnız kanıt (ad + adet) tutulur.
+
+---
+
+## 4. Quality Report
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 5.0.0 |
+| Version | 4.1.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Component Count | 19 (C01-C19) |
 | BEM Classes | 80+ |
 | State Variants | 60+ |
-| Cross References | 4 |
-| Last Updated | 2026-09-22 |
+| Figma Component Sets | 23 (Design-System-XD `18:2907`, 21.767 node) |
+| Grid Kuralı Sahibi | `05-responsive-architecture` §13 (1024 → 12 slot · 1920 → 20 slot) |
+| Cross References | 5 |
+| Last Updated | 2026-09-29 |
+| Version Notu (Truth Mode) | Önceki sürümde frontmatter `4.0.1` ↔ Quality Report `5.0.0` uyuşmazlığı vardı; bu sürümde tek değerde birleştirildi (**4.1.0**), iki sayı da düzeltildi |
 
 ---
 

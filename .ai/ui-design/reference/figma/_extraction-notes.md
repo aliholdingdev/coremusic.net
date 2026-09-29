@@ -208,3 +208,11 @@ anlamsız olurdu. Ekran spec'i istenirse child frame'lerden (ör. `1639:10160`
 | Node | Ad | Breakpoint | Top | Toplam | Boyut | Durum |
 |---|---|---|---|---|---|---|
 | PNG | 151 hedef | scale=2 | - | - | - | 129 dosya indirildi |
+
+---
+
+## Extract: tam cekim (2026-09-29 14:38:25)
+
+| Node | Ad | Breakpoint | Top | Toplam | Boyut | Durum |
+|---|---|---|---|---|---|---|
+| PNG | 151 hedef | scale=2 | - | - | - | 149 dosya indirildi |

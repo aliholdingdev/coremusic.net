@@ -12,6 +12,13 @@ $FIG  = "$ROOT\ui-design\reference\figma"
 $RAW  = "$FIG\raw"
 $TOK  = "$ROOT\ui-design\tokens"
 $CONFLICTS = @()
+
+# --- SSOT: yalniz .ai/.env.figma (betik icinde sabit token/key YOK) ---
+$ENVF = "$ROOT\.env.figma"
+if (-not (Test-Path $ENVF)) { throw "ENV YOK: $ENVF" }
+$ENVRAW = Get-Content -Raw $ENVF -Encoding UTF8
+$KEY = ([regex]::Match($ENVRAW, 'FIGMA_FILE_KEY=(\S+)')).Groups[1].Value
+if (-not $KEY) { throw 'FIGMA_FILE_KEY bos' }
 $stamp = Get-Date -Format 'yyyy-MM-dd'
 $script:CONFLICT_OVERFLOW = 0
 
@@ -215,7 +222,7 @@ foreach ($bp in $SRC.Keys) {
   $meta = [ordered]@{
     generated = $stamp
     breakpoint = $bp
-    source = "Figma NFpX9bq58oApWJPgBK5Heo (API, taze cekim)"
+    source = "Figma $KEY (API, taze cekim)"
     files = $filesUsed
     merge_rule = "Figma taze degeri SSOT; eski eksik anahtarlar korundu; farklar token-conflicts.md"
     counts = $bag._counts

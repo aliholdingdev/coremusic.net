@@ -6,7 +6,7 @@ category: ui-design
 date: 2026-09-20
 updated: 2026-09-29
 status: active
-version: 6.1.0
+version: 6.2.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -45,7 +45,7 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 | 🌐 Web & Özel | `WB` | 5 | T41-T45 |
 | **Toplam** | | **45** | |
 
-> **Düzeltme (2026-09-29):** Başlık eski haliyle "12 Kategori" iddia ediyordu, satır sayısı 11'di (Embedded + AR/VR ayrı satır değildi). Sayı 11'e çekildi; **Embedded bir kategori değil, Tablet'in alt kümesidir** (T07-T08'i Tablet ile paylaşır) ve AR/VR'ın gerçek tier'ı Web & Özel içindeki **T45**'tir. Kategori sayısı toplamı 45 tier'ı korur.
+> **Düzeltme (2026-09-29):** Başlık eski haliyle kategori sayısını **12** olarak iddia ediyordu, satır sayısı 11'di (Embedded + AR/VR ayrı satır değildi). Sayı 11'e çekildi; **Embedded bir kategori değil, Tablet'in alt kümesidir** (T07-T08'i Tablet ile paylaşır) ve AR/VR'ın gerçek tier'ı Web & Özel içindeki **T45**'tir. Kategori sayısı toplamı 45 tier'ı korur.
 
 ### 2.2 CatID — Kategoriler Arası ID Çakışması Çözümü
 
@@ -328,7 +328,9 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 | 5" / 7" | T01-T02 phone aralığı (5.5"-6.8" fiziksel) / T07 7" embedded | ⚠️ türetildi (inç eşleşmesi yaklaşık) |
 | 10" / 12" / 15" / 18" | T08 (10"), T10/T11 (≈12"), T14/T15 (15"/15.6"), 18" → §3'te cihaz yok | ⚠️ 18" türetildi — 18" cihaz §3'te YOK, sonraki fazda eklenmeli |
 
-### 3B.3 Zorunlu Cihaz Doğrulaması
+### 3B.3 Zorunlu 6 Cihaz Doğrulaması (Gate)
+
+> **Gate kuralı:** Phone kapsamındaki bu 6 modelin §3 karşılığı **hepsi ✅ olmadan** frontend/ekran görevi başlamaz. Doğrulama yöntemiiçin §3B.6 (inç eşlemesi) birlikte okunur.
 
 | İstenen Cihaz | §3 Karşılığı | Durum |
 |---------------|--------------|-------|
@@ -344,7 +346,7 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 1. **"Ek" bölümleri** (Smart Watch Ek, Oyun Konsolu Ek, Desktop Uygulama Ek) birincil tabloların kopyasıdır → birincil bölüm SSG, "Ek" bölümleri başlıkta `CAKISMA/REDUNDANT` etiketli.
 2. **T07/T08 çift anlamlı** → Embedded (RPi5) + Tablet (iPad/Tab S9) aynı ID'leri kullanıyordu → **ÇÖZÜLDÜ (2026-09-29):** §3 tablolarına `CatID` sütunu eklendi (`EM-T07` / `TB-T07`); kural §2.2'de. `screens/T07-embedded/` dizin adı korundu.
 3. **AR/VR başlığı "T30"** → CarPlay/Tesla ile ID çakışması; gerçek AR/VR = `WB-T45` (§2.2). Başlık etiketi düzeltildi.
-4. **§2.1 kategori tablosu** 12 kategori iddia ediyordu, satır sayısı 11'di → **ÇÖZÜLDÜ (2026-09-29):** başlık "11 Kategori" oldu + `CatID Öneki` sütunu eklendi; Embedded'in kategori değil Tablet alt kümesi olduğu, AR/VR'ın Web & Özel içindeki T45 olduğu belgelendi.
+4. **§2.1 kategori tablosu** kategori sayısını **12** olarak iddia ediyordu, satır sayısı 11'di → **ÇÖZÜLDÜ (2026-09-29):** başlık "11 Kategori" oldu + `CatID Öneki` sütunu eklendi; Embedded'in kategori değil Tablet alt kümesi olduğu, AR/VR'ın Web & Özel içindeki T45 olduğu belgelendi.
 5. **§3A tier aralıkları §3 ile örtüşmüyor** → §3.5 kaydı #3'te; §3A bakir bırakıldı, tier → cihaz eşlemesi §3'tedir.
 
 ### 3B.5 Diğer Dokümanlarla Çelişki Listesi
@@ -355,6 +357,40 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 | 2 | `prompt/screen/T1-T10` | "T1-phone … T10-watch" **10 layout-sınıfı prompt'u**; tier ID değil, isim benzerliği | İkisi ayrı sistemler; T1≠T01, çakışma varsayılmamalı |
 | 3 | Bu dosya §3A | §3A tier aralıkları §3 cihaz tablolarıyla örtüşmüyor (örn. §3A "1280-1439 → T09 Laptop Küçük" ama §3'te T09 = Tablet; §3A "T05-T06 Tablet Küçük" ama T05 = Phone; §3A "T23-T26 TV" ama T23-T24 = Desktop) | §3 cihaz tabloları (tier → cihaz eşlemesi) |
 | 4 | `tokens/platform-tokens.md` (frontmatter source_of_truth) | Viewport breakpoint listesi bu dosyadaki tier viewport'larıyla eşleşmeli | Kırık wiki-link yok; doğrulama sonraki fazda |
+
+### 3B.6 İnç Tabanlı Tier ↔ CatID ↔ Figma Tasarım Durumu Eşlemesi
+
+> **Kapsam:** kullanıcının zorunlu inç listesi — telefon/serbest taraf **5 · 7 · 10 · 12 · 15 · 18 inç**, tablet tarafı **7 · 10 · 12 inç**.
+> **Viewport kaynak kuralı:** değerler yalnız §3 tablolarından okunur; §3'te karşılığı olmayan satırda **uydurma viewport/layout/touch yazılmaz**.
+> **✅ Figma yazabilme koşulu (2026-09-29 tam çekim):** sayfa/node adı + toplam node sayısı `reference/figma/_extraction-notes.md` tam çekim tablosuyla eşleşmeli (15 sayfa; 4 sayfa BOŞ — `326:3386` 3840, `16:106` Tizen, `1801:12472`, `1801:12473`).
+
+**(a) Telefon / serbest inç aralığı**
+
+| İnç | Kapsam | Tier | CatID | Viewport (§3) | Figma tasarım durumu |
+|-----|--------|------|-------|----------------|----------------------|
+| 5" | Phone | T01-T02 | `PH-T01` / `PH-T02` | 720×1280 – 1320×2868 | ⚠️ VERIFICATION REQUIRED · `status: planlanmış` |
+| 7" (telefon) | Phone | T01 | `PH-T01` | 720×1280 · 720×1600 | ⚠️ VERIFICATION REQUIRED · `status: planlanmış` |
+| 7" (eklenti) | Embedded | T07 | `EM-T07` | 1024×600 | ✅ Figma — `1047:15802` (Linux Pi, 13.225 node) |
+| 10" | Embedded / Tablet | T08 | `EM-T08` / `TB-T08` | 1280×800 (EM) · 1668×2388 (TB) | ⚠️ VERIFICATION REQUIRED · `status: planlanmış` |
+| 12" | Tablet | T10-T11 | `TB-T10` / `TB-T11` | 2880×1920 · 2732×2048 | ⚠️ VERIFICATION REQUIRED · `status: planlanmış` |
+| 15" | Laptop | T14-T15 | `LP-T14` / `LP-T15` | 1920×1080 (T14) · 3840×2160 (T15) | `LP-T14` ✅ Figma `319:2789` (Web-Laptop-1920, 2.752 node) · `LP-T15` ⚠️ `status: planlanmış` |
+| 18" | — | **§3'te cihaz yok** | — | — | ⚠️ VERIFICATION REQUIRED — tier tanımsız (§3B.2), sonraki fazda eklenmeli |
+
+**(b) Tablet inç aralığı**
+
+| Tablet inç | Tier | CatID | Viewport (§3) | Figma tasarım durumu |
+|------------|------|-------|----------------|----------------------|
+| Tablet 7" | T07 | `TB-T07` | 1640×2360 (iPad 10.) · 1752×2800 (Tab S9) · 1840×2800 (Xiaomi Pad 6) | ⚠️ VERIFICATION REQUIRED · `status: planlanmış` — Figma'da Tablet T07 frame'i yok (`01-mockup-index` §4.4) |
+| Tablet 10" | T08 | `TB-T08` | 1668×2388 (iPad Pro 11" M2) | ⚠️ VERIFICATION REQUIRED · `status: planlanmış` (`01-mockup-index` §4.4) |
+| Tablet 12" | T10-T11 | `TB-T10` / `TB-T11` | 2880×1920 (Surface Pro 9) · 2732×2048 (iPad Pro 12.9" M4) | ⚠️ VERIFICATION REQUIRED · `status: planlanmış` |
+
+**(c) Tier → tasarım durumu kuralı (bu bölümün gate'i)**
+
+| Tier grubu | Tasarım durumu | Gerekçe |
+|------------|----------------|---------|
+| `EM-T07` (1024×600), `LP-T12`/`LP-T14`/`DM-T17`/`DM-T18` (1920×1080) | ✅ Figma | Tam çekim sayfaları: `1047:15802`, `2135:19832` (1024) · `462:5874`, `1988:14156`, `15:403`, `319:2789`, `608:11052`, `2161:12438` (1920) |
+| Phone, Tablet, Smart TV, 4K/2560 monitor, Automotive, Watch, Console, Desktop App, Mobil, Web & Özel | **⚠️ VERIFICATION REQUIRED · `status: planlanmış`** | Karşılık gelen Figma tasarımı tam çekimde doğrulanmadı; **viewport/layout/touch uydurulmaz**, yalnız §3 değeri kullanılır |
+| 3840 / TV (T26-T28, T20-T24 4K) | ⚠️ VERIFICATION REQUIRED · `status: planlanmış` | `326:3386` (3840) ve `16:106` (Tizen) sayfaları **BOŞ** (0 node) |
 
 ---
 
@@ -380,7 +416,7 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 6.1.0 |
+| Version | 6.2.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Total Tiers | 45 |
 | Categories | 11 (+ Embedded = Tablet alt kümesi) |
@@ -390,8 +426,11 @@ CoreMusic'in hedeflediği **45 cihaz katmanının tam listesi** ve her biri içi
 | Font Scale Range | 0.75-2.5 |
 | Grid Range | 1-6 columns |
 | Viewport Range | 396×484 - 7680×4320 |
-| Cross References | 6 |
-| Çözülen Çakışmalar | T07, T08, T30, 12/11 kategori (§2.2, §3B.4) |
+| İnç Eşlemesi | §3B.6 — 7 telefon/serbest satır + 3 tablet satır (5·7·10·12·15·18 inç + 7·10·12 inç) |
+| Zorunlu Cihaz Gate | §3B.3 — 6 model (hepsi ✅) |
+| Figma Tasarım Kapsamı | ✅ 1024 + 1920 tier'ları; Phone/Tablet/TV/4K ve kalan tier'lar `⚠️ VERIFICATION REQUIRED` · `status: planlanmış` |
+| Cross References | 5 |
+| Çözülen Çakışmalar | T07, T08, T30, kategori sayısı 12→11 (§2.2, §3B.4) |
 | Last Updated | 2026-09-29 |
 
 ---

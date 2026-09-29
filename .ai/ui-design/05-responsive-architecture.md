@@ -6,7 +6,7 @@ category: ui-design
 date: 2026-09-20
 updated: 2026-09-29
 status: active
-version: 5.1.1
+version: 5.2.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -160,6 +160,8 @@ assets.coremusic.net/Css/
 }
 ```
 
+> **Touch target uzlaştırması (FAZ 4 — 48 px zemini):** Yukarıdaki token blokları üç farklı `--cm-touch-target` değeri verir: **48px** (default + phone), **32px** (1920 desktop), **24px** (3840 4K). Bağlayıcı **proje zemini 48px**'tir ([[00-device-matrix]] §3 touch sütunu 48-128px) ve [[04-accessibility-gaps]] §1/§2'deki **tüm** touch hedefi değerlendirmeleri buna göre yapılır. 32px/24px satırları: (a) WCAG 2.2 **SC 2.5.8 AA** eşiğini (24 px) karşılar veya tam sınırdadır → **AA gap'i değildir**; (b) 48 px proje zeminine göre eksiktir → `⚠️` **proje zemini gap'i** olarak raporlanır. Doğrulanmamış tier olduğu için bu değerler `⚠️ VERIFICATION REQUIRED` + `status: planlanmış` statüsündedir; masaüstü mouse-only hedefleri SC 2.5.8 kapsamı dışında kalır.
+
 ---
 
 ## 7. Yasak Örüntüleri
@@ -240,23 +242,69 @@ assets.coremusic.net/Css/
 
 ---
 
+## 13. Widget Grid — Kanonik Kural
+
+> **Kaynak ve statü:** Kullanıcı direktifi (FAZ 4, 2026-09-29). Figma `layoutGrids` API kanıtı bu kuralı **çürütmez, tamamlar** — direktif satır/sütun *bölünmesini* verir, API ise sayfalar üzerindeki gerçek grid *tanımlarını* (aşağıda sayaçlar). İkisi birbirini dışlamaz; çelişki olsa bile **bu §13 kural bağlayıcıdır**.
+
+**Doğrulanmış `layoutGrids` sayaçları (API, 2026-09-29 ölçümü):**
+
+| Kaynak | Grid tanımlı node |
+|--------|-------------------|
+| Linux-Pi `1047:15802` | 1 |
+| 1920 (`1988:14156` Kurumsal · `15:403` Web-Design-Eski) | 2 |
+| Design-System-XD `18:2907` | 21 |
+| `nodes-1024-1920.json` alt kümesi | 0 *(eski "0/1077" iddiası yalnız bu alt küme için geçerli — genel iddia değildir)* |
+
+### 13.1 1024 × 600 (Embedded / Pi)
+
+| Satır | Bölünme |
+|-------|---------|
+| Satır 1 | **2 × 2** |
+| Satır 2 | **1 × 5** |
+| Satır 3 | **1 × 5** |
+| **Canonical slot toplamı** | **12 slot** |
+
+### 13.2 1920 × 1080 (Desktop)
+
+| Satır | Bölünme |
+|-------|---------|
+| Satır 1 | **4 × 4** |
+| Satır 2 | **1 × 8** |
+| Satır 3 | **1 × 8** |
+| **Canonical slot toplamı** | **20 slot** |
+
+> **Ölçüt notu (Truth Mode):** "Bölünme" hücre düzenini, "slot" ise **canonical widget slot sayısını** belirtir; ikisi farklı ölçütlerdir ve birbirine çevrilmez — kullanıcı direktifi kaydında **1024 = 12 slot**, **1920 = 20 slot** değerleri bağlayıcıdır. Bu iki canonical değer `02-component-inventory` C17/C18 Tier satırları ile `01-mockup-index` grid notlarının tek hedefidir.
+
+### 13.3 2560 / 3840 — Kural Yok
+
+| Tier | Grid kuralı | Durum |
+|------|-------------|-------|
+| 2560 × 1440 | tanımlı değil | `⚠️ VERIFICATION REQUIRED` · `status: planlanmış` |
+| 3840 × 2160 (4K) | tanımlı değil | `⚠️ VERIFICATION REQUIRED` · `status: planlanmış` |
+
+4K için yalnız **§7.4 No-Center** kuralı (tam genişlikte akış, ortalamama yasak) geçerlidir; satır/sütun bölünmesi **uydurulmaz** — tasarım onayı gelene kadar `planlanmış` kalır. `01-mockup-index` §4.4 ve `02-component-inventory` §3'teki Figma PNG kanıtları (1024/1920) bu §13'ü destekler; Mobile/Tablet/TV/4K tier'larında tasarım olmadığından bu tier'larda grid kuralı da yoktur.
+
+---
+
 ## 8. Quality Report
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 5.1.0 |
+| Version | 5.2.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
-| Sections | 9 H2 (§1-§8 + §12) + 1 H3 (§7.4) — §9-§11 açılmadı (boş başlık yasak) |
-| Architecture Principle | Token-First + Figma Pixel-Perfect + 4K No-Center (§7.4) |
+| Sections | 10 H2 (§1-§7, §12, §13, bu QR §8) + 4 H3 (§7.4, §13.1-§13.3) — §9-§11 açılmadı (boş başlık yasak) |
+| Architecture Principle | Token-First + Figma Pixel-Perfect + 4K No-Center (§7.4) + Widget Grid Kanonik Kural (§13) |
 | CSS Files | 25+ |
 | Device CSS | 7 |
 | View Mode CSS | 4 |
 | Media Query Breakpoints | 10 |
+| Widget Grid (canonical) | 1024 → 12 slot · 1920 → 20 slot · 2560/3840 → `⚠️ planlanmış` (§13) |
+| Touch Target Zemini | 48px proje zemini · SC 2.5.8 AA = 24px · token 48/32/24px (§6 uzlaştırması) |
 | New Components | Widget Area, Quick Apps, Mini Card |
 | Figma Sources | 1024×600 + 1920×1080 |
-| Cross References | 4 |
-| Last Updated | 2026-09-27 |
-| Version Notu (Truth Mode) | Frontmatter 4.0.0 ↔ Quality Report 5.0.0 uyuşmazlığı bu sürümde tek değerde birleştirildi (5.1.0); kaynak: bu dosya L9 / L182 (önceki sürüm) |
+| Cross References | 6 |
+| Last Updated | 2026-09-29 |
+| Version Notu (Truth Mode) | Frontmatter ↔ Quality Report uyuşmazlığı önceki sürümde tek değerde birleştirildi (5.1.0); bu sürüm 5.1.1 → **5.2.0** (§13 eklendi + §6 touch uzlaştırması) |
 
 ---
 
