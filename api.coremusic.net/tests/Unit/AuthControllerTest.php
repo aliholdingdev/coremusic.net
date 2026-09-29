@@ -224,7 +224,7 @@ final class AuthControllerTest extends TestCase
     public function testPasswordTooShortMapsTo422WithErrorFields(): void
     {
         $result = $this->handle($this->controller([
-            'throw' => ['register' => ValidationException::passwordTooShort(12)],
+            'throw' => ['register' => ValidationException::passwordTooShort(8)],
         ]), 'register', ['password' => 'kisa']);
 
         $this->assertSame(422, http_response_code());

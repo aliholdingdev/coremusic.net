@@ -27,7 +27,7 @@ use CoreMusic\Exception\ValidationException;
  */
 final class AuthService implements IAuthService
 {
-    private const MIN_PASSWORD_LENGTH = 12;
+    private const MIN_PASSWORD_LENGTH = 8;
     private const MAX_LOGIN_ATTEMPTS = 5;
     private const LOGIN_WINDOW_SECONDS = 900;
     private const MAX_REGISTER_ATTEMPTS = 3;

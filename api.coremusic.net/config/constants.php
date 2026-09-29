@@ -8,12 +8,54 @@
  *
  * Not: Faz 0 (iskelet) — .env zorunlu DEĞİLDIR; eksik değerler varsayılanla düşer.
  * API_KEY_PEPPER yalnız API key uçları (sonraki fazlar) devreye girdiğinde zorunlu olacak.
+ *
+ * SSOT fallback (2026-09-29): API'nin kendi config/.env dosyası çoğu kurulumda yok;
+ * DB kimlik bilgileri yalnızca auth.coremusic.net/config/.env içinde tutulur. Kendi
+ * .env yoksa veya DB anahtarları hâlâ boşsa, auth .env dosyası (salt OKU) fallback
+ * olarak yüklenir — aynı SSOT deseni ApiAuthContainer::passwordPepper() ile kullanılır
+ * (@see ApiAuthContainer::passwordPepper()). Guardrail: Secret Yok — değerler koda
+ * basılmaz, konsola yazılmaz, dosyaya yazılmaz.
  */
 
 if (!defined('APP_ENV_MODE')) {
-    $envFile = dirname(__DIR__) . '/config/.env';
-    if (file_exists($envFile)) {
-        \CoreMusic\Config\EnvParser::loadIntoEnv($envFile);
+    $ownEnvFile = dirname(__DIR__) . '/config/.env';
+    if (file_exists($ownEnvFile)) {
+        \CoreMusic\Config\EnvParser::loadIntoEnv($ownEnvFile);
+    }
+
+    // DB anahtarı tanımlı mı, boş mu? (false = getenv'te yok)
+    $dbKeyMissing = static function (string $key): bool {
+        $value = $_ENV[$key] ?? getenv($key);
+
+        return $value === null || $value === false || $value === '';
+    };
+
+    // Kendi .env yoksa VEYA DB anahtarlarının biri hâlâ boşsa → auth .env fallback.
+    if (
+        !file_exists($ownEnvFile)
+        || $dbKeyMissing('DB_HOST')
+        || $dbKeyMissing('DB_NAME')
+        || $dbKeyMissing('DB_USER')
+        || $dbKeyMissing('DB_PASSWORD')
+    ) {
+        // __DIR__ = api.coremusic.net/config → dirname(__DIR__) = api.coremusic.net
+        $authEnvFile = dirname(__DIR__) . '/../auth.coremusic.net/config/.env';
+        if (is_file($authEnvFile)) {
+            // loadIntoEnv() mevcut $_ENV değerini EZMEZ; bu yüzden "tanımlı ama boş"
+            // DB anahtarlarını fallback öncesi kaldırıyoruz ki auth .env doldurabilsin.
+            foreach (['DB_HOST', 'DB_NAME', 'DB_AUTH_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_PORT', 'DB_CHARSET'] as $dbKey) {
+                if ($dbKeyMissing($dbKey)) {
+                    unset($_ENV[$dbKey]);
+                }
+            }
+            \CoreMusic\Config\EnvParser::loadIntoEnv($authEnvFile);
+        }
+    }
+
+    // Auth .env DB adını DB_AUTH_NAME anahtarıyla verir; API DB_NAME bekler.
+    // define() öncesi tek seferlik eşleme — tekrar define PHP'de warning verir.
+    if (!isset($_ENV['DB_NAME']) && isset($_ENV['DB_AUTH_NAME']) && $_ENV['DB_AUTH_NAME'] !== '') {
+        $_ENV['DB_NAME'] = $_ENV['DB_AUTH_NAME'];
     }
 }
 
