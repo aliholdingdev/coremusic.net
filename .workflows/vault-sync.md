@@ -190,6 +190,10 @@ Her soru için EVET/HAYIR cevabı ver:
 | 1 | Session kaydı | `node .ai/scripts/session-save.mjs --task "<gorev-aciklamasi>" --status completed --agent <agent-adi>` |
 | 2 | Vault güncelleme | `node .ai/scripts/vault-post-update.mjs --scope root` |
 | 3 | Sonuç doğrulama | `log.md`, `MEMORY.md`, `project-state.md` güncellendi mi? (salt-okunur) |
+| 4 | Session checklist kapanışı | `.ai/CHECKLIST.md` §C — 5/5 `[x]`; script yoksa manuel (Aşama 6 log append + `MEMORY.md` §20) |
+| 5 | Sürekli güçlendirme | 20 hedef dosyalık set (3 kök + `.ai/` kök 17 md — `.ai/CHECKLIST.md` §A0 sınıflandırması: CRITICAL 16 / ON-DEMAND 3 / LOG 1) gözden geçirilir: bu session'da **değişenler** 2-4 satırla güçlendirilir, değişmeyenlere dokunulmaz (in-place, dosya adı sabit) |
+
+> ⚠️ VERIFICATION REQUIRED (2026-09-29): 1-3. satırlardaki `.ai/scripts/session-save.mjs`, `.ai/scripts/vault-post-update.mjs` ve `project-state.md` **diskte YOK** (kayıt: `MEMORY.md` §20 Known Issue 2026-09-28 + filesystem taraması) → kapanış bu haliyle manuel yapılır; script üretilince bu not kaldırılır.
 
 **Yoksayma sonucu:** audit trail boşluğu. Başarızsa `status: pending` + max 3 retry. Yazım sadece `vault-utf8-writer` ile yapılır (PowerShell yazım cmdlet'leri YASAK); `log.md` yalnız append.
 
@@ -220,6 +224,8 @@ Her soru için EVET/HAYIR cevabı ver:
 - `.ai/AGENTS.md`
 - `.ai/log.md`
 - `.ai/MEMORY.md`
+- `.ai/CHECKLIST.md`
+- `.ai/TODO.md`
 
 ## 8. Aktivasyon
 

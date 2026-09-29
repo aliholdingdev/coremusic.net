@@ -469,6 +469,10 @@ Registry tek otoritesi: [[.ai/.templates/index]] — şablonsuz dosya üretimi y
 
 ---
 
+**Session Lifecycle (2026-09-29):** İş akışının canlı yüzeyi .ai/CHECKLIST.md §A/§B/§C'dir (baş/orta/kapanış); §16A/§8.7B bağlantıları .ai/CLAUDE.md ve .ai/WORKFLOW.md içindedir.
+
+Güçlendirme seti: 20 dosya (3 kök + .ai/ kök 17 md — sınıf tanımı CHECKLIST.md §A0). Kapanış adımı: .workflows/vault-sync.md Aşama 8 satır 5.
+
 ## §13 İlgili Dosyalar
 
 | Dosya | İlişki |

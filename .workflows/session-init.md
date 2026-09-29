@@ -77,6 +77,9 @@ changelog:
 
 Her yeni AI oturumunun doğru bağlam ile başlamasını sağlamak.
 
+**Session Checklist (2026-09-29):** Her oturum **başında** `CHECKLIST.md` §A (🔴 Başlama), **ortasında** §B (🟡 mid checkpoint), **kapanışında** §C (🟢) uygulanır ve `[ ]` → `[x]` işaretlenir. Açık iş listesi: `TODO.md` (P0/P1/P2, kaynak notlu). Bağlantılar: `.ai/CLAUDE.md` §16A · `.ai/WORKFLOW.md` §8.7B · `.workflows/session-init.md` · `.workflows/vault-sync.md` Aşama 8.
+**Hedef seti — 20 dosya (2026-09-29 disk ölçümü):** 3 kök (`CLAUDE.md` · `README.md` · `WORKFLOW.md`) + 17 `.ai/` kök md. Sınıflandırma `CHECKLIST.md` §A0: 🟣 **CRITICAL 16** (boot'ta okunur — iki CLAUDE + AGENTS/WORKFLOW/brain/ROLE/index/keys/MEMORY/ULTRA-THINKING/engine/glossary/VISION/PROJECTS + CHECKLIST(A1) + TODO(A3)) · 🟡 **ON-DEMAND 3** (kök README · kök WORKFLOW · `.ai/broken-links-report.md`) · ⚫ **LOG 1** (`.ai/log.md` — append-only, boot'ta son 20 satır). Sınıf dışına çıkan dosya zorla okunmaz; güçlendirme `CHECKLIST.md` §C ve `.ai/CLAUDE.md` §16A ile bağlanır.
+
 ## 2. Akış Diyagramı
 
 ```
@@ -203,6 +206,7 @@ YENİ OTURUM
 - [ ] index.md doğrulandı
 - [ ] keys.md yüklendi
 - [ ] engine.md kontrol edildi
+- [ ] `.ai/CHECKLIST.md` §A (Session Başlama) uygulandı — 5/5 `[x]`
 
 ## 4. Hata Yönetimi
 
@@ -230,6 +234,8 @@ YENİ OTURUM
 - `.ai/engine.md`
 - `.ai/MEMORY.md`
 - `.ai/log.md`
+- `.ai/CHECKLIST.md` — session yaşam döngüsü checklist'i (baş/orta/kapanış)
+- `.ai/TODO.md` — proje iş listesi (P0/P1/P2)
 
 ## 7. Aktivasyon
 

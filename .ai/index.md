@@ -50,6 +50,8 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | UI / Mockup / Frontend | [[ui-design/01-mockup-index]] (19 PNG Mockup, C01-C16 Envanteri, 45-Tier Device Matrix) |
 | Session Checklist | [[CHECKLIST.md]] (Baş/Orta/Kapanış - §A/§B/§C, 5'er madde) |
 | Açık İş Listesi | [[TODO.md]] (P0/P1/P2 - 19 madde, kaynak notlu) |
+| Link/ADR denetimi | [[broken-links-report.md]] (wiki-link tarama raporu — 227 link, gerçek kırık 0; 6'sı AGENTS §13.7 sahte) |
+| Sürekli güçlendirme seti | [[CHECKLIST.md]] §A0 — 20 hedef dosya (3 kök + 17 `.ai/` kök md): CRITICAL 16 / ON-DEMAND 3 / LOG 1 |
 
 ---
 

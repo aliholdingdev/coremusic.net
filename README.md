@@ -216,6 +216,8 @@ CoreMusic projesinin tüm mimari kararları, anayasası, kuralları ve detaylı 
 
 ---
 
+**Session Lifecycle:** Bu depoda her AI session'ı .ai/CHECKLIST.md §A/§B/§C ile yürütülür; hedef dosya seti 20'dir (3 kök + 17 .ai/ kök md — sınıflandırma CHECKLIST.md §A0: CRITICAL 16 / ON-DEMAND 3 / LOG 1). Kapanışta .workflows/vault-sync.md Aşama 8 satır 5 ile değişen dosyalar güçlendirilir.
+
 **Authority:** Bayram Ali / Vault Steward  
 **Kaynak Doküman:** Freelancer Technical Documentation v1.0 (CoreMusic: Software Audio Hardware AI)  
 **Last Updated:** 2026-09-19  

@@ -27,6 +27,7 @@ version: 1.1.0
 | 13 | `.ai/PROJECTS.md` | Proje tanımı | 3s |
 | 14 | `.ai/ui-design/01-mockup-index.md` | Mockup indeksi — `[[ui-design/01-mockup-index]]` (19 PNG) | 1s |
 | 15 | `.ai/ui-design/00-device-matrix.md` | Cihaz matrisi — `[[ui-design/00-device-matrix]]` (45-tier) | 1s |
+| 16 | `.ai/CHECKLIST.md` | Session checklist — baş/orta/kapanış (§A / §B / §C) | 1s |
 
 ## Aşama 2: Prompt Entegrasyonu (Max 14s)
 
@@ -58,6 +59,9 @@ version: 1.1.0
 ```
 
 ---
+
+
+**Hedef seti (ek — 2026-09-29):** Her session'ın güçlendirme seti 20 dosyadır (3 kök + 17 `.ai/` kök md); sınıflandırma `../.ai/CHECKLIST.md` §A0 (CRITICAL 16 / ON-DEMAND 3 / LOG 1). Kapanış güçlendirmesi §C + `../../.workflows/vault-sync.md` Aşama 8 satır 5.
 
 *Session Init Workflow v1.0.0 — CoreMusic*
 *Authority: Bayram Ali / Vault Steward*

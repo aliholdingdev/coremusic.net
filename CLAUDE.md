@@ -30,6 +30,10 @@
 | 7 | [.ai/architecture/index.md](.ai/architecture/index.md) | Master 21-layer architecture index (1,095 components) |
 | 8 | [.ai/architecture/adr/](.ai/architecture/adr/) | Architectural ADR series (ADR-023-026) — separate from `.ai/.decisions/` numbered series |
 
+**Session Lifecycle (2026-09-29):** Bu dosya okunduktan sonra hedef set .ai/CHECKLIST.md §A0 ile sınıflandırılır — 20 dosya (3 kök + 17 .ai/ kök md): CRITICAL 16 / ON-DEMAND 3 / LOG 1.
+
+Baş: §A · Orta: §B · Kapanış: §C → .workflows/vault-sync.md Aşama 8 satır 5 ile güçlendirme (değişen dosyalar 2-4 satır, değişmeyenlere dokunulmaz).
+
 ## Quick Commands
 
 ```bash
