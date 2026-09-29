@@ -5,12 +5,12 @@ category: template
 version: 4.6.0
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
-updated: 2026-09-26
+updated: 2026-09-28
 date: 2026-08-09
 governance: Red Team · Human Mode · Truth Mode
 total_templates: 38
 total_files: 38
-total_lines: 18021
+total_lines: 17984
 ---
 
 # CoreMusic — Template Registry Index
@@ -116,7 +116,7 @@ updated: {{DATE}}
 2. **Registry otoritesi:** Şablon ekleme/çıkarma/güncelleme yalnızca bu dosyanın tablolarından yapılır; alt klasör `CLAUDE.md` dosyaları şablon listesi iddiası taşıyamaz.
 3. **SSOT self-claim yasak:** Bu dosya dışındaki hiçbir şablon/klasör dosyası "Single Source of Truth" iddiasında bulunamaz; authority alanı şablonlarda `Template (Guardrail #16) — Registry: .ai/.templates/index.md` değerindedir.
 4. **Frontmatter standardı:** Her şablon dosyasında 7 zorunlu alan bulunur: `title`, `type`, `category`, `version`, `status`, `authority`, `updated`.
-5. **Sayı senkronu:** `total_*` alanları disk gerçeğiyle tutarlıdır — `total_templates: 38` (registry kaydı: 36 şablon + 2 meta), `total_files: 38`, `total_lines: 18021` (18.021 — 2026-09-26 4. geçiş sayımı, 38 md). Uyuşmazlık → güncelleme zorunlu.
+5. **Sayı senkronu:** `total_*` alanları disk gerçeğiyle tutarlıdır — `total_templates: 38` (registry kaydı: 36 şablon + 2 meta), `total_files: 38`, `total_lines: 17984` (17.984 — 2026-09-28 ReadAllLines sayımı, 38 md). Uyuşmazlık → güncelleme zorunlu.
 6. **Bilinmeyen bilgi uydurulmaz:** Doğrulanamayan iddia `⚠️ VERIFICATION REQUIRED` etiketiyle işaretlenir.
 
 ## 5. Workflow
@@ -192,15 +192,15 @@ Yeni dosya oluştururken:
 | **500+ derinlik** | 30/34 klasör içi şablon 500+ satır (ölçüm 2026-09-26: `personas/persona-template` 695; önceki ölçüm 2026-09-24: min 501 `other/cpp` · max 649 `frontend/js`; aynı gün eklenen 4 ui-design: `reference` 509 · `flow` 506 · `prompt` 507 · `screen-spec` 545) — **istisna: aynı gün eklenen 4 şablon bilinçli olarak 100-250 aralığında** (`katman-readme` 174 · `alt-katman` 158 · `adr-nygard` 209 · `agent-tartisma-turu` 185 — görev şartı: açıklamalı dolgu 100-250 satır) |
 | **Kısa şablon** | 5 — `session-log-template.md` (144 satır; 500+ kuralı kapsamı dışı, bilinçli kısa şablon) + 4 yeni 100-250 aralığı şablon (yukarıdaki istisna satırı) |
 | **Planlanan (Faz 6)** | 3 — `arduino`, `avr`, `pic` (§2'ye bak) |
-| **Toplam Satır** | 18.021 (2026-09-26, 38 md dosyası; 4. geçiş — +`coremusic-vault-template` 810 satır + `index.md` satır farkı) — eski: 17.209 (2026-09-26, 37 md · 3. geçiş, +`personas/persona-template` 695) · 16.503 (2026-09-24, 36 md · 2. geçiş) · 15.764 (32 md) · 14.695 (28 md) · 12.549 (2026-09-23, 26 md) |
-| **Ortalama Satır/Template** | 474 (18.021 ÷ 38 dosya) |
+| **Toplam Satır** | 17.984 (2026-09-28, 38 md dosyası; ReadAllLines sayımı) — eski: 17.209 (2026-09-26, 37 md · 3. geçiş, +`personas/persona-template` 695) · 16.503 (2026-09-24, 36 md · 2. geçiş) · 15.764 (32 md) · 14.695 (28 md) · 12.549 (2026-09-23, 26 md) |
+| **Ortalama Satır/Template** | 473 (17.984 ÷ 38 dosya) |
 | **Minimum Satır** | 99 (templates/CLAUDE.md — meta) · şablon min 144 (`session-log-template.md`) · sonra 158 (`documentation/alt-katman-template.md`) |
 | **Maksimum Satır** | 810 (coremusic-vault-template.md) — eski: 695 (personas/persona-template.md) · 649 (frontend/js-template.md) |
 | **Kategori** | 12 dizin (adr 7, agents 2, backend 2, documentation 7, frontend 2, hardware 1, infrastructure 2, other 3, personas 1, query 1, testing 2, ui-design 4) + kök (index.md, CLAUDE.md, session-log-template, coremusic-vault-template) |
 | **Dizin Yapısı** | ✅ Alt dizinlere ayrılmış (§2 disk gerçeği) |
 | **Frontmatter Uyumlu** | ✅ 36/36 7-alanlı FM (2026-09-23 betik doğrulaması: FM BAD=0; 2026-09-24 yeni 8 şablon da 7 alan + `reference` bloğu; 2026-09-26 `personas/persona-template` de 7 alan; 2026-09-26 `coremusic-vault-template` de 7 alan) |
-| **Ölçüm notu** | ✅ Tazelendi (2026-09-26): 38 md disk sayımı; `total_*` bu yazımla senkron (32 eski şablonun satır sayısı değişmedi, +4 şablon eklendi — adr-nygard 209, agent-tartisma 185, katman-readme 174, alt-katman 158 = 726 satır; 2026-09-26: +1 şablon personas/persona-template 695 satır; +1 şablon coremusic-vault-template 810 satır — 4. geçiş). Ölçüm yöntemi: dosya içeriğinin `\n` ile bölünmesi — `vault-utf8-writer verify` → `lines` ile aynı. `index.md` bu yazımla kendi satır sayısını değiştirir; `total_lines` 4. geçişte tazelenir (18.021). |
-| **Düzeltilen eski iddialar** | 25.000/5.546 satır → 12.549 · 17 şablon/19 dosya → 24 şablon/26 dosya · Planlanan 10 → 3 (7'si Faz 2'de üretildi) · ort. 292 → 458 · min 90/max 649 → 144/649 · "arduino/avr/pic diskte" → hardware tek dosya (`hardware-template.md`, 512) · "10 klasör (session dahil)" → 11 dizin + kök, `session/` klasörü yok · 26 dosya/12.549 satır → 28/14.695 → 32/15.764 → **36 dosya/16.503** (2026-09-24, +2: claude-md, docs-md; +4: ui-design/*; +4: katman-readme, alt-katman, adr-nygard, agent-tartisma-turu) → **37 dosya/17.209** (2026-09-26, +1: personas/persona-template) → **38 dosya/18.021** (2026-09-26, +1: coremusic-vault-template) · `ui-design` "115 dosya" → **136 dosya (119 md)** |
+| **Ölçüm notu** | ✅ Tazelendi (2026-09-28): 38 md disk sayımı; `total_*` bu yazımla senkron (32 eski şablonun satır sayısı değişmedi, +4 şablon eklendi — adr-nygard 209, agent-tartisma 185, katman-readme 174, alt-katman 158 = 726 satır; 2026-09-26: +1 şablon personas/persona-template 695 satır; +1 şablon coremusic-vault-template 810 satır — 4. geçiş). Ölçüm yöntemi: `[IO.File]::ReadAllLines($p).Count` (PowerShell 5.1) — 2026-09-28 taze ölçümünde 38 md dosya için uygulandı; önceki ölçüm dosya içeriğinin `\n` ile bölünmesi yöntemiyle alınmışı (fark 37 satır). `index.md` bu yazımla kendi satır sayısını değiştirir; `total_lines` 2026-09-28 taze ölçümünde tazelenir (17.984). |
+| **Düzeltilen eski iddialar** | 25.000/5.546 satır → 12.549 · 17 şablon/19 dosya → 24 şablon/26 dosya · Planlanan 10 → 3 (7'si Faz 2'de üretildi) · ort. 292 → 458 · min 90/max 649 → 144/649 · "arduino/avr/pic diskte" → hardware tek dosya (`hardware-template.md`, 512) · "10 klasör (session dahil)" → 11 dizin + kök, `session/` klasörü yok · 26 dosya/12.549 satır → 28/14.695 → 32/15.764 → **36 dosya/16.503** (2026-09-24, +2: claude-md, docs-md; +4: ui-design/*; +4: katman-readme, alt-katman, adr-nygard, agent-tartisma-turu) → **37 dosya/17.209** (2026-09-26, +1: personas/persona-template) → **38 dosya/17.984** (2026-09-28, ReadAllLines ölçümü; +1: coremusic-vault-template) · `ui-design` "115 dosya" → **136 dosya (119 md)** |
 
 **REFACTOR REPORT:** FILE: index.md · PURPOSE: Template Registry Index (şablon registry + dizin) · VALIDATION: 7 alan + §1-§7 + bilgi korunumu + envanter 38/38 disk sayımı (2026-09-26, +1 şablon: coremusic-vault-template — 4. geçiş) · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
 
@@ -346,5 +346,5 @@ Yeni dosya oluştururken:
 
 *Template Registry Index v4.6.0 — CoreMusic Template System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-09-26*
+*Last Updated: 2026-09-28*
 *Mode: Red Team · Human Mode · Truth Mode*

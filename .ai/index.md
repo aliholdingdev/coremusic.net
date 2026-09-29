@@ -4,8 +4,8 @@ type: system
 category: vault-navigation
 status: active
 authority: SSOT
-version: 28.3.0
-updated: 2026-09-26
+version: 28.4.0
+updated: 2026-09-27
 total_files: 587
 total_adr: 80
 total_adr_disk: 0
@@ -723,8 +723,9 @@ Toplam 80 ADR (Frozen: 37, Active: 31, Rejected: 12). Frozen: 001-037 (değişti
 
 - **Toplam dosya:** 587 (ölçüm 2026-09-24 — önceki sahip doğrulaması 518, 2026-09-23; eski Faz 0 değeri 787 güncel değildi)
 - **Toplam ADR:** 80 (Frozen: 37, Active: 31, Rejected: 12)
-- **Versiyon:** 28.2.0
-- **Son Güncelleme:** 2026-09-24 (disk ölçümü: toplam dosya 587, PNG 19, template 36, kök boot 15 — ölçüm 2026-09-24; önceki sahip doğrulaması 518/19, 2026-09-23)
+- **Versiyon:** 28.4.0
+- **Son Güncelleme:** 2026-09-27 (disk ölçümü: toplam dosya 587, PNG 19, template 36, kök boot 15 — ölçüm 2026-09-24; önceki sahip doğrulaması 518/19, 2026-09-23)
+  - **28.4.0 — Faz 2 (2026-09-27):** .personas 68/68 persona yeniden yazıldı (35.026 satır, ≥500 oranı %100), 4 dosya yeniden adlandırıldı, kırık wiki-link 7→0, personas/index.md sayaçları disk gerçeğiyle hizalandı, templates registry #38.
 - **Governance:** Red Team · Human Mode · Truth Mode
 
 ---
@@ -752,5 +753,5 @@ Toplam 80 ADR (Frozen: 37, Active: 31, Rejected: 12). Frozen: 001-037 (değişti
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-23
+**Last Updated:** 2026-09-27
 **Mode:** Red Team · Human Mode · Truth Mode

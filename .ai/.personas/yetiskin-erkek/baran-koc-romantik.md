@@ -15,7 +15,7 @@ veli_onayı_gerekli: false
 
 # CoreMusic — Persona: Baran Koç
 
-**Zorunlu Bağlantılar:** [[personas/index]] · [[personas/persona-template]] · [[research-bank]] · [[mood-taxonomy]] · [[personas/methodology]] · [[personas/test-scenarios-mapping]] · [[ADR-023-persona-driven-testing]]
+**Zorunlu Bağlantılar:** [[.personas/index]] · [[.templates/personas/persona-template]] · [[.personas/research-bank]] · [[.personas/mood-taxonomy]] · [[.personas/methodology]] · [[.personas/test-scenarios-mapping]] · [[.decisions/accepted/ADR-023-persona-driven-testing]]
 
 ---
 
@@ -23,13 +23,13 @@ veli_onayı_gerekli: false
 
 Bu persona, CoreMusic'te **yetiskin-erkek** segmentini temsil eder; Level 1 (AI rol testi), Level 2 (Browser MCP) ve Level 3 (Playwright E2E) testlerinde 33 yaşındaki bir doktorun — duygusal/romantik dinleme profili taşıyan bir yetişkinin — gözünden arayüzü deneyimlemek için kullanılır.
 Hedef kitle: QA Engineer, UI Designer, test otomasyonu.
-Vault bağlantısı: mood → [[mood-taxonomy]] (Romantik), veri → [[research-bank]] (P3-P8), metodoloji → [[personas/methodology]], registry → [[personas/index]].
+Vault bağlantısı: mood → [[.personas/mood-taxonomy]] (Romantik), veri → [[.personas/research-bank]] (P3-P8), metodoloji → [[.personas/methodology]], registry → [[.personas/index]].
 Bu dosya `persona-template.md` §3.5 alan havuzunun **11/11** alt bölümüyle doldurulmuş hâlidir; her satır §4.5 kaynak etiketi taşır.
 
 | Alan | Değer |
 |------|-------|
 | Segment | yetiskin-erkek |
-| Birincil mood | Romantik ([[personas/index]] §6.3 ataması) |
+| Birincil mood | Romantik ([[.personas/index]] §6.3 ataması) |
 | Test odağı | Duygusal/romantik dinleme akışı, gece/vardiya sonrası düşük ışık kullanımı, hızlı erişim (tek dokunuş) |
 | Veli onayı | `veli_onayı_gerekli: false` (yetişkin — 16 yaş altı politikası uygulanmaz) |
 
@@ -37,7 +37,7 @@ Bu dosya `persona-template.md` §3.5 alan havuzunun **11/11** alt bölümüyle d
 
 | Senaryo ailesi | Seviye | Persona katkısı |
 |----------------|--------|-----------------|
-| Romantik çalma listesi akışı | Level 2 + 3 | Mood kümesi ([[mood-taxonomy]] §3.2.1) — his/ritim odaklı arayüz beklentisi |
+| Romantik çalma listesi akışı | Level 2 + 3 | Mood kümesi ([[.personas/mood-taxonomy]] §3.2.1) — his/ritim odaklı arayüz beklentisi |
 | Gece / vardiya sonrası dinleme | Level 2 | Düşük ışık teması, 1.4.3 + 1.4.11 kontrast denetimi |
 | Hızlı erişim (tek elle, tek dokunuş) | Level 2 + 3 | 2.5.8 hedef boyutu, INP ≤200 ms yanıt hissi |
 | Yavaş ağda akış kesintisi | Level 2 + 3 | Slow 4G throttling (P8), LCP ≤2500 ms, hata ekranı okunabilirliği |
@@ -49,8 +49,8 @@ Bu dosya `persona-template.md` §3.5 alan havuzunun **11/11** alt bölümüyle d
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
-| 11 parçalı persona alan havuzu (Kimlik → Kaynak & Doğrulama) | Test başarı metrikleri ve seviye tanımı (→ [[personas/methodology]]) |
-| Kaynak etiketleme (kurgusal / [k1]+[k2] / ⚠️) — research-bank P3-P8 verisi | Test senaryosu envanteri (→ [[personas/test-scenarios-mapping]]) |
+| 11 parçalı persona alan havuzu (Kimlik → Kaynak & Doğrulama) | Test başarı metrikleri ve seviye tanımı (→ [[.personas/methodology]]) |
+| Kaynak etiketleme (kurgusal / [k1]+[k2] / ⚠️) — research-bank P3-P8 verisi | Test senaryosu envanteri (→ [[.personas/test-scenarios-mapping]]) |
 | 17 test adımı (6 sütun: Adım / Eylem / Beklenen / Doğrulama / Metrik / WCAG) | Karar kaydı (→ ADR; bu dosya ADR üretmez) |
 | AI Rol Kartı (Level 1 prompt'u) | Kod/otomasyon scripti (→ testing/*) |
 
@@ -61,10 +61,10 @@ Kapsam dışı istisnalar: maaş/universite/sağlık/istatistik-yüzde verisi ba
 
 | Sıra | Dosya | Amaç |
 |------|-------|------|
-| 1 | [[personas/index]] §6.3 | Yaş (33) + mood (Romantik) ataması — SSOT |
-| 2 | [[research-bank]] P3-P8 | Tek gerçek-dünya veri kaynağı (cihaz, BPM, WCAG, KVKK, Big Five, eşikler) |
-| 3 | [[mood-taxonomy]] §3.2.1 | Romantik küme tanımı ve davranış sinyalleri |
-| 4 | [[personas/persona-template]] §3.3 + §3.5 | Şablon-önce kuralı + 11/11 alan havuzu |
+| 1 | [[.personas/index]] §6.3 | Yaş (33) + mood (Romantik) ataması — SSOT |
+| 2 | [[.personas/research-bank]] P3-P8 | Tek gerçek-dünya veri kaynağı (cihaz, BPM, WCAG, KVKK, Big Five, eşikler) |
+| 3 | [[.personas/mood-taxonomy]] §3.2.1 | Romantik küme tanımı ve davranış sinyalleri |
+| 4 | [[.templates/personas/persona-template]] §3.3 + §3.5 | Şablon-önce kuralı + 11/11 alan havuzu |
 | 5 | Eski salt-okunur persona kaynağı | Yalnız kurgusal kimlik/müzik taşınır; etiketsiz iddia taşınmaz |
 
 ---
@@ -77,13 +77,13 @@ Kapsam dışı istisnalar: maaş/universite/sağlık/istatistik-yüzde verisi ba
 |------|-------|--------|
 | Ad Soyad | Baran Koç | `Kaynak: kurgusal (persona verisi)` |
 | persona_id | CM-BK-33-ROM-ANK | `Kaynak: kurgusal (persona verisi)` (CM-BK / 33 / ROM / ANK) |
-| Yaş | 33 | `Kaynak: [k1] + [k2]` — [[personas/index]] §6.3 + frontmatter `age: 33` |
+| Yaş | 33 | `Kaynak: [k1] + [k2]` — [[.personas/index]] §6.3 + frontmatter `age: 33` |
 | Doğum tarihi | 14 Temmuz 1993 (33 ile tutarlı, 2026 itibarıyla) | `⚠️ DERIVED` — yaş 33'ten türetildi; eski dosyada 23 Aralık 1991 (yaş 35 ile çelişiyordu → §7.2) |
 | Cinsiyet | Erkek | `Kaynak: kurgusal (persona verisi)` (segment: yetiskin-erkek) |
 | Şehir | Ankara | `Kaynak: kurgusal (persona verisi)` |
 | Meslek | Doktor | `Kaynak: kurgusal (persona verisi)` — hastane/iş yeri operasyonel detay YOK (kapsam dışı) |
-| Birincil mood | Romantik | `Kaynak: [k1] + [k2]` — [[personas/index]] §6.3 + [[mood-taxonomy]] §3.2.1 |
-| Grup | yetişkin-erkek (yetiskin-erkek) | `Kaynak: [k1] + [k2]` — frontmatter `group` + [[personas/index]] |
+| Birincil mood | Romantik | `Kaynak: [k1] + [k2]` — [[.personas/index]] §6.3 + [[.personas/mood-taxonomy]] §3.2.1 |
+| Grup | yetişkin-erkek (yetiskin-erkek) | `Kaynak: [k1] + [k2]` — frontmatter `group` + [[.personas/index]] |
 | Veli onayı | `veli_onayı_gerekli: false` | `Kaynak: [k1] + [k2]` — P6 (yetişkin; 16 yaş altı çocuk verisi kurgusal zorunluluğu burada uygulanmaz) |
 | Hesap yapısı | Bireysel yetişkin hesabı (aile paylaşımı opsiyonel) | `Kaynak: kurgusal (persona verisi)` |
 | Dil | Türkçe (TR arayüz) | `Kaynak: kurgusal (persona verisi)` |
@@ -94,12 +94,12 @@ Kapsam dışı istisnalar: maaş/universite/sağlık/istatistik-yüzde verisi ba
 
 | Alan | Değer | Kaynak |
 |------|-------|--------|
-| Boy / kilo / BMI | yazılmadı | `⚠️ VERIFICATION REQUIRED` + 1 kaynak: [[research-bank]] P1-P8 kapsamı — fiziksel ölçüm verisi bankada YOK |
-| Görme | Renk ayrımı ve düşük ışık kontrastı test hedefi; reçete/sapma değeri yazılmadı | `⚠️ VERIFICATION REQUIRED` + 1 kaynak: [[research-bank]] P7 (gözlemsel ölçüm yok) |
+| Boy / kilo / BMI | yazılmadı | `⚠️ VERIFICATION REQUIRED` + 1 kaynak: [[.personas/research-bank]] P1-P8 kapsamı — fiziksel ölçüm verisi bankada YOK |
+| Görme | Renk ayrımı ve düşük ışık kontrastı test hedefi; reçete/sapma değeri yazılmadı | `⚠️ VERIFICATION REQUIRED` + 1 kaynak: [[.personas/research-bank]] P7 (gözlemsel ölçüm yok) |
 | İşitme | Normal duyma varsayımı — kulaklık/kablosuz senaryoları dahil | `Kaynak: kurgusal (persona verisi)` |
-| Saç / göz / ten | yazılmadı (persona şablonu fotoğraf/fotoğraf detayı zorunlu kılmaz) | `⚠️ VERIFICATION REQUIRED` + 1 kaynak: [[personas/persona-template]] §3.5.2 |
+| Saç / göz / ten | yazılmadı (persona şablonu fotoğraf/fotoğraf detayı zorunlu kılmaz) | `⚠️ VERIFICATION REQUIRED` + 1 kaynak: [[.templates/personas/persona-template]] §3.5.2 |
 | Giyim / aksesuar | Gece kullanımda dikkat dağıtan parlak aksesuar yok; sade görünüm | `Kaynak: kurgusal (persona verisi)` |
-| Fiziksel kısıt | Tek elle kullanım (hızlı erişim senaryoları) — hareket kısıtı verisi bankada YOK | `⚠️ VERIFICATION REQUIRED` + 1 kaynak: [[research-bank]] P5 (yalnız WCAG kriterleri var) |
+| Fiziksel kısıt | Tek elle kullanım (hızlı erişim senaryoları) — hareket kısıtı verisi bankada YOK | `⚠️ VERIFICATION REQUIRED` + 1 kaynak: [[.personas/research-bank]] P5 (yalnız WCAG kriterleri var) |
 
 *Toplam 6 satır — şablon 5-8 satır aralığını karşılar; sağlık/reçete ayrıntısı bilinçli yazılmadı (6698 m.6, X-6).*
 
@@ -119,30 +119,30 @@ Kapsam dışı istisnalar: maaş/universite/sağlık/istatistik-yüzde verisi ba
 
 | Konu | Değer | Etiket |
 |------|-------|--------|
-| Normalizasyon (0-10 / 0-100 dönüşümü) | Eski dosya 0-10 puanları ×10 ile 0-100'e ölçeklendi | `⚠️ DERIVED` — [[research-bank]] P7.4 (normalizasyon kuralı) |
+| Normalizasyon (0-10 / 0-100 dönüşümü) | Eski dosya 0-10 puanları ×10 ile 0-100'e ölçeklendi | `⚠️ DERIVED` — [[.personas/research-bank]] P7.4 (normalizasyon kuralı) |
 | Ölçek künyesi | IPIP-NEO-120, Johnson (2014) | `Kaynak: [k1] + [k2]` — research-bank P7.1 + p7.ipipneo.org |
-| Kod ↔ boyut eşlemesi | Boyut kodlarının (E/A/C/N/O) şablondaki karşılıkları birebir doğrulanmadı | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[research-bank]] P7.5 (kod eşleme uyarısı) |
+| Kod ↔ boyut eşlemesi | Boyut kodlarının (E/A/C/N/O) şablondaki karşılıkları birebir doğrulanmadı | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[.personas/research-bank]] P7.5 (kod eşleme uyarısı) |
 | Bilimsel iddia | Puanlar bilimsel test sonucu DEĞİLDİR — kurgusal persona puanıdır | `Kaynak: kurgusal (persona verisi)` (ADR-005) |
 
 *Eski dosya puanları (0-10): E 6 · A 8 · C 9 · N 6 · O 7 → burada ×10 ile 60/80/90/60/70 (§7.2 çakışma kaydı).*
 
 ### Mood Profili
 
-Mood: **Romantik** ([[mood-taxonomy]] §3.2.1).
+Mood: **Romantik** ([[.personas/mood-taxonomy]] §3.2.1).
 
 | Sinyal | Beklenen UI davranışı | Etiket |
 |--------|-----------------------|--------|
 | Duygusal/tematik dinleme | Çalma listesi kapakları ve duygu etiketleri öne çıkar; his odaklı keşif | `Kaynak: [k1] + [k2]` — mood-taxonomy §3.2.1 + personas/index §6.3 |
-| Sıcak, alçak tınılı görsel dil | Düşük kontrastlı-sıcak palet tercihi; ancak metin kontrastı 1.4.3'ü asla düşürmez | `Kaynak: kurgusal (persona verisi)` + WCAG: [[research-bank]] P5.2 |
+| Sıcak, alçak tınılı görsel dil | Düşük kontrastlı-sıcak palet tercihi; ancak metin kontrastı 1.4.3'ü asla düşürmez | `Kaynak: kurgusal (persona verisi)` + WCAG: [[.personas/research-bank]] P5.2 |
 | Gece/sessiz ortam dinlemesi | Düşük ışık teması; parlak beyaz arka plan yerine koyu zemin | `Kaynak: kurgusal (persona verisi)` |
 | Sabırlı ama duygusal kırılganlık | Hata ekranlarında suçlayıcı dil yok; nazik geri bildirim | `Kaynak: kurgusal (persona verisi)` |
 | Ritim/akustik tercih | Yavaş-orta tempolu akış beklentisi; tür-BPM aralıkları §3.5'te | `Kaynak: [k1] + [k2]` — research-bank P4.4 + mood-taxonomy §3.2.1 |
 
 | Konu | Değer | Etiket |
 |------|-------|--------|
-| Romantik BPM kümesi (eski taksonomi) | 60-100 BPM | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[mood-taxonomy]] §3.2.1 (eski taksonomi; gerçek-dünya karşılığı bankada doğrulanmadı) |
+| Romantik BPM kümesi (eski taksonomi) | 60-100 BPM | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[.personas/mood-taxonomy]] §3.2.1 (eski taksonomi; gerçek-dünya karşılığı bankada doğrulanmadı) |
 | Müziksel karşılık | Slow-pop / ballad ağırlıklı akış beklentisi | `Kaynak: kurgusal (persona verisi)` |
-| Dağılım (küme sıklığı) | Yüzde/istatistik yazılmadı | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[research-bank]] P2 (kapsam dışı; kaynaksız yüzde yasak, ADR-005) |
+| Dağılım (küme sıklığı) | Yüzde/istatistik yazılmadı | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[.personas/research-bank]] P2 (kapsam dışı; kaynaksız yüzde yasak, ADR-005) |
 
 ### Müzik DNA'sı
 
@@ -150,8 +150,8 @@ Mood: **Romantik** ([[mood-taxonomy]] §3.2.1).
 |------|-------|--------|
 | Birincil türler | Türk sanat müziği, klasik müzik, caz, slow pop, tasavvuf müziği | `Kaynak: kurgusal (persona verisi)` |
 | İkincil türler | Türk pop (seçili), film müzikleri | `Kaynak: kurgusal (persona verisi)` |
-| Örnek sanatçılar | Zeki Müren, Münir Nurettin Selçuk, Kerem Görsev, Frank Sinatra, Tarkan | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[research-bank]] P4 (bankada sanatçı listesi YOK; gerçek-dünya sanatçı/rol iddiası P4 kapsamı dışı) |
-| Örnek şarkı / BPM | yazılmadı | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[research-bank]] X-2 (şarkı BPM'i yasak) |
+| Örnek sanatçılar | Zeki Müren, Münir Nurettin Selçuk, Kerem Görsev, Frank Sinatra, Tarkan | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[.personas/research-bank]] P4 (bankada sanatçı listesi YOK; gerçek-dünya sanatçı/rol iddiası P4 kapsamı dışı) |
+| Örnek şarkı / BPM | yazılmadı | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[.personas/research-bank]] X-2 (şarkı BPM'i yasak) |
 | Türk pop tür BPM'i | 80-120 BPM | `Kaynak: [k1] + [k2]` — research-bank P4.4 (`VERIFIED`, ikincil) + bpm.to/120 |
 | House tür BPM'i | 110-128 BPM | `Kaynak: [k1] + [k2]` — research-bank P4.4 + bpm.to/110-128 |
 | Dance tür BPM'i | 110-135 BPM | `Kaynak: [k1] + [k2]` — research-bank P4.4 + bpm.to/110-135 |
@@ -167,11 +167,11 @@ Mood: **Romantik** ([[mood-taxonomy]] §3.2.1).
 
 | Alan | Değer | Kaynak |
 |------|-------|--------|
-| Birincil cihaz (eski kayıt) | iPhone 15 Pro Max — model/spec değerleri yazılmadı | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[research-bank]] X-1 (cihaz spec'i bankada doğrulanmadı) |
+| Birincil cihaz (eski kayıt) | iPhone 15 Pro Max — model/spec değerleri yazılmadı | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[.personas/research-bank]] X-1 (cihaz spec'i bankada doğrulanmadı) |
 | Test viewport'u (birincil) | 1080×2340 (Samsung Galaxy A34) | `Kaynak: [k1] + [k2]` — research-bank P3 (`VERIFIED`) + samsung.com/galaxy-a34/specs |
 | Test viewport'u (dar) | 360×780, DPR 3 | `⚠️ DERIVED` — P3 A34 spec'inden türetildi (1080/3 = 360) |
 | Test viewport'u (orta) | 412×915, DPR 2.625 | `⚠️ DERIVED` — P3 A34 spec'inden türetildi (1080/2.625 = 412) |
-| Tarayıcı | Safari (iOS) + Chrome (Android) — sürüm yazılmadı | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[research-bank]] P3 (sürüm bankada YOK) |
+| Tarayıcı | Safari (iOS) + Chrome (Android) — sürüm yazılmadı | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[.personas/research-bank]] P3 (sürüm bankada YOK) |
 | Ağ (test) | Slow 4G: 150 ms RTT · 1.6 Mbps ↓ · 750 Kbps ↑ | `Kaynak: [k1] + [k2]` — research-bank P8.6 (`VERIFIED`) |
 | Kulaklık | Kablosuz kulaklık ile gece dinleme; kablo yok varsayımı | `Kaynak: kurgusal (persona verisi)` |
 | Masaüstü | Ara sıra dizüstü; birincil mobil | `Kaynak: kurgusal (persona verisi)` |
@@ -185,8 +185,8 @@ Mood: **Romantik** ([[mood-taxonomy]] §3.2.1).
 | Alan | Durum | WCAG Etkisi | Kaynak |
 |------|-------|-------------|--------|
 | Düşük ışıkta kontrast | Gece dinleme = birincil senaryo | 1.4.3 (metin 4.5:1) + 1.4.11 (UI bileşeni 3:1) | `Kaynak: [k1] + [k2]` — research-bank P5.2 + w3.org/WAI/WCAG22/Understanding |
-| Hareket duyarlılığı | Hareket kısıtı verisi bankada YOK | 1.4.13 (hover/focus içeriği kaybolmaz) kriteri test edilir | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[research-bank]] P7 (kullanıcı hareket verisi yok) |
-| Görme | Renk körlüğü/sapma değeri yazılmadı | 1.4.3 + 1.4.11 renk-bağımsızlık denetimi | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[research-bank]] P5 (klinik veri yok) |
+| Hareket duyarlılığı | Hareket kısıtı verisi bankada YOK | 1.4.13 (hover/focus içeriği kaybolmaz) kriteri test edilir | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[.personas/research-bank]] P7 (kullanıcı hareket verisi yok) |
+| Görme | Renk körlüğü/sapma değeri yazılmadı | 1.4.3 + 1.4.11 renk-bağımsızlık denetimi | `⚠️ VERIFICATION REQUIRED` — 1 kaynak: [[.personas/research-bank]] P5 (klinik veri yok) |
 | İşitme | Altyazı/transkript beklentisi (podcast/sohbet içerikleri) | 1.4.13 içerik gösterimi | `Kaynak: kurgusal (persona verisi)` |
 | Tek elle kullanım | Hızlı erişim senaryoları | 2.5.7 (sürükleme yerine alternatif) + 2.5.8 (hedef ≥24 px) | `Kaynak: [k1] + [k2]` — research-bank P5.4 + w3.org/WAI/WCAG22/Understanding |
 | Klavye / odak | Odak her zaman görünür ve engellenmez | 2.4.7 + 2.4.11 | `Kaynak: [k1] + [k2]` — research-bank P5.4 |
@@ -215,7 +215,7 @@ Mood: **Romantik** ([[mood-taxonomy]] §3.2.1).
 | Alan | Değer | Etiket |
 |------|-------|--------|
 | Ton | Sıcak, sakin, saygılı; hitap "sen" | `Kaynak: kurgusal (persona verisi)` |
-| Yasak ton | Teknik jargon, suçlayıcı hata metni, agresif upsell | `Kaynak: kurgusal (persona verisi)` + [[personas/persona-template]] §3.9 |
+| Yasak ton | Teknik jargon, suçlayıcı hata metni, agresif upsell | `Kaynak: kurgusal (persona verisi)` + [[.templates/personas/persona-template]] §3.9 |
 | Öncelik | Sessizlik > hız > estetik (gece senaryosu) | `Kaynak: kurgusal (persona verisi)` |
 | Prompt değişkeni | `PERSONA_ID` = `CM-BK-33-ROM-ANK` | `Kaynak: kurgusal (persona verisi)` |
 
@@ -245,8 +245,8 @@ Mood: **Romantik** ([[mood-taxonomy]] §3.2.1).
 
 **Test adımı notları:**
 
-- Metrikler yalnızca [[research-bank]] P8 değerleridir (LCP ≤2500 ms · INP ≤200 ms · CLS ≤0.1 · FCP 1 sn · Slow 4G 150 ms / 1.6 Mbps / 750 Kbps); persona-özel eşik uydurulmadı (X-10).
-- WCAG kodları yalnızca [[research-bank]] P5.2/P5.4 listesinden seçilmiştir: 1.4.3 · 1.4.11 · 1.4.13 · 2.4.7 · 2.4.11 · 2.5.7 · 2.5.8 · 3.2.6 · 3.3.7 · 3.3.8.
+- Metrikler yalnızca [[.personas/research-bank]] P8 değerleridir (LCP ≤2500 ms · INP ≤200 ms · CLS ≤0.1 · FCP 1 sn · Slow 4G 150 ms / 1.6 Mbps / 750 Kbps); persona-özel eşik uydurulmadı (X-10).
+- WCAG kodları yalnızca [[.personas/research-bank]] P5.2/P5.4 listesinden seçilmiştir: 1.4.3 · 1.4.11 · 1.4.13 · 2.4.7 · 2.4.11 · 2.5.7 · 2.5.8 · 3.2.6 · 3.3.7 · 3.3.8.
 - P5 kapsamı dışında kalan AA kriterleri (1.4.5, 2.4.3, 3.3.x tamamı) bu tabloda kullanılmaz — `⚠️ VERIFICATION REQUIRED` (X-7).
 - Adım 7 (vardiya/gece dinleme), adım 5 (düşük ışık teması) ve adım 8/10 (hızlı erişim) bu personanın imza senaryolarıdır.
 
@@ -325,7 +325,7 @@ Mood: **Romantik** ([[mood-taxonomy]] §3.2.1).
 
 **Bu persona dosyasını yazmadan ÖNCE `.ai/.templates/` dizinindeki ilgili şablonu oku:**
 
-1. Şablonu `[[../.templates/index]]` §7.1 tablolarından seç → persona için `personas/persona-template.md`.
+1. Şablonu `[[.templates/index]]` §7.1 tablolarından seç → persona için `personas/persona-template.md`.
 2. Şablonu oku; `{{VARIABLE}}` alanlarını doldur, gereksiz anlatım bloklarını kaldır (§3.5 alan havuzu KALIR).
 3. **Şablon varsa ona göre yaz.**
 4. **Şablon yoksa** bu belgedeki 8-bölüm formatına göre yaz ve `⚠️ VERIFICATION REQUIRED` notuyla `log.md`'ye şablon eksiğini bildir.
@@ -335,7 +335,7 @@ Mood: **Romantik** ([[mood-taxonomy]] §3.2.1).
 |-------|---------|
 | `.ai/.templates/personas/persona-template.md` VAR | Şablonu oku → ona göre yaz |
 | Şablon YOK | 8-bölüm formatına göre yaz + `log.md`'ye "şablon eksiği" kaydı |
-| Şablon okundu ama çelişiyor | DUR → `[[../CLAUDE.md]]` §2.1 SSOT öncelik sırası |
+| Şablon okundu ama çelişiyor | DUR → `[[CLAUDE.md]]` §2.1 SSOT öncelik sırası |
 | Vault erişilemiyor | `⚠️ VERIFICATION REQUIRED` → yazım durdurulur, kullanıcıya sor |
 
 *(Bu blok persona-template §3.3'ten birebir kopyalanmıştır; §4'ün ilk maddesidir, silinemez.)*
@@ -346,7 +346,7 @@ Mood: **Romantik** ([[mood-taxonomy]] §3.2.1).
 |---|-------|----------|--------------|
 | 1 | Template Mandatory (Guardrail #16) | Bu dosya persona-template'den üretildi | Dosya geçersiz, revert |
 | 2 | Şablon Önce | Yazmadan `.ai/.templates/` okundu | ERROR log, yazıma devam yok |
-| 3 | SSOT | Persona kataloğu [[personas/index]]; araştırma verisi [[research-bank]] | İçerik silinir |
+| 3 | SSOT | Persona kataloğu [[.personas/index]]; araştırma verisi [[.personas/research-bank]] | İçerik silinir |
 | 4 | Zero Hallucination (ADR-005) | Her satır §3.11 etiketi taşır; bankada olmayan iddia yazılmaz | Etiketsiz iddia silinir |
 | 5 | In-Place Refactoring | Dosya adı/yolu değişmez (`baran-koc-romantik.md`) | Dosya geri yüklenir |
 | 6 | Dil | Türkçe; mojibake yasak | `repair` ile onarılır |
@@ -375,7 +375,7 @@ Mood: **Romantik** ([[mood-taxonomy]] §3.2.1).
 | Adım | Aksiyon | Çıktı |
 |------|---------|-------|
 | 1 | persona-template + docs-md-template oku (Guardrail #16) | Şablon + iskelet |
-| 2 | [[research-bank]] P3-P8 + [[mood-taxonomy]] §3.2.1 + [[personas/index]] §6.3 oku | Etiketli veri + küme adı + yaş/mood |
+| 2 | [[.personas/research-bank]] P3-P8 + [[.personas/mood-taxonomy]] §3.2.1 + [[.personas/index]] §6.3 oku | Etiketli veri + küme adı + yaş/mood |
 | 3 | Eski salt-okunur persona kaynağını incele (yalnız kimlik/müzik/rutin; etiketsiz iddia taşınmaz) | Kurgusal içerik |
 | 4 | §3.5 11/11 alanı doldur → her satıra etiket yaz | Dolu §3 |
 | 5 | Test Adımları 17 → §6.1 kontrol listesi → `vault-utf8-writer verify` → `log.md` append | Doğrulanmış dosya |
@@ -407,7 +407,7 @@ Mood: **Romantik** ([[mood-taxonomy]] §3.2.1).
 | Çift `{{` | §4/§5 bloğu dışındaki yer tutucu | Yer tutucuyu doldur veya sil |
 | 505 satır altı | `verify.lines < 505` | Açıklama satırı/tablo ekle, yeniden verify |
 | Persona-özel eşik uydurma | "Baran için LCP 3000 ms" benzeri | Sil; genel P8 eşiği + `⚠️ DERIVED` gerekir (X-10) |
-| Yaş geri kayması (35) | Eski dosyadan 35 kopyalanması | SSOT: 33 ([[personas/index]] §6.3); §7.2 kaydı korunur |
+| Yaş geri kayması (35) | Eski dosyadan 35 kopyalanması | SSOT: 33 ([[.personas/index]] §6.3); §7.2 kaydı korunur |
 
 ---
 
@@ -469,16 +469,16 @@ Mood: **Romantik** ([[mood-taxonomy]] §3.2.1).
 
 | Wiki-link | İlişki | Durum / Gerçek hedef |
 |-----------|--------|----------------------|
-| `[[personas/index]]` | Persona kataloğu — yaş/mood atamasının sahibi | ✅ `.ai/.personas/index.md` |
-| `[[personas/persona-template]]` | Persona şablonu — bu dosyanın iskeleti | ✅ `.ai/.templates/personas/persona-template.md` |
-| `[[research-bank]]` | Araştırma paketleri P1-P8 — tek gerçek-dünya veri kaynağı | ✅ `.ai/.personas/research-bank.md` |
-| `[[mood-taxonomy]]` | Mood küme adları ve tanımları (§3.2.1 Romantik) | ✅ `.ai/.personas/mood-taxonomy.md` |
-| `[[personas/test-scenarios-mapping]]` | Test senaryosu eşlemesi | ✅ `.ai/.personas/test-scenarios-mapping.md` |
-| `[[personas/methodology]]` | Test seviyeleri (Level 1/2/3) | ✅ `.ai/.personas/methodology.md` |
-| `[[ADR-023-persona-driven-testing]]` | Persona-driven testing kararı (frozen) | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
+| `[[.personas/index]]` | Persona kataloğu — yaş/mood atamasının sahibi | ✅ `.ai/.personas/index.md` |
+| `[[.templates/personas/persona-template]]` | Persona şablonu — bu dosyanın iskeleti | ✅ `.ai/.templates/personas/persona-template.md` |
+| `[[.personas/research-bank]]` | Araştırma paketleri P1-P8 — tek gerçek-dünya veri kaynağı | ✅ `.ai/.personas/research-bank.md` |
+| `[[.personas/mood-taxonomy]]` | Mood küme adları ve tanımları (§3.2.1 Romantik) | ✅ `.ai/.personas/mood-taxonomy.md` |
+| `[[.personas/test-scenarios-mapping]]` | Test senaryosu eşlemesi | ✅ `.ai/.personas/test-scenarios-mapping.md` |
+| `[[.personas/methodology]]` | Test seviyeleri (Level 1/2/3) | ✅ `.ai/.personas/methodology.md` |
+| `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | Persona-driven testing kararı (frozen) | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
 | `rules/vault-format` | Vault format kuralları | hedef dosya yok → ⚠️ planlanan (`.ai/.rules/vault-format.md`) |
 | `rules/placeholder-syntax` | Yer tutucu sözdizimi kuralı | hedef dosya yok → ⚠️ planlanan (`.ai/.rules/placeholder-syntax.md`) |
-| `[[ADR-005-ultrathink-protocol]]` | Zero Hallucination kararı | ✅ `.ai/.decisions/accepted/ADR-005-ultrathink-protocol.md` |
+| `[[.decisions/accepted/ADR-005-ultrathink-protocol]]` | Zero Hallucination kararı | ✅ `.ai/.decisions/accepted/ADR-005-ultrathink-protocol.md` |
 
 *`⚠️ planlanan` satır hedef dosya diskte oluşana kadar kırık kabul edilir; oluştuğunda `✅`ye çevrilir ve `log.md`'ye append edilir.*
 
@@ -486,10 +486,10 @@ Mood: **Romantik** ([[mood-taxonomy]] §3.2.1).
 
 | Alan | Eski dosya (salt-okunur) | Yeni değer (SSOT) | Karar |
 |------|--------------------------|-------------------|-------|
-| Yaş | 35 | 33 | [[personas/index]] §6.3 kazanır (iki değer korunur: 35 / 33) |
+| Yaş | 35 | 33 | [[.personas/index]] §6.3 kazanır (iki değer korunur: 35 / 33) |
 | Doğum tarihi | 23 Aralık 1991 | 14 Temmuz 1993 | Yaş 33 ile tutarlılık için kurgusal türetme (`⚠️ DERIVED`) |
 | Big Five ölçeği | 0-10 puanlar (E6 A8 C9 N6 O7) | 0-100 (E60 A80 C90 N60 O70) | P7.4 normalizasyonu ×10 (`⚠️ DERIVED`) |
-| Birincil cihaz | iPhone 15 Pro Max (spec'siz, X-1) | Test viewport: A34 1080×2340 (VERIFIED); 360×780 / 412×915 (`⚠️ DERIVED`) | [[research-bank]] P3 — cihaz spec'i yazılmadı |
+| Birincil cihaz | iPhone 15 Pro Max (spec'siz, X-1) | Test viewport: A34 1080×2340 (VERIFIED); 360×780 / 412×915 (`⚠️ DERIVED`) | [[.personas/research-bank]] P3 — cihaz spec'i yazılmadı |
 | Müzik BPM | Eski dosyada sanatçı/şarkı bağlamı | Tür aralığı P4.4 (VERIFIED ikincil); şarkı BPM'i yok | §4.2 + X-2 |
 | Sanatçı listesi | Eski dosyada birebir liste | Kurgusal tercih olarak taşındı, `⚠️ VERIFICATION REQUIRED` | P4 kapsamı dışı gerçek kişi iddiası |
 | KVKK ifadesi | "KVKK 16" (yanlış) | TMK m.18 / GDPR m.16 / COPPA m.13 | P6.1/P6.2 — "KVKK 16" bu dosyada YOK |

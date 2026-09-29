@@ -15,11 +15,11 @@ veli_onayı_gerekli: true
 
 # CoreMusic — Persona: Elifsu Kaya-Arabesk
 
-**Zorunlu Bağlantılar:** [[personas/index]] · [[personas/persona-template]] · [[research-bank]] · [[mood-taxonomy]] · [[personas/methodology]] · [[personas/test-scenarios-mapping]] · [[ADR-023-persona-driven-testing]]
+**Zorunlu Bağlantılar:** [[.personas/index]] · [[.templates/personas/persona-template]] · [[.personas/research-bank]] · [[.personas/mood-taxonomy]] · [[.personas/methodology]] · [[.personas/test-scenarios-mapping]] · [[.decisions/accepted/ADR-023-persona-driven-testing]]
 
 ## §1 Amaç
 
-Bu persona, CoreMusic çocuk deneyimini 9 yaşındaki Elifsu üzerinden — aileden gelen arabesk alışkanlığı + keşif dürtüsü ekseninde — test etmek için tanımlanmıştır. Kaynak: eski salt-okunur `.ai/personas/kiz-cocuk/elifsu-kaya-arabesk.md` (yalnız kurgusal kimlik/müzik/rutin taşındı) + [[personas/index]] §6.3 (yaş/mood SSOT).
+Bu persona, CoreMusic çocuk deneyimini 9 yaşındaki Elifsu üzerinden — aileden gelen arabesk alışkanlığı + keşif dürtüsü ekseninde — test etmek için tanımlanmıştır. Kaynak: eski salt-okunur `.ai/personas/kiz-cocuk/elifsu-kaya-arabesk.md` (yalnız kurgusal kimlik/müzik/rutin taşındı) + [[.personas/index]] §6.3 (yaş/mood SSOT).
 
 | Alan | Değer |
 |------|-------|
@@ -69,11 +69,11 @@ Bu persona, CoreMusic çocuk deneyimini 9 yaşındaki Elifsu üzerinden — aile
 |------|-------|--------|
 | Ad | Elifsu Kaya-Arabesk | Kaynak: kurgusal (persona verisi) |
 | Doğum | 17 Ağustos 2017 | Kaynak: kurgusal (persona verisi — 9 yaşla uyumlu) |
-| Yaş | 9 | [[personas/index]] §6.3 (SSOT) |
+| Yaş | 9 | [[.personas/index]] §6.3 (SSOT) |
 | Şehir / semt | Adana / Seyhan | Kaynak: kurgusal (persona verisi) |
 | Okul | Mehmet Akif İlkokulu — 3. sınıf | Kaynak: kurgusal (persona verisi) |
 | Aile | Anne-baba + anneanne + dede (kuşak dinleme) | Kaynak: kurgusal (persona verisi) |
-| Mood (birincil) | Arabesk Kaşif | [[personas/index]] §6.3 + [[mood-taxonomy]] §3.4 |
+| Mood (birincil) | Arabesk Kaşif | [[.personas/index]] §6.3 + [[.personas/mood-taxonomy]] §3.4 |
 | Mood (eski dosya) | Duygusal/Sadık | ÇAKIŞMA → §7.2 (index kazanır) |
 | veli_onayı_gerekli | true | Türetilmiş: P6.3/P6.4 (TMK m.18 · COPPA 13 · GDPR 16) |
 
@@ -117,17 +117,17 @@ Bu persona, CoreMusic çocuk deneyimini 9 yaşındaki Elifsu üzerinden — aile
 |------|-------|
 | **Birincil küme** | Arabesk Kaşif |
 | **İkincil küme** | — (eski dosyanın "Duygusal/Sadık"ı taxonomy'de YOK — 0 hit → taşınmadı, §7.2) |
-| **Küme tanımı (alıntı)** | "Aileden öğrenilmiş arabesk + keşif" ([[mood-taxonomy]] §3.4 satır 21) |
-| **Eğilim** | Yüksek A / orta N ([[mood-taxonomy]] §3.4) |
+| **Küme tanımı (alıntı)** | "Aileden öğrenilmiş arabesk + keşif" ([[.personas/mood-taxonomy]] §3.4 satır 21) |
+| **Eğilim** | Yüksek A / orta N ([[.personas/mood-taxonomy]] §3.4) |
 | **Müzik tanımı** | "Arabesk + çocuk keşif" (BPM yok — §3.4) |
 | **Tetikleyici durumlar** | Dede/eve dönüş saatine denk gelen dinleme; yeni keşif listesi görünür olması; tekrar eden öneride sıkılma; 18+ içerik görünürse rahatsızlık (KKB ihlali) |
-| **UI etkisi (test etkisi)** | "Çocuk dostu UI, aile paylaşımı, içerik filtresi" ([[mood-taxonomy]] §3.4 satır 21) |
+| **UI etkisi (test etkisi)** | "Çocuk dostu UI, aile paylaşımı, içerik filtresi" ([[.personas/mood-taxonomy]] §3.4 satır 21) |
 
 | Kural | Değer |
 |-------|-------|
-| Küme adları | Yalnızca [[mood-taxonomy]] §3 listesinden; "Sadık" gibi adlar uydurulmaz (taksonomi kuralı) |
-| Atama | Birincil = [[personas/index]] §6.3 (Arabesk Kaşif); eski dosyadaki mood çelişkisi §7.2'de saklı |
-| Test etkisi | ADR-023 + [[mood-taxonomy]] §3.4: çocuk dostu UI, aile paylaşımı, içerik filtresi |
+| Küme adları | Yalnızca [[.personas/mood-taxonomy]] §3 listesinden; "Sadık" gibi adlar uydurulmaz (taksonomi kuralı) |
+| Atama | Birincil = [[.personas/index]] §6.3 (Arabesk Kaşif); eski dosyadaki mood çelişkisi §7.2'de saklı |
+| Test etkisi | ADR-023 + [[.personas/mood-taxonomy]] §3.4: çocuk dostu UI, aile paylaşımı, içerik filtresi |
 
 **Mood → test beklentisi eşlemesi:**
 
@@ -229,7 +229,7 @@ Bu persona, CoreMusic çocuk deneyimini 9 yaşındaki Elifsu üzerinden — aile
 | **Öğrenme biçimi** | Görsel + ezber (şarkı tekrarı) + ses; yazı yazmak zayıf yönü | Kaynak: kurgusal (persona verisi) |
 | **Grup davranışı** | Kuzenlerle kolektif dinleme; sırayı paylaşır ama "ben buldum" gururu yaşar | Kaynak: kurgusal (persona verisi) |
 | **Yorgunluk etkisi** | 21:00 sonrası odak 10 dk'ya düşer; karmaşık akış yerine gece modu/sakinleştirme bekler | Kaynak: kurgusal (persona verisi) |
-| **Kontrol tetikleyicisi** | Paylaşım başarısızsa hayal kırıklığı; "aileme gönder" + anlık geri bildirim → güven | Kaynak: kurgusal (persona verisi); mood: [[mood-taxonomy]] §3.4 Arabesk Kaşif |
+| **Kontrol tetikleyicisi** | Paylaşım başarısızsa hayal kırıklığı; "aileme gönder" + anlık geri bildirim → güven | Kaynak: kurgusal (persona verisi); mood: [[.personas/mood-taxonomy]] §3.4 Arabesk Kaşif |
 
 *Erişilebilirlik etkisi (özet):* 3. sınıf okuma evresi + ikon bağımlılığı → dokunma hedefi ≥ **24×24 CSS px** (2.5.8), kontrast ≥ **4.5:1** (1.4.3), yaş alanında 3.3.8 tolerans — kriterler: `Kaynak: w3.org/TR/WCAG22/ + quickref` (P5.4 `VERIFIED`).
 
@@ -290,7 +290,7 @@ Davranış notları:
 | 15 | Erişilebilirlik denetimi | Lighthouse A11y + axe; 1.4.3 / 1.4.11 / 2.4.7 / 2.4.11 / 2.5.7 / 2.5.8 / 3.3.8 ihlali yok | Lighthouse / axe |
 | 16 | Türkçe karakter içeriği (ç, ğ, ı, İ, ö, ş, ü) | Menü ve şarkı adlarında karakter bozulmaz (mojibake yok) | `vault-utf8-writer verify` + ekran görüntüsü |
 
-*Asgari 10 satır (şablon §3.5.10) — 16 satır yazıldı. Her satırda 3 sütun zorunlu: `Adım` · `Beklenen` · `Doğrulama yöntemi`. Seviye karşılıkları: [[personas/methodology]] Level 1 (AI rol) · Level 2 (Browser MCP) · Level 3 (Playwright E2E). Eşik değerleri research-bank P8'den (`VERIFIED`); persona'ya özel eşik yazılmadı (X-10 → `⚠️ DERIVED` gerekir).*
+*Asgari 10 satır (şablon §3.5.10) — 16 satır yazıldı. Her satırda 3 sütun zorunlu: `Adım` · `Beklenen` · `Doğrulama yöntemi`. Seviye karşılıkları: [[.personas/methodology]] Level 1 (AI rol) · Level 2 (Browser MCP) · Level 3 (Playwright E2E). Eşik değerleri research-bank P8'den (`VERIFIED`); persona'ya özel eşik yazılmadı (X-10 → `⚠️ DERIVED` gerekir).*
 
 **Ek doğrulama notları (test koşusundan önce — research-bank P8 `VERIFIED`):**
 
@@ -304,7 +304,7 @@ Davranış notları:
 | # | Alan / İddia | İddia Türü | Kaynak 1 | Kaynak 2 | Etiket |
 |---|--------------|-----------|----------|----------|--------|
 | 1 | Ad, doğum tarihi, semt, okul, aile detayları | Kurgusal persona verisi | — | — | `Kaynak: kurgusal (persona verisi)` |
-| 2 | Yaş (9) ve atama | Kurgusal (index ataması) | [[personas/index]] §6.3 | — | `Kaynak: kurgusal (persona verisi; index §6.3 ataması)` |
+| 2 | Yaş (9) ve atama | Kurgusal (index ataması) | [[.personas/index]] §6.3 | — | `Kaynak: kurgusal (persona verisi; index §6.3 ataması)` |
 | 3 | `veli_onayı_gerekli: true` (13 yaş altı politikası) | Politika sonucu (türetilmiş) | research-bank P6.3/P6.4 (TMK 18 · COPPA 13 · GDPR 16) | — | `⚠️ DERIVED` + dayanak: ADR-023 |
 | 4 | KVKK/yaş karşılaştırması; "KVKK 16 diyor" = YANLIŞ | Gerçek-dünya | dergipark.org.tr (mukayeseli inceleme) | kvkk.gov.tr (Yayın No 84) + mgm.adalet.gov.tr | `Kaynak: [k1] + [k2]` (P6.4 `VERIFIED`) |
 | 5 | Fiziksel özet satırları (boy dahil) | Kurgusal / doğrulanmadı | eski dosya | — | `Kaynak: kurgusal` + boy: `⚠️ VERIFICATION REQUIRED` (persentil) |
@@ -313,10 +313,10 @@ Davranış notları:
 | 8 | Ölçek künyesi: IPIP-NEO-120, Johnson (2014) | Gerçek-dünya | novopsych.com IPIP-NEO-120 Technical Paper | APA PsycNET (PsycTests kaydı) | `Kaynak: [k1] + [k2]` (P7.4 `VERIFIED`) |
 | 9 | "IPIP-NEO Türkçe geçerli" iddiası | Doğrulanmadı | research-bank P7.5 / X-9 (yalnız Endonezya örneği) | — | `⚠️ VERIFICATION REQUIRED` — yazılmadı |
 | 10 | Boyut kodu eşlemesi (şablon O/C/E/A ↔ P7.3 tam adları) | Vault içi çelişki | persona-template §3.5.3 + mood-taxonomy §3.3 | research-bank P7.3/P7.5 | `⚠️ VERIFICATION REQUIRED` (P7.5: "kod esastır") |
-| 11 | Mood küme adı (Arabesk Kaşif) | Vault referanslı atama | [[mood-taxonomy]] §3.4 satır 21 | [[personas/index]] §6.3 | `Kaynak: kurgusal (atama); adlar mood-taxonomy §3 listesinden` |
-| 12 | Mood küme tanımı alıntısı | Vault verisi | [[mood-taxonomy]] §3.4 | — | `Kaynak: [[mood-taxonomy]] (vault verisi)` |
-| 13 | Eski mood "Duygusal/Sadık" | Vault içi çelişki (0 hit) | eski salt-okunur persona dosyası | [[mood-taxonomy]] §3 (listingde YOK) | ÇAKIŞMA → §7.2; index kazanır |
-| 14 | Mood test etkisi: çocuk UI + aile paylaşımı + içerik filtresi | Test etkisi | [[mood-taxonomy]] §3.4 satır 21 | ADR-023 | `Kaynak: [[mood-taxonomy]] (vault verisi)` |
+| 11 | Mood küme adı (Arabesk Kaşif) | Vault referanslı atama | [[.personas/mood-taxonomy]] §3.4 satır 21 | [[.personas/index]] §6.3 | `Kaynak: kurgusal (atama); adlar mood-taxonomy §3 listesinden` |
+| 12 | Mood küme tanımı alıntısı | Vault verisi | [[.personas/mood-taxonomy]] §3.4 | — | `Kaynak: [[.personas/mood-taxonomy]] (vault verisi)` |
+| 13 | Eski mood "Duygusal/Sadık" | Vault içi çelişki (0 hit) | eski salt-okunur persona dosyası | [[.personas/mood-taxonomy]] §3 (listingde YOK) | ÇAKIŞMA → §7.2; index kazanır |
+| 14 | Mood test etkisi: çocuk UI + aile paylaşımı + içerik filtresi | Test etkisi | [[.personas/mood-taxonomy]] §3.4 satır 21 | ADR-023 | `Kaynak: [[.personas/mood-taxonomy]] (vault verisi)` |
 | 15 | Arabesk BPM 60-90 | Gerçek-dünya (ikincil) | turkipedia.com/Beats_per_minute | nevamuzik.com.tr | `Kaynak: [k1] + [k2]` (P4.4 `VERIFIED (ikincil — birincil ölçüm DEĞİL)`) |
 | 16 | Şarkı bazlı BPM | Doğrulanmadı (EXCLUDED) | research-bank P4.7 / X-2 | — | `⚠️ VERIFICATION REQUIRED` — yazılmadı |
 | 17 | Favori sanatçılar: Müslüm Gürses, Ferdi Tayfur, Orhan Gencebay, İbrahim Tatlıses | Sanatçı listesi + persona tercihi | research-bank P4.2 (bu isimler listede VAR) | eski dosya (tercih sırası) | `Kaynak: [k1] + [k2]` (P4.2 `VERIFIED` + kurgusal sıralama) |
@@ -333,7 +333,7 @@ Davranış notları:
 | 28 | Playwright emülasyon alanları / breakpoint listesi | Gerçek-dünya | playwright.dev/docs/emulation | github.com/microsoft/playwright (docs/src/emulation.md) | `Kaynak: [k1] + [k2]` (P8.6 `VERIFIED`) |
 | 29 | Eski dosyadaki istatistik iddiaları (RTÜK/18+ yüzdeleri, TÜİK vb.) | Bankada YOK | research-bank P1-P8 kapsamı | — | `⚠️ VERIFICATION REQUIRED` — bu dosyaya YAZILMADI |
 | 30 | Şarkı sözü ekleme özelliği (eski dosya) | Özellik (kapsam dışı) | eski salt-okunur persona dosyası | ADR-001 (şarkı sözü kapsam dışı) | KAPSAM DIŞI → basitleştirildi (§7.2) |
-| 31 | Eski cihaz/okul/mood değerleri (§7.2 çakışma tablosu) | Vault içi çelişki | eski salt-okunur persona dosyası | [[personas/index]] §6.3 | Karar: index kazanır; çelişki §7.2'de saklı |
+| 31 | Eski cihaz/okul/mood değerleri (§7.2 çakışma tablosu) | Vault içi çelişki | eski salt-okunur persona dosyası | [[.personas/index]] §6.3 | Karar: index kazanır; çelişki §7.2'de saklı |
 
 ---
 
@@ -343,7 +343,7 @@ Davranış notları:
 
 **Bu persona dosyasını yazmadan ÖNCE `.ai/.templates/` dizinindeki ilgili şablonu oku:**
 
-1. Şablonu `[[../.templates/index]]` §7.1 tablolarından seç → persona için `personas/persona-template.md`.
+1. Şablonu `[[.templates/index]]` §7.1 tablolarından seç → persona için `personas/persona-template.md`.
 2. Şablonu oku; `{{VARIABLE}}` alanlarını doldur, gereksiz anlatım bloklarını kaldır (§3.5 alan havuzu KALIR).
 3. **Şablon varsa ona göre yaz.**
 4. **Şablon yoksa** bu belgedeki 8-bölüm formatına göre yaz ve `⚠️ VERIFICATION REQUIRED` notuyla `log.md`'ye şablon eksiğini bildir.
@@ -353,7 +353,7 @@ Davranış notları:
 |-------|---------|
 | `.ai/.templates/personas/persona-template.md` VAR | Şablonu oku → ona göre yaz |
 | Şablon YOK | 8-bölüm formatına göre yaz + `log.md`'ye "şablon eksiği" kaydı |
-| Şablon okundu ama çelişiyor | DUR → `[[../CLAUDE.md]]` §2.1 SSOT öncelik sırası |
+| Şablon okundu ama çelişiyor | DUR → `[[CLAUDE.md]]` §2.1 SSOT öncelik sırası |
 | Vault erişilemiyor | `⚠️ VERIFICATION REQUIRED` → yazım durdurulur, kullanıcıya sor |
 
 *(Bu blok persona-template §3.3'ten birebir kopyalanmıştır; §4'ün ilk maddesidir, silinemez.)*
@@ -364,7 +364,7 @@ Davranış notları:
 |---|-------|----------|--------------|
 | 1 | Template Mandatory (Guardrail #16) | Bu dosya persona-template'den üretildi | Dosya geçersiz, revert |
 | 2 | Şablon Önce | Yazmadan `.ai/.templates/` okundu | ERROR log, yazıma devam yok |
-| 3 | SSOT | Persona kataloğu [[personas/index]]; araştırma verisi [[research-bank]] | İçerik silinir |
+| 3 | SSOT | Persona kataloğu [[.personas/index]]; araştırma verisi [[.personas/research-bank]] | İçerik silinir |
 | 4 | Zero Hallucination (ADR-005) | Her satır §3.11 etiketi taşır; bankada olmayan iddia yazılmaz | Etiketsiz iddia silinir |
 | 5 | In-Place Refactoring | Dosya adı/yolu değişmez (`elifsu-kaya-arabesk.md`) | Dosya geri yüklenir |
 | 6 | Dil | Türkçe; mojibake yasak | `repair` ile onarılır |
@@ -394,7 +394,7 @@ Davranış notları:
 | Adım | Aksiyon | Çıktı |
 |------|---------|-------|
 | 1 | persona-template + docs-md-template oku (Guardrail #16) | Şablon + iskelet |
-| 2 | [[research-bank]] P3-P8 + [[mood-taxonomy]] §3.4 + [[personas/index]] §6.3 oku | Etiketli veri + küme adı + yaş/mood |
+| 2 | [[.personas/research-bank]] P3-P8 + [[.personas/mood-taxonomy]] §3.4 + [[.personas/index]] §6.3 oku | Etiketli veri + küme adı + yaş/mood |
 | 3 | Eski salt-okunur persona kaynağını incele (yalnız kimlik/müzik/rutin; etiketsiz iddia taşınmaz) | Kurgusal içerik |
 | 4 | §3 11 alt bölümü doldur → her satıra §3.11 etiketi yaz | Dolu §3 |
 | 5 | Test Adımları ≥10 → §6.1 kontrol listesi → `vault-utf8-writer verify` → `log.md` append | Doğrulanmış dosya |
@@ -472,13 +472,13 @@ Davranış notları:
 
 | Wiki-link | İlişki | Durum / Gerçek hedef |
 |-----------|--------|----------------------|
-| `[[personas/index]]` | Persona kataloğu — yaş/mood atamasının sahibi | ✅ `.ai/.personas/index.md` |
-| `[[personas/persona-template]]` | Persona şablonu — bu dosyanın iskeleti | ✅ `.ai/.templates/personas/persona-template.md` |
-| `[[research-bank]]` | Araştırma paketleri P1-P8 — tek gerçek-dünya veri kaynağı | ✅ `.ai/.personas/research-bank.md` |
-| `[[mood-taxonomy]]` | Mood küme adları ve tanımları (§3.4 satır 21 Arabesk Kaşif) | ✅ `.ai/.personas/mood-taxonomy.md` |
-| `[[personas/test-scenarios-mapping]]` | Test senaryosu eşlemesi | 📋 planlanan — `.ai/.personas/test-scenarios-mapping.md` (bu turda başka agent sorumluluğunda; diskte henüz yok) |
-| `[[personas/methodology]]` | Test seviyeleri (Level 1/2/3) | 📋 planlanan — `.ai/.personas/methodology.md` (diskte henüz yok) |
-| `[[ADR-023-persona-driven-testing]]` | Persona-driven testing kararı (frozen) | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
+| `[[.personas/index]]` | Persona kataloğu — yaş/mood atamasının sahibi | ✅ `.ai/.personas/index.md` |
+| `[[.templates/personas/persona-template]]` | Persona şablonu — bu dosyanın iskeleti | ✅ `.ai/.templates/personas/persona-template.md` |
+| `[[.personas/research-bank]]` | Araştırma paketleri P1-P8 — tek gerçek-dünya veri kaynağı | ✅ `.ai/.personas/research-bank.md` |
+| `[[.personas/mood-taxonomy]]` | Mood küme adları ve tanımları (§3.4 satır 21 Arabesk Kaşif) | ✅ `.ai/.personas/mood-taxonomy.md` |
+| `[[.personas/test-scenarios-mapping]]` | Test senaryosu eşlemesi | 📋 planlanan — `.ai/.personas/test-scenarios-mapping.md` (bu turda başka agent sorumluluğunda; diskte henüz yok) |
+| `[[.personas/methodology]]` | Test seviyeleri (Level 1/2/3) | 📋 planlanan — `.ai/.personas/methodology.md` (diskte henüz yok) |
+| `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | Persona-driven testing kararı (frozen) | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
 | `ADR-001` | Şarkı sözü özellikleri kapsam dışı sınırı | ✅ frozen ADR (okundu, değiştirilmedi) |
 
 *`📋 planlanan` satır hedef dosya diskte oluşana kadar kırık kabul edilir; oluştuğunda `✅`ye çevrilir ve `log.md`'ye append edilir.*
@@ -488,10 +488,10 @@ Davranış notları:
 | Alan | Eski dosya (salt-okunur) | Yeni değer (SSOT) | Karar |
 |------|--------------------------|-------------------|-------|
 | Yaş | 9 | 9 | Çelişki yok (index ile uyumlu) |
-| Mood | Duygusal/Sadık | Arabesk Kaşif | [[personas/index]] §6.3 kazanır; "Sadık" [[mood-taxonomy]] §3'te YOK (0 hit) → taşınmadı |
+| Mood | Duygusal/Sadık | Arabesk Kaşif | [[.personas/index]] §6.3 kazanır; "Sadık" [[.personas/mood-taxonomy]] §3'te YOK (0 hit) → taşınmadı |
 | Şarkı sözü ekleme | Özellik olarak mevcut | Kapsam dışı (ADR-001) | Basitleştirildi → aile paylaşımı akışı |
 | Kibariye | Sevilen sanatçı | P4.2'de yok | `⚠️ VERIFICATION REQUIRED` etiketi |
-| Birincil cihaz | Galaxy Tab A8 (EXCLUDED) | Samsung Galaxy A34 5G (P3 VERIFIED) | [[research-bank]] P3 |
+| Birincil cihaz | Galaxy Tab A8 (EXCLUDED) | Samsung Galaxy A34 5G (P3 VERIFIED) | [[.personas/research-bank]] P3 |
 | Etki alanındaki istatistikler (RTÜK, 18+ yüzdeleri, TÜİK) | Kaynaksız yüzdeler | yazılmadı | §4.1 kural 4 (bankada yok → yazma) |
 | BPM iddiaları | Parçaya özgü olabilir | Yalnız tür aralığı 60-90 | EXCLUDED X-2 → P4.4 |
 | Okul / sınıf | Mehmet Akif İlkokulu, 3. sınıf | 9 yaş (index) | Tutarlı; sınıf eski veriden kurgusal taşındı |

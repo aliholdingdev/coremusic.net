@@ -10,7 +10,7 @@ updated: 2026-09-26
 
 # CoreMusic — Persona Test Metodolojisi
 
-**Zorunlu Bağlantılar:** [[personas/index]] · [[personas/persona-template]] · [[personas/research-bank]] · [[.templates/index]]
+**Zorunlu Bağlantılar:** [[.personas/index]] · [[.templates/personas/persona-template]] · [[.personas/research-bank]] · [[.templates/index]]
 
 ---
 
@@ -23,8 +23,8 @@ updated: 2026-09-26
 | Yapı | H1 + Zorunlu Bağlantılar + §1 Amaç → §7 Referanslar (7 bölüm + 7 alanlı frontmatter) |
 | Test Seviyesi | **4** — Seviye 1 AI Rol Testi · Seviye 2 Browser MCP Canlı Test · Seviye 3 Playwright E2E · Seviye 4 Rapor |
 | Test Akışı | **PREPARE → EXECUTE (COLLECT) → REPORT** (§3.1) |
-| Veri Kaynağı | `[[personas/research-bank]]` paketleri **P5 · P6 · P7 · P8** — 27 satır taşındı (§6.2) |
-| Karar Dayanağı | `[[ADR-023-persona-driven-testing]]` — 20 persona test matrisi · %90 satır+şart · kritik yollar %100 branş · PR'da gate |
+| Veri Kaynağı | `[[.personas/research-bank]]` paketleri **P5 · P6 · P7 · P8** — 27 satır taşındı (§6.2) |
+| Karar Dayanağı | `[[.decisions/accepted/ADR-023-persona-driven-testing]]` — 20 persona test matrisi · %90 satır+şart · kritik yollar %100 branş · PR'da gate |
 | Eski İskelet | `coremusic.net.old/.ai/personas/methodology.md` (110 satır, **salt okunur**) — iskelet alındı, genişletildi ve research-bank ile doğrulandı |
 | Zorunlu Blok | §4.0 Şablon-Önce Kural Bloğu (silinemez) |
 | Kayıt Kuralı | Değişiklik Geçmişi **append-only** — mevcut satıra dokunulmaz |
@@ -38,12 +38,12 @@ updated: 2026-09-26
 
 ## §1 Amaç
 
-Bu dosya, CoreMusic'in **68 kişilik persona envanterini** (`[[personas/index]]` — 6 grup) ve **`[[ADR-023-persona-driven-testing]]` kararını** aynı test hattında birleştiren **test metodolojisidir**: her persona hangi seviyede (AI rolü / canlı tarayıcı / E2E otomasyon / rapor) nasıl test edilir, akışın adımları nelerdir, başarı eşikleri hangi doğrulanmış kaynaklardan gelir ve test çıktısı ADR-023'ün coverage kapısına nasıl girer — hepsi burada tanımlıdır. Persona *içeriği* `[[personas/persona-template]]`'ten, *verisi* `[[personas/research-bank]]`'ten, *eşiği* buradan okunur; **üçü karıştırılmaz**.
+Bu dosya, CoreMusic'in **68 kişilik persona envanterini** (`[[.personas/index]]` — 6 grup) ve **`[[.decisions/accepted/ADR-023-persona-driven-testing]]` kararını** aynı test hattında birleştiren **test metodolojisidir**: her persona hangi seviyede (AI rolü / canlı tarayıcı / E2E otomasyon / rapor) nasıl test edilir, akışın adımları nelerdir, başarı eşikleri hangi doğrulanmış kaynaklardan gelir ve test çıktısı ADR-023'ün coverage kapısına nasıl girer — hepsi burada tanımlıdır. Persona *içeriği* `[[.templates/personas/persona-template]]`'ten, *verisi* `[[.personas/research-bank]]`'ten, *eşiği* buradan okunur; **üçü karıştırılmaz**.
 
 | Boyut | Değer |
 |-------|-------|
 | Ne taşır | 4 test seviyesi, PREPARE → EXECUTE → REPORT akışı, seviye/persona-alanı eşleşmesi, emülasyon ayarları (viewport · tema · network · geolocation), doğrulanmış başarı eşikleri (P8/P5/P6/P7), ADR-023 gate uygulaması |
-| Ne taşımaz | Persona profili (→ `[[personas/persona-template]]`), araştırma bulgularının tamamı (→ `[[personas/research-bank]]`), mood küme adları (→ `[[personas/mood-taxonomy]]`), senaryo eşlemesi (→ `[[personas/test-scenarios-mapping]]`), karar (→ `[[ADR-023-persona-driven-testing]]`) |
+| Ne taşımaz | Persona profili (→ `[[.templates/personas/persona-template]]`), araştırma bulgularının tamamı (→ `[[.personas/research-bank]]`), mood küme adları (→ `[[.personas/mood-taxonomy]]`), senaryo eşlemesi (→ `[[.personas/test-scenarios-mapping]]`), karar (→ `[[.decisions/accepted/ADR-023-persona-driven-testing]]`) |
 | Neden var | Eski vault iskeleti (110 satır) 4 seviyeyi ve akışı tanımlıyordu ama **kaynak/eşik/coverage bağı yoktu**; ADR-023 ise eşiği ve gate'i tanımlarken **seviye uygulamasını** tanımlamıyordu → bu dosya iki ucu bağlar |
 | Kim okumalı | Test çalıştıran/yazan her ajan (QA Engineer öncelikli); denetimde Vault Steward |
 | Ne zaman yazıldı | 2026-09-26 — research-bank (P1-P8) ve ADR-023 sonrası veri temeliyle |
@@ -55,9 +55,9 @@ Bu dosya, CoreMusic'in **68 kişilik persona envanterini** (`[[personas/index]]`
 |---------|-------------|----------------------|
 | Persona test seviyeleri ve akışı | ✅ Bu dosya | — |
 | Başarı eşikleri (LCP/INP/CLS/WCAG) | ✅ Bu dosya (research-bank'tan taşınmış) | Yeni web araştırması yapılmaz |
-| Persona profili / alan havuzu | `[[personas/persona-template]]` | ❌ |
-| Gerçek-dünya veri + kaynak durumu | `[[personas/research-bank]]` | ❌ |
-| Coverage eşiği / PR gate kararı | `[[ADR-023-persona-driven-testing]]` | ❌ (burada yalnız **uygulanır**) |
+| Persona profili / alan havuzu | `[[.templates/personas/persona-template]]` | ❌ |
+| Gerçek-dünya veri + kaynak durumu | `[[.personas/research-bank]]` | ❌ |
+| Coverage eşiği / PR gate kararı | `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | ❌ (burada yalnız **uygulanır**) |
 | PHPUnit/Playwright test kodu | `[[.templates/testing/phpunit-template]]` + kod ağacı | ❌ |
 
 **Ayırıcı test:** "Bu içerik bir test **adımı/eşiği/akışı** mı?" → Evet ise bu dosya. "Bir **karar** mı?" → ADR. "Bir **kişi** mi?" → persona-template.
@@ -70,15 +70,15 @@ Bu dosya, CoreMusic'in **68 kişilik persona envanterini** (`[[personas/index]]`
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
-| 4 test seviyesi tanımı (araç · çıktı · sorumlu) | Persona dosyasının kendisi (→ `[[personas/persona-template]]`) |
-| PREPARE → EXECUTE → REPORT akışı + 10+ EXECUTE adımı | Mood taksonomisi ve UI etkileri (→ `[[personas/mood-taxonomy]]`) |
-| Emülasyon ayarları: viewport · tema · network · geolocation | 6 senaryo × grup eşleme matrisi (→ `[[personas/test-scenarios-mapping]]`) |
-| Doğrulanmış başarı eşikleri + Lighthouse ağırlıkları (research-bank P8/P5/P6/P7) | Araştırma süreci ve kaynak taraması (→ `[[personas/research-bank]]`) |
+| 4 test seviyesi tanımı (araç · çıktı · sorumlu) | Persona dosyasının kendisi (→ `[[.templates/personas/persona-template]]`) |
+| PREPARE → EXECUTE → REPORT akışı + 10+ EXECUTE adımı | Mood taksonomisi ve UI etkileri (→ `[[.personas/mood-taxonomy]]`) |
+| Emülasyon ayarları: viewport · tema · network · geolocation | 6 senaryo × grup eşleme matrisi (→ `[[.personas/test-scenarios-mapping]]`) |
+| Doğrulanmış başarı eşikleri + Lighthouse ağırlıkları (research-bank P8/P5/P6/P7) | Araştırma süreci ve kaynak taraması (→ `[[.personas/research-bank]]`) |
 | ADR-023 gate'inin seviye bazlı uygulanışı (%90 / %100 branş / PR) | Gate'in kendisi, CI iş akışı değişikliği, eşiği değiştirmek (→ ADR-023, frozen YOK ama değişiklik = yeni ADR) |
 | Rapor formatı ve teslim çıktıları | Test kodu (PHPUnit/Playwright dosyaları) — kod ayrı domaindir |
 
 *Alt konular:* seviye tanımı → akış → persona-alanı eşleşmesi → emülasyon → eşikler → gate → doğrulama.
-Kapsam dışı için: persona → `[[personas/persona-template]]`, veri → `[[personas/research-bank]]`, karar → `[[ADR-023-persona-driven-testing]]`.
+Kapsam dışı için: persona → `[[.templates/personas/persona-template]]`, veri → `[[.personas/research-bank]]`, karar → `[[.decisions/accepted/ADR-023-persona-driven-testing]]`.
 
 ### §2.2 Dört Test Seviyesi Tablosu
 
@@ -105,7 +105,7 @@ Kapsam dışı için: persona → `[[personas/persona-template]]`, veri → `[[p
 
 | Durum | Ne Yapılır |
 |-------|-----------|
-| Persona'da olmayan bir alan testte isteniyor (ör. cihaz spec'i eksik) | `[[personas/research-bank]]` P3'e bak; yoksa `⚠️ VERIFICATION REQUIRED` — uydurma spec yazılmaz |
+| Persona'da olmayan bir alan testte isteniyor (ör. cihaz spec'i eksik) | `[[.personas/research-bank]]` P3'e bak; yoksa `⚠️ VERIFICATION REQUIRED` — uydurma spec yazılmaz |
 | Test eşiği research-bank'ta yok | DUR → yalnız `⚠️ DERIVED` + dayanak satırıyla yazılır (X-10 kuralı) |
 | Yeni seviye (Seviye 5) eklenmek isteniyor | Bu dosya **In-Place** genişletilir (dosya adı değişmez); seviye = strateji kararıysa **yeni ADR** (`ADR-088+`) |
 | ADR-023 eşiği değişmek isteniyor | Bu dosyada değiştirilemez → ADR-023 Arch Lead onayı + `log.md` append ya da yeni ADR |
@@ -185,7 +185,7 @@ research-bank (veri) → persona-template (alan+etiket) → persona dosyası →
 
 | # | Adım | Kaynak | Çıktı |
 |---|------|--------|-------|
-| P1 | Persona dosyasını oku; 11/11 alan dolu mu denetle | `[[personas/persona-template]]` §3.5 | Test girdisi listesi |
+| P1 | Persona dosyasını oku; 11/11 alan dolu mu denetle | `[[.templates/personas/persona-template]]` §3.5 | Test girdisi listesi |
 | P2 | AI Rol Kartı'nı al; `{{...}}` yer tutucusu kalmamış mı bak | persona-template §3.5.9 | Seviye 1 prompt'u |
 | P3 | Cihaz spec'ini al → viewport'u türet | research-bank P3 (`⚠️ DERIVED`) | Viewport W×H + DPR |
 | P4 | Tema seç (light/dark) | persona Cihaz & Teknoloji satırı | Tema değeri |
@@ -385,7 +385,7 @@ research-bank (veri) → persona-template (alan+etiket) → persona dosyası →
 |-------|---------|
 | `.ai/.templates/` altında ilgili şablon VAR | Şablonu oku → ona göre yaz |
 | Şablon YOK | Standart formata göre yaz + `log.md`'ye "şablon eksiği" kaydı |
-| Şablon okundu ama çelişiyor | DUR → `[[../CLAUDE.md]]` §2.1 SSOT öncelik sırası |
+| Şablon okundu ama çelişiyor | DUR → `[[CLAUDE.md]]` §2.1 SSOT öncelik sırası |
 | Vault erişilemiyor | `⚠️ VERIFICATION REQUIRED` → yazım durdurulur, kullanıcıya sor |
 
 ### §4.1 Bağlayıcı Kurallar
@@ -434,9 +434,9 @@ research-bank (veri) → persona-template (alan+etiket) → persona dosyası →
 
 | ✅ Doğru | ❌ Yanlış |
 |----------|-----------|
-| `[[personas/index]]` | `[index](index.md)` |
-| `[[personas/research-bank]]` | `[rb](C:\www\coremusic.net\.ai\.personas\research-bank.md)` |
-| `[[ADR-023-persona-driven-testing]]` | `https://iç-sistem/adr-023` |
+| `[[.personas/index]]` | `[index](index.md)` |
+| `[[.personas/research-bank]]` | `[rb](C:\www\coremusic.net\.ai\.personas\research-bank.md)` |
+| `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | `https://iç-sistem/adr-023` |
 | `[[.templates/index]]` | `[reg](../.templates/index.md)` |
 | Harici URL düz metin | `https://...` (wiki-link yapılmaz) |
 
@@ -486,7 +486,7 @@ research-bank (veri) → persona-template (alan+etiket) → persona dosyası →
 | Kural | Uygulama |
 |-------|----------|
 | Dosya adı değişmez | `methodology.md` → `methodology-v2.md` üretilmez |
-| Kırık link güncelleme | `[[personas/methodology]]`'yi işaretleyen `📋 planlanan` satırları (index · mood-taxonomy · research-bank §7.1) **bu dosyanın sorumluluğu değildir** — güncellemek için MO onayı gerekir |
+| Kırık link güncelleme | `[[.personas/methodology]]`'yi işaretleyen `📋 planlanan` satırları (index · mood-taxonomy · research-bank §7.1) **bu dosyanın sorumluluğu değildir** — güncellemek için MO onayı gerekir |
 | Frozen ADR 001-037 | Okunur, referans edilir; değiştirilmez |
 | ADR-023 değişikliği | Bu dosyada yapılmaz; yeni ADR `ADR-088+` |
 | Silinmezlik | Eski içerik düzeltilir, `log.md`'ye kaydedilir |
@@ -511,8 +511,8 @@ research-bank (veri) → persona-template (alan+etiket) → persona dosyası →
 
 | Adım | Aksiyon | Çıktı | Süre |
 |------|---------|-------|------|
-| 1 | `[[personas/index]]` + persona dosyası + `[[personas/test-scenarios-mapping]]` oku | Persona + öncelik senaryosu | 5 dk |
-| 2 | `[[personas/research-bank]]` P5/P6/P7/P8 + bu dosya §3.3-§3.4 oku | Eşik + emülasyon seti | 5 dk |
+| 1 | `[[.personas/index]]` + persona dosyası + `[[.personas/test-scenarios-mapping]]` oku | Persona + öncelik senaryosu | 5 dk |
+| 2 | `[[.personas/research-bank]]` P5/P6/P7/P8 + bu dosya §3.3-§3.4 oku | Eşik + emülasyon seti | 5 dk |
 | 3 | **PREPARE** (§3.1.1 P1-P7) | Hazır ortam (viewport · tema · network · konum) | 5 dk |
 | 4 | **Seviye 1** — AI Rol Kartı ile rol testi | Davranış notları + senaryo taslağı (H/E/B) | 10 dk |
 | 5 | **Seviye 2** — Browser MCP canlı test (≥10 adım) | Screenshot + metrik + konsol + Lighthouse | 25 dk |
@@ -572,7 +572,7 @@ OKU (persona + research-bank + bu dosya) → PREPARE → SEVIYE 1 → SEVIYE 2 �
 
 ### §5.3 ADR-023 Coverage Gate (bağlayıcı)
 
-> Bu bölüm ADR-023'ü **yeniden yorumlamaz** — yalnızca test hattına nasıl uygulanacağını yazar. Eşik/A gate kararı sahibi `[[ADR-023-persona-driven-testing]]`'tir.
+> Bu bölüm ADR-023'ü **yeniden yorumlamaz** — yalnızca test hattına nasıl uygulanacağını yazar. Eşik/A gate kararı sahibi `[[.decisions/accepted/ADR-023-persona-driven-testing]]`'tir.
 
 | # | Gate Kuralı | Değer | Durum (ADR-023) |
 |---|-------------|-------|-----------------|
@@ -602,7 +602,7 @@ OKU (persona + research-bank + bu dosya) → PREPARE → SEVIYE 1 → SEVIYE 2 �
 
 ```markdown
 # Persona Test Raporu: {Ad Soyad}
-**Tarih:** {YYYY-MM-DD HH:mm}   **Seviye:** {1 / 2 / 3}   **Persona:** {[[personas/index]] satırı}
+**Tarih:** {YYYY-MM-DD HH:mm}   **Seviye:** {1 / 2 / 3}   **Persona:** {[[.personas/index]] satırı}
 **Cihaz:** {model}   **Viewport:** {g}x{y} (DPR {d})   **Tema:** {light/dark}
 **Network:** {preset — P8: 150 ms · 1.6/750 Mbps/Kbps}   **Konum senaryosu:** {şehir/semt — kurgusal}
 
@@ -742,13 +742,13 @@ OKU (persona + research-bank + bu dosya) → PREPARE → SEVIYE 1 → SEVIYE 2 �
 
 | Wiki-link | İlişki | Durum / Gerçek hedef |
 |-----------|--------|----------------------|
-| `[[personas/index]]` | Persona kataloğu — 68 persona / 6 grup (testin girdisi) | ✅ `.ai/.personas/index.md` |
-| `[[personas/persona-template]]` | Persona şablonu — 11 alan + AI Rol Kartı + Test Adımları (§3.2 kaynağı) | ✅ `.ai/.templates/personas/persona-template.md` |
-| `[[personas/research-bank]]` | Araştırma bankası — P5/P6/P7/P8 eşikleri + EXCLUDED (§6.3 kaynağı) | ✅ `.ai/.personas/research-bank.md` |
-| `[[personas/mood-taxonomy]]` | Mood küme adları — Seviye 1/2 beklentileri | ✅ `.ai/.personas/mood-taxonomy.md` |
-| `[[personas/test-scenarios-mapping]]` | Senaryo × grup matrisi — Seviye 1 önceliği | ✅ `.ai/.personas/test-scenarios-mapping.md` |
-| `[[ADR-023-persona-driven-testing]]` | Persona-driven testing kararı — 20 matris · %90 · %100 branş · PR gate | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
-| `[[ADR-005-ultrathink-protocol]]` | Zero-hallucination — §4.1/§4.5 dayanağı | ✅ `.ai/.decisions/accepted/ADR-005-ultrathink-protocol.md` |
+| `[[.personas/index]]` | Persona kataloğu — 68 persona / 6 grup (testin girdisi) | ✅ `.ai/.personas/index.md` |
+| `[[.templates/personas/persona-template]]` | Persona şablonu — 11 alan + AI Rol Kartı + Test Adımları (§3.2 kaynağı) | ✅ `.ai/.templates/personas/persona-template.md` |
+| `[[.personas/research-bank]]` | Araştırma bankası — P5/P6/P7/P8 eşikleri + EXCLUDED (§6.3 kaynağı) | ✅ `.ai/.personas/research-bank.md` |
+| `[[.personas/mood-taxonomy]]` | Mood küme adları — Seviye 1/2 beklentileri | ✅ `.ai/.personas/mood-taxonomy.md` |
+| `[[.personas/test-scenarios-mapping]]` | Senaryo × grup matrisi — Seviye 1 önceliği | ✅ `.ai/.personas/test-scenarios-mapping.md` |
+| `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | Persona-driven testing kararı — 20 matris · %90 · %100 branş · PR gate | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
+| `[[.decisions/accepted/ADR-005-ultrathink-protocol]]` | Zero-hallucination — §4.1/§4.5 dayanağı | ✅ `.ai/.decisions/accepted/ADR-005-ultrathink-protocol.md` |
 | `[[.templates/index]]` | Şablon registry'si (Guardrail #16) | ✅ `.ai/.templates/index.md` |
 
 *Bu dosyaya bakan `📋 planlanan` satırları (`index.md`, `mood-taxonomy.md`, `research-bank.md` §7.1, `persona-template.md` §7.1) **başka dosyalardır** — güncellemesi MO'ya aittir (§4.8).*

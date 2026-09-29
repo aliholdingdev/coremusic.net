@@ -15,7 +15,7 @@ veli_onayı_gerekli: false
 
 # CoreMusic — Persona: Atakan Demir
 
-**Zorunlu Bağlantılar:** [[personas/index]] · [[personas/persona-template]] · [[research-bank]] · [[mood-taxonomy]] · [[personas/methodology]] · [[personas/test-scenarios-mapping]] · [[ADR-023-persona-driven-testing]]
+**Zorunlu Bağlantılar:** [[.personas/index]] · [[.templates/personas/persona-template]] · [[.personas/research-bank]] · [[.personas/mood-taxonomy]] · [[.personas/methodology]] · [[.personas/test-scenarios-mapping]] · [[.decisions/accepted/ADR-023-persona-driven-testing]]
 
 ---
 
@@ -23,13 +23,13 @@ veli_onayı_gerekli: false
 
 Bu persona, CoreMusic'te **genc-erkek (12-17 yaş)** segmentini temsil eder; Level 1 (AI rol testi), Level 2 (Browser MCP) ve Level 3 (Playwright E2E) testlerinde 16 yaşındaki spor/dans yapan bir genç için arayüzü Dans Enerjik gözden deneyimlemek için kullanılır.
 Hedef kitle: QA Engineer, UI Designer, test otomasyonu.
-Vault bağlantısı: mood → [[mood-taxonomy]] (Dans Enerjik), veri → [[research-bank]] (P3-P8), metodoloji → [[personas/methodology]], registry → [[personas/index]].
+Vault bağlantısı: mood → [[.personas/mood-taxonomy]] (Dans Enerjik), veri → [[.personas/research-bank]] (P3-P8), metodoloji → [[.personas/methodology]], registry → [[.personas/index]].
 Bu dosya `persona-template.md` §3.5 alan havuzunun **11/11** alt bölümüyle doldurulmuş hâlidir; her satır §4.5 kaynak etiketi taşır.
 
 | Alan | Değer |
 |------|-------|
 | Segment | genc-erkek (12-17) |
-| Birincil mood | Dans Enerjik ([[personas/index]] §6.3 ataması) |
+| Birincil mood | Dans Enerjik ([[.personas/index]] §6.3 ataması) |
 | Test odağı | Workout playlist tek dokunuş, yüksek BPM (yalnız tür aralığı), hızlı navigasyon/INP, kesintisiz antrenman-parti dinlemesi, hata anında müziğin durmaması |
 | Veli onayı | `veli_onayı_gerekli: false` (16 yaş — CoreMusic 16 eşiğinde; dayanak §3.5.1) |
 
@@ -37,7 +37,7 @@ Bu dosya `persona-template.md` §3.5 alan havuzunun **11/11** alt bölümüyle d
 
 | Senaryo ailesi | Seviye | Persona katkısı |
 |----------------|--------|-----------------|
-| Ana sayfa / hızlı başlatma | Level 2 + 3 | Dans Enerjik: workout playlist üstte, canlı/enerjik beklenti ([[mood-taxonomy]] §3.4 satır 25 test etkisi) |
+| Ana sayfa / hızlı başlatma | Level 2 + 3 | Dans Enerjik: workout playlist üstte, canlı/enerjik beklenti ([[.personas/mood-taxonomy]] §3.4 satır 25 test etkisi) |
 | Workout modu & BPM filtresi | Level 1 + 2 | BPM yalnız tür aralığı (P4.4/P4.5); şarkı-BPM iddiası yok |
 | Crossfade / kesintisiz dinleme | Level 2 + 3 | Antrenman/parti sırasında kesinti kabul edilmez; CLS ≤ 0.1 |
 | Keşif & öneri | Level 1 + 2 | Dans/club/workout ağırlıklı öneri beklentisi (yüksek O) |
@@ -49,8 +49,8 @@ Bu dosya `persona-template.md` §3.5 alan havuzunun **11/11** alt bölümüyle d
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
-| 11 parçalı persona alan havuzu (Kimlik → Kaynak & Doğrulama) | Test başarı metrikleri ve seviye tanımı (→ [[personas/methodology]]) |
-| Kaynak etiketleme (kurgusal / [k1]+[k2] / ⚠️) — research-bank P3-P8 verisi | Test senaryosu envanteri (→ [[personas/test-scenarios-mapping]]) |
+| 11 parçalı persona alan havuzu (Kimlik → Kaynak & Doğrulama) | Test başarı metrikleri ve seviye tanımı (→ [[.personas/methodology]]) |
+| Kaynak etiketleme (kurgusal / [k1]+[k2] / ⚠️) — research-bank P3-P8 verisi | Test senaryosu envanteri (→ [[.personas/test-scenarios-mapping]]) |
 | ≥10 test adımı (Adım / Beklenen / Doğrulama yöntemi) | Karar kaydı (→ ADR; bu dosya ADR üretmez) |
 | AI Rol Kartı (Level 1 prompt'u) | Kod/otomasyon scripti (→ testing/*) |
 
@@ -61,10 +61,10 @@ Kapsam dışı istisnalar: eski salt-okunur dosyadaki 100+ satırlık fiziksel/a
 
 | Sıra | Dosya | Ne için |
 |------|-------|---------|
-| 1 | [[personas/persona-template]] | Zorunlu iskelet (§3.3 blok, §3.5 alan havuzu) |
-| 2 | [[research-bank]] P3-P8 | Tek gerçek-dünya veri kaynağı + etiket sözlüğü (§4.1) |
-| 3 | [[mood-taxonomy]] | Küme adı + tanım alıntısı (yalnız §3 listesi) |
-| 4 | [[personas/index]] §6.3 | Yaş/mood/filename/persona_id ataması (SSOT) |
+| 1 | [[.templates/personas/persona-template]] | Zorunlu iskelet (§3.3 blok, §3.5 alan havuzu) |
+| 2 | [[.personas/research-bank]] P3-P8 | Tek gerçek-dünya veri kaynağı + etiket sözlüğü (§4.1) |
+| 3 | [[.personas/mood-taxonomy]] | Küme adı + tanım alıntısı (yalnız §3 listesi) |
+| 4 | [[.personas/index]] §6.3 | Yaş/mood/filename/persona_id ataması (SSOT) |
 | 5 | Bu dosya §4-§6 | Kurallar → workflow → doğrulama |
 
 ---
@@ -76,14 +76,14 @@ Kapsam dışı istisnalar: eski salt-okunur dosyadaki 100+ satırlık fiziksel/a
 | Özellik | Değer | Kaynak |
 |---------|-------|--------|
 | **Ad Soyad** | Atakan Demir | Kaynak: kurgusal (persona verisi) |
-| **Yaş** | 16 | Kaynak: kurgusal (persona verisi; atama: [[personas/index]] §6.3) |
+| **Yaş** | 16 | Kaynak: kurgusal (persona verisi; atama: [[.personas/index]] §6.3) |
 | **Doğum Tarihi** | 19 Nisan 2010 | Kaynak: kurgusal (persona verisi; 2026-09-26 itibarıyla yaş 16 ile tutarlı) |
 | **Cinsiyet** | Erkek | Kaynak: kurgusal (persona verisi) |
 | **Şehir / İlçe / Semt** | Antalya / Muratpaşa / Lara | Kaynak: kurgusal (persona verisi) |
 | **Okul / Meslek** | Lise 10. sınıf; Anadolu lisesi | Kaynak: kurgusal (persona verisi) |
 | **Ulaşım** | Bisiklet (okul/salon); yağmurda otobüs | Kaynak: kurgusal (persona verisi) |
 | **Online Rumuz** | `atakan.energy.boost` | Kaynak: kurgusal (persona verisi) |
-| **CoreMusic Kullanıcı ID** | `CM-AD-16-DAN-ANT` | Kaynak: kurgusal (atama: [[personas/index]] §6.3) |
+| **CoreMusic Kullanıcı ID** | `CM-AD-16-DAN-ANT` | Kaynak: kurgusal (atama: [[.personas/index]] §6.3) |
 
 **`CoreMusic Kullanıcı ID` parça dökümü** (index §6.3 atanan format — persona-template §3.5.1'in `CM-XX-YY-ZZZ-XXX` şablonuyla uyumludur; 2026-09-26 düzeltme):
 
@@ -95,7 +95,7 @@ Kapsam dışı istisnalar: eski salt-okunur dosyadaki 100+ satırlık fiziksel/a
 | `DAN` | `DAN` | Mood kodu (Dans) |
 | `ANT` | `ANT` | Şehir kodu (Antalya) |
 
-> **KVKK / yaş sınırı notu (zorunlu — 16+):** Bu persona 16 yaşındadır → frontmatter'de `veli_onayı_gerekli: false`. Dayanak: TMK m.11 erginlik **18 yaş**, COPPA **13**, GDPR m.8 **16**; CoreMusic politikası **16 yaş altı** için veli onayı ister (`⚠️ DERIVED`, [[research-bank]] P6.4 son satır) — 16 bu eşiğin **dahilinde üst sınırı** olduğundan onay gerekmez. Türkiye'de çocuk için özel rıza yaşı düzenlemesi **YOK** — "KVKK 16 diyor" ifadesi **YANLIŞTIR** (16, GDPR değeridir). Kaynak: dergipark.org.tr (mukayeseli inceleme) + kvkk.gov.tr (Yayın No 84) → `Kaynak: [k1] + [k2]` (research-bank P6.4 VERIFIED). Persona tamamen kurgusaldır; gerçek genç verisi kullanılmaz (6698 m.5/1 — `Kaynak: [k1] + [k2]`).
+> **KVKK / yaş sınırı notu (zorunlu — 16+):** Bu persona 16 yaşındadır → frontmatter'de `veli_onayı_gerekli: false`. Dayanak: TMK m.11 erginlik **18 yaş**, COPPA **13**, GDPR m.8 **16**; CoreMusic politikası **16 yaş altı** için veli onayı ister (`⚠️ DERIVED`, [[.personas/research-bank]] P6.4 son satır) — 16 bu eşiğin **dahilinde üst sınırı** olduğundan onay gerekmez. Türkiye'de çocuk için özel rıza yaşı düzenlemesi **YOK** — "KVKK 16 diyor" ifadesi **YANLIŞTIR** (16, GDPR değeridir). Kaynak: dergipark.org.tr (mukayeseli inceleme) + kvkk.gov.tr (Yayın No 84) → `Kaynak: [k1] + [k2]` (research-bank P6.4 VERIFIED). Persona tamamen kurgusaldır; gerçek genç verisi kullanılmaz (6698 m.5/1 — `Kaynak: [k1] + [k2]`).
 
 | Düzenleme / Politika | Yaş sınırı | Anlamı | Etiket |
 |----------------------|-----------|--------|--------|
@@ -142,17 +142,17 @@ Kapsam dışı istisnalar: eski salt-okunur dosyadaki 100+ satırlık fiziksel/a
 | Alan | Değer |
 |------|-------|
 | **Birincil küme** | Dans Enerjik |
-| **İkincil küme** | Yok (bu turda ikincil atama yapılmadı — [[personas/index]] §6.3 tekil küme atar) |
-| **Küme tanımı (alıntı)** | "Dans kursı/workout + hareketli müzik (çocuk ve genç erkek ortak adı)" ([[mood-taxonomy]] §3.4 satır 25) |
-| **Big Five eğilimi (alıntı)** | "Yüksek O, düşük N" ([[mood-taxonomy]] §3.4 satır 25 "Big Five eğilimi (kurgusal)") — Big Five puanlarıyla (O 90 · N 26) **tutarlı**; bağ: `⚠️ DERIVED` |
+| **İkincil küme** | Yok (bu turda ikincil atama yapılmadı — [[.personas/index]] §6.3 tekil küme atar) |
+| **Küme tanımı (alıntı)** | "Dans kursı/workout + hareketli müzik (çocuk ve genç erkek ortak adı)" ([[.personas/mood-taxonomy]] §3.4 satır 25) |
+| **Big Five eğilimi (alıntı)** | "Yüksek O, düşük N" ([[.personas/mood-taxonomy]] §3.4 satır 25 "Big Five eğilimi (kurgusal)") — Big Five puanlarıyla (O 90 · N 26) **tutarlı**; bağ: `⚠️ DERIVED` |
 | **Tetikleyici durumlar** | Antrenman/parti saati gelmesi (workout playlist beklentisi); yavaş/kaba geçiş ve hissedilir gecikme (INP); düşük tempo/uzun intros (skip dürtüsü); hata anında müziğin durması (kabul edilemez) |
-| **UI etkisi** | "Koreografi videoları, workout playlist, yüksek BPM" ([[mood-taxonomy]] §3.4 satır 25 "Test etkisi") |
+| **UI etkisi** | "Koreografi videoları, workout playlist, yüksek BPM" ([[.personas/mood-taxonomy]] §3.4 satır 25 "Test etkisi") |
 | **Mood müziği (not)** | §3.4 satır 25'in "Dans, club, workout · **120-160 BPM** ⚠️" hücresi taksonomi kendisi ⚠️ ile işaretler → birincil ölçüm değildir, testte kullanılmaz (`⚠️ VERIFICATION REQUIRED`, §3.5.11 satır 16) |
 
 | Kural | Değer |
 |-------|-------|
-| Küme adları | Yalnızca [[mood-taxonomy]] §3 listesinden; uydurma küme adı yazılmaz (taksonomi kuralı) |
-| Atama | Birincil = [[personas/index]] §6.3 (Dans Enerjik); ikincil bu turda yok — eski salt-okunur dosyada "ikincil Sosyal" yazar, §7.2'de |
+| Küme adları | Yalnızca [[.personas/mood-taxonomy]] §3 listesinden; uydurma küme adı yazılmaz (taksonomi kuralı) |
+| Atama | Birincil = [[.personas/index]] §6.3 (Dans Enerjik); ikincil bu turda yok — eski salt-okunur dosyada "ikincil Sosyal" yazar, §7.2'de |
 | Ad tekliği | Eski "Dans Enerjik (Erkek)" ayrı ad taşısa da taksonomi §3.4'te küme **tek satırdır**; dosya adı/atanan ad `atakan-demir-dans` / "Dans Enerjik" (mood-taxonomy §3.4 eski tablo notu) |
 | Test etkisi | "Koreografi videoları, workout playlist, yüksek BPM" (§3.4 satır 25) — BPM beklentisi yalnız tür aralığıyla karşılanır (P4.4/P4.5); geçerli eşikler P5.4/P8 |
 
@@ -202,7 +202,7 @@ Kapsam dışı istisnalar: eski salt-okunur dosyadaki 100+ satırlık fiziksel/a
 | Hafta içi | 20:30 | DJ pratiği | House / elektronik (mix sıralı) |
 | Hafta sonu | 14:30 | Plaj / parti | Latin + dans (kesintisiz) |
 
-*Not: BPM satırları yalnız tür aralığı düzeyindedir (P4.4/P4.5); "şarkı X BPM" iddiası bu dosyada YOKTUR (EXCLUDED X-2). [[mood-taxonomy]] §3.4 satır 25'in "120-160 BPM" notu da birincil ölçüm değildir → `⚠️ VERIFICATION REQUIRED`; test hedefi olarak banka tür aralıkları kullanılır.*
+*Not: BPM satırları yalnız tür aralığı düzeyindedir (P4.4/P4.5); "şarkı X BPM" iddiası bu dosyada YOKTUR (EXCLUDED X-2). [[.personas/mood-taxonomy]] §3.4 satır 25'in "120-160 BPM" notu da birincil ölçüm değildir → `⚠️ VERIFICATION REQUIRED`; test hedefi olarak banka tür aralıkları kullanılır.*
 
 ### Cihaz & Teknoloji
 
@@ -254,7 +254,7 @@ Kapsam dışı istisnalar: eski salt-okunur dosyadaki 100+ satırlık fiziksel/a
 | **Öğrenme biçimi** | Hızlı dener, öğrenir; dokunarak keşfeder, kılavuz okumaz | Kaynak: kurgusal (persona verisi) |
 | **Grup davranışı** | Listeleri paylaşır, ortak çalma/ekleme bekler | Kaynak: kurgusal (persona verisi) |
 | **Yorgunluk etkisi** | Gece geç saatte tek dokunuş "devam" ve otomatik akış bekler | Kaynak: kurgusal (persona verisi) |
-| **Güven tetikleyicisi** | Tanıdık workout playlist'i + kesintisiz çalma + hızlı arayüz → uygulamaya bağlılık artar | Kaynak: kurgusal (persona verisi); mood: [[mood-taxonomy]] §3.4 satır 25 |
+| **Güven tetikleyicisi** | Tanıdık workout playlist'i + kesintisiz çalma + hızlı arayüz → uygulamaya bağlılık artar | Kaynak: kurgusal (persona verisi); mood: [[.personas/mood-taxonomy]] §3.4 satır 25 |
 
 *Erişilebilirlik etkisi (özet):* antrenman/parti ortamında kaba-hızlı kontrol → dokunma hedefi ≥ **24×24 CSS px** (2.5.8), kontrast ≥ **4.5:1** (1.4.3), geri tuşu/skip kaybolmaz (2.4.11) zorunludur — kriterler: `Kaynak: w3.org/TR/WCAG22/ + quickref` (P5.4 VERIFIED); ≥64 px hedefi `⚠️ VERIFICATION REQUIRED`.
 
@@ -306,14 +306,14 @@ Davranış notları:
 | 15 | Kırılma noktası kontrolü | `360 × 780` (DPR 3) ve `412 × 915` (DPR 2.625) görünümlerinde düzen bozulmaz | Playwright `setViewportSize` + screenshot (`⚠️ DERIVED` viewport) |
 | 16 | Odak sırası (klavye/gezinme) | Odak sırası mantıklı; odak görünür (2.4.7); gizli odak yok | Klavye navigasyon testi + DOM assertion |
 
-*Asgari 10 satır (şablon §3.5.10) — 16 satır yazıldı. Her satırda 3 sütun zorunlu: `Adım` · `Beklenen` · `Doğrulama yöntemi`. Seviye karşılıkları: [[personas/methodology]] Level 1 (AI rol) · Level 2 (Browser MCP) · Level 3 (Playwright E2E). Eşik değerleri research-bank P8'den (`VERIFIED`); persona'ya özel eşik yazılmadı (X-10 → `⚠️ DERIVED` gerekir).*
+*Asgari 10 satır (şablon §3.5.10) — 16 satır yazıldı. Her satırda 3 sütun zorunlu: `Adım` · `Beklenen` · `Doğrulama yöntemi`. Seviye karşılıkları: [[.personas/methodology]] Level 1 (AI rol) · Level 2 (Browser MCP) · Level 3 (Playwright E2E). Eşik değerleri research-bank P8'den (`VERIFIED`); persona'ya özel eşik yazılmadı (X-10 → `⚠️ DERIVED` gerekir).*
 
 ### Kaynak & Doğrulama
 
 | # | Alan / İddia | İddia Türü | Kaynak 1 | Kaynak 2 | Etiket |
 |---|--------------|-----------|----------|----------|--------|
 | 1 | Ad, semt, okul, ulaşım, rumuz, aile detayları | Kurgusal persona verisi | — | — | `Kaynak: kurgusal (persona verisi)` |
-| 2 | Yaş (16) ve atama | Kurgusal (index ataması) | [[personas/index]] §6.3 | — | `Kaynak: kurgusal (persona verisi; index §6.3 ataması)` |
+| 2 | Yaş (16) ve atama | Kurgusal (index ataması) | [[.personas/index]] §6.3 | — | `Kaynak: kurgusal (persona verisi; index §6.3 ataması)` |
 | 3 | Doğum tarihi (19 Nisan 2010) | Kurgusal (yaş 16 ile tutarlı — 2026-09-26) | — | — | `Kaynak: kurgusal (persona verisi)` |
 | 4 | `veli_onayı_gerekli: false` (16+ politikası) | Politika sonucu (türetilmiş) | research-bank P6.4 (TMK 18 · COPPA 13 · GDPR 16) | — | `⚠️ DERIVED` + dayanak: P6.4 son satır |
 | 5 | KVKK/yaş karşılaştırması; "KVKK 16 diyor" = YANLIŞ | Gerçek-dünya | dergipark.org.tr (mukayeseli inceleme) | kvkk.gov.tr (Yayın No 84) + mgm.adalet.gov.tr | `Kaynak: [k1] + [k2]` (P6.4 `VERIFIED`) |
@@ -324,9 +324,9 @@ Davranış notları:
 | 10 | Ölçek künyesi: IPIP-NEO-120, Johnson (2014) | Gerçek-dünya | novopsych.com IPIP-NEO-120 Technical Paper | APA PsycNET (PsycTests kaydı) | `Kaynak: [k1] + [k2]` (P7.4 `VERIFIED`) |
 | 11 | "IPIP-NEO Türkçe geçerli" iddiası | Doğrulanmadı | research-bank P7.5 / X-9 (yalnız Endonezya örneği) | — | `⚠️ VERIFICATION REQUIRED` — yazılmadı |
 | 12 | Boyut kodu eşlemesi (şablon O/C/E/A ↔ P7.3 tam adları) | Vault içi çelişki | persona-template §3.5.3 | research-bank P7.3/P7.5 | `⚠️ VERIFICATION REQUIRED` (P7.5: "kod esastır") |
-| 13 | Mood küme adı (Dans Enerjik) | Vault referanslı atama | [[mood-taxonomy]] §3.4 satır 25 | [[personas/index]] §6.3 | `Kaynak: kurgusal (atama); ad mood-taxonomy §3 listesinden` |
-| 14 | Mood küme tanımı + test etkisi alıntısı ("Dans kursı/workout + hareketli müzik …" · "Koreografi videoları, workout playlist, yüksek BPM") | Vault verisi | [[mood-taxonomy]] §3.4 satır 25 | — | `Kaynak: [[mood-taxonomy]] (vault verisi)` |
-| 15 | Mood eğilimi ("Yüksek O, düşük N") | Vault verisi (kurgusal eğilim) | [[mood-taxonomy]] §3.4 satır 25 | — | `Kaynak: [[mood-taxonomy]]` + bağ: `⚠️ DERIVED` |
+| 13 | Mood küme adı (Dans Enerjik) | Vault referanslı atama | [[.personas/mood-taxonomy]] §3.4 satır 25 | [[.personas/index]] §6.3 | `Kaynak: kurgusal (atama); ad mood-taxonomy §3 listesinden` |
+| 14 | Mood küme tanımı + test etkisi alıntısı ("Dans kursı/workout + hareketli müzik …" · "Koreografi videoları, workout playlist, yüksek BPM") | Vault verisi | [[.personas/mood-taxonomy]] §3.4 satır 25 | — | `Kaynak: [[.personas/mood-taxonomy]] (vault verisi)` |
+| 15 | Mood eğilimi ("Yüksek O, düşük N") | Vault verisi (kurgusal eğilim) | [[.personas/mood-taxonomy]] §3.4 satır 25 | — | `Kaynak: [[.personas/mood-taxonomy]]` + bağ: `⚠️ DERIVED` |
 | 16 | Mood BPM notu (120-160 ⚠️) | Doğrulanmadı (taksonomi notu) | mood-taxonomy §3.4 (⚠️ işaretli) | research-bank P4 (böyle aralık YOK) | `⚠️ VERIFICATION REQUIRED` — testte kullanılmadı |
 | 17 | Dans/club/workout tür BPM aralıkları (Dance 110-135 · House 110-128 · Electro 90-130 · Techno 130-140) | Gerçek-dünya (ikincil) | turkipedia.com/Beats_per_minute | nevamuzik.com.tr | `Kaynak: [k1] + [k2]` (P4.4 `VERIFIED (ikincil — birincil ölçüm DEĞİL)`) |
 | 18 | Rap/trap workout BPM (trap 70-110 · modern rap ~140) | Gerçek-dünya (ikincil) | nevamuzik.com.tr | vocuno.com/tr/bpm-algilayici | `Kaynak: [k1] + [k2]` (P4.5 `VERIFIED`) |
@@ -343,7 +343,7 @@ Davranış notları:
 | 29 | Dokunma hedefi ≥64 px (eski dosya iddiası) | Doğrulanmadı | eski salt-okunur dosya | research-bank P5 (64 px EŞİK YOK) | `⚠️ VERIFICATION REQUIRED` — asgari 2.5.8 (≥24×24 px) kullanıldı |
 | 30 | Test eşikleri: LCP ≤2500 ms · INP ≤200 ms · CLS ≤0.1 · FCP 1 sn | Gerçek-dünya | web.dev/articles/vitals | web.dev/articles/defining-core-web-vitals-thresholds | `Kaynak: [k1] + [k2]` (P8.6 `VERIFIED`) |
 | 31 | Ağ throttling: 150 ms · 1.6 Mbps ↓ / 750 Kbps ↑ · "Slow 4G" | Gerçek-dünya | github.com/GoogleChrome/lighthouse (docs/throttling.md) | developer.chrome.com/docs/devtools/network/reference | `Kaynak: [k1] + [k2]` (P8.6 `VERIFIED`) |
-| 32 | Küme adı tekliği (eski "Dans Enerjik (Erkek)" ayrı ad iddiası) | Vault içi not | mood-taxonomy §3.4 eski tablo notu | [[personas/index]] §6.3 | `Kaynak: [[mood-taxonomy]] + [[personas/index]]` (tek satır: "Dans Enerjik") |
+| 32 | Küme adı tekliği (eski "Dans Enerjik (Erkek)" ayrı ad iddiası) | Vault içi not | mood-taxonomy §3.4 eski tablo notu | [[.personas/index]] §6.3 | `Kaynak: [[.personas/mood-taxonomy]] + [[.personas/index]]` (tek satır: "Dans Enerjik") |
 | 33 | Eski dosyadaki istatistik/yüzde iddiaları (dinleme saatleri, takipçi sayıları, keşif yüzdeleri, premium yüzdesi, aile geliri) | Bankada YOK | research-bank P1-P8 kapsamı | — | `⚠️ VERIFICATION REQUIRED` — bu dosyaya YAZILMADI |
 
 ---
@@ -354,7 +354,7 @@ Davranış notları:
 
 **Bu persona dosyasını yazmadan ÖNCE `.ai/.templates/` dizinindeki ilgili şablonu oku:**
 
-1. Şablonu `[[../.templates/index]]` §7.1 tablolarından seç → persona için `personas/persona-template.md`.
+1. Şablonu `[[.templates/index]]` §7.1 tablolarından seç → persona için `personas/persona-template.md`.
 2. Şablonu oku; `{{VARIABLE}}` alanlarını doldur, gereksiz anlatım bloklarını kaldır (§3.5 alan havuzu KALIR).
 3. **Şablon varsa ona göre yaz.**
 4. **Şablon yoksa** bu belgedeki 8-bölüm formatına göre yaz ve `⚠️ VERIFICATION REQUIRED` notuyla `log.md`'ye şablon eksiğini bildir.
@@ -364,7 +364,7 @@ Davranış notları:
 |-------|---------|
 | `.ai/.templates/personas/persona-template.md` VAR | Şablonu oku → ona göre yaz |
 | Şablon YOK | 8-bölüm formatına göre yaz + `log.md`'ye "şablon eksiği" kaydı |
-| Şablon okundu ama çelişiyor | DUR → `[[../CLAUDE.md]]` §2.1 SSOT öncelik sırası |
+| Şablon okundu ama çelişiyor | DUR → `[[CLAUDE.md]]` §2.1 SSOT öncelik sırası |
 | Vault erişilemiyor | `⚠️ VERIFICATION REQUIRED` → yazım durdurulur, kullanıcıya sor |
 
 *(Bu blok persona-template §3.3'ten birebir kopyalanmıştır; §4'ün ilk maddesidir, silinemez.)*
@@ -375,7 +375,7 @@ Davranış notları:
 |---|-------|----------|--------------|
 | 1 | Template Mandatory (Guardrail #16) | Bu dosya persona-template'den üretildi | Dosya geçersiz, revert |
 | 2 | Şablon Önce | Yazmadan `.ai/.templates/` okundu | ERROR log, yazıma devam yok |
-| 3 | SSOT | Persona kataloğu [[personas/index]]; araştırma verisi [[research-bank]] | İçerik silinir |
+| 3 | SSOT | Persona kataloğu [[.personas/index]]; araştırma verisi [[.personas/research-bank]] | İçerik silinir |
 | 4 | Zero Hallucination (ADR-005) | Her satır §4.5 etiketi taşır; bankada olmayan iddia yazılmaz | Etiketsiz iddia silinir |
 | 5 | In-Place Refactoring | Dosya adı/yolu değişmez (`atakan-demir-dans.md`) | Dosya geri yüklenir |
 | 6 | Dil | Türkçe; mojibake yasak | `repair` ile onarılır |
@@ -404,7 +404,7 @@ Davranış notları:
 | Adım | Aksiyon | Çıktı |
 |------|---------|-------|
 | 1 | persona-template + docs-md-template oku (Guardrail #16) | Şablon + iskelet |
-| 2 | [[research-bank]] P3-P8 + [[mood-taxonomy]] §3.4 satır 25 + [[personas/index]] §6.3 oku | Etiketli veri + küme adı + yaş/mood/persona_id |
+| 2 | [[.personas/research-bank]] P3-P8 + [[.personas/mood-taxonomy]] §3.4 satır 25 + [[.personas/index]] §6.3 oku | Etiketli veri + küme adı + yaş/mood/persona_id |
 | 3 | Eski salt-okunur persona kaynağını incele (yalnız kimlik/müzik/rutin; etiketsiz iddia/istatistik taşınmaz) | Kurgusal içerik |
 | 4 | §3.5 11/11 alanı doldur → her satıra §4.5 etiketi yaz | Dolu §3 |
 | 5 | Test Adımları ≥10 → §6.1 kontrol listesi → `vault-utf8-writer verify` → `log.md` append | Doğrulanmış dosya |
@@ -481,13 +481,13 @@ Davranış notları:
 
 | Wiki-link | İlişki | Durum / Gerçek hedef |
 |-----------|--------|----------------------|
-| `[[personas/index]]` | Persona kataloğu — yaş/mood/persona_id atamasının sahibi | ✅ `.ai/.personas/index.md` |
-| `[[personas/persona-template]]` | Persona şablonu — bu dosyanın iskeleti | ✅ `.ai/.templates/personas/persona-template.md` |
-| `[[research-bank]]` | Araştırma paketleri P1-P8 — tek gerçek-dünya veri kaynağı | ✅ `.ai/.personas/research-bank.md` |
-| `[[mood-taxonomy]]` | Mood küme adları ve tanımları (§3.4 satır 25) | ✅ `.ai/.personas/mood-taxonomy.md` |
-| `[[personas/test-scenarios-mapping]]` | Test senaryosu eşlemesi | ✅ `.ai/.personas/test-scenarios-mapping.md` |
-| `[[personas/methodology]]` | Test seviyeleri (Level 1/2/3) | 📋 planlanan — `.ai/.personas/methodology.md` (bu turda başka agent sorumluluğunda; diskte henüz yok) |
-| `[[ADR-023-persona-driven-testing]]` | Persona-driven testing kararı (frozen) | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
+| `[[.personas/index]]` | Persona kataloğu — yaş/mood/persona_id atamasının sahibi | ✅ `.ai/.personas/index.md` |
+| `[[.templates/personas/persona-template]]` | Persona şablonu — bu dosyanın iskeleti | ✅ `.ai/.templates/personas/persona-template.md` |
+| `[[.personas/research-bank]]` | Araştırma paketleri P1-P8 — tek gerçek-dünya veri kaynağı | ✅ `.ai/.personas/research-bank.md` |
+| `[[.personas/mood-taxonomy]]` | Mood küme adları ve tanımları (§3.4 satır 25) | ✅ `.ai/.personas/mood-taxonomy.md` |
+| `[[.personas/test-scenarios-mapping]]` | Test senaryosu eşlemesi | ✅ `.ai/.personas/test-scenarios-mapping.md` |
+| `[[.personas/methodology]]` | Test seviyeleri (Level 1/2/3) | 📋 planlanan — `.ai/.personas/methodology.md` (bu turda başka agent sorumluluğunda; diskte henüz yok) |
+| `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | Persona-driven testing kararı (frozen) | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
 
 *`📋 planlanan` satır hedef dosya diskte oluşana kadar kırık kabul edilir; oluştuğunda `✅`ye çevrilir ve `log.md`'ye append edilir.*
 
@@ -495,14 +495,14 @@ Davranış notları:
 
 | Alan | Eski dosya (salt-okunur) | Yeni değer (SSOT) | Karar |
 |------|--------------------------|-------------------|-------|
-| Yaş / doğum tarihi | 16 · 19 Nisan 2010 | 16 · 19 Nisan 2010 | Tutarlı — [[personas/index]] §6.3 onaylar (çakışma yok) |
-| Persona ID | `CM-AD-16-ENE-ANT` / `GE-AD-16-ENE-ANT` | `CM-AD-16-DAN-ANT` | [[personas/index]] §6.3 kazanır; şablon §3.5.1 `CM-XX-YY-ZZZ-XXX` ile uyumlu (2026-09-26 düzeltme) |
-| Birincil cihaz | iPhone 14 Pro (2556×1179 spec'li) | Test viewport: banka A34 türevi (`⚠️ DERIVED`); spec yazılmadı | [[research-bank]] P3 — cihaz spec'i yazılmadı (X-1) |
+| Yaş / doğum tarihi | 16 · 19 Nisan 2010 | 16 · 19 Nisan 2010 | Tutarlı — [[.personas/index]] §6.3 onaylar (çakışma yok) |
+| Persona ID | `CM-AD-16-ENE-ANT` / `GE-AD-16-ENE-ANT` | `CM-AD-16-DAN-ANT` | [[.personas/index]] §6.3 kazanır; şablon §3.5.1 `CM-XX-YY-ZZZ-XXX` ile uyumlu (2026-09-26 düzeltme) |
+| Birincil cihaz | iPhone 14 Pro (2556×1179 spec'li) | Test viewport: banka A34 türevi (`⚠️ DERIVED`); spec yazılmadı | [[.personas/research-bank]] P3 — cihaz spec'i yazılmadı (X-1) |
 | BPM aralığı | "128-140 / 130-150 (kişisel)" + taksonomi "120-160 ⚠️" | Tür aralıkları P4.4/P4.5 (VERIFIED ikincil); şarkı BPM'i yok | §4.5 + X-2 |
 | Şarkı BPM/şarkı listesi okumaları | Eski dosyada şarkı bazlı okumalar | yazılmadı | X-2 |
 | Dokunma hedefi | "Butonlar en az 64×64px (terli parmak)" | ≥24×24 CSS px (2.5.8, P5.4 VERIFIED); 64 px `⚠️ VERIFICATION REQUIRED` | research-bank P5 kazanır |
 | Big Five ölçeği | 0-10 puanlar (9/10, 4/10 …) | 0-100 normalize (`⚠️ DERIVED`) | P7.4; eski 0-10 değerleri puan olarak taşınmadı |
-| İkincil mood | "İkincil mod tipi: Sosyal" | ikincil bu turda yok | [[personas/index]] §6.3 tekil küme atar |
+| İkincil mood | "İkincil mod tipi: Sosyal" | ikincil bu turda yok | [[.personas/index]] §6.3 tekil küme atar |
 | Küme adı | "Dans Enerjik / Workout Enerjik" + eski "Dans Enerjik (Erkek)" ayrı adı | "Dans Enerjik" (tek satır) | mood-taxonomy §3.4 eski tablo notu + index §6.3 |
 | Yüzdeler/istatistikler (dinleme saati, takipçi, keşif %, premium %95, aile geliri, harçlık) | Kaynaksız sayılar | yazılmadı (nitel ifadeye çevrildi) | §4.5 kuralı 4 (bankada yok → yazma) |
 

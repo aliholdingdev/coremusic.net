@@ -10,7 +10,7 @@ updated: 2026-09-26
 
 # CoreMusic — Test Senaryosu: Müzik Keşfi (MZK)
 
-**Zorunlu Bağlantılar:** [[personas/index]] · [[personas/methodology]] · [[personas/research-bank]] · [[personas/test-scenarios-mapping]] · [[personas/persona-template]] · [[ADR-023-persona-driven-testing]] · [[personas/test-senaryolari/a11y-erisilebilirlik]]
+**Zorunlu Bağlantılar:** [[.personas/index]] · [[.personas/methodology]] · [[.personas/research-bank]] · [[.personas/test-scenarios-mapping]] · [[.templates/personas/persona-template]] · [[.decisions/accepted/ADR-023-persona-driven-testing]] · [[.personas/test-senaryolari/a11y-erisilebilirlik]]
 
 ---
 
@@ -22,9 +22,9 @@ updated: 2026-09-26
 | Hedef Kitle | QA Engineer (birincil), UI Designer (arama/filtre UI), Vault Steward (denetim) |
 | Yapı | H1 + Zorunlu Bağlantılar + §1 Amaç → §7 Referanslar (7 bölüm + 7 alanlı frontmatter) |
 | ADR-023 Karşılığı | 20 persona matrisi **satır 18 — Müzik Keşfi kişisi** (§2.2a; kaynak: eski vault `test-senaryolari/muzik-kesfi.md`) |
-| Mapping Karşılığı | **S2 Music Discovery** (68/68 uygulanabilir; çocukta içerik filtresi) — `[[personas/test-scenarios-mapping]]` §4.2 |
-| Test Seviyeleri | Seviye 1 AI Rol · Seviye 2 Browser MCP · Seviye 3 Playwright · Seviye 4 Rapor (`[[personas/methodology]]` §2.2) |
-| Eşik Kaynağı | `[[personas/research-bank]]` **P8 (metrik)** + **P5 (WCAG)** + **P6 (KVKK/yaş — veli onayı `⚠️ DERIVED`)** |
+| Mapping Karşılığı | **S2 Music Discovery** (68/68 uygulanabilir; çocukta içerik filtresi) — `[[.personas/test-scenarios-mapping]]` §4.2 |
+| Test Seviyeleri | Seviye 1 AI Rol · Seviye 2 Browser MCP · Seviye 3 Playwright · Seviye 4 Rapor (`[[.personas/methodology]]` §2.2) |
+| Eşik Kaynağı | `[[.personas/research-bank]]` **P8 (metrik)** + **P5 (WCAG)** + **P6 (KVKK/yaş — veli onayı `⚠️ DERIVED`)** |
 | Adım Sayısı | **15** (asgari 10 — §5.3) |
 | Test Blokları | MZK-001 … MZK-011 (11 blok — §3.1) |
 | Zorunlu Blok | §4.0 Şablon-Önce Kural Bloğu (silinemez) |
@@ -39,7 +39,7 @@ updated: 2026-09-26
 
 ## §1 Amaç
 
-Bu dosya, CoreMusic'in **müzik keşfi test senaryosudur**: metin arama, sesli arama, tür gezinme, sanatçı/album sayfaları, öneri algoritması, listeler, radyo/autoplay ve grup bazlı keşif davranışlarının (çocuk içerik filtresi, genç trend akışı, yetişkin gelişmiş filtre) hangi adımlarla, hangi `VERIFIED` eşiklerle test edileceğini tanımlar. Eski vault'taki 568 satırlık senaryo **kopyalanmamış**; iskelet alınıp `[[personas/research-bank]]` P8/P5/P6 ile **yeniden bağlanmıştır** (ADR-005 Zero Hallucination).
+Bu dosya, CoreMusic'in **müzik keşfi test senaryosudur**: metin arama, sesli arama, tür gezinme, sanatçı/album sayfaları, öneri algoritması, listeler, radyo/autoplay ve grup bazlı keşif davranışlarının (çocuk içerik filtresi, genç trend akışı, yetişkin gelişmiş filtre) hangi adımlarla, hangi `VERIFIED` eşiklerle test edileceğini tanımlar. Eski vault'taki 568 satırlık senaryo **kopyalanmamış**; iskelet alınıp `[[.personas/research-bank]]` P8/P5/P6 ile **yeniden bağlanmıştır** (ADR-005 Zero Hallucination).
 
 | Boyut | Değer |
 |-------|-------|
@@ -54,12 +54,12 @@ Bu dosya, CoreMusic'in **müzik keşfi test senaryosudur**: metin arama, sesli a
 | İhtiyaç | Doğru Dosya | Bu Dosya Kullanılmaz |
 |---------|-------------|----------------------|
 | Keşif/arama/öneri test adımları | ✅ Bu dosya | — |
-| Metrik eşik (LCP/INP/CLS…) kaynağı | `[[personas/research-bank]]` P8 | ❌ (taşınır) |
-| WCAG kriter numarası/eşiği | `[[personas/research-bank]]` P5 | ❌ (taşınır) |
-| 16 yaş altı veli onayı politikası | `[[personas/research-bank]]` P6.4 (`⚠️ DERIVED`) | ❌ (taşınır) |
-| Test seviyeleri/akış | `[[personas/methodology]]` | ❌ |
-| Grup × senaryo kısıtları | `[[personas/test-scenarios-mapping]]` §4.4-S2 | ❌ |
-| Coverage gate kararı | `[[ADR-023-persona-driven-testing]]` | ❌ |
+| Metrik eşik (LCP/INP/CLS…) kaynağı | `[[.personas/research-bank]]` P8 | ❌ (taşınır) |
+| WCAG kriter numarası/eşiği | `[[.personas/research-bank]]` P5 | ❌ (taşınır) |
+| 16 yaş altı veli onayı politikası | `[[.personas/research-bank]]` P6.4 (`⚠️ DERIVED`) | ❌ (taşınır) |
+| Test seviyeleri/akış | `[[.personas/methodology]]` | ❌ |
+| Grup × senaryo kısıtları | `[[.personas/test-scenarios-mapping]]` §4.4-S2 | ❌ |
+| Coverage gate kararı | `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | ❌ |
 
 ---
 
@@ -75,7 +75,7 @@ Bu dosya, CoreMusic'in **müzik keşfi test senaryosudur**: metin arama, sesli a
 | Listeler/charts, radyo/autoplay davranışı | Streaming protokolü (→ architecture/k15-medya-streaming) |
 | Çocuk keşfi: explicit kapalı, onaylı türler, veli onayı | Veli onayının hukuki yorumu (→ P6 + ADR-088+) |
 | Grup bazlı keşif davranışları (çocuk/genç/yetişkin) | Persona içerik üretimi |
-| Keşif akışında performans (FCP/LCP/INP) ve WCAG doğrulaması | Derin a11y denetimi (→ `[[personas/test-senaryolari/a11y-erisilebilirlik]]`) |
+| Keşif akışında performans (FCP/LCP/INP) ve WCAG doğrulaması | Derin a11y denetimi (→ `[[.personas/test-senaryolari/a11y-erisilebilirlik]]`) |
 
 ### §2.2 Hedef Kitle
 
@@ -92,7 +92,7 @@ Bu dosya, CoreMusic'in **müzik keşfi test senaryosudur**: metin arama, sesli a
 |---|---------|--------------|
 | 1 | Sesli arama ASR doğruluğu/kelime hatası oranı | `⚠️ VERIFICATION REQUIRED` (P8'de doğrulanmış ölçüm yok) |
 | 2 | "Fuzzy arama" eşik değeri (kaç karakter typo toleransı) | `⚠️ VERIFICATION REQUIRED` |
-| 3 | BPM aralığı iddiaları (60–100 / 120–160 vb.) | `[[personas/mood-taxonomy]]` §3.4 — `⚠️` işaretli |
+| 3 | BPM aralığı iddiaları (60–100 / 120–160 vb.) | `[[.personas/mood-taxonomy]]` §3.4 — `⚠️` işaretli |
 
 ---
 
@@ -102,13 +102,13 @@ Bu dosya, CoreMusic'in **müzik keşfi test senaryosudur**: metin arama, sesli a
 
 ```
 .ai/.personas/test-senaryolari/muzik-kesfi.md          ← bu dosya (SSOT: senaryo)
-├── [[personas/research-bank]] P6.3/P6.4               (yaş/veli onayı — VERIFIED + DERIVED)
-├── [[personas/research-bank]] P8.1–P8.5               (metrik — VERIFIED)
-├── [[personas/research-bank]] P5.2                    (WCAG kriter numaraları)
-├── [[personas/methodology]] §2.2, §3.3, §3.4          (seviye, emülasyon, eşik kullanımı)
-├── [[personas/test-scenarios-mapping]] §4.4-S2        (grup beklentileri)
-├── [[personas/mood-taxonomy]] §3.4                    (Arabesk/Dans türev küme adları)
-└── [[ADR-023-persona-driven-testing]] satır 18        (eşleme + coverage gate)
+├── [[.personas/research-bank]] P6.3/P6.4               (yaş/veli onayı — VERIFIED + DERIVED)
+├── [[.personas/research-bank]] P8.1–P8.5               (metrik — VERIFIED)
+├── [[.personas/research-bank]] P5.2                    (WCAG kriter numaraları)
+├── [[.personas/methodology]] §2.2, §3.3, §3.4          (seviye, emülasyon, eşik kullanımı)
+├── [[.personas/test-scenarios-mapping]] §4.4-S2        (grup beklentileri)
+├── [[.personas/mood-taxonomy]] §3.4                    (Arabesk/Dans türev küme adları)
+└── [[.decisions/accepted/ADR-023-persona-driven-testing]] satır 18        (eşleme + coverage gate)
 ```
 
 ### §3.1 Test Blokları (MZK-001 → MZK-011)
@@ -127,7 +127,7 @@ Bu dosya, CoreMusic'in **müzik keşfi test senaryosudur**: metin arama, sesli a
 | MZK-010 | Genç Keşfi | Trend listeleri, mood önerisi, yaş kilidi 16 ⚠️ | mapping §4.4-S2 |
 | MZK-011 | Yetişkin Keşfi | Gelişmiş filtre (yıl/süre/BPM ⚠️), fuzzy arama ⚠️ | 2.4.7 · 3.3.7 |
 
-> ADR-023 satır 18 eşlemesi; mapping §4.4-S2 "Mood örnekleri" sütunundaki küme adları `[[personas/mood-taxonomy]]` §3.4'ten alınır (uydurulmaz).
+> ADR-023 satır 18 eşlemesi; mapping §4.4-S2 "Mood örnekleri" sütunundaki küme adları `[[.personas/mood-taxonomy]]` §3.4'ten alınır (uydurulmaz).
 
 ### §3.1.1 Blok Detayları (Açıklama — Başarı Kriteri)
 
@@ -189,7 +189,7 @@ Bu dosya, CoreMusic'in **müzik keşfi test senaryosudur**: metin arama, sesli a
 | 3.3.7 | Redundant Entry | A | `VERIFIED` |
 | 3.3.8 | Accessible Authentication (Minimum) | AA — WCAG 2.2 **YENİ** | `VERIFIED` |
 
-### §3.3 Persona / Mood Eşlemesi (`[[personas/test-scenarios-mapping]]`)
+### §3.3 Persona / Mood Eşlemesi (`[[.personas/test-scenarios-mapping]]`)
 
 | Grup (n) | S2 beklentisi (mapping §4.4) | Doğrulama yöntemi |
 |---|---|---|
@@ -197,7 +197,7 @@ Bu dosya, CoreMusic'in **müzik keşfi test senaryosudur**: metin arama, sesli a
 | Genç (29) | Trend listeleri, mood-kişiselleştirilmiş öneri | Öneri yenileme + sonuç sayısı |
 | Yetişkin (10) | Gelişmiş filtre (yıl, süre, BPM ⚠️), fuzzy arama | Typo ile arama + filtre birikimi |
 
-Mood çaprazı (mapping §4.7): **Arabesk/Dans türevi (8) → birincil S2**; Kaşif (5) → S2 birincil (tipik hata: filtre kaybı); Romantik (7) → S2; Melankolik (5) → ikincil S2. Küme adları: Arabesksever · Danssever · Arabesk Kaşif · Arabesk Meraklı · Dans Sporcu · Arabesk Melankolik · Dans Enerjik (`[[personas/mood-taxonomy]]` §3.4).
+Mood çaprazı (mapping §4.7): **Arabesk/Dans türevi (8) → birincil S2**; Kaşif (5) → S2 birincil (tipik hata: filtre kaybı); Romantik (7) → S2; Melankolik (5) → ikincil S2. Küme adları: Arabesksever · Danssever · Arabesk Kaşif · Arabesk Meraklı · Dans Sporcu · Arabesk Melankolik · Dans Enerjik (`[[.personas/mood-taxonomy]]` §3.4).
 
 ### §3.4 Cihaz / Breakpoint Matrisi (research-bank P8.5 — `VERIFIED`)
 
@@ -235,7 +235,7 @@ Mood çaprazı (mapping §4.7): **Arabesk/Dans türevi (8) → birincil S2**; Ka
 | Genç erkek (Atakan — Dans Enerjik) | Workout playlist, yüksek BPM | Öneri yenileme animasyonu jank'sız (INP) | mapping §4.7 |
 | Yetişkin kadın/erkek | Gelişmiş filtre + fuzzy arama | Adım 9–10 | mapping §4.4-S2 |
 
-> Persona adları `[[personas/index]]` altındaki persona dosyalarından alınmıştır; bu dosyada persona **üretilmez**. Kişisel veri niteliğinde ayrıntı (sağlık vb.) yazılmaz (`[REDACTED]` — §4.7).
+> Persona adları `[[.personas/index]]` altındaki persona dosyalarından alınmıştır; bu dosyada persona **üretilmez**. Kişisel veri niteliğinde ayrıntı (sağlık vb.) yazılmaz (`[REDACTED]` — §4.7).
 
 ---
 
@@ -415,7 +415,7 @@ await cdp.send('Network.emulateNetworkConditions', {
 
 ### §6.3 EXCLUDED Listesine Atıf (research-bank §6.4)
 
-Kapsam/indirilebilirlik sayım iddiaları bu senaryoda kullanılmaz; `EXCLUDED` kayıtlar burada da atlanır (`[[personas/test-scenarios-mapping]]` §5.3 notu: 41/55/46 sayıları `⚠️ VERIFICATION REQUIRED`).
+Kapsam/indirilebilirlik sayım iddiaları bu senaryoda kullanılmaz; `EXCLUDED` kayıtlar burada da atlanır (`[[.personas/test-scenarios-mapping]]` §5.3 notu: 41/55/46 sayıları `⚠️ VERIFICATION REQUIRED`).
 
 ### §6.4 Quality Report (Bu Dosyanın Kendisi)
 
@@ -485,13 +485,13 @@ Kapsam/indirilebilirlik sayım iddiaları bu senaryoda kullanılmaz; `EXCLUDED` 
 
 | Bağlantı | Rol |
 |----------|-----|
-| [[personas/index]] | Persona ana indeksi |
-| [[personas/methodology]] | Test metodolojisi |
-| [[personas/research-bank]] | P5/P6/P8 eşik kaynağı |
-| [[personas/test-scenarios-mapping]] | Grup × senaryo matrisi |
-| [[personas/persona-template]] | Persona alan şablonu |
-| [[ADR-023-persona-driven-testing]] | Karar + coverage gate |
-| [[personas/test-senaryolari/a11y-erisilebilirlik]] | Kardeş senaryo (a11y derinliği) |
+| [[.personas/index]] | Persona ana indeksi |
+| [[.personas/methodology]] | Test metodolojisi |
+| [[.personas/research-bank]] | P5/P6/P8 eşik kaynağı |
+| [[.personas/test-scenarios-mapping]] | Grup × senaryo matrisi |
+| [[.templates/personas/persona-template]] | Persona alan şablonu |
+| [[.decisions/accepted/ADR-023-persona-driven-testing]] | Karar + coverage gate |
+| [[.personas/test-senaryolari/a11y-erisilebilirlik]] | Kardeş senaryo (a11y derinliği) |
 
 ### §7.2 Değişiklik Geçmişi (append-only)
 

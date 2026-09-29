@@ -10,7 +10,7 @@ updated: 2026-09-26
 
 # CoreMusic — Test Senaryosu: Tarayıcı Navigasyonu (BNV)
 
-**Zorunlu Bağlantılar:** [[personas/index]] · [[personas/methodology]] · [[personas/research-bank]] · [[personas/test-scenarios-mapping]] · [[personas/persona-template]] · [[ADR-023-persona-driven-testing]] · [[personas/test-senaryolari/a11y-erisilebilirlik]]
+**Zorunlu Bağlantılar:** [[.personas/index]] · [[.personas/methodology]] · [[.personas/research-bank]] · [[.personas/test-scenarios-mapping]] · [[.templates/personas/persona-template]] · [[.decisions/accepted/ADR-023-persona-driven-testing]] · [[.personas/test-senaryolari/a11y-erisilebilirlik]]
 
 ---
 
@@ -22,8 +22,8 @@ updated: 2026-09-26
 | Hedef Kitle | QA Engineer (birincil), DevOps Engineer (performans/CI), UI Designer (responsive) |
 | Yapı | H1 + Zorunlu Bağlantılar + §1 Amaç → §7 Referanslar (7 bölüm + 7 alanlı frontmatter) |
 | ADR-023 Karşılığı | 20 persona matrisi **satır 17 — Tarayıcı/Navigasyon kişisi** (§2.2a; kaynak: eski vault `test-senaryolari/browser-navigasyon.md`) |
-| Test Seviyeleri | Seviye 1 AI Rol · Seviye 2 Browser MCP · Seviye 3 Playwright · Seviye 4 Rapor (`[[personas/methodology]]` §2.2) |
-| Eşik Kaynağı | `[[personas/research-bank]]` **P8 (Test Metodolojisi — `VERIFIED` eşikler)** + **P5 (WCAG AA kriter numaraları)** |
+| Test Seviyeleri | Seviye 1 AI Rol · Seviye 2 Browser MCP · Seviye 3 Playwright · Seviye 4 Rapor (`[[.personas/methodology]]` §2.2) |
+| Eşik Kaynağı | `[[.personas/research-bank]]` **P8 (Test Metodolojisi — `VERIFIED` eşikler)** + **P5 (WCAG AA kriter numaraları)** |
 | Metrik Kapsamı | LCP · INP · CLS · FCP · TBT (P8.1/P8.3 — 75. yüzdelik) |
 | Adım Sayısı | **16** (asgari 10 — §5.3) |
 | Test Blokları | BNV-001 … BNV-011 (11 blok — §3.1) |
@@ -39,12 +39,12 @@ updated: 2026-09-26
 
 ## §1 Amaç
 
-Bu dosya, CoreMusic'in **tarayıcı navigasyonu test senaryosudur**: sayfa yükleme metrikleri (FCP/LCP/TBT), SPA navigasyonu, auth akışları, oturum yönetimi, hata sayfaları, tarayıcı uyumluluğu, responsive breakpoint taraması ve grup bazlı (çocuk/genç/yetişkin) navigasyon davranışlarının hangi adımlarla, hangi `VERIFIED` eşiklerle test edileceğini tanımlar. Eski vault'taki 684 satırlık senaryo **kopyalanmamış**; iskelet alınıp `[[personas/research-bank]]` P8 metrik eşikleriyle **yeniden bağlanmıştır** (ADR-005 Zero Hallucination).
+Bu dosya, CoreMusic'in **tarayıcı navigasyonu test senaryosudur**: sayfa yükleme metrikleri (FCP/LCP/TBT), SPA navigasyonu, auth akışları, oturum yönetimi, hata sayfaları, tarayıcı uyumluluğu, responsive breakpoint taraması ve grup bazlı (çocuk/genç/yetişkin) navigasyon davranışlarının hangi adımlarla, hangi `VERIFIED` eşiklerle test edileceğini tanımlar. Eski vault'taki 684 satırlık senaryo **kopyalanmamış**; iskelet alınıp `[[.personas/research-bank]]` P8 metrik eşikleriyle **yeniden bağlanmıştır** (ADR-005 Zero Hallucination).
 
 | Boyut | Değer |
 |-------|-------|
 | Ne taşır | BNV test blokları, ≥10 adımlık adım tablosu (Adım · Eylem · Beklenen · Doğrulama · Metrik · WCAG), breakpoint/emülasyon matrisi, Playwright kod bloğu, hata modları, persona grup notları |
-| Ne taşımaz | Metrik eşiklerinin kaynağı (→ `[[personas/research-bank]]` P8), test seviyesi/akışı (→ `[[personas/methodology]]`), senaryo × grup matrisi (→ `[[personas/test-scenarios-mapping]]`), karar (→ `[[ADR-023-persona-driven-testing]]`) |
+| Ne taşımaz | Metrik eşiklerinin kaynağı (→ `[[.personas/research-bank]]` P8), test seviyesi/akışı (→ `[[.personas/methodology]]`), senaryo × grup matrisi (→ `[[.personas/test-scenarios-mapping]]`), karar (→ `[[.decisions/accepted/ADR-023-persona-driven-testing]]`) |
 | Neden yazıldı | Eski senaryo research-bank'tan **önce** yazılmıştı; "ADR 006 hedefleri" kaynaksızdı → P8.1/P8.3 eşikleriyle yeniden bağlandı |
 | Kim okumalı | E2E navigasyon/perf testi çalıştıran her ajan (QA birincil, DevOps ikincil) |
 | Kanıt zinciri | `research-bank` P8 (metrik eşik) → `methodology` (seviye/akış) → persona dosyası → **bu dosya (senaryo)** → `ADR-023` (gate) |
@@ -54,11 +54,11 @@ Bu dosya, CoreMusic'in **tarayıcı navigasyonu test senaryosudur**: sayfa yükl
 | İhtiyaç | Doğru Dosya | Bu Dosya Kullanılmaz |
 |---------|-------------|----------------------|
 | Navigasyon/perf test adımları ve breakpoint taraması | ✅ Bu dosya | — |
-| LCP/INP/CLS/FCP/TBT eşik değerlerinin kaynağı | `[[personas/research-bank]]` P8 | ❌ (burada yalnız **taşınır**) |
-| Test seviyesi, PREPARE→EXECUTE→REPORT akışı | `[[personas/methodology]]` | ❌ |
-| Hangi persona grubu hangi senaryoda | `[[personas/test-scenarios-mapping]]` | ❌ |
-| "Coverage %90 / PR gate" kararı | `[[ADR-023-persona-driven-testing]]` | ❌ (burada yalnız başvurulur) |
-| WCAG kriter numarası/eşiği | `[[personas/research-bank]]` P5 | ❌ |
+| LCP/INP/CLS/FCP/TBT eşik değerlerinin kaynağı | `[[.personas/research-bank]]` P8 | ❌ (burada yalnız **taşınır**) |
+| Test seviyesi, PREPARE→EXECUTE→REPORT akışı | `[[.personas/methodology]]` | ❌ |
+| Hangi persona grubu hangi senaryoda | `[[.personas/test-scenarios-mapping]]` | ❌ |
+| "Coverage %90 / PR gate" kararı | `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | ❌ (burada yalnız başvurulur) |
+| WCAG kriter numarası/eşiği | `[[.personas/research-bank]]` P5 | ❌ |
 
 ---
 
@@ -75,7 +75,7 @@ Bu dosya, CoreMusic'in **tarayıcı navigasyonu test senaryosudur**: sayfa yükl
 | Hata sayfaları (404/500/offline) ve geri dönüş yolları | Sunucu tarafı hata yönetimi kodu (→ backend) |
 | Tarayıcı uyumluluk matrisi + responsive breakpoint taraması (P8.5) | Tarayıcı sürüm envanteri (`⚠️ VERIFICATION REQUIRED` — P3'te YOK) |
 | Grup bazlı navigasyon davranışları (çocuk 48px+ ⚠️, genç, yetişkin) | Persona içerik üretimi (→ persona dosyaları) |
-| Klavye/odak navigasyonu davranış doğrulaması (2.4.7, 2.4.11) | Tam a11y denetimi (→ `[[personas/test-senaryolari/a11y-erisilebilirlik]]`) |
+| Klavye/odak navigasyonu davranış doğrulaması (2.4.7, 2.4.11) | Tam a11y denetimi (→ `[[.personas/test-senaryolari/a11y-erisilebilirlik]]`) |
 
 ### §2.2 Hedef Kitle
 
@@ -91,7 +91,7 @@ Bu dosya, CoreMusic'in **tarayıcı navigasyonu test senaryosudur**: sayfa yükl
 | # | İstisna | Nereye Gider |
 |---|---------|--------------|
 | 1 | Coğrafi konum (`geolocation`) API'si | `⚠️ VERIFICATION REQUIRED` (P8'de doğrulanmış API listesinde **yok**) — §6.5 |
-| 2 | Gerçek cihaz/lab ölçümü | `[[personas/methodology]]` Seviye 3+ notu |
+| 2 | Gerçek cihaz/lab ölçümü | `[[.personas/methodology]]` Seviye 3+ notu |
 | 3 | Sunucu uptime/CDN metrikleri | DevOps gözlemleme katmanı |
 
 ---
@@ -102,12 +102,12 @@ Bu dosya, CoreMusic'in **tarayıcı navigasyonu test senaryosudur**: sayfa yükl
 
 ```
 .ai/.personas/test-senaryolari/browser-navigasyon.md   ← bu dosya (SSOT: senaryo)
-├── [[personas/research-bank]] P8.1–P8.5               (eşik — VERIFIED)
-├── [[personas/research-bank]] P5.2                    (WCAG kriter numaraları)
-├── [[personas/methodology]] §2.2, §3.3, §3.4          (seviye, emülasyon, eşik kullanımı)
-├── [[personas/test-scenarios-mapping]] §4.2–§4.8      (grup × senaryo, ortak katman)
-├── [[personas/mood-taxonomy]] §2                      (mood adları — burada ad taşınır)
-└── [[ADR-023-persona-driven-testing]] satır 17        (eşleme + coverage gate)
+├── [[.personas/research-bank]] P8.1–P8.5               (eşik — VERIFIED)
+├── [[.personas/research-bank]] P5.2                    (WCAG kriter numaraları)
+├── [[.personas/methodology]] §2.2, §3.3, §3.4          (seviye, emülasyon, eşik kullanımı)
+├── [[.personas/test-scenarios-mapping]] §4.2–§4.8      (grup × senaryo, ortak katman)
+├── [[.personas/mood-taxonomy]] §2                      (mood adları — burada ad taşınır)
+└── [[.decisions/accepted/ADR-023-persona-driven-testing]] satır 17        (eşleme + coverage gate)
 ```
 
 ### §3.1 Test Blokları (BNV-001 → BNV-011)
@@ -126,7 +126,7 @@ Bu dosya, CoreMusic'in **tarayıcı navigasyonu test senaryosudur**: sayfa yükl
 | BNV-010 | Yetişkin Kullanıcı Testleri | Çoklu oturum, ayarlar derin navigasyon, geri bildirim | 3.2.6 · 2.4.7 |
 | BNV-011 | Erişilebilirlik Hızlı Kontrolü | Klavye ile tam rota, odak görünürlüğü, odak gizlenmesi | 2.4.7 · 2.4.11 · 2.5.7 |
 
-> ADR-023 satır 17 eşlemesi: `[[personas/test-scenarios-mapping]]` §4.2-S1..S6 kapsamının navigasyon yüzeyi.
+> ADR-023 satır 17 eşlemesi: `[[.personas/test-scenarios-mapping]]` §4.2-S1..S6 kapsamının navigasyon yüzeyi.
 
 #### §3.1.1 Blok Detayları (Açıklama — Başarı Kriteri)
 
@@ -150,7 +150,7 @@ Bu dosya, CoreMusic'in **tarayıcı navigasyonu test senaryosudur**: sayfa yükl
 
 **BNV-010 — Yetişkin:** Derin ayarlar hiyerarşisi, breadcrumb/geri davranışı, çoklu oturum. Başarı: 3 seviyeden derin rota tek adımda geri dönülebilir; yardım konumu sabit (3.2.6).
 
-**BNV-011 — A11y Hızlı Kontrol:** Klavye ile tam rota turlanır; odak her adımda görünür (2.4.7), odak hiçbir yerde sticky alt bilgi altında gizlenmez (2.4.11), sürükleme gereken her öğenin klavye alternatifi vardır (2.5.7). Derin denetim → `[[personas/test-senaryolari/a11y-erisilebilirlik]]`.
+**BNV-011 — A11y Hızlı Kontrol:** Klavye ile tam rota turlanır; odak her adımda görünür (2.4.7), odak hiçbir yerde sticky alt bilgi altında gizlenmez (2.4.11), sürükleme gereken her öğenin klavye alternatifi vardır (2.5.7). Derin denetim → `[[.personas/test-senaryolari/a11y-erisilebilirlik]]`.
 
 #### §3.1.2 Edge Case'ler
 
@@ -180,7 +180,7 @@ Bu dosya, CoreMusic'in **tarayıcı navigasyonu test senaryosudur**: sayfa yükl
 
 > P5.5 kuralı: bu tabloda olmayan kriter numaraları (ör. 2.4.3 Focus Order, 1.4.5, 2.2.1) bu dosyada kullanılırsa `⚠️ VERIFICATION REQUIRED` olarak işaretlenir.
 
-### §3.3 Persona / Mood Eşlemesi (`[[personas/test-scenarios-mapping]]`)
+### §3.3 Persona / Mood Eşlemesi (`[[.personas/test-scenarios-mapping]]`)
 
 | Grup (n) | Bu senaryoda beklenen navigasyon davranışı | Kısıt |
 |---|---|---|
@@ -191,7 +191,7 @@ Bu dosya, CoreMusic'in **tarayıcı navigasyonu test senaryosudur**: sayfa yükl
 | Yetişkin kadın (5) | Derin ayarlar navigasyonu, breadcrumb bekler | S6 mesaj ❌ / akış ❌ |
 | Yetişkin erkek (5) | Çoklu oturum, sekme arası tutarlılık | S6 kısıtlı `⚠️` |
 
-Mood notu (taşınan adlar → `[[personas/mood-taxonomy]]`): Melankolik → gece modu tercihi navigasyona dâhil mi? (S5 odaklı); Kaşif → geri dönüş korumazsa filtre kaybı (tipik hata modu).
+Mood notu (taşınan adlar → `[[.personas/mood-taxonomy]]`): Melankolik → gece modu tercihi navigasyona dâhil mi? (S5 odaklı); Kaşif → geri dönüş korumazsa filtre kaybı (tipik hata modu).
 
 ### §3.4 Cihaz / Breakpoint Matrisi (research-bank P8.5 — `VERIFIED`)
 
@@ -284,7 +284,7 @@ Gerçek kimlik/iletişim/anahtar verisi vault'a yazılmaz (`[REDACTED]`); 16 ya�
 PREPARE (§5.2) → EXECUTE (§5.3 adım tablosu + §5.4 kod bloğu) → REPORT (§5.5)
 ```
 
-Seviyeler: 1 AI Rol · 2 Browser MCP · 3 Playwright · 4 Rapor — `[[personas/methodology]]` §2.2.
+Seviyeler: 1 AI Rol · 2 Browser MCP · 3 Playwright · 4 Rapor — `[[.personas/methodology]]` §2.2.
 
 ### §5.2 PREPARE — Hazırlık Adımları
 
@@ -405,7 +405,7 @@ await cdp.send('Network.emulateNetworkConditions', {
 
 ### §6.3 EXCLUDED Listesine Atıf (research-bank §6.4)
 
-Eski vault'tan devralınan iddialar (indirilebilirlik 41 vs 39, kapsam sayıları vb.) bu senaryoda **kullanılmaz**; araştırma §6.4'te `EXCLUDED` ise burada da atlanır. Sayım iddiaları: `[[personas/test-scenarios-mapping]]` §5.3 uyarısınca `⚠️ VERIFICATION REQUIRED`.
+Eski vault'tan devralınan iddialar (indirilebilirlik 41 vs 39, kapsam sayıları vb.) bu senaryoda **kullanılmaz**; araştırma §6.4'te `EXCLUDED` ise burada da atlanır. Sayım iddiaları: `[[.personas/test-scenarios-mapping]]` §5.3 uyarısınca `⚠️ VERIFICATION REQUIRED`.
 
 ### §6.4 Quality Report (Bu Dosyanın Kendisi)
 
@@ -494,13 +494,13 @@ Eski vault'tan devralınan iddialar (indirilebilirlik 41 vs 39, kapsam sayılar�
 
 | Bağlantı | Rol |
 |----------|-----|
-| [[personas/index]] | Persona ana indeksi |
-| [[personas/methodology]] | Test metodolojisi (seviye, akış) |
-| [[personas/research-bank]] | P5/P6/P8 eşik kaynağı |
-| [[personas/test-scenarios-mapping]] | Grup × senaryo matrisi |
-| [[personas/persona-template]] | Persona alan şablonu |
-| [[ADR-023-persona-driven-testing]] | Karar + coverage gate |
-| [[personas/test-senaryolari/a11y-erisilebilirlik]] | Kardeş senaryo (a11y derinliği) |
+| [[.personas/index]] | Persona ana indeksi |
+| [[.personas/methodology]] | Test metodolojisi (seviye, akış) |
+| [[.personas/research-bank]] | P5/P6/P8 eşik kaynağı |
+| [[.personas/test-scenarios-mapping]] | Grup × senaryo matrisi |
+| [[.templates/personas/persona-template]] | Persona alan şablonu |
+| [[.decisions/accepted/ADR-023-persona-driven-testing]] | Karar + coverage gate |
+| [[.personas/test-senaryolari/a11y-erisilebilirlik]] | Kardeş senaryo (a11y derinliği) |
 
 ### §7.2 Değişiklik Geçmişi (append-only)
 

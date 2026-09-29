@@ -22,12 +22,12 @@ Bu dosya, CoreMusic persona sisteminde kullanılan **mood kümelerinin tam sın�
 |------|-------|
 | Doküman tipi | `reference` — mood taksonomisi (persona-template §3.5.4'ün tek kaynağı) |
 | Küme sayısı | **25 benzersiz** (10 temel + 8 rol + 7 arabesk/dans türevi) |
-| Grup kapsamı | 6 grup / 68 persona (→ [[index]] §2.1) |
+| Grup kapsamı | 6 grup / 68 persona (→ [[.personas/index]] §2.1) |
 | Hedef kitle | QA Engineer (test odağı), UI Designer (renk/tema/animasyon), UX Researcher |
-| Karar bağı | [[../.decisions/accepted/ADR-023-persona-driven-testing]] §2.2a (20 persona matrisi) — mood adları ADR ile uyumlu |
+| Karar bağı | [[.decisions/accepted/ADR-023-persona-driven-testing]] §2.2a (20 persona matrisi) — mood adları ADR ile uyumlu |
 | Eski kaynak | `.ai/personas/mood-taxonomy.md` (salt-okunur, 2026-06-02, 10 temel mood + eşleştirme matrisi) |
 | Genişleme kaynağı | Eski `personas/index.md` §Yeni Persona'lar + §Mood Taksonomisi (8 arabesk/dans mood, 2026-06-03) |
-| Zorunlu kardeş | [[index]] (katalog) · [[test-scenarios-mapping]] (senaryo eşlemesi) · [[research-bank]] 🔄 (kaynak bankası) |
+| Zorunlu kardeş | [[.personas/index]] (katalog) · [[.personas/test-scenarios-mapping]] (senaryo eşlemesi) · [[.personas/research-bank]] 🔄 (kaynak bankası) |
 
 ### §1.1 Bu Dosya Ne İçin — Ne İçin Değil
 
@@ -35,16 +35,16 @@ Bu dosya, CoreMusic persona sisteminde kullanılan **mood kümelerinin tam sın�
 |---------|-------------|----------------------|
 | Mood küme adı + tanım + test etkisi | ✅ Bu dosya | — |
 | Mood–müzik türü eşleştirme matrisi | ✅ Bu dosya (§3.4) | — |
-| 68 persona'nın hangi mood'da olduğu | [[index]] §6.3 | ❌ |
-| Persona × senaryo × cihaz eşlemesi | [[test-scenarios-mapping]] | ❌ |
-| BPM/renk/sanatçı iddialarının kaynağı | [[research-bank]] 🔄 | ❌ |
-| Persona üretme iskeleti | [[../.templates/personas/persona-template]] | ❌ |
+| 68 persona'nın hangi mood'da olduğu | [[.personas/index]] §6.3 | ❌ |
+| Persona × senaryo × cihaz eşlemesi | [[.personas/test-scenarios-mapping]] | ❌ |
+| BPM/renk/sanatçı iddialarının kaynağı | [[.personas/research-bank]] 🔄 | ❌ |
+| Persona üretme iskeleti | [[.templates/personas/persona-template]] | ❌ |
 
-**Ayırıcı test:** "Bir mood adı mı arıyorsun?" → bu dosya. "Bu mood hangi senaryoda test ediliyor?" → [[test-scenarios-mapping]]. "Bu iddia doğru mu?" → [[research-bank]] + `⚠️ VERIFICATION REQUIRED`.
+**Ayırıcı test:** "Bir mood adı mı arıyorsun?" → bu dosya. "Bu mood hangi senaryoda test ediliyor?" → [[.personas/test-scenarios-mapping]]. "Bu iddia doğru mu?" → [[.personas/research-bank]] + `⚠️ VERIFICATION REQUIRED`.
 
 ### §1.2 Genel Kaynak Uyarısı (TÜM BU DOSYA İÇİN GEÇERLİ)
 
-> ⚠️ **VERIFICATION REQUIRED — toplu etiket:** Bu dosyadaki **BPM aralıkları, müzik türleri tercih sıralaması ve mood↔Big Five eşlemeleri** gerçek-dünya iddiasıdır ve **iki bağımsız kaynakla doğrulanmamıştır**. Eski vault taksonomisinden alınmış, yeniden sınıflandırılmıştır. Doğrulama ⇒ `[[research-bank]]` (başka ajan yazıyor — bu oturumda dokunulmaz). Persona dosyasına mood küme adı **ad** olarak taşınabilir (kurgusal tasarım kararı); **BPM/tür/kişilik iddiası** taşınırken §4.5 etiketi zorunludur.
+> ⚠️ **VERIFICATION REQUIRED — toplu etiket:** Bu dosyadaki **BPM aralıkları, müzik türleri tercih sıralaması ve mood↔Big Five eşlemeleri** gerçek-dünya iddiasıdır ve **iki bağımsız kaynakla doğrulanmamıştır**. Eski vault taksonomisinden alınmış, yeniden sınıflandırılmıştır. Doğrulama ⇒ `[[.personas/research-bank]]` (başka ajan yazıyor — bu oturumda dokunulmaz). Persona dosyasına mood küme adı **ad** olarak taşınabilir (kurgusal tasarım kararı); **BPM/tür/kişilik iddiası** taşınırken §4.5 etiketi zorunludur.
 
 ---
 
@@ -55,10 +55,10 @@ Bu dosya, CoreMusic persona sisteminde kullanılan **mood kümelerinin tam sın�
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
 | 25 mood kümesinin tanımı, Big Five eğilimi, test etkisi (§3.2-§3.4) | Persona dosyalarının içeriği (→ persona-template ile üretilir) |
-| 6 grup × mood dağılımı (§2.2) | 68 persona'nın mood ataması (→ [[index]] §6.3) |
-| Mood–müzik türü eşleştirme matrisi (§3.5) | Test senaryosu adımları (→ [[test-scenarios-mapping]]) |
+| 6 grup × mood dağılımı (§2.2) | 68 persona'nın mood ataması (→ [[.personas/index]] §6.3) |
+| Mood–müzik türü eşleştirme matrisi (§3.5) | Test senaryosu adımları (→ [[.personas/test-scenarios-mapping]]) |
 | ADR-023 20 persona matrisiyle mood uyumu (§3.6) | Karar metni/şartlar (→ ADR-023) |
-| Küme adı kullanım kuralları (§4) | Gerçek-dünya doğrulama kaynakları (→ [[research-bank]] 🔄) |
+| Küme adı kullanım kuralları (§4) | Gerçek-dünya doğrulama kaynakları (→ [[.personas/research-bank]] 🔄) |
 
 *Alt konular:* küme katalogları (temel/rol/türev) → grup eşlemesi → müzik matrisi → ADR uyumu → kurallar → workflow → doğrulama → referanslar.
 
@@ -111,7 +111,7 @@ Bu dosya, CoreMusic persona sisteminde kullanılan **mood kümelerinin tam sın�
 | Yetişkin Erkek (25-45) | Rol | Baba | 1 (Emre) |
 | **Yetişkin Erkek toplam** | | | **5** |
 
-**Sayım kontrolü:** 17 + 12 + 17 + 12 + 5 + 5 = **68** ✅ (dosya bazlı çapraz kontrol: [[index]] §6.3).
+**Sayım kontrolü:** 17 + 12 + 17 + 12 + 5 + 5 = **68** ✅ (dosya bazlı çapraz kontrol: [[.personas/index]] §6.3).
 
 > **Not (yetişkin erkek #66):** Ahmet Çelik'in mood'u eski eşlemede **Hip-Hop**, dosya adı `ahmet-celik-hiphop.md` — yukarıda kategori sütunu "Temel/Profesyonel" satırıyla karışmaması için §3.3 Rol kataloğunda **Hip-Hop** olarak işlenmiştir; eski grup tablosunda yetişkin erkek "Profesyonel" mood'u yalnız **hiçbir dosyada yoktur** (eski index'te tanımlı ama atamasız) → ⚠️ VERIFICATION REQUIRED ( Vault Steward onayı: Profesyonel mood'u yetişkin erkekte kullanılmıyor).
 
@@ -316,7 +316,7 @@ Sembol: `●●●` = Birincil · `●●` = Güçlü · `●` = Orta · `○` =
 | Arabesk Melankolik | ●●● | - | - | ○ | ● |
 | Dans Enerjik | - | - | ●●● | ●● | - |
 
-*(Bu ek matris türetilmiştir — kurgusal tasarım kararı; doğrulama ⇒ `[[research-bank]]` ⚠️ §1.2.)*
+*(Bu ek matris türetilmiştir — kurgusal tasarım kararı; doğrulama ⇒ `[[.personas/research-bank]]` ⚠️ §1.2.)*
 
 ### §3.6 ADR-023 20 Persona Matrisiyle Mood Uyumu
 
@@ -368,7 +368,7 @@ ADR-023 §2.2a satır bazlı eşleşme (mood adları bu taksonomidendir):
 | Şablon okundu ama çelişiyor | DUR → `[[CLAUDE.md]]` §2.1 SSOT öncelik sırası |
 | Vault erişilemiyor | `⚠️ VERIFICATION REQUIRED` → yazım durdurulur, kullanıcıya sor |
 
-*Bu dosya `[[.templates/documentation/docs-md-template]]` iskeletiyle üretilmiştir; persona-domaini kuralları `[[../.templates/personas/persona-template]]` §3.5.4/§4.5 ile uyumludur.*
+*Bu dosya `[[.templates/documentation/docs-md-template]]` iskeletiyle üretilmiştir; persona-domaini kuralları `[[.templates/personas/persona-template]]` §3.5.4/§4.5 ile uyumludur.*
 
 ### §4.1 Bağlayıcı Kurallar
 
@@ -376,21 +376,21 @@ ADR-023 §2.2a satır bazlı eşleşme (mood adları bu taksonomidendir):
 |---|-------|----------|--------------|
 | 1 | Guardrail #16 — Template Mandatory | Dosya şablondan üretilir | Dosya geçersiz, revert |
 | 2 | **Küme adı tek kaynaktan** | Persona "Birincil/İkincil küme" alanı yalnız bu §3'ten alınır | Uydurma ad → dosya revert, log ERROR |
-| 3 | Kaynak etiketleme (ADR-005) | BPM/tür/kişilik iddiası → `⚠️ VERIFICATION REQUIRED` + `[[research-bank]]` | Etiketsiz iddia silinir |
+| 3 | Kaynak etiketleme (ADR-005) | BPM/tür/kişilik iddiası → `⚠️ VERIFICATION REQUIRED` + `[[.personas/research-bank]]` | Etiketsiz iddia silinir |
 | 4 | ADR-023 uyumu | Mood adları 20 satırlık matristeki adlarla birebir (§3.6) | Çelişki → DUR, Vault Steward |
 | 5 | In-Place | Küme adları yeniden adlandırılmaz; eski ad korunur | Dosya geri yüklenir |
 | 6 | Derinlik 500+ | Bu dosya ≥ 500 satır (`verify` → `lines`) | Tamamlanmış sayılmaz |
 | 7 | Dil / mojibake | Türkçe; `Ã-`/U+FFFD yasak; tek yazma arayüzü `vault-utf8-writer` | `repair` ile onarılır |
 | 8 | Kullanılmayan küme silinmez | Nostaljik atamasız ama korunur | Silme yasak (bilgi korunumu) |
-| 9 | Append-only log | Değişiklikler `[[../log.md]]`'ye eklenir | Geçmiş satır değişmez |
+| 9 | Append-only log | Değişiklikler `[[log]]`'ye eklenir | Geçmiş satır değişmez |
 | 10 | `research-bank.md` mülkiyeti | Başka ajan — bu oturumda dokunulmaz | Eşzamanlı yazım → handover |
 
 ### §4.2 Yasak / Doğru Tablosu
 
 | ✅ Yasak | ✅ Doğru |
 |---------|---------|
-| Persona dosyasında uydurma mood adı ("enerjik-sevimli") | `[[index]]`/bu dosya §3'teki ad ("Enerjik") |
-| BPM iddiasını kaynaksız yazmak | `⚠️ VERIFICATION REQUIRED` + `[[research-bank]]` pointer'ı |
+| Persona dosyasında uydurma mood adı ("enerjik-sevimli") | `[[.personas/index]]`/bu dosya §3'teki ad ("Enerjik") |
+| BPM iddiasını kaynaksız yazmak | `⚠️ VERIFICATION REQUIRED` + `[[.personas/research-bank]]` pointer'ı |
 | Mood–Big Five eşleşmesini "bilimsel kanıt" gibi sunmak | "kurgusal persona önermesi" etiketi (§3.2 başlıkları) |
 | Nostaljik kümesini "kullanılmıyor" diye silmek | Korunur; atama tablosunda `- (kullanılmayan)` yazılır |
 | ADR-023 matrisine 21. satır eklemek | Yeni persona/satır = yeni ADR (ADR-088+) |
@@ -400,10 +400,10 @@ ADR-023 §2.2a satır bazlı eşleşme (mood adları bu taksonomidendir):
 
 | ✅ Doğru | ❌ Yanlış |
 |----------|-----------|
-| `[[index]]` | `[katalog](index.md)` |
-| `[[test-scenarios-mapping]]` | `[eşleme](C:\...\test-scenarios-mapping.md)` |
-| `[[../.decisions/accepted/ADR-023-persona-driven-testing]]` | `https://iç-sistem/adr-023` |
-| `[[research-bank]]` | `[[personas/research-bank.md]]` (uzantılı) |
+| `[[.personas/index]]` | `[katalog](index.md)` |
+| `[[.personas/test-scenarios-mapping]]` | `[eşleme](C:\...\test-scenarios-mapping.md)` |
+| `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | `https://iç-sistem/adr-023` |
+| `[[.personas/research-bank]]` | `[[.personas/research-bank]]` (uzantılı) |
 
 ### §4.4 Derinlik Standardı (500+)
 
@@ -418,7 +418,7 @@ ADR-023 §2.2a satır bazlı eşleşme (mood adları bu taksonomidendir):
 
 | Durum | Aksiyon |
 |-------|---------|
-| BPM / müzik türü / sanatçı iddiası | `⚠️ VERIFICATION REQUIRED` + `[[research-bank]]` (≥2 kaynak beklenir) |
+| BPM / müzik türü / sanatçı iddiası | `⚠️ VERIFICATION REQUIRED` + `[[.personas/research-bank]]` (≥2 kaynak beklenir) |
 | Mood↔Big Five eşlemesi | `kurgusal persona önermesi` etiketi; "kanıt" gibi sunulmaz |
 | WCAG kriter numarası (1.4.3, 2.5.8 …) | Gerçek-dünya → 2 kaynak veya `⚠️` + research-bank |
 | 18 yaş altı persona (29 çocuk + 29 teen) | Kurgusal; gerçek çocuk verisi asla (KVKK — ⚠️ mevzuat iddiası research-bank'te) |
@@ -434,7 +434,7 @@ ADR-023 §2.2a satır bazlı eşleşme (mood adları bu taksonomidendir):
 |------|---------|-------|------|
 | 1 | Bu dosyanın §3'ünü oku (küme adları + kategoriler) | Geçerli ad listesi | 3 dk |
 | 2 | Persona için birincil + ikincil kümeyi seç (grup uyumu §2.2) | 2 küme adı | 2 dk |
-| 3 | Test etkisi satırını `[[test-scenarios-mapping]]` ile çaprazla | Eşleşen senaryo | 5 dk |
+| 3 | Test etkisi satırını `[[.personas/test-scenarios-mapping]]` ile çaprazla | Eşleşen senaryo | 5 dk |
 | 4 | BPM/tür/kişilik satırını persona dosyasına taşırken §4.5 etiketini yaz | Etiketli veri | 5 dk |
 | 5 | ADR-023 §3.6 satırıyla uyumu doğrula (yeni satır yok!) | Uyum onayı | 2 dk |
 | 6 | `vault-utf8-writer verify --file` → ≥500, mojibake 0 | UTF-8 raporu | <1 dk |
@@ -449,7 +449,7 @@ ADR-023 §2.2a satır bazlı eşleşme (mood adları bu taksonomidendir):
 | Hata | Belirti | Düzeltme |
 |------|---------|----------|
 | Uydurma küme adı | persona-template §3.5.4 doğrulaması düşer | Adı bu §3'ten al; yoksa `⚠️ VERIFICATION REQUIRED` |
-| Sayım uyuşmazlığı | §2.2 grup toplamı ≠ 68 | [[index]] §6.3 ile karşılaştır → `log.md` |
+| Sayım uyuşmazlığı | §2.2 grup toplamı ≠ 68 | [[.personas/index]] §6.3 ile karşılaştır → `log.md` |
 | Mood–matris çelişkisi | ADR-023 satırı farklı ad taşıyor | DUR → Vault Steward (frozen değil ama aktif karar) |
 | Mojibake | `verify.mojibake > 0` | `vault-utf8-writer repair` |
 | Kırık wiki-link | Hedef yok | §7.1'de `📋` işaretle + `log.md` |
@@ -478,7 +478,7 @@ ADR-023 §2.2a satır bazlı eşleşme (mood adları bu taksonomidendir):
 - [ ] §2.2 grup toplamları **17/12/17/12/5/5 = 68**
 - [ ] §3.6 ADR-023 20 satır ile mood eşleşmesi tam (1-20)
 - [ ] §3.5 müzik matrisi 10 temel mood + 15 kategori B/C ek satırı
-- [ ] Her gerçek-dünya iddiası `⚠️ VERIFICATION REQUIRED` + `[[research-bank]]` (§1.2 toplu etiket + satır içi)
+- [ ] Her gerçek-dünya iddiası `⚠️ VERIFICATION REQUIRED` + `[[.personas/research-bank]]` (§1.2 toplu etiket + satır içi)
 - [ ] Dosya ≥ 500 satır (`verify` → `lines`)
 - [ ] Mojibake yok, BOM yok
 - [ ] `research-bank.md`'ye dokunulmadı
@@ -504,7 +504,7 @@ ADR-023 §2.2a satır bazlı eşleşme (mood adları bu taksonomidendir):
 | 2 | Nostaljik kullanılmıyor | Korunuyor; onay bekliyor |
 | 3 | Yetişkin erkek "Profesyonel" mood'u atamasız | §2.2 notu — ⚠️ Vault Steward |
 | 4 | Eski taksonomide 10 mood; bu dosyada 25 (genişleme) | Eski dosya salt-okunur kaldı — bilgi korunumu |
-| 5 | `methodology.md` (Level 1/2/3) diskte yok | 📋 planlanan — [[index]] §3.2 |
+| 5 | `methodology.md` (Level 1/2/3) diskte yok | 📋 planlanan — [[.personas/index]] §3.2 |
 
 ---
 
@@ -519,14 +519,14 @@ ADR-023 §2.2a satır bazlı eşleşme (mood adları bu taksonomidendir):
 | `[[WORKFLOW.md]]` | Süreçler | ✅ `.ai/WORKFLOW.md` |
 | `[[.templates/index]]` | Şablon registry'si | ✅ `.ai/.templates/index.md` |
 | `[[.templates/documentation/docs-md-template]]` | Yapısal anahtar (8-bölüm) | ✅ `.ai/.templates/documentation/docs-md-template.md` |
-| `[[../.templates/personas/persona-template]]` | Persona şablonu — §3.5.4 küme kuralı | ✅ `.ai/.templates/personas/persona-template.md` |
-| `[[index]]` | Persona kataloğu (68/6 grup) | ✅ `.ai/.personas/index.md` |
-| `[[test-scenarios-mapping]]` | Persona × senaryo eşlemesi | ✅ `.ai/.personas/test-scenarios-mapping.md` |
-| `[[research-bank]]` | Gerçek-dünya kaynak bankası | 🔄 **BAŞKA AJAN YAZIYOR** — `.ai/.personas/research-bank.md` (dokunulmaz) |
-| `[[../.decisions/accepted/ADR-023-persona-driven-testing]]` | 20 persona test matrisi + şart 1c | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
-| `[[../index]]` | Master katalog §12 | ✅ `.ai/index.md` |
-| `[[../log.md]]` | Audit trail | ✅ `.ai/log.md` |
-| `[[personas/methodology]]` | Test seviyeleri | 📋 planlanan — `.ai/.personas/methodology.md` |
+| `[[.templates/personas/persona-template]]` | Persona şablonu — §3.5.4 küme kuralı | ✅ `.ai/.templates/personas/persona-template.md` |
+| `[[.personas/index]]` | Persona kataloğu (68/6 grup) | ✅ `.ai/.personas/index.md` |
+| `[[.personas/test-scenarios-mapping]]` | Persona × senaryo eşlemesi | ✅ `.ai/.personas/test-scenarios-mapping.md` |
+| `[[.personas/research-bank]]` | Gerçek-dünya kaynak bankası | 🔄 **BAŞKA AJAN YAZIYOR** — `.ai/.personas/research-bank.md` (dokunulmaz) |
+| `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | 20 persona test matrisi + şart 1c | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
+| `[[.personas/index]]` | Master katalog §12 | ✅ `.ai/index.md` |
+| `[[log]]` | Audit trail | ✅ `.ai/log.md` |
+| `[[.personas/methodology]]` | Test seviyeleri | 📋 planlanan — `.ai/.personas/methodology.md` |
 
 ### §7.2 Değişiklik Geçmişi (append-only)
 

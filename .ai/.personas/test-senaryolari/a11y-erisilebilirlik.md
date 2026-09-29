@@ -10,7 +10,7 @@ updated: 2026-09-26
 
 # CoreMusic — Test Senaryosu: Erişilebilirlik (A11Y)
 
-**Zorunlu Bağlantılar:** [[personas/index]] · [[personas/methodology]] · [[personas/research-bank]] · [[personas/test-scenarios-mapping]] · [[personas/persona-template]] · [[ADR-023-persona-driven-testing]] · [[personas/test-senaryolari/a11y-erisilebilirlik]]
+**Zorunlu Bağlantılar:** [[.personas/index]] · [[.personas/methodology]] · [[.personas/research-bank]] · [[.personas/test-scenarios-mapping]] · [[.templates/personas/persona-template]] · [[.decisions/accepted/ADR-023-persona-driven-testing]] · [[.personas/test-senaryolari/a11y-erisilebilirlik]]
 
 ---
 
@@ -22,8 +22,8 @@ updated: 2026-09-26
 | Hedef Kitle | QA Engineer (persona-test), UI Designer (a11y), Vault Steward (denetim) |
 | Yapı | H1 + Zorunlu Bağlantılar + §1 Amaç → §7 Referanslar (7 bölüm + 7 alanlı frontmatter) |
 | ADR-023 Karşılığı | 20 persona matrisi **satır 15 — Erişilebilirlik kişisi** (§2.2a; kaynak: eski vault `test-senaryolari/a11y-erisilebilirlik.md`) |
-| Test Seviyeleri | Seviye 1 AI Rol · Seviye 2 Browser MCP · Seviye 3 Playwright · Seviye 4 Rapor (`[[personas/methodology]]` §2.2) |
-| Eşik Kaynağı | `[[personas/research-bank]]` **P5 (WCAG 2.2 AA — 13 satır `VERIFIED`)** + **P8 (Test Metodolojisi — 11 satır `VERIFIED`)** |
+| Test Seviyeleri | Seviye 1 AI Rol · Seviye 2 Browser MCP · Seviye 3 Playwright · Seviye 4 Rapor (`[[.personas/methodology]]` §2.2) |
+| Eşik Kaynağı | `[[.personas/research-bank]]` **P5 (WCAG 2.2 AA — 13 satır `VERIFIED`)** + **P8 (Test Metodolojisi — 11 satır `VERIFIED`)** |
 | WCAG Kapsamı | P5.2'deki **10 AA kriteri** — bu senaryoda her AA kriteri için ayrı satır vardır |
 | Adım Sayısı | **20** (asgari 10 — §5.3) |
 | Zorunlu Blok | §4.0 Şablon-Önce Kural Bloğu (silinemez) |
@@ -38,12 +38,12 @@ updated: 2026-09-26
 
 ## §1 Amaç
 
-Bu dosya, CoreMusic'in **erişilebilirlik test senaryosudur**: WCAG 2.2 AA kriterlerinin (kontrast, odak görünürlüğü, hedef boyutu, sürükleme, erişilebilir kimlik doğrulama) hangi adımlarla, hangi metriklerle ve hangi persona gruplarına göre test edileceğini tanımlar. Eski vault'taki 785 satırlık senaryo **kopyalanmamış**; iskelet alınıp `[[personas/research-bank]]` P5/P8 eşikleriyle **yeniden doğrulanarak** genişletilmiştir (ADR-005 Zero Hallucination).
+Bu dosya, CoreMusic'in **erişilebilirlik test senaryosudur**: WCAG 2.2 AA kriterlerinin (kontrast, odak görünürlüğü, hedef boyutu, sürükleme, erişilebilir kimlik doğrulama) hangi adımlarla, hangi metriklerle ve hangi persona gruplarına göre test edileceğini tanımlar. Eski vault'taki 785 satırlık senaryo **kopyalanmamış**; iskelet alınıp `[[.personas/research-bank]]` P5/P8 eşikleriyle **yeniden doğrulanarak** genişletilmiştir (ADR-005 Zero Hallucination).
 
 | Boyut | Değer |
 |-------|-------|
 | Ne taşır | A11Y test blokları, ≥10 adımlık adım tablosu (Adım · Eylem · Beklenen · Doğrulama · Metrik · WCAG), AA kriter karşılıkları, persona/mood eşlemesi, KVKK çocuk adımı |
-| Ne taşımaz | WCAG kriter tanımlarının kaynağı (→ `[[personas/research-bank]]` P5), test seviyesi/akışı (→ `[[personas/methodology]]`), senaryo × grup matrisi (→ `[[personas/test-scenarios-mapping]]`), karar (→ `[[ADR-023-persona-driven-testing]]`) |
+| Ne taşımaz | WCAG kriter tanımlarının kaynağı (→ `[[.personas/research-bank]]` P5), test seviyesi/akışı (→ `[[.personas/methodology]]`), senaryo × grup matrisi (→ `[[.personas/test-scenarios-mapping]]`), karar (→ `[[.decisions/accepted/ADR-023-persona-driven-testing]]`) |
 | Neden yazıldı | Eski senaryo research-bank'tan **önce** yazılmıştı; eşikler kaynaksızdı → P5/P8 ile yeniden bağlandı |
 | Kim okumalı | A11y audit çalıştıran her ajan (QA Engineer birincil, UI Designer ikincil) |
 | Kanıt zinciri | `research-bank` P5/P8 (eşik) → `persona-template` (alan) → persona dosyası → **bu dosya (senaryo)** → `ADR-023` (gate) |
@@ -53,10 +53,10 @@ Bu dosya, CoreMusic'in **erişilebilirlik test senaryosudur**: WCAG 2.2 AA krite
 | İhtiyaç | Doğru Dosya | Bu Dosya Kullanılmaz |
 |---------|-------------|----------------------|
 | WCAG 2.2 AA test adımları ve kriter karşılıkları | ✅ Bu dosya | — |
-| Kriter numarası/eşiğinin kaynağı | `[[personas/research-bank]]` P5 | ❌ (burada yalnız **taşınır**) |
-| Test seviyesi, PREPARE→EXECUTE→REPORT akışı | `[[personas/methodology]]` | ❌ |
-| Hangi persona grubu hangi senaryoda | `[[personas/test-scenarios-mapping]]` | ❌ |
-| "Coverage %90 / PR gate" kararı | `[[ADR-023-persona-driven-testing]]` | ❌ (burada yalnız başvurulur) |
+| Kriter numarası/eşiğinin kaynağı | `[[.personas/research-bank]]` P5 | ❌ (burada yalnız **taşınır**) |
+| Test seviyesi, PREPARE→EXECUTE→REPORT akışı | `[[.personas/methodology]]` | ❌ |
+| Hangi persona grubu hangi senaryoda | `[[.personas/test-scenarios-mapping]]` | ❌ |
+| "Coverage %90 / PR gate" kararı | `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | ❌ (burada yalnız başvurulur) |
 
 **Ayırıcı test:** "Bu bir test **adımı mı**?" → bu dosya. "Bu bir **eşik/kaynak mı**?" → research-bank. "Bu bir **karar mı**?" → ADR.
 
@@ -68,13 +68,13 @@ Bu dosya, CoreMusic'in **erişilebilirlik test senaryosudur**: WCAG 2.2 AA krite
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
-| WCAG 2.2 AA kriteri başına test adımı (P5.2 onayı) | Kriter numaralarının araştırma süreci (→ `[[personas/research-bank]]` P5) |
-| Klavye · ekran okuyucu · kontrast · hedef boyutu · kimlik doğrulama testleri | Test seviyesi tanımı ve rapor formatı (→ `[[personas/methodology]]`) |
-| Performans eşikleriyle (P8) a11y adımlarının çapraz kontrolü | Persona profili, Big Five, mood tanımları (→ `[[personas/persona-template]]`, `[[personas/mood-taxonomy]]`) |
-| 16 yaş altı (çocuk) senaryolarında KVKK/veli onayı adımı (P6) | Coverage gate'i ve CI iş akışı (→ `[[ADR-023-persona-driven-testing]]`) |
+| WCAG 2.2 AA kriteri başına test adımı (P5.2 onayı) | Kriter numaralarının araştırma süreci (→ `[[.personas/research-bank]]` P5) |
+| Klavye · ekran okuyucu · kontrast · hedef boyutu · kimlik doğrulama testleri | Test seviyesi tanımı ve rapor formatı (→ `[[.personas/methodology]]`) |
+| Performans eşikleriyle (P8) a11y adımlarının çapraz kontrolü | Persona profili, Big Five, mood tanımları (→ `[[.templates/personas/persona-template]]`, `[[.personas/mood-taxonomy]]`) |
+| 16 yaş altı (çocuk) senaryolarında KVKK/veli onayı adımı (P6) | Coverage gate'i ve CI iş akışı (→ `[[.decisions/accepted/ADR-023-persona-driven-testing]]`) |
 
 *Alt konular:* AA kriter matrisi → klavye/odak → ekran okuyucu → kontrast → hedef boyutu → form/kimlik doğrulama → çocuk erişilebilirliği → performans çapraz kontrol → rapor.
-Kapsam dışı için: eşik → `[[personas/research-bank]]`, akış → `[[personas/methodology]]`, karar → `[[ADR-023-persona-driven-testing]]`.
+Kapsam dışı için: eşik → `[[.personas/research-bank]]`, akış → `[[.personas/methodology]]`, karar → `[[.decisions/accepted/ADR-023-persona-driven-testing]]`.
 
 ### §2.2 Hedef Kitle
 
@@ -154,7 +154,7 @@ Bağımlılık: research-bank P5/P8 (eşik) → methodology (seviye) → BU DOSY
 | 3.3.7 | Redundant Entry | A | Hayır |
 | 3.3.8 | Accessible Authentication (Minimum) | AA | **EVET** |
 
-### §3.3 Persona / Mood Eşlemesi (`[[personas/test-scenarios-mapping]]`)
+### §3.3 Persona / Mood Eşlemesi (`[[.personas/test-scenarios-mapping]]`)
 
 | Persona grubu | n | A11Y odağı | Mood örnekleri | Beklenen |
 |---|---|---|---|---|
@@ -165,7 +165,7 @@ Bağımlılık: research-bank P5/P8 (eşik) → methodology (seviye) → BU DOSY
 | Yetişkin kadın | 5 | Form + otomatik doldurma (3.3.8), anne hesabı | Romantik, Enerjik, Melankolik, Profesyonel, Anne | Tam AA turu |
 | Yetişkin erkek | 5 | Form + 2FA erişilebilirliği | Romantik, Enerjik, Melankolik, Profesyonel, Baba | Tam AA turu |
 
-⚠️ **VERIFICATION REQUIRED:** grup persona sayıları `[[personas/test-scenarios-mapping]]` §1.3 ile `[[personas/mood-taxonomy]]` §2.2 arasında farklıdır (genç erkek 12 vs. mood dağılımında 12; kız çocuk yaş aralığı 4-11 vs. 6-11 çelişkisi mapping §1.3'te işaretlidir) → sayı **kaynaksız tek değer yazılmaz**.
+⚠️ **VERIFICATION REQUIRED:** grup persona sayıları `[[.personas/test-scenarios-mapping]]` §1.3 ile `[[.personas/mood-taxonomy]]` §2.2 arasında farklıdır (genç erkek 12 vs. mood dağılımında 12; kız çocuk yaş aralığı 4-11 vs. 6-11 çelişkisi mapping §1.3'te işaretlidir) → sayı **kaynaksız tek değer yazılmaz**.
 
 ### §3.4 Cihaz / Breakpoint Matrisi (research-bank P8.5 — `VERIFIED`)
 
@@ -188,7 +188,7 @@ Bağımlılık: research-bank P5/P8 (eşik) → methodology (seviye) → BU DOSY
 | Viewport override | `page.setViewportSize()` |
 | CDP ağ emülasyonu | `Network.emulateNetworkConditions` — `downloadThroughput: 500*1024/8`, `uploadThroughput` aynı, `latency: 400` |
 | Çevrimdışı | `use: { offline: true }` |
-| Geolocation emülasyon API'si | **`⚠️ VERIFICATION REQUIRED`** (P8'de yok — `[[personas/methodology]]` §3.3.4) |
+| Geolocation emülasyon API'si | **`⚠️ VERIFICATION REQUIRED`** (P8'de yok — `[[.personas/methodology]]` §3.3.4) |
 
 ---
 
@@ -208,7 +208,7 @@ Bağımlılık: research-bank P5/P8 (eşik) → methodology (seviye) → BU DOSY
 |-------|---------|
 | `.ai/.templates/` altında ilgili şablon VAR | Şablonu oku → ona göre yaz |
 | Şablon YOK | Standart formata göre yaz + `log.md`'ye "şablon eksiği" kaydı |
-| Şablon okundu ama çelişiyor | DUR → `[[../CLAUDE.md]]` §2.1 SSOT öncelik sırası |
+| Şablon okundu ama çelişiyor | DUR → `[[CLAUDE.md]]` §2.1 SSOT öncelik sırası |
 | Vault erişilemiyor | `⚠️ VERIFICATION REQUIRED` → yazım durdurulur, kullanıcıya sor |
 
 ### §4.1 Bağlayıcı Kurallar
@@ -254,9 +254,9 @@ Bağımlılık: research-bank P5/P8 (eşik) → methodology (seviye) → BU DOSY
 
 | ✅ Doğru | ❌ Yanlış |
 |----------|-----------|
-| `[[personas/research-bank]]` | `[rb](research-bank.md)` |
-| `[[personas/test-senaryolari/a11y-erisilebilirlik]]` | `[a](C:\www\coremusic.net\.ai\...a11y.md)` |
-| `[[ADR-023-persona-driven-testing]]` | `https://iç-sistem/adr-023` |
+| `[[.personas/research-bank]]` | `[rb](research-bank.md)` |
+| `[[.personas/test-senaryolari/a11y-erisilebilirlik]]` | `[a](C:\www\coremusic.net\.ai\...a11y.md)` |
+| `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | `https://iç-sistem/adr-023` |
 | `[[.templates/index]]` | `[reg](../.templates/index.md)` |
 | Harici URL düz metin (ör. `w3.org/TR/WCAG22/`) | `[[https://w3.org/...]]` (wiki-link yapılmaz) |
 
@@ -320,8 +320,8 @@ OKU (research-bank P5/P8 + methodology + mapping) → PREPARE (P1-P7)
 
 | # | Adım | Kaynak | Çıktı |
 |---|------|--------|-------|
-| P1 | Persona dosyasını oku (11/11 alan) + A11Y / kısıt satırı | `[[personas/persona-template]]` §3.5 | Test girdisi |
-| P2 | Grup + mood satırını al (§3.3) | `[[personas/test-scenarios-mapping]]` §4.4 | Odağı belirlenmiş senaryo |
+| P1 | Persona dosyasını oku (11/11 alan) + A11Y / kısıt satırı | `[[.templates/personas/persona-template]]` §3.5 | Test girdisi |
+| P2 | Grup + mood satırını al (§3.3) | `[[.personas/test-scenarios-mapping]]` §4.4 | Odağı belirlenmiş senaryo |
 | P3 | Breakpoint seç (§3.4) | research-bank P8.5 | Viewport W×H |
 | P4 | Tema seç (light/dark) | persona Cihaz & Teknoloji | `colorScheme` değeri |
 | P5 | Ağ koşulu: 150 ms · 1.6 Mbps / 750 Kbps | research-bank P8.3 | Throttling profili |
@@ -384,7 +384,7 @@ await cdp.send('Network.emulateNetworkConditions', {
 // use: { offline: true }
 ```
 
-> ⚠️ **VERIFICATION REQUIRED:** CDP **geolocation** emülasyon methodunun adı research-bank P8'de yer almıyor → bu adımda API adı **uydurulmaz** (`[[personas/methodology]]` §3.3.4).
+> ⚠️ **VERIFICATION REQUIRED:** CDP **geolocation** emülasyon methodunun adı research-bank P8'de yer almıyor → bu adımda API adı **uydurulmaz** (`[[.personas/methodology]]` §3.3.4).
 
 ### §5.5 REPORT (Seviye 4)
 
@@ -495,14 +495,14 @@ await cdp.send('Network.emulateNetworkConditions', {
 
 | Wiki-link | İlişki | Durum / Gerçek hedef |
 |-----------|--------|----------------------|
-| `[[personas/index]]` | 68 persona / 6 grup kataloğu — senaryonun girdisi | ✅ `.ai/.personas/index.md` |
-| `[[personas/methodology]]` | 4 test seviyesi + PREPARE→EXECUTE→REPORT (§5 akışı kaynağı) | ✅ `.ai/.personas/methodology.md` |
-| `[[personas/research-bank]]` | P5 (WCAG) + P8 (metrik/throttling/breakpoint) eşikleri | ✅ `.ai/.personas/research-bank.md` |
-| `[[personas/test-scenarios-mapping]]` | Senaryo × grup × mood eşlemesi (§3.3 kaynağı) | ✅ `.ai/.personas/test-scenarios-mapping.md` |
-| `[[personas/persona-template]]` | 11 alan + Test Adımları (§5.2 PREPARE kaynağı) | ✅ `.ai/.templates/personas/persona-template.md` |
-| `[[ADR-023-persona-driven-testing]]` | 20 persona matrisi **satır 15** + %90 coverage gate | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
-| `[[personas/test-senaryolari/a11y-erisilebilirlik]]` | Bu dosyanın kendisi (kalıcı bağlantı) | ✅ `.ai/.personas/test-senaryolari/a11y-erisilebilirlik.md` |
-| `[[personas/mood-taxonomy]]` | 25 mood kümesi (§3.3 mood örnekleri kaynağı) | ✅ `.ai/.personas/mood-taxonomy.md` |
+| `[[.personas/index]]` | 68 persona / 6 grup kataloğu — senaryonun girdisi | ✅ `.ai/.personas/index.md` |
+| `[[.personas/methodology]]` | 4 test seviyesi + PREPARE→EXECUTE→REPORT (§5 akışı kaynağı) | ✅ `.ai/.personas/methodology.md` |
+| `[[.personas/research-bank]]` | P5 (WCAG) + P8 (metrik/throttling/breakpoint) eşikleri | ✅ `.ai/.personas/research-bank.md` |
+| `[[.personas/test-scenarios-mapping]]` | Senaryo × grup × mood eşlemesi (§3.3 kaynağı) | ✅ `.ai/.personas/test-scenarios-mapping.md` |
+| `[[.templates/personas/persona-template]]` | 11 alan + Test Adımları (§5.2 PREPARE kaynağı) | ✅ `.ai/.templates/personas/persona-template.md` |
+| `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | 20 persona matrisi **satır 15** + %90 coverage gate | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
+| `[[.personas/test-senaryolari/a11y-erisilebilirlik]]` | Bu dosyanın kendisi (kalıcı bağlantı) | ✅ `.ai/.personas/test-senaryolari/a11y-erisilebilirlik.md` |
+| `[[.personas/mood-taxonomy]]` | 25 mood kümesi (§3.3 mood örnekleri kaynağı) | ✅ `.ai/.personas/mood-taxonomy.md` |
 
 ### §7.2 Değişiklik Geçmişi (append-only)
 

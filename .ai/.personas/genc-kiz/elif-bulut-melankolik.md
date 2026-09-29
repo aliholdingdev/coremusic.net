@@ -15,7 +15,7 @@ veli_onayı_gerekli: false
 
 # CoreMusic — Persona: Elif Bulut
 
-**Zorunlu Bağlantılar:** [[personas/index]] · [[personas/persona-template]] · [[research-bank]] · [[mood-taxonomy]] · [[personas/methodology]] · [[personas/test-scenarios-mapping]] · [[ADR-023-persona-driven-testing]]
+**Zorunlu Bağlantılar:** [[.personas/index]] · [[.templates/personas/persona-template]] · [[.personas/research-bank]] · [[.personas/mood-taxonomy]] · [[.personas/methodology]] · [[.personas/test-scenarios-mapping]] · [[.decisions/accepted/ADR-023-persona-driven-testing]]
 
 ---
 
@@ -23,15 +23,15 @@ veli_onayı_gerekli: false
 
 Bu persona, CoreMusic'te **genc-kiz (13-17 yaş)** segmentini temsil eder; Level 1 (AI rol testi), Level 2 (Browser MCP) ve Level 3 (Playwright E2E) testlerinde 16 yaşındaki bir genç kızın gözünden arayüzü deneyimlemek için kullanılır.
 Hedef kitle: QA Engineer, UI Designer, test otomasyonu.
-Vault bağlantısı: mood → [[mood-taxonomy]] (Melankolik / Moody), veri → [[research-bank]] (P3-P8), metodoloji → [[personas/methodology]], registry → [[personas/index]].
+Vault bağlantısı: mood → [[.personas/mood-taxonomy]] (Melankolik / Moody), veri → [[.personas/research-bank]] (P3-P8), metodoloji → [[.personas/methodology]], registry → [[.personas/index]].
 Bu dosya `persona-template.md` §3.5 alan havuzunun **11/11** alt bölümüyle doldurulmuş hâlidir; her satır §4.5 kaynak etiketi taşır.
 
 | Alan | Değer |
 |------|-------|
 | Segment | genc-kiz (13-17) |
-| Birincil mood | Melankolik ([[personas/index]] §6.3 ataması) |
+| Birincil mood | Melankolik ([[.personas/index]] §6.3 ataması) |
 | Test odağı | Koyu tema varsayılan, minimalist/aralıklı düzen, azaltılmış hareket (migren), niş keşif önerisi, edebi hata metni |
-| Veli onayı | `veli_onayı_gerekli: false` (16 yaş — eşiğin üstü; dayanak §3.1 KVKK notu, `⚠️ DERIVED`, [[research-bank]] P6.4) |
+| Veli onayı | `veli_onayı_gerekli: false` (16 yaş — eşiğin üstü; dayanak §3.1 KVKK notu, `⚠️ DERIVED`, [[.personas/research-bank]] P6.4) |
 
 **Test kapsamı (bu persona ile koşan senaryo aileleri):**
 
@@ -49,8 +49,8 @@ Bu dosya `persona-template.md` §3.5 alan havuzunun **11/11** alt bölümüyle d
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
-| 11 parçalı persona alan havuzu (Kimlik → Kaynak & Doğrulama) | Test başarı metrikleri ve seviye tanımı (→ [[personas/methodology]]) |
-| Kaynak etiketleme (kurgusal / [k1]+[k2] / ⚠️) — research-bank P3-P8 verisi | Test senaryosu envanteri (→ [[personas/test-scenarios-mapping]]) |
+| 11 parçalı persona alan havuzu (Kimlik → Kaynak & Doğrulama) | Test başarı metrikleri ve seviye tanımı (→ [[.personas/methodology]]) |
+| Kaynak etiketleme (kurgusal / [k1]+[k2] / ⚠️) — research-bank P3-P8 verisi | Test senaryosu envanteri (→ [[.personas/test-scenarios-mapping]]) |
 | ≥10 test adımı (Adım / Beklenen / Doğrulama yöntemi) | Karar kaydı (→ ADR; bu dosya ADR üretmez) |
 | AI Rol Kartı (Level 1 prompt'u) | Kod/otomasyon scripti (→ testing/*) |
 
@@ -61,10 +61,10 @@ Kapsam dışı istisnalar: eski vault'taki 40+ satırlık fiziksel detay (makyaj
 
 | Sıra | Dosya | Ne için |
 |------|-------|---------|
-| 1 | [[personas/persona-template]] | Zorunlu iskelet (§3.3 blok, §3.5 alan havuzu) |
-| 2 | [[research-bank]] P3-P8 | Tek gerçek-dünya veri kaynağı + etiket sözlüğü (§4.1) |
-| 3 | [[mood-taxonomy]] §3.2.3 | Küme adı + tanım alıntısı (Melankolik; ikincil §3.2.4 Moody) |
-| 4 | [[personas/index]] §6.3 | Yaş/mood/filename ataması (SSOT) |
+| 1 | [[.templates/personas/persona-template]] | Zorunlu iskelet (§3.3 blok, §3.5 alan havuzu) |
+| 2 | [[.personas/research-bank]] P3-P8 | Tek gerçek-dünya veri kaynağı + etiket sözlüğü (§4.1) |
+| 3 | [[.personas/mood-taxonomy]] §3.2.3 | Küme adı + tanım alıntısı (Melankolik; ikincil §3.2.4 Moody) |
+| 4 | [[.personas/index]] §6.3 | Yaş/mood/filename ataması (SSOT) |
 | 5 | Bu dosya §4-§6 | Kurallar → workflow → doğrulama |
 
 ---
@@ -76,7 +76,7 @@ Kapsam dışı istisnalar: eski vault'taki 40+ satırlık fiziksel detay (makyaj
 | Özellik | Değer | Kaynak |
 |---------|-------|--------|
 | **Ad Soyad** | Elif Bulut | Kaynak: kurgusal (persona verisi) |
-| **Yaş** | 16 | Kaynak: kurgusal (persona verisi; atama: [[personas/index]] §6.3) |
+| **Yaş** | 16 | Kaynak: kurgusal (persona verisi; atama: [[.personas/index]] §6.3) |
 | **Doğum Tarihi** | 5 Eylül 2010 | Kaynak: kurgusal (persona verisi; yaş 16 ile tutarlılık için türetildi — eski kayıt "7 Kasım 2010" 26.09.2026'da 15 yaş yapar, §7.2) |
 | **Cinsiyet** | Kız | Kaynak: kurgusal (persona verisi) |
 | **Şehir / İlçe / Semt** | İzmir / Karşıyaka / Bostanlı | Kaynak: kurgusal (persona verisi) |
@@ -136,17 +136,17 @@ Kapsam dışı istisnalar: eski vault'taki 40+ satırlık fiziksel detay (makyaj
 | Alan | Değer |
 |------|-------|
 | **Birincil küme** | Melankolik |
-| **İkincil küme** | Moody (Değişken) ([[mood-taxonomy]] §3.2.4) |
-| **Küme tanımı (alıntı)** | "Derin dinleyici; şarkı sözü okur, az etkileşim kurar, gece ve yalnız dinler" ([[mood-taxonomy]] §3.2.3) |
+| **İkincil küme** | Moody (Değişken) ([[.personas/mood-taxonomy]] §3.2.4) |
+| **Küme tanımı (alıntı)** | "Derin dinleyici; şarkı sözü okur, az etkileşim kurar, gece ve yalnız dinler" ([[.personas/mood-taxonomy]] §3.2.3) |
 | **Tetikleyici durumlar** | Şiirsel/duygusal öneri kartı ve söz görünümü (yaklaşma); parlak açık tema, ani yüksek kontrast flaş ve yoğun bildirim (geri çekilme) |
-| **UI etkisi** | "Karanlık tema, minimalist, az animasyon"; test etkisi: "Karanlık tema, keşif algoritması, düşük etkileşim; dark/light kontrast (WCAG 1.4.3)" ([[mood-taxonomy]] §3.2.3) |
+| **UI etkisi** | "Karanlık tema, minimalist, az animasyon"; test etkisi: "Karanlık tema, keşif algoritması, düşük etkileşim; dark/light kontrast (WCAG 1.4.3)" ([[.personas/mood-taxonomy]] §3.2.3) |
 | **İkincil küme etkisi** | Moody: "Ruh hâline göre tür değiştiren; geniş BPM aralığında, yüksek skip oranlı dinleyici" → test: "Anlık karar, tür değiştirme (genre switching), öneri doğruluğu; ADR-023 satır 16 (geçersiz mood değeri = error)" (§3.2.4) |
 
 | Kural | Değer |
 |-------|-------|
-| Küme adları | Yalnızca [[mood-taxonomy]] §3 listesinden; uydurma küme adı yazılmaz (taksonomi kuralı) |
-| Atama | Birincil = [[personas/index]] §6.3 (Melankolik); ikincil = eski salt-okunur persona kaynağı (Moody) — §7.2'de kayıtlı |
-| Test etkisi | ADR-023 satır 16 (mood-geçiş) + koyu tema + düşük etkileşim — [[mood-taxonomy]] §3.2.3/§3.2.4 |
+| Küme adları | Yalnızca [[.personas/mood-taxonomy]] §3 listesinden; uydurma küme adı yazılmaz (taksonomi kuralı) |
+| Atama | Birincil = [[.personas/index]] §6.3 (Melankolik); ikincil = eski salt-okunur persona kaynağı (Moody) — §7.2'de kayıtlı |
+| Test etkisi | ADR-023 satır 16 (mood-geçiş) + koyu tema + düşük etkileşim — [[.personas/mood-taxonomy]] §3.2.3/§3.2.4 |
 | Taksonomi BPM notu | §3.2.3 "60-90 BPM" ve §3.2.4 "80-140 BPM" işaretli **kurgusal önermedir** (§1.2); test eşikleri olarak research-bank P4.4 tür aralıkları kullanılır |
 
 **Mood → test beklentisi eşlemesi:**
@@ -209,7 +209,7 @@ Kapsam dışı istisnalar: eski vault'taki 40+ satırlık fiziksel detay (makyaj
 | **OS** | Android 13 (A34 için 4 büyük OS güncellemesi) | Kaynak: GSMArena + Samsung resmi / en.wikipedia.org/wiki/Samsung_Galaxy_A34_5G (P3.3 `VERIFIED (3 kaynak)`) |
 | **Tarayıcı** | Chrome (sürüm kurgusal — P3'te tarayıcı sürümü YOK) | Kaynak: kurgusal (persona verisi); research-bank P3.4 |
 | **İnternet hızı** | 100 Mbps (ev fiber, kurgusal) / mobil veri kurgusal | Kaynak: kurgusal (persona verisi); research-bank P3.4 (hız verisi paket dışı) |
-| **Tema** | **dark (koyu) — varsayılan tercih**; açık tema göz yorar/migren tetikler (kurgusal) | Kaynak: kurgusal (persona verisi); mood: [[mood-taxonomy]] §3.2.3 |
+| **Tema** | **dark (koyu) — varsayılan tercih**; açık tema göz yorar/migren tetikler (kurgusal) | Kaynak: kurgusal (persona verisi); mood: [[.personas/mood-taxonomy]] §3.2.3 |
 | **Ekran süresi / kullanım** | Hafta içi 6-7 sa/gün, hafta sonu 10-12 sa/gün (kurgusal) | Kaynak: kurgusal (persona verisi) |
 | **Teknoloji okuryazarlığı** | 8/10 — kendi blogu için temel HTML/CSS, yazılım/not araçları akıcı | Kaynak: kurgusal (persona verisi) |
 | **Diğer cihazlar (eski dosyadan)** | iPhone 15, MacBook Air M2, Sony WH-1000XM4 (noise cancelling), AirPods — spec'leri bu turda DOĞRULANMADI | `⚠️ VERIFICATION REQUIRED` (research-bank P3.3 / EXCLUDED X-1) — spec sayıları yazılmadı |
@@ -244,12 +244,12 @@ Kapsam dışı istisnalar: eski vault'taki 40+ satırlık fiziksel detay (makyaj
 |----------|-------|--------|
 | **Satın alma davranışı** | Premium'e hazır (%95) — harçlığından öder; anlık harcamaz, araştırıp alır | Kaynak: kurgusal (persona verisi) |
 | **Sabır eşiği** | 5 sn; spinner'a ~10 sn dayanır ama "sistem yavaş" notunu içinden geçirir | Kaynak: kurgusal (persona verisi) |
-| **Hata tepkisi** | Değişikliğe direnç gösterir, eski sürümü arar; hata metni estetik ve suçlayıcı olmamalı | Kaynak: kurgusal (persona verisi); mood: [[mood-taxonomy]] §3.2.3 |
+| **Hata tepkisi** | Değişikliğe direnç gösterir, eski sürümü arar; hata metni estetik ve suçlayıcı olmamalı | Kaynak: kurgusal (persona verisi); mood: [[.personas/mood-taxonomy]] §3.2.3 |
 | **Reklam toleransı** | 0/10 — premium varsayımıyla reklamsız deneyim bekler, ücretsiz sürümde tolerate etmez | Kaynak: kurgusal (persona verisi) |
 | **Öğrenme biçimi** | Metinsel/edebi; uzun açıklamaları okur, adım adım ve net yönlendirme sever | Kaynak: kurgusal (persona verisi) |
 | **Grup davranışı** | Nadiren paylaşır (ayda 1-2, yalnız çok yakın arkadaşa); profil/gizlilik ayarları detaylı | Kaynak: kurgusal (persona verisi) |
 | **Yorgunluk etkisi** | 01:00 sonrası karar vermesi zorlaşır; karmaşık akış ve çoklu pop-up reddedilir | Kaynak: kurgusal (persona verisi) |
-| **Güven tetikleyicisi** | Niş/az bilinen içerik ve edebi detay görünürse keşif davranışı tetiklenir | Kaynak: kurgusal (persona verisi); mood: [[mood-taxonomy]] §3.2.3/§3.2.4 |
+| **Güven tetikleyicisi** | Niş/az bilinen içerik ve edebi detay görünürse keşif davranışı tetiklenir | Kaynak: kurgusal (persona verisi); mood: [[.personas/mood-taxonomy]] §3.2.3/§3.2.4 |
 
 *Erişilebilirlik etkisi (özet):* koyu tema + migren/azaltılmış hareket → kontrast ≥ **4.5:1** (1.4.3) iki temada da test edilir; sürükleme yerine dokunuş (2.5.7) ve hedef ≥ **24×24 CSS px** (2.5.8) — kriterler: `Kaynak: w3.org/TR/WCAG22/ + quickref` (P5.4 VERIFIED).
 
@@ -305,14 +305,14 @@ Davranış notları:
 | 16 | Türkçe karakter içeriği (ç, ğ, ı, İ, ö, ş, ü) | Şarkı/sanatçı adlarında karakter bozulmaz (mojibake yok) | `vault-utf8-writer verify` + ekran görüntüsü |
 | 17 | Odak sırası (klavye/gezinme) | Odak sırası mantıklı; odak görünür (2.4.7); gizli odak yok | Klavye navigasyon testi + DOM assertion |
 
-*Asgari 10 satır (şablon §3.5.10) — 17 satır yazıldı. Her satırda 3 sütun zorunlu: `Adım` · `Beklenen` · `Doğrulama yöntemi`. Seviye karşılıkları: [[personas/methodology]] Level 1 (AI rol) · Level 2 (Browser MCP) · Level 3 (Playwright E2E). Eşik değerleri research-bank P8'den (`VERIFIED`); persona'ya özel eşik yazılmadı (X-10 → `⚠️ DERIVED` gerekir).*
+*Asgari 10 satır (şablon §3.5.10) — 17 satır yazıldı. Her satırda 3 sütun zorunlu: `Adım` · `Beklenen` · `Doğrulama yöntemi`. Seviye karşılıkları: [[.personas/methodology]] Level 1 (AI rol) · Level 2 (Browser MCP) · Level 3 (Playwright E2E). Eşik değerleri research-bank P8'den (`VERIFIED`); persona'ya özel eşik yazılmadı (X-10 → `⚠️ DERIVED` gerekir).*
 
 ### Kaynak & Doğrulama
 
 | # | Alan / İddia | İddia Türü | Kaynak 1 | Kaynak 2 | Etiket |
 |---|--------------|-----------|----------|----------|--------|
 | 1 | Ad, semt, okul, ulaşım, rumuz, aile detayları | Kurgusal persona verisi | — | — | `Kaynak: kurgusal (persona verisi)` |
-| 2 | Yaş (16) ve atama | Kurgusal (index ataması) | [[personas/index]] §6.3 | — | `Kaynak: kurgusal (persona verisi; index §6.3 ataması)` |
+| 2 | Yaş (16) ve atama | Kurgusal (index ataması) | [[.personas/index]] §6.3 | — | `Kaynak: kurgusal (persona verisi; index §6.3 ataması)` |
 | 3 | `veli_onayı_gerekli: false` (16 yaş politika eşiği) | Politika sonucu (türetilmiş) | research-bank P6.3/P6.4 (TMK 18 · COPPA 13 · GDPR 16) | — | `⚠️ DERIVED` + dayanak: P6.4 son satır |
 | 4 | KVKK/yaş karşılaştırması; "KVKK 16 diyor" = YANLIŞ | Gerçek-dünya | dergipark.org.tr (mukayeseli inceleme) | kvkk.gov.tr (Yayın No 84) + mgm.adalet.gov.tr | `Kaynak: [k1] + [k2]` (P6.4 `VERIFIED`) |
 | 5 | Fiziksel özet satırları | Kurgusal persona verisi | — | — | `Kaynak: kurgusal (persona verisi)` |
@@ -322,8 +322,8 @@ Davranış notları:
 | 9 | "IPIP-NEO Türkçe geçerli" iddiası | Doğrulanmadı | research-bank P7.5 / X-9 (yalnız Endonezya örneği) | — | `⚠️ VERIFICATION REQUIRED` — yazılmadı |
 | 10 | Boyut kodu eşlemesi (şablon O/C/E/A ↔ P7.3 tam adları) | Vault içi çelişki | persona-template §3.5.3 + mood-taxonomy §3.2.3 | research-bank P7.3/P7.5 | `⚠️ VERIFICATION REQUIRED` (P7.5: "kod esastır") |
 | 11 | N ekseni yönü: eski "Duygusal Denge 2/10" ↔ N=20 | Vault içi belirsizlik | eski persona dosyası (2/10) | research-bank P7.3 | `⚠️ VERIFICATION REQUIRED` (doğrudan ×10; ters çevrilmedi — §7.2) |
-| 12 | Mood küme adları (Melankolik / Moody) | Vault referanslı atama | [[mood-taxonomy]] §3.2.3 + §3.2.4 | [[personas/index]] §6.3 | `Kaynak: kurgusal (atama); adlar mood-taxonomy §3 listesinden` |
-| 13 | Mood küme tanımları (Melankolik + Moody) | Vault verisi | [[mood-taxonomy]] §3.2.3 | [[mood-taxonomy]] §3.2.4 | `Kaynak: [[mood-taxonomy]] (vault verisi)` |
+| 12 | Mood küme adları (Melankolik / Moody) | Vault referanslı atama | [[.personas/mood-taxonomy]] §3.2.3 + §3.2.4 | [[.personas/index]] §6.3 | `Kaynak: kurgusal (atama); adlar mood-taxonomy §3 listesinden` |
+| 13 | Mood küme tanımları (Melankolik + Moody) | Vault verisi | [[.personas/mood-taxonomy]] §3.2.3 | [[.personas/mood-taxonomy]] §3.2.4 | `Kaynak: [[.personas/mood-taxonomy]] (vault verisi)` |
 | 14 | Tür BPM aralıkları (Pop 80-120 · Dance 110-135 · Electro 90-130 · House 110-128 · Rap/Trap P4.5) | Gerçek-dünya (ikincil) | turkipedia.com/Beats_per_minute | nevamuzik.com.tr + vocuno.com/tr/bpm-algilayici | `Kaynak: [k1] + [k2]` (P4.4/P4.5 `VERIFIED`) |
 | 15 | Şarkı bazlı BPM; kişisel 50-90 tercihi; §3.2.3 "60-90" notu; indie/klasik/post-rock BPM | Doğrulanmadı (EXCLUDED / kapsam dışı) | research-bank P4.7 / X-2 + P4 kapsamı | — | `⚠️ VERIFICATION REQUIRED` — şarkı/tür BPM'i yazılmadı; tercih kurgusal |
 | 16 | Favori sanatçı listeleri (Mabel Matiz … Cigarettes After Sex) | Persona tercihi (kurgusal); sanatçı realitesi P4 dışında | research-bank P4.2 (kapsam dışı) | — | `Kaynak: kurgusal (persona verisi)` + gerçek-dünya bilgi: `⚠️ VERIFICATION REQUIRED` |
@@ -339,7 +339,7 @@ Davranış notları:
 | 26 | Ağ throttling: 150 ms · 1.6 Mbps ↓ / 750 Kbps ↑ · "Slow 4G" | Gerçek-dünya | github.com/GoogleChrome/lighthouse (docs/throttling.md) | developer.chrome.com/docs/devtools/network/reference | `Kaynak: [k1] + [k2]` (P8.6 `VERIFIED`) |
 | 27 | Playwright emülasyon alanları / breakpoint listesi | Gerçek-dünya | playwright.dev/docs/emulation | github.com/microsoft/playwright (docs/src/emulation.md) | `Kaynak: [k1] + [k2]` (P8.6 `VERIFIED`) |
 | 28 | Eski dosyadaki istatistik iddiaları (Spotify TR 2025 bilgisi, keşif kaynak yüzdeleri, ekran süresi platform verisi) | Bankada YOK | research-bank P1-P8 kapsamı | — | `⚠️ VERIFICATION REQUIRED` — bu dosyaya YAZILMADI |
-| 29 | Doğum tarihi düzeltmesi (7 Kasım 2010 → 5 Eylül 2010) | Kurgusal tutarlılık düzeltmesi | [[personas/index]] §6.3 (yaş 16 = SSOT) | eski salt-okunur persona dosyası | `Kaynak: kurgusal (persona verisi)` — yaş kazanır, §7.2'de kayıtlı |
+| 29 | Doğum tarihi düzeltmesi (7 Kasım 2010 → 5 Eylül 2010) | Kurgusal tutarlılık düzeltmesi | [[.personas/index]] §6.3 (yaş 16 = SSOT) | eski salt-okunur persona dosyası | `Kaynak: kurgusal (persona verisi)` — yaş kazanır, §7.2'de kayıtlı |
 
 ---
 
@@ -349,7 +349,7 @@ Davranış notları:
 
 **Bu persona dosyasını yazmadan ÖNCE `.ai/.templates/` dizinindeki ilgili şablonu oku:**
 
-1. Şablonu `[[../.templates/index]]` §7.1 tablolarından seç → persona için `personas/persona-template.md`.
+1. Şablonu `[[.templates/index]]` §7.1 tablolarından seç → persona için `personas/persona-template.md`.
 2. Şablonu oku; `{{VARIABLE}}` alanlarını doldur, gereksiz anlatım bloklarını kaldır (§3.5 alan havuzu KALIR).
 3. **Şablon varsa ona göre yaz.**
 4. **Şablon yoksa** bu belgedeki 8-bölüm formatına göre yaz ve `⚠️ VERIFICATION REQUIRED` notuyla `log.md`'ye şablon eksiğini bildir.
@@ -359,7 +359,7 @@ Davranış notları:
 |-------|---------|
 | `.ai/.templates/personas/persona-template.md` VAR | Şablonu oku → ona göre yaz |
 | Şablon YOK | 8-bölüm formatına göre yaz + `log.md`'ye "şablon eksiği" kaydı |
-| Şablon okundu ama çelişiyor | DUR → `[[../CLAUDE.md]]` §2.1 SSOT öncelik sırası |
+| Şablon okundu ama çelişiyor | DUR → `[[CLAUDE.md]]` §2.1 SSOT öncelik sırası |
 | Vault erişilemiyor | `⚠️ VERIFICATION REQUIRED` → yazım durdurulur, kullanıcıya sor |
 
 *(Bu blok persona-template §3.3'ten birebir kopyalanmıştır; §4'ün ilk maddesidir, silinemez.)*
@@ -370,7 +370,7 @@ Davranış notları:
 |---|-------|----------|--------------|
 | 1 | Template Mandatory (Guardrail #16) | Bu dosya persona-template'den üretildi | Dosya geçersiz, revert |
 | 2 | Şablon Önce | Yazmadan `.ai/.templates/` okundu | ERROR log, yazıma devam yok |
-| 3 | SSOT | Persona kataloğu [[personas/index]]; araştırma verisi [[research-bank]] | İçerik silinir |
+| 3 | SSOT | Persona kataloğu [[.personas/index]]; araştırma verisi [[.personas/research-bank]] | İçerik silinir |
 | 4 | Zero Hallucination (ADR-005) | Her satır §4.5 etiketi taşır; bankada olmayan iddia yazılmaz | Etiketsiz iddia silinir |
 | 5 | In-Place Refactoring | Dosya adı/yolu değişmez (`elif-bulut-melankolik.md`) | Dosya geri yüklenir |
 | 6 | Dil | Türkçe; mojibake yasak | `repair` ile onarılır |
@@ -399,7 +399,7 @@ Davranış notları:
 | Adım | Aksiyon | Çıktı |
 |------|---------|-------|
 | 1 | persona-template + docs-md-template oku (Guardrail #16) | Şablon + iskelet |
-| 2 | [[research-bank]] P3-P8 + [[mood-taxonomy]] §3.2.3/§3.2.4 + [[personas/index]] §6.3 oku | Etiketli veri + küme adı + yaş/mood |
+| 2 | [[.personas/research-bank]] P3-P8 + [[.personas/mood-taxonomy]] §3.2.3/§3.2.4 + [[.personas/index]] §6.3 oku | Etiketli veri + küme adı + yaş/mood |
 | 3 | Eski salt-okunur persona kaynağını incele (yalnız kimlik/müzik/rutin; etiketsiz iddia taşınmaz) | Kurgusal içerik |
 | 4 | §3.5 11/11 alanı doldur → her satıra §4.5 etiketi yaz | Dolu §3 |
 | 5 | Test Adımları ≥10 → §6.1 kontrol listesi → `vault-utf8-writer verify` → `log.md` append | Doğrulanmış dosya |
@@ -476,13 +476,13 @@ Davranış notları:
 
 | Wiki-link | İlişki | Durum / Gerçek hedef |
 |-----------|--------|----------------------|
-| `[[personas/index]]` | Persona kataloğu — yaş/mood atamasının sahibi | ✅ `.ai/.personas/index.md` |
-| `[[personas/persona-template]]` | Persona şablonu — bu dosyanın iskeleti | ✅ `.ai/.templates/personas/persona-template.md` |
-| `[[research-bank]]` | Araştırma paketleri P1-P8 — tek gerçek-dünya veri kaynağı | ✅ `.ai/.personas/research-bank.md` |
-| `[[mood-taxonomy]]` | Mood küme adları ve tanımları (§3.2.3 / §3.2.4) | ✅ `.ai/.personas/mood-taxonomy.md` |
-| `[[personas/test-scenarios-mapping]]` | Test senaryosu eşlemesi | ✅ `.ai/.personas/test-scenarios-mapping.md` |
-| `[[personas/methodology]]` | Test seviyeleri (Level 1/2/3) | 📋 planlanan — `.ai/.personas/methodology.md` (bu turda başka agent sorumluluğunda; diskte henüz yok) |
-| `[[ADR-023-persona-driven-testing]]` | Persona-driven testing kararı (frozen) | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
+| `[[.personas/index]]` | Persona kataloğu — yaş/mood atamasının sahibi | ✅ `.ai/.personas/index.md` |
+| `[[.templates/personas/persona-template]]` | Persona şablonu — bu dosyanın iskeleti | ✅ `.ai/.templates/personas/persona-template.md` |
+| `[[.personas/research-bank]]` | Araştırma paketleri P1-P8 — tek gerçek-dünya veri kaynağı | ✅ `.ai/.personas/research-bank.md` |
+| `[[.personas/mood-taxonomy]]` | Mood küme adları ve tanımları (§3.2.3 / §3.2.4) | ✅ `.ai/.personas/mood-taxonomy.md` |
+| `[[.personas/test-scenarios-mapping]]` | Test senaryosu eşlemesi | ✅ `.ai/.personas/test-scenarios-mapping.md` |
+| `[[.personas/methodology]]` | Test seviyeleri (Level 1/2/3) | 📋 planlanan — `.ai/.personas/methodology.md` (bu turda başka agent sorumluluğunda; diskte henüz yok) |
+| `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | Persona-driven testing kararı (frozen) | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
 
 *`📋 planlanan` satır hedef dosya diskte oluşana kadar kırık kabul edilir; oluştuğunda `✅`ye çevrilir ve `log.md`'ye append edilir.*
 
@@ -490,11 +490,11 @@ Davranış notları:
 
 | Alan | Eski dosya (salt-okunur) | Yeni değer (SSOT) | Karar |
 |------|--------------------------|-------------------|-------|
-| Yaş | 16 (tutarlı) | 16 | Çelişki yok — [[personas/index]] §6.3 |
+| Yaş | 16 (tutarlı) | 16 | Çelişki yok — [[.personas/index]] §6.3 |
 | Doğum tarihi | 7 Kasım 2010 (26.09.2026'da 15 yaş yapar) | 5 Eylül 2010 (yaş 16 ile tutarlı) | Yaş SSOT kazanır; kurgusal tarih türetildi |
 | Mood | Melankolik (birincil) / Moody (ikincil) | Melankolik / Moody | Tutarlı — index §6.3 + mood-taxonomy §3.2.3/§3.2.4 |
 | Kullanıcı ID | `GC-EB-16-MEL-IZM` (eski footer) | `CM-EB-16-MEL-IZM` (şablon §3.5.1 `CM-XX-YY-ZZZ-XXX`) | Şablon formatı kazanır |
-| Birincil cihaz | iPhone 15 + MacBook Air M2 (EXCLUDED) | Samsung Galaxy A34 5G (P3 VERIFIED) | [[research-bank]] P3 |
+| Birincil cihaz | iPhone 15 + MacBook Air M2 (EXCLUDED) | Samsung Galaxy A34 5G (P3 VERIFIED) | [[.personas/research-bank]] P3 |
 | N ekseni | "Duygusal Denge 2/10" (düşük denge = yoğun dalgalanma) | N = 20 (doğrudan ×10) | Çelişki saklı; eksen yönü yeniden doğrulamak `⚠️ VERIFICATION REQUIRED` (P7.5) |
 | BPM tercihi | 50-90 (kişiye özel) | Yalnız tür aralıkları (P4.4) + kurgusal tercih | X-2: şarkı/türe özel doğrulanmamış BPM yazılmaz |
 | Fiziksel detay | 40+ satır (cilt, parfüm, beden, ayakkabı 37…) | 6 satır (şablon §3.5.2 yasak listesi) | Şablon kazanır; detaylar bilgi korunumuyla eski dosyada |

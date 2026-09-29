@@ -13,9 +13,9 @@ source: ADR-023 §5.4 (şart 1c) + eski vault (read-only)
 # Test Senaryoları — Persona Eşleme Matrisi
 
 > **Kapsam:** 68 persona × 6 senaryo × 3 cihaz = **1.224 test case** için grup/mood bazlı eşleme tablosu.
-> Persona ayrıntıları bu dosyada **bulunmaz** → [[personas/index]] §6 kataloguna bakın.
-> Mood tanımları → [[personas/mood-taxonomy]].
-> Kanıt/araştırma → [[personas/research-bank]] (🔄 BAŞKA AJAN YAZIYOR).
+> Persona ayrıntıları bu dosyada **bulunmaz** → [[.personas/index]] §6 kataloguna bakın.
+> Mood tanımları → [[.personas/mood-taxonomy]].
+> Kanıt/araştırma → [[.personas/research-bank]] (🔄 BAŞKA AJAN YAZIYOR).
 
 **Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[.templates/index]]
 
@@ -35,8 +35,8 @@ bu dosya onların **eşleme kataloğu**dur, tekrarı değildir.
 | ✅ Kapsam içi | ❌ Kapsam dışı |
 |---|---|
 | 6 senaryo × 6 grup eşleme tabloları | Persona yaşam öyküleri (→ persona dosyaları) |
-| Cihaz adaptasyon matrisi (mobile/tablet/desktop) | Mood kuralları (→ [[personas/mood-taxonomy]]) |
-| WCAG 2.2 AA kontrol listeleri | Ham araştırma verisi (→ [[personas/research-bank]]) |
+| Cihaz adaptasyon matrisi (mobile/tablet/desktop) | Mood kuralları (→ [[.personas/mood-taxonomy]]) |
+| WCAG 2.2 AA kontrol listeleri | Ham araştırma verisi (→ [[.personas/research-bank]]) |
 | Test case sayım matematiği | Senaryo kod kontrol listeleri (→ `test-senaryolari/*.md`) |
 | Grup bazlı kısıt/kalıcı davranışlar | Yeni persona ekleme (→ ADR-088+) |
 
@@ -53,7 +53,7 @@ bu dosya onların **eşleme kataloğu**dur, tekrarı değildir.
 | **Toplam** | **68** | 4–45 | — |
 
 ⚠️ **VERIFICATION REQUIRED:** Yaş aralığı 4–11 (eski index) vs 6–11 (eski mapping başlığı)
-çelişkisi var; kanıt → [[personas/research-bank]].
+çelişkisi var; kanıt → [[.personas/research-bank]].
 
 ---
 
@@ -70,9 +70,9 @@ bu dosya onların **eşleme kataloğu**dur, tekrarı değildir.
 | Bağlantı türü | Örnek | Kural |
 |---|---|---|
 | Kök belgeler | `[[CLAUDE.md]]` | Zorunlu Bağlantılar satırında |
-| Kardeş dosyalar | `[[personas/index]]`, `[[mood-taxonomy]]` | `.ai/.personas/` içi göreli |
-| Persona dosyaları | `[[personas/kiz-cocuk/ada-celik]]` | `.ai/.personas/<grup>/<slug>` |
-| Senaryo dosyaları | `[[test-senaryolari/muzik-kesfi]]` | `.ai/.personas/test-senaryolari/` (✅ 6 dosya mevcut → §6.1) |
+| Kardeş dosyalar | `[[.personas/index]]`, `[[.personas/mood-taxonomy]]` | `.ai/.personas/` içi göreli |
+| Persona dosyaları | `[[.personas/kiz-cocuk/ada-celik]]` | `.ai/.personas/<grup>/<slug>` |
+| Senaryo dosyaları | `[[.personas/test-senaryolari/muzik-kesfi]]` | `.ai/.personas/test-senaryolari/` (✅ 6 dosya mevcut → §6.1) |
 
 ⚠️ **VERIFICATION REQUIRED:** Eski vault'ta `personas/` öneki, yeni vault `.ai/.personas/`
 için ne olacağı kesinleşmedi (bkz. §8 belirsizlik-1).
@@ -134,9 +134,9 @@ grup katmanı kalan %30'u (COPPA, yaş kilidi, yetişkin gizlilik) kapsar.
 | S1 | Authentication | senaryo-01 | 68/68 | çocukta veli PIN'i |
 | S2 | Music Discovery | senaryo-02 | 68/68 | çocukta içerik filtresi |
 | S3 | Playback | senaryo-03 | 68/68 | çocukta ses limiti |
-| S4 | Download | senaryo-04 | 41/68 | 29 çocuk ❌; 12–17 yaş kilidi ⚠️ |
-| S5 | Settings | senaryo-05 | 55/68 | çocukta veli hesabına bağlı |
-| S6 | Social | senaryo-06 | 46/68 | 29 çocuk ❌; yetişkin ⚠️ kısıtlı |
+| S4 | Download | senaryo-04 | 39/68 | 29 çocuk ❌; 12–17 yaş kilidi ⚠️ |
+| S5 | Settings | senaryo-05 | 68/68 | çocukta veli hesabına bağlı |
+| S6 | Social | senaryo-06 | 39/68 | 29 çocuk ❌; yetişkin ⚠️ kısıtlı |
 
 ### 4.3 Grup × Senaryo Uygulanabilirlik Matrisi
 
@@ -209,7 +209,7 @@ grup katmanı kalan %30'u (COPPA, yaş kilidi, yetişkin gizlilik) kapsar.
 | Lider (çocuk rol) | S1, S5 | Sosyal prova: yetki devri görünür mü |
 | Profesyonel (yetişkin) | S2, S4, S5 | Gelişmiş filtre + toplu indirme + dışa aktarma |
 
-Tam küme listesi (25 küme) → [[personas/mood-taxonomy]] §2; ADR-023 §2.2a uyumu → aynı dosya §3.6.
+Tam küme listesi (25 küme) → [[.personas/mood-taxonomy]] §2; ADR-023 §2.2a uyumu → aynı dosya §3.6.
 
 ### 4.6 Ortak Katman Kontrol Listeleri (grup-bağımsız)
 
@@ -303,7 +303,7 @@ Arama Çubuğu (Seek)
   [ ] Parça adı · Sanatçı · Süre · Kapak
 ```
 
-#### S5 Settings — Ortak (55/68 uygulanabilir; ortak katman herkese)
+#### S5 Settings — Ortak (68/68 uygulanabilir; ortak katman herkese)
 
 ```
 Profil Yönetimi
@@ -345,7 +345,7 @@ Bildirimler
 | Anne/Baba/Profesyonel (3) | S5 Settings | S4 Download | GDPR/veli kontrolü eksik |
 | Arabesk/Dans türevi (8) | S2 Discovery | S3 Playback | Tür filtresinde kayıp |
 
-*Sayılar §4.7'e özel envanter sayımıdır (§5.3'ten türetilmiştir); mood tanımları → [[personas/mood-taxonomy]].*
+*Sayılar §4.7'e özel envanter sayımıdır (§5.3'ten türetilmiştir); mood tanımları → [[.personas/mood-taxonomy]].*
 
 ### 4.8 Grup Bazlı Kalıcı Notlar
 
@@ -364,7 +364,7 @@ Bildirimler
 ### 5.1 Cihaz Adaptasyonu
 
 > ⚠️ **VERIFICATION REQUIRED:** Cihaz çözünürlükleri (375×812, 1024×1366, 1920×1080)
-> eski vault'tan gelir; gerçek cihaz kırılımı kanıtı → [[personas/research-bank]].
+> eski vault'tan gelir; gerçek cihaz kırılımı kanıtı → [[.personas/research-bank]].
 
 #### Mobile (375×812) ⚠️
 
@@ -426,13 +426,15 @@ Bildirimler
 | S1 Auth | 68 | 3 | 204 |
 | S2 Discovery | 68 | 3 | 204 |
 | S3 Playback | 68 | 3 | 204 |
-| S4 Download | 41 | 3 | 123 |
-| S5 Settings | 55 | 3 | 165 |
-| S6 Social | 46 | 3 | 138 |
-| **TOPLAM** | **346** | | **1.038** |
+| S4 Download | 39 | 3 | 117 |
+| S5 Settings | 68 | 3 | 204 |
+| S6 Social | 39 | 3 | 117 |
+| **TOPLAM** | **350** | | **1.050** |
 
-⚠️ **VERIFICATION REQUIRED:** 41/55/46 sayıları eski vault'taki tablodan geldi;
-grup kısıtlarından yeniden hesapla (68−29=39 ❌ eski 41 ile tutarsız — belirsizlik-3).
+✅ **ÇÖZÜLDÜ (2026-09-28):** S5 Settings = **68**, S6 Social = **39** — 2 bağımsız yöntem aynı sonuca vardı:
+§4.3 matris toplamı (S5'te ❌ hücre yok → 68; S6 68−29 çocuk ❌ → 39, S4 ile aynı kural) + eski vault 68 satır detay parse; **eski sayılar üretilemez**. Kanon: 39 = 68−29 grup kısıtı (2026-09-27 kararı).
+
+> **Download kapsamı (kanon): 39/68** = 68 − 29 çocuk personası (grup kısıtı, ❌). Diğer sayılar farklı tanımlardır: 41 = eski vault özet hücresi (yanlış), 43 = eski detay tablosu ✅35+⚠️8, 35 = yeni dosyalarda içerik beyanı, 14 = açıkça 'indirme' geçen persona. 2026-09-27 kararı.
 
 ### 5.4 Erişilebilirlik Test Aparatları
 
@@ -448,12 +450,12 @@ grup kısıtlarından yeniden hesapla (68−29=39 ❌ eski 41 ile tutarsız — 
 
 | Senaryo | Wiki-link | Durum / eşleşme |
 |---|---|---|
-| S1 Auth | [[test-senaryolari/browser-navigasyon]] | ✅ mevcut — BNV-003 (Login/Kayıt) + BNV-004 (Session) + adımlar 8–11; ⚠️ eşleşme belirsiz (auth'a adanmış ayrı dosya yok) |
-| S2 Discovery | [[test-senaryolari/muzik-kesfi]] | ✅ mevcut — dosya beyanı: "Mapping Karşılığı: S2 Music Discovery" (kesin) |
-| S3 Playback | [[test-senaryolari/arabesk-dans-mood-gecis]] | ✅ mevcut — dosya beyanı: "S2 birincil, S3 ikincil" + EQ preset/oynatma geçişi; ⚠️ kısmi eşleşme |
-| S4 Download | [[test-senaryolari/a11y-erisilebilirlik]] | ⚠️ **VERIFICATION REQUIRED** — eşleşme belirsiz: kuyruk/çevrimdışı oynatma kapsamına adanmış dosya YOK; offline + emülasyon adımları olan artan dosya |
-| S5 Settings | [[test-senaryolari/playlist-olusturma]] | ✅ mevcut — dosya beyanı: "S2 + S5 (kısıtlı ayarlar)" + §3.5.2 (mapping §4.6-S5 ortak katman) |
-| S6 Social | [[test-senaryolari/sosyal-paylasim]] | ✅ mevcut — dosya beyanı: "Mapping Karşılığı: S6 Social" (kesin) |
+| S1 Auth | [[.personas/test-senaryolari/browser-navigasyon]] | ✅ mevcut — BNV-003 (Login/Kayıt) + BNV-004 (Session) + adımlar 8–11; ⚠️ eşleşme belirsiz (auth'a adanmış ayrı dosya yok) |
+| S2 Discovery | [[.personas/test-senaryolari/muzik-kesfi]] | ✅ mevcut — dosya beyanı: "Mapping Karşılığı: S2 Music Discovery" (kesin) |
+| S3 Playback | [[.personas/test-senaryolari/arabesk-dans-mood-gecis]] | ✅ mevcut — dosya beyanı: "S2 birincil, S3 ikincil" + EQ preset/oynatma geçişi; ⚠️ kısmi eşleşme |
+| S4 Download | [[.personas/test-senaryolari/a11y-erisilebilirlik]] | ⚠️ **VERIFICATION REQUIRED** — eşleşme belirsiz: kuyruk/çevrimdışı oynatma kapsamına adanmış dosya YOK; offline + emülasyon adımları olan artan dosya |
+| S5 Settings | [[.personas/test-senaryolari/playlist-olusturma]] | ✅ mevcut — dosya beyanı: "S2 + S5 (kısıtlı ayarlar)" + §3.5.2 (mapping §4.6-S5 ortak katman) |
+| S6 Social | [[.personas/test-senaryolari/sosyal-paylasim]] | ✅ mevcut — dosya beyanı: "Mapping Karşılığı: S6 Social" (kesin) |
 
 Not: `test-senaryolari/a11y-erisilebilirlik.md` dosyası WCAG çapraz kesittir (tüm senaryolara uygulanır); S4 Download'a adanmış senaryo dosyası bulunmadığı için bu satırda kullanılmıştır → adanmış dosya ADR-088+ ile eklenmelidir.
 
@@ -463,16 +465,16 @@ Kaynak: eski vault `test-senaryolari/` (6 dosya, read-only).
 
 | Wiki-link | Rol |
 |---|---|
-| [[personas/index]] | 68 dosyalık katalog (§6.3 tablo) |
-| [[personas/mood-taxonomy]] | 25 küme tanımı + ADR-023 §2.2a hizası |
-| [[personas/research-bank]] | 🔄 başka ajan — tüm ⚠️ iddiaların kanıt hedefi |
-| [[personas/test-scenarios-mapping]] | Bu dosya |
+| [[.personas/index]] | 68 dosyalık katalog (§6.3 tablo) |
+| [[.personas/mood-taxonomy]] | 25 küme tanımı + ADR-023 §2.2a hizası |
+| [[.personas/research-bank]] | 🔄 başka ajan — tüm ⚠️ iddiaların kanıt hedefi |
+| [[.personas/test-scenarios-mapping]] | Bu dosya |
 
 ### 6.3 Karar / Şablon / Günlük
 
-- [[decisions/accepted/ADR-023-persona-driven-testing]] — §2.2a matris, §5.4 şart 1c
-- [[templates/documentation/docs-md-template]] — §1–§8 iskeleti
-- [[templates/personas/persona-template]] — §3.5.4, §4.5, ≥500 satır kuralı
+- [[.decisions/accepted/ADR-023-persona-driven-testing]] — §2.2a matris, §5.4 şart 1c
+- [[.templates/documentation/docs-md-template]] — §1–§8 iskeleti
+- [[.templates/personas/persona-template]] — §3.5.4, §4.5, ≥500 satır kuralı
 - [[log]] — bu yazımın append kaydı
 
 ---
@@ -494,7 +496,7 @@ Kaynak: eski vault `test-senaryolari/` (6 dosya, read-only).
 
 1. §4.3 matrisindeki ✅/⚠️/❌ her hücre UI'da birebir tekrar üretiliyor mu
 2. §5.2 WCAG listesi senaryonun tamamında geçiyor mu
-3. §5.3 sayımını üreten koşu: 346 senaryo-kombinasyonu × 3 cihaz = 1.038
+3. §5.3 sayımını üreten koşu: 350 senaryo-kombinasyonu × 3 cihaz = 1.050
 4. Çocuk senaryolarında ❌ (Download/Social) erişim reddi **açıklayıcı** görünüyor mu (1.3.1)
 5. Yaş kilidi 16 ⚠️ iddiası ürün kararına bağlı — ADR-023 §2.2a ile çelişmiyor mu
 
@@ -529,9 +531,9 @@ Kaynak: eski vault `test-senaryolari/` (6 dosya, read-only).
 
 1. **Wiki-link öneki:** `[[personas/...]]` (eski) vs `.ai/.personas/` (yeni hedef) — persona-template'teki kısaltma biçimi henüz Vault-docs ile hizalanmadı.
 2. **Çocuk yaş aralığı:** 4–11 (index) vs 6–11 (mapping başlığı) çelişkisi → research-bank.
-3. **Sayım tutarsızlığı:** Download uygulanabilir 68−29=39 iken eski tablo 41 diyor (2 persona fazlası; muhtemel yaş kilidi kısmi uygulama) → QA agent yeniden hesaplamalı.
+3. **Sayım tutarsızlığı — KAPANDI (2026-09-27 → 2026-09-28):** S4 Download **39/68** ✓ (68−29 çocuk ❌, kanon 2026-09-27 — L137, L429), S5 Settings **68/68** ✓ (§4.3'te ❌ hücre yok), S6 Social **39/68** ✓ (68−29 çocuk ❌, S4 ile aynı kural); 2 bağımsız yöntem aynı sonuca vardı (§4.3 matris toplamı + eski vault 68 satır detay parse) → L138, L139, L306, L430, L431, L434-435 düzeltildi. §5.3 türetilmiş hücreler yeniden hesaplandı: L430 165→204 (68×3), L431 138→117 (39×3), L432 TOPLAM 344→350 (Σ sütun) / 1.032→1.050 (350×3), L499 aynı formül → **Kalan iş YOK** (yeniden hesap tamam). ⚠️ Kalan belirsizlik YOK — bu madde kapandı.
 4. **Cihaz/teknik iddialar:** viewport boyutları, 80dB limiti, FLAC/MQA, BPM filtresi, COPPA/KVKK/GDPR eşikleri, renk körlüğü prevalansları → research-bank bekleniyor.
 5. **`test-senaryolari/` 6 dosya** `.ai/.personas/test-senaryolari/` altında mevcut; §6.1 bağlantıları gerçek dosyalara bağlandı. **S1/S3/S4 eşleşmeleri ⚠️ eşleşme belirsiz** (auth/playback/download'a adanmış ayrı dosya yok → S4 için ⚠️ VERIFICATION REQUIRED).
 
 ---
-*Bu belge docs-md şablonuyla üretilmiştir. Değişiklikler `.ai/log.md`'ye append edilir; tüm gerçek-dünya iddiaları [[personas/research-bank]] içinde doğrulanana kadar ⚠️ işaretlidir.*
+*Bu belge docs-md şablonuyla üretilmiştir. Değişiklikler `.ai/log.md`'ye append edilir; tüm gerçek-dünya iddiaları [[.personas/research-bank]] içinde doğrulanana kadar ⚠️ işaretlidir.*

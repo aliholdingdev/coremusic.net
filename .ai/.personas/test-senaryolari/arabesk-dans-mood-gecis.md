@@ -10,7 +10,7 @@ updated: 2026-09-26
 
 # CoreMusic — Test Senaryosu: Arabesk-Dans Mood Geçişi (ADN)
 
-**Zorunlu Bağlantılar:** [[personas/index]] · [[personas/methodology]] · [[personas/research-bank]] · [[personas/test-scenarios-mapping]] · [[personas/persona-template]] · [[ADR-023-persona-driven-testing]] · [[personas/test-senaryolari/a11y-erisilebilirlik]]
+**Zorunlu Bağlantılar:** [[.personas/index]] · [[.personas/methodology]] · [[.personas/research-bank]] · [[.personas/test-scenarios-mapping]] · [[.templates/personas/persona-template]] · [[.decisions/accepted/ADR-023-persona-driven-testing]] · [[.personas/test-senaryolari/a11y-erisilebilirlik]]
 
 ---
 
@@ -24,7 +24,7 @@ updated: 2026-09-26
 | ADR-023 Karşılığı | 20 persona matrisi **satır 16 — Mood-geçiş kişisi** (Arabesksever ↔ Danssever; §2.2a; kaynak: eski vault `test-senaryolari/arabesk-dans-mood-gecis.md`) |
 | Mapping Karşılığı | **Arabesk/Dans türevi kümesi → S2 birincil, S3 ikincil** (mapping §4.5/§4.7); tipik hata modu: **"Tür filtresinde kayıp"** |
 | Test Seviyeleri | Seviye 1 AI Rol · Seviye 2 Browser MCP · Seviye 3 Playwright · Seviye 4 Rapor |
-| Eşik Kaynağı | `[[personas/research-bank]]` **P8 (metrik)** + **P5 (WCAG)** + **P6 (KVKK/veli `⚠️ DERIVED`)**; BPM değerleri `[[personas/mood-taxonomy]]` §3.4 — **hepsi `⚠️`** |
+| Eşik Kaynağı | `[[.personas/research-bank]]` **P8 (metrik)** + **P5 (WCAG)** + **P6 (KVKK/veli `⚠️ DERIVED`)**; BPM değerleri `[[.personas/mood-taxonomy]]` §3.4 — **hepsi `⚠️`** |
 | Adım Sayısı | **14** (asgari 10 — §5.3) |
 | Test Blokları | ADN-001 … ADN-010 (10 blok — §3.1) |
 | Zorunlu Blok | §4.0 Şablon-Önce Kural Bloğu (silinemez) |
@@ -39,7 +39,7 @@ updated: 2026-09-26
 
 ## §1 Amaç
 
-Bu dosya, CoreMusic'in **Arabesk ↔ Dans mood geçiş test senaryosudur**: iki zıt tür kutbu (duygusal/slow arabesk ↔ yüksek tempolu dans/EDM) arasında, mood kaydı, tür filtresi, EQ preset eşleşmesi, öneri değişimi, animasyon/performans davranışı ve 7 arabesk/dans türev kümenin (Arabesksever · Danssever · Arabesk Kaşif · Arabesk Meraklı · Dans Sporcu · Arabesk Melankolik · Dans Enerjik) kişi bazlı beklenilerinin hangi adımlarla test edileceğini tanımlar. Eski vault'taki 254 satırlık senaryo **kopyalanmamış**; iskelet `[[personas/mood-taxonomy]]` §3.4 (7 türev küme — BPM değerleri `⚠️`) + research-bank P8/P5/P6 ile **yeniden bağlanarak genişletilmiştir** (ADR-005 Zero Hallucination).
+Bu dosya, CoreMusic'in **Arabesk ↔ Dans mood geçiş test senaryosudur**: iki zıt tür kutbu (duygusal/slow arabesk ↔ yüksek tempolu dans/EDM) arasında, mood kaydı, tür filtresi, EQ preset eşleşmesi, öneri değişimi, animasyon/performans davranışı ve 7 arabesk/dans türev kümenin (Arabesksever · Danssever · Arabesk Kaşif · Arabesk Meraklı · Dans Sporcu · Arabesk Melankolik · Dans Enerjik) kişi bazlı beklenilerinin hangi adımlarla test edileceğini tanımlar. Eski vault'taki 254 satırlık senaryo **kopyalanmamış**; iskelet `[[.personas/mood-taxonomy]]` §3.4 (7 türev küme — BPM değerleri `⚠️`) + research-bank P8/P5/P6 ile **yeniden bağlanarak genişletilmiştir** (ADR-005 Zero Hallucination).
 
 | Boyut | Değer |
 |-------|-------|
@@ -54,12 +54,12 @@ Bu dosya, CoreMusic'in **Arabesk ↔ Dans mood geçiş test senaryosudur**: iki 
 | İhtiyaç | Doğru Dosya | Bu Dosya Kullanılmaz |
 |---------|-------------|----------------------|
 | Arabesk↔Dans geçiş test adımları | ✅ Bu dosya | — |
-| Küme adı/tanımı/OCEAN/BPM aralığı | `[[personas/mood-taxonomy]]` §3.4 (`⚠️` BPM) | ❌ (taşınır) |
-| Metrik eşikleri (LCP/INP/CLS…) | `[[personas/research-bank]]` P8.1 | ❌ (taşınır) |
-| WCAG kriter numaraları/eşikleri | `[[personas/research-bank]]` P5.2 | ❌ (taşınır) |
-| Veli onayı politikası | `[[personas/research-bank]]` P6.4 `⚠️ DERIVED` | ❌ (taşınır) |
-| Senaryo × küme önceliği | `[[personas/test-scenarios-mapping]]` §4.5/§4.7 | ❌ |
-| Coverage gate | `[[ADR-023-persona-driven-testing]]` satır 16 | ❌ |
+| Küme adı/tanımı/OCEAN/BPM aralığı | `[[.personas/mood-taxonomy]]` §3.4 (`⚠️` BPM) | ❌ (taşınır) |
+| Metrik eşikleri (LCP/INP/CLS…) | `[[.personas/research-bank]]` P8.1 | ❌ (taşınır) |
+| WCAG kriter numaraları/eşikleri | `[[.personas/research-bank]]` P5.2 | ❌ (taşınır) |
+| Veli onayı politikası | `[[.personas/research-bank]]` P6.4 `⚠️ DERIVED` | ❌ (taşınır) |
+| Senaryo × küme önceliği | `[[.personas/test-scenarios-mapping]]` §4.5/§4.7 | ❌ |
+| Coverage gate | `[[.decisions/accepted/ADR-023-persona-driven-testing]]` satır 16 | ❌ |
 
 ---
 
@@ -103,13 +103,13 @@ Bu dosya, CoreMusic'in **Arabesk ↔ Dans mood geçiş test senaryosudur**: iki 
 
 ```
 .ai/.personas/test-senaryolari/arabesk-dans-mood-gecis.md  ← bu dosya (SSOT: senaryo)
-├── [[personas/mood-taxonomy]] §3.4                       (7 türev küme + BPM ⚠️)
-├── [[personas/test-scenarios-mapping]] §4.5/§4.7         (öncelik çaprazı + tipik hata)
-├── [[personas/research-bank]] P6.4                       (veli onayı — DERIVED)
-├── [[personas/research-bank]] P8.1–P8.5                  (metrik — VERIFIED)
-├── [[personas/research-bank]] P5.2                       (WCAG kriter numaraları)
-├── [[personas/methodology]] §2.2, §3.3, §3.4
-└── [[ADR-023-persona-driven-testing]] satır 16           (mood-geçiş kişisi + gate)
+├── [[.personas/mood-taxonomy]] §3.4                       (7 türev küme + BPM ⚠️)
+├── [[.personas/test-scenarios-mapping]] §4.5/§4.7         (öncelik çaprazı + tipik hata)
+├── [[.personas/research-bank]] P6.4                       (veli onayı — DERIVED)
+├── [[.personas/research-bank]] P8.1–P8.5                  (metrik — VERIFIED)
+├── [[.personas/research-bank]] P5.2                       (WCAG kriter numaraları)
+├── [[.personas/methodology]] §2.2, §3.3, §3.4
+└── [[.decisions/accepted/ADR-023-persona-driven-testing]] satır 16           (mood-geçiş kişisi + gate)
 ```
 
 ### §3.1 Test Blokları (ADN-001 → ADN-010)
@@ -189,7 +189,7 @@ Bu dosya, CoreMusic'in **Arabesk ↔ Dans mood geçiş test senaryosudur**: iki 
 | 3.3.7 | Redundant Entry | A | `VERIFIED` |
 | 3.3.8 | Accessible Authentication (Minimum) | AA — WCAG 2.2 **YENİ** | `VERIFIED` |
 
-### §3.3 Persona / Mood Eşlemesi (`[[personas/test-scenarios-mapping]]`)
+### §3.3 Persona / Mood Eşlemesi (`[[.personas/test-scenarios-mapping]]`)
 
 | Grup (n) | Bu senaryoda | Kısıt |
 |---|---|---|
@@ -486,13 +486,13 @@ Kapsam/41-55-46 sayı iddiaları kullanılmaz; `EXCLUDED` kayıtlar atlanır.
 
 | Bağlantı | Rol |
 |----------|-----|
-| [[personas/index]] | Persona ana indeksi |
-| [[personas/methodology]] | Test metodolojisi |
-| [[personas/research-bank]] | P5/P6/P8 eşik kaynağı |
-| [[personas/test-scenarios-mapping]] | Grup × senaryo matrisi |
-| [[personas/persona-template]] | Persona alan şablonu |
-| [[ADR-023-persona-driven-testing]] | Karar + coverage gate (satır 16) |
-| [[personas/test-senaryolari/a11y-erisilebilirlik]] | Kardeş senaryo (a11y derinliği) |
+| [[.personas/index]] | Persona ana indeksi |
+| [[.personas/methodology]] | Test metodolojisi |
+| [[.personas/research-bank]] | P5/P6/P8 eşik kaynağı |
+| [[.personas/test-scenarios-mapping]] | Grup × senaryo matrisi |
+| [[.templates/personas/persona-template]] | Persona alan şablonu |
+| [[.decisions/accepted/ADR-023-persona-driven-testing]] | Karar + coverage gate (satır 16) |
+| [[.personas/test-senaryolari/a11y-erisilebilirlik]] | Kardeş senaryo (a11y derinliği) |
 
 ### §7.2 Değişiklik Geçmişi (append-only)
 

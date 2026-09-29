@@ -10,7 +10,7 @@ updated: 2026-09-26
 
 # CoreMusic — Persona Araştırma Bankası (Research Bank)
 
-**Zorunlu Bağlantılar:** [[personas/index]] · [[personas/persona-template]] · [[.templates/index]]
+**Zorunlu Bağlantılar:** [[.personas/index]] · [[.templates/personas/persona-template]] · [[.templates/index]]
 
 ---
 
@@ -23,7 +23,7 @@ updated: 2026-09-26
 | Yapı | H1 + Zorunlu Bağlantılar + §1-§7 + §3 altında P1-P8 paketleri |
 | Bulgu Satırı Formatı | `| Bulgu | Kaynak 1 | Kaynak 2 | Durum |` |
 | Durum Sözlüğü | `VERIFIED` · `SINGLE-SOURCE ⚠️` · `CONFLICT ⚠️` · `DERIVED ⚠️` · `⚠️ VERIFICATION REQUIRED` |
-| Beslediği Şablon | `[[personas/persona-template]]` §4.5 (Kaynak Etiketleme) |
+| Beslediği Şablon | `[[.templates/personas/persona-template]]` §4.5 (Kaynak Etiketleme) |
 | Bulgu Sayısı | 66 (P1-P8 toplamı — §6.2 metrikleri) |
 | Araştırma Turu | 2026-09-26 web araştırması (tamamlandı) |
 | Dil | Türkçe (ç ğ ı İ ö ş ü doğru; mojibake YASAK) |
@@ -43,10 +43,10 @@ Bu dosya, **CoreMusic persona dosyalarının gerçek-dünya veri beslemesidir**:
 | Ne taşımaz | Karar (ADR), test stratejisi (`personas/methodology`), mood küme adı (`personas/mood-taxonomy`), persona profili (`.templates/personas/persona-template`) |
 | Neden SSOT | Persona dosyalarına **dağıtılmış kopya** yerine tek bankadan bakılır; kaynak çelişkisi tek yerde görünür (§6.3) |
 | Kim okumalı | Persona üreten/yenileyen her ajan; denetimde Vault Steward |
-| Nasıl uygulanır | `[[personas/persona-template]]` §4.5 kaynak etiketleme tablosu bu bankadaki Durum sütununu referans alır |
+| Nasıl uygulanır | `[[.templates/personas/persona-template]]` §4.5 kaynak etiketleme tablosu bu bankadaki Durum sütununu referans alır |
 | Ne zaman yazıldı | 2026-09-26 — persona sürükleme testleri (ADR-023) öncesi veri temeli |
 
-**Bağlantı zinciri:** `research-bank.md` (bu dosya, veri) → `[[personas/persona-template]]` (alan havuzu, etiket formatı) → persona dosyası (`kirik-ad-surname-mood.md`) → `[[personas/methodology]]` (test seviyeleri) → `[[ADR-023-persona-driven-testing]]` (karar).
+**Bağlantı zinciri:** `research-bank.md` (bu dosya, veri) → `[[.templates/personas/persona-template]]` (alan havuzu, etiket formatı) → persona dosyası (`kirik-ad-surname-mood.md`) → `[[.personas/methodology]]` (test seviyeleri) → `[[.decisions/accepted/ADR-023-persona-driven-testing]]` (karar).
 
 ---
 
@@ -56,10 +56,10 @@ Bu dosya, **CoreMusic persona dosyalarının gerçek-dünya veri beslemesidir**:
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
-| P1-P8 araştırma bulguları + Bulgu/K1/K2/Durum tabloları | Persona dosyasının kendisi (→ `[[personas/persona-template]]`) |
+| P1-P8 araştırma bulguları + Bulgu/K1/K2/Durum tabloları | Persona dosyasının kendisi (→ `[[.templates/personas/persona-template]]`) |
 | Durum etiketleme (VERIFIED / SINGLE-SOURCE / CONFLICT / DERIVED) | Test adımları ve başarı metrikleri (→ `personas/methodology`) |
 | Persona dosyalarına uygulanacak kaynak kuralları (§4) | Mood küme adları ve UI etkileri (→ `personas/mood-taxonomy`) |
-| CONFLICT ve EXCLUDED listeleri (§6.3-§6.4) | Mimari karar (→ `[[ADR-005-ultrathink-protocol]]`, `[[ADR-023-persona-driven-testing]]`) |
+| CONFLICT ve EXCLUDED listeleri (§6.3-§6.4) | Mimari karar (→ `[[.decisions/accepted/ADR-005-ultrathink-protocol]]`, `[[.decisions/accepted/ADR-023-persona-driven-testing]]`) |
 
 ### §2.2 Alt Konular (P1-P8 Paketleri)
 
@@ -91,7 +91,7 @@ Bu dosya, **CoreMusic persona dosyalarının gerçek-dünya veri beslemesidir**:
 | Bankada olmayan bir gerçek-dünya iddiası persona'da isteniyor | `⚠️ VERIFICATION REQUIRED` + 1 kaynak yazılır (veya iddia silinir); uydurma 2. kaynak yazılmaz |
 | Bankadaki CONFLICT alanı persona'da kullanılmayacak | Çelişki yok sayılmaz; persona satırında tek değer + kaynak + `⚠️ VERIFICATION REQUIRED` yazılır |
 | Yeni araştırma turu sonuç geliyor | Yeni satır eklenir (append-only); mevcut satır **değiştirilmez**, durumu `CONFLICT ⚠️` olarak güncellenir |
-| Bulgu bir karar üretiyor (ör. "16 yaş altı için veli akışı kurulacak") | Karar ADR'dir → `[[ADR-023-persona-driven-testing]]` ya da yeni `ADR-088+`; bu dosya yalnız veri taşır |
+| Bulgu bir karar üretiyor (ör. "16 yaş altı için veli akışı kurulacak") | Karar ADR'dir → `[[.decisions/accepted/ADR-023-persona-driven-testing]]` ya da yeni `ADR-088+`; bu dosya yalnız veri taşır |
 | Dosya adı/yer değişikliği isteniyor | In-Place kuralı → onay olmadan dosya adı DEĞİŞTİRİLMEZ |
 
 ---
@@ -564,7 +564,7 @@ Bu dosya, **CoreMusic persona dosyalarının gerçek-dünya veri beslemesidir**:
 - ⚠️ **`⚠️ DERIVED` zorunlu:** 0-100 normalize puanlama IPIP-NEO'nun resmi skorlama yöntemi **değildir**. Persona'da `⚠️ DERIVED` etiketi + ölçek künyesi (`IPIP-NEO-120`, Johnson 2014) birlikte yazılır.
 - ⚠️ Persona'daki tek tek facet puanları (ör. "Duyguların Duyarlılığı = 72") **kurgusaldır** → `Kaynak: kurgusal (persona verisi)`; alfa değerleri VERIFIED'tir ama **persona puanının kendisi değildir**.
 - ⚠️ Türkçe geçerlilik/güvenilirlik çalışması bu turda bulunmadı (tpmap.org Endonezya örneği) → "IPIP-NEO Türkçe geçerli" iddiası `⚠️ VERIFICATION REQUIRED`.
-- ⚠️ `[[personas/persona-template]]` §3.5.3'teki boyut kodları (O/C/E/N/A) ile başlıkların sıralaması farklıdır — **kod esastır**, persona yazarı şablondaki sırayı kullanır (bu banka yalnız tam adları ve istatistikleri verir).
+- ⚠️ `[[.templates/personas/persona-template]]` §3.5.3'teki boyut kodları (O/C/E/N/A) ile başlıkların sıralaması farklıdır — **kod esastır**, persona yazarı şablondaki sırayı kullanır (bu banka yalnız tam adları ve istatistikleri verir).
 
 ---
 
@@ -665,7 +665,7 @@ Bu dosya, **CoreMusic persona dosyalarının gerçek-dünya veri beslemesidir**:
 |-------|---------|
 | `.ai/.templates/` altında ilgili şablon VAR | Şablonu oku → ona göre yaz |
 | Şablon YOK | Standart formata göre yaz + `log.md`'ye "şablon eksiği" kaydı |
-| Şablon okundu ama çelişiyor | DUR → `[[../CLAUDE.md]]` §2.1 SSOT öncelik sırası |
+| Şablon okundu ama çelişiyor | DUR → `[[CLAUDE.md]]` §2.1 SSOT öncelik sırası |
 | Vault erişilemiyor | `⚠️ VERIFICATION REQUIRED` → yazım durdurulur, kullanıcıya sor |
 
 ---
@@ -686,7 +686,7 @@ Bu dosya, **CoreMusic persona dosyalarının gerçek-dünya veri beslemesidir**:
 
 ### §4.2 Durum → Persona Alanı Uygulama Tablosu
 
-| Banka Durumu | `[[personas/persona-template]]` Alanı | Uygulama Kuralı |
+| Banka Durumu | `[[.templates/personas/persona-template]]` Alanı | Uygulama Kuralı |
 |--------------|----------------------------------------|-----------------|
 | `VERIFIED` (P1, P2) | Kimlik Kartı — Şehir/İlçe, Okul/Meslek | Sayı/şehir doğrudan yazılır; `Kaynak: [k1] + [k2]` |
 | `VERIFIED` (P3) | Cihaz & Teknoloji — Çözünürlük → viewport | Çözünürlük spec'ten; viewport **`⚠️ DERIVED`** |
@@ -747,7 +747,7 @@ Bu dosya, **CoreMusic persona dosyalarının gerçek-dünya veri beslemesidir**:
 
 | Adım | Aksiyon | Çıktı | Süre |
 |------|---------|-------|------|
-| 1 | İlgili paketi (P1-P8) ve `[[personas/persona-template]]` §4.5'i oku | Kapsam + etiket formatı | 3 dk |
+| 1 | İlgili paketi (P1-P8) ve `[[.templates/personas/persona-template]]` §4.5'i oku | Kapsam + etiket formatı | 3 dk |
 | 2 | Yeni bulguyu **2 bağımsız kaynakla** doğrula (kaynak adı + URL/belge) | K1, K2 | 10-20 dk |
 | 3 | Durum belirle: `VERIFIED` / `SINGLE-SOURCE ⚠️` / `CONFLICT ⚠️` / `DERIVED ⚠️` / `⚠️ VERIFICATION REQUIRED` | Durum etiketi | 1 dk |
 | 4 | Bulgu satırını `| Bulgu | Kaynak 1 | Kaynak 2 | Durum |` formatında **ilgili paket tablosuna ekle** (append) | Yeni satır | 2 dk |
@@ -878,11 +878,11 @@ OKU (şablon + paket) → 2 KAYNAKLA DOĞRULA → DURUM BELİRLE → SATIRI EKLE
 
 | Wiki-link | İlişki | Durum / Gerçek hedef |
 |-----------|--------|----------------------|
-| `[[personas/index]]` | Persona kataloğu — bu bankanın beslediği dizin indeksi | ✅ `.ai/.personas/index.md` |
-| `[[personas/persona-template]]` | Persona şablonu — §4.5 kaynak etiketleme kuralının sahibi | ✅ `.ai/.templates/personas/persona-template.md` |
-| `[[personas/methodology]]` | Test seviyeleri (Level 1/2/3) ve akış | 📋 planlanan — `.ai/.personas/methodology.md` (diskte YOK) |
-| `[[ADR-005-ultrathink-protocol]]` | Zero-hallucination protokolü — §4.1 dayanağı | ✅ `.ai/.decisions/accepted/ADR-005-ultrathink-protocol.md` |
-| `[[ADR-023-persona-driven-testing]]` | Persona-driven testing kararı (frozen) | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
+| `[[.personas/index]]` | Persona kataloğu — bu bankanın beslediği dizin indeksi | ✅ `.ai/.personas/index.md` |
+| `[[.templates/personas/persona-template]]` | Persona şablonu — §4.5 kaynak etiketleme kuralının sahibi | ✅ `.ai/.templates/personas/persona-template.md` |
+| `[[.personas/methodology]]` | Test seviyeleri (Level 1/2/3) ve akış | 📋 planlanan — `.ai/.personas/methodology.md` (diskte YOK) |
+| `[[.decisions/accepted/ADR-005-ultrathink-protocol]]` | Zero-hallucination protokolü — §4.1 dayanağı | ✅ `.ai/.decisions/accepted/ADR-005-ultrathink-protocol.md` |
+| `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | Persona-driven testing kararı (frozen) | ✅ `.ai/.decisions/accepted/ADR-023-persona-driven-testing.md` |
 | `[[.templates/index]]` | Şablon registry'si (Guardrail #16) | ✅ `.ai/.templates/index.md` |
 
 *`📋 planlanan` satır hedef dosya diskte oluşana kadar kırık kabul edilir; oluştuğunda `✅`ye çevrilir ve `log.md`'ye append edilir.*

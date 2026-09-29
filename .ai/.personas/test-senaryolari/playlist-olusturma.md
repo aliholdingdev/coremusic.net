@@ -10,7 +10,7 @@ updated: 2026-09-26
 
 # CoreMusic — Test Senaryosu: Playlist Oluşturma (PLY)
 
-**Zorunlu Bağlantılar:** [[personas/index]] · [[personas/methodology]] · [[personas/research-bank]] · [[personas/test-scenarios-mapping]] · [[personas/persona-template]] · [[ADR-023-persona-driven-testing]] · [[personas/test-senaryolari/a11y-erisilebilirlik]]
+**Zorunlu Bağlantılar:** [[.personas/index]] · [[.personas/methodology]] · [[.personas/research-bank]] · [[.personas/test-scenarios-mapping]] · [[.templates/personas/persona-template]] · [[.decisions/accepted/ADR-023-persona-driven-testing]] · [[.personas/test-senaryolari/a11y-erisilebilirlik]]
 
 ---
 
@@ -22,9 +22,9 @@ updated: 2026-09-26
 | Hedef Kitle | QA Engineer (birincil), UI Designer (liste/sürükleme UI), Vault Steward (denetim) |
 | Yapı | H1 + Zorunlu Bağlantılar + §1 Amaç → §7 Referanslar (7 bölüm + 7 alanlı frontmatter) |
 | ADR-023 Karşılığı | 20 persona matrisi **satır 19 — Playlist kişisi** (§2.2a; kaynak: eski vault `test-senaryolari/playlist-olusturma.md`) |
-| Mapping Karşılığı | S2 (parça seçimi) + S5 (kısıtlı ayarlar) yüzeyi; işbirlikçi paylaşım S6'ya kayar — `[[personas/test-scenarios-mapping]]` §4.2 |
+| Mapping Karşılığı | S2 (parça seçimi) + S5 (kısıtlı ayarlar) yüzeyi; işbirlikçi paylaşım S6'ya kayar — `[[.personas/test-scenarios-mapping]]` §4.2 |
 | Test Seviyeleri | Seviye 1 AI Rol · Seviye 2 Browser MCP · Seviye 3 Playwright · Seviye 4 Rapor |
-| Eşik Kaynağı | `[[personas/research-bank]]` **P8 (metrik)** + **P5 (WCAG — özellikle 2.5.7 sürükleme, 2.5.8 hedef boyutu, 3.3.7 yinelenen giriş)** |
+| Eşik Kaynağı | `[[.personas/research-bank]]` **P8 (metrik)** + **P5 (WCAG — özellikle 2.5.7 sürükleme, 2.5.8 hedef boyutu, 3.3.7 yinelenen giriş)** |
 | Adım Sayısı | **15** (asgari 10 — §5.3) |
 | Test Blokları | PLY-001 … PLY-010 (10 blok — §3.1) |
 | Zorunlu Blok | §4.0 Şablon-Önce Kural Bloğu (silinemez) |
@@ -54,11 +54,11 @@ Bu dosya, CoreMusic'in **playlist oluşturma test senaryosudur**: CRUD işlemler
 | İhtiyaç | Doğru Dosya | Bu Dosya Kullanılmaz |
 |---------|-------------|----------------------|
 | Playlist CRUD/sıralama/işbirlikçilik test adımları | ✅ Bu dosya | — |
-| Sürükleme/hedef boyutu eşikleri | `[[personas/research-bank]]` P5.2 | ❌ (taşınır) |
-| Metrik eşikleri (LCP/INP/CLS) | `[[personas/research-bank]]` P8.1 | ❌ (taşınır) |
-| Test seviyeleri/akış | `[[personas/methodology]]` | ❌ |
-| Grup kısıtları (S5 veli, S4 yaş kilidi) | `[[personas/test-scenarios-mapping]]` §4.4 | ❌ |
-| Karar/gate | `[[ADR-023-persona-driven-testing]]` | ❌ |
+| Sürükleme/hedef boyutu eşikleri | `[[.personas/research-bank]]` P5.2 | ❌ (taşınır) |
+| Metrik eşikleri (LCP/INP/CLS) | `[[.personas/research-bank]]` P8.1 | ❌ (taşınır) |
+| Test seviyeleri/akış | `[[.personas/methodology]]` | ❌ |
+| Grup kısıtları (S5 veli, S4 yaş kilidi) | `[[.personas/test-scenarios-mapping]]` §4.4 | ❌ |
+| Karar/gate | `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | ❌ |
 
 ---
 
@@ -102,13 +102,13 @@ Bu dosya, CoreMusic'in **playlist oluşturma test senaryosudur**: CRUD işlemler
 
 ```
 .ai/.personas/test-senaryolari/playlist-olusturma.md   ← bu dosya (SSOT: senaryo)
-├── [[personas/research-bank]] P5.2                    (2.5.7 · 2.5.8 · 3.3.7 — VERIFIED)
-├── [[personas/research-bank]] P8.1–P8.5               (metrik — VERIFIED)
-├── [[personas/research-bank]] P6.4                    (veli onayı — DERIVED)
-├── [[personas/methodology]] §2.2, §3.3, §3.4
-├── [[personas/test-scenarios-mapping]] §4.4-S5/S6     (grup beklentileri + ortak katman)
-├── [[personas/mood-taxonomy]] §2                      (küme adları)
-└── [[ADR-023-persona-driven-testing]] satır 19        (eşleme + coverage gate)
+├── [[.personas/research-bank]] P5.2                    (2.5.7 · 2.5.8 · 3.3.7 — VERIFIED)
+├── [[.personas/research-bank]] P8.1–P8.5               (metrik — VERIFIED)
+├── [[.personas/research-bank]] P6.4                    (veli onayı — DERIVED)
+├── [[.personas/methodology]] §2.2, §3.3, §3.4
+├── [[.personas/test-scenarios-mapping]] §4.4-S5/S6     (grup beklentileri + ortak katman)
+├── [[.personas/mood-taxonomy]] §2                      (küme adları)
+└── [[.decisions/accepted/ADR-023-persona-driven-testing]] satır 19        (eşleme + coverage gate)
 ```
 
 ### §3.1 Test Blokları (PLY-001 → PLY-010)
@@ -176,7 +176,7 @@ Bu dosya, CoreMusic'in **playlist oluşturma test senaryosudur**: CRUD işlemler
 | 3.3.7 | Redundant Entry | A | `VERIFIED` |
 | 3.3.8 | Accessible Authentication (Minimum) | AA — WCAG 2.2 **YENİ** | `VERIFIED` |
 
-### §3.3 Persona / Mood Eşlemesi (`[[personas/test-scenarios-mapping]]`)
+### §3.3 Persona / Mood Eşlemesi (`[[.personas/test-scenarios-mapping]]`)
 
 | Grup (n) | Playlist beklentisi | Kısıt |
 |---|---|---|
@@ -491,13 +491,13 @@ Kapsam sayı iddiaları (41/55/46) kullanılmaz; `EXCLUDED` kayıtlar atlanır.
 
 | Bağlantı | Rol |
 |----------|-----|
-| [[personas/index]] | Persona ana indeksi |
-| [[personas/methodology]] | Test metodolojisi |
-| [[personas/research-bank]] | P5/P6/P8 eşik kaynağı |
-| [[personas/test-scenarios-mapping]] | Grup × senaryo matrisi |
-| [[personas/persona-template]] | Persona alan şablonu |
-| [[ADR-023-persona-driven-testing]] | Karar + coverage gate |
-| [[personas/test-senaryolari/a11y-erisilebilirlik]] | Kardeş senaryo (a11y derinliği) |
+| [[.personas/index]] | Persona ana indeksi |
+| [[.personas/methodology]] | Test metodolojisi |
+| [[.personas/research-bank]] | P5/P6/P8 eşik kaynağı |
+| [[.personas/test-scenarios-mapping]] | Grup × senaryo matrisi |
+| [[.templates/personas/persona-template]] | Persona alan şablonu |
+| [[.decisions/accepted/ADR-023-persona-driven-testing]] | Karar + coverage gate |
+| [[.personas/test-senaryolari/a11y-erisilebilirlik]] | Kardeş senaryo (a11y derinliği) |
 
 ### §7.2 Değişiklik Geçmişi (append-only)
 

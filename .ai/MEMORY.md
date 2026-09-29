@@ -4,7 +4,7 @@ title: "CoreMusic — Memory System Index"
 type: system
 category: memory-management
 date: 2026-08-13
-updated: 2026-09-24
+updated: 2026-09-28
 status: active
 version: 25.1.1
 authority: Single Source of Truth (SSOT)
@@ -397,12 +397,12 @@ Backend (home.coremusic.net):
 
 | Ozellik | Deger |
 |---------|-------|
-| Session Date | 2026-09-25 |
-| Active Task | Vault şablonu dışa aktarımı: .ai/templates/coremusic-vault-template.md (810 satır) + .ai/templates/README.md (75 satır) — 10 bölüm, Ek A 9 çelişki, Ek B cross-ref şablonu |
-| Domain | Templates / Vault Export |
-| Last Action | log.md append kaydı (569 bayt + newline düzeltmesi); UTF-8 verify BOM 0 / mojibake 0; v1.1.0 kaynak-doğrulamalı revizyon: 12+ uydurma bölüm düzeltildi (completed) |
-| Changed Files | .ai/templates/coremusic-vault-template.md (yeni) · .ai/templates/README.md (yeni) · .ai/log.md (append) · .ai/MEMORY.md (§20) |
-| Known Issue | session-save.mjs · vault-post-update.mjs · vault-cmd.mjs · project-state.md YOK → post-op sync manuel yapıldı; log.md'de önceden mevcut mojibake 6 / CJK 12 (bu oturum öncesi) |
+| Session Date | 2026-09-28 |
+| Active Task | Faz 2 persona yeniden yazımı TAMAMLANDI: .ai/.personas/ 68/68 dosya (6 grup), 35.026 satır, %100 >=500; 4 dosya rename + 13 self-ref fix; Download kanonu 39; index sayaçları hizalandı |
+| Domain | Personas / Vault Consistency |
+| Last Action | wiki-link kanonu normalizasyonu (.personas 79 dosya, 4.096 link -> gercek yol, kirik 0) + registry total_lines ReadAllLines hizasi + MEMORY 3'lü tarih hizasi |
+| Changed Files | .ai/.personas/** (79 dosya wiki-link) + .ai/.templates/index.md + .ai/MEMORY.md + .ai/log.md (append) |
+| Known Issue | session-save.mjs · vault-post-update.mjs · vault-cmd.mjs · project-state.md YOK → post-op sync manuel (VERIFICATION REQUIRED); log.md'de onceden mevcut mojibake 6 / CJK 12; S5=55 / S6=46 uygulanabilirlik sayilari eski vault kaynakli ⚠️ VERIFICATION REQUIRED; PowerShell 5.1 -match Turkce culture'da 'I' harfinde yanlis sonuc verir → sayimlarda CultureInvariant regex kullanildi |
 
 ---
 
@@ -452,11 +452,11 @@ Backend (home.coremusic.net):
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 25.1.0 |
+| Version | 25.1.1 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 7 H2 + 24 § |
 | SSOT Authority | Memory System Index |
-| Last Updated | 2026-09-23 |
+| Last Updated | 2026-09-28 |
 | ADR Coverage | ADR-001 through ADR-089 (37 Frozen + 31 Active + 12 Rejected) |
 | Security Boundary | REDACTED policy |
 | Session History | 24 oturum |
@@ -684,20 +684,22 @@ Bu revizyonda her düzeltme üç kaynakla desteklendi: (1) Test-Path dosya varl�
 | 2026-09-18 | 50W Class AB Amplifier Circuit Design — Tam devre tasarımı, BOM, bias prosedürü, koruma devreleri, PCB layout, test protokolü | ✅ .ai/architecture/amplifier-classab-circuit.md oluşturuldu (12 bölüm, tek kanal tasarımı) | ADR-061, ADR-063 | embedded-engineer |
 | 2026-09-21 | Agent Profilleri + CLAUDE.md Genişletme — 11 agent profili (.ai/.agents/) oluşturuldu, 4 kritik CLAUDE.md genişletildi (shared, auth, home, assets) | [OK] 12 dosya oluşturuldu/güncellendi, ~2000+ satır eklendi | — | vault-updater |
 | 2026-09-24 | Vault Workflow+Template Genişletme — WORKFLOW.md 27→502 satır (K0-K20, A0-A5, 23 klasör/340 MD, 3 tur/20 persona, iki ADR serisi, UTF-8/post-op), .workflows/architecture-write.md yeni (511 satır, batch ≤31, 0 silme, AC-01…AC-26), 4 yeni şablon (katman-readme 174, alt-katman 158, adr-nygard 209, agent-tartisma-turu 185), hedefli edit: session-init/vault-sync/adr-creation/.workflows CLAUDE/kök CLAUDE, templates index 325→338 (36/36 dosya, 16.503 satır, v4.4.0) | [OK] 0 dosya silindi; grep domain L* = 0; 334↔340 çelişkisi VERIFICATION REQUIRED korundu | — | vault-updater |
+| 2026-09-27 | Faz 2 Persona Yeniden Yazımı (62 kalan persona) - 7 dalga (A-G) ile .ai/.personas/ altinda 68/68 dosya sifirdan yazildi (eski vault icerigi referans + web arastirmasi + research-bank P1-P8 etiketli veri); 4 genc-erkek dosyasi yanlis isimle yazildi → rename + 13 ic self-ref (authority/footer) duzeltmesi; kapanis taramasi hepsi yesil | → 68/68 dosya, 35.026 satır, >=500 %100, BOM/mojibake/CJK 0, FM 7/7, persona_id 68 benzersiz, veli<16 kurali 0 celiski, wiki-link 0 kirik; index.md §6.3 6 yas celiskisi frontmatter ile eslestirildi, §6.5 tablo 68=68; Download kanonu 39 (68-29) + turetilmis hucreler (123→117, 346→344, 1.038→1.032); .ai/index.md 28.4.0 / 2026-09-27 | ADR-023, ADR-005 | vault-updater + qa-engineer |
+| 2026-09-28 | Wiki-link kanonu + registry hizasi - .ai/.personas/** 79 dosyada 4.096 [[link]] nokta-onkli gercek yola cevrildi (kok .ai/); .templates/index.md total_lines ReadAllLines ile yeniden olculdu + updated 2026-09-28; MEMORY.md 3'lü tarih/versiyon hizasi | → kirik link 0, .. hedefi 0, yanlis onek 0; satir-BOM-mojibake-CJK-NUL 0; registry 38 dosya | - | vault-updater |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-24
+**Last Updated:** 2026-09-28
 **Mode:** Red Team · Human Mode · Truth Mode
 
 <!-- vault-sync:auto-begin -->
 ## Session State (auto)
 
-- Last update: 2026-09-25 00:34:18
-- Last session: ses_f2ab218ceffe6kKxzyf0RT4KSr
+- Last update: 2026-09-28 18:18:43
+- Last session: ses_f22fd22d4ffeN6omnhdTZGGTNy
 - Next: kaldigin yerden devam etmek icin vault_sync continue-last kullan
-- Last operation: ADR-019 per-os-neva-player YAZILDI (debate PENDING, Tech Lead PENDING; 337 satir / 52.043 bayt, UTF-8 temiz (BOM/mojibake=0), wiki-link 24 unique / 0 kirik, placeholder 0). Kod kaniti: 0 *.cpp/*.h, IAudioBackend=0 eslesme -> cekirdek+adapter kodu PLANNED; spec IMPLEMENTED (k2-surucu 14 dosya + neva-engine-core + brain.md:862 fallback). log.md 1 satir append (47 bayt). session-save.mjs + vault-post-update.mjs DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED: project-state.md de yok).
+- Last operation: Faz 2 persona uretimi TAMAMLANDI (7 dalga A-G): .ai/.personas/ 68/68 dosya / 35.026 satir / >=500 %100 / BOM-mojibake-CJK 0 / FM 7/7 / persona_id 68 benzersiz / veli-yas 0 celiski / wiki-link 0 kirik. 4 rename (genc-erkek) + 13 self-ref fix; index.md 20 satir yas/mood sayac hizasi; .ai/index.md 28.4.0 (L7/L8/s18/footer) + toplam ADR alani 0'a geri alindi (baska oturumun); mapping Download kanonu 39 + turetilmis hucreler; log.md +20 satir append (0 silme).
 2026-09-25 | session | ADR-020-api-public-security YAZILDI (debate PENDING, Tech Lead PENDING, Arch Lead PENDING; 364 satir / 58.659 bayt, UTF-8 temiz (BOM/mojibake/CJK=0), wiki-link 22 unique / 0 kirik, placeholder 0). Icerik: genel API guvenlik seti - API key (SHA-256+prefix+scope, kodda dogrulama YOK), JWT Bearer BLOCKED (validateJwtToken stub null - ADR-010 sart 3 / ADR-011 4.4), OAuth2 PKCE PLANNED, RateLimitMiddleware pipeline KAYDI YOK, CORS eksik header+echo, versiyonlama testli, Gateway hata sizintisi (:60-67), audit log SQL var/PHP yok, 2x api_keys SSOT celiskisi. web-research 5 sorgu / ~36 kaynak (OWASP API Top 10, RFC 8725, OAuth 2.1 PKCE, Deprecation). log.md 1 satir append (49 bayt). session-save.mjs + vault-post-update.mjs + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED).
 2026-09-25 | session | ADR-027-dual-mode-storage-strategy YAZILDI (debate PENDING, Tech Lead PENDING, Arch Lead PENDING; 333 satir / 53.554 bayt, UTF-8 temiz (BOM/mojibake=0), wiki-link 24/24 diskte, placeholder 0, §1.3 9/9 alan dolu). Icerik: 2 eksen (online+offline yerel mod, local disk+cloud hibrit); LWW+server SSOT varsayilan, CRDT sadece playlist/etiket hassas listeler, offline yazim kuyrugu PLANNED. IMPLEMENTED kanit: shared/src/Cache/ 7 dosya + Router offline event (RouterEventManager.js:13) + localStorage (SidebarManager.js:49-82). PLANNED/0 esme: IndexedDB, serviceWorker/PWA, gdrive/mega, storage/ dizinleri (H032), CRDT sadece spec (k8-servis/sync-service.md), LWW sadece k5 README + ADR-081. web-research 6 sorgu / ~34 kaynak (Drive API 750GB/gun+1TB egress, MEGA EOVERQUOTA, LWW vs CRDT, SW+IndexedDB tarayici quota/eviction). log.md 1 satir append (250 bayt) + satir ayristirmasi duzeltildi (insert-before-marker, 1 bayt). session-save.mjs + vault-post-update.mjs + sessions/ + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED, scripts/index.md §2 ile ayni durum). .claude/CLAUDE.md + .opencode/CLAUDE.md eski v23.0.0 (471 satir fark) -> .ai/CLAUDE.md kopyasi ile sync edildi.
 2026-09-25 | session | ADR-030-ai-strategy-core YAZILDI (debate PENDING, Tech Lead PENDING, Arch Lead PENDING; 362 satir / 67.106 bayt, UTF-8 temiz (BOM/mojibake/CJK=0), wiki-link 22/22 diskte, placeholder 0, 1.3 9/9 alan dolu). Icerik: 5 karar ekseni (kullanim alani: oneri+asistan+transkript; model: API birincil + yerel/edge opsiyonel PLANNED; maliyet: token butcesi + ADR-007 cache + ADR-013 rate limit; gizlilik: ADR-022 PII + egitime veri yok kapali varsayilan + redaksiyon; HITL: aciklanabilir oneri + yanit dogrulama). Kod kaniti: ToolCalling.php:241-280 generic http-request araci (curl :253-262, LLM saglayici cagrisi 0), embedding/vector 0, AIEngine stub (return [] :219,224,241), coremusic_ai.sql 6 tablo IMPLEMENTED, shared/src/AI/ 7 sinif PLANNED (unused-files-report vs broken-code-scan celiskisi ADR'de belgelendi). web-research 9 sorgu / ~78 kaynak (model routing, RAG, token butce, GDPR, HITL, muzik oneri, lock-in, edge/SLM, OWASP LLM). log.md 1 satir append (418 bayt) + satir ayristirmasi duzeltildi (replace, oncesindeki satira yapismisti). session-save.mjs + vault-post-update.mjs + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED).
@@ -705,4 +707,5 @@ Bu revizyonda her düzeltme üç kaynakla desteklendi: (1) Test-Path dosya varl�
 2026-09-26 | session | ADR-038-8-1-sound-card-chip-selection YAZILDI (debate PENDING, Tech Lead PENDING, Arch Lead PENDING; 289 satir / 28.929 bayt, UTF-8 temiz (BOM/mojibake/CJK=0), wiki-link 20/20 diskte, placeholder 0, §1.3 9/9 alan dolu, 5 sorgu / 20 kaynak). Icerik: TEYIT karari (brain.md:998 slotu; secim degil, gerekce+entegrasyon+olcum) - PCM3168A (6-in/8-out, 112 dB SNR, TDM) + XU316 (lib_xua UAC2.0 async, I2S/TDM master, I2C AudioHwInit); H001 PCM5122 yasagi red gerekcesi; XMOS referans kart 4xPCM5122 gerilimi -> R2; rol celiskisi k1-donanim/dac-adc-zinciri.md:18-19,63-92 (AK4458=DAC ters) §1.1-C + §5.1 adim 4; kod kaniti 0 (AIEngine.php:147 yorum /:155 placeholder, *.cpp/*.h/*.xc=0) -> entegrasyon+olcum tamami PLANNED; olcum plani AES17-2020 + IEC 61606-1 + EIAJ CP-2404 (M1-M6, marjli esik); jitter butcesi sayisal deger VERIFICATION REQUIRED; ES9039 acik sorusu §3 alt.4 + R3 (fallback = yeni ADR). index.md:80 slug 8.1 -> 8-1 duzeltildi (dosya adinda nokta yasak, [[accepted/ADR-038-8-1-sound-card-chip-selection]]). log.md 1 satir append (onceki satir sonu yoktu -> satir birlesmesi 1 bayt newline ile onarildi). session-save.mjs + vault-post-update.mjs + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED, onceki ADR oturumlariyla ayni durum).
 2026-09-26 | session | Guardrail #16 persona sablonu uretildi — .ai/.templates/personas/persona-template.md (695 satir, 8-bolum + 11 alan havuzu, 7-alanli FM, verify BOM/mojibake=0, CRLF) + registry .templates/index.md v4.4.1 -> v4.5.0 (total 36/36/16503 -> 37/37/17209, §7.1.14 #37 eklendi, kategori 11 -> 12 dizin, Maks Satir 649 -> 695, FM 35/35, 500+ 30/34, git diff 0 silinen satir, .templates scan dirty:0). log.md 1 satir append (618 bayt). session-save.mjs + vault-post-update.mjs + vault-cmd.mjs + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED). Ek bulgu: .ai/.templates/coremusic-vault-template.md (810 satir) diskte mevcut ama registry kayitli degil -> gercek disk 38, registry 37 (VERIFICATION REQUIRED).
 2026-09-26 | session | 6 persona dosyasi SIFIRDAN uretildi (persona-template s3.5 11/11 + research-bank P3-P8 etiketli veri) -> kiz-cocuk/zeynep-yilmaz.md (500 satir), erkek-cocuk/yigit-can-arabesk.md (500), genc-kiz/alya-yilmaz-romantik.md (501), genc-erkek/metehan-sahin-sporcu.md (501), yetiskin-kadin/ebru-arslan-anne.md (504), yetiskin-erkek/emre-bulut-baba.md (504). verify hepsi: BOM=false, mojibake=0; scan --dir .ai/.personas dirty:0; otomatik dogrulama: FM 7+5, 11/11 alt bolum, s4-blok ilk, {{VARIABLE}} 2 (kural metni), test adimi 16x6, kaynak tablosu 28x6, wiki-link 7/7, persona_id regex OK, age/veli eslesme OK (4 kucuk: veli true + KVKK notu, 2 yetiskin: veli false). Etiket toplami: kurgusal 316, [k1]+[k2] 75, VERIFICATION REQUIRED 149, DERIVED 116. Subagent derinlik limiti nedeniyle 6 dosya da main agent inline yazildi. log.md 1 satir append (570 bayt). session-save.mjs + vault-post-update.mjs + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED, onceki oturumlarla ayni durum).
+2026-09-27 | session | Faz 2 persona 68/68 TAMAMLANDI — .ai/.personas/ altinda 7 dalga (A-G) ile 68/68 dosya, 35.026 satir, >=500 %100, FM 7/7, persona_id 68 benzersiz, veli<16 0 celiski, wiki-link 0 kirik, 4 rename (genc-erkek) + 13 self-ref fix; index.md 20 satir sayac hizasi (yas celiskisi 6), Download kanonu 39 + turetilmis hucreler (123→117, 346→344, 1.038→1.032), .ai/index.md 28.4.0; kapanis taramasi BOM/mojibake/CJK 0; log.md +20 satir append (0 silme); session-save/vault-post-update/vault-cmd/project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED).
 <!-- vault-sync:auto-end -->

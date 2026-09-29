@@ -10,7 +10,7 @@ updated: 2026-09-26
 
 # CoreMusic — Test Senaryosu: Sosyal Paylaşım (SOS)
 
-**Zorunlu Bağlantılar:** [[personas/index]] · [[personas/methodology]] · [[personas/research-bank]] · [[personas/test-scenarios-mapping]] · [[personas/persona-template]] · [[ADR-023-persona-driven-testing]] · [[personas/test-senaryolari/a11y-erisilebilirlik]]
+**Zorunlu Bağlantılar:** [[.personas/index]] · [[.personas/methodology]] · [[.personas/research-bank]] · [[.personas/test-scenarios-mapping]] · [[.templates/personas/persona-template]] · [[.decisions/accepted/ADR-023-persona-driven-testing]] · [[.personas/test-senaryolari/a11y-erisilebilirlik]]
 
 ---
 
@@ -22,9 +22,9 @@ updated: 2026-09-26
 | Hedef Kitle | QA Engineer (birincil), Security Engineer (gizlilik/izin), UI Designer (akış UI) |
 | Yapı | H1 + Zorunlu Bağlantılar + §1 Amaç → §7 Referanslar (7 bölüm + 7 alanlı frontmatter) |
 | ADR-023 Karşılığı | 20 persona matrisi **satır 20 — Sosyal Paylaşım kişisi** (§2.2a; kaynak: eski vault `test-senaryolari/sosyal-paylasim.md`) |
-| Mapping Karşılığı | **S6 Social** — 46/68 uygulanabilir; **çocuk ❌ · yetişkin ⚠️ kısıtlı (mesaj ❌, akış ❌)** — `[[personas/test-scenarios-mapping]]` §4.2/§4.3 |
+| Mapping Karşılığı | **S6 Social** — 46/68 uygulanabilir; **çocuk ❌ · yetişkin ⚠️ kısıtlı (mesaj ❌, akış ❌)** — `[[.personas/test-scenarios-mapping]]` §4.2/§4.3 |
 | Test Seviyeleri | Seviye 1 AI Rol · Seviye 2 Browser MCP · Seviye 3 Playwright · Seviye 4 Rapor |
-| Eşik Kaynağı | `[[personas/research-bank]]` **P8 (metrik)** + **P5 (WCAG)** + **P6 (KVKK/yaş — `⚠️ DERIVED`)** |
+| Eşik Kaynağı | `[[.personas/research-bank]]` **P8 (metrik)** + **P5 (WCAG)** + **P6 (KVKK/yaş — `⚠️ DERIVED`)** |
 | Adım Sayısı | **15** (asgari 10 — §5.3) |
 | Test Blokları | SOS-001 … SOS-010 (10 blok — §3.1) |
 | Zorunlu Blok | §4.0 Şablon-Önce Kural Bloğu (silinemez) |
@@ -39,7 +39,7 @@ updated: 2026-09-26
 
 ## §1 Amaç
 
-Bu dosya, CoreMusic'in **sosyal paylaşım test senaryosudur**: playlist/şarkı/profil paylaşımı, işbirlikçi özellikler, sosyal akış, bildirimler, gizlilik kontrolleri ve grup bazlı sosyal davranışların (çocuk ❌ erişim reddi · genç tam · yetişkin ⚠️ kısıtlı) hangi adımlarla test edileceğini tanımlar. Kısıt matrisi `[[personas/test-scenarios-mapping]]` §4.3'ten **taşınır**: S6 = kız çocuk ❌ · erkek çocuk ❌ · genç ✅ · yetişkin ⚠️ kısıtlı. Eski vault'taki 468 satırlık senaryo **kopyalanmamış**; iskelet research-bank ile **yeniden bağlanmıştır** (ADR-005 Zero Hallucination).
+Bu dosya, CoreMusic'in **sosyal paylaşım test senaryosudur**: playlist/şarkı/profil paylaşımı, işbirlikçi özellikler, sosyal akış, bildirimler, gizlilik kontrolleri ve grup bazlı sosyal davranışların (çocuk ❌ erişim reddi · genç tam · yetişkin ⚠️ kısıtlı) hangi adımlarla test edileceğini tanımlar. Kısıt matrisi `[[.personas/test-scenarios-mapping]]` §4.3'ten **taşınır**: S6 = kız çocuk ❌ · erkek çocuk ❌ · genç ✅ · yetişkin ⚠️ kısıtlı. Eski vault'taki 468 satırlık senaryo **kopyalanmamış**; iskelet research-bank ile **yeniden bağlanmıştır** (ADR-005 Zero Hallucination).
 
 | Boyut | Değer |
 |-------|-------|
@@ -54,11 +54,11 @@ Bu dosya, CoreMusic'in **sosyal paylaşım test senaryosudur**: playlist/şarkı
 | İhtiyaç | Doğru Dosya | Bu Dosya Kullanılmaz |
 |---------|-------------|----------------------|
 | Sosyal paylaşım test adımları + erişim-red kanıtları | ✅ Bu dosya | — |
-| Kısıt matrisi (çocuk ❌ / yetişkin ⚠️) | `[[personas/test-scenarios-mapping]]` §4.3-S6 | ❌ (taşınır) |
-| WCAG/metrik eşikleri | `[[personas/research-bank]]` P5/P8 | ❌ (taşınır) |
-| Veli onayı politikası | `[[personas/research-bank]]` P6.4 `⚠️ DERIVED` | ❌ (taşınır) |
-| Test akışı/seviyeleri | `[[personas/methodology]]` | ❌ |
-| Coverage gate | `[[ADR-023-persona-driven-testing]]` | ❌ |
+| Kısıt matrisi (çocuk ❌ / yetişkin ⚠️) | `[[.personas/test-scenarios-mapping]]` §4.3-S6 | ❌ (taşınır) |
+| WCAG/metrik eşikleri | `[[.personas/research-bank]]` P5/P8 | ❌ (taşınır) |
+| Veli onayı politikası | `[[.personas/research-bank]]` P6.4 `⚠️ DERIVED` | ❌ (taşınır) |
+| Test akışı/seviyeleri | `[[.personas/methodology]]` | ❌ |
+| Coverage gate | `[[.decisions/accepted/ADR-023-persona-driven-testing]]` | ❌ |
 
 ---
 
@@ -102,13 +102,13 @@ Bu dosya, CoreMusic'in **sosyal paylaşım test senaryosudur**: playlist/şarkı
 
 ```
 .ai/.personas/test-senaryolari/sosyal-paylasim.md      ← bu dosya (SSOT: senaryo)
-├── [[personas/test-scenarios-mapping]] §4.3/§4.4-S6   (kısıt matrisi — VERIFIED mapping)
-├── [[personas/research-bank]] P6.3/P6.4               (yaş/veli onayı — DERIVED)
-├── [[personas/research-bank]] P8.1–P8.5               (metrik — VERIFIED)
-├── [[personas/research-bank]] P5.2                    (WCAG kriter numaraları)
-├── [[personas/methodology]] §2.2, §3.3, §3.4
-├── [[personas/mood-taxonomy]] §3.x                    (Sosyal küme + paylaşım izni notu)
-└── [[ADR-023-persona-driven-testing]] satır 20        (eşleme + coverage gate)
+├── [[.personas/test-scenarios-mapping]] §4.3/§4.4-S6   (kısıt matrisi — VERIFIED mapping)
+├── [[.personas/research-bank]] P6.3/P6.4               (yaş/veli onayı — DERIVED)
+├── [[.personas/research-bank]] P8.1–P8.5               (metrik — VERIFIED)
+├── [[.personas/research-bank]] P5.2                    (WCAG kriter numaraları)
+├── [[.personas/methodology]] §2.2, §3.3, §3.4
+├── [[.personas/mood-taxonomy]] §3.x                    (Sosyal küme + paylaşım izni notu)
+└── [[.decisions/accepted/ADR-023-persona-driven-testing]] satır 20        (eşleme + coverage gate)
 ```
 
 ### §3.1 Test Blokları (SOS-001 → SOS-010)
@@ -175,7 +175,7 @@ Bu dosya, CoreMusic'in **sosyal paylaşım test senaryosudur**: playlist/şarkı
 | 3.3.7 | Redundant Entry | A | `VERIFIED` |
 | 3.3.8 | Accessible Authentication (Minimum) | AA — WCAG 2.2 **YENİ** | `VERIFIED` |
 
-### §3.3 Persona / Mood Eşlemesi (`[[personas/test-scenarios-mapping]]`)
+### §3.3 Persona / Mood Eşlemesi (`[[.personas/test-scenarios-mapping]]`)
 
 | Grup (n) | S6 beklentisi (mapping §4.4-S6) | Doğrulama yöntemi |
 |---|---|---|
@@ -237,7 +237,7 @@ Mood çaprazı (mapping §4.7): **Sosyal (5) → birincil S6** (tipik hata: "mes
 | 14 | Yetişkin | Anne/Baba — ortak dinleme | Paylaş ✅; mesaj/akış ❌ ayrı red | 8, 9 |
 | 16 | Mood-geçiş kişisi | Arabesksever ↔ Danssever (tür paylaşımları) | Paylaşılan tür bilgisi kümeyle tutarlı | 3 |
 
-> Bu tablo mood-taxonomy §3.6'dan **taşınan** özet; küme tanımları `[[personas/mood-taxonomy]]`'tedir, burada tekrar tanımlanmaz.
+> Bu tablo mood-taxonomy §3.6'dan **taşınan** özet; küme tanımları `[[.personas/mood-taxonomy]]`'tedir, burada tekrar tanımlanmaz.
 
 ---
 
@@ -491,13 +491,13 @@ Kapsam/41-55-46 sayı iddiaları kullanılmaz; `EXCLUDED` kayıtlar atlanır.
 
 | Bağlantı | Rol |
 |----------|-----|
-| [[personas/index]] | Persona ana indeksi |
-| [[personas/methodology]] | Test metodolojisi |
-| [[personas/research-bank]] | P5/P6/P8 eşik kaynağı |
-| [[personas/test-scenarios-mapping]] | Grup × senaryo matrisi |
-| [[personas/persona-template]] | Persona alan şablonu |
-| [[ADR-023-persona-driven-testing]] | Karar + coverage gate |
-| [[personas/test-senaryolari/a11y-erisilebilirlik]] | Kardeş senaryo (a11y derinliği) |
+| [[.personas/index]] | Persona ana indeksi |
+| [[.personas/methodology]] | Test metodolojisi |
+| [[.personas/research-bank]] | P5/P6/P8 eşik kaynağı |
+| [[.personas/test-scenarios-mapping]] | Grup × senaryo matrisi |
+| [[.templates/personas/persona-template]] | Persona alan şablonu |
+| [[.decisions/accepted/ADR-023-persona-driven-testing]] | Karar + coverage gate |
+| [[.personas/test-senaryolari/a11y-erisilebilirlik]] | Kardeş senaryo (a11y derinliği) |
 
 ### §7.2 Değişiklik Geçmişi (append-only)
 
