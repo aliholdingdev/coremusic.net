@@ -146,8 +146,8 @@
   --cm-player-pad-left: clamp(12px, 2vw, 25px);
   --cm-player-pad-right: clamp(12px, 2vw, 25px);
   --cm-player-pad-bottom: clamp(12px, 2vh, 20px);
-  --cm-player-bg: rgba(255, 255, 255, 0.1);
-  --cm-player-border: rgba(255, 255, 255, 0.1);
+  --cm-player-bg: rgba(220, 50, 150, 0.2);
+  --cm-player-border: rgba(255, 105, 180, 0.3);
   --cm-player-border-w: 1px;
   --cm-player-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   --cm-player-radius: var(--radius-lg); /* Figma'da radius yok — design token */
@@ -661,8 +661,8 @@
     --cm-player-pad-left: 25px;
     --cm-player-pad-right: 25px;
     --cm-player-pad-bottom: 20px;
-    --cm-player-bg: rgba(255, 255, 255, 0.1);
-    --cm-player-border: rgba(255, 255, 255, 0.1);
+    --cm-player-bg: rgba(220, 50, 150, 0.2);
+    --cm-player-border: rgba(255, 105, 180, 0.3);
     --cm-player-border-w: 1px;
     --cm-player-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     --cm-player-radius: var(--radius-lg);
