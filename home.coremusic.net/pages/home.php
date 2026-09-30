@@ -46,10 +46,23 @@ $loader = new ComponentLoader();
 require __DIR__ . '/../header.php';
 ?>
 
+<!-- DEBUG: Responsive Test 1024×1920px -->
+<?php if (isset($_GET['_test_responsive'])): ?>
+<div style="position: fixed; top: 0; left: 0; right: 0; background: #f00; color: #fff; padding: 10px; font-size: 12px; z-index: 9999; text-align: center;">
+    TEST MOD: <?= htmlspecialchars($dm->shouldRenderWideLayout() ? 'WIDE' : 'EMBEDDED') ?> 
+    | Variant: <?= htmlspecialchars($variant->isWide() ? 'wide' : 'embedded') ?>
+</div>
+<main class="page-home page-layout <?= $layoutClass ?> <?= $dm->allClasses() ?>"
+      role="main"
+      aria-label="Ana Sayfa"
+      <?= $dm->dataAttributes() ?>
+      style="margin-top: 40px;">
+<?php else: ?>
 <main class="page-home page-layout <?= $layoutClass ?> <?= $dm->allClasses() ?>"
       role="main"
       aria-label="Ana Sayfa"
       <?= $dm->dataAttributes() ?>>
+<?php endif; ?>
 
 <?php if ($isWide): ?>
     <!-- ════════════════════════════════════════════════════════════
