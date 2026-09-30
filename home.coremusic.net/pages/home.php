@@ -21,9 +21,15 @@ use CoreMusic\Home\Class\ComponentLoader;
 use CoreMusic\Home\Class\HomeLayoutVariant;
 
 /* --- DeviceManager (viewport cookie fallback) --- */
+// Test mode: ?_test_resp=1024|1920|3840 parameters override viewport
+$testViewportW = null;
+if (isset($_GET['_test_resp']) && preg_match('/^(1024|1440|1920|3840)$/', $_GET['_test_resp'])) {
+    $testViewportW = (int)$_GET['_test_resp'];
+}
+
 if (!isset($dm)) {
     $dm = DeviceManager::instance([
-        'viewportW' => (int)($_SERVER['VIEWPORT_W'] ?? 0) ?: null,
+        'viewportW' => $testViewportW ?: (int)($_SERVER['VIEWPORT_W'] ?? 0) ?: null,
         'viewportH' => (int)($_SERVER['VIEWPORT_H'] ?? 0) ?: null,
     ]);
 }
@@ -46,11 +52,13 @@ $loader = new ComponentLoader();
 require __DIR__ . '/../header.php';
 ?>
 
-<!-- DEBUG: Responsive Test 1024×1920px -->
-<?php if (isset($_GET['_test_responsive'])): ?>
-<div style="position: fixed; top: 0; left: 0; right: 0; background: #f00; color: #fff; padding: 10px; font-size: 12px; z-index: 9999; text-align: center;">
-    TEST MOD: <?= htmlspecialchars($dm->shouldRenderWideLayout() ? 'WIDE' : 'EMBEDDED') ?> 
-    | Variant: <?= htmlspecialchars($variant->isWide() ? 'wide' : 'embedded') ?>
+<!-- DEBUG: Responsive Test Mode 1024/1920/3840px -->
+<?php if (isset($_GET['_test_resp'])): ?>
+<div style="position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(90deg, #f00 0%, #ff1493 100%); color: #fff; padding: 12px 15px; font-size: 11px; z-index: 10000; text-align: center; font-weight: bold; font-family: monospace;">
+    🧪 TEST MODE: <strong><?= htmlspecialchars($dm->shouldRender4kLayout() ? '4K (3840px)' : ($dm->shouldRenderWideLayout() ? 'WIDE (1920px)' : 'EMBEDDED (1024px)')) ?></strong> 
+    | Variant: <strong><?= htmlspecialchars($variant->isWide() ? 'wide' : 'embedded') ?></strong> 
+    | Player: <strong><?= $variant->isWide() ? '150×150 cover' : '72×72 cover' ?></strong>
+    | 📍 <a href="?" style="color: #fff; text-decoration: underline;">Exit Test</a>
 </div>
 <main class="page-home page-layout <?= $layoutClass ?> <?= $dm->allClasses() ?>"
       role="main"
