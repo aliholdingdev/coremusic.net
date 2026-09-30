@@ -117,7 +117,14 @@ Kullanıcı → Watch ekranı
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Complication'a Tıkla | Watch ekranı | CoreMusic complication'ına tıkla |
+| 2 | Oynat/Duraklat | Now Playing (Mikro) | [▶] butonuna tıkla |
+| 3 | Seek Yap | Now Playing (Mikro) | Digital Crown'u döndür |
+| 4 | Ses Ayarla | Quick Controls | 🔊 ses sürgüsünü kaydır |
+| 5 | Karışık | Quick Controls | 🔀 Karışık satırına tıkla |
+| 6 | Durdur | Quick Controls | [Durdur] butonuna tıkla |
 
 ---
 

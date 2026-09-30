@@ -208,7 +208,14 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | WiFi Modal Aç | wifi-quick | Ayarlar'dan Wi-Fi öğesini seç [[screens/T07-embedded/wifi-quick]] |
+| 2 | WiFi Aç | wifi-quick | Wi-Fi toggle'ını aç [[screens/T07-embedded/wifi-quick]] |
+| 3 | Ağ Seç | wifi-quick | kullanılabilir ağdaki [Bağlan] butonuna tıkla [[screens/T07-embedded/wifi-quick]] |
+| 4 | Şifre Gir | wifi-connect-light | Kablosuz Ağ Şifresi alanına şifre yaz [[screens/T07-embedded/wifi-connect-light]] |
+| 5 | Bağlan | wifi-connect-light | şifre modalındaki [Bağlan] butonuna tıkla [[screens/T07-embedded/wifi-connect-light]] |
+| 6 | Bağlantıyı Onayla | Bağlantı Durumu | [OK] butonuna tıkla |
 
 ---
 

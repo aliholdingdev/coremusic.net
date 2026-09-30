@@ -178,7 +178,15 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | EQ Modu Seç | Equalizer | [Preset] sekmesine tıkla |
+| 2 | Preset Seç | Equalizer | preset listesinden [Pop] öğesini seç |
+| 3 | Özel Bant Ayarla | Equalizer | 31-BAND EQ'da bir bant sürgüsünü kaydır |
+| 4 | Sıfırla | Equalizer | [Sıfırla] butonuna tıkla |
+| 5 | Kaydet | Equalizer | [Kaydet] butonuna tıkla |
+
+> ⚠️ VERIFICATION REQUIRED — §1'deki "Önizleme Dinle" (L49-L52) ve "Uygula → Dinle" (L54-L57) düğümlerinin §2'de karşılık gelen kontrolü yok (bu dosya L91'de yalnız [+6dB] [0dB] [-6dB] [Sıfırla] [Kaydet]) → satırlar yazılmadı.
 
 ---
 

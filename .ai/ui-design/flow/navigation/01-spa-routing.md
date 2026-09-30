@@ -157,7 +157,12 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Ana Sayfa'ya Geç | home-dashboard | Header Nav'da [Ana Sayfa] linkine tıkla [[screens/T07-embedded/home-dashboard]] |
+| 2 | Albümler'e Geç | albums | Header Nav'da [Albümler] linkine tıkla [[screens/T07-embedded/albums]] |
+| 3 | Sanatçılar'a Geç | singer | Header Nav'da [Sanatçılar] linkine tıkla [[screens/T07-embedded/singer]] |
+| 4 | Kütüphane'ye Geç | Kütüphane | Phone Bottom Tab'da [📚 Kütüphane] sekmesine tıkla |
 
 ---
 

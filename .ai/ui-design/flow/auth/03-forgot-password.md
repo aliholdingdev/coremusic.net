@@ -193,7 +193,12 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | E-posta Gir | E-posta Girme | [📧 E-posta] alanına e-posta adresi yaz |
+| 2 | Sıfırlama Linki Gönder | E-posta Girme | [▶ Sıfırlama Linki Gönder] butonuna tıkla |
+
+> ⚠️ VERIFICATION REQUIRED — Kod çelişkisi nedeniyle satır yazılmadı: EKRAN 2 "Token Doğrulama" (bu dosya L106-L120, 6 haneli kod + [▶ Doğrula]) ve EKRAN 3 "Yeni Şifre" (L125-L136, [🔒 Şifre Tekrar]) adımları, `auth.coremusic.net/pages/forgot-password.php` L60 "Sıfırlama Bağlantısı Gönder" (akış e-posta linki üzerinden) ve `auth.coremusic.net/pages/reset-password.php` L59 tek şifre alanı + URL'den okunan token (L99-L103) ile çelişiyor. §2 ve §4A değiştirilmedi.
 
 ---
 

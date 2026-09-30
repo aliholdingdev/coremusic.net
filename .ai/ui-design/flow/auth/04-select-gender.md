@@ -159,7 +159,10 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Cinsiyet Seç | select-gender | cinsiyet kartlarından birine tıkla (Kız / Erkek / Nötr) [[screens/shared/select-gender]] |
+| 2 | Devam Et | login | [▶ Devam Et] butonuna tıkla [[screens/shared/login]] |
 
 ---
 

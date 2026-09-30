@@ -196,7 +196,15 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Şarkı Seç | Şarkı Seçimi | şarkı listesinden bir satıra tıkla |
+| 2 | Oynat/Duraklat | Footer Player (Her Zaman Görünür) | [▶] butonuna tıkla |
+| 3 | Sonraki Şarkı | Footer Player (Her Zaman Görünür) | [⏭] butonuna tıkla |
+| 4 | Önceki Şarkı | Footer Player (Her Zaman Görünür) | [⏮] butonuna tıkla |
+| 5 | Seek | Footer Player (Her Zaman Görünür) | seek çubuğuna tıkla (§3A: [T]) |
+| 6 | Ses Ayarla | Footer Player (Her Zaman Görünür) | 🔊 ses sürgüsünü kaydır |
+| 7 | Karışık Modu | Footer Player (Her Zaman Görünür) | [V] karışık toggle'ına tıkla |
 
 ---
 

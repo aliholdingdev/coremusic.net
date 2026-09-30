@@ -199,7 +199,16 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Playlist Seç | playlist | listeden bir playlist satırına tıkla [[screens/T07-embedded/playlist]] |
+| 2 | Şarkı Ekle | playlist | [+ Şarkı Ekle] butonuna tıkla [[screens/T07-embedded/playlist]] |
+| 3 | Kaynak Seç | playlist | [🔍 Ara] kaynağına tıkla [[screens/T07-embedded/playlist]] |
+| 4 | Arama Sonucu Seç | playlist | arama sonuçlarından bir şarkı satırı seç [[screens/T07-embedded/playlist]] |
+| 5 | Sırayı Değiştir | playlist | şarkı satırını basılı tut [[screens/T07-embedded/playlist]] |
+| 6 | Pozisyona Bırak | playlist | mavi çizgi ile gösterilen hedef pozisyona bırak [[screens/T07-embedded/playlist]] |
+| 7 | Playlisti Sil | playlist | [Playlisti Sil] butonuna tıkla [[screens/T07-embedded/playlist]] |
+| 8 | Silmeyi Onayla | playlist | "Emin misin?" onay modalında Evet'i tıkla [[screens/T07-embedded/playlist]] |
 
 ---
 

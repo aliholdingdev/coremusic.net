@@ -171,7 +171,14 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Albümler | albums | Ana Sayfa'da [🎵 Albümler] butonuna tıkla [[screens/T07-embedded/albums]] |
+| 2 | Filtrele | albums | Filtre butonuna tıkla (Tür / Yıl / Sanatçı) [[screens/T07-embedded/albums]] |
+| 3 | Albüm Seç | albums | albüm kartına tıkla [[screens/T07-embedded/albums]] |
+| 4 | Tümünü Oynat | album-detail | [▶ Tümünü Oynat] butonuna tıkla [[screens/T07-embedded/album-detail]] |
+| 5 | Tek Şarkı Oynat | album-detail | şarkı satırındaki [▶] butonuna tıkla [[screens/T07-embedded/album-detail]] |
+| 6 | Playliste Ekle | album-detail | [⋯] menüsüne tıkla (§1: Playliste Ekle) [[screens/T07-embedded/album-detail]] |
 
 ---
 

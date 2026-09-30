@@ -104,7 +104,12 @@ Kullanıcı: "Hey Google, CoreMusic'te [şarkı adı] çal"
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Uygulama Aç | Android Auto ekranı | CoreMusic uygulamasını aç |
+| 2 | Oynatma Kontrolü | Ana Sayfa | [▶] butonuna tıkla |
+| 3 | Ses Ayarla | Ana Sayfa | [🔊] butonuna tıkla |
+| 4 | Sesli Komut Ver | Sesli Komut | "Hey Google, CoreMusic'te [şarkı adı] çal" sesli komutu ver |
 
 ---
 

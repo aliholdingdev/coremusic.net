@@ -212,7 +212,13 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Bluetooth Aç | bluetooth-quick | Bluetooth toggle'ını aç [[screens/T07-embedded/bluetooth-quick]] |
+| 2 | Yeni Cihaz Tara | bluetooth-quick | [+ Yeni Cihaz Tara] butonuna tıkla [[screens/T07-embedded/bluetooth-quick]] |
+| 3 | Cihazı Eşleştir | bluetooth-quick | cihaz satırındaki [Eşleştir] butonuna tıkla [[screens/T07-embedded/bluetooth-quick]] |
+| 4 | Eşleşmeyi Onayla | Eşleşme Onayı | [Eşleştir] butonuna tıkla |
+| 5 | Bağlantıyı Kes | bluetooth-quick | [Bağlantıyı Kes] butonuna tıkla [[screens/T07-embedded/bluetooth-quick]] |
 
 ---
 

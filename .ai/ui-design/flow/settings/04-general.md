@@ -186,7 +186,14 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Tema Seç | Genel Ayarlar | 🎨 Tema Seçimi'nden bir butona tıkla (örn. [👩 Kız]) |
+| 2 | Dil Seç | Genel Ayarlar | [Türkçe ▼] menüsünden dil seç |
+| 3 | Bildirim Ayarla | Genel Ayarlar | 🔔 Push Bildirimleri toggle'ını değiştir |
+| 4 | Oynatma Ayarla | Genel Ayarlar | 🔀 Varsayılan Karışık toggle'ını değiştir |
+| 5 | Kaydet | Genel Ayarlar | [Kaydet] butonuna tıkla |
+| 6 | Kaydetmeyi Onayla | Onay Modalı | "Kaydedilsin?" onay modalında Evet'i seç |
 
 ---
 

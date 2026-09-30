@@ -115,7 +115,12 @@ Kullanıcı: "Hey Siri, CoreMusic'te devam et"
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Uygulama Aç | CarPlay ekranı | CoreMusic ikonuna tıkla |
+| 2 | Oynatma Kontrolü | Now Playing | [▶] butonuna tıkla |
+| 3 | Ses Ayarla | Now Playing | [🔊] butonuna tıkla |
+| 4 | Sesli Komut Ver | Siri Sesli Komut | "Hey Siri, CoreMusic'te devam et" sesli komutu ver |
 
 ---
 

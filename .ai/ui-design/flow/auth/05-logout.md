@@ -166,7 +166,10 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Logout Tıkla | Header (sağ üst) | [🚪 Logout] butonuna tıkla |
+| 2 | Çıkışı Onayla | Onay Modalı | [Evet, Çıkış Yap] butonuna tıkla |
 
 ---
 

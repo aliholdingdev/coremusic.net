@@ -212,7 +212,13 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Arama Yap | Arama Sayfası | 🔍 input alanına en az 3 harf yaz |
+| 2 | Öneri Seç | Arama Sayfası | autocomplete önerisinden birine tıkla |
+| 3 | Filtrele | Arama Sayfası | Tür / Sanatçı / Yıl filtrelerinden birine tıkla |
+| 4 | Sonuç Seç | Arama Sayfası | sonuç listesinden bir satıra tıkla |
+| 5 | Oynat | Arama Sayfası | şarkı satırındaki [▶] butonuna tıkla |
 
 ---
 

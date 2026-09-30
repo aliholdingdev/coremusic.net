@@ -180,7 +180,13 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Menü Hamburger Tıkla | Hamburger Menu (Phone/Tablet) | hamburger menü ikonuna tıkla |
+| 2 | Menü Öğesi Seç | Hamburger Menu (Phone/Tablet) | [💿 Albümler] öğesine tıkla |
+| 3 | Arama İkonu Tıkla | Header (Desktop) | 🔍 arama ikonuna tıkla |
+| 4 | Arama Sonucu Seç | Arama Sonuçları | arama sonuçlarından birine tıkla |
+| 5 | Logo Tıkla | Header (Desktop) | 🎵 CoreMusic logosuna tıkla |
 
 ---
 

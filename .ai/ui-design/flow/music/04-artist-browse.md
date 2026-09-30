@@ -182,7 +182,14 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Sanatçılar | singer | Ana Sayfa'da [🎤 Sanatçılar] butonuna tıkla [[screens/T07-embedded/singer]] |
+| 2 | Sanatçı Seç | singer | sanatçı kartına tıkla [[screens/T07-embedded/singer]] |
+| 3 | Tümünü Oynat | singer | [▶ Tümünü Oynat] butonuna tıkla [[screens/T07-embedded/singer]] |
+| 4 | Takip Et | singer | [❤️ Takip] butonuna tıkla [[screens/T07-embedded/singer]] |
+| 5 | Sekme Seç | singer | [Popüler] sekmesine tıkla [[screens/T07-embedded/singer]] |
+| 6 | Şarkı Seç ve Oynat | singer | POPÜLER ŞARKILAR listesinden şarkı satırına tıkla [[screens/T07-embedded/singer]] |
 
 ---
 

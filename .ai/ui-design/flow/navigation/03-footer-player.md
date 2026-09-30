@@ -187,7 +187,15 @@ governance: Red Team · Human Mode · Truth Mode
 ---
 ## 6. Adımlar
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; numaralı, tek-eylem adım listesi akış doğrulamasından sonra doldurulacak.
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Oynat/Duraklat | Footer Player (Kompakt) | [▶] butonuna tıkla |
+| 2 | Sonraki Şarkı | Footer Player (Kompakt) | [⏭] butonuna tıkla |
+| 3 | Önceki Şarkı | Footer Player (Geniş - Desktop) | [⏮] butonuna tıkla |
+| 4 | Ses Ayarla | Footer Player (Geniş - Desktop) | 🔊 ses sürgüsünü kaydır |
+| 5 | Seek Yap | Footer Player (Geniş - Desktop) | seek çubuğuna tıkla |
+
+> ⚠️ VERIFICATION REQUIRED — §1'deki "Tam Ekran Aç" (L37-L39) ve "Playlist Queue Göster" (L43-L45) düğümlerinin §2'de tetikleyici kontrolü yok (EKRAN 1-2 kontrolleri: [▶] [⏭] [⏮] [⏹] 🔊 + seek; EKRAN 3 Now Playing açılışı tanımsız) → satırlar yazılmadı.
 
 ---
 
