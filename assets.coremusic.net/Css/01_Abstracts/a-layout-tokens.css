@@ -652,6 +652,40 @@
 
     --spacing-scale: 1.6;
     --border-radius-base: 14px;
+
+    /* ═══ PLAYER INFO — 4K (Figma SSOT node 1646:17709) ═══ */
+    /* Wide variant scaled for 4K (zoom:2 = 750×300 logical) */
+    --cm-player-w: 750px;
+    --cm-player-h: 300px;
+    --cm-player-pad-top: 20px;
+    --cm-player-pad-left: 25px;
+    --cm-player-pad-right: 25px;
+    --cm-player-pad-bottom: 20px;
+    --cm-player-bg: rgba(255, 255, 255, 0.1);
+    --cm-player-border: rgba(255, 255, 255, 0.1);
+    --cm-player-border-w: 1px;
+    --cm-player-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    --cm-player-radius: var(--radius-lg);
+    --cm-player-font: var(--cm-font-ui);
+    --cm-player-text: #ffffff;
+    --cm-player-text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.8);
+    --cm-player-text-weight: 500;
+    --cm-player-cover: 250px;
+    --cm-player-cover-radius: 5px;
+    --cm-player-gap: 16px;
+    --cm-player-title-size: 16px;
+    --cm-player-title-lh: 21px;
+    --cm-player-title-ls: 1.2px;
+    --cm-player-meta-size: 14px;
+    --cm-player-meta-lh: 19px;
+    --cm-player-meta-ls: 1px;
+    --cm-player-time-size: 12px;
+    --cm-player-time-lh: 16px;
+    --cm-player-time-ls: 0.9px;
+    --cm-player-time-w: 50px;
+    --cm-player-progress-w: 320px;
+    --cm-player-progress-h: 12px;
+    --cm-player-progress-radius: 0;
   }
 }
 
