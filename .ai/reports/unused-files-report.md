@@ -321,3 +321,7 @@ ComponentLoader sadece 2 bileþen kayýtlý ama home.php 9 bileþen adý referan
 **Authority:** Vault Audit
 **Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+> ⚠️ **SİLİNEN CSS REFERANS NOTU (2026-09-30, 0-kanıt temizlik):** Bu raporda geçen `main.css` (15 referans) ve `01_Abstracts/a-layout-tokens-{1920,3540,3840}.css` (L238-L240) **diskte YOK** — kanıt: `Get-ChildItem -Recurse -Filter` → **0 isabet** (2026-09-30). Rapor 2026-09 tarihli anlık görüntüdür ve **olduğu gibi korunmuştur**; "eksik import" bulguları artık silinen dosyalara ilişkindir, güncellik iddiası taşımaz. `07_Vendors/bootstrap*.css` diskte MEVCUT (33 dosya) → L247/L249/vendor satırları geçerlidir.

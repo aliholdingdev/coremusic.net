@@ -67,7 +67,7 @@ final class Gateway implements GatewayInterface
         try {
             return $this->middlewarePipeline->process(
                 $request,
-                function (array $request) use ($apiRequest, $version): array {
+                function (array $request) use ($apiRequest): array {
                     $status = $request['_route_status'] ?? RouteTable::STATUS_NOT_FOUND;
                     $route  = $request['_route'] ?? null;
 

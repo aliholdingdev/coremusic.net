@@ -6,9 +6,9 @@ status: active
 authority: SSOT
 version: 28.4.2
 updated: 2026-09-29
-total_files: 587
+total_files: 720
 total_adr: 80
-total_adr_disk: 0
+total_adr_disk: 60
 ---
 
 # CoreMusic Vault — Master Index
@@ -740,8 +740,8 @@ Toplam 80 ADR (Frozen: 37, Active: 31, Rejected: 12). Frozen: 001-037 (değişti
 
 ### §18 Metadata
 
-- **Toplam dosya:** 587 (ölçüm 2026-09-24 — önceki sahip doğrulaması 518, 2026-09-23; eski Faz 0 değeri 787 güncel değildi)
-- **Toplam ADR:** 80 (Frozen: 37, Active: 31, Rejected: 12)
+- **Toplam dosya:** 720 (.md — `.ai` recursive, 2026-09-30 Get-ChildItem sayımı; önceki kayıt 587 @ 2026-09-24 → **fark +133**, vault/envanter genişlemesi) · *tarihsel: 518 (2026-09-23 sahip doğrulaması), 787 (eski Faz 0 — güncel değil)*
+- **Toplam ADR:** 80 karar iddiası (Frozen: 37, Active: 31, Rejected: 12) — **fiziksel ADR dosyası (disk): 60** (`Get-ChildItem .ai/.decisions -Recurse -Filter ADR-*.md`, 2026-09-30: `accepted/` 59 + kök 1 (`ADR-091-template-engine-no-eval.md`) + `draft/` 0 + `rejected/` 0) → **fark: 20 karar** (044-080 ve 082-088 arası) yalnızca `brain.md` metninde/karar appendix'inde — **VERIFICATION REQUIRED** (dosyalaştırılmadı); `total_adr: 80` = karar sayısı, `total_adr_disk: 60` = dosya sayısı — ikisi aynı şey değildir
 - **Versiyon:** 28.4.3
 - **Son Güncelleme:** 2026-09-29 (Faz 8b PNG envanter gerçeği §19.5 + §18 changelog; aynı gün önceki: Faz 7 guardrail hizalaması — ui-design disk gerçekliği §19.5, kırık ekran/prompt yolları düzeltildi, PNG kırılımı 12+1+6; önceki: 2026-09-27 disk ölçümü 587/PNG 19/template 36)
   - **28.4.3 — Faz 8b (2026-09-29):** PNG envanter gerçeği: 151 hedef · 136 indirilen · 15 gizli node visible:false → API NULL · 13 legacy · toplam 149; "149/151 = 2 eksik" iddiası geçersiz.

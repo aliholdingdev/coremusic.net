@@ -39,6 +39,28 @@
   --cm-gray-light: #d9d9d9;
   --cm-gray-dark: #424242;
 
+  /* ============================================================
+     04_Components DÜZ (opacity'siz) renk paleti — Batch 1 taşıması
+     Kaynak: 04_Components/*.css içindeki hardcoded #hex değerleri.
+     Kapsam DIŞI (Batch 2): gradient renk durakları · rgba()/opacity'li
+     overlay ve tint değerleri · `transparent` anahtar kelimesi.
+     ============================================================ */
+  --cm-white:          #ffffff;  /* düz beyaz (metin/arka plan/dolgu) */
+  --cm-gray-xlight:    #f1f1f1;  /* volume slider track */
+  --cm-accent:         #ff4fd8;  /* marka aksanı — focus ring, primary bg */
+  --cm-accent-light:   #ff7ee4;  /* aksan hover */
+  --cm-accent-deep:    #d63cb8;  /* aksan active/pressed */
+  --cm-accent-soft:    #ff65e9;  /* Figma #FF65E9 — player-info aksanı */
+  --cm-accent-glow:    #ff00d5;  /* footer volume thumb/fill */
+  --cm-success:        #10b981;  /* success durum rengi */
+  --cm-success-light:  #34d399;  /* success metin/tint karşılığı */
+  --cm-danger:         #ef4444;  /* danger/hata durum rengi */
+  --cm-danger-light:   #f87171;  /* danger açık varyant */
+  --cm-warning:        #f59e0b;  /* warning durum rengi */
+  --cm-warning-light:  #fbbf24;  /* warning açık varyant */
+  --cm-info:           #3b82f6;  /* info durum rengi */
+  --cm-info-light:     #60a5fa;  /* info açık varyant */
+
   /* Karar #6 — minimum dokunma alanı (WCAG 2.2 AA 2.5.8 / 2.5.5) */
   --cm-hit-target: 48px;
 

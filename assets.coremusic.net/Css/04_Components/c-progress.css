@@ -14,7 +14,7 @@
 .progress {
   --progress-h: 4px;
   --progress-bg: rgba(255, 255, 255, 0.10);
-  --progress-fill: #ff4fd8;
+  --progress-fill: var(--cm-accent);
   --progress-fill-gradient: linear-gradient(90deg, #ff4fd8, #ff7ee4);
   --progress-radius: 9999px;
 }
@@ -98,14 +98,14 @@
    PROGRESS — Error state
    ============================================================ */
 .progress--error .progress__fill {
-  background: #ef4444;
+  background: var(--cm-danger);
 }
 
 /* ============================================================
    PROGRESS — Success state
    ============================================================ */
 .progress--success .progress__fill {
-  background: #10b981;
+  background: var(--cm-success);
 }
 
 /* ============================================================

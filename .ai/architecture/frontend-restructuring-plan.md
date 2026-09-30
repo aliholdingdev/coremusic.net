@@ -1332,3 +1332,7 @@ Tüm ikonlar tek bir SVG sprite'ta toplanır:
 **Last Updated:** 2026-09-29
 **Version:** 1.0.0
 **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+> ⚠️ **SİLİNEN CSS REFERANS NOTU (2026-09-30, 0-kanıt temizlik):** Planda geçen `main.css` (L763, L1262) ve `01_Abstracts/a-layout-tokens-{1920,3540,3840}.css` (L293-L295) **diskte YOK** — kanıt: `Get-ChildItem -Recurse -Filter` → ilgili adlarda **0 isabet** (2026-09-30; `a-layout-tokens-1024.css` ve `a-layout-tokens.css` MEVCUT). Plan ağacı/taslıkları tarihsel plandır, güncel disk yapısı değildir. `07_Vendors/bootstrap*.css` diskte MEVCUT (33 dosya).

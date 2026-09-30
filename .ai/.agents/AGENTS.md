@@ -520,3 +520,7 @@ authority: SSOT
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-29
 **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+> ⚠️ **SİLİNEN CSS REFERANS NOTU (2026-09-30, 0-kanıt temizlik):** Bu belgede geçen `main.css` (§7.2 satır L376, `Css/` katman sayımı) diskte **YOK** — kanıt: `Get-ChildItem -Recurse -Filter main.css` → **0 isabet** (2026-09-30). Referans tarihsel metindir; `07_Vendors/bootstrap*.css` diskte **MEVCUT** (33 dosya) → o kısımlar geçerlidir.

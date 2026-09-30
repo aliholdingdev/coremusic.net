@@ -37,10 +37,6 @@ final class Validator
         $errors = [];
 
         foreach ($rules as $field => $rule) {
-            if (!is_string($field) || !is_array($rule)) {
-                continue;
-            }
-
             $exists = array_key_exists($field, $data);
             $value  = $exists ? $data[$field] : null;
 

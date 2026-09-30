@@ -76,9 +76,6 @@ final class RouteTable
                 continue;
             }
             foreach ($paths as $path => $route) {
-                if (!is_string($path) || !is_array($route)) {
-                    continue;
-                }
                 $table->add((string) $method, $path, $route);
             }
         }

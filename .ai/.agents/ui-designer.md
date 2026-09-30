@@ -505,3 +505,7 @@ Sonraki adım: [1 eylem, 2 dakika]
 **Authority:** SSOT — domain tekel: UI Designer (Orta — Uygulama Design System)  
 **Last Updated:** 2026-09-29  
 **Mode:** IMPLEMENTED (Truth Mode — disk doğrulanmış: 8 ITCSS katman, 65 CSS, 65 JS, ui-design 00-05 + tokens + prompt; 09_*/manifest/vitest = ⚠️ PLANNED)
+
+---
+
+> ⚠️ **SİLİNEN CSS REFERANS NOTU (2026-09-30, 0-kanıt temizlik):** Bu profilde geçen `main.css` (satır L51, L142, L180, L185, L240, L456 — 6 referans) diskte **YOK** — kanıt: `Get-ChildItem -Recurse -Filter main.css` → **0 isabet** (2026-09-30). "tek giriş / import zinciri / main.css tek import" iddiaları artık **geçersizdir** (giriş dosyası silindi, 2026-09-30). Buna karşılık `Css/07_Vendors/bootstrap*.css` diskte **MEVCUT** (33 dosya) → `07_Vendors`/Bootstrap referansları geçerlidir.

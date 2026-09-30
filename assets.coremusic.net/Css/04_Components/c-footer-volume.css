@@ -19,9 +19,9 @@
     VOLUME SLIDER — Theme Variables
     ============================================================ */
 :root {
-    --volume-thumb-color: #ff00d5;
-    --volume-track-color: #f1f1f1;
-    --volume-fill-color:  #ff00d5;
+    --volume-thumb-color: var(--cm-accent-glow);
+    --volume-track-color: var(--cm-gray-xlight);
+    --volume-fill-color:  var(--cm-accent-glow);
 }
 
 /* ============================================================
@@ -89,7 +89,7 @@
 }
 
 #volume:focus-visible {
-    outline: 2px solid var(--fp-accent, #ff4fd8);
+    outline: 2px solid var(--fp-accent, var(--cm-accent));
     outline-offset: 2px;
 }
 

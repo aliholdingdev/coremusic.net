@@ -528,3 +528,7 @@ MOCKUP OKU → KATMANI SEÇ → ŞABLONU KOPYALA → {{VARIABLE}} DOLDUR → GUA
 
 **Template Version:** 2.0.0
 **Last Updated:** 2026-09-29
+
+---
+
+> ⚠️ **SİLİNEN CSS REFERANS NOTU (2026-09-30, 0-kanıt temizlik):** Şablonda geçen `main.css` ("tek giriş / import zinciri", satır L41, L64, L339, L343) diskte **YOK** — kanıt: `Get-ChildItem -Recurse -Filter main.css` → **0 isabet** (2026-09-30); `auth-bundled.css` MEVCUT. Yeni CSS üretiminde "main.css tek giriş" kuralı **uygulanamaz** — güncel giriş için disk kontrolü zorunlu. `07_Vendors/bootstrap*.css` diskte MEVCUT (33 dosya), o referanslar geçerlidir. (Şablon adedi değişmedi — Guardrail #16.)

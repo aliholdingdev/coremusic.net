@@ -319,3 +319,7 @@ Tek bir bozuk sürüm için geri dönüş noktaları: (1) `main.css` onarımı *
 *ADR-044 v1.0.0 | 2026-09-27 | Created*
 *Authority: CoreMusic Vault — Dynamic User Theme Engine*
 *Mode: Red Team · Human Mode · Truth Mode*
+
+---
+
+> ⚠️ **SİLİNEN CSS REFERANS NOTU (2026-09-30, 0-kanıt temizlik):** Bu ADR'de geçen `main.css` (9 referans — §1.1-B, §3, §4, §5.1, §6) **2026-09-30'da silinmiştir** — kanıt: `Get-ChildItem -Recurse -Filter main.css` → **0 isabet**. ADR metni karar anındaki disk ölçümünü taşıdığı için **düzeltilmedi**; ölçüm/kanıt satırları tarihsel kayıttır, "15 kırık `@import`" gibi bugünkü tespit olarak kullanılamaz. `07_Vendors/bootstrap*.css` diskte MEVCUT (33 dosya).

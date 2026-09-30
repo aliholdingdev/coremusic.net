@@ -193,7 +193,7 @@ font-family: var(--font-body);
 .player-info__progress__fill {
   height: 100%;
   /* Figma: #FF65E9 */
-  background: #FF65E9;
+  background: var(--cm-accent-soft);
   box-shadow: var(--glow-progress);
   border-radius: 2px;
   width: 0%;
@@ -205,8 +205,8 @@ font-family: var(--font-body);
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--accent, #ff4fd8);
-  color: #ffffff;
+  background: var(--accent, var(--cm-accent));
+  color: var(--cm-white);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -246,3 +246,7 @@ Ek kapılar: **Zero-Hallucination** — her teknik iddia disk/Figma kanıtına b
 **Approval:** [x] Kararlar onaylandı · [ ] Uygulama başlangıç onayı BEKLİYOR
 **Authority:** prompt-maker v11.0.0 (PICCO) · CoreMusic Vault SSOT
 **ChangeLog:** `.ai/log.md` append-only.
+
+---
+
+> ⚠️ **SİLİNEN CSS REFERANS NOTU (2026-09-30, 0-kanıt temizlik):** Bu master promptta geçen katman/kök `main.css` (L65) diskte **YOK** — kanıt: `Get-ChildItem -Recurse -Filter main.css` → **0 isabet** (2026-09-30); `auth-bundled.css` ve `07_Vendors/bootstrap*.css` MEVCUT (33 dosya). Prompt içindeki ITCSS katman tarifi tarihsel/metinsel kalır; üretim öncesi disk kontrolü zorunlu.

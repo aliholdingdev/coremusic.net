@@ -748,3 +748,43 @@ ADR-056 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
 - **Not (kapsam dışı bırakıldı):** `.ai/.decisions/accepted/ADR-048/049/050/052/056` untracked + `log.md` içindeki 2 ADR-056 satırı başka oturuma ait → UI commit'lerine swept edilmedi; ADR satırları log append'inde aynen korundu.
 ADR-058 yazıldı (debate PENDING)
 ADR-058 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart + 4 yazım hatası düzeltildi
+ADR-059 yazildi (debate PENDING) - JWT lcobucci/jwt + RS256 kilidi, MFA TOTP, kurtarma kodlari, recovery/bypass - slug: ADR-059-jwt-library-and-mfa
+ADR-059 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+ADR-061 yazildi (debate PENDING) - Electronics Architecture (L6) - katman tanimi + kart/modul hiyerarsisi + ADR-062/063/064 bolum siniri + bilesen secim politikasi - slug: ADR-061-electronics-architecture
+ADR-061 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+
+## 2026-09-30 — MVP oturumu F0-F3 (guvenlik, test, statik analiz) + F4 vault tutarlilik onarimi — commit BU oturumda YOK (paralel oturum commit'liyor)
+### F0 — altyapi
+- composer install 3 proje (shared/auth/home) + test baseline: auth phpunit.xml kirik -> phpunit exit 2.
+### F1 — 4 guvenlik fix + shell
+- XFF fail-closed · /bypass-status kaldirildi · uzak http bypass fetch kaldirildi · _route_meta pipeline oncesi tasindi; HtmlShellRenderer 404 JS + JSON_HEX_*; main.css celiskisi.
+### F2 — test altyapisi + katman/denetim
+- test 239 -> 278; katman ihlalleri kapatildi (MusicRepository, OAuthRepository, DatabaseManager); RateLimiter fail-closed; CSP fallback; CORS allowlist; oauth-manager innerHTML -> DOM; .gitleaks.toml; ci.yml interpolation.
+### F3 — statik analiz + temizlik
+- phpstan 47 -> 0 (+5 baska akistan gelen kural -> kapatildi); Interfaces/ -> Contracts/ birlestirme (14 interface); 47 olu CSS silindi; 8 bundle'a a-primitive-tokens import; 5 bos catch kapatildi.
+### Olcum (kanit)
+- phpunit: shared 294/850 · auth 31/59 · home 23/54 · php -l 0 hata · CSS 211 import / 0 eksik import · git commit bu oturumda YOK.
+### F4 — vault tutarlilik onarimi (.ai/** + kok .md; kod dosyasi dokunulmadi)
+- ROLE.md §19 Version 6.0.0 -> 6.0.2 (frontmatter ile hizali) · MEMORY.md §21 Version 25.1.1 -> 25.1.2 (hizali) · .ai/CLAUDE.md frontmatter 27.3.6 = §29 27.3.6 (verilen 27.3.5/27.3.4 celiskisi artik YOK — sayilar bayatmis, degisiklik gerekmedi).
+- .ai/index.md: total_files 587 -> 720 (.md, .ai recursive, Get-ChildItem 2026-09-30) · total_adr_disk 0 -> 60 (ADR-*.md: accepted 59 + kok 1 = ADR-091-template-engine-no-eval.md; draft/rejected 0) · §18'e fark notu: "80 ADR" karar iddiasi (37 Frozen + 31 Active + 12 Rejected) vs 60 fiziksel dosya -> 20 karar (044-080, 082-088) yalnizca brain.md metninde = VERIFICATION REQUIRED · toplam .md 587 -> 720 (fark +133).
+- Silinen CSS referans temizligi (10 dosyaya "silindi (2026-09-30, 0-kanit temizlik)" notu): brain.md · .agents/AGENTS.md · .agents/ui-designer.md · decisions/ADR-044 · decisions/ADR-045 · .templates/frontend/css-template.md · architecture/frontend-restructuring-plan.md · architecture/k11-ux/README.md · prompts/2026-09-27-component-system-master-prompt.md · reports/unused-files-report.md.
+- DOKUNULMAYANLAR: .ai/ui-design/** (paralel oturum) · ADR-001 (frozen 001-037) · ROLE.md kendi CSS notlari (gorev disi) · pwa-features.md /static/css/main.css (ornek yol, repo dosyasi degil) · 07_Vendors/bootstrap*.css referanslari (diskte MEVCUT, 33 dosya — kanit: Get-ChildItem; ffe647c silme commit'i 7a8be16 ile revert).
+ADR-062 yazıldı (debate PENDING)
+ADR-062 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+ADR-063 yazıldı (debate PENDING)
+ADR-063 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+ADR-064 yazıldı (debate PENDING)
+ADR-064 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+
+## 2026-09-30 — .ai/ui-design/prompt: 41 JSON Prompt Template bloğu dolduruldu
+
+- Kapsam: prompt/{component C02–C16 (15), page 01–12 (12), screen T1–T10 (10), layout 02/04/06/10 (4)} = 41 dosya; tek işlem, commit YOK.
+- İşlem: > ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok satırı, dosyanın kendi verisinden türetilen JSON bloğuyla ault-utf8-writer.mjs replace modu ile birebir değiştirildi (800 insert / 41 delete).
+- Alan kaynakları: bem → dosya frontmatter em_class:; states → dosyanın kendi States tablosu (küçük harf); viewport → Required Inputs/Context viewport satırı; components → Components Used / Ekran Promptları / Region-ASCII tabloları; tokens → tokens/design-tokens-master.md (ad+değer, script kapısı 41/41 hata=0).
+- Sapmalar (raporlandı): envanter §2 numaralandırması dosya sırası ile çelişiyor; çakışan token değerleri ATILDI (sidebar 340px, font-scale 1.1/1.2/1.4/1.6/1.8, blur 16px/4px, radius sm6/md10/lg16, opacity 0.5, sidebar 320/280px, max-content 1800px); accentColor #ff4fd8 yalnızca dosya içi ar(--cm-primary) kanıtı olan 4 layout'a eklendi; 	heme: glassmorphism yalnızca 04 ve 10'da.
+- Kapılar: kalip-abc-check.ps1 → A:0 B:0 C:0 (GECTI); JSON.parse 41/41; kalan şablon işareti 0 (T9 voice marker + 9 KAYNAK YOK yerinde); H1/H2/H3 drift 0; HEAD round-trip 49/49 byte-identical; yasaklı ifade 0; lostNonMarker 0; BOM/çıplak LF/mojibake 0.
+- Dokunulmadı: flow/, screens/, reference/, root .ai/*.md (log.md hariç append), kod dosyaları, 00-prompt-index.md, başka session dosyaları.
+- ⚠️ VERIFICATION REQUIRED: post-op senkronizasyon betikleri (.ai/scripts/session-save.mjs, vault-post-update.mjs) ve .ai/project-state.md bu depoda YOK — senkronizasyon bu log kaydıyla manuel tamamlandı.
+ADR-072 yazıldı (debate PENDING)
+ADR-072 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+- 2026-09-30 | ui-design/flow: 18 dosyada §6 VERIFICATION REQUIRED markerı adım tablosuyla değiştirildi (18 tablo, 3 gerekçeli blockquote, 0 veri kaybı; gate: kalip A:0 B:0 C:0, wiki-link kirik=6, yasak ifade=0) | agent: documentation | status: completed

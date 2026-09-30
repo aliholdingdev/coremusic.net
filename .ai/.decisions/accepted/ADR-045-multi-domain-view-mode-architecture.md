@@ -375,3 +375,7 @@ Kod pahalı kısmi yatırımı çoktan yapmış (JS+PHP yöneticileri, testler, 
 *ADR-045 v1.0.0 | 2026-09-28 | Created*
 *Authority: CoreMusic Vault — Multi-Domain View Mode Architecture*
 *Mode: Red Team · Human Mode · Truth Mode*
+
+---
+
+> ⚠️ **SİLİNEN CSS REFERANS NOTU (2026-09-30, 0-kanıt temizlik):** Bu ADR'de geçen `main.css` (5 referans — §1.1-B, §5.1, §6, §7) **2026-09-30'da silinmiştir** — kanıt: `Get-ChildItem -Recurse -Filter main.css` → **0 isabet**. ADR metni karar anındaki disk ölçümünü taşıdığı için **düzeltilmedi**; `main.css:58-60` gibi satır numaralı kanıtlar tarihsel kayıttır. `07_Vendors/bootstrap*.css` diskte MEVCUT (33 dosya).

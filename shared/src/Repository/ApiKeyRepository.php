@@ -73,7 +73,7 @@ final class ApiKeyRepository
      */
     public function create(array $params): array
     {
-        $userIdHex = strtolower((string) ($params['user_id'] ?? ''));
+        $userIdHex = strtolower((string) $params['user_id']);
         if (!UuidV7::isValidHex($userIdHex)) {
             throw new \InvalidArgumentException('user_id must be a 32-char hex UUID');
         }
@@ -134,7 +134,7 @@ final class ApiKeyRepository
     /**
      * Ham anahtarı doğrula. Başarılıysa bağlam döner, aksi halde null.
      *
-     * @param list<string>|null $requiredScope verilen scope key'de zorunlu olmalı
+     * @param string|null $requiredScope verilen scope key'de zorunlu olmalı
      * @return array<string, mixed>|null
      */
     public function verify(string $rawKey, ?string $clientIp = null, ?string $requiredScope = null): ?array

@@ -15,9 +15,9 @@
   --toggle-h: 24px;
   --toggle-radius: 9999px;
   --toggle-bg: rgba(255, 255, 255, 0.12);
-  --toggle-bg-active: #ff4fd8;
+  --toggle-bg-active: var(--cm-accent);
   --toggle-knob-size: 18px;
-  --toggle-knob-color: #ffffff;
+  --toggle-knob-color: var(--cm-white);
 }
 
 /* ============================================================
@@ -77,7 +77,7 @@
    TOGGLE — Focus Visible (WCAG 2.2)
    ============================================================ */
 .toggle:focus-visible {
-  outline: 3px solid #ff4fd8;
+  outline: 3px solid var(--cm-accent);
   outline-offset: 3px;
 }
 
@@ -127,7 +127,7 @@
   }
 
   .toggle:focus-visible {
-    outline: 4px solid #ff4fd8;
+    outline: 4px solid var(--cm-accent);
     outline-offset: 4px;
   }
 }

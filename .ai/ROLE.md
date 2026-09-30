@@ -459,7 +459,7 @@ Middleware sırası değiştirme, SELECT *, hardcoded secret, PCM5122 kullanım�
 
 | Metrik | Değer |
 |--------|-------|
-| **Version** | 6.0.0 |
+| **Version** | 6.0.2 |
 | **Status** | Red Team · Human Mode · Truth Mode verified |
 | **Sections** | 22 (sıralama düzeltildi: §19-§20 artık doğru konumda) |
 | **Expertise Areas** | 57 (C#/.NET ve PowerShell eklendi) |

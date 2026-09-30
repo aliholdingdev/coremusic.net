@@ -511,3 +511,7 @@ Dosya sayısı 16; sayfa hedefi X·Y+Z = 407 ile 16 dosya arasında bağ yok —
 | disk glob (k11-ux/*.md) | 16 dosya: 9 düzey-2 MD + 4 düzey-3 MD + 3 bağlam |
 
 *K11 Alt Katman Şeması + Kanıt Kataloğu v1.1.0 — 2026-09-24 · kaynak: 3 turlu agent tartışması*
+
+---
+
+> ⚠️ **SİLİNEN CSS REFERANS NOTU (2026-09-30, 0-kanıt temizlik):** Tabloda geçen `01_Abstracts/a-layout-tokens-3840.css` (L251) diskte **YOK** — kanıt: `Get-ChildItem -Recurse -Filter a-layout-tokens-3840.css` → **0 isabet** (2026-09-30; mevcut: `a-layout-tokens.css`, `a-layout-tokens-1024.css`). 4K/3840 token karşılığı **silinmiştir**; 3840 katmanı `⚠️ VERIFICATION REQUIRED` olarak kabul edilir.
