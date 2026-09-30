@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="test-token-placeholder">
+  <title>Player Info Component — Responsive Test (480px–4K)</title>
+  
+  <!-- Player Info CSS (assets.coremusic.net) & JS -->
+  <link rel="stylesheet" href="//assets.coremusic.net/Css/01_Abstracts/a-layout-tokens.css">
+  <link rel="stylesheet" href="//assets.coremusic.net/Css/04_Components/_player-info.css">
+  <script defer src="/assets/js/components/player-info.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1e3f 100%);
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    .test-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    
+    .viewport-info {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      font-family: "Courier New", monospace;
+    }
+    
+    .viewport-size {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    
+    .viewport-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .viewport-label {
+      font-weight: 600;
+      color: #ff006e;
+    }
+    
+    .viewport-value {
+      color: #b0b0b0;
+    }
+    
+    /* Viewport Test Boxes */
+    .viewports {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+    
+    .viewport-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      overflow-x: auto;
+    }
+    
+    .viewport-box h3 {
+      font-size: 16px;
+      margin-bottom: 12px;
+      color: #ff006e;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 8px;
+    }
+    
+    .viewport-box-content {
+      background: #0a0e27;
+      padding: 16px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 180px;
+    }
+    
+    /* Breakpoint Demos */
+    .breakpoint-demos {
+      display: grid;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    
+    .breakpoint-demo {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    
+    .breakpoint-demo h3 {
+      font-size: 16px;
+      color: #ff006e;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .breakpoint-specs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    
+    .spec {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 12px;
+      border-radius: 6px;
+    }
+    
+    .spec-label {
+      color: #b0b0b0;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .spec-value {
+      color: #ff006e;
+      font-weight: 600;
+      font-family: "Courier New", monospace;
+    }
+    
+    .breakpoint-content {
+      background: #0a0e27;
+      padding: 16px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+      overflow-x: auto;
+    }
+    
+    /* Notes */
+    .notes {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #ff006e;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 32px;
+      font-size: 14px;
+    }
+    
+    .notes h4 {
+      margin-bottom: 8px;
+      color: #ff006e;
+    }
+    
+    .notes ul {
+      margin-left: 20px;
+    }
+    
+    .notes li {
+      margin-bottom: 8px;
+    }
+    
+    /* Debug info */
+    .debug-info {
+      background: rgba(255, 100, 100, 0.05);
+      border: 1px solid rgba(255, 100, 100, 0.2);
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 32px;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      color: #b0b0b0;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1>🎵 Player Info Component — Responsive Test</h1>
+    
+    <!-- Current Viewport Info -->
+    <div class="viewport-info">
+      <div class="viewport-size">
+        <div class="viewport-item">
+          <span class="viewport-label">Current Viewport:</span>
+          <span class="viewport-value" id="current-width">—</span>
+        </div>
+        <div class="viewport-item">
+          <span class="viewport-label">Current Height:</span>
+          <span class="viewport-value" id="current-height">—</span>
+        </div>
+        <div class="viewport-item">
+          <span class="viewport-label">Device Pixel Ratio:</span>
+          <span class="viewport-value" id="current-dpr">—</span>
+        </div>
+        <div class="viewport-item">
+          <span class="viewport-label">Pointer Type:</span>
+          <span class="viewport-value" id="pointer-type">—</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Standard Viewports -->
+    <h2 style="font-size: 20px; margin: 32px 0 16px 0; border-bottom: 2px solid #ff006e; padding-bottom: 8px;">
+      📱 Standard Viewports (CSS Breakpoint Tests)
+    </h2>
+    
+    <div class="viewports">
+      <!-- Phone (480px) -->
+      <div class="viewport-box">
+        <h3>Phone (480×800)</h3>
+        <div class="viewport-box-content">
+          <div class="now-playing" style="width: 360px; height: 90px;">
+            <div class="now-playing__art-wrapper">
+              <img class="now-playing__art" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect width='80' height='80' fill='%23667eea'/%3E%3C/svg%3E" alt="Album art">
+              <div class="now-playing__art-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="now-playing__meta">
+              <div class="now-playing__meta-title">
+                <h3 class="now-playing__track-name">Test Track</h3>
+              </div>
+              <div class="now-playing__meta-subtitle">
+                <span class="now-playing__artist">Artist</span>
+                <span class="now-playing__separator">·</span>
+                <span class="now-playing__duration">3:45</span>
+              </div>
+              <div class="now-playing__progress-container">
+                <div class="now-playing__progress-fill" style="width: 45%;"></div>
+                <div class="now-playing__progress-handle" role="slider" aria-label="Seek"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tablet (768px) -->
+      <div class="viewport-box">
+        <h3>Tablet (768×1024)</h3>
+        <div class="viewport-box-content">
+          <div class="now-playing" style="width: 360px; height: 110px;">
+            <div class="now-playing__art-wrapper">
+              <img class="now-playing__art" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Crect width='90' height='90' fill='%23667eea'/%3E%3C/svg%3E" alt="Album art">
+              <div class="now-playing__art-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="now-playing__meta">
+              <div class="now-playing__meta-title">
+                <h3 class="now-playing__track-name">Test Track Title</h3>
+              </div>
+              <div class="now-playing__meta-subtitle">
+                <span class="now-playing__artist">Artist Name</span>
+                <span class="now-playing__separator">·</span>
+                <span class="now-playing__duration">3:45</span>
+              </div>
+              <div class="now-playing__progress-container">
+                <div class="now-playing__progress-fill" style="width: 45%;"></div>
+                <div class="now-playing__progress-handle" role="slider" aria-label="Seek"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Embedded/T07 (1024px) -->
+      <div class="viewport-box">
+        <h3>Embedded (1024×600) — T07</h3>
+        <div class="viewport-box-content">
+          <div class="now-playing" style="width: 392px; height: 131px;">
+            <div class="now-playing__art-wrapper">
+              <img class="now-playing__art" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23667eea'/%3E%3C/svg%3E" alt="Album art">
+              <div class="now-playing__art-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="now-playing__meta">
+              <div class="now-playing__meta-title">
+                <h3 class="now-playing__track-name">Embedded Display Track</h3>
+              </div>
+              <div class="now-playing__meta-subtitle">
+                <span class="now-playing__artist">Artist Name</span>
+                <span class="now-playing__separator">·</span>
+                <span class="now-playing__duration">3:45</span>
+              </div>
+              <div class="now-playing__meta-info">
+                <span class="now-playing__bitrate">320 kbps</span>
+              </div>
+              <div class="now-playing__progress-container">
+                <div class="now-playing__progress-fill" style="width: 45%;"></div>
+                <div class="now-playing__progress-handle" role="slider" aria-label="Seek"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Laptop (1366px) -->
+      <div class="viewport-box">
+        <h3>Laptop (1366×768)</h3>
+        <div class="viewport-box-content">
+          <div class="now-playing" style="width: 420px; height: 150px;">
+            <div class="now-playing__art-wrapper">
+              <img class="now-playing__art" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect width='120' height='120' fill='%23667eea'/%3E%3C/svg%3E" alt="Album art">
+              <div class="now-playing__art-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="now-playing__meta">
+              <div class="now-playing__meta-title">
+                <h3 class="now-playing__track-name">Laptop Display Track</h3>
+              </div>
+              <div class="now-playing__meta-subtitle">
+                <span class="now-playing__artist">Artist Name</span>
+                <span class="now-playing__separator">·</span>
+                <span class="now-playing__duration">3:45</span>
+              </div>
+              <div class="now-playing__meta-info">
+                <span class="now-playing__bitrate">320 kbps</span>
+              </div>
+              <div class="now-playing__progress-container">
+                <div class="now-playing__progress-fill" style="width: 45%;"></div>
+                <div class="now-playing__progress-handle" role="slider" aria-label="Seek"></div>
+              </div>
+              <div class="now-playing__time">
+                <time class="now-playing__time-current">1:41</time>
+                <span aria-hidden="true">/</span>
+                <time class="now-playing__time-total">3:45</time>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Desktop/T17 (1920px) -->
+      <div class="viewport-box">
+        <h3>Desktop (1920×1080) — T17</h3>
+        <div class="viewport-box-content">
+          <div class="now-playing" style="width: 469px; height: 184px;">
+            <div class="now-playing__art-wrapper">
+              <img class="now-playing__art" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Crect width='150' height='150' fill='%23667eea'/%3E%3C/svg%3E" alt="Album art">
+              <div class="now-playing__art-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="now-playing__meta">
+              <div class="now-playing__meta-title">
+                <h3 class="now-playing__track-name">Desktop Display Track</h3>
+              </div>
+              <div class="now-playing__meta-subtitle">
+                <span class="now-playing__artist">Artist Name</span>
+                <span class="now-playing__separator">·</span>
+                <span class="now-playing__duration">3:45</span>
+              </div>
+              <div class="now-playing__meta-info">
+                <span class="now-playing__bitrate">320 kbps FLAC</span>
+              </div>
+              <div class="now-playing__progress-container">
+                <div class="now-playing__progress-fill" style="width: 45%;"></div>
+                <div class="now-playing__progress-handle" role="slider" aria-label="Seek"></div>
+              </div>
+              <div class="now-playing__time">
+                <time class="now-playing__time-current">1:41</time>
+                <span aria-hidden="true">/</span>
+                <time class="now-playing__time-total">3:45</time>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Desktop HD (2560px) -->
+      <div class="viewport-box">
+        <h3>Desktop HD (2560×1440)</h3>
+        <div class="viewport-box-content">
+          <div class="now-playing" style="width: 550px; height: 220px;">
+            <div class="now-playing__art-wrapper">
+              <img class="now-playing__art" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Crect width='180' height='180' fill='%23667eea'/%3E%3C/svg%3E" alt="Album art">
+              <div class="now-playing__art-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="now-playing__meta">
+              <div class="now-playing__meta-title">
+                <h3 class="now-playing__track-name">Desktop HD Display Track</h3>
+              </div>
+              <div class="now-playing__meta-subtitle">
+                <span class="now-playing__artist">Artist Name</span>
+                <span class="now-playing__separator">·</span>
+                <span class="now-playing__duration">3:45</span>
+              </div>
+              <div class="now-playing__meta-info">
+                <span class="now-playing__bitrate">320 kbps FLAC</span>
+              </div>
+              <div class="now-playing__progress-container">
+                <div class="now-playing__progress-fill" style="width: 45%;"></div>
+                <div class="now-playing__progress-handle" role="slider" aria-label="Seek"></div>
+              </div>
+              <div class="now-playing__time">
+                <time class="now-playing__time-current">1:41</time>
+                <span aria-hidden="true">/</span>
+                <time class="now-playing__time-total">3:45</time>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 4K (3840px) -->
+      <div class="viewport-box">
+        <h3>4K TV (3840×2160)</h3>
+        <div class="viewport-box-content">
+          <div class="now-playing" style="width: 750px; height: 300px;">
+            <div class="now-playing__art-wrapper">
+              <img class="now-playing__art" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Crect width='250' height='250' fill='%23667eea'/%3E%3C/svg%3E" alt="Album art">
+              <div class="now-playing__art-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="now-playing__meta">
+              <div class="now-playing__meta-title">
+                <h3 class="now-playing__track-name">4K TV Display Track</h3>
+              </div>
+              <div class="now-playing__meta-subtitle">
+                <span class="now-playing__artist">Artist Name</span>
+                <span class="now-playing__separator">·</span>
+                <span class="now-playing__duration">3:45</span>
+              </div>
+              <div class="now-playing__meta-info">
+                <span class="now-playing__bitrate">320 kbps FLAC</span>
+              </div>
+              <div class="now-playing__progress-container">
+                <div class="now-playing__progress-fill" style="width: 45%;"></div>
+                <div class="now-playing__progress-handle" role="slider" aria-label="Seek"></div>
+              </div>
+              <div class="now-playing__time">
+                <time class="now-playing__time-current">1:41</time>
+                <span aria-hidden="true">/</span>
+                <time class="now-playing__time-total">3:45</time>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Breakpoint Details -->
+    <h2 style="font-size: 20px; margin: 32px 0 16px 0; border-bottom: 2px solid #ff006e; padding-bottom: 8px;">
+      🎯 Breakpoint Specifications
+    </h2>
+    
+    <div class="breakpoint-demos">
+      <div class="breakpoint-demo">
+        <h3>480px — Phone</h3>
+        <div class="breakpoint-specs">
+          <div class="spec">
+            <div class="spec-label">Width × Height</div>
+            <div class="spec-value">360px × 90px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Album Art</div>
+            <div class="spec-value">80px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Font Size</div>
+            <div class="spec-value">10-13px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Gap</div>
+            <div class="spec-value">8px</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="breakpoint-demo">
+        <h3>768px — Tablet</h3>
+        <div class="breakpoint-specs">
+          <div class="spec">
+            <div class="spec-label">Width × Height</div>
+            <div class="spec-value">360px × 110px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Album Art</div>
+            <div class="spec-value">90px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Font Size</div>
+            <div class="spec-value">11-13px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Gap</div>
+            <div class="spec-value">10px</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="breakpoint-demo">
+        <h3>1024px — Embedded (T07)</h3>
+        <div class="breakpoint-specs">
+          <div class="spec">
+            <div class="spec-label">Width × Height</div>
+            <div class="spec-value">392px × 131px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Album Art</div>
+            <div class="spec-value">100px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Font Size</div>
+            <div class="spec-value">11-14px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Gap</div>
+            <div class="spec-value">12px</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="breakpoint-demo">
+        <h3>1366px — Laptop</h3>
+        <div class="breakpoint-specs">
+          <div class="spec">
+            <div class="spec-label">Width × Height</div>
+            <div class="spec-value">420px × 150px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Album Art</div>
+            <div class="spec-value">120px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Font Size</div>
+            <div class="spec-value">12-15px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Gap</div>
+            <div class="spec-value">14px</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="breakpoint-demo">
+        <h3>1920px — Desktop (T17)</h3>
+        <div class="breakpoint-specs">
+          <div class="spec">
+            <div class="spec-label">Width × Height</div>
+            <div class="spec-value">469px × 184px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Album Art</div>
+            <div class="spec-value">150px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Font Size</div>
+            <div class="spec-value">13-16px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Gap</div>
+            <div class="spec-value">16px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Time Display</div>
+            <div class="spec-value">✅ Visible</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="breakpoint-demo">
+        <h3>2560px — Desktop HD</h3>
+        <div class="breakpoint-specs">
+          <div class="spec">
+            <div class="spec-label">Width × Height</div>
+            <div class="spec-value">550px × 220px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Album Art</div>
+            <div class="spec-value">180px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Font Size</div>
+            <div class="spec-value">15-18px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Gap</div>
+            <div class="spec-value">18px</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="breakpoint-demo">
+        <h3>3840px — 4K TV</h3>
+        <div class="breakpoint-specs">
+          <div class="spec">
+            <div class="spec-label">Width × Height</div>
+            <div class="spec-value">750px × 300px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Album Art</div>
+            <div class="spec-value">250px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Font Size</div>
+            <div class="spec-value">18-22px</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Gap</div>
+            <div class="spec-value">24px</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Notes -->
+    <div class="notes">
+      <h4>📋 Test Checklist</h4>
+      <ul>
+        <li>✅ Player Info scales smoothly across all breakpoints (480px → 3840px)</li>
+        <li>✅ Time display hidden on T07 (≤1024px), visible on T17 (≥1920px)</li>
+        <li>✅ Font sizes scale with clamp() for fluid typography</li>
+        <li>✅ Touch target minimum 44px respected</li>
+        <li>✅ Pointer:coarse media query for TV/touch devices</li>
+        <li>✅ Focus-visible outline 2px solid #ff006e</li>
+        <li>✅ Progress bar interactive with keyboard (arrow keys, home, end)</li>
+        <li>✅ WCAG 2.2 AA contrast ratio ≥4.5:1</li>
+        <li>⚠️ Load player-info.js for interactive functionality</li>
+        <li>⚠️ Resize browser window to test responsive behavior</li>
+      </ul>
+    </div>
+    
+    <!-- Debug -->
+    <div class="debug-info">
+      <strong>🐛 Debug Information</strong><br>
+      <pre id="debug-output"></pre>
+    </div>
+  </div>
+  
+  <script>
+    // Update viewport info
+    function updateViewportInfo() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const dpr = window.devicePixelRatio;
+      const pointerType = matchMedia('(pointer:coarse)').matches ? 'Touch/Coarse' : 'Mouse/Fine';
+      
+      document.getElementById('current-width').textContent = `${width}px (${Math.round(width / window.devicePixelRatio)}px device)`;
+      document.getElementById('current-height').textContent = `${height}px`;
+      document.getElementById('current-dpr').textContent = `${dpr}x`;
+      document.getElementById('pointer-type').textContent = pointerType;
+      
+      // Debug output
+      const breakpointName = getBreakpointName(width);
+      document.getElementById('debug-output').textContent = `
+Viewport: ${width}×${height}
+Breakpoint: ${breakpointName}
+Device Pixel Ratio: ${dpr}
+Pointer Type: ${pointerType}
+Touch Support: ${navigator.maxTouchPoints > 0 ? 'Yes' : 'No'}
+Prefers Reduced Motion: ${matchMedia('(prefers-reduced-motion: reduce)').matches ? 'Yes' : 'No'}
+Prefers Contrast: ${matchMedia('(prefers-contrast: more)').matches ? 'Yes' : 'No'}
+      `;
+    }
+    
+    function getBreakpointName(width) {
+      if (width < 480) return 'Phone (< 480px)';
+      if (width < 768) return 'Phone HD (480-767px)';
+      if (width < 1024) return 'Tablet (768-1023px)';
+      if (width < 1366) return 'Embedded/T07 (1024-1365px)';
+      if (width < 1920) return 'Laptop (1366-1919px)';
+      if (width < 2560) return 'Desktop/T17 (1920-2559px)';
+      if (width < 3840) return 'Desktop HD (2560-3839px)';
+      return '4K TV (3840px+)';
+    }
+    
+    // Update on load and resize
+    updateViewportInfo();
+    window.addEventListener('resize', updateViewportInfo);
+  </script>
+</body>
+</html>

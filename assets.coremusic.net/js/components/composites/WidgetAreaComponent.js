@@ -1,152 +1,92 @@
 /**
- * C17 Widget Area (Home Widget Grid) bileşeni — Guardrail #16 ile js-template §3.2'den türetilir.
+ * Widget Grid (Wide/4K üst satır) bileşeni — Guardrail #16 ile js-template §3.2'den türetilir.
  * @module assets.coremusic.net/js/components/composites/WidgetAreaComponent
  * @requires ADR-001 (framework yasak)
- * Figma: sayfa 18:2907 · Envanter: .ai/ui-design/02-component-inventory.md C17
  *
- * KARAR (Faz 2 Batch 2 checkpoint — "üretim kazandı"):
- *   Envanter C17 `.home-widget-area/.home-widget-panel` adlarını HİÇBİR yerde
- *   kullanılmıyor. Üretimde canlı olan yapı:
- *     - CSS: 05_Pages/_home-layout.css `.home-widget-grid` (grid, --widget-grid-cols)
- *             05_Pages/_home-components.css `.home-widget` + __header/__icon/__title/
- *             __subtitle/__info/__glass/--compact
- *     - JS:  js/features/WidgetManager.js  → .home-widget, .home-widget__title,
- *            .home-widget__subtitle, .home-widget__info, .home-widget__folder-btn
- *            js/device-layout-updater.js   → .home-widget-grid, .home-widget,
- *            --widget-grid-cols
- *   Bu bileşen üretim sınıflarını üretir; envanter C17 satırı vault-updater'a
- *   düzeltme olarak yazılır (vault çelişkisi #9).
+ * Figma SSOT: node 2831:13747 (1920 Home) → "Div2 Button" id 2850:21494 (752×184)
+ * PHP view: home.coremusic.net/pages/components/widget-grid.php (server-render, statik veri)
+ * CSS:      assets.coremusic.net/Css/04_Components/_widget-grid.css
  *
- * BEM (üretim): .home-widget-grid, .home-widget, .home-widget__header,
- *               .home-widget__icon, .home-widget__title, .home-widget__subtitle
+ * KARAR (2026-09-30 — widget grid görev kapsamı):
+ *   Önceki sürüm ".home-widget-grid/.home-widget" (WidgetManager.js ile aynı hayalet
+ *   isimlendirme) üretiyordu; bu markup hiçbir PHP şablonunda kullanılmıyordu (orphan).
+ *   Bu bileşen artık gerçek üretim markup'ını (.widget-grid / .widget-card / .widget-card__*)
+ *   hedefler ve sadece server-render edilmiş içeriği "canlı" tutar:
+ *     1. Saat/tarih widget'ı — her dakika günceller (TR ay/gün isimleri).
+ *     2. Depolama progressbar — data-progress attribute'unu CSS custom property'e taşır
+ *        (player-info__progress__fill ile aynı desen: player component'i .style.width
+ *         kullanıyor, burada CSS var + attr köprüsü ile aynı sonuca ulaşılır).
+ *   DOM yeniden inşa edilmez (innerHTML/yeniden oluşturma YOK) — PHP'nin render ettiği
+ *   düğümler olduğu gibi kalır, yalnız metin/CSS custom property güncellenir.
+ *
+ * data-cm-component="cm-home-widget-grid" (kayıt: main.js → ComponentRegistry)
  */
 
 'use strict';
 
 import ComponentBase from '../base/ComponentBase.js';
-import { eventName } from '../base/ComponentEvents.js';
 
-/**
- * @typedef {Object} WidgetItem
- * @property {string} id
- * @property {string} icon
- * @property {string} title
- * @property {string} subtitle
- * @property {string} [info]
- * @property {boolean} [compact]
- */
-
-/**
- * @typedef {Object} WidgetAreaState
- * @property {WidgetItem[]} items
- * @property {number} columns  — device-layout-updater.js ile aynı değişken: --widget-grid-cols
- */
+const TR_DAYS = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+const TR_MONTHS = [
+    'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+    'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
+];
 
 export default class WidgetAreaComponent extends ComponentBase {
-    /** @returns {WidgetAreaState} */
+    /** @type {number|null} */
+    #clockIntervalId = null;
+
     defaultState() {
-        return { items: [], columns: 2 };
+        return {};
     }
 
     init() {
-        const root = this.el;
-        if (!root) return;
-
-        root.classList.add('home-widget-grid');
-        root.dataset.component = 'home-widget-grid';
-
-        this.on(root, 'click', (event) => this.#onClick(event));
-        this.on(root, 'keydown', (event) => this.#onKeyDown(event));
+        if (!this.el) return;
+        this.#applyStoragePercent();
     }
 
     mount() {
-        this.#build();
+        this.#startClock();
     }
 
-    /** @param {object} prev @param {WidgetAreaState} next */
-    onUpdate(prev, next) {
-        if (prev.items !== next.items || prev.columns !== next.columns) this.#build();
+    /** Depolama progressbar — data-progress → --widget-storage-percent CSS custom property. */
+    #applyStoragePercent() {
+        const fill = this.$('.widget-card__progress-fill');
+        if (!fill) return;
+
+        const pct = Number.parseInt(fill.getAttribute('data-progress') || '0', 10);
+        const clamped = Number.isFinite(pct) ? Math.min(100, Math.max(0, pct)) : 0;
+        fill.style.setProperty('--widget-storage-percent', `${clamped}%`);
     }
 
-    /** Widget panellerini state'ten kurar (textContent — innerHTML YASAK). */
-    #build() {
-        const root = this.el;
-        if (!root) return;
+    /** Saat/tarih widget'ı — her dakika başında günceller (07:00 / 5 Haziran 2026). */
+    #startClock() {
+        const timeEl = this.$('[data-widget="clock-time"]');
+        const dateEl = this.$('[data-widget="clock-date"]');
+        if (!timeEl && !dateEl) return;
 
-        const { items, columns } = this.state;
-
-        // Sadece kendi oluşturduğu düğümleri temizle
-        this.$$('.home-widget').forEach((node) => node.remove());
-
-        // Aynı değişkeni device-layout-updater.js de yazar — çakışma yok, son değer geçerli
-        root.style.setProperty('--widget-grid-cols', String(columns > 0 ? columns : 2));
-
-        items.forEach((item) => {
-            const panel = document.createElement('section');
-            panel.className = 'home-widget';
-            panel.dataset.component = 'home-widget';
-            panel.dataset.id = item.id || '';
-            if (item.compact) panel.classList.add('home-widget--compact');
-            panel.tabIndex = 0;
-
-            const header = document.createElement('div');
-            header.className = 'home-widget__header';
-
-            const icon = document.createElement('span');
-            icon.className = 'home-widget__icon';
-            icon.setAttribute('aria-hidden', 'true');
-            icon.textContent = item.icon || '';
-
-            const title = document.createElement('h3');
-            title.className = 'home-widget__title';
-            title.textContent = item.title || '';
-
-            header.append(icon, title);
-
-            const subtitle = document.createElement('p');
-            subtitle.className = 'home-widget__subtitle';
-            subtitle.textContent = item.subtitle || '';
-            subtitle.hidden = subtitle.textContent === '';
-
-            panel.append(header, subtitle);
-
-            if (item.info) {
-                const info = document.createElement('p');
-                info.className = 'home-widget__info';
-                info.textContent = item.info;
-                panel.appendChild(info);
+        const update = () => {
+            const now = new Date();
+            if (timeEl) {
+                const hh = String(now.getHours()).padStart(2, '0');
+                const mm = String(now.getMinutes()).padStart(2, '0');
+                timeEl.textContent = `${hh}:${mm}`;
             }
+            if (dateEl) {
+                dateEl.textContent = `${now.getDate()} ${TR_MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+                dateEl.setAttribute('data-weekday', TR_DAYS[now.getDay()]);
+            }
+        };
 
-            root.appendChild(panel);
-        });
+        update();
+        this.#clockIntervalId = window.setInterval(update, 30_000);
     }
 
-    /** @param {MouseEvent} event */
-    #onClick(event) {
-        const panel = event.target instanceof Element
-            ? event.target.closest('.home-widget')
-            : null;
-        if (!(panel instanceof HTMLElement) || !this.el?.contains(panel)) return;
-        this.#activate(panel);
-    }
-
-    /** @param {KeyboardEvent} event */
-    #onKeyDown(event) {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-        const panel = event.target instanceof Element
-            ? event.target.closest('.home-widget')
-            : null;
-        if (!(panel instanceof HTMLElement)) return;
-        event.preventDefault();
-        this.#activate(panel);
-    }
-
-    /** @param {HTMLElement} panel */
-    #activate(panel) {
-        const item = this.state.items.find((entry) => entry.id === panel.dataset.id);
-        this.emit(eventName('home-widget-grid', 'select'), {
-            id: panel.dataset.id || '',
-            title: item ? item.title : '',
-        });
+    destroy() {
+        if (this.#clockIntervalId !== null) {
+            window.clearInterval(this.#clockIntervalId);
+            this.#clockIntervalId = null;
+        }
+        super.destroy();
     }
 }

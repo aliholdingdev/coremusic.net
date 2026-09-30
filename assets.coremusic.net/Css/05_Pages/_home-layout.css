@@ -473,145 +473,15 @@ html:not(.sidebar-collapsed) .home-layout {
   min-width: 0;
 }
 
-/* Welcome Banner (inline, orta sütun) */
+/* Orta sütun — Hoş Geldin Banner konumlandırma (görsel stil: 04_Components/_welcome-banner.css)
+   grid-column: 2 — Figma node 2849:21492 "Banner Div" (491×184), Player Info (sol)
+   ile Widget Grid (sağ) arasında. Bkz. pages/home.php + WelcomeBannerComponent.php */
 .home-layout__top-center {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  grid-column: 2;
   min-width: 0;
-}
-
-.home-welcome-banner {
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  min-height: 200px;
-  display: flex;
-  align-items: flex-end;
-  width: 100%;
-}
-
-.home-welcome-banner__bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.home-welcome-banner__bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-}
-
-.home-welcome-banner__content {
-  position: relative;
-  z-index: 1;
-  padding: 20px;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
-  width: 100%;
-}
-
-.home-welcome-banner__title {
-  font-family: 'Avalon Medium', system-ui, sans-serif;
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0 0 4px;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
-}
-
-.home-welcome-banner__user {
-  font-family: 'Bickham Script Pro', 'Georgia', cursive;
-  font-size: 28px;
-  color: #ffffff;
-  margin: 0 0 6px;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
-}
-
-.home-welcome-banner__tagline {
-  font-family: 'Avalon Medium', system-ui, sans-serif;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.75);
-  font-style: italic;
-  margin: 0 0 4px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-}
-
-.home-welcome-banner__brand {
-  font-family: 'Bickham Script Pro', 'Georgia', cursive;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0 0 10px;
-  text-shadow: var(--ts-sm);
-}
-
-.home-welcome-banner__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 20px;
-  min-height: 44px; /* WCAG 2.5.8 — minimum touch target */
-  background: linear-gradient(135deg, #ff4fd8 0%, #e91e8c 50%, #ff6b35 100%);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 22px;
-  color: #ffffff;
-  font-family: 'DM Sans', system-ui, sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  text-decoration: none;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  box-shadow:
-    0 4px 16px rgba(255, 79, 216, 0.35),
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-    0 1px 0 rgba(255, 255, 255, 0.2) inset;
-  cursor: pointer;
-  transition: transform 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275),
-              box-shadow 200ms ease;
-}
-
-.home-welcome-banner__btn:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow:
-    0 8px 24px rgba(255, 79, 216, 0.45),
-    0 0 20px rgba(255, 79, 216, 0.2),
-    0 0 0 1px rgba(255, 255, 255, 0.15) inset;
-}
-
-.home-welcome-banner__btn:active {
-  transform: translateY(0) scale(0.98);
-  box-shadow:
-    0 2px 8px rgba(255, 79, 216, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-}
-
-.home-welcome-banner__btn svg {
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-}
-
-.home-welcome-banner__stats {
-  display: flex;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.home-welcome-banner__stat {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.home-welcome-banner__stat-icon {
-  font-size: 12px;
-  opacity: 0.8;
-}
-
-.home-welcome-banner__stat-value {
-  font-family: 'Avalon Medium', system-ui, sans-serif;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.85);
-  text-shadow: var(--ts-xs);
 }
 
 /* ============================================================
@@ -667,10 +537,13 @@ html:not(.sidebar-collapsed) .home-layout {
   min-height: 230px;
 }
 
-/* Sağ sütun: Widget'lar + Quick Apps yan yana */
+/* Sağ sütun: Widget'lar + Quick Apps yan yana
+   grid-column: 3 — orta sütun artık Hoş Geldin Banner ile dolu (home-layout__top-center,
+   grid-column: 2); bu değer, DOM sırası bozulsa da sağ sütunu garanti altına alır. */
 .home-layout__top-right--wide {
   display: flex;
   flex-direction: row;
+  grid-column: 3;
   gap: 12px;
   align-items: stretch;
   min-width: 0;

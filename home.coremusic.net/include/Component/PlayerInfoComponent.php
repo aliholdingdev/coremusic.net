@@ -29,6 +29,9 @@ final class PlayerInfoComponent extends AbstractComponent
     public readonly string $iconStar;
     public readonly string $iconBitrate;
     public readonly string $iconTimer;
+    public readonly string $iconMp3;
+    public readonly string $iconMp4;
+    public readonly string $iconVlc;
 
     public function __construct(HomeLayoutVariant $variant)
     {
@@ -50,6 +53,9 @@ final class PlayerInfoComponent extends AbstractComponent
         $this->iconStar    = $this->asset('/Image/res-pink/star.png');
         $this->iconBitrate = $this->asset('/Image/res-pink/bit-rate.png');
         $this->iconTimer   = $this->asset('/Image/res-pink/timer.png');
+        $this->iconMp3     = $this->asset('/Image/res-pink/mp3.png');
+        $this->iconMp4     = $this->asset('/Image/res-pink/mp4.png');
+        $this->iconVlc     = $this->asset('/Image/res-pink/vlc.png');
     }
 
     public function key(): string

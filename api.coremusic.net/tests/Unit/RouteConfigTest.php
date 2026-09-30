@@ -82,9 +82,10 @@ final class RouteConfigTest extends TestCase
         $this->assertSame('login', $ok['route']['action'] ?? null);
 
         // Yol biliniyor, method sunulmuyor → 405 + Allow (RFC 9110 §15.5.6)
+        // GET /auth/login implemented=false → Allow listesinde GET YOK (yalnız POST + OPTIONS)
         $result = $this->table->match('/api/v1/auth/login', 'PUT');
         $this->assertSame(RouteTable::STATUS_METHOD_NOT_ALLOWED, $result['status']);
-        $this->assertContains('GET', $result['allow']);
+        $this->assertNotContains('GET', $result['allow'], 'GET login POST-only → Allow listesinde yok');
         $this->assertContains('POST', $result['allow']);
         $this->assertContains('OPTIONS', $result['allow']);
         $this->assertNotContains('PUT', $result['allow']);
@@ -93,13 +94,31 @@ final class RouteConfigTest extends TestCase
     public function testUnknownPathIsNotFoundNot405(): void
     {
         $this->assertSame(RouteTable::STATUS_NOT_FOUND, $this->table->match('/api/v1/unknown', 'GET')['status']);
+
+        // Gerçek tetikleyici: GET prefix kaydının (/api/v1/auth) altındaki
+        // TANIMSIZ yol. Eski davranış: str_starts_with prefix fallback →
+        // private route → authenticate edilmemiş istemciye 401 (sözleşme ihlali).
+        // Sözleşme: tanımsız alt yol = rota yok → 404, route null, Allow'sız.
+        $result = $this->table->match('/api/v1/auth/does-not-exist', 'GET');
+        $this->assertSame(RouteTable::STATUS_NOT_FOUND, $result['status']);
+        $this->assertNull($result['route'], 'Prefix route\'una fallback yapılmamalı');
+        $this->assertSame([], $result['allow'], '404 yanıtında Allow başlığı olmamalı');
+
+        // Aynı kural POST ve diğer prefix aileleri için de geçerli
+        $this->assertSame(RouteTable::STATUS_NOT_FOUND, $this->table->match('/api/v1/auth/does-not-exist', 'POST')['status']);
+        $this->assertSame(RouteTable::STATUS_NOT_FOUND, $this->table->match('/api/v1/user/does-not-exist', 'GET')['status']);
     }
 
-    public function testGetLoginIsFound(): void
+    public function testGetLoginIsMethodNotAllowed405(): void
     {
         $result = $this->table->match('/api/v1/auth/login', 'GET');
 
-        $this->assertSame(RouteTable::STATUS_OK, $result['status']);
+        // GET login POST-only → implemented=false → 405 + Allow (RFC 9110 §15.5.6)
+        $this->assertSame(RouteTable::STATUS_METHOD_NOT_ALLOWED, $result['status']);
+        $this->assertContains('POST', $result['allow']);
+        $this->assertContains('OPTIONS', $result['allow']);
+        $this->assertNotContains('GET', $result['allow']);
+        $this->assertFalse((bool) ($result['route']['implemented'] ?? true));
         $this->assertTrue((bool) ($result['route']['public'] ?? false));
     }
 

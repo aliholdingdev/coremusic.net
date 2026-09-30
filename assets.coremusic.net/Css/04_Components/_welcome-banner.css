@@ -1,3 +1,73 @@
-/* _welcome-banner.css — CLEARED: no usage in PHP templates (2026-09-23)
-   Welcome banner classes (.welcome-banner*) are not rendered in any template.
-   The welcome modal uses .welcome-modal* classes from _home-components.css instead. */
+/**
+ * CoreMusic — Welcome Banner Component (v1.0.0)
+ *
+ * Figma SSOT: node 2831:13747 (1920 Home) → "Banner Div" id 2849:21492 (491×184)
+ * WIDE/4K üst satırında Player Info (sol) ile Widget Grid (sağ) arasında
+ * orta sütun ("Hoş Geldin" kartı). Embedded (1024, node 1639:10160) altında
+ * eşdeğeri yok — bkz. WelcomeBannerComponent.php doc-block.
+ *
+ * NOT: Bu, `#welcomeModalOverlay` ile açılan "Welcome Modal" popup'ından
+ * (Figma "Welcome Div" id 2831:10267) AYRI bir bileşendir — üst satırda
+ * her zaman görünen statik bir karttır, o modalı DEĞİŞTİRMEZ.
+ *
+ * Figma "Banner Div" node'u salt bir RECTANGLE'dır (children yok, IMAGE fill) —
+ * metin içeriği Figma'da tanımlı değildir; "Hoş Geldin" + kullanıcı adı metni
+ * R5 kuralına göre eklendi (session'da MM_DisplayName/MM_Username varsa kullanılır).
+ *
+ * Token'lar: 01_Abstracts/a-welcome-banner-tokens.css (ham px/hex bu dosyada YAZILMAZ)
+ * ITCSS Layer: 04_Components
+ * BEM: .welcome-banner, .welcome-banner__*
+ * Version: 1.0.0 — 2026-09-30
+ */
+
+/* ═══ Kart kabuğu (Figma: 491×184, radius 8, dropShadow 2/2/4 @0.8) ═══ */
+.welcome-banner.welcome-banner--wide {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--wb-w);
+  height: var(--wb-h);
+  border-radius: var(--wb-radius);
+  overflow: hidden;
+  background-image: var(--wb-bg-gradient);
+  background-size: cover;
+  background-position: center;
+  box-shadow: var(--wb-shadow);
+}
+
+/* ═══ Okunabilirlik overlay'i (metin kontrastı için) ═══ */
+.welcome-banner__overlay {
+  position: absolute;
+  inset: 0;
+  background-image: var(--wb-overlay-gradient);
+  pointer-events: none;
+}
+
+/* ═══ İçerik ═══ */
+.welcome-banner__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: var(--wb-pad);
+  font-family: var(--wb-font);
+}
+
+.welcome-banner__eyebrow {
+  margin: 0 0 4px;
+  font-size: var(--wb-eyebrow-fs);
+  color: var(--wb-eyebrow-color);
+  text-shadow: var(--wb-text-shadow);
+}
+
+.welcome-banner__user {
+  margin: 0;
+  font-size: var(--wb-user-fs);
+  font-weight: 600;
+  color: var(--wb-user-color);
+  text-shadow: var(--wb-text-shadow);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

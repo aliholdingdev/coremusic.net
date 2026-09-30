@@ -70,7 +70,11 @@ final class GatewayMethodRoutingTest extends TestCase
 
         $this->assertSame('METHOD_NOT_ALLOWED', $result['error']['code'] ?? null);
         $this->assertArrayHasKey('Allow', $result['headers'] ?? [], 'Allow başlığı response.headers üzerinden gitmeli');
-        $this->assertStringContainsString('GET', $result['headers']['Allow']);
+        // Dünkü 405 sözleşmesi (RouteConfigTest::...MethodMismatchStillYields405):
+        // GET login implemented=false → Allow yalnız POST + OPTIONS, GET YOK.
+        $this->assertStringContainsString('POST', $result['headers']['Allow']);
+        $this->assertStringContainsString('OPTIONS', $result['headers']['Allow']);
+        $this->assertStringNotContainsString('GET', $result['headers']['Allow']);
     }
 
     public function testUnknownPathReturns404WithoutAllowHeader(): void
@@ -81,10 +85,14 @@ final class GatewayMethodRoutingTest extends TestCase
         $this->assertArrayNotHasKey('Allow', $result['headers'] ?? []);
     }
 
-    public function testGetLoginKeepsWorking(): void
+    public function testGetMeDispatchesWhileGetLoginYields405PerContract(): void
     {
-        $result = $this->dispatch('GET', '/api/v1/auth/login');
+        // Dünkü 405 sözleşmesi: GET /auth/login implemented=false → 405 (kilitli).
+        $login = $this->dispatch('GET', '/api/v1/auth/login');
+        $this->assertSame('METHOD_NOT_ALLOWED', $login['error']['code'] ?? null);
 
+        // GET rotaları hâlâ dispatch ediliyor (exact kayıt → handler/placeholder).
+        $result = $this->dispatch('GET', '/api/v1/auth/me');
         $this->assertSame('auth', $result['data']['service'] ?? null);
     }
 

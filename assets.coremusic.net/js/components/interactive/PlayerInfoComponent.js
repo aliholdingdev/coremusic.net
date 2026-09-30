@@ -8,9 +8,30 @@
  * - Keyboard shortcuts (space = play/pause)
  *
  * HTML contract (PHP tarafından render edilir):
- * <player_info data-cm-component="cm-player-info" data-cm-config='{"song":"...","progress":30}'>
- *   <div class="player-info__progress">...</div>
- * </player_info>
+ * wide (≥1025px):
+ *   <section class="player-info player-info--wide" data-cm-component="cm-player-info" data-cm-config='{"song":"...","progress":30}'>
+ *     <div class="player-info__cover"><img …></div>
+ *     <div class="player-info__info-panel">
+ *       <h1|p class="player-info__row player-info__{title|album|singer|star|bitrate|duration}">…</h1|p> ×6
+ *       <div class="player-info__transport">
+ *         <img class="player-info__text-img player-info__play" src="…/play.png">
+ *         <div class="player-info__progress"><div class="player-info__progress__bar">
+ *           <div class="player-info__progress__fill"></div></div></div>
+ *       </div>
+ *     </div>
+ *   </section>
+ * embedded (≤1024px):
+ *   <section class="now-playing now-playing--embedded" data-cm-component="cm-player-info" data-cm-config='{…}'>
+ *     <div class="now-playing__art now-playing__art--embedded"><img …></div>
+ *     <div class="now-playing__info now-playing__info--embedded">
+ *       <h1 class="now-playing__title">…</h1>
+ *       <p class="now-playing__subtitle">…</p>
+ *       <p class="now-playing__artist">…</p>
+ *     </div>
+ *     <div class="media-progress"><span class="media-progress__time" id="np_time_current">
+ *       …<div class="media-progress__bar"><div class="media-progress__fill"></div></div>…
+ *       <span class="media-progress__time media-progress__time--total" id="np_time_total">…</span>
+ *   </section>
  *
  * @package CoreMusic\Components\Interactive
  */
@@ -47,6 +68,9 @@ export default class PlayerInfoComponent extends ComponentBase {
     }
 
     mount() {
+        // Initial progress — CSP inline style yasak, JS ile set et
+        this.setProgress(this.#progress);
+
         // Progress bar tıklama → seek
         if (this.#progressBar) {
             this.on(this.#progressBar, 'click', (e) => {

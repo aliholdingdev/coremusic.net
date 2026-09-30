@@ -658,7 +658,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 **Detay:** [[.templates/index]]
 
-> ✅ GİDERİLDİ (ölçüm 2026-09-27): disk glob = 36 template dosyası (`.ai/.templates` recursive; `index.md` ve `CLAUDE.md` hariç); [[.templates/index]] üzerinden doğrulandı. (Eski kayıtlar: 28 — 2026-09-24, +2 yeni şablon: claude-md + docs-md; 26 — 2026-09-24 sabah; 19 — 2026-09-23 sahip doğrulaması.)
+> ✅ GİDERİLDİ (ölçüm 2026-09-29): disk glob = 41 template dosyası (`.ai/.templates` recursive; `index.md` ve `CLAUDE.md` hariç); [[.templates/index]] üzerinden doğrulandı. Faz 6 tamamlanması: +5 yeni şablon (2026-09-29: arduino-template, avr-template, pic-template eklendi). (Eski kayıtlar: 36 — 2026-09-27; 28 — 2026-09-24, +2 yeni şablon: claude-md + docs-md; 26 — 2026-09-24 sabah; 19 — 2026-09-23 sahip doğrulaması.)
 
 ---
 
