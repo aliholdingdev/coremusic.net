@@ -66,7 +66,26 @@ component: C07
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create gender button component for CoreMusic",
+  "component": "C07",
+  "bem": ".gender-btn",
+  "states": [
+    "default",
+    "hover",
+    "selected",
+    "focus-visible"
+  ],
+  "tokens": {
+    "--cm-radius-lg": "12px",
+    "--cm-glass-bg": "rgba(255, 255, 255, 0.05)",
+    "--cm-border-subtle": "rgba(255, 255, 255, 0.06)",
+    "--cm-space-4": "1rem",
+    "--cm-touch-target": "44px"
+  }
+}
+```
 
 ### Expected Output
 

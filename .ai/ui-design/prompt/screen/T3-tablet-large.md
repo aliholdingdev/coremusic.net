@@ -67,7 +67,26 @@ tier: T3-tablet-large
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create tablet large screen for CoreMusic",
+  "screen": "tablet-large",
+  "viewport": "1024-1279px",
+  "tier": "T3-tablet-large",
+  "components": [
+    "header",
+    "sidebar-left",
+    "content-grid",
+    "footer-player"
+  ],
+  "tokens": {
+    "--cm-touch-target-lg": "48px",
+    "--cm-font-scale": "1",
+    "--cm-radius-full": "9999px",
+    "--cm-glass-blur": "12px"
+  }
+}
+```
 
 ### Expected Output
 

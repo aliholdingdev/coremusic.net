@@ -60,7 +60,26 @@ component: C11
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create genre tabs component for CoreMusic",
+  "component": "C11",
+  "bem": ".genre-tabs",
+  "states": [
+    "default",
+    "hover",
+    "active",
+    "focus-visible"
+  ],
+  "tokens": {
+    "--cm-radius-2xl": "20px",
+    "--cm-space-2": "0.5rem",
+    "--cm-glass-bg": "rgba(255, 255, 255, 0.05)",
+    "--cm-primary": "#ff4fd8",
+    "--cm-touch-target-lg": "48px"
+  }
+}
+```
 
 ### Expected Output
 

@@ -74,7 +74,28 @@ governance: Red Team · Human Mode · Truth Mode
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create spatial AR/VR layout for CoreMusic",
+  "viewport": "1920x1080",
+  "layout": "spatial",
+  "theme": "glassmorphism",
+  "accentColor": "#ff4fd8",
+  "components": [
+    "spatial-panel",
+    "gaze-reticle",
+    "hand-cursor",
+    "eq-visualizer",
+    "transport-3d"
+  ],
+  "tokens": {
+    "--cm-glass-blur-lg": "20px",
+    "--cm-border-default": "rgba(255, 255, 255, 0.10)",
+    "--cm-text-2xl": "1.5rem",
+    "--cm-text-lg": "1.125rem"
+  }
+}
+```
 
 ### Expected Output
 

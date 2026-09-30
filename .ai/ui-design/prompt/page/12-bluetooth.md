@@ -61,7 +61,25 @@ status: active
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create bluetooth modal page for CoreMusic",
+  "page": "12-bluetooth",
+  "viewport": "1024x600",
+  "components": [
+    "modal",
+    "toggle",
+    "device-row",
+    "close-button"
+  ],
+  "tokens": {
+    "--cm-radius-2xl": "20px",
+    "--cm-radius-full": "9999px",
+    "--cm-space-6": "1.5rem",
+    "--cm-touch-target-lg": "48px"
+  }
+}
+```
 
 ### Expected Output
 

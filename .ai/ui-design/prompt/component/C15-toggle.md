@@ -67,7 +67,25 @@ component: C15
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create toggle component for CoreMusic",
+  "component": "C15",
+  "bem": ".toggle",
+  "states": [
+    "off",
+    "on",
+    "hover",
+    "focus-visible",
+    "disabled"
+  ],
+  "tokens": {
+    "--cm-border-subtle": "rgba(255, 255, 255, 0.06)",
+    "--cm-primary": "#ff4fd8",
+    "--cm-touch-target": "44px"
+  }
+}
+```
 
 ### Expected Output
 

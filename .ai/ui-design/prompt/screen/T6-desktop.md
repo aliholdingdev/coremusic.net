@@ -113,7 +113,27 @@ y=1080└───────────────────────�
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create desktop FHD screen for CoreMusic",
+  "screen": "desktop-fhd",
+  "viewport": "1920px",
+  "tier": "T6-desktop",
+  "components": [
+    "header",
+    "sidebar",
+    "content",
+    "footer-player",
+    "max-content"
+  ],
+  "tokens": {
+    "--cm-touch-target": "44px",
+    "--cm-touch-target-lg": "48px",
+    "--cm-content-max-w": "1440px",
+    "--cm-glass-blur-lg": "20px"
+  }
+}
+```
 
 ### Expected Output
 

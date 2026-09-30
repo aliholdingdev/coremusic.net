@@ -70,7 +70,26 @@ component: C02
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create status widget component for CoreMusic",
+  "component": "C02",
+  "bem": ".header-widget",
+  "states": [
+    "connected",
+    "disconnected",
+    "warning (battery)",
+    "critical (battery <10%)"
+  ],
+  "tokens": {
+    "--cm-glass-bg": "rgba(255, 255, 255, 0.05)",
+    "--cm-glass-border": "rgba(255, 255, 255, 0.08)",
+    "--cm-space-2": "0.5rem",
+    "--cm-success": "#10b981",
+    "--cm-warning": "#f59e0b"
+  }
+}
+```
 
 ### Expected Output
 

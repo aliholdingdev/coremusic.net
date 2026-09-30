@@ -49,7 +49,23 @@ RIGHT (40%): Playlist Detail (Cover + Name + Creator + Stats)
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create playlist page for CoreMusic",
+  "page": "05-playlist",
+  "viewport": "1920x1080",
+  "components": [
+    "track-list",
+    "star-rating",
+    "detail-panel",
+    "transport-icons"
+  ],
+  "tokens": {
+    "--cm-radius-lg": "12px",
+    "--cm-sidebar-w": "240px"
+  }
+}
+```
 
 ### Expected Output
 

@@ -73,7 +73,28 @@ tier: T1-phone
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create phone screen for CoreMusic",
+  "screen": "phone",
+  "viewport": "max-width: 767px",
+  "tier": "T1-phone",
+  "components": [
+    "header",
+    "welcome-section",
+    "widget-grid",
+    "recent-cards",
+    "mini-player",
+    "bottom-tab-bar"
+  ],
+  "tokens": {
+    "--cm-touch-target-lg": "48px",
+    "--cm-font-scale": "1",
+    "--cm-radius-full": "9999px",
+    "--cm-space-4": "1rem"
+  }
+}
+```
 
 ### Expected Output
 

@@ -77,7 +77,26 @@ component: C05
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create secondary button component for CoreMusic",
+  "component": "C05",
+  "bem": ".btn-secondary",
+  "states": [
+    "default",
+    "hover",
+    "active",
+    "focus-visible",
+    "disabled"
+  ],
+  "tokens": {
+    "--cm-radius-md": "8px",
+    "--cm-space-5": "1.25rem",
+    "--cm-touch-target": "44px",
+    "--cm-text-base": "0.875rem"
+  }
+}
+```
 
 ### Expected Output
 

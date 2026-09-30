@@ -65,7 +65,25 @@ status: active
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create tablet grid layout for CoreMusic",
+  "viewport": "820x1180",
+  "layout": "grid",
+  "accentColor": "#ff4fd8",
+  "components": [
+    "header",
+    "content-left",
+    "content-right",
+    "footer"
+  ],
+  "tokens": {
+    "--cm-header-h": "60px",
+    "--cm-footer-h": "90px",
+    "--cm-space-3": "0.75rem"
+  }
+}
+```
 
 ### Expected Output
 

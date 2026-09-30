@@ -49,7 +49,23 @@ CONTENT: 3-column (Disk List | File Browser | Info Panel)
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create browse page for CoreMusic",
+  "page": "06-browse",
+  "viewport": "1920x1080",
+  "components": [
+    "disk-list",
+    "file-browser",
+    "info-panel"
+  ],
+  "tokens": {
+    "--cm-sidebar-w-laptop": "220px",
+    "--cm-radius-xl": "16px",
+    "--cm-space-3": "0.75rem"
+  }
+}
+```
 
 ### Expected Output
 

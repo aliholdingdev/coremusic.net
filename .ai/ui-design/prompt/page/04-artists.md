@@ -49,7 +49,23 @@ RIGHT (40%): Artist Detail (circular photo + bio + stats)
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create artists page for CoreMusic",
+  "page": "04-artists",
+  "viewport": "1920x1080",
+  "components": [
+    "genre-tabs",
+    "media-card",
+    "detail-panel"
+  ],
+  "tokens": {
+    "--cm-radius-md": "8px",
+    "--cm-radius-xl": "16px",
+    "--cm-radius-full": "9999px"
+  }
+}
+```
 
 ### Expected Output
 

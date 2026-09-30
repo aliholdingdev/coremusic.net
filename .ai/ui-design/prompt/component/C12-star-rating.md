@@ -59,7 +59,26 @@ component: C12
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create star rating component for CoreMusic",
+  "component": "C12",
+  "bem": ".star-rating",
+  "states": [
+    "empty",
+    "filled",
+    "hover preview",
+    "half star (optional)",
+    "read-only"
+  ],
+  "tokens": {
+    "--cm-border-subtle": "rgba(255, 255, 255, 0.06)",
+    "--cm-touch-target": "44px",
+    "--cm-primary": "#ff4fd8",
+    "--cm-text-base": "0.875rem"
+  }
+}
+```
 
 ### Expected Output
 

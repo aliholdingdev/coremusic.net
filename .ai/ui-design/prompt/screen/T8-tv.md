@@ -73,7 +73,25 @@ tier: T8-tv
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create smart TV screen for CoreMusic",
+  "screen": "smart-tv",
+  "viewport": "3840px+",
+  "tier": "T8-tv",
+  "components": [
+    "header",
+    "content-grid",
+    "footer-player",
+    "focus-state"
+  ],
+  "tokens": {
+    "--cm-text-2xl": "1.5rem",
+    "--cm-space-5": "1.25rem",
+    "--cm-space-4": "1rem"
+  }
+}
+```
 
 ### Expected Output
 

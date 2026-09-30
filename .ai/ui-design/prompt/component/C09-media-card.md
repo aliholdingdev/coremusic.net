@@ -76,7 +76,25 @@ component: C09
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create media card component for CoreMusic",
+  "component": "C09",
+  "bem": ".media-card",
+  "states": [
+    "default",
+    "hover",
+    "focus-visible",
+    "playing"
+  ],
+  "tokens": {
+    "--cm-radius-md": "8px",
+    "--cm-glass-bg": "rgba(255, 255, 255, 0.05)",
+    "--cm-space-3": "0.75rem",
+    "--cm-primary": "#ff4fd8"
+  }
+}
+```
 
 ### Expected Output
 

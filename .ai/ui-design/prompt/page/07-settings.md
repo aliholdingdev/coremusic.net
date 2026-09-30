@@ -46,7 +46,23 @@ status: active
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create settings page for CoreMusic",
+  "page": "07-settings",
+  "viewport": "1920x1080",
+  "components": [
+    "settings-list",
+    "toggle",
+    "form-input"
+  ],
+  "tokens": {
+    "--cm-font-scale": "1",
+    "--cm-radius-full": "9999px",
+    "--cm-radius-md": "8px"
+  }
+}
+```
 
 ### Expected Output
 

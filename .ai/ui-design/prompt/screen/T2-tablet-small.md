@@ -72,7 +72,27 @@ tier: T2-tablet-small
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create tablet small screen for CoreMusic",
+  "screen": "tablet-small",
+  "viewport": "768-1023px",
+  "tier": "T2-tablet-small",
+  "components": [
+    "header",
+    "welcome-section",
+    "widget-grid",
+    "recent-cards",
+    "footer-player"
+  ],
+  "tokens": {
+    "--cm-touch-target-lg": "48px",
+    "--cm-font-scale": "1",
+    "--cm-radius-full": "9999px",
+    "--cm-glass-blur-sm": "8px"
+  }
+}
+```
 
 ### Expected Output
 

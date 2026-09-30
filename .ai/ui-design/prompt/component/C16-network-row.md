@@ -74,7 +74,26 @@ component: C16
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create network row component for CoreMusic",
+  "component": "C16",
+  "bem": ".network-row",
+  "states": [
+    "default",
+    "hover",
+    "connected",
+    "disabled"
+  ],
+  "tokens": {
+    "--cm-glass-bg": "rgba(255, 255, 255, 0.05)",
+    "--cm-glass-border": "rgba(255, 255, 255, 0.08)",
+    "--cm-radius-md": "8px",
+    "--cm-touch-target-lg": "48px",
+    "--cm-primary": "#ff4fd8"
+  }
+}
+```
 
 ### Expected Output
 

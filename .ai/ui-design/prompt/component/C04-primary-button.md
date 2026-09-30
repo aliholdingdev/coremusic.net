@@ -75,7 +75,28 @@ component: C04
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create primary button component for CoreMusic",
+  "component": "C04",
+  "bem": ".btn-primary",
+  "states": [
+    "default",
+    "hover",
+    "active",
+    "focus-visible",
+    "disabled",
+    "loading"
+  ],
+  "tokens": {
+    "--cm-radius-md": "8px",
+    "--cm-space-6": "1.5rem",
+    "--cm-space-5": "1.25rem",
+    "--cm-touch-target": "44px",
+    "--cm-text-md": "1rem"
+  }
+}
+```
 
 ### Expected Output
 

@@ -61,7 +61,26 @@ status: active
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create 4K expanded layout for CoreMusic",
+  "viewport": "3840x2160",
+  "layout": "expanded",
+  "accentColor": "#ff4fd8",
+  "components": [
+    "header",
+    "sidebar",
+    "content",
+    "panel",
+    "footer"
+  ],
+  "tokens": {
+    "--cm-header-h-4k": "80px",
+    "--cm-footer-h-4k": "120px",
+    "--cm-space-6": "1.5rem"
+  }
+}
+```
 
 ### Expected Output
 

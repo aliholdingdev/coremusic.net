@@ -64,7 +64,25 @@ component: C13
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create track list component for CoreMusic",
+  "component": "C13",
+  "bem": ".track-row",
+  "states": [
+    "default",
+    "hover",
+    "playing",
+    "focus-visible"
+  ],
+  "tokens": {
+    "--cm-border-subtle": "rgba(255, 255, 255, 0.06)",
+    "--cm-touch-target-lg": "48px",
+    "--cm-primary": "#ff4fd8",
+    "--cm-radius-sm": "4px"
+  }
+}
+```
 
 ### Expected Output
 

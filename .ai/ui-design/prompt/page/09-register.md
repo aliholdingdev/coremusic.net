@@ -83,7 +83,26 @@ y=600└────────────────────────
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create register page for CoreMusic",
+  "page": "09-register",
+  "viewport": "1024x600",
+  "components": [
+    "form-input",
+    "gender-button",
+    "primary-button",
+    "social-login",
+    "progress-indicator"
+  ],
+  "tokens": {
+    "--cm-touch-target-lg": "48px",
+    "--cm-touch-target": "44px",
+    "--cm-radius-md": "8px",
+    "--cm-radius-lg": "12px"
+  }
+}
+```
 
 ### Expected Output
 

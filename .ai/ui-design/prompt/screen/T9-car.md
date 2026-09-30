@@ -71,7 +71,24 @@ tier: T9-car
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create automotive screen for CoreMusic",
+  "screen": "automotive",
+  "viewport": "720x480 - 1920x1200",
+  "tier": "T9-car",
+  "components": [
+    "now-playing",
+    "quick-actions",
+    "navigation-hint",
+    "transport-controls"
+  ],
+  "tokens": {
+    "--cm-text-2xl": "1.5rem",
+    "--cm-space-6": "1.5rem"
+  }
+}
+```
 
 ### Expected Output
 

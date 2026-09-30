@@ -87,7 +87,27 @@ status: active
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create home page for CoreMusic",
+  "page": "01-home",
+  "viewport": "1024x600",
+  "components": [
+    "nav-link",
+    "status-widget",
+    "user-pill",
+    "media-card",
+    "primary-button",
+    "glass-widgets"
+  ],
+  "tokens": {
+    "--cm-touch-target-lg": "48px",
+    "--cm-font-scale": "1",
+    "--cm-mini-card-w": "169px",
+    "--cm-space-2": "0.5rem"
+  }
+}
+```
 
 ### Expected Output
 

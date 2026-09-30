@@ -70,7 +70,25 @@ component: C03
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create user pill component for CoreMusic",
+  "component": "C03",
+  "bem": ".header-user",
+  "states": [
+    "default",
+    "hover",
+    "open",
+    "focus-visible"
+  ],
+  "tokens": {
+    "--cm-glass-bg": "rgba(255, 255, 255, 0.05)",
+    "--cm-glass-border": "rgba(255, 255, 255, 0.08)",
+    "--cm-space-2": "0.5rem",
+    "--cm-text-sm": "0.8125rem"
+  }
+}
+```
 
 ### Expected Output
 

@@ -74,7 +74,28 @@ component: C08
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create social login component for CoreMusic",
+  "component": "C08",
+  "bem": ".social-btn",
+  "states": [
+    "default",
+    "hover",
+    "active",
+    "focus-visible",
+    "loading",
+    "disabled"
+  ],
+  "tokens": {
+    "--cm-radius-lg": "12px",
+    "--cm-glass-bg": "rgba(255, 255, 255, 0.05)",
+    "--cm-glass-border": "rgba(255, 255, 255, 0.08)",
+    "--cm-space-3": "0.75rem",
+    "--cm-touch-target-lg": "48px"
+  }
+}
+```
 
 ### Expected Output
 

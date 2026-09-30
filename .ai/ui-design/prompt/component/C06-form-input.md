@@ -81,7 +81,27 @@ component: C06
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create form input component for CoreMusic",
+  "component": "C06",
+  "bem": ".form-input",
+  "states": [
+    "default",
+    "focus",
+    "error",
+    "success",
+    "disabled"
+  ],
+  "tokens": {
+    "--cm-radius-md": "8px",
+    "--cm-glass-bg": "rgba(255, 255, 255, 0.05)",
+    "--cm-border-subtle": "rgba(255, 255, 255, 0.06)",
+    "--cm-error": "#ef4444",
+    "--cm-success": "#10b981"
+  }
+}
+```
 
 ### Expected Output
 

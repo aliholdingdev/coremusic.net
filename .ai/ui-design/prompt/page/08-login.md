@@ -50,7 +50,24 @@ RIGHT (28%): Glass Panel → Form + Button + Social + Link
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create login page for CoreMusic",
+  "page": "08-login",
+  "viewport": "1024x600",
+  "components": [
+    "form-input",
+    "primary-button",
+    "social-login",
+    "glass-panel"
+  ],
+  "tokens": {
+    "--cm-touch-target-lg": "48px",
+    "--cm-radius-md": "8px",
+    "--cm-radius-lg": "12px"
+  }
+}
+```
 
 ### Expected Output
 

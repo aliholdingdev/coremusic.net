@@ -81,7 +81,23 @@ component: C10
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create detail panel component for CoreMusic",
+  "component": "C10",
+  "bem": ".detail-panel",
+  "states": [
+    "default",
+    "loading",
+    "error"
+  ],
+  "tokens": {
+    "--cm-radius-lg": "12px",
+    "--cm-space-4": "1rem",
+    "--cm-text-base": "0.875rem"
+  }
+}
+```
 
 ### Expected Output
 

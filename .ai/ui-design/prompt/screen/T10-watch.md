@@ -72,7 +72,26 @@ tier: T10-watch
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create smart watch screen for CoreMusic",
+  "screen": "smart-watch",
+  "viewport": "≤400px",
+  "tier": "T10-watch",
+  "components": [
+    "cover-art",
+    "track-title",
+    "artist",
+    "controls",
+    "seek"
+  ],
+  "tokens": {
+    "--cm-touch-target": "44px",
+    "--cm-touch-target-lg": "48px",
+    "--cm-font-scale": "1"
+  }
+}
+```
 
 ### Expected Output
 

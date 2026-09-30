@@ -73,7 +73,21 @@ y=600└────────────────────────
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create gender select page for CoreMusic",
+  "page": "10-gender-select",
+  "viewport": "1024x600",
+  "components": [
+    "gender-button",
+    "primary-button"
+  ],
+  "tokens": {
+    "--cm-touch-target-lg": "48px",
+    "--cm-radius-lg": "12px"
+  }
+}
+```
 
 ### Expected Output
 

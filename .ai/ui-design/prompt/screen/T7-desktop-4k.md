@@ -73,7 +73,28 @@ tier: T7-desktop-4k
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create desktop 4K screen for CoreMusic",
+  "screen": "desktop-4k",
+  "viewport": "2560-3839px",
+  "tier": "T7-desktop-4k",
+  "components": [
+    "header",
+    "sidebar",
+    "content",
+    "footer-player",
+    "max-content"
+  ],
+  "tokens": {
+    "--cm-touch-target": "44px",
+    "--cm-header-h-4k": "80px",
+    "--cm-footer-h-4k": "120px",
+    "--cm-glass-blur-lg": "20px",
+    "--cm-space-12": "3rem"
+  }
+}
+```
 
 ### Expected Output
 

@@ -78,7 +78,25 @@ component: C14
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create modal component for CoreMusic",
+  "component": "C14",
+  "bem": ".modal",
+  "states": [
+    "closed",
+    "open",
+    "focus trap",
+    "scroll lock"
+  ],
+  "tokens": {
+    "--cm-glass-bg": "rgba(255, 255, 255, 0.05)",
+    "--cm-glass-border": "rgba(255, 255, 255, 0.08)",
+    "--cm-space-6": "1.5rem",
+    "--cm-border-subtle": "rgba(255, 255, 255, 0.06)"
+  }
+}
+```
 
 ### Expected Output
 

@@ -107,7 +107,28 @@ tier: T4-embedded
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create embedded RPi5 screen for CoreMusic",
+  "screen": "embedded-rpi5",
+  "viewport": "1024x600",
+  "tier": "T4-embedded",
+  "components": [
+    "header",
+    "split-layout",
+    "widget-grid",
+    "footer-player",
+    "welcome-popup"
+  ],
+  "tokens": {
+    "--cm-touch-target-lg": "48px",
+    "--cm-font-scale": "1",
+    "--cm-header-h": "60px",
+    "--cm-footer-h": "90px",
+    "--cm-glass-blur-lg": "20px"
+  }
+}
+```
 
 ### Expected Output
 

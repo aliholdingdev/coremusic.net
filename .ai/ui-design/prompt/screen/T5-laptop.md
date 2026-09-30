@@ -74,7 +74,24 @@ tier: T5-laptop
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create laptop screen for CoreMusic",
+  "screen": "laptop",
+  "viewport": "1280-1919px",
+  "tier": "T5-laptop",
+  "components": [
+    "header",
+    "sidebar",
+    "content",
+    "footer-player"
+  ],
+  "tokens": {
+    "--cm-touch-target": "44px",
+    "--cm-touch-target-lg": "48px"
+  }
+}
+```
 
 ### Expected Output
 

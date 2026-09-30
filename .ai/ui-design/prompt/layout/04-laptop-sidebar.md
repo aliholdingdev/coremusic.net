@@ -67,7 +67,27 @@ status: active
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create laptop sidebar layout for CoreMusic",
+  "viewport": "1366x768",
+  "layout": "sidebar",
+  "theme": "glassmorphism",
+  "accentColor": "#ff4fd8",
+  "components": [
+    "header",
+    "sidebar",
+    "content",
+    "footer"
+  ],
+  "tokens": {
+    "--cm-header-h-desktop": "70px",
+    "--cm-sidebar-w": "240px",
+    "--cm-footer-h-desktop": "104px",
+    "--cm-glass-bg": "rgba(255, 255, 255, 0.05)"
+  }
+}
+```
 
 ### Expected Output
 

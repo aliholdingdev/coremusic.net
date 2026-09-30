@@ -60,7 +60,25 @@ RIGHT (40%): Detail Panel (album art + metadata + actions)
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create albums page for CoreMusic",
+  "page": "02-albums",
+  "viewport": "1920x1080",
+  "components": [
+    "nav-link",
+    "genre-tabs",
+    "media-card",
+    "detail-panel"
+  ],
+  "tokens": {
+    "--cm-sidebar-w": "240px",
+    "--cm-radius-xl": "16px",
+    "--cm-radius-md": "8px",
+    "--cm-space-2": "0.5rem"
+  }
+}
+```
 
 ### Expected Output
 

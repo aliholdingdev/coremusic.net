@@ -50,7 +50,25 @@ RIGHT (40%): Detail Panel (C10) — Art + Title + Meta + Actions
 
 ### Prompt Template
 
-> ⚠️ VERIFICATION REQUIRED — dosyada JSON Prompt Template bloğu yok
+```json
+{
+  "task": "Create album detail page for CoreMusic",
+  "page": "03-album-detail",
+  "viewport": "1920x1080",
+  "components": [
+    "track-list",
+    "star-rating",
+    "detail-panel",
+    "primary-button",
+    "secondary-button"
+  ],
+  "tokens": {
+    "--cm-radius-lg": "12px",
+    "--cm-touch-target": "44px",
+    "--cm-sidebar-w": "240px"
+  }
+}
+```
 
 ### Expected Output
 
