@@ -51,7 +51,13 @@ status: active
 
 ### Required Inputs
 
-> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
+- `viewport`: 1024×600 (RPi5 7" Touch) · 2 sütun · sidebar yok (kaynak: 00-device-matrix.md L111)
+- `touch`: 48px minimum dokunma hedefi (kaynak: 00-device-matrix.md L111)
+- `font_scale`: 1× (kaynak: 00-device-matrix.md L111)
+- `navlink`: padding 12px 16px · gap 8px · icon 20px · font 14px/500 · durumlar default/hover/active/disabled (kaynak: 02-component-inventory.md L35-L39)
+- `button`: `.btn--primary`/`.btn--secondary` · padding 8px 16px · min-h 36px · radius 12px · font 14px/600 · durumlar default/hover/active/disabled/loading (kaynak: 02-component-inventory.md L65-L68)
+- `widget_grid`: Embedded 1024 → row1 2×2 · row2 1×5 · row3 1×5 = 12 slot (kaynak: 02-component-inventory.md L199)
+- `mini_card`: Embedded 169×43px · 40px art · 8.5px title (kaynak: 02-component-inventory.md L216)
 
 ### ASCII Reference
 
@@ -113,7 +119,12 @@ status: active
 
 ### Validation
 
-> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+- [ ] Dokunma hedefleri 48px proje zeminine göre ölçülü (AA SC 2.5.8 = 24px); Toggle 48×48px, Slider 48px alan, Dropdown item 48px düzeltmeleri uygulanmış (kanıt: 04-accessibility-gaps.md L27, L39, L64-L96)
+- [ ] Gövde ve normal etiket metni kontrastı ≥ 4.5:1 (Primary 18.1:1, Secondary 9.8:1 ✅); Tertiary #707088 4.2:1 ❌ → #8888a0 5.2:1 düzeltmesi uygulanmış (kanıt: 04-accessibility-gaps.md L105-L112, L118)
+- [ ] Primary button kontrastı 3.1:1 ❌ → koyu text `#1a1a2e` veya açık pink `#ff6ee4` düzeltmesi uygulanmış (kanıt: 04-accessibility-gaps.md L110, L120-L123)
+- [ ] Odaklanabilir tüm öğelerde `outline: 2px solid var(--cm-primary); outline-offset: 2px` görünür; mouse kullanıcısında `outline: none` (kanıt: 04-accessibility-gaps.md L197-L207)
+- [ ] `Tab` sırası DOM sırasıyla doğal; kaybolan/kirli odak yok, Toggle/Slider `:focus-visible` belirteci korunmuş (kanıt: 04-accessibility-gaps.md L130-L138, L144-L152)
+- [ ] `prefers-reduced-motion` altında animasyon/transition süreleri `0.01ms`, iteration-count 1 (kanıt: 04-accessibility-gaps.md L181-L190)
 
 ---
 

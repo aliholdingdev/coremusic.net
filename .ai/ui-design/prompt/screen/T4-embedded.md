@@ -75,7 +75,35 @@ tier: T4-embedded
 
 ### ASCII Reference
 
-> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
+```
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ x:0                                                                                                x:1024 │
+│ y:0   ┌── HEADER (h:60) ───────────────────────────────────────────────────────────────────────────────┐  │
+│       │  Navbar (16,17) w:993 h:27 · .site-header__logo + .nav-link×N [aria-current] → C01           │  │
+│ y:60  └───────────────────────────────────────────────────────────────────────────────────────────────┘  │
+│ y:60  ┌── CONTENT (h:450) ─────────────────────────────────────────────────────────────────────────────┐ │
+│       │  ┌ (32,84) Player Info w:392 h:131 ───────┐ ┌ (627,84) Hoparlör w:173 h:51 ┐ (820,84) Hava     │ │
+│       │  │ .now-playing__meta-value + C19 mini 2×2│ └──────────────────────────────┘ w:172 h:51         │ │
+│       │  │ Playlist Status Div → §5 ÇELİŞKİ-2     │ ┌ (627,155) ROW2 w:365 h:40 · C17 widget ×5 ──────┐ │ │
+│       │  │ y:84 ──────────────────────▶ y:215     │ │ Tarih/Saat 109 · EQ 42 · ×5 → bitiş x:992      │ │ │
+│       │  └────────────────────────────────────────┘ └─────────────────────────────────────────────────┘ │ │
+│       │                                      ┌ (627,215) ROW3 w:365 h:40 ─────────────────────────────┐  │
+│       │                                      │ Kütüphanelerim 129×40 + .home-app-btn ×4 → C18 kanıtı  │  │
+│       │                                      └─────────────────────────────────────────────────────────┘  │
+│       │  ┌ (32,316.5) En Son Dinlenen w:354 h:138.5 ┐┌ (419,317) Playlistler w:353 h:138 ┐┌ (805,317)    │
+│       │  │ C19 .home-mini-card ×4 (169×43) 2×2      ││ .playlist-list-card ×3 + button  ││ Sıradaki      │
+│       │  └──────────────────────────────────────────┘└───────────────────────────────────┘│ title w:186   │
+│       │                                                                                     │ (805,344)     │
+│       │                                                                                     │ .up-next-panel│
+│       │                                                                                     │ h:109 (1 mini)│
+│ y:510 └─────────────────────────────────────────────────────────────────────────────────────┴─────────────┘ │
+│ y:510 ┌── FOOTER (h:90) ──────────────────────────────────────────────────────────────────────────────────┐ │
+│       │  .footer + .footer-player__inner/__controls/__volume · role=contentinfo aria-label="Oynatıcı"     │ │
+│ y:600 └────────────────────────────────────────────────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+> Kaynak: [[screens/T07-embedded/home-dashboard]] — L28-L52
 
 ### Prompt Template
 
@@ -218,7 +246,14 @@ tier: T4-embedded
 
 ### Validation
 
-> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+- [ ] Dokunma hedefleri 48px proje zeminine göre ölçülü (AA SC 2.5.8 = 24px); Toggle 48×48px, Slider 48px alan, Dropdown item 48px düzeltmeleri uygulanmış (kanıt: 04-accessibility-gaps.md L27, L39, L64-L96)
+- [ ] Gövde ve normal etiket metni kontrastı ≥ 4.5:1 (Primary 18.1:1, Secondary 9.8:1 ✅); Tertiary #707088 4.2:1 ❌ → #8888a0 5.2:1 düzeltmesi uygulanmış (kanıt: 04-accessibility-gaps.md L105-L112, L118)
+- [ ] Odaklanabilir tüm öğelerde `outline: 2px solid var(--cm-primary); outline-offset: 2px` görünür; mouse kullanıcısında `outline: none` (kanıt: 04-accessibility-gaps.md L197-L207)
+- [ ] Modal focus trap korunmuş (Tab döngüsü ve içerik odaklaması); Dropdown ok tuşları çalışır (kanıt: 04-accessibility-gaps.md L135-L136, L154-L160)
+- [ ] `aria-label`/`role`/`aria-live` eşlemesi korunmuş; Input aria-live, Toast/Toggle/Progress aria-label eksikleri giderilmiş (kanıt: 04-accessibility-gaps.md L167-L175)
+- [ ] `prefers-reduced-motion` altında animasyon/transition süreleri `0.01ms`, iteration-count 1 (kanıt: 04-accessibility-gaps.md L181-L190)
+
+---
 
 ### Ekran Promptları
 

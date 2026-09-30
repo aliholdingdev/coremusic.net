@@ -45,7 +45,11 @@ status: active
 
 ### Required Inputs
 
-> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
+- `viewport`: 1920×1080 · 1x · Mouse+KB · sidebar 240px · 3 sütun (kaynak: 00-device-matrix.md L138)
+- `layout_traits`: geniş content · yüksek çözünürlük · çoklu widget (kaynak: 00-device-matrix.md L150)
+- `navlink`: padding 12px 16px · gap 8px · icon 20px · Tier: Laptop+ sidebar · durumlar default/hover/active/disabled (kaynak: 02-component-inventory.md L35-L39)
+- `card`: padding 16px · radius 16px · gap 16px · image 1:1 aspect · durumlar default/hover/active/loading/skeleton · varyantlar `--compact`/`--wide` (kaynak: 02-component-inventory.md L55-L58)
+- `tab`: padding 8px 16px · gap 4px · radius 8px · font 13px/500 · durumlar default/hover/active/disabled (kaynak: 02-component-inventory.md L85-L88)
 
 ### ASCII Reference
 
@@ -79,7 +83,12 @@ RIGHT (40%): Detail Panel (album art + metadata + actions)
 
 ### Validation
 
-> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+- [ ] Gövde ve normal etiket metni kontrastı ≥ 4.5:1 (Primary 18.1:1, Secondary 9.8:1 ✅); Tertiary #707088 4.2:1 ❌ → #8888a0 5.2:1 düzeltmesi uygulanmış (kanıt: 04-accessibility-gaps.md L105-L112, L118)
+- [ ] Primary button kontrastı 3.1:1 ❌ → koyu text `#1a1a2e` veya açık pink `#ff6ee4` düzeltmesi uygulanmış (kanıt: 04-accessibility-gaps.md L110, L120-L123)
+- [ ] Odaklanabilir tüm öğelerde `outline: 2px solid var(--cm-primary); outline-offset: 2px` görünür; mouse kullanıcısında `outline: none` (kanıt: 04-accessibility-gaps.md L197-L207)
+- [ ] `Tab` sırası DOM sırasıyla doğal; kaybolan/kirli odak yok, Toggle/Slider `:focus-visible` belirteci korunmuş (kanıt: 04-accessibility-gaps.md L130-L138, L144-L152)
+- [ ] Modal focus trap korunmuş (Tab döngüsü ve içerik odaklaması); Dropdown ok tuşları çalışır (kanıt: 04-accessibility-gaps.md L135-L136, L154-L160)
+- [ ] `prefers-reduced-motion` altında animasyon/transition süreleri `0.01ms`, iteration-count 1 (kanıt: 04-accessibility-gaps.md L181-L190)
 
 ---
 

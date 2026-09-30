@@ -35,11 +35,14 @@ status: active
 
 ### Required Inputs
 
-> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
+- `viewport`: 1920×1080 (13" Ultrabook FHD) · 1x · Mouse+KB · sidebar 220px · 3 sütun (kaynak: 00-device-matrix.md L122)
+- `font_scale`: 1× (kaynak: 00-device-matrix.md L122)
+- `toggle`: w 44px · h 24px · knob 18px · radius 9999px · durumlar off/on/disabled · Tier: all tiers same structure (kaynak: 02-component-inventory.md L105-L109)
+- `input`: padding 10px 12px · min-h 40px · radius 8px · font 14px/400 · durumlar default/focus/error/success/disabled · varyantlar `--error`/`--success` (kaynak: 02-component-inventory.md L75-L78)
 
 ### ASCII Reference
 
-> ⚠️ VERIFICATION REQUIRED — dosyada ASCII wireframe / layout referansı yok
+> ⚠️ KAYNAK YOK — screens/ içinde bu tier'a (veya bu sayfaya) ait ASCII karşılığı bulunamadı. Gerekçe: 00-ascii-art-index.md §3–§5 listesi yalnız T07-embedded (12 dosya, 1024×600) + shared/auth (6 dosya, 1024×600) + T17-monitor-22fhd (2 dosya, 1920×1080) kapsar; 01-mockup-index.md L221 viewport kapsamı da 2 (1024×600, 1920×1080) ile sınırlıdır. Kutu ölçüsü kaynağı olmadığından ölçüsüz wireframe üretilmedi.
 
 ### Prompt Template
 
@@ -73,8 +76,21 @@ status: active
 
 ### Validation
 
-> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+- [ ] Gövde ve normal etiket metni kontrastı ≥ 4.5:1 (Primary 18.1:1, Secondary 9.8:1 ✅); Tertiary #707088 4.2:1 ❌ → #8888a0 5.2:1 düzeltmesi uygulanmış (kanıt: 04-accessibility-gaps.md L105-L112, L118)
+- [ ] Odaklanabilir tüm öğelerde `outline: 2px solid var(--cm-primary); outline-offset: 2px` görünür; mouse kullanıcısında `outline: none` (kanıt: 04-accessibility-gaps.md L197-L207)
+- [ ] `Tab` sırası DOM sırasıyla doğal; kaybolan/kirli odak yok, Toggle/Slider `:focus-visible` belirteci korunmuş (kanıt: 04-accessibility-gaps.md L130-L138, L144-L152)
+- [ ] `aria-label`/`role`/`aria-live` eşlemesi korunmuş; Input aria-live, Toast/Toggle/Progress aria-label eksikleri giderilmiş (kanıt: 04-accessibility-gaps.md L167-L175)
+- [ ] `prefers-reduced-motion` altında animasyon/transition süreleri `0.01ms`, iteration-count 1 (kanıt: 04-accessibility-gaps.md L181-L190)
 
+---
+
+*07 Settings Page v2.0.0 — CoreMusic UI Design System*
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode
 ### Settings Sections
 
 | Section | Items |

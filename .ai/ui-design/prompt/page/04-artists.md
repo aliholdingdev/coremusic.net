@@ -35,7 +35,10 @@ status: active
 
 ### Required Inputs
 
-> ⚠️ VERIFICATION REQUIRED — dosyada Required Inputs kaynağı (Tier Sizes / Variants / States / Requirements) yok
+- `viewport`: 1920×1080 · 1x · Mouse+KB · sidebar 240px · 3 sütun (kaynak: 00-device-matrix.md L138)
+- `tab`: padding 8px 16px · gap 4px · radius 8px · font 13px/500 · durumlar default/hover/active/disabled · Tier: all tiers same structure (kaynak: 02-component-inventory.md L85-L89)
+- `card`: padding 16px · radius 16px · gap 16px · image 1:1 aspect · durumlar default/hover/active/loading/skeleton (kaynak: 02-component-inventory.md L55-L58)
+- `avatar`: sm 24px · md 32px · lg 40px · xl 56px · radius 9999px · durumlar default/with-image/with-initials/online/offline (kaynak: 02-component-inventory.md L135-L138)
 
 ### ASCII Reference
 
@@ -69,7 +72,11 @@ RIGHT (40%): Artist Detail (circular photo + bio + stats)
 
 ### Validation
 
-> ⚠️ VERIFICATION REQUIRED — dosyada Validation kaynağı (Accessibility kontrol listesi) yok
+- [ ] Gövde ve normal etiket metni kontrastı ≥ 4.5:1 (Primary 18.1:1, Secondary 9.8:1 ✅); Tertiary #707088 4.2:1 ❌ → #8888a0 5.2:1 düzeltmesi uygulanmış (kanıt: 04-accessibility-gaps.md L105-L112, L118)
+- [ ] Odaklanabilir tüm öğelerde `outline: 2px solid var(--cm-primary); outline-offset: 2px` görünür; mouse kullanıcısında `outline: none` (kanıt: 04-accessibility-gaps.md L197-L207)
+- [ ] `Tab` sırası DOM sırasıyla doğal; kaybolan/kirli odak yok, Toggle/Slider `:focus-visible` belirteci korunmuş (kanıt: 04-accessibility-gaps.md L130-L138, L144-L152)
+- [ ] `aria-label`/`role`/`aria-live` eşlemesi korunmuş; Input aria-live, Toast/Toggle/Progress aria-label eksikleri giderilmiş (kanıt: 04-accessibility-gaps.md L167-L175)
+- [ ] `prefers-reduced-motion` altında animasyon/transition süreleri `0.01ms`, iteration-count 1 (kanıt: 04-accessibility-gaps.md L181-L190)
 
 ---
 
