@@ -86,7 +86,7 @@ Kullanıcı: "Hey Siri, CoreMusic'te devam et"
 
 ## 3. Hata Senaryoları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; hata senaryoları QA doğrulamasından sonra 4 sütunlu tablo (Hata · Tetikleyici · Çözüm · Max Retry) olarak doldurulacak.
+> ⚠️ VERIFICATION REQUIRED — hata senaryoları için kanıt yok: §1/§2'de hata dalı yok (0 eşleşme), uygulama kodu yok (bu tier'da repoda 0 kod dosyası), QA kaydı yok (.ai/reports içinde 0 eşleşme). Kanıt (kod veya QA) gelmeden tablo üretilmez.
 
 ---
 

@@ -38,7 +38,7 @@ tier: T9-car
 | Max text amount | Minimal | Dikkat dağıtma |
 | Animation | ≥400ms | Yavaş geçiş |
 | Color contrast | ≥7:1 | Güneş ışığında okunabilirlik |
-| Voice control | Zorunlu | Göz yolu kritik ⚠️ VERIFICATION REQUIRED |
+| Voice control | Zorunlu | Sürüş güvenliği — matrix "Safety-first, ... voice-first, driver mode" (00-device-matrix.md L182); Input = Touch+Voice AU-T29/T30 (L176-L179); entegrasyon bu dosya L304; istisna: AU-T30 Tesla satırı Input = Touch (L180) |
 | Max menu depth | 2 | Hızlı erişim |
 | Font scale | 1.8× | Büyük okunabilirlik |
 

@@ -128,7 +128,18 @@ governance: Red Team · Human Mode · Truth Mode
 
 ## 3. Hata Senaryoları
 
-> ⚠️ VERIFICATION REQUIRED — Kaynak dosyada bu bölüm yok; hata senaryoları QA doğrulamasından sonra 4 sütunlu tablo (Hata · Tetikleyici · Çözüm · Max Retry) olarak doldurulacak.
+| Hata | Tetikleyici | Çözüm | Max Retry |
+|------|-------------|-------|-----------|
+| 404 — Sayfa Bulunamadı | Rota eşleşmedi; JSON `error: not_found` (`ContentFetcher.js` L67-L68) | Başlık `404 — Sayfa Bulunamadı` + `Ana Sayfaya Dön` butonu (`ErrorHandler.php` L18, L28); SPA'da `container.dataset.error='404'` (`NavigationOrchestrator.js` L61) | kodda tanımlı değil |
+| 403 — Erişim Yasak | Guard reddi; JSON `error: forbidden` + `redirect` (`ContentFetcher.js` L64-L65) | `403 — Erişim Yasak` + `Ana Sayfaya Dön` butonu (`ErrorHandler.php` L19, L28); `redirect` varsa o rotaya geçiş (`NavigationOrchestrator.js` L60) | kodda tanımlı değil |
+| 410 — Kaldırıldı | `errorType: gone` | `410 — Kaldırıldı` + `Ana Sayfaya Dön` butonu (`ErrorHandler.php` L20, L28); mesaj "Bu içerik kalıcı olarak kaldırılmıştır." (`ErrorHandler.php` L40) | kodda tanımlı değil |
+| 500 — Sunucu Hatası | `errorType: error` ya da HTTP ≥ 500 (`FetchWrapper.js` L30) | `500 — Sunucu Hatası` + `Ana Sayfaya Dön` butonu (`ErrorHandler.php` L21, L28); 5xx yanıtı yeniden denenir (`FetchWrapper.js` L30-L33) | **2** (`FetchWrapper.js` L6 `MAX_RETRIES: 2`; gecikme 500ms aynı satır) |
+| İstek zaman aşımı (10 sn) | `TIMEOUT_MS: 10_000` doldu → `AbortController.abort()` (`FetchWrapper.js` L6, L16; `signal-utils.js` L15-L18) | AbortError yayılır, hata sayfası açılmaz; navigasyon durur + `navigation_error` log (`NavigationOrchestrator.js` L73-L77) | kodda tanımlı değil — retry yok (AbortError döngüyü kırar: `FetchWrapper.js` L27, L37) |
+| Rate limit (429) | 60 istek / 60 sn aşıldı (ADR-013; `RateLimiterMiddlewareTest.php` L30-L31, L70) | 429 + `Retry-After` (`RateLimiterMiddlewareTest.php` L72 = `60`, L298 = `30`); `RateLimitException.php` L11 (HTTP 429) + L15-L18 (`getRetryAfter`); sunucu metni `ErrorHandler.php` L56; SPA kodu 429 (`ErrorHandler.js` L28-L29); istek durur (`RateLimiterMiddlewareTest.php` L73 `halt`) | kodda tanımlı değil — retry yalnız HTTP ≥ 500 (`FetchWrapper.js` L30) |
+| Çevrimdışı | tarayıcı `offline` olayı (`RouterEventManager.js` L13) | `container.dataset.error='offline'` (`Router.js` L58 → `DomPatcher.js` L72-L77); `online` ile temizlenir (`Router.js` L59); metin "İnternet bağlantısı yok." (`ErrorHandler.js` L31) | kodda tanımlı değil |
+| Yönlendirme döngüsü | `depth > 5` (`NavigationOrchestrator.js` L11, L46) | Tam sayfa yönlendirmeye geçiş: `window.location.href = target` (`NavigationOrchestrator.js` L46) | **5** (`NavigationOrchestrator.js` L11 `MAX_REDIRECT_DEPTH = 5`) |
+
+> Kaynak: `shared/src/PageRouter/ErrorHandler.php` · `assets.coremusic.net/js/router/` (`FetchWrapper.js`, `NavigationOrchestrator.js`, `Router.js`, `RouterEventManager.js`, `DomPatcher.js`, `ErrorHandler.js`, `ContentFetcher.js`, `config/signal-utils.js`) · `shared/src/Exception/RateLimitException.php` · `shared/tests/Middleware/RateLimiterMiddlewareTest.php` (kod okundu, 2026-09-30)
 
 ---
 
