@@ -16,7 +16,7 @@
 import { test, expect } from '@playwright/test';
 import { injectAxe, checkA11y } from 'axe-playwright';
 
-const BASE_URL = 'http://localhost:81';
+const BASE_URL = 'http://home.coremusic.net:81';
 const PLAYER_INFO_SELECTOR = '[data-cm-component="cm-player-info"]';
 
 test.describe('PlayerInfo E2E', () => {

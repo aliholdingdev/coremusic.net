@@ -185,6 +185,8 @@
   },
   "active": "295ec8d30270d14a",
   "lastOpenFiles": [
+    "archives/vault-faz4-sweep.mjs",
+    "ui-design/prompt/component/aaaa.md",
     "log.md.tmp.37516.a710693e9d7a",
     "CLAUDE.md.tmp.37516.fecd364a324e",
     "ui-design/reference/figma/png/1760-13815-Admin-Dashboard-Variant-1.png",
@@ -206,7 +208,6 @@
     "scripts/figma-tokens.ps1",
     "ui-design/tokens/tokens-tv.json",
     "ui-design/tokens/tokens-system.json",
-    "ui-design/tokens/tokens-plan.json",
     "ui-design/reference/figma/token-conflicts.md",
     "TODO.md",
     "docs/technical-documentation.md",
@@ -230,7 +231,6 @@
     "ui-design/prompt/layout/AGENTS.md",
     "ui-design/prompt/component/CLAUDE.md",
     "ui-design/prompt/component/AGENTS.md",
-    "ui-design/prompt/CLAUDE.md",
     "Başlıksız.canvas"
   ]
 }
