@@ -5,6 +5,8 @@ namespace CoreMusic\Home\Class;
 use CoreMusic\Home\Interfaces\ComponentInterface;
 use CoreMusic\Home\Component\PlayerInfoComponent;
 use CoreMusic\Home\Component\RecentTracksComponent;
+use CoreMusic\Home\Component\WelcomeBannerComponent;
+use CoreMusic\Home\Component\WidgetGridComponent;
 use CoreMusic\Home\Repository\MusicRepository;
 
 /**
@@ -47,6 +49,12 @@ final class ComponentLoader
             /* ─── Player & Audio ─── */
             'player-info'      => PlayerInfoComponent::class,
             'recent-tracks'    => RecentTracksComponent::class,
+
+            /* ─── Wide/4K Widget Grid ─── */
+            'widget-grid'      => WidgetGridComponent::class,
+
+            /* ─── Wide/4K Orta Sütun ─── */
+            'welcome-banner'   => WelcomeBannerComponent::class,
         ];
     }
 

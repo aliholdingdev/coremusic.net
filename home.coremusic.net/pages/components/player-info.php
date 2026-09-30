@@ -41,7 +41,7 @@ $cmConfig = htmlspecialchars(
         <div class="player-info__transport">
             <img src="<?= $this->h($this->iconPlay) ?>" class="player-info__text-img player-info__play" alt="Oynat" loading="lazy">
             <div class="player-info__progress" role="progressbar" aria-label="Medya ilerlemesi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?= $this->seekPct ?>">
-                <div class="player-info__progress__bar"><div class="player-info__progress__fill" data-progress="<?= $this->seekPct ?>" style="width: <?= $this->seekPct ?>%;" nonce="<?= $nonce ?>"></div></div>
+                <div class="player-info__progress__bar"><div class="player-info__progress__fill" data-progress="<?= $this->seekPct ?>"></div></div>
             </div>
         </div>
     </div>
@@ -58,7 +58,7 @@ $cmConfig = htmlspecialchars(
     </div>
     <div class="media-progress" role="progressbar" aria-label="Medya ilerlemesi" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?= $this->seekPct ?>" aria-valuetext="<?= $this->elapsed ?> / <?= $this->duration ?>">
         <span class="media-progress__time" id="np_time_current"><?= $this->elapsed ?></span>
-        <div class="media-progress__bar"><div class="media-progress__fill" data-progress="<?= $this->seekPct ?>" style="width: <?= $this->seekPct ?>%;" nonce="<?= $nonce ?>"></div></div>
+        <div class="media-progress__bar"><div class="media-progress__fill" data-progress="<?= $this->seekPct ?>"></div></div>
         <span class="media-progress__time media-progress__time--total" id="np_time_total"><?= $this->duration ?></span>
     </div>
 </section>

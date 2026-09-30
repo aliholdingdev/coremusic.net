@@ -86,6 +86,16 @@ require __DIR__ . '/../header.php';
             <?php $loader->display('player-info', $variant); ?>
         </div>
 
+        <!-- Orta: Hoş Geldin Banner (491×184) — Figma node 2849:21492 "Banner Div" -->
+        <div class="home-layout__top-center">
+            <?php $loader->display('welcome-banner', $variant); ?>
+        </div>
+
+        <!-- Sağ: Widget Grid (752×184) — Figma node 2850:21494 "Div2 Button" -->
+        <div class="home-layout__top-right--wide">
+            <?php $loader->display('widget-grid', $variant); ?>
+        </div>
+
     </div>
 
     <!-- ALT SATIR: tam genişlik kart bölümleri -->
@@ -111,6 +121,10 @@ require __DIR__ . '/../header.php';
 
     <!-- ALT SATIR: 3 kolon — En Son | Playlister | Sıradaki -->
     <div class="home-layout__bottom home-layout__bottom--embedded">
+
+        <!-- Kolon 1: En Son Dinlenen Şarkılar (Figma node 1639:9904, 2×2 grid, 4 kart) -->
+        <?php $loader->display('recent-tracks', $variant); ?>
+
     </div>
 
 <?php endif; ?>

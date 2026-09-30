@@ -19,6 +19,9 @@ final class RecentTracksComponent extends AbstractComponent
     /** Wide/4K satırında gösterilecek kart sayısı (Figma home-1920 = 9 kart) */
     private const WIDE_CARDS = 9;
 
+    /** Embedded (1024) sütununda gösterilecek kart sayısı (Figma node 1639:9904 = 2×2 grid, 4 kart) */
+    private const EMBEDDED_CARDS = 4;
+
     /** @var list<string> render edilmiş mini kart HTML'leri */
     public readonly array $cards;
 
@@ -48,7 +51,7 @@ final class RecentTracksComponent extends AbstractComponent
             $data
         );
 
-        $max = $variant->isWide() ? self::WIDE_CARDS : 3;
+        $max = $variant->isWide() ? self::WIDE_CARDS : self::EMBEDDED_CARDS;
         $this->cards = array_slice($cards, 0, $max);
     }
 

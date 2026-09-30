@@ -1,193 +1,252 @@
 /**
- * CoreMusic — Widget Grid Layout (v1.0)
- * Figma SSOT: node-id=1639-9775 (1024: 365×171) / node-id=2850-21494 (1920: 752×184)
- * BEM: .widget-grid, .widget-grid__row, .widget-card
+ * CoreMusic — Widget Grid (v2.0.0)
+ * Figma SSOT: node 2831:13747 (1920 Home) → "Div2 Button" id 2850:21494 (752×184)
+ * BEM: .widget-grid, .widget-grid__row, .widget-card, .widget-card__*
  * ITCSS Layer: 04_Components
- * Version: 1.0.0 — 2026-09-22
+ * Token'lar: 01_Abstracts/a-widget-grid-tokens.css (ham px/hex bu dosyada YAZILMAZ)
+ * Sadece WIDE/4K üst satırında render edilir (pages/home.php · pages/components/widget-grid.php)
+ * Version: 2.0.0 — 2026-09-30
  */
 
 /* ═══ Widget Grid Container ═══ */
 .widget-grid {
   display: flex;
   flex-direction: column;
-  gap: var(--w-gap);
+  gap: var(--wg-row-gap);
+  width: 100%;
+  max-width: var(--wg-w);
 }
 
-/* ═══ Widget Grid Row ═══ */
+/* ═══ Satırlar (Figma 3 satır) ═══ */
 .widget-grid__row {
   display: grid;
-  gap: var(--w-gap);
+  align-items: stretch;
 }
 
-/* ═══ 1024 Embedded Rows ═══ */
-.widget-grid__row--quickapps {
-  grid-template-columns: repeat(4, var(--w-quickapp));
+.widget-grid__row--top {
+  grid-template-columns: var(--wg-row-top-col-1) var(--wg-row-top-col-2);
+  gap: var(--wg-row-top-gap);
 }
 
-.widget-grid__row--info {
-  grid-template-columns: repeat(2, 1fr);
+.widget-grid__row--mid {
+  grid-template-columns: var(--wg-row-mid-col-1) var(--wg-row-mid-col-2) var(--wg-row-mid-col-3);
+  gap: var(--wg-row-mid-gap);
 }
 
-.widget-grid__row--info .widget-card--wide {
-  grid-column: span 2;
+.widget-grid__row--bottom {
+  grid-template-columns:
+    var(--wg-row-bottom-col-1)
+    var(--wg-row-bottom-col-service)
+    var(--wg-row-bottom-col-service)
+    var(--wg-row-bottom-col-service);
+  gap: var(--wg-row-bottom-gap);
 }
 
-/* ═══ Widget Card Base ═══ */
+/* ═══ Widget Kart — ortak taban (Figma: overlay #fff·10% + stroke, radius 3, dropShadow) ═══ */
 .widget-card {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: var(--w-quickapp-h);
-  padding: 6px 8px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: var(--w-radius);
-  cursor: pointer;
-  transition: background 0.2s ease;
+  background: var(--wg-card-bg);
+  border: 1px solid var(--wg-card-border);
+  border-radius: var(--wg-card-radius);
+  box-shadow: inset 0 0 0 1px var(--wg-card-border-inset), var(--wg-card-shadow);
   text-decoration: none;
   color: inherit;
+  overflow: hidden;
 }
 
-.widget-card:hover {
-  background: rgba(255, 255, 255, 0.08);
+.widget-grid__row--top .widget-card {
+  height: var(--wg-row-h-top);
 }
 
-/* ═══ Quick App Card: 42×40 ═══ */
-.widget-card--quickapp {
-  width: var(--w-quickapp);
-  height: var(--w-quickapp-h);
+.widget-grid__row--mid .widget-card {
+  height: var(--wg-row-h-mid);
+}
+
+.widget-grid__row--bottom .widget-card {
+  height: var(--wg-row-h-bottom);
+}
+
+.widget-card__icon {
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.widget-card__text {
+  display: flex;
   flex-direction: column;
-  gap: 2px;
+  min-width: 0;
 }
 
-.widget-card--quickapp .widget-card__icon {
-  width: var(--w-icon);
-  height: var(--w-icon);
+.widget-card__label {
+  font-family: var(--cm-font-ui);
+  font-weight: 500;
+  color: var(--wg-text);
+  white-space: nowrap;
+  margin: 0;
 }
 
-.widget-card--quickapp .widget-card__label {
-  font-size: 7px;
+.widget-card__label--title {
+  font-weight: 700;
 }
 
-/* ═══ Clock Widget: 109×40 ═══ */
+.widget-card__value {
+  font-family: var(--cm-font-ui);
+  font-weight: 700;
+  color: var(--wg-text);
+  white-space: nowrap;
+  margin: 0;
+}
+
+.widget-card__value--sub {
+  opacity: 0.85;
+}
+
+/* ═══ Ses Kaynağı (173×54.88) — img 31.12 + "Hoparlör" / "Core Music - Hoparlör" ═══ */
+.widget-card--speaker {
+  gap: 10px;
+  padding: 0 10px;
+}
+
+.widget-card__icon--speaker {
+  width: var(--wg-icon-speaker);
+  height: var(--wg-icon-speaker);
+}
+
+.widget-card--speaker .widget-card__label {
+  font-size: var(--wg-font-speaker-label);
+}
+
+.widget-card--speaker .widget-card__value {
+  font-size: var(--wg-font-speaker-value);
+}
+
+/* ═══ Hava Durumu (172×54.88) — img 30×32.28 + başlık/değer/şehir ═══ */
+.widget-card--weather {
+  gap: 10px;
+  padding: 0 10px;
+}
+
+.widget-card__icon--weather {
+  width: var(--wg-icon-weather-w);
+  height: var(--wg-icon-weather-h);
+}
+
+.widget-card--weather .widget-card__label--title {
+  font-size: var(--wg-font-weather-title);
+}
+
+.widget-card--weather .widget-card__value {
+  font-size: var(--wg-font-weather-value);
+}
+
+.widget-card--weather .widget-card__value--sub {
+  font-size: var(--wg-font-weather-sub);
+}
+
+/* ═══ Saat Widget (109×43.04) — img 17×17 + "07:00" / "5 Haziran 2026" ═══ */
 .widget-card--clock {
-  width: var(--w-clock);
-  height: var(--w-clock-h);
-  flex-direction: row;
   gap: 8px;
   padding: 0 10px;
 }
 
-.widget-card--clock .widget-card__icon {
-  width: 20px;
-  height: 20px;
+.widget-card__icon--clock {
+  width: var(--wg-icon-clock);
+  height: var(--wg-icon-clock);
 }
 
-.widget-card--clock .widget-card__time {
-  font-size: 9px;
+.widget-card--clock .widget-card__value {
+  font-size: var(--wg-font-clock);
+}
+
+.widget-card__value--clock-date {
   font-weight: 700;
+  opacity: 0.9;
 }
 
-/* ═══ Info Widget: 172×51 ═══ */
-.widget-card--info {
-  width: var(--w-info);
-  height: var(--w-info-h);
-  flex-direction: row;
-  gap: 10px;
-  padding: 8px 10px;
+/* ═══ Equalizer Quick Access (42×43.04) — sadece ikon, ortalanmış ═══ */
+.widget-card--eq {
+  justify-content: center;
 }
 
-.widget-card--info .widget-card__icon {
-  width: 30px;
-  height: 30px;
+.widget-card__icon--eq {
+  width: var(--wg-icon-eq);
+  height: var(--wg-icon-eq-h);
 }
 
-.widget-card--info .widget-card__label {
-  font-size: 8.5px;
-}
-
-.widget-card--info .widget-card__value {
-  font-size: 8px;
-  font-weight: 700;
-}
-
-/* ═══ File Manager Widget: 129×40 ═══ */
-.widget-card--filemanager {
-  width: var(--w-filemanager);
-  height: var(--w-filemanager-h);
-  flex-direction: row;
+/* ═══ Depolama Yönetici (173×43.04) — img 22.82 + label/değer + progressbar ═══ */
+.widget-card--storage {
   gap: 8px;
   padding: 0 8px;
 }
 
-/* ═══ Featured Widget (1920): 234×108 ═══ */
-.widget-card--featured {
-  grid-column: span var(--wg-featured-span, 4);
-  min-height: var(--wg-featured-h, 108px);
+.widget-card__icon--storage {
+  width: var(--wg-icon-storage);
+  height: var(--wg-icon-storage);
 }
 
-/* ═══ Widget Card Content ═══ */
-.widget-card__icon {
-  width: var(--w-icon);
-  height: var(--w-icon);
-  flex-shrink: 0;
+.widget-card--storage .widget-card__label,
+.widget-card--storage .widget-card__value {
+  font-size: var(--wg-font-storage);
 }
 
-.widget-card__label {
-  font-family: var(--font-body);
-  font-size: var(--w-card-text);
-  font-weight: 500;
-  color: var(--text-primary);
-  white-space: nowrap;
+.widget-card__progress {
+  width: var(--wg-progress-w);
+  height: var(--wg-progress-h);
+  margin-top: 3px;
 }
 
-.widget-card__value {
-  font-family: var(--font-body);
-  font-size: var(--w-card-text-sub);
-  font-weight: 700;
-  color: var(--text-primary);
-  opacity: 0.8;
+.widget-card__progress-track {
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--wg-progress-track-bg);
+  overflow: hidden;
 }
 
-/* ═══ Wide/Desktop (1920) ═══ */
-@media (min-width: 1920px) {
-  .widget-grid__row--quickapps {
-    grid-template-columns: repeat(var(--wg-1920-row1-cols), var(--w-quickapp));
-    gap: var(--wg-1920-row1-gap);
-  }
-
-  .widget-grid__row--info {
-    grid-template-columns: repeat(var(--wg-1920-row2-cols), 1fr);
-    gap: var(--wg-1920-row2-gap);
-  }
-
-  .widget-card--quickapp {
-    height: var(--w-quickapp-h);
-  }
-
-  .widget-card--info {
-    width: auto;
-    min-width: var(--w-info);
-  }
+.widget-card__progress-fill {
+  height: 100%;
+  width: var(--widget-storage-percent, 0%);
+  background: var(--wg-progress-fill-bg);
+  border-radius: 2px;
+  transition: width 0.5s linear;
 }
 
-/* ═══ Phone ═══ */
+/* ═══ Dosya Yönetici Btn (129×43.04) — img 45×45 + "Kütüphanelerim" ═══ */
+.widget-card--filemanager {
+  gap: 8px;
+  padding: 0 8px;
+}
+
+.widget-card__icon--filemanager {
+  width: var(--wg-icon-filemanager);
+  height: var(--wg-icon-filemanager);
+}
+
+.widget-card--filemanager .widget-card__label {
+  font-size: var(--wg-font-filemanager);
+}
+
+/* ═══ Servis Butonları — Youtube / Youtube Music / Deezer (42×43.04, sadece ikon) ═══ */
+.widget-card--service {
+  justify-content: center;
+}
+
+.widget-card__icon--service {
+  width: var(--wg-icon-service);
+  height: var(--wg-icon-service-h);
+}
+
+.widget-card:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* ═══ Phone — dar ekranlarda widget grid tek sütuna düşer ═══ */
 @media (max-width: 767px) {
-  .widget-grid__row--quickapps {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-  }
-
-  .widget-grid__row--info {
+  .widget-grid__row--top,
+  .widget-grid__row--mid,
+  .widget-grid__row--bottom {
     grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
-  .widget-card--clock,
-  .widget-card--info,
-  .widget-card--filemanager {
-    width: 100%;
   }
 }

@@ -31,13 +31,13 @@ final class RecentTracksComponentTest extends TestCase
         $this->assertSame('recent-tracks', $component->key());
     }
 
-    public function testConstructor_defaultData_embeddedVariantLimitsToThreeCards(): void
+    public function testConstructor_defaultData_embeddedVariantLimitsToFourCards(): void
     {
-        // Arrange + Act — defaultTracks() 9 kart üretir
+        // Arrange + Act — defaultTracks() 9 kart üretir, embedded 2×2 grid (Figma node 1639:9904) 4 kart gösterir
         $component = new RecentTracksComponent(HomeLayoutVariant::Embedded);
 
         // Assert
-        $this->assertCount(3, $component->cards);
+        $this->assertCount(4, $component->cards);
     }
 
     public function testConstructor_defaultData_wideAndFourKKeepAllNineCards(): void
@@ -51,16 +51,16 @@ final class RecentTracksComponentTest extends TestCase
         $this->assertCount(9, $fourK->cards);
     }
 
-    public function testConstructor_overrideData_truncatesToThreeOnEmbedded(): void
+    public function testConstructor_overrideData_truncatesToFourOnEmbedded(): void
     {
         // Arrange + Act
         $component = new RecentTracksComponent(HomeLayoutVariant::Embedded, self::tracks(5));
 
-        // Assert — ilk 3 kart korunur
-        $this->assertCount(3, $component->cards);
+        // Assert — ilk 4 kart korunur (2×2 grid)
+        $this->assertCount(4, $component->cards);
         $this->assertStringContainsString('Track 1', $component->cards[0]);
-        $this->assertStringContainsString('Track 3', $component->cards[2]);
-        $this->assertStringNotContainsString('Track 4', implode('', $component->cards));
+        $this->assertStringContainsString('Track 4', $component->cards[3]);
+        $this->assertStringNotContainsString('Track 5', implode('', $component->cards));
     }
 
     public function testConstructor_overrideData_keepsAllCardsOnWide(): void

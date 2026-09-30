@@ -714,7 +714,7 @@
      Dosyanın SONUNDA: mevcut breakpoint bloklarını ezmesin, sadece
      --cm-player-* jetonlarını override etsin.
    ============================================================ */
-@media (min-width: 1441px) {
+@media (min-width: 1441px) and (max-width: 3839px) {
   :root {
     /* — Panel — */
     --cm-player-w: 469px;

@@ -68,6 +68,9 @@ export default class PlayerInfoComponent extends ComponentBase {
     }
 
     mount() {
+        // Initial progress — CSP inline style yasak, JS ile set et
+        this.setProgress(this.#progress);
+
         // Progress bar tıklama → seek
         if (this.#progressBar) {
             this.on(this.#progressBar, 'click', (e) => {

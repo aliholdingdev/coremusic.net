@@ -300,7 +300,7 @@
 .player-info__progress__fill,
 .media-progress__fill {
   height: 100%;
-  width: 0;
+  width: var(--progress-percent, 0);
   background: var(--cm-player-progress-fill);
   border-radius: var(--cm-player-progress-radius);
   transition: width 0.5s linear;
