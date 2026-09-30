@@ -4,9 +4,9 @@ title: "CoreMusic — UI Verification Protocol"
 type: protocol
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-29
+updated: 2026-09-30
 status: active
-version: 3.1.3
+version: 3.1.4
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -370,8 +370,8 @@ Faz 0–7 commit'leri bu listenin **dışında (daha eski)** — §5'te `git cat
 
 | # | Borç | Ölçüm (2026-09-29) | Davranış |
 |---|---|---|---|
-| 1 | `flow/**` eksik zorunlu bölüm stub'u | Y1-Y4 (2026-09-29) sonrası: **7 `⚠️ VERIFICATION REQUIRED` / 21 dosyanın 7'sinde** — 4 `## 3. Hata Senaryoları` stub'u (`flow/watch/01` · `flow/automotive/01` · `flow/automotive/02` · `flow/navigation/01`) + 3 gerekçeli (`flow/auth/03` kod çelişkisi · `flow/navigation/03` tetikleyici · `flow/settings/03` kontrol); akış toplamı Y1 (`dc700cf`) + Y4 (`5aa2c45`) ile **44 → 7** (ayrı sayaç: `flow/**` toplam 10 `⚠` ikonu / 9 dosya — kalan 3'ü `00-flow-index` şablon notu ×2 + `auth/05` ASCII art) | İlgili alan tamamlanmış sayılmaz |
-| 2 | `prompt/**` işaretli eksik girdi | Y1-Y4 (2026-09-29) sonrası: **1 `⚠️` (Voice control — `prompt/screen/T9-car.md` L41) / 51 dosyanın 1'inde** — Y2 (`194dc93`) + Y3 (`12a008d`) ile **93 → 1**; parantez: Y2'nin bilinçli bıraktığı **9 `⚠️ KAYNAK YOK`** ASCII gerekçesi ayrı sayaçtır (`prompt/page/07-settings` + `prompt/screen/` T1 · T2 · T3 · T5 · T7 · T8 · T9 · T10 — 9 dosya; bunlar `VERIFICATION` kelimesi içermez) (ayrı sayaç: `prompt/**` toplam 17 `⚠` ikonu / 12 dosya — kalanı `00-prompt-index` Truth Mode notu ×5 · `web-research` kod örneği ×1 · `C06-form-input` ASCII art ×1) | Uydurma token/JSON/ölçü yazılmaz; girdi kullanıcıdan istenir |
+| 1 | `flow/**` eksik zorunlu bölüm stub'u | Y5 (`2f7959c`, 2026-09-30) sonrası: **6 `⚠️ VERIFICATION REQUIRED` / 21 dosyanın 6'sında** — 3 `## 3. Hata Senaryoları` stub'u (`flow/watch/01` · `flow/automotive/01` · `flow/automotive/02`) + 3 gerekçeli (`flow/auth/03` kod çelişkisi · `flow/navigation/03` tetikleyici · `flow/settings/03` kontrol); `flow/navigation/01` Y5'te nav/01 §3 kod kanıtlı tabloyla kapandı; akış toplamı Y1 (`dc700cf`) + Y4 (`5aa2c45`) + Y5 (`2f7959c`) ile **44 → 7 → 6** (ayrı sayaç: `flow/**` toplam **9 `⚠` ikonu / 8 dosya** — kalan 3'ü `00-flow-index` şablon notu ×2 + `auth/05` ASCII art) | İlgili alan tamamlanmış sayılmaz |
+| 2 | `prompt/**` işaretli eksik girdi | Y5 (`2f7959c`, 2026-09-30) sonrası: **0 `⚠️` / 0 dosya** — `prompt/screen/T9-car.md` Voice control kanıtla kapatıldı (`00-device-matrix` L182 + AU-T29/T30 + L304); Y2 (`194dc93`) + Y3 (`12a008d`) ile **93 → 1 → 0**; parantez: Y2'nin bilinçli bıraktığı **9 `⚠️ KAYNAK YOK`** ASCII gerekçesi ayrı sayaçtır, hâlâ 9 dosyada (`prompt/page/07-settings` + `prompt/screen/` T1 · T2 · T3 · T5 · T7 · T8 · T9 · T10 — 9 dosya; bunlar `VERIFICATION` kelimesi içermez) (ayrı sayaç: `prompt/**` toplam **16 `⚠` ikonu / 12 dosya** — kalanı `00-prompt-index` Truth Mode notu ×5 · `web-research` kod örneği ×1 · `C06-form-input` ASCII art ×1 + 9 `KAYNAK YOK`) | Uydurma token/JSON/ölçü yazılmaz; girdi kullanıcıdan istenir |
 | 3 | `screens/T17-monitor-22fhd/welcome-popup.md` | `status: draft` + `source_of_truth: ⚠️ VERIFICATION REQUIRED — PNG bekleniyor` (20 spec'in tek draft'ı) | Draft ekran frontend kanıtı yapılmaz |
 | 4 | `tokens/tokens-3840.json` (**1367 bayt**) · `tokens/tokens-tv.json` (**1363 bayt**) | `_meta.counts` → `nodes:1`, `sections` tamamı **0** (c/t/s/r/sp/sz = 0) → tasarım yok | mobile/tablet/TV/4K katmanları `status: planlanmış`; token Figma'dan gelmez, **uydurulmaz** |
 | 5 | `reference/figma/png` envanter okuması | Önceki okuma **yanlıştı** (Faz 8b ölçümü): dizin **149** = **136** id-prefixed + **13** legacy; hedef **151** = 136 indirilen + **15 indirilemeyen node** (`/v1/images` → NULL, hepsi `visible: false`). Ham çekim logu korunur: `_extraction-notes.md` → `Extract: tam cekim (2026-09-29 19:16:45) = 149 dosya indirildi` (log yalanlanmaz, §7.1'de açıklanır). `figma-extract.ps1 -ImagesOnly` bu denetimde **yeniden çalıştırılmadı** (başka dosyaya yazar → yazma kapsamı ihlali); API tarafı scale 1/2 + 20'lik parti + tek tek sorgu ile **15/15 NULL** ölçüldü (§7.1) | İddia kapatıldı: "151 var" denmeyeceği gibi **"eksik" de denmez** — doğru ifade §7.1'dedir |
@@ -383,7 +383,7 @@ Faz 0–7 commit'leri bu listenin **dışında (daha eski)** — §5'te `git cat
 | 11 | `screens/**` kanıt-boşluğu işaretleri | **100 eksik-kanıt `⚠️` işareti / 21 dosyanın 21'inde** (ayrı sayaç: toplam `⚠` ikonu 171) — sınıflandırma: PNG yok · API'den gelmedi · state PNG'leri yok · ölçüm kod aşamasında → **kanıt gerektirir, vault'tan doldurulamaz** | Yeni ölçüm (PNG/Figma/kod) gelmeden işaret korunur; ilgili ekran tamamlanmış sayılmaz |
 | 12 | kök `*.md` işaretleri (`.ai/ui-design` kök, 6 dosya) | **24 `⚠️` işareti / 6 dosyanın 6'sında** — `00-device-matrix` **12** = tasarımı olmayan tier'lar (`status: planlanmış`; Guardrail: Figma tasarımı olmayan tier → `⚠️`) · `03-implementation-plan` **4** = kapsam tanımsız pending · `05-responsive-architecture` **3** = 2560/3840 tanımlı değil · `01-mockup-index` **3** · `02-component-inventory` **1** (Figma↔C eşlemesi yapılmadı) · `04-accessibility-gaps` **1** | İlgili alan tamamlanmış sayılmaz; tasarımsız tier için token/PNG uydurulmaz |
 | 13 | `reference/**` işaretleri | **5 `⚠️` işareti / 17 dosyanın 2'sinde** — `reference/04-verification.md` **2** (bu tablonun #1 ölçüm alıntısı + #3 draft satırı) · `reference/figma/grid-rules.md` **3** (tablet/2560 tasarımı yok notları) | Yeni ölçüm (PNG/Figma/kod) gelmeden işaret korunur |
-| 14 | Y5 — QA/kod kaynağı olmayan kalan işaret kümesi | **5 işareti**: `flow/` `## 3. Hata Senaryoları` stub'u **4** (`watch/01` · `automotive/01` · `automotive/02` · `navigation/01`) + `prompt/screen/T9-car.md` Voice control **1** | Y5: QA/kod kaynağı yok → işaretli kalır; ilgili alan tamamlanmış sayılmaz |
+| 14 | Y5 — QA/kod kaynağı olmayan kalan işaret kümesi | **3 işareti**: yalnız `flow/` `## 3. Hata Senaryoları` stub'u **3** (`watch/01` · `automotive/01` · `automotive/02`) — gerekçe: §1/§2'de hata dalı **0** (0 eşleşme), bu tier'da repoda **0 kod dosyası**, QA kaydı **0** (`.ai/reports` 0 eşleşme); kanıt (kod veya QA) gelmeden tablo üretilmez. Y5 (`2f7959c`) ile kapatılanlar: `prompt/screen/T9-car.md` **Voice control** (`00-device-matrix` L182 + AU-T29/T30 + L304) ve `flow/navigation/01` **nav/01 §3 kod kanıtlı 4 sütunlu tablo** | Y5: QA/kod kaynağı yok → işaretli kalır; ilgili alan tamamlanmış sayılmaz |
 
 **Faz 6 kayıp kontrolü (okuma sırasında):** `screens/` ve `flow/` yeniden yazımlarında silinen kume eklenen kumenin alt kümesi — **veri kaybı 0**; eksik olan **işaretli eksikliktir** (yukarıdaki #1–#3).
 
@@ -403,8 +403,8 @@ Faz 0–7 commit'leri bu listenin **dışında (daha eski)** — §5'te `git cat
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 3.1.3 |
-| Status | QA denetim tamamlandı — kapı 1-5 GECTI (A:0 B:0 C:0 · frontmatter 21/0 · wiki-link gerçek kırık 0 · CatID T07 çözümlü · **figma-tokens: `SONUC -> toplam=7 \| pass=5 \| bos=2 \| fail=0 \| bos_bp=3840,tv` + exit 0 — Faz 9 kapısı**); **PNG envanter gerçeği işlendi (Faz 8b §7.1 — 151/136/15/13/149)**; **§8 ölçüm yenilendi (Y1–Y4 kapandı: flow 44→7 · prompt 93→1; Y5 açık)** |
+| Version | 3.1.4 |
+| Status | QA denetim tamamlandı — kapı 1-5 GECTI (A:0 B:0 C:0 · frontmatter 21/0 · wiki-link gerçek kırık 0 · CatID T07 çözümlü · **figma-tokens: `SONUC -> toplam=7 \| pass=5 \| bos=2 \| fail=0 \| bos_bp=3840,tv` + exit 0 — Faz 9 kapısı**); **PNG envanter gerçeği işlendi (Faz 8b §7.1 — 151/136/15/13/149)**; **§8 ölçüm Y5 sonrası yenilendi (`2f7959c` · 2026-09-30): flow 44→7→6 · prompt 93→1→0 · toplam 137→135 · Y5 işareti 5→3** |
 | Verification Steps | 6 |
 | Tier Matrix | 6 rows |
 | Red Flags | 7 |
@@ -412,11 +412,11 @@ Faz 0–7 commit'leri bu listenin **dışında (daha eski)** — §5'te `git cat
 | Gate Scripts | 5 (§6 — birebir çıktı) |
 | Faz Kaydı | 8 faz (§5 — Faz 0-7 commit kanıtlı 7/7, Faz 8 commit'i orkestratörde) |
 | Disk Envanteri | §7 — 120 md · 27 json · 19 PNG · PNG **151 hedef / 136 indirilen / 15 gizli node** (§7.1) · raw 79.7 MB |
-| Açık Borç | 13 satır açık + 1 kapatıldı (§8 — flow 7 · prompt 1 + 9 KAYNAK YOK · screens 100 · kök md 24 · reference 5 · Y5 5 · draft 1 · boş token 2 · PNG envanter 15 gizli node (§7.1) · BOM 4 · file key 7; **#6 Faz 9 kapısıyla kapatıldı**) |
-| Last Updated | 2026-09-29 |
+| Açık Borç | 13 satır açık + 1 kapatıldı (§8 — flow 6 · prompt 0 + 9 KAYNAK YOK · screens 100 · kök md 24 · reference 5 · Y5 3 · draft 1 · boş token 2 · PNG envanter 15 gizli node (§7.1) · BOM 4 · file key 7; **#6 Faz 9 kapısıyla kapatıldı**) |
+| Last Updated | 2026-09-30 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-09-30
 **Mode:** Red Team · Human Mode · Truth Mode
