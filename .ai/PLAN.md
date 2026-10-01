@@ -2,7 +2,7 @@
 title: "CoreMusic — Sıralı Yürütme Planı"
 type: plan
 category: project-planning
-version: 1.0.0
+version: 1.1.0
 status: active
 authority: SSOT
 updated: 2026-10-01
@@ -238,7 +238,77 @@ Her session [[CHECKLIST.md]] §A (başlama) → §B (orta) → §C (kapanış, `
 
 ---
 
-## §6 Referanslar
+## §6 UI Görevi — Home Page Rebuild (aaa.md · Kalıp C)
+
+> **Bu bölüm §2'deki 19 vault adımından FARKLI bir yazılım geliştirme görevidir** — §2-§5'teki 19 adımı, 11 session'ı ve durum tablosunu **etkilemez** (kapanış yine [[CHECKLIST.md]] §A3/§C3 çiftiyle [[TODO.md]] üzerinden yürür). Görevin **tek kaynağı** `aaa.md` (Kalıp C: *Home Page Whole-Page Rebuild + Multi-Resolution Verify (1024→3840)*). Süreç aşamaları: [[WORKFLOW.md]].
+
+### §6.1 Kapsam özeti
+
+- **Dokunulmaz yüzeyler:** header, footer/player bar, `_player-info.css`, `PlayerInfoComponent.js`, `player-info.php` — ihlal = görev reddi (`aaa.md §Senaryo Kapsam`).
+- **İki ayrı sayfa:** 1024 (T07 embedded, 1024×600, **12** widget slot) ve 1920 (T17 desktop, 1920×1080, **20** widget slot) — asla birbirine karıştırılmaz; her breakpoint kendi mockup'ıyla ölçülür (`aaa.md §Senaryo`, §13.9).
+- **Bilinen hatalar:** track btn & playlist btn bozuk (etiket + oynat/aksiyon davranışı yanlış) → mockup'taki gibi çalışacak (tıklama → doğru eylem, hover/focus state'leri, PNG ile birebir); yanlış render'lar tespit edilip düzeltilecek, doğrular bırakılacak (`aaa.md §Senaryo Bilinen hatalar`).
+- **Dosya kuralı:** **yeni dosya YOK** — mevcut dosyalarda mevcut satırlarda edit (HTML/CSS/PHP/JS); CSS yalnız `assets.coremusic.net/Css/` (SSOT) (`aaa.md §Senaryo Kapsam`).
+- **Mockup Gate:** kod ÖNCE 3 PNG okunur — okunamazsa **DUR** (`aaa.md §Senaryo Mockup Gate`).
+- **Ölçü/token:** yalnız PNG + Figma raw + `01_Abstracts`; uydurma ölç, tahmin token, `clamp()` varsayımı yasak (`aaa.md §Senaryo Kapsam`).
+
+### §6.2 Adımlar (Dispatch — 9 adım · `[ ]` todo)
+
+1. [ ] **Adım 1 — [Keşif] Referansları topla ve oku.** Toplama komutlarını çalıştır; 3 PNG + `figma/png` + raw JSON oku (ölçü uydurma yasak); raw yetmezse Figma Data API adım adım (`figma-extract.ps1` → `/v1/files/:key/nodes` → `/v1/images/:key`), token yalnız `.ai/.env.figma`.
+   - **"Bitti" ölçütü:** 3 PNG okunabilir (Mockup Gate geçildi) + raw JSON ölçüsü çapraz doğrulandı; okunamadıysa DUR — hiçbir ölçüt yazılmamış.
+   - **Bağımlılık:** — (ilk adım) · **Kaynak:** `aaa.md §Dispatch ad.1`
+2. [ ] **Adım 2 — [Ayıklama] Blokları kendi mockup'ıyla karşılaştır.** 1024↔1024, 1920↔1920 (KARIŞTIRMA); DOĞRU = dokunma · HATALI = listele (dosya:satır + ne yanlış); 10 dk'da bitir.
+   - **"Bitti" ölçütü:** Her blok için DOĞRU/HATALI listesi yazılı (her hatalı satır: dosya:satır + ne yanlış) — hatalı blok kalmamış listelenmemiş.
+   - **Bağımlılık:** Adım 1 · **Kaynak:** `aaa.md §Dispatch ad.2`
+3. [ ] **Adım 3 — [Edit] Sadece mevcut dosyalarda düzelt.** ITCSS katmanına uygun CSS dosyası; yeni dosya YOK; inline `style`/`script` YOK; ham hex/px yalnız `01_Abstracts`.
+   - **"Bitti" ölçütü:** `git status` → yeni dosya YOK; inline style/script yok; ham hex/px yalnız `01_Abstracts` (`aaa.md §Validation` 6, 7).
+   - **Bağımlılık:** Adım 2 · **Kaynak:** `aaa.md §Dispatch ad.3`
+4. [ ] **Adım 4 — [Butonlar] Track btn & playlist btn düzelt.** Etiket + aksiyon + hover/focus/active state'leri PNG/Figma birebir.
+   - **"Bitti" ölçütü:** Tıklama doğru eylemi üretir; etiket/state PNG ile birebir (`aaa.md §Validation` 4).
+   - **Bağımlılık:** Adım 3 · **Kaynak:** `aaa.md §Dispatch ad.4`
+5. [ ] **Adım 5 — [Kural] Widget grid slot kuralını uygula.** §13.9: 1024 → 12 · 1920 → 20 slot; çelişkide kural PNG'ye precedanslı.
+   - **"Bitti" ölçütü:** 1024 → 12 slot · 1920 → 20 slot (`aaa.md §Validation` 5).
+   - **Bağımlılık:** Adım 4 · **Kaynak:** `aaa.md §Dispatch ad.5`
+6. [ ] **Adım 6 — [Popup] 1024 welcome popup'ı bağla.** Mevcut `c-modal.css` / `_welcome-banner.css`; Başla → localStorage.
+   - **"Bitti" ölçütü:** Başla → localStorage → ikinci girişte görünmez (`aaa.md §Validation` 10).
+   - **Bağımlılık:** Adım 5 · **Kaynak:** `aaa.md §Dispatch ad.6`
+7. [ ] **Adım 7 — [Test] Genişlik süpürmesi (8 genişlik).** `TEST_MODE=true` · `http://home.coremusic.net:81/home`; genişlikler `1024, 1524, 1920, 2024, 2524, 3024, 3524, 3840` (yükseklik tier'e göre 600/1080/2160); her genişlikte screenshot + DOM ölçü; bozuk çıktı → düzelt → YENİDEN render; cookie `cm_viewport_w` lag: resize ÖNCE navigate, gerekirse 2× yükle; cache takılıysa CDP `Network.clearBrowserCache` + `?v` bump.
+   - **"Bitti" ölçütü:** 8 genişlikte de screenshot var; Console 0 hata; CSP violation yok; Player Info regression yok; bozuk çıktı kalmamış (`aaa.md §Validation` 3, 7, 11).
+   - **Bağımlılık:** Adım 6 · **Kaynak:** `aaa.md §Dispatch ad.7`
+8. [ ] **Adım 8 — [Git gate] Push yok, sinyal bekle.** COMMIT/PUSH SONRASI DUR → "git pull bekleniyor" de; kullanıcı "git pull çalıştır" der → pull al; kullanıcı diğer PC'de pull yapıp "devam" der → 8 genişlik screenshot ile KONTROL ET.
+   - **"Bitti" ölçütü:** Kullanıcı sinyali alınmadan push/pull/deploy YOK; sinyal sonrası 8 genişlik kontrolü tamam, hata yok (`aaa.md §Validation` 6; `aaa.md §Git Akışı` NOT).
+   - **Bağımlılık:** Adım 7 · **Kaynak:** `aaa.md §Dispatch ad.8`
+9. [ ] **Adım 9 — [Sonuç] Raporu teslim et.** 8 screenshot + düzeltme tablosu (dosya · satır · ne değişti · neden) + Validation checklist + `git status` (yeni dosya yok kanıtı).
+   - **"Bitti" ölçütü:** 8 screenshot, düzeltme tablosu, 11 maddelik Validation ve `git status` kanıtı teslim edildi (`aaa.md §Validation` 6).
+   - **Bağımlılık:** Adım 8 · **Kaynak:** `aaa.md §Dispatch ad.9`
+
+### §6.3 Validation (kontrol kutuları — birebir)
+
+- [ ] 1024×600 screenshot → mockup birebir (12 slot, 2 kolon, Sıradaki, popup)
+- [ ] 1920×1080 screenshot → mockup birebir (20 slot, welcome-banner, tek satır listeler)
+- [ ] **Çok çözünürlük süpürmesi:** genişlik `1024, 1524, 1920, 2024, 2524, 3024, 3524, 3840` → her birinde screenshot; bozuk olanları düzelt + yeniden render (500px adım + 1920 zorunlu ara nokta)
+- [ ] Track btn & playlist btn: tıklama doğru eylemi üretir, etiket/state PNG ile birebir
+- [ ] Widget slot: 1024 → 12 · 1920 → 20
+- [ ] `git diff` → header/footer/player-info değişikliği YOK; `git status` → yeni dosya YOK
+- [ ] Ham hex/px yalnız 01_Abstracts; inline style/script yok; Console 0 hata; CSP violation yok
+- [ ] BEM `block__element--modifier`; `innerHTML` yok
+- [ ] WCAG 2.2 AA: kontrast ≥ 4.5:1; focus-visible `2px solid var(--color-primary)`
+- [ ] Popup: Başla → localStorage → ikinci girişte görünmez
+- [ ] Regression: Player Info 392×131 / 469×184 / 750×300 bozulmadı
+
+*(Kaynak: `aaa.md §Validation` — 11 madde, uydurma ekleme/çıkarma yok.)*
+
+### §6.4 Git akışı uyarısı (4 adım — ihlal = dur)
+
+1. Uzman kodu yazar + yerel doğrular. **COMMIT/PUSH YAPMAZ** (veya commit eder, **push ETMEZ**).
+2. Uzman DURUR → orkestratöre: "değişiklikler hazır, git pull bekleniyor".
+3. Orkestratör kullanıcıya sorar; kullanıcı "git pull çalıştır" der → repo'da `git pull` ALINIR (pull = yerel güncelleme sinyali).
+4. Kullanıcı diğer server PC'de `git pull` çalıştırıp "devam" der → uzman sunucuda 8 genişlik screenshot süpürmesi + Validation ile KONTROL EDER; hata varsa 2-3'e döner.
+
+**NOT:** Kullanıcı sinyali olmadan push/pull/deploy ATLANMAZ — **uzman push ETMEZ, kullanıcı sinyali beklenir.** *(Kaynak: `aaa.md §Git Akışı`.)*
+
+---
+
+## §7 Referanslar
 
 | Hedef | İlişki |
 |---|---|
@@ -247,10 +317,12 @@ Her session [[CHECKLIST.md]] §A (başlama) → §B (orta) → §C (kapanış, `
 | [[WORKFLOW.md]] | Süreçler, §8.7 bitiş adımları |
 | [[CLAUDE.md]] | Guardrail'ler (#1 Zero Code Before Plan, #16 şablon) |
 | `.ai/.templates/index.md` | Şablon registry (Guardrail #16) |
+| `aaa.md` | §6 UI Görevi tek kaynağı (Kalıp C promptu) |
 
 | Tarih | Versiyon | Değişiklik |
 |---|---|---|
 | 2026-10-01 | 1.0.0 | İlk üretim — TODO.md açık maddelerinden 19 adımlık sıralı plan |
+| 2026-10-01 | 1.1.0 | §6 UI Görevi eklendi (aaa.md · Kalıp C — 9 adım + 11 validation + git uyarısı); §1-§5 değişmedi; eski "§6 Referanslar" → §7 |
 
 ---
 

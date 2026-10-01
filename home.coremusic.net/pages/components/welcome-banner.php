@@ -16,7 +16,7 @@
  * @var \CoreMusic\Home\Component\WelcomeBannerComponent $this
  */
 ?>
-<section class="welcome-banner welcome-banner--wide" aria-label="Hoş geldin" data-cm-component="cm-home-welcome-banner">
+<section class="welcome-banner welcome-banner--wide" aria-label="Hoş geldin">
     <div class="welcome-banner__overlay"></div>
     <div class="welcome-banner__content">
         <p class="welcome-banner__eyebrow"><?= $this->eyebrow ?></p>
