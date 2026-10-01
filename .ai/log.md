@@ -949,3 +949,4 @@ ADR-078 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
 - 2026-10-01 | ADR-079 yazildi (debate PENDING) | .ai/.decisions/accepted/ADR-079-i18n-database-schema.md (83227 bayt, 345 satir; slug index.md:103 hizali)
 - 2026-10-01 | ADR-079 yazıldı (debate PENDING) | (düzeltme: önceki satırda ASCII yazım hatası - yazildi -> yazıldı)
 ADR-079 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+2026-10-01 INFO — PLAN.md §6.3/9 kontrast istisnası: PNG korundu (3.14/2.76), kullanıcı kararı

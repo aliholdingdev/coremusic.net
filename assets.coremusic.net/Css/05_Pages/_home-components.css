@@ -118,7 +118,7 @@
 .home-layout--wide .section-title,
 .home-layout--wide .home_song__btn-title {
   font-family: var(--font-body, 'Arima', sans-serif);
-  font-size: 16px;          /* bölüm başlığı */
+  font-size: 13px;          /* bölüm başlığı — Figma 2850:21627 fs13 (PNG: y341) */
   font-weight: var(--font-semibold, 600);
   color: var(--color-text, rgba(255, 255, 255, 0.9));
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 0 10px rgba(0, 0, 0, 0.20);
@@ -610,6 +610,11 @@
 .playlist-list-card:focus-visible {
   outline: 2px solid var(--accent, #ff4fd8);
   outline-offset: 2px;
+}
+
+.playlist-list-card:active {
+  background: rgba(255, 255, 255, 0.10);
+  transform: translateY(0);
 }
 
 .playlist-list-card__icon {

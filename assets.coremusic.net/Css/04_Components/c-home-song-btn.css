@@ -116,6 +116,12 @@
   height: var(--home-wide-card-h);
 }
 
+/* Figma 2890:7922-7968: kart başlığı fs7 (Avalon) — base --text-sm,
+   1920'de --fs-sm clamp(11px,0.95vw,16px) ile 16px'e şişiyordu (PNG: 7px) */
+.home-layout--wide .home-song__mini-card__title {
+  font-size: 7px;
+}
+
 /* Figma 2850:21627: başlık (53,455) h45 → kart (53,500) · PNG başlık1 glif y341 */
 .home-layout--wide .home_song__btn-dashboard {
   margin-top: 0;
@@ -145,6 +151,7 @@
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--glass-border, rgba(255,255,255,0.1));
   border-radius: var(--radius-md, 8px);
+  transition: background 150ms ease, border-color 150ms ease;
 }
 
 .home-song__mini-card__art {

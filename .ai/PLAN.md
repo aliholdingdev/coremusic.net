@@ -291,7 +291,7 @@ Her session [[CHECKLIST.md]] §A (başlama) → §B (orta) → §C (kapanış, `
 - [ ] `git diff` → header/footer/player-info değişikliği YOK; `git status` → yeni dosya YOK
 - [ ] Ham hex/px yalnız 01_Abstracts; inline style/script yok; Console 0 hata; CSP violation yok
 - [ ] BEM `block__element--modifier`; `innerHTML` yok
-- [ ] WCAG 2.2 AA: kontrast ≥ 4.5:1; focus-visible `2px solid var(--color-primary)`
+- [ ] WCAG 2.2 AA: kontrast ≥ 4.5:1; focus-visible `2px solid var(--color-primary)` — ⚠️ İSTİSNA (kullanıcı kararı 2026-10-01): bölüm başlığı kontrastı 3.14, PNG mockup 2.76 → **PNG korunur** (birebir mockup kuralı > WCAG); scrim eklenmez. Madde "istisna" sayılır.
 - [ ] Popup: Başla → localStorage → ikinci girişte görünmez
 - [ ] Regression: Player Info 392×131 / 469×184 / 750×300 bozulmadı
 
