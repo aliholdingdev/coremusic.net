@@ -43,14 +43,19 @@
 
   /* --- Header: 60px (PNG mockup ölçümü) --- */
   --header-h: 60px;
-  --header-h-compact: 60px;    /* backward compat */
-  --header-h-4k: 80px;        /* backward compat */
-  --header-h-4k-monitor: 90px; /* backward compat */
+  --header-h-compact: 60px;
+  /* backward compat */
+  --header-h-4k: 80px;
+  /* backward compat */
+  --header-h-4k-monitor: 90px;
+  /* backward compat */
 
   /* --- Footer: 90px (PNG mockup ölçümü — CSS'teki 104px DEĞİL) --- */
   --footer-h: 90px;
-  --footer-h-compact: 90px;   /* backward compat */
-  --footer-h-mobile: 72px;    /* backward compat */
+  --footer-h-compact: 90px;
+  /* backward compat */
+  --footer-h-mobile: 72px;
+  /* backward compat */
 
   /* --- İçerik: y:60–510 = 450px --- */
   --content-h: 450px;
@@ -85,7 +90,7 @@
   --widget-min-height: 100px;
   --widget-grid-cols: 2;
   --footer-album-art-size: 120px;
-  --footer-icon-size: 14px;
+  --footer-icon: 13px;
   --footer-btn-min-size: 48px;
 
   /* --- Home layout grid --- */
@@ -182,8 +187,10 @@
   --cm-player-border: rgba(255, 105, 180, 0.3);
   --cm-player-border-w: 1px;
   --cm-player-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-  --cm-player-radius: var(--radius-lg); /* Figma'da radius yok — design token */
-  --cm-player-font: var(--cm-font-ui);  /* Figma: font=Avalon / ps=AvalonMedium */
+  --cm-player-radius: var(--radius-lg);
+  /* Figma'da radius yok — design token */
+  --cm-player-font: var(--cm-font-ui);
+  /* Figma: font=Avalon / ps=AvalonMedium */
   --cm-player-text: #ffffff;
   --cm-player-text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.8);
   --cm-player-text-weight: 500;
@@ -206,107 +213,80 @@
   --cm-player-time-w: clamp(40px, 8vw, 50px);
 
   /* — Satır ritmi 1024 (Figma y: 17 → 40 → 61 → 101) — */
-  --cm-player-info-pad-top: 3px;        /* metin kolonu üst kayması (17 − 14) */
+  --cm-player-info-pad-top: 3px;
+  /* metin kolonu üst kayması (17 − 14) */
   --cm-player-embedded-rows: 23px 21px auto;
-  --cm-player-progress-row-gap: 15px;   /* kapak sonu(86) → süre satırı(101) */
-  --cm-player-progress-offset-y: 4px;   /* süre satırı(101) → progress(105) */
-  --cm-player-progress-gap-l: 13px;     /* süre sonu(60) → progress(73) */
-  --cm-player-progress-gap-r: 14px;     /* progress sonu(319) → süre(333) */
+  --cm-player-progress-row-gap: 15px;
+  /* kapak sonu(86) → süre satırı(101) */
+  --cm-player-progress-offset-y: 4px;
+  /* süre satırı(101) → progress(105) */
+  --cm-player-progress-gap-l: 13px;
+  /* süre sonu(60) → progress(73) */
+  --cm-player-progress-gap-r: 14px;
+  /* progress sonu(319) → süre(333) */
 
   /* — Progress (1024: 246×9 → 1920: smooth, track gradient .17/.45/.11 · fill #FF65E9 + sheen) — */
   --cm-player-progress-w: clamp(200px, 60vw, 320px);
   --cm-player-progress-h: clamp(6px, 1vh, 12px);
   --cm-player-progress-radius: 0;
-  --cm-player-progress-bg: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.17) 0%,
-    rgba(255, 255, 255, 0.45) 50%,
-    rgba(255, 255, 255, 0.11) 100%
-  );
-  --cm-player-progress-fill: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0) 50%,
-    rgba(255, 255, 255, 0.39) 100%
-  ), #ff65e9;
+  --cm-player-progress-bg: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.17) 0%,
+      rgba(255, 255, 255, 0.45) 50%,
+      rgba(255, 255, 255, 0.11) 100%);
+  --cm-player-progress-fill: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(255, 255, 255, 0.39) 100%), #ff65e9;
 
   /* — Görsel gölgeleri (Figma DROP_SHADOW) — */
   --cm-player-icon-shadow: 0 0.2px 0.5px rgba(0, 0, 0, 0.8);
   --cm-player-badge-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.8);
 
   /* — Wide varyantı (≥1441px override devreye girer) — */
-  --cm-player-wide-size: 11.5px;        /* Figma fs11.5 / lh15.526 / ls0.897 w500 */
+  --cm-player-wide-size: 11.5px;
+  /* Figma fs11.5 / lh15.526 / ls0.897 w500 */
   --cm-player-wide-lh: 15.526px;
   --cm-player-wide-ls: 0.897px;
-  --cm-player-icon-col: 17px;           /* ikon kutusu (x182–199) */
-  --cm-player-icon-m: 15px;             /* music / mic / star / timer 15×15 */
-  --cm-player-icon-s: 13px;             /* cd 13×13 */
-  --cm-player-icon-xs: 12px;            /* bit-rate 12×12 */
-  --cm-player-label-indent: 20.556px;   /* ikon kolonu + boşluk → metin x202.556 */
+  --cm-player-icon-col: 17px;
+  /* ikon kutusu (x182–199) */
+  --cm-player-icon-m: 15px;
+  /* music / mic / star / timer 15×15 */
+  --cm-player-icon-s: 13px;
+  /* cd 13×13 */
+  --cm-player-icon-xs: 12px;
+  /* bit-rate 12×12 */
+  --cm-player-label-indent: 20.556px;
+  /* ikon kolonu + boşluk → metin x202.556 */
   --cm-player-star: 13px;
-  --cm-player-star-gap: 1.201px;        /* yıldız pitch 14.201 − 13 */
-  --cm-player-star-x: 61.111px;         /* yıldız x243.111 − kolon(182) */
-  --cm-player-star-y: 1px;              /* yıldız y85.755 − satır(84.755) */
+  --cm-player-star-gap: 1.201px;
+  /* yıldız pitch 14.201 − 13 */
+  --cm-player-star-x: 61.111px;
+  /* yıldız x243.111 − kolon(182) */
+  --cm-player-star-y: 1px;
+  /* yıldız y85.755 − satır(84.755) */
   --cm-player-play: 15px;
-  --cm-player-play-offset: 2px;         /* oynat x184 = kolon(182) + 2 */
-  --cm-player-play-gap: 4px;            /* oynat sonu(199) → progress(203) */
-  --cm-player-badge-x: 125.734px;       /* mp3 x307.734 − kolon(182) */
-  --cm-player-badge-y: 2.577px;         /* mp3 y107.789 − satır(105.212) */
+  --cm-player-play-offset: 2px;
+  /* oynat x184 = kolon(182) + 2 */
+  --cm-player-play-gap: 4px;
+  /* oynat sonu(199) → progress(203) */
+  --cm-player-badge-x: 125.734px;
+  /* mp3 x307.734 − kolon(182) */
+  --cm-player-badge-y: 2.577px;
+  /* mp3 y107.789 − satır(105.212) */
   --cm-player-badge-mp3-w: 22px;
   --cm-player-badge-mp3-h: 11px;
   --cm-player-badge-mp4-w: 23px;
   --cm-player-badge-mp4-h: 17px;
-  --cm-player-badge-mp4-ml: -0.734px;   /* mp4 x329 − mp3 sonu(329.734) */
-  --cm-player-badge-mp4-mt: -2.789px;   /* mp4 y105 − mp3 y107.789 */
+  --cm-player-badge-mp4-ml: -0.734px;
+  /* mp4 x329 − mp3 sonu(329.734) */
+  --cm-player-badge-mp4-mt: -2.789px;
+  /* mp4 y105 − mp3 y107.789 */
   --cm-player-badge-vlc: 12px;
-  --cm-player-badge-vlc-ml: 1px;        /* vlc x353 − mp4 sonu(352) */
-  --cm-player-badge-vlc-mt: -0.789px;   /* vlc y107 − mp3 y107.789 */
+  --cm-player-badge-vlc-ml: 1px;
+  /* vlc x353 − mp4 sonu(352) */
+  --cm-player-badge-vlc-mt: -0.789px;
+  /* vlc y107 − mp3 y107.789 */
   --cm-player-wide-rows: 22.035px 21.034px 21.034px 20.457px 21.659px 21.049px auto;
-}
-
-/* ============================================================
-   TABLET — 768-1024px (Touch-first, sidebar hidden)
-   iPad, Android tablet, stylus optional
-   ============================================================ */
-@media (min-width: 768px) and (max-width: 1024px) {
-  :root {
-    --header-h: 60px;
-    --footer-h: 90px;
-    --sidebar-w: 0px;
-    --sidebar-w-compact: 0px;
-    --touch-min: 48px;
-    --touch-recommended: 56px;
-    --text-base: 14px;
-
-    --spacing-scale: 1;
-    --border-radius-base: 8px;
-
-    /* — Player Info T07 Figma pin (node 1646:17727, 392×131) —
-       1024×600 embedded'de :root clamp'leri 750×132 üretiyordu;
-       T07 ölçümü bu aralıkta sabit, clamp değil. — */
-    --cm-player-w: 392px;
-    --cm-player-h: 131px;
-    --cm-player-pad-top: 14px;
-    --cm-player-pad-left: 16px;
-    --cm-player-pad-right: 15px;
-    --cm-player-pad-bottom: 16.5px;
-    --cm-player-cover: 72px;
-    --cm-player-gap: 16px;
-
-    --cm-player-title-size: 13px;
-    --cm-player-title-lh: 17.551px;
-    --cm-player-title-ls: 1.014px;
-    --cm-player-meta-size: 12px;
-    --cm-player-meta-lh: 16.201px;
-    --cm-player-meta-ls: 0.936px;
-    --cm-player-time-size: 10px;
-    --cm-player-time-lh: 13.501px;
-    --cm-player-time-ls: 0.78px;
-    --cm-player-time-w: 44px;
-
-    --cm-player-progress-w: 246px;
-    --cm-player-progress-h: 9px;
-  }
 }
 
 /* ============================================================
@@ -339,7 +319,7 @@
     --widget-min-height: 120px;
     --widget-grid-cols: 2;
     --footer-album-art-size: 130px;
-    --footer-icon-size: 16px;
+    --footer-icon: 13px;
     --footer-btn-min-size: 44px;
     --home-bottom-split: 1fr 1.4fr 0.8fr;
 
@@ -398,7 +378,7 @@
     --widget-min-height: 130px;
     --widget-grid-cols: 3;
     --footer-album-art-size: 135px;
-    --footer-icon-size: 18px;
+    --footer-icon: 13px;
     --footer-btn-min-size: 44px;
     --home-bottom-split: 1fr 1.4fr 0.8fr;
 
@@ -457,7 +437,7 @@
     --widget-min-height: 80px;
     --widget-grid-cols: 1;
     --footer-album-art-size: 100px;
-    --footer-icon-size: 14px;
+    --footer-icon: 13px;
     --footer-btn-min-size: 48px;
     --home-top-split: 1fr;
     --home-bottom-split: 1fr;
@@ -521,7 +501,7 @@
     --widget-min-height: 140px;
     --widget-grid-cols: 3;
     --footer-album-art-size: 140px;
-    --footer-icon-size: 18px;
+    --footer-icon: 13px;
     --footer-btn-min-size: 48px;
     --home-bottom-split: 1fr 1.5fr 1fr;
 
@@ -585,7 +565,7 @@
     --widget-min-height: 160px;
     --widget-grid-cols: 3;
     --footer-album-art-size: 160px;
-    --footer-icon-size: 20px;
+    --footer-icon: 13px;
     --footer-btn-min-size: 52px;
     --home-bottom-split: 1fr 1.5fr 1fr;
 
@@ -639,7 +619,8 @@
     --page-padding-x: 32px;
     --content-padding: 1.5rem;
     --content-padding-compact: 1.5rem;
-    --content-max-w: 1920px; /* zoom:2 ile 3840px görsel genişlik — viewport'u tam doldurur */
+    --content-max-w: 1920px;
+    /* zoom:2 ile 3840px görsel genişlik — viewport'u tam doldurur */
 
     --sidebar-w: 320px;
     --sidebar-w-compact: 320px;
@@ -657,7 +638,7 @@
     --widget-min-height: 180px;
     --widget-grid-cols: 3;
     --footer-album-art-size: 200px;
-    --footer-icon-size: 24px;
+    --footer-icon: 13px;
     --footer-btn-min-size: 60px;
     --home-top-split: 1fr 1.5fr 1fr;
     --home-bottom-split: 1fr 1.5fr 1fr;
@@ -733,7 +714,8 @@
     --footer-h: 130px;
     --footer-h-4k-monitor: 130px;
 
-    --content-max-w: 1920px; /* zoom:2 ile 3840px görsel genişlik — viewport'u tam doldurur */
+    --content-max-w: 1920px;
+    /* zoom:2 ile 3840px görsel genişlik — viewport'u tam doldurur */
     --sidebar-w: 340px;
     --detail-panel-w: 700px;
   }
@@ -751,10 +733,14 @@
     /* — Panel — */
     --cm-player-w: 469px;
     --cm-player-h: 184px;
-    --cm-player-pad-top: 16px;            /* kapak y=16 */
-    --cm-player-pad-left: 16px;           /* kapak x=16 */
-    --cm-player-pad-right: 20px;          /* progress sonu x449 → 469 */
-    --cm-player-pad-bottom: 18px;         /* kapak sonu 166 → 184 */
+    --cm-player-pad-top: 16px;
+    /* kapak y=16 */
+    --cm-player-pad-left: 16px;
+    /* kapak x=16 */
+    --cm-player-pad-right: 20px;
+    /* progress sonu x449 → 469 */
+    --cm-player-pad-bottom: 18px;
+    /* kapak sonu 166 → 184 */
 
     /* — Kapak 150×150 @(16,16) — */
     --cm-player-cover: 150px;
@@ -765,10 +751,10 @@
     --cm-player-wide-ls: 0.897px;
 
     /* — Satır ritmi (Figma satır tepeleri 20.652 → 126.871 → 147.92) — */
-    --cm-player-info-pad-top: 4.652px;    /* 20.652 − 16 */
+    --cm-player-info-pad-top: 4.652px;
+    /* 20.652 − 16 */
     --cm-player-wide-rows: 22.035px 21.034px 21.034px 20.457px 21.659px 21.049px auto;
-    --cm-player-progress-offset-y: 3.08px;/* progress y151 − satır tepesi 147.92 */
+    --cm-player-progress-offset-y: 3.08px;
+    /* progress y151 − satır tepesi 147.92 */
   }
 }
-
-

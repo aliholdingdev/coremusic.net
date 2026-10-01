@@ -38,22 +38,29 @@
   /* ═══ Player Info: Figma 392×131 (1024) / 469×184 (1920) ═══ */
   --player-w: 392px;
   --player-h: 131px;
-  --player-cover: 135px;            /* Figma: 72×72 */
+  --player-cover: 135px;
+  /* Figma: 72×72 */
   --player-gap: 12px;
   --player-progress-w: 246px;
   --player-progress-h: 9px;
 
-    /* ═══ Footer Parts: Figma measurements ═══ */
-  --footer-cover: 85px;                 /* Album cover: 85×85 */
+  /* ═══ Footer Parts: Figma measurements ═══ */
+  --footer-cover: 85px;
+  /* Album cover: 85×85 */
   --footer-cover-h: 85px;
-  --footer-media: 367px;                /* Media info: 367×73 */
+  --footer-media: 367px;
+  /* Media info: 367×73 */
   --footer-media-h: 73px;
-  --footer-buttons: 297px;              /* Player buttons: 297×62 (embedded) */
+  --footer-buttons: 297px;
+  /* Player buttons: 297×62 (embedded) */
   --footer-buttons-h: 62px;
-  --footer-volume: 186px;               /* Volume: 186×14 (embedded) */
+  --footer-volume: 186px;
+  /* Volume: 186×14 (embedded) */
   --footer-volume-h: 14px;
-  --footer-text-size: 10px;             /* Avalon 10px w500 */
-  --footer-icon: 13px;                  /* Footer icons: 13×13 */
+  --footer-text-size: 10px;
+  /* Avalon 10px w500 */
+  --footer-icon: 13px;
+  /* Footer icons: 13×13 */
 
   /* ═══ Player Info (cm-player tokens — 4K değerleri) ═══
    * d-4k.css / d-laptop.css bu dosyayı import eder, a-layout-tokens.css'i değil;
@@ -105,18 +112,14 @@
   --cm-player-progress-w: 320px;
   --cm-player-progress-h: 12px;
   --cm-player-progress-radius: 0;
-  --cm-player-progress-bg: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.17) 0%,
-    rgba(255, 255, 255, 0.45) 50%,
-    rgba(255, 255, 255, 0.11) 100%
-  );
-  --cm-player-progress-fill: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0) 50%,
-    rgba(255, 255, 255, 0.39) 100%
-  ), #ff65e9;
+  --cm-player-progress-bg: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.17) 0%,
+      rgba(255, 255, 255, 0.45) 50%,
+      rgba(255, 255, 255, 0.11) 100%);
+  --cm-player-progress-fill: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(255, 255, 255, 0.39) 100%), #ff65e9;
 
   /* — Görsel gölgeleri — */
   --cm-player-icon-shadow: 0 0.2px 0.5px rgba(0, 0, 0, 0.8);
