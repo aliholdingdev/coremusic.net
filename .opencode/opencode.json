@@ -354,5 +354,12 @@
       ".ai/sessions/**",
       ".ai/.png/**"
     ]
+  },
+  "tool_output": {
+    "max_bytes": 209715,
+    "max_lines": 8000
+  },
+  "prompt": {
+    "paste": "full"
   }
 }

@@ -959,3 +959,5 @@ R-002 debate 3/20 kaydedildi (19/1/0 RED DOĞRULANDI) + Tech Lead ✅ + 3 şart 
 
 2026-10-02 | R-003 yazıldı (debate PENDING) — .ai/.decisions/rejected/R-003-jquery-ui-framework.md (Vault Steward, salt-okunur seri)
 R-003 debate 3/20 kaydedildi (19/1/0 RED DOĞRULANDI) + Tech Lead ✅ + 3 şart
+2026-10-02 | R-004 yazıldı (debate PENDING) - .ai/.decisions/rejected/R-004-webpack-bundle-system.md (Vault Steward, salt-okunur seri)
+R-004 debate 3/20 kaydedildi (19/1/0 RED DOĞRULANDI) + Tech Lead ✅ + 3 şart
