@@ -91,6 +91,27 @@ final class HtmlShellRenderer
                 }
             }
         }
+        // CSS mtime: yalnız JS'e göre buster verilirse CSS düzenlemeleri tarayıcı
+        // cache'inde kalıyor (ör. d-desktop.css @import zinciri eksik servis edildi).
+        static $cssMtime = null;
+        if ($cssMtime === null) {
+            $cssMtime = '';
+            $cssDir   = $assetsDir . 'Css';
+            if (is_dir($cssDir)) {
+                $it = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($cssDir, \FilesystemIterator::SKIP_DOTS));
+                foreach ($it as $f) {
+                    if ($f->isFile() && $f->getExtension() === 'css') {
+                        $mt = (string)$f->getMTime();
+                        if ($mt > $cssMtime) {
+                            $cssMtime = $mt;
+                        }
+                    }
+                }
+            }
+        }
+        if ($cssMtime > $mainJsTime) {
+            $mainJsTime = $cssMtime;
+        }
         $cacheBuster = $mainJsTime !== '' ? $mainJsTime : $appVersion;
 
         $h = static fn(string $v): string => htmlspecialchars($v, ENT_QUOTES, 'UTF-8');

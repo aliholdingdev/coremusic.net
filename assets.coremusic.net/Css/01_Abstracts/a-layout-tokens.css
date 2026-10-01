@@ -129,6 +129,16 @@
   --home-embedded-card-lh: 11.476px;
   --home-embedded-up-next-h: 109px;
 
+  /* --- Wide alt-satır bölümleri — Figma 2890:7922-7968 / 2850:21627 ---
+     kart 169×43 (kolon gap 15 → 237-53-169) · başlık (53,455) 407×45 ·
+     kart satırı y500 · sanat görseli 50×43 */
+  --home-wide-card-w: 169px;
+  --home-wide-card-h: 43px;
+  --home-wide-card-art-w: 50px;
+  --home-wide-card-col-gap: 15px;
+  --home-wide-card-gap: 8px;
+  --home-wide-card-radius: 3px;
+
   /* --- Touch targets (WCAG 2.2 — RPi5 için büyük) --- */
   --touch-min: 48px;
   --touch-recommended: 56px;

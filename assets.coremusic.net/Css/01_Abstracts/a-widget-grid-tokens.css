@@ -50,6 +50,34 @@
   --wg-row-bottom-col-service: 42px;
   --wg-row-bottom-gap: 17px;
 
+  /* ═══ WIDE satır track'leri (fr — Figma 2850:21494 container 752fr = 752px @1920) ═══
+     row1: 173 +20+ 172 +20+ 172 (+195 boş)                  = 752fr
+     row2: 109 +21+ 42 +21+ 50 +15+ 50 +15+ 47×4 (+3×15) (+196) = 752fr
+     row3: 129 +17+ 42×4 (+4×17) + 47×3 (+3×17) (+195)       = 752fr
+     y = Figma: row1 h54.88 · row2/3 h43.04 · y76.40 / y140.96 · boş slotlar
+     Figma "block 234×108" bölgesini 4 eşit boş slota böler (PNG'de ayrı kutular). */
+  --wg-wt-c1: 173fr;
+  --wg-wt-c2: 172fr;
+  --wg-wt-g: 20fr;
+  --wg-wt-tall: 195fr;
+
+  --wg-wm-c1: 109fr;
+  --wg-wm-c2: 42fr;
+  --wg-wm-g: 21fr;
+  --wg-wm-sc: 50fr;
+  --wg-wm-sg: 15fr;
+  --wg-wm-e: 47fr;
+  --wg-wm-tall: 196fr;
+
+  --wg-wb-c1: 129fr;
+  --wg-wb-s: 42fr;
+  --wg-wb-g: 17fr;
+  --wg-wb-e: 47fr;
+  --wg-wb-tall: 195fr;
+
+  /* Tall kart genişliği — Figma 169 / 752 */
+  --wg-tall-w: 22.4747%;
+
   /* ═══ Kart ortak stil (Figma: Color Overlay #fff·10% + Stroke #373737·50%/#fff·10% · radius 3 · dropShadow 2/2/4 #000·50%) ═══ */
   --wg-card-radius: 3px;
   --wg-card-bg: rgba(255, 255, 255, 0.10);

@@ -94,6 +94,34 @@
   min-height: var(--home-embedded-up-next-h);
 }
 
+/* ═══ Wide (1920) — "En Son"/"Playlistler" kart şeridi, Figma 2890:7922-7968 ═══
+   kart 169×43 · kolon gap 15 · şerit yatay scroll (nowrap) */
+.home-layout--wide .home_song__btn-card-grid--scroll {
+  grid-auto-columns: var(--home-wide-card-w);
+  gap: var(--home-wide-card-col-gap);
+  padding-bottom: 0;
+}
+
+.home-layout--wide .home-song__mini-card {
+  box-sizing: border-box;
+  height: var(--home-wide-card-h);
+  padding: 0;
+  gap: var(--home-wide-card-gap);
+  border-radius: var(--home-wide-card-radius);
+  overflow: hidden;
+}
+
+.home-layout--wide .home-song__mini-card__art {
+  width: var(--home-wide-card-art-w);
+  height: var(--home-wide-card-h);
+}
+
+/* Figma 2850:21627: başlık (53,455) — bölüm başlığı kart şeridinin üstünde */
+.home-layout--wide .home_song__btn-dashboard {
+  margin-top: 0;
+  margin-left: 0;
+}
+
 .home-song__mini-card {
   display: flex;
   gap: var(--space-2, 8px);

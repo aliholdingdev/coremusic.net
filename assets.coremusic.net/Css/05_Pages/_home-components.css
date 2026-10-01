@@ -113,8 +113,16 @@
 }
 
 /* — Wide/Desktop (1920) bileşen ölçekleri — PNG home-1920 ölçümleri — */
-.home-layout--wide .section-title {
+/* .home_song__btn-title: wide markup'ta .section-title sınıfı taşımaz → h2 base
+   (32px / koyu renk) devralıyordu; bölüm başlığı değerleri burada eşitlenir. */
+.home-layout--wide .section-title,
+.home-layout--wide .home_song__btn-title {
+  font-family: var(--font-body, 'Arima', sans-serif);
   font-size: 16px;          /* bölüm başlığı */
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, rgba(255, 255, 255, 0.9));
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 0 10px rgba(0, 0, 0, 0.20);
+  margin: 0 0 var(--space-2, 8px);
 }
 .home-layout--wide .now-playing__meta-line {
   font-size: 11.5px;        /* Figma: 11.5px */
@@ -151,7 +159,8 @@
 
 /* — 2K / 4K (≥2561px) bileşen ölçekleri — geniş ekran oranla büyütme — */
 @media (min-width: 2561px) {
-  .home-layout--wide .section-title {
+  .home-layout--wide .section-title,
+  .home-layout--wide .home_song__btn-title {
     font-size: 22px;
   }
   .home-layout--wide .now-playing__meta-line,

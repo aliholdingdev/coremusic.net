@@ -525,17 +525,20 @@ html:not(.sidebar-collapsed) .home-layout {
   margin-top: var(--header-h, 65px);
   min-height: calc(100vh - var(--header-h, 65px) - var(--footer-h, 104px));
   max-height: calc(100vh - var(--header-h, 65px) - var(--footer-h, 104px));
-  padding: 12px 28px 12px;
+  padding: 29px 28px 12px;   /* üst blok y99 (PNG/Figma SSOT) — header 65 + 29 = 94 + iç hizalar */
   gap: 16px;
 }
 
-/* Üst satır: 3 sütun (Now Playing | Welcome | Widgets) */
+/* Üst satır: 3 sütun (Now Playing | Welcome | Widgets)
+   PNG/Figma 1920: Player 469 @(53) · Banner 491 @(552) · Div2 752 @(1073) · gap 30
+   → fr toplamı 1712 + 2×30 gap = 1772 = 1920 - 53(sol) - 95(sağ) */
 .home-layout--wide .home-layout__top--wide {
   display: grid;
-  grid-template-columns: 28% 36% 36%;
-  gap: 16px;
+  grid-template-columns: 469fr 491fr 752fr;
+  gap: 30px;
   align-items: stretch;
-  min-height: 230px;
+  min-height: 184px;
+  padding-inline: 25px 67px;   /* sayfa padding 28 → 53 sol / 95 sağ (PNG SSOT) */
 }
 
 /* Sağ sütun: Widget'lar + Quick Apps yan yana

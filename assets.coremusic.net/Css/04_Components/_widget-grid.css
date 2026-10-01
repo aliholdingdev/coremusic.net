@@ -10,6 +10,7 @@
 
 /* ═══ Widget Grid Container ═══ */
 .widget-grid {
+  position: relative;            /* .widget-card--tall (Figma 2850:21622) buna göre konumlanır */
   display: flex;
   flex-direction: column;
   gap: var(--wg-row-gap);
@@ -17,29 +18,84 @@
   max-width: var(--wg-w);
 }
 
-/* ═══ Satırlar (Figma 3 satır) ═══ */
+/* ═══ Satırlar (Figma 3 satır) ═══
+   Track'ler "spacer" tekniğiyle fr verilir (token'larda, toplam 752fr):
+   satır genişliği ne olursa olsun Figma boşluk/kart oranı korunur, taşma olmaz.
+   Son track tall kartın (x583 → 752-169) ayrıldığı alandır. */
 .widget-grid__row {
   display: grid;
   align-items: stretch;
+  gap: 0;
 }
 
 .widget-grid__row--top {
-  grid-template-columns: var(--wg-row-top-col-1) var(--wg-row-top-col-2);
-  gap: var(--wg-row-top-gap);
+  grid-template-columns:
+    var(--wg-wt-c1) var(--wg-wt-g)
+    var(--wg-wt-c2) var(--wg-wt-g)
+    var(--wg-wt-c2)
+    var(--wg-wt-tall);
 }
 
 .widget-grid__row--mid {
-  grid-template-columns: var(--wg-row-mid-col-1) var(--wg-row-mid-col-2) var(--wg-row-mid-col-3);
-  gap: var(--wg-row-mid-gap);
+  grid-template-columns:
+    var(--wg-wm-c1) var(--wg-wm-g)
+    var(--wg-wm-c2) var(--wg-wm-g)
+    var(--wg-wm-sc) var(--wg-wm-sg)
+    var(--wg-wm-sc) var(--wg-wm-sg)
+    var(--wg-wm-e) var(--wg-wm-sg)
+    var(--wg-wm-e) var(--wg-wm-sg)
+    var(--wg-wm-e) var(--wg-wm-sg)
+    var(--wg-wm-e)
+    var(--wg-wm-tall);
 }
 
 .widget-grid__row--bottom {
   grid-template-columns:
-    var(--wg-row-bottom-col-1)
-    var(--wg-row-bottom-col-service)
-    var(--wg-row-bottom-col-service)
-    var(--wg-row-bottom-col-service);
-  gap: var(--wg-row-bottom-gap);
+    var(--wg-wb-c1) var(--wg-wb-g)
+    var(--wg-wb-s) var(--wg-wb-g)
+    var(--wg-wb-s) var(--wg-wb-g)
+    var(--wg-wb-s) var(--wg-wb-g)
+    var(--wg-wb-s) var(--wg-wb-g)
+    var(--wg-wb-e) var(--wg-wb-g)
+    var(--wg-wb-e) var(--wg-wb-g)
+    var(--wg-wb-e)
+    var(--wg-wb-tall);
+}
+
+/* ═══ Wide yerleşim — spacer track'ler arasına düşen çocuklar tek tek sabitlenir
+   (auto-placement gap track'lerini de slot sanıyordu: x0 w172 / x172 w22 hatası)
+   track sırası: dolu · boşluk · dolu · boşluk … → çocuklar TEK İNDİSLİ kolonlara */
+@media (min-width: 1025px) {
+  .widget-grid__row--top > .widget-card:nth-child(1) { grid-column: 1; }
+  .widget-grid__row--top > .widget-card:nth-child(2) { grid-column: 3; }
+  .widget-grid__row--top > .widget-card:nth-child(3) { grid-column: 5; }
+
+  .widget-grid__row--mid > .widget-card:nth-child(1) { grid-column: 1; }
+  .widget-grid__row--mid > .widget-card:nth-child(2) { grid-column: 3; }
+  .widget-grid__row--mid > .widget-card:nth-child(3) { grid-column: 5; }
+  .widget-grid__row--mid > .widget-card:nth-child(4) { grid-column: 7; }
+  .widget-grid__row--mid > .widget-card:nth-child(5) { grid-column: 9; }
+  .widget-grid__row--mid > .widget-card:nth-child(6) { grid-column: 11; }
+  .widget-grid__row--mid > .widget-card:nth-child(7) { grid-column: 13; }
+  .widget-grid__row--mid > .widget-card:nth-child(8) { grid-column: 15; }
+
+  .widget-grid__row--bottom > .widget-card:nth-child(1) { grid-column: 1; }
+  .widget-grid__row--bottom > .widget-card:nth-child(2) { grid-column: 3; }
+  .widget-grid__row--bottom > .widget-card:nth-child(3) { grid-column: 5; }
+  .widget-grid__row--bottom > .widget-card:nth-child(4) { grid-column: 7; }
+  .widget-grid__row--bottom > .widget-card:nth-child(5) { grid-column: 9; }
+  .widget-grid__row--bottom > .widget-card:nth-child(6) { grid-column: 11; }
+  .widget-grid__row--bottom > .widget-card:nth-child(7) { grid-column: 13; }
+  .widget-grid__row--bottom > .widget-card:nth-child(8) { grid-column: 15; }
+}
+
+/* Tall kart (Figma 2850:21622: 169×184 @ x583,y0) — 3 satırı boydan boya kapsar
+   specificity: .widget-card{position:relative} tabanını ezmek için çift sınıf */.widget-card.widget-card--tall {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--wg-tall-w);
+  height: 100%;
 }
 
 /* ═══ Widget Kart — ortak taban (Figma: overlay #fff·10% + stroke, radius 3, dropShadow) ═══ */
@@ -248,6 +304,7 @@
   .widget-grid__row--mid,
   .widget-grid__row--bottom {
     grid-template-columns: 1fr;
+    gap: var(--wg-row-gap);
   }
 }
 
@@ -256,6 +313,15 @@
    row2: 5 slot / mixed gap → spacer-track + explicit yerleşim (ham px token'larda).
    row3: base 4 track → embedded'de 5 slot. */
 @media (min-width: 768px) and (max-width: 1024px) {
+  /* row1 base track'leri wide'e (752fr) göre — embedded 365px'te px track ile ezilir */
+  .widget-grid__row--top {
+    grid-template-columns:
+      var(--wg-row-top-col-1)
+      var(--wg-row-top-gap)
+      var(--wg-row-top-col-2);
+    gap: 0;
+  }
+
   .widget-grid__row--mid {
     grid-template-columns: var(--wg-emb-row-mid-cols);
     gap: var(--wg-emb-row-mid-gap);
@@ -269,5 +335,6 @@
 
   .widget-grid__row--bottom {
     grid-template-columns: var(--wg-emb-row-bottom-cols);
+    gap: var(--wg-row-bottom-gap);
   }
 }
