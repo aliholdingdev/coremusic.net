@@ -768,3 +768,36 @@
     /* progress y151 − satır tepesi 147.92 */
   }
 }
+
+/* ============================================================
+   PLAYER INFO — EMBEDDED T07 PIN (Figma node 1646:17727 — 392×131)
+   1024×600 embedded'de :root clamp'leri 750×132 üretiyordu;
+   T07 ölçümü bu aralıkta sabit, clamp değil.
+   (TABLET bloğu 9bb725d'de silinmişti — §6.3/11 regression geri alındı)
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  :root {
+    --cm-player-w: 392px;
+    --cm-player-h: 131px;
+    --cm-player-pad-top: 14px;
+    --cm-player-pad-left: 16px;
+    --cm-player-pad-right: 15px;
+    --cm-player-pad-bottom: 16.5px;
+    --cm-player-cover: 72px;
+    --cm-player-gap: 16px;
+
+    --cm-player-title-size: 13px;
+    --cm-player-title-lh: 17.551px;
+    --cm-player-title-ls: 1.014px;
+    --cm-player-meta-size: 12px;
+    --cm-player-meta-lh: 16.201px;
+    --cm-player-meta-ls: 0.936px;
+    --cm-player-time-size: 10px;
+    --cm-player-time-lh: 13.501px;
+    --cm-player-time-ls: 0.78px;
+    --cm-player-time-w: 44px;
+
+    --cm-player-progress-w: 246px;
+    --cm-player-progress-h: 9px;
+  }
+}

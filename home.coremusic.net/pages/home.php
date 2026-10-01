@@ -143,16 +143,12 @@ require __DIR__ . '/../header.php';
     <div class="welcome-modal" role="dialog" aria-modal="true" aria-labelledby="welcomeModalTitle">
         <div class="welcome-modal__logo">
             <img class="welcome-modal__logo-img"
-                 src="<?= $h($assetsUrl . '/Image/res-pink/logo/logo-img.png') ?>"
+                 src="<?= $h($assetsUrl . '/Image/res-pink/logo/logo-text.png') ?>"
                  alt="CoreMusic">
         </div>
         <p class="welcome-modal__title" id="welcomeModalTitle">Hoş geldin</p>
-        <input class="welcome-modal__input"
-               type="text"
-               placeholder="İsminizi Girin Buraya"
-               aria-label="İsminiz"
-               autocomplete="off">
-        <p class="welcome-modal__desc">Sana özel seçilmiş müzikler, deneyimler ve unutulmaz anlar sadece başlangıç. CoreMusic ile müziğin senin dünyan dönüyor 💗</p>
+        <p class="welcome-modal__sub">Prenses Işıl Peri</p>
+        <p class="welcome-modal__desc">Sana özel seçilen melodiler, zarif deneyimler ve unutulmaz anlar burada başlıyor. CoreMusic ile müziğin senin dünyana dönüşsün. 💜</p>
         <button class="welcome-modal__btn" type="button">Başla</button>
     </div>
 </div>

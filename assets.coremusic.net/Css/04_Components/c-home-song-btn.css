@@ -116,10 +116,24 @@
   height: var(--home-wide-card-h);
 }
 
-/* Figma 2850:21627: başlık (53,455) — bölüm başlığı kart şeridinin üstünde */
+/* Figma 2850:21627: başlık (53,455) h45 → kart (53,500) · PNG başlık1 glif y341 */
 .home-layout--wide .home_song__btn-dashboard {
   margin-top: 0;
   margin-left: 0;
+  gap: 0;
+}
+
+.home-layout--wide .home_song__btn-title {
+  margin: 0;
+}
+
+/* Başlık→kart mesafesi Figma'da bölüm bölüm farklı (32 / 45) — :first/:last ile */
+.home-layout--wide .home_song__btn-card-grid--scroll {
+  margin-top: 5px;   /* başlık y337 + lh19.2 + mb8 + 5 → kart y369 (Figma 2856:22290) */
+}
+
+.home-layout--wide .home_song__btn-dashboard:last-child .home_song__btn-card-grid--scroll {
+  margin-top: 19px;  /* başlık2 y454 + 19.2 + 8 + 19 → kart y500 (Figma 2890:7922) */
 }
 
 .home-song__mini-card {
@@ -152,6 +166,7 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
+  flex: 1 1 auto;
   min-width: 0;
   justify-content: center;
 }
@@ -174,4 +189,29 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* ═══ Track & Playlist btn — etkileşim state'leri ═══
+   09-interaction-states §2.1/§3 (Card: hover glass · focus ring primary)
+   + §4 hover capability medyası (dokunmatikte hover yok) */
+@media (hover: hover) and (pointer: fine) {
+  .home-song__mini-card:hover {
+    background: var(--glass-3-bg);
+    border-color: var(--glass-3-border);
+  }
+}
+
+.home-song__mini-card:active {
+  background: var(--glass-4-bg);
+}
+
+.home-song__mini-card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Süre etiketi — PNG: kartın sağ-alt köşesi (1024/1920 mockup) */
+.home-song__mini-card .mini-card__subtitle {
+  align-self: flex-end;
+  margin-left: auto;
 }

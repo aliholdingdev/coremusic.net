@@ -163,6 +163,9 @@
   --glass-bg:       var(--glass-2-bg);
   --glass-border:   var(--glass-2-border);
 
+  /* Odak halkası (WCAG 2.2 AA — 09-interaction-states §2.1 focus: ring primary) */
+  --color-primary:  var(--cm-accent);
+
   /* ============================================================
      GRADIENT — Gradyan Sistemi
      ============================================================ */

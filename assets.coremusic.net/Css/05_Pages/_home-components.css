@@ -721,8 +721,8 @@
   inset: 0;
   z-index: 1050;
   background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(1.5px);
-  -webkit-backdrop-filter: blur(1.5px);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -748,7 +748,7 @@
   border: 1px solid rgba(255, 255, 255, 0.21);  /* Figma: opacity 0.21 */
   border-radius: 8px;  /* Figma: rounded-[8px] */
   box-shadow: var(--modal-shadow);
-  padding: 22px 32px 20px;
+  padding: 13px 0 35px;  /* Figma: wordmark y13, Başla bitişi y273 → alt boşluk 35 */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -768,12 +768,10 @@
   z-index: 0;
 }
 
-.welcome-modal__close,
 .welcome-modal__logo,
 .welcome-modal__logo-img,
 .welcome-modal__title,
-.welcome-modal__user,
-.welcome-modal__input,
+.welcome-modal__sub,
 .welcome-modal__desc,
 .welcome-modal__btn {
   position: relative;
@@ -783,78 +781,54 @@
 /* PNG: × close butonu YOK — kapanış Başla butonu / Escape ile.
    (eski .welcome-modal__close bloğu kaldırıldı — PNG'de görünmeyen öğe) */
 
+/* Figma: "coremusic-text 1" wordmark — 195×130 @ (203,13) (modal içi) */
 .welcome-modal__logo {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 4px;
+  width: 195px;
+  height: 130px;
+  margin: 0 auto;
 }
 
 .welcome-modal__logo-img {
-  max-height: 48px;
-  width: auto;
+  width: 195px;
+  height: 130px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35));
 }
 
-/* PNG: "Hoş geldin" — küçük, düz beyaz metin (script DEĞİL, logo ile çakışmaz) */
+/* PNG: "Hoş geldin" — Figma: fs14 Arima 400, lh 22.86, y93
+   (margin-top -50: wordmark 13+130 ile üst üste binen Figma düzeni) */
 .welcome-modal__title {
   font-family: var(--font-body, 'Arima', sans-serif);
   font-size: 14px;  /* Figma: 14px */
-  font-weight: 500;
+  font-weight: 400;  /* Figma: Arima 400 */
+  line-height: 22.86px;  /* Figma: lh 22.86 */
   color: #ffffff;
-  margin: 0 0 6px;
+  margin: -50px 0 0;
   text-shadow: var(--ts-md);
 }
 
-/* İsim girişi — PNG: büyük BEYAZ script değer; placeholder "İsminizi Girin Buraya"
-   (Bickham Script Two, italik, pembe — qr-welcome-popup §Key Measurements).
-   PNG'de alt çizgi görünmez → border transparent.
-   v2: font-size artırıldı (28→36px), okunabilirlik için gölge güçlendirildi */
-.welcome-modal__input {
-  width: 100%;
-  max-width: 380px;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid transparent;
-  font-family: 'Bickham Script Two', 'Bickham Script Pro', 'Georgia', cursive;
-  font-size: 36px;
-  font-style: italic;
+/* Figma: "Prenses Işıl Peri" — fs20 Plus Jakarta Sans 600, lh 25.2, y136 */
+.welcome-modal__sub {
+  font-family: 'Plus Jakarta Sans', 'DM Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 25.2px;
   color: #ffffff;
-  text-align: center;
-  padding: 8px 12px 10px;
-  margin: 0 0 18px;
-  outline: none;
-  text-shadow: var(--ts-md);
-  letter-spacing: 1px;
-}
-
-.welcome-modal__input::placeholder {
-  color: #ff4fd8;
-  opacity: 0.9;
-}
-
-.welcome-modal__input:focus-visible {
-  border-bottom-color: #ff4fd8;
-}
-
-.welcome-modal__user {
-  font-family: 'Bickham Script', 'Bickham Script Two', cursive;
-  font-size: 24px;
-  font-style: italic;
-  color: #ffffff;
-  margin: 0 0 10px;
+  margin: 20px 0 0;
   text-shadow: var(--ts-md);
 }
 
+/* Figma: desc — fs10 DM Sans 300, lh 13.02, y194, w365, 2 satır */
 .welcome-modal__desc {
   font-family: 'DM Sans', var(--font-body, 'Arima', sans-serif);
   font-size: 10px;  /* Figma: 10px */
   font-weight: 300;  /* Figma: DM Sans Light */
-  line-height: 1.5;
+  line-height: 13.02px;  /* Figma: lh 13.02 */
   color: rgba(255, 255, 255, 0.92);
   max-width: 365px;  /* Figma: w-[365px] */
-  margin: 0 0 18px;
+  margin: 33px auto 0;
   text-shadow: var(--ts-md);
 }
 
@@ -875,6 +849,7 @@
   font-weight: 500;  /* Figma: Avalon Medium */
   letter-spacing: 0.11px;  /* Figma: tracking 0.11px */
   text-shadow: 0px 0.1px 1px rgba(0, 0, 0, 0.8);  /* Figma */
+  margin: 28px 0 0;  /* Figma: desc bitişi y220 → Başla y248 */
   cursor: pointer;
   box-shadow: var(--shadow-brand);
   transition: background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
@@ -903,25 +878,34 @@
     padding: 16px 20px 14px;
     border-radius: 12px;
   }
+  .welcome-modal__logo {
+    width: auto;
+    height: auto;
+    margin-bottom: 4px;
+  }
   .welcome-modal__logo-img {
-    max-height: 36px;
+    width: auto;
+    height: 36px;
   }
   .welcome-modal__title {
     font-size: 18px;
+    margin-top: 0;
   }
-  .welcome-modal__user {
-    font-size: 20px;
-    margin-bottom: 8px;
+  .welcome-modal__sub {
+    font-size: 16px;
+    margin-top: 8px;
   }
   .welcome-modal__desc {
     font-size: 12px;
-    margin-bottom: 14px;
+    line-height: 1.4;
+    margin-top: 14px;
   }
   .welcome-modal__btn {
     min-width: 100px;
     min-height: 36px;
     padding: 5px 24px;
     font-size: 13px;
+    margin-top: 16px;
   }
 }
 
@@ -935,19 +919,14 @@
   .welcome-modal {
     max-width: 640px;
     min-height: 340px;
-    padding: 26px 36px 24px;
-  }
-  .welcome-modal__logo-img {
-    max-height: 52px;
+    padding: 13px 0 35px;
   }
   .welcome-modal__title {
     font-size: 22px;
   }
-  .welcome-modal__user {
-    font-size: 26px;
-  }
   .welcome-modal__desc {
     font-size: 14px;
+    line-height: 1.4;
   }
 }
 
@@ -967,24 +946,26 @@
     padding: 40px 60px 36px;
     border-radius: 24px;
   }
-  .welcome-modal__logo-img {
-    max-height: 80px;
-  }
   .welcome-modal__title {
     font-size: 36px;
+    line-height: 1.3;
+    margin-top: -60px;
   }
-  .welcome-modal__user {
+  .welcome-modal__sub {
     font-size: 42px;
+    line-height: 1.3;
   }
   .welcome-modal__desc {
     font-size: 20px;
-    margin-bottom: 28px;
+    line-height: 1.4;
+    margin-top: 28px;
   }
   .welcome-modal__btn {
     min-width: 200px;
     min-height: 60px;
     padding: 10px 48px;
     font-size: 22px;
+    margin-top: 28px;
   }
 }
 

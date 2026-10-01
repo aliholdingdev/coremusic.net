@@ -946,3 +946,6 @@ ADR-077 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
 - 2026-10-01 | PLAN-CREATION | subagent | .ai/PLAN.md olusturuldu (260 satir, 19 adimli sirali yurutme plani; kaynak: TODO.md acik maddeler P0 5 / P1 7 / P2 7 = 19, satir araliklari 33-37 / 41-47 / 51-57; sablon: .ai/.templates/documentation/docs-md-template.md; oturum plani 11 session, CHECKLIST A3/C3 bagli). Yalniz PLAN.md yazildi; TODO/CHECKLIST/frozen ADR dokunulmadi, kod yok. verify: BOM false, mojibake 0. UNKNOWN: session-save.mjs + vault-post-update.mjs diskte YOK -> sync adimlari calistirilamadi. | status=completed
 - 2026-10-01 | ADR-078 yazıldı (debate PENDING) | .ai/.decisions/accepted/ADR-078-cms-database-schema.md (80923 bayt, 329 satır; slug index.md:102 hizalı)
 ADR-078 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+- 2026-10-01 | ADR-079 yazildi (debate PENDING) | .ai/.decisions/accepted/ADR-079-i18n-database-schema.md (83227 bayt, 345 satir; slug index.md:103 hizali)
+- 2026-10-01 | ADR-079 yazıldı (debate PENDING) | (düzeltme: önceki satırda ASCII yazım hatası - yazildi -> yazıldı)
+ADR-079 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart

@@ -582,8 +582,10 @@ html:not(.sidebar-collapsed) .home-layout {
 .home-cards-wrapper--wide {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 42px;                  /* PNG: kart1 alt y412 → başlık2 glif y458 (Figma 2850:21627 y455) */
   min-height: 0;
+  padding-top: 54px;          /* PNG: başlık1 glif y341 · kart1 y369 (Figma 2856:22290 y369) */
+  padding-inline: 25px 67px;  /* sayfa 28 → x53 sol (Figma başlık/kart x53) */
 }
 
 /* ============================================================
