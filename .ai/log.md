@@ -950,3 +950,12 @@ ADR-078 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
 - 2026-10-01 | ADR-079 yazıldı (debate PENDING) | (düzeltme: önceki satırda ASCII yazım hatası - yazildi -> yazıldı)
 ADR-079 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
 2026-10-01 INFO — PLAN.md §6.3/9 kontrast istisnası: PNG korundu (3.14/2.76), kullanıcı kararı
+- 2026-10-01 | ADR-082 yazıldı (debate PENDING) | .ai/.decisions/accepted/ADR-082-dev-environment.md (62235 bayt, 305 satır; slug index.md'ye EKLENMEDİ → §5.1/9; düzeltme: .gitleaks.toml VAR, "YOK" iddiaları disk kanıtıyla 14 noktada düzeltildi)
+ADR-082 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+- 2026-10-01 | R-001 yazildi (debate PENDING) | .ai/.decisions/rejected/R-001-redux-style-state-management.md (29999 bayt, 194 satir; slug index.md:126 ile birebir; dead-link bayraki dokunulmadi -> §5.1/§7.1; rejected/index.md VAR ama tablosu bos -> §7.1)
+R-001 debate 3/20 kaydedildi (19/1/0 RED DOĞRULANDI) + Tech Lead ✅ + 3 şart (ADR-045/046 slug düzeltmesi · bundle çift kaynak · Signals yeniden değerlendirme kapısı) — R-001-redux-style-state-management.md §5.3/§6/§7
+- 2026-10-01 | R-002 yazıldı (debate PENDING) | .ai/.decisions/rejected/R-002-mongodb-document-store.md (33913 bayt, 213 satır; slug index.md:127 ile birebir; dead-link bayrağı dokunulmadı -> §5.1/§7.1; rejected/index.md VAR ama tablosu boş -> §7.1/2)
+R-002 debate 3/20 kaydedildi (19/1/0 RED DOĞRULANDI) + Tech Lead ✅ + 3 şart (bağımsız kaynak/⚠️ · argüman sabitleme · yeniden değerlendirme kapısı) - R-002-mongodb-document-store.md §5.3/§6/§7
+
+2026-10-02 | R-003 yazıldı (debate PENDING) — .ai/.decisions/rejected/R-003-jquery-ui-framework.md (Vault Steward, salt-okunur seri)
+R-003 debate 3/20 kaydedildi (19/1/0 RED DOĞRULANDI) + Tech Lead ✅ + 3 şart
