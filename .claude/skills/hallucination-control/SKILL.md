@@ -567,7 +567,7 @@ Every critical output that passes hallucination control MUST end with:
 
 Every task must complete ALL items before delivery:
 
-- [ ] **9-Step Boot Protocol** completed (CLAUDE.md, AGENTS.md, WORKFLOW.md, .ai/index.md, .ai/keys.md, .ai/AGENTS.md, .ai/brain.md, .ai/MEMORY.md, .ai/log.md)
+- [ ] Vault dosyalarına yalnızca ihtiyaç anında @ ile başvur.
 - [ ] Relevant `.ai/` vault section read (domain-specific)
 - [ ] Required files read
 - [ ] **Validator Agents** run in parallel (Hardware, Security, DB, API)
@@ -629,3 +629,11 @@ SKILL.md (this file)
 *Authority: Vault Steward / AI Orchestrator*
 *Mandatory for all agents — No exceptions — Zero tolerance for hallucinations*
 *Research: MDPI 2026 Survey, OpenAI 2025, UniCR Framework, EY Guardrails*
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
+- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
+- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
+- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
+- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
+- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.

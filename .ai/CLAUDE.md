@@ -2,10 +2,10 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.3.6
+version: 27.3.7
 status: active
 authority: SSOT
-updated: 2026-09-29
+updated: 2026-10-01
 ---
 
 # CoreMusic — AI Constitution & Master Vault Mandate
@@ -821,6 +821,28 @@ Bu dosyada Faz 1 revizyonunda yapılan düzeltmeler:
 [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[MEMORY.md]] · [[index.md]] · [[keys.md]] · [[log.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
 ---
+
+### MAX THINKING — Anti-Overthink (7 madde — 2026-10-01)
+
+1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
+2. Uzun analiz paragrafı, promptu geri anlatma, plan kompozisyonu YASAK. Nokta atışı cevap → hemen uygula.
+3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER. Aynı veriyi "emin olmak" için ikinci kez analiz etme.
+4. Session başlangıcı = anında boot (okuma listesi) → sonra işlem. Keşif önsözü yok.
+5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+6. Bilinmeyen = UNKNOWN; tahmin yok. Gereksiz dosya/klasör/skill/agent/context/plan üretimi yasak.
+7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
+
+*(Çelişkide bu bütçe kazanır — ayrıntı: [[ULTRA-THINKING.md]] § MAX THINKING · kök metin: [[AGENTS.md]] § MAX THINKING)*
+
+## Master Engineering System (Pointer — 2026-10-01)
+
+Bu dosya ikinci kaynak değildir; gömülü Master Engineering System bağlamı kök boot dosyasındadır:
+
+| İçerik | Konum |
+|:---|:---|
+| 16 adımlık yaşam döngüsü · 10 yasak · Zero-Hallucination (§7 Guardrail #3) · final rule | [[../CLAUDE.md]] § Master Engineering System |
+| Diyagramlar D1/D2/D3 · Prompt Maker akışı · boot akışı (START → END) | [[WORKFLOW.md]] §8.9-§8.10 |
+| Anti-overthink bütçesi (MAX THINKING — çelişkide bu bütçe kazanır) | [[ULTRA-THINKING.md]] § MAX THINKING |
 
 ## References
 

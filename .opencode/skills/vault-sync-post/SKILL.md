@@ -9,6 +9,16 @@ tags: [vault, session, sync, automation, post-operation]
 
 # Vault Sync Post — Islem Sonrasi Otomatik Guncelleme
 
+## MAX THINKING — Anti-Overthink (Kısa — 2026-10-01)
+
+1. Reasoning = LOW; uzun analiz paragrafı, plan kompozisyonu, promptu geri anlatma YASAK.
+2. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi ikinci kez analiz etme.
+3. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+4. Bilinmeyen = UNKNOWN; gereksiz dosya/skill/agent/context/plan üretme.
+5. Görev → aksiyon → sonuç (nokta atışı); aynı hatayı tekrarlama. Tam metin (7 madde): `@.ai/AGENTS.md` § MAX THINKING.
+
+
+
 ## Amac
 
 Her islem tamamlandiktan sonra tum vault dosyalarini otomatik olarak gunceller. Session kaydini yapar, root .md dosyalarini tazeler, .claude/ ve .opencode/ dizinlerini senkronize eder.
@@ -98,3 +108,11 @@ Sonuclari kontrol et:
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-09-09
 **Mode:** Red Team · Human Mode · Truth Mode
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
+- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
+- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
+- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
+- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
+- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.

@@ -2,10 +2,10 @@
 title: "CoreMusic — Workflow Pointer + Mimari İş Akışı Özeti"
 type: workflow-pointer
 category: workflow
-version: 2.0.1
+version: 2.0.2
 status: active
 authority: "Pointer (ADR-042) — Bağlayıcı SSOT: .ai/WORKFLOW.md"
-updated: 2026-09-24
+updated: 2026-10-01
 ---
 
 # ⚠️ CoreMusic Workflow Configuration (Vault SSOT Pointer)
@@ -496,6 +496,53 @@ Güçlendirme seti: 20 dosya (3 kök + .ai/ kök 17 md — sınıf tanımı CHEC
 | 2026-09-24 | 2.0.0 | §1-§14 bağlayıcı özet eklendi (K0-K20, A0-A5, adlandırma, sayım, tartışma, iki ADR serisi, yazım+senkron); pointer uyarısı + SSOT linkleri korundu | Vault iş akışı genişletme görevi |
 
 ---
+
+## §15 Master Engineering System (Pointer)
+
+Bağlayıcı özet — tam metin SSOT'tadır (çelişkide SSOT kazanır):
+
+| İçerik | Konum |
+|:---|:---|
+| 16 adımlık yaşam döngüsü · 10 yasak · Zero-Hallucination · final rule | [[CLAUDE.md]] § Master Engineering System |
+| Diyagramlar D1/D2/D3 · Prompt Maker akışı · boot akışı (START → END) | [[.ai/WORKFLOW.md]] §8.9-§8.10 |
+| Anti-overthink bütçesi (MAX THINKING) | [[.ai/ULTRA-THINKING.md]] § MAX THINKING |
+| Agent registry (SSOT) | [[.ai/AGENTS.md]] |
+
+---
+
+## §16 Boot Okuma Sırası & Prompt Maker Akışı (2026-10-01)
+
+### §16.1 Boot Okuma Sırası (Claude Code mantığı)
+
+```text
+1) root CLAUDE.md + AGENTS.md + README.md + WORKFLOW.md OKU (ve .ai karşılıkları)
+2) .ai/.rules/** OKU
+3) ilgili .ai/** & architecture/*** OKU
+4) mevcut dosyayı OKU
+5) kodu YAZ
+6) .ai/.rules/** ÇALIŞTIR
+   · HATA   → error-recovery.md → dosyayı SİL + Yeniden YAZ → 6'ya dön
+   · TEMİZ  → UI değişikliği var mı?
+        · EVET  → browser test → COMMIT
+        · HAYIR → COMMIT
+```
+
+Ayrıntı (disk notları dahil): [[.ai/WORKFLOW.md]] §8.10 · bağlayıcı özet: bu dosya §15.
+
+### §16.2 Prompt Maker Akışı
+
+```text
+Prompt → [1] Exploration Gate (proje yapısını keşfet)
+       → [2] Exploration Context sakla (prompt-maker, intent-router, instruction)
+       → [3] Prompt Maker: projeye göre [n] soru (generic 8 değil)
+       → [4] Intent Router: tech stack confidence boost + vault filtreleme
+       → [5] Instruction: yalnız ilgili vault dosyaları (50K token bütçe)
+       → [6] System Prompt: exploration context + routing guidance
+```
+
+**Prompt Maker çıktı şablonu (sırasıyla):** mevcut prompt /eli10 paragrafa dönüşümü → istenen şey → referanslar (`.ai` vault + proje kodları) → kullanıcı kararları/sorular/cevaplar → orijinal prompt → görevlere bölme → `✅ Prompt Cevaplarla İşlendi | Dil: Türkçe | Görev Sayısı: [n]`.
+
+**Kural:** OpenCode'da **hard-coded model adı yazılmaz** — sağlayıcı bağımsız çalışır (ücretsiz modellerde de geçerli). Çıktı onaylanır → sonra session başlar.
 
 *Bu dosya sadece yönlendirme amaçlıdır. İş akışı kuralları doğrudan `.ai/WORKFLOW.md` üzerinden düzenlenmelidir.*
 

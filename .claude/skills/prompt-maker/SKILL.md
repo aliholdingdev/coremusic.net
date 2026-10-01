@@ -186,11 +186,7 @@ When elements conflict, resolve in this order:
 
 ### Step 1: Load Context
 
-```
-READ: .ai/CLAUDE.md, .ai/AGENTS.md, .ai/WORKFLOW.md
-READ: .ai/index.md, .ai/keys.md, .ai/brain.md
-PURPOSE: Understand project constraints, architecture, rules
-```
+Vault dosyalarına yalnızca ihtiyaç anında @ ile başvur.
 
 ### Step 2: Research
 
@@ -598,7 +594,7 @@ Security threshold: 90/100 (higher bar)
 |---------|-------|-----|
 | "Prompt produced but low quality" | Step 8 (Quality Control) skipped | Re-run all 8 categories |
 | "Generated without research" | Step 2 skipped | Stop, complete research first |
-| "Vault files not read" | Step 1 skipped | Read CLAUDE.md and AGENTS.md |
+| "Vault files not read" | Step 1 skipped | Vault dosyalarına yalnızca ihtiyaç anında @ ile başvur. |
 | "Hallucination occurred" | Section 6 not applied | Score all claims, reject low scores |
 | "Prompt too short" | Min 5000 chars not enforced | Expand each section |
 | "Security vulnerability" | Section 7 skipped | Run injection defense check |
@@ -669,3 +665,42 @@ SKILL.md (this file)
 *Framework: PICCO (Persona, Instructions, Context, Constraints, Output)*
 *Authority: Vault Steward / AI Orchestrator*
 *Mandatory for all prompt generation — No exceptions*
+
+## PROMPT-MAKER ZORUNLU AKIŞ (Kullanıcı Spesifikasyonu — 2026-10-01)
+
+### A. Raw Prompt Geldiğinde
+1. Raw prompt gelir → **HEMEN işleme alma**; önce questions modu çalışır.
+2. Sorular **generic değil, proje bağlamına göre** üretilir: P0 (engelleyici), P1 (kalite belirleyici), P2 (tercih).
+3. Prompt-maker OpenCode V2'de o an hangi sağlayıcı/model seçiliyse onu kullanır — **hard-coded model/sağlayıcı YASAK** (free modellerde de çalışır).
+
+### B. Çıktı Şablonu (sıra zorunlu)
+1. `/eli10` uzun paragraf — mevcut promptun derin analizi, yapay zekaya adım adım anlatır gibi
+2. İstenen şey nedir
+3. Vault referansları (`.ai/`)
+4. Proje kod referansları
+5. Kullanıcı kararları + sorulan sorular + cevapları
+6. Orijinal promptun aynısı (değiştirilmeden)
+7. Görevlere bölme (task breakdown)
+8. Kapanış: `✅ Prompt Cevaplarla İşlendi | Dil: Türkçe | Görev Sayısı: [n] | Cevap: [n]`
+
+### C. Kapılar
+- Çıktı **onaylanır → SONRA** session başlatılır. Onaysız session start YASAK.
+
+### D. Akış Zinciri
+```text
+Kullanıcı Promptu
+  → [1] Exploration Gate
+  → [2] Exploration Context
+  → [3] Prompt Maker (sorular: P0/P1/P2)
+  → [4] Intent Router (tech stack confidence + vault filtreleme)
+  → [5] Instruction (yalnız ilgili vault dosyaları, 50K budget)
+  → [6] System Prompt
+```
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
+- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
+- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
+- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
+- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
+- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.

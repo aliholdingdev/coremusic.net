@@ -2,10 +2,10 @@
 title: "CoreMusic — Agent Registry & Coordination Protocol"
 type: guide
 category: agent-registry
-version: 22.0.6
+version: 22.0.7
 status: active
 authority: SSOT
-updated: 2026-09-29
+updated: 2026-10-01
 ---
 
 # CoreMusic — Agent Registry & Coordination Protocol
@@ -15,6 +15,36 @@ updated: 2026-09-29
 **Skills:** `.opencode/skills/` (8 aktif skill — arşiv kaldırıldı, 20 benzersiz dosya _archive-keep/ — Guardrail #16 zorunlu)
 
 ---
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+
+1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
+2. Uzun analiz paragrafı, promptu geri anlatma, plan kompozisyonu YASAK. Nokta atışı cevap → hemen uygula.
+3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER. Aynı veriyi "emin olmak" için ikinci kez analiz etme.
+4. Session başlangıcı = anında boot (okuma listesi) → sonra işlem. Keşif önsözü yok.
+5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+6. Bilinmeyen = UNKNOWN; tahmin yok. Gereksiz dosya/klasör/skill/agent/context/plan üretimi yasak.
+7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
+
+## Kısayol Akış Diyagramı & Yaşam Döngüsü (2026-10-01)
+
+**D1 — Knowledge Flow:**
+
+```text
+USER → KNOWLEDGE MODEL → ASKING QUESTIONS → .AI SECOND BRAIN → ASKING QUESTIONS
+→ AGENT SYSTEM INSTRUCTIONS → DISCOVERY | ANALYSIS | VALIDATION
+  (FILE INDEX | CODE INDEX | EVIDENCE)
+→ REQUIREMENT ENGINE → ASKING QUESTIONS → ARCHITECTURE → ASKING QUESTIONS
+→ APPROVAL → IMPLEMENTATION
+```
+
+Her "ASKING QUESTIONS" kapısı onaysız sonraki aşamaya geçmez (tam metin: kök `AGENTS.md` §1 · [[WORKFLOW.md]] §8.9 D1).
+
+**Yaşam döngüsü (15 aşama):** `Understand → Discover → Research → Verify → Resolve Context → Analyze → Architect → Plan → Implement → Track → Test → Review → Secure → Verify → Document` — analiz tamamlanmadan implementation başlatılmaz; kod öncesi 16 maddelik repo incelemesi (dosya yapısı, mimari, dependency graph, pattern'ler, build/test/config/logging/security/database/API/frontend yüzeyi, conventions, duplicate implementation, teknik borç).
+
+**Zero-Hallucination:** repository, URL, API, class, method, dependency, version, config, skill, agent, dosya, dizin, mimari kural, benchmark, güvenlik iddiası asla uydurulmaz → doğrulanamayan = `⚠️ VERIFICATION REQUIRED` · bilinmeyen = `UNKNOWN`.
+
+**Final rule:** `Understand → Research → Resolve → Decide → Implement → Track → Verify` — riskli işlemede dur · yanlış dosyaya gitme · gereksiz dosya/skill/agent/context/plan üretme · aynı hatayı tekrarlama · kullanıcı onayı olmadan büyük source-code değişikliği yok.
 
 ## Purpose
 

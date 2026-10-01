@@ -3,8 +3,8 @@ title: "CoreMusic — Master Orchestrator Agent Profile"
 type: profile
 category: agent-registry
 date: 2026-08-08
-updated: 2026-09-29
-version: 2.0.2
+updated: 2026-10-01
+version: 2.0.3
 status: active
 authority: reference
 ---
@@ -14,6 +14,16 @@ authority: reference
 **Zorunlu Bağlantılar:** [[../AGENTS.md]] · [[../CLAUDE.md]] · [[../WORKFLOW.md]] · [[../brain.md]] · [[../MEMORY.md]] · [[../engine.md]]
 
 ---
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+
+1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
+2. Uzun analiz paragrafı, promptu geri anlatma, plan kompozisyonu YASAK. Nokta atışı cevap → hemen uygula.
+3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER. Aynı veriyi "emin olmak" için ikinci kez analiz etme.
+4. Session başlangıcı = anında boot (okuma listesi) → sonra işlem. Keşif önsözü yok.
+5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+6. Bilinmeyen = UNKNOWN; tahmin yok. Gereksiz dosya/klasör/skill/agent/context/plan üretimi yasak.
+7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
 
 ## §1 Kimlik
 

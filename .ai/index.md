@@ -738,6 +738,52 @@ Toplam 80 ADR (Frozen: 37, Active: 31, Rejected: 12). Frozen: 001-037 (değişti
 
 ---
 
+### §24 Referans Linkleri (Dış Kaynak — 2026-10-01)
+
+**awesome-opencode**
+- https://github.com/NacioFelix/awesome-opencode
+- https://github.com/weisser-dev/awesome-opencode
+- https://github.com/jamait/awesome-opencode-skills
+
+**agent skills**
+- https://github.com/agentskills/agentskills
+- https://github.com/j4flmao/agent-skills
+- https://github.com/JazzaAI/agent-skills
+- https://github.com/iannil/skills
+- https://github.com/luckys/agent-skills
+- https://github.com/tars-agentic/agent-skills
+
+**dotnet**
+- https://github.com/dotnet/skills
+- https://github.com/DevExpress/agent-skills
+
+**agent engineering / practices**
+- https://github.com/DenisSergeevitch/agents-best-practices
+- https://github.com/obra/superpowers
+
+**frontend**
+- https://github.com/vercel-labs/agent-skills
+- https://github.com/lumpinif/frontend-ui-engineering
+- https://github.com/hueyexe/frontend-agent-skills
+- https://github.com/Junaid-PK/frontend-design-skill
+
+**claude code**
+- https://github.com/shanraisshan/claude-code-best-practice
+- https://github.com/davila7/claude-code-templates
+- https://github.com/ykdojo/claude-code-tips
+- https://github.com/subinium/awesome-claude-code
+- https://github.com/dazuiba/awesome-claude-code-1
+- https://github.com/jqueryscript/awesome-claude-code
+- https://github.com/itgoyo/awesome-claude-code
+
+**mcp / agent platform**
+- https://github.com/mctrinh/awesome-mcp-servers
+- https://github.com/modelcontextprotocol/servers
+- https://github.com/vakra-dev/awesome-ai-agents
+- https://github.com/hammond01/CleanArchitecture
+
+*Not:* harici kaynaklar vault'un (`.ai/`) altındadır; kural/çelişki durumunda SSOT kazanır. Kopya liste: kök `README.md` § "AI Agent & Skill Referansları".
+
 ### §18 Metadata
 
 - **Toplam dosya:** 720 (.md — `.ai` recursive, 2026-09-30 Get-ChildItem sayımı; önceki kayıt 587 @ 2026-09-24 → **fark +133**, vault/envanter genişlemesi) · *tarihsel: 518 (2026-09-23 sahip doğrulaması), 787 (eski Faz 0 — güncel değil)*

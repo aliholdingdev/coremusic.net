@@ -3,8 +3,8 @@ title: QA Engineer — Test Mühendisi Agent Profili
 type: agent-profile
 category: agents
 date: 2026-08-08
-updated: 2026-09-29
-version: 2.1.3
+updated: 2026-10-01
+version: 2.1.4
 status: active
 authority: reference
 ---
@@ -14,6 +14,11 @@ authority: reference
 **Zorunlu Bağlantılar:** [[../AGENTS.md]] · [[../ROLE.md]] · [[../.templates/agents/agents-template.md]]
 
 ---
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+
+1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse. 3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme. 5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+> Tam metin (7 madde): [[master-orchestrator]] · [[../ULTRA-THINKING.md]]
 
 ## §1 Kimlik
 

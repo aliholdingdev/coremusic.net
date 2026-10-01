@@ -933,3 +933,13 @@ ADR-073 yazıldı (debate PENDING)
 ADR-073 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
 ADR-074 yazildi (debate PENDING)
 ADR-074 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+ADR-075 yazıldı (debate PENDING)
+ADR-075 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+2026-10-01 boot revizyonu: MASTER ENGINEERING SYSTEM + MAX THINKING gomuldu - 17 dosya (root CLAUDE.md, README.md, WORKFLOW.md, YENI AGENTS.md, .opencode/CLAUDE.md, .ai/CLAUDE.md, .ai/AGENTS.md, .ai/WORKFLOW.md, .ai/engine.md, .ai/ULTRA-THINKING.md, .ai/.agents/AGENTS.md + 11 profil) - yeni bolimler: CLAUDE 'Master Engineering System', .ai/WORKFLOW 8.9+8.10, engine 14, root WORKFLOW 15, README 'AI Agent & Skill Referanslari', MAX THINKING 16 dosyada - frontmatter version patch + updated 2026-10-01 - VERIFICATION REQUIRED: .ai/.rules/error-recovery.md diskte YOK - verify: 0 mojibake
+2026-10-01 | ROOT-AGENTS-CREATION | subagent | AGENTS.md olusturuldu (149 satir, compressed master rules: flow + otonom dongu + zero-hallucination + anti-overthink + swarm + execution loop + prompt-maker + on-demand @ referanslari); CLAUDE.md 9 satira indirildi (pointer -> AGENTS.md, vault on-demand); 4 SKILL.md'de zorunlu vault okuma tail'i tek satirla degistirildi (.claude/skills/prompt-maker, hallucination-control, red-team-truth-mode, agent-orchestrator); 20 SKILL.md frontmatter tarandi - 19 gecerli, .claude/skills/composer-sync eksik name/description (ADR-042: dokunulmaz, SKIP); session-save.mjs + vault-post-update.mjs diskte YOK -> sync adimlari calistirilamadi (VERIFICATION REQUIRED). | status=completed
+
+- 2026-10-01 | SKILL REVIZYON (Master Engineering + MAX THINKING) | 20 SKILL.md'ye alt bolum "## MAX THINKING — Anti-Overthink (2026-10-01)" eklendi (.claude 11: agent-orchestrator, composer-sync, database-normalize-maker, hallucination-control, human-mode, prompt-maker, red-team-truth-mode, skill-maker, ui-analyzer, ui-code-generator, vault-sync-post; .opencode 9: agent-debate, composer-sync, context-report, db-engine, orchestration, truth-engine, ui-workbench, vault-sync-post, verify-loop). Ozel is: prompt-maker → zorunlu akis (questions modu P0/P1/P2, dinamik model, cikti sablonu 8 madde, onay→session, akis zinciri [1]-[6]); orchestration + agent-orchestrator → SWARM ASCII diyagrami (VERIFY fail → ORCHESTRATOR rollup, PLANNED etiketi). Yazi: vault-utf8-writer.mjs append; verify 20/20 OK; mevcut icerik silinmedi, _archive-keep dokunulmadi. UNKNOWN: session-save.mjs + vault-post-update.mjs scriptleri diskte YOK.
+ADR-076 yazıldı (debate PENDING)
+ADR-076 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+ADR-077 yazıldı (debate PENDING)
+ADR-077 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart

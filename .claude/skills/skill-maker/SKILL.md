@@ -154,3 +154,11 @@ AI, yeni skill'i yazdıktan sonra şu check-list'i çalıştırır ve kullanıc�
 3. `sql-optimizer` klasörünü ve `SKILL.md`'yi oluşturur.
 4. "Bu skill, tüm sorgularda SELECT * kullanımını reddeder ve EXPLAIN ile analiz yapar" kuralını ekler.
 5. Kullanıcıya "Skill kullanıma hazır, otonom orchestration ayarlandı." raporu verir.
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
+- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
+- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
+- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
+- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
+- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.

@@ -5,6 +5,16 @@ description: Cok-ajan tartisma protokolu — /debate komutunu destekler. Triger 
 
 # agent-debate — Cok-Ajan Tartisma Protokolu
 
+## MAX THINKING — Anti-Overthink (Kısa — 2026-10-01)
+
+1. Reasoning = LOW; uzun analiz paragrafı, plan kompozisyonu, promptu geri anlatma YASAK.
+2. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi ikinci kez analiz etme.
+3. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+4. Bilinmeyen = UNKNOWN; gereksiz dosya/skill/agent/context/plan üretme.
+5. Görev → aksiyon → sonuç (nokta atışı); aynı hatayı tekrarlama. Tam metin (7 madde): `@.ai/AGENTS.md` § MAX THINKING.
+
+
+
 ## Amac
 Karar oncesi karsi bakis acisi uretme. 5-10 tur surer. Hedef: kör noktayi, riski ve alternatifi aciga cikarmak. Kod yazma, sadece tartisma yonet.
 
@@ -55,3 +65,11 @@ Karsi roller ASLA ayni bakis acisini tasimaz. Gerekirse 3. rol (reviewer) gozlem
 `.ai/` altina yazim gerekiyorsa SADECE:
 `node .ai/scripts/vault-utf8-writer.mjs --text "..." — mod: append`
 PowerShell ile `.ai/` dosya yazmak YASAK (Windows-1254/BOM/UTF-16 bozulmasi yapar).
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
+- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
+- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
+- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
+- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
+- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.

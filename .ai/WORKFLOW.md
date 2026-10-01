@@ -2,10 +2,10 @@
 title: "CoreMusic — Vault Workflows & Engineering Processes"
 type: guide
 category: workflow
-version: 22.1.3
+version: 22.1.4
 status: active
 authority: SSOT
-updated: 2026-09-29
+updated: 2026-10-01
 ---
 
 # CoreMusic — Vault Workflows & Engineering Processes
@@ -703,6 +703,50 @@ Session yaşam döngüsünün **tek işaretlenme yüzeyi** [[CHECKLIST.md]]; aç
 > Detaylı YAML format standartları için bkz: [[reference/yaml-formatter]]
 
 ---
+
+#### §8.9 Master Engineering System — Diyagramlar & Prompt Maker (2026-10-01)
+
+**D1 — Knowledge Flow:**
+
+```text
+USER → KNOWLEDGE MODEL → ASKING QUESTIONS → .AI SECOND BRAIN → ASKING QUESTIONS → AGENT SYSTEM INSTRUCTIONS → DISCOVERY | ANALYSIS | VALIDATION → FILE INDEX | CODE INDEX | EVIDENCE → REQUIREMENT ENGINE → ASKING QUESTIONS → ARCHITECTURE → ASKING QUESTIONS → APPROVAL → IMPLEMENTATION
+```
+
+**D2 — Swarm:**
+
+```text
+ORCHESTRATOR → ARCHITECT | DEVELOPER | RESEARCHER → REVIEWER → SECURITY → TEST → VERIFY
+```
+
+**D3 — Target System:**
+
+```text
+OPENCODE → ORCHESTRATOR → RESEARCH | REQUIREMENTS | CONTEXT → ARCHITECTURE & .AI → PLANNER → TASK DECOMPOSER → SPECIALIZED AGENTS (.NET/Backend/Frontend/UI-UX/Security) → SKILLS → MCP → TOOLS → IMPLEMENTATION → CODE TRACKER → BUILD/TEST/REVIEW → VERIFICATION → .AI BRAIN
+```
+
+**Prompt Maker Akışı:** Kullanıcı Promptu → [1] Exploration Gate (proje yapısını keşfet) → [2] Exploration Context (sakla) → [3] Prompt Maker (proje bağlamına göre n soru — generic değil) → [4] Intent Router (tech stack confidence boost + vault filtreleme) → [5] Instruction (SADECE ilgili vault dosyaları, 50K token budget) → [6] System Prompt (exploration context + routing guidance).
+
+**Prompt Maker Çıktı Şablonu (2026-10-01 — sırasıyla):** mevcut prompt /eli10 paragrafa dönüşümü → istenen şey → referanslar (`.ai` vault + proje kodları) → kullanıcı kararları/sorular/cevaplar → orijinal prompt → görevlere bölme (task breakdown) → `✅ Prompt Cevaplarla İşlendi | Dil: Türkçe | Görev Sayısı: [n]`.
+
+**Kurallar:** (1) soru sayısı generic 8 değil, projeye göre [n] · (2) Instruction yalnız ilgili vault dosyalarını yükler (50K token bütçe) · (3) OpenCode'da **hard-coded model adı yazılmaz** (sağlayıcı bağımsız, ücretsiz modellerde de çalışır) · (4) çıktı onaylanır → **sonra** session başlar.
+
+#### §8.10 Boot Akışı (START → END — 2026-10-01)
+
+```text
+START
+ → 1. root CLAUDE/AGENTS/README/WORKFLOW OKU
+ → 2. .ai/.rules/** OKU
+ → 3. ilgili .ai/** & architecture/** OKU
+ → 4. mevcut dosyayı OKU
+ → 5. kodu YAZ
+ → 6. .ai/.rules/** ÇALIŞTIR
+     · HATA  → 7. error-recovery.md → 8. dosyayı SİL + yeniden YAZ → 6'ya dön
+     · TEMİZ → 9. UI değişikliği var mı?
+          · EVET  → 10. ilgili kural → 11. browser test (HATA → 7) → 12. COMMIT
+          · HAYIR → 12. COMMIT → END
+```
+
+⚠️ **Disk doğrulaması (2026-10-01):** `.ai/.rules/` dizini **vardır** (içerik: `senior-mode.md`); `error-recovery.md` **diskte YOK** → adımlar 7-8 için **⚠️ VERIFICATION REQUIRED** (uydurma yol yazılmadı; kural dosyası eklenmeden bu adım çalıştırılamaz).
 
 ### §13 Forward-Looking Roadmap
 

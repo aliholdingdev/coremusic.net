@@ -2,10 +2,10 @@
 title: "CoreMusic - Orchestration Engine"
 type: system
 category: orchestration
-version: 21.0.3
+version: 21.0.4
 status: active
 authority: "Orchestration Index — SSOT: .ai/AGENTS.md (v22.0.4)"
-updated: 2026-09-29
+updated: 2026-10-01
 ---
 
 # CoreMusic — Orchestration Engine
@@ -17,6 +17,18 @@ updated: 2026-09-29
 **Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
 
 ---
+
+## 0. MAX THINKING — Anti-Overthink (7 madde — 2026-10-01)
+
+1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
+2. Uzun analiz paragrafı, promptu geri anlatma, plan kompozisyonu YASAK. Nokta atışı cevap → hemen uygula.
+3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER. Aynı veriyi "emin olmak" için ikinci kez analiz etme.
+4. Session başlangıcı = anında boot (okuma listesi) → sonra işlem. Keşif önsözü yok.
+5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+6. Bilinmeyen = UNKNOWN; tahmin yok. Gereksiz dosya/klasör/skill/agent/context/plan üretimi yasak.
+7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
+
+*İlgili: [[AGENTS.md]] § MAX THINKING · [[ULTRA-THINKING.md]] § MAX THINKING · §14 Master Engineering System (Pointer).*
 
 ## 1. Amaç
 
@@ -650,6 +662,18 @@ Sonraki faz:      Faz 2 (architecture/) — önkoşul: Faz 1 kapanış raporu
 | Kapsam etiketi | Teknoloji yığını: dinamik (Node.js · C++ · C# · PHP + proje gereksinimli diğerleri) — [[ROLE.md]] §11 eşlemesi |
 | Bilinen açık | SessionInitializer duplicate (ADR bekliyor), vault-integrity-check.ps1 kayıp, 3 tanımsız sabit (§8.1 #7) |
 | Audit | Bu revizyon log.md'ye Faz 1 kaydıyla append edildi |
+
+---
+
+## 14. Master Engineering System (Pointer — 2026-10-01)
+
+SSOT dedup — bu dosya içeriği tekrar yazmaz:
+
+| İçerik | Konum |
+|:---|:---|
+| 16 adımlık yaşam döngüsü · 10 yasak · Zero-Hallucination · final rule | [[../CLAUDE.md]] § Master Engineering System |
+| Diyagramlar D1/D2/D3 · Prompt Maker akışı · boot akışı (START → END) | [[WORKFLOW.md]] §8.9-§8.10 |
+| Anti-overthink bütçesi (MAX THINKING) | [[ULTRA-THINKING.md]] § MAX THINKING |
 
 ---
 

@@ -5,6 +5,16 @@ description: Proje baglam raporu uretir — /context komutunu destekler. Triger 
 
 # context-report — Proje Baglam Raporu
 
+## MAX THINKING — Anti-Overthink (Kısa — 2026-10-01)
+
+1. Reasoning = LOW; uzun analiz paragrafı, plan kompozisyonu, promptu geri anlatma YASAK.
+2. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi ikinci kez analiz etme.
+3. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+4. Bilinmeyen = UNKNOWN; gereksiz dosya/skill/agent/context/plan üretme.
+5. Görev → aksiyon → sonuç (nokta atışı); aynı hatayı tekrarlama. Tam metin (7 madde): `@.ai/AGENTS.md` § MAX THINKING.
+
+
+
 ## Kurallar
 - **Salt-okunur:** kod, config veya vault dosyasi YAZMAZ.
 - **Zero-hallucination:** okunmayan icerik uydurulmaz, "OKUNAMADI: <yol>" yazilir.
@@ -51,3 +61,11 @@ Eger bir dosya OKUNAMAZSA: bolumde `OKUNAMADI: <yol>` yaz, diger dosyalara DEVAM
 ## Ic Kullanim
 - Ayni bilgi ikinci kez istenirse kisa surum (max 60 satir) uret, bolum sirasini koru.
 - Raporu dosyaya yazmak istenmedikce sadece cevap icinde ver.
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
+- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
+- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
+- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
+- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
+- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.

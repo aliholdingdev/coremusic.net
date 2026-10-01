@@ -3,8 +3,8 @@ title: "CoreMusic — Agent Alt-Registry (Profil İndeksi)"
 type: agent-registry
 category: agent-registry
 date: 2026-09-23
-updated: 2026-09-29
-version: 1.2.5
+updated: 2026-10-01
+version: 1.2.6
 status: active
 authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.4)"
 ---
@@ -18,6 +18,11 @@ authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.4)"
 > **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.0.4). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
 
 ---
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+
+1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse. 3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme. 5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+> Tam metin (7 madde): [[master-orchestrator]] · [[../ULTRA-THINKING.md]]
 
 ## §1 Amaç & Kapsam
 

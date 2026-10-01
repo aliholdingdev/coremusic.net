@@ -4,12 +4,24 @@ type: protocol
 category: ai
 title: "AI Düşünme Protokolü — Ultra Thinking Protocol"
 date: 2026-09-19
-updated: 2026-09-29
+updated: 2026-10-01
 status: active
-version: 2.0.1
+version: 2.0.2
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 ---
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+
+1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
+2. Uzun analiz paragrafı, promptu geri anlatma, plan kompozisyonu YASAK. Nokta atışı cevap → hemen uygula.
+3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER. Aynı veriyi "emin olmak" için ikinci kez analiz etme.
+4. Session başlangıcı = anında boot (okuma listesi) → sonra işlem. Keşif önsözü yok.
+5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+6. Bilinmeyen = UNKNOWN; tahmin yok. Gereksiz dosya/klasör/skill/agent/context/plan üretimi yasak.
+7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
+
+> Not: 2026-10-01 MAX THINKING budget bu bölümün üzerindedir — çelişkide budget kazanır.
 
 # AI Düşünme Protokolü — Ultra Thinking Protocol
 

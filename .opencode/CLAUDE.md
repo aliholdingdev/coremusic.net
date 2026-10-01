@@ -2,10 +2,10 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.3.3
+version: 27.3.4
 status: active
 authority: SSOT
-updated: 2026-09-24
+updated: 2026-10-01
 ---
 
 # CoreMusic — AI Constitution & Master Vault Mandate
@@ -15,6 +15,16 @@ updated: 2026-09-24
 **Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
 
 ---
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+
+1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
+2. Uzun analiz paragrafı, promptu geri anlatma, plan kompozisyonu YASAK. Nokta atışı cevap → hemen uygula.
+3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER. Aynı veriyi "emin olmak" için ikinci kez analiz etme.
+4. Session başlangıcı = anında boot (okuma listesi) → sonra işlem. Keşif önsözü yok.
+5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+6. Bilinmeyen = UNKNOWN; tahmin yok. Gereksiz dosya/klasör/skill/agent/context/plan üretimi yasak.
+7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
 
 ## Purpose
 

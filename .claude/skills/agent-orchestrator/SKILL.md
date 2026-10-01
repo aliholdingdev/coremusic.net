@@ -210,15 +210,11 @@ USER INPUT
 
 ## 5. Context Loading
 
-Before dispatching to any agent, load the relevant context:
+Before dispatching to any agent, load only the context that task actually needs:
 
 ### 5.1 Required Context (Always)
 
-| File | Purpose |
-|------|---------|
-| `.ai/CLAUDE.md` | AI constitution, guardrails |
-| `.ai/AGENTS.md` | Agent registry, routing |
-| `.ai/WORKFLOW.md` | Process definitions |
+Vault dosyalarına yalnızca ihtiyaç anında @ ile başvur.
 
 ### 5.2 Domain-Specific Context
 
@@ -233,7 +229,7 @@ Before dispatching to any agent, load the relevant context:
 
 ### 5.3 Context Loading Rules
 
-- Never dispatch without loading context
+- Vault dosyalarına yalnızca ihtiyaç anında @ ile başvur (toplu okuma yok)
 - If context is incomplete, mark as `VERIFICATION REQUIRED`
 - If context conflicts with ADR, escalate to human
 - Maximum 3 context files per dispatch (stay focused)
@@ -729,3 +725,25 @@ A task is NOT complete when:
 *CoreMusic Agent Orchestrator v4.1.0 — Single Source of Truth*
 *Authority: Bayram Ali / Vault Steward*
 *Mode: Red Team · Truth Mode · Human Mode*
+
+## SWARM AKIŞ DİYAGRAMI (2026-10-01)
+
+```text
+USER → ORCHESTRATOR → ARCHITECT | DEVELOPER | RESEARCHER
+                          ↓ (paralel çıktilar)
+                      REVIEWER → SECURITY → TEST → VERIFY
+                                                            ↓
+                                              USER (rapor) ←──┘
+```
+
+- Akış: `ORCHESTRATOR → ARCHITECT | DEVELOPER | RESEARCHER → REVIEWER → SECURITY → TEST → VERIFY → USER (rapor)`.
+- **VERIFY başarısızsa** görev, çıktısıyla birlikte **ORCHESTRATOR üzerinden** ilgili role (ARCHITECT/DEVELOPER/RESEARCHER) geri döner; döngü VERIFY pass edene kadar sürer.
+- Durum etiketleri: kanıtlanmamış fazlar **PLANNED** olarak etiketlenir — kanıtsız "IMPLEMENTED" yazılmaz.
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
+- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
+- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
+- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
+- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
+- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.

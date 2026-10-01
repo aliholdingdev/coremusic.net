@@ -684,7 +684,7 @@ Adapted from Google AI Red Team's strict rules of engagement protocol.
 
 Every task must complete ALL items before delivery:
 
-- [ ] **9-Step Boot Protocol** completed
+- [ ] Vault dosyalarına yalnızca ihtiyaç anında @ ile başvur.
 - [ ] Relevant `.ai/` vault section read (domain-specific)
 - [ ] **H001-H039 Rejected Pattern** scan completed (no matches)
 - [ ] **Confidence Score** calculated (weighted rubric, atomic claims)
@@ -830,3 +830,11 @@ SKILL.md (this file)
 *Authority: Vault Steward / AI Orchestrator*
 *Mandatory for all agents — No exceptions — Every output is an attack surface*
 *Research: Google, Microsoft AIRT, OWASP, NIST, ACL 2026*
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
+- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
+- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
+- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
+- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
+- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.

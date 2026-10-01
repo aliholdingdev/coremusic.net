@@ -52,6 +52,16 @@ changelog:
 
 # ORCHESTRATION ENGINE — CoreMusic
 
+## MAX THINKING — Anti-Overthink (Kısa — 2026-10-01)
+
+1. Reasoning = LOW; uzun analiz paragrafı, plan kompozisyonu, promptu geri anlatma YASAK.
+2. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi ikinci kez analiz etme.
+3. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+4. Bilinmeyen = UNKNOWN; gereksiz dosya/skill/agent/context/plan üretme.
+5. Görev → aksiyon → sonuç (nokta atışı); aynı hatayı tekrarlama. Tam metin (7 madde): `@.ai/AGENTS.md` § MAX THINKING.
+
+
+
 ## 1. Kimlik
 
 Bu skill, CoreMusic ekosistemindeki tüm AI ajanlarını **koordine eder, görevleri dağıtır, insan müdahalesini yönetir ve yeni skill'ler üretir.**
@@ -229,3 +239,25 @@ reference:
 *Orchestration Engine v1.1 — CoreMusic*
 *Authority: Vault Steward*
 *Mode: Red Team · Truth Mode · Human Mode*
+
+## SWARM AKIŞ DİYAGRAMI (2026-10-01)
+
+```text
+USER → ORCHESTRATOR → ARCHITECT | DEVELOPER | RESEARCHER
+                          ↓ (paralel çıktilar)
+                      REVIEWER → SECURITY → TEST → VERIFY
+                                                            ↓
+                                              USER (rapor) ←──┘
+```
+
+- Akış: `ORCHESTRATOR → ARCHITECT | DEVELOPER | RESEARCHER → REVIEWER → SECURITY → TEST → VERIFY → USER (rapor)`.
+- **VERIFY başarısızsa** görev, çıktısıyla birlikte **ORCHESTRATOR üzerinden** ilgili role (ARCHITECT/DEVELOPER/RESEARCHER) geri döner; döngü VERIFY pass edene kadar sürer.
+- Durum etiketleri: kanıtlanmamış fazlar **PLANNED** olarak etiketlenir — kanıtsız "IMPLEMENTED" yazılmaz.
+
+## MAX THINKING — Anti-Overthink (2026-10-01)
+- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
+- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
+- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
+- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
+- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
+- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.

@@ -216,6 +216,47 @@ CoreMusic projesinin tüm mimari kararları, anayasası, kuralları ve detaylı 
 
 ---
 
+## AI Agent Boot Özeti (Master Engineering System)
+
+1. **Boot okuma sırası:** root `CLAUDE.md` + `AGENTS.md` + `README.md` + `WORKFLOW.md` (ve `.ai/` karşılıkları) → `.ai/.rules/**` → ilgili `.ai/**` & `architecture/**` → mevcut dosya → kod → `.ai/.rules/**` çalıştır (hata: error-recovery → dosyayı sil + yeniden yaz → tekrar; temiz: UI değişikliği var mı → evet: browser test → hayır: commit). Ayrıntı: [`WORKFLOW.md`](WORKFLOW.md) §16 · [`.ai/WORKFLOW.md`](.ai/WORKFLOW.md) §8.10.
+2. **Yaşam döngüsü (15 aşama):** Understand → Discover → Research → Verify → Resolve Context → Analyze → Architect → Plan → Implement → Track → Test → Review → Secure → Verify → Document — analiz tamamlanmadan implementation başlatılmaz.
+3. **Zero-Hallucination:** repository/URL/API/class/method/dependency/version/config/skill/agent/dosya/mimari kural/benchmark/güvenlik iddiası asla uydurulmaz; doğrulanamayan = `⚠️ VERIFICATION REQUIRED`, bilinmeyen = `UNKNOWN`.
+4. **Final rule:** Understand → Research → Resolve → Decide → Implement → Track → Verify — riskli işlemede dur, onaysız büyük source-code değişikliği yok.
+5. **MAX THINKING (anti-overthink):** [`AGENTS.md`](AGENTS.md) §5 — 7 madde; skill dosyalarında kısaltılmış 5 madde.
+
+## AI Agent & Skill Referansları
+
+- https://github.com/NacioFelix/awesome-opencode
+- https://github.com/weisser-dev/awesome-opencode
+- https://github.com/jamait/awesome-opencode-skills
+- https://github.com/agentskills/agentskills
+- https://github.com/j4flmao/agent-skills
+- https://github.com/JazzaAI/agent-skills
+- https://github.com/iannil/skills
+- https://github.com/luckys/agent-skills
+- https://github.com/tars-agentic/agent-skills
+- https://github.com/dotnet/skills
+- https://github.com/DevExpress/agent-skills
+- https://github.com/DenisSergeevitch/agents-best-practices
+- https://github.com/obra/superpowers
+- https://github.com/vercel-labs/agent-skills
+- https://github.com/lumpinif/frontend-ui-engineering
+- https://github.com/hueyexe/frontend-agent-skills
+- https://github.com/Junaid-PK/frontend-design-skill
+- https://github.com/shanraisshan/claude-code-best-practice
+- https://github.com/davila7/claude-code-templates
+- https://github.com/ykdojo/claude-code-tips
+- https://github.com/subinium/awesome-claude-code
+- https://github.com/dazuiba/awesome-claude-code-1
+- https://github.com/jqueryscript/awesome-claude-code
+- https://github.com/itgoyo/awesome-claude-code
+- https://github.com/mctrinh/awesome-mcp-servers
+- https://github.com/modelcontextprotocol/servers
+- https://github.com/vakra-dev/awesome-ai-agents
+- https://github.com/hammond01/CleanArchitecture
+
+---
+
 **Session Lifecycle:** Bu depoda her AI session'ı .ai/CHECKLIST.md §A/§B/§C ile yürütülür; hedef dosya seti 20'dir (3 kök + 17 .ai/ kök md — sınıflandırma CHECKLIST.md §A0: CRITICAL 16 / ON-DEMAND 3 / LOG 1). Kapanışta .workflows/vault-sync.md Aşama 8 satır 5 ile değişen dosyalar güçlendirilir.
 
 **Authority:** Bayram Ali / Vault Steward  
