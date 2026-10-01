@@ -117,6 +117,11 @@ require __DIR__ . '/../header.php';
             <?php $loader->display('player-info', $variant); ?>
         </div>
 
+        <!-- Sağ %58: Widget Grid — 12 slot (row1:2 · row2:5 · row3:5) -->
+        <div class="home-layout__top-right">
+            <?php $loader->display('widget-grid', $variant); ?>
+        </div>
+
     </div>
 
     <!-- ALT SATIR: 3 kolon — En Son | Playlister | Sıradaki -->
@@ -131,35 +136,26 @@ require __DIR__ . '/../header.php';
 
 </main>
 
-<!-- Welcome Modal JS — ilk girişte açılır, localStorage ile kontrol -->
+<!-- Welcome Modal — ilk girişte açılır (sadece 1024 embedded), localStorage 'cm_welcome_seen'
+     Mantık: js/features/welcome-modal.js (footer.php yükler) — sadece [Başla] kapatır -->
 <?php if (!$dm->isPhone()): ?>
-<script nonce="<?= $h((string)($_SESSION['csp_nonce'] ?? '')) ?>">
-(function() {
-    var overlay = document.getElementById('welcomeModalOverlay');
-    var btn = overlay ? overlay.querySelector('.welcome-modal__btn') : null;
-
-    // İlk giriş kontrolü — localStorage kullan
-    if (overlay && !localStorage.getItem('cm_welcome_seen')) {
-        overlay.classList.remove('is-hidden');
-    }
-
-    // Kapatma fonksiyonu
-    function closeModal() {
-        if (overlay) {
-            overlay.classList.add('is-hidden');
-            localStorage.setItem('cm_welcome_seen', '1');
-        }
-    }
-
-    // Başla butonu
-    if (btn) btn.addEventListener('click', closeModal);
-
-    // Escape tuşu
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') closeModal();
-    });
-})();
-</script>
+<div id="welcomeModalOverlay" class="welcome-modal-overlay is-hidden">
+    <div class="welcome-modal" role="dialog" aria-modal="true" aria-labelledby="welcomeModalTitle">
+        <div class="welcome-modal__logo">
+            <img class="welcome-modal__logo-img"
+                 src="<?= $h($assetsUrl . '/Image/res-pink/logo/logo-img.png') ?>"
+                 alt="CoreMusic">
+        </div>
+        <p class="welcome-modal__title" id="welcomeModalTitle">Hoş geldin</p>
+        <input class="welcome-modal__input"
+               type="text"
+               placeholder="İsminizi Girin Buraya"
+               aria-label="İsminiz"
+               autocomplete="off">
+        <p class="welcome-modal__desc">Sana özel seçilmiş müzikler, deneyimler ve unutulmaz anlar sadece başlangıç. CoreMusic ile müziğin senin dünyan dönüyor 💗</p>
+        <button class="welcome-modal__btn" type="button">Başla</button>
+    </div>
+</div>
 <?php endif; ?>
 
 <?php require __DIR__ . '/../footer.php'; ?>

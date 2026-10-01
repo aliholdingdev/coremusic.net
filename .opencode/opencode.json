@@ -10,6 +10,22 @@
   "username": "coremusic-dev",
   "lsp": true,
 
+  // Dusunme (reasoning) kisitlari — model cok uzun dusunuyorsa low, hizli mod
+  "providers": {
+    "opencode": {
+      "models": {
+        "mimo-v2.6-flash-free": {
+          "settings": { "reasoningEffort": "low" },
+          "body": { "reasoning_effort": "low" },
+          "variants": [
+            { "id": "fast", "settings": { "reasoningEffort": "low" }, "body": { "reasoning_effort": "low" } },
+            { "id": "deep", "settings": { "reasoningEffort": "high" }, "body": { "reasoning_effort": "high" } }
+          ]
+        }
+      }
+    }
+  },
+
   "instructions": [
     "CLAUDE.md",
     ".ai/CLAUDE.md",

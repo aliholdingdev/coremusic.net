@@ -1,5 +1,5 @@
 /**
- * CoreMusic — Welcome Banner Component (v1.0.0)
+ * CoreMusic — Welcome Banner Component (v2.0.0)
  *
  * Figma SSOT: node 2831:13747 (1920 Home) → "Banner Div" id 2849:21492 (491×184)
  * WIDE/4K üst satırında Player Info (sol) ile Widget Grid (sağ) arasında
@@ -11,20 +11,25 @@
  * her zaman görünen statik bir karttır, o modalı DEĞİŞTİRMEZ.
  *
  * Figma "Banner Div" node'u salt bir RECTANGLE'dır (children yok, IMAGE fill) —
- * metin içeriği Figma'da tanımlı değildir; "Hoş Geldin" + kullanıcı adı metni
- * R5 kuralına göre eklendi (session'da MM_DisplayName/MM_Username varsa kullanılır).
+ * metin içeriği Figma'da tanımlı değildir. v2.0.0: içerik PNG mockup'ından
+ * numeric ölçümle kodlandı (bkz. a-welcome-banner-tokens.css v2.0.0 notu):
+ *   eyebrow "Hoş Geldin" · user (session) · quote · brand "Core Music" ·
+ *   CTA "Keşfetmeye Başla" (/kesfet) · 5 stat chip · trailing "+" ring.
+ * Kullanıcı adı session'da MM_DisplayName/MM_Username varsa onu kullanır.
+ *
+ * Yerleşim: tüm bloklar mutlak konumlu (banner 491×184 sabit kutu) —
+ * metin sütunu 0..296px içinde text-align:center (metin merkezi x≈148),
+ * stats satırı (28,147) sabit; ham px/hex → 01_Abstracts'a-welcome-banner-tokens.css.
  *
  * Token'lar: 01_Abstracts/a-welcome-banner-tokens.css (ham px/hex bu dosyada YAZILMAZ)
  * ITCSS Layer: 04_Components
  * BEM: .welcome-banner, .welcome-banner__*
- * Version: 1.0.0 — 2026-09-30
+ * Version: 2.0.0 — 2026-10-01
  */
 
 /* ═══ Kart kabuğu (Figma: 491×184, radius 8, dropShadow 2/2/4 @0.8) ═══ */
 .welcome-banner.welcome-banner--wide {
   position: relative;
-  display: flex;
-  align-items: flex-end;
   box-sizing: border-box;
   width: 100%;
   max-width: var(--wb-w);
@@ -45,29 +50,229 @@
   pointer-events: none;
 }
 
-/* ═══ İçerik ═══ */
+/* ═══ İçerik kabuğu — mutlak konumlu blokların koordinat uzayı ═══ */
 .welcome-banner__content {
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 1;
-  width: 100%;
-  padding: var(--wb-pad);
   font-family: var(--wb-font);
 }
 
+/* ═══ Eyebrow — ink y31..41, merkez x≈149 ═══ */
 .welcome-banner__eyebrow {
-  margin: 0 0 4px;
+  position: absolute;
+  top: var(--wb-eyebrow-top);
+  left: 0;
+  width: var(--wb-content-w);
+  margin: 0;
+  font-family: var(--wb-display-font);
+  font-style: italic;
+  font-weight: 400;
   font-size: var(--wb-eyebrow-fs);
+  line-height: 1;
+  text-align: center;
   color: var(--wb-eyebrow-color);
   text-shadow: var(--wb-text-shadow);
 }
 
+/* ═══ Kullanıcı adı — ink y50..72, x45..237 ═══ */
 .welcome-banner__user {
+  position: absolute;
+  top: var(--wb-user-top);
+  left: 0;
+  width: var(--wb-content-w);
   margin: 0;
-  font-size: var(--wb-user-fs);
-  font-weight: 600;
-  color: var(--wb-user-color);
-  text-shadow: var(--wb-text-shadow);
   overflow: hidden;
+  font-family: var(--wb-display-font);
+  font-style: italic;
+  font-weight: 700;
+  font-size: var(--wb-user-fs);
+  line-height: 1;
+  text-align: center;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--wb-user-color);
+  text-shadow: var(--wb-text-shadow);
+}
+
+/* ═══ Alıntı — ink y86..91, x63..235 ═══ */
+.welcome-banner__quote {
+  position: absolute;
+  top: var(--wb-quote-top);
+  left: 0;
+  width: var(--wb-content-w);
+  margin: 0;
+  overflow: hidden;
+  font-family: var(--wb-display-font);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--wb-quote-fs);
+  line-height: 1;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--wb-quote-color);
+}
+
+/* ═══ Marka — script, ink y100..107, x127..174 ═══ */
+.welcome-banner__brand {
+  position: absolute;
+  top: var(--wb-brand-top);
+  left: 0;
+  width: var(--wb-content-w);
+  margin: 0;
+  font-family: var(--wb-script-font);
+  font-weight: 400;
+  font-size: var(--wb-brand-fs);
+  line-height: 1;
+  text-align: center;
+  color: var(--wb-brand-color);
+}
+
+/* ═══ CTA pill — x105..192 y118..137 ═══ */
+.welcome-banner__cta {
+  position: absolute;
+  top: var(--wb-cta-top);
+  left: var(--wb-cta-left);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wb-cta-gap);
+  box-sizing: border-box;
+  width: var(--wb-cta-w);
+  height: var(--wb-cta-h);
+  border: 1px solid var(--wb-cta-border);
+  border-radius: var(--wb-cta-radius);
+  background-image: var(--wb-cta-bg);
+  font-family: var(--wb-stat-font);
+  font-size: var(--wb-cta-fs);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--wb-cta-color);
+  text-decoration: none;
+}
+
+.welcome-banner__cta-text {
+  white-space: nowrap;
+}
+
+/* Play rozeti — CSS ile çizilir (yeni asset YOK) */
+.welcome-banner__cta-icon {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--wb-cta-icon-w);
+  height: var(--wb-cta-icon-w);
+  border-radius: var(--wb-cta-icon-radius);
+  background: var(--wb-cta-icon-bg);
+}
+
+.welcome-banner__cta-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: var(--wb-cta-play-left);
+  width: 0;
+  height: 0;
+  border-top: var(--wb-cta-play-h) solid transparent;
+  border-bottom: var(--wb-cta-play-h) solid transparent;
+  border-left: var(--wb-cta-play-w) solid var(--wb-cta-play-color);
+  transform: translateY(-50%);
+}
+
+/* ═══ Stats satırı — (28,147) h26, chip gap 4 ═══ */
+.welcome-banner__stats {
+  position: absolute;
+  top: var(--wb-stats-top);
+  left: var(--wb-stats-left);
+  display: flex;
+  align-items: center;
+  gap: var(--wb-chip-gap);
+  height: var(--wb-stats-h);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ═══ Chip — icon sol pad 9, ikon 13, num/label istifli ═══ */
+.welcome-banner__stat {
+  display: flex;
+  align-items: center;
+  gap: var(--wb-chip-inner-gap);
+  box-sizing: border-box;
+  height: 100%;
+  padding-left: var(--wb-chip-pl);
+  border: 1px solid var(--wb-chip-border);
+  border-radius: var(--wb-chip-radius);
+  background: var(--wb-chip-bg);
+}
+
+.welcome-banner__stat--1 { width: var(--wb-chip-w1); }
+.welcome-banner__stat--2 { width: var(--wb-chip-w2); }
+.welcome-banner__stat--3 { width: var(--wb-chip-w3); }
+.welcome-banner__stat--4 { width: var(--wb-chip-w4); }
+.welcome-banner__stat--5 { width: var(--wb-chip-w5); }
+
+.welcome-banner__stat-icon {
+  flex-shrink: 0;
+  width: var(--wb-chip-icon-w);
+  height: var(--wb-chip-icon-w);
+  object-fit: contain;
+  filter: var(--wb-chip-icon-filter);
+}
+
+.welcome-banner__stat-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.welcome-banner__stat-num {
+  font-family: var(--wb-stat-font);
+  font-size: var(--wb-num-fs);
+  font-weight: 700;
+  line-height: var(--wb-num-lh);
+  color: var(--wb-num-color);
+}
+
+.welcome-banner__stat-label {
+  overflow: hidden;
+  font-family: var(--wb-stat-font);
+  font-size: var(--wb-label-fs);
+  font-weight: 400;
+  line-height: var(--wb-label-lh);
+  white-space: nowrap;
+  color: var(--wb-label-color);
+}
+
+/* ═══ Trailing "+" ring — x275..287, d≈13 ═══ */
+.welcome-banner__more {
+  position: relative;
+  box-sizing: border-box;
+  width: var(--wb-more-size);
+  height: var(--wb-more-size);
+  margin-left: var(--wb-more-ml);
+  border: var(--wb-more-border);
+  border-radius: 50%;
+  list-style: none;
+}
+
+.welcome-banner__more::before,
+.welcome-banner__more::after {
+  content: "";
+  position: absolute;
+  background: var(--wb-more-plus);
+}
+
+.welcome-banner__more::before {
+  top: 46%;
+  left: 19%;
+  width: 62%;
+  height: 8%;
+}
+
+.welcome-banner__more::after {
+  top: 19%;
+  left: 46%;
+  width: 8%;
+  height: 62%;
 }

@@ -929,3 +929,7 @@ ADR-072 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
 - **Guardrail 16 uyum:** skill-maker sablonu (frontmatter name/description/triggers/reference/changelog) uygulandi; 2000 satir alti (~185 satir); hardcoded credential/anahtar YOK.
 - **Dokunulmayanlar:** *.php/*.js/*.css/*.sql, .ai/AGENTS.md (opsiyonel 1 satir pre-flight eklenmedi - kullanici onayi yok), frozen ADR.
 - **Bilincli not:** sistem guncellemesi agent-debate + context-report skill IDlerinin katalogdan dustugunu bildirdi (muhtemel katalog limiti - 2026-09-27 kaydindaki ayni fenomen); islevsel mi kontrol edilir, bu giris rapor amaclidir.
+ADR-073 yazıldı (debate PENDING)
+ADR-073 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart
+ADR-074 yazildi (debate PENDING)
+ADR-074 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart

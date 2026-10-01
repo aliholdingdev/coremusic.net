@@ -33,22 +33,26 @@ final class RecentTracksComponentTest extends TestCase
 
     public function testConstructor_defaultData_embeddedVariantLimitsToFourCards(): void
     {
-        // Arrange + Act — defaultTracks() 9 kart üretir, embedded 2×2 grid (Figma node 1639:9904) 4 kart gösterir
+        // Arrange + Act — defaultTracks() 10 kart üretir, embedded 2×2 grid (Figma node 1639:9904) 4 kart gösterir
         $component = new RecentTracksComponent(HomeLayoutVariant::Embedded);
 
-        // Assert
+        // Assert — En Son 4, Playlist 3 (1639:9892 + link kartı), Sıradaki verisi var (1639:9910)
         $this->assertCount(4, $component->cards);
+        $this->assertCount(3, $component->playlistCards);
+        $this->assertNotNull($component->nextCard);
     }
 
-    public function testConstructor_defaultData_wideAndFourKKeepAllNineCards(): void
+    public function testConstructor_defaultData_wideAndFourKKeepAllTenCards(): void
     {
         // Arrange + Act
         $wide  = new RecentTracksComponent(HomeLayoutVariant::Wide);
         $fourK = new RecentTracksComponent(HomeLayoutVariant::FourK);
 
-        // Assert
-        $this->assertCount(9, $wide->cards);
-        $this->assertCount(9, $fourK->cards);
+        // Assert — 1920 mockup: En Son 10 kart, Playlist 6 kart, Sıradaki bölümü yok
+        $this->assertCount(10, $wide->cards);
+        $this->assertCount(10, $fourK->cards);
+        $this->assertCount(6, $wide->playlistCards);
+        $this->assertNull($wide->nextCard);
     }
 
     public function testConstructor_overrideData_truncatesToFourOnEmbedded(): void

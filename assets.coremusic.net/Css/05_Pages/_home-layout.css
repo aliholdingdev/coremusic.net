@@ -367,11 +367,11 @@ html:not(.sidebar-collapsed) .home-layout {
   --card-height: 120px;
 }
 .layout--embedded .home-layout__top {
-  grid-template-columns: var(--home-top-split, 42% 58%);
+  grid-template-columns: var(--home-embedded-top-split);
 }
 .layout--embedded .home-layout__bottom {
-  grid-template-columns: var(--home-bottom-split, 1fr 1.2fr 0.6fr);
-  gap: var(--grid-gap, 8px);
+  grid-template-columns: var(--home-embedded-bottom-split);
+  gap: var(--home-embedded-gap);
 }
 .layout--embedded .home-widget-grid {
   grid-template-columns: repeat(var(--widget-grid-cols, 2), 1fr);
@@ -492,21 +492,22 @@ html:not(.sidebar-collapsed) .home-layout {
   margin-top: var(--header-h, 60px);
   min-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
   max-height: calc(100vh - var(--header-h, 60px) - var(--footer-h, 90px));
-  padding: 6px 14px 6px;
-  gap: 8px;
+  padding: var(--home-embedded-pad-top) var(--home-embedded-pad-inline) var(--home-embedded-pad-bottom);
+  gap: var(--home-embedded-gap);
 }
 
 .home-layout__top--embedded {
   display: grid;
-  grid-template-columns: 42% 58%;
-  gap: 12px;
+  grid-template-columns: var(--home-embedded-top-split);
+  gap: var(--home-embedded-gap);
+  min-height: var(--home-embedded-row1-min-h);
   align-items: stretch;
 }
 
 .home-layout__bottom--embedded {
   display: grid;
-  grid-template-columns: 370px 370px 1fr;
-  gap: 10px;
+  grid-template-columns: var(--home-embedded-bottom-split);
+  gap: var(--home-embedded-gap);
   align-items: start;
 }
 

@@ -92,6 +92,38 @@
   --home-top-split: 42% 58%;
   --home-bottom-split: 1fr 1.2fr 0.6fr;
 
+  /* --- Embedded home layout — Figma 1024×600 SSOT (node 1639:10160) ---
+     Yalnızca .layout--embedded / *--embedded seçicileri tüketir;
+     --home-top-split / --home-bottom-split'e dokunmaz (1025+ sızıntı önlemi):
+       üst satır  x32  sol 561 + gap 34 + widget kolonu 365 (x627..992)
+       alt satır  x32  353 / 353 / 186 + 2×gap 34 (x419 · x806)
+       satır 1 min-h 198 (y84..282) + gap 34 → bölümler y316 */
+  --home-embedded-top-split: minmax(0, 1fr) 365px;
+  --home-embedded-bottom-split: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.527fr);
+  --home-embedded-gap: 34px;
+  --home-embedded-pad-top: 24px;
+  --home-embedded-pad-inline: 32px;
+  --home-embedded-pad-bottom: 24px;
+  --home-embedded-row1-min-h: 198px;
+
+  /* --- Embedded alt-satır bölümleri — Figma 1639:9904/9892/9910 ---
+     bölüm ~353×138.5 · kart 169×43 (kolon gap 15 → 169) · satır gap 25
+     başlık 11px/14.851/ls0.825 → satır1 y343.5 · satır2 y411.5 · bölüm alt 454.5 */
+  --home-embedded-title-gap: 12px;
+  --home-embedded-card-col-gap: 15px;
+  --home-embedded-card-row-gap: 25px;
+  --home-embedded-card-h: 43px;
+  --home-embedded-card-art-w: 50px;
+  --home-embedded-card-gap: 8px;
+  --home-embedded-card-radius: 3px;
+  --home-embedded-section-title-fs: 11px;
+  --home-embedded-section-title-lh: 14.851px;
+  --home-embedded-section-title-ls: 0.825px;
+  --home-embedded-card-fs: 8.5px;
+  --home-embedded-card-fs-sub: 7px;
+  --home-embedded-card-lh: 11.476px;
+  --home-embedded-up-next-h: 109px;
+
   /* --- Touch targets (WCAG 2.2 — RPi5 için büyük) --- */
   --touch-min: 48px;
   --touch-recommended: 56px;

@@ -8,28 +8,57 @@ use CoreMusic\Home\Component\HomeSongButton;
 use CoreMusic\Home\Repository\MusicRepository;
 
 /**
- * RecentTracksComponent — En Son Dinlenen Şarkılar (v2.1.0)
- * PNG: home-1920 tam genişlik kart satırı (9 kart) / home-1024 bottom-left (2×2, 4 kart)
+ * RecentTracksComponent — Alt satır bölümleri: En Son + Playlistler + Sıradaki (v4.0.0)
  *
- * Veri kaynağı: coremusic_musics (musics ⋈ artists ⋈ music_files is_primary=1).
- * DB'ye ulaşılamazsa veya boşsa PNG demo verisine düşer (testler bu yolu kullanır).
+ * home.php her varyansta 'recent-tracks''i TEK ÇAĞIRIR; tek view tüm bölümleri üretir:
+ *   Wide/4K (1920): En Son (1 sıra × 10 kart) + Playlistler (1 sıra × 6 kart)
+ *                   [Sıradaki Şarkılar — mockup'ta YOK (aaa.md ASCII + Figma nodesuz)]
+ *   Embedded (1024): .home-layout__bottom--embedded'e 3 doğrudan grid-çocuğu:
+ *                   kolon1 En Son (2×2, 4 kart) · kolon2 Playlistler (2×2, 3 kart
+ *                   + "Playlist listesini görüntüle" link kartı) · kolon3 Sıradaki
+ *                   (1 kart, 186×109 cam panel)
+ *
+ * Figma/PNG SSOT:
+ *   extracted-1024.md — 1639:9904 "Menu En Son Şarkılar" · 1639:9892 "Menu Oynatma Listesi"
+ *                       (+1639:9893 link kartı) · 1639:9910 "Sıradaki Şarkı" (185.978×109)
+ *   extracted-1920.md — 2856:22290 (En Son kartı, y−220) · 2850:21627 (playlist başlığı,
+ *                       fs13 Avalon-Bold ls0.975) · 2890:7922-7927 (6 playlist kartı, y−89)
+ *
+ * Veri: En Son = coremusic_musics (musics ⋈ artists ⋈ music_files is_primary=1);
+ *       DB yoksa PNG demo verisi (testler bu yolu kullanır).
+ *       Playlist + Sıradaki = PNG sabit içerik (DB tablosu yok).
  */
 final class RecentTracksComponent extends AbstractComponent
 {
-    /** Wide/4K satırında gösterilecek kart sayısı (Figma home-1920 = 9 kart) */
-    private const WIDE_CARDS = 9;
+    /** En Son — wide/4K satırı (PNG 1920: 1 sıra × 10 kart, pitch 184) */
+    private const WIDE_CARDS = 10;
 
-    /** Embedded (1024) sütununda gösterilecek kart sayısı (Figma node 1639:9904 = 2×2 grid, 4 kart) */
+    /** En Son — embedded 2×2 grid (Figma 1639:9904 = 4 kart) */
     private const EMBEDDED_CARDS = 4;
 
-    /** @var list<string> render edilmiş mini kart HTML'leri */
+    /** Playlist — wide 1 sıra × 6 (PNG 1920: 2890:7922-7927) */
+    private const WIDE_PLAYLIST_CARDS = 6;
+
+    /** Playlist — embedded 2×2 = 3 kart + link kartı (Figma 1639:9892/9893) */
+    private const EMBEDDED_PLAYLIST_CARDS = 3;
+
+    /** @var list<string> "En Son Dinlenen Şarkılar" mini kart HTML'leri */
     public readonly array $cards;
+
+    /** @var list<string> "Son Oluşturlan & Sistem Taraından Oluşturlan Playlistler" kart HTML'leri */
+    public readonly array $playlistCards;
+
+    /** @var array{t: string, album: string, a: string, art: string}|null
+     *  Sıradaki Şarkı verisi — yalnız embedded (wide: null, mockup'ta bölüm yok) */
+    public readonly ?array $nextCard;
+
+    /** Link kartı ikonu (Figma 1639:9897 — 10×10 album thumb, radius 115) */
+    public readonly string $playlistLinkIcon;
 
     /**
      * @param list<array{t: string, a: string, d: string, art: string, stream?: string}>|null $tracks
-     *        override verisi — null ise DB, DB yoksa PNG varsayılanları kullanılır
-     * @param MusicRepository|null $repository
-     *        veri erişimi (ComponentLoader::make injection'ı) — null ise fallback davranışı korunur
+     *        override verisi (yalnız "En Son"u besler) — null ise DB, DB yoksa PNG varsayılanları
+     * @param MusicRepository|null $repository veri erişimi (ComponentLoader::make injection'ı)
      */
     public function __construct(HomeLayoutVariant $variant, ?array $tracks = null, ?MusicRepository $repository = null)
     {
@@ -53,6 +82,30 @@ final class RecentTracksComponent extends AbstractComponent
 
         $max = $variant->isWide() ? self::WIDE_CARDS : self::EMBEDDED_CARDS;
         $this->cards = array_slice($cards, 0, $max);
+
+        $playlistMax = $variant->isWide() ? self::WIDE_PLAYLIST_CARDS : self::EMBEDDED_PLAYLIST_CARDS;
+        $this->playlistCards = array_map(
+            fn (array $p): string => HomeSongButton::html(
+                [
+                    't'      => (string)$p['t'],
+                    's'      => (string)$p['a'],
+                    'art'    => (string)$p['art'],
+                    'stream' => '',
+                ],
+                'mini-card__subtitle',
+                (string)$p['d']
+            ),
+            array_slice($this->defaultPlaylists(), 0, $playlistMax)
+        );
+
+        $this->nextCard = $variant->isWide() ? null : [
+            't'     => 'Göksel - Sevil Neşelen',
+            'album' => 'Hayat Rüya Gibi',
+            'a'     => 'Göksel',
+            'art'   => $this->asset('/Image/res-pink/album-goksel.png'),
+        ];
+
+        $this->playlistLinkIcon = $this->asset('/Image/res-pink/album-kursat.png');
     }
 
     public function key(): string
@@ -111,7 +164,8 @@ final class RecentTracksComponent extends AbstractComponent
     }
 
     /**
-     * PNG home-1920 satır sırası (9 kart); 'art' mutlak asset URL'dir.
+     * PNG home-1024 node 1639:9904 demo içeriği (4 kart) — 1920 satırı bu
+     * 4'lüğün döngüsüyle 10 karta tamamlanır (extracted-1024.md metinleri, birebir).
      *
      * @return list<array{t: string, a: string, d: string, art: string}>
      */
@@ -120,16 +174,44 @@ final class RecentTracksComponent extends AbstractComponent
         $art1 = $this->asset('/Image/res-pink/album-goksel.png');
         $art2 = $this->asset('/Image/res-pink/album-kursat.png');
 
-        return [
-            ['t' => 'Göksel - Sevil Neşelen', 'a' => 'Göksel', 'd' => '00:05:00', 'art' => $art1],
-            ['t' => 'Göksel - Kabahat Senin Se', 'a' => 'Göksel', 'd' => '00:04:12', 'art' => $art2],
-            ['t' => 'Bengü Manco - Gülbamege', 'a' => 'Bengü Manco', 'd' => '00:03:45', 'art' => $art1],
-            ['t' => 'Göksel - Donbil Neşeler', 'a' => 'Göksel', 'd' => '00:04:37', 'art' => $art2],
-            ['t' => 'Göksel - Sevil Neşelen', 'a' => 'Göksel', 'd' => '00:05:00', 'art' => $art1],
-            ['t' => 'Göksel - Kabahat Senin Se', 'a' => 'Göksel', 'd' => '00:04:12', 'art' => $art2],
-            ['t' => 'Bengü Manco - Gülbamege', 'a' => 'Bengü Manco', 'd' => '00:03:45', 'art' => $art1],
-            ['t' => 'Göksel - Donbil Neşeler', 'a' => 'Göksel', 'd' => '00:04:37', 'art' => $art2],
-            ['t' => 'Bengü Manco - Gülbamege', 'a' => 'Bengü Manco', 'd' => '00:03:45', 'art' => $art1],
+        $seed = [
+            ['t' => 'Göksel - Sevil Neşelen', 'a' => 'Göksel', 'd' => '00:03:05', 'art' => $art1],
+            ['t' => 'Göksel - Kabahat Seni Se...', 'a' => 'Göksel', 'd' => '00:02:05', 'art' => $art1],
+            ['t' => 'Barış Manco - Gulpembe', 'a' => 'Barış Manco', 'd' => '00:04:01', 'art' => $art2],
+            ['t' => 'Kış Masalı Ensturmental', 'a' => 'Org Dersleri', 'd' => '00:01:10', 'art' => $art2],
         ];
+
+        $tracks = [];
+        while (count($tracks) < self::WIDE_CARDS) {
+            foreach ($seed as $t) {
+                $tracks[] = $t;
+                if (count($tracks) >= self::WIDE_CARDS) {
+                    break;
+                }
+            }
+        }
+
+        return $tracks;
+    }
+
+    /**
+     * PNG playlist içeriği — embedded 3 kart (1639:9899/9900/9901) + wide 6 kart
+     * (2890:7922-7927, sıra: Supermix → Ruh haline → Yeni Sevilen, sonra tekrar).
+     * Metinler extracted-1024/-1920 'metin:' alanlarından birebir (sic).
+     *
+     * @return list<array{t: string, a: string, d: string, art: string}>
+     */
+    private function defaultPlaylists(): array
+    {
+        $art1 = $this->asset('/Image/res-pink/album-goksel.png');
+        $art2 = $this->asset('/Image/res-pink/album-kursat.png');
+
+        $seed = [
+            ['t' => "En Sevilen Supermix'im", 'a' => 'Sistem Tarafından Oluşturuldu', 'd' => '00:03:05', 'art' => $art2],
+            ['t' => "Ruh haline Göre Günlük mix'im", 'a' => 'Sistem Tarafından Oluşturuldu', 'd' => '01:05:00', 'art' => $art1],
+            ['t' => "Yeni Sevilen Türleri Keşfet mix'im", 'a' => 'Sistem Tarafından Oluşturuldu', 'd' => '00:50:15', 'art' => $art2],
+        ];
+
+        return array_merge($seed, $seed);
     }
 }

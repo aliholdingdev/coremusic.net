@@ -1,15 +1,25 @@
 <?php declare(strict_types=1);
 /**
- * pages/components/widget-grid.php — Wide/4K Widget Grid ("Div2 Button")
+ * pages/components/widget-grid.php — Widget Grid ("Div2 Button")
  *
  * HTML contract → assets.coremusic.net/Css/04_Components/_widget-grid.css
- *   <section class="widget-grid"> — yalnız wide/4K (isWide()) render edilir.
+ *   <section class="widget-grid"> — embedded (1024) + wide/4K (1920+)
  *
- * Figma SSOT: node 2850:21494 (1920 · 752×184) — bkz. WidgetGridComponent.php doc-block
+ * Slot sayımı — aaa.md §13.9 (çelişkide kural PNG/Figma'yı ezer):
+ *   embedded 12 slot → row1 2 · row2 5 · row3 5
+ *   wide/4K  20 slot → row1 4 · row2 8 · row3 8
+ *   (wide row1 4. slot = 3 satır boyu uzanan tam boy cam kart, .widget-card--tall)
+ * Boş slotlar görünür cam konturlu .widget-card--empty olarak üretilir (PNG SSOT).
+ *
+ * Figma SSOT: node 1639:10160 (1024 · 365×171) · node 2850:21494 (1920 · 752×184)
  * JS: assets.coremusic.net/js/components/composites/WidgetAreaComponent.js (data-cm-component="cm-home-widget-grid")
  *
  * @var \CoreMusic\Home\Component\WidgetGridComponent $this
  */
+
+$midEmpty  = $this->isWide() ? 6 : 3;   /* row2: Saat + EQ + boşlar */
+$botEmpty  = $this->isWide() ? 3 : 0;   /* row3: 5 dolu + boşlar (wide) */
+$emptyCard = '<div class="widget-card widget-card--empty" aria-hidden="true"></div>';
 ?>
 <section class="widget-grid" aria-label="Widget'lar" data-cm-component="cm-home-widget-grid">
 
@@ -30,6 +40,11 @@
                 <p class="widget-card__value widget-card__value--sub" data-widget="weather-city"><?= $this->weatherCity ?></p>
             </div>
         </div>
+
+        <?php if ($this->isWide()): ?>
+        <!-- wide row1 3. slot: boş cam kart (Figma 2850:21574) -->
+        <?= $emptyCard ?>
+        <?php endif; ?>
     </div>
 
     <div class="widget-grid__row widget-grid__row--mid">
@@ -45,16 +60,7 @@
             <img src="<?= $this->h($this->iconEqualizer) ?>" class="widget-card__icon widget-card__icon--eq" alt="" loading="lazy">
         </a>
 
-        <div class="widget-card widget-card--storage">
-            <img src="<?= $this->h($this->iconStorage) ?>" class="widget-card__icon widget-card__icon--storage" alt="" loading="lazy">
-            <div class="widget-card__text">
-                <p class="widget-card__label">Depolama</p>
-                <p class="widget-card__value"><?= $this->storageUsed ?> / <?= $this->storageTotal ?></p>
-                <div class="widget-card__progress" role="progressbar" aria-label="Depolama kullanımı" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?= $this->storagePct ?>">
-                    <div class="widget-card__progress-track"><div class="widget-card__progress-fill" data-progress="<?= $this->storagePct ?>"></div></div>
-                </div>
-            </div>
-        </div>
+        <?php for ($i = 0; $i < $midEmpty; $i++) echo $emptyCard; ?>
     </div>
 
     <div class="widget-grid__row widget-grid__row--bottom">
@@ -71,9 +77,20 @@
             <img src="<?= $this->h($this->iconYoutube) ?>" class="widget-card__icon widget-card__icon--service" alt="" loading="lazy">
         </a>
 
-        <a href="#" class="widget-card widget-card--service widget-card--deezer" aria-label="Deezer">
-            <img src="<?= $this->h($this->iconDeezer) ?>" class="widget-card__icon widget-card__icon--service" alt="" loading="lazy">
+        <a href="#" class="widget-card widget-card--service widget-card--favori" aria-label="Favoriler">
+            <img src="<?= $this->h($this->iconFavori) ?>" class="widget-card__icon widget-card__icon--service" alt="" loading="lazy">
         </a>
+
+        <a href="#" class="widget-card widget-card--service widget-card--bitrate" aria-label="Bit Hızı">
+            <img src="<?= $this->h($this->iconBitrate) ?>" class="widget-card__icon widget-card__icon--service" alt="" loading="lazy">
+        </a>
+
+        <?php for ($i = 0; $i < $botEmpty; $i++) echo $emptyCard; ?>
     </div>
+
+    <?php if ($this->isWide()): ?>
+    <!-- wide row1 4. slot: 3 satır boyu uzanan tam boy cam kart (Figma 2850:21622, 169×184) -->
+    <div class="widget-card widget-card--empty widget-card--tall" aria-hidden="true"></div>
+    <?php endif; ?>
 
 </section>

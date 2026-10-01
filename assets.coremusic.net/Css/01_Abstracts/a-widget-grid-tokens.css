@@ -96,3 +96,28 @@
     rgba(255, 255, 255, 0.39) 100%
   ), #ff65e9;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   EMBEDDED 1024×600 — Figma SSOT node 1639:10160 (container 365×171)
+   row1 173 +20+ 172           h51
+   row2 109/42/50/50/42        h40  (gap 21,21,15,15 — mixed → spacer-track)
+   row3 129 +42×4              h40  (gap 17 uniform)
+   row-gap 20 → 51+20+40+20+40 = 171 ✓ (12 slot: 2/5/5 — aaa.md §13.9)
+   ═══════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) and (max-width: 1024px) {
+  :root {
+    --wg-w: 365px;
+    --wg-h: 171px;
+    --wg-row-gap: 20px;
+    --wg-row-h-top: 51px;
+    --wg-row-h-mid: 40px;
+    --wg-row-h-bottom: 40px;
+
+    /* row2: 9 track (içinde boşluklar da track) — gap 0, nth-child ile yerleşim */
+    --wg-emb-row-mid-cols: 109px 21px 42px 21px 50px 15px 50px 15px 42px;
+    --wg-emb-row-mid-gap: 0px;
+
+    /* row3: 5 slot (base 4 track — embedded'de 5. servis slotu var) */
+    --wg-emb-row-bottom-cols: 129px 42px 42px 42px 42px;
+  }
+}
