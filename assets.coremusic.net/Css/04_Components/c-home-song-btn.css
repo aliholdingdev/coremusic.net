@@ -217,8 +217,24 @@
   outline-offset: 2px;
 }
 
-/* Süre etiketi — PNG: kartın sağ-alt köşesi (1024/1920 mockup) */
+/* Süre etiketi — PNG: kartın sağ-alt köşesi (1024/1920 mockup):
+   Figma "Sure" 28×9 @ sağ-alt, sanatçı satırının altına iner (absolute) */
 .home-song__mini-card .mini-card__subtitle {
-  align-self: flex-end;
-  margin-left: auto;
+  position: absolute;
+  right: 4px;
+  bottom: 3px;
+  font-size: var(--home-embedded-card-fs-sub, 7px);
+  line-height: 9px;
+  color: var(--color-text, rgba(255, 255, 255, 0.9));
+  text-shadow: var(--ts-sm);
+  pointer-events: none;
+}
+
+/* Figma Container 169×43 radius 3 + Color Overlay white 0.1 + Stroke white 1px
+   + DROP_SHADOW 0 3 15 #373737 0.5 (1639:9894 / I2890:7922;992:15165) */
+.home-song__mini-card {
+  position: relative;
+  border-radius: var(--home-embedded-card-radius, 3px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 3px 15px rgba(55, 55, 55, 0.5);
 }
