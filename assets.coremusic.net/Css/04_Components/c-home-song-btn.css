@@ -221,8 +221,9 @@
    Figma "Sure" 28×9 @ sağ-alt, sanatçı satırının altına iner (absolute) */
 .home-song__mini-card .mini-card__subtitle {
   position: absolute;
-  right: 4px;
+  right: 27px;   /* Figma Sure 28×9: x1193−(1056+50)=87 → sağ kenar 169−115=54; text sağ kenarı 54, kutu 28 → right 27 */
   bottom: 3px;
+  width: 28px;
   font-size: var(--home-embedded-card-fs-sub, 7px);
   line-height: 9px;
   color: var(--color-text, rgba(255, 255, 255, 0.9));
