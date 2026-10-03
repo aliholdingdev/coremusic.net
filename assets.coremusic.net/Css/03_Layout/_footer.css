@@ -38,14 +38,14 @@
   z-index: var(--z-footer);
   display: flex;
   flex-direction: column;
-  border-top: solid 0.1px #ffffff30;
+  border-top: solid 0.1px var(--cm-color-ffffff30);
 }
 
 /* ═══ Progressbar: Figma 1025×4.8 ═══ */
 .footer-player__progress {
   position: relative;
   width: 100%;
-  height: 5px;
+  height: var(--footer-progressbar-h);
   background: var(--footer-progresbar-bg);
   cursor: pointer;
   flex-shrink: 0;
@@ -91,7 +91,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  min-height: 60px;
+  min-height: 60pxİ
 }
 
 /* ZON 1 — Sol hizalama */
@@ -169,7 +169,7 @@
   .footer-player__btn {
     width: 36px;
     height: 36px;
-    padding: 4px;
+    padding: 1px;
   }
 
   .footer-player__btn img {
@@ -193,7 +193,7 @@
   }
 
   .footer__utility-icons {
-    gap: 4px;
+    gap: 1px;
   }
 }
 
@@ -234,7 +234,7 @@
   }
 
   .footer-player__btn img {
-    width: 32px;
+    width: var(--cm-w-32px);
     height: 32px;
   }
 
@@ -259,7 +259,7 @@
   .footer-player__btn {
     width: 36px;
     height: 36px;
-    padding: 4px;
+    padding: 1px;
   }
 
   .footer-player__btn img {
@@ -276,9 +276,8 @@
 .footer-player__info {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 1px;
   min-width: 0;
-  max-width: var(--footer-media);
   margin: 0;
   padding: 0;
   height: 100%;
@@ -288,7 +287,7 @@
 .footer-player__text {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
   font-family: var(--font-body);
   font-size: var(--footer-text-size);
   font-weight: 500;
@@ -307,7 +306,7 @@
 
 .footer-player__sep {
   opacity: 0.5;
-  margin: 0 2px;
+  margin: 0 var(--cm-mar-2px);
 }
 
 /* ═══ ZON 2 — Controls: Figma 297×62 (embedded) / 126×27 (desktop) ═══ */
@@ -315,7 +314,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-2);
   flex-wrap: nowrap;
   height: 100%;
 }
@@ -329,7 +328,7 @@
 .footer-player__btn {
   cursor: pointer;
   border-radius: 50%;
-  padding: 3px;
+  padding: var(--cm-pad-3px);
   transition: background 0.2s, transform 0.15s;
   display: inline-flex;
   align-items: center;
@@ -353,8 +352,8 @@
   display: block;
   margin: 0 auto;
   filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-  width: 40PX;
-  height: 40PX;
+  width: var(--cm-w-40px);
+  height: var(--cm-h-40px);
   object-fit: contain;
 }
 
@@ -367,11 +366,11 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 2px;
   margin: 0;
   width: var(--footer-volume);
   height: 100%;
-  padding: 0 4px;
+  padding: 0 var(--space-1);
 }
 
 .footer-player__volume img {
@@ -413,7 +412,7 @@
 
 .footer-player__volume-value {
   font-family: var(--font-body);
-  font-size: 9px;
+  font-size: var(--cm-fs-9px);
   font-weight: 500;
   color: var(--footer-text);
   white-space: nowrap;
@@ -456,7 +455,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 1px;
   height: 100%;
   padding: 0;
 }

@@ -1,0 +1,885 @@
+/**
+ * CoreMusic — Home Page Components
+ * ITCSS Layer: 05_Pages
+ * Version: 6.0.0 — 2026-09-22
+ *
+ * Bileşenler: Now Playing Card, Widget Area, Quick Apps, Mini Card, Card Grid items
+ * Platform: home-1024 (RPi5 1024×600) — default
+ *
+ * v6.0.0: Figma pixel-perfect restructuring
+ *   - Widget area: Row1 2×2 (embedded) / 4×4 (desktop), Row2-3 1×5 / 1×8
+ *   - Quick apps row: 129×40px buttons (embedded) / 200×60px (desktop)
+ *   - Mini card: 169×43px (embedded) / 200×48px (desktop)
+ *   - Now Playing: 100×100 art (embedded) / 150×150 art (desktop)
+ *
+ * Figma pixel measurements:
+ *   Now Playing: 100×100 art + metadata + seek bar (embedded)
+ *   Now Playing Wide: 150×150 art + rating + badges (1920)
+ *   Widget: glass panel ~109×40 (embedded) / 220×80 (desktop)
+ *   Quick Apps: 129×40 (embedded) / 200×60 (desktop)
+ *   Mini Card: 169×43px (embedded) / 200×48px (desktop)
+ *   Detail Panel: 300×300 art (desktop)
+ */
+
+/* ============================================================
+   HOME COMPONENT SCALE — Bileşen bazında ölçek (PNG 1024 ölçümleri)
+   KURAL (kullanıcı kararı 2026-09-08): home container'a toplu scale
+   UYGULANMAZ (ScaleManager '.page-home' hedefi kaldırıldı). Her bileşen
+   kendi manuel değerini tek tek taşır — kart, buton, başlık dahil.
+   Değerler: .ai/.png/home-1024/ + screens/B-home/dashboard.md §4-5
+   ============================================================ */
+
+/* — Embedded (RPi5 1024×600) bileşen ölçekleri — */
+
+/* Başlıklar */
+.home-layout--embedded .section-title {
+  font-size: var(--cm-fs-12px);          /* bölüm başlığı */
+  line-height: 1.35;
+}
+.home-layout--embedded .now-playing__title {
+  font-size: var(--cm-fs-13px);          /* kart başlığı — Figma: 13px */
+  line-height: 1.3;
+}
+.home-layout--embedded .now-playing__subtitle {
+  font-size: var(--cm-fs-12px);          /* album satırı — Figma: 12px */
+}
+.home-layout--embedded .now-playing__artist {
+  font-size: var(--cm-fs-12px);          /* sanatçı satırı — Figma: 12px */
+}
+.home-layout--embedded .media-progress__time {
+  font-size: var(--cm-fs-10px);          /* süre değerleri */
+}
+.home-layout--embedded .home-widget__title {
+  font-size: var(--cm-fs-9px);           /* widget başlığı — Figma: 9px */
+}
+.home-layout--embedded .home-widget__info {
+  font-size: var(--cm-fs-8px);           /* widget içeriği — Figma: 8px */
+}
+.home-layout--embedded .home-widget__subtitle {
+  font-size: var(--cm-fs-6.5px);         /* widget alt metni — Figma: 6.5px */
+}
+
+/* Kartlar */
+.home-layout--embedded .mini-card {
+  padding: var(--cm-pad-6px) var(--space-2);         /* kart iç boşluğu */
+}
+.home-layout--embedded .mini-card__title {
+  font-size: var(--cm-fs-11px);          /* kart başlığı */
+}
+.home-layout--embedded .mini-card__subtitle,
+.home-layout--embedded .mini-card__album {
+  font-size: var(--cm-fs-10px);          /* kart alt metni */
+}
+.home-layout--embedded .mini-card__art {
+  width: var(--cm-w-50px);              /* PNG: 50×50 küçük kapak */
+  height: var(--cm-h-50px);
+}
+
+/* Butonlar */
+.home-layout--embedded .home-widget__folder-btn {
+  width: var(--cm-w-40px);              /* Kitaplığım app butonu */
+  height: var(--cm-h-40px);
+}
+.home-layout--embedded .home-widget__folder-btn img,
+.home-layout--embedded .home-widget__folder-btn svg {
+  width: var(--cm-w-18px);
+  height: var(--cm-h-18px);
+}
+.home-layout--embedded .toggle-row {
+  font-size: var(--cm-fs-12px);          /* "Playlister Listesini Görüntüle" */
+  min-height: var(--cm-h-48px);         /* WCAG touch */
+}
+
+/* Widget glass iç paneli */
+.home-layout--embedded .home-widget {
+  padding: var(--space-2) var(--cm-pad-10px);        /* widget dış padding — PNG kompakt satır ~60px */
+}
+.home-layout--embedded .home-widget__glass {
+  padding: var(--cm-pad-6px) var(--cm-pad-10px);
+  min-height: var(--cm-h-30px);
+}
+.home-layout--embedded .home-widget__header {
+  margin-bottom: var(--space-1);
+  gap: var(--cm-gap-6px);
+}
+.home-layout--embedded .home-widget__icon img,
+.home-layout--embedded .home-widget__icon svg {
+  width: var(--cm-w-30px);
+  height: var(--cm-h-30px);
+}
+.home-layout--embedded .home-slot,
+.home-layout--embedded .home-app-btn {
+  min-height: var(--cm-h-48px);         /* PNG ~44px — WCAG 48px touch korunur */
+}
+
+/* — Wide/Desktop (1920) bileşen ölçekleri — PNG home-1920 ölçümleri — */
+/* .home_song__btn-title: wide markup'ta .section-title sınıfı taşımaz → h2 base
+   (32px / koyu renk) devralıyordu; bölüm başlığı değerleri burada eşitlenir. */
+.home-layout--wide .section-title,
+.home-layout--wide .home_song__btn-title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--cm-fs-13px);          /* bölüm başlığı — Figma 2850:21627 fs13 (PNG: y341) */
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, rgba(255, 255, 255, 0.9));
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 0 10px rgba(0, 0, 0, 0.20);
+  margin: 0 0 var(--space-2, 8px);
+}
+.home-layout--wide .now-playing__meta-line {
+  font-size: var(--cm-fs-11.5px);        /* Figma: 11.5px */
+  letter-spacing: 0.897px;  /* Figma: tracking 0.897px */
+}
+.home-layout--wide .now-playing__meta-label {
+  font-size: var(--cm-fs-11.5px);
+  letter-spacing: 0.897px;
+}
+.home-layout--wide .now-playing__meta-value {
+  font-size: var(--cm-fs-11.5px);
+  letter-spacing: 0.897px;
+}
+.home-layout--wide .home-widget__title {
+  font-size: var(--cm-fs-15px);          /* widget başlığı */
+}
+.home-layout--wide .home-widget__info {
+  font-size: var(--cm-fs-12px);          /* widget içeriği */
+}
+.home-layout--wide .mini-card__title {
+  font-size: var(--cm-fs-12px);          /* kart başlığı */
+}
+.home-layout--wide .mini-card__subtitle,
+.home-layout--wide .mini-card__album {
+  font-size: var(--cm-fs-11px);          /* kart alt metni */
+}
+.home-layout--wide .media-progress--wide .media-progress__bar {
+  height: var(--cm-h-8px);              /* PNG kart altı bar */
+}
+.home-layout--wide .media-progress__play {
+  width: var(--cm-w-22px);
+  height: var(--cm-h-22px);
+}
+
+/* — 2K / 4K (≥2561px) bileşen ölçekleri — geniş ekran oranla büyütme — */
+@media (min-width: 2561px) {
+  .home-layout--wide .section-title,
+  .home-layout--wide .home_song__btn-title {
+    font-size: var(--cm-fs-22px);
+  }
+  .home-layout--wide .now-playing__meta-line,
+  .home-layout--wide .now-playing__meta-label,
+  .home-layout--wide .now-playing__meta-value {
+    font-size: var(--cm-fs-18px);
+  }
+  .home-layout--wide .home-widget__title {
+    font-size: var(--cm-fs-20px);
+  }
+  .home-layout--wide .home-widget__info {
+    font-size: var(--cm-fs-16px);
+  }
+  .home-layout--wide .mini-card__title {
+    font-size: var(--cm-fs-16px);
+  }
+  .home-layout--wide .mini-card__subtitle,
+  .home-layout--wide .mini-card__album {
+    font-size: var(--cm-fs-14px);
+  }
+  .home-layout--wide .media-progress--wide .media-progress__bar {
+    height: var(--cm-h-10px);
+  }
+  .home-layout--wide .media-progress__play {
+    width: var(--cm-w-28px);
+    height: var(--cm-h-28px);
+  }
+}
+
+
+
+/* ============================================================
+   MEDIA PROGRESS — PNG player info'daki medya ilerleme göstergesi
+   SEEK DEĞİL: salt görüntü progress bar (tıklama/drag işlevi YOK,
+   cursor default). Süre — pembe bar — süre tek satır (PNG birebir).
+   ============================================================ */
+
+
+
+.now-playing__meta-value {
+  color: rgba(255, 255, 255, 0.95);
+  /* Figma: 0.5px 0.5px 0.5px rgba(0,0,0,0.8) */
+  text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* REMOVED: widget-area, widget, widget-grid, media-card, detail-panel — not used in PHP templates */
+
+/* ============================================================
+   HOME WIDGET — Sağ panel glass kartları
+   Hoparlörler, Hava Durumu, Tarih, Klasörlerim
+   PNG: Glass panels with backdrop-filter blur(20px)
+   ============================================================ */
+.home-widget {
+  /* PNG sadakat: cam panel — duvar kağıdı seçilir (0.5 beyaz KALDIRILDI, PNG birebir) */
+  background: var(--glass-bg, rgba(255, 255, 255, 0.12));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: var(--cm-bw-1px) solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-card, 12px);
+  padding: var(--card-padding, 12px);
+  box-shadow: var(--shadow-md);
+}
+
+.home-widget__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  margin-bottom: var(--space-1, 4px);
+}
+
+.home-widget__icon {
+  font-size: var(--cm-fs-18px);
+  color: var(--accent, #ff4fd8);
+}
+
+.home-widget__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-lg, 14px);
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  /* Figma: 0.5px 0.5px 0.1px rgba(0,0,0,0.8) */
+  text-shadow: 0.5px 0.5px 0.1px rgba(0, 0, 0, 0.8);
+  margin: 0;
+}
+
+.home-widget__subtitle {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  text-shadow: var(--ts-sm);
+  margin: 0 0 var(--space-2, 8px) 0;
+}
+
+.home-widget__glass {
+  /* İç panel — dış kartın üstünde hiyerarşi: PNG sadakat ince cam (0.10) */
+  background: var(--glass-bg, rgba(255, 255, 255, 0.10));
+  border: var(--cm-bw-1px) solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md, 8px);
+  padding: var(--space-3, 12px);
+  min-height: var(--cm-h-60px);
+  box-shadow: var(--shadow-xs);
+}
+
+.home-widget__info {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  /* Figma: 0.5px 0.5px 0.1px rgba(0,0,0,0.8) */
+  text-shadow: 0.5px 0.5px 0.1px rgba(0, 0, 0, 0.8);
+  margin: 0;
+}
+
+.home-widget__folders {
+  display: flex;
+  gap: var(--space-2, 8px);
+  margin-bottom: var(--space-2, 8px);
+}
+
+.home-widget__folder-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cm-w-36px);
+  height: var(--cm-h-36px);
+  border-radius: var(--radius-md, 8px);
+  background: rgba(255, 255, 255, 0.06);
+  border: var(--cm-bw-1px) solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  cursor: pointer;
+  transition: background 150ms ease;
+  padding: 0;
+}
+
+.home-widget__folder-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.home-widget__folder-btn:focus-visible {
+  outline: var(--cm-bw-2px) solid var(--accent, #ff4fd8);
+  outline-offset: var(--cm-pos-2px);
+}
+
+/* ============================================================
+   WIDGET CELL — PNG 2./3. satır hücreleri (slot + app kısayolları)
+   PNG home-1024: Saat|EQ+3slot ve Kitaplığım|4 app butonu kompozisyonu
+   ============================================================ */
+.home-widget-cell {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-2);
+}
+
+.home-slot {
+  flex: 1;
+  min-height: var(--cm-h-48px); /* WCAG 2.5.8 */
+  /* PNG sadakat: ince cam slot (0.5 beyaz KALDIRILDI) */
+  background: var(--glass-bg, rgba(255, 255, 255, 0.10));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: var(--cm-bw-1px) solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.home-slot--eq {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* PNG: EQ slot — 5 dikey bar (~24px) */
+.home-slot--eq .widget-eq-bars {
+  height: var(--cm-h-24px);
+  gap: var(--cm-gap-3px);
+}
+
+.home-slot--eq .widget-eq-bars span {
+  width: var(--cm-w-4px);
+}
+
+.home-widget--compact {
+  display: flex;
+  align-items: center;
+  padding: var(--cm-pad-10px) var(--space-3);
+}
+
+.home-widget--compact .home-widget__header {
+  margin-bottom: 0;
+}
+
+.home-app-btn {
+  flex: 1;
+  min-height: var(--cm-h-48px); /* WCAG 2.5.8 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--cm-bw-1px) solid transparent;
+  border-radius: var(--cm-radius-10px);
+  /* PNG sadakat: ince cam buton (0.5 beyaz KALDIRILDI) */
+  background: var(--glass-bg, rgba(255, 255, 255, 0.12));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  padding: 0;
+  box-shadow: var(--shadow-sm);
+  transition: transform 150ms ease, background 150ms ease;
+}
+
+/* İkon drop-shadow — arka plandan ayrışma */
+.home-app-btn img,
+.home-app-btn svg {
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+}
+
+.home-app-btn:hover {
+  transform: scale(1.06);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.home-app-btn:focus-visible {
+  outline: var(--cm-bw-2px) solid var(--accent, #ff4fd8);
+  outline-offset: var(--cm-pos-2px);
+}
+
+.home-app-btn--sparkle {
+  background: rgba(255, 79, 216, 0.30);
+  border-color: rgba(255, 79, 216, 0.50);
+  color: var(--cm-accent);
+  border-radius: 50%; /* PNG: pembe daire */
+}
+
+.home-app-btn--youtube {
+  background: rgba(230, 33, 23, 0.28);
+  border-color: rgba(230, 33, 23, 0.50);
+}
+
+.home-app-btn--heart {
+  background: rgba(168, 85, 247, 0.28);
+  border-color: rgba(168, 85, 247, 0.50);
+  color: var(--cm-color-a855f7);
+}
+
+/* ============================================================
+   QUICK APPS ROW — Kütüphanelerim + circular app buttons
+   PNG: home-1024 row below widget grid, home-1920 row below widget cluster
+   ============================================================ */
+.home-quick-apps-row {
+  display: flex;
+  align-items: center;
+  gap: var(--grid-gap, 8px);
+  margin-top: var(--space-2, 8px);
+}
+
+.home-quick-apps-row__left {
+  flex: 0 0 auto;
+}
+
+.home-quick-apps-row__right {
+  display: flex;
+  align-items: center;
+  gap: var(--grid-gap, 6px);
+  flex: 1;
+}
+
+.home-app-btn--filemanager {
+  display: flex;
+  align-items: center;
+  gap: var(--cm-gap-6px);
+  padding: var(--cm-pad-6px) var(--space-3);
+  min-height: var(--cm-h-40px);
+  min-width: var(--cm-w-129px);
+  background: var(--glass-bg, rgba(255, 255, 255, 0.12));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: var(--cm-bw-1px) solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  color: var(--cm-white);
+  font-family: var(--font-body, 'Avalon Medium', sans-serif);
+  font-size: var(--cm-fs-8.5px);
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+  transition: transform 150ms ease, background 150ms ease;
+}
+
+.home-app-btn--filemanager:hover {
+  transform: scale(1.03);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.home-app-btn--filemanager img {
+  width: var(--cm-w-20px);
+  height: var(--cm-h-20px);
+  margin-right: var(--cm-mar-neg4px);
+}
+
+.home-app-btn--filemanager .home-app-btn__label {
+  white-space: nowrap;
+}
+
+.home-app-btn--circle {
+  width: var(--cm-w-28px);
+  height: var(--cm-h-28px);
+  min-height: var(--cm-h-28px);
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass-bg, rgba(255, 255, 255, 0.12));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: var(--cm-bw-1px) solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.8);
+  transition: transform 150ms ease, background 150ms ease;
+}
+
+.home-app-btn--circle:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.home-app-btn--circle img,
+.home-app-btn--circle svg {
+  width: var(--cm-w-16px);
+  height: var(--cm-h-16px);
+}
+
+/* ============================================================
+   MINI CARD — Sıradaki şarkılar mini kart
+   ============================================================ */
+.mini-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-2, 8px);
+  /* PNG sadakat: cam mini kart — duvar kağıdı seçilir (0.5 beyaz KALDIRILDI) */
+  background: var(--glass-bg, rgba(255, 255, 255, 0.12));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--cm-bw-1px) solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-card, 12px);
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-sm);
+  transition: background 150ms ease, border-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.mini-card:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 79, 216, 0.4);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.mini-card:focus-visible {
+  outline: var(--cm-bw-2px) solid var(--accent, #ff4fd8);
+  outline-offset: var(--cm-pos-2px);
+}
+
+.mini-card__art {
+  width: var(--mini-card-art-size, 50px);
+  height: var(--mini-card-art-size, 50px);
+  border-radius: var(--radius-md, 8px);
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.mini-card__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mini-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cm-gap-2px);
+  min-width: 0;
+}
+
+.mini-card__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  text-shadow: var(--ts-sm);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mini-card__artist {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  text-shadow: var(--ts-sm);
+  margin: 0;
+}
+
+.mini-card__album {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  text-shadow: var(--ts-sm);
+  margin: 0;
+}
+
+/* PNG home-1024: 2x2 grid 4. hücresi — Playlist listesini görüntüle cam butonu */
+.playlist-list-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2, 8px);
+  background: var(--glass-bg, rgba(255, 255, 255, 0.12));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--cm-bw-1px) solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-card, 12px);
+  color: rgba(255, 255, 255, 0.9);
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--cm-fs-11px);
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+  width: 100%;
+  height: 100%;
+  min-height: var(--cm-h-48px);
+  box-sizing: border-box;
+}
+
+.playlist-list-card:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 79, 216, 0.4);
+  transform: translateY(-1px);
+}
+
+.playlist-list-card:focus-visible {
+  outline: var(--cm-bw-2px) solid var(--accent, #ff4fd8);
+  outline-offset: var(--cm-pos-2px);
+}
+
+.playlist-list-card:active {
+  background: rgba(255, 255, 255, 0.10);
+  transform: translateY(0);
+}
+
+.playlist-list-card__icon {
+  flex-shrink: 0;
+  color: var(--accent, #ff4fd8);
+}
+
+/* PNG home-1024: Sıradaki Şarkılar büyük cam çerçeve konteyneri */
+.up-next-panel {
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: var(--cm-bw-1px) solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--cm-radius-12px);
+  padding: var(--cm-pad-10px);
+  min-height: var(--cm-h-124px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: var(--shadow-md);
+  box-sizing: border-box;
+}
+
+.up-next-panel .mini-card {
+  width: 100%;
+}
+
+/* ============================================================
+   SOCIAL ROW (Sağ panel altında — widget'ların altında)
+   PNG: Widget'ların altında renkli ikon satırı (YouTube, Instagram, ♥, ♫, ♥)
+   ============================================================ */
+.home-social-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-3, 12px) 0;
+  margin-top: var(--space-2, 8px);
+}
+
+.home-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cm-w-44px);
+  height: var(--cm-h-44px);
+  border-radius: var(--radius-lg, 12px);
+  background: rgba(255, 255, 255, 0.08);
+  border: var(--cm-bw-1px) solid rgba(255, 255, 255, 0.1);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  text-decoration: none;
+  transition: background 150ms ease, transform 150ms ease;
+  flex-shrink: 0;
+}
+
+.home-social-btn img,
+.home-social-btn svg {
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+}
+
+.home-social-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.home-social-btn:focus-visible {
+  outline: var(--cm-bw-2px) solid var(--accent, #ff4fd8);
+  outline-offset: var(--cm-pos-2px);
+}
+
+.home-social-btn:active {
+  transform: scale(0.95);
+}
+
+/* Pink heart — filled style */
+.home-social-btn--heart {
+  background: rgba(233, 30, 99, 0.15);
+  border-color: rgba(233, 30, 99, 0.3);
+}
+
+.home-social-btn--heart:hover {
+  background: rgba(233, 30, 99, 0.25);
+}
+
+/* Music note — purple style */
+.home-social-btn--music {
+  background: rgba(155, 89, 182, 0.15);
+  border-color: rgba(155, 89, 182, 0.3);
+}
+
+.home-social-btn--music:hover {
+  background: rgba(155, 89, 182, 0.25);
+}
+
+/* Second heart */
+.home-social-btn--heart2 {
+  background: rgba(233, 30, 99, 0.15);
+  border-color: rgba(233, 30, 99, 0.3);
+}
+
+.home-social-btn--heart2:hover {
+  background: rgba(233, 30, 99, 0.25);
+}
+
+/* ============================================================
+   WELCOME MODAL (Responsive — Tüm cihazlar, Guardrail #17)
+   Base: 1024×600 embedded (PNG mockup reference)
+   ============================================================ */
+.welcome-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  box-sizing: border-box;
+  transition: opacity 0.22s ease-out;
+}
+
+.welcome-modal-overlay.is-hidden {
+  display: none !important;
+}
+
+.welcome-modal {
+  position: relative;
+  width: 100%;
+  max-width: var(--cm-w-600px);
+  min-height: var(--cm-h-308px);
+  background-color: rgba(255, 255, 255, 0.12);
+  background-image: url('//assets.coremusic.net/Image/background/welcome-popup-girl.png'), url('/Image/background/welcome-popup-girl.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border: var(--cm-bw-1px) solid rgba(255, 255, 255, 0.21);  /* Figma: opacity 0.21 */
+  border-radius: var(--radius-md);  /* Figma: rounded-[8px] */
+  box-shadow: var(--modal-shadow);
+  padding: var(--cm-pad-13px) 0 var(--cm-pad-35px);  /* Figma: wordmark y13, Başla bitişi y273 → alt boşluk 35 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.welcome-modal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Figma: bg-white opacity 0.10 */
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.welcome-modal__logo,
+.welcome-modal__logo-img,
+.welcome-modal__title,
+.welcome-modal__sub,
+.welcome-modal__desc,
+.welcome-modal__btn {
+  position: relative;
+  z-index: 1;
+}
+
+/* PNG: × close butonu YOK — kapanış Başla butonu / Escape ile.
+   (eski .welcome-modal__close bloğu kaldırıldı — PNG'de görünmeyen öğe) */
+
+/* Figma: "coremusic-text 1" wordmark — 195×130 @ (203,13) (modal içi) */
+.welcome-modal__logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--cm-w-195px);
+  height: var(--cm-h-130px);
+  margin: 0 auto;
+}
+
+.welcome-modal__logo-img {
+  width: var(--cm-w-195px);
+  height: var(--cm-h-130px);
+  object-fit: contain;
+}
+
+/* PNG: "Hoş geldin" — Figma: fs14 Arima 400, lh 22.86, y93
+   (margin-top -50: wordmark 13+130 ile üst üste binen Figma düzeni) */
+.welcome-modal__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--cm-fs-14px);  /* Figma: 14px */
+  font-weight: 400;  /* Figma: Arima 400 */
+  line-height: 22.86px;  /* Figma: lh 22.86 */
+  color: var(--cm-white);
+  margin: var(--cm-mar-neg50px) 0 0;
+  text-shadow: var(--ts-md);
+}
+
+/* Figma: "Prenses Işıl Peri" — fs20 Plus Jakarta Sans 600, lh 25.2, y136 */
+.welcome-modal__sub {
+  font-family: 'Plus Jakarta Sans', 'DM Sans', sans-serif;
+  font-size: var(--cm-fs-20px);
+  font-weight: 600;
+  line-height: 25.2px;
+  color: var(--cm-white);
+  margin: var(--space-5) 0 0;
+  text-shadow: var(--ts-md);
+}
+
+/* Figma: desc — fs10 DM Sans 300, lh 13.02, y194, w365, 2 satır */
+.welcome-modal__desc {
+  font-family: 'DM Sans', var(--font-body, 'Arima', sans-serif);
+  font-size: var(--cm-fs-10px);  /* Figma: 10px */
+  font-weight: 300;  /* Figma: DM Sans Light */
+  line-height: 13.02px;  /* Figma: lh 13.02 */
+  color: rgba(255, 255, 255, 0.92);
+  max-width: var(--cm-w-365px);  /* Figma: w-[365px] */
+  margin: var(--cm-mar-33px) auto 0;
+  text-shadow: var(--ts-md);
+}
+
+/* PNG: "Başla" — Figma: 105×25px, gradient, radius 3px */
+.welcome-modal__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cm-w-105px);  /* Figma: w-[105px] */
+  min-height: var(--cm-h-25px);  /* Figma: h-[25px] */
+  padding: var(--space-1) var(--space-3);
+  background: linear-gradient(90deg, var(--pink-primary-button-left-color) 0%, var(--pink-primary-button-color) 50%, var(--pink-primary-button-right-color) 100%);
+  color: var(--cm-white);
+  border: none;
+  border-radius: var(--cm-radius-3px);
+  font-family: 'Avalon Medium', var(--font-body, 'Arima', sans-serif);
+  font-size: var(--cm-fs-11px);  /* Figma: 11px */
+  font-weight: 500;  /* Figma: Avalon Medium */
+  letter-spacing: 0.11px;  /* Figma: tracking 0.11px */
+  text-shadow: 0px 0.1px 1px rgba(0, 0, 0, 0.8);  /* Figma */
+  margin: var(--cm-mar-28px) 0 0;  /* Figma: desc bitişi y220 → Başla y248 */
+  cursor: pointer;
+  box-shadow: var(--shadow-brand);
+  transition: background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.welcome-modal__btn:hover {
+  background: var(--cm-color-ff5fe0);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-brand-lg);
+}
+
+.welcome-modal__btn:active {
+  transform: translateY(0);
+}
+
+.welcome-modal__btn:focus-visible {
+  outline: var(--cm-bw-3px) solid var(--cm-white);
+  outline-offset: var(--cm-pos-3px);
+}
+
+/* REMOVED: now-playing--mockup*, now-playing--tv*, home-widget-card--tv*, home-tv-*, home-column-header--tv — not used in PHP templates */
+
+/* REMOVED: now-playing--wide*, now-playing--4k*, hero-welcome-banner*, embedded-*, desktop-* — not used in PHP templates */
+/* REMOVED: now-playing-embedded-card*, embedded-widget-pill*, embedded-app-btn*, mini-music-card*, embedded-upnext-panel*, mini-playlist-view-btn, hero-welcome-banner*, hero-stat-*, desktop-*, 4K/4K-monitor variants, home-widget-area*, home-widget-panel*, home-quick-app*, home-mini-card*, home-mini-card-grid — not used in PHP templates */
+
+/* ============================================================
+   WELCOME MODAL — KEPT (used in home.php)
+   ============================================================ */

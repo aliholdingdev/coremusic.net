@@ -38,7 +38,7 @@ final class HomeSongButton
             . '<div class="home-song__mini-card__info">'
             . '<h3 class="home-song__mini-card__title">' . $h((string)$item['t']) . '</h3>'
             . '<p class="home-song__mini-card__subtitle">' . $h((string)($item['s'] ?? '')) . '</p>'
-            . '<span class="' . $metaClass . '">' . $h($metaLabel) . '</span>'
+            . '<span class="' . $metaClass . '" style="position: absolute;margin-top: -2px;right: 0;">' . $h($metaLabel) . '</span>'
             . '</div></a>';
     }
 }

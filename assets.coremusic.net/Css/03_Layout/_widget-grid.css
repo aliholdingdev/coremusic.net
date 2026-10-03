@@ -1,0 +1,341 @@
+/**
+ * CoreMusic — Widget Grid (v2.0.0)
+ * Figma SSOT: node 2831:13747 (1920 Home) → "Div2 Button" id 2850:21494 (752×184)
+ * BEM: .widget-grid, .widget-grid__row, .widget-card, .widget-card__*
+ * ITCSS Layer: 04_Components
+ * Token'lar: 01_Abstracts/a-widget-grid-tokens.css (ham px/hex bu dosyada YAZILMAZ)
+ * Sadece WIDE/4K üst satırında render edilir (pages/home.php · pages/components/widget-grid.php)
+ * Version: 2.0.0 — 2026-09-30
+ */
+
+/* ═══ Widget Grid Container ═══ */
+.widget-grid {
+  position: relative;            /* .widget-card--tall (Figma 2850:21622) buna göre konumlanır */
+  display: flex;
+  flex-direction: column;
+  gap: var(--wg-row-gap);
+  width: 100%;
+  max-width: var(--wg-w);
+}
+
+/* ═══ Satırlar (Figma 3 satır) ═══
+   Track'ler "spacer" tekniğiyle fr verilir (token'larda, toplam 752fr):
+   satır genişliği ne olursa olsun Figma boşluk/kart oranı korunur, taşma olmaz.
+   Son track tall kartın (x583 → 752-169) ayrıldığı alandır. */
+.widget-grid__row {
+  display: grid;
+  align-items: stretch;
+  gap: 0;
+}
+
+.widget-grid__row--top {
+  grid-template-columns:
+    var(--wg-wt-c1) var(--wg-wt-g)
+    var(--wg-wt-c2) var(--wg-wt-g)
+    var(--wg-wt-c2)
+    var(--wg-wt-tall);
+}
+
+.widget-grid__row--mid {
+  grid-template-columns:
+    var(--wg-wm-c1) var(--wg-wm-g)
+    var(--wg-wm-c2) var(--wg-wm-g)
+    var(--wg-wm-sc) var(--wg-wm-sg)
+    var(--wg-wm-sc) var(--wg-wm-sg)
+    var(--wg-wm-e) var(--wg-wm-sg)
+    var(--wg-wm-e) var(--wg-wm-sg)
+    var(--wg-wm-e) var(--wg-wm-sg)
+    var(--wg-wm-e)
+    var(--wg-wm-tall);
+}
+
+.widget-grid__row--bottom {
+  grid-template-columns:
+    var(--wg-wb-c1) var(--wg-wb-g)
+    var(--wg-wb-s) var(--wg-wb-g)
+    var(--wg-wb-s) var(--wg-wb-g)
+    var(--wg-wb-s) var(--wg-wb-g)
+    var(--wg-wb-s) var(--wg-wb-g)
+    var(--wg-wb-e) var(--wg-wb-g)
+    var(--wg-wb-e) var(--wg-wb-g)
+    var(--wg-wb-e)
+    var(--wg-wb-tall);
+}
+
+/* ═══ Wide yerleşim — spacer track'ler arasına düşen çocuklar tek tek sabitlenir
+   (auto-placement gap track'lerini de slot sanıyordu: x0 w172 / x172 w22 hatası)
+   track sırası: dolu · boşluk · dolu · boşluk … → çocuklar TEK İNDİSLİ kolonlara */
+@media (min-width: 1025px) {
+  .widget-grid__row--top > .widget-card:nth-child(1) { grid-column: 1; }
+  .widget-grid__row--top > .widget-card:nth-child(2) { grid-column: 3; }
+  .widget-grid__row--top > .widget-card:nth-child(3) { grid-column: 5; }
+
+  .widget-grid__row--mid > .widget-card:nth-child(1) { grid-column: 1; }
+  .widget-grid__row--mid > .widget-card:nth-child(2) { grid-column: 3; }
+  .widget-grid__row--mid > .widget-card:nth-child(3) { grid-column: 5; }
+  .widget-grid__row--mid > .widget-card:nth-child(4) { grid-column: 7; }
+  .widget-grid__row--mid > .widget-card:nth-child(5) { grid-column: 9; }
+  .widget-grid__row--mid > .widget-card:nth-child(6) { grid-column: 11; }
+  .widget-grid__row--mid > .widget-card:nth-child(7) { grid-column: 13; }
+  .widget-grid__row--mid > .widget-card:nth-child(8) { grid-column: 15; }
+
+  .widget-grid__row--bottom > .widget-card:nth-child(1) { grid-column: 1; }
+  .widget-grid__row--bottom > .widget-card:nth-child(2) { grid-column: 3; }
+  .widget-grid__row--bottom > .widget-card:nth-child(3) { grid-column: 5; }
+  .widget-grid__row--bottom > .widget-card:nth-child(4) { grid-column: 7; }
+  .widget-grid__row--bottom > .widget-card:nth-child(5) { grid-column: 9; }
+  .widget-grid__row--bottom > .widget-card:nth-child(6) { grid-column: 11; }
+  .widget-grid__row--bottom > .widget-card:nth-child(7) { grid-column: 13; }
+  .widget-grid__row--bottom > .widget-card:nth-child(8) { grid-column: 15; }
+}
+
+/* Tall kart (Figma 2850:21622: 169×184 @ x583,y0) — 3 satırı boydan boya kapsar
+   specificity: .widget-card{position:relative} tabanını ezmek için çift sınıf */.widget-card.widget-card--tall {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: var(--wg-tall-w);
+  height: 100%;
+}
+
+/* ═══ Widget Kart — ortak taban (Figma: overlay #fff·10% + stroke, radius 3, dropShadow) ═══ */
+.widget-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--wg-card-bg);
+  border: var(--cm-bw-1px) solid var(--wg-card-border);
+  border-radius: var(--wg-card-radius);
+  box-shadow: var(--cm-box-shadow);
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+}
+
+.widget-grid__row--top .widget-card {
+  height: var(--wg-row-h-top);
+}
+
+.widget-grid__row--mid .widget-card {
+  height: var(--wg-row-h-mid);
+}
+
+.widget-grid__row--bottom .widget-card {
+  height: var(--wg-row-h-bottom);
+}
+
+.widget-card__icon {
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.widget-card__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.widget-card__label {
+  font-family: var(--cm-font-ui);
+  font-weight: 500;
+  color: var(--wg-text);
+  white-space: nowrap;
+  margin: 0;
+}
+
+.widget-card__label--title {
+  font-weight: 700;
+}
+
+.widget-card__value {
+  font-family: var(--cm-font-ui);
+  font-weight: 700;
+  color: var(--wg-text);
+  white-space: nowrap;
+  margin: 0;
+}
+
+.widget-card__value--sub {
+  opacity: 0.85;
+}
+
+/* ═══ Ses Kaynağı (173×54.88) — img 31.12 + "Hoparlör" / "Core Music - Hoparlör" ═══ */
+.widget-card--speaker {
+  gap: var(--cm-gap-10px);
+  padding: 0 10px;
+}
+
+.widget-card__icon--speaker {
+  width: var(--wg-icon-speaker);
+  height: var(--wg-icon-speaker);
+}
+
+.widget-card--speaker .widget-card__label {
+  font-size: var(--wg-font-speaker-label);
+}
+
+.widget-card--speaker .widget-card__value {
+  font-size: var(--wg-font-speaker-value);
+}
+
+/* ═══ Hava Durumu (172×54.88) — img 30×32.28 + başlık/değer/şehir ═══ */
+.widget-card--weather {
+  gap: var(--cm-gap-10px);
+  padding: 0 10px;
+}
+
+.widget-card__icon--weather {
+  width: var(--wg-icon-weather-w);
+  height: var(--wg-icon-weather-h);
+}
+
+.widget-card--weather .widget-card__label--title {
+  font-size: var(--wg-font-weather-title);
+}
+
+.widget-card--weather .widget-card__value {
+  font-size: var(--wg-font-weather-value);
+}
+
+.widget-card--weather .widget-card__value--sub {
+  font-size: var(--wg-font-weather-sub);
+}
+
+/* ═══ Saat Widget (109×43.04) — img 17×17 + "07:00" / "5 Haziran 2026" ═══ */
+.widget-card--clock {
+  gap: var(--space-2);
+  padding: 0 10px;
+}
+
+.widget-card__icon--clock {
+  width: var(--wg-icon-clock);
+  height: var(--wg-icon-clock);
+}
+
+.widget-card--clock .widget-card__value {
+  font-size: var(--wg-font-clock);
+}
+
+.widget-card__value--clock-date {
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+/* ═══ Equalizer Quick Access (42×43.04) — sadece ikon, ortalanmış ═══ */
+.widget-card--eq {
+  justify-content: center;
+}
+
+.widget-card__icon--eq {
+  width: var(--wg-icon-eq);
+  height: var(--wg-icon-eq-h);
+}
+
+/* ═══ Depolama Yönetici (173×43.04) — img 22.82 + label/değer + progressbar ═══ */
+.widget-card--storage {
+  gap: var(--space-2);
+  padding: 0 8px;
+}
+
+.widget-card__icon--storage {
+  width: var(--wg-icon-storage);
+  height: var(--wg-icon-storage);
+}
+
+.widget-card--storage .widget-card__label,
+.widget-card--storage .widget-card__value {
+  font-size: var(--wg-font-storage);
+}
+
+.widget-card__progress {
+  width: var(--wg-progress-w);
+  height: var(--wg-progress-h);
+  margin-top: var(--cm-mar-3px);
+}
+
+.widget-card__progress-track {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--cm-radius-2px);
+  background: var(--wg-progress-track-bg);
+  overflow: hidden;
+}
+
+.widget-card__progress-fill {
+  height: 100%;
+  width: var(--widget-storage-percent, 0%);
+  background: var(--wg-progress-fill-bg);
+  border-radius: var(--cm-radius-2px);
+  transition: width 0.5s linear;
+}
+
+/* ═══ Dosya Yönetici Btn (129×43.04) — img 45×45 + "Kütüphanelerim" ═══ */
+.widget-card--filemanager {
+  gap: var(--space-2);
+  padding: 0 8px;
+}
+
+.widget-card__icon--filemanager {
+  width: var(--wg-icon-filemanager);
+  height: var(--wg-icon-filemanager);
+}
+
+.widget-card--filemanager .widget-card__label {
+  font-size: var(--wg-font-filemanager);
+}
+
+/* ═══ Servis Butonları — Youtube / Youtube Music / Deezer (42×43.04, sadece ikon) ═══ */
+.widget-card--service {
+  justify-content: center;
+}
+
+.widget-card__icon--service {
+  width: var(--wg-icon-service);
+  height: var(--wg-icon-service-h);
+}
+
+.widget-card:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* ═══ Phone — dar ekranlarda widget grid tek sütuna düşer ═══ */
+@media (max-width: 767px) {
+  .widget-grid__row--top,
+  .widget-grid__row--mid,
+  .widget-grid__row--bottom {
+    grid-template-columns: 1fr;
+    gap: var(--wg-row-gap);
+  }
+}
+
+/* ═══ Embedded 1024 — Figma 1639:10160 (365×171) · 12 slot (2/5/5) ═══
+   row1 base (173+20+172) zaten Figma ile birebir — dokunulmaz.
+   row2: 5 slot / mixed gap → spacer-track + explicit yerleşim (ham px token'larda).
+   row3: base 4 track → embedded'de 5 slot. */
+/* --bp-1024: 1024px — a-breakpoint-tokens.css (@media'de var() geçersiz) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* row1 base track'leri wide'e (752fr) göre — embedded 365px'te px track ile ezilir */
+  .widget-grid__row--top {
+    grid-template-columns:
+      var(--wg-row-top-col-1)
+      var(--wg-row-top-gap)
+      var(--wg-row-top-col-2);
+    gap: 0;
+  }
+
+  .widget-grid__row--mid {
+    grid-template-columns: var(--wg-emb-row-mid-cols);
+    gap: var(--wg-emb-row-mid-gap);
+  }
+
+  .widget-grid__row--mid > :nth-child(1) { grid-column: 1; }
+  .widget-grid__row--mid > :nth-child(2) { grid-column: 3; }
+  .widget-grid__row--mid > :nth-child(3) { grid-column: 5; }
+  .widget-grid__row--mid > :nth-child(4) { grid-column: 7; }
+  .widget-grid__row--mid > :nth-child(5) { grid-column: 9; }
+
+  .widget-grid__row--bottom {
+    grid-template-columns: var(--wg-emb-row-bottom-cols);
+    gap: var(--wg-row-bottom-gap);
+  }
+}

@@ -74,7 +74,7 @@ final class RecentTracksComponent extends AbstractComponent
                     'art'    => (string)($t['art'] ?? ''),
                     'stream' => (string)($t['stream'] ?? ''),
                 ],
-                'mini-card__subtitle',
+                'home-song__mini-card__subtitle',
                 (string)$t['d']
             ),
             $data
@@ -92,7 +92,7 @@ final class RecentTracksComponent extends AbstractComponent
                     'art'    => (string)$p['art'],
                     'stream' => '',
                 ],
-                'mini-card__subtitle',
+                'home-song__mini-card__subtitle',
                 (string)$p['d']
             ),
             array_slice($this->defaultPlaylists(), 0, $playlistMax)

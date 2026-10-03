@@ -1,0 +1,330 @@
+/**
+ * CoreMusic — Player Info Component (v2.0)
+ *
+ * Figma SSOT (ham API ölçümü, yuvarlama yok):
+ *   1024 embedded — node-id=1646-17727 → 392×131, kapak 72×72 @(16,14)
+ *   1920 wide     — node-id=2849-21489 → 469×184, kapak 150×150 @(16,16)
+ *
+ * Varyant eşlemesi (DeviceManager::isWide()):
+ *   desktop | 4k (≥1441px) → .player-info--wide   (jeton: @media min-width 1441px)
+ *   ≤1440px                → .now-playing--embedded (jeton: :root)
+ *
+ * Kural: bu dosyada ham renk/sabit değer YOK — hepsi --cm-player-* jetonu
+ * (01_Abstracts/a-layout-tokens.css). BEM: block__element--modifier.
+ * ITCSS Layer: 04_Components
+ * Version: 2.0.0 — 2026-09-29
+ */
+
+/* ═══════════════════════════════════════════════════════════
+   PANEL — ortak kabuk (bg / stroke / shadow / padding / grid)
+   Figma: Color Overlay #FFF @0.10 · stroke #FFF @0.10 1px INSIDE
+          DROP_SHADOW 2/2/4 @0.80 · radius Figma'da YOK → --radius-lg
+   Stroke, padding'ı 1px kaydırmamak için border yerine inset box-shadow.
+   ═══════════════════════════════════════════════════════════ */
+.now-playing.now-playing--embedded,
+.player-info.player-info--wide {
+  box-sizing: border-box;
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--cm-player-cover) minmax(0, 1fr);
+  width: var(--cm-player-w);
+  height: var(--cm-player-h);
+  margin: 0;
+  padding:
+    var(--cm-player-pad-top)
+    var(--cm-player-pad-right)
+    var(--cm-player-pad-bottom)
+    var(--cm-player-pad-left);
+  background: var(--cm-player-bg);
+  border-radius: var(--cm-player-radius);
+  box-shadow:
+    inset 0 0 0 var(--cm-player-border-w) var(--cm-player-border),
+    var(--cm-player-shadow);
+  color: var(--cm-player-text);
+  font-family: var(--cm-player-font);
+  font-weight: var(--cm-player-text-weight);
+  text-shadow: var(--cm-player-text-shadow);
+}
+
+/* ═══ Varyant: EMBEDDED (1024 · RPi5) ═══
+   grid: [kapak 72 | bilgi 1fr]
+         [progress — iki sütunu kapsar]
+   Figma: kapak sonu 86 → row-gap 15 → süre satırı 101 */
+.now-playing.now-playing--embedded {
+  grid-template-rows: var(--cm-player-cover) auto;
+  column-gap: var(--cm-player-gap);
+  row-gap: var(--cm-player-progress-row-gap);
+}
+
+/* Kapak 72×72 @(16,14) r5 — Figma'da cover stroke visible:false → çerçeve YOK */
+.now-playing__art--embedded,
+.player-info__cover {
+  width: var(--cm-player-cover);
+  height: var(--cm-player-cover);
+  border-radius: var(--cm-player-cover-radius);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.now-playing__art--embedded img,
+.player-info__cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* Figma: #FF65E9 */
+  background: var(--cm-accent-soft);
+  box-shadow: var(--glow-progress);
+  border-radius: var(--cm-radius-2px);
+  width: 0%;
+  transition: width 0.5s linear;
+}
+
+/* REMOVED: .player-info__progress__play, .player-info__progress--wide — not used */
+.player-info__progress__play {
+  width: var(--cm-w-22px);
+  height: var(--cm-h-22px);
+  border-radius: 50%;
+  background: var(--accent, var(--cm-accent));
+  color: var(--cm-white);
+}
+
+/* Bilgi kolonu — Figma satır tepeleri 17 / 40 / 61 (Δ23, Δ21) */
+.now-playing__info--embedded {
+  align-self: start;
+  min-width: 0;
+  padding-top: var(--cm-player-info-pad-top);
+  display: grid;
+  grid-template-rows: var(--cm-player-embedded-rows);
+}
+
+/* Tipografi — spesifiklik 0,3,0: _home-components.css
+   .home-layout--embedded .now-playing__* (0,2,0) kurallarını ezer */
+.now-playing.now-playing--embedded .now-playing__title {
+  margin: 0;
+  font-size: var(--cm-player-title-size);
+  line-height: var(--cm-player-title-lh);
+  letter-spacing: var(--cm-player-title-ls);
+}
+.now-playing.now-playing--embedded .now-playing__subtitle,
+.now-playing.now-playing--embedded .now-playing__artist {
+  margin: 0;
+  font-size: var(--cm-player-meta-size);
+  line-height: var(--cm-player-meta-lh);
+  letter-spacing: var(--cm-player-meta-ls);
+}
+
+/* Progress satırı — iki sütunu kapsar (x16 … x377)
+   44 + 13 + 246 + 14 + 44 = 361 = içerik genişliği → bar x73 / süre x333 (Figma birebir) */
+.now-playing.now-playing--embedded .media-progress {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+}
+.now-playing.now-playing--embedded .media-progress__time {
+  flex: 0 0 auto;
+  width: var(--cm-player-time-w);
+  margin: 0;
+  font-size: var(--cm-player-time-size);
+  line-height: var(--cm-player-time-lh);
+  letter-spacing: var(--cm-player-time-ls);
+}
+.now-playing.now-playing--embedded .media-progress__time--total {
+  text-align: right;
+}
+.now-playing.now-playing--embedded .media-progress__bar {
+  flex: 0 0 auto;
+  width: var(--cm-player-progress-w);
+  height: var(--cm-player-progress-h);
+  margin:
+    var(--cm-player-progress-offset-y)
+    var(--cm-player-progress-gap-r)
+    0
+    var(--cm-player-progress-gap-l);
+  background: var(--cm-player-progress-bg);
+  border-radius: var(--cm-player-progress-radius);
+  overflow: hidden;
+}
+
+/* ═══ Varyant: WIDE (1920 · desktop/4k) ═══
+   grid: [kapak 150 | bilgi 267]  içerik 433 = 469 − 16 − 20 */
+.player-info.player-info--wide {
+  grid-template-rows: auto;
+  column-gap: var(--cm-player-gap);
+}
+
+.player-info__info-panel {
+  align-self: start;
+  min-width: 0;
+  position: relative;
+  padding-top: var(--cm-player-info-pad-top);
+  display: grid;
+  grid-template-rows: var(--cm-player-wide-rows);
+}
+
+/* ─── Satır (label : değer) ───
+   Figma satır tepeleri: 20.652 · 42.687 · 63.721 · 84.755 · 105.212 · 126.871
+   overflow:hidden + ellipsis → uzun değer panel kenarında kırpılır */
+.player-info.player-info--wide .player-info__row {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  font-size: var(--cm-player-wide-size);
+  line-height: var(--cm-player-wide-lh);
+  letter-spacing: var(--cm-player-wide-ls);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.player-info.player-info--wide .now-playing__meta-value {
+  font-size: var(--cm-player-wide-size);
+  line-height: var(--cm-player-wide-lh);
+  letter-spacing: var(--cm-player-wide-ls);
+}
+
+/* ─── Label + ikon kolonu ───
+   ikon kutusu x182–199 (17px), metin x202.556 → padding-left 20.556
+   Satır yüksekliğini bozmamak için ikon satır çizgisine mutlak konumlanır. */
+.player-info__label {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: var(--cm-player-label-indent);
+}
+.player-info__label-icon {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.player-info__label-icon-img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(var(--cm-player-icon-shadow));
+}
+.player-info__label-icon-img--music,
+.player-info__label-icon-img--mic,
+.player-info__label-icon-img--star,
+.player-info__label-icon-img--timer {
+  width: var(--cm-player-icon-m);
+  height: var(--cm-player-icon-m);
+}
+.player-info__label-icon-img--cd {
+  width: var(--cm-player-icon-s);
+  height: var(--cm-player-icon-s);
+}
+.player-info__label-icon-img--bitrate {
+  width: var(--cm-player-icon-xs);
+  height: var(--cm-player-icon-xs);
+}
+
+/* ─── Yıldızlar — Figma 5×13px, pitch 14.201, x243.111 y85.755 ─── */
+.player-info__stars {
+  position: absolute;
+  left: var(--cm-player-star-x);
+  top: var(--cm-player-star-y);
+  display: flex;
+  gap: var(--cm-player-star-gap);
+}
+.player-info__stars img {
+  display: block;
+  width: var(--cm-player-star);
+  height: var(--cm-player-star);
+  object-fit: contain;
+  filter: drop-shadow(var(--cm-player-badge-shadow));
+}
+
+/* ─── Format rozetleri — Figma mp3(307.734,107.789) mp4(329,105) vlc(353,107) ─── */
+.player-info__badges {
+  position: absolute;
+  left: var(--cm-player-badge-x);
+  top: var(--cm-player-badge-y);
+  display: flex;
+  align-items: flex-start;
+}
+.player-info__badge {
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(var(--cm-player-badge-shadow));
+}
+.player-info__badge--mp3 {
+  width: var(--cm-player-badge-mp3-w);
+  height: var(--cm-player-badge-mp3-h);
+}
+.player-info__badge--mp4 {
+  width: var(--cm-player-badge-mp4-w);
+  height: var(--cm-player-badge-mp4-h);
+  margin:
+    var(--cm-player-badge-mp4-mt)
+    0
+    0
+    var(--cm-player-badge-mp4-ml);
+}
+.player-info__badge--vlc {
+  width: var(--cm-player-badge-vlc);
+  height: var(--cm-player-badge-vlc);
+  margin:
+    var(--cm-player-badge-vlc-mt)
+    0
+    0
+    var(--cm-player-badge-vlc-ml);
+}
+
+/* ─── Transport satırı (grid satırı 7) ───
+   oynat x184 (kolon 182 + 2) 15×15 · progress x203 y151 246×9 */
+.player-info__transport {
+  display: flex;
+  align-items: flex-start;
+}
+.player-info__text-img.player-info__play {
+  display: block;
+  flex: 0 0 auto;
+  width: var(--cm-player-play);
+  height: var(--cm-player-play);
+  margin-left: var(--cm-player-play-offset);
+  filter: drop-shadow(var(--cm-player-icon-shadow));
+}
+.player-info__progress {
+  flex: 0 0 auto;
+  width: var(--cm-player-progress-w);
+  height: var(--cm-player-progress-h);
+  margin:
+    var(--cm-player-progress-offset-y)
+    0
+    0
+    var(--cm-player-play-gap);
+  background: var(--cm-player-progress-bg);
+  border-radius: var(--cm-player-progress-radius);
+  overflow: hidden;
+  cursor: pointer;
+}
+.player-info__progress__bar {
+  width: 100%;
+  height: 100%;
+}
+
+/* ═══ Progress dolgu — ortak (Figma: #FF65E9 + sheen gradient) ═══ */
+.player-info__progress__fill,
+.media-progress__fill {
+  height: 100%;
+  width: var(--progress-percent, 0);
+  background: var(--cm-player-progress-fill);
+  border-radius: var(--cm-player-progress-radius);
+  transition: width 0.5s linear;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS — Smooth scaling 480–3840px
+   Token clamp() sistem + device-specific behavioral override
+   ═══════════════════════════════════════════════════════════ */
+
+/* Touch/Coarse pointer (TV, mobile touch) — larger hit zones */
+@media (pointer: coarse) {
+  .now-playing__info--embedded .media-progress__time,
+  .player-info__transport .player-info__text-img {
+    min-height: var(--cm-h-48px);
+    display: flex;
+    align-items: center;
+  }
+}

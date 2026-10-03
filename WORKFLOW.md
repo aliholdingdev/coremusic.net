@@ -487,6 +487,7 @@ Güçlendirme seti: 20 dosya (3 kök + .ai/ kök 17 md — sınıf tanımı CHEC
 | [[.ai/.decisions/index]] | Karar serisi indeksi (001-089) |
 | [[.workflows/architecture-write]] | Katman yazım batch akışı |
 | [[.ai/.templates/index]] | Şablon registry |
+| `.ai/.templates/frontend/` kanonik set (`css-template.md` · `css-abstracts-token-template.md` · `css-component-template.md` · `css-page-template.md` · `css-device-template.md` · `css-auth-device-template.md` · `css-utility-template.md` · `css-helper-template.md`) + özet (kök): `css-structure.md` · `css-token.md` · `css-component.md` · `css-page.md` · `css-imports.md` | CSS yazım şablonları — her CSS görevinde zorunlu okunur (AGENTS.md §10: 01→11 sıra · token yalnız 01 · taşıma yok) |
 
 ## §14 Değişiklik Geçmişi
 

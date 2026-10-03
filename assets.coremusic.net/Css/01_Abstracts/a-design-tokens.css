@@ -72,6 +72,9 @@
   --card-shadow: var(--shadow-md);
   --modal-shadow: var(--glass-shadow-lg);
 
+  /* Box Shadow */
+  --cm-box-shadow:  inset 0 0 0 1px var(--cm-playerinfo-border),    var(--cm-playerinfo-shadow);
+
   /* Glass shadows */
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   --glass-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.4);
@@ -192,6 +195,7 @@
   --touch-target-lg: 64px;
 }
 
+/* --bp-1024: 1024px — a-breakpoint-tokens.css (@media'de var() geçersiz) */
 @media (min-width: 768px) and (max-width: 1024px) {
   :root {
     --touch-min: 48px;
@@ -222,6 +226,7 @@
   }
 }
 
+/* --bp-1920: 1920px — a-breakpoint-tokens.css (@media'de var() geçersiz) */
 @media (min-width: 1920px) {
   :root {
     --touch-min: 44px;

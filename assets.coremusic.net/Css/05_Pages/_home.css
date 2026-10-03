@@ -1,13 +1,92 @@
-/**
- * CoreMusic — Home Page Bridge
- * main.css import zinciri için köprü dosya
- * ITCSS Layer: 05_Pages
- * Version: 1.0.0 — 2026-08-05
- *
- * Bu dosya main.css'teki kırık import'u düzeltir.
- * Home sayfası CSS'i bu dosya üzerinden yüklenir.
- */
 
 @import './_home-layout.css';
 @import './_home-components.css';
 @import './_home-inline.css';
+
+.home-layout__top {
+  display: grid;
+  grid-template-columns: 42% 58%;
+  gap: 12px;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.home-layout__top-left {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.home-layout__top-right {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.home-layout__bottom {
+  display: grid;
+  grid-template-columns: 388px 388px 1fr;
+  gap: var(--grid-gap, 10px);
+  min-height: 0;
+  align-items: start;
+}
+
+.home-layout__bottom-left {
+  min-width: 0;
+  overflow: visible;
+}
+
+.home-layout__bottom-center {
+  min-width: 0;
+  overflow: visible;
+}
+
+.home-layout__bottom-right {
+  min-width: 0;
+  overflow: visible;
+}
+
+.home-layout--wide {
+  margin-top: var(--header-h, 65px);
+  min-height: calc(100vh - var(--header-h, 65px) - var(--footer-h, 104px));
+  max-height: calc(100vh - var(--header-h, 65px) - var(--footer-h, 104px));
+  padding: 29px 28px 12px;   /* üst blok y99 (PNG/Figma SSOT) — header 65 + 29 = 94 + iç hizalar */
+  gap: 16px;
+}
+
+/* Üst satır: 3 sütun (Now Playing | Welcome | Widgets)
+   PNG/Figma 1920: Player 469 @(53) · Banner 491 @(552) · Div2 752 @(1073) · gap 30
+   → fr toplamı 1712 + 2×30 gap = 1772 = 1920 - 53(sol) - 95(sağ) */
+.home-layout--wide .home-layout__top--wide {
+  display: grid;
+  grid-template-columns: 469fr 491fr 752fr;
+  gap: 30px;
+  align-items: stretch;
+  min-height: 184px;
+  padding-inline: 25px 67px;   /* sayfa padding 28 → 53 sol / 95 sağ (PNG SSOT) */
+}
+
+/* Sağ sütun: Widget'lar + Quick Apps yan yana
+   grid-column: 3 — orta sütun artık Hoş Geldin Banner ile dolu (home-layout__top-center,
+   grid-column: 2); bu değer, DOM sırası bozulsa da sağ sütunu garanti altına alır. */
+.home-layout__top-right--wide {
+  display: flex;
+  flex-direction: row;
+  grid-column: 3;
+  gap: 12px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.home_song__btn-title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: 13px;          /* bölüm başlığı — Figma 2850:21627 fs13 (PNG: y341) */
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, rgba(255, 255, 255, 0.9));
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45), 0 0 10px rgba(0, 0, 0, 0.20);
+  margin: 0 0 var(--space-2, 8px);
+}
+
+.home-song-btn-list-div{
+    margin-top:30px;
+}

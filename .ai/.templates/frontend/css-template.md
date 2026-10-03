@@ -3,8 +3,8 @@ title: "CoreMusic — CSS/ITCSS Development Template"
 type: template
 category: frontend
 date: 2026-09-06
-updated: 2026-09-29
-version: 2.0.1
+updated: 2026-10-03
+version: 3.0.0
 status: active
 authority: reference
 ---
@@ -19,14 +19,14 @@ authority: reference
 
 ## 1. Amaç
 
-Bu şablon, CoreMusic stylesheet geliştirme standardını (ITCSS katman sırası, BEM, token tabanlı değer kullanımı) ve kod iskeletlerini tanımlar. **Guardrail #16:** yeni `.css` dosyası bu şablondan üretilmek ZORUNLUDUR.
+Bu şablon, CoreMusic stylesheet geliştirme standardını (11 katman sırası, BEM, token tabanlı değer kullanımı, cihaz token ayrımı) ve kod iskeletlerini tanımlar. **Guardrail #16:** yeni `.css` dosyası bu şablondan üretilmek ZORUNLUDUR.
 
 | Karar | ADR | Şablona gömülü karşılığı |
 |-------|-----|--------------------------|
-| Vanilla JS + ITCSS, framework/önişlemci yasak | ADR-001 | §4 #1-#2 — saf CSS + katman sırası |
-| Footer player (vaporwave) | ADR-018 | §3.4 bileşen iskeleti (`{{BLOCK}}__footer-player`) |
-| Cinsiyet bazlı dinamik tema | ADR-044 | §3.6 tema jetonu override |
-| Multi-domain görünüm modu | ADR-045 | §3.5 cihaz/domain override |
+| Vanilla JS + ITCSS, framework/önişlemci yasak | ADR-001 | §4 #1-#4 — saf CSS + katman sırası |
+| Footer player (vaporwave) | ADR-018 | §3.6 bileşen iskeleti |
+| Cinsiyet bazlı dinamik tema | ADR-044 | §3.7 tema jetonu override |
+| Multi-domain görünüm modu | ADR-045 | §3.5 cihaz import zinciri |
 | Erişilebilirlik (WCAG 2.2 AA) | — | §4 #7 — `--touch-min: 44px` |
 
 ---
@@ -35,410 +35,279 @@ Bu şablon, CoreMusic stylesheet geliştirme standardını (ITCSS katman sıras�
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
-| `assets.coremusic.net/Css/**/*.css` — token, taban, düzen, bileşen, sayfa, yardımcı, cihaz | JavaScript modülleri → `[[js-template]]` |
-| Design token (custom property) tanımı ve override | Mockup görselleri → `.ai/ui-design/` (okunur, üretilmez) |
-| BEM adlandırma + cihaz davranış uyarlaması | Vendors kütüphaneleri (Bootstrap) — düzenlenmez, yalnızca güncellenir |
-| `main.css` ve `auth-bundled.css` giriş noktaları | PHP/HTML şablonları (inline style yasak → §4 #3) |
+| `assets.coremusic.net/Css/**/*.css` — 11 katman + kök giriş | JavaScript modülleri → `[[js-template]]` |
+| Design token (custom property) tanımı ve cihaz override'ı | Mockup görselleri → `.ai/ui-design/` (okunur, üretilmez) |
+| BEM adlandırma + cihaz davranış uyarlaması | `07_Vendors/` — düzenlenmez, yalnızca sürüm güncellenir |
+| `auth-bundled.css` giriş noktası | PHP/HTML şablonları (inline style yasak → §4 #3) |
 
-- **Kullananlar:** UI Designer (birincil), QA Engineer (WCAG/responsive doğrulama), Backend Architect (inline style denetimi).
+- **Kullananlar:** UI Designer (birincil), QA Engineer (WCAG/responsive), Backend Architect (inline style denetimi).
 - **Ön koşul:** Mockup Before Frontend — `.ai/ui-design/` görseli okunmadan CSS yazılamaz; okunamıyorsa DUR.
+- **Not uygulama:** repo kökü `notes.md` içindeki notlar görev başında okunur ve ilgili katmana uygulanır.
 
 ---
 
 ## 3. Mimari
 
-Şablonun gövdesi: disk kanıtıyla doğrulanmış katman yapısı ve dört kod iskeleti. Katman/ dosya sayıları glob çıktısına dayanır; glob'da çıkmayan katmanlar mevcut gibi sunulmaz.
+### 3.1 Disk Kanıtı — Katman Sırası (`assets.coremusic.net/Css/`)
 
-### 3.1 Disk Kanıtı — Katman Yapısı (`assets.coremusic.net/Css/`)
+> Sıra **01 → 11** + kök giriş. Alt katman üst katmanı geçersiz kılmaz.
 
-| Katman | Dosya sayısı | Örnek dosya adları | Sorumluluk |
-|--------|--------------|--------------------|------------|
-| `01_Abstracts/` | 12 | `a-design-tokens.css`, `a-colors-token.css`, `a-fonts-token.css`, `a-breakpoint-tokens.css`, `a-scale-hybrid.css`, `a-theme-config.css`, `a-login-tokens.css`, `a-widget-grid-tokens.css`, `a-layout-tokens-{1024,1920,3540,3840}.css` | Tasarım jetonu (custom property) |
-| `02_Base/` | 2 | `b-base-core.css`, `page-layout.css` | Bare HTML + sayfa iskeleti |
-| `03_Layout/` | 3 | `_header.css`, `_footer.css`, `_sidebar.css` | Düzen blokları |
-| `04_Components/` | 7 | `c-home-song-btn.css`, `c-footer-seek.css`, `c-footer-volume.css`, `c-scrollbar-accent.css`, `_player-info.css`, `_welcome-banner.css`, `_widget-grid.css` | BEM bileşenleri |
-| `05_Pages/` | 4 | `_home.css`, `_home-components.css`, `_home-inline.css`, `p-login-view.css` | Sayfaya özel stiller |
-| `06_Utilities/` | 1 | `u-helpers-utility.css` | Yardımcı sınıflar |
-| `07_Vendors/` | Bootstrap ailesi | `bootstrap.css`, `bootstrap.min.css`, `.rtl` sürümleri + `.map` | 3. taraf (düzenlenmez) |
-| `08_Devices/` | 14 | `d-embedded.css`, `d-desktop.css`, `d-laptop.css`, `d-phone.css`, `d-tablet.css`, `d-4k.css`, `d-4k-tv.css` + `d-auth-{embedded,desktop,laptop,phone,tablet,4k-monitor,4k-tv}.css` | Cihaz davranış uyarlaması |
-| Kök | 2 | `main.css`, `auth-bundled.css` | Giriş noktaları |
+| # | Katman | Sorumluluk | Önek | Disk kanıtı (dosya) |
+|---|--------|-----------|------|---------------------|
+| 01 | `01_Abstracts/` | **Yalnız token** — custom property; kural/seçici YAZILMAZ | `a-` | `a-layout-tokens.css`, `a-layout-tokens-{1024,…}.css`, `a-colors-token`, `a-fonts-token`, `a-breakpoint-tokens`, `a-semantic-token`, `a-primitive-tokens`, `a-scale-hybrid`, `a-design-tokens`, `a-theme-config`, `a-color-mode-tokens`, `a-light-glass-tokens`, `a-login-tokens`, `a-widget-grid-tokens`, `a-welcome-banner-tokens` |
+| 02 | `02_Base/` | Genel yapı — bare HTML reset, base giriş iskeleti | `b-` / `l-` / `p-` | `b-base-core.css`, `l-main-structural.css`, `page-layout.css` |
+| 03 | `03_Layout/` | Sayfa düzeni: grid, header, footer, sidebar | `_` | `_header.css`, `_footer.css`, `_sidebar.css` |
+| 04 | `04_Components/` | BEM bileşenleri: buton, form, menü, logo, kart… (Figma component karşılığı) | `c-` / `_` | `c-buttons`, `c-forms`, `c-card`, `c-modal`, `c-badge`, `c-toggle`, `c-toast`, `c-progress`, `c-scrollbar-accent`, `c-footer-seek`, `c-footer-volume`, `c-home-song-btn`, `_widget-grid`, `_welcome-banner`, `_player-info` |
+| 05 | `05_Pages/` | **PHP sayfalarına özel** stiller (`pages/**/*.php`) | `p-` / `_` | `p-login-view`, `p-select-gender`, `p-settings`, `p-artists`, `p-albums`, `p-album-detail`, `p-playlist`, `_home`, `_home-layout`, `_home-inline`, `_player` |
+| 06 | `06_Utilities/` | Utility sınıfları (tek satır işlev, `.is-hidden` vb.) | `u-` | `u-helpers-utility.css` |
+| 07 | `07_Vendors/` | 3. taraf (Bootstrap ailesi) — **DÜZENLENMEZ** | `v-` | `v-bootstrap-lib.css` + `bootstrap*.css` (normal/rtl/min/map) |
+| 08 | `08_Devices/` | Cihaz kırılım **import zinciri** + davranış override | `d-` / `d-auth-` | 15 dosya → §3.5 |
+| 09 | `09_ViewModes/` | Görünüm modu (home, pro, studio, car) | `v-` | `v-home`, `v-pro`, `v-studio`, `v-car` |
+| 10 | `10_Helpers/` | Helper sınıf/makro'ları (§3.8) | `h-` | ⏳ beklenen — oluştur |
+| 11 | `11_OAuth/` | OAuth/login akış stilleri | `o-` | `oauth.css` |
+| kök | `auth-bundled.css` | Auth subdomain **tek giriş** → §3.5 | — | `auth-bundled.css` |
 
-**Düzeltme (önceki şablon → disk kanıtı):** `01_Settings/`, `02_Tools/`, `04_Elements/`, `05_Objects/`, `09_Themes/` adları ve `d-mobile.css` dosyası glob'da YOKTUR; bu adlar kullanılmaz. `assets.coremusic.net/AGENTS.md` "9 katman (09_ViewModes, 11_OAuth)" iddia eder — glob çıktısında görünmez → ⚠️ VERIFICATION REQUIRED (glob kanıtı esastır).
+**YOK olanlar (uydurulmaz):** `main.css` (2026-10-03 itibarıyla diskte YOK — cihaz girişi `08_Devices/d-*.css` üzerindendir). `Css copy 2/` klasörü yedektir, referans alınmaz.
 
-### 3.2 Token Şablonu (`01_Abstracts/`)
+**Ayrım kuralı (kritik):**
+
+| İçerik | Katman |
+|--------|--------|
+| PHP sayfasına özgü (`pages/**/*.php` karşılığı) | `05_Pages/` |
+| Birden çok sayfada tekrar eden görsel parça (buton, kart, form alanı, menü, logo) | `04_Components/` |
+| Grid / header / footer / sidebar düzeni | `03_Layout/` |
+| Sadece `--token: değer` | `01_Abstracts/` |
+| Boyut/görünürlük/hover gibi **cihaz davranışı** | `08_Devices/` |
+
+### 3.2 Dosya Adlandırma
+
+| Katman | Desen | Örnek |
+|--------|-------|-------|
+| 01 | `a-{konu}-token(s).css` | `a-layout-tokens-mobile.css` |
+| 02 | `b-` base · `l-` structural · `page-` | `b-base-core.css` |
+| 03–05 | `_` (alt çizgi) + konu | `_header.css`, `_home.css` |
+| 04 | `c-{bileşen}.css` | `c-buttons.css` |
+| 05 | `p-{sayfa}.css` | `p-settings.css` |
+| 06 | `u-` | `u-helpers-utility.css` |
+| 07 | `v-` | `v-bootstrap-lib.css` |
+| 08 | `d-{cihaz}.css` · `d-auth-{cihaz}.css` | `d-phone.css`, `d-auth-phone.css` |
+| 09 | `v-{mod}.css` | `v-studio.css` |
+| 10 | `h-` | `h-ellipsis.css` |
+| 11 | `o-` | `oauth.css` (mevcut ad korunur) |
+
+### 3.3 Token Şablonu — Cihaz Ayrımı (`01_Abstracts/`)
+
+> **KURAL:** Her cihaz genişliği için AYRI token dosyası yazılır — hangi cihaz için hangi token'ın yazıldığı dosya adından anlaşılır.
+
+```
+01_Abstracts/
+├── a-layout-tokens.css          # BASE (varsayılan — her şeyin fallback'i)
+├── a-layout-tokens-mobile.css   # ≤767px  (phone)
+├── a-layout-tokens-tablet.css   # 768–1023px
+├── a-layout-tokens-1024.css     # 1024×600 (RPi5 embedded)
+├── a-layout-tokens-1920.css     # full HD / wide desktop
+├── a-layout-tokens-3540.css     # 4K monitor
+└── a-layout-tokens-3840.css     # 4K TV
+```
 
 ```css
-/* 01_Abstracts/a-design-tokens.css — tek doğruluk kaynağı: bu dosya */
-:root {
-    /* === RENK === */
-    --color-primary: #6366f1;
-    --color-primary-hover: #4f46e5;
-    --color-accent: #06b6d4;
-    --color-success: #10b981;
-    --color-warning: #f59e0b;
-    --color-danger: #ef4444;
+/* 01_Abstracts/a-layout-tokens-{{width}}.css */
+/* CİHAZ: {{device}} · GÖRÜNÜM: {{min}}–{{max}}px
+ * Bu dosya YALNIZCA token değeri değiştirir — seçici/kural yazılmaz.
+ * Kaynak: .ai/ui-design/tokens/ (Figma SSOT) · notes.md güncellemeleri buraya. */
 
-    /* === YÜZEY === */
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --bg-glass: rgba(15, 23, 42, 0.8);
-    --bg-glass-blur: blur(12px);
-
-    /* === METİN === */
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
-
-    /* === BOŞLUK (4px ızgara) === */
-    --space-xs: 4px;
-    --space-sm: 8px;
-    --space-md: 16px;
-    --space-lg: 24px;
-    --space-xl: 32px;
-    --space-2xl: 48px;
-
-    /* === ÖLÇÜ === */
+@media (min-width: {{min}}px) and (max-width: {{max}}px) {
+  :root {
+    /* --- Genel ölçü --- */
     --header-h: 60px;
     --footer-h: 90px;
     --sidebar-w: 280px;
-    --content-h: calc(100vh - var(--header-h) - var(--footer-h));
+    --grid-gap: 8px;
+    --touch-min: 48px;
 
-    /* === KÖŞE === */
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-full: 9999px;
+    /* --- Component token'ları (v3.0.0) --- */
+    --now-playing-art-size: 100px;
+    --widget-grid-cols: 2;
+    --footer-album-art-size: 120px;
+    --footer-icon: 13px;
+    --footer-btn-min-size: 48px;
 
-    /* === GÖLGE === */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
+    /* --- Kart boyutları --- */
+    --card-thumb-size: 140px;
+    --album-art-size: 300px;
+    --mini-card-art-size: 50px;
 
-    /* === KATMAN SIRASI (z-index) === */
-    --z-dropdown: 100;
-    --z-sticky: 200;
+    /* --- Tipografi (a-scale-hybrid'den akış) --- */
+    --text-base: var(--fs-base, 12px);
+    --text-lg: var(--fs-lg, 14px);
+
+    /* --- Z-Index --- */
+    --z-header: 100;
+    --z-dropdown: 200;
     --z-modal: 300;
     --z-toast: 400;
-
-    /* === GEÇİŞ === */
-    --transition-fast: 150ms ease;
-    --transition-normal: 250ms ease;
-    --transition-slow: 350ms ease;
-
-    /* === TİPOGRAFİ === */
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-    --font-size-sm: 0.875rem;
-    --font-size-md: 1rem;
-    --font-size-lg: 1.125rem;
-    --font-size-xl: 1.25rem;
-
-    /* === ERİŞİLEBİLİRLİK (WCAG 2.2 AA) === */
-    --touch-min: 44px;
+  }
 }
 ```
 
-### 3.3 Bileşen Şablonu (BEM — `04_Components/c-{{block}}.css`)
+**Sıralama (öncelik):** base → mobile → tablet → 1024 → 1920 → 3540 → 3840. Daha geniş kırılım daha sonra gelir, dar olanı ezer.
+
+**`a-layout-tokens-1024.css` iç yapısı (referans — Figma SSOT blokları korunur):** component token'ları → kart boyutları → detail panel → home layout grid → embedded home layout (Figma node ref'li) → touch targets → spacing → font scale → glass → device-aware scaling → z-index → player info (`--cm-player-*`).
+
+### 3.4 Bileşen Şablonu (BEM — `04_Components/c-{{block}}.css`)
 
 ```css
-/* 04_Components/c-{{block}}.css */
-/* BEM: .block__element--modifier + durum: .block.is-... */
+/* 04_Components/c-{{block}}.css
+ * BEM: .block__element--modifier + durum: .block.is-...
+ * TOKEN: değerler 01_Abstracts'ten gelir; burada ham hex/px YAZILMAZ. */
 
 .{{block}} {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    min-height: var(--touch-min);
-    padding: var(--space-sm) var(--space-md);
-    background: var(--bg-secondary);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  min-height: var(--touch-min);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--transition-fast);
 }
 
 .{{block}}__title {
-    margin: 0;
-    font-size: var(--font-size-md);
-    color: var(--text-primary);
-}
-
-.{{block}}__controls {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
+  margin: 0;
+  font-size: var(--text-base);
+  color: var(--text-primary);
 }
 
 .{{block}}__button {
-    min-width: var(--touch-min);
-    min-height: var(--touch-min);
-    border: 0;
-    border-radius: var(--radius-full);
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    cursor: pointer;
-}
-
-.{{block}}__button:hover {
-    background: var(--color-primary);
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  cursor: pointer;
 }
 
 .{{block}}--compact {
-    gap: var(--space-xs);
-    padding: var(--space-xs) var(--space-sm);
+  gap: var(--space-xs);
 }
 
 .{{block}}.is-active {
-    box-shadow: var(--shadow-md);
-}
-
-.{{block}}.is-loading .{{block}}__controls {
-    opacity: 0.5;
-    pointer-events: none;
+  box-shadow: var(--shadow-md);
 }
 ```
 
-### 3.4 Cihaz Kırılım Şablonu (token override — `01_Abstracts/a-breakpoint-tokens.css`)
+### 3.5 Cihaz Import Zinciri (`08_Devices/`) — 15 dosya
 
-```css
-/* Yalnızca token DEĞERİ değişir; kural yazımı bileşen dosyasında kalmaz. */
+> **Bu katmanın görevi:** (1) gerekli katmanları **import et**, (2) cihaz davranışı override et. Yerleşim (layout) kuralı buraya yazılmaz — yerleşim `02_Base`/`03_Layout`'ta kalır.
 
-/* === EMBEDDED (1024x600 — Raspberry Pi 5) === */
-@media (max-width: 1024px) {
-    :root {
-        --header-h: 60px;
-        --footer-h: 90px;
-        --sidebar-w: 0px;
-        --space-md: 12px;
-    }
-}
+**Normal grup (8):**
 
-/* === TABLET === */
-@media (min-width: 768px) and (max-width: 1024px) {
-    :root {
-        --sidebar-w: 0px;
-    }
-}
+| Dosya | Cihaz | Not |
+|-------|-------|-----|
+| `d-phone.css` | ≤767px | touch-first, hover yok |
+| `d-tablet.css` | 768–1023px | touch-first |
+| `d-laptop.css` | laptop | tam import zinciri |
+| `d-desktop.css` | desktop 1920 | tam import zinciri |
+| `d-embedded.css` | RPi5 1024×600 | hover devre dışı |
+| `d-4k.css` | 4K genel | tam import zinciri |
+| `d-4k-monitor.css` | 4K monitor | override ağırlıklı |
+| `d-4k-tv.css` | 4K TV (10ft) | `--touch-*` büyük |
 
-/* === PHONE === */
-@media (max-width: 767px) {
-    :root {
-        --footer-h: 80px;
-        --sidebar-w: 0px;
-        --space-lg: 16px;
-    }
-}
+**Auth grup (7) → `auth-bundled.css` altında toplanır:**
 
-/* === DESKTOP === */
-@media (min-width: 1920px) {
-    :root {
-        --header-h: 70px;
-        --footer-h: 104px;
-        --sidebar-w: 300px;
-    }
-}
+`d-auth-phone.css` · `d-auth-tablet.css` · `d-auth-laptop.css` · `d-auth-desktop.css` · `d-auth-embedded.css` · `d-auth-4k-monitor.css` · `d-auth-4k-tv.css`
 
-/* === 4K === */
-@media (min-width: 3840px) {
-    :root {
-        --header-h: 80px;
-        --footer-h: 120px;
-        --sidebar-w: 350px;
-        --font-size-md: 1.25rem;
-    }
-}
-```
+> Auth'ta `d-auth-4k.css` YOKTUR — uydurulmaz (yalnız `-4k-monitor` ve `-4k-tv`).
 
-### 3.5 Cihaz Davranış Şablonu (`08_Devices/d-{{device}}.css`)
+**İskelet:**
 
 ```css
 /* 08_Devices/d-{{device}}.css
- * KURAL: yalnızca davranış/davranış uyarlaması (görünürlük, hedef boyut,
- * kırılma noktası etkileşimi). YERLEŞİM (layout) KURALLARI BURAYA YAZILMAZ —
- * yerleşim 02_Base/ ve 03_Layout/ katmanlarında kalır (§4 #5). */
+ * 1) IMPORT — bu cihazın ihtiyacı olan katmanlar (sıra: Abstracts → Base →
+ *    Layout → Components → Pages → Utilities → ViewModes)
+ * 2) DAVRANIŞ — yalnızca davranış/kırılım uyarlaması.
+ * YERLEŞİM KURALI YAZILMAZ (§3.1 ayrım kuralı). */
+
+@import url("../01_Abstracts/a-layout-tokens-{{width}}.css?v={{v}}");
+@import url("../02_Base/b-base-core.css?v={{v}}");
+@import url("../03_Layout/_header.css?v={{v}}");
+@import url("../04_Components/c-{{block}}.css?v={{v}}");
+@import url("../05_Pages/p-{{page}}.css?v={{v}}");
+@import url("../06_Utilities/u-helpers-utility.css?v={{v}}");
+@import url("../09_ViewModes/v-{{mode}}.css?v={{v}}");
 
 @media (max-width: 767px) {
-    .{{block}}__optional {
-        display: none;
-    }
-
-    .{{block}} {
-        min-height: var(--touch-min);
-        padding: var(--space-xs);
-    }
-
-    .{{block}}__scroll {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-}
-
-@media (max-width: 1024px) and (max-height: 601px) {
-    /* Raspberry Pi 5 1024x600: alt bilgi şeridi sıkışır */
-    .{{block}} {
-        min-height: calc(var(--footer-h) - var(--space-sm));
-    }
-}
-
-@media (min-width: 3840px) {
-    /* 4K: ortalama ve ölçek büyümesi (fallback zorunlu) */
-    .{{block}} {
-        max-width: 75vw;
-        margin-inline: auto;
-    }
+  .{{block}}__optional { display: none; }
+  .{{block}} { min-height: var(--touch-min); }
 }
 ```
-
-### 3.6 Tema Override Şablonu (ADR-044 — jeton seviyesinde)
 
 ```css
-/* Tema, sınıf katmanına DEĞİL jeton katmanına yazılır:
- * [data-theme="..."] seçicisi yalnızca custom property değerlerini değiştirir. */
-
-[data-theme="dark"] {
-    --bg-primary: #0b1120;
-    --bg-secondary: #151d30;
-    --text-primary: #f1f5f9;
-}
-
-[data-theme="glass"] {
-    --bg-glass: rgba(15, 23, 42, 0.7);
-    --bg-glass-blur: blur(16px);
-    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.5);
-}
-
-.glass-panel {
-    background: var(--bg-glass);
-    backdrop-filter: var(--bg-glass-blur);
-    -webkit-backdrop-filter: var(--bg-glass-blur);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-glass);
-}
-
-/* Cinsiyet/kişiselleştirme jetonları (ADR-044) da bu katmanda override edilir:
- * renk, tipografi ve yoğunluk jetonları değişir; seçici ağacı DEĞİŞMEZ. */
-[data-accent="alt"] {
-    --color-primary: #ec4899;
-    --color-accent: #22d3ee;
-}
+/* 08_Devices/d-auth-{{device}}.css — auth subdomain */
+/* auth-bundled.css üzerinden yüklenir; Bootstrap import EDİLMEZ
+ * (auth sayfalarında grid kullanılmıyor → reboot b-base-core'i ezer). */
+@import url("../01_Abstracts/a-login-tokens.css?v={{v}}");
+@import url("../05_Pages/p-login-view.css?v={{v}}");
+/* + cihaz davranışı */
 ```
 
-### 3.7 Dosya Adlandırma Önekleri (disk kanıtıyla uyumlu)
+**Eşzamanlı senkron zorunluluğu:** device CSS ekleme/değişikliği → `js/devices.config.js` **+** `DeviceCssMap.php` (shared) ikisi birden güncellenir.
 
-| Önek | Katman | Örnek |
-|------|--------|-------|
-| `a-` | `01_Abstracts/` | `a-design-tokens.css` |
-| `b-` | `02_Base/` | `b-base-core.css` |
-| `_` (alt çizgi) | `03_Layout/`, `04_Components/`, `05_Pages/` | `_header.css`, `_player-info.css` |
-| `c-` | `04_Components/` | `c-footer-seek.css` |
-| `p-` | `05_Pages/` | `p-login-view.css` |
-| `u-` | `06_Utilities/` | `u-helpers-utility.css` |
-| `d-` / `d-auth-` | `08_Devices/` | `d-phone.css`, `d-auth-phone.css` |
+### 3.6 Giriş Noktası — `auth-bundled.css`
 
-### 3.8 Giriş Noktaları (`main.css` ve `auth-bundled.css`)
+```css
+/* auth-bundled.css — auth subdomain TEK giriş · gruplar halinde, sıra korunur */
+/* Grup 1 — 01_Abstracts (token) */
+@import url("./01_Abstracts/a-fonts-token.css?v=2.1.1");
+@import url("./01_Abstracts/a-theme-config.css?v=2.1.1");
+@import url("./01_Abstracts/a-light-glass-tokens.css?v=2.1.1");
+@import url("./01_Abstracts/a-login-tokens.css?v=2.1.1");
 
-| Dosya (disk kanıtı) | Rol | Kural |
-|---------------------|-----|-------|
-| `Css/main.css` | Ana uygulama girişi | Katman sırası §3.1'e göre burada birleştirilir |
-| `Css/auth-bundled.css` | Auth akışı için paketlenmiş stil | Yalnızca auth sayfalarına yüklenir; ana pakete ek katman konmaz |
-| `Css/07_Vendors/bootstrap*.css` | 3. taraf | Elle düzenlenmez; sürüm değişikliği ayrı commit |
-| Yeni katman ekleme | — | §3.1 listesi dışında katman adı uydurulmaz (ör. `09_Themes` glob'da yok) |
+/* Grup 2 — 02_Base (reset) */
+@import url("./02_Base/b-base-core.css?v=2.1.1");
+
+/* Grup 3 — 05_Pages (auth sayfaları) */
+@import url("./05_Pages/p-select-gender.css?v=2.1.1");
+@import url("./05_Pages/p-login-view.css?v=2.1.1");
+
+/* Grup 4 — 08_Devices/auth (yalnızca cihaz davranışı) */
+/* @import url("./08_Devices/d-auth-desktop.css?v=2.1.1");  ← DeviceCssMap tarafından dinamik */
+
+/* Grup 5 — sayfa içi minik düzeltmeler (bileşen büyüyünse 04_Components'e taşınır) */
+```
+
+**Kural:** auth paketi `07_Vendors` **içermez** · import grubu **01 → 02 → 05 → 08** · cihaz varyantı ayrı dosyada (`d-auth-*`), ana pakette tekrar edilmez.
+
+### 3.7 Tema Override Şablonu (ADR-044 — jeton seviyesinde)
+
+```css
+[data-theme="dark"]  { --bg-primary: #0b1120; --text-primary: #f1f5f9; }
+[data-theme="glass"] { --bg-glass-blur: blur(16px); }
+[data-accent="alt"]  { --color-primary: #ec4899; }
+/* Tema YALNIZCA custom property değerini değiştirir; seçici ağacı değişmez. */
+```
+
+### 3.8 Utilities (06) vs Helpers (10) Ayrımı
+
+| Katman | Ne konur | Örnek |
+|--------|----------|-------|
+| `06_Utilities/` | Tek amaclı, sayfa bağımsız **sıfır mantık** sınıfı — layout token'ı tüketir | `.is-hidden`, `.sr-only`, `.u-truncate` |
+| `10_Helpers/` | Tekrarlanabilir **yardımcı desen/makro** — kendi içinde kural barındırır | `.u-ellipsis--2line`, odak halkası, motion-safe sarmalayıcı |
+
+> Kural: iki katman da **token tüketir**, token **üretmez**. Token üretimi yalnız `01_Abstracts`.
 
 ### 3.9 BEM — Yapılır / Yapılmaz
 
-| ✅ Yapılır | ❌ Yapılmaz | Neden |
-|------------|-------------|-------|
-| `.player__progress` (element) | `.playerProgress` | Kırık ayrım, çakışma riski |
-| `.player--compact` (modifier) | `.playerCompact` | Modifier ayrılamaz |
-| `.player.is-loading` (durum) | `.player.loading` | Durum BEM dışı |
-| `var(--space-md)` | `16px` | §4 #1 token zorunluluğu |
-| Seçici: `.block__el` | Seçici: `div > ul > li` | Kırılgan hiyerarşi |
-| Tema: `[data-theme]` jeton override | Tema: `.dark .block { ... }` | Ağaç tekrarı (§3.6) |
-| Cihaz katmanı: davranış | Cihaz katmanı: yerleşim | §4 #5 katman kuralı |
-
-### 3.10 Tercih ve Erişilebilirlik Uyarlamaları
-
-```css
-/* Hareket azaltma — vestibüler kullanıcılar (WCAG 2.3.3) */
-@media (prefers-reduced-motion: reduce) {
-    .{{block}},
-    .{{block}}__progress {
-        transition-duration: 1ms !important; /* gerekçeli istisna: §4 #2 */
-        animation-duration: 1ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
-    }
-}
-
-/* Sistem teması — ADR-044 ile uyumlu, jeton seviyesinde */
-@media (prefers-color-scheme: dark) {
-    :root:not([data-theme]) {
-        --bg-primary: #0f172a;
-        --text-primary: #f8fafc;
-    }
-}
-
-/* Odak görünürlüğü — klavye kullanıcısı (WCAG 2.4.7) */
-.{{block}}__button:focus-visible {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-}
-
-/* Ekran okuyucu için yalnız-aşağı-sınıf (metin gizleme) */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-/* Yazdırma çıktısı: kontroller gizlenir, içerik akar */
-@media print {
-    .{{block}}__controls {
-        display: none;
-    }
-}
-```
-
-### 3.11 Teknik Zıplama (Skip Link) ve Landmark Hizası
-
-```css
-/* Ana içeriğe atlama — klavye ilk sekmesi (WCAG 2.4.1) */
-.skip-link {
-    position: absolute;
-    left: var(--space-sm);
-    top: -100px;
-    z-index: var(--z-toast);
-    padding: var(--space-sm) var(--space-md);
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    border-radius: var(--radius-md);
-    transition: top var(--transition-fast);
-}
-
-.skip-link:focus {
-    top: var(--space-sm);
-}
-
-/* Landmark katmanları ITCSS sırasına uyar: header / main / footer */
-header.site-header {
-    min-height: var(--header-h);
-}
-
-main.site-main {
-    min-height: var(--content-h);
-}
-
-footer.site-footer {
-    min-height: var(--footer-h);
-}
-```
+| ✅ Yapılır | ❌ Yapılmaz |
+|------------|-------------|
+| `.player__progress` | `.playerProgress` |
+| `.player--compact` | `.playerCompact` |
+| `.player.is-loading` | `.player.loading` |
+| `var(--space-md)` | `16px` |
+| `div` yerine `.block__el` | `div > ul > li` |
+| Tema: `[data-theme]` token override | `.dark .block { }` |
+| Cihaz katmanı: import + davranış | Cihaz katmanı: yerleşim |
 
 ---
 
@@ -448,49 +317,53 @@ footer.site-footer {
 
 | # | Kural | İhlal Sonucu |
 |---|-------|-------------|
-| 1 | Hardcoded piksel/değer yasak — her değer custom property (`var(--...)`) | Kod revert edilir |
+| 1 | Hardcoded piksel/değer yasak — her değer `var(--...)` | Kod revert edilir |
 | 2 | `!important` yasak (en fazla 3 istisna, gerekçesi yorumda) | Kod revert edilir |
-| 3 | Inline `style=""` yasak (PHP/HTML'de sunum kararı yok) | Kod revert edilir |
-| 4 | Önişlemci (SCSS/LESS) yasak — saf CSS (ADR-001) | Bağımlılık artışı |
-| 5 | Cihaz katmanı yalnızca davranış uyarlaması; layout orada yazılmaz | Katman ihlali |
+| 3 | Inline `style=""` yasak (CSP nonce uyumsuz) | Kod revert edilir |
+| 4 | Önişlemci (SCSS/LESS) yasak — saf CSS (ADR-001) | Bağlamlık artışı |
+| 5 | Cihaz katmanı yalnızca **import + davranış**; layout `02_Base`/`03_Layout` | Katman ihlali |
 | 6 | BEM adlandırma zorunlu (`.block__element--modifier`) | Kod revert edilir |
 | 7 | WCAG: dokunma hedefi `--touch-min: 44px`; mockup okunmadan CSS yazılamaz | Erişilebilirlik hatası |
+| 8 | **Component → 04, PHP sayfası → 05** ayrımı zorunlu (§3.1) | Dosya taşınır |
+| 9 | **Token → 01_Abstracts, cihaz dosyasına göre ayrılır** (§3.3) | Token dosyaya geri alınır |
+| 10 | `07_Vendors/` dosyaları elle düzenlenmez | Değişiklik revert |
 
 ### 4.2 Ek Kurallar
 
-- **Katman sırası sabit:** `01_Abstracts → 02_Base → 03_Layout → 04_Components → 05_Pages → 06_Utilities → 07_Vendors → 08_Devices` (§3.1); sıra değiştirilemez, alt katman üst katmanı geçersiz kılmaz.
-- **Token tek kaynak:** yeni değer önce `01_Abstracts/` jeton dosyasına, sonra kullanılır; bileşen içinde doğrudan renk/piksel yazılmaz (§4 #1).
-- **Vendors dokunulmaz:** `07_Vendors/` içindeki Bootstrap dosyaları elle düzenlenmez.
-- **Yerinde refactor:** dosya adı ve yolu değiştirilmez (In-Place Refactoring); yeni katman adı uydurulmaz — §3.1'deki 8 katman + 2 kök dosya geçerlidir.
-- **Çelişki kuralı:** `assets.coremusic.net/AGENTS.md` ile glob çıktısı çelişirse glob (disk kanıtı) kazanır ve çelişki ⚠️ VERIFICATION REQUIRED olarak işaretlenir.
-- **ADR hizası:** ADR-001 · ADR-018 · ADR-044 · ADR-045 (§1 tablosu).
+- **Katman sırası sabit:** `01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11`; sıra değiştirilemez.
+- **Token tek kaynak:** yeni değer önce `01_Abstracts/` ilgili cihaz token dosyasına, sonra tüketilir.
+- **Yerinde refactor:** dosya adı/yolu değiştirilirse tüm `@import` + `devices.config.js` + `DeviceCssMap.php` + PHP docblock yorumları güncellenir.
+- **Çelişki kuralı:** vault (`AGENTS.md`/`CLAUDE.md`) ile disk çelişirse **disk kazanır** ve ⚠️ VERIFICATION REQUIRED işaretlenir.
+- **notes.md:** kök `notes.md` içindeki CSS notları ilgili token dosyasına uygulanır ve uygulanan satır notta `✓` olarak imzalanır.
 
 ### 4.3 Sık Yapılan Hatalar
 
-| # | Hata | Sonuç | Doğrusu |
-|---|------|-------|---------|
-| 1 | Bileşen içinde sabit `16px` | Kırılgan yerleşim | `var(--space-md)` (§3.2) |
-| 2 | `08_Devices/` içine yerleşim yazmak | Katman ihlali | Yerleşim `02_Base`/`03_Layout` (§3.5) |
-| 3 | `assets/css/` gibi eski yol kullanmak | Kayıp dosya | `assets.coremusic.net/Css/` (§3.1) |
-| 4 | Glob'da olmayan katman adı (ör. `09_Themes`) | Uydurma envanter | §3.1 listesi + ⚠️ işareti |
-| 5 | Tema için sınıf ağacı çoğaltmak | Bakım yükü | `[data-theme]` jeton override (§3.6) |
-| 6 | `!important` ile sıralama kırmak | Öncelik kaosu | Katman sırası + specificity (§4.2) |
-| 7 | Mockupsuz CSS üretimi | Görsel sapma | Mockup Before Frontend (§2) |
+| # | Hata | Doğrusu |
+|---|------|---------|
+| 1 | Bileşen içinde sabit `16px` | `var(--space-md)` |
+| 2 | `08_Devices/` içine yerleşim yazmak | Yerleşim `02_Base`/`03_Layout` |
+| 3 | Component'i `05_Pages`'e yazmak | `04_Components/c-*.css` |
+| 4 | Tüm cihaz token'ını tek dosyaya yığmak | §3.3 cihaz ayrımı |
+| 5 | `main.css`'e import eklemek | `main.css` YOK — giriş `08_Devices/*` + `auth-bundled.css` |
+| 6 | `d-auth-4k.css` uydurmak | Yok; `-4k-monitor` / `-4k-tv` |
+| 7 | Mockupsuz CSS üretimi | Mockup Before Frontend |
 
 ---
 
 ## 5. Workflow
 
 ```
-MOCKUP OKU → KATMANI SEÇ → ŞABLONU KOPYALA → {{VARIABLE}} DOLDUR → GUARDRAIL #16 DOĞRULA → COMMIT
+NOTES.MD OKU → MOCKUP OKU → KATMANI SEÇ → ŞABLONU KOPYALA
+→ {{VARIABLE}} DOLDUR → GUARDRAIL #16 DOĞRULA → TARAYICI TESTİ → COMMIT
 ```
 
-1. **MOCKUP OKU:** `.ai/ui-design/` ilgili görsel + envanter; okunamıyorsa DUR.
-2. **KATMANI SEÇ:** §3.1 tablosundan katman + §3.7 adlandırma eki.
-3. **ŞABLONU KOPYALA:** ilgili iskeleti (§3.2 token / §3.3 bileşen / §3.4 kırılım / §3.5 cihaz / §3.6 tema) hedef dosyaya kopyala.
-4. **`{{VARIABLE}}` DOLDUR:** `{{TITLE}}`, `{{block}}`, `{{device}}`, `{{DATE}}`.
-5. **GUARDRAIL #16 DOĞRULA:** §6 kontrol listesi + §4.1 (7 madde) + mockup uyumu.
-6. **COMMIT:** responsive + WCAG gözden geçirmesi; registry/log güncel (log append'i parent yapar).
+1. **NOTES/MOCKUP OKU:** kök `notes.md` + `.ai/ui-design/` ilgili görsel; okunamıyorsa DUR.
+2. **KATMANI SEÇ:** §3.1 tablosu + §3.1 ayrım kuralı (component mi, sayfa mı?).
+3. **ŞABLONU KOPYALA:** §3.3 token · §3.4 bileşen · §3.5 cihaz import · §3.6 auth paketi · §3.7 tema.
+4. **`{{VARIABLE}}` DOLDUR:** `{{block}}`, `{{device}}`, `{{width}}`, `{{page}}`, `{{v}}`.
+5. **GUARDRAIL #16:** §6 kontrol listesi + §4.1 (10 madde).
+6. **TARAYICI TESTİ:** gerçek sayfada eleman/layout doğrulaması (repo kuralı §7.7).
+7. **COMMIT:** subagent atmaz — orkestratöre aittir.
 
 ---
 
@@ -498,16 +371,16 @@ MOCKUP OKU → KATMANI SEÇ → ŞABLONU KOPYALA → {{VARIABLE}} DOLDUR → GUA
 
 | # | Kontrol | Kriter |
 |---|---------|--------|
-| 1 | Frontmatter | 7 zorunlu alan (title, type, category, date, updated, version, status, authority) |
-| 2 | Bölüm yapısı | §1-§7 numaralı, en fazla 3 başlık seviyesi |
+| 1 | Frontmatter | 7 zorunlu alan |
+| 2 | Bölüm yapısı | §1–§7 numaralı, ≤3 başlık seviyesi |
 | 3 | Placeholder | `{{VARIABLE}}` kalmadı |
-| 4 | Guardrails | §4.1 7/7 — hardcoded değer, `!important`, inline style, önişlemci yok |
-| 5 | Katman | §3.1 sırası korundu; dosya doğru katmanda |
-| 6 | BEM | `.block__element--modifier` + `.is-*` durumları |
-| 7 | Token | Her değer `var(--...)` ile |
-| 8 | Cihaz dosyası | Yalnızca davranış kuralı içeriyor (layout yok) |
-| 9 | WCAG | `--touch-min: 44px` uygulanır; kontrast mockup ile eşleşiyor |
-| 10 | Halüsinasyon | Glob'da olmayan katman/dosya adı iddia edilmedi |
+| 4 | Guardrails | §4.1 10/10 |
+| 5 | Katman | §3.1 sırası; dosya doğru katmanda |
+| 6 | Ayrım | Component → 04 · PHP sayfası → 05 · token → 01 |
+| 7 | Token dosyası | Yalnız `--token: değer`; seçici/kural yok; cihaz adı dosya adında |
+| 8 | Cihaz dosyası | Import zinciri + davranış; layout yok |
+| 9 | BEM | `.block__element--modifier` + `.is-*` |
+| 10 | Halüsinasyon | Diskte olmayan katman/dosya adı iddia edilmedi |
 
 ---
 
@@ -515,20 +388,20 @@ MOCKUP OKU → KATMANI SEÇ → ŞABLONU KOPYALA → {{VARIABLE}} DOLDUR → GUA
 
 | Kaynak | Yol / Kimlik | Amaç |
 |--------|--------------|------|
-| Template registry | [[.templates/index]] | Envanter (DRY — burada tekrarlanmaz) |
-| Vault anayasası | [[../CLAUDE.md]] | Hard Guardrails, ADR-042 |
-| Agent registry | [[../../AGENTS.md]] | §6 yönlendirme: CSS → UI Designer |
+| Template registry | [[.templates/index]] | Envanter |
+| Vault anayasası | [[../CLAUDE.md]] | Hard Guardrails |
+| Agent registry | [[../../AGENTS.md]] | Routing: CSS → UI Designer |
 | JS şablonu | [[js-template]] | Katman hizası (JS ↔ CSS) |
 | Mockup indeksi | [[../../ui-design/01-mockup-index]] | Mockup Before Frontend |
-| Disk kanıtı | `assets.coremusic.net/Css/` | Katman ve dosya envanteri (glob) |
-| Kategori notu | `assets.coremusic.net/AGENTS.md` | 9 katman iddiası → ⚠️ VERIFICATION REQUIRED |
-| İlgili ADR'ler | ADR-001 · ADR-018 · ADR-044 · ADR-045 | §1 tablosunda eşleştirilmiştir |
+| Disk kanıtı | `assets.coremusic.net/Css/` | Katman envanteri |
+| Notlar | `notes.md` (repo kökü) | Uygulanacak CSS notları |
+| İlgili ADR'ler | ADR-001 · ADR-018 · ADR-044 · ADR-045 | §1 tablosu |
 
 ---
 
-**Template Version:** 2.0.0
-**Last Updated:** 2026-09-29
+**Template Version:** 3.0.0
+**Last Updated:** 2026-10-03
 
 ---
 
-> ⚠️ **SİLİNEN CSS REFERANS NOTU (2026-09-30, 0-kanıt temizlik):** Şablonda geçen `main.css` ("tek giriş / import zinciri", satır L41, L64, L339, L343) diskte **YOK** — kanıt: `Get-ChildItem -Recurse -Filter main.css` → **0 isabet** (2026-09-30); `auth-bundled.css` MEVCUT. Yeni CSS üretiminde "main.css tek giriş" kuralı **uygulanamaz** — güncel giriş için disk kontrolü zorunlu. `07_Vendors/bootstrap*.css` diskte MEVCUT (33 dosya), o referanslar geçerlidir. (Şablon adedi değişmedi — Guardrail #16.)
+> ⚠️ **GEÇMİŞ NOT (korunur):** `main.css` 2026-09-30'da silinmiştir — "main.css tek giriş" kuralı geçersizdir; güncel girişler `08_Devices/d-*.css` (cihaz) ve `auth-bundled.css` (auth subdomain). `07_Vendors/bootstrap*.css` diskte MEVCUT → vendor referansları geçerlidir.

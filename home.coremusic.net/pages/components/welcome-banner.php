@@ -17,27 +17,5 @@
  */
 ?>
 <section class="welcome-banner welcome-banner--wide" aria-label="Hoş geldin">
-    <div class="welcome-banner__overlay"></div>
-    <div class="welcome-banner__content">
-        <p class="welcome-banner__eyebrow"><?= $this->eyebrow ?></p>
-        <p class="welcome-banner__user"><?= $this->userName ?></p>
-        <p class="welcome-banner__quote"><?= $this->quote ?></p>
-        <p class="welcome-banner__brand"><?= $this->brand ?></p>
-        <a class="welcome-banner__cta" href="<?= $this->ctaHref ?>">
-            <span class="welcome-banner__cta-text"><?= $this->ctaLabel ?></span>
-            <span class="welcome-banner__cta-icon" aria-hidden="true"></span>
-        </a>
-        <ul class="welcome-banner__stats">
-            <?php foreach ($this->stats as $i => $stat): ?>
-            <li class="welcome-banner__stat welcome-banner__stat--<?= $i + 1 ?>">
-                <img class="welcome-banner__stat-icon" src="<?= $stat['icon'] ?>" alt="" width="13" height="13">
-                <span class="welcome-banner__stat-text">
-                    <span class="welcome-banner__stat-num"><?= $stat['num'] ?></span>
-                    <span class="welcome-banner__stat-label"><?= $stat['label'] ?></span>
-                </span>
-            </li>
-            <?php endforeach; ?>
-            <li class="welcome-banner__more" aria-hidden="true"></li>
-        </ul>
-    </div>
+   
 </section>

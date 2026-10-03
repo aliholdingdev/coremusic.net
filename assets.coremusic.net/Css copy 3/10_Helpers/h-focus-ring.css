@@ -1,0 +1,18 @@
+/**
+ * 10_Helpers/h-focus-ring.css
+ * AMACI : WCAG 2.4.7 (Focus Visible) — klavye odak halkası yardımcıı
+ * TOKEN : 01_Abstracts'ten okur — token TANIMLAMAZ
+ * IMPORT: 08_Devices/d-*.css veya auth-bundled.css zincirine eklenir
+ *
+ * Kullanım:
+ *   <button class="h-focus-ring">…</button>
+ *
+ * Sadece klavye odaklandığında halka görünür (mouse tıklamasında gizli).
+ * color-accent / radius-sm token'ları BASE'den okunur.
+ */
+
+.h-focus-ring:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}

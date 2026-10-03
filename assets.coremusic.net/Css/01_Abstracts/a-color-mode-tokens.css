@@ -1,14 +1,18 @@
 /**
  * CoreMusic — Color Mode Tokens (Dark/Light)
  * ITCSS Layer: 01_Abstracts
- * Version: 1.0.0 — 2026-09-01
+ * Version: 1.1.0 — 2026-10-03
+ * KAYNAK  : .ai/ui-design/tokens/tokens-1024.json (Figma SSOT)
  *
  * Dark mode = :root (varsayılan, mevcut davranış korunur)
  * Light mode = html[data-mode="light"] override'ları
+ * Pink mode  = html[data-mode="ışıl-peri"] override'ları (koyu taban)
  *
  * Kullanım:
  *   <html data-mode="dark">  → koyu tema (varsayılan)
  *   <html data-mode="light"> → aydınlık tema
+ *   <html data-mode="ışıl-peri"> → pink tema (Figma "Pink - Dark")
+ *   <html data-mode="ışıl-peri" data-gender="female"> → pink + female
  *
  * Gender teması bu modun ÜZERİNDE çalışır.
  * Yani: female+dark, female+light, male+dark, male+light mümkün.
@@ -239,6 +243,66 @@ html[data-mode="light"][data-gender="neutral"] {
   --theme-bg-elevated:#f0eef5;
   --theme-shadow:     0 2px 8px rgba(184, 169, 201, 0.20);
   --theme-shadow-lg:  0 4px 16px rgba(184, 169, 201, 0.25), 0 8px 32px rgba(184, 169, 201, 0.10);
+}
+
+/* ============================================================
+   PINK (IŞIL-PERİ) — female teması pink override'ları
+   Figma: tokens-1024.json L2247-2249 "bg / gradient stop 0-2" (#FF00C8)
+   Mevcut bloklari EZMEZ — yalnız pink buton gradyan token'ları
+   (dark + light) aynı Figma değerleriyle hizalanır.
+   ============================================================ */
+html[data-gender="female"] {
+  --pink-primary-button-left-color:  rgba(255, 0, 200, 0.55);
+  --pink-primary-button-color:       rgba(255, 0, 200, 0.65);
+  --pink-primary-button-right-color: rgba(255, 0, 200, 0.35);
+}
+
+html[data-mode="light"][data-gender="female"] {
+  /* ⚠️ VERIFICATION REQUIRED: Figma'da "Pink - Light" frame YOK
+     (tokens-1024.json L22139 yalnız "Pink - Dark") → dark Figma
+     değerleri light'a da taşındı; light'a özel değer uydurulmadı. */
+  --pink-primary-button-left-color:  rgba(255, 0, 200, 0.55);
+  --pink-primary-button-color:       rgba(255, 0, 200, 0.65);
+  --pink-primary-button-right-color: rgba(255, 0, 200, 0.35);
+}
+
+/* ============================================================
+   PINK MODE (IŞIL-PERİ) — html[data-mode="ışıl-peri"]
+   Yeni renk modu (2026-10-03): "Pink" artık tekil/özel renk değil,
+   ayrı bir data-mode temasıdır; data-gender="female" ile BİRLİKTE
+   verilebilir (bağımsız attribute'lar — ikisi de eşleşir).
+   FIZIK: "Pink - Dark" frame MEVCUT (tokens-1024.json L22139,
+   "4456.0x1476.0") → mod koyu taban üzerine kurulur; :root dark
+   token'ları olduğu gibi geçerli, yalnız pink accent ezilir.
+   SEÇİCİ ADI: Figma'da mode/koleksiyon adı YOK ("Işıl-Peri" /
+   "Isil-Peri" / "Female" JSON'da hiç geçmiyor) → değer kullanıcı
+   kararından; vault karşılığı a-semantic-token.css L278
+   "PINK (ışıl-peri)". Figma frame adı "Pink - Dark" olduğundan
+   data-mode="pink" alternatifi DESTEKLİ DEĞİL (uydurulmadı).
+   CASCADE: bu blok [data-gender="female"] pink bloğundan SONRA
+   gelir → aynı özgüllükte kullanıcı data-mode'u kazanır;
+   :root'a göre her durumda üsttedir.
+   ============================================================ */
+html[data-mode="ışıl-peri"] {
+  /* --- Pink accent (tokens-1024.json L2247-2249 "bg / gradient stop 0-2") --- */
+  --pink-primary-button-left-color:  rgba(255, 0, 200, 0.55);  /* stop 0 @0.550 */
+  --pink-primary-button-color:       rgba(255, 0, 200, 0.65);  /* stop 1 @0.650 */
+  --pink-primary-button-right-color: rgba(255, 0, 200, 0.35);  /* stop 2 @0.350 */
+  --cm-pink-primary-button:          #FF00C8;                  /* L2656-2677 "Rectangle / fill" · L2247 tabanı */
+
+  /* ⚠️ VERIFICATION REQUIRED — Figma'da aşağıdaki token'lar YOK; değer uydurulmadı:
+     1. "Pink - Light" frame YOK → JSON'da yalnız "Pink - Dark" (L22139);
+        ışıl-peri + ışık modu kombinasyonu için ayrı token seti BEKLENİYOR.
+     2. Pink tema bg/text/border/glass/player/theme yüzey seti YOK →
+        "Pink - Dark" frame'ine bağlanabilir --bg-* / --text-* / --theme-*
+        anahtarı tokens-1024.json'da yok (colors bölümü frame'e bağlı değil).
+        Bu blok bilinçli olarak yalnız pink accent içerir; yüzey token'ları
+        :root (dark) ve [data-gender] bloklarından gelmeye devam eder.
+     3. Mode/koleksiyon adı YOK: "Işıl-Peri" / "Isil-Peri" / "Female"
+        JSON'da hiç geçmiyor. "Prenses Işıl Peri" = metin etiketi
+        (L3498 fill "#FFFFFF" · L17510 shadow · L28468 "118.0x25.0").
+     Çözüm: Figma'da pink mode/koleksiyonu tanımlandıktan sonra tokens-1024.json
+     yeniden çekilecek; değerler o zaman yazılacak — VARSAYILMAZ. */
 }
 
 /* ============================================================

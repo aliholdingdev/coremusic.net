@@ -1,0 +1,33 @@
+/**
+ * CoreMusic — Layout Token'ları · 3540–3839px (4K Monitor)
+ * ITCSS Layer: 01_Abstracts · Dosya: a-layout-tokens-3540.css
+ * Kaynak: d-4k-monitor.css :root override bloğu (gerçek disk kanıtı — extract edildi)
+ *         + notes.md (2026-10-03)
+ * Import: 08_Devices/d-4k-monitor.css (a-layout-tokens.css'ten SONRA)
+ * Kural: yalnız token tanımı (@media içi var() okuma YASAK — css-token.md §1)
+ *
+ * NOT: Bu dosya d-4k-monitor.css'teki :root {} override'larından taşındı
+ * (şablon §3.5 — cihaz katmanı yalnızca import + davranış yazar;
+ *  token override 01_Abstracts'e aittir).
+ */
+
+@media (min-width: 3540px) and (max-width: 3839px) {
+  :root {
+    /* --- Layout (4K monitor — ultra-wide) --- */
+    --header-h: 90px;
+    --footer-h: 180px;
+    --sidebar-w: 400px;
+
+    /* --- Content padding (max) --- */
+    --content-padding: 3rem;
+    --content-max-w: 1800px;
+
+    /* --- Touch (4K monitor — yüksek DPI için büyük) --- */
+    --touch-min: 64px;
+    --touch-recommended: 72px;
+    --touch-large: 80px;
+
+    /* --- Hover AÇIK (desktop) --- */
+    --hover-display: block;
+  }
+}

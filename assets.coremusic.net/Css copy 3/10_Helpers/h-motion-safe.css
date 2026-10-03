@@ -1,0 +1,29 @@
+/**
+ * 10_Helpers/h-motion-safe.css
+ * AMACI : WCAG 2.3.3 (Animation from Interactions) — hareket azaltma sarmalayıcıı
+ * TOKEN : 01_Abstracts'ten okur — token TANIMLAMAZ
+ * IMPORT: 08_Devices/d-*.css veya auth-bundled.css zincirine eklenir
+ *
+ * Disk kanıtı: 2026-10-03 — 10_Helpers/ klasörü bu dosya ile açıldı
+ * (css-helper-template §2 iskeletinden türetildi).
+ *
+ * Kullanım:
+ *   <div class="h-motion-safe">…</div>
+ *
+ * prefers-reduced-motion: reduce aktifse tüm transition/animation'ı 1ms'ye
+ * düşürür — kullanıcı sistem ayarı "az hareket" olduğunda otomatik devreye girer.
+ */
+
+.h-motion-safe {
+  transition-duration: var(--transition-normal);
+  animation-duration: var(--transition-normal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .h-motion-safe {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

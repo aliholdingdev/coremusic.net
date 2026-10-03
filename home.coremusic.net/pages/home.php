@@ -80,26 +80,13 @@ require __DIR__ . '/../header.php';
 
     <!-- ÜST SATIR: Now Playing | Hoş Geldin Banner | Widgets -->
     <div class="home-layout__top <?= $topClass ?>">
-
-        <!-- Sol:Player Info (469×184, cover 150×150) -->
-        <div class="home-layout__top-left--wide">
-            <?php $loader->display('player-info', $variant); ?>
-        </div>
-
-        <!-- Orta: Hoş Geldin Banner (491×184) — Figma node 2849:21492 "Banner Div" -->
-        <div class="home-layout__top-center">
-            <?php $loader->display('welcome-banner', $variant); ?>
-        </div>
-
-        <!-- Sağ: Widget Grid (752×184) — Figma node 2850:21494 "Div2 Button" -->
-        <div class="home-layout__top-right--wide">
-            <?php $loader->display('widget-grid', $variant); ?>
-        </div>
-
+        <?php $loader->display('player-info', $variant); ?>
+        <?php $loader->display('welcome-banner', $variant); ?>
+        <?php $loader->display('widget-grid', $variant); ?>
     </div>
 
     <!-- ALT SATIR: tam genişlik kart bölümleri -->
-    <div class="home-cards-wrapper--wide">
+    <div class="home-song-btn-list-div">
         <?php $loader->display('recent-tracks', $variant); ?>
     </div>
 

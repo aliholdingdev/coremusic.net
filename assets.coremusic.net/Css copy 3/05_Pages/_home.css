@@ -1,0 +1,13 @@
+/**
+ * CoreMusic — Home Page Bridge
+ * main.css import zinciri için köprü dosya
+ * ITCSS Layer: 05_Pages
+ * Version: 1.0.0 — 2026-08-05
+ *
+ * Bu dosya main.css'teki kırık import'u düzeltir.
+ * Home sayfası CSS'i bu dosya üzerinden yüklenir.
+ */
+
+@import './_home-layout.css';
+@import './_home-components.css';
+@import './_home-inline.css';

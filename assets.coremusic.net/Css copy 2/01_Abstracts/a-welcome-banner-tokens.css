@@ -1,0 +1,130 @@
+/**
+ * CoreMusic — Welcome Banner Token'ları (v2.0.0)
+ * ITCSS Layer: 01_Abstracts
+ *
+ * Figma SSOT (pixel-perfect API extraction — .ai/ui-design/reference/figma/raw/nodes-1024-1920.json):
+ *   node 2831:13747 (1920 Home) → children[5] "Banner Div"
+ *   id 2849:21492 — RECTANGLE, absoluteBoundingBox: x:1158 y:-490 width:491 height:184
+ *   cornerRadius: 8 · effects: DROP_SHADOW offset(2,2) radius:4 color rgba(0,0,0,.8)
+ *   fills: type IMAGE (imageRef 76f2e84d79079a87dbc3a223314e6e232dbd59ee — binary REST API
+ *          üzerinden alınamadı). PNG mockup'ından (.ai/.png/home-1920/Linux - 1920 - Home.png
+ *          → Banner bölgesi, origin (552,99) 491×184) numeric tarama ile:
+ *            köşe pikselleri TL #a5697d · TR #663c79 · BL #3c2643 · BR #8d5c66
+ *          → yaklaşık gradient türetildi. Gerçek görsel varlık elde edilirse
+ *          --wb-bg-image olarak eklenmeli, bu gradient yalnız fallback'tir.
+ *
+ * v2.0.0 (2026-10-01): Banner içerik metinleri Figma'da child node olarak yok
+ *   (RECTANGLE). PNG mockup'ından numeric ölçüm (ink satırları, x-aranfajlar,
+ *   renk örneklemesi) ile tüm içerik geometrisi/renkleri bu dosyaya taşındı:
+ *   eyebrow y29 · user y45 · quote y85 · brand y98 · CTA (104,118) 88×20 ·
+ *   stats row (28,147) h26, chip genişlikleri 54/39/39/39/51, gap 4, ring 13px.
+ *   Renkler: eyebrow #f4e1cf · user #f6e8dd · quote #ceb5c3 · brand #d5b1c3 ·
+ *   CTA metin #debad0 / fill #b1557b→#a65583 / border #cf7d94 ·
+ *   chip bg rgba(104,72,100,.55) border rgba(174,122,138,.65) ·
+ *   num #cfc0cb · label #b49caa · ring #f5a57c / + #f8efe8.
+ *   İkon seçimi (mevcut asset, yeni dosya YOK): music · playlist1 · cd-case ·
+ *   mic-1 (Sanatçı) · users (Sadık Dostlar) — mockup'taki person-bust/group
+ *   glyph için repo'da birebir asset yok; en yakın mevcut flat ikonlar.
+ *
+ * Embedded (1024, node 1639:10160) altında bu node'un eşdeğeri YOK — yalnız
+ * WIDE/4K üst satırında kullanılır (bkz. WelcomeBannerComponent.php doc-block).
+ *
+ * Version: 2.0.0 — 2026-10-01
+ */
+
+:root {
+  /* ═══ Boyut (Figma exact) ═══ */
+  --wb-w: 491px;
+  --wb-h: 184px;
+  --wb-radius: 8px;
+
+  /* ═══ Gölge (Figma DROP_SHADOW exact) ═══ */
+  --wb-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+
+  /* ═══ Arkaplan — imageRef yaklaşık renk türevi (bkz. yukarı not) ═══ */
+  --wb-bg-gradient: linear-gradient(135deg, #a5697d 0%, #7c4d81 45%, #663c79 62%, #8d5c66 100%);
+  --wb-overlay-gradient: linear-gradient(0deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 65%);
+
+  /* ═══ İçerik sütunu (metin merkezi x≈148 → 0..296, text-align:center) ═══ */
+  --wb-content-w: 296px;
+
+  /* ═══ Tipografi ═══ */
+  --wb-font: var(--cm-font-ui);
+  --wb-display-font: var(--font-display);        /* 'Playfair Display' */
+  --wb-script-font: 'Bickham Script Two', 'Bickham Script', cursive;
+  --wb-stat-font: var(--font-heading);           /* 'DM Sans' */
+  --wb-text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.8);
+
+  /* ═══ Eyebrow — ink y31..41, x85..213 (yan parıltılar dâhil) ═══ */
+  --wb-eyebrow-top: 29px;
+  --wb-eyebrow-fs: 13px;
+  --wb-eyebrow-color: #f4e1cf;
+
+  /* ═══ Kullanıcı adı — ink y50..72 (y swash y79), x45..237 ═══ */
+  --wb-user-top: 45px;
+  --wb-user-fs: 26px;
+  --wb-user-color: #f6e8dd;
+
+  /* ═══ Alıntı — ink y86..91, x63..235 (~59 karakter) ═══ */
+  --wb-quote-top: 85px;
+  --wb-quote-fs: 7px;
+  --wb-quote-color: #ceb5c3;
+
+  /* ═══ Marka — ink y100..107, x127..174 (script) ═══ */
+  --wb-brand-top: 98px;
+  --wb-brand-fs: 11px;
+  --wb-brand-color: #d5b1c3;
+
+  /* ═══ CTA pill — x105..192 y118..137 (88×20), text ink y124..131, glyph x178..186 ═══ */
+  --wb-cta-top: 118px;
+  --wb-cta-left: 104px;
+  --wb-cta-w: 88px;
+  --wb-cta-h: 20px;
+  --wb-cta-radius: 10px;
+  --wb-cta-gap: 8px;
+  --wb-cta-fs: 8px;
+  --wb-cta-color: #debad0;
+  --wb-cta-bg: linear-gradient(180deg, #b1557b 0%, #a65583 100%);
+  --wb-cta-border: #cf7d94;
+  --wb-cta-icon-w: 9px;
+  --wb-cta-icon-radius: 3px;
+  --wb-cta-icon-bg: #f4e1cf;
+  --wb-cta-play-left: 3px;
+  --wb-cta-play-w: 4px;
+  --wb-cta-play-h: 2.5px;
+  --wb-cta-play-color: #a65583;
+
+  /* ═══ Stats satırı — top border y147, bottom y172 (h26) ═══ */
+  --wb-stats-top: 147px;
+  --wb-stats-left: 28px;
+  --wb-stats-h: 26px;
+
+  /* ═══ Chip'ler — c1 28..82 · c2 85..124 · c3 130..169 · c4 172..214 · c5 216..267 ═══ */
+  --wb-chip-gap: 4px;
+  --wb-chip-w1: 54px;
+  --wb-chip-w2: 39px;
+  --wb-chip-w3: 39px;
+  --wb-chip-w4: 39px;
+  --wb-chip-w5: 51px;
+  --wb-chip-pl: 9px;
+  --wb-chip-inner-gap: 3px;
+  --wb-chip-radius: 6px;
+  --wb-chip-bg: rgba(104, 72, 100, 0.55);
+  --wb-chip-border: rgba(174, 122, 138, 0.65);
+  --wb-chip-icon-w: 13px;
+  --wb-chip-icon-filter: brightness(0) invert(1);
+
+  /* ═══ Stat metinleri — num ink y155..159 · label ink y161..166 ═══ */
+  --wb-num-fs: 10px;
+  --wb-num-lh: 11px;
+  --wb-num-color: #cfc0cb;
+  --wb-label-fs: 7px;
+  --wb-label-lh: 8px;
+  --wb-label-color: #b49caa;
+
+  /* ═══ Trailing "+" ring — x275..287 (d≈13), y154..164, stroke ~#f5a57c ═══ */
+  --wb-more-size: 13px;
+  --wb-more-ml: 9px;
+  --wb-more-border: 1px solid #f5a57c;
+  --wb-more-plus: #f8efe8;
+}

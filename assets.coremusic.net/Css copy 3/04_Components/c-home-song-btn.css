@@ -1,0 +1,232 @@
+.home_song__btn-card-grid {
+  display: grid;
+  gap: var(--grid-gap, 8px);
+  overflow: visible;
+}
+
+.home_song__btn-card-grid--scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  grid-auto-flow: column;
+  grid-auto-columns: min-content;
+}
+
+.home_song__btn-card-grid--scroll::-webkit-scrollbar { display: none; }
+
+.home_song__btn-dashboard{
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-gap, 10px);
+  margin-top: var(--space-5);
+  font-size: var(--fs-xs);
+  margin-left: var(--cm-mar-23px);
+}
+
+/* ═══ Embedded (1024) — "En Son" kolonu, Figma node 1639:9904 ═══
+   Alt satırın 1. kolonu (.home-layout__bottom--embedded 1. grid-track).
+   Wide varyanttan farkı: sabit 2×2 grid, yatay scroll yok, kolon
+   genişliği dashboard'un kendi margin/offset'lerini miras almaz. */
+.home_song__btn-dashboard--embedded {
+  margin-top: 0;
+  margin-left: 0;
+  gap: var(--home-embedded-title-gap);
+  min-width: 0;
+}
+
+.home_song__btn-title--embedded {
+  font-family: var(--font-body);
+  font-size: var(--home-embedded-section-title-fs);
+  line-height: var(--home-embedded-section-title-lh);
+  letter-spacing: var(--home-embedded-section-title-ls);
+  font-weight: var(--font-medium, 500);
+  color: var(--color-text, rgba(255, 255, 255, 0.9));
+  text-shadow: var(--ts-xs);
+  margin: 0;
+}
+
+/* Figma 1639:9904: 2×2 = kart 169×43 (353 = 169+15+169) · satır gap 25 ·
+   minmax(0,1fr) — nowrap metin min-content'i track'i şişirip taşırıyordu */
+.home_song__btn-card-grid--embedded {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-flow: row;
+  column-gap: var(--home-embedded-card-col-gap);
+  row-gap: var(--home-embedded-card-row-gap);
+  overflow: visible;
+}
+
+.home_song__btn-card-grid--embedded .home-song__mini-card {
+  box-sizing: border-box;
+  height: var(--home-embedded-card-h);
+  padding: 0;
+  gap: var(--home-embedded-card-gap);
+  border-radius: var(--home-embedded-card-radius);
+  overflow: hidden;
+}
+
+.home_song__btn-card-grid--embedded .home-song__mini-card__art {
+  width: var(--home-embedded-card-art-w);
+  height: var(--home-embedded-card-h);
+}
+
+.home_song__btn-card-grid--embedded .home-song__mini-card__title,
+.home_song__btn-card-grid--embedded .home-song__mini-card__subtitle {
+  font-size: var(--home-embedded-card-fs);
+  line-height: var(--home-embedded-card-lh);
+}
+
+.home_song__btn-card-grid--embedded .home-song__mini-card .mini-card__subtitle {
+  font-size: var(--home-embedded-card-fs-sub);
+  line-height: var(--home-embedded-card-lh);
+}
+
+/* Figma 1639:9893 link kartı da 43'e oturur (base min-height:48 satırı şişiriyordu) */
+.home_song__btn-card-grid--embedded .playlist-list-card {
+  box-sizing: border-box;
+  min-height: 0;
+  height: 100%;
+}
+
+/* Figma 1639:9910: up-next cam paneli 186×109 (base min-height:124) */
+.home_song__btn-dashboard--embedded .up-next-panel {
+  box-sizing: border-box;
+  min-height: var(--home-embedded-up-next-h);
+}
+
+/* ═══ Wide (1920) — "En Son"/"Playlistler" kart şeridi, Figma 2890:7922-7968 ═══
+   kart 169×43 · kolon gap 15 · şerit yatay scroll (nowrap) */
+.home-layout--wide .home_song__btn-card-grid--scroll {
+  grid-auto-columns: var(--home-wide-card-w);
+  gap: var(--home-wide-card-col-gap);
+  padding-bottom: 0;
+}
+
+.home-layout--wide .home-song__mini-card {
+  box-sizing: border-box;
+  height: var(--home-wide-card-h);
+  padding: 0;
+  gap: var(--home-wide-card-gap);
+  border-radius: var(--home-wide-card-radius);
+  overflow: hidden;
+}
+
+.home-layout--wide .home-song__mini-card__art {
+  width: var(--home-wide-card-art-w);
+  height: var(--home-wide-card-h);
+}
+
+/* Figma 2890:7922-7968: kart başlığı fs7 (Avalon) — base --text-sm,
+   1920'de --fs-sm clamp(11px,0.95vw,16px) ile 16px'e şişiyordu (PNG: 7px) */
+.home-layout--wide .home-song__mini-card__title {
+  font-size: var(--cm-fs-8px);
+}
+
+/* Figma 2850:21627: başlık (53,455) h45 → kart (53,500) · PNG başlık1 glif y341 */
+.home-layout--wide .home_song__btn-dashboard {
+  margin-top: 0;
+  margin-left: 0;
+  gap: 0;
+}
+
+.home-layout--wide .home_song__btn-title {
+  margin: 0;
+}
+
+/* Başlık→kart mesafesi Figma'da bölüm bölüm farklı (32 / 45) — :first/:last ile */
+.home-layout--wide .home_song__btn-card-grid--scroll {
+  margin-top: var(--cm-mar-5px);   /* başlık y337 + lh19.2 + mb8 + 5 → kart y369 (Figma 2856:22290) */
+}
+
+.home-layout--wide .home_song__btn-dashboard:last-child .home_song__btn-card-grid--scroll {
+  margin-top: var(--cm-mar-19px);  /* başlık2 y454 + 19.2 + 8 + 19 → kart y500 (Figma 2890:7922) */
+}
+
+.home-song__mini-card {
+  display: flex;
+  gap: var(--space-2, 8px);
+  padding: var(--space-2, 8px);
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--cm-bw-1px) solid var(--glass-border, rgba(255,255,255,0.1));
+  border-radius: var(--radius-md, 8px);
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.home-song__mini-card__art {
+  width: var(--home-song__mini-card-art-size, 50px);
+  height: var(--home-song__mini-card-art-size, 50px);
+  border-radius: var(--radius-sm, 4px);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+}
+
+.home-song__mini-card__art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-song__mini-card__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  font-weight: var(--font-medium, 500);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-song__mini-card__subtitle {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--cm-fs-10px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  text-shadow: var(--ts-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ═══ Track & Playlist btn — etkileşim state'leri ═══
+   09-interaction-states §2.1/§3 (Card: hover glass · focus ring primary)
+   + §4 hover capability medyası (dokunmatikte hover yok) */
+@media (hover: hover) and (pointer: fine) {
+  .home-song__mini-card:hover {
+    background: var(--glass-3-bg);
+    border-color: var(--glass-3-border);
+  }
+}
+
+.home-song__mini-card:active {
+  background: var(--glass-4-bg);
+}
+
+.home-song__mini-card:focus-visible {
+  outline: var(--cm-bw-2px) solid var(--color-primary);
+  outline-offset: var(--cm-pos-2px);
+}
+
+/* Süre etiketi — PNG: kartın sağ-alt köşesi (1024/1920 mockup):
+   Figma "Sure" 28×9 @ sağ-alt, sanatçı satırının altına iner (absolute) */
+.home-song__mini-card .mini-card__subtitle {
+  position: absolute;
+  right: var(--cm-pos-27px);   /* Figma Sure 28×9: x1193−(1056+50)=87 → sağ kenar 169−115=54; text sağ kenarı 54, kutu 28 → right 27 */
+  bottom: var(--cm-pos-3px);
+  width: var(--cm-w-28px);
+  font-size: var(--home-embedded-card-fs-sub, 7px);
+  line-height: 9px;
+  color: var(--color-text, rgba(255, 255, 255, 0.9));
+  text-shadow: var(--ts-sm);
+  pointer-events: none;
+}
+
+/* Figma Container 169×43 radius 3 + Color Overlay white 0.1 + Stroke white 1px
+   + DROP_SHADOW 0 3 15 #373737 0.5 (1639:9894 / I2890:7922;992:15165) */
+.home-song__mini-card {
+  position: relative;
+  border-radius: var(--home-embedded-card-radius, 3px);
+  border: var(--cm-bw-1px) solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 3px 15px rgba(55, 55, 55, 0.5);
+}

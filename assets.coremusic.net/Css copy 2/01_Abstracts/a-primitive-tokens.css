@@ -1,0 +1,267 @@
+/**
+ * CoreMusic — Primitive Component Tokens
+ * Bileşenler : C04 Button · C05 Input · C08 Toggle · C09 Slider · C10 Badge · C13 Skeleton
+ * ITCSS Layer: 01_Abstracts (token katmanı — bileşen CSS'i hardcoded değer yazamaz)
+ * Version    : 1.1.0 — 2026-09-27 (Batch 1 ekleme: badge tint-bg + skeleton ölçü token'ları)
+ *
+ * Otorite zinciri (Master Prompt §5 #11 — Figma + envanter + token üçlü doğrulama):
+ *   1. Figma node 18:2907 doğrulanmış spec (Karar #5) — ölçü/renk/radius O TORİTESİ
+ *   2. 02-component-inventory.md (C04/C05/C08/C09/C10/C13 BEM + Figma'da olmayan ölçüler)
+ *   3. Bu dosya (token tek kaynağı)
+ *
+ * Tier konvansiyonu (a-layout-tokens.css ile hizalı):
+ *   :root                     = 1024×600  (RPi5 embedded — Figma ana hedef)
+ *   @media (min-width:1920px) = 1920×1080 (Figma doğrulanmış 2. tier) — token: --bp-1920
+ *   3840×2160                 = Figma primitive ölçüsü YOK → 1920 değerleri miras alınır
+ *
+ * Tema konvansiyonu (a-color-mode-tokens.css ile hizalı):
+ *   :root = dark (varsayılan) · html[data-mode="light"] + prefers-color-scheme = light
+ *
+ * Karar #6: görsel boyutlar Figma'daki gibi kalır (12-20px);
+ *   WCAG 48px hit-area bileşen katmanında ::before ile eklenir (c-*.css).
+ */
+
+/* ============================================================
+   1. FONT + FIGMA PALET + ERİŞİLEBİLİRLİK SABİTİ
+   ============================================================ */
+:root {
+  /* Avalon (weight 500) — UI fontu; bileşen CSS'i font-family hardcoded YAZMAZ */
+  --cm-font-ui: 'Avalon Medium', 'Avalon', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Figma 18:2907 paleti — master prompt §Onaylı Kararlar */
+  --cm-pink: #f200d0;
+  --cm-pink-mid: #bc04a3;
+  --cm-pink-deep: #92007d;
+  --cm-blue: #0a7fab;
+  --cm-green: #8dd429;
+  --cm-orange: #ff6e0d;
+  --cm-gray: #9d9d9d;
+  --cm-gray-light: #d9d9d9;
+  --cm-gray-dark: #424242;
+
+  /* ============================================================
+     04_Components DÜZ (opacity'siz) renk paleti — Batch 1 taşıması
+     Kaynak: 04_Components/*.css içindeki hardcoded #hex değerleri.
+     Kapsam DIŞI (Batch 2): gradient renk durakları · rgba()/opacity'li
+     overlay ve tint değerleri · `transparent` anahtar kelimesi.
+     ============================================================ */
+  --cm-white:          #ffffff;  /* düz beyaz (metin/arka plan/dolgu) */
+  --cm-gray-xlight:    #f1f1f1;  /* volume slider track */
+  --cm-accent:         #ff4fd8;  /* marka aksanı — focus ring, primary bg */
+  --cm-accent-light:   #ff7ee4;  /* aksan hover */
+  --cm-accent-deep:    #d63cb8;  /* aksan active/pressed */
+  --cm-accent-soft:    #ff65e9;  /* Figma #FF65E9 — player-info aksanı */
+  --cm-accent-glow:    #ff00d5;  /* footer volume thumb/fill */
+  --cm-success:        #10b981;  /* success durum rengi */
+  --cm-success-light:  #34d399;  /* success metin/tint karşılığı */
+  --cm-danger:         #ef4444;  /* danger/hata durum rengi */
+  --cm-danger-light:   #f87171;  /* danger açık varyant */
+  --cm-warning:        #f59e0b;  /* warning durum rengi */
+  --cm-warning-light:  #fbbf24;  /* warning açık varyant */
+  --cm-info:           #3b82f6;  /* info durum rengi */
+  --cm-info-light:     #60a5fa;  /* info açık varyant */
+
+  /* Karar #6 — minimum dokunma alanı (WCAG 2.2 AA 2.5.8 / 2.5.5) */
+  --cm-hit-target: 48px;
+
+  /* Küçük UI metni (Avalon 500).
+     ⚠️ VERIFICATION REQUIRED: Figma primitive font ölçüsü çekilmedi;
+     navbar item Figma spec'i (10px@1024 → 11px@1920) ile hizalandı. */
+  --cm-ui-font-xs: 10px;
+  --cm-ui-font-xs-weight: var(--fw-medium, 500);
+}
+
+/* ============================================================
+   2. C04 BUTTON — Figma: 27×12 r2 stroke 0.5px (1024) / 47×20 r2 (1920)
+   ============================================================ */
+:root {
+  --cm-button-w: 27px;
+  --cm-button-h: 12px;
+  --cm-button-radius: 2px;
+  --cm-button-stroke: 0.5px;
+  /* ⚠️ VERIFICATION REQUIRED: stroke 0.2/0.5px sadece 1024 tier spec'inde;
+     1920 stroke değeri Figma'da belirtilmemiş → 0.5px korunur. */
+  --cm-button-stroke-color: var(--cm-pink);
+  --cm-button-color: #ffffff;
+
+  --cm-button-primary-bg: var(--cm-pink);
+  --cm-button-primary-bg-hover: var(--cm-pink-mid);
+  --cm-button-primary-bg-active: var(--cm-pink-deep);
+
+  --cm-button-secondary-bg: transparent;
+  --cm-button-secondary-bg-hover: rgba(242, 0, 208, 0.14);
+  --cm-button-secondary-color: var(--cm-pink);
+  --cm-button-secondary-stroke-color: var(--cm-pink);
+
+  --cm-button-ghost-bg: transparent;
+  --cm-button-ghost-bg-hover: rgba(217, 217, 217, 0.14);
+  --cm-button-ghost-color: var(--cm-gray-light);
+  --cm-button-ghost-stroke-color: transparent;
+
+  /* ⚠️ VERIFICATION REQUIRED: danger rengi Figma spec'inde yok;
+     paletten turuncu (#ff6e0d) + kontrast için siyah metin (WCAG 4.5:1) */
+  --cm-button-danger-bg: var(--cm-orange);
+  --cm-button-danger-bg-hover: var(--cm-pink-deep);
+  --cm-button-danger-color: #000000;
+
+  --cm-button-disabled-opacity: 0.4;
+}
+
+/* --bp-1920: 1920px — a-breakpoint-tokens.css (@media'de var() geçersiz) */
+@media (min-width: 1920px) {
+  :root {
+    --cm-button-w: 47px;
+    --cm-button-h: 20px;
+    --cm-button-radius: 2px;
+    --cm-ui-font-xs: 11px;
+  }
+}
+
+/* ============================================================
+   3. C05 INPUT — Figma: Light 108×19 r3 stroke 0.2 / 136×30 r3 · Dark fill %35
+   ============================================================ */
+:root {
+  --cm-input-field-w: 108px;
+  --cm-input-field-h: 19px;
+  --cm-input-field-radius: 3px;
+  --cm-input-field-stroke: 0.2px;
+  /* ⚠️ VERIFICATION REQUIRED: stroke RENGİ Figma spec'inde verilmemiş → nötr #9d9d9d */
+  --cm-input-field-stroke-color: var(--cm-gray);
+  /* Dark tema: fill %35 opaklık (Figma) — taban renk palet nötrü #d9d9d9 varsayımı */
+  --cm-input-field-fill: rgba(217, 217, 217, 0.35);
+  /* Light tema: Figma "Input Light" satırında fill belirtilmemiş → şeffaf */
+  --cm-input-field-fill-light: transparent;
+  --cm-input-field-stroke-color-light: var(--cm-gray-dark);
+  --cm-input-color: var(--cm-gray-light);
+  --cm-input-color-light: var(--cm-gray-dark);
+  --cm-input-placeholder: var(--cm-gray);
+  --cm-input-label-size: var(--cm-ui-font-xs);
+  --cm-input-error-stroke-color: var(--cm-orange);
+  --cm-input-success-stroke-color: var(--cm-green);
+}
+
+/* --bp-1920: 1920px — a-breakpoint-tokens.css (@media'de var() geçersiz) */
+@media (min-width: 1920px) {
+  :root {
+    --cm-input-field-w: 136px;
+    --cm-input-field-h: 30px;
+    --cm-input-field-radius: 3px;
+  }
+}
+
+/* ============================================================
+   4. C08 TOGGLE — Figma: 12.5×5 r50, circle 5×5 (1024) / 24×10 r50, circle 8×8 (1920)
+   ============================================================ */
+:root {
+  --cm-toggle-w: 12.5px;
+  --cm-toggle-h: 5px;
+  --cm-toggle-radius: 50px;
+  --cm-toggle-knob-size: 5px;
+  --cm-toggle-bg: var(--cm-gray-dark);
+  --cm-toggle-bg-on: var(--cm-pink);
+  /* ⚠️ VERIFICATION REQUIRED: knob rengi Figma spec'inde yok → palet nötrü #d9d9d9 */
+  --cm-toggle-knob-color: var(--cm-gray-light);
+}
+
+/* --bp-1920: 1920px — a-breakpoint-tokens.css (@media'de var() geçersiz) */
+@media (min-width: 1920px) {
+  :root {
+    --cm-toggle-w: 24px;
+    --cm-toggle-h: 10px;
+    --cm-toggle-radius: 50px;
+    --cm-toggle-knob-size: 8px;
+  }
+}
+
+/* ============================================================
+   5. C09 SLIDER — Figma: track h1, radius 50 (tier farkı yok)
+   ============================================================ */
+:root {
+  --cm-slider-track-h: 1px;
+  --cm-slider-track-radius: 50px;
+  --cm-slider-track-bg: var(--cm-gray-dark);
+  --cm-slider-fill-bg: var(--cm-pink);
+  /* ⚠️ VERIFICATION REQUIRED: thumb ölçüsü Figma spec'inde yok → envanter C09 (14px) */
+  --cm-slider-thumb-size: 14px;
+  --cm-slider-thumb-color: var(--cm-gray-light);
+  --cm-slider-thumb-stroke-color: var(--cm-pink);
+}
+
+/* ============================================================
+   6. C10 BADGE — Figma renkleri + envanter C10 (padding 2×8, r9999, 12px/600)
+   ============================================================ */
+:root {
+  --cm-badge-padding-x: 8px;
+  --cm-badge-padding-y: 2px;
+  --cm-badge-radius: 9999px;
+  --cm-badge-font-size: 12px;
+  --cm-badge-font-weight: var(--fw-semibold, 600);
+  --cm-badge-tint-alpha: 0.2; /* component-tokens.md C10: bg = renk %20 */
+
+  --cm-badge-pink-color: var(--cm-pink);
+  --cm-badge-blue-color: var(--cm-blue);
+  --cm-badge-green-color: var(--cm-green);
+  --cm-badge-orange-color: var(--cm-orange);
+  --cm-badge-neutral-color: var(--cm-gray-light);
+
+  /* Tint bg = renk %20 (component-tokens.md C10) — palet hex'leriyle eşlenmiş;
+     rgba literali yalnız bu token katmanında tanımlıdır (bileşen CSS'i yazar). */
+  --cm-badge-primary-bg: rgba(242, 0, 208, 0.2);   /* --cm-pink @ %20 */
+  --cm-badge-success-bg: rgba(141, 212, 41, 0.2);   /* --cm-green @ %20 */
+  --cm-badge-error-bg: rgba(255, 110, 13, 0.2);     /* --cm-orange @ %20 */
+  --cm-badge-neutral-bg: rgba(217, 217, 217, 0.2);  /* --cm-gray-light @ %20 */
+  /* legacy --warning/--info modifier'ları Figma paletine eşlendi
+     (eski amber/blue-500 hex'leri kaldırıldı — palet disiplini) */
+  --cm-badge-warning-bg: rgba(255, 110, 13, 0.2);   /* --cm-orange @ %20 */
+  --cm-badge-warning-color: var(--cm-orange);
+  --cm-badge-info-bg: rgba(10, 127, 171, 0.2);      /* --cm-blue @ %20 */
+  --cm-badge-info-color: var(--cm-blue);
+}
+
+/* ============================================================
+   7. C13 SKELETON — envanter C13 (radius 8, 1.5s) + Figma nötr yüzey %14
+   ============================================================ */
+:root {
+  --cm-skeleton-radius: var(--radius-md, 8px);
+  --cm-skeleton-duration: var(--duration-skeleton, 1500ms);
+  --cm-skeleton-bg: rgba(217, 217, 217, 0.14); /* Figma: #d9d9d9 @%14 */
+  --cm-skeleton-shine: rgba(255, 255, 255, 0.06); /* component-tokens.md C13 */
+  /* ⚠️ VERIFICATION REQUIRED: Figma'da skeleton ölçüleri yok → envanter C13 kabulü */
+  --cm-skeleton-text-h: 12px;   /* tek satır metin yüksekliği */
+  --cm-skeleton-circle: 40px;    /* avatar placeholder çapı */
+  --cm-skeleton-lines-gap: var(--space-2, 8px);
+}
+
+/* ============================================================
+   8. LIGHT TEMA OVERRIDE — a-color-mode-tokens.css seçici konvansiyonu
+   ============================================================ */
+html[data-mode="light"] {
+  --cm-input-field-fill: var(--cm-input-field-fill-light);
+  --cm-input-field-stroke-color: var(--cm-input-field-stroke-color-light);
+  --cm-input-color: var(--cm-input-color-light);
+  --cm-skeleton-bg: rgba(66, 66, 66, 0.14); /* palet nötrü #424242 @%14 */
+  /* Badge metni açık zeminde koyulaşır (kontrast ≥ 4.5:1) */
+  --cm-badge-pink-color: var(--cm-pink-deep);
+  --cm-badge-blue-color: var(--cm-blue);
+  --cm-badge-green-color: var(--cm-gray-dark);
+  --cm-badge-orange-color: var(--cm-gray-dark);
+  --cm-badge-neutral-color: var(--cm-gray-dark);
+  --cm-button-ghost-color: var(--cm-gray-dark);
+  --cm-button-secondary-color: var(--cm-pink-deep);
+}
+
+@media (prefers-color-scheme: light) {
+  html:not([data-mode]) {
+    --cm-input-field-fill: var(--cm-input-field-fill-light);
+    --cm-input-field-stroke-color: var(--cm-input-field-stroke-color-light);
+    --cm-input-color: var(--cm-input-color-light);
+    --cm-skeleton-bg: rgba(66, 66, 66, 0.14);
+    --cm-badge-pink-color: var(--cm-pink-deep);
+    --cm-badge-blue-color: var(--cm-blue);
+    --cm-badge-green-color: var(--cm-gray-dark);
+    --cm-badge-orange-color: var(--cm-gray-dark);
+    --cm-badge-neutral-color: var(--cm-gray-dark);
+    --cm-button-ghost-color: var(--cm-gray-dark);
+    --cm-button-secondary-color: var(--cm-pink-deep);
+  }
+}

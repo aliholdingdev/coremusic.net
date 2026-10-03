@@ -1,0 +1,261 @@
+.welcome-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  transition: opacity 0.22s ease-out;
+}
+
+.welcome-modal-overlay.is-hidden {
+  display: none !important;
+}
+
+.welcome-modal {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  min-height: 308px;
+  background-color: rgba(255, 255, 255, 0.12);
+  background-image: url('//assets.coremusic.net/Image/background/welcome-popup-girl.png'), url('/Image/background/welcome-popup-girl.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border: 1px solid rgba(255, 255, 255, 0.21);  /* Figma: opacity 0.21 */
+  border-radius: 8px;  /* Figma: rounded-[8px] */
+  box-shadow: var(--modal-shadow);
+  padding: 13px 0 35px;  /* Figma: wordmark y13, Başla bitişi y273 → alt boşluk 35 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.welcome-modal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* Figma: bg-white opacity 0.10 */
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.welcome-modal__logo,
+.welcome-modal__logo-img,
+.welcome-modal__title,
+.welcome-modal__sub,
+.welcome-modal__desc,
+.welcome-modal__btn {
+  position: relative;
+  z-index: 1;
+}
+
+/* PNG: × close butonu YOK — kapanış Başla butonu / Escape ile.
+   (eski .welcome-modal__close bloğu kaldırıldı — PNG'de görünmeyen öğe) */
+
+/* Figma: "coremusic-text 1" wordmark — 195×130 @ (203,13) (modal içi) */
+.welcome-modal__logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 195px;
+  height: 130px;
+  margin: 0 auto;
+}
+
+.welcome-modal__logo-img {
+  width: 195px;
+  height: 130px;
+  object-fit: contain;
+}
+
+/* PNG: "Hoş geldin" — Figma: fs14 Arima 400, lh 22.86, y93
+   (margin-top -50: wordmark 13+130 ile üst üste binen Figma düzeni) */
+.welcome-modal__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: 14px;  /* Figma: 14px */
+  font-weight: 400;  /* Figma: Arima 400 */
+  line-height: 22.86px;  /* Figma: lh 22.86 */
+  color: #ffffff;
+  margin: -50px 0 0;
+  text-shadow: var(--ts-md);
+}
+
+/* Figma: "Prenses Işıl Peri" — fs20 Plus Jakarta Sans 600, lh 25.2, y136 */
+.welcome-modal__sub {
+  font-family: 'Plus Jakarta Sans', 'DM Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 25.2px;
+  color: #ffffff;
+  margin: 20px 0 0;
+  text-shadow: var(--ts-md);
+}
+
+/* Figma: desc — fs10 DM Sans 300, lh 13.02, y194, w365, 2 satır */
+.welcome-modal__desc {
+  font-family: 'DM Sans', var(--font-body, 'Arima', sans-serif);
+  font-size: 10px;  /* Figma: 10px */
+  font-weight: 300;  /* Figma: DM Sans Light */
+  line-height: 13.02px;  /* Figma: lh 13.02 */
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 365px;  /* Figma: w-[365px] */
+  margin: 33px auto 0;
+  text-shadow: var(--ts-md);
+}
+
+/* PNG: "Başla" — Figma: 105×25px, gradient, radius 3px */
+.welcome-modal__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 105px;  /* Figma: w-[105px] */
+  min-height: 25px;  /* Figma: h-[25px] */
+  padding: 4px 12px;
+  background: linear-gradient(90deg, var(--pink-primary-button-left-color, rgba(255, 0, 200, 0.55)) 0%, var(--pink-primary-button-color, rgba(255, 0, 200, 0.65)) 50%, var(--pink-primary-button-right-color, rgba(255, 0, 200, 0.35)) 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  font-family: 'Avalon Medium', var(--font-body, 'Arima', sans-serif);
+  font-size: 11px;  /* Figma: 11px */
+  font-weight: 500;  /* Figma: Avalon Medium */
+  letter-spacing: 0.11px;  /* Figma: tracking 0.11px */
+  text-shadow: 0px 0.1px 1px rgba(0, 0, 0, 0.8);  /* Figma */
+  margin: 28px 0 0;  /* Figma: desc bitişi y220 → Başla y248 */
+  cursor: pointer;
+  box-shadow: var(--shadow-brand);
+  transition: background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.welcome-modal__btn:hover {
+  background: #ff5fe0;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-brand-lg);
+}
+
+.welcome-modal__btn:active {
+  transform: translateY(0);
+}
+
+.welcome-modal__btn:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 3px;
+}
+
+/* ── Mobile (≤767px) — Compact modal ── */
+@media (max-width: 767px) {
+  .welcome-modal {
+    max-width: 90vw;
+    min-height: auto;
+    padding: 16px 20px 14px;
+    border-radius: 12px;
+  }
+  .welcome-modal__logo {
+    width: auto;
+    height: auto;
+    margin-bottom: 4px;
+  }
+  .welcome-modal__logo-img {
+    width: auto;
+    height: 36px;
+  }
+  .welcome-modal__title {
+    font-size: 18px;
+    margin-top: 0;
+  }
+  .welcome-modal__sub {
+    font-size: 16px;
+    margin-top: 8px;
+  }
+  .welcome-modal__desc {
+    font-size: 12px;
+    line-height: 1.4;
+    margin-top: 14px;
+  }
+  .welcome-modal__btn {
+    min-width: 100px;
+    min-height: 36px;
+    padding: 5px 24px;
+    font-size: 13px;
+    margin-top: 16px;
+  }
+}
+
+/* ── Tablet (768–1024px) — Base size ── */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* 1024px = PNG mockup reference — base values already applied */
+}
+
+/* ── Laptop/Small Desktop (1025–1440px) — Slightly larger ── */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .welcome-modal {
+    max-width: 640px;
+    min-height: 340px;
+    padding: 13px 0 35px;
+  }
+  .welcome-modal__title {
+    font-size: 22px;
+  }
+  .welcome-modal__desc {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}
+
+/* ── Desktop (1441–1919px) — Full size ── */
+@media (min-width: 1441px) and (max-width: 1919px) {
+  .welcome-modal {
+    max-width: 680px;
+    min-height: 360px;
+  }
+}
+
+/* ── 4K TV (≥3840px) — 10ft UI, large text ── */
+@media (min-width: 3840px) {
+  .welcome-modal {
+    max-width: 900px;
+    min-height: 500px;
+    padding: 40px 60px 36px;
+    border-radius: 24px;
+  }
+  .welcome-modal__title {
+    font-size: 36px;
+    line-height: 1.3;
+    margin-top: -60px;
+  }
+  .welcome-modal__sub {
+    font-size: 42px;
+    line-height: 1.3;
+  }
+  .welcome-modal__desc {
+    font-size: 20px;
+    line-height: 1.4;
+    margin-top: 28px;
+  }
+  .welcome-modal__btn {
+    min-width: 200px;
+    min-height: 60px;
+    padding: 10px 48px;
+    font-size: 22px;
+    margin-top: 28px;
+  }
+}
+
+/* REMOVED: now-playing--mockup*, now-playing--tv*, home-widget-card--tv*, home-tv-*, home-column-header--tv — not used in PHP templates */
+
+/* REMOVED: now-playing--wide*, now-playing--4k*, hero-welcome-banner*, embedded-*, desktop-* — not used in PHP templates */
+/* REMOVED: now-playing-embedded-card*, embedded-widget-pill*, embedded-app-btn*, mini-music-card*, embedded-upnext-panel*, mini-playlist-view-btn, hero-welcome-banner*, hero-stat-*, desktop-*, 4K/4K-monitor variants, home-widget-area*, home-widget-panel*, home-quick-app*, home-mini-card*, home-mini-card-grid — not used in PHP templates */
+
+/* ============================================================
+   WELCOME MODAL — KEPT (used in home.php)
+   ============================================================ */

@@ -40,6 +40,18 @@ h1, h2, h3, h4, h5, h6 {
   text-shadow: var(--ts-md, 0 2px 8px rgba(0, 0, 0, 0.55));
 }
 
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+p{
+  margin-top: 0;
+  margin-bottom: 0px;
+}
+
 small, .text-meta, .text-muted, caption, figcaption {
   text-shadow: var(--ts-xs, 0 1px 1px rgba(0, 0, 0, 0.75));
 }
@@ -77,12 +89,12 @@ input, select, textarea {
 }
 
 :focus-visible {
-  outline: 3px solid var(--theme-primary, #b8a9c9);
-  outline-offset: 2px;
+  outline: var(--cm-bw-3px) solid var(--theme-primary, #b8a9c9);
+  outline-offset: var(--cm-pos-2px);
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: var(--scrollbar-w);
 }
 
 ::-webkit-scrollbar-track {
@@ -90,12 +102,12 @@ input, select, textarea {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 3px;
+  background: var(--cm-color-white-15);
+  border-radius: var(--cm-radius-3px);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--cm-color-white-25);
 }
 
 .center {

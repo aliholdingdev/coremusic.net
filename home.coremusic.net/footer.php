@@ -76,9 +76,9 @@ $footerTierClass = $dm->shouldRender4kLayout()
         <div class="footer-player__meta">
             <img class="footer-player__cover" id="footer_songimages" src="<?= $h((string)$currentArt) ?>" alt="<?= $currentSong ?> albüm kapağı" loading="lazy">
             <div class="footer-player__info">
-                <span class="footer-player__text footer-player__song"><img src="<?= $iconMusic ?>" width="10" height="10" loading="lazy">Şarkı Adı : <span id="footer_songname"><?= $currentSong ?></span></span>
-                <span class="footer-player__text footer-player__album"><img src="<?= $iconCd ?>" width="10" height="10" loading="lazy">Albüm : <span id="footer_albumadi"><?= $currentAlbum ?></span></span>
-                <span class="footer-player__text footer-player__artist"><img src="<?= $iconMic ?>" width="10" height="10" loading="lazy">Sanatçı : <span id="footer_sanatci"><?= $currentArtist ?></span></span>
+                <span class="footer-player__text footer-player__song"><img src="<?= $iconMusic ?>" class="footer-player__icon" width="10" height="10" loading="lazy">Şarkı Adı : <span id="footer_songname"><?= $currentSong ?></span></span>
+                <span class="footer-player__text footer-player__album"><img src="<?= $iconCd ?>" class="footer-player__icon" width="10" height="10" loading="lazy">Albüm : <span id="footer_albumadi"><?= $currentAlbum ?></span></span>
+                <span class="footer-player__text footer-player__artist"><img src="<?= $iconMic ?>" class="footer-player__icon" width="10" height="10" loading="lazy">Sanatçı : <span id="footer_sanatci"><?= $currentArtist ?></span></span>
                 <span class="footer-player__text footer-player__time">
                     <img class="footer-player__icon" src="<?= $iconTimer ?>" alt="" width="13" height="13" loading="lazy">
                     <span id="gettime_audio"><?= $currentElapsed ?></span>

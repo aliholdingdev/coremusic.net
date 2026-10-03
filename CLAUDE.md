@@ -40,4 +40,6 @@ Görev kullanıcıyı mikro-yönetmek değildir: riskli işlemede dur · yanlı�
 
 *SSOT detayları: [[AGENTS.md]] §5 · süreç: [[.ai/WORKFLOW.md]] §8.9-§8.10 · tam metin bütçesi: [[.ai/ULTRA-THINKING.md]] § MAX THINKING*
 
+**CSS görevleri:** kod öncesi kanonik `.ai/.templates/frontend/` seti — `css-template.md` · `css-abstracts-token-template.md` · `css-component-template.md` · `css-page-template.md` · `css-device-template.md` · `css-auth-device-template.md` · `css-utility-template.md` · `css-helper-template.md` + özet (kök): `.ai/.templates/css-structure.md` · `css-token.md` · `css-component.md` · `css-page.md` · `css-imports.md` okunur (01→11 sıra · token yalnız 01 · taşıma yok) → [[AGENTS.md]] §10.
+
 *SSOT: .ai/ · Pointer v2.0 — Last Updated: 2026-10-01*
