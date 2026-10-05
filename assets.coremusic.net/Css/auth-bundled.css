@@ -1,11 +1,14 @@
 /**
- * CoreMusic Auth Pages Bundled CSS
+ * Dosya: auth-bundled.css
+ * Katman: auth-bundled.css - 
+ * Rol: Auth sayfaları için paketlenmiş premium glassmorphism CSS (token -> sayfa import sırası)
+ * Bağımlılık: @import: a-fonts-token.css, a-theme-config.css, a-light-glass-tokens.css, a-login-tokens.css, b-base-core.css, p-select-gender.css +1 dosya; token tüketir: var(--text-*), var(--primary-*)
+ * Güncelleme: 2026-10-03
+ *
  * Ultra Premium Glassmorphism — Gender-based Dreamy Atmosphere
  * Viewport: min 1024px → max 3840px (4K)
- *
  * Import order: Tokens → Pages (fonts loaded via a-fonts-token.css)
  * Device-specific overrides are loaded separately via DeviceCssMap.
- *
  * NOT (2026-09-29 · 07_Vendors bootstrap tanımı): auth sayfaları Bootstrap grid KULLANMIYOR
  *   (grep: class="row" / col-* / .container → 0 referans) → bootstrap import EDİLMEDİ; eklenirse reboot, b-base-core'i ezer.
  */
@@ -31,6 +34,7 @@
    basılır — DeviceRenderer::headLinks() (shared/src/Device/DeviceRenderer.php:122-124)
    + DeviceCssMap::authToCssPath(). İçe aktarılsa çift yüklenir. */
 
+/* Grup 5 — sayfa içi minik düzeltmeler (bileşen büyüyünse 04_Components'e taşınır) */
 /* Checkbox styling for register form */
 .lgn-form__field--check {
   display: flex;

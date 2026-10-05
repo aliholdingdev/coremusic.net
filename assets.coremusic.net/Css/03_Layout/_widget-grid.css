@@ -1,11 +1,14 @@
 /**
- * CoreMusic — Widget Grid (v2.0.0)
+ * Dosya: _widget-grid.css
+ * Katman: 03_Layout - sayfa iskeleti: header, footer, sidebar, grid
+ * Rol: Widget grid bileşeni - 2x2 satır ve widget kart yerleşimi (beyan edilen katman: 03_Layout)
+ * Bağımlılık: token tüketir: var(--wg-*), var(--cm-*), var(--widget-*), var(--space-*)
+ * Güncelleme: 2026-10-03
+ *
  * Figma SSOT: node 2831:13747 (1920 Home) → "Div2 Button" id 2850:21494 (752×184)
  * BEM: .widget-grid, .widget-grid__row, .widget-card, .widget-card__*
- * ITCSS Layer: 04_Components
  * Token'lar: 01_Abstracts/a-widget-grid-tokens.css (ham px/hex bu dosyada YAZILMAZ)
  * Sadece WIDE/4K üst satırında render edilir (pages/home.php · pages/components/widget-grid.php)
- * Version: 2.0.0 — 2026-09-30
  */
 
 /* ═══ Widget Grid Container ═══ */

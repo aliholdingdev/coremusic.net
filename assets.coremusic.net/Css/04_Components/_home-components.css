@@ -1,17 +1,17 @@
 /**
- * CoreMusic — Home Page Components
- * ITCSS Layer: 05_Pages
- * Version: 6.0.0 — 2026-09-22
+ * Dosya: _home-components.css
+ * Katman: 04_Components - yeniden kullanılabilir UI bileşenleri
+ * Rol: Home bileşenleri - Now Playing, widget alanı, quick apps, mini card, card grid (beyan edilen katman: 04_Components)
+ * Bağımlılık: token tüketir: var(--shadow-*), var(--text-*), var(--space-*), var(--radius-*), var(--font-*)
+ * Güncelleme: 2026-10-03
  *
  * Bileşenler: Now Playing Card, Widget Area, Quick Apps, Mini Card, Card Grid items
  * Platform: home-1024 (RPi5 1024×600) — default
- *
  * v6.0.0: Figma pixel-perfect restructuring
  *   - Widget area: Row1 2×2 (embedded) / 4×4 (desktop), Row2-3 1×5 / 1×8
  *   - Quick apps row: 129×40px buttons (embedded) / 200×60px (desktop)
  *   - Mini card: 169×43px (embedded) / 200×48px (desktop)
  *   - Now Playing: 100×100 art (embedded) / 150×150 art (desktop)
- *
  * Figma pixel measurements:
  *   Now Playing: 100×100 art + metadata + seek bar (embedded)
  *   Now Playing Wide: 150×150 art + rating + badges (1920)
@@ -392,7 +392,7 @@
 .home-app-btn--sparkle {
   background: rgba(255, 79, 216, 0.30);
   border-color: rgba(255, 79, 216, 0.50);
-  color: #ff4fd8;
+  color: var(--cm-accent, #ff4fd8);
   border-radius: 50%; /* PNG: pembe daire */
 }
 
@@ -404,7 +404,7 @@
 .home-app-btn--heart {
   background: rgba(168, 85, 247, 0.28);
   border-color: rgba(168, 85, 247, 0.50);
-  color: #a855f7;
+  color: var(--cm-color-a855f7);
 }
 
 /* ============================================================
@@ -441,7 +441,7 @@
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
-  color: #ffffff;
+  color: var(--cm-white);
   font-family: var(--font-body, 'Avalon Medium', sans-serif);
   font-size: 8.5px;
   font-weight: 700;

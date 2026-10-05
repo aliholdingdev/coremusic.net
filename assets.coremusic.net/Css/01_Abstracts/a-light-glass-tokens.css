@@ -1,7 +1,11 @@
 /**
- * CoreMusic — Light Glass Tokens
+ * Dosya: a-light-glass-tokens.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Glassmorphism yüzeyleri için cam efekt token'ları
+ * Bağımlılık: token üretir: var(--theme-*), var(--glass-*), var(--input-*), var(--btn-*), var(--text-*)
+ * Güncelleme: 2026-10-03
+ *
  * Glassmorphism design tokens for all glass surfaces
- * ITCSS Layer: 01_Abstracts
  */
 
 :root {
@@ -186,4 +190,20 @@ html[data-mode="light"] {
   --input-placeholder:  rgba(0, 0, 0, 0.38);
   --text-primary:       #1a1025;
   --text-secondary:     rgba(26, 16, 37, 0.72);
+}
+
+/* ============================================================
+   PINK MODE (IŞIL-PERİ) — Glass Token Overrides
+   Kaynak: a-colors-token L87-89 pink-primary-button rgba(255,0,200,.55/.35)
+   + a-primitive L94/L211 rgba(242,0,208,.14/.2) — light bloğu camı siyah
+   tint'e çevirir; ışıl-peri KOYU tabanda kalır, yalnız pembe tint alır.
+   input/text override'ları gerekmez: :root dark beyaz rgba + beyaz metin
+   koyu pembe zeminde zaten WCAG kontrastını korur.
+   ============================================================ */
+html[data-mode="ışıl-peri"] {
+  --glass-bg-light:     rgba(242, 0, 208, 0.14);
+  --glass-bg-medium:    rgba(242, 0, 208, 0.2);
+  --glass-bg-heavy:     var(--pink-primary-button-right-color);
+  --glass-border-light: var(--pink-primary-button-right-color);
+  --glass-border-glow:  var(--pink-primary-button-left-color);
 }

@@ -5,7 +5,7 @@ namespace CoreMusic\Theme;
 /**
  * CoreMusic -- Theme Manager (ADR-044 + Dark/Light Mode)
  * Gender-based tema motoru: female/male/neutral
- * Color mode motoru: dark/light
+ * Color mode motoru: dark/light/ışıl-peri
  *
  * Server-side tema tespiti, CSS token uretimi ve inline style injection.
  * JS ThemeManager.js ile birebir eslesme.
@@ -52,7 +52,7 @@ final class ThemeManager
     private const DEFAULT_GENDER = 'neutral';
 
     /** Gecerli color mode degerleri */
-    private const VALID_MODES = ['dark', 'light'];
+    private const VALID_MODES = ['dark', 'light', 'ışıl-peri'];
 
     /** Varsayilan color mode (null = OS preferansini kullan) */
     private const DEFAULT_MODE = null;
@@ -100,7 +100,7 @@ final class ThemeManager
      *   4. null (varsayilan — CSS prefers-color-scheme kullanir)
      *
      * @param array<string, mixed> $session  Session data
-     * @return string|null  dark|light|null
+     * @return string|null  dark|light|ışıl-peri|null
      */
     public static function detectMode(array $session): ?string
     {
@@ -148,6 +148,17 @@ final class ThemeManager
      *
      * <style data-cm-theme>:root{--accent:#ff4fd8;...}</style>
      *
+     * NOT (karar 2026-10-04): color-mode token'lari (html[data-mode="ışıl-peri"])
+     * BILINCLI OLARAK inline basilmaz:
+     *   - HtmlShellRenderer ilk baytta data-mode attribute'u basar;
+     *   - link rel=stylesheet render-blocking -> first paint'te mod token'i ve
+     *     tuketen kurallar ayni dosyada atomik hazir (flash yok);
+     *   - mod bloku token'lari stylesheet'te tanimli primitive'lere var() referansi
+     *     -> inline kopya CSS gelene kadar calismaz;
+     *   - CSS = SSOT (a-color-mode-tokens.css); deger kopyasi drift riski.
+     * NOT 2: bu metod su an cagri noktasi icermiyor (ADR-044: "tanimli ama
+     * cagrilmıyor" — PLANNED).
+     *
      * @param string $gender  female|male|neutral
      * @return string  HTML inline style tag
      */
@@ -183,7 +194,7 @@ final class ThemeManager
      *
      * Ornegin: data-mode="dark" veya bos string (null ise)
      *
-     * @param string|null $mode  dark|light|null
+     * @param string|null $mode  dark|light|ışıl-peri|null
      * @return string  HTML attribute string (bos stringegerlere)
      */
     public static function injectModeAttribute(?string $mode): string
@@ -207,7 +218,7 @@ final class ThemeManager
      * Ornegin: data-gender="female" data-mode="dark"
      *
      * @param string      $gender  female|male|neutral
-     * @param string|null $mode    dark|light|null
+     * @param string|null $mode    dark|light|ışıl-peri|null
      * @return string  HTML attribute string
      */
     public static function injectAttributes(string $gender, ?string $mode = null): string
@@ -294,6 +305,13 @@ final class ThemeManager
 
     /**
      * Belirli bir gender icin CSS path dondur (gelecek kullanim icin)
+     *
+     * ⚠️ VERIFICATION REQUIRED: dondurulen '07_Themes/t-*.css' DISKTE YOK —
+     * assets.coremusic.net/Css/ altinda 07_ klasoru yalnizca 07_Vendors
+     * (2026-10-04 glob: 07_ alt klasorleri = 33 Vendors dosyasi, Themes 0 isabet;
+     * t-*.css = 0 isabet). Klasor/dosya uretilmedi (gorev yasagi); gercek tema
+     * CSS'i 01_Abstracts + 08_Devices uzerinden gelir. Bu yol su an hicbir
+     * cagri yerinde kullanilmiyor.
      *
      * @param string $gender  female|male|neutral
      * @return string  CSS dosya yolu

@@ -1,3 +1,10 @@
+/**
+ * Dosya: c-home-song-btn.css
+ * Katman: 04_Components - yeniden kullanılabilir UI bileşenleri
+ * Rol: Home şarkı buton gridi - .home_song__btn-card-grid ve scroll varyantı
+ * Bağımlılık: token tüketir: var(--home-*), var(--cm-*), var(--font-*), var(--color-*), var(--glass-*)
+ * Güncelleme: 2026-10-03
+ */
 .home_song__btn-card-grid {
   display: grid;
   gap: 10px;

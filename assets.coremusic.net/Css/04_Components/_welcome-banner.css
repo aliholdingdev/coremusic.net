@@ -1,30 +1,28 @@
 /**
- * CoreMusic — Welcome Banner Component (v2.0.0)
+ * Dosya: _welcome-banner.css
+ * Katman: 04_Components - yeniden kullanılabilir UI bileşenleri
+ * Rol: Welcome banner bileşeni - WIDE/4K üst satır "Hoş Geldin" kartı
+ * Bağımlılık: token tüketir: var(--cm-*), var(--wb-*)
+ * Güncelleme: 2026-10-03
  *
  * Figma SSOT: node 2831:13747 (1920 Home) → "Banner Div" id 2849:21492 (491×184)
  * WIDE/4K üst satırında Player Info (sol) ile Widget Grid (sağ) arasında
  * orta sütun ("Hoş Geldin" kartı). Embedded (1024, node 1639:10160) altında
  * eşdeğeri yok — bkz. WelcomeBannerComponent.php doc-block.
- *
  * NOT: Bu, `#welcomeModalOverlay` ile açılan "Welcome Modal" popup'ından
  * (Figma "Welcome Div" id 2831:10267) AYRI bir bileşendir — üst satırda
  * her zaman görünen statik bir karttır, o modalı DEĞİŞTİRMEZ.
- *
  * Figma "Banner Div" node'u salt bir RECTANGLE'dır (children yok, IMAGE fill) —
  * metin içeriği Figma'da tanımlı değildir. v2.0.0: içerik PNG mockup'ından
  * numeric ölçümle kodlandı (bkz. a-welcome-banner-tokens.css v2.0.0 notu):
  *   eyebrow "Hoş Geldin" · user (session) · quote · brand "Core Music" ·
  *   CTA "Keşfetmeye Başla" (/kesfet) · 5 stat chip · trailing "+" ring.
  * Kullanıcı adı session'da MM_DisplayName/MM_Username varsa onu kullanır.
- *
  * Yerleşim: tüm bloklar mutlak konumlu (banner 491×184 sabit kutu) —
  * metin sütunu 0..296px içinde text-align:center (metin merkezi x≈148),
  * stats satırı (28,147) sabit; ham px/hex → 01_Abstracts'a-welcome-banner-tokens.css.
- *
  * Token'lar: 01_Abstracts/a-welcome-banner-tokens.css (ham px/hex bu dosyada YAZILMAZ)
- * ITCSS Layer: 04_Components
  * BEM: .welcome-banner, .welcome-banner__*
- * Version: 2.0.0 — 2026-10-01
  */
 
 /* ═══ Kart kabuğu (Figma: 491×184, radius 8, dropShadow 2/2/4 @0.8) ═══ */

@@ -1,5 +1,12 @@
-/** * CoreMusic — Tablet Device CSS (768-1024px) * ITCSS Layer: 08_Devices * Version: 2.0.0 — 2026-08-18 * * Self-contained: imports all base styles + device overrides * Target: Tablet (iPad, Android tablet) * Input: Touch-first, stylus optional */@import '../01_Abstracts/a-primitive-tokens.css?v=1.1.0';
-@import '../01_Abstracts/a-theme-config.css';@import '../01_Abstracts/a-colors-token.css';@import '../01_Abstracts/a-semantic-token.css';@import '../01_Abstracts/a-color-mode-tokens.css';@import '../01_Abstracts/a-breakpoint-tokens.css';@import '../01_Abstracts/a-layout-tokens.css?v=5.1.0';/* 07_Vendors → Bootstrap 5.3.8 (reboot + grid). NEDEN BURADA: 02_Base'den ÖNCE — reboot'un body{background-color:#fff} ve .container breakpoint'leri
+/**
+ * Dosya: d-tablet.css
+ * Katman: 08_Devices - cihaz/breakpoint override
+ * Rol: 768-1024px tablet cihaz paketi - import + touch-first davranış override'ları
+ * Bağımlılık: @import: a-primitive-tokens.css, a-theme-config.css, a-colors-token.css, a-semantic-token.css, a-color-mode-tokens.css, a-breakpoint-tokens.css +12 dosya
+ * Güncelleme: 2026-10-03
+ */
+@import '../01_Abstracts/a-primitive-tokens.css?v=1.1.0';
+@import '../01_Abstracts/a-theme-config.css';@import '../01_Abstracts/a-colors-token.css';@import '../01_Abstracts/a-semantic-token.css';@import '../01_Abstracts/a-color-mode-tokens.css';@import '../01_Abstracts/a-breakpoint-tokens.css';@import '../01_Abstracts/a-layout-tokens-1024.css?v=5.1.0';@import '../01_Abstracts/a-layout-tokens-tablet.css?v=5.1.0';/* 07_Vendors → Bootstrap 5.3.8 (reboot + grid). NEDEN BURADA: 02_Base'den ÖNCE — reboot'un body{background-color:#fff} ve .container breakpoint'leri
    b-base-core'i ezmesin; 04_Components'ten de ÖNCE (ITCSS sırası 01→07→02→03→04). Utilities bilinçli eklenmedi (kullanım yok). */
 @import '../07_Vendors/bootstrap-reboot.min.css?v=5.3.8';
 @import '../07_Vendors/bootstrap-grid.min.css?v=5.3.8';

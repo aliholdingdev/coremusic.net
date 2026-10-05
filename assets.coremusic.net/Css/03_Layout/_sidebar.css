@@ -1,19 +1,19 @@
 /**
- * _sidebar.css — CoreMusic Sidebar Navigation
+ * Dosya: _sidebar.css
+ * Katman: 03_Layout - sayfa iskeleti: header, footer, sidebar, grid
+ * Rol: Sidebar navigasyon bileşeni - genişletilebilir (resizable) sol menü
+ * Bağımlılık: token üretir: var(--sidebar-*)
+ * Güncelleme: 2026-10-03
+ *
  * Scope  : header.php — sidebar navigation component
  * Design : design-tokens.md · responsive-device-mode.md
  * Width  : 280px (default) · 200–400px (resizable)
- * Layer  : ITCSS 03_Layout
- * Version: 1.0.0 — 2026-09-04
- *
  * BEM: .sidebar → __inner → __header | __scroll | __section | __item | __resize-handle
- *
  * Responsive Modes:
  *   ≥1024px  — Side-by-side (always visible, pushes content)
  *   601-960px — Overlay (slides over content, backdrop overlay)
  *   ≤600px   — Partially hidden (collapsed by default, toggle to show)
  *   ≤767px   — Hidden (not rendered, phone uses bottom nav)
- *
  * Glassmorphism: backdrop-filter: blur(20px) saturate(180%)
  * Micro-interactions: hover scale, glow, color transitions
  * Resize: draggable handle, 200px–400px range

@@ -1,5 +1,9 @@
 /**
- * CoreMusic — Player Info Component (v2.0)
+ * Dosya: _player-info.css
+ * Katman: 04_Components - yeniden kullanılabilir UI bileşenleri
+ * Rol: Player Info / Now Playing kartı - --cm-playerinfo-* token'ları ve glass görünümü
+ * Bağımlılık: token üretir: var(--cm-*)
+ * Güncelleme: 2026-10-03
  */
 
 :root {
@@ -18,7 +22,7 @@
   box-sizing: border-box;
   position: relative;
   display: grid;
-  grid-template-columns: var(--cm-player-cover) minmax(0, 1fr);
+  /* grid-template-columns: var(--cm-player-cover) minmax(0, 1fr); */
   width: var(--cm-player-info-w);
   height: var(--cm-player-info-h);
   margin: 0;
@@ -37,6 +41,7 @@
   font-weight: var(--fw-500);
   text-shadow: var(--cm-playerinfo-text-shadow);
   grid-auto-flow: column;
+  gap: 15px;
 }
 
 .player-info__cover img {
@@ -69,8 +74,8 @@
 }
 
 .player-info.player-info--wide {
-  grid-template-rows: auto;
-  column-gap: 20px;
+  /* grid-template-rows: auto; */
+  /* column-gap: 20px; */
 }
 
 .player-info__info-panel {

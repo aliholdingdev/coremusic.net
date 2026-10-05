@@ -1,9 +1,12 @@
 /**
- * CoreMusic — Select Gender Page
+ * Dosya: p-select-gender.css
+ * Katman: 05_Pages - sayfa özel stiller
+ * Rol: Cinsiyet seçim sayfası - lgn-* sınıf sistemine özel ek stiller
+ * Bağımlılık: token tüketir: var(--ease-*), var(--dur-*)
+ * Güncelleme: 2026-10-03
+ *
  * Cinsiyet seçim ekranı — premium glassmorphism
  * Görsel referans: yağmurlu gece, mor/pembe dreamy atmosfer
- * ITCSS Layer: 05_Pages
- * 
  * NOT: Bu sayfa lgn-* class sistemini kullanır (p-login-view.css'te tanımlıdır).
  * Bu dosya yalnızca select-gender sayfasına özel ek stiller içerir.
  */

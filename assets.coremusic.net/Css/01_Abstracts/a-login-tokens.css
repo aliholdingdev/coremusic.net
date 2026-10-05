@@ -1,5 +1,10 @@
 /**
- * CoreMusic — Login/Register Design Tokens
+ * Dosya: a-login-tokens.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Login/Register ekranı cinsiyet bazlı glass token'ları
+ * Bağımlılık: token üretir: var(--cm-*)
+ * Güncelleme: 2026-10-03
+ *
  * ITCSS: 01_Abstracts — Variables only, no CSS output
  * Gender-based glassmorphism system
  */

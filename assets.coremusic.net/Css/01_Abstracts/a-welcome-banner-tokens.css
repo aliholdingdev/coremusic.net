@@ -1,6 +1,9 @@
 /**
- * CoreMusic — Welcome Banner Token'ları (v2.0.0)
- * ITCSS Layer: 01_Abstracts
+ * Dosya: a-welcome-banner-tokens.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Welcome banner için Figma pixel-perfect ölçülerinden türetilmiş token'lar
+ * Bağımlılık: token üretir: var(--wb-*)
+ * Güncelleme: 2026-10-03
  *
  * Figma SSOT (pixel-perfect API extraction — .ai/ui-design/reference/figma/raw/nodes-1024-1920.json):
  *   node 2831:13747 (1920 Home) → children[5] "Banner Div"
@@ -12,7 +15,6 @@
  *            köşe pikselleri TL #a5697d · TR #663c79 · BL #3c2643 · BR #8d5c66
  *          → yaklaşık gradient türetildi. Gerçek görsel varlık elde edilirse
  *          --wb-bg-image olarak eklenmeli, bu gradient yalnız fallback'tir.
- *
  * v2.0.0 (2026-10-01): Banner içerik metinleri Figma'da child node olarak yok
  *   (RECTANGLE). PNG mockup'ından numeric ölçüm (ink satırları, x-aranfajlar,
  *   renk örneklemesi) ile tüm içerik geometrisi/renkleri bu dosyaya taşındı:
@@ -25,11 +27,8 @@
  *   İkon seçimi (mevcut asset, yeni dosya YOK): music · playlist1 · cd-case ·
  *   mic-1 (Sanatçı) · users (Sadık Dostlar) — mockup'taki person-bust/group
  *   glyph için repo'da birebir asset yok; en yakın mevcut flat ikonlar.
- *
  * Embedded (1024, node 1639:10160) altında bu node'un eşdeğeri YOK — yalnız
  * WIDE/4K üst satırında kullanılır (bkz. WelcomeBannerComponent.php doc-block).
- *
- * Version: 2.0.0 — 2026-10-01
  */
 
 :root {

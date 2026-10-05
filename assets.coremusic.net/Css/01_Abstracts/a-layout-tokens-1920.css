@@ -1,21 +1,21 @@
 /**
- * CoreMusic — Layout Token'ları
- * Header, footer, sidebar boyutları ve layout sabitleri
- * ITCSS Layer: 01_Abstracts
- * Version: 3.1.0 — 2026-09-05
+ * Dosya: a-layout-tokens-1920.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: 1920px (desktop) kırılımında layout token değer override'ları
+ * Bağımlılık: token üretir: var(--cm-*), var(--home-*), var(--sidebar-*), var(--footer-*), var(--body-*)
+ * Güncelleme: 2026-10-03
  *
+ * Header, footer, sidebar boyutları ve layout sabitleri
  * Responsive token sistemi:
  *   :root = 1024px (RPi5 embedded — ana hedef cihaz, PNG mockup ölçümü)
  *   @media queries = tablet, mobile, desktop, 4K TV
  *   Device files (08_Devices/) = sadece behavioral overrides (hover, touch, scrollbar)
- *
  * Mockup ölçülerinden çıkarıldı:
  *   Header: 60px, Footer: 90px, Content: 450px (y:60–510)
  *   Split: Sol %42 / Sağ %58
  *   Card grid: 3 sütun, 140×140px kartlar
  *   Touch: ≥48px, hover YOK
  *   Glass: blur(20px) saturate(180%)
- *
  * v3.1.0: Device-aware rendering tokens eklendi (brain.md §18C)
  *   --spacing-scale, --font-scale, --border-radius-base
  *   Cihaz sorumluluk sınırları:

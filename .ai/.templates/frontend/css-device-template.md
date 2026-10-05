@@ -55,6 +55,8 @@ d-4k-tv.css          4K TV (10ft)        d-auth-4k-tv.css
 @import url("../06_Utilities/u-helpers-utility.css?v={{v}}");
 @import url("../09_ViewModes/v-home.css?v={{v}}");
 
+/* ⚠️ ÇİFT YÜKLEME (2026-10-04 disk kanıtı): v-*.css ayrıca DeviceRenderer::headLinks()
+ * ayrı <link> ile basılır (DeviceRenderer.php:128) — iki kez yüklenir, ADR bekliyor. */
 /* ---- 2) DAVRANIŞ ---- */
 @media (max-width: 767px) {
   html { font-size: 14px; }
@@ -92,7 +94,7 @@ d-4k-tv.css          4K TV (10ft)        d-auth-4k-tv.css
 | 1 | **Import + davranış** — ikisi dışında bir şey yazılmaz |
 | 2 | Token yazımı `01_Abstracts/a-layout-tokens-*.css`'e; burada yalnız `:root` override gerekirse |
 | 3 | Yerleşim `02_Base`/`03_Layout`'ta kalır (§2 iskeletteki "yasak") |
-| 4 | Bootstrap **import edilmez** (reboot b-base-core'i ezer) |
+| 4 | Bootstrap **02_Base'den ÖNCE** import edilir (reboot b-base-core'i ezerse diye bilinçli; d-4k/d-desktop/d-laptop = reboot+grid+v-bootstrap-lib, d-phone/d-tablet/d-embedded = reboot+grid, d-4k-monitor/d-4k-tv ve auth = 0 bootstrap `@import`) — `css-imports.md` §3 ile aynı cümle |
 | 5 | Yeni cihaz → `devices.config.js` **+** `DeviceCssMap.php` senkronu zorunlu |
 | 6 | `main.css` **yoktur** — giriş bu dosyalardır |
 

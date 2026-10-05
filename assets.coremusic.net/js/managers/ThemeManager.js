@@ -1,17 +1,17 @@
 /**
  * CoreMusic — ThemeManager
  * Gender-based tema motoru (ADR-044). female/male/neutral.
- * Color mode motoru: dark/light.
+ * Color mode motoru: dark/light/ışıl-peri.
  *
  * @module managers/ThemeManager
- * @version 6.0.0
+ * @version 6.1.0
  * @requires core/EventBus
  */
 export default class ThemeManager {
     #eventBus;
     /** @type {'female'|'male'|'neutral'} */
     #currentTheme = 'neutral';
-    /** @type {'dark'|'light'|null} null = OS preferansını kullan */
+    /** @type {'dark'|'light'|'ışıl-peri'|null} null = OS preferansını kullan */
     #currentMode = null;
 
     /** Tema token haritası */
@@ -37,7 +37,7 @@ export default class ThemeManager {
     };
 
     /** Geçerli color mode değerleri */
-    static VALID_MODES = ['dark', 'light'];
+    static VALID_MODES = ['dark', 'light', 'ışıl-peri'];
 
     /** @param {import('../core/EventBus.js').default} eventBus */
     constructor(eventBus) {
@@ -114,12 +114,12 @@ export default class ThemeManager {
     }
 
     /* ============================================================
-       COLOR MODE (DARK/LIGHT)
+       COLOR MODE (DARK/LIGHT/IŞIL-PERI)
        ============================================================ */
 
     /**
      * Color mode değiştir
-     * @param {'dark'|'light'|null} mode  null = OS preferansına dön
+     * @param {'dark'|'light'|'ışıl-peri'|null} mode  null = OS preferansına dön
      */
     setMode(mode) {
         if (mode !== null && !ThemeManager.VALID_MODES.includes(mode)) return;
@@ -130,10 +130,13 @@ export default class ThemeManager {
         this.#eventBus.emit('modechange', { mode });
     }
 
-    /** Dark/Light arasında toggle */
+    /** Mode'u 3'lü çevrimde ilerlet: dark → light → ışıl-peri → dark */
     toggleMode() {
+        const order = ['dark', 'light', 'ışıl-peri'];
         const current = this.#resolveEffectiveMode();
-        this.setMode(current === 'dark' ? 'light' : 'dark');
+        let idx = order.indexOf(current);
+        if (idx === -1) idx = order.indexOf('dark'); // dizide yoksa 'dark' kabul edilir
+        this.setMode(order[(idx + 1) % order.length]);
     }
 
     /** OS preferansını döndür (prefers-color-scheme) */
@@ -144,9 +147,14 @@ export default class ThemeManager {
         return 'dark';
     }
 
-    /** Effective mode'u hesapla (null ise OS kullanılır) */
+    /** Effective mode'u hesapla (null ise OS kullanılır); decode hatası → 'dark' */
     #resolveEffectiveMode() {
-        return this.#currentMode ?? this.getSystemMode();
+        const mode = this.#currentMode ?? this.getSystemMode();
+        try {
+            return decodeURIComponent(mode);
+        } catch {
+            return 'dark';
+        }
     }
 
     /** Mode'u HTML data attribute'a uygula */
@@ -165,7 +173,7 @@ export default class ThemeManager {
             // Cookie'yi sil
             document.cookie = 'cm_color_mode=; path=/; domain=.coremusic.net; max-age=0; samesite=Lax';
         } else {
-            document.cookie = `cm_color_mode=${mode}; path=/; domain=.coremusic.net; max-age=31536000; samesite=Lax`;
+            document.cookie = `cm_color_mode=${encodeURIComponent(mode)}; path=/; domain=.coremusic.net; max-age=31536000; samesite=Lax`;
         }
     }
 
@@ -173,9 +181,15 @@ export default class ThemeManager {
     #loadMode() {
         let saved = null;
 
-        // 1. Cookie'den oku
+        // 1. Cookie'den oku (non-ASCII mode encodeURIComponent ile yazılır → decode zorunlu)
         const match = document.cookie.match(/cm_color_mode=([^;]+)/);
-        if (match) saved = match[1];
+        if (match) {
+            try {
+                saved = decodeURIComponent(match[1]);
+            } catch {
+                saved = null; // bozuk cookie → null, sonraki kaynaklara düş
+            }
+        }
 
         // 2. HTML data attribute'tan oku (PHP tarafında set edilmiş)
         if (!saved) saved = document.documentElement?.dataset?.mode;

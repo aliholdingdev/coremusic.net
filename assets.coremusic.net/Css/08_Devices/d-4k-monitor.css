@@ -1,9 +1,11 @@
-﻿/**
- * CoreMusic â€” 4K Monitor Device CSS
- * â‰¥3841px â€” Ultra-wide/high-DPI display
- * ITCSS Layer: 08_Devices
- * Version: 1.0.0 â€” 2026-08-05
+/**
+ * Dosya: d-4k-monitor.css
+ * Katman: 08_Devices - cihaz/breakpoint override
+ * Rol: >=3841px 4K monitor cihaz paketi - token import + 4K layout override'ları
+ * Bağımlılık: @import: a-primitive-tokens.css, a-theme-config.css, a-colors-token.css, a-semantic-token.css, a-breakpoint-tokens.css, a-layout-tokens-1024.css +6 dosya; token üretir: var(--touch-*), var(--content-*), var(--header-*), var(--footer-*), var(--sidebar-*)
+ * Güncelleme: 2026-10-03
  *
+ * â‰¥3841px â€” Ultra-wide/high-DPI display
  * device-loader.js breakpoint: â‰¥3841px
  * Target: 4K monitor or ultra-wide display
  */
@@ -13,7 +15,8 @@
 @import '../01_Abstracts/a-colors-token.css';
 @import '../01_Abstracts/a-semantic-token.css';
 @import '../01_Abstracts/a-breakpoint-tokens.css';
-@import '../01_Abstracts/a-layout-tokens.css';
+@import '../01_Abstracts/a-layout-tokens-1024.css';
+@import '../01_Abstracts/a-layout-tokens-3540.css';
 @import '../02_Base/b-base-core.css';
 @import '../03_Layout/_header.css';
 @import '../03_Layout/_footer.css';

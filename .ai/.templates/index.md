@@ -240,6 +240,7 @@ Yeni dosya oluştururken:
 | 46 | CSS Auth Device Template | 08_Devices/d-auth-* + auth-bundled | Auth subdomain cihaz varyantı (`d-auth-*.css`) | 109 | ✅ Mevcut (2026-10-03 — katman şablonu) | [[frontend/css-auth-device-template]] |
 | 47 | CSS Utility Template | 06_Utilities | Utility sınıf (`u-*.css`) | 94 | ✅ Mevcut (2026-10-03 — katman şablonu) | [[frontend/css-utility-template]] |
 | 48 | CSS Helper Template | 10_Helpers | Helper desen (`h-*.css`) | 111 | ✅ Mevcut (2026-10-03 — katman şablonu; katman diskte bekleniyor) | [[frontend/css-helper-template]] |
+| 49 | Context Documentation Template | Markdown, 7-bölüm iskelet | Klasör context dokümanı — CONTEXT/CLAUDE/AGENTS/WORKFLOW ortak iskelet, `docType` ayrımı | 215 | ✅ Mevcut (2026-10-03) | [[frontend/context-template]] |
 
 #### 7.1.4 Testing Templates (testing/)
 

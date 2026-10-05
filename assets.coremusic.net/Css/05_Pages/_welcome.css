@@ -1,3 +1,10 @@
+/**
+ * Dosya: _welcome.css
+ * Katman: 05_Pages - sayfa özel stiller
+ * Rol: Karşılama modal overlay ve iç kart
+ * Bağımlılık: token tüketir: var(--pink-*), var(--shadow-*), var(--modal-*), var(--font-*), var(--ts-*)
+ * Güncelleme: 2026-10-03
+ */
 .welcome-modal-overlay {
   position: fixed;
   inset: 0;
@@ -86,7 +93,7 @@
   font-size: 14px;  /* Figma: 14px */
   font-weight: 400;  /* Figma: Arima 400 */
   line-height: 22.86px;  /* Figma: lh 22.86 */
-  color: #ffffff;
+  color: var(--cm-white);
   margin: -50px 0 0;
   text-shadow: var(--ts-md);
 }
@@ -97,7 +104,7 @@
   font-size: 20px;
   font-weight: 600;
   line-height: 25.2px;
-  color: #ffffff;
+  color: var(--cm-white);
   margin: 20px 0 0;
   text-shadow: var(--ts-md);
 }
@@ -123,7 +130,7 @@
   min-height: 25px;  /* Figma: h-[25px] */
   padding: 4px 12px;
   background: linear-gradient(90deg, var(--pink-primary-button-left-color, rgba(255, 0, 200, 0.55)) 0%, var(--pink-primary-button-color, rgba(255, 0, 200, 0.65)) 50%, var(--pink-primary-button-right-color, rgba(255, 0, 200, 0.35)) 100%);
-  color: #ffffff;
+  color: var(--cm-white);
   border: none;
   border-radius: 3px;
   font-family: 'Avalon Medium', var(--font-body, 'Arima', sans-serif);
@@ -138,7 +145,7 @@
 }
 
 .welcome-modal__btn:hover {
-  background: #ff5fe0;
+  background: var(--cm-color-ff5fe0, #ff5fe0);
   transform: translateY(-1px);
   box-shadow: var(--shadow-brand-lg);
 }
@@ -148,7 +155,7 @@
 }
 
 .welcome-modal__btn:focus-visible {
-  outline: 3px solid #ffffff;
+  outline: 3px solid var(--cm-white);
   outline-offset: 3px;
 }
 

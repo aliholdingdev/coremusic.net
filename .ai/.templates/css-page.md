@@ -1,7 +1,7 @@
 # CSS Page Şablonu (05_Pages)
 
 > **Bu şablon AI tarafından CSS yazarken ZORUNLU okunur.**
-> SSOT: `Css/05_Pages/` — `p-*.css` ×7 + partial `_home*.css`, `_player.css`
+> SSOT: `Css/05_Pages/` — `p-*.css` ×7 + partial ×5 (`_home.css`, `_home-layout.css`, `_home-inline.css`, `_player.css`, `_welcome.css`) = 12 dosya (2026-10-04)
 
 ## 1. Page vs Component ayrım kuralı
 

@@ -1,22 +1,21 @@
 /**
- * CoreMusic — Color Mode Tokens (Dark/Light)
- * ITCSS Layer: 01_Abstracts
- * Version: 1.1.0 — 2026-10-03
- * KAYNAK  : .ai/ui-design/tokens/tokens-1024.json (Figma SSOT)
+ * Dosya: a-color-mode-tokens.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Dark/Light renk modu token'ları - :root varsayılan, html[data-mode="light"] override
+ * Bağımlılık: token üretir: var(--glass-*), var(--bg-*), var(--shadow-*), var(--player-*), var(--text-*)
+ * Güncelleme: 2026-10-03
  *
+ * KAYNAK  : .ai/ui-design/tokens/tokens-1024.json (Figma SSOT)
  * Dark mode = :root (varsayılan, mevcut davranış korunur)
  * Light mode = html[data-mode="light"] override'ları
  * Pink mode  = html[data-mode="ışıl-peri"] override'ları (koyu taban)
- *
  * Kullanım:
  *   <html data-mode="dark">  → koyu tema (varsayılan)
  *   <html data-mode="light"> → aydınlık tema
  *   <html data-mode="ışıl-peri"> → pink tema (Figma "Pink - Dark")
  *   <html data-mode="ışıl-peri" data-gender="female"> → pink + female
- *
  * Gender teması bu modun ÜZERİNDE çalışır.
  * Yani: female+dark, female+light, male+dark, male+light mümkün.
- *
  * CSS cascade sırası:
  *   1. :root (dark varsayılan)
  *   2. [data-gender] (gender override)
@@ -273,7 +272,7 @@ html[data-mode="light"][data-gender="female"] {
    verilebilir (bağımsız attribute'lar — ikisi de eşleşir).
    FIZIK: "Pink - Dark" frame MEVCUT (tokens-1024.json L22139,
    "4456.0x1476.0") → mod koyu taban üzerine kurulur; :root dark
-   token'ları olduğu gibi geçerli, yalnız pink accent ezilir.
+   token'ları temel alır, pembe palet türeviyle ezilir.
    SEÇİCİ ADI: Figma'da mode/koleksiyon adı YOK ("Işıl-Peri" /
    "Isil-Peri" / "Female" JSON'da hiç geçmiyor) → değer kullanıcı
    kararından; vault karşılığı a-semantic-token.css L278
@@ -282,27 +281,83 @@ html[data-mode="light"][data-gender="female"] {
    CASCADE: bu blok [data-gender="female"] pink bloğundan SONRA
    gelir → aynı özgüllükte kullanıcı data-mode'u kazanır;
    :root'a göre her durumda üsttedir.
+   YÜZEY KARARI (kullanıcı onayı 2026-10-04 — bağlayıcı):
+   "Mevcut token verilerini kullanarak yap" → accent'e ek olarak
+   yüzey (bg/player), gradient, theme-bg/shadow ve accent ailesi
+   MEVCUT pembe palet tokenlarından kuruldu (a-colors-token
+   pink-300…900/hotpink-400…700 · a-primitive cm-pink* ·
+   a-color-mode pink-primary-button-*); YENİ hex/rgba
+   UYDURULMADI. Koyu taban korunur (light palet 50/100 kullanılmaz).
+   ⚠️ VERIFICATION REQUIRED (genişletildi, silinmedi):
+   — pink 50-900 rampası Figma JSON'da YOK (a-colors-token.css L85);
+     yüzey değerleri palet-türevi, Figma frame'e bağlı DEĞİL.
+   — "Pink - Light" frame hâlâ YOK (tokens-1024.json L22139 yalnız
+     "Pink - Dark") → light kombinasyonu ⚠️ VERIFICATION REQUIRED
+     olarak kalır; light'a özel değer yazılmaz.
+   — Mode/koleksiyon adı YOK: "Işıl-Peri" / "Isil-Peri" / "Female"
+     JSON'da hiç geçmiyor. "Prenses Işıl Peri" = metin etiketi
+     (L3498 fill "#FFFFFF" · L17510 shadow · L28468 "118.0x25.0").
+   Çözüm: Figma'da pink mode/koleksiyonu tanımlandıktan sonra
+   tokens-1024.json yeniden çekilecek; o zaman frame'e bağlanır.
    ============================================================ */
 html[data-mode="ışıl-peri"] {
-  /* --- Pink accent (tokens-1024.json L2247-2249 "bg / gradient stop 0-2") --- */
+  /* --- Pink accent (tokens-1024.json L2247-2249 "bg / gradient stop 0-2") — KORUNUR --- */
   --pink-primary-button-left-color:  rgba(255, 0, 200, 0.55);  /* stop 0 @0.550 */
   --pink-primary-button-color:       rgba(255, 0, 200, 0.65);  /* stop 1 @0.650 */
   --pink-primary-button-right-color: rgba(255, 0, 200, 0.35);  /* stop 2 @0.350 */
   --cm-pink-primary-button:          #FF00C8;                  /* L2656-2677 "Rectangle / fill" · L2247 tabanı */
 
-  /* ⚠️ VERIFICATION REQUIRED — Figma'da aşağıdaki token'lar YOK; değer uydurulmadı:
-     1. "Pink - Light" frame YOK → JSON'da yalnız "Pink - Dark" (L22139);
-        ışıl-peri + ışık modu kombinasyonu için ayrı token seti BEKLENİYOR.
-     2. Pink tema bg/text/border/glass/player/theme yüzey seti YOK →
-        "Pink - Dark" frame'ine bağlanabilir --bg-* / --text-* / --theme-*
-        anahtarı tokens-1024.json'da yok (colors bölümü frame'e bağlı değil).
-        Bu blok bilinçli olarak yalnız pink accent içerir; yüzey token'ları
-        :root (dark) ve [data-gender] bloklarından gelmeye devam eder.
-     3. Mode/koleksiyon adı YOK: "Işıl-Peri" / "Isil-Peri" / "Female"
-        JSON'da hiç geçmiyor. "Prenses Işıl Peri" = metin etiketi
-        (L3498 fill "#FFFFFF" · L17510 shadow · L28468 "118.0x25.0").
-     Çözüm: Figma'da pink mode/koleksiyonu tanımlandıktan sonra tokens-1024.json
-     yeniden çekilecek; değerler o zaman yazılacak — VARSAYILMAZ. */
+  /* --- Background — yüzey seti, koyu pembe rampa (kullanıcı onayı 2026-10-04)
+         Desen: :root dark (dark-900→800→700→600), pink eşleniği en koyudan
+         açılara: cm-pink-deep → pink-900 → pink-800 → pink-700 --- */
+  --bg-base:     var(--cm-pink-deep);      /* primitive #92007d — taban (dark-900 karşılığı) */
+  --bg-surface:  var(--color-pink-900);    /* colors-token pink-900 — kart/panel (dark-800 karşılığı) */
+  --bg-elevated: var(--color-pink-800);    /* colors-token pink-800 — hover/aktif (dark-700 karşılığı) */
+  --bg-overlay:  var(--color-pink-700);    /* colors-token pink-700 — modal/dropdown (dark-600 karşılığı) */
+  --bg-player:   var(--cm-pink-deep);      /* primitive — taban ile aynı (dark: dark-900) */
+  --bg-admin:    var(--color-pink-800);    /* colors-token pink-800 (dark: dark-700) */
+  --bg-terminal: var(--cm-pink-deep);      /* primitive — taban ile aynı (dark: dark-900) */
+  --player-bg:   var(--cm-pink-deep);      /* primitive — semantic player tabanı, bg-base ile aynı */
+  /* --bg-subtle / --bg-muted: :root dark beyaz rgba kalır — düşük alphalı pembe rgba token YOK */
+
+  /* --- Text: pembe tint'li TEXT token YOK (grep: 01_Abstracts'te --text-* …pink 0 isabet)
+         → :root dark text kalır (ekleme yok); --text-accent → var(--theme-primary)
+         zinciriyle otomatik pembeleşir. */
+
+  /* --- Border: pembe türevi özel BORDER token YOK → --border-brand / --border-focus
+         zaten var(--theme-primary) → theme seti aşağıda pembeleşir (ekleme yok). */
+
+  /* --- Gradient — desen: a-semantic-token L177-179 (dark default), pink scale --- */
+  --gradient-hero:    linear-gradient(180deg, var(--cm-pink-deep) 0%, var(--color-pink-900) 100%);   /* desen L177 */
+  --gradient-card:    linear-gradient(135deg, var(--color-pink-800), var(--color-pink-900));          /* desen L178 */
+  --gradient-overlay: linear-gradient(180deg, transparent 0%, var(--cm-pink-deep) 100%);              /* desen L179 */
+
+  /* --- Theme set — desen: a-semantic-token L186-201 (default tema), pink üçlüsü --- */
+  --theme-primary:    var(--cm-pink-primary-button);   /* primitive #FF00C8 — Figma ışıl-peri ANA RENK */
+  --theme-secondary:  var(--cm-pink-mid);              /* primitive #bc04a3 — Figma palet */
+  --theme-accent:     var(--color-hotpink-500);        /* colors-token hotpink-500 "Deep pink — vurgu" */
+  --theme-highlight:  var(--color-hotpink-400);        /* colors-token hotpink-400 — seek thumb/aktif */
+  --theme-glow:       var(--pink-primary-button-left-color);   /* colors-token rgba …0.55 — default 0.45 karşılığı */
+  --theme-glow-soft:  var(--pink-primary-button-right-color);  /* colors-token rgba …0.35 — default 0.20 karşılığı */
+  --theme-gradient:   linear-gradient(135deg, var(--cm-pink-primary-button), var(--cm-pink-mid), var(--cm-pink-deep));            /* desen L194 — Figma pink üçlüsü */
+  --theme-gradient-btn: linear-gradient(135deg, var(--color-hotpink-700), var(--color-hotpink-500), var(--cm-pink-primary-button)); /* desen L195 */
+  --theme-bg-base:    var(--cm-pink-deep);     /* primitive — bg-base ile aynı */
+  --theme-bg-surface: var(--color-pink-900);   /* colors-token pink-900 — bg-surface ile aynı */
+  --theme-bg-elevated:var(--color-pink-800);   /* colors-token pink-800 — bg-elevated ile aynı */
+  --theme-bg-hero:    radial-gradient(ellipse at 50% 40%, var(--pink-primary-button-right-color) 0%, transparent 55%);  /* desen L199 — rgba …0.35 */
+  --theme-shadow:     0 0 20px var(--pink-primary-button-left-color);                                                     /* desen L200 */
+  --theme-shadow-lg:  0 0 40px var(--pink-primary-button-left-color), 0 0 80px var(--pink-primary-button-right-color);    /* desen L201 */
+  /* --theme-glass / --theme-glass-border: 0.12/0.25 alphalı pembe rgba token YOK → :root kalır */
+
+  /* --- Accent ailesi (#ff4fd8 → pembe; mode gender'ın ÜZERİNDE çalışır, bkz. CASCADE) --- */
+  --cm-accent:       var(--cm-pink-primary-button); /* primitive #FF00C8 (eski #ff4fd8) — focus ring/primary bg */
+  --cm-accent-light: var(--color-hotpink-400);      /* colors-token hotpink-400 "Light hot pink — hover" */
+  --cm-accent-deep:  var(--color-hotpink-700);      /* colors-token hotpink-700 "Pressed/active" */
+  --cm-accent-soft:  var(--color-pink-300);         /* colors-token pink-300 — yumuşak pembe varyant */
+  --cm-accent-glow:  var(--cm-pink);                /* primitive #f200d0 (eski #ff00d5) */
+  /* ⚠️ QA notu: --cm-accent (#FF00C8) koyu pembe taban üzerinde focus ring
+     kontrastı WCAG 2.2 3:1 sınırı için QA kapısında ölçülmeli — mevcut
+     tokenlarla daha açık pembe seçeneği yalnız hotpink-400 (#FF69B4). */
 }
 
 /* ============================================================

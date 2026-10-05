@@ -1,0 +1,44 @@
+/*
+ * Dosya: a-layout-tokens-mobile.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: phone (0-767px) kırılımında layout token değer override'ları
+ * Bağımlılık: token üretir: var(--footer-*), var(--content-*), var(--text-*), var(--layout-*), var(--card-*)
+ * Güncelleme: 2026-10-03
+ */
+/* CİHAZ: phone · GÖRÜNÜM: 0–767px
+ * Bu dosya YALNIZCA token değeri değiştirir — seçici/kural yazılmaz.
+ * Breakpoint: a-breakpoint-tokens.css → --bp-device-phone: 767px (= css-structure §2.1)
+ * Kaynak: 08_Devices/d-phone.css → .layout--phone bloğundan extract (uydurma YOK). */
+
+@media (max-width: 767px) {
+  :root {
+    /* --- Split (tek sütun) --- */
+    --layout-split-left: 100%;
+    --layout-split-right: 100%;
+
+    /* --- Kart / widget --- */
+    --card-thumb-size: 100%;
+    --now-playing-art: 80px;
+    --mini-card-art: 50px;
+    --widget-min-h: 80px;
+
+    /* --- Footer (kompakt player) --- */
+    --footer-h: 72px;
+    --footer-player-art: 60px;
+
+    /* --- Header (minimal) --- */
+    --header-h: 56px;
+
+    /* --- İçerik boşlukları --- */
+    --content-padding-top: 8px;
+    --content-padding-bottom: 12px;
+    --page-padding-x: 12px;
+
+    /* --- Tipografi --- */
+    --text-base: 13px;
+    --text-lg: 15px;
+
+    /* --- Grid --- */
+    --grid-gap: 8px;
+  }
+}

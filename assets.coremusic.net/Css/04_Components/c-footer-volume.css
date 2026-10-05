@@ -1,9 +1,10 @@
 /**
- * c-footer-volume.css — CoreMusic Footer Volume Slider (KAİ sözleşme)
- * ITCSS Layer: 04_Components
- * Version: 2.1.0 — 2026-09-08
+ * Dosya: c-footer-volume.css
+ * Katman: 04_Components - yeniden kullanılabilir UI bileşenleri
+ * Rol: Footer volume slider bileşeni - #volumeclick/#volume fill geometrisi
+ * Bağımlılık: token üretir: var(--volume-*)
+ * Güncelleme: 2026-10-03
  *
- * v2.1.0: Referans proje yapısı birebir (örnek: Yeni klasör/c-footer-volume.css):
  *         #volumeclick  180×10 relative + overflow:hidden + clip-path:inset(0)
  *         #volume       ABSOLUTE top:0 (input slider — fill ÜSTÜNDE)
  *         #volume2      ABSOLUTE top:0 (fill — container ÜSTÜNDE)

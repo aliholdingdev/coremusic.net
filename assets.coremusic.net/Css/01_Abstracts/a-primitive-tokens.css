@@ -1,22 +1,21 @@
 /**
- * CoreMusic — Primitive Component Tokens
- * Bileşenler : C04 Button · C05 Input · C08 Toggle · C09 Slider · C10 Badge · C13 Skeleton
- * ITCSS Layer: 01_Abstracts (token katmanı — bileşen CSS'i hardcoded değer yazamaz)
- * Version    : 1.1.0 — 2026-09-27 (Batch 1 ekleme: badge tint-bg + skeleton ölçü token'ları)
+ * Dosya: a-primitive-tokens.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Bileşen bazlı primitive token tanımı (button, input, toggle, slider, badge, skeleton)
+ * Bağımlılık: token üretir: var(--cm-*)
+ * Güncelleme: 2026-10-03
  *
+ * Bileşenler : C04 Button · C05 Input · C08 Toggle · C09 Slider · C10 Badge · C13 Skeleton
  * Otorite zinciri (Master Prompt §5 #11 — Figma + envanter + token üçlü doğrulama):
  *   1. Figma node 18:2907 doğrulanmış spec (Karar #5) — ölçü/renk/radius O TORİTESİ
  *   2. 02-component-inventory.md (C04/C05/C08/C09/C10/C13 BEM + Figma'da olmayan ölçüler)
  *   3. Bu dosya (token tek kaynağı)
- *
  * Tier konvansiyonu (a-layout-tokens.css ile hizalı):
  *   :root                     = 1024×600  (RPi5 embedded — Figma ana hedef)
  *   @media (min-width:1920px) = 1920×1080 (Figma doğrulanmış 2. tier) — token: --bp-1920
  *   3840×2160                 = Figma primitive ölçüsü YOK → 1920 değerleri miras alınır
- *
  * Tema konvansiyonu (a-color-mode-tokens.css ile hizalı):
  *   :root = dark (varsayılan) · html[data-mode="light"] + prefers-color-scheme = light
- *
  * Karar #6: görsel boyutlar Figma'daki gibi kalır (12-20px);
  *   WCAG 48px hit-area bileşen katmanında ::before ile eklenir (c-*.css).
  */

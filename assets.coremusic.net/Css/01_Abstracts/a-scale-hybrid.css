@@ -1,26 +1,23 @@
 /**
- * CoreMusic — Hibrit Ölçeklendirme Sistemi
- * ITCSS Layer: 01_Abstracts
- * Version: 3.0.0 — 2026-09-04
+ * Dosya: a-scale-hybrid.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Hibrit ölçekleme sistemi - JS transform:scale + CSS custom property tabanlı boyut token'ları
+ * Bağımlılık: token üretir: var(--ms-*), var(--fs-*), var(--gap-*), var(--fw-*), var(--radius-*)
+ * Güncelleme: 2026-10-03
  *
  * Hibrit model: JS transform:scale + CSS custom properties
  *   1. JS transform:scale — Genel sayfa ölçeklendirmesi (managers/ScaleManager.js)
  *   2. CSS custom properties — Bireysel element boyutları (tipografi, buton, boşluk)
  *   3. Quick Controls — CSS kontrollü görünürlük (--quick-controls-display)
- *
  * JS köprüsü: ScaleManager root'a data-scale-tier + data-dpr + data-aspect
  * yazar ve --quick-controls-display token'ını inline senkronize eder.
- *
  * Base: RPi5 1024×600 (gömülü cihaz)
  * Scale Ratio: 1.25 (Major Third — modular scale)
- *
  * Kullanım:
  *   font-size: var(--fs-base);          → akıcı tipografi
  *   min-width: var(--btn-size-md);      → modüler buton boyutu
  *   padding: var(--gap-md);             → orantılı boşluk
- *
  * Guardrail #17 uyumlu: Tek component + responsive CSS
- *
  * NOT: JS scale (transform:scale) genel ölçeklendirme yapar.
  *      Bu dosya SADECE bireysel element boyutlarını tanımlar.
  *      ScaleManager.js ile çakışma olmaz.

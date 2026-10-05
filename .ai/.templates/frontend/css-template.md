@@ -4,7 +4,7 @@ type: template
 category: frontend
 date: 2026-09-06
 updated: 2026-10-03
-version: 3.0.0
+version: 3.0.1
 status: active
 authority: reference
 ---
@@ -54,20 +54,20 @@ Bu şablon, CoreMusic stylesheet geliştirme standardını (11 katman sırası, 
 
 | # | Katman | Sorumluluk | Önek | Disk kanıtı (dosya) |
 |---|--------|-----------|------|---------------------|
-| 01 | `01_Abstracts/` | **Yalnız token** — custom property; kural/seçici YAZILMAZ | `a-` | `a-layout-tokens.css`, `a-layout-tokens-{1024,…}.css`, `a-colors-token`, `a-fonts-token`, `a-breakpoint-tokens`, `a-semantic-token`, `a-primitive-tokens`, `a-scale-hybrid`, `a-design-tokens`, `a-theme-config`, `a-color-mode-tokens`, `a-light-glass-tokens`, `a-login-tokens`, `a-widget-grid-tokens`, `a-welcome-banner-tokens` |
+| 01 | `01_Abstracts/` | **Yalnız token** — custom property; kural/seçici YAZILMAZ | `a-` | `a-layout-tokens-{1024,…}.css`, `a-colors-token`, `a-fonts-token`, `a-breakpoint-tokens`, `a-semantic-token`, `a-primitive-tokens`, `a-scale-hybrid`, `a-design-tokens`, `a-theme-config`, `a-color-mode-tokens`, `a-light-glass-tokens`, `a-login-tokens`, `a-widget-grid-tokens`, `a-welcome-banner-tokens` |
 | 02 | `02_Base/` | Genel yapı — bare HTML reset, base giriş iskeleti | `b-` / `l-` / `p-` | `b-base-core.css`, `l-main-structural.css`, `page-layout.css` |
-| 03 | `03_Layout/` | Sayfa düzeni: grid, header, footer, sidebar | `_` | `_header.css`, `_footer.css`, `_sidebar.css` |
-| 04 | `04_Components/` | BEM bileşenleri: buton, form, menü, logo, kart… (Figma component karşılığı) | `c-` / `_` | `c-buttons`, `c-forms`, `c-card`, `c-modal`, `c-badge`, `c-toggle`, `c-toast`, `c-progress`, `c-scrollbar-accent`, `c-footer-seek`, `c-footer-volume`, `c-home-song-btn`, `_widget-grid`, `_welcome-banner`, `_player-info` |
-| 05 | `05_Pages/` | **PHP sayfalarına özel** stiller (`pages/**/*.php`) | `p-` / `_` | `p-login-view`, `p-select-gender`, `p-settings`, `p-artists`, `p-albums`, `p-album-detail`, `p-playlist`, `_home`, `_home-layout`, `_home-inline`, `_player` |
+| 03 | `03_Layout/` | Sayfa düzeni: grid, header, footer, sidebar | `_` | `_header.css`, `_footer.css`, `_sidebar.css`, `_widget-grid.css` |
+| 04 | `04_Components/` | BEM bileşenleri: buton, form, menü, logo, kart… (Figma component karşılığı) | `c-` / `_` | `c-buttons`, `c-forms`, `c-card`, `c-modal`, `c-badge`, `c-toggle`, `c-toast`, `c-progress`, `c-scrollbar-accent`, `c-footer-seek`, `c-footer-volume`, `c-home-song-btn`, `_home-components`, `_welcome-banner`, `_player-info` |
+| 05 | `05_Pages/` | **PHP sayfalarına özel** stiller (`pages/**/*.php`) | `p-` / `_` | `p-login-view`, `p-select-gender`, `p-settings`, `p-artists`, `p-albums`, `p-album-detail`, `p-playlist`, `_home`, `_home-layout`, `_home-inline`, `_player`, `_welcome` |
 | 06 | `06_Utilities/` | Utility sınıfları (tek satır işlev, `.is-hidden` vb.) | `u-` | `u-helpers-utility.css` |
 | 07 | `07_Vendors/` | 3. taraf (Bootstrap ailesi) — **DÜZENLENMEZ** | `v-` | `v-bootstrap-lib.css` + `bootstrap*.css` (normal/rtl/min/map) |
 | 08 | `08_Devices/` | Cihaz kırılım **import zinciri** + davranış override | `d-` / `d-auth-` | 15 dosya → §3.5 |
 | 09 | `09_ViewModes/` | Görünüm modu (home, pro, studio, car) | `v-` | `v-home`, `v-pro`, `v-studio`, `v-car` |
-| 10 | `10_Helpers/` | Helper sınıf/makro'ları (§3.8) | `h-` | ⏳ beklenen — oluştur |
+| 10 | `10_Helpers/` | Helper sınıf/makro'ları (§3.8) | `h-` | `h-ellipsis.css` (VAR — iskelet, içerik bekleniyor; 2026-10-04) |
 | 11 | `11_OAuth/` | OAuth/login akış stilleri | `o-` | `oauth.css` |
 | kök | `auth-bundled.css` | Auth subdomain **tek giriş** → §3.5 | — | `auth-bundled.css` |
 
-**YOK olanlar (uydurulmaz):** `main.css` (2026-10-03 itibarıyla diskte YOK — cihaz girişi `08_Devices/d-*.css` üzerindendir). `Css copy 2/` klasörü yedektir, referans alınmaz.
+**YOK olanlar (uydurulmaz):** `main.css` (2026-10-03 itibarıyla diskte YOK — cihaz girişi `08_Devices/d-*.css` üzerindendir). `a-layout-tokens.css` **diskte YOK** (git ls-files'ta hiç track edilmedi; 5 cihaz dosyası bu yolu import ediyordu → kırık import; BASE artık `a-layout-tokens-1024.css`). `Css copy 2/` klasörü yedektir, referans alınmaz.
 
 **Ayrım kuralı (kritik):**
 
@@ -101,10 +101,10 @@ Bu şablon, CoreMusic stylesheet geliştirme standardını (11 katman sırası, 
 
 ```
 01_Abstracts/
-├── a-layout-tokens.css          # BASE (varsayılan — her şeyin fallback'i)
+├── a-layout-tokens-1024.css     # BASE — 1024×600 (RPi5) · medyasız :root · tüm cihaz fallback'i
+│                                 # (eski a-layout-tokens.css diskte YOK — git track yok)
 ├── a-layout-tokens-mobile.css   # ≤767px  (phone)
 ├── a-layout-tokens-tablet.css   # 768–1023px
-├── a-layout-tokens-1024.css     # 1024×600 (RPi5 embedded)
 ├── a-layout-tokens-1920.css     # full HD / wide desktop
 ├── a-layout-tokens-3540.css     # 4K monitor
 └── a-layout-tokens-3840.css     # 4K TV
@@ -150,7 +150,7 @@ Bu şablon, CoreMusic stylesheet geliştirme standardını (11 katman sırası, 
 }
 ```
 
-**Sıralama (öncelik):** base → mobile → tablet → 1024 → 1920 → 3540 → 3840. Daha geniş kırılım daha sonra gelir, dar olanı ezer.
+**Sıralama (öncelik):** base (`a-layout-tokens-1024.css`) → mobile → tablet → 1920 → 3540 → 3840. Daha geniş kırılım daha sonra gelir, dar olanı ezer. (Ayrı `a-layout-tokens.css` base'i **diskte YOK** — 2026-10-03.)
 
 **`a-layout-tokens-1024.css` iç yapısı (referans — Figma SSOT blokları korunur):** component token'ları → kart boyutları → detail panel → home layout grid → embedded home layout (Figma node ref'li) → touch targets → spacing → font scale → glass → device-aware scaling → z-index → player info (`--cm-player-*`).
 
@@ -399,7 +399,7 @@ NOTES.MD OKU → MOCKUP OKU → KATMANI SEÇ → ŞABLONU KOPYALA
 
 ---
 
-**Template Version:** 3.0.0
+**Template Version:** 3.0.1
 **Last Updated:** 2026-10-03
 
 ---

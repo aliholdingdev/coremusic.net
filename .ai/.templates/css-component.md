@@ -15,7 +15,7 @@
 ```
 c-buttons.css      → .btn, .btn--play, .btn__icon
 c-card.css         → .card, .card__thumb, .card--selected
-c-forms.css        → .lgn-form__field, .lgn-form__input--check   (gerçek: auth-bundled.css)
+c-forms.css        → .input, .input--*, .input-wrapper   (c-forms.css'ta 27 isabet (26 satır - 2026-10-04 sayımı); ``.lgn-form__field`` bu dosyada YOK — o seçici p-login-view.css:552 + auth-bundled.css:39)
 _footer ile ortak  → .footer__album-art, .player-btn, .player-btn--play
 partial            → _widget-grid.css, _player-info.css, _welcome-banner.css (underscore = import parçası)
 ```

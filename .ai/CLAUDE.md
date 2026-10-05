@@ -534,6 +534,7 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 | 3 | `.ai/ui-design/tokens/design-tokens-master.md` | Renk, boşluk, tipografi, cam token'ları | CSS yazarken |
 | 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | 19 PNG'nin piksel düzeyinde ASCII art layout modelleri (desktop 1920: `ui-design/screens/T17-monitor-22fhd/home-dashboard.md` — 20 spec + 1 indeks, Faz 7 sayımı) | Layout hizalamada |
 | 5 | `.ai/ui-design/05-responsive-architecture.md` | Cihaz bazlı CSS override kuralları — **§7.4 4K No-Center (4K'da ortalamama YASAK)** ve **§12 Geriye Dönük Uyumluluk (fallback ZORUNLU)** bağlayıcıdır | Device-specific CSS'te |
+| 6 | `.ai/.templates/frontend/css-template.md` (v3.0.0) + `.ai/.templates/css-structure.md` + kök `notes.md` | 11 katman sırası (01→11) · token yalnız `01_Abstracts` ve cihaz dosyasına göre ayrılır (`a-layout-tokens-{mobile,tablet,1024,1920,3540,3840}.css`) · BEM · `07_Vendors` dokunulmaz · taşıma/silme YOK · import zinciri `08_Devices/d-*.css` + `auth-bundled.css` (`main.css` YOK) | **Her `.css` dosyası yazılırken** (Guardrail #16 — kök `AGENTS.md` §10) |
 
 **Referans Sıralaması (çelişki durumunda):** PNG > ASCII art > Component Inventory > Tokens > Implementation Plan.
 
@@ -561,6 +562,7 @@ L0 Altyapı Katmanı → Cloud, On-Premise, Docker, Kubernetes, Storage, Backup
 | Flow dosyası | `ui-design/flow/<kategori>/NN-*.md` | `[[.templates/ui-design/flow-template]]` | B |
 | Kod üretim promptu | `ui-design/prompt/{component,page,screen,layout}/*.md` | `[[.templates/ui-design/prompt-template]]` | C |
 | Ekran spesifikasyonu | `ui-design/screens/<tier>/*.md` | `[[.templates/ui-design/screen-spec-template]]` | D |
+| **CSS katman dosyası** | `assets.coremusic.net/Css/**/*.css` (11 katman + `auth-bundled.css`) | **`[[.templates/frontend/css-template]]`** (v3.0.0 §3 şablonları + §4.1 10 guardrail) + `[[.templates/css-structure]]` (01→11 sıra) + kök `notes.md` | CSS |
 
 **İhlal Prosedürü:** şablonsuz ui-design dosyası → dosya geçersiz (Guardrail #16) → düzelt veya sil + `log.md` CRITICAL girişi.
 

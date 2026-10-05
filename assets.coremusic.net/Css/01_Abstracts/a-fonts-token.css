@@ -1,8 +1,11 @@
 /**
- * CoreMusic — Font Tokens
- * Local Fonts: Respective + Avalon Medium + Arima + Playfair Display + DM Sans + Plus Jakarta Sans
- * ITCSS Layer: 01_Abstracts
+ * Dosya: a-fonts-token.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Yerel font yüklemesi ve font/fs/ls/fw token'ları (Figma font mapping)
+ * Bağımlılık: token üretir: var(--cm-*), var(--font-*), var(--fs-*), var(--ls-*), var(--fw-*)
+ * Güncelleme: 2026-10-03
  *
+ * Local Fonts: Respective + Avalon Medium + Arima + Playfair Display + DM Sans + Plus Jakarta Sans
  * Font Mapping (from Figma):
  *   Hero title ("Seni Tanıyalım") → Playfair Display Italic
  *   Logo text ("Core Music") → Respective Regular

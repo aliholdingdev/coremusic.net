@@ -1,9 +1,12 @@
 /**
- * CoreMusic — OAuth UI Styles (ITCSS Layer: Components)
+ * Dosya: oauth.css
+ * Katman: 11_OAuth - OAuth/giriş ekranı UI stilleri
+ * Rol: Gender-based social OAuth UI stilleri (ADR-088 / ADR-001, BEM)
+ * Bağımlılık: token tüketir: var(--color-*), var(--theme-*), var(--platform-*)
+ * Güncelleme: 2026-10-03
  *
  * ADR-088 + ADR-001 compliant — Gender-based social OAuth UI.
- * ITCSS 10th layer (Components), BEM methodology.
- *
+ * ITCSS 11th layer (11_OAuth), BEM methodology.
  * @see [[decisions/accepted/ADR-088-gender-based-social-oauth]]
  * @see [[decisions/accepted/ADR-001-vanilla-js-itcss]]
  */

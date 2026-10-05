@@ -1,9 +1,12 @@
 /**
- * CoreMusic — Primitif Renk Tokenleri
+ * Dosya: a-colors-token.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Primitif (ham) renk paleti - doğrudan kullanılmaz, semantik tokenlara referans verir
+ * Bağımlılık: token üretir: var(--color-*), var(--cm-*), var(--pink-*)
+ * Güncelleme: 2026-10-03
+ *
  * Ham renk paleti. Doğrudan CSS'de kullanılmaz.
  * Semantik tokenlar (a-semantic-token.css) üzerinden referans alınır.
- * ITCSS Layer: 01_Abstracts
- * Version: 2.0.0 — 2026-05-31
  */
 
 :root {

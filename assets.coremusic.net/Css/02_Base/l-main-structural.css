@@ -1,7 +1,11 @@
 /**
- * CoreMusic — Main Structural Layout
+ * Dosya: l-main-structural.css
+ * Katman: 02_Base - sıfırlama, temel tipografi ve iskelet
+ * Rol: App shell ve ana konteyner yapısı - sayfa iskeleti kuraları (beyan edilen katman: 03_Layout)
+ * Bağımlılık: token üretir: var(--layout-*)
+ * Güncelleme: 2026-10-03
+ *
  * App shell, page containers, grid system
- * ITCSS Layer: 03_Layout
  */
 
 /* ============================================================

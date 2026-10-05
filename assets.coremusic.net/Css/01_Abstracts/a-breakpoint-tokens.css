@@ -1,13 +1,14 @@
 /**
- * CoreMusic — Breakpoint Token'ları
- * Cihaz bazlı viewport breakpoint'leri (device-loader.js ile senkronize)
- * ITCSS Layer: 01_Abstracts
- * Version: 1.0.0 — 2026-08-05
+ * Dosya: a-breakpoint-tokens.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Cihaz bazlı viewport breakpoint token'larını üretir (device-loader.js ile senkron)
+ * Bağımlılık: token üretir: var(--bp-*)
+ * Güncelleme: 2026-10-03
  *
+ * Cihaz bazlı viewport breakpoint'leri (device-loader.js ile senkronize)
  * NOT: Mevcut --bp-* (sm, md, lg, xl, 2xl, tablet, mobile) ve
  *      --vp-* (min, hd, 2k, 4k) token'ları korunur.
  *      Bu dosya SADECE cihaz bazlı breakpoint'leri ekler.
- *
  * device-loader.js breakpoint'leri ile birebir aynı değerler:
  *   phone      ≤767px    (mobil — ayrı uygulama)
  *   tablet     768-1024  (mobil — ayrı uygulama)

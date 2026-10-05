@@ -1,6 +1,13 @@
+/**
+ * Dosya: _home.css
+ * Katman: 05_Pages - sayfa özel stiller
+ * Rol: Home sayfası birleştirici - layout/components/inline @import + üst grid kuralı
+ * Bağımlılık: @import: _home-layout.css, _home-components.css, _home-inline.css; token tüketir: var(--font-*), var(--space-*), var(--color-*), var(--grid-*), var(--header-*)
+ * Güncelleme: 2026-10-03
+ */
 
 @import './_home-layout.css';
-@import './_home-components.css';
+@import '../04_Components/_home-components.css';
 @import './_home-inline.css';
 
 .home-layout__top {

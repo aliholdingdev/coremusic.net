@@ -490,6 +490,7 @@ Referans proje (`coremusic.net.old.ref`) incelenirken:
 | 1.5 | `.ai/.templates/index.md`'den uygun template seç | Template Mandatory (Guardrail #16) |
 | 2 | İlgili ADR'leri kontrol et | — |
 | 2.5 | Frontend ise: [[ui-design/01-mockup-index]] ve [[ui-design/02-component-inventory]] oku | ✅ HARD GATE (Guardrail #11) |
+| 2.6 | CSS ise: `.ai/.templates/frontend/css-template.md` + `.ai/.templates/css-structure.md` + kök `notes.md` oku (01→11 katman · token yalnız 01 · taşıma/silme YOK) | ✅ HARD GATE (Guardrail #16 — kök `AGENTS.md` §10) |
 | 3 | 20-Fazlı yaşam döngüsünün ilgili fazlarını uygula | — |
 | 4 | Mimari planı hazırla (Phase 7) | ✅ HARD GATE |
 | 5 | Kullanıcı onayını al | — |

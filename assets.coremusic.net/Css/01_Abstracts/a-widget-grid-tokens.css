@@ -1,11 +1,13 @@
 /**
- * CoreMusic — Widget Grid Token'ları (v2.0.0)
- * ITCSS Layer: 01_Abstracts
+ * Dosya: a-widget-grid-tokens.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Widget grid için Figma pixel-perfect ölçülerinden türetilmiş token'lar
+ * Bağımlılık: token üretir: var(--wg-*)
+ * Güncelleme: 2026-10-03
  *
  * Figma SSOT (pixel-perfect API extraction):
  *   node 2831:13747 (1920 Home) → "Div2 Button" grubu
  *   id 2850:21494 — container 752×184.44 (relative origin x:1679 y:-490)
- *
  * Alt widget'lar (container'a göre relatif x/y — sol-üst köşe 0,0):
  *   Ses Kaynağı            id 2850:21553  x:0   y:0     173×54.88
  *   Hava Durmu             id 2850:21545  x:193 y:0     172×54.88
@@ -17,8 +19,6 @@
  *   Youtube Music Btn      id 2850:21534  x:146 y:140.96 42×43.04
  *   Youtube Btn            id 2850:21529  x:205 y:140.96 42×43.04
  *   Deezer Btn             id 2850:21524  x:264 y:140.96 42×43.04
- *
- * Version: 2.0.0 — 2026-09-30
  */
 
 :root {

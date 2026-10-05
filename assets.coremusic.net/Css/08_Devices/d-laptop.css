@@ -1,4 +1,11 @@
-/** * CoreMusic — Laptop Device CSS * 1025-1440px — Standard laptop view * ITCSS Layer: 08_Devices * Version: 1.0.0 — 2026-08-05 * * device-loader.js breakpoint: 1025-1440px */@import url("../01_Abstracts/a-primitive-tokens.css?v=1.1.0");
+/**
+ * Dosya: d-laptop.css
+ * Katman: 08_Devices - cihaz/breakpoint override
+ * Rol: 1025-1440px laptop cihaz paketi - tüm katman dosyalarını import eder
+ * Bağımlılık: @import: a-primitive-tokens.css, a-fonts-token.css, a-colors-token.css, a-semantic-token.css, a-color-mode-tokens.css, a-design-tokens.css +42 dosya
+ * Güncelleme: 2026-10-03
+ */
+@import url("../01_Abstracts/a-primitive-tokens.css?v=1.1.0");
 @import url("../01_Abstracts/a-fonts-token.css?v=2.1.0");
 @import url("../01_Abstracts/a-colors-token.css?v=2.1.0");
 @import url("../01_Abstracts/a-semantic-token.css?v=2.1.0");
@@ -9,6 +16,7 @@
 @import url("../01_Abstracts/a-login-tokens.css?v=2.1.0");
 @import url("../01_Abstracts/a-breakpoint-tokens.css?v=2.1.0");
 @import url("../01_Abstracts/a-scale-hybrid.css?v=1.0.0");
+@import url("../01_Abstracts/a-layout-tokens-1024.css?v=5.1.0");
 @import url("../01_Abstracts/a-layout-tokens-1920.css?v=1.0.0");
 @import url("../01_Abstracts/a-widget-grid-tokens.css?v=1.0.0");
 @import url("../01_Abstracts/a-welcome-banner-tokens.css?v=2.0.0");

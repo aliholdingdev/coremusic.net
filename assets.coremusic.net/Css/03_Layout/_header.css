@@ -1,16 +1,16 @@
 /**
- * _header.css — CoreMusic Global Navigation Bar
+ * Dosya: _header.css
+ * Katman: 03_Layout - sayfa iskeleti: header, footer, sidebar, grid
+ * Rol: Global navigasyon barı - logo, nav link, header aksiyon butonları, hover/focus durumları
+ * Bağımlılık: token üretir: var(--header-*)
+ * Güncelleme: 2026-10-03
+ *
  * Scope  : header.php — tüm auth sayfaları
  * Design : header-spec-v2.md · design-tokens.md
  * Height : 70px (desktop) · 60px (1024)
- * Layer  : ITCSS 03_Layout
- * Version: 3.0.0 — 2026-09-04
- *
  * BEM: .site-header → __inner → __logo | __nav (.nav-link) | __actions
  *      .header-widget | .header-user | .header-action-btn
- *
  * Text  : --fs-* token (a-scale-hybrid.css) + --ts-xs/--ts-lg (a-theme-config.css)
- *
  * Scale : Hibrit ölçeklendirme — a-scale-hybrid.css token'ları
  */
 
@@ -134,7 +134,7 @@
 /* Nav Link — Active (mevcut sayfa) */
 .nav-link.active,
 .nav-link[aria-current="page"] {
-    color: #ff4fd8;
+    color: var(--cm-accent, #ff4fd8);
     font-weight: 600;
 }
 
@@ -146,13 +146,13 @@
     left: 12px;
     right: 12px;
     height: 2px;
-    background: #ff4fd8;
+    background: var(--cm-accent, #ff4fd8);
     border-radius: 999px;
 }
 
 /* Nav Link — Focus (WCAG 2.2) */
 .nav-link:focus-visible {
-    outline: 3px solid #ff4fd8;
+    outline: 3px solid var(--cm-accent, #ff4fd8);
     outline-offset: 2px;
     border-radius: 6px;
 }
@@ -240,7 +240,7 @@
 }
 
 .header-user:focus-visible {
-    outline: 3px solid #ff4fd8;
+    outline: 3px solid var(--cm-accent, #ff4fd8);
     outline-offset: 2px;
 }
 
@@ -299,7 +299,7 @@
 }
 
 .header-user-dropdown a {
-    color: #ffffff; /* Contrast > 4.5:1 on rgba(45, 26, 46, 0.95) */
+    color: var(--cm-white); /* Contrast > 4.5:1 on rgba(45, 26, 46, 0.95) */
     text-decoration: none;
     font-size: var(--fs-sm, 13px);
     padding: 8px;
@@ -313,18 +313,18 @@
 .header-user-dropdown a:hover,
 .header-user-dropdown a:focus-visible {
     background: rgba(255, 255, 255, 0.1);
-    outline: 2px solid #ff4fd8;
+    outline: 2px solid var(--cm-accent, #ff4fd8);
     outline-offset: -2px;
 }
 
 .header-user-dropdown a.logout-btn {
-    color: #ff8080; /* Lighter red for WCAG contrast on dark bg */
+    color: var(--cm-color-ff8080); /* Lighter red for WCAG contrast on dark bg */
 }
 
 .header-user-dropdown a.logout-btn:hover,
 .header-user-dropdown a.logout-btn:focus-visible {
     background: rgba(255, 80, 80, 0.15);
-    outline: 2px solid #ff8080;
+    outline: 2px solid var(--cm-color-ff8080);
     outline-offset: -2px;
 }
 
@@ -369,7 +369,7 @@
 }
 
 .header-action-btn:focus-visible {
-    outline: 3px solid #ff4fd8;
+    outline: 3px solid var(--cm-accent, #ff4fd8);
     outline-offset: 2px;
 }
 
@@ -655,7 +655,7 @@
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    color: #fff;
+    color: var(--cm-color-fff);
     font-size: var(--fs-2xs, 10px);
     text-decoration: none;
     padding: 6px 12px;
@@ -681,12 +681,12 @@
 .mobile-bottom-nav__link:hover,
 .mobile-bottom-nav__link.active,
 .mobile-bottom-nav__link--active {
-    color: #ff4fd8;
+    color: var(--cm-accent, #ff4fd8);
     background: rgba(255, 255, 255, 0.06);
 }
 
 .mobile-bottom-nav__link:focus-visible {
-    outline: 2px solid #ff4fd8;
+    outline: 2px solid var(--cm-accent, #ff4fd8);
     outline-offset: 2px;
 }
 
@@ -730,7 +730,7 @@
 .site-header--tv .nav-link:focus-visible,
 .site-header--tv .header-user:focus-visible,
 .site-header--tv .header-action-btn:focus-visible {
-    outline: 4px solid #ff4fd8;
+    outline: 4px solid var(--cm-accent, #ff4fd8);
     outline-offset: 4px;
     box-shadow: var(--glow-play);
 }

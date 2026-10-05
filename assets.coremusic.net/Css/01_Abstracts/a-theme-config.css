@@ -1,10 +1,13 @@
 /**
- * CoreMusic — Theme Config Tokens
+ * Dosya: a-theme-config.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Global tasarım sistemi token'ları - spacing, radius, blur, z-index, transition, keyframes
+ * Bağımlılık: token üretir: var(--sp-*), var(--z-*), var(--r-*), var(--dur-*), var(--blur-*)
+ * Güncelleme: 2026-10-03
+ *
  * Global design system: spacing, radius, blur, z-index, transitions, keyframes
  * Shadow + text-shadow tokenleri: a-design-tokens.css (SSOT)
  * Renk tokenleri: a-colors-token.css (--color-*) ve a-semantic-token.css (--theme-*, --bg-*, vb.)
- * ITCSS Layer: 01_Abstracts
- * Version: 2.2.0 — 2026-09-09
  */
 
 :root {

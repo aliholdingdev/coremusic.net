@@ -1,7 +1,9 @@
 /**
- * CoreMusic — Base Reset & Core Styles
- * ITCSS Layer: 02_Base
- * Version: 2.1.0 — 2026-06-03
+ * Dosya: b-base-core.css
+ * Katman: 02_Base - sıfırlama, temel tipografi ve iskelet
+ * Rol: Global reset, kutu modeli, tipografi ve gövde temel stilleri
+ * Bağımlılık: token tüketir: var(--body-*), var(--cm-*), var(--ts-*), var(--theme-*), var(--scrollbar-*)
+ * Güncelleme: 2026-10-03
  */
 
 *, *::before, *::after {

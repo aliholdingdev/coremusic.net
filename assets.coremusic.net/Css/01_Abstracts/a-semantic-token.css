@@ -1,9 +1,12 @@
 /**
- * CoreMusic — Semantik Renk Tokenleri
+ * Dosya: a-semantic-token.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Semantik renk token'ları - primitive tokenlara referans verir, tüm CSS bunları kullanır
+ * Bağımlılık: token üretir: var(--theme-*), var(--player-*), var(--footer-*), var(--text-*), var(--status-*)
+ * Güncelleme: 2026-10-03
+ *
  * Primitif tokenlara referans verir. Tüm CSS bu tokenları kullanır.
  * Primitif tokenları (a-colors-token.css) doğrudan kullanmak YASAK.
- * ITCSS Layer: 01_Abstracts
- * Version: 2.0.0 — 2026-05-31
  */
 
 :root {

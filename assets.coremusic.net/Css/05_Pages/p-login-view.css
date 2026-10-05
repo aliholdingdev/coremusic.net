@@ -1,10 +1,14 @@
 /**
- * CoreMusic — Ultra Premium Cinematic Login v4
+ * Dosya: p-login-view.css
+ * Katman: 05_Pages - sayfa özel stiller
+ * Rol: Cinematic Login v4 sayfası - sağ dock panel, cinsiyet bazlı crossfade arka plan
+ * Bağımlılık: token tüketir: var(--cm-*), var(--font-*), var(--dur-*), var(--ease-*), var(--radius-*)
+ * Güncelleme: 2026-10-03
+ *
  * Panel: fixed right dock · Glass: strong blur · Responsive: 480-3840px
  * Gender-based dynamic backgrounds via data-gender
  * Crossfade system via ::after overlay with opacity transition
  * Viewport: min 480px → max 3840px (4K)
- *
  * Font Mapping:
  *   --font-heading    = DM Sans (headings, labels, buttons)
  *   --font-handwriting = Bickham Script (italic hero titles, poem)
@@ -840,13 +844,13 @@
 .lgn-social__btn--tiktok:hover { background: #1a1a1a; border-color: #1a1a1a; }
 .lgn-social__btn--mic { background: #333; color: #fff; border-color: #333; }
 .lgn-social__btn--mic:hover { background: #444; border-color: #444; }
-.lgn-social__btn--F[data-provider="spotify"] { background: #1DB954; color: #000; border-color: #1DB954; }
+.lgn-social__btn--F[data-provider="spotify"] { background: var(--cm-social-spotify); color: #000; border-color: var(--cm-social-spotify); }
 .lgn-social__btn--F[data-provider="instagram"] { background: linear-gradient(135deg, #F58529, #DD2A7B, #8134AF); color: #fff; border: none; }
 .lgn-social__btn--F[data-provider="tiktok"] { background: #010101; color: #fff; border-color: #010101; }
 .lgn-social__btn--F[data-provider="github"] { background: #333; color: #fff; border-color: #333; }
 .lgn-social__btn--M[data-provider="x"] { background: #000; color: #fff; border-color: #000; }
-.lgn-social__btn--M[data-provider="discord"] { background: #5865F2; color: #fff; border-color: #5865F2; }
-.lgn-social__btn--M[data-provider="reddit"] { background: #FF4500; color: #fff; border-color: #FF4500; }
+.lgn-social__btn--M[data-provider="discord"] { background: var(--cm-social-discord); color: #fff; border-color: var(--cm-social-discord); }
+.lgn-social__btn--M[data-provider="reddit"] { background: var(--cm-social-reddit); color: #fff; border-color: var(--cm-social-reddit); }
 .lgn-social__btn--apple,
 .lgn-social__btn--google,
 .lgn-social__btn--facebook { display: flex !important; }

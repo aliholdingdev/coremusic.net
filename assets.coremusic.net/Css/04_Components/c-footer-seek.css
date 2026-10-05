@@ -1,7 +1,9 @@
 /**
- * c-footer-seek.css — CoreMusic Footer Seekbar (KAİ sözleşme)
- * ITCSS Layer: 04_Components
- * Version: 2.0.0 — 2026-09-06
+ * Dosya: c-footer-seek.css
+ * Katman: 04_Components - yeniden kullanılabilir UI bileşenleri
+ * Rol: Footer seekbar bileşeni - #seekbarclick/#seekbar/#seekbar2 geometrisi
+ * Bağımlılık: Yok (harici token/import yok)
+ * Güncelleme: 2026-10-03
  *
  * v2.0.0: KAİ coreplayer yapısı — #seekbarclick (container) + #seekbar (input) + #seekbar2 (fill)
  *         Görsel bar PNG sadakatiyle _footer.css'te (.footer__progress, ≈4px pembe)

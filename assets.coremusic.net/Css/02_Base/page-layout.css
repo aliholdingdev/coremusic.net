@@ -1,7 +1,9 @@
 /**
- * CoreMusic — Home Page Layout
- * ITCSS Layer: 05_Pages
- * Version: 6.0.0 — 2026-09-22
+ * Dosya: page-layout.css
+ * Katman: 02_Base - sıfırlama, temel tipografi ve iskelet
+ * Rol: Sayfa yerleşim kuraları (2-row grid) - beyan edilen katman: 05_Pages
+ * Bağımlılık: token üretir: var(--sidebar-*)
+ * Güncelleme: 2026-10-03
  *
  * Layout Pattern: 2-Row Grid (Figma pixel-perfect)
  * Row 1: Now Playing (left 42%) + Widgets (right 58%)
@@ -9,9 +11,7 @@
  *   - Desktop: 4×4 widget grid + 1×8 quick apps × 2 rows
  * Row 2: En Son Dinlenen (left) + Son Oluşturulan (center) + Sıradaki (right)
  *   - Each: mini cards 169×43px
- *
  * Platform: home-1024 (RPi5 1024×600) — default
- *
  * v6.0.0: Figma pixel-perfect restructuring
  *   1. Embedded (Linux ARM): 1024×600 Split 42/58 + 2×2 widgets + 1×5 quick apps
  *   2. Wide (≥1920px): 3-Sütun (Now Playing | Welcome | Widgets) + 4×4 widgets

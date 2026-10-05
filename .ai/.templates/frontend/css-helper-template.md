@@ -12,7 +12,7 @@ authority: reference
 # CSS Helper Şablonu — `10_Helpers/`
 
 **Kapsam:** Tekrarlanabilir yardımcı desen / makro · önek `h-`
-**Durum:** katman diskte **henüz yok** — ilk dosya bu şablonla oluşturulur
+**Durum:** katman diskte VAR — tek dosya `h-ellipsis.css` (iskelet: 10 satır yorum bloğu, içerik bekleniyor — 2026-10-04)
 **Ana şablon:** [[css-template]] §3.8 · **İlgili:** [[css-utility-template]]
 
 ---

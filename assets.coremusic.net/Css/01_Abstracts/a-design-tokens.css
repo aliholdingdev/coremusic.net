@@ -1,12 +1,13 @@
 /**
- * CoreMusic — Master Design Tokens
- * Tüm tasarım token'larının kanonik CSS kaynağı
- * ITCSS Layer: 01_Abstracts
- * Version: 1.1.0 — 2026-09-09 (Shadow SSOT: koyu ölçek + --ts-* + --card/--modal-shadow)
+ * Dosya: a-design-tokens.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: Master design token kaynağı - gölge, spacing, radius, opacity, komponent token SSOT'u
+ * Bağımlılık: token üretir: var(--space-*), var(--btn-*), var(--opacity-*), var(--modal-*), var(--card-*)
+ * Güncelleme: 2026-10-03
  *
+ * Tüm tasarım token'larının kanonik CSS kaynağı
  * Kaynak: .ai/ui-design/tokens/design-tokens-master.md
  * Bileşen: .ai/ui-design/01-component-inventory.md (C01-C16)
- *
  * NOT: Bu dosya mevcut token dosyalarını TAMAMLAR, çakışmaz.
  * Mevcut dosyalar:
  *   - a-colors-token.css → Ham renk paleti
@@ -15,7 +16,6 @@
  *   - a-layout-tokens.css → Layout boyutları
  *   - a-light-glass-tokens.css → Glass efektleri
  *   - a-breakpoint-tokens.css → Breakpoint'ler
- *
  * Bu dosya EKSİK olan token'ları ekler:
  *   - Border radius & width
  *   - Shadow (elevation)

@@ -547,7 +547,7 @@ Ajan dosyaya erişmek ister
 | Agent | Zorunlu Okuma |
 |-------|---------------|
 | Backend | `architecture/k9-api-routing/*.md`, `.ai/.decisions/index.md` (ADR-083), `shared/src/PageRouter/` |
-| Frontend | `ui-design/01-mockup-index.md`, `ui-design/02-component-inventory.md`, `architecture/k11-ux/*.md`, `.ai/.templates/ui-design/*-template.md` (Kalıp A-D — Guardrail #16 zorunlu okuma) |
+| Frontend | `ui-design/01-mockup-index.md`, `ui-design/02-component-inventory.md`, `architecture/k11-ux/*.md`, `.ai/.templates/ui-design/*-template.md` (Kalıp A-D — Guardrail #16 zorunlu okuma) · **CSS görevi ayrıca:** `.ai/.templates/frontend/css-template.md` (v3.0.0, 11 katman) + `.ai/.templates/css-structure.md` (01→11 sıra) + kök `notes.md` — Guardrail #16, bkz. kök `AGENTS.md` §10 |
 | Security | `architecture/k6-guvenlik/*.md`, `.ai/.decisions/index.md` (ADR-010), `shared/src/Middleware/` |
 | Data | `architecture/k0-isletim-sistemi/*.md`, `.ai/.sql/mysql/*.sql`, `shared/src/Database/` |
 | Embedded | `.ai/projects/NevaEngine/*.md` ⚠️ VERIFICATION REQUIRED (dizin var, 0 dosya); `electronic/dsp/*.md`, `electronic/firmware/*.md` ⚠️ YOK → gerçek: `architecture/firmware/*.md`, `architecture/k3-ses-motoru/*.md`, `architecture/k1-donanim/*.md` |
