@@ -3,8 +3,8 @@ title: "CoreMusic — Backend Architect Agent Profile"
 type: profile
 category: agent-registry
 date: 2026-08-08
-updated: 2026-10-01
-version: 2.0.3
+updated: 2026-10-06
+version: 2.0.4
 status: active
 authority: reference
 ---
@@ -18,7 +18,7 @@ authority: reference
 ## MAX THINKING — Anti-Overthink (2026-10-01)
 
 1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse. 3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme. 5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-> Tam metin (7 madde): [[master-orchestrator]] · [[../ULTRA-THINKING.md]]
+> Tam metin (7 madde): [[../CLAUDE.md]] § MAX THINKING · ayrıntı: [[../ULTRA-THINKING.md]]
 
 ## §1 Kimlik
 
@@ -504,7 +504,7 @@ Sonraki adım: [1 eylem, 2 dakika]
 | 4 | `.ai/architecture/k7-middleware/` (14) · `k9-api-routing/` (14) · `k8-servis/` | Mimari spesifikasyon |
 | 5 | `.ai/AGENTS.md` v22.0.0 §6/§9.3/§17/§24.3/§25.2 · `.ai/ROLE.md` · `engine.md` (Skill #13) | SSOT |
 | 6 | `.ai/.agents/AGENTS.md` (v1.2.0) §6.2 root-claim-vs-disk · §8 Truth Mode | Alt registry |
-| 7 | Template: `.ai/.templates/agents/agents-template.md` (526) §3 frontmatter · §4 domain · §6 checklist | Biçim |
+| 7 | Template: `.ai/.templates/agents/agents-template.md` (439) §3 frontmatter · §4 domain · §6 checklist | Biçim |
 
 **Yetki Zinciri:** Bu profil → `.ai/.agents/AGENTS.md` (alt registry) → root `.ai/AGENTS.md` (SSOT v22.0.0) → `.ai/ROLE.md`/`.ai/WORKFLOW.md`. Genel kanal: `C:\www\coremusic.net\CLAUDE.md`. Domain çatışması: ilk 3 madde çerçevesinde üst düzeltir.
 
@@ -518,9 +518,10 @@ Sonraki adım: [1 eylem, 2 dakika]
 |---|---|---|---|
 | 1.0.0 | 2026-08-08 | İlk backend-architect profili (root §14) | Claude |
 | 2.0.0 | 2026-09-23 | FAZ 3a §1-§11 formatına rewrite; 7 alan frontmatter; Truth Mode; composer×3/Middleware 11/PageRouter 14 disk-kanıtlı; §24.3 eski yollar VERIFICATION REQUIRED; handover 7 senaryo | Claude (FAZ 3a) |
+| 2.0.4 | 2026-10-06 | Faz 4 (2026-10-06): MAX THINKING gosterimi CLAUDE SSOT; type+fm senkronu | Claude (Faz 4) |
 
 ---
 
 **Authority:** SSOT — domain tekel: Backend Architect (Orta — mimari)  
-**Last Updated:** 2026-09-29  
+**Last Updated:** 2026-10-06  
 **Mode:** IMPLEMENTED (Truth Mode — disk doğrulanmış: 3 composer.json, Middleware 11, PageRouter 14, Database 2, tests 22, k7 14, k9 14)

@@ -3,8 +3,8 @@ title: "CoreMusic — Agent Profile Template"
 type: template
 category: template
 date: 2026-09-06
-updated: 2026-09-29
-version: 2.0.1
+updated: 2026-10-06
+version: 2.1.0
 status: active
 authority: reference
 ---
@@ -109,243 +109,156 @@ Aşağıdaki yollar glob ile doğrulanmıştır; şablon bunlar dışındaki hi�
 
 ## §3 Mimari
 
-Şablonun tam iskeleti (placeholder'lı frontmatter + H1 + künye + 11 bölüm, eksiksiz). Dört-çit ` ```markdown ` bloğu, iskeletin kendi üç-çit kod bloklarını korumak için kullanılmıştır; iskelet içindeki başlıklar gömme nedeniyle iki seviye derinleştirilmiştir (H1 → `#`, H2 → `##`).
+Şablonun tam iskeleti (placeholder'lı frontmatter + H1 + Zorunlu Bağlantılar + MAX THINKING özet bloğu + §1-§11, eksiksiz (profil gerçeğiyle birebir, 2026-10-06)). Dört-çit ` ```markdown ` bloğu, iskeletin kendi üç-çit kod bloklarını korumak için kullanılmıştır; iskelet içindeki başlıklar gömme nedeniyle iki seviye derinleştirilmiştir (H1 → `#`, H2 → `##`).
 
 ````markdown
 ---
 reference_doc: Freelancer Technical Documentation v1.0
-title: "CoreMusic — Agent Profile Template"
-type: agent-profile-template
-category: template
+title: "CoreMusic — {{AGENT_NAME}} Agent Profile"
+type: profile
+category: agent-registry
 date: {{DATE}}
 updated: {{DATE}}
-status: draft
 version: 1.0.0
-authority: Single Source of Truth (SSOT)
-governance: Red Team · Human Mode · Truth Mode
-reference:
-  authority: ".ai/CLAUDE.md"
-  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/brain.md"
+status: active
+authority: reference
 ---
 
-# CoreMusic — {{AGENT_NAME}}
+# CoreMusic — {{AGENT_NAME}} Agent Profile
 
-**Kod Adı:** {{CODE_NAME}}
-**Domain:** {{DOMAIN}}
-**Katman:** {{LAYER}}
-**Öncelik:** {{PRIORITY}}
-**Durum:** {{STATUS}}
-
-**Zorunlu Bağlantılar:** [[.agents/AGENTS.md]] · [[../../AGENTS.md]] · [[../CLAUDE.md]] · [[brain.md]]
+**Zorunlu Bağlantılar:** [[../AGENTS]] · [[../.agents/AGENTS]] · [[../ROLE]] · [[WORKFLOW]] · [[../.templates/agents/agents-template]] · [[../.decisions/index]] · [[../.decisions/CLAUDE]]
 
 ---
 
-## 1. Agent Identity (Kimlik)
+## MAX THINKING - Anti-Overthink ({{DATE}})
 
-| Field | Value |
-|-------|-------|
-| Name | {{AGENT_NAME}} |
-| Code Name | {{CODE_NAME}} |
+1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
+3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme.
+5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+
+> Tam metin (7 madde): [[../CLAUDE.md]] § MAX THINKING · ayrıntı: [[../ULTRA-THINKING.md]]
+
+---
+
+## §1 Kimlik
+
+| Alan | Değer |
+|---|---|
+| Ad | {{AGENT_NAME}} |
+| Kod | {{CODE_NAME}} |
 | Domain | {{DOMAIN}} |
-| Layer | {{LAYER}} |
-| Priority | {{PRIORITY}} |
-| Status | {{STATUS}} |
+| Katman | {{LAYER}} |
+| Öncelik | {{PRIORITY}} |
 | Profil Dosyası | `.ai/.agents/{{agent-slug}}.md` |
-| Registry Satırı | `[[../../AGENTS.md]]` §15 Agent Detayları |
+| Registry Satırı | `[[../../AGENTS.md]]` §4 Agent Overview + §15 Agent Detayları |
 | Routing Keyword'leri | {{KEYWORD_GROUP}} |
-| Anahtar Kalite Standardı | {{QUALITY_STANDARD}} |
+| Kalite Standardı | {{QUALITY_STANDARD}} |
 | Escalation Hedefi | {{ESCALATION_TARGET}} |
 | Handover Ortakları | {{HANDOVER_PARTNERS}} |
-| Health Check Interval | {{HEARTBEAT}} |
 | Son Doğrulama | {{DATE}} |
 
 ---
 
-## 2. Mission (Misyon)
+## §2 Domain & Sorumluluk
 
 Bu agent:
 
-- {{MISSION_1}}
-- {{MISSION_2}}
-- {{MISSION_3}}
+- {{SORUMLULUK_1}}
+- {{SORUMLULUK_2}} (en az 5 madde)
 
-sorumludur.
-
-| Mission Detail | Value |
-|----------------|-------|
-| Ana Sorumluluk | {{PRIMARY_RESPONSIBILITY}} |
-| İkincil Sorumluluk | {{SECONDARY_RESPONSIBILITY}} |
-| Teslimat Çıktısı | {{DELIVERABLE}} |
-| Hedef Kitle | {{AUDIENCE}} |
-| Bağımlı Agent'lar | {{DEPENDENT_AGENTS}} |
-| Destekleyen Agent'lar | {{SUPPORTING_AGENTS}} |
-| Kapsam Sınırı | {{SCOPE_BOUNDARY}} |
+| Kapsam | Detay |
+|---|---|
+| Sahip olduğu alanlar | {{DOMAIN_OWNERSHIP}} |
+| Yetki kaynağı | {{AUTHORITY_SOURCE}} |
 
 ---
 
-## 3. Responsibilities (Sorumluluklar)
+## §3 Yetki Sınırları
 
-| # | Responsibility |
-|---|----------------|
-| 1 | {{RESPONSIBILITY_1}} |
-| 2 | {{RESPONSIBILITY_2}} |
-| 3 | {{RESPONSIBILITY_3}} |
-| 4 | {{RESPONSIBILITY_4}} |
-| 5 | {{RESPONSIBILITY_5}} |
-| 6 | {{RESPONSIBILITY_6}} |
-| 7 | {{RESPONSIBILITY_7}} |
-| 8 | {{RESPONSIBILITY_8}} |
-| 9 | {{RESPONSIBILITY_9}} |
-| 10 | {{RESPONSIBILITY_10}} |
+### §3.1 Allowed (İzinli Alan)
 
----
+| # | İşlem | Koşul |
+|---|-------|-------|
+| 1 | {{ALLOWED_1}} | {{KOŞUL}} |
 
-## 4. Allowed Scope (İzinli Alan)
+### §3.2 Forbidden (Yasak Alan)
 
-Allowed:
+| # | İşlem | Sonuç |
+|---|-------|-------|
+| 1 | {{FORBIDDEN_1}} | {{SONUÇ}} |
 
-| # | Allowed Action | Sınır / Not |
-|---|----------------|-------------|
-| 1 | {{ALLOWED_1}} | {{BOUNDARY_1}} |
-| 2 | {{ALLOWED_2}} | {{BOUNDARY_2}} |
-| 3 | {{ALLOWED_3}} | {{BOUNDARY_3}} |
-| 4 | {{ALLOWED_4}} | {{BOUNDARY_4}} |
-| 5 | {{ALLOWED_5}} | {{BOUNDARY_5}} |
-| 6 | {{ALLOWED_6}} | {{BOUNDARY_6}} |
-| 7 | {{ALLOWED_7}} | {{BOUNDARY_7}} |
-| 8 | {{ALLOWED_8}} | {{BOUNDARY_8}} |
-| 9 | {{ALLOWED_9}} | {{BOUNDARY_9}} |
-| 10 | {{ALLOWED_10}} | {{BOUNDARY_10}} |
-
-**Not:** Allowed listesi, `[[../../AGENTS.md]]` §5 Domain Boundaries tablosundaki "Diğerleri Erişebilir mi?" sütunuyla uyumlu olmalıdır; Allowed, domain'in dışına taşıyorsa profil reddedilir.
+> Allowed ve Forbidden eşit ağırlıklı; her ikisi de en az 3 satır (§4 Kural 2).
 
 ---
 
-## 5. Forbidden Scope (Yasak Alan)
+## §4 Teknoloji & Stack
 
-Forbidden:
+| Katman | Teknoloji |
+|---|---|
+| {{KATMAN}} | {{TEKNOLOJI}} |
 
-| # | Forbidden Action | İhlal Sonucu |
-|---|------------------|--------------|
-| 1 | {{FORBIDDEN_1}} | {{VIOLATION_1}} |
-| 2 | {{FORBIDDEN_2}} | {{VIOLATION_2}} |
-| 3 | {{FORBIDDEN_3}} | {{VIOLATION_3}} |
-| 4 | {{FORBIDDEN_4}} | {{VIOLATION_4}} |
-| 5 | {{FORBIDDEN_5}} | {{VIOLATION_5}} |
-| 6 | {{FORBIDDEN_6}} | {{VIOLATION_6}} |
-| 7 | {{FORBIDDEN_7}} | {{VIOLATION_7}} |
-| 8 | {{FORBIDDEN_8}} | {{VIOLATION_8}} |
-| 9 | {{FORBIDDEN_9}} | {{VIOLATION_9}} |
-| 10 | {{FORBIDDEN_10}} | {{VIOLATION_10}} |
-
-**Not:** Forbidden listesi, katman ihlali (Layer Violation) ve dosya tipi gaspını kapsar; ihlal durumunda eylem her zaman **derhal revert + log ERROR**'dur.
+Alt başlıklar (§4.4, §4.5 …) dosya kanıtına göre numaralandırılır; envanter tabloları disk okumasıyla doldurulur.
 
 ---
 
-## 6. Technology Stack (Teknoloji Yığını)
+## §5 Kalite Standartlar
 
-| Area | Technology |
-|------|------------|
-| Language | {{LANGUAGE}} |
-| Framework | {{FRAMEWORK}} |
-| Database | {{DATABASE}} |
-| Tools | {{TOOLS}} |
-| Testing | {{TESTING}} |
-| CI/CD | {{CICD}} |
-| Runtime | {{RUNTIME}} |
-| Version | {{VERSION}} |
-| Security Crypto | {{CRYPTO}} |
-| Forbidden Packages | moment.js, lodash, axios, request, cheerio, puppeteer, winston, gulp |
+SOLID · Clean Architecture · Domain Boundary · ADR Decisions · SSOT Rules — her madde kaynak sütunuyla:
+
+| # | Standart | Kaynak |
+|---|----------|--------|
+| 1 | {{STANDART}} | {{KAYNAK}} |
 
 ---
 
-## 7. Architecture Rules (Mimari Kurallar)
+## §6 Keyword Routing
 
-Must follow:
-
-- SOLID
-- Clean Architecture
-- Domain Boundary
-- ADR Decisions
-- SSOT Rules
-
-| # | Rule | Kaynak |
-|---|------|--------|
-| 1 | SOLID prensipleri | [[../CLAUDE.md]] |
-| 2 | Clean Architecture katmanları | [[brain.md]] |
-| 3 | Domain Boundary korunur | [[../../AGENTS.md]] §5 |
-| 4 | ADR kararlarına uyulur | [[../decisions/index]] |
-| 5 | SSOT kuralı (çelişkide kök kazanır) | [[../../AGENTS.md]] §26.2 |
-| 6 | Zero Code Before Plan | [[WORKFLOW.md]] |
-| 7 | Template Mandatory (Guardrail #16) | [[../../.templates/index]] |
-| 8 | log.md append-only | [[../../AGENTS.md]] §25.3 |
-| 9 | Frozen ADR metni değiştirilmez | [[../../AGENTS.md]] §25.3 |
-| 10 | Doğrulanamayan bilgi `⚠️ VERIFICATION REQUIRED` | [[../CLAUDE.md]] |
-| 11 | Secret / credential REDACTED politikası | [[../CLAUDE.md]] |
-| 12 | Ultra Thinking 5-adım protokolü | [[../../AGENTS.md]] §24.1 |
+| Keyword | Eylem | Hedef |
+|---------|-------|-------|
+| {{KEYWORD}} | {{EYLEM}} | {{PROFIL/ROTA}} |
 
 ---
 
-## 8. Workflow (İş Akışı)
+## §7 Handover Senaryoları
 
-READ → PLAN → IMPLEMENT → TEST → VALIDATE → LOG
-
-| Step | Aksiyon | Çıktı | Timeout |
-|------|---------|-------|---------|
-| 1 | READ — vault + bağlam oku | Anlaşılan bağlam | 25s |
-| 2 | PLAN — adım planı çıkar | Onaylı plan | Değişken |
-| 3 | IMPLEMENT — kod/doküman üret | Ham çıktı | Değişken |
-| 4 | TEST — doğrulama çalıştır | Test sonucu | Anlık |
-| 5 | VALIDATE — kalite kapıları | 8/8 gate | Anlık |
-| 6 | LOG — log.md'ye append | Audit trail | Anlık |
-| 7 | HANDOVER — gerekirse transfer | Handover mesajı | 30s |
-| 8 | ESCALATION — L1 → L2 → L3 → İnsan | Eskalasyon kaydı | 30/60/120s |
+| Tetikleyici | Kaynak → Hedef | Veri |
+|-------------|----------------|------|
+| {{TETİKLEYİCİ}} | {{KAYNAK}} → {{HEDEF}} | {{PAYLAŞILAN_VERİ}} |
 
 ---
 
-## 9. Handover (Görev Transferi)
+## §8 Zorunlu Okuma
 
-| Alan | Değer |
-|------|-------|
-| FROM | {{FROM_AGENT}} |
-| TO | {{TO_AGENT}} |
-| TASK | {{TASK}} |
-| STATUS | {{STATUS}} |
-| FILES | {{FILES}} |
-| VALIDATION | {{VALIDATION}} |
-| Öncelik | {{PRIORITY}} |
-| Onay Durumu | {{APPROVAL_STATUS}} |
-| Timestamp | {{TIMESTAMP}} |
+| # | Dosya | Amaç |
+|---|-------|------|
+| 1 | `[[../CLAUDE.md]]` | Anayasa |
+| 2 | `[[../../AGENTS.md]]` | Routing + §13 contract |
+
+> Ek okuma alt başlıkları (ADR satırları, dizin kanıtları, kod standartları) dosyaya göre §8.2, §8.3 açılır.
 
 ---
 
-## 10. Failure Handling (Hata Yönetimi)
+## §9 Çıktı Formatı
 
-| Alan | Değer |
-|------|-------|
-| STATUS | {{FAILURE_STATUS}} |
-| REASON | {{FAILURE_REASON}} |
-| ACTION | {{FAILURE_ACTION}} |
-| Max Retry | {{MAX_RETRY}} |
-| Escalation | {{ESCALATION_LEVEL}} |
-| Log Seviyesi | {{LOG_LEVEL}} |
-| Son Deneme | {{LAST_ATTEMPT_DATE}} |
+{{ÇIKTI_FORMATI — markdown tablo/blok standardı ve örnek çıktı}}
 
 ---
 
-## 11. Version (Sürüm)
+## §10 Edge Cases
 
-| Version | Date | Change |
-|---------|------|--------|
-| 1.0.0 | {{DATE}} | Created |
-| {{VERSION}} | {{DATE}} | {{CHANGE_DESCRIPTION}} |
+| Senaryo | Davranış |
+|---------|----------|
+| {{SENARYO}} | {{DAVRANIŞ}} |
 
 ---
 
-*Agent Profile Template v1.0.0 — CoreMusic Agent Standards*
-*Authority: Bayram Ali / Vault Steward*
-*Last Updated: {{DATE}}*
-*Mode: Red Team · Human Mode · Truth Mode*
+## §11 Referanslar
+
+| Kaynak | Bağlantı |
+|--------|----------|
+| Profil şablonu | `[[../.templates/agents/agents-template]]` |
+| Alt registry | `[[../.agents/AGENTS]]` |
+| Anayasa | `[[../CLAUDE.md]]` |
 ````
 
 ---
@@ -357,8 +270,8 @@ Profil yazımı sırasında uygulanan zorunlu ve yasak kurallar. Her kural, vaul
 | # | Kural | Tür | İhlal Sonucu |
 |---|-------|-----|--------------|
 | 1 | Profil dosyası bu şablondan üretilir; dış iskelet H1 + §1-§11 silinemez | Zorunlu | Guardrail #16 ihlali → dosya reddedilir |
-| 2 | Allowed Scope (§4) ve Forbidden Scope (§5) boş bırakılamaz | Zorunlu | Bozuk profil yayımlanamaz |
-| 3 | Mimari kurallar (iskelet §7): SOLID · Clean Architecture · Domain Boundary · ADR Decisions · SSOT Rules zorunlu | Zorunlu | Mimari sapma → revert |
+| 2 | Yetki Sınırları (§3.1 Allowed + §3.2 Forbidden) boş bırakılamaz | Zorunlu | Bozuk profil yayımlanamaz |
+| 3 | Kalite Standartları (iskelet §5): SOLID · Clean Architecture · Domain Boundary · ADR Decisions · SSOT Rules zorunlu | Zorunlu | Mimari sapma → revert |
 | 4 | Frontmatter 7 zorunlu alan eksiksiz yazılır (title, type, category, date, updated, version, status, authority) | Zorunlu | Frontmatter hatası → VALIDATION hatası |
 | 5 | Profil, `[[../../AGENTS.md]]` §15 profil linkiyle ve §4 Agent Overview satırıyla eşleşir | Zorunlu | Routing uyuşmazlığı → MO müdahalesi |
 | 6 | Bu şablon dosyasının kendi authority değeri `SSOT`; profil örneğindeki `Single Source of Truth (SSOT)` iskelet değeri korunur, profil doldurulurken profilin gerçek authority değeri yazılır | Zorunlu | Authority çelişkisi |
@@ -412,11 +325,11 @@ Kurallar eşzamanlı uygulanmaz; ihlal tespit edildiğinde aşağıdaki öncelik
 |------|-------|-------|-------|
 | 1 | ŞABLONU SEÇ | `.ai/.templates/agents/agents-template.md` (Guardrail #16) | Şablon kopyası |
 | 2 | KOPYALA | `.ai/.agents/<agent-adı>.md` hedefine kopyala (dosya adı değişmez, onayla) | Yeni profil iskeleti |
-| 3 | DOLDUR | Identity / Mission / Responsibilities / Allowed / Forbidden / Technology Stack / Architecture Rules alanları; Workflow ve Handover profil sahibine göre; Version tablosuna revizyon satırı | Dolu profil |
-| 4 | DOĞRULA | §6 kontrol listesi + `[[../../AGENTS.md]]` §4/§15 eşleşmesi | 8/8 gate |
+| 3 | DOLDUR | §1 Kimlik; §2 Domain & Sorumluluk; §3.1 Allowed + §3.2 Forbidden; §4 Teknoloji & Stack; §5 Kalite Standartları; §6-§11 operasyonel alanlar; Workflow ve Handover profil sahibine göre; Version tablosuna revizyon satırı | Dolu profil |
+| 4 | DOĞRULA | §6 kontrol listesi + `[[../../AGENTS.md]]` §4/§15 eşleşmesi | engine §12.6 8/8 gate |
 | 5 | COMMIT | Registry (`[[.templates/index]]`) + kök referans + log güncellemesiyle birlikte commit | Vault senkronu |
 
-**Adım 3 detayı — doldurma sırası:** (a) §1 Identity alanlarının tamamı, (b) §2 Mission maddeleri ve mission detail tablosu, (c) §3 Responsibilities en az 5 satır, (d) §4 Allowed + §5 Forbidden eşit ağırlıklı, (e) §6 Technology Stack, (f) §7 Architecture Rules kaynak sütunu, (g) §8-§10 operasyonel alanlar, (h) §11 Version ilk satır (`1.0.0 | {{DATE}} | Created`).
+**Adım 3 detayı - doldurma sırası:** (a) §1 Kimlik alanlarının tamamı, (b) §2 en az 5 sorumluluk maddesi, (c) §3.1 Allowed + §3.2 Forbidden eşit ağırlıklı (en az 3'er satır), (d) §4 Teknoloji & Stack envanter kanıtlarıyla, (e) §5 Kalite Standartları kaynak sütunu, (f) §6-§7 routing + handover, (g) §8-§10 operasyonel alanlar, (h) §11 Referanslar + Version ilk satır (`1.0.0 | {{DATE}} | Created`).
 
 ### §5.1 Workflow Adım Bağımlılıkları
 
@@ -424,7 +337,7 @@ Kurallar eşzamanlı uygulanmaz; ihlal tespit edildiğinde aşağıdaki öncelik
 |------|----------------|--------------------------|------------------|
 | 1 ŞABLONU SEÇ | Guardrail #16 | — | Eski/yanlış şablon seçimi |
 | 2 KOPYALA | Adım 1 | Dosya adı onayı alınmadan yeniden adlandırma | In-Place Refactoring ihlali |
-| 3 DOLDUR | Adım 2 | §4-§5 (Allowed/Forbidden) boşken devam | Boş yetki alanı |
+| 3 DOLDUR | Adım 2 | §3.1-§3.2 (Allowed/Forbidden) boşken devam | Boş yetki alanı |
 | 4 DOĞRULA | Adım 3 | §6 14/14 ✅ olmadan | Eksik placeholder kontrolü |
 | 5 COMMIT | Adım 4 | Registry + log güncellenmeden | Kayıt düşüklüğü (SRP) |
 
@@ -451,8 +364,8 @@ Profil commit edilmeden önce aşağıdaki kalite kapıları sırayla kontrol ed
 | 1 | Frontmatter 7 zorunlu alan var mı? | title, type, category, date, updated, version, status, authority | ✅/❌ |
 | 2 | H1 + §1-§11 iskeleti eksiksiz mi? | 11 bölüm silinmemiş | ✅/❌ |
 | 3 | Tüm `{{PLACEHOLDER}}`'lar dolduruldu mu? | Name / Code Name / Domain / Layer / Priority dolu | ✅/❌ |
-| 4 | §4 Allowed + §5 Forbidden dolduruldu mu? | Her ikisi de en az 3 satır | ✅/❌ |
-| 5 | §7 Architecture Rules 5 madde yerinde mi? | SOLID, Clean Architecture, Domain Boundary, ADR, SSOT | ✅/❌ |
+| 4 | §3.1 Allowed + §3.2 Forbidden dolduruldu mu? | Her ikisi de en az 3 satır | ✅/❌ |
+| 5 | §5 Kalite Standartları 5 madde yerinde mi? | SOLID, Clean Architecture, Domain Boundary, ADR, SSOT | ✅/❌ |
 | 6 | Wiki-link'ler hedefe ulaşıyor mu? | `[[relative/path]]` formatı, kırık link yok | ✅/❌ |
 | 7 | `[[../../AGENTS.md]]` §4/§15 ile eşleşme var mı? | Agent satırı + profil linki tutarlı | ✅/❌ |
 | 8 | Türkçe doğruluk + mojibake yok mu? | ç ğ ı İ ö ş ü doğru; Ã- kalıntısı yok | ✅/❌ |
@@ -500,7 +413,7 @@ Aşağıdaki durumlarda profil commit edilmez, işlem durur ve kullanıcıya/üs
 
 ---
 
-**REFACTOR REPORT:** FILE: agents-template.md · PURPOSE: Agent Profile Template · VALIDATION: 7 alan + §1-§11 + bilgi korunumu (11 bölüm iskeleti, 17 doğrulama, 4-frontmatter örneği) · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
+**REFACTOR REPORT:** FILE: agents-template.md · PURPOSE: Agent Profile Template · VALIDATION: 7 alan + §1-§11 + bilgi korunumu (11 bölüm iskeleti, 14 doğrulama, 4-frontmatter örneği) · RELATED: [[.templates/index]] · [[../CLAUDE.md]]
 
 ---
 
@@ -523,4 +436,4 @@ Bu şablonun dayandığı vault kaynakları. Envanter listesi burada tekrarlanma
 ---
 
 **Template Version:** 2.0.0
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-06

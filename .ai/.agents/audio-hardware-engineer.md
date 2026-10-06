@@ -1,10 +1,10 @@
 ---
 title: Audio Hardware Engineer — Donanım & Analog Tasarım Agent Profili
-type: agent-profile
+type: profile
 category: agents
 date: 2026-08-08
-updated: 2026-10-01
-version: 2.1.3
+updated: 2026-10-06
+version: 2.1.4
 status: active
 authority: reference
 ---
@@ -18,7 +18,7 @@ authority: reference
 ## MAX THINKING — Anti-Overthink (2026-10-01)
 
 1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse. 3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme. 5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-> Tam metin (7 madde): [[master-orchestrator]] · [[../ULTRA-THINKING.md]]
+> Tam metin (7 madde): [[../CLAUDE.md]] § MAX THINKING · ayrıntı: [[../ULTRA-THINKING.md]]
 
 ## §1 Kimlik
 
@@ -531,9 +531,10 @@ En pahalı edge, gözlemlenemeyendir: kaynağı bilinmeyen bozulma, yanlış kat
 | 2.0.0 | 2026-09-23 | Vault Refactor Engine: 10-bölüm formatı, authority alt-profile indirgendi |
 | 2.1.0 | 2026-09-23 | Faz 3b: 11-bölüm § formatı, Truth Mode, 500+ satır |
 | 2.1.1 | 2026-09-24 | Wiki-link dönüşümü + frontmatter senkronu (2.0.1 → 2.1.1) |
+| 2.1.4 | 2026-10-06 | Faz 4 (2026-10-06): MAX THINKING gosterimi CLAUDE SSOT; type+fm senkronu |
 
 ---
 
 **Authority:** Agent Profile — SSOT: `.ai/AGENTS.md`
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-06
 **Mode:** STANDARD (implementation-ready)

@@ -3,8 +3,8 @@ title: "CoreMusic — Master Orchestrator Agent Profile"
 type: profile
 category: agent-registry
 date: 2026-08-08
-updated: 2026-10-01
-version: 2.0.3
+updated: 2026-10-06
+version: 2.0.4
 status: active
 authority: reference
 ---
@@ -17,13 +17,8 @@ authority: reference
 
 ## MAX THINKING — Anti-Overthink (2026-10-01)
 
-1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
-2. Uzun analiz paragrafı, promptu geri anlatma, plan kompozisyonu YASAK. Nokta atışı cevap → hemen uygula.
-3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER. Aynı veriyi "emin olmak" için ikinci kez analiz etme.
-4. Session başlangıcı = anında boot (okuma listesi) → sonra işlem. Keşif önsözü yok.
-5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-6. Bilinmeyen = UNKNOWN; tahmin yok. Gereksiz dosya/klasör/skill/agent/context/plan üretimi yasak.
-7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
+1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse. 3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme. 5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
+> Tam metin (7 madde): [[../CLAUDE.md]] § MAX THINKING · ayrıntı: [[../ULTRA-THINKING.md]]
 
 ## §1 Kimlik
 
@@ -510,9 +505,10 @@ Timestamp: 2026-09-23T21:20:00Z
 | 2.0.0 | 2026-09-23 | Vault Refactor Engine: 10-bölüm formatı, authority alt-profile indirgendi |
 | 2.0.0 (FAZ 3a) | 2026-09-23 | §1-§11 domain serisine tam yeniden yazım; §4 stack'e glob kanıtlı IMPLEMENTED/PLANNED/VERIFICATION REQUIRED etiketleri; kök §24.3/§25.2 çelişkileri §4/§10'da işaretlendi; bilgi korunumu: kimlik, 8 rol, yetki/yasak, lock, sync 5+6, health, handover, escalation |
 | 2.0.1 | 2026-09-24 | Skill sayım düzeltmesi: §4/§8 Skills 6+9→8 aktif (agent-debate, context-report eklendi; `_archive/` kaldırıldı → 20 dosya `_archive-keep/`); kök "10 skill" VERIFICATION bayrağı kaldırıldı |
+| 2.0.4 | 2026-10-06 | Faz 4 (2026-10-06): MAX THINKING gosterimi CLAUDE SSOT; type+fm senkronu |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-06
 **Mode:** Red Team · Human Mode · Truth Mode

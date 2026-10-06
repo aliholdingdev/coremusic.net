@@ -3,8 +3,8 @@ title: "CoreMusic — Security Engineer Agent Profile"
 type: profile
 category: agent-registry
 date: 2026-08-08
-updated: 2026-10-01
-version: 2.0.2
+updated: 2026-10-06
+version: 2.0.3
 status: active
 authority: reference
 ---
@@ -18,7 +18,7 @@ authority: reference
 ## MAX THINKING — Anti-Overthink (2026-10-01)
 
 1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse. 3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme. 5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-> Tam metin (7 madde): [[master-orchestrator]] · [[../ULTRA-THINKING.md]]
+> Tam metin (7 madde): [[../CLAUDE.md]] § MAX THINKING · ayrıntı: [[../ULTRA-THINKING.md]]
 
 ## §1 Kimlik
 
@@ -488,7 +488,7 @@ Sonraki adım: [1 eylem, 2 dakika]
 | 5 | Kanıt: CsrfMiddleware · ThemeManager · OAuthManager · Password.php L38 | path:line |
 | 6 | `.ai/AGENTS.md` §6/§22/§24.3/§25.2 · `.ai/ROLE.md` · `engine.md` | SSOT |
 | 7 | `.ai/.agents/AGENTS.md` (v1.2.0) §6.2 · §8 | Alt registry |
-| 8 | Template: `.ai/.templates/agents/agents-template.md` (526) | Biçim |
+| 8 | Template: `.ai/.templates/agents/agents-template.md` (439) | Biçim |
 
 **Yetki Zinciri:** Bu profil → `.ai/.agents/AGENTS.md` → root `.ai/AGENTS.md` → `.ai/ROLE.md`. Kanal: `C:\www\coremusic.net\CLAUDE.md`. Güvenlik domaini: ilk 3 madde + veto (root §4).
 
@@ -502,9 +502,10 @@ Sonraki adım: [1 eylem, 2 dakika]
 |---|---|---|---|
 | 1.0.0 | 2026-08-08 | İlk profil | Claude |
 | 2.0.0 | 2026-09-23 | FAZ 3a §1-§11 rewrite; 7 alan; Truth Mode; kanıtlar: hash_equals + aes-256-gcm + Argon2id L38; Middleware 11/k6 16 disk-kanıtlı; ADR tam metin dosyası/JWT yok → ⚠️ | Claude (FAZ 3a) |
+| 2.0.3 | 2026-10-06 | Faz 4 (2026-10-06): MAX THINKING gosterimi CLAUDE SSOT; type+fm senkronu | Claude (Faz 4) |
 
 ---
 
 **Authority:** SSOT — domain tekel: Security Engineer (Orta — Güvenlik + veto)  
-**Last Updated:** 2026-09-29  
+**Last Updated:** 2026-10-06  
 **Mode:** IMPLEMENTED (Truth Mode — disk doğrulanmış: CsrfMiddleware/ThemeManager hash_equals, OAuth aes-256-gcm, Password Argon2id L38, Middleware 11, k6-guvenlik 16, ADR 010-050 index satırları; JWT/ADR dosyaları/pentest araçları = ⚠️)

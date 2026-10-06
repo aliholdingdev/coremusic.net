@@ -3,10 +3,10 @@ title: "CoreMusic — Agent Alt-Registry (Profil İndeksi)"
 type: agent-registry
 category: agent-registry
 date: 2026-09-23
-updated: 2026-10-01
-version: 1.2.6
+updated: 2026-10-06
+version: 1.2.7
 status: active
-authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.4)"
+authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.8)"
 ---
 
 # CoreMusic — Agent Alt-Registry (Profil İndeksi)
@@ -15,14 +15,14 @@ authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.4)"
 
 ---
 
-> **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.0.4). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
+> **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.0.8). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
 
 ---
 
 ## MAX THINKING — Anti-Overthink (2026-10-01)
 
 1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse. 3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme. 5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-> Tam metin (7 madde): [[master-orchestrator]] · [[../ULTRA-THINKING.md]]
+> Tam metin (7 madde): [[../CLAUDE.md]] § MAX THINKING · ayrıntı: [[../ULTRA-THINKING.md]]
 
 ## §1 Amaç & Kapsam
 
@@ -43,8 +43,8 @@ Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hang
 | Seviye | Dosya | Rol |
 |--------|-------|-----|
 | 0 (SSOT) | [[../CLAUDE.md]] | AI anayasası, 16 Hard Guardrail |
-| 1 (SSOT) | [[../AGENTS.md]] (v22.0.4) | Agent registry — routing/handover/escalation/öncelik tekelinde |
-| 2 (Alt Registry) | Bu dosya (v1.2.2) | Profil indeksi + yazım kuralları + boot bağlantısı |
+| 1 (SSOT) | [[../AGENTS.md]] (v22.0.8) | Agent registry — routing/handover/escalation/öncelik tekelinde |
+| 2 (Alt Registry) | Bu dosya (v1.2.7) | Profil indeksi + yazım kuralları + boot bağlantısı |
 | 3 (Profil) | `.ai/.agents/<agent>.md` | Tekil ajanın yetki belgesi (§1-§11 domain serisi) |
 
 ---
@@ -172,7 +172,7 @@ Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hang
 | Kural | Değer |
 |-------|-------|
 | Guardrail #16 | Yeni `.md`/kod dosyası şablonsuz **oluşturulamaz** |
-| Profil şablonu | `.ai/.templates/agents/agents-template.md` (527 satır, v2.0.0) — profil iskeleti buradan gelir |
+| Profil şablonu | `.ai/.templates/agents/agents-template.md` (439 satır, v2.1.0) — profil iskeleti buradan gelir |
 | Planlanan şablonlar (diskte YOK) | `hardware/arduino-template.md`, `hardware/avr-template.md`, `hardware/pic-template.md` — uydurulmaz, `hardware/hardware-template.md` kullanılır |
 | Kısa şablon istisnası | `session-log-template.md` (144 satır) — 500+ kuralı kapsamı dışı |
 
@@ -202,7 +202,7 @@ authority: SSOT
 | `category` | ✅ | `agent-registry` (FAZ 3a standardı) |
 | `date` | ✅ | Orijinal türetme tarihi (2026-08-08) |
 | `updated` | ✅ | Son revizyon tarihi |
-| `version` | ✅ | Profiller `2.0.0`; bu dosya `1.2.2` |
+| `version` | ✅ | Profiller `2.x` (2026-10-06 senkronu); bu dosya `1.2.7` |
 | `status` | ✅ | `active` |
 | `authority` | ✅ | Profilde `SSOT` (domain tekel); hiyerarşi §1.1 — çelişkide kök kazanır |
 
@@ -443,7 +443,7 @@ authority: SSOT
 
 | # | Risk | Etki | Aksiyon |
 |---|------|------|---------|
-| 1 | Kök §26.2 "v1.1.0" — bu dosya v1.2.1 | Okuma kafa karışıklığı | Üst görevde kök güncellenir (bu görevde kök yasak) |
+| 1 | Kök §26.2 "v1.1.0" — bu dosya v1.2.7 | Okuma kafa karışıklığı | ✅ 2026-10-06 kapatıldı: kök §2.1 + §26.2 senkronlandı (v1.2.7 / (v22.0.8)) |
 | 2 | 5 FAZ 3b dosyası FAZ 3a sırasında dışarıdan değişmiş görünüyordu | "7 M" hedefi 12 M görünür | ✅ GİDERİLDİ — sahiplik doğrulandı (Faz 3b oturumu); revert yok |
 | 3 | Kök §24.3 eski yollar (l1/l2/l3, 03-accessibility, NevaEngine) | Kör takip → kırık okuma | §6.2 + profil §8'ler işaretli |
 | 4 | `.ai/log.md` bu görevde append edilmedi (yasak, FAZ 3a dönemi) | Audit trail bu görev için eksik | ✅ GİDERİLDİ — FAZ 3 kaydı eklendi (bu birleştirme) |
@@ -501,6 +501,9 @@ authority: SSOT
 | 1.2.2 | 2026-09-24 | Kök authority senkronu v22.0.1 |
 | 1.2.3 | 2026-09-24 | Skill sayım düzeltmesi (§6.3 + §8 #3: 8 aktif, _archive-keep/ 20 dosya; "10 skill" bayrağı giderildi); kök authority senkronu v22.0.3 |
 | 1.2.4 | 2026-09-27 | §8 #12 düzeltmesi: `.github/workflows/` = 0 → 2 dosya (`ci.yml`, `secret-scan.yml`; disk ölçümü 2026-09-27) — workflow dosyaları mevcut, çalışma durumu doğrulanmadı; kök authority senkronu v22.0.4 |
+| 1.2.5 | 2026-09-29 | fm bump (git `363982e`) — §9 changelog satırı hiç yazılmadı, içerik [UNKNOWN] |
+| 1.2.6 | 2026-10-01 | fm bump (git `5a74b2a`) — §9 changelog satırı hiç yazılmadı, içerik [UNKNOWN] |
+| 1.2.7 | 2026-10-06 | Faz 4 (2026-10-06): authority v22.0.8 senkronu (3 nokta), fm+footer, §1.1 v1.2.7; profil type=profile standardizasyonu |
 
 ---
 
@@ -515,7 +518,7 @@ authority: SSOT
 | Motor indeksi | [[../engine.md]] | §9.2 domain↔teknoloji matrisi, §12.6 faz kontrolü |
 | Rol tanımı | [[../ROLE.md]] | §11 IMPLEMENTED/PLANNED stack map |
 | Template Registry | [[../.templates/index]] | Şablon envanteri + §5.1 eşleştirme (SRP) |
-| Profil şablonu | [[../.templates/agents/agents-template]] | Guardrail #16 iskeleti (527 satır) |
+| Profil şablonu | [[../.templates/agents/agents-template]] | Guardrail #16 iskeleti (439 satır) |
 | Karar indeksi | [[../.decisions/index]] | ADR-010/011/012/013/019/022/083/084/085 satırları |
 | Session workflow | [[../../.workflows/session-init]] · [[../../.workflows/vault-sync]] | Seans başlatma/kapatma akışı |
 | UTF-8 yazım aracı | `.ai/scripts/vault-utf8-writer.mjs` | Vault yazmalarının tek betiği (append/insert/write/verify/repair/scan) |
@@ -523,7 +526,7 @@ authority: SSOT
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-06
 **Mode:** Red Team · Human Mode · Truth Mode
 
 ---

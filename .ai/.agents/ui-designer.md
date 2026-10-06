@@ -3,8 +3,8 @@ title: "CoreMusic — UI Designer Agent Profile"
 type: profile
 category: agent-registry
 date: 2026-08-08
-updated: 2026-10-01
-version: 2.0.2
+updated: 2026-10-06
+version: 2.0.3
 status: active
 authority: reference
 ---
@@ -18,7 +18,7 @@ authority: reference
 ## MAX THINKING — Anti-Overthink (2026-10-01)
 
 1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse. 3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme. 5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-> Tam metin (7 madde): [[master-orchestrator]] · [[../ULTRA-THINKING.md]]
+> Tam metin (7 madde): [[../CLAUDE.md]] § MAX THINKING · ayrıntı: [[../ULTRA-THINKING.md]]
 
 ## §1 Kimlik
 
@@ -490,7 +490,7 @@ Sonraki adım: [1 eylem, 2 dakika]
 | 5 | `.ai/ui-design/` (00-05 + tokens + screens + reference + prompt) | Tasarım SSOT |
 | 6 | `.ai/AGENTS.md` §6/§19/§20/§24.3 · `.ai/ROLE.md` · `engine.md` (ui-workbench) | SSOT |
 | 7 | `.ai/.agents/AGENTS.md` (v1.2.0) §6.2 · §8 | Alt registry |
-| 8 | Template: `.ai/.templates/agents/agents-template.md` (526) | Biçim |
+| 8 | Template: `.ai/.templates/agents/agents-template.md` (439) | Biçim |
 
 **Yetki Zinciri:** Bu profil → `.ai/.agents/AGENTS.md` → root `.ai/AGENTS.md` → `.ai/ROLE.md`. Kanal: `C:\www\coremusic.net\CLAUDE.md`. Tasarım domaini: ilk 3 madde.
 
@@ -504,11 +504,12 @@ Sonraki adım: [1 eylem, 2 dakika]
 |---|---|---|---|
 | 1.0.0 | 2026-08-08 | İlk profil | Claude |
 | 2.0.0 | 2026-09-23 | FAZ 3a §1-§11 rewrite; 7 alan; Truth Mode; mockup adları 01/02/04 DÜZELTİLDİ; 8 katman/65 css/65 js disk-kanıtlı; 09_* katman PLANNED | Claude (FAZ 3a) |
+| 2.0.3 | 2026-10-06 | Faz 4 (2026-10-06): MAX THINKING gosterimi CLAUDE SSOT; type+fm senkronu | Claude (Faz 4) |
 
 ---
 
 **Authority:** SSOT — domain tekel: UI Designer (Orta — Uygulama Design System)  
-**Last Updated:** 2026-09-29  
+**Last Updated:** 2026-10-06  
 **Mode:** IMPLEMENTED (Truth Mode — disk doğrulanmış: 8 ITCSS katman, 65 CSS, 65 JS, ui-design 00-05 + tokens + prompt; 09_*/manifest/vitest = ⚠️ PLANNED)
 
 ---

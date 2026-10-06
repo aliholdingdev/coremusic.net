@@ -3,8 +3,8 @@ title: "CoreMusic — Embedded Engineer Agent Profile"
 type: profile
 category: agent-registry
 date: 2026-08-08
-updated: 2026-10-01
-version: 2.0.2
+updated: 2026-10-06
+version: 2.0.3
 status: active
 authority: reference
 ---
@@ -18,7 +18,7 @@ authority: reference
 ## MAX THINKING — Anti-Overthink (2026-10-01)
 
 1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse. 3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme. 5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-> Tam metin (7 madde): [[master-orchestrator]] · [[../ULTRA-THINKING.md]]
+> Tam metin (7 madde): [[../CLAUDE.md]] § MAX THINKING · ayrıntı: [[../ULTRA-THINKING.md]]
 
 ## §1 Kimlik
 
@@ -489,7 +489,7 @@ Sonraki adım: [1 eylem, 2 dakika]
 | 4 | `.ai/architecture/firmware/` (8) · `k3-ses-motoru/` (18) · `k1-donanim/` (23) · `k2-surucu/` · `k15-medya-streaming/` | Şartname |
 | 5 | `.ai/AGENTS.md` §6/§24.3/§25 · `.ai/ROLE.md` · `engine.md` | SSOT |
 | 6 | `.ai/.agents/AGENTS.md` (v1.2.0) §6.2 · §8 | Alt registry |
-| 7 | Template: `.ai/.templates/agents/agents-template.md` (526) | Biçim |
+| 7 | Template: `.ai/.templates/agents/agents-template.md` (439) | Biçim |
 
 **Yetki Zinciri:** Bu profil → `.ai/.agents/AGENTS.md` → root `.ai/AGENTS.md` → `.ai/ROLE.md`. Kanal: `C:\www\coremusic.net\CLAUDE.md`. Embedded domaini: ilk 3 madde.
 
@@ -503,9 +503,10 @@ Sonraki adım: [1 eylem, 2 dakika]
 |---|---|---|---|
 | 1.0.0 | 2026-08-08 | İlk profil | Claude |
 | 2.0.0 | 2026-09-23 | FAZ 3a §1-§11 rewrite; 7 alan; Truth Mode; cpp/h=0 → kod iddiaları ⚠️ PLANNED; şartname (firmware 8, k3 18, k1 23) disk-kanıtlı; eski `projects/NevaEngine`/`CMakeLists` yolları düzeltilerek §8.2'ye taşındı | Claude (FAZ 3a) |
+| 2.0.3 | 2026-10-06 | Faz 4 (2026-10-06): MAX THINKING gosterimi CLAUDE SSOT; type+fm senkronu | Claude (Faz 4) |
 
 ---
 
 **Authority:** SSOT — domain tekel: Embedded Engineer (Orta — Neva Engine/firmware şartname)  
-**Last Updated:** 2026-09-29  
+**Last Updated:** 2026-10-06  
 **Mode:** MIXED (şartname IMPLEMENTED: firmware 8, k1 23, k3 18, k2/k15/k19/k17/k18 · kod ⚠️ PLANNED: cpp/h=0, NevaEngine/electronic/CMakeLists yok · ADR-019 kayıt IMPLEMENTED, tam metin ⚠️)
