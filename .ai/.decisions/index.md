@@ -3,15 +3,15 @@ type: index
 category: decisions
 title: "CoreMusic — Decisions Index"
 date: 2026-08-15
-updated: 2026-09-29
+updated: 2026-10-06
 status: active
-version: 1.1.3
+version: 1.1.4
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total-accepted: 72
+total-accepted: 73
 total-rejected: 12
 total-frozen: 37
-total-active: 35
+total-active: 36
 total-draft: 0
 ---
 
@@ -26,10 +26,10 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Durum | Sayı | Açıklama |
 |-------|------|----------|
 | **Frozen** | 36 | Değiştirilemez (ADR-001 → ADR-036; ADR-037 debate ✅, frozen YOK) |
-| **Active** | 35 | Güncellenebilir (ADR-038 → ADR-092) |
+| **Active** | 36 | Güncellenebilir (ADR-038 → ADR-093) |
 | **Rejected** | 12 | Reddedilen kararlar |
 | **Draft** | 0 | Taslak yok (ADR-089 kabule terfi etti, 2026-09-24) |
-| **Toplam** | 84 | — |
+| **Toplam** | 85 | — |
 
 ## 3. Frozen ADR'ler (001-037)
 
@@ -73,7 +73,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[ADR-036-multi-project-prompt-maker]] | Multi-Project Prompt Maker | AI |
 | [[ADR-037-wirelessconnect-integration]] | WirelessConnect Integration | Audio |
 
-## 4. Active ADR'ler (038-092)
+## 4. Active ADR'ler (038-093)
 
 | ADR | Başlık | Kategori |
 |-----|--------|----------|
@@ -112,6 +112,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[accepted/ADR-090-channel-variant-product-family]] | Kanal Varyant Ürün Ailesi (mono → 8+1 SKU) | Electronics |
 | [[ADR-091-template-engine-no-eval]] | TemplateEngine eval() Kaldırımı (Guardrail #21) | Security |
 | [[accepted/ADR-092-media-dizin-ekseni-ve-ulid]] | Medya Arşivi Dizin Ekseni ve ULID Kimliği | Infrastructure |
+| [[accepted/ADR-093-view-modes-single-load-path]] | 09_ViewModes v-*.css için tek yükleme yolu: <link id="cm-view-css"> kanoniktir, cihaz @import zinciri deferred | Frontend |
 
 ## 4A. Draft ADR'ler
 
