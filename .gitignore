@@ -68,3 +68,9 @@ coverage/
 .ai/.env.figma
 .ai/.env.*
 !.env.example
+
+# ---- Local archives / working copies (untracked, 2026-10-06) ----
+/.ai.OLD/
+/.work/
+/.ai.zip
+/coremusic.net.zip
