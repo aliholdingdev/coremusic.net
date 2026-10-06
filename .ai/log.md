@@ -111,6 +111,7 @@ Katalog: [[index]] · Kaynak tablosu: [[özet]] · Son ingest: [[test-kaynak]]
 - **index.md:** Kaynaklar +1 · Vault Dokümanları +1
 - **Not:** klasör notlarındaki `.png-analysis/` komşu bağı diskte yok → `⚠ VERIFICATION REQUIRED` (wiki sayfasına yazıldı)
 - Etkilenen sayfa: 1 oluşturuldu / 2 güncellendi
+
 ## [2026-10-06 19:45] lint | LINT-3 — .decisions/index.md sayaçları + kök AGENTS.md ölü referanslar + .personas linkleri düzeltildi (onaylı)
 
 - **GÖREV 1** `.ai/.decisions/index.md` (6 blok edit): frontmatter `version 1.1.4→1.1.5` · `total-accepted 73→72` · `total-rejected 12→7` · `total-frozen 37→36` (active 36, draft 0 sabit). §2 tablosu Rejected `12→7`, Toplam `85→79` + LINT-3 çelişki notu eklendi. §3 başlık `(001-037)→(001-036)`, ADR-037 satırı §3'ten silindi. §4 başlık `(038-093)→(037-093 — diskte dosyası olanlar)`; 7 satır eklendi (037, 047, 052, 056, 058, 059, 082 — slug'lar `Get-ChildItem accepted/` ile doğrulandı); 21 adet `[[../brain.md]]`/`[[../CLAUDE.md]]` linki diskteki gerçek dosyaya `[[accepted/<EXACT-STEM>]]` olarak çevrildi; dosyası olmayan 7 satır (083, 084, 085, 086, 087, 088, 091) linkten arındırıldı + satır sonu `<!-- NO FILE on disk 2026-10-06 — brain.md only -->`. §5: R-001…R-007 `dead-link` yorumları silindi (7 dosya rejected/ altında MEVCUT); R-008…R-012 linkleri silindi + `<!-- NO FILE on disk 2026-10-06 -->` (bu 5 satır sayıma girmez). §6 Kategori Haritası disk kanıtıyla yeniden yazıldı (Frozen 36 · Active 36 · TOPLAM 72) + kapsam notu. Footer `v1.1.3→v1.1.5`.
@@ -861,3 +862,67 @@ Katalog: [[index]] · Kaynak tablosu: [[özet]] · Son ingest: [[test-kaynak]]
 ?? .work/
 ?? coremusic.net.zip
 2026-10-06 | kök-md + wiki hizalama (A1,B1-B5,C1-C4) | vault-updater | 10 düzeltme
+## [2026-10-06 20:17] ingest | architecture (19) + prompt arşivi (20) işlendi — tema bazlı
+- **Kapsam kararı (onaylı):** tema bazlı ingest; `architecture.old` (271 dosya) kullanıcı kararıyla **kapsam dışı** — raw kopyası ve 4 arch-old sources/wiki silindi, yeni architecture sayfalarına old referansı yazılmadı
+- **raw/:** `raw/architecture/` 19 dosya (robocopy, `.ai.OLD/architecture`) + `raw/prompt-arsivi/` 20 dosya (G: sürücüsü, Coremusic/ 6 + kök 14)
+- **sources/ +7:** `arch-katman`, `arch-k0-isletim-sistemi`, `prompt-api`, `prompt-auth`, `prompt-ui`, `prompt-vault-plan`, `prompt-genel`
+- **wiki/ +7:** aynı slagonlar (`type: dokuman`) — 39 raw dosya 7 temaya gruplandı; dosya-bazlı 39 sayfa yerine 7 tema sayfası (onaylı granularity)
+- **sources/özet.md:** +39 satır → **kaynak sayısı 97**, son güncelleme 19:59 (271 architecture-old satırı ekleme sonrası çıkarıldı)
+- **index.md:** Kaynaklar +7 · Vault Dokümanları +7
+- **⚠ VERIFICATION REQUIRED:** auth promptları 3 ikiz aday (içerik karşılaştırılmadı) · katmanlı-mimari iki farklı boyutlu kopya · figma promptları ikiz olabilir · b.md/c.md başlıksız
+- Etkilenen sayfa: 7 oluşturuldu / 2 güncellendi (index, özet)
+
+## [2026-10-06 20:25] lint | LINT-4 - 16 kontrol: 2 sorun bulundu, 2 duzeltildi (onayli) + 1 yeni bulgu
+- Denetlenen: wiki/ 70 - sources/ 44 - raw/ 88 MD - kok 3 = 205 dosya
+- **MADDE 10+15 duzeltildi (onayli):** paralel oturumun LINT-3 kaydi (19:45) 20:17 kaydinin SONUNA eklenmisti - LINT-3 bloku kronolojik yerine tasinid (19:36 ile 20:17 arasi); artik 15 kayit kronolojik, son giris 20:17
+- Sonuc tekrar: 14 PASS / 0 FAIL (madde 10/15 dahil) / madde 16 INFO
+- **YENI BULGU (onay bekliyor):** paralel oturum 
+aw/ecosystem/ (8 MD) + 
+aw/servers/ (3 MD) eklemis - 11 dosya raw'da ama sources/ozet.md'de kayitli degil (madde 7 FAIL 11) - ingest edilmeli ya da silinmeli
+- Not: madde 16'da 8 bolum / Kişiler hala 1 (bayram-ali) - yeni kaynak gerekir
+- Etkilenen sayfa: 0 olusturuldu / 1 guncellendi (log.md)
+## [2026-10-06 20:28] ingest | raw/ecosystem (8) + raw/servers (3) islendi - tema bazli
+- **Tespit:** LINT-4 madde 7 - paralel oturum raw/'a 11 dosya eklemisti, ozet kaydi yoktu
+- **sources/ +2:** ecosystem, servers (11 raw dosya 2 temaya gruplandi)
+- **wiki/ +2:** ecosystem (8 dosya tablosu), servers (3 dosya tablosu), ikisi de 	ype: dokuman
+- **sources/ozet.md:** +11 satir -> **kaynak sayisi 108**, son guncelleme 20:28
+- **index.md:** Kaynaklar +2 - Vault Dokumanlari +2
+- Etkilenen sayfa: 2 olusturuldu / 2 guncellendi (index, ozet)
+
+## [2026-10-06 20:30] update | servers cift ingest uzlastirmasi + ecosystem link duzeltmesi
+- **Cift ingest tespit:** paralel oturum raw/servers/ icin kendi sources/servers-deployment.md + wiki/servers-deployment.md olusturmus; benim ayni tur ekledigim sources/servers.md + wiki/servers.md ile carisiyor - ikisi de SILINMEDI, c cross-link ile baglandi (onaysiz silme yasak)
+- **wiki/servers-deployment.md:** kisitli duzeltme - olmayan [[ecosystem-genel]] linki var olan [[ecosystem]] + [[servers]] yapti
+- **wiki/servers.md:** [[servers-deployment]] c cross-link eklendi
+- **wiki/ecosystem.md:** benim hatam - silinmis arch-old-* sayfalarina 2 link vardi; [[arch-k0-isletim-sistemi]] + [[vault-brain]] ile degistirildi
+- **index.md:** Vault Dokumanlari +1 (servers-deployment)
+- Etkilenen sayfa: 0 olusturuldu / 5 guncellendi (servers-deployment, servers, ecosystem, index, ozet)
+
+## [2026-10-06 20:33] update | ecosystem- alt sayfalari tamamlandi (paralel index plani)
+- **Tespit:** paralel oturum index.md'ye 4 satir eklemis (ecosystem-genel/mimarileri/audio-dsp/donanim) ama wiki sayfalarini yazmamis - LINT madde 6 hayalet 4 link
+- **wiki/ +4:** ayni 4 sayfa olusturuldu (onlarin index planina uyum, silme yok) - raw/ecosystem 8 dosya 4 temaya ayrildi; hepsi sources: [ecosystem] baglantili
+- Etkilenen sayfa: 4 olusturuldu / 0 guncellendi
+
+## [2026-10-06 20:37] ingest | raw/servers (3) + raw/ecosystem (8) derin okuma katmani - cift katman onayli
+- **Kullanici istegi:** `.ai.OLD/servers` + `.ai.OLD/ecosystem` -> `.ai`. Kopya `robocopy` ile 11/11 **MD5 birebir** (raw/ degistirilmedi).
+- **Kaynagi okuma:** servers 3 dosya 467 satir **bastan sona** (ben) + ecosystem 8 dosya 3.193 satir **bastan sona** (vault-updater subagent, ses_eedbf27bcffeeG7sV6GWOQRt3w).
+- **sources/ +5:** `servers-deployment`, `ecosystem-genel`, `ecosystem-mimarileri`, `ecosystem-audio-dsp`, `ecosystem-donanim`.
+- **wiki/ +5:** ayni sluglar (`type: dokuman`), hepsi `## Ilgili Sayfalar` ile `[[ecosystem]]` / `[[servers]]` ozet sayfalarina bagli. **Karar (kullanici, 20:33): CIFT KATMAN** - paralel oturumun `[[ecosystem]]` + `[[servers]]` sayfalari korundu, silme yok.
+- **index.md:** Kaynaklar +5 (satir 64-68) · Vault Dokumanlari +5 (satir 160-164).
+- **sources/ozet.md:** 11 satir paralel oturum tarafindan ekilmisti (97 -> **108**); bu geciste satir eklenmedi. **Satir -> tema eslemesi:** `asio-wasapi-rehber` + `ses-dsp-acik-kaynak` -> ecosystem-audio-dsp · `ekosistem-mimarileri` + `muzik-streaming-sunuculari` -> ecosystem-mimarileri · `README` + `index` + `service-integration` -> ecosystem-genel · `donanim-devre-referanslari` -> ecosystem-donanim · 3 servers -> servers-deployment.
+- **Dogrulama (20:36):** 14 dosya frontmatter `title/type/created/updated/sources/tags` **6/6 OK** · wiki link taramasi **662 link / yeni kirik 0** (18 cozulmeyen: 17'si onceden vardi - vault-todo [[CLAUDE.md]] kalibi, file-based-memory [[link]], ozet [[log]] - + 1 kanonik `[[.decisions/accepted/ADR-089-classab-24v]]`, `.templates/adr/adr-index.md:316` sablonu).
+- **Cekirdek bulgular:** (1) katalog drift `README.md:33` Download **IMPLEMENTED** vs ADR-039 **PLANNED** -> ⚠ VERIFICATION REQUIRED · (2) JUCE yildiz **8.811** (index.md) vs **8.011** (ses-dsp/asio) raw ici celiski ⚠ · (3) donanim dosyasi kendi DÜZELTME bloguyla celisiyor (boost/DAC K katmanlari) ⚠ · (4) "11 subdomain" sayisi cikarimdir - README'de 10 panel + akis semasinda api.coremusic.net var, 11 satirlik tablo raw'da YOK.
+- **Etkilenen sayfa:** 10 olusturuldu (5 sources + 5 wiki) / 3 guncellendi (index.md, wiki/servers-deployment.md, sources/ozet.md - son ikisi paralel oturumla es zamanli)
+
+## [2026-10-06 23:02] update | agent registry koz+alt+profil senkronu (6 yeni ajan, v22.0.9 / v1.3.1)
+- **Kullanic onayiyla** koz `.ai/raw/AGENTS.md` v22.0.8 -> **v22.0.9**: S1 17 ajan, S4 +6 satir (#12-#17), S6 +5 keyword grubu, S15 +6 profil satiri + eklenenti notu, S23 (Agent Count 17 - Routing 14)
+- **Alt registry** `.ai/.agents/AGENTS.md` v1.3.0 -> **v1.3.1**: authority (v22.0.9) 3 nokta, S3.3 "kork S15 bekliyor" kapandi (17 satir birebir), S3.1 6 satir isaret -> islendi, S9 changelog
+- **6 yeni profil**: S1 + S6 registry bekleyis isareti -> islendi (v22.0.9, 2026-10-06); kalan registry bekleyis **0**
+- **.ai/.templates/index.md S5.1** +6 Agent->Template satiri, version 4.9.0 -> **4.9.1** (4 satir VERIFICATION REQUIRED: prompt/analiz dedicated template diskte yok - atama onay bekliyor; Electronics -> hardware/hardware-template.md)
+- **Dogrulama:** S15 profil satiri **17/17** - profil bekleyis **0** - kalan `22.0.8` yalniz tarihsel S2.1/S26.2 kaydi - **commit YOK (onay bekliyor)**
+
+## [2026-10-06 23:26] create | wiki/subdomains.md � subdomain baglami (ELI10 + Truth)
+- **Kaynak:** kullanici metni `.ai/.subdomains` v2.0.1 (diskte yoktu) -> `.ai/wiki/subdomains.md` olarak yazildi (5 soru ile onayli: kayit yeri, gercek liste, planli odalar, derinlik, log+index)
+- **Dogrulama (Truth Mode):** klasorler api/assets/auth/home/media + shared VAR (5/5); shared/src/PageRouter+Middleware+Database+Session+Security+OAuth VAR (6/6); music/download/car/studio/pro klasoru YOK -> "Planlandi"; vhost/DNS config dosyasi depoda YOK -> uyarili (`?`)
+- **Yeni oda listesi:** media "Planlandi" -> "Var" tasindi; pro/coremusic eklendi (kullanici: yeni fikirler append-only eklenir)
+- **Guncelleme:** `.ai/index.md` Projeler +1 (`[[subdomains]]`); log.md bu giris
+- Etkilenen sayfa: 1 olusturuldu / 1 guncellendi (index)
