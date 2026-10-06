@@ -161,7 +161,7 @@ Bu doküman `assets.coremusic.net/Css/` klasörünün **ne işe yaradığını**
 
 **`05_Pages/_home.css`**
 - **Ne için:** Home sayfası çatısı — parçalarını tek yerden import eder.
-- **Neyden oluşur:** 3 `@import` (`_home-layout` **KIRIK**, `../04_Components/_home-components` ✓, `_home-inline` **KIRIK**) + `.home-layout__*` kuralları.
+- **Neyden oluşur:** 3 `@import` (`_home-layout` ✓, `../04_Components/_home-components` ✓, `_home-inline` ✓ — 2026-10-06 doğrulaması: üçü de diskte, kırık değil) + `.home-layout__*` kuralları.
 - **Neden var:** Home parçalarının tek çatıda toplanması; bileşenler ayrı dosyada (Guardrail #8).
 - **Ne zaman düzenlenir:** Home parçaları eklenince/taşınınca — **import yolu güncellenir** (2026-10-03: `./_home-components.css` → `../04_Components/...`).
 
@@ -278,16 +278,16 @@ Bu doküman `assets.coremusic.net/Css/` klasörünün **ne işe yaradığını**
 | 4 | 08_Devices | **@import YOK** | `d-auth-*` ayrı `<link id="cm-device-css">` ile `DeviceCssMap` üzerinden dinamik basılır (çift yüklenir) |
 | 5 | kök | dosya içi düzeltme kuralları (checkbox + `body.auth-page`) | `07_Vendors` **içermez** |
 
-**Diğer import sahipleri:** `05_Pages/_home.css` 3 import taşır → `./_home-layout.css` (**KIRIK — diskte YOK**), `../04_Components/_home-components.css` (**2026-10-03 taşınma ile GÜNCELLENDİ**), `./_home-inline.css` (**KIRIK — diskte YOK**).
+**Diğer import sahipleri:** `05_Pages/_home.css` 3 import taşır → `./_home-layout.css` (**diskte VAR — kırık değil, 2026-10-06 doğrulaması**), `../04_Components/_home-components.css` (**2026-10-03 taşınma ile GÜNCELLENDİ**), `./_home-inline.css` (**diskte VAR — kırık değil, 2026-10-06 doğrulaması**).
 
 ### 3.4 Kırık Import Listesi (disk kanıtı — düzeltilmedi, kapsam dışı ⚠️ VERIFICATION REQUIRED)
 
 | Kırık hedef | Referans eden | Durum |
 |-------------|---------------|-------|
-| `./_home-layout.css`, `./_home-inline.css` | `05_Pages/_home.css` | diskte YOK (yedek: `Css copy 2/05_Pages/_home-layout.css`) |
+| `./_home-layout.css`, `./_home-inline.css` | `05_Pages/_home.css` | diskte VAR — `05_Pages/_home-layout.css` + `05_Pages/_home-inline.css` (2026-10-06 doğrulaması; import göreli yolü doğru, kırık değil; yedek: `Css copy 2/05_Pages/_home-layout.css`) |
 | `../04_Components/_widget-grid.css` | d-desktop · d-laptop · d-4k | dosya `03_Layout/_widget-grid.css`'te VAR — **yanlış katman referansı** |
-| `../04_Components/c-buttons · c-card · c-forms · c-modal · c-badge · c-toggle · c-toast · c-progress · c-scrollbar-accent` (9 dosya) | d-desktop · d-laptop · d-4k | diskte YOK — "beklenen, diskte YOK" |
-| `../05_Pages/_player · p-albums · p-album-detail · p-artists · p-playlist · p-settings` (6 dosya) | d-desktop · d-laptop · d-4k | diskte YOK — "beklenen, diskte YOK" |
+| `../04_Components/c-buttons · c-card · c-forms · c-modal · c-badge · c-toggle · c-toast · c-progress · c-scrollbar-accent` (9 dosya) | d-desktop · d-laptop · d-4k | diskte VAR — "9 dosyanın tamamı `04_Components/` altında (2026-10-06 doğrulaması)" |
+| `../05_Pages/_player · p-albums · p-album-detail · p-artists · p-playlist · p-settings` (6 dosya) | d-desktop · d-laptop · d-4k | diskte VAR — "6 dosyanın tamamı `05_Pages/` altında (2026-10-06 doğrulaması)" |
 
 > Bu kırıklar `08_Devices/` (salt okunur) ve "taşma/yeni iskelet dışında dosya içi değişiklik YOK" kuralı gereği **düzeltilmedi** — yalnız raporlandı. Etki: eksik dosyalar sessizce atlanır (CSS spec: kırık `@import` yüklenmez).
 
@@ -399,7 +399,7 @@ Adım detayı: [[WORKFLOW]] §5.
 | 1 | Frontmatter | 7 zorunlu alan + `docType` |
 | 2 | Bölüm | §1–§7, ≤3 başlık seviyesi |
 | 3 | Envanter | Her katman sayısı disk ölçümü ile eşit (19/3/4/15/12/1/33/15/4/1/1 + kök 1 — **2026-10-06 ölçümü**) |
-| 4 | Çelişki | §3.6 eksiksiz; "beklenen, diskte YOK" işaretli |
+| 4 | Çelişki | §3.6 eksiksiz; §3.4 iddiaları disk kanıtı ile hizalı (2026-10-06) |
 | 5 | Kırık import | §3.4 listesi güncel |
 | 6 | main.css | İddia edilmedi (YOK olarak yazıldı) |
 | 7 | Wiki-link | `[[...]]` formatı, hedefler var |
