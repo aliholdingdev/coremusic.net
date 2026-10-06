@@ -2,10 +2,10 @@
 title: "CoreMusic — Vault Workflows & Engineering Processes"
 type: guide
 category: workflow
-version: 22.1.4
+version: 22.1.5
 status: active
 authority: SSOT
-updated: 2026-10-01
+updated: 2026-10-06
 ---
 
 # CoreMusic — Vault Workflows & Engineering Processes
@@ -768,7 +768,7 @@ START
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 22.1.3 |
+| Version | 22.1.5 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 |
 | ADR References | 7 |
@@ -889,5 +889,5 @@ START
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-06
 **Mode:** Red Team · Human Mode · Truth Mode

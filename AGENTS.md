@@ -100,6 +100,43 @@ kod değişikliği · yeni dosya · yeni klasör · yeni bağımlılık · büy�
 Her aşama bir öncekinin çıktısını doğrular; VERIFY başarısızsa ORCHESTRATOR
 görevi ilgili role geri döndürür.
 
+### §6.1 Persona Hiyerarşisi — Expert 5 / Senior 5 / Junior 10 (toplam 20)
+
+Tartışma/inceleme turları (WORKFLOW §6: 3 tur / 20 persona) bu 20 persona ile
+yürütülür. **Hiyerarşi: Expert > Senior > Junior.** Karar (evidence-öncelikli):
+kanıt gücü > seviye; eşit kanıtta Expert > Senior > Junior; **oy çokluğu yoktur.**
+
+| Seviye | # | Persona (agent) | Sorumluluk |
+|---|---|---|---|
+| **Expert (5)** | 1 | `architect` | Sistem tasarımı, katman sınırı, ADR |
+| | 2 | `security-engineer` | OWASP, auth, CSRF/CSP/XSS, denetim |
+| | 3 | `data-engineer` | Şema, BCNF, migration, MySQL/PDO |
+| | 4 | `embedded-engineer` | DSP/ASIO/WASAPI, firmware, Class AB donanım |
+| | 5 | `qa-engineer` | Test stratejisi, coverage, kabul kriteri |
+| **Senior (5)** | 6 | `backend-architect` | PHP/API/middleware/controller |
+| | 7 | `ui-designer` | ITCSS/BEM/token, ekran, WCAG |
+| | 8 | `devops-engineer` | CI/CD, Docker, deploy, altyapı |
+| | 9 | `performance-engineer` | Profil, latency, bellek, Core Web Vitals |
+| | 10 | `code-reviewer` | SOLID, code smell, bakım |
+| **Junior (10)** | 11 | `explore` | Dosya/sembol keşfi |
+| | 12 | `docs-writer` | README, API dokümanı |
+| | 13 | `test-writer` | Test senaryosu taslağı |
+| | 14 | `refactorer` | Okunabilirlik, davranış-koruyucu düzeltme |
+| | 15 | `research-analyst` | Kaynak toplama, çapraz doğrulama |
+| | 16 | `debugger` | Log/stack-trace kök-neden analizi |
+| | 17 | `business-analyst` | Gereksinim, user story |
+| | 18 | `technical-writer` | Kılavuz, tutorial |
+| | 19 | `dependency-manager` | Paket/sürüm/licence denetimi |
+| | 20 | `error-coordinator` | Hata yayılımı, eskalasyon |
+
+**Tur kuralı (WORKFLOW §6):** Tur 1 = her persona kendi önerisini yazar (kaynaklı);
+Tur 2 = çapraz eleştiri (en az 1 karşı öneri); Tur 3 = uzlaşma + ADR. Uzlaşma yoksa
+`🔴 VERIFICATION REQUIRED` + üst karar. Her öneri **gerekçe + dosya/satır kanıtı**
+taşır; kaynaksız öneri sayılmaz.
+
+**Dispatch kuralı:** tek seviyeli karar bağlayıcı olamaz; mimari/katman/sayım
+kararlarında en az 1 Expert + 1 Senior + 1 Junior görüşü zorunludur.
+
 ## 7. Execution Loop (her görevde)
 
 1. Kök `AGENTS.md` (bu dosya) okunur.
@@ -142,7 +179,8 @@ kullanılır (free modellerde de çalışır).
 
 **Kural:** bu dosyalar yalnız görevin gerektirdiği anda okunur; boot'ta toplu
 okuma, "tüm vault'u oku", "önce tüm .ai/ oku" talimatları geçersizdir.
-Çelişkide `.ai/` kazanır (SSOT).
+Çelişkide `.ai/` kazanır (SSOT). Vault-içi dosya otorite sırası:
+`.ai/CLAUDE.md` §2.1 (CLAUDE > AGENTS > WORKFLOW > brain > index > templates).
 
 ---
 

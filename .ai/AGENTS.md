@@ -2,10 +2,10 @@
 title: "CoreMusic — Agent Registry & Coordination Protocol"
 type: guide
 category: agent-registry
-version: 22.0.7
+version: 22.0.8
 status: active
 authority: SSOT
-updated: 2026-10-01
+updated: 2026-10-06
 ---
 
 # CoreMusic — Agent Registry & Coordination Protocol
@@ -18,13 +18,7 @@ updated: 2026-10-01
 
 ## MAX THINKING — Anti-Overthink (2026-10-01)
 
-1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
-2. Uzun analiz paragrafı, promptu geri anlatma, plan kompozisyonu YASAK. Nokta atışı cevap → hemen uygula.
-3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER. Aynı veriyi "emin olmak" için ikinci kez analiz etme.
-4. Session başlangıcı = anında boot (okuma listesi) → sonra işlem. Keşif önsözü yok.
-5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-6. Bilinmeyen = UNKNOWN; tahmin yok. Gereksiz dosya/klasör/skill/agent/context/plan üretimi yasak.
-7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
+> **SSOT (One Definition → Multiple References):** 7 maddelik tam metin [[CLAUDE.md]] § MAX THINKING'dedir; bu dosyada tekrar edilmez (Vault Refactor Engine 2026-10-06). Kök metin: kök `AGENTS.md` §5 · ayrıntı: [[ULTRA-THINKING.md]] § MAX THINKING. Çelişkide CLAUDE.md'deki bütçe kazanır.
 
 ## Kısayol Akış Diyagramı & Yaşam Döngüsü (2026-10-01)
 
@@ -69,7 +63,7 @@ CoreMusic ekosistemindeki 11 yapay zeka ajanının (Master Orchestrator + 10 uzm
 
 ### §2.1 Registry Authority
 
-Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil indeksi** olarak hizmet eder — v1.0.0 iken kendi SSOT iddiasını taşırken Faz 4'te (2026-09-23) demote edilmiştir (kayıt: v1.1.0; güncel: **v1.2.5**), `authority: Alt Registry — SSOT: .ai/AGENTS.md (v22.0.6)` (detay §26.2; alt registry'nin `v22.0.5` sabitlemesi Faz 8'de senkronlanacak). Çelişkide kök dosya kazanır.
+Bu dosya agent registry'nin tek SSOT'udur; `.ai/.agents/AGENTS.md` **profil indeksi** olarak hizmet eder — v1.0.0 iken kendi SSOT iddiasını taşırken Faz 4'te (2026-09-23) demote edilmiştir (kayıt: v1.1.0; güncel: **v1.2.7**), `authority: Alt Registry — SSOT: .ai/AGENTS.md (v22.0.8)` (detay §26.2; alt registry'nin `v22.0.8` senkronu tamamlandı (2026-10-06)). Çelişkide kök dosya kazanır.
 
 ---
 
@@ -609,7 +603,7 @@ Her dosya için kontrol et:
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 22.0.6 |
+| Version | 22.0.8 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 |
 | Agent Count | 11 (1 MO + 10 specialist) |
@@ -706,7 +700,7 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 | Kaynak | Eski Durum | Yeni Durum |
 |--------|-----------|------------|
 | `.ai/AGENTS.md` (kök) | v21.0.0, SSOT iddiası | **v22.0.6 — tek SSOT** |
-| `.ai/.agents/AGENTS.md` (alt) | v1.0.0, kendini SSOT ilan ediyordu | v1.2.5 — **alt registry** (`authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.5)"`) ⚠️ Faz 8: alt registry'deki bu sürüm sabitlemesi kökün v22.0.6 sürümüne senkronlanacak (bu dosya kapsamı dışında) |
+| `.ai/.agents/AGENTS.md` (alt) | v1.0.0, kendini SSOT ilan ediyordu | v1.2.7 — **alt registry** (`authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.8)"`) ⚠️ Faz 8 maddesi kapandı (2026-10-06): alt registry v1.2.7 · authority (v22.0.8) senkronu tamamlandı |
 
 Çözüm kuralı: SSOT hiyerarşisinde çelişkide kök dosya kazanır. Alt registry yalnızca profil/özet detayını taşır; routing, handover, escalation, öncelik kurallarının tamamı bu dosyadadır.
 
@@ -794,5 +788,5 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-06
 **Mode:** Red Team · Human Mode · Truth Mode

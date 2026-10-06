@@ -4,9 +4,9 @@ title: "CoreMusic — Vault Keyword Map & Concept Router"
 type: system
 category: vault-navigation
 date: 2026-08-12
-updated: 2026-09-29
+updated: 2026-10-06
 status: active
-version: 28.3.4
+version: 28.3.5
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -630,7 +630,7 @@ Istenen Bilgi -> Ilk Kontrol:
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 28.3.2 |
+| Version | 28.3.5 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | ADR Coverage | 001-089 (80 karar: 37 Frozen + 31 Active + 12 Rejected) |
 | Vault Envanteri | 587 .md dosyasi (ölçüm 2026-09-24 21:37), 80 ADR, 18 BCNF DB, hedef 10 panel / 7 servis (fiziksel: 4 domain + assets), shared/ hybrid yapı — önceki sahip doğrulaması 518 .md (2026-09-23) → disk ölçümüyle düzeltildi |
@@ -725,5 +725,5 @@ Istenen Bilgi -> Ilk Kontrol:
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-06
 **Mode:** Red Team · Human Mode · Truth Mode

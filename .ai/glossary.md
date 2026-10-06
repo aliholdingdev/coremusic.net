@@ -4,9 +4,9 @@ type: system
 category: reference
 title: "CoreMusic — Glossary"
 date: 2026-08-19
-updated: 2026-09-29
+updated: 2026-10-06
 status: active
-version: 2.2.1
+version: 2.2.2
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -47,7 +47,7 @@ Bu sürüm (v2.0.0) Faz 1 vault revizyonu ile genişletilmiştir:
 
 ## Scope
 
-### §2 Sözlük (Kanonik 32 Terim)
+### §2 Sözlük (Kanonik 32 Terim — ölçüm 2026-10-06: §2 32 · §2.1 11 · §3 51 → toplam 94; CLAUDE §29 ile hizalı)
 
 | Terim | Tanım |
 |-------|-------|
@@ -607,7 +607,7 @@ C: index.md katalog (dosya → amaç), keys.md yönlendirme (keyword → dosya),
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 2.2.0 |
+| Version | 2.2.2 |
 | Term Count | 32 kanonik (§2) + 51 teknoloji terimi (§3) = 83 (ölçüm 2026-09-24) |
 | Derin açıklama | 25 blok (§4.1.1-§4.1.25) |
 | Kanıtlı kullanım haritası | 63 satır (§4-§5) + 11 alan sözlüğü (§5.1) (ölçüm 2026-09-24) |
@@ -709,5 +709,5 @@ Sürüm sorumlusu: Vault Steward; her terim eklemesi Faz kontrol listesinin (eng
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-06
 **Mode:** Red Team · Human Mode · Truth Mode

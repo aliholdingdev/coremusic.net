@@ -4,9 +4,9 @@ title: "CoreMusic — Engineering Brain (Enterprise SSOT)"
 type: brain
 category: architecture-decisions
 date: 2026-08-08
-updated: 2026-09-29
+updated: 2026-10-06
 status: active
-version: 26.1.3
+version: 26.1.4
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -206,6 +206,8 @@ SPA **asla** PDO, MySQL, Repository, Entity, Infrastructure, Filesystem, FFmpeg,
 ### §5 K0-K20 21-Katmanlı Sistem Mimarisi (1000+ Bileşen)
 
 *Detaylı metadata için bakınız: [[architecture/index]] §2*
+
+*SSOT (2026-10-06):* Ana K0-K20 tanımı (21 katman · bileşen sayıları · katman ilişkileri) [[CLAUDE.md]] §5'tedir; aşağıdaki tablo GitHub/Teknoloji Ref katmanıdır (K0-K15, 16 satır). K16-K20 ve Elektronik/H1 alt bölümleri bu dosyaya özgüdür.
 
 Tüm CoreMusic altyapısı açık kaynak (GitHub) destekli 16 ana katmandan oluşur.
 
@@ -898,7 +900,7 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 26.1.1 |
+| Version | 26.1.4 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 (H1 + 7 English H2 skeleton) |
 | ADR Coverage | 001–089 (80 karar: 37 Frozen + 31 Active + 12 Rejected) (89 numaradan 80 dolu; 9 numara boşluk — DOĞRULAMA GEREKLİ) |
@@ -1094,7 +1096,7 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-06
 **Mode:** Red Team · Human Mode · Truth Mode
 
 ---

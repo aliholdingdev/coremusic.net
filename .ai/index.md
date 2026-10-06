@@ -4,8 +4,8 @@ type: system
 category: vault-navigation
 status: active
 authority: SSOT
-version: 28.4.2
-updated: 2026-09-29
+version: 28.4.3
+updated: 2026-10-06
 total_files: 720
 total_adr: 80
 total_adr_disk: 60
@@ -820,5 +820,5 @@ Toplam 80 ADR (Frozen: 37, Active: 31, Rejected: 12). Frozen: 001-037 (değişti
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-06
 **Mode:** Red Team · Human Mode · Truth Mode

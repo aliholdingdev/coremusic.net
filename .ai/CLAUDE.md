@@ -2,10 +2,10 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.3.7
+version: 27.3.9
 status: active
 authority: SSOT
-updated: 2026-10-01
+updated: 2026-10-06
 ---
 
 # CoreMusic — AI Constitution & Master Vault Mandate
@@ -750,7 +750,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 27.3.6 |
+| Version | 27.3.9 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 34 |
 | Hard Guardrails | 16 |
@@ -763,7 +763,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | Audio Divisions | 5 |
 | ADR Coverage | 46 fiziksel ADR dosyası (001-043, 081, 089, 090 — `.ai/.decisions/accepted/`, ölçüm 2026-09-27) + brain.md metin kararları; ADR-090 mevcut → sonraki yeni numara **091**; 044-080 ve 082-088 arası kararlar yalnız brain.md metnindedir (081 hariç — faz 5 karar appendix'i) · *(eski kayıt: 001-089 — 80 karar: 37 Frozen + 31 Active + 12 Rejected; 89 numaradan 80 dolu, 9 numara boşluk — DOĞRULAMA GEREKLİ)* |
 | Cross References | 11 |
-| Glossary Terms | 75 (SSOT: [[glossary]]) |
+| Glossary Terms | 94 (ölçüm 2026-10-06: §2 32 kanonik + §2.1 11 ekosistem + §3 51 teknoloji; SSOT: [[glossary]]) |
 | Forbidden Patterns | 14 |
 | Edge Cases | 9 |
 | Skills | 10 |
@@ -834,7 +834,7 @@ Bu dosyada Faz 1 revizyonunda yapılan düzeltmeler:
 6. Bilinmeyen = UNKNOWN; tahmin yok. Gereksiz dosya/klasör/skill/agent/context/plan üretimi yasak.
 7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
 
-*(Çelişkide bu bütçe kazanır — ayrıntı: [[ULTRA-THINKING.md]] § MAX THINKING · kök metin: [[AGENTS.md]] § MAX THINKING)*
+*(Çelişkide bu bütçe kazanır — ayrıntı: [[ULTRA-THINKING.md]] § MAX THINKING · kök metin: kök `AGENTS.md` §5 · **bu blok .ai/ içi TEK tanımdır**; [[AGENTS.md]] MAX THINKING bloğu buraya referans verir — Vault Refactor Engine 2026-10-06)*
 
 ## Master Engineering System (Pointer — 2026-10-01)
 
@@ -987,5 +987,5 @@ Agent listesi ve profil tablosu (11 agent): [[AGENTS.md]] §4 (Agent Overview) v
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-06
 **Mode:** Red Team · Human Mode · Truth Mode

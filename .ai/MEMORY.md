@@ -4,9 +4,9 @@ title: "CoreMusic — Memory System Index"
 type: system
 category: memory-management
 date: 2026-08-13
-updated: 2026-09-29
+updated: 2026-10-06
 status: active
-version: 25.1.2
+version: 25.1.3
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -397,11 +397,11 @@ Backend (home.coremusic.net):
 
 | Ozellik | Deger |
 |---------|-------|
-| Session Date | 2026-09-28 |
-| Active Task | Faz 2 persona yeniden yazımı TAMAMLANDI: .ai/.personas/ 68/68 dosya (6 grup), 35.026 satır, %100 >=500; 4 dosya rename + 13 self-ref fix; Download kanonu 39; index sayaçları hizalandı |
-| Domain | Personas / Vault Consistency |
-| Last Action | wiki-link kanonu normalizasyonu (.personas 79 dosya, 4.096 link -> gercek yol, kirik 0) + registry total_lines ReadAllLines hizasi + MEMORY 3'lü tarih hizasi |
-| Changed Files | .ai/.personas/** (79 dosya wiki-link) + .ai/.templates/index.md + .ai/MEMORY.md + .ai/log.md (append) |
+| Session Date | 2026-10-06 |
+| Active Task | Agents Refactor Engine (6 faz SSOT yeniden yazım) — Faz 1 TAMAM (authority uzlaştırma + MAX THINKING dedup + version hizası: CLAUDE 27.3.8 / AGENTS 22.0.8 / WORKFLOW 22.1.5) · Faz 2 TAMAM (brain 26.1.4, MEMORY 25.1.3, session state yenileme) |
+| Domain | Vault SSOT Refactor (Agents Refactor Engine v1.0.0) |
+| Last Action | Faz 2: brain.md + MEMORY.md version/footer hizası + §20 session state + log.md append; Faz 1 kanıtı: 4 dosya (CLAUDE, AGENTS, WORKFLOW, kök AGENTS §9 +1 satır) |
+| Changed Files | .ai/CLAUDE.md + .ai/AGENTS.md + .ai/WORKFLOW.md + .ai/brain.md + .ai/MEMORY.md + .ai/log.md (append) + AGENTS.md (kök, §9 +1 satır) |
 | Known Issue | session-save.mjs · vault-post-update.mjs · vault-cmd.mjs · project-state.md YOK → post-op sync manuel (VERIFICATION REQUIRED); log.md'de onceden mevcut mojibake 6 / CJK 12; S5=55 / S6=46 uygulanabilirlik sayilari eski vault kaynakli ⚠️ VERIFICATION REQUIRED; PowerShell 5.1 -match Turkce culture'da 'I' harfinde yanlis sonuc verir → sayimlarda CultureInvariant regex kullanildi |
 
 ---
@@ -452,11 +452,11 @@ Backend (home.coremusic.net):
 
 | Metrik | Deger |
 |--------|-------|
-| Version | 25.1.2 |
+| Version | 25.1.3 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 7 H2 + 24 § |
 | SSOT Authority | Memory System Index |
-| Last Updated | 2026-09-28 |
+| Last Updated | 2026-10-06 |
 | ADR Coverage | ADR-001 through ADR-089 (37 Frozen + 31 Active + 12 Rejected) |
 | Security Boundary | REDACTED policy |
 | Session History | 24 oturum |
@@ -690,7 +690,7 @@ Bu revizyonda her düzeltme üç kaynakla desteklendi: (1) Test-Path dosya varl�
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-06
 **Mode:** Red Team · Human Mode · Truth Mode
 
 <!-- vault-sync:auto-begin -->
