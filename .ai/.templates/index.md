@@ -2,7 +2,7 @@
 title: "CoreMusic — Template Registry Index"
 type: template-index
 category: template
-version: 4.9.0
+version: 4.9.1
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
 updated: 2026-10-06
@@ -149,6 +149,12 @@ Yeni dosya oluştururken:
 | Audio Hardware Engineer | `hardware/hardware-template.md`, `adr/adr-audio-template.md` |
 | DSP Firmware Engineer | `other/c-template.md`, `hardware/hardware-template.md` |
 | Windows Software Engineer | `other/c-template.md` |
+| Enterprise Prompt Architect | `documentation/docs-md-template.md` — çok bölümlü Markdown prompt çıktısı (atama 2026-10-06; `ui-design/prompt-template` Kalıp C yalnız frontend kod promptu üretirse devrede) |
+| Prompt Normalization Architect | `documentation/docs-md-template.md` — 23 bölümlük normalize prompt çıktısı (atama 2026-10-06) |
+| Visual Render Studio | `documentation/docs-md-template.md` — image/negative prompt çıktısı (atama 2026-10-06) |
+| Image Analysis Engineer | `documentation/docs-md-template.md` — kanıt tabanlı analiz raporu (atama 2026-10-06) |
+| UI/UX Analyzer | `documentation/docs-md-template.md` — ASCII layout + FACT/INFERENCE raporu (atama 2026-10-06) |
+| Electronics Engineer | `hardware/hardware-template.md`, `adr/adr-audio-template.md` (BOM/tedarik bölümü ⚠️ VERIFICATION REQUIRED — dedicated template yok) |
 | Tüm ajanlar (tartışma protokolü) | `agents/agent-tartisma-turu-template.md` (3 tur/20 persona — `agent-debate` becerisi) |
 
 ✅ **2026-09-23 üretim tamamlandı — 26/26 mevcut** (2026-09-24: +2 → 28/28, +4 → **32/32**; yeni atıflar §7.1.6 documentation ve §7.1.12 ui-design satırlarında). Tablodaki `adr-index`, `adr-frontend`, `adr-database`, `adr-security`, `adr-audio`, `c-template` atıfları disktedir; `arduino`/`avr`/`pic` atıfları **2026-09-29'da üretilip** `hardware/arduino-template`, `hardware/avr-template`, `hardware/pic-template` olarak disktedir (§7.1.7).

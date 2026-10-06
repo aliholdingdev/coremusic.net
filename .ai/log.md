@@ -926,3 +926,9 @@ aw/servers/ (3 MD) eklemis - 11 dosya raw'da ama sources/ozet.md'de kayitli degi
 - **Yeni oda listesi:** media "Planlandi" -> "Var" tasindi; pro/coremusic eklendi (kullanici: yeni fikirler append-only eklenir)
 - **Guncelleme:** `.ai/index.md` Projeler +1 (`[[subdomains]]`); log.md bu giris
 - Etkilenen sayfa: 1 olusturuldu / 1 guncellendi (index)
+
+## [2026-10-06 23:30] update | templates S5.1 - 5 agent atamasi kapatildi (4.9.1 kapsam genisletme)
+- **Karar (kullanici):** once template atamasi. S5.1'deki 5 bekleyis satiri -> **docs-md-template.md** atandi (diskteki 55 sablon icinden kanitli esleme): Enterprise Prompt Architect, Prompt Normalization Architect, Visual Render Studio, Image Analysis Engineer, UI-UX Analyzer
+- **Kalan atama:** Electronics Engineer -> hardware/hardware-template.md + adr-audio (onceden atali); S5.1'de **bekleyis 0**, VERIFICATION REQUIRED kalmadi
+- **Not:** yeni sablon uretilmedi (gorev ici yeni dosya yasagi); Kalip C ui-design/prompt-template yalniz frontend kod promptu icin gecerli notu satirlara yazildi
+- **DUZELTME:** log satirindaki 'VERIFICATION REQUIRED kalmadi' ifadesi gecerli degil - Electronics Engineer satirinin BOM/tedarik kisminda dedicated template yok notu **korunuyor** (hardware-template ana atamasi gecerli); asil kapanan 5 agent atama bekleyisidir

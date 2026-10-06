@@ -4,9 +4,9 @@ type: agent-registry
 category: agent-registry
 date: 2026-09-23
 updated: 2026-10-06
-version: 1.2.7
+version: 1.3.1
 status: active
-authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.8)"
+authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.9)"
 ---
 
 # CoreMusic — Agent Alt-Registry (Profil İndeksi)
@@ -15,7 +15,7 @@ authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.8)"
 
 ---
 
-> **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.0.8). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
+> **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.0.9). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
 
 ---
 
@@ -26,11 +26,11 @@ authority: "Alt Registry — SSOT: .ai/AGENTS.md (v22.0.8)"
 
 ## §1 Amaç & Kapsam
 
-Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hangi profilin ne olduğu, hangi şablondan üretildiği, nasıl yazıldığı, boot ile nasıl bağlandığı ve ne zaman/how güncellendiği burada tanımlanır. Profil dosyalarının kendisi (yetki belgeleri) ayrı dosyalardadır; bu registry onların **dizinidir, kopyası değildir**.
+Bu dosya, `.ai/.agents/` klasöründeki **18 agent profilinin** indeksi: hangi profilin ne olduğu, hangi şablondan üretildiği, nasıl yazıldığı, boot ile nasıl bağlandığı ve ne zaman/how güncellendiği burada tanımlanır. Profil dosyalarının kendisi (yetki belgeleri) ayrı dosyalardadır; bu registry onların **dizinidir, kopyası değildir**.
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
-| `.ai/.agents/*.md` profil envanteri (11 satır + bu dosya) | Agent routing / handover / escalation kuralları → kök [[../AGENTS.md]] §6, §9, §10 |
+| `.ai/.agents/*.md` profil envanteri (18 satır + bu dosya) | Agent routing / handover / escalation kuralları → kök [[../AGENTS.md]] §6, §9, §10 |
 | Agent→Template eşleştirmesi (kaynak: [[../.templates/index]] §5.1) | Şablon envanteri ve şablon içerikleri → [[../.templates/index]] (SRP) |
 | Profil yazım kuralları (dizgi, frontmatter, dil) | Domain boundary tablosu ve katman kuralları → kök [[../AGENTS.md]] §5 |
 | Boot bağlantısı (kök §24.2/§24.3 özet + disk doğrulaması) | Teknik uygulama detayları, kod dosyaları |
@@ -43,8 +43,8 @@ Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hang
 | Seviye | Dosya | Rol |
 |--------|-------|-----|
 | 0 (SSOT) | [[../CLAUDE.md]] | AI anayasası, 16 Hard Guardrail |
-| 1 (SSOT) | [[../AGENTS.md]] (v22.0.8) | Agent registry — routing/handover/escalation/öncelik tekelinde |
-| 2 (Alt Registry) | Bu dosya (v1.2.7) | Profil indeksi + yazım kuralları + boot bağlantısı |
+| 1 (SSOT) | [[../AGENTS.md]] (v22.0.9) | Agent registry — routing/handover/escalation/öncelik tekelinde |
+| 2 (Alt Registry) | Bu dosya (v1.3.1) | Profil indeksi + yazım kuralları + boot bağlantısı |
 | 3 (Profil) | `.ai/.agents/<agent>.md` | Tekil ajanın yetki belgesi (§1-§11 domain serisi) |
 
 ---
@@ -93,9 +93,11 @@ Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hang
 
 ## §3 Profil Envanteri
 
-### §3.1 Envanter Tablosu (11 profil + 1 alt registry = 12 dosya)
+### §3.1 Envanter Tablosu (18 profil + 1 alt registry = 19 dosya — 2026-10-06)
 
-**Kanıt:** glob `.ai/.agents/*.md` → 12 dosya (2026-09-23, FAZ 3a doğrulaması). **FAZ 3 birleştirme (2026-09-23): 12/12 tamamlandı** — 7 FAZ 3a + 5 FAZ 3b; **hepsi ≥500 satır** (ölçüm: `[System.IO.File]::ReadAllLines().Length`, boş satır dahil), **hepsi ` M`** (in-place, dosya adı değişmedi).
+**Kanıt (tarihli, append):**
+- **2026-09-23, FAZ 3a:** glob `.ai/.agents/*.md` → 12 dosya; FAZ 3 birleştirme 12/12 — 7 FAZ 3a + 5 FAZ 3b; hepsi ≥500 satır (ölçüm: `[System.IO.File]::ReadAllLines().Length`, boş satır dahil), hepsi ` M` (in-place, dosya adı değişmedi).
+- **2026-10-06, prompt türetme fazı:** glob `.ai/.agents/*.md` → **19 dosya** (18 profil + bu registry); 6 yeni profil, 8 ChatGPT prompt kaynağından Guardrail #16 şablonuyla üretildi (`✅ IMPLEMENTED`, satır sayıları §9 1.3.0 kaydında). Eski 12 dosya `../raw/.agents/` ile SHA256 **12/12 eşleşti** (2026-10-06 ölçümü — geri yükleme doğrulandı).
 
 | # | Agent | Kod | Domain | Profil Dosyası | Durum (2026-09-23) |
 |---|-------|-----|--------|----------------|---------------------|
@@ -110,7 +112,13 @@ Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hang
 | 9 | Audio Hardware Engineer | `audio-hw` | DAC/ADC, PCB, amplifier | [[audio-hardware-engineer]] | ✅ FAZ 3b yeniden yazıldı (2026-09-23, v2.0.0, §1-§11, 533 satır) |
 | 10 | DSP Firmware Engineer | `dsp-fw` | XMOS, PCM3168A, DSP chain | [[dsp-firmware-engineer]] | ✅ FAZ 3b yeniden yazıldı (2026-09-23, v2.0.0, §1-§11, 548 satır) |
 | 11 | Windows Software Engineer | `win-sw` | WASAPI, driver, platform | [[windows-software-engineer]] | ✅ FAZ 3b yeniden yazıldı (2026-09-23, v2.0.0, §1-§11, 549 satır) |
-| — | *(bu dosya)* | — | Profil indeksi (Alt Registry) | `AGENTS.md` | ✅ FAZ 3a + FAZ 3 birleştirme (v1.2.1, 12/12 teyitli) |
+| 12 | Enterprise Prompt Architect | `prompt-arch` | Ham prompt → enterprise AI prompt (adaptif keşif) | [[enterprise-prompt-architect]] | ✅ Yeni (2026-10-06, v1.0.0, §1-§11, 223 satır) — ✅ kök §15'e işlendi (v22.0.9, 2026-10-06) |
+| 13 | Prompt Normalization Architect | `prompt-norm` | Türkçe metin normalizasyonu + prompt mimarisi | [[prompt-normalization-architect]] | ✅ Yeni (2026-10-06, v1.0.0, §1-§11, 217 satır) — ✅ kök §15'e işlendi (v22.0.9, 2026-10-06) |
+| 14 | Visual Render Studio | `visual-render` | Görsel/fikir → 4K/8K cinematic image prompt | [[visual-render-studio]] | ✅ Yeni (2026-10-06, v1.0.0, §1-§11, 219 satır) — ✅ kök §15'e işlendi (v22.0.9, 2026-10-06) |
+| 15 | Image Analysis Engineer | `img-analysis` | Görsel forensic analizi + reconstruction prompt | [[image-analysis-engineer]] | ✅ Yeni (2026-10-06, v1.0.0, §1-§11, 214 satır) — ✅ kök §15'e işlendi (v22.0.9, 2026-10-06) |
+| 16 | UI/UX Analyzer | `ui-ux-analyzer` | UI/UX analizi + ASCII layout referansı (kod YAZMAZ) | [[ui-ux-analyzer]] | ✅ Yeni (2026-10-06, v1.0.0, §1-§11, 215 satır) — ✅ kök §15'e işlendi (v22.0.9, 2026-10-06) |
+| 17 | Electronics Engineer | `electronics` | Devre analizi/tasarımı, arıza, BOM, tedarik | [[electronics-engineer]] | ✅ Yeni (2026-10-06, v1.0.0, §1-§11, 216 satır) — ✅ kök §15'e işlendi (v22.0.9, 2026-10-06) |
+| — | *(bu dosya)* | — | Profil indeksi (Alt Registry) | `AGENTS.md` | ✅ FAZ 3a + FAZ 3 birleştirme (v1.2.1, 12/12 teyitli) → v1.3.0 (19/19) |
 
 ### §3.2 Dosya Adı Kuralları
 
@@ -128,10 +136,10 @@ Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hang
 
 | Kontrol | Beklenen | Aksiyon (ihlalde) |
 |---------|----------|-------------------|
-| Dosya sayısı | 12 (11 profil + AGENTS.md) | Fark → §7.2 adımlarını çalıştır |
+| Dosya sayısı | 19 (18 profil + AGENTS.md) — 2026-10-06 ölçümü | Fark → §7.2 adımlarını çalıştır |
 | Her profil §1-§11 taşır | 11 bölüm eksiksiz | Eksik bölüm → MO'ya rapor, tamamlat |
 | Frontmatter 7+1 alan | title, type, category, date, updated, version, status, authority | Eksik → profil yayımlanmaz |
-| Kök §15 ↔ §3.1 eşleşmesi | 11 satır birebir | Uyuşmazlık → MO müdahalesi (kök güncellenir) |
+| Kök §15 ↔ §3.1 eşleşmesi | 17 satır birebir (11 eski + 6 yeni, kök v22.0.9 · 2026-10-06) | Uyuşmazlık → MO müdahalesi (kök güncellenir) |
 | FAZ 3b profilleri | 5 dosya §1-§11, ≥500 satır (FAZ 3b, 2026-09-23) | ✅ 12/12 tamam — envanter ↔ disk birebir |
 
 ---
@@ -504,6 +512,8 @@ authority: SSOT
 | 1.2.5 | 2026-09-29 | fm bump (git `363982e`) — §9 changelog satırı hiç yazılmadı, içerik [UNKNOWN] |
 | 1.2.6 | 2026-10-01 | fm bump (git `5a74b2a`) — §9 changelog satırı hiç yazılmadı, içerik [UNKNOWN] |
 | 1.2.7 | 2026-10-06 | Faz 4 (2026-10-06): authority v22.0.8 senkronu (3 nokta), fm+footer, §1.1 v1.2.7; profil type=profile standardizasyonu |
+| 1.3.0 | 2026-10-06 | Prompt türetme fazı: §3.1'e 6 yeni profil satırı (#12-#17) — `enterprise-prompt-architect` (223) · `prompt-normalization-architect` (217) · `visual-render-studio` (219) · `image-analysis-engineer` (214) · `ui-ux-analyzer` (215) · `electronics-engineer` (216); başlık/evidans §3.1 19/19 tarihli kanıtla güncellendi (12 eski dosya SHA256 12/12); §3.3 sayıları 19 + kök §15 bekleyiş işareti; `.opencode/agents/` runtime 17/17 yazıldı (kök §15 + [[../.templates/index]] satırları bekliyor — onay gerektirir) |
+| 1.3.1 | 2026-10-06 | Kök SSOT senkronu: `.ai/raw/AGENTS.md` v22.0.8 → **v22.0.9** (kullanıcı onayıyla) — §1 (17 ajan), §4 (+6 satır), §6 (+5 keyword grubu), §15 (+6 profil satırı + eklenti notu), §23 (Agent Count 17 · Routing 14); bu dosyada authority (v22.0.9) 3 nokta, §3.3 kök §15 bekleyişi kapatıldı, §3.1'deki 6 `⚠️` işareti `✅ kök §15'e işlendi` oldu |
 
 ---
 
