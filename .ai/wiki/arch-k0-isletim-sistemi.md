@@ -22,5 +22,4 @@ tags: [isletim-sistemi, platform, cekirdek]
 ## İlgili Sayfalar
 
 - [[arch-katman]] — mimari katman kökü
-- [[arch-old-os-mekanizmalari]] — architecture.old aynı konunun eski nesli
-- [[arch-old-platform-cekirdekler]] — eski nesil platform çekirdekleri
+- [[agent-embedded-engineer]] · [[agent-windows-software-engineer]] — ilgili agent'lar

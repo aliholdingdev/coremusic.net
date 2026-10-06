@@ -1,0 +1,715 @@
+---
+reference_doc: Freelancer Technical Documentation v1.0
+title: "CoreMusic — Memory System Index"
+type: system
+category: memory-management
+date: 2026-08-13
+updated: 2026-10-06
+status: active
+version: 25.1.3
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/MEMORY.md"
+  source_of_truth: ".ai/CLAUDE.md · .ai/AGENTS.md · .ai/WORKFLOW.md · .ai/brain.md · .ai/index.md"
+---
+
+# CoreMusic — Memory System Index
+
+**Zorunlu Baglantilar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[brain.md]] · [[keys.md]] · [[log.md]] · [[VISION.md]] · [[PROJECTS.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
+
+**Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
+
+---
+
+## Purpose
+
+### §1 Amac
+
+CoreMusic bellek sistemi, oturumlar arasi persistent state yonetimini standartlastirir ve vault ile kod arasindaki tutarliligi korur. audit trail ile izlenebilirlik garanti edilir. Bu dosya, tum AI ajanlarinin oturum baslangicinda okumasi gereken zorunlu dosyalardan biridir.
+- **Ekosistem Vizyonu:** [[VISION.md]]
+- **Proje Tanımı & Kapsamı:** [[PROJECTS.md]]
+
+---
+
+## Scope
+
+### §2 Terminoloji
+
+| Terim | Tanim |
+|-------|-------|
+| Persistent State | Oturumlar kapansa dahi silinmeyen bellek |
+| Vault-Sync | Degisikliklerin `.ai/` dosyalarina senkronizasyonu |
+| Context Lock | Dosyanin gecici sure dondurulmesi |
+| Audit Trail | Tum degisikliklerin timestamp ile loglanmasi |
+| SSOT | Tek Dogruluk Kaynagi - tanim: [[glossary]] |
+| Memory Hierarchy | Bellek oncelik sirasi: brain > index > AGENTS > MEMORY > log |
+| Hard Guardrail | Asilamayan sert mimari kural |
+| Zero Code Before Plan | Planlama yapilmadan kod yazma yasagi |
+| BCNF | Boyce-Codd Normal Form - tanim: [[glossary]] (proje baglami: 18 BCNF DB) |
+| Immutability | ADR 001-037 frozen, degistirilemez |
+| Append-Only | Sadece ekleme, gecmis satirlar dokunulmaz |
+| Frontmatter | Dosya basligi (7 zorunlu alan) - tanim: [[glossary]] |
+| Wiki-Link | `[[dosya/yolu]]` formatinda capraz referans |
+
+---
+
+### §16 Limitations
+
+| Kisit | Aciklama | Cozum |
+|-------|----------|-------|
+| Dosya boyutu | Max 1000 satir/dosya | Moduler yapi, arsivleme |
+| Eszamanli erisim | Lock tabanli basit cozum | Context Lock + Queue |
+| Vault boyutu | Max 100MB | Gereksiz kopyalari arsivle |
+| Boot suresi | Max 25 saniye | Paralel okuma optimizasyonu |
+| Memory boyutu | Max 10MB toplam | Arsivleme, sikistirma |
+| Link dogrulama | Regex tabanli | Otomatik duzeltme |
+
+---
+
+## Architecture
+
+### §3 Memory Hierarchy
+
+| Dosya | Oncelik | Icerik | Mod | Max Boyut |
+|-------|---------|--------|-----|-----------|
+| `brain.md` | En yuksek | Mimari kararlar, ADR 001-089 (80 karar) | Read-Write | 1000 satir |
+| `index.md` | Yuksek | Master katalog, tum vault indeksi | Read-Write | 1000 satir |
+| `AGENTS.md` | Yuksek | Agent tanimlari, yetkiler, handover | Read-Write | 1000 satir |
+| `VISION.md` | Yuksek | Ekosistem vizyonu, mülkiyet felsefesi, 6 sorun-çözüm | Read-Write | 1000 satir |
+| `PROJECTS.md` | Yuksek | Proje tanımı, 10 temel yetenek, 6 hedef kitle | Read-Write | 1000 satir |
+| `MEMORY.md` | Orta | Session state, bu dosya | Read-Write | 1000 satir |
+| `log.md` | En dusuk | Append-only audit trail | Append-Only | 1000 satir |
+
+**Bellek Modlari:**
+- **Read-Only:** Boot protokolu sirasinda
+- **Append-Only:** `log.md` icin kalici mod
+- **Read-Write:** `MEMORY.md` ve digerleri icin
+- **Locked:** Context Lock sirasinda (max 30s)
+
+**Oncelik Siralamasi:** En yuksek -> en dusuk: brain -> index -> AGENTS -> MEMORY -> log. Cakisma durumunda ust seviye kazanir.
+
+---
+
+### §9 Persistent State
+
+| Kategori | Dosya | Guncelleme Sikligi | Mod |
+|----------|-------|-------------------|-----|
+| Mimari Kararlar | `brain.md` | Yeni ADR'de | Read-Write |
+| Session Hafizasi | `MEMORY.md` | Her oturum sonunda | Read-Write |
+| Audit Trail | `log.md` | Her kritik olayda | Append-Only |
+| Agent Tanimlari | `AGENTS.md` | Degisiklikte | Read-Write |
+| Surecler | `WORKFLOW.md` | Degisiklikte | Read-Write |
+| Master Katalog | `index.md` | Yeni dosya eklendiginde | Read-Write |
+| Keyword Haritasi | `keys.md` | Yeni kelime eklendiginde | Read-Write |
+
+**Kurallar:**
+- Immutability: ADR 001-037 frozen, degistirilemez
+- Append-Only: `log.md` gecmis satirlari silinemez
+- Timestamp zorunlu: Her giris UTC timestamp icermeli
+- No Secrets: Hassas veri ASLA vault'a yazilmaz
+- Cross-Reference: Tum wiki-link'ler gecerli olmali
+
+**Guncellenme Akisi:** Degisiklik tespit -> Ilgili dosya belirle -> In-place uygula -> Cross-reference guncelle -> `log.md`'ye yaz -> MEMORY.md session state guncelle -> Wiki-link'leri dogrula.
+
+---
+
+### §10 Cache Strategies
+
+| Seviye | Aciklama | Omur | Gecersizlastirma |
+|--------|----------|------------------|------------------|
+| L1 (Hot) | SSOT dosyalari (CLAUDE, AGENTS, WORKFLOW) | Oturum sonu | Otomatik |
+| L2 (Warm) | Gorev dosyalari (ADR, architecture) | Gorev sonu | Dosya degisikligi |
+| L3 (Cool) | Referans dosyalari (testing, ui-design) | Istege bagli | Manuel |
+
+**Politika:** Read-Through, Write-Through, LRU eviction. P0 dosyalari eviction'a ugramaz.
+
+---
+
+### Q&A Kararlari (2026-08-13)
+
+| Soru | Cevap | Kaynak |
+|------|-------|--------|
+| Shared library yapisi | Hybrid: tek shared/, moduler namespace (CoreMusic\Auth, CoreMusic\Security) | Kullanici |
+| Veritabani motoru | MySQL 9.7 (local, zaten kurulu) | Kullanici |
+| Web server | Apache (:81) + IIS (:80) paralel | Kullanici |
+| PHP versiyonu | PHP 8.5.8 (C:\Php858\) — zaten kurulu | Kullanici |
+| MySQL kullanici | Ali / ali** (root degil) | Kullanici |
+| Entry point yapisi | Her subdomain kendi index.php'si (PROJECT_ROOT pattern) | Kullanici + MO |
+| Session storage | File-based baslangic → DB gecis plani | Kullanici + MO |
+| JWT key uretimi | FAZ 0'da RS256 key pair uretimi (openssl) | Kullanici + MO |
+| Composer versiyonlari | psr/http-server-handler ^1.0 (2.0 yok), respect/validation ^2.0, phpstan ^2.0 | MO (hata duzeltme) |
+| Master Implementation Plan | 5 faz, 40 gun, 22 bolum, 30 cikti, shared/ hybrid yapı, 25 enterprise paket | MO (ADR-087) |
+| Referans proje analizi | monolitik shared, 448 satir AuthController, 3 origin CORS, test yok tespit edildi | MO (ADR-087) |
+| SOLID ihlalleri | SRP (6 uzun sinif), ISP (2 buyuk interface), OCP (yeni provider eklenemez) tespit edildi | MO (ADR-087) |
+| Katman ihlalleri | Controller→Repository direkt, Config global constant, PSR-15 uyumsuzluk tespit edildi | MO (ADR-087) |
+
+---
+
+### Frontend Mimarisi (v2.0.0 — 2026-09-05)
+
+```
+CSS Katmanı (ITCSS 9-layer):
+  01_Abstracts/  → Token'lar (colors, fonts, layout, breakpoints, theme, device tokens)
+    a-layout-tokens.css  → Cihaz bazlı token: --header-h (60/70/80px), --footer-h (90/104/120px), --content-h (450/906/1960px)
+    Device-Aware Token: @media (min-width: 1920px) → Wide override, @media (min-width: 3840px) → 4K override
+  02_Base/       → Reset, base styles
+  03_Layout/     → Header (.site-header--embedded/desktop/tv), Footer (.footer--embedded/desktop/tv)
+  04_Components/ → Scrollbar, Footer seek/volume
+  05_Pages/      → Home layout (.home-layout--embedded/laptop/desktop/tv), home components
+  06_Utilities/  → Helper classes
+  07_Vendors/    → Bootstrap (minimal)
+  08_Devices/    → 7 device CSS (behavioral overrides: hover, touch, scrollbar)
+    d-embedded.css  → Touch optimization: hover disabled, min 48px touch targets
+    d-desktop.css   → Mouse interaction: hover active, cursor: pointer
+    d-4k.css        → Spacing scale: --spacing-scale: 1.5
+  09_ViewModes/  → 4 view modes (home, pro, studio, car)
+
+Backend Sorumluluk Sınırları (brain.md §18C):
+  PHP tarafında YALNIZCA davranışsal konfigürasyonlar:
+  ✅ widgetCount(), recentCardCount(), playlistCount(), upNextCount()
+  ✅ showVolume(), showFullMetadata(), showSeekBar(), showSidebar()
+  ✅ navLinks(), allClasses(), dataAttributes(), layoutClass()
+  ❌ margin, padding, width, height, font-size → CSS'e aittir
+
+Frontend Sorumluluk Sınırları (brain.md §18C):
+  CSS tarafında TÜM sunum kararları:
+  ✅ Token tanımları: a-layout-tokens.css → --header-h, --footer-h, --content-h
+  ✅ Token override: Media query ile cihaz bazlı değer değişimi
+  ✅ Behavioral override: 08_Devices/d-{device}.css → hover, touch, scrollbar
+  ✅ Layout grid: _home-layout.css → grid-template-columns, gap
+  ✅ Component yerleşimi: _home-components.css → boyut, konum
+
+Tek Bileşen İlkesi (Guardrail #17):
+  ✅ Tek HTML: home.php, header.php, footer.php → tek dosya
+  ❌ home-1024.php, home-desktop.html → KESİNLİKLE YASAK
+  ✅ Fark CSS'te: media query + CSS variables
+  ❌ PHP'de sunum kararı → Layer violation
+
+JS Katmanı (ES Modules):
+  main.js                    ← Entry point: Router + tüm modülleri başlatır
+  core/
+    EventBus.js              → Pub/sub (bağımsız)
+    CoreMusicApp.js          → Lifecycle manager
+  managers/
+    DeviceManager.js         → Cihaz tespiti (device-loader.js bridge)
+    ThemeManager.js          → ADR-044 gender theme
+    ViewModeManager.js       → ADR-045 view mode
+  features/
+    PlayerController.js      → State machine (STOPPED/PLAYING/PAUSED)
+    WidgetManager.js         → Home widgets
+    CardManager.js           → Event delegation
+    ScrollManager.js         → Route scroll restore
+    TouchManager.js          → Embedded touch gestures
+  router/
+    Router.js + guards.js    → Mevcut SPA router (main.js import ediyor)
+    SPARouterAdapter.js      → DEPRECATED (main.js doğrudan Router kullanıyor)
+    21+ modül               → GuardPipeline, CacheLayer, DomPatcher, vb.
+  device-loader.js           → Cihaz tespiti (IIFE, non-module, TV & 1024 laptop sync)
+  device-layout-updater.js   → Cihaz değişikliğinde layout güncelleme
+
+Backend (shared/src):
+  Device/
+    DeviceDetector.php       → Cihaz tespiti (Smart TV + 1024x768 laptop desktop OS desteği)
+    DeviceCssMap.php         → CSS haritası (mevcut)
+    DeviceManager.php        → Merkezi cihaz yönetimi (deviceProfile(), isSmallDesktop(), isTv())
+  Theme/
+    ThemeManager.php         → Gender tema yönetimi (ADR-044)
+  ViewMode/
+    ViewModeManager.php      → View mode yönetimi (ADR-045)
+  PageRouter/
+    PageRouterKernel.php     → Ana kernel
+    PageRouter.php           → Tekil sayfa çözücü (DeviceTemplateResolver bağımlılığı kaldırıldı)
+    HtmlShellRenderer.php    → HTML shell (ThemeManager + ViewModeManager entegre)
+
+Backend (home.coremusic.net):
+  index.php              → Entry point (PageRouterKernel)
+  header.php             → Single Header View (Phone / Embedded / TV / Desktop-Laptop conditional structural rendering)
+  footer.php             → Single Footer View (Phone / Embedded / TV / Desktop-Laptop conditional structural rendering)
+  pages/home.php         → Single Home View (Embedded / Wide / Fallback conditional rendering v9.0.0)
+  include/               → Auth, Session, Container
+  config/                → Constants, app config
+```
+
+---
+
+## Rules
+
+### §8 Okuma Kurallari
+
+1. P0 -> P1 -> P2 -> P3 sirasiyla okunur
+2. Fallback: `index.md`
+3. Token asimi onlenir: gereksiz dosya okunmaz
+
+---
+
+### §12 Security Boundaries
+
+| Veri Turu | Sinif | Vault'a Yazilabilir mi? | Loglanirken |
+|-----------|-------|--------------------------|-------------|
+| API Key | SECRET | ❌ ASLA | `[REDACTED]` |
+| DB Password | SECRET | ❌ ASLA | `[REDACTED]` |
+| JWT Secret | SECRET | ❌ ASLA | `[REDACTED]` |
+| Session Token | SECRET | ❌ ASLA | `[REDACTED]` |
+| ARL Token | SECRET | ❌ ASLA | `[REDACTED]` |
+| Credential Vault Sifresi | SECRET | ❌ ASLA | `[REDACTED]` |
+| User Email (masked) | PII | ✅ Kisim | Kisim maskeleme |
+| User ID | PUBLIC | ✅ | Yok |
+| ADR Karari | PUBLIC | ✅ | Yok |
+| Port Numarasi | PUBLIC | ✅ | Yok |
+| Dosya Yolu | PUBLIC | ✅ | Yok |
+
+**Dogru:** `API Key: [REDACTED] (service: deezer)` | **Yanlis:** `API Key: abc123` (ASLA!)
+
+**Redaction Kontrolu:** Her oturum sonunda `Select-String -Path .ai/log.md -Pattern "password|api[_-]?key|secret|token"` ile tarama yapilir.
+
+---
+
+### §13 Memory Conflict Resolution
+
+| Cakisma Turu | Belirti | Cozum | Sorumlu |
+|---------------|---------|-------|---------|
+| Write-Write | Iki ajan ayni dosyayi duzenlemek ister | Context Lock + Queue | MO |
+| Read-Write | Bir ajan okurken digeri yazar | Read lock (eszamanli okuma serbest) | Otomatik |
+| Version Conflict | Farkli versiyonlar olusturulur | Master Orchestrator mudahalesi | MO |
+| Reference Conflict | Kirik wiki-link'ler olusur | Cross-reference update | MO |
+| ADR Conflict | Cakiskili kararlar | Escalation (L1->L2->L3->Insan) | L3 |
+
+**Context Lock:**
+- Max 30 saniye
+- Deadlock'da MO en eski kilidi kirar
+- Oncelik sirasi: CRITICAL > HIGH > MEDIUM > LOW
+- Lock acquire/release `log.md`'ye yazilir
+
+---
+
+## Workflow
+
+### §4 Session Lifecycle
+
+| Asama | Aciklama | Sure | Cikti |
+|-------|----------|------|-------|
+| 1. Initialize | Boot protokolu (14 dosya oku) | Max 25s | Session state |
+| 2. Sync Start | 5 soru ile vault durumunu analiz et | Max 10s | Degisiklik listesi |
+| 3. Execute Task | Vault dosyalarini oku ve gorevi yurut | Degisken | Gorev cikti |
+| 4. Log Actions | Degisiklikleri `log.md`'ye yaz | Anlik | Audit trail |
+| 5. Vault-Sync | Vault'u guncelle (gerekirse) | Degisken | Guncellenmis vault |
+| 6. Sync End | 6 adim ile oturumu kapat | Max 15s | Kapanis kaydi |
+| 7. Session Close | Final state kaydi | Max 5s | Final state |
+
+**Zamanlayici:** Toplam session suresi ortalama 5-15 dakika. Boot 25s, sync start 10s, sync end 15s, session close 5s = 55s sabit. Kalan: gorev yurutme.
+
+---
+
+### §5 Boot Protocol — 14 Kök .ai Dosyası + Genişletilmiş Okuma (20 Adım)
+
+| # | Dosya | Amac | Oncelik | Timeout |
+|---|-------|------|---------|---------|
+| 1 | `.ai/CLAUDE.md` | Kanonik AI talimati | P0 | 3s |
+| 2 | `.ai/AGENTS.md` | Agent kayit defteri | P0 | 3s |
+| 3 | `.ai/WORKFLOW.md` | Surecler | P0 | 3s |
+| 4 | `.ai/index.md` | Master katalog | P1 | 4s |
+| 5 | `.ai/keys.md` | Anahtar kelime haritasi | P1 | 3s |
+| 6 | `.ai/glossary.md` | Terim sözlüğü — 75 terim, kod-referanslı | P1 | 3s |
+| 7 | `.ai/brain.md` | Mimari kararlar | P1 | 4s |
+| 8 | `.ai/MEMORY.md` | Oturum hafizasi | P1 | 3s |
+| 9 | `.ai/log.md` | Aktivite gunlugu (son 20 satir) | P1 | 2s |
+| 10 | `.ai/ROLE.md` | Senior Software Architect rol tanimi | P1 | 3s |
+| 11 | `.ai/engine.md` | Orkestrasyon motoru — agent koordinasyonu, task dispatch | P1 | 3s |
+| 12 | `.ai/ULTRA-THINKING.md` | Ultra düşünme protokolü — karar öncesi doğrulama | P1 | 3s |
+| 13 | `.ai/VISION.md` | Vizyon ve 36 aylık yol haritası | P2 | 3s |
+| 14 | `.ai/PROJECTS.md` | Proje envanteri ve kilometre taşları | P2 | 3s |
+| 15 | `.claude/rules/*` | Tum kurallar | P2 | 5s |
+| 16 | `.ai/archives/prompt0-genel-ana-prompt-2026-09-01` | Ana genel prompt: 11 alt domain, 10 panel, 20 analiz gorevi, zorunlu kurallar | P2 | 5s |
+| 17 | `.ai/archives/prompt1-spa-router-2026-09-01` | SPA Router: Enterprise router gereksinimleri, SOLID, PSR, DI | P2 | 3s |
+| 18 | `.ai/archives/prompt2-auth-2026-09-01` | Auth: Merkezi auth.coremusic.net, hybrid JWT+session, RBAC, middleware | P2 | 3s |
+| 19 | `.ai/archives/prompt3-api-2026-09-01` | API: API-First, Gateway, BFF, CQRS, Event Driven, 14 servis | P2 | 3s |
+| 20 | `.ai/ui-design/00-mockup-index.md` | Mockup esleme tablosu — frontend gorevlerinde ZORUNLU | P2 | 3s |
+
+**Toplam boot suresi:** Max 36 saniye. P0 -> P1 -> P2 sirasiyla okunur. Paralel okuma desteklenmez (sirali bagimlilik).
+
+**Frontend Gorev Kurali:** CSS/HTML/JS/layout/bileşen görevlerinde `00-mockup-index.md` okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir. Görsel referanslar: `.ai/.png/home-1024/` (12 PNG) + `.ai/.png/home-1920/` (1 PNG) + `.ai/.png/shared-1024/` (6 PNG) = toplam 19 PNG mockup *(Faz 1 sayım düzeltmesi: 18→19)*
+
+---
+
+### §6 Session Vault Sync — Baslangic (5 Soru)
+
+| # | Soru | Kontrol Yontemi | Kaynak |
+|---|------|-----------------|--------|
+| 1 | Son session'dan bu yana ne degisti? | `git log --since="last session"` + `log.md` tail | git, log.md |
+| 2 | Yeni ADR var mi? | `decisions/accepted/` dizin taramasi | filesystem |
+| 3 | Kod degisikligi oldu mu? | `git diff --name-only` | git |
+| 4 | Vault'ta eski bilgi var mi? | `VERIFICATION REQUIRED` etiket taramasi | grep |
+| 5 | Skills durumu nedir? | `.opencode/skills/` + `.claude/skills/` kontrolu | filesystem |
+
+**Senaryo:** Her oturum basinda bu 5 soru cevaplanir. Cevaplar `log.md`'ye INFO olarak kaydedilir. Vault'ta eski bilgi varsa duzeltilir.
+
+---
+
+### §7 Session Vault Sync — Bitis (5 Adim)
+
+| # | Adim | Kontrol | Sure |
+|---|------|---------|------|
+| 1 | Degisiklikleri vault'a yaz (in-place) | Dosya boyutu | 5s |
+| 2 | `log.md`'ye timestamp ekle | Format dogrulama | 2s |
+| 3 | MEMORY.md session state guncelle | Session indeks | 3s |
+| 4 | Wiki-link'leri dogrula | Regex pattern | 5s |
+| 5 | Hallusinasyon sweep | `VERIFICATION REQUIRED` taramasi | 3s |
+
+**Toplam:** Max 20 saniye. Wiki-link dogrulama regex: `\[\[([^\]]+)\]\]`.
+
+---
+
+### §11 Backup & Recovery
+
+| Yontem | Siklik | Saklama | Kullanim |
+|--------|--------|---------|----------|
+| Git History | Her commit | Sonsuz | Birincil kurtarma |
+| Manuel Snapshot | Haftalik | 3 ay | Haftalik yedek |
+| Tam Vault Yedegi | Aylik | 1 yil | Tam kurtarma |
+| Session Backup | Her oturum sonu | 30 gun | Session kurtarma |
+
+| Durum | Kurtarma Yontemi | Hedef Sure |
+|-------|------------------|------------|
+| Dosya bozulmasi | `git checkout <hash> -- .ai/dosya.md` | <1 dk |
+| Kirik wiki-link | index.md + keys.md guncelle | <5 dk |
+| Vault silinmesi | `git restore .ai/` | <5 dk |
+| Session kaybi | log.md'den resume | <2 dk |
+| ADR cakiskisi | L1 -> L2 -> L3 -> Insan | <30 dk |
+| Vault corruption | `git checkout` + son commit | <5 dk |
+| Cache bozulmasi | L1 flush, yeniden yukle | <1 dk |
+
+---
+
+### §17 Future Roadmap
+
+| Surum | Hedef | Tahmini |
+|-------|-------|---------|
+| v19.0 | Vektor DB (pgvector/ChromaDB) ile semantic search | 2026 Q4 |
+| v20.0 | Cross-Project Memory (WirelessConnect entegrasyonu) | 2027 Q1 |
+| v21.0 | Otomatik bellek yonetimi (Auto-Memory, Smart Cache) | 2027 Q2 |
+| v22.0 | Tam otonom bellek (Zero Human Intervention) | 2027 Q3 |
+| v23.0 | Multi-device memory sync | 2027 Q4 |
+
+---
+
+### §20 Current Session State
+
+| Ozellik | Deger |
+|---------|-------|
+| Session Date | 2026-10-06 |
+| Active Task | Agents Refactor Engine (6 faz SSOT yeniden yazım) — Faz 1 TAMAM (authority uzlaştırma + MAX THINKING dedup + version hizası: CLAUDE 27.3.8 / AGENTS 22.0.8 / WORKFLOW 22.1.5) · Faz 2 TAMAM (brain 26.1.4, MEMORY 25.1.3, session state yenileme) |
+| Domain | Vault SSOT Refactor (Agents Refactor Engine v1.0.0) |
+| Last Action | Faz 2: brain.md + MEMORY.md version/footer hizası + §20 session state + log.md append; Faz 1 kanıtı: 4 dosya (CLAUDE, AGENTS, WORKFLOW, kök AGENTS §9 +1 satır) |
+| Changed Files | .ai/CLAUDE.md + .ai/AGENTS.md + .ai/WORKFLOW.md + .ai/brain.md + .ai/MEMORY.md + .ai/log.md (append) + AGENTS.md (kök, §9 +1 satır) |
+| Known Issue | session-save.mjs · vault-post-update.mjs · vault-cmd.mjs · project-state.md YOK → post-op sync manuel (VERIFICATION REQUIRED); log.md'de onceden mevcut mojibake 6 / CJK 12; S5=55 / S6=46 uygulanabilirlik sayilari eski vault kaynakli ⚠️ VERIFICATION REQUIRED; PowerShell 5.1 -match Turkce culture'da 'I' harfinde yanlis sonuc verir → sayimlarda CultureInvariant regex kullanildi |
+
+---
+
+## Validation
+
+### §14 Memory Debugging
+
+| Sorun | Belirti | Cozum | Oncelik |
+|-------|---------|-------|---------|
+| Kirik wiki-link | `[[dosya]]` gecersiz | Dogru dosya yolunu bul, link'i guncelle | HIGH |
+| Eksik frontmatter | 7 zorunlu alan eksik | Frontmatter'i tamamla | MEDIUM |
+| Boyut limit asimi | Dosya >1000 satir | Dosyayi bol veya arsivle | MEDIUM |
+| Hallusinasyon | `VERIFICATION REQUIRED` etiketi yok | Etiketi ekle | CRITICAL |
+| Session kaybi | Oturum yarim kaldi | log.md'den resume | MEDIUM |
+| Vault tutarsizligi | Cakiskili dosyalar | Cross-reference update | HIGH |
+| Eski bilgi | `VERIFICATION REQUIRED` var | Dogrula veya sil | MEDIUM |
+| Frontmatter eksik | metadata alani yok | 7 zorunlu alani ekle | LOW |
+| Timestamp hatasi | UTC formati yanlis | Formati duzelt | LOW |
+
+**Dogrulama Araclari:**
+- `vault-integrity-check.ps1` — tam vault taramasi
+- `git log --oneline` — degisiklik gecmisi
+- Regex pattern matching — wiki-link dogrulama
+- `Select-String` — hassas veri taramasi
+
+---
+
+### §15 Warnings
+
+| # | Uyari | Kategori | ADR |
+|---|-------|----------|-----|
+| 1 | Hassas veri ASLA `.ai/` dizinine yazilmaz | Guvenlik | ADR-022 |
+| 2 | `log.md` Append-Only, gecmis silinemez | Butunluk | ADR-004 |
+| 3 | Session timestamp'leri UTC immutable olmali | Izlenebilirlik | ADR-004 |
+| 4 | ADR 001-037 FROZEN, yeni karar icin ADR-038+ | Immutability | ADR-042 |
+| 6 | **music.coremusic.net = Port 81, PHP 8.4** | Altyapi | ADR-042 |
+| 7 | **CSRF Token Key = `csrf_token`** | Guvenlik | ADR-010 |
+| 8 | Layer Violation: L0->L3 import yasak | Mimari | CLAUDE.md |
+| 9 | ORM yasak — sadece PDO prepared | Veritabani | ADR-002 |
+| 10 | Framework yasak — sadece Vanilla JS | Frontend | ADR-001 |
+| 11 | Middleware sirasi degismez | Guvenlik | ADR-010/011/012/013/022 |
+| 12 | PCM5122 yasak — 8.1 icin yetersiz | Donanim | ADR-038 |
+
+---
+
+### §21 Quality Report
+
+| Metrik | Deger |
+|--------|-------|
+| Version | 25.1.3 |
+| Status | Red Team · Human Mode · Truth Mode verified |
+| Sections | 7 H2 + 24 § |
+| SSOT Authority | Memory System Index |
+| Last Updated | 2026-10-06 |
+| ADR Coverage | ADR-001 through ADR-089 (37 Frozen + 31 Active + 12 Rejected) |
+| Security Boundary | REDACTED policy |
+| Session History | 24 oturum |
+| Cross References | 12 capraz referans |
+| Terminology | 14 terim |
+| Frontend Modules | 14 (main.js v5.0 — Router entegre) |
+| PHP Backend Modules | 3 (DeviceManager.php, ThemeManager.php, ViewModeManager.php) |
+| PHP Single Views | home.php, header.php, footer.php (Tek dosya, sıfır kopya, conditional rendering) |
+| CSS Device Files | 7 (phone, tablet, embedded, laptop, desktop, 4k-tv, 4k-monitor) |
+| CSS View Modes | 4 (home, pro, studio, car) |
+| Automated Test Suite | 37/37 pass (PART 62 matrisi + Rendering + Alias metodları) |
+| Conditional Rendering | 4 Tier (Phone ≤767 / Embedded ≤1024 / Wide 1025-2560 / 4K ≥2561) |
+
+---
+
+### §22 Recent Revisions (2026-09-05)
+
+### §22.1 Device-Aware Rendering Revizyonu
+
+**Kapsam.** 4 device CSS dosyasında eksik font/scale import'ları, body background global token'a taşındı, PHP dosyalarında inline dokümantasyon güçlendirildi.
+
+**Değişen Dosyalar.**
+
+| Dosya | Değişiklik |
+|-------|-----------|
+| `assets.coremusic.net/Css/08_Devices/d-embedded.css` | `a-fonts-token.css` + `a-scale-hybrid.css` import'ları eklendi |
+| `assets.coremusic.net/Css/08_Devices/d-desktop.css` | Aynı |
+| `assets.coremusic.net/Css/08_Devices/d-4k-tv.css` | Aynı |
+| `assets.coremusic.net/Css/08_Devices/d-4k-monitor.css` | Aynı |
+| `assets.coremusic.net/Css/01_Abstracts/a-layout-tokens.css` | `--body-bg-image` default `welcome-popup-girl.png` olarak güncellendi |
+| `home.coremusic.net/pages/home.php` | Layout karar matrisi tablosu eklendi (4 tier × container/split/popup) |
+| `home.coremusic.net/header.php` | Tier sınıf zinciri dokümantasyonu eklendi |
+| `home.coremusic.net/footer.php` | 3-Zone × 4-Tier davranış matrisi eklendi |
+
+**Doğrulanan Mevcut Yapı (değişmedi).**
+- `shared/src/Device/DeviceManager.php` v2.0.0 (frozen) — tüm 4 Tier karar metotları
+- `home.coremusic.net/pages/home.php` v10.0.0 → v10.0.1 — yalnızca doc version bump
+- `home.coremusic.net/header.php` v8.0.0 → v8.0.1 — yalnızca doc version bump
+- `home.coremusic.net/footer.php` v11.0.0 → v11.0.1 — yalnızca doc version bump
+- Welcome modal CSS — `_home-components.css` L640+ zaten tam tanımlı (`.welcome-modal-overlay`, `.welcome-modal`, `.welcome-modal__*` + 4 media query)
+
+**Doğrulama (browser doğrulaması Faz 6'da yapılacak).**
+- 1024×600 → `data-device="embedded"`, welcome popup açık
+- 1920×1080 → `data-device="desktop"`, `.home-layout--wide` 3-sütun
+- 3840×2160 → `data-device="4k-monitor"`, `.home-layout--4k`
+
+**Referans.** Bu revizyon planı: `plan.md` (session bXZzXzNiZThmODVmMzNjMTQzMDU5NWJjYzVkZjFiMjQ1YTFj)
+
+---
+
+### §23 Faz 1 Revizyon Kaydı (2026-09-08)
+
+Bu oturumda kök 12 boot dosyasına uygulanan Faz 1 revizyonunun hafıza özeti:
+
+### §23.1 Tamamlanan Düzeltmeler
+
+| Dosya | Düzeltme Türü | Özet |
+|-------|---------------|------|
+| engine.md | Genişleme + vaat gerçekleştirme | §3'ün vaat ettiği 4 bölüm (Task Queue, Agent Communication, Metrics, Troubleshooting) gerçek içerikle yazıldı; teknoloji yığını politikası (§9), checkpoint protokolü (§10), faz planı (§12) eklendi; v19/20 çelişkisi 21.0.0 ile çözüldü |
+| glossary.md | Genişleme + kanıt sistemi | 32 kanonik terim korundu; +43 teknoloji terimi; 25 kod-referanslı derin blok; kavram haritası; IMPLEMENTED/PLANNED etiket sistemi |
+| ROLE.md | Düzeltme + genişleme | "50+ yıl" retorik etiketi; arşiv tarihleri 09-01; bölüm sırası düzeltildi; C#/PowerShell uzmanlığı; stack-rol eşlemesi (§11); kod doğrulama bulguları (§21) |
+| ULTRA-THINKING.md | Düzeltme + genişleme | Domain okuma yolları gerçek dosyalara bağlandı; teknoloji karar matrisi; vault doğrulama protokolü; 4 gerçek senaryo; düşünce tuzakları |
+| index.md | Sayım düzeltmeleri | total_files 726→787; 18→19 PNG; ADR 001-087→001-088; testing dizin notu |
+| AGENTS.md | Düzeltme + ekleme | §14 skill gerçek durum notu; arşiv tarihleri; §24.3 okuma yolları; §25 faz kaydı |
+| MEMORY.md | Düzeltme + hafıza | 16 adım boot listesi arşiv tarihleri; item 6 tekrar→glossary; PNG 19; Active 50→30; bu bölüm (§23) |
+
+### §23.2 Sayım Birleştirmeleri (boot dosyaları ortak dil)
+
+| İddia | Eski | Yeni | Kanıt |
+|--------|------|------|-------|
+| PNG mockup | 18 | **19** (12+1+6) | .ai/.png/ sayımı |
+| Vault dosya | 726 | **787** | Get-ChildItem sayımı (stub'lar dahil) |
+| ADR kapsamı | 001-087 | **001-088** (79) | decisions/accepted sayımı |
+| Active ADR | 50 | **30** | index.md §5.2 satır sayımı |
+| Kök MD | 11 | **12** | glossary.md dahil |
+| Fiziksel domain | 13 iddia | **5 var / 9 PLANNED** | Test-Path |
+
+### §23.3 Sonraki Oturum İçin
+
+1. Faz 1 kapanışı: CLAUDE.md, brain.md, keys.md, WORKFLOW.md düzeltmeleri + satır doğrulama + log.md append + vault-sync.
+2. Faz 2 başlangıcı: architecture/ alt-fazları (engine §12.1 tablosu).
+3. Kod tarafı onay bekleyen: SessionInitializer birleştirme ADR'si, 3 tanımsız sabit çözümü, vault-integrity-check.ps1 yeniden üretimi.
+
+### §23.4 İzlenebilirlik Notu
+
+Bu revizyonda her düzeltme üç kaynakla desteklendi: (1) Test-Path dosya varlığı, (2) composer.json/kod okuma, (3) satır sayımı. Kanıtsız kalan iddialar `DOĞRULAMA GEREKLİ` etiketiyle işaretlendi (electronic kök 8 hedefi, HSTS/ALSA/LFE terimleri, Soft Constraints #3). Etiketli kalemler kullanıcı doğrulaması veya kod üretimiyle çözülür; otomatik "tamam" varsayılmaz — Truth Mode (ADR-005).
+
+**Audit:** Bu revizyonun tam kaydı `log.md` 2026-09-08 girişindedir; faz tablosu [[engine.md]] §12'de canlı tutulur.
+
+### §23.5 Öğrenilen Dersler (Faz 0-1)
+
+| # | Ders | Kanıt |
+|---|------|-------|
+| 1 | Alt agent promptu doğrudan komut cümlesiyle başlamalı | 3/4 explorer bekleme moduna düştü, task_id devamıyla kurtarıldı |
+| 2 | Sayım iddiaları her revizyonda yeniden ölçülmeli | 8 sayım çelişkisi (PNG, dosya, ADR, Active) tek turda birikmiş |
+| 3 | Hedef mimari ↔ kod ayrımı etiketsiz bırakılmaz | Redis/panel/domain iddiaları kodda yoktu |
+| 4 | Arşiv dosya adları sürümlüdür | prompt*-2026-08-13 → 09-01, 12 kırık link |
+| 5 | 500 satır hedefi doldurmayla değil kanıtla ulaşılır | Her ekleme izlenebilirlik satırı taşır |
+| 6 | Append-only dosyalara Edit değil ekleme yapılır | log.md Add-Content ile kaydedildi |
+| 7 | LSP taraması doküman revizyonunda yan etkidir | 3 tanımsız sabit bulgusu §23.3'e kaydedildi |
+| 8 | Çoklu edit paralellikte oldString çakışması riski taşır | Farklı bölümlere hedefleyerek çözüldü |
+
+### §23.6 Dosya Satır Envanteri (Faz 1 sonu)
+
+| Dosya | Önce (boş-hariç) | Sonra |
+|-------|------------------|-------|
+| engine.md | 46 | 503 |
+| glossary.md | 68 | ~500 |
+| ROLE.md | 285 | 500 |
+| ULTRA-THINKING.md | 245 | 504 |
+| index.md | 395 | ~500 |
+| AGENTS.md | 459 | ~500 |
+| MEMORY.md | 445 | ~500 |
+| CLAUDE.md | 564 | ~580 |
+| brain.md | 744 | 746 |
+| keys.md | 530 | 530 |
+| WORKFLOW.md | 586 | 585 |
+
+---
+
+### §24 Doküman İskeleti (8-Bölüm Uyumu — Vault Refactor Engine 2026-09-23)
+
+> **Not:** v24.4.0 → v24.5.0 (normalize: minor+1); satır-edit + ekleme (ADR-042), §1-§23 korundu. Dosya sonundaki `vault-sync:auto` bloğuna dokunulmadı.
+
+### §24.1 İskelet Eşlemesi
+
+| İskelet Bölümü | Karşılık Gelen § |
+|----------------|------------------|
+| Başlık | H1 + frontmatter (7 zorunlu alan) |
+| Amaç | §1 Amac |
+| Kapsam | §2 Terminoloji + §16 Limitations |
+| Mimari | §3 Memory Hierarchy + §9 Persistent State + §10 Cache Strategies + Q&A Kararlari + Frontend Mimarisi |
+| Kurallar | §8 Okuma Kuralları + §12 Security Boundaries + §13 Conflict Resolution |
+| Workflow | §4 Session Lifecycle + §5 20-Step Boot + §6-§7 Vault Sync + §11 Backup & Recovery + §17 Roadmap + §20 Session State |
+| Doğrulama | §14 Debugging + §15 Warnings + §21 Quality + §22 Revisions + §23 Faz 1 + bu bölüm §24 |
+| Referanslar | §19 Cross References + §18 Session History |
+
+### §24.2 Faz 2 Doğrulama (2026-09-23)
+
+- [x] Frontmatter 7 alan tam; version 25.1.0; updated 2026-09-23
+- [x] Boot-liste kanonikliği: kanonik kök boot listesi [[AGENTS.md]] §24.2 ve [[WORKFLOW.md]] §8.7A'dır (14 .ai kök dosya); FULL boot 17 öğe (root CLAUDE.md + root WORKFLOW.md + root README.md + 14 .ai kök + 3 dizin: .workflows, .ai/.templates, .ai/.agents); §5 20-adım listesi genişletilmiş okuma setidir (bkz [[AGENTS.md]] §25.4)
+- [x] §1-§23 korundu, silme yok; yeni bölüm §24 eklendi (auto-block AFTER konumunda, vault-sync çakışmaz)
+- [x] REFACTOR REPORT: FILE: MEMORY.md · PURPOSE: Session memory/boot SSOT · VALIDATION: § + link korundu · RELATED: [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[index.md]] · [[log.md]]
+
+### §24.3 İlgili Dosyalar
+
+[[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[brain.md]] · [[index.md]] · [[keys.md]] · [[log.md]]
+
+### §24.4 Faz 2-3 İskelet Yeniden Düzenleme (2026-09-23)
+
+- [x] 7 İngilizce H2 iskeleti uygulandı: `## Purpose / ## Scope / ## Architecture / ## Rules / ## Workflow / ## Validation / ## References`
+- [x] Eski numaralı H2 bölümleri `### §N` H3 başlığına dönüştürüldü; § numaraları harfiyen korundu (dış cross-ref'ler: §5 boot, §18C, §24.2)
+- [x] İçerik taşındı, silinmedi; §24.1 eşlemesi güncel grubu gösterir
+- [x] Q&A Kararlari ve Frontend Mimarisi (numarasız H2/H3) Architecture grubuna alındı
+- [x] version 25.0.0 → 25.1.0; updated 2026-09-23; footer tarih güncellendi
+- [x] `vault-sync:auto` bloğu içeriği değişmeden dosya sonuna taşındı
+
+---
+
+## References
+
+### §19 Cross References
+
+| Kaynak | Hedef | Tip | ADR |
+|--------|-------|-----|-----|
+| `MEMORY.md` | [[CLAUDE.md]] | Zorunlu baglanti | ADR-042 |
+| `MEMORY.md` | [[AGENTS.md]] | Zorunlu baglanti | — |
+| `MEMORY.md` | [[WORKFLOW.md]] | Zorunlu baglanti | — |
+| `MEMORY.md` | [[index.md]] | Zorunlu baglanti | — |
+| `MEMORY.md` | [[keys.md]] | Zorunlu baglanti | — |
+| `MEMORY.md` | [[brain.md]] | Zorunlu baglanti | — |
+| `MEMORY.md` | [[log.md]] | Zorunlu baglanti | — |
+| `MEMORY.md` | [[.decisions/accepted/ADR-004-multi-domain-spa]] | Vault versiyonlama | ADR-004 |
+| `MEMORY.md` | [[.decisions/accepted/ADR-022-database-hardened-security]] | Guvenlik | ADR-022 |
+| `MEMORY.md` | [[.decisions/accepted/ADR-010-csrf-protection-strategy]] | CSRF | ADR-010 |
+| `MEMORY.md` | [[.decisions/accepted/ADR-011-session-management]] | Session | ADR-011 |
+
+---
+
+### §18 Session History
+
+| Tarih | Konu | Durum | ADR | Agent |
+|-------|------|-------|-----|-------|
+| 2026-09-18 | Class AB amplifikatör mimarisi vault güncellemesi: CLAUDE.md v24.0.0, brain.md v24.0.0, architecture/index.md K19-K20 eklendi | ✅ completed | — | vault-updater |
+
+| 2026-09-18 | ADR-089 cross-reference güncelleme ve validation report oluşturma | ✅ completed | — | vault-updater |
+
+| 2026-09-18 | ADR-089-classab-24v Draft oluşturuldu: Class AB Amplifikatör + 6S LiPo + ±35V Boost Mimarisi. MJL21194/MJL21193 output transistörleri, 50W/kanal, 8 kanal modüler, sıcaklık kontrollü sessiz fan. Draft status: draft. | ✅ completed | — | vault-updater |
+
+| 2026-08-04 | Dynamic Theme Engine | Vault tamamlandi, kodlama yok | [[brain.md]] ADR-044-dynamic-user-theme-engine | UI |
+| 2026-08-05 | Auth SOLID Fixes + Tests | ✅ Tamamlandi (56 test, 0 failure) | [[.decisions/accepted/ADR-010-csrf-protection-strategy]] | Security |
+| 2026-08-05 | Vault Activasyon + Session | ✅ Tamamlandi (12 adim) | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | MO |
+| 2026-08-06 | .workflows/ Trim | ✅ Tamamlandi (-87%, 584 satir) | — | MO |
+| 2026-08-06 | Template Vault v3.0.0 | ✅ Tamamlandi (19 template, 26K satir) | — | MO |
+| 2026-08-08 | Vault Rewrite (engine, MEMORY, log) | ✅ Tamamlandi | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | MO |
+| 2026-08-09 | Platform Rewrite Vault Update | ✅ 4 yeni ADR + architecture guncellendi | [[ADR-053/054]] <!-- dead-link: ADR-053/054 no source 2026-09-24 --> | MO |
+| 2026-08-09 | Electronics Vault Integration | ✅ 50+ dosya, L6 katmani, 3 yeni ADR (061-063) | [[brain.md]] ADR-061/062/063-electronics | MO |
+| 2026-08-09 | AI Architecture + Vault Update | ✅ 12 yeni dosya (9 AI + 1 BCNF + 2 Security), OWASP 2025, PCM3168A duzeltmesi | [[ADR-030/035/036/049-ai]] | MO |
+| 2026-08-12 | Katmanlı Mimari Plan + ADR-083/084/085/086 + Vault Güncellemeleri | ✅ Tamamlandı | ADR-083, ADR-084, ADR-085, ADR-086 | MO |
+| 2026-08-13 | Master Implementation Plan + ADR-087 + Tüm Vault Revize | ✅ Tamamlandı (22 bölüm, 5 faz, 40 gün) | ADR-087, master-implementation-plan.md | MO |
+| 2026-08-13 | Vault Sync — Master Implementation Plan doğrulama + MEMORY/log güncelleme | ✅ Tamamlandı | master-implementation-plan.md | MO |
+| 2026-08-13 | Vault Restructuring — Templates Entegrasyon, Agent Yeniden Yapılandırma, Prompt Arsivleme | ✅ 5 faz, ~43 dosya | log.md | MO |
+| 2026-08-13 | Prompt Entegrasyonu — prompt0-3 okundu, .ai vault güncellendi, ADR revizeleri | ✅ brain.md, ADR-083, ADR-084 güncellendi, opencode.json optimize edildi | ADR-083 v2.0, ADR-084 v2.0 | MO |
+| 2026-08-13 | opencode.json Yeniden Yapılandırma — 12 agent prompt'u düzeltildi, template entegrasyonu, kesik metin giderildi, n@ hatası düzeltildi | ✅ 12 agent'a @.ai/.templates/index.md + @.ai/ROLE.md referansları eklendi, master-orchestrator prompt'u 7-adımlı task dispatch ile tamamlandı | ADR-042, ADR-083, ADR-084, ADR-085, ADR-086 | MO |
+| 2026-08-13 | .ai Beyin Yeniden Yapılandırma — Çelişki düzeltme, template entegrasyonu, prompt bağlama, hibrit kurallar | ✅ Tamamlandı (~20 dosya) | ADR-042, ADR-087 | MO |
+| 2026-08-15 | 18 BCNF Vault Senkronizasyonu — SQL dosyalarına göre vault tamamen yeniden yapılandırıldı | ✅ coremusic_download.sql oluşturuldu, database_master.md yeniden yazıldı (18 DB, 156 tablo), 27+ dosya güncellendi | — | Data Engineer |
+| 2026-08-15 | Architecture Vault Veri Tutarlılık Düzeltmesi — 12 dosya, ~20 değişiklik | ✅ architecture-master.md oluşturuldu, CLAUDE.md DB 11→18, index.md ADR 78→87, brain.md L0-L3→L0-L6, keys.md L4-L6 keywords, tüm layer dosyaları L0-L6 güncellendi | — | MO |
+| 2026-08-18 | Responsive CSS Architecture — a-layout-tokens.css v2.0.0, token konsolidasyonu, 4 breakpoint media query, device CSS dönüşümü | ✅ brain.md §18A, keys.md responsive keyword'leri, log.md entry | — | MO |
+| 2026-08-18 | Responsive CSS Architecture Rule — Vault'a zorunlu kural olarak yerleştirildi. Guardrail #17 (CLAUDE.md §7), brain.md §18A güncellendi (Responsive CSS Mimarisi Kuralı, yasak örüntüleri, dosya yapısı), AGENTS.md §15.3 UI Designer'a responsive kuralı eklendi | — | MO |
+| 2026-08-19 | Responsive Device Mode Architecture — .ai/ui-design/responsive-device-mode.md oluşturuldu (17 bölüm), tek component + embedded device override kuralı, Guardrail #17 uyumlu, 3 cross-reference güncellendi | — | MO |
+| 2026-09-01 | Prompt Processing Session — 8 prompt işlendi, 2 duplicate temizlendi, 4 arşiv + 4 vault güncellendi | ✅ prompt0-3 → 2026-09-01 versiyonları, auth-architecture v2.0, api-architecture-master v2.0, electronics-overview v3.0, spa-router v7.0, CLAUDE.md prompt referansları güncellendi | — | MO |
+| 2026-09-01 | Device-Aware Frontend Rendering — Component token sistemi kuruldu, hardcoded media query'ler kaldırıldı, inline style temizlendi | ✅ 6 dosya: a-layout-tokens.css v3.0.0 (+11 component token × 7 breakpoint), _home-components.css v4.0.0 (-200 satır hardcoded), _home-layout.css v4.0.0 (token-based grid), footer.php v5.0.0 (inline→token), _footer.css v3.0.0, d-embedded.css v4.0.0 + vault: responsive-frontend-architecture.md v2.0.0, device-css.md, responsive-device-mode.md | — | UI |
+| 2026-09-02 | Home.php Embedded Rewrite — PNG mockup birebir uyum, BEM sınıfları, sosyal medya ikonları | ✅ 2 dosya: home.php v5.2.0 (Split 42/58 + widget grid + social row), _home-components.css (social-row + social-btn CSS) | — | UI |
+| 2026-09-02 | DeviceManager — PHP-side device-aware rendering, 5 cihaz bloğu, feature toggles | ✅ 5 dosya: DeviceManager.php (yeni — central device management), home.php v6.0.0 (5 cihaz HTML bloğu), header.php v5.0.0 (dm nav), footer.php v6.0.0 (dm feature toggles), .ai vault 5 dosya güncelleme | — | UI |
+| 2026-09-03 | Phase 1-5 Device-Aware Cleanup — PageRouter viewport fix, manuel require temizliği, inline style→token dönüşümü, CSS token uyumluluğu, welcome modal doğrulama | ✅ 8 dosya: PageRouter.php (viewportW/H eklendi), HtmlShellRenderer.php (viewportW/H eklendi), header.php (require kaldırıldı, inline→CSS custom property), footer.php (require kaldırıldı, inline→CSS class), home.php (require kaldırıldı, inline→CSS), b-base-core.css (body-bg-image token), _footer.css (mobile+embedded playctrl CSS), _home-components.css (text-decoration, playlist-btn embedded) | — | MO |
+| 2026-09-03 | Phase 1 Technical Architecture Assessment — 3 görev: (1) mimari dokümantasyon envanteri (50+ dosya, 15 kategori), (2) ADR-083/084/085/086/087 + kritik belge analizi (API Gateway, SPA Router, Shared Library, Middleware Pipeline, Event Driven), (3) Faz 1 teknik mimari değerlendirme raporu (24 deliverable, ~95% tamamlandı, API kontratları, veri akışları, kural setleri, middleware pipeline detayları) | ✅ .ai/reports/phase1-technical-architecture-assessment.md oluşturuldu (9 bölüm, 10 kalite metriği) | ADR-083/084/085/086/087 | vault-updater |
+| 2026-09-04 | Welcome Popup Responsive — shouldRenderWelcomePopup() tüm cihazlara açıldı, home.php v8.1.0, _home-components.css 4 responsive media query (mobile/tablet/laptop/desktop/4K TV) | ✅ Guardrail #17 uyumlu: tek component + CSS responsive | — | UI |
+| 2026-09-04 | Footer Utility Icons + Seek Slider — footer.php v8.0.0, DeviceManager v1.1.0, 9 icon + seek slider, _footer.css responsive düzeltmeleri | ✅ 3 dosya: DeviceManager.php (showUtilityIcons, showFooterSeekSlider), footer.php (9 icon + seek slider), _footer.css (embedded display:flex, phone max-width fix) | — | UI |
+| 2026-09-04 | Koşullu Render Mimarisi — 3-way conditional rendering (Embedded/Wide/Fallback), DeviceManager +4 metot, home.php v9.0.0, JS viewport cookie, PHP cookie fallback | ✅ 7 dosya: DeviceManager.php v2.0.0 (+shouldRenderEmbeddedLayout/WideLayout/ShowFallback/isSupportedResolution), home.php v9.0.0 (3 render bloğu), _home-layout.css v5.0.0 (fallback stili), _home-components.css v5.0.0 (wide component), device-loader.js (cookie yazma), PageRouter.php (cookie okuma), HtmlShellRenderer.php (cookie okuma) + vault: responsive-device-mode.md v2.0.0, brain.md §18B, keys.md keywords | — | MO |
+| 2026-09-04 | Hibrit Scale Motoru Refactor (SOLID ES6+) — scale*.js 4 dosya silindi, ScaleManager.js (TierResolver + TransformApplier + declarative rules + DPR/aspect + EventBus), main.js v6.0.0, a-scale-hybrid.css v3.0.0, header/footer temizlik, DevTools 5-tier canlı test | ✅ 5 dosya değişti + 4 silindi: ScaleManager.js (yeni v6.0.0), main.js v5→v6 (import+init+registerModule), a-scale-hybrid.css v2→v3 (referans senkron), header.php (ölü koşul temizliği), footer.php (Çince karakter düzeltme); silinen: scale.coordinator.js, header.scale.js, footer.scale.js, home.scale.js. Test: 1024 embedded ✅, 1920 desktop ✅, 2564 2k ✅, 500 phone ✅, EventBus scale:applied doğrulandı | — | UI |
+| 2026-09-04 | CLAUDE.md Rewrite — Root CLAUDE.md v4.0.0 yeniden yazıldı, mükerrer bölümler kaldırıldı, .ai/models/index.md, .ai/issues/index.md, .ai/scripts/index.md oluşturuldu | ✅ Root CLAUDE.md v4.0.0 (18 bölüm, temiz yapı), 3 yeni index dosyası | — | MO |
+| 2026-09-04 | 40-Day Implementation Plan — .ai/architecture/03-contracts/40-day-implementation-plan.md oluşturuldu (5 faz, 40 gün, 200+ görev) | ✅ 5 faz (Foundation, Backend, Frontend, Integration, Production), bağımlılık grafisi, risk matrisi, kalite kapıları | ADR-087 | vault-updater |
+| 2026-09-05 | Device-Aware Rendering Vault Update — brain.md §18C (Backend/Frontend sorumluluk sınırları, token değerleri, WCAG 2.2 AA, katman ihlal kontrolü), keys.md §3.4A (8 yeni device-aware keyword), responsive-device-mode.md v3.0.0 (4-Tier Conditional Rendering) | ✅ 3 vault dosyası güncellendi: brain.md (§18C Device-Aware Rendering Kuralları), keys.md (+8 keyword), MEMORY.md (session history +1) | — | vault-updater |
+| 2026-09-09 | Session Management + Vault Post-Update Automation — session-save.mjs, vault-post-update.mjs, settings.json hooks, opencode.json command, vault-sync-post skill, OpenCode kaynak kodu güncelleme | ✅ 10+ dosya: 2 yeni script, 1 hook, 1 command, 2 skill, 4 OpenCode dosyası güncellendi | — | MO |
+| 2026-09-18 | 50W Class AB Amplifier Circuit Design — Tam devre tasarımı, BOM, bias prosedürü, koruma devreleri, PCB layout, test protokolü | ✅ .ai/architecture/amplifier-classab-circuit.md oluşturuldu (12 bölüm, tek kanal tasarımı) | ADR-061, ADR-063 | embedded-engineer |
+| 2026-09-21 | Agent Profilleri + CLAUDE.md Genişletme — 11 agent profili (.ai/.agents/) oluşturuldu, 4 kritik CLAUDE.md genişletildi (shared, auth, home, assets) | [OK] 12 dosya oluşturuldu/güncellendi, ~2000+ satır eklendi | — | vault-updater |
+| 2026-09-24 | Vault Workflow+Template Genişletme — WORKFLOW.md 27→502 satır (K0-K20, A0-A5, 23 klasör/340 MD, 3 tur/20 persona, iki ADR serisi, UTF-8/post-op), .workflows/architecture-write.md yeni (511 satır, batch ≤31, 0 silme, AC-01…AC-26), 4 yeni şablon (katman-readme 174, alt-katman 158, adr-nygard 209, agent-tartisma-turu 185), hedefli edit: session-init/vault-sync/adr-creation/.workflows CLAUDE/kök CLAUDE, templates index 325→338 (36/36 dosya, 16.503 satır, v4.4.0) | [OK] 0 dosya silindi; grep domain L* = 0; 334↔340 çelişkisi VERIFICATION REQUIRED korundu | — | vault-updater |
+| 2026-09-27 | Faz 2 Persona Yeniden Yazımı (62 kalan persona) - 7 dalga (A-G) ile .ai/.personas/ altinda 68/68 dosya sifirdan yazildi (eski vault icerigi referans + web arastirmasi + research-bank P1-P8 etiketli veri); 4 genc-erkek dosyasi yanlis isimle yazildi → rename + 13 ic self-ref (authority/footer) duzeltmesi; kapanis taramasi hepsi yesil | → 68/68 dosya, 35.026 satır, >=500 %100, BOM/mojibake/CJK 0, FM 7/7, persona_id 68 benzersiz, veli<16 kurali 0 celiski, wiki-link 0 kirik; index.md §6.3 6 yas celiskisi frontmatter ile eslestirildi, §6.5 tablo 68=68; Download kanonu 39 (68-29) + turetilmis hucreler (123→117, 346→344, 1.038→1.032); .ai/index.md 28.4.0 / 2026-09-27 | ADR-023, ADR-005 | vault-updater + qa-engineer |
+| 2026-09-28 | Wiki-link kanonu + registry hizasi - .ai/.personas/** 79 dosyada 4.096 [[link]] nokta-onkli gercek yola cevrildi (kok .ai/); .templates/index.md total_lines ReadAllLines ile yeniden olculdu + updated 2026-09-28; MEMORY.md 3'lü tarih/versiyon hizasi | → kirik link 0, .. hedefi 0, yanlis onek 0; satir-BOM-mojibake-CJK-NUL 0; registry 38 dosya | - | vault-updater |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-06
+**Mode:** Red Team · Human Mode · Truth Mode
+
+<!-- vault-sync:auto-begin -->
+## Session State (auto)
+
+- Last update: 2026-09-28 18:18:43
+- Last session: ses_f22fd22d4ffeN6omnhdTZGGTNy
+- Next: kaldigin yerden devam etmek icin vault_sync continue-last kullan
+- Last operation: Faz 2 persona uretimi TAMAMLANDI (7 dalga A-G): .ai/.personas/ 68/68 dosya / 35.026 satir / >=500 %100 / BOM-mojibake-CJK 0 / FM 7/7 / persona_id 68 benzersiz / veli-yas 0 celiski / wiki-link 0 kirik. 4 rename (genc-erkek) + 13 self-ref fix; index.md 20 satir yas/mood sayac hizasi; .ai/index.md 28.4.0 (L7/L8/s18/footer) + toplam ADR alani 0'a geri alindi (baska oturumun); mapping Download kanonu 39 + turetilmis hucreler; log.md +20 satir append (0 silme).
+2026-09-25 | session | ADR-020-api-public-security YAZILDI (debate PENDING, Tech Lead PENDING, Arch Lead PENDING; 364 satir / 58.659 bayt, UTF-8 temiz (BOM/mojibake/CJK=0), wiki-link 22 unique / 0 kirik, placeholder 0). Icerik: genel API guvenlik seti - API key (SHA-256+prefix+scope, kodda dogrulama YOK), JWT Bearer BLOCKED (validateJwtToken stub null - ADR-010 sart 3 / ADR-011 4.4), OAuth2 PKCE PLANNED, RateLimitMiddleware pipeline KAYDI YOK, CORS eksik header+echo, versiyonlama testli, Gateway hata sizintisi (:60-67), audit log SQL var/PHP yok, 2x api_keys SSOT celiskisi. web-research 5 sorgu / ~36 kaynak (OWASP API Top 10, RFC 8725, OAuth 2.1 PKCE, Deprecation). log.md 1 satir append (49 bayt). session-save.mjs + vault-post-update.mjs + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED).
+2026-09-25 | session | ADR-027-dual-mode-storage-strategy YAZILDI (debate PENDING, Tech Lead PENDING, Arch Lead PENDING; 333 satir / 53.554 bayt, UTF-8 temiz (BOM/mojibake=0), wiki-link 24/24 diskte, placeholder 0, §1.3 9/9 alan dolu). Icerik: 2 eksen (online+offline yerel mod, local disk+cloud hibrit); LWW+server SSOT varsayilan, CRDT sadece playlist/etiket hassas listeler, offline yazim kuyrugu PLANNED. IMPLEMENTED kanit: shared/src/Cache/ 7 dosya + Router offline event (RouterEventManager.js:13) + localStorage (SidebarManager.js:49-82). PLANNED/0 esme: IndexedDB, serviceWorker/PWA, gdrive/mega, storage/ dizinleri (H032), CRDT sadece spec (k8-servis/sync-service.md), LWW sadece k5 README + ADR-081. web-research 6 sorgu / ~34 kaynak (Drive API 750GB/gun+1TB egress, MEGA EOVERQUOTA, LWW vs CRDT, SW+IndexedDB tarayici quota/eviction). log.md 1 satir append (250 bayt) + satir ayristirmasi duzeltildi (insert-before-marker, 1 bayt). session-save.mjs + vault-post-update.mjs + sessions/ + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED, scripts/index.md §2 ile ayni durum). .claude/CLAUDE.md + .opencode/CLAUDE.md eski v23.0.0 (471 satir fark) -> .ai/CLAUDE.md kopyasi ile sync edildi.
+2026-09-25 | session | ADR-030-ai-strategy-core YAZILDI (debate PENDING, Tech Lead PENDING, Arch Lead PENDING; 362 satir / 67.106 bayt, UTF-8 temiz (BOM/mojibake/CJK=0), wiki-link 22/22 diskte, placeholder 0, 1.3 9/9 alan dolu). Icerik: 5 karar ekseni (kullanim alani: oneri+asistan+transkript; model: API birincil + yerel/edge opsiyonel PLANNED; maliyet: token butcesi + ADR-007 cache + ADR-013 rate limit; gizlilik: ADR-022 PII + egitime veri yok kapali varsayilan + redaksiyon; HITL: aciklanabilir oneri + yanit dogrulama). Kod kaniti: ToolCalling.php:241-280 generic http-request araci (curl :253-262, LLM saglayici cagrisi 0), embedding/vector 0, AIEngine stub (return [] :219,224,241), coremusic_ai.sql 6 tablo IMPLEMENTED, shared/src/AI/ 7 sinif PLANNED (unused-files-report vs broken-code-scan celiskisi ADR'de belgelendi). web-research 9 sorgu / ~78 kaynak (model routing, RAG, token butce, GDPR, HITL, muzik oneri, lock-in, edge/SLM, OWASP LLM). log.md 1 satir append (418 bayt) + satir ayristirmasi duzeltildi (replace, oncesindeki satira yapismisti). session-save.mjs + vault-post-update.mjs + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED).
+2026-09-25 | session | ADR-034-credential-vault-normalization YAZILDI (debate PENDING, Tech Lead PENDING, Arch Lead PENDING; 362 satir / 47.345 bayt, UTF-8 temiz (BOM/mojibake/CJK=0), wiki-link 17 unique / 0 kirik, placeholder 0, §1.3 9/9 alan dolu). Icerik: 6 karar - (a) tek SSOT credential deposu (bugun ConfigManager SENSITIVE_KEYS:10-15 + 2 .env.example), (b) service.category.name ad alani (DB_NAME vs DB_AUTH_NAME drift), (c) rotasyon ADR-015 §2.2g hizali, (d) erişim rolleri (okur/yazar/onaylayici/acil), (e) 3 fazli gecis (.env -> config service -> Vault/KMS ops.), (f) secret-scan CI kapisi (secret-scan.yml 938B mevcut, .gitleaks.toml YOK). Kod kaniti: 0 .env (disk+git), 2 .env.example (18/13 anahtar), uretim kodunda hardcoded secret 0 (8 desen), test 5 eslesme (2 LoginRequestTest dosyasi), ham getenv/ 9 dosya (6+10 satir), oauth-platforms.php 20 env-adi, vault-secrets.md 2/9 PLANNED. web-research 5 sorgu / 30 kaynak (OWASP, 12factor, Vault AppRole brownfield, AWS migration, rotation/break-glass). log.md 1 satir append (34 bayt + newline). session-save.mjs + vault-post-update.mjs + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED).
+2026-09-26 | session | ADR-038-8-1-sound-card-chip-selection YAZILDI (debate PENDING, Tech Lead PENDING, Arch Lead PENDING; 289 satir / 28.929 bayt, UTF-8 temiz (BOM/mojibake/CJK=0), wiki-link 20/20 diskte, placeholder 0, §1.3 9/9 alan dolu, 5 sorgu / 20 kaynak). Icerik: TEYIT karari (brain.md:998 slotu; secim degil, gerekce+entegrasyon+olcum) - PCM3168A (6-in/8-out, 112 dB SNR, TDM) + XU316 (lib_xua UAC2.0 async, I2S/TDM master, I2C AudioHwInit); H001 PCM5122 yasagi red gerekcesi; XMOS referans kart 4xPCM5122 gerilimi -> R2; rol celiskisi k1-donanim/dac-adc-zinciri.md:18-19,63-92 (AK4458=DAC ters) §1.1-C + §5.1 adim 4; kod kaniti 0 (AIEngine.php:147 yorum /:155 placeholder, *.cpp/*.h/*.xc=0) -> entegrasyon+olcum tamami PLANNED; olcum plani AES17-2020 + IEC 61606-1 + EIAJ CP-2404 (M1-M6, marjli esik); jitter butcesi sayisal deger VERIFICATION REQUIRED; ES9039 acik sorusu §3 alt.4 + R3 (fallback = yeni ADR). index.md:80 slug 8.1 -> 8-1 duzeltildi (dosya adinda nokta yasak, [[.decisions/accepted/ADR-038-8-1-sound-card-chip-selection]]). log.md 1 satir append (onceki satir sonu yoktu -> satir birlesmesi 1 bayt newline ile onarildi). session-save.mjs + vault-post-update.mjs + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED, onceki ADR oturumlariyla ayni durum).
+2026-09-26 | session | Guardrail #16 persona sablonu uretildi — .ai/.templates/personas/persona-template.md (695 satir, 8-bolum + 11 alan havuzu, 7-alanli FM, verify BOM/mojibake=0, CRLF) + registry .templates/index.md v4.4.1 -> v4.5.0 (total 36/36/16503 -> 37/37/17209, §7.1.14 #37 eklendi, kategori 11 -> 12 dizin, Maks Satir 649 -> 695, FM 35/35, 500+ 30/34, git diff 0 silinen satir, .templates scan dirty:0). log.md 1 satir append (618 bayt). session-save.mjs + vault-post-update.mjs + vault-cmd.mjs + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED). Ek bulgu: .ai/.templates/coremusic-vault-template.md (810 satir) diskte mevcut ama registry kayitli degil -> gercek disk 38, registry 37 (VERIFICATION REQUIRED).
+2026-09-26 | session | 6 persona dosyasi SIFIRDAN uretildi (persona-template s3.5 11/11 + research-bank P3-P8 etiketli veri) -> kiz-cocuk/zeynep-yilmaz.md (500 satir), erkek-cocuk/yigit-can-arabesk.md (500), genc-kiz/alya-yilmaz-romantik.md (501), genc-erkek/metehan-sahin-sporcu.md (501), yetiskin-kadin/ebru-arslan-anne.md (504), yetiskin-erkek/emre-bulut-baba.md (504). verify hepsi: BOM=false, mojibake=0; scan --dir .ai/.personas dirty:0; otomatik dogrulama: FM 7+5, 11/11 alt bolum, s4-blok ilk, {{VARIABLE}} 2 (kural metni), test adimi 16x6, kaynak tablosu 28x6, wiki-link 7/7, persona_id regex OK, age/veli eslesme OK (4 kucuk: veli true + KVKK notu, 2 yetiskin: veli false). Etiket toplami: kurgusal 316, [k1]+[k2] 75, VERIFICATION REQUIRED 149, DERIVED 116. Subagent derinlik limiti nedeniyle 6 dosya da main agent inline yazildi. log.md 1 satir append (570 bayt). session-save.mjs + vault-post-update.mjs + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED, onceki oturumlarla ayni durum).
+2026-09-27 | session | Faz 2 persona 68/68 TAMAMLANDI — .ai/.personas/ altinda 7 dalga (A-G) ile 68/68 dosya, 35.026 satir, >=500 %100, FM 7/7, persona_id 68 benzersiz, veli<16 0 celiski, wiki-link 0 kirik, 4 rename (genc-erkek) + 13 self-ref fix; index.md 20 satir sayac hizasi (yas celiskisi 6), Download kanonu 39 + turetilmis hucreler (123→117, 346→344, 1.038→1.032), .ai/index.md 28.4.0; kapanis taramasi BOM/mojibake/CJK 0; log.md +20 satir append (0 silme); session-save/vault-post-update/vault-cmd/project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED).
+2026-09-29 | session | ADR-092 v1.1.0 REVIZYONU (yol duzeltmesi + gitignore) - .ai/.decisions/accepted/ADR-092-media-dizin-ekseni-ve-ulid.md satir seviyesinde guncellendi (dosya silinmedi, rewrite yok): §2.2 yerlesim ESKİ 'C:\www\media.coremusic.net\' -> YENİ 'C:\www\coremusic.net\media.coremusic.net\' (proje repoda, ADR-039 servisi) + git kurali maddesi ('media/' .gitignore'da; git check-ignore -> media.coremusic.net/.gitignore:2 dogrulandi; 38 GB+ varlik bayti repo'ya girmez); §5.2 adim 2 -> UYGULANDI (62 dizin + config 3 + docs 2, Test-Path media = True); §1.4 / §6.2 / §7.1'de eski yoldan eser 0; version 1.0.0 -> 1.1.0 + footer v1.1.0; log.md +1 satir append (746 bayt, 0 silme); verify ADR BOM=0 mojibake=0 CJK=0, scan .ai/.decisions dirty:0; wiki-link hedefleri degistirilmedi, frozen 001-037 dokunulmadi. Sebep: kullanici karari 2026-09-29. session-save.mjs + vault-post-update.mjs + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED, onceki oturumlarla ayni durum).
+2026-09-30 | session | ADR-072-social-database-schema YAZILDI (debate PENDING, Tech Lead PENDING, Arch Lead PENDING; 320 satir / 48.593 bayt; 5 web sorgusu / 37 kaynak; wiki-link 21/21 diskte; index.md:96 mevcut, ../brain.md hedef duzeltmesi ERTELANDI; log.md append 36 bayt)
+2026-10-06 | session | architecture.1 3 IS TAMAMLANDI - (1) 5 kok dosya 0 B -> dolduruldu (CLAUDE/AGENTS/WORKFLOW/INDEX/README, docs-md-template s1-s7 iskeleti, FM 7/7, H1 tekil; onceden dolu versiyon YOK: git HEAD de 0 B); (2) k0 memory-management.md + ipc-mekanizmalari.md "arastirilmadi -> UNKNOWN" satirlari exa ile degistirildi (LWN io_uring IPC RFC 2026-03-13, SLUB sheaves 2026-01-12, MGLRU-FG RFC 2026-09/10, HugeTLB cache RFC 2026-07-07, HVO v4 2026-08-19, Linux IPC shootout 2026-05-01, HPC IPC makalesi, gRPC Conf 2025 HTTP/3); kapsam disi (Windows/macOS bellek, Named Pipes 2026, POSIX API taramasi, gRPC 1.40, performans hedef eslemesi) UNKNOWN/VERIFICATION REQUIRED birakildi; (3) k000-k005 incelendi (27 md: 12 verbatim yedek kopyasi = SSOT bu vaultta, 15 yeni derin-dalis, AppContainer her iki tarafta da [NOT PROVIDED]) -> k0-isletim-sistemi/index.md s8 esleme + eksik kapsam eklendi, 01-platformlar/windows-api.md s7 Win32 olay dongusu ozeti eklendi; G:\Drive 6 not OS ek icerigi YOK. Dogrulama: 19/19 FM 7/7, wiki-link 57/57 (3 inline-code ornek false positive), verify BOM=0 mojibake=0, scan dirty=0; .ai/architecture/** (k000-k005) + _backup/** yazma 0; log.md 1 satir append (2216 bayt). Commit ATILMADI (orkestrator). session-save.mjs + vault-post-update.mjs + project-state.md DISKTE YOK -> manuel senkron (VERIFICATION REQUIRED, onceki oturumlarla ayni durum).
+- 2026-10-06 · architecture.1/k0 · `.old` vault (.ai) + k000-k006 tarandı; 3 OS dosyası aktarıldı (shared-memory-ipc→ipc-mekanizmalari §, cross-platform-fallback→cross-platform-api §, ADR-004 thread pool→threading-model §); k006-dac-adc reddedildi; index.md §9 eşlemesi eklendi; 4 dosya değişti, 7/7 fm + H1 + scan dirty=0; kaynaklara yazma 0; commit ATILMADI.
+<!-- vault-sync:auto-end -->

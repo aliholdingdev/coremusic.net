@@ -1,0 +1,171 @@
+---
+reference_doc: CoreMusic UI Design System
+title: "CoreMusic — Select Gender Flow"
+type: flow
+category: ui-design
+date: 2026-09-20
+updated: 2026-09-29
+status: active
+version: 1.0.1
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
+---
+
+# Select Gender Flow
+
+## 1. Akış Diyagramı (Decision Flow)
+
+```
+┌─────────────────┐
+│     BAŞLA       │
+└────────┬────────┘
+         │
+┌────────▼────────┐
+│  "Seni Tanıyalım"│
+│  Hoş geldin!    │
+└────────┬────────┘
+         │
+┌────────▼────────┐
+│  Seçim Yap      │
+│  [👩 Kız]        │
+│  [👨 Erkek]      │
+│  [[V] Nötr]      │
+└────────┬────────┘
+         │
+┌────────▼────────┐
+│ Seçim Yapıldı?  │
+└────────┬────────┘
+  Hayır─┤─Evet
+  │     │     │
+┌─▼───┐ │  ┌──▼────────────┐
+│Buton│ │  │Theme Uygula    │
+│Disabled│  │                │
+│"Devam" │  │ Kız → pembe    │
+└─────┘ │  │ Erkek → mavi   │
+        │  │ Nötr → default │
+        │  └──┬────────────┘
+        │     │
+        │  ┌──▼────────────┐
+        │  │Preference Kaydet│
+        │  │DB: user_prefs  │
+        │  └──┬────────────┘
+        │     │
+        │  ┌──▼────────────┐
+        │  │CSS Variables   │
+        │  │Güncelle        │
+        │  └──┬────────────┘
+        │     │
+        │  ┌──▼────────────┐
+        │  │Login Ekranına │
+        │  │Geç            │
+        │  └───────────────┘
+```
+
+## 2. Ekran Akışı
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│ +--- LEFT (60%) ---+  +--- RIGHT (40%) ------------------+ |
+│ | 🏔️ Manzara       |  | 👤 Seni Tanıyalım                | |
+| |                   |  |                                  | |
+| | [*] Core Music     |  | Hoş geldin!                     | |
+| |                   |  | Temini seç, sana özel deneyim   | |
+| |                   |  | hazırlayalım.                    | |
+| |                   |  |                                  | |
+| |                   |  | ┌──────────┐ ┌──────────┐       | |
+| |                   |  │ │   👩     │ │   👨     │       | |
+| |                   |  │ │  Kız     │ │  Erkek   │       | |
+| |                   |  │ │ Pembe    │ │  Mavi    │       | |
+| |                   |  │ │ theme    │ │  theme   │       | |
+| |                   |  │ └──────────┘ └──────────┘       | |
+| |                   |  │                                  | |
+| |                   |  │ ┌──────────────────┐            | |
+| |                   |  │ │ [[V] Belirtmek   │            | |
+| |                   |  │ │ İstemiyorum]     │            | |
+| |                   |  │ │ Nötr theme       │            | |
+| |                   |  │ └──────────────────┘            | |
+| |                   |  │                                  | |
+| |                   |  | [▶ Devam Et]                     | |
+| +-------------------+  +----------------------------------+ |
+└──────────────────────────────────────────────────────────────┘
+```
+
+## 2A. Theme Mapping
+
+| Seçim | Theme | Primary Color | Secondary | Öneri Tonu |
+|-------|-------|---------------|-----------|------------|
+| 👩 Kız | pembe | `#FF6B9D` | `#FFB3D1` | Pembe tonları |
+| 👨 Erkek | mavi | `#4A90D9` | `#89C2F4` | Mavi tonları |
+| [[V]] Nötr | default | `#6C757D` | `#ADB5BD` | Nötr tonları |
+
+## 2B. CSS Variable Güncellemesi
+
+```css
+/* Kız Theme */
+--primary: #FF6B9D;
+--primary-light: #FFB3D1;
+--accent: #FF85B3;
+
+/* Erkek Theme */
+--primary: #4A90D9;
+--primary-light: #89C2F4;
+--accent: #5DA3E8;
+
+/* Nötr Theme (Default) */
+--primary: #6C757D;
+--primary-light: #ADB5BD;
+--accent: #868E96;
+```
+
+## 3. Hata Senaryoları
+
+| Hata | Çözüm |
+|------|-------|
+| Seçim yapılmadan devam | Buton disabled kalır |
+| API hatası | "Bir hata oluştu, tekrar dene" |
+| Network hatası | "Bağlantı yok" + retry |
+
+## 4. Tier-Bazlı Varyasyonlar
+
+| Tier | Seçim Tipi | Buton | Animasyon |
+|------|------------|-------|-----------|
+| **Phone** | Full-screen, dokunmatik | Büyük, thumb-area | Fade-in |
+| **Tablet** | Split-panel | Orta boy | Slide-in |
+| **Embedded** | Split 42/58 | Orta boy | Fade-in |
+| **Desktop** | Inline selector | Normal boy | Hover effect |
+| **TV** | Large cards, remote | Büyük, focus ring | Focus glow |
+| **Car** | Voice-first | Dokunmatik, büyük | — |
+| **Watch** | Crown scroll | Haptic tap | Haptic |
+
+## 4A. Preference Kaydı
+
+| Alan | Değer | DB Tablosu |
+|------|-------|------------|
+| `user_id` | Mevcut kullanıcı | `coremusic_user` |
+| `theme_gender` | female/male/neutral | `user_preferences` |
+| `created_at` | Timestamp | — |
+
+---
+## 5. BEM Sınıfları
+
+| BEM sınıfı | Rol (bu dosyadaki kanıt) | Durumlar | Kaynak |
+|------------|--------------------------|----------|--------|
+| `.btn`, `.btn--primary` | blok — [▶ Devam Et] (bu dosya L88); seçim yapılmadan disabled (L41-L43, L124) | default, hover, active, disabled, loading | 02-component-inventory.md L65 (C04) |
+| `.card`, `.card--compact` | blok — Kız / Erkek seçim kartları (bu dosya L75-L80); TV tier "Large cards" (L136) | default, hover, active, loading, skeleton | 02-component-inventory.md L55 (C03) |
+
+> **Kaynak:** [[../../02-component-inventory]] v4.1.0 (C01-C19, `updated: 2026-09-29`). Tema renk değişkenleri (bu dosya L103-L118) token katmanına aittir, BEM sınıfı değildir.
+
+---
+
+## 6. Adımlar
+
+| # | Adım | Ekrana | Aksiyon |
+|---|------|--------|---------|
+| 1 | Cinsiyet Seç | select-gender | cinsiyet kartlarından birine tıkla (Kız / Erkek / Nötr) [[screens/shared/select-gender]] |
+| 2 | Devam Et | login | [▶ Devam Et] butonuna tıkla [[screens/shared/login]] |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-09-29
+**Mode:** Red Team · Human Mode · Truth Mode
