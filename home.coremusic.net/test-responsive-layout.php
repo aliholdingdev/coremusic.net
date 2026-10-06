@@ -43,9 +43,7 @@ $layoutClass = $dm->shouldRender4kLayout()
     <meta charset="UTF-8">
     <meta name="viewport" content="width=<?= $breakpoint ?>, initial-scale=1.0">
     <title>Responsive Test <?= $breakpoint ?>px</title>
-    <link rel="stylesheet" href="http://assets.coremusic.net:81/Css/00_Reset/normalize.css">
-    <link rel="stylesheet" href="http://assets.coremusic.net:81/Css/00_Reset/reboot.css">
-    <link rel="stylesheet" href="http://assets.coremusic.net:81/Css/01_Abstracts/a-layout-tokens.css">
+    <!-- normalize/reboot/a-layout-tokens diskte yok, Faz 1 tespiti (00_Reset klasörü + a-layout-tokens.css 0 isabet) — link satırları kaldırıldı -->
     <link rel="stylesheet" href="http://assets.coremusic.net:81/Css/08_Devices/d-embedded.css">
     <link rel="stylesheet" href="http://assets.coremusic.net:81/Css/04_Components/_player-info.css">
     <style>

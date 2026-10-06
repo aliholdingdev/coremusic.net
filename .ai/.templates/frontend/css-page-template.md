@@ -2,55 +2,116 @@
 title: "CoreMusic — CSS Sayfa Şablonu (05_Pages)"
 type: template
 category: frontend
-date: 2026-10-03
-updated: 2026-10-03
-version: 1.0.0
+date: 2026-10-06
+updated: 2026-10-06
+version: 2.0.0
 status: active
 authority: reference
 ---
 
 # CSS Sayfa Şablonu — `05_Pages/`
 
-**Kapsam:** Tek PHP sayfasına özel stiller · önek `p-` (sayfa) / `_` (bileşenleşmiş sayfa parçası)
-**Ana şablon:** [[css-template]] · **Gate:** Mockup Before Frontend + Guardrail #16
+**Kapsam:** Tek PHP sayfasına özel stiller · önek `p-` (münhasır) / `_` (çatı sayfa dosyası)
+**Ana şablon:** [[css-template]] §3.1 · **Gate:** Mockup Before Frontend + Guardrail #16
+**v2.0.0 sıfırdan yeniden yazım (2026-10-06) — C3 (`p-` münhasır), C4 (sayı yok).**
 
 ---
 
-## 1. Kapsam Testi
+## Purpose (Amaç)
 
-| Soru | Evet → |
-|------|--------|
-| Yalnız `pages/**.php` sayfasında mı kullanılıyor? | `05_Pages/` |
-| Başka sayfalarda da mı tekrar ediyor? | `04_Components/c-*.css` (taşınır) |
-| `--token` tanımı içeriyor mu? | `01_Abstracts/` (geri taşınır) |
+Tek bir `pages/**.php` sayfasına özgü stili tutmak. `p-` öneki **bu katmana münhasırdır** (C3) —
+`02_Base` dahil hiçbir başka katman `p-` kullanamaz.
 
-**Dosya ↔ sayfa eşlemesi (disk kanıtı):**
+## Location (Konum)
 
-```
-p-login-view.css      → pages/auth/login-view.php
-p-select-gender.css   → pages/auth/select-gender.php
-p-settings.css        → pages/settings (ayarlar)
-p-artists.css         → /artists
-p-albums.css          → /albums
-p-album-detail.css    → /albums/:id
-p-playlist.css        → /playlist
-_home.css             → pages/home.php  (+ _home-layout / _home-inline import eder)
-_player.css           → pages/player.php
-```
+`assets.coremusic.net/Css/05_Pages/p-{{page}}.css` · çatı: `_{{page}}.css` (alt dosya `@import` eder)
+Örnek dosyalar (2026-10-06 ölçümü): `p-login-view.css` · `p-select-gender.css` · `p-settings.css` ·
+`p-artists.css` · `p-albums.css` · `p-album-detail.css` · `p-playlist.css` ·
+`_home.css` · `_home-layout.css` · `_home-inline.css` · `_player.css` · `_welcome.css`
 
----
+## Responsibility (Sorumluluk)
 
-## 2. İskelet
+- Sayfa kabı + sayfa özel blokları (BEM block = sayfa adı).
+- Boş durum / sayfa durumu (`.is-empty`).
+
+## Allowed (İzinli)
+
+- BEM seçiciler (sayfa adı = block); `p-` dosya/sayfa kabı seçicisi.
+- `var(--token)` tüketimi; `@media` = token uyarlaması.
+- Çatı dosyanın kendi iç `@import`'i (`_home.css` → `_home-layout.css`).
+
+## Forbidden (Yasak)
+
+| # | Yasak | Kaynak |
+|---|-------|--------|
+| 1 | **≥2 sayfada tekrar eden parça** (→ `04_Components`) | §3.1 ayrım · §4.1 #8 |
+| 2 | Token tanımı (→ `01_Abstracts`) | §4.1 #9 (C6) |
+| 3 | Header/footer/sidebar düzeni (→ `03_Layout`) | §3.1 |
+| 4 | Ham hex/px | §4.1 #1 |
+| 5 | `!important` (cap 3, gerekçeli) | §4.1 #2 |
+| 6 | `p-` önekinin bu katman dışına taşınması (ve burada `c-` dosyası) | C3 · §4.1 #8 |
+
+## Dependencies (Bağımlılıklar)
+
+| Bağımlılık | Not |
+|------------|-----|
+| `01_Abstracts/*` | token kaynağı (`a-login-tokens.css` ↔ `p-login-view.css` gibi) |
+| `04_Components` | sayfa, bileşeni **tüketir** |
+| `auth-bundled.css` | auth sayfaları (`p-login-view`, `p-select-gender`) Grup 3'te |
+| `DeviceCssMap.php` + PHP docblock | dosya adı değişirse senkron |
+
+## Import Rules (Import Kuralları)
+
+- İçe import: yalnız çatı dosyalar (`_home.css` → `_home-layout.css`, `_home-inline.css`) `?v=` ile.
+- Dışa: cihaz zincirinde `04`'ten sonra:
+  `@import url("../05_Pages/p-{{page}}.css?v={{v}}");`
+- `auth-bundled.css` Grup 3 = auth sayfaları (`01 → 02 → 05 → 08` sırası).
+
+## Naming Rules (Adlandırma)
+
+| Kural | Kalıp |
+|-------|-------|
+| Dosya | `p-{{page}}.css` · çatı `_{{page}}.css` |
+| BEM block | sayfa adı (`.{{page}}__header`) |
+| Dosya ↔ sayfa | `p-login-view.css` → `pages/auth/login-view.php` (eşleme kanıtlanır, uydurulmaz) |
+
+## Device Rules (Cihaz Kuralları)
+
+- Cihaz davranışı bu dosyada DEĞİL → `08_Devices` / `d-auth-*`.
+- `p-login-view` gibi dosyalar auth cihaz varyantları (`d-auth-*`) tarafından davranış görür.
+
+## Responsive Rules (Responsive)
+
+- `@media` yalnız token uyarlaması (padding/gap); breakpoint değeri
+  `a-breakpoint-tokens.css` ile eşleşmeli.
+- Sayfa grid kolonu `var(--grid-cols)` gibi token ile; sabit kolon sayısını cihaz token'ı yönetir.
+
+## Token Rules (Token Kuralları)
+
+- Tüketim: `var(--content-padding)`, `var(--section-gap)`, `var(--grid-gap)`, `var(--text-*)`.
+- Yeni token tanımı yasak (C6) → `01_Abstracts`.
+- ⚠️ Bilinen disk ihlali: `_home-layout.css` L367-424 `--touch-min` **tanımlıyor** (05'te token üretimi
+  + 44px) → rapor §R.
+
+## Validation (Doğrulama)
+
+- [ ] Dosya tek PHP sayfasına karşılık (eşleme kanıtlı)
+- [ ] Tekrar eden parça / token var mı → taşı (`04` / `01`)
+- [ ] BEM block = sayfa adı; `p-` yalnız bu katmanda
+- [ ] Ham değer yok · `!important` ≤3 gerekçeli
+- [ ] Dosya adı değiştiyse `@import` + docblock + `DeviceCssMap` senkron
+- [ ] Gerçek sayfada tarayıcı testi yapıldı
+
+## Example Structure (Örnek Yapı)
 
 ```css
 /**
  * 05_Pages/p-{{page}}.css
  * SAYFA : {{php-path}}
- * MOCKUP: {{figma-node / png-path}}
- * NOT   : tekrar eden parça 04_Components'e; token 01_Abstracts'e taşınır
+ * MOCKUP: {{png-path}}
+ * NOT   : tekrar eden parça → 04_Components · token → 01_Abstracts (C6)
  */
 
-/* --- sayfa kabı --- */
 .p-{{page}} {
   display: flex;
   flex-direction: column;
@@ -59,7 +120,6 @@ _player.css           → pages/player.php
   min-height: var(--content-h);
 }
 
-/* --- içerik bloğu (BEM, sayfa adı = block) --- */
 .{{page}}__header {
   display: flex;
   align-items: center;
@@ -79,45 +139,19 @@ _player.css           → pages/player.php
   gap: var(--grid-gap);
 }
 
-.{{page}}__grid--wide {
-  --grid-cols: 4;
-}
+.{{page}}__grid--wide { --grid-cols: 4; }
 
-/* --- boş durum --- */
-.{{page}}.is-empty .{{page}}__grid {
-  display: none;
-}
+.{{page}}.is-empty .{{page}}__grid { display: none; }
 
-/* --- dar ekran: token uyarlaması (yerleşim 03_Layout'ta) --- */
+/* dar ekran — yalnız token uyarlaması (breakpoint token ile eşleşir) */
 @media (max-width: 767px) {
-  .{{page}} {
-    padding: var(--space-sm);
-    gap: var(--space-md);
-  }
+  .p-{{page}} { padding: var(--space-sm); gap: var(--space-md); }
 }
 ```
 
 ---
 
-## 3. Kurallar
+**Template Version:** 2.0.0 · **Last Updated:** 2026-10-06
 
-| # | Kural |
-|---|-------|
-| 1 | Bu dosya **tek sayfaya** hizmetlı; genelleşirse `04_Components`'e taşınır |
-| 2 | Token tanımı yok → `01_Abstracts` |
-| 3 | Header/footer/sidebar stilleri yok → `03_Layout` |
-| 4 | Bir sayfa = bir `p-*.css`; `_home.css` gibi çatı dosya alt dosya `@import` edebilir |
-| 5 | `!important` yasak (en fazla 3 gerekçeli istisna) |
-| 6 | Mevcut dosya adı/yolu değiştirilirse: tüm `@import` + PHP docblock + `DeviceCssMap` güncellenir |
-
----
-
-## 4. Doğrulama
-
-- [ ] Dosya tek PHP sayfasına karşılık geliyor
-- [ ] Component/Token içeriyor mu → taşı
-- [ ] BEM block = sayfa adı
-- [ ] Sabit değer yok
-- [ ] Tarayıcıda sayfa testi yapıldı (gerçek eleman/layout)
-
-**Version:** 1.0.0 · **Last Updated:** 2026-10-03
+**Rapor (§R):** `_home-layout.css` L367/386/405/424 → token tanımı (`--touch-min`) + 44px —
+C6 + C2 ihlali (dokunulmadı).

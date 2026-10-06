@@ -2,15 +2,15 @@
 title: "CoreMusic — Template Registry Index"
 type: template-index
 category: template
-version: 4.8.0
+version: 4.9.0
 status: active
 authority: "Template (Guardrail #16) — Registry: .ai/.templates/index.md"
-updated: 2026-10-03
+updated: 2026-10-06
 date: 2026-08-09
 governance: Red Team · Human Mode · Truth Mode
-total_templates: 48
-total_files: 48
-total_lines: 20757
+total_templates: 55
+total_files: 55
+total_lines: 22260
 ---
 
 # CoreMusic — Template Registry Index
@@ -241,6 +241,12 @@ Yeni dosya oluştururken:
 | 47 | CSS Utility Template | 06_Utilities | Utility sınıf (`u-*.css`) | 94 | ✅ Mevcut (2026-10-03 — katman şablonu) | [[frontend/css-utility-template]] |
 | 48 | CSS Helper Template | 10_Helpers | Helper desen (`h-*.css`) | 111 | ✅ Mevcut (2026-10-03 — katman şablonu; katman diskte bekleniyor) | [[frontend/css-helper-template]] |
 | 49 | Context Documentation Template | Markdown, 7-bölüm iskelet | Klasör context dokümanı — CONTEXT/CLAUDE/AGENTS/WORKFLOW ortak iskelet, `docType` ayrımı | 215 | ✅ Mevcut (2026-10-03) | [[frontend/context-template]] |
+| 50 | CSS Base Template | 02_Base, önek `b-`/`l-`/`page-` | Bare HTML reset + site geneli giriş iskeleti (token tüketir, üretmez) | 163 | ✅ Mevcut (2026-10-06 — katman şablonu) | [[frontend/css-base-template]] |
+| 51 | CSS Layout Template | 03_Layout, önek `_` | Sayfa düzeni — header/footer/sidebar/widget grid (`_{{konu}}.css`) | 142 | ✅ Mevcut (2026-10-06 — katman şablonu) | [[frontend/css-layout-template]] |
+| 52 | CSS ViewMode Template | 09_ViewModes, önek `v-` | Görünüm modu (home/pro/studio/car) token override (`v-{{mode}}.css`) | 151 | ✅ Mevcut (2026-10-06 — katman şablonu) | [[frontend/css-viewmode-template]] |
+| 53 | CSS OAuth Template | 11_OAuth, `oauth.css` (öneksiz) | OAuth/giriş (social login) akış stilleri — en dar katman, Security denetimi | 160 | ✅ Mevcut (2026-10-06 — katman şablonu) | [[frontend/css-oauth-template]] |
+| 54 | CSS Vendor Template | 07_Vendors, `v-*` + upstream `bootstrap*` | 3. taraf stiller (Bootstrap ailesi) — salt okunur karantina katmanı | 132 | ✅ Mevcut (2026-10-06 — katman şablonu) | [[frontend/css-vendor-template]] |
+| 55 | CSS Device Token Template | 01_Abstracts, `a-layout-tokens-{width}.css` | Cihaz genişliği layout token'ı — BASE (1024) + cihaz override ayrımı | 165 | ✅ Mevcut (2026-10-06 — katman şablonu) | [[frontend/css-device-token-template]] |
 
 #### 7.1.4 Testing Templates (testing/)
 
@@ -354,10 +360,11 @@ Yeni dosya oluştururken:
 - [[coremusic-vault-template]] — vault iskeleti şablonu (2026-09-26, yeniden kullanılabilir .ai/ iskeleti, 810 satır)
 - [[hardware/arduino-template]] · [[hardware/avr-template]] · [[hardware/pic-template]] — hardware teknoloji şablonları (2026-09-29, Faz 6: 766 · 650 · 687 satır)
 - [[frontend/css-abstracts-token-template]] · [[frontend/css-component-template]] · [[frontend/css-page-template]] · [[frontend/css-device-template]] · [[frontend/css-auth-device-template]] · [[frontend/css-utility-template]] · [[frontend/css-helper-template]] — CSS katman şablonları (2026-10-03, #42-#48; ana şablon [[frontend/css-template]] v3.0.0)
+- [[frontend/css-base-template]] · [[frontend/css-layout-template]] · [[frontend/css-viewmode-template]] · [[frontend/css-oauth-template]] · [[frontend/css-vendor-template]] · [[frontend/css-device-token-template]] — CSS katman şablonları (2026-10-06, #50-#55: 02_Base · 03_Layout · 09_ViewModes · 11_OAuth · 07_Vendors · 01_Abstracts cihaz token)
 
 ---
 
-*Template Registry Index v4.8.0 — CoreMusic Template System*
+*Template Registry Index v4.9.0 — CoreMusic Template System*
 *Authority: Bayram Ali / Vault Steward*
-*Last Updated: 2026-10-03*
+*Last Updated: 2026-10-06*
 *Mode: Red Team · Human Mode · Truth Mode*

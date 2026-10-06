@@ -47,15 +47,15 @@ Bu doküman `assets.coremusic.net/Css/` klasörünün **ne işe yaradığını**
 
 ## 3. Mimari
 
-### 3.1 11 Katman + Kök — Disk Kanıtı (2026-10-03 ölçümü)
+### 3.1 11 Katman + Kök — Disk Kanıtı (2026-10-06 ölçümü — önceki: 2026-10-03)
 
 | # | Katman | Sorumluluk | Önek | Dosya sayısı (disk) | Dosyalar |
 |---|--------|-----------|------|---------------------|----------|
-| 01 | `01_Abstracts/` | **Yalnız token** — kural/seçici YAZILMAZ | `a-` | **20** | a-breakpoint-tokens · a-color-mode-tokens · a-colors-token · a-design-tokens · a-fonts-token · a-layout-tokens (**BASE — 2026-10-03 restore, 221 token**) · a-layout-tokens-1024 · a-layout-tokens-1920 · a-layout-tokens-3540 · a-layout-tokens-3840 · a-layout-tokens-mobile · a-layout-tokens-tablet · a-light-glass-tokens · a-login-tokens · a-primitive-tokens · a-scale-hybrid · a-semantic-token · a-theme-config · a-welcome-banner-tokens · a-widget-grid-tokens |
+| 01 | `01_Abstracts/` | **Yalnız token** — kural/seçici YAZILMAZ | `a-` | **19** (2026-10-06 ölçümü) | a-breakpoint-tokens · a-color-mode-tokens · a-colors-token · a-design-tokens · a-fonts-token · **a-layout-tokens-1024 (BASE — medyasız `:root`, 8/8 cihaz importu, Expert C1)** · a-layout-tokens-1920 · a-layout-tokens-3540 · a-layout-tokens-3840 · a-layout-tokens-mobile · a-layout-tokens-tablet · a-light-glass-tokens · a-login-tokens · a-primitive-tokens · a-scale-hybrid · a-semantic-token · a-theme-config · a-welcome-banner-tokens · a-widget-grid-tokens — `a-layout-tokens.css` diskte **YOK** (yalnız `--/Css copy 2|3` yedeklerinde) |
 | 02 | `02_Base/` | Bare HTML reset + yapısal iskelet | `b-`/`l-`/`page-` | **3** | b-base-core · l-main-structural · page-layout |
 | 03 | `03_Layout/` | Sayfa düzeni: header, footer, sidebar, widget grid | `_` | **4** | _footer · _header · _sidebar · _widget-grid |
-| 04 | `04_Components/` | BEM bileşenleri | `c-`/`_` | **6** | c-footer-seek · c-footer-volume · c-home-song-btn · _player-info · _welcome-banner · **_home-components (2026-10-03 05_Pages'ten taşındı)** |
-| 05 | `05_Pages/` | PHP sayfalarına özel stiller | `p-`/`_` | **4** | p-login-view · p-select-gender · _home · _welcome |
+| 04 | `04_Components/` | BEM bileşenleri | `c-`/`_` | **15** (2026-10-06 ölçümü) | c-badge · c-buttons · c-card · c-footer-seek · c-footer-volume · c-forms · c-home-song-btn · c-modal · c-progress · c-scrollbar-accent · c-toast · c-toggle · _home-components · _player-info · _welcome-banner |
+| 05 | `05_Pages/` | PHP sayfalarına özel stiller | `p-`/`_` | **12** (2026-10-06 ölçümü) | p-album-detail · p-albums · p-artists · p-login-view · p-playlist · p-select-gender · p-settings · _home · _home-inline · _home-layout · _player · _welcome |
 | 06 | `06_Utilities/` | Utility sınıfları (sıfır mantık) | `u-` | **1** | u-helpers-utility |
 | 07 | `07_Vendors/` | Bootstrap 5.3.8 ailesi — **DÜZENLENMEZ** | `v-` | **33** (17 .css + 16 .map) | bootstrap · bootstrap-grid · bootstrap-reboot · bootstrap-utilities (+ rtl/min/map varyantları) · v-bootstrap-lib |
 | 08 | `08_Devices/` | Cihaz import zinciri + davranış override | `d-`/`d-auth-` | **15** | normal 8: d-4k-monitor · d-4k-tv · d-4k · d-desktop · d-embedded · d-laptop · d-phone · d-tablet — auth 7: d-auth-4k-monitor · d-auth-4k-tv · d-auth-desktop · d-auth-embedded · d-auth-laptop · d-auth-phone · d-auth-tablet |
@@ -303,8 +303,8 @@ Bu doküman `assets.coremusic.net/Css/` klasörünün **ne işe yaradığını**
 
 | İddia (kaynak) | Disk gerçeği (2026-10-03) | İşaret |
 |----------------|---------------------------|--------|
-| `css-template.md` §3.1: 04'te `c-buttons, c-forms, c-card, c-modal, c-badge, c-toggle, c-toast, c-progress, c-scrollbar-accent` | **beklenen, diskte YOK** (04 = 6 dosya) | ⚠️ |
-| `css-template.md` §3.1: 05'te `p-settings, p-artists, p-albums, p-album-detail, p-playlist, _home-layout, _home-inline, _player` | **beklenen, diskte YOK** (05 = 4 dosya; `_home-layout` yedeği `Css copy 2/`'de) | ⚠️ |
+| `css-template.md` §3.1: 04'te `c-buttons, c-forms, c-card, c-modal, c-badge, c-toggle, c-toast, c-progress, c-scrollbar-accent` | **beklenen, diskte VAR** (04 = 15 dosya; 2026-10-06 ölçümü) | ✅ |
+| `css-template.md` §3.1: 05'te `p-settings, p-artists, p-albums, p-album-detail, p-playlist, _home-layout, _home-inline, _player` | **beklenen, diskte VAR** (05 = 12 dosya; 2026-10-06 ölçümü) | ✅ |
 | `css-template.md` §3.1: 01 listesi `a-layout-tokens copy`, `copy 2` içerir | `Css/01_Abstracts/`'ta **YOK**; yedekler `Css copy*` klasörlerinde | ⚠️ |
 | `assets.coremusic.net/AGENTS.md` §2: "`Css/main.css`" | **main.css YOK** (2026-09-30 silindi) | ⚠️ |
 | `assets.coremusic.net/AGENTS.md` §2: "08 = 13 device CSS" | **15 dosya** (8 normal + 7 auth) | ⚠️ |
@@ -398,7 +398,7 @@ Adım detayı: [[WORKFLOW]] §5.
 |---|---------|--------|
 | 1 | Frontmatter | 7 zorunlu alan + `docType` |
 | 2 | Bölüm | §1–§7, ≤3 başlık seviyesi |
-| 3 | Envanter | Her katman sayısı disk ölçümü ile eşit (20/3/4/6/4/1/33/15/4/1/1 + kök 1) |
+| 3 | Envanter | Her katman sayısı disk ölçümü ile eşit (19/3/4/15/12/1/33/15/4/1/1 + kök 1 — **2026-10-06 ölçümü**) |
 | 4 | Çelişki | §3.6 eksiksiz; "beklenen, diskte YOK" işaretli |
 | 5 | Kırık import | §3.4 listesi güncel |
 | 6 | main.css | İddia edilmedi (YOK olarak yazıldı) |

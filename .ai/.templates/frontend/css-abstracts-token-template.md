@@ -1,120 +1,155 @@
 ---
-title: "CoreMusic — CSS Token Şablonu (01_Abstracts)"
+title: "CoreMusic — CSS Konu Token Şablonu (01_Abstracts)"
 type: template
 category: frontend
-date: 2026-10-03
-updated: 2026-10-03
-version: 1.0.0
+date: 2026-10-06
+updated: 2026-10-06
+version: 2.0.0
 status: active
 authority: reference
 ---
 
-# CSS Token Şablonu — `01_Abstracts/`
+# CSS Konu Token Şablonu — `01_Abstracts/` (a-{konu}-token)
 
-**Kapsam:** Yalnızca `--token: değer` · seçici/kural **yazılmaz** · önek `a-`
-**Ana şablon:** [[css-template]] · **Gate:** Guardrail #16
-
----
-
-## 1. Dosya Adı Kuralı
-
-```
-a-layout-tokens.css            → BASE (fallback)
-a-layout-tokens-mobile.css     → ≤767px
-a-layout-tokens-tablet.css     → 768–1023px
-a-layout-tokens-1024.css       → RPi5 1024×600
-a-layout-tokens-1920.css       → wide desktop
-a-layout-tokens-3540.css       → 4K monitor
-a-layout-tokens-3840.css       → 4K TV
-```
-
-> **Cihaz, dosya adında görünür** — hangi token'ın hangi cihaz için olduğu bakışta anlaşılır.
-> Konu önekleri: `a-colors-token`, `a-fonts-token`, `a-breakpoint-tokens`, `a-semantic-token`, `a-primitive-tokens`, `a-login-tokens`, `a-theme-config`, `a-scale-hybrid`.
+**Kapsam:** `01_Abstracts/` içindeki **konu** token dosyaları (renk, font, semantik, breakpoint, login,
+tema…) — cihaz layout token ailesi (`a-layout-tokens-*`) ayrı şablondur: [[css-device-token-template]].
+**Ana şablon:** [[css-template]] · **Gate:** Guardrail #16 · **v2.0.0 sıfırdan yeniden yazım (2026-10-06)**
 
 ---
 
-## 2. İskelet
+## Purpose (Amaç)
+
+Tek dosyada tek konunun tokenlarını tanımlamak: `--token: değer`. Bu katman **token üretiminin tek
+katmanıdır** (C6 katman kuralı · `Css/CLAUDE.md` §4.1 #9).
+
+## Location (Konum)
+
+`assets.coremusic.net/Css/01_Abstracts/a-{konu}-token(s).css`
+Örnek dosya adları (2026-10-06 ölçümü — envanter iddiası değildir):
+`a-colors-token.css` · `a-fonts-token.css` · `a-breakpoint-tokens.css` · `a-semantic-token.css` ·
+`a-primitive-tokens.css` · `a-login-tokens.css` · `a-theme-config.css` · `a-color-mode-tokens.css` ·
+`a-light-glass-tokens.css` · `a-scale-hybrid.css` · `a-design-tokens.css`
+
+## Responsibility (Sorumluluk)
+
+- Token **tanımı**: custom property + (gerekirse) `[data-theme]`/`[data-accent]`/`@media` sarmalayıcısı.
+- Figma SSOT'tan (`.ai/ui-design/tokens/`) gelen değerin diske yazılması.
+
+## Allowed (İzinli)
+
+- `:root { --token: değer; }` · `[data-*] { --token: değer; }` · `@media (...) { :root { ... } }`.
+- Ham `#hex` / `px` / `rem` **yalnız bu dosyada**.
+- `var(--x, fallback)` ile iç içe referans (token → token).
+- `notes.md` notunun dosyaya uygulanması + `✓` imzası.
+
+## Forbidden (Yasak)
+
+| # | Yasak | Kaynak |
+|---|-------|--------|
+| 1 | Seçici/kural yazımı (`.sel { }`) — yalnız `:root`/`[data-*]` sarmalayıcı | `css-template` §4.1 #1 |
+| 2 | Bileşen/sayfa stili | `css-template` §3.1 ayrım |
+| 3 | `@import` (bu şablon konu token'ı için) | katman saflığı — import zinciri `08_Devices`'te |
+| 4 | Figma'da olmayan token uydurma | `⚠️ VERIFICATION REQUIRED` |
+| 5 | Dosya içinde MUTLAK toplam envanter sayısı | C4 |
+
+## Dependencies (Bağımlılıklar)
+
+| Bağımlılık | Not |
+|------------|-----|
+| `.ai/ui-design/tokens/*.json` | Figma SSOT — değerler buradan okunur |
+| `notes.md` | uygulanan not `✓` ile imzalanır |
+| Tüketenler | `02`–`11` tüm katmanlar `var(--...)` ile okur |
+| [[css-device-token]] (cihaz ailesi) | bu şablonla **aynı katmanda kardeş**; çelişirse base kazanır |
+
+## Import Rules (Import Kuralları)
+
+- Bu dosya **import etmez** (konu token dosyası) — yalnız `08_Devices/d-*.css` ve/veya
+  `auth-bundled.css` tarafından import edilir `?v={{v}}` ile.
+- Sıra: konu token dosyaları `01_Abstracts` içinde alfabetik/tematik değil, **bağımlılık sırası** ile
+  yüklenir (font → renk → semantik → breakpoint); ayrı dosya zincirini ilgili cihaz dosyası belirler.
+
+## Naming Rules (Adlandırma)
+
+| Kural | Kalıp |
+|-------|-------|
+| Dosya | `a-{konu}-token.css` veya `a-{konu}-tokens.css` (çoğul mevcut adlarda) |
+| Token adı | `--{kategori}-{ad}` → `--text-base`, `--bg-primary`, `--touch-min` |
+| Cihaz token'ı bu şablonda DEĞİL | → [[css-device-token-template]] |
+
+## Device Rules (Cihaz Kuralları)
+
+- Bu şablon **cihaz bağımsız** konu token'ını yazar; cihaz genişliğine özel değer
+  `a-layout-tokens-{width}.css` içine gider ([[css-device-token-template]]).
+- `@media` sarmalayıcı yalnız breakpoint token'ı gibi gerçekten cihaz-genişlik değerlerinde kullanılır
+  (ör. `a-design-tokens.css` L191-242 — ⚠️ bu dosyadaki 44px değerleri C2'ye aykırı, rapor §R).
+
+## Responsive Rules (Responsive)
+
+- Breakpoint değerleri `a-breakpoint-tokens.css` içinde tek yerde tanımlanır; başka konu token dosyası
+  breakpoint **tanımlamaz** (tekrar = iki gerçek / split-brain).
+- `@media` içinde `var()` okunamaz (CSS kısıtı) → medya genişlikleri token değeriyle eşleştirilir.
+
+## Token Rules (Token Kuralları)
+
+1. Yeni token yalnız bu katmanda (C6) — `06`/`10`/`04`/`05`/`08` token **üretemez**.
+2. Taban `--touch-min: 48px` (C2 — brain.md:808-809; `Css/AGENTS.md` §3.1 ≥48px).
+3. Tema override yalnız `[data-theme]`/`[data-accent]` seviyesinde (ADR-044).
+4. Her değer Figma/SSOT kaynağına dayanır; kaynak yoksa `⚠️ VERIFICATION REQUIRED`.
+5. Token önce tanımlanır, sonra tüketilir (`css-template` §4.2).
+
+## Validation (Doğrulama)
+
+- [ ] Dosya `a-{konu}-token(s).css` kalıbında
+- [ ] Yalnız `:root`/`[data-*]`/`@media` sarmalayıcı — sınıf seçici yok
+- [ ] Ham hex/px var (bu katmanda normal) ve başka katmana sızmamış
+- [ ] `--touch-min` taban 48px (C2); 44px yok
+- [ ] Figma kaynağı doğrulandı / `⚠️ VERIFICATION REQUIRED` işaretli
+- [ ] İlgili `d-*.css` / `auth-bundled.css` bu dosyayı `?v=` ile import ediyor
+- [ ] MUTLAK dosya sayısı yazılmadı (C4)
+
+## Example Structure (Örnek Yapı)
 
 ```css
 /**
- * 01_Abstracts/a-layout-tokens-{{width}}.css
- * CİHAZ : {{device}}
- * ARALIK: {{min}}px – {{max}}px
- * KAYNAK: .ai/ui-design/tokens/ (Figma SSOT)
- * NOT    : notes.md notları buraya uygulanır ve ✓ ile imzalanır
+ * 01_Abstracts/a-{{konu}}-token.css
+ * KAYNAK : .ai/ui-design/tokens/ (Figma SSOT)
+ * ROL    : tek konunun tokenları — seçici/kural YOK
+ * NOT    : notes.md notu uygulanır + ✓ imzalanır
  */
 
-@media (min-width: {{min}}px) and (max-width: {{max}}px) {
-  :root {
-    /* === GENEL ÖLÇÜ === */
-    --header-h: 60px;
-    --footer-h: 90px;
-    --sidebar-w: 280px;
-    --content-padding: 16px;
+:root {
+  /* === GENEL ÖLÇÜ === */
+  --header-h: 60px;            /* 2026-10-06 ölçümü — Figma SSOT */
+  --grid-gap: 8px;
 
-    /* === SPACING (4px ızgara) === */
-    --space-xs: 4px;
-    --space-sm: 8px;
-    --space-md: 16px;
-    --space-lg: 24px;
-    --space-xl: 32px;
-    --grid-gap: 8px;
-    --card-padding: 12px;
+  /* === SPACING (4px ızgara) === */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
 
-    /* === TOUCH (WCAG 2.2) === */
-    --touch-min: 48px;
-    --touch-recommended: 56px;
-    --touch-large: 56px;
+  /* === TOUCH (WCAG 2.2 — C2: taban 48px) === */
+  --touch-min: 48px;
+  --touch-recommended: 56px;
 
-    /* === COMPONENT TOKEN === */
-    --now-playing-art-size: 100px;
-    --card-thumb-size: 140px;
-    --album-art-size: 300px;
-    --widget-min-height: 100px;
-    --widget-grid-cols: 2;
-    --footer-album-art-size: 120px;
-    --footer-icon: 13px;
-    --footer-btn-min-size: 48px;
+  /* === TİPOGRAFİ === */
+  --text-base: var(--fs-base, 12px);
+  --text-lg:   var(--fs-lg, 14px);
 
-    /* === TİPOGRAFİ (a-scale-hybrid akışı) === */
-    --text-xs: var(--fs-xs, 10px);
-    --text-sm: var(--fs-sm, 11px);
-    --text-base: var(--fs-base, 12px);
-    --text-lg: var(--fs-lg, 14px);
-    --text-xl: var(--fs-xl, 16px);
-
-    /* === Z-INDEX === */
-    --z-sidebar: 50;
-    --z-header: 100;
-    --z-footer: 100;
-    --z-dropdown: 200;
-    --z-modal: 300;
-    --z-toast: 400;
-  }
+  /* === Z-INDEX === */
+  --z-header: 100;
+  --z-modal: 300;
+  --z-toast: 400;
 }
+
+/* Tema — ADR-044: yalnız token değeri değişir */
+[data-theme="dark"] { --bg-primary: #0b1120; --text-primary: #f1f5f9; }
 ```
 
 ---
 
-## 3. Kurallar
+**Template Version:** 2.0.0 · **Last Updated:** 2026-10-06
 
-| # | Kural |
-|---|-------|
-| 1 | Dosya içinde **seçici yok** (yalnız `:root` / `[data-*]` / `@media` sarmalayıcı) |
-| 2 | Ham `#hex` / `px` **yalnız bu katmanda** yazılır; diğer katmanlarda `var(--...)` |
-| 3 | Token önce tanımlanır, sonra tüketilir (`css-template` §4.2) |
-| 4 | Figma'da olmayan token **uydurulmaz** → `⚠️ VERIFICATION REQUIRED` |
-| 5 | Sıralama: base → mobile → tablet → 1024 → 1920 → 3540 → 3840 |
-| 6 | Tema override yalnız `[data-theme]` / `[data-accent]` ile (ADR-044) |
-
----
-
-## 4. Doğrulama
-
-- [ ] Dosya adında cihaz/konu geçiyor
-- [ ] Seçici yok · kural yok · `@media` dışında kural yok
-- [ ] `var(--...)` fallback'i var
-- [ ] `notes.md` notu uygulandı mı?
-- [ ] İlgili `d-*.css` bu token dosyasını import ediyor
-
-**Version:** 1.0.0 · **Last Updated:** 2026-10-03
+**Rapor (§R):** `01_Abstracts/a-design-tokens.css` L211/221/232 → `--touch-min: 44px` (C2 ihlali,
+dokunulmadı).

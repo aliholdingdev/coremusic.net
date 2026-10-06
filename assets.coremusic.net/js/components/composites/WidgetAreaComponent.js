@@ -5,7 +5,7 @@
  *
  * Figma SSOT: node 2831:13747 (1920 Home) → "Div2 Button" id 2850:21494 (752×184)
  * PHP view: home.coremusic.net/pages/components/widget-grid.php (server-render, statik veri)
- * CSS:      assets.coremusic.net/Css/04_Components/_widget-grid.css
+ * CSS:      assets.coremusic.net/Css/03_Layout/_widget-grid.css
  *
  * KARAR (2026-09-30 — widget grid görev kapsamı):
  *   Önceki sürüm ".home-widget-grid/.home-widget" (WidgetManager.js ile aynı hayalet

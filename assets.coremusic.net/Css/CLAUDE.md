@@ -65,7 +65,7 @@ Bu doküman `assets.coremusic.net/Css/` içinde çalışacak her ajan/için **CS
 
 ### 3.2 Token Kuralı
 
-- Token **üretimi** yalnız `01_Abstracts/` — cihaz dosyasına göre ayrılır (`a-layout-tokens.css` base, `-mobile`/`-tablet`/`-1024`/`-1920`/`-3540`/`-3840` cihaz override'ı).
+- Token **üretimi** yalnız `01_Abstracts/` — cihaz dosyasına göre ayrılır (`a-layout-tokens-1024.css` base — medyasız `:root`, 8/8 cihaz importu (Expert C1); `a-layout-tokens.css` diskte **YOK**, yalnız `--/Css copy 2|3` yedeklerinde). Cihaz override: `-mobile`/`-tablet`/`-1920`/`-3540`/`-3840`.
 - `06` ve `10` katmanları token **tüketir**, üretmez.
 - Tema override **jeton seviyesinde**: `[data-theme] { --token: değer }` — seçici ağacı değişmez (css-template §3.7).
 

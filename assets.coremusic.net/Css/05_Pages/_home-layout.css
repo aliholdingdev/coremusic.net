@@ -383,7 +383,7 @@ html:not(.sidebar-collapsed) .home-layout {
 
 /* --- Laptop (1025-1440px): Medium layout --- */
 .layout--laptop {
-  --touch-min: 44px;
+  --touch-min: 48px;
   --card-height: 140px;
 }
 .layout--laptop .home-layout__top {
@@ -402,7 +402,7 @@ html:not(.sidebar-collapsed) .home-layout {
 
 /* --- Desktop (1920×1080): Wide layout --- */
 .layout--desktop {
-  --touch-min: 44px;
+  --touch-min: 48px;
   --card-height: 180px;
 }
 .layout--desktop .home-layout__top {

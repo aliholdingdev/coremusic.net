@@ -208,7 +208,7 @@
 
 @media (min-width: 1025px) and (max-width: 1440px) {
   :root {
-    --touch-min: 44px;
+    --touch-min: 48px;
     --touch-recommended: 48px;
     --touch-target-sm: 44px;
     --touch-target-md: 48px;
@@ -218,7 +218,7 @@
 
 @media (min-width: 1441px) and (max-width: 1919px) {
   :root {
-    --touch-min: 44px;
+    --touch-min: 48px;
     --touch-recommended: 48px;
     --touch-target-sm: 44px;
     --touch-target-md: 48px;
@@ -229,7 +229,7 @@
 /* --bp-1920: 1920px — a-breakpoint-tokens.css (@media'de var() geçersiz) */
 @media (min-width: 1920px) {
   :root {
-    --touch-min: 44px;
+    --touch-min: 48px;
     --touch-recommended: 48px;
     --touch-target-sm: 44px;
     --touch-target-md: 48px;

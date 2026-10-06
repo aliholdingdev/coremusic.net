@@ -2,7 +2,7 @@
 /**
  * pages/components/widget-grid.php — Widget Grid ("Div2 Button")
  *
- * HTML contract → assets.coremusic.net/Css/04_Components/_widget-grid.css
+ * HTML contract → assets.coremusic.net/Css/03_Layout/_widget-grid.css
  *   <section class="widget-grid"> — embedded (1024) + wide/4K (1920+)
  *
  * Slot sayımı — aaa.md §13.9 (çelişkide kural PNG/Figma'yı ezer):

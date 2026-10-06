@@ -24,10 +24,10 @@ Statik asset servisi: tüm alt domainlerin CSS, JS, font ve görsel varlıkları
 |-----|------|
 | `.htaccess`, `web.config` | Apache + IIS statik servis kuralları (cache, MIME) |
 | `Css/08_Devices/` + `Css/auth-bundled.css` | Cihaz/auth **tek giriş noktaları** — `Css/main.css` **YOKTUR** (2026-09-30 silindi; disk 0 isabet) |
-| `Css/01_Abstracts/` | 20 token dosyası (breakpoint, color-mode, colors, design, fonts, layout-tokens + `-{mobile,tablet,1024,1920,3540,3840}` cihaz ayrımı, light-glass, login, scale-hybrid, semantic, primitive, theme-config, welcome-banner, widget-grid) + 2 kopya artığı (`a-layout-tokens copy*.css` — okunmaz) ⚠️ `a-layout-tokens.css` (eski BASE) diskte **YOK** → BASE artık `a-layout-tokens-1024.css` |
+| `Css/01_Abstracts/` | 19 token dosyası (breakpoint, color-mode, colors, design, fonts, layout-tokens-1024 **BASE**, layout-tokens-{mobile,tablet,1920,3540,3840} cihaz ayrımı, light-glass, login, scale-hybrid, semantic, primitive, theme-config, welcome-banner, widget-grid) + 2 kopya artığı (`a-layout-tokens copy*.css` — okunmaz) ⚠️ `a-layout-tokens.css` (eski BASE) diskte **YOK** → BASE artık `a-layout-tokens-1024.css` |
 | `Css/02_Base/` | b-base-core, l-main-structural, page-layout |
 | `Css/03_Layout/` | _footer, _header, _sidebar, _widget-grid |
-| `Css/04_Components/` | 13 dosya: c-badge, c-buttons, c-card, c-footer-seek, c-footer-volume, c-forms, c-home-song-btn, c-modal, c-progress, c-scrollbar-accent, c-toast, c-toggle, _home-components, _player-info, _welcome-banner |
+| `Css/04_Components/` | 15 dosya: c-badge, c-buttons, c-card, c-footer-seek, c-footer-volume, c-forms, c-home-song-btn, c-modal, c-progress, c-scrollbar-accent, c-toast, c-toggle, _home-components, _player-info, _welcome-banner |
 | `Css/05_Pages/` | 12 dosya: p-album-detail, p-albums, p-artists, p-login-view, p-playlist, p-select-gender, p-settings + partial _home, _home-inline, _home-layout, _player, _welcome |
 | `Css/06_Utilities/` | u-helpers-utility |
 | `Css/07_Vendors/` | v-bootstrap-lib + bootstrap* (salt okunur) |
