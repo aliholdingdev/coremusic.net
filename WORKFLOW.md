@@ -26,12 +26,12 @@ updated: 2026-10-01
 
 İş akışlarını okumak, script'leri çalıştırmak, vizyonu anlamak ve mevcut faz (Phase) durumunu yönetmek için derhal aşağıdaki dizinlere gidin:
 
-1. **[Ana İş Akışları (WORKFLOW.md)](.ai/WORKFLOW.md)** 👈 *(Öncelikli iş akışı kuralları)*
-2. **[Vizyon ve Felsefe (VISION.md)](.ai/VISION.md)** 👈 *(Pazar krizi, mülkiyet felsefesi ve çözümler)*
-3. **[Proje Tanımı (PROJECTS.md)](.ai/PROJECTS.md)** 👈 *(10 temel yetenek, hedef kitleler, sektörel çözümler)*
-4. **[Faz Yürütme ve Matris (engine.md)](.ai/engine.md)** *(Orkestrasyon ve yürütme matrisi)*
+1. **[Ana İş Akışları (WORKFLOW.md)](.ai/wiki/vault-workflow.md)** — tam metin `.ai/raw/WORKFLOW.md` 👈 *(Öncelikli iş akışı kuralları)*
+2. **[Vizyon ve Felsefe (VISION.md)](.ai/wiki/vault-vision.md)** — tam metin `.ai/raw/VISION.md` 👈 *(Pazar krizi, mülkiyet felsefesi ve çözümler)*
+3. **[Proje Tanımı (PROJECTS.md)](.ai/wiki/vault-projects.md)** — tam metin `.ai/raw/PROJECTS.md` 👈 *(10 temel yetenek, hedef kitleler, sektörel çözümler)*
+4. **[Faz Yürütme ve Matris (engine.md)](.ai/wiki/vault-engine.md)** — tam metin `.ai/raw/engine.md` *(Orkestrasyon ve yürütme matrisi)*
 5. **[AI Anayasası (CLAUDE.md)](.ai/CLAUDE.md)** *(16 Hard Guardrail ve mühendislik anayasası)*
-6. **[Mimari İndeks (architecture/index.md)](.ai/architecture/index.md)** *(21 Katman, 1,095 Bileşen, 18 BCNF DB)*
+6. **Mimari İndeks** — ⚠️ VERIFICATION REQUIRED — `.ai/architecture/index.md` diskte YOK; yalnız `_backup/arch-2026-10-06_1057/architecture/index.md` *(21 Katman, 1,095 Bileşen, 18 BCNF DB)*
 
 > [!NOTE]
 > **Genişletme notu (2026-09-24):** Aşağıdaki §1-§14 bölümleri bu dosyanın **bağlayıcı özeti (orientation summary)**'dir; tek otorite `.ai/` vault'unun ilgili dosyalarıdır. Çelişki durumunda SSOT kazanır: adlandırma → [[.ai/architecture/adlandirma-kurali]] · bağımlılık → [[.ai/architecture/katman-baglilik-matrisi]] · sayım → [[.ai/architecture/katman-sayim-rehberi]] · süreç → [[.ai/WORKFLOW.md]] · anayasa → [[.ai/CLAUDE.md]].
@@ -60,6 +60,8 @@ Bu bölüm, CoreMusic vault'unda dosya üreten/yazan her agent ve geliştirici i
 > **v4.0.0 (2026-10-06) — SIFIRDAN YENİDEN YAZILDI.** Eski 21 katman (K0–K20) şeması
 > backup'tadır (`_backup/arch-2026-10-06_1057.zip`, salt-okunur — esas değildir).
 > Bağlayıcı SSOT: [[.ai/architecture/00-master-index]].
+>
+> ⚠️ VERIFICATION REQUIRED — `.ai/architecture/` (v4.0.0, 500 katman) diskte YOK (2026-10-06 kontrolü); eski 21 katman yapısı `_backup/arch-2026-10-06_1057/architecture/` altında.
 
 ### §2.1 Domain Tablosu (10 sabit, 500 katman)
 
@@ -337,8 +339,8 @@ Tartışma sonucu yeni bir ilke kuruyorsa → `.ai/architecture/adr/` (mimari se
 
 | İzinli | Yasak |
 |--------|-------|
-| `node .ai/scripts/vault-utf8-writer.mjs` (append · insert-before-marker · write · copy · verify · repair · scan) | PowerShell yazım cmdlet'leri: `Set-Content`, `Out-File`, `Add-Content`, `echo >`, `New-Item -Value` (Windows-1254/BOM/UTF-16 bozulması) |
-| `node .ai/scripts/vault-cmd.mjs` (Türkçe komut arayüzü; ekle/yaz/onar/tara utf8-writer'a devreder) | Yazmadan önce/read-only kalmayan herhangi bir araç |
+| `node .ai/sources/scripts/vault-utf8-writer.mjs` (append · insert-before-marker · write · copy · verify · repair · scan) | PowerShell yazım cmdlet'leri: `Set-Content`, `Out-File`, `Add-Content`, `echo >`, `New-Item -Value` (Windows-1254/BOM/UTF-16 bozulması) |
+| `node .ai/scripts/vault-cmd.mjs` (Türkçe komut arayüzü; ekle/yaz/onar/tara utf8-writer'a devreder) — ⚠️ VERIFICATION REQUIRED — betik diskte YOK (2026-10-06 kontrolü) | Yazmadan önce/read-only kalmayan herhangi bir araç |
 | Salt-okunur komutlar: `ls`, `dir`, `Get-ChildItem`, `Get-Content`, `Select-String`, `Test-Path`, git okuma | log.md'de append dışı yazım (bayt düzeyinde append dışında dosyaya dokunmak) |
 
 **Zorunlu:** yazım sonrası otomatik `verify`; bozuk dosya için `repair` (yedek alır); `.ai/log.md` için **yalnız append modu**.
@@ -351,8 +353,8 @@ Her vault işleminden **hemen sonra** üç adım çalıştırılır:
 
 | # | Adım | Komut |
 |---|------|-------|
-| 1 | Session kaydı | `node .ai/scripts/session-save.mjs --task "<gorev-aciklamasi>" --status completed --agent <agent-adi>` |
-| 2 | Vault güncelleme | `node .ai/scripts/vault-post-update.mjs --scope root` |
+| 1 | Session kaydı | `node .ai/scripts/session-save.mjs --task "<gorev-aciklamasi>" --status completed --agent <agent-adi>` — ⚠️ VERIFICATION REQUIRED — betik diskte YOK (2026-10-06 kontrolü) |
+| 2 | Vault güncelleme | `node .ai/scripts/vault-post-update.mjs --scope root` — ⚠️ VERIFICATION REQUIRED — betik diskte YOK (2026-10-06 kontrolü) |
 | 3 | Sonuç doğrulama | `log.md`, `MEMORY.md`, `project-state.md` güncellendi mi? (salt-okunur kontrol) |
 
 **Yoksayma sonucu:** audit trail boşluğu → bir sonraki oturum MEMORY devralması tutarsız olur. Senkron başarısızsa işlem `status: pending` sayılır ve tekrar denenir (max 3).
@@ -369,6 +371,7 @@ Her vault işleminden **hemen sonra** üç adım çalıştırılır:
 | Bozuk encoding tespiti | mojibake / BOM | `vault-utf8-writer repair <dosya>` (yedek otomatik) | 1 |
 
 > 💡 **Not:** Üç adım da `node .ai/scripts/` altındaki betiklerle çalıştırılır; manuel (PowerShell) kopyalama ile senkron yapılmaz — UTF-8 protokolü (§8.3) ihlali sayılır.
+> ⚠️ VERIFICATION REQUIRED — `.ai/scripts/` diskte YOK (2026-10-06 kontrolü); yalnız `.ai/sources/scripts/vault-utf8-writer.mjs` mevcut (`session-save.mjs`, `vault-post-update.mjs`, `vault-cmd.mjs` diskte YOK).
 
 ---
 
@@ -530,5 +533,5 @@ Prompt → [1] Exploration Gate (proje yapısını keşfet)
 
 **REFACTOR REPORT:** FILE: WORKFLOW.md · PURPOSE: Pointer + bağlayıcı iş akışı özeti (K0-K20 · A0-A5 · K{n}.a.b.c · 3 tur/20 persona · iki ADR serisi · UTF-8 + senkron) · VALIDATION: §1-§14 yeni eklenti; orijinal uyarı + 6 SSOT linki + footer korundu; 0 dosya silme · RELATED: [[.ai/WORKFLOW.md]] · [[.ai/architecture/adlandirma-kurali]] · [[.workflows/architecture-write]]
 
-*CoreMusic Workflow Pointer v2.0.1 — Authority: Bayram Ali / Vault Steward — Last Updated: 2026-09-24*
+*CoreMusic Workflow Pointer v2.0.2 — Authority: Bayram Ali / Vault Steward — Last Updated: 2026-09-24*
 *Mode: Red Team · Human Mode · Truth Mode*

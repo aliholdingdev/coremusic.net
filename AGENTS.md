@@ -140,13 +140,14 @@ kararlarında en az 1 Expert + 1 Senior + 1 Junior görüşü zorunludur.
 ## 7. Execution Loop (her görevde)
 
 1. Kök `AGENTS.md` (bu dosya) okunur.
-2. **Yalnız ilgili** `.ai/.rules/*` okunur (tümü değil).
-3. Hedef dosya okunur.
-4. Kod yazılır.
-5. `.ai/.rules/` kontrolleri çalıştırılır.
-6. Hata → `.ai/.rules/error-recovery.md` → yeniden yaz → tekrar kontrol.
-7. UI değişikliği → browser testi (gerçek sayfa, eleman/layout doğrulaması).
-8. Commit (subagent ATMAZ — orkestratöre aittir).
+2. Görevle ilgili **yalnız** `.ai/wiki/` sayfaları okunur (62 sayfanın tümü DEĞİL — konuya göre).
+3. **Yalnız ilgili** `.ai/.rules/` YOK — ilgili kural .ai/CLAUDE.md §6 LINT'ten okunur.
+4. Hedef dosya okunur.
+5. Kod yazılır.
+6. `.ai/CLAUDE.md` §6 LINT kontrolleri çalıştırılır.
+7. Hata → `.ai/CLAUDE.md` §6 LINT + `.ai.OLD/.rules/senior-mode.md` → düzelt → tekrar kontrol (error-recovery.md diskte MEVCUT DEĞİL).
+8. UI değişikliği → browser testi (gerçek sayfa, eleman/layout doğrulaması).
+9. Commit (subagent ATMAZ — orkestratöre aittir).
 
 ## 8. Prompt-maker Kuralı
 
@@ -172,10 +173,11 @@ kullanılır (free modellerde de çalışır).
 | İhtiyaç | Dosya (`@` ile okunur) |
 |---|---|
 | Anayasa, guardrails, yasaklar | `@.ai/CLAUDE.md` |
-| ADR kararları, mühendislik kısıtları | `@.ai/brain.md` |
-| Kural dosyaları, error-recovery | `@.ai/.rules/*` |
-| Agent registry, routing, handover | `@.ai/AGENTS.md` |
-| Süreç, faz, hard gate | `@.ai/WORKFLOW.md` |
+| ADR kararları, mühendislik kısıtları | `@.ai/.decisions/index.md` · tam metin `@.ai/raw/brain.md` (salt-okunur kopya) |
+| Kural dosyaları, LINT | `@.ai/CLAUDE.md` §6 · not: .ai/.rules/ yeni vault'ta YOK; error-recovery.md diskte hiçbir yerde MEVCUT DEĞİL |
+| Agent registry, routing, handover | `@.ai/wiki/vault-agents.md` · tam metin `@.ai/raw/AGENTS.md` |
+| Vault-içi otorite | `@.ai/CLAUDE.md` §2 · not: §2.1 otorite sırası .ai.OLD/CLAUDE.md içindedir |
+| Süreç, faz, hard gate | `@.ai/wiki/vault-workflow.md` · tam metin `@.ai/raw/WORKFLOW.md` |
 
 **Kural:** bu dosyalar yalnız görevin gerektirdiği anda okunur; boot'ta toplu
 okuma, "tüm vault'u oku", "önce tüm .ai/ oku" talimatları geçersizdir.
