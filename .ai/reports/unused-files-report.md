@@ -66,7 +66,7 @@ Ayrýca:
 | 8 | `09_ViewModes/v-home.css` | **YOK** | View mode çalýþmaz |
 | 9 | `09_ViewModes/v-pro.css` | **YOK** | View mode çalýþmaz |
 | 10 | `09_ViewModes/v-studio.css` | **YOK** | View mode çalýþmaz |
-| 11 | `07_Vendors/v-bootstrap-lib.css` | **YOK** | Bootstrap yüklenemez |
+| 11 | `07_Vendors/v-bootstrap-lib.css` | **VAR (2495 B — Test-Path 2026-10-06)** | Envanterde mevcut (`v-bootstrap-lib + bootstrap*`); "YOK" iddiası stale |
 | 12 | `01_Abstracts/a-semantic-token.css` | **YOK** | Token eksik |
 | 13 | `01_Abstracts/a-color-mode-tokens.css` | **YOK** | Token eksik |
 | 14 | `01_Abstracts/a-light-glass-tokens.css` | **YOK** | Token eksik |
@@ -234,19 +234,21 @@ ComponentLoader sadece 2 bileþen kayýtlý ama home.php 9 bileþen adý referan
 | 2 | `05_Pages/_home-inline.css` | home.php'de inline style | **TUT** |
 | 3 | `05_Pages/_home-components.css` | home.php component'leri | **TUT** |
 | 4 | `05_Pages/p-login-view.css` | auth-bundled.css'de import olabilir | **ÝNCELE** |
-| 5 | `01_Abstracts/a-layout-tokens-1024.css` | Token dosyasý — import edilmemiþ | **ÝNCELE** |
-| 6 | `01_Abstracts/a-layout-tokens-1920.css` | Token dosyasý — import edilmemiþ | **ÝNCELE** |
-| 7 | `01_Abstracts/a-layout-tokens-3540.css` | Token dosyasý — import edilmemiþ | **ÝNCELE** |
-| 8 | `01_Abstracts/a-layout-tokens-3840.css` | Token dosyasý — import edilmemiþ | **ÝNCELE** |
-| 9 | `08_Devices/d-4k-monitor.css` | **YOK** — d-4k.css var ama d-4k-monitor yok | **EKSÝK** |
+| 5 | `01_Abstracts/a-layout-tokens-1024.css` | Token dosyası — **canlı zincirde import ediliyor** (`d-4k.css:9` · `d-desktop.css:19` · `d-laptop.css:19`) | **TUT** |
+| 6 | `01_Abstracts/a-layout-tokens-1920.css` | Token dosyası — **canlı zincirde import ediliyor** (`d-desktop.css:20` · `d-laptop.css:20`) | **TUT** |
+| 7 | `01_Abstracts/a-layout-tokens-3540.css` | Token dosyası (1264 B / 35 satır) — **yalnız orphan** `d-4k-monitor.css:19`'ten import → runtime'da yüklenmiyor | **İNCELE** |
+| 8 | `01_Abstracts/a-layout-tokens-3840.css` | Token dosyası (1242 B / 34 satır) — **yalnız orphan** `d-4k-tv.css:9`'dan import → runtime'da yüklenmiyor | **İNCELE** |
+| 9 | `08_Devices/d-4k-monitor.css` | **VAR (4598 B)** — teşhis: **orphan, 0 referans**; `devices.config.js:19-20` + `DeviceCssMap.php:14-15` 4k-monitor'ü `d-4k.css`'e bağlar | **İNCELE** |
+
+**Not (2026-10-06 düzeltmesi):** Bu bölümün ölçüm çerçevesi olan `main.css` diskte YOK (2026-09-30 silindi); "import edilmemiş" hücreleri artık **canlı cihaz zinciri** (`08_Devices/d-*.css`) üzerinden okunur. 1024/1920 canlı zincirde import ediliyor; 3540/3840 yalnız orphan `d-4k-monitor.css` / `d-4k-tv.css` içinde geçiyor.
 
 ---
 
 ## 9. Bootstrap Vendor Dosyalarý (32 dosya)
 
-`07_Vendors/` dizininde 32 Bootstrap dosyasý var (full, grid, reboot, utilities × normal + rtl + min + map) ama main.css'te `v-bootstrap-lib.css` import ediliyor — bu dosya **YOK**.
+`07_Vendors/` dizininde 32 Bootstrap dosyasý var (full, grid, reboot, utilities × normal + rtl + min + map) + `v-bootstrap-lib.css` — **bu dosya VAR** (2495 B · Test-Path 2026-10-06 · envanter `v-bootstrap-lib + bootstrap*` = toplam 33 = 32 + 1). `main.css` diskte YOK (2026-09-30 silindi) → import bağlamı canlı zincir (`08_Devices/d-*.css`) üzerinden okunur.
 
-**Öneri:** Ya `v-bootstrap-lib.css` oluþturulmalý (içine gerekli Bootstrap parçalarý import edilmeli) ya da mevcut Bootstrap dosyalarýndan hangisinin kullanýlacaðý belirlenmeli.
+**Öneri (2026-10-06 kapatıldı):** `v-bootstrap-lib.css` oluşturma önerisi geçersiz — dosya mevcut. Kalan 32 `bootstrap*` dosyasının hangilerinin kullanıldığı ayrı inceleme konusudur (envanter: salt okunur).
 
 ---
 
@@ -280,7 +282,7 @@ ComponentLoader sadece 2 bileþen kayýtlý ama home.php 9 bileþen adý referan
 ### ACÝL (Bug Yaratabilir)
 1. **main.css'teki 14 eksik import** › CSS yüklenemez, sayfalar bozuk görünür
 2. **ComponentLoader'da 7 eksik bileþen kaydý** › runtime `InvalidArgumentException`
-3. **d-4k-monitor.css eksik** › 4K monitor'de device CSS çalýþmaz
+3. **d-4k-monitor.css orphan (dosya VAR: 4598 B, 0 referans)** › 4K monitor'de device CSS yüklenmez; sebep eksiklik değil — `devices.config.js:19-20` + `DeviceCssMap.php:14-15` 4k-monitor'ü `d-4k.css`'e bağlar, `d-4k-monitor.css` hiçbir yerden çağrılmaz
 
 ### YÜKSEK
 4. **3 "copy" dizini sil** (~200+ dosya, ~10MB)

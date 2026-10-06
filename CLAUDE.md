@@ -40,6 +40,14 @@ Görev kullanıcıyı mikro-yönetmek değildir: riskli işlemede dur · yanlı�
 
 *SSOT detayları: [[AGENTS.md]] §5 · süreç: [[.ai/WORKFLOW.md]] §8.9-§8.10 · tam metin bütçesi: [[.ai/ULTRA-THINKING.md]] § MAX THINKING*
 
-**CSS görevleri:** kod öncesi kanonik `.ai/.templates/frontend/` seti — `css-template.md` · `css-abstracts-token-template.md` · `css-component-template.md` · `css-page-template.md` · `css-device-template.md` · `css-auth-device-template.md` · `css-utility-template.md` · `css-helper-template.md` + özet (kök): `.ai/.templates/css-structure.md` · `css-token.md` · `css-component.md` · `css-page.md` · `css-imports.md` okunur (01→11 sıra · token yalnız 01 · taşıma yok) → [[AGENTS.md]] §10.
+**Mimari referans (2026-10-06 · v4.0.0):** Enterprise Layered Architecture **500 katman** (`K000`–`K499`),
+10 domain, **hibrit multi-MD** (MD sayısı değişken, sabit değil). Giriş: `@.ai/architecture/00-master-index.md`
+→ domain tabloları `10-domain-d01-…md` … `19-domain-d10-…md`. Sayım birimi = **KATMAN** (mantıksal doküman
+katmanı); toplam yalnız betik çıktısıyla yazılır. Eski K0–K20 / 344 MD yapısı backup'tadır
+(`_backup/arch-2026-10-06_1057.zip`, salt-okunur referans, esas değil). Amplifikatör topolojisi **Class AB**
+(Class D yasak). Agent hiyerarşisi: **Expert 5 / Senior 5 / Junior 10** → [[AGENTS.md]] §6.1.
 
-*SSOT: .ai/ · Pointer v2.0 — Last Updated: 2026-10-01*
+**CSS görevleri:** kod öncesi kanonik `.ai/.templates/frontend/` seti — `css-template.md` · `css-abstracts-token-template.md` · `css-component-template.md` · `css-page-template.md` · `css-device-template.md` · `css-auth-device-template.md` · `css-utility-template.md` · `css-helper-template.md` okunur (01→11 sıra · token yalnız 01 · taşıma yok) → [[AGENTS.md]] §10.
+⚠️ **Ölü atıf düzeltildi (2026-10-06):** `+ özet (kök): .ai/.templates/css-structure.md · css-token.md · css-component.md · css-page.md · css-imports.md` — beş dosya **çalışma ağacında diskte YOK (0 glob isabeti)** → referans kaldırıldı; özet içerik `css-template.md` içindedir (HEAD'de varlar, silme commit edilmedi — `git status: D`).
+
+*SSOT: .ai/ · Pointer v2.1 — Last Updated: 2026-10-06*

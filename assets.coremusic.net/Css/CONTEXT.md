@@ -244,8 +244,8 @@ Bu doküman `assets.coremusic.net/Css/` klasörünün **ne işe yaradığını**
 | `a-layout-tokens-tablet.css` | 768–1023px | **0 byte (boş)** ⚠️ |
 | `a-layout-tokens-1024.css` | RPi5 1024×600 | **0 byte (boş)** ⚠️ |
 | `a-layout-tokens-1920.css` | Full HD / wide desktop | 3563 byte (dolu) |
-| `a-layout-tokens-3540.css` | 4K monitor | **0 byte (boş)** ⚠️ |
-| `a-layout-tokens-3840.css` | 4K TV | **0 byte (boş)** ⚠️ |
+| `a-layout-tokens-3540.css` | 4K monitor | **1264 byte / 35 satır** (2026-10-06 Get-Item) — dolu ⚠️ yalnızca orphan `d-4k-monitor.css:19`'ten import edilir → runtime'da yüklenmiyor |
+| `a-layout-tokens-3840.css` | 4K TV | **1242 byte / 34 satır** (2026-10-06 Get-Item) — dolu ⚠️ yalnızca orphan `d-4k-tv.css:9`'dan import edilir → runtime'da yüklenmiyor |
 
 **Sıralama (öncelik):** base → mobile → tablet → 1024 → 1920 → 3540 → 3840. Base medyasızdır; `@media` yalnız cihaz dosyalarında.
 

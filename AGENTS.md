@@ -2,10 +2,10 @@
 title: "CoreMusic — Kök Ana Kurallar"
 type: rules
 category: agent-registry
-version: 1.0.0
+version: 1.0.1
 status: active
 authority: "Master rules — SSOT detayları: .ai/"
-updated: 2026-10-01
+updated: 2026-10-06
 ---
 
 # CoreMusic — AGENTS.md (Kök Master Kurallar)
@@ -186,7 +186,8 @@ okuma, "tüm vault'u oku", "önce tüm .ai/ oku" talimatları geçersizdir.
 
 ## 10. CSS Writing Rules (Templates)
 
-Her CSS görevinden önce `.ai/.templates/frontend/` altındaki kanonik şablonlar okunur: `css-template.md` (v3.0.0, 11 katman) · `css-abstracts-token-template.md` · `css-component-template.md` · `css-page-template.md` · `css-device-template.md` · `css-auth-device-template.md` · `css-utility-template.md` · `css-helper-template.md`; ilgili/detay özet (kök): `.ai/.templates/` altındaki `css-structure.md` (01→11 klasör sırası) · `css-token.md` (token + breakpoint) · `css-component.md` · `css-page.md` · `css-imports.md` (import zinciri).
+Her CSS görevinden önce `.ai/.templates/frontend/` altındaki kanonik şablonlar okunur: `css-template.md` (v3.0.0, 11 katman) · `css-abstracts-token-template.md` · `css-component-template.md` · `css-page-template.md` · `css-device-template.md` · `css-auth-device-template.md` · `css-utility-template.md` · `css-helper-template.md`.
+⚠️ **Ölü atıf düzeltildi (2026-10-06):** `.ai/.templates/` **kökündeki** özet dosyalar `css-structure.md` (01→11 klasör sırası) · `css-token.md` · `css-component.md` · `css-page.md` · `css-imports.md` **çalışma ağacında diskte YOK (0 glob isabeti)** → beş referans kaldırıldı; özet içerik `css-template.md` içindedir. (`.ai/.templates/` kökü: `CLAUDE.md` · `coremusic-vault-template.md` · `index.md` · `session-log-template.md`. Not: bu beş dosya HEAD'de var, çalışma ağacından silinmesi **commit edilmedi** — `git status: D`.)
 Sıra kuralı: 01_Abstracts(token) → 02_Base → 03_Layout → 04_Components → 05_Pages → 06_Utilities → 07_Vendors → 08_Devices → 09_ViewModes → 10_Helpers → 11_OAuth.
 Token kuralı: sabit değer yalnız `01_Abstracts/a-*.css` içinde `--cm-*` ile; `@media` içinde `var()` ile okuma yasak; ham hex/px katman dosyasına yazılmaz.
 **Taşıma/silme YOK:** mevcut CSS dosyası adlandırması ve import zinciri değiştirilmez; yanlış yerleşim yalnız raporlanır (onay + ADR olmadan taşıma yasak).
