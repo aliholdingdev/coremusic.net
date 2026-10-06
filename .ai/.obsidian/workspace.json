@@ -185,6 +185,13 @@
   },
   "active": "295ec8d30270d14a",
   "lastOpenFiles": [
+    "architecture/k120-mysql-18-database/mysql-18-database-sema.md",
+    "architecture/k068-guc-kaynagi-analog/topraklama-ve-guc-dagilimi.md",
+    "architecture/k068-guc-kaynagi-analog/regulasyon-ve-filtreleme.md",
+    "architecture/k067-koruma-devreleri/dc-offset-ve-termal-koruma.md",
+    "architecture/k067-koruma-devreleri/koruma-devreleri-turleri.md",
+    "architecture/k066-konnektorler/baglanti-ve-etiketleme.md",
+    "architecture/k066-konnektorler/konnektor-cesitleri.md",
     "archives/vault-faz4-sweep.mjs",
     "ui-design/prompt/component/aaaa.md",
     "log.md.tmp.37516.a710693e9d7a",
@@ -207,7 +214,6 @@
     "CHECKLIST.md",
     "scripts/figma-tokens.ps1",
     "ui-design/tokens/tokens-tv.json",
-    "ui-design/tokens/tokens-system.json",
     "ui-design/reference/figma/token-conflicts.md",
     "TODO.md",
     "docs/technical-documentation.md",
@@ -225,12 +231,6 @@
     "ui-design/screens/qr-welcome-popup.md",
     "ui-design/screens/qr-video-playback.md",
     "ui-design/prompt/screen/AGENTS.md",
-    "ui-design/prompt/page/CLAUDE.md",
-    "ui-design/prompt/page/AGENTS.md",
-    "ui-design/prompt/layout/CLAUDE.md",
-    "ui-design/prompt/layout/AGENTS.md",
-    "ui-design/prompt/component/CLAUDE.md",
-    "ui-design/prompt/component/AGENTS.md",
     "Başlıksız.canvas"
   ]
 }

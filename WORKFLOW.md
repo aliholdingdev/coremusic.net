@@ -55,79 +55,60 @@ Bu bölüm, CoreMusic vault'unda dosya üreten/yazan her agent ve geliştirici i
 
 ---
 
-## §2 Mimari Şema — 21 Katman (K0-K20)
+## §2 Mimari Şema — 500 Katman (K000–K499) · 10 Domain
 
-### §2.1 Ana Katman Tablosu (21 sabit)
+> **v4.0.0 (2026-10-06) — SIFIRDAN YENİDEN YAZILDI.** Eski 21 katman (K0–K20) şeması
+> backup'tadır (`_backup/arch-2026-10-06_1057.zip`, salt-okunur — esas değildir).
+> Bağlayıcı SSOT: [[.ai/architecture/00-master-index]].
 
-| Kök | Katman Adı | Disk Klasörü | A Grubu | Örnek Alt Düğüm |
-|-----|-----------|--------------|---------|-----------------|
-| K0 | İşletim Sistemi | `k0-isletim-sistemi/` | A0 | K0.7.1 |
-| K1 | Donanım | `k1-donanim/` | A0 | K1.f (firmware) |
-| K2 | Sürücü | `k2-surucu/` | A0 | K2.1.1 |
-| K3 | Ses İşleme Motoru | `k3-ses-motoru/` | A0 | K3.2.1 |
-| K4 | Yapay Zeka | `k4-yapay-zeka/` | A0 | K4.1.1 |
-| K5 | Veri Yönetimi | `k5-veri-yonetimi/` | A0 | K5.1.1 |
-| K6 | Güvenlik | `k6-guvenlik/` | A1 | K6.1.1 |
-| K7 | Middleware | `k7-middleware/` | A1 | K7.1.3 |
-| K8 | Servis | `k8-servis/` | A2 | K8.2 (Media Servis) |
-| K9 | API & Routing | `k9-api-routing/` | A2 | K9.1.1 |
-| K10 | Uygulama | `k10-uygulama/` | A3 | K10.1.1 |
-| K11 | Kullanıcı Deneyimi | `k11-ux/` | A3 | K11.1.4.13 |
-| K12 | İzleme & Log | `k12-izleme/` | A4 | K12.1.1 |
-| K13 | CI/CD & Deploy | `k13-cicd/` | A4 | K13.1.1 |
-| K14 | Ağ & İletişim | `k14-ag/` | A4 | K14.1.1 |
-| K15 | Medya & Streaming | `k15-medya-streaming/` | A4 | K15.1.1 |
-| K16 | Class AB Amplifikatör | `k16-class-ab/` | A5 | K16.1.1 |
-| K17 | Güç Kaynağı ±35V | `k17-guc-kaynagi/` | A5 | K17.1.1 |
-| K18 | Termal Tasarım | `k18-termal/` | A5 | K18.1.1 |
-| K19 | PCB Tasarım | `k19-pcb/` | A5 | K19.1.1 |
-| K20 | BOM & Üretim | `k20-bom/` | A5 | K20.1.1 |
+### §2.1 Domain Tablosu (10 sabit, 500 katman)
 
-**Sabit kurallar:** 21 ana katman değişmez (K21+ = yeni ADR ister); K16-K20 bağımsızdır, K0-K15 hiyerarşisine tabi değildir; tek arayüz bağımlılıkları K1'e ↕ yönlüdür.
+| Domain | K Aralığı | Katman | Fiziksel MD | Kapsam (eski karşılık) |
+|--------|-----------|--------|-------------|------------------------|
+| D01 | K000–K071 | 72 | `10-domain-d01-os-donanim-surucu.md` | OS · Donanım · Sürücü (k0-k2) |
+| D02 | K072–K095 | 24 | `11-domain-d02-ses-motoru-dsp.md` | Ses Motoru + DSP (k3) |
+| D03 | K096–K119 | 24 | `12-domain-d03-yapay-zeka.md` | Yapay Zeka (k4) |
+| D04 | K120–K143 | 24 | `13-domain-d04-veri-yonetimi.md` | Veri Yönetimi (k5) |
+| D05 | K144–K167 | 24 | `14-domain-d05-guvenlik-session.md` | Güvenlik + User Session (k6) |
+| D06 | K168–K239 | 72 | `15-domain-d06-middleware-servis-api.md` | Middleware · Servis · API (k7-k9) |
+| D07 | K240–K287 | 48 | `16-domain-d07-uygulama-ux.md` | Uygulama + UX (k10-k11) |
+| D08 | K288–K335 | 48 | `17-domain-d08-izleme-cicd.md` | İzleme + CI/CD (k12-k13) |
+| D09 | K336–K383 | 48 | `18-domain-d09-ag-medya-streaming.md` | Ağ + Medya Streaming (k14-k15) |
+| D10 | K384–K499 | 116 | `19-domain-d10-donanim-ab-guc-termal-pcb-bom.md` | Class AB · Güç · Termal · PCB · BOM (k16-k20) |
+| — | **Toplam** | **500** | 10 zorunlu + **ek MD serbest (değişken)** | k0–k20 |
 
-### §2.2 A0-A5 Alan Etiketleri (yalnız raporlama/gruplama)
+### §2.2 Sayım ve Yerleşim Kuralları
 
-| Alan | K Katmanları | Kapsam |
-|------|-------------|--------|
-| A0 | K0-K5 | Altyapı/Donanım (çekirdek, firmware K1.f, sürücü, DSP, AI, veri) |
-| A1 | K6-K7 | Güvenlik ve middleware |
-| A2 | K8-K9 | Servis ve yönlendirme |
-| A3 | K10-K11 | Sunum (uygulama + deneyim) |
-| A4 | K12-K15 | Operasyon (izleme, CI/CD, ağ, medya) |
-| A5 | K16-K20 | Fiziksel üretim (amfi, güç, termal, PCB, BOM) |
+| # | Kural |
+|---|-------|
+| 1 | Sayım birimi = **KATMAN** (`K###`, benzersiz, `K000`–`K499`) — dosya değil |
+| 2 | Fiziksel yerleşim **HİBRİT**: her domain tek MD + gerekirse ek MD (`firmware-*.md`, `adr-*.md`) |
+| 3 | **MD sayısı sabit DEĞİL** — domaine göre değişken; "10" zorunlu minimumdur |
+| 4 | Toplam katman doğrulaması yalnız betik çıktısıyla yazılır; önceden yazılmış toplam `⚠️ VERIFICATION REQUIRED` |
+| 5 | K16–K20 karşılığı (D10) bağımsızdır, hiyerarşik üst katmana tabi değildir *(eski ilke korunur)* |
+| 6 | Topoloji: **Class AB** — Class D tasarım katmanı YASAK |
+| 7 | 21 katman / K{n}.a.b.c regex şeması (§3) artık ESASTIR — yeni şema `K###`'dir |
 
-**Denetim kuralı:** Katman ihlali denetimi **K matrisine göre** yapılır; A grubu denetimde kullanılamaz. "A3 → A0 ihlali" iddiası önce gerçek K okuna (örn. K11 → K0) indirgenir, matriste o ok yoksa ihlal vardır. A grubu yalnız raporlama adıdır ([[.ai/architecture/adlandirma-kurali]] §8).
+### §2.3 Katman → Sorumlu Persona Eşlemesi
 
-### §2.3 Disk Klasör Yapısı (`.ai/architecture/`)
+| Domain | Birincil persona | İkincil kontrol |
+|--------|------------------|-----------------|
+| D01, D02 | `embedded-engineer` (Expert) | `performance-engineer` |
+| D03, D04 | `data-engineer` (Expert) | `architect` |
+| D05 | `security-engineer` (Expert) | `qa-engineer` |
+| D06 | `backend-architect` (Senior) | `security-engineer` |
+| D07 | `ui-designer` (Senior) | `qa-engineer` |
+| D08 | `devops-engineer` (Senior) | `performance-engineer` |
+| D09 | `performance-engineer` (Senior) | `architect` |
+| D10 | `embedded-engineer` (Expert) | `qa-engineer` |
 
-| Öğe | Adet (2026-09-24 disk) | Not |
-|--------------------------|------------------------|-----|
-| Katman klasörleri (k0…k20) | 21 | Her biri k{n}-<slug>/ |
-| `firmware/` | 1 | K1.f alt katmanı — kalıcı (ADR-024) |
-| `adr/` | 1 | Mimari ADR serisi (ADR-023…026) |
-| **Toplam (tanım: 23 klasör)** | **23** | 21 katman + firmware + adr |
-| `scripts/` | 1 | 24. dizin — sayım/kapsam dışıdır |
-| Kök md dosyaları | 6 | adlandirma-kurali · katman-baglilik-matrisi · katman-sayim-rehberi · frontend-restructuring-plan · github-referanslari · index |
-| **Toplam md (recursive)** | **340** | 322 katman + 8 firmware + 4 adr + 6 kök (disk ölçümü 2026-09-24) |
+Persona hiyerarşisi ve 20'lik liste: [[AGENTS.md]] §6.1 (Expert 5 / Senior 5 / Junior 10 — oy çokluğu yok, evidence-öncelikli).
 
-✅ **ÇÖZÜLDÜ (2026-09-24):** [[.ai/architecture/katman-baglilik-matrisi]] §10 = 340 MD = disk birebir (322 + 8 + 4 + 6; 24 klasör, scripts/ dipnotu .ps1 toplam dışı). Doğrulama: katman-sayim.ps1 EXIT=0.
+## §3 (ESKİ — geçersiz, yalnız tarihsel referans): Adlandırma Dili K{n}.a.b(.c)
 
-### §2.4 Katman → Sorumlu Alan/Sorumlu Agent Eşlemesi
-
-| K Grubu | Alan | Birincil agent (kısa) | İkincil kontrol |
-|---------|------|------------------------|------------------|
-| K0-K5 | A0 altyapı | Data / Embedded | DevOps |
-| K6-K7 | A1 güvenlik | Security | Backend |
-| K8-K9 | A2 hizmet | Backend | Security |
-| K10-K11 | A3 sunum | UI Designer | QA |
-| K12-K15 | A4 operasyon | DevOps / Data | QA |
-| K16-K20 | A5 üretim | Audio HW / Embedded | DSP FW |
-
-**Kullanım:** yazım batch'i (§8, [[.workflows/architecture-write]]) açılırken her dosya bu tabloya göre sorumlu agent'a bağlanır; agent sınırı ihlali domain boundary kuralı ile durdurulur. Routing anahtarı: [[.ai/AGENTS.md]] §6 — bu tablo yalnız özet, ikinci kaynak değildir.
-
----
-
-## §3 Adlandırma Dili — K{n}.a.b(.c)
+> ⚠️ **Bu bölüm v4.0.0 ile ESAS OLMAKTAN ÇIKTI.** Yeni şema: `K000`–`K499` (§2.1).
+> Bölüm içeriği backup `index.md` v3.0.1'de korunur. Yeni yazımda K{n}.a.b.c
+> regex'i uygulanmaz; yeni regex: `^K([0-9]{3})$` (`K000`–`K499`).
 
 ### §3.1 Seviye Tablosu
 
