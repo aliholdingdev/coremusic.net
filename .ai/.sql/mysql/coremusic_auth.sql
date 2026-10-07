@@ -284,6 +284,8 @@ ALTER TABLE credential_audit
 -- Table: api_keys
 -- Purpose: API key management for external integrations
 -- BCNF: key_hash is candidate key; all attributes depend on it
+-- Sync: key_type + idx_apikeys_type 2026-10-07'de CANLI şemadan (SHOW CREATE)
+--       dosyaya yazıldı — A-F02 schema-drift kapatıldı (SSOT = bu dosya).
 -- =============================================
 CREATE TABLE api_keys (
     id BINARY(16) NOT NULL COMMENT 'UUID v7 primary key',
@@ -300,6 +302,7 @@ CREATE TABLE api_keys (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last update timestamp',
     is_deleted TINYINT(1) DEFAULT 0 COMMENT 'Soft delete flag',
     deleted_at TIMESTAMP NULL COMMENT 'Soft delete timestamp',
+    key_type ENUM('user','service','server') NOT NULL DEFAULT 'user' COMMENT 'ADR-020 key yasam dongusu: user|service|server',
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
   COMMENT='API keys — external integration authentication';
@@ -309,6 +312,7 @@ CREATE UNIQUE INDEX idx_apikeys_hash ON api_keys (key_hash) COMMENT 'Unique key 
 CREATE INDEX idx_apikeys_user ON api_keys (user_id) COMMENT 'User API keys lookup';
 CREATE INDEX idx_apikeys_active ON api_keys (is_active) COMMENT 'Active key filtering';
 CREATE INDEX idx_apikeys_prefix ON api_keys (key_prefix) COMMENT 'Key prefix identification';
+CREATE INDEX idx_apikeys_type ON api_keys (key_type);
 
 -- Foreign Keys
 ALTER TABLE api_keys

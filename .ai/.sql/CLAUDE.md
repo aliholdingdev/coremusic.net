@@ -6,7 +6,7 @@
 
 ## 1. Bağlam
 
-SQL dump klasörü. MySQL altında 18 BCNF veritabanı dump dosyaları + destek dosyaları. Otorite: ADR-003 + ADR-040.
+SQL dump klasörü. MySQL altında **20 dump dosyası** (2026-10-07 ölçümü): 18 BCNF `coremusic_*` + `media_catalog` (PLANNED) + `novasearch` (canlı dump, knex) + destek dosyaları. Otorite: ADR-003 + ADR-040.
 Sql Veritabanı dosyaları bauarda yazılır toplanır baurda nromzşie diemiş şekidle yazılır.
 
 ---

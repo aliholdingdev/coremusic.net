@@ -113,7 +113,7 @@ CoreMusic yalnızca bir medya oynatıcı değildir. Sistem şu yeteneklere sahip
 | **K8** Servis | Control, Media, Audio, Device, Network, AI, Download + Infra (11) | 55 | Servisler arası doğrudan çağrı yasaktır, Event Bus kullanılır |
 | **K7** Middleware | OriginCheck, CORS, RateLimit, SecurityHeaders, Session, CSRF, PSR-15 | 35 | K6 güvenlik doğrulamasını atlayamaz |
 | **K6** Güvenlik | JWT, RBAC, CSRF, CSP, RateLimit, AES-256, Vault, Audit | 40 | Hard Guardrail: Asla bypass edilemez |
-| **K5** Veri Yönetimi | MySQL 9 (18 BCNF, 112 tablo), Redis, APCu, SQLite, Restic | 55 | 18 Veritabanı kesinlikle BCNF kurallarına uymalıdır |
+| **K5** Veri Yönetimi | MySQL 9 (18 BCNF, 156 tablo), Redis, APCu, SQLite, Restic | 55 | 18 Veritabanı kesinlikle BCNF kurallarına uymalıdır |
 | **K4** Yapay Zeka | Music Analysis (10), Recommendation (5), Voice (5), Edge AI, ML Infra | 50 | K5 harici veriye erişemez |
 | **K3** Ses İşleme Motoru | Neva Engine, DSP Chain (31-band EQ, 4 Reverb), Dolby Atmos, DTS:X | 50 | Sıfır gecikme, K2 donanım sürücüsüne sıkı bağımlı |
 | **K2** Sürücü | ASIO, WASAPI, ALSA, PipeWire, CoreAudio, I2S, USB, BT, DLNA | 40 | Donanım-yazılım köprüsü |
@@ -376,7 +376,7 @@ shared/
 - **Gender-based:** female→pink, male→blue, neutral→default
 - **PHP:** `ThemeEngine.php` — DB + user gender çözümleme
 - **JS:** `ThemeManager.js` — CSS custom properties ile anında geçiş (sayfa yenileme yok)
-- **DB:** `user_preferences` tablosu — `user_id`, `device_type`, `theme_gender`
+- **DB:** `user_preferences` (`user_id`, `device_type`, `theme`) + `user_profiles.theme_gender` (A-F08: kolonlar 2026-10-07'de canlı/​şema dosyası ile hizalandı — eski satır yanlış tabloyu gösteriyordu)
 - **Admin:** Bağımsız tema sistemi (kullanıcı temalarından ayrı)
 
 ---
@@ -421,6 +421,15 @@ shared/
 
 **Toplam:** 18 BCNF veritabanı, 156 tablo.  
 **Kurallar:** ORM yasak (ADR-002), SELECT * yasak, prepared statement zorunlu, BCNF zorunlu.
+
+> **Ek sistemler (envanter düzeltmesi 2026-10-07 — A-F03/A-F04, canlı DB doğrulaması):**
+>
+> | DB | Tablo | Durum |
+> |----|:-----:|-------|
+> | `media_catalog` | 9 | `.sql` dosyası VAR (`media_catalog.sql`) · canlıya **deploy edilmedi** → PLANNED |
+> | `novasearch` | 7 | canlıda VAR · **knex** ile yönetiliyor (ADR-014 runner dışı) · şema SSOT'a alındı: `.sql/mysql/novasearch.sql` (salt-okunur dump 2026-10-07) · sahiplik kararı = ADR-040 takibi |
+>
+> Bu iki DB 18'lik BCNF sayımının (156 tablo) İÇİNDE DEĞİLDİR. `.sql/mysql/` dosya sayısı = 20 (18 + media_catalog + novasearch).
 
 ---
 
