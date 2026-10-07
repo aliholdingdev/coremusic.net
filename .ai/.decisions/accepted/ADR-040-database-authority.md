@@ -388,7 +388,41 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 ---
 
-*ADR-040 v1.0.0 — CoreMusic Architecture Decision Record*
+## §8 Addendum — BCNF FD Denetimi (P4-24, 2026-10-07)
+
+> **Yöntem:** `database-normalize-maker` §3 (FD analizi: PK/UNIQUE'den aday anahtarlar,
+> FK'dan türeyen FD'ler, adlandırma FD'leri, ENUM/lookup, 1NF/2NF/3NF hızlı geçişleri)
+> + truth-engine (disk ölçümü, file:line kanıt). Disk salt-okunur; canlı DB'ye
+> bağlanmadı (canlı = 156 tablo ile dosya birebir, 2026-10-07 doğrulaması ayrı).
+> Cross-DB FK'lar (ADR-040 grandfathered) kapsam dışı — **disk sayımı: 28** (social 13 + system 4 + user 11) ✓ ADR-040 ile birebir.
+
+**Kapsam:** 18 `coremusic_*` = **156 tablo / 254 aday anahtar** (156 PK + 98 UNIQUE) + 16 ikincil (media_catalog 9 + novasearch 7).
+
+**Sonuç — "18 BCNF" iddiası DESTEKLENDİ: 153/156 tablo FD'de temiz; 0 HIGH şiddetli ihlal; 3 savunulabilir şüpheli:**
+
+| # | Tablo | İhlal eden FD | Kanıt | Şiddet | Güven | Öneri |
+|---|-------|---------------|-------|--------|-------|-------|
+| 1 | `coremusic_social.user_achievements` | `achievement_type → {achievement_name, achievement_description, achievement_icon, rarity}` | `coremusic_social.sql:218-222` kolonlar, CK `(user_id, achievement_type)` `:234` | **MEDIUM** (update anomaliyi: ödül yeniden adlandırma N satırı bozar) | MEDIUM-HIGH | `achievement_types` katalog tablosu böl (PK=achievement_type) veya ADR ile gerekçelendir |
+| 2 | `coremusic_musics.podcast_shows` | `author_user_id → author_name` | `:408` (cross-DB FK), `:413` (kolon), CK `{id}` `:425` + `{slug}` `:426` | LOW | MEDIUM (kalem-adı snapshot olabilir) | kolonu düş + `users.display_name` JOIN, VEYA create-time snapshot ADR'si |
+| 3 | `coremusic_musics.video_subtitles` | `language → label` | `:628-629`, CK `(video_id, language)` `:637` | LOW | MEDIUM-LOW | `i18n_languages`'a referans (coremusic_system.sql:354) veya label'ı düş |
+
+**İkincil (156 sayımının DIŞI):** `novasearch.playlists/videos.channel_id → channel_name` (kanıt `novasearch.sql:72-73/106-107`) → **gerekçeli denormalizasyon** (YouTube API inline cache; canlı knex şeması, "normalize edilmez" politikası dosya başında) — kaydedildi, migrate edilmez.
+
+**Ek bulgular (ihlal DEĞİL):**
+- 1NF kokusu: `coremusic_api.api_keys.scope` CSV kolonu (`coremusic_api.sql:29,37`) — LOW/HIGH-güven → JSON veya junction (veya ADR gerekçesi).
+- Anahtar-takibi (add-key): `user_tokens.token_hash` yorum "unique" diyor ama index non-UNIQUE (`coremusic_auth.sql:141,163`) → `UNIQUE(token_hash)` öner · `playlist_tracks(playlist_id, position)` non-UNIQUE (`coremusic_playlist.sql:72`).
+- Sistem notu: `coremusic_system.sql:454` "Tables: 41" ≠ disk 17 (doküman hatası).
+
+**Kural-çatışmaları (BCNF İHLALİ DEĞİL, ayrı izlenir):**
+1. **ENUM:** 18 dosyada 97 kolon-seviyesi ENUM (ikincil ile 108) vs skill §5.4 lookup-tablosu kuralı — bakım tercihi ihlali, atomik oldukları için BCNF değil.
+2. **Karışık soft-delete (156 tablo):** yalnız `is_deleted` 23 · yalnız `deleted_at` 2 · ikisi 44 · **hiçbiri 87** — şablon başlıkları "soft delete var" derken 110/156 tabloda en az bir bileşen eksik.
+3. **Karışık unique ön ek (98 unique):** `idx_` 28 / `uk_` 32 / `uq_` 38; 4 dosya içinde karışık (auth, logs, musics, system). Skill §2.3 = `uk_` tek kural.
+
+**Migration:** yıkıcı işlem YOK; düzeltmeler ekleme-tmelli (tablo böl, UNIQUE ekle, kolon düş) → expand-contract, ADR-014 kapısu. Denetim disk-özü; BCNF statusu artık **kanıtlanmış** (önceden yalnız self-declaration).
+
+---
+
+*ADR-040 v1.1.0 (§8 addendum 2026-10-07 — P4-24 BCNF FD denetimi) — CoreMusic Architecture Decision Record*
 *Authority: ADR-040 Karar Metni (SSOT)*
-*Last Updated: 2026-09-29*
+*Last Updated: 2026-10-07*
 *Mode: Red Team · Human Mode · Truth Mode*
