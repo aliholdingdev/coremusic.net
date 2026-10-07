@@ -17,9 +17,9 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 > **Durum:** ✅ **ACCEPTED** — **Tarih:** 2026-09-29 — **Debate:** ✅ **TAMAMLANDI** (3 tur / 20 persona · 18/2/0 KABUL) — **Tech Lead:** ✅ — **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` — **Slug:** `ADR-061-electronics-architecture` (dizin otoritesi: [[../index.md]] satır 92)
 > **Slug sapması raporu:** görev talimatı bu dosyayı `ADR-061-electronics-l6` (veya `-l6` eki) ile hedeflemişti; disk/dizin gerçeği `ADR-061-electronics-architecture` → **indeks kazandı**, dosya adı indekse hizalandı (**In-Place Refactoring: dosya adı değişikliği YOK**).
-> **İlgili kararlar:** [[ADR-017-dsp-hardware-mode]] (DSP'nin donanım modu — bu ADR L6'nın DSP bloğunu **sahiplenir**, çalışma modunu **yeniden almaz**) · [[ADR-038-8-1-sound-card-chip-selection]] (PCM3168A/AK4458/XMOS XU316 seçimi — **çip seçiminin kendisi bu ADR'nin değil, ADR-038'in**; bu ADR yalnız **seçim politikasını** bağlar) · [[ADR-039-7-service-platform-architecture]] (servis platformu — L5 sınırının sahibi) · [[ADR-040-database-authority]] (veri otoritesi — L0 sınırı) · [[ADR-089-classab-24v]] (Class-AB 24V) · [[ADR-090-channel-variant-product-family]] (kanal varyantı ürün ailesi) · [[ADR-042-vault-restructuring-2026-08-03]] (vault yeniden yapılandırması) · [[../index.md]] · [[../../index.md]] · [[../../brain.md]] · [[../../keys.md]] · [[../../AGENTS.md]] · [[../../.templates/adr/adr-template.md]]
+> **İlgili kararlar:** [[ADR-017-dsp-hardware-mode]] (DSP'nin donanım modu — bu ADR L6'nın DSP bloğunu **sahiplenir**, çalışma modunu **yeniden almaz**) · [[ADR-038-8-1-sound-card-chip-selection]] (PCM3168A/AK4458/XMOS XU316 seçimi — **çip seçiminin kendisi bu ADR'nin değil, ADR-038'in**; bu ADR yalnız **seçim politikasını** bağlar) · [[ADR-039-7-service-platform-architecture]] (servis platformu — L5 sınırının sahibi) · [[ADR-040-database-authority]] (veri otoritesi — L0 sınırı) · [[ADR-089-classab-24v]] (Class-AB 24V) · [[ADR-090-channel-variant-product-family]] (kanal varyantı ürün ailesi) · [[ADR-042-vault-restructuring-2026-08-03]] (vault yeniden yapılandırması) · [[../index.md]] · [[../../index.md]] · [[../../raw/brain.md]] · [[../../raw/keys.md]] · [[../../raw/AGENTS.md]] · [[../../.templates/adr/adr-template.md]]
 > **⚠️ VERIFICATION REQUIRED (kayıp ADR metinleri):** `ADR-062-dsp-pipeline-architecture` · `ADR-063-hardware-design-standards` · `ADR-064-electronics-platform-architecture` — üçü de **diskte dosya olarak YOK** (glob `**/ADR-06*.md` = 0; [[../index.md]] satır 93-95 ve [[../../index.md]] satır 694-696 bu slotları **kaydetmiş**, metinleri **yok**). Bu ADR o numaraları **doldurmaz**; yalnız düz metinle sınır çizer.
-> **Bölümlendirme notu:** ADR-064 satırı "L0-L6, 5 cihaz, 13 servis" iddiası taşır ([[../../brain.md]] `:1012`, [[../../keys.md]] `:288`) — **bu iddia kanıtlanamadı** (doğrulama ADR-064'ün işidir), bu ADR'de **tekrarlanmaz, doğrulanmış sayılmaz**.
+> **Bölümlendirme notu:** ADR-064 satırı "L0-L6, 5 cihaz, 13 servis" iddiası taşır ([[../../raw/brain.md]] `:1012`, [[../../raw/keys.md]] `:288`) — **bu iddia kanıtlanamadı** (doğrulama ADR-064'ün işidir), bu ADR'de **tekrarlanmaz, doğrulanmış sayılmaz**.
 > **Frozen değil:** ADR-001–037 frozen kapsamı dışındadır; bu dosya arşiv/indeksin ayırdığı **061** slotunu doldurur (kural 4'teki ADR-088+ aralığı bu seriyle çelişir → **numara çakışması raporlanır, düzeltilmez**, §5.1 adım 9).
 
 ---
@@ -32,7 +32,7 @@ CoreMusic'in donanım/firmware tarafı vault içinde **dağınık** durumda: `.a
 
 | İddia | Kanıt | Etiket |
 |-------|-------|--------|
-| ADR-061 slotu ayrılmış mı? | [[../index.md]] `:92` → `\| ../brain.md ADR-061-electronics-architecture \| Electronics Architecture (L6) \| Electronics \|` · [[../../index.md]] `:693` · [[../../brain.md]] `:1009` · [[../../keys.md]] `:285` | ✅ **KAYITLI** (4 indeks satırı) |
+| ADR-061 slotu ayrılmış mı? | [[../index.md]] `:92` → `\| ../brain.md ADR-061-electronics-architecture \| Electronics Architecture (L6) \| Electronics \|` · [[../../index.md]] `:693` · [[../../raw/brain.md]] `:1009` · [[../../raw/keys.md]] `:285` | ✅ **KAYITLI** (4 indeks satırı) |
 | ADR-061 dosyası diskte var mıydı? | glob `**/ADR-06*.md` = **0** (bu işlem öncesi) | ❌ **YOKTU** → bu işlemde yazılıyor |
 | ADR-062/063/064 metinleri | glob = **0**; [[../index.md]] `:93-95` + [[../../index.md]] `:694-696` satırları var | ⚠️ **VERIFICATION REQUIRED** (düz metin) |
 | L0-L6 zinciri | [[../../index.md]] `:87` → `✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1→L0 \| ❌ L0→L2/L3, L1→L3, L3→L0`; `:91-98` katman tablosu | ✅ **IMPLEMENTED** (metin) |
@@ -47,7 +47,7 @@ CoreMusic'in donanım/firmware tarafı vault içinde **dağınık** durumda: `.a
 | Firmware dokümanları | `architecture/firmware/` = **8** .md (`bootloader.md`, `dsp-firmware.md`, `gpio-control.md`, `i2s-driver.md`, `mcu-support.md`, `usb-audio-firmware.md`, `xmos-firmware.md`, `index.md`) | ✅ **IMPLEMENTED** (doküman) |
 | Firmware **kodu** | repo geneli `*.cpp\|*.h\|*.c\|*.hpp` (vendor/node_modules/.git/dist/build hariç) = **0 dosya** | ⏳ **PLANNED** (kod yok) |
 | `electronic/` dizini | `Test-Path` = **False**; `.ai/*.md` kökünde `electronic/` = **69** isabet (`keys.md:141-152` açıkça "vault'ta yok / DOĞRULAMA GEREKLİ" der) | ❌ **KIRIK — SSOT DEĞİL** |
-| "3 yeni ADR (061-063)" iddiası | [[../../MEMORY.md]] `:656` → `✅ 50+ dosya, L6 katmani, 3 yeni ADR (061-063)` — üç dosya da glob'da **0** | ⚠️ **VAULT BEYANI — DOĞRULANAMADI** |
+| "3 yeni ADR (061-063)" iddiası | [[../../raw/MEMORY.md]] `:656` → `✅ 50+ dosya, L6 katmani, 3 yeni ADR (061-063)` — üç dosya da glob'da **0** | ⚠️ **VAULT BEYANI — DOĞRULANAMADI** |
 | ADR-061..064 kırık mı? | [[../../reports/faz6-link-ledger.md]] `:89` → kırık hedefler arasında `ADR-061..064` | ✅ **RAPORLANDI** (bu işlem bu ADR'yi kapatır; 062-064 açık kalır) |
 | Çip seçimi / amfi kararları | [[ADR-038-8-1-sound-card-chip-selection]] · [[ADR-089-classab-24v]] · [[ADR-090-channel-variant-product-family]] · [[ADR-017-dsp-hardware-mode]] dosyaları diskte **MEVCUT** | ✅ **IMPLEMENTED** (ayrı ADR'ler) |
 
@@ -101,7 +101,7 @@ CoreMusic'in donanım/firmware tarafı vault içinde **dağınık** durumda: `.a
 | # | Karar | Değer | Durum |
 |---|-------|-------|-------|
 | 1 | **L6 kapsamı** | Hardware · firmware · driver · DSP · audio engine (kaynak: [[../../index.md]] `:91`) | ✅ **IMPLEMENTED** (metin) |
-| 2 | **L6'nın vault karşılığı** | K uzayında **K0-K5 + K16-K20** (A0 Altyapı/Donanım + A5 Bileşenler kademesi) — `architecture/katman-baglilik-matrisi.md` + [[../../AGENTS.md]] §5 A-tablosu | ✅ **IMPLEMENTED** |
+| 2 | **L6'nın vault karşılığı** | K uzayında **K0-K5 + K16-K20** (A0 Altyapı/Donanım + A5 Bileşenler kademesi) — `architecture/katman-baglilik-matrisi.md` + [[../../raw/AGENTS.md]] §5 A-tablosu | ✅ **IMPLEMENTED** |
 | 3 | **Zincir yönü** | `L6→L5→L4→L3→L2→L1→L0` **tek yön**; ters yön (L0→L2/L3, L1→L3, L3→L0) = **Layer Violation → revert + log ERROR** (kaynak: [[../../index.md]] `:87`, `.agents/master-orchestrator.md:78`) | ✅ **IMPLEMENTED** |
 | 4 | **L→K otomatik çeviri** | **YASAK** (`adlandirma-kurali.md §7.3`); çelişki raporlanır, dönüştürülmez — bu ADR'de L6 = **Electronics**tur, K6 = **Güvenlik** ayrı kalır | ✅ **IMPLEMENTED** |
 | 5 | **Katman istisnaları** | Yalnız yazılırsa geçerli: (i) **boot** (alt katman kendi kendini başlatır, sonra üst devralır), (ii) **complex driver** (zamanlama kısıtı olan yol — AUTOSAR modeli), (iii) **LL/register erişimi** (performans kritik tek nokta). Sınırı yazmayan kod istisna **iddia edemez** | ⏳ PLANNED (kural) |
@@ -126,7 +126,7 @@ CoreMusic'in donanım/firmware tarafı vault içinde **dağınık** durumda: `.a
 | L6 katman tanımı · zincir · kart/modül hiyerarşisi · bileşen seçim politikası | **ADR-061 (bu dosya)** | ✅ burada kararlaştırılır |
 | **DSP boru hattı** yapısı (pipeline aşamaları, kanal iş zinciri, `dsp-chain`/`mixer-routing` akışı) | `ADR-062-dsp-pipeline-architecture` | ⚠️ **VERIFICATION REQUIRED** — metin yok; bu ADR pipeline'ı **yazmaz**, yalnız L6 içindeki yerini gösterir (`k3-ses-motoru`) |
 | **Tasarım standartları** (PCB kural seti, tolerans/derating, BOM standardı, ölçüm protokolü) | `ADR-063-hardware-design-standards` | ⚠️ **VERIFICATION REQUIRED** — metin yok; bu ADR standart **içeriğini** yazmaz, yalnız **nerede yaşayacağını** söyler (`k19-pcb`, `k20-bom`, `k1-donanim/pcb-tasarim.md`) |
-| **Platform mimarisi** (L0-L6 geneli, "5 cihaz / 13 servis" iddiası) | `ADR-064-electronics-platform-architecture` | ⚠️ **VERIFICATION REQUIRED** — metin yok; iddia [[../../brain.md]] `:1012` + [[../../keys.md]] `:288`'de vault beyanı olarak durur, **doğrulanmadı** |
+| **Platform mimarisi** (L0-L6 geneli, "5 cihaz / 13 servis" iddiası) | `ADR-064-electronics-platform-architecture` | ⚠️ **VERIFICATION REQUIRED** — metin yok; iddia [[../../raw/brain.md]] `:1012` + [[../../raw/keys.md]] `:288`'de vault beyanı olarak durur, **doğrulanmadı** |
 | DSP'nin **donanım modu** (donanım hızlandırma yolu) | [[ADR-017-dsp-hardware-mode]] | ✅ dosya var — bu ADR **yeniden karar almaz** |
 | Çip seçimi (XMOS/AK4458/PCM3168A) | [[ADR-038-8-1-sound-card-chip-selection]] | ✅ dosya var — bu ADR yalnız **politika** bağlar |
 
@@ -240,10 +240,10 @@ CoreMusic'in donanım/firmware tarafı vault içinde **dağınık** durumda: `.a
 | `.ai/index.md` | `:87` | L0-L6 zincir yönü + yasaklı yönler | ✅ bu ADR §2(a) madde 3'te bağladı |
 | `.ai/index.md` | `:91,93` | `architecture/l6-electronics` · `architecture/l4-domain` | ⚠️ ikisi de **diskte yok** → §5.1 adım 3 |
 | `.ai/index.md` | `:693-696` | ADR-061..064 kayıtları | ✅ hizalı (061 dosyalandı) |
-| `.ai/brain.md` | `:1009` | `ADR-061 \| Electronics Architecture (L6 Layer)` | ✅ bu ADR o özeti doldurur |
-| `.ai/brain.md` | `:1012` | `ADR-064 … (L0-L6, 5 cihaz, 13 servis)` | ⚠️ **doğrulanamadı** → ADR-064'ün işi |
-| `.ai/keys.md` | `:285,288` | ADR-061 / ADR-064 anahtar satırları | ✅ 061 bağlandı · 064 ⚠️ |
-| `.ai/keys.md` | `:141-152` | `electronic/*` yolları ("vault'ta yok / DOĞRULAMA GEREKLİ") | ⚠️ **69 kırık referans** → §5.1 adım 4 |
+| `.ai/raw/brain.md` | `:1009` | `ADR-061 \| Electronics Architecture (L6 Layer)` | ✅ bu ADR o özeti doldurur |
+| `.ai/raw/brain.md` | `:1012` | `ADR-064 … (L0-L6, 5 cihaz, 13 servis)` | ⚠️ **doğrulanamadı** → ADR-064'ün işi |
+| `.ai/raw/keys.md` | `:285,288` | ADR-061 / ADR-064 anahtar satırları | ✅ 061 bağlandı · 064 ⚠️ |
+| `.ai/raw/keys.md` | `:141-152` | `electronic/*` yolları ("vault'ta yok / DOĞRULAMA GEREKLİ") | ⚠️ **69 kırık referans** → §5.1 adım 4 |
 | `.ai/MEMORY.md` | `:656` | "3 yeni ADR (061-063)" | ⚠️ dosyalar yoktu → bu işlem 061'i yazdı, **062/063 hâlâ yok** |
 | `.ai/reports/faz6-link-ledger.md` | `:89` | `ADR-061..064` kırık hedef listesi | ✅ 061 kapatıldı · 062-064 açık |
 | `.ai/architecture/adlandirma-kurali.md` | `:347`, `:363` | L6=K6 Güvenlik · §7.3 dönüşüm yasağı | ✅ §2(e) ile birlikte **iki uzay** olarak kayıtlı |
@@ -256,7 +256,7 @@ CoreMusic'in donanım/firmware tarafı vault içinde **dağınık** durumda: `.a
 - Şablon: [[../../.templates/adr/adr-template.md]] (Guardrail #16)
 - Format referansı: [[ADR-059-jwt-library-and-mfa]]
 - İlgili ADR'ler: [[ADR-017-dsp-hardware-mode]] · [[ADR-038-8-1-sound-card-chip-selection]] · [[ADR-039-7-service-platform-architecture]] · [[ADR-040-database-authority]] · [[ADR-089-classab-24v]] · [[ADR-090-channel-variant-product-family]]
-- Vault kökü: [[../../index.md]] · [[../../brain.md]] · [[../../keys.md]] · [[../../MEMORY.md]] · [[../../log.md]] · [[../../AGENTS.md]] · [[../index.md]]
+- Vault kökü: [[../../index.md]] · [[../../raw/brain.md]] · [[../../raw/keys.md]] · [[../../raw/MEMORY.md]] · [[../../log.md]] · [[../../raw/AGENTS.md]] · [[../index.md]]
 - Debate: §7.2 · §7.2.1 (tur kaydı) · §6.3 (3 şart) · §5.1 adımlar 12-15
 - Dizin: `architecture/k1-donanim/` (23) · `architecture/firmware/` (8) · `architecture/k3-ses-motoru/` (18) · `architecture/k17-guc-kaynagi` · `architecture/k19-pcb` · `architecture/k20-bom` · `architecture/k16-class-ab` · `architecture/k2-surucu` — **düz metin yollarıdır** (wiki-link değil: hedefler dizin, .md dosyası değil)
 

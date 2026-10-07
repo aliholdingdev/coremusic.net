@@ -11,7 +11,7 @@ authority: Single Source of Truth (SSOT)
 
 # .ai/decisions — CLAUDE.md
 
-**Zorunlu Bağlantılar:** · [[../brain.md]]
+**Zorunlu Bağlantılar:** · [[../raw/brain.md]]
 
 ## 1. Bağlam
 
@@ -31,7 +31,7 @@ Boot protocol 6. adımındaki `brain.md`'nin ayrıntılı kayıt deposu. Agent k
 | Yön | Hedef | İlişki |
 |-----|-------|--------|
 | Parent | [[../CLAUDE.md]] | Vault kökü |
-| Özet | [[../brain.md]] | ADR 001-087 özet tablosu |
+| Özet | [[../raw/brain.md]] | ADR 001-087 özet tablosu |
 | Yaşam döngüsü | [[../architecture/04-decisions/adr-lifecycle.md]] | Süreç detayı |
 | Tüketen | [[../../shared/AGENTS.md]] | Kod tarafı ADR atıfları |
 

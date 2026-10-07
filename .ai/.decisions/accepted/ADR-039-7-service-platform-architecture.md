@@ -16,7 +16,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 > **Durum:** ✅ **ACCEPTED** (kullanıcı onaylı kapsam) · **Tarih:** 2026-09-26 · **Debate:** ✅ **TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)** · **Tech Lead:** ✅ · **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-039-7-service-platform-architecture`
-> **İlgili kararlar:** [[ADR-004-multi-domain-spa]] (çok-domainli SPA iskeleti) · [[ADR-032-ipc-contract-versioning]] (IPC sözleşmesi) · [[ADR-026-download-service-architecture]] (download servisi — ilk ayrışacak servis) · [[../../brain.md]] (`:999` slotu) · [[../index.md]] (`:81` slug satırı)
+> **İlgili kararlar:** [[ADR-004-multi-domain-spa]] (çok-domainli SPA iskeleti) · [[ADR-032-ipc-contract-versioning]] (IPC sözleşmesi) · [[ADR-026-download-service-architecture]] (download servisi — ilk ayrışacak servis) · [[../../raw/brain.md]] (`:999` slotu) · [[../index.md]] (`:81` slug satırı)
 > **Ad gerekçesi:** Başlıktaki "7-Service" sabittir — slug [[../index.md]] `:81` kaydından, "7" sayısı ise iki vault kaynağından gelir: k8 servis katmanı README §2 (7 backend servis haritası) ve `shared/config/domain.php` (7 subdomain). **Gerçek servis sayısı 11'dir** (§2.1) — hem kullanıcı onayı hem `.ai/CLAUDE.md` §5 K8 satırı (`+ Infra (11)`) ile hizalıdır. Ad değiştirilmez (In-Place Refactoring); sayı uyuşmazlığı bu ADR'nin gövdesinde çözülür.
 > **Frozen notu:** ADR-001-037 **dokunulmamıştır** (yalnız atıf).
 
@@ -53,7 +53,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 **C) PLANNED katmanlar — kod 0 (dürüst bulgu):**
 
-Tarama: `*.cpp / *.hpp / *.h / *.c / *.cs / *.ts` = **0 dosya**; `*.py` = **1** (`.ai/scripts/fix-mojibake.py` — vault aracı, servis kodu değil); `.ai/.sql/mysql/` 18 dosya içinde `outbox` = **0 eşleşme**; kök `package.json` yalnız `playwright`; fiziksel kök dizinler: `.ai .claude .git .github .opencode .workflows assets.coremusic.net auth.coremusic.net home.coremusic.net shared` → **`music/ admin/ media/ download/ studio/ car/ dev/` fiziksel olarak YOK, kökte `index.html` YOK.**
+Tarama: `*.cpp / *.hpp / *.h / *.c / *.cs / *.ts` = **0 dosya**; `*.py` = **1** (`.ai/sources/scripts/fix-mojibake.py` — vault aracı, servis kodu değil); `.ai/.sql/mysql/` 18 dosya içinde `outbox` = **0 eşleşme**; kök `package.json` yalnız `playwright`; fiziksel kök dizinler: `.ai .claude .git .github .opencode .workflows assets.coremusic.net auth.coremusic.net home.coremusic.net shared` → **`music/ admin/ media/ download/ studio/ car/ dev/` fiziksel olarak YOK, kökte `index.html` YOK.**
 
 | PLANNED katman | İddia | Kod kanıtı |
 |---|---|---|
@@ -63,7 +63,7 @@ Tarama: `*.cpp / *.hpp / *.h / *.c / *.cs / *.ts` = **0 dosya**; `*.py` = **1** 
 | Outbox / event depolama şeması | k8 README §3 olay listesi + `ADR-081` outbox başlığı | **0** (18 SQL dosyasında `outbox` = 0) |
 | k8 `index.md` `status: "implemented"` | katman dosyasının kendi iddiası | **Çelişki C6:** kod 0 → bu etiket dokümanseldir, implementasyon değildir |
 
-**D) K8 mimari kanıtları (doküman olarak IMPLEMENTED):** [[../../architecture/k8-servis/README.md]] §3 = 9 olay (`user.login` … `device.disconnect`) · §5 = doğrudan çağrı **yasak**, PSR-14 Event Bus zorunlu, circuit breaker, max 3 retry · Alt Katman Şeması = 10 düzey-2 düğüm (K8.1-K8.10), 43 düzey-3, çelişki defteri C1-C5 (kendi içlerinde kayıtlı) · `.ai/brain.md` `:179` = `Event Driven (ADR-086)` · `:1021-1027` = ADR-083-089 slotları.
+**D) K8 mimari kanıtları (doküman olarak IMPLEMENTED):** [[../../architecture/k8-servis/README.md]] §3 = 9 olay (`user.login` … `device.disconnect`) · §5 = doğrudan çağrı **yasak**, PSR-14 Event Bus zorunlu, circuit breaker, max 3 retry · Alt Katman Şeması = 10 düzey-2 düğüm (K8.1-K8.10), 43 düzey-3, çelişki defteri C1-C5 (kendi içlerinde kayıtlı) · `.ai/raw/brain.md` `:179` = `Event Driven (ADR-086)` · `:1021-1027` = ADR-083-089 slotları.
 
 ### §1.2 Sorun Tanımı (Problem)
 
@@ -101,7 +101,7 @@ Tarama: `*.cpp / *.hpp / *.h / *.c / *.cs / *.ts` = **0 dosya**; `*.py` = **1** 
 | **FFmpeg/transcode K8'in dışındadır** | CLAUDE §5 K15 sahipliğidir (k8 README C4 düzeltmesi) |
 | **Diskte olmayan ADR'ye wiki-link kurulmaz** | ADR-040, ADR-082, ADR-084, ADR-085, ADR-086, ADR-087 dosyaları diskte YOK → düz metin + `⚠️ VERIFICATION REQUIRED` (§6) |
 | **Sayım çelişkisi kapatılmadan ikinci sayı üretilmez** | C1/C2 kayıtlı kalır; yeni bir "servis sayısı" iddiası bu ADR'ye bağlanır |
-| **Tek yazma kanalı** | Tüm vault yazımı `.ai/scripts/vault-utf8-writer.mjs`; `log.md` yalnız append |
+| **Tek yazma kanalı** | Tüm vault yazımı `.ai/sources/scripts/vault-utf8-writer.mjs`; `log.md` yalnız append |
 | **REDACTED** | Secret/credential hiçbir koşulda yazılmaz |
 
 ---
@@ -237,7 +237,7 @@ Ayrışma tetikleyicisi: **ölçülmüş** bir darboğaz (gecikte, deploy süres
 2. **Ayrışma seviyesi:** Herhangi bir adım (7, 9) geri alınabilir — servis süreç olarak kapatılıp **modüle** düşürülür (§4.4-1); sayı 11 değişmez.
 3. **Şema seviyesi:** Outbox (adım 6) eklenirse geri dönüş = yeni migration satırı; `log.md` append-only olduğu için geri dönüş de **yeni satırdır** (silme yok).
 4. **Dizin seviyesi:** `index.md` kayıt satırı (adım 10) geri alınırsa satır `—` olarak işaretlenir, silinmez.
-5. **Bozulma durumunda:** `node .ai/scripts/vault-utf8-writer.mjs repair --file <dosya>` (yedek alır) → gerekirse `git checkout` (AGENTS §18 #5).
+5. **Bozulma durumunda:** `node .ai/sources/scripts/vault-utf8-writer.mjs repair --file <dosya>` (yedek alır) → gerekirse `git checkout` (AGENTS §18 #5).
 
 ---
 
@@ -246,9 +246,9 @@ Ayrışma tetikleyicisi: **ölçülmüş** bir darboğaz (gecikte, deploy süres
 | Dosya (wiki-link) | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme; §5 K8 satırı = **11** sayımının kaynağı + "doğrudan çağrı yasak / Event Bus" sınırı |
-| [[../../brain.md]] | `:999` ADR-039 slotu · `:179` Event Driven (ADR-086) · `:1021-1027` ADR-083-089 slotları |
-| [[../../AGENTS.md]] | Agent registry; domain boundary (§5) ve frozen kuralı (§25.3) |
-| [[../../WORKFLOW.md]] | Süreç/fazlar — uygulama adımlarının bağlandığı akış |
+| [[../../raw/brain.md]] | `:999` ADR-039 slotu · `:179` Event Driven (ADR-086) · `:1021-1027` ADR-083-089 slotları |
+| [[../../raw/AGENTS.md]] | Agent registry; domain boundary (§5) ve frozen kuralı (§25.3) |
+| [[../../raw/WORKFLOW.md]] | Süreç/fazlar — uygulama adımlarının bağlandığı akış |
 | [[../../index.md]] | Master katalog |
 | [[../../log.md]] | Audit trail — bu ADR'nin append kaydı |
 | [[../index.md]] | Karar dizini `:81` slug satırı (bu dosyaya bağlanması §5.1 adım 10) |

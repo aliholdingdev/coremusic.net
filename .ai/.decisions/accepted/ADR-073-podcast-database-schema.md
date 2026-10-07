@@ -15,7 +15,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 # CoreMusic — ADR-073: Podcast Database Schema
 
 > **Durum:** accepted (**debate ✅ TAMAMLANDI**) — **Tarih:** 2026-09-30 — **Debate:** ✅ TAMAMLANDI (3 tur / 20 persona · 18/2/0 KABUL) — **Tech Lead:** ✅ — **Arch Lead:** ⏳
-> **Karar serisi:** `.ai/.decisions/accepted/` — **Slug:** `ADR-073-podcast-database-schema` (dizin otoritesi: [[../index.md]] satır **97** — dosya adı ile birebir hizalı ✅; satır `[[../brain.md]]` önekli **kusurlu biçimdedir → `[[../brain.md]]` hedef düzeltmesi son sıfırlamaya ertelendi, bu işlemde rapor-only**)
+> **Karar serisi:** `.ai/.decisions/accepted/` — **Slug:** `ADR-073-podcast-database-schema` (dizin otoritesi: [[../index.md]] satır **97** — dosya adı ile birebir hizalı ✅; satır `[[../../raw/brain.md]]` önekli **kusurlu biçimdedir → `[[../../raw/brain.md]]` hedef düzeltmesi son sıfırlamaya ertelendi, bu işlemde rapor-only**)
 > **İlgili kararlar:** [[ADR-072-social-database-schema]] (format/dil referansı + ortak kural seti uygulaması) · [[ADR-033-sql-normalization-strategy]] (BCNF kural seti + denetim PLANNED) · [[ADR-040-database-authority]] (18-DB sahiplik matrisi + 28 FK istisna defteri + `coremusic_musics` sahibi `music`) · [[ADR-041-database-normalization-supplementary]] (adlandırma/veri tipi/audit/N+1 tamamlayıcılar) · [[ADR-003-multi-db-bcnf]] ("DB arası FK YOK" hükmü) · [[ADR-014-multi-db-migration-strategy]] (tek migration kapısı — tüm DDL buradan) · [[ADR-002-pdo-mandatory-no-orm]] (erişim katmanı) · [[ADR-039-7-service-platform-architecture]] (A4 veri domaini sahibi) · [[ADR-081-multi-provider-data-sync]] (outbox + WAL — sınır) · [[ADR-050-multi-db-sync-strategy]] · [[ADR-026-download-service-architecture]] (indirme/ses servisi — sınır) · [[ADR-092-media-dizin-ekseni-ve-ulid]] (medya dizin ekseni — sınır) · karar dizini [[../index.md]] **satır 97**.
 > **⚠️ VERIFICATION REQUIRED:** `ADR-074`–`ADR-079` (dizin satırı `:98`–`:103` var, **dosya diskte YOK**) · **`ADR-075` (AI DB şeması — diskte YOK → düz metin + ⚠️, wiki-link KURULMAZ)** · `ADR-082` (ne dosya ne dizin satırı — `:104` = 081, `:105` = 083) · `ADR-083`–`ADR-088` (dizin satırı var, dosya YOK) · `ADR-051/053/054/055/057/060` + `ADR-065`–`ADR-071` + `ADR-080` = **14 atlanan boşluk** (hem dosya hem dizin satırı YOK — §5.1/9 ve §7.1) · BCNF "Yes" beyanı **denetlenmemiştir** (ADR-040 `:38`) · `podcast-support.md:212` implementasyon iddiası **kod kanıtsız** · podcast tablo CRUD kullanan PHP/JS = **0**.
 > **Bölüm sınırı (kenetli):** ADR-072 **sosyal** şemayı, ADR-040 **DB sahipliğini + FK istisnasını**, ADR-033/041 **normalizasyon kural setini**, ADR-014 **migration kapısını**, ADR-081 **çoklu sağlayıcı senkronunu**, ADR-026 **indirme/ses servisini** yazdı; **4 podcast tablosunun envanteri, ilişki/indeks/TTL-partition politikası ve kod yüzeyi dürüst etiketi bu ADR'nindir** — hiçbiri yeniden yazılmaz. `ADR-075` (AI DB — transkripsiyon üretim servisi) **diskte YOK → düz metin + ⚠️**.
@@ -31,7 +31,7 @@ CoreMusic'in podcast veri düzlemi (A4) diskte **çoktan yazılmış**, vault'ta
 
 | # | İddia | Kanıt | Etiket |
 |---|-------|-------|--------|
-| 1 | ADR-073 slotu kayıtlı mı? | [[../index.md]] `:97` → `\| [[../brain.md]] ADR-073-podcast-database-schema \| Podcast DB Schema \| Database \|` · [[../../index.md]] `:698` · [[../../brain.md]] `:1014` · [[../../keys.md]] `:290` | ✅ **KAYITLI** (4 indeks satırı) |
+| 1 | ADR-073 slotu kayıtlı mı? | [[../index.md]] `:97` → `\| [[../../raw/brain.md]] ADR-073-podcast-database-schema \| Podcast DB Schema \| Database \|` · [[../../index.md]] `:698` · [[../../raw/brain.md]] `:1014` · [[../../raw/keys.md]] `:290` | ✅ **KAYITLI** (4 indeks satırı) |
 | 2 | Bu işlem öncesi dosya var mıydı? | `accepted/` dizin listesi (64 girdi) — `ADR-073*.md` **yok**; `draft/` = CLAUDE.md, `rejected/` = CLAUDE.md + index.md | ❌ **YOKTU** → bu işlemde yazılıyor |
 | 3 | **Ayrı podcast SQL dosyası var mı?** | `.ai/.sql/mysql/` = **19 dosya**, `podcast*` = **0** · podcast anahtar kelime taraması yalnız `coremusic_musics.sql` içinde isabet verdi | ❌ **AYRI DOSYA YOK** → podcast `coremusic_musics` içindedir |
 | 4 | Tablo envanteri | `podcast_shows` `:406` · `podcast_episodes` `:444` · `podcast_subscriptions` `:487` · `podcast_transcripts` `:516` — footer `:10`/`:755` "4 podcast" ile **4/4 birebir** | ✅ **IMPLEMENTED** (şema) |
@@ -216,7 +216,7 @@ Sorun *eksik şema değil, eksik karar*: dört tablo zaten diskte ve k5 veri dok
 - **TTL süresi + segment eşiği yazılmadı:** saklama süresi ve "kaç kelimeden sonra bölünür" rakamları kanıtlanmadı → ⚠️; debate öncesi "transcript'i ne kadar tutuyoruz?" cevapsız kalır.
 - **BCNF hâlâ beyan düzeyinde:** 4 tablo için determinant denetimi çalıştırılmadı (ADR-033/040 PLANNED) → bu ADR şemanın doğru olduğunu **iddia etmez**, yalnız kaydeder.
 - **Kod PLANNED olarak kaldı:** I1/I2 indeksleri ve okuma disiplini kod olmadan doğrulanamaz (`EXPLAIN` için üretim sorgusu gerekir).
-- **Bir ADR daha:** vault'a tek dosya eklendi; indeks/brain/keys satırları zaten vardı ama `[[../brain.md]]` hedef düzeltmesi bu işlemde yapılmadı (§5.1/10).
+- **Bir ADR daha:** vault'a tek dosya eklendi; indeks/brain/keys satırları zaten vardı ama `[[../../raw/brain.md]]` hedef düzeltmesi bu işlemde yapılmadı (§5.1/10).
 
 ### 4.3 Riskler
 
@@ -250,7 +250,7 @@ Debate **RED** çıkarsa ya da karar değiştirilirse: dosya `.ai/.decisions/rej
 | Medya dizin ekseni | [[ADR-092-media-dizin-ekseni-ve-ulid]] | ✅ sınır (`podcasts/{id}/episodes/{id}.mp3` dizin kuralı ile ilişkili) |
 | Sosyal polymorphic `entity_type` | [[ADR-072-social-database-schema]] | ✅ sınır (`'podcast'` yalnız ENUM değeri) |
 | **AI DB / transkripsiyon üretimi** | **`ADR-075`** | ⚠️ **diskte YOK → düz metin + ⚠️ (wiki-link kurulmadı)** |
-| Dizin slug satırı | [[../index.md]] satır **97** | ✅ hizalı; `[[../brain.md]]` hedef düzeltmesi §5.1/10'da ertelendi |
+| Dizin slug satırı | [[../index.md]] satır **97** | ✅ hizalı; `[[../../raw/brain.md]]` hedef düzeltmesi §5.1/10'da ertelendi |
 | Eksik numaralar (dosya + dizin satırı yok) | `ADR-051` · `053` · `054` · `055` · `057` · `060` · `065`–`071` · `080` | ⚠️ **14 numara** → §5.1/9 + §7.1 (rapor-only) |
 
 ---
@@ -270,7 +270,7 @@ Debate **RED** çıkarsa ya da karar değiştirilirse: dosya `.ai/.decisions/rej
 | 7 | **Feed alanları:** `feed_url` · dış `guid` · enclosure `length/type` doğrulaması (Apple şartları §1.3/3) — ADR-014 kapısı | Data + Backend | 1 gün | ⏳ PLANNED |
 | 8 | **Kimlik tipi kararı:** podcast/video/radio grubunun `INT UNSIGNED` PK'ları (dosya `:11`) ↔ ADR-041 `BINARY(16)` UUIDv7 standardı — mevcut grandfathered, **yeni tabloda UUID için kapı** | Data Engineer | sonraki vault reset | ⏳ rapor-only |
 | 9 | **Raporlar (düzeltilmedi):** **(9a)** 14 atlanan boşluk `ADR-051` · `053` · `054` · `055` · `057` · `060` · `065`–`071` · `080` (dosya YOK **ve** `.decisions/index.md` satırı YOK; `ADR-082` de satırsız — `:104` = 081, `:105` = 083) · **(9b)** `podcast-support.md:212` "tam implemente" ↔ kod 0 · **(9c)** `deleted_at` iddiası (`:8`) ↔ 0 kullanım · **(9d)** ADR-026 `:63` "abonelik değil içerik listesi" ↔ şema · **(9e)** envanter 18 ↔ 19 dosya · **(9f)** şablon yolu `.ai/templates/…` ↔ gerçek `.ai/.templates/…` | MO (vault-updater) | sonraki vault reset | ⏳ **bu işlemde düzeltilmedi** (rapor-only) |
-| 10 | `index.md:97` `[[../brain.md]]` → gerçek ADR hedefine düzeltmesi + `brain.md:1014`/`keys.md:290`/`index.md:698` satır metinlerinin bu ADR'ye bağlanması | MO (vault-updater) | sonraki vault reset | ⏳ **ertelendi** (rapor-only) |
+| 10 | `index.md:97` `[[../../raw/brain.md]]` → gerçek ADR hedefine düzeltmesi + `brain.md:1014`/`keys.md:290`/`index.md:698` satır metinlerinin bu ADR'ye bağlanması | MO (vault-updater) | sonraki vault reset | ⏳ **ertelendi** (rapor-only) |
 | 11 | **Şart 1 (debate)** — debate 3 tur + KABUL/RED kararı; RED ise §5.2 + §4.4 (fallback) uygulanır | MO + persona | 1 gün | ✅ **TAMAMLANDI** (3 tur / 20 persona → 18/2/0 KABUL) |
 | 12 | **Şart 2 (debate)** — TTL süresi + segment-alt-bölme eşiği rakamlarının ölçülmesi ve §2.2/d'deki "YENİ ADR KAPISI"na bağlanması | Data Engineer | aşama 2 | ⏳ debate şartı (→ **Debate Şart 3**, satır 16) |
 | 13 | **Şart 3 (debate)** — şema IMPLEMENTED / **kod PLANNED** etiketinin + `podcast-support.md:212` ⚠️ işaretinin korunması (kod yazılana kadar "hazır" dendiği yerde bu ADR'ye atıf zorunlu) | MO + Backend | aşama 2 | ⏳ debate şartı (→ **Debate Şart 1a**, satır 14) |
@@ -290,12 +290,12 @@ Debate **RED** çıkarsa: dosya `.ai/.decisions/rejected/` taşınır (dosya ad�
 
 | Dosya | Satır | Ne | Etiket |
 |-------|-------|----|--------|
-| `.ai/.decisions/index.md` | `:97` | slug `ADR-073-podcast-database-schema` | ✅ hizalı (dosya adı ile birebir) · satır `[[../brain.md]]` önekli kusurlu → §5.1/10 |
+| `.ai/.decisions/index.md` | `:97` | slug `ADR-073-podcast-database-schema` | ✅ hizalı (dosya adı ile birebir) · satır `[[../../raw/brain.md]]` önekli kusurlu → §5.1/10 |
 | `.ai/index.md` | `:698` | "ADR-073 … Podcast DB Schema (shows, episodes, subscriptions, transcripts)" | ✅ kayıtlı |
-| `.ai/brain.md` | `:1014` | aynı özet satırı | ✅ kayıtlı (metin bu ADR ile hizalanacak → §5.1/10) |
-| `.ai/keys.md` | `:290` | "ADR-073 \| podcast database, shows, episodes, transcripts" | ✅ kayıtlı |
-| `.ai/.sql/mysql/coremusic_musics.sql` | `:10` · `:398-536` · `:755-756` | 22 tablo sayımı · **4 podcast tablosu + 3 FK + 13 indeks** · footer + BCNF beyanı | ✅ **birincil kanıt** (IMPLEMENTED) |
-| `.ai/.sql/mysql/coremusic_api.sql` | `:115` · `:128-141` | `api_calls` PK `(id, called_at)` + aylık RANGE partition + MAXVALUE — **FK 0** | ✅ vault'un tek partition örneği |
+| `.ai/raw/brain.md` | `:1014` | aynı özet satırı | ✅ kayıtlı (metin bu ADR ile hizalanacak → §5.1/10) |
+| `.ai/raw/keys.md` | `:290` | "ADR-073 \| podcast database, shows, episodes, transcripts" | ✅ kayıtlı |
+| `.ai/sources/.sql/mysql/coremusic_musics.sql` | `:10` · `:398-536` · `:755-756` | 22 tablo sayımı · **4 podcast tablosu + 3 FK + 13 indeks** · footer + BCNF beyanı | ✅ **birincil kanıt** (IMPLEMENTED) |
+| `.ai/sources/.sql/mysql/coremusic_api.sql` | `:115` · `:128-141` | `api_calls` PK `(id, called_at)` + aylık RANGE partition + MAXVALUE — **FK 0** | ✅ vault'un tek partition örneği |
 | `.ai/.decisions/accepted/ADR-040-database-authority.md` | `:34` · `:38` · `:49` · `:156` · `:194-197` | 18/156 envanter · BCNF iddia ≠ denetim · 28 FK (podcast satırı YOK) · `coremusic_musics` sahibi `music` · X serisi | ✅ dosya var — **bağlayıcı otorite** |
 | `.ai/.decisions/accepted/ADR-033-sql-normalization-strategy.md` | `:146-150` · `:262-265` | 5 kural (normalizasyon/PK-FK/index/ENUM/audit) + denetim adımları PLANNED | ✅ dosya var — **kural seti** |
 | `.ai/.decisions/accepted/ADR-041-database-normalization-supplementary.md` | §2.2 (a–f) | adlandırma · veri tipi · view · trigger · audit · N+1 | ✅ dosya var — **tamamlayıcı kurallar** |
@@ -315,8 +315,8 @@ Debate **RED** çıkarsa: dosya `.ai/.decisions/rejected/` taşınır (dosya ad�
 
 - Şablon: [[../../.templates/adr/adr-template.md]] (Guardrail #16) — format referansı: [[ADR-072-social-database-schema]] · otorite: [[ADR-040-database-authority]] · kural seti: [[ADR-033-sql-normalization-strategy]] + [[ADR-041-database-normalization-supplementary]]
 - İlgili ADR'ler: [[ADR-002-pdo-mandatory-no-orm]] · [[ADR-003-multi-db-bcnf]] · [[ADR-014-multi-db-migration-strategy]] · [[ADR-026-download-service-architecture]] · [[ADR-039-7-service-platform-architecture]] · [[ADR-050-multi-db-sync-strategy]] · [[ADR-072-social-database-schema]] · [[ADR-081-multi-provider-data-sync]] · [[ADR-092-media-dizin-ekseni-ve-ulid]]
-- Şema/kod kanıtları: [[../../.sql/mysql/coremusic_musics.sql]] · [[../../.sql/mysql/coremusic_api.sql]] · [[../../architecture/k5-veri-yonetimi/README.md]] · [[../../architecture/k15-medya-streaming/podcast-support.md]] · [[../../architecture/k5-veri-yonetimi/file-system-storage.md]] · [[../../architecture/k8-servis/README.md]]
-- Vault kökü: [[../index.md]] · [[../../index.md]] · [[../../brain.md]] · [[../../keys.md]] · [[../../log.md]] · [[../../CLAUDE.md]]
+- Şema/kod kanıtları: [[../../sources/.sql/mysql/coremusic_musics.sql]] · [[../../sources/.sql/mysql/coremusic_api.sql]] · [[../../architecture/k5-veri-yonetimi/README.md]] · [[../../architecture/k15-medya-streaming/podcast-support.md]] · [[../../architecture/k5-veri-yonetimi/file-system-storage.md]] · [[../../architecture/k8-servis/README.md]]
+- Vault kökü: [[../index.md]] · [[../../index.md]] · [[../../raw/brain.md]] · [[../../raw/keys.md]] · [[../../log.md]] · [[../../CLAUDE.md]]
 - Dizin kayıtları (düz metin — dizin hedefidir, .md olmadığı için wiki-link değil): `.ai/.sql/mysql/` (19 dosya) · `shared/src/Device/` · `shared/database/migrations/` · `.ai/.decisions/draft/` · `.ai/.decisions/rejected/`
 - Diskte **olmayan** (düz metin + ⚠️, linklenmez): **`ADR-075`** · `ADR-051` · `ADR-053` · `ADR-054` · `ADR-055` · `ADR-057` · `ADR-060` · `ADR-065`–`ADR-071` · `ADR-074` · `ADR-076`–`ADR-079` · `ADR-080` · `ADR-082`–`ADR-088`
 
@@ -326,7 +326,7 @@ Debate **RED** çıkarsa: dosya `.ai/.decisions/rejected/` taşınır (dosya ad�
 |------|-------|
 | Wiki-link toplamı (bu dosya) | **67** occurrence / **25** benzersiz hedef (kod içi alıntılar hariç; tümü bu dosyada sayım ile doğrulandı) |
 | Diskte olan hedef | **25 / 25** ✅ — path-form (`../index.md`, `../../brain.md`, `../../.sql/mysql/coremusic_musics.sql` …) diskte mevcut; slug-form (`[[ADR-040-database-authority]]` …) ADR-072 house biçimi, `accepted/` dizininde `<slug>.md` ile basename çözülüyor |
-| Kod içi alıntılar (link değil) | `[[../brain.md]]` ×8 — index.md:97 kusurlu satırının alıntısı, canlı link sayılmadı |
+| Kod içi alıntılar (link değil) | `[[../../raw/brain.md]]` ×8 — index.md:97 kusurlu satırının alıntısı, canlı link sayılmadı |
 | Düz metin + ⚠️ (linklenmeyen) | **`ADR-075`** · `ADR-074` · `ADR-076`–`ADR-079` · `ADR-082`–`ADR-088` · `ADR-051` · `ADR-053` · `ADR-054` · `ADR-055` · `ADR-057` · `ADR-060` · `ADR-065`–`ADR-071` · `ADR-080` |
 
 ### 6.4 Debate Notu (✅ TAMAMLANDI)

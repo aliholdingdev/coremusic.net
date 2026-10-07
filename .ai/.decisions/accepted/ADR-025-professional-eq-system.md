@@ -46,7 +46,7 @@ CoreMusic'in ses motoru (Neva Engine) **çoktan tasarlanmış ama hiç yazılmam
   - `:329-335` — Performans tablosu: "CPU (31 aktif bant) hedef < %2 / **Gerçek 1.5%**", "İşleme Latency < 0.01ms / Gerçek 0.008ms" → **kod 0 iken "Gerçek" sütunu ölçülmüş değildir, spec hedefidir** → `⚠️ VERIFICATION REQUIRED` (ADR-005).
 - **`.ai/architecture/k3-ses-motoru/neva-engine-core.md`:** `:12` "C++20 … **real-time safe** ve **lock-free**"; `:329` `config.bufferSize = 256;`; `:208` `BufferPool<256, 1024>`; `:189-196` `allocate()/delocate() noexcept` (havuzdan, RT-güvenli).
 - **`.ai/architecture/k3-ses-motoru/CLAUDE.md:44`** — "Input → Gain → **31-Band EQ** → Compressor → Reverb → Limiter → Output"; **`:61`** — "ADR-025 | 31-band parametrik EQ" (K3 katmanı bu ADR'ye **bağlı**).
-- **`.ai/brain.md`:** `:217` K3 "Neva Engine, DSP, **EQ**, Crossover"; **`:390`** callback örneği `s = dspChain[ch].processEQ(s);` (§7.2 ASIO örneği); **`:900`** "EQ Bands | **31**"; **`:980`** "**ADR-025** | 31-band parametrik EQ"; `:665` player utility ikonları arasında **EQ**.
+- **`.ai/raw/brain.md`:** `:217` K3 "Neva Engine, DSP, **EQ**, Crossover"; **`:390`** callback örneği `s = dspChain[ch].processEQ(s);` (§7.2 ASIO örneği); **`:900`** "EQ Bands | **31**"; **`:980`** "**ADR-025** | 31-band parametrik EQ"; `:665` player utility ikonları arasında **EQ**.
 
 **B) ŞABLON / DİZİN KAYITLARI — IMPLEMENTED (slot açık, dosya bugüne kadar YOKTU):**
 
@@ -59,11 +59,11 @@ CoreMusic'in ses motoru (Neva Engine) **çoktan tasarlanmış ama hiç yazılmam
 | `.ai/.templates/adr/adr-index.md` | `:96` | "25 \| ADR-025 \| 31-band parametrik EQ \| audio" |
 | `.ai/.templates/other/c-template.md` | `:69, :493` | "31-band EQ → ADR-025 → coefficient tablosu" |
 | `.ai/architecture/index.md` | `:98` | "K3 \| Ses Motoru \| … \| **ADR-025**, ADR-062" (`ADR-062` **diskte YOK — 0 dosya** → `⚠️ VERIFICATION REQUIRED`) |
-| `.ai/keys.md` / `.ai/index.md` | `:260` / `:642` | "ADR-025 \| professional EQ, 31-band" / kısa biçim link `[[decisions/accepted/ADR-025-…]]` (ADR-024 §1.1-D'deki bilinen 20 linklik "kısa biçim" kalıbı) |
+| `.ai/raw/keys.md` / `.ai/index.md` | `:260` / `:642` | "ADR-025 \| professional EQ, 31-band" / kısa biçim link `[[decisions/accepted/ADR-025-…]]` (ADR-024 §1.1-D'deki bilinen 20 linklik "kısa biçim" kalıbı) |
 
 **C) UI / KATMAN KANITLARI — IMPLEMENTED (akış dokümanı, kod YOK):**
 
-- **`.ai/ui-design/flow/settings/03-equalizer.md`:** `:71` Equalizer ekranı `[Preset] [Custom]`; `:74` "**31-BAND PARAMETRIC EQ**"; `:95-110` preset listesi; **`:143-148` cihaz matrisi: Desktop = Full parametric / 31-band, TV = Large sliders / 10-band, Car = Preset only, Watch = Preset only**; `:133` hata durumu "Preset yüklenemedi → Flat"; **`:135`** "**EQ bant sayısı tutarsız → Varsayılan 31-band**".
+- **`.ai/sources/ui-design/flow/settings/03-equalizer.md`:** `:71` Equalizer ekranı `[Preset] [Custom]`; `:74` "**31-BAND PARAMETRIC EQ**"; `:95-110` preset listesi; **`:143-148` cihaz matrisi: Desktop = Full parametric / 31-band, TV = Large sliders / 10-band, Car = Preset only, Watch = Preset only**; `:133` hata durumu "Preset yüklenemedi → Flat"; **`:135`** "**EQ bant sayısı tutarsız → Varsayılan 31-band**".
 - **`.ai/architecture/k10-uygulama/music-panel.md:135-150`** — **"10-bant grafik equalizer"**: 32 · 64 · 125 · 250 · 500 · 1k · 2k · 4k · 8k · 16 kHz, her bant −12…+12 dB, 10 preset adı.
 - **Çelişki (bu ADR çözer):** K3 "31-band **parametrik**" ↔ K10 "10-bant **grafik**" ↔ UI "31/10 cihaza göre". Üçü de tek gerçekle uyumlu: **31-band'lik ISO ızgarasının oktav alt kümesi = K10'un 10 bandı** (31.5→32, 63→64 yuvarlaması) ve **aktif bant sayısı seçilebilir (2–31)**.
 
@@ -119,7 +119,7 @@ CoreMusic'in ses motoru (Neva Engine) **çoktan tasarlanmış ama hiç yazılmam
 | Frozen ADR-001-037 | Yalnız okunur + referanslanır (`AGENTS.md` §25.3 kural 2) — bu ADR frozen **değil**. |
 | `.ai/log.md` append-only | Bu işlem dahil tüm kayıtlar yalnız ekleme (bayt-seviyesi, `vault-utf8-writer append`). |
 | Numara/seri kuralı | `ADR-025-professional-eq-system` rezerve slottur (`../index.md:62`); `.ai/architecture/adr/ADR-025-k8-2-k15-siniri.md` **ayrı seri** → wiki-link **her zaman tam göreli yol** (kısa `[[ADR-025]]` yasak, ADR-024 §4.3/4 ruhu). |
-| REDACTED | Kalibrasyon/log çıktılarında credential/`.env` değeri yazılmaz; `.ai/keys.md` içeriği bu ADR'ye kopyalanmaz. |
+| REDACTED | Kalibrasyon/log çıktılarında credential/`.env` değeri yazılmaz; `.ai/raw/keys.md` içeriği bu ADR'ye kopyalanmaz. |
 
 ---
 
@@ -344,11 +344,11 @@ Input → Gain → [Graphic EQ (max 31 bant, sabit Q)] → [Parametric EQ (≥2 
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme — Guardrail'ler (bu ADR'nin yazım usulü) |
-| [[../../AGENTS.md]] | Agent registry — §5 domain (`*.cpp` → Embedded Engineer), §16 Embedded kalite standardı "Zero-allocation, lock-free, **noexcept**", §25.3 kural 2/3 (frozen + log append-only) |
-| [[../../WORKFLOW.md]] | Süreçler — uygulama adımlarının faz bağlamı |
+| [[../../raw/AGENTS.md]] | Agent registry — §5 domain (`*.cpp` → Embedded Engineer), §16 Embedded kalite standardı "Zero-allocation, lock-free, **noexcept**", §25.3 kural 2/3 (frozen + log append-only) |
+| [[../../raw/WORKFLOW.md]] | Süreçler — uygulama adımlarının faz bağlamı |
 | [[../index]] | Karar dizini — **satır 62** `[[ADR-025-professional-eq-system]]` (slug ✅) |
 | [[../../index]] | Master katalog — satır 642 kısa biçim link kaydı (§5.1/8) |
-| [[../../brain]] | Mimari karar özeti — `:390` processEQ, `:900` EQ Bands 31, `:980` ADR-025 (§5.1/8) |
+| [[../../raw/brain]] | Mimari karar özeti — `:390` processEQ, `:900` EQ Bands 31, `:980` ADR-025 (§5.1/8) |
 | [[ADR-017-dsp-hardware-mode]] | **Hard-RT bağlayıcısı** — tahsisat/bloklayıcı yasağı, buffer/latency, xrun/limiter (§1.4, §2.2d) |
 | [[ADR-019-per-os-neva-player]] | Ortak çekirdek + **kill-switch** — EQ bypass zinciri (§2.2d) |
 | [[ADR-018-footer-player-vaporwave]] | Player UI — EQ UI hook'u, WCAG/reduced-motion bütçesi (§1.4) |
@@ -362,7 +362,7 @@ Input → Gain → [Graphic EQ (max 31 bant, sabit Q)] → [Parametric EQ (≥2 
 | [[../../architecture/k3-ses-motoru/neva-engine-core]] | RT-safe + lock-free (`:12`), `bufferSize = 256` (`:329`), buffer pool (`:208`) |
 | [[../../architecture/k3-ses-motoru/index]] | K3 katman indeksi — `:30, :114` EQ kayıtları |
 | [[../../architecture/k10-uygulama/music-panel]] | **10-bant grafik EQ** (`:135-150`) — çelişki/alt küme (§1.1-C) |
-| [[../../ui-design/flow/settings/03-equalizer]] | EQ ekranı, preset listesi, cihaz matrisi, hata durumları (§1.1-C) |
+| [[../../sources/ui-design/flow/settings/03-equalizer]] | EQ ekranı, preset listesi, cihaz matrisi, hata durumları (§1.1-C) |
 | [[../../.templates/adr/adr-template]] | İskelet — 7 bölüm + §1.3 9 alan (Guardrail #16) |
 | [[../../.templates/adr/adr-audio-template]] | Domain sözlüğü — `eq_bands/eq_gain/eq_q` (`:177-179`), gain stage (`:307-319`), yasaklı örüntüler (`:332-350`) |
 | [[../../.templates/adr/adr-index]] | ADR şablon envanteri — `:96` ADR-025 satırı |

@@ -16,7 +16,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 > **Durum:** ✅ **ACCEPTED** · **Tarih:** 2026-09-29 · **Debate:** ✅ **TAMAMLANDI (3 tur / 20 persona — 18/2/0 KABUL)** · **Tech Lead:** ✅ · **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-052-hybrid-auth-session-jwt`
-> **İlgili kararlar:** [[ADR-011-session-management]] (session yaşam döngüsü + hibrit saklama kararı — bu ADR'nin session zemini) · [[ADR-010-csrf-protection-strategy]] (CSRF + **şart 3**: JWT stub kapanana kadar cookie-auth tek yol) · [[ADR-013-rate-limiting-apcu]] (rate limit — köprü/token uçlarına uygulanır) · [[ADR-020-api-public-security]] (API auth üçlüsü + JWT Bearer kilidi; stub `null` bulgusu) · [[ADR-043-auth-subdomain-consolidation]] (cookie domain tekliği, Origin/CSRF/nonce, JWT anahtarı tek kaynak) · [[ADR-047-login-redirect-session-bridge]] (imzalı tek kullanımlık köprü token'ı) · [[ADR-008-bypass-auth-middleware]] (bypass = üretimde fail-closed) · [[ADR-004-multi-domain-spa]] (çoklu domain SPA + cookie haritası) · [[../index.md]] · [[../../brain.md]]
+> **İlgili kararlar:** [[ADR-011-session-management]] (session yaşam döngüsü + hibrit saklama kararı — bu ADR'nin session zemini) · [[ADR-010-csrf-protection-strategy]] (CSRF + **şart 3**: JWT stub kapanana kadar cookie-auth tek yol) · [[ADR-013-rate-limiting-apcu]] (rate limit — köprü/token uçlarına uygulanır) · [[ADR-020-api-public-security]] (API auth üçlüsü + JWT Bearer kilidi; stub `null` bulgusu) · [[ADR-043-auth-subdomain-consolidation]] (cookie domain tekliği, Origin/CSRF/nonce, JWT anahtarı tek kaynak) · [[ADR-047-login-redirect-session-bridge]] (imzalı tek kullanımlık köprü token'ı) · [[ADR-008-bypass-auth-middleware]] (bypass = üretimde fail-closed) · [[ADR-004-multi-domain-spa]] (çoklu domain SPA + cookie haritası) · [[../index.md]] · [[../../raw/brain.md]]
 > **Index durumu:** `.ai/.decisions/index.md` **ADR-051–ADR-060 satırlarını İÇERMEZ** — dizin 050 (satır 91) → 061 (satır 92) arasında **atlıyor**. Bu işlemde index.md'ye **yeni satır eklenmedi** (report-only — In-Place Refactoring + SRP); satır ekleme **bir sonraki vault reset'ine ertelenmiştir** (§5.1 adım 7).
 > **ADR-051 notu:** ADR-051 numarası **kaynaksız boşluk** olarak atlanmıştır (dosya diskte YOK, index satırı YOK, karar metni YOK) → bu ADR o boşluğu **doldurmaz**, numara **kullanılmaz**; ayrıntı §5.1 adım 7 ve §7.1.
 > **Frozen notu:** ADR-001–037 **dokunulmamıştır** (yalnız atıf). Bu dosya Active aralığındadır, frozen değildir; **Frozen'a geçiş YOK**.
@@ -47,7 +47,7 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 | Kanıt | İçerik | Etiket |
 |---|---|---|
 | Tüm `composer.json` (jwt/lcobucci taraması) | `jwt` / `lcobucci` **0 isabet** | **JWT paketi YOK** |
-| Repo geneli `lcobucci\|firebase/php-jwt\|web-token` | Yalnız **vault markdown** içinde (`.ai/brain.md:74,109,136`, `.ai/.agents/backend-architect.md:81,118,188`, arşiv prompt'lar) — kod/composer **0** | `brain.md:74,109` `lcobucci/jwt` iddiası → **⚠️ VERIFICATION REQUIRED** (kod/ağacın 3 composer.json'ında geçmiyor — `.ai/.agents/backend-architect.md:118` aynı bulguyu taşıyor) |
+| Repo geneli `lcobucci\|firebase/php-jwt\|web-token` | Yalnız **vault markdown** içinde (`.ai/raw/brain.md:74,109,136`, `.ai/.agents/backend-architect.md:81,118,188`, arşiv prompt'lar) — kod/composer **0** | `brain.md:74,109` `lcobucci/jwt` iddiası → **⚠️ VERIFICATION REQUIRED** (kod/ağacın 3 composer.json'ında geçmiyor — `.ai/.agents/backend-architect.md:118` aynı bulguyu taşıyor) |
 | `shared/src/Api/Middleware/AuthenticationMiddleware.php:111-131` | `validateJwtToken(string $token): null` — "simplified implementation… return null (not validated)", `RS256 verification` yalnız **yorum satırı** (:121) | **STUB** (Bearer yolu fiilen ÖLÜ — ADR-020 §1.1-B.2 ile aynı) |
 | Kodda `new Builder` / token üretimi / `HS256\|RS256` imzalama | Yalnız yorum (`AuthenticationMiddleware.php:121`) — **üretim 0** | **0 YÜZEY** (JWT üretilmiyor, doğrulanmıyor) |
 
@@ -298,13 +298,13 @@ Debate 3. turunda **18 kabul / 2 çekimser / 0 red** ile KABUL edilen 3 şart; �
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme, 16 Hard Guardrail |
-| [[../../AGENTS.md]] | Agent registry — §6 keyword routing (auth/session = Security Engineer), §25.3 frozen/append kuralları |
-| [[../../WORKFLOW.md]] | Süreçler, fazlar |
-| [[../../brain.md]] | Mimari karar özeti (`lcobucci/jwt` satırı :74/:109 → ⚠️ VERIFICATION REQUIRED) |
+| [[../../raw/AGENTS.md]] | Agent registry — §6 keyword routing (auth/session = Security Engineer), §25.3 frozen/append kuralları |
+| [[../../raw/WORKFLOW.md]] | Süreçler, fazlar |
+| [[../../raw/brain.md]] | Mimari karar özeti (`lcobucci/jwt` satırı :74/:109 → ⚠️ VERIFICATION REQUIRED) |
 | [[../../index.md]] | Master katalog |
 | [[../../log.md]] | Audit trail (append-only — bu ADR için tek satır append) |
-| [[../../keys.md]] | Keyword haritası (hybrid auth, JWT, session) |
-| [[../../glossary.md]] | Terimler (session, JWT, refresh rotation, reuse detection, token family, denylist) |
+| [[../../raw/keys.md]] | Keyword haritası (hybrid auth, JWT, session) |
+| [[../../raw/glossary.md]] | Terimler (session, JWT, refresh rotation, reuse detection, token family, denylist) |
 | [[../index.md]] | Karar dizini — **ADR-051–060 satırları YOK (050 → 061 atlıyor); bu ADR'nin satırı eklenmedi → reset'e ertelendi (§5.1 adım 7)** |
 | [[CLAUDE]] | `accepted/` dizin kuralı |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin zorunlu şablonu (Guardrail #16) |

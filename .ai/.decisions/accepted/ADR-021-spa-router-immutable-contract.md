@@ -64,7 +64,7 @@ CoreMusic SPA'da **route sözleşmesi** üç ayrı yerde aynı anda yaşar: (1) 
 
 **F) DİZİN REZERVASYONLARI (bu dosya ile canlanır):**
 
-- `.ai/.decisions/index.md:58` · `.ai/index.md:638` · `.ai/keys.md:256` · `.ai/brain.md:976` · `.ai/.templates/adr/adr-index.md:92` (`🔵 frontend`, `adr-frontend-template.md` — dosya diskte VAR ✅) · `.ai/glossary.md:393` (ADR-021 referansı).
+- `.ai/.decisions/index.md:58` · `.ai/index.md:638` · `.ai/raw/keys.md:256` · `.ai/raw/brain.md:976` · `.ai/.templates/adr/adr-index.md:92` (`🔵 frontend`, `adr-frontend-template.md` — dosya diskte VAR ✅) · `.ai/raw/glossary.md:393` (ADR-021 referansı).
 
 **Sonuç etiketi:** **IMPLEMENTED:** 22 route anahtarı (15 + 7), Registry register/loadFromFile/resolve/parametre eşleme, 404 (çift kaynak), 302 zorlama (emit + shell), 21 test, 2 yükleyici, `getRegisteredKeys()` fixture API'si. **PLANNED:** golden route listesi + CI kapısı, 404 ERROR alert, 301 canonical (ADR-009), case folding/percent-decode + normalizer testleri (ADR-016), `SpaRoute` olmayan satır için hata log'u. Bu ADR **kod sözü değil, yol sözleşmesidir.**
 
@@ -257,10 +257,10 @@ istemci router → golden fixture'ı OKUR (kopyalamaz)  →  drift = CI kırmız
 | [[ADR-002-pdo-mandatory-no-orm]] | Route çözümlemesi config dosyasından; router'a DB sorgusu eklenemez (§1.4) |
 | [[../index]] | Satır 58 `[[ADR-021-spa-router-immutable-contract]]` — slug eşleşmesi ✅ (bu dosya rezervasyonu doldurur) |
 | [[../../index.md]] | Satır 638 `decisions/accepted/ADR-021-spa-router-immutable-contract` kaydı ✅ |
-| [[../../keys.md]] | Satır 256 `ADR-021 \| SPA router, immutable contract \| Routing` ✅ |
-| [[../../brain.md]] | Satır 976 `ADR-021 \| SPA router immutable contract` ✅ |
+| [[../../raw/keys.md]] | Satır 256 `ADR-021 \| SPA router, immutable contract \| Routing` ✅ |
+| [[../../raw/brain.md]] | Satır 976 `ADR-021 \| SPA router immutable contract` ✅ |
 | [[../../.templates/adr/adr-index.md]] | Satır 92 `21 \| ADR-021 \| SPA router immutable contract \| 🔵 frontend \| adr-frontend-template.md` ✅ |
-| [[../../glossary.md]] | Satır 393 ADR-021 referansı (router immutable contract) ✅ |
+| [[../../raw/glossary.md]] | Satır 393 ADR-021 referansı (router immutable contract) ✅ |
 | [[../../.templates/adr/adr-frontend-template.md]] | Frontend ADR şablonu — bu ADR'nin kategorisiyle eşleşir (adr-index.md:92) |
 | `shared/config/routes.php` | 15 anahtar `:24-123` (§1.1-A, §2.2a) |
 | `shared/config/auth-routes.php` | 7 anahtar `:12-62` (§1.1-A, §2.2a host ayrımı) |
@@ -274,8 +274,8 @@ istemci router → golden fixture'ı OKUR (kopyalamaz)  →  drift = CI kırmız
 | `home.coremusic.net/config/bootstrap.php` · `auth.coremusic.net/index.php` | `:85-88` · `:193` yükleyiciler (§1.1-A) |
 | Düz metin (dosyalar diskte YOK — wiki-link KURULMAZ): ADR-083-spa-router | `../index` satır 105 (`../brain.md` girdisi → ADR-083-spa-router) — glob `ADR-083*` boş → **⚠️ VERIFICATION REQUIRED** (shared/AGENTS.md §2'de "ADR-021/083" olarak anılıyor) |
 | [[../../CLAUDE.md]] | 16 Hard Guardrail, Guardrail #16, REDACTED |
-| [[../../AGENTS.md]] | §6 routing (`routing, middleware, PHP → Backend Architect`), §5 domain boundary, §17.5/§17.7, §25.3 frozen |
-| [[../../WORKFLOW.md]] | Debate/onay akışı başlangıcı |
+| [[../../raw/AGENTS.md]] | §6 routing (`routing, middleware, PHP → Backend Architect`), §5 domain boundary, §17.5/§17.7, §25.3 frozen |
+| [[../../raw/WORKFLOW.md]] | Debate/onay akışı başlangıcı |
 | [[../../.templates/adr/adr-template.md]] | Bu ADR'nin şablonu (Guardrail #16, 7 bölüm + §1.3 9 alan) |
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | `.claude/skills/prompt-maker/references/10-web-research-protocol.md` | §1.3 web araştırması protokolü (diskte VAR ✅) |
@@ -342,12 +342,12 @@ istemci router → golden fixture'ı OKUR (kopyalamaz)  →  drift = CI kırmız
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | [[../index]] | Karar dizini — **satır 58** `[[ADR-021-spa-router-immutable-contract]]` (slug eşleşmesi ✅) |
 | [[../../CLAUDE.md]] | Vault ana sözleşmesi — 16 Hard Guardrail, REDACTED, Guardrail #16 |
-| [[../../AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`routing, middleware → Backend Architect`), §5 domain boundary, §17.5/§17.7 edge case |
-| [[../../WORKFLOW.md]] | Debate/onay akışı başlangıcı |
-| [[../../brain.md]] | Satır 976 ADR-021 kaydı ✅ · SPA router mimari özeti |
-| [[../../keys.md]] | Satır 256 `ADR-021 \| SPA router, immutable contract \| Routing` ✅ |
+| [[../../raw/AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`routing, middleware → Backend Architect`), §5 domain boundary, §17.5/§17.7 edge case |
+| [[../../raw/WORKFLOW.md]] | Debate/onay akışı başlangıcı |
+| [[../../raw/brain.md]] | Satır 976 ADR-021 kaydı ✅ · SPA router mimari özeti |
+| [[../../raw/keys.md]] | Satır 256 `ADR-021 \| SPA router, immutable contract \| Routing` ✅ |
 | [[../../index.md]] | Satır 638 ADR-021 kaydı ✅ |
-| [[../../glossary.md]] | Satır 393 ADR-021 referansı ✅ · SPA/route/contract terimleri |
+| [[../../raw/glossary.md]] | Satır 393 ADR-021 referansı ✅ · SPA/route/contract terimleri |
 | [[../../log.md]] | Audit trail — bu işlem tek satır append |
 | Debate sonucu | §5.3 — **✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)** (frontmatter `debate` ile aynı) · bağlayıcı şartlar **§5.4** (3 madde) |
 | [[../../.templates/adr/adr-template.md]] | Bu ADR'nin şablonu (Guardrail #16, 7 bölüm + §1.3 9 alan) |

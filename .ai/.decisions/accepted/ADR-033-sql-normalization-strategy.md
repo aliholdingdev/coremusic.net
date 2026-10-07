@@ -54,13 +54,13 @@ Bu ADR, CoreMusic'in **18 veritabanının tamamı** için geçerli tek normaliza
 
 **B) Normal form ihlalleri / denormalizasyon bulguları (dosya:satır — dürüst etiket):**
 
-1. **ENUM string kolon — 96 adet, 18 dosyanın 11'inde:** [[.ai/.sql/mysql/coremusic_social.sql]]`:26` `entity_type ENUM('music','album','playlist','podcast','radio','video')` · [[.ai/.sql/mysql/coremusic_logs.sql]]`:52` `activity_type ENUM('login','logout',...)` · [[.ai/.sql/mysql/coremusic_auth.sql]]`:30` `account_type ENUM('free','premium','studio','admin')` · [[.ai/.sql/mysql/coremusic_system.sql]]`:27` `setting_type ENUM('string','integer',...)`. Dağılım: system 20 · logs 17 · user 10 · wireless 10 · social 9 · auth 8 · media 8 · musics 7 · playlist 3 · albums 2 · catalog 2. → **lookup tablosu yerine satır-içi sabit küme**; değer eklemek `ALTER TABLE` gerektirir (§1.3 kaynak 28-32).
-2. **İşlevsel bağımlılık ihlali (türetilmiş özet kolon) — 79 adet, 12 dosya** (sayım deseni: adında `count`/`total` geçen sayısal kolon): [[.ai/.sql/mysql/coremusic_playlist.sql]]`:31` `total_tracks`, `:33-35` `follow_count`/`like_count`/`play_count` · [[.ai/.sql/mysql/coremusic_albums.sql]]`:34` `total_tracks`, `:37` `play_count` · [[.ai/.sql/mysql/coremusic_musics.sql]]`:106-108` `play_count`/`like_count`/`download_count` · [[.ai/.sql/mysql/coremusic_social.sql]]`:30-31` `like_count`/`reply_count`. → Anahtar olmayan kolon, anahtardan **türetilir** ve satırda saklanır: yazma-anomalis riski + write amplification (§1.3 kaynak 7-14).
-3. **Çoğaltma (kopya kolon — FK'sız kopya):** [[.ai/.sql/mysql/coremusic_musics.sql]]`:732-745` `radio_now_playing` (kopya kolonlar `:735-739` → `track_title`, `artist_name`, `album_name`, `genre`, `duration_seconds`) bu kolonlar `musics`/`artists` verisini **kopyalar, FK yok** → kaynak değişince kopya kalır (denorm drift).
+1. **ENUM string kolon — 96 adet, 18 dosyanın 11'inde:** [[.ai/sources/.sql/mysql/coremusic_social.sql]]`:26` `entity_type ENUM('music','album','playlist','podcast','radio','video')` · [[.ai/sources/.sql/mysql/coremusic_logs.sql]]`:52` `activity_type ENUM('login','logout',...)` · [[.ai/sources/.sql/mysql/coremusic_auth.sql]]`:30` `account_type ENUM('free','premium','studio','admin')` · [[.ai/sources/.sql/mysql/coremusic_system.sql]]`:27` `setting_type ENUM('string','integer',...)`. Dağılım: system 20 · logs 17 · user 10 · wireless 10 · social 9 · auth 8 · media 8 · musics 7 · playlist 3 · albums 2 · catalog 2. → **lookup tablosu yerine satır-içi sabit küme**; değer eklemek `ALTER TABLE` gerektirir (§1.3 kaynak 28-32).
+2. **İşlevsel bağımlılık ihlali (türetilmiş özet kolon) — 79 adet, 12 dosya** (sayım deseni: adında `count`/`total` geçen sayısal kolon): [[.ai/sources/.sql/mysql/coremusic_playlist.sql]]`:31` `total_tracks`, `:33-35` `follow_count`/`like_count`/`play_count` · [[.ai/sources/.sql/mysql/coremusic_albums.sql]]`:34` `total_tracks`, `:37` `play_count` · [[.ai/sources/.sql/mysql/coremusic_musics.sql]]`:106-108` `play_count`/`like_count`/`download_count` · [[.ai/sources/.sql/mysql/coremusic_social.sql]]`:30-31` `like_count`/`reply_count`. → Anahtar olmayan kolon, anahtardan **türetilir** ve satırda saklanır: yazma-anomalis riski + write amplification (§1.3 kaynak 7-14).
+3. **Çoğaltma (kopya kolon — FK'sız kopya):** [[.ai/sources/.sql/mysql/coremusic_musics.sql]]`:732-745` `radio_now_playing` (kopya kolonlar `:735-739` → `track_title`, `artist_name`, `album_name`, `genre`, `duration_seconds`) bu kolonlar `musics`/`artists` verisini **kopyalar, FK yok** → kaynak değişince kopya kalır (denorm drift).
 4. **Çoğaltma (aynı metrik birden fazla DB'de):** `play_count` **6 noktada / 4 DB'de**: musics `:106`, `:458` · albums `:37` · playlist `:35` · logs `:205`, `:229` → iki gerçeklik kaynağı; hangisinin otorite olduğu tanımsız.
-5. **Atomik olmayan JSON array kolon — 45 adet** (JSON geçen satır 49; 4'ü ENUM/COMMENT içeriği, kolon tanımı değil): [[.ai/.sql/mysql/coremusic_auth.sql]]`:62` `permissions JSON` · [[.ai/.sql/mysql/coremusic_system.sql]]`:54` `bands JSON` · [[.ai/.sql/mysql/coremusic_system.sql]]`:141` `cache_tags JSON` · `coremusic_wireless.sql:150` `dns_servers JSON` → 1NF'in atomiklik ruhuna aykırı ama kasıtlı (yapılandırılmış blob).
+5. **Atomik olmayan JSON array kolon — 45 adet** (JSON geçen satır 49; 4'ü ENUM/COMMENT içeriği, kolon tanımı değil): [[.ai/sources/.sql/mysql/coremusic_auth.sql]]`:62` `permissions JSON` · [[.ai/sources/.sql/mysql/coremusic_system.sql]]`:54` `bands JSON` · [[.ai/sources/.sql/mysql/coremusic_system.sql]]`:141` `cache_tags JSON` · `coremusic_wireless.sql:150` `dns_servers JSON` → 1NF'in atomiklik ruhuna aykırı ama kasıtlı (yapılandırılmış blob).
 6. **Klasik 1NF "tekrar eden grup" (ör. `tag1..tag5`):** `\w+[1-9] (VARCHAR|INT)` deseniyle tarama → **0 gerçek eşleşme** (yalnız `checksum_sha256` yanlış pozitifi) → **bulunamadı**; uydurulmadı, yok olarak kaydedildi.
-7. **Cross-DB FK çelişkisi (kural vs. şema):** 28 gerçek constraint — [[.ai/.sql/mysql/coremusic_user.sql]]`:50,83,114,115,138,160,161,188,189,223,224` (11) · [[.ai/.sql/mysql/coremusic_social.sql]]`:47,67,91,118,119,150,151,180,204,205,235,266,267` (13) · [[.ai/.sql/mysql/coremusic_system.sql]]`:69,100,128,225` (4) — hepsi `REFERENCES coremusic_auth.*` / `coremusic_musics.*` derken ADR-003 "DB arası FK YOKTUR" (ADR-003 §2.2 Alınan Karar) ve 15 yorum satırı "cross-database FK not supported" diyor → **iki politika yan yana yaşıyor**; düzeltme bu ADR'nin §5.2/3 kalemidir.
+7. **Cross-DB FK çelişkisi (kural vs. şema):** 28 gerçek constraint — [[.ai/sources/.sql/mysql/coremusic_user.sql]]`:50,83,114,115,138,160,161,188,189,223,224` (11) · [[.ai/sources/.sql/mysql/coremusic_social.sql]]`:47,67,91,118,119,150,151,180,204,205,235,266,267` (13) · [[.ai/sources/.sql/mysql/coremusic_system.sql]]`:69,100,128,225` (4) — hepsi `REFERENCES coremusic_auth.*` / `coremusic_musics.*` derken ADR-003 "DB arası FK YOKTUR" (ADR-003 §2.2 Alınan Karar) ve 15 yorum satırı "cross-database FK not supported" diyor → **iki politika yan yana yaşıyor**; düzeltme bu ADR'nin §5.2/3 kalemidir.
 
 **C) Şemanın kendi BCNF iddiası (self-declaration — denetim DEĞİL):**
 
@@ -68,7 +68,7 @@ Dosya başlıkları BCNF diyor: `coremusic_auth.sql:3` "-- BCNF Normalized" · `
 
 **D) IMPLEMENTED / PLANNED ayrımı (dürüst etiket):**
 
-- **IMPLEMENTED (şemada var):** 18 şema · 156 PK · 82 FK · 550 index · BCNF self-declaration · 6 audit tablosu + 211 `created_at` (ADR-022 §1.1) · `schema_versions` tablosu (`.ai/.sql/mysql/coremusic_patch.sql:13-14`, ADR-032 §1.1 ile aynı bulgu).
+- **IMPLEMENTED (şemada var):** 18 şema · 156 PK · 82 FK · 550 index · BCNF self-declaration · 6 audit tablosu + 211 `created_at` (ADR-022 §1.1) · `schema_versions` tablosu (`.ai/sources/.sql/mysql/coremusic_patch.sql:13-14`, ADR-032 §1.1 ile aynı bulgu).
 - **PLANNED (bu ADR ile kurulan kural, şemada karşılığı 0):** 156 tablo BCNF denetimi · istisna defteri (denormalizasyon kayıt tablosu) · ENUM → lookup geçişi · cross-DB FK düzeltmesi (28 satır / 3 dosya) · workload/EXPLAIN tabanlı index denetimi · sayaç reconciliation job'u · `play_count` tek otorite kararı.
 
 **E) İlgili hizalama sorularının dürüst cevapları:**
@@ -241,18 +241,18 @@ Defter bu ADR'nin §2.4-(d) tablosudur; yeni istisna **yeni satır** olarak ekle
 - `[[.ai/.decisions/index.md]]` → karar dizini; `ADR-033-sql-normalization-strategy` satırı **diskte mevcut** (`:70`) — kayıt satırı ayrı işlemdir.
 - `[[.ai/.templates/adr/adr-template.md]]` → 7 bölüm + §1.3 9 alan iskeleti (Guardrail #16).
 - `[[.claude/skills/prompt-maker/references/10-web-research-protocol.md]]` → §1.3 web araştırma protokolü (diskte VAR ✓).
-- `[[.ai/.sql/mysql/coremusic_musics.sql]]` → I1 kopya kolonlar (`:732-745`), I2 sayaçlar (`:106-108`), BCNF self-declaration (`:756`).
-- `[[.ai/.sql/mysql/coremusic_user.sql]]` → **11 cross-DB FK** (`:50,83,114-115,138,160-161,188-189,223-224`) — R5 ihlal kaynağı.
-- `[[.ai/.sql/mysql/coremusic_social.sql]]` → **13 cross-DB FK** (`:47,67,91,118,119,150,151,180,204,205,235,266,267`), ENUM örneği (`:26`), sayaç (`:30-31`).
-- `[[.ai/.sql/mysql/coremusic_system.sql]]` → **4 cross-DB FK** (`:69,100,128,225`), ENUM yoğunluğu (`:27`, 20 adet), JSON array (`:54,:141`).
-- `[[.ai/.sql/mysql/coremusic_logs.sql]]` → ENUM (`:52`), özet/DB-çarpım sayaçları (`:205,:229`).
-- `[[.ai/.sql/mysql/coremusic_playlist.sql]]` → `total_tracks`/`play_count` (`:31-35`).
-- `[[.ai/.sql/mysql/coremusic_albums.sql]]` → cross-DB FK yorum satırları (`:53,:54,:128,:154`), `play_count` (`:37`).
-- `[[.ai/.sql/mysql/coremusic_auth.sql]]` → BCNF self-declaration (`:3,:20`), ENUM (`:30`), `permissions JSON` (`:62`).
-- `[[.ai/glossary.md]]` → ADR-014 frozen→accepted düzeltmesi (`:440`) — geçerli (§1.1-E).
-- `[[.ai/brain.md]]` → envanter §11 (18 şema/156 tablo) + ADR-033 özeti satırı (`:988`).
+- `[[.ai/sources/.sql/mysql/coremusic_musics.sql]]` → I1 kopya kolonlar (`:732-745`), I2 sayaçlar (`:106-108`), BCNF self-declaration (`:756`).
+- `[[.ai/sources/.sql/mysql/coremusic_user.sql]]` → **11 cross-DB FK** (`:50,83,114-115,138,160-161,188-189,223-224`) — R5 ihlal kaynağı.
+- `[[.ai/sources/.sql/mysql/coremusic_social.sql]]` → **13 cross-DB FK** (`:47,67,91,118,119,150,151,180,204,205,235,266,267`), ENUM örneği (`:26`), sayaç (`:30-31`).
+- `[[.ai/sources/.sql/mysql/coremusic_system.sql]]` → **4 cross-DB FK** (`:69,100,128,225`), ENUM yoğunluğu (`:27`, 20 adet), JSON array (`:54,:141`).
+- `[[.ai/sources/.sql/mysql/coremusic_logs.sql]]` → ENUM (`:52`), özet/DB-çarpım sayaçları (`:205,:229`).
+- `[[.ai/sources/.sql/mysql/coremusic_playlist.sql]]` → `total_tracks`/`play_count` (`:31-35`).
+- `[[.ai/sources/.sql/mysql/coremusic_albums.sql]]` → cross-DB FK yorum satırları (`:53,:54,:128,:154`), `play_count` (`:37`).
+- `[[.ai/sources/.sql/mysql/coremusic_auth.sql]]` → BCNF self-declaration (`:3,:20`), ENUM (`:30`), `permissions JSON` (`:62`).
+- `[[.ai/raw/glossary.md]]` → ADR-014 frozen→accepted düzeltmesi (`:440`) — geçerli (§1.1-E).
+- `[[.ai/raw/brain.md]]` → envanter §11 (18 şema/156 tablo) + ADR-033 özeti satırı (`:988`).
 - `[[.ai/index.md]]` → master katalog `:650` ADR-033 kaydı + `:620` "9 BCNF veritabanı" eski sayı notu (§1.1-E).
-- `[[.ai/keys.md]]` → `:89`/`:268` ADR-033 keyword kaydı.
+- `[[.ai/raw/keys.md]]` → `:89`/`:268` ADR-033 keyword kaydı.
 - `[[.ai/log.md]]` → audit trail (append-only; bu ADR'nin 1 satırlık kaydı).
 
 ### 5.2 Karar parçaları (appendix)
@@ -281,7 +281,7 @@ Defter bu ADR'nin §2.4-(d) tablosudur; yeni istisna **yeni satır** olarak ekle
 | `[[.ai/.decisions/accepted/ADR-022-database-hardened-security.md]]` | §1.1-A, §2.4-b/5 | Audit alanları + 6 audit tablosu | ✅ VAR |
 | `[[.ai/.decisions/accepted/ADR-002-pdo-mandatory-no-orm.md]]` | §1.4, §2.4-e/4 | `EXPLAIN`/migration kapı partneri (satır 18'deki "ADR-033 diskte YOK" notu bu yazımla bayatlar — frozen, dokunulmaz) | ✅ VAR |
 | `.ai/.sql/mysql/*.sql` (8 dosya, §5.1) | §1.1-B/C, §2.4-d | Şema kanıtı — dosya:satır | ✅ VAR (18 dosya) |
-| `[[.ai/.decisions/index.md]]`, `[[.ai/index.md]]`, `[[.ai/keys.md]]`, `[[.ai/brain.md]]` | §1.1-E, §5.1 | ADR-033 kayıtları zaten mevcut | ✅ VAR |
+| `[[.ai/.decisions/index.md]]`, `[[.ai/index.md]]`, `[[.ai/raw/keys.md]]`, `[[.ai/raw/brain.md]]` | §1.1-E, §5.1 | ADR-033 kayıtları zaten mevcut | ✅ VAR |
 | `[[.ai/.templates/adr/adr-template.md]]` + `[[.claude/skills/prompt-maker/references/10-web-research-protocol.md]]` | §6, §7, §1.3 | İskelet + araştırma protokolü | ✅ VAR |
 | Web (32 kaynak, §1.3) | §1.3, §2.1-2.3, §3, §4 | Güncel ekosistem kanıtı | ✅ 5 sorgu / 32 kaynak |
 

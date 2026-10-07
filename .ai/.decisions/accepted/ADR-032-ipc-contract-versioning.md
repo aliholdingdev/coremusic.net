@@ -38,7 +38,7 @@ Bu ADR, CoreMusic'te **mesaj formatı + alan şeması + hata kodları + sürüm 
 - **Çalışma zamanı şema doğrulama (kurallı)** — `shared/src/Api/Middleware/RequestValidationMiddleware.php:28-38,60-64`: route'a bağlı `validation` kuralları → `Validator` (bağımlılık `shared/composer.json:18` → `respect/validation ^2.0`). **JSON-Schema kütüphanesi composer'da YOK** (`opis/json-schema|justinrainbow|json-schema` grep → 0) ve repo genelinde `*.schema.json` = **0 dosya** → JSON-Schema katmanı **PLANNED**.
 - **Yüzey-spesifik dönüşüm (web ↔ masaüstü ↔ mobil ↔ gömülü)** — `shared/src/Api/Bff/BffLayer.php:16-40` + `DesktopBff.php`, `MobileBff.php`, `EmbeddedBff.php`, `SpaBff.php` (`shared/src/Api/Bff/`) → aynı gövde 4 istemci yüzeyine farklı biçimde sarılıyor; sözleşmenin yüzey başına sürüm kapsamı bu katmana bağlı.
 - **Olay arayüzleri — zarf var, SÜRÜM YOK** — `shared/src/Contracts/Events/IntegrationEventInterface.php:24-46` (`eventName`, `source`, `payload`, `occurredOn`) ve `shared/src/Contracts/Events/DomainEventInterface.php:20-40`; **`version`/`schemaVersion` alanı 0** → bu ADR'nin (e) ekseninin açık noktası. Olay sınıfları mevcut: `shared/src/Events/Domain/*Event.php` (9 adet) + `shared/src/Events/Integration/*Event.php` (3 adet).
-- **Veritabanı şema sürümü takibi (veri katmanı)** — `.ai/.sql/mysql/coremusic_patch.sql:13-14` → `schema_versions` tablosu ("Her DB'nin versiyon takibi"); `.ai/.sql/mysql/coremusic_system.sql:301-318` → `system_schema_versions` (+ `uk_schema_versions_db_version` unique key).
+- **Veritabanı şema sürümü takibi (veri katmanı)** — `.ai/sources/.sql/mysql/coremusic_patch.sql:13-14` → `schema_versions` tablosu ("Her DB'nin versiyon takibi"); `.ai/sources/.sql/mysql/coremusic_system.sql:301-318` → `system_schema_versions` (+ `uk_schema_versions_db_version` unique key).
 - **IPC'ye tek kod geçişi (yorum satırı)** — `shared/src/AI/AIEngine.php:154` → "Donanım metriklerini topla (gerçek donanım entegrasyonunda IPC ile)" → **niyet var, implementasyon yok**.
 
 **PLANNED (kod kanıtı 0 — dürüst etiket):**
@@ -207,7 +207,7 @@ Semver benzeri kural: **MAJOR** = breaking (yalnız yeni ADR ile), **MINOR** = a
 - `[[.ai/architecture/k9-api-routing/grpc-internal.md]]` → iç servis protobuf spec (PLANNED) — (f) format kapısı (§1.1, §2.3 f).
 - `[[.ai/architecture/k7-middleware/request-validation.md]]` → JSON-Schema doğrulama önerisi (`justinrainbow/json-schema`, composer'da 0) — (d) ekseninin PLANNED kaynağı (§1.1).
 - `[[.ai/architecture/firmware/xmos-firmware.md]]` → Control/Comms kanal planı (spec, `.xc` = 0) — firmware mesajlaşmasının spesifikasyonu (§1.1).
-- `[[.ai/.sql/mysql/coremusic_patch.sql]]` → `schema_versions` tablosu — veri katmanı sürüm takibi IMPLEMENTED (§1.1).
+- `[[.ai/sources/.sql/mysql/coremusic_patch.sql]]` → `schema_versions` tablosu — veri katmanı sürüm takibi IMPLEMENTED (§1.1).
 - `[[.ai/.templates/adr/adr-template.md]]` → 7 bölüm + §1.3 9 alan iskeleti (Guardrail #16).
 - `[[.claude/skills/prompt-maker/references/10-web-research-protocol.md]]` → §1.3 web araştırma protokolü (diskte VAR ✓).
 - `[[.ai/.decisions/index.md]]` → karar dizini (kayıt satırı ayrı işlemdir).
@@ -240,7 +240,7 @@ Semver benzeri kural: **MAJOR** = breaking (yalnız yeni ADR ile), **MINOR** = a
 | `[[.ai/architecture/k9-api-routing/grpc-internal.md]]` | §1.1, §2.3 f | İç protobuf/gRPC spec; `.proto` = 0 | ✅ VAR (spec) |
 | `[[.ai/architecture/k7-middleware/request-validation.md]]` | §1.1, §2.3 d | JSON-Schema kütüphanesi önerisi; composer 0 | ✅ VAR (spec) |
 | `[[.ai/architecture/firmware/xmos-firmware.md]]` | §1.1, §5.2/5 | Control/Comms kanal planı; `.xc` = 0 | ✅ VAR (spec) |
-| `[[.ai/.sql/mysql/coremusic_patch.sql]]` | §1.1, §2.3 b | `schema_versions` — DB sürüm takibi IMPLEMENTED | ✅ VAR |
+| `[[.ai/sources/.sql/mysql/coremusic_patch.sql]]` | §1.1, §2.3 b | `schema_versions` — DB sürüm takibi IMPLEMENTED | ✅ VAR |
 | Kod (vault dışı) `shared/src/Api/Versioning/*`, `ApiResponse.php`, `RequestValidationMiddleware.php`, `Contracts/Events/*` | §1.1, §2.1, §2.3 | IMPLEMENTED kanıtı — dosya:satır referanslı | ✅ VAR (repo) |
 | `[[.ai/.templates/adr/adr-template.md]]` | §6, §7 | 7 bölüm + §1.3 9 alan (Guardrail #16) | ✅ VAR |
 
@@ -254,7 +254,7 @@ Semver benzeri kural: **MAJOR** = breaking (yalnız yeni ADR ile), **MINOR** = a
 
 ### 6.1 Debate kaydı (3 tur / 20 persona — 2026-09-25)
 
-- **Tur 1 — Kanıt sunumu (20 persona · 30 kaynak):** kod kanıtı **IMPLEMENTED** — sürüm müzakere (`shared/src/Api/Versioning/VersionResolver.php:34-48`), zarf header/body (`shared/src/Api/ApiResponse.php:21,31,37` → `X-API-Version`), URL-segment (`shared/src/Api/Gateway.php:82-87` → `/api/v1`), çalışma zamanı doğrulama (`shared/src/Api/Middleware/RequestValidationMiddleware.php:28-38`), `schema_versions` (`.ai/.sql/mysql/coremusic_patch.sql:14`); olay zarfı `shared/src/Contracts/Events/IntegrationEventInterface.php:24-46` var ama `version()` alanı **0**; **PLANNED (kod 0)** — `*.proto` / gRPC · outbox `schema_version` sütunu · JSON-Schema (`*.schema.json`) · `shared/tests/Fixtures/` dizini. Oy dağılımı: **15 kabul/neutral · 4 uyarı** — Embedded (firmware IPC şartı), QA (Fixtures yolu), Critic (event version boşluğu + ADR-086 yok şartı).
+- **Tur 1 — Kanıt sunumu (20 persona · 30 kaynak):** kod kanıtı **IMPLEMENTED** — sürüm müzakere (`shared/src/Api/Versioning/VersionResolver.php:34-48`), zarf header/body (`shared/src/Api/ApiResponse.php:21,31,37` → `X-API-Version`), URL-segment (`shared/src/Api/Gateway.php:82-87` → `/api/v1`), çalışma zamanı doğrulama (`shared/src/Api/Middleware/RequestValidationMiddleware.php:28-38`), `schema_versions` (`.ai/sources/.sql/mysql/coremusic_patch.sql:14`); olay zarfı `shared/src/Contracts/Events/IntegrationEventInterface.php:24-46` var ama `version()` alanı **0**; **PLANNED (kod 0)** — `*.proto` / gRPC · outbox `schema_version` sütunu · JSON-Schema (`*.schema.json`) · `shared/tests/Fixtures/` dizini. Oy dağılımı: **15 kabul/neutral · 4 uyarı** — Embedded (firmware IPC şartı), QA (Fixtures yolu), Critic (event version boşluğu + ADR-086 yok şartı).
 - **Tur 2 — İtiraz → çözüm (4 madde):**
   1. *İtiraz:* event zarfında `version()` 0 → *Çözüm:* `IntegrationEventInterface`'e `version()` + outbox `schema_version` sütunu → **şart 1a** (sahiplik §5.2 parça 7).
   2. *İtiraz:* `shared/tests/Fixtures/` dizini yok → *Çözüm:* golden şema yolu kurulur → **şart 1b** (sahiplik §5.2 parça 8).

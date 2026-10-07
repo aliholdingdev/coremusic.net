@@ -15,7 +15,7 @@ governance: "Red Team · Human Mode · Truth Mode"
 
 > **Durum:** ✅ **ACCEPTED** · **Tarih:** 2026-09-29 · **Ağırlık:** 1 (varsayılan) · **İlgili ADR:** 039
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `media-dizin-ekseni-ve-ulid` · **Dosya:** `ADR-092-media-dizin-ekseni-ve-ulid.md`
-> **İlgili kararlar:** [[ADR-039-7-service-platform-architecture]] (media.coremusic.net servis yerleşimi) · [[../../architecture/k15-medya-streaming/index.md]] (FFmpeg + metadata hattı) · [[../index.md]] · [[../../VISION.md]] · [[../../CLAUDE.md]]
+> **İlgili kararlar:** [[ADR-039-7-service-platform-architecture]] (media.coremusic.net servis yerleşimi) · [[../../architecture/k15-medya-streaming/index.md]] (FFmpeg + metadata hattı) · [[../index.md]] · [[../../raw/VISION.md]] · [[../../CLAUDE.md]]
 > **Şablon:** `.ai/.templates/adr/adr-template.md` (Guardrail #16 — 10 alanlı frontmatter + §1-§7 iskelet, ADR-090/ADR-091 biçimiyle hizalı)
 > **Numara gerekçesi:** `.ai/.decisions/accepted/` serisinde en yüksek numara **ADR-090** (`ADR-090-channel-variant-product-family.md`); ancak **ADR-091 zaten dolu** (`.ai/.decisions/ADR-091-template-engine-no-eval.md` + `log.md:629` kaydı + şablon `coremusic-vault-template.md:407` "yeni: ≥ ADR-091") → **ilk boş numara 092**. Frozen **001-037'ye dokunulmamıştır**; ayrı seri `architecture/adr/` (023-026) **karıştırılmamıştır**.
 
@@ -28,7 +28,7 @@ governance: "Red Team · Human Mode · Truth Mode"
 | # | Kaynak | Disk Kanıtı | Etiket |
 |---|--------|-------------|--------|
 | 1 | [[ADR-039-7-service-platform-architecture]] (satır 120) | `media` servisi: **media.coremusic.net:5000/6000**, PHP (+ FFmpeg → K15, K8 dışı), **dizin YOK**, **PLANNED** | IMPLEMENTED (karar) — yerleşim **bu ADR'dedir** |
-| 2 | [[../../VISION.md]] §6 (madde 6, satır 136) | "**Merkezi Medya Yönetimi ve Streaming (`media.coremusic.net`)**: Çok kaynaklı otonom indirme (YouTube, YouTube Music, Deezer FLAC stüdyo kalitesi), kayıpsız format dönüştürme ve **merkezi ev/ofis medya arşivi**" | IMPLEMENTED (doküman) |
+| 2 | [[../../raw/VISION.md]] §6 (madde 6, satır 136) | "**Merkezi Medya Yönetimi ve Streaming (`media.coremusic.net`)**: Çok kaynaklı otonom indirme (YouTube, YouTube Music, Deezer FLAC stüdyo kalitesi), kayıpsız format dönüştürme ve **merkezi ev/ofis medya arşivi**" | IMPLEMENTED (doküman) |
 | 3 | [[../../CLAUDE.md]] §2.1 *SSOT Priority Order* (satır 45) | Vault hiyerarşisi: CLAUDE > AGENTS > WORKFLOW > brain > index | IMPLEMENTED (doküman) |
 | 4 | [[../../architecture/k15-medya-streaming/index.md]] (K15 katmanı) | **✅ DISKTE VAR — 16 dosya** (git tracked; son commit `523497c`): `index.md` = "K15 Medya & Streaming Katmanı" (FFmpeg pipeline · codec · HLS/DASH · CDN), `media-metadata.md` = "Media Metadata Engine" (**ID3 / Vorbis / APE / iTunes oku-yaz**) | IMPLEMENTED (doküman) — FFmpeg + metadata hattının sahibi; **yerleşim/eksen bu ADR'nin** |
 
@@ -66,7 +66,7 @@ governance: "Red Team · Human Mode · Truth Mode"
 | **Frozen 001-037 immutabel** | Yalnız atıf; düzeltme yapılmaz |
 | **Kod 0 → PLANNED disiplini** | `media.coremusic.net` kodu/iskeleniz repoda yok (ADR-039 PLANNED) → uygulama adımları PLANNED etiketlidir; karar seviyesi IMPLEMENTED |
 | **REDACTED** | Yol/credential/kişisel veri salt gerekli olduğu kadar yazılır; sır vault'a girmez |
-| **Tek yazma kanalı** | Tüm vault yazımı `.ai/scripts/vault-utf8-writer.mjs`; `log.md` yalnız append |
+| **Tek yazma kanalı** | Tüm vault yazımı `.ai/sources/scripts/vault-utf8-writer.mjs`; `log.md` yalnız append |
 
 ---
 
@@ -182,7 +182,7 @@ C:\www\coremusic.net\media.coremusic.net\     ← proje kökü (repo içinde, AD
 | Kaynak | Şart / İlişki | Bu ADR'nin Karşılığı |
 |--------|----------------|----------------------|
 | [[ADR-039-7-service-platform-architecture]] (L120) | media.coremusic.net **PLANNED** (PHP 8.4 + FFmpeg, port 5000/6000, "dizin YOK") → **yerleşim kararı bu ADR'de** | §2.1-§2.2 dizin eksen + yerleşim; ADR-039'un "dizin YOK" kaydı **kapatılmaz**, tamamlanır |
-| [[../../VISION.md]] §6 (madde 6, L136) | "Merkezi Medya Yönetimi ve Streaming … **merkezi ev/ofis medya arşivi**" | §2.4 yan-JSON meta + kapak kalıcı arşiv içinde (§1.1 notu: "Metadata + Kapak" ifadesi VISION'da birebir YOK) |
+| [[../../raw/VISION.md]] §6 (madde 6, L136) | "Merkezi Medya Yönetimi ve Streaming … **merkezi ev/ofis medya arşivi**" | §2.4 yan-JSON meta + kapak kalıcı arşiv içinde (§1.1 notu: "Metadata + Kapak" ifadesi VISION'da birebir YOK) |
 | [[../../CLAUDE.md]] §2.1 | SSOT Priority Order (CLAUDE > AGENTS > WORKFLOW > brain > index) | §2.6 madde 6: **SSOT = yan JSON**; MySQL türetilmiş |
 | [[../../architecture/k15-medya-streaming/index.md]] + `media-metadata.md` | K15 = **FFmpeg pipeline + Media Metadata Engine** (ID3/Vorbis/APE/iTunes **oku-yaz**); ADR-039'un "FFmpeg → K15" atfının dokümanı | §2.1 madde 5: FFmpeg çıktısı **uygulama `cache\`**'indedir (`media\`'ye girmez) · §3 alternatif 5: **embedded ID3 yazımı RET** — orijinal dokunulmaz; K15 motoru **okuma** tarafında, yazma **yan JSON SSOT**'a bağlıdır |
 
@@ -191,7 +191,7 @@ C:\www\coremusic.net\media.coremusic.net\     ← proje kökü (repo içinde, AD
 | # | Adım | Sorumlu | Süre | Durum |
 |---|------|---------|------|-------|
 | 1 | Bu ADR'yi şablondan üret + künye/§1-§7 dolu (Guardrail #16) | Vault Steward | 2 dk | ✅ UYGULANDI (2026-09-29) |
-| 2 | İskeleniz: `media\` + `src\` + `config\` + `docs\` ayrımı (yalnız dizin/config/docs — **taşınma yok**) — **Faz 2 alt maddeleri (2026-09-29):**<br>• **PHP CLI (Faz 2):** `bin/{scan,audit,ingest}.php` + `src/Media/{Slugger,Ulid,Taxonomy,Validator,CatalogWriter}.php` + `composer.json` → commit `50f8734` (2.060 satır PHP); `audit.php` ADR §6.1/§7.1 kurallarını denetler; `ingest.php` dry-run (CSV), `--commit` olmadan tek bayt kopyalamaz (tek kopya noktası `ingest.php:328`) — **⚠️ PHP bu makinede yok → `php -l`/çalışma testi YAPILMADI**<br>• **MySQL türetilmiş indeks:** `.ai/.sql/mysql/media_catalog.sql` — DB `media_catalog`, 9 tablo + `v_asset_search` (FULLTEXT), `utf8mb4_tr_0900_ai_ci`, BCNF, taxonomy 98 seed (17 anahtar), `asset_tag`→`taxonomy` FK — **⚠️ MySQL yok → DDL çalıştırılamadı**; `coremusic_media` BAŞKA DB (ana uygulamanın cihaz-senkron şeması, v8.0.0) — ezilmedi, geri alındı<br>• **Git kuralı:** `catalog/ reports/ vendor/ *.log` ignore + `!src/Media/` negasyonu (`media/` çapasızdı, `src/Media/` PHP kodunu yutuyordu)<br>• **Kararlar:** boş slug yedeği = `isimsiz` (2026-09-29) · audit/scan `--deep` bayrağı, varsayılan hafif mod = yeniden hash YOK (§6.1 k.5 ile uyumlu)<br>• **Test:** statik denetim 13 PASS / 1 FAIL (scan koşulsuz hash → düzeltildi) / 4 VR<br>• **Ertelenen:** GUI (faz 3) — başka oturum `.ai/ui-design/` dosyasını sıfırdan yeniden yazıyor, çakışma riski; ingest `--commit` ile dosya kopyalama ⏳ | Backend + Data | 1 gün | ✅ UYGULANDI (2026-09-29 — 62 dizin + config 3 + docs 2) · `Test-Path 'C:\www\coremusic.net\media.coremusic.net\media'` = **True** |
+| 2 | İskeleniz: `media\` + `src\` + `config\` + `docs\` ayrımı (yalnız dizin/config/docs — **taşınma yok**) — **Faz 2 alt maddeleri (2026-09-29):**<br>• **PHP CLI (Faz 2):** `bin/{scan,audit,ingest}.php` + `src/Media/{Slugger,Ulid,Taxonomy,Validator,CatalogWriter}.php` + `composer.json` → commit `50f8734` (2.060 satır PHP); `audit.php` ADR §6.1/§7.1 kurallarını denetler; `ingest.php` dry-run (CSV), `--commit` olmadan tek bayt kopyalamaz (tek kopya noktası `ingest.php:328`) — **⚠️ PHP bu makinede yok → `php -l`/çalışma testi YAPILMADI**<br>• **MySQL türetilmiş indeks:** `.ai/sources/.sql/mysql/media_catalog.sql` — DB `media_catalog`, 9 tablo + `v_asset_search` (FULLTEXT), `utf8mb4_tr_0900_ai_ci`, BCNF, taxonomy 98 seed (17 anahtar), `asset_tag`→`taxonomy` FK — **⚠️ MySQL yok → DDL çalıştırılamadı**; `coremusic_media` BAŞKA DB (ana uygulamanın cihaz-senkron şeması, v8.0.0) — ezilmedi, geri alındı<br>• **Git kuralı:** `catalog/ reports/ vendor/ *.log` ignore + `!src/Media/` negasyonu (`media/` çapasızdı, `src/Media/` PHP kodunu yutuyordu)<br>• **Kararlar:** boş slug yedeği = `isimsiz` (2026-09-29) · audit/scan `--deep` bayrağı, varsayılan hafif mod = yeniden hash YOK (§6.1 k.5 ile uyumlu)<br>• **Test:** statik denetim 13 PASS / 1 FAIL (scan koşulsuz hash → düzeltildi) / 4 VR<br>• **Ertelenen:** GUI (faz 3) — başka oturum `.ai/ui-design/` dosyasını sıfırdan yeniden yazıyor, çakışma riski; ingest `--commit` ile dosya kopyalama ⏳ | Backend + Data | 1 gün | ✅ UYGULANDI (2026-09-29 — 62 dizin + config 3 + docs 2) · `Test-Path 'C:\www\coremusic.net\media.coremusic.net\media'` = **True** |
 | 3 | `config\taxonomy.json` (kapalı taksonomi) + şema örnekleri `config/schema/*.json` + audit (regex/UTF-8) | Data Engineer | 2 gün | ✅ UYGULANDI (2026-09-29 — `config/taxonomy.json` 17 anahtar + şema `config/media.schema.json` (`config/schema/*.json` yolu YOK — yol sapması, disk kanıtı) + `audit.php` statik denetim 13 PASS / 1 FAIL (scan koşulsuz hash → düzeltildi) / 4 VR; ayrıntı adım 2 alt maddesi) · **⚠️ PHP yok → `php -l`/çalışma testi YAPILMADI** |
 | 4 | Kaynak sayım (7.551 dosya / 38,33 GB) doğrulaması — **salt-okunur**, taşınmadan | Data Engineer | 2 saat | ⏳ PLANNED (R1) |
 | 5 | `inbox → aktif → saklı → tekrar → arşiv` yaşam döngüsü akışı + C: <31 GB izleme | Backend + DevOps | 3 gün | ⏳ PLANNED |
@@ -204,7 +204,7 @@ C:\www\coremusic.net\media.coremusic.net\     ← proje kökü (repo içinde, AD
 2. **İskelet/config seviyesi:** Bu faz yalnız dizin + config + docs üretir → iptal maliyeti klasör/ayar silmektir; **orijinal Music verisine hiç dokunulmadığı için geri alınacak veri yoktur** (TAŞIMA YOK).
 3. **Taksonomi seviyesi:** `taxonomy.json` değişecekse eski sürüm config içinde saklanır; `etiket[]` alanları etkilenmez.
 4. **Log/dizin seviyesi:** `log.md` append-only → geri dönüş de **yeni satır**; `index.md` kaydı geri alınırsa satır `—` işaretlenir (silinmez).
-5. **Bozulma durumunda:** `node .ai/scripts/vault-utf8-writer.mjs repair --file <dosya>` (yedek alır) → gerekirse `git checkout`.
+5. **Bozulma durumunda:** `node .ai/sources/scripts/vault-utf8-writer.mjs repair --file <dosya>` (yedek alır) → gerekirse `git checkout`.
 
 ---
 
@@ -227,9 +227,9 @@ C:\www\coremusic.net\media.coremusic.net\     ← proje kökü (repo içinde, AD
 |-------------------|--------|
 | [[ADR-039-7-service-platform-architecture]] | media.coremusic.net servis yerleşimi (port 5000/6000, PHP 8.4 + FFmpeg, PLANNED, "dizin YOK") — **bu ADR onu tamamlar** |
 | [[../index.md]] | Karar dizini — **ADR-092 kayıt satırı BEKLİYOR** (§5.2 adım 7; bu görevde yalnız 1 dosya yazıldığı için güncellenmedi) |
-| [[../../VISION.md]] | §6 madde 6 (satır 136) merkezi medya arşivi şartı |
+| [[../../raw/VISION.md]] | §6 madde 6 (satır 136) merkezi medya arşivi şartı |
 | [[../../CLAUDE.md]] | §2.1 SSOT Priority Order + Guardrail #16 (şablon zorunluluğu) |
-| [[../../brain.md]] | **✅ diskte** (1.089 satır) — `:205` K15 katmanı satırı: "Medya & Streaming — FFmpeg, FLAC, HLS, DASH, ID3" · `:252` K15→K0 bağımlılığı; **`media.coremusic.net` girişi YOK** → yerleşim/eksen ilk kez bu ADR'de yazılıyor |
+| [[../../raw/brain.md]] | **✅ diskte** (1.089 satır) — `:205` K15 katmanı satırı: "Medya & Streaming — FFmpeg, FLAC, HLS, DASH, ID3" · `:252` K15→K0 bağımlılığı; **`media.coremusic.net` girişi YOK** → yerleşim/eksen ilk kez bu ADR'de yazılıyor |
 | `.ai/.templates/adr/adr-template.md` | §1-§7 iskelet kaynağı (Guardrail #16) |
 | [[../../architecture/k15-medya-streaming/index.md]] · `media-metadata.md` | **K15 Medya & Streaming katmanı** — 16 dosya (git tracked, commit `523497c`): `index.md` (FFmpeg pipeline · codec · HLS/DASH · CDN), `media-metadata.md` (**Media Metadata Engine** — ID3/Vorbis/APE/iTunes **oku-yaz**), `ffmpeg-pipeline.md` | ADR-039'un "FFmpeg → K15" atfının dokümanı · §2.1 madde 5: FFmpeg çıktısı **uygulama `cache\`**'indedir, `media\`'ye girmez · §3 alternatif 5: **embedded ID3 yazımı RET** — orijinal dokunulmaz; K15 motoru **okuma**da kullanılır, yazma **yan JSON SSOT**'a bağlıdır |
 | `.ai/.decisions/ADR-091-template-engine-no-eval.md` | Aynı seride **dolu olan 091** → bu ADR **092** aldı (Numara gerekçesi) |

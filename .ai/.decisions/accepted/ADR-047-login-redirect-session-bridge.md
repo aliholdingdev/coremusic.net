@@ -16,7 +16,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 > **Durum:** ✅ **ACCEPTED** (kullanıcı onaylı kapsam a-f) · **Tarih:** 2026-09-29 · **Debate:** ✅ **TAMAMLANDI** (3 tur / 20 persona, 18/2/0 KABUL) · **Tech Lead:** ✅ · **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-047-login-redirect-session-bridge`
-> **İlgili kararlar:** [[ADR-043-auth-subdomain-consolidation]] (cross-subdomain oturum/köprü hizası — doğrudan öncül) · [[ADR-011-session-management]] (oturum yaşam döngüsü, cookie politikası, `session_regenerate_id`) · [[ADR-010-csrf-protection-strategy]] (CSRF — karar (e)) · [[ADR-013-rate-limiting-apcu]] (rate limit — karar (e)'de token tüketimine uygulanır) · [[ADR-009-clean-url-redirect]] (temiz URL/redirect doktrini) · [[ADR-020-api-public-security]] (API güvenlik katmanı) · [[ADR-005-ultrathink-protocol]] (zero hallucination — §1.1 dürüst etiket) · [[ADR-046-cross-view-state-preservation]] (returnTo/durum taşımada URL-öncelikli hizalanma) · [[../index.md]] · [[../../brain.md]]
+> **İlgili kararlar:** [[ADR-043-auth-subdomain-consolidation]] (cross-subdomain oturum/köprü hizası — doğrudan öncül) · [[ADR-011-session-management]] (oturum yaşam döngüsü, cookie politikası, `session_regenerate_id`) · [[ADR-010-csrf-protection-strategy]] (CSRF — karar (e)) · [[ADR-013-rate-limiting-apcu]] (rate limit — karar (e)'de token tüketimine uygulanır) · [[ADR-009-clean-url-redirect]] (temiz URL/redirect doktrini) · [[ADR-020-api-public-security]] (API güvenlik katmanı) · [[ADR-005-ultrathink-protocol]] (zero hallucination — §1.1 dürüst etiket) · [[ADR-046-cross-view-state-preservation]] (returnTo/durum taşımada URL-öncelikli hizalanma) · [[../index.md]] · [[../../raw/brain.md]]
 > **Ad gerekçesi:** slug `ADR-047-login-redirect-session-bridge` **arşiv kanıtından** alınmıştır — `.ai/archives/prompt2-auth-2026-08-15.md:36` bu adı taşır; ancak oradaki yol `.ai/decisions/accepted/...` (**nokta eksik** — gerçek dizin `.ai/.decisions/`) ve o noktada dosya **yoktu**. Bu dosya o boşluğu doldurur; arşiv satırına wiki-link **yazılmaz** (yanlış yol), düz metin + düzeltme notu kullanılır.
 > **⚠️ Düzeltme (prompt ↔ disk):** Üst görevde "ADR-013 (CSRF)" denmişti; **diskte CSRF `ADR-010-csrf-protection-strategy`'dir, `ADR-013-rate-limiting-apcu` rate limiting'dir.** Bu ADR karar (e)'yi **ADR-010 (CSRF)** üzerinden kurar; ADR-013 yalnız token tüketimi rate limit'i olarak anılır.
 > **Index durumu:** `.ai/.decisions/index.md`'de **ADR-047 satırı YOKTUR** (ADR-046→048 boşluğu kasıtlıdır); satır ekleme **bir sonraki vault reset'ine ertelenmiştir** (bu işlemde index.md'ye dokunulmadı).
@@ -300,14 +300,14 @@ Kod yarısını çoktan yapmış: whitelist **sağlam ve testli** (`ReturnUrlPol
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme, 16 Hard Guardrail |
-| [[../../AGENTS.md]] | Agent registry, onay/escalation §10, frozen kuralı §25.3 |
-| [[../../WORKFLOW.md]] | Süreçler, fazlar |
-| [[../../brain.md]] | Mimari karar özeti |
+| [[../../raw/AGENTS.md]] | Agent registry, onay/escalation §10, frozen kuralı §25.3 |
+| [[../../raw/WORKFLOW.md]] | Süreçler, fazlar |
+| [[../../raw/brain.md]] | Mimari karar özeti |
 | [[../../index.md]] | Master katalog |
-| [[../../keys.md]] | Keyword haritası |
-| [[../../MEMORY.md]] | Session hafızası |
+| [[../../raw/keys.md]] | Keyword haritası |
+| [[../../raw/MEMORY.md]] | Session hafızası |
 | [[../../log.md]] | Audit trail (append-only) |
-| [[../../glossary.md]] | Terimler (returnTo, bridge token, open redirect, replay) |
+| [[../../raw/glossary.md]] | Terimler (returnTo, bridge token, open redirect, replay) |
 | [[../index.md]] | Karar dizini — **ADR-047 satırı YOK (reset'e ertelendi — §5.1 adım 9)** |
 | [[CLAUDE]] | `accepted/` dizin kuralı |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin zorunlu şablonu (Guardrail #16) |

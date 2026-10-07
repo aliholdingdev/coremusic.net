@@ -16,7 +16,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 > **Durum:** ✅ **ACCEPTED** (kullanıcı onaylı kapsam) · **Tarih:** 2026-09-26 · **Debate:** ✅ **TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)** · **Tech Lead:** ✅ · **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-040-database-authority`
-> **İlgili kararlar:** [[ADR-003-multi-db-bcnf]] (18 BCNF mimarisi + "DB arası FK YOK" kuralı — bu ADR otorite/matris işini devralır) · [[ADR-033-sql-normalization-strategy]] (156 tablo / 82 FK / 28 cross-DB bulguları) · [[ADR-014-multi-db-migration-strategy]] (özel PHP runner + DB başına bağımsız sequence) · [[ADR-002-pdo-mandatory-no-orm]] (PDO tekelı — erişim katmanı) · [[ADR-039-7-service-platform-architecture]] (11 servis — sahiplik matrisinin servis tarafı) · [[ADR-081-multi-provider-data-sync]] (outbox + WAL — cross-DB tutarlılık telafisi) · [[../index.md]] (`:82` slug satırı) · [[../../brain.md]] (`:1000` ADR-040 slotu, `:296` §11 18 BCNF tablosu)
+> **İlgili kararlar:** [[ADR-003-multi-db-bcnf]] (18 BCNF mimarisi + "DB arası FK YOK" kuralı — bu ADR otorite/matris işini devralır) · [[ADR-033-sql-normalization-strategy]] (156 tablo / 82 FK / 28 cross-DB bulguları) · [[ADR-014-multi-db-migration-strategy]] (özel PHP runner + DB başına bağımsız sequence) · [[ADR-002-pdo-mandatory-no-orm]] (PDO tekelı — erişim katmanı) · [[ADR-039-7-service-platform-architecture]] (11 servis — sahiplik matrisinin servis tarafı) · [[ADR-081-multi-provider-data-sync]] (outbox + WAL — cross-DB tutarlılık telafisi) · [[../index.md]] (`:82` slug satırı) · [[../../raw/brain.md]] (`:1000` ADR-040 slotu, `:296` §11 18 BCNF tablosu)
 > **Ad gerekçesi:** slug `ADR-040-database-authority` **diskteki gerçek index kaydından** alınmıştır (`[[../index.md]]:82`) — uydurulmadı. ADR-003 §5.1/7 debate şartı ("18 sayısal yetki ADR-040 envanter kararında tescil edilir") bu dosyada kapanır.
 > **Frozen notu:** ADR-001-037 **dokunulmamıştır** (yalnız atıf). Bu dosya Active aralığındadır, frozen değildir.
 
@@ -50,10 +50,10 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 Örnek ham satırlar (dosya:satır):
 
-- `[[../../.sql/mysql/coremusic_social.sql]]`:47 → `CONSTRAINT fk_comments_user FOREIGN KEY (user_id) REFERENCES coremusic_auth.users(id) ON DELETE CASCADE ON UPDATE CASCADE`
-- `[[../../.sql/mysql/coremusic_user.sql]]`:50 → `ADD CONSTRAINT fk_profiles_user FOREIGN KEY (user_id) REFERENCES coremusic_auth.users (id) ...`
-- `[[../../.sql/mysql/coremusic_system.sql]]`:69 → `CONSTRAINT fk_eq_presets_user FOREIGN KEY (user_id) REFERENCES coremusic_auth.users(id) ON DELETE SET NULL ...`
-- `[[../../.sql/mysql/coremusic_social.sql]]`:151 → `REFERENCES coremusic_musics.musics` (5 adetlik `musics` hedefi grubunun üyesi)
+- `[[../../sources/.sql/mysql/coremusic_social.sql]]`:47 → `CONSTRAINT fk_comments_user FOREIGN KEY (user_id) REFERENCES coremusic_auth.users(id) ON DELETE CASCADE ON UPDATE CASCADE`
+- `[[../../sources/.sql/mysql/coremusic_user.sql]]`:50 → `ADD CONSTRAINT fk_profiles_user FOREIGN KEY (user_id) REFERENCES coremusic_auth.users (id) ...`
+- `[[../../sources/.sql/mysql/coremusic_system.sql]]`:69 → `CONSTRAINT fk_eq_presets_user FOREIGN KEY (user_id) REFERENCES coremusic_auth.users(id) ON DELETE SET NULL ...`
+- `[[../../sources/.sql/mysql/coremusic_social.sql]]`:151 → `REFERENCES coremusic_musics.musics` (5 adetlik `musics` hedefi grubunun üyesi)
 
 > **Doğrulama notu:** ADR-033 §1.1'deki satır listeleri (user 11 / social 13 / system 4) bu taramayla **birebir** doğrulanmıştır; sayı 28'dir, "ilk yazım 11 / tek dosya" düzeltmesi (ADR-033 notu) geçerlidir.
 
@@ -77,8 +77,8 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 | `shared/database/migrations/` = 2 dosya (`$queries` dizisi döndüren script) + `CLAUDE.md` ("Forward-only migration (ADR-014). Geri migration yasak.") | **IMPLEMENTED (içerik + kural)** |
 | Migration runner kodu (`MigrationRunner` / `bin/migrate.php` / `schema_migrations` yazan kod) | **PLANNED — kod 0** (ADR-014 §1.1) |
 | Harici araç (Phinx / Doctrine) — 3 `composer.json` taraması | **0 → kurulu değil (IMPLEMENTED negatif kanıt)** |
-| `[[../../.sql/mysql/coremusic_patch.sql]]`:14 `schema_versions` + `:35` `migration_log` + `:57` `patches` | **IMPLEMENTED (şema)** |
-| `[[../../.sql/mysql/coremusic_system.sql]]`:301-318 `system_schema_versions` (`uk_schema_versions_db_version` = DB-başına versiyon) | **IMPLEMENTED (şema)** |
+| `[[../../sources/.sql/mysql/coremusic_patch.sql]]`:14 `schema_versions` + `:35` `migration_log` + `:57` `patches` | **IMPLEMENTED (şema)** |
+| `[[../../sources/.sql/mysql/coremusic_system.sql]]`:301-318 `system_schema_versions` (`uk_schema_versions_db_version` = DB-başına versiyon) | **IMPLEMENTED (şema)** |
 | `.github/workflows/` | **2 dosya**: `ci.yml` (PHP lint + PHPUnit + composer audit) · `secret-scan.yml` (GitLeaks) → **SQL/cross-DB FK kapısı YOK** |
 
 **E) Çelişki defteri (Truth Mode — hiçbiri yumuşatılmadı):**
@@ -127,7 +127,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 | **Şema dosyası = SSOT, dosya adları değişmez** | In-Place Refactoring: `.ai/.sql/mysql/*.sql` adları ve 18 DB adı yeniden adlandırılmaz; değişiklik = yeni ADR |
 | **Kod 0 → PLANNED disiplini** | Migration runner (ADR-014), SQL kapısı olan CI job'ı, 8 servis dizini = **kod 0** → adımlar bu etiketle yazılır |
 | **Diskte olmayan ADR'ye wiki-link kurulmaz** | ADR-041, ADR-050 (index kayıtları var, dosya YOK) → düz metin + `⚠️ VERIFICATION REQUIRED` (§6) |
-| **Tek yazma kanalı** | Vault yazımı `.ai/scripts/vault-utf8-writer.mjs`; `log.md` yalnız append |
+| **Tek yazma kanalı** | Vault yazımı `.ai/sources/scripts/vault-utf8-writer.mjs`; `log.md` yalnız append |
 | **REDACTED** | DB kullanıcı/şifre/host hiçbir koşulda yazılmaz (yalnız DB **adları** — herkese açık şema adıdır) |
 
 ---
@@ -181,7 +181,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 | 2 | **Diğerleri okuma API + olay** | Çapraz okuma (i) sahibin **read API**'si, (ii) **olay** (yayın → abone, ADR-081 outbox + WAL, PSR-14 event) ile — doğrudan `SELECT` başka DB'ye **yok** | Gateway (`shared/src/Api/Gateway.php`) üzerinden; servis↔servis HTTP zaten yasak (ADR-039 §2.2-b) |
 | 3 | **Açık istisnalar (kayıtlı)** | (a) **`coremusic_logs`** = append-only ortak alan (çok yazıcı) · (b) **`coremusic_patch`** = yalnız ADR-014 runner · (c) **`coremusic_api`** = Gateway hot-path · (d) **`coremusic_catalog`** = salt-okunur sözlük (tek yazıcı seed/owner) | Her istisna bu ADR'de yazılı; yenisi ancak **yeni ADR** ile eklenir |
 | 4 | **Erişim = en az yetki** | DB kullanıcıları şema-başına ayrılır; bir servisin diğer şemada `GRANT`'ı olmaz (bugün `GRANT` tanımı yok → ADR-022 §1.1 boşluğu) | `⚠️ VERIFICATION REQUIRED` — sunucu tarafı GRANT envanteri bu repo'da yok (REDACTED: kimlik bilgisi yazılmaz) |
-| 5 | **Şema-sahibi ≠ servis-sahibi** | Şema dosyasının sahibi **Data Engineer** (`.ai/AGENTS.md` §5: `*.sql` → Data Engineer); verinin sahibi servistir | Migration kapısı Data Engineer + Backend ortak (§2.2-d) |
+| 5 | **Şema-sahibi ≠ servis-sahibi** | Şema dosyasının sahibi **Data Engineer** (`.ai/raw/AGENTS.md` §5: `*.sql` → Data Engineer); verinin sahibi servistir | Migration kapısı Data Engineer + Backend ortak (§2.2-d) |
 
 #### §2.2-c Cross-DB politikası: varsayılan YASAK + belgelenmiş istisnalar + kademeli temizlik
 
@@ -221,7 +221,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 | **Tek kapı** | Şema değişimi **yalnız** ADR-014 özel PHP runner'ından: versioned SQL (`NNNN_<slug>.sql`), **DB başına bağımsız sequence**, `schema_migrations` (`version, name, checksum, executed_at, duration_ms, applied_by`), `--dry-run` / `--verify` / `--status`, DB-seviyesi lock, **forward-only** (üretimde `down` yok) | [[ADR-014-multi-db-migration-strategy]] (kural IMPLEMENTED, runner **PLANNED kod 0**) |
 | **Sürüm tabloları** | `coremusic_patch.sql:14` `schema_versions` + `coremusic_system.sql:301-318` `system_schema_versions` (DB-başına unique) → runner bu tabloları kullanır, ikinci sürüm tablosu açılmaz | IMPLEMENTED (şema) |
 | **Elle DDL yasak** | Üretimde/development'da konsoldan `ALTER` = politika ihlali; istisna yalnız **acil hotfix** ve bu durumda `log.md` append + derhal runner'a geri kayıt | Kural (yeni) — denetim K2 |
-| **İndeks/performans kararı** | Yavaş sorgu + indeks kararı sahip servisin işidir, şema sahibi Data Engineer **onaylar** (`.ai/AGENTS.md` §5) | ADR-002 (`EXPLAIN` kapısı) + ADR-033 (indeks politikası sorgu workload'una bağlı) |
+| **İndeks/performans kararı** | Yavaş sorgu + indeks kararı sahip servisin işidir, şema sahibi Data Engineer **onaylar** (`.ai/raw/AGENTS.md` §5) | ADR-002 (`EXPLAIN` kapısı) + ADR-033 (indeks politikası sorgu workload'una bağlı) |
 | **Cross-DB değişiklik** | İki DB birden değişiyorsa **expand → deploy → contract** (iki aşamalı, tek deploy'da asla) — ADR-014 §2.2 ile aynı kapı | [[ADR-014-multi-db-migration-strategy]] |
 
 ---
@@ -286,7 +286,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 | 1 | Bu ADR'yi şablondan üret + künye/§1-§7 dolu (Guardrail #16) | Vault Steward | 3 dk | ✅ UYGULANDI (2026-09-26) |
 | 2 | Şema + servis kanıtı taraması (18 dosya, 156 tablo, PK/FK sayımı, 28 cross-DB listesi, `registerMySql`/`DB_*_NAME` taraması) | Vault Steward + Data | 2 dk | ✅ UYGULANDI (2026-09-26) |
 | 3 | `.ai/log.md`'ye 1 satır append (kayıt: `ADR-040-database-authority yazildi (48181 bayt, 385 satir, debate PENDING) + .decisions/index.md satir 82 duzeltildi`) | Vault Steward | 1 dk | ✅ UYGULANDI (2026-09-26) |
-| 4 | **`[[../index.md]]:82` satırının** `[[../brain.md]] ADR-040-database-authority` biçiminden bu dosyaya bağlanması (`[[accepted/ADR-040-database-authority]]`) | Vault Steward | 1 dk | ✅ UYGULANDI (2026-09-26) |
+| 4 | **`[[../index.md]]:82` satırının** `[[../../raw/brain.md]] ADR-040-database-authority` biçiminden bu dosyaya bağlanması (`[[accepted/ADR-040-database-authority]]`) | Vault Steward | 1 dk | ✅ UYGULANDI (2026-09-26) |
 | 5 | **K1 statik kapı:** `*.sql` `REFERENCES <şema>.` taraması CI job'una (`ci.yml` yanına yeni job) + istisna defteri (§2.2-c) deny-listesi | DevOps + Data | 2 gün | ⏳ PLANNED |
 | 6 | **K2 kapı:** ADR-014 runner MVP (`shared/src/Database/Migration/` + `bin/migrate.php`) + `--verify` çıktısının CI'a bağlanması | Data + Backend | 2-3 oturum | ⏳ PLANNED (ADR-014 §5.1/1) |
 | 7 | **Faz 2 temizlik:** 28 FK'nın canlı DB'de uygulanma durumu → application-level ref / outbox (ADR-081) karşılığı yazılır, sonra FK düşürülür | Data + Backend | 10 gün | ⏳ PLANNED |
@@ -307,7 +307,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 3. **Kapı seviyesi (K1/K2):** Kapı yanlış kırmızı verirse job **atlanır** (workflow `continue-on-error`), kapı kalkmaz; denetim izi `log.md`'de kalır.
 4. **Faz 2 seviyesi:** FK geri eklenirse yeni migration satırı (forward-only) açılır; istisna defterine "geri alındı" notu **yeni satır** olarak yazılır (eski satır silinmez).
 5. **Dizin seviyesi:** `index.md` kayıt satırı geri alınırsa `—` olarak işaretlenir, silinmez.
-6. **Bozulma durumunda:** `node .ai/scripts/vault-utf8-writer.mjs repair --file <dosya>` (yedek alır) → gerekirse `git checkout` (`.ai/AGENTS.md` §17 #10).
+6. **Bozulma durumunda:** `node .ai/sources/scripts/vault-utf8-writer.mjs repair --file <dosya>` (yedek alır) → gerekirse `git checkout` (`.ai/raw/AGENTS.md` §17 #10).
 
 ---
 
@@ -316,9 +316,9 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 | Dosya (wiki-link) | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme — §18 "18 BCNF veritabanı, 156 tablo" (envanter özeti) |
-| [[../../brain.md]] | `:296` §11 18 BCNF tablosu (bu matrisin girdisi) · `:1000` `ADR-040 \| 18 BCNF veritabanı otoritesi` slotu · `:868/:1041` ADR-040 atıfları |
-| [[../../AGENTS.md]] | Agent registry — §5 domain boundary (`*.sql` → Data Engineer), §18 #7 layer violation |
-| [[../../WORKFLOW.md]] | Süreç/fazlar — uygulama adımlarının bağlandığı akış |
+| [[../../raw/brain.md]] | `:296` §11 18 BCNF tablosu (bu matrisin girdisi) · `:1000` `ADR-040 \| 18 BCNF veritabanı otoritesi` slotu · `:868/:1041` ADR-040 atıfları |
+| [[../../raw/AGENTS.md]] | Agent registry — §5 domain boundary (`*.sql` → Data Engineer), §18 #7 layer violation |
+| [[../../raw/WORKFLOW.md]] | Süreç/fazlar — uygulama adımlarının bağlandığı akış |
 | [[../../index.md]] | Master katalog |
 | [[../../log.md]] | Audit trail — bu ADR'nin append kaydı |
 | [[../index.md]] | Karar dizini `:82` slug satırı (bu dosyaya bağlanması §5.1 adım 4) |
@@ -346,11 +346,11 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 | [[../../architecture/k5-veri-yonetimi/README.md]] | K5 veri katmanı kataloğu |
 | [[../../architecture/k0-isletim-sistemi/README.md]] | L0 altyapı katmanı — 18 DB'nin barınma zemini |
 | [[../../architecture/k8-servis/README.md]] | K8 servis katmanı — sahiplik eşleşmesinin (b)2 olay kuralı |
-| [[../../.sql/mysql/coremusic_user.sql]] | **11 cross-DB FK** (istisna X-01…X-11) |
-| [[../../.sql/mysql/coremusic_social.sql]] | **13 cross-DB FK** (istisna X-12…X-24) |
-| [[../../.sql/mysql/coremusic_system.sql]] | **4 cross-DB FK** (istisna X-25…X-28) |
-| [[../../.sql/mysql/coremusic_patch.sql]] | `schema_versions` / `migration_log` / `patches` — sürüm takibi IMPLEMENTED |
-| [[../../.sql/mysql/coremusic_auth.sql]] | Cross-DB FK'ların **hedefi** (`users`) + BCNF self-declaration |
+| [[../../sources/.sql/mysql/coremusic_user.sql]] | **11 cross-DB FK** (istisna X-01…X-11) |
+| [[../../sources/.sql/mysql/coremusic_social.sql]] | **13 cross-DB FK** (istisna X-12…X-24) |
+| [[../../sources/.sql/mysql/coremusic_system.sql]] | **4 cross-DB FK** (istisna X-25…X-28) |
+| [[../../sources/.sql/mysql/coremusic_patch.sql]] | `schema_versions` / `migration_log` / `patches` — sürüm takibi IMPLEMENTED |
+| [[../../sources/.sql/mysql/coremusic_auth.sql]] | Cross-DB FK'ların **hedefi** (`users`) + BCNF self-declaration |
 
 **Wiki-link KURULMAYAN (diskte dosya YOK → düz metin + `⚠️ VERIFICATION REQUIRED`):**
 

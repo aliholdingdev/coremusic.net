@@ -7,7 +7,7 @@ updated: "2026-09-30"
 version: "1.0.0"
 status: "accepted"
 authority: "SSOT — CoreMusic platform / cihaz-servis mimarisi (A0-A5, L0-L6) kararı: (a) **5 cihaz sınıfı** = gömülü · monitör · masaüstü · mobil · otomotiv (kullanıcı onaylı; `ui-design` T07-embedded/T17-monitor hizası) ve bunların `DeviceManager` 7 tipi + 45-tier/11 kategori ile **eşleme tablosu** — `4k-tv` tipinin sınıfı ve otomotiv tipinin PHP tespiti ⚠️ VERIFICATION REQUIRED, (b) **\"13 servis\" iddiası DOĞRULANAMADI** (tek iz `keys.md:163` → `electronic/service-architecture.md` = **0 dosya hayalet**) → bağlayıcı sayı **11 alan servisi** = ADR-039 §2.1 + `.ai/CLAUDE.md:106` \"Infra (11)\"; 13 satırı ⚠️ altında kalır ve vault reset'ine ertelenir, (c) **cihaz↔servis eşleme matrisi** (5 sınıf × 11 servis — BFF 4'lüsü `Desktop/Embedded/Mobile/Spa` IMPLEMENTED, otomotiv BFF **yok** ⚠️), (d) **sayım çelişkisi** 13 / 11 / 9 / 7 / 11-subdomain tek tabloya bağlandı (yeni sayı üretilmez — ADR-039 C1 kuralı), (e) **sınır** = ADR-061 (L6 + bileşen politikası), ADR-062 (DSP pipeline), ADR-063 (tasarım standartları) — üçü de yeniden alınmaz"
-kaynak: "Disk kanıtı taraması (2026-09-30: `.ai/.decisions/index.md:95` slug satırı MEVCUT (`ADR-064-electronics-platform-architecture`) · `.ai/index.md:696` · `.ai/brain.md:1012` · `.ai/keys.md:163,288` · `.ai/MEMORY.md:673` · `.ai/VISION.md:253` · bu işlem öncesi `**/ADR-064*.md` = **0 dosya** → metin diskte YOKTU · `electronic/**` glob = **0 dosya** → `keys.md:163` hedefi hayalet · `shared/src/Device/DeviceManager.php:29-40` = **7 tip** (embedded/phone/tablet/laptop/desktop/4k-tv/4k-monitor) · `DeviceCssMap.php:8-33` 7 cihaz CSS + 4 view-mode (`home/pro/studio/car`) · `DeviceDetector.php:21-26` kırılımlar · `shared/src/Api/Bff/` = **4 BFF** (Spa/Mobile/Embedded/Desktop) + BffLayer · `shared/config/domain.php:7-15` = **7 subdomain** · `shared/src/Config/CLAUDE.md:45-55` = **9 satır** domain tablosu · `shared/AGENTS.md` §2 \"9 subdomain\" · `.ai/CLAUDE.md:106` K8 = \"…+ Infra (11)\" · `ADR-039 §2.1` = **11 servis** (3 IMPLEMENTED: auth 70 dosya · home 29 · assets 550; 8 PLANNED) · `architecture/k8-servis/README.md` §2 = **7** işlev · `ecosystem/README.md:27-33` = **7** servis (Download \"IMPLEMENTED\" ↔ ADR-039 \"PLANNED\" ⚠️ drift) · `ecosystem/index.md:302` = \"7 servis, 10 panel, 11 subdomain\" · `ui-design/00-device-matrix.md` = **11 kategori / 45 tier** · `ui-design/screens/` = T07-embedded **12** spec + T17-monitor **2** spec + shared **6** · `ui-design/flow/automotive` = 2 · `home.coremusic.net/pages/home.php` grep = 3 isabet (MEMORY:673 \"5 cihaz bloğu\" ile **kismen** tutuyor → ⚠️) · `ADR-061:219` şart 2 (ADR-064 doğrulama kapısı) · `git ls-files` `*.cpp|*.h|*.hpp|*.c|*.ts` = **0** → C++/Node servis kodu PLANNED) + web araştırması (**6 sorgu / 52 kaynak bildirimi** — 5 websearch + 1 exa; tekrar tespit edilmedi)"
+kaynak: "Disk kanıtı taraması (2026-09-30: `.ai/.decisions/index.md:95` slug satırı MEVCUT (`ADR-064-electronics-platform-architecture`) · `.ai/index.md:696` · `.ai/raw/brain.md:1012` · `.ai/raw/keys.md:163,288` · `.ai/raw/MEMORY.md:673` · `.ai/raw/VISION.md:253` · bu işlem öncesi `**/ADR-064*.md` = **0 dosya** → metin diskte YOKTU · `electronic/**` glob = **0 dosya** → `keys.md:163` hedefi hayalet · `shared/src/Device/DeviceManager.php:29-40` = **7 tip** (embedded/phone/tablet/laptop/desktop/4k-tv/4k-monitor) · `DeviceCssMap.php:8-33` 7 cihaz CSS + 4 view-mode (`home/pro/studio/car`) · `DeviceDetector.php:21-26` kırılımlar · `shared/src/Api/Bff/` = **4 BFF** (Spa/Mobile/Embedded/Desktop) + BffLayer · `shared/config/domain.php:7-15` = **7 subdomain** · `shared/src/Config/CLAUDE.md:45-55` = **9 satır** domain tablosu · `shared/AGENTS.md` §2 \"9 subdomain\" · `.ai/CLAUDE.md:106` K8 = \"…+ Infra (11)\" · `ADR-039 §2.1` = **11 servis** (3 IMPLEMENTED: auth 70 dosya · home 29 · assets 550; 8 PLANNED) · `architecture/k8-servis/README.md` §2 = **7** işlev · `ecosystem/README.md:27-33` = **7** servis (Download \"IMPLEMENTED\" ↔ ADR-039 \"PLANNED\" ⚠️ drift) · `ecosystem/index.md:302` = \"7 servis, 10 panel, 11 subdomain\" · `ui-design/00-device-matrix.md` = **11 kategori / 45 tier** · `ui-design/screens/` = T07-embedded **12** spec + T17-monitor **2** spec + shared **6** · `ui-design/flow/automotive` = 2 · `home.coremusic.net/pages/home.php` grep = 3 isabet (MEMORY:673 \"5 cihaz bloğu\" ile **kismen** tutuyor → ⚠️) · `ADR-061:219` şart 2 (ADR-064 doğrulama kapısı) · `git ls-files` `*.cpp|*.h|*.hpp|*.c|*.ts` = **0** → C++/Node servis kodu PLANNED) + web araştırması (**6 sorgu / 52 kaynak bildirimi** — 5 websearch + 1 exa; tekrar tespit edilmedi)"
 governance: "Red Team → Human Mode → Truth Mode"
 debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 ---
@@ -31,21 +31,21 @@ CoreMusic'in platform tarafı (A0-A5: HW/altyapı) iki sayıyla tanımlanmış d
 
 | İddia | Kanıt | Etiket |
 |-------|-------|--------|
-| ADR-064 slotu ayrılmış mı? | [[../index.md]] `:95` → `\| ../brain.md ADR-064-electronics-platform-architecture \| Electronics Platform Architecture \| Electronics \|` · [[../../index.md]] `:696` · [[../../brain.md]] `:1012` · [[../../keys.md]] `:288` | ✅ **KAYITLI** (4 indeks satırı) |
+| ADR-064 slotu ayrılmış mı? | [[../index.md]] `:95` → `\| ../brain.md ADR-064-electronics-platform-architecture \| Electronics Platform Architecture \| Electronics \|` · [[../../index.md]] `:696` · [[../../raw/brain.md]] `:1012` · [[../../raw/keys.md]] `:288` | ✅ **KAYITLI** (4 indeks satırı) |
 | ADR-064 dosyası bu işlem öncesi diskte var mıydı? | glob `.ai/.decisions/**/ADR-064*.md` = **0 dosya** | ❌ **YOKTU** → bu işlemde yazılıyor |
-| **"13 servis" nereden geliyor?** | [[../../keys.md]] `:163` → `service architecture, 13 servis \| electronic/service-architecture.md` · `electronic/**` glob = **0 dosya** · repo genelinde "13 servis" = **tek isabet** (bu keys satırı) | ❌ **HAYALET HEDEF — DOĞRULANAMADI** → §2(b) |
+| **"13 servis" nereden geliyor?** | [[../../raw/keys.md]] `:163` → `service architecture, 13 servis \| electronic/service-architecture.md` · `electronic/**` glob = **0 dosya** · repo genelinde "13 servis" = **tek isabet** (bu keys satırı) | ❌ **HAYALET HEDEF — DOĞRULANAMADI** → §2(b) |
 | **11 servis (bağlayıcı)** | [[ADR-039-7-service-platform-architecture]] `§2.1` = main · auth · music · media · download · admin · studio · car · home · assets · dev · [[../../CLAUDE.md]] `:106` K8 = "Control, Media, Audio, Device, Network, AI, Download **+ Infra (11)**" | ✅ **KAYITLI** (kullanıcı onaylı envanter) |
 | 11'in fiziksel durumu | ADR-039 §2.1: **3 IMPLEMENTED** (`auth.coremusic.net/` 70 dosya · `home.coremusic.net/` 29 dosya · `assets.coremusic.net/` 550 dosya) + **8 PLANNED** (main/music/media/download/admin/studio/car/dev — 7'sinde dizin **YOK**, `*.ts` = 0) | ✅ **IMPLEMENTED/PLANNED ayrımı yazılı** |
 | 9 subdomain | `shared/src/Config/CLAUDE.md:45-55` = **9 satır** (coremusic · music · admin · download · media · auth · home · car · studio) · `shared/AGENTS.md` §2 "domain.php (9 subdomain)" · `DomainConfig.php` "9 subdomain" | ✅ **ÇELİŞKİ (9 ↔ 11)** → §2(d) |
 | 7 subdomain | `shared/config/domain.php:7-15` `subdomains` = **7** (auth · home · assets · music · admin · media · **api**) | ✅ **ÇELİŞKİ (7 ↔ 9 ↔ 11)** → §2(d) |
 | 7 K8 servisi | `architecture/k8-servis/README.md` §2 (Control · Media · Audio · Device · Network · AI · Download) · `ecosystem/README.md:27-33` aynı 7'li · `ecosystem/index.md:302` "7 servis, 10 panel, 11 subdomain" | ✅ **işlev kesiti** (alan kesiti değil) |
-| **"5 cihaz" nereden geliyor?** | [[../../brain.md]] `:1012` · [[../../index.md]] `:696` · [[../../keys.md]] `:288` "5 cihaz ailesi" · [[../../MEMORY.md]] `:673` "DeviceManager.php + home.php v6.0.0 (**5 cihaz HTML bloğu**)" · [[../../VISION.md]] `:253` Free plan "5 cihaz" = **cihaz limiti (farklı anlam)** | ⚠️ **kısmen destekli** → §2(a) |
+| **"5 cihaz" nereden geliyor?** | [[../../raw/brain.md]] `:1012` · [[../../index.md]] `:696` · [[../../raw/keys.md]] `:288` "5 cihaz ailesi" · [[../../raw/MEMORY.md]] `:673` "DeviceManager.php + home.php v6.0.0 (**5 cihaz HTML bloğu**)" · [[../../raw/VISION.md]] `:253` Free plan "5 cihaz" = **cihaz limiti (farklı anlam)** | ⚠️ **kısmen destekli** → §2(a) |
 | Cihaz tipi envanteri (kod) | `shared/src/Device/DeviceManager.php:29-40` = **7 tip** (`embedded, phone, tablet, laptop, desktop, 4k-tv, 4k-monitor`) · `DeviceCssMap.php:8-33` 7 cihaz CSS + **4 view-mode** (`home, pro, studio, car`) · `DeviceDetector.php:21-26` kırılım: phone ≤767 · tablet/embedded ≤1024 · laptop ≤1440 · desktop ≤2560 · 4k-tv ≤3840 | ✅ **IMPLEMENTED** (PHP) |
 | UI katmanı | `ui-design/00-device-matrix.md:31-46` = **11 kategori / 45 tier** · `screens/` = T07-embedded **12** spec · T17-monitor-22fhd **2** spec · shared **6** · `flow/automotive` **2** · `flow/watch` **1** | ✅ **IMPLEMENTED (doküman)** |
 | BFF (cihaz↔API köprüsü) | `shared/src/Api/Bff/` = `SpaBff.php` · `MobileBff.php` · `EmbeddedBff.php` · `DesktopBff.php` + `BffLayer.php` (**4 cihaz BFF'i**) | ✅ **IMPLEMENTED** — **otomotiv BFF'i yok** ⚠️ |
 | `car` sınıfının kod karşılığı | `DeviceCssMap.php:32` `'car' => '09_ViewModes/v-car.css'` (view-mode) · `DeviceManager`/`DeviceDetector`'da `car` sabiti **YOK** | ⚠️ **EKSİK** → §5.1/3 |
 | `4k-tv` sınıf karşılığı | 5 onaylı sınıfın (gömülü/monitör/masaüstü/mobil/otomotiv) **hiçbiri TV içermiyor**; `4k-tv` tipi sınıfsız | ⚠️ **BOŞLUK** → §5.1/4 |
-| home.php 5 blok iddiası | [[../../MEMORY.md]] `:673` (2026-09-02) vs. bugünkü `home.coremusic.net/pages/home.php` grep = **3 isabet** (embedded class) | ⚠️ **kısmi teyit** — "5 blok" bugün doğrulanamadı |
+| home.php 5 blok iddiası | [[../../raw/MEMORY.md]] `:673` (2026-09-02) vs. bugünkü `home.coremusic.net/pages/home.php` grep = **3 isabet** (embedded class) | ⚠️ **kısmi teyit** — "5 blok" bugün doğrulanamadı |
 | Servis↔cihaz bağı (envanter) | `ecosystem/README.md:33` **Download "IMPLEMENTED"** ↔ [[ADR-039-7-service-platform-architecture]] `:121` **"PLANNED"** (`download.coremusic.net/` glob = 0 dosya) | ⚠️ **KATALOG DRIFT** → §4.3/R5 |
 | ADR-061 doğrulama şartı | [[ADR-061-electronics-architecture]] `:219` adım 14 "Şart 2 — ADR-064 doğrulama kapısı … ⏳ debate şartı" | ✅ **bu ADR ile kapanır** (§2(b)) |
 | Kod kanıtı (C++/Node/Python servis) | `git ls-files` `*.cpp\|*.h\|*.hpp\|*.c\|*.ts` = **0 dosya** · `*.py` = 1 (vault scripti) | ⏳ **PLANNED** — Audio/Device/Network + download servisi kodsuz |
@@ -207,10 +207,10 @@ Sayılar zaten vault'ta **var** (7 PHP tipi, 4 BFF, 11 servis, 45 tier); eksik o
 | Servis envanteri bağlayıcılığı | [[ADR-039-7-service-platform-architecture]] §2.1 + `C1/C2` | ✅ çelişki bu ADR §2(c)'de bağlandı, liste **değişmedi** |
 | Pipeline ölçüm/PLATFORM ayrımı | [[ADR-062-dsp-pipeline-architecture]] | ✅ sınır korundu (kapsam dışı) |
 | Standartlar ayrımı | [[ADR-063-hardware-design-standards]] `:127` "platform ADR-064" | ✅ boşluk bu ADR ile doldu |
-| UI tier/ekran envanteri | [[../../ui-design/00-device-matrix]] (`screens/` 12+2+6) | ✅ eşleme §2(a) — tier değişmedi |
+| UI tier/ekran envanteri | [[../../sources/ui-design/00-device-matrix]] (`screens/` 12+2+6) | ✅ eşleme §2(a) — tier değişmedi |
 | SPA router / gateway / shared / event | `ADR-083 · ADR-084 · ADR-085 · ADR-086` | ⚠️ dosyalar diskte YOK → düz metin |
 | `electronic/` hayalet SSOT | `keys.md:163` → `electronic/service-architecture.md` | ⚠️ 0 dosya → §5.1/2 |
-| `index.md:95` `[[../brain.md]]` hedefi | [[../index.md]] satır 95 | ⚠️ slug satırı var, **hedef düzeltmesi reset'e ertelendi** (§5.1/9) |
+| `index.md:95` `[[../../raw/brain.md]]` hedefi | [[../index.md]] satır 95 | ⚠️ slug satırı var, **hedef düzeltmesi reset'e ertelendi** (§5.1/9) |
 
 ---
 
@@ -228,7 +228,7 @@ Sayılar zaten vault'ta **var** (7 PHP tipi, 4 BFF, 11 servis, 45 tier); eksik o
 | 6 | `BffLayer.php` okunup monitör↔`DesktopBff` varsayımının teyidi (ya da `MonitorBff` kararı) + sınıf bazlı kabul testleri | Backend + QA | 1 gün | ⏳ PLANNED (⚠️ V.R.) |
 | 7 | `ecosystem/README.md:33` "Download IMPLEMENTED" ↔ ADR-039 "PLANNED" katalog drift düzeltmesi | MO (vault-updater) | 0.5 gün | ⏳ **bu işlemde dokunulmadı** (raporlandı) |
 | 8 | Debate 3 tur + Tech Lead onayı | MO + persona | 1 gün | ✅ **TAMAMLANDI** (2026-09-30 — 3 tur / 20 persona, 18/2/0 KABUL — §7.2) |
-| 9 | `.decisions/index.md:95` `[[../brain.md]]` → gerçek ADR hedefine düzeltme | MO (vault-updater) | sonraki vault reset | ⏳ **ertelendi** (bu işlemde rapor-only) |
+| 9 | `.decisions/index.md:95` `[[../../raw/brain.md]]` → gerçek ADR hedefine düzeltme | MO (vault-updater) | sonraki vault reset | ⏳ **ertelendi** (bu işlemde rapor-only) |
 | 10 | `download/` vb. PLANNED dizinler + C++/Node kodu geldikçe ADR-039 §2.1 durum satırlarının güncellenmesi (envanter tek elden) | Backend + DevOps | sürekli | ⏳ PLANNED |
 
 ### 5.2 Geri Dönüş Planı
@@ -256,20 +256,20 @@ Debate **RED** çıkarsa: dosya `.ai/.decisions/rejected/` taşınır (dosya ad�
 |-------|-------|----|--------|
 | `.ai/.decisions/index.md` | `:95` | slug `ADR-064-electronics-platform-architecture` | ✅ hizalı (dosya adı ile birebir) |
 | `.ai/index.md` | `:696` | "ADR-064 … (L0-L6, 5 cihaz, 13 servis)" | ⚠️ 13 → §5.1/1 (reset) |
-| `.ai/brain.md` | `:1012` | aynı özet satırı | ⚠️ 13 → §5.1/1 |
+| `.ai/raw/brain.md` | `:1012` | aynı özet satırı | ⚠️ 13 → §5.1/1 |
 | `.ai/keys.md` | `:163` · `:288` | hayalet `electronic/service-architecture.md` · "5 cihaz ailesi, 13 servis" | ❌ 0 dosya → ⚠️ §5.1/2 |
 | `.ai/CLAUDE.md` | `:106` | K8 = "…+ Infra **(11)**" | ✅ 11 hizası |
 | `.ai/.decisions/accepted/ADR-039-7-service-platform-architecture.md` | `§2.1` (`:113-131`) · `C1/C2` | 11 servis + IMPLEMENTED/PLANNED + 7 kesit notu | ✅ dosya var — **bağlayıcı envanter** |
 | `.ai/.decisions/accepted/ADR-061-electronics-architecture.md` | `:22` · `:129` · `:219` | V.R. şart 2 + "doğrulanamadı" notu | ✅ dosya var — **bu ADR kapatır** |
 | `.ai/.decisions/accepted/ADR-062-dsp-pipeline-architecture.md` · `ADR-063-hardware-design-standards.md` | künye · `:127,178` | sınır ve "ADR-064 diskte YOK" kaydı | ✅ dosya var |
-| `.ai/CLAUDE.md` · `.ai/architecture/index.md` · `.ai/ecosystem/README.md` · `.ai/ecosystem/index.md` | `:106` · `:319` · `:27-33` · `:302` | K8 11 · k8 14 dosya · 7 servis (Download ⚠️) · 7 servis/11 subdomain | ✅ / ⚠️ drift → §5.1/7 |
+| `.ai/CLAUDE.md` · `.ai/architecture/index.md` · `.ai/raw/README.md` · `.ai/raw/index.md` | `:106` · `:319` · `:27-33` · `:302` | K8 11 · k8 14 dosya · 7 servis (Download ⚠️) · 7 servis/11 subdomain | ✅ / ⚠️ drift → §5.1/7 |
 | `.ai/architecture/k8-servis/README.md` | §2 · §3 · §5 | 7 işlev düğümü · 9 olay · doğrudan çağrı yasak | ✅ IMPLEMENTED (doküman) |
 | `shared/src/Device/DeviceManager.php` · `DeviceCssMap.php` · `DeviceDetector.php` | `:29-40` · `:8-33` · `:21-26` | 7 tip · 7 CSS + 4 view-mode · kırılımlar | ✅ IMPLEMENTED (kod) |
 | `shared/src/Api/Bff/*.php` | 5 dosya | `BffLayer` + Spa/Mobile/Embedded/Desktop BFF | ✅ IMPLEMENTED (kod) — otomotiv **yok** |
 | `shared/config/domain.php` · `shared/src/Config/CLAUDE.md` · `shared/AGENTS.md` | `:7-15` · `:45-55` · §2 | 7 subdomain · 9 satır tablo · "9 subdomain" | ⚠️ çelişki → §2(c) |
-| `.ai/ui-design/00-device-matrix.md` | `:31-48` · `:373-374` | 11 kategori / 45 tier · EM-T07/T08 | ✅ IMPLEMENTED (doküman) |
+| `.ai/sources/ui-design/00-device-matrix.md` | `:31-48` · `:373-374` | 11 kategori / 45 tier · EM-T07/T08 | ✅ IMPLEMENTED (doküman) |
 | `.ai/ui-design/screens/` · `flow/` | T07 **12** · T17 **2** · shared **6** · automotive **2** | cihaz sınıfı ekran spec'leri | ✅ / `T17 welcome-popup` draft ⚠️ |
-| `.ai/MEMORY.md` · `.ai/VISION.md` | `:673` · `:253` | "5 cihaz bloğu" (2026-09-02) · "Free = 5 cihaz" (limit) | ⚠️ kısmi / anlam ayrımı |
+| `.ai/raw/MEMORY.md` · `.ai/raw/VISION.md` | `:673` · `:253` | "5 cihaz bloğu" (2026-09-02) · "Free = 5 cihaz" (limit) | ⚠️ kısmi / anlam ayrımı |
 | `home.coremusic.net/pages/home.php` | grep = 3 isabet | "5 blok" bugün doğrulanamadı | ⚠️ V.R. |
 | `git ls-files` | — | `*.cpp\|h\|hpp\|c\|ts` = **0** | ⏳ PLANNED |
 
@@ -277,8 +277,8 @@ Debate **RED** çıkarsa: dosya `.ai/.decisions/rejected/` taşınır (dosya ad�
 
 - Şablon: [[../../.templates/adr/adr-template.md]] (Guardrail #16) — format referansı: [[ADR-063-hardware-design-standards]] · sınır kaynağı: [[ADR-061-electronics-architecture]] · envanter kaynağı: [[ADR-039-7-service-platform-architecture]]
 - İlgili ADR'ler: [[ADR-062-dsp-pipeline-architecture]] · [[ADR-031-mobile-strategy-pwa-flutter]] · [[ADR-037-wirelessconnect-integration]] · [[ADR-029-listening-rooms-social]] · [[ADR-058-centralized-auth-service]] · [[ADR-039-7-service-platform-architecture]] · [[ADR-026-download-service-architecture]] · [[ADR-032-ipc-contract-versioning]] · [[ADR-005-ultrathink-protocol]]
-- Vault kökü: [[../../index.md]] · [[../../brain.md]] · [[../../keys.md]] · [[../../MEMORY.md]] · [[../../log.md]] · [[../../CLAUDE.md]] · [[../index.md]]
-- Spec/kanıt dosyaları: [[../../ui-design/00-device-matrix]] · [[../../architecture/index]] · [[../../../shared/src/Config/CLAUDE.md]]
+- Vault kökü: [[../../index.md]] · [[../../raw/brain.md]] · [[../../raw/keys.md]] · [[../../raw/MEMORY.md]] · [[../../log.md]] · [[../../CLAUDE.md]] · [[../index.md]]
+- Spec/kanıt dosyaları: [[../../sources/ui-design/00-device-matrix]] · [[../../architecture/index]] · [[../../../shared/src/Config/CLAUDE.md]]
 - Dizin kayıtları (düz metin — dizin hedefidir, .md değildir → wiki-link değil): `shared/src/Device/` · `shared/src/Api/Bff/` · `ui-design/screens/T07-embedded/` (12 md) · `ui-design/screens/T17-monitor-22fhd/` (2 md) · `ui-design/flow/automotive/` · `architecture/k8-servis/` · `ecosystem/` · `servers/`
 - Diskte **olmayan** (düz metin + ⚠️): `ADR-082` · `ADR-083` · `ADR-084` · `ADR-085` · `ADR-086` · `electronic/` (0 dosya) · `electronic/service-architecture.md` · `download.coremusic.net/` (0 dosya) · C++/Node/Python servis kodu (`*.cpp/h/hpp/c/ts` = 0)
 

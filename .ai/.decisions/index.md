@@ -37,42 +37,42 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 | ADR | Başlık | Kategori |
 |-----|--------|----------|
-| [[ADR-001-vanilla-js-itcss]] | Vanilla JS + ITCSS, Framework Yasak | Frontend |
-| [[ADR-002-pdo-mandatory-no-orm]] | PDO Mandatory, ORM Yasak | Database |
-| [[ADR-003-multi-db-bcnf]] | Multi-DB 9 BCNF Veritabanı | Database |
-| [[ADR-004-multi-domain-spa]] | Multi-Domain SPA Architecture | Architecture |
-| [[ADR-005-ultrathink-protocol]] | Ultrathink Protocol (Zero Hallucination) | Architecture |
-| [[ADR-006-performance-targets]] | Performance Targets | Architecture |
-| [[ADR-007-cache-namespace]] | Cache Namespace Standard | Architecture |
-| [[ADR-008-bypass-auth-middleware]] | Bypass Auth Middleware | Security |
-| [[ADR-009-clean-url-redirect]] | Clean URL Redirect | Routing |
-| [[ADR-010-csrf-protection-strategy]] | CSRF Protection Strategy | Security |
-| [[ADR-011-session-management]] | Session Management | Security |
-| [[ADR-012-csp-nonce-strict-dynamic]] | CSP Nonce Strict-Dynamic | Security |
-| [[ADR-013-rate-limiting-apcu]] | Rate Limiting APCu | Security |
-| [[ADR-014-multi-db-migration-strategy]] | Multi-DB Migration Strategy | Database |
-| [[ADR-015-env-parser-strategy]] | Env Parser Strategy | Infrastructure |
-| [[ADR-016-url-normalization]] | URL Normalization | Routing |
-| [[ADR-017-dsp-hardware-mode]] | DSP Hardware Mode (XMOS, JUCE, ASIO) | Audio |
-| [[ADR-018-footer-player-vaporwave]] | Footer Player Vaporwave | Frontend |
-| [[ADR-019-per-os-neva-player]] | Per-OS Neva Player | Audio |
-| [[ADR-020-api-public-security]] | API Public Security | Security |
-| [[ADR-021-spa-router-immutable-contract]] | SPA Router Immutable Contract | Routing |
-| [[ADR-022-database-hardened-security]] | Database Hardened Security | Security |
-| [[ADR-023-persona-driven-testing]] | Persona-Driven Testing | Testing |
-| [[ADR-024-ecosystem-modular-docs]] | Ecosystem Modular Docs | Documentation |
-| [[ADR-025-professional-eq-system]] | Professional EQ System (31-band) | Audio |
-| [[ADR-026-download-service-architecture]] | Download Service Architecture | Architecture |
-| [[ADR-027-dual-mode-storage-strategy]] | Dual-Mode Storage Strategy | Infrastructure |
-| [[ADR-028-anti-ban-system]] | Anti-Ban System | Download |
-| [[ADR-029-listening-rooms-social]] | Listening Rooms Social | Social |
-| [[ADR-030-ai-strategy-core]] | AI Strategy Core | AI |
-| [[ADR-031-mobile-strategy-pwa-flutter]] | Mobile Strategy PWA/Flutter | Mobile |
-| [[ADR-032-ipc-contract-versioning]] | IPC Contract Versioning | Architecture |
-| [[ADR-033-sql-normalization-strategy]] | SQL Normalization Strategy | Database |
-| [[ADR-034-credential-vault-normalization]] | Credential Vault Normalization | Security |
-| [[ADR-035-system-prompt-engineering]] | System Prompt Engineering | AI |
-| [[ADR-036-multi-project-prompt-maker]] | Multi-Project Prompt Maker | AI |
+| [[accepted/ADR-001-vanilla-js-itcss]] | Vanilla JS + ITCSS, Framework Yasak | Frontend |
+| [[accepted/ADR-002-pdo-mandatory-no-orm]] | PDO Mandatory, ORM Yasak | Database |
+| [[accepted/ADR-003-multi-db-bcnf]] | Multi-DB 9 BCNF Veritabanı | Database |
+| [[accepted/ADR-004-multi-domain-spa]] | Multi-Domain SPA Architecture | Architecture |
+| [[accepted/ADR-005-ultrathink-protocol]] | Ultrathink Protocol (Zero Hallucination) | Architecture |
+| [[accepted/ADR-006-performance-targets]] | Performance Targets | Architecture |
+| [[accepted/ADR-007-cache-namespace]] | Cache Namespace Standard | Architecture |
+| [[accepted/ADR-008-bypass-auth-middleware]] | Bypass Auth Middleware | Security |
+| [[accepted/ADR-009-clean-url-redirect]] | Clean URL Redirect | Routing |
+| [[accepted/ADR-010-csrf-protection-strategy]] | CSRF Protection Strategy | Security |
+| [[accepted/ADR-011-session-management]] | Session Management | Security |
+| [[accepted/ADR-012-csp-nonce-strict-dynamic]] | CSP Nonce Strict-Dynamic | Security |
+| [[accepted/ADR-013-rate-limiting-apcu]] | Rate Limiting APCu | Security |
+| [[accepted/ADR-014-multi-db-migration-strategy]] | Multi-DB Migration Strategy | Database |
+| [[accepted/ADR-015-env-parser-strategy]] | Env Parser Strategy | Infrastructure |
+| [[accepted/ADR-016-url-normalization]] | URL Normalization | Routing |
+| [[accepted/ADR-017-dsp-hardware-mode]] | DSP Hardware Mode (XMOS, JUCE, ASIO) | Audio |
+| [[accepted/ADR-018-footer-player-vaporwave]] | Footer Player Vaporwave | Frontend |
+| [[accepted/ADR-019-per-os-neva-player]] | Per-OS Neva Player | Audio |
+| [[accepted/ADR-020-api-public-security]] | API Public Security | Security |
+| [[accepted/ADR-021-spa-router-immutable-contract]] | SPA Router Immutable Contract | Routing |
+| [[accepted/ADR-022-database-hardened-security]] | Database Hardened Security | Security |
+| [[accepted/ADR-023-persona-driven-testing]] | Persona-Driven Testing | Testing |
+| [[accepted/ADR-024-ecosystem-modular-docs]] | Ecosystem Modular Docs | Documentation |
+| [[accepted/ADR-025-professional-eq-system]] | Professional EQ System (31-band) | Audio |
+| [[accepted/ADR-026-download-service-architecture]] | Download Service Architecture | Architecture |
+| [[accepted/ADR-027-dual-mode-storage-strategy]] | Dual-Mode Storage Strategy | Infrastructure |
+| [[accepted/ADR-028-anti-ban-system]] | Anti-Ban System | Download |
+| [[accepted/ADR-029-listening-rooms-social]] | Listening Rooms Social | Social |
+| [[accepted/ADR-030-ai-strategy-core]] | AI Strategy Core | AI |
+| [[accepted/ADR-031-mobile-strategy-pwa-flutter]] | Mobile Strategy PWA/Flutter | Mobile |
+| [[accepted/ADR-032-ipc-contract-versioning]] | IPC Contract Versioning | Architecture |
+| [[accepted/ADR-033-sql-normalization-strategy]] | SQL Normalization Strategy | Database |
+| [[accepted/ADR-034-credential-vault-normalization]] | Credential Vault Normalization | Security |
+| [[accepted/ADR-035-system-prompt-engineering]] | System Prompt Engineering | AI |
+| [[accepted/ADR-036-multi-project-prompt-maker]] | Multi-Project Prompt Maker | AI |
 
 ## 4. Active ADR'ler (037-093 — diskte dosyası olanlar)
 
@@ -108,7 +108,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[accepted/ADR-077-studio-database-schema]] | Studio DB Schema | Database |
 | [[accepted/ADR-078-cms-database-schema]] | CMS DB Schema | Database |
 | [[accepted/ADR-079-i18n-database-schema]] | i18n DB Schema | Database |
-| [[ADR-081-multi-provider-data-sync]] | Multi-Provider Data Sync (Outbox+WAL) | Database |
+| [[accepted/ADR-081-multi-provider-data-sync]] | Multi-Provider Data Sync (Outbox+WAL) | Database |
 | [[accepted/ADR-082-dev-environment]] | Dev/Staging Environment Architecture | Infrastructure |
 | ADR-083-spa-router | SPA Router Architecture | Architecture <!-- NO FILE on disk 2026-10-06 — brain.md only --> |
 | ADR-084-api-gateway-architecture | API Gateway Architecture | Architecture <!-- NO FILE on disk 2026-10-06 — brain.md only --> |
@@ -132,13 +132,13 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 | ADR | Başlık | Red Nedeni |
 |-----|--------|------------|
-| [[R-001-redux-style-state-management]] | Redux-Style State | Framework yasağı |
-| [[R-002-mongodb-document-store]] | MongoDB | BCNF uyumsuz |
-| [[R-003-jquery-ui-framework]] | jQuery | Framework yasağı |
-| [[R-004-webpack-bundle-system]] | Webpack | Over-engineering |
-| [[R-005-rest-only-api]] | REST-Only | WebSocket gerekli |
-| [[R-006-laravel-eloquent-orm]] | Eloquent ORM | ORM yasak |
-| [[R-007-firebase-authentication]] | Firebase Auth | Harici bağımlılık |
+| [[rejected/R-001-redux-style-state-management]] | Redux-Style State | Framework yasağı |
+| [[rejected/R-002-mongodb-document-store]] | MongoDB | BCNF uyumsuz |
+| [[rejected/R-003-jquery-ui-framework]] | jQuery | Framework yasağı |
+| [[rejected/R-004-webpack-bundle-system]] | Webpack | Over-engineering |
+| [[rejected/R-005-rest-only-api]] | REST-Only | WebSocket gerekli |
+| [[rejected/R-006-laravel-eloquent-orm]] | Eloquent ORM | ORM yasak |
+| [[rejected/R-007-firebase-authentication]] | Firebase Auth | Harici bağımlılık |
 | R-008-mysql-myisam-engine | MyISAM | Transaction eksik <!-- NO FILE on disk 2026-10-06 --> |
 | R-009-single-database-architecture | Single DB | Güvenlik/performans <!-- NO FILE on disk 2026-10-06 --> |
 | R-010-nodejs-backend-fullstack | Node.js Full Stack | PHP zorunlu <!-- NO FILE on disk 2026-10-06 --> |

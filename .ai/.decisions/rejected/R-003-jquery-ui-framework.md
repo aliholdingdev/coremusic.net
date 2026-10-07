@@ -191,7 +191,7 @@ Bu karar **kod tarafında geri alınacak bir şey üretmedi** (jQuery hiç girme
 | [[../accepted/ADR-004-multi-domain-spa]] | Gerekçe ailesi — `:83` "React/Vue/jQuery YASAK", `:160` framework bağımlılığı ret satırı |
 | [[../accepted/ADR-012-csp-nonce-strict-dynamic]] | CSP gadget yüzeyi — `:60` eski jQuery gadget'ları riski (§2.2) |
 | [[../accepted/ADR-045-multi-domain-view-mode-architecture]] | `:130` "jQuery yok — VirtualScroller yerel sınıf" (yerel BEM bileşen emsali) |
-| [[../../brain]] | Mimari karar özeti (frontend/framework satırı) |
+| [[../../raw/brain]] | Mimari karar özeti (frontend/framework satırı) |
 | [[R-001-redux-style-state-management]] | Seri kardeşi — aynı salt-okunur red kayıt formatı (bu dosyanın format referansı); framework-bağımlılığı gerekçe ailesi |
 | [[R-002-mongodb-document-store]] | Seri kardeşi — aynı salt-okunur red kayıt formatı (kanıt tablosu/dürüst etiket deseni) |
 | Dizin satırı | `index.md:128` — slug otoritesi + dead-link bayrağı (§5.1/3) |

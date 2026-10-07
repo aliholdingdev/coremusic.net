@@ -7,7 +7,7 @@ updated: "2026-09-30"
 version: "1.0.0"
 status: "accepted"
 authority: "SSOT — CoreMusic DSP pipeline (A0/Embedded-DSP) kararı: (a) **sinyal zinciri** tek, sabit sıralı seri blok zinciridir — Giriş → EQ (grafik → parametrik) → Dynamics → Efekt → Mix/Route → Master → Çıkış; paralel EQ **yok** (ADR-025-d hizası), (b) **hard-RT kısıtları** ADR-017'ye tam hizalıdır (buffer/latency bütçesi, tahsisat/kilit/bloklayıcı I/O yasağı, xrun politikası) — **tekrar yok**, bu ADR yalnız pipeline'a özgü(stage) ekler, (c) **katman sınırı**: pipeline mantığı bu ADR'de, yürütme yeri ve RT garantisi sahibi ADR-017'nin 3 katmanındadır (XMOS firmware · JUCE/Neva Engine · ASIO/WASAPI) — bu ADR katmanları **yeniden almaz**, (d) **parametre değişimi**: RT-güvenli (lock-free kuyruk/çift-tampon + blok-sınırı uygulama + one-pole smoothing, zipper-noise önleme, DF2T/float32/FTZ) — ADR-025-e hizası"
-kaynak: "Disk kanıtı taraması (2026-09-30: `.ai/.decisions/index.md:93` slug satırı MEVCUT (`ADR-062-dsp-pipeline-architecture`) · `.ai/index.md:694`, `.ai/brain.md:1010`, `.ai/keys.md:286`, `.ai/architecture/index.md:98`, `k3-ses-motoru/README.md:329`, `k3-ses-motoru/CLAUDE.md:62` · bu işlem öncesi `**/ADR-062*.md` = **0 dosya** → metin diskte YOKTU · repo geneli `*.cpp|*.h|*.hpp|*.c` (vendor/node_modules/.git/dist/build hariç) = **0 dosya** (**tekrar doğrulandı**) → DSP kodu YOK · `.ai/architecture/k3-ses-motoru/` = **18** .md · `architecture/firmware/` = **8** .md · `electronic/` (kök + `.ai/architecture/`) Test-Path = **False** → **0 dosya** (ADR-061 bulgusu doğrulandı) · `.ai/projects/` Test-Path = **False** → AGENTS §24.3 'NevaEngine dizini var, 0 dosya' ifadesi **eskimiş**: dizin **hiç yok** · `ADR-063`/`ADR-064` glob = **0 dosya** (yalnız ADR-061 diskte) → düz metin + ⚠️ · `.ai/log.md:98` 'NevaEngine 12 header ~79KB' iddiası diskte **karşılıksız** ⚠️ · `dsp-chain.md:16-39, 41-65, 68-103, 108, 143, 169-174, 373-381` · `mixer-routing.md:16, 34, 174, 375` · `neva-engine-core.md:12` · `eq-parametric.md:12` · `dynamics-compressor.md:12` · `stream-buffer.md:12`) + web araştırması (**5 sorgu / 24 adlandırılmış kaynak**)"
+kaynak: "Disk kanıtı taraması (2026-09-30: `.ai/.decisions/index.md:93` slug satırı MEVCUT (`ADR-062-dsp-pipeline-architecture`) · `.ai/index.md:694`, `.ai/raw/brain.md:1010`, `.ai/raw/keys.md:286`, `.ai/architecture/index.md:98`, `k3-ses-motoru/README.md:329`, `k3-ses-motoru/CLAUDE.md:62` · bu işlem öncesi `**/ADR-062*.md` = **0 dosya** → metin diskte YOKTU · repo geneli `*.cpp|*.h|*.hpp|*.c` (vendor/node_modules/.git/dist/build hariç) = **0 dosya** (**tekrar doğrulandı**) → DSP kodu YOK · `.ai/architecture/k3-ses-motoru/` = **18** .md · `architecture/firmware/` = **8** .md · `electronic/` (kök + `.ai/architecture/`) Test-Path = **False** → **0 dosya** (ADR-061 bulgusu doğrulandı) · `.ai/projects/` Test-Path = **False** → AGENTS §24.3 'NevaEngine dizini var, 0 dosya' ifadesi **eskimiş**: dizin **hiç yok** · `ADR-063`/`ADR-064` glob = **0 dosya** (yalnız ADR-061 diskte) → düz metin + ⚠️ · `.ai/log.md:98` 'NevaEngine 12 header ~79KB' iddiası diskte **karşılıksız** ⚠️ · `dsp-chain.md:16-39, 41-65, 68-103, 108, 143, 169-174, 373-381` · `mixer-routing.md:16, 34, 174, 375` · `neva-engine-core.md:12` · `eq-parametric.md:12` · `dynamics-compressor.md:12` · `stream-buffer.md:12`) + web araştırması (**5 sorgu / 24 adlandırılmış kaynak**)"
 governance: "Red Team → Human Mode → Truth Mode"
 debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 ---
@@ -31,7 +31,7 @@ CoreMusic'in ses işleme tasarımı vault'ta **dağınık ama fazlasıyla yazıl
 
 | İddia | Kanıt | Etiket |
 |-------|-------|--------|
-| ADR-062 slotu ayrılmış mı? | [[../index.md]] `:93` → `\| ../brain.md ADR-062-dsp-pipeline-architecture \| DSP Pipeline Architecture \| Electronics \|` · [[../../index.md]] `:694` · [[../../brain.md]] `:1010` · [[../../keys.md]] `:286` · `.ai/architecture/index.md:98` (`K3 \| Ses Motoru \| 50 \| 18 \| ADR-025, ADR-062`) | ✅ **KAYITLI** (6 indeks/katalog satırı) |
+| ADR-062 slotu ayrılmış mı? | [[../index.md]] `:93` → `\| ../brain.md ADR-062-dsp-pipeline-architecture \| DSP Pipeline Architecture \| Electronics \|` · [[../../index.md]] `:694` · [[../../raw/brain.md]] `:1010` · [[../../raw/keys.md]] `:286` · `.ai/architecture/index.md:98` (`K3 \| Ses Motoru \| 50 \| 18 \| ADR-025, ADR-062`) | ✅ **KAYITLI** (6 indeks/katalog satırı) |
 | ADR-062 dosyası bu işlem öncesi diskte var mıydı? | glob `.ai/.decisions/**/ADR-06*` = **yalnız ADR-061** (062/063/064 = 0) | ❌ **YOKTU** → bu işlemde yazılıyor |
 | **DSP kodu** (biquad/filter/gain/mixer/buffer) | repo geneli `*.cpp\|*.h\|*.hpp\|*.c` (vendor/node_modules/.git/dist/build hariç) = **0 dosya**; `biquad\|processBlock\|lock-free` grep'i `*.cpp/h` = **0 isabet** — **iki bağımsız tarama, ikisi de 0** | ⏳ **PLANNED** (kod yok → her aşama PLANNED) |
 | `log.md:98` "NevaEngine 12 header, ~79KB, `dsp_pipeline.h`, `biquad_filter.h`" iddiası | diskte bu dosyalar **yok** (kod taraması 0) | ⚠️ **VAULT BEYANI — DOĞRULANAMADI** |
@@ -254,11 +254,11 @@ Giriş Gain → Kanal/Format/SR → [EQ Grafik → EQ Parametrik] → Dynamics �
 | [[ADR-038-8-1-sound-card-chip-selection]] · [[ADR-089-classab-24v]] · [[ADR-090-channel-variant-product-family]] | Donanım/ürün ailesi — pipeline'ın taşıyıcısı (çip yeniden seçilmez) |
 | [[ADR-006-performance-targets]] | Kapı: `<10ms ASIO / <20ms WASAPI` — bu ADR'nin latency kapısının sahibi |
 | [[ADR-019-per-os-neva-player]] · [[ADR-005-ultrathink-protocol]] · [[ADR-013-rate-limiting-apcu]] · [[ADR-024-ecosystem-modular-docs]] · [[ADR-001-vanilla-js-itcss]] | Fallback/kill-switch · kanıt standardı · sayaç/limit · wiki-link disk kuralı · web katmanı sınırı |
-| [[../../index.md]] `:694` · [[../../brain.md]] `:1010` · [[../../keys.md]] `:286` · [[../index.md]] `:93` | ADR-062 kaydı — dosya bu slotu doldurdu (özet-link düzeltmesi ertelendi — §1.4) |
+| [[../../index.md]] `:694` · [[../../raw/brain.md]] `:1010` · [[../../raw/keys.md]] `:286` · [[../index.md]] `:93` | ADR-062 kaydı — dosya bu slotu doldurdu (özet-link düzeltmesi ertelendi — §1.4) |
 | `.ai/architecture/index.md:98` · `k3-ses-motoru/README.md:329` · `k3-ses-motoru/CLAUDE.md:62` | K3 ↔ ADR-062 çapraz kayıt satırları (düz metin) |
 | `[[../../architecture/k3-ses-motoru/dsp-chain]]` · `[[../../architecture/k3-ses-motoru/mixer-routing]]` · `[[../../architecture/k3-ses-motoru/neva-engine-core]]` · `[[../../architecture/k3-ses-motoru/eq-parametric]]` · `[[../../architecture/k3-ses-motoru/dynamics-compressor]]` · `[[../../architecture/k3-ses-motoru/stream-buffer]]` | Pipeline spec kaynakları (18 dokümanın çekirdeği) |
 | `[[../../architecture/firmware/xmos-firmware]]` · `[[../../architecture/k2-surucu/asio-drivers]]` | Katman-1 ve katman-3 spec'i (ADR-017 hizası) |
-| [[../../AGENTS.md]] §24.3 · `.ai/log.md:98` · `.ai/reports/faz6-link-ledger.md:89` | NevaEngine "dizin var 0 dosya" ifadesi **eskimiş** (dizin yok) · "12 header" iddiası ⚠️ · kırık-link defteri (062 bu işlemle kapanır) |
+| [[../../raw/AGENTS.md]] §24.3 · `.ai/log.md:98` · `.ai/reports/faz6-link-ledger.md:89` | NevaEngine "dizin var 0 dosya" ifadesi **eskimiş** (dizin yok) · "12 header" iddiası ⚠️ · kırık-link defteri (062 bu işlemle kapanır) |
 | `ADR-063-hardware-design-standards` · `ADR-064-electronics-platform-architecture` | **Düz metin — diskte dosya YOK → wiki-link KURULMADI** (`⚠️ VERIFICATION REQUIRED`) |
 
 ---
@@ -303,22 +303,22 @@ Giriş Gain → Kanal/Format/SR → [EQ Grafik → EQ Parametrik] → Dynamics �
 | `.ai/.decisions/index.md` | `:93` | slug = `ADR-062-dsp-pipeline-architecture` | ✅ dosya adı bu satıra hizalandı (sapma YOK) |
 | `.ai/.decisions/index.md` | `:94-95` | ADR-063 / ADR-064 satırları | ⚠️ satır var, **dosya yok** → düz metin + V.R. |
 | `.ai/index.md` | `:694` | ADR-062 kaydı (kök indeks) | ✅ hizalı |
-| `.ai/brain.md` | `:1010` | `ADR-062 \| DSP Pipeline Architecture` | ✅ bu ADR o özeti doldurur |
-| `.ai/keys.md` | `:286` | `ADR-062 \| DSP pipeline architecture \| Electronics` | ✅ hizalı |
+| `.ai/raw/brain.md` | `:1010` | `ADR-062 \| DSP Pipeline Architecture` | ✅ bu ADR o özeti doldurur |
+| `.ai/raw/keys.md` | `:286` | `ADR-062 \| DSP pipeline architecture \| Electronics` | ✅ hizalı |
 | `.ai/architecture/index.md` | `:98` | `K3 \| Ses Motoru \| 50 \| 18 \| ADR-025, ADR-062` | ✅ K3 ↔ bu ADR bağı kuruldu |
 | `.ai/architecture/k3-ses-motoru/dsp-chain.md` | `:16-39, 41-65, 68-103, 169-174, 373-381` | 15 aşama · `noexcept` arayüz · biquad · `MAX_BANDS=31` · "Gerçek" metrikler | ✅ §2(a), §2(b) kanıtı · ⚠️ metrikler ölçülmedi |
 | `.ai/architecture/k3-ses-motoru/mixer-routing.md` | `:16, 34, 174` | bus mimarisi · channel strip · routing matrix | ✅ §2(a) aşama 7 |
-| `.ai/AGENTS.md` | §24.3 (Embedded satırı) | "`projes/NevaEngine/*.md` ⚠️ dizin var, 0 dosya" | ⚠️ **eskimiş**: `.ai/projects` **hiç yok** → §5.1/9 |
+| `.ai/raw/AGENTS.md` | §24.3 (Embedded satırı) | "`projes/NevaEngine/*.md` ⚠️ dizin var, 0 dosya" | ⚠️ **eskimiş**: `.ai/projects` **hiç yok** → §5.1/9 |
 | `.ai/log.md` | `:98` | "NevaEngine 12 header, ~79KB, `dsp_pipeline.h`" | ⚠️ **diskte karşılıksız** → §4.3 risk 6 |
 | `.ai/reports/faz6-link-ledger.md` | `:89` | `ADR-061..064` kırık hedef listesi | ✅ 062 bu işlemle kapandı · 063/064 açık |
-| `.ai/MEMORY.md` | `:656` | "3 yeni ADR (061-063)" | ⚠️ 061 ✅ · **062 ✅ (bu işlem)** · 063 hâlâ yok |
+| `.ai/raw/MEMORY.md` | `:656` | "3 yeni ADR (061-063)" | ⚠️ 061 ✅ · **062 ✅ (bu işlem)** · 063 hâlâ yok |
 | `electronic/` · `.ai/projects/` | — | ADR-061 0-dosya bulgusu · AGENTS §24.3 | ✅ ikisi de **False** (yeniden doğrulandı) |
 
 ### 6.2 Bağlantılar
 
 - Şablon: [[../../.templates/adr/adr-template.md]] (Guardrail #16) — format referansı: [[ADR-061-electronics-architecture]]
 - İlgili ADR'ler: [[ADR-017-dsp-hardware-mode]] · [[ADR-025-professional-eq-system]] · [[ADR-006-performance-targets]] · [[ADR-019-per-os-neva-player]] · [[ADR-038-8-1-sound-card-chip-selection]] · [[ADR-089-classab-24v]] · [[ADR-090-channel-variant-product-family]] · [[ADR-005-ultrathink-protocol]] · [[ADR-013-rate-limiting-apcu]] · [[ADR-024-ecosystem-modular-docs]] · [[ADR-001-vanilla-js-itcss]]
-- Vault kökü: [[../../index.md]] · [[../../brain.md]] · [[../../keys.md]] · [[../../MEMORY.md]] · [[../../log.md]] · [[../../AGENTS.md]] · [[../index.md]]
+- Vault kökü: [[../../index.md]] · [[../../raw/brain.md]] · [[../../raw/keys.md]] · [[../../raw/MEMORY.md]] · [[../../log.md]] · [[../../raw/AGENTS.md]] · [[../index.md]]
 - Spec dokümanları: [[../../architecture/k3-ses-motoru/dsp-chain]] · [[../../architecture/k3-ses-motoru/mixer-routing]] · [[../../architecture/k3-ses-motoru/neva-engine-core]] · [[../../architecture/k3-ses-motoru/eq-parametric]] · [[../../architecture/k3-ses-motoru/dynamics-compressor]] · [[../../architecture/k3-ses-motoru/stream-buffer]] · [[../../architecture/firmware/xmos-firmware]] · [[../../architecture/k2-surucu/asio-drivers]]
 - Dizin kayıtları (düz metin): `architecture/k3-ses-motoru/` (18 .md) · `architecture/firmware/` (8 .md) — **dizin hedefidir, .md dosyası değildir → wiki-link değil**
 - Diskte **olmayan** (düz metin + ⚠️): `ADR-063-hardware-design-standards` · `ADR-064-electronics-platform-architecture` · `electronic/` · `.ai/projects/NevaEngine/` · `architecture/l6-electronics`

@@ -39,19 +39,19 @@ CoreMusic'in masaüstü ses yolu **üç işletim sisteminde** çalışmak zorund
   - Aynı dizin: `buffer-management.md`, `latency-optimization.md`, `driver-stack-mimari.md`, `bluetooth-a2dp.md`, `usb-audio-class.md`, `network-audio-drivers.md` + `README.md`/`index.md`/`CLAUDE.md`.
 - **Motor çekirdeği spec'i — `.ai/architecture/k3-ses-motoru/neva-engine-core.md` (IMPLEMENTED doküman):**
   - `:12` — "C++20 … **real-time safe** ve **lock-free**"; **satır 46-70** `namespace neva::rt` hard-RT kuralları (YASAK: `new/malloc`, `std::mutex`, file I/O, sleep); **satır 76-80** `SPSCRingBuffer` (lock-free veri yolu) — **çekirdek zaten OS'tan bağımsız tasarlanmış**, adapter boşluğu bu ADR ile kapanır.
-- **Backend seçim + edge-case — `.ai/brain.md` (IMPLEMENTED):**
+- **Backend seçim + edge-case — `.ai/raw/brain.md` (IMPLEMENTED):**
   - **satır 862** — `ASIO Device Loss | USB kopması | **WASAPI fallback → Null Output** | [[ADR-017-dsp-hardware-mode]]` (**ASIO → WASAPI → Null sırası** bu kararın seçim zinciridir).
   - **satır 218** — K2 sürücü katmanı "ASIO, WASAPI, ALSA, **PipeWire**, I2S"; **satır 286** "ASIO Buffer: 512 sample varsayılan (64-1024), 48kHz, 32-bit float, ~10.67ms"; **satır 382** §7.2 ASIO callback örneği.
-- **Sınır/eksalasyon — `.ai/AGENTS.md`:** **§17 satır 169** "ASIO device loss → WASAPI fallback" (Edge Case 6); **§10.1** "ASIO cihaz kaybı L1(Embedded) → L2, 30s"; **§15** Windows Software Engineer (`win-sw`) "WASAPI, COM, WinRT, WDK" · Embedded Engineer "C++20, JUCE, ASIO SDK" (adapter sahipliği bu iki agent arasında bölünür).
-- **Dizin kayıtları (önceden rezerve — bu dosya ile canlanır):** `.ai/.decisions/index.md:56` · `.ai/index.md:636` · `.ai/brain.md:974` · `.ai/keys.md:254` · `.ai/architecture/index.md:95` (K0 "ADR-017, ADR-019") · `k0-isletim-sistemi/README.md:393` + `k0-isletim-sistemi/CLAUDE.md:51` + `k0-isletim-sistemi/windows-api.md:258` + `k2-surucu/README.md:234` (hepsi `ADR-019 | Per-OS Neva Player`) · `.ai/.templates/adr/adr-index.md:90` (`🔴 core`, `adr-audio-template.md ⚠️`).
+- **Sınır/eksalasyon — `.ai/raw/AGENTS.md`:** **§17 satır 169** "ASIO device loss → WASAPI fallback" (Edge Case 6); **§10.1** "ASIO cihaz kaybı L1(Embedded) → L2, 30s"; **§15** Windows Software Engineer (`win-sw`) "WASAPI, COM, WinRT, WDK" · Embedded Engineer "C++20, JUCE, ASIO SDK" (adapter sahipliği bu iki agent arasında bölünür).
+- **Dizin kayıtları (önceden rezerve — bu dosya ile canlanır):** `.ai/.decisions/index.md:56` · `.ai/index.md:636` · `.ai/raw/brain.md:974` · `.ai/raw/keys.md:254` · `.ai/architecture/index.md:95` (K0 "ADR-017, ADR-019") · `k0-isletim-sistemi/README.md:393` + `k0-isletim-sistemi/CLAUDE.md:51` + `k0-isletim-sistemi/windows-api.md:258` + `k2-surucu/README.md:234` (hepsi `ADR-019 | Per-OS Neva Player`) · `.ai/.templates/adr/adr-index.md:90` (`🔴 core`, `adr-audio-template.md ⚠️`).
 - **Eski çelişki (düzeltme kaydı):** `.ai/.decisions/accepted/ADR-006-performance-targets.md:291` "ADR-019 … dosyalar diskte YOK → düz metin, wiki-link kurulmaz" — **bu yazım ile dosya diskte canlanır**, o satırın hükmü sona erer (ADR-006 frozen → metni değiştirilmez, yalnız bu ADR §4.4'te bağlanır).
 
 **B) KOD KATMANI — YOK → PLANNED (uydurulmadı — `⚠️ VERIFICATION REQUIRED`):**
 
 - **Kaynak dosya taraması:** `**/*.{cpp,h,hpp,cc}` glob → **0 dosya** (repo geneli) → Neva Player çekirdeği, adapter, backend kodu **henüz yazılmamıştır**.
-- **İçerik taraması (kod dosyaları `.php/.js/.cpp/.h/.ts`):** `neva` · `player` · `WASAPI` · `CoreAudio` · `ALSA` · `PipeWire` · `PortAudio` · `RtAudio` · `miniaudio` · `IAudioBackend` → **0 eşleşme** (tek istisna: `miniaudio`/`PortAudio` yalnız `.md` dokümanlarında — `.ai/ecosystem/ses-dsp-acik-kaynak.md:82,250`, `.ai/architecture/github-referanslari.md:58,171`, `VISION.md:82`).
+- **İçerik taraması (kod dosyaları `.php/.js/.cpp/.h/.ts`):** `neva` · `player` · `WASAPI` · `CoreAudio` · `ALSA` · `PipeWire` · `PortAudio` · `RtAudio` · `miniaudio` · `IAudioBackend` → **0 eşleşme** (tek istisna: `miniaudio`/`PortAudio` yalnız `.md` dokümanlarında — `.ai/raw/ecosystem/ses-dsp-acik-kaynak.md:82,250`, `.ai/architecture/github-referanslari.md:58,171`, `VISION.md:82`).
 - **`IAudioBackend` adı:** repo geneli grep → **0 sonuç** (kod + doküman) → arayüz bu ADR'de **ilk kez** tanımlanır, mevcut bir kod parçasına atıf yapılmaz.
-- **Dizin taraması:** `.ai/projects/NevaEngine/`, `neva/`, `engine/`, `audio/`, `player/` → YOK (ADR-017 §1.1-B ile aynı sonuç; `.ai/AGENTS.md` §24.3 "dizin var, 0 dosya" ifadesi de çelişkili → `⚠️ VERIFICATION REQUIRED`).
+- **Dizin taraması:** `.ai/projects/NevaEngine/`, `neva/`, `engine/`, `audio/`, `player/` → YOK (ADR-017 §1.1-B ile aynı sonuç; `.ai/raw/AGENTS.md` §24.3 "dizin var, 0 dosya" ifadesi de çelişkili → `⚠️ VERIFICATION REQUIRED`).
 - **`.ai/log.md:98` (2026-09-18) iddiası:** "NevaEngine … `driver/asio_driver.h`, `driver/wasapi_driver.h`" → dosya araması 0 → **desteksiz iddia** (ADR-017 §1.1-B'de kayıtlı; bu ADR de kod varmış gibi yazılmaz).
 
 **C) ÖZELLİK KATMANI — spec'te var, kodda yok (PLANNED):**
@@ -231,8 +231,8 @@ public:
 | [[ADR-001-vanilla-js-itcss]] | Web sınırı — native player bu ADR'de, web footer player ADR-018'de (kod yolları ayrık) |
 | [[../index]] | Satır 56 `[[ADR-019-per-os-neva-player]]` — slug eşleşmesi ✅ (bu dosya rezervasyonu doldurur) |
 | [[../../index.md]] | Satır 636 `decisions/accepted/ADR-019-per-os-neva-player` kaydı ✅ |
-| [[../../keys.md]] | Satır 254 `ADR-019 \| Neva Player, per-OS \| Audio` ✅ |
-| [[../../brain.md]] | Satır 974 `ADR-019 \| Per-OS Neva Player` ✅ · satır 862 fallback zinciri · §7.1-7.2 RT kuralları · satır 218 K2 backend listesi |
+| [[../../raw/keys.md]] | Satır 254 `ADR-019 \| Neva Player, per-OS \| Audio` ✅ |
+| [[../../raw/brain.md]] | Satır 974 `ADR-019 \| Per-OS Neva Player` ✅ · satır 862 fallback zinciri · §7.1-7.2 RT kuralları · satır 218 K2 backend listesi |
 | [[../../architecture/k2-surucu/asio-drivers]] | `:12,21,35,109` — ASIO exclusive 0.5ms, 32 sample, Exclusive/Shared, InvalidMode→Shared (§1.1-A, §2.2a/c) |
 | [[../../architecture/k2-surucu/wasapi-exclusive]] | `:12,38,126` — Exclusive/Shared, `Initialize()`, `DEVICE_IN_USE`→Shared (§1.1-A, §2.2c) |
 | [[../../architecture/k2-surucu/alsa-native]] | `:12,40,55` — tek başına/PipeWire, mmap, `set_rate_near` (§2.2a/d) |
@@ -240,9 +240,9 @@ public:
 | [[../../architecture/k2-surucu/core-audio-macos]] | `:12,46-57` — HAL/AudioUnit, `AudioDeviceID` property enumerasyonu (§2.2a/c) |
 | [[../../architecture/k3-ses-motoru/neva-engine-core]] | `:12,46-70,76-80` — RT kuralları + SPSC ring buffer (çekirdek, §2.2b-3) |
 | [[../../architecture/k0-isletim-sistemi/cross-platform-api]] | K0 çapraz-platform araç envanteri (pthreads/SDL2/libuv — adapter'ın bağlandığı katman) |
-| [[../../AGENTS.md]] | §5 `*.cpp → Embedded Engineer`, §6 routing (`C++, ASIO, JUCE, WASAPI → Embedded`), §15 `win-sw`, §17.6 ASIO→WASAPI fallback, §17.7 layer violation, §10.1 eskalasyon, §25.3 frozen |
+| [[../../raw/AGENTS.md]] | §5 `*.cpp → Embedded Engineer`, §6 routing (`C++, ASIO, JUCE, WASAPI → Embedded`), §15 `win-sw`, §17.6 ASIO→WASAPI fallback, §17.7 layer violation, §10.1 eskalasyon, §25.3 frozen |
 | [[../../CLAUDE.md]] | 16 Hard Guardrail, Guardrail #16, REDACTED; latency hedefi `:429` |
-| [[../../WORKFLOW.md]] | Debate/onay akışı başlangıcı |
+| [[../../raw/WORKFLOW.md]] | Debate/onay akışı başlangıcı |
 | [[../../.templates/adr/adr-template.md]] | Bu ADR'nin şablonu (Guardrail #16, 7 bölüm + §1.3 9 alan) |
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | `.claude/skills/prompt-maker/references/10-web-research-protocol.md` | §1.3 web araştırması protokolü (diskte VAR ✅) |
@@ -309,12 +309,12 @@ public:
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | [[../index]] | Karar dizini — **satır 56** `[[ADR-019-per-os-neva-player]]` (slug eşleşmesi ✅) |
 | [[../../CLAUDE.md]] | Vault ana sözleşmesi — 16 Hard Guardrail, REDACTED, Guardrail #16, latency hedefi `:429` |
-| [[../../AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`C++, ASIO, JUCE, WASAPI, hardware → Embedded`), §5 domain boundary (`*.cpp → Embedded Engineer`), §17.6/§17.7 edge case |
-| [[../../WORKFLOW.md]] | Debate/onay akışı başlangıcı |
-| [[../../brain.md]] | Satır 974 `ADR-019` kaydı ✅ · satır 862 fallback · §7.1-7.2 RT · satır 218 K2 · satır 286 buffer |
-| [[../../keys.md]] | Satır 254 ADR-019 keyword eşlemesi ✅ |
+| [[../../raw/AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`C++, ASIO, JUCE, WASAPI, hardware → Embedded`), §5 domain boundary (`*.cpp → Embedded Engineer`), §17.6/§17.7 edge case |
+| [[../../raw/WORKFLOW.md]] | Debate/onay akışı başlangıcı |
+| [[../../raw/brain.md]] | Satır 974 `ADR-019` kaydı ✅ · satır 862 fallback · §7.1-7.2 RT · satır 218 K2 · satır 286 buffer |
+| [[../../raw/keys.md]] | Satır 254 ADR-019 keyword eşlemesi ✅ |
 | [[../../index.md]] | Satır 636 ADR-019 kaydı ✅ |
-| [[../../glossary.md]] | Terim sözlüğü (adapter, backend, hot-plug, resample, kill-switch — ekleme ADR-019 uygulamasıyla) |
+| [[../../raw/glossary.md]] | Terim sözlüğü (adapter, backend, hot-plug, resample, kill-switch — ekleme ADR-019 uygulamasıyla) |
 | [[../../log.md]] | Audit trail — bu işlem tek satır append |
 | Debate sonucu | §5.3 — debate **✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)** (sonuç §7.1'e işlendi) |
 | Debate Şart 1 | §5.4 — `IAudioBackend` sözleşmesi + sözleşme testi iskeleti + katman denetimi + V.R. iddialar (1a-1c) |

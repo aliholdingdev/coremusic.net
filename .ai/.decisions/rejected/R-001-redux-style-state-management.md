@@ -176,7 +176,7 @@ Bu karar **kod tarafında geri alınacak bir şey üretmedi** (state library hi�
 | [[../accepted/ADR-001-vanilla-js-itcss]] | **Yerini alan (birincil):** frontend temeli — framework/iskelet yasağı; `:32/:126/:201` R-001 gerekçe referansları |
 | [[../accepted/ADR-004-multi-domain-spa]] | Gerekçe ailesi — `:160` "R-001 (Redux — framework bağımlılığı) ile aynı gerekçe ailesi"; `:30/:143` saf istemci router kanıtı |
 | [[../accepted/ADR-027-dual-mode-storage-strategy]] | **Yerini alan (state'in kalıcı yüzeyi):** localStorage/sessionStorage IMPLEMENTED, IndexedDB/SW PLANNED (`:37/:54`) |
-| [[../../brain]] | Mimari karar özeti (frontend/state satırı) |
+| [[../../raw/brain]] | Mimari karar özeti (frontend/state satırı) |
 | [[../accepted/ADR-045-multi-domain-view-mode-architecture]] | Cross-view view mode mimarisi — **diskte VAR** (2026-10-01 glob doğrulaması; ADR-004 `:19` "henüz yazılmadı" notu eskimiş → Tur 1 slug düzeltmesi) |
 | [[../accepted/ADR-046-cross-view-state-preservation]] | Cross-view state preservation — **diskte VAR** (2026-10-01 glob doğrulaması → Tur 1 slug düzeltmesi) |
 | Debate şartları (3 madde) | Bu dosya **§5.3** — (1) ADR-045/046 slug düzeltmesi ✅ (2) bundle rakamı çift kaynak (3) Signals yeniden değerlendirme kapısı |

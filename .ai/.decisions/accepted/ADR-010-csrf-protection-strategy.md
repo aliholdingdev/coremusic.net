@@ -268,7 +268,7 @@ Sunucu: CsrfMiddleware: hash_equals($_SESSION['csrf_token'], header/body)       
 | 10 | **Test kapısı:** §2.2f 9 test + `CsrfMiddlewareTest` genişletmesi (fail-closed satırı, API muafiyet, login kapsamı, rotasyon) — hepsi geçmeden adım 4/6/7 prod'a girmez | QA Engineer | 1 gün |
 | 11 | **`SameSite` assert CI'da:** Set-Cookie `Lax` (yedekte `Strict; Secure; __Host-`) + pipeline sırası testi yeşil (`MiddlewarePipelineTest` #6_Csrf) | QA + DevOps | 2 saat |
 | 12 | Cross-ref denetimi: ADR-004 (domain/SPA akışı), ADR-008 (bypass kapsamı değişmiyor — düz metin), ADR-011 (session — düz metin), ADR-012 (CSP kesişimi — düz metin) çelişmiyor | Security + Backend | 2 saat |
-| 13 | Vault senkronu: `[[../../brain]]` ADR-010 özeti + `.ai/.decisions/index.md` §3 satır durumu + debate/Tech Lead sonuçları (`log.md` append-only) | MO (vault-updater) | 1 saat |
+| 13 | Vault senkronu: `[[../../raw/brain]]` ADR-010 özeti + `.ai/.decisions/index.md` §3 satır durumu + debate/Tech Lead sonuçları (`log.md` append-only) | MO (vault-updater) | 1 saat |
 
 ### 5.2 Geri Dönüş Planı
 
@@ -294,11 +294,11 @@ Karar süreç karardır; geri dönüş yalnız **yeni ADR** ile olur (In-Place R
 | [[../index]] | Karar dizini — bu ADR'nin kaydı §3 `[[ADR-010-csrf-protection-strategy]]` (slug eşleşmesi ✅ — satır diskte mevcut, satır 47); ADR-011/012 satırları da burada (satır 48-49) |
 | [[../CLAUDE.md]] | Karar alt registry kuralı (accepted/) |
 | [[../../CLAUDE.md]] | Ana sözleşme — 16 Hard Guardrail (#16 şablon zorunluluğu), REDACTED politikası |
-| [[../../AGENTS.md]] | §16 (Security: "CSRF=`csrf_token`"), §10 escalation (CSRF/CSP uyumsuzluğu → L1 Security → L2), §17 #10 vault kurtarma, §25.2 (Middleware ×11 — `CsrfMiddleware` buna dahil), §25.3 frozen/append-only kuralları, §24.3 (Security okuma listesi: `.ai/.decisions/index.md (ADR-010)` + `shared/src/Middleware/`) |
-| [[../../brain]] | Mimari karar özeti — ADR-010 satırı vault-sync ile tazelenir |
+| [[../../raw/AGENTS.md]] | §16 (Security: "CSRF=`csrf_token`"), §10 escalation (CSRF/CSP uyumsuzluğu → L1 Security → L2), §17 #10 vault kurtarma, §25.2 (Middleware ×11 — `CsrfMiddleware` buna dahil), §25.3 frozen/append-only kuralları, §24.3 (Security okuma listesi: `.ai/.decisions/index.md (ADR-010)` + `shared/src/Middleware/`) |
+| [[../../raw/brain]] | Mimari karar özeti — ADR-010 satırı vault-sync ile tazelenir |
 | [[../../log]] | Audit trail — bu ADR ve debate/revizyon kayıtları append edilir (append-only) |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin 7 bölümlük şablonu (Guardrail #16) |
-| [[../../WORKFLOW.md]] | Süreçler — debate/onay akışı bağlamı |
+| [[../../raw/WORKFLOW.md]] | Süreçler — debate/onay akışı bağlamı |
 | `shared/src/Middleware/CsrfMiddleware.php` | **Katman 1 — IMPLEMENTED** (satır 24-58: metot kapsamı, token, `hash_equals`, 403); Origin/Referer + double-submit eklemeleri PLANNED (§5.1 #4) |
 | `shared/src/Middleware/OriginCheckMiddleware.php` | **Katman 3 — kısmen IMPLEMENTED / PLANNED:** allowlist 403 (satır 43-54) + pipeline #1 (Kernel satır 273); **fail-open (satır 39-41) + Referer fallback yok → fail-closed PLANNED** (§5.1 #4); doc comment satır 13 "ADR-010/022 uyumlu" |
 | `shared/src/Session/SessionInitializer.php` | **Katman 2 — IMPLEMENTED** (satır 40-47: `samesite => 'Lax'`, HttpOnly, Secure, `domain .coremusic.net`); Strict yedek cookie PLANNED (§2.2d) |

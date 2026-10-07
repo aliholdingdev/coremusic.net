@@ -16,10 +16,10 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL — §7.1 · bağlayı
 
 > **Durum:** ✅ **ACCEPTED** (kullanıcı onaylı kapsam a-f) · **Tarih:** 2026-09-29 · **Debate:** ✅ **TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL — §7.1)** · **Tech Lead:** ✅ · **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-048-view-transition-api-integration`
-> **İlgili kararlar:** [[ADR-004-multi-domain-spa]] (dual router — karar (e) zemini) · [[ADR-021-spa-router-immutable-contract]] (router immutable contract — karar (e)) · [[ADR-006-performance-targets]] (INP/kare bütçesi — karar (d)) · [[ADR-018-footer-player-vaporwave]] (prefers-reduced-motion hizası — karar (c)) · [[ADR-044-dynamic-user-theme-engine]] (tema fragment anahtarlama — karar (f)) · [[ADR-045-multi-domain-view-mode-architecture]] (view mode fragment — karar (f)) · [[ADR-046-cross-view-state-preservation]] (nav:complete 0 yayıncı ön koşulu — karar (e)) · [[ADR-005-ultrathink-protocol]] (zero hallucination — §1.1 dürüst etiket) · [[ADR-016-url-normalization]] (URL sözleşmesi korunur) · [[ADR-047-login-redirect-session-bridge]] (önceki ADR — biçim referansı) · [[../index.md]] · [[../../brain.md]]
+> **İlgili kararlar:** [[ADR-004-multi-domain-spa]] (dual router — karar (e) zemini) · [[ADR-021-spa-router-immutable-contract]] (router immutable contract — karar (e)) · [[ADR-006-performance-targets]] (INP/kare bütçesi — karar (d)) · [[ADR-018-footer-player-vaporwave]] (prefers-reduced-motion hizası — karar (c)) · [[ADR-044-dynamic-user-theme-engine]] (tema fragment anahtarlama — karar (f)) · [[ADR-045-multi-domain-view-mode-architecture]] (view mode fragment — karar (f)) · [[ADR-046-cross-view-state-preservation]] (nav:complete 0 yayıncı ön koşulu — karar (e)) · [[ADR-005-ultrathink-protocol]] (zero hallucination — §1.1 dürüst etiket) · [[ADR-016-url-normalization]] (URL sözleşmesi korunur) · [[ADR-047-login-redirect-session-bridge]] (önceki ADR — biçim referansı) · [[../index.md]] · [[../../raw/brain.md]]
 > **Ad gerekçesi:** slug `ADR-048-view-transition-api-integration` **disk kanıtından** alınmıştır — `.ai/.decisions/index.md:89` bu adı taşır; ayrıca `.ai/archives/prompt1-spa-router-2026-08-15.md` satır 423 (`*Detaylı metadata: [[ADR-048]]*`), 392 ve 556 ADR-048'i referanslar, satır 427 `document.startViewTransition(async () => {` örnek kodunu içerir — bu arşiv slug'ın ve kapsamın kaynağıdır. Bu dosya o boşluğu doldurur.
 > **⚠️ Düzeltme (prompt ↔ disk):** Üst görevde "ADR-005 dual router" denmişti; **diskte `ADR-005-ultrathink-protocol` (zero hallucination) — dual router DEĞİLDİR.** Dual/multi-domain router kararları **ADR-004** (multi-domain SPA) + **ADR-021** (router immutable contract) + **ADR-016** (URL normalization) zinciridir; **ADR-083** (SPA router) için diskte dosya **YOK** → düz metin + `⚠️ VERIFICATION REQUIRED`. Aynı düzeltme [[ADR-045-multi-domain-view-mode-architecture]] satır 132'de kayıtlıdır; bu ADR tekrarlar.
-> **Index durumu:** `.ai/.decisions/index.md:89`'da ADR-048 satırı **vardır** (`| [[../brain.md]] ADR-048-view-transition-api-integration | View Transition API | Frontend |`); satır 88/90'daki ADR-046/049 satırlarıyla **aynı biçimdedir**. Slug'ı doğru hedefe bağlayan wiki-link düzeltmesi **bir sonraki vault reset'ine ertelenmiştir** (bu işlemde index.md'ye dokunulmadı — report-only).
+> **Index durumu:** `.ai/.decisions/index.md:89`'da ADR-048 satırı **vardır** (`| [[../../raw/brain.md]] ADR-048-view-transition-api-integration | View Transition API | Frontend |`); satır 88/90'daki ADR-046/049 satırlarıyla **aynı biçimdedir**. Slug'ı doğru hedefe bağlayan wiki-link düzeltmesi **bir sonraki vault reset'ine ertelenmiştir** (bu işlemde index.md'ye dokunulmadı — report-only).
 > **Frozen notu:** ADR-001-037 **dokunulmamıştır** (yalnız atıf). Bu dosya Active aralığındadır, frozen değildir.
 
 ---
@@ -91,7 +91,7 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 
 | Kayıt | İçerik | Etiket |
 |---|---|---|
-| `.ai/.decisions/index.md:89` | `| [[../brain.md]] ADR-048-view-transition-api-integration | View Transition API | Frontend |` — satır **var**; `[[../brain.md]]` biçimi satır 88/90 (ADR-046/049) ile aynı | DOĞRULANDI (düzeltme reset'e ertelendi) |
+| `.ai/.decisions/index.md:89` | `| [[../../raw/brain.md]] ADR-048-view-transition-api-integration | View Transition API | Frontend |` — satır **var**; `[[../../raw/brain.md]]` biçimi satır 88/90 (ADR-046/049) ile aynı | DOĞRULANDI (düzeltme reset'e ertelendi) |
 | `.ai/archives/prompt1-spa-router-2026-08-15.md:392,423,556` | `[[ADR-048]]` / `[[.decisions/accepted/ADR-045-...]]` biçimli referanslar | DOĞRULANDI (arşiv; `.decisions` yolu nokta eksik — arşive dokunulmaz) |
 | Üst görev yönergesi | "ADR-005 dual router" | **ÇELİŞKİ** → disk: dual router = **ADR-004 + ADR-021 (+ ADR-016)**, ADR-005 = ultrathink (§ başlık notu + ADR-045:132) |
 
@@ -301,14 +301,14 @@ Sarmalayıcı noktası zaten **tek ve nettir**: DOM commit'i `NavigationOrchestr
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme, 16 Hard Guardrail |
-| [[../../AGENTS.md]] | Agent registry, onay/escalation §10, frozen kuralı §25.3 |
-| [[../../WORKFLOW.md]] | Süreçler, fazlar |
-| [[../../brain.md]] | Mimari karar özeti |
+| [[../../raw/AGENTS.md]] | Agent registry, onay/escalation §10, frozen kuralı §25.3 |
+| [[../../raw/WORKFLOW.md]] | Süreçler, fazlar |
+| [[../../raw/brain.md]] | Mimari karar özeti |
 | [[../../index.md]] | Master katalog |
-| [[../../keys.md]] | Keyword haritası |
-| [[../../MEMORY.md]] | Session hafızası |
+| [[../../raw/keys.md]] | Keyword haritası |
+| [[../../raw/MEMORY.md]] | Session hafızası |
 | [[../../log.md]] | Audit trail (append-only) |
-| [[../../glossary.md]] | Terimler (View Transition, view-transition-name, INP, feature-detect) |
+| [[../../raw/glossary.md]] | Terimler (View Transition, view-transition-name, INP, feature-detect) |
 | [[../index.md]] | Karar dizini — **ADR-048 satırı VAR (satır 89); slug wiki-link düzeltmesi reset'e ertelendi (§5.1 adım 10)** |
 | [[CLAUDE]] | `accepted/` dizin kuralı |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin zorunlu şablonu (Guardrail #16) |

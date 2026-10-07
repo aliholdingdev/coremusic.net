@@ -20,7 +20,7 @@ related:
   - "[[.ai/.decisions/accepted/ADR-011-session-management.md]]"
   - "[[.ai/.decisions/accepted/ADR-020-api-public-security.md]]"
   - "[[.ai/.decisions/accepted/ADR-003-multi-db-bcnf.md]]"
-  - "[[.ai/.sql/mysql/coremusic_wireless.sql]]"
+  - "[[.ai/sources/.sql/mysql/coremusic_wireless.sql]]"
 ---
 
 # ADR-037: WirelessConnect Integration — Eşleştirme · Bağlantı Yönetimi · Keşif · Güvenlik (çoklu-protokol)
@@ -69,11 +69,11 @@ Tarama kapsamı: repo geneli **399 kod dosyası** (260 `*.php` + `*.js` + `*.css
 | Ağ servisi spec | [[.ai/architecture/k8-servis/network-service.md]] `:253-254,:316` `mDNSResponder`, `:551` "mDNS | External | Apple Bonjour" |
 | K14 keşif katmanı (asıl ev) | [[.ai/architecture/k14-ag/mdns-discovery.md]] **RFC 6762 (mDNS) / 6763 (DNS-SD)** `:16`, UDP **5353** + `224.0.0.251` / `ff02::fb`, probing state machine `:100`, Bonjour/Avahi uyumluluğu `:244` · [[.ai/architecture/k14-ag/dlna-upnp.md]] **DLNA 1.5 / UPnP 2.0** `:16`, SSDP port **1900** `:289`, MediaServer/MediaRenderer/ControlPoint rolleri `:25` · [[.ai/architecture/k14-ag/airplay-streaming.md]] `:32` "mDNS Discovery" + `:44` "pairing + key exchange" · [[.ai/architecture/k14-ag/README.md]] `:148` K14.4 mDNS = 6 alt alan / 14 yaprak |
 | Ağ ses sürücüleri | [[.ai/architecture/k2-surucu/network-audio-drivers.md]] `:2` "Ağ Ses Sürücüleri" — **kablolu/ağ** odaklı, kablosuz eşleştirme kapsamı yok |
-| UI/UX spec | [[.ai/architecture/k10-uygulama/home-panel.md]] `:69` `DevicePairing.tsx` (PLANNED — `*.ts`=0), `:177-178` QR + Bluetooth eşleştirme, `:204` "Room management, **Device pairing**" · [[.ai/ui-design/flow/settings/02-bluetooth-connect.md]] **10451 b** (Pairing Flow diyagramı) · `.ai/ui-design/screens/T08-embedded/bluetooth-modal.md` **8364 b** (T08, RPi5 7") · `.ai/ui-design/prompt/page/12-bluetooth.md` **3739 b** · PNG `.ai/.png/home-1024/Linux 1024 - Bluetooth Quick Page Base.png` **618422 b** |
+| UI/UX spec | [[.ai/architecture/k10-uygulama/home-panel.md]] `:69` `DevicePairing.tsx` (PLANNED — `*.ts`=0), `:177-178` QR + Bluetooth eşleştirme, `:204` "Room management, **Device pairing**" · [[.ai/sources/ui-design/flow/settings/02-bluetooth-connect.md]] **10451 b** (Pairing Flow diyagramı) · `.ai/ui-design/screens/T08-embedded/bluetooth-modal.md` **8364 b** (T08, RPi5 7") · `.ai/sources/ui-design/prompt/page/12-bluetooth.md` **3739 b** · PNG `.ai/.png/home-1024/Linux 1024 - Bluetooth Quick Page Base.png` **618422 b** |
 
 **C) Veri katmanı — IMPLEMENTED (şema), okuyan kod YOK:**
 
-[[.ai/.sql/mysql/coremusic_wireless.sql]] **10107 b / 5 tablo**: `wifi_networks` `:22` · **`bluetooth_peers` `:59`** · `sync_history` `:93` · **`bluetooth_audio_profiles` `:118`** · `network_profiles` `:144` → katalog: [[.ai/architecture/k5-veri-yonetimi/README.md]] `:45` ve `:287-291` (K5.1.11, "WiFi + Bluetooth networks"). Bu şema ADR-003'ün 18 veritabanından 11.'sidir ([[.ai/.decisions/accepted/ADR-003-multi-db-bcnf.md]] `:120` — "Donanım-sınırı veri; cihaz tarafı senkronu"). → **şema hazır, eşleştirilen cihaz/bağlantı geçmişini yazan kod yok (PLANNED).**
+[[.ai/sources/.sql/mysql/coremusic_wireless.sql]] **10107 b / 5 tablo**: `wifi_networks` `:22` · **`bluetooth_peers` `:59`** · `sync_history` `:93` · **`bluetooth_audio_profiles` `:118`** · `network_profiles` `:144` → katalog: [[.ai/architecture/k5-veri-yonetimi/README.md]] `:45` ve `:287-291` (K5.1.11, "WiFi + Bluetooth networks"). Bu şema ADR-003'ün 18 veritabanından 11.'sidir ([[.ai/.decisions/accepted/ADR-003-multi-db-bcnf.md]] `:120` — "Donanım-sınırı veri; cihaz tarafı senkronu"). → **şema hazır, eşleştirilen cihaz/bağlantı geçmişini yazan kod yok (PLANNED).**
 
 **D) ADR-017 / ADR-019 bulguları — kablosuz cihaz hedefi YOK:**
 
@@ -87,9 +87,9 @@ Tarama kapsamı: repo geneli **399 kod dosyası** (260 `*.php` + `*.js` + `*.css
 **E) Slot ve envanter kanıtı (numara-boşluğu-doldurma usulü):**
 
 - [[.ai/.decisions/index.md]] `:74` → `ADR-037-wirelessconnect-integration | WirelessConnect Integration | **Audio**`
-- Aynı slot: [[.ai/index.md]] `:654` (`… | WirelessConnect integration | **Integration**`) · [[.ai/keys.md]] `:272` (`ADR-037 | WirelessConnect, WiFi | Integration`) · [[.ai/brain.md]] `:992` (`ADR-037 | Kablosuz ağ entegrasyonu`) · `.ai/.templates/adr/adr-index.md` `:108`
-- Proje envanteri: [[.ai/PROJECTS.md]] `:191-198` **WirelessConnect** — Dil C++20 · Protokoller **BLE 5.0, WiFi Direct, mDNS, DLNA/UPnP** · Hedef "Cihazlar arası keşif ve otomatik bağlantı" · **Durum: PLANLANMIŞ**
-- Yol haritası: [[.ai/AGENTS.md]] `:445` `v23.0 — Cross-Project Memory (WirelessConnect)` ⚠️ PLANNED (`.ai/.agents/master-orchestrator.md:107` aynı etiketi taşır); `.ai/projects/` dizini **YOK** (motordan gelen `projects/WirelessConnect/...` wiki-link'i kırık — ayrı iş, §5.1 adım 12)
+- Aynı slot: [[.ai/index.md]] `:654` (`… | WirelessConnect integration | **Integration**`) · [[.ai/raw/keys.md]] `:272` (`ADR-037 | WirelessConnect, WiFi | Integration`) · [[.ai/raw/brain.md]] `:992` (`ADR-037 | Kablosuz ağ entegrasyonu`) · `.ai/.templates/adr/adr-index.md` `:108`
+- Proje envanteri: [[.ai/raw/PROJECTS.md]] `:191-198` **WirelessConnect** — Dil C++20 · Protokoller **BLE 5.0, WiFi Direct, mDNS, DLNA/UPnP** · Hedef "Cihazlar arası keşif ve otomatik bağlantı" · **Durum: PLANLANMIŞ**
+- Yol haritası: [[.ai/raw/AGENTS.md]] `:445` `v23.0 — Cross-Project Memory (WirelessConnect)` ⚠️ PLANNED (`.ai/.agents/master-orchestrator.md:107` aynı etiketi taşır); `.ai/projects/` dizini **YOK** (motordan gelen `projects/WirelessConnect/...` wiki-link'i kırık — ayrı iş, §5.1 adım 12)
 - **İki çelişki açıkça işaretli:** (1) [[.ai/.decisions/index.md]] `:28` aralığı "Frozen 37 (ADR-001 → ADR-037)" sayar — ADR-036 gibi bu dosya da `status: accepted` + **frozen YOK**; dondurma ayrımı index tarafında düzeltilir (§5.1 adım 11). (2) Kategori `:74` = Audio, `index.md`/`keys.md` = Integration → **kayıt SSOT `:74` (Audio)** alınır.
 
 ### 1.2 Sorun Tanımı
@@ -221,7 +221,7 @@ Bugün eksik olan kablosuz kütüphane değil **sözleşme**: 5 satırlık wirel
                      [FALLBACK — kablolu / yerel (Null Output)]
 ```
 
-**2.2-f Katman ve RT kuralı:** keşif/güvenlik/bağlantı yönetimi **non-RT** iş parçacığında; ADR-019 çekirdeği yalnız `IAudioBackend` görür; kesinti bayrağı `std::atomic` ile iletilir (ADR-017 lock-free kuralı). **Sahiplik:** keşif + protokol + pairing = Embedded Engineer; güvenlik politikası (association model varsayılanı, red/audit) = Security Engineer; arayüz/UI = UI Designer; veri (`coremusic_wireless`) = Data Engineer (`.ai/AGENTS.md` §5).
+**2.2-f Katman ve RT kuralı:** keşif/güvenlik/bağlantı yönetimi **non-RT** iş parçacığında; ADR-019 çekirdeği yalnız `IAudioBackend` görür; kesinti bayrağı `std::atomic` ile iletilir (ADR-017 lock-free kuralı). **Sahiplik:** keşif + protokol + pairing = Embedded Engineer; güvenlik politikası (association model varsayılanı, red/audit) = Security Engineer; arayüz/UI = UI Designer; veri (`coremusic_wireless`) = Data Engineer (`.ai/raw/AGENTS.md` §5).
 
 ---
 
@@ -335,13 +335,13 @@ Bugün eksik olan kablosuz kütüphane değil **sözleşme**: 5 satırlık wirel
 | [[.ai/architecture/k5-veri-yonetimi/README.md]] | K5.1.11 `coremusic_wireless` 5 tablo kataloğu (`:45,:287-291`) |
 | [[.ai/architecture/k10-uygulama/home-panel.md]] | `DevicePairing.tsx` + QR/Bluetooth eşleştirme (`:69,:177-178,:204`) — PLANNED |
 | [[.ai/architecture/k3-ses-motoru/neva-engine-core.md]] | Ses çekirdeği — kablosuz katmanın **dışında** (RT sınırı) |
-| [[.ai/.sql/mysql/coremusic_wireless.sql]] | 10107 b / 5 tablo — cihaz hafızası şeması (IMPLEMENTED) |
-| [[.ai/ui-design/flow/settings/02-bluetooth-connect.md]] | Pairing Flow akış spec'i (10451 b) |
-| [[.ai/PROJECTS.md]] | WirelessConnect envanteri `:191-198` (C++20, BLE 5.0, WiFi Direct, mDNS, DLNA/UPnP — PLANLANMIŞ) |
-| [[.ai/AGENTS.md]] | §19 `v23.0 Cross-Project Memory (WirelessConnect)` yol haritası (`:445`) |
-| [[.ai/CLAUDE.md]] · [[.ai/WORKFLOW.md]] | Ana sözleşme + süreç (frozen ayrımı, guardrail'lar) |
+| [[.ai/sources/.sql/mysql/coremusic_wireless.sql]] | 10107 b / 5 tablo — cihaz hafızası şeması (IMPLEMENTED) |
+| [[.ai/sources/ui-design/flow/settings/02-bluetooth-connect.md]] | Pairing Flow akış spec'i (10451 b) |
+| [[.ai/raw/PROJECTS.md]] | WirelessConnect envanteri `:191-198` (C++20, BLE 5.0, WiFi Direct, mDNS, DLNA/UPnP — PLANLANMIŞ) |
+| [[.ai/raw/AGENTS.md]] | §19 `v23.0 Cross-Project Memory (WirelessConnect)` yol haritası (`:445`) |
+| [[.ai/CLAUDE.md]] · [[.ai/raw/WORKFLOW.md]] | Ana sözleşme + süreç (frozen ayrımı, guardrail'lar) |
 | [[.ai/.decisions/index.md]] | ADR-037 slotu (`:74`) + "Frozen 001-037" mutabakatı (`:28` → §5.1 adım 11) |
-| [[.ai/index.md]] · [[.ai/keys.md]] · [[.ai/brain.md]] | Katalog kayıtları (`:654` / `:272` / `:992`) |
+| [[.ai/index.md]] · [[.ai/raw/keys.md]] · [[.ai/raw/brain.md]] | Katalog kayıtları (`:654` / `:272` / `:992`) |
 | [[.ai/.templates/adr/adr-index.md]] | Şablon indeksi `:108` (durum işareti) |
 | [[.ai/.templates/adr/adr-template.md]] | Bu dosyanın zorunlu iskeleti (Guardrail #16) |
 | [[.claude/skills/prompt-maker/references/10-web-research-protocol.md]] | §1.3 araştırma protokolü (5 sorgu) |

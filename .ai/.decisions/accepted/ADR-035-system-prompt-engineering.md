@@ -67,7 +67,7 @@ Bu ADR, CoreMusic'te **sistem promptlarının nasıl yazılacağını, nasıl ve
 | Prompt eval / regresyon workflow | **0** | `.github/workflows/*` = 2 dosya, ikisi de prompt ile ilgisiz |
 | Vault'ta eval politikası | **0** | `.ai/*.md` içinde `prompt regression`, `prompt eval`, `regression eval`, `prompt test` eşleşmesi → 0 |
 
-⚠️ Cross-ref notu: `.ai/AGENTS.md` §25.2 "`.github/workflows/` = 0 dosya" satırı **güncel değil** (bugün 2 dosya var) — bu ADR §5.1/8 ile o satırın düzeltilmesini de sahiplenir.
+⚠️ Cross-ref notu: `.ai/raw/AGENTS.md` §25.2 "`.github/workflows/` = 0 dosya" satırı **güncel değil** (bugün 2 dosya var) — bu ADR §5.1/8 ile o satırın düzeltilmesini de sahiplenir.
 
 **E) Vault prompt envanteri — IMPLEMENTED (ama dağınık):**
 
@@ -76,7 +76,7 @@ Bu ADR, CoreMusic'te **sistem promptlarının nasıl yazılacağını, nasıl ve
 | `.ai/prompts/` | **1 dosya**: `2026-09-23-vault-refactor-engine.md` (10140 b); enjeksiyon savunma metni `:74` |
 | `.ai/archives/prompt*` (arşiv serisi) | `prompt0-genel-ana-prompt-2026-08-15.md` · `prompt0-…-2026-09-01.md` · `prompt1-spa-router-*` · `prompt2-auth-*` · `prompt3-api-*` · `prompt-unified-2026-08-15.md` · `prompt-shared-base.md:39` (ADR-035 yolu rezerve) · `archives/AGENTS.md:27` |
 | `.claude/skills/prompt-maker/` | `SKILL.md` (20679 b; PPRRROCEE/2026 tekniği, few-shot fallback, enjeksiyon bölümleri `:500-510`) + `references/` **30 dosya** (`10-web-research-protocol.md` 5642 b, `17-prompt-engineering-deep.md`) |
-| UI prompt kalıbı | `.ai/.templates/ui-design/prompt-template.md` (Kalıp C) + `.ai/ui-design/prompt/00-prompt-index.md` |
+| UI prompt kalıbı | `.ai/.templates/ui-design/prompt-template.md` (Kalıp C) + `.ai/sources/ui-design/prompt/00-prompt-index.md` |
 | AI mimarisi dokümanları | `.ai/architecture/k4-yapay-zeka/ai-generation.md` · `edge-ai.md` · `.ai/architecture/k8-servis/ai-service.md` |
 
 → Prompt metinleri bugün **üç ayrı yerde** duruyor: (1) kod içi sabit şablonlar (`PromptEngine.php:195-260`), (2) `.ai/prompts/` + `.ai/archives/prompt*`, (3) skill referansları. **Tek politika, tek versiyon çizelgesi, tek eval kapısı yok.**
@@ -84,8 +84,8 @@ Bu ADR, CoreMusic'te **sistem promptlarının nasıl yazılacağını, nasıl ve
 **F) ADR-035 slotu — numara ayrılmış (boşluk-doldurma kanıtı):**
 
 - `.ai/.decisions/index.md:72` → `ADR-035-system-prompt-engineering | System Prompt Engineering | AI` (dizin satırı; slug hedefi bu dosyadır).
-- Aynı slot 7 dosyada daha: `.ai/index.md:652` · `.ai/keys.md:187` (keyword satırı) ve `:270` · `.ai/brain.md:990` ("Prompt engineering standartları") · `.ai/.templates/adr/adr-index.md:106` ("🟠 process") · `.ai/archives/prompt-shared-base.md:39` · `.ai/archives/AGENTS.md:27`.
-- `.ai/keys.md:186` → "AI strategy, prompt engineering" anahtarı şimdilik ADR-030'a bağlı — bu ADR ile prompt kelime ailesi kendi satırına kavuşur.
+- Aynı slot 7 dosyada daha: `.ai/index.md:652` · `.ai/raw/keys.md:187` (keyword satırı) ve `:270` · `.ai/raw/brain.md:990` ("Prompt engineering standartları") · `.ai/.templates/adr/adr-index.md:106` ("🟠 process") · `.ai/archives/prompt-shared-base.md:39` · `.ai/archives/AGENTS.md:27`.
+- `.ai/raw/keys.md:186` → "AI strategy, prompt engineering" anahtarı şimdilik ADR-030'a bağlı — bu ADR ile prompt kelime ailesi kendi satırına kavuşur.
 - Aynı "ayrılmış numara" usulü ADR-030/033/034 için de uygulanmıştı (bkz. ADR-034 §1.1-G); bu nedenle "yeni ADR'ler 088+" kuralının istisnasıdır.
 
 ### 1.2 Sorun Tanımı
@@ -190,7 +190,7 @@ CoreMusic'te system prompt mühendisliği aşağıdaki **altı madde** ile stand
 | Destek | yardım/SSO/iletişim | `.ai/archives/prompt0-*` + `prompt2-auth-*` arşivleri | `.ai/prompts/prompt-destek-v1.0.0.md` |
 | Etiketleme | tag/metadata üretimi | `.ai/architecture/k4-yapay-zeka/ai-generation.md` | `.ai/prompts/prompt-etiketleme-v1.0.0.md` |
 
-Sahiplik: prompt0 (genel) → Master Orchestrator; prompt1-3 eşlemesi `.ai/AGENTS.md` §14.1 ile hizalı; üretim örneği olarak `.claude/skills/prompt-maker/SKILL.md` (30 referanslı) cite edilir ve iskelete bağlanır.
+Sahiplik: prompt0 (genel) → Master Orchestrator; prompt1-3 eşlemesi `.ai/raw/AGENTS.md` §14.1 ile hizalı; üretim örneği olarak `.claude/skills/prompt-maker/SKILL.md` (30 referanslı) cite edilir ve iskelete bağlanır.
 
 ---
 
@@ -249,7 +249,7 @@ Sahiplik: prompt0 (genel) → Master Orchestrator; prompt1-3 eşlemesi `.ai/AGEN
 | 5 | `.github/workflows/prompt-eval.yml` (PR kapısı, eşik + rapor) | DevOps Engineer | 2 gün |
 | 6 | Çıktı filtresi + `validatePrompt()` yanıt yoluna hookup (ADR-030 §5.1/5 ile aynı kalem) | Backend Architect | 2 gün |
 | 7 | Tool-calling prompt sözleşmesi (şema + tek-seçim kuralı + SELECT-only aynası) | Backend Architect + Master Orchestrator | 2 gün |
-| 8 | İndeks güncellemesi: `keys.md:187/:270`, `brain.md:990`, `adr-index.md:106` durumu 🟠 → ✅; `.ai/AGENTS.md` §25.2 "0 dosya" satırı → 2 dosya düzeltmesi + `log.md` kaydı | Master Orchestrator (vault-updater) | 0,5 gün |
+| 8 | İndeks güncellemesi: `keys.md:187/:270`, `brain.md:990`, `adr-index.md:106` durumu 🟠 → ✅; `.ai/raw/AGENTS.md` §25.2 "0 dosya" satırı → 2 dosya düzeltmesi + `log.md` kaydı | Master Orchestrator (vault-updater) | 0,5 gün |
 | 9 | **Şart 1a — Zincir netleştirme:** AIWorkflow canlı çağrı (`AIWorkflow.php:66,176`) ↔ AIEngine boş (`AIEngine.php:219,224,241`) ucu açık PLANNED etiketiyle işaretlenir; sessiz boş kuralı ADR-030 1b'ye bağlanır | Vault Steward + Backend Architect | 0,5 gün |
 | 10 | **Şart 1b — Konsolidasyon:** 8 parçalı prompt envanteri (`.ai/prompts/` 1 + `.ai/archives/prompt*` 7) tek domain seti `.ai/prompts/` altına taşınır; arşiv dosyalarına "arşiv" notu düşülür | Vault Steward | 1 gün |
 | 11 | **Şart 2 — Eval workflow:** golden set (§5.1/4) + `.github/workflows/prompt-eval.yml` prompt regression eval iş akışı (§5.1/5) üretime girer; kapı açık değilken ADR tamamlanmış sayılmaz | QA Engineer + DevOps Engineer | 3 gün |
@@ -275,7 +275,7 @@ Sahiplik: prompt0 (genel) → Master Orchestrator; prompt1-3 eşlemesi `.ai/AGEN
 | [[.ai/.decisions/accepted/ADR-013-rate-limiting-apcu.md]] | Limit/maliyet ruhu — token bütçesi ile hizalı |
 | [[.ai/.decisions/accepted/ADR-033-sql-normalization-strategy.md]] | Biçim referansı — aynı numara-boşluğu-doldurma usulü |
 | [[.ai/.decisions/index.md]] | ADR-035 slotu (`:72`) |
-| [[.ai/index.md]] · [[.ai/keys.md]] · [[.ai/brain.md]] | Katalog kayıtları (`:652` / `:187,:270` / `:990`) |
+| [[.ai/index.md]] · [[.ai/raw/keys.md]] · [[.ai/raw/brain.md]] | Katalog kayıtları (`:652` / `:187,:270` / `:990`) |
 | [[.ai/.templates/adr/adr-index.md]] | Şablon indeksi (`:106`, 🟠 process → ✅) |
 | [[.ai/.templates/adr/adr-template.md]] | Bu dosyanın zorunlu iskeleti (Guardrail #16) |
 | [[.ai/log.md]] | Audit trail — bu ADR'nin yazım ve debate kayıtları |

@@ -16,9 +16,9 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 19/1/0 KABUL)"
 
 > **Durum:** ✅ **ACCEPTED** · **Tarih:** 2026-09-29 · **Debate:** ✅ **TAMAMLANDI (3 tur / 20 persona, 19/1/0 KABUL — §7.1 · bağlayıcı şartlar §5.4)** · **Tech Lead:** ✅ · **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-050-multi-db-sync-strategy`
-> **İlgili kararlar:** [[ADR-081-multi-provider-data-sync]] (outbox + WAL + DLQ + lag bütçesi — karar (b)/(d)/(e) zemini) · [[ADR-040-database-authority]] (18 DB yetki matrisi + tek yazar + cross-DB FK politikası — karar (a) zemini) · [[ADR-039-7-service-platform-architecture]] (11 servis + PSR-14 + servis↔servis HTTP yasağı — karar (a)) · [[ADR-027-dual-mode-storage-strategy]] (LWW + sunucu SSOT — karar (c)) · [[ADR-003-multi-db-bcnf]] (çoklu-DB BCNF + "DB arası FK YOK" kuralı) · [[ADR-033-sql-normalization-strategy]] (şema/normalizasyon denetimi) · [[ADR-049-startup-prompt-loader]] (önceki ADR — biçim/kanıt etiketi referansı) · [[../index.md]] · [[../../brain.md]]
-> **Ad gerekçesi:** slug `ADR-050-multi-db-sync-strategy` **disk kanıtından** alınmıştır — `.ai/.decisions/index.md:91` bu adı taşır (`| [[../brain.md]] ADR-050-multi-db-sync-strategy | Multi-DB Sync Strategy | Database |`); bu dosya o boşluğu doldurur. **Numara istisnası:** güncelleme kuralı yeni ADR'lerin ADR-088+ aralığından başlamasını söyler; 050 slotu `index.md:91`'da **rezerve edilmiş** olduğu için doldurulur (ADR-049'un `index.md:90` örneğiyle aynı istisna) — yeni numara tüketilmez.
-> **Index durumu:** `.ai/.decisions/index.md:91` satırı **vardır** ve 88–90 (ADR-046/048/049) satırlarıyla **aynı biçimdedir**; `[[../brain.md]]` bağlantısının slug'ı doğru hedefe bağlayan düzeltmesi **bir sonraki vault reset'ine ertelenmiştir** (bu işlemde index.md'ye dokunulmadı — report-only).
+> **İlgili kararlar:** [[ADR-081-multi-provider-data-sync]] (outbox + WAL + DLQ + lag bütçesi — karar (b)/(d)/(e) zemini) · [[ADR-040-database-authority]] (18 DB yetki matrisi + tek yazar + cross-DB FK politikası — karar (a) zemini) · [[ADR-039-7-service-platform-architecture]] (11 servis + PSR-14 + servis↔servis HTTP yasağı — karar (a)) · [[ADR-027-dual-mode-storage-strategy]] (LWW + sunucu SSOT — karar (c)) · [[ADR-003-multi-db-bcnf]] (çoklu-DB BCNF + "DB arası FK YOK" kuralı) · [[ADR-033-sql-normalization-strategy]] (şema/normalizasyon denetimi) · [[ADR-049-startup-prompt-loader]] (önceki ADR — biçim/kanıt etiketi referansı) · [[../index.md]] · [[../../raw/brain.md]]
+> **Ad gerekçesi:** slug `ADR-050-multi-db-sync-strategy` **disk kanıtından** alınmıştır — `.ai/.decisions/index.md:91` bu adı taşır (`| [[../../raw/brain.md]] ADR-050-multi-db-sync-strategy | Multi-DB Sync Strategy | Database |`); bu dosya o boşluğu doldurur. **Numara istisnası:** güncelleme kuralı yeni ADR'lerin ADR-088+ aralığından başlamasını söyler; 050 slotu `index.md:91`'da **rezerve edilmiş** olduğu için doldurulur (ADR-049'un `index.md:90` örneğiyle aynı istisna) — yeni numara tüketilmez.
+> **Index durumu:** `.ai/.decisions/index.md:91` satırı **vardır** ve 88–90 (ADR-046/048/049) satırlarıyla **aynı biçimdedir**; `[[../../raw/brain.md]]` bağlantısının slug'ı doğru hedefe bağlayan düzeltmesi **bir sonraki vault reset'ine ertelenmiştir** (bu işlemde index.md'ye dokunulmadı — report-only).
 > **Frozen notu:** ADR-001–037 **dokunulmamıştır** (yalnız atıf). Bu dosya Active aralığındadır, frozen değildir.
 > **Kapanan bayraklar (rapor):** [[ADR-040-database-authority]] `:129,360` ile [[ADR-041-database-normalization-supplementary]] `:362` "ADR-050 dosyası YOK → ⚠️ VERIFICATION REQUIRED" kaydını taşıyordu; bu dosyanın yazımıyla kayıt **gerçekleşti**. Bu üç satır bu işlemde **düzeltilmedi** (report-only — SRP + In-Place Refactoring; reset'te gözden geçirilir).
 
@@ -69,7 +69,7 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 
 | Kayıt | İçerik | Etiket |
 |---|---|---|
-| `.ai/.decisions/index.md:91` | `| [[../brain.md]] ADR-050-multi-db-sync-strategy | Multi-DB Sync Strategy | Database |` | DOĞRULANDI (satır VAR — bu dosya boşluğu doldurur) |
+| `.ai/.decisions/index.md:91` | `| [[../../raw/brain.md]] ADR-050-multi-db-sync-strategy | Multi-DB Sync Strategy | Database |` | DOĞRULANDI (satır VAR — bu dosya boşluğu doldurur) |
 | [[ADR-040-database-authority]] `:129,360` | "ADR-050 ... dosya **YOK** → ⚠️ VERIFICATION REQUIRED" | Bu dosya ile **kapanır** (satırlar düzenlenmedi — report-only) |
 | [[ADR-041-database-normalization-supplementary]] `:362` | "ADR-050 ... dosya YOK → ⚠️ VERIFICATION REQUIRED (bu ADR'de referanslanmaz)" | Aynı — report-only |
 | [[ADR-081-multi-provider-data-sync]] `:30` | "ADR-003 ... ADR-040 ... **ADR-050 multi-db sync stratejisi** ... kayıtlar [[../index]] §3-§4'te" (kavramsal referans — dosya değil indeks kaydı) | İddia artık **doğrulandı** |
@@ -285,14 +285,14 @@ Zemin zaten dört yerde hazır ve tek yöne işaret ediyor: **transaksiyon altya
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme, 16 Hard Guardrail |
-| [[../../AGENTS.md]] | Agent registry — §5 domain sınırları (SQL = Data Engineer), §25.3 frozen/append kuralları |
-| [[../../WORKFLOW.md]] | Süreçler, fazlar |
-| [[../../brain.md]] | Mimari karar özeti |
+| [[../../raw/AGENTS.md]] | Agent registry — §5 domain sınırları (SQL = Data Engineer), §25.3 frozen/append kuralları |
+| [[../../raw/WORKFLOW.md]] | Süreçler, fazlar |
+| [[../../raw/brain.md]] | Mimari karar özeti |
 | [[../../index.md]] | Master katalog |
-| [[../../keys.md]] | Keyword haritası |
-| [[../../MEMORY.md]] | Session hafızası |
+| [[../../raw/keys.md]] | Keyword haritası |
+| [[../../raw/MEMORY.md]] | Session hafızası |
 | [[../../log.md]] | Audit trail (append-only — bu ADR için tek satır append) |
-| [[../../glossary.md]] | Terimler (outbox, ETL, DLQ, LWW, eventual consistency, idempotency) |
+| [[../../raw/glossary.md]] | Terimler (outbox, ETL, DLQ, LWW, eventual consistency, idempotency) |
 | [[../index.md]] | Karar dizini — **ADR-050 satırı VAR (satır 91); slug wiki-link düzeltmesi reset'e ertelendi (§5.1 adım 8-i)** |
 | [[CLAUDE]] | `accepted/` dizin kuralı |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin zorunlu şablonu (Guardrail #16) |
@@ -313,7 +313,7 @@ Zemin zaten dört yerde hazır ve tek yöne işaret ediyor: **transaksiyon altya
 | `.ai/architecture/k5-veri-yonetimi/backup-strategy.md:330,339` · `mysql-18-database.md:318-336` · `.ai/.templates/adr/adr-database-template.md:248` | Replikasyon vault kayıtları (PLANNED) — **düz metin** |
 | `.claude/skills/prompt-maker/references/10-web-research-protocol.md` | §1.3 web araştırma protokolü — **düz metin** (vault dışı) |
 
-> **Wiki-link doğrulaması:** Yazımdan önce `Test-Path` ile diskte doğrulandı (2026-09-29) — kod bloğu/inline-code/alıntı içi occurrence'lar hariç **31 bağlantı örneği / 22 benzersiz hedef: 22/22 diskte mevcut, eksik 0** (ham metinde 47 örnek görünür; fark, index.md:91 satırının alıntısı olan [[../brain.md]] ve künye alıntılarındır — bu dosyanın kendi bağlantısı [[../../brain.md]]'dir, [[../brain.md]] bu dosyadan çözülmez ve biçim hatası zaten report-only'dir). Diskte **olmayan** hedefe wiki-link **yazılmamış**; doğrulanamayan iddialar `⚠️ VERIFICATION REQUIRED` ile işaretli veya düz metin bırakılmıştır (ör. MySQL FK teknik iddiası — ADR-040 C1'e bağlanmaz). `ADR-050-*` hedefi bu dosyanın kendisidir. `index.md:91` içindeki `[[../brain.md]]` biçim hatası **raporlanır, düzeltilmez** (report-only — §5.1 adım 8-i).
+> **Wiki-link doğrulaması:** Yazımdan önce `Test-Path` ile diskte doğrulandı (2026-09-29) — kod bloğu/inline-code/alıntı içi occurrence'lar hariç **31 bağlantı örneği / 22 benzersiz hedef: 22/22 diskte mevcut, eksik 0** (ham metinde 47 örnek görünür; fark, index.md:91 satırının alıntısı olan [[../../raw/brain.md]] ve künye alıntılarındır — bu dosyanın kendi bağlantısı [[../../raw/brain.md]]'dir, [[../../raw/brain.md]] bu dosyadan çözülmez ve biçim hatası zaten report-only'dir). Diskte **olmayan** hedefe wiki-link **yazılmamış**; doğrulanamayan iddialar `⚠️ VERIFICATION REQUIRED` ile işaretli veya düz metin bırakılmıştır (ör. MySQL FK teknik iddiası — ADR-040 C1'e bağlanmaz). `ADR-050-*` hedefi bu dosyanın kendisidir. `index.md:91` içindeki `[[../../raw/brain.md]]` biçim hatası **raporlanır, düzeltilmez** (report-only — §5.1 adım 8-i).
 
 ---
 

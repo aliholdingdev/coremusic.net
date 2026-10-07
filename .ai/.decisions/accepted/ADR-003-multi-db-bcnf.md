@@ -26,10 +26,10 @@ CoreMusic, tek bir veritabanında toplanamayacak kadar ayrı domain'lere sahipti
 
 ### 1.1 Mevcut Durum
 
-- **Vault kanıtı (envanter):** `.ai/.sql/mysql/` altında **18 adet** `.sql` şema dosyası disktedir (coremusic_ai … coremusic_wireless) — `CREATE TABLE` sayımı **156 tablo**; [[../../brain]] §11 (18 BCNF / 156 tablo) ve ana sözleşme [[../../CLAUDE.md]] §18 ile birebir örtüşür.
+- **Vault kanıtı (envanter):** `.ai/.sql/mysql/` altında **18 adet** `.sql` şema dosyası disktedir (coremusic_ai … coremusic_wireless) — `CREATE TABLE` sayımı **156 tablo**; [[../../raw/brain]] §11 (18 BCNF / 156 tablo) ve ana sözleşme [[../../CLAUDE.md]] §18 ile birebir örtüşür.
 - **Eski karar kaydı (çelişkili):** karar dizini [[../index]] §3 ve eski slug `ADR-003-multi-db-9-databases` "**9** BCNF veritabanı" der; [[../index]] §6 Kategori Haritası Database satırı ise 15 kayıt (4 frozen + 11 active) — sayım iddiası değil, kategori sayımıdır.
-- **Çelişki kaydı (Truth Mode):** **9 (eski karar) vs 18 (envanter) — vault kanıtı: 18 şema.** Doğru olan **18**'dir; kanıt: (a) `.ai/.sql/mysql/` altında 18 fiziksel `.sql` dosyası (`Get-ChildItem` sayımı = 18), (b) her dosyanın `CREATE TABLE` toplamı 156 = [[../../brain]] §11 tablosunun toplamı, (c) [[../../CLAUDE.md]] §18 "18 BCNF veritabanı, 156 tablo". **9**, envanterin eski (ve güncel olmayan) bir anlık görüntüsüdür — yeni slug'da sayı **kullanılmadı** (`ADR-003-multi-db-bcnf`, sayısız), çünkü sayısal yetki bu ADR'nin değil, envanter kararının işidir (aşağıda §2.3).
-- Erişim katmanı ve kalite standardı zaten yazılı: PDO zorunlu / ORM yasak — [[ADR-002-pdo-mandatory-no-orm]] §2; "BCNF, no ORM, no SELECT *, prepared — %100" — [[../../AGENTS.md]] §16 (Data Engineer).
+- **Çelişki kaydı (Truth Mode):** **9 (eski karar) vs 18 (envanter) — vault kanıtı: 18 şema.** Doğru olan **18**'dir; kanıt: (a) `.ai/.sql/mysql/` altında 18 fiziksel `.sql` dosyası (`Get-ChildItem` sayımı = 18), (b) her dosyanın `CREATE TABLE` toplamı 156 = [[../../raw/brain]] §11 tablosunun toplamı, (c) [[../../CLAUDE.md]] §18 "18 BCNF veritabanı, 156 tablo". **9**, envanterin eski (ve güncel olmayan) bir anlık görüntüsüdür — yeni slug'da sayı **kullanılmadı** (`ADR-003-multi-db-bcnf`, sayısız), çünkü sayısal yetki bu ADR'nin değil, envanter kararının işidir (aşağıda §2.3).
+- Erişim katmanı ve kalite standardı zaten yazılı: PDO zorunlu / ORM yasak — [[ADR-002-pdo-mandatory-no-orm]] §2; "BCNF, no ORM, no SELECT *, prepared — %100" — [[../../raw/AGENTS.md]] §16 (Data Engineer).
 - Örnek tablo adları bu ADR'de `.ai/.sql/mysql/` içindeki gerçek `CREATE TABLE` satırlarından alınmıştır (uydurma yok).
 
 ### 1.2 Sorun Tanımı
@@ -83,7 +83,7 @@ Tek DB mi, çok DB mi? Eğer çok DB ise: (1) **Bölme ölçütü nedir** — do
 | BCNF zorunluluğu | Her şema (tablolar arası FD'ler dâhil) BCNF'dir; determinant superkey değilse tablo bölünür. Denetim sürdürülebilir olmalı: dependency-preservation BCNF'de garanti değildir (§1.3 kaynak 2-4) → denetim `CREATE TABLE` + FD listesi üzerinden yapılır; ORM'siz, prepared statement ile — [[ADR-002-pdo-mandatory-no-orm]]. |
 | Cross-DB FK yasağı | DB'ler arası `FOREIGN KEY` fiziksel olarak tanımlanamaz (aynı MySQL instance'ında olsa bile şemalar arası referansial bütünlük bu mimaride bilinçli olarak KURULMAZ). DB'ler arası ilişki yalnız application-level ref veya outbox event ile ifade edilir (§2.2 b). |
 | Tek yazıcı ilkesi | Her tablonun tek bir sahibi (owner DB) vardır; başka DB o tabloya doğrudan yazamaz — veri paylaşımı okuma replikası/projection veya event ile olur ([[ADR-081-multi-provider-data-sync]]). |
-| Erişim katmanı sabiti | Tüm şemalara erişim PDO + prepared statement ile; ORM yasak; `SELECT *` yasak — [[ADR-002-pdo-mandatory-no-orm]] §2, [[../../AGENTS.md]] §16. |
+| Erişim katmanı sabiti | Tüm şemalara erişim PDO + prepared statement ile; ORM yasak; `SELECT *` yasak — [[ADR-002-pdo-mandatory-no-orm]] §2, [[../../raw/AGENTS.md]] §16. |
 | Sayısal yetki sınırı | Bu ADR şema **sayısı** tayin etmez (slug sayısızdır); envanterin sayısı ve güncelliği envanter kararının tekelindedir (§2.3); bu ADR yalnız mimari (bölme ölçütü + FK stratejisi) kararlaştırır. |
 | Şablon zorunluluğu | Şemalar `.ai/.sql/mysql/` altında Data Engineer sorumluluğundadır; yeni şema dosyası Guardrail #16 + migration kuralı (eski seri ADR-014 — düz metin, `[[ADR-0xx]]` linki kurulmaz) ile üretilir. |
 
@@ -126,7 +126,7 @@ Tek DB mi, çok DB mi? Eğer çok DB ise: (1) **Bölme ölçütü nedir** — do
 | 17 | coremusic_studio | Stüdyo oturumu | `studio_sessions`, `studio_tracks`, `studio_equipment` | Pro kullanıcı iş akışı; ekipman/oturum domaini |
 | 18 | coremusic_patch | Şema yaması | `schema_versions`, `migration_log`, `patches` | Migration meta-verisi; DB'nin kendisini yöneten katman — asla domain verisiyle karışmaz |
 
-**Toplam:** 18 şema, 156 tablo (`.ai/.sql/mysql/` disk sayımı + [[../../brain]] §11).
+**Toplam:** 18 şema, 156 tablo (`.ai/.sql/mysql/` disk sayımı + [[../../raw/brain]] §11).
 
 **(b) FK stratejisi (bağlayıcı):**
 
@@ -146,13 +146,13 @@ Tek DB mi, çok DB mi? Eğer çok DB ise: (1) **Bölme ölçütü nedir** — do
 | Karar | Kapsam | Kayıt |
 |-------|--------|-------|
 | **Bu ADR (ADR-003)** | MİMARİ: neden çoklu DB, domain split ölçütü, FK stratejisi, cross-DB entegrasyon kuralları | Bu dosya — `ADR-003-multi-db-bcnf` (slug **sayısız**) |
-| **Envanter/yetki kararı (ADR-040)** | ENVANTER/YETKİ: kaç DB olduğu, hangi DB'nin adı/tablo sayısı, sayısal değişiklik yetkisi | Düz metin: `(henüz yazılmadı — vault: brain.md ADR-040)`; özet: [[../../brain]] §11 (18 şema / 156 tablo) |
+| **Envanter/yetki kararı (ADR-040)** | ENVANTER/YETKİ: kaç DB olduğu, hangi DB'nin adı/tablo sayısı, sayısal değişiklik yetkisi | Düz metin: `(henüz yazılmadı — vault: brain.md ADR-040)`; özet: [[../../raw/brain]] §11 (18 şema / 156 tablo) |
 
 **Çelişki çözümü (tekrar kaydı):** "9 (eski karar) vs 18 (envanter) — vault kanıtı: **18 şema**" (§1.1 kanıt zinciri a-c). Doğru olan 18'dir; **9** eski slug'da (`multi-db-9-databases`) kalmıştır ve yeni slug'da sayı **kullanılmamıştır** — sayısal yetki envanter kararına (ADR-040) bırakılmıştır.
 
 ### 2.3 Envanter (yetki değil — özet)
 
-18 şemanın adları, tablo sayıları ve amaçları bu ADR'de **tekrarlanmaz** (SRP): [[../../brain]] §11 ve [[../../index]] §8 tek envanter kaynağıdır; `.ai/.sql/mysql/` altındaki 18 `.sql` dosyası fiziksel kanıttır. Bu ADR yalnız §2.2 a'da kategori + örnek tablo + gerekçe özetini verir.
+18 şemanın adları, tablo sayıları ve amaçları bu ADR'de **tekrarlanmaz** (SRP): [[../../raw/brain]] §11 ve [[../../index]] §8 tek envanter kaynağıdır; `.ai/.sql/mysql/` altındaki 18 `.sql` dosyası fiziksel kanıttır. Bu ADR yalnız §2.2 a'da kategori + örnek tablo + gerekçe özetini verir.
 
 ---
 
@@ -184,7 +184,7 @@ Tek DB mi, çok DB mi? Eğer çok DB ise: (1) **Bölme ölçütü nedir** — do
 - **Cross-DB transaction yok:** çok adımlı işler Saga/compensation veya best-effort + idempotency ile yürür; anlık tutarlılık garantisi yok (eventual consistency).
 - **Boşluk (orphan) riski uygulamaya taşınır:** DB'ler arası silme kademeli olduğundan orphan referanslar oluşabilir → soft delete + doğrulama/temizlik işi yazılır.
 - **Operasyonel yük:** 18 şema = 18 backup/migration/monitoring hedefi; yedekleme ve sürüm yönetimi çaprazan yapılır.
-- **Onboarding maliyeti:** yeni geliştirici "şu veri nerede?" sorusuna envanter + sahiplik haritasına bakar (tek kaynak: [[../../brain]] §11).
+- **Onboarding maliyeti:** yeni geliştirici "şu veri nerede?" sorusuna envanter + sahiplik haritasına bakar (tek kaynak: [[../../raw/brain]] §11).
 
 ### 4.3 Riskler
 
@@ -242,10 +242,10 @@ Karar mimaridir; geri dönüş yalnız **yeni ADR** ile olur (In-Place Refactori
 | [[../index]] | Karar dizini — bu ADR'nin kaydı (`ADR-003-multi-db-bcnf`) + eski slug satırı (`ADR-003-multi-db-9-databases` — düzeltme üst görevin işi) + §6 Kategori Haritası Database satırı |
 | [[../CLAUDE.md]] | Karar alt registry kuralı (accepted/) |
 | [[../../CLAUDE.md]] | Ana sözleşme — §18 "18 BCNF Databases" (envanter özeti), K5 veri katmanı |
-| [[../../AGENTS.md]] | Data Engineer domaini (§4/§5/§15), keyword routing (§6), kalite "BCNF, no ORM" (§16), retry/timeout (§8) |
-| [[../../brain]] | Mimari karar özeti — §11 envanter tablosu (18 şema / 156 tablo) + ADR-040/ADR-050/ADR-086 özetleri (düz metin: ADR-040 `(henüz yazılmadı — vault: brain.md ADR-040)`; ADR-033 düz metin) |
+| [[../../raw/AGENTS.md]] | Data Engineer domaini (§4/§5/§15), keyword routing (§6), kalite "BCNF, no ORM" (§16), retry/timeout (§8) |
+| [[../../raw/brain]] | Mimari karar özeti — §11 envanter tablosu (18 şema / 156 tablo) + ADR-040/ADR-050/ADR-086 özetleri (düz metin: ADR-040 `(henüz yazılmadı — vault: brain.md ADR-040)`; ADR-033 düz metin) |
 | [[../../index]] | Master katalog — §8 Veritabanı envanteri (18 satır) |
-| [[../../keys]] | Keyword haritası — "multi-db, 18 veritabani" eşlemesi (eski slug satırı düzeltmesi üst görev kapsamında) |
+| [[../../raw/keys]] | Keyword haritası — "multi-db, 18 veritabani" eşlemesi (eski slug satırı düzeltmesi üst görev kapsamında) |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin 7 bölümlük şablonu (Guardrail #16) |
 | `.ai/.sql/mysql/` | 18 `.sql` şeması — fiziksel envanter kanıtı (§1.1, §2.2 a; 156 `CREATE TABLE`) |
 | `.ai/.decisions/index.md` §5 | Reddedilen kararlar: R-009 (Single DB), R-002 (MongoDB/BCNF) — §3 alternatif gerekçeleri |

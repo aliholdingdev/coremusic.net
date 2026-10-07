@@ -254,7 +254,7 @@ CoreMusic'un **tek canonical URL yönü** tanımlı değil: aynı içerik `http`
 | 8 | **CI gate:** curl matrisi + HSTS header assert + "canonical yanıtta 301 dışında redirect yok" kontrolü (drift riski §4.3 #6) | DevOps Engineer + QA | 4 saat |
 | 9 | HSTS preload başvurusu (ramp tamamlandıktan **sonra**, apex üzerinden) + hstspreload.org doğrulaması | Security Engineer | 2 saat (+ form onayı beklemesi) |
 | 10 | Cross-ref denetimi: ADR-004 (domain haritası + `ReturnUrlPolicy`), ADR-006 (TTFB ölçümü), ADR-008 (302 auth sınıfı korunuyor), ADR-016 (path/query sınırı — düz metin) çelişmiyor | Security + Backend | 2 saat |
-| 11 | Vault senkronu: `[[../../brain]]` ADR-009 özeti + `.ai/.decisions/index.md` §3 satır durumu + debate/Tech Lead sonuçları (`log.md` append-only) | MO (vault-updater) | 1 saat |
+| 11 | Vault senkronu: `[[../../raw/brain]]` ADR-009 özeti + `.ai/.decisions/index.md` §3 satır durumu + debate/Tech Lead sonuçları (`log.md` append-only) | MO (vault-updater) | 1 saat |
 | 12 | **Debate Şart 1 — 301 geçişi + staging loop testi:** 302→301 geçişi (adım 6) staging'de §2.2e testleriyle doğrulanır — 301 tarayıcıda süresiz cache'lenir, yanlış geçiş istemcide kalıcıdır (§1.3 kaynak 22, 23, 24) → staging loop testi geçmeden prod'a girmez | Backend Architect + QA Engineer | 1 gün |
 | 13 | **Debate Şart 2 — HSTS çelişkisi kod lehine düzeltme:** `shared/src/Middleware/CLAUDE.md` (satır 42/58/96) HSTS iddiası **PLANNED (kodda yok)** olarak düzeltildi (`SecurityHeadersMiddleware.php` satır 26-41'te `Strict-Transport-Security` YOK) — kod eklenince iddia tekrar IMPLEMENTED olur (adım 5 ile birlikte) | Security Engineer | 2 saat (uygulandı 2026-09-24) |
 | 14 | **Debate Şart 3 — CI redirect-loop testi:** CI gate'e (adım 8) redirect-loop assert'i eklenir — matris satırı 1-5'te loop (`ERR_TOO_MANY_REDIRECTS`) ve çift-atlama üretilmediği zorunlu kontrol | DevOps Engineer + QA Engineer | 4 saat |
@@ -275,8 +275,8 @@ Karar süreç karardır; geri dönüş yalnız **yeni ADR** ile olur (In-Place R
 | [[../index]] | Karar dizini — bu ADR'nin kaydı §3 `[[ADR-009-clean-url-redirect]]` (slug eşleşmesi ✅ — satır diskte mevcut) |
 | [[../CLAUDE.md]] | Karar alt registry kuralı (accepted/) |
 | [[../../CLAUDE.md]] | Ana sözleşme — 16 Hard Guardrail (#16 şablon zorunluluğu), REDACTED politikası |
-| [[../../AGENTS.md]] | §21 Cross References; §10 escalation; §17 #10 vault kurtarma; §25.3 frozen/append-only kuralları; §24.1 Ultrathink |
-| [[../../brain]] | Mimari karar özeti — ADR-009 satırı (`| ADR-009 | Clean URL redirect |`) vault-sync ile tazelenir; **ADR-016 düz metin kaynağı** (`vault: brain.md ADR-016`) |
+| [[../../raw/AGENTS.md]] | §21 Cross References; §10 escalation; §17 #10 vault kurtarma; §25.3 frozen/append-only kuralları; §24.1 Ultrathink |
+| [[../../raw/brain]] | Mimari karar özeti — ADR-009 satırı (`| ADR-009 | Clean URL redirect |`) vault-sync ile tazelenir; **ADR-016 düz metin kaynağı** (`vault: brain.md ADR-016`) |
 | [[../../log]] | Audit trail — bu ADR ve debate/revizyon kayıtları append edilir (append-only) |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin 7 bölümlük şablonu (Guardrail #16) |
 | `shared/src/PageRouter/RequestNormalizer.php` | Host/scheme/port/URI normalize (IMPLEMENTED, sessiz) — uygulama yedek katmanının mevcut taşıyıcısı; 301 canonical kontrolü buraya eklenir (PLANNED §5.1 #6) |

@@ -25,10 +25,10 @@ CoreMusic backend veri katmanı (A0 Altyapı + A2 Routing; PHP 8.4, MySQL 9, 18 
 
 ### 1.1 Mevcut Durum
 
-- Backend hedefi: PHP 8.4 + **PDO** + PageRouter — [[../../AGENTS.md]] §4 (Backend Architect) ve §15 (teknoloji sütunu: "PHP strict_types, PDO, PageRouter").
-- Kalite standardı zaten yazılı: Data Engineer satırı "**BCNF, no ORM, no SELECT \*, prepared** — %100" (§16) ve uyarı §18 #7 "**ORM kullanımı → SQL injection riski**" — [[../../AGENTS.md]].
+- Backend hedefi: PHP 8.4 + **PDO** + PageRouter — [[../../raw/AGENTS.md]] §4 (Backend Architect) ve §15 (teknoloji sütunu: "PHP strict_types, PDO, PageRouter").
+- Kalite standardı zaten yazılı: Data Engineer satırı "**BCNF, no ORM, no SELECT \*, prepared** — %100" (§16) ve uyarı §18 #7 "**ORM kullanımı → SQL injection riski**" — [[../../raw/AGENTS.md]].
 - Disk kanıtı: `shared/src/Database/` **3 PHP dosyası** (DatabaseRegistry.php, DatabaseManager.php, Config/DatabaseConfig.php) + `.ai/.sql/mysql/` **18 .sql şeması** (coremusic_ai … coremusic_wireless).
-- Routing kuralı: "database, SQL, BCNF, migration, query, schema, MySQL, PDO, index" keyword grubu → Data Engineer (birincil) + Backend Architect (ikincil) — [[../../AGENTS.md]] §6.
+- Routing kuralı: "database, SQL, BCNF, migration, query, schema, MySQL, PDO, index" keyword grubu → Data Engineer (birincil) + Backend Architect (ikincil) — [[../../raw/AGENTS.md]] §6.
 - Emsal karar yürürlükte: Composer paketi kütüphane olabilir, uygulama iskeleti olamaz — [[ADR-001-vanilla-js-itcss]] §2 (aynı sınır bu ADR'ye taşınır).
 
 ### 1.2 Sorun Tanımı
@@ -91,7 +91,7 @@ ORM mi, query builder mı, düz PDO mu? Sorun üç eksenli: (1) **Güvenlik** �
 1. **Güvenlik:** OWASP, injection'ı 2025'te %100 test edilen, 37 CWE'li ve en çok CVE'ye sahip sınıf yapar (SQL injection >14k CVE); resmi kanıt prepared statement'ın SQL injection'ı önlediğini — fakat **yalnızca her sorguda kullanıldığında** — söyler (php.net). `ATTR_EMULATE_PREPARES=false` native bağlamayı zorlar; emülasyon yüzeyi CVE üretmiştir (CVE-2025-14180). *(§1.3 kaynakları: 1-3, 5-7, 13.)*
 2. **Kontrol / öngörülebilirlik:** 18 BCNF şemasında sorgu planı, join sırası ve indeks kullanımı göründür; ORM'in otomatik join/lazy-load'u tam da bu denetimi kapatır. Kod incelemesinde her sorgu okunabilir ve denetlenebilirdir.
 3. **Bağımlılık yüzeyi:** ORM = uygulama iskeleti bağımlılığı (mapping, service provider, migration köprüsü — geri dönüşü pahalı); query builder = kütüphane (çıkarılabilir). Bu ayrım ADR-001'in "kütüphane serbest / iskelet yasak" sınırıyla birebir aynıdır.
-4. **Tutarlılık (vault):** [[../../AGENTS.md]] §16 zaten "%100 BCNF, no ORM, prepared" şart koşuyor, §18 #7 ORM'i açıkça risk olarak işaretliyor; bu ADR bu standardı tek kaynak, denetlenebilir karar cümlesine dönüştürür ve operasyonel kuralları ilk kez yazar.
+4. **Tutarlılık (vault):** [[../../raw/AGENTS.md]] §16 zaten "%100 BCNF, no ORM, prepared" şart koşuyor, §18 #7 ORM'i açıkça risk olarak işaretliyor; bu ADR bu standardı tek kaynak, denetlenebilir karar cümlesine dönüştürür ve operasyonel kuralları ilk kez yazar.
 
 ### 2.2 Teknik Detaylar
 
@@ -146,7 +146,7 @@ $pdo = new PDO(
 
 ### 4.1 Olumlu Sonuçlar
 
-- **SQL injection saldırı yüzeyi asgariye iner:** prepared + `ATTR_EMULATE_PREPARES=false` + DSN `charset=utf8mb4` + `MYSQL_ATTR_MULTI_STATEMENTS=false` dörtlüsü OWASP A05:2025'e karşı katmanlı kanıt üretir; emülasyon CVE'leri (CVE-2025-14180 sınıfı) ve charset-bypass ailesi kapanır. *(vault: [[../../AGENTS.md]] §16/§18 #7; `.ai/.sql/mysql/` 18 şemanın charset doğrulaması §5.1 #5)*
+- **SQL injection saldırı yüzeyi asgariye iner:** prepared + `ATTR_EMULATE_PREPARES=false` + DSN `charset=utf8mb4` + `MYSQL_ATTR_MULTI_STATEMENTS=false` dörtlüsü OWASP A05:2025'e karşı katmanlı kanıt üretir; emülasyon CVE'leri (CVE-2025-14180 sınıfı) ve charset-bypass ailesi kapanır. *(vault: [[../../raw/AGENTS.md]] §16/§18 #7; `.ai/.sql/mysql/` 18 şemanın charset doğrulaması §5.1 #5)*
 - **18 BCNF şeması korunur:** sorgu planı, join ve indeks kullanımı kodda görünür → Data Engineer denetimi ve query tuning doğrudan yapılır; tek erişim kapısı `shared/src/Database/` (3 dosya).
 - **Bağımlılık yüzeyi dar kalır:** ORM iskeleti yok → Composer yüzeyi yalnız kütüphane ölçeğinde (ADR-001 ile aynı sınır); tedarik zinciri ve sürüm-yükseltme baskısı azalır.
 - **Denetlenebilirlik:** her sorgu code review'da okunur; `SELECT *`, concat, açık transaction, `SET NAMES` gibi yasaklar statik kapıda (grep + PHPStan) otomatik yakalanır.
@@ -203,7 +203,7 @@ Bu madde kararın **tek istisna kapısıdır**; koşulları sağlanmadan hiçbir
 
 ### 5.2 Geri Dönüş Planı
 
-Karar veri erişim mimarisini kilitler; geri dönüş yalnız **yeni ADR** ile olur (In-Place Refactoring yasağı — bu dosya frozen olmasa da keyfi düzenlenmez). Senaryolar: (1) §4.4 koşulları sağlanıp ORM/iskelet geçişi gerekirse → **yeni ADR** yazılır; `superseded by ADR-NNN` bağı **yeni ADR'nin** §6'sına konur, bu dosya olduğu gibi kalır; (2) operasyonel bir değerde (timeout/retry/havuz) hata çıkarsa → bu ADR **revize edilmez**: değer düzeltmesi `log.md` append + php-template senkronuyla yapılır, karar cümlesi değişiyorsa yeni ADR açılır; (3) acil durum geçici istisnası 5 iş günü sonunda otomatik kapanır: `git revert` + `log.md` ERROR satırı; (4) **veri kaybı riski yoktur** — karar katmanıdır, şema/veri değişmez; vault bozulmasında standart kurtarma `git checkout` + son commit ([[../../AGENTS.md]] §17 #10).
+Karar veri erişim mimarisini kilitler; geri dönüş yalnız **yeni ADR** ile olur (In-Place Refactoring yasağı — bu dosya frozen olmasa da keyfi düzenlenmez). Senaryolar: (1) §4.4 koşulları sağlanıp ORM/iskelet geçişi gerekirse → **yeni ADR** yazılır; `superseded by ADR-NNN` bağı **yeni ADR'nin** §6'sına konur, bu dosya olduğu gibi kalır; (2) operasyonel bir değerde (timeout/retry/havuz) hata çıkarsa → bu ADR **revize edilmez**: değer düzeltmesi `log.md` append + php-template senkronuyla yapılır, karar cümlesi değişiyorsa yeni ADR açılır; (3) acil durum geçici istisnası 5 iş günü sonunda otomatik kapanır: `git revert` + `log.md` ERROR satırı; (4) **veri kaybı riski yoktur** — karar katmanıdır, şema/veri değişmez; vault bozulmasında standart kurtarma `git checkout` + son commit ([[../../raw/AGENTS.md]] §17 #10).
 
 ---
 
@@ -216,9 +216,9 @@ Karar veri erişim mimarisini kilitler; geri dönüş yalnız **yeni ADR** ile o
 | [[../index]] | Karar dizini — bu ADR'nin kaydı (`[[ADR-002-pdo-mandatory-no-orm]]`) + ilgili satırlar: ADR-003-multi-db-9-databases, ADR-033-sql-normalization-strategy (tekil dosyalar diskte YOK → `⚠️ VERIFICATION REQUIRED`) |
 | [[../CLAUDE.md]] | Karar alt registry kuralı (accepted/) |
 | [[../../CLAUDE.md]] | Ana sözleşme, 16 Hard Guardrail (Guardrail #16) |
-| [[../../AGENTS.md]] | Backend/Data domain (§4, §5, §15), keyword routing (§6), kalite standardı "no ORM, prepared" (§16), ORM uyarısı (§18 #7), retry/timeout (§8, §17) |
-| [[../../brain]] | Mimari karar özeti (ADR-002 satırı) |
-| [[../../keys]] | Keyword haritası — "PDO, ORM, prepared, SQL injection, database" eşlemeleri |
+| [[../../raw/AGENTS.md]] | Backend/Data domain (§4, §5, §15), keyword routing (§6), kalite standardı "no ORM, prepared" (§16), ORM uyarısı (§18 #7), retry/timeout (§8, §17) |
+| [[../../raw/brain]] | Mimari karar özeti (ADR-002 satırı) |
+| [[../../raw/keys]] | Keyword haritası — "PDO, ORM, prepared, SQL injection, database" eşlemeleri |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin 7 bölümlük şablonu (Guardrail #16) |
 | [[../../.templates/backend/php-template]] | PHP kod iskeleti — bağlantı imzası + yasak desenler uygulayıcısı |
 | `shared/src/Database/` | Uygulama kodu — DatabaseRegistry.php · DatabaseManager.php · Config/DatabaseConfig.php (§5.1 #2 denetim hedefi) |

@@ -56,12 +56,12 @@ CoreMusic'in 18 BCNF veritabanı ([[ADR-003-multi-db-bcnf]]) ve PDO erişim katm
 **D) BACKUP — PLANNED (şifreli backup kanıt 0):**
 
 - **Backup dosyası/script grep (`*backup*`, `*mysqldump*` — .ai ve vendor/node_modules dışı):** repo → **0 dosya.**
-- **`mysqldump` geçen yerler (yalnız vault dokümanı):** `.ai/architecture/k5-veri-yonetimi/backup-strategy.md` (SSOT strateji), `.ai/architecture/k5-veri-yonetimi/README.md:120` (Full/Haftalık/4 hafta/mysqldump), `.ai/PROJECTS.md:657` (`mysqldump + incremental`, günlük, 30 gün), `.ai/.templates/adr/adr-database-template.md:254` (`mysqldump --single-transaction`, günlük 03:00).
+- **`mysqldump` geçen yerler (yalnız vault dokümanı):** `.ai/architecture/k5-veri-yonetimi/backup-strategy.md` (SSOT strateji), `.ai/architecture/k5-veri-yonetimi/README.md:120` (Full/Haftalık/4 hafta/mysqldump), `.ai/raw/PROJECTS.md:657` (`mysqldump + incremental`, günlük, 30 gün), `.ai/.templates/adr/adr-database-template.md:254` (`mysqldump --single-transaction`, günlük 03:00).
 - **Şifreleme (`age`, `gpg`, `openssl enc`) geçen backup satırı:** vault geneli **0** → **backup şifreleme PLANNED.**
 
 **E) AUDIT — ŞEMA IMPLEMENTED, PHP YAZICI 0:**
 
-- **DB audit tabloları IMPLEMENTED:** `.ai/.sql/mysql/coremusic_logs.sql:23` `audit_logs` (alanlar `:24-34` — `user_id`, `action`, `entity_type`, `entity_id`, `old_value JSON`, `new_value JSON`, `ip_address`, `session_id`, `created_at`; yorum `:20` "Audit trail for all critical system actions"), `:127` `rate_limit_logs`, `:487` `log_security`; `coremusic_auth.sql:249` `credential_audit`, `:352` `permission_audit`; `coremusic_media.sql:204` `media_audit` → **toplam 6 audit tablosu.**
+- **DB audit tabloları IMPLEMENTED:** `.ai/sources/.sql/mysql/coremusic_logs.sql:23` `audit_logs` (alanlar `:24-34` — `user_id`, `action`, `entity_type`, `entity_id`, `old_value JSON`, `new_value JSON`, `ip_address`, `session_id`, `created_at`; yorum `:20` "Audit trail for all critical system actions"), `:127` `rate_limit_logs`, `:487` `log_security`; `coremusic_auth.sql:249` `credential_audit`, `:352` `permission_audit`; `coremusic_media.sql:204` `media_audit` → **toplam 6 audit tablosu.**
 - **PHP audit yazıcı grep (`audit_logs|log_security|credential_audit`, `*.php`):** **0 eşleşme** → ADR-020 bulgusu **"audit PHP 0" TEYİT EDİLDİ** (hiçbir kod bu tablolara satır atmıyor).
 - **"Kim, hangi sorgu, ne zaman" (sorgu-seviyesi audit):** `general log`/audit plugin/sorgu interceptor **0** (vault + kod) → **query-level audit PLANNED.**
 - **Dosya log'u IMPLEMENTED (ama DB audit'i değil):** `shared/src/PageRouter/StructuredLogger.php:67` `error_log(json_encode(...))`, `PageRouterKernel.php:134` FATAL traceId.
@@ -304,12 +304,12 @@ Anahtar/kimlik = .env (ADR-015)  —  dump/backup'ta şifre REDACTED  ·  ad/tel
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | [[../index]] | Karar dizini — **satır 59** `[[ADR-022-database-hardened-security]]` (slug eşleşmesi ✅) |
 | [[../../CLAUDE.md]] | Vault ana sözleşmesi — 16 Hard Guardrail, REDACTED, Guardrail #16 |
-| [[../../AGENTS.md]] | Routing §6 (`database, SQL, PDO → Data Engineer`), §5 domain boundary, §16 kalite (`no ORM, no SELECT *, prepared`), §25.3 frozen, §17.5/§17.7 |
-| [[../../WORKFLOW.md]] | Satır 753 `§8.4 Security Audit → [[ADR-022-database-hardened-security]]` · satır 521 şifreleme kontrolü · debate/onay akışı |
-| [[../../brain.md]] | Satır 1040 `ADR-022 \| AES-256-GCM` kaydı ✅ |
-| [[../../keys.md]] | Satır 63 `Argon2id, AES-256-GCM, sifreleme → [[decisions/accepted/ADR-022-database-hardened-security]]` ✅ |
+| [[../../raw/AGENTS.md]] | Routing §6 (`database, SQL, PDO → Data Engineer`), §5 domain boundary, §16 kalite (`no ORM, no SELECT *, prepared`), §25.3 frozen, §17.5/§17.7 |
+| [[../../raw/WORKFLOW.md]] | Satır 753 `§8.4 Security Audit → [[ADR-022-database-hardened-security]]` · satır 521 şifreleme kontrolü · debate/onay akışı |
+| [[../../raw/brain.md]] | Satır 1040 `ADR-022 \| AES-256-GCM` kaydı ✅ |
+| [[../../raw/keys.md]] | Satır 63 `Argon2id, AES-256-GCM, sifreleme → [[decisions/accepted/ADR-022-database-hardened-security]]` ✅ |
 | [[../../index.md]] | Satır 639 `ADR-022-database-hardened-security` kaydı ✅ |
-| [[../../glossary.md]] | Şifreleme/audit/argon2 terimleri |
+| [[../../raw/glossary.md]] | Şifreleme/audit/argon2 terimleri |
 | [[../../log.md]] | Audit trail — bu işlem tek satır append |
 | Debate sonucu | §5.3 — **✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)** (frontmatter `debate` ile aynı) · bağlayıcı şartlar **§5.4** (3 madde) |
 | Karar alt registry: [[../CLAUDE.md]] (`.ai/.decisions/CLAUDE.md`) | accepted/ dizin sözleşmesi |

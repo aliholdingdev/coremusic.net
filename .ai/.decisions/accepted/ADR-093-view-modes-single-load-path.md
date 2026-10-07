@@ -15,7 +15,7 @@ governance: "Red Team · Human Mode · Truth Mode"
 
 > **Durum:** ✅ **ACCEPTED** (karar) · **Uygulama:** ⏳ **DEFERRED — ERTLENDİ** (kullanıcı kararı 2026-10-06: import'a dokunulmaz, yalnız ADR yazılır) · **Tarih:** 2026-10-06 · **Ağırlık:** 1 (varsayılan) · **İlgili ADR:** 045
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `view-modes-single-load-path` · **Dosya:** `ADR-093-view-modes-single-load-path.md`
-> **İlgili kararlar:** [[ADR-045-multi-domain-view-mode-architecture]] (view mode mimarisi) · [[ADR-001-vanilla-js-itcss]] (ITSS katman sırası) · [[../index.md]] · [[../../brain.md]]
+> **İlgili kararlar:** [[ADR-045-multi-domain-view-mode-architecture]] (view mode mimarisi) · [[ADR-001-vanilla-js-itcss]] (ITSS katman sırası) · [[../index.md]] · [[../../raw/brain.md]]
 > **Şablon:** `.ai/.templates/adr/adr-template.md` (Guardrail #16 — 10 alanlı frontmatter + §1-§7 iskelet)
 > **Numara gerekçesi (disk kanıtı):** `.ai/.decisions/accepted/` içinde en yüksek numara **ADR-092** (`ADR-092-media-dizin-ekseni-ve-ulid.md`); **ADR-091 dolu** (`.ai/.decisions/ADR-091-template-engine-no-eval.md`) → **ilk boş numara 093**. Frozen **001-037'ye dokunulmadı**; ayrı seri `.ai/architecture/adr/` (023-026) **karıştırılmadı**.
 
@@ -162,7 +162,7 @@ governance: "Red Team · Human Mode · Truth Mode"
 | [[ADR-045-multi-domain-view-mode-architecture]] | View mode mimarisinin kaynağı — bu ADR onun **yükleme yolunu** sabitler |
 | [[ADR-001-vanilla-js-itcss]] | ITCSS katman sırası (08_Devices ↔ 09_ViewModes sınırı) |
 | [[../index.md]] | Karar dizini — **ADR-093 kayıt satırı YAZILDI** (2026-10-06 — index.md §4) |
-| [[../../brain.md]] | ADR özet tablosu (uygulama sonrası) |
+| [[../../raw/brain.md]] | ADR özet tablosu (uygulama sonrası) |
 | `.ai/.templates/adr/adr-template.md` | §1-§7 iskelet kaynağı (Guardrail #16) |
 | `assets.coremusic.net/js/device-loader.js` · `managers/ViewModeManager.js` · `managers/DeviceManager.js` | Link yazıcıları — §2.1 madde 4 sözleşmesi |
 | `shared/src/Device/DeviceRenderer.php` | SSR link üretimi (`LINK_ID_VIEW = 'cm-view-css'`, `:26`) |

@@ -15,7 +15,7 @@ governance: "Red Team · Human Mode · Truth Mode"
 
 > **Durum:** ✅ **ACCEPTED** · **Tarih:** 2026-09-24 · **Önceki durum:** Draft → accepted terfi (2026-09-24)
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-089-classab-24v`
-> **İlgili kararlar:** [[ADR-081-multi-provider-data-sync]] (Nygard kalıp) · [[../../brain.md]] · [[../../CLAUDE.md]] · [[../index.md]]
+> **İlgili kararlar:** [[ADR-081-multi-provider-data-sync]] (Nygard kalıp) · [[../../raw/brain.md]] · [[../../CLAUDE.md]] · [[../index.md]]
 > **Numara gerekçesi:** ADR-088 (Gender-Based Social OAuth) sonrası ilk boş numaradır; frozen **001–037'ye dokunulmadı** ve **ADR-090 açılmadı**.
 > **Slug notu:** `ADR-` büyük harftir. `.ai/.templates/adr/adr-index.md` §2'deki "slug küçük harf" kuralı bu seride uygulanmamıştır; **disk konvansiyonu esastır** (ADR-001…088 ile aynı yazım).
 
@@ -36,9 +36,9 @@ CoreMusic güç amplifikatörü katmanı (K16) tasarımdır ve vault içinde **t
 | [[../../CLAUDE.md]] L120 | **K20** BOM & Üretim — 1.775 BOM satırı, Mouser/Digikey, ~$682 sistem maliyeti |
 | [[../../CLAUDE.md]] L113 | **K1** Donanım — XMOS XU316, PCM3168A, AK4458, 8×Class AB, 14 konnektör, Boost; *DC-Only + Class AB, sinyal zincirine parazit yasak* |
 | [[../../CLAUDE.md]] L126–L127 | **H1** Class AB 50W/kanal × 8 kanal (7.1), MJL21194/93, Fischer SK53 72°C, C++20 DSP + **STM32/RP2040 MCU** · **H2** ±40V Push-Pull (SG3525/LM5122), **12V–24V DC girişi**, %92–96 verim, EMI filtresi |
-| [[../../PROJECTS.md]] L305–L311 | SNR >105dB · **Kanal 1-8 (modüler, her kanal bağımsız PCB)** · Fischer SK53-100-SA (300×75×49mm) · Noctua NF-A8 PWM (80mm) · KSD301 + DC offset koruma rölesi · 6-layer 200×100mm 2oz IPC Class 3 · *Durum: TASARIM AŞAMASINDA* |
+| [[../../raw/PROJECTS.md]] L305–L311 | SNR >105dB · **Kanal 1-8 (modüler, her kanal bağımsız PCB)** · Fischer SK53-100-SA (300×75×49mm) · Noctua NF-A8 PWM (80mm) · KSD301 + DC offset koruma rölesi · 6-layer 200×100mm 2oz IPC Class 3 · *Durum: TASARIM AŞAMASINDA* |
 | [[../../architecture/k16-class-ab/CLAUDE.md]] | Darlington çift, MJL21194/MJL21193, 50W@8Ω, THD+N <0.005%, SNR >100dB, Fischer SK53-100-SA, KSD301 72°C, BOM <$430 |
-| [[../../brain.md]] L41 / L56 | 8.1 Surround — Class AB 8×50W, XMOS XU316, PCM3168A · **PCM5122 REDDEDİLDİ** |
+| [[../../raw/brain.md]] L41 / L56 | 8.1 Surround — Class AB 8×50W, XMOS XU316, PCM3168A · **PCM5122 REDDEDİLDİ** |
 | `README.md` L73 / L171 | 8x50W modüler discrete Class AB + ±35V · **±35V LM5122 Dual Boost, 6S LiPo (22.2V) veya 19–24V DC adaptör, %96 tepe verim, sıfır 50Hz şebeke gürültüsü** |
 
 Bu ADR, taslak halindeki `ADR-089` kararını **kabul edilmiş (accepted)** tek otoriteye dönüştürür ve spec'i kesinleştirir.
@@ -55,14 +55,14 @@ Spec beş eksende karar gerektiriyordu ve taslak bu beşi birden kapsamıyordu:
 
 ### §1.3 Kısıtlar
 
-- **Yasaklar üstünlük sağlar:** frozen ADR-001–037 **immutable**; `PCM5122` yasaklı desen ([[../../brain.md]] L56); AGPL/uyumsuz lisanslı donanım dosyası (EAGLE/KiCad source) kopyalanmaz.
+- **Yasaklar üstünlük sağlar:** frozen ADR-001–037 **immutable**; `PCM5122` yasaklı desen ([[../../raw/brain.md]] L56); AGPL/uyumsuz lisanslı donanım dosyası (EAGLE/KiCad source) kopyalanmaz.
 - **Serbestlikler:** tek kanal bağımsız olmalı, enable pinli ([[../../CLAUDE.md]] L116); sinyal zincirine parazit yasak ([[../../CLAUDE.md]] L113); DC-only mimari (şebekesiz) ([[../../CLAUDE.md]] L18).
 - **Bütçe/üretim:** K20 BOM ~$682 sistem maliyeti, k16 sınıfı BOM <$430 ([[../../CLAUDE.md]] L120, [[../../architecture/k16-class-ab/CLAUDE.md]]).
 - **Araç zinciri:** KiCad 9.0 (EDA), Verilog (HDL) ([[../../CLAUDE.md]] L219).
 
 ### §1.4 Araştırma (19 exa araması)
 
-19 exa araştırmasının **3'ü güç kaynağı ekseniyle** doğrudan bu kararı besledi (`.ai/ecosystem/donanım-devre-referanslari.md` §3.11'e işlenmiştir):
+19 exa araştırmasının **3'ü güç kaynağı ekseniyle** doğrudan bu kararı besledi (`.ai/raw/ecosystem/donanım-devre-referanslari.md` §3.11'e işlenmiştir):
 
 | Kaynak | Bulgu | Karara etkisi |
 |---|---|---|
@@ -79,7 +79,7 @@ Spec beş eksende karar gerektiriyordu ve taslak bu beşi birden kapsamıyordu:
 | # | Spec kalemi | Kesin değer | Vault bağlantısı |
 |---|---|---|---|
 | 1 | **Topoloji** | Class AB (çıkış), Darlington MJL21194/MJL21193 | K16 · [[../../architecture/k16-class-ab/CLAUDE.md]] |
-| 2 | **Güç** | **8 × 50W @ 8Ω** (aralık 25–75W) | K16, README L73, [[../../brain.md]] L41 |
+| 2 | **Güç** | **8 × 50W @ 8Ω** (aralık 25–75W) | K16, README L73, [[../../raw/brain.md]] L41 |
 | 3 | **Gürültü/dinamik** | **120dB+ hedef** *(ölçüm tanımı §4.3)* | vault ölçülebilir referans: SNR >105dB (PROJECTS L305), SNR >100dB / THD+N <0.005% (brain L284, k16) |
 | 4 | **Kanal** | **1 / 2 / 4 / 6 / 8** — modüler, her kanal bağımsız PCB | PROJECTS L306 "Kanal 1-8 (modüler)" |
 | 5 | **Güç kaynağı** | **12–24V DC giriş → boost → ±35V** (LM5122 interleaved dual, %96) | CLAUDE L18/L127, README L171, K17 |
@@ -118,7 +118,7 @@ Hibrit MCU, tek bir denetleyiciye indirgenmeyen **üç katmanlı** bir kontrol z
 
 ### §3.2 Reddedilen Alternatiflerin Ayrıntısı
 
-- **A1 — Class D / TPA3255:** Ana topoloji Class AB olduğu için, Class D'ye geçiş bu kararla **açıkça reddedilmiştir**. Ekosistem dokümanındaki `§3.1` satırındaki *"K16 güç amplifikatöründe bu topoloji referans senaryodur"* ifadesiyle **çelişir ve bu ADR ile geçersizdir** (bkz. `.ai/ecosystem/donanım-devre-referanslari.md` §3.1 — oradaki ifade DÜZELTME bloğuyla *"yalnızca topoloji dersi, entegre edilmez"* hâline getirilmiştir).
+- **A1 — Class D / TPA3255:** Ana topoloji Class AB olduğu için, Class D'ye geçiş bu kararla **açıkça reddedilmiştir**. Ekosistem dokümanındaki `§3.1` satırındaki *"K16 güç amplifikatöründe bu topoloji referans senaryodur"* ifadesiyle **çelişir ve bu ADR ile geçersizdir** (bkz. `.ai/raw/ecosystem/donanım-devre-referanslari.md` §3.1 — oradaki ifade DÜZELTME bloğuyla *"yalnızca topoloji dersi, entegre edilmez"* hâline getirilmiştir).
 - **A2 — Class DC:** Spec, tartışmada Class AB olarak sabitlenmiştir; Class DC'nin vault'ta karşılığı yoktur.
 - **A4 — Monolitik 8-kanal:** Isıl yönetim (41W/kanal → K18) ve arıza izolasyonu kanal başına ayrı PCB ile sağlanır; tek PCB'de tek bir kanal arızası tüm sistemi indirir.
 - **A7 — AC besleme:** 6S LiPo (22.2V) / 19–24V DC adaptör girişi, 50Hz köprü gürültüsünü kaynağında ortadan kaldırır.
@@ -134,7 +134,7 @@ Hibrit MCU, tek bir denetleyiciye indirgenmeyen **üç katmanlı** bir kontrol z
 | Karar | Bağ |
 |---|---|
 | [[ADR-081-multi-provider-data-sync]] | Nygard şablon kalıbı ve §7.1 debate kaydı formatı |
-| [[../../brain.md]] ADR-089-classab-24v | Kararın brain indeks karşılığı |
+| [[../../raw/brain.md]] ADR-089-classab-24v | Kararın brain indeks karşılığı |
 | [[../../CLAUDE.md]] §K16–K20 | Katman tanımı bu karara bağlanır |
 | [[../../architecture/k16-class-ab/CLAUDE.md]] | Devre seviyesi kısıtlar (Darlington, termal, BOM) |
 | [[../index.md]] §4 | Karar indeksi — ADR-089 artık **Active/accepted** satırıdır |
@@ -218,10 +218,10 @@ Bu ADR, **120dB+** hedefini iki ayrı metrik olarak tanımlar ve ikisini de öl�
 | Karar indeksi | `.ai/.decisions/index.md` §4 |
 | Vault ana indeksi | `.ai/index.md` §5.2 |
 | Katman tanımı | `.ai/CLAUDE.md` (K16–K20, H1–H5) |
-| Proje durumu | `.ai/PROJECTS.md` L305–L311 |
+| Proje durumu | `.ai/raw/PROJECTS.md` L305–L311 |
 | Devre kısıtları | `.ai/architecture/k16-class-ab/CLAUDE.md` |
-| Beyin indeksi | `.ai/brain.md` L41, L284, L907, L1027 |
-| Ekosistem / exa | `.ai/ecosystem/donanım-devre-referanslari.md` §3.1, §3.11 |
+| Beyin indeksi | `.ai/raw/brain.md` L41, L284, L907, L1027 |
+| Ekosistem / exa | `.ai/raw/ecosystem/donanım-devre-referanslari.md` §3.1, §3.11 |
 | Seri özeti | `README.md` L73, L171 |
 
 ---

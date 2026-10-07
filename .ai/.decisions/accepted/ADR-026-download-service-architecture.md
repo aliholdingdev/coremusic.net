@@ -32,13 +32,13 @@ CoreMusic'in indirme hedefi vault'ta **çoktan yazılmış** ama kodu **hiç var
 
 | Kayıt | Satır | İçerik |
 |---|---|---|
-| `.ai/.sql/mysql/coremusic_download.sql` | `:21, :39, :76, :109, :141` | `coremusic_download` DB + 4 tablo: **download_queue** (status: `queued → processing → completed \| failed`, `:64` CHECK), **download_history** (`file_size_bytes`, `:82`), **download_cache** (`file_hash`, `size_bytes`, `:109-115`), **download_sources** (kaynak başına API kimlik bilgileri — **REDACTED: credential içeriği bu ADR'ye kopyalanmaz**) |
-| `.ai/.sql/mysql/coremusic_user.sql` | `:68, :196-206` | `download_over_wifi_only` tercihi; **user_downloads** — `download_status ENUM('pending','downloading','completed','failed','expired')`, `expires_at`, `file_format ENUM('mp3','flac','wav','aac','ogg')` |
-| `.ai/.sql/mysql/coremusic_media.sql` | `:153-157, :181-197, :204-217` | `media_metadata` (`file_path VARCHAR(500)`), **media_access** (dosya bazlı erişim izni — paylaşım/işbirliği), **media_audit** (`action ENUM('upload','download','delete','play','share','move','copy')` — **indirme denetim izi zaten şemada**) |
-| `.ai/.sql/mysql/coremusic_musics.sql` | `:108, :256-259` | `download_count`, `daily/weekly/monthly/total_downloads` sayaçları |
-| `.ai/.sql/mysql/coremusic_albums.sql` | `:90-91` | `daily_downloads`, `total_downloads` |
-| `.ai/.sql/mysql/coremusic_logs.sql` | `:52, :656-658` | `activity_type` enum `download`; event isimleri `DOWNLOAD_START / DOWNLOAD_COMPLETE / DOWNLOAD_FAILED` |
-| `.ai/.sql/mysql/coremusic_auth.sql` | `:30` | `account_type ENUM('free','premium','studio','admin')` — **tek erişim kademe sinyali** |
+| `.ai/sources/.sql/mysql/coremusic_download.sql` | `:21, :39, :76, :109, :141` | `coremusic_download` DB + 4 tablo: **download_queue** (status: `queued → processing → completed \| failed`, `:64` CHECK), **download_history** (`file_size_bytes`, `:82`), **download_cache** (`file_hash`, `size_bytes`, `:109-115`), **download_sources** (kaynak başına API kimlik bilgileri — **REDACTED: credential içeriği bu ADR'ye kopyalanmaz**) |
+| `.ai/sources/.sql/mysql/coremusic_user.sql` | `:68, :196-206` | `download_over_wifi_only` tercihi; **user_downloads** — `download_status ENUM('pending','downloading','completed','failed','expired')`, `expires_at`, `file_format ENUM('mp3','flac','wav','aac','ogg')` |
+| `.ai/sources/.sql/mysql/coremusic_media.sql` | `:153-157, :181-197, :204-217` | `media_metadata` (`file_path VARCHAR(500)`), **media_access** (dosya bazlı erişim izni — paylaşım/işbirliği), **media_audit** (`action ENUM('upload','download','delete','play','share','move','copy')` — **indirme denetim izi zaten şemada**) |
+| `.ai/sources/.sql/mysql/coremusic_musics.sql` | `:108, :256-259` | `download_count`, `daily/weekly/monthly/total_downloads` sayaçları |
+| `.ai/sources/.sql/mysql/coremusic_albums.sql` | `:90-91` | `daily_downloads`, `total_downloads` |
+| `.ai/sources/.sql/mysql/coremusic_logs.sql` | `:52, :656-658` | `activity_type` enum `download`; event isimleri `DOWNLOAD_START / DOWNLOAD_COMPLETE / DOWNLOAD_FAILED` |
+| `.ai/sources/.sql/mysql/coremusic_auth.sql` | `:30` | `account_type ENUM('free','premium','studio','admin')` — **tek erişim kademe sinyali** |
 | `.ai/.architecture/k15-medya-streaming/content-delivery.md` | `:8-14, :116-121, :155-157, :233, :291` | CDN mimarisi, `public → CDN'de cache'lenebilir`, **Range/slice** nginx örneği (`slice $slice_range`), `CDN_TOKEN_SECRET` token auth, "CDN entegrasyonu **aktif geliştirme aşamasında**" → **spec IMPLEMENTED, entegrasyon PLANNED** |
 | `.ai/archives/prompt2-auth-2026-09-01.md` | `:91` | "medya deposu … doğrudan dosya yollarına erişim engellenmiş, **auth'tan gelen yetki anahtarlarıyla** medya akışı" — **kapalı depo + key ilkesi (spec)** |
 
@@ -72,7 +72,7 @@ CoreMusic'in indirme hedefi vault'ta **çoktan yazılmış** ama kodu **hiç var
 | İddia (görev bağlamı) | Disk kanıtı | Etiket |
 |---|---|---|
 | "media depo read-only" (**önce ADR-081'e atfedilmişti → şart 1b düzeltildi**) | doğru kaynak: `.ai/architecture/k15-medya-streaming/content-delivery.md` (read-only ilkesi — §1.1-A satırı); `ADR-081-multi-provider-data-sync.md` = **Multi-Provider Data Sync (Outbox+WAL)**, "media depo/read-only" başlıkta **geçmez** | ✅ **düzeltildi (şart 1b)** — referans `content-delivery.md (read-only ilkesi)` oldu; ikinci kaynak `prompt2-auth:91`; ADR-081 yalnız outbox/olay akışı (§1.4) |
-| "coremusic_media.sql ADR-022'de görüldü" | ADR-022 `database-hardened-security`; medya şeması `.ai/.sql/mysql/coremusic_media.sql` diskte VAR (yukarıda satır kanıtlı) | ✅ şema VAR / ADR-022 bağlantısı `⚠️` (ADR-022 metninde bu dosyanın geçtiği satır taranmadı) |
+| "coremusic_media.sql ADR-022'de görüldü" | ADR-022 `database-hardened-security`; medya şeması `.ai/sources/.sql/mysql/coremusic_media.sql` diskte VAR (yukarıda satır kanıtlı) | ✅ şema VAR / ADR-022 bağlantısı `⚠️` (ADR-022 metninde bu dosyanın geçtiği satır taranmadı) |
 | Lisans/erişim tabloları | `license/purchase/entitlement` tablosu **0**; `account_type` + `media_access` + `user_downloads` mevcut | **PLANNED** — lisans modeli bu ADR'nin önkoşulu §5.1/1 |
 | Teslim kodu (stream/206/imza) | PHP'de **0 eşleşme**; CDN spec dosyada, entegrasyon "aktif geliştirme" | **PLANNED** |
 | Cihaz limiti | `DeviceManager` envanteri var, limit **yok** | **PLANNED** |
@@ -122,7 +122,7 @@ CoreMusic'in indirme hedefi vault'ta **çoktan yazılmış** ama kodu **hiç var
 | In-Place Refactoring | Dosya adları **değiştirilmez**: `content-delivery.md`, `coremusic_download.sql`, `Gateway.php` vb. yalnız okunur/ekleme yapılır; `Gateway.php:87`'ye yeni rota yazımı §5.1/2'de ayrı adım. |
 | Frozen ADR-001-037 | Yalnız okunur + referanslanır (`AGENTS.md` §25.3 kural 2) — bu ADR frozen **değil**. |
 | `.ai/log.md` append-only | Bu işlem dahil tüm kayıtlar yalnız ekleme (bayt-seviyesi, `vault-utf8-writer append`). |
-| REDACTED | `download_sources` tablosundaki API credential'ları, `CDN_TOKEN_SECRET` değeri, `.ai/keys.md` içeriği bu ADR'ye **kopyalanmaz**; imza anahtarı yalnız `.env`'de yaşar. |
+| REDACTED | `download_sources` tablosundaki API credential'ları, `CDN_TOKEN_SECRET` değeri, `.ai/raw/keys.md` içeriği bu ADR'ye **kopyalanmaz**; imza anahtarı yalnız `.env`'de yaşar. |
 
 ---
 
@@ -347,12 +347,12 @@ url     = https://home.coremusic.net/dl/{file_key}?e={expires}&n={nonce}&s={sig}
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme — Guardrail'ler (bu ADR'nin yazım usulü) |
-| [[../../AGENTS.md]] | Agent registry — §5 domain (`*.php` → Backend Architect, `*.sql` → Data Engineer), §16 kalite standartları, §25.3 kural 2/3 (frozen + log append-only) |
-| [[../../WORKFLOW.md]] | Süreçler — uygulama adımlarının faz bağlamı |
+| [[../../raw/AGENTS.md]] | Agent registry — §5 domain (`*.php` → Backend Architect, `*.sql` → Data Engineer), §16 kalite standartları, §25.3 kural 2/3 (frozen + log append-only) |
+| [[../../raw/WORKFLOW.md]] | Süreçler — uygulama adımlarının faz bağlamı |
 | [[../index]] | Karar dizini — **satır 63** `[[ADR-026-download-service-architecture]]` (slug ✅) |
 | [[../../index]] | Master katalog — `:392` "I/O servisi \| Node.js 20+ \| PLANNED \| ADR-026", `:643` kısa biçim link kaydı |
-| [[../../brain]] | Mimari karar özeti — `:981` "ADR-026 \| Node.js indirme servisi" (§5.1/8 hizalama) |
-| [[../../keys]] | Keyword haritası — `:261` "ADR-026 \| download service, architecture" |
+| [[../../raw/brain]] | Mimari karar özeti — `:981` "ADR-026 \| Node.js indirme servisi" (§5.1/8 hizalama) |
+| [[../../raw/keys]] | Keyword haritası — `:261` "ADR-026 \| download service, architecture" |
 | [[ADR-013-rate-limiting-apcu]] | **Hız/kota bağlayıcısı** — `RateLimiterMiddleware.php:19` 60 sn pencere (§1.4, §2.2c) |
 | [[ADR-009-clean-url-redirect]] | Redirect/referer/kanonik disiplini — tek-atış redirect + imzalı query koruması (§1.4) |
 | [[ADR-020-api-public-security]] | Public yüzey güvenliği — oturum/CSRF/origin kapısı (§1.4) |
@@ -362,10 +362,10 @@ url     = https://home.coremusic.net/dl/{file_key}?e={expires}&n={nonce}&s={sig}
 | [[ADR-005-ultrathink-protocol]] | Kanıt standardı — `⚠️ VERIFICATION REQUIRED` etiketleri (§1.1-D, §5.4) |
 | [[ADR-024-ecosystem-modular-docs]] | Wiki-link disk kanıtı + şablon zorunluluğu + UTF-8 tek arayüz (§1.4, §10) |
 | [[../../architecture/k15-medya-streaming/content-delivery]] | CDN spec + Range/slice nginx örneği (`:155-157`) + token auth (`:233`) + "aktif geliştirme" (`:291`) — §2.2b CDN opsiyonelinin kaynağı |
-| [[../../.sql/mysql/coremusic_download]] | İndirme DB'si — 4 tablo (`:39,:76,:109,:141`) |
-| [[../../.sql/mysql/coremusic_user]] | `user_downloads` (`:196-206`) + `download_over_wifi_only` (`:68`) |
-| [[../../.sql/mysql/coremusic_media]] | `media_metadata/file_path` (`:153`), `media_access` (`:181`), `media_audit` (`:204`) |
-| [[../../.sql/mysql/coremusic_auth]] | `account_type` kademesi (`:30`) — lisans öncesi tek sinyal |
+| [[../../sources/.sql/mysql/coremusic_download.sql]] | İndirme DB'si — 4 tablo (`:39,:76,:109,:141`) |
+| [[../../sources/.sql/mysql/coremusic_user.sql]] | `user_downloads` (`:196-206`) + `download_over_wifi_only` (`:68`) |
+| [[../../sources/.sql/mysql/coremusic_media.sql]] | `media_metadata/file_path` (`:153`), `media_access` (`:181`), `media_audit` (`:204`) |
+| [[../../sources/.sql/mysql/coremusic_auth.sql]] | `account_type` kademesi (`:30`) — lisans öncesi tek sinyal |
 | [[../../.templates/adr/adr-template]] | İskelet — 7 bölüm + §1.3 9 alan (Guardrail #16) |
 | [[../../.templates/adr/adr-index]] | ADR şablon envanteri |
 | [[../../../shared/src/Config/CLAUDE]] | Domain/port tablosu `:50` — `download.coremusic.net` iddiası `⚠️ PLANNED (dizin yok — ADR-026 şart 1a)` olarak düzeltildi (şart 1a uygulandı) |

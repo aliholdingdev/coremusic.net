@@ -41,7 +41,7 @@ CoreMusic'in kimlik doğrulama katmanı **kendi yığını** üzerine kuruludur:
 | 10 | `rejected/index.md` durumu? | Dosya **VAR** (v1.0.1, `total: 12`) ama § tablosu **BOŞ** (başlık satırları var, 12 red'in hiçbiri satırlanmamış) | ⚠️ **BOŞ** → bu işlemde **dokunulmadı** → §7.1/2 |
 | 11 | Debate sonucu? | Debate **çalıştırıldı** — 3 tur / 20 persona (2026-10-06): **19/1/0 RED DOĞRULANDI** + 4 bağlayıcı şart (§5.4) | ✅ **TAMAMLANDI** → §5.3 + §5.4 + §7 |
 | 12 | Araştırma protokolü diskte? | `.claude/skills/prompt-maker/references/10-web-research-protocol.md` → `Test-Path` = **True** | ✅ OKUNDU (§1.3 bu protokolle üretildi) |
-| 13 | Şablon yolu? | Görev `.ai/templates/adr/adr-template.md` der; disk kanıtı `.ai/.templates/adr/adr-template.md` (`glob` = True, v2.0.2) | ✅ **DÜZELTİLDİ** — gerçek yol `.ai/.templates/adr/adr-template.md` (nokta öneki) — §7.1/8 |
+| 13 | Şablon yolu? | Görev `.ai/.templates/adr/adr-template.md` der; disk kanıtı `.ai/.templates/adr/adr-template.md` (`glob` = True, v2.0.2) | ✅ **DÜZELTİLDİ** — gerçek yol `.ai/.templates/adr/adr-template.md` (nokta öneki) — §7.1/8 |
 
 > **Ders notu:** bu red **hiçbir zaman kodda denenmedi** — üretim kodunda Firebase Auth **0** (§1.1/7); "reddedildi" = "Firebase Auth **hiç kurulmadı** ve kimlik doğrulama ADR-043/052/058/059 ile **kendi yığınımıza** bağlandı". Gelecekte biri "Firebase Auth kullansak mı?" derse yanıtı bu dosya + 5 auth ADR verir; "zaten denedik mi?" sorusunun yanıtı **hayır, hiç denenmedi** (§5.2). ⚠️ AYRI KONU: `firebase/php-jwt` (JWT **kütüphanesi**) ADR-059'da **ayrıca** ret edilmiştir — bu red'in hedefi **auth servisi**, kütüphane değil (§2.1/4).
 
@@ -222,10 +222,10 @@ Bu karar **kod tarafında geri alınacak bir şey üretmedi** (Firebase Auth hi�
 | [[../accepted/ADR-047-login-redirect-session-bridge]] | İmzalı tek kullanımlık köprü token'ı — kendi login akışının parçası |
 | [[../accepted/ADR-056-auth-module-implementation]] | RBAC `user_roles` + Permission middleware — authz katmanı |
 | [[../accepted/ADR-004-multi-domain-spa]] | Subdomain iskeleti + cookie haritası — auth yönlendirmelerinin bağlamı |
-| [[../../brain]] | `:145` "`firebase/php-jwt` | Yasaklı — RS256 için `lcobucci/jwt` kullanılır" — **kütüphane** düzeyi tek `firebase` gerekçesi (§2.1/4) |
+| [[../../raw/brain]] | `:145` "`firebase/php-jwt` | Yasaklı — RS256 için `lcobucci/jwt` kullanılır" — **kütüphane** düzeyi tek `firebase` gerekçesi (§2.1/4) |
 | [[../../CLAUDE]] | Kural metinleri — Zero-Hallucination + onay kapıları |
 | [[../../index]] | Master katalog — ADR kayıtları |
-| [[../../keys]] | Keyword haritası — "auth / Firebase" arama eşiği |
+| [[../../raw/keys]] | Keyword haritası — "auth / Firebase" arama eşiği |
 | [[../../.templates/adr/adr-template]] | Guardrail #16 — bu dosyanın §1-§7 iskeleti + §1.3 9 alan kaynağı (**gerçek yol `.ai/.templates/adr/` — §7.1/8**) |
 | Dizin satırı | `index.md:133` — slug otoritesi + dead-link bayrağı (§5.1/3) |
 | Debate şartları | Bu dosya **§5.3** (plan) + **§5.4** (bağlayıcı F1–F4) — debate ✅ **TAMAMLANDI (19/1/0 RED DOĞRULANDI)** + debate kaydı **§7** |

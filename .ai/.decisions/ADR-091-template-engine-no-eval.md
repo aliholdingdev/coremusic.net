@@ -15,7 +15,7 @@ governance: "Red Team · Human Mode · Truth Mode"
 
 > **Durum:** ✅ **ACCEPTED** · **Tarih:** 2026-09-27 · **Onay:** kullanıcı onaylı kapsam (eval'siz aynı davranış; tam DSL reddedildi)
 > **Karar serisi:** `.ai/.decisions/` · **Slug:** `ADR-091-template-engine-no-eval`
-> **İlgili kararlar:** [[ADR-002-pdo-mandatory-no-orm]] (yürütme güvenliği disiplini) · [[ADR-020-api-public-security]] · [[../brain.md]] · [[../index.md]]
+> **İlgili kararlar:** [[accepted/ADR-002-pdo-mandatory-no-orm]] (yürütme güvenliği disiplini) · [[accepted/ADR-020-api-public-security]] · [[../raw/brain.md]] · [[../index.md]]
 > **Şablon:** `.ai/.templates/adr/adr-security-template.md` (güvenlik domaini, Guardrail #16)
 > **Numara gerekçesi:** `.ai/.templates/coremusic-vault-template.md:407` — "yeni: ≥ ADR-091 (ADR-090 dolu)" → **091 ilk boş slot**. Frozen **001-037'ye dokunulmamıştır**.
 
