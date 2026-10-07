@@ -196,7 +196,15 @@ final class PageRouterKernel
         $route      = (string)($body['route']       ?? 'home');
         $meta       = (array)($body['meta']         ?? []);
         $csrfToken  = (string)($body['csrf_token']  ?? '');
-        $sessionData = $request['_session'] ?? $_SESSION;
+        // C-F-08/P5: CANLI superglobal snapshot'i yeniler — dispatch sırasında
+        // yazılan MM_* (setAuthUser / BypassAuth #7) $request['_session'] anlık
+        // kopyasına düşmüyordu; shell'ın user payload'ı her zaman güncel
+        // session'dan okunmalı (aksi halde dev-bypass'te client guard user:null
+        // görürdü). Live $_SESSION kazanır.
+        $sessionData = $request['_session'] ?? [];
+        if (isset($_SESSION) && is_array($_SESSION)) {
+            $sessionData = array_replace($sessionData, $_SESSION);
+        }
 
         $html = $this->shellRenderer->render($container, $route, $meta, $csrfToken, $protectedRoutes, $sessionData);
 

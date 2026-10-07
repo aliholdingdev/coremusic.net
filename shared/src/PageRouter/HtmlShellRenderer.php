@@ -254,7 +254,9 @@ final class HtmlShellRenderer
         echo 'user: ' . $jsUser . ',';
         echo 'logLevel: ' . json_encode($isDebug ? 'debug' : 'info', $hexFlags) . ',';
         echo 'cssVersion: ' . json_encode($cacheBuster, $hexFlags) . ',';
-        echo 'user: null';
+        // DİKKAT: eski `echo 'user: null'` buradaydı — JS object literal'de
+        // duplicate key'de SONUNCU kazanıyordu → payload her zaman null'a
+        // dönüyordu (C-F-08 kullanıcı enjeksiyonu bu yüzden etkisizdi).
         echo '};';
         echo '</script>';
 

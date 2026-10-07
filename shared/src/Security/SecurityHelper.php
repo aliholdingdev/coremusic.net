@@ -41,7 +41,9 @@ final class SecurityHelper
 
     public static function logTestBypass(string $context, string $file, int $line): void
     {
-        $logFile = dirname(__DIR__, 4) . '/coremusic_php_errors.log';
+        // Düzeltme (2026-10-07): dirname(...,4) C:/www'a (repo DIŞINA) yazıyordu
+        // — 3841 satır yanlış yere birikti. Repo kökü = dirname(...,3).
+        $logFile = dirname(__DIR__, 3) . '/coremusic_php_errors.log';
         $message = sprintf(
             "[%s] [TEST_BYPASS] context=%s file=%s line=%d\n",
             date('d-M-Y H:i:s e'),

@@ -14,10 +14,20 @@
         Header set Access-Control-Allow-Origin "*"
     </FilesMatch>
 
-    # CORS — CSS & JS files
-    <FilesMatch "\.(css|js)$">
+    # CORS — CSS files (cache: 1 saat — ?v= ile versionlanir)
+    <FilesMatch "\.css$">
         Header set Access-Control-Allow-Origin "*"
         Header set Cache-Control "public, max-age=3600"
+    </FilesMatch>
+
+    # CORS — JS files: no-cache (2026-10-07)
+    # Neden: bundler/hash yok → import'lar (main.js'in modulleri) version'siz;
+    # max-age=3600 bayat modul karisimina (deploy sonrasi eski+yeni kod birlikte)
+    # ve test yanilgisina yol achiyordu. no-cache = her yuklemede ETag dogrulama
+    # (304 ucuz). Dogruluk > amorti edilmemis sure.
+    <FilesMatch "\.js$">
+        Header set Access-Control-Allow-Origin "*"
+        Header set Cache-Control "no-cache"
     </FilesMatch>
 
     # Cache — Static assets (1 day for CSS/JS, 1 year for immutable assets)
