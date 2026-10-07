@@ -10,8 +10,8 @@ final class ResponseEmitter
         'Cache-Control'          => 'no-store, no-cache, must-revalidate, max-age=0',
     ];
 
-    /** Pipeline dışı yanıtlar için yedek CSP (ADR-012 — nonce yokken 'self' varyantı). */
-    private const FALLBACK_CSP = "default-src 'self'; script-src 'self' https:; style-src 'self' https://assets.coremusic.net fonts.googleapis.com; style-src-attr 'unsafe-inline'; img-src 'self' data: https://assets.coremusic.net; font-src 'self' https://assets.coremusic.net fonts.gstatic.com; connect-src 'self' https://assets.coremusic.net https://api.coremusic.net; media-src 'self' https://assets.coremusic.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'";
+    /** Pipeline dışı yanıtlar için yedek CSP (ADR-012 — nonce yokken 'self' varyantı; C-F-02: `https:` genişliği kaldırıldı). */
+    private const FALLBACK_CSP = "default-src 'self'; script-src 'self'; style-src 'self' https://assets.coremusic.net fonts.googleapis.com; style-src-attr 'unsafe-inline'; img-src 'self' data: https://assets.coremusic.net; font-src 'self' https://assets.coremusic.net fonts.gstatic.com; connect-src 'self' https://assets.coremusic.net https://api.coremusic.net; media-src 'self' https://assets.coremusic.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'";
 
     public function emit(array $response, ?string $traceId = null, bool $isSpa = false, array $extraHeaders = []): never
     {

@@ -48,8 +48,12 @@ $variant = HomeLayoutVariant::fromFlags($isWide, $is4k);
 /* --- Bileşen Yükleyici (mevcut — geriye dönük uyumlu) --- */
 $loader = new ComponentLoader();
 
-/* --- Header --- */
-require __DIR__ . '/../header.php';
+/* --- Yerel yardımcılar (C-F-13: header/footer artık shell'de; $h/$assetsUrl
+       önce header.php tanımlıyordu — sayfa kendi ihtiyaçını kendi karşılar) --- */
+$h = static function (string $v): string {
+    return htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+};
+$assetsUrl = defined('ASSETS_URL') ? ASSETS_URL : 'http://assets.coremusic.net';
 ?>
 
 <!-- DEBUG: Responsive Test Mode 1024/1920/3840px -->
@@ -60,15 +64,11 @@ require __DIR__ . '/../header.php';
     | Player: <strong><?= $variant->isWide() ? '150×150 cover' : '72×72 cover' ?></strong>
     | 📍 <a href="?" style="color: #fff; text-decoration: underline;">Exit Test</a>
 </div>
-<main class="page-home page-layout <?= $layoutClass ?> <?= $dm->allClasses() ?>"
-      role="main"
-      aria-label="Ana Sayfa"
+<div class="page-home page-layout <?= $layoutClass ?> <?= $dm->allClasses() ?>"
       <?= $dm->dataAttributes() ?>
       style="margin-top: 40px;">
 <?php else: ?>
-<main class="page-home page-layout <?= $layoutClass ?> <?= $dm->allClasses() ?>"
-      role="main"
-      aria-label="Ana Sayfa"
+<div class="page-home page-layout <?= $layoutClass ?> <?= $dm->allClasses() ?>"
       <?= $dm->dataAttributes() ?>>
 <?php endif; ?>
 
@@ -121,10 +121,10 @@ require __DIR__ . '/../header.php';
 
 <?php endif; ?>
 
-</main>
+</div>
 
 <!-- Welcome Modal — ilk girişte açılır (sadece 1024 embedded), localStorage 'cm_welcome_seen'
-     Mantık: js/features/welcome-modal.js (footer.php yükler) — sadece [Başla] kapatır -->
+     Mantık: js/features/welcome-modal.js (shell footer.php yükler) — sadece [Başla] kapatır -->
 <?php if (!$dm->isPhone()): ?>
 <div id="welcomeModalOverlay" class="welcome-modal-overlay is-hidden">
     <div class="welcome-modal" role="dialog" aria-modal="true" aria-labelledby="welcomeModalTitle">
@@ -141,4 +141,4 @@ require __DIR__ . '/../header.php';
 </div>
 <?php endif; ?>
 
-<?php require __DIR__ . '/../footer.php'; ?>
+<?php /* C-F-13: footer.php artık shell'de (HtmlShellRenderer::renderChrome) — sayfa GÖVDESİNE include edilmez. */ ?>

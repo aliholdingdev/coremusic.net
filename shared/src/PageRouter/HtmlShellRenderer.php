@@ -41,6 +41,30 @@ final class HtmlShellRenderer
         return $this->footerPath;
     }
 
+    /**
+     * Chrome (header/footer) parçasını include eder — C-F-13.
+     *
+     * Yol boşsa veya dosya yoksa '' döner (auth host HEADER_PATH tanımlamaz →
+     * davranış değişmez). Partial'lar kendi bağımlılıklarını ($dm, $h,
+     * $assetsUrl, $nonce) kendileri tanımlar; dışarıdan değişken GEREKMEZ.
+     * Hata halinde buffer temizlenip exception yukarı taşınır.
+     */
+    private function renderChrome(string $path): string
+    {
+        if ($path === '' || !is_file($path)) {
+            return '';
+        }
+
+        ob_start();
+        try {
+            include $path;
+        } catch (\Throwable $e) {
+            ob_end_clean();
+            throw $e;
+        }
+        return (string) ob_get_clean();
+    }
+
     public function render(
         string $container,
         string $route,
@@ -168,11 +192,21 @@ final class HtmlShellRenderer
         echo '<audio id="audio" class="vdisplay" preload="metadata"></audio>';
         echo '<input type="hidden" name="csrf_token" id="csrf-global" value="' . $csrfEsc . '">';
 
+        // C-F-13: header/footer chrome ARTIK container DIŞINDA (shell seviyesi).
+        // Önceki yapıda container içindeydiler → SPA patch replaceChildren +
+        // DomPatcher script-strip ile footer klasik script'leri hiç yeniden
+        // çalışmaz, player kontrolleri tam sayfa yenilemesine kadar ölü kalırdı;
+        // iç içe <main> de (WCAG çift landmark) ortadan kalktı. header/footer.php
+        // kendi bağımlılıklarını ($dm/$h/$assetsUrl/$nonce) kendileri tanımlar.
+        echo $this->renderChrome($this->headerPath);
+
         if ($isAuthRoute) {
             echo '<main id="main-content"' . $deviceRenderer->tierAttribute() . '>' . $container . '</main>';
         } else {
             echo '<main class="l-main-wrapper" id="main-content" aria-busy="false"' . $deviceRenderer->tierAttribute() . '>' . $container . '</main>';
         }
+
+        echo $this->renderChrome($this->footerPath);
 
         // Inline script — window.CoreMusic.RouterConfig
         // XSS: inline <script> içine gömülü JSON, `</script>` / `<!--` ile kapanışı kırabilir;

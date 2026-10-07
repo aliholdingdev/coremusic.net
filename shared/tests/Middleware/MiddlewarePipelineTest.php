@@ -272,6 +272,21 @@ final class MiddlewarePipelineTest extends TestCase
         $this->assertMatchesRegularExpression("/connect-src [^;]*assets\.coremusic\.net/", $csp);
     }
 
+    /**
+     * C-F-02 regresyonu: fallback CSP'de script-src YALNIZ 'self' olmalıdır —
+     * `https:` (herhangi bir HTTPS origin) genişliği 2026-10-07'de kaldırıldı;
+     * hata/önceki-pipeline yanıtlarında herhangi bir https script kaynağına
+     * izin vermek nonce'suz CSP'yi zayıflatır.
+     */
+    public function testFallbackCspScriptSrcIsSelfOnly(): void
+    {
+        $ref = new \ReflectionClass(\CoreMusic\PageRouter\ResponseEmitter::class);
+        $csp = (string) $ref->getReflectionConstant('FALLBACK_CSP')->getValue();
+
+        $this->assertMatchesRegularExpression("/script-src 'self';/", $csp);
+        $this->assertDoesNotMatchRegularExpression('/script-src[^;]*https:/', $csp);
+    }
+
     /* ============================================================
        HELPER
        ============================================================ */

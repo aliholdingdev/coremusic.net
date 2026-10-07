@@ -95,13 +95,8 @@ auth.coremusic.net/
 │ │ ├── AuthKeyRedirect.php ← Key-based redirect handler
 │ │ ├── AuthPost.php ← POST auth handler
 │ │ └── AutoRedirect.php ← Auto redirect handler
-│ ├── Middleware/
-│ │ ├── Pipeline.php ← Middleware pipeline
-│ │ ├── OriginCheck.php ← CORS origin kontrolü
-│ │ ├── RateLimit.php ← Rate limiting (ADR-013)
-│ │ ├── SecurityHeaders.php ← CSP, HSTS header'ları
-│ │ ├── Session.php ← Session yönetimi (ADR-011)
-│ │ └── MiddlewareInterface.php ← Middleware interface
+│ ├── Middleware/ (2026-10-07 silindi — B-F-18: 6 ölü sınıf; undefined-constant
+│ │   tehlikesi vardı. Pipeline = shared/src/Middleware/ — tek gerçek zincir)
 │ ├── Repository/
 │ │ └── UserRepository.php ← PDO prepared statement
 │ └── Service/
