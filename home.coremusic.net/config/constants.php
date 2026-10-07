@@ -45,7 +45,7 @@ if (!defined('TEST_MODE')) {
     if (!$isProdEnv) {
         $bypassRaw      = (string)$env('FORCE_AUTH_BYPASS', 'false');
         $bypassUuid     = (string)$env('BYPASS_USER_UUID', '00000000000000000000000000000001');
-        $bypassRole     = (string)$env('BYPASS_ROLE', 'admin');
+        $bypassRole     = (string)$env('BYPASS_ROLE', 'test_user');
         $bypassUsername = (string)$env('BYPASS_USERNAME', 'test_user');
     }
     define('FORCE_AUTH_BYPASS', !$isProdEnv && in_array(strtolower($bypassRaw), ['true', '1', 'yes', 'on'], true));

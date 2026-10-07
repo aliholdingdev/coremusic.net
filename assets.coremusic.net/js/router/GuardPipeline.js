@@ -1,6 +1,9 @@
 import { isCrossOrigin } from './UrlUtils.js';
 
-const DEFAULT_REDIRECTS = Object.freeze({ blocked: '/403', error: '/error' });
+// C-F-08: '/403' ve '/error' route'ları route tablosunda YOK (→ sunucu 404).
+// Mevcut tek güvenli hedef '/home': oturumsuzsa sunucu AuthGuard zaten /login'e
+// yönlendirir. Gerçek 403 sayfası P3'te eklenince bu hedefler güncellenir.
+const DEFAULT_REDIRECTS = Object.freeze({ blocked: '/home', error: '/home' });
 
 export default class GuardPipeline {
     #guards = [];
@@ -35,7 +38,13 @@ export default class GuardPipeline {
                 if (result?.redirect) {
                     return { pass: false, redirect: result.redirect, crossOrigin: isCrossOrigin(result.redirect), guardMs: performance.now() - start };
                 }
-            } catch {
+            } catch (err) {
+                // C-F-08: sessiz yutma yerine logla — guard istisnası gözlemlenebilir olsun.
+                this.#logger?.error?.('GuardPipeline', 'guard_exception', {
+                    guard: guard?.name ?? 'unknown',
+                    to: ctx?.to ?? null,
+                    message: err?.message ?? String(err),
+                });
                 return { pass: false, redirect: this.#redirects.error, guardMs: performance.now() - start };
             }
         }

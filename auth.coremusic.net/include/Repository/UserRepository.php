@@ -88,6 +88,42 @@ final class UserRepository implements IUserRepository
     }
 
     /**
+     * Kullanıcının aktif RBAC rollerini (rol adı + izin listesi) döndürür — B-F-12.
+     *
+     * user_assigned_roles (soft-delete filtresi) → user_roles JOIN;
+     * permissions JSON kolonu decode edilir, bozuk JSON güvenli biçimde [] olur.
+     *
+     * @return list<array{role_name: string, permissions: list<string>}>
+     */
+    public function findRolesForUser(string $userId): array
+    {
+        $rows = $this->db()->execute(
+            'SELECT r.role_name, r.permissions FROM user_assigned_roles a '
+            . 'INNER JOIN user_roles r ON r.id = a.role_id '
+            . 'WHERE a.user_id = UNHEX(:user_id) AND a.is_deleted = 0 AND r.is_deleted = 0 '
+            . 'ORDER BY r.role_name',
+            ['user_id' => $userId]
+        );
+
+        $roles = [];
+        foreach ($rows as $row) {
+            $permissions = $row['permissions'] ?? null;
+            if (is_string($permissions)) {
+                $decoded     = json_decode($permissions, true);
+                $permissions = is_array($decoded) ? $decoded : [];
+            }
+            if (!is_array($permissions)) {
+                $permissions = [];
+            }
+            $roles[] = [
+                'role_name'   => (string)$row['role_name'],
+                'permissions' => array_values(array_filter($permissions, 'is_string')),
+            ];
+        }
+        return $roles;
+    }
+
+    /**
      * UUID hex ile kullanıcı bul.
      */
     public function findByIdHex(string $uuidHex): ?array
@@ -257,5 +293,16 @@ final class UserRepository implements IUserRepository
     public function markAuthKeyUsed(string $tokenId): void
     {
         $this->db()->write('UPDATE user_tokens SET used_at = NOW() WHERE id = UNHEX(:id)', ['id' => $tokenId]);
+    }
+
+    /**
+     * Logout'ta kullanılmamış auth_key'leri iptal et — B-F-20 (300s TTL penceresini kapatır).
+     */
+    public function revokeAuthKeysForUser(string $userId): void
+    {
+        $this->db()->write(
+            "UPDATE user_tokens SET used_at = NOW() WHERE user_id = UNHEX(:user_id) AND token_type = 'api_key' AND used_at IS NULL",
+            ['user_id' => $userId]
+        );
     }
 }

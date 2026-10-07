@@ -8,14 +8,16 @@ export function authGuard(ctx) {
 
 export function roleGuard(ctx) {
     if (ctx.meta?.requiredRole && ctx.user?.role !== ctx.meta.requiredRole) {
-        return { redirect: '/403' };
+        // C-F-08: '/403' route'u yok → mevcut '/home' (gerçek 403 sayfası P3 backlog).
+        return { redirect: '/home' };
     }
     return true;
 }
 
 export function permissionGuard(ctx) {
     if (ctx.meta?.requiredPermission && (!ctx.user?.permissions || !ctx.user.permissions.includes(ctx.meta.requiredPermission))) {
-        return { redirect: '/403' };
+        // C-F-08: '/403' route'u yok → mevcut '/home' (gerçek 403 sayfası P3 backlog).
+        return { redirect: '/home' };
     }
     return true;
 }

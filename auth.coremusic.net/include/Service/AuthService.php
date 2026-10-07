@@ -56,9 +56,15 @@ final class AuthService implements IAuthService
      */
     public function loginWithRequest(LoginRequest $request): AuthResponse
     {
-        $failedKey = self::LOGIN_RATE_KEY_PREFIX . $request->clientIp;
+        $failedKey   = self::LOGIN_RATE_KEY_PREFIX . $request->clientIp;
+        // B-F-25: kimlik bazlı ikinci sayaç — parola-sprey (çok hesap/tek IP) ve
+        // dağıtık tek-hesap saldırısı için iki boyutlu limit. SHA-256 bucket'ı
+        // geri-dönüştürülemez; enumeration sinyali vermez (var olmayan kimlik de sayılır).
+        $identityKey = self::LOGIN_RATE_KEY_PREFIX . 'id:' . hash('sha256', strtolower($request->identity));
 
-        if ($this->rateLimiter->isLimited($failedKey, self::MAX_LOGIN_ATTEMPTS, self::LOGIN_WINDOW_SECONDS)) {
+        if ($this->rateLimiter->isLimited($failedKey, self::MAX_LOGIN_ATTEMPTS, self::LOGIN_WINDOW_SECONDS)
+            || $this->rateLimiter->isLimited($identityKey, self::MAX_LOGIN_ATTEMPTS, self::LOGIN_WINDOW_SECONDS)
+        ) {
             throw RateLimitException::loginRateLimited(self::LOGIN_WINDOW_SECONDS);
         }
 
@@ -69,6 +75,7 @@ final class AuthService implements IAuthService
         $row = $this->userRepository->findByCredential($request->identity);
         if ($row === null) {
             $this->rateLimiter->increment($failedKey, self::LOGIN_WINDOW_SECONDS);
+            $this->rateLimiter->increment($identityKey, self::LOGIN_WINDOW_SECONDS);
             throw AuthenticationException::invalidCredentials();
         }
 
@@ -81,6 +88,7 @@ final class AuthService implements IAuthService
         $password = Password::create($request->password);
         if (!$password->verify($user->passwordHash, $this->pepper)) {
             $this->rateLimiter->increment($failedKey, self::LOGIN_WINDOW_SECONDS);
+            $this->rateLimiter->increment($identityKey, self::LOGIN_WINDOW_SECONDS);
             throw AuthenticationException::invalidCredentials();
         }
 
@@ -96,9 +104,20 @@ final class AuthService implements IAuthService
         }
 
         $this->rateLimiter->reset($failedKey);
+        $this->rateLimiter->reset($identityKey);
         $this->userRepository->updateLastLogin($user->id);
 
-        $this->session->setAuthUser($user->toArray());
+        // RBAC (B-F-12): rol + izinleri session'a yaz — PermissionMiddleware bunları bekler.
+        // Birincil rol = alfabetik ilk (deterministik); izinler tüm rollerden birleşir.
+        $userData = $user->toArray();
+        $roles    = $this->userRepository->findRolesForUser($user->id);
+        if ($roles !== []) {
+            $userData['role']        = $roles[0]['role_name'];
+            $userData['permissions'] = array_values(array_unique(array_merge(
+                ...array_map(static fn (array $r): array => $r['permissions'], $roles)
+            )));
+        }
+        $this->session->setAuthUser($userData);
 
         $authKey = bin2hex(random_bytes(32));
         $expiresAt = date('Y-m-d H:i:s', time() + self::AUTH_KEY_TTL);
@@ -201,6 +220,13 @@ final class AuthService implements IAuthService
 
     public function logout(): void
     {
+        // B-F-20: outstanding tek-kullanımlık auth_key'leri de iptal et —
+        // çalınan anahtar logout sonrası 300s daha geçerli kalmasın.
+        $userId = $this->session->getUserId();
+        if ($userId !== null) {
+            $this->userRepository->revokeAuthKeysForUser($userId);
+        }
+
         $this->session->destroy();
         $this->session->clearDisplayCookies();
     }

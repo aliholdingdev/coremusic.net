@@ -31,6 +31,8 @@ use CoreMusic\Config\ConfigManager;
 use CoreMusic\Config\DomainConfig;
 use CoreMusic\Log\LoggerFactory;
 use CoreMusic\Middleware\CorsMiddleware;
+use CoreMusic\Middleware\CsrfMiddleware;
+use CoreMusic\Middleware\OriginCheckMiddleware;
 use CoreMusic\Security\CacheRateLimiter;
 
 /* --- Config (constants + app + cors + routes) --- */
@@ -114,10 +116,14 @@ if (str_starts_with($requestUri, '/api/')) {
     }
 
     // Middleware pipeline'ının beklediği request formatı (Cors: server + method).
+    // headers/body: CsrfMiddleware (B-F-02) x-csrf-token header'ını ve gövde
+    // token'ını bu alanlardan okur — session-auth state-changing uçlar için gerekli.
     $pipelineRequest = [
-        'server' => $_SERVER,
-        'method' => $method,
-        'uri'    => $requestUri,
+        'server'  => $_SERVER,
+        'method'  => $method,
+        'uri'     => $requestUri,
+        'headers' => ['x-csrf-token' => $_SERVER['HTTP_X_CSRF_TOKEN'] ?? ''],
+        'body'    => $_POST + (json_decode(file_get_contents('php://input'), true) ?? []),
     ];
 
     try {
@@ -126,15 +132,34 @@ if (str_starts_with($requestUri, '/api/')) {
          *                         → RequestValidation → Authorization
          */
         $corsMiddleware = new CorsMiddleware($corsConfig);
+        // B-F-02/B-F-07: frozen sıra OriginCheck(#1) → Cors(#2). İzinsiz Origin'i
+        // OriginCheck 403 ile reddeder (Cors yalnız header yayıcıdır — B-F-03).
+        // Origin yoksa (curl/Bearer istemciler) geçer.
+        $originCheckMiddleware = new OriginCheckMiddleware(
+            defined('APP_ENV_MODE') && APP_ENV_MODE === 'production',
+            $corsConfig
+        );
+        $csrfMiddleware = new CsrfMiddleware();
         $apiCache       = (function_exists('apcu_enabled') && apcu_enabled())
             ? new ApcuAdapter()
             : new MemoryAdapter();
 
         $pipeline = (new ApiMiddlewarePipeline())
             ->pipe(new ResponseNormalizationMiddleware())
+            ->pipe(static fn (array $req, callable $next): array => $originCheckMiddleware->handle($req, $next))
             ->pipe(static fn (array $req, callable $next): array => $corsMiddleware->handle($req, $next))
             ->pipe(new RateLimitMiddleware(new CacheRateLimiter($apiCache)))
             ->pipe(new AuthenticationMiddleware(new ApiSessionManager()))
+            // B-F-02: yalnız SESSION ile kimliklenmiş state-changing istekler CSRF
+            // token gerektirir. Bearer/API-key (header-auth) ve public uçlar CSRF'ye
+            // tabi değildir — tarayıcı cross-site'te özel header forging yapamaz;
+            // SameSite=Lax + OriginCheck ek katmanlardır.
+            ->pipe(static function (array $req, callable $next) use ($csrfMiddleware): array {
+                if (($req['_auth_user']['method'] ?? '') !== 'session') {
+                    return $next($req);
+                }
+                return $csrfMiddleware->handle($req, $next);
+            })
             ->pipe(new RequestValidationMiddleware())
             ->pipe(new AuthorizationMiddleware());
 

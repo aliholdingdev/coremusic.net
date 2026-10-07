@@ -19,4 +19,16 @@ interface IUserRepository
     public function saveAuthKey(string $userId, string $authKey, string $expiresAt, ?string $clientIp = null): void;
     public function findValidAuthKey(string $authKey): ?array;
     public function markAuthKeyUsed(string $tokenId): void;
+
+    /**
+     * Kullanıcının kullanılmamış tüm auth_key'lerini (token_type=api_key) iptal eder — logout (B-F-20).
+     */
+    public function revokeAuthKeysForUser(string $userId): void;
+
+    /**
+     * Kullanıcının aktif RBAC rollerini (rol adı + izin listesi) döndürür.
+     *
+     * @return list<array{role_name: string, permissions: list<string>}>
+     */
+    public function findRolesForUser(string $userId): array;
 }

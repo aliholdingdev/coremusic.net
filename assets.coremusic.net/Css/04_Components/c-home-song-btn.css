@@ -123,3 +123,11 @@
   white-space: nowrap;
   margin-top: 2px;
 }
+
+/* Meta etiketi (süre) — inline style yerine buraya taşındı (css CLAUDE §4.1 #3,
+   home CLAUDE §4.3: PHP'de margin/padding yasak). Değerler eski inline ile birebir. */
+span.home-song__mini-card__subtitle {
+  position: absolute;
+  margin-top: -2px;
+  right: 0;
+}

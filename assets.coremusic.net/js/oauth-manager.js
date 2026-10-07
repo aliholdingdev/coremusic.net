@@ -74,6 +74,14 @@ const OAuthManager = (() => {
                     `width=${width},height=${height},left=${left},top=${top},scrollbars=yes`
                 );
 
+                // C-F-05: reverse tabnabbing — sağlayıcı penceresi window.opener'ı
+                // gezdirmesin. 'noopener' feature'ı YAZMAK popup referansını null'a
+                // çevirir (aşağıdaki popup.closed/popup.location kontrolü kırılırdı);
+                // open sonrası opener'ı kapatmak aynı korumayı referansı bozmadan verir.
+                if (popup) {
+                    try { popup.opener = null; } catch { /* cross-origin navigasyon sonrası erişim yok — yok sayılır */ }
+                }
+
                 // Popup kapanmasını bekle
                 return new Promise((resolve) => {
                     const checkInterval = setInterval(() => {
@@ -246,17 +254,14 @@ const OAuthManager = (() => {
     }
 
     /**
-     * CSRF token'ı cookie'den al.
+     * CSRF token'ını DOM'daki gizli input'tan al — app sözleşmesi
+     * `input[name="csrf_token"]` (shell: id="csrf-global"; CsrfSyncManager ile aynı selector).
+     * Cookie'den OKUMAK YANLIŞTIR (C-F-04): PHP asla csrf_token cookie'si set etmez,
+     * getToken() hep '' dönüyordu → OAuth POST'ları boş header'la 403 (fail-closed).
      */
     function getCsrfToken() {
-        const cookies = document.cookie.split(';');
-        for (const cookie of cookies) {
-            const [name, value] = cookie.trim().split('=');
-            if (name === 'csrf_token') {
-                return value;
-            }
-        }
-        return '';
+        const input = document.querySelector('[name="csrf_token"]');
+        return input && typeof input.value === 'string' ? input.value : '';
     }
 
     /**

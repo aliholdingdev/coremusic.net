@@ -22,6 +22,11 @@ final class SessionManager implements ISessionManager
         $_SESSION['MM_AccountType'] = $user['account_type'] ?? 'free';
         $_SESSION['MM_Image']       = $user['avatar_url'] ?? '';
         $_SESSION['MM_Gender']      = $user['gender'] ?? 'neutral';
+        // RBAC (B-F-12): AuthMiddleware bunları _auth'a enjekte eder.
+        $_SESSION['MM_UserRole']    = is_string($user['role'] ?? null) && $user['role'] !== ''
+            ? $user['role']
+            : 'user';
+        $_SESSION['MM_Permissions'] = is_array($user['permissions'] ?? null) ? $user['permissions'] : [];
         $_SESSION['_session_last_active'] = time();
     }
 

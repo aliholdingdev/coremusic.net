@@ -148,6 +148,11 @@ final class MusicStreamHandler
 
     private static function bypassActive(): bool
     {
+        // B-F-05: prod'da bypass ASLA aktif olmaz — SecurityHelper::isTestBypassActive
+        // ile aynı kural (tek katman değil, savunma derinliği).
+        if (defined('APP_ENV_MODE') && APP_ENV_MODE === 'production') {
+            return false;
+        }
         $force = defined('FORCE_AUTH_BYPASS') && FORCE_AUTH_BYPASS;
         $test  = defined('TEST_MODE') && TEST_MODE;
         return $force || $test;

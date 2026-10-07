@@ -27,5 +27,3 @@ require_once __DIR__ . '/config/config.php';
 
 /* --- Application Bootstrap & Routing --- */
 require_once __DIR__ . '/config/bootstrap.php';
-
-opcache_reset();apcu_clear_cache();

@@ -73,6 +73,19 @@ final class OriginCheckMiddleware implements IMiddleware
             if ($allowed === '') {
                 continue;
             }
+            // F-04: config scheme'li ("https://host[:port]") VEYA çıplak ("host")
+            // girdi kabul eder — CorsMiddleware her iki biçimi de karşılar; OriginCheck
+            // de aynısını yapmalı. Aksi halde scheme'li CORS_ALLOWED_ORIGINS değeri
+            // tüm cross-origin istekleri 403 eder (fail-broken, doğrulama gereği).
+            if (str_contains($allowed, '://')) {
+                $allowedParsed = parse_url($allowed);
+                $allowed = is_array($allowedParsed) && !empty($allowedParsed['host'])
+                    ? strtolower((string) $allowedParsed['host'])
+                    : '';
+                if ($allowed === '') {
+                    continue;
+                }
+            }
             if (str_starts_with($allowed, '*.')) {
                 $suffix    = substr($allowed, 1); // '.example.com'
                 $apex      = substr($suffix, 1);  // 'example.com'

@@ -182,7 +182,31 @@ final class HtmlShellRenderer
         $jsAssetsUrl  = json_encode($assetsUrl, $hexFlags | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         $jsAppName    = json_encode($appName, $hexFlags | JSON_UNESCAPED_UNICODE);
         $jsRoute      = json_encode($route, $hexFlags | JSON_UNESCAPED_SLASHES);
-        $jsProtected  = json_encode(array_values($protectedRoutes), $hexFlags | JSON_UNESCAPED_SLASHES);
+        // C-F-08 (1/2): Route anahtarları slash'siz gelir ('playlist'), client
+        // normalizeUrl pathname'i ('/playlist') ile karşılaştırır → includes() hiç
+        // eşleşmiyordu. Çıkışta leading-slash'e normalize edilir.
+        $jsProtected  = json_encode(
+            array_values(array_map(
+                static fn ($key): string => '/' . ltrim((string) $key, '/'),
+                $protectedRoutes
+            )),
+            $hexFlags | JSON_UNESCAPED_SLASHES
+        );
+        // C-F-08 (2/2): Guard zinciri gerçek kullanıcıyı okur (authGuard: user.id).
+        // sessionData'dan üretilir; HttpOnly session cookie'nin İÇİNDEKİ hiçbir
+        // sır (session id, token) bu payload'a GİRMEZ — yalnız kimlik görünümü.
+        $userIdentity = null;
+        if (is_string($sessionData['MM_UserID'] ?? null) && $sessionData['MM_UserID'] !== '') {
+            $userIdentity = [
+                'id'          => (string) $sessionData['MM_UserID'],
+                'username'    => (string) ($sessionData['MM_Username'] ?? ''),
+                'role'        => (string) ($sessionData['MM_UserRole'] ?? 'user'),
+                'permissions' => is_array($sessionData['MM_Permissions'] ?? null)
+                    ? array_values(array_filter($sessionData['MM_Permissions'], 'is_string'))
+                    : [],
+            ];
+        }
+        $jsUser = json_encode($userIdentity, $hexFlags | JSON_UNESCAPED_UNICODE);
 
         echo '<script' . $nonceAttr . '>';
         echo 'window.CoreMusic = window.CoreMusic || {};';
@@ -193,6 +217,7 @@ final class HtmlShellRenderer
         echo 'domain: ' . $jsDomain . ',';
         echo 'initialRoute: ' . $jsRoute . ',';
         echo 'protectedRoutes: ' . $jsProtected . ',';
+        echo 'user: ' . $jsUser . ',';
         echo 'logLevel: ' . json_encode($isDebug ? 'debug' : 'info', $hexFlags) . ',';
         echo 'cssVersion: ' . json_encode($cacheBuster, $hexFlags) . ',';
         echo 'user: null';

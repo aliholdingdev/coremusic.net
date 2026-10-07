@@ -73,7 +73,7 @@ if (!defined('TEST_MODE')) {
     define('TEST_MODE', in_array(strtolower((string)$env('TEST_MODE', 'false')), ['true', '1', 'yes', 'on'], true));
     define('FORCE_AUTH_BYPASS', in_array(strtolower((string)$env('FORCE_AUTH_BYPASS', 'false')), ['true', '1', 'yes', 'on'], true));
     define('BYPASS_USER_UUID', $env('BYPASS_USER_UUID', '00000000000000000000000000000001'));
-    define('BYPASS_ROLE', $env('BYPASS_ROLE', 'admin'));
+    define('BYPASS_ROLE', $env('BYPASS_ROLE', 'test_user'));
     define('BYPASS_USERNAME', $env('BYPASS_USERNAME', 'test_user'));
 }
 

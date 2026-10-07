@@ -69,6 +69,22 @@ if ($requestUri === '/health' || $requestUri === '/session' || $requestUri === '
     $container  = AuthContainer::getInstance($config, $domainConfig);
     $controller = $container->get(AuthController::class);
 
+    // B-F-07: pipeline öncesi uçlar artık OriginCheck'ten de geçer (ADR-010 frozen
+    // sıra #1). Origin yoksa (server-to-server validate-key curl'u) geçer — yalnız
+    // izinsiz browser Origin'i 403 olur. RateLimiter #3 olduğundan önce koşar.
+    $originChecked = (new \CoreMusic\Middleware\OriginCheckMiddleware($isProductionEnv, $corsConfig))->handle(
+        ['server' => $_SERVER],
+        static fn (array $req): array => ['httpStatus' => 0, 'type' => 'json'],
+    );
+    if (($originChecked['halt'] ?? false) === true) {
+        http_response_code((int)$originChecked['httpStatus']);
+        header('Content-Type: application/json; charset=utf-8');
+        header("Content-Security-Policy: default-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
+        header('X-Content-Type-Options: nosniff');
+        echo json_encode($originChecked['body'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        exit;
+    }
+
     // ADR-013 §5.4 şart 1d: tek kaynak RateLimiterMiddleware (paylaşımlı sınıf).
     // Bu uçlar PageRouterKernel ÖNCESİ çalıştığı için pipeline'a girmez; aynı sınıf,
     // aynı sayaç anahtarlarıyla burada da uygulanır (iki limiter yarışı yok).
