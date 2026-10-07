@@ -128,7 +128,7 @@ katmanı); toplam yalnız betik çıktısıyla yazılır. Eski K0–K20 / 344 MD
 (`_backup/arch-2026-10-06_1057.zip`, salt-okunur referans, esas değil). Amplifikatör topolojisi **Class AB**
 (Class D yasak). Agent hiyerarşisi: **Expert 5 / Senior 5 / Junior 10** → [[AGENTS.md]] §6.1.
 
-⚠️ VERIFICATION REQUIRED — `.ai/architecture/` (v4.0.0, 500 katman) diskte YOK (2026-10-06 kontrolü); eski 21 katman yapısı `_backup/arch-2026-10-06_1057/architecture/` altında.
+✅ **GÜNCELLENDİ (2026-10-07):** `.ai/architecture/` (v4.0.0) **diskte MEVCUT** — 500 katman `00-master-index.md` + 10 domain tablosu + k0–k20 landing + `rules.md`/`context.md` (validator 8 check OK). Eski 21-katman MD yapısı hâlâ `_backup/arch-2026-10-06_1057/architecture/` altındadır (salt-okunur, esas değil). *(önceki not: 2026-10-06'da diskte YOK idi — geçersizleşti)*
 
 **CSS görevleri:** kod öncesi kanonik `.ai/.templates/frontend/` seti — `css-template.md` · `css-abstracts-token-template.md` · `css-component-template.md` · `css-page-template.md` · `css-device-template.md` · `css-auth-device-template.md` · `css-utility-template.md` · `css-helper-template.md` okunur (01→11 sıra · token yalnız 01 · taşıma yok) → [[AGENTS.md]] §10.
 
