@@ -118,9 +118,9 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[accepted/ADR-081-multi-provider-data-sync]] | Multi-Provider Data Sync (Outbox+WAL) | Database |
 | [[accepted/ADR-082-dev-environment]] | Dev/Staging Environment Architecture | Infrastructure |
 | ADR-083-spa-router | SPA Router Architecture | Architecture <!-- NO FILE on disk 2026-10-06 — brain.md only --> |
-| ADR-084-api-gateway-architecture | API Gateway Architecture | Architecture <!-- NO FILE on disk 2026-10-06 — brain.md only --> |
-| ADR-085-modular-composer-packages | Shared Library Hybrid (tek shared/ + PSR-4 namespace) | Architecture <!-- NO FILE on disk 2026-10-06 — brain.md only --> |
-| ADR-086-event-driven-architecture | Event Driven Architecture | Architecture <!-- NO FILE on disk 2026-10-06 — brain.md only --> |
+| [[accepted/ADR-084-api-gateway-architecture]] | API Gateway Architecture (Gateway/BFF×4 IMPLEMENTED; CQRS + OpenAPI PLANNED — 2026-10-07 dolduruldu) | Architecture |
+| [[accepted/ADR-085-modular-composer-packages]] | Shared Library Hybrid (tek shared/ + PSR-4 namespace — diskte implement, 2026-10-07 dolduruldu) | Architecture |
+| [[accepted/ADR-086-event-driven-architecture]] | Event Driven Architecture (PSR-14 altyapı implement; production wiring PLANNED — 2026-10-07 dolduruldu) | Architecture | |
 | ADR-087-master-implementation-plan | Master Implementation Plan | Architecture <!-- NO FILE on disk 2026-10-06 — brain.md only --> |
 | ADR-088-gender-based-social-oauth | Gender-Based Social OAuth | Social <!-- NO FILE on disk 2026-10-06 — brain.md only --> |
 | [[accepted/ADR-089-classab-24v]] | Class AB Amplifikatör + 6S LiPo + ±35V Boost | Electronics |

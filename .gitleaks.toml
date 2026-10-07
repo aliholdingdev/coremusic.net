@@ -12,4 +12,7 @@ useDefault = true
 description = "Test dosyasindaki sahte/ornek sifreler (ADR-034 §5.2/5) - uretim kodu asla allowlist girmez"
 paths = [
   '''auth\.coremusic\.net/tests/Unit/Domain/DTO/LoginRequestTest\.php$''',
+  # JWT test fixture keypair (ADR-095): yalniz shared/tests/Fixtures/jwt/ altinda,
+  # uretim key'i DEGIL (uretim private.pem .gitignore'dadir ve asla commit edilmez).
+  '''shared/tests/Fixtures/jwt/test2?-private\.pem$''',
 ]
