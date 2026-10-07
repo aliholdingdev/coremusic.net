@@ -155,6 +155,13 @@ final class PageRouterKernel
         return [
             'requiredRole'       => $route->requiredRole,
             'requiredPermission' => $route->requiredPermission,
+            // B-F-13: ValidationMiddleware'in beklediği ÜRETICI anahtar — route
+            // meta['required_fields'] üzerinden taşınır. Hiçbir route tanımlamıyorsa
+            // [] döner ve middleware pasif kalır (mevcut davranış korunur); contract
+            // artık tamamlanabilir: meta: ['required_fields' => [field => rules]].
+            'required_fields'    => is_array($route->meta['required_fields'] ?? null)
+                ? $route->meta['required_fields']
+                : [],
         ];
     }
 

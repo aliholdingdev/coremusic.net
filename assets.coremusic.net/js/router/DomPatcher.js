@@ -2,6 +2,8 @@ import { MAIN_CONTENT_SELECTOR } from './config/css-selectors.js';
 
 const DANGEROUS_ELEMENTS = 'script, iframe, object, embed, applet, form, base, link[rel="import"]';
 const ON_PREFIX = 'on';
+// C-F-01: navigasyon/yönlendirme taşıyan URL attribute'ları — şema denetimi uygulanır.
+const URL_ATTRS = new Set(['href', 'src', 'action', 'formaction', 'xlink:href', 'poster', 'ping', 'data']);
 
 /**
  * DomPatcher — SPA router DOM güncelleme katmanı (ADR-021 sözleşmesi).
@@ -17,10 +19,45 @@ const ON_PREFIX = 'on';
  *   sonuç DocumentFragment olarak container'a replaceChildren() ile konur.
  *   innerHTML SINK YOK → TrustedTypes policy'ye ve CSP trusted-types
  *   direktifine bağımlılık kalktı (aynı sanitizer davranışı korunur).
+ *
+ * Sanitizer kapsamı: tehlikeli elementler + `on*` attribute'ları + (C-F-01)
+ * `javascript:` / `vbscript:` / uygulanabilir-olmayan `data:` URL şemaları.
  */
 export default class DomPatcher {
     #logger;
     constructor(logger) { this.#logger = logger; }
+
+    /**
+     * URL attribute'unda tehlikeli şema var mı? (C-F-01)
+     *
+     * Şema testinden ÖNCE whitespace/control karakterleri ayıklanır —
+     * "java[TAB]script:" gibi gizleme kalıpları normalize edilir (bypass kapatı).
+     * `data:` yalniz görsel kaynaklarında (src + img/source/video + data:image/)
+     * bırakılır; href/action gibi her yerde tehlikelidir.
+     *
+     * @param {string} value
+     * @param {string} attrName
+     * @param {Element} el
+     * @returns {boolean}
+     */
+    static #isDangerousUrl(value, attrName, el) {
+        let normalized = '';
+        for (const ch of String(value)) {
+            const code = ch.codePointAt(0);
+            if (code === undefined || code <= 0x20 || code === 0x7f) continue; // whitespace + control
+            normalized += ch;
+        }
+        normalized = normalized.toLowerCase();
+
+        if (/^(javascript|vbscript|file|blob):/.test(normalized)) return true;
+        if (normalized.startsWith('data:')) {
+            const isImageSrc = attrName === 'src'
+                && /^(img|image|source|video)$/.test(el.tagName.toLowerCase())
+                && /^data:image\//.test(normalized);
+            return !isImageSrc;
+        }
+        return false;
+    }
 
     /**
      * HTML string'ini parse eder ve tehlikeli element/attribute'lardan arındırır.
@@ -33,7 +70,14 @@ export default class DomPatcher {
         for (const el of doc.querySelectorAll(DANGEROUS_ELEMENTS)) el.remove();
         for (const el of doc.querySelectorAll('*')) {
             for (const attr of [...el.attributes]) {
-                if (attr.name.toLowerCase().startsWith(ON_PREFIX)) el.removeAttribute(attr.name);
+                const name = attr.name.toLowerCase();
+                if (name.startsWith(ON_PREFIX)) {
+                    el.removeAttribute(attr.name);
+                    continue;
+                }
+                if (URL_ATTRS.has(name) && DomPatcher.#isDangerousUrl(attr.value, name, el)) {
+                    el.removeAttribute(attr.name);
+                }
             }
         }
         return doc;
