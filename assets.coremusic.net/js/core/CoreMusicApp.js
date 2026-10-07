@@ -72,7 +72,6 @@ export default class CoreMusicApp {
             ['device', modClasses.DeviceManager, true],
             ['theme', modClasses.ThemeManager, false],
             ['viewMode', modClasses.ViewModeManager, false],
-            ['router', modClasses.SPARouterAdapter, false],
             ['player', modClasses.PlayerController, false],
             ['widgets', modClasses.WidgetManager, false],
             ['cards', modClasses.CardManager, false],

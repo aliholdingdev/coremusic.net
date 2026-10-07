@@ -39,9 +39,7 @@ export default class CacheLayer {
         for (const tag of tags) { if (!this.#tags.has(tag)) this.#tags.set(tag, new Set()); this.#tags.get(tag).add(key); }
     }
 
-    clear() { this.#store.clear(); this.#tags.clear(); }
     delete(url) { const key = normalizeCacheKey(url); this.#store.delete(key); this.#cleanupTags(key); }
-    invalidateTag(tag) { const keys = this.#tags.get(tag); if (!keys) return; for (const key of keys) this.#store.delete(key); this.#tags.delete(tag); }
     get size() { return this.#store.size; }
 
     evictHalf() {

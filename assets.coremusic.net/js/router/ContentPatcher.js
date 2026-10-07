@@ -4,15 +4,13 @@ export default class ContentPatcher {
     #domPatcher;
     #csrfSync;
     #lifecycle;
-    #errorHandler;
     #logger;
 
-    constructor({ domPatcher, csrfSync, lifecycle, logger, errorHandler }) {
+    constructor({ domPatcher, csrfSync, lifecycle, logger }) {
         this.#domPatcher = domPatcher;
         this.#csrfSync = csrfSync;
         this.#lifecycle = lifecycle;
         this.#logger = logger;
-        this.#errorHandler = errorHandler;
     }
 
     async patch(responseData, target, container) {
@@ -23,7 +21,8 @@ export default class ContentPatcher {
             this.#csrfSync.update(responseData.csrfToken);
         }
 
-        const isAuth = isAuthRoute(target);
+        // C-F-14: target artik query korur — route anahtari pathname'dir.
+        const isAuth = isAuthRoute(target.split('?')[0]);
         document.body.classList.toggle('auth-page', isAuth);
 
         this.#lifecycle.mount(container);

@@ -36,23 +36,6 @@ export default class ContentFetcher {
         }
     }
 
-    abort(target) {
-        const r = this.#activeRequests.get(target);
-        if (r) {
-            r.controller.abort();
-            this.#activeRequests.delete(target);
-        }
-    }
-
-    cancelNavigations(exclude) {
-        for (const [k, r] of this.#activeRequests) {
-            if (r.type === REQUEST_TYPES.NAVIGATION && k !== exclude) {
-                r.controller.abort();
-                this.#activeRequests.delete(k);
-            }
-        }
-    }
-
     static async parseResponse(response, contentType, target, cache, logger) {
         if (contentType.includes(CONTENT_TYPES.JSON)) {
             let json;

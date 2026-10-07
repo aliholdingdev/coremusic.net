@@ -2,32 +2,28 @@ import NavigationGuardRunner from './NavigationGuardRunner.js';
 import ContentFetcher from './ContentFetcher.js';
 import ContentPatcher from './ContentPatcher.js';
 import FocusManager from './FocusManager.js';
-import HistoryManager from './HistoryManager.js';
 import PrefetchManager from './PrefetchManager.js';
 import { normalizeUrl, isCrossOrigin } from './UrlUtils.js';
 import { ERROR_TYPES } from './config/error-types.js';
 import { MAIN_CONTENT_SELECTOR } from './config/css-selectors.js';
 
 const MAX_REDIRECT_DEPTH = 5;
-const TITLE_NOT_FOUND = 'Sayfa Bulunamadı';
 
 export default class NavigationOrchestrator {
     #state = { currentUrl: null, inProgress: false, navCount: 0 };
-    #guards; #contentFetcher; #contentPatcher; #focusManager; #historyManager;
-    #prefetchManager; #authBoundary; #scrollRestorer; #errorHandler; #memoryWatchdog;
+    #guards; #contentFetcher; #contentPatcher; #focusManager;
+    #prefetchManager; #authBoundary; #scrollRestorer; #memoryWatchdog;
     #logger; #user = null; #config; #eventBus; #navSeq = 0;
 
     constructor(deps, overrides = {}) {
-        const { guards, cache, fetcher, lifecycle, domPatcher, csrfSync, contentPatcher, authBoundary, scrollRestorer, errorHandler, memoryWatchdog, logger, config = {}, user = null, eventBus = null } = deps;
+        const { guards, cache, fetcher, lifecycle, domPatcher, csrfSync, contentPatcher, authBoundary, scrollRestorer, memoryWatchdog, logger, config = {}, user = null, eventBus = null } = deps;
         this.#guards = overrides.guardRunner ?? new NavigationGuardRunner(guards, logger);
         this.#contentFetcher = overrides.contentFetcher ?? new ContentFetcher(cache, fetcher, logger);
         this.#contentPatcher = overrides.contentPatcher ?? contentPatcher;
         this.#focusManager = overrides.focusManager ?? new FocusManager();
-        this.#historyManager = overrides.historyManager ?? new HistoryManager(logger);
         this.#prefetchManager = overrides.prefetchManager ?? new PrefetchManager(cache, fetcher, logger, config?.maxPrefetch || 2);
         this.#authBoundary = authBoundary;
         this.#scrollRestorer = scrollRestorer;
-        this.#errorHandler = errorHandler;
         this.#memoryWatchdog = memoryWatchdog;
         this.#logger = logger;
         this.#user = user;
@@ -90,6 +86,8 @@ export default class NavigationOrchestrator {
             this.#state.inProgress = false;
             container.setAttribute('aria-busy', 'false');
             this.#focusManager.moveFocus();
+            // C-F-14 a11y: rota değişimi screen-reader'a duyurulur (önce ölü stub).
+            this.#focusManager.announceNavigation?.(document.title);
             this.#scrollRestorer.scrollToTop();
             // C-F-14: nav:complete — ScrollManager konum restore'u buna bağlıydı
             // (önce yalnız ölü SPARouterAdapter_emit ediyordu).
