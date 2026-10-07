@@ -40,7 +40,7 @@ export default class Router extends IRouter {
         this.#eventManager = config.eventManager ?? new RouterEventManager();
         this.#user = config.user ?? null;
         if (Array.isArray(config.guardFunctions)) { for (const fn of config.guardFunctions) this.#guards.register(fn); }
-        this.#nav = config.navigationOrchestrator ?? new NavigationOrchestrator({ guards: this.#guards, cache: this.#cache, fetcher: this.#fetcher, lifecycle: this.#lifecycle, domPatcher: this.#domPatcher, csrfSync: this.#csrfSync, contentPatcher: this.#contentPatcher, authBoundary: this.#authBoundary, scrollRestorer: this.#scrollRestorer, errorHandler: this.#errorHandler, memoryWatchdog: this.#memoryWatchdog, logger: this.#logger, user: this.#user, config: this.#config });
+        this.#nav = config.navigationOrchestrator ?? new NavigationOrchestrator({ guards: this.#guards, cache: this.#cache, fetcher: this.#fetcher, lifecycle: this.#lifecycle, domPatcher: this.#domPatcher, csrfSync: this.#csrfSync, contentPatcher: this.#contentPatcher, authBoundary: this.#authBoundary, scrollRestorer: this.#scrollRestorer, errorHandler: this.#errorHandler, memoryWatchdog: this.#memoryWatchdog, logger: this.#logger, user: this.#user, config: this.#config, eventBus: config.eventBus ?? null });
     }
 
     get currentUrl() { return this.#nav.currentUrl; }

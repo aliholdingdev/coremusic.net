@@ -15,6 +15,8 @@ export function isAuthUrl(url) {
         const u = new URL(url, window.location.href);
         return isAuthDomain(u.hostname) || isAuthRoute(u.pathname);
     } catch {
-        return isAuthRoute(url);
+        // C-F-14: query/hash parse dışı kalmışsa da route anahtarı pathname'dir.
+        const pathOnly = url.split('?')[0].split('#')[0];
+        return isAuthRoute(pathOnly);
     }
 }

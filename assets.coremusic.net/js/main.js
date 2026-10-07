@@ -79,7 +79,7 @@ import MiniCardComponent from './components/composites/MiniCardComponent.js';
             guardFunctions.push(routerConfig.customGuard);
         }
 
-        router = new Router({ ...routerConfig, guardFunctions });
+        router = new Router({ ...routerConfig, guardFunctions, eventBus });
         router.init();
         window.CoreMusic = window.CoreMusic || {};
         window.CoreMusic.Router = router;

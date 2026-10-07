@@ -9,10 +9,14 @@ export function normalizeUrl(url, base) {
     try {
         const u = new URL(url, base || window.location.href);
         if (u.origin !== window.location.origin) return u.href;
-        return u.pathname;
+        // C-F-14: query KORUNUR — SPA navigasyonunda query-driven özellikler
+        // (arama/filtre/sayfalama) çalışmıyordu. Rota ANAHTARI pathname'dir;
+        // guard eşleşmesi orchestrator'da path-only yapılır.
+        return u.pathname + u.search;
     } catch {
-        const qIdx = url.indexOf('?');
-        return url.substring(0, qIdx !== -1 ? qIdx : url.length);
+        // Parse başarısız: hash düşer, query korunur (yukarıdaki politika ile aynı).
+        const hIdx = url.indexOf('#');
+        return hIdx !== -1 ? url.substring(0, hIdx) : url;
     }
 }
 
