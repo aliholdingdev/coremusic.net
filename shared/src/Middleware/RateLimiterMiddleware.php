@@ -54,7 +54,7 @@ final class RateLimiterMiddleware implements IMiddleware
             $path = $this->resolveRequestPath($request);
             if (in_array($path, $this->failClosedPaths, true)) {
                 // ADR-013 §5.4 şart 1a: auth uçları fail-closed.
-                error_log('[ADR-013] rate limiter cache unavailable -> fail-closed on ' . $path);
+                \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('rate_limiter_unavailable', ['path' => $path, 'mode' => 'fail-closed']);
                 return [
                     'httpStatus' => 503,
                     'type'       => 'json',
@@ -64,7 +64,7 @@ final class RateLimiterMiddleware implements IMiddleware
                 ];
             }
             // ADR-013 §5.4 şart 1a: genel uçlar fail-open — ama gözlemlenebilir olmalı.
-            error_log('[ADR-013] rate limiter cache unavailable -> fail-open on ' . $path);
+            \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('rate_limiter_unavailable', ['path' => $path, 'mode' => 'fail-open']);
             return $next($request);
         }
 
@@ -78,12 +78,18 @@ final class RateLimiterMiddleware implements IMiddleware
 
         $count = $cache->increment($key, 1);
         if ($count === false) {
-            error_log('[ADR-013] rate limiter increment failed -> fail-open on ' . $this->resolveRequestPath($request));
+            \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('rate_limiter_increment_failed', ['path' => $this->resolveRequestPath($request)]);
             $cache->set($key, 1, $this->windowSeconds);
             return $next($request);
         }
 
         if ((int)$count > $this->maxRequests) {
+            // P5-32: 429 artık gözlemlenir (öncekte hiç loglanmıyordu).
+            \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('rate_limited', [
+                'ip'   => $ip,
+                'path' => $this->resolveRequestPath($request),
+                'code' => 429,
+            ]);
             return [
                 'httpStatus' => 429,
                 'type'       => 'json',

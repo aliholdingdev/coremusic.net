@@ -44,7 +44,13 @@ final class OriginCheckMiddleware implements IMiddleware
             return $next($request);
         }
 
-        // İzinsiz origin → 403
+        // İzinsiz origin → 403 (P5-32: olay artık loglanır)
+        \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('origin_blocked', [
+            'origin' => $origin,
+            'uri'    => $_SERVER['REQUEST_URI'] ?? '-',
+            'ip'     => $_SERVER['REMOTE_ADDR'] ?? '-',
+        ]);
+
         return [
             'httpStatus' => 403,
             'type'       => 'json',

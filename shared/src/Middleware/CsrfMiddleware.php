@@ -48,6 +48,12 @@ final class CsrfMiddleware implements IMiddleware
 
     private function fail(): array
     {
+        // P5-32: CSRF reddi gözlemlenir (öncekte sessizce 403 dönüyordu).
+        \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('csrf_invalid', [
+            'uri' => $_SERVER['REQUEST_URI'] ?? '-',
+            'ip'  => $_SERVER['REMOTE_ADDR'] ?? '-',
+        ]);
+
         return [
             'httpStatus' => 403,
             'type'       => 'json',

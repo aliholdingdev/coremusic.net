@@ -48,6 +48,13 @@ final class Redactor
      */
     private const LONG_HASH_PATTERN = '/(?<![A-Za-z0-9+\/])[A-Za-z0-9+\/]{64}(?![A-Za-z0-9+\/])/';
 
+    /**
+     * E-posta maskesi (B-F-17 / P5): yerel kısım `***` olur, alan adı korunur
+     * (ops amaçlı tanınırlık + PII'nin düz metin logda durmaması dengesi).
+     * Lookaround, daha uzun bir token'ın ortasındaki deseni yakalamaz.
+     */
+    private const EMAIL_PATTERN = '/(?<![A-Za-z0-9._%+-])[A-Za-z0-9._%+-]+@([A-Za-z0-9.-]+\.[A-Za-z]{2,})/';
+
     private function __construct()
     {
     }
@@ -75,7 +82,14 @@ final class Redactor
         // 2) 64-char hex/base64 hash maskesi — UUID'ler (8-4-4-4-12) korunur.
         $replaced = preg_replace(self::LONG_HASH_PATTERN, self::MASK, $redacted);
 
-        return $replaced ?? $redacted;
+        // 3) E-posta maskesi — yerel kısım gizlenir, alan adı kalır (B-F-17).
+        $withEmail = preg_replace_callback(
+            self::EMAIL_PATTERN,
+            static fn (array $m): string => '***@' . $m[1],
+            $replaced ?? $redacted
+        );
+
+        return $withEmail ?? ($replaced ?? $redacted);
     }
 
     /**

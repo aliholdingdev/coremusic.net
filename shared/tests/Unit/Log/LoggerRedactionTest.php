@@ -91,13 +91,32 @@ final class LoggerRedactionTest extends TestCase
     {
         $cleanLines = [
             '[2026-09-27 11:00:00] [INFO] [GET /home] [127.0.0.1] [Home] page rendered {"status":"ok","durationMs":12.5}',
-            '[AUTH] login_success email=a@b.com ip=127.0.0.1 user_id=42',
             '[Home] Auth callback session created {"user_id":"-"}',
         ];
 
         foreach ($cleanLines as $line) {
             $this->assertSame($line, Redactor::redact($line), 'Temiz satır değişmemeli: ' . $line);
         }
+    }
+
+    /**
+     * B-F-17 / P5: e-posta PII'si logda düz metin durmaz — yerel kısım
+     * maskelenir, alan adı korunur (ops tanınırlığı).
+     */
+    public function testEmailLocalPartMaskedDomainKept(): void
+    {
+        $masked = Redactor::redact('[AUTH] login_failed email=bayram@example.com ip=10.0.0.1');
+
+        $this->assertSame('[AUTH] login_failed email=***@example.com ip=10.0.0.1', $masked);
+        $this->assertStringNotContainsString('bayram@example.com', $masked);
+    }
+
+    public function testEmailMaskInsideJsonContext(): void
+    {
+        $masked = Redactor::redact('{"email":"kullanici@coremusic.net","ok":true}');
+
+        $this->assertStringContainsString('"email":"***@coremusic.net"', $masked);
+        $this->assertStringNotContainsString('kullanici@coremusic.net', $masked);
     }
 
     public function testSixtyFourCharHashIsRedactedButUuidIsPreserved(): void

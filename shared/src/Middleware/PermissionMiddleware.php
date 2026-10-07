@@ -46,6 +46,13 @@ final class PermissionMiddleware implements IMiddleware
 
     private function forbidden(string $code, string $message): array
     {
+        // P5-32: authz reddi gözlemlenir (öncekte sessizce 403 dönüyordu).
+        \CoreMusic\Log\LoggerFactory::getInstance()->securityEvent('authz_denied', [
+            'reason' => $code,
+            'uri'    => $_SERVER['REQUEST_URI'] ?? '-',
+            'ip'     => $_SERVER['REMOTE_ADDR'] ?? '-',
+        ]);
+
         return [
             'httpStatus' => 403,
             'type'       => 'json',

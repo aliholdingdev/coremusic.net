@@ -86,6 +86,9 @@ final class PageRouterKernel
     ): void {
         $traceId = self::generateTraceId();
         $this->logger->setTraceId($traceId);
+        // P5: FileHandler satırları da aynı traceId ile damgalansın —
+        // StructuredLogger (JSON) ile dosya log'ları tek istekte birleşir.
+        \CoreMusic\Log\FileHandler::setTraceId($traceId);
 
         $isSpa = false;
         $protectedRoutes = [];
