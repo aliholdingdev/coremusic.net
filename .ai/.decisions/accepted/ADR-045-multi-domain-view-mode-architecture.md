@@ -16,9 +16,9 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 > **Durum:** ✅ **ACCEPTED** (kullanıcı onaylı kapsam a-e) · **Tarih:** 2026-09-28 · **Debate:** ✅ **TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)** · **Tech Lead:** ✅ · **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-045-multi-domain-view-mode-architecture`
-> **İlgili kararlar:** [[ADR-001-vanilla-js-itcss]] (ITCSS + framework yasağı — görünüm katmanı bu iskelete bağlanır) · [[ADR-004-multi-domain-spa]] (subdomain SPA iskeleti — "multi-domain"ın kaynağı) · [[ADR-021-spa-router-immutable-contract]] (router sözleşmesi — URL birincil kalıcılığın dayanağı) · [[ADR-006-performance-targets]] (kritik yol tavanları — liste boyutu eşiği) · [[ADR-018-footer-player-vaporwave]] (görsel dil + `prefers-reduced-motion` hizası) · [[ADR-044-dynamic-user-theme-engine]] (format referansı + tema/öznitelik hizası) · [[ADR-031-mobile-strategy-pwa-flutter]] (ADR-045/046 görünüm konseptini referanslar) · [[ADR-005-ultrathink-protocol]] (zero hallucination protokolü — §1.1 dürüst etiket) · [[../index.md]] (`:87` slug satırı) · [[../../raw/brain.md]]
-> **Ad gerekçesi:** slug `ADR-045-multi-domain-view-mode-architecture` **diskteki gerçek index kaydından** alınmıştır (`[[../index.md]]:87`) — uydurulmadı. Bu numara kodda **çoktan referanslanıyor**: `assets.coremusic.net/js/managers/ViewModeManager.js:3` ("Görünüm modu yönetimi (ADR-045)"), `shared/src/ViewMode/CLAUDE.md:21,31`, `shared/AGENTS.md:58`, `.ai/raw/keys.md:220,280`, `.ai/index.md:669`, `.ai/raw/brain.md:1004` → dosya varlığı boşluk doldurur.
-> **Düzeltme ertelendi:** `[[../index.md]]:87` satırındaki `[[../../raw/brain.md]] ADR-045-…` biçimi `[[accepted/ADR-045-multi-domain-view-mode-architecture]]` olarak düzeltilmesi **bir sonraki vault reset'ine ertelenmiştir** (bu işlemde index.md'ye dokunulmadı — onaysız dosya/satır değişikliği yok). Ayrıntı: §5.1 adım 9.
+> **İlgili kararlar:** [[ADR-001-vanilla-js-itcss]] (ITCSS + framework yasağı — görünüm katmanı bu iskelete bağlanır) · [[ADR-004-multi-domain-spa]] (subdomain SPA iskeleti — "multi-domain"ın kaynağı) · [[ADR-021-spa-router-immutable-contract]] (router sözleşmesi — URL birincil kalıcılığın dayanağı) · [[ADR-006-performance-targets]] (kritik yol tavanları — liste boyutu eşiği) · [[ADR-018-footer-player-vaporwave]] (görsel dil + `prefers-reduced-motion` hizası) · [[ADR-044-dynamic-user-theme-engine]] (format referansı + tema/öznitelik hizası) · [[ADR-031-mobile-strategy-pwa-flutter]] (ADR-045/046 görünüm konseptini referanslar) · [[ADR-005-ultrathink-protocol]] (zero hallucination protokolü — §1.1 dürüst etiket) · [[../index.md]] (`:87` slug satırı) · [[../../brain.md]]
+> **Ad gerekçesi:** slug `ADR-045-multi-domain-view-mode-architecture` **diskteki gerçek index kaydından** alınmıştır (`[[../index.md]]:87`) — uydurulmadı. Bu numara kodda **çoktan referanslanıyor**: `assets.coremusic.net/js/managers/ViewModeManager.js:3` ("Görünüm modu yönetimi (ADR-045)"), `shared/src/ViewMode/CLAUDE.md:21,31`, `shared/AGENTS.md:58`, `.ai/keys.md:220,280`, `.ai/index.md:669`, `.ai/brain.md:1004` → dosya varlığı boşluk doldurur.
+> **Düzeltme ertelendi:** `[[../index.md]]:87` satırındaki `[[../brain.md]] ADR-045-…` biçimi `[[accepted/ADR-045-multi-domain-view-mode-architecture]]` olarak düzeltilmesi **bir sonraki vault reset'ine ertelenmiştir** (bu işlemde index.md'ye dokunulmadı — onaysız dosya/satır değişikliği yok). Ayrıntı: §5.1 adım 9.
 > **Frozen notu:** ADR-001-037 **dokunulmamıştır** (yalnız atıf). Bu dosya Active aralığındadır, frozen değildir.
 
 ---
@@ -68,7 +68,7 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 | localStorage | `SidebarManager.js:49-82` `SidebarCache` (`localStorage` getItem/setItem/removeItem/clear, anahtar kullanıcıya göre isimlendirilmiş — `userId \|\| 'guest'`, `:485`); `:94` varsayılan `albumView:'list'`; `:495` açılışta okuma; `:731` yazma; `:901` önbellekten uygulama → **liste/grid tercihi kalıcı** | **IMPLEMENTED** |
 | URL parametresi | `[?&]view=` / `searchParams.get('view')` kod tabanında **0** (URLSearchParams yalnız OAuth `redirect_uri` okumalarında: `js/auth/*`, `js/router/UrlUtils.js:31`) → paylaşılabilir görünüm URL'si **yok** | **PLANNED** |
 | Oturum | `session['view_mode']` PHP'de okunuyor, yazan **yok** (§A) | **PLANNED** |
-| DB | `.ai/sources/.sql/mysql/coremusic_user.sql:57-75` `user_preferences` **15 kolon** (theme, device_type, audio_quality…) — `view_mode` **yok** | **PLANNED** |
+| DB | `.ai/.sql/mysql/coremusic_user.sql:57-75` `user_preferences` **15 kolon** (theme, device_type, audio_quality…) — `view_mode` **yok** | **PLANNED** |
 | Vault iddiası | `shared/src/ViewMode/CLAUDE.md:38` "DB: user_preferences → view_mode" → şemayla örtüşmüyor | **ÇELİŞKİ** |
 | Çift kaynak | `assets.coremusic.net/js copy/` aynı üç dosyayı (ViewModeManager, SidebarManager, device-loader) barındırıyor; `Css copy/` de aynı | **ÇELİŞKİ** (drift) |
 
@@ -97,8 +97,8 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 
 | Kayıt | İçerik | Etiket |
 |---|---|---|
-| `.ai/index.md:669`, `.ai/raw/keys.md:220,280`, `.ai/brain.md:1004` | ADR-045 "Multi-domain view mode" kaydı — dosya **yoktu** | **ÇELİŞKİ** (bu dosya kapatır) |
-| `.ai/.decisions/index.md:87` | `[[../../raw/brain.md]] ADR-045-…` biçiminde düz metin + yanlış hedef | **ÇELİŞKİ** (§5.1 adım 9 — ertelendi) |
+| `.ai/index.md:669`, `.ai/keys.md:220,280`, `.ai/brain.md:1004` | ADR-045 "Multi-domain view mode" kaydı — dosya **yoktu** | **ÇELİŞKİ** (bu dosya kapatır) |
+| `.ai/.decisions/index.md:87` | `[[../brain.md]] ADR-045-…` biçiminde düz metin + yanlış hedef | **ÇELİŞKİ** (§5.1 adım 9 — ertelendi) |
 | `.ai/.decisions/accepted/ADR-004-multi-domain-spa.md:19` | ADR-045'i "henüz yazılmadı — düz metin" olarak işaretler | DOĞRULANDI (bu dosya ile doldu) |
 | `.ai/architecture/k10-uygulama/README.md:318` | ADR-046 (cross-view state) düz metin | **PLANNED** — diskte `ADR-046-*` dosyası **YOK** → wiki-link **kurulmaz** |
 | `shared/src/ViewMode/CLAUDE.md:54` | `[[../../.ai/decisions/accepted/ADR-045-…]]` — hedefte `.decisions` noktası eksik (**kırık link**, `.ai/.decisions/` doğru) | **ÇELİŞKİ** |
@@ -224,7 +224,7 @@ Kod pahalı kısmi yatırımı çoktan yapmış (JS+PHP yöneticileri, testler, 
 
 - Paylaşılabilir `?view=` bağlantısı → kopya-link, yer imi ve çok-sekme davranışında **tek gerçeklik**; domain varsayılanı URL temizliğinde devreye girer.
 - Var olan üç yatırım (`SidebarCache`, `SidebarRenderer` toggle, `VirtualScroller` tanımı) **sözleşmeye** bağlanır; yeni kütüphane/derleme adımı gerekmez (ADR-001).
-- ARIA radio + `aria-live` ile görünüm değişimi **ekran okuyucuya görünür** hale gelir; WCAG 2.2 AA kanıtı (`.ai/sources/ui-design/04-accessibility-gaps.md`) kapanır.
+- ARIA radio + `aria-live` ile görünüm değişimi **ekran okuyucuya görünür** hale gelir; WCAG 2.2 AA kanıtı (`.ai/ui-design/04-accessibility-gaps.md`) kapanır.
 - Veri boyutu eşiği sayesinde 1000+ öğeli listelerde hem kare süresi hem DOM boyutu kontrol altında; sanallaştırma **gerektiğinde** devreye girer.
 - `09_ViewModes/` onarımı hem bu ADR'yi hem ADR-044'ün kırık import bulgusunu (§5 adım 1) aynı işte çözer.
 
@@ -271,7 +271,7 @@ Kod pahalı kısmi yatırımı çoktan yapmış (JS+PHP yöneticileri, testler, 
 | 6 | **ARIA + klavye:** `role="radiogroup"`/`role="radio"` + `aria-checked` + roving tabindex + toolbar `Space`/`Enter` varyantı + `aria-live="polite"` duyuru; `aria-pressed` yalnız gerçek toggle'larda | UI Designer + QA | 1 gün |
 | 7 | **Eşik + ölçüm:** `SidebarManager.js:6` iddiası ölçülür (1000+ öğe, kare süresi); ≤200 basit DOM, >200 `VirtualScroller` + `aria-setsize`/`aria-rowindex`; CLS bütçesi (geçiş öncesi/sonrası) + `cm-list--grid` CSS'inin eklenmesi | QA + UI | 1.5 gün |
 | 8 | **Domain fazları:** home (kart geçişi) → music/admin/galeri domain'leri **dizinleri geldikçe** açılır; eksik domain'de seçici gizli kalır | UI Designer | faz bazlı |
-| 9 | **Dizin düzeltme (ERTELENDİ — onay gerekiyor):** `.ai/.decisions/index.md:87` `[[../../raw/brain.md]] ADR-045-…` satırının `[[accepted/ADR-045-multi-domain-view-mode-architecture]]` biçimine düzeltilmesi **bir sonraki vault reset'ine ertelenmiştir** — bu işlemde index.md'ye dokunulmadı (kural: onaysız satır değişikliği yok) | Vault Steward | 0.1 gün |
+| 9 | **Dizin düzeltme (ERTELENDİ — onay gerekiyor):** `.ai/.decisions/index.md:87` `[[../brain.md]] ADR-045-…` satırının `[[accepted/ADR-045-multi-domain-view-mode-architecture]]` biçimine düzeltilmesi **bir sonraki vault reset'ine ertelenmiştir** — bu işlemde index.md'ye dokunulmadı (kural: onaysız satır değişikliği yok) | Vault Steward | 0.1 gün |
 | 10 | **Debate (3 tur / persona)** tamamlanır → §7'deki Debate/Tech Lead `⏳` satırları güncellenir | Vault Steward | 0.5 gün |
 
 ### §5.2 Geri Dönüş Planı
@@ -299,13 +299,13 @@ Kod pahalı kısmi yatırımı çoktan yapmış (JS+PHP yöneticileri, testler, 
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme, 16 Hard Guardrail |
-| [[../../raw/AGENTS.md]] | Agent registry, onay/escalation §10, frozen kuralı §25.3 |
-| [[../../raw/WORKFLOW.md]] | Süreçler, fazlar |
-| [[../../raw/brain.md]] | Mimari karar özeti (`:1004` ADR-045 satırı) |
+| [[../../AGENTS.md]] | Agent registry, onay/escalation §10, frozen kuralı §25.3 |
+| [[../../WORKFLOW.md]] | Süreçler, fazlar |
+| [[../../brain.md]] | Mimari karar özeti (`:1004` ADR-045 satırı) |
 | [[../../index.md]] | Master katalog (`:669` ADR-045 satırı) |
-| [[../../raw/keys.md]] | Keyword haritası (`:220,280`) |
-| [[../../raw/glossary.md]] | Terimler (görünüm modu, sanallaştırma, radiogroup) |
-| [[../../raw/MEMORY.md]] | Session hafızası (`:197,219` ViewModeManager satırları) |
+| [[../../keys.md]] | Keyword haritası (`:220,280`) |
+| [[../../glossary.md]] | Terimler (görünüm modu, sanallaştırma, radiogroup) |
+| [[../../MEMORY.md]] | Session hafızası (`:197,219` ViewModeManager satırları) |
 | [[../../log.md]] | Audit trail (append-only) |
 | [[../index.md]] | Karar dizini — `:87` slug satırı (**düzeltme §5.1 adım 9'da ertelendi**) |
 | [[CLAUDE]] | `accepted/` dizin kuralı |
@@ -316,9 +316,9 @@ Kod pahalı kısmi yatırımı çoktan yapmış (JS+PHP yöneticileri, testler, 
 | [[../../architecture/k11-ux/README]] | **K11.8 view-mode sahipliği** (`:184,312,456`) — `view-mode.md` dosyası diskte **YOK** → düz metin + `⚠️ VERIFICATION REQUIRED` |
 | [[../../architecture/k10-uygulama/README]] | `:149,318` ADR-045/046 düz metin referansları (ADR-046 dosyası **yok**) |
 | [[../../architecture/k11-ux/accessibility-wcag]] | WCAG kalıpları (`aria-pressed` player örnekleri) — §2.4 hizası |
-| [[../../sources/ui-design/04-accessibility-gaps]] | Erişilebilirlik boşlukları — §2.4 hedefi |
-| [[../../sources/ui-design/05-responsive-architecture]] | `§09_ViewModes` (v-home/v-pro/v-studio/v-car) — panel modu spec'i |
-| [[../../sources/ui-design/01-mockup-index]] | Mockup indeksi — görünüm referansı (Guardrail #11) |
+| [[../../ui-design/04-accessibility-gaps]] | Erişilebilirlik boşlukları — §2.4 hedefi |
+| [[../../ui-design/05-responsive-architecture]] | `§09_ViewModes` (v-home/v-pro/v-studio/v-car) — panel modu spec'i |
+| [[../../ui-design/01-mockup-index]] | Mockup indeksi — görünüm referansı (Guardrail #11) |
 | [[ADR-001-vanilla-js-itcss]] | ITCSS 9 katman + framework yasağı — §2.6 |
 | [[ADR-004-multi-domain-spa]] | Subdomain SPA iskeleti — "multi-domain"ın kaynağı; `:19,32` bu ADR'yi düz metin bekliyordu |
 | [[ADR-005-ultrathink-protocol]] | Zero hallucination — §1.1 dürüst etiket (**dual router değildir**) |

@@ -377,12 +377,12 @@ Debate **✅ TAMAMLANDI (3 tur / 20 persona → 19 kabul / 1 çekimser / 0 red =
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme — Guardrail'ler (bu ADR'nin yazım usulü) |
-| [[../../raw/AGENTS.md]] | Agent registry — §5 domain (`*.php` → Backend Architect, `*.sql` → Data Engineer), §25.3 kural 2/3 (frozen + log append-only) |
-| [[../../raw/WORKFLOW.md]] | Süreçler — uygulama adımlarının faz bağlamı |
+| [[../../AGENTS.md]] | Agent registry — §5 domain (`*.php` → Backend Architect, `*.sql` → Data Engineer), §25.3 kural 2/3 (frozen + log append-only) |
+| [[../../WORKFLOW.md]] | Süreçler — uygulama adımlarının faz bağlamı |
 | [[../index]] | Karar dizini — **satır 65** `[[ADR-028-anti-ban-system]]` (slug ✅) |
 | [[../../index]] | Master katalog — `:645` "Decisions/accepted/ADR-028-anti-ban-system \| Anti-ban system \| Download" |
-| [[../../raw/brain]] | Mimari karar özeti — `:983` "ADR-028 \| Rate limiting + proxy rotasyonu", `:332` tek satır anti-ban tanımı |
-| [[../../raw/keys]] | Keyword haritası — `:263` "ADR-028 \| anti-ban, ARL token" |
+| [[../../brain]] | Mimari karar özeti — `:983` "ADR-028 \| Rate limiting + proxy rotasyonu", `:332` tek satır anti-ban tanımı |
+| [[../../keys]] | Keyword haritası — `:263` "ADR-028 \| anti-ban, ARL token" |
 | [[ADR-013-rate-limiting-apcu]] | Gelen istek rate limit — fail-open (`RateLimiterMiddleware.php:30-32`), auth 5/900s (`AuthService.php:31-32`), backoff PLANNED maddesi → bu ADR'nin (a) dayanağı (§1.1, §1.4, §2a) |
 | [[ADR-026-download-service-architecture]] | İndirme zinciri — PLANNED controller (`DownloadController` 0), rota `Gateway.php:87`, `download_sources` şeması → anti-ban'ın üstünde koşacağı katman (§1.1-B, §1.4, §2.2g) |
 | [[ADR-020-api-public-security]] | Inbound API güvenliği — bu ADR ile sınır ayrımı (§1.4) |
@@ -396,7 +396,7 @@ Debate **✅ TAMAMLANDI (3 tur / 20 persona → 19 kabul / 1 çekimser / 0 red =
 | [[../../../.claude/skills/prompt-maker/references/10-web-research-protocol]] | §1.3 web araştırma protokolü (diskte VAR ✅) |
 | `shared/src/Middleware/RateLimiterMiddleware.php` (kod yolu, wiki-link değil) | 429 + `Retry-After` üretimi + fail-open — `:30-32,48-56` (IMPLEMENTED kanıtı) |
 | `home.coremusic.net/include/Auth/HomeAuthBridge.php` (kod yolu) | Tek mevcut retry döngüsü (sabit gecikme) — `:111-117` (PLANNED genişletme hedefi) |
-| `.ai/sources/.sql/mysql/coremusic_download.sql` (kod yolu) | `download_sources` kota alanları — `:141-162` (IMPLEMENTED şema) |
+| `.ai/.sql/mysql/coremusic_download.sql` (kod yolu) | `download_sources` kota alanları — `:141-162` (IMPLEMENTED şema) |
 
 > **Durum özeti:** debate **✅ TAMAMLANDI (3 tur / 20 persona → 19/1/0 KABUL, §5.3)** · Tech Lead **✅ (§7)** · Arch Lead **⏳ PENDING** · şartlar **§5.5 — 3 bağlayıcı madde (1a-1b, 2, 3)** · frozen **YOK** · kod: 429/`Retry-After` üretimi + fail-open + auth 5/900s + `download_sources` şeması **IMPLEMENTED**, backoff/UA havuzu/proxy havuzu/kota mantığı/breaker **PLANNED** (§1.1).
 

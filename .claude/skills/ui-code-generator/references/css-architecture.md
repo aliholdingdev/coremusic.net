@@ -602,3 +602,28 @@ h3 { font-size: var(--cm-text-h3); }
 ✅ **Specificity:** Increases down the triangle (utilities highest)
 ✅ **Reusability:** Classes usable across pages
 ✅ **Maintainability:** Clear structure, predictable cascading
+
+---
+
+## CoreMusic CSS Kuralları Özeti (eklendi 2026-10-07, ui-workbench merge)
+
+| Kural | Detay |
+|-------|-------|
+| Mimari | ITCSS 9 katman + CSS `@layer` (CLAUDE.md §12; bu dosyanın 7-layer detayı katmanlardan biri — doküman katmanı değil, kod katmanı) |
+| Naming | BEM (`.block__element--modifier`) |
+| Token | `a-layout-tokens.css`, `a-colors-token.css` |
+| Media query | Mobile-first, 4 breakpoint (ui-workbench) / 7-tier (responsive-breakpoints.md — çelişkide mockup PNG kazanır) |
+| Magic number | YASAK — değerler token'dan gelmeli |
+| `var()` | Tüm boyutlar CSS custom property |
+
+### Yasak CSS
+
+```css
+/* [X] Hardcoded height: 90px  → height: var(--footer-h) */
+/* [X] Hardcoded width: 280px  → width: var(--sidebar-w) */
+/* [X] Ayrı HTML dosyaları (home-1024.html vb.) — Guardrail #17 yasak */
+/* [X] PHP'de margin/padding/width kodlamak */
+```
+
+**Kanonik boyutlar:** header 60px / içerik 450px / footer 90px @ 1024×600 →
+yrıntı: [responsive-breakpoints.md](responsive-breakpoints.md) §CoreMusic Kanonik.

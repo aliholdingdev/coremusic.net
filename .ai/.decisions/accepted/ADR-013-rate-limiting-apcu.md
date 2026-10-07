@@ -306,9 +306,9 @@ server {
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | [[../index]] | Karar dizini — §3 satır 50 `[[ADR-013-rate-limiting-apcu]]` (slug eşleşmesi ✅) |
 | [[../../CLAUDE.md]] | Vault ana sözleşmesi — 16 Hard Guardrail, REDACTED, Guardrail #16 |
-| [[../../raw/AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`rate limit` → Security Engineer) |
-| [[../../raw/WORKFLOW.md]] | Debate/onay akışı bağlamı |
-| [[../../raw/brain.md]] | Mimari karar özeti (bu ADR'den türetilir) |
+| [[../../AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`rate limit` → Security Engineer) |
+| [[../../WORKFLOW.md]] | Debate/onay akışı bağlamı |
+| [[../../brain.md]] | Mimari karar özeti (bu ADR'den türetilir) |
 | [[../../log.md]] | Audit trail — bu işlem tek satır append |
 | [[ADR-007-cache-namespace]] | APCu L1 depo + TTL tablosu + distributed adapter opsiyonu (dosya diskte VAR ✅) |
 | [[ADR-008-bypass-auth-middleware]] | Auth bypass sınırı — kalkan çalıştığı kapı (dosya diskte VAR ✅) |

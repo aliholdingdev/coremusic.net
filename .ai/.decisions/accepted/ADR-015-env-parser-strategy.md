@@ -38,7 +38,7 @@ CoreMusic'in üç PHP alan adı (`shared/`, `auth.coremusic.net/`, `home.coremus
 - **`.gitignore` doğrulandı (IMPLEMENTED):** satır 6 `.env`, satır 7 `.env.local`, satır 8 `.env.*.local`, satır 9 `config/.env`, satır 68 `.ai/.env.figma`, satır 69 `.ai/.env.*`, satır 70 `!.env.example`. Ek kanıt: `git ls-files` içinde `.env` geçen **yalnız 2 `.env.example`**; `git log --all --diff-filter=A -- "*.env" ".env"` = **0 commit** → gerçek `.env` hiç commit edilmemiş.
 - **`vlucas/phpdotenv` declare edilmiş ama kullanılmıyor (PLANNED/ölü bağımlılık):** `auth.coremusic.net/composer.json:22` `"vlucas/phpdotenv": "^5.7"`; `vendor/vlucas/phpdotenv` **kurulu değil** (Test-Path = false, iki yerde de) ve PHP kodunda `dotenv|Dotenv` eşleşmesi **0**; `shared/` ve `home.coremusic.net/` composer'larında yok.
 - **Sahte config test edilebilirliği VAR (IMPLEMENTED):** `ConfigManager` constructor'ı `array $config` alır → test'te fake config mümkün; `shared/tests/Unit/Config/ConfigManagerTest.php` diskte (22 test dosyası içinde).
-- **Vault indeksleri bu ADR'yi bekliyor (IMPLEMENTED — kayıt):** `.ai/.decisions/index.md:52` `[[ADR-015-env-parser-strategy]] | Env Parser Strategy | Infrastructure`; `.ai/raw/brain.md:970` `ADR-015 | .env dosya okuma stratejisi`; `.ai/raw/keys.md:250` `ADR-015 | env parser, .env | Infrastructure`; `.ai/.templates/adr/adr-index.md:86` `.env dosya okuma stratejisi | infra`; `.ai/.templates/adr/adr-security-template.md:258` "`.env` okuma stratejisi … anahtar vault'a YAZILMAZ (REDACTED) | ADR-015".
+- **Vault indeksleri bu ADR'yi bekliyor (IMPLEMENTED — kayıt):** `.ai/.decisions/index.md:52` `[[ADR-015-env-parser-strategy]] | Env Parser Strategy | Infrastructure`; `.ai/brain.md:970` `ADR-015 | .env dosya okuma stratejisi`; `.ai/keys.md:250` `ADR-015 | env parser, .env | Infrastructure`; `.ai/.templates/adr/adr-index.md:86` `.env dosya okuma stratejisi | infra`; `.ai/.templates/adr/adr-security-template.md:258` "`.env` okuma stratejisi … anahtar vault'a YAZILMAZ (REDACTED) | ADR-015".
 - **İddia-kod çelişkisi (⚠️ VERIFICATION REQUIRED):** `.ai/.agents/data-engineer.md:24,68,95,119,238,271` ADR-015'i **"cache stratejisi / migration aracı"** olarak etiketler; `data-engineer.md:343` ise "ADR-015 (eski profilden taşındı, **yok**)" der. Dizin (`index.md:52`), `brain.md:970`, `keys.md:250` ve `adr-index.md:86` ise **env parser** der → **karar metni env parser'dır**; `data-engineer.md` düzeltmesi ayrı vault işlemi (§5.1 adım 6).
 - **Şablon/protokol kanıtları:** `.ai/.templates/adr/adr-template.md` (Guardrail #16, 7 bölüm + §1.3 9 alan) VAR ✅ · format referansı `.ai/.decisions/accepted/ADR-014-multi-db-migration-strategy.md` VAR ✅ · `.claude/skills/prompt-maker/references/10-web-research-protocol.md` VAR ✅.
 
@@ -252,11 +252,11 @@ CoreMusic'in üç PHP alan adı (`shared/`, `auth.coremusic.net/`, `home.coremus
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | [[../index]] | Karar dizini — **satır 52** `[[ADR-015-env-parser-strategy]]` (slug eşleşmesi ✅) |
 | [[../../CLAUDE.md]] | Vault ana sözleşmesi — 16 Hard Guardrail, REDACTED, Guardrail #16 |
-| [[../../raw/AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`config/env` → Backend), §5 domain sınırı (`.env` dosyası → Security Engineer) |
-| [[../../raw/WORKFLOW.md]] | Debate/onay akışı başlangıcı |
-| [[../../raw/brain.md]] | Mimari karar özeti — satır 970 `ADR-015 | .env dosya okuma stratejisi` (bu ADR ile hizalı ✅) |
-| [[../../raw/keys.md]] | Keyword haritası — satır 250 `ADR-015 | env parser, .env | Infrastructure` ✅ |
-| [[../../raw/glossary.md]] | Terimler (`env parser`, `fail-fast`, `rotation`) — eklenecek |
+| [[../../AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`config/env` → Backend), §5 domain sınırı (`.env` dosyası → Security Engineer) |
+| [[../../WORKFLOW.md]] | Debate/onay akışı başlangıcı |
+| [[../../brain.md]] | Mimari karar özeti — satır 970 `ADR-015 | .env dosya okuma stratejisi` (bu ADR ile hizalı ✅) |
+| [[../../keys.md]] | Keyword haritası — satır 250 `ADR-015 | env parser, .env | Infrastructure` ✅ |
+| [[../../glossary.md]] | Terimler (`env parser`, `fail-fast`, `rotation`) — eklenecek |
 | [[../../log.md]] | Audit trail — bu işlem tek satır append |
 | Debate şartları (3/20 KABUL) | §5.4 — (1) `getenv`/`$_ENV` ihlallerinin Config tek kapıya taşınması · (2) `.env.schema` + `.env.example` otomatik üretimi · (3) `data-engineer.md` ADR-015 etiketi + rotation prosedürü dokümantasyonu |
 | [[../../.templates/adr/adr-template.md]] | Bu ADR'nin şablonu (Guardrail #16, 7 bölüm + §1.3 9 alan) |

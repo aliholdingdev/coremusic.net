@@ -210,9 +210,9 @@ Bu karar **kod tarafında geri alınacak bir şey üretmedi** (Laravel/Eloquent 
 | [[../accepted/ADR-001-vanilla-js-itcss]] | **Framework/iskelet yasağı** — Eloquent'in Laravel iskeletiyle gelmesi bu ilkeyle çakışır (§2.3/3 kapısının dayanağı) |
 | [[../accepted/ADR-005-ultrathink-protocol]] | Kanıt standardı — `⚠️ VERIFICATION REQUIRED` etiketleri (§1.1, §1.3, §4.2, §5.3) |
 | [[../../CLAUDE]] | Kural metinleri — `:416` ORM yasak · `:517` kural 9 "No ORM — Raw PDO only" · `:670` ORM→Raw PDO · `:870` ADR-002 kaydı |
-| [[../../raw/brain]] | `:143` "Laravel Eloquent → ORM yasak (ADR-002) → PDO" karşılaştırma satırı |
+| [[../../brain]] | `:143` "Laravel Eloquent → ORM yasak (ADR-002) → PDO" karşılaştırma satırı |
 | [[../../index]] | Master katalog — ADR kayıtları (veri erişim satırları) |
-| [[../../raw/keys]] | Keyword haritası — "PDO / ORM" arama eşiği |
+| [[../../keys]] | Keyword haritası — "PDO / ORM" arama eşiği |
 | [[../../.templates/adr/adr-template]] | Guardrail #16 — bu dosyanın §1-§7 iskeleti + §1.3 9 alan kaynağı |
 | Dizin satırı | `index.md:131` — slug otoritesi + dead-link bayrağı (§5.1/3) |
 | Debate şartları | Bu dosya **§5.3** — debate ✅ **TAMAMLANDI** (bağlayıcı 2 şart: 1a-1b + 2) + debate kaydı **§7** (19/1/0 RED DOĞRULANDI) |

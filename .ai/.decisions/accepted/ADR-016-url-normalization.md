@@ -45,7 +45,7 @@ CoreMusic'in SPA router'ı (`shared/src/PageRouter/`) isteği `RequestNormalizer
 - **Normalizasyon testi YOK (PLANNED):** `shared/tests/Unit/PageRouter/` = 4 dosya (`SpaRouteTest`, `RouteRegistryTest`, `AuthUrlBuilderTest`, `AuthGuardTest`) — `RequestNormalizer`/normalization testi **0**.
 - **`ext-intl` declare YOK (PLANNED):** `shared/composer.json`, `auth.coremusic.net/composer.json`, `home.coremusic.net/composer.json` içinde `intl`/**`ext-intl` eşleşmesi 0** → `Normalizer::normalize()` (NFC) için çalışma-zamanı kontrolü + fallback gerekir (§2.2d, §4.3 risk 4).
 - **Bypass/red altyapısı kısmi (IMPLEMENTED + PLANNED):** `StructuredLogger` (kernel satır 30, 58, 87 — `traceId`li) ve `MiddlewarePipeline` (kernel satır 241-248) var → **ERROR alert kanalı mevcut**; normalizasyon RED'i **yok** (PLANNED §2.2g).
-- **Vault kanıtları:** `.ai/.decisions/index.md:53` `[[ADR-016-url-normalization]] | URL Normalization | Routing` ✅ (slug eşleşmesi) · `.ai/index.md:633` `[[decisions/accepted/ADR-016-url-normalization]] | URL normalization` ✅ · `.ai/raw/keys.md:251` `ADR-016 | URL normalization | Routing` ✅ · **iddia-karar çelişkisi:** `.ai/raw/brain.md:971` `ADR-016 | Subdomain routing` ve `.ai/.templates/adr/adr-index.md:87` `ADR-016 | Subdomain routing` → **karar metni = URL Normalization** (kullanıcı onayı + decisions/index + keys + index); düzeltme §5.1 adım 6.
+- **Vault kanıtları:** `.ai/.decisions/index.md:53` `[[ADR-016-url-normalization]] | URL Normalization | Routing` ✅ (slug eşleşmesi) · `.ai/index.md:633` `[[decisions/accepted/ADR-016-url-normalization]] | URL normalization` ✅ · `.ai/keys.md:251` `ADR-016 | URL normalization | Routing` ✅ · **iddia-karar çelişkisi:** `.ai/brain.md:971` `ADR-016 | Subdomain routing` ve `.ai/.templates/adr/adr-index.md:87` `ADR-016 | Subdomain routing` → **karar metni = URL Normalization** (kullanıcı onayı + decisions/index + keys + index); düzeltme §5.1 adım 6.
 - **Sınır bağlayıcılığı (ADR-009):** `ADR-009-clean-url-redirect.md` satır 27-29 ("ADR-009 = host/şema/slash/uzantı; ADR-016 = path/query encoding, Unicode NFC/NFD, `..`/`.` segment temizliği, çift-slash path içi, query sıralama"), satır 40 (path case ADR-016'ya devredildi), satır 102 ve 292 (ADR-016 o dosyada henüz **düz metindi** — bu dosya ile wiki-link'e dönüşür ✅).
 - **Şablon/protokol kanıtları:** `.ai/.templates/adr/adr-template.md` (Guardrail #16, 7 bölüm + §1.3 9 alan) VAR ✅ · format referansı `.ai/.decisions/accepted/ADR-015-env-parser-strategy.md` VAR ✅ · `.claude/skills/prompt-maker/references/10-web-research-protocol.md` VAR ✅.
 
@@ -201,8 +201,8 @@ Log biçimi: `StructuredLogger` → `ERROR` + `traceId` + **kalıp adı** (ör. 
 | [[ADR-005-ultrathink-protocol]] | Red/ERROR log'unda kalıp adı yazılır, query değeri `[REDACTED]` (§2.2g, §1.4) |
 | [[../index]] | Satır 53 `[[ADR-016-url-normalization]]` — slug eşleşmesi ✅ (bu dosya rezervasyonu doldurur) |
 | [[../../index.md]] | Satır 633 `[[decisions/accepted/ADR-016-url-normalization]]` ✅ |
-| [[../../raw/keys.md]] | Satır 251 `ADR-016 | URL normalization | Routing` ✅ |
-| [[../../raw/brain.md]] | Satır 971 `ADR-016 | Subdomain routing` → **çelişki**, düzeltme §5.1 adım 6 |
+| [[../../keys.md]] | Satır 251 `ADR-016 | URL normalization | Routing` ✅ |
+| [[../../brain.md]] | Satır 971 `ADR-016 | Subdomain routing` → **çelişki**, düzeltme §5.1 adım 6 |
 | [[../../.templates/adr/adr-index.md]] | Satır 87 "ADR-016 | Subdomain routing" → **çelişki**, düzeltme §5.1 adım 6 |
 | `.claude/skills/prompt-maker/references/10-web-research-protocol.md` | §1.3 web araştırması protokolü (diskte VAR ✅) |
 | `shared/src/PageRouter/RequestNormalizer.php` · `PageRouterKernel.php` · `RouteRegistry.php` · `shared/config/routes.php` | Uygulanacak/hedef kod (§1.1 satır kanıtları) |
@@ -263,12 +263,12 @@ Log biçimi: `StructuredLogger` → `ERROR` + `traceId` + **kalıp adı** (ör. 
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | [[../index]] | Karar dizini — **satır 53** `[[ADR-016-url-normalization]]` (slug eşleşmesi ✅) |
 | [[../../CLAUDE.md]] | Vault ana sözleşmesi — 16 Hard Guardrail, REDACTED, Guardrail #16 |
-| [[../../raw/AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`URL normalization` → MO/vault), Backend Architect domaini |
-| [[../../raw/WORKFLOW.md]] | Debate/onay akışı başlangıcı |
-| [[../../raw/brain.md]] | Mimari karar özeti — satır 971 `ADR-016 | Subdomain routing` (**çelişki → §5.1 adım 6**) |
-| [[../../raw/keys.md]] | Keyword haritası — satır 251 `ADR-016 | URL normalization | Routing` ✅ |
+| [[../../AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`URL normalization` → MO/vault), Backend Architect domaini |
+| [[../../WORKFLOW.md]] | Debate/onay akışı başlangıcı |
+| [[../../brain.md]] | Mimari karar özeti — satır 971 `ADR-016 | Subdomain routing` (**çelişki → §5.1 adım 6**) |
+| [[../../keys.md]] | Keyword haritası — satır 251 `ADR-016 | URL normalization | Routing` ✅ |
 | [[../../index.md]] | Master katalog — satır 633 ADR-016 kaydı ✅ |
-| [[../../raw/glossary.md]] | Terimler (`normalization`, `NFC`, `double encoding`, `homograph`) — eklenecek |
+| [[../../glossary.md]] | Terimler (`normalization`, `NFC`, `double encoding`, `homograph`) — eklenecek |
 | [[../../log.md]] | Audit trail — bu işlem tek satır append |
 | Debate şartları (3/20 KABUL) | §5.4 — (1a) bypass → RED + ERROR alert · (1b) query normalize (imzalı hariç) · (1c) NFC fallback + `ext-intl` PLANNED · (2) normalized path = routing/log/SQL tek girdisi · (3) normalizer test paketi |
 | Debate (✅ TAMAMLANDI) | §5.3/§5.4/§7.1 — 3 tur / 20 persona, 18/2/0 KABUL (2026-09-24); sonuç frontmatter `debate` alanına işlendi |

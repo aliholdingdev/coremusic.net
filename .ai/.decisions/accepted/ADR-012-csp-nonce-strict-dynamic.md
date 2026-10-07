@@ -261,9 +261,9 @@ upgrade-insecure-requests;            ; PLANNED (HTTPS-öncelikli, ADR-009 ile h
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | [[../index]] | Karar dizini — §3 satır 49 `[[ADR-012-csp-nonce-strict-dynamic]]` (slug eşleşmesi ✅) |
 | [[../../CLAUDE.md]] | Vault ana sözleşmesi — 16 Hard Guardrail, REDACTED, Guardrail #16 |
-| [[../../raw/AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (CSP/XSS → Security Engineer) |
-| [[../../raw/WORKFLOW.md]] | Debate/onay akışı bağlamı |
-| [[../../raw/brain.md]] | Mimari karar özeti (bu ADR'den türetilir) |
+| [[../../AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (CSP/XSS → Security Engineer) |
+| [[../../WORKFLOW.md]] | Debate/onay akışı bağlamı |
+| [[../../brain.md]] | Mimari karar özeti (bu ADR'den türetilir) |
 | [[../../log.md]] | Audit trail — bu işlem tek satır append |
 | [[ADR-004-multi-domain-spa]] | 7 subdomain domain haritası — tek politika/domain listeleri bu haritada yaşar (dosya diskte VAR ✅) |
 | [[ADR-005-ultrathink-protocol]] | Zero Hallucination — IMPLEMENTED/PLANNED/⚠️ kanıt standardı (dosya diskte VAR ✅) |

@@ -14,15 +14,22 @@ Sadece `name` + `description` yüklenir. AI, kullanıcının isteğiyle skill'in
 
 ---
 
-## 2. Skill Klasör Yapısı (Canonical)
+## 2. Skill Klasör Yapısı (Canonical — v3.0)
 ```text
-.claude/skills/{skill-adi}/
-├── SKILL.md                    ← ZORUNLU — Ana orchestration dosyası
+.claude/skills/{skill-adi}/          ← klasör adı = frontmatter name (1:1, lowercase-hyphen)
+├── SKILL.md                    ← ZORUNLU — Ana orchestration dosyası (Katman 2)
 ├── references/                 ← Katman 3: Deep Knowledge 
 │   ├── overview.md             ← (Bu dosya) Mimari bakış
-│   └── rules.md                ← Güvenlik, doğrulama ve format kuralları
+│   ├── rules.md                ← Güvenlik, doğrulama ve format kuralları (v3.0 N1-N10)
+│   ├── anti-patterns.md        ← Yasaklı kalıplar
+│   ├── checklist.md            ← Kalite kontrol listesi
+│   └── changelog.md            ← Sürüm/format geçmişi (eski frontmatter changelog[] burada)
+├── examples/                   ← ZORUNLU (v3.0): ≥1 çalışmış örnek — girdi → çıktı döngüsü
+│   └── …                       ← HER examples/*.md SKILL.md'den linkli olmalı (orphan = hata)
 ├── scripts/                    ← Otonom yürütülecek scriptler (opsiyonel)
 └── templates/                  ← Kod üretim şablonları (opsiyonel)
+
+NOT: Hiçbir katmanda CLAUDE.md sidecar YASAK (v3.0 N8); MAX THINKING bloğu kopyalanmaz (N7).
 ```
 
 ## 3. Otonom Yaşam Döngüsü (Agentic Lifecycle)

@@ -30,12 +30,12 @@ CoreMusic'in **public API yüzeyi** (`api.coremusic.net` + Gateway `/api/v1/*` u
 
 **A) SPEC/SQL/VAULT KATMANI — IMPLEMENTED (şema ve kayıt var; PHP kodu B bölümünde ayrı etiketli):**
 
-- **`shared/` API anahtar şeması — `.ai/sources/.sql/mysql/coremusic_api.sql:31-57` (IMPLEMENTED şema):** `api_keys` tablosu → `api_key_hash CHAR(64)` (**SHA-256 hex — "Ham anahtar ASLA DB'de saklanmaz", satır 27, 34**), `api_key_prefix` = `cm_live_` | `cm_test_` + ilk 8 karakter (satır 28, 35), `scope VARCHAR(1024)` virgülle ayrılmış yetki alanları (ör. `music.read,music.write,user.read`, satır 29, 37), `allowed_ips` JSON array (satır 38), `is_active`/`expires_at`/`last_used_at` (satır 39-41), `UNIQUE KEY uq_ak_hash` (satır 48) → **prefix lookup + hash unique index şemada hazır**. Aynı dosya: `rate_limits` (per-key endpoint bazlı kota, satır 63-82), `api_calls` (aylık partition'lı çağrı logu, satır 92-119), `webhooks` (satır 148-169).
-- **İkinci API key şeması — `.ai/sources/.sql/mysql/coremusic_auth.sql:284-311` (IMPLEMENTED şema):** `api_keys` tablosu + `idx_apikeys_hash` unique + `idx_apikeys_prefix` — `coremusic_auth` DB'sinde de aynı kavram var → **iki DB'de iki `api_keys` tanımı (çapraz kaynak: coremusic_api.sql vs coremusic_auth.sql) → hangisinin SSOT olduğu ⚠️ VERIFICATION REQUIRED** (§4.3 risk 6).
+- **`shared/` API anahtar şeması — `.ai/.sql/mysql/coremusic_api.sql:31-57` (IMPLEMENTED şema):** `api_keys` tablosu → `api_key_hash CHAR(64)` (**SHA-256 hex — "Ham anahtar ASLA DB'de saklanmaz", satır 27, 34**), `api_key_prefix` = `cm_live_` | `cm_test_` + ilk 8 karakter (satır 28, 35), `scope VARCHAR(1024)` virgülle ayrılmış yetki alanları (ör. `music.read,music.write,user.read`, satır 29, 37), `allowed_ips` JSON array (satır 38), `is_active`/`expires_at`/`last_used_at` (satır 39-41), `UNIQUE KEY uq_ak_hash` (satır 48) → **prefix lookup + hash unique index şemada hazır**. Aynı dosya: `rate_limits` (per-key endpoint bazlı kota, satır 63-82), `api_calls` (aylık partition'lı çağrı logu, satır 92-119), `webhooks` (satır 148-169).
+- **İkinci API key şeması — `.ai/.sql/mysql/coremusic_auth.sql:284-311` (IMPLEMENTED şema):** `api_keys` tablosu + `idx_apikeys_hash` unique + `idx_apikeys_prefix` — `coremusic_auth` DB'sinde de aynı kavram var → **iki DB'de iki `api_keys` tanımı (çapraz kaynak: coremusic_api.sql vs coremusic_auth.sql) → hangisinin SSOT olduğu ⚠️ VERIFICATION REQUIRED** (§4.3 risk 6).
 - **Token/credential şeması — `coremusic_auth.sql:146` (`token_type ENUM(...,'api_key','refresh','access')`), `:178` (`credential_type ENUM('api_key',...)`)** → API key/refresh kavramı şemada.
-- **Audit şeması — `.ai/sources/.sql/mysql/coremusic_logs.sql` (IMPLEMENTED şema):** `audit_logs` (satır 19-40), `rate_limit_logs` — "Rate limiting tracking for API security" (`identifier_type ENUM('ip','user','api_key')`, satır 124-142), `log_security` (`event_type ENUM` + index, satır 483-528) → **tablolar var**.
+- **Audit şeması — `.ai/.sql/mysql/coremusic_logs.sql` (IMPLEMENTED şema):** `audit_logs` (satır 19-40), `rate_limit_logs` — "Rate limiting tracking for API security" (`identifier_type ENUM('ip','user','api_key')`, satır 124-142), `log_security` (`event_type ENUM` + index, satır 483-528) → **tablolar var**.
 - **Domain haritası — `shared/config/domain.php:7-14`:** 7 subdomain (`auth`, `home`, `assets`, `music`, `admin`, `media`, **`api` → `api.coremusic.net` satır 14**). Repo kökünde `api.coremusic.net/` dizini **YOK** (yalnız `assets/`, `auth/`, `home/` dizinleri var) → API host henüz deployment'ta değil; **`public.coremusic.net` hiçbir dosyada geçmiyor (grep 0)** → public API yüzeyi `api.coremusic.net`'dir, ayrı "public" host'u **yok**.
-- **Dizin kayıtları (önceden rezerve — bu dosya ile canlanır):** `.ai/.decisions/index.md:57` · `.ai/index.md:637` · `.ai/raw/keys.md:255` · `.ai/raw/brain.md:975` ("API güvenlik stratejisi") · `.ai/.templates/adr/adr-index.md:91` (`🔵 backend`, `adr-security-template.md ⚠️`) · `adr-security-template.md:388,393,396` (SEC-04/SEC-09/SEC-12 ADR-020'ye bağlı: ownership/403, hata gizleme, RBAC matrisi).
+- **Dizin kayıtları (önceden rezerve — bu dosya ile canlanır):** `.ai/.decisions/index.md:57` · `.ai/index.md:637` · `.ai/keys.md:255` · `.ai/brain.md:975` ("API güvenlik stratejisi") · `.ai/.templates/adr/adr-index.md:91` (`🔵 backend`, `adr-security-template.md ⚠️`) · `adr-security-template.md:388,393,396` (SEC-04/SEC-09/SEC-12 ADR-020'ye bağlı: ownership/403, hata gizleme, RBAC matrisi).
 
 **B) KOD KATMANI:**
 
@@ -242,13 +242,13 @@ CoreMusic'in **public API yüzeyi** (`api.coremusic.net` + Gateway `/api/v1/*` u
 | [[ADR-016-url-normalization]] | `/api/v1/*` yolu normalizasyonu ile çakışma kontrolü (§1.4) |
 | [[../index]] | Satır 57 `[[ADR-020-api-public-security]]` — slug eşleşmesi ✅ (bu dosya rezervasyonu doldurur) |
 | [[../../index.md]] | Satır 637 `decisions/accepted/ADR-020-api-public-security` kaydı ✅ |
-| [[../../raw/keys.md]] | Satır 255 `ADR-020 \| API public, guvenlik \| Security` ✅ |
-| [[../../raw/brain.md]] | Satır 975 `ADR-020 \| API güvenlik stratejisi` ✅ · §6 middleware pipeline sırası (satır 256, 438) |
+| [[../../keys.md]] | Satır 255 `ADR-020 \| API public, guvenlik \| Security` ✅ |
+| [[../../brain.md]] | Satır 975 `ADR-020 \| API güvenlik stratejisi` ✅ · §6 middleware pipeline sırası (satır 256, 438) |
 | [[../../.templates/adr/adr-index.md]] | Satır 91 `20 \| ADR-020 \| API güvenlik stratejisi \| 🔵 backend \| adr-security-template.md ⚠️` ✅ |
 | [[../../.templates/adr/adr-security-template.md]] | SEC-04/SEC-09/SEC-12 (ownership/403, hata gizleme, RBAC) ADR-020'ye bağlı (`:388,393,396`) |
-| `.ai/sources/.sql/mysql/coremusic_api.sql` | `api_keys:31-57` (hash+prefix+scope+expiry) · `rate_limits:63-82` · `api_calls:92-119` (§1.1-A, §2.2b) |
-| `.ai/sources/.sql/mysql/coremusic_auth.sql` | İkinci `api_keys:284-311` + token/credential enum `:146,178` → **SSOT çelişkisi ⚠️** (§4.3 risk 6) |
-| `.ai/sources/.sql/mysql/coremusic_logs.sql` | `audit_logs:19-40` · `rate_limit_logs:124-142` · `log_security:483-528` (§d-7) |
+| `.ai/.sql/mysql/coremusic_api.sql` | `api_keys:31-57` (hash+prefix+scope+expiry) · `rate_limits:63-82` · `api_calls:92-119` (§1.1-A, §2.2b) |
+| `.ai/.sql/mysql/coremusic_auth.sql` | İkinci `api_keys:284-311` + token/credential enum `:146,178` → **SSOT çelişkisi ⚠️** (§4.3 risk 6) |
+| `.ai/.sql/mysql/coremusic_logs.sql` | `audit_logs:19-40` · `rate_limit_logs:124-142` · `log_security:483-528` (§d-7) |
 | `shared/src/Api/Gateway.php` | `:60-67` hata sızıntısı · `:80-89` 6 rota · `:105-114` placeholder · `:9` ADR-084 (dosya yok ⚠️) |
 | `shared/src/Api/Middleware/*` (6 dosya) | RateLimit `:22-23,39-46,57-68,73-79` · Auth stub `:37-57,73-78,92-105` · Validation `:15-16,51` · Response `:45-47,53-79` · Pipeline `:24-40` · Authorization (kayıtsız) |
 | `shared/src/Middleware/CorsMiddleware.php` · `OriginCheckMiddleware.php` | `:32` header listesi (Authorization/X-Api-Key yok) · `:48-52` echo+credentials · OriginCheck `:47-54` 403, `:68` suffix-match, `:73-76` prod fail-closed |
@@ -256,9 +256,9 @@ CoreMusic'in **public API yüzeyi** (`api.coremusic.net` + Gateway `/api/v1/*` u
 | `shared/src/OAuth/OAuthManager.php` | `:77-78` getenv ihlali · `:90-102` 10 sağlayıcı · `:194-238` PKCE state · `:242-261` AES-256-GCM (§2.2b-3) |
 | `shared/config/domain.php` | `:7-14` 7 subdomain, `api.coremusic.net` `:14`; `public.coremusic.net` grep 0 (§2.2a) |
 | `shared/src/PageRouter/PageRouterKernel.php` | `:241-247` yalnız web stack `pipe()` · `:267-282` web middleware listesi (API middleware yok) → §1.1-B.1 kanıtı |
-| [[../../raw/AGENTS.md]] | §6 routing (`CSRF, CSP, XSS, OWASP, auth, security, rate limit → Security Engineer`), §5 `Security middleware → Security Engineer`, §17.7 layer violation, §25.3 frozen |
+| [[../../AGENTS.md]] | §6 routing (`CSRF, CSP, XSS, OWASP, auth, security, rate limit → Security Engineer`), §5 `Security middleware → Security Engineer`, §17.7 layer violation, §25.3 frozen |
 | [[../../CLAUDE.md]] | 16 Hard Guardrail, Guardrail #16, REDACTED |
-| [[../../raw/WORKFLOW.md]] | Debate/onay akışı başlangıcı |
+| [[../../WORKFLOW.md]] | Debate/onay akışı başlangıcı |
 | [[../../.templates/adr/adr-template.md]] | Bu ADR'nin şablonu (Guardrail #16, 7 bölüm + §1.3 9 alan) |
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | `.claude/skills/prompt-maker/references/10-web-research-protocol.md` | §1.3 web araştırması protokolü (diskte VAR ✅) |
@@ -330,12 +330,12 @@ CoreMusic'in **public API yüzeyi** (`api.coremusic.net` + Gateway `/api/v1/*` u
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | [[../index]] | Karar dizini — **satır 57** `[[ADR-020-api-public-security]]` (slug eşleşmesi ✅) |
 | [[../../CLAUDE.md]] | Vault ana sözleşmesi — 16 Hard Guardrail, REDACTED, Guardrail #16 |
-| [[../../raw/AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`OWASP, auth, security, rate limit → Security Engineer`), §5 domain boundary, §17.5/§17.7 edge case |
-| [[../../raw/WORKFLOW.md]] | Debate/onay akışı başlangıcı |
-| [[../../raw/brain.md]] | Satır 975 ADR-020 kaydı ✅ · §6 middleware pipeline sırası (256, 438) · ADR-013 60/60 (968) · ADR-011 timeout (870) |
-| [[../../raw/keys.md]] | Satır 255 `ADR-020 \| API public, guvenlik \| Security` ✅ |
+| [[../../AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`OWASP, auth, security, rate limit → Security Engineer`), §5 domain boundary, §17.5/§17.7 edge case |
+| [[../../WORKFLOW.md]] | Debate/onay akışı başlangıcı |
+| [[../../brain.md]] | Satır 975 ADR-020 kaydı ✅ · §6 middleware pipeline sırası (256, 438) · ADR-013 60/60 (968) · ADR-011 timeout (870) |
+| [[../../keys.md]] | Satır 255 `ADR-020 \| API public, guvenlik \| Security` ✅ |
 | [[../../index.md]] | Satır 637 ADR-020 kaydı ✅ |
-| [[../../raw/glossary.md]] | Terim sözlüğü (API key, scope, PKCE, JWKS, Deprecation/Sunset — ekleme ADR-020 uygulamasıyla) |
+| [[../../glossary.md]] | Terim sözlüğü (API key, scope, PKCE, JWKS, Deprecation/Sunset — ekleme ADR-020 uygulamasıyla) |
 | [[../../log.md]] | Audit trail — bu işlem tek satır append |
 | Debate sonucu | §5.3/§5.4 — **✅ KABUL (3 tur / 20 persona, 19/1/0)** + 3 bağlayıcı şart |
 | [[../../.templates/adr/adr-template.md]] | Bu ADR'nin şablonu (Guardrail #16, 7 bölüm + §1.3 9 alan) |

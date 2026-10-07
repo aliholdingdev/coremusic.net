@@ -45,7 +45,7 @@ CoreMusic'in sosyal katmanında **gerçek zamanlı paylaşımlı dinleme** (dinl
 
 | Nesne | İçerik | Durum | Dosya:Ssatır |
 |---|---|---|---|
-| `listening_rooms` | `room_code` (benzersiz), `room_type ENUM('public','private','invite_only')`, **`max_members DEFAULT 10`**, `current_music_id`, `current_position_sec`, `is_playing`, `member_count` | **IMPLEMENTED (şema)** | `.ai/sources/.sql/mysql/coremusic_social.sql:129-153` |
+| `listening_rooms` | `room_code` (benzersiz), `room_type ENUM('public','private','invite_only')`, **`max_members DEFAULT 10`**, `current_music_id`, `current_position_sec`, `is_playing`, `member_count` | **IMPLEMENTED (şema)** | `.ai/.sql/mysql/coremusic_social.sql:129-153` |
 | `listening_room_members` | `role ENUM('host','co_host','member','listener')`, `is_muted`, `is_online`, `last_active_at` | **IMPLEMENTED (şema)** | `coremusic_social.sql:161-182` |
 | `listening_room_queue` | `music_id`, `added_by`, `position`, `is_playing`, `played_at` | **IMPLEMENTED (şema)** | `coremusic_social.sql:190-207` |
 | `social_notifications` | `notification_type ENUM(…,'room_invite',…)` + `message TEXT` | **IMPLEMENTED (şema)** | `coremusic_social.sql:245-267` |
@@ -351,12 +351,12 @@ Debate **✅ TAMAMLANDI (3 tur / 20 persona → 19 kabul / 1 çekimser / 0 red =
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme — Guardrail'ler (bu ADR'nin yazım usulü) |
-| [[../../raw/AGENTS.md]] | Agent registry — §5 domain (`*.php` → Backend, `*.sql` → Data), §25.3 kural 2/3 (frozen + log append-only) |
-| [[../../raw/WORKFLOW.md]] | Süreçler — uygulama adımlarının faz bağlamı |
+| [[../../AGENTS.md]] | Agent registry — §5 domain (`*.php` → Backend, `*.sql` → Data), §25.3 kural 2/3 (frozen + log append-only) |
+| [[../../WORKFLOW.md]] | Süreçler — uygulama adımlarının faz bağlamı |
 | [[../index]] | Karar dizini — **satır 66** `[[ADR-029-listening-rooms-social]]` (slug ✅); `:127` `R-005-rest-only-api` dead-link notu ("WebSocket gerekli") |
 | [[../../index]] | Master katalog — `:646` "decisions/accepted/ADR-029-listening-rooms-social \| Listening rooms social \| Social" |
-| [[../../raw/brain]] | Mimari karar özeti — `:984` "ADR-029 \| Sosyal dinleme odaları" |
-| [[../../raw/keys]] | Keyword haritası — `:264` "ADR-029 \| listening rooms, social" |
+| [[../../brain]] | Mimari karar özeti — `:984` "ADR-029 \| Sosyal dinleme odaları" |
+| [[../../keys]] | Keyword haritası — `:264` "ADR-029 \| listening rooms, social" |
 | [[ADR-007-cache-namespace]] | Cache katmanı — Redis adapter **YOK** (Apcu/Memory/PageCache) → bu ADR'nin Redis pub/sub bağımlılığı onun PLANNED yönüyle hizalı (§1.4, §2h, §4.3/3) |
 | [[ADR-011-session-management]] | WS handshake oturum doğrulaması + 30 dk `session_regenerate_id` rotasyonu → uzun ömürlü bağlantı kuralı (§1.4, §2.2c); `:160` Redis oturum deposu notu (§5.1/11) |
 | [[ADR-013-rate-limiting-apcu]] | Sohbet rate limit dayanağı — 429/`Retry-After` + fail-open **IMPLEMENTED** (`RateLimiterMiddleware.php:30-32,48-56`) (§1.4, §2c, §2.2e) |
@@ -367,7 +367,7 @@ Debate **✅ TAMAMLANDI (3 tur / 20 persona → 19 kabul / 1 çekimser / 0 red =
 | [[../../architecture/k10-uygulama/home-panel]] | Oda paneli spec — `:157-159` same-source/independent senkron · `:182` "oda durumu WebSocket ile real-time" (PLANNED) |
 | [[../../.templates/adr/adr-template]] | İskelet — 7 bölüm + §1.3 9 alan (Guardrail #16) |
 | [[../../../.claude/skills/prompt-maker/references/10-web-research-protocol]] | §1.3 web araştırma protokolü (diskte VAR ✅) |
-| `.ai/sources/.sql/mysql/coremusic_social.sql` (kod yolu, wiki-link değil) | `listening_rooms:129` (`room_code:133`, `max_members DEFAULT 50:136` (şart 1a — eski `DEFAULT 10`), `is_playing:139`) · `listening_room_members:161` (`role:165`, `is_muted:166`, `is_online:167`) · `listening_room_queue:190` · `social_notifications:245` (`room_invite:249`) · `comments:23` · `activity_feed:101` (**IMPLEMENTED şema**) |
+| `.ai/.sql/mysql/coremusic_social.sql` (kod yolu, wiki-link değil) | `listening_rooms:129` (`room_code:133`, `max_members DEFAULT 50:136` (şart 1a — eski `DEFAULT 10`), `is_playing:139`) · `listening_room_members:161` (`role:165`, `is_muted:166`, `is_online:167`) · `listening_room_queue:190` · `social_notifications:245` (`room_invite:249`) · `comments:23` · `activity_feed:101` (**IMPLEMENTED şema**) |
 | `shared/src/Cache/` (kod yolu) | `ApcuAdapter.php`, `MemoryAdapter.php`, `PageCacheAdapter.php` — **Redis adapter 0** (§1.1-C) |
 | `assets.coremusic.net/js/features/PlayerController.js` (kod yolu) | `:3` "Footer player state machine" · `:12-13` `#status = 'STOPPED'` durum makinesi (IMPLEMENTED hook) |
 | `shared/src/Middleware/RateLimiterMiddleware.php` (kod yolu) | `:30-32` fail-open · `:48-56` 429 + `Retry-After` (sohbet kotasının dayanağı) |

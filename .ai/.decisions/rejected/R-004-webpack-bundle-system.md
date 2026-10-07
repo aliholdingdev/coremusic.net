@@ -198,7 +198,7 @@ Bu karar **kod tarafında geri alınacak bir şey üretmedi** (build tool hiç k
 | [[../accepted/ADR-001-vanilla-js-itcss]] | **Yerini alan (birincil):** Vanilla JS ES6+ + ITCSS + BEM; `:85` frontend npm runtime paketi kapalı; `:32/:201` bu red'i sayar (parmak izi) |
 | [[../accepted/ADR-004-multi-domain-spa]] | **Yerini alan (ikincil) + gerekçe ailesi:** `:83` kısıt 1 "webpack/vite/build sistemi YASAK", `:99` tek build disiplini, `:159` ayrı-bundle alternatifi bu red'e dayanır, `:38/:53` red referansları |
 | [[../accepted/ADR-012-csp-nonce-strict-dynamic]] | Script yüzeyi — build zinciri ek paket/script girişi demektir (§1.4 kısıt) |
-| [[../../raw/brain]] | Mimari karar özeti (frontend/build satırı) |
+| [[../../brain]] | Mimari karar özeti (frontend/build satırı) |
 | [[R-001-redux-style-state-management]] | Seri kardeşi — aynı salt-okunur red kayıt formatı (format referansı); framework/over-engineering gerekçe ailesi |
 | [[R-002-mongodb-document-store]] | Seri kardeşi — aynı salt-okunur red kayıt formatı (kanıt tablosu/dürüst etiket deseni) |
 | [[R-003-jquery-ui-framework]] | Seri kardeşi — format referansı (§1.3 9 alan, §7.1 rapor deseni) |

@@ -52,9 +52,9 @@ Bu ADR, CoreMusic **prompt-maker** varlığının çoklu proje çağında nasıl
 | Katman | Dosya | Kanıt |
 |--------|-------|-------|
 | Repo kökü | `CLAUDE.md`, `WORKFLOW.md`, `README.md` | kök dosya listesi |
-| Vault kökü | [[.ai/CLAUDE.md]] (ana sözleşme), [[.ai/raw/AGENTS.md]] (**v22.0.3 — agent registry SSOT**), [[.ai/raw/WORKFLOW.md]] | dosya varlığı + frontmatter |
+| Vault kökü | [[.ai/CLAUDE.md]] (ana sözleşme), [[.ai/AGENTS.md]] (**v22.0.3 — agent registry SSOT**), [[.ai/WORKFLOW.md]] | dosya varlığı + frontmatter |
 | Yaygın CLAUDE.md ağı | repo geneli **178 `CLAUDE.md`** | recursive sayım = 178 (ADR-024 bulgusu **doğrulandı**) |
-| Proje envanteri | [[.ai/raw/PROJECTS.md]] §7.1 yazılım (NevaEngine, NevaPlayer…) · §7.2 donanım · §7.3 altyapı | envanter kataloğu |
+| Proje envanteri | [[.ai/PROJECTS.md]] §7.1 yazılım (NevaEngine, NevaPlayer…) · §7.2 donanım · §7.3 altyapı | envanter kataloğu |
 
 → Proje profili bugün **tek proje (CoreMusic) için var**: kurallar, şablonlar ve teknoloji stack'i aynı vault içinde yaşıyor; ayrı bir "profil config" dosyası yok (PLANNED).
 
@@ -73,15 +73,15 @@ Bu ADR, CoreMusic **prompt-maker** varlığının çoklu proje çağında nasıl
 | İddia | Durum | Kanıt |
 |-------|-------|-------|
 | Repo içinde ikinci bir proje dizini | ❌ **YOK** | kök dizin listesi: `.ai`, `.claude`, `.github`, `.opencode`, `.workflows`, `shared`, `assets.coremusic.net`, `auth.coremusic.net`, `home.coremusic.net` → üç "alt alan adı" klasörü de **aynı projenin (CoreMusic) parçaları** |
-| Çoklu proje envanteri | 🟡 **HEDEF (PLANNED)** | [[.ai/raw/PROJECTS.md]] §7 kataloğu (yazılım + donanım + altyapı) — envanter, ayrı repo/değil |
-| Cross-proje hafıza | 🟡 **PLANNED** | [[.ai/raw/AGENTS.md]] §19 yol haritası: `v23.0 — Cross-Project Memory (WirelessConnect)` |
+| Çoklu proje envanteri | 🟡 **HEDEF (PLANNED)** | [[.ai/PROJECTS.md]] §7 kataloğu (yazılım + donanım + altyapı) — envanter, ayrı repo/değil |
+| Cross-proje hafıza | 🟡 **PLANNED** | [[.ai/AGENTS.md]] §19 yol haritası: `v23.0 — Cross-Project Memory (WirelessConnect)` |
 
 → Bu ADR'nin "çoklu proje" iddiası bu nedenle **mimari karar olarak IMPLEMENTED, uygulama olarak PLANNED**'dir; ikinci bir proje repoya geldiğinde profil + adapter ile bağlanır.
 
 **E) ADR-036 slotu — numara ayrılmış (boşluk-doldurma kanıtı):**
 
 - [[.ai/.decisions/index.md]] `:73` → `ADR-036-multi-project-prompt-maker | Multi-Project Prompt Maker | AI`
-- Aynı slot 5 dosyada daha: [[.ai/index.md]] `:653` · [[.ai/raw/keys.md]] `:188` (keyword satırı) + `:271` · [[.ai/raw/brain.md]] `:991` ("Çoklu proje prompt üretimi") · [[.ai/.templates/adr/adr-index.md]] `:107` (`🟠 process`, `adr-template.md ⚠️`)
+- Aynı slot 5 dosyada daha: [[.ai/index.md]] `:653` · [[.ai/keys.md]] `:188` (keyword satırı) + `:271` · [[.ai/brain.md]] `:991` ("Çoklu proje prompt üretimi") · [[.ai/.templates/adr/adr-index.md]] `:107` (`🟠 process`, `adr-template.md ⚠️`)
 - Aynı "ayrılmış numara" usulü ADR-030/033/034/035'te de uygulanmıştı; bu nedenle "yeni ADR'ler 088+" kuralının istisnasıdır (Aynı numara-boşluğu-doldurma usulü: ADR-035 §1.1-F).
 
 ### 1.2 Sorun Tanımı
@@ -146,7 +146,7 @@ CoreMusic'te prompt üretimi **dört maddelik** yapı ile standartlaştırılır
 - Hedef dosya: `.ai/profiles/<proje>/project-profile.md` (PLANNED — repo'da `profiles/` dizini bugün YOK); ilk profil CoreMusic için `project-profile-coremusic.md` olur.
 - Zorunlu alanlar (7): `stack` (teknoloji listesi), `language` (dil/kod standardı), `rules` (proje kuralları — CLAUDE.md/AGENTS.md karşılığı), `templates` (şablon referansları, Guardrail #16), `owners` (sahip agent — ADR-024 eşlemesi), `prompts` (bu projenin prompt seti), `version` (semver).
 - Okuma sırası: çekirdek → profil → adapter (§24.2 boot listesine profil dosyası eklenir); çelişkide **daha özgü olan kazanır** (web bulgusu: CLAUDE.md katman önceliği).
-- Kanıt bağlantısı: bugün bu bilgi [[.ai/CLAUDE.md]] + [[.ai/raw/AGENTS.md]] (v22.0.3) + [[.ai/raw/WORKFLOW.md]] + 178 `CLAUDE.md` ağına dağılmış (§1.1-B) — profil bunların **giriş kartıdır**, yerini almaz (SRP).
+- Kanıt bağlantısı: bugün bu bilgi [[.ai/CLAUDE.md]] + [[.ai/AGENTS.md]] (v22.0.3) + [[.ai/WORKFLOW.md]] + 178 `CLAUDE.md` ağına dağılmış (§1.1-B) — profil bunların **giriş kartıdır**, yerini almaz (SRP).
 
 **2.2-b Ortak çekirdek (§2b):**
 
@@ -212,7 +212,7 @@ Kural: çekirdek dosyalarında proje adı, proje teknolojisi ve proje kuralları
 - İkinci bir proje geldiğinde **fork başlatılmaz** — yalnız profil config + adapter yazılır (iskelet hazır).
 - Prompt seti **sürümlü ve taşınabilir** olur; kopya sürüklenmesi yerine inheritance ile paylaşım (ADR-021/035 kapıları devrede).
 - 178 CLAUDE.md ve `.ai/archives/prompt*` (10 dosya) için **hangisi nereye ait** sorusunun cevabı yazılmış olur (ADR-024 hattı ile uyum).
-- Proje envanteri ([[.ai/raw/PROJECTS.md]] §7) ile vault yapısı arasında **profil köprüsü** kurulur.
+- Proje envanteri ([[.ai/PROJECTS.md]] §7) ile vault yapısı arasında **profil köprüsü** kurulur.
 
 ### 4.2 Olumsuz Sonuçlar
 
@@ -247,7 +247,7 @@ Kural: çekirdek dosyalarında proje adı, proje teknolojisi ve proje kuralları
 | 5 | Çekirdek sürümleme: `core v<major>.<minor>` + changelog satırı (ADR-035 §2.2-b ile hizalı) | Vault Steward | 0,5 gün |
 | 6 | Paylaşılabilir prompt seti adlandırması: `.ai/prompts/prompt-<proje>-<alan>-v…` + `core/profile` sürüm ikilisi | Master Orchestrator | 0,5 gün |
 | 7 | `unified`/`shared-base` arşiv dosyalarına "çekirdek denemesi — superseded by ADR-036" notu (dosya adı değişmez) | Vault Steward | 0,5 gün |
-| 8 | Boot listesi: `.ai/raw/AGENTS.md` §24.2 ve [[.ai/raw/WORKFLOW.md]] §8.7A okuma sırasına profil dosyası eklenir (çekirdek → profil → adapter) | Master Orchestrator (vault-updater) | 0,5 gün |
+| 8 | Boot listesi: `.ai/AGENTS.md` §24.2 ve [[.ai/WORKFLOW.md]] §8.7A okuma sırasına profil dosyası eklenir (çekirdek → profil → adapter) | Master Orchestrator (vault-updater) | 0,5 gün |
 | 9 | İndeks güncellemesi: [[.ai/.templates/adr/adr-index.md]] `:107` `🟠 process` → `✅ implemented` (adım 3-4 sonrası); `brain.md:991`, `keys.md:188/:271` durum satırları | Master Orchestrator | 0,5 gün |
 | 10 | **Şart 1 — Çekirdek testi:** profil adapter'ı devre dışıyken çekirdek tek başına CoreMusic prompt'u üretmeli (yalnız `references/` + `§2-§4` ile) | QA Engineer | 1 gün |
 | 11 | **Şart 2 — Taşıma provası:** ikinci bir örnek profil (ör. NevaEngine — C++20/ASIO) yazılarak adapter'ın çekirdeği kirletmediği doğrulanır (dosya adı yok, içerik var) | Master Orchestrator + Embedded Engineer | 1 gün |
@@ -278,10 +278,10 @@ Kural: çekirdek dosyalarında proje adı, proje teknolojisi ve proje kuralları
 | [[.claude/skills/prompt-maker/references/10-web-research-protocol.md]] | §1.3 araştırma protokolü (5642 b) |
 | [[.ai/archives/prompt-unified-2026-08-15.md]] | Çekirdek denemesi 1 — tek gövde birleştirme (IMPLEMENTED, tek proje) |
 | [[.ai/archives/prompt-shared-base.md]] | Çekirdek denemesi 2 — ortak taban + proje kuralı (IMPLEMENTED, `type: prompt-base`) |
-| [[.ai/CLAUDE.md]] · [[.ai/raw/AGENTS.md]] · [[.ai/raw/WORKFLOW.md]] | Proje profili bugün bunlarda (§1.1-B); boot sırasına profil eklenecek |
-| [[.ai/raw/PROJECTS.md]] | Proje envanteri §7 — profil köprüsü |
+| [[.ai/CLAUDE.md]] · [[.ai/AGENTS.md]] · [[.ai/WORKFLOW.md]] | Proje profili bugün bunlarda (§1.1-B); boot sırasına profil eklenecek |
+| [[.ai/PROJECTS.md]] | Proje envanteri §7 — profil köprüsü |
 | [[.ai/.decisions/index.md]] | ADR-036 slotu (`:73`) |
-| [[.ai/index.md]] · [[.ai/raw/keys.md]] · [[.ai/raw/brain.md]] | Katalog kayıtları (`:653` / `:188,:271` / `:991`) |
+| [[.ai/index.md]] · [[.ai/keys.md]] · [[.ai/brain.md]] | Katalog kayıtları (`:653` / `:188,:271` / `:991`) |
 | [[.ai/.templates/adr/adr-index.md]] | Şablon indeksi (`:107`, 🟠 process → ✅) |
 | [[.ai/.templates/adr/adr-template.md]] | Bu dosyanın zorunlu iskeleti (Guardrail #16) |
 | Debate şart 1 — çekirdek testi (§5.1/10) | Çekirdek, adaptersız CoreMusic prompt'u üretmeli |

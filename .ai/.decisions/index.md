@@ -13,6 +13,13 @@ total-rejected: 7
 total-frozen: 36
 total-active: 36
 total-draft: 0
+# Control Plane v2 (2026-10-07):
+tier: 3
+domain: decisions
+ssot: true
+risk: high
+owner: "MO"
+depends-on: [".ai/CLAUDE.md"]
 ---
 
 # CoreMusic — Decisions Index
@@ -26,10 +33,10 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Durum | Sayı | Açıklama |
 |-------|------|----------|
 | **Frozen** | 36 | Değiştirilemez (ADR-001 → ADR-036; ADR-037 debate ✅, frozen YOK) |
-| **Active** | 36 | Güncellenebilir (ADR-038 → ADR-093) |
+| **Active** | 37 | Güncellenebilir (ADR-038 → ADR-094) |
 | **Rejected** | 7 | Reddedilen kararlar |
 | **Draft** | 0 | Taslak yok (ADR-089 kabule terfi etti, 2026-09-24) |
-| **Toplam** | 79 | — |
+| **Toplam** | 80 | — |
 
 > Not (2026-10-06 LINT-3): §3 başlığı ve §6 eski hali ADR-037'yi frozen sayıyordu (37/35); §2'deki "ADR-037 debate ✅, frozen YOK" kaydı esas alındı → 36/36. Çelişki Vault Steward onayına açıktır.
 
@@ -121,6 +128,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | ADR-091-template-engine-no-eval | TemplateEngine eval() Kaldırımı (Guardrail #21) | Security <!-- NO FILE on disk 2026-10-06 — brain.md only --> |
 | [[accepted/ADR-092-media-dizin-ekseni-ve-ulid]] | Medya Arşivi Dizin Ekseni ve ULID Kimliği | Infrastructure |
 | [[accepted/ADR-093-view-modes-single-load-path]] | 09_ViewModes v-*.css için tek yükleme yolu: <link id="cm-view-css"> kanoniktir, cihaz @import zinciri deferred | Frontend |
+| [[accepted/ADR-094-api-pipeline-origin-csrf]] | API pipeline'ına OriginCheck + koşullu CSRF eklendi (ADR-020 sıra genişletmesi; B-F-02/B-F-03) | Security |
 
 ## 4A. Draft ADR'ler
 

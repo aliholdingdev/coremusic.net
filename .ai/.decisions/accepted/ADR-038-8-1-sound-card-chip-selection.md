@@ -19,7 +19,7 @@ related:
   - "[[.ai/.decisions/accepted/ADR-019-per-os-neva-player.md]]"
   - "[[.ai/.decisions/accepted/ADR-025-professional-eq-system.md]]"
   - "[[.ai/.decisions/accepted/ADR-032-ipc-contract-versioning.md]]"
-  - "[[.ai/raw/brain.md]]"
+  - "[[.ai/brain.md]]"
 ---
 
 # ADR-038: Sound Card Chip Selection — PCM3168A + XMOS XU316
@@ -30,13 +30,13 @@ related:
 **Karar Veren:** Vault Steward (kullanıcı onaylı karar kapsamı: **(a)** seçim gerekçesi + alternatif redleri · **(b)** pin/şema entegrasyonu (I2S/TDM, saat ağacı) · **(c)** saat/jitter bütçesi · **(d)** firmware besleme (ADR-017 XMOS katmanı) · **(e)** test/ölçüm planı) + Master Orchestrator (disk kanıt taraması + §1.3 web araştırması)
 **İlgili ADR'ler:** [[.ai/.decisions/accepted/ADR-017-dsp-hardware-mode.md]] (XMOS DSP katmanı + hard-RT kısıtları — firmware beslemesinin sınırı) · [[.ai/.decisions/accepted/ADR-019-per-os-neva-player.md]] (IAudioBackend arayüzü — ses kartının bağlanacağı yazılım sınırı) · [[.ai/.decisions/accepted/ADR-025-professional-eq-system.md]] (EQ zinciri — 8 kanal akışının tüketicisi) · [[.ai/.decisions/accepted/ADR-032-ipc-contract-versioning.md]] (firmware↔host IPC sözleşmesi)
 
-**Karar türü:** **TEYİT** — çip seçimi zaten [[.ai/raw/brain.md]] §8/§8.1'de verilmiş ve **değişmez** (`ADR-038 | XMOS XU316 + PCM3168A (PCM5122 REDDEDİLMİŞ)` — `:998`). Bu ADR seçimi **gerekçe + entegrasyon + ölçüm planıyla** kayda bağlar; yeni bir seçim yapmaz.
+**Karar türü:** **TEYİT** — çip seçimi zaten [[.ai/brain.md]] §8/§8.1'de verilmiş ve **değişmez** (`ADR-038 | XMOS XU316 + PCM3168A (PCM5122 REDDEDİLMİŞ)` — `:998`). Bu ADR seçimi **gerekçe + entegrasyon + ölçüm planıyla** kayda bağlar; yeni bir seçim yapmaz.
 
 ---
 
 ## 1. Bağlam (Context)
 
-CoreMusic ses zincirinin donanım çekirdeği, **8 kanal çıkış + 6 kanal giriş** ve **USB üzerinden UAC2.0** gerektirir (8.1 surround hedefi — [[.ai/raw/brain.md]] `:292`). Çekirdek iki çipten oluşur: konvertör (DAC/ADC) ve USB/akış denetleyicisi. Bu ADR, bu iki çipin **neden PCM3168A + XMOS XU316 olduğunu**, **pin/saat/seviye düzeyinde nasıl bağlandığını**, **jitter bütçesinin nasıl dağıtıldığını**, **firmware'in (ADR-017) bu donanımı nasıl beslediğini** ve **kabulün nasıl ölçülüp doğrulanacağını** tek kayıtta toplar.
+CoreMusic ses zincirinin donanım çekirdeği, **8 kanal çıkış + 6 kanal giriş** ve **USB üzerinden UAC2.0** gerektirir (8.1 surround hedefi — [[.ai/brain.md]] `:292`). Çekirdek iki çipten oluşur: konvertör (DAC/ADC) ve USB/akış denetleyicisi. Bu ADR, bu iki çipin **neden PCM3168A + XMOS XU316 olduğunu**, **pin/saat/seviye düzeyinde nasıl bağlandığını**, **jitter bütçesinin nasıl dağıtıldığını**, **firmware'in (ADR-017) bu donanımı nasıl beslediğini** ve **kabulün nasıl ölçülüp doğrulanacağını** tek kayıtta toplar.
 
 ### 1.1 Mevcut Durum (disk + kod kanıtı)
 
@@ -44,10 +44,10 @@ CoreMusic ses zincirinin donanım çekirdeği, **8 kanal çıkış + 6 kanal gir
 
 | Kaynak | Kanıt |
 |--------|-------|
-| [[.ai/raw/brain.md]] `:280-286` | §8 Hardware: XU316 **UAC2.0**; **PCM3168A 6-in/8-out, 24-bit, 192 kHz, 112 dB SNR**; AK4458 "opsiyonel"; **PCM5122 2-kanal → RED**; Class AB; ASIO 512/48 kHz ≈ **10.67 ms** |
-| [[.ai/raw/brain.md]] `:292` | §9: **8.1 surround** hedefi |
-| [[.ai/raw/brain.md]] `:998` | `ADR-038 | XMOS XU316 + PCM3168A (PCM5122 REDDEDİLMİŞ)` — bu dosyanın slotu |
-| [[.ai/raw/brain.md]] `:866` · `:878` | §19 edge-case slotu · §20 **H001** = PCM5122 ailesi yasağı |
+| [[.ai/brain.md]] `:280-286` | §8 Hardware: XU316 **UAC2.0**; **PCM3168A 6-in/8-out, 24-bit, 192 kHz, 112 dB SNR**; AK4458 "opsiyonel"; **PCM5122 2-kanal → RED**; Class AB; ASIO 512/48 kHz ≈ **10.67 ms** |
+| [[.ai/brain.md]] `:292` | §9: **8.1 surround** hedefi |
+| [[.ai/brain.md]] `:998` | `ADR-038 | XMOS XU316 + PCM3168A (PCM5122 REDDEDİLMİŞ)` — bu dosyanın slotu |
+| [[.ai/brain.md]] `:866` · `:878` | §19 edge-case slotu · §20 **H001** = PCM5122 ailesi yasağı |
 | [[.ai/architecture/k1-donanim/CLAUDE.md]] `:20,30,31,40,48` | PCM5122 red gerekçesi, XMOS UAC2.0, DAC = PCM3168A 8-out |
 | [[.ai/architecture/firmware/xmos-firmware.md]] · `i2s-driver.md` · `index.md` `:90-92` | XMOS firmware + I2S sürücü **spec dokümanı = IMPLEMENTED** |
 
@@ -69,9 +69,9 @@ Tarama: `PCM3168 | xmos | i2s | soundcard` → repo genelinde **tek eşleşme**;
 |-------|-------|-------|
 | [[.ai/architecture/k1-donanim/dac-adc-zinciri.md]] `:18-19,:63-92` | **DAC = AK4458**, **ADC = PCM3168A** (rol ters) | ADR-038/brain §8 ile **çelişir** → SSOT bu ADR'dir (brain `:998`), zincir dosyası düzeltme §5.1 adım 4 |
 | [[.ai/architecture/k1-donanim/ak4458-dac.md]] `:44-64` | XMOS → AK4458 **TDM pin** planı | AK4458 "opsiyonel" konumuyla uyumlu (§3 alt.2) |
-| [[.ai/raw/ecosystem/donanım-devre-referanslari.md]] `:94,:113,:237` | **ES9039** referansı | PCM3168A/AK4458 geçişi **açık soru** → §3 alt.4 + §4.3 R3 |
+| [[.ai/ecosystem/donanım-devre-referanslari.md]] `:94,:113,:237` | **ES9039** referansı | PCM3168A/AK4458 geçişi **açık soru** → §3 alt.4 + §4.3 R3 |
 
-**D) Kırık referanslar (kapsam dışı, §5.1'e yazılıdır):** `.ai/electronic/` dizini **YOK** → [[.ai/raw/glossary.md]] `:491` (`electronic/hardware/audio-interface.md`), `[[.ai/index.md]]` `:268` (`electronic/xmos-pcm3168a-design` — kırık, onarım §5.1 adım 5) kırık; `.ai/reports/broken-files-report.md` `:169,183` + `broken-links-report.md` `:44,53` bu ADR'nin eski noktalı slug'ını kırık listeliyor.
+**D) Kırık referanslar (kapsam dışı, §5.1'e yazılıdır):** `.ai/electronic/` dizini **YOK** → [[.ai/glossary]] `:491` (`electronic/hardware/audio-interface.md`), `[[.ai/index.md]]` `:268` (`electronic/xmos-pcm3168a-design` — kırık, onarım §5.1 adım 5) kırık; `.ai/reports/broken-files-report.md` `:169,183` + `broken-links-report.md` `:44,53` bu ADR'nin eski noktalı slug'ını kırık listeliyor.
 
 ### 1.2 Sorun Tanımı
 
@@ -101,12 +101,12 @@ Tarama: `PCM3168 | xmos | i2s | soundcard` → repo genelinde **tek eşleşme**;
 
 | Kısıt | Açıklama |
 |-------|----------|
-| **H001 — PCM5122 yasağı** | [[.ai/raw/brain.md]] `:878` + `k1-donanim/CLAUDE.md:20`: PCM5122 ailesi **2 kanal** olduğu için yasak; alternatiflerde PCM5122 tabanlı hiçbir dizilim önerilemez (edge-case #8: "PCM5122 kullanımı → PCM3168A/AK4458 öner" — [[.ai/raw/AGENTS.md]] §17) |
+| **H001 — PCM5122 yasağı** | [[.ai/brain.md]] `:878` + `k1-donanim/CLAUDE.md:20`: PCM5122 ailesi **2 kanal** olduğu için yasak; alternatiflerde PCM5122 tabanlı hiçbir dizilim önerilemez (edge-case #8: "PCM5122 kullanımı → PCM3168A/AK4458 öner" — [[.ai/AGENTS.md]] §17) |
 | **ADR-017 hard-RT kısıtları** | DSP/akış katmanı gerçek zamanlı; ses kartı firmware beslemesi bu kısıtların içinde kalır — donanım yan yolları (I2C konfigürasyonu hariç) RT yoluna girmez |
 | **Frozen 001–036 immutabel** | ADR-001…ADR-036 değiştirilemez; bu ADR yalnız onlara **atıf** yapar, düzeltme yapmaz |
 | **Kod 0 → PLANNED disiplini** | `*.cpp/*.h/*.xc` = 0; entegrasyon, pin planı ve ölçüm adımlarının tamamı **PLANNED** olarak etiketlenir (IMPLEMENTED yalnız diskte/spec'te olan) |
 | **REDACTED** | Tedarikçi fiyat, stok kodu dışı sır/credential hiçbir koşulda yazılmaz |
-| **Tek yazma kanalı** | Tüm vault yazımı `.ai/sources/scripts/vault-utf8-writer.mjs` ile; `log.md` yalnız append |
+| **Tek yazma kanalı** | Tüm vault yazımı `.ai/scripts/vault-utf8-writer.mjs` ile; `log.md` yalnız append |
 
 ---
 
@@ -116,7 +116,7 @@ Tarama: `PCM3168 | xmos | i2s | soundcard` → repo genelinde **tek eşleşme**;
 
 ### 2.1 Neden Bu Seçenek?
 
-1. **Tek çip = 8 çıkış:** PCM3168A tek pakette 8-out sağlar → 8.1 surround ([[.ai/raw/brain.md]] `:292`) tek entegrasyonla karşılanır; PCM5122 gibi 2-kanal çiplerden kaç çip gerektiğini artırır (H001 red gerekçesi).
+1. **Tek çip = 8 çıkış:** PCM3168A tek pakette 8-out sağlar → 8.1 surround ([[.ai/brain.md]] `:292`) tek entegrasyonla karşılanır; PCM5122 gibi 2-kanal çiplerden kaç çip gerektiğini artırır (H001 red gerekçesi).
 2. **Ölçülebilir spesifikasyon:** 112 dB SNR / −94 dB THD+N (DAC, EIAJ A-weighted) — hedef Class AB çıkış zinciri için ölçümle teyit edilebilir tavan verir (§2.2-d).
 3. **Denetleyici olgunluğu:** XU316 + `lib_xua` resmi referans mimarisi **8-in/8-out UAC2.0**'ı doğrudan destekler; I2C ile codec konfigürasyonu (`AudioHwInit`/`AudioHwConfig`) firmware beslemesini temiz ayırır (§2.2-e).
 4. **Format esnekliği:** PCM3168A I2S/LJ/RJ/DSP/**TDM** + 128–768 fS saat desteği → 8 kanal TDM'e ölçeklenir, saat ağacı tek noktada toplanır (§2.2-b).
@@ -181,11 +181,11 @@ ADR-017 adım 5'teki kanal eşlemesi (PCM3168A/AK4458 girişi) bu planla **bireb
 
 | # | Alternatif | Artıları | Eksileri | Neden Reddedildi |
 |---|-----------|----------|----------|------------------|
-| 1 | **PCM5122 (×4 veya ×8 dizilim)** | Olgun I2C DAC, XMOS referans kartında kullanılan çip (§1.3 kaynak 5) | Çip başına **yalnız 2 kanal** → 8-out için 4+ çip, pin/PCB karmaşası | **H001 yasağı** ([[.ai/raw/brain.md]] `:878`, `k1-donanim/CLAUDE.md:20`) — edge-case #8: PCM5122 → PCM3168A/AK4458 öner |
+| 1 | **PCM5122 (×4 veya ×8 dizilim)** | Olgun I2C DAC, XMOS referans kartında kullanılan çip (§1.3 kaynak 5) | Çip başına **yalnız 2 kanal** → 8-out için 4+ çip, pin/PCB karmaşası | **H001 yasağı** ([[.ai/brain.md]] `:878`, `k1-donanim/CLAUDE.md:20`) — edge-case #8: PCM5122 → PCM3168A/AK4458 öner |
 | 2 | **AK4458 tek DAC (8-out)** + ayrı ADC | XMOS referans TDM pin planı hazır (`ak4458-dac.md:44-64`), yüksek SNR | **DAC-only — ADC yok**; ayrı ADC çipi + kanal sayısında ADC 6'yı karşılama ek yük | brain §8'de AK4458 **"opsiyonel"** — birincil konvertör olarak tek başına ADC'siz kalır; çift-çip maliyeti PCM3168A'nın tek-çip 6-in/8-out'unu yenmez |
 | 3 | **XMOS referans kart topolojisi (4× PCM5122 + 2× PCM1865)** | Üretici referansı = kanıtlanmış debug yolu | PCM5122 → **H001 ihlali**; 6 çip + 2 ayrı ADC | H001 yasağı bu dizilimi **düz reddeder**; referans yalnız firmware/I2S mimarisi için kullanılır (§2.2-e), çip listesi kopyalanmaz → §4.3 R2 |
-| 4 | **ES9039 (veya üstün ayrı DAC) + ayrı ADC** | Datasheet'te daha yüksek tavan (ör. >120 dB sınıfı) | **Farklı mimari** (TDM/kontrol/register), vault'ta yalnız ekosistem referansı var; PCM3168A ile pin-uyumsuz | **Açık soru olarak kaldı** ([[.ai/raw/ecosystem/donanım-devre-referanslari.md]] `:94,:113,:237`) — mevcut karar STM'de değil; yeni çip = **yeni ADR** ister (§4.3 R3 fallback'i) |
-| 5 | **Harici USB çok-kanallı ses kartı (satın alınmış modül)** | Sıfır PCB riski, sürücü hazır | Cihaz bagajına bağımlılık, 8.1 hedefi için fiyat/kontrol kaybı, CoreMusic donanım-vizyonuyla (K1, Class AB zinciri) uyuşmaz | Proje K0–K5 kendi donanımını üretir ([[.ai/raw/AGENTS.md]] §5 domain boundary); vizyon "üretim" tarafında |
+| 4 | **ES9039 (veya üstün ayrı DAC) + ayrı ADC** | Datasheet'te daha yüksek tavan (ör. >120 dB sınıfı) | **Farklı mimari** (TDM/kontrol/register), vault'ta yalnız ekosistem referansı var; PCM3168A ile pin-uyumsuz | **Açık soru olarak kaldı** ([[.ai/ecosystem/donanım-devre-referanslari.md]] `:94,:113,:237`) — mevcut karar STM'de değil; yeni çip = **yeni ADR** ister (§4.3 R3 fallback'i) |
+| 5 | **Harici USB çok-kanallı ses kartı (satın alınmış modül)** | Sıfır PCB riski, sürücü hazır | Cihaz bagajına bağımlılık, 8.1 hedefi için fiyat/kontrol kaybı, CoreMusic donanım-vizyonuyla (K1, Class AB zinciri) uyuşmaz | Proje K0–K5 kendi donanımını üretir ([[.ai/AGENTS.md]] §5 domain boundary); vizyon "üretim" tarafında |
 
 ---
 
@@ -259,7 +259,7 @@ ADR-017 adım 5'teki kanal eşlemesi (PCM3168A/AK4458 girişi) bu planla **bireb
 | **2** | **AES17 ölçüm planı:** fabrika/ölçüm protokolü **AES17-2020 + IEC 61606-1 + EIAJ CP-2404** (M1–M6) kurulur; **jitter ölçüm bütçesi** M6 ile kapatılır (§2.2-c `⚠️ VERIFICATION REQUIRED` satırı gerçek sayıyla değişir) | Tur 2-3 (QA: fabrika testi) | §2.2-c, §2.2-d | ⏳ PLANNED (§5.1 adım 6, 9) |
 | **3** | **PLANNED netliği:** kod 0 (`shared/src/AI/AIEngine.php:147` yorum; `*.cpp/*.h/*.xc` = 0 dosya) → entegrasyon + ölçüm adımlarının tamamı **PLANNED**; spec'in IMPLEMENTED etiketi kod kanıtı sanılmaz (**sahte kanıt temizliği**) | Tur 2-4 (Critic: sahte kanıt) | §1.1-B, §1.4, §5.1 adım 7 | ✅ KAYITLI (bu § + §1.1-B) |
 
-**Kanal varyant yönlendirmesi (kullanıcı kararı):** maliyet/kanal varyant ürün ailesi (mono / 2 / 2+1 / 4-8 / 7+1 / 8+1) ayrı karar olarak **ADR-083**'e yönlendirildi — bu ADR'nin kapsamı dışındadır. ⚠️ VERIFICATION REQUIRED: [[.ai/raw/brain.md]] `:1021` bu slotu "ADR-083 = SPA Router Architecture" olarak gösteriyor; numara çakışması sonraki oturumda teyit edilmelidir.
+**Kanal varyant yönlendirmesi (kullanıcı kararı):** maliyet/kanal varyant ürün ailesi (mono / 2 / 2+1 / 4-8 / 7+1 / 8+1) ayrı karar olarak **ADR-083**'e yönlendirildi — bu ADR'nin kapsamı dışındadır. ⚠️ VERIFICATION REQUIRED: [[.ai/brain.md]] `:1021` bu slotu "ADR-083 = SPA Router Architecture" olarak gösteriyor; numara çakışması sonraki oturumda teyit edilmelidir.
 
 ---
 
@@ -268,7 +268,7 @@ ADR-017 adım 5'teki kanal eşlemesi (PCM3168A/AK4458 girişi) bu planla **bireb
 | Dosya | İlişki |
 |-------|--------|
 | [[.ai/CLAUDE.md]] | Ana sözleşme + 16 Hard Guardrail |
-| [[.ai/raw/brain.md]] | §8 Hardware (`:280-286`), §9 8.1 (`:292`), slot `:998`, H001 `:878` |
+| [[.ai/brain.md]] | §8 Hardware (`:280-286`), §9 8.1 (`:292`), slot `:998`, H001 `:878` |
 | [[.ai/.decisions/index.md]] | Dizin kaydı (§5.1 adım 1) |
 | [[.ai/.decisions/accepted/ADR-017-dsp-hardware-mode.md]] | XMOS katmanı + hard-RT kısıtları (§2.2-e) — frozen, okunur |
 | [[.ai/.decisions/accepted/ADR-019-per-os-neva-player.md]] | IAudioBackend — ses kartının yazılım sınırı |
@@ -280,7 +280,7 @@ ADR-017 adım 5'teki kanal eşlemesi (PCM3168A/AK4458 girişi) bu planla **bireb
 | [[.ai/architecture/k1-donanim/i2s-interface.md]] | Pin/arayüz şeması (§2.2-b doğrulama hedefi) |
 | [[.ai/architecture/k1-donanim/ak4458-dac.md]] | TDM pin örneği (`:44-64`) |
 | [[.ai/architecture/k1-donanim/dac-adc-zinciri.md]] | **Rol çelişkisi** (§1.1-C, §5.1 adım 4) |
-| [[.ai/raw/ecosystem/donanım-devre-referanslari.md]] | ES9039 açık sorusu (§3 alt.4, §4.3 R3) |
+| [[.ai/ecosystem/donanım-devre-referanslari.md]] | ES9039 açık sorusu (§3 alt.4, §4.3 R3) |
 | [[.claude/skills/prompt-maker/references/10-web-research-protocol.md]] | §1.3 protokolü |
 | Debate kaydı | §7.1 (3 tur / 20 persona, 18/2/0 KABUL) + §5.3 (3 bağlayıcı şart: referans/rol, AES17 ölçüm, PLANNED netliği) — kanal varyant ürün ailesi → ADR-083 (kullanıcı kararı; §5.3'te slot çelişkisi VERIFICATION REQUIRED) |
 

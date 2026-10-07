@@ -145,7 +145,7 @@ CoreMusic, `shared/config/domain.php` ile tanımlı **7 subdomain** (auth, home,
 | Domain haritası (multi-origin) | **IMPLEMENTED** | `shared/config/domain.php` (7 subdomain + primary), `shared/src/Config/DomainConfig.php` |
 | Tema + görünüm modu (domain konfig'i) | **IMPLEMENTED** | `shared/src/Theme/ThemeManager.php`, `shared/src/ViewMode/ViewModeManager.php`, `assets.coremusic.net/Css/09_ViewModes/` (v-home, v-pro, v-studio, v-car) — ADR-044/045 konseptleri |
 | Güvenlik başlıkları (clickjacking) | **IMPLEMENTED** | `shared/src/Middleware/SecurityHeadersMiddleware.php` (L28 `X-Frame-Options: DENY`, L69 `frame-ancestors 'none'`, CSP nonce), `OriginCheckMiddleware.php` (whitelist), `CorsMiddleware.php` |
-| ui-design konseptleri (ADR-045/046) | **IMPLEMENTED (doküman)** | `.ai/sources/ui-design/05-responsive-architecture.md` §09_ViewModes (v-home/v-pro/v-studio/v-car), `.ai/sources/ui-design/01-mockup-index.md` |
+| ui-design konseptleri (ADR-045/046) | **IMPLEMENTED (doküman)** | `.ai/ui-design/05-responsive-architecture.md` §09_ViewModes (v-home/v-pro/v-studio/v-car), `.ai/ui-design/01-mockup-index.md` |
 | İstemci router'ın `shared/` Composer paketine taşınması | **PLANNED** | Paket dosyası diskte YOK — `shared/src/` altında router JS paketi henüz yok (taşıma adımı: §5.1 #2) |
 | Domain route ağacı konfig dosyası (domain başına route listesi) | **PLANNED** | Parçalı: `js/router/config/auth-routes` var; 7 domain'in eksiksiz route ağacı konfig dosyası diskte YOK → §5.1 #3 |
 | Paketin üçüncü taraf web projesinde kurulumu (composer require kanıtı) | **PLANNED** | Harici kullanım örneği/CI kanıtı diskte YOK → §5.1 #4 |
@@ -228,7 +228,7 @@ CoreMusic, `shared/config/domain.php` ile tanımlı **7 subdomain** (auth, home,
 
 ### 5.2 Geri Dönüş Planı
 
-Karar mimaridir; geri dönüş yalnız **yeni ADR** ile olur (In-Place Refactoring yasağı — bu dosya frozen olmasa da keyfi düzenlenmez). Senaryolar: (1) **Ayrı bundle'a geçiş** gerekirse (ör. bir domain'in bağımsız deploy'u): §4.4 koşulları + **yeni ADR** — bu ADR `superseded by` ile bağlanır; mevcut tek build korunur, bundle pilot domain ile sınırlı başlar; (2) **İkili router sınırı değişirse** (ör. tümü sunucu DOM'a geçsin veya tümü istemciye): yeni ADR + §5.1 #3 route konfig senkron testi ön koşul; (3) **Router paketleme geri alınırsa** (taşınabilirlikten vazgeçilirse): `git revert` + `log.md` ERROR — `assets.coremusic.net/js/router/` kaynağı hiç silinmediği için geri dönüş dosya bazında güvenli; (4) **Güvenlik fallback'i yoktur:** §4.4 madde 5 — whitelist/frame/post kapıları hiçbir senaryoda kaldırılamaz; (5) **Veri/state kaybı riski yoktur** — bu ADR katmandır, veri değiştirmez (veri: [[ADR-003-multi-db-bcnf]], [[ADR-081-multi-provider-data-sync]]); (6) Vault bozulursa standart kurtarma `git checkout` + son commit ([[../../raw/AGENTS.md]] §17 #10).
+Karar mimaridir; geri dönüş yalnız **yeni ADR** ile olur (In-Place Refactoring yasağı — bu dosya frozen olmasa da keyfi düzenlenmez). Senaryolar: (1) **Ayrı bundle'a geçiş** gerekirse (ör. bir domain'in bağımsız deploy'u): §4.4 koşulları + **yeni ADR** — bu ADR `superseded by` ile bağlanır; mevcut tek build korunur, bundle pilot domain ile sınırlı başlar; (2) **İkili router sınırı değişirse** (ör. tümü sunucu DOM'a geçsin veya tümü istemciye): yeni ADR + §5.1 #3 route konfig senkron testi ön koşul; (3) **Router paketleme geri alınırsa** (taşınabilirlikten vazgeçilirse): `git revert` + `log.md` ERROR — `assets.coremusic.net/js/router/` kaynağı hiç silinmediği için geri dönüş dosya bazında güvenli; (4) **Güvenlik fallback'i yoktur:** §4.4 madde 5 — whitelist/frame/post kapıları hiçbir senaryoda kaldırılamaz; (5) **Veri/state kaybı riski yoktur** — bu ADR katmandır, veri değiştirmez (veri: [[ADR-003-multi-db-bcnf]], [[ADR-081-multi-provider-data-sync]]); (6) Vault bozulursa standart kurtarma `git checkout` + son commit ([[../../AGENTS.md]] §17 #10).
 
 ---
 
@@ -242,12 +242,12 @@ Karar mimaridir; geri dönüş yalnız **yeni ADR** ile olur (In-Place Refactori
 | [[../index]] | Karar dizini — bu ADR'nin kaydı (`[[ADR-004-multi-domain-spa]]` §3) + R-001/R-004 reddi §5 (alternatif gerekçeleri) |
 | [[../CLAUDE.md]] | Karar alt registry kuralı (accepted/) |
 | [[../../CLAUDE.md]] | Ana sözleşme — guardrails (özellikle Guardrail #16), K katmanları |
-| [[../../raw/AGENTS.md]] | Backend (PageRouter)/UI (router JS)/Security (middleware) domain sorumlulukları §5; escalation §10; edge case §17 |
-| [[../../raw/brain]] | Mimari karar özeti — ADR-044/045/046/083/085 özetleri (düz metin: hepsi `(henüz yazılmadı — vault: brain.md)`) |
+| [[../../AGENTS.md]] | Backend (PageRouter)/UI (router JS)/Security (middleware) domain sorumlulukları §5; escalation §10; edge case §17 |
+| [[../../brain]] | Mimari karar özeti — ADR-044/045/046/083/085 özetleri (düz metin: hepsi `(henüz yazılmadı — vault: brain.md)`) |
 | [[../../index]] | Master katalog — subdomain mimarisi |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin 7 bölümlük şablonu (Guardrail #16) |
-| [[../../sources/ui-design/01-mockup-index]] | Görsel mockup indeksi — domain route/görünüm tasarımı (Guardrail #11) |
-| [[../../sources/ui-design/05-responsive-architecture]] | §09_ViewModes (v-home/v-pro/v-studio/v-car) — domain görünüm modu kanıtı (ADR-045/046 konsepti) |
+| [[../../ui-design/01-mockup-index]] | Görsel mockup indeksi — domain route/görünüm tasarımı (Guardrail #11) |
+| [[../../ui-design/05-responsive-architecture]] | §09_ViewModes (v-home/v-pro/v-studio/v-car) — domain görünüm modu kanıtı (ADR-045/046 konsepti) |
 | `shared/src/PageRouter/` | Sunucu router — IMPLEMENTED kanıt (§2.2 e) |
 | `assets.coremusic.net/js/router/` | İstemci SPA router (28 dosya, saf History API) — IMPLEMENTED kanıt (§2.2 e) |
 | `shared/composer.json` | PSR-4 Composer altyapısı — ADR-085 hybrid kanıtı (§2.2 d) |

@@ -1,0 +1,236 @@
+{
+  "main": {
+    "id": "6d2cdf397d944913",
+    "type": "split",
+    "children": [
+      {
+        "id": "75b9aa0b9a66689a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "295ec8d30270d14a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "CLAUDE.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "CLAUDE"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4d5620fdf5682092",
+    "type": "split",
+    "children": [
+      {
+        "id": "ca392d29d376945f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "102bc3dba6540e8e",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Dosya Gezgini"
+            }
+          },
+          {
+            "id": "8245c60ae6653356",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#1a1a1a",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Ara"
+            }
+          },
+          {
+            "id": "6023923a769053e1",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Yer İmleri"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 347.5
+  },
+  "right": {
+    "id": "9631ea290cdf55b8",
+    "type": "split",
+    "children": [
+      {
+        "id": "9cf76d91619655dc",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3d5dcf5741e02953",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Geri Bağlantılar"
+            }
+          },
+          {
+            "id": "cb702dda148352c1",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Giden bağlantılar"
+            }
+          },
+          {
+            "id": "8fe968e2a426deb0",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiketler"
+            }
+          },
+          {
+            "id": "b52cf4f99de46d0f",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Tüm özellikler"
+            }
+          },
+          {
+            "id": "cece835b69079222",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Anahat"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Hızlı geçişi aç": false,
+      "graph:Grafik görünümünü aç": false,
+      "canvas:Yeni tuval oluşturun": false,
+      "daily-notes:Bugünün Notunu Aç": false,
+      "templates:Şablon ekle": false,
+      "command-palette:Komut paletini aç": false,
+      "bases:Yeni taban oluştur": false
+    }
+  },
+  "active": "295ec8d30270d14a",
+  "lastOpenFiles": [
+    "architecture/k120-mysql-18-database/mysql-18-database-sema.md",
+    "architecture/k068-guc-kaynagi-analog/topraklama-ve-guc-dagilimi.md",
+    "architecture/k068-guc-kaynagi-analog/regulasyon-ve-filtreleme.md",
+    "architecture/k067-koruma-devreleri/dc-offset-ve-termal-koruma.md",
+    "architecture/k067-koruma-devreleri/koruma-devreleri-turleri.md",
+    "architecture/k066-konnektorler/baglanti-ve-etiketleme.md",
+    "architecture/k066-konnektorler/konnektor-cesitleri.md",
+    "archives/vault-faz4-sweep.mjs",
+    "ui-design/prompt/component/aaaa.md",
+    "log.md.tmp.37516.a710693e9d7a",
+    "CLAUDE.md.tmp.37516.fecd364a324e",
+    "ui-design/reference/figma/png/1760-13815-Admin-Dashboard-Variant-1.png",
+    "ui-design/reference/figma/png/1760-13697-Music-Site-Register-Glass-Side-Panel.png",
+    "ui-design/reference/figma/png/1760-13924-Music-Site-Admin-Login-Screen.png",
+    "ui-design/reference/figma/png/1760-13996-Core-Music-OS-A-Terminal-Variant-1.png",
+    "ui-design/reference/figma/png/1760-13366-Admin-Login-Redesign-Variant-1.png",
+    "ui-design/reference/figma/png/1760-13440-Core-Music-OS-File-Manager-Variant-3.png",
+    "ui-design/reference/figma/png/1670-22509-Linux-1024---G-z-At---T-klama-Clikced.png",
+    "ui-design/reference/figma/png/175-871-Player-İmg-Div-pi.png",
+    "ui-design/reference/figma/png/1703-18219-Frame-18.png",
+    "ui-design/reference/figma/png/1639-10160-Linux-1024---Home-Page.png",
+    "scripts/kalip-abc-check.ps1",
+    "scripts/device-matrix-catid.ps1",
+    "scripts/screens-frontmatter-check.ps1",
+    "scripts/figma-extract.ps1",
+    "scripts/wiki-link-check.ps1",
+    "CHECKLIST.md",
+    "scripts/figma-tokens.ps1",
+    "ui-design/tokens/tokens-tv.json",
+    "ui-design/reference/figma/token-conflicts.md",
+    "TODO.md",
+    "docs/technical-documentation.md",
+    "TECHNICAL_DOCUMENTATION.md",
+    "VISION.md",
+    "brain.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "ULTRA-THINKING.md",
+    "ui-design/05-md-pattern-standard.md",
+    "ui-design/tokens/CLAUDE.md",
+    "ui-design/tokens/AGENTS.md",
+    "ui-design/screens/qr-wifi.md",
+    "ui-design/screens/qr-wifi-connect.md",
+    "ui-design/screens/qr-welcome-popup.md",
+    "ui-design/screens/qr-video-playback.md",
+    "ui-design/prompt/screen/AGENTS.md",
+    "Başlıksız.canvas"
+  ]
+}

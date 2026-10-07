@@ -1,11 +1,11 @@
 ---
-title: "CoreMusic — Workflow Pointer + Mimari İş Akışı Özeti"
+title: "CoreMusic — Workflow Pointer"
 type: workflow-pointer
 category: workflow
-version: 2.0.2
+version: 3.0.0
 status: active
-authority: "Pointer (ADR-042) — Bağlayıcı SSOT: .ai/WORKFLOW.md"
-updated: 2026-10-01
+authority: "SSOT: .ai/WORKFLOW.md — Full workflows read via `.ai/WORKFLOW.md`"
+updated: 2026-10-07
 ---
 
 # ⚠️ CoreMusic Workflow Configuration (Vault SSOT Pointer)
@@ -19,6 +19,7 @@ updated: 2026-10-01
 > **BU DOSYAYI TALİMAT OKUMAK İÇİN KULLANMAYIN. LÜTFEN AŞAĞIDAKİ BAĞLANTILARA TIKLAYARAK GERÇEK İŞ AKIŞI VE VİZYON DOSYALARINA GEÇİŞ YAPIN.**
 
 ## 🎯 Proje ve Vizyon Özeti
+
 * **Proje:** CoreMusic — Ticari Dijital Medya Ekosistemi ve Gelir Platformu (Yazılım, Ses DSP, Donanım, AI).
 * **Felsefe:** *"Aynı Müzik Her Yerde Seninle"* — Mülkiyet ve Özgürlük (Offline-First, bağımsız kayıpsız arşiv), Kesintisiz Handoff ve Hi-Fi C++20 Neva Engine.
 
@@ -26,512 +27,78 @@ updated: 2026-10-01
 
 İş akışlarını okumak, script'leri çalıştırmak, vizyonu anlamak ve mevcut faz (Phase) durumunu yönetmek için derhal aşağıdaki dizinlere gidin:
 
-1. **[Ana İş Akışları (WORKFLOW.md)](.ai/wiki/vault-workflow.md)** — tam metin `.ai/raw/WORKFLOW.md` 👈 *(Öncelikli iş akışı kuralları)*
-2. **[Vizyon ve Felsefe (VISION.md)](.ai/wiki/vault-vision.md)** — tam metin `.ai/raw/VISION.md` 👈 *(Pazar krizi, mülkiyet felsefesi ve çözümler)*
-3. **[Proje Tanımı (PROJECTS.md)](.ai/wiki/vault-projects.md)** — tam metin `.ai/raw/PROJECTS.md` 👈 *(10 temel yetenek, hedef kitleler, sektörel çözümler)*
-4. **[Faz Yürütme ve Matris (engine.md)](.ai/wiki/vault-engine.md)** — tam metin `.ai/raw/engine.md` *(Orkestrasyon ve yürütme matrisi)*
+1. **[Ana İş Akışları (WORKFLOW.md)](.ai/WORKFLOW.md)** — tam metin `.ai/WORKFLOW.md` 👈 *(Öncelikli iş akışı kuralları)*
+2. **[Vizyon ve Felsefe (VISION.md)](.ai/VISION.md)** — tam metin `.ai/VISION.md` 👈 *(Pazar krizi, mülkiyet felsefesi ve çözümler)*
+3. **[Proje Tanımı (PROJECTS.md)](.ai/PROJECTS.md)** — tam metin `.ai/PROJECTS.md` 👈 *(10 temel yetenek, hedef kitleler, sektörel çözümler)*
+4. **[Faz Yürütme ve Matris (engine.md)](.ai/engine.md)** — tam metin `.ai/engine.md` *(Orkestrasyon ve yürütme matrisi)*
 5. **[AI Anayasası (CLAUDE.md)](.ai/CLAUDE.md)** *(16 Hard Guardrail ve mühendislik anayasası)*
-6. **Mimari İndeks** — ⚠️ VERIFICATION REQUIRED — `.ai/architecture/index.md` diskte YOK; yalnız `_backup/arch-2026-10-06_1057/architecture/index.md` *(21 Katman, 1,095 Bileşen, 18 BCNF DB)*
+6. **[Agent Registry (AGENTS.md)](.ai/AGENTS.md)** *(11 agent, routing, handover, escalation)*
+7. **[Vault Klasör Context (CONTEXT.md)](.ai/CONTEXT.md)** *(Vault envanteri, dosya yapısı)*
+8. **Mimari İndeks** — ⚠️ VERIFICATION REQUIRED — `.ai/architecture/index.md` diskte YOK; yalnız `_backup/arch-2026-10-06_1057/architecture/index.md` *(21 Katman, 1,095 Bileşen, 18 BCNF DB)*
 
 > [!NOTE]
-> **Genişletme notu (2026-09-24):** Aşağıdaki §1-§14 bölümleri bu dosyanın **bağlayıcı özeti (orientation summary)**'dir; tek otorite `.ai/` vault'unun ilgili dosyalarıdır. Çelişki durumunda SSOT kazanır: adlandırma → [[.ai/architecture/adlandirma-kurali]] · bağımlılık → [[.ai/architecture/katman-baglilik-matrisi]] · sayım → [[.ai/architecture/katman-sayim-rehberi]] · süreç → [[.ai/WORKFLOW.md]] · anayasa → [[.ai/CLAUDE.md]].
+> **Genişletme notu (2026-09-24):** Aşağıdaki §1-§14 bölümleri bu dosyanın **bağlayıcı özeti (orientation summary)**'dir; tek otorite `.ai/` vault'unun ilgili dosyalarıdır. Çelişki durumunda SSOT kazanır: adlandırma → [[.ai/architecture/adlandirma-kurali]] · bağımlılık → [[.ai/architecture/katman-baglilik-matrisi]] · sayım → [[.ai/architecture/katman-sayim-rehberi]] · süreç → [[.ai/WORKFLOW.md]] · anayasa → [[.ai/CLAUDE.md]] · agent → [[.ai/AGENTS.md]].
 
 ---
 
-## §1 Amaç ve Kapsam
-
-Bu bölüm, CoreMusic vault'unda dosya üreten/yazan her agent ve geliştirici için iş akışı pusulasıdır: katman şeması, adlandırma dili, sayım birimi, tartışma protokolü, ADR yazımı ve senkron adımları tek yerde özetlenir.
-
-| Kapsam | Kapsam Dışı |
-|--------|-------------|
-| K0-K20 katman şeması ve A0-A5 alan etiketleri (özet) | Bağımlılık izinlerinin kanonik listesi (→ matris) |
-| K{n}.a.b(.c) adlandırma dili özeti | Adlandırma SSOT'unun kendisi (→ adlandirma-kurali) |
-| Sayım birimi (düğüm) ve hedef aralığı özeti | Sayım betiği ve katman tablosu (→ sayim-rehberi) |
-| 3 turlu / 20 persona agent tartışma protokolü | Persona profilleri (→ .ai/.agents/) |
-| İki ADR serisi ve yazım akışı özeti | ADR metinleri (→ .ai/.decisions/, .ai/architecture/adr/) |
-| Katman md yazım/düzeltme ve senkron adımları | Faz planları ve orkestrasyon (→ .ai/engine.md) |
-
-**Okuma sırası (bu dosyayı elinde tutan agent için):** bu dosya → [[.ai/CLAUDE.md]] → [[.ai/AGENTS.md]] → [[.ai/WORKFLOW.md]] → ilgili domain dosyası. Token bütçesi aşılırsa §12'deki 10 kural + §9'daki senkron adımları minimum set olarak uygulanır.
-
----
-
-## §2 Mimari Şema — 500 Katman (K000–K499) · 10 Domain
-
-> **v4.0.0 (2026-10-06) — SIFIRDAN YENİDEN YAZILDI.** Eski 21 katman (K0–K20) şeması
-> backup'tadır (`_backup/arch-2026-10-06_1057.zip`, salt-okunur — esas değildir).
-> Bağlayıcı SSOT: [[.ai/architecture/00-master-index]].
->
-> ⚠️ VERIFICATION REQUIRED — `.ai/architecture/` (v4.0.0, 500 katman) diskte YOK (2026-10-06 kontrolü); eski 21 katman yapısı `_backup/arch-2026-10-06_1057/architecture/` altında.
-
-### §2.1 Domain Tablosu (10 sabit, 500 katman)
-
-| Domain | K Aralığı | Katman | Fiziksel MD | Kapsam (eski karşılık) |
-|--------|-----------|--------|-------------|------------------------|
-| D01 | K000–K071 | 72 | `10-domain-d01-os-donanim-surucu.md` | OS · Donanım · Sürücü (k0-k2) |
-| D02 | K072–K095 | 24 | `11-domain-d02-ses-motoru-dsp.md` | Ses Motoru + DSP (k3) |
-| D03 | K096–K119 | 24 | `12-domain-d03-yapay-zeka.md` | Yapay Zeka (k4) |
-| D04 | K120–K143 | 24 | `13-domain-d04-veri-yonetimi.md` | Veri Yönetimi (k5) |
-| D05 | K144–K167 | 24 | `14-domain-d05-guvenlik-session.md` | Güvenlik + User Session (k6) |
-| D06 | K168–K239 | 72 | `15-domain-d06-middleware-servis-api.md` | Middleware · Servis · API (k7-k9) |
-| D07 | K240–K287 | 48 | `16-domain-d07-uygulama-ux.md` | Uygulama + UX (k10-k11) |
-| D08 | K288–K335 | 48 | `17-domain-d08-izleme-cicd.md` | İzleme + CI/CD (k12-k13) |
-| D09 | K336–K383 | 48 | `18-domain-d09-ag-medya-streaming.md` | Ağ + Medya Streaming (k14-k15) |
-| D10 | K384–K499 | 116 | `19-domain-d10-donanim-ab-guc-termal-pcb-bom.md` | Class AB · Güç · Termal · PCB · BOM (k16-k20) |
-| — | **Toplam** | **500** | 10 zorunlu + **ek MD serbest (değişken)** | k0–k20 |
-
-### §2.2 Sayım ve Yerleşim Kuralları
-
-| # | Kural |
-|---|-------|
-| 1 | Sayım birimi = **KATMAN** (`K###`, benzersiz, `K000`–`K499`) — dosya değil |
-| 2 | Fiziksel yerleşim **HİBRİT**: her domain tek MD + gerekirse ek MD (`firmware-*.md`, `adr-*.md`) |
-| 3 | **MD sayısı sabit DEĞİL** — domaine göre değişken; "10" zorunlu minimumdur |
-| 4 | Toplam katman doğrulaması yalnız betik çıktısıyla yazılır; önceden yazılmış toplam `⚠️ VERIFICATION REQUIRED` |
-| 5 | K16–K20 karşılığı (D10) bağımsızdır, hiyerarşik üst katmana tabi değildir *(eski ilke korunur)* |
-| 6 | Topoloji: **Class AB** — Class D tasarım katmanı YASAK |
-| 7 | 21 katman / K{n}.a.b.c regex şeması (§3) artık ESASTIR — yeni şema `K###`'dir |
-
-### §2.3 Katman → Sorumlu Persona Eşlemesi
-
-| Domain | Birincil persona | İkincil kontrol |
-|--------|------------------|-----------------|
-| D01, D02 | `embedded-engineer` (Expert) | `performance-engineer` |
-| D03, D04 | `data-engineer` (Expert) | `architect` |
-| D05 | `security-engineer` (Expert) | `qa-engineer` |
-| D06 | `backend-architect` (Senior) | `security-engineer` |
-| D07 | `ui-designer` (Senior) | `qa-engineer` |
-| D08 | `devops-engineer` (Senior) | `performance-engineer` |
-| D09 | `performance-engineer` (Senior) | `architect` |
-| D10 | `embedded-engineer` (Expert) | `qa-engineer` |
-
-Persona hiyerarşisi ve 20'lik liste: [[AGENTS.md]] §6.1 (Expert 5 / Senior 5 / Junior 10 — oy çokluğu yok, evidence-öncelikli).
-
-## §3 (ESKİ — geçersiz, yalnız tarihsel referans): Adlandırma Dili K{n}.a.b(.c)
-
-> ⚠️ **Bu bölüm v4.0.0 ile ESAS OLMAKTAN ÇIKTI.** Yeni şema: `K000`–`K499` (§2.1).
-> Bölüm içeriği backup `index.md` v3.0.1'de korunur. Yeni yazımda K{n}.a.b.c
-> regex'i uygulanmaz; yeni regex: `^K([0-9]{3})$` (`K000`–`K499`).
-
-### §3.1 Seviye Tablosu
-
-| Seviye | Biçim | Zorunluluk | Sayıma dahil mi? |
-|--------|-------|------------|------------------|
-| 1 | K{n} (n = 0…20) | 21 tane, sabit | Evet (kök 21) |
-| 2 | K{n}.a (alt katman) | Evet | Evet |
-| 3 | K{n}.a.b (alt bileşen grubu) | Evet | Evet |
-| 4 | K{n}.a.b.c (kanıtlı bileşen) | **Yalnız kanıtla** | Evet (kanıtlıysa) |
-| 5+ | K{n}.a.b.c.d | **YASAK** (4 seviye tavan) | Hayır — ihlal |
-
-### §3.2 Biçimsel Doğrulama (regex)
+## Boot Okuma Sırası (Root → .ai/ Vault)
 
 ```text
-^K([0-9]|1[0-9]|20)(\.[1-9][0-9]*){0,3}$
-```
-
-| # | Örnek | Sonuç | Gerekçe |
-|---|-------|-------|---------|
-| 1 | K11 | ✅ | Kök katman |
-| 2 | K11.4 | ✅ | 2. seviye |
-| 3 | K11.1.4 | ✅ | 3. seviye |
-| 4 | K11.1.4.13 | ✅ | 4. seviye + kanıt (plan §2.2, c-player.css) |
-| 5 | K7.0.1 | ❌ | Ara segment 0 — red (adlandirma §4) |
-| 6 | K11.1.4.13.2 | ❌ | 5. seviye yasak |
-| 7 | k11.1.4 | ❌ | Önek büyük harf K |
-| 8 | K21.1 | ❌ | 21 katman sabit |
-| 9 | K11.01.4 | ❌ | Sıfır dolgusu yasak |
-| 10 | K1.f | ✅ | Harfli segment — kanıtlı tek istisna (firmware/) |
-| 11 | L11.1.4.13 | ⚠️ | Dönüşüm gerekli → K11.1.4.13 (yalnız plan bağlamında) |
-
-### §3.3 4. Seviye Kanıt Üçlüsü (zorunlu)
-
-Bir K{n}.a.b.c düğümü yalnız aşağıdaki kanıtlardan **en az biri** varsa kurulur:
-
-1. **(i)** Diskte katman md dosyası — `.ai/architecture/k{n}-*/*.md` (glob ile var mı?)
-2. **(ii)** README/index bileşen tablosu satırı — K{n}-NN kimliği ↔ düğüm eşlemesi
-3. **(iii)** Plan satırı — [[.ai/architecture/frontend-restructuring-plan]] §2.1-§2.2 (yalnız bu durumda düğüm **PLANNED** etiketlenir)
-
-Kanıt yoksa düğüm yazılmaz; yazılmışsa 3. seviyeye düşürülür ve log'a CRITICAL girilir. Kanıt tarihi sayım raporunda listelenir (şeffaflık → ADR-026).
-
-### §3.4 İstisnalar ve Yasaklar
-
-| Kural | Değer | Kaynak |
-|-------|-------|--------|
-| K7.0.x ara numara | KESİNLİKLE REDDEDİLDİ — numaralandırma 1'den başlar | adlandirma §4 |
-| firmware/ klasörü | KALIR → K1.f; taşınmaz/silinmez | ADR-024 |
-| k-surucu/* → k2-surucu/ | 12 dosya taşınır, 0 dosya silinir; link taraması önce+sonra | ADR-024 |
-| L → K dönüşümü | Yalnız frontend-restructuring-plan bağlamında; CLAUDE §32'nin 4 katmanlı L0-L3 şemasına OTOMATİK DÖNÜŞÜM YASAK | adlandirma §7.3 |
-| 5. seviye / kanıtsız 4. seviye | revert + log CRITICAL | adlandirma §9.5 |
-
----
-
-## §4 Sayım Birimi ve Hedefler
-
-### §4.1 Temel Kurallar (ADR-026)
-
-| # | Kural |
-|---|-------|
-| 1 | Sayım birimi **DÜĞÜM**'dür (dosya değil, bileşen değil) |
-| 2 | Kabul kriteri: **toplam düğüm ≥ 5000** |
-| 3 | Kök (21) + 2. seviye (193) + 3./4. seviye (kanıtla) birleşim (tekillik) sayılır — aynı düğüm 2 kanıtta 1 kez sayılır |
-| 4 | Kanıtsız düğüm sayılmaz, uydurulmaz — ⚠️ VERIFICATION REQUIRED |
-| 5 | Rakamlar tasarım hedefidir, ölçüm değildir; gerçek sayımla birlikte raporlanır |
-
-### §4.2 Hedef Aralığı ve Bağlayıcı Sayımlar
-
-| Değer | Kaynak | Durum |
-|-------|--------|-------|
-| 5.105 | Bağlayıcı tablo (4.891 + 21 + 193) — minimum ile sınar | bağlayıcı |
-| 5.152 | Kanonik ayrıştırma (4.938 + 21 + 193) — alt senaryo | bağlayıcı |
-| 5.400 | Orta senaryo (beklenen teslim) | tasarım |
-| 6.200 | Üst tavan — aşımı yeni ADR ister | tasarım |
-
-### §4.3 Bilinen Sapmalar (gizlenemez)
-
-| Katman | Bağlayıcı | Formül | Sapma | Durum |
-|--------|-----------|--------|-------|-------|
-| K1 | 427 | 444 | **−17** | ⚠️ VERIFICATION REQUIRED — üst göreve sorulur, tablo değeri korunur |
-| K13 | 95 | 125 | **−30** | ⚠️ VERIFICATION REQUIRED — üst göreve sorulur, tablo değeri korunur |
-
-**Yasak:** sapmayı düzeltmek/örtmek, hedefi düşürmek veya kopya dosya ile sayımı şişirmek (enflasyon) yasaktır; CI yeşil olsa bile "boş repo" reddi dosya sayısına da uygulanır.
-
----
-
-## §5 Katman Bağımlılığı ve İhlal Denetimi
-
-### §5.1 Üç Ok Türü (matris kanonik)
-
-| Ok türü | Anlamı | Nereden okunur | Örnek |
-|---------|--------|----------------|-------|
-| **Bağımlılık** (kanonik) | Kayan katman, hedefin ARAYÜZÜNE bağımlıdır | [[.ai/architecture/katman-baglilik-matrisi]] §2.1-§2.2 | K15 → K14 (tek hedef) |
-| **Çağrı** (üst→alt) | Üst, alt katmanı arayüzünden çağırır; matrise bağımlılık eklemez | ADR-025 / katman README'leri | K8.2 → K15 (ADR-025) |
-| **Gösterim** (üst→alt) | Dokümantasyon akış çizgisi | Katman README'leri | K11 → K12 |
-
-### §5.2 Denetim Checklist'i
-
-| # | Kontrol | Beklenen |
-|---|---------|----------|
-| 1 | Düğüm adları regex'e uyar mı? | 0 ihlal |
-| 2 | 5. seviye var mı? | 0 |
-| 3 | Kanıtsız 4. seviye var mı? | 0 |
-| 4 | 0 ara segment (K7.0.x dahil) var mı? | 0 |
-| 5 | k-surucu/ dosya sayısı | 0 (12'si taşındı) |
-| 6 | k2-surucu/ dosya sayısı | 14 (2 kabuk + 12) |
-| 7 | firmware/ dosya sayısı | 8 (K1.f) |
-| 8 | L-önekli düğüm referansı (plan bağlamı hariç) | 0 |
-| 9 | K15 → K16-20 oku | 0 (izin yok) |
-| 10 | K12 → K8 dışı bağımlılık | 0 |
-| 11 | Kırık wiki-link | 0 |
-| 12 | Sayım betiği sonucu | ≥5000 |
-
-### §5.3 İhlal Sonuçları
-
-| Şiddet | Durum | Aksiyon |
-|--------|-------|---------|
-| CRITICAL | 5. seviye, kanıtsız 4. seviye, K15→K16-20, dosya silme | Derhal revert + log.md CRITICAL |
-| HIGH | K7.0.x ara numara, L-önek kalıntısı, kırık link | Düzelt + log |
-| MEDIUM | README eşleme satırı eksik (K{n}-NN ↔ K{n}.a.b) | Tamamla + log |
-| LOW | A0-A5 raporlama tutarsızlığı | Düzelt, revert gerekmez |
-
----
-
-## §6 Agent Tartışması — 3 Tur / 20 Persona
-
-### §6.1 Ne Zaman Zorunlu?
-
-Yeni mimari kural, katman sınırı, sayım kuralı, klasör birleşimi veya çelişen ADR kararı üretilecektir. Tek agent kararı bağlayıcı olamaz; tartışma sonucu **ADR olarak** yazılır (§7).
-
-### §6.2 Tur Tablosu
-
-| Tur | Ad | Çıktı | Zorunlu Kurallar |
-|-----|----|-------|------------------|
-| **Tur 1** | Öneri | 20 persona kendi önerisini/itirazını yazar | Her öneri gerekçe + kaynak (dosya/satır) taşır; kaynaksız öneri sayılmaz |
-| **Tur 2** | Çapraz eleştiri | Her persona en az bir başka öneriyi eleştirir | Eleştiri dayanaktadır: yanlışlık, risk, çelişki, maliyet; kişisel değil içeriksel |
-| **Tur 3** | Uzlaşma + ADR | Ortak karar metni + reddedilen alternatifler | Uzlaşma yoksa 🔴 VERIFICATION REQUIRED + üst karar; birleştirme/çıkarma reddleri gerekçesiyle kayıtta |
-
-### §6.3 Kalite Kuralları
-
-1. **Uydurma yok:** hiçbir turda doğrulanamayan sayı/karar üretilemez; yoksa `⚠️ VERIFICATION REQUIRED`.
-2. **Bağlayıcılık:** Tur 3 çıktısı bağlayıcıdır; Tur 1/2 taslak niteliğindedir ve ADR'nin "Alternatifler" bölümüne ham madde olur.
-3. **Red gerekçesi zorunlu:** "REDDEDİLDİ — gerekçe" satırı olmadan alternatif kaydı geçersizdir.
-4. **Kayıt:** tüm turlar ADR ekine özetlenir; ham transcript zorunlu değildir, **karar + gerekçe + alternatifler** zorunludur.
-5. **İsim:** "3 turlu agent tartışması, 20 persona" ifadesi ADR'nin `kaynak` alanına yazılır.
-
-### §6.4 Çıktı → ADR Bağlantısı
-
-Tartışma sonucu yeni bir ilke kuruyorsa → `.ai/architecture/adr/` (mimari seri) veya `.ai/.decisions/accepted/` (karar serisi) içinde ADR-NNN olarak açılır; mevcut bir kuralı değiştiriyorsa → ilgili vault dosyası satır editi + ADR bağlantısı. Şablon: [[.ai/.templates/agents/agent-tartisma-turu-template]] (tutum kaydı) + [[.ai/.templates/adr/adr-nygard-template]] (karar metni).
-
----
-
-## §7 ADR Yazım Akışı — İki Seri (Birleştirme REDDEDİLDİ)
-
-### §7.1 İki Aseri (kasıtlı ayrı)
-
-| | Karar Serisi | Mimari Serisi |
-|---|---|---|
-| Konum | `.ai/.decisions/` (accepted/draft/rejected + index.md) | `.ai/architecture/adr/` |
-| Kapsam | Proje/engineering kararları (csrf, orm, router…) | Mimari/katman kararları (derinlik, birleşme, sınır, sayım) |
-| Mevcut aralık | Frozen ADR-001…037 · Active ADR-038…089 · Draft yok | ADR-023…026 (2026-09-24, 4 dosya) |
-| Numara uzayı | `.ai/.decisions/index.md` tek otoritesi | Kendi uzayında ardışık |
-| Birleştirme | **REDDEDİLDİ** — ADR-026 §3.4 (alternatif D); üst karar (superstack/product-owner) gerekir | Aynı |
-
-**Çakışma notu:** ADR-024/025/026 numaraları iki seride farklı slug'larla geçer (ör. `.decisions` ADR-024-ecosystem-modular-docs ≠ `architecture/adr` ADR-024-surucu-firmware-birlesme). Okurken **slug + konum** birlikte okunur; sadece numara tek başına kimlik değildir.
-
-### §7.2 Numaralama Kuralları
-
-| # | Kural |
-|---|-------|
-| 1 | Frozen ADR-001…037 **IMMUTABLE** — okunur, referans edilir, DEĞİŞTİRİLMEZ |
-| 2 | Yeni karar ADR'leri **ADR-090+** uzayında, `.ai/.decisions/index.md`'den boş numara seçilerek açılır (son kayıt: Active 089, Draft yok — ADR-089 accepted 2026-09-24) |
-| 3 | Yeni mimari ADR'leri `.ai/architecture/adr/` kendi uzayında ardışık ilerler (son: ADR-026) |
-| 4 | Numara asla yeniden kullanılmaz; slug özeldir ve değişmez |
-| 5 | Dosya adı: `ADR-NNN-kisa-slug.md` (mimari seri, büyük harf) · `adr-NNN-slug.md` (karar serisi) |
-
-### §7.3 Yazım Adımları (özet — ayrıntı: [[.workflows/adr-creation]]) 
-
-1. **Kararı belirle** (tip, mevcut ADR çakışması, seri seçimi) — 15 dk
-2. **Araştırma** (ilgili ADR'ler + mimari doküman + kanıt topla; kansız kanıtsız karar alınmaz) — 30 dk
-3. **Taslak** (şablon: Guardrail #16 — [[.ai/.templates/adr/adr-template]] veya [[.ai/.templates/adr/adr-nygard-template]]; 7 alanlı frontmatter zorunlu) — 1 saat
-4. **İnceleme** (cross-reference + hallüsinasyon kontrolü + §5.2 checklist uyumu)
-5. **Onay** (onay matrisi: mimari → Principal Architect, güvenlik → Security Engineer, veri → Data Engineer, API → Backend, dağıtım → DevOps, donanım → Embedded; kritik → kullanıcı)
-6. **Uygula ve dokümante et** (dosya yaz → `index.md`, `keys.md`, `brain.md` güncelle → `log.md` append → §9 senkron)
-
-**Yaşam döngüsü:** proposed → review → accepted → frozen; deprecated için zorunlu: yerine geçen ADR + migration planı + onay.
-
-### §7.4 Mimari Seri ADR-023…026 Karar Özeti
-
-| ADR | Başlık | Karar (tek cümle) |
-|-----|--------|-------------------|
-| [[.ai/architecture/adr/ADR-023-hibrit-derinlik]] | Hibrit Derinlik Stratejisi | 21 katman sabit; derinlik K{n}.a.b zorunlu + K{n}.a.b.c yalnız 3 kanıt türüyle; hedef 5.152/5.400/6.200 |
-| [[.ai/architecture/adr/ADR-024-surucu-firmware-birlesme]] | Sürücü-Firmware Birleşmesi | k-surucu/* 12 dosya k2-surucu/'ya taşınır (0 silme); firmware/ kalır → K1.f |
-| [[.ai/architecture/adr/ADR-025-k8-2-k15-siniri]] | K8.2 / K15 Sınırı | K15 FFmpeg boru hattı sahibi; K8.2 yalnız servis ucu (çağrı oku) |
-| [[.ai/architecture/adr/ADR-026-sayim-birimi-5000]] | Sayım Birimi | Birim = düğüm; hedef ≥5000; kanıt şeffaflığı; iki seri ayrılığı korunur |
-
----
-
-## §8 Katman Dosyası Yazım / Düzeltme İş Akışı
-
-### §8.1 Değişmez Kurallar
-
-| # | Kural |
-|---|-------|
-| 1 | **In-Place Refactoring:** dosya adı/değiştirme YASAK (kural #1); taşıma ancak ADR ile (ör. ADR-024) |
-| 2 | **0 dosya silme** — silme onaya tabidir; onay yoksa içerik satır editiyle daraltılır |
-| 3 | Yeni veya tümüyle yeniden yazılan her md **≥500 satır** (şablonlar hariç: 100-250) |
-| 4 | Hedefli edit'lerde mevcut doğru içerik korunur; yalnız ilgili satırlar değişir |
-| 5 | Wiki-link biçimi: `[[relative/path/to/file]]` |
-| 6 | Frontmatter: 7 zorunlu alan (title, type, category, version, status, authority, updated) |
-| 7 | Yeni dosya Guardrail #16 gereği listeden şablonla üretilir (`.ai/.templates/index.md`) |
-
-### §8.2 Adımlar
-
-```text
-1. ÖN OKUMA     → hedef dosya + ilgili K matrisi/adlandirma/sayım satırları
-2. ŞABLON SEÇ   → .ai/.templates/index.md §5 eşleşmesi (yoksa DUR — Guardrail #16)
-3. PLAN KİLİT   → dosya listesi + kabul kriterleri (§8.1 + architecture-write.md §6)
-4. YAZIM        → UTF-8 protokol (§8.3); PowerShell yazım cmdlet'leri YASAK
-5. ÇAPRAZ REF   → wiki-link taraması (kırık link 0)
-6. DENETİM      → §5.2 checklist + regex taraması
-7. KAYIT        → log.md append-only; yeni wf/ADR varsa index kaydı
-8. SENKRON      → §9 post-operation adımları
-```
-
-### §8.3 UTF-8 Yazım Protokolü (zorunlu)
-
-| İzinli | Yasak |
-|--------|-------|
-| `node .ai/sources/scripts/vault-utf8-writer.mjs` (append · insert-before-marker · write · copy · verify · repair · scan) | PowerShell yazım cmdlet'leri: `Set-Content`, `Out-File`, `Add-Content`, `echo >`, `New-Item -Value` (Windows-1254/BOM/UTF-16 bozulması) |
-| `node .ai/scripts/vault-cmd.mjs` (Türkçe komut arayüzü; ekle/yaz/onar/tara utf8-writer'a devreder) — ⚠️ VERIFICATION REQUIRED — betik diskte YOK (2026-10-06 kontrolü) | Yazmadan önce/read-only kalmayan herhangi bir araç |
-| Salt-okunur komutlar: `ls`, `dir`, `Get-ChildItem`, `Get-Content`, `Select-String`, `Test-Path`, git okuma | log.md'de append dışı yazım (bayt düzeyinde append dışında dosyaya dokunmak) |
-
-**Zorunlu:** yazım sonrası otomatik `verify`; bozuk dosya için `repair` (yedek alır); `.ai/log.md` için **yalnız append modu**.
-
----
-
-## §9 İşlem Sonrası Vault Senkronu (ZORUNLU)
-
-Her vault işleminden **hemen sonra** üç adım çalıştırılır:
-
-| # | Adım | Komut |
-|---|------|-------|
-| 1 | Session kaydı | `node .ai/scripts/session-save.mjs --task "<gorev-aciklamasi>" --status completed --agent <agent-adi>` — ⚠️ VERIFICATION REQUIRED — betik diskte YOK (2026-10-06 kontrolü) |
-| 2 | Vault güncelleme | `node .ai/scripts/vault-post-update.mjs --scope root` — ⚠️ VERIFICATION REQUIRED — betik diskte YOK (2026-10-06 kontrolü) |
-| 3 | Sonuç doğrulama | `log.md`, `MEMORY.md`, `project-state.md` güncellendi mi? (salt-okunur kontrol) |
-
-**Yoksayma sonucu:** audit trail boşluğu → bir sonraki oturum MEMORY devralması tutarsız olur. Senkron başarısızsa işlem `status: pending` sayılır ve tekrar denenir (max 3).
-
-### §9.1 Senkron Hata Tablosu
-
-| Durum | Belirti | Aksiyon | Max retry |
-|-------|---------|---------|-----------|
-| session-save başarısız | script çıkış kodu ≠ 0 | Komutu yeniden çalıştır; `--task` metnini kısalt | 3 |
-| vault-post-update başarısız | root .md güncellenmedi | `vault-utf8-writer scan` → `repair` (yedekli) | 3 |
-| log.md append reddi | dosya yazma kilidi / kilitli | Context lock bırakılana bekle; tekrar append | 3 |
-| MEMORY.md güncellenmedi | session kaydı var, durum yok | `session-save` tek başına tekrar çalıştır | 2 |
-| Çapraz referans koptu | wiki-link hedefi yok | Düzelt veya `⚠️ VERIFICATION REQUIRED` + log HIGH | 1 |
-| Bozuk encoding tespiti | mojibake / BOM | `vault-utf8-writer repair <dosya>` (yedek otomatik) | 1 |
-
-> 💡 **Not:** Üç adım da `node .ai/scripts/` altındaki betiklerle çalıştırılır; manuel (PowerShell) kopyalama ile senkron yapılmaz — UTF-8 protokolü (§8.3) ihlali sayılır.
-> ⚠️ VERIFICATION REQUIRED — `.ai/scripts/` diskte YOK (2026-10-06 kontrolü); yalnız `.ai/sources/scripts/vault-utf8-writer.mjs` mevcut (`session-save.mjs`, `vault-post-update.mjs`, `vault-cmd.mjs` diskte YOK).
-
----
-
-## §10 Hallüsinasyon ve Doğrulama
-
-### §10.1 VERIFICATION REQUIRED Kuralları
-
-1. Doğrulanamayan her iddia `⚠️ VERIFICATION REQUIRED` etiketiyle işaretlenir (kural #6).
-2. Etiketli iddia **işlem görmez**; sayım/raporlamada iki değer birlikte gösterilir (ör. 2026-09-24 öncesi 334 ↔ 340 MD farkı — çözüldü, §2.3).
-3. Uydurma sayı, tarih, ADR, dosya yolu veya karar üretmek yasaktır.
-4. Kaynak bulunamıyorsa DUR + kullanıcıya sor (çelişki → §10 kuralı: "Çelişki → DUR + kullanıcıya sor").
-
-### §10.2 REDACTED Politikası
-
-Sırlar (`.env` değerleri, token, key, parola) **asla** vault'a yazılmaz (kural #9); tespit edilirse `[REDACTED]` ile maskele + `log.md`'ye girişte sadece olay adı.
-
-### §10.3 Salt-Okunur Doğrulama Komutları
-
-```powershell
-# Düğüm regex ihlali (5. seviye / sıfırlı ara segment) — 0 beklenir
-Get-ChildItem .ai\architecture -Recurse -Filter *.md |
-  Select-String -Pattern 'K\d+(\.\d+){4,}|K7\.0'
-
-# Klasör/dosya gerçekliği (23 klasör + scripts · 340 md beklenir)
-(Get-ChildItem .ai\architecture -Directory).Count
-(Get-ChildItem .ai\architecture -Recurse -Filter *.md -File).Count
-
-# Kırık wiki-link adayları
-Get-ChildItem .ai -Recurse -Filter *.md | Select-String -Pattern '\[\[k-surucu/'
-
-# Domain L-önek kalıntısı (plan/CLAUDE §32 alıntıları hariç) — 0 beklenir
-Get-ChildItem .workflows -Filter *.md | Select-String -Pattern 'L[0-9]+[-. ]katman|L0-L[0-9]'
-```
-
----
-
-## §11 Workflow ve Şablon Envanteri
-
-### §11.1 `.workflows/` Akışları (9 md)
-
-| # | Dosya | Tetikleyici | Çıktı |
-|---|-------|-------------|-------|
-| 1 | [[.workflows/session-init]] | Her oturum başı | Vault boot (10+ dosya okuma) |
-| 2 | [[.workflows/adr-creation]] | Mimari karar ihtiyacı | `.ai/.decisions/accepted/` veya `.ai/architecture/adr/` ADR |
-| 3 | [[.workflows/vault-sync]] | Vault değişikliği sonrası | Senkron + index güncelleme |
-| 4 | [[.workflows/security-audit]] | Güvenlik değişikliği | Denetim raporu |
-| 5 | [[.workflows/deployment]] | Sürüm çıkışı | Dağıtım onay akışı |
-| 6 | [[.workflows/hallucination-control]] | Belirsiz bilgi tespiti | Verification required protokolü |
-| 7 | [[.workflows/orchestrator-flow]] | Multi-agent görev | Görev dağıtım grafiği |
-| 8 | [[.workflows/architecture-write]] | Katman md yazım/düzeltme | 31 dosyalık yazım batch'i (0 silme) + kabul kriteri raporu |
-
-*(9. satır: `CLAUDE.md` — klasör bağlam dosyası, akış değil.)*
-
-### §11.2 Şablonlar (Guardrail #16)
-
-| Kategori | Kullanım anı | Yeni şablonlar (2026-09-24) |
-|----------|--------------|------------------------------|
-| `adr/` | ADR yazımı | `adr-nygard-template` (Status/Context/Decision/Consequences) |
-| `documentation/` | Katman md üretimi | `katman-readme-template`, `alt-katman-template` |
-| `agents/` | Tartışma kaydı | `agent-tartisma-turu-template` (3 tur / 20 persona) |
-
-Registry tek otoritesi: [[.ai/.templates/index]] — şablonsuz dosya üretimi yasak.
-
----
-
-## §12 Kurallar Özeti (Minimum Set)
-
-1. **In-Place Refactoring** — dosya adı onaysız DEĞİŞMEZ.
-2. **SSOT** — `.ai/` vault tek doğruluk kaynağı; bu dosya özettir, çelişkide vault kazanır.
-3. **Frozen ADR-001…037 IMMUTABLE.**
-4. **Yeni karar ADR'leri ADR-090+** (`.decisions/index.md`); mimari seri kendi uzayında (son: ADR-026).
-5. **Her değişiklikte çapraz referans doğrulama** (kırık link 0).
-6. **Hallüsinasyon süpürmesi** — doğrulanamayan → `⚠️ VERIFICATION REQUIRED`.
-7. **`.ai/log.md`'ye SADECE append** (bayt düzeyi).
-8. **Şablon zorunlu** — `.ai/.templates/index.md` (Guardrail #16).
-9. **Frontmatter 7 zorunlu alan.**
-10. **Wiki-link:** `[[relative/path/to/file]]` · **REDACTED:** sır asla yazılmaz.
-11. **İşlem sonrası senkron** (§9): session-save → vault-post-update → doğrulula.
-
----
-
-**Session Lifecycle (2026-09-29):** İş akışının canlı yüzeyi .ai/CHECKLIST.md §A/§B/§C'dir (baş/orta/kapanış); §16A/§8.7B bağlantıları .ai/CLAUDE.md ve .ai/WORKFLOW.md içindedir.
-
-Güçlendirme seti: 20 dosya (3 kök + .ai/ kök 17 md — sınıf tanımı CHECKLIST.md §A0). Kapanış adımı: .workflows/vault-sync.md Aşama 8 satır 5.
-
-## §13 İlgili Dosyalar
-
-| Dosya | İlişki |
-|-------|--------|
-| [[.ai/WORKFLOW.md]] | Bağlayıcı süreç anayasası |
-| [[.ai/CLAUDE.md]] | 16 Hard Guardrail, §5 katman tablosu |
-| [[.ai/AGENTS.md]] | Agent routing, A0-A5 bağlantısı (§5) |
-| [[.ai/architecture/adlandirma-kurali]] | Adlandırma SSOT (K{n}.a.b.c, L→K) |
-| [[.ai/architecture/katman-baglilik-matrisi]] | Bağımlılık okları SSOT |
-| [[.ai/architecture/katman-sayim-rehberi]] | Sayım tablosu, sapmalar |
-| [[.ai/architecture/adr]] | Mimari ADR serisi (ADR-023…026) |
-| [[.ai/.decisions/index]] | Karar serisi indeksi (001-089) |
-| [[.workflows/architecture-write]] | Katman yazım batch akışı |
-| [[.ai/.templates/index]] | Şablon registry |
-| `.ai/.templates/frontend/` kanonik set (`css-template.md` · `css-abstracts-token-template.md` · `css-component-template.md` · `css-page-template.md` · `css-device-template.md` · `css-auth-device-template.md` · `css-utility-template.md` · `css-helper-template.md`) + özet (kök): `css-structure.md` · `css-token.md` · `css-component.md` · `css-page.md` · `css-imports.md` | CSS yazım şablonları — her CSS görevinde zorunlu okunur (AGENTS.md §10: 01→11 sıra · token yalnız 01 · taşıma yok) |
-
-## §14 Değişiklik Geçmişi
-
-| Tarih | Sürüm | Değişiklik | Kaynak |
-|-------|-------|------------|--------|
-| 2026-08-09 | 1.0.0 | Pointer dosyası (ADR-042) — SSOT bağlantıları | ADR-042 |
-| 2026-09-24 | 2.0.0 | §1-§14 bağlayıcı özet eklendi (K0-K20, A0-A5, adlandırma, sayım, tartışma, iki ADR serisi, yazım+senkron); pointer uyarısı + SSOT linkleri korundu | Vault iş akışı genişletme görevi |
-
----
-
-## §15 Master Engineering System (Pointer)
-
-Bağlayıcı özet — tam metin SSOT'tadır (çelişkide SSOT kazanır):
-
-| İçerik | Konum |
-|:---|:---|
-| 16 adımlık yaşam döngüsü · 10 yasak · Zero-Hallucination · final rule | [[CLAUDE.md]] § Master Engineering System |
-| Diyagramlar D1/D2/D3 · Prompt Maker akışı · boot akışı (START → END) | [[.ai/WORKFLOW.md]] §8.9-§8.10 |
-| Anti-overthink bütçesi (MAX THINKING) | [[.ai/ULTRA-THINKING.md]] § MAX THINKING |
-| Agent registry (SSOT) | [[.ai/AGENTS.md]] |
-
----
-
-## §16 Boot Okuma Sırası & Prompt Maker Akışı (2026-10-01)
-
-### §16.1 Boot Okuma Sırası (Claude Code mantığı)
-
-```text
-1) root CLAUDE.md + AGENTS.md + README.md + WORKFLOW.md OKU (ve .ai karşılıkları)
-2) .ai/.rules/** OKU
-3) ilgili .ai/** & architecture/*** OKU
+1) root CLAUDE.md + AGENTS.md + README.md + WORKFLOW.md OKU (bu dosyalar)
+1.5) SKILL EŞLEŞMESİ — CLAUDE.md §Skill Registry → eşleşme varsa Skill tool ile YÜKLE
+2) .ai/.rules/** OKU (varsa — error-recovery.md diskte YOK)
+3) ilgili .ai/** & architecture/*** OKU (ihtiyaç anında @ ile)
 4) mevcut dosyayı OKU
 5) kodu YAZ
 6) .ai/.rules/** ÇALIŞTIR
-   · HATA   → error-recovery.md → dosyayı SİL + Yeniden YAZ → 6'ya dön
+   · HATA   → error-recovery.md (diskte YOK — DUR) → dosyayı SİL + Yeniden YAZ → 6'ya dön
    · TEMİZ  → UI değişikliği var mı?
         · EVET  → browser test → COMMIT
         · HAYIR → COMMIT
 ```
 
-Ayrıntı (disk notları dahil): [[.ai/WORKFLOW.md]] §8.10 · bağlayıcı özet: bu dosya §15.
+Ayrıntı (disk notları dahil): [[.ai/WORKFLOW.md]] §8.10 · bağlayıcı özet: bu dosya §16.
 
-### §16.2 Prompt Maker Akışı
+⚠️ **VERIFICATION REQUIRED**: `.ai/.rules/error-recovery.md` diskte YOK — adımlar 7-8 için **⚠️ VERIFICATION REQUIRED** (kural dosyası eklenmeden bu adım çalıştırılamaz).
 
-```text
-Prompt → [1] Exploration Gate (proje yapısını keşfet)
-       → [2] Exploration Context sakla (prompt-maker, intent-router, instruction)
-       → [3] Prompt Maker: projeye göre [n] soru (generic 8 değil)
-       → [4] Intent Router: tech stack confidence boost + vault filtreleme
-       → [5] Instruction: yalnız ilgili vault dosyaları (50K token bütçe)
-       → [6] System Prompt: exploration context + routing guidance
-```
+---
 
-**Prompt Maker çıktı şablonu (sırasıyla):** mevcut prompt /eli10 paragrafa dönüşümü → istenen şey → referanslar (`.ai` vault + proje kodları) → kullanıcı kararları/sorular/cevaplar → orijinal prompt → görevlere bölme → `✅ Prompt Cevaplarla İşlendi | Dil: Türkçe | Görev Sayısı: [n]`.
+## Skill Noktaları (Süreç Adımı → Zorunlu Skill)
 
-**Kural:** OpenCode'da **hard-coded model adı yazılmaz** — sağlayıcı bağımsız çalışır (ücretsiz modellerde de geçerli). Çıktı onaylanır → sonra session başlar.
+Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry. Her noktada eşleşme varsa **ilk işlem** Skill tool ile o skill'i yüklemektir (Skill Usage Mandate §2); istisnalar mandate §4'tedir.
 
-*Bu dosya sadece yönlendirme amaçlıdır. İş akışı kuralları doğrudan `.ai/WORKFLOW.md` üzerinden düzenlenmelidir.*
+| Süreç Adımı | Zorunlu Skill |
+|---|---|
+| Ham prompt gelir | `prompt-maker` |
+| Tasarım incelemesi / UI denetimi | `ui-analyzer` |
+| UI kodu | `ui-code-generator` |
+| Şema / BCNF | `database-normalize-maker` |
+| PHP uç nokta / middleware | `php-backend-standards` |
+| C++ audio | `audio-engine-cpp` |
+| Donanım | `hardware-electronics` |
+| Güvenlik değişikliği | `security-hardening` |
+| Web kodu tamamlanma | `verify-loop` |
+| İşlem kapanışı | `vault-sync-post` |
+| Çakışan karar | `agent-debate` |
+| Multi-agent görev | `agent-orchestrator` |
+| Composer / vendor | `composer-sync` |
+| Onay / iletişim | `human-mode` |
+| İddia doğruluğu | `truth-engine` |
+| Durum raporu | `context-report` |
+| Yeni skill | `skill-maker` |
 
-**REFACTOR REPORT:** FILE: WORKFLOW.md · PURPOSE: Pointer + bağlayıcı iş akışı özeti (K0-K20 · A0-A5 · K{n}.a.b.c · 3 tur/20 persona · iki ADR serisi · UTF-8 + senkron) · VALIDATION: §1-§14 yeni eklenti; orijinal uyarı + 6 SSOT linki + footer korundu; 0 dosya silme · RELATED: [[.ai/WORKFLOW.md]] · [[.ai/architecture/adlandirma-kurali]] · [[.workflows/architecture-write]]
+---
 
-*CoreMusic Workflow Pointer v2.0.2 — Authority: Bayram Ali / Vault Steward — Last Updated: 2026-09-24*
+## §14 Değişiklik Geçmişi
+
+| Tarih | Sürüm | Değişiklik | Kaynak |
+|-------|-------|------------|--------|
+| 2026-10-07 | 3.0.0 | Skill mandate + Skill Noktaları eklendi | Claude Skill v3.0 |
+| 2026-10-07 | 2.0.2 | Pointer dosyası — `.ai/WORKFLOW.md` bağlantısı düzeltildi, `.ai/` bağlantıları güncellendi | Vault Refactor Engine |
+| 2026-09-24 | 2.0.0 | §1-§14 bağlayıcı özet eklendi (K0-K20, A0-A5, adlandırma, sayım, tartışma, iki ADR serisi, yazım+senkron); pointer uyarısı + SSOT linkleri korundu | Vault iş akışı genişletme görevi |
+| 2026-08-09 | 1.0.0 | Pointer dosyası (ADR-042) — SSOT bağlantıları | ADR-042 |
+
+---
+
+*CoreMusic Workflow Pointer v3.0.0 — Authority: Bayram Ali / Vault Steward — Last Updated: 2026-10-07*
 *Mode: Red Team · Human Mode · Truth Mode*

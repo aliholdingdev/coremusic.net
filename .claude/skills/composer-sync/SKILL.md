@@ -1,79 +1,21 @@
 ---
-title: "CoreMusic — Composer Vendor Senkronizasyon"
-type: skill-instruction
-version: 3.0
-authority: SSOT
-mode:
-  - Red Team
-  - Truth Mode
-  - Human Mode
-purpose:
-  - Shared Library Distribution
-  - Vendor Junction Management
-  - Subdomain Dependency Sync
-  - Class Not Found Prevention
-  - Path-Based Dependency Resolution
-reference:
-  authority: ".ai/CLAUDE.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-  architecture:
-    - ".ai/ADR/"
-    - "Existing project architecture"
-  templates:
-    - ".ai/.templates/index.md"
-  agents:
-    - ".ai/.agents/AGENTS.md"
-    - ".ai/.agents/backend-architect.md"
-  project_structure:
-    - "coremusic.net/"
-    - "coremusic.net/shared/"
-    - "auth.coremusic.net/"
-    - "home.coremusic.net/"
-    - "music.coremusic.net/"
-    - "admin.coremusic.net/"
-    - "api.coremusic.net/"
-    - "car.coremusic.net/"
-    - "studio.coremusic.net/"
-    - "pro.coremusic.net/"
-    - "media.coremusic.net/"
-    - "download.coremusic.net/"
-  decision_priority:
-    - "ADR decisions"
-    - "Architecture documentation"
-    - "Security requirements"
-    - "Existing implementation"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "shared path change"
-      - "junction strategy change"
-      - "vendor structure change"
-triggers:
-  - "composer sync"
-  - "vendor sync"
-  - "shared library"
-  - "vendor yenile"
-  - "junction tamir"
-  - "class not found"
-  - "shared güncelle"
-changelog:
-  - version: 3.0
-    date: 2026-08-15
-    changes:
-      - Complete rewrite — shared folder as source
-      - Removed Composer dependency for shared library
-      - Added path-based junction resolution
-      - Added PowerShell scripts for all steps
-      - Added file count validation (83 PHP)
-      - Added critical file checksums
-      - Added rollback procedure
-      - Added multi-subdomain orchestration
+name: composer-sync
+description: "Use when composer dependencies drift between shared/ and subdomain composer.json files, autoload breaks, or vendor junction sync is needed — Tetikleyiciler: 'composer', 'vendor', 'autoload', 'junction', 'class not found', 'bağımlılık senkron'."
+license: MIT
+metadata:
+  version: 3.0.0
+  format: claude-skill-v3
+  author: Bayram Ali (ULTRATHINK Engineering)
+  category: backend
+  tags: [composer, vendor, dependency, junction, sync]
+  updated: 2026-10-07
+  previous-version: "3.1"
 ---
+
+> ⚠️ **Disk uyarısı (faz2 denetimi, .opencode kopyasından birleştirildi 2026-10-07):**
+> aşağıdaki 8 subdomain klasörü diskte YOK (yalnız `auth.coremusic.net/` ve
+> `home.coremusic.net/` mevcut) — VERIFICATION REQUIRED: `music/`, `admin/`, `api/`,
+> `car/`, `studio/`, `pro/`, `media/`, `download.coremusic.net/`.
 
 # Composer Sync — CoreMusic Shared Library Senkronizasyon Motoru
 
@@ -426,20 +368,13 @@ foreach ($sub in $subdomains) {
 ## 10. Bağlantılar
 
 - **Kaynak:** `C:\www\coremusic.net\shared\` — Ortak kütüphane
-- **Vault:** `.ai/ADR/ADR-042-vault-restructuring-2026-08-03`
+- **Vault:** `.ai/.decisions/accepted/ADR-042-vault-restructuring-2026-08-03.md`
 - **Log:** `.ai/log.md` — vendor fix kayıtları
-- **Routing:** `agent-orchestrator` — shared library yönlendirmesi
+- **Routing:** [agent-orchestrator](../agent-orchestrator/SKILL.md) — shared library yönlendirmesi
+- **Sürüm geçmişi:** [references/changelog.md](references/changelog.md)
 
 ---
 
-*Composer Sync v3.0 — CoreMusic Shared Library Senkronizasyon Motoru*
-*Authority: Bayram Ali / Vault Steward*
-*Mode: Red Team · Truth Mode · Human Mode*
+Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
 
-## MAX THINKING — Anti-Overthink (2026-10-01)
-- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
-- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
-- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
-- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
-- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
-- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.
+*CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

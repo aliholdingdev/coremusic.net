@@ -28,12 +28,12 @@ CoreMusic'ın üç katmanında (web arayüzü, PHP 8.4 sunucu/API, audio motoru)
 
 ### 1.1 Mevcut Durum
 
-- **Web (vault kanıtı):** `.ai/CLAUDE.md` §... "Latency Hedefi" satırı yalnız **audio** içindir; CWV (LCP/INP/CLS) hedefi vault kök dosyalarında YOKTUR (grep kanıtı: `LCP|CLS` eşleşmesi `.ai/ui-design/05-responsive-architecture.md` içinde 0). `[[../../sources/ui-design/05-responsive-architecture]]` §7.4/§12 responsive fallback zorunlu tutar ama sayısal eşik vermez.
+- **Web (vault kanıtı):** `.ai/CLAUDE.md` §... "Latency Hedefi" satırı yalnız **audio** içindir; CWV (LCP/INP/CLS) hedefi vault kök dosyalarında YOKTUR (grep kanıtı: `LCP|CLS` eşleşmesi `.ai/ui-design/05-responsive-architecture.md` içinde 0). `[[../../ui-design/05-responsive-architecture]]` §7.4/§12 responsive fallback zorunlu tutar ama sayısal eşik vermez.
 - **Sunucu/API (vault kanıtı):** PHP 8.4 + PageRouter bağlamı `[[../../architecture/k9-api-routing/index]]` ve `.ai/CLAUDE.md` §5'te tanımlı; **TTFB / p95 / p99 hedefi YOKTUR** (`.ai/ecosystem/asio-wasapi-rehber.md` satır 271'deki "p95 gecikme hedefi henüz yok — ürün kararı" notu benzer bir boşluğun audio K2 tarafında da olduğunu doğrular).
-- **Audio (vault kanıtı — hedefler VAR):** `.ai/CLAUDE.md` satır 429 + `.ai/raw/PROJECTS.md` satır 171: **`<10ms (ASIO), <20ms (WASAPI)`** (Gecikme/Latency Hedefi). `[[../../architecture/k2-surucu/latency-optimization]]` satır 12: **`<1ms` round-trip** hedefi (k2 sürücü katmanı); `[[../../architecture/firmware/usb-audio-firmware]]` satır 429: XMOS USB **`<1ms` round-trip**; `k2-surucu/index.md` satır 50: **`<0.5ms`**, buffer 32-64 sample. `[[../../raw/brain]]` satır 286: ASIO buffer 512 sample varsayılan (64-1024) @48kHz ≈ **10.67ms**. **Buffer underrun/xrun = 0 hedefi vault'ta YOKTUR** — `brain.md` satır 869 yalnız bir **fallback** verir (CPU %100 → Fade-out → 50ms sessizlik → restart), `k2-surucu/alsa-native.md` satır 133-137 XRUN yönetimini "kritik" der ama tolerans sayısı vermez.
+- **Audio (vault kanıtı — hedefler VAR):** `.ai/CLAUDE.md` satır 429 + `.ai/PROJECTS.md` satır 171: **`<10ms (ASIO), <20ms (WASAPI)`** (Gecikme/Latency Hedefi). `[[../../architecture/k2-surucu/latency-optimization]]` satır 12: **`<1ms` round-trip** hedefi (k2 sürücü katmanı); `[[../../architecture/firmware/usb-audio-firmware]]` satır 429: XMOS USB **`<1ms` round-trip**; `k2-surucu/index.md` satır 50: **`<0.5ms`**, buffer 32-64 sample. `[[../../brain]]` satır 286: ASIO buffer 512 sample varsayılan (64-1024) @48kHz ≈ **10.67ms**. **Buffer underrun/xrun = 0 hedefi vault'ta YOKTUR** — `brain.md` satır 869 yalnız bir **fallback** verir (CPU %100 → Fade-out → 50ms sessizlik → restart), `k2-surucu/alsa-native.md` satır 133-137 XRUN yönetimini "kritik" der ama tolerans sayısı vermez.
 - **Ölçüm/CI (disk kanıtı):** `.github/workflows/ci.yml` + `secret-scan.yml` VAR (2 workflow) — **performans gate'i YOKTUR**; Lighthouse CI / RUM / CrUX entegrasyonu vault'ta ve workflow'larda geçmez.
 - **Bütçe:** Byte bütçesi (JS/CSS/HTML gzip) vault'ta YOKTUR; `.ai/.templates/index` envanterinde de yok.
-- **Kapsam dışı:** Kod implementasyonu (→ CI workflow edit'i ayrı işlem); agent routing `[[../../raw/AGENTS.md]]` tekelindedir (DIP).
+- **Kapsam dışı:** Kod implementasyonu (→ CI workflow edit'i ayrı işlem); agent routing `[[../../AGENTS.md]]` tekelindedir (DIP).
 
 ### 1.2 Sorun Tanımı
 
@@ -116,7 +116,7 @@ CoreMusic'ın üç katmanında (web arayüzü, PHP 8.4 sunucu/API, audio motoru)
 | **INP** | **≤ 200 ms** | 200-500 ms | > 500 ms | aynı |
 | **CLS** | **≤ 0,1** | 0,1-0,25 | > 0,25 | aynı |
 
-*Kural:* URL/route grubu **en kötü metriğe** göre derecelenir (kaynak 2) → üçü birlikte geçilmelidir. Lab eşikleri RUM'dan %15 gevşek tutulur (lab koşulları gerçek cihazdan farklıdır — flakiness mitigasyonu §4.3 risk 1). `[[../../sources/ui-design/05-responsive-architecture]]` §12 fallback zorunluluğu bu eşikleri bozmaz; responsive katman CLS'in birincil kaynağıdır → CLS gate'i ui-design görevlerinde de çalışır.
+*Kural:* URL/route grubu **en kötü metriğe** göre derecelenir (kaynak 2) → üçü birlikte geçilmelidir. Lab eşikleri RUM'dan %15 gevşek tutulur (lab koşulları gerçek cihazdan farklıdır — flakiness mitigasyonu §4.3 risk 1). `[[../../ui-design/05-responsive-architecture]]` §12 fallback zorunluluğu bu eşikleri bozmaz; responsive katman CLS'in birincil kaynağıdır → CLS gate'i ui-design görevlerinde de çalışır.
 
 **(b) Sunucu/API katmanı — PHP 8.4 + PageRouter (kaynak: §1.3 8, 10, 11, 12):**
 
@@ -133,7 +133,7 @@ CoreMusic'ın üç katmanında (web arayüzü, PHP 8.4 sunucu/API, audio motoru)
 | Hedef | Değer | Kaynak/Durum |
 |-------|-------|--------------|
 | **Buffer underrun / xrun** | **= 0** (oturum başına) | Underrun = boş buffer → **sessizlik/crackle** (kaynak 16); pro-audio'da kabul edilebilir değildir. `⚠️ VERIFICATION REQUIRED` — bu sayısal hedef `.ai/` vault'unda tescilli değil; dayanak: sektör literatürü (kaynak 16, 17, 18). Vault'taki tek ilgili kayıt `brain.md` satır 869 **fallback**'idir (Fade-out → 50ms sessizlik → restart) — olay sonrası kurtarma, tolerans değil. |
-| Latency **bütçesi** (üst sınır) | **ASIO < 10 ms · WASAPI < 20 ms** | **Vault birebir:** `.ai/CLAUDE.md` satır 429 + `.ai/raw/PROJECTS.md` satır 171 ("Latency Hedefi"); literatürle uyumlu: ASIO sub-10ms'nin tercih yolu (kaynak 14, 17). |
+| Latency **bütçesi** (üst sınır) | **ASIO < 10 ms · WASAPI < 20 ms** | **Vault birebir:** `.ai/CLAUDE.md` satır 429 + `.ai/PROJECTS.md` satır 171 ("Latency Hedefi"); literatürle uyumlu: ASIO sub-10ms'nin tercih yolu (kaynak 14, 17). |
 | Latency **tasarım hedefi** (katman içi) | **< 1 ms round-trip** (k2 sürücü) · **< 0.5 ms** (`k2-surucu/index`) | Vault birebir: `[[../../architecture/k2-surucu/latency-optimization]]`, `[[../../architecture/firmware/usb-audio-firmware]]` (XMOS <1ms). Ayrım: **bütçe = ürün üst sınırı (CI/ölçüm kapısı), tasarım hedefi = mühendislik hedefi** — üç vault sayısı çelişki değil, farklı katman. |
 | Buffer varsayılanı | 512 sample @48kHz ≈ **10,67 ms** (64-1024 arası) | Vault `brain.md` satır 286 + literatür tablosu (kaynak 14) birebir aynı. |
 | Kötü donanım kuralı | DPC routine >1000µs ise <256 sample **güvenli değil** | kaynak 18 → LatencyMon ön-kontrolü; `brain.md` satır 869 fallback'iyle hizalı. |
@@ -144,9 +144,9 @@ CoreMusic'ın üç katmanında (web arayüzü, PHP 8.4 sunucu/API, audio motoru)
 |--------------|-------|-----|---------------|
 | Firmware — XMOS (K1.f) | round-trip **< 1 ms** | tasarım hedefi | [[../../architecture/firmware/usb-audio-firmware]] (satır 429) |
 | k2 sürücü (K2) | round-trip **< 1 ms** · iç hedef **< 0.5 ms** | tasarım hedefi | [[../../architecture/k2-surucu/latency-optimization]] · `k2-surucu/index` (satır 50) |
-| ASIO (ürün) | **< 10 ms** | **bütçe** — ürün üst sınırı (CI kapısı) | `.ai/CLAUDE.md` satır 429 · `.ai/raw/PROJECTS.md` satır 171 |
-| WASAPI out (ürün) | **< 20 ms** | **bütçe** — ürün üst sınırı | `.ai/CLAUDE.md` satır 429 · `.ai/raw/PROJECTS.md` satır 171 |
-| Buffer varsayılanı | 512 sample @48kHz = **10,67 ms** | ölçüm karşılığı (tek buffer — ASIO <10ms bütçesiyle tutarlı) | [[../../raw/brain]] satır 286 + §1.3 kaynak 14 |
+| ASIO (ürün) | **< 10 ms** | **bütçe** — ürün üst sınırı (CI kapısı) | `.ai/CLAUDE.md` satır 429 · `.ai/PROJECTS.md` satır 171 |
+| WASAPI out (ürün) | **< 20 ms** | **bütçe** — ürün üst sınırı | `.ai/CLAUDE.md` satır 429 · `.ai/PROJECTS.md` satır 171 |
+| Buffer varsayılanı | 512 sample @48kHz = **10,67 ms** | ölçüm karşılığı (tek buffer — ASIO <10ms bütçesiyle tutarlı) | [[../../brain]] satır 286 + §1.3 kaynak 14 |
 
 **Netleştirme (katman-bazlı):** `firmware <1ms` · `ASIO <10ms` · `WASAPI <20ms` · `512sample = 10,67ms` sayıları **bağlam bazlıdır ve birbirini dışlamaz** — her biri farklı katmanın hedefidir (tasarım hedefi / ürün bütçesi / ölçüm karşılığı); ölçüm raporları katman sütunuyla ayrılır. Bu alt tablodaki her sayı vault satırı + §1.3 kaynaklarıyla çaprazlı olduğundan **kendi satırlarında `⚠️ VERIFICATION REQUIRED` taşımaz** (debate 3/20 — tutarsızlık iddiası bu tabloyla kapatıldı); üstteki **`underrun = 0` satırındaki etiket farklı bir iddiaya aittir ve korunur** (ADR-005 §2.2c — vault'ta tescilli değil; kalkış koşulu §5.2/4).
 
@@ -251,7 +251,7 @@ Bütçe/eşik aşıldı → İstisna talebi (dosya, aşılan değer, gerekçe, s
 | 4 | **Bütçe gerçekçilik ölçümü:** ilk production build'de JS/CSS/HTML gzip boyutları ölçülür; JS ≤50KB / CSS ≤30KB önerisi gerçekçi değilse §2.2e'ye geçici madde (§4.4 fallback 4) | UI Designer + Tech Lead | 2 gün |
 | 5 | **RUM seçimi:** varsayılan CrUX; kendi beacon gerekiyorsa consent entegrasyonu + anonimleştirme (risk 2 mitigasyonu) | Security Engineer + DevOps Engineer | 1 hafta |
 | 6 | **Audio ölçüm altyapısı (PLANNED):** underrun/xrun sayacı + round-trip latency ölçümü (LatencyMon ön-kontrolü — kaynak 18); sayılar `brain.md` §... fallback satırıyla hizalanır | Embedded Engineer + Windows SW Engineer | 2 hafta |
-| 7 | `[[../../raw/brain]]` özeti + `.ai/.decisions/index.md` §3 satır durumu vault-sync ile tazelenir (MO/vault-updater) | MO (vault-updater) | 1 saat |
+| 7 | `[[../../brain]]` özeti + `.ai/.decisions/index.md` §3 satır durumu vault-sync ile tazelenir (MO/vault-updater) | MO (vault-updater) | 1 saat |
 
 ### 5.2 Geri Dönüş Planı
 
@@ -274,12 +274,12 @@ Karar süreç karardır; geri dönüş yalnız **yeni ADR** ile olur (In-Place R
 | [[ADR-001-vanilla-js-itcss]] | Frontend kısıtı — byte bütçesi bu bağlamda anlamlandırılır (framework yasaklı Vanilla JS); **dosya diskte VAR** ✅ |
 | [[ADR-004-multi-domain-spa]] | SPA route yapısı — CWV ölçümü hangi route'larda çalışacağı; debate format referansı; **dosya diskte VAR** ✅ |
 | [[ADR-005-ultrathink-protocol]] | §1.3 araştırmasının ≥2 kaynak standardı ve `⚠️ VERIFICATION REQUIRED` kuralları bu ADR'de uygulandı; **dosya diskte VAR** ✅ |
-| [[../../sources/ui-design/05-responsive-architecture]] | Responsive fallback §12 + 4K ortalamama §7.4 — CLS/LCP ölçüm bağlamı; **dosya diskte VAR** ✅ (grep: eşik metni içermiyor — bu ADR'nin sayısal eşikleri buraya sonraki vault-sync'te taşınabilir) |
+| [[../../ui-design/05-responsive-architecture]] | Responsive fallback §12 + 4K ortalamama §7.4 — CLS/LCP ölçüm bağlamı; **dosya diskte VAR** ✅ (grep: eşik metni içermiyor — bu ADR'nin sayısal eşikleri buraya sonraki vault-sync'te taşınabilir) |
 | [[../index]] | Karar dizini — bu ADR'nin kaydı §3 `[[ADR-006-performance-targets]]` (slug eşleşmesi ✅) |
 | [[../CLAUDE.md]] | Karar alt registry kuralı (accepted/) |
 | [[../../CLAUDE.md]] | Ana sözleşme — 16 Hard Guardrail (#16 şablon zorunluluğu); `.ai/CLAUDE.md` satır 429 audio Latency Hedefi (§2.2c birincil vault kaynağı) |
-| [[../../raw/AGENTS.md]] | §24.1 Ultrathink protokolü (bu ADR §1.3'ü bu protokolle üretti), §25.3 frozen/append-only kuralları, §16 quality standards |
-| [[../../raw/brain]] | Audio fallback satırı (Buffer Underrun → Fade-out → 50ms → restart) + ASIO buffer 512/48kHz/10.67ms — §2.2c vault kaynakları |
+| [[../../AGENTS.md]] | §24.1 Ultrathink protokolü (bu ADR §1.3'ü bu protokolle üretti), §25.3 frozen/append-only kuralları, §16 quality standards |
+| [[../../brain]] | Audio fallback satırı (Buffer Underrun → Fade-out → 50ms → restart) + ASIO buffer 512/48kHz/10.67ms — §2.2c vault kaynakları |
 | [[../../log]] | Audit trail — bu ADR ve istisna kayıtları append edilir (append-only) |
 | [[../../index]] | Master katalog — decisions bölümü |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin 7 bölümlük şablonu (Guardrail #16) |

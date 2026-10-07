@@ -7,6 +7,13 @@ updated: 2026-10-06
 version: 2.1.4
 status: active
 authority: reference
+# Control Plane v2 (2026-10-07):
+tier: 4
+domain: agents
+ssot: true
+risk: medium
+owner: "MO"
+depends-on: [".ai/AGENTS.md"]
 ---
 
 # Windows Software Engineer — Windows Platform & Sistem Yazılımı

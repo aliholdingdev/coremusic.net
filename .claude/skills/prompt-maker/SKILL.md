@@ -1,706 +1,208 @@
 ---
 name: prompt-maker
-description: "Use at the start of every task — /prompt-maker expands a rough request into a structured multi-part prompt with P0/P1/P2 questions."
-title: "CoreMusic — Prompt Engineering Motoru"
-type: skill-instruction
-version: 11.1.0
-updated: 2026-09-29
-authority: SSOT
-mode:
-  - Red Team
-  - Truth Mode
-  - Human Mode
-purpose:
-  - Master Prompt Generation (PICCO Framework)
-  - Context Engineering Methodology
-  - Executable Prompt Production
-  - Hallucination Prevention
-  - CoreMusic Rule Compliance
-reference:
-  authority: ".ai/CLAUDE.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-  architecture:
-    - ".ai/.decisions/"
-    - "Existing project architecture"
-  templates:
-    - ".ai/.templates/index.md"
-  agents:
-    - ".ai/.agents/AGENTS.md"
-  skills:
-    - ".claude/skills/hallucination-control/SKILL.md"
-    - ".claude/skills/human-mode/SKILL.md"
-  project_structure:
-    # ⚠️ 2026-09-29 (faz2 denetim): diskte yalnız "shared/" var; "coremusic.net/" alt klasörü yok (repo kök adı) — VERIFICATION REQUIRED
-    - "coremusic.net/"
-    - "shared/"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "prompt format change"
-      - "PICCO element change"
-      - "technique catalog update"
-triggers:
-  - "prompt oluştur"
-  - "prompt yaz"
-  - "sistem promptu"
-  - "system prompt"
-  - "steering yaz"
-  - "hook yaz"
-  - "kural seti oluştur"
-  - "MASTER PROMPT"
-  - "cursor rules"
-  - "claude rules"
-  - "CLAUDE.md yaz"
-  - "rules yaz"
-  - "context engineering"
-  - "PICCO"
-  - "prompt template"
-changelog:
-  - version: 11.1.0
-    date: 2026-09-29
-    changes:
-      - Faz2 içerik kalite denetimi (içerik zaten güncel doğrulandı — PICCO v11 korundu)
-      - Ölü referans düzeltmesi: .ai/decisions → .ai/.decisions, .opencode/skills → .claude/skills, vault-sync → vault-sync-post
-      - §8 eşik çelişkisi giderildi (Step 8 ↔ §8.1 tablosu), sürüm satırları 11.1.0 ile hizalandı
-  - version: 11.0.0
-    date: 2026-08-15
-    changes:
-      - Complete rewrite — MIM format, PICCO framework integration
-      - Added 2026 technique catalog (CoT died, few-shot fallback)
-      - Added prompt injection defense section
-      - Added Context Engineering methodology (4-stage pipeline)
-      - Added structured output standards (JSON/XML)
-      - Removed deprecated techniques (CoT-forcing, prefilling)
+description: "Use when the user asks to create, expand, or improve a prompt — turns a rough request into a structured multi-part prompt with P0/P1/P2 clarification questions, PICCO framing, and quality/security checks. — Tetikleyiciler: 'prompt oluştur', 'prompt yaz', 'sistem promptu', 'system prompt', 'steering yaz', 'hook yaz', 'kural seti oluştur', 'MASTER PROMPT', 'cursor rules', 'claude rules', 'CLAUDE.md yaz', 'rules yaz', 'context engineering', 'PICCO', 'prompt template'."
+license: MIT
+metadata:
+  version: 3.0.0
+  format: claude-skill-v3
+  author: Bayram Ali (ULTRATHINK Engineering)
+  category: prompt-engineering
+  tags: [red-team, truth-mode, human-mode, master-prompt-generation, picco-framework, context-engineering, executable-prompt-production, hallucination-prevention, coremusic-rule-compliance]
+  updated: 2026-10-07
+  previous-version: "11.2.0"
 ---
 
 # PROMPT ENGINEERING MOTORU — Machine Instruction Manual
 
-**This skill is the CORE prompt production engine for CoreMusic.**
-It transforms scattered ideas into executable, production-grade master prompts.
+**Bu skill, CoreMusic'in ana prompt üretim motorudur.** Dağınık istekleri çalıştırılabilir,
+üretime hazır master prompt'lara dönüştürür.
+
+> **Format: `claude-skill-v3`** — tek `SKILL.md` (kurallar + akış) · derinlik `references/`
+> (30 dosya, §6 indeksi) · çalışmış örnekler `examples/` (§7 indeksi). Boot'ta toplu okuma YASAK;
+> references/ yalnız ihtiyaç anında okunur.
 
 ---
 
-## 0. IDENTITY & SCOPE
+## 1. Genel Bakış
 
-### 0.1 System Definition
+| Alan | Değer |
+|------|-------|
+| Girdi | Dağınık fikir, belirsiz istek, ham/raw prompt |
+| Süreç | Araştırma → PICCO → P0/P1/P2 sorular → kalite + güvenlik kontrolü |
+| Çıktı | Çalıştırılabilir MASTER PROMPT (5.000–50.000 karakter) veya 8 bölümlü cevap paketi |
+| Çerçeve | PICCO (Persona, Instructions, Context, Constraints, Output) + Context Engineering |
+| Otorite | SSOT: `.ai/CLAUDE.md` |
 
-| Field | Value |
-|-------|-------|
-| System Name | Prompt Engineering Motoru |
-| Version | 11.1.0 |
-| Authority | SSOT |
-| Framework | PICCO (Persona, Instructions, Context, Constraints, Output) |
-| Methodology | Context Engineering (4-stage pipeline) |
-| Scope | All Master Prompt generation for CoreMusic |
-| Output | Executable prompts (min 5000 chars, max 50000 chars) |
+### 1.1 Zorunlu Akış — Raw Prompt Geldiğinde (2026-10-01)
 
-### 0.2 What This Skill Does
-
-```
-INPUT:  Scattered user ideas, requirements, vague concepts
-PROCESS: Research → PICCO structuring → Quality validation → Security check
-OUTPUT: Executable MASTER PROMPT (ready to deploy)
-```
-
-### 0.3 Activation Triggers
-
-| Trigger | Action |
-|---------|--------|
-| "prompt oluştur" / "prompt yaz" | Full prompt generation |
-| "system prompt" / "sistem promptu" | System prompt generation |
-| "CLAUDE.md yaz" / "rules yaz" | Rules file generation |
-| "cursor rules" / "steering yaz" | IDE steering generation |
-| "MASTER PROMPT" | Full master prompt |
-
-### 0.4 When NOT to Use
-
-| Situation | Redirect |
-|-----------|----------|
-| Simple code writing request | → Domain agent (backend, frontend, etc.) |
-| Reading/explaining existing prompt | → Direct response, no skill needed |
-| Single file fix | → Direct action, no prompt needed |
+1. Ham istek **HEMEN işlenmez** → önce questions modu: **P0** (engelleyici) / **P1** (kalite
+   belirleyici) / **P2** (tercih). Sorular **proje bağlamına göre** üretilir — generic YASAK.
+2. O an seçili sağlayıcı/model kullanılır — hard-coded model/sağlayıcı YASAK.
+3. Çıktı şablonu (sıra zorunlu, 8 bölüm): `/eli10` analiz → istenen şey → vault referansları →
+   proje kod referansları → kullanıcı kararları + soru/cevaplar → orijinal prompt (değiştirilmeden)
+   → görevlere bölme → kapanış
+   `✅ Prompt Cevaplarla İşlendi | Dil: Türkçe | Görev Sayısı: [n] | Cevap: [n]`
+4. **Kapı:** Çıktı **onaylanır → SONRA** session başlar. Onaysız session start YASAK.
+5. **Akış zinciri:** Kullanıcı Promptu → [1] Exploration Gate → [2] Exploration Context →
+   [3] Prompt Maker (P0/P1/P2) → [4] Intent Router (tech stack confidence + vault filtreleme) →
+   [5] Instruction (yalnız ilgili vault dosyaları, 50K budget) → [6] System Prompt.
 
 ---
 
-## 1. PICCO FRAMEWORK
+## 2. Ne Zaman Kullanılır
 
-The PICCO framework (Persona, Instructions, Context, Constraints, Output) is the reference architecture for all prompts.
-
-### 1.1 Five Elements
-
-| Element | Function | Scope | Example |
-|---------|----------|-------|---------|
-| **P**ersona | Defines WHO the model is | Role, expertise, tone, personality | "You are a senior PHP architect..." |
-| **I**nstructions | Defines WHAT to do | Central task, steps, requirements | "Analyze this code and suggest..." |
-| **C**ontext | Defines BACKGROUND | Purpose, audience, domain, examples | "This is for a music streaming platform..." |
-| **C**onstraints | Defines LIMITS | Hard rules, soft rules, boundaries | "Never use ORM, always PDO..." |
-| **O**utput | Defines FORMAT | Structure, length, style, schema | "Return as JSON with these fields..." |
-
-### 1.2 Element Priority (Conflict Resolution)
-
-When elements conflict, resolve in this order:
-
-```
-1. Constraints (HARD RULES) — highest priority, never override
-2. Instructions (TASK) — what to do
-3. Persona (ROLE) — who does it
-4. Context (BACKGROUND) — why it matters
-5. Output (FORMAT) — how to present
-```
-
-### 1.3 Context Roles (from Context Engineering 2026)
-
-| Role | Function | Placement |
-|------|----------|-----------|
-| Authority | Quality standards, versioned rules | First in context |
-| Exemplar | Few-shot examples, patterns | Before target data |
-| Constraint | Hard limits, prohibitions | With instructions |
-| Rubric | Evaluation criteria, scoring | After task definition |
-| Metadata | File info, version, date | At the end |
-
-### 1.4 Prompt Structure Hierarchy
-
-```
-┌─────────────────────────────────────────────┐
-│  SYSTEM PROMPT (PICCO)                      │
-│  ├── Persona (role definition)              │
-│  ├── Instructions (task specification)      │
-│  ├── Context (background + exemplars)       │
-│  ├── Constraints (hard + soft rules)        │
-│  └── Output (format + schema)               │
-├─────────────────────────────────────────────┤
-│  USER INPUT (task-specific data)            │
-├─────────────────────────────────────────────┤
-│  OUTPUT EXPECTATION (structured format)     │
-└─────────────────────────────────────────────┘
-```
+| Kullan (tetikleyiciler) | Kullanma — yönlendir |
+|--------------------------|----------------------|
+| "prompt oluştur" / "prompt yaz" / "MASTER PROMPT" | Basit kod yazma isteği → ilgili domain agent |
+| "system prompt" / "sistem promptu" / "prompt template" | Mevcut prompt okuma/açıklama → doğrudan cevap |
+| "CLAUDE.md yaz" / "rules yaz" / "cursor rules" / "claude rules" | Tek dosya düzeltmesi → doğrudan aksiyon |
+| "steering yaz" / "hook yaz" / "kural seti oluştur" | Prompt üretimi yoksa skill yükleme |
+| "context engineering" / "PICCO" | |
 
 ---
 
-## 2. WORKFLOW (10 Steps)
+## 3. PICCO Çerçevesi
 
-### Step 1: Load Context
+| Element | Ne tanımlar | Örnek |
+|---------|-------------|-------|
+| **P**ersona | KİM — rol, uzmanlık, ton | "You are a senior PHP architect..." |
+| **I**nstructions | NE YAPILACAK — görev, adımlar, gereksinimler | "Analyze this code and suggest..." |
+| **C**ontext | ARKA PLAN — amaç, kitle, alan, örnekler | "This is for a music streaming platform..." |
+| **C**onstraints | SINIRLAR — hard + soft kural, sınırlar | "Never use ORM, always PDO..." |
+| **O**utput | FORMAT — yapı, uzunluk, stil, şema | "Return as JSON with these fields..." |
 
-Vault dosyalarına yalnızca ihtiyaç anında @ ile başvur.
-
-### Step 2: Research
-
-```
-ACTION: Web search on the topic
-MINIMUM SOURCES:
-  - Simple task: 5 sources
-  - Medium task: 20 sources
-  - Complex task: 50 sources
-OUTPUT: Evidence-backed claims with confidence scores
-```
-
-### Step 3: Ask Questions (if needed)
-
-```
-RULE: Never assume — ask until 95% confident
-CYCLE: Ask → Wait → Validate → Ask more if needed
-STOP: When all PICCO elements are clear
-```
-
-### Step 4: Intent Analysis
-
-```
-ANALYZE:
-  - What does the user ACTUALLY want? (not what they said)
-  - Domain: backend, frontend, security, database, audio, etc.
-  - Risk level: low, medium, high
-  - Complexity: simple, moderate, complex
-```
-
-### Step 5: Validate Constraints
-
-```
-HARD RULES (never break):
-  - PHP 8.x strict_types=1
-  - Vanilla JS (no frameworks)
-  - OWASP Top 10 2025
-  - ITCSS CSS architecture
-  - PDO parameterized queries
-  - ADR for architectural decisions
-
-SOFT RULES (can negotiate):
-  - Performance targets
-  - Scalability requirements
-  - Code style preferences
-```
-
-### Step 6: Architectural Decision
-
-```
-DECIDE:
-  - Which stack / pattern / tools
-  - If needed: create ADR
-  - Document: .ai/.decisions/accepted/
-```
-
-### Step 7: Generate MASTER PROMPT
-
-```
-FORMAT: 15-section template (Section 3)
-LENGTH: Minimum 5000 characters (max 50000)
-RULE: Every line must define system behavior
-```
-
-### Step 8: Quality Control
-
-```
-8 CATEGORIES (Section 8):
-  1. Completeness (PICCO elements present)
-  2. Consistency (no contradictions)
-  3. Production-Ready (deployable)
-  4. Security (no injection vectors)
-  5. Scalability (future-proof)
-  6. Clarity (unambiguous)
-  7. Depth (sufficient detail)
-  8. Documentation (self-describing)
-
-THRESHOLD: Per-category thresholds in §8.1 (80-90/100; overall pass >=85/100, Security >=90/100)
-  ⚠️ 2026-09-29: Eski "Each category ≥85/100" ifadesi §8.1 tablosuyla (80/85/90) çelişiyordu — tablo esastır
-```
-
-### Step 9: Save
-
-```
-LOCATION: .ai/prompts/{date}-{slug}.md
-APPEND: .ai/brain.md (decision record)
-```
-
-### Step 10: Log
-
-```
-LOCATION: .ai/log.md
-FORMAT: timestamp + action + result
-```
+- **Çatışma çözüm sırası (öncelik):** Constraints (asla ihlal edilmez) > Instructions > Persona >
+  Context > Output.
+- **Context rolleri (Context Engineering 2026):** Authority (bağlamda ilk) → Exemplar (hedef
+  veriden önce) → Constraint (görevle birlikte) → Rubric (görev tanımından sonra) → Metadata (son).
+- **Prompt yapısı:** SYSTEM PROMPT (PICCO) → USER INPUT (görev verisi) → OUTPUT EXPECTATION.
 
 ---
 
-## 3. MASTER PROMPT TEMPLATE (15 Sections)
+## 4. 10 Adımlık Workflow (özet)
 
-```markdown
-# {PROJECT NAME} — MASTER PROMPT
-# Version: X.0.0 | {DATE}
-# Framework: PICCO
-# Purpose: {ONE SENTENCE}
-
-## 1. Persona & Role
-[WHO the AI is — expertise, tone, personality]
-
-## 2. Activation Conditions
-[WHEN this prompt activates — triggers, keywords]
-
-## 3. Instructions & Task
-[WHAT to do — central task, steps, requirements]
-
-## 4. Context & Background
-[WHY it matters — project, audience, domain, exemplars]
-
-## 5. Hard Rules (Constraints)
-[NEVER break these — absolute prohibitions]
-
-## 6. Soft Rules (Guidelines)
-[PREFER these — can be negotiated]
-
-## 7. Workflow & Process
-[HOW to execute — step-by-step pipeline]
-
-## 8. Domain Rules
-[DOMAIN-SPECIFIC — backend, frontend, security, etc.]
-
-## 9. Security Rules
-[OWASP, injection defense, credential handling]
-
-## 10. Output Format
-[FORMAT — structure, schema, length, style]
-
-## 11. Quality Standards
-[THRESHOLDS — minimum scores, validation criteria]
-
-## 12. Examples & Exemplars
-[FEW-SHOT — input/output pairs, patterns]
-
-## 13. Edge Cases
-[BOUNDARY CONDITIONS — what happens when...]
-
-## 14. Troubleshooting
-[DEBUGGING — common failures and fixes]
-
-## 15. Version & Approval
-[CHANGELOG — history, authority, signatures]
-```
-
-### 3.1 Section Descriptions
-
-| # | Section | PICCO Element | Content |
-|---|---------|---------------|---------|
-| 1 | Persona & Role | **P**ersona | Role, expertise, tone |
-| 2 | Activation | **I**nstructions | Triggers, keywords |
-| 3 | Instructions | **I**nstructions | Task, steps, requirements |
-| 4 | Context | **C**ontext | Background, exemplars |
-| 5 | Hard Rules | **C**onstraints | Absolute prohibitions |
-| 6 | Soft Rules | **C**onstraints | Preferences |
-| 7 | Workflow | **I**nstructions | Execution pipeline |
-| 8 | Domain | **C**onstraints | Domain-specific rules |
-| 9 | Security | **C**onstraints | Security rules |
-| 10 | Output | **O**utput | Format, schema |
-| 11 | Quality | **C**onstraints | Validation criteria |
-| 12 | Examples | **C**ontext | Few-shot exemplars |
-| 13 | Edge Cases | **C**ontext | Boundary conditions |
-| 14 | Troubleshooting | **C**ontext | Debugging |
-| 15 | Version | **O**utput | Changelog, approval |
+1. **Load Context** — vault dosyalarına yalnız ihtiyaç anında `@` ile başvur.
+2. **Research** — web araştırması: basit 5 / orta 20 / karmaşık 50 kaynak → kanıt + güven skoru
+   (protokol: `references/10-web-research-protocol.md`).
+3. **Sorular** — asla varsayma; %95 emin olana dek döngü: sor → bekle → doğrula → tekrar.
+   Soru kaynağı: `references/02-question-bank.md` + §1.1 P0/P1/P2.
+4. **Intent Analizi** — kullanıcının GERÇEK isteği (söylenen ≠ istenen), domain, risk, karmaşıklık.
+5. **Constraint Doğrulama** — hard rules: PHP strict_types · Vanilla JS (ADR-001) · OWASP Top 10
+   2025 · ITCSS + `--cm-*` · PDO parameterized (ADR-002) · ADR zorunlu. Soft: performans hedefleri,
+   ölçeklenebilirlik, kod stili (müzakere edilebilir).
+6. **Mimari Karar** — stack/pattern/araç; gerekirse ADR → `.ai/.decisions/accepted/`.
+7. **Üretim** — 15 bölümlük şablon (§5), 5.000–50.000 karakter; her satır sistem davranışını
+   tanımlar. Referans: `references/19-master-prompt-full-example.md`.
+8. **Kalite Kontrol** — 8 kategori (Completeness/Consistency/Production-Ready/Security/
+   Scalability/Clarity/Depth/Documentation); ağırlıklı toplam **≥85/100**, Security **≥90/100**.
+   Rubrik: `references/09-quality-scoring-rubric.md` · motor: `references/validation-engine.md`.
+9. **Kaydet** — `.ai/prompts/{date}-{slug}.md` + `.ai/brain.md` karar kaydı.
+10. **Log** — `.ai/log.md` (timestamp + aksiyon + sonuç).
 
 ---
 
-## 4. TECHNIQUE CATALOG (2026)
+## 5. 15 Bölümü Master Prompt Şablonu (özet)
 
-### 4.1 Techniques That STILL WORK
+| # | Bölüm | # | Bölüm | # | Bölüm |
+|:-:|-------|:-:|-------|:-:|-------|
+| 1 | Persona & Role | 6 | Soft Rules (Guidelines) | 11 | Quality Standards |
+| 2 | Activation Conditions | 7 | Workflow & Process | 12 | Examples & Exemplars |
+| 3 | Instructions & Task | 8 | Domain Rules | 13 | Edge Cases |
+| 4 | Context & Background | 9 | Security Rules | 14 | Troubleshooting |
+| 5 | Hard Rules (Constraints) | 10 | Output Format | 15 | Version & Approval |
 
-| Technique | When to Use | Notes |
-|-----------|-------------|-------|
-| **Zero-shot** | Default start — simple tasks | Try first, always |
-| **Few-shot** (3-5 examples) | Format locking, consistency | Add ONLY if zero-shot insufficient |
-| **Role/Persona** | Tone, format, expertise | Functional, not theatrical |
-| **Task Decomposition** | Complex multi-step tasks | Break into sub-tasks |
-| **Prompt Chaining** | Sequential operations | Each step feeds next |
-| **Self-Consistency** | Accuracy critical | Multiple paths + majority vote |
-| **Structured Outputs** | Production APIs | JSON/XML schema enforcement |
-| **Meta-prompting** | Prompt optimization | "Rewrite this prompt to..." |
-
-### 4.2 Techniques That DIED in 2026
-
-| Technique | Status | Why |
-|-----------|--------|-----|
-| **CoT-forcing** ("think step by step") | DEAD | Redundant on reasoning models; -36.3% accuracy on some tasks |
-| **Heavy few-shot stacks** (default) | DEAD | Zero-shot first, few-shot fallback |
-| **Response prefilling** | DEAD | 400 error on Claude 4.6+ / Fable 5 / Mythos 5 |
-| **Manual budget_tokens** | DEAD | Use `effort` parameter instead |
-
-### 4.3 Technique Selection Decision Tree
-
-```
-START: What kind of task?
-  │
-  ├─ Simple classification/QA → Zero-shot
-  │
-  ├─ Format consistency needed → Few-shot (3-5 examples)
-  │
-  ├─ Math/Logic/Multi-step → CoT (on non-reasoning models ONLY)
-  │
-  ├─ Creative problem solving → Tree of Thoughts
-  │
-  ├─ External tools needed → ReAct (Thought-Action-Observation)
-  │
-  ├─ Accuracy critical → Self-consistency (multiple paths)
-  │
-  ├─ Production API → Structured Output (JSON/XML)
-  │
-  └─ Prompt optimization → Meta-prompting
-```
-
-### 4.4 Model-Specific Dialects
-
-| Provider | System Role | Thinking | Structured Output | Notes |
-|----------|-------------|----------|-------------------|-------|
-| **OpenAI** (GPT-5/o-series) | developer message | adaptive | JSON mode | Avoid CoT-forcing |
-| **Anthropic** (Claude 4.6+) | system message | adaptive (effort) | XML tags | No prefilling |
-| **Google** (Gemini) | system instruction | thinking budget | JSON | Structured sections |
-| **CoreMusic** (any) | system prompt | N/A | JSON/XML | PICCO framework |
+Tam şablon: `references/19-master-prompt-full-example.md` · Çıktı/şekil kararları:
+`references/05-output-templates.md` · 2026 teknik katalogu (yaşayan/ölen teknikler, model
+diyalektleri): `references/17-prompt-engineering-deep.md`.
 
 ---
 
-## 5. COREMUSIC RULES
+## 6. Zorunlu Okumalar (references/ — 30 dosya)
 
-### 5.1 Hard Rules (Mandatory)
+> Yalnız ihtiyaç anında oku; boot'ta toplu okuma YASAK. Gruplar tematiktir.
 
-```
-✅ PHP 8.x strict_types=1 mandatory
-✅ Vanilla JS (NO frameworks — ADR-001)
-✅ OWASP Top 10 2025 security rules
-✅ ITCSS CSS architecture + --cm-* token system
-✅ PDO parameterized queries (NO ORM — ADR-002)
-✅ Handler → Service → Repository layer architecture
-✅ SPA Router: AbortController mandatory
-✅ DOM-safe rendering (no unsafe innerHTML)
-✅ CSP compatibility mandatory
-✅ ADR: after every architectural decision
-✅ log.md: after every task
-```
-
-### 5.2 Forbidden Patterns
-
-```
-❌ Framework usage (React, Vue, jQuery, etc.)
-❌ ORM usage (Eloquent, Doctrine, etc.)
-❌ SELECT * in queries
-❌ Hardcoded credentials
-❌ MD5/SHA-1 for encryption
-❌ Direct $_GET/$_POST access
-❌ die()/header() in middleware
-```
-
-### 5.3 Context Engineering Integration
-
-```
-AUTHORITY FILE: .ai/CLAUDE.md (versioned, updated)
-EXEMPLARS: .ai/prompts/ (existing prompts as examples)
-CONSTRAINTS: Hard rules from §5.1
-RUBRIC: Quality criteria from §8
-METADATA: File version, date, author
-```
-
----
-
-## 6. HALLUCINATION CONTROL
-
-### 6.1 Confidence Scoring
-
-Every technical claim in the prompt must be verified:
-
-```
-Score 90-100  VERIFIED   → use directly
-Score 60-89   UNVERIFIED → mark "⚠️ VERIFICATION REQUIRED"
-Score <60     REJECTED   → reject, provide alternative
-```
-
-### 6.2 Reference to Hallucination Control Skill
-
-This skill uses the full hallucination control pipeline:
-- Validator Agents (parallel)
-- Auditor Agents (sequential)
-- Integrator Agent (storage)
-- Red Team Review (3-way)
-
-See: `.claude/skills/hallucination-control/SKILL.md`
-
-### 6.3 Atomic Claim Decomposition
-
-Every prompt output is decomposed into atomic claims:
-
-```
-Claim: "PCM3168A supports 8-channel DAC"
-Source: TI Datasheet + ADR-038
-Score: 95/100 → VERIFIED
-
-Claim: "CoreMusic uses React"
-Source: None
-Score: 0/100 → REJECTED (H001 + Framework FORBIDDEN)
-```
+| Dosya | Ne zaman okunur |
+|-------|-----------------|
+| **▸ Temel Çerçeve** | |
+| `references/01-prompt-types-deep.md` | Prompt türü seçimi belirsizse (16 tür ayrımı) |
+| `references/02-question-bank.md` | Questions modu — P0/P1/P2 soru bankası (3.820+ soru) |
+| `references/17-prompt-engineering-deep.md` | Teknik derinlik — 2026 katalog, meta-prompting |
+| `references/21-glossary-and-references.md` | Terim/kaynak belirsizse |
+| `references/INDEX-SYNC.md` | references/ senkronizasyon/PICCO eşleşmesi kontrolü |
+| **▸ Güvenlik & Kalite** | |
+| `references/03-security-owasp-full.md` | Güvenlik prompt'unda — OWASP tam liste |
+| `references/09-quality-scoring-rubric.md` | §4.8 kalite puanlama rubriği |
+| `references/18-security-deep-dive.md` | Injection derin dalma — güvenli prompt tasarımı |
+| `references/validation-engine.md` | Step 8 doğrulama motoru — eşik/akış kontrolleri |
+| **▸ Alan Kuralları** | |
+| `references/04-language-standards-full.md` | Polyglot prompt'ta — dil/dilbiçim standartları |
+| `references/06-deep-domain-rules.md` | Domain prompt'unda derin kurallar |
+| `references/11-coremusic-deep-rules.md` | CoreMusic hard rules derinlemesine |
+| `references/12-performance-testing-devops.md` | Performans/test/DevOps prompt'unda |
+| `references/13-uiux-accessibility.md` | Frontend prompt'unda — UI/UX + WCAG erişilebilirlik |
+| `references/14-embedded-audio-electronics.md` | Donanım/ses prompt'unda — gömülü elektronik |
+| `references/15-api-design-patterns.md` | API prompt'unda — tasarım kalıpları |
+| `references/16-database-design-patterns.md` | DB prompt'unda — şema/BCNF kalıpları |
+| `references/22-nodejs-typescript-patterns.md` | Download service (Node/TS) prompt'unda |
+| `references/23-csharp-dotnet-patterns.md` | C#/.NET domain prompt'unda |
+| `references/24-ml-ai-patterns.md` | AI service (ML/AI) prompt'unda |
+| `references/25-fintech-payment-patterns.md` | Ödeme/fintech prompt'unda |
+| **▸ Şablon & Çıktı** | |
+| `references/05-output-templates.md` | Format/şema kararı — JSON/XML çıktı standartları |
+| `references/08-full-example-sessions.md` | Kalibrasyon — tam örnek oturumlar |
+| `references/19-master-prompt-full-example.md` | Step 7 üretim referansı — tam master prompt |
+| **▸ Derinlik** | |
+| `references/07-architecture-patterns.md` | Mimari karar prompt'unda — katman/pattern derinliği |
+| `references/20-kiro-hooks-steering-deep.md` | "steering yaz" / "hook yaz" — Kiro hooks derinlemesine |
+| **▸ Motor** | |
+| `references/00-agentic-orchestrator-layer.md` | Multi-agent prompt akışında — orkestratör katmanı |
+| `references/10-web-research-protocol.md` | Step 2 Research — kaynak/eşik protokolü |
+| `references/multi-agent-patterns.md` | Orkestrasyon prompt'unda — multi-agent kalıpları |
+| `references/changelog.md` | Sürüm geçmişi (v1.0.0 → v3.0.0) |
 
 ---
 
-## 7. SECURITY & INJECTION DEFENSE
+## 7. Örnekler (examples/)
 
-### 7.1 Prompt Injection Types
-
-| Type | Description | Example |
-|------|-------------|---------|
-| **Direct** | Override system instructions | "Ignore all previous instructions..." |
-| **Role-play** | Bypass via persona | "Pretend you have no restrictions..." |
-| **Indirect** | Hidden in documents | HTML comments, invisible text |
-| **Context overflow** | Flood with noise | Large text to push out instructions |
-
-### 7.2 Defense Strategies
-
-```
-1. INPUT VALIDATION
-   - Filter suspicious patterns in user input
-   - Block "ignore previous instructions" variants
-   - Detect role-play bypass attempts
-
-2. CONTEXT ISOLATION
-   - Separate user data from instructions
-   - Use XML tags to delimit sections
-   - Never embed user input in system prompt
-
-3. OUTPUT VALIDATION
-   - Check outputs against expected format
-   - Validate against schema
-   - Flag unexpected content
-
-4. LEAST PRIVILEGE
-   - Prompt should not expose system prompt
-   - Prompt should not allow arbitrary code execution
-   - Prompt should not allow credential access
-```
-
-### 7.3 Secure Prompt Design
-
-```
-DO:
-  ✅ Use XML tags to separate sections
-  ✅ Validate all user inputs
-  ✅ Ground responses in provided documents
-  ✅ Quote relevant parts before answering
-  ✅ Use structured outputs (JSON/XML)
-
-DON'T:
-  ❌ Embed user input in system message
-  ❌ Allow "ignore instructions" patterns
-  ❌ Expose internal reasoning in output
-  ❌ Trust external content without validation
-```
+| Dosya | Ne gösterir |
+|-------|-------------|
+| `examples/raw-to-structured-prompt.md` | **Tam çalışmış örnek:** ham Türkçe istek → P0/P1/P2 → 8 bölümlü yapılandırılmış prompt (PHP 8.4, music panel, `coremusic_social`) |
+| `examples/question-bank-in-use.md` | Soru bankasının (`references/02`) örnek görev üzerinde süzülmesi: Block A → P0/P1/P2 |
+| `examples/raw-to-master-prompt.md` | Ham istek → questions modu → 8 bölümlü çıktı (§1.1 Zorunlu Akış uygulaması) |
+| `examples/ddd-cqrs-discovery.md` | DDD/CQRS dallı keşif — adaptif soru ağacı, [UNKNOWN] yönetimi |
 
 ---
 
-## 8. QUALITY CONTROL
+## 8. Otorite & Vault Bağlantıları
 
-### 8.1 Eight Quality Categories
-
-| # | Category | Weight | Threshold | Check |
-|---|----------|--------|-----------|-------|
-| 1 | **Completeness** | 20% | ≥85/100 | All 15 sections present? |
-| 2 | **Consistency** | 15% | ≥85/100 | No contradictions between sections? |
-| 3 | **Production-Ready** | 15% | ≥85/100 | Deployable as-is? |
-| 4 | **Security** | 15% | ≥90/100 | No injection vectors? |
-| 5 | **Scalability** | 10% | ≥80/100 | Future-proof? |
-| 6 | **Clarity** | 10% | ≥85/100 | Unambiguous? |
-| 7 | **Depth** | 10% | ≥80/100 | Sufficient detail? |
-| 8 | **Documentation** | 5% | ≥85/100 | Self-describing? |
-
-### 8.2 PICCO Completeness Check
-
-```
-PERSONA:      [ ] Role defined  [ ] Expertise specified  [ ] Tone set
-INSTRUCTIONS: [ ] Task clear    [ ] Steps listed         [ ] Requirements explicit
-CONTEXT:      [ ] Background    [ ] Exemplars included   [ ] Domain specified
-CONSTRAINTS:  [ ] Hard rules    [ ] Soft rules           [ ] Boundaries defined
-OUTPUT:       [ ] Format        [ ] Schema               [ ] Length specified
-```
-
-### 8.3 Quality Score Formula
-
-```
-Total Score = Σ (Category Score × Weight)
-Minimum: 85/100 to pass
-Security threshold: 90/100 (higher bar)
-```
+- **Otorite (SSOT):** `.ai/CLAUDE.md` · Vault: `.ai/AGENTS.md` · `.ai/WORKFLOW.md` ·
+  `.ai/brain.md` · `.ai/index.md`
+- **Şablon/ADR/Agent:** `.ai/.templates/index.md` · `.ai/.decisions/` · `.ai/.agents/AGENTS.md`
+- **İlgili skill'ler:** `truth-engine` (global, doğrulama hattı) · `human-mode` · `vault-sync-post`
+  (`.claude/skills/` altında; `.opencode/skills/` 2026-10-07'de boş)
+- **Güncelleme politikası:** mevcut yapı korunur; prompt formatı / PICCO elementi / teknik katalog
+  değişikliği kullanıcı onayı ister (Human Approval Gate).
 
 ---
 
-## 9. TROUBLESHOOTING
+## 9. Güvenlik & Truth Mode
 
-### 9.1 Common Failures
+- **Prompt injection savunması:** direct / role-play / indirect / context overflow türlerine karşı
+  — XML etiketleriyle bölüm ayırma, kullanıcı verisini system prompt'a gömme, çıktı şema
+  doğrulama, en az yetki (prompt kod/credential/gerçekleştirme açığı vermez). Derinlik:
+  `references/18-security-deep-dive.md` + `references/03-security-owasp-full.md`.
+- **Zero-Hallucination skorlama:** her teknik iddia atomik iddiaya ayrılır — 90–100 VERIFIED ·
+  60–89 `⚠️ VERIFICATION REQUIRED` · <60 REJECTED. Pipeline: `truth-engine` skill (global)
+  (Validator → Auditor → Integrator → Red Team 3-way).
+- **CoreMusic hard rules:** PHP `strict_types` · Vanilla JS (ADR-001) · PDO, ORM yasak (ADR-002)
+  · `SELECT *` yasak · hardcoded credential yasak · `csrf_token` · ITCSS + `--cm-*`.
+  Derinlik: `references/11-coremusic-deep-rules.md`.
+- **Modlar:** Red Team · Truth Mode · Human Mode aktif; bilinmeyen = UNKNOWN.
 
-| Problem | Cause | Fix |
-|---------|-------|-----|
-| "Prompt produced but low quality" | Step 8 (Quality Control) skipped | Re-run all 8 categories |
-| "Generated without research" | Step 2 skipped | Stop, complete research first |
-| "Vault files not read" | Step 1 skipped | Vault dosyalarına yalnızca ihtiyaç anında @ ile başvur. |
-| "Hallucination occurred" | Section 6 not applied | Score all claims, reject low scores |
-| "Prompt too short" | Min 5000 chars not enforced | Expand each section |
-| "Security vulnerability" | Section 7 skipped | Run injection defense check |
-| "Format inconsistent" | Output section unclear | Specify exact schema |
-
-### 9.2 Debugging Flow
-
-```
-1. IDENTIFY: What went wrong?
-2. LOCATE: Which step failed?
-3. FIX: Re-run that specific step
-4. VERIFY: Check output quality
-5. LOG: Record in .ai/log.md
-```
+**Anti-overthink: kök `AGENTS.md` §5 (MAX THINKING 7 madde) geçerlidir.**
 
 ---
 
-## 10. REFERENCES & VERSION
-
-### 10.1 Cross-Reference Map
-
-```
-SKILL.md (this file)
-    +-- .ai/CLAUDE.md (project rules)
-    +-- .ai/AGENTS.md (agent registry)
-    +-- .ai/WORKFLOW.md (process definitions)
-    +-- .ai/brain.md (architectural decisions)
-    +-- .ai/index.md (master catalog)
-    +-- .ai/prompts/ (generated prompts)
-    +-- .ai/.decisions/accepted/ (ADRs)
-    +-- .claude/skills/hallucination-control/SKILL.md
-    +-- .claude/skills/human-mode/SKILL.md
-```
-
-### 10.2 Related Skills
-
-| Skill | Relationship |
-|-------|--------------|
-| **hallucination-control** | Verification pipeline for prompt outputs |
-| **human-mode** | Orchestration and execution rules |
-| **vault-sync-post** | Vault integrity validation (⚠️ 2026-09-29: "vault-sync" skill adı diskte yok → `.claude/skills/vault-sync-post/SKILL.md` ve `.opencode/skills/vault-sync-post/SKILL.md`) |
-
-### 10.3 Changelog
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0.0 | 2026-07-30 | Initial release |
-| 5.0.0 | 2026-08-01 | 10-step workflow, 20-section template |
-| 10.0.0 | 2026-08-08 | Merged with red-team-truth-mode |
-| 10.1.0 | 2026-08-15 | Standardized YAML frontmatter |
-| 11.0.0 | 2026-08-15 | Complete rewrite — PICCO framework, 2026 techniques, injection defense |
-| 11.1.0 | 2026-09-29 | Faz2 kalite denetimi: ölü referanslar, §8 eşik çelişkisi, sürüm hizalaması |
-
-### 10.4 Research Sources
-
-| Source | Contribution |
-|--------|--------------|
-| PICCO Framework (Cook 2026) | 5-element reference architecture |
-| Context Engineering (2026) | 4-stage pipeline, 5 context roles |
-| Claude Best Practices (Anthropic) | XML tags, adaptive thinking, long context |
-| TECHSY Guide (2026) | 2026 technique status (what died, what works) |
-| Zylos Research (2026) | ReAct, Reflexion, ToT, DSPy |
-| Frontiers Taxonomy (2026) | 4-category prompt taxonomy |
-
----
-
-*Prompt Engineering Motoru v11.1.0 — CoreMusic MIM Format*
-*Framework: PICCO (Persona, Instructions, Context, Constraints, Output)*
-*Authority: Vault Steward / AI Orchestrator*
+*Framework: PICCO (Persona, Instructions, Context, Constraints, Output) · Authority: Vault Steward / AI Orchestrator*
 *Mandatory for all prompt generation — No exceptions*
-
-## PROMPT-MAKER ZORUNLU AKIŞ (Kullanıcı Spesifikasyonu — 2026-10-01)
-
-### A. Raw Prompt Geldiğinde
-1. Raw prompt gelir → **HEMEN işleme alma**; önce questions modu çalışır.
-2. Sorular **generic değil, proje bağlamına göre** üretilir: P0 (engelleyici), P1 (kalite belirleyici), P2 (tercih).
-3. Prompt-maker OpenCode V2'de o an hangi sağlayıcı/model seçiliyse onu kullanır — **hard-coded model/sağlayıcı YASAK** (free modellerde de çalışır).
-
-### B. Çıktı Şablonu (sıra zorunlu)
-1. `/eli10` uzun paragraf — mevcut promptun derin analizi, yapay zekaya adım adım anlatır gibi
-2. İstenen şey nedir
-3. Vault referansları (`.ai/`)
-4. Proje kod referansları
-5. Kullanıcı kararları + sorulan sorular + cevapları
-6. Orijinal promptun aynısı (değiştirilmeden)
-7. Görevlere bölme (task breakdown)
-8. Kapanış: `✅ Prompt Cevaplarla İşlendi | Dil: Türkçe | Görev Sayısı: [n] | Cevap: [n]`
-
-### C. Kapılar
-- Çıktı **onaylanır → SONRA** session başlatılır. Onaysız session start YASAK.
-
-### D. Akış Zinciri
-```text
-Kullanıcı Promptu
-  → [1] Exploration Gate
-  → [2] Exploration Context
-  → [3] Prompt Maker (sorular: P0/P1/P2)
-  → [4] Intent Router (tech stack confidence + vault filtreleme)
-  → [5] Instruction (yalnız ilgili vault dosyaları, 50K budget)
-  → [6] System Prompt
-```
-
-## MAX THINKING — Anti-Overthink (2026-10-01)
-- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
-- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
-- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
-- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
-- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
-- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.
+*CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

@@ -16,7 +16,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 > **Durum:** ✅ **ACCEPTED** — **Tarih:** 2026-09-29 — **Debate:** ✅ **TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)** — **Tech Lead:** ✅ — **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` — **Slug:** `ADR-056-auth-module-implementation`
-> **İlgili kararlar:** [[ADR-052-hybrid-auth-session-jwt]] (oturum/JWT zemini — bu ADR onu **uygular, yeniden karar vermez**) · [[ADR-043-auth-subdomain-consolidation]] (subdomain/cookie hizası) · [[ADR-047-login-redirect-session-bridge]] (login redirect köprüsü) · [[ADR-011-session-management]] (session yaşam döngüsü) · [[ADR-010-csrf-protection-strategy]] (CSRF — pipeline 6. adım) · [[ADR-008-bypass-auth-middleware]] (bypass = üretimde fail-closed) · [[ADR-013-rate-limiting-apcu]] (rate limit — pipeline 3. adım) · [[ADR-020-api-public-security]] (API auth çözümü) · [[ADR-004-multi-domain-spa]] (çoklu domain SPA) · [[../index.md]] · [[../../CLAUDE.md]] · [[../../raw/brain.md]]
+> **İlgili kararlar:** [[ADR-052-hybrid-auth-session-jwt]] (oturum/JWT zemini — bu ADR onu **uygular, yeniden karar vermez**) · [[ADR-043-auth-subdomain-consolidation]] (subdomain/cookie hizası) · [[ADR-047-login-redirect-session-bridge]] (login redirect köprüsü) · [[ADR-011-session-management]] (session yaşam döngüsü) · [[ADR-010-csrf-protection-strategy]] (CSRF — pipeline 6. adım) · [[ADR-008-bypass-auth-middleware]] (bypass = üretimde fail-closed) · [[ADR-013-rate-limiting-apcu]] (rate limit — pipeline 3. adım) · [[ADR-020-api-public-security]] (API auth çözümü) · [[ADR-004-multi-domain-spa]] (çoklu domain SPA) · [[../index.md]] · [[../../CLAUDE.md]] · [[../../brain.md]]
 > **Index durumu:** `.ai/.decisions/index.md` **ADR-051–ADR-060 satırlarını İÇERMEZ** — dizin 050 (satır 91) → 061 (satır 92) arasında **atlıyor**. Bu işlemde index.md'ye **yeni satır eklenmedi** (report-only — In-Place Refactoring + SRP); satır ekleme **bir sonraki vault reset'ine ertelenmiştir** (§5.1 adım 7).
 > **Kaynaksız numara boşlukları:** **ADR-051, ADR-053, ADR-054, ADR-055, ADR-057, ADR-058, ADR-059, ADR-060** diskte dosya olarak **YOK**. Bu ADR bu numaraları **doldurmaz**; yalnızca sınır koyar.
 > **⚠️ VERIFICATION REQUIRED — ADR-058 ve ADR-059:** `.ai/.decisions/accepted/ADR-058-merkezi-auth.md` ve `.ai/.decisions/accepted/ADR-059-mfa.md` için `Test-Path = False`. Bu iki karar **diskte mevcut değil**; bu ADR'de düz metin referans olarak anılır, **wiki-link yapılmaz**. Varlıkları **kanıtlanmamıştır**.
@@ -30,7 +30,7 @@ Bu karar, CoreMusic auth modülünün **ne olduğu**nu (kod + veritabanı kanıt
 
 ### 1.1 Mevcut Durum
 
-**Tablo A — RBAC veritabanı şeması** (kaynak: `.ai/sources/.sql/mysql/coremusic_auth.sql`, 25688 bayt)
+**Tablo A — RBAC veritabanı şeması** (kaynak: `.ai/.sql/mysql/coremusic_auth.sql`, 25688 bayt)
 
 | Varlık | Satır | Kanıt | Durum |
 |--------|-------|-------|-------|
@@ -129,7 +129,7 @@ Protokol: `.claude/skills/prompt-maker/references/10-web-research-protocol.md` (
 
 Auth modülünün uygulaması **aşağıdaki beş başlıkta** sabitlenir:
 
-**(a) RBAC modeli — şema + kod.** Kaynak gerçeği `.ai/sources/.sql/mysql/coremusic_auth.sql`'deki üç tablodur: `user_roles` (rol + `permissions JSON`), `user_assigned_roles` (M2M), `permission_audit` (denetim). **Ayrı `permissions` / `role_permissions` tablosu YOK** ve bu kararla **eklenmez** (yetenek olgunlaşana kadar). Yetki biçimi `resource:action:scope`. Rol hiyerarşisi `super_admin > admin > editor > user` + `free_user`. Seed verisi **eksik** (`free_user` satırı yok) → §5.1 adım 3.
+**(a) RBAC modeli — şema + kod.** Kaynak gerçeği `.ai/.sql/mysql/coremusic_auth.sql`'deki üç tablodur: `user_roles` (rol + `permissions JSON`), `user_assigned_roles` (M2M), `permission_audit` (denetim). **Ayrı `permissions` / `role_permissions` tablosu YOK** ve bu kararla **eklenmez** (yetenek olgunlaşana kadar). Yetki biçimi `resource:action:scope`. Rol hiyerarşisi `super_admin > admin > editor > user` + `free_user`. Seed verisi **eksik** (`free_user` satırı yok) → §5.1 adım 3.
 
 **(b) Permission middleware — 9. pipeline adımı.** `PageRouterKernel.php:285-296` sırası **dokunulmaz** (ADR-052'nin 10/10 onayı): `Permission = 9`, `Validation = 10`. Davranış: boş oturum → **atla** (anonim zaten yetkisiz); dolu oturum → strict rol eşitliği + `in_array` yetki; uyuşmazlık → **403 halt** (fail-closed / deny-by-default). RBAC testi `rbac-authorization.md:253-262` checklist'ine göre **integrasyon testi** ile kapanacak.
 
@@ -244,8 +244,8 @@ Bu ADR **kod/değişiklik üretmez** (kanıt raporlamadır) → doğrudan geri d
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme (vault kuralları, UTF-8 protokolü) |
-| [[../../raw/brain.md]] | Mimari kararlar |
-| [[../../raw/WORKFLOW.md]] | Süreçler |
+| [[../../brain.md]] | Mimari kararlar |
+| [[../../WORKFLOW.md]] | Süreçler |
 | [[../index.md]] | ADR dizini — **051–060 satırları eksik, bu ADR satırı eklenmedi (report-only)** |
 | [[../../.templates/adr/adr-template.md]] | Guardrail #16 zorunlu iskelet (§1.3 web araştırması + 19 doğrulama kapısı) |
 | [[ADR-052-hybrid-auth-session-jwt]] | Pipeline 10/10 onayı + hibrit session/JWT — bu ADR'nin **zemini** |
@@ -263,14 +263,14 @@ Bu ADR **kod/değişiklik üretmez** (kanıt raporlamadır) → doğrudan geri d
 | ⚠️ ADR-058 (`ADR-058-merkezi-auth`) | **VERIFICATION REQUIRED — `Test-Path = False`, diskte YOK.** Düz metin referans; wiki-link yapılmadı |
 | ⚠️ ADR-059 (`ADR-059-mfa`) | **VERIFICATION REQUIRED — `Test-Path = False`, diskte YOK.** Düz metin referans; wiki-link yapılmadı |
 
-**Kod kanıtı (düz metin, wiki-link değil):** `.ai/sources/.sql/mysql/coremusic_auth.sql` · `shared/src/Middleware/PermissionMiddleware.php` · `shared/src/Middleware/AuthMiddleware.php` · `shared/src/PageRouter/PageRouterKernel.php:285-296` · `shared/src/Api/Middleware/AuthorizationMiddleware.php` · `shared/src/Api/Middleware/AuthenticationMiddleware.php` · `shared/src/PageRouter/AuthGuard.php` · `shared/src/PageRouter/PageRouterHelper.php` · `auth.coremusic.net/include/Service/AuthService.php` · `auth.coremusic.net/include/Repository/UserRepository.php` · `auth.coremusic.net/include/Service/SessionManager.php` · `auth.coremusic.net/include/Domain/Entity/User.php` · `auth.coremusic.net/Container/AuthContainer.php` · `auth.coremusic.net/Controller/AuthController.php` · `shared/config/auth-routes.php` · `shared/tests/Middleware/` · `shared/tests/Unit/PageRouter/SpaRouteTest.php:31` · `shared/tests/Unit/PageRouter/AuthGuardTest.php:92,101`
+**Kod kanıtı (düz metin, wiki-link değil):** `.ai/.sql/mysql/coremusic_auth.sql` · `shared/src/Middleware/PermissionMiddleware.php` · `shared/src/Middleware/AuthMiddleware.php` · `shared/src/PageRouter/PageRouterKernel.php:285-296` · `shared/src/Api/Middleware/AuthorizationMiddleware.php` · `shared/src/Api/Middleware/AuthenticationMiddleware.php` · `shared/src/PageRouter/AuthGuard.php` · `shared/src/PageRouter/PageRouterHelper.php` · `auth.coremusic.net/include/Service/AuthService.php` · `auth.coremusic.net/include/Repository/UserRepository.php` · `auth.coremusic.net/include/Service/SessionManager.php` · `auth.coremusic.net/include/Domain/Entity/User.php` · `auth.coremusic.net/Container/AuthContainer.php` · `auth.coremusic.net/Controller/AuthController.php` · `shared/config/auth-routes.php` · `shared/tests/Middleware/` · `shared/tests/Unit/PageRouter/SpaRouteTest.php:31` · `shared/tests/Unit/PageRouter/AuthGuardTest.php:92,101`
 
 ### 6.1 Debate Şartları — İlgili Dokümanlar
 
 | Şart | İlgili doküman |
 |------|----------------|
 | Şart 1 (tek yetki kaynağı + rol oturuma yazma) | [[../../architecture/k6-guvenlik/rbac-authorization.md]] (checklist :253-262, cache TTL :241) · [[ADR-052-hybrid-auth-session-jwt]] (pipeline 9) · [[ADR-011-session-management]] (`setAuthUser` / `setRegisteredUser`) |
-| Şart 2 (şema tamamlama + audit) | `.ai/sources/.sql/mysql/coremusic_auth.sql` (düz metin, wiki-link değil) · [[../../architecture/k6-guvenlik/rbac-authorization.md]] (permission seed) |
+| Şart 2 (şema tamamlama + audit) | `.ai/.sql/mysql/coremusic_auth.sql` (düz metin, wiki-link değil) · [[../../architecture/k6-guvenlik/rbac-authorization.md]] (permission seed) |
 | Şart 3 (deny-by-default + yetki sızıntı testi) | `shared/tests/Middleware/` (düz metin) · [[ADR-008-bypass-auth-middleware]] (fail-closed) · [[../../architecture/k6-guvenlik/rbac-authorization.md]] (integration test) |
 
 ---

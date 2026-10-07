@@ -1,10 +1,15 @@
 ---
 name: vault-sync-post
-description: "Islem sonrasi otomatik vault guncelleme — session kaydi, root .md dosyalari, .claude/.opencode senkronizasyonu"
-version: 1.0.0
-author: CoreMusic Vault Steward
-category: vault-management
-tags: [vault, session, sync, automation, post-operation]
+description: "Use when closing a session or finishing an operation and the vault must be synced — root .md touchpoints, .claude/.opencode sync, and append-only log.md line — Tetikleyiciler: 'vault güncelle', 'session kapat', 'senkronize', 'log yaz', 'vault-post-update', 'session sync'."
+license: MIT
+metadata:
+  version: 3.0.0
+  format: claude-skill-v3
+  author: Bayram Ali (ULTRATHINK Engineering)
+  category: vault-management
+  tags: [vault, session, sync, automation, post-operation]
+  updated: 2026-10-07
+  previous-version: "1.0.0"
 ---
 
 # Vault Sync Post — Islem Sonrasi Otomatik Guncelleme
@@ -93,16 +98,16 @@ Sonuclari kontrol et:
 | [[.ai/WORKFLOW]] | §8.9 Automated Session & Vault Sync |
 | [[.ai/AGENTS]] | Vault-updater agent tanimi |
 
----
+## Ornekler
 
-**Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-09
-**Mode:** Red Team · Human Mode · Truth Mode
+| Dosya | Ne gosterir |
+|-------|-------------|
+| [examples/session-close-sync.md](examples/session-close-sync.md) | Session kapanisi: 12 root .md touchpoint + .claude/.opencode sync + log.md append satiri (girdi → çıktı tam döngü) |
 
-## MAX THINKING — Anti-Overthink (2026-10-01)
-- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
-- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
-- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
-- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
-- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
-- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.
+> Birleştirme notu (2026-10-07): `.opencode/skills/vault-sync-post/SKILL.md` ile içerik
+> karşılaştırıldı — tek fark üstteki MAX THINKING bloğuydu (v3.0 formatında tek satıra
+> indirildi); benzersiz başka içerik yok.
+
+Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
+
+*CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

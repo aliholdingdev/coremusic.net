@@ -211,8 +211,8 @@ Bu karar **kod tarafında geri alınacak bir şey üretmedi** (WS/SSE/polling hi
 | [[../accepted/ADR-030-ai-strategy-core]] | **Çapraz referans:** öneri motorunda "Real-time Learning" spec'i (`k4-yapay-zeka/recommendation-engine.md:279`) — **içerik/Model "real-time"**, taşımaya dair ADR-030'da **taşıma kararı YOK** (`⚠️ VERIFICATION REQUIRED`) |
 | [[../../architecture/k14-ag/websocket-realtime]] | WS spec'i — `:16` RFC 6455/8441 ✅, `:111` `room.sync` ✅, `:117-140` heartbeat/drift sayıları (**ölçülmemiş**) → **PLANNED**, bu ADR'nin taşıma dayanağı |
 | [[../../architecture/k10-uygulama/home-panel]] | Oda paneli spec'i — `:182` "Her oda ve cihaz durumu WebSocket üzerinden real-time güncellenir" (**PLANNED**) |
-| [[../../raw/VISION]] | Vizyon — `:96` "WebRTC/WebSocket multi-room audio", `:209` "WebSocket desteği" |
-| [[../../raw/brain]] | Mimari karar özeti (gerçek zamanlı / API satırı) |
+| [[../../VISION]] | Vizyon — `:96` "WebRTC/WebSocket multi-room audio", `:209` "WebSocket desteği" |
+| [[../../brain]] | Mimari karar özeti (gerçek zamanlı / API satırı) |
 | [[../accepted/ADR-005-ultrathink-protocol]] | Kanıt standardı — `⚠️ VERIFICATION REQUIRED` etiketleri (§1.1, §1.3, §2.2, §2.3) |
 | [[../accepted/ADR-024-ecosystem-modular-docs]] | Wiki-link disk kanıtı kuralı |
 | [[R-001-redux-style-state-management]] | Seri kardeşi — aynı salt-okunur red kayıt formatı |

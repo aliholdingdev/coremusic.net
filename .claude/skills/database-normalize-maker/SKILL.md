@@ -1,110 +1,15 @@
 ---
 name: database-normalize-maker
-description: "Use when normalizing a table to BCNF, deriving candidate keys, or writing migration SQL for CoreMusic databases."
-title: "CoreMusic — Veritabanı Oluşturma & Normalizasyon Motoru"
-type: skill-instruction
-version: 5.1
-updated: 2026-09-29
-authority: SSOT
-mode:
-  - Red Team
-  - Truth Mode
-  - Human Mode
-purpose:
-  - Database Creation
-  - Table Design & Normalization
-  - BCNF Compliance
-  - SQL Command Generation (CREATE/ALTER/INSERT/UPDATE/DELETE/SELECT)
-  - Schema Architecture
-  - Migration Management
-  - Index Strategy
-  - Query Optimization
-reference:
-  authority: ".ai/CLAUDE.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-  architecture:
-    - ".ai/.decisions/"
-    - "Existing project architecture"
-    - "Existing database schemas"
-  templates:
-    - ".ai/.templates/adr/adr-database-template.md"
-    - ".ai/.templates/query/Query-Template.md"
-    - ".ai/.templates/infrastructure/migration-template.md"
-  agents:
-    - ".ai/.agents/AGENTS.md"
-    - ".ai/.agents/data-engineer.md"
-  project_structure:
-    # ⚠️ 2026-09-29 (faz2 denetim): diskte yalnız "shared/" var — "coremusic.net/" alt klasörü yok (repo kök adı) — VERIFICATION REQUIRED
-    - "coremusic.net/"
-    - "shared/"
-    - ".ai/.sql/"
-  decision_priority:
-    - "ADR decisions"
-    - "BCNF rules"
-    - "Security requirements"
-    - "Existing implementation"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "schema strategy change"
-      - "normalization rule change"
-      - "database engine change"
-triggers:
-  - "database oluştur"
-  - "veritabanı oluştur"
-  - "tablo oluştur"
-  - "sql yaz"
-  - "schema oluştur"
-  - "normalize"
-  - "normalizasyon"
-  - "bcnf"
-  - "3nf"
-  - "veritabanı tasarla"
-  - "migration"
-  - "veri modeli"
-  - "er diagram"
-  - "tablo tasarla"
-  - "kolon ekle"
-  - "index oluştur"
-  - "foreign key"
-  - "sql çalıştır"
-  - "sorgu yaz"
-  - "select sorgusu"
-  - "tabloyu düzenle"
-  - "kolon sil"
-  - "veri ekle"
-  - "veri güncelle"
-  - "veri sil"
-  - "join sorgusu"
-  - "aggregate"
-  - "transaction"
-  - "view oluştur"
-changelog:
-  - version: 5.1
-    date: 2026-09-29
-    changes:
-      - Faz2 içerik kalite denetimi: ölü referans ".ai/ADR/" → ".ai/.decisions/" (2 yer), ADR-021 → ADR-002 (ORM yasak)
-      - §2.1 bayat 11-DB envanteri işaretlendi (SSOT = 18 DB, ADR-040) + coremusic_users → coremusic_user düzeltmesi
-      - project_structure disk uyarısı
-  - version: 5.0
-    date: 2026-08-15
-    changes:
-      - Complete rewrite with web-research best practices
-      - Added Model → Migrate → Validate workflow
-      - Added expand-contract zero-downtime migration pattern
-      - Added comprehensive anti-pattern catalog
-      - Added constraints catalog
-      - Added common schema patterns (soft delete, junction table, audit trail)
-      - Added index design strategy with query pattern mapping
-      - Added expanded verification checklist (25 items)
-      - Added MySQL 9 specific rules and syntax
-      - Added all SQL command types with examples
-      - Added error handling reference
+description: "Use when normalizing a table to BCNF, deriving candidate keys, or writing migration SQL for CoreMusic databases — Tetikleyiciler: 'normalize', 'bcnf', 'tablo oluştur', 'schema', 'migration', 'sql yaz', 'index oluştur'."
+license: MIT
+metadata:
+  version: 3.0.0
+  format: claude-skill-v3
+  author: Bayram Ali (ULTRATHINK Engineering)
+  category: database
+  tags: [bcnf, mysql, schema, migration, normalization]
+  updated: 2026-10-07
+  previous-version: "5.1"
 ---
 
 # Veritabanı Oluşturma & Normalizasyon Motoru
@@ -1081,17 +986,19 @@ Alt dizindeki detaylı referans dosyaları:
 
 | Dosya | Amaç |
 |-------|------|
-| `references/00-overview.md` | Genel bakış |
-| `references/01-requirements-gathering.md` | Gereksinim toplama |
-| `references/02-normalization-rules.md` | Normalizasyon kuralları |
-| `references/03-provider-dialects.md` | Motor diyalektleri |
-| `references/04-security-audit.md` | Güvenlik denetimi |
-| `references/05-performance-optimization.md` | Performans optimizasyonu |
-| `references/06-schema-generation.md` | Şema üretimi |
-| `references/07-coremusic-integration.md` | CoreMusic entegrasyonu |
-| `references/08-examples.md` | Örnek çıktılar |
-| `references/09-anti-patterns.md` | Anti-pattern'ler |
-| `references/10-checklist.md` | QA kontrol listesi |
+| [references/db-engine-notes.md](references/db-engine-notes.md) | **18 BCNF tam envanteri** + hızlı normalizasyon/yasak kontrolleri (db-engine merge 2026-10-07) |
+| [references/changelog.md](references/changelog.md) | Sürüm geçmişi (kök `changelog` yerine; N10) |
+| [references/00-overview.md](references/00-overview.md) | Genel bakış |
+| [references/01-requirements-gathering.md](references/01-requirements-gathering.md) | Gereksinim toplama |
+| [references/02-normalization-rules.md](references/02-normalization-rules.md) | Normalizasyon kuralları |
+| [references/03-provider-dialects.md](references/03-provider-dialects.md) | Motor diyalektleri |
+| [references/04-security-audit.md](references/04-security-audit.md) | Güvenlik denetimi |
+| [references/05-performance-optimization.md](references/05-performance-optimization.md) | Performans optimizasyonu |
+| [references/06-schema-generation.md](references/06-schema-generation.md) | Şema üretimi |
+| [references/07-coremusic-integration.md](references/07-coremusic-integration.md) | CoreMusic entegrasyonu |
+| [references/08-examples.md](references/08-examples.md) | Örnek çıktılar |
+| [references/09-anti-patterns.md](references/09-anti-patterns.md) | Anti-pattern'ler |
+| [references/10-checklist.md](references/10-checklist.md) | QA kontrol listesi |
 | `scripts/normalize-checker.php` | Normalizasyon kontrol scripti |
 | `scripts/schema-to-diagram.php` | Şema → ER diyagramı |
 | `scripts/security-audit.php` | Güvenlik denetim scripti |
@@ -1112,15 +1019,6 @@ Alt dizindeki detaylı referans dosyaları:
 
 ---
 
-*Veritabanı Oluşturma & Normalizasyon Motoru v5.1*
-*Authority: Bayram Ali / Vault Steward*
-*Mode: Red Team · Truth Mode · Human Mode*
-*Last Updated: 2026-08-15*
+Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
 
-## MAX THINKING — Anti-Overthink (2026-10-01)
-- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
-- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
-- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
-- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
-- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
-- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.
+*CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

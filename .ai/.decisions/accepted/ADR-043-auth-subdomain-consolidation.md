@@ -16,7 +16,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 19/1/0 KABUL)"
 
 > **Durum:** ✅ **ACCEPTED** (kullanıcı onaylı kapsam a-e) · **Tarih:** 2026-09-26 · **Debate:** ✅ **TAMAMLANDI (3 tur / 20 persona, 19/1/0 KABUL)** · **Tech Lead:** ✅ · **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-043-auth-subdomain-consolidation`
-> **İlgili kararlar:** [[ADR-011-session-management]] (cookie `domain=.coremusic.net` + hibrit saklama — bu ADR onu **alan genişletir**) · [[ADR-012-csp-nonce-strict-dynamic]] (tek politika + nonce zinciri — bu ADR cross-subdomain kuralını yazar) · [[ADR-013-rate-limiting-apcu]] (per-account kota — geçiş fazı 5) · [[ADR-020-api-public-security]] (auth üçlüsü: API key / JWT / OAuth2 PKCE + Bearer kilidi) · [[ADR-010-csrf-protection-strategy]] (şart 3: cookie-auth tek yol — bu ADR'de **korunur**) · [[ADR-004-multi-domain-spa]] (subdomain iskeleti — korunur) · [[ADR-039-7-service-platform-architecture]] (11 servis + servis sınırı) · [[ADR-040-database-authority]] (tek sahip/tek yazıcı mantığı — kimlik verisi için de geçerli) · [[../index.md]] (`:85` slug satırı) · [[../../raw/brain.md]] (`:1002` ADR-043 slotu)
+> **İlgili kararlar:** [[ADR-011-session-management]] (cookie `domain=.coremusic.net` + hibrit saklama — bu ADR onu **alan genişletir**) · [[ADR-012-csp-nonce-strict-dynamic]] (tek politika + nonce zinciri — bu ADR cross-subdomain kuralını yazar) · [[ADR-013-rate-limiting-apcu]] (per-account kota — geçiş fazı 5) · [[ADR-020-api-public-security]] (auth üçlüsü: API key / JWT / OAuth2 PKCE + Bearer kilidi) · [[ADR-010-csrf-protection-strategy]] (şart 3: cookie-auth tek yol — bu ADR'de **korunur**) · [[ADR-004-multi-domain-spa]] (subdomain iskeleti — korunur) · [[ADR-039-7-service-platform-architecture]] (11 servis + servis sınırı) · [[ADR-040-database-authority]] (tek sahip/tek yazıcı mantığı — kimlik verisi için de geçerli) · [[../index.md]] (`:85` slug satırı) · [[../../brain.md]] (`:1002` ADR-043 slotu)
 > **Ad gerekçesi:** slug `ADR-043-auth-subdomain-consolidation` **diskteki gerçek index kaydından** alınmıştır (`[[../index.md]]:85`) — uydurulmadı; kök `CLAUDE.md:16` kuralı "yeni ADR'ler 088+" derken bu numara **çoktan rezerve** (aynı durum ADR-041/042'de kayıtlı) → numara boş değil, boşluk dolduruldu.
 > **Frozen notu:** ADR-001-037 **dokunulmamıştır** (yalnız atıf). Bu dosya Active aralığındadır, frozen değildir.
 
@@ -35,7 +35,7 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 | `auth.coremusic.net/` | **70 dosya / 46 `.php`** (2026-09-26 recursive sayım) — ADR-039 §2.1 satır 2 ile **aynı sayı** → "auth IMPLEMENTED 70 dosya" iddiası **doğrulandı**; klasör: `config/ handler/ include/ pages/ routes/ tests/` + `index.php` + `composer.json` | **IMPLEMENTED** |
 | `auth.coremusic.net/include/` | Hexagonal: `Container/ Controller/ Domain(DTO·Entity·ValueObject)/ Handler/ Middleware/ Repository/ Service/` — glossary §DDD/CQRS kanıtı | **IMPLEMENTED** |
 | `auth.coremusic.net/index.php:65,74` | `/health`, `/session`, `/validate-key`, `/bypass-status` uçları + `handleValidateKey` | **IMPLEMENTED** |
-| `home.coremusic.net/include/Auth/HomeAuthBridge.php:16,47,128` | auth'a **POST `/validate-key`** (TTL 300 sn, 2 retry — `.ai/raw/ROLE.md:150`) → cross-domain doğrulama iskeleti | **IMPLEMENTED** |
+| `home.coremusic.net/include/Auth/HomeAuthBridge.php:16,47,128` | auth'a **POST `/validate-key`** (TTL 300 sn, 2 retry — `.ai/ROLE.md:150`) → cross-domain doğrulama iskeleti | **IMPLEMENTED** |
 | `auth.coremusic.net/include/Middleware/OriginCheckMiddleware.php:35` | `/health`, `/session`, **`/validate-key` origin denetiminden MUAF** | **IMPLEMENTED (ÇELİŞKİ — §1.1-E4)** |
 | `.ai/reports/auth-bypass-audit.md` (2026-09-23) | 10 bulgu (3 CRITICAL / 2 HIGH / 3 MEDIUM / 2 LOW); **C1: `FORCE_AUTH_BYPASS=true`**; `home.coremusic.net/config/bootstrap.php:36-43` → bypass aktifse `validate-key` **atlanır**, doğrudan `$_SESSION` yazılır | **IMPLEMENTED (ÇELİŞKİ)** |
 | Oturum başlatma yetkisi | `SessionBootstrapper::ensureStarted()` **auth** (`index.php:69,130`) **+ home** (`bootstrap.php:38,55`) **+** middleware (`shared/src/Middleware/SessionManagerMiddleware.php:17`) → oturum kuran **birden fazla nokta** var | **IMPLEMENTED (dağınık kimlik)** |
@@ -127,7 +127,7 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 | ADR-040 tek sahip/tek yazıcı | Kimlik verisi (`coremusic_auth`) tek yazar = auth servisi; başka servis bu şemaya **SELECT/UPDATE yapmaz** |
 | REDACTED | Secret/credential/anahtar hiçbir koşulda bu ADR'ye yazılmaz (`.env` içeriği okunmaz/yazılmaz) |
 | In-Place Refactoring | Dosya adı onaysız değişmez; `SessionConfig`/`OriginCheckMiddleware` sınıfları **ad olarak korunur**, yalnız davranış değişir |
-| Tek yazma kanalı + log append-only | Tüm vault yazımı `.ai/sources/scripts/vault-utf8-writer.mjs`; `log.md` yalnız append |
+| Tek yazma kanalı + log append-only | Tüm vault yazımı `.ai/scripts/vault-utf8-writer.mjs`; `log.md` yalnız append |
 
 ---
 
@@ -266,7 +266,7 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 | 6 | **Faz 4 — anahtar/JWKS + gerçek JWT:** `kid`/JWKS ucu, rotasyon overlap + audit, `validateJwtToken` RFC 8725 impl. + QA bypass testi + **ayrı onay** | Security + Tech Lead | 5 gün | ⏳ PLANNED (ADR-020 kilidi) |
 | 7 | **Gerilim çözümü:** `HomeAuthBridge` sunucu→sunucu `validate-key` çağrısının ADR-039 §2.2-b ("doğrudan HTTP yasak") ile ilişkisi — istisna mı, IPC/olay mı → **karar + gerekirse yeni ADR** | Tech Lead + Backend | 1 gün | ⏳ PLANNED (açık gerilim §2.4) |
 | 8 | **Faz 5 — federasyon + kota + audit:** OAuth 2.1 third-party (exact redirect), API key doğrulama (SHA-256 + scope), per-account rate limit (ADR-013), audit PHP yazıcısı | Backend + Security | 5 gün | ⏳ PLANNED |
-| 9 | **index.md düzeltmesi (raporlandı):** `.ai/.decisions/index.md:85` satırındaki `[[../../raw/brain.md]] ADR-043-auth-subdomain-consolidation` → **`[[accepted/ADR-043-auth-subdomain-consolidation]]`** (§4 satırlarındaki `[[accepted/ADR-040-database-authority]]` biçimiyle aynı); **uygulama son sıfırmaya erteledi** | MO (vault-updater) | 1 dk | ⏳ ERTELENDİ (rapor: §7.1 son satır) |
+| 9 | **index.md düzeltmesi (raporlandı):** `.ai/.decisions/index.md:85` satırındaki `[[../brain.md]] ADR-043-auth-subdomain-consolidation` → **`[[accepted/ADR-043-auth-subdomain-consolidation]]`** (§4 satırlarındaki `[[accepted/ADR-040-database-authority]]` biçimiyle aynı); **uygulama son sıfırmaya erteledi** | MO (vault-updater) | 1 dk | ⏳ ERTELENDİ (rapor: §7.1 son satır) |
 | 10 | Debate (3 tur / 20 persona) + Tech Lead onayı | MO + Tech Lead | 2 gün | ✅ UYGULANDI (2026-09-26) |
 | 11 | `brain.md:1002` ADR-043 slotuna karar özeti + `keys.md:278` karşılığı (vault sync) | MO (vault-updater) | 1 dk | ⏳ PLANNED |
 
@@ -276,7 +276,7 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 2. **Faz seviyesi:** fazlar bağımsız geri alınır (§4.4-1..4); faz 2 geri alınırsa cookie domaini **yine `.coremusic.net`** kalır — geri dönüş yalnız "kimin session kurduğu" satırını etkiler.
 3. **Kod seviyesi:** `OriginCheckMiddleware`/`SessionConfig` davranışı eski hâline döndürülür → adlar değişmediği için wiki-link/`@see` referansları kırılmaz (In-Place Refactoring).
 4. **Test kapısı:** her fazın çıkış ölçütü regresyon testi olarak kalır; geri dönüş = testin kırmızıya dönmesi + `log.md`'ye yeni satır.
-5. **Bozulmada:** `node .ai/sources/scripts/vault-utf8-writer.mjs repair --file <dosya>` (yedek alır) → gerekirse `git checkout` (AGENTS §18 #5).
+5. **Bozulmada:** `node .ai/scripts/vault-utf8-writer.mjs repair --file <dosya>` (yedek alır) → gerekirse `git checkout` (AGENTS §18 #5).
 
 ---
 
@@ -302,14 +302,14 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 | Dosya (wiki-link) | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme; ADR serisi kuralı (001-037 frozen, yeni 088+), `csrf_token` kuralı |
-| [[../../raw/brain.md]] | `:1002` ADR-043 slotu · `:848` prompt2/auth k6-k7 atfı |
-| [[../../raw/AGENTS.md]] | Routing (Security), escalation §10, frozen kuralı §25.3, §17 edge case "Bilinmeyen class → VERIFICATION REQUIRED" |
-| [[../../raw/WORKFLOW.md]] | Süreç/fazlar — §5.1 adımlarının bağlandığı akış |
+| [[../../brain.md]] | `:1002` ADR-043 slotu · `:848` prompt2/auth k6-k7 atfı |
+| [[../../AGENTS.md]] | Routing (Security), escalation §10, frozen kuralı §25.3, §17 edge case "Bilinmeyen class → VERIFICATION REQUIRED" |
+| [[../../WORKFLOW.md]] | Süreç/fazlar — §5.1 adımlarının bağlandığı akış |
 | [[../../index.md]] | Master katalog |
 | [[../../log.md]] | Audit trail — bu ADR'nin append kaydı |
-| [[../../raw/glossary.md]] | `validate-key` (:155), hexagonal/CQRS (:234), hibrit JWT+session (:431) |
-| [[../../raw/keys.md]] | `:278` ADR-043 anahtar kaydı |
-| [[../../raw/MEMORY.md]] | Session hafızası + prompt2/auth kaydı (:325) |
+| [[../../glossary.md]] | `validate-key` (:155), hexagonal/CQRS (:234), hibrit JWT+session (:431) |
+| [[../../keys.md]] | `:278` ADR-043 anahtar kaydı |
+| [[../../MEMORY.md]] | Session hafızası + prompt2/auth kaydı (:325) |
 | [[../index.md]] | `:85` slug satırı (**düzeltme §5.1 adım 9**) |
 | [[../CLAUDE.md]] | Karar dizini kuralı |
 | [[../../.templates/adr/adr-template.md]] | Guardrail #16 şablonu (bu dosyanın iskeleti) |

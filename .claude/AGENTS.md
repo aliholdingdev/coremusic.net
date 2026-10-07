@@ -3,9 +3,9 @@ title: "CoreMusic — .claude Agent Talimatları"
 type: guide
 category: config
 docType: agents
-date: 2026-10-03
-updated: 2026-10-03
-version: 1.0.0
+date: 2026-10-07
+updated: 2026-10-07
+version: 1.1.0
 status: active
 authority: "Derived — SSOT: .ai/AGENTS.md + kök AGENTS.md"
 ---
@@ -20,7 +20,7 @@ authority: "Derived — SSOT: .ai/AGENTS.md + kök AGENTS.md"
 
 ## 1. Amaç
 
-Bu doküman `.claude/` klasöründe **kimin neye dokunabileceğini** tanımlar: ayar dosyaları, skill kopyaları, geçici plan dizini ve boot kuralı için rol, yetki sınırı, devreye giriş anı. Kapsam notu: **.claude = Claude Code ayarları + skill kopyaları** — bu dosyalar aracın davranışını değiştirdiğinden yetki sınırları koddan dardır (izin/MCP/secret içerir). Bu dosya türevdir; asıl registry [[../.ai/AGENTS.md]]'dir, çelişkide o kazanır.
+Bu doküman `.claude/` klasöründe **kimin neye dokunabileceğini** tanımlar: ayar dosyaları, skill kopyaları, subagent tanımları (`agent/`), slash komutları (`command/`), geçici plan dizini ve boot kuralı için rol, yetki sınırı, devreye giriş anı. Kapsam notu: **.claude = Claude Code ayarları + skill/subagent/command tanımları** — bu dosyalar aracın davranışını değiştirdiğinden yetki sınırları koddan dardır (izin/MCP/secret içerir). Bu dosya türevdir; asıl registry [[../.ai/AGENTS.md]]'dir, çelişkide o kazanır.
 
 | Karar | Kaynak (disk) |
 |-------|---------------|
@@ -39,7 +39,7 @@ Bu doküman `.claude/` klasöründe **kimin neye dokunabileceğini** tanımlar: 
 
 | Kapsam | Kapsam Dışı |
 |--------|-------------|
-| `.claude/` dosya sahipliği + yetki sınırları (138 dosya envanteri) | Genel registry (SSOT → [[../.ai/AGENTS.md]]) |
+| `.claude/` dosya sahipliği + yetki sınırları (161 dosya envanteri — plans hariç, ölçüm 2026-10-07) | Genel registry (SSOT → [[../.ai/AGENTS.md]]) |
 | Skill üretimi/güncelleme yetkisi ve şartı | Skill içeriğinin kural metinleri → ilgili `skills/*/SKILL.md` |
 | `settings.json`/`settings.local.json` onay kapısı | MCP sunucularının runtime davranışı (diskte değil → UNKNOWN) |
 | `plans/` geçici dizin kuralı (vault dışı) | AI aracının kendi iç ayarları (araç tarafı) |
@@ -52,16 +52,18 @@ Bu doküman `.claude/` klasöründe **kimin neye dokunabileceğini** tanımlar: 
 
 ## 3. Mimari
 
-### 3.1 Dosya Sahipliği Tablosu (disk ölçümü: 5 kök girdi + `skills/` — 2026-10-03)
+### 3.1 Dosya Sahipliği Tablosu (disk ölçümü: 7 kök girdi + `skills/` + `agent/` + `command/` — 2026-10-07)
 
 | Dosya/Dizin | Sorumlu Rol | Yetki Sınırı | Neden bu rol | Ne zaman devreye girer | eli10 | eli15 |
 |-------------|-------------|--------------|-------------|------------------------|-------|-------|
 | `CLAUDE.md` (936 satır) | **MO (vault-updater)** · Security (kural denetimi) | **DOKUNULMAZ** — düzeltme yalnız vault-sync | Anayasa kopyası; boot `instructions[0]` | Vault-sync / kullanıcı onayı | Boot kural kitabının sahibi vault bakımcısıdır. | Dosya her oturumda okunduğu için tek elden değişir. Ne zaman: yalnız senkron oturumunda. Elle değiştirilirse boot ile `.ai/CLAUDE.md` farkı büyür (SHA256 zaten farklı → VERIFICATION REQUIRED). |
 | `settings.json` (64 satır) | **Kullanıcı (onay)** · DevOps Engineer (teknik düzenleme) · Security (secret denetimi) | Onaysız değişiklik YOK; `EXA_API_KEY` REDACTED | İzin/MCP/secret yüzeyi | Araç/MCP/boot listesi değişince | Aracın ayar dosyasını yalnız izinle değiştirebilirsin. | Yetki, izin ve gizli anahtar aynı dosyadadır; onaysız değişiklik güvenlik sınırını oynatır. Ne zaman: MCP eklenip çıkarılırken ya boot listesi değişince. Değiştirilmezse eski ayarla sürpriz davranış devam eder. |
 | `settings.local.json` (10 satır) | **Kullanıcı** (yerel izin) | `allow` listesi genişletme onaylı | Yerel/kişisel izin ortak ayardan ayrılır | İzin ihtiyacı değişince | Yerel izin listesini sahibi kullanıcıdır. | Yerel dosya ortak ayardan ayrıdır; böylece kişisel izin ekibi etkilemez. Ne zaman: yeni komut izni gerektiğinde. Genişletilirse (ör. dosya yazma) güvenlik sürprizi doğar. |
-| `skills/*/SKILL.md` (11 dosya) | **İlgili domain agent'ı** (içerik) · MO (kayıt/şablon) | İçerik domainde, şablon zorunlu (Guardrail #16) | Skill içeriği uzmanlık ister | Yeni yetenek / kural değişimi | Her yeteneğin kendi uzmanı vardır. | İçerik uzmandan gelir; iskelet şablondan gelir, böylece tutarlılık korunur. Ne zaman: yeni yetenek eklenince ya kural değişince. Şablonsuz skill üretilirse yapı sapar. |
-| `skills/**/CLAUDE.md` (21 dosya) | **MO (vault-updater)** | **DOKUNULMAZ** (bu görevde) | Klasör boot kuralları | Vault-sync | Skill klasörünün kural defteri vault bakımcısındadır. | Kural ile talimat farklı hızda değişir; SKILL.md'ye gömülse revizyonda kaybolur. Ne zaman: yalnız senkron. Elle değişim SSOT'u bozar. |
-| `skills/**/scripts|templates|references` (kalan 92 md + 4 php + 3 sql + 2 css/html + 1 gitkeep) | **İlgili domain agent'ı** (Data/Backend/UI) | Betik/şablon domainine ait; üretim onaylı | Kod = domain sahipliği (registry §5) | Betik/şablon davranışı değişince | Skill'in içindeki kod ve şablonları o alanın sahibi yazar. | İçerik ayrıdır çünkü php/sql/css kuralları domain agent'ınındır (ör. sql → Data Engineer). Ne zaman: betik ya da şablon güncellenince. Onaysız değişirse skill çalışan kodunu kaybeder. |
+| `skills/*/SKILL.md` (12 dosya — Claude Skill v3.0) | **İlgili domain agent'ı** (içerik) · MO (kayıt/şablon) | İçerik domainde, şablon zorunlu (Guardrail #16) | Skill içeriği uzmanlık ister | Yeni yetenek / kural değişimi | Her yeteneğin kendi uzmanı vardır. | İçerik uzmandan gelir; iskelet şablondan gelir, böylece tutarlılık korunur. Ne zaman: yeni yetenek eklenince ya kural değişince. Şablonsuz skill üretilirse yapı sapar. |
+| `skills/**/CLAUDE.md` (0 aktif — sidecar kuralı kaldırıldı 2026-10-07; yalnız `prompt-maker/.archive/CLAUDE.md` tarihçe) | **MO (vault-updater)** | — (aktif sidecar yok; 2026-10-07'de kaldırıldı) | Skill kuralının evi artık SKILL.md'dir (v3.0) | Vault-sync | Kural defteri = SKILL.md + kök registry. | Sidecar uygulaması sonlandırıldı; kural ile talimat ayrımı SKILL.md ↔ references/ ile korunur. Ne zaman: yeni skill üretiminde. |
+| `skills/**/scripts|templates|references` (kalan 130 md + 4 php + 3 sql + 2 css/html + 1 gitkeep) | **İlgili domain agent'ı** (Data/Backend/UI) | Betik/şablon domainine ait; üretim onaylı | Kod = domain sahipliği (registry §5) | Betik/şablon davranışı değişince | Skill'in içindeki kod ve şablonları o alanın sahibi yazar. | İçerik ayrıdır çünkü php/sql/css kuralları domain agent'ınındır (ör. sql → Data Engineer). Ne zaman: betik ya da şablon güncellenince. Onaysız değişirse skill çalışan kodunu kaybeder. |
+| `agent/` (118 dosya — subagent tanımları) | **Kullanıcı (onay)** · MO (envanter kaydı) | Yeni subagent tanımı onaylı; `permission` bloğu kısıtlanabilir (ör. `edit: deny`) | Araç davranışı / rol yetkisi → yapılandırma yüzeyi (ayar ile aynı sınıf) | Yeni uzman rol gerektiğinde | Aracın çağırabileceği uzman rollerinin tarifleri. | Subagent, skill'den farklı mekanizmadır (`Agent` tool çağırır, `/` veya otomatik tetikleme değil). Okunması, hangi rollerin yetkili olduğunu gösterir. Yazması, yetenek ekler ama onaysız yetki genişletir — bu yüzden onay şart. |
+| `command/` (24 dosya — slash komutları) | **Kullanıcı (onay)** · MO (envanter kaydı) | Yeni slash komutu onaylı | Kullanıcı tetikli kısayol → iş akışı davranış yüzeyi | Yeni kısayol gerektiğinde | Aracın `/` komutlarının tarifleri (commit, changelog, prompt-maker, f-tuşları…). | Komut, skill ve subagent'ten farklı çağrılır (kullanıcı `/` ile). Okunması, mevcut kısayolları gösterir. Yazması, davranış kısayolu ekler — onaysız eklenirse sürpriz iş akışı doğar. |
 | `plans/` (1 dosya: `README.md`) | **Araç (yazar)** · MO (vault'a taşımaz) | Vault'a kopyalanmaz; kalıcı doküman `.ai/`'de | Geçici ile kalıcı ayrımı (`README.md` kuralı) | Araç geçici plan yazınca | Geçici plan klasörü kimsenin kalıcı verisi değildir. | Ayrıdır ki geçici dosya SSOT'a karışmasın. Ne zaman: her geçici plan yazımında. Taşınırsa vault kirlenir, silinirse kanıt kaybolmaz (zaten geçicidir). |
 
 > **eli10 (basit):** Her dosyanın bir sahibi var; en hassası ayar ve gizli anahtar taşıyan dosya, o yüzden onay şart.
@@ -103,7 +105,7 @@ Bu doküman `.claude/` klasöründe **kimin neye dokunabileceğini** tanımlar: 
 |-------|-----|----------|
 | `../.ai/AGENTS.md` | registry → .claude | Yetkinin kaynağı (SSOT) |
 | `../.ai/CLAUDE.md` | vault → .claude | `instructions[1]` (boot) |
-| `../.opencode/skills/` | karşılaştır | Kesişim 2/11 (`composer-sync`, `vault-sync-post`) |
+| `../.opencode/skills/` | **kapandı** | Dizin kaldırıldı 2026-10-07; tek ev: `.claude/skills` |
 | `../.workflows/` | süreç ↔ .claude | vault-sync/kapanış akışı |
 | `../AGENTS.md` (kök) | kök → .claude | §7 loop, commit kuralı |
 
@@ -154,7 +156,7 @@ GÖREV → ROUTING (§3.2) → SAHİP DOĞRULA (§3.1) → ONAY KAPISI (ayar/ski
 | # | Adım | Çıktı | Neden | Atlarsan ne olur |
 |---|------|-------|-------|------------------|
 | 1 | Routing ile rol seç (§3.2) | Atanan rol | Yetki sınırı baştan belli | Yetkisiz değişiklik |
-| 2 | [[CLAUDE.md]] + [[CONTEXT.md]] oku | Kural + envanter (138 dosya) | Klasör kuralları ve sayılar | Çelişkili/uydurma bilgi |
+| 2 | [[CLAUDE.md]] + [[CONTEXT.md]] oku | Kural + envanter (161 dosya) | Klasör kuralları ve sayılar | Çelişkili/uydurma bilgi |
 | 3 | Onay kapısı (ayar/skill) | Onaylı istek | Sürpriz izin/MCP değişikliği olmaz | Güvenlik sürprizi |
 | 4 | Değişiklik + ölçüm (`verify`) | Diff + ölçüm | UTF-8 + sayı kanıtı | Bozuk dosya, halüsinasyon |
 | 5 | Rapor + `log.md` append | Kayıt | İzlenebilirlik | Kayıp geçmiş |
@@ -173,7 +175,7 @@ GÖREV → ROUTING (§3.2) → SAHİP DOĞRULA (§3.1) → ONAY KAPISI (ayar/ski
 | 3 | Placeholder | Dosyada `{{` kalmadı |
 | 4 | 4 ağırlık sütunu | §3.1'de ne için / neyden / neden var / ne zaman dolu |
 | 5 | eli10 + eli15 | §1, §3, §4, §5 bloklarında etiketli blok; eli10 ≤2 cümle, eli15 3-4 cümle |
-| 6 | Disk kanıtı | 138 dosya + 11 SKILL.md + 21 CLAUDE.md iddiaları ölçümle uyumlu |
+| 6 | Disk kanıtı | 161 dosya + 12 SKILL.md + 0 aktif sidecar iddiaları ölçümle uyumlu (2026-10-07) |
 | 7 | REDACTED | `EXA_API_KEY` değeri dosyada yok |
 | 8 | Wiki-link | `[[...]]` formatı; hedefler diskte mevcut |
 | 9 | Dokunulmaz | Mevcut `CLAUDE.md` dosyaları değiştirilmedi |
@@ -193,7 +195,7 @@ GÖREV → ROUTING (§3.2) → SAHİP DOĞRULA (§3.1) → ONAY KAPISI (ayar/ski
 | Kök master kurallar | [[../AGENTS.md]] | §3 Zero-Hallucination, §7 loop |
 | Vault anayasası | [[../.ai/CLAUDE.md]] | Hard Guardrails |
 | Skill şablonu | `../.ai/.templates/` | Guardrail #16 kaynağı |
-| Karşı skill envanteri | `../.opencode/skills/` | Kesişim ölçümü (2/11) |
+| Karşı skill envanteri | `../.opencode/skills/` | **kapandı** — dizin kaldırıldı; tek ev `.claude/skills` |
 | Süreç akışları | [[../.workflows/vault-sync.md]] | Kapanış kaydı |
 | CI kapısı | [[../.github/AGENTS.md]] | `.yml` sahipliği |
 | Ayar kanıtı | `.claude/settings.json` | Boot + MCP + izin (REDACTED) |
@@ -202,4 +204,4 @@ GÖREV → ROUTING (§3.2) → SAHİP DOĞRULA (§3.1) → ONAY KAPISI (ayar/ski
 ---
 
 **Template Version:** 1.0.0 · **Şablon:** `.ai/.templates/frontend/context-template.md`
-**Last Updated:** 2026-10-03
+**Last Updated:** 2026-10-07

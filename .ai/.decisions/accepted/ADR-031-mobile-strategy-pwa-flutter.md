@@ -79,7 +79,7 @@ ADR-030, teknoloji omurgasını LLM + extraction pipeline + knowledge graph olar
 
 ### 2.1 Gerekçe 1 — PWA birincildir (güvenlik ve temel dayanaklar)
 
-Responsive temel (`[[ADR-004-multi-domain-spa]]` + `.ai/sources/ui-design/05-responsive-architecture.md`) + offline/snackbar olay iskeleti + `shared/src/Cache/` katmanı ve sunucu tarafı route/cache (`HtmlShellRenderer.php:114` viewport) **kodda mevcut (IMPLEMENTED)**. Buna `manifest.json` + `sw.js` + VAPID/push **PLANNED** olarak eklenir (kod kanıtı 0; spesifikasyon `.ai/architecture/k11-ux/pwa-features.md:90,128,227` ve `.ai/architecture/k10-uygulama/pwa-features.md`).
+Responsive temel (`[[ADR-004-multi-domain-spa]]` + `.ai/ui-design/05-responsive-architecture.md`) + offline/snackbar olay iskeleti + `shared/src/Cache/` katmanı ve sunucu tarafı route/cache (`HtmlShellRenderer.php:114` viewport) **kodda mevcut (IMPLEMENTED)**. Buna `manifest.json` + `sw.js` + VAPID/push **PLANNED** olarak eklenir (kod kanıtı 0; spesifikasyon `.ai/architecture/k11-ux/pwa-features.md:90,128,227` ve `.ai/architecture/k10-uygulama/pwa-features.md`).
 
 - **Neden native değil:** Apple 4.2/4.7 ve Play "minimum işlevsellik" politikaları, web-içerik saran kabukların reddini üretir (4 kaynak, §1.3 Query 3-4). TWA/Bubblewrap bunun için düşük riskli bir Android ara adımıdır (§1.3 Query 10).
 - **Neden iOS sınırı PWA'yı iptal etmez:** iOS PWA'sı dar ama mevcut (iOS 16.4+ push, EU DLT bağlamı); offline güveni ADR-027 dual-mode depolama + `shared/src/Cache/` ile sağlanır (§1.3 Query 5-6).
@@ -163,7 +163,7 @@ Bu ayrım, ADR-030'un "veri/analitik omurgası" ile ADR-031'in "erişim yüzeyi"
 ### 5.1 Wiki-linkler (diskte mevcut)
 
 - `[[.ai/.decisions/accepted/ADR-004-multi-domain-spa.md]]` → SPA mimari temeli (çift router: sunucu PageRouter + istemci History API); PWA/Flutter istemcileri bu mimarinin üstüne biner.
-- `[[.ai/sources/ui-design/05-responsive-architecture.md]]` → responsive mimari/ViewModes kanıtı (ADR-045/046 konsepti); §1.1'deki breakpoint bulgusunun vault kaynağı.
+- `[[.ai/ui-design/05-responsive-architecture.md]]` → responsive mimari/ViewModes kanıtı (ADR-045/046 konsepti); §1.1'deki breakpoint bulgusunun vault kaynağı.
 - `[[.ai/.decisions/accepted/ADR-001-vanilla-js-itcss.md]]` → vanilla JS + framework yasağı; PWA'nın build/bundle zincirini ve Flutter seçeneğini bağlayan ön koşul.
 - `[[.ai/.decisions/accepted/ADR-020-api-public-security.md]]` → API yüzeyi (api.coremusic.net + Gateway `/api/v1/*`, versiyonlama, middleware pipeline); iki istemcinin bağlandığı uçlar.
 - `[[.ai/.decisions/accepted/ADR-021-spa-router-immutable-contract.md]]` → sözleşme + CI kapısı deseni; ADR-031 karar 3'ün gate modelini aldığı kaynak.
@@ -197,7 +197,7 @@ Bu ayrım, ADR-030'un "veri/analitik omurgası" ile ADR-031'in "erişim yüzeyi"
 | `[[.ai/.decisions/accepted/ADR-030-ai-strategy-core.md]]` | §1.4 | Veri/analitik omurgası ↔ erişim yüzeyi sınırı | ✅ VAR |
 | `[[.ai/.templates/adr/adr-template.md]]` | §6.2, §7 | 7 bölüm + §1.3 9 alan iskeleti (Guardrail #16) — şart 1a denetim dayanağı | ✅ VAR |
 | `.ai/architecture/k11-ux/pwa-features.md` (vault spec'i) | §1.1, §2.1 | manifest/SW/VAPID spesifikasyonu — PLANNED kalemlerin kaynağı | ✅ VAR |
-| `.ai/sources/ui-design/05-responsive-architecture.md` | §1.1, §5.1 | breakpoint/`@media` bulgusunun vault kaynağı | ✅ VAR |
+| `.ai/ui-design/05-responsive-architecture.md` | §1.1, §5.1 | breakpoint/`@media` bulgusunun vault kaynağı | ✅ VAR |
 
 ## 6. Statü ve Debate
 

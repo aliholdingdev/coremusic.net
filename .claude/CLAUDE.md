@@ -12,7 +12,7 @@ updated: 2026-09-24
 
 **Zorunlu Bağlantılar:** [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[keys.md]] · [[brain.md]] · [[MEMORY.md]] · [[log.md]] · [[engine.md]] · [[.templates/index]] · [[.agents/AGENTS.md]]
 
-**Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
+**Skills:** Registry → kök `CLAUDE.md` §Skill Registry (12 proje + 5 global · kullanım zorunlu — §Skill Usage Mandate)
 
 ---
 
@@ -733,7 +733,7 @@ Bu proje hem insan hem yapay zeka tarafından kodlanmaktadır. Aşağıdaki kura
 | Glossary Terms | 75 (SSOT: [[glossary]]) |
 | Forbidden Patterns | 11 |
 | Edge Cases | 9 |
-| Skills | 10 |
+| Skills | → kök `CLAUDE.md` §Skill Registry (17 = 12 proje + 5 global) |
 | Agent Profiles | 11 |
 | Critical Warnings | 7 |
 
@@ -892,26 +892,15 @@ Her oturum başlangıcında sırayla okunur:
 
 ---
 
-### §27A Skills Registry (8 Aktif Skill — Guardrail #16 Mandatory)
+### §27A Skills Registry (Pointer)
 
-> ⚠️ **DÜZELTME (2026-09-24):** Başlık 10 → **8 Aktif Skill** (disk kanıtı: `.opencode/skills/*/SKILL.md` = 8: agent-debate, composer-sync, context-report, db-engine, orchestration, truth-engine, ui-workbench, vault-sync-post). Aşağıdaki 10 satırlık tablo eski envanterdir — **silinmedi, korunmuştur** (ADR-042). Tablo isimleri diskteki 8 skill ile uyuşmuyor (yalnız `composer-sync) ortak) — **DOĞRULAMA GEREKLİ** (isim uyumu sonraki fazda).
+> **Registry SSOT: kök `CLAUDE.md` §Skill Registry** (12 proje `.claude/skills/` + 5 global `C:\.claude\skills` = 17). Bu bölümde liste kopyalanmaz.
+>
+> **Tarihsel not (arşiv):** 2026-10-07'de envanter tekilleştirildi — eski 10 satırlık tablo ve ".opencode/skills 8 aktif" iddiası kaldırıldı (`.opencode/skills/` kapatıldı, içerik merge/port edildi). Format otoritesi: `.claude/skills/skill-maker/` (Claude Skill v3.0).
 
-| # | Skill | Amaç | Kullanım |
-|---|-------|------|----------|
-| 1 | `ui-code-generator` | UI/CSS kod üretimi, responsive tasarım | Frontend geliştirme |
-| 2 | `ui-analyzer` | UI analizi, mevcut tasarım değerlendirme | Tasarım inceleme |
-| 3 | `skill-maker` | Yeni skill oluşturma, template sistemi | Skill geliştirme |
-| 4 | `hallucination-control` | Halüsinasyon kontrolü, doğrulama | Kod yazma öncesi |
-| 5 | `human-mode` | İnsan modu iletişimi, onay süreçleri | Kullanıcı etkileşimi |
-| 6 | `red-team-truth-mode` | Güvenlik testi, adversarial analiz | Güvenlik denetimi |
-| 7 | `prompt-maker` | Prompt mühendisliği, AI talimat tasarımı | Prompt geliştirme |
-| 8 | `agent-orchestrator` | Agent görev dağıtımı, multi-agent koordinasyonu | Görev dağıtımı |
-| 9 | `composer-sync` | Composer dependency yönetimi | Bağımlılık yönetimi |
-| 10 | `database-normalize-maker` | BCNF normalizasyonu, şema tasarımı | DB tasarımı |
-
-**Konum:** `.opencode/skills/*/SKILL.md`
-**Kural:** Her skill dosyası vault referansları içerir (CLAUDE.md, AGENTS.md, WORKFLOW.md, brain.md, index.md).
-**Yüklenme:** Boot protokolünde otomatik yüklenmez, gerektiğinde `skill` tool'u ile yüklenir.
+**Konum:** proje → `.claude/skills/*/SKILL.md` · global → `C:\.claude\skills/*/SKILL.md`
+**Kural:** Her skill dosyası vault referansları içerir (Guardrail #16 + v3.0 şeması).
+**Yüklenme:** Eşleşen skill **zorunlu** yüklenir — bkz. kök `CLAUDE.md` §Skill Usage Mandate (hook her prompt'ta hatırlatır).
 
 ---
 

@@ -16,9 +16,9 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 > **Durum:** ✅ **ACCEPTED** (kullanıcı onaylı kapsam a-e) · **Tarih:** 2026-09-29 · **Debate:** ✅ **TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)** · **Tech Lead:** ✅ · **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-046-cross-view-state-preservation`
-> **İlgili kararlar:** [[ADR-045-multi-domain-view-mode-architecture]] (doğrudan öncül — görünüm/aralık durumunun URL birincil kalıcılık sözleşmesi) · [[ADR-004-multi-domain-spa]] (subdomain SPA iskeleti) · [[ADR-021-spa-router-immutable-contract]] (router immutable contract — durum parametreleri route'u değiştirmez) · [[ADR-016-url-normalization]] (URL normalizasyonu — varsayılanların temizlenmesi) · [[ADR-011-session-management]] (oturum yaşam döngüsü + oturum sonu temizliği) · [[ADR-018-footer-player-vaporwave]] (görsel dil + odak kaybı geçmişi) · [[ADR-001-vanilla-js-itcss]] (framework yasağı — durum deposu yerel yazılır) · [[ADR-005-ultrathink-protocol]] (zero hallucination — §1.1 dürüst etiket) · [[../index.md]] (`:88` slug satırı) · [[../../raw/brain.md]]
+> **İlgili kararlar:** [[ADR-045-multi-domain-view-mode-architecture]] (doğrudan öncül — görünüm/aralık durumunun URL birincil kalıcılık sözleşmesi) · [[ADR-004-multi-domain-spa]] (subdomain SPA iskeleti) · [[ADR-021-spa-router-immutable-contract]] (router immutable contract — durum parametreleri route'u değiştirmez) · [[ADR-016-url-normalization]] (URL normalizasyonu — varsayılanların temizlenmesi) · [[ADR-011-session-management]] (oturum yaşam döngüsü + oturum sonu temizliği) · [[ADR-018-footer-player-vaporwave]] (görsel dil + odak kaybı geçmişi) · [[ADR-001-vanilla-js-itcss]] (framework yasağı — durum deposu yerel yazılır) · [[ADR-005-ultrathink-protocol]] (zero hallucination — §1.1 dürüst etiket) · [[../index.md]] (`:88` slug satırı) · [[../../brain.md]]
 > **Ad gerekçesi:** slug `ADR-046-cross-view-state-preservation` **diskteki gerçek index kaydından** alınmıştır (`[[../index.md]]:88` — "Cross-View State Preservation") — uydurulmadı. Bu numara vault'ta **daha önce düz metin olarak** geçiyordu: `.ai/architecture/k10-uygulama/README.md:318` ve ADR-045'in §1.1-F/§6 kayıtları ("ADR-046 dosyası YOK") → bu dosya boşluğu doldurur.
-> **Düzeltme ertelendi:** `[[../index.md]]:88` satırındaki `[[../../raw/brain.md]] ADR-046-…` biçiminin `[[accepted/ADR-046-cross-view-state-preservation]]` olarak düzeltilmesi **bir sonraki vault reset'ine ertelenmiştir** (bu işlemde index.md'ye dokunulmadı — onaysız dosya/satır değişikliği yok). Ayrıntı: §5.1 adım 9. **Rapor:** index.md:88 düzeltmesi YAPILMADI, ertelendi.
+> **Düzeltme ertelendi:** `[[../index.md]]:88` satırındaki `[[../brain.md]] ADR-046-…` biçiminin `[[accepted/ADR-046-cross-view-state-preservation]]` olarak düzeltilmesi **bir sonraki vault reset'ine ertelenmiştir** (bu işlemde index.md'ye dokunulmadı — onaysız dosya/satır değişikliği yok). Ayrıntı: §5.1 adım 9. **Rapor:** index.md:88 düzeltmesi YAPILMADI, ertelendi.
 > **Frozen notu:** ADR-001-037 **dokunulmamıştır** (yalnız atıf). Bu dosya Active aralığındadır, frozen değildir.
 > **Önkoşul:** Bu karar ADR-045'in (b) kaleminin filter/sort/search/scroll/page alanına **genişletilmesidir**; ADR-045 uygulanmadan tek başına anlamlı değildir.
 
@@ -89,7 +89,7 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 
 | Kayıt | İçerik | Etiket |
 |---|---|---|
-| `.ai/.decisions/index.md:88` | `[[../../raw/brain.md]] ADR-046-cross-view-state-preservation \| Cross-View State Preservation \| Frontend` — dosya **yoktu** | **ÇELİŞKİ** (bu dosya kapatır; satır düzeltmesi §5.1 adım 9'da ertelendi) |
+| `.ai/.decisions/index.md:88` | `[[../brain.md]] ADR-046-cross-view-state-preservation \| Cross-View State Preservation \| Frontend` — dosya **yoktu** | **ÇELİŞKİ** (bu dosya kapatır; satır düzeltmesi §5.1 adım 9'da ertelendi) |
 | `.ai/architecture/k10-uygulama/README.md:318` | ADR-046 (cross-view state) düz metin | DOĞRULANDI (bu dosya ile doldu — README'ye dokunulmadı) |
 | `ADR-031-mobile-strategy-pwa-flutter` (`:166`, ADR-045 §6 kanısı) | ADR-045/046 görünüm konsepti referansı | DOĞRULANDI (ADR-045 raporu) |
 | `assets.coremusic.net/js copy/` | Canlı `js/` ile çift kaynak (SPARouterAdapter dahil) — drift yüzeyi | **ÇELİŞKİ** (yalnız canlı ağaç kanıt sayılır) |
@@ -257,7 +257,7 @@ Kod yarısını çoktan yapmış: `HistoryManager` (push/replace), `ScrollManage
 | 6 | **Oturum sonu temizliği:** çıkış akışında `SidebarCache.clearAll()` çağrısı (bugün **0**) + oturum-özel sessionStorage anahtar temizliği + `Clear-Site-Data` başlığının ADR-011 kapsamında değerlendirilmesi; kalıcı tercih beyaz listesi | Security + UI | 1 gün |
 | 7 | **Geri/ileri a11y:** popstate sonrası odak + `aria-live` duyuru (`FocusManager.js:16,24` kalıbı) + odak görünürlüğü (WCAG 2.2 AA 2.4.11) | UI + QA | 0.5 gün |
 | 8 | **Testler (kapı):** (i) paylaşılan link = aynı liste, (ii) geri → tam durum + scroll, (iii) ileri → aynı, (iv) varsayılan/bozuk fallback, (v) drift çözüm sırası, (vi) logout temizliği (depo 0 kalıcı oturum anahtarı). Test yok → karar uygulanmış sayılmaz | QA | 1.5 gün |
-| 9 | **Dizin düzeltme (ERTELENDİ — onay gerekiyor):** `.ai/.decisions/index.md:88` `[[../../raw/brain.md]] ADR-046-…` satırının `[[accepted/ADR-046-cross-view-state-preservation]]` biçimine düzeltilmesi **bir sonraki vault reset'ine ertelenmiştir** — bu işlemde index.md'ye dokunulmadı (kural: onaysız satır değişikliği yok) | Vault Steward | 0.1 gün |
+| 9 | **Dizin düzeltme (ERTELENDİ — onay gerekiyor):** `.ai/.decisions/index.md:88` `[[../brain.md]] ADR-046-…` satırının `[[accepted/ADR-046-cross-view-state-preservation]]` biçimine düzeltilmesi **bir sonraki vault reset'ine ertelenmiştir** — bu işlemde index.md'ye dokunulmadı (kural: onaysız satır değişikliği yok) | Vault Steward | 0.1 gün |
 | 10 | **Debate (persona turları)** tamamlanır → §7'deki Debate/Tech Lead `⏳` satırları güncellenir | Vault Steward | 0.5 gün |
 
 **Toplam ≈ 9.1 gün** (fazlar tekrarlanabilir; adım 8 kapı olmadan yayına çıkılmaz).
@@ -290,14 +290,14 @@ Kod yarısını çoktan yapmış: `HistoryManager` (push/replace), `ScrollManage
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme, 16 Hard Guardrail |
-| [[../../raw/AGENTS.md]] | Agent registry, onay/escalation §10, frozen kuralı §25.3 |
-| [[../../raw/WORKFLOW.md]] | Süreçler, fazlar |
-| [[../../raw/brain.md]] | Mimari karar özeti |
+| [[../../AGENTS.md]] | Agent registry, onay/escalation §10, frozen kuralı §25.3 |
+| [[../../WORKFLOW.md]] | Süreçler, fazlar |
+| [[../../brain.md]] | Mimari karar özeti |
 | [[../../index.md]] | Master katalog |
-| [[../../raw/keys.md]] | Keyword haritası |
-| [[../../raw/MEMORY.md]] | Session hafızası |
+| [[../../keys.md]] | Keyword haritası |
+| [[../../MEMORY.md]] | Session hafızası |
 | [[../../log.md]] | Audit trail (append-only) |
-| [[../../raw/glossary.md]] | Terimler (state preservation, scroll restoration, sessionStorage) |
+| [[../../glossary.md]] | Terimler (state preservation, scroll restoration, sessionStorage) |
 | [[../index.md]] | Karar dizini — `:88` slug satırı (**düzeltme §5.1 adım 9'da ertelendi**) |
 | [[CLAUDE]] | `accepted/` dizin kuralı |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin zorunlu şablonu (Guardrail #16) |

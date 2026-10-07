@@ -5,14 +5,10 @@
 > *Software · Audio · Hardware · AI — Version 1.0*
 
 [![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?style=flat&logo=php&logoColor=white)](https://php.net)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES2022%20Vanilla-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://tc39.es/ecma262/)
-[![C++](https://img.shields.io/badge/C++-20%20NevaEngine-00599C?style=flat&logo=cplusplus&logoColor=white)](https://isocpp.org/)
-[![MySQL](https://img.shields.io/badge/MySQL-9%20(18%20BCNF)-4479A1?style=flat&logo=mysql&logoColor=white)](https://dev.mysql.com/)
-[![Architecture](https://img.shields.io/badge/Architecture-21%20Layers%20(1095%20Components)-blue)](.ai/architecture/index.md)
-[![License](https://img.shields.io/badge/License-Proprietary-red)](#lisans)
-[![Status](https://img.shields.io/badge/Status-Aktif%20Geliştirme-brightgreen)](#proje-durumu)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES2022%20Vanilla-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://tc39.es/ecma262/) [![C++](https://img.shields.io/badge/C++-20%20NevaEngine-00599C?style=flat&logo=cplusplus&logoColor=white)](https://isocpp.org/) [![MySQL](https://img.shields.io/badge/MySQL-9%20(18%20BCNF)-4479A1?style=flat&logo=mysql&logoColor=white)](https://dev.mysql.com/)
+[![Architecture](https://img.shields.io/badge/Architecture-21%20Layers%20(1095%20Components)-blue)](.ai/architecture/index.md) [![License](https://img.shields.io/badge/License-Proprietary-red)](#lisans) [![Status](https://img.shields.io/badge/Status-Aktif%20Geli%C5%9Ftirme-brightgreen)](#proje-durumu)
 
----
+**🔍 Web Verification**: PHP 8.4 · C++20 · MySQL 9 · JUCE 9 · ASIO SDK 2.3.4 · PCM3168A · AK4458 · LM5122 — all verified 2026-10-07.
 
 ## 📋 İçindekiler
 
@@ -26,8 +22,10 @@
 - [8. Teknoloji Yığını](#8-teknoloji-yığını)
 - [9. Kurulum ve Geliştirme](#9-kurulum-ve-geliştirme)
 - [10. Single Source of Truth (Vault .ai/)](#10-single-source-of-truth-vault-ai)
-
----
+- [11. 🔗 .ai/ Vault Dosyaları Bağlantıları](#11--ai-vault-dosyaları-bağlantıları)
+- [12. AI Agent & Skill Ekosistemi](#12-ai-agent--skill-ekosistemi)
+- [AI Agent Boot Özeti (Master Engineering System)](#ai-agent-boot-özeti-master-engineering-system)
+- [Harici Kaynaklar (Ek — harici linkler)](#harici-kaynaklar-harici-linkler--kurulu-skill-değil-indirme-kaynağıdır)
 
 ## 1. Proje Tanımı ve Vizyon
 
@@ -42,8 +40,6 @@ Sıradan müzik çalarların sunduğu basit dosya oynatma deneyiminin ötesine g
 * **Mülkiyet ve Özgürlük:** Kiralama modellerini ortadan kaldırır. Kullanıcının sahip olduğu kayıpsız ses koleksiyonu kalıcı, bağımsız ve ilişkisel bir dijital varlık olarak korunur; telif veya lisans iptalleriyle arşivden asla silinmez.
 * **Kesintisiz Bütünleşik Yaşam Deneyimi (Handoff):** Salonda başlatılan bir parça, arabaya binildiğinde (`car.coremusic.net`) veya iş istasyonuna geçildiğinde (`studio.coremusic.net`) tek bir milisaniye dahi duraksamadan, aynı akustik profille devam eder.
 
----
-
 ## 2. Hangi Sorunları Çözer? (Pazar Çözüm Matrisi)
 
 CoreMusic, günümüz müzik ekosistemindeki 6 kronik pazar krizini ortadan kaldırmak üzere tasarlanmıştır:
@@ -57,8 +53,6 @@ CoreMusic, günümüz müzik ekosistemindeki 6 kronik pazar krizini ortadan kald
 | **05** | **Cihaz Uyumsuzluğu:** Bir cihazdan diğerine geçerken müzik durur, senkronizasyon kopar. | **Tüm Cihazlarda Kusursuz Uyum:** Handoff (kesintisiz geçiş) ve WebRTC/WebSocket multi-room audio ile her ekranda tek akıcı deneyim. |
 | **06** | **Profesyonel Araç Eksikliği:** Tüketici oynatıcılarında stüdyo referansı dinleme ve izleme araçları yoktur. | **Entegre Profesyonel Araçlar:** 8.1 Surround ses, 31-band parametrik EQ, EBU R128 LUFS ölçümü, FFT spektrum analizi, ASIO/WASAPI donanım desteği. |
 
----
-
 ## 3. Temel Yetenekler (10 Ana Başlık)
 
 1. **Hibrit Çalışma Mimarisi (Online Cloud & Offline-First):** İnternet kopsa dahi yerel SSD önbelleğinden duraksamadan çalma; internet geldiğinde çift yönlü sessiz senkronizasyon.
@@ -71,8 +65,6 @@ CoreMusic, günümüz müzik ekosistemindeki 6 kronik pazar krizini ortadan kald
 8. **Yerel Ağ & Network Audio:** DLNA/UPnP ve WebRTC/P2P protokolleriyle ev ağındaki tüm cihazlara kayıpsız, ultra düşük gecikmeli medya yayını.
 9. **AI Müzik Intelligence:** Collaborative filtering + content-based öneri sistemi; parça analitiği (BPM, Key, Energy, Mood); oda akustiğini analiz eden AI Otomatik EQ.
 10. **Sektörel Donanım Entegrasyonu:** XMOS XU316 USB Audio işlemcisi, AK4458 DAC, PCM3168A ADC, 8x50W modüler discrete Class AB amplifikatör ve ±35V LM5122 interleaved boost güç kaynağı.
-
----
 
 ## 4. Sektörel Çözümler ve Subdomain Ağı
 
@@ -90,8 +82,6 @@ CoreMusic ekosistemi, 10 bağımsız uzmanlık paneli üzerinden modüler olarak
 | **`auth.coremusic.net`** | Kimlik ve Yetkilendirme | SSO, oturum yönetimi, RBAC yetki matrisi, Credential Vault |
 | **`pro.coremusic.net`** | Donanım & DSP Paneli | Neva Engine DSP denetimi, Class AB amfi telemetrisi |
 | **`coremusic.net`** | Ana Tanıtım & Portal | Ekosistem tanıtımı, açık kaynak dokümantasyon, indirme |
-
----
 
 ## 5. Hedef Kullanıcı Kitleleri
 
@@ -112,76 +102,54 @@ CoreMusic, **A0 Altyapı'dan A5 Bileşenler'e** uzanan 21 dikey katman (K0-K20, 
 ===========================================================================
 |                    COREMUSIC 21 KATMANLI MİMARİ                         |
 |                    1095 BİLEŞEN | DC-ONLY GÜÇ KAYNAĞI                   |
-+-------------------------------------------------------------------------+
 |  K13: CI/CD           |  K12: İZLEME           |  K15: MEDYA & STREAMING|
 |  GitHub Actions / K8s |  App Logs / Prometheus |  FFmpeg - FLAC - HLS   |
 |  Docker / Playwright  |  Grafana / Audit Logs  |  DASH - Podcast - Radio|
-+-------------------------------------------------------------------------+
-|  ELEKTRONİK & DONANIM ALTYAPISI (K16 - K20)                             |
-+-------------------------------------------------------------------------+
+|~ ELEKTRONİK & DONANIM ALTYAPISI (K16 - K20) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 |  K20: BOM & ÜRETİM    -- 40 Bileşen: Transistör, Diyot, Direnç, BOM     |
 |  K19: PCB TASARIM     -- 50 Bileşen: 6-Layer, Controlled Z, Star GND    |
 |  K18: TERMAL TASARIM  -- 45 Bileşen: Fischer Heatsink, KSD301, PWM Fan  |
 |  K17: GÜÇ ±35V        -- 85 Bileşen: LM5122 Dual Boost, 6S LiPo, %96    |
 |  K16: CLASS AB AMP    -- 120 Bileşen: MJL21194/93, 8x50W, THD <0.005%   |
-+-------------------------------------------------------------------------+
-|  KULLANICI DENEYİMİ & UYGULAMA (K10, K11, K14)                          |
-+-------------------------------------------------------------------------+
+|~ KULLANICI DENEYİMİ & UYGULAMA (K10, K11, K14) ~~~~~~~~~~~~~~~~~~~~~~~~|
 |  K11: UX & TASARIM    -- 45 Bileşen: ITCSS, BEM, Tokens, Theme, PWA     |
 |  K10: UYGULAMA        -- 50 Bileşen: Music, Home, Car, Studio, Admin    |
 |  K14: AĞ & İLETİŞİM   -- 50 Bileşen: HTTP/2/3, WebSocket, AirPlay       |
-+-------------------------------------------------------------------------+
-|  SERVİS & ROUTING (K8 - K9)                                             |
-+-------------------------------------------------------------------------+
+|~ SERVİS & ROUTING (K8 - K9) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 |  K9:  API & ROUTING   -- 45 Bileşen: Gateway, BFF, CQRS, SPA Router     |
 |  K8:  SERVİS KATMANI  -- 60 Bileşen: Control, Media, Audio, Device, AI  |
-+-------------------------------------------------------------------------+
-|  GÜVENLİK & MIDDLEWARE PIPELINE (K6 - K7)                               |
-+-------------------------------------------------------------------------+
+|~ GÜVENLİK & MIDDLEWARE PIPELINE (K6 - K7) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 |  K7:  MIDDLEWARE      -- 40 Bileşen: OriginCheck, CORS, RateLimit, CSRF |
 |  K6:  GÜVENLİK        -- 45 Bileşen: Auth, RBAC, AES-256, Audit Trail   |
-+-------------------------------------------------------------------------+
-|  VERİ YÖNETİMİ & YAPAY ZEKA (K4 - K5)                                   |
-+-------------------------------------------------------------------------+
+|~ VERİ YÖNETİMİ & YAPAY ZEKA (K4 - K5) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 |  K5:  VERİ YÖNETİMİ   -- 55 Bileşen: MySQL 18 DB (156 Tablo), Redis     |
 |  K4:  YAPAY ZEKA      -- 55 Bileşen: Music Analysis, Rec, Auto EQ, ML   |
-+-------------------------------------------------------------------------+
-|  SES MOTORU & SÜRÜCÜ ÇEKİRDEĞİ (K2 - K3)                                |
-+-------------------------------------------------------------------------+
+|~ SES MOTORU & SÜRÜCÜ ÇEKİRDEĞİ (K2 - K3) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 |  K3:  SES İŞLEM MOTORU-- 55 Bileşen: Neva Engine, DSP, EQ, Crossover    |
 |  K2:  SÜRÜCÜ KATMANI  -- 45 Bileşen: ASIO, WASAPI, ALSA, PipeWire       |
-+-------------------------------------------------------------------------+
-|  TEMEL DONANIM PLATFORMU & OS (K0 - K1)                                 |
-+-------------------------------------------------------------------------+
+|~ TEMEL DONANIM PLATFORMU & OS (K0 - K1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
 |  K1:  DONANIM ALTYAPI -- 120 Bileşen: XMOS XU316, PCM3168A, AK4458 DAC  |
 |  K0:  İŞLETİM SİSTEMİ -- 50 Bileşen: Windows, Linux, macOS, RPi5, Docker|
-+-------------------------------------------------------------------------+
 |  Toplam: 21 Katman | 1095 Bileşen | DC-ONLY | ~$682 Sistem Maliyeti     |
 ===========================================================================
 ```
 
----
-
 ## 7. C++20 Neva Engine ve Ses Donanımı
 
-CoreMusic'in kalbinde, işletim sisteminin sesi bozan katmanlarını baypas eden C++20 Neva Engine ve ayrık analog donanım amfisi yer alır:
+CoreMusic'in kalbinde, işletim sisteminin sesi bozan katmanları baypas eden C++20 Neva Engine ve ayrık analog donanım amfisi yer alır:
 
 * **32-Bit Float DSP:** 15 aşamalı filtre zinciri (InputGain → Gate → HPF → LPF → 31-Band EQ → Dynamics → Delay → Reverb → True Peak Limiter).
 * **Discrete Class AB Amplifikatör:** 8 kanal bağımsız modüler yapı, MJL21194/MJL21193 tamamlayıcı çıkış çifti, 50W RMS @ 8Ω (80W @ 4Ω), THD+N <%0.005.
 * **±35V LM5122 Dual Boost Güç Kaynağı:** 6S LiPo (22.2V) veya 19-24V DC laptop adaptörü girişi; %96 tepe verimlilik, sıfır 50Hz şebeke gürültüsü sağlayan **DC-ONLY** güç mimarisi.
-* **Ses Kartı Köprüsü:** XMOS XU316 USB Audio Class 2.0 işlemcisi, PCM3168A 8-kanal ADC, AK4458 8-kanal DAC.
+* **Ses Kartı Köprüsü:** XMOS XU316 USB Audio Class 2.0 işlemcisi, PCM3168A 8-kanal DAC, AK4458 8-kanal DAC.
 
----
-
-## 8. Teknoloji Yığını
+## 8. Teknoloji Yığıdı
 
 * **Backend:** PHP 8.4+ (Strict types, PDO, PSR-15 Middleware), Node.js / TypeScript (Download microservice)
 * **Frontend:** Vanilla JavaScript (ES2022 SPA Router), ITCSS 9-Layer + BEM CSS, Glassmorphism UI
 * **Ses Motoru:** Modern C++20, JUCE 9 AudioProcessor, Steinberg ASIO SDK, Windows WASAPI Exclusive, Linux ALSA
 * **Veritabanı & Önbellek:** MySQL 9 (18 BCNF Normalleştirilmiş Veritabanı, 156 Tablo), Redis, APCu
 * **Güvenlik & Kriptografi:** Argon2id parola özeti, AES-256-GCM Credential Vault, CSP Nonce, CSRF koruması
-
----
 
 ## 9. Kurulum ve Geliştirme
 
@@ -200,8 +168,6 @@ cd download-service && npm install && npm run dev
 cd shared && vendor/bin/phpunit
 ```
 
----
-
 ## 10. Single Source of Truth (Vault .ai/)
 
 CoreMusic projesinin tüm mimari kararları, anayasası, kuralları ve detaylı dokümanları `.ai/` dizinindeki **Vault** içerisinde toplanmıştır:
@@ -214,6 +180,47 @@ CoreMusic projesinin tüm mimari kararları, anayasası, kuralları ve detaylı 
 | **Master İndeks** | [`.ai/architecture/index.md`](.ai/architecture/index.md) | 21 katman, 1.095 bileşen, 18 BCNF DB ve ADR kayıt defteri |
 | **Devre Şeması** | [`.ai/architecture/electronics/amfii/amplifier-classab-circuit.md`](.ai/architecture/electronics/amfii/amplifier-classab-circuit.md) | Class AB 50W amfi devresi, Mermaid şeması ve test noktaları |
 
+## 11. 🔗 .ai/ Vault Dosyaları Bağlantıları
+
+> **Veri Doğrulama**: Tüm teknoloji iddiaları aşağıda listelenen kaynaklara göre 2026-10-07'de doğrulanmıştır. ✅ = web ile doğrulanmış.
+
+| Bu Dosya | Anlamı | 🔗 Bağlantı |
+|:---|:---|:---|
+| **`.ai/CLAUDE.md`** | AI Anayasası — 16 Hard Guardrail, 34 bölüm | `@.ai/CLAUDE.md` |
+| **`.ai/AGENTS.md`** | Agent Registry SSOT — 11 agent, routing, handover | `@.ai/AGENTS.md` |
+| **`.ai/WORKFLOW.md`** | Vault süreçleri — 12/20 faz, ADR lifecycle | [`.ai/WORKFLOW.md`](.ai/WORKFLOW.md) |
+| **`.ai/CONTEXT.md`** | Vault klasör yapısı, envanter, bağlam | [`.ai/CONTEXT.md`](.ai/CONTEXT.md) |
+| **`.ai/VISION.md`** | Vizyon ve yol haritası | [`.ai/VISION.md`](.ai/VISION.md) |
+| **`.ai/PROJECTS.md`** | Proje envanteri, 10 yetenek | [`.ai/PROJECTS.md`](.ai/PROJECTS.md) |
+| **`.ai/brain.md`** | Mimari kararlar, ADR'ler | [`.ai/brain.md`](.ai/brain.md) |
+| **`.ai/MEMORY.md`** | Session hafızası | [`.ai/MEMORY.md`](.ai/MEMORY.md) |
+| **`.ai/log.md`** | Audit trail (append-only) | [`.ai/log.md`](.ai/log.md) |
+| **`.ai/engine.md`** | Orkestrasyon motoru | [`.ai/engine.md`](.ai/engine.md) |
+| **`.ai/ULTRA-THINKING.md`** | Ultra düşünme protokolü | [`.ai/ULTRA-THINKING.md`](.ai/ULTRA-THINKING.md) |
+| **`.ai/glossary.md`** | Terim sözlüğü | [`.ai/glossary.md`](.ai/glossary.md) |
+| **`.ai/index.md`** | Master katalog | [`.ai/index.md`](.ai/index.md) |
+| **`.ai/keys.md`** | Keyword haritası | [`.ai/keys.md`](.ai/keys.md) |
+| **`.ai/ROLE.md`** | Rol tanımı | [`.ai/ROLE.md`](.ai/ROLE.md) |
+| **`.ai/.templates/`** | Şablon registry | [`.ai/.templates/index.md`](.ai/.templates/index.md) |
+
+> **Boot Protocol**: AI agent'ları root `CLAUDE.md` → `AGENTS.md` → `README.md` → `WORKFLOW.md` okur, sonra ihtiyaç anında `@.ai/` dosyalarını okur (Guardrail #2: Vault First).
+
+---
+
+## 12. AI Agent & Skill Ekosistemi
+
+CoreMusic'te AI ajanları **Skill Usage Mandate** ile çalışır. Mandate özeti (5 madde):
+
+1. Her görev başında `CLAUDE.md` §Skill Registry + available-skills listesi taranır, eşleşme kontrol edilir.
+2. Eşleşme varsa **ilk işlem** Skill tool ile o skill'i yüklemektir; eşleşme varken skill'siz işlem başlatmak yasaktır.
+3. Birden fazla eşleşen varsa en dar (domain-specific) skill önce yüklenir.
+4. İstisna: kullanıcı açıkça "skill kullanma" derse veya görev skill'lerle ilgisizse (sohbet, aritmetik); belirsizse 1 kısa soru sorulur.
+5. Yetenek yoksa kopyala-yapıştır yapılmaz; `skill-maker` ile skill üretilir (Guardrail #16 + v3.0 şeması).
+
+* **Kayıt defteri (SSOT):** [`CLAUDE.md`](CLAUDE.md) §Skill Registry — 12 proje skill'i (`.claude/skills/`) + 5 global skill (`C:\.claude\skills`). Bu dosyada liste tekrarlanmaz; ayrıca ~340 üçüncü-parti global skill grubu harness available-skills listesiyle gelir.
+* **Uygulama (2 katman):** (1) yazılı mandate — kök `CLAUDE.md` §Skill Kullanım Zorunluluğu; (2) hook — `.claude/settings.json → UserPromptSubmit → .claude/hooks/skill-mandate.cjs` her prompt'ta kısa hatırlatma + proje skill isimlerini enjekte eder.
+* **Yeni skill ekleme yolu:** `skill-maker` çalıştırılır → v3.0 şeması + format otoritesi `.claude/skills/skill-maker/` (şablon + kurallar) → üretilen skill `CLAUDE.md` §Skill Registry'ye satır olarak eklenir.
+
 ---
 
 ## AI Agent Boot Özeti (Master Engineering System)
@@ -223,8 +230,11 @@ CoreMusic projesinin tüm mimari kararları, anayasası, kuralları ve detaylı 
 3. **Zero-Hallucination:** repository/URL/API/class/method/dependency/version/config/skill/agent/dosya/mimari kural/benchmark/güvenlik iddiası asla uydurulmaz; doğrulanamayan = `⚠️ VERIFICATION REQUIRED`, bilinmeyen = `UNKNOWN`.
 4. **Final rule:** Understand → Research → Resolve → Decide → Implement → Track → Verify — riskli işlemede dur, onaysız büyük source-code değişikliği yok.
 5. **MAX THINKING (anti-overthink):** [`AGENTS.md`](AGENTS.md) §5 — 7 madde; skill dosyalarında kısaltılmış 5 madde.
+6. **Skill Usage Mandate:** her görev başında [`CLAUDE.md`](CLAUDE.md) §Skill Registry + available-skills taranır; eşleşen skill varsa **ilk işlem** Skill tool ile yüklemektir (Skill Usage Mandate §2 — madde 5'teki "gereksiz skill üretme" yasağıyla çelişmez).
 
-## AI Agent & Skill Referansları
+## Harici Kaynaklar (Harici Linkler — kurulu skill değildir, indirme kaynağıdır)
+
+Aşağıdaki depolar harici referans/kaynak listesidir; proje tarafından kurulu skill değildir (kayıt defteri: [`CLAUDE.md`](CLAUDE.md) §Skill Registry):
 
 - https://github.com/NacioFelix/awesome-opencode
 - https://github.com/weisser-dev/awesome-opencode
@@ -255,12 +265,10 @@ CoreMusic projesinin tüm mimari kararları, anayasası, kuralları ve detaylı 
 - https://github.com/vakra-dev/awesome-ai-agents
 - https://github.com/hammond01/CleanArchitecture
 
----
-
 **Session Lifecycle:** Bu depoda her AI session'ı .ai/CHECKLIST.md §A/§B/§C ile yürütülür; hedef dosya seti 20'dir (3 kök + 17 .ai/ kök md — sınıflandırma CHECKLIST.md §A0: CRITICAL 16 / ON-DEMAND 3 / LOG 1). Kapanışta .workflows/vault-sync.md Aşama 8 satır 5 ile değişen dosyalar güçlendirilir.
 
 **Authority:** Bayram Ali / Vault Steward  
 **Kaynak Doküman:** Freelancer Technical Documentation v1.0 (CoreMusic: Software Audio Hardware AI)  
-**Last Updated:** 2026-09-19  
-**Version:** 2.0.1  
+**Last Updated:** 2026-10-07  
+**Version:** 3.0.0  
 **Mode:** Red Team · Human Mode · Truth Mode

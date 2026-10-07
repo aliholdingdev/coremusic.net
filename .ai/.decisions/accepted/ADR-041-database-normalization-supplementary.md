@@ -18,7 +18,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-041-database-normalization-supplementary`
 > **İlgili kararlar:** [[ADR-033-sql-normalization-strategy]] (**birincil** — normal form, PK/FK, index, ENUM↔lookup, çoğaltma/audit alanları; bu ADR o 5 eksenin **dışında** kalır, onu **tamamlar**, devralmaz) · [[ADR-040-database-authority]] (18 DB sahipliği + tek yazar + migration tek kapı) · [[ADR-002-pdo-mandatory-no-orm]] (PDO + query budget/EXPLAIN — §2.2-f'nin zemini) · [[ADR-022-database-hardened-security]] (GRANT matrisi + audit interceptor — §2.2-d/e) · [[ADR-039-7-service-platform-architecture]] (servis sınırı — §2.2-f kural 4) · [[ADR-003-multi-db-bcnf]] (18 BCNF zemini) · [[ADR-014-multi-db-migration-strategy]] (view/trigger şema değişiminin tek kapısı) · [[../index.md]] (`:83` slug satırı)
 > **Ad gerekçesi:** slug `ADR-041-database-normalization-supplementary` **diskteki gerçek index kaydından** alınmıştır (`[[../index.md]]:83`) — uydurulmadı.
-> **Numara notu (Truth Mode):** genel kural "yeni ADR'ler 088+" der; bu dosya **kullanıcı atamasıyla** ayrılmış numaraya (041) yazıldı, çünkü `[[../index.md]]:83`, `[[../../raw/brain.md]]:1001`, `[[../../raw/keys.md]]:276` ve `[[../../index.md]]:665` bu numarayı **çoktan kayıtlı** tutuyor — numara boş değil, **boşluk dolduruldu** (ADR-033'ün numara gerekçesiyle aynı durum).
+> **Numara notu (Truth Mode):** genel kural "yeni ADR'ler 088+" der; bu dosya **kullanıcı atamasıyla** ayrılmış numaraya (041) yazıldı, çünkü `[[../index.md]]:83`, `[[../../brain.md]]:1001`, `[[../../keys.md]]:276` ve `[[../../index.md]]:665` bu numarayı **çoktan kayıtlı** tutuyor — numara boş değil, **boşluk dolduruldu** (ADR-033'ün numara gerekçesiyle aynı durum).
 > **Frozen notu:** ADR-001-037 **dokunulmamıştır** (yalnız atıf). Bu dosya Active aralığındadır, frozen değildir.
 
 ---
@@ -34,13 +34,13 @@ Tüm sayımlar **2026-09-26** taramasıdır: `.ai/.sql/mysql/*.sql` (18 dosya) v
 | Kanıt | Değer | Etiket |
 |---|---|---|
 | SQL dosyası / `CREATE TABLE` | **18 dosya · 156 tablo · 155 benzersiz ad** | IMPLEMENTED |
-| **Aynı ad, iki DB** | `api_keys` → `[[../../sources/.sql/mysql/coremusic_api.sql]]:31` **ve** `[[../../sources/.sql/mysql/coremusic_auth.sql]]:288` (tek tekrar) | IMPLEMENTED (çakışma) |
+| **Aynı ad, iki DB** | `api_keys` → `[[../../.sql/mysql/coremusic_api.sql]]:31` **ve** `[[../../.sql/mysql/coremusic_auth.sql]]:288` (tek tekrar) | IMPLEMENTED (çakışma) |
 | Tablo adı deseni | Tablolarda `coremusic_` öneki **YOK** (o, DB/şema adıdır); **alan önekli**: `user`=14, `system`=13, `music`=9, `analytics`=8, `catalog`=8, `log`=5, `studio`=5, `playlist`=4, `cms`=4, `api`=4, `download`=4, `i18n`=4 … | IMPLEMENTED |
 | Kolon adı | camelCase tanımlayıcı **0**; tamamı `snake_case` | IMPLEMENTED |
 | Kimlik kolonları | `id BINARY(16)` **96** · `user_id BINARY(16)` **44** · tüm `BINARY(16)` = **252** (128-bit anahtar) | IMPLEMENTED |
 | UUIDv7 üretimi kodda | `shared/src/Security/UuidV7.php` + kullanım `auth.coremusic.net/include/Repository/UserRepository.php:7,42,95` (şemada `uuid` metni **0** → biçim kodda, kolon `BINARY(16)`) | IMPLEMENTED (kod) |
 | İndeks önekleri | `idx_` **485** · `uk_` **32** (inline `UNIQUE KEY`) · `fk_` **82** | IMPLEMENTED |
-| **İki rakip unique-index deseni** | inline `UNIQUE KEY uk_*` (32) **karşılık** `CREATE UNIQUE INDEX idx_*_unique` (**28**: örnek `[[../../sources/.sql/mysql/coremusic_user.sql]]:133,155,219`, `[[../../sources/.sql/mysql/coremusic_albums.sql]]:72,100,122`) | IMPLEMENTED (tutarsızlık) |
+| **İki rakip unique-index deseni** | inline `UNIQUE KEY uk_*` (32) **karşılık** `CREATE UNIQUE INDEX idx_*_unique` (**28**: örnek `[[../../.sql/mysql/coremusic_user.sql]]:133,155,219`, `[[../../.sql/mysql/coremusic_albums.sql]]:72,100,122`) | IMPLEMENTED (tutarsızlık) |
 | Diğer | `CREATE INDEX` (unique hariç) **88** — hepsi `idx_` | IMPLEMENTED |
 
 #### B) Veri tipleri — IMPLEMENTED (tarama)
@@ -140,7 +140,7 @@ Tüm sayımlar **2026-09-26** taramasıdır: `.ai/.sql/mysql/*.sql` (18 dosya) v
 | **Dosya adları değişmez** | In-Place Refactoring: 18 SQL dosyası ve 18 DB adı yeniden adlandırılmaz; tablo/indeks yeniden adlandırma = yeni ADR + ADR-014 migration |
 | **Kod 0 → PLANNED disiplini** | View 0, trigger 0, audit yazıcı 0, N+1 denetim kapısı 0 → adımlar bu etiketle yazılır |
 | **Diskte olmayan hedefe wiki-link kurulmaz** | Yalnız diskte doğrulanmış hedefler `[[...]]` olur (§6 + satır içi toplam 33 hedef: 33/33) |
-| **Tek yazma kanalı** | Vault yazımı `.ai/sources/scripts/vault-utf8-writer.mjs`; `log.md` yalnız append |
+| **Tek yazma kanalı** | Vault yazımı `.ai/scripts/vault-utf8-writer.mjs`; `log.md` yalnız append |
 | **REDACTED** | DB kullanıcı/şifre/host/GRANT kimlik bilgisi hiçbir koşulda yazılmaz (yalnız DB **adları**) |
 
 ---
@@ -291,7 +291,7 @@ Tüm sayımlar **2026-09-26** taramasıdır: `.ai/.sql/mysql/*.sql` (18 dosya) v
 |---|------|---------|------|-------|
 | 1 | Kanıt taraması (18 SQL: tablo/kolon/tip/indeks/view/trigger; 260 PHP: N+1/SELECT */prepare/audit-yazıcı) | Vault Steward + Data | 2 dk | ✅ UYGULANDI (2026-09-26) |
 | 2 | Bu ADR'yi şablondan üret + künye/§1-§7 dolu (Guardrail #16), §1.3'ü 5 websearch ile doldur | Vault Steward | 3 dk | ✅ UYGULANDI (2026-09-26) |
-| 3 | **`[[../index.md]]:83` satırının** `[[../../raw/brain.md]] ADR-041-...` biçiminden bu dosyaya bağlanması (`[[accepted/ADR-041-database-normalization-supplementary]]`) | Vault Steward | 1 dk | ✅ UYGULANDI (2026-09-26) |
+| 3 | **`[[../index.md]]:83` satırının** `[[../../brain.md]] ADR-041-...` biçiminden bu dosyaya bağlanması (`[[accepted/ADR-041-database-normalization-supplementary]]`) | Vault Steward | 1 dk | ✅ UYGULANDI (2026-09-26) |
 | 4 | `.ai/log.md`'ye 1 satır append (`ADR-041 yazıldı (debate PENDING)`) | Vault Steward | 1 dk | ✅ UYGULANDI (2026-09-26) |
 | 5 | **Adlandırma lint'i:** `*.sql`/migration şablonunda `uk_`/`idx_`/`fk_` öneki + `snake_case` denetimi CI job'una (ADR-040 K1 kapısının yanına); deny-liste: mevcut 28 `idx_*_unique` + tekil adlar (R2) | DevOps + Data | 2 gün | ⏳ PLANNED |
 | 6 | **Tip/uzunluk registry'si:** migration-template + review checklist'inde VARCHAR uzunluğu gerekçesi ve `DECIMAL(12,2)` zorunlu alanı | Data + Backend | 1 gün | ⏳ PLANNED |
@@ -300,7 +300,7 @@ Tüm sayımlar **2026-09-26** taramasıdır: `.ai/.sql/mysql/*.sql` (18 dosya) v
 | 9 | **Trigger/procedure CI gate:** `.ai/.sql/**` içinde `CREATE TRIGGER|PROCEDURE|FUNCTION` = RED (istisna: bu ADR'nin gerekçeli istisna ADR'si kayıtlıysa) | DevOps + Data | 1 gün | ⏳ PLANNED |
 | 10 | **Audit interceptor (C6):** sorgu-level denetim kaydı (kim/sorgu/parametre/ne zaman) → `coremusic_logs` append; ADR-022 §5.1 adımlarıyla eşgüdümlü | Backend + Security | 3 gün | ⏳ PLANNED (ADR-022 bağları) |
 | 11 | **N+1 review checklist:** döngü+sorgu / `SELECT *` / döngüde `COUNT` maddeleri review checklist'ine; query budget (ADR-002 §5.1 #6) endpoint bazında yazılır | QA + Backend | 2 gün | ⏳ PLANNED |
-| 12 | **Vault sync:** `[[../../raw/brain.md]]:1001` özet satırı, `[[../../raw/keys.md]]:276`, `[[../../index.md]]:665` kayıtlarının bu dosyaya bağlanması (3'ü bugün düz metin/slot) | MO (vault-updater) | 30 dk | ⏳ PLANNED (post-op manuel sync) |
+| 12 | **Vault sync:** `[[../../brain.md]]:1001` özet satırı, `[[../../keys.md]]:276`, `[[../../index.md]]:665` kayıtlarının bu dosyaya bağlanması (3'ü bugün düz metin/slot) | MO (vault-updater) | 30 dk | ⏳ PLANNED (post-op manuel sync) |
 | 13 | **Debate:** 4 madde (§7.1) üzerinden 3 tur — sonuç `log.md` append + frontmatter `debate` güncellemesi (bu dosya Active iken sınırlı revizyon) | Vault Steward + Tech Lead | 1 gün | ✅ DEBATE TAMAMLANDI (2026-09-26, 3 tur / 20 persona, 18/2/0 KABUL) — şartlar adım 14-17 |
 | 14 | **(Debate Şartı 1a)** `api_keys` iki-DB çakışmasının (C4) **tek SSOT kararı**: sahip DB + erişimin **şema-isimli (`db.tablo`)** zorunluluğu yazılır (ADR-020 API-key sahipliği + ADR-040 §2.2-d tek yazar hizası); yeni çakışma §2.2-a kuralıyla kayıt altına alınır | Data + Security | 1 gün | ⏳ PLANNED (debate şartı) |
 | 15 | **(Debate Şartı 1b)** **Grandfathered kuralı maddeleştirilir:** C1 (`uk_` 32 ↔ `idx_*_unique` 28) ve C2 (`created_at` 11/18 tutarsız) için **mevcut = izinli (beyaz liste), yeni/yazılan = standart** ayrımı §2.2-a/b'de gerekçesiyle sabitlenir; lint deny-listesine (R2) bildirilir | Data + Vault Steward | 1 gün | ⏳ PLANNED (debate şartı) |
@@ -314,7 +314,7 @@ Tüm sayımlar **2026-09-26** taramasıdır: `.ai/.sql/mysql/*.sql` (18 dosya) v
 3. **Geçiş seviyesi (adım 7):** TIMESTAMP dönüşümünde sorun çıkarsa o DB'de geçiş **durdurulur** (faz saturation), kolonlar zaten `DATETIME`'a geçmişse geri dönüş = yeni migration (forward-only) + veri doğrulama raporu; veri kaybı olmaz (tip daraltması değil, genişletme).
 4. **Kapı seviyesi (adım 5/9):** lint yanlış kırmızı verirse deny-liste genişletilir, kapı **kalkmaz** (`continue-on-error`); denetim izi `log.md`'de kalır.
 5. **Dizin seviyesi:** `index.md:83` kaydı geri alınırsa `—` işaretlenir, silinmez.
-6. **Bozulma durumunda:** `node .ai/sources/scripts/vault-utf8-writer.mjs repair --file <dosya>` (yedek alır) → gerekirse `git checkout` (`.ai/raw/AGENTS.md` §17 #10).
+6. **Bozulma durumunda:** `node .ai/scripts/vault-utf8-writer.mjs repair --file <dosya>` (yedek alır) → gerekirse `git checkout` (`.ai/AGENTS.md` §17 #10).
 
 ---
 
@@ -323,12 +323,12 @@ Tüm sayımlar **2026-09-26** taramasıdır: `.ai/.sql/mysql/*.sql` (18 dosya) v
 | Dosya (wiki-link) | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme — Guardrail #16 (şablon), REDACTED |
-| [[../../raw/brain.md]] | `:1001` `ADR-041 \| DB normalizasyon ek bilgi` slotu (bu dosyaya bağlanması §5.1 adım 12) |
-| [[../../raw/AGENTS.md]] | Agent registry — §5 domain boundary (`*.sql` → Data Engineer), §16 Data standardı (BCNF/no ORM/no SELECT */prepared — §2.2-f ile aynı) |
-| [[../../raw/WORKFLOW.md]] | Süreç/fazlar — uygulama adımlarının bağlandığı akış |
+| [[../../brain.md]] | `:1001` `ADR-041 \| DB normalizasyon ek bilgi` slotu (bu dosyaya bağlanması §5.1 adım 12) |
+| [[../../AGENTS.md]] | Agent registry — §5 domain boundary (`*.sql` → Data Engineer), §16 Data standardı (BCNF/no ORM/no SELECT */prepared — §2.2-f ile aynı) |
+| [[../../WORKFLOW.md]] | Süreç/fazlar — uygulama adımlarının bağlandığı akış |
 | [[../../index.md]] | Master katalog `:665` ADR-041 satırı |
 | [[../../log.md]] | Audit trail — bu ADR'nin 1 satırlık append kaydı |
-| [[../../raw/keys.md]] | Keyword haritası `:276` ADR-041 kaydı |
+| [[../../keys.md]] | Keyword haritası `:276` ADR-041 kaydı |
 | [[../index.md]] | Karar dizini `:83` slug satırı (bu dosyaya bağlanması §5.1 adım 3) |
 | [[../CLAUDE.md]] | Karar dizini kuralı |
 | [[../../.templates/adr/adr-template.md]] | Guardrail #16 şablonu (bu dosyanın iskeleti) |
@@ -345,13 +345,13 @@ Tüm sayımlar **2026-09-26** taramasıdır: `.ai/.sql/mysql/*.sql` (18 dosya) v
 | [[ADR-033-sql-normalization-strategy]] | **Birincil ADR** — 5 eksen (NF, PK/FK, index, ENUM, çoğaltma); bu ADR onu tamamlar, devralmaz |
 | [[ADR-039-7-service-platform-architecture]] | 11 servis — §2.2-f kural 4 (servis sınırı) |
 | [[ADR-040-database-authority]] | 18 DB sahipliği + tek yazar + migration tek kapı — envanter/istisna hizası |
-| [[../../sources/.sql/mysql/coremusic_logs.sql]] | Audit-sınıfı 6'dan **2'si** (`audit_logs`:23, `rate_limit_logs`:127, `log_security`:487) + 10 log tablosu |
-| [[../../sources/.sql/mysql/coremusic_auth.sql]] | `credential_audit`:249 · `permission_audit`:352 · `admin_activity_log`:413 · **`api_keys`:288** (C4 çakışması) |
-| [[../../sources/.sql/mysql/coremusic_media.sql]] | `media_audit`:204 |
-| [[../../sources/.sql/mysql/coremusic_api.sql]] | **`api_keys`:31** (C4 çakışması ikinci tarafı) |
-| [[../../sources/.sql/mysql/coremusic_patch.sql]] | `migration_log`:35 (migration denetim tablosu) |
-| [[../../sources/.sql/mysql/coremusic_system.sql]] | `system_migration_log`:325 |
-| [[../../sources/.sql/mysql/coremusic_musics.sql]] | `created_at` karışık dosya örneği (7 DT/12 TS — C2) |
+| [[../../.sql/mysql/coremusic_logs.sql]] | Audit-sınıfı 6'dan **2'si** (`audit_logs`:23, `rate_limit_logs`:127, `log_security`:487) + 10 log tablosu |
+| [[../../.sql/mysql/coremusic_auth.sql]] | `credential_audit`:249 · `permission_audit`:352 · `admin_activity_log`:413 · **`api_keys`:288** (C4 çakışması) |
+| [[../../.sql/mysql/coremusic_media.sql]] | `media_audit`:204 |
+| [[../../.sql/mysql/coremusic_api.sql]] | **`api_keys`:31** (C4 çakışması ikinci tarafı) |
+| [[../../.sql/mysql/coremusic_patch.sql]] | `migration_log`:35 (migration denetim tablosu) |
+| [[../../.sql/mysql/coremusic_system.sql]] | `system_migration_log`:325 |
+| [[../../.sql/mysql/coremusic_musics.sql]] | `created_at` karışık dosya örneği (7 DT/12 TS — C2) |
 
 **Wiki-link KURULMAYAN (diskte hedef yok/yalnız kod → düz metin):**
 

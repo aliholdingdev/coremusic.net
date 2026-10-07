@@ -7,7 +7,7 @@ updated: "2026-09-30"
 version: "1.0.0"
 status: "accepted"
 authority: "SSOT — coremusic_social sosyal şema kararı: (a) **5 tablo grubu** (yorum · paylaşım · aktivite · dinleme odası · bildirim) + 1 bağlı tablo = **9 tablo** (dosya footer'ı ile birebir), (b) **13 çapraz-DB FK** ADR-040 istisna defterinde X-12…X-24 olarak grandfathered kalır — yenisi eklenmez, (c) **indeks politikası**: bildirim okuma yolu için birleşik indeks şemada YOK → 3 iyileştirme ADR-014 kapısından PLANNED, (d) **TTL/aylık RANGE partition ERTELENDİ**: InnoDB'de partition'lı tabloda FK taşınamaz (mevcut 17 FK ile çakışma) → kısa vade arşiv job'u, uzun vade FK fazı sonrası partition, (e) **şema IMPLEMENTED / kod PLANNED** (PHP+JS sosyal tablo sorgulaması = 0) ve **SSOT drift'i**: `oauth_connections` + `oauth_states` yalnız PHP migration'larında, `.sql` dosyasında YOK (9 ↔ 11 tablo)"
-kaynak: "Disk kanıtı taraması (2026-09-30: `.ai/sources/.sql/mysql/coremusic_social.sql` = **277 satır / 16.975 bayt**, v7.0.0 · Date 2026-08-09 · `:273` 'Tables: 9' · `:274` 'BCNF Compliant: Yes' · 9 CREATE TABLE (`:23, :58, :77, :101, :129, :161, :190, :215, :245`) · 17 FK = 13 çapraz + 4 iç · çapraz satırlar `:47, 67, 91, 118, 119, 150, 151, 180, 204, 205, 235, 266, 267` = ADR-040 `:195` X-12…X-24 listesi ile **birebir** · `.ai/.sql/mysql/` = **19 dosya / 19 CREATE DATABASE / 165 tablo** (ADR-040 `:34` = 18 dosya / 156 tablo; fark `media_catalog.sql` 478 satır / 9 tablo · ADR-092 §5.2 · commit `50f8734` · 2026-09-29) · PHP/JS grep (`social_notifications|activity_feed|listening_room|comment_likes|coremusic_social`, node_modules/vendor hariç) = **1 dosya** `shared/database/migrations/oauth_connections_migration.php:4,6,7` (docblock) · `oauth_connections|oauth_states` `.ai/.sql/mysql/*.sql` = **0 isabet** · doküman `architecture/k10-uygulama/notification-panel.md` + `architecture/k8-servis/notification-service.md` MEVCUT · slug satırları `.decisions/index.md:96` · `.ai/index.md:697` · `brain.md:1013` · `keys.md:289` · ADR-040 `:163` satır 10 (9 tablo / main / ⚠️ debate) · ADR-033 `:67` BCNF beyanı denetlenmemiş) + web araştırması (**5 sorgu / 37 kaynak bildirimi** — benzersiz ~36, tekrar tespit edilmedi)"
+kaynak: "Disk kanıtı taraması (2026-09-30: `.ai/.sql/mysql/coremusic_social.sql` = **277 satır / 16.975 bayt**, v7.0.0 · Date 2026-08-09 · `:273` 'Tables: 9' · `:274` 'BCNF Compliant: Yes' · 9 CREATE TABLE (`:23, :58, :77, :101, :129, :161, :190, :215, :245`) · 17 FK = 13 çapraz + 4 iç · çapraz satırlar `:47, 67, 91, 118, 119, 150, 151, 180, 204, 205, 235, 266, 267` = ADR-040 `:195` X-12…X-24 listesi ile **birebir** · `.ai/.sql/mysql/` = **19 dosya / 19 CREATE DATABASE / 165 tablo** (ADR-040 `:34` = 18 dosya / 156 tablo; fark `media_catalog.sql` 478 satır / 9 tablo · ADR-092 §5.2 · commit `50f8734` · 2026-09-29) · PHP/JS grep (`social_notifications|activity_feed|listening_room|comment_likes|coremusic_social`, node_modules/vendor hariç) = **1 dosya** `shared/database/migrations/oauth_connections_migration.php:4,6,7` (docblock) · `oauth_connections|oauth_states` `.ai/.sql/mysql/*.sql` = **0 isabet** · doküman `architecture/k10-uygulama/notification-panel.md` + `architecture/k8-servis/notification-service.md` MEVCUT · slug satırları `.decisions/index.md:96` · `.ai/index.md:697` · `brain.md:1013` · `keys.md:289` · ADR-040 `:163` satır 10 (9 tablo / main / ⚠️ debate) · ADR-033 `:67` BCNF beyanı denetlenmemiş) + web araştırması (**5 sorgu / 37 kaynak bildirimi** — benzersiz ~36, tekrar tespit edilmedi)"
 governance: "Red Team → Human Mode → Truth Mode"
 debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 ---
@@ -25,15 +25,15 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 ## 1. Bağlam (Context)
 
-CoreMusic'in sosyal veri düzlemi (A4) diskte **çoktan yazılmış**, vault'ta **hiç kararlaştırılmamış** durumda: `.ai/sources/.sql/mysql/coremusic_social.sql` (v7.0.0, 2026-08-09) dokuz tabloyu, indeksleri ve 17 FK'nın 13'ünü içeri alıyor; buna karşılık hiçbir ADR bu şemayı karar olarak yazmıyor. ADR-040 onu sahiplik matrisinde "⚠️ debate" satırı olarak tutuyor, ADR-033 onu denetlenmemiş 156 tablonun parçası sayıyor, ADR-029 yalnız oda **gerçek zamanlı** katmanını tanımlıyor. Aynı anda kod yüzeyinde sosyal tablo sorgulaması **0** — yani şema IMPLEMENTED, kod PLANNED; bu ayrımı da kimse yazmadı. Üç drift büyüyor: envanter 18 → 19 dosya, SSOT `.sql` 9 tablo ↔ runtime 11 tablo (iki PHP migration'ı), bildirim okuma yolu için kaynakların hemfikir olduğu birleşik indeks şemada yok. Bu ADR beş işi tek kayıtta kapatır: **(1)** 9 tabloyu 5 gruba ayırır, **(2)** ilişki/indeks/TTL-partition politikasını yazar, **(3)** IMPLEMENTED/PLANNED etiketini koyar, **(4)** üç drift'i §5.1 kapılarına bağlar, **(5)** ADR-029/081/040/033-041 ile sınırı çizer. Kod üretmez, DDL çalıştırmaz, tablo açmaz.
+CoreMusic'in sosyal veri düzlemi (A4) diskte **çoktan yazılmış**, vault'ta **hiç kararlaştırılmamış** durumda: `.ai/.sql/mysql/coremusic_social.sql` (v7.0.0, 2026-08-09) dokuz tabloyu, indeksleri ve 17 FK'nın 13'ünü içeri alıyor; buna karşılık hiçbir ADR bu şemayı karar olarak yazmıyor. ADR-040 onu sahiplik matrisinde "⚠️ debate" satırı olarak tutuyor, ADR-033 onu denetlenmemiş 156 tablonun parçası sayıyor, ADR-029 yalnız oda **gerçek zamanlı** katmanını tanımlıyor. Aynı anda kod yüzeyinde sosyal tablo sorgulaması **0** — yani şema IMPLEMENTED, kod PLANNED; bu ayrımı da kimse yazmadı. Üç drift büyüyor: envanter 18 → 19 dosya, SSOT `.sql` 9 tablo ↔ runtime 11 tablo (iki PHP migration'ı), bildirim okuma yolu için kaynakların hemfikir olduğu birleşik indeks şemada yok. Bu ADR beş işi tek kayıtta kapatır: **(1)** 9 tabloyu 5 gruba ayırır, **(2)** ilişki/indeks/TTL-partition politikasını yazar, **(3)** IMPLEMENTED/PLANNED etiketini koyar, **(4)** üç drift'i §5.1 kapılarına bağlar, **(5)** ADR-029/081/040/033-041 ile sınırı çizer. Kod üretmez, DDL çalıştırmaz, tablo açmaz.
 
 ### 1.1 Mevcut Durum (disk kanıtı — dürüst etiket, 2026-09-30 taraması)
 
 | İddia | Kanıt | Etiket |
 |-------|-------|--------|
-| ADR-072 slotu kayıtlı mı? | [[../index.md]] `:96` → `\| [[../../raw/brain.md]] ADR-072-social-database-schema \| Social DB Schema \| Database \|` · [[../../index.md]] `:697` · [[../../raw/brain.md]] `:1013` · [[../../raw/keys.md]] `:289` | ✅ **KAYITLI** (4 indeks satırı) |
+| ADR-072 slotu kayıtlı mı? | [[../index.md]] `:96` → `\| [[../brain.md]] ADR-072-social-database-schema \| Social DB Schema \| Database \|` · [[../../index.md]] `:697` · [[../../brain.md]] `:1013` · [[../../keys.md]] `:289` | ✅ **KAYITLI** (4 indeks satırı) |
 | Bu işlem öncesi dosya var mıydı? | `accepted/` dizin listesi (63 girdi) — `ADR-072*.md` **yok** | ❌ **YOKTU** → bu işlemde yazılıyor |
-| Şema dosyası | [[../../sources/.sql/mysql/coremusic_social.sql]] = **277 satır / 16.975 bayt** · `:2` v7.0.0 · `:5` Date 2026-08-09 · `:273` "Tables: 9" · `:274` "BCNF Compliant: Yes" | ✅ **IMPLEMENTED** (dosya) |
+| Şema dosyası | [[../../.sql/mysql/coremusic_social.sql]] = **277 satır / 16.975 bayt** · `:2` v7.0.0 · `:5` Date 2026-08-09 · `:273` "Tables: 9" · `:274` "BCNF Compliant: Yes" | ✅ **IMPLEMENTED** (dosya) |
 | 9 tablo (5 grup) | `comments` `:23` · `comment_likes` `:58` · `shares` `:77` · `activity_feed` `:101` · `listening_rooms` `:129` · `listening_room_members` `:161` · `listening_room_queue` `:190` · `user_achievements` `:215` · `social_notifications` `:245` | ✅ **9/9 CREATE TABLE** (footer ile birebir) |
 | 13 çapraz-DB FK | `:47, 67, 91, 118, 119, 150, 151, 180, 204, 205, 235, 266, 267` → `coremusic_auth.users` **(11)** + `coremusic_musics.musics` **(2)** · ADR-040 `:195` = **aynı satır listesi** (X-12…X-24) | ✅ **KABUL (grandfathered)** |
 | ADR-040 sahiplik satırı | ADR-040 `:163` → `coremusic_social \| 9 \| main \| ATAMA — entity_type polymorphic \| ⚠️ debate` · `:174` "social … debate çıkışıdır" | ⚠️ **geçici sahiplik** |
@@ -192,7 +192,7 @@ Sorun *eksik şema değil, eksik karar*: dokuz tablo zaten diskte ve ADR-040'ın
 - **TTL rakamı yazılmadı:** saklama süresi (30/90 gün) kanıtlanmadı → ⚠️; tartışma öncesi "ne kadar süre saklıyoruz?" cevapsız kalır.
 - **BCNF hâlâ beyan düzeyinde:** 9 tablo için determinant denetimi çalıştırılmadı (ADR-033 PLANNED) → bu ADR şemanın doğru olduğunu **iddia etmez**, yalnız kaydeder.
 - **Kod PLANNED olarak kaldı:** indeks/TTL iyileştirmeleri kod olmadan doğrulanamaz (EXPLAIN için üretim sorgusu gerekir).
-- **Bir ADR daha:** vault'a tek dosya eklendi; indeks/brain/keys satırları zaten vardı ama `[[../../raw/brain.md]]` hedef düzeltmesi bu işlemde yapılmadı.
+- **Bir ADR daha:** vault'a tek dosya eklendi; indeks/brain/keys satırları zaten vardı ama `[[../brain.md]]` hedef düzeltmesi bu işlemde yapılmadı.
 
 ### 4.3 Riskler
 
@@ -216,7 +216,7 @@ Sorun *eksik şema değil, eksik karar*: dokuz tablo zaten diskte ve ADR-040'ın
 | DB arası FK hükmü | [[ADR-003-multi-db-bcnf]] §2.2 | ⚠️ çelişki grandfathered ile kapatıldı |
 | Servis sahipliği (main, debate) | [[ADR-039-7-service-platform-architecture]] §5.1/5 | ⚠️ açık → §5.1/8 |
 | media_catalog envanter drift'i | [[ADR-092-media-dizin-ekseni-ve-ulid]] §5.2 (`media_catalog.sql`) | ⚠️ 18 ↔ 19 → §5.1/9 |
-| Dizin slug satırı | [[../index.md]] satır **96** | ✅ hizalı; `[[../../raw/brain.md]]` hedef düzeltmesi §5.1/10'da ertelendi |
+| Dizin slug satırı | [[../index.md]] satır **96** | ✅ hizalı; `[[../brain.md]]` hedef düzeltmesi §5.1/10'da ertelendi |
 | AI/podcast/radio/video/studio/CMS/i18n şemaları | `ADR-073` … `ADR-079` (dizin `:97`–`:103`) | ⚠️ dosyalar diskte YOK → düz metin |
 | Eksik numaralar (dosya + dizin satırı yok) | `ADR-051` · `053` · `054` · `055` · `057` · `060` · `065`–`071` · `080` | ⚠️ **14 numara** → §5.1/9 (rapor-only) |
 
@@ -237,7 +237,7 @@ Sorun *eksik şema değil, eksik karar*: dokuz tablo zaten diskte ve ADR-040'ın
 | 7 | Sosyal kod yüzeyi: repository/servis katmanı (şema hazır, kod 0) + entegrasyon testi (yorum → bildirim akışı) | Backend + QA | 5 gün | ⏳ PLANNED |
 | 8 | ADR-040 `:163` "main / ⚠️ debate" satırının ADR-039 §5.1/5 ile kapanması | MO + Data | sonraki vault reset | ⏳ rapor-only (bu işlemde düzeltilmedi) |
 | 9 | **Numara boşlukları raporu (14):** `ADR-051` · `053` · `054` · `055` · `057` · `060` · `065`–`071` · `080` — dosya YOK **ve** `.decisions/index.md` satırı YOK (dizin 91/92'de 050 → 061, 95/96'da 064 → 072, 103/104'te 079 → 081 zıplar; ayrıca `ADR-082` ne dosya ne satır) + `media_catalog.sql` envanter drift'i (18 ↔ 19) | MO (vault-updater) | sonraki vault reset | ⏳ **bu işlemde düzeltilmedi** (rapor-only) |
-| 10 | `index.md:96` `[[../../raw/brain.md]]` → gerçek ADR hedefine düzeltmesi + `brain.md:1013`/`keys.md:289` satır metinlerinin bu ADR'ye bağlanması | MO (vault-updater) | sonraki vault reset | ⏳ **ertelendi** (rapor-only) |
+| 10 | `index.md:96` `[[../brain.md]]` → gerçek ADR hedefine düzeltmesi + `brain.md:1013`/`keys.md:289` satır metinlerinin bu ADR'ye bağlanması | MO (vault-updater) | sonraki vault reset | ⏳ **ertelendi** (rapor-only) |
 | 11 | **Şart 1 (debate)** — envanter + SSOT düzeltmesi: **(1a)** `.sql/mysql/` envanterinin SSOT sayımıyla ADR-040 `:34` satırına hizalanması (19 dosya / 165 tablo ↔ 18/156 — `media_catalog.sql` dahil, sonraki vault reset) + **(1b)** `oauth_connections`/`oauth_states` için **tek kaynak kararı** (`.sql` SSOT'a taşınır **ya da** migration SSOT ilan edilir — §5.1/2 ile aynı kapı) | MO + Data Engineer + ADR-040 sahibi | sonraki vault reset | ⏳ debate şartı (2026-09-30) |
 | 12 | **Şart 2 (debate)** — **I1** bildirim birleşik (composite) indeks fazı: `social_notifications (user_id, is_read, created_at)` migration'ı — ADR-014 tek kapı + EXPLAIN teyidi (§5.1/3) | Data Engineer | 0.5 gün | ⏳ debate şartı (2026-09-30) |
 | 13 | **Şart 3 (debate)** — şema IMPLEMENTED / **kod PLANNED** etiketinin korunması + **TTL/partition kararının (aşama 2)** FK fazı sonrası partition için alınması ve debate kaydına işlenmesi (§2.2/d-e · §5.1/5-6) | MO + Data + Backend | aşama 2 | ⏳ debate şartı (2026-09-30) |
@@ -256,9 +256,9 @@ Debate **RED** çıkarsa: dosya `.ai/.decisions/rejected/` taşınır (dosya ad�
 |-------|-------|----|--------|
 | `.ai/.decisions/index.md` | `:96` | slug `ADR-072-social-database-schema` | ✅ hizalı (dosya adı ile birebir) |
 | `.ai/index.md` | `:697` | "ADR-072 … (comments, shares, activity, rooms, notifications)" | ✅ kayıtlı |
-| `.ai/raw/brain.md` | `:1013` | aynı özet satırı | ✅ kayıtlı (metin bu ADR ile hizalanacak → §5.1/10) |
-| `.ai/raw/keys.md` | `:289` | "ADR-072 \| social database, comments, shares, activity, notifications" | ✅ kayıtlı |
-| `.ai/sources/.sql/mysql/coremusic_social.sql` | `:23–269` | 9 tablo + 17 FK + indeksler · `:273-274` footer | ✅ **birincil kanıt** (IMPLEMENTED) |
+| `.ai/brain.md` | `:1013` | aynı özet satırı | ✅ kayıtlı (metin bu ADR ile hizalanacak → §5.1/10) |
+| `.ai/keys.md` | `:289` | "ADR-072 \| social database, comments, shares, activity, notifications" | ✅ kayıtlı |
+| `.ai/.sql/mysql/coremusic_social.sql` | `:23–269` | 9 tablo + 17 FK + indeksler · `:273-274` footer | ✅ **birincil kanıt** (IMPLEMENTED) |
 | `.ai/.decisions/accepted/ADR-040-database-authority.md` | `:34` · `:47` · `:163` · `:195` · `:350` · `:67` | 18/156 envanter · social 13 FK · satır 10 (main/⚠️ debate) · X-12…X-24 · migration notu | ✅ dosya var — **bağlayıcı otorite** |
 | `.ai/.decisions/accepted/ADR-033-sql-normalization-strategy.md` | `:67` · `:71-72` | "BCNF = iddia, denetim PLANNED" · 156 PK / 82 FK / 550 index · 28 cross-DB | ✅ dosya var — **kural seti** |
 | `.ai/.decisions/accepted/ADR-041-database-normalization-supplementary.md` | §2 (a–f) | naming/datatype/view/trigger/audit/N+1 tamamlayıcılar | ✅ dosya var |
@@ -268,7 +268,7 @@ Debate **RED** çıkarsa: dosya `.ai/.decisions/rejected/` taşınır (dosya ad�
 | `shared/database/migrations/oauth_connections_migration.php` · `oauth_states_migration.php` | `:4,6,7` · dosya | coremusic_social'e `oauth_connections` ekler (docblock: ADR-088 + ADR-072) | ✅ IMPLEMENTED içerik / ⏳ runner |
 | `shared/src/Events/Integration/NotificationEvent.php` | dosya | tek sosyal-tarafı olay sınıfı | ✅ sınırlı |
 | `.ai/architecture/k10-uygulama/notification-panel.md` · `.ai/architecture/k8-servis/notification-service.md` | dosya | In-App Alerts/Badges · bildirim servisi | ✅ IMPLEMENTED (doküman) |
-| `.ai/sources/.sql/mysql/media_catalog.sql` | 478 satır / 9 tablo | ADR-092 §5.2 üretimi (commit `50f8734`) — ADR-040 envanterinin dışında | ⚠️ 18 ↔ 19 drift |
+| `.ai/.sql/mysql/media_catalog.sql` | 478 satır / 9 tablo | ADR-092 §5.2 üretimi (commit `50f8734`) — ADR-040 envanterinin dışında | ⚠️ 18 ↔ 19 drift |
 | `.ai/.templates/adr/adr-template.md` | §3 · §4 · §6 | 7 bölüm iskeleti + 19 doğrulama (Guardrail #16) | ✅ şablon |
 | `.ai/.decisions/accepted/ADR-064-electronics-platform-architecture.md` | künye | format/biçim referansı + numara çakışması raporu | ✅ format referansı |
 
@@ -276,8 +276,8 @@ Debate **RED** çıkarsa: dosya `.ai/.decisions/rejected/` taşınır (dosya ad�
 
 - Şablon: [[../../.templates/adr/adr-template.md]] (Guardrail #16) — format referansı: [[ADR-064-electronics-platform-architecture]] · otorite: [[ADR-040-database-authority]] · kural seti: [[ADR-033-sql-normalization-strategy]] · [[ADR-041-database-normalization-supplementary]]
 - İlgili ADR'ler: [[ADR-003-multi-db-bcnf]] · [[ADR-014-multi-db-migration-strategy]] · [[ADR-029-listening-rooms-social]] · [[ADR-039-7-service-platform-architecture]] · [[ADR-050-multi-db-sync-strategy]] · [[ADR-081-multi-provider-data-sync]] · [[ADR-092-media-dizin-ekseni-ve-ulid]]
-- Şema/kod kanıtları: [[../../sources/.sql/mysql/coremusic_social.sql]] · [[../../architecture/k10-uygulama/notification-panel.md]] · [[../../architecture/k8-servis/notification-service.md]]
-- Vault kökü: [[../index.md]] · [[../../index.md]] · [[../../raw/brain.md]] · [[../../raw/keys.md]] · [[../../log.md]] · [[../../CLAUDE.md]]
+- Şema/kod kanıtları: [[../../.sql/mysql/coremusic_social.sql]] · [[../../architecture/k10-uygulama/notification-panel.md]] · [[../../architecture/k8-servis/notification-service.md]]
+- Vault kökü: [[../index.md]] · [[../../index.md]] · [[../../brain.md]] · [[../../keys.md]] · [[../../log.md]] · [[../../CLAUDE.md]]
 - Dizin kayıtları (düz metin — dizin hedefidir, .md değildir → wiki-link değil): `.sql/mysql/` (19 dosya) · `shared/database/migrations/` · `shared/src/Events/Integration/`
 - Diskte **olmayan** (düz metin + ⚠️): `ADR-051` · `ADR-053` · `ADR-054` · `ADR-055` · `ADR-057` · `ADR-060` · `ADR-065`–`ADR-071` · `ADR-080` (14 numara) · `ADR-073`–`ADR-079` · `ADR-082`–`ADR-088`
 
@@ -287,7 +287,7 @@ Debate **RED** çıkarsa: dosya `.ai/.decisions/rejected/` taşınır (dosya ad�
 |------|-------|
 | Wiki-link toplamı (bu dosya) | **58** occurrence / **21** benzersiz hedef (kod blokları hariç) |
 | Diskte olan hedef | **21 / 21** ✅ — 10 path-form (`../index.md`, `../../brain.md`, `../../.sql/mysql/coremusic_social.sql` …) diskte mevcut; 11 slug-form (`[[ADR-040-database-authority]]` …) ADR-064/040 house biçimi, `accepted/` dizininde `<slug>.md` ile basename çözülüyor (11/11 doğrulandı) |
-| Kod içi alıntılar (link değil) | `[[../../raw/brain.md]]` ×3 + `[[…]]` ×1 — index.md:96 kusurlu satırının alıntısı, bunlar canlı link sayılmadı |
+| Kod içi alıntılar (link değil) | `[[../brain.md]]` ×3 + `[[…]]` ×1 — index.md:96 kusurlu satırının alıntısı, bunlar canlı link sayılmadı |
 | Düz metin + ⚠️ (linklenmeyen) | `ADR-051/053/054/055/057/060` · `ADR-065`–`071` · `ADR-073`–`079` · `ADR-080` · `ADR-082`–`088` |
 
 ### 6.4 Debate Şartları (3 — 2026-09-30 KABUL)

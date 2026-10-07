@@ -162,3 +162,75 @@ Scale: 4, 8, 12, 16, 24, 32, 48, 64px
 ## WCAG 2.2 AA Checklist
 [✅/❌ for each requirement]
 ```
+
+---
+
+## Guardrail #11 — Zorunlu Okuma Sırası & Çalışma Akışı (eklendi 2026-10-07, ui-workbench merge)
+
+**Kural:** Mockup ve C01-C16 envanterini doğrulamadan kod yazma. Kod yazmadan ÖNCE:
+
+| Sıra | Dosya | Amaç |
+|------|-------|------|
+| 1 | `.ai/ui-design/01-mockup-index.md` | Hangi PNG mockup'lar mevcut? |
+| 2 | `.ai/ui-design/02-component-inventory.md` | C01-C16 BEM sınıfları, ölçümler |
+| 3 | `.ai/ui-design/tokens/design-tokens-master.md` | Renk, boşluk, tipografi token'ları |
+| 4 | `.ai/ui-design/screens/00-ascii-art-index.md` | Piksel düzeyinde ASCII layout |
+| 5 | `.ai/ui-design/05-responsive-architecture.md` | Cihaz bazlı CSS kuralları |
+| 6 | `.ai/ui-design/00-device-matrix.md` | Cihaz/matris tanımı (T1-T17) |
+
+**Referans sırası (çelişki durumunda):** PNG > ASCII art > Inventory > Tokens
+
+### Analiz Modu (8 Adım)
+
+```
+[1] PNG mockup'ı oku (.ai/.png/)
+[2] C01-C16 bileşenlerini eşleştir
+[3] Renk paleti çıkar (primary, secondary, accent, neutral)
+[4] Tipografi analizi (font, weight, boyut)
+[5] Grid yapısını tespit et (sütun, gutter, split)
+[6] Token eşleşmesini kontrol et
+[7] WCAG 2.2 AA kontrolü
+[8] Analiz raporu oluştur
+```
+
+### Üretim Modu (7 Adım)
+
+```
+[1] Analiz modunu çalıştır (zorunlu)
+[2] WCAG 2.2 AA kontrolü — kontrast ≥4.5:1 (metin), ≥3:1 (büyük metin);
+    touch target ≥48×48px; ARIA labelleri; klavye navigasyonu
+[3] ITCSS katmanını seç (Settings → Generic → Objects → Components → Utilities)
+[4] HTML oluştur (semantik, ARIA, data-*)
+[5] CSS yaz (ITCSS sırası, mobile-first, BEM, token kullanımı)
+[6] JS yaz (Vanilla ES6+, var yasak, AbortController zorunlu, innerHTML yasak)
+[7] PHP yaz (gerekirse: strict_types, PDO, CSP nonce, CSRF token)
+```
+
+### JS / PHP / WCAG Hızlı Kurallar
+
+| Alan | Kural |
+|------|-------|
+| JS dil | Vanilla ES6+ (framework YASAK — ADR-001) |
+| JS değişken | `var` YASAK — `const`/`let` |
+| JS fetch | AbortController zorunlu |
+| JS DOM | innerHTML YASAK — DOMParser + TrustedTypes |
+| JS event | Delegation (parent element üzerinden) |
+| PHP types | `declare(strict_types=1)` |
+| PHP DB | PDO prepared statements (ORM yasak — ADR-002) |
+| PHP CSP | Her script için nonce |
+| PHP CSRF | Her form için `csrf_token` |
+| WCAG kontrast | ≥4.5:1 metin / ≥3:1 büyük metin |
+| WCAG touch | ≥48×48px, focus outline ≥3px |
+
+### Yasaklar (ui-workbench)
+
+| Yasaklı | Neden |
+|---------|-------|
+| Mockup okumadan kod yazma | Guardrail #11 |
+| C01-C16'ya aykırı BEM sınıfı | envanter uyumsuzluğu |
+| 1024×600 header/footer yüksekliğini bozma | kanonik referans |
+| innerHTML kullanımı | XSS riski |
+| var kullanımı | ES6+ zorunlu |
+| Framework kullanımı | ADR-001 |
+| Magic numbers | Token'dan gelmeli |
+| Touch target <48px | WCAG ihlali |

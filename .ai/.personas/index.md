@@ -10,7 +10,7 @@ updated: 2026-09-29
 
 # CoreMusic — Persona Kataloğu (68 Persona · 6 Grup)
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[vault-agents]] · [[vault-workflow]] · [[.templates/index]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[.templates/index]]
 
 ---
 

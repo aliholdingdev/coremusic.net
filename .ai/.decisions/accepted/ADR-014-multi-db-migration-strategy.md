@@ -30,14 +30,14 @@ Kapsam: (a) migration aracı seçimi (özel PHP runner + versioned SQL), (b) **D
 
 **Kod/vault kanıtları (diskde okundu — IMPLEMENTED/PLANNED etiketleri dosya yolu + satır ile):**
 
-- **`.ai/.sql/mysql/` — 18 tam dump dosyası IMPLEMENTED, migration dosya yapısı YOK (PLANNED):** glob → `coremusic_ai.sql, coremusic_albums.sql, coremusic_api.sql, coremusic_auth.sql, coremusic_catalog.sql, coremusic_cms.sql, coremusic_download.sql, coremusic_logs.sql, coremusic_media.sql, coremusic_musics.sql, coremusic_neva.sql, coremusic_patch.sql, coremusic_playlist.sql, coremusic_social.sql, coremusic_studio.sql, coremusic_system.sql, coremusic_user.sql, coremusic_wireless.sql` (**18 dosya**, 4.1 KB – 46.1 KB). **`0001_*.sql` biçimli numaralı migration dosyası = 0** → versiyonlu migration serisi **hiç başlamamış**; `.ai/sources/.sql/CLAUDE.md` "SQL dump klasörü … Otorite: ADR-003 + ADR-040" der (dump = şema SSOT, migration ≠ dump).
+- **`.ai/.sql/mysql/` — 18 tam dump dosyası IMPLEMENTED, migration dosya yapısı YOK (PLANNED):** glob → `coremusic_ai.sql, coremusic_albums.sql, coremusic_api.sql, coremusic_auth.sql, coremusic_catalog.sql, coremusic_cms.sql, coremusic_download.sql, coremusic_logs.sql, coremusic_media.sql, coremusic_musics.sql, coremusic_neva.sql, coremusic_patch.sql, coremusic_playlist.sql, coremusic_social.sql, coremusic_studio.sql, coremusic_system.sql, coremusic_user.sql, coremusic_wireless.sql` (**18 dosya**, 4.1 KB – 46.1 KB). **`0001_*.sql` biçimli numaralı migration dosyası = 0** → versiyonlu migration serisi **hiç başlamamış**; `.ai/.sql/CLAUDE.md` "SQL dump klasörü … Otorite: ADR-003 + ADR-040" der (dump = şema SSOT, migration ≠ dump).
 - **`shared/database/migrations/` — 2 dosya IMPLEMENTED (içerik), runner YOK (PLANNED):** `oauth_states_migration.php` + `oauth_connections_migration.php` + `CLAUDE.md`. `oauth_states_migration.php:15-36` → `$queries = [ "CREATE TABLE IF NOT EXISTS oauth_states (...)" ]; return $queries;` — yani dosyalar **dizi döndüren script'lerdir**; `up()/down()` metodlu sınıf, kendi kendine koşan bir CLI veya kilit/checksum mantığı **yoktur**. `shared/database/migrations/CLAUDE.md` satır 19: *"Kural: Forward-only migration (ADR-014). Geri migration yasak."* → vault kuralı bu ADR'ye **hazır ve hizalı** ✅.
 - **Migration runner kodu YOK → PLANNED:** `grep -i migration` → `shared/src/**` = **0 eşleşme**; repo geneli `schema_migrations|MigrationRunner|run_migrations` → yalnız `.ai/` dokümanları + `.claude`/`.opencode` skill'leri; `.ai/scripts/` = 4 dosya (`vault-utf8-writer.mjs`, `vault-faz4-sweep.mjs`, `index.md`, `fix-mojibake.py`) — **database script'i yok**. `shared/` klasör yapısında `bin/`, `tools/`, `scripts/` **yok**.
 - **Harici migration aracı kurulu değil → IMPLEMENTED (negatif kanıt):** 3 `composer.json` (`shared/`, `auth.coremusic.net/`, `home.coremusic.net/`) repo geneli `phinx|doctrine/migrations|laravel/framework` taramasında **0 eşleşme** → Phinx/Doctrine **kurulu değil**. ⚠️ **İddia-kod çelişkisi:** `.ai/.agents/data-engineer.md:30,43,65,77,114,175` dosyaları **"2 Phinx migration"** ve "migration = Phinx" olarak etiketler; dosyaların içeriği Phinx sınıfı değil `$queries` dizisidir ve composer'da phinx yok → `data-engineer.md:114` satırındaki "phinx bağımlılığı composer'da YOK" itirafı iddiayı kendisi çürütür. `.ai/.agents/windows-software-engineer.md:199` doğru yolu gösterir: `grep -n "phinx" composer.json` → yoksa **migration aracı PLANNED**.
 - **`.ai/architecture/k5-veri-yonetimi/migration-strategy.md` — SPEC (IMPLEMENTED-as-spec, kod YOK):** `MigrationManager` sınıf taslağı `migrate()` (satır 37), `rollback($steps)` (satır 59), `getStatus()` (satır 74), `recordMigration()` `down` yönünde `DELETE FROM schema_migrations` (satır 186-189), tek global `schema_migrations` tablosu `CREATE TABLE IF NOT EXISTS` (satır 193-201; **checksum sütunu YOK**), `SELECT * FROM schema_migrations` (satır 167 — `SELECT *` yasağı ile çelişen örnek kod), ve **satır 16: "Her migration forward ve backward olarak uygulanabilir olmalıdır."** → bu dosyadaki **backward/down zorunluluğu ve tek global tablo, bu ADR ile SUPERSEDED olur**; sınıfın kendisi diskte hiçbir yerde `new MigrationManager` ile kullanılmıyor → **PLANNED (spec)**.
 - **`.ai/.templates/infrastructure/migration-template.md` — forward-only şablonu IMPLEMENTED-as-spec:** satır 26 "Forward-only migration (revert yasak) | ADR-014", satır 74 "ADR-040 (BCNF) + ADR-014 (forward-only) compliant", satır 104 "ileriye düzeltme (revert YOK, yeni satır eklenir)", satır 384 #1 "Forward-only: migration revert yasak (ADR-014)", satır 422 "mevcut migration satırını düzenlemek → drift | Yeni satır ekle (ADR-014)", satır 451 "reversibles bir migration yazılmaz" → **şablon bu ADR'yi zaten bekliyor**; ADR yazıldığında şablonla çelişen satır kalmaz.
 - **Vault iddiası "36 script" → ⚠️ VERIFICATION REQUIRED:** `.ai/.templates/adr/adr-database-template.md:182,498` ".ai/scripts/database/ = 36 script (seed/migrate/backup)" der; glob `.ai/scripts/database/*` = **0** → doğrulanamadı, uydurulmadı.
-- **Glossary çelişkisi:** `.ai/raw/glossary.md:440` "ADR-014 (Multi-DB Migration Strategy, **frozen**)" der; bu ADR `accepted` + **frozen YOK** olarak yazılır → iddia-kod çelişkisi, düzeltme ayrı vault işlemi (§5.1 adım 6).
+- **Glossary çelişkisi:** `.ai/glossary.md:440` "ADR-014 (Multi-DB Migration Strategy, **frozen**)" der; bu ADR `accepted` + **frozen YOK** olarak yazılır → iddia-kod çelişkisi, düzeltme ayrı vault işlemi (§5.1 adım 6).
 - **Şablon/protokol kanıtları:** `.ai/.templates/adr/adr-template.md` (Guardrail #16, 7 bölüm + §1.3 9 alan) VAR ✅ · `.claude/skills/prompt-maker/references/10-web-research-protocol.md` VAR ✅ · format referansı `ADR-013-rate-limiting-apcu.md` VAR ✅.
 
 ### 1.2 Sorun Tanımı
@@ -253,7 +253,7 @@ ALTER TABLE coremusic_logs.events
 | [[../../architecture/k5-veri-yonetimi/migration-strategy.md]] | MigrationManager **spec'i** — `rollback()/down` (satır 59-72) + tek global `schema_migrations` (196-201) + "forward ve backward olmalıdır" (satır 16) bu ADR ile **SUPERSEDED**; sınıf gövdesi PLANNED kalır |
 | [[../../.templates/infrastructure/migration-template.md]] | Forward-only şablonu (satır 26, 74, 384, 422, 451) bu ADR'nin uygulayıcısı — ADR yazıldıktan sonra şablon↔ADR çelişkisi kalmaz |
 | `.ai/.agents/data-engineer.md` | "2 Phinx migration" iddiası ↔ kod çelişkisi (§1.1) → düzeltme §5.1 adım 6 |
-| `.ai/raw/glossary.md:440` | "ADR-014 frozen" iddiası ↔ bu ADR `accepted` → düzeltme §5.1 adım 6 |
+| `.ai/glossary.md:440` | "ADR-014 frozen" iddiası ↔ bu ADR `accepted` → düzeltme §5.1 adım 6 |
 
 ---
 
@@ -308,12 +308,12 @@ ALTER TABLE coremusic_logs.events
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | [[../index]] | Karar dizini — §3 satır 51 `[[ADR-014-multi-db-migration-strategy]]` (slug eşleşmesi ✅) |
 | [[../../CLAUDE.md]] | Vault ana sözleşmesi — 16 Hard Guardrail, REDACTED, Guardrail #16 |
-| [[../../raw/AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`migration` → Data Engineer), §24.3 Data okuma listesi |
-| [[../../raw/WORKFLOW.md]] | Debate/onay akışı bağlamı |
-| [[../../raw/brain.md]] | Mimari karar özeti — satır 969 `ADR-014 | Forward-only, versioned migration` (bu ADR ile hizalı ✅) |
-| [[../../raw/keys.md]] | Keyword haritası — satır 88 `migration, schema degisikligi → ADR-014` ✅ |
+| [[../../AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`migration` → Data Engineer), §24.3 Data okuma listesi |
+| [[../../WORKFLOW.md]] | Debate/onay akışı bağlamı |
+| [[../../brain.md]] | Mimari karar özeti — satır 969 `ADR-014 | Forward-only, versioned migration` (bu ADR ile hizalı ✅) |
+| [[../../keys.md]] | Keyword haritası — satır 88 `migration, schema degisikligi → ADR-014` ✅ |
 | [[../../index.md]] | Master katalog — satır 631 ADR-014 kaydı ✅ |
-| [[../../raw/glossary.md]] | Satır 440 "frozen" iddiası → §5.1 adım 6 düzeltmesi |
+| [[../../glossary.md]] | Satır 440 "frozen" iddiası → §5.1 adım 6 düzeltmesi |
 | [[../../log.md]] | Audit trail — bu işlem tek satır append |
 | [[ADR-002-pdo-mandatory-no-orm]] | ORM'siz runner dayanağı (dosya diskte VAR ✅) |
 | [[ADR-003-multi-db-bcnf]] | 18 DB + FK yok → bağımsız sequence dayanağı (dosya diskte VAR ✅) |

@@ -16,7 +16,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 > **Durum:** ✅ **ACCEPTED** (kullanıcı onaylı kapsam a-f + hibrit tema tipi) · **Tarih:** 2026-09-27 · **Debate:** ✅ **TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)** · **Tech Lead:** ✅ · **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-044-dynamic-user-theme-engine`
-> **İlgili kararlar:** [[ADR-001-vanilla-js-itcss]] (ITCSS 9 katman + framework yasağı — bu ADR tema katmanını ITCSS'e bağlar) · [[ADR-018-footer-player-vaporwave]] (görsel dil + `prefers-reduced-motion` hizası) · [[ADR-011-session-management]] (cookie `domain=.coremusic.net` + hibrit saklama — tema çerezleri bu kalıbı izler) · [[ADR-020-api-public-security]] (hesap senkronu için API ucu) · [[ADR-004-multi-domain-spa]] (subdomain SPA iskeleti) · [[ADR-006-performance-targets]] (kritik yol performans tavanı) · [[ADR-022-database-hardened-security]] (tema kolonu şeması) · [[ADR-040-database-authority]] (tek yazıcı ilkesi — tema tercihi yazımı) · [[ADR-043-auth-subdomain-consolidation]] (format referansı) · [[../index.md]] (`:86` slug satırı) · [[../../raw/brain.md]]
+> **İlgili kararlar:** [[ADR-001-vanilla-js-itcss]] (ITCSS 9 katman + framework yasağı — bu ADR tema katmanını ITCSS'e bağlar) · [[ADR-018-footer-player-vaporwave]] (görsel dil + `prefers-reduced-motion` hizası) · [[ADR-011-session-management]] (cookie `domain=.coremusic.net` + hibrit saklama — tema çerezleri bu kalıbı izler) · [[ADR-020-api-public-security]] (hesap senkronu için API ucu) · [[ADR-004-multi-domain-spa]] (subdomain SPA iskeleti) · [[ADR-006-performance-targets]] (kritik yol performans tavanı) · [[ADR-022-database-hardened-security]] (tema kolonu şeması) · [[ADR-040-database-authority]] (tek yazıcı ilkesi — tema tercihi yazımı) · [[ADR-043-auth-subdomain-consolidation]] (format referansı) · [[../index.md]] (`:86` slug satırı) · [[../../brain.md]]
 > **Ad gerekçesi:** slug `ADR-044-dynamic-user-theme-engine` **diskteki gerçek index kaydından** alınmıştır (`[[../index.md]]:86`) — uydurulmadı; kök `CLAUDE.md` kuralı "yeni ADR'ler 088+" derken bu numara **çoktan rezerve** (aynı durum ADR-041/042/043'te kayıtlı) → numara boş değil, boşluk dolduruldu.
 > **Frozen notu:** ADR-001-037 **dokunulmamıştır** (yalnız atıf). Bu dosya Active aralığındadır, frozen değildir.
 
@@ -60,7 +60,7 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 |---|---|---|
 | Çerez + oturum | `cm_gender` / `cm_color_mode` çerezleri (`domain=.coremusic.net`, `samesite=Lax` — ADR-011 kalıbı) + `$_SESSION` + `data-gender`/`data-mode` özniteliği | **IMPLEMENTED** |
 | localStorage (JS) | `js/auth/gender-select.js:29,61` → `localStorage cm_gender` **yazıyor**; ama `ThemeManager.js` localStorage'ı **okumuyor** | **ÇELİŞKİ (dağınık depolama)** |
-| Hesap senkronu (DB) | `.ai/sources/.sql/mysql/coremusic_user.sql:30` `theme_gender ENUM`, `:61` `theme VARCHAR(50) DEFAULT 'default'`; `coremusic_auth.sql:28` `gender ENUM` → şema hazır | **IMPLEMENTED** (şema) |
+| Hesap senkronu (DB) | `.ai/.sql/mysql/coremusic_user.sql:30` `theme_gender ENUM`, `:61` `theme VARCHAR(50) DEFAULT 'default'`; `coremusic_auth.sql:28` `gender ENUM` → şema hazır | **IMPLEMENTED** (şema) |
 | Tema API ucu | Kayıtlı tema tercihi sunucuya yazan endpoint **bulunamadı** | **PLANNED** (→ [[ADR-020-api-public-security]]) |
 
 #### E) Erişilebilirlik + performans + FOUC
@@ -223,7 +223,7 @@ Tek bir bozuk sürüm için geri dönüş noktaları: (1) `main.css` onarımı *
 | 5 | Kontrast testi: semantik rola çiftleri için 4.5:1/3:1 otomatik kontrol (QA) + `prefers-contrast: high` paleti genelleştirilir | QA + UI | 1 gün |
 | 6 | FOUC: `ThemeManager::injectInlineStyle()` canlandırılır; **9 hardcoded hex** semantik token'a taşınır; gate: hex taraması = 0 | Backend + UI | 0.5 gün |
 | 7 | Hibrit tema tipi: hazır tema setleri + `data-theme="custom"` özel paleti + premium erişim bayrağı (§2.6) | UI Designer | 2 gün |
-| 8 | **Dizin düzeltme (ERTELENDİ — onay gerekiyor):** `.ai/.decisions/index.md:86` `[[../../raw/brain.md]] ADR-044-…` satırının `[[accepted/ADR-044-dynamic-user-theme-engine]]` biçimine düzeltilmesi **bir sonraki vault reset'ine ertelenmiştir** — bu işlemde index.md'ye dokunulmadı (kural: onaysız dosya/satır değişikliği yok) | Vault Steward | 0.1 gün |
+| 8 | **Dizin düzeltme (ERTELENDİ — onay gerekiyor):** `.ai/.decisions/index.md:86` `[[../brain.md]] ADR-044-…` satırının `[[accepted/ADR-044-dynamic-user-theme-engine]]` biçimine düzeltilmesi **bir sonraki vault reset'ine ertelenmiştir** — bu işlemde index.md'ye dokunulmadı (kural: onaysız dosya/satır değişikliği yok) | Vault Steward | 0.1 gün |
 | 9 | Debate (3 tur / persona) tamamlanır → §7'deki Tech Lead ⏳ satırı güncellenir | Vault Steward | 0.5 gün |
 
 ### §5.2 Geri Dönüş Planı
@@ -252,19 +252,19 @@ Tek bir bozuk sürüm için geri dönüş noktaları: (1) `main.css` onarımı *
 | Dosya | İlişki |
 |-------|--------|
 | [[CLAUDE.md]] | Ana sözleşme, 16 Hard Guardrail |
-| [[../../raw/brain.md]] | Mimari karar özeti |
-| [[../../raw/WORKFLOW.md]] | Süreçler, fazlar |
-| [[../../raw/index.md]] | Master katalog |
-| [[../../raw/log.md]] | Audit trail (append-only) |
-| [[../../raw/glossary.md]] | Terimler (token, tema, FOUC) |
-| [[../../raw/MEMORY.md]] | Session hafızası |
-| [[../../.templates/adr/adr-template]] | Bu ADR'nin zorunlu şablonu (Guardrail #16) |
-| [[../../raw/index]] | Şablon envanteri (SRP) |
+| [[brain.md]] | Mimari karar özeti |
+| [[WORKFLOW.md]] | Süreçler, fazlar |
+| [[index.md]] | Master katalog |
+| [[log.md]] | Audit trail (append-only) |
+| [[glossary.md]] | Terimler (token, tema, FOUC) |
+| [[MEMORY.md]] | Session hafızası |
+| [[.templates/adr/adr-template]] | Bu ADR'nin zorunlu şablonu (Guardrail #16) |
+| [[.templates/index]] | Şablon envanteri (SRP) |
 | [[../index.md]] | Karar dizini — `:86` slug satırı (düzeltme §5 adım 8'de ertelendi) |
 | [[architecture/k11-ux/theme-engine]] | Tema motoru spec'i — **ÇELİŞKİ**: SCSS/`data-theme`/localStorage iddiası kodda yok (bu ADR §3.1'de reddedildi) — **debate şart 3 (§5.3):** iddia **PLANNED** etiketiyle işaretlenir |
 | [[architecture/k10-uygulama/theme-customization]] | Kullanıcı özelleştirme spec'i — PLANNED (§2.6 hibrit tema) |
-| [[../../sources/ui-design/04-accessibility-gaps]] | Erişilebilirlik boşlukları — §2.4 kontrast hedefi |
-| [[../../sources/ui-design/01-mockup-index]] | Mockup indeksi — tema görsel referansı |
+| [[ui-design/04-accessibility-gaps]] | Erişilebilirlik boşlukları — §2.4 kontrast hedefi |
+| [[ui-design/01-mockup-index]] | Mockup indeksi — tema görsel referansı |
 | [[ADR-001-vanilla-js-itcss]] | ITCSS 9 katman + framework yasağı — §2.6 |
 | [[ADR-004-multi-domain-spa]] | Subdomain SPA iskeleti — tema çaprazı tutarlılık |
 | [[ADR-005-ultrathink-protocol]] | Zero hallucination protokolü — §1.1 dürüst etiket disiplini |
@@ -278,7 +278,7 @@ Tek bir bozuk sürüm için geri dönüş noktaları: (1) `main.css` onarımı *
 | `assets.coremusic.net/Css/main.css` | 15 kırık `@import` kanıtı (§1.1-B) |
 | `assets.coremusic.net/js/managers/ThemeManager.js` | 197 satır JS tema yöneticisi (§1.1-A) |
 | `shared/src/Theme/ThemeManager.php` | 268 satır PHP tema yöneticisi (`injectInlineStyle:154` ölü kod — §1.1-E) |
-| `.ai/sources/.sql/mysql/coremusic_user.sql` | `theme_gender` (`:30`) + `theme` (`:61`) kolonları — §1.1-D |
+| `.ai/.sql/mysql/coremusic_user.sql` | `theme_gender` (`:30`) + `theme` (`:61`) kolonları — §1.1-D |
 
 > **Wiki-link doğrulaması:** Yukarıdaki 27 vault hedefinin **tamamı** diskte mevcut olarak doğrulanmıştır (2026-09-27). Diskte **olmayan** referanslara (`09_ViewModes/`, `a-semantic-token.css`) wiki-link **yazılmamış**, düz metin + `⚠️ VERIFICATION REQUIRED` kullanılmıştır.
 

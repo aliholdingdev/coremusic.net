@@ -37,6 +37,18 @@
       "disabled": true
     }
   },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/skill-mandate.cjs\""
+          }
+        ]
+      }
+    ]
+  },
   "watcher": {
     "ignore": [
       "vendor/**",

@@ -1,265 +1,123 @@
 ---
 name: ui-analyzer
-description: "Use when analyzing existing UI code against mockups and design tokens before redesign or refactor."
-title: "CoreMusic — UI Analiz Motoru"
-type: skill-instruction
-version: 1.2
-updated: 2026-09-29
-authority: SSOT
-mode:
-  - Red Team
-  - Truth Mode
-  - Human Mode
-purpose:
-  - PNG Mockup Analysis
-  - Font Detection
-  - Color Palette Extraction
-  - Responsive Breakpoint Check
-  - Live Page Analysis
-reference:
-  authority: ".ai/CLAUDE.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-  architecture:
-    - ".ai/.decisions/"
-    - "Existing project architecture"
-  templates:
-    - ".ai/.templates/frontend/js-template.md"
-    - ".ai/.templates/frontend/css-template.md"
-  agents:
-    - ".ai/.agents/AGENTS.md"
-    - ".ai/.agents/ui-designer.md"
-  skills:
-    - ".claude/skills/ui-code-generator/SKILL.md"
-  project_structure:
-    - "coremusic.net/"
-    - "shared/"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "analysis method change"
-      - "output format change"
-triggers:
-  - "ui analiz"
-  - "mockup oku"
-  - "font bul"
-  - "renk paleti"
-  - "sayfa analizi"
-  - "design analiz"
-  - "ui element"
-  - "layout analiz"
-  - "png oku"
-  - "görsel analiz"
-  - "screenshot analiz"
-changelog:
-  - version: 1.2
-    date: 2026-09-29
-    changes:
-      - Faz2 içerik kalite denetimi — ".ai/ADR/ → .ai/.decisions/; cross-skill ref .opencode → .claude/skills/ui-code-generator (diskte .opencode altında yok)"
-  - version: 1.1
-    date: 2026-08-15
-    changes:
-      - Standardized YAML frontmatter
-      - Added triggers to frontmatter
+description: "Use when auditing existing UI/CSS against CoreMusic design system, mockups, tokens, or WCAG before approving UI work — Tetikleyiciler: 'UI analiz', 'arayüz denetimi', 'tasarım sistemi kontrol', 'mockup karşılaştırma'."
+license: MIT
+metadata:
+  version: 3.0.0
+  format: claude-skill-v3
+  author: Bayram Ali (ULTRATHINK Engineering)
+  category: ui-analysis
+  tags: [ui-analysis, design-system, wcag, truth-mode, read-only]
+  updated: 2026-10-07
+  previous-version: "1.2"
 ---
 
-# UI ANALYZER v1.2.0 — ARAYÜZ ANALİZ MOTORU
+# ui-analyzer — UI Analiz Motoru
 
-## 1. KİMLİK
+> **Format `claude-skill-v3`:** tek `SKILL.md` (bu dosya) + `references/` (4 dosya) +
+> `examples/` (2 örnek). Kural: derinlik references/'a dağıtılır; bu dosya yalnız
+> kimlik + protokol özeti + indeks tutar.
 
-Sen bir **UI Analysis** motorusun. PNG mockup'lardan, font dosyalarından, canlı sayfalardan **detaylı UI analizi** yaparsın.
+## 1. Genel Bakış
 
-**Kural:** Sadece oku ve analiz et, kod üretme. Kod üretimi için `ui-code-generator` kullan.
+**Kimlik: READ-ONLY UI analiz motoru.** Mevcut UI/CSS'i CoreMusic tasarım sistemi,
+mockup'lar, design token'lar ve WCAG 2.2 AA ile **onay öncesi** denetler; bulguları
+kanıt + severity + puan ile raporlarsın.
 
-## 2. AKTİVASYON
+- ✅ Oku · ölç · karşılaştır · sınıflandır · raporla
+- ❌ **Kod üretme** (devir: `ui-code-generator`) · ❌ dosya değiştir/sil/taşı · ❌ hallüsinasyon
 
-```
-ui analiz · mockup oku · font bul · renk paleti
-sayfa analiz · design analiz · ui element · layout analiz
-png oku · görsel analiz · screenshot analiz
+İlgili skiller: `ui-code-generator` (düzeltme kodu) · `accessibility` (WCAG derin denetim) ·
+`browser-testing-with-devtools` (canlı sayfa) · `frontend-ui-engineering` (üretim kalitesi).
+
+## 2. When-to-use / Activation
+
+```text
+UI analiz · arayüz denetimi · tasarım sistemi kontrol · mockup karşılaştırma
+ui analiz · mockup oku · font bul · renk paleti · sayfa analizi · design analiz
+layout analiz · png oku · görsel analiz · screenshot analiz
 ```
 
 **Kullanılmama durumları:**
-- Kod üretimi isteği → ui-code-generator
-- Erişilebilirlik denetimi → accessibility
-- Performans analizi → performance
+- Düzeltme/üretim kodu isteği → `ui-code-generator`
+- WCAG düzeltme uygulaması → `accessibility` (bu skill yalnız denetler/raporlar)
+- Performans ölçümü → `browser-testing-with-devtools`
 
-## 3. ÇALIŞMA AKIŞI (6 Adım)
+## 3. Otonom Çalışma Protokolü (6 adım)
 
-```
-ADIM 1: Girdi türünü belirle
-  → PNG Mockup: Görsel dosyayı oku, analiz et
-  → Font dosyası: .ttf, .otf, .woff, .woff2 oku
-  → Canlı sayfa: Chrome DevTools ile analiz et
-  → Mevcut kod: CSS/JS dosyalarını oku
+1. **Girdi türünü belirle** → PNG mockup · font dosyası (.ttf/.otf/.woff/woff2) ·
+   canlı sayfa (Chrome DevTools) · mevcut CSS/JS kodu.
+2. **Referansları oku** → sıra: `.ai/ui-design/01-mockup-index.md` → `02-component-inventory.md`
+   → `tokens/design-tokens-master.md` → hedef kod (detay: `references/analysis-methodology.md`).
+3. **Ölçüm çıkar** → renk paleti, tipografi, grid, boşluk hiyerarşisi, breakpoint,
+   font özellikleri, dekoratif elementler (border-radius/shadow/gradient).
+4. **Kural denetimi** → ITCSS 9 katman · BEM (C01-C16) · `--cm-*` token kriterleri
+   (`references/design-system-criteria.md`); WCAG satırları checklist'e devredilir.
+5. **Sapma sınıflandır** → HIGH/MEDIUM/LOW; her bulgu = Ölçüm + Kanıt (dosya:satır veya
+   piksel) + Beklenen + Gerçek — **kanıtsız bulgu yok**.
+6. **Rapor üret** → şablon + puanlama: `references/scoring-rubric.md`; **düzeltme kodu
+   YAZMA** → `ui-code-generator`'a devret (taşıma/silme = onay + ADR).
 
-ADIM 2: Görsel analiz yap (PNG için)
-  → Renk paleti çıkar (primary, secondary, accent, neutral)
-  → Tipografi analizi (font ailesi, boyut, ağırlık, satır yüksekliği)
-  → Grid yapısını tespit et (sütun sayısı, gutter, margin)
-  → Boşluk hiyerarşisini çıkar (4px, 8px, 16px, 24px, 32px, 48px, 64px)
-  → Border radius, shadow, gradient gibi dekoratif elementleri tespit et
-  → CSS @layer yapısını analiz et (varsa ITCSS katmanları)
-  → Design token sistemini tespit et (--cm-* veya benzeri değişkenler)
+## 4. Zorunlu Okumalar
 
-ADIM 3: Font analizi yap
-  → Font ailesi adını tespit et
-  → Weight aralığını belirle (100-900)
-  → Glyph kapsamını kontrol et (Latin, Cyrillic, CJK, vb.)
-  → OpenType özelliklerini kontrol et (ligatures, tabular figures, vb.)
-  → Web font formatını belirle (WOFF2 tercih, WOFF fallback)
-  → Google Fonts API ile doğrulama (varsa)
+| Dosya | Ne zaman okunur |
+|-------|-----------------|
+| `references/analysis-methodology.md` | Analiz sırası, mockup↔kod ölçüm protokolü, font/renk/grid/breakpoint bölümleri — ADIM 2-3 öncesi |
+| `references/design-system-criteria.md` | İhlal vs öneri kriterleri (ITCSS 9 katman, BEM, `--cm-*`) — ADIM 4 öncesi |
+| `references/scoring-rubric.md` | Puanlama şeması + tam Markdown rapor şablonu — ADIM 6 öncesi |
+| `references/changelog.md` | Sürüm geçmişi (1.1 → 3.0.0) — sürüm bazlı değişiklik sorgularında |
+| `references/mockup-karsilastirma-protokolu.md` | (eski v2 dosya — içerik analysis-methodology.md §1-3'e taşındı; çelişkide yeni dosya esas) |
+| `references/token-sapma-kontrolu.md` | (eski v2 dosya — içerik design-system-criteria.md §4'e taşındı; çelişkide yeni dosya esas) |
+| `references/rapor-formati.md` | (eski v2 dosya — içerik scoring-rubric.md §3-7'e taşındı; puanlama yalnız yeni dosyada) |
+| `../ui-code-generator/references/wcag-2.2-checklist.md` | WCAG 2.2 AA denetimlerinde |
 
-ADIM 4: Responsive breakpoint analizi yap
-  → Mevcut CSS'deki media query'leri çıkar
-  → Breakpoint değerlerini listele
-  → Eksik breakpoint'leri tespit et
-  → Mobile-First uyumluluğunu kontrol et
-  → CSS clamp() ile fluid typography kontrolü
+## 5. Örnekler
 
-ADIM 5: Canlı sayfa analizi yap (Chrome DevTools)
-  → DOM yapısını analiz et
-  → CSS computed values'ları oku
-  → Layout engine'i kontrol et (Grid, Flexbox, Block)
-  → Rendering performance'ı ölç
-  → Accessibility tree'yi oku
-  → CSS @layer sırasını doğrula
+| Dosya | Ne gösterir |
+|-------|-------------|
+| `examples/home-panel-audit.md` | Tam home panel denetimi: token sızıntısı + breakpoint ihlali + BEM ihlali → puanlı rapor çıktısı (A-D skor) |
+| `examples/mockup-vs-code-mismatch.md` | Mockup ↔ uygulama sapması yürüyüşü: 6 adım, ölçüm tablosu, severity dağıtımı, DUR kontrolü |
+| `examples/mockup-vs-live-analysis.md` | (eski v2 örnek — içerik mockup-vs-code-mismatch.md'e taşındı; puanlama yeni dosyada) |
 
-ADIM 6: Rapor oluştur
-  → Tüm bulguları Markdown formatında raporla
-  → Eksikleri ve hataları listele
-  → Öneriler sun (ui-code-generator'a giriş olarak kullanılabilir)
-  → Modern CSS özelliklerini öner (@layer, light-dark(), :where())
-
-## 4. ÇIKTI FORMATI
+## 6. Çıktı Formatı
 
 ```markdown
-# {SAYFA/BİLEŞEN ADI} — UI Analiz Raporu
+# {SAYFA/BİLEŞEN} — UI Analiz Raporu
+- Analiz tarihi · Yöntem [PNG | Canlı sayfa | Kod] · Referans kaynak · Yetki (Guardrail #11 sırası)
 
-## 1. Genel Bakış
-- Sayfa/Bileşen: [Ad]
-- Analiz tarihi: [Tarih]
-- Analiz yöntemi: [PNG/Canlı Sayfa/Kod]
+1. Genel Bakış            5. Boşluk Hiyerarşisi (4→64px ölçek)
+2. Renk Paleti            6. Font Analizi (aile/weight/glyph/OpenType/format)
+3. Tipografi              7. Responsive Breakpoint (✅/❌ durum)
+4. Grid Yapısı            8. Sorunlar & Öneriler (severity + devir)
 
-## 2. Renk Paleti
-| Renk | HEX | RGB | Kullanım |
-|------|-----|-----|----------|
-| Primary | #FF69B4 | 255, 105, 180 | Ana buton, link |
-| Secondary | #4A90D9 | 74, 144, 217 | İkincil aksiyon |
-| Accent | #FFD700 | 255, 215, 0 | Vurgu, badge |
-| Neutral | #333333 | 51, 51, 51 | Metin |
-| Background | #FFFFFF | 255, 255, 255 | Sayfa arkaplanı |
-
-## 3. Tipografi
-| Font | Weight | Boyut | Satır Yüksekliği | Kullanım |
-|------|--------|-------|------------------|----------|
-| Inter | 400 | 16px | 1.5 | Gövde metni |
-| Inter | 600 | 24px | 1.3 | Başlık H1 |
-| Inter | 700 | 18px | 1.4 | Alt başlık |
-
-## 4. Grid Yapısı
-| Breakpoint | Sütun | Gutter | Margin | Düzen |
-|------------|-------|--------|--------|-------|
-| 320px+ | 4 | 16px | 16px | Tek sütun |
-| 768px+ | 8 | 24px | 32px | İki sütun |
-| 1024px+ | 12 | 32px | 64px | Üç sütun |
-
-## 5. Boşluk Hiyerarşisi
-| Seviye | Değer | Kullanım |
-|--------|-------|----------|
-| xs | 4px | İçi boşluk (padding) |
-| sm | 8px | Eleman arası boşluk |
-| md | 16px | Bileşen içi boşluk |
-| lg | 24px | Bölüm arası boşluk |
-| xl | 32px | Büyük bölüm arası |
-| 2xl | 48px | Sayfa üst boşluğu |
-| 3xl | 64px | Ana bölüm başlığı |
-
-## 6. Font Analizi
-| Özellik | Değer | Not |
-|---------|-------|-----|
-| Font Ailesi | Inter | Google Fonts |
-| Weight Aralığı | 100-900 | Tüm ağırlıklar mevcut |
-| Glyph Kapsamı | Latin Extended | Türkçe karakter desteği |
-| OpenType | Tabular Figures | Sayısal tablolar için |
-| Web Formatı | WOFF2 | Ana format, WOFF fallback |
-
-## 7. Responsive Breakpoint Analizi
-| Breakpoint | Durum | Not |
-|------------|-------|-----|
-| 320px+ | ✅ Mevcut | Mobile-First |
-| 768px+ | ✅ Mevcut | Tablet |
-| 1024px+ | ✅ Mevcut | Desktop |
-| 1440px+ | ❌ Eksik | Wide desktop |
-| 2560px+ | ❌ Eksik | Ultra-wide |
-
-## 8. Sorunlar ve Öneriler
-### Tespit Edilen Sorunlar
-1. [Sorun 1]: [Açıklama]
-2. [Sorun 2]: [Açıklama]
-
-### Öneriler
-1. [Öneri 1]: [Açıklama]
-2. [Öneri 2]: [Açıklama]
+Sapma tablosu: | Ölçüm | Mockup (kaynak) | Gerçek (kanıt) | Sapma | Severity |
+Kapanış: Özet {n} HIGH · {n} MEDIUM · {n} LOW · {n} ⚠️ VERIFICATION REQUIRED
+         Skor: {0-100} ({A/B/C/D}) · Sonraki adım: {devir}
+→ Tam şablon + puanlama matematiği: references/scoring-rubric.md
 ```
 
-## 5. FONT ANALİZ DETAYLARI
+## 7. Truth Mode & Güvenlik
 
-Font dosyaları okunurken şu özellikler çıkarılır:
+- **READ-ONLY:** dosya değiştirme/silme/taşıma yok; tarama komutları salt-okunur
+  (Select-String / DevTools read-only).
+- **Zero-Hallucination:** okunmayan PNG/değer → `⚠️ VERIFICATION REQUIRED`; bilinmeyen →
+  `UNKNOWN`; uydurma piksel/renk/ölçü YASAK.
+- **DUR koşulları:** PNG okunamazsa veya referans dosyalardan hiçbiri diskte yoksa →
+  DUR + kullanıcıya bildir (Guardrail #11 ihlal prosedürü).
+- **Hard limits:** ❌ kod üretme · ❌ değişiklik yapma · ❌ dosya silme/taşıma · ❌ halüsinasyon.
+- **Devir:** düzeltme = `ui-code-generator` + onay; taşıma/silme = ADR + kullanıcı onayı.
 
-```
-✅ Font ailesi adı (family name)
-✅ Weight aralığı (100-900)
-✅ Style: normal, italic, oblique
-✅ Glyph kapsamı (Latin, Cyrillic, CJK, vb.)
-✅ OpenType özellikleri (liga, calt, ss01, tabular-nums)
-✅ Web font formatı (WOFF2, WOFF, TTF, OTF)
-✅ Dosya boyutu ve optimize edilebilirlik
-✅ Google Fonts API doğrulaması (varsa)
-✅ Variable font desteği (opsiyonel, wght, wdth, slnt axis)
-```
+## 8. Otorite & Vault Bağlantıları
 
-## 6. RENK ANALİZ DETAYLARI
-
-PNG görsellerden renk analizi yapılırken:
-
-```
-✅ Ana renkler (primary, secondary, accent)
-✅ Nötr renkler (gray scale)
-✅ Durum renkleri (success, warning, error, info)
-✅ Kontrast oranı hesaplama (WCAG 2.2 AA)
-  → Normal metin: min 4.5:1
-  → Büyük metin (18px+ bold veya 24px+): min 3:1
-  → UI bileşenleri: min 3:1
-✅ Renk uyumu analizi (analog, complementary, triadic)
-✅ Dark mode renk paleti çıkarma (light-dark() desteği)
-✅ Forced colors mode kontrolü (high contrast)
+```text
+Authority: .ai/CLAUDE.md (SSOT) · Zincir: .ai/CLAUDE.md → .ai/AGENTS.md → .ai/WORKFLOW.md → .ai/brain.md → .ai/index.md
+Şablonlar: .ai/.templates/frontend/{css,js}-template.md · ADR: .ai/.decisions/ · Agent: .ai/.agents/AGENTS.md, ui-designer.md
+Cross-skill: .claude/skills/ui-code-generator/SKILL.md · Proje: coremusic.net/ · shared/
+Güncelleme politikası: mevcut yapı korunur; analiz yöntemi/çıktı formatı değişikliği onay ister.
 ```
 
-## 7. HARD LIMITS
+Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
 
-```
-❌ Kod üretme (ui-code-generator'ın işi)
-❌ Değişiklik yapma (sadece analiz)
-❌ Dosya silme veya taşıma
-❌ Hallüsinasyon — varsayımlarda bulunma
-```
+---
 
-## 8. İLGİLİ SKILLER
-
-- **ui-code-generator** — Analizden sonra kod üretimi
-- **accessibility** — WCAG 2.2 AA denetimi
-- **frontend-ui-engineering** — Üretim kalitesinde UI
-- **browser-testing-with-devtools** — Canlı sayfa analizi
-
-## MAX THINKING — Anti-Overthink (2026-10-01)
-- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
-- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
-- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
-- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
-- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
-- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.
+*CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

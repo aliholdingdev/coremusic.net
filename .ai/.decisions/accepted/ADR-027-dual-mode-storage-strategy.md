@@ -303,12 +303,12 @@ Debate **PENDING** olduğundan bağlayıcı şart **henüz yoktur**; debate turu
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme — Guardrail'ler (bu ADR'nin yazım usulü) |
-| [[../../raw/AGENTS.md]] | Agent registry — §5 domain (`*.php` → Backend Architect, `*.sql` → Data Engineer, `*.js` → UI Designer), §25.3 kural 2/3 (frozen + log append-only) |
-| [[../../raw/WORKFLOW.md]] | Süreçler — uygulama adımlarının faz bağlamı |
+| [[../../AGENTS.md]] | Agent registry — §5 domain (`*.php` → Backend Architect, `*.sql` → Data Engineer, `*.js` → UI Designer), §25.3 kural 2/3 (frozen + log append-only) |
+| [[../../WORKFLOW.md]] | Süreçler — uygulama adımlarının faz bağlamı |
 | [[../index]] | Karar dizini — **satır 64** `[[ADR-027-dual-mode-storage-strategy]]` (slug ✅) |
 | [[../../index]] | Master katalog — `:644` "Decisions/accepted/ADR-027-dual-mode-storage-strategy \| Dual-mode storage \| Infrastructure" |
-| [[../../raw/brain]] | Mimari karar özeti — `:982` "ADR-027 \| Hibrit depolama" |
-| [[../../raw/keys]] | Keyword haritası — `:262` "ADR-027 \| dual-mode storage" |
+| [[../../brain]] | Mimari karar özeti — `:982` "ADR-027 \| Hibrit depolama" |
+| [[../../keys]] | Keyword haritası — `:262` "ADR-027 \| dual-mode storage" |
 | [[ADR-007-cache-namespace]] | Sunucu cache — `shared/src/Cache/` 7 dosya (`CacheManager.php:12-15`) — §1.1-A, §1.4, §2.2a |
 | [[ADR-081-multi-provider-data-sync]] | SSOT + tek yazıcı — `:102,166,177` LWW/merge reddi → bu ADR'in "sunucu SSOT" dayanağı (§1.4, §2b) |
 | [[ADR-026-download-service-architecture]] | Lisans/imza/depo read-only — offline erişim sınırı (§1.4, §4.3/4, §5.1/9) |

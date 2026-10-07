@@ -39,15 +39,15 @@ CoreMusic dokümantasyonu **büyük ama sahipsiz**: 178 `CLAUDE.md`, 7 `AGENTS.m
 
 | İddia (görev listesi) | Durum | Kanıt (dosya/sayaç) |
 |---|---|---|
-| `.ai/raw/brain.md` | ✅ VAR | kök `.md` envanterinde |
+| `.ai/brain.md` | ✅ VAR | kök `.md` envanterinde |
 | `.ai/log.md` | ✅ VAR | 94.119 bayt (bu ADR append'inden sonra — append-only audit) (append-only audit) |
-| `.ai/raw/glossary.md` | ✅ VAR | kök `.md` envanterinde |
+| `.ai/glossary.md` | ✅ VAR | kök `.md` envanterinde |
 | `.ai/index.md` | ✅ VAR | master katalog |
-| `.ai/raw/keys.md` | ✅ VAR | keyword haritası |
-| `.ai/raw/MEMORY.md` | ✅ VAR | session hafızası |
+| `.ai/keys.md` | ✅ VAR | keyword haritası |
+| `.ai/MEMORY.md` | ✅ VAR | session hafızası |
 | `.ai/CLAUDE.md` | ✅ VAR | ana sözleşme (16 Guardrail) |
-| `.ai/raw/AGENTS.md` | ✅ VAR | agent registry SSOT (v22.0.3) |
-| `.ai/raw/WORKFLOW.md` | ✅ VAR | 33.040 bayt süreç dosyası |
+| `.ai/AGENTS.md` | ✅ VAR | agent registry SSOT (v22.0.3) |
+| `.ai/WORKFLOW.md` | ✅ VAR | 33.040 bayt süreç dosyası |
 | `.ai/.templates/` | ✅ VAR | **36 dosya / 11 alt klasör**; registry `[[../../.templates/index]]` `total_templates: 36`, "36/36 dosya diskte" |
 | `.ai/.decisions/` | ✅ VAR | `index.md` (9.488 B) + `CLAUDE.md`; `accepted/` **25 ADR dosyası** + `CLAUDE.md`; `draft/CLAUDE.md`; `rejected/` (`CLAUDE.md` + `index.md`) |
 | `.ai/.agents/` | ✅ VAR | **12 dosya** (`AGENTS.md` + 11 agent profili) |
@@ -63,10 +63,10 @@ CoreMusic dokümantasyonu **büyük ama sahipsiz**: 178 `CLAUDE.md`, 7 `AGENTS.m
 
 | Script | Durum | Kanıt |
 |---|---|---|
-| `.ai/sources/scripts/vault-utf8-writer.mjs` | ✅ IMPLEMENTED | 6.962 bayt — yazma tek arayüzü (append/write/insert/verify/repair/scan) |
+| `.ai/scripts/vault-utf8-writer.mjs` | ✅ IMPLEMENTED | 6.962 bayt — yazma tek arayüzü (append/write/insert/verify/repair/scan) |
 | `.ai/scripts/vault-faz4-sweep.mjs` | ✅ IMPLEMENTED | 22.435 bayt — toplam vault tarama |
-| `.ai/sources/scripts/fix-mojibake.py` | ✅ IMPLEMENTED | 9.273 bayt — mojibake onarımı |
-| `.ai/sources/scripts/index.md` | ✅ IMPLEMENTED | 2.720 bayt — envanter ("Toplam: 3 dosya" — kendini saymıyor; disk = 4 dosya) |
+| `.ai/scripts/fix-mojibake.py` | ✅ IMPLEMENTED | 9.273 bayt — mojibake onarımı |
+| `.ai/scripts/index.md` | ✅ IMPLEMENTED | 2.720 bayt — envanter ("Toplam: 3 dosya" — kendini saymıyor; disk = 4 dosya) |
 | **`.ai/scripts/session-save.mjs`** | ❌ **YOK (PLANNED)** | tüm repo recursive arama = **0**; `scripts/index.md` "?? YOK kaydı" |
 | **`.ai/scripts/vault-post-update.mjs`** | ❌ **YOK (PLANNED)** | tüm repo recursive arama = **0**; `scripts/index.md` "?? YOK kaydı" |
 | `.ai/scripts/project-state.md` | ❌ YOK | kökte de yok (`log.md:390`) — bu ADR kapsamı **dışı, işaretli** |
@@ -136,12 +136,12 @@ CoreMusic dokümantasyonu **büyük ama sahipsiz**: 178 `CLAUDE.md`, 7 `AGENTS.m
 | [[ADR-005-ultrathink-protocol]] | Kod/vault kanıtı olmayan her iddia etiketli: `.ai/security/` **0**, kök `AGENTS.md` **yok**, kod-klasörü `CLAUDE.md` mükerrerliği **taranmadı**, 34 kırık linkin kapanma oranı **tahmin değil** → `⚠️ VERIFICATION REQUIRED` |
 | [[ADR-014-multi-db-migration-strategy]] | "Tek doğruluk kaynağı + mükerrer bilgi yok" ruhu bu ADR'nin çekirdeği; domain `CLAUDE.md` merkezden bilgi **kopyalayamaz**, link verir |
 | [[ADR-023-persona-driven-testing]] | Denetim çıktısı **ölçülebilir** olmalı (kayıp/link sayısı/süre); ADR-023 CI gate'i ile **aynı `ci.yml` hattını** paylaşabilir → çalışma zamanı çakışması §4.3/3 |
-| `[[../../raw/AGENTS.md]]` §25.3 kural 3 | `log.md` **append-only** — bu işlemde geçmiş satıra dokunulmaz; §7.1 kaydı dahil |
-| `[[../../raw/AGENTS.md]]` §26.2 | SSOT hiyerarşisi: çelişkide **kök dosya kazanır** — bu ADR bu hiyerarşiyi bozmaz, sahiplik satırını ekler |
+| `[[../../AGENTS.md]]` §25.3 kural 3 | `log.md` **append-only** — bu işlemde geçmiş satıra dokunulmaz; §7.1 kaydı dahil |
+| `[[../../AGENTS.md]]` §26.2 | SSOT hiyerarşisi: çelişkide **kök dosya kazanır** — bu ADR bu hiyerarşiyi bozmaz, sahiplik satırını ekler |
 | In-Place Refactoring | Dosya adları (`CLAUDE.md`, `.templates/*`, `scripts/*`, domain dosyaları) **onaysız değiştirilemez/taşınmaz**; bu ADR yalnız yerleşim + sahiplik + denetim kararı yazar |
 | Guardrail #16 (şablon zorunlu) | Yeni/vardırılan her doküman `.templates/` şablonundan; şablonsuz dosya üretilmez |
 | Frozen ADR-001-037 | Yalnız okunur + referanslanır (`AGENTS.md` §25.3 kural 2) — bu ADR frozen **değil** |
-| REDACTED | Denetim çıktılarında secret/credential `.env` değeri yazılmaz; `.ai/raw/keys.md` içeriği bu ADR'ye kopyalanmaz |
+| REDACTED | Denetim çıktılarında secret/credential `.env` değeri yazılmaz; `.ai/keys.md` içeriği bu ADR'ye kopyalanmaz |
 | Numara kuralı | `ADR-024-ecosystem-modular-docs` **rezerve slottur** (`../index.md:61`); yeni ADR ≥088 kuralı bu yazımda uygulanmaz (ADR-019-023 istisnası) |
 | `.ai/log.md` append-only | Bu işlem dahil tüm kayıtlar yalnız ekleme (bayt-seviyesi, `vault-utf8-writer append`) |
 
@@ -171,7 +171,7 @@ CoreMusic dokümantasyonu **büyük ama sahipsiz**: 178 `CLAUDE.md`, 7 `AGENTS.m
 | **SSOT merkezi** | `.ai/` kök 15 `.md` (`CLAUDE`, `AGENTS`, `WORKFLOW`, `brain`, `index`, `keys`, `glossary`, `MEMORY`, `log`, `engine`, `ROLE`, `VISION`, `PROJECTS`, `ULTRA-THINKING`, `broken-links-report`) | Her alanın **tek kaynağı** | MO (vault-updater) + dosya sahibi | ✅ Tek burada |
 | Kararlar | `.ai/.decisions/` (`index.md`, `accepted/`, `draft/`, `rejected/`) | ADR tekliği | Vault Steward | ✅ Tek burada |
 | Şablonlar | `.ai/.templates/` (36 dosya, registry `[[../../.templates/index]]`) | Şablon envanteri (SRP) | Vault Steward | ❌ Envanter tekrarlanmaz |
-| Roller | `.ai/.agents/` (12 dosya; SSOT `.ai/raw/AGENTS.md` §26.2) | Profil indeksi | MO | ❌ Routing tekrarlanmaz |
+| Roller | `.ai/.agents/` (12 dosya; SSOT `.ai/AGENTS.md` §26.2) | Profil indeksi | MO | ❌ Routing tekrarlanmaz |
 | **Domain modülleri** | `shared/CLAUDE.md` · `auth.coremusic.net/CLAUDE.md` · `home.coremusic.net/CLAUDE.md` · `assets.coremusic.net/CLAUDE.md` (+ 4 `AGENTS.md`) | **Kısa** kapsam + sorumluluk + **merkeze link** | Domain lead (Backend / Security / UI / Data) | ❌ Ayrıntı `.ai/`'de |
 | Kod-klasörü notları | `shared/src/**`, `auth/**`, `assets/**` altı ≈136 `CLAUDE.md` | Yerel bağ notu (kısa) | Dosyanın sahip olduğu agent | ❌ **Kural: 1 paragraf + merkeze link** (§5.1/3 mükerrer taraması) |
 | Mimari | `.ai/architecture/` (24 dizin, k0-k20 + `adr/` + `firmware/`) | Katman dokümanı | Domain lead (ilgili katman) | ✅ Katman kendi alanında tek |
@@ -184,8 +184,8 @@ CoreMusic dokümantasyonu **büyük ama sahipsiz**: 178 `CLAUDE.md`, 7 `AGENTS.m
 |---|---|---|
 | Biçim | `[[göreli/yol/dosya]]` — dosyanın **kendi dizininden** göreli (uzantı `.md` yazılmaz) | Kırık link → dead-link |
 | Disk kanıtı | Hedef **diskte var olmak zorunda**; yoksa link **atılmaz** → düz metin + `⚠️ VERIFICATION REQUIRED` | Hallucination |
-| Köklere çıkış | `.ai/.decisions/accepted/` → merkez `[[../../CLAUDE.md]]`, `[[../../raw/AGENTS.md]]`, `[[../../index]]`; domain → `[[../../../CLAUDE.md]]` | Yanlış derinlik |
-| Kod/script yolları | Wiki-link değil **backtick yol** (`.ai/sources/scripts/vault-utf8-writer.mjs`) — script doküman değildir | Geçersiz wiki-link |
+| Köklere çıkış | `.ai/.decisions/accepted/` → merkez `[[../../CLAUDE.md]]`, `[[../../AGENTS.md]]`, `[[../../index]]`; domain → `[[../../../CLAUDE.md]]` | Yanlış derinlik |
+| Kod/script yolları | Wiki-link değil **backtick yol** (`.ai/scripts/vault-utf8-writer.mjs`) — script doküman değildir | Geçersiz wiki-link |
 | Dead-link işareti | Kapanmayan link için `<!-- dead-link: <slug> no source <tarih> -->` (faz6-D deseni) | Sessizce kırık kalma |
 | Yeni link = yeni denetim | Link eklendikten sonra **link denetimi** yeniden koşar | Denetimsiz link |
 
@@ -239,7 +239,7 @@ CoreMusic dokümantasyonu **büyük ama sahipsiz**: 178 `CLAUDE.md`, 7 `AGENTS.m
 - **İki senkron script bağımlılığı:** `session-save`/`vault-post-update` yazılmadan madde (c) **yerine getirilmemiş** sayılır → ADR kabul edilmiş ama pipeline henüz yok (açık PLANNED).
 - **Denetim çıktısı gürültü üretebilir:** ilk tarama 34+ link ve muhtemel şablon uyuşmazlıkları döker; her seans rapor üretimi log'u şişirir.
 - **Sahiplik ataması yetki ister:** "domain lead" kim, kod notu sahibi agent nasıl atanır — atama yapılmazsa matris kağıtta kalır.
-- **Kökte `AGENTS.md` yokluğu:** yönlendirici katman bugün eksik (§1.1-A) → ya oluşturulur ya da `.ai/raw/AGENTS.md`'ye link yazılır; ikisi de ek iş.
+- **Kökte `AGENTS.md` yokluğu:** yönlendirici katman bugün eksik (§1.1-A) → ya oluşturulur ya da `.ai/AGENTS.md`'ye link yazılır; ikisi de ek iş.
 - **Yazım hızı düşer:** her doküman şablon + 7 alan frontmatter + link disk kanıtı ister (kısa not yazmak bile maliyetli).
 
 ### 4.3 Riskler
@@ -267,7 +267,7 @@ CoreMusic dokümantasyonu **büyük ama sahipsiz**: 178 `CLAUDE.md`, 7 `AGENTS.m
 | 3 | **Sahiplik satırı + kısa not kuralını uygula:** domain `CLAUDE.md`'lerine `sahip` alanı ekle; 136 kod-klasörü `CLAUDE.md`'sini "1 paragraf + merkeze link" formatına **kademeli** geçir (önce `shared/src/**`) | Domain lead'ler + Vault Steward | 1 hafta (kademeli) |
 | 4 | **Mükerrer iddia taraması:** domain/kod notları ile `.ai/` kök SSOT arasında aynı iddia aranır (`⚠️ VERIFICATION REQUIRED` işaretli bulgular: 136 dosya taranmadı — §1.1-F) | Vault Steward + MO | 2 gün |
 | 5 | **34 kırık linki kapat:** her satır için repoint / dead-mark / hedef üret (sahip onayı); `broken-links-report.md` tazelenir | Vault Steward (sahip onaylı) | 2 gün |
-| 6 | **Yönlendirici katmanı tamamla:** kök `AGENTS.md` **YOK** → ya `.ai/raw/AGENTS.md`'ye işaret eden ince bir kök dosya yaz ya da kök `CLAUDE.md`'ye "agent registry: `.ai/raw/AGENTS.md`" linki koy (onay: Vault Steward) | Vault Steward | 0.5 gün |
+| 6 | **Yönlendirici katmanı tamamla:** kök `AGENTS.md` **YOK** → ya `.ai/AGENTS.md`'ye işaret eden ince bir kök dosya yaz ya da kök `CLAUDE.md`'ye "agent registry: `.ai/AGENTS.md`" linki koy (onay: Vault Steward) | Vault Steward | 0.5 gün |
 | 7 | **Denetim 2 + 3'ü `vault-post-update.mjs` içine göm** (şablon uyumu + frontmatter 7 alan + stale sayaç↔disk karşılaştırması; çıktı iki kademeli — §4.3/2) | MO (vault-updater) | 2 gün |
 | 8 | **CI bağlantısı (opsiyonel faz sonu):** `ci.yml`'e `vault-post-update --dry-run` adımı → doküman hatası PR'ı düşürür (ADR-023 gate'i ile aynı hatta, ayrı job) | DevOps + Vault Steward | 1 gün (faz sonu) |
 | 9 | **Doğrulama:** `vault-utf8-writer scan` (mojibake 0), link denetimi (yeni kırık link 0), `grep -c '{{' <ADR-024>` (0), `.ai/.decisions/index.md:61` slug eşleşmesi | Vault Steward | 0.5 gün |
@@ -285,8 +285,8 @@ CoreMusic dokümantasyonu **büyük ama sahipsiz**: 178 `CLAUDE.md`, 7 `AGENTS.m
 
 | Tur | Persona | Durum | Sonuç |
 |---|---|---|---|
-| Tur 1 | 20 persona | ✅ | **Bulgu:** kök `AGENTS.md` YOK (`CLAUDE.md`/`WORKFLOW.md` var) · repo geneli **178 `CLAUDE.md`** (136'sı kod klasöründe) · `.ai/` içinde **34 `CLAUDE.md`** · `.templates/` **36 dosya** · `.ai/scripts/` **4 dosya + 2 eksik script** (`session-save.mjs`, `vault-post-update.mjs`) · `broken-links-report` **34 kırık link / 5 dosya** · `.ai/security/` **YOK** (içerik `architecture/k6-guvenlik/` altında) · `.ai/raw/AGENTS.md` **v22.0.3** registry SSOT → **15 kabul/neutral, 4 uyarı**; **Critic:** kök `AGENTS.md` eksik + yanlış security referansı **şart** |
-| Tur 2 | İtiraz→çözüm | ✅ | **4 itiraz → 4 çözüm:** (1) kök `AGENTS.md` yok → kök `AGENTS.md` yazılır veya `.ai/raw/AGENTS.md`'ye yönlendirici → **şart 1a** · (2) `.ai/security/` yanlış referans → dizin oluş veya `k6-guvenlik`'e çevir → **şart 1b** · (3) 178 `CLAUDE.md` denetimsiz → link/şablon denetimi CI'a bağlanır → **şart 2** · (4) eksik 2 script → `session-save.mjs` + `vault-post-update.mjs` yazılır → **şart 3** |
+| Tur 1 | 20 persona | ✅ | **Bulgu:** kök `AGENTS.md` YOK (`CLAUDE.md`/`WORKFLOW.md` var) · repo geneli **178 `CLAUDE.md`** (136'sı kod klasöründe) · `.ai/` içinde **34 `CLAUDE.md`** · `.templates/` **36 dosya** · `.ai/scripts/` **4 dosya + 2 eksik script** (`session-save.mjs`, `vault-post-update.mjs`) · `broken-links-report` **34 kırık link / 5 dosya** · `.ai/security/` **YOK** (içerik `architecture/k6-guvenlik/` altında) · `.ai/AGENTS.md` **v22.0.3** registry SSOT → **15 kabul/neutral, 4 uyarı**; **Critic:** kök `AGENTS.md` eksik + yanlış security referansı **şart** |
+| Tur 2 | İtiraz→çözüm | ✅ | **4 itiraz → 4 çözüm:** (1) kök `AGENTS.md` yok → kök `AGENTS.md` yazılır veya `.ai/AGENTS.md`'ye yönlendirici → **şart 1a** · (2) `.ai/security/` yanlış referans → dizin oluş veya `k6-guvenlik`'e çevir → **şart 1b** · (3) 178 `CLAUDE.md` denetimsiz → link/şablon denetimi CI'a bağlanır → **şart 2** · (4) eksik 2 script → `session-save.mjs` + `vault-post-update.mjs` yazılır → **şart 3** |
 | Tur 3 | Oy | ✅ | **18 kabul / 2 çekimser / 0 red → KABUL** (3 şart bağlayıcı: 1a-1b · 2 · 3 → §5.5) |
 | **Toplam** | **3 tur / 20 persona** | **✅ TAMAMLANDI** | **18/2/0 KABUL** — şartlar §5.5, Tech Lead §7 ✅ (2026-09-25) |
 
@@ -306,7 +306,7 @@ CoreMusic dokümantasyonu **büyük ama sahipsiz**: 178 `CLAUDE.md`, 7 `AGENTS.m
 
 | # | Şart | Kapsam | Sahip | Süre | §5.1 karşılığı |
 |---|------|--------|-------|------|---------------|
-| **1** | Kök `AGENTS.md` + doğru security referansı | **1a:** kök `AGENTS.md` **YOK** → kök `AGENTS.md` yazılır veya kök `CLAUDE.md`'ye `.ai/raw/AGENTS.md`'ye yönlendirici link konur · **1b:** `.ai/security/` **YOK** (içerik `architecture/k6-guvenlik/` altında) → vault'taki yanlış `.ai/security/` referansları ya `.ai/security/` dizinini oluşturur ya `[[../../architecture/k6-guvenlik]]`'e çevrilir (dosya adı değişmez — In-Place Refactoring) | Vault Steward | 0.5 gün | §5.1/6 (1a) + §5.1/10 (1b) |
+| **1** | Kök `AGENTS.md` + doğru security referansı | **1a:** kök `AGENTS.md` **YOK** → kök `AGENTS.md` yazılır veya kök `CLAUDE.md`'ye `.ai/AGENTS.md`'ye yönlendirici link konur · **1b:** `.ai/security/` **YOK** (içerik `architecture/k6-guvenlik/` altında) → vault'taki yanlış `.ai/security/` referansları ya `.ai/security/` dizinini oluşturur ya `[[../../architecture/k6-guvenlik]]`'e çevrilir (dosya adı değişmez — In-Place Refactoring) | Vault Steward | 0.5 gün | §5.1/6 (1a) + §5.1/10 (1b) |
 | **2** | Otomatik denetim CI bağlantısı + 34 kırık link başlangıç temizliği | Link/şablon denetimi `vault-post-update.mjs` → `ci.yml` bağlanır (`--dry-run`, ADR-023 gate'i ile aynı hat ayrı job) **ve** `broken-links-report.md`'deki **34 kırık link / 5 dosya** başlangıç temizliği yapılır (repoint / dead-mark / hedef üret) | DevOps + Vault Steward | 3 gün | §5.1/5 + §5.1/7 + §5.1/8 |
 | **3** | 2 eksik script yazımı | `.ai/scripts/session-save.mjs` + `.ai/scripts/vault-post-update.mjs` yazılır (arayüz §2.2d; diskte 0 → 5 `log.md` "ÇALIŞTIRILAMADI" kaydı kapanır) | MO (vault-updater) | 1-2 gün | §5.1/1-2 |
 
@@ -319,16 +319,16 @@ CoreMusic dokümantasyonu **büyük ama sahipsiz**: 178 `CLAUDE.md`, 7 `AGENTS.m
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme — 16 Guardrail (bu ADR madde (b)'nin kaynağı) |
-| [[../../raw/AGENTS.md]] | Agent registry SSOT §5 domain boundary (sahip eşlemesi), §25.3 kural 3 (log append-only), §26.2 SSOT hiyerarşisi, §3 Stack Etiketi (IMPLEMENTED/PLANNED) |
-| [[../../raw/WORKFLOW.md]] | Süreçler — post-op sync akışının bugünkü tanımı (manuel ⚠️) |
+| [[../../AGENTS.md]] | Agent registry SSOT §5 domain boundary (sahip eşlemesi), §25.3 kural 3 (log append-only), §26.2 SSOT hiyerarşisi, §3 Stack Etiketi (IMPLEMENTED/PLANNED) |
+| [[../../WORKFLOW.md]] | Süreçler — post-op sync akışının bugünkü tanımı (manuel ⚠️) |
 | [[../../index]] | Master katalog — boot listesi + envanter |
-| [[../../raw/brain]] | Mimari karar özeti (bu ADR'nin özeti buraya türetilir) |
-| [[../../raw/glossary]] | Terim sözlüğü — SSOT/drift/şablon terimleri için |
-| [[../../raw/engine]] | Orkestrasyon motoru §9.2 (`:382`) — IMPLEMENTED/PLANNED matrisi |
+| [[../../brain]] | Mimari karar özeti (bu ADR'nin özeti buraya türetilir) |
+| [[../../glossary]] | Terim sözlüğü — SSOT/drift/şablon terimleri için |
+| [[../../engine]] | Orkestrasyon motoru §9.2 (`:382`) — IMPLEMENTED/PLANNED matrisi |
 | [[../../.templates/index]] | Şablon registry (36/36) — denetim 2'nin referansı |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin zorunlu şablonu (Guardrail #16) |
 | [[../../.agents/AGENTS]] | Rol profilleri indeksi (alt registry) |
-| [[../../raw/index]] | Script envanteri — `session-save`/`vault-post-update` "?? YOK kaydı" bu ADR ile kapanır |
+| [[../../scripts/index]] | Script envanteri — `session-save`/`vault-post-update` "?? YOK kaydı" bu ADR ile kapanır |
 | [[../../broken-links-report]] | Link denetimi çıktısı (34 kırık link / 5 dosya, 2026-09-24) |
 | [[../../reports/broken-files-report]] | Kod/dosya bulguları (39 bulgu, 2026-09-23) |
 | [[../../architecture/k6-guvenlik/CLAUDE]] | Güvenlik katmanı — `.ai/security/` YOK; **şart 1b**'nin doğru referans hedefi (§5.5/1b) |
@@ -357,11 +357,11 @@ CoreMusic dokümantasyonu **büyük ama sahipsiz**: 178 `CLAUDE.md`, 7 `AGENTS.m
 
 ### 7.1 Debate ve Onay Notu
 
-**Debate: ✅ TAMAMLANDI (2026-09-25)** — 3 tur / 20 persona: **Tur 1** 20 persona bulgu (kök `AGENTS.md` YOK · 178 `CLAUDE.md`/136 kod klasörü · `.ai/` 34 `CLAUDE.md` · 36 şablon · 4+2 script · 34 kırık link · `.ai/security/` YOK · `.ai/raw/AGENTS.md` v22.0.3 → 15 kabul/neutral + 4 uyarı, Critic: 2 şart) · **Tur 2** 4 itiraz→çözüm → şart 1a/1b/2/3 · **Tur 3** oy: **18 kabul / 2 çekimser / 0 red = KABUL**. Kayıt: §5.3 (turlar) · **§5.5 (3 bağlayıcı şart + doğrulama)** · bu satır. **Tech Lead: ✅ (2026-09-25)** — şartlar §5.1/5-8 + §5.1/10 adımlarıyla takip edilir. **Arch Lead: ⏳** — 3 şart kapanıp Tech Lead ✅ sonrası.
+**Debate: ✅ TAMAMLANDI (2026-09-25)** — 3 tur / 20 persona: **Tur 1** 20 persona bulgu (kök `AGENTS.md` YOK · 178 `CLAUDE.md`/136 kod klasörü · `.ai/` 34 `CLAUDE.md` · 36 şablon · 4+2 script · 34 kırık link · `.ai/security/` YOK · `.ai/AGENTS.md` v22.0.3 → 15 kabul/neutral + 4 uyarı, Critic: 2 şart) · **Tur 2** 4 itiraz→çözüm → şart 1a/1b/2/3 · **Tur 3** oy: **18 kabul / 2 çekimser / 0 red = KABUL**. Kayıt: §5.3 (turlar) · **§5.5 (3 bağlayıcı şart + doğrulama)** · bu satır. **Tech Lead: ✅ (2026-09-25)** — şartlar §5.1/5-8 + §5.1/10 adımlarıyla takip edilir. **Arch Lead: ⏳** — 3 şart kapanıp Tech Lead ✅ sonrası.
 
 ---
 
-**REFACTOR REPORT:** FILE: ADR-024-ecosystem-modular-docs.md · PURPOSE: Vault-merkezli modüler dokümantasyon + tek sahip/tek SSOT + şablon/otomatik denetim + eksik post-op scriptler · VALIDATION: 7 bölüm + §1.3 9 alan (7 sorgu / ~47 kaynak) + frontmatter 7 alan + IMPLEMENTED/PLANNED etiketleri + wiki-link disk kanıtı · RELATED: [[../index]] · [[../../CLAUDE.md]] · [[../../raw/AGENTS.md]] · [[../../.templates/adr/adr-template]]
+**REFACTOR REPORT:** FILE: ADR-024-ecosystem-modular-docs.md · PURPOSE: Vault-merkezli modüler dokümantasyon + tek sahip/tek SSOT + şablon/otomatik denetim + eksik post-op scriptler · VALIDATION: 7 bölüm + §1.3 9 alan (7 sorgu / ~47 kaynak) + frontmatter 7 alan + IMPLEMENTED/PLANNED etiketleri + wiki-link disk kanıtı · RELATED: [[../index]] · [[../../CLAUDE.md]] · [[../../AGENTS.md]] · [[../../.templates/adr/adr-template]]
 
 ---
 

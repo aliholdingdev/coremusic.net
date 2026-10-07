@@ -188,7 +188,7 @@ Bu karar **kod tarafında geri alınacak bir şey üretmedi** (MongoDB hiç girm
 | [[../accepted/ADR-014-multi-db-migration-strategy]] | Migration tek kapısı (özel PHP runner) — document store bu kapıya girmez |
 | [[../accepted/ADR-081-multi-provider-data-sync]] | Outbox + WAL — DB arası tutarlılığın red-dışı telafisi |
 | [[../accepted/ADR-039-7-service-platform-architecture]] | 11 servis — sahiplik matrisinin servis tarafı |
-| [[../../raw/brain]] | Mimari karar özeti (veri/DB satırı) |
+| [[../../brain]] | Mimari karar özeti (veri/DB satırı) |
 | [[R-001-redux-style-state-management]] | Seri kardeşi — aynı salt-okunur red kayıt formatı (bu dosyanın format referansı) |
 | Debate şartları | Bu dosya **§5.3** — debate ✅ TAMAMLANDI (3 tur / 20 persona, 19/1/0 **RED DOĞRULANDI**) + **3 şart**: (1) bağımsız kaynak/⚠️ (2) argüman sabitleme (3) yeniden değerlendirme kapısı |
 | Düz metin | Eski seri R-003…R-012 (`rejected/index.md` tablosu boş → §7.1/2) |

@@ -25,7 +25,7 @@ CoreMusic frontend katmanı (assets.coremusic.net, K10-K11 / A3) için uygulama 
 
 ### 1.1 Mevcut Durum
 
-- Frontend hedefi: Vanilla JS ES6+ + ITCSS + BEM — [[../../raw/AGENTS.md]] §4 (UI Designer satırı) ve §16 kalite standardı ("%100 ITCSS uyum, BEM namespace, WCAG 2.2 AA").
+- Frontend hedefi: Vanilla JS ES6+ + ITCSS + BEM — [[../../AGENTS.md]] §4 (UI Designer satırı) ve §16 kalite standardı ("%100 ITCSS uyum, BEM namespace, WCAG 2.2 AA").
 - CSS disk kanıtı: `assets.coremusic.net/Css/**` altında **8 katman dizini** (01_Abstracts … 08_Devices) + `main.css` + `auth-bundled.css` — kanıt: [[../../.templates/frontend/css-template]] §3.1.
 - Şartname kanıtı: [[../../architecture/k11-ux/itcss-9-layer]] **9 katman** tanımlar (1-settings … 9-trumps). Spec 9 / disk 8 farkı → `⚠️ VERIFICATION REQUIRED` (ayrıntı §2.2).
 - Backend'de benzer yasağın emsali zaten yürürlükte: ORM yasağı + PDO zorunluluğu (eski seri kararları → [[../index]] §3, kavramsal referans).
@@ -72,7 +72,7 @@ Framework kullanmak mı, saf Vanilla JS + ITCSS ile mi devam etmek? Sorun üç e
 | Composer serbestliği | Proje güvenliği/kalite Composer paketleriyle karşılanabilir; ancak bir Composer paketi frontend runtime'ı veya sayfa iskeleti sağlayamaz. |
 | Core Web Vitals bütçesi | LCP ≤2.5s / INP ≤200ms / CLS ≤0.1 (web.dev, p75) hedefleri aşılamaz; JS bütçesi ITCSS/Utility denetimiyle korunur. |
 | WCAG 2.2 AA | 4 yeni AA kriteri (2.4.11, 2.5.7, 2.5.8, 3.3.8) dahil tüm AA kriterleri; manuel a11y testi zorunlu (debate şartı 2). |
-| Vault şablon zorunluluğu | Frontend kodu Guardrail #16 ile [[../../.templates/frontend/js-template]] ve [[../../.templates/frontend/css-template]]'ten üretilir; mockup'lar [[../../sources/ui-design/01-mockup-index]] üzerinden okunur. |
+| Vault şablon zorunluluğu | Frontend kodu Guardrail #16 ile [[../../.templates/frontend/js-template]] ve [[../../.templates/frontend/css-template]]'ten üretilir; mockup'lar [[../../ui-design/01-mockup-index]] üzerinden okunur. |
 
 ---
 
@@ -89,7 +89,7 @@ Framework kullanmak mı, saf Vanilla JS + ITCSS ile mi devam etmek? Sorun üç e
 1. **Saldırı yüzeyi:** npm 2025'te tüm OSS malware'inin %99.8'ini üretti ve saldırılar doğrudan JS/React framework ekosistemini hedef aldı (Sonatype Q4 2025, Veracode 2025, Safeguard). Framework = bağımlılık ağacı = girişi olan kapı. Saf Vanilla JS, frontend tedarik zincirisini fiilen sıfırlar; Composer tarafı ise kontrollü/kütüphane ölçeğinde kalır.
 2. **Performans:** hydration ana thread'i bloklar ve statik içeriği hydrate etmek boş iştir (arXiv 2504.03884); framework runtime'ı gzip'e rağmen ~80KB çekirdek maliyet getirir (johal.in vakası: 142KB → 28KB, %80). Core Web Vitals eşikleri (LCP 2.5s / INP 200ms) değişmedi; küçük bundle doğrudan avantaj.
 3. **Erişilebilirlik:** framework DOM soyutlaması, WCAG 2.2 AA kriterlerini (focus görünürlüğü, hedef boyutu, tutarlı yardım) elle test etmeyi zorlaştırır. Vanilla DOM + manuel a11y testi, AA kanıtını daha doğrudan üretir.
-4. **Tutarlılık:** ORM yasağı ile aynı mimari felsefe — "kontrol projede kalır". Ayrıca [[../../raw/brain]] ve [[../../raw/AGENTS.md]] §16 zaten bu hedefi şart koşuyor; bu ADR kararı resmi ve tek kaynak yapar.
+4. **Tutarlılık:** ORM yasağı ile aynı mimari felsefe — "kontrol projede kalır". Ayrıca [[../../brain]] ve [[../../AGENTS.md]] §16 zaten bu hedefi şart koşuyor; bu ADR kararı resmi ve tek kaynak yapar.
 
 ### 2.2 Teknik Detaylar
 
@@ -136,14 +136,14 @@ Kural: katman sırası değiştirilemez; alt katman üst katmanı geçersiz kıl
 ### 4.1 Olumlu Sonuçlar
 
 - **Frontend tedarik-zinciri riski fiilen sıfırlanır:** runtime npm bağımlılığı yok → Sonatype/Veracode 2025'te ölçülen npm malware dalgası (394.877 paket / Q4, +%86.8 kritik) frontend'e hiç ulaşamaz. *(vault çapraz referans: [[../../architecture/k6-guvenlik/CLAUDE.md]] güvenlik katmanı + güvenlik kararları [[../index]] §3 Security grubu; CSP nonce ve CSRF korumalarıyla birlikte değerlendirilir.)*
-- **Core Web Vitals avantajı:** framework runtime'ı + hydration yükü olmadan LCP ≤2.5s / INP ≤200ms / CLS ≤0.1 (web.dev) hedefleri yapısal olarak kolaylaşır; vaka verisi %80 bundle azalması (142KB→28KB) sınırın büyüklüğünü gösterir. *(vault: [[../../sources/ui-design/05-responsive-architecture]] §7.4 + [[../../.templates/frontend/css-template]] §3.15 bütçe ölçümü)*
-- **WCAG 2.2 AA kanıtı sadeleşir:** framework soyutlaması olmadan 2.4.11 / 2.5.7 / 2.5.8 / 3.3.8 kriterleri doğrudan DOM üzerinde manuel test edilir (Vitest + Playwright dev tooling). *(vault: [[../../sources/ui-design/04-accessibility-gaps]], [[../../architecture/k11-ux/accessibility-wcag]])*
-- **ITCSS + BEM ile ölçeklenebilirlik:** 9 katman + namespace, framework'süz büyük ekip/kod tabanı düzenini sağlar; token tek kaynak (01_Abstracts). *(vault: [[../../architecture/k11-ux/itcss-9-layer]], [[../../architecture/k11-ux/bem-naming]], [[../../sources/ui-design/02-component-inventory]])*
-- **Composer serbestliği:** güvenlik/kalite kütüphaneleri (test, static analysis, kripto) PHP tarafında serbest → kalite düşmeden saldırı yüzeyi dar kalır. *(vault: [[../../raw/keys]] "composer, kütüphane" anahtar eşleşmeleri; [[../../raw/brain]] karar özeti)*
+- **Core Web Vitals avantajı:** framework runtime'ı + hydration yükü olmadan LCP ≤2.5s / INP ≤200ms / CLS ≤0.1 (web.dev) hedefleri yapısal olarak kolaylaşır; vaka verisi %80 bundle azalması (142KB→28KB) sınırın büyüklüğünü gösterir. *(vault: [[../../ui-design/05-responsive-architecture]] §7.4 + [[../../.templates/frontend/css-template]] §3.15 bütçe ölçümü)*
+- **WCAG 2.2 AA kanıtı sadeleşir:** framework soyutlaması olmadan 2.4.11 / 2.5.7 / 2.5.8 / 3.3.8 kriterleri doğrudan DOM üzerinde manuel test edilir (Vitest + Playwright dev tooling). *(vault: [[../../ui-design/04-accessibility-gaps]], [[../../architecture/k11-ux/accessibility-wcag]])*
+- **ITCSS + BEM ile ölçeklenebilirlik:** 9 katman + namespace, framework'süz büyük ekip/kod tabanı düzenini sağlar; token tek kaynak (01_Abstracts). *(vault: [[../../architecture/k11-ux/itcss-9-layer]], [[../../architecture/k11-ux/bem-naming]], [[../../ui-design/02-component-inventory]])*
+- **Composer serbestliği:** güvenlik/kalite kütüphaneleri (test, static analysis, kripto) PHP tarafında serbest → kalite düşmeden saldırı yüzeyi dar kalır. *(vault: [[../../keys]] "composer, kütüphane" anahtar eşleşmeleri; [[../../brain]] karar özeti)*
 
 ### 4.2 Olumsuz Sonuçlar
 
-- **Geliştirme hızı ilk başta düşer:** hazır component library yok; her bileşen elde yazılır → [[../../sources/ui-design/02-component-inventory]] envanteri devreye girmezse tekrar/çelişki riski.
+- **Geliştirme hızı ilk başta düşer:** hazır component library yok; her bileşen elde yazılır → [[../../ui-design/02-component-inventory]] envanteri devreye girmezse tekrar/çelişki riski.
 - **Ekip beceri yükü:** Vanilla JS'te durum yönetimi, router, i18n elde kurulur; senior disiplin şart (SPA router sözleşmesi kavramı: [[../index]] §3 Routing grubu).
 - **Ekosistem avantajı yok:** hazır UI kiti, devtools, kütüphane çözümleri yok; her problem için yerel çözüm yazılır.
 - **Yeni npm bağımlılığı eklemek ADR revizyonu gerektirir** → iterasyon sürtünmesi (bilinçli maliyet).
@@ -155,7 +155,7 @@ Kural: katman sırası değiştirilemez; alt katman üst katmanı geçersiz kıl
 |------|---------|------|-----------|
 | Elde yazım hatası / XSS (framework soyutlaması yok) | 3 (olası) | 4 (yüksek) | OWASP + hazır middleware (CSRF=`csrf_token`, CSP nonce — [[../index]] §3 Security), code review, PHPStan benzeri JS lint |
 | Ekip hızının düşmesi, bileşen tekrarı | 3 (olası) | 3 (orta) | Şablon zorunlu (js-template/css-template), component inventory, BEM namespace disiplini |
-| A11y regresyonu (otomatik test tek başına yeterli değil) | 3 (olası) | 4 (yüksek) | **Debate şartı 2:** manuel a11y testi zorunlu + Vitest/Playwright dev tooling; [[../../sources/ui-design/04-accessibility-gaps]] kapanışı |
+| A11y regresyonu (otomatik test tek başına yeterli değil) | 3 (olası) | 4 (yüksek) | **Debate şartı 2:** manuel a11y testi zorunlu + Vitest/Playwright dev tooling; [[../../ui-design/04-accessibility-gaps]] kapanışı |
 | Core Web Vitals bütçe aşımı (JS sprinkled growth) | 2 (mümkün) | 3 (orta) | JS/CSS bütçe ölçümü (css-template §3.15: gzip ≤50KB), CI'da bütçe kapısı (DevOps) |
 | Gizli kırılma: acil durumda framework'e ihtiyaç | 2 (mümkün) | 4 (yüksek) | **§4.4 zaruri fallback** koşulları yazılı; debate 2 çekimser oyu bu maddeyle karşılandı |
 | npm tedarik zinciri (dev tooling üzerinden sızıntı) | 2 (mümkün) | 3 (orta) | Production'da npm yok; dev bağımlılıkları pin + lockfile; **debate şartı 3:** source maps production'da kapalı |
@@ -186,11 +186,11 @@ Bu madde, kararın **tek ve tek istisna kapısıdır**; koşulları sağlanmadan
 | 2 | `assets.coremusic.net/Css/**` 8-katman disk gerçekliği ile spec 9 katmanı hizala (farkı kapat veya spec'i revize et) + `⚠️ VERIFICATION REQUIRED` kapat | UI Designer | 1 gün |
 | 3 | js-template/css-template Guardrail #16 denetimi: framework/vendor yasağı maddesi + Composer kütüphane sınırı + source maps + manuel a11y maddeleri şablonlara işlendi mi? | UI Designer + Vault Steward | 2 saat |
 | 4 | Dev tooling kurulumu: Vitest + Playwright (dev-only), production source maps off, JS/CSS bütçe kapısı (gzip ≤50KB) | QA Engineer + DevOps | 1 gün |
-| 5 | WCAG 2.2 AA manuel test turu (2.4.11, 2.5.7, 2.5.8, 3.3.8 dahil) + [[../../sources/ui-design/04-accessibility-gaps]] kapanışı | UI Designer + QA Engineer | 2 gün |
+| 5 | WCAG 2.2 AA manuel test turu (2.4.11, 2.5.7, 2.5.8, 3.3.8 dahil) + [[../../ui-design/04-accessibility-gaps]] kapanışı | UI Designer + QA Engineer | 2 gün |
 
 ### 5.2 Geri Dönüş Planı
 
-Karar frontend mimarisini kilitler; geri dönüş yalnızca **yeni ADR** ile olur (bu dosya frozen olmasa da keyfi düzenlenmez — In-Place Refactoring yasağı). Geri dönüş senaryosu: (1) §4.4 koşulları tetiklenir ve kalıcı framework geçişi gerekirse → yeni ADR yazılır, bu dosyaya `superseded by ADR-NNN` referansı **yeni ADR'nin** §6'sına konur; (2) ITCSS katman uyuşmazlığı (9 vs 8) tersine işlemle kapatılır: disk katmanları spec'e taşınır, spec revizyonu ADR değil, `k11-ux/itcss-9-layer.md` + css-template senkronu ile yapılır (bakım işi, karar değişikliği değil); (3) acil durum geçici istisnası 5 iş günü sonunda otomatik sonlanır, kod geri alınır (`git revert`) + `log.md`'ye ERROR satırı eklenir. Vault bozulması durumunda standart kurtarma: `git checkout` + son commit ([[../../raw/AGENTS.md]] §17).
+Karar frontend mimarisini kilitler; geri dönüş yalnızca **yeni ADR** ile olur (bu dosya frozen olmasa da keyfi düzenlenmez — In-Place Refactoring yasağı). Geri dönüş senaryosu: (1) §4.4 koşulları tetiklenir ve kalıcı framework geçişi gerekirse → yeni ADR yazılır, bu dosyaya `superseded by ADR-NNN` referansı **yeni ADR'nin** §6'sına konur; (2) ITCSS katman uyuşmazlığı (9 vs 8) tersine işlemle kapatılır: disk katmanları spec'e taşınır, spec revizyonu ADR değil, `k11-ux/itcss-9-layer.md` + css-template senkronu ile yapılır (bakım işi, karar değişikliği değil); (3) acil durum geçici istisnası 5 iş günü sonunda otomatik sonlanır, kod geri alınır (`git revert`) + `log.md`'ye ERROR satırı eklenir. Vault bozulması durumunda standart kurtarma: `git checkout` + son commit ([[../../AGENTS.md]] §17).
 
 ---
 
@@ -201,16 +201,16 @@ Karar frontend mimarisini kilitler; geri dönüş yalnızca **yeni ADR** ile olu
 | [[../index]] | Karar dizini — bu ADR'nin kaydı (`[[ADR-001-vanilla-js-itcss]]`) + eski seri emsalleri (ORM yasağı, R-001/R-003/R-004 redleri) |
 | [[../CLAUDE.md]] | Karar alt registry kuralı (accepted/) |
 | [[../../CLAUDE.md]] | Ana sözleşme, 16 Hard Guardrail (Guardrail #16) |
-| [[../../raw/AGENTS.md]] | UI Designer domain (§4), ITCSS/BEM/WCAG kalite standardı (§16), framework uyarısı (§18 #8) |
-| [[../../raw/brain]] | Mimari karar özeti (ADR-001 satırı) |
-| [[../../raw/keys]] | Keyword haritası — "vanilla, ITCSS, BEM, framework, frontend" eşlemeleri |
+| [[../../AGENTS.md]] | UI Designer domain (§4), ITCSS/BEM/WCAG kalite standardı (§16), framework uyarısı (§18 #8) |
+| [[../../brain]] | Mimari karar özeti (ADR-001 satırı) |
+| [[../../keys]] | Keyword haritası — "vanilla, ITCSS, BEM, framework, frontend" eşlemeleri |
 | [[../../architecture/k11-ux/itcss-9-layer]] | 9 katman şartnamesi (§2.2 kaynağı) |
 | [[../../architecture/k11-ux/bem-naming]] | BEM namespace sözleşmesi |
 | [[../../architecture/k11-ux/accessibility-wcag]] | WCAG 2.2 AA kriter envanteri |
-| [[../../sources/ui-design/01-mockup-index]] | Mockup gate (Guardrail #11) — kod öncesi görsel okuma |
-| [[../../sources/ui-design/02-component-inventory]] | Bileşen envanteri (tekrar riski mitigasyonu) |
-| [[../../sources/ui-design/04-accessibility-gaps]] | A11y gap kapanış takibi |
-| [[../../sources/ui-design/05-responsive-architecture]] | Responsive token + fallback (§12) |
+| [[../../ui-design/01-mockup-index]] | Mockup gate (Guardrail #11) — kod öncesi görsel okuma |
+| [[../../ui-design/02-component-inventory]] | Bileşen envanteri (tekrar riski mitigasyonu) |
+| [[../../ui-design/04-accessibility-gaps]] | A11y gap kapanış takibi |
+| [[../../ui-design/05-responsive-architecture]] | Responsive token + fallback (§12) |
 | [[../../.templates/frontend/js-template]] | Vanilla JS ES6+ kod iskeleti (Guardrail #16) |
 | [[../../.templates/frontend/css-template]] | ITCSS katman sırası + bütçe (Guardrail #16) |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin 7 bölümlük şablonu |

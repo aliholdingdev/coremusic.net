@@ -287,3 +287,33 @@ Use browser DevTools to manually test:
 ✅ **No horizontal scroll:** At any breakpoint
 ✅ **Fluid typography:** Font sizes scale smoothly (consider calc())
 ✅ **Touch targets:** ≥ 24px at all breakpoints
+
+---
+
+## CoreMusic Kanonik Cihaz Kırılımları (eklendi 2026-10-07, ui-workbench merge)
+
+### Kanonik Referans — 1024×600 (RPi5 7" dokunmatik)
+
+| Özellik | Değer |
+|---------|-------|
+| Temel boyut | 1024×600 (RPi5 7" dokunmatik) |
+| Header | h:60px (y:0-60) |
+| İçerik | h:450px (y:60-510) |
+| Footer | h:90px (y:510-600) |
+| Split | 42% / 58% |
+
+> 1024×600 mockup = pixel reference (Guardrail #17). Yükseklikler bozulamaz.
+
+### CoreMusic 4-Breakpoint Tablosu
+
+| Breakpoint | Düzen |
+|------------|-------|
+| ≤767px | Mobil — tek sütun, kompakt |
+| 1024×600 | Kanonik — mockup birebir |
+| 1025-1920px | Desktop — 3 sütun |
+| ≥3840px | 4K TV — uzak mesafe (§7.4: 4K'da ortalamama YASAK) |
+
+> Bu 4 kırılım, yukarıdaki genel 7-tier stratejinin **CoreMusic cihaz özel**
+> override'ıdır; çelişki durumunda kanonik 1024×600 mockup (PNG) kazanır.
+> Cihaz bazlı behavioral override kuralları: `.ai/ui-design/05-responsive-architecture.md`
+> + `.ai/ui-design/00-device-matrix.md`.

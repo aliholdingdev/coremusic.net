@@ -18,7 +18,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-042-vault-restructuring-2026-08-03`
 > **İlgili kararlar:** [[ADR-024-ecosystem-modular-docs]] (vault-merkezli modüler dokümantasyon + **eksik script şartı**: `session-save.mjs` / `vault-post-update.mjs`) · [[ADR-021-spa-router-immutable-contract]] (sözleşme/değişmezlik yaklaşımının ADR-042'deki frozen modelinden farklı örneği) · [[ADR-035-system-prompt-engineering]] (prompt/versioning zinciri) · [[ADR-040-database-authority]] (tek sahip + tek yazıcı mantığının vault'a uygulanması) · [[ADR-041-database-normalization-supplementary]] (aynı seferin şablon/debate format referansı) · [[../index.md]] (`:84` slug satırı)
 > **Ad gerekçesi:** slug `ADR-042-vault-restructuring-2026-08-03` **diskteki gerçek index kaydından** alınmıştır (`[[../index.md]]:84`) — uydurulmadı.
-> **Numara notu (Truth Mode):** genel kural "yeni ADR'ler 088+/090+" der; bu dosya **kullanıcı atamasıyla** 042 numarasına yazıldı, çünkü `[[../index.md]]:84`, `[[../../raw/AGENTS.md]]` §14/§25.3, `[[../../index.md]]:310,516-517` ve `[[../../.templates/adr/adr-template.md]]:20` bu numarayı **çoktan kayıtlı** tutuyor — numara boş değil, **boşluk dolduruldu** (ADR-041'in numara gerekçesiyle aynı durum).
+> **Numara notu (Truth Mode):** genel kural "yeni ADR'ler 088+/090+" der; bu dosya **kullanıcı atamasıyla** 042 numarasına yazıldı, çünkü `[[../index.md]]:84`, `[[../../AGENTS.md]]` §14/§25.3, `[[../../index.md]]:310,516-517` ve `[[../../.templates/adr/adr-template.md]]:20` bu numarayı **çoktan kayıtlı** tutuyor — numara boş değil, **boşluk dolduruldu** (ADR-041'in numara gerekçesiyle aynı durum).
 > **Frozen notu (2026-09-26 kararı):** frozen sistemi **KALDIRILDI** — ADR-001-037 dahil her vault dosyası okunabilir/yazılabilir; yerine **debate (3 tur / 20 persona) + Tech Lead kalite kapısı** konmuştur. Arch Lead onayı henüz ⏳ (kullanıcı onayı ile). Bu dosya frozen değildir, değiştirilebilir (revizyon = `log.md` append).
 
 ---
@@ -51,7 +51,7 @@ Etiketler: **IMPLEMENTED** = diskte kanıtlanan · **PLANNED** = kararlaştırı
 | Aynı dosya §3 başlığı | "**Frozen ADR'ler (001-037)**" | **ÇELİŞKİ ↔ §2'nin 36'sı** |
 | Aynı dosya §6 kategori tablosu | `TOPLAM Frozen **37** / Active 31 / 68` | **ÇELİŞKİ ↔ §2'nin 36'sı** |
 | `[[../../index.md]]` (master) | v**28.3.0**, **756 satır**, `total_files: 587` · `total_adr: 80` · **`total_adr_disk: 0`** (gerçekte 44 dosya var) · `:612` "Toplam 80 ADR (Frozen: 37, Active: 31, Rejected: 12)" | **ÇELİŞKİ (`total_adr_disk: 0` bayat)** |
-| Accepted iddiası ↔ disk | 68 kayıtlı ↔ **44 dosya** → **24 kayıt dosyasız** (043-079 aralığındaki satırlar `[[../../raw/brain.md]] ADR-0xx` düz metin) | **ÇELİŞKİ** |
+| Accepted iddiası ↔ disk | 68 kayıtlı ↔ **44 dosya** → **24 kayıt dosyasız** (043-079 aralığındaki satırlar `[[../brain.md]] ADR-0xx` düz metin) | **ÇELİŞKİ** |
 | `[[../index.md]]:84` | `[[../CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03` → hatalı referans (`../CLAUDE.md` = `.decisions/CLAUDE.md`, ADR'ye değil) | **HATA → §5.1 adım 3 düzeltmesi** |
 
 > **Sayaç durumu dürüst özeti:** üç dosyada (`[[../index.md]]` 36/37, `[[../../index.md]]` 80/0, kategori tablosu 37) **beş ayrı sayı** dolaşımda. **Düzeltme = SON sayaç sıfırlamasında tek sefer** (§2.2-c-1) — bu ADR sayıları **düzeltmez, yalnız belgeler**.
@@ -68,10 +68,10 @@ Etiketler: **IMPLEMENTED** = diskte kanıtlanan · **PLANNED** = kararlaştırı
 
 | Dosya | Durum | Kanıt |
 |---|---|---|
-| `.ai/sources/scripts/vault-utf8-writer.mjs` | ✅ VAR (6.962 B) — tek yazma arayüzü (append/write/replace/verify/repair/scan) | disk |
+| `.ai/scripts/vault-utf8-writer.mjs` | ✅ VAR (6.962 B) — tek yazma arayüzü (append/write/replace/verify/repair/scan) | disk |
 | `.ai/scripts/vault-faz4-sweep.mjs` | ✅ VAR (22.435 B) | disk |
-| `.ai/sources/scripts/fix-mojibake.py` | ✅ VAR (9.273 B) | disk |
-| `.ai/sources/scripts/index.md` | ✅ VAR (2.720 B) | disk |
+| `.ai/scripts/fix-mojibake.py` | ✅ VAR (9.273 B) | disk |
+| `.ai/scripts/index.md` | ✅ VAR (2.720 B) | disk |
 | **`.ai/scripts/session-save.mjs`** | ❌ **YOK** — `Test-Path=False` | **PLANNED (ADR-024 şartı)** |
 | **`.ai/scripts/vault-post-update.mjs`** | ❌ **YOK** — `Test-Path=False` | **PLANNED (ADR-024 şartı)** |
 | Tekrarlayan arıza | `log.md:390 · 404 · 414 · 438 · 459` — beş seansta aynı cümle: "POST-OP SYNC: `session-save.mjs` + `vault-post-update.mjs` Test-Path=False (YOK)" | IMPLEMENTED (arıza kaydı, `[[ADR-024-ecosystem-modular-docs]]` §"Tekrarlayan arıza") |
@@ -80,9 +80,9 @@ Etiketler: **IMPLEMENTED** = diskte kanıtlanan · **PLANNED** = kararlaştırı
 
 | Dosya | Durum (2026-09-26) | Etiket |
 |---|---|---|
-| `[[../../raw/brain.md]]` | v**26.1.2**, 49.996 B, updated 2026-09-24 — mimari karar özeti (MO/vault-updater türetmesi) | IMPLEMENTED |
-| `[[../../raw/keys.md]]` | v**28.3.2**, 40.090 B, updated 2026-09-24 — keyword haritası | IMPLEMENTED |
-| `[[../../raw/MEMORY.md]]` | v**25.1.1**, 52.599 B, updated 2026-09-24 — **manuel** session hafızası (`session-save.mjs` yok → otomatik kayıt imkânsız) | IMPLEMENTED (manuel) |
+| `[[../../brain.md]]` | v**26.1.2**, 49.996 B, updated 2026-09-24 — mimari karar özeti (MO/vault-updater türetmesi) | IMPLEMENTED |
+| `[[../../keys.md]]` | v**28.3.2**, 40.090 B, updated 2026-09-24 — keyword haritası | IMPLEMENTED |
+| `[[../../MEMORY.md]]` | v**25.1.1**, 52.599 B, updated 2026-09-24 — **manuel** session hafızası (`session-save.mjs` yok → otomatik kayıt imkânsız) | IMPLEMENTED (manuel) |
 | `project-state.md` | **YOK** — `[[../../CLAUDE.md]]` post-op zinciri 3/3 dosyayı (log/MEMORY/project-state) şart koşuyor; 1'i hiç yok, 2'si manuel | **PLANNED + ⚠️ VERIFICATION REQUIRED** |
 
 #### F) Wiki-link grafiği — IMPLEMENTED (2026-09-26 taraması, 3 adaylı çözümleyici)
@@ -146,7 +146,7 @@ Etiketler: **IMPLEMENTED** = diskte kanıtlanan · **PLANNED** = kararlaştırı
 
 ### §2.1 Neden Bu Seçenek?
 
-1. **Kapsam boşluğu gerçek:** Vault'un hem "nasıl yapılandırıldı" (2026-08-03) hem "nasıl yeniden yazılıyor" (2026-09-26) hikâyesi hiçbir tek ADR'de yok; `[[../../raw/AGENTS.md]]` §25.3 kural 1 "Yapı korunur (ADR-042)" diyor, `[[../../.templates/adr/adr-template.md]]:20` "ADR-042 hibrit kuralı" diyor — yani dosya **çoktan referanslanıyor**, içeriği boş.
+1. **Kapsam boşluğu gerçek:** Vault'un hem "nasıl yapılandırıldı" (2026-08-03) hem "nasıl yeniden yazılıyor" (2026-09-26) hikâyesi hiçbir tek ADR'de yok; `[[../../AGENTS.md]]` §25.3 kural 1 "Yapı korunur (ADR-042)" diyor, `[[../../.templates/adr/adr-template.md]]:20` "ADR-042 hibrit kuralı" diyor — yani dosya **çoktan referanslanıyor**, içeriği boş.
 2. **Literatürle uyumlu (§1.3):** sınıflandırılmış hafıza + audit (6 kaynak), açık statü + supersede + silinmez arşiv (7 kaynak), tek otoriter kopya (7 kaynak), otomatik tarama + onaylı onarım (7 kaynak), hafif ama living decision log (7 kaynak) — dördü de bu karar bloklarını destekliyor.
 3. **Frozen yerine debate + Tech Lead:** frozen, kaliteyi **metne** bağlardı (değiştirilemez = iyi); sefer 92 metni sıfırdan ürettiği için koruyucu artık **süreçte** — 3 tur / 20 persona debate + Tech Lead onayı. Kullanıcı onayı ile Arch Lead'e kadar kapı açık.
 4. **Sayaç sıfırlaması tek seferde:** ara düzeltmeler her seferinde yeni çelişki üretir (bugün 6 farklı sayı); tek seferde sıfırlama, git geçmişiyle denetlenebilir tek bir "tozlanma anı" bırakır.
@@ -239,7 +239,7 @@ Etiketler: **IMPLEMENTED** = diskte kanıtlanan · **PLANNED** = kararlaştırı
 2. **Tech Lead onayı uzarsa (⏳ çok kalırsa):** seferin yazımı sürebilir ama **hiçbir ADR `active`/kapanış sayılmaz**; kapı `AGENTS.md` §10.1 L2 timeout (60s) mantığıyla MO'ya devreder — hâlâ yoksa insana eskalasyon (L3 → İnsan).
 3. **Sayaç sıfırlama başarısız olursa (yeni çelişki çıkarsa):** geri dönüş = `git checkout` ile `.decisions/index.md` + `index.md` frontmatter'inin sıfırlama öncesi hâli + bu ADR §1.1 tabloları referans gösterilerek ara düzeltmesiz yeni tarih seçilir (tek seferlik deneme tekrarlanabilir, ara adıma inilemez).
 4. **Wiki-link haritası yanlış pozitif üretirse (40+ yanlış "kırık"):** onarım durdurulur; tarama 3 yöntemli moda (§1.3) alınır, `dead-link` işareti `<!-- dead-link: <slug> no source <tarih> -->` deseniyle konur (faz6-D deseni) — dosyalar **yazılmaz**, yalnız işaretlenir.
-5. **Script'ler yazılmazsa:** post-op manuel akış (`[[../../raw/WORKFLOW.md]]` + `[[../../CLAUDE.md]]` §"POST-OPERATION VAULT SYNC") korunur; her seans sonunda eksiklik satırı `log.md`'ye append edilir (bugüne kadar 5 kez edildi — 6.'sı **kayıt**, sürpriz değil).
+5. **Script'ler yazılmazsa:** post-op manuel akış (`[[../../WORKFLOW.md]]` + `[[../../CLAUDE.md]]` §"POST-OPERATION VAULT SYNC") korunur; her seans sonunda eksiklik satırı `log.md`'ye append edilir (bugüne kadar 5 kez edildi — 6.'sı **kayıt**, sürpriz değil).
 6. **Tam geri dönüş:** bu ADR frozen değil → yeni ADR "revert of ADR-042" + `[[../index.md]]:84` satırı `—` ile işaretlenir (silinmez); append-only `log.md` nedeniyle geri dönüş de **yeni satır** olur.
 
 ---
@@ -288,16 +288,16 @@ Etiketler: **IMPLEMENTED** = diskte kanıtlanan · **PLANNED** = kararlaştırı
 | Dosya | İlişki |
 |-------|--------|
 | `[[../../CLAUDE.md]]` | Ana sözleşme — 16 Hard Guardrail, post-op senkron zinciri (script yokluğu burada raporlanır) |
-| `[[../../raw/AGENTS.md]]` | Agent registry SSOT — §14 "Mandatory 5 Skills (**ADR-042**/C4)", §25.3 kural 1 "Yapı korunur (ADR-042)", §25.3 kural 2 frozen kuralı (**bu ADR ile güncellendi**) |
+| `[[../../AGENTS.md]]` | Agent registry SSOT — §14 "Mandatory 5 Skills (**ADR-042**/C4)", §25.3 kural 1 "Yapı korunur (ADR-042)", §25.3 kural 2 frozen kuralı (**bu ADR ile güncellendi**) |
 | `[[../index.md]]` | Karar dizini — `:84` slug satırı (düzeltme raporu §5.1 adım 3), sayaç çelişkileri §1.1-B |
 | `[[../../index.md]]` | Master katalog — `total_*` sayaçları + `:612` durum satırı (sıfırlama hedefi §2.2-c-1) |
-| `[[../../raw/brain.md]]` | Mimari karar özeti — bu ADR'nin özeti MO/vault-updater tarafından türetilecek (PLANNED) |
-| `[[../../raw/keys.md]]` | Keyword haritası — `vault, documentation, ADR, wiki-link` routing anahtarları |
+| `[[../../brain.md]]` | Mimari karar özeti — bu ADR'nin özeti MO/vault-updater tarafından türetilecek (PLANNED) |
+| `[[../../keys.md]]` | Keyword haritası — `vault, documentation, ADR, wiki-link` routing anahtarları |
 | `[[../../log.md]]` | Append-only audit trail — bu ADR kaydı + script arıza tekrarları (`:390,404,414,438,459`) |
-| `[[../../raw/MEMORY.md]]` | Session hafızası — manuel (script yok → PLANNED otomasyon §2.2-c-3) |
-| `[[../../raw/WORKFLOW.md]]` | Süreçler — post-op vault sync akışı (manuel fallback §4.4-5) |
+| `[[../../MEMORY.md]]` | Session hafızası — manuel (script yok → PLANNED otomasyon §2.2-c-3) |
+| `[[../../WORKFLOW.md]]` | Süreçler — post-op vault sync akışı (manuel fallback §4.4-5) |
 | `[[../../broken-links-report.md]]` | Kırık link raporu — 34 kırık / 5 dosya (harita kalemi ii, §2.2-c-2) |
-| `[[../../raw/index]]` | Script envanteri — 4 var / 2 YOK kaydı (adım 9'da güncellenecek) |
+| `[[../../scripts/index]]` | Script envanteri — 4 var / 2 YOK kaydı (adım 9'da güncellenecek) |
 | `[[../../.templates/adr/adr-template]]` | Bu ADR'nin şablonu (v2.0.0, 7 bölüm + §1.3 9 alan, Guardrail #16) |
 | `[[../../.templates/index]]` | Envanter SRP — template registry (36↔37 çelişkisi sıfırlama hedefi) |
 | `[[ADR-024-ecosystem-modular-docs]]` | Vault-merkezli modüler dokümantasyon + **eksik script şartı** (bu ADR §2.2-c-3'ün birincil kaynağı) |
@@ -376,7 +376,7 @@ Etiketler: **IMPLEMENTED** = diskte kanıtlanan · **PLANNED** = kararlaştırı
 
 ---
 
-**REFACTOR REPORT:** FILE: ADR-042-vault-restructuring-2026-08-03.md · PURPOSE: Vault yeniden yapılandırma meta-kararı (2026-08-03 orijinal yapı + 2026-09-26 sefer + hedef yapı; frozen kaldırma + debate/Tech Lead kapısı) · VALIDATION: 7 bölüm + §1.3 9 alan dolu (5 sorgu / 37 atıf), disk kanıtı 2026-09-26 (17 klasör · 44 ADR · 1.410 link / 1 kırık · log 565 satır / 6 mojibake / 12 CJK · script 4 var / 2 YOK), IMPLEMENTED/PLANNED etiketli, placeholder 0, slug diskten (`[[../index.md]]:84`) · RELATED: [[../index.md]] · [[../../raw/AGENTS.md]] · [[ADR-024-ecosystem-modular-docs]] · [[ADR-041-database-normalization-supplementary]] · [[../../broken-links-report.md]]
+**REFACTOR REPORT:** FILE: ADR-042-vault-restructuring-2026-08-03.md · PURPOSE: Vault yeniden yapılandırma meta-kararı (2026-08-03 orijinal yapı + 2026-09-26 sefer + hedef yapı; frozen kaldırma + debate/Tech Lead kapısı) · VALIDATION: 7 bölüm + §1.3 9 alan dolu (5 sorgu / 37 atıf), disk kanıtı 2026-09-26 (17 klasör · 44 ADR · 1.410 link / 1 kırık · log 565 satır / 6 mojibake / 12 CJK · script 4 var / 2 YOK), IMPLEMENTED/PLANNED etiketli, placeholder 0, slug diskten (`[[../index.md]]:84`) · RELATED: [[../index.md]] · [[../../AGENTS.md]] · [[ADR-024-ecosystem-modular-docs]] · [[ADR-041-database-normalization-supplementary]] · [[../../broken-links-report.md]]
 
 ---
 
@@ -387,8 +387,8 @@ Etiketler: **IMPLEMENTED** = diskte kanıtlanan · **PLANNED** = kararlaştırı
 | Şablon kaydı | `[[../../.templates/index]]` | Guardrail #16 envanteri (SRP) |
 | Karar dizini | `[[../index.md]]` | Slug `:84` + sayaçlar |
 | Vault ana sözleşmesi | `[[../../CLAUDE.md]]` | Guardrail'ler + post-op zinciri |
-| Agent registry | `[[../../raw/AGENTS.md]]` | ADR-042 atıfları (§14, §25.3) |
-| Script envanteri | `[[../../raw/index]]` | 4 var / 2 YOK (ADR-024 şartı) |
+| Agent registry | `[[../../AGENTS.md]]` | ADR-042 atıfları (§14, §25.3) |
+| Script envanteri | `[[../../scripts/index]]` | 4 var / 2 YOK (ADR-024 şartı) |
 | Kırık link raporu | `[[../../broken-links-report.md]]` | 34 kırık / 5 dosya (harita ii) |
 | Web araştırma protokolü | `[[../../../.claude/skills/prompt-maker/references/10-web-research-protocol.md]]` | §1.3 ≥2 çapraz kaynak |
 

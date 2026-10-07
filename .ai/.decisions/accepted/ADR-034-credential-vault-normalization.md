@@ -92,8 +92,8 @@ Birleşim: **9 dosya** hâlâ `getenv`/`$_ENV` ile ham okuma yapıyor → ADR-01
 **G) Vault kayıtları ve ADR-034 slotu (boşluk-doldurma kanıtı):**
 
 - `.ai/.decisions/index.md:71` → `ADR-034-credential-vault-normalization | Credential Vault Normalization | Security` (dizin satırı alıntısı; slug'ın hedefi bu dosyadır → `[[...]]` linki olarak değil düz metin) — **numara ve slug ayrılmış**.
-- Aynı slot 9 dosyada daha taşıyor: `.ai/index.md:651` · `.ai/raw/keys.md:64` (`credential vault, secret` keyword satırı) ve `:269` · `.ai/raw/brain.md:989` · `.ai/raw/WORKFLOW.md:524` · `.opencode/.workflows/security-audit.md:20` · `.ai/.templates/adr/adr-index.md:105` · `.ai/.templates/adr/adr-security-template.md:159,255,259` · `.ai/architecture/k6-guvenlik/README.md:43,153,390,405` · `k6-guvenlik/CLAUDE.md:54`.
-- `.ai/raw/keys.md` → `type: system`, `version: v28.3.2`, `authority: SSOT` — **anahtar değeri içermeyen keyword haritasıdır** (REDACTED uyumlu); `:317` bir hedefe (`architecture/k0-k5-software/k0-os-layer/credential-vault.md`) gidiyor → **Test-Path: False** ⚠️ VERIFICATION REQUIRED (bkz. §1.1-I).
+- Aynı slot 9 dosyada daha taşıyor: `.ai/index.md:651` · `.ai/keys.md:64` (`credential vault, secret` keyword satırı) ve `:269` · `.ai/brain.md:989` · `.ai/WORKFLOW.md:524` · `.opencode/.workflows/security-audit.md:20` · `.ai/.templates/adr/adr-index.md:105` · `.ai/.templates/adr/adr-security-template.md:159,255,259` · `.ai/architecture/k6-guvenlik/README.md:43,153,390,405` · `k6-guvenlik/CLAUDE.md:54`.
+- `.ai/keys.md` → `type: system`, `version: v28.3.2`, `authority: SSOT` — **anahtar değeri içermeyen keyword haritasıdır** (REDACTED uyumlu); `:317` bir hedefe (`architecture/k0-k5-software/k0-os-layer/credential-vault.md`) gidiyor → **Test-Path: False** ⚠️ VERIFICATION REQUIRED (bkz. §1.1-I).
 - İlgili güvenlik mimarisi: `.ai/architecture/k6-guvenlik/vault-secrets.md` (**9627 bayt, "HashiCorp Vault Entegrasyonu"**) — durum 2/9 işaretli; cluster/AppRole/rotasyon/erişim satırları `:332-337` **PLANNED**.
 
 **H) IMPLEMENTED / PLANNED ayrımı (dürüst etiket):**
@@ -103,7 +103,7 @@ Birleşim: **9 dosya** hâlâ `getenv`/`$_ENV` ile ham okuma yapıyor → ADR-01
 
 **I) İlgili hizalama sorularının dürüst cevapları:**
 
-- **Başlık tutarsızlığı (bilgi: iki aday başlık):** `.ai/.decisions/index.md:71` başlığı **"Credential Vault Normalization"** diyor; `.ai/raw/brain.md:989`, `.ai/.templates/adr/adr-index.md:105` ve `k6-guvenlik/README.md:153` ise **"AES-256-GCM credential vault"** yazıyor. Bu ADR **dizin (index.md) başlığını** esas alır (dizin karar numarasının sahibidir); AES-256-GCM ayrıntısı ADR-022'nin alanıdır, başlıkta tekrar edilmez → iki başlık `§6`'da not edilir, biri düzeltilir (dizin satırı ADR'ye ait değil, **revizyon ayrı işlemdir**).
+- **Başlık tutarsızlığı (bilgi: iki aday başlık):** `.ai/.decisions/index.md:71` başlığı **"Credential Vault Normalization"** diyor; `.ai/brain.md:989`, `.ai/.templates/adr/adr-index.md:105` ve `k6-guvenlik/README.md:153` ise **"AES-256-GCM credential vault"** yazıyor. Bu ADR **dizin (index.md) başlığını** esas alır (dizin karar numarasının sahibidir); AES-256-GCM ayrıntısı ADR-022'nin alanıdır, başlıkta tekrar edilmez → iki başlık `§6`'da not edilir, biri düzeltilir (dizin satırı ADR'ye ait değil, **revizyon ayrı işlemdir**).
 - **ADR-015'in planladığı artefaktlar diskte YOK (0 dosya):** `shared/config/.env.schema` · `EnvSchema.php` · `EnvValidator.php` · `bin/config-doc.php` — hepsi ⚠️ VERIFICATION REQUIRED (dizin ve dosya yok); ayrıca `auth.coremusic.net/composer.json:22` **`vlucas/phpdotenv`'u hâlâ talep ediyor** (üretime girip girmediği ⚠️ VERIFICATION REQUIRED). Bunlar bu ADR'nin uygulama kalemi değildir (ADR-015'in işi); buraya yalnızca **kapı-ortağı** olarak yazılır.
 - **`.env.example` anahtar kayması (drift):** shared 18 anahtar vs auth 13 anahtar. shared'a özgü 6: `APP_DEBUG`, `DEFAULT_PAGE`, `DB_NAME`, `BYPASS_ROLE`, `BYPASS_USERNAME`, `ASSETS_URL`; auth'a özgü 1: `DB_AUTH_NAME` (shared'daki `DB_NAME`'in karşılığı). → Aynı kavram iki adla yaşıyor: `DB_NAME` ↔ `DB_AUTH_NAME` (bu ADR §2.4-b normalizasyonunun ilk adayı).
 - **Eski seri notu:** ADR-002 (frozen) `"ADR-034 dosyası diskte YOK"` benzeri bir statü notu taşıyor olabilir ⚠️ VERIFICATION REQUIRED — frozen metne dokunulmaz; bayatlık `log.md`'de not edilir (ADR-033 §1.1-E usulü).
@@ -283,10 +283,10 @@ Config service fiilen mevcut: `getSecure`/`maskSecret`/`filterSensitive` + aray�
 - `[[.claude/skills/prompt-maker/references/10-web-research-protocol.md]]` → §1.3 web araştırma protokolü (diskte VAR ✓).
 - `[[.ai/architecture/k6-guvenlik/vault-secrets.md]]` → **HashiCorp Vault tasarımı** (9627 bayt, 2/9; `:332-337` cluster/AppRole/rotasyon/erişim PLANNED) → bu ADR'nin Faz 3 zemini (§2.4-c, §4.1-R4).
 - `[[.ai/architecture/k6-guvenlik/README.md]]` → k6 güvenlik katmanı indeksi; ADR-034 slotu `:43,153,390,405`.
-- `[[.ai/raw/keys.md]]` → `credential vault, secret` keyword satırı `:64`/`:269` (SSOT keyword haritası; `:317` hedefi eksik ⚠️ §1.1-G).
-- `[[.ai/raw/brain.md]]` → ADR-034 özeti satırı `:989` (başlık varyantı §1.1-I).
+- `[[.ai/keys.md]]` → `credential vault, secret` keyword satırı `:64`/`:269` (SSOT keyword haritası; `:317` hedefi eksik ⚠️ §1.1-G).
+- `[[.ai/brain.md]]` → ADR-034 özeti satırı `:989` (başlık varyantı §1.1-I).
 - `[[.ai/index.md]]` → master katalog `:651` ADR-034 kaydı.
-- `[[.ai/raw/WORKFLOW.md]]` → süreç kaydı `:524`.
+- `[[.ai/WORKFLOW.md]]` → süreç kaydı `:524`.
 - `[[.ai/log.md]]` → audit trail (append-only; bu ADR'nin 1 satırlık kaydı).
 - `[[.ai/CLAUDE.md]]` → ana sözleşme; REDACTED + guardrail kaynakları.
 
@@ -318,7 +318,7 @@ Config service fiilen mevcut: `getSecure`/`maskSecret`/`filterSensitive` + aray�
 | `shared/src/Config/ConfigManager.php` + `EnvParser.php` + `IConfigManager.php` (düz metin) | §1.1-B, §2.1 | Faz 1 taşıyıcısı (getSecure/maskSecret/filterSensitive) | ✅ VAR (+ test dosyası) |
 | `shared/config/oauth-platforms.php` (düz metin) | §1.1-E, §2.4-b | 20 env-adı + `:208` "asla hardcoded" hükmü | ✅ VAR |
 | `shared/config/.env.example` + `auth.coremusic.net/config/.env.example` (düz metin) | §1.1-A, §1.1-I, §2.4-b | 18 + 13 anahtar, 7 anahtar drift | ✅ VAR (2 dosya) |
-| `[[.ai/.decisions/index.md]]`, `[[.ai/index.md]]`, `[[.ai/raw/keys.md]]`, `[[.ai/raw/brain.md]]`, `[[.ai/raw/WORKFLOW.md]]` | §1.1-G, §1.1-I, §5.1 | ADR-034 slotu zaten ayrılmış (10 kayıt satırı) | ✅ VAR |
+| `[[.ai/.decisions/index.md]]`, `[[.ai/index.md]]`, `[[.ai/keys.md]]`, `[[.ai/brain.md]]`, `[[.ai/WORKFLOW.md]]` | §1.1-G, §1.1-I, §5.1 | ADR-034 slotu zaten ayrılmış (10 kayıt satırı) | ✅ VAR |
 | `[[.ai/.templates/adr/adr-template.md]]` + web-research-protocol | §6, §7, §1.3 | İskelet + araştırma protokolü | ✅ VAR |
 | Web (30 kaynak, §1.3) | §1.3, §2.1-2.3, §3, §4.1 | Güncel ekosistem kanıtı | ✅ 5 sorgu / 30 kaynak |
 | ⚠️ Eksik hedefler (wiki-link DEĞİL, düz metin): `architecture/k0-k5-software/k0-os-layer/credential-vault.md` (keys.md:317) · `home.coremusic.net/config/.env.example` · `shared/config/.env.schema` · `EnvSchema.php` · `EnvValidator.php` · `bin/config-doc.php` · `.gitleaks.toml` | §1.1-A/G/I, §2.4-f | Hepsi **diskte YOK** → `⚠️ VERIFICATION REQUIRED` (uydurulmadı, wiki-link yapılmadı) | ❌ YOK (0 dosya) |

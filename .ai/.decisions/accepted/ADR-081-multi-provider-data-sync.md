@@ -15,7 +15,7 @@ governance: Red Team · Human Mode · Truth Mode
 **Durum:** accepted (kabul — debate §7.1 ✅ KABUL 17/3/0 (3 tur / 20 persona); frozen YOK)
 **Tarih:** 2026-09-24
 **Karar Veren:** Vault Steward (kullanıcı talebi: çoklu provider; detaylar "sen karara ver" → senior mimar kararları)
-**İlgili ADR'ler:** eski seri — ADR-002 (PDO/ORM yasağı), ADR-003 (multi-db 9 database), ADR-040 (database authority 18 BCNF), ADR-050 (multi-db sync stratejisi) → kavramsal referans: [[../index]] ve [[../../raw/brain]] (eski seriye `[[ADR-0xx]]` biçimli link KURULMAZ); bu dosya yeni uzayda ADR-081'dir
+**İlgili ADR'ler:** eski seri — ADR-002 (PDO/ORM yasağı), ADR-003 (multi-db 9 database), ADR-040 (database authority 18 BCNF), ADR-050 (multi-db sync stratejisi) → kavramsal referans: [[../index]] ve [[../../brain]] (eski seriye `[[ADR-0xx]]` biçimli link KURULMAZ); bu dosya yeni uzayda ADR-081'dir
 **Numara gerekçesi:** 001-080 mevcut 80 karara (37 frozen + 30 active + 12 red + 1 draft) ve R-001..R-012 red'lere ayrıldı → sıradaki yeni karar ADR-081
 
 ---
@@ -27,8 +27,8 @@ CoreMusic veri katmanı çoklu provider ile çalışacak: **MySQL, MSSQL, MongoD
 ### 1.1 Mevcut Durum
 
 - **Şema disk kanıtı:** `.ai/.sql/mysql/` altında **18 .sql dosyası** (coremusic_user, coremusic_auth, coremusic_system, coremusic_logs, coremusic_ai, coremusic_social, coremusic_studio, coremusic_catalog, coremusic_download, coremusic_media, coremusic_musics, coremusic_playlist, coremusic_api, coremusic_cms, coremusic_neva, coremusic_patch, coremusic_albums, coremusic_wireless) — MySQL'in şema SSOT'u olduğunun disk kanıtı.
-- **Eski seri kararlar (kavramsal referans — dosya değil indeks kaydı):** ADR-003 multi-db 9 database, ADR-040 database authority 18 BCNF, ADR-050 multi-db sync stratejisi, ADR-002 PDO mandatory / ORM yasak → kayıtlar [[../index]] §3-§4'te; ADR-086 event-driven architecture → [[../../raw/brain]] (outbox kararının öncülü).
-- **Offline-first emsalı:** [[../../raw/AGENTS.md]] §17 edge case #9 "Network outage → Offline-First + SQLite queue" — SQLite'ın yedek değil aktif rolde olacağının vault içi emsali.
+- **Eski seri kararlar (kavramsal referans — dosya değil indeks kaydı):** ADR-003 multi-db 9 database, ADR-040 database authority 18 BCNF, ADR-050 multi-db sync stratejisi, ADR-002 PDO mandatory / ORM yasak → kayıtlar [[../index]] §3-§4'te; ADR-086 event-driven architecture → [[../../brain]] (outbox kararının öncülü).
+- **Offline-first emsalı:** [[../../AGENTS.md]] §17 edge case #9 "Network outage → Offline-First + SQLite queue" — SQLite'ın yedek değil aktif rolde olacağının vault içi emsali.
 - **Boşluk:** yeni uzayda (ADR-001+) çoklu-provider yazım önceliği, tutarlılık modeli ve SQLite senkron rolüne dair ADR **YOK** — bu dosya ilk karardır.
 
 ### 1.2 Sorun Tanımı
@@ -174,7 +174,7 @@ Kurallar: `journal_mode=WAL` zorunlu; otomatik checkpoint (varsayılan 1000 sayf
 ### 4.1 Olumlu Sonuçlar
 
 - **Dual-write sıfırlanır:** veri + olay tek MySQL transaksiyonunda atomik; publish hatası iş yazımını etkilemez, iş hatası sahte olay üretmez (AWS; microservices.io). *(vault çapraz: `.ai/.sql/mysql/` 18 şema — outbox tablosu bu şemalara komşu yaşar)*
-- **Çoklu-provider çakışması yapısal olarak imkânsız:** tek yazıcı (MySQL) + projection modeli → LWW/merge çakışma çözümü yok, sessiz overwrite yok. *(eski seri kavramsal: ADR-040 database authority, ADR-050 multi-db sync stratejisi → [[../../raw/brain]], [[../index]])*
+- **Çoklu-provider çakışması yapısal olarak imkânsız:** tek yazıcı (MySQL) + projection modeli → LWW/merge çakışma çözümü yok, sessiz overwrite yok. *(eski seri kavramsal: ADR-040 database authority, ADR-050 multi-db sync stratejisi → [[../../brain]], [[../index]])*
 - **Okuma ölçeklenir:** ikincil store'lardan okuma serbest → sorgu yükü MySQL'e yığılmaz; store başına özel indeks/şema (MongoDB döküm, FoundationDB aralık) avantajı korunur.
 - **SQLite gerçek yerel katman olur:** WAL + hibrit mod ile anlık kritik yazımda tam dayanıklılık (FULL), toplu veride ~%30-30x performans (benchmark) + offline çalışma (AGENTS §17 #9). *(vault: `.ai/.sql/mysql/` çekirdek şemalar + AGENTS edge case)*
 - **Arıza yüzeyi daralır ve denetlenebilir:** outbox satırı doğal bir event log'dur; retry/DLQ + lag metrikleri ile her olay'ın akıbeti izlenir; reconciliation ile drift **tespit ve onarılabilir** (NILUS). *(eski seri: ADR-002 PDO/ORM yasağı ile tutarlı — doğrudan SQL, görünür sorgu)*
@@ -215,10 +215,10 @@ Bu madde kararın **koşullu kaçış** tanımlarıdır; kalıcı değişiklik h
 | Vault hedefi | İlişki |
 |--------------|--------|
 | `.ai/.sql/mysql/` (18 .sql) | MySQL şema SSOT'unun disk kanıtı; outbox + dead-letter tabloları bu şemalara eklenir |
-| Eski seri ADR-003 / ADR-040 / ADR-050 / ADR-002 | Kavramsal ön-sürüm: multi-db, database authority, sync stratejisi, PDO/ORM → [[../index]] §3-§4, [[../../raw/brain]] |
-| [[../../raw/brain]] (ADR-086 event-driven architecture) | Outbox kararının event-driven öncülü |
-| [[../../raw/AGENTS.md]] §17 #9 | Offline-First + SQLite queue emsali (SQLite aktif rol) |
-| [[../../raw/keys]] | Keyword haritası: "outbox, SSOT, eventual, WAL, replication, reconciliation" eşlemeleri (⚠️ bu ADR sonrası vault-updater işi) |
+| Eski seri ADR-003 / ADR-040 / ADR-050 / ADR-002 | Kavramsal ön-sürüm: multi-db, database authority, sync stratejisi, PDO/ORM → [[../index]] §3-§4, [[../../brain]] |
+| [[../../brain]] (ADR-086 event-driven architecture) | Outbox kararının event-driven öncülü |
+| [[../../AGENTS.md]] §17 #9 | Offline-First + SQLite queue emsali (SQLite aktif rol) |
+| [[../../keys]] | Keyword haritası: "outbox, SSOT, eventual, WAL, replication, reconciliation" eşlemeleri (⚠️ bu ADR sonrası vault-updater işi) |
 
 ---
 
@@ -236,7 +236,7 @@ Bu madde kararın **koşullu kaçış** tanımlarıdır; kalıcı değişiklik h
 
 ### 5.2 Geri Dönüş Planı
 
-Karar veri yazım yolunu kilitler; geri dönüş kademelidir ve her kademede MySQL SSOT'a dokunulmaz: **(1) Hafif geri dönüş (tek satır):** SQLite `synchronous` NORMAL ↔ FULL pragma değişimi anlıktır ve geri alınabilir (toplu↔kritik kategorisi bir tablo satırıdır). **(2) Relay durdurma:** relay kapatılabilir — outbox satırları birikmeye devam eder, okuma zaten MySQL'e yönlendirilebilir; geri açmak = replay (idempotent, veri kaybı yok). **(3) Projection'ların devre dışı bırakılması:** MongoDB/MSSQL/FDB store'ları salt-okumaya alınır veya bağlantıları çekilir; outbox TTL ile budanır — okuma MySQL'e döner. **(4) Karar değişikliği:** bu ADR düzenlenmez; yeni ADR yazılır ve bu dosyaya `superseded by ADR-NNN` bağı **yeni** ADR'nin §6'sına konur. **(5) Vault bozulması:** standart kurtarma `git checkout` + son commit ([[../../raw/AGENTS.md]] §17 #10). Geri dönüş sırasında veri bütünlüğü garanti kaynağı değişmez: **her koşulda MySQL = doğruluk kaynağı.**
+Karar veri yazım yolunu kilitler; geri dönüş kademelidir ve her kademede MySQL SSOT'a dokunulmaz: **(1) Hafif geri dönüş (tek satır):** SQLite `synchronous` NORMAL ↔ FULL pragma değişimi anlıktır ve geri alınabilir (toplu↔kritik kategorisi bir tablo satırıdır). **(2) Relay durdurma:** relay kapatılabilir — outbox satırları birikmeye devam eder, okuma zaten MySQL'e yönlendirilebilir; geri açmak = replay (idempotent, veri kaybı yok). **(3) Projection'ların devre dışı bırakılması:** MongoDB/MSSQL/FDB store'ları salt-okumaya alınır veya bağlantıları çekilir; outbox TTL ile budanır — okuma MySQL'e döner. **(4) Karar değişikliği:** bu ADR düzenlenmez; yeni ADR yazılır ve bu dosyaya `superseded by ADR-NNN` bağı **yeni** ADR'nin §6'sına konur. **(5) Vault bozulması:** standart kurtarma `git checkout` + son commit ([[../../AGENTS.md]] §17 #10). Geri dönüş sırasında veri bütünlüğü garanti kaynağı değişmez: **her koşulda MySQL = doğruluk kaynağı.**
 
 ### 5.3 Debate Şartları (§7.1 — 4 şart, 2026-09-24)
 
@@ -256,9 +256,9 @@ Karar veri yazım yolunu kilitler; geri dönüş kademelidir ve her kademede MyS
 | [[../index]] | Karar dizini — bu ADR'nin kaydı + eski seri emsalleri (ADR-003 multi-db, ADR-002 PDO/ORM vb., kavramsal) |
 | [[../CLAUDE.md]] | Karar alt registry kuralı (accepted/) |
 | [[../../CLAUDE.md]] | Ana sözleşme, 16 Hard Guardrail (Guardrail #16 — bu ADR şablondan üretildi) |
-| [[../../raw/AGENTS.md]] | Data Engineer domain (§5, §6 routing), Offline-First + SQLite queue (§17 #9), edge/escalation kuralları |
-| [[../../raw/brain]] | Mimari karar özeti — ADR-040 (database authority), ADR-050 (multi-db sync stratejisi), ADR-086 (event-driven) kavramsal öncüller |
-| [[../../raw/keys]] | Keyword haritası — "outbox, SSOT, eventual consistency, WAL, replication, reconciliation, multi-provider" eşlemeleri |
+| [[../../AGENTS.md]] | Data Engineer domain (§5, §6 routing), Offline-First + SQLite queue (§17 #9), edge/escalation kuralları |
+| [[../../brain]] | Mimari karar özeti — ADR-040 (database authority), ADR-050 (multi-db sync stratejisi), ADR-086 (event-driven) kavramsal öncüller |
+| [[../../keys]] | Keyword haritası — "outbox, SSOT, eventual consistency, WAL, replication, reconciliation, multi-provider" eşlemeleri |
 | [[../../log]] | Audit trail (bu kaydın append satırı) |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin 7 bölümlük şablonu (Guardrail #16) |
 | `.ai/.sql/mysql/` (18 .sql) | MySQL şema SSOT disk kanıtı — outbox/dead-letter tablosunun evidir (düz yol referansı) |

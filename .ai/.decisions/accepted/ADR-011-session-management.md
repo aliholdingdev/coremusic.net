@@ -242,9 +242,9 @@ CoreMusic oturum yönetimi **üç katmanlı** olarak kabul edilir: **(A) OWASP t
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | [[../index]] | Karar dizini — §3 satır 48 `[[ADR-011-session-management]]` (slug eşleşmesi ✅) |
 | [[../../CLAUDE.md]] | Vault ana sözleşmesi — 16 Hard Guardrail, REDACTED, Guardrail #16 |
-| [[../../raw/AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (session → Security Engineer) |
-| [[../../raw/WORKFLOW.md]] | Debate/onay akışı bağlamı |
-| [[../../raw/brain.md]] | Mimari karar özeti (bu ADR'den türetilir) |
+| [[../../AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (session → Security Engineer) |
+| [[../../WORKFLOW.md]] | Debate/onay akışı bağlamı |
+| [[../../brain.md]] | Mimari karar özeti (bu ADR'den türetilir) |
 | [[../../log.md]] | Audit trail — bu işlem tek satır append |
 | [[ADR-004-multi-domain-spa]] | Cookie `domain=.coremusic.net` haritası — oturum cookie'si tüm subdomainlerde yaşar (dosya diskte VAR ✅) |
 | [[ADR-007-cache-namespace]] | Hibrit saklama'nın APCu katmanı bu namespace standardına bağlanır (dosya diskte VAR ✅) |

@@ -40,32 +40,32 @@ CoreMusic'in ses yolu **üç ayrı teknoloji katmanına** yayılır: donanım za
   - `asio-drivers.md:12` — "ASIO Exclusive mode ile **0.5ms round-trip** latency hedefler"; **satır 21** buffer "32 sample'a kadar düşürülebilir"; **satır 35** Exclusive `< 0.5ms` ↔ Shared `2-10ms`; **satır 41-45** buffer yönetimi + double buffering.
   - `wasapi-exclusive.md:12, 33-38, 51` — Exclusive/Shared ayrımı, `Initialize()` exclusive mod.
   - `buffer-management.md`, `latency-optimization.md`, `alsa-native.md`, `core-audio-macos.md` aynı dizinde (12 dosya).
-- **Hard-RT kural metinleri — `.ai/raw/brain.md` (IMPLEMENTED):**
+- **Hard-RT kural metinleri — `.ai/brain.md` (IMPLEMENTED):**
   - **§7.1 satır 378-380** — callback içinde **yasak**: `malloc()`, `free()`, `new`, `delete`, `std::make_shared`, `std::vector::push_back`, bloklayıcı I/O, `throw`; **izinli**: stack tahsisi, `std::atomic`, SIMD, `constexpr`, member, `alignas(64)`.
   - **§7.2 satır 382-396** — `processAudioBlock(...) noexcept` ASIO callback örneği (EQ → compressor → limiter).
   - **satır 286** — "ASIO Buffer: **512 sample** varsayılan (64-1024), 48kHz, 32-bit float, **~10.67ms**".
   - **satır 862** — Edge case: `ASIO Device Loss → WASAPI fallback → Null Output`.
   - **satır 869** — Edge case: `Buffer Underrun (CPU %100) → Fade-out → 50ms sessizlik → restart`.
 - **Bütçe hedefi — `.ai/CLAUDE.md:429`** — "Latency Hedefi | **<10ms (ASIO), <20ms (WASAPI)**".
-- **Agent/edge-case bağları — `.ai/raw/AGENTS.md`** — **satır 169** "ASIO device loss → WASAPI fallback"; **satır 348** eskalasyon "ASIO cihaz kaybı L1(Embedded) → L2, 30s"; **satır 683** `§17 Edge | [[ADR-017-dsp-hardware-mode]] | ASIO/WASAPI` (**bu dosya ile wiki-link canlanır**).
-- **Dizin kaydı — `.ai/.decisions/index.md:54`** `[[ADR-017-dsp-hardware-mode]] | DSP Hardware Mode (XMOS, JUCE, ASIO) | Audio` ✅ slug eşleşmesi. Ek referanslar: `.ai/raw/keys.md:117, 140, 252` · `.ai/index.md:634` · `.ai/raw/glossary.md:678` · `.ai/raw/brain.md:972, 1037` · `.ai/.templates/adr/adr-index.md:88, 133`.
+- **Agent/edge-case bağları — `.ai/AGENTS.md`** — **satır 169** "ASIO device loss → WASAPI fallback"; **satır 348** eskalasyon "ASIO cihaz kaybı L1(Embedded) → L2, 30s"; **satır 683** `§17 Edge | [[ADR-017-dsp-hardware-mode]] | ASIO/WASAPI` (**bu dosya ile wiki-link canlanır**).
+- **Dizin kaydı — `.ai/.decisions/index.md:54`** `[[ADR-017-dsp-hardware-mode]] | DSP Hardware Mode (XMOS, JUCE, ASIO) | Audio` ✅ slug eşleşmesi. Ek referanslar: `.ai/keys.md:117, 140, 252` · `.ai/index.md:634` · `.ai/glossary.md:678` · `.ai/brain.md:972, 1037` · `.ai/.templates/adr/adr-index.md:88, 133`.
 - **Kırık-link kanıtı (bu dosya kapatır):** `.ai/broken-links-report.md:49` ve `.ai/reports/broken-files-report.md:182` — `[[ADR-017-dsp-hardware-mode]]` diskte YOK → bu yazım ile **kapanır**.
 
 **B) KOD KATMANI — YOK → PLANNED (uydurulmadı):**
 
 - **Dizin taraması:** kökte `xmos/`, `plugin/`, `firmware/`, `dsp/`, `juce/`, `audio/`, `engine/`, `neva/` **hiçbiri yok** (`Test-Path` = false, 8/8). Kök altındaki tek kod dizini `shared/` (**PHP**) + 3 subdomain.
 - **Kaynak dosya taraması:** `*.cpp`, `*.h`, `*.hpp`, `*.c`, `*.cc`, `*.xc` → **repo genelinde 0 dosya** (vendor/node_modules hariç) → Neva Engine, JUCE plugin, ASIO/WASAPI sürücü kodu ve XMOS firmware'i **henüz yazılmamıştır**.
-- **`.ai/projects/` ve `.ai/electronic/` dizinleri YOK:** `.ai/raw/keys.md:122` `VST3, plugin, MIDI → projects/NevaEngine/vst3-hosting` hedefi diskte yok; `.ai/AGENTS.md` §24.3 "`.ai/projects/NevaEngine/*.md` ⚠️ VERIFICATION REQUIRED (dizin var, 0 dosya)" ifadesi de **çelişkili** (dizin kendisi yok) → `⚠️ VERIFICATION REQUIRED`.
+- **`.ai/projects/` ve `.ai/electronic/` dizinleri YOK:** `.ai/keys.md:122` `VST3, plugin, MIDI → projects/NevaEngine/vst3-hosting` hedefi diskte yok; `.ai/AGENTS.md` §24.3 "`.ai/projects/NevaEngine/*.md` ⚠️ VERIFICATION REQUIRED (dizin var, 0 dosya)" ifadesi de **çelişkili** (dizin kendisi yok) → `⚠️ VERIFICATION REQUIRED`.
 - **Neva Engine "implement edildi" iddiası = ÇELİŞKİ:** `.ai/log.md:98` (2026-09-18) "NevaEngine C++20 JUCE/ASIO … **12 header files, ~79KB** … `core/neva_engine.h`, `buffer/lock_free_ring_buffer.h`, `driver/asio_driver.h`, `driver/wasapi_driver.h`" yazar; `neva_engine*` dosya araması **0 sonuç** → iddia disk kanıtıyla desteklenmiyor, **`⚠️ VERIFICATION REQUIRED`** (ADR-005). Bu ADR kod varmış gibi yazılmaz.
-- **VST3/AU plugin kaynağı yok:** yalnız `.ai/raw/ecosystem/ses-dsp-acik-kaynak.md:119, 258, 385` `processBlock` deseni spesifikasyonu (PLANNED).
-- **Test/CI:** `shared/tests/` altında ASIO/JUCE/DSP/callback ile ilgili test **0**; `.github/workflows/` **0 dosya** (`.ai/raw/AGENTS.md` §25.2) → RT bütçesi CI'da denetlenmiyor.
+- **VST3/AU plugin kaynağı yok:** yalnız `.ai/ecosystem/ses-dsp-acik-kaynak.md:119, 258, 385` `processBlock` deseni spesifikasyonu (PLANNED).
+- **Test/CI:** `shared/tests/` altında ASIO/JUCE/DSP/callback ile ilgili test **0**; `.github/workflows/` **0 dosya** (`.ai/AGENTS.md` §25.2) → RT bütçesi CI'da denetlenmiyor.
 - **Format/şablon kanıtları:** `.ai/.templates/adr/adr-template.md` (Guardrail #16, 7 bölüm + §1.3 9 alan) VAR ✅ · `.ai/.templates/adr/adr-audio-template.md` VAR ✅ · format referansı `.ai/.decisions/accepted/ADR-016-url-normalization.md` VAR ✅ · `.claude/skills/prompt-maker/references/10-web-research-protocol.md` VAR ✅.
 
 **Sonuç etiketi:** bu ADR **spec/yön veren** bir karardır — **vault dokümanları IMPLEMENTED, üç katmanın da kodu PLANNED**.
 
 ### 1.2 Sorun Tanımı
 
-1. **Sınır çizgisi yok:** firmware, plugin ve host katmanı kimin işi? Kim RT garantisi verecek? Kim xrun üretir, kim kurtarır? — hiçbir belgede yazılı değil → her katman her şeyi yapmaya kalkar (katman ihlali = `.ai/raw/AGENTS.md` §5/§18 revert kuralı).
+1. **Sınır çizgisi yok:** firmware, plugin ve host katmanı kimin işi? Kim RT garantisi verecek? Kim xrun üretir, kim kurtarır? — hiçbir belgede yazılı değil → her katman her şeyi yapmaya kalkar (katman ihlali = `.ai/AGENTS.md` §5/§18 revert kuralı).
 2. **Hard-RT kuralları parça parça:** yasak liste brain.md §7.1, callback deseni `adr-audio-template.md`, `malloc`/`lock` yasağı prompt-maker `06-deep-domain-rules.md:82, 87`, xrun sayacı `c-template.md:244` — **tek bağlayıcı karar yok**.
 3. **Buffer/latency hedefleri dağınık ve hiyerarşisiz:** `<10ms/<20ms` (`.ai/CLAUDE.md:429`) · `<0.5ms` (`asio-drivers.md:12, 35`) · `512 sample ≈ 10.67ms` (`brain.md:286`) · `bufferSize = 256` (`neva-engine-core.md:329`) — hangisi **bütçe**, hangisi **tasarım hedefi** yazılı değil (ADR-006 §1.1 aynı bulguyu raporlamıştı).
 4. **Xrun/underrun toleransı vault'ta tescilli değil:** ADR-006 bu hedefi `⚠️ VERIFICATION REQUIRED` ile bıraktı; brain.md:869 yalnız **kurtarma** veriyor (fade-out → 50ms → restart), **tolerans/limit/sayaç sahibi** yok.
@@ -98,7 +98,7 @@ CoreMusic'in ses yolu **üç ayrı teknoloji katmanına** yayılır: donanım za
 | ADR-001 (mimari — Vanilla JS/ITCSS web katmanı) | Web/UI katmanı RT yoluna girmez; JS audio (`Web Audio API`) bu ADR'nin katmanı değildir, ayrı karar ister |
 | ADR-006 (performans hedefleri) | `<10ms ASIO / <20ms WASAPI` bütçesi birebir korunur; `underrun = 0` hedefinin `⚠️ VERIFICATION REQUIRED` etiketi bu ADR ile **kalkmaz** (kalkış koşulu: vault'a tescil — ADR-006 §5.1) |
 | In-Place Refactoring | Dosya adları (`.ai/architecture/firmware/*.md`, `k2-surucu/*.md`, `k3-ses-motoru/*.md`, `brain.md`) **onaysız değiştirilemez**; bu ADR yalnız karar yazar |
-| Frozen ADR-001-037 dokunulmaz | Yalnız okunur + referanslanır (`.ai/raw/AGENTS.md` §25.3 kural 2) |
+| Frozen ADR-001-037 dokunulmaz | Yalnız okunur + referanslanır (`.ai/AGENTS.md` §25.3 kural 2) |
 | `.ai/log.md` append-only | Bu işlem dahil tüm kayıtlar yalnız ekleme ile yazılır |
 | REDACTED | Firmware/sürücü yapılandırma, cihaz anahtarı, lisans, API anahtarı hiçbir koşulda bu ADR'ye yazılmaz |
 | Numara kuralı istisnası | "Yeni ADR ≥ 088" bu yazımda uygulanmaz: `ADR-017` `.ai/.decisions/index.md:54`'te rezerve boş slottur (doldurma, yeni numara tahsisi değil) |
@@ -127,7 +127,7 @@ CoreMusic'in ses yolu **üç ayrı teknoloji katmanına** yayılır: donanım za
 | **2. JUCE plugin / Neva Engine DSP** (K3) | DSP zinciri (EQ, dinamik, crossover, surround), parametre işleme, mix | **Host'ta** — plugin kendi garantisini vermez; host callback çağırır | `processBlock(AudioBuffer<float>&) noexcept`, 32-bit float, lock-free ring + atomik parametre | `k3-ses-motoru/*.md` (spec **IMPLEMENTED**, `dsp-chain.md:12, 50-56`) · `NevaEngine/**.cpp` → **YOK = PLANNED** | Plugin **xrun üretmez**, yalnız **ölçer** (sayaç okur) |
 | **3. ASIO/WASAPI host katmanı** (K2) | Windows ses I/O, cihaz keşfi/kaybı, buffer boyu, gerçekleşen latency, exclusive/shared mod | **Sürücü + OS** — ASIO Exclusive / WASAPI event-driven zamanlar | ASIO SDK 2.3.4 (`bufferSwitch`, `asioDriver`), WASAPI `IAudioClient` event loop | `k2-surucu/*.md` (spec **IMPLEMENTED**, `asio-drivers.md:12, 21, 35, 41-45`) · `driver/asio_driver.h`, `wasapi_driver.h` → **YOK = PLANNED** | Host: **underrun/overrun** (callback geç kaldı / donanım verisi yetmedi) |
 
-**Sınır kuralı:** hiçbir katman diğerinin işini üstlenemez — firmware buffer politikası yazamaz, plugin cihaz keşfi yapamaz, host DSP hesaplayamaz. Sınır ihlali = katman ihlali (`.ai/raw/AGENTS.md` §5/§18 → revert + log ERROR).
+**Sınır kuralı:** hiçbir katman diğerinin işini üstlenemez — firmware buffer politikası yazamaz, plugin cihaz keşfi yapamaz, host DSP hesaplayamaz. Sınır ihlali = katman ihlali (`.ai/AGENTS.md` §5/§18 → revert + log ERROR).
 
 **b) Buffer / latency bütçesi (hesaplanmış, kaynaklı):**
 
@@ -159,7 +159,7 @@ CoreMusic'in ses yolu **üç ayrı teknoloji katmanına** yayılır: donanım za
 | **Log** | Sayaç **non-RT iş parçacığında** okunur, **sıklık-limitli** ERROR yazar | Callback'te log **yazılmaz** (§2.2c kural 3); limit/alert ADR-013 ruhu |
 | **Kurtarma 1 (yumuşak)** | Öncelik: buffer'ı bir kademe artır → CPU/bus yükünü azalt | §1.3 kaynak 23 |
 | **Kurtarma 2 (ses bütünlüğü)** | CPU %100 → **fade-out → 50ms sessizlik → restart** | `brain.md:869` (birebir korunur) |
-| **Kurtarma 3 (cihaz)** | **ASIO device loss → WASAPI → Null Output** | `brain.md:862`, `.ai/raw/AGENTS.md:169`; eskalasyon `:348` (L1→L2, 30s) |
+| **Kurtarma 3 (cihaz)** | **ASIO device loss → WASAPI → Null Output** | `brain.md:862`, `.ai/AGENTS.md:169`; eskalasyon `:348` (L1→L2, 30s) |
 | **Telemetri/limit** | Sayıcı ve eşik ADR-013'e bağlanır; `underrun = 0` hedefi `⚠️ VERIFICATION REQUIRED` kalır | ADR-006 §2.2c, §1.4 |
 | **Yasak** | Xrun'da **sessizce devam**, **çökme** veya **callback içinde log/Printf** | §1.3 kaynak 21-22; `adr-audio-template.md` `audio_task(){ printf }` anti-örneği |
 
@@ -173,7 +173,7 @@ CoreMusic'in ses yolu **üç ayrı teknoloji katmanına** yayılır: donanım za
 
 | Tetik | Zincir | Kaynak |
 |-------|--------|--------|
-| ASIO cihazı kaybolursa (USB kopması) | **ASIO → WASAPI Exclusive → WASAPI Shared → Null Output** (sessizce, kullanıcıya durum bildirimi UI'da) | `brain.md:862`, `.ai/raw/AGENTS.md:169` |
+| ASIO cihazı kaybolursa (USB kopması) | **ASIO → WASAPI Exclusive → WASAPI Shared → Null Output** (sessizce, kullanıcıya durum bildirimi UI'da) | `brain.md:862`, `.ai/AGENTS.md:169` |
 | Ölçülen round-trip bütçe aşarsa (<10ms/20ms) | Buffer'ı otomatik bir kademe artır + ERROR log + kullanıcıya "latency yükseldi" bildirimi | `.ai/CLAUDE.md:429`, §1.3 kaynak 23 |
 | Xrun tekrarlayan | Sayacı artır, sıklık-limitli log, oturum sonunda rapor | ADR-013, §1.3 kaynak 22 |
 | RT kısıtı ihlali (CI'da) | **Fail:** build/denetim başarısız (kod çekerse) | ADR-005 §2.2c (disk kanıtı) |
@@ -232,10 +232,10 @@ CoreMusic'in ses yolu **üç ayrı teknoloji katmanına** yayılır: donanım za
 | [[ADR-006-performance-targets]] | `<10ms ASIO / <20ms WASAPI` bütçesi + `underrun = 0` `⚠️ VERIFICATION REQUIRED` konumu birebir korunur (§2.2b, §1.4) |
 | [[../index]] | Satır 54 `[[ADR-017-dsp-hardware-mode]]` — slug eşleşmesi ✅ (bu dosya rezervasyonu doldurur) |
 | [[../../index.md]] | Satır 634 `decisions/accepted/ADR-017-dsp-hardware-mode` kaydı ✅ (dosya ile canlanır) |
-| [[../../raw/keys.md]] | Satır 117, 140, 252 — `ADR-017 | DSP hardware, XMOS, JUCE, ASIO` ✅ |
-| [[../../raw/brain.md]] | §7.1 satır 378-380 (RT yasakları), §7.2 satır 382-396 (callback), satır 286 (512≈10.67ms), satır 862/869 (fallback), satır 972/1037 (ADR-017 referansları) |
-| [[../../raw/AGENTS.md]] | §17 satır 169 (ASIO→WASAPI), §10 satır 348 (eskalasyon), §21 satır 683 (bu dosyaya wiki-link) |
-| [[../../raw/glossary.md]] | Satır 678 `DSP / JUCE / ASIO → ADR-017` — terim girişi bu kararla geçerli olur |
+| [[../../keys.md]] | Satır 117, 140, 252 — `ADR-017 | DSP hardware, XMOS, JUCE, ASIO` ✅ |
+| [[../../brain.md]] | §7.1 satır 378-380 (RT yasakları), §7.2 satır 382-396 (callback), satır 286 (512≈10.67ms), satır 862/869 (fallback), satır 972/1037 (ADR-017 referansları) |
+| [[../../AGENTS.md]] | §17 satır 169 (ASIO→WASAPI), §10 satır 348 (eskalasyon), §21 satır 683 (bu dosyaya wiki-link) |
+| [[../../glossary.md]] | Satır 678 `DSP / JUCE / ASIO → ADR-017` — terim girişi bu kararla geçerli olur |
 | [[../../.templates/adr/adr-index.md]] | Satır 88, 133 `ADR-017 · XMOS XU316 + PCM3168A DSP` ✅ (satır 216'daki "diskte yok" uyarısı bu dosya ile kapanır) |
 | [[../../.templates/adr/adr-audio-template.md]] | Ses-domaini şablonu — bu ADR §1.3/§2.2d/xrun dilini bu şablonla hizalar |
 | [[../../architecture/firmware/xmos-firmware]] | Katman 1 spec (satır 12, 50, 66, 91-92) |
@@ -300,7 +300,7 @@ CoreMusic'in ses yolu **üç ayrı teknoloji katmanına** yayılır: donanım za
 | 2 | **Latency / xrun test bench** | `<10ms ASIO / <20ms WASAPI` ölçüm kapısı yalnız **ölçülen round-trip** ile konur; **xrun = 0 CI hedefi** yazılır (`.github/workflows/` bugün **0 dosya** → PLANNED) — kapı bugün denetlenmiyor (§4.2) | QA Engineer + DevOps Engineer | ⏳ PLANNED → §5.1 adım 6, 8 | Debate Tur 2 itiraz 3 → §2.2b, §2.2d |
 | 3 | **Spec→kod geçiş maddesi + `underrun = 0` tescili** | Bu ADR **sınır/kısıt kararıdır**: kod 0, spec bol (§1.1-B) → üç katman kodu §5.1 adım 3-5 ile üretilir (ADR = sınır, sonra kod); `underrun = 0` hedefi **vault'a tescil edilmeden** kesinleştirilmez, `⚠️ VERIFICATION REQUIRED` etiketi ADR-006 ile korunur (§1.4) | Embedded Engineer + DSP Firmware Engineer + Vault Steward | ⏳ PLANNED → §5.1 adım 3-5 · tescil: ADR-006 §5.1 | Debate Tur 1 bulgu + Tur 2 itiraz 1 → §1.1-B, §1.4 |
 
-**Tur 2 teyitleri (şart sayılmadı):** xrun **kill-switch** (§2.2f — tek anahtar ile plugin DSP bypass) teyit edildi; ölçüm kapısının "nasıl doğrulanacağı" belirsizliği şart 2'ye bağlandı; `.ai/raw/AGENTS.md` §24.3 "dizin var, 0 dosya" çelişkisi §5.1 adım 7'ye bağlandı (şart sayılmadı).
+**Tur 2 teyitleri (şart sayılmadı):** xrun **kill-switch** (§2.2f — tek anahtar ile plugin DSP bypass) teyit edildi; ölçüm kapısının "nasıl doğrulanacağı" belirsizliği şart 2'ye bağlandı; `.ai/AGENTS.md` §24.3 "dizin var, 0 dosya" çelişkisi §5.1 adım 7'ye bağlandı (şart sayılmadı).
 
 ---
 
@@ -311,12 +311,12 @@ CoreMusic'in ses yolu **üç ayrı teknoloji katmanına** yayılır: donanım za
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | [[../index]] | Karar dizini — **satır 54** `[[ADR-017-dsp-hardware-mode]]` (slug eşleşmesi ✅) |
 | [[../../CLAUDE.md]] | Vault ana sözleşmesi — 16 Hard Guardrail, REDACTED, Guardrail #16 |
-| [[../../raw/AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`C++, ASIO, JUCE, audio, DSP, ring buffer, WASAPI` → Embedded Engineer), §17 #6 (ASIO→WASAPI), §21 satır 683 |
-| [[../../raw/WORKFLOW.md]] | Debate/onay akışı başlangıcı |
-| [[../../raw/brain.md]] | §7.1 RT yasakları · §7.2 ASIO callback · satır 286/862/869 · satır 972 `ADR-017` |
-| [[../../raw/keys.md]] | Satır 117, 140, 252 ADR-017 keyword eşlemeleri ✅ |
+| [[../../AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`C++, ASIO, JUCE, audio, DSP, ring buffer, WASAPI` → Embedded Engineer), §17 #6 (ASIO→WASAPI), §21 satır 683 |
+| [[../../WORKFLOW.md]] | Debate/onay akışı başlangıcı |
+| [[../../brain.md]] | §7.1 RT yasakları · §7.2 ASIO callback · satır 286/862/869 · satır 972 `ADR-017` |
+| [[../../keys.md]] | Satır 117, 140, 252 ADR-017 keyword eşlemeleri ✅ |
 | [[../../index.md]] | Satır 634 ADR-017 kaydı ✅ · satır 391 `Audio/embedded … PLANNED` |
-| [[../../raw/glossary.md]] | Satır 326, 328, 678 — `zero-allocation`, `lock-free`, `xrun` terimleri |
+| [[../../glossary.md]] | Satır 326, 328, 678 — `zero-allocation`, `lock-free`, `xrun` terimleri |
 | [[../../log.md]] | Audit trail — bu işlem tek satır append; satır 98 çelişkisi §1.1-B |
 | Debate ön şartları (5) | §5.4 — sınır · hard-RT yasak · xrun politikası · buffer/latency · öncelik+ölçüm (**3/20 KABUL** ile onaylandı) |
 | Debate (✅ TAMAMLANDI) | §5.3/§5.5/§7.1 — 3 tur / 20 persona, 18/2/0 KABUL (2026-09-24) + 3 şart · sonuç frontmatter `debate` alanına işlendi |

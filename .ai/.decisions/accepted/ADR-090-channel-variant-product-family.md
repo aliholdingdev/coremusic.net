@@ -16,7 +16,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 > **Durum:** ✅ **ACCEPTED** (kullanıcı onaylı kapsam) · **Tarih:** 2026-09-26 · **Debate:** ✅ **TAMAMLANDI** (3 tur / 20 persona — 18 kabul / 2 çekimser / 0 red → **KABUL**, §7.1) · **Tech Lead:** ✅ · **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-090-channel-variant-product-family`
-> **İlgili kararlar:** [[ADR-038-8-1-sound-card-chip-selection]] (DAC/USB çekirdeği — §5.3 bu karara yönlendirmişti) · [[ADR-089-classab-24v]] (amfi temeli) · [[../../raw/brain.md]] · [[../index.md]]
+> **İlgili kararlar:** [[ADR-038-8-1-sound-card-chip-selection]] (DAC/USB çekirdeği — §5.3 bu karara yönlendirmişti) · [[ADR-089-classab-24v]] (amfi temeli) · [[../../brain.md]] · [[../index.md]]
 > **Numara gerekçesi:** brain.md `:1021-1027` 083-089 slotlarını rezerve konularla doldurur (083 SPA Router … 089 Class AB); **090 ilk boş numaradır** ve kullanıcı tarafından onaylanmıştır. Frozen **001-037'ye dokunulmamıştır**.
 
 ---
@@ -29,10 +29,10 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 | Kaynak | Kanıt | Etiket |
 |---|---|---|
-| [[../../raw/brain.md]] `:284` | Class AB Amp — 50W @ 8Ω, THD+N <0.01%, SNR >100dB, ±35V DC, MJL21194/MJL21193 **(ADR-089)** | IMPLEMENTED (karar) |
-| [[../../raw/brain.md]] `:907` | **K16-K18**: 50W/kanal, 8 kanal, MJL21194/MJL21193, ±35V boost, **800W** (ADR-089) | IMPLEMENTED (karar) |
-| [[../../raw/brain.md]] `:292` | §9 **8.1 Surround** — 8 kanal + 1 LFE subwoofer, Linkwitz-Riley 4. nesil, crossover 80Hz | IMPLEMENTED (karar) |
-| [[../../raw/brain.md]] `:1021-1027` | ADR-083…089 slotları rezerve (SPA Router, API Gateway, Shared Lib, Event Driven, Master Plan, OAuth, Class AB) → **090 ilk boş slot** | envanter |
+| [[../../brain.md]] `:284` | Class AB Amp — 50W @ 8Ω, THD+N <0.01%, SNR >100dB, ±35V DC, MJL21194/MJL21193 **(ADR-089)** | IMPLEMENTED (karar) |
+| [[../../brain.md]] `:907` | **K16-K18**: 50W/kanal, 8 kanal, MJL21194/MJL21193, ±35V boost, **800W** (ADR-089) | IMPLEMENTED (karar) |
+| [[../../brain.md]] `:292` | §9 **8.1 Surround** — 8 kanal + 1 LFE subwoofer, Linkwitz-Riley 4. nesil, crossover 80Hz | IMPLEMENTED (karar) |
+| [[../../brain.md]] `:1021-1027` | ADR-083…089 slotları rezerve (SPA Router, API Gateway, Shared Lib, Event Driven, Master Plan, OAuth, Class AB) → **090 ilk boş slot** | envanter |
 | [[ADR-038-8-1-sound-card-chip-selection]] §5.3 / §7.1 | "Kanal varyant ürün ailesi (mono/2/2+1/4-8/7+1/8+1) ayrı karara yönlendirildi" — **ADR-083 yazıyordu**; ADR-083 slotu brain'de SPA Router'a ayrılmış (**numara çakışması**) → bu ADR o çakışmayı kapatır | IMPLEMENTED (karar) |
 | [[ADR-089-classab-24v]] §2 kalem 4 | **1 / 2 / 4 / 6 / 8 kanal — modüler, her kanal bağımsız PCB** (PROJECTS L306) | IMPLEMENTED (karar) |
 | [[../../architecture/k16-class-ab/CLAUDE.md]] | Class AB zorunlu, ±35V, 6-layer, THD+N <0.005%, 50W/kanal (25-75W aralık), BOM hedefi **<$430** | IMPLEMENTED (doküman) |
@@ -40,7 +40,7 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 | [[../../architecture/k17-guc-kaynagi/CLAUDE.md]] | K17 güç kaynağı katmanı (LM5122 dual boost, ±35V) | IMPLEMENTED (doküman) |
 | [[../../architecture/k18-termal/CLAUDE.md]] | K18 termal katmanı (Fischer SK53-100-SA, KSD301 72°C, 80mm PWM) | IMPLEMENTED (doküman) |
 | [[../../CLAUDE.md]] L116-L120 / L126-L127 | K16-K20 katman tanımı + H1 (Class AB 8×50W 7.1) + H2 (±40V/12-24V boost) | IMPLEMENTED (doküman) |
-| [[../../raw/ecosystem/donanım-devre-referanslari.md]] `:315` | "rp2040 red kapsamı: yalnız K17 için mi, yoksa **düşük maliyetli SKU** (varsa) için de düşünülür mü — **ürün kararına bağlı**" | vault'ta SKU'ya tek atıf — bu ADR o kararı verir |
+| [[../../ecosystem/donanım-devre-referanslari.md]] `:315` | "rp2040 red kapsamı: yalnız K17 için mi, yoksa **düşük maliyetli SKU** (varsa) için de düşünülür mü — **ürün kararına bağlı**" | vault'ta SKU'ya tek atıf — bu ADR o kararı verir |
 
 **B) KOD — kanal varyant kodu 0 (dürüst bulgu):**
 
@@ -101,7 +101,7 @@ Tarama: `channel | kanal | subwoofer | LFE | SKU | variant` → `shared/` (php/j
 | **Kod 0 → PLANNED disiplini** | SKU/kanal varyant kodu repoda 0 (§1.1-B); tüm uygulama adımları PLANNED etiketlidir |
 | **Maliyet rakamları tahmindir** | Vault BOM'undan (k16 <$430, K20 ~$682, 8-channel-design $882) türetilmiştir; dış kaynak değildir → `⚠️ VERIFICATION REQUIRED` |
 | **REDACTED** | Tedarikçi teklif gizliliği, sır/credential yazılmaz |
-| **Tek yazma kanalı** | Tüm vault yazımı `.ai/sources/scripts/vault-utf8-writer.mjs`; `log.md` yalnız append |
+| **Tek yazma kanalı** | Tüm vault yazımı `.ai/scripts/vault-utf8-writer.mjs`; `log.md` yalnız append |
 
 ---
 
@@ -249,7 +249,7 @@ Tarama: `channel | kanal | subwoofer | LFE | SKU | variant` → `shared/` (php/j
 2. **Şema seviyesi:** F2 şemaları henüz çizilmedi (kod/şema 0) → iptal maliyeti yalnız taslak işidir; çizilen şemalar varsa yalnız o paket geri alınır.
 3. **SKU seviyesi:** SKU üretimi başlamadan önce geri dönüş = matristen varyant çıkarmaktır (§4.4-3); başlamışsa stok/test kayıtları `log.md`'ye yeni satır olarak işlenir.
 4. **Log/dizin seviyesi:** `log.md` append-only → geri dönüş de **yeni satır**; `index.md` kaydı geri alınırsa satır `—` olarak işaretlenir (silinmez).
-5. **Bozulma durumunda:** `node .ai/sources/scripts/vault-utf8-writer.mjs repair --file <dosya>` (yedek alır) → gerekirse `git checkout` (AGENTS §18 #5).
+5. **Bozulma durumunda:** `node .ai/scripts/vault-utf8-writer.mjs repair --file <dosya>` (yedek alır) → gerekirse `git checkout` (AGENTS §18 #5).
 
 ### 5.3 Debate Notu
 
@@ -273,7 +273,7 @@ Tarama: `channel | kanal | subwoofer | LFE | SKU | variant` → `shared/` (php/j
 | Dosya (wiki-link) | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme; K16-K20 / H1-H2 katman tanımı (L113-L127) |
-| [[../../raw/brain.md]] | §8 `:284`, §9 `:292`, §23 `:907`, slot listesi `:1021-1027` |
+| [[../../brain.md]] | §8 `:284`, §9 `:292`, §23 `:907`, slot listesi `:1021-1027` |
 | [[../index.md]] | Karar dizini — ADR-090 kayıt satırı (§5.1 adım 8) |
 | [[ADR-038-8-1-sound-card-chip-selection]] | DAC/USB çekirdeği (PCM3168A + XU316) + §5.3 bu karara yönlendirme |
 | [[ADR-089-classab-24v]] | Amfi temeli: modüler 1/2/4/6/8 kanal, Class AB, ±35V |
@@ -286,9 +286,9 @@ Tarama: `channel | kanal | subwoofer | LFE | SKU | variant` → `shared/` (php/j
 | [[../../architecture/k17-guc-kaynagi/CLAUDE.md]] | K17 boost/±35V — varyant yüküne göre boyutlandırma |
 | [[../../architecture/k18-termal/CLAUDE.md]] | K18 termal — varyant ısıl yükü |
 | [[../../architecture/k1-donanim/pcm3168a-dac-adc.md]] | PCM3168A donanım dokümanı |
-| [[../../raw/ecosystem/donanım-devre-referanslari.md]] | `:315` düşük maliyetli SKU sorusu → bu ADR ile cevaplanır |
-| [[../../raw/glossary.md]] | LFE / surround terimleri (`:74`, `:246` — LFE `DOĞRULAMA GEREKLİ` işaretli) |
-| [[../../raw/PROJECTS.md]] | L305-L311 kanal 1-8 modüler durum kaydı |
+| [[../../ecosystem/donanım-devre-referanslari.md]] | `:315` düşük maliyetli SKU sorusu → bu ADR ile cevaplanır |
+| [[../../glossary.md]] | LFE / surround terimleri (`:74`, `:246` — LFE `DOĞRULAMA GEREKLİ` işaretli) |
+| [[../../PROJECTS.md]] | L305-L311 kanal 1-8 modüler durum kaydı |
 | `.claude/skills/prompt-maker/references/10-web-research-protocol.md` | §1.3 web araştırma protokolü (v7.2.0) — wiki-link DEĞİL (`.ai/` dışında, düz yol) |
 | Debate kaydı | §7.1 (3 tur / 20 persona, 18/2/0 KABUL — Tech Lead ✅) + §5.4 (3 bağlayıcı şart: 9. çıkış/C1 düzeltmesi, araştırma genişletme, SKU test matrisi) |
 | **ADR-087 (Master Implementation Plan)** | ⚠️ **Diskte dosya YOK** → **wiki-link kurulmadı**; düz metin referans (§2.4-b) |

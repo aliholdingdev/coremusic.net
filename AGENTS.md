@@ -1,20 +1,22 @@
 ---
-title: "CoreMusic — Kök Ana Kurallar"
+title: "CoreMusic — Master Agent Rules"
 type: rules
 category: agent-registry
-version: 1.0.1
+version: 1.1.0
 status: active
-authority: "Master rules — SSOT detayları: .ai/"
-updated: 2026-10-06
+authority: "SSOT: .ai/AGENTS.md — Full registry read @.ai/AGENTS.md (v22.0.8)"
+updated: 2026-10-07
 ---
 
-# CoreMusic — AGENTS.md (Kök Master Kurallar)
+# CoreMusic — AGENTS.md (Master Agent Rules)
 
-> OpenCode V2 bu dosyayı kök boot dosyası olarak okur (CLAUDE.md V2 tarafından yok sayılır).
+> **OpenCode V2 bu dosyayı kök boot dosyası olarak okur (CLAUDE.md V2 tarafından yok sayılır).**
 > Uzun referanslar `.ai/` vault'tadır ve **yalnızca ihtiyaç anında** `@` ile okunur.
 > "Başta tüm vault'u oku" YASAKTIR.
 
----
+> **Kural**: Her görevde önce **@.ai/AGENTS.md** okunur; ardından görevin gerektirdiği dosyalar okunur.
+
+Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry.
 
 ## 1. İş Akışı (Flow)
 
@@ -59,42 +61,20 @@ kod değişikliği · yeni dosya · yeni klasör · yeni bağımlılık · büy�
 ## 5. Anti-Overthink / Anti-Waste (MAX THINKING)
 
 1. Aynı dosya bir görevde 2. kez okunmaz — ilk okumadan sonra KARAR VER.
-2. İhtiyaç yoksa vault/skill/context yüklenmez.
+2. İhtiyaç yoksa vault/context yüklenmez; eşleşen skill'i yüklemek ise zorunludur (Skill Usage Mandate).
 3. Nokta-atışı talimatta plan kompozisyonu ve agent spawn YOK — doğrudan uygula.
 4. Talimat açıksa mikro-soru sorulmaz.
 5. Art arda 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-6. Reasoning = LOW; uzun analiz paragrafı, promptu geri anlatma, tekrarlı doğrulama yasak.
-7. Gereksiz dosya/klasör/skill/agent/context/plan üretme.
+6. Reasoning = LOW; uzun analiz paragrafı, promptu geri anlatma, tekrarlı doğrulama yasak; bu, eşleşen skill'i yüklemeyi engellemez.
+7. Bilinmeyen = UNKNOWN; tahmin yok. Gereksiz dosya/klasör/agent/context/plan ÜRETME yasaktır; gereksiz skill ÜRETME de yasaktır (kullanma zorunlu — bkz. kök CLAUDE.md §Skill Usage Mandate).
 
 ## 6. Multi-Agent Swarm
 
-```
-                          ┌───────────────────────┐
-   USER ────────────────→ │   ORCHESTRATOR (MO)   │
-                          └───────────┬───────────┘
-                                      │
-                 ┬────────────────────┼────────────────────┬
-                 │                    │                    │
-          ┌──────┬──────┐      ┌──────┬──────┐      ┌──────┬──────┐
-          │  ARCHITECT  │      │  DEVELOPER  │      │  RESEARCHER │
-          └──────┴──────┘      └──────┴──────┘      └──────┴──────┘
-                 └────────────────────┼────────────────────┘
-                                      │
-                               ┌──────┬──────┐
-                               │  REVIEWER   │
-                               └──────┴──────┘
-                                      │
-                               ┌──────┬──────┐
-                               │  SECURITY   │
-                               └──────┴──────┘
-                                      │
-                               ┌──────┬──────┐
-                               │    TEST     │
-                               └──────┴──────┘
-                                      │
-                               ┌──────┬──────┐         ┌───────┐
-                               │   VERIFY    │───────→ │  USER │
-                               └──────┴──────┘  rapor  └───────┘
+```text
+USER → ORCHESTRATOR (MO)
+         ├─→ ARCHITECT ─┐
+         ├─→ DEVELOPER ─┼→ REVIEWER → SECURITY → TEST → VERIFY ──rapor──→ USER
+         └─→ RESEARCHER ─┘
 ```
 
 Her aşama bir öncekinin çıktısını doğrular; VERIFY başarısızsa ORCHESTRATOR
@@ -129,16 +109,19 @@ kanıt gücü > seviye; eşit kanıtta Expert > Senior > Junior; **oy çokluğu 
 | | 19 | `dependency-manager` | Paket/sürüm/licence denetimi |
 | | 20 | `error-coordinator` | Hata yayılımı, eskalasyon |
 
-**Tur kuralı (WORKFLOW §6):** Tur 1 = her persona kendi önerisini yazar (kaynaklı);
+**Tur kuralı (WORKFLOW §6)**: Tur 1 = her persona kendi önerisini yazar (kaynaklı);
 Tur 2 = çapraz eleştiri (en az 1 karşı öneri); Tur 3 = uzlaşma + ADR. Uzlaşma yoksa
 `🔴 VERIFICATION REQUIRED` + üst karar. Her öneri **gerekçe + dosya/satır kanıtı**
-taşır; kaynaksız öneri sayılmaz.
+taşıır; kaynaksız öneri sayılmaz.
 
-**Dispatch kuralı:** tek seviyeli karar bağlayıcı olamaz; mimari/katman/sayım
+**Dispatch kuralı**: tek seviyeli karar bağlayıcı olamaz; mimari/katman/sayım
 kararlarında en az 1 Expert + 1 Senior + 1 Junior görüşü zorunludur.
 
 ## 7. Execution Loop (her görevde)
 
+0. SKILL EŞLEŞMESİ KONTROLÜ — kök CLAUDE.md §Skill Registry + available-skills
+   listesi taranır; görev bir skill ile eşleşiyorsa İLK işlem Skill tool ile
+   o skill'i yüklemektir (Skill Usage Mandate §2).
 1. Kök `AGENTS.md` (bu dosya) okunur.
 2. Görevle ilgili **yalnız** `.ai/wiki/` sayfaları okunur (62 sayfanın tümü DEĞİL — konuya göre).
 3. **Yalnız ilgili** `.ai/.rules/` YOK — ilgili kural .ai/CLAUDE.md §6 LINT'ten okunur.
@@ -154,6 +137,8 @@ kararlarında en az 1 Expert + 1 Senior + 1 Junior görüşü zorunludur.
 Kullanıcı hammadde (raw) prompt gönderdiğinde **İLK** işlem `/prompt-maker`'dır:
 questions modu çalışır; sağlayıcı/sabit model yok — OpenCode'un o an seçtiği model
 kullanılır (free modellerde de çalışır).
+
+Diğer tüm görev türleri için geçerli kural §7 Execution Loop adım 0'dır (Skill Usage Mandate).
 
 Şablon çıktısı (sırasıyla):
 
@@ -179,7 +164,7 @@ kullanılır (free modellerde de çalışır).
 | Vault-içi otorite | `@.ai/CLAUDE.md` §2 · not: §2.1 otorite sırası .ai.OLD/CLAUDE.md içindedir |
 | Süreç, faz, hard gate | `@.ai/wiki/vault-workflow.md` · tam metin `@.ai/raw/WORKFLOW.md` |
 
-**Kural:** bu dosyalar yalnız görevin gerektirdiği anda okunur; boot'ta toplu
+**Kural**: bu dosyalar yalnız görevin gerektirdiği anda okunur; boot'ta toplu
 okuma, "tüm vault'u oku", "önce tüm .ai/ oku" talimatları geçersizdir.
 Çelişkide `.ai/` kazanır (SSOT). Vault-içi dosya otorite sırası:
 `.ai/CLAUDE.md` §2.1 (CLAUDE > AGENTS > WORKFLOW > brain > index > templates).
@@ -189,9 +174,35 @@ okuma, "tüm vault'u oku", "önce tüm .ai/ oku" talimatları geçersizdir.
 ## 10. CSS Writing Rules (Templates)
 
 Her CSS görevinden önce `.ai/.templates/frontend/` altındaki kanonik şablonlar okunur: `css-template.md` (v3.0.0, 11 katman) · `css-abstracts-token-template.md` · `css-component-template.md` · `css-page-template.md` · `css-device-template.md` · `css-auth-device-template.md` · `css-utility-template.md` · `css-helper-template.md`.
+
 ⚠️ **Ölü atıf düzeltildi (2026-10-06):** `.ai/.templates/` **kökündeki** özet dosyalar `css-structure.md` (01→11 klasör sırası) · `css-token.md` · `css-component.md` · `css-page.md` · `css-imports.md` **çalışma ağacında diskte YOK (0 glob isabeti)** → beş referans kaldırıldı; özet içerik `css-template.md` içindedir. (`.ai/.templates/` kökü: `CLAUDE.md` · `coremusic-vault-template.md` · `index.md` · `session-log-template.md`. Not: bu beş dosya HEAD'de var, çalışma ağacından silinmesi **commit edilmedi** — `git status: D`.)
+
 Sıra kuralı: 01_Abstracts(token) → 02_Base → 03_Layout → 04_Components → 05_Pages → 06_Utilities → 07_Vendors → 08_Devices → 09_ViewModes → 10_Helpers → 11_OAuth.
 Token kuralı: sabit değer yalnız `01_Abstracts/a-*.css` içinde `--cm-*` ile; `@media` içinde `var()` ile okuma yasak; ham hex/px katman dosyasına yazılmaz.
 **Taşıma/silme YOK:** mevcut CSS dosyası adlandırması ve import zinciri değiştirilmez; yanlış yerleşim yalnız raporlanır (onay + ADR olmadan taşıma yasak).
 
----
+## 13. Reading Order & Mockup Gate
+
+**Kurallar:**
+
+1. P0 → P1 → P2 → P3 sırasıyla okunur
+2. Fallback: `index.md`
+3. Token aşımı önlenir: gereksiz dosya okunmaz
+4. **İstisna**: Görsel referanslar (`.ai/ui-design/screens/**`, `.ai/.png/**`)
+5. **Şablon Zorunlu Okuma (Guardrail #16)**: `.ai/ui-design/**` içine dosya yazmadan ÖNCE `.ai/.templates/ui-design/` altındaki kalıp şablonu okunur — referans/tokens/index → `[[.templates/ui-design/reference-template]]` (Kalıp A) · flow → `[[.templates/ui-design/flow-template]]` (Kalıp B) · prompt → `[[.templates/ui-design/prompt-template]]` (Kalıp C) · screens → `[[.templates/ui-design/screen-spec-template]]` (Kalıp D). Şablonsuz ui-design dosyası üretilmez (§7.3).
+6. **Gate Script Çalıştırma Yeri (Faz 7)**: `.ai/scripts/*.ps1` doğrulama scriptleri yalnızca **repo kökünden** (`C:\www\coremusic.net`) çalıştırılır — `screens-frontmatter-check.ps1` göreli yolları `.ai/` içinden çözemediği için **19 adet sahte "PNG yok"** üretir. 2026-09-29 kök ölçümü: frontmatter `21 ekran / 0 sorunlu` · `kalip-abc-check` `A:21·0 / B:21·0 / C:51·0 → GECTI` · `wiki-link-check` `227 link / 6 raporlanan` = **gerçek kırık 0** (6'sı §13.7 sahte).
+7. **Bilinen 6 Sahte Kırık Link (düzeltme YASAK)**: `flow/auth/01-login.md [[C]]` · `flow/auth/04-select-gender.md [[V]]` · `flow/music/01-playback.md [[V]]` · `flow/settings/04-general.md [[V]]` · `reference/legacy-inventory.md [[link]]` ×2 (L225, ```` ```yaml ```` bloğu içinde). Bunlar şablon değişkeni/kaçış dizgesidir, gerçek kırık link değildir; "onarmaya" kalkışmak şablonu bozar. Sayım 6'da kalır ve kusur sayılmaz.
+
+**Mockup Before Frontend**: CSS/HTML/JS/layout/bileşen görevlerinde `.ai/ui-design/` altındaki ilgili görsel okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir.
+
+## 16. Değiştirilemez Kullanıcı Kuralları (Faz 7 kaydı — bağlayıcı)
+
+1. **Widget grid kanonik kuralı** (Figma API çıktısından **önceliklidir**): `1024` → satır1 **2×2**, satır2 **1×5**, satır3 **1×5** = 12 slot · `1920` → satır1 **4×4**, satır2 **1×8**, satır3 **1×8** = 20 slot. Bu kurala aykırı sayım/render revize edilir, kural değil.
+2. **İsimlendirme yasağı**: `ui-design/screens/T07-embedded/` dizin adı **DEĞİŞTİRİLMEZ** (~489 wiki-link buna bağlı); tier/ CatID ayrıştırması dosya yolu yerine **`CatID` sütunuyla** yapılır.
+3. **Figma token SSOT**: `FIGMA_TOKEN` / `FIGMA_FILE_KEY` **yalnız** `.ai/.env.figma`'dan okunur (`.gitignore:69`); anahtar asla `.md` / `.json` / `.log` içine yazılmaz. `figma-extract.ps1` ve `figma-tokens.ps1` bu kuraldadır — betikte sabit anahtar yoktur.
+4. **Dokunulmaz yüzeyler**: `.ai/.png/**` (salt-okunur SSOT) · frozen ADR'ler · `*.php` / `*.js` / `*.css` / `*.sql` kaynak kod (bu revizyon Markdown dışı **yazmaz**).
+5. **Üretim ve kapanış**: yeni `.md` dosyaları `.ai/.templates/ui-design/` Kalıp A–D'ye uyar (Guardrail #16); **`git commit` subagent tarafından ATILMAZ — orkestratöre aittir**.
+
+## 14. Özet (1 Satır)
+
+Bu dosya: kök boot dosyası → `.ai/AGENTS.md` (SSOT, read @) yönlendirir.

@@ -1,11 +1,20 @@
 ---
+# ── CoreMusic Control Plane FM Standardı v2 (13 alan — 2026-10-07) ─────────────
+# Mevcut 7 alan (korunur):
 title: "CoreMusic Vault — Proje Şablonu (Yeniden Kullanılabilir Vault İskeleti)"
 type: playbook
 category: templates
 version: "1.1.2"
-status: active
-authority: super-primary
+status: active            # draft | proposed | approved | rejected | deprecated
+authority: super-primary  # SAHİP (kimin otoritesi) — öncelik katmanı DEĞİL
 updated: 2026-09-29
+# +6 alan (Control Plane — Q7 geniş şema; authority-critical dosyalarda zorunlu):
+tier: 3                   # 1=Governance+Security · 2=Global Rules · 3=Domain/Arch · 4=Agent · 5=Task · asset ise tier YOK (type: asset)
+domain: templates         # planner filtresi (ör. music, security, shared, workflow, agents)
+ssot: false               # true = bu dosya konunun canonical owner'ı; false = derived/navigation
+risk: low                 # low | medium | high — onay matrisi girdisi (Q3: High → İNSAN onayı)
+owner: MO                 # sorumlu rol (ör. MO, Vault Steward, Security, Domain Agent)
+depends-on: []            # graf kenarı: bağımlı olduğu .ai dosyaları (validator circular-check)
 ---
 
 # CoreMusic Vault — Proje Şablonu

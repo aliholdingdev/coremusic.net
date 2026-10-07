@@ -48,7 +48,7 @@ CoreMusic'in test altyapısı **var ama ölçüsüz**: PHPUnit kurulu, 32 test d
   - `secret-scan.yml` (2026-09-24): GitLeaks (`fetch-depth: 0`).
 - **Coverage gate YOK (3. bulgu):** `ci.yml` içinde `--coverage-*` **0**, coverage raporu/adımı **0**, coverage sürücüsü (xdebug/pcov) kurulmuyor, eşik yok, **PR merge kuralı yok** → "PR'da gate" bugün **PLANNED**.
 - **Coverage değeri: bilinmiyor** → `⚠️ VERIFICATION REQUIRED` (hiçbir yerde coverage % raporu yok; ölçüm ilk adım §5.1/1).
-- **Vault standardı bugün ≥%80:** `[[../../raw/AGENTS.md]]` §16 (QA: "Test coverage ≥80%, flaky test %0") + §10.1 eskalasyon ("Test coverage %80 altı → L1 QA") → bu ADR %90'a **sıkılaştırır** (§1.4 kısıt 9).
+- **Vault standardı bugün ≥%80:** `[[../../AGENTS.md]]` §16 (QA: "Test coverage ≥80%, flaky test %0") + §10.1 eskalasyon ("Test coverage %80 altı → L1 QA") → bu ADR %90'a **sıkılaştırır** (§1.4 kısıt 9).
 
 **C) PERSONA ENVANTERİ — eski vault (diskde okundu, BU ADR'ye ÖZETLENDİ):**
 
@@ -98,7 +98,7 @@ CoreMusic'in test altyapısı **var ama ölçüsüz**: PHPUnit kurulu, 32 test d
 | [[ADR-020-api-public-security]] | **Kritik yol kapsamı:** `shared/src/Api/**` + Gateway yüzeyi %100 branş bu ADR'nin bağlayıcısı; ADR-020 test paketleri (`shared/tests/Api/**`, `Middleware/**`) matrisin "API/uzman" satırlarını besler |
 | [[ADR-021-spa-router-immutable-contract]] | PageRouter 4 dosya/21 test (TEYİT §1.1-A) — route sözleşmesi testleri değiştirilemez sözleşmedir; matrisin "senior/yazılımcı" senaryoları buradan devralınır |
 | [[ADR-022-database-hardened-security]] | DB audit/PII/GRANT testleri (§5.1 adım 1-6'sı) bu matrisin "güvenlik + uzman" senaryolarına bağlanır; test fixtures'ta `[REDACTED]` |
-| [[../../raw/AGENTS.md]] §16 / §10.1 | Bugünkü vault standardı **≥%80 coverage** + "%80 altı → L1 QA eskalasyonu" → bu ADR **%90 + %100 branş (kritik)** ile sıkılaştırır; çelişkide bu ADR geçerli, AGENTS.md güncellemesi §5.1/8'de zorunlu |
+| [[../../AGENTS.md]] §16 / §10.1 | Bugünkü vault standardı **≥%80 coverage** + "%80 altı → L1 QA eskalasyonu" → bu ADR **%90 + %100 branş (kritik)** ile sıkılaştırır; çelişkide bu ADR geçerli, AGENTS.md güncellemesi §5.1/8'de zorunlu |
 | Domain boundary (`shared/AGENTS.md` §5) | `tests/**/*.php` → **QA Engineer**; `src/**` testleri yazan kişi kodu değiştirmez (A2/A1 sahipliği korunur) |
 | Frozen ADR-001-037 dokunulmaz | Yalnız okunur + referanslanır (`AGENTS.md` §25.3 kural 2) |
 | In-Place Refactoring | Dosya adları (`phpunit.xml`, `ci.yml`, `shared/tests/**`, `.ai/personas` — eski vault —) **onaysız değiştirilemez/taşınmaz**; bu ADR yalnız karar yazar (eski persona dosyaları DISKTE KALIR) |
@@ -299,10 +299,10 @@ Doğrulama: her gerçek-dünya iddia ≥2 bağımsız kaynak — `.ai/.personas/
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | [[../index]] | Karar dizini — **satır 60** `[[ADR-023-persona-driven-testing]]` (slug eşleşmesi ✅) |
 | [[../../CLAUDE.md]] | Vault ana sözleşmesi — 16 Hard Guardrail, REDACTED, Guardrail #16 |
-| [[../../raw/AGENTS.md]] | §6 routing (`test, coverage, PHPUnit, E2E → QA Engineer`), §16 kalite (≥%80 → bu ADR %90'a sıkılaştırır), §10.1 eskalasyon, §25.2 stack kanıtı (`shared/tests/ 22 dosya`, `.github/workflows/ = 0` → §1.1-B'de güncellendi: **2 dosya**) |
-| [[../../raw/WORKFLOW.md]] | Test/QA fazları, debate/onay akışı |
-| [[../../raw/brain.md]] | ADR özetleri (bu ADR kaydı debate sonrası eklenir) |
-| [[../../raw/keys.md]] | Keyword haritası: `test, coverage, persona, PHPUnit, CI gate` → bu ADR |
+| [[../../AGENTS.md]] | §6 routing (`test, coverage, PHPUnit, E2E → QA Engineer`), §16 kalite (≥%80 → bu ADR %90'a sıkılaştırır), §10.1 eskalasyon, §25.2 stack kanıtı (`shared/tests/ 22 dosya`, `.github/workflows/ = 0` → §1.1-B'de güncellendi: **2 dosya**) |
+| [[../../WORKFLOW.md]] | Test/QA fazları, debate/onay akışı |
+| [[../../brain.md]] | ADR özetleri (bu ADR kaydı debate sonrası eklenir) |
+| [[../../keys.md]] | Keyword haritası: `test, coverage, persona, PHPUnit, CI gate` → bu ADR |
 | [[../../index.md]] | Karar kataloğu |
 | [[../../log.md]] | Audit trail — bu işlem iki append: "ADR-023 yazıldı (debate PENDING)" + "ADR-023 debate 3/20 kaydedildi (18/2/0 KABUL) + Tech Lead ✅ + 3 şart" |
 | [[ADR-005-ultrathink-protocol]] | `⚠️ VERIFICATION REQUIRED` standardı (§1.1/§4.3 etiketleri) |

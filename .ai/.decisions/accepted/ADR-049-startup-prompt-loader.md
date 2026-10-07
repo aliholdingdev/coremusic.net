@@ -16,9 +16,9 @@ debate: "✅ TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)"
 
 > **Durum:** ✅ **ACCEPTED** · **Tarih:** 2026-09-29 · **Debate:** ✅ **TAMAMLANDI (3 tur / 20 persona, 18/2/0 KABUL)** · **Tech Lead:** ✅ · **Arch Lead:** ⏳
 > **Karar serisi:** `.ai/.decisions/accepted/` · **Slug:** `ADR-049-startup-prompt-loader`
-> **İlgili kararlar:** [[ADR-030-ai-strategy-core]] (API-birincil + sessiz başarısızlık yasağı — karar (c) zemini) · [[ADR-035-system-prompt-engineering]] (6 maddelik standart + konsolidasyon adımı — karar (e)) · [[ADR-007-cache-namespace]] (L1/L2/L3 + zorunlu TTL + cache-aside — karar (d)) · [[ADR-039-7-service-platform-architecture]] (11 servis tablosu + PSR-14 + servis↔servis HTTP yasağı — karar (b)) · [[ADR-036-multi-project-prompt-maker]] (prompt-maker skill üretimi — §1.1-B envanter bağlamı) · [[ADR-048-view-transition-api-integration]] (önceki ADR — biçim/kanıt etiketi referansı) · [[../index.md]] · [[../../raw/brain.md]]
-> **Ad gerekçesi:** slug `ADR-049-startup-prompt-loader` **disk kanıtından** alınmıştır — `.ai/.decisions/index.md:90` bu adı taşır (`| [[../../raw/brain.md]] ADR-049-startup-prompt-loader | Startup Prompt Loader | AI |`); bu dosya o boşluğu doldurur. **Numara istisnası:** güncelleme kuralı yeni ADR'lerin ADR-088+ aralığından başlamasını söyler (vault katalogunda ADR-085..089 referansları `brain.md:179,284,843` ve `index.md:688`'de vardır); 049 slotu `index.md:90`'da **rezerve edilmiş** olduğu için (ADR-030/035 gibi) bu slot doldurulur — yeni numara tüketilmez.
-> **Index durumu:** `.ai/.decisions/index.md:90` satırı **vardır** ve satır 88/89'daki ADR-046/048 satırlarıyla **aynı biçimdedir**; `[[../../raw/brain.md]]` bağlantısının slug'ı doğru hedefe bağlayan düzeltmesi **bir sonraki vault reset'ine ertelenmiştir** (bu işlemde index.md'ye dokunulmadı — report-only).
+> **İlgili kararlar:** [[ADR-030-ai-strategy-core]] (API-birincil + sessiz başarısızlık yasağı — karar (c) zemini) · [[ADR-035-system-prompt-engineering]] (6 maddelik standart + konsolidasyon adımı — karar (e)) · [[ADR-007-cache-namespace]] (L1/L2/L3 + zorunlu TTL + cache-aside — karar (d)) · [[ADR-039-7-service-platform-architecture]] (11 servis tablosu + PSR-14 + servis↔servis HTTP yasağı — karar (b)) · [[ADR-036-multi-project-prompt-maker]] (prompt-maker skill üretimi — §1.1-B envanter bağlamı) · [[ADR-048-view-transition-api-integration]] (önceki ADR — biçim/kanıt etiketi referansı) · [[../index.md]] · [[../../brain.md]]
+> **Ad gerekçesi:** slug `ADR-049-startup-prompt-loader` **disk kanıtından** alınmıştır — `.ai/.decisions/index.md:90` bu adı taşır (`| [[../brain.md]] ADR-049-startup-prompt-loader | Startup Prompt Loader | AI |`); bu dosya o boşluğu doldurur. **Numara istisnası:** güncelleme kuralı yeni ADR'lerin ADR-088+ aralığından başlamasını söyler (vault katalogunda ADR-085..089 referansları `brain.md:179,284,843` ve `index.md:688`'de vardır); 049 slotu `index.md:90`'da **rezerve edilmiş** olduğu için (ADR-030/035 gibi) bu slot doldurulur — yeni numara tüketilmez.
+> **Index durumu:** `.ai/.decisions/index.md:90` satırı **vardır** ve satır 88/89'daki ADR-046/048 satırlarıyla **aynı biçimdedir**; `[[../brain.md]]` bağlantısının slug'ı doğru hedefe bağlayan düzeltmesi **bir sonraki vault reset'ine ertelenmiştir** (bu işlemde index.md'ye dokunulmadı — report-only).
 > **Frozen notu:** ADR-001–037 **dokunulmamıştır** (yalnız atıf; index.md:28 frozen aralığı 001→036). Bu dosya Active aralığındadır, frozen değildir.
 
 ---
@@ -69,7 +69,7 @@ Etiketler: **IMPLEMENTED** = diskte kod kanıtıyla ispatlı · **PLANNED** = ka
 
 | Kayıt | İçerik | Etiket |
 |---|---|---|
-| `.ai/.decisions/index.md:90` | `| [[../../raw/brain.md]] ADR-049-startup-prompt-loader | Startup Prompt Loader | AI |` — satır **var**, 88/89 (ADR-046/048) ile aynı biçim | DOĞRULANDI (düzeltme reset'e ertelendi — report-only) |
+| `.ai/.decisions/index.md:90` | `| [[../brain.md]] ADR-049-startup-prompt-loader | Startup Prompt Loader | AI |` — satır **var**, 88/89 (ADR-046/048) ile aynı biçim | DOĞRULANDI (düzeltme reset'e ertelendi — report-only) |
 | [[ADR-039-7-service-platform-architecture]] `:117-127` | 11 servis tablosu; servis ayrım sırası download→media→auth; **servis↔servis HTTP yasağı**; servisler arası iletişim **PSR-14 event** ile | DOĞRULANDI (frozen — okundu, değişmedi) |
 | `AGENTS.md §14.1` | prompt→agent eşleme tablosu: prompt0 her görev başında zorunlu; prompt1 (SPA Router) / prompt2 (Auth) / prompt3 (API) yalnız ilkili domain görevinde — **yüklülük haritasının vault'taki tek kaydı** | DOĞRULANDI |
 | [[ADR-030-ai-strategy-core]] | "AI sınıfları 7 sınıf + 6 contract, instantiate 0" · API-birincil/yerel-opsiyonel · **sessiz başarısızlık yasağı** | DOĞRULANDI (frozen) |
@@ -219,7 +219,7 @@ Zincirin tek doğal ucu zaten **belli**: runtime'a ulaşan tek kanal `PromptEngi
 | 3 **Cache şeması ihlali**: TTL'siz key / namespace'siz key → çakışma, bayat prompt | 3 (Olası) | Orta-Yüksek (yanlış prompt servisi) | ADR-007 key + **zorunlu TTL**; `MemorySystem` `CACHE_TTL :33-36` değerleri aynen kullanılır; key denetimi §5.1 adım 3 |
 | 4 **Dağınıklık/loader çatışması**: loader tek seti beklemez, üç kaynağı karışık okur | 3 (Olası) | Orta (çift prompt, sürüm şaşkınlığı) | §2.5: konsolidasyon loader ile **paralel/önce**; loader'ın kaynağı tek set — üç kaynak okunmaz |
 | 5 **İlk çağrı gecikmesi** kullanıcıya yansır (özellikle ilk AI çağrısı) | 3 (Olası) | Düşük-Orta (latans) | Tek seferlik kurulum + cache (§2.4); ölçüm §5.1 adım 5; gerekirse opsiyonel ısıtma |
-| 6 **Vault drift**: index.md:90 `[[../../raw/brain.md]]` slug düzeltmesi + `.ai/raw/AGENTS.md §25.2` "workflows = 0" stale kaydı | 4 (Çok olası — zaten mevcut) | Düşük (link/katalog kirliliği) | Report-only kayıt (§5.1 adım 8) + bir sonraki vault reset'i; bu ADR'de **düzeltilmez** (In-Place Refactoring) |
+| 6 **Vault drift**: index.md:90 `[[../brain.md]]` slug düzeltmesi + `.ai/AGENTS.md §25.2` "workflows = 0" stale kaydı | 4 (Çok olası — zaten mevcut) | Düşük (link/katalog kirliliği) | Report-only kayıt (§5.1 adım 8) + bir sonraki vault reset'i; bu ADR'de **düzeltilmez** (In-Place Refactoring) |
 
 ### 4.4 Fallback (geri birleşim / geri dönüş)
 
@@ -244,7 +244,7 @@ Zincirin tek doğal ucu zaten **belli**: runtime'a ulaşan tek kanal `PromptEngi
 | 5 | **Yükümlülük haritası denetimi:** `AIWorkflow` 5 workflow (`:49,99,146,198,240`) → PromptEngine bağımlılıkları `AGENTS.md §14.1` + ADR-039 (`:117-127`) ile karşılaştırılır; servis↔servis HTTP **0** teyit edilir | Backend + MO | 0.5 gün |
 | 6 | **Ölçüm:** ilk çağrı gecikmesi (kurulum + ilk cache yazımı) ölçülür ve §4.2-1'e karşı kaydedilir; **ölçümsüz adım kapanmaz** | QA | 0.25 gün |
 | 7 | **Konsolidasyon hattı (paralel):** tek domain prompt seti hazırlanır (ADR-035 §5.1 adımı) — loader bu sete bağlanır, üç kaynak ayrı okunmaz | Vault Steward | ADR-035 kapsamı (bu ADR'de yalnız kural: §2.5) |
-| 8 | **Ertelemeler (report-only):** (i) `.ai/.decisions/index.md:90` slug wiki-link düzeltmesi → **bir sonraki vault reset'i** (bu işlemde dokunulmadı); (ii) `.ai/raw/AGENTS.md §25.2` "workflows = 0 dosya" stale kaydı → vault reset'te gözden geçirilir; (iii) `AIEngine` stub (`return []`) → ayrı AI kararı (ADR-030 kapsamı) | Vault Steward + Tech Lead | 0.2 gün |
+| 8 | **Ertelemeler (report-only):** (i) `.ai/.decisions/index.md:90` slug wiki-link düzeltmesi → **bir sonraki vault reset'i** (bu işlemde dokunulmadı); (ii) `.ai/AGENTS.md §25.2` "workflows = 0 dosya" stale kaydı → vault reset'te gözden geçirilir; (iii) `AIEngine` stub (`return []`) → ayrı AI kararı (ADR-030 kapsamı) | Vault Steward + Tech Lead | 0.2 gün |
 | 9 | **Debate 3 tur** tamamlanır → §7 Debate/Tech Lead satırları güncellenir (⏳ → ✅) | Vault Steward | 0.5 gün ✅ (2026-09-29 debate 3/20 tamamlandı — 18/2/0 KABUL) |
 
 **Toplam ≈ 3.7 gün** (adım 4 + 6 kapı — bu ikisiz loader yayına alınmaz; adım 9 debate'i bekler).
@@ -278,14 +278,14 @@ Zincirin tek doğal ucu zaten **belli**: runtime'a ulaşan tek kanal `PromptEngi
 | Dosya | İlişki |
 |-------|--------|
 | [[../../CLAUDE.md]] | Ana sözleşme, 16 Hard Guardrail |
-| [[../../raw/AGENTS.md]] | Agent registry — §14.1 prompt→agent eşlemesi (karar (b) kaynağı), §25.2 stale "workflows = 0" kaydı (§5.1 adım 8-ii) |
-| [[../../raw/WORKFLOW.md]] | Süreçler, fazlar |
-| [[../../raw/brain.md]] | Mimari karar özeti |
+| [[../../AGENTS.md]] | Agent registry — §14.1 prompt→agent eşlemesi (karar (b) kaynağı), §25.2 stale "workflows = 0" kaydı (§5.1 adım 8-ii) |
+| [[../../WORKFLOW.md]] | Süreçler, fazlar |
+| [[../../brain.md]] | Mimari karar özeti |
 | [[../../index.md]] | Master katalog |
-| [[../../raw/keys.md]] | Keyword haritası |
-| [[../../raw/MEMORY.md]] | Session hafızası |
+| [[../../keys.md]] | Keyword haritası |
+| [[../../MEMORY.md]] | Session hafızası |
 | [[../../log.md]] | Audit trail (append-only — bu ADR için tek satır append) |
-| [[../../raw/glossary.md]] | Terimler (Prompt Loader, cache-aside, fallback stub, prefix cache) |
+| [[../../glossary.md]] | Terimler (Prompt Loader, cache-aside, fallback stub, prefix cache) |
 | [[../index.md]] | Karar dizini — **ADR-049 satırı VAR (satır 90); slug wiki-link düzeltmesi reset'e ertelendi (§5.1 adım 8-i)** |
 | [[CLAUDE]] | `accepted/` dizin kuralı |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin zorunlu şablonu (Guardrail #16) |
@@ -307,7 +307,7 @@ Zincirin tek doğal ucu zaten **belli**: runtime'a ulaşan tek kanal `PromptEngi
 | `.claude/skills/prompt-maker/references/10-web-research-protocol.md` | §1.3 web araştırma protokolü — **düz metin** (vault dışı) |
 | `.ai/.workflows/` (2 dosya) | §1.1-D `AGENTS.md §25.2` "0 dosya" staleness kanıtı — **düz metin** |
 
-> **Wiki-link doğrulaması:** Yazımdan önce `Test-Path` ile diskte doğrulandı (2026-09-29) — kod bloğu/alıntı içi occurrence'lar hariç **43 bağlantı örneği / 21 benzersiz hedef: 21/21 diskte mevcut, eksik 0** (2026-09-29 debate eki sonrası yeniden sayıldı). (Ham metinde 48 örnek/22 hedef görünür; fark, `index.md:90` satırının **düz alıntısı** olan 5 `[[../../raw/brain.md]]` örneğidir — hepsi kod alıntısı içindedir, bağlantı sayılmaz.) Diskte **olmayan** hedefe wiki-link **yazılmamış**; doğrulanamayan iddialar (ADR-033/ADR-040 için slug'lar `Test-Path` **False**) düz metin bırakılmıştır. `ADR-049-*` hedefi bu dosyanın kendisidir. `index.md:90` içindeki `[[../../raw/brain.md]]` biçim hatası **raporlanır, düzeltilmez** (report-only — §5.1 adım 8-i).
+> **Wiki-link doğrulaması:** Yazımdan önce `Test-Path` ile diskte doğrulandı (2026-09-29) — kod bloğu/alıntı içi occurrence'lar hariç **43 bağlantı örneği / 21 benzersiz hedef: 21/21 diskte mevcut, eksik 0** (2026-09-29 debate eki sonrası yeniden sayıldı). (Ham metinde 48 örnek/22 hedef görünür; fark, `index.md:90` satırının **düz alıntısı** olan 5 `[[../brain.md]]` örneğidir — hepsi kod alıntısı içindedir, bağlantı sayılmaz.) Diskte **olmayan** hedefe wiki-link **yazılmamış**; doğrulanamayan iddialar (ADR-033/ADR-040 için slug'lar `Test-Path` **False**) düz metin bırakılmıştır. `ADR-049-*` hedefi bu dosyanın kendisidir. `index.md:90` içindeki `[[../brain.md]]` biçim hatası **raporlanır, düzeltilmez** (report-only — §5.1 adım 8-i).
 
 ### §6.1 Debate Şartı Bağlantıları
 

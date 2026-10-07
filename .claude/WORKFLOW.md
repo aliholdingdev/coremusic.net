@@ -3,8 +3,8 @@ title: "CoreMusic — .claude Klasör İş Akışı"
 type: docs
 category: config
 docType: workflow
-date: 2026-10-03
-updated: 2026-10-03
+date: 2026-10-07
+updated: 2026-10-07
 version: 1.0.0
 status: active
 authority: "Derived — SSOT: .ai/WORKFLOW.md + kök AGENTS.md"
@@ -41,11 +41,13 @@ Bu doküman `.claude/` içinde bir görevin (ayar değişikliği, skill üretimi
 |--------|-------------|
 | Ayar değişikliği (`settings*.json`) akışı | `.ai/` vault süreçleri → [[../.ai/WORKFLOW.md]] |
 | Skill üretimi/güncelleme akışı (şablon + domain içerik) | Skill içeriğinin kendi adımları → ilgili `skills/*/SKILL.md` |
+| Subagent tanımı ekleme/güncelleme akışı (`agent/` — 118 dosya, onaylı) | Subagent çalışma zamanı davranışı (runtime → UNKNOWN) |
+| Slash komutu ekleme/güncelleme akışı (`command/` — 24 dosya, onaylı) | Komutun tetiklediği işin kendi süreci → hedef skill/workflow |
 | Boot düzeltme talebi akışı (dokunulmaz → rapor) | CI/CD kapıları → [[../.github/workflows/ci.yml]] |
 | Kapılar: kural → onay → uygulama → ölçüm → secret → rapor | AI aracının runtime davranışı (diskte değil → UNKNOWN) |
 
 - **Kullananlar:** Kullanıcı (onay), MO (doküman/kayıt), Security (secret denetimi), ilgili domain agent'ı (skill içeriği), araç (çalıştırıcı).
-- **Ön koşul:** Envanter ölçülmüş (`.claude/CONTEXT.md` §3.1–§3.2 — 138 dosya); şablon okunmuş (Guardrail #16); hedef dosya diskte mevcut.
+- **Ön koşul:** Envanter ölçülmüş (`.claude/CONTEXT.md` §3.1–§3.2 — 304 dosya); şablon okunmuş (Guardrail #16); hedef dosya diskte mevcut.
 
 ---
 
@@ -57,7 +59,7 @@ Bu doküman `.claude/` içinde bir görevin (ayar değişikliği, skill üretimi
 |---|------|-------|--------------|-------|------------------|-------|-------|
 | 1 | Görev tanımını netleştir | Onaylı görev özeti | Görev kapısı (soru/onay) | Yanlış iş yapmayı önler | İstenmeyen değişiklik, revert | Önce ne istendiğini anlamak. | Görev kapısı onaysız sonraki aşamaya geçmez (kök `AGENTS.md` §1). Tanım okunmadan başlarsan beklenti ile iş ayrışır. Kapıdan geçince ölçülebilir çıktı (özet) elde edersin. Atlarsan yanlış iş üretimi ve zaman kaybı. |
 | 2 | Routing + sahip doğrula ([[AGENTS.md]] §3.1–§3.2) | Atanan rol + hedef dosya | Yetki kapısı | Yetki sınırı baştan belli olsun | Yetkisiz değişiklik, geri alma | Kimin işi olduğunu bulmak. | Sahiplik tablosu dosyaya göre verilir; ayar onaylı, skill domainde, CLAUDE dokunulmaz. Yetki doğrulanmadan başlarsan başka birinin alanına girersin. Kapı geçince doğru muhatap belli olur. Atlarsan geri alınabilirlik ve sorumluluk kaybolur. |
-| 3 | Kural + envanter oku ([[CLAUDE.md]] + [[CONTEXT.md]]) | Kural listesi + 138 dosyalık ölçüm | G1 Keşif | Klasör yasakları ve gerçek sayılar | Çelişkili/uydurma bilgiyle çalışma | Kural ve dosya sayısını öğrenmek. | Kurallar klasör dosyasındadır; ölçüm iddiaların tek kanıtıdır. Okunmadan başlarsan REDACTED/dokunulmazlık gibi sınırları görmezsin. Kapı geçince elinde kanıt ve sınır vardır. Atlarsan uydurma envanter ve kural ihlali. |
+| 3 | Kural + envanter oku ([[CLAUDE.md]] + [[CONTEXT.md]]) | Kural listesi + 304 dosyalık ölçüm | G1 Keşif | Klasör yasakları ve gerçek sayılar | Çelişkili/uydurma bilgiyle çalışma | Kural ve dosya sayısını öğrenmek. | Kurallar klasör dosyasındadır; ölçüm iddiaların tek kanıtıdır. Okunmadan başlarsan REDACTED/dokunulmazlık gibi sınırları görmezsin. Kapı geçince elinde kanıt ve sınır vardır. Atlarsan uydurma envanter ve kural ihlali. |
 | 4 | Yeni skill ise şablon oku (Guardrail #16) | Şablon iskeleti | G1 Keşif (şablon zorunlu) | Tutarlı iskelet + frontmatter | Şablonsuz skill, yapı sapması | Yeni işi hazır kalıba koymak. | Şablon `.ai/.templates/` altındadır ve zorunludur. Okunmadan yazılan skill iskeletsiz kalır ve denetimde reddedilir. Şablonlu üretim tekrar edilebilir olur. Atlarsan herkes farklı skill yazar. |
 | 5 | Kullanıcı onayı (ayar/skill) | Onay kaydı | **G2 Onay** (zorunlu) | Sürpriz izin/MCP değişikliği olmasın | Güvenlik sürprizi, tüm oturumlar etkilenir | Birinin "evet" demesini beklemek. | Onay, Faz 1 kuralının kapısıdır. Onaysız `settings.json` değişirse izin sınırı sessizce oynar. Onay kaydı denetim izi bırakır. Atlarsan yetkisiz davranış ve revert riski. |
 | 6 | Değişikliği uygula (yalnız hedef dosya) | Diff | G3 Kapsam | Kapsam disiplini | Fazla dosyaya dokunma, çakışma | İstenen yeri değiştirmek. | Eşzamanlı oturumlar vardır; diff kilitli kalınca inceleme ve revert kolay olur. Kapsam genişlerse başka oturumun işi bozulur. Atlarsan çakışma ve temizlik işi. |
@@ -109,6 +111,8 @@ Bu doküman `.claude/` içinde bir görevin (ayar değişikliği, skill üretimi
 | `settings.json` | Yalnız onayla değişir; `instructions` sırası korunur | G2 | Ayar dosyasına izinsiz dokunulmaz. | İzin/MCP/secret aynı dosyadadır; onaysız değişiklik tüm oturumları etkiler. Onay kaydı denetim izidir. |
 | `settings.local.json` | Yerel `allow` listesi genişletme onaylı | G2 | Yerel izin listesi kullanıcıya aittir. | Genişletilen izin (ör. dosya yazma) güvenlik sürprizi doğurur; ortak ayardan ayrı durur. |
 | `skills/*/SKILL.md` | Şablon zorunlu + domain içerik + MO kaydı | G1 + G2 | Yeni yetenek, hazır kalıpla girer. | Şablonsuz skill yapı sapması üretir; kayıt yoksa envanter şaşar. |
+| `agent/*.md` (118 subagent tanımı) | Yeni tanım onaylı; `permission` bloğu kısıtlanabilir | G2 | Subagent eklemek = yetki eklemek, onaysız olmaz. | Onaysız subagent, edit/bash izinleriyle doğar — sürpriz yetki genişlemesi. |
+| `command/*.md` (24 slash komutu) | Yeni komut onaylı; davranış kısayolu ekler | G2 | Kısayol eklemek davranış ekler, onaysız olmaz. | Onaysız komut, mevcut iş akışını sessizce değiştirebilir. |
 | `CLAUDE.md` (kök + skills altı) | Dokunulmaz; düzeltme yalnız vault-sync | G6 | Kural defterine ellemezsin, bildirirsin. | Elle düzeltme boot ile vault farkını büyütür (SHA256 farkı zaten var). |
 | `plans/` | Vault'a taşınmaz; kalıcı doküman `.ai/`'de | G3 | Geçici dosya kalıcı yerde durmaz. | Taşınırsa vault kirlenir; `README.md` kuralı bunu yasaklar. |
 
@@ -170,7 +174,7 @@ Adım ve kapıların tamamı §3.1 / §3.2 / §3.3 tablolarındadır; buradaki z
 | 4 | Commit kuralı | §3.1 #10 + §4 #7 "ATMAZ" ifadesi mevcut |
 | 5 | Placeholder | Dosyada `{{` kalmadı |
 | 6 | eli10 + eli15 | §1, §3.1, §3.2, §3.3, §3.4, §4 bloklarında etiketli blok var |
-| 7 | Disk kanıtı | `instructions` 4 kayıt, `allow` 3 satır, 138 dosya iddiaları ölçümle uyumlu |
+| 7 | Disk kanıtı | `instructions` 4 kayıt, `allow` 3 satır, 304 dosya iddiaları ölçümle uyumlu |
 | 8 | REDACTED | Anahtar değeri dosyada yok; yalnız `REDACTED` yazıldı |
 | 9 | Wiki-link | `[[...]]` formatı; hedefler diskte mevcut |
 | 10 | Dokunulmaz | Mevcut `CLAUDE.md` dosyaları değiştirilmedi |
@@ -201,4 +205,4 @@ Adım ve kapıların tamamı §3.1 / §3.2 / §3.3 tablolarındadır; buradaki z
 ---
 
 **Template Version:** 1.0.0 · **Şablon:** `.ai/.templates/frontend/context-template.md`
-**Last Updated:** 2026-10-03
+**Last Updated:** 2026-10-07

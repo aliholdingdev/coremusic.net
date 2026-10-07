@@ -1,78 +1,22 @@
 ---
 name: ui-code-generator
-description: "Use when generating frontend code from screen specs with ITCSS layers, BEM naming, and --cm-* design tokens."
-title: "CoreMusic — UI Kod Üretim Motoru"
-type: skill-instruction
-version: 4.2
-updated: 2026-09-29
-authority: SSOT
-mode:
-  - Red Team
-  - Truth Mode
-  - Human Mode
-purpose:
-  - Responsive Design Generation
-  - WCAG Accessibility Compliance
-  - ITCSS Architecture
-  - Vanilla JS Code Production
-  - Component Generation
-reference:
-  authority: ".ai/CLAUDE.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-  architecture:
-    - ".ai/.decisions/"
-    - "Existing project architecture"
-  templates:
-    - ".ai/.templates/frontend/js-template.md"
-    - ".ai/.templates/frontend/css-template.md"
-    - ".ai/.templates/adr/adr-frontend-template.md"
-  agents:
-    - ".ai/.agents/AGENTS.md"
-    - ".ai/.agents/ui-designer.md"
-  skills:
-    - ".claude/skills/ui-analyzer/SKILL.md"
-    - ".claude/skills/hallucination-control/SKILL.md"
-  project_structure:
-    - "coremusic.net/"
-    - "shared/"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "framework change"
-      - "architecture pattern change"
-triggers:
-  - "html css js"
-  - "responsive design"
-  - "accessibility"
-  - "ui code"
-  - "bileşen oluştur"
-  - "component"
-  - "frontend"
-  - "css grid"
-  - "flexbox"
-  - "wcag"
-  - "itcss"
-  - "design to code"
-  - "mockup to code"
-  - "ui analiz"
-changelog:
-  - version: 4.2
-    date: 2026-09-29
-    changes:
-      - Faz2 içerik kalite denetimi — ".ai/ADR/ → .ai/.decisions/; cross-skill ref .opencode → .claude/skills/ (diskte .opencode altında yok)"
-  - version: 4.1
-    date: 2026-08-15
-    changes:
-      - Standardized YAML frontmatter
-      - Added triggers to frontmatter
+description: "Use when generating frontend code from screen specs with ITCSS layers, BEM naming, and --cm-* design tokens. Tetikleyiciler: 'html css js', 'responsive design', 'ui code', 'bileşen oluştur', 'component', 'frontend', 'css grid', 'flexbox', 'wcag', 'itcss', 'design to code', 'mockup to code'."
+license: MIT
+metadata:
+  version: 4.3.0
+  format: claude-skill-v3
+  author: Bayram Ali (ULTRATHINK Engineering)
+  category: ui-generation
+  tags: [frontend, itcss, bem, wcag, vanilla-js, truth-mode]
+  updated: 2026-10-07
+  previous-version: "4.2"
 ---
 
-# UI CODE GENERATOR v4.2.0 — ARAYÜZ KOD ÜRETİM MOTORU
+# UI CODE GENERATOR v4.3.0 — ARAYÜZ KOD ÜRETİM MOTORU
+
+> **Format: `claude-skill-v3.0`** — tek `SKILL.md` (bu dosya: 8 adım akış + kurallar) +
+> `references/` (7 derin kural — indeks §9.1) + `templates/` (4 şablon — indeks §9.2) +
+> `examples/` (2 çalışmış örnek — indeks §9.3). Derinlik references/'a dağıtılır.
 
 ## 1. KİMLİK
 
@@ -260,10 +204,38 @@ Skor <60     Doğrulanamadı → REDDET
 - **frontend-ui-engineering** — Üretim kalitesinde UI
 - **performance** — Performans optimizasyonu
 
-## MAX THINKING — Anti-Overthink (2026-10-01)
-- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
-- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
-- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
-- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
-- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
-- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.
+## 9. V3.0 YAPI İNDEKSLERİ (claude-skill-v3.0)
+
+### 9.1 references/ İNDEKS (7 dosya)
+
+| Dosya | İçerik | Ne zaman okunur |
+|-------|--------|-----------------|
+| `references/coremusic-rules.md` | CoreMusic özel kuralları (§5'in derin hali) | Her üretimde (ADIM 4-8 öncesi) |
+| `references/css-architecture.md` | ITCSS + @layer mimarisi derin | ADIM 4/ADIM 6 |
+| `references/responsive-breakpoints.md` | 45-tier + breakpoint kuralları | ADIM 3 |
+| `references/wcag-2.2-checklist.md` | WCAG 2.2 AA kontrol listesi | ADIM 2 + teslim öncesi |
+| `references/design-analysis.md` | Tasarım analizi (girdi → yapı) | ADIM 1 |
+| `references/changelog.md` | Sürüm geçmişi merakında |
+| `references/anti-patterns.md` | Yasaklı kalıplar | Her üretimde (yazım öncesi) |
+
+### 9.2 templates/ İNDEKS (4 şablon — Guardrail #16)
+
+| Dosya | Ne için |
+|-------|---------|
+| `templates/component.html` | Semantik HTML iskeleti (ARIA + landmark) |
+| `templates/component.css` | BEM + token + @layer CSS iskeleti |
+| `templates/form-handler.php` | strict_types + PDO + csrf_token form handler |
+| `templates/CLAUDE.md` | Klasör context (değişiklik protokolü) |
+
+### 9.3 examples/ İNDEKS (2 örnek)
+
+| Dosya | Ne gösterir |
+|-------|-------------|
+| `examples/component-generation.md` | PNG/spektan bileşen üretimi — ADIM 1→8 tam akış, WCAG checklist, test senaryoları |
+| `examples/responsive-override.md` | Cihaz override (device CSS) — davranış override kuralı, 1024 pixel reference, taşıma yasağı |
+
+---
+
+Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
+
+*CoreMusic Skill v3.0 — metadata.version: 4.3.0 — Updated: 2026-10-07*

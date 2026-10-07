@@ -37,7 +37,7 @@ CoreMusic'ın auth katmanında **kontrollü bypass kapısı** tanımlanmamışt�
 - **`shared/src/Security/SecurityHelper.php` (satır 23-30):** `app.env === 'production'` ise **her koşulda bypass kapalı** (fail-closed **IMPLEMENTED**); değilse `app.test_mode` veya `app.force_auth_bypass` truthy ise açık → kod **denylist** (yalnız production kilitli; test/dev/staging hepsi açık); karardaki "APP_ENV=test/dev allowlist" sıkılaştırması **PLANNED**. **Üretimde `bypass=true` görmezden gelinir AMA log yazılmaz** (`logTestBypass` yalnız gate aktifken çağrılır, satır 39) → "üretimde bastırılan bypass denemesi ERROR log'u" **PLANNED**. `logTestBypass` (satır 42-53): `coremusic_php_errors.log`'a `[TEST_BYPASS] context=... file=... line=...` satırı — **audit log IMPLEMENTED** (`@` ile hata bastırılmış — §4.3 risk 6).
 - **`shared/src/PageRouter/PageRouterKernel.php` (satır 267-284):** middleware sırası `... → Csrf → **BypassAuthMiddleware (satır 279)** → AuthMiddleware (satır 280) → Permission → Validation` → bypass, auth'dan önce ve onu besleyecek şekilde yerleştirilmiş **IMPLEMENTED**.
 - **Mod 3 (header/env):** `app.force_auth_bypass` env anahtarı **IMPLEMENTED** (`SecurityHelper.php` satır 29); **header tabanlı bypass kodda YOK** (grep: `HTTP_X_*` kullanımları yalnız device/proto/api-key — bypass header'ı 0) → "X-Bypass benzeri header ile geçici kapatma" **PLANNED** (yalnız trusted proxy gate arkasında). Health-check route'u route registry'de yok (yukarı).
-- **Kapsam yasağı (vault kanıtı):** `shared/AGENTS.md` Yasak #2 — "`BypassAuthMiddleware` kapsam genişletme (ADR-008 kapsamı ADR ile değişir)" → mod kapsamı yalnız bu ADR ile değişir; `.ai/raw/AGENTS.md` §21 Cross References zaten `[[ADR-008-bypass-auth-middleware]]` bağlantısını taşıyor (satır hedefi bu dosya — slug eşleşmesi ✅).
+- **Kapsam yasağı (vault kanıtı):** `shared/AGENTS.md` Yasak #2 — "`BypassAuthMiddleware` kapsam genişletme (ADR-008 kapsamı ADR ile değişir)" → mod kapsamı yalnız bu ADR ile değişir; `.ai/AGENTS.md` §21 Cross References zaten `[[ADR-008-bypass-auth-middleware]]` bağlantısını taşıyor (satır hedefi bu dosya — slug eşleşmesi ✅).
 
 ### 1.2 Sorun Tanımı
 
@@ -237,7 +237,7 @@ CoreMusic'ın auth katmanında **kontrollü bypass kapısı** tanımlanmamışt�
 | 7 | **PLANNED kod:** Mod 3 header yolu — **yalnız** trusted-proxy/env gate arkasında (talep geldiğinde; kapsam `shared/AGENTS.md` Yasak #2 gereği bu ADR ile değişir) | Security Engineer | 1 gün (talepte) |
 | 8 | **PLANNED gate:** CI/deploy denetimi — public işaretli route listesi + gerekçe; production config'de `test_mode`/`force_auth_bypass`=`false` assert'i (§4.3 risk 1/3) | DevOps Engineer | 1 gün |
 | 9 | Env allowlist sıkılaştırması: gate `app.env ∈ {test, dev}` (denylist → allowlist, §2.2b #2) | Security Engineer | 2 saat |
-| 10 | Vault senkronu: `[[../../raw/brain]]` ADR-008 özeti + `.ai/.decisions/index.md` §3 satır durumu + debate/Tech Lead sonuçları (`log.md` append-only) | MO (vault-updater) | 1 saat |
+| 10 | Vault senkronu: `[[../../brain]]` ADR-008 özeti + `.ai/.decisions/index.md` §3 satır durumu + debate/Tech Lead sonuçları (`log.md` append-only) | MO (vault-updater) | 1 saat |
 | 11 | **Debate Şart 1 — kod 3 açığı kapatılacak (bağlayıcı):** (a) üretimde bastırılan bypass denemesi → `log ERROR` + alert (adım 4 · §2.2b #3 · §2.2d #1 · §4.3 risk 1); (b) bypass kullanıcısı **asla admin yetkisi vermez** — `MM_Permissions=[]` kalıcı + rol allowlist (`admin`/`superadmin` yasak — adım 5 · §2.2b #6); (c) env **denylist → allowlist**: yalnız `test,dev`; bilinmeyen değer → bypass kapalı (adım 9 · §2.2b #2) | Security Engineer | 2 gün |
 | 12 | **Debate Şart 2 — fail-closed üretim kanıtı testi:** `app.env=production` + `bypass=true`/`test_mode` → gate kapalı, oturum açılmaz, `log ERROR`+alert yazıldığı PHPUnit/integration test ile kanıtlanır | Security Engineer + QA Engineer | 1 gün |
 | 13 | **Debate Şart 3 — ADR-010/011/012 cross-auth uyum maddesi:** bypass 3 modunun CSRF (ADR-010), session (ADR-011), CSP nonce (ADR-012) kararlarıyla çelişmediği denetlenir (§6 — düz metin; dosyalar diskte YOK, wiki-link kurulmaz) | Security Engineer | 1 gün |
@@ -256,9 +256,9 @@ Karar süreç karardır; geri dönüş yalnız **yeni ADR** ile olur (In-Place R
 | [[../index]] | Karar dizini — bu ADR'nin kaydı §3 `[[ADR-008-bypass-auth-middleware]]` (slug eşleşmesi ✅ — satır diskte mevcut) |
 | [[../CLAUDE.md]] | Karar alt registry kuralı (accepted/) |
 | [[../../CLAUDE.md]] | Ana sözleşme — 16 Hard Guardrail (#16 şablon zorunluluğu), REDACTED politikası |
-| [[../../raw/AGENTS.md]] | §21 Cross References `[[ADR-008-bypass-auth-middleware]]` (bu dosyaya bağlanır ✅); §10 escalation; §17 #10 vault kurtarma; §25.3 frozen/append-only kuralları |
+| [[../../AGENTS.md]] | §21 Cross References `[[ADR-008-bypass-auth-middleware]]` (bu dosyaya bağlanır ✅); §10 escalation; §17 #10 vault kurtarma; §25.3 frozen/append-only kuralları |
 | [[../../architecture/k6-guvenlik/index]] | Güvenlik katmanı (K6-K7) ana sayfası — authentication-jwt, audit-logging, session-management ile birlikte okunur; **dosya diskte VAR** ✅ |
-| [[../../raw/brain]] | Mimari karar özeti — ADR-008 satırı vault-sync ile tazelenir |
+| [[../../brain]] | Mimari karar özeti — ADR-008 satırı vault-sync ile tazelenir |
 | [[../../log]] | Audit trail — bu ADR ve debate/revizyon kayıtları append edilir (append-only) |
 | [[../../.templates/adr/adr-template]] | Bu ADR'nin 7 bölümlük şablonu (Guardrail #16) |
 | `shared/src/PageRouter/AuthGuard.php` · `RouteRegistry.php` · `SpaRoute.php` · `PageRouter.php` · `PageRouterKernel.php` | Mod 1 + sıralama taşıyıcıları — §1.1/§2.2a IMPLEMENTED kanıtları (default `requiresAuth=true`, `!requiresAuth \|\| authenticated`, 404 bilinmeyen, Csrf→Bypass→Auth sırası) |

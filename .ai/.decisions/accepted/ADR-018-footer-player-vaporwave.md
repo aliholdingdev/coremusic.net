@@ -57,11 +57,11 @@ CoreMusic'in web arayüzünün her oturumda görünen yüzü olan **footer playe
 
 **B) SPEC/VAULT KATMANI — IMPLEMENTED (doküman var):**
 
-- **Footer player flow — `.ai/sources/ui-design/flow/navigation/03-footer-player.md` (IMPLEMENTED):** `:81` "EKRAN 1: Footer Player (Kompakt)", `:91` "EKRAN 2: Footer Player (Geniş - Desktop)", `:176-183` BEM sınıf sözleşmesi (`.footer-player`, `__info`, `__art`, `__controls`, `__seek`, `__volume`, `__actions`, `--expanded`).
-- **SPA görünürlük kuralı — `.ai/sources/ui-design/flow/navigation/01-spa-routing.md:60`** `#footer-player.show() = !isAuthPage` (auth sayfalarında player gizli).
-- **Responsive mimari — `.ai/sources/ui-design/05-responsive-architecture.md:73`** "└── `_footer.css` ← Footer player" (ITCSS yerleşimi).
-- **Mockup indeksi — `.ai/sources/ui-design/01-mockup-index.md:67, 84`** — 1024 ve 1920 home ekranlarında "footer player" görünür (RPi5 7" + Desktop FHD).
-- **ASCII envanter — `.ai/sources/ui-design/screens/00-ascii-art-index.md:88, 115`** — "FOOTER PLAYER (h:90, y:510-600)" + `.player-*` / `.player__controls` eşlemesi.
+- **Footer player flow — `.ai/ui-design/flow/navigation/03-footer-player.md` (IMPLEMENTED):** `:81` "EKRAN 1: Footer Player (Kompakt)", `:91` "EKRAN 2: Footer Player (Geniş - Desktop)", `:176-183` BEM sınıf sözleşmesi (`.footer-player`, `__info`, `__art`, `__controls`, `__seek`, `__volume`, `__actions`, `--expanded`).
+- **SPA görünürlük kuralı — `.ai/ui-design/flow/navigation/01-spa-routing.md:60`** `#footer-player.show() = !isAuthPage` (auth sayfalarında player gizli).
+- **Responsive mimari — `.ai/ui-design/05-responsive-architecture.md:73`** "└── `_footer.css` ← Footer player" (ITCSS yerleşimi).
+- **Mockup indeksi — `.ai/ui-design/01-mockup-index.md:67, 84`** — 1024 ve 1920 home ekranlarında "footer player" görünür (RPi5 7" + Desktop FHD).
+- **ASCII envanter — `.ai/ui-design/screens/00-ascii-art-index.md:88, 115`** — "FOOTER PLAYER (h:90, y:510-600)" + `.player-*` / `.player__controls` eşlemesi.
 - **Palet/tokens vault — `.ai/ui-design/` token ve reference dosyaları** (500-error raporu `.ai/reports/500-error-report.md:112, 129` `<section class="footer-player__controls" aria-label="Oynatma kontrolleri">` örneğini kaydeder).
 
 **C) YOK / PLANNED (uydurulmadı — `⚠️ VERIFICATION REQUIRED`):**
@@ -107,9 +107,9 @@ CoreMusic'in web arayüzünün her oturumda görünen yüzü olan **footer playe
 | ADR-004 (Multi-Domain SPA) | Route değişiminde player **yaşam döngüsü** router'a bağlanır: kapsayıcı DOM sabit, ses durmaz; auth route'larında `#footer-player.show()` kapanır (`01-spa-routing.md:60`); yeni DOM manipülasyonu `Router.js`/`DomPatcher.js` desenleri dışında yazılmaz |
 | ADR-006 (Performans hedefleri — CWV) | **CLS ≤ 0.1, INP ≤ 200ms** kapıları birebir korunur; footer player yüksekliği `--footer-h` token'ı ile sabit (shift üretmez); animasyon JS'i INP'yi beslemez; byte bütçesi ihlal edilmez (yeni asset yok, token + CSS) |
 | ADR-005 (doğrulama + `⚠️ VERIFICATION REQUIRED`) | Kod kanıtı olmayan her iddia etiketli kalır; `--vapor*/scanline/glitch` ve `aria-live` yokluğu uydurulmaz, işaretlenir; sayısal kontrast/animator değerleri token doğrulamasıyla yazılır |
-| WCAG 2.2 AA (`.ai/raw/AGENTS.md` §16 UI standardı) | Kontrast ≥ 4.5:1, klavye tam erişim, görünür focus, `aria-live` durum duyurusu, `prefers-reduced-motion` desteği — kalite kapısı |
+| WCAG 2.2 AA (`.ai/AGENTS.md` §16 UI standardı) | Kontrast ≥ 4.5:1, klavye tam erişim, görünür focus, `aria-live` durum duyurusu, `prefers-reduced-motion` desteği — kalite kapısı |
 | In-Place Refactoring | Dosya adları (`footer.php`, `_footer.css`, `PlayerController.js`, `.ai/ui-design/**`) **onaysız değiştirilemez**; bu ADR yalnız karar yazar |
-| Frozen ADR-001-037 dokunulmaz | Yalnız okunur + referanslanır (`.ai/raw/AGENTS.md` §25.3 kural 2) — ADR-001/004/006 bu kuralın dışındadır çünkü ADR-018 yeni karardır, onlar referans olarak okunur |
+| Frozen ADR-001-037 dokunulmaz | Yalnız okunur + referanslanır (`.ai/AGENTS.md` §25.3 kural 2) — ADR-001/004/006 bu kuralın dışındadır çünkü ADR-018 yeni karardır, onlar referans olarak okunur |
 | `.ai/log.md` append-only | Bu işlem dahil tüm kayıtlar yalnız ekleme ile yazılır |
 | REDACTED | Ses servisi anahtarı, API anahtarı, cookie değeri (ör. `MM_Volume`) veya yapılandırma sırrı hiçbir koşulda bu ADR'ye yazılmaz |
 | Numara kuralı | "Yeni ADR ≥ 088" bu yazımda uygulanmaz: `ADR-018` `.ai/.decisions/index.md:55`'te **rezerve boş slottur** (doldurma, yeni numara tahsisi değil — ADR-017 aynı istisnayı kaydetmişti) |
@@ -234,15 +234,15 @@ Kural: renk/değer **yalnız token**; component CSS `var(--vapor-*)` çağırır
 | [[ADR-005-ultrathink-protocol]] | `⚠️ VERIFICATION REQUIRED` standardı — yokluk iddiaları (`--vapor*`, `aria-live`, `keydown`) etiketli (§1.1-C) |
 | [[../index]] | Satır 55 `[[ADR-018-footer-player-vaporwave]]` — slug eşleşmesi ✅ (bu dosya rezervasyonu doldurur) |
 | [[../../index.md]] | Satır 635 `decisions/accepted/ADR-018-footer-player-vaporwave` kaydı ✅ (dosya ile canlanır) |
-| [[../../raw/keys.md]] | Satır 253 `ADR-018 \| footer player, vaporwave \| UI` ✅ |
-| [[../../raw/brain.md]] | Satır 973 `ADR-018 \| Footer player vaporwave` ✅ |
-| [[../../sources/ui-design/flow/navigation/03-footer-player]] | BEM sözleşmesi `:176-183`, kompakt/geniş ekranlar `:81/:91` — davranış §2.2b bu spec'e bağlanır |
-| [[../../sources/ui-design/flow/navigation/01-spa-routing]] | Satır 60 `#footer-player.show() = !isAuthPage` — SPA görünürlük kuralı (§2.2b) |
-| [[../../sources/ui-design/05-responsive-architecture]] | Satır 73 `_footer.css ← Footer player` (ITCSS yerleşimi, §1.4) |
-| [[../../sources/ui-design/01-mockup-index]] | Satır 67, 84 — footer player mockup kanıtı (tier/ölçek bağlamı) |
-| [[../../raw/AGENTS.md]] | §16 UI standardı (ITCSS/BEM/WCAG 2.2 AA), §6 routing (`CSS, UI, token… → UI Designer`), §25.3 frozen kuralı |
+| [[../../keys.md]] | Satır 253 `ADR-018 \| footer player, vaporwave \| UI` ✅ |
+| [[../../brain.md]] | Satır 973 `ADR-018 \| Footer player vaporwave` ✅ |
+| [[../../ui-design/flow/navigation/03-footer-player]] | BEM sözleşmesi `:176-183`, kompakt/geniş ekranlar `:81/:91` — davranış §2.2b bu spec'e bağlanır |
+| [[../../ui-design/flow/navigation/01-spa-routing]] | Satır 60 `#footer-player.show() = !isAuthPage` — SPA görünürlük kuralı (§2.2b) |
+| [[../../ui-design/05-responsive-architecture]] | Satır 73 `_footer.css ← Footer player` (ITCSS yerleşimi, §1.4) |
+| [[../../ui-design/01-mockup-index]] | Satır 67, 84 — footer player mockup kanıtı (tier/ölçek bağlamı) |
+| [[../../AGENTS.md]] | §16 UI standardı (ITCSS/BEM/WCAG 2.2 AA), §6 routing (`CSS, UI, token… → UI Designer`), §25.3 frozen kuralı |
 | [[../../CLAUDE.md]] | 16 Hard Guardrail, Guardrail #16 (şablon), REDACTED |
-| [[../../raw/WORKFLOW.md]] | Debate/onay akışı başlangıcı |
+| [[../../WORKFLOW.md]] | Debate/onay akışı başlangıcı |
 | [[../../.templates/adr/adr-template.md]] | Bu ADR'nin şablonu (Guardrail #16, 7 bölüm + §1.3 9 alan) |
 | `.claude/skills/prompt-maker/references/10-web-research-protocol.md` | §1.3 web araştırması protokolü (diskte VAR ✅) |
 | Kod kanıtları | `home.coremusic.net/footer.php:63-80` · `assets.coremusic.net/Css/03_Layout/_footer.css:35,45-104` · `js/features/PlayerController.js:3,12-144` · `js/core/footer.init.js:9,66` · `js/coreplayer/*` (5 dosya) · `Css/01_Abstracts/a-colors-token.css:40-87` |
@@ -314,12 +314,12 @@ Kural: renk/değer **yalnız token**; component CSS `var(--vapor-*)` çağırır
 | [[CLAUDE.md]] | Karar alt registry kuralı (accepted/ dizin sözleşmesi) |
 | [[../index]] | Karar dizini — **satır 55** `[[ADR-018-footer-player-vaporwave]]` (slug eşleşmesi ✅) |
 | [[../../CLAUDE.md]] | Vault ana sözleşmesi — 16 Hard Guardrail, REDACTED, Guardrail #16 |
-| [[../../raw/AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`CSS, UI, responsive, ITCSS, BEM, token → UI Designer`), §16 UI kalite standardı |
-| [[../../raw/WORKFLOW.md]] | Debate/onay akışı başlangıcı |
-| [[../../raw/brain.md]] | Satır 973 `ADR-018 Footer player vaporwave` kaydı ✅ |
-| [[../../raw/keys.md]] | Satır 253 ADR-018 keyword eşlemesi ✅ |
+| [[../../AGENTS.md]] | Onay akışı §10, frozen kuralı §25.3, routing §6 (`CSS, UI, responsive, ITCSS, BEM, token → UI Designer`), §16 UI kalite standardı |
+| [[../../WORKFLOW.md]] | Debate/onay akışı başlangıcı |
+| [[../../brain.md]] | Satır 973 `ADR-018 Footer player vaporwave` kaydı ✅ |
+| [[../../keys.md]] | Satır 253 ADR-018 keyword eşlemesi ✅ |
 | [[../../index.md]] | Satır 635 ADR-018 kaydı ✅ |
-| [[../../raw/glossary.md]] | Terim sözlüğü (vaporwave, design token, compositor — ekleme ADR-018 uygulamasıyla) |
+| [[../../glossary.md]] | Terim sözlüğü (vaporwave, design token, compositor — ekleme ADR-018 uygulamasıyla) |
 | [[../../log.md]] | Audit trail — bu işlem tek satır append |
 | Debate ön şartları (5) | §5.4 — token · davranış sözleşmesi · animasyon bütçesi · reduced-motion · kapsam sınırı (**3/20 KABUL** ile onaylandı) |
 | Debate (✅ TAMAMLANDI) | §5.3/§5.5/§7.1 — 3 tur / 20 persona, 18/2/0 KABUL (2026-09-25) + 3 şart · sonuç frontmatter `debate` alanına işlendi |
@@ -328,8 +328,8 @@ Kural: renk/değer **yalnız token**; component CSS `var(--vapor-*)` çağırır
 | [[ADR-004-multi-domain-spa]] | SPA yaşam döngüsü (dosya diskte VAR ✅) |
 | [[ADR-006-performance-targets]] | CWV CLS/INP kapıları (dosya diskte VAR ✅) |
 | [[ADR-005-ultrathink-protocol]] | Doğrulama + `⚠️ VERIFICATION REQUIRED` standardı (dosya diskte VAR ✅) |
-| [[../../sources/ui-design/flow/navigation/03-footer-player]] | Footer player flow + BEM sözleşmesi |
-| [[../../sources/ui-design/flow/navigation/01-spa-routing]] | `#footer-player.show()` görünürlük kuralı |
+| [[../../ui-design/flow/navigation/03-footer-player]] | Footer player flow + BEM sözleşmesi |
+| [[../../ui-design/flow/navigation/01-spa-routing]] | `#footer-player.show()` görünürlük kuralı |
 | `home.coremusic.net/footer.php` · `assets.coremusic.net/Css/03_Layout/_footer.css` · `js/features/PlayerController.js` · `js/core/footer.init.js` · `js/coreplayer/*` | Kod kanıtları (IMPLEMENTED, §1.1-A) |
 
 ---

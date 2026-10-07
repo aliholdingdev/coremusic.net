@@ -1,101 +1,15 @@
 ---
 name: agent-orchestrator
-description: "Use when spawning and coordinating subagent teams with load balancing, task queues, and parallel distribution."
-title: "CoreMusic Agent Orchestrator"
-type: skill-instruction
-version: 4.1
-updated: 2026-09-29
-authority: SSOT
-mode:
-  - Red Team
-  - Truth Mode
-  - Human Mode
-purpose:
-  - Task Analysis
-  - Agent Routing
-  - Multi Agent Coordination
-  - Workflow Governance
-  - Handover Management
-  - Architecture Protection
-  - Output Validation
-reference:
-  authority: ".ai/CLAUDE.md"
-  source_of_truth:
-    - ".ai/CLAUDE.md"
-    - ".ai/AGENTS.md"
-    - ".ai/WORKFLOW.md"
-    - ".ai/brain.md"
-    - ".ai/index.md"
-    - ".ai/keys.md"
-    - ".ai/MEMORY.md"
-    - ".ai/log.md"
-    - ".ai/engine.md"
-  architecture:
-    - ".ai/.decisions/"
-    - "Existing project architecture"
-    - "Existing codebase patterns"
-  templates:
-    - ".ai/.templates/index.md"
-  agents:
-    - ".ai/.agents/AGENTS.md"
-    - ".ai/.agents/master-orchestrator.md"
-    - ".ai/.agents/backend-architect.md"
-    - ".ai/.agents/ui-designer.md"
-    - ".ai/.agents/security-engineer.md"
-    - ".ai/.agents/data-engineer.md"
-    - ".ai/.agents/embedded-engineer.md"
-    - ".ai/.agents/qa-engineer.md"
-    - ".ai/.agents/devops-engineer.md"
-    - ".ai/.agents/audio-hardware-engineer.md"
-    - ".ai/.agents/dsp-firmware-engineer.md"
-    - ".ai/.agents/windows-software-engineer.md"
-  project_structure:
-    # ⚠️ 2026-09-29 (faz2 denetim): diskte yalnız "shared/", "auth.coremusic.net/" ve "home.coremusic.net/" var —
-    # diğer subdomain klasörleri henüz OLUŞMADI (planlanan yapı) — VERIFICATION REQUIRED
-    - "coremusic.net/"
-    - "shared/"
-    - "api.coremusic.net/"
-    - "auth.coremusic.net/"
-    - "music.coremusic.net/"
-    - "admin.coremusic.net/"
-    - "home.coremusic.net/"
-    - "car.coremusic.net/"
-    - "studio.coremusic.net/"
-    - "pro.coremusic.net/"
-    - "media.coremusic.net/"
-    - "download.coremusic.net/"
-  decision_priority:
-    - "ADR decisions"
-    - "Architecture documentation"
-    - "Security requirements"
-    - "Existing implementation"
-    - "User requirements"
-  update_policy:
-    preserve_existing_structure: true
-    require_approval_for:
-      - "routing table change"
-      - "agent permission change"
-      - "workflow change"
-      - "architecture change"
-      - "handover protocol change"
-changelog:
-  - version: 4.1
-    date: 2026-09-29
-    changes:
-      - Faz2 içerik kalite denetimi: ölü referans ".ai/ADR/" → ".ai/.decisions/" (disk kanıtı), project_structure disk uyarısı eklendi
-  - version: 4.0
-    date: 2026-08-15
-    changes:
-      - Complete rewrite from scratch
-      - Standardized YAML frontmatter
-      - Added 19 structured sections
-      - Added routing table (11 agents)
-      - Added task analysis pipeline
-      - Added handover protocol
-      - Added validation pipeline
-      - Added risk classification
-      - Added security governance
-      - Added hallucination prevention
+description: "Use when spawning and coordinating subagent teams with load balancing, task queues, and parallel distribution — Tetikleyiciler: 'görev ata', 'agent seç', 'koordine et', 'handover', 'dispatch', 'routing'."
+license: MIT
+metadata:
+  version: 3.0.0
+  format: claude-skill-v3
+  author: Bayram Ali (ULTRATHINK Engineering)
+  category: agentic-orchestration
+  tags: [orchestration, routing, handover, dispatch, hitl]
+  updated: 2026-10-07
+  previous-version: "4.1"
 ---
 
 # CoreMusic Agent Orchestrator
@@ -722,9 +636,14 @@ A task is NOT complete when:
 
 ---
 
-*CoreMusic Agent Orchestrator v4.1.0 — Single Source of Truth*
-*Authority: Bayram Ali / Vault Steward*
-*Mode: Red Team · Truth Mode · Human Mode*
+## 20. Referanslar
+
+| Dosya | İçerik | Ne zaman okunur |
+|-------|--------|-----------------|
+| [references/workflow-dispatch.md](references/workflow-dispatch.md) | Risk L0-L4, R.A.I.L. matrisi, HITL 4 kontrol noktası, escalation matrisi, skill oluşturma protokolü (orchestration merge 2026-10-07) | Dispatch öncesi onay/escalation kararında |
+| [references/changelog.md](references/changelog.md) | Sürüm geçmişi (kök `changelog` yerine; N10) | Sürüm davranışı sorgulandığında |
+
+---
 
 ## SWARM AKIŞ DİYAGRAMI (2026-10-01)
 
@@ -740,10 +659,6 @@ USER → ORCHESTRATOR → ARCHITECT | DEVELOPER | RESEARCHER
 - **VERIFY başarısızsa** görev, çıktısıyla birlikte **ORCHESTRATOR üzerinden** ilgili role (ARCHITECT/DEVELOPER/RESEARCHER) geri döner; döngü VERIFY pass edene kadar sürer.
 - Durum etiketleri: kanıtlanmamış fazlar **PLANNED** olarak etiketlenir — kanıtsız "IMPLEMENTED" yazılmaz.
 
-## MAX THINKING — Anti-Overthink (2026-10-01)
-- Reasoning = LOW. Bu skill yüklendiğinde uzun analiz, promptu geri anlatma, plan kompozisyonu YASAK.
-- Nokta atışı: gorev -> aksiyon -> sonuc. Ayni dosya/veri 2. kez okunmaz; ilk okumadan sonra KARAR VER.
-- Skill yalniz ihtiyac aninda yuklenir; boot'ta toplu skill yukleme YASAK (kural: koku AGENTS.md, on-demand vault).
-- 3 basarisiz duzeltme -> DUR, supheli varsayimi soyle, 1 kisa soru sor.
-- Bilinmeyen = UNKNOWN. Gereksiz dosya/klasor/skill/agent/context/plan uretme.
-- Cikti: ne degisti -> hangi dosya -> sonraki adim. Maks 5 madde.
+Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
+
+*CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*
