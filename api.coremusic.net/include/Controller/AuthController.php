@@ -4,11 +4,13 @@ namespace CoreMusic\Api\Controller;
 
 use CoreMusic\Contracts\Auth\IAuthService;
 use CoreMusic\Contracts\Auth\ISessionManager;
+use CoreMusic\Contracts\Auth\IUserRepository;
 use CoreMusic\Exception\AuthenticationException;
 use CoreMusic\Exception\ConflictException;
 use CoreMusic\Exception\RateLimitException;
 use CoreMusic\Exception\ValidationException;
 use CoreMusic\Security\SecurityHelper;
+use CoreMusic\Security\JwtService;
 
 /**
  * AuthController — /v1/auth/* uçlarını AuthService'e (SSOT) bağlar.
@@ -32,6 +34,8 @@ final class AuthController
         private readonly ISessionManager $session,
         private readonly string $musicUrl,
         private readonly string $authUrl,
+        private readonly ?JwtService $jwt = null,
+        private readonly ?IUserRepository $users = null,
     ) {}
 
     /**
@@ -173,11 +177,30 @@ final class AuthController
     {
         $authKey = (string) ($result['auth_key'] ?? '');
 
-        return [
+        $payload = [
             'auth_key' => $authKey,
             'redirect' => $this->resolveRedirect($body, $authKey),
             'user'     => $this->shapeUser(is_array($result['user'] ?? null) ? $result['user'] : []),
         ];
+
+        // P1-9 (B-F-01): hybrid auth — API istemcisine RS256 access token üret.
+        // jti user_tokens'ta saklanır (sha256) → logout ile revocation edilebilir.
+        // Hata durumunda login YINE de başarılıdır; token alanı eklenmez (fail-safe
+        // hata: imzalı token DB'ye yazılamadan dağıtılmaz).
+        $userId = (string) ($payload['user']['id'] ?? '');
+        if ($this->jwt !== null && $this->users !== null && $userId !== '') {
+            $issued = $this->jwt->issue($userId);
+            $this->users->saveAccessToken(
+                $userId,
+                $issued['jti'],
+                date('Y-m-d H:i:s', time() + $issued['expires_in'])
+            );
+            $payload['access_token'] = $issued['token'];
+            $payload['token_type']   = $issued['token_type'];
+            $payload['expires_in']   = $issued['expires_in'];
+        }
+
+        return $payload;
     }
 
     /**

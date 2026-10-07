@@ -31,4 +31,21 @@ interface IUserRepository
      * @return list<array{role_name: string, permissions: list<string>}>
      */
     public function findRolesForUser(string $userId): array;
+
+    /**
+     * JWT access token jti'sini user_tokens'a kaydeder (token_hash = sha256(jti)).
+     *
+     * @param string $expiresAt 'Y-m-d H:i:s'
+     */
+    public function saveAccessToken(string $userId, string $jti, string $expiresAt): void;
+
+    /**
+     * jti hâlâ geçerli mi? (kayıt var, used_at IS NULL, süresi dolmamış) — revocation kontrolü.
+     */
+    public function isValidAccessToken(string $jti): bool;
+
+    /**
+     * Kullanıcının tüm geçerli access token'larını iptal eder (logout / şifre değişimi).
+     */
+    public function revokeAccessTokensForUser(string $userId): void;
 }

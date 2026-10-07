@@ -305,4 +305,45 @@ final class UserRepository implements IUserRepository
             ['user_id' => $userId]
         );
     }
+
+    /**
+     * JWT access token jti'sini kaydet (token_hash = sha256(jti), tıpkı auth_key deseni gibi).
+     */
+    public function saveAccessToken(string $userId, string $jti, string $expiresAt): void
+    {
+        $this->db()->write(
+            'INSERT INTO user_tokens (id, user_id, token_type, token_hash, expires_at, created_at) '
+            . "VALUES (:id, UNHEX(:user_id), 'access', :token_hash, :expires_at, NOW())",
+            [
+                'id'         => UuidV7::generateBinary(),
+                'user_id'    => $userId,
+                'token_hash' => hash('sha256', $jti),
+                'expires_at' => $expiresAt,
+            ]
+        );
+    }
+
+    /**
+     * jti geçerli mi? (kayıt var + used_at IS NULL + süresi dolmamış) — fail-closed.
+     */
+    public function isValidAccessToken(string $jti): bool
+    {
+        $rows = $this->db()->execute(
+            "SELECT id FROM user_tokens WHERE token_hash = :token_hash AND token_type = 'access' "
+            . 'AND used_at IS NULL AND expires_at > NOW() LIMIT 1',
+            ['token_hash' => hash('sha256', $jti)]
+        );
+        return $rows !== [];
+    }
+
+    /**
+     * Kullanıcının tüm geçerli access token'larını iptal et (logout / şifre değişimi).
+     */
+    public function revokeAccessTokensForUser(string $userId): void
+    {
+        $this->db()->write(
+            "UPDATE user_tokens SET used_at = NOW() WHERE user_id = UNHEX(:user_id) AND token_type = 'access' AND used_at IS NULL",
+            ['user_id' => $userId]
+        );
+    }
 }

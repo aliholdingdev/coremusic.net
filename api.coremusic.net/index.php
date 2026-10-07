@@ -149,7 +149,14 @@ if (str_starts_with($requestUri, '/api/')) {
             ->pipe(static fn (array $req, callable $next): array => $originCheckMiddleware->handle($req, $next))
             ->pipe(static fn (array $req, callable $next): array => $corsMiddleware->handle($req, $next))
             ->pipe(new RateLimitMiddleware(new CacheRateLimiter($apiCache)))
-            ->pipe(new AuthenticationMiddleware(new ApiSessionManager()))
+            // P1-9: hybrid auth — session önce, sonra RS256 Bearer (JwtService) +
+            // jti revocation (user_tokens). Bağımlılıklar ApiAuthContainer SSOT'undan.
+            ->pipe(new AuthenticationMiddleware(
+                new ApiSessionManager(),
+                \CoreMusic\Api\Container\ApiAuthContainer::jwtService(),
+                static fn (string $jti): bool =>
+                    \CoreMusic\Api\Container\ApiAuthContainer::userRepository()->isValidAccessToken($jti),
+            ))
             // B-F-02: yalnız SESSION ile kimliklenmiş state-changing istekler CSRF
             // token gerektirir. Bearer/API-key (header-auth) ve public uçlar CSRF'ye
             // tabi değildir — tarayıcı cross-site'te özel header forging yapamaz;

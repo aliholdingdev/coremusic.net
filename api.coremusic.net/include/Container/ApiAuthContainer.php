@@ -9,8 +9,10 @@ use CoreMusic\Auth\Service\SessionManager;
 use CoreMusic\Cache\CacheManager;
 use CoreMusic\Contracts\Auth\IAuthService;
 use CoreMusic\Contracts\Auth\ISessionManager;
+use CoreMusic\Contracts\Auth\IUserRepository;
 use CoreMusic\Database\DatabaseRegistry;
 use CoreMusic\Security\CacheRateLimiter;
+use CoreMusic\Security\JwtService;
 
 /**
  * ApiAuthContainer — API tarafının auth bağımlılık grafiği.
@@ -30,6 +32,10 @@ final class ApiAuthContainer
 
     private static ?AuthController $controller = null;
 
+    private static ?UserRepository $userRepository = null;
+
+    private static ?JwtService $jwtService = null;
+
     public static function session(): ISessionManager
     {
         if (self::$session === null) {
@@ -42,9 +48,12 @@ final class ApiAuthContainer
         return self::$session;
     }
 
-    public static function authService(): IAuthService
+    /**
+     * UserRepository tekil — authService ile PAYLAŞILIR (iki registry = iki bağlantı).
+     */
+    public static function userRepository(): IUserRepository
     {
-        if (self::$authService === null) {
+        if (self::$userRepository === null) {
             $registry = new DatabaseRegistry();
             $registry->registerMySql(
                 'auth',
@@ -56,8 +65,41 @@ final class ApiAuthContainer
                 DB_CHARSET,
             );
 
+            self::$userRepository = new UserRepository($registry);
+        }
+
+        return self::$userRepository;
+    }
+
+    /**
+     * JWT service (RS256) — P1-9/B-F-01 hybrid auth.
+     *
+     * Key yolları: env (JWT_PRIVATE_KEY_PATH / JWT_PUBLIC_KEY_PATH) →
+     * default `shared/config/jwt/`. private.pem .gitignore'dadır.
+     */
+    public static function jwtService(): JwtService
+    {
+        if (self::$jwtService === null) {
+            $jwtDir = dirname(__DIR__, 3) . '/shared/config/jwt';
+
+            self::$jwtService = new JwtService(
+                // ?: — env değeri TANIMLI ama BOŞ olabilir (ör. `KEY=`), ?? bunu yakalamaz
+                privateKeyPath: (string) (($_ENV['JWT_PRIVATE_KEY_PATH'] ?? '') !== '' ? $_ENV['JWT_PRIVATE_KEY_PATH'] : $jwtDir . '/private.pem'),
+                publicKeyPath: (string) (($_ENV['JWT_PUBLIC_KEY_PATH'] ?? '') !== '' ? $_ENV['JWT_PUBLIC_KEY_PATH'] : $jwtDir . '/public.pem'),
+                issuer: (string) (($_ENV['JWT_ISSUER'] ?? '') !== '' ? $_ENV['JWT_ISSUER'] : 'coremusic'),
+                audience: (string) (($_ENV['JWT_AUDIENCE'] ?? '') !== '' ? $_ENV['JWT_AUDIENCE'] : 'coremusic-api'),
+                ttlSeconds: (int) (($_ENV['JWT_TTL_SECONDS'] ?? '') !== '' ? $_ENV['JWT_TTL_SECONDS'] : 3600),
+            );
+        }
+
+        return self::$jwtService;
+    }
+
+    public static function authService(): IAuthService
+    {
+        if (self::$authService === null) {
             self::$authService = new AuthService(
-                new UserRepository($registry),
+                self::userRepository(),
                 self::session(),
                 new CacheRateLimiter(CacheManager::getAdapter()),
                 self::passwordPepper(),
@@ -75,6 +117,8 @@ final class ApiAuthContainer
                 self::session(),
                 defined('MUSIC_URL') ? MUSIC_URL : 'http://home.coremusic.net',
                 defined('AUTH_URL') ? AUTH_URL : 'http://auth.coremusic.net',
+                self::jwtService(),
+                self::userRepository(),
             );
         }
 

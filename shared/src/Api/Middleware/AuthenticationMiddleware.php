@@ -14,9 +14,14 @@ namespace CoreMusic\Api\Middleware;
 use CoreMusic\Contracts\Auth\ISessionManager;
 use CoreMusic\Api\ApiResponse;
 use CoreMusic\Api\Routing\RouteTable;
+use CoreMusic\Security\JwtService;
 
 /**
  * Authentication Middleware for hybrid session/JWT authentication.
+ *
+ * P1-9 (B-F-01): Bearer dalı artık gerçek RS256 doğrulama yapar (JwtService);
+ * imza/exp/iss/aud geçerli VE (varsa) jti revocation kontrolü sağlarsa
+ * `_auth_user.method = 'jwt'` ile devam eder. Aksi halde 401 (fail-closed).
  */
 final class AuthenticationMiddleware
 {
@@ -32,8 +37,15 @@ final class AuthenticationMiddleware
         '/api/v1/public',
     ];
 
+    /**
+     * @param \Closure(string): bool|null $accessTokenValidator
+     *        jti → hâlâ geçerli mi? (user_tokens revocation; null = stateless kabul,
+     *        yalnız exp sınırıyla — API index her zaman bağlar)
+     */
     public function __construct(
-        private readonly ISessionManager $sessionManager
+        private readonly ISessionManager $sessionManager,
+        private readonly ?JwtService $jwt = null,
+        private readonly ?\Closure $accessTokenValidator = null,
     ) {}
 
     /**
@@ -67,12 +79,24 @@ final class AuthenticationMiddleware
             return $next($request);
         }
 
-        // Check for JWT token in Authorization header
+        // Check for JWT token in Authorization header (P1-9: gerçek RS256 doğrulama)
         $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-        if (str_starts_with($authHeader, 'Bearer ')) {
-            // JWT doğrulaması henüz uygulanmadı: validateJwtToken() her zaman
-            // null döndüğü için bu dal 401'e düşer (davranış değişmez).
-            $this->validateJwtToken(substr($authHeader, 7));
+        if (str_starts_with($authHeader, 'Bearer ') && $this->jwt !== null) {
+            $claims = $this->jwt->validate(substr($authHeader, 7));
+
+            if ($claims !== null) {
+                $revoked = $this->accessTokenValidator !== null
+                    && !($this->accessTokenValidator)((string) $claims['jti']);
+                if (!$revoked) {
+                    $request['_auth_user'] = [
+                        'id'           => (string) $claims['sub'],
+                        'authenticated' => true,
+                        'method'       => 'jwt',
+                    ];
+                    return $next($request);
+                }
+                // revocation edilmiş jti → 401'e düşer (fail-closed)
+            }
         }
 
         // Not authenticated
@@ -106,27 +130,5 @@ final class AuthenticationMiddleware
         }
 
         return false;
-    }
-
-    /**
-     * Validate JWT token (simplified implementation).
-     *
-     * Henüz hiçbir zaman doğrulanmış bir token döndürmez; gerçek JWT
-     * doğrulaması eklenene kadar dönüş tipi yalnızca `null`'dır.
-     */
-    private function validateJwtToken(string $token): null
-    {
-        // This is a simplified JWT validation
-        // In production, this would use a proper JWT library
-        // with RS256 verification
-
-        // For now, return null (not validated)
-        // Real implementation would:
-        // 1. Decode JWT header
-        // 2. Verify signature with public key
-        // 3. Check expiration
-        // 4. Extract user claims
-
-        return null;
     }
 }

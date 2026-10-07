@@ -33,10 +33,10 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Durum | Sayı | Açıklama |
 |-------|------|----------|
 | **Frozen** | 36 | Değiştirilemez (ADR-001 → ADR-036; ADR-037 debate ✅, frozen YOK) |
-| **Active** | 37 | Güncellenebilir (ADR-038 → ADR-094) |
+| **Active** | 38 | Güncellenebilir (ADR-038 → ADR-095) |
 | **Rejected** | 7 | Reddedilen kararlar |
 | **Draft** | 0 | Taslak yok (ADR-089 kabule terfi etti, 2026-09-24) |
-| **Toplam** | 80 | — |
+| **Toplam** | 81 | — |
 
 > Not (2026-10-06 LINT-3): §3 başlığı ve §6 eski hali ADR-037'yi frozen sayıyordu (37/35); §2'deki "ADR-037 debate ✅, frozen YOK" kaydı esas alındı → 36/36. Çelişki Vault Steward onayına açıktır.
 
@@ -129,6 +129,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[accepted/ADR-092-media-dizin-ekseni-ve-ulid]] | Medya Arşivi Dizin Ekseni ve ULID Kimliği | Infrastructure |
 | [[accepted/ADR-093-view-modes-single-load-path]] | 09_ViewModes v-*.css için tek yükleme yolu: <link id="cm-view-css"> kanoniktir, cihaz @import zinciri deferred | Frontend |
 | [[accepted/ADR-094-api-pipeline-origin-csrf]] | API pipeline'ına OriginCheck + koşullu CSRF eklendi (ADR-020 sıra genişletmesi; B-F-02/B-F-03) | Security |
+| [[accepted/ADR-095-hybrid-jwt-rs256-access-token]] | Hybrid JWT (RS256): issue/validate/revocation — firebase/php-jwt, jti→user_tokens, 0 migration | Security |
 
 ## 4A. Draft ADR'ler
 

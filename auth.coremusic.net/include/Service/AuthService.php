@@ -220,11 +220,12 @@ final class AuthService implements IAuthService
 
     public function logout(): void
     {
-        // B-F-20: outstanding tek-kullanımlık auth_key'leri de iptal et —
-        // çalınan anahtar logout sonrası 300s daha geçerli kalmasın.
+        // B-F-20 + P1-9: outstanding auth_key'leri VE JWT access token'larını iptal et —
+        // çalınan anahtar/logout sonrası token 300s/TTL daha geçerli kalmasın.
         $userId = $this->session->getUserId();
         if ($userId !== null) {
             $this->userRepository->revokeAuthKeysForUser($userId);
+            $this->userRepository->revokeAccessTokensForUser($userId);
         }
 
         $this->session->destroy();
