@@ -1,110 +1,135 @@
 ---
-title: "00-master-index — CoreMusic Enterprise Mimari Master Index (K000–K499)"
+title: "00-master-index — CoreMusic K-Space V2 Master Index (K000–K5999)"
 type: index
 category: architecture
-version: 1.0.0
+date: 2026-10-08
+updated: 2026-10-08
+version: 2.0.0
 status: active
-authority: "SSOT: .ai/architecture/00-master-index.md — .ai/architecture/ ağacının tek giriş noktası"
-updated: 2026-10-07
+authority: "SSOT: .ai/architecture/00-master-index.md — .ai/architecture/ ağacının tek giriş noktası (navigasyon); K-space içeriği: 00-kspace-anayasa.md"
 tier: 3
 domain: architecture-master
 ssot: true
 risk: medium
 owner: "Vault Steward"
-depends-on: [".ai/CLAUDE.md"]
+depends-on: [".ai/CLAUDE.md", ".ai/architecture/00-kspace-anayasa.md"]
 ---
 
-# 00-master-index — CoreMusic Enterprise Mimari Master Index
+# 00-master-index — CoreMusic K-Space V2 Master Index
 
-> **Giriş sözleşmesi:** Bu dosya `.ai/architecture/` ağacının tek girişidir.
-> Kök `CLAUDE.md` §Mimari referans (2026-10-06 · v4.0.0): *"Enterprise Layered Architecture 500 katman (K000–K499), 10 domain, hibrit multi-MD. Giriş: @.ai/architecture/00-master-index.md → domain tabloları 10-domain-d01-….md … 19-domain-d10-….md. Sayım birimi = KATMAN (mantıksal doküman katmanı)."*
-> **Durum (2026-10-07):** Eski 500-katman ağacı 2026-10-06'da silinmişti; bu dosya ve 10 domain tablosu **disk kanıtıyla sıfırdan** yeniden yazıldı (P2-12 kullanıcı kararı).
+**Zorunlu Bağlantılar:** [[architecture/00-kspace-anayasa]] · [[architecture/rules]] · [[architecture/context]] · [[decisions/accepted/ADR-096-kspace-5000-boundary-model]] · [[../CLAUDE.md]]
+
+### CoreMusic K-Space V2 Master Index
+
+**Kategori:** architecture (kontrol-plane)
+**Durum:** Aktif (V2 rejimi — sıfırdan, ADR-096)
+**Son Güncelleme:** 2026-10-08
+**Yazar:** Vault Steward (plan v2.0 onayı · tek onay mercii)
 
 ---
 
-## 1. Kapsam ve Sayım
+#### §3.1 Genel Bakış
 
-| Öğe | Değer | Kanıt |
-|-----|-------|-------|
-| Toplam katman (K000–K499) | **500** | 10 domain tablosu × 50 satır (sayım betikle doğrulanır — §5) |
-| Domain sayısı | **10** (d01–d10) | `10-domain-d01-*.md` … `19-domain-d10-*.md` |
-| Domain tablosu dosyası | 10 | glob: `.ai/architecture/*domain-d*.md` |
-| Hibrit multi-MD | Evet — 10 tablo + kanıt stub'ları (MD sayısı değişken, sabit değil) | README §Yapı |
-| Eski K0–K20 (21 katman) | Legacy görünüm — korunur, domain'lere eşlenir (§2) | kök `CLAUDE.md` §5 · `.claude/CLAUDE.md` §5 |
+Bu dosya, `.ai/architecture/` ağacının **tek girişidir** ve K-Space V2 rejimini (K000→K5999 · 9 bant · boundary model · 5000+ hedef) kataloglar. Kurucu karar [[decisions/accepted/ADR-096-kspace-5000-boundary-model]] · K-space içeriğinin tek kaynağı [[architecture/00-kspace-anayasa]] (F1 EK A kopyası) · kurallar [[architecture/rules]] (v2.0.0). Eski rejim (K000–K499 / 10 domain / k0–k20 set) **terk edildi** — yalnız salt-okunur analiz girdisidir (`git show HEAD:…`).
 
-## 2. Domain ↔ K- Aralık ↔ Eski Dizin Eşlemesi
+---
 
-| Domain | Dosya | K-aralığı | Kapsam | Eski dizin(ler) (geriye-uyum linkleri) |
-|--------|-------|-----------|--------|----------------------------------------|
-| d01 | 10-domain-d01-isletim-sistemi-platform.md | K000–K049 | İşletim Sistemi & Platform | `k0-isletim-sistemi/` |
-| d02 | 11-domain-d02-ses-motoru-dsp.md | K050–K099 | Ses Motoru & DSP | `k3-ses-motoru/` |
-| d03 | 12-domain-d03-donanim-surucu.md | K100–K149 | Donanım & Sürücü | `k1-donanim/` · `k2-surucu/` |
-| d04 | 13-domain-d04-veri-yonetimi.md | K150–K199 | Veri Yönetimi | `k5-veri-yonetimi/` |
-| d05 | 14-domain-d05-guvenlik-middleware.md | K200–K249 | Güvenlik & Middleware | `k6-guvenlik/` · `k7-middleware/` |
-| d06 | 15-domain-d06-servis-api.md | K250–K299 | Servis & API (routing dahil) | `k8-servis/` · `k9-api-routing/` |
-| d07 | 16-domain-d07-uygulama-ux.md | K300–K349 | Uygulama & UX | `k10-uygulama/` · `k11-ux/` |
-| d08 | 17-domain-d08-yapay-zeka-medya.md | K350–K399 | Yapay Zeka & Medya | `k4-yapay-zeka/` · `k15-medya-streaming/` |
-| d09 | 18-domain-d09-izleme-cicd-ag.md | K400–K449 | İzleme, CI/CD & Ağ | `k12-izleme/` · `k13-cicd/` · `k14-ag/` |
-| d10 | 19-domain-d10-elektronik-tasarim.md | K450–K499 | Elektronik Tasarım (donanım design) | `k16-class-ab/` … `k20-bom/` · `firmware/` |
+#### §3.2 Detay
 
-**Legacy K0–K20 → domain eşlemesi:** K0→d01 · K1,K2→d03 · K3→d02 · K4→d08 · K5→d04 · K6,K7→d05 · K8,K9→d06 · K10,K11→d07 · K12,K13,K14→d09 · K15→d08 · K16-K20→d10.
+##### Bant Kataloğu (EK A §A — 9 bant)
 
-## 3. Durum Efsanesi (satır seviyesi — zorunlu)
+| Bant | K-Aralığı | Kanonik Ad (EK A) | Türkçe Kapsam Özeti | Durum (2026-10-08) |
+|------|-----------|-------------------|---------------------|---------------------|
+| 1 | K000–K020 | FOUNDATION | İşletim sistemi, donanım, sürücü, ses motoru, AI, veri, güvenlik, middleware, servis, API, uygulama, UX, izleme, CI/CD, ağ, medya, amplifikatör, güç, termal, PCB, üretim (21 foundation kartı EK A'da) | **0/21 katman üretildi** — R3 band-1 girdisi |
+| 2 | K021–K120 | ENTERPRISE EXPANSION | Kurumsal genişleme domainleri | Üretim bekliyor (R3) |
+| 3 | K121–K500 | SPECIALIZED DOMAINS | Uzmanlaşmış domainler | Üretim bekliyor (R3) |
+| 4 | K501–K1020 | EXTENDED / DEEP PLATFORM | Genişletilmiş / derin platform | Üretim bekliyor (R3) |
+| 5 | K1021–K2020 | DEEP DOMAIN / RUNTIME / CROSS-CUT | Derin domain, runtime, çapraz-kesen | Üretim bekliyor (R3) |
+| 6 | K2021–K3020 | HARDWARE / MEDIA / UI DEEP | Donanım / medya / UI derinleşmesi | Üretim bekliyor (R3) |
+| 7 | K3021–K4020 | AGENT / SIM / RESEARCH / GOV | Ajan, simülasyon, araştırma, yönetişim | Üretim bekliyor (R3) |
+| 8 | K4021–K5020 | COMMERCE / RIGHTS / AI / DATA | Ticaret, haklar, AI, veri | Üretim bekliyor (R3) |
+| 9 | K5021–K5999 | RESILIENCE / FUTURE / RESERVED | Dayanıklılık, gelecek, ayrılmış alan | Üretim bekliyor (R3) — **dolum yalnız gerekçeli boundary ile** (ADR-096 §2.2) |
+
+> **Hedef ≠ kanıt (H10):** hedef 5000+ katman · **kanıtla üretilen: 0** (2026-10-08 · bu satır R3 ilerledikçe güncellenir).
+
+##### Durum Efsanesi (satır seviyesi)
 
 | Durum | Anlamı | Kanıt standardı |
 |-------|--------|-----------------|
-| **IMPLEMENTED** | Diskte kod/varlık olarak mevcut ve doğrulandı | Dosya yolu (glob/ls ile) veya ADR dosyası |
-| **PARTIAL** | Bir kısmı mevcut, bir kısmı eksik | Hem varlık hem eksiklik kanıtı birlikte |
-| **PLANNED** | Plan/ADR var, uygulama yok (veya yokluğu doğrulandı) | ADR/plan dosyası veya `⚠️ VERIFICATION REQUIRED` (yokluk glob ile) |
-| **DESIGN** | Tasarım belgesi/bileşen listesi var, donanım/uygulama YOK | `.ai/brain.md` §5 · `.claude/CLAUDE.md` §5 · ADR-089/090 vb. |
-| **DEPRECATED** | Kullanımdan kaldırıldı | Neden + alternatif (kanıt) |
+| **PROPOSED** | K-ID + bant ayrıldı, içerik yok | K-ID kaydı (EK A/master-index) |
+| **ACTIVE** | Özet satır (16 alan) dolu + kanıt + 👤 onay | `KANIT` alanı (R9 3'lü) |
+| **DEPRECATED** | Kapatıldı, ID korunur | kapanış kanıtı + log |
+| **IMPLEMENTED** | Repo kodu var | dosya yolu + satır (grep) |
 
-> **Frontmatter status enum'u** (validator: `active/draft/proposed/approved/rejected/deprecated`) ile **satır durumu** (bu efsade) farklı katmanlardır; karıştırılmaz.
+> FM `status` enum'u (`active/draft/…`) ile **satır durumu** (bu efsade) farklı katmanlardır.
 
-## 4. Domain Tabloları ve Yapı (Hibrit Multi-MD)
+##### Yapı Ağacı (multi-MD · ADR-096 §2.5)
 
 ```text
 .ai/architecture/
-├── 00-master-index.md            ← bu dosya (giriş)
-├── README.md                     ← yönelim
-├── index.md                      ← eski [[architecture/index]] link uyumu (alias)
-├── 10-domain-d01-*.md … 19-domain-d10-*.md   ← 10 tam katman tablosu (500 satır)
-├── k0-isletim-sistemi/ … k20-bom/, firmware/  ← wiki-link landing + inventory/ evi (Q12/Q17; anlatı 500-katman katalogda)
-├── 03-contracts/ · 07-security/ · l1-security/ · l2-routing/ · l3-presentation/ …
-│                                  ← eski vault link hedefleri (stub-with-truth)
-├── rules.md · context.md          ← Faz 0 iskeleti (validator bütçesi: context ≤660 satır)
-└── 00-enterprise-index.md         ← derived: k0–k20 landing kataloğu (envanter evleri; SSOT değil)
+├── 00-master-index.md        ← bu dosya (giriş navigasyonu · version SSOT)
+├── 00-kspace-anayasa.md      ← EK A kopyası — 9 bant + 21 foundation kartı (K-space SSOT)
+├── 00-final-rapor.md         ← §10 28-başlık FINAL rapor (R4'te üretilecek, ≥5000 satır)
+├── rules.md                  ← kural SSOT v2.0.0 (ADR-096'dan türetildi)
+├── context.md                ← hot memory (derived, ≤660 bütçe)
+├── K000-isletim-sistemi/     ← katman dizinleri {KID}-{türkçe-ad} (R3 üretir)
+│   └── index.md              ← zorunlu çekirdek (özet satır 16 alan + derinleşme)
+├── K001-donanim/ … K020-uretim/   ← (R3 band-1)
+├── (bant 2-9 dizinleri)      ← R3, bant bant, kapı 5-9 gate'leri ile
+└── inventory/                ← envanter partNN (R3+)
 ```
 
-**Ayrıntı dosyası yazma kuralı:** yalnız yüksek değerli (vault'ta link'lenen) hedefler için stub-with-truth üretilir; her katman için ayrı dosya YOK (hibrit: tablo esas, MD değişken).
+##### Okuma Sırası (P0 → P3)
 
-## 5. Link-Status (Self-Check — `.ai/*.md` kök dosyalarındaki `architecture/…` hedefleri)
+| Katman | Dosya | Ne zaman |
+|--------|-------|----------|
+| P0 | `.ai/CLAUDE.md` + kök boot | her oturum |
+| P1 | [[architecture/context]] (hot memory) → bu dosya | mimari görev |
+| P2 | [[architecture/00-kspace-anayasa]] (bant/kart) → [[architecture/rules]] | K-space/iş kuralı |
+| P3 | katman `KNNN-…/index.md` → `inventory/*` | yalnız ilgili katman |
 
-> Ölçüm: `.ai/*.md` içinden benzersiz `architecture/…` hedefi sayısı (son: `/*$::` temizliği), ardından `.ai/<hedef>` veya `.ai/<hedef>.md` varlık kontrolü.
+##### Kapılar (özet — tam metin rules R11)
 
-| Metrik | Değer |
-|--------|-------|
-| Benzersiz hedef (ÖNCE = SONRA, hedef seti sabit) | **129** |
-| Çözülen — unique (ÖNCE) | **17** |
-| Çözülen — unique (SONRA) | **82** (%63,6) |
-| Çözülen — referans ağırlıklı (ÖNCE → SONRA) | **35 → 167 / 219** (%76,3) |
-| Katman sayımı (K000–K499) | **500** (10 tablo × 50 satır; `grep -cE '^\| K[0-9]{3} \|'` = 500, boşluksuz) |
+On Kapı [1]–[10] · §11 ≥85/100 · §9 ≥90 · her yazım sonrası `validate.mjs --check` exit 0 · KAPI 10 = insan onayı.
 
-**Kalan 47 çözülmeyen hedef (kasıtlı, §6):** `06-audio/*` 10 · `ai/*` 16 · tekil eski
-dokümanlar 19 (`database/network/security-architecture`, `conditional-rendering-php-guide`,
-`l3-presentation/responsive-*` ve `scale-router-*`, `k16-k20-electronics/*`,
-`k6-k7-security/k06-auth-layer/auth-cross-domain`, `07-security/security/owasp-compliance` vb.) ·
-`architecture/adr` 1 — **kasıtlı yasak** (rules.md R1: ADR'ler `.ai/.decisions/` altındadır).
+##### Kurulum Ölçümü (2026-10-08)
 
-Ölçüm komutu (tekrarlanabilir): `.ai/*.md` içindeki `architecture/…` hedefleri taranır,
-her hedef için `.ai/<hedef>` veya `.ai/<hedef>.md` varlık kontrolü yapılır (2026-10-07).
+| Metrik | Değer | Kanıt |
+|--------|-------|-------|
+| validate gate | 35 dosya · 11 check · exit 0 | `node .ai/scripts/validate.mjs --check` |
+| K-space anayasa | 5.857 satır (EK A) | `wc -l` |
+| Kurucu ADR | ADR-096 (accepted) | `.ai/.decisions/accepted/` |
+| Üretilen katman (KNNN-dizin) | **0** | glob: `K0*/` → boş (R3 bekliyor) |
+| Arşiv spec | F1 7.576 satır · F2 9.928 satır | `.ai/prompts/2026-10-08-*` |
 
-## 6. Kirik Link Notu (Broken-Link Policy)
+---
 
-- Vault'taki ~129 benzersiz `architecture/…` hedefinin bir kısmı bu ağaçta **kasıtlı olarak üretilmedi** (ör. `ai/*` bilgi-tabanı eski ağacı, `06-audio/*` hizmet tasarım dosyaları): bunlar **doğru eşdeğer yere** işaretlenir veya `DEPRECATED` stub ile karşılanır.
-- `node .ai/scripts/validate.mjs --check` → `architecture/` ilk segmenti bilinen-ölü-hedef (DEAD_DIRS) sayıldığı için çözülmeyenler **ihlal değil, uyarı** olarak raporlanır; bu bölümdeki sayılar asıl sağlık ölçütüdür.
-- Yeni link eklerken hedefi bu dizinde yaratmak zorunludur (Guardrail #3 — Zero Hallucination).
+#### §3.3 Kullanım Notları
 
-## 7. İlgili Dosyalar
+| Not | Açıklama |
+|-----|----------|
+| Bağlam | K-space üretimi/yönetimi yapan her görev bu dosyadan başlar |
+| Kapsam Sınırı | Kural metni bu dosyada DEĞİL → [[architecture/rules]]; K-space içeriği → 00-kspace-anayasa |
+| Güncellik | 2026-10-08 · sayım satırları faz ilerledikçe tazelenir (R3 gate'leri) |
+| Belirsizlik | Henüz üretilmemiş katman içerikleri `PROPOSED` — uydurma içerik YOK |
+| İlişki | ADR-096 + rules + kspace-anayasa + context zinciri |
 
-[[architecture/README]] · [[architecture/index]] · domain tabloları (§2) · kural SSOT'u [[architecture/rules]] · hot-memory [[architecture/context]] · anayasa [[../CLAUDE.md]] §5 / `.claude/CLAUDE.md` §5 · ADR defteri [[../.decisions/accepted/ADR-084-api-gateway-architecture]]
+---
+
+### CoreMusic K-Space V2 Master Index — İlgili Sayfalar
+
+| Sayfa | İlişki |
+|-------|--------|
+| [[architecture/00-kspace-anayasa]] | K-space içeriği SSOT'u (9 bant + foundation kartları) — bu dosya onu kataloglar, tekrarlamaz |
+| [[architecture/rules]] | Kurallar SSOT'u v2.0.0 (ADR-096'dan türetildi) |
+| [[architecture/context]] | Hot memory — otomatik yüklenen özet (≤660) |
+| [[decisions/accepted/ADR-096-kspace-5000-boundary-model]] | Kurucu karar (K-space, format, kapılar, terk) |
+| [[../CLAUDE.md]] | Anayasa (üst otorite) |
+
+---
+
+### CoreMusic K-Space V2 Master Index — Değişiklik Geçmişi
+
+| Tarih | Değişiklik | Sorumlu |
+|-------|-----------|---------|
+| 2026-10-08 | İlk oluşturma — V2 rejimi sıfırdan (ADR-096 · F1+F2 · 12 karar); eski 110 satırlık master-index (v1.1.0) terk edildi | Vault Steward (plan v2.0)

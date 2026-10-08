@@ -32,6 +32,22 @@ if (path.isAbsolute(fp)) {
 }
 rel = rel.replace(/\\/g, '/');
 
+// Kök T1/T2 boot dosyaları (Q32/R10 — .ai/ DIŞINDA da HIGH risk)
+const ROOT_HIGH = new Set(['CLAUDE.md', 'AGENTS.md', 'WORKFLOW.md']);
+if (ROOT_HIGH.has(rel)) {
+  process.stdout.write(JSON.stringify({
+    hookSpecificOutput: {
+      hookEventName: 'PreToolUse',
+      permissionDecision: 'ask',
+      permissionDecisionReason:
+        'Control Plane HIGH-RISK kapısı (Q32): kök boot dosyası ' + rel +
+        ' T1/T2 otorite yüzeyidir — İNSAN (Bayram Ali) onayı gerekir. ' +
+        'Değişiklik risk: high · Doğrulama: node .ai/scripts/validate.mjs --check',
+    },
+  }));
+  process.exit(0);
+}
+
 // yalnız .ai altındaki dosyalar
 const m = rel.match(/^\.ai\/(.+)$/);
 if (!m) process.exit(0);

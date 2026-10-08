@@ -3,8 +3,8 @@ title: "CoreMusic — .ai/ Vault Klasör Context"
 type: docs
 category: vault
 date: 2026-10-03
-updated: 2026-10-03
-version: 1.0.0
+updated: 2026-10-07
+version: 1.1.0
 status: active
 authority: "SSOT (klasör kökü) — çelişkide disk kazanır"
 docType: context
@@ -21,7 +21,9 @@ depends-on: [".ai/CLAUDE.md", ".ai/AGENTS.md"]
 
 **docType:** context · **Klasör:** `.ai/` · **Sorumlu:** MO (vault-updater)
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[../AGENTS.md]] · [[.templates/index]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[../AGENTS.md]] · [[.templates/index]] · [[architecture/context]]
+
+**Hot Memory (2026-10-07):** `.ai/architecture/context.md` — mimari katman bağlamı, `instructions[]` ile **otomatik yüklenir** (opencode.json 18 · settings.json 6). Genel context = bu dosya; mimari context = [[architecture/context]] (SSOT: [[architecture/rules]]).
 
 ---
 
@@ -35,6 +37,7 @@ depends-on: [".ai/CLAUDE.md", ".ai/AGENTS.md"]
 | Yeni context dokümanı şablonla üretilir | Guardrail #16 → [[.templates/frontend/context-template]] §1 |
 | Yeni ADR numarası 088+ | [[../AGENTS]] (Frozen 001-037 değişmez) |
 | log.md append-only | Kök [[../AGENTS]] §9 · [[log]] |
+| **Control Plane v2**: FM standardı 13 alan · validator `scripts/validate.mjs --check` · planner spec [[PLANNER]] · HIGH-risk kapısı ai-risk-gate + ai-validate-post hook'ları | interview Q1-Q7 (2026-10-07, onaylı) + `.claude/settings.json` |
 | Boot'ta toplu vault okuma yasak | Kök [[../AGENTS]] §9 (yalnızca ihtiyaç anında `@`) |
 
 > **eli10 (basit):** Bu klasör, projenin hafızası: kurallar, kararlar, çizimler ve geçmiş burada durur; kimse kod yazmadan önce buraya bakar.
@@ -62,7 +65,7 @@ depends-on: [".ai/CLAUDE.md", ".ai/AGENTS.md"]
 
 ## 3. Mimari
 
-### 3.1 Kök Dosya Envanteri (depth 0 — 2026-10-03 ölçümü: 19 dosya)
+### 3.1 Kök Dosya Envanteri (depth 0 — **2026-10-07 ölçümü: 20 `.md` + `.env.figma` = 21 dosya** (+RAG.md); önceki: 2026-10-07 19 `.md` = 20 dosya · 2026-10-03 19 dosya)
 
 | Dosya | Ne için kullanılır | Neyden oluşur | Neden var | Ne zaman düzenlenir |
 |-------|--------------------|---------------|-----------|---------------------|
@@ -71,6 +74,7 @@ depends-on: [".ai/CLAUDE.md", ".ai/AGENTS.md"]
 | `WORKFLOW.md` (892 satır) | Vault süreçleri — 12/20 faz, ADR lifecycle, hard gates §9 | Adım/kapı tabloları, faz kayıtları | Süreç tekrarlanabilir ve denetlenebilir olsun | Faz/kapı değişince (MO) |
 | `index.md` (824 satır) | Master katalog — hızlı referans, ADR listesi, envanter metrikleri | §1-§24 indeks tabloları | Kayıp dosya/düzey farkı için tek katalog | Yeni dosya/ADR eklenince (vault-updater) |
 | `keys.md` | Keyword haritası — routing anahtarları | Keyword → konu eşlemesi | Arama/eko eşlemesi tek yerde dursun | Keyword eklenince |
+| `RAG.md` (yeni 2026-10-07) | Retrieval indeksi + pipeline — "hangi soru → hangi dosya" eşlemesi (§3 20 satır) + embedding/arama tasarımı (§4, ÇOĞU PLANNED — ADR-030) | Konu→dosya→keyword tablosu, durum sütunu | AI analizi doğru dosyaya hızlı gitsin; boot'ta toplu okuma yerine tek tablo okunsun | Vault'a dosya eklendiğinde/taşındığında (`vault-sync-post`) |
 | `brain.md` | Mimari karar özeti (ADR türevi) | Karar satırları | Kod öncesi karar okunsun | Yeni ADR'de |
 | `ROLE.md` | Rol tanımı — agent teknoloji/yüzey eşlemesi | Rol satırları | Rol ile stack eşleşsin | Stack değişince |
 | `engine.md` | Orkestrasyon motoru — §2 orkestrasyon, §9 stack etiketleri, §12 faz kapanışı | Orkestrasyon tabloları | Multi-agent akış tek yerden yönetsin | Orkestrasyon kuralı değişince |
@@ -110,7 +114,7 @@ depends-on: [".ai/CLAUDE.md", ".ai/AGENTS.md"]
 > **eli10 (basit):** Dış servise giriş anahtarını taşıyan, kimseye gösterilmeyen dosya.
 > **eli15 (detay):** Ayrı ve gizli dosyadır çünkü anahtar metin olarak yayılırsa erişim ele geçirilir. İçeriği hiçbir belgeye kopyalanmaz (REDACTED). Okunması yalnız betikler içindir. Anahtar süresi dolunca yenilenir; kural ihlalinde derhal döndürülür.
 
-### 3.2 Alt Dizin Envanteri (depth 1 — 2026-10-03 ölçümü: 20 dizin)
+### 3.2 Alt Dizin Envanteri (depth 1 — **2026-10-07 ölçümü: 13 dizin**; önceki: 2026-10-03 20 dizin — sadeleştirme)
 
 | Dizin | Alt dizin | Dosya | Ne için kullanılır | Neden ayrı | Ne zaman düzenlenir |
 |-------|-----------|-------|--------------------|-----------|---------------------|
@@ -118,7 +122,7 @@ depends-on: [".ai/CLAUDE.md", ".ai/AGENTS.md"]
 | `ui-design/` | 23 | 297 | Mockup indeksi, screens, flow, prompt, reference, tokens | Görsel/şablon kendi hiyerarşisinde | Mockup/tokens değişince |
 | `.decisions/` | 3 | 84 | ADR arşivi: `accepted/` 72 · `draft/` 1 · `rejected/` 8 + `index.md` | Karar yaşam döngüsü ayrı dosyalanır | Yeni ADR yazımında |
 | `.personas/` | 7 | 79 | Kullanıcı persona dosyaları | Persona ile kural karışmasın | Persona revizyonunda |
-| `.templates/` | 12 | 54 | Guardrail #16 şablonları (12 kategori: adr, agents, backend, documentation, frontend, hardware, infrastructure, other, personas, query, testing, ui-design) + `index.md` | Şablon ayrı olunca yeni dosya tutarlı üretilir | Yeni şablon/kategori eklenince |
+| `.templates/` | 13 | 65 | Guardrail #16 şablonları (13 kategori: adr, agents, backend, documentation, frontend, hardware, infrastructure, other, personas, prompt-maker, query, testing, ui-design) + `index.md` (2026-10-07: +4 şablon `documentation/{agents-md,workflow-md,context-md,rag-md}`) | Şablon ayrı olunca yeni dosya tutarlı üretilir | Yeni şablon/kategori eklenince |
 | `.sql/` | 4 | 23 | SQL şema/sorgu dosyaları (alt dizin: mssql, mysql, postgresql, sqlite) | DBMS başına ayrılır | Şema değişince |
 | `.png/` | 3 | 23 | Görsel SSOT — **19 PNG** (2026-10-03 sayımı: `.png` altında 19 adet `.png`) | Görsel salt okunur ayrı tutulur | Onaylı görsel ekleme/çıkarmada |
 | `archives/` | 0 | 13 | Eski/süresi dolmuş dokümanlar | Geçmiş korunur, arama kirletilmez | Arşivleme işinde |
@@ -135,7 +139,7 @@ depends-on: [".ai/CLAUDE.md", ".ai/AGENTS.md"]
 | `projects/` | 4 | **0** | Alt dizin var, **dosya YOK** (ör. `projects/NevaEngine/` — kök registry §24.3 de böyle kayıtlı) | Proje klasörü hazır tutulur | İçerik gelince |
 | `.diagram/` | 0 | **0** | **BOŞ** — diskte dosya yok | — | İçerik gelince |
 
-**Toplam:** `.ai/` altında recursive **984 dosya** (gizli dahil, 2026-10-03) · kök **19 dosya** (18 `.md` + `.env.figma`).
+**Toplam:** `.ai/` altında recursive **678 dosya** (gizli dahil, **2026-10-07 ikinci ölçüm** — +RAG.md, +4 şablon; **not:** `architecture/` yeniden yapılandırması eşzamanlı sürüyor, sayı görev kapanışında yeniden ölçülür) · kök **21 dosya** (20 `.md` + `.env.figma`). *(önceki ölçüm: 631 dosya / 20 kök — 2026-10-07 sabah; 984 dosya / 19 kök — 2026-10-03; sadeleştirme −353 dosya, −7 dizin; +PLANNER.md · +RAG.md)*
 
 **Dizin eli10/eli15 blokları (başlıca 5 madde):**
 
@@ -309,7 +313,7 @@ GÖREV → KURAL OKU (kök AGENTS + ilgili .ai dosyası)
 | 1 | Frontmatter | 7 zorunlu alan + `docType: context` |
 | 2 | Bölüm yapısı | §1–§7 aynı sıra, ≤3 başlık seviyesi |
 | 3 | Placeholder | Dosyada doldurulmamış placeholder kalmadı |
-| 4 | Envanter | Kök 19 dosya · 20 dizin · 984 toplam dosya — ölçümle eşit |
+| 4 | Envanter | Kök 21 dosya · 13 dizin · 678 toplam dosya (2026-10-07) — ölçümle eşit |
 | 5 | Çelişki | §3.5 tablosu eksiksiz; disk kazanır işareti var |
 | 6 | Wiki-link | Wiki-link formatı (çift köşeli); hedefler diskte mevcut |
 | 7 | eli10 + eli15 | §1–§5 maddelerinin altında `> **eli10 (basit):**` + `> **eli15 (detay):**` bloğu var; eli10 ≤2 cümle, eli15 3-4 cümle |
@@ -327,6 +331,7 @@ GÖREV → KURAL OKU (kök AGENTS + ilgili .ai dosyası)
 | Agent registry | [[AGENTS]] | Routing, handover, escalation (SSOT) |
 | Vault süreç | [[WORKFLOW]] | Fazlar, kapılar, ADR lifecycle |
 | Master katalog | [[index]] | Dosya/ADR/envanter indeksi |
+| Retrieval indeksi | [[RAG]] | Konu→dosya eşlemesi + pipeline (PLANNED — ADR-030) |
 | Kök master kurallar | [[../AGENTS]] | §3 Zero-Hallucination · §4 keşif · §7 loop |
 | Context şablonu | [[.templates/frontend/context-template]] | Bu dokümanın iskeleti (Guardrail #16) |
 | Şablon registry | [[.templates/index]] | Şablon envanteri |
@@ -340,5 +345,5 @@ GÖREV → KURAL OKU (kök AGENTS + ilgili .ai dosyası)
 
 ---
 
-**Template Version:** 1.0.0 · **Şablon:** `.ai/.templates/frontend/context-template.md`
-**Last Updated:** 2026-10-03 · **docType:** context
+**Template Version:** 1.1.0 · **Şablon:** `.ai/.templates/frontend/context-template.md` (+ `documentation/context-md-template.md`, 2026-10-07)
+**Last Updated:** 2026-10-07 · **docType:** context

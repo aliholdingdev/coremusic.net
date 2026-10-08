@@ -191,14 +191,11 @@
        ============================================================ */
 
     /**
-     * Map device type to 4 primary UI tiers
+     * Map device type to 4 primary UI tiers — WP2/J2: SSOT delegasyonu
+     * (`js/core/breakpoints.js` → BreakpointAPI.tierOf; UA-aware tek gövde).
      */
     function getTier(device) {
-        if (device === 'phone') return 'phone';
-        // 4K devices use Wide tier — scaling is handled by d-4k.css (zoom), not JS transforms
-        if (device === '4k-tv' || device === '4k-monitor') return 'wide';
-        if (device === 'desktop' || device === 'laptop') return 'wide';
-        return 'embedded';
+        return window.CoreMusic.BreakpointAPI.tierOf(device);
     }
 
     /**

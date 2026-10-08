@@ -262,6 +262,10 @@ final class HtmlShellRenderer
 
         echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/js/main.js?v=' . $cacheBuster . '" type="module" defer></script>';
 
+        // WP2/J2: Breakpoint SSOT — devices.config.js VE device-loader.js'den ÖNCE
+        // yüklenmeli (classic IIFE; BP/BreakpointAPI global'leri buradan gelir).
+        echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/js/core/breakpoints.js?v=' . $cacheBuster . '" defer></script>';
+
         // Device Config — CSS haritası tek kaynağı (device-loader.js'den önce yüklenmeli)
         echo '<script' . $nonceAttr . ' src="' . $assetsEsc . '/js/devices.config.js?v=' . $cacheBuster . '" defer></script>';
 

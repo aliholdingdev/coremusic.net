@@ -2,7 +2,7 @@
 title: "CoreMusic — AI Constitution & Master Vault Mandate"
 type: guide
 category: ai-mandate
-version: 27.3.9
+version: 27.4.0
 status: active
 authority: SSOT
 updated: 2026-10-06
@@ -906,6 +906,7 @@ Diğer terimler → [[glossary]]: SSOT, ADR, CSRF, CSP, BCNF, RBAC, OWASP, ASIO,
 | [[WORKFLOW.md]] | Süreçler, fazlar, workflow'lar |
 | [[index.md]] | Master katalog, tüm vault yapısı |
 | [[keys.md]] | Keyword haritası, yönlendirme |
+| [[RAG]] | Retrieval indeksi (konu→dosya, §3) + pipeline tasarımı (§4, PLANNED — ADR-030) — AI'ın ilk okuma hedefini seçmesi için (2026-10-07) |
 | [[brain.md]] | Mimari kararlar — metin kararları ADR 001-089 (ADR-090 yalnız fiziksel dosyadadır; brain.md'de yok — ölçüm 2026-09-27) |
 | [[MEMORY.md]] | Session hafızası, persistent state |
 | [[log.md]] | Audit trail, append-only günlük |
@@ -955,7 +956,7 @@ Her oturum başlangıcında sırayla okunur:
 | § 9 Paneller | [[brain.md]] ADR-043-auth-subdomain-consolidation | Auth konsolidasyonu |
 | § 12 Teknoloji | [[brain.md]] | Tech stack detayları |
 | § 15 Tema | [[brain.md]] ADR-044-dynamic-user-theme-engine | Theme engine |
-| § 18 DB | [[architecture/k0-k5-software/k5-data-layer/database_master]] | 18 BCNF şemaları |
+| § 18 DB | [[.sql/mysql]] | 18 BCNF şemaları |
 | § 19 Audio | [[architecture/k3-ses-motoru]] | Audio engine |
 | § 20 ADR | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault standardı |
 | § 20A Master Plan | [[architecture/03-contracts/master-implementation-plan]] | 5 faz, 40 gün implementasyon |

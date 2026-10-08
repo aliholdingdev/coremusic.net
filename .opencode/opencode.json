@@ -24,7 +24,9 @@
     ".ai/MEMORY.md",
     ".ai/keys.md",
     ".ai/engine.md",
-    ".ai/log.md"
+    ".ai/log.md",
+    ".ai/CONTEXT.md",
+    ".ai/architecture/context.md"
   ],
   
   "agent": {

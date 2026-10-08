@@ -2,7 +2,7 @@
 title: "CoreMusic — Vault Workflows & Engineering Processes"
 type: guide
 category: workflow
-version: 22.1.5
+version: 22.2.0
 status: active
 authority: SSOT
 updated: 2026-10-06
@@ -850,6 +850,7 @@ START
 | [[AGENTS.md]] | Agent yetkileri, handover |
 | [[index.md]] | Master katalog |
 | [[keys.md]] | Keyword haritası |
+| [[RAG]] | Retrieval indeksi (konu→dosya) + pipeline tasarımı — PLANNED (ADR-030) |
 | [[brain.md]] | Mimari kararlar |
 | [[MEMORY.md]] | Session hafızası |
 | [[log.md]] | Audit trail |

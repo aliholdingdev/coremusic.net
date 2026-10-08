@@ -862,7 +862,7 @@ Archives dizinindeki 4 ana prompt dosyası. Bu dosyalar vault'un parçasıdır v
 | prompt0: 10 panel | brain.md § 9 (Paneller) | ADR-039 |
 | prompt0: 20 analiz görevi | WORKFLOW.md genişletilmiş prompt bölümü | ADR-042 |
 | prompt0: Zorunlu Kurallar | CLAUDE.md § 7 (Hard Guardrails) | ADR-007 |
-| prompt1: Enterprise Router | architecture/l2-routing/spa-router.md § 1A | ADR-083 |
+| prompt1: Enterprise Router | architecture/k9-api-routing/ (eski spa-router hedefi kaldırıldı) | ADR-083 |
 | prompt2: Central Auth | architecture/k6-k7-security/k06-auth-layer/auth-cross-domain.md, ADR-043 | ADR-043 |
 | prompt2: Middleware Pipeline | brain.md § 6 | ADR-010/011/012/013/022 |
 | prompt3: API Gateway | ADR-084 (API Gateway Architecture) | ADR-084 |

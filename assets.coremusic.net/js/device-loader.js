@@ -21,17 +21,13 @@
     'use strict';
 
     /* ============================================================
-       BREAKPOINT CONSTANTS (a-breakpoint-tokens.css ile senkronize)
+       BREAKPOINT CONSTANTS — WP2/J2: tek SSOT `js/core/breakpoints.js`
+       (HtmlShellRenderer bunu devices.config.js'den ÖNCE emit eder).
+       Burada yalnız alias tutulur; kopya değer/fonksiyon YASAK (fail-fast:
+       API yoksa hata görünür — sessiz yedek kopya değil).
        ============================================================ */
-    const BP = {
-        PHONE_MAX:     767,
-        TABLET_MIN:    768,
-        TABLET_MAX:    1024,
-        EMBEDDED_MAX:  1024,
-        LAPTOP_MAX:    1440,
-        DESKTOP_MAX:   2560,
-        FOUR_K_TV_MAX: 3840,
-    };
+    const BP = window.CoreMusic.BREAKPOINTS;
+    const BPI = window.CoreMusic.BreakpointAPI;
 
     /* ============================================================
        CSS FILE MAP — devices.config.js'den yüklenir (SSOT)
@@ -47,49 +43,23 @@
        ============================================================ */
 
     /**
-     * Viewport boyutundan cihaz türü tespit et
+     * Viewport boyutundan cihaz türü tespit et — WP2/J2: SSOT delegasyonu
+     * (gövde `js/core/breakpoints.js` → BreakpointAPI.detectDevice).
      * @param {number} w  Viewport genişliği
      * @param {number} h  Viewport yüksekliği
      * @returns {string} Device type
      */
     function detect(w, h) {
-        // Embedded device (RPi5, ARM Linux) — viewport'a bakmadan embedded
-        const ua = navigator.userAgent || '';
-        if (/Raspberry Pi|RPi|aarch64|armv7|armv8|CrOS/i.test(ua)) return 'embedded';
-
-        if (w <= BP.PHONE_MAX) return 'phone';
-        if (w >= BP.TABLET_MIN && w <= BP.TABLET_MAX) {
-            if (h <= 600) return 'embedded';
-            return 'tablet';
-        }
-        if (w <= BP.LAPTOP_MAX) return 'laptop';
-        if (w <= BP.DESKTOP_MAX) return 'desktop';
-        if (w <= BP.FOUR_K_TV_MAX) {
-            if (/Tizen|Web0S|webOS|SmartTV|BRAVIA|NetCast|AppleTV|Android TV|GoogleTV|HbbTV|Roku/i.test(ua)) {
-                return '4k-tv';
-            }
-            if (window.matchMedia && window.matchMedia('(pointer: fine)').matches && /Windows|Macintosh|Linux/i.test(ua)) {
-                return '4k-monitor';
-            }
-            return '4k-tv';
-        }
-        return '4k-monitor';
+        return BPI.detectDevice(w, h);
     }
 
     /**
-     * User-Agent'den mobile cihaz tespit et
+     * User-Agent'den mobile cihaz tespit et — WP2/J2: SSOT delegasyonu.
      * @param {string} ua
      * @returns {string|null}
      */
     function detectUA(ua) {
-        if (!ua) return null;
-        // Embedded device (RPi5, ARM Linux) — her zaman embedded
-        if (/Raspberry Pi|RPi|aarch64|armv7|armv8|CrOS/i.test(ua)) return 'embedded';
-        if (/Android/i.test(ua)) return /Mobile/i.test(ua) ? 'phone' : 'tablet';
-        if (/iPhone|iPod/i.test(ua)) return 'phone';
-        if (/iPad/i.test(ua)) return 'tablet';
-        if (/Windows Phone|BlackBerry|Opera Mini|Opera Mobi/i.test(ua)) return 'phone';
-        return null;
+        return BPI.detectUA(ua);
     }
 
     /* ============================================================
@@ -198,12 +168,7 @@
      * 4k-monitor cihazları 'wide' tier'a map edilir (tier-sync reload döngüsü önlenir).
      */
     function getTier(device, w) {
-        const ua = navigator.userAgent || '';
-        if (/Raspberry Pi|RPi|aarch64|armv7|armv8|CrOS/i.test(ua)) return 'embedded';
-        if (device === 'phone' || (w && w <= BP.PHONE_MAX)) return 'phone';
-        if (device === '4k-tv' || device === '4k-monitor' || (w && w > BP.DESKTOP_MAX)) return 'wide';
-        if (device === 'desktop' || device === 'laptop' || (w && w > BP.TABLET_MAX)) return 'wide';
-        return 'embedded';
+        return BPI.tierOf(device, w);
     }
 
     /* ============================================================

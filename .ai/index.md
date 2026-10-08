@@ -4,7 +4,7 @@ type: system
 category: vault-navigation
 status: active
 authority: SSOT
-version: 28.4.3
+version: 28.4.4
 updated: 2026-10-06
 total_files: 720
 total_adr: 80
@@ -45,6 +45,7 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | Proje Tanımı & Hangi Sorunları Çözer | [[PROJECTS.md]] |
 | Teknik Dokümantasyon & Kılavuz | [[TECHNICAL_DOCUMENTATION.md]] |
 | Keyword arama | [[keys.md]] |
+| Konu→dosya retrieval indeksi (hangi soru hangi dosya) | [[RAG.md]] |
 | Terimler Sözlüğü | [[glossary.md]] |
 | Mimari kararlar | [[brain.md]] |
 | Ajan yetkileri | [[AGENTS.md]] |
@@ -57,12 +58,13 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | UI / Mockup / Frontend | [[ui-design/01-mockup-index]] (19 PNG Mockup, C01-C16 Envanteri, 45-Tier Device Matrix) |
 | Session Checklist | [[CHECKLIST.md]] (Baş/Orta/Kapanış - §A/§B/§C, 5'er madde) |
 | Açık İş Listesi | [[TODO.md]] (P0/P1/P2 - 19 madde, kaynak notlu) |
+| Context Planner spec | [[PLANNER.md]] (Control Plane — otomatik context yükleme sözleşmesi, Q4-B; 13 alan FM girdisi) |
 | Link/ADR denetimi | [[broken-links-report.md]] (wiki-link tarama raporu — 227 link, gerçek kırık 0; 6'sı AGENTS §13.7 sahte) |
 | Sürekli güçlendirme seti | [[CHECKLIST.md]] §A0 — 20 hedef dosya (3 kök + 17 `.ai/` kök md): CRITICAL 16 / ON-DEMAND 3 / LOG 1 |
 
 ---
 
-### §3 SSOT Core Dosyaları (14 Kök Boot + 1 Ek Doküman)
+### §3 SSOT Core Dosyaları (14 Kök Boot + 3 Ek Doküman)
 
 | # | Dosya | Amaç |
 |---|-------|------|
@@ -81,6 +83,8 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | 13 | [[ROLE.md]] | Rol ve sorumluluk tanımı — Senior Software Architect |
 | 14 | [[ULTRA-THINKING.md]] | Ultra düşünme protokolü — karar öncesi zorunlu doğrulama |
 | 15 | [[TECHNICAL_DOCUMENTATION.md]] | Teknik dokümantasyon, sistem kullanım kılavuzu ve freelancer geliştirici kuralları — ⚠️ VERIFICATION REQUIRED (boot 14 dışı; .ai/ kökünde diskte yok) |
+| 16 | [[PLANNER.md]] | Context Planner Spec (Control Plane) — otomatik context yükleme sözleşmesi; FM 13 alan; `status: approved` (2026-10-07 interview Q4-B) |
+| 17 | [[RAG.md]] | Retrieval indeksi + pipeline — konu→dosya eşlemesi (§3, 20 satır) ve embedding/arama tasarımı (§4, ÇOĞU PLANNED — ADR-030); boot 14 dışı, on-demand okunur (2026-10-07) |
 
 
 ---
@@ -95,11 +99,11 @@ Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1�
 
 | Katman | Dosya | Kapsam |
 |--------|-------|--------|
-| L6 Electronics | [[architecture/l6-electronics]] | Hardware, firmware, driver, DSP, audio engine |
+| L6 Electronics | [[architecture/k1-donanim]] · [[architecture/firmware]] | Hardware, firmware, driver, DSP, audio engine |
 | L5 Services | [[architecture/k8-servis]] | Application services, use cases, CQRS, event bus |
-| L4 Domain | [[architecture/l4-domain]] | Business rules, entities, value objects, aggregates |
+| L4 Domain | [[architecture/k10-uygulama]] | Business rules, entities, value objects, aggregates |
 | L3 Presentation | [[architecture/k11-ux]] · [[ui-design/01-mockup-index]] | Frontend, UI, DOM, responsive, 19 PNG mockup, C01-C16 |
-| L3 Rehber | [[architecture/l3-presentation/scale-router-css-frontend-guide]] | Scale, Router, CSS & Frontend Entegrasyon Rehberi (adım adım) |
+| L3 Rehber | — *(eski hedef `l3-presentation/scale-router-css-frontend-guide` kaldırıldı 2026-10-07 — rehber dosyası yok; eşdeğer: [[ui-design/05-responsive-architecture]] + [[architecture/k11-ux]])* | Scale, Router CSS rehberi (kapsam boşluğu — içerik Faz 1+) |
 | L2 Routing | [[architecture/k9-api-routing]] | SPA PageRouter, API Gateway, subdomain routing |
 | L1 Security | [[architecture/k6-guvenlik]] | Middleware pipeline, session, auth, CSRF, CSP |
 | L0 Infrastructure | [[architecture/k0-isletim-sistemi]] | Database, cache, filesystem, IPC, credential vault |
@@ -150,7 +154,7 @@ Bağımlılık kuralları: ✅ L6→L5, L5→L4, L4→L3, L3→L2, L2→L1, L1�
 | Dosya | İçerik | Kullanım |
 |-------|--------|----------|
 | [[ui-design/05-responsive-architecture]] | 4-Tier Conditional Rendering mimarisi | Cihaz bazlı layout kararları |
-| [[architecture/l3-presentation/device-css]] | 7 device CSS + 4 view mode CSS | Behavioral overrides |
+| [[.templates/frontend/css-device-template]] | Device/Cihaz CSS behavioral override şablonu (eski 7-CSS envanteri 2026-10-07'de kaldırıldı) | Behavioral overrides |
 | [[brain.md]] §18A | Responsive CSS Architecture Rules | Token tanımları, yasak örüntüler |
 | [[brain.md]] §18B | 4-Tier Device Manager Sistemi | DeviceManager karar metotları |
 | [[brain.md]] §18C | Device-Aware Rendering Kuralları | Backend/Frontend sorumluluk sınırları |
@@ -280,8 +284,8 @@ Agent profile dosyaları: [[.agents/AGENTS.md]], [[.agents/backend-architect]], 
 | **Test & Measurement** | [[electronic/test-protocols]], [[electronic/frequency-response]], [[electronic/snr-thd-measurement]], [[electronic/thermal-analysis]] | Test protokolleri, SNR/THD, termal |
 | **Modül Index'leri** | [[electronic/dsp/index]], [[electronic/drivers/index]], [[electronic/amplifier/index]], [[electronic/hardware/index]], [[electronic/firmware/index]] | DSP(7), Driver(7), Amp(5), HW(5), FW(4) modül |
 | **Architecture** | [[electronic/platform-architecture]], [[electronic/device-architecture]], [[electronic/operating-system-architecture]], [[electronic/device-ecosystem]], [[electronic/software-architecture]], [[electronic/service-architecture]], [[electronic/audio-architecture]], [[electronic/dsp-engine-architecture]], [[electronic/driver-framework]], [[electronic/amplifier-architecture]], [[electronic/hardware-design]], [[electronic/firmware-architecture]] | 12 mimari doküman |
-| **L6 & Cross-ref** | [[architecture/l6-electronics]], [[architecture/network-architecture]], [[architecture/database-architecture]], [[architecture/security-architecture]] | L6 katmanı, ağ/DB/güvenlik mimarisi |
-| **AI & Contracts** | [[architecture/ai/ai-electronics-engine]], [[architecture/ai/ai-workflow-electronics]], [[architecture/03-contracts/development-workflow]], [[architecture/03-contracts/development-standards]], [[architecture/03-contracts/ai-workflow-standards]], [[architecture/03-contracts/diagram-collection]], [[architecture/07-security/electronics-security]], [[architecture/03-contracts/engineering-rules-ssot]], [[architecture/03-contracts/master-implementation-plan]] | AI, geliştirme standartları, master plan |
+| **L6 & Cross-ref** | [[architecture/k1-donanim]], [[architecture/network-architecture]], [[architecture/database-architecture]], [[architecture/security-architecture]] | L6 katmanı, ağ/DB/güvenlik mimarisi |
+| **AI & Contracts** | [[architecture/ai/ai-electronics-engine]], [[architecture/ai/ai-workflow-electronics]], [[architecture/03-contracts/development-workflow]], [[architecture/03-contracts/development-standards]], [[architecture/03-contracts/ai-workflow-standards]], [[architecture/03-contracts/diagram-collection]], [[architecture/03-contracts/engineering-rules-ssot]], [[architecture/03-contracts/master-implementation-plan]] | AI, geliştirme standartları, master plan |
 
 ---
 
@@ -736,7 +740,7 @@ Toplam 80 ADR (Frozen: 37, Active: 31, Rejected: 12). Frozen: 001-037 (değişti
 | § 5 ADR | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault standardı |
 | § 6 Servisler | [[ecosystem/service-integration]] | Servis entegrasyonu *(yol düzeltildi 2026-10-07)* |
 | § 7 Agentlar | [[AGENTS.md]] | Agent yetkileri |
-| § 8 DB | [[architecture/k0-k5-software/k5-data-layer/database_master]] | 18 BCNF şemaları |
+| § 8 DB | [[.sql/mysql]] | 18 BCNF şemaları |
 | § 9 Projeler | [[projects/NevaEngine/overview]] | C++ ses motoru |
 | § 10 Donanım | [[electronic/hardware-roadmap]] | 3 fazlı geliştirme |
 | § 11 Test | [[testing/coverage-targets]] | Kapsama hedefleri |

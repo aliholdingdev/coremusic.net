@@ -2,7 +2,7 @@
 title: "CoreMusic — Master Agent Rules"
 type: rules
 category: agent-registry
-version: 1.1.0
+version: 1.2.0
 status: active
 authority: "SSOT: .ai/AGENTS.md — Full registry read @.ai/AGENTS.md (v22.0.8)"
 updated: 2026-10-07
@@ -163,6 +163,7 @@ Diğer tüm görev türleri için geçerli kural §7 Execution Loop adım 0'dır
 | Agent registry, routing, handover | `@.ai/wiki/vault-agents.md` · tam metin `@.ai/raw/AGENTS.md` |
 | Vault-içi otorite | `@.ai/CLAUDE.md` §2 · not: §2.1 otorite sırası .ai.OLD/CLAUDE.md içindedir |
 | Süreç, faz, hard gate | `@.ai/wiki/vault-workflow.md` · tam metin `@.ai/raw/WORKFLOW.md` |
+| Retrieval — "hangi soru → hangi dosya" | `@.ai/RAG.md` (§3 indeks · §4 pipeline PLANNED — ADR-030) · keyword: `@.ai/keys.md` |
 
 **Kural**: bu dosyalar yalnız görevin gerektirdiği anda okunur; boot'ta toplu
 okuma, "tüm vault'u oku", "önce tüm .ai/ oku" talimatları geçersizdir.

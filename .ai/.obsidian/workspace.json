@@ -185,6 +185,14 @@
   },
   "active": "295ec8d30270d14a",
   "lastOpenFiles": [
+    "architecture/context.md",
+    "architecture/00-master-index.md",
+    "architecture/rules.md",
+    "SESSIONS/2026-10-08-kspace-kesif.md",
+    "architecture/00-kspace-anayasa.md",
+    "prompts/2026-10-08-enterprise-arch-f2.md",
+    "prompts/2026-10-08-master-prompt-v2.2.0-f1.md",
+    "SESSIONS",
     "architecture/k120-mysql-18-database/mysql-18-database-sema.md",
     "architecture/k068-guc-kaynagi-analog/topraklama-ve-guc-dagilimi.md",
     "architecture/k068-guc-kaynagi-analog/regulasyon-ve-filtreleme.md",
@@ -213,7 +221,6 @@
     "scripts/wiki-link-check.ps1",
     "CHECKLIST.md",
     "scripts/figma-tokens.ps1",
-    "ui-design/tokens/tokens-tv.json",
     "ui-design/reference/figma/token-conflicts.md",
     "TODO.md",
     "docs/technical-documentation.md",
@@ -224,13 +231,6 @@
     "CLAUDE.md",
     "ULTRA-THINKING.md",
     "ui-design/05-md-pattern-standard.md",
-    "ui-design/tokens/CLAUDE.md",
-    "ui-design/tokens/AGENTS.md",
-    "ui-design/screens/qr-wifi.md",
-    "ui-design/screens/qr-wifi-connect.md",
-    "ui-design/screens/qr-welcome-popup.md",
-    "ui-design/screens/qr-video-playback.md",
-    "ui-design/prompt/screen/AGENTS.md",
     "Başlıksız.canvas"
   ]
 }

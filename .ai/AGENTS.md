@@ -2,7 +2,7 @@
 title: "CoreMusic — Agent Registry & Coordination Protocol"
 type: guide
 category: agent-registry
-version: 22.0.8
+version: 22.1.0
 status: active
 authority: SSOT
 updated: 2026-10-06
@@ -747,6 +747,7 @@ Bu dosya §24.2 (14 dosya) ile [[MEMORY.md]] §5 (20 adım) arasındaki adım sa
 | [[WORKFLOW.md]] | Süreçler, fazlar |
 | [[index.md]] | Master katalog |
 | [[keys.md]] | Keyword haritası |
+| [[RAG]] | Retrieval indeksi (konu→dosya) + pipeline tasarımı — PLANNED (ADR-030) |
 | [[brain.md]] | Mimari kararlar |
 | [[MEMORY.md]] | Session hafızası |
 | [[log.md]] | Audit trail |

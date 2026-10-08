@@ -242,9 +242,9 @@ Kanonik terimlerin projedeki **doğrulanmış** kullanım yerleri. Yöntem: Faz 
 | **CQRS** | Command/Handler örnek deseni | `.ai/ROLE.md` §20.3 |
 | **ADR** | 68 accepted + 12 rejected = 80 karar; kapsam 001-089 | `.ai/decisions/` |
 | **SSOT** | `.ai/` vault — tüm kararlara tek referans | `.ai/*.md` (14 boot dosyası) |
-| **OWASP** | OWASP uyumluluk dokümanı | `.ai/architecture/07-security/` |
+| **OWASP** | OWASP uyumluluk dokümanı | `.ai/architecture/k6-guvenlik/` (eski `07-security/` kaldırıldı 2026-10-07) |
 | **Argon2id** | Şifre hash politikası (64MB/4/2 parametreleri) | `.ai/reports/` (faz5 password-hashing raporu) |
-| **AES-256-GCM** | Şifreleme katmanı dokümantasyonu | `.ai/architecture/07-security/encryption*` |
+| **AES-256-GCM** | Şifreleme katmanı dokümantasyonu | `.ai/architecture/k6-guvenlik/` |
 | **JUCE / ASIO** | C++20 ses framework ve düşük gecikmeli ses hedefi | `electronic/`, `projects/NevaEngine/` |
 | **BLE** | Bluetooth sürücü dokümanı | `electronic/drivers/` (bluetooth) |
 | **HSTS** | Güvenlik başlığı dokümanında geçer | `DOĞRULAMA GEREKLİ` — header üretiminde HSTS satırı kod doğrulanmadı |
@@ -253,9 +253,9 @@ Kanonik terimlerin projedeki **doğrulanmış** kullanım yerleri. Yöntem: Faz 
 | **LFE** | surround/kanal yönetimi terimi | `DOĞRULAMA GEREKLİ` — dsp/ altında eşleme yapılacak (Faz 6) |
 | **TTFB** | Genel web performans metriği | Kullanım yeri yok — genel tanım |
 | **ORM** | Yasak (ADR-002) — PDO prepared statement zorunlu | `.ai/decisions/accepted/ADR-002*` |
-| **AES-256-GCM** | Şifreleme katmanı dokümanı | `.ai/architecture/07-security/encryption*` — kod karşılığı `DOĞRULAMA GEREKLİ` (crypto sınıfı henüz envanterde) |
+| **AES-256-GCM** | Şifreleme katmanı dokümanı | `.ai/architecture/k6-guvenlik/` — kod karşılığı `DOĞRULAMA GEREKLİ` (crypto sınıfı henüz envanterde) |
 | **Argon2id** | Parola hash politikası | `.ai/reports/` (faz5 password-hashing raporu) — kod karşılığı `DOĞRULAMA GEREKLİ` |
-| **OWASP** | Uyumluluk dokümanı | `.ai/architecture/07-security/` (owasp-compliance) |
+| **OWASP** | Uyumluluk dokümanı | `.ai/architecture/k6-guvenlik/` |
 | **CQRS** | Command/Handler deseni | `auth.coremusic.net/include/Handler/` + `include/Domain/` düzeni |
 | **SOLID** | `final` + `strict_types` + interface implements disiplini | `shared/src/**` sınıf örnekleri |
 | **JUCE / ASIO** | C++20 audio hedefi | `electronic/` + `projects/NevaEngine/` — PLANNED |
@@ -403,16 +403,16 @@ SPA dispatch hattının çekirdek bileşenleri.
 
 Şifreleme ve şifre hash'i — iki farklı kriptografik amaç.
 
-- **Bağlam:** AES-256-GCM simetrik şifreleme katmanı dokümanı `architecture/07-security/encryption*` altındadır (Faz 0 C taramasında dosya doğrulandı). Argon2id, parola hash algoritmasıdır; parametreler (64MB bellek / 4 iterasyon / 2 paralellik) `reports/` altındaki faz5 password-hashing tutarlılık raporunda ele alınır.
-- **Kod kanıtı:** `.ai/architecture/07-security/` (encryption dokümanı), `.ai/reports/` (faz5 raporu).
+- **Bağlam:** AES-256-GCM simetrik şifreleme katmanı dokümanı `architecture/k6-guvenlik/` katmanındadır (eski `07-security/` stub'ı kaldırıldı 2026-10-07 — içerik k6'ya Faz 1+ yazılacak). Argon2id, parola hash algoritmasıdır; parametreler (64MB bellek / 4 iterasyon / 2 paralellik) `reports/` altındaki faz5 password-hashing tutarlılık raporunda ele alınır.
+- **Kod kanıtı:** `.ai/architecture/k6-guvenlik/` (encryption hedefi — içerik k6'ya Faz 1+ yazılacak), `.ai/reports/` (faz5 raporu).
 - **İlişkili:** sodium_compat (packages/shared), ADR-034 (Credential Vault Normalization), OWASP.
 
 #### §4.1.18 OWASP
 
 Uygulama güvenliği standartları organizasyonu; Top 10 risk listesi.
 
-- **Bağlam:** Vault'ta OWASP uyumluluk dokümanı `architecture/07-security/` altında mevcut (owasp-compliance — Faz 0 doğrulaması). Kod karşılıkları: CSRF middleware, CSP başlıkları, rate limiting, PDO prepared statement, RBAC.
-- **Kod kanıtı:** `.ai/architecture/07-security/owasp-compliance*` + Middleware dosya seti.
+- **Bağlam:** OWASP uyumluluk dokümanı `architecture/k6-guvenlik/` altına taşınacak (eski `07-security/` kaldırıldı 2026-10-07). Kod karşılıkları: CSRF middleware, CSP başlıkları, rate limiting, PDO prepared statement, RBAC.
+- **Kod kanıtı:** `.ai/architecture/k6-guvenlik/` (hedef) + `architecture/k7-middleware/` (pipeline).
 - **İlişkili:** CSP (§4.1.3), CSRF (§4.1.2), RBAC (§4.1.5), PDO (§4.1.15).
 
 #### §4.1.19 CQRS

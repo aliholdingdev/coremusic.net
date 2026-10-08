@@ -1,183 +1,133 @@
--- ══════════════════════════════════════════════════════════════
--- coremusic_studio — STÜDYO KAYIT YÖNETİMİ VERİTABANI
--- Version     : 8.0.0
--- BCNF        : Yes
--- Author      : CoreMusic Data Engineer
--- Date        : 2026-08-10
--- Tables      : 6
--- Engine      : InnoDB
--- Charset     : utf8mb4
--- Collation   : utf8mb4_unicode_ci
--- UUID        : INT UNSIGNED AUTO_INCREMENT
--- Soft Delete : is_deleted
--- Source      : coremusic_system.sql BÖLÜM 4 (lines 641-789)
--- ══════════════════════════════════════════════════════════════
+-- =========================================================================
+-- CoreMusic — CANLI DUMP (MySQL → .ai/.sql/mysql SSOT)
+-- Kaynak : canlı MySQL · birebir SHOW CREATE · Tarih: 2026-10-07
+-- Şema   : TAM (tüm tablolar/views) · Üreteç: full_dump.php
+-- VERİ   : YOK — kullanıcı/davranış/credential verisi bilinçli yazılmaz (KVKK/REDACTED)
+-- Not    : önceki elle-yazılmış başlık/BCNF comment'leri git geçmişindedir.
+-- =========================================================================
 
-CREATE DATABASE IF NOT EXISTS coremusic_studio
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+CREATE DATABASE IF NOT EXISTS `coremusic_studio`
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-USE coremusic_studio;
+USE `coremusic_studio`;
 
--- =============================================
--- BÖLÜM 1: STÜDYO (6 tablo)
--- =============================================
-
--- ──────────────────────────────────────────────────────────────────────────────
--- STUDIO_SESSIONS — Kayit oturumlari
--- Normal Form : BCNF
--- ──────────────────────────────────────────────────────────────────────────────
-CREATE TABLE studio_sessions (
-    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
-    host_user_id    INT UNSIGNED        NOT NULL,
-    name            VARCHAR(255)        NOT NULL,
-    description     TEXT                    NULL,
-    cover_image     VARCHAR(2048)           NULL,
-    status          VARCHAR(20)         NOT NULL DEFAULT 'draft',
-    bpm             SMALLINT UNSIGNED       NULL,
-    key_signature   VARCHAR(10)             NULL,
-    time_signature  VARCHAR(10)         NOT NULL DEFAULT '4/4',
-    sample_rate     INT UNSIGNED        NOT NULL DEFAULT 48000,
-    bit_depth       TINYINT UNSIGNED    NOT NULL DEFAULT 24,
-    total_tracks    INT UNSIGNED        NOT NULL DEFAULT 0,
-    duration_seconds INT UNSIGNED           NULL,
-    session_path    VARCHAR(2048)           NULL,
-    is_public       TINYINT(1)          NOT NULL DEFAULT 0,
-    is_deleted      TINYINT(1)          NOT NULL DEFAULT 0,
-    created_at      DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at      DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP
-                                        ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    INDEX idx_ss_host       (host_user_id),
-    INDEX idx_ss_status     (status),
-    INDEX idx_ss_public     (is_public),
-    CHECK (status IN ('draft', 'recording', 'mixing', 'mastering', 'completed', 'archived'))
+CREATE TABLE `session_equipment` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `session_id` int unsigned NOT NULL,
+  `equipment_id` int unsigned NOT NULL,
+  `assigned_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_se_pair` (`session_id`,`equipment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ──────────────────────────────────────────────────────────────────────────────
--- STUDIO_TRACKS — Parcalar
--- Normal Form : BCNF
--- FK          : session_id → studio_sessions.id
--- ──────────────────────────────────────────────────────────────────────────────
-CREATE TABLE studio_tracks (
-    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
-    session_id      INT UNSIGNED        NOT NULL,
-    name            VARCHAR(255)        NOT NULL,
-    instrument      VARCHAR(50)             NULL,
-    track_number    TINYINT UNSIGNED    NOT NULL DEFAULT 1,
-    audio_url       VARCHAR(2048)           NULL,
-    audio_format    VARCHAR(10)             NULL,
-    duration_seconds INT UNSIGNED           NULL,
-    sample_rate     INT UNSIGNED        NOT NULL DEFAULT 48000,
-    bit_depth       TINYINT UNSIGNED    NOT NULL DEFAULT 24,
-    channels        TINYINT UNSIGNED    NOT NULL DEFAULT 2,
-    is_muted        TINYINT(1)          NOT NULL DEFAULT 0,
-    is_solo         TINYINT(1)          NOT NULL DEFAULT 0,
-    volume_db       DECIMAL(6,2)        NOT NULL DEFAULT 0.00,
-    pan_percent     DECIMAL(5,2)        NOT NULL DEFAULT 0.00,
-    is_deleted      TINYINT(1)          NOT NULL DEFAULT 0,
-    created_at      DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at      DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP
-                                        ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    INDEX idx_st_session    (session_id),
-    INDEX idx_st_instrument (instrument),
-    INDEX idx_st_number     (session_id, track_number),
-    CHECK (channels IN (1, 2, 4, 6, 8))
+CREATE TABLE `studio_collaborators` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `session_id` int unsigned NOT NULL,
+  `user_id` int unsigned NOT NULL,
+  `role` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'musician',
+  `is_accepted` tinyint(1) NOT NULL DEFAULT '0',
+  `joined_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `left_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_sc_pair` (`session_id`,`user_id`),
+  KEY `idx_sc_user` (`user_id`),
+  KEY `idx_sc_role` (`role`),
+  CONSTRAINT `studio_collaborators_chk_1` CHECK ((`role` in (_utf8mb4'owner',_utf8mb4'producer',_utf8mb4'engineer',_utf8mb4'musician',_utf8mb4'vocalist',_utf8mb4'mixer',_utf8mb4'mastering')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ──────────────────────────────────────────────────────────────────────────────
--- STUDIO_PRESETS — Ses preset'leri
--- Normal Form : BCNF — (user_id, name) UNIQUE
--- ──────────────────────────────────────────────────────────────────────────────
-CREATE TABLE studio_presets (
-    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
-    user_id         INT UNSIGNED        NOT NULL,
-    name            VARCHAR(255)        NOT NULL,
-    description     TEXT                    NULL,
-    preset_type     VARCHAR(30)         NOT NULL,
-    settings        JSON                NOT NULL,
-    is_public       TINYINT(1)          NOT NULL DEFAULT 0,
-    use_count       INT UNSIGNED        NOT NULL DEFAULT 0,
-    is_deleted      TINYINT(1)          NOT NULL DEFAULT 0,
-    created_at      DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at      DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP
-                                        ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    UNIQUE  KEY uq_sp_pair    (user_id, name),
-    INDEX idx_sp_type       (preset_type),
-    INDEX idx_sp_public     (is_public),
-    CHECK (preset_type IN ('eq', 'compressor', 'reverb', 'delay', 'chain', 'master'))
+CREATE TABLE `studio_equipment` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `brand` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `serial_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `equip_type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `purchase_date` date DEFAULT NULL,
+  `purchase_price` decimal(10,2) DEFAULT NULL,
+  `is_available` tinyint(1) NOT NULL DEFAULT '1',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_se_type` (`equip_type`),
+  KEY `idx_se_brand` (`brand`),
+  KEY `idx_se_available` (`is_available`),
+  CONSTRAINT `studio_equipment_chk_1` CHECK ((`equip_type` in (_utf8mb4'microphone',_utf8mb4'interface',_utf8mb4'headphone',_utf8mb4'monitor',_utf8mb4'midi',_utf8mb4'controller',_utf8mb4'cable',_utf8mb4'other')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ──────────────────────────────────────────────────────────────────────────────
--- STUDIO_EQUIPMENT — Ekipman envanteri
--- Normal Form : BCNF
--- ──────────────────────────────────────────────────────────────────────────────
-CREATE TABLE studio_equipment (
-    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
-    brand           VARCHAR(100)        NOT NULL,
-    model           VARCHAR(255)        NOT NULL,
-    serial_number   VARCHAR(255)            NULL,
-    equip_type      VARCHAR(50)         NOT NULL,
-    description     TEXT                    NULL,
-    purchase_date   DATE                    NULL,
-    purchase_price  DECIMAL(10,2)           NULL,
-    is_available    TINYINT(1)          NOT NULL DEFAULT 1,
-    is_deleted      TINYINT(1)          NOT NULL DEFAULT 0,
-    created_at      DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at      DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP
-                                        ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    INDEX idx_se_type       (equip_type),
-    INDEX idx_se_brand      (brand),
-    INDEX idx_se_available  (is_available),
-    CHECK (equip_type IN ('microphone', 'interface', 'headphone', 'monitor',
-                          'midi', 'controller', 'cable', 'other'))
+CREATE TABLE `studio_presets` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `preset_type` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `settings` json NOT NULL,
+  `is_public` tinyint(1) NOT NULL DEFAULT '0',
+  `use_count` int unsigned NOT NULL DEFAULT '0',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_sp_pair` (`user_id`,`name`),
+  KEY `idx_sp_type` (`preset_type`),
+  KEY `idx_sp_public` (`is_public`),
+  CONSTRAINT `studio_presets_chk_1` CHECK ((`preset_type` in (_utf8mb4'eq',_utf8mb4'compressor',_utf8mb4'reverb',_utf8mb4'delay',_utf8mb4'chain',_utf8mb4'master')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ──────────────────────────────────────────────────────────────────────────────
--- SESSION_EQUIPMENT — Oturum-ekipman eslestirme (junction)
--- Normal Form : BCNF — (session_id, equipment_id) UNIQUE
--- FK          : session_id → studio_sessions.id
--- FK          : equipment_id → studio_equipment.id
--- ──────────────────────────────────────────────────────────────────────────────
-CREATE TABLE session_equipment (
-    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
-    session_id      INT UNSIGNED        NOT NULL,
-    equipment_id    INT UNSIGNED        NOT NULL,
-    assigned_at     DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id),
-    UNIQUE  KEY uq_se_pair    (session_id, equipment_id)
+CREATE TABLE `studio_sessions` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `host_user_id` int unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `cover_image` varchar(2048) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'draft',
+  `bpm` smallint unsigned DEFAULT NULL,
+  `key_signature` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `time_signature` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '4/4',
+  `sample_rate` int unsigned NOT NULL DEFAULT '48000',
+  `bit_depth` tinyint unsigned NOT NULL DEFAULT '24',
+  `total_tracks` int unsigned NOT NULL DEFAULT '0',
+  `duration_seconds` int unsigned DEFAULT NULL,
+  `session_path` varchar(2048) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_public` tinyint(1) NOT NULL DEFAULT '0',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_ss_host` (`host_user_id`),
+  KEY `idx_ss_status` (`status`),
+  KEY `idx_ss_public` (`is_public`),
+  CONSTRAINT `studio_sessions_chk_1` CHECK ((`status` in (_utf8mb4'draft',_utf8mb4'recording',_utf8mb4'mixing',_utf8mb4'mastering',_utf8mb4'completed',_utf8mb4'archived')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ──────────────────────────────────────────────────────────────────────────────
--- STUDIO_COLLABORATORS — Isbirlikci yonetimi
--- Normal Form : BCNF — (session_id, user_id) UNIQUE
--- FK          : session_id → studio_sessions.id
--- ──────────────────────────────────────────────────────────────────────────────
-CREATE TABLE studio_collaborators (
-    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
-    session_id      INT UNSIGNED        NOT NULL,
-    user_id         INT UNSIGNED        NOT NULL,
-    role            VARCHAR(30)         NOT NULL DEFAULT 'musician',
-    is_accepted     TINYINT(1)          NOT NULL DEFAULT 0,
-    joined_at       DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    left_at         DATETIME                NULL,
-    PRIMARY KEY (id),
-    UNIQUE  KEY uq_sc_pair    (session_id, user_id),
-    INDEX idx_sc_user       (user_id),
-    INDEX idx_sc_role       (role),
-    CHECK (role IN ('owner', 'producer', 'engineer', 'musician',
-                    'vocalist', 'mixer', 'mastering'))
+CREATE TABLE `studio_tracks` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `session_id` int unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `instrument` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `track_number` tinyint unsigned NOT NULL DEFAULT '1',
+  `audio_url` varchar(2048) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `audio_format` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `duration_seconds` int unsigned DEFAULT NULL,
+  `sample_rate` int unsigned NOT NULL DEFAULT '48000',
+  `bit_depth` tinyint unsigned NOT NULL DEFAULT '24',
+  `channels` tinyint unsigned NOT NULL DEFAULT '2',
+  `is_muted` tinyint(1) NOT NULL DEFAULT '0',
+  `is_solo` tinyint(1) NOT NULL DEFAULT '0',
+  `volume_db` decimal(6,2) NOT NULL DEFAULT '0.00',
+  `pan_percent` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_st_session` (`session_id`),
+  KEY `idx_st_instrument` (`instrument`),
+  KEY `idx_st_number` (`session_id`,`track_number`),
+  CONSTRAINT `studio_tracks_chk_1` CHECK ((`channels` in (1,2,4,6,8)))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ══════════════════════════════════════════════════════════════
--- coremusic_studio v8.0.0
--- Tables: 6
--- BCNF Compliant: Yes
--- Source: coremusic_system.sql BÖLÜM 4
--- Collation: utf8mb4_unicode_ci
--- ══════════════════════════════════════════════════════════════
-
--- End of coremusic_studio schema
+SET FOREIGN_KEY_CHECKS = 1;

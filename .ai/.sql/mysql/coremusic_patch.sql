@@ -1,81 +1,76 @@
--- ══════════════════════════════════════════════════════════════════════════════
--- coremusic_patch — SCHEMA VERSIONING & MIGRATION TRACKING
--- COREMUSIC DB v2.0 | Ağustos 2026 | MySQL 8.x InnoDB | utf8mb4_unicode_ci
--- NF: BCNF
--- ══════════════════════════════════════════════════════════════════════════════
+-- =========================================================================
+-- CoreMusic — CANLI DUMP (MySQL → .ai/.sql/mysql SSOT)
+-- Kaynak : canlı MySQL · birebir SHOW CREATE · Tarih: 2026-10-07
+-- Şema   : TAM (tüm tablolar/views) · Üreteç: full_dump.php
+-- VERİ   : YOK — kullanıcı/davranış/credential verisi bilinçli yazılmaz (KVKK/REDACTED)
+-- Not    : önceki elle-yazılmış başlık/BCNF comment'leri git geçmişindedir.
+-- =========================================================================
 
-CREATE DATABASE IF NOT EXISTS coremusic_patch
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
-USE coremusic_patch;
+CREATE DATABASE IF NOT EXISTS `coremusic_patch`
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
 
--- schema_versions: Her DB'nin versiyon takibi
-CREATE TABLE schema_versions (
-    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
-    db_name         VARCHAR(50)         NOT NULL,  -- coremusic_auth, coremusic_user, vb.
-    version         VARCHAR(20)         NOT NULL,  -- 1.0.0, 2.0.0
-    description     TEXT                    NULL,
-    sql_file        VARCHAR(255)            NULL,  -- uygulanan SQL dosyası
-    applied_at      DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    applied_by      VARCHAR(100)            NULL,  -- kim uyguladı
-    execution_ms    INT UNSIGNED            NULL,  -- ne kadar sürdü
-    status          VARCHAR(20)         NOT NULL DEFAULT 'applied',
+USE `coremusic_patch`;
 
-    PRIMARY KEY (id),
-    UNIQUE  KEY uq_sv_db_version (db_name, version),
-    INDEX idx_sv_db (db_name),
-    INDEX idx_sv_status (status),
-    INDEX idx_sv_applied (applied_at DESC),
-
-    CHECK (status IN ('applied', 'rolled_back', 'pending'))
+CREATE TABLE `migration_log` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `migration_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `direction` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `db_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `started_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `completed_at` datetime DEFAULT NULL,
+  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'running',
+  `error_message` text COLLATE utf8mb4_unicode_ci,
+  `tables_affected` int unsigned DEFAULT NULL,
+  `rows_affected` bigint unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_ml_db` (`db_name`),
+  KEY `idx_ml_status` (`status`),
+  KEY `idx_ml_started` (`started_at` DESC),
+  CONSTRAINT `migration_log_chk_1` CHECK ((`direction` in (_utf8mb4'up',_utf8mb4'down'))),
+  CONSTRAINT `migration_log_chk_2` CHECK ((`status` in (_utf8mb4'running',_utf8mb4'completed',_utf8mb4'failed',_utf8mb4'rolled_back')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- migration_log: Migration geçmişi
-CREATE TABLE migration_log (
-    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
-    migration_name  VARCHAR(255)        NOT NULL,
-    direction       VARCHAR(10)         NOT NULL,  -- up | down
-    db_name         VARCHAR(50)         NOT NULL,
-    started_at      DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    completed_at    DATETIME                NULL,
-    status          VARCHAR(20)         NOT NULL DEFAULT 'running',
-    error_message   TEXT                    NULL,
-    tables_affected INT UNSIGNED            NULL,
-    rows_affected   BIGINT UNSIGNED         NULL,
-
-    PRIMARY KEY (id),
-    INDEX idx_ml_db (db_name),
-    INDEX idx_ml_status (status),
-    INDEX idx_ml_started (started_at DESC),
-
-    CHECK (direction IN ('up', 'down')),
-    CHECK (status IN ('running', 'completed', 'failed', 'rolled_back'))
+CREATE TABLE `patches` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `patch_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `target_db` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `patch_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'schema',
+  `sql_content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `version_from` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `version_to` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `applied_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_patch_name` (`patch_name`),
+  KEY `idx_p_target` (`target_db`),
+  KEY `idx_p_status` (`status`),
+  KEY `idx_p_type` (`patch_type`),
+  CONSTRAINT `patches_chk_1` CHECK ((`patch_type` in (_utf8mb4'schema',_utf8mb4'data',_utf8mb4'fix',_utf8mb4'security'))),
+  CONSTRAINT `patches_chk_2` CHECK ((`status` in (_utf8mb4'pending',_utf8mb4'applied',_utf8mb4'skipped',_utf8mb4'failed')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- patches: Patch tracking
-CREATE TABLE patches (
-    id              INT UNSIGNED        NOT NULL AUTO_INCREMENT,
-    patch_name      VARCHAR(255)        NOT NULL,
-    description     TEXT                    NULL,
-    target_db       VARCHAR(50)         NOT NULL,
-    patch_type      VARCHAR(20)         NOT NULL DEFAULT 'schema',
-    sql_content     LONGTEXT            NOT NULL,
-    version_from    VARCHAR(20)             NULL,
-    version_to      VARCHAR(20)             NULL,
-    status          VARCHAR(20)         NOT NULL DEFAULT 'pending',
-    created_at      DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    applied_at      DATETIME                NULL,
-
-    PRIMARY KEY (id),
-    UNIQUE  KEY uq_patch_name (patch_name),
-    INDEX idx_p_target (target_db),
-    INDEX idx_p_status (status),
-    INDEX idx_p_type (patch_type),
-
-    CHECK (patch_type IN ('schema', 'data', 'fix', 'security')),
-    CHECK (status IN ('pending', 'applied', 'skipped', 'failed'))
+CREATE TABLE `schema_versions` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `db_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `version` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `sql_file` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `applied_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `applied_by` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `execution_ms` int unsigned DEFAULT NULL,
+  `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'applied',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_sv_db_version` (`db_name`,`version`),
+  KEY `idx_sv_db` (`db_name`),
+  KEY `idx_sv_status` (`status`),
+  KEY `idx_sv_applied` (`applied_at` DESC),
+  CONSTRAINT `schema_versions_chk_1` CHECK ((`status` in (_utf8mb4'applied',_utf8mb4'rolled_back',_utf8mb4'pending')))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- ══════════════════════════════════════════════════════════════════════════════
--- End of coremusic_patch schema
+SET FOREIGN_KEY_CHECKS = 1;

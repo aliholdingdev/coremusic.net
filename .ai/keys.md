@@ -6,7 +6,7 @@ category: vault-navigation
 date: 2026-08-12
 updated: 2026-10-06
 status: active
-version: 28.3.5
+version: 28.3.6
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -54,6 +54,8 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | claude, talimat, protokol, anayasa | CLAUDE.md |
 | engine, orkestra, dispatch | engine.md |
 | keys, keyword, navigasyon | keys.md |
+| planner, context plan, context loading, bağlam yükleme, tier, domain metadata | PLANNER.md |
+| rag, retrieval, indeks, embedding, arama, vektor, chunk, similarity, pipeline | RAG.md |
 | glossary, sozluk, terimler | glossary.md |
 | architecture-master, canonical count, metadata, ADR count, DB count, layer count | architecture/index.md |
 
@@ -71,14 +73,14 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | credential vault, secret | [[.decisions/accepted/ADR-034-credential-vault-normalization]] |
 | BypassAuth, test bypass | [[.decisions/accepted/ADR-008-bypass-auth-middleware]] |
 | auth, kimlik dogrulama | subdomains/auth.coremusic.net/index |
-| OWASP, Top 10 | architecture/07-security/security/owasp-compliance |
-| encryption | architecture/07-security/encryption |
-| API security, token | architecture/07-security/api/api_security_master |
-| loglama, logging, PSR-3, Monolog | architecture/07-security/deep-logging-system |
-| log_events, log_security, log_performance | architecture/07-security/deep-logging-system |
-| log_activity, log_system, redaction | architecture/07-security/deep-logging-system |
-| real-time log, dashboard log, monitor | architecture/07-security/deep-logging-system |
-| dosya rotasyonu, log rotation, arsiv | architecture/07-security/deep-logging-system |
+| OWASP, Top 10 | architecture/k6-guvenlik/ |
+| encryption | architecture/k6-guvenlik/ |
+| API security, token | architecture/k6-guvenlik/ |
+| loglama, logging, PSR-3, Monolog | architecture/k12-izleme/ |
+| log_events, log_security, log_performance | architecture/k12-izleme/ |
+| log_activity, log_system, redaction | architecture/k12-izleme/ |
+| real-time log, dashboard log, monitor | architecture/k12-izleme/ |
+| dosya rotasyonu, log rotation, arsiv | architecture/k12-izleme/ |
 | social oauth, gender-based oauth, cinsiyet bazlı sosyal medya | [[brain.md]] ADR-088-gender-based-social-oauth |
 | OAuth provider, Pinterest, Instagram, TikTok, Discord, Reddit, X, LinkedIn, YouTube | [[brain.md]] ADR-088-gender-based-social-oauth |
 | oauth_connections, oauth_states, token şifreleme | [[brain.md]] ADR-088-gender-based-social-oauth |
@@ -95,7 +97,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | migration, schema degisikligi | [[.decisions/accepted/ADR-014-multi-db-migration-strategy]] |
 | SQL normalization | [[.decisions/accepted/ADR-033-sql-normalization-strategy]] |
 | DB sync | [[brain.md]] ADR-050-multi-db-sync-strategy |
-| database master | architecture/k0-k5-software/k5-data-layer/database_master.md |
+| database master | .sql/mysql |
 | coremusic_musics | .sql/mysql/coremusic_musics.sql |
 | coremusic_auth | .sql/mysql/coremusic_auth.sql |
 | coremusic_user | .sql/mysql/coremusic_user.sql |
@@ -318,46 +320,46 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| L0, altyapi, infrastructure, cache, APCu, Redis | architecture/k0-k5-software/k0-os-layer/ |
-| db, database, veritabani, PDO | architecture/k0-k5-software/k0-os-layer/database.md |
-| filesystem, IPC, shared memory | architecture/k0-k5-software/k0-os-layer/filesystem.md |
-| credential vault, secret, key | architecture/k0-k5-software/k0-os-layer/credential-vault.md |
+| L0, altyapi, infrastructure, cache, APCu, Redis | architecture/k0-isletim-sistemi/ |
+| db, database, veritabani, PDO | architecture/k5-veri-yonetimi/ |
+| filesystem, IPC, shared memory | architecture/k0-isletim-sistemi/ |
+| credential vault, secret, key | architecture/k0-isletim-sistemi/credential-vault.md |
 
 ### §3.2 L1 Security
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| L1, guvenlik, security, middleware, pipeline | architecture/l1-security/ |
-| session, oturum, cookie, CSRF, csrf_token | architecture/l1-security/session.md |
-| CSP, nonce, strict-dynamic, rate limit | architecture/l1-security/csp.md |
-| OWASP, zafiyet, tehdit | architecture/l1-security/ |
+| L1, guvenlik, security, middleware, pipeline | architecture/k6-guvenlik/ |
+| session, oturum, cookie, CSRF, csrf_token | architecture/k6-guvenlik/ |
+| CSP, nonce, strict-dynamic, rate limit | architecture/k6-guvenlik/ |
+| OWASP, zafiyet, tehdit | architecture/k6-guvenlik/ |
 
 ### §3.3 L2 Routing
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| L2, routing, SPA, single page, router | architecture/l2-routing/ |
-| URL, normalization, subdomain | architecture/l2-routing/url-normalization.md |
-| PageRouter, PageRouterKernel, HTML shell | architecture/l2-routing/spa-router.md |
-| RouteRegistry, SpaRoute, route config | architecture/l2-routing/route-config.md |
-| HtmlShellRenderer, CSP nonce, device CSS | architecture/l2-routing/html-shell-renderer.md |
-| AuthGuard, AuthUrlBuilder, guard pipeline | architecture/l2-routing/guard-pipeline.md |
-| JS Router, Router.js, DomPatcher, GuardPipeline | architecture/l2-routing/js-router.md |
-| Middleware pipeline, session, CSRF | architecture/l2-routing/middleware-pipeline.md |
-| Subdomain routing, port mapping | architecture/l2-routing/subdomain-routing.md |
-| URL normalization, clean URL | architecture/l2-routing/url-normalization.md |
-| Service discovery, health check | architecture/l2-routing/service-discovery.md |
+| L2, routing, SPA, single page, router | architecture/k9-api-routing/ |
+| URL, normalization, subdomain | architecture/k9-api-routing/ |
+| PageRouter, PageRouterKernel, HTML shell | architecture/k9-api-routing/ |
+| RouteRegistry, SpaRoute, route config | architecture/k9-api-routing/ |
+| HtmlShellRenderer, CSP nonce, device CSS | architecture/k9-api-routing/html-shell-renderer.md |
+| AuthGuard, AuthUrlBuilder, guard pipeline | architecture/k9-api-routing/guard-pipeline.md |
+| JS Router, Router.js, DomPatcher, GuardPipeline | architecture/k9-api-routing/js-router.md |
+| Middleware pipeline, session, CSRF | architecture/k9-api-routing/middleware-pipeline.md |
+| Subdomain routing, port mapping | architecture/k9-api-routing/subdomain-routing.md |
+| URL normalization, clean URL | architecture/k9-api-routing/ |
+| Service discovery, health check | architecture/k9-api-routing/service-discovery.md |
 
 ### §3.4 L3 Presentation
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| L3, presentation, vanilla JS, framework yasak | architecture/l3-presentation/ |
-| ITCSS, BEM, BEMIT, TrustedTypes, DOMParser | architecture/l3-presentation/itcss-architecture.md |
-| Web Audio, ses API | architecture/l3-presentation/web-audio.md |
-| Device CSS, responsive device rendering, scale | architecture/l3-presentation/device-css.md |
-| Responsive frontend architecture, Single View | architecture/l3-presentation/responsive-frontend-architecture.md |
-| Scale sistemi, router, CSS rehberi, frontend entegrasyon, adım adım | architecture/l3-presentation/scale-router-css-frontend-guide.md |
+| L3, presentation, vanilla JS, framework yasak | architecture/k11-ux/ |
+| ITCSS, BEM, BEMIT, TrustedTypes, DOMParser | architecture/k11-ux/ |
+| Web Audio, ses API | architecture/k15-medya-streaming/ |
+| Device CSS, responsive device rendering, scale | ui-design/05-responsive-architecture |
+| Responsive frontend architecture, Single View | architecture/k11-ux/responsive-frontend-architecture.md |
+| Scale sistemi, router, CSS rehberi, frontend entegrasyon, adım adım | architecture/k11-ux/scale-router-css-frontend-guide.md |
 
 ### §3.4A UI Design System & Mockup Otoritesi (SSOT)
 
@@ -373,7 +375,7 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | responsive device mode, embedded 1024, desktop 1920, mobile 375, tv 3840 | ui-design/05-responsive-architecture.md (eski `responsive-device-mode.md` diskte YOK — taşınma kaydı) |
 | device-aware rendering, tek bileşen, single component, conditional render | brain.md §18C |
 | device token, header-h, footer-h, content-h, spacing-scale | ui-design/tokens/design-tokens-master.md |
-| device behavioral, hover disabled, touch target 48px, scrollbar override | ui-design/05-responsive-architecture.md (eski `architecture/l3-presentation/device-css.md` diskte YOK — katman adı k11-ux'e taşındı) |
+| device behavioral, hover disabled, touch target 48px, scrollbar override | ui-design/05-responsive-architecture.md (eski `ui-design/05-responsive-architecture` diskte YOK — katman adı k11-ux'e taşındı) |
 | backend scope, widget count, feature toggle, nav links, content config | brain.md §18C |
 | frontend scope, token override, media query, grid template, layout grid | brain.md §18C |
 | layer violation, presentation→infrastructure, php sunum kararı yasak | brain.md §18C |
@@ -388,25 +390,25 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| L4, domain, business rules, entities, aggregates | architecture/l4-domain.md |
-| DDD, value object, domain event | architecture/l4-domain.md |
-| repository interface, use case interface | architecture/l4-domain.md |
+| L4, domain, business rules, entities, aggregates | architecture/k10-uygulama/ |
+| DDD, value object, domain event | architecture/k10-uygulama/ |
+| repository interface, use case interface | architecture/k10-uygulama/ |
 
 ### §3B L5 Services
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| L5, services, application services, use case | architecture/l5-services.md |
-| CQRS, command, query, event bus, PSR-14 | architecture/l5-services.md |
-| transaction management, DTO mapping | architecture/l5-services.md |
+| L5, services, application services, use case | architecture/k8-servis/ |
+| CQRS, command, query, event bus, PSR-14 | architecture/k8-servis/ |
+| transaction management, DTO mapping | architecture/k8-servis/ |
 
 ### §3C L6 Electronics
 
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
-| L6, electronics, hardware, firmware, driver, DSP | architecture/l6-electronics.md |
-| XMOS, PCM3168A, Class AB, audio engine | architecture/l6-electronics.md |
-| ASIO, WASAPI, JUCE, C++20 | architecture/l6-electronics.md |
+| L6, electronics, hardware, firmware, driver, DSP | architecture/k1-donanim/ |
+| XMOS, PCM3168A, Class AB, audio engine | architecture/k1-donanim/ |
+| ASIO, WASAPI, JUCE, C++20 | architecture/k2-surucu/ |
 | amplifier, Class AB, 50W, MJL21194, MJL21193 | architecture/amplifier-classab-circuit.md |
 | bias, quiescent, thermal tracking, overcurrent | architecture/amplifier-classab-circuit.md |
 | power supply, ±35V, boost, LM5122, interleaved | architecture/power-supply-classab.md |
@@ -575,10 +577,10 @@ P3: testing/*, ui-design/*, .personas/*
 ```
 Istenen Bilgi -> Ilk Kontrol:
 |
-|-- Mimari/Layer -> architecture/k0-k5-software/k0-os-layer/ | l1-security/ | l2-routing/ | l3-presentation/
+|-- Mimari/Layer -> architecture/k0-isletim-sistemi/ | k6-guvenlik/ | k9-api-routing/ | k11-ux/
 |-- ADR Karari -> decisions/accepted/ADR-NNN-*.md
-|-- Guvenlik -> ADR-010/011/012/013/022 + architecture/07-security/
-|-- Veritabani -> ADR-040 + architecture/k0-k5-software/k5-data-layer/database_master.md + .sql/
+|-- Guvenlik -> ADR-010/011/012/013/022 + architecture/k6-guvenlik/
+|-- Veritabani -> ADR-040 + .sql/mysql + .sql/
 |-- Ses/Donanim -> ADR-017/038 + electronic/ + projects/NevaEngine/
 |-- Panel/Servis -> subdomains/ + architecture/06-audio/
 |-- Test -> ui-design/04-accessibility-gaps.md + reports/ (`.ai/testing/` dizini yok — Faz 1 notu)
@@ -597,8 +599,8 @@ Istenen Bilgi -> Ilk Kontrol:
 | Eski ADR referansi | decisions/accepted/ dizininde ADR-NNN ara |
 | Bilinmeyen terim | brain.md'de teknik detaylari kontrol et |
 | Yanlis port/protokol | Bolum 6'daki port haritasina bak |
-| BCNF ihlali | ADR-040 ve architecture/k0-k5-software/k5-data-layer/ kontrol |
-| CSRF hatasi | ADR-010 ve architecture/07-security/ kontrol |
+| BCNF ihlali | ADR-040 ve architecture/k5-veri-yonetimi/ + .sql/mysql/ kontrol |
+| CSRF hatasi | ADR-010 ve architecture/k6-guvenlik/ kontrol |
 | Middleware sirasi | ADR-010/011/012/013/022 -- sira FROZEN |
 
 ---
@@ -608,16 +610,16 @@ Istenen Bilgi -> Ilk Kontrol:
 | Ihtiyac | Ilk Adim |
 |---------|----------|
 | Mimari karar | brain.md -> decisions/accepted/ |
-| Guvenlik | architecture/l1-security/ -> ADR-010/011/012/013/022 |
-| Veritabani | architecture/k0-k5-software/k5-data-layer/database_master.md -> ADR-040 |
-| Frontend | architecture/l3-presentation/ -> ADR-001 |
-| Backend | architecture/l2-routing/ -> ADR-002 |
+| Guvenlik | architecture/k6-guvenlik/ -> ADR-010/011/012/013/022 |
+| Veritabani | .sql/mysql -> ADR-040 |
+| Frontend | architecture/k11-ux/ -> ADR-001 |
+| Backend | architecture/k9-api-routing/ -> ADR-002 |
 | Audio/Donanim | electronic/ -> ADR-017/038 |
 | Test | ui-design/04-accessibility-gaps.md -> reports/ (testing/ dizini yok — Faz 1 notu) |
 | Vault yapisi | index.md -> bu dosya (keys.md) |
 | Agent yetkileri | AGENTS.md -> .agents/ |
 | Servisler | ecosystem/7-service-integration.md |
-| Deploy | architecture/02-deployment/ |
+| Deploy | architecture/k13-cicd/ |
 | Tema | ADR-044 -> [[brain.md]] §22 (prompt arşivi — tema kuralları) |
 
 ### Section 3B: Prompt Archive Keywords

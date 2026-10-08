@@ -26,7 +26,9 @@ Sql Veritabanı dosyaları bauarda yazılır toplanır baurda nromzşie diemiş 
 
 | # | Veritabanı | Tablo |
 |---|------------|-------|
-| | **TOPLAM** | **156** |
+| | **TOPLAM (18 coremusic DB)** | **171** — 2026-10-07 canlı dump ölçümü (eski: 156; +15 tablo: musics +5, albums +6, social +1, system +3 + 1 view `v_music_recording_map`) |
+
+**2026-10-07 dump senkronu:** `mysql/*.sql` = 20 dosya, **birebir canlı MySQL dump'ı** (full_dump.php, şema tam; VERİ yalnız `coremusic_catalog` lookup + `system_services` 7 seed satırı — kullanıcı onayı 2026-10-07; PII/kullanıcı verisi YOK). `novasearch` 7 tablo, `media_catalog` 9 tablo (canlıda YOK = PLANNED). Tüm dosya toplamı: **187 tablo + 1 view**. FAZ1-3 migration kayıtları: `migration/2026-10-07_faz{1,2,3}_*.sql` (up/down çiftleri).
 
 ---
 

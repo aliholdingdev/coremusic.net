@@ -883,7 +883,7 @@ Her oturum başlangıcında sırayla okunur:
 | § 9 Paneller | [[brain.md]] ADR-043-auth-subdomain-consolidation | Auth konsolidasyonu |
 | § 12 Teknoloji | [[brain.md]] | Tech stack detayları |
 | § 15 Tema | [[brain.md]] ADR-044-dynamic-user-theme-engine | Theme engine |
-| § 18 DB | architecture/k0-k5-software/k5-data-layer/database_master ⚠️ DEAD (faz6-D): architecture/k0-k5-software/k5-data-layer/database_master — k0-k5-software dizini yok; eşdeğer kanıtlanamadı | 18 BCNF şemaları |
+| § 18 DB | `.ai/.sql/mysql` (18 BCNF MySQL şemalarının fiziksel evi; eski k0-k5-software hedefi 2026-10-07'de kaldırıldı) | 18 BCNF şemaları |
 | § 19 Audio | [[architecture/k3-ses-motoru]] | Audio engine |
 | § 20 ADR | [[CLAUDE.md]] ADR-042-vault-restructuring-2026-08-03 | Vault standardı |
 | § 20A Master Plan | architecture/03-contracts/master-implementation-plan ⚠️ DEAD (faz6-D): architecture/03-contracts/master-implementation-plan — 03-contracts dizini yok; ADR-087 dosyası da yok | 5 faz, 40 gün implementasyon |

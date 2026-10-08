@@ -9,6 +9,9 @@
  *   dep-check    : depends-on hedefi var mı + circular dependency tespiti (§32)
  *   tier-check   : tier enum (1-5) + T1/T2 dosya listesi (bilgi)
  *   orphan-check : sahipsiz dosya (FM var ama owner yok / hiç FM yok) (§33)
+ *   depdir-check : bağımlılık YÖNÜ — katalog kökü→içerik yasak, çapraz kardeş kX→kY yasak (R15/D1/D4)
+ *   fanout-check : fan-out >15 = ihlal · fan-in >30 = uyarı (R15/D5)
+ *   idrange-check: Kx.yy.zzz → K0-K20 · K0000 ≤ K4999 (K5000+ ADR kapısı — A7)
  *
  * Kullanım:
  *   node .ai/scripts/validate.mjs           → tam rapor, ihlal varsa exit 1
@@ -185,22 +188,142 @@ function checkLinks(files) {
   for (const [d, n] of deadCount) warnings.push(`dead-link borç: "${d}/" → ${n} referans (hedef diskte YOK — ⚠️ VERIFICATION REQUIRED, stale katalog/sadeleştirme)`);
 }
 
+// ─── arch-scope: architecture/** altındaki tüm .md'ler ──────────────────────
+function walkMd(dir) {
+  const out = [];
+  if (!fs.existsSync(dir)) return out;
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) out.push(...walkMd(p));
+    else if (e.name.endsWith('.md')) out.push(rel(p));
+  }
+  return out;
+}
+
+// ─── id-check: Kx.yy.zzz bileşen ID tekilliği (Q22) ────────────────────────
+const ID_RE = /\bK\d{1,2}\.\d{2}\.\d{3}\b/g;
+function checkIds(files) {
+  // ID tekillik = kayit ANAHTARI (tablo satirinin ilk hucresi) benzersiz olmali.
+  // Bagimlilik sutunu / pros referanslari ayni ID'yi meşru tekrar eder (graf kenari) — sayilmaz.
+  const seen = new Map();
+  const rowRe = /^\|[ 	]*(K\d{1,2}\.\d{2}\.\d{3})[ 	]*\|/;
+  for (const f of files) {
+    const { body } = readFm(fs.readFileSync(path.join(AI, f), 'utf8'));
+    for (const line of stripCode(body).split(/\r?\n/)) {
+      const m = line.match(rowRe);
+      if (!m) continue;
+      const id = m[1];
+      if (seen.has(id)) violations.push({ file: f, check: 'id-check', msg: `ID tekrarı (satır anahtarı): ${id} (ilk: ${seen.get(id)})` });
+      else seen.set(id, f);
+    }
+  }
+}
+
+// ─── depdir-check: bağımlılık YÖNÜ (R15 · D1/D2/D4 — 60 soru onayı 2026-10-07) ──
+//  (a) architecture KÖK dosya (rules/context/index/domain) → kX-*/ veya alt-katman/* içeriğine
+//      bağımlı OLAMAZ (katalog, içeriğe bağımlı olamaz — üst→alt yasak).
+//  (b) kX dizini → kY (Y≠X) bağımlı OLAMAZ (çapraz kardeş): ilgi yalnızca refers-to (R16.2)
+//      ya da ortak üst katman (R16.3) ile ifade edilir.
+//  İzinli hedefler: .ai kök vault dosyaları, architecture kök md, kendi dizini/alt dizini.
+function checkDepDir(files) {
+  for (const f of files) {
+    if (!f.startsWith('architecture/')) continue;
+    const { fm } = readFm(fs.readFileSync(path.join(AI, f), 'utf8'));
+    if (!fm) continue;
+    const dep = fmVal(fm, 'depends-on');
+    if (!dep) continue;
+    const items = dep.replace(/^\[|\]$/g, '').split(',').map(s => s.trim().replace(/^["']|["']$/g, '')).filter(Boolean);
+    const srcDir = f.includes('/') ? f.slice(0, f.lastIndexOf('/')) : 'architecture';
+    const srcRoot = srcDir === 'architecture';
+    const srcK = (srcDir.match(/^architecture\/(k\d+|alt-katman)/) || [])[1] || null;
+    for (const raw of items) {
+      const t = raw.replace(/^\.ai\//, '');
+      const isContent = /^architecture\/(k\d+|alt-katman)\//.test(t);
+      if (srcRoot && isContent) {
+        violations.push({ file: f, check: 'depdir-check', msg: 'üst→alt bağımlılık YASAK (R15): katalog kökü içerik katmanına bağımlı olamaz → ' + t });
+      } else if (srcK && isContent) {
+        const tK = (t.match(/^architecture\/(k\d+|alt-katman)/) || [])[1];
+        if (tK !== srcK) violations.push({ file: f, check: 'depdir-check', msg: `çapraz kardeş bağımlılık YASAK (R15/D4): ${srcK} → ${tK} — refers-to (R16.2) veya ortak üst kullan → ${t}` });
+      }
+    }
+  }
+}
+
+// ─── fanout-check: fan-out >15 = ihlal · fan-in >30 = uyarı (R15 · D5) ─────────
+function checkFanout(files) {
+  const fanIn = new Map();
+  for (const f of files) {
+    const { fm } = readFm(fs.readFileSync(path.join(AI, f), 'utf8'));
+    if (!fm) continue;
+    const dep = fmVal(fm, 'depends-on');
+    if (!dep) continue;
+    const items = dep.replace(/^\[|\]$/g, '').split(',').map(s => s.trim().replace(/^["']|["']$/g, '')).filter(Boolean);
+    if (items.length > 15) violations.push({ file: f, check: 'fanout-check', msg: `fan-out ${items.length} > 15 (D5) — bağımlılık azalt veya incele` });
+    for (const t of items) {
+      const k = t.replace(/^\.ai\//, '').replace(/\.md$/, '');
+      fanIn.set(k, (fanIn.get(k) || 0) + 1);
+    }
+  }
+  for (const [t, n] of fanIn) if (n > 30) warnings.push(`fan-in ${n} > 30: ${t} (D5 — merge/alt-katman adayı, rapor)`);
+}
+
+// ─── idrange-check: ID alan uzayı (R15 · B6/A7) ────────────────────────────────
+const IDROW_RE = /^\|\s*((?:K\d{1,2}\.\d{2}\.\d{3})|(?:K\d{4}))\s*\|/;
+function checkIdRange(files) {
+  const seenAlt = new Map();
+  for (const f of files) {
+    const { body } = readFm(fs.readFileSync(path.join(AI, f), 'utf8'));
+    for (const line of stripCode(body).split(/\r?\n/)) {
+      const m = line.match(IDROW_RE);
+      if (!m) continue;
+      const id = m[1];
+      const layer = id.match(/^K(\d{1,2})\./);
+      if (layer && Number(layer[1]) > 20) violations.push({ file: f, check: 'idrange-check', msg: `ID katman alanı dışı (K-matrix K0-K20): ${id}` });
+      const alt = id.match(/^K(\d{4})$/);
+      if (alt) {
+        if (Number(alt[1]) > 4999) violations.push({ file: f, check: 'idrange-check', msg: `alt-katman aralığı aşıldı (K0000-K4999; K5000+ ADR ister — A7): ${id}` });
+        if (seenAlt.has(id)) violations.push({ file: f, check: 'idrange-check', msg: `alt-katman ID tekrarı: ${id} (ilk: ${seenAlt.get(id)})` });
+        else seenAlt.set(id, f);
+      }
+    }
+  }
+}
+
+// ─── budget-check: architecture/context.md ≤660 satır (Q35) ────────────────
+function checkBudget() {
+  const p = path.join(AI, 'architecture', 'context.md');
+  if (!fs.existsSync(p)) return;
+  const n = fs.readFileSync(p, 'utf8').split(/\r?\n/).length;
+  if (n > 660) violations.push({ file: 'architecture/context.md', check: 'budget-check', msg: `context bütçesi aşıldı: ${n} > 660 satır (Q35)` });
+}
+
 // ─── run ───────────────────────────────────────────────────────────────────
-const scope = [...rootFiles.map(f => f), ...scopeSub];
+const archFiles = walkMd(path.join(AI, 'architecture'));
+const scope = [...rootFiles.map(f => f), ...scopeSub, ...archFiles];
 checkFm(scope);
 checkSsot(scope);
 checkDeps(scope);
+checkDepDir(scope);
+checkFanout(scope);
+checkIdRange(scope);
 checkLinks(scope);
+checkIds(scope);
+checkBudget();
 
 const fmV = violations.filter(v => v.check === 'fm-check').length;
 const tierV = violations.filter(v => v.check === 'tier-check').length;
 const linkV = violations.filter(v => v.check === 'link-check').length;
 const depV = violations.filter(v => v.check === 'dep-check').length;
 const orphanV = violations.filter(v => v.check === 'orphan-check').length;
+const idV = violations.filter(v => v.check === 'id-check').length;
+const dirV = violations.filter(v => v.check === 'depdir-check').length;
+const fanV = violations.filter(v => v.check === 'fanout-check').length;
+const rangeV = violations.filter(v => v.check === 'idrange-check').length;
+const budV = violations.filter(v => v.check === 'budget-check').length;
 
 if (CHECK) {
   if (violations.length === 0) {
-    console.log(`validate --check: OK (${scope.length} dosya · 6 check temiz)`);
+    console.log(`validate --check: OK (${scope.length} dosya · 11 check temiz)`);
     process.exit(0);
   } else {
     console.log(`validate --check: ${violations.length} İHLAL (${scope.length} dosya)`);
@@ -209,7 +332,7 @@ if (CHECK) {
   }
 } else {
   console.log(`=== .ai Control Plane Validator — ${scope.length} dosya ===`);
-  console.log(`fm=${fmV} tier=${tierV} link=${linkV} dep=${depV} orphan=${orphanV} uyarı=${warnings.length}`);
+  console.log(`fm=${fmV} tier=${tierV} link=${linkV} dep=${depV} orphan=${orphanV} id=${idV} budget=${budV} depdir=${dirV} fanout=${fanV} idrange=${rangeV} uyarı=${warnings.length}`);
   for (const v of violations) console.log(`  ✗ [${v.check}] ${v.file}: ${v.msg}`);
   for (const w of warnings) console.log(`  ⚠ ${w}`);
   if (info.length) { console.log('-- T1/T2 dosyaları (yüksek koruma) --'); for (const i of info) console.log('  ' + i); }

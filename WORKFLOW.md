@@ -2,7 +2,7 @@
 title: "CoreMusic — Workflow Pointer"
 type: workflow-pointer
 category: workflow
-version: 3.0.0
+version: 3.1.0
 status: active
 authority: "SSOT: .ai/WORKFLOW.md — Full workflows read via `.ai/WORKFLOW.md`"
 updated: 2026-10-07
@@ -35,6 +35,8 @@ updated: 2026-10-07
 6. **[Agent Registry (AGENTS.md)](.ai/AGENTS.md)** *(11 agent, routing, handover, escalation)*
 7. **[Vault Klasör Context (CONTEXT.md)](.ai/CONTEXT.md)** *(Vault envanteri, dosya yapısı)*
 8. **Mimari İndeks** — ⚠️ VERIFICATION REQUIRED — `.ai/architecture/index.md` diskte YOK; yalnız `_backup/arch-2026-10-06_1057/architecture/index.md` *(21 Katman, 1,095 Bileşen, 18 BCNF DB)*
+9. **[RAG Retrieval Index & Pipeline (RAG.md)](.ai/RAG.md)** — konu→dosya indeksi (§3, 20 satır) + pipeline tasarımı (§4, ÇOĞU PLANNED — ADR-030) 👈 *(AI'ın ilk okuma hedefini seçmesi için)*
+10. **[Vault Context (CONTEXT.md)](.ai/CONTEXT.md)** — dizin/dosya envanteri, boot ilişkisi
 
 > [!NOTE]
 > **Genişletme notu (2026-09-24):** Aşağıdaki §1-§14 bölümleri bu dosyanın **bağlayıcı özeti (orientation summary)**'dir; tek otorite `.ai/` vault'unun ilgili dosyalarıdır. Çelişki durumunda SSOT kazanır: adlandırma → [[.ai/architecture/adlandirma-kurali]] · bağımlılık → [[.ai/architecture/katman-baglilik-matrisi]] · sayım → [[.ai/architecture/katman-sayim-rehberi]] · süreç → [[.ai/WORKFLOW.md]] · anayasa → [[.ai/CLAUDE.md]] · agent → [[.ai/AGENTS.md]].
@@ -100,5 +102,5 @@ Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry. Her noktada eşleşme va
 
 ---
 
-*CoreMusic Workflow Pointer v3.0.0 — Authority: Bayram Ali / Vault Steward — Last Updated: 2026-10-07*
+*CoreMusic Workflow Pointer v3.1.0 — Authority: Bayram Ali / Vault Steward — Last Updated: 2026-10-07*
 *Mode: Red Team · Human Mode · Truth Mode*

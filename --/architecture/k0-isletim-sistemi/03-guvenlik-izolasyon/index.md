@@ -11,7 +11,8 @@ domain: k0-isletim-sistemi
 ssot: true
 risk: high
 owner: "security-engineer"
-depends-on: [".ai/architecture/k0-isletim-sistemi/index.md", ".ai/architecture/k6-guvenlik/index.md"]
+depends-on: [".ai/architecture/k0-isletim-sistemi/index.md"]
+refers-to: [".ai/architecture/k6-guvenlik/index.md"]
 ---
 
 # k0 · 03-guvenlik-izolasyon — Güvenlik & İzolasyon

@@ -11,15 +11,8 @@ export default class DeviceManager {
     #currentDevice = 'desktop';
 
     /** Breakpoints — a-breakpoint-tokens.css ile senkronize */
-    static BREAKPOINTS = {
-        PHONE_MAX: 767,
-        TABLET_MIN: 768,
-        TABLET_MAX: 1024,
-        EMBEDDED_MAX: 1024,
-        LAPTOP_MAX: 1440,
-        DESKTOP_MAX: 2560,
-        FOUR_K_TV_MAX: 3840,
-    };
+    /* WP2/J2: static BREAKPOINTS kaldırıldı — tek SSOT `js/core/breakpoints.js`
+       (window.CoreMusic.BREAKPOINTS). Kopya sabit yasak. */
 
     /** CSS dosya haritası — devices.config.js'den yüklenir (SSOT) */
     static get HOME_CSS() {
@@ -53,20 +46,13 @@ export default class DeviceManager {
         this.#bindResize();
     }
 
-    /** Viewport boyutundan cihaz tespit et */
+    /** Viewport boyutundan cihaz tespit et — WP2/J2: SSOT delegasyonu
+        (DeviceLoader.getDevice() yoksa çalışır; UA-aware tek gövde
+        BreakpointAPI.detectDevice). */
     #detect() {
         const w = window.innerWidth || document.documentElement.clientWidth;
         const h = window.innerHeight || document.documentElement.clientHeight;
-        const BP = DeviceManager.BREAKPOINTS;
-
-        if (w <= BP.PHONE_MAX) return 'phone';
-        if (w >= BP.TABLET_MIN && w <= BP.TABLET_MAX) {
-            return h <= 600 ? 'embedded' : 'tablet';
-        }
-        if (w <= BP.LAPTOP_MAX) return 'laptop';
-        if (w <= BP.DESKTOP_MAX) return 'desktop';
-        if (w <= BP.FOUR_K_TV_MAX) return '4k-tv';
-        return '4k-monitor';
+        return window.CoreMusic.BreakpointAPI.detectDevice(w, h);
     }
 
     /** Cihaz CSS'ini uygula */

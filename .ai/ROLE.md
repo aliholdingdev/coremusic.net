@@ -156,7 +156,7 @@ CoreMusic mimarisi, L0-L6 katman bağımlılık kuralları ve teknoloji yığın
 
 ## 4. CoreMusic AUTH Vizyonu
 
-> Detaylı auth için bkz: [[CLAUDE.md]] §6, [[architecture/l1-security/auth]]
+> Detaylı auth için bkz: [[CLAUDE.md]] §6, [[architecture/k6-guvenlik]]
 
 Merkezi auth.coremusic.net kimlik servisi, hybrid JWT+session, RBAC, middleware pipeline.
 
@@ -252,7 +252,7 @@ Sıfırdan geliştirme, clean architecture, merkezi auth, security-first, zero c
 |-------|-------|--------|
 | § 2 Uzmanlık | [[AGENTS.md]] | Agent yetkileri |
 | § 3 Mimari | [[architecture/index]] | Sistem genel bakışı |
-| § 4 Auth | [[architecture/07-security/middleware-security]] | Güvenlik pipeline'ı |
+| § 4 Auth | [[architecture/k7-middleware]] | Güvenlik pipeline'ı |
 | § 5 SPA | [[architecture/k11-ux/index]] | Frontend layer |
 | § 6 API | [[architecture/03-contracts/api-architecture-master]] | API mimarisi |
 | § 7 Teknoloji | [[brain.md]] | Teknik kararlar |
@@ -283,7 +283,7 @@ Rol profili →” teknoloji →” kod kanıtı haritası. Durum etiketleri: **
 | Data Engineer | SQL (MySQL) | .ai/.sql/mysql (18 şema) | IMPLEMENTED (şema) / PLANNED (çalışan DB servisi) | 18 .sql dosyası |
 | Embedded Engineer | C++20 | NevaEngine, car/studio hedefleri | PLANNED | `projects/NevaEngine/` spec dosyaları |
 | QA Engineer | PHP (PHPUnit) / JS (Vitest) | tests/ | IMPLEMENTED (dev bağımlılık) | composer.json require-dev |
-| DevOps Engineer | YAML/Docker/CI | 02-deployment | PLANNED | `architecture/02-deployment/` (8 md) |
+| DevOps Engineer | YAML/Docker/CI | k13-cicd | PLANNED | `architecture/k13-cicd/` (landing) |
 | Audio HW Engineer | — (donanım spec) | electronic/hardware | IMPLEMENTED (spec) | audio-interface.md (XMOS XU316 → I2S → PCM3168A) |
 | DSP Firmware Engineer | C (XMOS xcc) / C++20 | electronic/firmware | PLANNED (kod) / IMPLEMENTED (spec) | rtos.md, dsp-firmware.md |
 | Windows SW Engineer | C# / C++ (WDK) | Windows platform araçları | PLANNED | AGENTS.md #11; WASAPI hedefi |
@@ -375,7 +375,7 @@ Server 3: v1.0 → v1.1 (deploy)
 Monitor → Increase → 100% → Decommission v1.0
 ```
 
-**Faz 0 notu:** Bu stratejiler hedef tanımlardır; CI/CD pipeline kodu henüz mevcut değil (DevOps PLANNED — `architecture/02-deployment/` dokümantasyon aşamasında).
+**Faz 0 notu:** Bu stratejiler hedef tanımlardır; CI/CD pipeline kodu henüz mevcut değil (DevOps PLANNED — `architecture/k13-cicd/` landing; içerik Faz 1+).
 
 ### 12.4 Strateji Seçim Kriterleri
 

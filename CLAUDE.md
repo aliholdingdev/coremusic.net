@@ -2,7 +2,7 @@
 title: "CoreMusic — Boot Instruction (Pointer)"
 type: pointer
 category: boot
-version: 3.0.0
+version: 3.1.0
 status: active
 authority: "SSOT: .ai/CLAUDE.md (tam anayasa) · bu dosya §Skill Registry (Skill Registry SSOT)"
 updated: 2026-10-07
@@ -13,7 +13,7 @@ updated: 2026-10-07
 > **Kanonik kök dosya: [`AGENTS.md`](AGENTS.md)** — tüm ana kurallar (akış, zero-hallucination,
 > anti-overthink, execution loop, prompt-maker) oradadır; bu dosya V2 tarafından okunur.
 > Vault (`.ai/` — anayasa, ADR, kurallar) **yalnız ihtiyaç anında** `@` ile okunur:
-> `@.ai/CLAUDE.md` · `@.ai/AGENTS.md` · `@.ai/WORKFLOW.md` · `@.ai/CONTEXT.md` — boot'ta toplu okuma yok.
+> `@.ai/CLAUDE.md` · `@.ai/AGENTS.md` · `@.ai/WORKFLOW.md` · `@.ai/CONTEXT.md` · `@.ai/RAG.md` — boot'ta toplu okuma yok.
 > **Skill Registry SSOT: bu dosyanın §Skill Registry bölümüdür** — başka dosyada liste kopyalanmaz.
 
 ⚠️ **VERIFICATION REQUIRED**: `.ai/CLAUDE.md` v27.3.9 (2026-10-06, 34 bölüm, 991 satır) diskte MEVCUTTİR — bu dosyayı okumadan kod yazılmaz (Guardrail #2).
@@ -115,11 +115,12 @@ Proje dışı **~340 üçüncü-parti global skill** grubu (dotnet, dx-blazor, s
 | `AGENTS.md` | `@.ai/AGENTS.md` | Master rules — tam agent registry burada |
 | `WORKFLOW.md` | `.ai/WORKFLOW.md` | Workflow pointer — tam süreçler burada |
 | `README.md` | `.ai/VISION.md` · `.ai/PROJECTS.md` | Giriş — vizyon ve proje tanımı |
-| — | `.ai/CONTEXT.md` | Vault klasör yapısı ve envanter |
+| `CONTEXT.md` | `.ai/CONTEXT.md` | Vault klasör yapısı ve envanter (kök pointer — 2026-10-07) |
+| `RAG.md` | `.ai/RAG.md` | Retrieval indeksi + pipeline (kök pointer — 2026-10-07) |
 | — | `.ai/brain.md` | Mimari kararlar (ADR'ler) |
 | — | `.ai/ROLE.md` | Rol → teknoloji eşlemesi |
 
-> **Boot okuma sırası**: Bu dosya → [[AGENTS.md]] → [[README.md]] → [[WORKFLOW.md]] → ihtiyaç anında `@.ai/CLAUDE.md` + `@.ai/AGENTS.md` + `@.ai/WORKFLOW.md`.
+> **Boot okuma sırası**: Bu dosya → [[AGENTS.md]] → [[README.md]] → [[WORKFLOW.md]] → ihtiyaç anında `@.ai/CLAUDE.md` + `@.ai/AGENTS.md` + `@.ai/WORKFLOW.md` + `@.ai/CONTEXT.md` + `@.ai/RAG.md`.
 
 **Mimari referans (2026-10-06 · v4.0.0):** Enterprise Layered Architecture **500 katman** (`K000`–`K499`),
 10 domain, **hibrit multi-MD** (MD sayısı değişken, sabit değil). Giriş: @.ai/architecture/00-master-index.md
@@ -151,4 +152,4 @@ katmanı); toplam yalnız betik çıktısıyla yazılır. Eski K0–K20 / 344 MD
 | MJL21194/93 | Power Audio Trans. | ✅ | [onsemi.com](https://www.onsemi.com) |
 | XMOS XU316 | USB Audio SoC | ✅ | [xmos.com](https://www.xmos.com/processors/xu316) |
 
-*SSOT: .ai/ · Pointer v3.0.0 — Last Updated: 2026-10-07*
+*SSOT: .ai/ · Pointer v3.1.0 — Last Updated: 2026-10-07*

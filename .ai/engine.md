@@ -284,12 +284,12 @@ Bu komutlar Faz 0 envanterinde (2026-09-08) çalıştırılmış ve §7.2 tablos
 |---|-------|-----------------|-------------------|
 | 1 | Master Orchestrator | Bu motor + `log.md` | Audit kayıtları güncel ve append-only |
 | 2 | Backend Architect | `shared/src/`, `auth.coremusic.net/` | PHP 8.4 + strict_types uyumu, PSR |
-| 3 | UI Designer | `.ai/ui-design/`, `architecture/l3-presentation/` | PNG (19) + C01-C16 envanteri ile uyum |
-| 4 | Security Engineer | `architecture/l1-security/` | OWASP kontrol listesi, CSRF/CSP middleware gerçek kodla örtüşme |
+| 3 | UI Designer | `.ai/ui-design/`, `architecture/k11-ux/` | PNG (19) + C01-C16 envanteri ile uyum |
+| 4 | Security Engineer | `architecture/k6-guvenlik/` | OWASP kontrol listesi, CSRF/CSP middleware gerçek kodla örtüşme |
 | 5 | Data Engineer | `.ai/.sql/mysql/` (18 şema) | BCNF tutarlılığı, migration stratejisi |
 | 6 | Embedded Engineer | `electronic/`, `projects/NevaEngine/` | C++20 spec bütünlüğü |
 | 7 | QA Engineer | `tests/` klasörleri | PHPUnit ^10.5 / ^11.0 paket uyumu |
-| 8 | DevOps Engineer | `architecture/02-deployment/` | CI/CD konfigürasyon mevcudiyeti |
+| 8 | DevOps Engineer | `architecture/k13-cicd/` | CI/CD konfigürasyon mevcudiyeti |
 | 9 | Audio HW Engineer | `electronic/hardware/` | Chip spec (XMOS XU316, PCM3168A) çapraz referans |
 | 10 | DSP Firmware Engineer | `electronic/dsp/`, `electronic/firmware/` | Boot/RTOS seçim tablosu tutarlılığı |
 | 11 | Windows SW Engineer | Windows platform hedefleri | WASAPI/WDK plan kayıtları (PLANNED) |
@@ -562,7 +562,7 @@ Kurallar: Her faz sonunda `log.md` append + satır sayacı raporu; `vault-sync` 
 
 | Alt-faz | Klasör | Dosya Grubu | Doğrulama Kanalı |
 |---------|--------|-------------|------------------|
-| 2a | `k0-k5-software/` | OS, Hardware, Drivers, Audio Engine, AI, Data | C++ NevaEngine, MySQL 18 BCNF DB schemas, Hardware I2S/BLE API |
+| 2a | `k0-isletim-sistemi/ … k5-veri-yonetimi/` | OS, Hardware, Drivers, Audio Engine, AI, Data | C++ NevaEngine, MySQL 18 BCNF DB schemas, Hardware I2S/BLE API |
 | 2b | `k6-k11-application/` | Security, Middleware, Services, Routing, UX | 10-layer middleware pipeline, Argon2id/AES, API Routes, ITCSS/Vanilla JS |
 | 2c | `k12-k15-cross-cutting/` | Monitoring, CI/CD, Network, Media Streaming | Logging configs, Playwright tests, WebRTC streaming, Nginx/IIS configs |
 | 2d | `electronics/` (K16-K18) | PCB Design, Amplifier (Class AB), Power | ADR-089 (Class AB), PCM3168A DAC, 112dB SNR test reports |
