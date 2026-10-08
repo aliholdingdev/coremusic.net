@@ -3,7 +3,8 @@
 # Plan: .ai/architecture/k13-cicd/README.md (K13.1/K13.2) + ci-pipeline.md (§2.2 aşamaları)
 # Disk kanıtı: 3x composer.json (shared, auth.coremusic.net, home.coremusic.net) ·
 #   phpunit.xml x2 (shared, auth.coremusic.net) · shared composer.json scripts: test + stan ·
-#   package.json'da script YOK (yalnız playwright dependency) -> Node adımları YAZILMADI.
+#   package.json scripts (WP2/J1 2026-10-07): test:js / test:js:coverage / test:e2e
+#   -> Node adımlari YAZILDI (js-test, js-coverage, js-e2e).
 name: CI Pipeline
 
 on:
@@ -136,3 +137,67 @@ jobs:
           composer install --no-progress --prefer-dist
           composer audit
         working-directory: home.coremusic.net
+
+  # ─── WP2/J1 (2026-10-07) — JS test altyapısı ─────────────────────
+  js-test:
+    name: JS Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '26'   # vitest engines ^22.12||^24||>=26; jsdom ^22.22.2||^24.15||>=26
+          cache: npm
+
+      - name: npm ci
+        run: npm ci
+
+      - name: Vitest (unit)
+        run: npm run test:js
+
+  js-coverage:
+    name: JS Coverage (gate — soft, A7)
+    needs: js-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # A7 kararı: %80 eşiği şimdilik erişilemez (12.9k satır / <100 test) —
+    # job GÖRÜNÜR-KIRMIZI olsun ama bloklamasın; eşikler büyüyünce kapatılır.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+          cache: npm
+      - run: npm ci
+      - name: Vitest coverage
+        run: npm run test:js:coverage
+
+  js-e2e:
+    name: JS E2E (Playwright — soft, A6)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # A6: e2e lock'a alındı; ilk koşular bilinen-riskli → soft job.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Playwright install chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Playwright e2e
+        run: npm run test:e2e

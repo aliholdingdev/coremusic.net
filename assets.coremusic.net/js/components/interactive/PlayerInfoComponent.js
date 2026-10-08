@@ -60,16 +60,33 @@ export default class PlayerInfoComponent extends ComponentBase {
         this.#progressBar = this.$('.player-info__progress') || this.$('.media-progress__bar');
         this.#progressFill = this.$('.player-info__progress__fill') || this.$('.media-progress__fill');
 
-        // State'i config'den yükle
+        // State'i config'den yükle — data-cm-config sözleşmesi hem private alan
+        // hem ComponentBase state'ini besler (mount öncesi state.progress doğru
+        // olmalı; onUpdate varsayılan no-op → init'te setState güvenli).
         try {
             const config = JSON.parse(this.el?.dataset?.cmConfig || '{}');
             this.#progress = config.progress ?? 0;
-        } catch { /* ignore */ }
+            this.setState({
+                song: config.song ?? '',
+                artist: config.artist ?? '',
+                progress: this.#progress,
+            });
+        } catch { /* bozuk JSON: varsayılan state korunur */ }
     }
 
     mount() {
         // Initial progress — CSP inline style yasak, JS ile set et
         this.setProgress(this.#progress);
+
+        // Play/Pause ikonuna tıklama (WP2/J1): markup'ta <img> çıplak —
+        // sarmalayıcı buton YOK, hiçbir yerde click bağlaması yoktu → ikon
+        // tıklaması ölüydü (e2e 'play button' + 'space key' başarısızlıklarının
+        // kaynağı: togglePlay çağıran UI yolu yok). Space yolu aşağıda document
+        // seviyesinde bağlı.
+        const playIcon = this.$('.player-info__play');
+        if (playIcon) {
+            this.on(playIcon, 'click', () => this.togglePlay());
+        }
 
         // Progress bar tıklama → seek
         if (this.#progressBar) {

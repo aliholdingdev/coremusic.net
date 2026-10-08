@@ -64,11 +64,11 @@ $assetsUrl = defined('ASSETS_URL') ? ASSETS_URL : 'http://assets.coremusic.net';
     | Player: <strong><?= $variant->isWide() ? '150×150 cover' : '72×72 cover' ?></strong>
     | 📍 <a href="?" style="color: #fff; text-decoration: underline;">Exit Test</a>
 </div>
-<div class="page-home page-layout <?= $layoutClass ?> <?= $dm->allClasses() ?>"
+<div class="page-home page-layout home-layout <?= $layoutClass ?> <?= $dm->allClasses() ?>"
       <?= $dm->dataAttributes() ?>
       style="margin-top: 40px;">
 <?php else: ?>
-<div class="page-home page-layout <?= $layoutClass ?> <?= $dm->allClasses() ?>"
+<div class="page-home page-layout home-layout <?= $layoutClass ?> <?= $dm->allClasses() ?>"
       <?= $dm->dataAttributes() ?>>
 <?php endif; ?>
 

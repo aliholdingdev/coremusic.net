@@ -1,13 +1,14 @@
 /**
- * playwright.config.ts — E2E test configuration
- * 
- * Base URL: http://localhost:81 (PHP dev server)
+ * playwright.config.ts — E2E test configuration (WP2/J1 düzeltmesi 2026-10-07)
+ *
+ * Base URL: http://home.coremusic.net:81 (Apache vhost — hosts 12 girdisi;
+ *   localhost:81 IIS varsayilan dizinden 403 doner, bu yuzden vhost adi kullanilir)
+ * webServer docroot: home.coremusic.net/ (public/ YOK — index.php koke; A6 notu)
  * Timeout: 30s per test
- * Browsers: chromium (primary), firefox, webkit (optional)
- * 
- * Run: npx playwright test
- *      npx playwright test --ui
- *      npx playwright test -g "pattern"
+ * Projects: chromium BASLANGIC (firefox/webkit/mobile sonra genisletilir)
+ *
+ * Run: npx playwright test -c assets.coremusic.net/playwright.config.ts
+ *      (veya katalogdan: npm run test:e2e)
  */
 import { defineConfig, devices } from '@playwright/test';
 
@@ -25,7 +26,7 @@ export default defineConfig({
   ],
 
   use: {
-    baseURL: 'http://localhost:81',
+    baseURL: 'http://home.coremusic.net:81',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -36,29 +37,14 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-
-    // Mobile viewports
-    {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
-    },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
-    },
+    // firefox/webkit/mobile projeleri bilinçli olarak kapali (J1 asgari kapsam);
+    // e2e stabillesince geri acilir.
   ],
 
   webServer: {
-    command: 'php -S localhost:81 -t ../../home.coremusic.net/public/',
-    url: 'http://localhost:81',
+    // public/ dizini YOK (disk kaniti); index.php panel koke'de.
+    command: 'php -S localhost:81 -t ../../home.coremusic.net/',
+    url: 'http://home.coremusic.net:81',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
   },

@@ -217,15 +217,25 @@ describe('PlayerInfoComponent', () => {
     vi.clearAllMocks();
   });
 
+  /**
+   * ComponentLoader sözleşmesini taklit eder — production'da flag'i LOADER
+   * set eder (ComponentLoader.js:120: init → mount → _setMounted(true));
+   * direkt mount eden spec'ler aynı sırayı uygulamalı.
+   */
+  function mountAsLoader(instance) {
+    instance.init();
+    instance.mount();
+    instance._setMounted(true);
+    return instance;
+  }
+
   /* ═══════════════════════════════════════════════════════════
    * RENDER TESTS
    * ═══════════════════════════════════════════════════════════ */
 
   it('wide variant: monta başarılı', () => {
     const el = buildWidePlayerInfo({ progress: 30 });
-    component = new PlayerInfoComponent(el);
-    component.init();
-    component.mount();
+    component = mountAsLoader(new PlayerInfoComponent(el));
 
     expect(el.classList.contains('player-info--wide')).toBe(true);
     expect(component.isMounted).toBe(true);
@@ -234,9 +244,7 @@ describe('PlayerInfoComponent', () => {
 
   it('embedded variant: monta başarılı', () => {
     const el = buildEmbeddedPlayerInfo({ progress: 50 });
-    component = new PlayerInfoComponent(el);
-    component.init();
-    component.mount();
+    component = mountAsLoader(new PlayerInfoComponent(el));
 
     expect(el.classList.contains('now-playing--embedded')).toBe(true);
     expect(component.isMounted).toBe(true);
@@ -294,15 +302,15 @@ describe('PlayerInfoComponent', () => {
     expect(component.state.progress).toBe(100);
   });
 
-  it('progress bar tıklaması: cm:player:seek yayınlar', (done) => {
+  it('progress bar tıklaması: cm:player:seek yayınlar', () => {
     const el = buildWidePlayerInfo();
     component = new PlayerInfoComponent(el);
     component.init();
     component.mount();
 
+    let received = null;
     el.addEventListener('cm:player:seek', (e) => {
-      expect(e.detail.progress).toBeDefined();
-      done();
+      received = e.detail;
     });
 
     const progressBar = el.querySelector('.player-info__progress');
@@ -317,6 +325,9 @@ describe('PlayerInfoComponent', () => {
       }),
     });
     progressBar.dispatchEvent(clickEvent);
+
+    expect(received).not.toBeNull();
+    expect(received.progress).toBeDefined();
   });
 
   /* ═══════════════════════════════════════════════════════════
@@ -337,28 +348,32 @@ describe('PlayerInfoComponent', () => {
     expect(component.state.isPlaying).toBe(false);
   });
 
-  it('togglePlay: cm:player:toggle yayınlar', (done) => {
+  it('togglePlay: cm:player:toggle yayınlar', () => {
     const el = buildWidePlayerInfo();
     component = new PlayerInfoComponent(el);
     component.init();
     component.mount();
 
+    let received = null;
     el.addEventListener('cm:player:toggle', (e) => {
-      expect(e.detail.isPlaying).toBe(true);
-      done();
+      received = e.detail;
     });
 
     component.togglePlay();
+
+    expect(received).not.toBeNull();
+    expect(received.isPlaying).toBe(true);
   });
 
-  it('space key: togglePlay çağırır', (done) => {
+  it('space key: togglePlay çağırır', () => {
     const el = buildWidePlayerInfo();
     component = new PlayerInfoComponent(el);
     component.init();
     component.mount();
 
-    el.addEventListener('cm:player:toggle', () => {
-      done();
+    let received = null;
+    el.addEventListener('cm:player:toggle', (e) => {
+      received = e.detail;
     });
 
     const spaceEvent = new KeyboardEvent('keydown', {
@@ -366,6 +381,9 @@ describe('PlayerInfoComponent', () => {
       bubbles: true,
     });
     document.body.dispatchEvent(spaceEvent);
+
+    expect(received).not.toBeNull();
+    expect(received.isPlaying).toBe(true);
   });
 
   /* ═══════════════════════════════════════════════════════════
@@ -446,7 +464,7 @@ describe('PlayerInfoComponent', () => {
    * ERROR HANDLING TESTS
    * ═══════════════════════════════════════════════════════════ */
 
-  it('cover image error: fallback image yüklenir', (done) => {
+  it('cover image error: fallback image yüklenir', () => {
     const el = buildWidePlayerInfo();
     component = new PlayerInfoComponent(el);
     component.init();
@@ -454,17 +472,14 @@ describe('PlayerInfoComponent', () => {
 
     const coverImg = el.querySelector('.player-info__cover img');
 
-    el.addEventListener('cm:player:toggle', () => {
-      // Event listener shouldn't fire — error handler works
-      done();
-    });
-
-    // Simulate image error
+    // Simulate image error (senkron: error handler anında src değiştirir;
+    // eski done() callback hem vitest'te yasak hem de çift-done kusuruydu)
     const errorEvent = new Event('error');
     coverImg.dispatchEvent(errorEvent);
 
-    expect(coverImg.src).toBe('/Image/res-pink/album-goksel.png');
-    done();
+    // jsdom'da el.src = göreli yol mutlak URL'ye resolve edilir (base localhost:3000);
+    // sözleşmenin kaynağı ATTRİBUTE'tur → getAttribute ile assert.
+    expect(coverImg.getAttribute('src')).toBe('/Image/res-pink/album-goksel.png');
   });
 
   it('destroy: event listeners kalkar', () => {
@@ -565,16 +580,19 @@ describe('PlayerInfoComponent', () => {
     expect(component.state.isPlaying).toBe(false);
   });
 
-  it('setState: cm:component:update yayınlar', (done) => {
+  it('setState: cm:component:update yayınlar', () => {
     const el = buildWidePlayerInfo();
     component = new PlayerInfoComponent(el);
     component.init();
 
+    let received = null;
     el.addEventListener('cm:component:update', (e) => {
-      expect(e.detail.next.progress).toBe(88);
-      done();
+      received = e.detail;
     });
 
     component.setState({ progress: 88 });
+
+    expect(received).not.toBeNull();
+    expect(received.next.progress).toBe(88);
   });
 });

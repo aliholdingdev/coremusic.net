@@ -1,5 +1,18 @@
 {
-  "dependencies": {
-    "playwright": "^1.62.1"
+  "name": "coremusic.net",
+  "private": true,
+  "scripts": {
+    "test:js": "vitest run --root assets.coremusic.net",
+    "test:js:watch": "vitest --root assets.coremusic.net",
+    "test:js:coverage": "vitest run --root assets.coremusic.net --coverage",
+    "test:e2e": "playwright test -c assets.coremusic.net/playwright.config.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@vitest/coverage-v8": "^5.0.3",
+    "axe-playwright": "^1.0.0",
+    "jsdom": "^30.1.1",
+    "playwright": "^1.63.0",
+    "vitest": "^5.0.3"
   }
 }

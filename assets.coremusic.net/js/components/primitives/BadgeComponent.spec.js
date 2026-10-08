@@ -102,7 +102,7 @@ describe('BadgeComponent', () => {
         component.init();
 
         component.setVariant('neutral');
-        expect(el.classList.contains('badge--neutral')).toBe('true');
+        expect(el.classList.contains('badge--neutral')).toBe(true);
         expect(el.classList.contains('badge--primary')).toBe(false);
 
         component.setVariant('bogus'); // reddedilir

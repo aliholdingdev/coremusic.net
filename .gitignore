@@ -14,7 +14,8 @@ vendor/
 
 # ─── Node ───
 node_modules/
-package-lock.json
+# package-lock.json ARTIK commit edilir (WP2/J1 2026-10-07): CI `npm ci`
+# reproducible kurulum icin lock ZORUNLU; ignore kurali CI job'ini kiriyordu.
 yarn.lock
 
 # ─── Logs ───

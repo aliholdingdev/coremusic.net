@@ -49,9 +49,15 @@ body:has(.page-home) {
 
 /* Sidebar açıkken content offset.
    Not: SidebarManager 'sidebar-collapsed' class'ını <html>'e (documentElement) ekler —
-   body seçici yanlıştı, offset 280px takılı kalıyordu (home container %100 genişlik bug'ı). */
+   body seçici yanlıştı, offset 280px takılı kalıyordu (home container %100 genişlik bug'ı).
+   WP2/J1 (2026-10-07): offset + margin-LEFT push birlikte — yalnız width çıkarmak
+   margin-inline:auto ile SONUÇ VERMİYORDU (box 140px'e ortalanıp player kartının
+   solu sidebar'ın altına giriyordu; play tıklaması sidebar tarafından ele
+   geçiriliyordu — e2e 'play button' timeout kök nedeni). Push = offset'ın sağı. */
 html:not(.sidebar-collapsed) .home-layout {
   --sidebar-offset: var(--sidebar-w, 280px);
+  margin-left: var(--sidebar-w, 280px);
+  margin-right: 0;
 }
 
 /* Phone: sidebar offset yok */

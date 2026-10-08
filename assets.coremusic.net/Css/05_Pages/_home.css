@@ -3,12 +3,14 @@
  * Katman: 05_Pages - sayfa özel stiller
  * Rol: Home sayfası birleştirici - layout/components/inline @import + üst grid kuralı
  * Bağımlılık: @import: _home-layout.css, _home-components.css, _home-inline.css; token tüketir: var(--font-*), var(--space-*), var(--color-*), var(--grid-*), var(--header-*)
- * Güncelleme: 2026-10-03
+ * Güncelleme: 2026-10-07 (WP2/J1: import'lara ?v= eklendi — repo konvansiyonu;
+ *   ?v'siz import'lar bayat sheet cache'inde push-kuralının (sidebar offset)
+ *   uygulanmamasına yol açıyordu)
  */
 
-@import './_home-layout.css';
-@import '../04_Components/_home-components.css';
-@import './_home-inline.css';
+@import './_home-layout.css?v=20261007';
+@import '../04_Components/_home-components.css?v=20261007';
+@import './_home-inline.css?v=20261007';
 
 .home-layout__top {
   display: grid;
