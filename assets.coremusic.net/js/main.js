@@ -33,6 +33,7 @@ import ComponentLoader from './components/base/ComponentLoader.js';
 import AccordionComponent from './components/interactive/AccordionComponent.js';
 import InfiniteScroll from './components/interactive/InfiniteScroll.js';
 import PlayerInfoComponent from './components/interactive/PlayerInfoComponent.js';
+import HistoryComponent from './components/interactive/HistoryComponent.js';
 
 /* Batch 3 migrasyonu (2026-09-27) — cm-tabs/cm-dropdown/cm-toast → composites/.
    Gerekçe: şablonlarda data-cm-component="cm-tabs|cm-dropdown|cm-toast" YOK,
@@ -145,6 +146,7 @@ import MiniCardComponent from './components/composites/MiniCardComponent.js';
             .register('cm-toast', ToastComponent)
             .register('cm-infinite-scroll', InfiniteScroll)
             .register('cm-player-info', PlayerInfoComponent)
+            .register('cm-history', HistoryComponent)
             /* Faz 2 Batch 1 — primitive bileşenler (Figma 18:2907) */
             .register('cm-button', ButtonComponent)
             .register('cm-input', InputComponent)

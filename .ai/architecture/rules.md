@@ -2,7 +2,7 @@
 title: "Architecture — Mimari Kurallar V2 (SSOT · K-Space Rejimi)"
 type: rules
 category: architecture
-version: "2.0.0"
+version: "2.1.0"
 status: active
 authority: "SSOT: .ai/architecture/rules.md — .ai/architecture/** tek kural kaynağı; kurucu karar: ADR-096"
 updated: 2026-10-08
@@ -40,9 +40,9 @@ depends-on: [".ai/CLAUDE.md", ".ai/.decisions/accepted/ADR-096-kspace-5000-bound
 
 ## R3 — Dosya İskeleti ve Parçalama
 
-1. **Her katman dizini** en az `index.md` taşır (zorunlu çekirdek: kimlik özeti + bant + bağımlılık + kanıt — R4). Derinleşme (ek .md) **yalnız gerçek karmaşıklıkta** (F2 §42/§11): servis/adaptör/derin modül ayrımı varsa.
+1. **Her katman ÇOKLU MD'dir (karar 13-14 · 2026-10-08):** `index.md` (zorunlu çekirdek: navigasyon + 16 alan özet — **dokunulmaz, In-Place**) + **en az 4 derin dosya**: `kimlik-karti.md` (EK C 20 alan tam kart) · `sorumluluk.md` (kalem tablolarının TAM derinliği) · `bagimlilik-sinir.md` (izinli/yasak matrisleri + boundary detay) · `kanit-kaynaklari.md` (3'lü kanıt zinciri + ⚠️ defteri). **Tek `index.md` ile yetinen katman EKSİKTİR.** Bölme (split) YOK — derin dosyalar index'in DERİNLEŞTİRİLMESİDİR (G5 istisnası: aynı konu, farklı derinlik; çift kaynak değil, özet↔derinlik katmanıdır).
 2. **Tek dev md yASAK** (F2 §42): mimari anlatı tek dosyaya gömülmez; çoklu-md + çoklu-kategori.
-3. **min-500 (karar 10 + 12):** mimari **ÜRETİM** dosyaları (katman `index.md`/derinleşme, envanter `partNN`, bant/domain dosyaları) ≥500 satır. **Muaf:** idari/operasyonel belgeler (ADR, SESSIONS notu, decisions/index, log, kurallar, şablonlar) — doğal boyut. **Şişirme/dolgu her yerde yasak** (H1): 500 gerçek derinlikten gelir; yetmezse araştırma (R14) → yetmiyorsa birleşim (komşu bölüm) ya da `⚠️`.
+3. **Boyut bandı (karar 15 · 13-16 düzeltmesi · min-500 yerine):** katman **derin dosyası ≥250 satır** · **katman toplamı ≥1000** (index dahil) · **rapor ≥5000**. Katman `index.md` ~500 bandında (kanonik üretim standardı). **Muaf:** idari/operasyonel belgeler (ADR, SESSIONS notu, decisions/index, log, kurallar, şablonlar) — doğal boyut. **Şişirme/dolgu her yerde yasak** (H1): derinlik gerçek içerikten gelir; yetmezse araştırma (R14) → yetmiyorsa `⚠️` + dosya azaltılır (kaynak yalanı değil).
 4. **Rapor** (`00-final-rapor.md`) ≥5000 satır (F1 §10.3).
 5. **>2000 satır → `partNN`** ile bölünür; parçalar wiki-link ile bağlı (orphan üretilmez).
 6. Envanter dosyası: `inventory/{konu}-part{NN}.md` — bir part = bir tür/konu (karışık part yasak).

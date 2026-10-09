@@ -116,6 +116,8 @@ Bant 9  K5021-K5999  RESILIENCE / FUTURE / RESERVED
 
 **Uçak ayrımı (F1 GÖREV 07):** SOFTWARE PLANE = K000→K15+ (K001 HARDWARE dahil — donanım-yazılım kesişimi, yalnız driver/API sınırı) · PHYSICAL PLANE = K016→K020 (+ bant 6 derin donanım).
 
+> **Aktif dönem notu (2026-10-08 · karar 13-16 — §2.5 bu notla güncellendi, metin silinmedi):** Her katman **ÇOKLU MD**'dir: `index.md` (dokunulmaz çekirdek) + **en az 4 derin dosya** (`kimlik-karti.md` · `sorumluluk.md` · `bagimlilik-sinir.md` · `kanit-kaynaklari.md`). Split YOK (additive). Boyut bandı: derin dosya ≥250 · katman toplamı ≥1000 (rules R3 v2.1 · karar 15). Gerekçe: kullanıcı kararı — tek `index.md` yeterli değil; derinlik ayrı dosyalarda yaşar, index özet/kanıt-sigortası kalır (G5 istisnası).
+
 **Dependency yönü (uyumlu):** izinli = alt katmanlar (K-ID aralığı daha düşük) + port/adapter · yasak = üst katmana doğrudan erişim, geri çağrı (F1 H20), veri paylaşımı (H19). Olay (event) yayını yukarı serbest — anayasa §5.1 + F1 §8 ile üçlü uyum.
 
 **Validator (11 check):** `fm · link · ssot · dep · tier · orphan · id · budget · depdir · fanout · idrange` — kapsam: `.ai/*.md` + `.agents/.rules/.decisions/index` + `architecture/**`; `prompts/` tarama dışı (R0 keşfi). Genişletme yalnız `validate.mjs` içinden.

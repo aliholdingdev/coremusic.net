@@ -76,11 +76,19 @@ return [
         meta: ['ttlType' => 'user'],
     ),
 
-    // Full-screen music player
-    'player' => new SpaRoute(
-        page: 'player',
+    // Full-screen music player (Now Playing)
+    'nowplaying' => new SpaRoute(
+        page: 'nowplaying',
         requiresAuth: true,
-        title: 'Müzik Çalar',
+        title: 'Now Playing',
+        cacheable: true,
+    ),
+
+    // Dinleme geçmişi
+    'history' => new SpaRoute(
+        page: 'history',
+        requiresAuth: true,
+        title: 'Geçmiş',
         cacheable: true,
     ),
 

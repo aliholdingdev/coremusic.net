@@ -684,3 +684,28 @@
         width: 160px;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   SHELL UYUMU — sayfa HtmlShellRenderer shell'i içinde render edilir
+   (header/footer fixed + .page-layout kabuğu). pages/nowplaying.php
+   yükseklik/taşma/yön burada reconcile edilir — 05_Pages içi tek nokta.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.page-player.page-layout {
+    height: auto;
+    width: calc(100vw - var(--sidebar-offset, 0px));
+}
+
+.page-player.page-layout .player-content {
+    flex: 1;
+    height: auto;
+    min-height: 0;
+}
+
+/* Sol sütun: kapak + Player Info kartı alt alta; taşma kendi içinde scroll */
+.page-player.page-layout .player-visual {
+    flex-direction: column;
+    gap: var(--space-4, 16px);
+    overflow-y: auto;
+    min-height: 0;
+}

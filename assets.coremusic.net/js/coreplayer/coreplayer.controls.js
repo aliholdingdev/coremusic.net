@@ -140,7 +140,7 @@
 
       const type = PlaybackRepository.getCurrentSongType();
       if (type === '1') {
-        window.location.href = '/player/' + prev;
+        window.location.href = '/nowplaying/' + prev;
       } else {
         window.location.href = '/play/' + prev;
       }
@@ -153,7 +153,7 @@
 
       const type = PlaybackRepository.getCurrentSongType();
       if (type === '1') {
-        window.location.href = '/player/' + next;
+        window.location.href = '/nowplaying/' + next;
       } else {
         window.location.href = '/play/' + next;
       }

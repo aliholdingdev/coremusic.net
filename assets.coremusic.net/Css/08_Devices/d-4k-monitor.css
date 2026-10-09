@@ -22,6 +22,8 @@
 @import '../03_Layout/_footer.css';
 @import '../06_Utilities/u-helpers-utility.css';   /* .is-hidden — footer pause/play ikonu */
 @import '../05_Pages/_home.css';
+@import '../05_Pages/_player.css?v=1.0.0';
+@import '../05_Pages/p-history.css?v=1.0.0';
 
 /* ============================================================
    DEVICE TOKEN OVERRIDES (4K Monitor)

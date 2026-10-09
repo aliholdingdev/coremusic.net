@@ -43,7 +43,8 @@ export default class DeviceManager {
         }
 
         this.#applyDevice(this.#currentDevice);
-        this.#bindResize();
+        // WP2/J3: resize bind YOK (device-loader sahipler); köprü kurulur.
+        window.addEventListener('devicechange', this.#onWindowDeviceChange);
     }
 
     /** Viewport boyutundan cihaz tespit et — WP2/J2: SSOT delegasyonu
@@ -55,16 +56,10 @@ export default class DeviceManager {
         return window.CoreMusic.BreakpointAPI.detectDevice(w, h);
     }
 
-    /** Cihaz CSS'ini uygula */
+    /** Cihaz CSS'ini uygula — WP2/J3: CSS YAZMAZ (tek yazıcı = device-loader;
+        SSR link ilk boyamayi zaten yapar; buradaki eski #loadCSS bustersizdi
+        → link kavgasi/churn — silindi). Yalniz durum atributlarini gunceller. */
     #applyDevice(device) {
-        const baseUrl = (window.CoreMusic?.RouterConfig?.assetsUrl || 'https://assets.coremusic.net') + '/Css/';
-        const isAuth = document.body?.dataset?.page === 'auth';
-
-        const cssMap = isAuth ? DeviceManager.AUTH_CSS : DeviceManager.HOME_CSS;
-        const cssPath = cssMap[device] || cssMap.desktop;
-
-        this.#loadCSS(baseUrl + cssPath, 'cm-device-css');
-
         if (document.body) {
             document.body.setAttribute('data-device', device);
         }
@@ -73,38 +68,17 @@ export default class DeviceManager {
         window.CoreMusic.deviceType = device;
     }
 
-    /** Tek CSS dosyası yükle/değiştir */
-    #loadCSS(href, id) {
-        const existing = document.getElementById(id);
-        if (existing) {
-            if (existing.getAttribute('href') === href) return;
-            existing.remove();
-        }
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = href;
-        link.id = id;
-        document.head.appendChild(link);
-    }
+    /* WP2/J3: #loadCSS silindi (tek yazici = device-loader.loadCSS) ve
+       #bindResize silindi (tek resize sahibi = device-loader, 300ms debounce;
+       buradaki 200ms ikinci yazim kavgasi uretiyordu). */
 
-    /** Resize observer — 200ms debounce */
-    #bindResize() {
-        let timer = null;
-        window.addEventListener('resize', () => {
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-                const newDevice = this.#detect();
-                if (newDevice !== this.#currentDevice) {
-                    const old = this.#currentDevice;
-                    this.#currentDevice = newDevice;
-                    this.#applyDevice(newDevice);
-                    this.#eventBus.emit('devicechange', { device: newDevice, previous: old });
-                }
-            }, 200);
-        });
-    }
+    /** window 'devicechange' → EventBus köprüsü (device-loader yayınlar;
+        dinleyiciler EventBus üzerinden: TouchManager rebind (J5b), gelecek moduller). */
+    #onWindowDeviceChange = (e) => {
+        this.#eventBus?.emit('devicechange', e && e.detail ? e.detail : {});
+    };
 
     destroy() {
-        /* Resize listener DOM unload'da otomatik temizlenir */
+        window.removeEventListener('devicechange', this.#onWindowDeviceChange);
     }
 }

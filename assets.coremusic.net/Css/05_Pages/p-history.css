@@ -1,0 +1,306 @@
+/**
+ * Dosya: p-history.css
+ * Katman: 05_Pages - sayfa özel stiller
+ * Rol: Geçmiş sayfası — breadcrumb/arama toolbar + track listesi + Player-Info sidebar
+ * Bağımlılık: token tüketir: var(--glass-*), var(--text-*), var(--ts-*), var(--space-*),
+ *             var(--touch-min), var(--radius-*), var(--transition-all), var(--cm-accent)
+ * MOCKUP: .ai/ui-design/reference/figma/png/1339-23464-Laptop-1920---Ge-mi-Page.png
+ *         + .ai/.png/home-1024/Linux  1024 - Home Page.png (Geçmiş render'ı)
+ * SAYFA : home.coremusic.net/pages/history.php
+ * JS    : js/components/interactive/HistoryComponent.js (cm-history)
+ * NOT   : tekrar eden parça yok → 04; token tanımı yok → 01 (C6)
+ *         grid-track px'leri p-playlist.css kardeş kalıbı (05_Pages içi tutarlılık)
+ */
+
+/* === TOOLBAR — PNG: geri/ileri + "Geçmiş" + "Geçmiş'te ara" === */
+.history-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.history-toolbar__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.history-toolbar__btn {
+  width: var(--touch-min);
+  height: var(--touch-min);
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  border-radius: var(--radius-full);
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+.history-toolbar__btn:hover {
+  background: var(--glass-bg-hover, rgba(255, 255, 255, 0.12));
+}
+
+.history-toolbar__btn:focus-visible {
+  outline: 2px solid var(--focus-ring-color, var(--cm-accent, #ff4fd8));
+  outline-offset: 2px;
+}
+
+.history-toolbar__icon {
+  width: var(--space-5);
+  height: var(--space-5);
+}
+
+.history-toolbar__crumb {
+  margin-inline-start: var(--space-2);
+}
+
+.history-toolbar__title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--white, var(--cm-white));
+  text-shadow: var(--ts-sm);
+}
+
+.history-toolbar__search {
+  display: flex;
+  align-items: center;
+}
+
+.history-toolbar__input {
+  min-height: var(--touch-min);
+  min-width: 240px;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-base);
+  color: var(--text-primary);
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  border-radius: var(--radius-full);
+  transition: var(--transition-all);
+}
+
+.history-toolbar__input::placeholder {
+  color: var(--text-secondary);
+}
+
+.history-toolbar__input:focus-visible {
+  outline: 2px solid var(--focus-ring-color, var(--cm-accent, #ff4fd8));
+  outline-offset: 2px;
+}
+
+/* === BODY — liste + Player-Info sidebar === */
+.page-history__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--grid-gap-lg, var(--grid-gap, 10px));
+  flex: 1;
+  min-height: 0;
+}
+
+.page-history__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+/* === TRACK LIST === */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  backdrop-filter: var(--glass-blur, blur(12px));
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  border-radius: var(--radius-md, var(--radius-sm, 8px));
+  box-shadow: var(--glass-shadow);
+  /* Konteyner sorgusu hedefi: asıl sıkışan yer liste sütununun kendisi
+     (kanıt: /history @1024 nav-açık → gövde 712 → liste ~312px) */
+  container-type: inline-size;
+}
+
+.history-list__head {
+  display: grid;
+  grid-template-columns: var(--touch-min) minmax(0, 1.5fr) minmax(0, 1fr) 76px;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--white-70, rgba(255, 255, 255, 0.7));
+  border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  position: sticky;
+  top: 0;
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  z-index: 1;
+  text-shadow: var(--ts-xs);
+}
+
+.history-list__col--end {
+  text-align: right;
+}
+
+.history-list__items {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-1, 4px);
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.history-list__items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-list__items::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+.history-list__items::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+
+/* Filtre gizleme: [hidden] + author display çakışmasına karşı açık kural */
+.history-list__item[hidden] {
+  display: none;
+}
+
+.history-row {
+  display: grid;
+  grid-template-columns: var(--touch-min) minmax(0, 1.5fr) minmax(0, 1fr) 76px;
+  gap: var(--space-2);
+  align-items: center;
+  min-height: var(--touch-min);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+.history-row:hover {
+  background: var(--glass-bg-hover, rgba(255, 255, 255, 0.12));
+}
+
+.history-row:focus-visible {
+  outline: 2px solid var(--focus-ring-color, var(--cm-accent, #ff4fd8));
+  outline-offset: -2px;
+}
+
+.history-row__play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-7, 28px);
+  height: var(--space-7, 28px);
+  border-radius: var(--radius-full);
+  background: var(--accent-bg, rgba(255, 79, 216, 0.15));
+  color: var(--cm-accent, #ff4fd8);
+}
+
+.history-row__icon {
+  width: var(--space-4);
+  height: var(--space-4);
+  margin-inline-start: 2px; /* görsel optik ortalama (ikon üçgeninin ağırlık merkezi) */
+}
+
+.history-row__title {
+  font-size: var(--text-base);
+  color: var(--white, var(--cm-white));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: var(--ts-sm);
+}
+
+.history-row__artist {
+  font-size: var(--text-sm);
+  color: var(--white-70, rgba(255, 255, 255, 0.7));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: var(--ts-xs);
+}
+
+.history-row__duration {
+  font-size: var(--text-sm);
+  color: var(--white-70, rgba(255, 255, 255, 0.7));
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  text-shadow: var(--ts-xs);
+}
+
+.history-list__empty {
+  margin: 0;
+  padding: var(--space-6, 24px) var(--space-4);
+  text-align: center;
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+}
+
+.history-list__empty[hidden] {
+  display: none;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+/* dar ekran — yalnız token uyarlaması (p-playlist kalıbı) */
+@media (max-width: 767px) {
+  .page-history__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page-history__sidebar {
+    order: -1;
+  }
+
+  .history-list__head,
+  .history-row {
+    grid-template-columns: var(--touch-min) minmax(0, 1fr) 76px;
+  }
+
+  .history-list__col:nth-child(3),
+  .history-row__artist {
+    display: none;
+  }
+}
+
+/* dar KONTİYNER — sidebar panel açıkken (viewport ≥768 olsa bile) */
+@container (max-width: 420px) {
+  .history-list__head,
+  .history-row {
+    grid-template-columns: var(--touch-min) minmax(0, 1fr) 76px;
+  }
+
+  .history-list__col:nth-child(3),
+  .history-row__artist {
+    display: none;
+  }
+}
+
+/* wide desktop — satır yüksekliği artar (p-playlist 1920 kalıbı) */
+@media (min-width: 1920px) {
+  .history-row {
+    min-height: var(--space-16, 64px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .history-toolbar__btn,
+  .history-toolbar__input,
+  .history-row {
+    transition: none;
+  }
+}

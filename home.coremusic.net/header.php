@@ -93,7 +93,7 @@ $headerTierClass = $dm->shouldRender4kLayout()
                 <div class="header-user-dropdown" role="menu">
                     <a href="/profil" role="menuitem" data-no-spa>Profilim</a>
                     <a href="/ayarlar" role="menuitem" data-no-spa>Ayarlar</a>
-                    <a href="/gecmis" role="menuitem" data-no-spa>Geçmiş</a>
+                    <a href="/history" role="menuitem" data-no-spa>Geçmiş</a>
                     <a href="/logout" class="logout-btn" role="menuitem" data-no-spa>Çıkış Yap</a>
                 </div>
             </div>

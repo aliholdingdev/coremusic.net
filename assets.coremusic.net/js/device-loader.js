@@ -86,12 +86,35 @@
     }
 
     /**
-     * Tek bir CSS dosyası yükle/değiştir
-     * @param {string} href  CSS dosya yolu
+     * CSS base URL — TEK nokta (WP2/J3): RouterConfig.assetsUrl (shell inline
+     * script device-loader'dan ÖNCE basar → her zaman mevcut).
+     */
+    function cssBase() {
+        const rc = window.CoreMusic && window.CoreMusic.RouterConfig;
+        return (rc && rc.assetsUrl ? rc.assetsUrl : '') + '/Css/';
+    }
+
+    /**
+     * Tek bir CSS dosyası yükle/değiştir — WP2/J3: TEK CSS YAZICISI.
+     *
+     * Sözleşme:
+     *  - Mutlak yol (http(s)://... veya /...) olduğu gibi kalır; GÖRELI yol
+     *    (ör. '09_ViewModes/v-home.css') cssBase() ile çözülür → dış cagiricilar
+     *    (ViewModeManager) artik kendi yazicisini kullanmaz.
+     *  - Cache-buster (?v=) TEK burada uygulanir (SSR DeviceRenderer::link ile ayni sozlesme).
+     *  - Ayni href zaten yüklüyse atlama (remove+append churn'i yok).
+     *  - SIRA: cm-view-css her zaman cm-device-css'ten HEMEN SONRA durur
+     *    (ADR-093 §1.3 latent: link'i head sonuna atmak view'i eziyordu).
+     *
+     * @param {string} href  Mutlak veya cssBase'e goreli CSS yolu
      * @param {string} id    Link element ID
      * @returns {HTMLLinkElement}
      */
     function loadCSS(href, id) {
+        if (!/^(https?:)?\/\//.test(href) && href.charAt(0) !== '/') {
+            href = cssBase() + href;
+        }
+
         const buster = cssBuster();
         if (buster) {
             href += (href.indexOf('?') > -1 ? '&' : '?') + 'v=' + buster;
@@ -108,7 +131,17 @@
         link.rel = 'stylesheet';
         link.href = href;
         link.id = id;
-        document.head.appendChild(link);
+
+        if (id === 'cm-view-css') {
+            const deviceLink = document.getElementById('cm-device-css');
+            if (deviceLink) {
+                deviceLink.after(link);
+            } else {
+                document.head.appendChild(link);
+            }
+        } else {
+            document.head.appendChild(link);
+        }
         return link;
     }
 
@@ -351,6 +384,9 @@
             getTier: getTier,
             loadAll: loadAll,
             loadDeviceOnly: loadDeviceOnly,
+            // WP2/J3: dis cagirici yazici (ViewModeManager vs.) — goreli yol +
+            // buster + siralama sozlesmesi loadCSS icerisinde.
+            loadCSS: loadCSS,
             getDevice: function () { return lastDevice; },
             BREAKPOINTS: BP,
         };

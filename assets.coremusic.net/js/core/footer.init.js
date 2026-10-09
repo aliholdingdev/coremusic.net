@@ -153,7 +153,7 @@
 
       document.addEventListener('click', function (e) {
         const target = e.target instanceof Element
-          ? e.target.closest('a.home-song__mini-card[data-stream]')
+          ? e.target.closest('a[data-stream]')
           : null;
         if (!target) return;
 
