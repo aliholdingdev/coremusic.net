@@ -8,10 +8,10 @@ status: active
 version: 1.2.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total-accepted: 73
+total-accepted: 78
 total-rejected: 7
 total-frozen: 36
-total-active: 37
+total-active: 42
 total-draft: 0
 # Control Plane v2 (2026-10-07):
 tier: 3
@@ -33,13 +33,15 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Durum | Sayı | Açıklama |
 |-------|------|----------|
 | **Frozen** | 36 | Değiştirilemez (ADR-001 → ADR-036; ADR-037 debate ✅, frozen YOK) |
-| **Active** | 39 | Güncellenebilir (ADR-038 → ADR-096) |
+| **Active** | 44 | Güncellenebilir (ADR-038 → ADR-101) |
 | **Rejected** | 7 | Reddedilen kararlar |
 | **Draft** | 0 | Taslak yok (ADR-089 kabule terfi etti, 2026-09-24) |
-| **Toplam** | 82 | — |
+| **Toplam** | 87 | - |
 
 > Not (2026-10-06 LINT-3): §3 başlığı ve §6 eski hali ADR-037'yi frozen sayıyordu (37/35); §2'deki "ADR-037 debate ✅, frozen YOK" kaydı esas alındı → 36/36. Çelişki Vault Steward onayına açıktır.
 > Not (2026-10-08): ADR-096 eklendi (K-Space V2 rejimi — ADR-096 §2'deki Active sayımı ile FM totals hizalandı; §6 haritası güncellendi).
+> Not (2026-10-09): ADR-097 eklendi (K-space naming v2 + state-md seti + 6.000 katman ölçeği; §2/§6 +1 Active Architecture).
+> Not (2026-10-09): ADR-098..101 eklendi (50 yıllık mimari ilkeler araştırması → mimari plan §8 kararları; +2 Architecture · +1 Database · +1 Security Active; kaynak: `[[architecture/coremusic-mimari-plani]]` · `[[reports/2026-10-09-50-yillik-mimari-ilkeler-arastirmasi]]` — kullanıcı onayı "devam").
 
 ## 3. Frozen ADR'ler (001-036)
 
@@ -82,7 +84,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[accepted/ADR-035-system-prompt-engineering]] | System Prompt Engineering | AI |
 | [[accepted/ADR-036-multi-project-prompt-maker]] | Multi-Project Prompt Maker | AI |
 
-## 4. Active ADR'ler (037-096 — diskte dosyası olanlar)
+## 4. Active ADR'ler (037-097 — diskte dosyası olanlar)
 
 | ADR | Başlık | Kategori |
 |-----|--------|----------|
@@ -132,6 +134,11 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | [[accepted/ADR-094-api-pipeline-origin-csrf]] | API pipeline'ına OriginCheck + koşullu CSRF eklendi (ADR-020 sıra genişletmesi; B-F-02/B-F-03) | Security |
 | [[accepted/ADR-095-hybrid-jwt-rs256-access-token]] | Hybrid JWT (RS256): issue/validate/revocation — firebase/php-jwt, jti→user_tokens, 0 migration | Security |
 | [[accepted/ADR-096-kspace-5000-boundary-model]] | K-Space 5000+ Boundary Model & V2 Mimari Rejimi (K000-K5999 · 9 bant · hibrit kayıt · min-500 · On Kapı — F1+F2) | Architecture |
+| [[accepted/ADR-097-kspace-naming-v2-state-md]] | K-space Naming v2 (sıra eki, tekrar yok) + duruma göre md seti + 6.000 katman sayımı (5.041 dizin · 5.089 md) | Architecture |
+| [[accepted/ADR-098-modul-siniri-gizlenecek-karar]] | Modül Sınırı = Gizlenecek Karar (Parnas 1972) | Architecture |
+| [[accepted/ADR-099-tek-deploy-modular-monolith]] | Tek Deploy + Zorlanabilir Modül Sınırları (Modular Monolith) | Architecture |
+| [[accepted/ADR-100-cross-db-outbox-cqrss-semi]] | Cross-DB Yazmada Outbox Zorunlu; CQRS Yalnız Okuma Sorgusu Düzeyinde | Database |
+| [[accepted/ADR-101-guvenlik-kanonik-sirasi-uzak-cagri]] | Güvenlik Kanonik Sırası + Uzak Çağrı Sınırları (Timeout/Retry/Fallback) | Security |
 
 ## 4A. Draft ADR'ler
 
@@ -160,9 +167,9 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 | Kategori | Frozen | Active | Toplam |
 |----------|--------|--------|--------|
-| Security | 8 | 6 | 14 |
-| Database | 4 | 12 | 16 |
-| Architecture | 6 | 2 | 8 |
+| Security | 8 | 7 | 15 |
+| Database | 4 | 13 | 17 |
+| Architecture | 6 | 7 | 13 |
 | Frontend | 2 | 5 | 7 |
 | Audio | 3 | 2 | 5 |
 | Routing | 3 | 0 | 3 |
@@ -175,7 +182,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | Mobile | 1 | 0 | 1 |
 | Vault | 0 | 1 | 1 |
 | Electronics | 0 | 6 | 6 |
-| **TOPLAM** | **36** | **37** | **73** (ADR-096 ile +1 Architecture Active) |
+| **TOPLAM** | **36** | **42** | **78** (ADR-098..101 ile +4 Active — 2026-10-09) |
 
 > Not: Bu harita yalnızca accepted ADR'leri kapsar (73). Rejected (7) + Draft (0) hariçtir. §2 ile FM totals arasındaki tarihsel fark (Active 39 vs FM 37 — ADR-083/087/088/091 brain-only satırları + §4 başlık aralığı) **mevcut borç**, ADR-096 kapsamı dışında: DOĞRULAMA GEREKLİ.
 
