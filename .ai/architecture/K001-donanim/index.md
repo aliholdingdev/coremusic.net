@@ -31,9 +31,21 @@ authority: SSOT
 | ADR-061 | Electronics Architecture (L6) |
 | ADR-038 | 8.1 Sound Card (PCM3168A + XMOS) |
 
-## §5 Durum
+## §5 Alt Klasör Dizini (2026-10-10 disk ölçümü)
+
+| # | Alt klasör | Dosya | Durum |
+|---|---|---|---|
+| 1 | `donanım-api/` | index.md | PLANNED (spec) |
+| 2 | `donanım-core/` | index.md | PLANNED (spec) |
+| 3 | `donanım-kernel/` | index.md | PLANNED (spec — sınır) |
+| 4 | `donanaım-type/` | index.md · `electroncis-circuits/` (index + `amfiliper/` index) · `hdd/` index · `ssd/` index | circuits: PLANNED · hdd/ssd: **UNKNOWN** |
+
+> Dizin adlarındaki yazım hataları (`donanaım`, `amfiliper`) **mevcut yapıdır — değiştirilmedi** (onaysız rename yasak); rapor edildi.
+
+## §6 Durum
 **PLANNED** — şartname/ADR düzeyinde. `.ai/AGENTS.md` §25.2: Embedded/DSP yüzeyi "⚠️ PLANNED (spec mevcut)".
 
-## §6 Risk / Not
+## §7 Risk / Not
 - Ölçüm/üretim verisi yok → performans iddiası yazılmaz (**UNKNOWN**).
 - Donanım içerikleri yalnız `.ai/.decisions/` altında ADR olarak mevcut.
+- `donanaım-type/hdd` ve `ssd` dallarının K001 kapsamına dahil olma kasıtı kanıtlanamadı → `⚠️ VERIFICATION REQUIRED` (§5-4).

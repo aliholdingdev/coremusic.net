@@ -46,3 +46,40 @@ authority: SSOT — A0-A5 etiketleri .ai/AGENTS.md §5; kenarlar mimari plandan
 
 - Katman ihlali (ör. controller'ın doğrudan PDO çağırması) → **derhal revert + log ERROR** (plan §4 · AGENTS §5 Layer Violation).
 - Denetim: bu matris + her katman dosyasının §3 bölümü; ikinci kaynak üretilmez.
+
+## §4 Makro K0–K4 Eşleme (türetilmiş etiket — 2026-10-10)
+
+> **Numara çelişkisi (bildirildi):** talimat bu bölümü `## §3 Makro K0–K4 Eşleme` olarak istemiştir; bu
+> dosyada `## §3` zaten **İhlal Kuralı** olarak mevcuttur (yukarıda, değişmedi) → başlık **§4** olarak
+> eklendi. SSOT: `[[../katmanli-mimari-k0-k4/index]]` §1.1 (gruplama) · `[[../00-master-index]]` §8 (21 K → makro).
+
+| Makro | K katmanları | Alan (AGENTS §5) | Kapsam |
+|---|---|---|---|
+| **K0** | K000 · K001 | A0 | Altyapı/Donanım zemini |
+| **K1** | K002 · K003 | A0 | Sürücü & Ses Motoru |
+| **K2** | K005 · K006 · K007 | A0 · A1 · A1 | Veri · Güvenlik · Middleware |
+| **K3** | K004 · K008 · K010 · K015 | A0 · A2 · A3 · A4 | Yapay Zeka · Servis · Uygulama · Medya |
+| **K4** | K009 · K011 · K014 | A2 · A3 · A4 | API · UX · Ağ |
+| **CROSS** | K012 · K013 | A4 · A4 | İzleme · CI/CD (cross-cutting) |
+| **A5** *(makro K0–K4'e girmez)* | K016 · K017 · K018 · K019 · K020 | A5 | Donanım bileşenleri |
+
+```text
+[A5]  K016 K017 K018 K019 K020   · PLANNED ×5 · makro K0–K4'e GİRMEZ
+ ⋮  . . . kesikli skip-edge: A5 → A0 zemini (matris §2 — aralık bağımlılığı) . . .
+ ↓
+[K4]   K009 API · K011 UX · K014 Ağ
+ ↓
+[K3]   K004 AI · K008 Servis · K010 Uygulama · K015 Medya
+ ↓
+[K2]   K005 Veri · K006 Güvenlik · K007 Middleware
+ ↓
+[K1]   K002 Sürücü · K003 Ses Motoru
+ ⋮  . . . kesikli skip-edge: [CROSS] K012 İzleme · K013 CI/CD → yalnız K000 zeminine . . .
+ ↓
+[K0]   K000 İşletim Sistemi · K001 Donanım     ← tek A0 zemini
+```
+
+> ⚠️ **Uyarı (bağlayıcı):** oklar **yalnız aşağı**dır; kesikli (`⋮`) çizgiler **bağımlılık değil**,
+> aralık bağımlılığı/cross-cutting atıfıdır. **A5 → K0–K4 bağımlılık değildir**; **A5 içi kenarlar
+> UNKNOWN**dır (§2 son satır — plan §3 yalnız web topolojisini çizer). Bu bölüm **türetilmiş** etikettir;
+> bağlayıcı gruplama SSOT'u `[[../katmanli-mimari-k0-k4/index]]` §1.1'dir, bu tablo ikinci bir SSOT değildir.
