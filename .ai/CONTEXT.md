@@ -4,7 +4,7 @@ type: docs
 category: vault
 date: 2026-10-03
 updated: 2026-10-07
-version: 1.1.0
+version: 1.2.0
 status: active
 authority: "SSOT (klasör kökü) — çelişkide disk kazanır"
 docType: context
@@ -14,16 +14,16 @@ domain: navigation
 ssot: false
 risk: low
 owner: "MO"
-depends-on: [".ai/CLAUDE.md", ".ai/AGENTS.md"]
+depends-on: [".ai/CLAUDE.md", ".ai/AGENTS.md", ".ai/SYNC.md"]
 ---
 
 # CoreMusic — .ai/ Vault Klasör Context
 
 **docType:** context · **Klasör:** `.ai/` · **Sorumlu:** MO (vault-updater)
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[../AGENTS.md]] · [[.templates/index]] · [[architecture/context]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[index.md]] · [[../AGENTS.md]] · [[.templates/index]] · [[architecture/00-master-index]] · [[SYNC]]
 
-**Hot Memory (2026-10-07):** `.ai/architecture/context.md` — mimari katman bağlamı, `instructions[]` ile **otomatik yüklenir** (opencode.json 18 · settings.json 6). Genel context = bu dosya; mimari context = [[architecture/context]] (SSOT: [[architecture/rules]]).
+**Hot Memory (2026-10-10):** Mimari context = [[architecture/00-master-index]] (21 katman K000-K020 · `katman-baglilik-matrisi` · `coremusic-mimari-plani`). Genel context = bu dosya. Sürekli güncelleme döngüsü = [[SYNC]] (hedef set 26).
 
 ---
 
@@ -65,7 +65,9 @@ depends-on: [".ai/CLAUDE.md", ".ai/AGENTS.md"]
 
 ## 3. Mimari
 
-### 3.1 Kök Dosya Envanteri (depth 0 — **2026-10-07 ölçümü: 20 `.md` + `.env.figma` = 21 dosya** (+RAG.md); önceki: 2026-10-07 19 `.md` = 20 dosya · 2026-10-03 19 dosya)
+### 3.1 Kök Dosya Envanteri (depth 0 — **2026-10-10 ölçümü: 20 `.md` = 20 dosya** · `.env.figma` **YOK**; önceki: 2026-10-07 20 `.md` + `.env.figma` = 21 · 2026-10-03 19 dosya)
+
+> ⚠️ **DÜZELTME (2026-10-10):** Eski kayıt `.env.figma`'yı kök dosya sayıyordu — `Test-Path .ai/.env.figma = False`. Figma anahtarı artık `.ai/.env.figma`'da **bulunmuyor**; `.gitignore:69` kuralı ve `figma-extract.ps1`/`figma-tokens.ps1` davranışı değişmedi, ancak **anahtarın nerede olduğu UNKNOWN** (REDACTED kuralı gereği araştırılmaz, kopyalanmaz). Eski sayım 21 → yeni 20.
 
 | Dosya | Ne için kullanılır | Neyden oluşur | Neden var | Ne zaman düzenlenir |
 |-------|--------------------|---------------|-----------|---------------------|
@@ -86,7 +88,7 @@ depends-on: [".ai/CLAUDE.md", ".ai/AGENTS.md"]
 | `PROJECTS.md` | Proje envanteri, 10 yetenek, hedef kitle | Proje/kitle tabloları | Kapsam tanımı tek yerde dursun | Kapsam değişince |
 | `CHECKLIST.md` · `PLAN.md` · `TODO.md` | Plan/kontrol listesi görünümü (içerik OKUNMADI — VERIFICATION REQUIRED) | UNKNOWN | — | — |
 | `broken-links-report.md` | Kırık link raporu görünümü (içerik OKUNMADI — VERIFICATION REQUIRED) | UNKNOWN | — | — |
-| `.env.figma` | Figma erişim anahtarı — **gitignore'da, hiçbir .md/.json/.log'a yazılmaz** | Değişken/anahtar (REDACTED) | Figma çekimi çalışsın (Guardrail REDACTED) | Anahtar yenilenince; içeriği asla kopyalanmaz |
+| `.env.figma` | ⚠️ **2026-10-10: diskte YOK** (`Test-Path = False`) — eski kayıt "Figma erişim anahtarı, gitignore'da" idi. Kural hâlâ geçerli: anahtar hiçbir `.md`/`.json`/`.log`a yazılmaz (REDACTED); nerede olduğu UNKNOWN | **YOK (2026-10-10)** | — | — |
 
 **Kökdosya eli10/eli15 blokları (başlıca 6 madde):**
 
@@ -114,32 +116,38 @@ depends-on: [".ai/CLAUDE.md", ".ai/AGENTS.md"]
 > **eli10 (basit):** Dış servise giriş anahtarını taşıyan, kimseye gösterilmeyen dosya.
 > **eli15 (detay):** Ayrı ve gizli dosyadır çünkü anahtar metin olarak yayılırsa erişim ele geçirilir. İçeriği hiçbir belgeye kopyalanmaz (REDACTED). Okunması yalnız betikler içindir. Anahtar süresi dolunca yenilenir; kural ihlalinde derhal döndürülür.
 
-### 3.2 Alt Dizin Envanteri (depth 1 — **2026-10-07 ölçümü: 13 dizin**; önceki: 2026-10-03 20 dizin — sadeleştirme)
+### 3.2 Alt Dizin Envanteri (depth 1 — **2026-10-10 ölçümü: 17 dizin**; önceki: 2026-10-07 13 dizin · 2026-10-03 20 dizin)
+
+**17 dizin (2026-10-10):** `.agents` · `.decisions` · `.obsidian` · `.personas` · `.png` · `.rules` · `.sql` · `.templates` · `architecture` · `ecosystem` · `index` · `prompts` · `reports` · `scripts` · `servers` · `SESSIONS` · `ui-design`
+
+> ⚠️ **DÜZELTME (2026-10-10):** Eski tablo 13 dizin sayıyordu ve `archives/` · `checklists/` · `.subdomains/` · `projects/` · `.diagram/` satırlarını taşıyordu — **bu beş dizin diskte YOK** (`Test-Path = False`). Yeni/eksiksiz eklenen dizinler: `index/` (5 alt sayfa) · `prompts/` (3 dosya) · `SESSIONS/` (2 dosya). Aşağıdaki tabloda silinen satırlar `❌ YOK` olarak işaretlendi, sayılmıyor.
 
 | Dizin | Alt dizin | Dosya | Ne için kullanılır | Neden ayrı | Ne zaman düzenlenir |
 |-------|-----------|-------|--------------------|-----------|---------------------|
-| `architecture/` | 24 | 341 | K0-K20 katman mimarisi dokümanları | Katman başına ayrı klasör | Mimari değişince |
-| `ui-design/` | 23 | 297 | Mockup indeksi, screens, flow, prompt, reference, tokens | Görsel/şablon kendi hiyerarşisinde | Mockup/tokens değişince |
-| `.decisions/` | 3 | 84 | ADR arşivi: `accepted/` 72 · `draft/` 1 · `rejected/` 8 + `index.md` | Karar yaşam döngüsü ayrı dosyalanır | Yeni ADR yazımında |
-| `.personas/` | 7 | 79 | Kullanıcı persona dosyaları | Persona ile kural karışmasın | Persona revizyonunda |
-| `.templates/` | 13 | 65 | Guardrail #16 şablonları (13 kategori: adr, agents, backend, documentation, frontend, hardware, infrastructure, other, personas, prompt-maker, query, testing, ui-design) + `index.md` (2026-10-07: +4 şablon `documentation/{agents-md,workflow-md,context-md,rag-md}`) | Şablon ayrı olunca yeni dosya tutarlı üretilir | Yeni şablon/kategori eklenince |
-| `.sql/` | 4 | 23 | SQL şema/sorgu dosyaları (alt dizin: mssql, mysql, postgresql, sqlite) | DBMS başına ayrılır | Şema değişince |
-| `.png/` | 3 | 23 | Görsel SSOT — **19 PNG** (2026-10-03 sayımı: `.png` altında 19 adet `.png`) | Görsel salt okunur ayrı tutulur | Onaylı görsel ekleme/çıkarmada |
-| `archives/` | 0 | 13 | Eski/süresi dolmuş dokümanlar | Geçmiş korunur, arama kirletilmez | Arşivleme işinde |
-| `reports/` | 0 | 9 | Rapor çıktıları | Rapor kuralı kirletmez | Yeni raporda |
-| `scripts/` | 0 | 9 | Doğrulama/vault betikleri (wiki-link-check, kalip-abc-check, screens-frontmatter-check, figma-tokens, vault-utf8-writer, fix-mojibake.py, index.md) | Betik ile doküman ayrı hızda değişir | Betik revizyonunda |
-| `ecosystem/` | 0 | 8 | Ekosistem dersleri/kaynakları | Harici bilgi vault'tan ayrılır | Yeni kaynak eklenince |
-| `.agents/` | 0 | 12 | 11 agent profili + alt registry `AGENTS.md` | Profil ile kök registry ayrı (çelişkide kök kazanır) | Profil/stack değişince |
-| `.obsidian/` | 0 | 5 | Obsedit/Görünüm yapılandırması | Araç ayarı ayrı durur | Araç ayarı değişince |
-| `servers/` | 0 | 3 | Sunucu/kurulum notları | Ortam bilgisi ayrı | Sunucu değişince |
-| `prompts/` | 2 | — (2 dosya) | Prompt arşivi | Prompt ayrı güncellenir | Prompt revizyonunda |
-| `.rules/` | 0 | 1 | Kural dosyası — diskte **yalnız `senior-mode.md`** | Kural dosyası tek konu taşır | Kural ekleme/revizyonunda |
-| `checklists/` | 0 | 1 | Kontrol listesi (içerik OKUNMADI — VERIFICATION REQUIRED) | — | — |
-| `.subdomains/` | 0 | 1 | Alt alan adı notu (içerik OKUNMADI — VERIFICATION REQUIRED) | — | — |
-| `projects/` | 4 | **0** | Alt dizin var, **dosya YOK** (ör. `projects/NevaEngine/` — kök registry §24.3 de böyle kayıtlı) | Proje klasörü hazır tutulur | İçerik gelince |
-| `.diagram/` | 0 | **0** | **BOŞ** — diskte dosya yok | — | İçerik gelince |
+| `architecture/` | 37 | **125 md** | 21 katman (K000-K020) mimarisi — `00-master-index.md` · `katman-baglilik-matrisi.md` · `coremusic-mimari-plani.md` + 21 K-dizini | Katman başına ayrı klasör | Mimari değişince |
+| `ui-design/` | 23 | **121 md** | Mockup indeksi, screens, flow, prompt, reference, tokens | Görsel/şablon kendi hiyerarşisinde | Mockup/tokens değişince |
+| `.decisions/` | 3 | **97 md** | ADR arşivi: `accepted/` **84** · `draft/` **1** · `rejected/` **12** + `index.md` | Karar yaşam döngüsü ayrı dosyalanır | Yeni ADR yazımında |
+| `.personas/` | 7 | **84** | Kullanıcı persona dosyaları | Persona ile kural karışmasın | Persona revizyonunda |
+| `.templates/` | 13 | **69** | Guardrail #16 şablonları (13 kategori) + `index.md` | Şablon ayrı olunca yeni dosya tutarlı üretilir | Yeni şablon/kategori eklenince |
+| `.sql/` | 4 | **20 .sql** | SQL şema/sorgu dosyaları (mssql, mysql, postgresql, sqlite) | DBMS başına ayrılır | Şema değişince |
+| `.png/` | 3 | **19 PNG** | Görsel SSOT — salt okunur | Görsel salt okunur ayrı tutulur | Onaylı görsel ekleme/çıkarmada |
+| `index/` | 0 | **5** | Master katalog hub alt sayfaları (`01-mimari` · `02-kurallar` · `03-workflow` · `04-dogrulama` · `05-referanslar`) | Çok-sayfalı hub yapısı | Bölüm değişince |
+| `reports/` | 0 | **7** | Rapor çıktıları | Rapor kuralı kirletmez | Yeni raporda |
+| `scripts/` | 0 | **10** | Doğrulama/vault betikleri (validate.mjs, wiki-link-check, kalip-abc-check, screens-frontmatter-check, figma-extract, figma-tokens, device-matrix-catid, fix-mojibake, vault-utf8-writer, index.md) | Betik ile doküman ayrı hızda değişir | Betik revizyonunda |
+| `ecosystem/` | 0 | **13** | Ekosistem dersleri/kaynakları | Harici bilgi vault'tan ayrılır | Yeni kaynak eklenince |
+| `.agents/` | 0 | **12** | 11 agent profili + alt registry `AGENTS.md` | Profil ile kök registry ayrı (çelişkide kök kazanır) | Profil/stack değişince |
+| `.obsidian/` | 0 | 5 | Obsidian/görünüm yapılandırması | Araç ayarı ayrı durur | Araç ayarı değişince |
+| `servers/` | 0 | **3** | Sunucu/kurulum notları | Ortam bilgisi ayrı | Sunucu değişince |
+| `prompts/` | 2 | **3** | Prompt arşivi (`2026-10-08-master-prompt-v2.2.0-f1.md` vb.) | Prompt ayrı güncellenir | Prompt revizyonunda |
+| `.rules/` | 0 | **1** | Kural dosyası — diskte **yalnız `senior-mode.md`** | Kural dosyası tek konu taşır | Kural ekleme/revizyonunda |
+| `SESSIONS/` | 0 | **2** | Session kayıtları (`2026-10-08-kspace-kesif` · `2026-10-09-katmanli-mimari-rapor-kesif`) | Keşif çıktısı ayrı durur | Yeni session kapanışında |
+| `archives/` | — | — | **❌ YOK (2026-10-10)** — eski arşiv klasörü artık mevcut değil | — | — |
+| `checklists/` | — | — | **❌ YOK (2026-10-10)** | — | — |
+| `.subdomains/` | — | — | **❌ YOK (2026-10-10)** | — | — |
+| `projects/` | — | — | **❌ YOK (2026-10-10)** — eski kayıt "4 alt dizin / 0 dosya" idi; dizin artık hiç yok | — | İçerik gelince yeniden açılır |
+| `.diagram/` | — | — | **❌ YOK (2026-10-10)** — eski kayıt "0 dosya (boş)" idi; dizin artık hiç yok | — | — |
 
-**Toplam:** `.ai/` altında recursive **678 dosya** (gizli dahil, **2026-10-07 ikinci ölçüm** — +RAG.md, +4 şablon; **not:** `architecture/` yeniden yapılandırması eşzamanlı sürüyor, sayı görev kapanışında yeniden ölçülür) · kök **21 dosya** (20 `.md` + `.env.figma`). *(önceki ölçüm: 631 dosya / 20 kök — 2026-10-07 sabah; 984 dosya / 19 kök — 2026-10-03; sadeleştirme −353 dosya, −7 dizin; +PLANNER.md · +RAG.md)*
+**Toplam:** `.ai/` altında recursive **804 dosya** (gizli dahil) · **572 `.md`** · **107 dizin** (2026-10-10 ölçümü) · kök **20 `.md`**. *(önceki ölçüm: 796 dosya / 567 md — 2026-10-10 sabah · 678 dosya / 20 kök — 2026-10-07 · 984 dosya / 19 kök — 2026-10-03)*
 
 **Dizin eli10/eli15 blokları (başlıca 5 madde):**
 
@@ -185,15 +193,26 @@ kök AGENTS.md (master kurallar)
 | kök → `.ai/` | Master kuralların vault'a uzantısı | Kök `AGENTS.md` §9 tablosu |
 | `.ai/` → kod | ADR/mimari kısıt kodu yönetir | `architecture/`, `.decisions/` |
 
-### 3.5 Vault İddiası ↔ Disk Çelişkileri (disk kazanır)
+### 3.5 Vault İddiası ↔ Disk Çelişkileri (disk kazanır — **2026-10-10 yeniden ölçümü**)
 
-| İddia (kaynak) | Disk gerçeği (2026-10-03) | İşaret |
+| İddia (kaynak) | Disk gerçeği (2026-10-10) | İşaret |
 |----------------|---------------------------|--------|
-| `.ai/AGENTS.md` §14 / `.ai/CLAUDE.md` §27A: "8 aktif skill" | `.opencode/skills/` altında **9 `SKILL.md`** (ek: `verify-loop`) | VERIFICATION REQUIRED — disk kazanır |
-| Kök `AGENTS.md` §7 #6: hata → `.ai/.rules/error-recovery.md` | `.ai/.rules/` içinde **yalnız `senior-mode.md`** — `error-recovery.md` diskte YOK | VERIFICATION REQUIRED — kırık referans |
-| `.ai/AGENTS.md` §24.3: `projects/NevaEngine` 0 dosya | `.ai/projects/` 4 alt dizin / **0 dosya** — doğrulandı | dogrulandi |
-| `.ai/.png` 19 PNG | `.png` altında **19 `.png`** (toplam dosya 23) | dogrulandi |
-| `.diagram/` içeriği | **0 dosya** (boş) | bos |
+| Kök `CLAUDE.md` §Skill Registry: "17 skill (12 proje + 5 global)" | `.claude/skills/` **13 dizin** · `C:\.claude\skills` **YOK** · `.opencode/skills` **YOK** | ✅ DÜZELTİLDİ (2026-10-10 — 13 proje / 0 global) |
+| Kök `AGENTS.md` §7 #2: "`62 .ai/wiki/` sayfası" | `.ai/wiki/` **YOK** (0 dizin) | ✅ DÜZELTİLDİ (2026-10-10) |
+| Kök `AGENTS.md` §7 #7 / §9: `error-recovery.md` | `.ai/.rules/` içinde **yalnız `senior-mode.md`** | ✅ DÜZELTİLDİ (2026-10-10) |
+| Kök `AGENTS.md` §9: `@.ai/wiki/vault-agents.md` · `@.ai/raw/AGENTS.md` · `@.ai/raw/WORKFLOW.md` · `@.ai/raw/brain.md` | `.ai/wiki/` ve `.ai/raw/` **YOK** | ✅ DÜZELTİLDİ (2026-10-10 — `.ai/AGENTS.md` + `.ai/.agents/` işaretlendi) |
+| Kök `README.md` badge: `.ai/architecture/index.md` | **YOK** — gerçek master `.ai/architecture/00-master-index.md` | ✅ DÜZELTİLDİ (2026-10-10) |
+| Kök `CLAUDE.md`: "500 katman K000-K499, 10 domain" · `10-domain-d01-…md` … `19-domain-d10-…md` | **21 katman K000-K020** (`00-master-index.md` §1) · domain tabloları **YOK** | ✅ DÜZELTİLDİ (2026-10-10 — çelişki kaydı eklendi) |
+| ADR-096/097: "6.000 katman K000-K5999 · 5.041 dizin · 5.089 md" | `architecture/` = **21 K-dizini · 125 md** | ⚠️ ADR frozen, değiştirilmez; **hedef model**, uygulama kanıtı taşımaz |
+| `.ai/.decisions/index.md` §2: accepted 78 / rejected 7 / draft 0 / toplam 87 | **accepted 84 · rejected 12 · draft 1** (dosya sayısı) | ⚠️ index.md §2 sayımı güncellenmeli |
+| `.ai/index.md` frontmatter: `total_files: 720` · `total_adr: 80` · `total_adr_disk: 60` | `.ai/` recursive **804 dosya / 572 md** · ADR dosyası **97** (84+12+1) | ⚠️ index.md sayımı güncellenmeli |
+| `.ai/index.md` §2: `TECHNICAL_DOCUMENTATION.md` · `broken-links-report.md` | İkisi de **YOK** | ⚠️ VERIFICATION REQUIRED — linkler kırık |
+| `.ai/CONTEXT.md` (önceki sürüm): 21 kök dosya (+`.env.figma`) · 13 dizin · 678 dosya | **20 kök `.md`** · `.env.figma` **YOK** · **17 dizin** · **804 dosya / 572 md / 107 dizin** | ✅ DÜZELTİLDİ (2026-10-10 — bu sürüm) |
+| Kök `AGENTS.md` §24.3: `.ai/projects/NevaEngine/*.md` | `.ai/projects/` **YOK** (dizin hiç yok) | ⚠️ VERIFICATION REQUIRED |
+| Kök `AGENTS.md` §24.3: `electronic/dsp/*.md` · `electronic/firmware/*.md` | `.ai/electronic/` **YOK** | ⚠️ Doğrulandı: gerçek `architecture/` altındaki K001/K003 |
+| `.ai/architecture/context.md` · `.ai/architecture/rules.md` | **YOK** (opsiyonel; `.opencode/.ai` altında olabilir — VERIFICATION REQUIRED) | ⚠️ VERIFICATION REQUIRED |
+| `.ai/.png` 19 PNG | `.png` altında **19 `.png`** | ✅ doğrulandı |
+| `.ai/.sql` | **20 `.sql`** (4 DBMS alt dizini) | ✅ doğrulandı |
 
 ### 3.6 İçerik Neden Dosyalara Ayrıldı?
 
@@ -313,7 +332,7 @@ GÖREV → KURAL OKU (kök AGENTS + ilgili .ai dosyası)
 | 1 | Frontmatter | 7 zorunlu alan + `docType: context` |
 | 2 | Bölüm yapısı | §1–§7 aynı sıra, ≤3 başlık seviyesi |
 | 3 | Placeholder | Dosyada doldurulmamış placeholder kalmadı |
-| 4 | Envanter | Kök 21 dosya · 13 dizin · 678 toplam dosya (2026-10-07) — ölçümle eşit |
+| 4 | Envanter | Kök **20 `.md`** · **17 dizin** · **804 dosya / 572 md / 107 dizin** (2026-10-10) — ölçümle eşit |
 | 5 | Çelişki | §3.5 tablosu eksiksiz; disk kazanır işareti var |
 | 6 | Wiki-link | Wiki-link formatı (çift köşeli); hedefler diskte mevcut |
 | 7 | eli10 + eli15 | §1–§5 maddelerinin altında `> **eli10 (basit):**` + `> **eli15 (detay):**` bloğu var; eli10 ≤2 cümle, eli15 3-4 cümle |
@@ -332,18 +351,19 @@ GÖREV → KURAL OKU (kök AGENTS + ilgili .ai dosyası)
 | Vault süreç | [[WORKFLOW]] | Fazlar, kapılar, ADR lifecycle |
 | Master katalog | [[index]] | Dosya/ADR/envanter indeksi |
 | Retrieval indeksi | [[RAG]] | Konu→dosya eşlemesi + pipeline (PLANNED — ADR-030) |
+| Sürekli güncelleme döngüsü | [[SYNC]] | Hedef set 26 · üç kapı · tazelik ölçütü (2026-10-10) |
 | Kök master kurallar | [[../AGENTS]] | §3 Zero-Hallucination · §4 keşif · §7 loop |
 | Context şablonu | [[.templates/frontend/context-template]] | Bu dokümanın iskeleti (Guardrail #16) |
 | Şablon registry | [[.templates/index]] | Şablon envanteri |
 | Alt registry | [[.agents/AGENTS]] | 11 agent profili indeksi |
 | Karar arşivi | [[.decisions/index]] | ADR listesi (frozen dahil) |
 | Mockup indeksi | [[ui-design/01-mockup-index]] | Mockup Before Frontend kapısı |
-| Katman mimarisi | [[architecture/index]] | K0-K20 dokümanları |
+| Katman mimarisi | [[architecture/00-master-index]] | K000-K020 dokümanları (2026-10-10: 21 K-dizini · 125 md) |
 | Yazım aracı | `.ai/scripts/vault-utf8-writer.mjs` | UTF-8 tek yazma arayüzü |
 | Link denetimi | `.ai/scripts/wiki-link-check.ps1` | Wiki-link doğrulama (kökten çalıştırılır) |
 | Disk kanıtı | `.ai/` gerçek envanteri | §3 tüm sayıları |
 
 ---
 
-**Template Version:** 1.1.0 · **Şablon:** `.ai/.templates/frontend/context-template.md` (+ `documentation/context-md-template.md`, 2026-10-07)
-**Last Updated:** 2026-10-07 · **docType:** context
+**Template Version:** 1.2.0 · **Şablon:** `.ai/.templates/frontend/context-template.md` (+ `documentation/context-md-template.md`, 2026-10-07)
+**Last Updated:** 2026-10-10 · **docType:** context

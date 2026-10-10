@@ -20,6 +20,7 @@ updated: 2026-10-07
 2. **[Keyword Haritası (keys.md)](.ai/keys.md)** — keyword → konu eşlemesi (§3 ile eşleşir)
 3. **[Master Katalog (index.md)](.ai/index.md)** — tüm vault dosya listesi
 4. **[Vault Context (CONTEXT.md)](.ai/CONTEXT.md)** — dizin/dosya envanteri
+5. **[Katman Master İndeks](.ai/architecture/00-master-index.md)** — 21 katman K000-K020 (mimari sorularda)
 
 ## 🎯 Ne Zaman Okunur
 
@@ -32,5 +33,5 @@ Otomatik retrieval (embedding / vektör arama) **PLANNED**'tır — kod 0, tablo
 
 ---
 
-*CoreMusic RAG Pointer v1.0.0 — Authority: Bayram Ali / Vault Steward — Last Updated: 2026-10-07*
+*CoreMusic RAG Pointer v1.1.0 — Authority: Bayram Ali / Vault Steward — Last Updated: 2026-10-10*
 *Mode: Red Team · Human Mode · Truth Mode*

@@ -66,7 +66,7 @@ kod değişikliği · yeni dosya · yeni klasör · yeni bağımlılık · büy�
 4. Talimat açıksa mikro-soru sorulmaz.
 5. Art arda 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
 6. Reasoning = LOW; uzun analiz paragrafı, promptu geri anlatma, tekrarlı doğrulama yasak; bu, eşleşen skill'i yüklemeyi engellemez.
-7. Bilinmeyen = UNKNOWN; tahmin yok. Gereksiz dosya/klasör/agent/context/plan ÜRETME yasaktır; gereksiz skill ÜRETME de yasaktır (kullanma zorunlu — bkz. kök CLAUDE.md §Skill Usage Mandate).
+7. Bilinmeyen = UNKNOWN; tahmin yok. Görev manifestinde listelenmeyen dosya/klasör/agent/context/plan ÜRETME yasaktır; manifestteki dosyalar görevin kendisidir ve zorunludur (üretimleri ayrıca engellenemez). Gereksiz skill ÜRETME de yasaktır (kullanma zorunlu — bkz. kök CLAUDE.md §Skill Usage Mandate).
 
 ## 6. Multi-Agent Swarm
 
@@ -123,12 +123,17 @@ kararlarında en az 1 Expert + 1 Senior + 1 Junior görüşü zorunludur.
    listesi taranır; görev bir skill ile eşleşiyorsa İLK işlem Skill tool ile
    o skill'i yüklemektir (Skill Usage Mandate §2).
 1. Kök `AGENTS.md` (bu dosya) okunur.
-2. Görevle ilgili **yalnız** `.ai/wiki/` sayfaları okunur (62 sayfanın tümü DEĞİL — konuya göre).
-3. **Yalnız ilgili** `.ai/.rules/` YOK — ilgili kural .ai/CLAUDE.md §6 LINT'ten okunur.
+2. Görevle ilgili **yalnız** `.ai/` vault dosyaları okunur — ⚠️ DÜZELTME
+   (2026-10-10): eski "`62 `.ai/wiki/` sayfası`" yönergesi geçersiz —
+   **`.ai/wiki/` diskte YOK** (0 dizin). Konuya göre hedef: `.ai/RAG.md` §3
+   (konu→dosya indeksi) → `.ai/keys.md` (keyword) → `.ai/index.md` (katalog).
+3. **Yalnız ilgili** `.ai/.rules/` YOK — `.ai/.rules/` altında diskte **yalnız
+   `senior-mode.md`** vardır (`error-recovery.md` YOK — bkz §7 adım 7).
+   İlgili kural `.ai/CLAUDE.md` §6 LINT'ten okunur.
 4. Hedef dosya okunur.
 5. Kod yazılır.
 6. `.ai/CLAUDE.md` §6 LINT kontrolleri çalıştırılır.
-7. Hata → `.ai/CLAUDE.md` §6 LINT + `.ai.OLD/.rules/senior-mode.md` → düzelt → tekrar kontrol (error-recovery.md diskte MEVCUT DEĞİL).
+7. Hata → `.ai/CLAUDE.md` §6 LINT + `.ai/.rules/senior-mode.md` → düzelt → tekrar kontrol (error-recovery.md diskte MEVCUT DEĞİL).
 8. UI değişikliği → browser testi (gerçek sayfa, eleman/layout doğrulaması).
 9. Commit (subagent ATMAZ — orkestratöre aittir).
 
@@ -160,9 +165,9 @@ Diğer tüm görev türleri için geçerli kural §7 Execution Loop adım 0'dır
 | Anayasa, guardrails, yasaklar | `@.ai/CLAUDE.md` |
 | ADR kararları, mühendislik kısıtları | `@.ai/.decisions/index.md` · tam metin `@.ai/raw/brain.md` (salt-okunur kopya) |
 | Kural dosyaları, LINT | `@.ai/CLAUDE.md` §6 · not: .ai/.rules/ yeni vault'ta YOK; error-recovery.md diskte hiçbir yerde MEVCUT DEĞİL |
-| Agent registry, routing, handover | `@.ai/wiki/vault-agents.md` · tam metin `@.ai/raw/AGENTS.md` |
+| Agent registry, routing, handover | `.ai/AGENTS.md` (SSOT) · profil indeksi `@.ai/.agents/AGENTS.md` · profiller `@.ai/.agents/*.md` (11 dosya) · ⚠️ eski `.ai/wiki/vault-agents.md` ve `.ai/raw/AGENTS.md` **diskte YOK** (2026-10-10) |
 | Vault-içi otorite | `@.ai/CLAUDE.md` §2 · not: §2.1 otorite sırası .ai.OLD/CLAUDE.md içindedir |
-| Süreç, faz, hard gate | `@.ai/wiki/vault-workflow.md` · tam metin `@.ai/raw/WORKFLOW.md` |
+| Süreç, faz, hard gate | `@.ai/WORKFLOW.md` · ⚠️ eski `.ai/wiki/vault-workflow.md` ve `.ai/raw/WORKFLOW.md` **diskte YOK** (2026-10-10) |
 | Retrieval — "hangi soru → hangi dosya" | `@.ai/RAG.md` (§3 indeks · §4 pipeline PLANNED — ADR-030) · keyword: `@.ai/keys.md` |
 
 **Kural**: bu dosyalar yalnız görevin gerektirdiği anda okunur; boot'ta toplu

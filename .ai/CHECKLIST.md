@@ -2,10 +2,10 @@
 title: "CoreMusic — Session Checklist (Baş / Orta / Kapanış)"
 type: checklist
 category: session-lifecycle
-version: 1.0.0
+version: 1.1.0
 status: active
 authority: SSOT
-updated: 2026-09-29
+updated: 2026-10-10
 # Control Plane v2 (Q7 geniş şema — 2026-10-07):
 tier: 5
 domain: task-state
@@ -17,11 +17,13 @@ depends-on: [".ai/CLAUDE.md", ".ai/WORKFLOW.md"]
 
 # CoreMusic — Session Checklist (Baş / Orta / Kapanış)
 
-**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[MEMORY.md]] · [[index.md]] · [[log.md]] · [[TODO.md]]
+**Zorunlu Bağlantılar:** [[CLAUDE.md]] · [[AGENTS.md]] · [[WORKFLOW.md]] · [[MEMORY.md]] · [[index.md]] · [[log.md]] · [[TODO.md]] · [[SYNC]]
 
 **Kullanım:** Her session'da bu üç bölüm **sırayla** uygulanır. Her madde tek action ve ölçülebilir; madde bittiğinde durum kutusu `[ ]` → `[x]` yapılır, madde tamamlanmadan bir sonraki bölüme geçilmez (grup başına maksimum 5 madde).
 
 **SSOT notu:** Bu dosya mevcut protokollerin **yerine geçmez, onların işaretleneceği tek yüzeydir**. Boot okuma listesi [[CLAUDE.md]] §16, başlangıç 5 soru [[MEMORY.md]] §6, bitiş 5 adım [[MEMORY.md]] §7 ve [[WORKFLOW.md]] §8.7'de tanimlidir; burada yalnızca özetlenir (SSOT dedup).
+
+✅ **SÜREKLİ GÜNCELLEME DÖNGÜSÜ (2026-10-10):** Hedef dosya seti, tazelik kontrolü ve üç kapı sistemi artık **[[SYNC]]** dosyasında SSOT olarak yaşar (v1.0.0). Bu dosya §A/§B/§C **madde metinlerinin** otoritesidir; **set tanımı ve tazelik ölçütü [[SYNC]]** §3-§5'tedir. Hibrit model: (1) yazılı protokol (bu dosya) · (2) lifecycle SSOT ([[SYNC]]) · (3) hook (`.claude/settings.json → UserPromptSubmit → skill-mandate.cjs`).
 
 ---
 
@@ -45,13 +47,16 @@ Session yaşam döngüsünün (başlangıç → orta → kapanış) her oturumda
 | [ ] | A4. Hedefi netleştir | Görev tek cümleyle yazıldı; Guardrail #1 (Zero Code Before Plan) için gerekli ADR/şablon seçildi — `.ai/.templates/index` (Guardrail #16) | [[CLAUDE.md]] §7 · [[.templates/index]] |
 | [ ] | A5. Başlangıcı kapat | A1-A4 = 5/5 ✅; aksi halde görev BAŞLATILMAZ (Guardrail #2 Vault First) | [[CLAUDE.md]] §7 #2 |
 
-**A0 — Hedef Dosya Sınıflandırması (20 dosya · disk ölçümü 2026-09-29):** Boot'ta **yalnız CRITICAL** seti okunur; hepsi tek seferde okunmaz.
+**A0 — Hedef Dosya Sınıflandırması (26 dosya · disk ölçümü 2026-10-10 · SSOT: [[SYNC]] §3):** Boot'ta **yalnız CRITICAL** seti okunur; hepsi tek seferde okunmaz.
 
 | Sınıf | Adet | Dosyalar | Ne zaman |
 |---|---|---|---|
-| 🔴 CRITICAL | 16 | kök `CLAUDE.md` · `.ai/CLAUDE.md` · `AGENTS` · `WORKFLOW` · `brain` · `ROLE` · `index` · `keys` · `MEMORY` · `ULTRA-THINKING` · `engine` · `glossary` · `VISION` · `PROJECTS` (§16 kanonik 13'ten `log.md` çıkarıldı = 12 + iki CLAUDE) · `CHECKLIST` (A1) · `TODO` (A3) | Session başında |
-| 🟠 ON-DEMAND | 3 | kök `README.md` · kök `WORKFLOW.md` (pointer'lar) · `.ai/broken-links-report.md` (link/ADR retarget işinde) | İhtiyaçta |
+| 🔴 CRITICAL | 18 | kök `CLAUDE.md` · `.ai/CLAUDE.md` · `AGENTS` · `WORKFLOW` · `brain` · `ROLE` · `index` · `keys` · `RAG` · `CONTEXT` · `MEMORY` · `ULTRA-THINKING` · `engine` · `glossary` · `VISION` · `PROJECTS` · `CHECKLIST` (A1) · `log` (son 20 satır) | Session başında |
+| 🟠 ON-DEMAND | 3 | `TODO` (A3) · `PLAN` · `PLANNER` | İhtiyaçta |
 | ⚪ LOG | 1 | `.ai/log.md` — yalnız append; boot'ta yalnız son 20 satır okunur | Otomatik |
+| 📎 KÖK POINTER | 6 | kök `AGENTS.md` · `CLAUDE.md` · `README.md` · `WORKFLOW.md` · `CONTEXT.md` · `RAG.md` | Boot 1-4 (özet okuma) + kapanışta güçlendirme |
+
+⚠️ **DÜZELTME (2026-10-10):** Eski kayıt "20 hedef dosya (3 kök + 17 `.ai/` kök md · CRITICAL 16 / ON-DEMAND 3 / LOG 1)" idi. Disk ölçümü: `.ai/` kökünde **20 `.md`** vardır (`RAG.md` + `CONTEXT.md` artık boot setinde) · kökte **7 `.md`** var (`notes.md` hariç 6 hedef). Yeni set: **6 kök + 20 `.ai/` = 26**; sınıf: **CRITICAL 18 · ON-DEMAND 3 · LOG 1**.
 
 **Yasak:** A5 olmadan kod/plan yazma · boot dosyalarını atlayıp göreve başlama.
 
@@ -83,7 +88,7 @@ Session yaşam döngüsünün (başlangıç → orta → kapanış) her oturumda
 | [ ] | C4. Post-op vault sync | `.workflows/vault-sync.md` Aşama 8 uygulandı — ⚠️ `session-save.mjs` / `vault-post-update.mjs` / `project-state.md` **diskte YOK** → kapanış MANUEL: [[log.md]] append + [[MEMORY.md]] §20 (VERIFICATION REQUIRED) | `.workflows/vault-sync.md` Aşama 8 · [[MEMORY.md]] §20 Known Issue |
 | [ ] | C5. Bir sonraki adımı yaz | [[log.md]] sonuna tek satır: `## YYYY-MM-DD` + `Sonraki adım: <1 cümle>` → bir sonraki session A3'ten devam eder | [[MEMORY.md]] §4 · Guardrail #13 Session Continuity |
 
-**C-Güçlendirme seti (kapanışta güncellenmesi zorunlu — vault-sync ile):** [[log.md]] (append) · [[MEMORY.md]] §20 state · [[TODO.md]] (biten `[x]`, yeni 1 satır + kaynak) · [[CHECKLIST.md]] (bu tablo) · bu session'da **değişen** hedef dosyalar 2-4 satırla güçlendirilir (`index`/`keys`/`brain`/`WORKFLOW`/`CLAUDE`; kök `CLAUDE.md`/`README.md`/`WORKFLOW.md` yalnızca Session Lifecycle bloğu). Değişmeyen dosya zorla yeniden yazılmaz — in-place, dosya adı sabit (Guardrail #4).
+**C-Güçlendirme seti (kapanışta güncellenmesi zorunlu — vault-sync ile · SSOT: [[SYNC]] §4.3):** [[log.md]] (append) · [[MEMORY.md]] §20 state · [[TODO.md]] (biten `[x]`, yeni 1 satır + kaynak) · [[CHECKLIST.md]] (bu tablo) · bu session'da **değişen** hedef dosyalar 2-4 satırla güçlendirilir (26 hedef dosyanın tamamı için geçerlidir: 6 kök pointer + 20 `.ai/` kök md). Değişmeyen dosya zorla yeniden yazılmaz — in-place, dosya adı sabit (Guardrail #4). Tazelik ölçütleri: [[SYNC]] §5 (8 kontrol) · sayı tablosu: [[SYNC]] §5.1.
 
 **Yasak:** C1'siz "bitti" deme · C2/C4'ü atlayıp session kapatma · C5'siz kapanış.
 
@@ -114,14 +119,15 @@ Session yaşam döngüsünün (başlangıç → orta → kapanış) her oturumda
 | 🔴 Başlama | `.workflows/session-init.md` + `.opencode/.workflows/session-init.md` | §1 notu, Aşama 12 kutusu, boot tablosu satır 16 |
 | 🟡 Orta | `.ai/WORKFLOW.md` §8.7B | 3 satırlık checkpoint tablosu |
 | 🟢 Kapanış | `.workflows/vault-sync.md` Aşama 8 | 4. satır (checklist kapanışı) |
-| 🔄 Sürekli güçlendirme | `.ai/CLAUDE.md` §16A + `.ai/WORKFLOW.md` §8.7B | Her session sonunda 20 hedef dosyalık set gözden geçirilir, değişenler 2-4 satırla güçlendirilir |
-| Lifecycle bağları | `.workflows/session-init.md` (+ `.opencode/` kopyası) · `.workflows/vault-sync.md` Aşama 8 satır 5 · kök `CLAUDE.md`/`README.md`/`WORKFLOW.md` | Set tanımı (§A) + kapanış güçlendirmesi (§C) bu dosyalara bağlandı |
-| Navigasyon | `.ai/index.md` §2 Quick Reference | 2 satır (CHECKLIST / TODO) |
+| 🔄 Sürekli güçlendirme | `.ai/CLAUDE.md` §16A + `.ai/WORKFLOW.md` §8.7B | Her session sonunda **26 hedef dosyalık** set gözden geçirilir, değişenler 2-4 satırla güçlendirilir |
+| 🆕 Sürekli döngü SSOT | **[[SYNC]]** (`.ai/SYNC.md` — 2026-10-10 eklendi) | Hedef set §3 · üç kapı §4 · tazelik ölçütü §5 · ölçüm tablosu §5.1 |
+| Lifecycle bağları | `.workflows/session-init.md` (+ `.opencode/` kopyası) · `.workflows/vault-sync.md` Aşama 8 satır 5 · kök `CLAUDE.md`/`README.md`/`WORKFLOW.md`/`CONTEXT.md`/`RAG.md` | Set tanımı (§A) + kapanış güçlendirmesi (§C) bu dosyalara bağlandı |
+| Navigasyon | `.ai/index.md` §2 Quick Reference | 3 satır (CHECKLIST / TODO / SYNC) |
 
 **İlgili:** [[CLAUDE.md]] · [[WORKFLOW.md]] §8.6-§8.7B · [[MEMORY.md]] §4/§6/§7/§20 · [[TODO.md]] · [[log.md]] · `.workflows/session-init.md` · `.workflows/vault-sync.md`
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-10
 **Mode:** Red Team · Truth Mode · Human Mode

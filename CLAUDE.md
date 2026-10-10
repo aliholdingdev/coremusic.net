@@ -2,10 +2,10 @@
 title: "CoreMusic — Boot Instruction (Pointer)"
 type: pointer
 category: boot
-version: 3.1.0
+version: 3.2.0
 status: active
 authority: "SSOT: .ai/CLAUDE.md (tam anayasa) · bu dosya §Skill Registry (Skill Registry SSOT)"
-updated: 2026-10-07
+updated: 2026-10-10
 ---
 
 # CoreMusic — CLAUDE.md (Boot Instruction Pointer)
@@ -83,11 +83,10 @@ eşleşen skill'i KULLANMAK bu mandate ile çelişmez, aksine zorunludur.
 | 10 | `audio-engine-cpp` | project | `.claude/skills/audio-engine-cpp/SKILL.md` | C++20 / JUCE / ASIO / DSP | new |
 | 11 | `hardware-electronics` | project | `.claude/skills/hardware-electronics/SKILL.md` | Class AB / PSU / termal / PCB / BOM | new |
 | 12 | `security-hardening` | project | `.claude/skills/security-hardening/SKILL.md` | Auth / CSRF / CSP / şifreleme | new |
-| 13 | `human-mode` | global | `C:\.claude\skills\human-mode\SKILL.md` | Onay kapıları / iletişim | moved |
-| 14 | `truth-engine` | global | `C:\.claude\skills\truth-engine\SKILL.md` | İddia / disk kanıt doğrulama | merged |
-| 15 | `verify-loop` | global | `C:\.claude\skills\verify-loop\SKILL.md` | Web kodu verify + browser test | ported |
-| 16 | `agent-debate` | global | `C:\.claude\skills\agent-debate\SKILL.md` | Çok-ajan tartışma | ported |
-| 17 | `context-report` | global | `C:\.claude\skills\context-report\SKILL.md` | Proje durum raporu | ported |
+| 13 | `learning-prompts` | project | `.claude/skills/learning-prompts/SKILL.md` | Sokratik / Feynman / aktif hatırlama | new (2026-10-10 disk kanıtıyla eklendi) |
+
+✅ **DISK ÖLÇÜMÜ (2026-10-10):** `.claude/skills/` = **13 dizin** (yukarıdaki 13 satır birebir eşleşir).
+⚠️ **DÜZELTİLDİ:** Eski kayıt "12 proje + 5 global = 17" idi — **5 global skill (`human-mode` · `truth-engine` · `verify-loop` · `agent-debate` · `context-report`) `C:\.claude\skills\` altında Diskte YOK** (Test-Path = False). `.opencode/skills/` de kapatılmıştır (Test-Path = False). Kayıt, disk gerçeğiyle hizalandı: **toplam 13 proje skill'i, 0 global skill**. Eski "moved/merged/ported" satırları geçersizleşti.
 
 Proje dışı **~340 üçüncü-parti global skill** grubu (dotnet, dx-blazor, superpowers, claude-mem, chrome-devtools) harness **available-skills** listesiyle gelir; bu tabloya kopyalanmaz. Eşleşme varsa Skill tool ile yüklenir (§Skill Usage Mandate).
 
@@ -100,7 +99,7 @@ Proje dışı **~340 üçüncü-parti global skill** grubu (dotnet, dx-blazor, s
 3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER. Aynı veriyi "emin olmak" için ikinci kez analiz etme.
 4. Session başlangıcı = anında boot (okuma listesi) → sonra işlem. Keşif önsözü yok.
 5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-6. Bilinmeyen = UNKNOWN; tahmin yok. Gereksiz dosya/klasör/agent/context/plan üretimi yasak; gereksiz skill ÜRETME yasaktır (kullanma zorunlu — bkz. §Skill Usage Mandate).
+6. Bilinmeyen = UNKNOWN; tahmin yok. Görev manifestinde listelenmeyen dosya/klasör/agent/context/plan üretimi yasak; manifestteki dosyalar görevin kendisidir ve zorunludur. Gereksiz skill ÜRETME yasaktır (kullanma zorunlu — bkz. §Skill Usage Mandate).
 7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
 
 *SSOT detayları: [[AGENTS.md]] §5 · süreç: [[.ai/WORKFLOW.md]] §8.9-§8.10 · tam metin bütçesi: [[.ai/ULTRA-THINKING.md]] § MAX THINKING · FULL anayasa: [[.ai/CLAUDE.md]]*
@@ -122,14 +121,20 @@ Proje dışı **~340 üçüncü-parti global skill** grubu (dotnet, dx-blazor, s
 
 > **Boot okuma sırası**: Bu dosya → [[AGENTS.md]] → [[README.md]] → [[WORKFLOW.md]] → ihtiyaç anında `@.ai/CLAUDE.md` + `@.ai/AGENTS.md` + `@.ai/WORKFLOW.md` + `@.ai/CONTEXT.md` + `@.ai/RAG.md`.
 
-**Mimari referans (2026-10-06 · v4.0.0):** Enterprise Layered Architecture **500 katman** (`K000`–`K499`),
-10 domain, **hibrit multi-MD** (MD sayısı değişken, sabit değil). Giriş: @.ai/architecture/00-master-index.md
-→ domain tabloları `10-domain-d01-…md` … `19-domain-d10-…md`. Sayım birimi = **KATMAN** (mantıksal doküman
-katmanı); toplam yalnız betik çıktısıyla yazılır. Eski K0–K20 / 344 MD yapısı backup'tadır
-(`_backup/arch-2026-10-06_1057.zip`, salt-okunur referans, esas değil). Amplifikatör topolojisi **Class AB**
-(Class D yasak). Agent hiyerarşisi: **Expert 5 / Senior 5 / Junior 10** → [[AGENTS.md]] §6.1.
+**Mimari referans (2026-10-10 · disk hizası):** Enterprise Layered Architecture **21 katman** (`K000`–`K020`),
+6 alan etiketi A0–A5. Giriş: @.ai/architecture/00-master-index.md (v2.0.0, 2026-10-09) → katman tablosu §1 ·
+topoloji §2 · durum §3 · makro eşleme §8. Bağımlılık kenarları: `.ai/architecture/katman-baglilik-matrisi.md`.
+Plan metni: `.ai/architecture/coremusic-mimari-plani.md` (bağlayıcı değil, ADR'ye dönüşüm Vault Steward onayı ister).
+Sayım birimi = **KATMAN** (mantıksal doküman katmanı); toplam yalnız betik çıktısıyla yazılır.
 
-✅ **GÜNCELLENDİ (2026-10-07):** `.ai/architecture/` (v4.0.0) **diskte MEVCUT** — 500 katman `00-master-index.md` + 10 domain tablosu + k0–k20 landing + `rules.md`/`context.md` (validator 8 check OK). Eski 21-katman MD yapısı hâlâ `_backup/arch-2026-10-06_1057/architecture/` altındadır (salt-okunur, esas değil). *(önceki not: 2026-10-06'da diskte YOK idi — geçersizleşti)*
+⚠️ **ÇELİŞKİ KAYDI (2026-10-10 — 3 iddia, hiçbiri hizalı değil):**
+1. Eski kök not: "500 katman K000–K499, 10 domain, hibrit multi-MD" → **diskte `10-domain-d01-…md` … `19-domain-d10-…md` YOK** (0 glob isabeti). Bu iddia geçersizleşti.
+2. ADR-096/097: "6.000 katman K000–K5999 · 5.041 dizin · 5.089 md" → **dizin yapısı diskte YOK** (architecture/ altında 21 K-dizini, 125 md). ADR metni frozen'dır, değiştirilmez; ancak **uygulama kanıtı taşımaz**.
+3. `.ai/architecture/00-master-index.md` §1: **K000–K020 = 21 katman** → **bu, disk gerçeğidir** ve tek geçerli sayım budur.
+Çözüm (Vault kuralı: disk kazanır): sayım = 21 katman. ADR-096/097 hedef model olarak kalır, "mevcut durum" sayılmaz. Amplifikatör topolojisi **Class AB** (Class D yasak). Agent hiyerarşisi: **Expert 5 / Senior 5 / Junior 10** → [[AGENTS.md]] §6.1.
+
+✅ **GÜNCELLENDİ (2026-10-10):** `.ai/architecture/` diskte MEVCUT — `00-master-index.md` · `katman-baglilik-matrisi.md` · `coremusic-mimari-plani.md` + **21 K-dizini (K000–K020) + 125 md** (kök ölçüm 2026-10-10).
+⚠️ **Kırık bağlantı:** `.ai/architecture/index.md` **diskte YOK** — README badge'i bu adrese gider; gerçek master `00-master-index.md`'dir (README §6 badge'i düzeltildi).
 
 **CSS görevleri:** kod öncesi kanonik `.ai/.templates/frontend/` seti — `css-template.md` · `css-abstracts-token-template.md` · `css-component-template.md` · `css-page-template.md` · `css-device-template.md` · `css-auth-device-template.md` · `css-utility-template.md` · `css-helper-template.md` okunur (01→11 sıra · token yalnız 01 · taşıma yok) → [[AGENTS.md]] §10.
 
@@ -152,4 +157,5 @@ katmanı); toplam yalnız betik çıktısıyla yazılır. Eski K0–K20 / 344 MD
 | MJL21194/93 | Power Audio Trans. | ✅ | [onsemi.com](https://www.onsemi.com) |
 | XMOS XU316 | USB Audio SoC | ✅ | [xmos.com](https://www.xmos.com/processors/xu316) |
 
-*SSOT: .ai/ · Pointer v3.1.0 — Last Updated: 2026-10-07*
+*SSOT: .ai/ · Pointer v3.2.0 — Last Updated: 2026-10-10 (disk hizası: 13 proje skill · 21 katman K000-K020)*
+*Mode: Red Team · Human Mode · Truth Mode*

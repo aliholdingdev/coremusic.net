@@ -3,16 +3,16 @@ type: index
 category: decisions
 title: "CoreMusic — Decisions Index"
 date: 2026-08-15
-updated: 2026-10-08
+updated: 2026-10-10
 status: active
-version: 1.2.0
+version: 1.3.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
-total-accepted: 78
-total-rejected: 7
+total-accepted: 84
+total-rejected: 12
+total-draft: 1
 total-frozen: 36
-total-active: 42
-total-draft: 0
+total-active: 48
 # Control Plane v2 (2026-10-07):
 tier: 3
 domain: decisions
@@ -26,22 +26,27 @@ depends-on: [".ai/CLAUDE.md"]
 
 ## 1. Amaç
 
-Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kategorilerini kataloglayan **ana navigasyon dosyası**dır. **Bağlam** da adr ler bauarda toplanır okunur yazılır.
+Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kategorilerini kataloglayan **ana navigasyon dosyası**dır. **Bağlam** da ADR'ler burada toplanır, okunur, yazılır.
 
 ## 2. Genel Bakış
+
+> ⚠️ **DÜZELTME (2026-10-10 — disk ölçümü):** Eski frontmatter "accepted 78 / rejected 7 / draft 0 / toplam 87" ve §2 tablosu "Frozen 36 · Active 44 · Rejected 7 · Draft 0 · Toplam 87" idi.
+> **Disk gerçeği (2026-10-10):** `accepted/` = **84 dosya** · `rejected/` = **12 dosya** · `draft/` = **1 dosya** → **toplam 97 ADR dosyası**.
+> Sayımlar dosya sayısına göre yeniden yazıldı; kategori haritası (§6) henüz yeniden ölçülmeyi bekler.
 
 | Durum | Sayı | Açıklama |
 |-------|------|----------|
 | **Frozen** | 36 | Değiştirilemez (ADR-001 → ADR-036; ADR-037 debate ✅, frozen YOK) |
-| **Active** | 44 | Güncellenebilir (ADR-038 → ADR-101) |
-| **Rejected** | 7 | Reddedilen kararlar |
-| **Draft** | 0 | Taslak yok (ADR-089 kabule terfi etti, 2026-09-24) |
-| **Toplam** | 87 | - |
+| **Active** | 48 | Güncellenebilir (ADR-038 → ADR-101) |
+| **Rejected** | **12** | Reddedilen kararlar (`rejected/` 12 dosya — 2026-10-10 ölçümü) |
+| **Draft** | **1** | Taslak (`draft/` 1 dosya — 2026-10-10 ölçümü) |
+| **Toplam** | **97** | Frozen 36 + Active 48 + Rejected 12 + Draft 1 |
 
 > Not (2026-10-06 LINT-3): §3 başlığı ve §6 eski hali ADR-037'yi frozen sayıyordu (37/35); §2'deki "ADR-037 debate ✅, frozen YOK" kaydı esas alındı → 36/36. Çelişki Vault Steward onayına açıktır.
-> Not (2026-10-08): ADR-096 eklendi (K-Space V2 rejimi — ADR-096 §2'deki Active sayımı ile FM totals hizalandı; §6 haritası güncellendi).
-> Not (2026-10-09): ADR-097 eklendi (K-space naming v2 + state-md seti + 6.000 katman ölçeği; §2/§6 +1 Active Architecture).
-> Not (2026-10-09): ADR-098..101 eklendi (50 yıllık mimari ilkeler araştırması → mimari plan §8 kararları; +2 Architecture · +1 Database · +1 Security Active; kaynak: `[[architecture/coremusic-mimari-plani]]` · `[[reports/2026-10-09-50-yillik-mimari-ilkeler-arastirmasi]]` — kullanıcı onayı "devam").
+> Not (2026-10-08): ADR-096 eklendi (K-Space V2 rejimi).
+> Not (2026-10-09): ADR-097 eklendi (K-space naming v2 + state-md seti).
+> Not (2026-10-09): ADR-098..101 eklendi (50 yıllık mimari ilkeler araştırması → mimari plan §8 kararları).
+> ⚠️ Not (2026-10-10): §6 kategori haritası **hâlâ eski sayım** (TOPLAM 78) taşır — kategori bazlı yeniden ölçüm **PLANNED** (`.ai/reports/` altına rapor üretilecek). §6'daki sayılar bu nedenle `⚠️` işaretli kullanılır.
 
 ## 3. Frozen ADR'ler (001-036)
 

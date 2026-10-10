@@ -2,10 +2,10 @@
 title: "CoreMusic — Workflow Pointer"
 type: workflow-pointer
 category: workflow
-version: 3.1.0
+version: 3.2.0
 status: active
 authority: "SSOT: .ai/WORKFLOW.md — Full workflows read via `.ai/WORKFLOW.md`"
-updated: 2026-10-07
+updated: 2026-10-10
 ---
 
 # ⚠️ CoreMusic Workflow Configuration (Vault SSOT Pointer)
@@ -34,7 +34,7 @@ updated: 2026-10-07
 5. **[AI Anayasası (CLAUDE.md)](.ai/CLAUDE.md)** *(16 Hard Guardrail ve mühendislik anayasası)*
 6. **[Agent Registry (AGENTS.md)](.ai/AGENTS.md)** *(11 agent, routing, handover, escalation)*
 7. **[Vault Klasör Context (CONTEXT.md)](.ai/CONTEXT.md)** *(Vault envanteri, dosya yapısı)*
-8. **Mimari İndeks** — ⚠️ VERIFICATION REQUIRED — `.ai/architecture/index.md` diskte YOK; yalnız `_backup/arch-2026-10-06_1057/architecture/index.md` *(21 Katman, 1,095 Bileşen, 18 BCNF DB)*
+8. **[Katman Master İndeks (00-master-index.md)](.ai/architecture/00-master-index.md)** — v2.0.0 · 21 katman K000-K020 (12 IMPLEMENTED · 9 PLANNED) · bağılılık: `.ai/architecture/katman-baglilik-matrisi.md` · plan: `.ai/architecture/coremusic-mimari-plani.md` · ⚠️ eski `.ai/architecture/index.md` **diskte YOK** (2026-10-10)
 9. **[RAG Retrieval Index & Pipeline (RAG.md)](.ai/RAG.md)** — konu→dosya indeksi (§3, 20 satır) + pipeline tasarımı (§4, ÇOĞU PLANNED — ADR-030) 👈 *(AI'ın ilk okuma hedefini seçmesi için)*
 10. **[Vault Context (CONTEXT.md)](.ai/CONTEXT.md)** — dizin/dosya envanteri, boot ilişkisi
 
@@ -67,7 +67,7 @@ Ayrıntı (disk notları dahil): [[.ai/WORKFLOW.md]] §8.10 · bağlayıcı öze
 
 ## Skill Noktaları (Süreç Adımı → Zorunlu Skill)
 
-Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry. Her noktada eşleşme varsa **ilk işlem** Skill tool ile o skill'i yüklemektir (Skill Usage Mandate §2); istisnalar mandate §4'tedir.
+Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry (**13 proje skill**, `.claude/skills/` — 2026-10-10 disk ölçümü; `C:\.claude\skills` ve `.opencode/skills` diskte YOK). Her noktada eşleşme varsa **ilk işlem** Skill tool ile o skill'i yüklemektir (Skill Usage Mandate §2); istisnalar mandate §4'tedir.
 
 | Süreç Adımı | Zorunlu Skill |
 |---|---|
@@ -79,15 +79,16 @@ Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry. Her noktada eşleşme va
 | C++ audio | `audio-engine-cpp` |
 | Donanım | `hardware-electronics` |
 | Güvenlik değişikliği | `security-hardening` |
-| Web kodu tamamlanma | `verify-loop` |
+| Web kodu tamamlanma | `verify-loop` ⚠️ (skill dosyası diskte YOK — yalnız harness listesinde) |
 | İşlem kapanışı | `vault-sync-post` |
-| Çakışan karar | `agent-debate` |
+| Çakışan karar | `agent-debate` ⚠️ (skill dosyası diskte YOK) |
 | Multi-agent görev | `agent-orchestrator` |
 | Composer / vendor | `composer-sync` |
-| Onay / iletişim | `human-mode` |
-| İddia doğruluğu | `truth-engine` |
-| Durum raporu | `context-report` |
+| Onay / iletişim | `human-mode` ⚠️ (skill dosyası diskte YOK) |
+| İddia doğruluğu | `truth-engine` ⚠️ (skill dosyası diskte YOK) |
+| Durum raporu | `context-report` ⚠️ (skill dosyası diskte YOK) |
 | Yeni skill | `skill-maker` |
+| Konu öğrenme / sınav | `learning-prompts` (Registry'ye 2026-10-10 eklendi) |
 
 ---
 
@@ -95,6 +96,7 @@ Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry. Her noktada eşleşme va
 
 | Tarih | Sürüm | Değişiklik | Kaynak |
 |-------|-------|------------|--------|
+| 2026-10-10 | 3.2.0 | Mimari indeks → `00-master-index.md` (21 katman K000-K020); Skill Registry disk hizası 13 proje skill; 5 global skill `C:\.claude\skills` diskte YOK işaretlendi; `learning-prompts` eklendi | Disk ölçüm 2026-10-10 |
 | 2026-10-07 | 3.0.0 | Skill mandate + Skill Noktaları eklendi | Claude Skill v3.0 |
 | 2026-10-07 | 2.0.2 | Pointer dosyası — `.ai/WORKFLOW.md` bağlantısı düzeltildi, `.ai/` bağlantıları güncellendi | Vault Refactor Engine |
 | 2026-09-24 | 2.0.0 | §1-§14 bağlayıcı özet eklendi (K0-K20, A0-A5, adlandırma, sayım, tartışma, iki ADR serisi, yazım+senkron); pointer uyarısı + SSOT linkleri korundu | Vault iş akışı genişletme görevi |
@@ -102,5 +104,5 @@ Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry. Her noktada eşleşme va
 
 ---
 
-*CoreMusic Workflow Pointer v3.1.0 — Authority: Bayram Ali / Vault Steward — Last Updated: 2026-10-07*
+*CoreMusic Workflow Pointer v3.2.0 — Authority: Bayram Ali / Vault Steward — Last Updated: 2026-10-10*
 *Mode: Red Team · Human Mode · Truth Mode*

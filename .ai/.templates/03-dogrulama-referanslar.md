@@ -128,6 +128,7 @@ total_lines: 26813
 | 63 | WORKFLOW.md Template | Markdown, workflow pointer + WARNING | `WORKFLOW.md` (süreç pointer) üretimi | 177 | ✅ Mevcut (2026-10-07 — yeni üretim; 100-250 görev şartı) | [[documentation/workflow-md-template]] |
 | 64 | CONTEXT.md Template | Markdown, envanter + `docType: context` | `CONTEXT.md` envanter üretimi | 178 | ✅ Mevcut (2026-10-07 — yeni üretim; 100-250 görev şartı) | [[documentation/context-md-template]] |
 | 65 | RAG.md Template | Markdown, retrieval indeksi + pipeline | `RAG.md` (indeks + durum-sütunlu pipeline) üretimi | 195 | ✅ Mevcut (2026-10-07 — yeni üretim; 100-250 görev şartı) | [[documentation/rag-md-template]] |
+| 66 | Katmanlı Mimari Template | Markdown, §1-§7 + 16 kolon + context/tanım | Katmanlı mimari belgesi (`<konu>-katmanli-mimari.md`) üretimi | 532 | ✅ Mevcut (2026-10-10 — yeni üretim; ≥500 satır görev şartı; §1.3 web araştırması 10 gerçek kaynak) | [[documentation/katmanli-mimari-template]] |
 
 *(2026-09-23: envanter #1-#26 arasında yeniden numaralandırıldı; eski kayıtta #15 numarası hiç kullanılmamıştı — bu bilgi korunur.)* *(2026-09-24: documentation/ 2 yeni şablon eklendi — #18-#19; #18-#26 → #20-#28 kaydırıldı. Aynı gün ui-design/ 4 yeni şablon — #27-#30; meta #27-#28 → #31-#32, envanter #1-#32.)*
 

@@ -6,7 +6,7 @@
 
 [![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?style=flat&logo=php&logoColor=white)](https://php.net)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES2022%20Vanilla-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://tc39.es/ecma262/) [![C++](https://img.shields.io/badge/C++-20%20NevaEngine-00599C?style=flat&logo=cplusplus&logoColor=white)](https://isocpp.org/) [![MySQL](https://img.shields.io/badge/MySQL-9%20(18%20BCNF)-4479A1?style=flat&logo=mysql&logoColor=white)](https://dev.mysql.com/)
-[![Architecture](https://img.shields.io/badge/Architecture-21%20Layers%20(1095%20Components)-blue)](.ai/architecture/index.md) [![License](https://img.shields.io/badge/License-Proprietary-red)](#lisans) [![Status](https://img.shields.io/badge/Status-Aktif%20Geli%C5%9Ftirme-brightgreen)](#proje-durumu)
+[![Architecture](https://img.shields.io/badge/Architecture-21%20Layers%20(K000-K020)-blue)](.ai/architecture/00-master-index.md) [![License](https://img.shields.io/badge/License-Proprietary-red)](#lisans) [![Status](https://img.shields.io/badge/Status-Aktif%20Geli%C5%9Ftirme-brightgreen)](#proje-durumu)
 
 **🔍 Web Verification**: PHP 8.4 · C++20 · MySQL 9 · JUCE 9 · ASIO SDK 2.3.4 · PCM3168A · AK4458 · LM5122 — all verified 2026-10-07.
 
@@ -17,7 +17,7 @@
 - [3. Temel Yetenekler (10 Ana Başlık)](#3-temel-yetenekler-10-ana-başlık)
 - [4. Sektörel Çözümler ve Subdomain Ağı](#4-sektörel-çözümler-ve-subdomain-ağı)
 - [5. Hedef Kullanıcı Kitleleri](#5-hedef-kullanıcı-kitleleri)
-- [6. Mimari Yapı (21 Katman, 1095 Bileşen)](#6-mimari-yapı-21-katman-1095-bileşen)
+- [6. Mimari Yapı (21 Katman — K000-K020)](#6-mimari-yapı-21-katman--k000-k020)
 - [7. C++20 Neva Engine ve Ses Donanımı](#7-c20-neva-engine-ve-ses-donanımı)
 - [8. Teknoloji Yığını](#8-teknoloji-yığını)
 - [9. Kurulum ve Geliştirme](#9-kurulum-ve-geliştirme)
@@ -94,45 +94,51 @@ CoreMusic ekosistemi, 10 bağımsız uzmanlık paneli üzerinden modüler olarak
 
 ---
 
-## 6. Mimari Yapı (21 Katman, 1095 Bileşen)
+## 6. Mimari Yapı (21 Katman — K000-K020)
 
-CoreMusic, **A0 Altyapı'dan A5 Bileşenler'e** uzanan 21 dikey katman (K0-K20, 6 alan etiketi A0-A5) ve 1095 bileşen üzerine inşa edilmiştir:
+CoreMusic, **K000 (İşletim Sistemi)'den K020 (Üretim)'e** uzanan 21 dikey katman ve 6 alan etiketi (A0–A5) üzerine inşa edilmiştir.
+**SSOT:** [`.ai/architecture/00-master-index.md`](.ai/architecture/00-master-index.md) (v2.0.0, 2026-10-09) — katman tablosu §1 · topoloji §2 · durum §3 · makro eşleme §8.
 
-```
+```text
 ===========================================================================
-|                    COREMUSIC 21 KATMANLI MİMARİ                         |
-|                    1095 BİLEŞEN | DC-ONLY GÜÇ KAYNAĞI                   |
-|  K13: CI/CD           |  K12: İZLEME           |  K15: MEDYA & STREAMING|
-|  GitHub Actions / K8s |  App Logs / Prometheus |  FFmpeg - FLAC - HLS   |
-|  Docker / Playwright  |  Grafana / Audit Logs  |  DASH - Podcast - Radio|
-|~ ELEKTRONİK & DONANIM ALTYAPISI (K16 - K20) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-|  K20: BOM & ÜRETİM    -- 40 Bileşen: Transistör, Diyot, Direnç, BOM     |
-|  K19: PCB TASARIM     -- 50 Bileşen: 6-Layer, Controlled Z, Star GND    |
-|  K18: TERMAL TASARIM  -- 45 Bileşen: Fischer Heatsink, KSD301, PWM Fan  |
-|  K17: GÜÇ ±35V        -- 85 Bileşen: LM5122 Dual Boost, 6S LiPo, %96    |
-|  K16: CLASS AB AMP    -- 120 Bileşen: MJL21194/93, 8x50W, THD <0.005%   |
-|~ KULLANICI DENEYİMİ & UYGULAMA (K10, K11, K14) ~~~~~~~~~~~~~~~~~~~~~~~~|
-|  K11: UX & TASARIM    -- 45 Bileşen: ITCSS, BEM, Tokens, Theme, PWA     |
-|  K10: UYGULAMA        -- 50 Bileşen: Music, Home, Car, Studio, Admin    |
-|  K14: AĞ & İLETİŞİM   -- 50 Bileşen: HTTP/2/3, WebSocket, AirPlay       |
-|~ SERVİS & ROUTING (K8 - K9) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-|  K9:  API & ROUTING   -- 45 Bileşen: Gateway, BFF, CQRS, SPA Router     |
-|  K8:  SERVİS KATMANI  -- 60 Bileşen: Control, Media, Audio, Device, AI  |
-|~ GÜVENLİK & MIDDLEWARE PIPELINE (K6 - K7) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-|  K7:  MIDDLEWARE      -- 40 Bileşen: OriginCheck, CORS, RateLimit, CSRF |
-|  K6:  GÜVENLİK        -- 45 Bileşen: Auth, RBAC, AES-256, Audit Trail   |
-|~ VERİ YÖNETİMİ & YAPAY ZEKA (K4 - K5) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-|  K5:  VERİ YÖNETİMİ   -- 55 Bileşen: MySQL 18 DB (156 Tablo), Redis     |
-|  K4:  YAPAY ZEKA      -- 55 Bileşen: Music Analysis, Rec, Auto EQ, ML   |
-|~ SES MOTORU & SÜRÜCÜ ÇEKİRDEĞİ (K2 - K3) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-|  K3:  SES İŞLEM MOTORU-- 55 Bileşen: Neva Engine, DSP, EQ, Crossover    |
-|  K2:  SÜRÜCÜ KATMANI  -- 45 Bileşen: ASIO, WASAPI, ALSA, PipeWire       |
-|~ TEMEL DONANIM PLATFORMU & OS (K0 - K1) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
-|  K1:  DONANIM ALTYAPI -- 120 Bileşen: XMOS XU316, PCM3168A, AK4458 DAC  |
-|  K0:  İŞLETİM SİSTEMİ -- 50 Bileşen: Windows, Linux, macOS, RPi5, Docker|
-|  Toplam: 21 Katman | 1095 Bileşen | DC-ONLY | ~$682 Sistem Maliyeti     |
+|                    COREMUSIC 21 KATMANLI MİMARİ                          |
+|                    K000 - K020  |  6 ALAN ETİKETİ (A0-A5)                 |
+|~ A5 — HEDEF DONANIM (K016-K020, makro K0-K4'e girmez) ~~~~~~~~~~~~~~~~~~|
+|  K020: ÜRETİM        -- ADR-064                              [PLANNED]   |
+|  K019: PCB           -- ADR-063                              [PLANNED]   |
+|  K018: TERMAL        -- (başlıklı ADR YOK)                  [PLANNED]   |
+|  K017: GÜÇ KAYNAĞI   -- ADR-089 (±35V LM5122)               [PLANNED]   |
+|  K016: AMPLİFİKATÖR  -- ADR-089/090 (Class AB 8x50W)        [PLANNED]   |
+|~ A4 — VERİ / ENTEGRASYON ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+|  K015: MEDYA         -- ADR-026/027/028/092                 [IMPLEMENTED]|
+|  K014: AĞ            -- ADR-004/009/012/016/021/043/047     [IMPLEMENTED]|
+|  K013: CI/CD         -- ADR-082                             [IMPLEMENTED]|
+|  K012: İZLEME        -- ADR-006                             [IMPLEMENTED]|
+|~ A3 — SUNUM ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+|  K011: UX            -- ADR-001/004/018/044/045/046/048/093 [IMPLEMENTED]|
+|  K010: UYGULAMA      -- ADR-056/085/086                     [IMPLEMENTED]|
+|~ A2 — SERVİS & API ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+|  K009: API           -- ADR-004/020/084/009/016/021         [IMPL (OpenAPI PLANNED)]|
+|  K008: SERVİSLER     -- ADR-039/085/086                     [IMPL (kısmi)]|
+|~ A1 — GÜVENLİK ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+|  K007: MIDDLEWARE    -- ADR-008/010/012/013/020/056/094     [IMPLEMENTED]|
+|  K006: GÜVENLİK      -- ADR-008/010/011/012/013/020/022/034 |
+|                        /043/047/052/056/058/059/094/095     [IMPLEMENTED]|
+|~ A0 — TEMEL (OS · DONANIM · SÜRÜCÜ · SES · YZ · VERİ) ~~~~~~~~~~~~~~~~~~|
+|  K005: VERİ YÖNETİMİ -- ADR-002/003/014/033/040/041/050/081 [IMPLEMENTED]|
+|  K004: YAPAY ZEKA   -- ADR-030/035/036/049/075             [PLANNED]   |
+|  K003: SES MOTORU    -- ADR-017/019/025/062/037             [PLANNED]   |
+|  K002: SÜRÜCÜ        -- ADR-032/038/017                     [PLANNED]   |
+|  K001: DONANIM       -- ADR-061/038                         [PLANNED]   |
+|  K000: İŞLETİM SİSTEMİ -- ADR-015/082/085                  [IMPLEMENTED]|
+|  Durum: IMPLEMENTED 12 · PLANNED 9                          (2026-10-09)|
 ===========================================================================
 ```
+
+> **⚠️ Çelişki kaydı (2026-10-10):** Eski "1095 Bileşen" sayımı bu yapının yerini almıştır ve
+> `.ai/architecture/00-master-index.md` §1 ile hizalanmıştır. ADR-096/097'nin "6.000 katman K000-K5999"
+> modeli **hedef**tir, diskte uygulanmamıştır (21 K-dizini / 125 md ölçüldü).
+
 
 ## 7. C++20 Neva Engine ve Ses Donanımı
 
@@ -177,7 +183,10 @@ CoreMusic projesinin tüm mimari kararları, anayasası, kuralları ve detaylı 
 | **Vizyon Belgesi** | [`.ai/VISION.md`](.ai/VISION.md) | Proje vizyonu, pazar krizi, mülkiyet felsefesi ve stratejik hedefler |
 | **Proje Tanımı** | [`.ai/PROJECTS.md`](.ai/PROJECTS.md) | 10 temel yetenek, sektörler, kullanıcı profilleri ve pazar çözümleri |
 | **AI Anayasası** | [`.ai/CLAUDE.md`](.ai/CLAUDE.md) | 16 Hard Guardrail, mühendislik standartları ve kurallar |
-| **Master İndeks** | [`.ai/architecture/index.md`](.ai/architecture/index.md) | 21 katman, 1.095 bileşen, 18 BCNF DB ve ADR kayıt defteri |
+| **Master İndeks** | [`.ai/index.md`](.ai/index.md) | Vault navigasyon — 14 kök boot + 5 alt sayfa (`index/01-05`) |
+| **Katman Master İndeksi** | [`.ai/architecture/00-master-index.md`](.ai/architecture/00-master-index.md) | 21 katman K000-K020, durum (12 IMPLEMENTED / 9 PLANNED), ADR eşlemesi |
+| **Bağılılık Matrisi** | [`.ai/architecture/katman-baglilik-matrisi.md`](.ai/architecture/katman-baglilik-matrisi.md) | Katmanlar arası bağımlılık kenarları |
+| **Mimari Plan** | [`.ai/architecture/coremusic-mimari-plani.md`](.ai/architecture/coremusic-mimari-plani.md) | 50 yıllık mimari ilkelere dayalı sıfırdan plan |
 | **Devre Şeması** | [`.ai/architecture/electronics/amfii/amplifier-classab-circuit.md`](.ai/architecture/electronics/amfii/amplifier-classab-circuit.md) | Class AB 50W amfi devresi, Mermaid şeması ve test noktaları |
 
 ## 11. 🔗 .ai/ Vault Dosyaları Bağlantıları
@@ -188,8 +197,10 @@ CoreMusic projesinin tüm mimari kararları, anayasası, kuralları ve detaylı 
 |:---|:---|:---|
 | **`.ai/CLAUDE.md`** | AI Anayasası — 16 Hard Guardrail, 34 bölüm | `@.ai/CLAUDE.md` |
 | **`.ai/AGENTS.md`** | Agent Registry SSOT — 11 agent, routing, handover | `@.ai/AGENTS.md` |
-| **`.ai/WORKFLOW.md`** | Vault süreçleri — 12/20 faz, ADR lifecycle | [`.ai/WORKFLOW.md`](.ai/WORKFLOW.md) |
+| **`.ai/WORKFLOW.md`** | Vault süreçleri — fazlar, ADR lifecycle | [`.ai/WORKFLOW.md`](.ai/WORKFLOW.md) |
 | **`.ai/CONTEXT.md`** | Vault klasör yapısı, envanter, bağlam | [`.ai/CONTEXT.md`](.ai/CONTEXT.md) |
+| **`.ai/SYNC.md`** | Sürekli güncelleme döngüsü SSOT — baş/orta/kapanış | [`.ai/SYNC.md`](.ai/SYNC.md) |
+| **`.ai/CHECKLIST.md`** | Session checklist — §A/§B/§C + hedef set 26 | [`.ai/CHECKLIST.md`](.ai/CHECKLIST.md) |
 | **`.ai/VISION.md`** | Vizyon ve yol haritası | [`.ai/VISION.md`](.ai/VISION.md) |
 | **`.ai/PROJECTS.md`** | Proje envanteri, 10 yetenek | [`.ai/PROJECTS.md`](.ai/PROJECTS.md) |
 | **`.ai/brain.md`** | Mimari kararlar, ADR'ler | [`.ai/brain.md`](.ai/brain.md) |
@@ -217,8 +228,8 @@ CoreMusic'te AI ajanları **Skill Usage Mandate** ile çalışır. Mandate özet
 4. İstisna: kullanıcı açıkça "skill kullanma" derse veya görev skill'lerle ilgisizse (sohbet, aritmetik); belirsizse 1 kısa soru sorulur.
 5. Yetenek yoksa kopyala-yapıştır yapılmaz; `skill-maker` ile skill üretilir (Guardrail #16 + v3.0 şeması).
 
-* **Kayıt defteri (SSOT):** [`CLAUDE.md`](CLAUDE.md) §Skill Registry — 12 proje skill'i (`.claude/skills/`) + 5 global skill (`C:\.claude\skills`). Bu dosyada liste tekrarlanmaz; ayrıca ~340 üçüncü-parti global skill grubu harness available-skills listesiyle gelir.
-* **Uygulama (2 katman):** (1) yazılı mandate — kök `CLAUDE.md` §Skill Kullanım Zorunluluğu; (2) hook — `.claude/settings.json → UserPromptSubmit → .claude/hooks/skill-mandate.cjs` her prompt'ta kısa hatırlatma + proje skill isimlerini enjekte eder.
+* **Kayıt defteri (SSOT):** [`CLAUDE.md`](CLAUDE.md) §Skill Registry — **13 proje skill'i** (`.claude/skills/`, 2026-10-10 disk ölçümü). ⚠️ Eski "12 proje + 5 global = 17" kaydı düzeltildi: `C:\.claude\skills\` **diskte YOK** (Test-Path = False) → 0 global skill. `learning-prompts` kayıtsızdı, Registry'ye eklendi. Bu dosyada liste tekrarlanmaz; ayrıca ~340 üçüncü-parti global skill grubu harness available-skills listesiyle gelir.
+* **Uygulama (2 katman):** (1) yazılı mandate — kök `CLAUDE.md` §Skill Kullanım Zorunluluğu; (2) hook — `.claude/settings.json → UserPromptSubmit` her prompt'ta kısa hatırlatma + proje skill isimlerini enjekte eder.
 * **Yeni skill ekleme yolu:** `skill-maker` çalıştırılır → v3.0 şeması + format otoritesi `.claude/skills/skill-maker/` (şablon + kurallar) → üretilen skill `CLAUDE.md` §Skill Registry'ye satır olarak eklenir.
 
 ---
@@ -265,10 +276,10 @@ Aşağıdaki depolar harici referans/kaynak listesidir; proje tarafından kurulu
 - https://github.com/vakra-dev/awesome-ai-agents
 - https://github.com/hammond01/CleanArchitecture
 
-**Session Lifecycle:** Bu depoda her AI session'ı .ai/CHECKLIST.md §A/§B/§C ile yürütülür; hedef dosya seti 20'dir (3 kök + 17 .ai/ kök md — sınıflandırma CHECKLIST.md §A0: CRITICAL 16 / ON-DEMAND 3 / LOG 1). Kapanışta .workflows/vault-sync.md Aşama 8 satır 5 ile değişen dosyalar güçlendirilir.
+**Session Lifecycle:** Bu depoda her AI session'ı `.ai/CHECKLIST.md` §A/§B/§C ile yürütülür; hedef dosya seti **26'dır** (6 kök `.md` + 20 `.ai/` kök `.md` — sınıflandırma [[CHECKLIST]] §A0: CRITICAL 18 / ON-DEMAND 6 / LOG 2). Kapanışta `.workflows/vault-sync.md` Aşama 8 satır 5 ile değişen dosyalar güçlendirilir; sürekli güncelleme döngüsü `.ai/SYNC.md` (SSOT) ile yönetilir.
 
 **Authority:** Bayram Ali / Vault Steward  
 **Kaynak Doküman:** Freelancer Technical Documentation v1.0 (CoreMusic: Software Audio Hardware AI)  
-**Last Updated:** 2026-10-07  
-**Version:** 3.0.0  
+**Last Updated:** 2026-10-10  
+**Version:** 3.1.0  
 **Mode:** Red Team · Human Mode · Truth Mode

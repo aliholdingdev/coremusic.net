@@ -260,7 +260,7 @@ Onaysız sonraki aşamaya GEÇİLMEZ (AGENTS.md §1 akışı).
 - İhtiyaç yoksa vault/skill/context yüklenmez.
 - Reasoning = LOW; promptu geri anlatma, tekrarlı doğrulama YASAK.
 - Art arda 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru.
-- Gereksiz dosya/klasör/skill/agent/context/plan ÜRETME.
+- Görev manifestinde listelenmeyen dosya/klasör/skill/agent/context/plan ÜRETME; manifestteki dosyalar görevin kendisidir ve zorunludur.
 ```
 
 ## 3.6 Otonom Genişleme & Devam Protokolü (CONTINUATION)
