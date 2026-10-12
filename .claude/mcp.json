@@ -1,0 +1,9 @@
+{
+  "exa-mcp-server": {
+    "type": "local",
+    "command": ["npx", "-y", "exa-mcp-server"],
+    "environment": {
+      "EXA_API_KEY": "0f9f7388-81d8-4800-b613-a52ea99c77a3"
+    }
+  }
+}

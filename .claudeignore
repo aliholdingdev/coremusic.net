@@ -1,0 +1,8 @@
+# CoreMusic — Claude Code Ignore List
+# AI context'i gereksiz dosyalardan korumak için
+
+# OpenCode skill dosyaları (Claude Code kendi .claude/skills/ dizinini kullanır)
+.opencode/
+
+# Eski prompt arşivleri (vault'a işlendi, AI okumasına gerek yok)
+.ai/archives/

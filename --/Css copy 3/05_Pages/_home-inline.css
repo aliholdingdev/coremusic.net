@@ -1,0 +1,544 @@
+/**
+ * CoreMusic — Home Page Inline Helpers
+ * ITCSS Layer: 05_Pages
+ * Version: 1.0.0 — 2026-08-18
+ *
+ * Inline utility sınıfları ve mikro component'ler
+ */
+
+/* ============================================================
+   PAGE HEADER (Sayfa başlık alanı)
+   "← Albümler / Tüm Albümler" + arama + sıralama
+   ============================================================ */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3, 12px);
+  gap: var(--space-3, 12px);
+}
+
+.page-header__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  min-width: 0;
+}
+
+.page-header__back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cm-w-44px);
+  height: var(--cm-h-44px);
+  border-radius: var(--radius-full, 50%);
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  color: var(--color-text, rgba(255,255,255,0.9));
+  font-size: var(--text-lg, 14px);
+  cursor: pointer;
+  transition: background var(--duration-fast, 0ms) ease;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.page-header__back:hover {
+  background: var(--glass-bg-hover, rgba(255,255,255,0.12));
+}
+
+.page-header__back:focus-visible {
+  outline: var(--cm-bw-2px) solid var(--accent, #ff4fd8);
+  outline-offset: var(--cm-pos-2px);
+}
+
+.page-header__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-lg, 14px);
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.page-header__subtitle {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+}
+
+.page-header__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   SEARCH INPUT (Header'da veya sayfa üstünde)
+   ============================================================ */
+.search-input {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  border: var(--cm-bw-1px) solid var(--glass-border, rgba(255,255,255,0.1));
+  border-radius: var(--radius-pill, 50px);
+  padding: var(--space-1, 4px) var(--space-3, 12px);
+  min-height: var(--cm-h-36px);
+}
+
+.search-input__field {
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--color-text, rgba(255,255,255,0.9));
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  width: var(--cm-w-150px);
+}
+
+.search-input__field::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+
+/* ============================================================
+   GENRE TABS (C11 —yatay scrollable tab bar)
+   ============================================================ */
+.genre-tabs {
+  display: flex;
+  gap: var(--tab-gap, 4px);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: var(--space-1, 4px) 0;
+  margin-bottom: var(--space-3, 12px);
+}
+
+.genre-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.genre-tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-height: var(--cm-h-48px); /* WCAG 2.5.8 — RPi5 touch target (was --tab-h 32px) */
+  padding: 0 var(--tab-padding-x, 12px);
+  background: var(--tab-bg, transparent);
+  color: var(--tab-color, rgba(255,255,255,0.7));
+  border: var(--tab-border, 1px solid rgba(255,255,255,0.2));
+  border-radius: var(--tab-radius, 50px);
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--tab-font-size, 11px);
+  font-weight: var(--font-medium, 500);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--duration-fast, 0ms) ease,
+              color var(--duration-fast, 0ms) ease;
+}
+
+.genre-tab:hover {
+  background: var(--glass-bg-hover, rgba(255,255,255,0.1));
+  color: var(--color-text, rgba(255,255,255,0.9));
+}
+
+.genre-tab--active,
+.genre-tab[aria-selected="true"] {
+  background: var(--tab-active-bg, var(--accent, #ff4fd8));
+  color: var(--tab-active-color, #ffffff);
+  border-color: transparent;
+}
+
+.genre-tab:focus-visible {
+  outline: var(--cm-bw-2px) solid var(--accent, #ff4fd8);
+  outline-offset: var(--cm-pos-2px);
+}
+
+/* ============================================================
+   TRACK ROW (C13 — şarkı listesi satırı)
+   ============================================================ */
+.track-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 100px 80px 100px;
+  gap: var(--space-2, 8px);
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+  align-items: center;
+  min-height: var(--cm-h-48px); /* WCAG */
+  border-radius: var(--radius-sm, 4px);
+  cursor: pointer;
+  transition: background var(--duration-fast, 0ms) ease;
+}
+
+.track-row:hover {
+  background: var(--glass-bg-hover, rgba(255,255,255,0.08));
+}
+
+.track-row--active,
+.track-row.is-active {
+  background: var(--accent-bg, rgba(255,79,216,0.15));
+  border-left: var(--cm-bw-3px) solid var(--accent, #ff4fd8);
+}
+
+.track-row__number {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-base, 12px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  text-align: center;
+}
+
+.track-row__title {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-base, 12px);
+  font-weight: var(--font-medium, 500);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track-row__duration {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  text-align: right;
+}
+
+.track-row:focus-visible {
+  outline: var(--cm-bw-2px) solid var(--accent, #ff4fd8);
+  outline-offset: var(--cm-pos-neg2px);
+}
+
+/* Tablo başlığı */
+.track-list-header {
+  display: grid;
+  grid-template-columns: 40px 1fr 100px 80px 100px;
+  gap: var(--space-2, 8px);
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+  border-bottom: var(--cm-bw-1px) solid var(--glass-border, rgba(255,255,255,0.1));
+  position: sticky;
+  top: 0;
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  z-index: 1;
+}
+
+/* ============================================================
+   STAR RATING (C12)
+   ============================================================ */
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-0, 2px);
+}
+
+.star-rating__star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cm-w-48px); /* WCAG 2.5.8 — RPi5 touch target ≥48px */
+  height: var(--cm-h-48px); /* WCAG 2.5.8 — RPi5 touch target ≥48px */
+  cursor: pointer;
+  color: rgba(255,255,255,0.3);
+  transition: color var(--duration-fast, 0ms) ease,
+              transform var(--duration-fast, 0ms) ease;
+}
+
+.star-rating__star--filled,
+.star-rating__star[aria-checked="true"] {
+  color: var(--cm-color-ffd700);
+}
+
+.star-rating__star:hover {
+  transform: scale(1.1);
+  color: var(--cm-color-ffd700);
+}
+
+.star-rating__star:focus-visible {
+  outline: var(--cm-bw-2px) solid var(--accent, #ff4fd8);
+  outline-offset: var(--cm-pos-2px);
+  border-radius: var(--cm-radius-4px);
+}
+
+/* ============================================================
+   AUTH SCREEN (Select Gender, Login, Register)
+   72/28 split — Sol manzara + Sağ glass panel
+   ============================================================ */
+.auth-screen {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.auth-screen__hero {
+  flex: 1;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--space-8, 32px);
+}
+
+.auth-screen__hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+  pointer-events: none;
+}
+
+.auth-screen__panel {
+  width: var(--cm-w-284px);
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-left: var(--cm-bw-1px) solid var(--glass-border, rgba(255,255,255,0.1));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-5, 20px);
+  overflow-y: auto;
+  gap: var(--space-3, 12px);
+}
+
+/* ============================================================
+   GENDER BUTTONS (C07)
+   ============================================================ */
+.gender-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 8px);
+  width: 100%;
+}
+
+.gender-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  width: 100%;
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  background: rgba(255,255,255,0.05);
+  border: var(--cm-bw-1px) solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-lg, 12px);
+  cursor: pointer;
+  transition: border-color var(--duration-fast, 0ms) ease,
+              background var(--duration-fast, 0ms) ease,
+              box-shadow var(--duration-fast, 0ms) ease;
+  min-height: var(--cm-h-60px);
+  text-align: left;
+  font-family: var(--font-body, 'Arima', sans-serif);
+}
+
+.gender-btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.25);
+}
+
+.gender-btn--selected,
+.gender-btn[aria-checked="true"] {
+  background: var(--accent-bg, rgba(255,79,216,0.2));
+  border: var(--cm-bw-2px) solid var(--accent, #ff4fd8);
+  box-shadow: 0 0 20px rgba(255,79,216,0.4);
+}
+
+.gender-btn:focus-visible {
+  outline: var(--cm-bw-2px) solid var(--accent, #ff4fd8);
+  outline-offset: var(--cm-pos-2px);
+}
+
+.gender-btn__icon {
+  font-size: var(--cm-fs-30px);
+  flex-shrink: 0;
+}
+
+.gender-btn__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cm-gap-2px);
+}
+
+.gender-btn__title {
+  font-size: var(--text-base, 12px);
+  font-weight: var(--font-semibold, 600);
+  color: var(--color-text, rgba(255,255,255,0.9));
+}
+
+.gender-btn__desc {
+  font-size: var(--text-xs, 10px);
+  font-weight: var(--font-normal, 400);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+}
+
+/* ============================================================
+   SOCIAL LOGIN BUTTONS (C08)
+   ============================================================ */
+.social-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 8px);
+  align-items: center;
+  width: 100%;
+}
+
+.social-btn-row {
+  display: flex;
+  gap: var(--space-2, 8px);
+  justify-content: center;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cm-w-52px);
+  height: var(--cm-h-52px);
+  padding: 0;
+  border: var(--cm-bw-1px) solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-lg, 12px);
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  cursor: pointer;
+  transition: background var(--duration-fast, 0ms) ease,
+              box-shadow var(--duration-fast, 0ms) ease,
+              transform var(--duration-fast, 0ms) ease;
+}
+
+.social-btn:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
+}
+
+.social-btn:active {
+  transform: translateY(0);
+}
+
+.social-btn:focus-visible {
+  outline: var(--cm-bw-3px) solid var(--accent, #ff4fd8);
+  outline-offset: var(--cm-pos-2px);
+}
+
+.social-btn__icon {
+  width: var(--cm-w-24px);
+  height: var(--cm-h-24px);
+}
+
+/* @deprecation - 2026-09-29: MODAL (C14) bloklari tasinidi -> SSOT: 04_Components/c-modal.css
+   (.modal-overlay / .modal / .modal__* kurallari artik orada tanimli.
+    Kanit: repo genelinde class="modal..." / "modal-overlay" markup hit = 0;
+    PHP cm-modal* ayri namespace ve onun CSS'i yok (rapor: KALAN karar #3).) */
+
+/* @deprecation - 2026-09-29: TOGGLE (C15) bloklari tasinidi -> SSOT: 04_Components/c-toggle.css
+   (.toggle__input / .toggle__track / .toggle__label kullanilmiyordu - 0 markup hit.) */
+
+/* ============================================================
+   NETWORK ROW (C16 — WiFi/BT satır)
+   ============================================================ */
+.network-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3, 12px);
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+  min-height: var(--cm-h-48px);
+  background: var(--glass-bg, rgba(255,255,255,0.08));
+  border-radius: var(--radius-md, 8px);
+  border: var(--cm-bw-1px) solid transparent;
+  transition: background 150ms ease, border-color 150ms ease;
+  cursor: pointer;
+}
+
+.network-row:hover {
+  background: var(--glass-bg-hover, rgba(255,255,255,0.12));
+  border-color: var(--glass-border, rgba(255,255,255,0.1));
+}
+
+.network-row--connected {
+  background: var(--accent-bg, rgba(255,79,216,0.15));
+  border-color: rgba(255,79,216,0.3);
+}
+
+.network-row__icon {
+  width: var(--cm-w-24px);
+  height: var(--cm-h-24px);
+  flex-shrink: 0;
+}
+
+.network-row__name {
+  flex: 1;
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-base, 12px);
+  font-weight: var(--font-medium, 500);
+  color: var(--color-text, rgba(255,255,255,0.9));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.network-row__details {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: var(--color-text-muted, rgba(255,255,255,0.6));
+}
+
+.network-row:focus-visible {
+  outline: var(--cm-bw-2px) solid var(--accent, #ff4fd8);
+  outline-offset: var(--cm-pos-neg2px);
+}
+
+/* @deprecation - 2026-09-29: BADGE bloklari tasinidi -> SSOT: 04_Components/c-badge.css
+   (.badge--accent kullanilmiyordu - 0 markup hit.) */
+
+/* ============================================================
+   FORM INPUT (C06)
+   ============================================================ */
+.form-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 4px);
+  width: 100%;
+}
+
+.form-input__label {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-sm, 11px);
+  font-weight: var(--font-medium, 500);
+  color: rgba(255,255,255,0.7);
+}
+
+.form-input__field {
+  width: 100%;
+  min-height: var(--cm-h-56px);
+  padding: var(--input-padding-y, 14px) var(--input-padding-x, 12px);
+  background: rgba(255,255,255,0.1);
+  border: var(--cm-bw-1px) solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-md, 8px);
+  color: var(--cm-white);
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-base, 12px);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-input__field::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+.form-input__field:focus {
+  border-color: var(--accent, #ff4fd8);
+  box-shadow: 0 0 0 3px rgba(255,79,216,0.15);
+}
+
+.form-input--error .form-input__field {
+  border-color: var(--error, #ef4444);
+}
+
+.form-input__error {
+  font-family: var(--font-body, 'Arima', sans-serif);
+  font-size: var(--text-xs, 10px);
+  color: var(--error, #ef4444);
+}

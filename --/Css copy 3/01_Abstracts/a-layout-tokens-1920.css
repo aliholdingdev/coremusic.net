@@ -1,0 +1,33 @@
+/**
+ * CoreMusic — Layout Token'ları · 1920×1080 (Wide Desktop)
+ * ITCSS Layer: 01_Abstracts · Dosya: a-layout-tokens-1920.css
+ * Kaynak: notes.md (2026-10-03) — Figma 1920×1080 tier referansı
+ *         + d-4k.css / d-laptop.css zincirinde a-layout-tokens.css'ten sonra
+ * Import: 08_Devices/d-desktop.css (a-layout-tokens.css'ten SONRA)
+ * Kural: yalnız token tanımı (@media içi var() okuma YASAK — css-token.md §1)
+ *
+ * 1920px bant: BASE (1024 fallback) ile 4K arasındaki geçiş.
+ * Hover burada etkindir (desktop); a-layout-tokens-1024.css'in hover:none
+ * değerini ezer.
+ */
+
+@media (min-width: 1920px) and (max-width: 2559px) {
+  :root {
+    /* --- Layout (wide desktop) --- */
+    --header-h: 68px;
+    --footer-h: 92px;
+    --sidebar-w: 300px;
+    --content-max-w: 1600px;
+
+    /* --- Content padding --- */
+    --content-padding: 1.25rem;
+
+    /* --- Touch (desktop — mouse-first) --- */
+    --touch-min: 44px;
+    --touch-recommended: 48px;
+    --touch-large: 56px;
+
+    /* --- Hover AÇIK (desktop) --- */
+    --hover-display: block;
+  }
+}

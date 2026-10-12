@@ -1,0 +1,34 @@
+/*
+ * Dosya: a-layout-tokens-3840.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: 4k-tv (>=3840px) kırılımında layout token değer override'ları
+ * Bağımlılık: token üretir: var(--touch-*), var(--content-*), var(--header-*), var(--footer-*), var(--sidebar-*)
+ * Güncelleme: 2026-10-03
+ */
+/* CİHAZ: 4k-tv (10ft) · GÖRÜNÜM: ≥3840px
+ * Bu dosya YALNIZCA token değeri değiştirir — seçici/kural yazılmaz.
+ * Breakpoint: css-structure §2.1 → min 3840
+ *   ⚠️ VERIFICATION REQUIRED: a-breakpoint-tokens.css --bp-device-4k-tv: 2561–3840px
+ *   (device-loader.js "4k-tv 2561-3840px") — iki kaynak çelişiyor; §2.1 uygulandı.
+ * Kaynak: 08_Devices/d-4k-tv.css → :root bloğu (uydurma YOK; seçici kuralları taşınmadı). */
+
+@media (min-width: 3840px) {
+  :root {
+    /* --- Header: larger for 10ft --- */
+    --header-h: 80px;
+
+    /* --- Footer: larger player --- */
+    --footer-h: 160px;
+
+    /* --- Sidebar: wider --- */
+    --sidebar-w: 340px;
+
+    /* --- Content padding: generous --- */
+    --content-padding: 2.5rem;
+
+    /* --- Touch targets: 10ft UI için çok büyük --- */
+    --touch-min: 56px;
+    --touch-recommended: 64px;
+    --touch-large: 72px;
+  }
+}

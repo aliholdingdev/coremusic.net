@@ -1,0 +1,5 @@
+/** CoreMusic — Scrollbar Accent | ITCSS: 04_Components */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: var(--r-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--glass-border-light); }

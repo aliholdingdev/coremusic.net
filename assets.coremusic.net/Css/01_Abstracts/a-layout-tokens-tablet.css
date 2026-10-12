@@ -1,0 +1,45 @@
+/*
+ * Dosya: a-layout-tokens-tablet.css
+ * Katman: 01_Abstracts - token katmanı - yalnız `--*` token üretimi
+ * Rol: tablet (768-1023px) kırılımında layout token değer override'ları
+ * Bağımlılık: token üretir: var(--footer-*), var(--content-*), var(--text-*), var(--layout-*), var(--card-*)
+ * Güncelleme: 2026-10-03
+ */
+/* CİHAZ: tablet · GÖRÜNÜM: 768–1023px
+ * Bu dosya YALNIZCA token değeri değiştirir — seçici/kural yazılmaz.
+ * Breakpoint: a-breakpoint-tokens.css → --bp-device-tablet: 1024px üst sınır
+ *   (= css-structure §2.1: min 768 / max 1023 — 1024 base ile çakışmasın)
+ * Kaynak: 08_Devices/d-tablet.css → .layout--tablet bloğundan extract (uydurma YOK). */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    /* --- Split --- */
+    --layout-split-left: 45%;
+    --layout-split-right: 55%;
+
+    /* --- Kart / widget --- */
+    --card-thumb-size: 160px;
+    --now-playing-art: 120px;
+    --mini-card-art: 60px;
+    --widget-min-h: 120px;
+
+    /* --- Footer --- */
+    --footer-h: 95px;
+    --footer-player-art: 130px;
+
+    /* --- Header --- */
+    --header-h: 62px;
+
+    /* --- İçerik boşlukları --- */
+    --content-padding-top: 12px;
+    --content-padding-bottom: 16px;
+    --page-padding-x: 18px;
+
+    /* --- Tipografi --- */
+    --text-base: 13px;
+    --text-lg: 15px;
+
+    /* --- Grid --- */
+    --grid-gap: 10px;
+  }
+}

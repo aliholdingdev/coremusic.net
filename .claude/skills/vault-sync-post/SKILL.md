@@ -1,0 +1,113 @@
+---
+name: vault-sync-post
+description: "Use when closing a session or finishing an operation and the vault must be synced — root .md touchpoints, .claude/.opencode sync, and append-only log.md line — Tetikleyiciler: 'vault güncelle', 'session kapat', 'senkronize', 'log yaz', 'vault-post-update', 'session sync'."
+license: MIT
+metadata:
+  version: 3.0.0
+  format: claude-skill-v3
+  author: Bayram Ali (ULTRATHINK Engineering)
+  category: vault-management
+  tags: [vault, session, sync, automation, post-operation]
+  updated: 2026-10-07
+  previous-version: "1.0.0"
+---
+
+# Vault Sync Post — Islem Sonrasi Otomatik Guncelleme
+
+## Amac
+
+Her islem tamamlandiktan sonra tum vault dosyalarini otomatik olarak gunceller. Session kaydini yapar, root .md dosyalarini tazeler, .claude/ ve .opencode/ dizinlerini senkronize eder.
+
+## Ne Zaman Kullanilir?
+
+- Bir gorev tamamlandiktan sonra
+- Kod degisikligi yapildiktan sonra
+- Vault dosyasi guncellendikten sonra
+- Session sonlandirilirken
+- /vault-post-update komutu ile
+
+## Adimlar
+
+### Adim 1: Session Kaydi
+```bash
+node .ai/scripts/session-save.mjs --task "<gorev-aciklamasi>" --status completed --agent <agent-adi> # ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel
+```
+
+**Parametreler:**
+- `--task`: Gorev aciklamasi (zorunlu)
+- `--status`: completed | partial | failed (zorunlu)
+- `--agent`: Agent adi (varsayilan: mo)
+- `--files`: Virgulle ayirilmis dosya listesi (istege bagli)
+
+**Ornek:**
+```bash
+node .ai/scripts/session-save.mjs --task "Footer responsive duzeltme" --status completed --agent ui --files "footer.php,_footer.css" # ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel
+```
+
+### Adim 2: Vault Guncelleme
+```bash
+node .ai/scripts/vault-post-update.mjs --scope root # ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel
+```
+
+**Parametreler:**
+- `--scope root`: 12 root .ai dosyasi + .claude/.opencode sync (varsayilan)
+- `--scope full`: Tum 244 AGENTS.md + 244 CLAUDE.md (buyuk vault yeniden yapilandirma icin)
+- `--dry-run`: Sadece raporla, yazma
+
+### Adim 3: Dogrulama
+Sonuclari kontrol et:
+- `.ai/sessions/YYYY-MM-DD-HH-MM-SS.md` olusturuldu mu?
+- `.ai/MEMORY.md` §18 (Session History) guncellendi mi?
+- `.ai/log.md`'ye append edildi mi?
+- `.ai/sessions/context/project-state.md` guncellendi mi?
+- `.claude/CLAUDE.md` = `.ai/CLAUDE.md` eslesiyor mu?
+- `.opencode/CLAUDE.md` = `.ai/CLAUDE.md` eslesiyor mu?
+
+## Dosya Yapisi
+
+```
+.ai/
+├── scripts/
+│   ├── session-save.mjs          ← Session kaydetme araci ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel
+│   ├── vault-post-update.mjs     ← Vault guncelleme araci ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel
+│   ├── vault-utf8-writer.mjs     ← UTF-8 guvenli yazma (zorunlu kanal)
+│   └── vault-cmd.mjs             ← Turkce komut arayuzu ⚠️ VERIFICATION REQUIRED — araç yok, senkronizasyon manuel
+├── sessions/                     ← Session dosyalari
+│   ├── YYYY-MM-DD-HH-MM-SS.md   ← Session loglari
+│   └── context/
+│       └── project-state.md      ← Son proje durumu
+├── MEMORY.md                     ← Session history + current state
+├── log.md                        ← Audit trail (append-only)
+└── ... (12 root dosya)
+```
+
+## Kisitlar
+
+- Tum yazimlar vault-utf8-writer.mjs uzerinden yapilmalidir
+- PowerShell dosya YAZMA cmdlet'leri yasaktir
+- log.md'ye SADECE append modu ile yazilir
+- MEMORY.md 1000 satir sinirini asmamalidir
+
+## İlgili Dosyalar
+
+| Dosya | Amaç |
+|-------|------|
+| [[.ai/scripts/session-save]] | Session kaydetme scripti |
+| [[.ai/scripts/vault-post-update]] | Vault guncelleme scripti |
+| [[.ai/scripts/vault-utf8-writer]] | UTF-8 yazma araci |
+| [[.ai/WORKFLOW]] | §8.9 Automated Session & Vault Sync |
+| [[.ai/AGENTS]] | Vault-updater agent tanimi |
+
+## Ornekler
+
+| Dosya | Ne gosterir |
+|-------|-------------|
+| [examples/session-close-sync.md](examples/session-close-sync.md) | Session kapanisi: 12 root .md touchpoint + .claude/.opencode sync + log.md append satiri (girdi → çıktı tam döngü) |
+
+> Birleştirme notu (2026-10-07): `.opencode/skills/vault-sync-post/SKILL.md` ile içerik
+> karşılaştırıldı — tek fark üstteki MAX THINKING bloğuydu (v3.0 formatında tek satıra
+> indirildi); benzersiz başka içerik yok.
+
+Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
+
+*CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

@@ -1,0 +1,243 @@
+/**
+ * Dosya: _player-info.css
+ * Katman: 04_Components - yeniden kullanılabilir UI bileşenleri
+ * Rol: Player Info / Now Playing kartı - --cm-playerinfo-* token'ları ve glass görünümü
+ * Bağımlılık: token üretir: var(--cm-*)
+ * Güncelleme: 2026-10-03
+ */
+
+:root {
+  --cm-playerinfo-bg: rgba(220, 50, 150, 0.2);
+  --cm-playerinfo-border: rgba(255, 105, 180, 0.3);
+  --cm-playerinfo-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  --cm-playerinfo-text-color: rgba(255, 255, 255, 0.88);
+  --cm-playerinfo-text-shadow: 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.8);  
+
+  --cm-player-info-icon-shadow: 0 0.2px 0.5px rgba(0, 0, 0, 0.8);
+  --cm-player-info-badge-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.8);
+}
+
+.now-playing.now-playing--embedded,
+.player-info.player-info--wide {
+  box-sizing: border-box;
+  position: relative;
+  display: grid;
+  /* grid-template-columns: var(--cm-player-cover) minmax(0, 1fr); */
+  width: var(--cm-player-info-w);
+  height: var(--cm-player-info-h);
+  margin: 0;
+  padding:
+    var(--cm-player-info-pad-top)
+    var(--cm-player-info-pad-right)
+    var(--cm-player-info-pad-bottom)
+    var(--cm-player-info-pad-left);
+  background: var(--cm-playerinfo-bg);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    inset 0 0 0 1px var(--cm-playerinfo-border),
+    var(--cm-playerinfo-shadow);
+  color: var(--cm-playerinfo-text-color);
+  font-family: var(--cm-font-ui);
+  font-weight: var(--fw-500);
+  text-shadow: var(--cm-playerinfo-text-shadow);
+  grid-auto-flow: column;
+  gap: 15px;
+}
+
+.player-info__cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* Figma: #FF65E9 */
+  background: var(--cm-accent-soft);
+  box-shadow: var(--glow-progress);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.5s linear;
+}
+
+.player-info__cover {
+  width: var(--cm-player-info-cover);
+  height: var(--cm-player-info-cover);
+  border-radius: 5px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.player-info__progress__play {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent, var(--cm-accent));
+  color: var(--cm-playerinfo-text-color);
+  filter: drop-shadow(var(--cm-player-info-icon-shadow));
+}
+
+.player-info.player-info--wide {
+  /* grid-template-rows: auto; */
+  /* column-gap: 20px; */
+}
+
+.player-info__info-panel {
+  align-self: start;
+  min-width: 0;
+  position: relative;
+  padding-top: 10px;
+  display: grid;
+  grid-template-rows: 21px 22px 21px 21px 21px 21px;
+}
+
+.player-info.player-info--wide .player-info__row {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  font-size: 12px;
+  line-height: 16.201px;
+  letter-spacing: 0.936px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.player-info.player-info--wide .now-playing__meta-value {
+  font-size: 12px;
+  line-height: 16.201px;
+  letter-spacing: 0.936px;
+}
+
+.player-info__label {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 20.556px;
+}
+.player-info__label-icon {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.player-info__label-icon-img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.player-info__label-icon-img--music,
+.player-info__label-icon-img--mic,
+.player-info__label-icon-img--star,
+.player-info__label-icon-img--timer {
+  width: 15px;
+  height: 15px;
+}
+.player-info__label-icon-img--cd {
+  width: 13px;
+  height: 13px;
+}
+.player-info__label-icon-img--bitrate {
+  width: 12px;
+  height: 12px;
+}
+
+/* ─── Yıldızlar — Figma 5×13px, pitch 14.201, x243.111 y85.755 ─── */
+.player-info__stars {
+  position: absolute;
+  left: 61.111px;
+  top: 1px;
+  display: flex;
+  gap: 2px;
+}
+.player-info__stars img {
+  display: block;
+  width: 13px;
+  height: 13px;
+  object-fit: contain;
+  filter: drop-shadow(var(--cm-player-info-badge-shadow));
+}
+
+/* ─── Format rozetleri — Figma mp3(307.734,107.789) mp4(329,105) vlc(353,107) ─── */
+.player-info__badges {
+  position: absolute;
+  left: 125.734px;
+  top: 2.577px;
+  display: flex;
+  align-items: flex-start;
+}
+.player-info__badge {
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(var(--cm-player-badge-shadow));
+}
+.player-info__badge--mp3 {
+  width: 22px;
+  height: 11px;
+}
+.player-info__badge--mp4 {
+  width: 23px;
+  height: 17px;
+  margin:
+    -2.789px
+    0
+    0
+    1px;
+}
+.player-info__badge--vlc {
+  width: 12px;
+  height: 12px;
+  margin:
+    -0.789px
+    0
+    0
+    -0.789px;
+}
+
+.player-info__transport {
+  display: flex;
+  align-items: flex-start;
+}
+.player-info__text-img.player-info__play {
+  display: block;
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+  margin-left: 2px;
+  filter: drop-shadow(var(--cm-player-icon-shadow));
+}
+.player-info__progress {
+  flex: 0 0 auto;
+  width: clamp(200px, 60vw, 225px);
+  height: clamp(6px, 1vh, 12px);
+  margin:
+    3.08px
+    0
+    0
+    4px;
+  background: var(--cm-player-info-progress-bg);
+  border-radius: var(--cm-player-info-progress-radius);
+  overflow: hidden;
+  cursor: pointer;
+}
+.player-info__progress__bar {
+  width: 100%;
+  height: 100%;
+}
+
+/* ═══ Progress dolgu — ortak (Figma: #FF65E9 + sheen gradient) ═══ */
+.player-info__progress__fill,
+.media-progress__fill {
+  height: 100%;
+  width: var(--progress-percent, 0);
+  background: var(--cm-player-info-progress-fill);
+  border-radius: var(--cm-player-info-progress-radius);
+  transition: width 0.5s linear;
+}
+
+/* Touch/Coarse pointer (TV, mobile touch) — larger hit zones */
+@media (pointer: coarse) {
+  .now-playing__info--embedded .media-progress__time,
+  .player-info__transport .player-info__text-img {
+    min-height: var(--cm-h-48px);
+    display: flex;
+    align-items: center;
+  }
+}

@@ -1,0 +1,679 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://media.coremusic.net/config/media.schema.json",
+  "title": "media.coremusic.net medya arsivi semasi",
+  "version": 2,
+  "$comment": "DOSYA -> SEMA ESLEME TABLOSU (audit, dosya adina gore $defs altinda bir alt sema secer): artist.json -> #/$defs/artist | album.json -> #/$defs/album | meta.json -> #/$defs/meta (tip discriminator: ses|video, oneOf ile iki varyant) | koleksiyon.json -> #/$defs/koleksiyon. Tepeden toplu denetim icin kok de bu dort alt semayi oneOf ile kapsar. ORTAK KURALLAR: (1) 'ek' (uzanti cantasi) DISINDA her katmanda additionalProperties=false -> bilinmeyen anahtar = hata; (2) tum enum'lar taxonomy.json ile birebir senkrondur, her enum def'inde 'SYNC: taxonomy.json#<anahtar>' notu vardir (dis referans kurulmaz); (3) id ULID, slug kebab-case, sha256 kucuk harf hex, eklenme +03:00 sabit.",
+  "oneOf": [
+    { "$ref": "#/$defs/artist" },
+    { "$ref": "#/$defs/album" },
+    { "$ref": "#/$defs/meta" },
+    { "$ref": "#/$defs/koleksiyon" }
+  ],
+  "$defs": {
+    "schema_v2": {
+      "const": 2,
+      "$comment": "sema surumu (v2)"
+    },
+    "ulid": {
+      "type": "string",
+      "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$",
+      "$comment": "ULID / Crockford base32 (I, L, O, U haric)"
+    },
+    "ulid_null": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "maxLength": 80
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "datetime03": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\+03:00$",
+      "$comment": "yerel saat dilimi sabit +03:00"
+    },
+    "datetime03_null": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\+03:00$"
+    },
+    "dateonly": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "ek": {
+      "type": "object",
+      "$comment": "uzanti cantasi: serbest, sinirlandirilmaz (tek additionalProperties=true olan katman)"
+    },
+    "iliski_kayit": {
+      "oneOf": [
+        { "type": "string", "minLength": 1, "maxLength": 200 },
+        { "type": "object" }
+      ],
+      "$comment": "artist.iliski.gruplar / ortak_calismalar ogeleri: duz metin ad ya da nesne (id+ad) kabul edilir"
+    },
+    "tur_enum": {
+      "type": "string",
+      "enum": ["arabesk", "damar", "turk-pop", "turkce", "yabanci", "nostalji", "oryantel", "halay", "roman-sorti", "dans", "klasik", "slow", "enstrumantal", "turk-rock"],
+      "$comment": "SYNC: taxonomy.json#tur"
+    },
+    "kullanim_enum": {
+      "type": "string",
+      "enum": ["dugun", "hane", "org-esligi", "alt-yapi", "kina", "pasta-nikah", "ara-show", "dj-set"],
+      "$comment": "SYNC: taxonomy.json#kullanim"
+    },
+    "media_tipi_enum": {
+      "type": "string",
+      "enum": ["full", "enstrumantal", "karaoke", "canli", "remix", "cover"],
+      "$comment": "SYNC: taxonomy.json#media_tipi"
+    },
+    "donem_enum": {
+      "type": "string",
+      "enum": ["on-yil", "70ler", "80ler", "90ler", "2000ler", "2010lar", "2020lar"],
+      "$comment": "SYNC: taxonomy.json#donem"
+    },
+    "ruh_enum": {
+      "type": "string",
+      "enum": ["duygusal", "yavas", "enerjik", "nostaljik", "huzunlu"],
+      "$comment": "SYNC: taxonomy.json#ruh"
+    },
+    "klip_tipi_enum": {
+      "type": "string",
+      "enum": ["official", "live", "lyric", "dance", "acoustic"],
+      "$comment": "SYNC: taxonomy.json#klip_tipi"
+    },
+    "dil_enum": {
+      "type": "string",
+      "enum": ["tr", "en", "de", "fr", "it", "es", "ar", "fa", "ru", "az", "ku", "sq"],
+      "$comment": "SYNC: taxonomy.json#dil"
+    },
+    "durum_enum": {
+      "type": "string",
+      "enum": ["inbox", "aktif", "sakli", "tekrar", "arsiv"],
+      "$comment": "SYNC: taxonomy.json#durum"
+    },
+    "album_tip_enum": {
+      "type": "string",
+      "enum": ["studyo", "canli", "derleme", "ep", "soundtrack", "tekli"],
+      "$comment": "SYNC: taxonomy.json#album_tip"
+    },
+    "fiziksel_bicim_enum": {
+      "type": "string",
+      "enum": ["lp", "45lik", "7lik", "cd", "kaset", "dijital"],
+      "$comment": "SYNC: taxonomy.json#fiziksel_bicim"
+    },
+    "sanatci_tip_enum": {
+      "type": "string",
+      "enum": ["kisi", "grup", "topluluk", "cesitli"],
+      "$comment": "SYNC: taxonomy.json#sanatci_tip"
+    },
+    "video_kaynak_enum": {
+      "type": "string",
+      "enum": ["yt", "vhs", "dvd", "cekim"],
+      "$comment": "SYNC: taxonomy.json#video_kaynak"
+    },
+    "koleksiyon_kaynak_enum": {
+      "type": "string",
+      "enum": ["usb", "disk", "indirme", "diger"],
+      "$comment": "SYNC: taxonomy.json#koleksiyon_kaynak"
+    },
+    "altyazi_tip_enum": {
+      "type": "string",
+      "enum": ["yan", "govde"],
+      "$comment": "SYNC: taxonomy.json#altyazi_tip"
+    },
+    "cover_kaynak_enum": {
+      "type": "string",
+      "enum": ["kaynak", "uretilmis", "dis"],
+      "$comment": "SYNC: taxonomy.json#cover_kaynak"
+    },
+    "koleksiyon_hak_enum": {
+      "type": "string",
+      "enum": ["kisisel", "ticari", "bilinmiyor"],
+      "$comment": "SYNC: taxonomy.json#koleksiyon_hak"
+    },
+    "bitrate_tip_enum": {
+      "type": "string",
+      "enum": ["yok", "cbr", "vbr", "abr"],
+      "$comment": "SYNC: taxonomy.json#bitrate_tip"
+    },
+
+    "artist": {
+      "title": "artist.json",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "id", "slug", "durum", "kimlik", "biyografi", "muzik", "iliski", "kaynak_id", "gorsel", "varsayilan_tag", "ek", "eklenme"],
+      "properties": {
+        "schema": { "$ref": "#/$defs/schema_v2" },
+        "id": { "$ref": "#/$defs/ulid" },
+        "slug": { "$ref": "#/$defs/slug" },
+        "durum": { "$ref": "#/$defs/durum_enum" },
+        "kimlik": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sanatci", "tip"],
+          "properties": {
+            "sanatci": { "type": "string", "minLength": 1, "maxLength": 200 },
+            "sanatci_alt": { "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 200 } },
+            "tip": { "$ref": "#/$defs/sanatci_tip_enum" }
+          }
+        },
+        "biyografi": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["ozet", "dogum", "olum", "memleket"],
+          "properties": {
+            "ozet": { "type": ["string", "null"], "maxLength": 5000 },
+            "dogum": { "type": ["integer", "null"], "minimum": 1500, "maximum": 2100 },
+            "olum": { "type": ["integer", "null"], "minimum": 1500, "maximum": 2100 },
+            "memleket": { "type": ["string", "null"], "maxLength": 200 }
+          }
+        },
+        "muzik": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tur", "enstrumanlar", "donem"],
+          "properties": {
+            "tur": { "type": "array", "items": { "$ref": "#/$defs/tur_enum" } },
+            "enstrumanlar": { "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 60 } },
+            "donem": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["baslangic", "bitis"],
+              "properties": {
+                "baslangic": { "type": ["integer", "null"], "minimum": 1900, "maximum": 2100 },
+                "bitis": { "type": ["integer", "null"], "minimum": 1900, "maximum": 2100 }
+              }
+            }
+          }
+        },
+        "iliski": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["gruplar", "ortak_calismalar"],
+          "properties": {
+            "gruplar": { "type": "array", "items": { "$ref": "#/$defs/iliski_kayit" } },
+            "ortak_calismalar": { "type": "array", "items": { "$ref": "#/$defs/iliski_kayit" } }
+          }
+        },
+        "kaynak_id": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["musicbrainz", "discogs", "wikipedia"],
+          "properties": {
+            "musicbrainz": { "type": ["string", "null"], "maxLength": 64 },
+            "discogs": { "type": ["string", "null"], "maxLength": 64 },
+            "wikipedia": { "type": ["string", "null"], "maxLength": 500 }
+          }
+        },
+        "gorsel": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["avatar"],
+          "properties": {
+            "avatar": { "type": ["string", "null"], "maxLength": 255 }
+          }
+        },
+        "varsayilan_tag": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tur", "dil"],
+          "properties": {
+            "tur": { "type": "array", "items": { "$ref": "#/$defs/tur_enum" } },
+            "dil": { "$ref": "#/$defs/dil_enum" }
+          }
+        },
+        "ek": { "$ref": "#/$defs/ek" },
+        "eklenme": { "$ref": "#/$defs/datetime03" }
+      }
+    },
+
+    "album": {
+      "title": "album.json",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "id", "slug", "durum", "kimlik", "ust", "tarih", "bicim", "kapsam", "gorsel", "kredi", "haklar", "tag", "ek", "eklenme"],
+      "properties": {
+        "schema": { "$ref": "#/$defs/schema_v2" },
+        "id": { "$ref": "#/$defs/ulid" },
+        "slug": { "$ref": "#/$defs/slug" },
+        "durum": { "$ref": "#/$defs/durum_enum" },
+        "kimlik": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["album", "album_tip"],
+          "properties": {
+            "album": { "type": "string", "minLength": 1, "maxLength": 300 },
+            "album_tip": { "$ref": "#/$defs/album_tip_enum" }
+          }
+        },
+        "ust": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sanatci_id", "sanatci", "cache"],
+          "properties": {
+            "sanatci_id": { "$ref": "#/$defs/ulid_null" },
+            "sanatci": { "type": ["string", "null"], "maxLength": 200 },
+            "cache": { "type": "boolean" }
+          }
+        },
+        "tarih": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["yil"],
+          "properties": {
+            "yil": { "type": ["integer", "null"], "minimum": 1900, "maximum": 2100 },
+            "ay": { "type": ["integer", "null"], "minimum": 1, "maximum": 12 },
+            "ulke": { "type": ["string", "null"], "pattern": "^[A-Za-z]{2}$" }
+          }
+        },
+        "bicim": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["fiziksel"],
+          "properties": {
+            "fiziksel": { "$ref": "#/$defs/fiziksel_bicim_enum" },
+            "yeniden_basim": { "type": ["integer", "null"], "minimum": 1900, "maximum": 2100 }
+          }
+        },
+        "kapsam": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["sarki_sayisi", "sure_sn"],
+          "properties": {
+            "sarki_sayisi": { "type": ["integer", "null"], "minimum": 0 },
+            "sure_sn": { "type": ["integer", "null"], "minimum": 1 }
+          }
+        },
+        "gorsel": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["cover", "cover_kaynak"],
+          "properties": {
+            "cover": { "type": ["string", "null"], "maxLength": 255 },
+            "cover_kaynak": { "$ref": "#/$defs/cover_kaynak_enum" }
+          }
+        },
+        "kredi": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["etiket_sirketi", "katalog_no"],
+          "properties": {
+            "etiket_sirketi": { "type": ["string", "null"], "maxLength": 200 },
+            "katalog_no": { "type": ["string", "null"], "maxLength": 100 },
+            "produsyor": { "type": ["string", "null"], "maxLength": 200 },
+            "muhendis": { "type": ["string", "null"], "maxLength": 200 }
+          }
+        },
+        "haklar": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["lisans", "telif"],
+          "properties": {
+            "lisans": { "type": "string", "minLength": 1, "maxLength": 100 },
+            "telif": { "type": ["string", "null"], "maxLength": 300 }
+          }
+        },
+        "tag": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tur", "dil"],
+          "properties": {
+            "tur": { "type": "array", "items": { "$ref": "#/$defs/tur_enum" } },
+            "dil": { "$ref": "#/$defs/dil_enum" }
+          }
+        },
+        "ek": { "$ref": "#/$defs/ek" },
+        "eklenme": { "$ref": "#/$defs/datetime03" },
+        "guncelleme": { "$ref": "#/$defs/datetime03_null" }
+      }
+    },
+
+    "meta": {
+      "title": "meta.json (ses + video)",
+      "$comment": "tek dosya semasi; 'tip' discriminator'dur: ses -> #/$defs/meta_ses, video -> #/$defs/meta_video; ayni anda ikisine de uymaz (oneOf).",
+      "oneOf": [
+        { "$ref": "#/$defs/meta_ses" },
+        { "$ref": "#/$defs/meta_video" }
+      ]
+    },
+
+    "meta_base": {
+      "title": "meta.json ortak govde",
+      "$comment": "ZORUNLU 12 ALAN: schema, id, tip, kimlik.slug, kimlik.baslik, kimlik.sira, teknik.dosya, teknik.format, teknik.boyut_bayt, teknik.sha256, durum, eklenme. TEKLI/CESITLI ISTISNASI (asagidaki if/then): ust.album_id null ise ust.sanatci + ust.album + ust.yil zorunlu (cache degil). 'ek' haric tum katmanlarda additionalProperties=false.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "id", "tip", "kimlik", "teknik", "durum", "eklenme"],
+      "if": {
+        "required": ["ust"],
+        "properties": {
+          "ust": {
+            "required": ["album_id"],
+            "properties": { "album_id": { "type": "null" } }
+          }
+        }
+      },
+      "then": {
+        "required": ["ust"],
+        "properties": {
+          "ust": { "required": ["sanatci", "album", "yil"] }
+        }
+      },
+      "properties": {
+        "schema": { "$ref": "#/$defs/schema_v2" },
+        "id": { "$ref": "#/$defs/ulid" },
+        "tip": {
+          "type": "string",
+          "enum": ["ses", "video"],
+          "$comment": "discriminator: ses -> #/$defs/meta_ses, video -> #/$defs/meta_video"
+        },
+        "durum": { "$ref": "#/$defs/durum_enum" },
+        "kimlik": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["slug", "baslik", "sira"],
+          "properties": {
+            "slug": { "$ref": "#/$defs/slug" },
+            "baslik": { "type": "string", "minLength": 1, "maxLength": 300 },
+            "baslik_alt": { "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 300 } },
+            "sira": { "type": "integer", "minimum": 1 },
+            "disk": { "type": ["integer", "null"], "minimum": 1 }
+          }
+        },
+        "ust": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sanatci_id": { "$ref": "#/$defs/ulid_null" },
+            "album_id": { "$ref": "#/$defs/ulid_null" },
+            "sanatci": { "type": ["string", "null"], "maxLength": 200 },
+            "album": { "type": ["string", "null"], "maxLength": 300 },
+            "yil": { "type": ["integer", "null"], "minimum": 1900, "maximum": 2100 },
+            "cache": { "type": "boolean" }
+          }
+        },
+        "teknik": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["dosya", "format", "boyut_bayt", "sha256"],
+          "properties": {
+            "dosya": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 255,
+              "$comment": "deseni varyantta: ses ^audio\\.(mp3|flac|wav|m4a|ogg|wma)$ / video ^video\\.(mp4|mkv|avi|webm)$"
+            },
+            "varyantlar": { "type": "array", "items": { "type": "string", "minLength": 1, "maxLength": 255 } },
+            "format": { "type": "string", "pattern": "^[a-z0-9]{1,16}$" },
+            "kapsayici": { "type": "string", "pattern": "^[a-z0-9]{1,16}$" },
+            "boyut_bayt": { "type": "integer", "minimum": 1 },
+            "sha256": { "$ref": "#/$defs/sha256" },
+            "sure_sn": { "type": ["integer", "null"], "minimum": 1 },
+            "bitrate": { "type": ["integer", "null"], "minimum": 1 },
+            "bitrate_tip": { "$ref": "#/$defs/bitrate_tip_enum" },
+            "kanal": { "type": ["integer", "null"], "minimum": 1 },
+            "orneklem": { "type": ["integer", "null"], "minimum": 1 },
+            "derinlik": { "type": ["integer", "null"], "minimum": 1 },
+            "lufs": { "type": ["number", "null"], "minimum": -70, "maximum": 0 },
+            "peak_db": { "type": ["number", "null"] },
+            "cozunurluk": { "type": "string", "pattern": "^\\d{2,5}x\\d{2,5}$" },
+            "en_boy": { "type": "number", "exclusiveMinimum": 0 },
+            "fps": { "type": ["number", "null"], "minimum": 0 },
+            "video_kodec": { "type": "string", "minLength": 1, "maxLength": 40 },
+            "ses_kodec": { "type": "string", "minLength": 1, "maxLength": 40 },
+            "bitrate_kbps": { "type": ["integer", "null"], "minimum": 1 }
+          }
+        },
+        "muzikal": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "bpm": { "type": ["integer", "null"], "minimum": 20, "maximum": 300 },
+            "ton": { "type": ["string", "null"], "maxLength": 20 },
+            "ton_sistem": { "type": "string", "minLength": 1, "maxLength": 20 },
+            "enerji": { "type": ["integer", "null"], "minimum": 1, "maximum": 10 },
+            "intro_sn": { "type": ["number", "null"], "minimum": 0 },
+            "outro_sn": { "type": ["number", "null"], "minimum": 0 }
+          }
+        },
+        "kredi": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "soz": { "type": ["string", "null"], "maxLength": 300 },
+            "muzik": { "type": ["string", "null"], "maxLength": 300 },
+            "aranjman": { "type": ["string", "null"], "maxLength": 300 },
+            "sarkici": { "type": ["string", "null"], "maxLength": 300 },
+            "orkestra": { "type": ["string", "null"], "maxLength": 300 },
+            "produsyor": { "type": ["string", "null"], "maxLength": 300 },
+            "muhendis": { "type": ["string", "null"], "maxLength": 300 }
+          }
+        },
+        "haklar": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "lisans": { "type": "string", "minLength": 1, "maxLength": 100 },
+            "telif": { "type": ["string", "null"], "maxLength": 300 },
+            "isrc": { "type": ["string", "null"], "maxLength": 40 },
+            "koleksiyon_hak": { "$ref": "#/$defs/koleksiyon_hak_enum" }
+          }
+        },
+        "tag": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "tur": { "type": "array", "items": { "$ref": "#/$defs/tur_enum" } },
+            "kullanim": { "type": "array", "items": { "$ref": "#/$defs/kullanim_enum" } },
+            "donem": {
+              "oneOf": [{ "$ref": "#/$defs/donem_enum" }, { "type": "null" }],
+              "$comment": "SYNC: taxonomy.json#donem (null = donem bilinmiyor)"
+            },
+            "ruh": { "type": "array", "items": { "$ref": "#/$defs/ruh_enum" } },
+            "dil": { "$ref": "#/$defs/dil_enum" },
+            "media_tipi": { "$ref": "#/$defs/media_tipi_enum" },
+            "klip_tipi": {
+              "$ref": "#/$defs/klip_tipi_enum",
+              "$comment": "SYNC: taxonomy.json#klip_tipi — yalniz video (meta_ses tarafinda yasakli)"
+            }
+          }
+        },
+        "etiket": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 60 },
+          "$comment": "ACIK (open) set — taxonomy.json disi, denetlenmez"
+        },
+        "iliski": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "ses_id": { "$ref": "#/$defs/ulid_null" },
+            "cover_id": { "$ref": "#/$defs/ulid_null" },
+            "eser_id": { "$ref": "#/$defs/ulid_null" }
+          }
+        },
+        "gorsel": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "poster": { "type": "string", "minLength": 1, "maxLength": 255 },
+            "poster_zaman": { "type": "number", "minimum": 0, "$comment": "0..teknik.sure_sn (ust sinir ingest tarafinda dogrulanir)" }
+          },
+          "$comment": "yalniz video (meta_ses tarafinda yasakli)"
+        },
+        "altyazi": {
+          "type": "array",
+          "$comment": "yalniz video (meta_ses tarafinda yasakli)",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["dosya", "dil", "tip"],
+            "properties": {
+              "dosya": { "type": "string", "pattern": "^[A-Za-z0-9_\\-]{1,32}\\.(vtt|srt|ass|ssa|sub)$" },
+              "dil": { "$ref": "#/$defs/dil_enum" },
+              "tip": { "$ref": "#/$defs/altyazi_tip_enum" }
+            }
+          }
+        },
+        "kanit": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kaynak_yolu": { "type": "string", "minLength": 1, "maxLength": 1000 },
+            "kaynak_sistemi": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "tur": { "$ref": "#/$defs/koleksiyon_kaynak_enum" },
+                "alma": { "$ref": "#/$defs/dateonly" },
+                "not": { "type": ["string", "null"], "maxLength": 500 }
+              }
+            },
+            "giris_id": { "$ref": "#/$defs/ulid_null" },
+            "cozumleyici": { "type": "string", "minLength": 1, "maxLength": 60 },
+            "manuel_duzeltme": { "type": "boolean" },
+            "video_kaynak": {
+              "$ref": "#/$defs/video_kaynak_enum",
+              "$comment": "SYNC: taxonomy.json#video_kaynak — yalniz video (meta_ses tarafinda yasakli)"
+            }
+          }
+        },
+        "istatistik": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "dinlenme": { "type": "integer", "minimum": 0 },
+            "son_dinlenme": { "$ref": "#/$defs/datetime03_null" },
+            "puan": { "type": ["integer", "null"], "minimum": 1, "maximum": 10 },
+            "favori": { "type": "boolean" }
+          }
+        },
+        "editor": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "not": { "type": ["string", "null"], "maxLength": 2000 }
+          }
+        },
+        "ek": { "$ref": "#/$defs/ek" },
+        "eklenme": { "$ref": "#/$defs/datetime03" },
+        "guncelleme": { "$ref": "#/$defs/datetime03_null" },
+        "ekleyen": { "type": "string", "minLength": 1, "maxLength": 60 }
+      }
+    },
+
+    "meta_ses": {
+      "title": "meta.json — tip: ses",
+      "allOf": [
+        { "$ref": "#/$defs/meta_base" },
+        {
+          "required": ["tip"],
+          "properties": { "tip": { "const": "ses" } }
+        },
+        {
+          "required": ["teknik"],
+          "properties": {
+            "teknik": {
+              "properties": {
+                "dosya": { "pattern": "^audio\\.(mp3|flac|wav|m4a|ogg|wma)$" }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "gorsel": false,
+            "altyazi": false
+          },
+          "$comment": "ses kayitlarinda gorsel/altyazi alanlari bulunamaz"
+        },
+        {
+          "properties": {
+            "tag": { "not": { "required": ["klip_tipi"] } }
+          },
+          "$comment": "tag.klip_tipi yalniz video"
+        },
+        {
+          "properties": {
+            "kanit": { "not": { "required": ["video_kaynak"] } }
+          },
+          "$comment": "kanit.video_kaynak yalniz video"
+        },
+        {
+          "properties": {
+            "teknik": {
+              "not": {
+                "anyOf": [
+                  { "required": ["cozunurluk"] },
+                  { "required": ["en_boy"] },
+                  { "required": ["fps"] },
+                  { "required": ["video_kodec"] },
+                  { "required": ["ses_kodec"] },
+                  { "required": ["bitrate_kbps"] }
+                ]
+              }
+            }
+          },
+          "$comment": "video'ya ozel teknik alanlari ses dosyasinda bulunamaz"
+        }
+      ]
+    },
+
+    "meta_video": {
+      "title": "meta.json — tip: video",
+      "allOf": [
+        { "$ref": "#/$defs/meta_base" },
+        {
+          "required": ["tip"],
+          "properties": { "tip": { "const": "video" } }
+        },
+        {
+          "required": ["gorsel", "altyazi", "iliski", "tag"],
+          "$comment": "video Z alani: gorsel(poster, poster_zaman), altyazi[], iliski.ses_id, tag.klip_tipi",
+          "properties": {
+            "teknik": {
+              "required": ["kapsayici", "cozunurluk", "en_boy", "fps", "video_kodec", "ses_kodec", "bitrate_kbps"],
+              "properties": {
+                "dosya": { "pattern": "^video\\.(mp4|mkv|avi|webm)$" }
+              }
+            },
+            "gorsel": { "required": ["poster", "poster_zaman"] },
+            "iliski": { "required": ["ses_id"] },
+            "tag": { "required": ["klip_tipi"] }
+          }
+        }
+      ]
+    },
+
+    "koleksiyon": {
+      "title": "koleksiyon.json",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "id", "slug", "koleksiyon", "kaynak_tur", "sarki_sayisi", "tag", "durum", "eklenme", "ek"],
+      "properties": {
+        "schema": { "$ref": "#/$defs/schema_v2" },
+        "id": { "$ref": "#/$defs/ulid" },
+        "slug": { "$ref": "#/$defs/slug" },
+        "koleksiyon": { "type": "string", "minLength": 1, "maxLength": 300 },
+        "kaynak_tur": { "$ref": "#/$defs/koleksiyon_kaynak_enum" },
+        "sarki_sayisi": { "type": "integer", "minimum": 0 },
+        "tag": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tur"],
+          "properties": {
+            "tur": { "type": "array", "items": { "$ref": "#/$defs/tur_enum" } }
+          }
+        },
+        "durum": { "$ref": "#/$defs/durum_enum" },
+        "eklenme": { "$ref": "#/$defs/datetime03" },
+        "ek": { "$ref": "#/$defs/ek" }
+      }
+    }
+  }
+}

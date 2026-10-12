@@ -1,0 +1,91 @@
+
+
+/* ═══ Varyant: EMBEDDED (1024 · RPi5) ═══
+   grid: [kapak 72 | bilgi 1fr]
+         [progress — iki sütunu kapsar]
+   Figma: kapak sonu 86 → row-gap 15 → süre satırı 101 */
+.now-playing.now-playing--embedded {
+  grid-template-rows: var(--cm-player-info-cover) auto;
+  column-gap: 16px;
+  row-gap:15px;
+}
+
+
+/* REMOVED: .player-info__progress__play, .player-info__progress--wide — not used */
+
+
+/* Bilgi kolonu — Figma satır tepeleri 17 / 40 / 61 (Δ23, Δ21) */
+.now-playing__info--embedded {
+  align-self: start;
+  min-width: 0;
+  padding-top: var(--cm-player-info-pad-top);
+  display: grid;
+  grid-template-rows: var(--cm-player-embedded-rows);
+}
+
+/* Tipografi — spesifiklik 0,3,0: _home-components.css
+   .home-layout--embedded .now-playing__* (0,2,0) kurallarını ezer */
+.now-playing.now-playing--embedded .now-playing__title {
+  margin: 0;
+  font-size: var(--cm-player-info-title-size);
+  line-height: var(--cm-player-info-title-lh);
+  letter-spacing: var(--cm-player-info-title-ls);
+}
+.now-playing.now-playing--embedded .now-playing__subtitle,
+.now-playing.now-playing--embedded .now-playing__artist {
+  margin: 0;
+  font-size: var(--cm-player-info-meta-size);
+  line-height: var(--cm-player-info-meta-lh);
+  letter-spacing: var(--cm-player-info-meta-ls);
+}
+
+/* Progress satırı — iki sütunu kapsar (x16 … x377)
+   44 + 13 + 246 + 14 + 44 = 361 = içerik genişliği → bar x73 / süre x333 (Figma birebir) */
+.now-playing.now-playing--embedded .media-progress {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+}
+.now-playing.now-playing--embedded .media-progress__time {
+  flex: 0 0 auto;
+  width: var(--cm-player-info-time-w);
+  margin: 0;
+  font-size: var(--cm-player-info-time-size);
+  line-height: var(--cm-player-info-time-lh);
+  letter-spacing: var(--cm-player-info-time-ls);
+}
+.now-playing.now-playing--embedded .media-progress__time--total {
+  text-align: right;
+}
+.now-playing.now-playing--embedded .media-progress__bar {
+  flex: 0 0 auto;
+  width: 246px;
+  height: 3.33px;
+  margin: 0 0 0 0;
+  background: var(--cm-accent);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+/* ═══ Varyant: WIDE (1920 · desktop/4k) ═══
+   grid: [kapak 150 | bilgi 267]  içerik 433 = 469 − 16 − 20 */
+
+
+/* ─── Satır (label : değer) ───
+   Figma satır tepeleri: 20.652 · 42.687 · 63.721 · 84.755 · 105.212 · 126.871
+   overflow:hidden + ellipsis → uzun değer panel kenarında kırpılır */
+
+
+/* ─── Label + ikon kolonu ───
+   ikon kutusu x182–199 (17px), metin x202.556 → padding-left 20.556
+   Satır yüksekliğini bozmamak için ikon satır çizgisine mutlak konumlanır. */
+
+/* ─── Transport satırı (grid satırı 7) ───
+   oynat x184 (kolon 182 + 2) 15×15 · progress x203 y151 246×9 */
+
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS — Smooth scaling 480–3840px
+   Token clamp() sistem + device-specific behavioral override
+   ═══════════════════════════════════════════════════════════ */
+

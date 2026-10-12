@@ -1,0 +1,36 @@
+---
+node_id: K000-isletim-sistemi/isletim-sistemi-kernel
+node_type: subdomain
+status: draft
+parent_id: K000-isletim-sistemi
+children: []
+depends_on: []
+evidence: []
+validation:
+  - "Çocuk adı v2 §2.1 mini-ağacından birebir alındı (2026-10-12)"
+open_questions:
+  - "core ↔ kernel ayrım tanımı yok → ⚠️ VERIFICATION REQUIRED"
+---
+
+# isletim-sistemi-kernel — Kademe-2 Kayıt
+
+**ELI15 (ad-türevi):** Donanım ile yazılım arasındaki en alt katman (çekirdek).
+
+**Kapsam / sınır:** core alt dalı ile sınırı v2'de yazılmamıştır.
+
+| Öğe | Değer |
+|---|---|
+| parent_id | K000-isletim-sistemi |
+| Kademe | 3 · subdomain |
+| Master referansı | os-master.md §3 (satır listesi) |
+| Alt kademe | bu turda AÇILMADI (children: []) |
+| Durum | draft |
+
+**⚠️ VERIFICATION REQUIRED:** v2 §2.1 bu klasörü yalnız isim olarak listeler; ne işe
+yaradığını tek tek yazmaz. Yukarıdaki özet **ad kökeninden** türetilmiştir, kanıt değildir.
+Kapsam üst kademede (os-master.md §7 açık soruları) onaylanana kadar bu dosyaya
+tahmini içerik eklenmez — v2 §3 KURAL 3.
+
+---
+
+**Authority:** Bayram Ali / Vault Steward · 2026-10-12

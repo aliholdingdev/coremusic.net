@@ -1,0 +1,48 @@
+/**
+ * CoreMusic — Layout Token'ları · ≤767px (Phone)
+ * ITCSS Layer: 01_Abstracts · Dosya: a-layout-tokens-mobile.css
+ * Kaynak: d-phone.css (.layout--phone overrides — gerçek disk kanıtı)
+ *         + notes.md (2026-10-03 — mobile-first touch token'ları)
+ * Import: 08_Devices/d-phone.css (a-layout-tokens.css'ten SONRA)
+ * Kural: yalnız token tanımı (@media içi var() okuma YASAK — css-token.md §1)
+ */
+
+@media (max-width: 767px) {
+  :root {
+    /* --- Layout (phone) --- */
+    --header-h: 56px;
+    --footer-h: 72px;
+    --sidebar-w: 0px; /* phone'da sidebar gizli */
+
+    /* --- Content (phone) --- */
+    --content-padding-top: 8px;
+    --content-padding-bottom: 12px;
+    --page-padding-x: 12px;
+    --layout-split-left: 100%;
+    --layout-split-right: 100%;
+
+    /* --- Card / art (phone) --- */
+    --card-thumb-size: 100%;
+    --now-playing-art-size: 80px;
+    --mini-card-art-size: 50px;
+    --widget-min-height: 80px;
+
+    /* --- Footer player art --- */
+    --footer-album-art-size: 60px;
+
+    /* --- Font (phone — küçük ölçek) --- */
+    --text-base: 13px;
+    --text-lg: 15px;
+
+    /* --- Grid --- */
+    --grid-gap: 8px;
+
+    /* --- Touch (phone — touch-first) --- */
+    --touch-min: 48px;
+    --touch-recommended: 56px;
+    --touch-large: 56px;
+
+    /* --- Hover YOK (dokunmatik cihaz) --- */
+    --hover-display: none;
+  }
+}

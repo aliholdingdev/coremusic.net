@@ -1,0 +1,44 @@
+{
+  "$comment": "Yon: kaynak (bozuk metin) -> duzeltilmis. Uygulama noktasi: ingest normalize asamasi (dosya adi, klasor adi, baslik, etiket, kredi ve meta alanlari icin tarama/ice aktarma aninda). Siralama: anahtarlar en uzun eslesen once uygulanir (kisa eslesme once bozabilir); esit uzunlukta eslemelerde eslemeler nesnesindeki sira onceliklidir.",
+  "version": 1,
+  "updated": "2026-09-29",
+  "yon": "kaynak -> duzeltilmis",
+  "uygulama_noktasi": "ingest normalize asamasi",
+  "siralama": "en uzun eslesen anahtar once (desc uzunluk), ardindan eslemeler nesnesindeki sira",
+  "genel_kural": {
+    "ad": "utf8-cp1252-cp1254-ikili-ozur",
+    "aciklama": "UTF-8 olarak kodlanmis Turkce metnin hatali olarak CP1252/CP1254 kodlamasiyla okunmasi (veya tersi) sonucu ortaya cikan ikili/uclu bayt yiginlaridir. Duzeltme, bozuk metni UTF-8 olarak yeniden yorumlamak yerine asagidaki birebir eslemeleri uygulamakla yapilir.",
+    "adimlar": [
+      "BOM (EF BB BF) temizle",
+      "eslemeleri en uzun eslesen anahtardan baslayarak uygula",
+      "en fazla 2 gecis (tekrar bozulma korumasi; 2. geciste fark yoksa dur)",
+      "Unicode NFC normalizasyonu uygula",
+      "fazla bosluklari tek bosluga indir, bas/son bosluklari kirp"
+    ]
+  },
+  "kullanim_notu": "Ingest normalize asamasinda sirasiyla: dosya/klasor adi -> baslik -> sanatci/album adlari -> etiket ve kredi alanlari. Boylece 'NIÅŸKAH' -> 'NIŞKAH' olur; kisa eslesmeler (ÅŸ, Ã§) tek basina yeterli olmadigindan tum-tum kurallar (SORTIâ€™LER, MÃ¼zik) once denenir. Yanlis pozitif icin eslesme saglanan metinde en az 1 'Ã'/'Å'/'Ä'/'â'/'Â' bayati kalmalidir.",
+  "eslemeler": {
+    "SORTIâ€™LER": "SORTİ'LER",
+    "NIÅŸKAH": "NİŞKAH",
+    "MÃ¼zik": "Müzik",
+    "â€™": "'",
+    "â€œ": "\"",
+    "â€d": "\"",
+    "ÅŸ": "ş",
+    "Åž": "Ş",
+    "Ã§": "ç",
+    "Ã‡": "Ç",
+    "Ä°": "İ",
+    "Ä±": "ı",
+    "Ã¼": "ü",
+    "Ãœ": "Ü",
+    "Ã¶": "ö",
+    "Ã–": "Ö",
+    "ÄŸ": "ğ",
+    "Äž": "Ğ",
+    "Ã¢": "â",
+    "Â ": " ",
+    "Â ": " "
+  },
+  "toplam_eslesme": 21
+}
