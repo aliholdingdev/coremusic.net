@@ -497,4 +497,20 @@ private function runCli(array $args): array
 
 ---
 
+## §23 — Kanıt Bütünlüğü ve İzlenebilirlik (bu tur)
+
+| # | Kural | Uygulama | Sonuç |
+|---|---|---|---|
+| 1 | Uydurma satır no yok | Her `dosya:satır` referansı `[IO.File]::ReadAllLines()` ile okunarak yazıldı | 14/14 örnek doğrulandı |
+| 2 | Bozuk kodlama kaydı | Örnek 5 ve 14'teki Türkçe metin ASCII'ye çevrildi, çeviri satırda belirtildi | 2 çeviri kayıtlı |
+| 3 | Yer tutucu yok | Kod blokları birebir disk içeriğidir; `...`/`TODO` eklenmedi | 0 yer tutucu |
+| 4 | URL iddiası | §21'deki 3 URL HTTP 200 ile doğrulanmış resmi dokümandır (tarih 2026-10-13) | 3/3 doğrulandı |
+| 5 | Aynı URL iki dosyada geçmez | §21 URL'leri bu ağacın diğer dosyalarında aranıp tekrar yok | 0 tekrar |
+| 6 | Kod değişikliği | Bu tur yalnız `.md` dosyası üretti; `*.php`/`*.js`/`*.css`/`*.sql` yazılmadı | 0 kod değişikliği |
+
+> §3'teki "Toplam örnek 14" sayımı bu turda değişmedi; §21-§23 yalnız
+> doğrulama/izlenebilirlik ekleridir, yeni örnek üretmez.
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

@@ -228,7 +228,7 @@ biri eksikse bu plan kapsamında **kurulmaz**.
 |---|---|---|---|
 | Öncelik açgözlülüğü | Düşük öncelikli iş hiç CPU alamaz | Sınırsız yüksek öncelik akını | Aging (bekleme arttıkça öncelik yükseltme) |
 | Kuyruk açgözlülüğü | Uzun kuyruktaki iş sürekli atlanır | Adil olmayan kuyruk pop | Bekleme süresi üst sınırı (§6.3) |
-| Kaynak açgözlülüğü | Bir iş I/O kaynağına (disk/ağ) sürekli sahip | FIFO dosya erişimi |饥饿 yerine: kilit zaman aşımı, round-robin queue |
+| Kaynak açgözlülüğü | Bir iş I/O kaynağına (disk/ağ) sürekli sahip | FIFO dosya erişimi | starvation (kaynak açlığı) yerine: kilit zaman aşımı, round-robin queue |
 | Uygulama açgözlülüğü | Bir API istemcisi tüm rate-limit bütçesini tüketir | Bucket paylaşımı yok | Bucket başına izolasyon (§7.3) |
 
 ### 5.2 Denetim kuralları
