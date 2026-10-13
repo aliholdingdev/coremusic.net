@@ -184,12 +184,26 @@ final class PageRouterKernel
             return ['httpStatus' => 302, 'type' => 'redirect', 'body' => '', 'headers' => ['Location' => $redirectUrl]];
         }
 
-        if ($httpStatus === 404) {
-            return $this->errorHandler->buildErrorHtmlResult(404, $body);
-        }
-
-        if ($httpStatus >= 400) {
-            return $this->errorHandler->buildErrorHtmlResult($httpStatus, $body);
+        if ($httpStatus === 404 || $httpStatus >= 400) {
+            // C-F-14 onarımı: hata durumları artık SHELL içinde render edilir —
+            // header/footer/player/audio DOM'da kalır (çıplak HTML tüm kabuğu siliyordu).
+            $errorType    = match ($httpStatus) {
+                403     => 'forbidden',
+                404     => 'not_found',
+                410     => 'gone',
+                default => 'error',
+            };
+            $body         = is_array($body) ? $body : [];
+            $route        = (string)($body['route'] ?? $request['uri'] ?? 'home');
+            $csrfToken    = (string)($body['csrf_token'] ?? ($request['_session']['csrf_token'] ?? $_SESSION['csrf_token'] ?? ''));
+            $errorInfo    = $this->errorHandler->getErrorInfo($errorType, $route);
+            $errorHtml    = $this->errorHandler->buildErrorPage($errorInfo, $csrfToken, $protectedRoutes, $this->collectSessionData($request));
+            return [
+                'httpStatus' => $httpStatus,
+                'type'       => 'html',
+                'body'       => $errorHtml,
+                'headers'    => [],
+            ];
         }
 
         $container  = (string)($body['container']  ?? '');
@@ -209,6 +223,19 @@ final class PageRouterKernel
         $html = $this->shellRenderer->render($container, $route, $meta, $csrfToken, $protectedRoutes, $sessionData);
 
         return ['httpStatus' => 200, 'type' => 'html', 'body' => $html, 'headers' => $result['headers'] ?? []];
+    }
+
+    /**
+     * CANLI superglobal snapshot'i — hata sayfaları da güncel session'ı görmeli.
+     * (wrapInHtmlShell'daki C-F-08/P5 mantığının helper karşılığı.)
+     */
+    private function collectSessionData(array $request): array
+    {
+        $sessionData = is_array($request['_session'] ?? null) ? $request['_session'] : [];
+        if (isset($_SESSION) && is_array($_SESSION)) {
+            $sessionData = array_replace($sessionData, $_SESSION);
+        }
+        return $sessionData;
     }
 
     private function buildRedirectUrl(string $redirect): string

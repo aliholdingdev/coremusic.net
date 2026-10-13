@@ -91,7 +91,7 @@ $headerTierClass = $dm->shouldRender4kLayout()
                 <span class="header-user__name"><?= $cookieUsername ?></span>
                 <span class="header-user__arrow">&#9660;</span>
                 <div class="header-user-dropdown" role="menu">
-                    <a href="/profil" role="menuitem" data-no-spa>Profilim</a>
+                    <!-- SSOT: shared/config/routes.php — kayıtlı olmayan '/profil' kaldırıldı (404 → ölü link) -->
                     <a href="/ayarlar" role="menuitem" data-no-spa>Ayarlar</a>
                     <a href="/history" role="menuitem" data-no-spa>Geçmiş</a>
                     <a href="/logout" class="logout-btn" role="menuitem" data-no-spa>Çıkış Yap</a>

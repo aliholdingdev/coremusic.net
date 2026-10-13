@@ -8,8 +8,12 @@ final class ErrorHandler
         private readonly HtmlShellRenderer $shellRenderer
     ) {}
 
-    public function buildErrorPage(array $errorInfo, string $csrfToken): string
-    {
+    public function buildErrorPage(
+        array  $errorInfo,
+        string $csrfToken,
+        array  $protectedRoutes = [],
+        array  $sessionData     = []
+    ): string {
         $errorType    = $errorInfo['errorType'];
         $errorMessage = $errorInfo['errorMessage'];
         $route        = $errorInfo['route'];
@@ -29,7 +33,7 @@ final class ErrorHandler
             . '</div>';
 
         $meta = ['title' => $errorTitle];
-        return $this->shellRenderer->render($container, $route, $meta, $csrfToken, []);
+        return $this->shellRenderer->render($container, $route, $meta, $csrfToken, $protectedRoutes, $sessionData);
     }
 
     public function getErrorInfo(string $errorType, string $route): array

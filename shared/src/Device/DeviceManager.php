@@ -43,26 +43,25 @@ final class DeviceManager
        NAV LINK MAP — hangi cihazda hangi nav link'ler gösterilir
        ============================================================ */
     private const NAV_LINKS = [
+        // SSOT: shared/config/routes.php — nav'daki HER href kayıtlı bir route olmalı.
+        // (Regresyon: shared/tests/Unit/Device/NavRouteConsistencyTest.php)
         self::EMBEDDED => [
             ['href' => '/home',       'label' => 'Ana Sayfa',  'active' => true],
             ['href' => '/kesfet',     'label' => 'Keşfet',     'active' => false],
             ['href' => '/albumler',   'label' => 'Albümler',   'active' => false],
             ['href' => '/sanatcilar', 'label' => 'Sanatçılar', 'active' => false],
-            ['href' => '/goz-at',     'label' => 'Göz At',     'active' => false],
             ['href' => '/history',     'label' => 'Geçmiş',     'active' => false],
             ['href' => '/ayarlar',    'label' => 'Ayarlar',    'active' => false],
-            ['href' => '/hakkimizda', 'label' => 'Hakkımızda', 'active' => false],
         ],
         self::PHONE => [
             ['href' => '/home',      'label' => 'Ana Sayfa',  'active' => true],
-            ['href' => '/kutuphane', 'label' => 'Kütüphane',  'active' => false],
+            ['href' => '/kesfet',    'label' => 'Keşfet',     'active' => false],
             ['href' => '/ayarlar',   'label' => 'Ayarlar',    'active' => false],
         ],
         self::TABLET => [
             ['href' => '/home',       'label' => 'Ana Sayfa',  'active' => true],
             ['href' => '/kesfet',     'label' => 'Keşfet',     'active' => false],
             ['href' => '/albumler',   'label' => 'Albümler',   'active' => false],
-            ['href' => '/kutuphane',  'label' => 'Kütüphane',  'active' => false],
             ['href' => '/ayarlar',    'label' => 'Ayarlar',    'active' => false],
         ],
         self::LAPTOP => [
@@ -70,27 +69,22 @@ final class DeviceManager
             ['href' => '/kesfet',     'label' => 'Keşfet',     'active' => false],
             ['href' => '/albumler',   'label' => 'Albümler',   'active' => false],
             ['href' => '/sanatcilar', 'label' => 'Sanatçılar', 'active' => false],
-            ['href' => '/goz-at',     'label' => 'Göz At',     'active' => false],
             ['href' => '/history',     'label' => 'Geçmiş',     'active' => false],
             ['href' => '/ayarlar',    'label' => 'Ayarlar',    'active' => false],
-            ['href' => '/hakkimizda', 'label' => 'Hakkımızda', 'active' => false],
         ],
         self::DESKTOP => [
             ['href' => '/home',       'label' => 'Ana Sayfa',  'active' => true],
             ['href' => '/kesfet',     'label' => 'Keşfet',     'active' => false],
             ['href' => '/albumler',   'label' => 'Albümler',   'active' => false],
             ['href' => '/sanatcilar', 'label' => 'Sanatçılar', 'active' => false],
-            ['href' => '/goz-at',     'label' => 'Göz At',     'active' => false],
             ['href' => '/history',     'label' => 'Geçmiş',     'active' => false],
             ['href' => '/ayarlar',    'label' => 'Ayarlar',    'active' => false],
-            ['href' => '/hakkimizda', 'label' => 'Hakkımızda', 'active' => false],
         ],
         self::FOUR_K_TV => [
             ['href' => '/home',       'label' => 'Ana Sayfa',  'active' => true],
             ['href' => '/kesfet',     'label' => 'Keşfet',     'active' => false],
             ['href' => '/albumler',   'label' => 'Albümler',   'active' => false],
             ['href' => '/sanatcilar', 'label' => 'Sanatçılar', 'active' => false],
-            ['href' => '/goz-at',     'label' => 'Göz At',     'active' => false],
             ['href' => '/history',     'label' => 'Geçmiş',     'active' => false],
             ['href' => '/ayarlar',    'label' => 'Ayarlar',    'active' => false],
         ],
@@ -99,10 +93,8 @@ final class DeviceManager
             ['href' => '/kesfet',     'label' => 'Keşfet',     'active' => false],
             ['href' => '/albumler',   'label' => 'Albümler',   'active' => false],
             ['href' => '/sanatcilar', 'label' => 'Sanatçılar', 'active' => false],
-            ['href' => '/goz-at',     'label' => 'Göz At',     'active' => false],
             ['href' => '/history',     'label' => 'Geçmiş',     'active' => false],
             ['href' => '/ayarlar',    'label' => 'Ayarlar',    'active' => false],
-            ['href' => '/hakkimizda', 'label' => 'Hakkımızda', 'active' => false],
         ],
     ];
 
