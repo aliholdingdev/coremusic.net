@@ -114,8 +114,6 @@ ADIM 5 KALITE      → references/checklist.md çalıştır + örneklerle hizala
   (kullanıcı isteği → üretilen SKILL.md/çıktı) göstermelidir.
 - **N6 — İsimlendirme:** klasör adı = `name` 1:1; lowercase-hyphen; dosya adı `SKILL.md`
   (BÜYÜK harf); Türkçe karakter, alt çizgi (`_`), boşluk, büyük harf YASAK.
-- **N7 — MAX THINKING bloğu ASLA kopyalanmaz.** Skill gövdesine tek satır olarak şu gelir:
-  `Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.`
 - **N8 — `CLAUDE.md` sidecar YASAK** skill dizinlerinde (kök, references/, templates/,
   scripts/ dahil). Talimat tek kaynaktır: SKILL.md.
 - **N9 — Footer (her SKILL.md son satırı):**
@@ -161,7 +159,5 @@ metadata:
 Skill envanteri → `.claude/CONTEXT.md`.
 
 ---
-
-Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
 
 *CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

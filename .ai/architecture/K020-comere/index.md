@@ -16,7 +16,9 @@ open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "UNKNOWN: K020-comere neyi temsil ettiği bilinmiyor — v2 §2.20 uyarısı ('kapsam tanımı yok; tahmin yasak'). Onay gelene kadar yalnız iskelet durur, bağımlılık/çocuk ATANMAZ."
   - "'comere' yazımı kaynaktadır, düzeltilmez (v2 §3 KURAL 1 · ADR-097 §5.3)"
+group: mimari
 ---
+
 
 # K020-comere — Kapsamı Bilinmeyen Yönetişim Kaydı
 
@@ -43,5 +45,16 @@ içerik, kapsam tanımı onaylanana kadar **boş** bırakılmıştır.
 
 `⚠️ ID CONFLICT` (6× K020) + `UNKNOWN` (comere kapsamı) — her ikisi de `open_questions`
 alanında kayıtlıdır; **onaysız isim/içerik değiştirilmez.**
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+| kanit | `scope-verification.md` | ⚠️ VERIFICATION REQUIRED — kapsam tanımı yok (tahmin yasak) | Kademe-1 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

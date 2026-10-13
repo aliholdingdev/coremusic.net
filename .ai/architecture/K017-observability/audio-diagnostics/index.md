@@ -14,7 +14,9 @@ validation:
 open_questions:
   - "audio-diagnostics hangi donanım/altyapıda ölçülecek (ASIO/WASAPI/RPi5)? (⚠️ VERIFICATION REQUIRED)"
   - "K003-audio/K004-dsp ile sınır: teşhis burada, düzeltme orada — tescil gerekli"
+group: mimari
 ---
+
 
 # K017-observability/audio-diagnostics
 
@@ -35,5 +37,15 @@ Ses zincirine özgü teşhis: xrun/underrun, klip, gecikme ölçümü kayıtlar�
 | status | draft (kanıt durumu §frontmatter'da) |
 | Üreten pay | K-Space V3 Band-1 — A4 (2026-10-12) |
 | Domain Kökü | [[index]] (K017-observability) · master: observability-master.md |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · 2026-10-12

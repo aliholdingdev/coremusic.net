@@ -19,7 +19,9 @@ open_questions:
   - "Her torunun kademe-4 module listesi → ⚠️ VERIFICATION REQUIRED (faz C)"
   - "device-communication hangi yerel protokolleri kullanır → ⚠️ UNKNOWN"
   - "http ve websocket için kütüphane/dil → ⚠️ UNKNOWN (kanıt yok)"
+group: mimari
 ---
+
 
 # comms — K014-network (kademe-2 · subdomain)
 
@@ -43,3 +45,12 @@ protokolün taşıdığı iş anlamı K012/K013 · medya içeriği K015-media.
 **Bağımlılık (özet):** network-bagimliliklar.md §1 · torun ayrıntısı kendi index'lerinde.
 
 **Durum:** draft · kademe-3 (bounded-context) ve kademe-4 genişletmesi ADR-097 K4 fazı (C) bekliyor · module'e inilmez.
+
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |

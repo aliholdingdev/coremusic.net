@@ -95,6 +95,4 @@ SKU ürün ailesi, **Accepted**).
 Çelişki durumunda SSOT sırası: `.ai/CLAUDE.md` > `.ai/AGENTS.md` > `.ai/WORKFLOW.md` >
 `.ai/brain.md` — çelişki varsa DUR + sor (Guardrail #12).
 
-Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
-
 *CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

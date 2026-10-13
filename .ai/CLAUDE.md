@@ -835,18 +835,6 @@ Bu dosyada Faz 1 revizyonunda yapılan düzeltmeler:
 
 ---
 
-### MAX THINKING — Anti-Overthink (7 madde — 2026-10-01)
-
-1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
-2. Uzun analiz paragrafı, promptu geri anlatma, plan kompozisyonu YASAK. Nokta atışı cevap → hemen uygula.
-3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER. Aynı veriyi "emin olmak" için ikinci kez analiz etme.
-4. Session başlangıcı = anında boot (okuma listesi) → sonra işlem. Keşif önsözü yok.
-5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-6. Bilinmeyen = UNKNOWN; tahmin yok. Görev manifestinde listelenmeyen dosya/klasör/skill/agent/context/plan üretimi yasak; manifestteki dosyalar görevin kendisidir ve zorunludur.
-7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
-
-*(Çelişkide bu bütçe kazanır — ayrıntı: [[ULTRA-THINKING.md]] § MAX THINKING · kök metin: kök `AGENTS.md` §5 · **bu blok .ai/ içi TEK tanımdır**; [[AGENTS.md]] MAX THINKING bloğu buraya referans verir — Vault Refactor Engine 2026-10-06)*
-
 ## Master Engineering System (Pointer — 2026-10-01)
 
 Bu dosya ikinci kaynak değildir; gömülü Master Engineering System bağlamı kök boot dosyasındadır:
@@ -855,7 +843,6 @@ Bu dosya ikinci kaynak değildir; gömülü Master Engineering System bağlamı 
 |:---|:---|
 | 16 adımlık yaşam döngüsü · 10 yasak · Zero-Hallucination (§7 Guardrail #3) · final rule | [[../CLAUDE.md]] § Master Engineering System |
 | Diyagramlar D1/D2/D3 · Prompt Maker akışı · boot akışı (START → END) | [[WORKFLOW.md]] §8.9-§8.10 |
-| Anti-overthink bütçesi (MAX THINKING — çelişkide bu bütçe kazanır) | [[ULTRA-THINKING.md]] § MAX THINKING |
 
 ## References
 

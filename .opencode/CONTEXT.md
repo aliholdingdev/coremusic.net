@@ -63,7 +63,6 @@ Not: Önceki nüshanın (2026-10-03) mimari katman/K-space atıfları bu revizyo
 
 | Katman/Dosya | Ne için kullanılır | Neyden oluşur | Neden var | Ne zaman düzenlenir |
 |--------------|--------------------|---------------|-----------|---------------------|
-| `CLAUDE.md` (49.089 bayt, 946 satır, v27.3.4) | Araç anayasası — kural özeti, boot, yasaklar (MEVCUT — dokunulmaz) | Frontmatter (authority: SSOT — kendi iddiası) + bölüm başlıkları (MAX THINKING, Purpose, Scope, Rules, Workflow, Validation, References) | Araç her oturumda kuralları tek yerden okusun | Yalnız vault-sync (MO) |
 | `AGENTS.md` (23.859 bayt, 313 satır, v1.0.0, docType: agents) | Bu klasörde rol, yetki sınırı ve routing | 7 bölümlü agent iskeleti — rol tablosu, matris, handover, escalation | Kimin hangi dosyaya dokunacağı baştan belli olsun | Agent registry revizyonunda (MO) |
 | `WORKFLOW.md` (22.794 bayt, 307 satır, v1.0.0, docType: workflow) | Adım → kapı → rapor süreç dosyası | 7 bölümlü workflow iskeleti (authority: Derived — SSOT `.ai/WORKFLOW.md`) | Onaysız değişiklik yapılmasın | Süreç değişince (MO) |
 | `CONTEXT.md` (bu dosya; eski nüsha 24.279 bayt / 311 satır) | Klasör envanteri + çelişki kaydı | 7 bölüm + 5 sütunlu envanter tablosu + eli10/eli15 blokları | Sayılar tek yerde, ölçümle dursun | Envanter ölçümü değişince |

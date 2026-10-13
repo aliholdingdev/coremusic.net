@@ -12,6 +12,7 @@ open_questions:
   - "Kademe-3 alt bağlantılar ve rol atfı — ADR-097 K4 (UNKNOWN)"
   - "depends_on boşluğu TASARIM İDDİASI — ispatlı bağımlılık yok"
   - "role alanı v2'de verilmiyor: ⚠️ VERIFICATION REQUIRED"
+group: mimari
 ---
 
 # account — K010 alt alanı
@@ -45,3 +46,21 @@ Bu düğümün altındaki kademe-3 düğümler v2 §2.10'da listelenmemiş → *
 - Master: `identity-master.md` §2 (bu düğüm başlığı)
 - Bağımlılık: `identity-bagimliliklar.md` §Ç-10.1 (9 ok tablosu)
 - Doğrulama: `identity-dogrulama.md` §G-10.1 (satır 340 satırı)
+
+---
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `account-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| kod | `account-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-2 |
+| kanit | `account-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-2 |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+

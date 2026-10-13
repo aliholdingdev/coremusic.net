@@ -2,7 +2,7 @@
 node_id: K007-data
 node_type: domain
 status: draft
-parent_id: "K000–K5000 Architecture Registry"
+parent_id: null
 children:
   - schema
   - migrations
@@ -17,62 +17,47 @@ children:
 depends_on:
   - K008-domain
   - K009-security
-  - K000-isletim-sistemi
 evidence:
-  - "v2 §2.7 — coremusic-katmanli-mimari-agaci-v2.md satır 270–288"
-  - ".ai/architecture/index.md §5 satır 7 (master = data-master.md)"
-  - "https://github.com/koel/koel (2026-10-12 · 17175★ · MIT · Laravel)"
-  - "https://github.com/ampache/ (2026-10-12 · 3793★ · AGPL-3.0)"
+  - "shared/src/Database/DatabaseManager.php:14-27 — PDO MySQL DSN + 4 attribute (2026-10-13 okundu)"
+  - ".ai/.sql/mysql/ — 18 BCNF coremusic_* veritabanı / 20 SQL dump (2026-10-07)"
 validation:
-  - "2026-10-12 — children listesi v2 mini-ağaçı ile karşılaştırıldı: 10/10 birebir"
-  - "2026-10-12 — Koel ve Ampache depoları açıldı, star + lisans + framework doğrulandı"
+  - "2026-10-13 — children listesi Get-ChildItem ile diskten enumerate edildi: 10/10"
 open_questions:
-  - "CoreMusic K007'nin kendi DBMS/ORM seçimi → UNKNOWN (manifest yalnız referans verdi)"
-  - "depends_on satırları TASARIM İDDİASIdır → -bagimliliklar.md §6"
-  - "Çocukların rol tanımları v2'de yok → ⚠️ VERIFICATION REQUIRED (ADR-097 K4)"
+  - "search (K007) ile K020-discovery/search/ sahipliği sınırı → VERIFICATION REQUIRED"
+group: mimari
 ---
 
 # K007-data — Domain Künyesi
 
-## ELI15 rol (v2 §2.7 — birebir)
+> **ELI15:** Veritabanı — şarkılar, kullanıcılar, listeler, yedekler.
 
-> **Veritabanı — şarkılar, kullanıcılar, listeler, yedekler.**
+Bu oda CoreMusic'in **uzun süreli hafızasıdır**: yazılan her şey (şarkı künyesi, kullanıcı
+kaydı, playlist, cihaz eşlemesi) burada şekillenir, indekslenir, önbelleklenir, aranır,
+yedeklenir ve kalite denetiminden geçirilir. Kod içermez — bu vault **plan, sınır ve kayıt**
+tutar; gerçek kod `shared/` ve `.ai/.sql/` altındadır.
 
-## Çocuk kataloğu (kademe-2)
+## §1 Alt-Konu Haritası (kademe-2 → kademe-3)
 
-v2 §2.7 bu çocuklara **yalnızca ad verir**; hiçbiri için rol tanımı yok → hepsi `⚠️ VERIFICATION REQUIRED».
+| # | Alt konu | Rol | Odak |
+|---|----------|-----|------|
+| 1 | `schema` | Şema tasarımı | ER/ilişkisel, BCNF, PK/FK/UNIQUE |
+| 2 | `migrations` | Şema sürümleme | Geri alınabilir DDL, online DDL |
+| 3 | `repositories` | Erişim katmanı | PDO/prepared, repository sözleşmesi |
+| 4 | `transactions` | İşlem bütünlüğü | ACID, MVCC, izolasyon, deadlock |
+| 5 | `indexing` | İndeks stratejisi | B-Tree, prefix, composite |
+| 6 | `cache` | Önbellek | APCu, page cache, invalidation |
+| 7 | `search` | Arama | Full-text, inverted index, novasearch |
+| 8 | `synchronization` | Eşitleme | Çift kayıt sınırı (K013 overlap) |
+| 9 | `backup` | Yedekleme | Tam/yedim, kurtarma, replication |
+| 10 | `data-quality` | Veri kalitesi | Dürüstlük, saklama politikası, ölçüm |
 
-| # | Çocuk | v2 satır | Durum |
-|---|---|---|---|
-| 1 | schema | 278 | draft |
-| 2 | migrations | 279 | draft |
-| 3 | repositories | 280 | draft |
-| 4 | transactions | 281 | draft |
-| 5 | indexing | 282 | draft |
-| 6 | cache | 283 | draft |
-| 7 | search | 284 | draft |
-| 8 | synchronization | 285 | draft |
-| 9 | backup | 286 | draft |
-| 10 | data-quality | 287 | draft |
+## §2 Sınır (kapsam dışı komşular)
 
-Her çocuğun kendi `index.md»'si bu klasörde vardır (kademe-2 künyesi, `children: []»).
+| Komşu | İlişki | Not |
+|-------|--------|-----|
+| K008-domain | Veri modelinin sahibi | Entity/ValueObject/domain event → K008 |
+| K009-security | Şifreleme/anahtar | key_hash, cipher sınırı |
+| K013-integraion | synchronization çift kayıt | Sınır → VERIFICATION REQUIRED |
+| K020-recomenataon | Arama keşfi | search sahipliği sınırı → VERIFICATION REQUIRED |
 
-## Dosyalar (çoklu-MD şeması — ADR-097 K2)
-
-| Dosya | Rol |
-|---|---|
-| `index.md» | bu künye (8 zorunlu alan) |
-| `data-master.md» | anayasa — v2'deki ad, dokunulmaz |
-| `data-bagimliliklar.md» | depends_on / used_by / entegrasyon sınırı |
-| `data-dogrulama.md» | ölçütler · açık sorular · web-kanıt kayıtları |
-
-## Durum
-
-| Alan | Değer |
-|---|---|
-| status | draft (registry §5 satır 7) |
-| Web kanıtı | ✅ var — Koel + Ampache (master §4, -dogrulama §4) |
-| Teknoloji seçimi (kendi yığınımız) | UNKNOWN — manifest referans verdi, seçim vermedi |
-| Açık sorular | 3 · master §7 ve -dogrulama §3 |
-
-> **Etiket notu:** frontmatter `depends_on» satırları **TASARIM İDDİASI**dır — `verified» değildir.
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

@@ -13,7 +13,9 @@ validation:
   - "okuma/gözlem YOK — verify-required"
 open_questions:
   - "performance/ için disk kanıtı sonraki turda (⚠️ VERIFICATION REQUIRED)"
+group: mimari
 ---
+
 
 # K017-observability/performance
 
@@ -34,5 +36,15 @@ Performans gözlemi: profil kaydı, bottleneck tespiti (optimizasyon kodu değil
 | status | draft (kanıt durumu §frontmatter'da) |
 | Üreten pay | K-Space V3 Band-1 — A4 (2026-10-12) |
 | Domain Kökü | [[index]] (K017-observability) · master: observability-master.md |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · 2026-10-12

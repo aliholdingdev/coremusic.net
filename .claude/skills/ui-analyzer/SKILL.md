@@ -115,9 +115,6 @@ Authority: .ai/CLAUDE.md (SSOT) · Zincir: .ai/CLAUDE.md → .ai/AGENTS.md → .
 Cross-skill: .claude/skills/ui-code-generator/SKILL.md · Proje: coremusic.net/ · shared/
 Güncelleme politikası: mevcut yapı korunur; analiz yöntemi/çıktı formatı değişikliği onay ister.
 ```
-
-Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
-
 ---
 
 *CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

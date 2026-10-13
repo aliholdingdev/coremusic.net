@@ -20,7 +20,9 @@ open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "Öneri motoru verisi nereden gelecek — yerel çalma geçmişi mi, dış servis (K020-discovery) mi? Tasarım yok → VERIFY REQUIRED"
   - "'recomenataion' yazımı kaynağa sadık korunur; 'recommendation' yapılmaz (v2 §3 KURAL 1)"
+group: mimari
 ---
+
 
 # K020-recomenataion — Öneri (Recommendation) Rafı
 
@@ -53,5 +55,16 @@ open_questions:
 | `[[../K020-discovery/index]]` | Dış kaynak keşfi (YouTube Music API yok · Spotify PKCE · Apple JWT) |
 | `@.accepted/ADR-030` (AI strategy) | YZ stratejisi çerçevesi |
 | `@.accepted/ADR-029` (listening rooms) · `ADR-025` (EQ) | Sosyal/EQ tarafındaki ilgili kararlar |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+| mimari | `recommendation-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

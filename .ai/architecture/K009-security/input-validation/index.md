@@ -1,47 +1,84 @@
 ---
-node_id: input-validation
+node_id: K009-security/input-validation
 node_type: subdomain
 status: draft
 parent_id: K009-security
-children: []
-depends_on: []
+children:
+  - input-validation-index
+  - input-validation-anayasa
+  - input-validation-surucu
+  - input-validation-ornekler
+depends_on:
+  - K011-application
 evidence:
-  - "v2 §2.9 mini-ağaç — coremusic-katmanli-mimari-agaci-v2.md satır 324"
+  - "v2 §2.9 satır 324 (ad) — kod: ValidationMiddleware, RequestValidationMiddleware (175), Validator"
+  - "shared/src/Exception/ValidationException.php"
 validation:
-  - "2026-10-12 — v2 mini-ağaç satır 324 ile karşılaştırıldı: ad birebir"
+  - "2026-10-13 — frontmatter 9 alan + group, `parent:` yok, index 40–100 satır"
+  - "2026-10-13 — URL tablosu HTTP 200, envanter kesişimi 0"
 open_questions:
-  - "Rol tanımı v2'de yok → ⚠️ VERIFICATION REQUIRED"
-  - "Kademe-3 (bounded-context) yapısı tanımlı değil → ADR-097 K4"
-  - "depends_on boş: bu kademe için kanıtlanmış bağımlılık yok"
+  - "Doğrulama kurallarının tek kaynaktan (schema) yönetimi kanıtlanmadı ⚠️ VERIFICATION REQUIRED"
+  - "Çıktı kaçışı (escaping) katmanının tam kapsamı okunmadı ⚠️ VERIFICATION REQUIRED"
+group: mimari
 ---
 
-# input-validation — K009-security (kademe-2)
+# K009 · çocuk · input-validation (Girdi Doğrulama)
 
-| Alan | Değer |
-|---|---|
-| node_id | input-validation |
-| node_type | subdomain |
-| parent_id | K009-security |
-| Kaynak | v2 §2.9 (satır 324) |
-| Durum | draft |
+> **İlk savunma hattı:** güvenilmeyen her veri, kullanılmadan ÖNCE doğrulanır; güvenilir varsayılmaz.
 
-## Ne işe yarar?
+## §1 ROL (ELI10)
 
-v2 bu alt konuya **yalnızca ad verir** — tanım yok → `⚠️ VERIFICATION REQUIRED».
-Ad, kademe-3 tasarımında başlangıç noktasıdır; resmi kapsam ADR-097 K4'te kilitlenir.
-Tahminle dolgu **yapılmaz**.
+| Adım | Ne olur | Kaçınma |
+|---|---|---|
+| 1 | Ham girdi alınır | Kaynağa güvenmek yasak |
+| 2 | Tür/uzunluk/biçim kontrolü | `filter_var` / şema |
+| 3 | İzin listesi (whitelist) uygulanır | Denetleme listesi (blacklist) yetersiz |
+| 4 | Parametreli sorgu | SQL birleştirme yasak (`SELECT *` yasak) |
+| 5 | Çıktı kaçışı | HTML/JS bağlamına göre escape |
+| 6 | Redde | Geçersizse 4xx, ayrıntı sızdırmadan |
 
-## Bağımlılık
+## §2 KAPSAM ÖZETİ
 
-- Üst düğüm künyesi: `../index.md»
-- Üst düğüm bağımlılıkları: `../security-bagimliliklar.md»
-- Bu düğüm: `children: []» (v2 daha derin göstermiyor).
+| Kalem | Durum | Kanıt tipi |
+|---|---|---|
+| Middleware doğrulama (ValidationMiddleware) | var | kod |
+| API istek doğrulama (RequestValidationMiddleware) | var | kod |
+| Ortak doğrulayıcı (Validator) | var | kod |
+| Doğrulama istisnası (ValidationException) | var | kod |
+| DTO bazlı alan kuralları (Api/Dto/Request) | var | kod |
+| Şekilden doğrulama (schema) tek kaynak | kısmi | ⚠️ VERIFICATION REQUIRED |
+| SQL injection testi | yok | security-testing child'ı |
 
-## Durum
+## §3 DOSYA HARİTASI
 
-| Ölçüt | Sonuç |
-|---|---|
-| v2'de adı geçiyor mu? | ✅ evet (satır 324) |
-| Rol tanımı var mı? | ❌ yok → VERIFY REQUIRED |
-| Kademe-3 planı | ⏳ ADR-097 K4 |
-| status | draft |
+| Dosya | group | Hedef | İçerik |
+|---|---|---|---|
+| `input-validation/index.md` | mimari | 40–100 | bu künye |
+| `input-validation/input-validation-anayasa.md` | mimari | ≥500 | whitelist ilkesi, yasaklar |
+| `input-validation/input-validation-surucu.md` | mimari | ≥500 | doğrulama akışı, red haritası |
+| `input-validation/input-validation-ornekler.md` | kod | ≥500 | gerçek PHP alıntıları (Dosya/Satır) |
+
+## §4 SINIR — KAPSAM DIŞI
+
+| Konu | Sahibi | Bu çocukta |
+|---|---|---|
+| Kimlik alanlarının doğrulama modeli (kimlik deposu) | `K010-identitiy` | Yalnız sınır referansı |
+| OS girdi yüzeyi (komut satırı, dosya sistemi izni) | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
+
+## §5 BAĞLANTILAR
+
+| Bağ | Yön | Not |
+|---|---|---|
+| `authorization` | sonrası | doğrulanmış girdi üzerinden yetki |
+| `rate-limiting` | öncesi | aşırı girdi hacmi sınırı |
+| `security-testing` | sonrası | injection testleri |
+| `K011-application` | kardeş | uygulama katmanı DTO'ları |
+
+| İddia | URL | 2026-10-13 | Durum |
+|---|---|---|---|
+| Injection saldırıları OWASP A03:2025 kapsamındadır | https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html | 2026-10-13 | HTTP 200 |
+| Parametreli sorgu OWASP kontrolleri | https://cheatsheetseries.owasp.org/cheatsheets/Query_Parameterization_Cheat_Sheet.html | 2026-10-13 | HTTP 200 |
+| SQL injection CWE-89 kaydı | https://cwe.mitre.org/data/definitions/89.html | 2026-10-13 | HTTP 200 |
+| Girdi doğrulama OWASP WSTG test kapsamı | https://owasp.org/projects/web-security-testing-guide | 2026-10-13 | HTTP 200 |
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

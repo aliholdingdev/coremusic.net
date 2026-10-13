@@ -71,8 +71,6 @@ OriginCheck → Cors → RateLimiter → SecurityHeaders → SessionManager → 
 - API-first: endpoint önce OpenAPI sözleşmesi (ADR-084) → DTO → kod.
 - Secret hardcode yok; `// ⚠️ VERIFICATION REQUIRED` teyitsiz iddiaya.
 
-Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
-
 *CoreMusic Skill v3.0 — metadata.version: 1.0.0 — Updated: 2026-10-07*
 ```
 

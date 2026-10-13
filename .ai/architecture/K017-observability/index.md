@@ -30,7 +30,9 @@ open_questions:
   - "metrics/ · tracing/ · correlation/ · health-checks/ · alerts/ · performance/ · audio-diagnostics/ · incident-response/ için disk kanıtı YOK — kanıt bekliyor (⚠️ VERIFICATION REQUIRED)"
   - "PSR-3 uyumu: test adı (Psr3LoggerTest) ima ediyor, test içeriği OKUNMADI — doğrulanmadı (⚠️ VERIFICATION REQUIRED)"
   - "Uygulama logları ile vault .ai/log.md audit trail arasındaki ilişki/ayrım tanımlı mı? (⚠️ VERIFICATION REQUIRED)"
+group: mimari
 ---
+
 
 # K017-observability — Sistem Gözetimi (Domain)
 
@@ -65,5 +67,18 @@ open_questions:
 | Kanıt dengesi | 1/9 çocuk kanıtlı (logging) · 8/9 kanıt bekliyor — bu, domainin **kağıtta geniş / diskte dar** olduğunu gösterir |
 | Üreten pay | K-Space V3 Band-1 — A4 (2026-10-12) |
 | Bağlı dosyalar | observability-master.md · observability-bagimliliklar.md · observability-dogrulama.md |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+| mimari | `observability-bagimliliklar.md` | Katman bağı ve used_by haritası | Kademe-1 |
+| kanit | `observability-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
+| mimari | `observability-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

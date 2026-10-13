@@ -7,7 +7,9 @@ updated: 2026-10-12
 status: active
 version: 1.0.0
 authority: "SSOT: .ai/architecture/index.md"
+group: mimari
 ---
+
 
 # Bu klasör ne? (ELI15)
 

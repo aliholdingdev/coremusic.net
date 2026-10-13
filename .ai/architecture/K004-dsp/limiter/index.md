@@ -12,6 +12,7 @@ evidence:
 validation: "draft — A1 tur-1; D-kriterleri K004-dsp/dsp-dogrulama.md §2"
 open_questions:
   - "kabul eşiği (ceiling) değeri bilinmiyor ⚠️"
+group: mimari
 ---
 
 # K004-dsp/limiter — ELI15
@@ -31,5 +32,26 @@ Hiçbir şeyin belirli bir seviyeyi geçmesine izin vermeyen güvenlik kapısı.
 | children | yok (yaprak) |
 | status | draft |
 | Kapsam | Tanım bekliyor — kanıt turu-2 |
+
+## İlişkili dosyalar
+
+| Dosya | Amaç |
+|---|---|
+| `[[limiter-kapsam]]` | Kademe-2 kapsam kaydı (ceiling/güvenlik katmanı, R1/R3) |
+| `[[limiter-dogrulama]]` | Kanıt tablosu (DSPark setCeiling · Signalsmith latency · Patina) |
+| `[[limiter-ornekler]]` | Referans limiter API'leri + latency raporlama deseni |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| mimari | `limiter-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
+| kod | `limiter-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-2 |
+| kanit | `limiter-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · 2026-10-12

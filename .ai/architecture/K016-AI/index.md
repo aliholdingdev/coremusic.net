@@ -1,9 +1,8 @@
 ---
-title: "K016-AI — Domain Kaydı (K-Space V3)"
 node_id: K016-AI
 node_type: domain
 status: draft
-parent_id: "K000–K5000 Architecture Registry"
+parent_id: null
 children:
   - agents
   - knowledge
@@ -35,7 +34,9 @@ open_questions:
   - ".claude/agent/ TAM profil sayısı bilinmiyor (glob 100 sonuçta kırptı) — sayım gerekli (UNKNOWN)"
   - "rag/ · kg/ · memory/ · evaluation/ · knowledge/ · agent-testing/ için disk kanıtı bu turda toplanmadı — kanıt bekliyor (⚠️ VERIFICATION REQUIRED)"
   - "K016 runtime bağlamı: ajan altyapısı harici harness'ta mı, in-repo katman mı? IMPLEMENTED/PLANNED etiketi yok (⚠️ VERIFICATION REQUIRED)"
+group: mimari
 ---
+
 
 # K016-AI — Yapay Zekanın Kendi Çalışma Biçimi (Domain)
 
@@ -80,5 +81,18 @@ open_questions:
 | Kademe-3/4 | 13 subdomain → Bounded Context/Module bu fazda AÇILMADI (ADR-097 K4 — sonraki faz) |
 | Üreten pay | K-Space V3 Band-1 — A4 (2026-10-12) |
 | Bağlı dosyalar | ai-master.md · ai-bagimliliklar.md · ai-dogrulama.md |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+| mimari | `ai-bagimliliklar.md` | Katman bağı ve used_by haritası | Kademe-1 |
+| kanit | `ai-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
+| mimari | `ai-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

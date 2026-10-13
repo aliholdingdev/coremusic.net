@@ -1,47 +1,90 @@
 ---
-node_id: authentication
+node_id: K009-security/authentication
 node_type: subdomain
 status: draft
 parent_id: K009-security
-children: []
-depends_on: []
+children:
+  - authentication-index
+  - authentication-anayasa
+  - authentication-surucu
+  - authentication-ornekler
+  - authentication-kapsam
+  - authentication-dogrulama
+  - authentication-bilesenler
+  - authentication-web-arastirma
+depends_on:
+  - K009-security/security-master
+  - K010-identitiy
 evidence:
-  - "v2 §2.9 mini-ağaç — coremusic-katmanli-mimari-agaci-v2.md satır 318"
+  - "v2 §2.9 satır 318 (ad) — kod: AuthenticationMiddleware, Password.php, BypassAuthMiddleware"
+  - "shared/src/Api/Middleware/AuthenticationMiddleware.php (134 satır, 2026-10-13 envanter)"
 validation:
-  - "2026-10-12 — v2 mini-ağaç satır 318 ile karşılaştırıldı: ad birebir"
+  - "2026-10-13 — frontmatter 9 alan + group, `parent:` yok, index 40–100 satır"
+  - "2026-10-13 — URL tablosu HTTP 200, envanter kesişimi 0"
 open_questions:
-  - "Rol tanımı v2'de yok → ⚠️ VERIFICATION REQUIRED"
-  - "Kademe-3 (bounded-context) yapısı tanımlı değil → ADR-097 K4"
-  - "depends_on boş: bu kademe için kanıtlanmış bağımlılık yok"
+  - "MFA kanıtı yok (K010'ya ait) ⚠️ VERIFICATION REQUIRED"
+  - "bypass akışı üretime alınmadan önce fail-closed doğrulaması gerekli"
+group: mimari
 ---
 
-# authentication — K009-security (kademe-2)
+# K009 · çocuk · authentication (Kimlik Doğrulama Uygulaması)
 
-| Alan | Değer |
-|---|---|
-| node_id | authentication |
-| node_type | subdomain |
-| parent_id | K009-security |
-| Kaynak | v2 §2.9 (satır 318) |
-| Durum | draft |
+> **Sınır:** kimlik MODELİ `K010-identitiy`'de; bu çocuk uygulama katmanında **doğrulama**'dır.
 
-## Ne işe yarar?
+## §1 ROL (ELI10)
 
-v2 bu alt konuya **yalnızca ad verir** — tanım yok → `⚠️ VERIFICATION REQUIRED».
-Ad, kademe-3 tasarımında başlangıç noktasıdır; resmi kapsam ADR-097 K4'te kilitlenir.
-Tahminle dolgu **yapılmaz**.
+| Adım | Ne olur | Başarısızlıkta |
+|---|---|---|
+| 1 | İstekteki kimlik kanıtı (session / bearer / API key) okunur | Kanıt yoksa 401 |
+| 2 | Kanıt doğrulanır: süre, imza, iptal listesi | Geçersizse 401 |
+| 3 | Parola hash'i `password_verify` ile karşılaştırılır | Yanlışsa aynı hata (zamanlama sızıntısı yok) |
+| 4 | Doğrulandıysa istek `$_auth` bağlamıyla ilerler | — |
+| 5 | Bypass dalı yalnızca açıkça etkinse açılır | Varsayılan kapalı (fail-closed) |
 
-## Bağımlılık
+## §2 KAPSAM ÖZETİ
 
-- Üst düğüm künyesi: `../index.md»
-- Üst düğüm bağımlılıkları: `../security-bagimliliklar.md»
-- Bu düğüm: `children: []» (v2 daha derin göstermiyor).
+| Kalem | Durum | Kanıt tipi |
+|---|---|---|
+| Session tabanlı doğrulama (AuthMiddleware) | var | kod |
+| API bearer doğrulama (AuthenticationMiddleware) | var | kod |
+| Parola hash (Argon2id + pepper) | var | kod |
+| Fail-closed bypass (BypassAuthMiddleware) | var — riskli | kod + risk |
+| OAuth2 / OIDC doğrulama akışı (OAuthManager) | var | kod |
+| MFA / 2FA | yok | ⚠️ KANIT YOK (K010) |
+| Brute-force kilit (account lockout) | kısmi | rate-limiting child'ı |
 
-## Durum
+## §3 DOSYA HARİTASI
 
-| Ölçüt | Sonuç |
-|---|---|
-| v2'de adı geçiyor mu? | ✅ evet (satır 318) |
-| Rol tanımı var mı? | ❌ yok → VERIFY REQUIRED |
-| Kademe-3 planı | ⏳ ADR-097 K4 |
-| status | draft |
+| Dosya | group | Hedef | İçerik |
+|---|---|---|---|
+| `authentication/index.md` | mimari | 40–100 | bu künye |
+| `authentication/authentication-anayasa.md` | mimari | ≥500 | ilke, yasak, karar kapısı |
+| `authentication/authentication-surucu.md` | mimari | ≥500 | akış, sürücü adımları, durum makinesi |
+| `authentication/authentication-ornekler.md` | kod | ≥500 | gerçek PHP alıntıları (Dosya/Satır) |
+| `authentication/authentication-kapsam.md` | mimari | ≥500 | içeri-dışı, sınır matrisi |
+| `authentication/authentication-dogrulama.md` | kanit | ≥500 | kontrol + iddia/URL tablosu |
+| `authentication/authentication-bilesenler.md` | mimari | ≥500 | kademe-3 bileşen planı |
+| `authentication/authentication-web-arastirma.md` | kanit | ≥500 | OWASP / NIST / RFC kaydı |
+
+## §4 SINIR — KAPSAM DIŞI
+
+| Konu | Sahibi | Bu çocukta |
+|---|---|---|
+| Kimlik deposu, kimlik modeli, credentials store | `K010-identitiy` | Yalnız sınır referansı |
+| OS düzeyi parola/uzak erişim güvenliği | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
+
+## §5 BAĞLANTILAR
+
+| Bağ | Yön | Not |
+|---|---|---|
+| `K009-security` (parent) | yukarı | domen anayasasına tabi |
+| `authorization` | sonraki | doğrulama SONRASI yetki (PermissionMiddleware) |
+| `session-security` | kardeş | oturum yaşam döngüsü ayrı çocuk |
+| `K010-identitiy` | tek yönlü | kimlik modeli kaynağı |
+
+| İddia | URL | 2026-10-13 | Durum |
+|---|---|---|---|
+| Authentication cheat sheet doğrulama kontrolleri | https://cheatsheetseries.owasp.org/cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.html | 2026-10-13 | HTTP 200 |
+| NIST dijital kimlik doğrulama seviyeleri | https://csrc.nist.gov/pubs/sp/800/63/b/4/final | 2026-10-13 | HTTP 200 |
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

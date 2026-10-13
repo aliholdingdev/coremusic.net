@@ -3,7 +3,10 @@ node_id: K005-firmware/testing
 node_type: subdomain
 status: draft
 parent_id: "K005-firmware"
-children: []
+children:
+  - testing-anayasa.md
+  - testing-surucu.md
+  - testing-ornekler.md
 depends_on:
   - K001-donanım
 evidence:
@@ -12,6 +15,7 @@ evidence:
 validation: "draft — A1 tur-1; D-kriterleri K005-firmware/firmware-dogrulama.md §2"
 open_questions:
   - "test kapsamı hedefi tanımlı değil ⚠️"
+group: mimari
 ---
 
 # K005-firmware/testing — ELI15
@@ -28,8 +32,18 @@ Firmware'in doğru çalıştığını kanıtlayan senaryolar: açılış testi, 
 |---|---|
 | node_type | subdomain |
 | parent | K005-firmware |
-| children | yok (yaprak) |
+| children | 3 dosya (anayasa - surucu - ornekler) |
 | status | draft |
 | Kapsam | Tanım bekliyor — kanıt turu-2 |
 
-**Authority:** Bayram Ali / Vault Steward · 2026-10-12
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

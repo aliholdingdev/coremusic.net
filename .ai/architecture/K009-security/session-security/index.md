@@ -1,47 +1,91 @@
 ---
-node_id: session-security
+node_id: K009-security/session-security
 node_type: subdomain
 status: draft
 parent_id: K009-security
-children: []
-depends_on: []
+children:
+  - session-security-index
+  - session-security-anayasa
+  - session-security-surucu
+  - session-security-ornekler
+  - session-security-kapsam
+  - session-security-dogrulama
+  - session-security-bilesenler
+  - session-security-web-arastirma
+depends_on:
+  - K009-security/authentication
+  - K010-identitiy
 evidence:
-  - "v2 §2.9 mini-ağaç — coremusic-katmanli-mimari-agaci-v2.md satır 321"
+  - "v2 §2.9 satır 321 (ad) — kod: SessionConfig, SessionLifecycle, SessionBootstrapper, SessionKeys"
+  - "shared/src/Session/ (4 dosya) · shared/src/Middleware/SessionManagerMiddleware.php"
 validation:
-  - "2026-10-12 — v2 mini-ağaç satır 321 ile karşılaştırıldı: ad birebir"
+  - "2026-10-13 — frontmatter 9 alan + group, `parent:` yok, index 40–100 satır"
+  - "2026-10-13 — URL tablosu HTTP 200, envanter kesişimi 0"
 open_questions:
-  - "Rol tanımı v2'de yok → ⚠️ VERIFICATION REQUIRED"
-  - "Kademe-3 (bounded-context) yapısı tanımlı değil → ADR-097 K4"
-  - "depends_on boş: bu kademe için kanıtlanmış bağımlılık yok"
+  - "Oturum sabitleme (fixation) test kanıtı yok ⚠️ VERIFICATION REQUIRED"
+  - "K010 ile sınır: jeton üretimi mi, yaşam döngüsü mü — karar onayı bekliyor"
+group: mimari
 ---
 
-# session-security — K009-security (kademe-2)
+# K009 · çocuk · session-security (Oturum Güvenliği)
 
-| Alan | Değer |
-|---|---|
-| node_id | session-security |
-| node_type | subdomain |
-| parent_id | K009-security |
-| Kaynak | v2 §2.9 (satır 321) |
-| Durum | draft |
+> **Sınır:** oturum/jeton YAŞAM DÖNGÜSÜ burada; kimlik modeli ve kimlik deposu `K010-identitiy`'de.
 
-## Ne işe yarar?
+## §1 ROL (ELI10)
 
-v2 bu alt konuya **yalnızca ad verir** — tanım yok → `⚠️ VERIFICATION REQUIRED».
-Ad, kademe-3 tasarımında başlangıç noktasıdır; resmi kapsam ADR-097 K4'te kilitlenir.
-Tahminle dolgu **yapılmaz**.
+| Aşama | Ne olur | Kural |
+|---|---|---|
+| Oluşturma | `random_bytes` ile yüksek entropili kimlik | Tahmin edilemez, en az 128 bit |
+| Yayınlama | Cookie: `HttpOnly` · `Secure` · `SameSite` | JS erişemez, kanal güvenli |
+| Doğrulama | Her istekte imza/süre kontrolü | Süresi dolmuş jeton reddedilir |
+| Yenileme | Kritik olayda `session_regenerate_id` | Yetki yükseltmesinde zorunlu |
+| Kapanış | `session_destroy` + cookie temizliği | Çıkışta tam silme |
 
-## Bağımlılık
+## §2 KAPSAM ÖZETİ
 
-- Üst düğüm künyesi: `../index.md»
-- Üst düğüm bağımlılıkları: `../security-bagimliliklar.md»
-- Bu düğüm: `children: []» (v2 daha derin göstermiyor).
+| Kalem | Durum | Kanıt tipi |
+|---|---|---|
+| Cookie bayrakları (HttpOnly/Secure/SameSite) | var | kod (SessionConfig) |
+| Oturum yaşam döngüsü (başlat/sonev) | var | kod (SessionLifecycle) |
+| API oturum yöneticisi (ApiSessionManager) | var | kod |
+| CSRF jetonu ile oturum bağı | var | kod (CsrfMiddleware) |
+| CSRF token yenileme / çift gönderim | kısmi | ⚠️ doğrulanacak |
+| Oturum sabitleme/hırsızlığı testi | yok | security-testing child'ı |
+| Jeton iptal listesi (revocation) | kanıt yok | ⚠️ VERIFICATION REQUIRED |
 
-## Durum
+## §3 DOSYA HARİTASI
 
-| Ölçüt | Sonuç |
-|---|---|
-| v2'de adı geçiyor mu? | ✅ evet (satır 321) |
-| Rol tanımı var mı? | ❌ yok → VERIFY REQUIRED |
-| Kademe-3 planı | ⏳ ADR-097 K4 |
-| status | draft |
+| Dosya | group | Hedef | İçerik |
+|---|---|---|---|
+| `session-security/index.md` | mimari | 40–100 | bu künye |
+| `session-security/session-security-anayasa.md` | mimari | ≥500 | oturum ilke ve yasakları |
+| `session-security/session-security-surucu.md` | mimari | ≥500 | yaşam döngüsü durum makinesi |
+| `session-security/session-security-ornekler.md` | kod | ≥500 | gerçek PHP alıntıları (Dosya/Satır) |
+| `session-security/session-security-kapsam.md` | mimari | ≥500 | içeri-dışı, sınır matrisi |
+| `session-security/session-security-dogrulama.md` | kanit | ≥500 | kontrol + iddia/URL tablosu |
+| `session-security/session-security-bilesenler.md` | mimari | ≥500 | kademe-3 bileşen planı |
+| `session-security/session-security-web-arastirma.md` | kanit | ≥500 | RFC 6265 / 7519 / 9449 kaydı |
+
+## §4 SINIR — KAPSAM DIŞI
+
+| Konu | Sahibi | Bu çocukta |
+|---|---|---|
+| Kimlik deposu, credentials, jeton ANAHTARI kaynağı | `K010-identitiy` | Yalnız sınır referansı |
+| OS düzeyi oturum/servis hesabı güvenliği | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
+
+## §5 BAĞLANTILAR
+
+| Bağ | Yön | Not |
+|---|---|---|
+| `authentication` | öncesi | kimlik doğrulama sonucu |
+| `encryption` | kardeş | jeton imzalama algoritması |
+| `secrets` | kardeş | gizli/imza anahtarı kaynağı |
+| `rate-limiting` | kardeş | oturum deneme hız sınırları |
+
+| İddia | URL | 2026-10-13 | Durum |
+|---|---|---|---|
+| Oturum yönetimi kontrolleri cookie bayraklarını zorunlu kılar | https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie | 2026-10-13 | HTTP 200 |
+| OAuth 2.0 Security BCP oturum kaydırmayı tanımlar | https://www.rfc-editor.org/rfc/rfc9700 | 2026-10-13 | HTTP 200 |
+| NIST 800-63B oturum yenileme ve zaman aşımı kuralları | https://csrc.nist.gov/pubs/sp/800/63/b/4/final | 2026-10-13 | HTTP 200 |
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

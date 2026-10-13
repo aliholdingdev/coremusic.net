@@ -13,6 +13,7 @@ open_questions:
   - "Rol tanımı v2'de yok → ⚠️ VERIFICATION REQUIRED"
   - "Kademe-3 (bounded-context) yapısı tanımlı değil → ADR-097 K4"
   - "depends_on boş: bu kademe için kanıtlanmış bağımlılık yok"
+group: mimari
 ---
 
 # evaluation — K006-yapay-zeka (kademe-2)
@@ -45,3 +46,22 @@ Tahminle dolgu **yapılmaz**.
 | Rol tanımı var mı? | ❌ yok → VERIFY REQUIRED |
 | Kademe-3 planı | ⏳ ADR-097 K4 |
 | status | draft |
+
+## İlişkili dosyalar
+
+- [[evaluation-kapsam]]
+- [[evaluation-dogrulama]]
+- [[evaluation-ornekler]]
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan group**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `evaluation-bilesenler.md` | Bileşen envanteri ve boşluk sayımı | Kademe-2 |
+| mimari | `evaluation-kapsam.md` | Alt alan kapsam sınırı ve hariçler | Kademe-2 |
+| mimari | `index.md` | Kademe-2 kayıt ve durum künyesi | Kademe-2 |
+| kod | `evaluation-ornekler.md` | Gerçek repo kod örnekleri ve satırlar | Kademe-2 |
+| kanit | `evaluation-dogrulama.md` | İddia·kaynak·tarih·durum kanıt satırları | Kademe-2 |
+| kanit | `evaluation-web-arastirma.md` | Resmi kaynak taraması ve çelişki kaydı | Kademe-2 |

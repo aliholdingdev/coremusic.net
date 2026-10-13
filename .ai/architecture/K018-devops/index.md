@@ -31,7 +31,9 @@ open_questions:
   - "git deposu YOK: .git/HEAD glob = 0 isabet (2026-10-12; env: Is directory a git repo: no) → source-control/ için ne tescillenecek? (⚠️ VERIFICATION REQUIRED)"
   - "ci.yml yorumlarındaki plan referansı .ai/architecture/k13-cicd/ diskte YOK — eski plan klasörü V3 rebuild'de kaldırıldı mı? (⚠️ VERIFICATION REQUIRED)"
   - "cd · environments · deployment · rollback · release-management · artifact-management · infrastructure-testing için disk kanıtı YOK (deploy job'ı workflows'da yok) — kanıt bekliyor"
+group: mimari
 ---
+
 
 # K018-devops — Kodun Üretilip Yayılma Yolu (Domain)
 
@@ -66,5 +68,18 @@ open_questions:
 | Kanıt dengesi | 2/10 çocuk doğrudan kanıtlı (build · ci) + 2 kısmi/negatif (environments · artifact) + 1 uyaran (source-control: depo yok) |
 | Üreten pay | K-Space V3 Band-1 — A4 (2026-10-12) |
 | Bağlı dosyalar | devops-master.md · devops-bagimliliklar.md · devops-dogrulama.md |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+| mimari | `devops-bagimliliklar.md` | Katman bağı ve used_by haritası | Kademe-1 |
+| kanit | `devops-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
+| mimari | `devops-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

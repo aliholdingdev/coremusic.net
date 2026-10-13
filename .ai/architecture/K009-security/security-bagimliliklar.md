@@ -1,89 +1,167 @@
 ---
-title: "K009-security — Bağımlılıklar (K-Space V3)"
-type: architecture-dependencies
-category: architecture
-date: 2026-10-12
-status: draft
-version: 1.0.0
-node_id: K009-security
+node_id: K009-security/security-bagimliliklar
+node_type: module
+status: verify-required
+parent_id: K009-security
+children: []
+depends_on:
+  - K009-security/security-master
+  - K000-isletim-sistemi
+  - K007-data
+  - K010-identitiy
+  - K011-application
+  - K013-integraion
+  - K014-network
+  - K017-observability
+  - K018-devops
+evidence:
+  - "shared/src/Middleware/ — 11 middleware (envanter 2026-10-12)"
+  - "shared/src/Security/ — 6 sınıf (envanter 2026-10-12)"
+  - "auth.coremusic.net/include/Domain/ValueObject/Password.php · 44 (PASSWORD_ARGON2ID)"
+  - ".github/workflows/secret-scan.yml (dosya varlığı)"
+validation:
+  - "2026-10-12 — PHP uzantı bağımlılıkları kod içeriğinden türetildi (password_*, hash_equals, random_bytes, hash_hmac)"
+  - "2026-10-12 — K komşu bağımlılıkları v2 §2 ağaç yapısıyla çaprazlandı"
+open_questions:
+  - "APCu yokluğunda CacheRateLimiter fallback davranışı bilinmiyor → ⚠️ VERIFICATION REQUIRED"
+  - "sodium uzantısı kodda KULLANILMIYOR (kod kanıtı yok) → libsodium kararı ⚠️ VERIFICATION REQUIRED"
+group: mimari
 ---
 
-# security-bagimliliklar — K009-security
+# security-bagimliliklar.md — K009 Bağımlılık Ağacı
 
-## §1 Etiket kuralı (önce oku)
+## §1 Dış bağımlılıklar (PHP uzantıları — kod kanıtlı)
 
-Bu dosyadaki **her satır TASARIM İDDİASIdır**; hiçbiri `verified» değildir.
-Kanıt = gerçek dosya yolu / URL / test kaydı. Kanıt gelince `security-dogrulama.md» §6'da
-ölçüt kapanır ve satır `verified» etiketine döner. Uydurma bağımlılık yazılmaz.
-
-## §2 depends_on (bu domain neye muhtaç)
-
-| # | Hedef düğüm | Ne alınır | Gerekçe | Kanıt durumu |
+| # | Uzantı | Kullanım | Kod kanıtı | Zorunluluk |
 |---|---|---|---|---|
-| 1 | K010-identitiy | kimlik olguları: hesap · token · rol · izin | doğrulanacak taraf K010'da | TASARIM İDDİASI — kanıt yok |
-| 2 | K014-network | TLS/transport güvenliği | kanal güvensizse kapı boşa çalışır | TASARIM İDDİASI — kanıt yok |
-| 3 | K000-isletim-sistemi | kripto çalışma zamanı · entropy · dosya izinleri | algoritma OS üstünde koşar | TASARIM İDDİASI — kanıt yok |
+| 1 | core (password_*) | Argon2id hash/verify | Password.php · 44 | zorunlu |
+| 2 | core (hash_equals) | timing-safe karşılaştırma | CsrfMiddleware.php · 42 · ApiKeyRepository.php · 171 · ThemeManager.php · 253, 278 | zorunlu |
+| 3 | core (random_bytes) | secret/nonce/JTI üretimi | SecurityHeadersMiddleware.php · 18 · JwtService.php · 51 · ApiKeyRepository.php · 304 · OAuthManager.php · 190 | zorunlu |
+| 4 | core (hash_hmac) | pepper katmanı | Password.php · 43 | zorunlu |
+| 5 | core (session_*) | oturum yönetimi | SessionLifecycle.php · SessionInitializer.php (sınıf kanıtları) | zorunlu |
+| 6 | apcu | rate limit sayacı | ApcuAdapter.php · 5 · CacheRateLimiter.php · 8 | üretim için zorunlu (fallback ⚠️) |
+| 7 | openssl | şifreleme yardımcıları | ⚠️ kod kanıtı bu üretimde taranmadı | UNKNOWN |
+| 8 | sodium | modern kripto | ⚠️ kod kanıtı YOK (libsodium CS referans) | UNKNOWN — karar gerekli |
 
-> v2 §2.9 bağımlılık **vermez**; üç satır yapısal mantıktan türetildi (ad + rol cümlesi).
-> **Döngü notu:** K010 ↔ K009 karşılıklı görünür — bu sınır ADR ile kesilmelidir (§5/1).
+## §2 İç mimari bağımlılıklar (K009 içi düğüm → düğüm)
 
-## §3 used_by (bu domain kimi besliyor)
+| Kaynak düğüm | Hedef düğüm | İlişki |
+|---|---|---|
+| K009-security/index | tüm kök MD'ler | katalog |
+| K009-security/security-master | security-kapsam · security-bagimliliklar · security-bilesenler · security-kararlar · security-evrensel-dil | anayasa → türev |
+| K009-security/security-master | security-kod-ornekleri · security-test-stratejisi | kural → kod/test |
+| K009-security/security-kararlar | security-dogrulama · security-web-arastirma | karar → kanıt |
+| K009-security/security-bilesenler | 6 çocuk {çocuk}-bilesenler.md | kademe-3 planı |
+| K009-security/authentication | K009-security/encryption (Argon2id parametresi) | kod bağı |
+| K009-security/authentication | K009-security/rate-limiting (brute-force) | kod bağı |
+| K009-security/session-security | K009-security/authentication (giriş akışı) | akış bağı |
+| K009-security/session-security | K009-security/authorization (yetki oturumu) | akış bağı |
+| K009-security/secrets | K009-security/encryption (hash/IV) | kod bağı |
+| K009-security/secrets | K009-security/rate-limiting (API kotası) | politika bağı |
+| K009-security/authorization | K009-security/policies (dalga-3) | karar bağı |
 
-| # | Kaynak düğüm | Ne alır | Kanıt durumu |
+## §3 Komşu K bağımlılıkları
+
+| K | Yön | Sözleşme | Kanıt | Durum |
+|---|---|---|---|---|
+| K010-identitiy | K009 → K010 | auth akışı kimlik modelini kullanır | AuthMiddleware.php · 7 | ⚠️ sınır döngüsü |
+| K010-identitiy | K010 → K009 | K009 hash/oturum kurallarını uygular | Password.php · 38–49 | implement |
+| K011-application | K009 → K011 | CSP nonce + header sözleşmesi | SecurityHeadersMiddleware.php · 18, 31 | implement |
+| K013-integraion | K009 → K013 | Origin/CORS/token kuralı | CorsMiddleware.php · 15 · OriginCheckMiddleware.php · 15 | implement |
+| K014-network | K014 → K009 | TLS/HSTS ön koşulu | NIST SP 800-52r2 referansı | verify-required |
+| K017-observability | K009 → K017 | redaksiyon kuralı | LoggerRedactionTest.php · 132 | partial |
+| K018-devops | K018 → K009 | secret scan çıktısı | .github/workflows/secret-scan.yml | partial |
+| K000-isletim-sistemi | K000 → K009 | dosya/izin/örtü modeli | — | verify-required |
+| K007-data | K009 → K007 | PDO prepared statement kuralı | auth.coremusic.net/AGENTS.md §4.2 | kural |
+| K019-testing | K019 ↔ K009 | güvenlik testi gate'i | shared/tests/Middleware/ | partial |
+
+## §4 Paket bağımlılıkları (composer — kanıt: composer.json)
+
+| Paket | Rol | Kanıt | Durum |
 |---|---|---|---|
-| 1 | K011-application | login/yetki UI akışı | TASARIM İDDİASI |
-| 2 | K012-services | middleware doğrulama zinciri | TASARIM İDDİASI |
-| 3 | K013-integraion | dış servis token doğrulama (Spotify/Apple) | TASARIM İDDİASI |
-| 4 | K019-testing | güvenlik testi ölçütleri | TASARIM İDDİASI |
-| 5 | K007-data | şifreleme/anahtar çağrısı | TASARIM İDDİASI |
+| phpunit ^10.5 / ^11.0 | test çalıştırıcı | require-dev (agent registry §25.2) | IMPLEMENTED |
+| php-di | DI konteyneri (auth container) | auth.coremusic.net/include/Container/AuthContainer.php | IMPLEMENTED |
+| fast-route | routing | agent registry §25.2 composer.json kanıtı | IMPLEMENTED |
+| guzzlehttp / HTTP istemcisi | OAuth uçlarına erişim | ⚠️ birebir composer satırı okunmadı | UNKNOWN |
 
-## §4 Entegrasyon sınırları
+## §5 Bağımlılık kuralları
 
-| Sınır | Paylaşılır | Paylaşılmaz |
+| # | Kural | Dayanak |
 |---|---|---|
-| K009 ↔ K010-identitiy | doğrulama **süreci** (kapı) | hesap/rol sahipliği (K010'un) |
-| K009 ↔ K013-integraion | PKCE · state · imza doğrulama kuralları | OAuth akışının uç noktaları (K013'ün) |
-| K009 ↔ K014-network | TLS gereksinimi | ağ yapılandırması (K014'ün) |
-| K009 ↔ K007-data | şifreleme **çağrısı** | şema/yedek (K007'nin) |
-| K009 ↔ K018-devops | secret tarama gereksinimi | CI pipeline (K018'in) |
+| 1 | Yeni security bağımlılığı yalnız ADR ile eklenir | security-kararlar.md §3 |
+| 2 | Kripto kütüphanesi değişikliği (ör. sodium'a geçiş) ADR + doğrulama gerektirir | NIST SP 800-175b referansı |
+| 3 | apcu yoksa rate limit fail-open DEĞİL, fail-closed olmalı | master §2/1 |
+| 4 | Bağımlılık sürüm değişikliği dependency-manager (K018) + security-engineer onayı | .ai/AGENTS.md §5 |
+| 5 | K009 → K010 tek yönlü akış; K010 → K009 yalnız kural tüketimi | §3 |
 
-### §4.1 Entegrasyon kuralı (özet)
+## §6 Döngü ve kırılganlık kaydı
 
-1. K009 **sahiptir**: doğrulama · yetki · koruma · denetim kuralları.
-2. K009 **okur** kimliği (K010'dan), hesabı **yönetmez**.
-3. Sınır aşıldığında: kayıt → `.ai/architecture/index.md» §6'ya işlenir, tahmin edilmez.
+| # | Risk | Etki | Aksiyon |
+|---|---|---|---|
+| 1 | K009 ↔ K010 döngüsü (session vs identity) | belirsiz sahiplik | P0 onay |
+| 2 | APCu tek nokta (rate limit) | sayaç kaybı → fail-open riski | fallback tasarımı |
+| 3 | IIS customHeaders (XFO) çifte kaynak | header drift | tek kaynak kararı |
+| 4 | Pepper sabiti | rotasyon imkânsızlığı | rotasyon ADR'si |
+| 5 | openssl/sodium kapsamı belirsiz | kripto yığını belirsiz | kod taraması |
 
-## §5 Riskli bağımlılıklar
 
-| # | Risk | Neden | Etki | Öneri | Durum |
-|---|---|---|---|---|---|
-| 1 | K009 ↔ K010 döngüsü | session-security vs session/tokens/credentials | sahiplik belirsiz, çift kod | sınır ADR'si | ⚠️ VERIFY REQUIRED |
-| 2 | YouTube Music TOS riski | resmi public API yok (§4) | hesap/erişim riski | kapsam dışı bırak veya ADR | ⚠️ VERIFY REQUIRED |
-| 3 | secret saklama yeri | secrets (K009) mi K007 mi? | sızıntı yüzeyi | ADR + şifreli depo | ⚠️ VERIFY REQUIRED |
-| 4 | client secret'siz model | Spotify PKCE öyle (§4) | CoreMusic tarafı yanlış seçilirse akış kırılır | K010/K013 ile rol kararı | ⚠️ VERIFY REQUIRED |
-| 5 | URL'siz 2 iddia | Cloudflare · YouTube satırları | kanıtsız kayıt | URL açılması → §4 | ⚠️ VERIFY REQUIRED |
+## §7 Middleware → yardımcı sınıf bağımlılık matrisi
 
-## §6 Doğrulama durumu (ne zaman `verified»)
+| Middleware | Türediği yardım | Kanıt | Durum |
+|---|---|---|---|
+| CsrfMiddleware | SessionLifecycle (csrf_token) | SessionLifecycle.php · 48 | IMPLEMENTED |
+| CsrfMiddleware | hash_equals (core) | CsrfMiddleware.php · 42 | IMPLEMENTED |
+| SecurityHeadersMiddleware | SessionLifecycle (csp_nonce) | SessionLifecycle.php · 52 | IMPLEMENTED |
+| SecurityHeadersMiddleware | random_bytes (core) | SecurityHeadersMiddleware.php · 18 | IMPLEMENTED |
+| RateLimiterMiddleware | CacheRateLimiter | CacheRateLimiter.php · 8 | IMPLEMENTED |
+| CacheRateLimiter | CacheInterface (ApcuAdapter / MemoryAdapter) | ApcuAdapter.php · 5 · MemoryAdapter.php · 5 | IMPLEMENTED |
+| AuthMiddleware | JwtService (varsa bearer akışı) | JwtService.php · 22 | partial — bağlantı ⚠️ |
+| AuthMiddleware | SessionManagerMiddleware | SessionManagerMiddleware.php · 9 | IMPLEMENTED |
+| PermissionMiddleware | K010-identitiy rol modeli | PermissionMiddleware.php · 15 | ⚠️ sınır |
+| OriginCheckMiddleware | CorsMiddleware allow-list | OriginCheckMiddleware.php · 15 · CorsMiddleware.php · 15 | IMPLEMENTED |
+| ValidationMiddleware | şema/kural kaynağı | ValidationMiddleware.php · 15 | IMPLEMENTED (kaynak ⚠️) |
+| BypassAuthMiddleware | AuthMiddleware (bypass) | BypassAuthMiddleware.php · 9 | ADR-008 izi ⚠️ |
 
-| Bağımlılık | Ölçüt | Şu an |
-|---|---|---|
-| K010-identitiy → | karşılıklı kayıt + sınır ADR'si | draft (döngü açık) |
-| K014-network → | TLS gereksinim kaydı | draft (kanıt yok) |
-| K000-isletim-sistemi → | kripto runtime kaydı | draft (kanıt yok) |
-| used_by 5 satırı | ilgili domain index'lerinde karşılıklı kayıt | draft (karşılıklı kayıt yok) |
-| §5/2–5 soruları | ADR + URL kanıtı | açık |
+## §8 Dış uç nokta bağımlılıkları (OAuth — veri yok)
 
-## §7 Kaynaklar
+| Uç nokta | Amaç | Kanıt | Durum |
+|---|---|---|---|
+| OAuth provider uçları | üçüncü taraf kimlik doğrulama | OAuthManager.php · 29 · BaseOAuthProvider.php · 52, 68 | sınıf IMPLEMENTED; provider listesi bilinmiyor |
+| API key doğrulama | servisler arası kimlik | ApiKeyRepository.php · 171 | IMPLEMENTED |
+| TLS terminasyonu | kanal güvenliği | IIS (ResponseNormalizationMiddleware.php · 56 yorumu) | verify-required |
 
-| Kaynak | Ne verdi |
+## §9 Bağımlılık ölçüm kaydı (2026-10-12)
+
+| Ölçüm | Sonuç |
 |---|---|
-| v2 §2.9 (satır 310–329) | yalnız rol + çocuk listesi — bağımlılık VERMEZ |
-| .ai/architecture/index.md §5 satır 9 · §8 | master adı · isimlendirme |
-| https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow | PKCE güvenlik tarafı (2026-10-12) |
-| https://developer.apple.com/documentation/applemusicapi/generating-developer-tokens | token imzalama (2026-10-12) |
-| ADR-097 §5 | etiket ve isimlendirme kuralı |
-| v2 §4.2 | `depends_on» alanının tanımı |
+| Middleware dosyası sayısı | 11 |
+| Security sınıfı sayısı (shared/src/Security) | 6 |
+| Auth domain ValueObject (Password) kanıtı | Password.php · 26–59 okundu |
+| Kod kanıtlı dış uzantı | 5 (core) + 1 (apcu) |
+| UNKNOWN uzantı | 2 (openssl, sodium) |
+| Komşu K bağımlılığı | 10 satır (§3) |
 
----
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-12
 
-**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+## §EK — BAĞIMLILIK DENETİM KAYDI
+
+| # | Denetim | Sonuç |
+|---|---|---|
+| E-01 | Dış kütüphane: firebase/php-jwt (RS256) | kod kanıtı (JwtService use satırı) |
+| E-02 | apcu extension (rate limit) | ApcuAdapter·5 |
+| E-03 | Yerçekimsiz fallback: MemoryAdapter | MemoryAdapter·5 |
+| E-04 | PHP çekirdek: password_*/hash_equals/random_bytes | Password/ApiKey kanıtları |
+| E-05 | .env/pepper bağımlılığı (APP_PEPPER) | Password.php fail-closed kanıtı |
+| E-06 | composer denetimi (CVE) | ⚠️ çalıştırılmadı → R-19 |
+
+| Denetim Kuralı | |
+|---|---|
+| Sürüm sabitleme | composer.lock; sürüm iddiası bu dosyada yazılmaz (UNKNOWN) |
+| Yeni bağımlılık | ADR + security-kararlar §1 kaydı gerekli |
+| Elenen | Vendor içeriği envantere girmez (salt Harici Referans) |
+
+| Son Durum (bağımlılık · geniş) | |
+|---|---|
+| Harici bağımlılık | JWTServis kütüphanesi + apcu (kanıtlı) |
+| Açık | composer audit (R-19) |

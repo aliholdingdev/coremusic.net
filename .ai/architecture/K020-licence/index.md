@@ -18,7 +18,9 @@ open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "'licence' yazımı kaynağa sadık korunur; 'license' yapılmaz (v2 §3 KURAL 1)"
   - "ASIO SDK GPLv3'ün projeye etkisi HENÜZ DEĞERLENDİRİLMEDİ → VERIFY REQUIRED (ADR-097 §6/5)"
+group: mimari
 ---
+
 
 # K020-licence — Bağımlılık Lisans Kaydı
 
@@ -46,5 +48,17 @@ bilgisi yayınlama anında sorun çıkarır — bu yüzden her satırın **kayna
 1. ASIO SDK GPLv3 → CoreMusic **kapatılıp dağıtılacaksa** etkisi ne? (`⚠️ VERIFY REQUIRED`)
 2. Temel bağımlılıkların (PHP, MySQL, JUCE, Composer paketleri) lisans envanteri **yok**.
 3. ⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+| kanit | `dependency-licenses.md` | Bağımlılık lisansı, kaynağı ve tarihi kaydı | Kademe-1 |
+| kanit | `license-verification.md` | Lisans kaydı doğrulama yöntemi ve son kontrol tarihi | Kademe-1 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

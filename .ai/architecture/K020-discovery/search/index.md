@@ -14,7 +14,9 @@ validation:
 open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "YouTube Music API'siz arama/katalog nasıl beslenecek? Tasarım yok → VERIFY REQUIRED"
+group: mimari
 ---
+
 
 # K020-discovery/search — Arama & Katalog Keşfi
 
@@ -35,5 +37,15 @@ Entegrasyon kararı **onaydan önce** gelmez; burada yalnız not ve kapı vardı
 - `node_type: subdomain` · `children: []` · `status: draft`.
 - **Yalnız keşif** — bu dizin altında entegrasyon kodu/spec **yoktur**.
 - Sonuçlar onaylanırsa `K020-discovery/agent/` üzerinden servis akışına taşınır.
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward

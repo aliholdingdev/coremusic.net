@@ -31,7 +31,6 @@ depends-on: [".ai/AGENTS.md"]
 - **Yaşam döngüsü (15 aşama):** `Understand → Discover → Research → Verify → Resolve Context → Analyze → Architect → Plan → Implement → Track → Test → Review → Secure → Verify → Document` — analiz tamamlanmadan implementation başlatılmaz; kod öncesi 16 maddelik repo incelemesi (yapı, mimari, dependency graph, pattern'ler, build/test/config/logging/security/database/API/frontend, conventions, duplicate implementation, teknik borç).
 - **Zero-Hallucination:** repository/URL/API/class/method/property/package/dependency/version/license/configuration/MCP/skill/agent/framework behavior/file/directory/architecture rule/benchmark/security claim asla uydurulmaz → `⚠️ VERIFICATION REQUIRED` · bilinmeyen = `UNKNOWN`.
 - **Final rule:** `Understand → Research → Resolve → Decide → Implement → Track → Verify` — riskli işlemede dur · onaysız büyük source-code değişikliği yok · gereksiz dosya/skill/agent/context/plan üretme.
-- **MAX THINKING (7 madde):** [[AGENTS.md]] § MAX THINKING — reasoning LOW, dosya 1 kez okunur, 3 başarısız düzeltme → DUR, bilinmeyen = UNKNOWN, maks 5 madde çıktı.
 
 *Tam metin: kök `CLAUDE.md` § Master Engineering System · boot sırası: [[WORKFLOW.md]] §8.10.*
 

@@ -18,23 +18,10 @@ owner: "Vault Steward"
 depends-on: [".ai/AGENTS.md"]
 ---
 
-## MAX THINKING — Anti-Overthink (2026-10-01)
-
-1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
-2. Uzun analiz paragrafı, promptu geri anlatma, plan kompozisyonu YASAK. Nokta atışı cevap → hemen uygula.
-3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER. Aynı veriyi "emin olmak" için ikinci kez analiz etme.
-4. Session başlangıcı = anında boot (okuma listesi) → sonra işlem. Keşif önsözü yok.
-5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-6. Bilinmeyen = UNKNOWN; tahmin yok. Görev manifestinde listelenmeyen dosya/klasör/skill/agent/context/plan üretimi yasak; manifestteki dosyalar görevin kendisidir ve zorunludur.
-7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
-
-> Not: 2026-10-01 MAX THINKING budget bu bölümün üzerindedir — çelişkide budget kazanır.
-
 ## ULTRATHINK İSTEMİ — Ultra Düşünme Prompt Şablonu (2026-10-11)
 
 > Bu bölüm protokolün **tetikleyicisidir**: hazır prompt'u tanımlar. Boot'ta yüklüdür
 > (`.opencode/opencode.json → instructions`); agent bu istemi aldığında §2 (katmanlar),
-> §4 (10 adım) ve §6 (güven skoru) otomatik uygulanır. MAX THINKING ile uyum:
 > varsayılan reasoning LOW'dur — bu istem, kullanıcı'nın "açıkça istemesi" demektir.
 
 ### Diyagram 1 — İstem anatomisi (5 alan)
@@ -126,7 +113,6 @@ NOT: Rate limiter sırası da etkilenebilir
 | 1 | İstemde `ULTRATHINK:` var | Bu bölüm + §2 katman seçimi + §4 10 adım uygulanır |
 | 2 | İstemde "derin düşün" / "ultrathink" serbest metin | Eş anlamlı tetik — aynı yol |
 | 3 | İstem yok, görev mimari karar/ADR | §13.1'e göre K4 yine uygulanır (istemsiz derinlik) |
-| 4 | İstem MAX THINKING ile çelişirse | İstem reasoning'i yükseltir (açık istisna — MAX THINKING madde 1) |
 | 5 | KAPSAM alanı boş | İstem GEÇERSİZ — agent 1 kısa soru sorar, tahmin etmez |
 
 ---

@@ -22,11 +22,6 @@ depends-on: [".ai/AGENTS.md"]
 
 ---
 
-## MAX THINKING — Anti-Overthink (2026-10-01)
-
-1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse. 3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme. 5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-> Tam metin (7 madde): [[../CLAUDE.md]] § MAX THINKING · ayrıntı: [[../ULTRA-THINKING.md]]
-
 ## §1 Kimlik
 
 | Alan | Değer |
@@ -519,7 +514,6 @@ Sonraki adım: [1 eylem, 2 dakika]
 |---|---|---|---|
 | 1.0.0 | 2026-08-08 | İlk backend-architect profili (root §14) | Claude |
 | 2.0.0 | 2026-09-23 | FAZ 3a §1-§11 formatına rewrite; 7 alan frontmatter; Truth Mode; composer×3/Middleware 11/PageRouter 14 disk-kanıtlı; §24.3 eski yollar VERIFICATION REQUIRED; handover 7 senaryo | Claude (FAZ 3a) |
-| 2.0.4 | 2026-10-06 | Faz 4 (2026-10-06): MAX THINKING gosterimi CLAUDE SSOT; type+fm senkronu | Claude (Faz 4) |
 | 2.0.5 | 2026-10-12 | Faz2B: silinmiş K-space mimarisi referansları temizlendi (satır silme + hücre düzeltme) | refactorer |
 
 ---

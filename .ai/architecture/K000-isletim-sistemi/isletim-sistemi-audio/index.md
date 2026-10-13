@@ -3,35 +3,97 @@ node_id: K000-isletim-sistemi/isletim-sistemi-audio
 node_type: subdomain
 status: draft
 parent_id: K000-isletim-sistemi
-children: []
+children: [alsa, coreaudio, aaudio, reactos-audio, tizen-audio, wasapi, webos-audio]
 depends_on: []
 evidence:
-  - "https://learn.microsoft.com/en-us/windows/win32/coreaudio/wasapi (2026-10-12) · https://learn.microsoft.com/en-us/windows/win32/coreaudio/exclusive-mode-streams (2026-10-12)"
-validation:
-  - "Çocuk adı v2 §2.1 mini-ağacından birebir alındı (2026-10-12)"
+  - https://learn.microsoft.com/en-us/windows/win32/coreaudio/about-the-windows-core-audio-apis
+  - https://learn.microsoft.com/en-us/windows/win32/coreaudio/exclusive-mode-streams
+  - https://www.alsa-project.org/wiki/Main_Page
+  - https://developer.apple.com/documentation/audiotoolbox
+validation: "2026-10-12 · 4 resmi URL HTTP 200 · 2026-10-13 · children 7 deep-dala genişletildi (alsa + coreaudio bu turda açıldı)"
 open_questions:
-  - "Linux/macOS/Android ses alt sistemleri kanıtlanmadı → ⚠️ VERIFICATION REQUIRED"
+  - "aaudio/tizen-audio/webos-audio/reactos-audio children'da görünüyor ama diskte henüz yok → ⚠️ VERIFICATION REQUIRED (B ajanı)"
+  - "CoreMusic'in gerçek ses donanımına erişimi YOK (ffmpeg ile WAV) — donanım yolu UNKNOWN"
+group: mimari
 ---
 
 # isletim-sistemi-audio — Kademe-2 Kayıt
 
-**ELI15 (ad-türevi):** İşletim sisteminin ses alt sistemi — uygulama ile ses uç noktası arasındaki katman.
-
-**Kapsam / sınır:** Windows tarafında Core Audio / WASAPI ailesi kanıtlanmıştır; diğer platformlar UNKNOWN.
+**ELI15:** İşletim sisteminin **ses donanımına erişim kapısı** — ses kartını kimin, hangi API ile çağıracağını OS belirler; bu dal o API'lerin mimari tarifidir.
 
 | Öğe | Değer |
 |---|---|
 | parent_id | K000-isletim-sistemi |
 | Kademe | 3 · subdomain |
-| Master referansı | os-master.md §3 (satır listesi) |
-| Alt kademe | bu turda AÇILMADI (children: []) |
-| Durum | draft |
+| Master referansı | `os-master.md` §3.8 · §4 |
+| Alt kademe | `children:` 7 deep-dal — wasapi mevcut · alsa + coreaudio bu turda açıldı · 4'ü B ajanı |
+| Durum | `draft` (Windows/Linux/macOS kanıtlandı; Android/Tizen/webOS/ReactOS derinliği yok) |
 
-**⚠️ VERIFICATION REQUIRED:** v2 §2.1 bu klasörü yalnız isim olarak listeler; ne işe
-yaradığını tek tek yazmaz. Yukarıdaki özet **ad kökeninden** türetilmiştir, kanıt değildir.
-Kapsam üst kademede (os-master.md §7 açık soruları) onaylanana kadar bu dosyaya
-tahmini içerik eklenmez — v2 §3 KURAL 3.
+## §1 Platform ses API'leri
 
----
+| Platform | API | Deep-dal | Durum |
+|---|---|---|---|
+| Windows | Windows Core Audio (WASAPI dahil) | `wasapi/` | ✅ diskte 13 dosya |
+| Linux | ALSA (kernel `snd-*` + `alsa-lib`) | `alsa/` | ✅ bu turda açıldı |
+| macOS / iOS | CoreAudio + AudioToolbox + AVAudioSession | `coreaudio/` | ✅ bu turda açıldı |
+| Android | AAudio | `aaudio/` | ⚠️ VERIFICATION REQUIRED (B ajanı) |
+| Tizen | Tizen ses API'si | `tizen-audio/` | ⚠️ VERIFICATION REQUIRED (B ajanı) |
+| webOS | webOS ses API'si | `webos-audio/` | ⚠️ VERIFICATION REQUIRED (B ajanı) |
+| ReactOS | Win32-uyumlu ses yolu | `reactos-audio/` | ⚠️ VERIFICATION REQUIRED (B ajanı) |
 
-**Authority:** Bayram Ali / Vault Steward · 2026-10-12
+Platform detayları kendi deep-dalındadır — bu dosya üst haritayı taşır, dal içeriğini **kopyalamaz**. Web kanıtı (2026-10-12 · HTTP 200): `about-the-windows-core-audio-apis` · `exclusive-mode-streams` · ALSA `Main_Page` · Apple `audiotoolbox`.
+
+## §2 Kritik kanıt boşluğu (CoreMusic özel)
+
+| # | İddia | Durum |
+|---|---|---|
+| 1 | CoreMusic, ses donanımına **doğrudan** erişir | **HAYIR** — repo'da kanıt yok |
+| 2 | CoreMusic ses dosyasını **ffmpeg/ffprobe** ile işler | ✅ `shared/src/AI/AIEngine.php:288-295` |
+| 3 | `ApcuAdapter`/`AIEngine` dışındaki ses donanımı kodu | **YOK** — ⚠️ VERIFICATION REQUIRED |
+
+**Sonuç:** CoreMusic bir **ses donanımı sürücüsü değildir**, sesi dosya düzeyinde işler (HTML5 çalma frontend katmanıdır); deep-dal dokümantasyonu hedeflenen **gelecek** yüzeyi (Neva Engine) tarif eder.
+
+## §3 Sınır komşuları
+
+| Dışında olan | Nereye gider |
+|---|---|
+| DSP zinciri, EQ/reverb algoritması | K004-dsp |
+| Ses motorunun C++ kodu (Neva Engine) | K003-audio · ROLE §11 `embedded` |
+| Donanım kartı devresi (DAC/ADC) · sürücü kurulumu/paketleme | K001-donanım · `electroncis` (Q1) |
+| Web'de çalma UI'ı | frontend katmanı |
+
+## §4 Deep-dallar
+
+| Deep-dal | Dosya | Durum |
+|---|---|---|
+| `wasapi/` | 13 dosya · 5.740 sat | ✅ mevcut — **dokunulmadı** |
+| `alsa/` + `coreaudio/` | 4 + 4 dosya | ✅ bu turda oluşturuldu |
+| `aaudio/` · `tizen-audio/` · `webos-audio/` · `reactos-audio/` | 0 | ⚠️ diskte YOK — B ajanının beyazlistesi |
+
+## §5 Açık sorular
+
+| # | Soru | Etiket |
+|---|---|---|
+| Q-A2 | CoreMusic'in donanım yolu ne zaman eklenecek (Neva Engine)? | ⚠️ VERIFICATION REQUIRED |
+| Q-A3 | ASIO karşılaştırması `wasapi/` içinde mi, ayrı child mı? | ⚠️ VERIFICATION REQUIRED |
+| Q-A4 | Hedef platform seti (Q4) — ses önceliği hangi OS? | UNKNOWN |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**. Kardeş kayıtlar: `isletim-sistemi-audio-{kapsam,dogrulama,ornekler}.md` · üst kayıt `../os-master.md` §3.8.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| mimari | `isletim-sistemi-audio-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
+| kod | `isletim-sistemi-audio-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-2 |
+| kanit | `isletim-sistemi-audio-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-2 |
+| mimari | `alsa/index.md` | Linux ALSA deep-dal künyesi | Kademe-3 |
+| mimari | `coreaudio/index.md` | macOS/iOS CoreAudio deep-dal künyesi | Kademe-3 |
+| mimari | `aaudio/index.md` | Android AAudio deep-dal künyesi | Kademe-3 |
+| mimari | `reactos-audio/index.md` | ReactOS ses deep-dal künyesi | Kademe-3 |
+| mimari | `tizen-audio/index.md` | Tizen ses deep-dal künyesi | Kademe-3 |
+| mimari | `wasapi/index.md` | Windows deep-dal künyesi | Kademe-3 |
+| mimari | `webos-audio/index.md` | webOS ses deep-dal künyesi | Kademe-3 |
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

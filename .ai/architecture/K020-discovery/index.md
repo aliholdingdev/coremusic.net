@@ -18,7 +18,9 @@ open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "YouTube Music entegrasyonu: resmi public API **yok** (TOS riski) → resmi olmayan yollara mı başvurulacak? ONAY BEKLİYOR"
   - "'discovery' keşif notları onaylanana kadar entegrasyon kodu yazılmaz"
+group: mimari
 ---
+
 
 # K020-discovery — Keşif / Dış Kaynak Entegrasyon Rafı
 
@@ -57,5 +59,15 @@ Burada **keşif notları** durur — entegrasyon kararı onaysız verilmez.
 1. YouTube Music'siz bir katalog stratejisi kabul ediliyor mu? → `⚠️ VERIFY REQUIRED`
 2. Spotify/Apple entegrasyonu CoreMusic kapsamına giriyor mu (proje tanımı)? → `⚠️ VERIFY REQUIRED`
 3. ⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

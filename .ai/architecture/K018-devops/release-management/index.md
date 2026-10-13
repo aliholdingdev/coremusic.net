@@ -13,7 +13,9 @@ validation:
   - "okuma/gözlem YOK — verify-required"
 open_questions:
   - "sürümleme stratejisi (semver?) ve release notu süreci tanımlı mı? (⚠️ VERIFICATION REQUIRED)"
+group: mimari
 ---
+
 
 # K018-devops/release-management
 
@@ -34,5 +36,15 @@ Sürüm ve release notu yönetimi: ne, ne zaman, hangi sürümle çıktı.
 | status | draft (kanıt durumu §frontmatter'da) |
 | Üreten pay | K-Space V3 Band-1 — A4 (2026-10-12) |
 | Domain kökü | [[index]] (K018-devops) · master: devops-master.md |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · 2026-10-12

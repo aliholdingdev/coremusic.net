@@ -7,7 +7,9 @@ date: 2026-10-12
 version: 1.0.0
 kaynak-turu: "web-kanıtı (2026-10-12) + kaynak metin karşılaştırması"
 authority: "SSOT: ADR-097 §5.3 + görev araştırma turu 2026-10-12"
+group: kanit
 ---
+
 
 # K013-integraion — integraion-dogrulama.md
 

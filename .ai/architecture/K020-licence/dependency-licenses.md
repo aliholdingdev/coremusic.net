@@ -13,7 +13,9 @@ related:
   - "license-verification.md"
   - "../K020-comilance/compliance-master.md"
   - "../../.decisions/draft/ADR-097-k-space-v3-sifirdan-kurulum-coklu-md-ve-bant-rezervasyonu.md"
+group: kanit
 ---
+
 
 # K020-licence — Bağımlılık Lisans Kaydı
 

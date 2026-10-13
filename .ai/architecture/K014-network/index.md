@@ -27,7 +27,9 @@ open_questions:
   - "offline-sync (K014) ile K015/offline ve K013/synchronization sınırı → ⚠️ VERIFICATION REQUIRED"
   - "service-discovery kapsamı (yerel cihaz keşfi mi, servis kaydı mı) → ⚠️ VERIFICATION REQUIRED"
   - "comms torunlarının kademe-4 module listesi → ⚠️ VERIFICATION REQUIRED (faz C)"
+group: mimari
 ---
+
 
 # K014-network — Bağlantı Katmanı
 
@@ -79,3 +81,15 @@ Bağlantının kendisi donanım işidir (K001-donanım), güvenliği K009'dur.
   4. WebRTC standardı kanıtı (IETF) → ⚠️ URL yok, tur-2
 
 **Kaynak:** v2 §2.14 · .ai/architecture/index.md §5/14 · ADR-097 §5
+
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+| mimari | `network-bagimliliklar.md` | Katman bağı ve used_by haritası | Kademe-1 |
+| kanit | `network-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
+| mimari | `network-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |

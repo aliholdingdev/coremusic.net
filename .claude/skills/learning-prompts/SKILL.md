@@ -74,6 +74,4 @@ eşleşme tablosu eklendi; (6) her prompt `…` yer tutucuları ile kopyala-yap�
 - **Kaynak bağımlılığı:** teknikleri büyük harfle "kanıtlanmış" diye satmak yok — kanıt
   notu `references/overview.md`'de, abartı yasak.
 
-Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
-
 *CoreMusic Skill v3.0 — metadata.version: 1.0.0 — Updated: 2026-10-09*

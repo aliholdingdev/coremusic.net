@@ -50,8 +50,6 @@ metadata:
 - **N5 — `examples/` zorunlu:** ≥1 çalışmış örnek (girdi → çıktı tam döngü).
 - **N6 — İsimlendirme:** klasör adı = `name` 1:1; lowercase-hyphen; `SKILL.md` büyük harf;
   Türkçe karakter / alt çizgi / boşluk / büyük harf YASAK.
-- **N7 — MAX THINKING bloğu ASLA kopyalanmaz** → tek satır:
-  `Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.`
 - **N8 — `CLAUDE.md` sidecar YASAK** skill dizinlerinde (kök, references/, templates/,
   scripts/ dahil).
 - **N9 — Footer:** `*CoreMusic Skill v3.0 — metadata.version: X.Y.Z — Updated: YYYY-MM-DD*`

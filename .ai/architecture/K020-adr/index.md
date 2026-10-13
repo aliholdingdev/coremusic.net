@@ -18,7 +18,9 @@ open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "Bu klasör hangi ADR serisine kayıt açar — karar serisi (.ai/.decisions/) mi, mimari seri (.ai/architecture/adr/) mi? (ADR-026 §3.4 ayrımı → decision-register.md §4)"
   - "decision-register.md disk sayımı (draft = 1 · ADR-097) ile .ai/.decisions/index.md §4A ('Taslak yok', total-draft: 0) uyuşmuyor → senkron gerekiyor"
+group: mimari
 ---
+
 
 # K020-adr — Karar Kayıt Defteri
 
@@ -49,5 +51,16 @@ tekrar açılır; bu klasör o tartışmayı **bir kez** yapmak için vardır.
 | `@.ai/.decisions/index.md` | Karar serisi indeksi (accepted/rejected/draft) |
 | `[[../adr/index]]` | Mimari ADR serisi — karar serisiyle **ayrı** (ADR-026 §3.4) |
 | `@.ai/.decisions/draft/ADR-097-…md` | K-Space V3 kurulum kararı + §6 açık sorular |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+| mimari | `decision-register.md` | Kararın nereye, hangi şablon ve durumla yazılacağının tarifi | Kademe-1 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

@@ -137,7 +137,45 @@ yeni klasör =  {türkçe-domain}-{ingilizce-teknik-terim}  veya  {ingilizce-tek
 ### 5.4 Açık nokta (onay beklemede)
 v2'nin `-master.md` (İngilizce) adları Türkçe `-anayasa.md` ile değiştirilsin mi? **Bu ADR'de DEĞİŞTİRİLMEZ** (KURAL 1); istenirse ayrı onayla revize edilir.
 
+### 5.5 İki-Ekseni Gruplama Şeması (kategori MD × teknoloji isimlendirme) — 2026-10-12
+
+**Kaynak:** kullanıcı yönergesi — *"kategori bazlı MD + teknoloji bazlı isimlendirme gruplaması, mimariyle ve kodla ilişkili."*
+
+**Kural:** her düğüm klasöründe MD'ler **iki eksende** gruplanır ve her MD **dört gruptan birinin** içinde işaretlenir.
+
+#### A. Eksen-1 — Kategori bazlı MD (dosya rolü = kategori)
+
+| Grup | Grup adı | Kapsayan roller (dosya son eki) |
+|---|---|---|
+| **G1** | `mimari` | `index.md` · `-anayasa`/`-master` · `-kapsam` · `-bagimliliklar` · `-bilesenler` · `-kararlar` |
+| **G2** | `kod` | `-ornekler` · `-kod-ornekleri` · `-test-stratejisi` · (`-daw-uyumlulugu`, `-entegrasyon`, `-api` teknoloji dalında) |
+| **G3** | `kanit` | `-dogrulama` · `-web-arastirma` · `-riskler` · `-lisans-ve-dogrulama` |
+| **G4** | `teknoloji` | teknoloji derin-dal dosyalarının tamamı: `{teknoloji}-anayasa` · `{teknoloji}-arayuzler` · `{teknoloji}-surucu-modeli` · `{teknoloji}-platform-uyumlulugu` · `{teknoloji}-daw-uyumlulugu` · `{teknoloji}-evrensel-dil` · `{teknoloji}-kod-ornekleri` · `{teknoloji}-web-arastirma` · `{teknoloji}-dogrulama` · `{teknoloji}-riskler` |
+
+**Zorunlu uygulama (her MD):** frontmatter'a **9. alan** olarak `group: mimari|kod|kanit|teknoloji` eklenir (8 zorunlu alan **korunur**, bu alan zorunlu 9. alandır). `index.md` içinde **§GRUPLAR** tablosu bulunur: `| Grup | Dosya | Amaç | Kademe |`.
+
+#### B. Eksen-2 — Teknoloji bazlı isimlendirme/gruplama
+
+1. **Teknoloji = klasör.** Her teknoloji (`asio/`, `wasapi/`, `juce/`, `core-audio/`, `alsa/`, `pipewire/`, `windows/`, `linux/`, `macos/`, `cipler/`, `xmoss/`...) kendi klasöründe yaşar; tek tek teknoloji MD'leri asla kök veya kategori klasörüne **serpilemez**.
+2. **Teknoloji = dosya öneki.** Klasör içi her dosya `{teknoloji}-{rol}.md` deseninde. Örn: `asio/asio-arayuzler.md`, `wasapi/wasapi-surucu-modeli.md`, `cipler/ak4458-dac.md`.
+3. **Kategori = rol son eki (A tablosu).** Dosya adında hem teknoloji hem kategori görünür: `asio-web-arastirma.md` → `teknoloji` + `kanit`.
+4. **Teknoloji klasörü zorunlu `index.md`** taşır; bu index **Teknoloji Künyesi + Grup Haritası** bölümü olarak G1..G4 tablosunu verir (mimari dosyalar hangi sürücü modeline/DAW'e bağlanır, kod dosyaları hangi platforma, kanıt dosyaları hangi iddiaya karşılık gelir).
+5. **Mimari/kod bağı her teknoloji dosyasında zorunlu:** `depends_on` alanı yalnız dış klasöre değil, **iç mimari düğümüne** de işaret eder (örn. `asio/asio-arayuzler.md → depends_on: K003-audio/backend/baglanti-arayuzleri`); `-ornekler`/`-kod-ornekleri` dosyalarında her kod örneği `Dosya: … / Satır: …` biçiminde **gerçek repo yoluna** bağlanır.
+6. **Kademe-2 kategori klasörleri** (`backend/`, `frontend/`, `schema/`, `recommendation/` ...) G1–G3 dosyalarını **tek dosya olarak düz** tutar (subfolder açılmaz); **yalnız teknoloji klasörleri** (kademe-3) derin dalanır. Bu, 5000+ katmanlı ağacın dosya sayısını kontrol altında tutar.
+
+#### C. Adlandırma özeti (iki eksen tek formülde)
+
+```
+{kategori-klasörü}/{teknoloji-klasörü}/{teknoloji}-{grup-rol}.md
+                                   └─ grup: mimari | kod | kanit | teknoloji
+kademe-2: {çocuk}/{rol}.md         └─ grup: mimari | kod | kanit
+```
+
+> **Üretim notu:** Bu şema v2 §3 KURAL 1'i (imla/CONFLICT korunumu) ve §4.3 sekiz zorunlu alanı **bozmaz** — yalnız `group` alanını ve `index.md` §GRUPLAR tablosunu ekler. Eski (düz) dosyalarda yeniden adlandırma **taşıma/ADR gerektirir**; üretimde yeni dosyalar bu şemaya uyar, eski dosyalar bir sonraki genişletme geçişinde taşınır.
+
 ---
+
+
 
 ## §6 Açık Sorular (VERIFY REQUIRED)
 

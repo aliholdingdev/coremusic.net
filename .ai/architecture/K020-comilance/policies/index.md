@@ -14,7 +14,9 @@ validation:
 open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "KVKK/GDPR politikası var mı? → VERIFY REQUIRED (politika MD'si diskte yok)"
+group: mimari
 ---
+
 
 # K020-comilance/policies — Politika Kayıt İskeleti
 
@@ -36,5 +38,15 @@ kendisi vault'ta yaşar; burada yalnız **kayıt satırı** vardır.
 
 - `node_type: subdomain` · `children: []` (v2'de alt liste yok).
 - **Politika MD'leri henüz üretilmedi** — bu sayfa katalog iskeletidir; uydurma politika metni yazılmaz.
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward

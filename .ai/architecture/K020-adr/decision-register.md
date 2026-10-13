@@ -13,7 +13,9 @@ related:
   - ".ai/.decisions/draft/ADR-097-k-space-v3-sifirdan-kurulum-coklu-md-ve-bant-rezervasyonu.md"
   - ".ai/.templates/adr/adr-nygard-template.md"
   - "../adr/index.md"
+group: mimari
 ---
+
 
 # K020-adr — ADR Kayıt Mekanizması (Decision Register)
 

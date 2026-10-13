@@ -22,11 +22,6 @@ depends-on: [".ai/AGENTS.md"]
 
 ---
 
-## MAX THINKING — Anti-Overthink (2026-10-01)
-
-1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse. 3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme. 5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-> Tam metin (7 madde): [[../CLAUDE.md]] § MAX THINKING · ayrıntı: [[../ULTRA-THINKING.md]]
-
 ## §1 Kimlik
 
 | Alan | Değer |
@@ -510,7 +505,6 @@ Sonraki adım: [1 eylem, 2 dakika]
 | 1.0.0 | 2026-08-08 | İlk profil | Claude |
 | 2.0.0 | 2026-09-23 | FAZ 3a §1-§11 rewrite; 7 alan; Truth Mode; 18 .sql + Database 2 + migrations 2 (shared/) disk-kanıtlı; 156 tablo/phinx-bağımlılık → ⚠️ V.R.; eski `.ai/migrations/` yolu düzeltildi | Claude (FAZ 3a) |
 | 2.0.1 | 2026-09-24 | ADR-015 etiket düzeltmesi (satır 24, 30, 68, 95, 119, 238, 271, 343): "cache stratejisi / migration aracı" yanlış atıfı → **ADR-015 = Env Parser Strategy** (ADR-015 §5.4 şart 3a) | Claude (adr-debate) |
-| 2.0.4 | 2026-10-06 | Faz 4 (2026-10-06): MAX THINKING gosterimi CLAUDE SSOT; type+fm senkronu | Claude (Faz 4) |
 | 2.0.5 | 2026-10-12 | Faz2B: silinmiş K-space mimarisi referansları temizlendi (satır silme + hücre düzeltme) | refactorer |
 
 ---

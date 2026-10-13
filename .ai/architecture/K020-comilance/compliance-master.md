@@ -14,7 +14,9 @@ related:
   - "controls/index.md"
   - "verification/index.md"
   - "../K020-adr/decision-register.md"
+group: mimari
 ---
+
 
 # K020-comilance — Compliance Master
 

@@ -24,13 +24,6 @@ depends-on: [".ai/AGENTS.md"]
 
 > **⚠️ SSOT Uyarısı:** Bu dosya **yalnızca profil indeksidir (Alt Registry)**. Tek SSOT: [[../AGENTS.md]] (v22.0.8). Routing, handover, escalation, öncelik, context lock ve health check kurallarının **tamamı kök dosyanın tekelindedir** (kök §26.2). Bu dosyada bu kurallar **tekrarlanmaz**; çelişkide kök dosya kazanır. Bu dosyanınauthority değeri `SSOT` iddiası **taşıyamaz**.
 
----
-
-## MAX THINKING — Anti-Overthink (2026-10-01)
-
-1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse. 3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme. 5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-> Tam metin (7 madde): [[../CLAUDE.md]] § MAX THINKING · ayrıntı: [[../ULTRA-THINKING.md]]
-
 ## §1 Amaç & Kapsam
 
 Bu dosya, `.ai/.agents/` klasöründeki 11 agent profilinin **indeksidir**: hangi profilin ne olduğu, hangi şablondan üretildiği, nasıl yazıldığı, boot ile nasıl bağlandığı ve ne zaman/how güncellendiği burada tanımlanır. Profil dosyalarının kendisi (yetki belgeleri) ayrı dosyalardadır; bu registry onların **dizinidir, kopyası değildir**.

@@ -109,8 +109,6 @@ Aşağıdaki yollar glob ile doğrulanmıştır; şablon bunlar dışındaki hi�
 
 ## §3 Mimari
 
-Şablonun tam iskeleti (placeholder'lı frontmatter + H1 + Zorunlu Bağlantılar + MAX THINKING özet bloğu + §1-§11, eksiksiz (profil gerçeğiyle birebir, 2026-10-06)). Dört-çit ` ```markdown ` bloğu, iskeletin kendi üç-çit kod bloklarını korumak için kullanılmıştır; iskelet içindeki başlıklar gömme nedeniyle iki seviye derinleştirilmiştir (H1 → `#`, H2 → `##`).
-
 ````markdown
 ---
 reference_doc: Freelancer Technical Documentation v1.0
@@ -127,16 +125,6 @@ authority: reference
 # CoreMusic — {{AGENT_NAME}} Agent Profile
 
 **Zorunlu Bağlantılar:** [[../AGENTS]] · [[../.agents/AGENTS]] · [[../ROLE]] · [[WORKFLOW]] · [[../.templates/agents/agents-template]] · [[../.decisions/index]] · [[../.decisions/CLAUDE]]
-
----
-
-## MAX THINKING - Anti-Overthink ({{DATE}})
-
-1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
-3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER — aynı veriyi "emin olmak" için ikinci kez analiz etme.
-5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-
-> Tam metin (7 madde): [[../CLAUDE.md]] § MAX THINKING · ayrıntı: [[../ULTRA-THINKING.md]]
 
 ---
 

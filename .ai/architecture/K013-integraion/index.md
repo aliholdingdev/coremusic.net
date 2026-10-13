@@ -30,7 +30,9 @@ open_questions:
   - "synchronization (K013) ile K015/synchronization sınırı → ⚠️ VERIFICATION REQUIRED"
   - "Dış API'nin sahibi K013 mü, çağıran K012/integration-service mi → ⚠️ VERIFICATION REQUIRED"
   - "event-contracts olay taşıma biçimi (webhook/olay akışı) → ⚠️ UNKNOWN"
+group: mimari
 ---
+
 
 # K013-integraion — Dış Sistem Köprüsü
 
@@ -81,3 +83,15 @@ Yazım notu: klasör adı "integraion" **kaynağa sadık, dokunulmaz** (v2 §3 K
   4. Yeni dosya ön eki "integraion" (düğüm adından) — master "integration" (v2) → bilinçli karışıklık
 
 **Kaynak:** v2 §2.13 · .ai/architecture/index.md §5/13 · ADR-097 §5
+
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+| mimari | `integraion-bagimliliklar.md` | Katman bağı ve used_by haritası | Kademe-1 |
+| kanit | `integraion-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
+| mimari | `integration-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |

@@ -56,6 +56,4 @@ Her kullanımda doğrulanır: PHP 8.4 özellikleri (php.net), OWASP Top 10:2025 
 1. İstek alınır → 2. Gerekiyorsa php.net/OWASP web teyidi → 3. Hedef dosya analiz
 → 4. İhlal listesi (satır + kural ref'i) → 5. Sıfır halüsinasyon raporu.
 
-Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
-
 *CoreMusic Skill v3.0 — metadata.version: 1.0.0 — Updated: {YYYY-MM-DD}*

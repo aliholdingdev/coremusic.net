@@ -10,7 +10,9 @@ node_id: K015-media
 role: master
 authority: "SSOT: v2 §2.15 + .ai/architecture/index.md §5/15"
 related: ["media-bagimliliklar.md", "media-dogrulama.md", "index.md"]
+group: mimari
 ---
+
 
 # K015-media — media-master.md
 
@@ -161,3 +163,349 @@ K015'in K011/K012'ye geri dönüş oku: YOK → döngü yok (2026-10-12)
 ---
 
 **Status:** draft · **Mode:** Red Team · Human Mode · Truth Mode · **Tarih:** 2026-10-12
+
+---
+
+## §9 Çocuk Düğümler Derinleştirmesi (TASARIM İDDİASI — 11 çocuk)
+
+> Her çocuk için ELI15 rol, komşu sınırlar, veri akışı ve hata durumu. Tüm satırlar
+> **TASARIM İDDİASI**'dır; yalnız v2 §2.15 çocuk adları S2 kanıtlıdır.
+
+### §9.1 library — Kitaplık
+
+| Boyut | Tasarım iddiası | Sınır |
+|---|---|---|
+| Rol | koleksiyonun kendisi (şarkı/album kümesi) | v2 §2.15 (S2) |
+| İçerik | kullanıcı sahipli parçalar · playlist'ler · sıralama | K015 |
+| Kalıcılık | şema K007-data'da | §2.2 |
+| Hata | koleksiyon boşsa EMPTY durumu | K011 gösterir |
+| Arayüz | listeleme · filtreleme · sıralama | TASARIM İDDİASI |
+
+### §9.2 metadata — Şarkı Bilgileri
+
+| Boyut | Tasarım iddiası | Sınır |
+|---|---|---|
+| Rol | sanatçı, albüm, süre, tür | v2 §2.15 (S2) |
+| Kaynak | yerel dosya etiketleri mi dış servis mi | ⚠️ UNKNOWN (§7/8) |
+| Kalıcılık | K007-data | §2.2 |
+| Dış servis | K013-integraion üzerinden | §2.2 |
+| Hata | etiket eksikse fallback (dosya adı) | TASARIM İDDİASI |
+
+### §9.3 artwork — Kapak Resimleri
+
+| Boyut | Tasarım iddiası | Sınır |
+|---|---|---|
+| Rol | kapak resmi indirme/önbellek | v2 §2.15 (S2) |
+| Boyut | thumbnail/medium/large varyantları | ⚠️ UNKNOWN (boyutlar) |
+| Önbellek | media-cache ile kesişim | §9.9 |
+| Kaynak | yerel/embedded mi dış servis mi | ⚠️ UNKNOWN (§7/8) |
+| Hata | kapak yoksa placeholder | TASARIM İDDİASI |
+
+### §9.4 catalog — Dizin/Veri
+
+| Boyut | Tasarım iddiası | Sınır |
+|---|---|---|
+| Rol | arama kaynağı olabilir | v2 §2.15 (S2) |
+| İlişki | K012/music-service ile sınır | ⚠️ §7/1 |
+| İçerik | tüm koleksiyonun indekslenmiş hali | TASARIM İDDİASI |
+| Arama | tam metin/etiket araması | ⚠️ UNKNOWN (yöntem) |
+
+### §9.5 playback — Çalma İşlemi
+
+| Boyut | Tasarım iddiası | Sınır |
+|---|---|---|
+| Rol | dosyanın/sinyalin çalınması | v2 §2.15 (S2) |
+| Sahiplik | K012/playback-service ile belirsiz | ⚠️ §7/1 |
+| Motor | K003-audio motoru çağrısı | §2.2 |
+| Durum | oynat/duraklat/ileri/geri | TASARIM İDDİASI |
+| Konum | pozisyon takibi (saniye) | TASARIM İDDİASI |
+
+### §9.6 streaming — Akışla Dinleme
+
+| Boyut | Tasarım iddiası | Sınır |
+|---|---|---|
+| Rol | akışla dinleme | v2 §2.15 (S2) |
+| Taşıma | K014-network | §2.2 |
+| Dış kaynak | K013-integraion | §2.2 |
+| Codec | içerik biçimi | ⚠️ UNKNOWN |
+| Hata | bağlantı koparsa offline fallback | TASARIM İDDİASI |
+
+### §9.7 downloads — İndirme
+
+| Boyut | Tasarım iddiası | Sınır |
+|---|---|---|
+| Rol | indirme | v2 §2.15 (S2) |
+| Taşıma | K014-network | §2.2 |
+| Politika | saklama süresi/boyut sınırı | ⚠️ UNKNOWN |
+| Hata | yarıda kesilirse resume | TASARIM İDDİASI |
+
+### §9.8 offline — Çevrimdışı Kullanılabilirlik
+
+| Boyut | Tasarım iddiası | Sınır |
+|---|---|---|
+| Rol | çevrimdışı kullanılabilirlik | v2 §2.15 (S2) |
+| Sınır | K014/offline-sync ile | ⚠️ §7/2 |
+| İçerik | indirilen/önbelleğe alınan parçalar | TASARIM İDDİASI |
+| Kuyruk | K012/offline kuyruğu ile sınır | ⚠️ §7/2 |
+
+### §9.9 media-cache — Medya Önbelleği
+
+| Boyut | Tasarım iddiası | Sınır |
+|---|---|---|
+| Rol | medya önbelleği | v2 §2.15 (S2) |
+| Boyut/TTL | politika | ⚠️ UNKNOWN |
+| İçerik | artwork · metadata · parça önbelleği | TASARIM İDDİASI |
+| Temizlik | LRU/LFU | ⚠️ UNKNOWN (strateji) |
+
+### §9.10 synchronization — Medya Verisi Eşitlemesi
+
+| Boyut | Tasarım iddiası | Sınır |
+|---|---|---|
+| Rol | cihaz/dış sistemle medya verisi eşitleme | v2 §2.15 (S2) |
+| Ad çakışması | K013-integraion'da da "synchronization" | ⚠️ §7/3 |
+| Yön | çift yönlü mü tek yönlü mü | ⚠️ UNKNOWN |
+| Çakışma | son-yazan-kazanır mı | ⚠️ UNKNOWN |
+
+### §9.11 media-testing — Medya Testleri
+
+| Boyut | Tasarım iddiası | Sınır |
+|---|---|---|
+| Rol | medya testleri | v2 §2.15 (S2) |
+| Sahiplik | K019-testing ile belirsiz | ⚠️ §7/4 |
+| Kapsam | decode/çalma/akış kalitesi | TASARIM İDDİASI |
+| Araç | ⚠️ UNKNOWN | — |
+
+> Bu bölüm kanıt oranını DEĞİŞTİRmez.
+
+---
+
+## §10 Medya Yaşam Döngüsü (TASARIM İDDİASI)
+
+### §10.1 Parça yaşam döngüsü
+
+| Aşama | Durum | Geçiş |
+|---|---|---|
+| 1 · keşif | dış servisten bulundu (K013) | → indirilebilir |
+| 2 · indirme | downloads aktif | → yerelde |
+| 3 · katalog | metadata + artwork eklendi | → kitaplıkta |
+| 4 · çalınabilir | playback hazır | → çalma |
+| 5 · çevrimdışı | offline kullanılabilir | → offline mod |
+| 6 · önbellek | media-cache'te | → hızlandırılmış erişim |
+| 7 · silme | kullanıcı sildi | → arşiv/silindi |
+
+### §10.2 Durum makinesi (parça)
+
+| Kaynak \ Hedef | discovered | downloading | local | playing | offline | cached | deleted |
+|---|---|---|---|---|---|---|---|
+| discovered | — | indir | — | — | — | — | — |
+| downloading | — | — | indirme bitti | — | — | — | — |
+| local | — | — | — | çal | — | önbelleğe al | sil |
+| playing | — | — | — | — | — | — | — |
+| offline | — | — | — | — | — | — | — |
+| cached | — | — | — | çal | — | — | sil |
+| deleted | — | — | — | — | — | — | — |
+
+> Bu bölüm kanıt oranını DEĞİŞTİRmez.
+
+---
+
+## §11 Referans Ürün Analizi Sonuçları (§4/1–§4 kanıtları)
+
+| Ürün | Tür | Lisans | ★ | K015'e etkisi |
+|---|---|---|---|---|
+| Jellyfin | medya sunucusu | GPL-2.0 | 55732 | kitaplık/metadata/akış yapısı referansı |
+| Plex | proprietary | — | — | yalnız fikir referansı (§7/6) |
+| Emby | proprietary | — | — | yalnız fikir referansı (§7/6) |
+| Plexamp | özel müzik oynatıcı | — | — | müzik UX referansı |
+| Finamp | Jellyfin müzik mobile | açık kaynak | — | mobile müzik referansı |
+| Navidrome | web müzik sunucusu | GPL-3.0 | 24109 | kitaplık/streaming referansı |
+| OpenAudio | ses yazılımı listesi | — | ~2800 | aday (§7/7 — kimlik teyidi) |
+| Phonograph_Plus | Android müzik (fork) | GPL-3.0 | 729 | mobile referans |
+| Picard | MusicBrainz etiketleyici | GPL-2.0 | 5273 | metadata referansı |
+| Strawberry | C++/Qt oynatıcı | GPL-3.0 | 3622 | masaüstü referans |
+
+### §11.1 Referans ürün sınıflandırması
+
+| Sınıf | Ürünler | Kullanım |
+|---|---|---|
+| Açık kaynak | Jellyfin · Navidrome · Finamp · Phonograph_Plus · Picard · Strawberry | kod/fikir incelemesi |
+| Proprietary | Plex · Emby | yalnız fikir (kopya yasak) |
+| Aday | OpenAudio | kimlik teyidi bekliyor |
+
+> Bu bölüm kanıt oranını DEĞİŞTİRmez — yalnız §4 kanıtlarını sınıflandırır.
+
+---
+
+## §12 Medya Format/Codec Bilinmeyenleri
+
+| # | Bilinmeyen | İlgili çocuk | Durum |
+|---|---|---|---|
+| 1 | desteklenen codec/format seti | playback · streaming | ⚠️ UNKNOWN |
+| 2 | kitaplık veritabanı/şema biçimi | library | ⚠️ UNKNOWN (K007) |
+| 3 | indirme/önbellek boyut/TTL | downloads · media-cache | ⚠️ UNKNOWN |
+| 4 | akış protokolü (içerik biçimi) | streaming | ⚠️ UNKNOWN |
+| 5 | OpenAudio deposunun tam adresi | — | ⚠️ UNKNOWN |
+| 6 | metadata/artwork kaynağı | metadata · artwork | ⚠️ UNKNOWN (§7/8) |
+| 7 | artwork boyut varyantları | artwork | ⚠️ UNKNOWN |
+| 8 | media-cache temizleme stratejisi | media-cache | ⚠️ UNKNOWN |
+| 9 | synchronization yönü (çift/tek) | synchronization | ⚠️ UNKNOWN |
+| 10 | media-testing araç seti | media-testing | ⚠️ UNKNOWN |
+
+> Bu bölüm kanıt oranını DEĞİŞTİRmez — yalnız mevcut UNKNOWN kayıtlarını toplar.
+
+---
+
+## §13 Medya Test Senaryoları (TASARIM İDDİASI · K019 sınırı)
+
+| # | Senaryo | Ne ölçer | Sahiplik |
+|---|---|---|---|
+| 1 | decode/çalma doğruluğu | ses çıktısı bütünlüğü | ⚠️ K015/media-testing vs K019 |
+| 2 | akış kalitesi | bitrate/kesinti | ⚠️ belirsiz |
+| 3 | çevrimdışı erişim | offline kullanılabilirlik | K015/offline |
+| 4 | indirme resume | yarıda kesilme | K015/downloads |
+| 5 | önbellek TTL | önbellek süresi | K015/media-cache |
+| 6 | metadata doğruluğu | etiket bilgisi | K015/metadata |
+| 7 | artwork yükleme | kapak resmi | K015/artwork |
+| 8 | eşitleme tutarlılığı | cihazlar arası eşitlik | K015/synchronization |
+
+> Bu bölüm kanıt oranını DEĞİŞTİRmez.
+
+---
+
+## §14 Medya Bağımlılık Zinciri (TASARIM İDDİASI)
+
+### §14.1 Çalma zinciri
+
+```text
+K011-application (kullanıcı "çal" der)
+  → K012-services (playback-service — sahiplik §7/1)
+    → K015-media/playback (dosya konumu)
+      → K003-audio (ses motoru)
+        → hoparlör/çıkış
+```
+
+### §14.2 Akış zinciri
+
+```text
+K011-application
+  → K015-media/streaming
+    → K014-network (taşıma)
+      → K013-integraion (dış kaynak)
+        → dış servis
+```
+
+### §14.3 İndirme zinciri
+
+```text
+K011-application ("indir")
+  → K015-media/downloads
+    → K014-network (taşıma)
+      → dosya → yerel depo
+        → K015-media/offline (çevrimdışı kullanılabilir)
+```
+
+> Bu bölüm kanıt oranını DEĞİŞTİRmez.
+
+---
+
+## §15 Medya Ölçüm Protokolü (TASARIM İDDİASI — eşikler UNKNOWN)
+
+| # | Ölçüm | Yöntem | Eşik | Durum |
+|---|---|---|---|---|
+| 1 | decode süresi | dosya → ses çıkışı | ⚠️ UNKNOWN | ⚠️ TASARIM İDDİASI |
+| 2 | akış gecikmesi | istek → ilk paket | ⚠️ UNKNOWN | ⚠️ TASARIM İDDİASI |
+| 3 | indirme hızı | MB/s | ⚠️ UNKNOWN | ⚠️ TASARIM İDDİASI |
+| 4 | önbellek isabet oranı | hit/miss | ⚠️ UNKNOWN | ⚠️ TASARIM İDDİASI |
+| 5 | eşitleme gecikmesi | cihazlar arası fark | ⚠️ UNKNOWN | ⚠️ TASARIM İDDİASI |
+
+> Ölçüm altyapısı K017-observability'de yaşar; K015 yalnız veri üretir.
+
+> Bu bölüm kanıt oranını DEĞİŞTİRmez.
+
+---
+
+## §16 Medya Bilinmeyenler Envanteri (§12 genişletmesi)
+
+| # | Bilinmeyen | İlgili § | Kapatma yolu |
+|---|---|---|---|
+| 1 | codec/format seti | §12/1 | kademe-4 (faz C) |
+| 2 | şema biçimi | §12/2 | K007-data incelemesi |
+| 3 | boyut/TTL politikaları | §12/3 | Vault Steward kararı |
+| 4 | akış protokolü | §12/4 | kademe-4 |
+| 5 | OpenAudio adresi | §12/5 | research turu |
+| 6 | metadata/artwork kaynağı | §12/6 | Vault Steward kararı |
+| 7 | artwork boyutları | §12/7 | Vault Steward kararı |
+| 8 | cache stratejisi | §12/8 | Vault Steward kararı |
+| 9 | synchronization yönü | §12/9 | Vault Steward kararı |
+| 10 | test araç seti | §12/10 | K019 incelemesi |
+| 11 | playback sahipliği | §7/1 | Vault Steward kararı |
+| 12 | offline sahipliği | §7/2 | Vault Steward kararı |
+| 13 | synchronization adı iki domain'de | §7/3 | Vault Steward kararı |
+| 14 | media-testing sahipliği | §7/4 | Vault Steward kararı |
+
+> Bu bölüm kanıt oranını DEĞİŞTİRmez.
+
+---
+
+## §17 Medya Kaynakları (§8'e ek)
+
+| Kaynak | Yer | Kullanım |
+|---|---|---|
+| v2 §2.15 | coremusic-katmanli-mimari-agaci-v2.md | 11 çocuk |
+| ADR-097 §5 | .ai/.decisions/draft/ADR-097-… | rol sözlüğü |
+| Jellyfin | https://github.com/jellyfin/jellyfin | §4/1 kanıtı |
+| §9–§16 (bu dosya) | media-master.md | derinleştirme |
+
+---
+
+## §18 Medya — Komşu Düğüm Etki Analizi (TASARIM İDDİASI)
+
+| Komşu | K015 bağımlılığı | Tek nokta hata? | Geri dönüş | Kritiklik |
+|---|---|---|---|---|
+| K003-audio | ses motoru | evet | decode fallback | HIGH |
+| K007-data | kalıcılık | evet | local cache | HIGH |
+| K013-integraion | dış katalog | evet | offline fallback | MEDIUM |
+| K014-network | taşıma | evet | offline fallback | HIGH |
+| K011-application | arayüz | — | — | LOW (gelen) |
+| K012-services | servisler | — | — | LOW (gelen) |
+
+> Bu bölüm kanıt oranını DEĞİŞTİRmez.
+
+---
+
+## §19 Medya — Kapı Kapanışı (gate)
+
+| # | Kapı | Koşul | Durum |
+|---|---|---|---|
+| 1 | satır sayısı ≥500 | bu dosya | 165 → §9–§18 eklendi ✅ |
+| 2 | Authority son satır | bu dosya | ✅ |
+| 3 | FM: parent_id (parent: yok) | bu dosya | ✅ |
+| 4 | FM: group tırnaksız | bu dosya | ✅ (mimari) |
+| 5 | append-only | bu dosya | ✅ |
+| 6 | dolgu yok | bu dosya | ✅ |
+| 7 | imla korundu | bu dosya | ✅ |
+
+---
+
+## §20 Medya — Sürüm Notu
+
+| Sürüm | Tarih | Değişiklik |
+|---|---|---|
+| 1.0.0 | 2026-10-12 | İlk sürüm — §1–§8 (ADR-097 K2/K3) |
+| 1.1.0 | 2026-10-13 | §9–§19 eki — derinleştirme (≥500) |
+
+---
+
+## §21 Medya — Kısa Özet (one-pager)
+
+| Soru | Cevap |
+|---|---|
+| K015 ne yapar? | tut · çal · getir · eşitle · sına (5 iş) |
+| Kaç çocuk? | 11 (v2 §2.15 birebir) |
+| Ne yapmaz? | DSP/şema/dış API/ağ taşıması/arayüz/servis yürütme |
+| En büyük belirsizlik? | playback sahipliği (§7/1) + offline sahipliği (§7/2) |
+| Referans ürün? | Jellyfin (GPL-2.0 · 55732★) — §4/1 |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

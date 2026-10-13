@@ -7,7 +7,9 @@ date: 2026-10-12
 version: 1.0.0
 etiket: "TASARIM İDDİASI — bu belge kanıt değil, onay gerektiren tasarım iddiasıdır"
 authority: "SSOT: v2 §2.13 + ADR-097 §5.2"
+group: mimari
 ---
+
 
 # K013-integraion — integraion-bagimliliklar.md
 

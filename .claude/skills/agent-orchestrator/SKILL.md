@@ -659,6 +659,4 @@ USER → ORCHESTRATOR → ARCHITECT | DEVELOPER | RESEARCHER
 - **VERIFY başarısızsa** görev, çıktısıyla birlikte **ORCHESTRATOR üzerinden** ilgili role (ARCHITECT/DEVELOPER/RESEARCHER) geri döner; döngü VERIFY pass edene kadar sürer.
 - Durum etiketleri: kanıtlanmamış fazlar **PLANNED** olarak etiketlenir — kanıtsız "IMPLEMENTED" yazılmaz.
 
-Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
-
 *CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

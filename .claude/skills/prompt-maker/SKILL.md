@@ -198,9 +198,6 @@ diyalektleri): `references/17-prompt-engineering-deep.md`.
   · `SELECT *` yasak · hardcoded credential yasak · `csrf_token` · ITCSS + `--cm-*`.
   Derinlik: `references/11-coremusic-deep-rules.md`.
 - **Modlar:** Red Team · Truth Mode · Human Mode aktif; bilinmeyen = UNKNOWN.
-
-**Anti-overthink: kök `AGENTS.md` §5 (MAX THINKING 7 madde) geçerlidir.**
-
 ---
 
 *Framework: PICCO (Persona, Instructions, Context, Constraints, Output) · Authority: Vault Steward / AI Orchestrator*

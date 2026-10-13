@@ -15,7 +15,9 @@ validation:
   - "dosya varlıkları glob ile doğrulandı 2026-10-12"
 open_questions:
   - "yok (bu tur için)"
+group: mimari
 ---
+
 
 # K016-AI/context
 
@@ -35,5 +37,15 @@ Bağlam mühendisliği: her oturumda ne okunur, boot paketi nasıl kurulur, cont
 | status | draft (kanıt durumu §frontmatter'da) |
 | Üreten pay | K-Space V3 Band-1 — A4 (2026-10-12) |
 | Domain kökü | [[index]] (K016-AI) · master: ai-master.md |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · 2026-10-12

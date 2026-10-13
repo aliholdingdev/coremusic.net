@@ -14,14 +14,7 @@ children:
   - integration-service
   - background-jobs
   - service-contracts
-depends_on:
-  - K006-yapay-zeka
-  - K007-data
-  - K008-domain
-  - K010-identitiy
-  - K013-integraion
-  - K014-network
-  - K015-media
+depends_on: [K006-yapay-zeka, K007-data, K008-domain, K010-identitiy, K013-integraion, K014-network, K015-media]
 evidence:
   - "v2 §2.12 K012-services/ — çocuk listesi kaynağı (10 çocuk, birebir)"
   - ".ai/architecture/index.md §5/12 — services-master.md adı kaydı"
@@ -34,6 +27,7 @@ open_questions:
   - "playback-service (K012) ile K015/playback sahipliği → ⚠️ VERIFICATION REQUIRED"
   - "service-contracts evrensel Playlist/Track spec'i mi? → TASARIM İDDİASI"
   - "background-jobs ile K018-devops/dağıtım sınırı → ⚠️ VERIFICATION REQUIRED"
+group: mimari
 ---
 
 # K012-services — Arka Plan Servisleri
@@ -47,8 +41,6 @@ kaydeder, zamanlanmış işleri koşar. Uygulama (K011) bunları çağırır; ve
 iş kuralı K008'de, dış dünya K013'te durur.
 
 ## 2. Çocuk kataloğu (kademe-2 — v2 §2.12 ile birebir)
-
-> ELI15 sütunu **TASARIM İDDİASI**'dır (isimden türetildi, kanıt değildir).
 
 | # | Çocuk | ELI15 rol (tasarım iddiası) | Durum |
 |---|---|---|---|
@@ -79,12 +71,25 @@ iş kuralı K008'de, dış dünya K013'te durur.
 
 ## 4. Durum & açık sorular
 
-- **Durum:** draft — kademe-3/4 genişletmesi ADR-097 K4 fazı (C) bekliyor.
-- Ayrıntı: services-bagimliliklar.md (§1–§5) · services-dogrulama.md (§1–§6).
+- **Durum:** draft — kademe-3/4 genişletmesi ADR-097 K4 fazı (C) bekliyor. Ayrıntı: services-bagimliliklar.md (§1–§5) · services-dogrulama.md (§1–§27) · services-riskler.md (§3) · services-ornekler.md (§3).
+- Kaynak: v2 §2.12 · .ai/architecture/index.md §5/12 · ADR-097 §5
 - Kısa liste:
   1. ai-service → K006 mı, K016 mı? → ⚠️ VERIFICATION REQUIRED (registry §6)
   2. playback-service ↔ K015/playback sahipliği → ⚠️ VERIFICATION REQUIRED
   3. service-contracts evrensel Playlist/Track spec'i mi? → TASARIM İDDİASI
   4. audio-service kapsamı (K003-audio ile sınır) → ⚠️ VERIFICATION REQUIRED
 
-**Kaynak:** v2 §2.12 · .ai/architecture/index.md §5/12 · ADR-097 §5
+## §GRUPLAR
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+| mimari | `services-bagimliliklar.md` | Katman bağı ve used_by haritası | Kademe-1 |
+| kanit | `services-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
+| mimari | `services-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |
+| mimari | `services-riskler.md` | Risk kaydı (R1–R8) ve azaltım planı | Kademe-1 |
+| kod | `services-ornekler.md` | Kanıt kartları (S1) ve pseudocode örnekler | Kademe-1 |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

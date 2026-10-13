@@ -80,6 +80,4 @@ Sabitler: `strict_types` · port 81 music/Control · 3001 download · 5000/6000 
 CSRF `csrf_token` (`_csrf_token` YASAK) · session timeout 3600s · rate limit APCu 60 req/60s ·
 auth = session-based (localStorage/sessionStorage auth YASAK).
 
-Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
-
 *CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

@@ -6,7 +6,9 @@ status: draft
 authority: "Derived — SSOT: v2 spec §2.19 + ADR-097 (draft)"
 updated: 2026-10-12
 version: 1.0.0
+group: mimari
 ---
+
 
 # K019-testing — testing-master.md
 

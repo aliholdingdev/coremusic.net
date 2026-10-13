@@ -16,7 +16,9 @@ validation:
 open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "Hangi metrik, hangi eşik, hangi veri seti? Tanımlanmadı → VERIFY REQUIRED (uydurma metrik/eşik YASAK)"
+group: mimari
 ---
+
 
 # K020-recomenataion/evaluation — Öneri Değerlendirmesi
 
@@ -33,5 +35,15 @@ open_questions:
 | Sonuç kaydı | `verification` mantığıyla append-only; tur kayıtları `K020-comilance/verification/` ile uyumlu |
 
 **Kapı:** metrik + eşik + veri tanımsızsa `status: verify-required` kalır.
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward

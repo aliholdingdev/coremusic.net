@@ -189,7 +189,6 @@ CoreMusic'te AI ajanları **Skill Usage Mandate** ile çalışır. Mandate özet
 2. **Yaşam döngüsü (15 aşama):** Understand → Discover → Research → Verify → Resolve Context → Analyze → Architect → Plan → Implement → Track → Test → Review → Secure → Verify → Document — analiz tamamlanmadan implementation başlatılmaz.
 3. **Zero-Hallucination:** repository/URL/API/class/method/dependency/version/config/skill/agent/dosya/mimari kural/benchmark/güvenlik iddiası asla uydurulmaz; doğrulanamayan = `⚠️ VERIFICATION REQUIRED`, bilinmeyen = `UNKNOWN`.
 4. **Final rule:** Understand → Research → Resolve → Decide → Implement → Track → Verify — riskli işlemede dur, onaysız büyük source-code değişikliği yok.
-5. **MAX THINKING (anti-overthink):** [`AGENTS.md`](AGENTS.md) §5 — 7 madde; skill dosyalarında kısaltılmış 5 madde.
 6. **Skill Usage Mandate:** her görev başında [`CLAUDE.md`](CLAUDE.md) §Skill Registry + available-skills taranır; eşleşen skill varsa **ilk işlem** Skill tool ile yüklemektir (Skill Usage Mandate §2 — madde 5'teki "gereksiz skill üretme" yasağıyla çelişmez).
 
 ## Harici Kaynaklar (Harici Linkler — kurulu skill değildir, indirme kaynağıdır)

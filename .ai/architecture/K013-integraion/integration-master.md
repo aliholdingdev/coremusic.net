@@ -10,7 +10,9 @@ node_id: K013-integraion
 role: master
 authority: "SSOT: v2 §2.13 + .ai/architecture/index.md §5/13"
 related: ["integraion-bagimliliklar.md", "integraion-dogrulama.md", "index.md"]
+group: mimari
 ---
+
 
 # K013-integraion — integration-master.md
 

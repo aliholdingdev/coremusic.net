@@ -9,6 +9,8 @@ updated: 2026-10-12
 status: verify-required
 version: 0.0.0
 authority: "v2 §2.20 + §3 KURAL 3 — tahmin yasak"
+group: kanit
 ---
+
 
 # ⚠️ VERIFICATION REQUIRED — kapsam tanımı yok; tahmin yasak

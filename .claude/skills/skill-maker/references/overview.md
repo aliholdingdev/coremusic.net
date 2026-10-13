@@ -29,7 +29,6 @@ Sadece `name` + `description` yüklenir. AI, kullanıcının isteğiyle skill'in
 ├── scripts/                    ← Otonom yürütülecek scriptler (opsiyonel)
 └── templates/                  ← Kod üretim şablonları (opsiyonel)
 
-NOT: Hiçbir katmanda CLAUDE.md sidecar YASAK (v3.0 N8); MAX THINKING bloğu kopyalanmaz (N7).
 ```
 
 ## 3. Otonom Yaşam Döngüsü (Agentic Lifecycle)

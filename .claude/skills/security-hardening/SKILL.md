@@ -69,8 +69,6 @@ tanımlar. Kaynak: `.ai/CLAUDE.md` §6/§7/§21/§23 + ADR-010/011/012/013/022.
 - **Zero Hallucination:** repository/class/ADR/satır kanıtsız yazılmaz → `⚠️ VERIFICATION REQUIRED`.
 - **Secret yasak:** API key/token/şifre hiçbir skill dosyasına hardcode edilmez (`.env`/vault —
   ADR-015; REDACTED).
-- **Yıkıcı komut / prod değişikliği** (sıra değişikliği, bypass genişletme, deploy) kullanıcı
-  onayına bağlıdır (Guardrail #14). 3 ardışık başarısız düzeltme → DUR + 1 soru (MAX THINKING #5).
 - **H001 Reddi:** mimariye ters/güvensiz yapı (async-scope, `_csrf_token`, `unsafe-inline`,
   fail-open genişletme) reddedilir ve kullanıcı uyarılır.
 
@@ -90,7 +88,5 @@ tanımlar. Kaynak: `.ai/CLAUDE.md` §6/§7/§21/§23 + ADR-010/011/012/013/022.
 
 SSOT çelişkisi → DUR + kullanıcıya sor (Guardrail #12). Vault çelişirse öncelik:
 `.ai/CLAUDE.md > .ai/AGENTS.md > .ai/WORKFLOW.md` (CLAUDE §2.1).
-
-Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
-
+S
 *CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

@@ -13,6 +13,7 @@ evidence:
 validation: "draft — A1 tur-1; D-kriterleri K003-audio/audio-dogrulama.md §2"
 open_questions:
   - "log formatı/seviyesi standardı yok ⚠️"
+group: mimari
 ---
 
 # K003-audio/diagnostics — ELI15
@@ -32,5 +33,18 @@ Sorun çıktığında ne olduğunu gösteren düğüm: log kayıtları, ölçüm
 | children | yok (yaprak) |
 | status | draft |
 | Kapsam | Tanım bekliyor — kanıt turu-2 |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `diagnostics-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| kod | `diagnostics-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-2 |
+| kanit | `diagnostics-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · 2026-10-12

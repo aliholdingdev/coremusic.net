@@ -105,9 +105,7 @@ Sonuclari kontrol et:
 | [examples/session-close-sync.md](examples/session-close-sync.md) | Session kapanisi: 12 root .md touchpoint + .claude/.opencode sync + log.md append satiri (girdi → çıktı tam döngü) |
 
 > Birleştirme notu (2026-10-07): `.opencode/skills/vault-sync-post/SKILL.md` ile içerik
-> karşılaştırıldı — tek fark üstteki MAX THINKING bloğuydu (v3.0 formatında tek satıra
 > indirildi); benzersiz başka içerik yok.
 
-Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
 
 *CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

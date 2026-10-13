@@ -32,7 +32,9 @@ open_questions:
   - "synchronization (K015) ile K013/synchronization ve K014/offline-sync sınırı → ⚠️ VERIFICATION REQUIRED"
   - "Referans ürünler (Plexamp · Finamp · Navidrome) kapsam kararı etkiler mi → onay bekliyor"
   - "media-testing ile K019-testing kapsam sınırı → ⚠️ VERIFICATION REQUIRED"
+group: mimari
 ---
+
 
 # K015-media — Şarkı Dosyaları Dünyası
 
@@ -84,3 +86,15 @@ Ses sinyalinin **işlenmesi** K003-audio/K004-dsp'dir; burası dosya ve akışt�
   4. Jellyfin/Plex/Emby kanıtları referans analizi mi, karar mı → onay bekliyor
 
 **Kaynak:** v2 §2.15 · .ai/architecture/index.md §5/15 · ADR-097 §5
+
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+| mimari | `media-bagimliliklar.md` | Katman bağı ve used_by haritası | Kademe-1 |
+| kanit | `media-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
+| mimari | `media-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |

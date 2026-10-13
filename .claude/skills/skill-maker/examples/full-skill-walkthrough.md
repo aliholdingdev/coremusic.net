@@ -103,8 +103,6 @@ metadata:
 - **Test-gate:** testi olmayan değişiklik = tamamlanmış değil.
 - **Truth Mode:** teyitsiz iddia → `⚠️ VERIFICATION REQUIRED`; credential kodda YASAK.
 
-Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
-
 *CoreMusic Skill v3.0 — metadata.version: 1.0.0 — Updated: 2026-10-07*
 ```
 
@@ -132,7 +130,6 @@ Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
 [x] Frontmatter kökü: name/description/license/metadata (N1) · description "Use when"+
     Türkçe tetikleyiciler ≤1024 (N2)
 [x] SKILL.md satır hedefi ≤250 (N3) · klasör=name 1:1 (N6)
-[x] MAX THINKING bloğu yok → tek satır anti-overthink (N7)
 [x] CLAUDE.md sidecar yok (N8) · footer metadata.version ile (N9)
 [x] Registry notu: .claude/CONTEXT.md envantere eklenecek (raporda)
 ```

@@ -15,7 +15,9 @@ validation:
 open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "Her kontrolün son denetim tarihi ve sonucu YOK → tüm satırlar denetlenmedi"
+group: mimari
 ---
+
 
 # K020-comilance/controls — Kontrol Haritası
 
@@ -47,3 +49,12 @@ open_questions:
 | DevOps | CI/CD ≥%95 · GitLeaks temiz | `⚠️ VERIFY REQUIRED` |
 
 **Durum:** harita iskeleti · `children: []` · sonuç satırları `verification/`a yazılır.
+
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |

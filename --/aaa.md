@@ -16,7 +16,6 @@ governance: Red Team · Human Mode · Truth Mode
 # Home Page Whole-Page Rebuild — Senaryo Prompt (1024 / 1920 / çok çözünürlük doğrulama)
 
 > **UZMAN ATAMASI:** Senior Frontend Developer / UI Designer (A3). Orkestratör dispatch eder, kodu uzman yazar.
-> **MAX THINKING: 5000 token.** Kısa düşün · öz yaz · uzun plan kompozisyonu YASAK. 3 başarısız düzeltme → DUR, 1 kısa soru sor.
 > **NE ZAMAN OKUNUR:** Ana Sayfa'nın header, footer (player bar) ve Player Info **dışındaki** tüm bileşenleri
 > Figma mockup'ına göre yeniden yazılırken / düzeltilirken.
 > **NOT:** Vault'a (`.ai/ui-design/prompt/`) taşınırsa bu dosya Kalıp C'ye katlanır.
@@ -247,7 +246,6 @@ Track btn / Playlist btn: etiket + tıklama eylemi + state'ler PNG/Figma ile bir
   "states": ["default", "hover", "focus-visible", "active", "loading"],
   "tokens": ["--cm-card", "--cm-btn", "--cm-widget-grid", "--cm-welcome-banner", "--cm-progress", "--color-primary"],
   "constraints": [
-    "Max thinking 5000 token — kısa düşün, öz çıktı",
     "1024 ve 1920 asla karıştırılmaz; her breakpoint kendi mockup'ıyla ölçülür",
     "Vanilla JS ES6+ (ADR-001); ITCSS korunur; BEM; innerHTML yasak; inline style/script yasak (ADR-012)",
     "CSS yalnız assets.coremusic.net/Css/; YENİ DOSYA YOK — mevcut satırlarda edit",
@@ -304,7 +302,7 @@ NOT: Kullanıcı sinyali olmadan push/pull/deploy ATLANMAZ.
 ## Dispatch (orkestratör → uzman, birebir)
 
 ```text
-SEVİYE: Senior Frontend Developer (UI Designer, A3). Max thinking 5000 token. Kısa oku, kısa düşün, edit et.
+SEVİYE: Senior Frontend Developer (UI Designer, A3).
 ÖNCE: aaa.md → Senaryo + Required Inputs + 3 PNG oku. Okunamazsa DUR.
 
 GÖREV: Ana Sayfa'yı (header/footer/player-info DIŞINDAKI her şey) 1024 ve 1920'de mockup'a birebir yap.

@@ -58,16 +58,6 @@ duplicate abstraction'lar, teknik borç.
 **Faz 1 (keşif fazı) — onaysız YOK:**
 kod değişikliği · yeni dosya · yeni klasör · yeni bağımlılık · büyük yapısal değişiklik.
 
-## 5. Anti-Overthink / Anti-Waste (MAX THINKING)
-
-1. Aynı dosya bir görevde 2. kez okunmaz — ilk okumadan sonra KARAR VER.
-2. İhtiyaç yoksa vault/context yüklenmez; eşleşen skill'i yüklemek ise zorunludur (Skill Usage Mandate).
-3. Nokta-atışı talimatta plan kompozisyonu ve agent spawn YOK — doğrudan uygula.
-4. Talimat açıksa mikro-soru sorulmaz.
-5. Art arda 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-6. Reasoning = LOW; uzun analiz paragrafı, promptu geri anlatma, tekrarlı doğrulama yasak; bu, eşleşen skill'i yüklemeyi engellemez.
-7. Bilinmeyen = UNKNOWN; tahmin yok. Görev manifestinde listelenmeyen dosya/klasör/agent/context/plan ÜRETME yasaktır; manifestteki dosyalar görevin kendisidir ve zorunludur (üretimleri ayrıca engellenemez). Gereksiz skill ÜRETME de yasaktır (kullanma zorunlu — bkz. kök CLAUDE.md §Skill Usage Mandate).
-
 ## 6. Multi-Agent Swarm
 
 ```text

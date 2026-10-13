@@ -6,6 +6,18 @@ date: 2026-10-12
 updated: 2026-10-12
 status: active
 version: 1.0.0
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+
+group: mimari
+---
+
 authority: "İki seri kasıtlı ayrıdır — ADR-026 §3.4 (bkz. .ai/.templates/adr/adr-nygard-template.md §1)"
 ---
 

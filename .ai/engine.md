@@ -23,20 +23,6 @@ depends-on: [".ai/AGENTS.md"]
 
 **Skills:** `.opencode/skills/` (8 aktif skill — Guardrail #16 zorunlu)
 
----
-
-## 0. MAX THINKING — Anti-Overthink (7 madde — 2026-10-01)
-
-1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
-2. Uzun analiz paragrafı, promptu geri anlatma, plan kompozisyonu YASAK. Nokta atışı cevap → hemen uygula.
-3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER. Aynı veriyi "emin olmak" için ikinci kez analiz etme.
-4. Session başlangıcı = anında boot (okuma listesi) → sonra işlem. Keşif önsözü yok.
-5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-6. Bilinmeyen = UNKNOWN; tahmin yok. Görev manifestinde listelenmeyen dosya/klasör/skill/agent/context/plan üretimi yasak; manifestteki dosyalar görevin kendisidir ve zorunludur.
-7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
-
-*İlgili: [[AGENTS.md]] § MAX THINKING · [[ULTRA-THINKING.md]] § MAX THINKING · §14 Master Engineering System (Pointer).*
-
 ## 1. Amaç
 
 Bu dosya, CoreMusic orkestrasyon motorunun indeksidir. CoreMusic ekosisteminin 11 uzmanlık alanındaki AI ajanlarının (ses analizi, donanım optimizasyonu, bilgi bankası/RAG, prompt üretimi vb.) koordinasyonunu ve görev dağıtımını yönetir.
@@ -670,7 +656,6 @@ SSOT dedup — bu dosya içeriği tekrar yazmaz:
 |:---|:---|
 | 16 adımlık yaşam döngüsü · 10 yasak · Zero-Hallucination · final rule | [[../CLAUDE.md]] § Master Engineering System |
 | Diyagramlar D1/D2/D3 · Prompt Maker akışı · boot akışı (START → END) | [[WORKFLOW.md]] §8.9-§8.10 |
-| Anti-overthink bütçesi (MAX THINKING) | [[ULTRA-THINKING.md]] § MAX THINKING |
 
 ---
 

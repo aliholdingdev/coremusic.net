@@ -14,7 +14,9 @@ validation:
 open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "Mimari seri için adr-nygard şablonunun kopyası mı kullanılacak, ayrı şablon mu yazılacak? → VERIFY REQUIRED"
+group: mimari
 ---
+
 
 # K020-adr/templates — Şablon Kataloğu İskeleti
 
@@ -39,5 +41,15 @@ open_questions:
 - `node_type: subdomain` · `children: []` (v2 §2.20 `templates/` altında alt liste yok).
 - **Eksik:** mimari seri için ayrı şablon tanımı → `⚠️ VERIFY REQUIRED` (ADR-026 §3.4 ayrı seri).
 - Bu katalog yeni şablon **üretmez**; ek istek onay sonrası Guardrail #16 ile yapılır.
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward

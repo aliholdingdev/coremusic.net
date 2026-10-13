@@ -55,6 +55,4 @@ Bu skill ne zaman yüklenir (trigger tablosu):
 - **Vault uyumu:** `.ai/` kurallarıyla (CLAUDE §7, AGENTS §5) çelişilemez → DUR + sor.
 - {DOMAIN_KURALLARI_ORNEGİ: strict_types=1 · raw PDO (ADR-002) · SELECT * yasak · OWASP}
 
-Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
-
 *CoreMusic Skill v3.0 — metadata.version: 1.0.0 — Updated: {YYYY-MM-DD}*

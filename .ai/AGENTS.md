@@ -23,10 +23,6 @@ depends-on: [".ai/CLAUDE.md"]
 
 ---
 
-## MAX THINKING — Anti-Overthink (2026-10-01)
-
-> **SSOT (One Definition → Multiple References):** 7 maddelik tam metin [[CLAUDE.md]] § MAX THINKING'dedir; bu dosyada tekrar edilmez (Vault Refactor Engine 2026-10-06). Kök metin: kök `AGENTS.md` §5 · ayrıntı: [[ULTRA-THINKING.md]] § MAX THINKING. Çelişkide CLAUDE.md'deki bütçe kazanır.
-
 ## Kısayol Akış Diyagramı & Yaşam Döngüsü (2026-10-01)
 
 **D1 — Knowledge Flow:**

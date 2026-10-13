@@ -13,6 +13,7 @@ open_questions:
   - "Rol tanımı v2'de yok → ⚠️ VERIFICATION REQUIRED"
   - "Kademe-3 (bounded-context) yapısı tanımlı değil → ADR-097 K4"
   - "depends_on boş: bu kademe için kanıtlanmış bağımlılık yok"
+group: mimari
 ---
 
 # personalization — K006-yapay-zeka (kademe-2)
@@ -45,3 +46,22 @@ Tahminle dolgu **yapılmaz**.
 | Rol tanımı var mı? | ❌ yok → VERIFY REQUIRED |
 | Kademe-3 planı | ⏳ ADR-097 K4 |
 | status | draft |
+
+## İlişkili dosyalar
+
+- [[personalization-kapsam]]
+- [[personalization-dogrulama]]
+- [[personalization-ornekler]]
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan group**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Kademe-2 kayıt ve durum künyesi | Kademe-2 |
+| mimari | `personalization-bilesenler.md` | Bileşen envanteri ve boşluk sayımı | Kademe-2 |
+| mimari | `personalization-kapsam.md` | Alt alan kapsam sınırı ve hariçler | Kademe-2 |
+| kod | `personalization-ornekler.md` | Gerçek repo kod örnekleri ve satırlar | Kademe-2 |
+| kanit | `personalization-dogrulama.md` | İddia·kaynak·tarih·durum kanıt satırları | Kademe-2 |
+| kanit | `personalization-web-arastirma.md` | Resmi kaynak taraması ve çelişki kaydı | Kademe-2 |

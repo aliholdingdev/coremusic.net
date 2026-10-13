@@ -15,7 +15,9 @@ validation:
 open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "Tur-2 henüz çalıştırılmadı → bu dizindeki tur satırları eksik"
+group: mimari
 ---
+
 
 # K020-comilance/verification — Doğrulama Turu Kayıtları
 
@@ -39,5 +41,15 @@ open_questions:
 - **durum** değerleri: `geçti` · `kaldı` · `VERIFY REQUIRED`
 - Kanıtsız sonuç **yazılmaz**; doğrulanamayan iddia `⚠️` ile işaretlenir
   (kök AGENTS.md §3 Zero-Hallucination).
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward

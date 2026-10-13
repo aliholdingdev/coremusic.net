@@ -1,47 +1,87 @@
 ---
-node_id: security-testing
+node_id: K009-security/security-testing
 node_type: subdomain
 status: draft
 parent_id: K009-security
-children: []
-depends_on: []
+children:
+  - security-testing-index
+  - security-testing-anayasa
+  - security-testing-surucu
+  - security-testing-ornekler
+depends_on:
+  - K009-security/authentication
+  - K009-security/input-validation
+  - K018-devops
 evidence:
-  - "v2 §2.9 mini-ağaç — coremusic-katmanli-mimari-agaci-v2.md satır 328"
+  - "v2 §2.9 satır 328 (ad) — `.github/workflows/ci.yml` · `secret-scan.yml`"
+  - "shared/src/Exception/RateLimitException.php · AuthenticationException.php (test hedefi)"
 validation:
-  - "2026-10-12 — v2 mini-ağaç satır 328 ile karşılaştırıldı: ad birebir"
+  - "2026-10-13 — frontmatter 9 alan + group, `parent:` yok, index 40–100 satır"
+  - "2026-10-13 — URL tablosu HTTP 200, envanter kesişimi 0"
 open_questions:
-  - "Rol tanımı v2'de yok → ⚠️ VERIFICATION REQUIRED"
-  - "Kademe-3 (bounded-context) yapısı tanımlı değil → ADR-097 K4"
-  - "depends_on boş: bu kademe için kanıtlanmış bağımlılık yok"
+  - "SAST/DAST aracı seçimi ve CI gate'i kanıtlanmadı ⚠️ VERIFICATION REQUIRED"
+  - "Güvenlik testi kapsam yüzdesi ölçülmüyor ⚠️ VERIFICATION REQUIRED"
+group: mimari
 ---
 
-# security-testing — K009-security (kademe-2)
+# K009 · çocuk · security-testing (Güvenlik Testi ve Doğrulama)
 
-| Alan | Değer |
-|---|---|
-| node_id | security-testing |
-| node_type | subdomain |
-| parent_id | K009-security |
-| Kaynak | v2 §2.9 (satır 328) |
-| Durum | draft |
+> **Kural:** "güvenli" iddiası test edilmeden yazılmaz — kanıtsız iddia `⚠️ VERIFICATION REQUIRED` kalır.
 
-## Ne işe yarar?
+## §1 ROL (ELI10)
 
-v2 bu alt konuya **yalnızca ad verir** — tanım yok → `⚠️ VERIFICATION REQUIRED».
-Ad, kademe-3 tasarımında başlangıç noktasıdır; resmi kapsam ADR-097 K4'te kilitlenir.
-Tahminle dolgu **yapılmaz**.
+| Katman | Ne ölçer | Çıktı |
+|---|---|---|
+| Unit | tek bir koruma kuralı (ör. fail-closed) | PASS / FAIL |
+| Integration | middleware zinciri sırası | PIPELINE-OK |
+| Contract | reddedilen yanıt kodu sözleşmesi | 401/403/429 |
+| Tarama | secret scanning (gitleaks) | CI gate |
+| Dinamik | OWASP WSTG senaryoları | bulgu listesi |
+| Regresyon | bilinen açık tekrar açılıyor mu | gate |
 
-## Bağımlılık
+## §2 KAPSAM ÖZETİ
 
-- Üst düğüm künyesi: `../index.md»
-- Üst düğüm bağımlılıkları: `../security-bagimliliklar.md»
-- Bu düğüm: `children: []» (v2 daha derin göstermiyor).
+| Kalem | Durum | Kanıt tipi |
+|---|---|---|
+| CI workflow (`ci.yml`) | var | workflow dosyası |
+| Secret scanning (`secret-scan.yml`) | var | workflow dosyası |
+| Test stratejisi dokümanı | var | `security-test-stratejisi.md` |
+| SAST/DAST aracı | yok | ⚠️ VERIFICATION REQUIRED |
+| Dependency vulnerability taraması | yok | ⚠️ VERIFICATION REQUIRED |
+| OWASP WSTG senaryosu uygulaması | yok | ⚠️ VERIFICATION REQUIRED |
+| Ölçülen kapsam yüzdesi | yok | ⚠️ VERIFICATION REQUIRED |
 
-## Durum
+## §3 DOSYA HARİTASI
 
-| Ölçüt | Sonuç |
-|---|---|
-| v2'de adı geçiyor mu? | ✅ evet (satır 328) |
-| Rol tanımı var mı? | ❌ yok → VERIFY REQUIRED |
-| Kademe-3 planı | ⏳ ADR-097 K4 |
-| status | draft |
+| Dosya | group | Hedef | İçerik |
+|---|---|---|---|
+| `security-testing/index.md` | mimari | 40–100 | bu künye |
+| `security-testing/security-testing-anayasa.md` | mimari | ≥500 | test kapısı ve red kriterleri |
+| `security-testing/security-testing-surucu.md` | mimari | ≥500 | test akışı, gate zinciri |
+| `security-testing/security-testing-ornekler.md` | kod | ≥500 | gerçek test/CI alıntıları |
+
+## §4 SINIR — KAPSAM DIŞI
+
+| Konu | Sahibi | Bu çocukta |
+|---|---|---|
+| Kimlik deposu test çiftleri (MFA, credentials) | `K010-identitiy` | Yalnız sınır referansı |
+| OS/firmware penetrasyon testi | `K000-isletim-sistemi/security` | Yalnız sınır referansı |
+| Uygulama işlevsel testi | `K011-application` | Yalnız güvenlik alt kümesi |
+
+## §5 BAĞLANTILAR
+
+| Bağ | Yön | Not |
+|---|---|---|
+| tüm K009 çocukları | hedef | doğrulanan yüzey |
+| `K018-devops` | sonrası | CI gate, deploy kapısı |
+| `audit` | öncesi | test olayları kayda geçer |
+| `policies` | öncesi | politika uyum testi |
+
+| İddia | URL | 2026-10-13 | Durum |
+|---|---|---|---|
+| OWASP Web Security Testing Guide test senaryoları | https://owasp.org/projects/web-security-testing-guide | 2026-10-13 | HTTP 200 |
+| ZAP dinamik test aracı resmi dokümanı | https://www.zaproxy.org/docs/ | 2026-10-13 | HTTP 200 |
+| SSDF uygulama güvenliği doğrulama adımları NIST 800-218 | https://csrc.nist.gov/pubs/sp/800/218/final | 2026-10-13 | HTTP 200 |
+| Olay sonrası doğrulama NIST 800-61 r3 | https://csrc.nist.gov/pubs/sp/800/61/r3/final | 2026-10-13 | HTTP 200 |
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

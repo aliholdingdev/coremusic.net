@@ -94,20 +94,6 @@ Proje dışı **~340 üçüncü-parti global skill** grubu (dotnet, dx-blazor, s
 
 ---
 
-## MAX THINKING — Anti-Overthink (7 madde)
-
-1. Varsayılan reasoning = LOW (opencode.json: reasoningEffort "low"). "high/deep" SADECE kullanıcı açıkça isterse.
-2. Uzun analiz paragrafı, promptu geri anlatma, plan kompozisyonu YASAK. Nokta atışı cevap → hemen uygula; bu, eşleşen skill'i yüklemeyi engellemez.
-3. Her dosya 1 kez okunur; ilk okumadan sonra KARAR VER. Aynı veriyi "emin olmak" için ikinci kez analiz etme.
-4. Session başlangıcı = anında boot (okuma listesi) → sonra işlem. Keşif önsözü yok.
-5. Arka arkaya 3 başarısız düzeltme → DUR, şüpheli varsayımı söyle, 1 kısa soru sor.
-6. Bilinmeyen = UNKNOWN; tahmin yok. Görev manifestinde listelenmeyen dosya/klasör/agent/context/plan üretimi yasak; manifestteki dosyalar görevin kendisidir ve zorunludur. Gereksiz skill ÜRETME yasaktır (kullanma zorunlu — bkz. §Skill Usage Mandate).
-7. Output kısa ve aksiyon odaklı: ne değişti → hangi dosya → sonraki adım. Maks 5 madde.
-
-*SSOT detayları: [[AGENTS.md]] §5 · süreç: [[.ai/WORKFLOW.md]] §8.9-§8.10 · tam metin bütçesi: [[.ai/ULTRA-THINKING.md]] § MAX THINKING · FULL anayasa: [[.ai/CLAUDE.md]]*
-
----
-
 ## 🔗 Bağlantılar (Bu dosyanın ilişkileri)
 
 | Bu Dosya (Root) | .ai/ SSOT | Açıklama |

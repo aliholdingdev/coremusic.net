@@ -17,7 +17,9 @@ open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "Harici servis entegrasyonu CoreMusic kapsamına giriyor mu? Proje tanımında yok → VERIFY REQUIRED"
   - "PKCE/JWT akışları mevcut auth altyapısıyla (ADR-095 hybrid JWT) nasıl birleşir? Tasarım yok"
+group: mimari
 ---
+
 
 # K020-discovery/agent — Servis Ajanı Entegrasyon Notları
 
@@ -43,5 +45,15 @@ sorununun notLANDığı yerdir. Henüz **tasarım/kod yok** — yalnız keşif k
 
 - `node_type: subdomain` · `children: []` · `status: draft`.
 - **Kapı:** entegrasyon kodu yalnız onay sonrası yazılır; bu sayfa keşif **notu** taşır.
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward

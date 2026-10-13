@@ -14,7 +14,9 @@ validation:
 open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "Kişisel profil hangi veriden tutulacak, KVKK kapsamı ne? → VERIFY REQUIRED (K020-comilance açık sorusu)"
+group: mimari
 ---
+
 
 # K020-recomenataion/personalization — Kişiselleştirme Alt Bölgesi
 
@@ -30,5 +32,15 @@ open_questions:
 | Varsayılan davranış | profil yoksa **kişiselleştirme yok** (fail-safe) — süreç kuralı |
 
 **Kapı:** veri kaynağı ve gizlilik kapsamı onaylanmadan profil şeması yazılmaz.
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward

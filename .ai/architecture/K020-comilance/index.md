@@ -21,7 +21,9 @@ open_questions:
   - "⚠️ ID CONFLICT: 6 klasör K020 önekinde paylaşır (adr/comilance/comere/licence/discovery/recomenataion) — ADR-097 §6 · v2 §3.1"
   - "Uyum kapsamı: KVKK / GDPR / ISO 27001 hangisi geçerli? — tanımlı değil → VERIFY REQUIRED (tahmin yasak)"
   - "'comilance' yazımı kaynağa sadık korunur; 'compliance' olarak düzeltilmez (v2 §3 KURAL 1)"
+group: mimari
 ---
+
 
 # K020-comilance — Uyum (Compliance) Rafı
 
@@ -54,5 +56,16 @@ yerde yazılır (politikalar, kod kuralları); burada "şu tarihte kontrol ettik
 | `[[controls/index]]` | OWASP Top 10:2025 haritası (A01–A10) |
 | `[[../K020-licence/index]]` | Bağımlılık lisans uyumu (farklı alan — burada değil) |
 | `@.ai/CLAUDE.md` §6 · `@.ai/AGENTS.md` §16 | Vault LINT + kalite standartları |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+| mimari | `compliance-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

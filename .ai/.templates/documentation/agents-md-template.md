@@ -102,7 +102,6 @@ Skill Registry SSOT: kök `CLAUDE.md` §Skill Registry.
 | §2 Otonom Yaşam Döngüsü | `Understand → … → Document` zinciri (adım sayısı doğrulanır — uydurulmaz) | ✅ |
 | §3 Zero-Hallucination | 4 madde: uydurma yasağı · UNKNOWN/VERIFICATION · disk kanıtı · web < vault | ✅ |
 | §4 Kod Öncesi Kural | Keşif listesi + "onaysız YOK" satırları | ✅ |
-| §5 Anti-Overthink | MAX THINKING maddeleri ( kök `CLAUDE.md` §MAX THINKING'e referans) | ✅ |
 | §7 Execution Loop | 0. SKILL EŞLEŞMESİ → 9. Commit numaralı adım listesi | ✅ |
 | §9 On-Demand Vault Referansları | İhtiyaç → `@dosya` tablosu (yalnız ihtiyaç anında) | ✅ |
 | §14 Özet (1 Satır) | "Bu dosya kök pointer → SSOT'a yönlendirir" | ✅ |

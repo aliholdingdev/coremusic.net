@@ -23,6 +23,7 @@ open_questions:
   - "TPA3255 PVDD aralığı: görev iddiası 24–52 V, TI datasheet 18–53.5 V → ⚠️ VERIFICATION REQUIRED"
   - "donanım-kernel ile donanım-core sınırı v2'de tanımsız → ⚠️ VERIFICATION REQUIRED"
   - "donanaım-type yazımı kaynaktan birebir korunmuştur (düzeltme YASAK) — bilgi notudur"
+group: mimari
 ---
 
 # K001-donanım — Kayıt
@@ -63,3 +64,27 @@ open_questions:
 | Bloklayan açık soru | PVDD aralığı · core/kernel sınırı · K002 GAP (hepsi ⚠️) |
 
 **Doğrulama kapısı:** donanım-dogrulama.md §2 ölçütlerinin tamamı → status: verified.
+
+---
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `donanım-anayasa.md` | Anasözleşme ve bağlayıcı mimari kurallar | Kademe-1 |
+| mimari | `donanım-bagimliliklar.md` | Katman bağı ve used_by haritası | Kademe-1 |
+| mimari | `donanım-evrensel-dil.md` | TR↔EN terim karşılık sözlüğü | Kademe-1 |
+| mimari | `donanım-kararlar.md` | Karar, alternatif ve gerekçe kaydı | Kademe-1 |
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
+| kod | `donanım-kod-ornekleri.md` | Gerçek repo kodu, dosya ve satır | Kademe-1 |
+| kod | `donanım-test-stratejisi.md` | Test kapsamı ve kabul kriterleri | Kademe-1 |
+| kanit | `donanım-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
+| kanit | `donanım-riskler.md` | Risk, etki, olasılık ve azaltım planı | Kademe-1 |
+| kanit | `donanım-web-arastirma.md` | Sistemli resmi kaynak tarama kaydı | Kademe-1 |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+

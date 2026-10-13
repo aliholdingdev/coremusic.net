@@ -14,7 +14,9 @@ related:
   - "personalization/index.md"
   - "evaluation/index.md"
   - "../K020-discovery/index.md"
+group: mimari
 ---
+
 
 # K020-recomenataion — Recommendation Master
 

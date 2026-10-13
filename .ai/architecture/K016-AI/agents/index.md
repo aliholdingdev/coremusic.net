@@ -1,21 +1,27 @@
 ---
-title: "K016-AI/agents — Subdomain Kaydı"
 node_id: K016-AI/agents
 node_type: subdomain
 status: draft
 parent_id: K016-AI
-children: []        # kademe-3 bu fazda AÇILMADI (ADR-097 K4 — sonraki faz)
+children:
+  - anayasa
+  - surucu
+  - ornekler
 depends_on:
   - K016-AI          # domain kökü (tek bağımlılık bu fazda)
 evidence:
   - ".ai/.agents/ = 12 .md (11 uzman profili + AGENTS.md indeksi) — glob 2026-10-12"
   - ".claude/agent/ dizini — profil .md'leri mevcut (tam sayı UNKNOWN, liste 100 sonuçta kırptı) — glob 2026-10-12"
+  - "shared/src/AI/AIOrchestrator.php:26-38 AGENT_MAP (11 ajan)"
 validation:
   - "disk sayımı 2026-10-12"
+  - "tur-3 (2026-10-13): 3 içerik dosyası üretildi (>=500 gate)"
 open_questions:
   - ".claude/agent/ TAM profil sayısı (UNKNOWN)"
   - "11 proje ajanı ile 118 global registry ajanının eşleme tablosu vault'ta yok mu? (⚠️ VERIFICATION REQUIRED)"
+group: mimari
 ---
+
 
 # K016-AI/agents
 
@@ -36,4 +42,25 @@ Ajanların kimliği: hangi ajan var, hangi alanda uzman, hangi dosyaya dokunabil
 | Üreten pay | K-Space V3 Band-1 — A4 (2026-10-12) |
 | Domain kökü | [[index]] (K016-AI) · master: ai-master.md |
 
-**Authority:** Bayram Ali / Vault Steward · 2026-10-12
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+## §TUR-3 (2026-10-13) — Kademe-3 Açılışı
+
+> §2'deki «children bu fazda boş» ifadesi tur-3 itibarıyla **kapanmıştır**; 3 içerik
+> dosyası üretilmiştir (ADR-097 K4 kapsam değişikliği değil, planlanan kademenin açılması).
+
+| # | Dosya | group | Eşik | Durum |
+|---|---|---|---|---|
+| 1 | anayasa.md | mimari | >=500 | üretildi |
+| 2 | surucu.md | mimari | >=500 | üretildi |
+| 3 | ornekler.md | kod | >=500 | üretildi |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

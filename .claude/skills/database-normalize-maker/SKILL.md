@@ -1018,7 +1018,4 @@ Alt dizindeki detaylı referans dosyaları:
 - **Agent:** `security-engineer` — Güvenlik kontrolleri
 
 ---
-
-Anti-overthink: kök AGENTS.md §5 (MAX THINKING 7 madde) geçerlidir.
-
 *CoreMusic Skill v3.0 — metadata.version: 3.0.0 — Updated: 2026-10-07*

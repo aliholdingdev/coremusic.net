@@ -15,7 +15,9 @@ validation:
 open_questions:
   - "PSR-3 uyumu test içeriği OKUNMADI — doğrulanmadı (⚠️ VERIFICATION REQUIRED)"
   - "redaction davranışının kendisi test edilmedi, yalnız dosya var (⚠️ VERIFICATION REQUIRED)"
+group: mimari
 ---
+
 
 # K017-observability/logging
 
@@ -36,5 +38,15 @@ Logların yazımı, formatı ve redaction'ı: ne loglanır, nasıl loglanır, ha
 | status | draft (kanıt durumu §frontmatter'da) |
 | Üreten pay | K-Space V3 Band-1 — A4 (2026-10-12) |
 | Domain Kökü | [[index]] (K017-observability) · master: observability-master.md |
+
+## §GRUPLAR
+
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · 2026-10-12

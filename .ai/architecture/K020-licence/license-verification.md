@@ -11,7 +11,9 @@ version: 1.0.0
 authority: "Doğrulama = resmi kaynak + tarih + kayıt; kanıtsız iddia yok (kök AGENTS.md §3)"
 related:
   - "dependency-licenses.md"
+group: kanit
 ---
+
 
 # K020-licence — Lisans Doğrulama
 
