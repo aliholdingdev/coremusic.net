@@ -513,4 +513,114 @@ private function runCli(array $args): array
 
 ---
 
+## ⬢ OS GRUPLAR — sekiz işletim sistemi grubu (örnek görünümü)
+
+> Bu bölüm § numarası olmadan eklenmiştir (2026-10-14); §0–§23 numaralandırması değişmez. Repo blokları `[IO.File]::ReadAllLines` ile okunup künye satırları doğrulanmıştır; belge bazlı bloklar URL + "(bu projede kullanılmıyor)" etiketi taşır.
+
+### OS.1 Örnek türü karşılaştırması
+
+| OS | Örnek türü | Kaynak | Künye / URL durumu |
+|----|------------|--------|--------------------|
+| Windows | Repo kodu — IIS SPA rewrite | `home.coremusic.net/web.config` | `:36-43` (doğrulandı) |
+| macOS | Repo kodu — Apache rewrite zinciri | `home.coremusic.net/.htaccess` | `:34-37` (doğrulandı) |
+| Linux | Repo kodu — PHP bootstrap (tam dosya) | `shared/src/Bootstrap/RuntimeBootstrap.php` | `:1-21` (doğrulandı) |
+| iOS | Belge alıntısı | Apple Developer Documentation | OS.3 URL (bu projede kullanılmıyor) |
+| Android | Belge alıntısı | Android Developers | OS.3 URL (bu projede kullanılmıyor) |
+| FreeBSD/BSD | Belge alıntısı | FreeBSD Handbook | OS.3 URL (bu projede kullanılmıyor) |
+| Tizen | Belge alıntısı | tizen.org | OS.3 URL (bu projede kullanılmıyor) |
+| webOS OSE | Belge alıntısı | webosose.org | OS.3 URL (bu projede kullanılmıyor) |
+
+### OS.2 Sekiz OS kısa açıklaması
+
+1. **Windows** — IIS eşdeğeri örnekleri `web.config` rewrite kurallarında somutlaşır (Örnek 3 ile aynı çift hedef kanıtı).
+2. **macOS** — Apache `.htaccess` rewrite zinciri bu depodaki canlı örnektir; PHP SAPI bayrakları Örnek 1'dedir.
+3. **iOS** — UIApplication durum makinesi belge örneğidir; bu depoda karşılığı yoktur.
+4. **Android** — göreiv/aktivite yığını belge örneğidir; bu depoda karşılığı yoktur.
+5. **Linux** — `RuntimeBootstrap` tam dosya örneği çalışma zamanı kurulumunu gösterir (Örnek 4 ile aynı kaynak).
+6. **FreeBSD/BSD** — Ports Collection kurulum modeli belge örneğidir; bu depoda karşılığı yoktur.
+7. **Tizen** — açık kaynak OS tanımı belge örneğidir; bu depoda karşılığı yoktur.
+8. **webOS OSE** — web uygulaması yaşam döngüsü belge örneğidir; bu depoda karşılığı yoktur.
+
+### OS.3 Örnek blokları
+
+Windows (IIS) — `home.coremusic.net/web.config:36-43` (SPA → `index.php` rewrite, dosya sonu):
+
+```xml
+                <rule name="Rewrite to index.php">
+                    <match url="^" ignoreCase="false" />
+                    <action type="Rewrite" url="index.php" appendQueryString="true" />
+                </rule>
+            </rules>
+        </rewrite>
+    </system.webServer>
+</configuration>
+```
+
+macOS / Linux (Apache) — `home.coremusic.net/.htaccess:34-37` (rewrite zinciri kapanışı):
+
+```apache
+    RewriteRule \.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$ - [L]
+    RewriteRule ^(config|include|pages)(/.*)?$ - [F,L]
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+```
+
+Ortak PHP bootstrap — `shared/src/Bootstrap/RuntimeBootstrap.php:1-21` (tam dosya):
+
+```php
+<?php declare(strict_types=1);
+
+namespace CoreMusic\Bootstrap;
+
+final class RuntimeBootstrap
+{
+    public static function boot(bool $debugMode = false): void
+    {
+        date_default_timezone_set($_ENV['APP_TIMEZONE'] ?? 'Europe/Istanbul');
+
+        if ($debugMode) {
+            error_reporting(E_ALL);
+            ini_set('display_errors', '1');
+        } else {
+            error_reporting(E_ERROR | E_WARNING | E_PARSE);
+            ini_set('display_errors', '0');
+        }
+
+        ini_set('log_errors', '1');
+    }
+}
+```
+
+iOS — UIApplication durum sabitleri (belge alıntısı):
+
+> "Constants that indicate the running states of an app."
+
+Kaynak: https://developer.apple.com/documentation/uikit/uiapplication/state (bu projede kullanılmıyor)
+
+Android — görev (task) tanımı (belge alıntısı):
+
+> "A task is a collection of activities..."
+
+Kaynak: https://developer.android.com/guide/components/activities/tasks-and-back-stack (bu projede kullanılmıyor)
+
+FreeBSD/BSD — port tanımı (belge alıntısı):
+
+> "A FreeBSD port is a collection of files designed to automate the process of compiling an application from source code."
+
+Kaynak: https://docs.freebsd.org/en/books/handbook/ports/ (bu projede kullanılmıyor)
+
+Tizen — OS tanımı (belge alıntısı):
+
+> "Tizen is an open and flexible operating system built from the ground up..."
+
+Kaynak: https://www.tizen.org/about/ (bu projede kullanılmıyor)
+
+webOS OSE — web uygulaması yaşam döngüsü (belge alıntısı):
+
+> "Web apps can be launched, suspended or terminated by user interactions or system events."
+
+Kaynak: https://www.webosose.org/docs/guides/core-topics/application-management/web-app-lifecycle/ (bu projede kullanılmıyor)
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

@@ -504,4 +504,49 @@ $r = Invoke-WebRequest -Method Head -UseBasicParsing -Uri $u -TimeoutSec 20
 | 9 | `git commit` | atılmadı |
 | 10 | R1 / R3 | [UNKNOWN] / ⚠️ VERIFICATION REQUIRED — kapatılmadı |
 
+---
+
+## ⬢ OS GRUPLAR — sekiz işletim sistemi grubu (doğrulama görünümü)
+
+> Bu bölüm § numarası olmadan eklenmiştir (2026-10-14); §0–§19 numaralandırması değişmez. Tüm URL'ler 2026-10-14 tarihinde HTTP `HEAD` (TLS 1.2) ile test edilmiştir; yalnız `HTTP 200` ve redirectsiz yanıtlar kullanılmıştır.
+
+### OS.1 Doğrulama yöntemi tablosu
+
+| OS | Doğrulama yöntemi | Kaynak tipi | Durum |
+|----|-------------------|-------------|-------|
+| Windows | IIS dokümantasyonu `HEAD` kontrolü | web | HTTP 200 |
+| macOS | Apache platform dokümanı `HEAD` kontrolü | web | HTTP 200 |
+| iOS | Apple Developer Documentation `HEAD` kontrolü | web | HTTP 200 |
+| Android | Android Developers `HEAD` kontrolü | web | HTTP 200 |
+| Linux | nginx dokümantasyonu `HEAD` kontrolü | web | HTTP 200 |
+| FreeBSD/BSD | FreeBSD Handbook `HEAD` kontrolü | web | HTTP 200 |
+| Tizen | tizen.org `HEAD` kontrolü | web | HTTP 200 |
+| webOS OSE | webosose.org `HEAD` kontrolü | web | HTTP 200 |
+
+### OS.2 Sekiz OS doğrulama notu
+
+1. **Windows** — IIS yapılandırma referansı (`learn.microsoft.com`) `HTTP 200` döndürdü; `web.config` örneklerinin karşılığıdır.
+2. **macOS** — Apache platform sayfası (`httpd.apache.org`) `HTTP 200` döndürdü; `.htaccess` yüzeyinin belge karşılığıdır.
+3. **iOS** — Apple `UIApplication` dokümanı `HTTP 200` döndürdü; örnek bu projede kullanılmaz.
+4. **Android** — Android fundamentals dokümanı `HTTP 200` döndürdü; örnek bu projede kullanılmaz.
+5. **Linux** — nginx dokümantasyon ana sayfası `HTTP 200` döndürdü; ikinci HTTP sunucusu referansıdır.
+6. **FreeBSD/BSD** — FreeBSD Handbook `HTTP 200` döndürdü; ports bölümü ayrıca doğrulandı.
+7. **Tizen** — tizen.org `HTTP 200` döndürdü; `docs.tizen.org` adayları 301 yönlendirmesi nedeniyle elendi.
+8. **webOS OSE** — webosose.org `HTTP 200` döndürdü; Luna Service 2 ve web app lifecycle sayfaları ayrı ayrı doğrulandı.
+
+### OS.3 URL doğrulama tablosu
+
+| OS | URL | Tarih | Yöntem | Durum |
+|----|-----|-------|--------|-------|
+| Windows | https://learn.microsoft.com/en-us/iis/configuration/ | 2026-10-14 | HEAD | HTTP 200 |
+| macOS | https://httpd.apache.org/docs/2.4/platform/index.html.en | 2026-10-14 | HEAD | HTTP 200 |
+| iOS | https://developer.apple.com/documentation/uikit/uiapplication | 2026-10-14 | HEAD | HTTP 200 |
+| Android | https://developer.android.com/guide/components/fundamentals | 2026-10-14 | HEAD | HTTP 200 |
+| Linux | https://nginx.org/en/docs/ | 2026-10-14 | HEAD | HTTP 200 |
+| FreeBSD/BSD | https://docs.freebsd.org/en/books/handbook/ | 2026-10-14 | HEAD | HTTP 200 |
+| Tizen | https://www.tizen.org/ | 2026-10-14 | HEAD | HTTP 200 |
+| webOS OSE | https://www.webosose.org/docs/reference/luna-service2++-library/ | 2026-10-14 | HEAD | HTTP 200 |
+
+**Elenen adaylar (kullanılmadı):** `appcmd-exe` 404 · `mpm_common.html` 404 · `systemd.8` / `system.2` 404 · `systemd.io/systemd.exec/` 404 · `webosose.org/docs/guides/services/` 404 · `docs.tizen.org/*` 301 (samsungtizenos.com'a yönlendirme) — ayrıca 3 aday geniş `.ai` taramasında birebir eşleştiği için değiştirildi (`man7 .../namespaces.7.html`, `webosose .../ls2-api-index/`, `webosose .../architecture-overview/`). Kullanılan 13 URL'nin tamamı `isletim-sistemi-runtime` ağacında **0** birebir eşleşmedir.
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

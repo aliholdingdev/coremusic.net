@@ -11,13 +11,9 @@ depends_on:
   - "isletim-sistemi-kernel"
   - "isletim-sistemi-core"
 evidence:
-  - "httpd.apache.org/docs/2.4/mpm.html yanıt kodu 2026-10-13 (HTTP 200)"
-  - "learn.microsoft.com/en-us/windows/win32/procthread/creating-processes yanıt kodu 2026-10-13 (HTTP 200)"
-  - "php.net/manual/en/opcache.installation.php yanıt kodu 2026-10-13 (HTTP 200)"
-  - "home.coremusic.net/.htaccess (37 satır)"
-  - "home.coremusic.net/web.config (43 satır)"
-  - "shared/src/Bootstrap/RuntimeBootstrap.php (21 satır)"
-validation: "web: MPM · CreateProcess · OPcache kurulum resmi dokümanları HEAD ile 2026-10-13 doğrulandı (HTTP 200). disk: .htaccess / web.config / RuntimeBootstrap satır içerikleri Select-Object -Index ile okundu."
+  - "web (HEAD 2026-10-13, HTTP 200): httpd.apache.org/docs/2.4/mpm.html · learn.microsoft.com/en-us/windows/win32/procthread/creating-processes · php.net/manual/en/opcache.installation.php"
+  - "disk: home.coremusic.net/.htaccess (37 satır) · home.coremusic.net/web.config (43 satır) · shared/src/Bootstrap/RuntimeBootstrap.php (21 satır)"
+validation: "web: MPM · CreateProcess · OPcache kurulum resmi dokümanları HEAD ile 2026-10-13 doğrulandı (HTTP 200). disk: .htaccess / web.config / RuntimeBootstrap satır içerikleri Select-Object -Index ile okundu. | 2026-10-14 · isletim-sistemi-runtime-kod-seti.md yazıldı (500 satır · 11 kod bloğu · 12 resmi URL HTTP 200 · spot-check: orkestratör)"
 open_questions:
   - "R1: Hedef runtime topolojisi kesin değil — Apache (mod_php/FPM) mı, IIS mi, ikisi de mi? Repo'da ikisinin de config'i var (çift hedef). [UNKNOWN — Q4 ile ilişkili]"
   - "R2: Çok-iş-parçacıklı çalışma (pthreads) hedef mimaride var mı? Uygulama katmanında yok. [UNKNOWN]"
@@ -29,11 +25,8 @@ group: mimari
 # isletim-sistemi-runtime
 
 > **Kapsam (tek cümle):** CoreMusic'in çalıştığı **çalışma zamanı ortamı** — web sunucusu
-> yapılandırması (Apache `.htaccess` + IIS `web.config` çift hedefi), PHP çalışma zamanı
-> kurulumu (`RuntimeBootstrap`) ve OS süreç/iş-parçacığı modeli (pthreads /
-> processes-and-threads) katmanları.
-
-Bu alt-dal üç Kademe-3 alt-dala bölünür; kök içerik dosyaları sınır ve kanıt katmanını taşır.
+> yapılandırması (Apache `.htaccess` + IIS `web.config` çift hedefi), PHP kurulumu
+> (`RuntimeBootstrap`) ve OS süreç/iş-parçacığı modeli (pthreads); alt-dal üç Kademe-3.
 
 ## Kök İçerik Dosyaları (Kademe-2)
 
@@ -53,15 +46,9 @@ Bu alt-dal üç Kademe-3 alt-dala bölünür; kök içerik dosyaları sınır ve
 
 ## Katmanlar
 
-| Katman | Repo'da | OS düzeyi |
-|---|---|---|
-| Web sunucusu | ✅ `.htaccess` + `web.config` | Process/thread modeli |
-| PHP runtime | ✅ `RuntimeBootstrap` | `pthreads(7)` / `CreateProcess` |
-| OS süreç modeli | ❌ doğrudan yok | Aday hedef kaynaklar (alt-dal) |
+Web sunucusu ✅ `.htaccess` + `web.config` · PHP runtime ✅ `RuntimeBootstrap` · OS süreç modeli ❌ doğrudan yok (aday hedef kaynaklar alt-dalda) — OS düzeyi: `pthreads(7)` / `CreateProcess`.
 
-## Açık Sorular
-
-R1 çift hedef (Apache/IIS) · R2 çok-iş-parçacığı · R3 mod_php-vs-FPM · R7 MPM kapasitesi — dördü de [UNKNOWN] / [⚠️ VERIFICATION REQUIRED]; ayrıntı `isletim-sistemi-runtime-kapsam.md` ve `web-runtime-topolojisi/` altında.
+**Açık Sorular:** R1 çift hedef (Apache/IIS) · R2 çok-iş-parçacığı · R3 mod_php-vs-FPM · R7 MPM kapasitesi — dördü de [UNKNOWN] / [⚠️ VERIFICATION REQUIRED]; ayrıntı `isletim-sistemi-runtime-kapsam.md` ve `web-runtime-topolojisi/` altında.
 
 ## Komşu Sınır Matrisi
 
@@ -78,14 +65,14 @@ R1 çift hedef (Apache/IIS) · R2 çok-iş-parçacığı · R3 mod_php-vs-FPM ·
 
 ## §GRUPLAR
 
-> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında
-> **9. alan `group`**. Bu tablo Kademe-3 alt-dalları listeler.
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — frontmatter **9. alan `group`**; tablo Kademe-3 alt-dalları + kök kod-seti dosyasını listeler.
 
 | Grup | Alt-dal | Amaç | Kademe |
 |---|---|---|---|
 | mimari | `surec-ve-parcacik/` | OS süreç/iş-parçacığı sınırı ve kuralı | Kademe-3 |
 | mimari | `web-runtime-topolojisi/` | Web sunucusu topoloji ve MPM sınırı | Kademe-3 |
 | mimari | `baslangic-ve-bootstrap/` | PHP boot sırası ve OPcache/ini sınırı | Kademe-3 |
+| kod | `isletim-sistemi-runtime-kod-seti.md` | Cross-platform SAPI/runtime tespiti, sunucu yapılandırması ve servis/daemon kod seti — 500 satır · 11 kod bloğu · 12 resmi URL | Kademe-2 (kök) |
 
 ## Web Research
 
@@ -96,5 +83,18 @@ R1 çift hedef (Apache/IIS) · R2 çok-iş-parçacığı · R3 mod_php-vs-FPM ·
 | PHP OPcache kurulum dokümanı `opcache.enable` / JIT bayraklarını tanımlar; `RuntimeBootstrap`'in `ini_set` çağrılarının hedefi budur (R5 iddiası). | `https://www.php.net/manual/en/opcache.installation.php` | 2026-10-13 | Doğrulandı (HTTP 200, resmi doküman) |
 
 ---
+
+## ⬢ OS GRUPLAR — sekiz işletim sistemi (özet)
+
+| OS | Runtime/süreç odağı | Ayrıntı (bu alt-dal) |
+|---|---|---|
+| Windows | `CreateProcess` · IIS app-pool · servis/daemon | `kapsam.md` OS.1 · `ornekler.md` OS.3 |
+| macOS | launchd · sistem/başlangıç kalemi | `kapsam.md` OS.1 · `ornekler.md` OS.3 |
+| iOS | kısıtlı süreç yaşam döngüsü (sandbox) | `kapsam.md` OS.1 · `ornekler.md` OS.3 |
+| Android | uygulama süreç/bileşen önceliği | `kapsam.md` OS.1 · `ornekler.md` OS.3 |
+| Linux | `fork`/`exec` · systemd · MPM süreç modeli | `kapsam.md` OS.1 · `ornekler.md` OS.3 |
+| FreeBSD/BSD | `rc.d` · kqueue | `kapsam.md` OS.1 · `ornekler.md` OS.3 |
+| Tizen | uygulama yaşam döngüsü · servis çerçevesi | `kapsam.md` OS.1 · `ornekler.md` OS.3 |
+| webOS OSE | LS2 servis süreci | `kapsam.md` OS.1 · `ornekler.md` OS.3 |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

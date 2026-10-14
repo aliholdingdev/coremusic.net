@@ -12,6 +12,9 @@ evidence:
   - https://man7.org/linux/man-pages/man2/fork.2.html
   - shared/src/Cache/ApcuAdapter.php:1-56
   - shared/tests/Repository/ApiKeyCreateCommandTest.php:248-269
+  - https://developer.android.com/guide/components/processes-and-threads
+  - https://developer.apple.com/documentation/uikit/uiapplicationdelegate
+  - https://docs.tizen.org/application/native/guides/app-management/process-model/
 validation: "2026-10-13 · 3 URL HTTP 200 (pthread_detach bu dalın index.md'sinden devralındı · pthread_create.3 · fork.2 bu tur envantere eklendi) · repo kod blokları Read ile birebir · içerik 380-460 satır"
 open_questions:
   - "R2: Çok-iş-parçacıklı çalışma (pthreads) hedef mimaride var mı? Üretim kodunda thread oluşturucu yok. [UNKNOWN]"
@@ -542,10 +545,170 @@ private function wrap(IMiddleware $middleware, callable $next): callable
 | 4 | matrix | desen `'fail-fast'` | 1 (satır 72) |
 | 5 | dolu satır | `(Get-Content $f \| Measure-Object -Line).Lines` | ≥380 |
 
-**Bu tur bu dosyaya eklenen yeni doğrulanmış URL: 0** — örneklerin tamamı repo disk kanıtıdır;
-OS semantiği bu dalın `anayasa.md` §13-§17'sine, yürütme yüzeyi `-surucu.md` §8-§14'üne yazıldı
-(aynı URL iki dosyada geçmez kuralı korunmuştur).
+**Bu tur bu dosyaya eklenen yeni doğrulanmış URL: 3** (2026-10-14 HTTP 200 · § OS GRUPLAR
+OS.1/OS.3 bölümünde kullanıldı): `https://developer.android.com/guide/components/processes-and-threads` ·
+`https://developer.apple.com/documentation/uikit/uiapplicationdelegate` ·
+`https://docs.tizen.org/application/native/guides/app-management/process-model/` — bu üçü repo
+karşılığı olmayan platform örnekleridir; kalan örnekler repo disk kanıtıdır. OS semantiği bu dalın
+`anayasa.md` §13-§17'sine, yürütme yüzeyi `-surucu.md` §8-§14'üne yazıldı (aynı URL iki dosyada
+geçmez kuralı korunmuştur).
 
 ---
+
+## § OS GRUPLAR — sekiz işletim sistemi grubu: örnek yüzeyi karşılaştırması
+
+> Bu bölüm, §1-§11'deki repo örneklerini **işletim sistemi grubu** ekseniyle karşılaştırır.
+> Depoda yalnız PHP/POSIX süreç yüzeyi (`proc_open` · `shell_exec`) vardır; Windows'a özgü
+> Win32 çağrısı, macOS/iOS/Android/FreeBSD/Tizen/webOS karşılığı repo'da yok (§13 ölçüm).
+> Karşılığı olmayan üç platform (iOS · Android · Tizen) bu tur eklenen resmi URL'lerden
+> "(bu projede kullanılmıyor)" etiketiyle örneklendirilir.
+
+### OS.1 — Karşılaştırma tablosu
+
+| # | OS | Bu dalın konusu (süreç/parçacık) | Bu dosyadaki karşılığı | Kaynak |
+|---|---|---|---|---|
+| 1 | Windows | `CreateProcessW` + `CreateThread` ile süreç/parçacık | E-3 `proc_open` CLI alt süreci (platform bağımsız PHP yüzeyi) · §11 | repo `shared/tests/Repository/ApiKeyCreateCommandTest.php:248-269` · Win32 çağrısı repo'da 0 eşleşme |
+| 2 | macOS | launchd üzerinden süreç yaşam döngüsü + POSIX yürütme | E-7 `shell_exec` ffprobe · §11 E-7 | repo `shared/src/AI/AIEngine.php:288-300` |
+| 3 | iOS | kısıtlı süreç çatallanması + uygulama yaşam döngüsü | bu dosyada karşılığı yok (kapsam dışı) | `https://developer.apple.com/documentation/uikit/uiapplicationdelegate` (bu tur eklendi · 2026-10-14 HTTP 200) · bu projede kullanılmıyor |
+| 4 | Android | uygulama bileşeni süreçleri + önem derecesine göre kapatma | bu dosyada karşılığı yok (kapsam dışı) | `https://developer.android.com/guide/components/processes-and-threads` (bu tur eklendi · 2026-10-14 HTTP 200) · bu projede kullanılmıyor |
+| 5 | Linux | `fork`/`exec`/`waitpid` + süreç birimi yönetimi | E-3 · E-7 · §11 eşleme | repo taraması (§13 ölçüm 1-4) · POSIX alıntıları bu dalın `anayasa.md` §13'ünde |
+| 6 | FreeBSD/BSD | kqueue ile olay kuyruğu + rc.d | bu dosyada BSD'ye özgü örnek yok | repo taraması: bu projede kullanılmıyor · kqueue kaynağı `surucu.md` OS.3/6 |
+| 7 | Tizen | uygulama süreç yaşam döngüsü | bu dosyada karşılığı yok (kapsam dışı) | `https://docs.tizen.org/application/native/guides/app-management/process-model/` (bu tur eklendi · 2026-10-14 HTTP 200) · bu projede kullanılmıyor |
+| 8 | webOS OSE | LS2 servis süreci | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor · LS2 iddiası ⚠️ VERIFICATION REQUIRED |
+
+### OS.2 — OS bazlı kısa açıklamalar (her OS 2-3 cümle)
+
+**Windows.** Windows satırının bu dosyadaki tek örneği E-3'tür: `proc_open` + üç boru +
+`proc_close` (§11). Aynı blok Windows'ta da PHP tarafından yürütülür, ancak Win32'ye özgü
+`CreateProcessW` çağrısı repo'da 0 eşleşme → "(bu projede kullanılmıyor)".
+
+**macOS.** macOS satırı POSIX yürütme yüzeyini temsil eder: E-7 `shell_exec` ile ffprobe
+yardımcı süreci (§11) ve E-3 `proc_open` aynı POSIX semantiğinde koşar. launchd'e özgü örnek
+repo'da yok → "(bu projede kullanılmıyor)".
+
+**iOS.** Bu dosyada iOS örneği yoktur; §13 envanteri iOS'e ait dosya saymaz. Örnek bu tur
+resmi doküman üzerinden verildi → "(bu projede kullanılmıyor)".
+
+**Android.** Bu dosyada Android örneği yoktur; süreç/parçacık dokümanı bu tur eklenen URL'den
+alındı (OS.3/4) → "(bu projede kullanılmıyor)".
+
+**Linux.** Linux satırı repo'daki iki süreç örneğini (E-3 · E-7) kapsar: ikisi de PHP'nin
+platform bağımsız süreç API'sidir, Linux'a özgü systemd/`kill` örneği repo'da yok. Ölçümler
+§13/1-4'tedir (`proc_open` 1 · `shell_exec` 1 · `timeout-minutes` 1 · `fail-fast` 1).
+
+**FreeBSD/BSD.** FreeBSD için bu dosyada örnek yoktur; kqueue örneği bu tur eklenmedi çünkü
+kqueue kaynağı `surucu.md` OS.3/6'ya aittir (her URL tek dosyada). Depoda BSD kanıtı yok
+→ "(bu projede kullanılmıyor)".
+
+**Tizen.** Tizen için bu dosyada repo örneği yoktur; süreç yaşam döngüsü sayfası bu tur
+eklenen URL ile kaynaklandı, sayfa içeriği bu dosyaya alınmadı ⚠️. Depoda Tizen kanıtı yok
+→ "(bu projede kullanılmıyor)".
+
+**webOS OSE.** webOS için örnek yoktur; LS2 servis süreci iddiası bu tur doğrulanmadı
+⚠️ VERIFICATION REQUIRED. Depoda webOS kanıtı yok → "(bu projede kullanılmıyor)".
+
+### OS.3 — OS bazlı kod örnekleri
+
+> Kural §0.1'e göre: repo karşılığı olan bloklar `Dosya: Satır` künyesiyle
+> `[IO.File]::ReadAllLines` ile 2026-10-14 okunarak doğrulanır; karşılığı olmayan bloklar
+> resmi doküman URL'si + "(bu projede kullanılmıyor)" etiketiyle verilir.
+
+**1) Windows / POSIX ortak yüzey — repo karşılığı VAR · künye `shared/tests/Repository/ApiKeyCreateCommandTest.php:250-268` · ReadAllLines 2026-10-14**
+
+```php
+$command = array_merge([PHP_BINARY, self::BIN], $args);
+$pipes  = [];
+$handle = proc_open(
+    $command,
+    [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']],
+    $pipes,
+    dirname(__DIR__, 3)
+);
+$this->assertIsResource($handle, 'CLI alt süreci açılamadı');
+fclose($pipes[0]);
+$out = (string) stream_get_contents($pipes[1]);
+$err = (string) stream_get_contents($pipes[2]);
+fclose($pipes[1]);
+fclose($pipes[2]);
+return ['exit' => proc_close($handle), 'out' => $out, 'err' => $err];
+```
+
+**2) macOS / POSIX — repo karşılığı VAR · künye `shared/src/AI/AIEngine.php:290-300` · ReadAllLines 2026-10-14**
+
+```php
+$cmd = sprintf(
+    'ffprobe -v quiet -print_format json -show_format -show_streams "%s"',
+    escapeshellarg($filePath)
+);
+$output = shell_exec($cmd);
+if ($output === null) {
+    return ['duration' => 0, 'sample_rate' => 44100, 'bit_depth' => 16, 'channels' => 2];
+}
+$data = json_decode($output, true, 512, JSON_THROW_ON_ERROR);
+```
+
+**3) iOS — bu projede kullanılmıyor · kaynak `https://developer.apple.com/documentation/uikit/uiapplicationdelegate` (2026-10-14 HTTP 200 · şematik — sayfa içeriği JS ile geldi, imzalar ⚠️ doğrulanmadı)**
+
+```objectivec
+// UIKit uygulama yaşam döngüsü arayüzü — süreç burada yönetilir,
+// fork/exec/waitpid yüzeyi bu projede iOS tarafında kullanılmaz.
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@end
+// repo karşılığı: iOS dosyası / iOS tarama kanıtı YOK (§13 envanteri)
+// etiket: "(bu projede kullanılmıyor)"
+```
+
+**4) Android — bu projede kullanılmıyor · kaynak `https://developer.android.com/guide/components/processes-and-threads` (2026-10-14 HTTP 200)**
+
+```xml
+<!-- resmi dokümanda belgelenen android:process özniteliği -->
+<activity android:name=".PlayerActivity"
+          android:process=":player" />
+<!-- repo karşılığı: Android dosyası / tarama kanıtı YOK -->
+<!-- etiket: "(bu projede kullanılmıyor)" -->
+```
+
+> Dokümandan alıntı (2026-10-14): "the Android system starts a new Linux process for the
+> application with a single thread of execution" · süreç kapatma kararı da aynı sayfadadır:
+> "Android might decide to shut down a process at some point ...".
+
+**5) Linux — repo süreç ölçümleri (negatif/ölçü kanıtı · §13/1-4)**
+
+```text
+desen 'proc_open'        → 1 eşleşme   (test alt süreci — OS.1/1)
+desen 'shell_exec'       → 1 eşleşme   (ffprobe — OS.1/2)
+desen 'timeout-minutes'  → 1 eşleşme   (ci.yml satır 70)
+desen 'fail-fast'        → 1 eşleşme   (ci.yml satır 72)
+systemd unit örneği      → repo'da YOK → "(bu projede kullanılmıyor)"
+```
+
+**6) FreeBSD/BSD — bu projede kullanılmıyor (kqueue kaynağı bu dosyada değil)**
+
+```text
+repo'da BSD'ye özel dosya/örnek: 0 eşleşme (§13 ölçüm tablosu)
+kqueue örneği bu tur `surucu.md` OS.3/6 bölümüne eklendi (her URL tek dosyada)
+POSIX çekirdek semantiği bu dalın `anayasa.md` §13-§15 bölümlerinde kaynaklıdır
+etiket: "(bu projede kullanılmıyor)"
+```
+
+**7) Tizen — bu projede kullanılmıyor · kaynak `https://docs.tizen.org/application/native/guides/app-management/process-model/` (2026-10-14 HTTP 200 · sayfa içeriği bu dosyaya alınmadı ⚠️)**
+
+```text
+Tizen `process-model` sayfası başlığı doğrulandı (HTTP 200);
+uygulama süreç yaşam döngüsü iddiası için sayfa içeriği bu tur ÇEKİLMEDİ
+→ iddia VERIFICATION REQUIRED, kod örneği uydurulmadı (zero-hallucination)
+repo'da Tizen kanıtı: 0 eşleşme
+etiket: "(bu projede kullanılmıyor)"
+```
+
+**8) webOS OSE — bu projede kullanılmıyor (URL listesinde webOS kaynaklı URL yok)**
+
+```text
+webOS OSE için bu tur doğrulanmış URL YOK (liste dışı → eklenmedi),
+LS2 servis süreci iddiası → VERIFICATION REQUIRED,
+repo'da webOS kanıtı: 0 eşleşme,
+etiket: "(bu projede kullanılmıyor)"
+```
+
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

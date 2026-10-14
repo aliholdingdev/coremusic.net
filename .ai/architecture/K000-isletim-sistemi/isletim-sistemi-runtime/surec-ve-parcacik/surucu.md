@@ -13,6 +13,8 @@ evidence:
   - shared/src/Cache/ApcuAdapter.php:7-55
   - api.coremusic.net/index.php:143-145
   - .github/workflows/ci.yml:37-38
+  - https://learn.microsoft.com/en-us/windows/win32/procthread/using-fibers
+  - https://man.freebsd.org/cgi/man.cgi?query=kqueue&sektion=2
 validation: "2026-10-13 · 3 URL HTTP 200 (book.apcu bu tur envantere eklendi · exit.3 · pthread_join bu dalın index.md'sinden devralındı) · repo satırları Read ile birebir · içerik 380-460 satır"
 open_questions:
   - "R9: APCu per-process bellek modeli — çok-worker topolojide cache tutarlılığı nasıl sağlanıyor? Repo'da invalidation stratejisi görünmüyor. [⚠️ VERIFICATION REQUIRED]"
@@ -475,5 +477,150 @@ private function wrap(IMiddleware $middleware, callable $next): callable
 | 4 | diğer `index.php` | — | yok (3 eşleşme) |
 
 ---
+
+## § OS GRUPLAR — sekiz işletim sistemi grubu: süreç yönetimi ve kontrol aracı yüzeyi
+
+> Bu bölüm, bu dalın yürütme/yönetim yüzeyini (§14 katman eşlemesi · §14.1-§14.5 akışları)
+> **işletim sistemi grubu** ekseniyle karşılaştırır: repo'daki tek süreç başlatıcı PHP
+> `proc_open`/`shell_exec` yüzeyidir (§15/2-3), OS-bazlı süreç yönetim araçlarının hiçbiri
+> bu projede kullanılmaz — her satır "(bu projede kullanılmıyor)" etiketiyle taşınır.
+
+### OS.1 — Karşılaştırma tablosu
+
+| # | OS | Süreç yönetimi / kontrol aracı | Bu dosyadaki karşılığı | Kaynak |
+|---|---|---|---|---|
+| 1 | Windows | job object ile süreç grubu, süreç handle'ı ile bekleme (`WaitForSingleObject`), fiber zamanlaması | §14.1 bekleme yüzeyi · §14.3 `proc_close` · §14.4/2 | `https://learn.microsoft.com/en-us/windows/win32/procthread/using-fibers` (bu tur eklendi · 2026-10-14 HTTP 200) · job object/WaitForSingleObject iddiaları ⚠️ doğrulanmadı |
+| 2 | macOS | launchd ile başlatma ve gözetme (keep-alive) | §14.2 · §14.3 yürütme akışı | repo taraması (§15/2-3): bu projede kullanılmıyor · launchd iddiası ⚠️ doğrulanmadı |
+| 3 | iOS | uygulama yaşam döngüsü yönetimi; süreç kontrolü kısıtlı | §14.4 hata kataloğu (bekleme/çıkış) | repo taraması: bu projede kullanılmıyor · platform iddiası ⚠️ doğrulanmadı |
+| 4 | Android | süreç başlatma/kapatma ve önem derecesi yönetimi | §14.1 bekleme/yok sayma satırı | repo taraması: bu projede kullanılmıyor · platform iddiası ⚠️ doğrulanmadı |
+| 5 | Linux | `waitpid`/`kill`/`signal` ile çocuk yönetimi, systemd ile süreç birimi | §14.1 katman eşlemesi · §14.4/1-3 | man7 §13.1 (execve.2 · nanosleep.2 mevcut kanıt) · systemd iddiası ⚠️ doğrulanmadı |
+| 6 | FreeBSD/BSD | rc.d başlangıç betikleri + kqueue ile olay kuyruğu | §14.1 I/O bekleme yüzeyi | `https://man.freebsd.org/cgi/man.cgi?query=kqueue&sektion=2` (bu tur eklendi · 2026-10-14 HTTP 200) · rc.d iddiası ⚠️ doğrulanmadı |
+| 7 | Tizen | uygulama süreç yaşam döngüsü yöneticisi | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor · platform dokümanı bu dosyaya eklenmedi ⚠️ |
+| 8 | webOS OSE | LS2 servis süreci kaydı ve denetimi | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor · LS2 iddiası ⚠️ doğrulanmadı |
+
+### OS.2 — OS bazlı kısa açıklamalar (her OS 2-3 cümle)
+
+**Windows.** Windows'ta bekleme ve fiber zamanlaması uygulamanın kendi sorumluluğudur:
+fiber için "The CreateFiber function creates a new fiber for a thread." (bu tur eklenen URL).
+Süreç sonlandırma handle üzerinden izlenir; bu dosyadaki karşılık §14.3'teki `proc_close`
+→ çıkış kodu akışıdır. Repo'da Windows'a özgü süreç yönetim kodu yok → "(bu projede kullanılmıyor)".
+
+**macOS.** macOS'ta süreç başlatma/gözetme üst düzeyde launchd tarafından yapılır; alt
+düzeyde aynı POSIX bekleyiş (`waitpid`) geçerlidir — launchd iddiası bu tur doğrulanmadı
+⚠️. Bu dosyadaki karşılık §14.2-§14.3 yürütme akışıdır; depoda macOS kanıtı yok
+→ "(bu projede kullanılmıyor)".
+
+**iOS.** iOS, uygulama yaşam döngüsü yönetimi üzerinden süreçleri denetler; `kill`/`waitpid`
+gibi araçlar bu projede iOS yüzeyinde kullanılmaz. §14.4 hata kataloğu (aşağıda OS.3'teki
+repo bloğuyla) bu platforma taşınabilir, iOS'a özgü kanıt yok → "(bu projede kullanılmıyor)".
+
+**Android.** Android'de süreç başlatma/kapatma ve önem derecesi platform yönetimindedir;
+kaynak URL bu tur `ornekler.md` OS.3 bölümüne eklendi (burada tekrarlanmadı). Bu dosyadaki
+karşılık yalnız §14.1 bekleme/yok sayma satırıdır → "(bu projede kullanılmıyor)".
+
+**Linux.** Linux satırı bu dosyanın omurgasıdır: çocuk `waitpid` ile beklenir, `kill`/`signal`
+ile sonlandırılır (§14.1 · §14.4/1-3), süreç birimi systemd ile yönetilir — systemd iddiası
+bu tur doğrulanmadı ⚠️. Repo'daki gerçek yüzey `proc_open`/`proc_close` (§14.3) ve
+`shell_exec` (§14.2) ile sınırlıdır (§15/2-3: tekil eşleşmeler).
+
+**FreeBSD/BSD.** FreeBSD, Linux ile aynı POSIX çocuk yönetimini kullanır; üst düzey kuyruk
+katmanı kqueue'dur: "kqueue, kevent — kernel event notification mechanism" (bu tur eklenen
+URL). Bu dosyadaki karşılık §14.1 I/O bekleme yüzeyidir; rc.d iddiası ⚠️, repo'da BSD kanıtı
+yok → "(bu projede kullanılmıyor)".
+
+**Tizen.** Tizen'de uygulama süreç yaşam döngüsü platform yöneticisi tarafından denetlenir;
+bu dosyanın `proc_open`/`waitpid` eşlemeleri Tizen paketinde geçerli değildir. Depoda Tizen
+kanıtı yok → "(bu projede kullanılmıyor)"; platform dokümanı bu dosyaya eklenmedi ⚠️.
+
+**webOS OSE.** webOS OSE'de servis süreçleri LS2 üzerinden kaydedilir ve denetlenir — LS2
+iddiası bu tur doğrulanmadı ⚠️. §14.4 eşlemeleri bu platformu
+kapsamaz; depoda webOS kanıtı yok → "(bu projede kullanılmıyor)".
+
+### OS.3 — OS bazlı kontrol aracı örnekleri
+
+> Blok 1-2 bu dosyanın §13.1/§14'ünde adı geçen mevcut kanıtlar, blok 3-4 repo disk kanıtıdır
+> (`[IO.File]::ReadAllLines` ile 2026-10-14 okunarak doğrulandı), blok 5-6 bu tur doğrulanan
+> iki URL'ye dayanır. Kalan OS satırlarında karşılık yok → "(bu projede kullanılmıyor)".
+
+**1) POSIX/Linux — yürütme yüzeyi `execve` (§13.1 mevcut kanıt · bu projede kullanılmıyor)**
+
+```c
+pid_t pid = fork();
+if (pid == 0) {
+    execve(path, argv, envp);   /* §14.1: çocuk görüntüsü değişir */
+    _exit(127);
+}
+int status;
+waitpid(pid, &status, 0);       /* §14.4/2: çıkış kodu burada okunur */
+```
+
+**2) POSIX/Linux — bekleme yüzeyi `nanosleep` (§13.1 mevcut kanıt ·
+"nanosleep() suspends the execution of the calling thread ..." — §13.1/2 alıntısı)**
+
+```c
+struct timespec req = { .tv_sec = 0, .tv_nsec = 2000000 };
+struct timespec rem;
+nanosleep(&req, &rem);          /* arayüz bekleme — bu projede kullanılmıyor */
+```
+
+**3) repo — CLI alt süreci kontrolü (künye `shared/tests/Repository/ApiKeyCreateCommandTest.php:248-268` · ReadAllLines 2026-10-14)**
+
+```php
+$handle = proc_open(
+    $command,
+    [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']],
+    $pipes,
+    dirname(__DIR__, 3)
+);
+$this->assertIsResource($handle, 'CLI alt süreci açılamadı');
+fclose($pipes[0]);
+return ['exit' => proc_close($handle), 'out' => $out, 'err' => $err];
+```
+
+**4) repo — yardımcı süreç kontrolü (künye `shared/src/AI/AIEngine.php:290-300` · ReadAllLines 2026-10-14)**
+
+```php
+$cmd = sprintf(
+    'ffprobe -v quiet -print_format json -show_format -show_streams "%s"',
+    escapeshellarg($filePath)
+);
+$output = shell_exec($cmd);
+if ($output === null) {
+    return ['duration' => 0, 'sample_rate' => 44100, 'bit_depth' => 16, 'channels' => 2];
+}
+```
+
+**5) Windows — fiber zamanlaması (bu tur doğrulandı · bu projede kullanılmıyor) ·
+`https://learn.microsoft.com/en-us/windows/win32/procthread/using-fibers` (2026-10-14 HTTP 200)**
+
+```c
+/* "The CreateFiber function creates a new fiber for a thread." */
+CreateFiber(stackSize, FiberProc, NULL);   /* başlangıç adresi uygulama verir */
+SwitchToFiber(fiber);                      /* zamanlama uygulamanın kendisinde */
+/* fiber'ler süreç değildir: çıkış/kontrol handle ile değil el ile yönetilir */
+```
+
+**6) FreeBSD/BSD — kqueue olay kuyruğu (bu tur doğrulandı · bu projede kullanılmıyor) ·
+`https://man.freebsd.org/cgi/man.cgi?query=kqueue&sektion=2` (2026-10-14 HTTP 200)**
+
+```c
+#include <sys/event.h>
+int kq = kqueue();
+struct kevent chlist[1];
+EV_SET(&chlist[0], fd, EVFILT_READ, EV_ADD, 0, 0, NULL);
+kevent(kq, chlist, 1, NULL, 0, NULL);   /* kayıt */
+/* doküman: "The queue is not inherited by a child created with fork(2)." */
+```
+
+**7) macOS · iOS · Android · Tizen · webOS OSE — bu projede kullanılmıyor**
+
+```text
+macOS launchd · iOS yaşam döngüsü yönetimi · Android süreç önem derecesi ·
+Tizen süreç yaşam döngüsü yöneticisi · webOS LS2 servis süreci:
+bu dosyada karşılık kontrol aracı kodu yok. Diğer URL'ler bu dosyaya eklenmedi
+(her URL tek dosyada); repo taraması sonucu: `proc_open` 1, `shell_exec` 1,
+`pcntl_|pthread_` 0 eşleşme (§15/2-3) → "(bu projede kullanılmıyor)".
+```
+
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

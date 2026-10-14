@@ -23,6 +23,8 @@ evidence:
   - shared/composer.json:8-9
   - shared/tests/Repository/ApiKeyCreateCommandTest.php:248-269
   - shared/src/AI/AIEngine.php:288-300
+  - https://learn.microsoft.com/en-us/windows/win32/procthread/creating-threads
+  - https://pubs.opengroup.org/onlinepubs/9799919799/functions/sigaction.html
 validation: "2026-10-13 · 12 URL HTTP 200 (3 devralınan + 9 bu tur eklenen — §17.1) · repo satırları Read ile birebir · PHP yüzeyi desen taraması (§10) · içerik 380-460 satır bandında"
 open_questions:
   - "R2: Çok-iş-parçacıklı çalışma (pthreads) hedef mimaride var mı? Uygulama katmanında thread oluşturucu kod yok. [UNKNOWN]"
@@ -483,5 +485,136 @@ Bu dosya kapsamı dışına çıkmaz (düzeltme bu dalın işi değil).
 | 6 | mojibake | `[IO.File]::ReadAllLines($f)` UTF-8 ayrıştırma | 0 |
 
 ---
+
+## § OS GRUPLAR — sekiz işletim sistemi grubu: süreç/parçacık karşılaştırması
+
+> Bu bölüm, bu dalın bağlayıcı tanımlarını (§13 POSIX · §14 vfork/clone · §15 pthread ·
+> §16 zamanlayıcı · §17 Windows yansımaları) **işletim sistemi grubu** ekseniyle karşılaştırır:
+> Kavram sabittir, ürün değişir. Depoda yalnız Windows ve POSIX süreç yüzeyi vardır (§18
+> ölçüm); diğer gruplar "(bu projede kullanılmıyor)" etiketiyle ve kaynak gösterilerek taşınır.
+
+### OS.1 — Karşılaştırma tablosu
+
+| # | OS | Bu dalın konusu (süreç/parçacık) | Bu dosyadaki karşılığı | Kaynak |
+|---|---|---|---|---|
+| 1 | Windows | `CreateProcessW` ile süreç + birincil parçacık, `CreateThread` ile ek parçacık | §17/1 · §17 karşılık matrisi | `https://learn.microsoft.com/en-us/windows/win32/procthread/creating-threads` (bu tur eklendi · 2026-10-14 HTTP 200) |
+| 2 | macOS | launchd üzerinden süreç başlatma ve gözetme | §13 fork/exec/waitpid semantiği (POSIX) | repo taraması (§18): bu projede kullanılmıyor · launchd iddiası ⚠️ VERIFICATION REQUIRED |
+| 3 | iOS | kısıtlı süreç çatallanması + uygulama yaşam döngüsü | §13 POSIX satırları bu projede iOS yüzeyinde geçerli değil | repo taraması (§18): bu projede kullanılmıyor · platform iddiası ⚠️ VERIFICATION REQUIRED |
+| 4 | Android | uygulama bileşeni süreçleri + önem derecesine göre süreç kapatma | §16 zamanlayıcı/öncelik satırı (sched.7) | repo taraması (§18): bu projede kullanılmıyor · süreç kapatma iddiası ⚠️ VERIFICATION REQUIRED |
+| 5 | Linux | `fork`/`exec`/`waitpid` + `signal`/`sigaction` + CFS zamanlayıcı | §13 · §15 · §16 | man7 (§17.1 mevcut kanıt) · Open Group sigaction (bu tur eklendi) |
+| 6 | FreeBSD/BSD | POSIX süreç modeli + kqueue olay kuyruğu | §13 fork/exec/waitpid | repo taraması (§18): bu projede kullanılmıyor · kqueue kaynağı bu tur `surucu.md` OS.1 bölümüne eklendi |
+| 7 | Tizen | uygulama süreç yaşam döngüsü | bu dosyada karşılığı yok (kapsam dışı) | repo taraması (§18): bu projede kullanılmıyor · platform dokümanı bu dosyaya eklenmedi ⚠️ |
+| 8 | webOS OSE | servis tabanlı süreç modeli (LS2) | bu dosyada karşılığı yok (kapsam dışı) | repo taraması (§18): bu projede kullanılmıyor · LS2 iddiası ⚠️ VERIFICATION REQUIRED |
+
+### OS.2 — OS bazlı kısa açıklamalar (her OS 2-3 cümle)
+
+**Windows.** Windows için süreç oluşturma tek adımda olur: `CreateProcessW` "Creates a new
+process and its primary thread." (§17/1) — süreç ile birincil parçacık birlikte doğar. Ek
+parçacıklar `CreateThread` ile açılır ("The CreateThread function creates a new thread for a
+process." — bu tur eklenen URL). Repo'da Win32 süreç çağrısı yok (§18 ölçüm 3: `pcntl_`/
+`pthread_` 0 eşleşme) → "(bu projede kullanılmıyor)".
+
+**macOS.** macOS aynı POSIX primitiflerini korur: `fork`/`exec`/`waitpid` (§13) ve `pthread_*`
+(§15); üst düzey süreç başlatıcısı launchd'dir — launchd iddiası bu tur doğrulanmadı
+⚠️ VERIFICATION REQUIRED. Depoda macOS'a özgü süreç kodu yok → "(bu projede kullanılmıyor)".
+
+**iOS.** iOS'ta süreç çatallanması platform tarafından kısıtlanır ve uygulamalar tek süreçte,
+uygulama yaşam döngüsü arayüzü üzerinden ilerler — her iki iddia da bu tur doğrulanmadı
+⚠️ VERIFICATION REQUIRED. §13'teki POSIX satırları bu projede iOS yüzeyinde geçerli değildir;
+depoda iOS kanıtı yok → "(bu projede kullanılmıyor)".
+
+**Android.** Android, uygulama bileşenlerini ayrı Linux süreçlerinde koşturur ve önem
+derecesine göre süreç kapatır; bu iddianın kaynak URL'si bu tur `ornekler.md` OS.3 bölümüne
+eklendi (burada tekrarlanmadı). §16'daki öncelik/zamanlayıcı satırları (sched.7) kavramsal
+karşılıktır. Depoda Android kanıtı yok → "(bu projede kullanılmıyor)".
+
+**Linux.** Linux satırı bu dosyanın omurgasıdır: `fork`/`exec` (§13), `waitpid` (§13/5-6),
+süreç sinyalleri ve zamanlayıcı (§16). Sinyal yakalama yüzeyi bu tur
+`https://pubs.opengroup.org/onlinepubs/9799919799/functions/sigaction.html` (2026-10-14 HTTP
+200) ile doğrulandı: "sigaction — examine and change a signal action". Repo'da süreç kontrolü
+yalnız `proc_open`/`shell_exec` ile sınırlıdır (§18 ölçüm 1-3).
+
+**FreeBSD/BSD.** FreeBSD, Linux ile aynı POSIX süreç primitiflerini (§13-§15) kullanır;
+farklılık üst düzey olay kuyruğu katmanındadır (kqueue) — kqueue kaynağı bu tur `surucu.md`
+OS.1 bölümüne eklendi, bu dosyada URL tekrarı yapılmadı. Depoda BSD'ye özgü süreç kodu yok
+→ "(bu projede kullanılmıyor)".
+
+**Tizen.** Tizen'de uygulamalar platformun uygulama süreç yaşam döngüsü içinde koşar; bu
+dalın POSIX/Windows tanımları Tizen paketinde kullanılmaz. Depoda Tizen kanıtı yok
+→ "(bu projede kullanılmıyor)"; platform dokümanı bu dosyaya eklenmedi ⚠️ VERIFICATION REQUIRED.
+
+**webOS OSE.** webOS OSE'de servisler Life Session 2 (LS2) üzerinden süreç olarak yönetilir —
+LS2 iddiası bu tur doğrulanmadı ⚠️ VERIFICATION REQUIRED. Bu dalın anayasası LS2'yi kapsamaz;
+depoda webOS kanıtı yok → "(bu projede kullanılmıyor)".
+
+### OS.3 — OS bazlı kod örnekleri
+
+> Bloklar bu dosyanın §13-§17 alıntılarına ve bu tur doğrulanan iki URL'ye dayanır; bu dosyaya
+> başkasına ait URL eklenmedi. Karşılığı olmayan platformlarda kod yerine repo negatif kanıtı
+> (§18 ölçüm tablosu) ve "(bu projede kullanılmıyor)" etiketi verilir.
+
+**1) Windows — süreç + parçacık yüzeyi (`creating-threads` örneğinden; bu projede kullanılmıyor)**
+
+```c
+// süreç ve birincil parçacık birlikte doğar (§17/1 — CreateProcessW)
+// ek parçacık — bu tur eklenen sayfadaki örnekten:
+DWORD WINAPI MyThreadFunction(LPVOID lpParam);
+hThreadArray[i] = CreateThread(NULL, 0, MyThreadFunction,
+    pDataArray[i], 0, &dwThreadIdArray[i]);
+// çağrıyan parçacık iş parçacıklarının bitişini bekler:
+WaitForMultipleObjects(MAX_THREADS, hThreadArray, TRUE, INFINITE);
+```
+
+**2) POSIX/Linux — fork + exec + waitpid (§13 · fork.2/waitpid.2 §17.1 envanterinde)**
+
+```c
+pid_t pid = fork();
+if (pid == 0) {                 /* çocuk süreç */
+    execl(path, arg, (char *)NULL);
+    _exit(127);                 /* exec başarısızsa çocuk 127 ile biter */
+}
+int status = 0;
+waitpid(pid, &status, 0);       /* §13/5-6: çocuk bitişi beklenir */
+```
+
+**3) POSIX — sinyal yüzeyi `sigaction` (bu tur doğrulandı) ·
+`https://pubs.opengroup.org/onlinepubs/9799919799/functions/sigaction.html` (2026-10-14 HTTP 200)**
+
+```c
+struct sigaction sa = {0};
+sa.sa_handler = on_signal;      /* sa_sigaction ile de seçilebilir (doküman) */
+sigemptyset(&sa.sa_mask);       /* engellenecek ek sinyal kümesi (doküman: sa_mask) */
+sa.sa_flags = 0;                /* davranış bayrakları (doküman: sa_flags) */
+sigaction(SIGCHLD, &sa, NULL);  /* "examine and change a signal action" */
+```
+
+**4) pthread — §15 (repo'da 0 eşleşme → hedef mimari adayı, R2 [UNKNOWN])**
+
+```c
+pthread_t th;
+pthread_create(&th, NULL, worker, NULL);   /* §15/1 — uygulama kodunda karşılığı yok */
+pthread_join(th, NULL);                    /* §15/3-6: bitiş + kaynak serbest bırakma */
+```
+
+**5) Linux — repo süreç yüzeyi (negatif kanıt · §18 ölçüm 1-3)**
+
+```text
+desen 'pcntl_|pthread_'  → 0 eşleşme   (üretim kodunda süreç/parçacık kontrolü yok)
+desen 'proc_open'       → 1 eşleşme   (yalnız test altyapısı — surucu.md §14.3)
+desen 'shell_exec'      → 1 eşleşme   (ffprobe yardımcı süreci — surucu.md §14.2)
+desen 'exec(' bağımsız   → 0 eşleşme   (§18 ölçüm 4)
+```
+
+**6) macOS · iOS · Android · FreeBSD/BSD · Tizen · webOS OSE — bu projede kullanılmıyor**
+
+```text
+macOS launchd · iOS yaşam döngüsü · Android önem derecesi · FreeBSD kqueue ·
+Tizen süreç yaşam döngüsü · webOS LS2 servis süreci: bu dosyada karşılık yok.
+Kurallar: (1) kqueue kaynağı `surucu.md` OS.1 bölümüne, Android kaynağı `ornekler.md` OS.3
+bolumüne eklendi — burada URL tekrarı yok; (2) diğer platform dokümanları bu dosyaya
+eklenmedi → VERIFICATION REQUIRED; (3) depoda bu platformlara ait tarama kanıtı yok
+(§18) → "(bu projede kullanılmıyor)".
+```
+
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

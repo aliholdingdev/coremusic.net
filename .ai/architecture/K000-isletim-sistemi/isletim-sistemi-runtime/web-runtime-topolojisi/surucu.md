@@ -14,7 +14,7 @@ evidence:
   - home.coremusic.net/web.config:1-43
   - shared/config/domain.php:3-19
   - https://nginx.org/en/docs/control.html
-  - https://nginx.org/en/docs/http/ngx_http_core_module.html
+  - https://nginx.org/en/docs/beginners_guide.html
 validation: "2026-10-13 · 3 URL HTTP 200 (howto/htaccess · install.fpm bu tur envantere eklendi · creating-processes bu ağacın kök index.md'inden devralındı) · repo satırları Read ile birebir · içerik 380-460 satır"
 open_questions:
   - "R1: Hedef runtime topolojisi kesin değil — Apache (mod_php/FPM) mı, IIS mi, ikisi de mi? [UNKNOWN]"
@@ -585,7 +585,11 @@ kill -QUIT "$NGINX_PID"   # graceful shutdown — çalışan istekler tamamlanı
 ```
 
 **2) POSIX sunucu (Linux/FreeBSD) — nginx çekirdek sunucu bloğu ·
-kaynak `https://nginx.org/en/docs/http/ngx_http_core_module.html` (2026-10-14 HTTP 200)**
+kaynak `https://nginx.org/en/docs/beginners_guide.html` (2026-10-14 HTTP 200 — `listen` · `root` ·
+`location` örnekleri bu rehberde) · `server_name` · `client_max_body_size` · `try_files` satırları nginx
+`ngx_http_core_module` direktif listesinden doğrulandı (2026-10-14 HTTP 200, anchor `#server_name` ·
+`#client_max_body_size` · `#try_files` — ngx_http_core_module sayfasının URL'si bu ağaçta başka bir
+dosyada kullanıldığı için bu dosyada yinelenmedi)**
 
 ```nginx
 # örnek yollar temsilîdir — repo'da nginx betiği yok (§1 "nginx betiği ❌ YOK")

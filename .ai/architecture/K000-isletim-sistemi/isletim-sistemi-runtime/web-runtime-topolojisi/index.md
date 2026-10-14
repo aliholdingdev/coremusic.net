@@ -28,21 +28,12 @@ group: mimari
 
 # web-runtime-topolojisi
 
-> **Kapsam (tek cümle):** CoreMusic'in çalıştığı **web sunucusu çalışma zamanı topolojisi** —
-> Apache MPM süreç modeli (prefork/worker/event), IIS app-pool/worker process, nginx +
-> PHP-FPM FastCGI zinciri ve repo'daki `.htaccess`/`web.config` çift hedefinin bu
-> modellerdeki yeri.
-
-Bu alt-dal Kademe-3'tür; kök `isletim-sistemi-runtime` altındadır. Üç içerik dosyası
-sınır (anayasa), yürütme (surucu) ve kanıt (ornekler) katmanını taşır.
+> **Kapsam (tek cümle):** CoreMusic'in çalıştığı **web sunucusu çalışma zamanı topolojisi** — Apache MPM süreç modeli (prefork/worker/event), IIS app-pool/worker process, nginx + PHP-FPM FastCGI zinciri ve repo'daki `.htaccess`/`web.config` çift hedefinin bu modellerdeki yeri.
+> Bu alt-dal Kademe-3'tür (kök `isletim-sistemi-runtime` altında); üç içerik dosyası sınır (anayasa), yürütme (surucu) ve kanıt (ornekler) katmanını taşır.
 
 ## §0 ELI15
 
-CoreMusic tek bir kod tabanından **iki web sunucusu** (Apache + IIS) hedefler:
-`.htaccess` ve `web.config` çifti bu çift hedefin kanıtıdır. Bu alt-dal, isteğin
-sunucu process'ine girişinden PHP kodunun çalışmasına kadar olan **topolojiyi**
-(MPM/IIS app-pool/FastCGI zinciri) kavram düzeyinde tanımlar; uygulama içi
-bootstrap ayrı alt-daldır (`baslangic-ve-bootstrap`).
+CoreMusic tek bir kod tabanından **iki web sunucusu** (Apache + IIS) hedefler; `.htaccess` ve `web.config` çifti bu çift hedefin kanıtıdır. Bu alt-dal, isteğin sunucu process'ine girişinden PHP kodunun çalışmasına kadar olan topolojiyi (MPM / IIS app-pool / FastCGI zinciri) kavram düzeyinde tanımlar; uygulama içi bootstrap `baslangic-ve-bootstrap` alt-dalındadır.
 
 ## İçerik Dosyaları
 
@@ -63,8 +54,7 @@ bootstrap ayrı alt-daldır (`baslangic-ve-bootstrap`).
 
 ## Açık Sorular
 
-R1 çift hedef (Apache/IIS) · R3 mod_php-vs-FPM · R7 MPM/FPM kapasitesi —
-üçü de [UNKNOWN] / [⚠️ VERIFICATION REQUIRED]; ayrıntı `anayasa.md` §8.
+R1 çift hedef (Apache/IIS) · R3 mod_php-vs-FPM · R7 MPM/FPM kapasitesi — üçü de [UNKNOWN] / [⚠️ VERIFICATION REQUIRED]; ayrıntı `anayasa.md` §8.
 
 ## Komşu Sınır Matrisi
 
@@ -87,6 +77,8 @@ R1 çift hedef (Apache/IIS) · R3 mod_php-vs-FPM · R7 MPM/FPM kapasitesi —
 | nginx istek işleme sırası (vhost eşlemesi → rewrite → PHP) resmi dokümanda anlatılır; repo `web.config`/`.htaccess` eşdeğerlerinin nginx karşılığı bu sıradadır (R1 çapraz hedef iddiası). | `https://nginx.org/en/docs/http/request_processing.html` | 2026-10-13 | Doğrulandı (HTTP 200, resmi doküman) |
 | Microsoft IIS `system.webServer` yapılandırma bölümü resmi dokümantasyonundadır; repo `web.config` (43 satır) bu bölümün altındaki `httpProtocol` + `rewrite` bloklarını kullanır (R1 IIS hedefi iddiası). | `https://learn.microsoft.com/en-us/iis/configuration/system.webServer/` | 2026-10-13 | Doğrulandı (HTTP 200, resmi doküman) |
 
+---
+
 ## § OS GRUPLAR — sekiz işletim sistemi grubu
 
 | # | OS | Web sunucu/runtime topolojisi | Bu dosyadaki karşılığı | Kaynak |
@@ -100,31 +92,6 @@ R1 çift hedef (Apache/IIS) · R3 mod_php-vs-FPM · R7 MPM/FPM kapasitesi —
 | 7 | Tizen | ayrı sunucu topolojisi yok (yerleşik web runtime) | karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
 | 8 | webOS | ayrı sunucu topolojisi yok (yerleşik web runtime) | karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
 
-### OS.1 — OS bazlı kısa açıklamalar (2-3 cümle)
-| # | OS | Açıklama |
-|---|---|---|
-| 1 | Windows | CoreMusic çift hedefinin Windows ayağı IIS'tir: HTTP.sys isteği app-pool'a, app-pool worker process'i `web.config` kurallarına bağlar. PHP bu süreçte FastCGI handler (`php-cgi.exe`) ile çalışır. Üretimde IIS'in aktif olduğu [UNKNOWN] (R1). |
-| 2 | macOS | macOS topolojisi gömülü Apache (httpd) üzerinden tanımlanır; MPM ve `.htaccess` katmanı Linux Apache topolojisiyle aynıdır. Depoda macOS'a özgü config yok → bu grup yalnız kavram düzeyinde taşınır. Platform dokümanı bu tur eklenmedi (⚠️). |
-| 3 | iOS | Bu ağaçta iOS için web sunucusu topolojisi tanımlı değildir; depoda iOS'e ait config kanıtı yoktur. "(Bu projede kullanılmıyor)" etiketiyle taşınır. Resmi platform dokümanı bu tur eklenmedi (⚠️). |
-| 4 | Android | Android için de sunucu-başına topoloji tanımlı değildir — bu ağaç yalnız sunucu tarafını kapsar. Depoda Android kanıtı yok → "(bu projede kullanılmıyor)". Resmi platform dokümanı bu tur eklenmedi (⚠️). |
-| 5 | Linux | Sunucu tarafının tipik POSIX topolojisi nginx/Apache + PHP-FPM FastCGI zinciridir; repo'da FPM pool config'i olmadığı için bu topoloji çapraz hedef olarak taşınır. Hangi MPM/havuz kapasitede çalıştığı R3/R7 ile [⚠️ VERIFICATION REQUIRED]. |
-| 6 | FreeBSD/BSD | FreeBSD ports/paket ağacından Apache veya nginx kurar; süreç modeli Linux ile aynı POSIX topolojisidir. Bu projede BSD'ye özgü config yok → "(bu projede kullanılmıyor)". |
-| 7 | Tizen | Tizen cihazlarında web uygulamaları yerleşik web runtime'ında çalışır; Apache/nginx topolojisi bu projede taşınmaz. Depoda Tizen kanıtı yok → "(bu projede kullanılmıyor)". |
-| 8 | webOS | webOS cihazlarında uygulamalar yerleşik web runtime'ında çalışır; ayrı web sunucusu topolojisi yoktur. Depoda webOS kanıtı yok → "(bu projede kullanılmıyor)". |
-
-### OS.2 — OS bazlı config örneği: IIS `web.config` fastCgi (Windows)
-> **(Bu projede kullanılmıyor):** dört `web.config` tarandı — `fastCgi` düğümü hiçbiri
-> geçmez (repo disk kanıtı). Örnek yollar temsilîdir; ön koşul CGI rol servisi + `.php`
-> için handler mapping. Kaynak: `https://learn.microsoft.com/en-us/iis/configuration/system.webServer/fastCgi/` (2026-10-14 HTTP 200).
-
-```xml
-<system.webServer>
-  <fastCgi>
-    <application fullPath="C:\PHP\php-cgi.exe" maxInstances="4" monitorChangesTo="C:\PHP\php.ini" />
-  </fastCgi>
-</system.webServer>
-```
-
----
+> OS.1 uzun açıklamalar ve OS.2 fastCgi örneği içerik dosyalarındadır — repo'da dört `web.config` tarandı, `fastCgi` düğümü hiçbiri geçmez (disk kanıtı). Kaynak: `https://learn.microsoft.com/en-us/iis/configuration/system.webServer/fastCgi/` (2026-10-14 HTTP 200).
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

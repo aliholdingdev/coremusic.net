@@ -506,4 +506,88 @@ Tablo notu: olmayan varlık "yoktur" olarak yazılır; varlığı varsayılmaz, 
 | 4 | 2026-10-13 | 12 disk kanıtı `Select-Object -Index` ile doğrulandı | bu sürüm |
 | 5 | — | R1–R8 açık soruları kapatılmadı | açık |
 
+---
+
+## ⬢ OS GRUPLAR — sekiz işletim sistemi grubu (kapsam görünümü)
+
+> Bu bölüm § numarası olmadan eklenmiştir (2026-10-14); mevcut §0–§18 numaralandırması değişmez. URL doğrulaması bu bölümde değil, `isletim-sistemi-runtime-dogrulama.md` OS.3'tedir.
+
+### OS.1 Karşılaştırma tablosu
+
+| OS | Grup | Bu depodaki runtime karşılığı | Kapsam durumu |
+|----|------|-------------------------------|---------------|
+| Windows | Masaüstü / server | IIS `web.config` (rewrite + customHeaders) | kapsam içi |
+| macOS | Masaüstü / server | Apache `.htaccess` yüzeyi ile uyumlu | referans |
+| iOS | Mobil | yok | kapsam dışı (§9) |
+| Android | Mobil | yok | kapsam dışı (§9) |
+| Linux | Server (Raspberry Pi 5 hedefi — `home.coremusic.net/AGENTS.md`) | Apache `.htaccess` + `RuntimeBootstrap` | kapsam içi |
+| FreeBSD/BSD | Server | Apache `.htaccess` ile aynı yapılandırma yüzeyi | referans |
+| Tizen | Gömülü / TV | yok | kapsam dışı (§9) |
+| webOS OSE | TV | yok | kapsam dışı (§9) |
+
+### OS.2 Sekiz OS kısa açıklaması
+
+1. **Windows** — IIS `web.config` XML yapılandırması; bu depoda `home.coremusic.net/web.config` çift hedef kanıtıdır.
+2. **macOS** — Apache/PHP SAPI yüzeyi; bu depoda `.htaccess` `php_flag` bayrakları üzerinden dolaylı temsil edilir, macOS'e özgü dosya yoktur.
+3. **iOS** — Apple'ın mobil OS'su; uygulama yaşam döngüsü bu dalın runtime kapsamı dışındadır.
+4. **Android** — Google'ın mobil OS'su; aktivite/görev yığını modeli bu dalın runtime kapsamı dışındadır.
+5. **Linux** — Üretim hedefi (Raspberry Pi 5); Apache `.htaccess` + PHP çalışma zamanı bu depodaki asıl disk kanıtıdır.
+6. **FreeBSD/BSD** — UNIX türevi server OS'su; Apache yapılandırması Linux ile aynı yüzeyi paylaşır, bu depoda BSD'ye özgü dosya yoktur.
+7. **Tizen** — Samsung'un gömülü/TV OS'si; bu depoda runtime karşılığı yoktur.
+8. **webOS OSE** — LG'nin açık kaynak TV OS'si; bu depoda runtime karşılığı yoktur.
+
+### OS.3 Repo kanıt blokları
+
+Windows — `home.coremusic.net/web.config:4-13` (IIS customHeaders):
+
+```xml
+        <httpProtocol>
+            <customHeaders>
+                <remove name="X-Powered-By" />
+                <add name="X-Content-Type-Options" value="nosniff" />
+                <add name="X-Frame-Options" value="DENY" />
+                <add name="X-XSS-Protection" value="0" />
+                <add name="Referrer-Policy" value="strict-origin-when-cross-origin" />
+                <add name="Permissions-Policy" value="camera=(), microphone=(), geolocation=()" />
+            </customHeaders>
+        </httpProtocol>
+```
+
+macOS / Linux (Apache) — `home.coremusic.net/.htaccess:5-7` (PHP çalışma zamanı bayrakları):
+
+```apache
+php_flag  display_errors off
+php_flag  log_errors on
+php_value error_log ../../coremusic_php_errors.log
+```
+
+Ortak PHP bootstrap — `shared/src/Bootstrap/RuntimeBootstrap.php:7-20`:
+
+```php
+    public static function boot(bool $debugMode = false): void
+    {
+        date_default_timezone_set($_ENV['APP_TIMEZONE'] ?? 'Europe/Istanbul');
+
+        if ($debugMode) {
+            error_reporting(E_ALL);
+            ini_set('display_errors', '1');
+        } else {
+            error_reporting(E_ERROR | E_WARNING | E_PARSE);
+            ini_set('display_errors', '0');
+        }
+
+        ini_set('log_errors', '1');
+    }
+```
+
+Kapsam dışı beş OS grubu (repo'da runtime karşılığı yok):
+
+| OS | Durum |
+|----|-------|
+| iOS | bu projede kullanılmıyor |
+| Android | bu projede kullanılmıyor |
+| FreeBSD/BSD | BSD'ye özgü dosya yok — yalnız `.htaccess` yüzeyi devralınır (bu projede kullanılmıyor) |
+| Tizen | bu projede kullanılmıyor |
+| webOS OSE | bu projede kullanılmıyor |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

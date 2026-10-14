@@ -7,7 +7,7 @@ children: []
 depends_on:
   - K000-isletim-sistemi/isletim-sistemi-runtime/web-runtime-topolojisi/anayasa
   - K000-isletim-sistemi/isletim-sistemi-runtime/web-runtime-topolojisi/surucu
-evidence: https://httpd.apache.org/docs/2.4/rewrite/rules.html · https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html · https://httpd.apache.org/docs/2.4/vhosts/name-based.html · shared/src/Cache/ApcuAdapter.php · .github/workflows/ci.yml · home.coremusic.net/.htaccess · home.coremusic.net/web.config · api.coremusic.net/index.php · https://httpd.apache.org/docs/2.4/mod/core.html · https://www.php.net/manual/en/install.fpm.php · https://www.php.net/manual/en/install.apache.php · https://www.php.net/manual/en/install.windows.iis.php
+evidence: https://httpd.apache.org/docs/2.4/rewrite/rules.html · https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html · https://httpd.apache.org/docs/2.4/vhosts/name-based.html · shared/src/Cache/ApcuAdapter.php · .github/workflows/ci.yml · home.coremusic.net/.htaccess · home.coremusic.net/web.config · api.coremusic.net/index.php · https://httpd.apache.org/docs/2.4/mod/core.html · https://raw.githubusercontent.com/php/php-src/master/sapi/fpm/www.conf.in · https://www.php.net/manual/en/install.apache.php · https://www.php.net/manual/en/install.windows.iis.php
 validation: 2026-10-13 · 3 URL HTTP 200 (rewrite/rules · ngx_http_fastcgi_module · name-based) · repo satırları Read ile birebir · içerik 380-460 satır
 open_questions: R3 mod_php ile PHP-FPM geçişi · R7 MPM ile havuz kapasitesi eşlemesi
 group: kod
@@ -475,7 +475,7 @@ $jsonResponse([
 | 2 | macOS | gömülü Apache httpd — MPM + `.htaccess` | §2.1 `.htaccess` · §10.1 E-1 | `https://httpd.apache.org/docs/2.4/mod/core.html` (bu tur eklendi) |
 | 3 | iOS | ayrı web sunucusu topolojisi bu projede tanımlı değil | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
 | 4 | Android | ayrı web sunucusu topolojisi bu projede tanımlı değil | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
-| 5 | Linux | nginx veya Apache + PHP-FPM FastCGI zinciri | §2.5 Nginx FastCGI yönlendirmesi | `https://www.php.net/manual/en/install.fpm.php` (bu tur eklendi) |
+| 5 | Linux | nginx veya Apache + PHP-FPM FastCGI zinciri | §2.5 Nginx FastCGI yönlendirmesi | `https://raw.githubusercontent.com/php/php-src/master/sapi/fpm/www.conf.in` (bu tur eklendi) |
 | 6 | FreeBSD/BSD | ports/paket Apache veya nginx — POSIX süreç modeli | §2.6 name-based vhost | `https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html` (mevcut kanıt) |
 | 7 | Tizen | ayrı sunucu topolojisi yok (yerleşik web runtime) | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
 | 8 | webOS | ayrı sunucu topolojisi yok (yerleşik web runtime) | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
@@ -531,8 +531,10 @@ ServerSignature Off
 ```
 
 **2) Linux/FreeBSD — PHP-FPM havuzu (bu projede kullanılmıyor: repo'da havuz dosyası yok, R3) ·
-kaynak `https://www.php.net/manual/en/install.fpm.php` (2026-10-14 HTTP 200 — `pm`/`listen`
-direktifleri aynı dokümanın Configuration sayfasında doğrulandı)**
+kaynak `https://raw.githubusercontent.com/php/php-src/master/sapi/fpm/www.conf.in` (2026-10-14
+HTTP 200 · php-src resmi pool template'i — `[www]` · `user =` · `group =` · `listen = 127.0.0.1:9000` ·
+`pm = dynamic` · `pm.max_children = 5` satırları şablonda birebir mevcut; örnekteki socket yolu ve
+`pm.max_children = 10` bu projeye uyarlanmış temsilî değerdir)**
 
 ```ini
 [www]

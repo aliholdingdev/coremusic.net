@@ -77,4 +77,19 @@ R2 pthread varlığı · R9 APCu cache tutarlılığı · R10 arka-plan kuyruk s
 
 ---
 
+## ⬢ OS GRUPLAR — sekiz işletim sistemi grubu (özet)
+
+> Ayrıntı (OS.1 tablo · OS.2 açıklama · OS.3 kod) kardeş dosyalarda: `anayasa.md` (bağlantı) · `surucu.md` (kontrol aracı) · `ornekler.md` (örnek) — bu bölüme yeni URL eklenmedi.
+
+| OS | Süreç/parçacık odak | Kardeş dosyada nerede |
+|---|---|---|
+| Windows | `CreateProcessW` + `CreateThread` · job object / `WaitForSingleObject` | `anayasa.md` OS.1/1 · `surucu.md` OS.1/1 · `ornekler.md` OS.1/1 |
+| macOS | launchd üzerinden süreç başlatma/yönetimi | `anayasa.md` OS.1/2 · `surucu.md` OS.1/2 · `ornekler.md` OS.1/2 |
+| iOS | kısıtlı süreç çatallanması + uygulama yaşam döngüsü | `anayasa.md` OS.1/3 · `surucu.md` OS.1/3 · `ornekler.md` OS.1/3 |
+| Android | uygulama bileşeni süreçleri + önem derecesine göre kapatma | `anayasa.md` OS.1/4 · `surucu.md` OS.1/4 · `ornekler.md` OS.1/4 |
+| Linux | `fork`/`exec`/`waitpid`/`signal` + süreç birimi yönetimi | `anayasa.md` OS.1/5 · `surucu.md` OS.1/5 · `ornekler.md` OS.1/5 |
+| FreeBSD/BSD | kqueue olay kuyruğu + rc.d | `anayasa.md` OS.1/6 · `surucu.md` OS.1/6 · `ornekler.md` OS.1/6 |
+| Tizen | uygulama süreç yaşam döngüsü | `anayasa.md` OS.1/7 · `surucu.md` OS.1/7 · `ornekler.md` OS.1/7 |
+| webOS OSE | LS2 servis süreci | `anayasa.md` OS.1/8 · `surucu.md` OS.1/8 · `ornekler.md` OS.1/8 |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
