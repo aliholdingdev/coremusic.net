@@ -478,4 +478,34 @@ Soru: firmware yönetiyor mu?
 5. Bu dosya tek başına envanter iddiası taşımaz; envanter doğrulaması
    `donanım-devices-dogrulama.md` §12'de `UNKNOWN` olarak kapıdadır.
 
+## G. Örneklerin Doğrulanabilirliği (nasıl tekrarlanır)
+
+Her örnek, Vault Steward veya başka bir agent tarafından şu adımlarla denetlenir:
+
+| Adım | İşlem | Beklenen |
+|---|---|---|
+| 1 | A grubu kod parçaları depoda açılır (`shared/src/Device/*.php`) | satır aralıkları iddia ile eşleşir |
+| 2 | Satır sayıları ölçülür (`Get-Content .Count`) | 662 · 316 · 162 · 57 (2026-10-13) |
+| 3 | B grubu örüntüler okunur | 26 alanın tamamı mevcut, hiçbiri uydurma değer taşımıyor |
+| 4 | `marka`/`model`/`seri_no` denetlenir | tüm örneklerde `UNKNOWN`/`NOT PROVIDED` |
+| 5 | `kanit_kaynagi` alanları denetlenir | yalnız dosya:satır, ADR bölümü veya HEAD-200 URL |
+| 6 | C grubu akışlar denetlenir | tahmin yok; kanıtsız alan `UNKNOWN` |
+
+Sapma tespit edilirse örnek silinmez; `VERIFY REQUIRED` olarak işaretlenir ve
+dogrulama dosyasına sapma kaydı eklenir.
+
+## H. Yanlış Kullanım Örnekleri (bu dosyada YASAK)
+
+Aşağıdaki kullanımlar bu dalın kurallarına aykırıdır; örnekler yalnızca
+*neyin yapılmayacağını* göstermek için listelenir:
+
+| Yanlış kullanım | Neden yanlış | Doğrusu |
+|---|---|---|
+| B1'deki `marka: "UNKNOWN"` yerine gerçek bir marka yazmak | kanıt yok (kapsam §9) | `UNKNOWN` kalır, kanıtla doldurulur |
+| A2 breakpoint'ini „OS keşfi kanıtı" saymak | uygulama katmanıdır (anayasa §2 → K000) | eksen 8 yalnız durum; kod K000'de |
+| B6'da otomotiv eksen 8/9'ü tahminle `EVET` yapmak | ADR-064 uyarısı (PHP/BFF yok) | `UNKNOWN` kalır |
+| `envanter_durumu: "IMPLEMENTED"` yazmak | üretim kanıtı yok | `PROPOSED` kalır; IMPLEMENTED ayrı kanıt ister |
+| `baglanti_arayuzleri` listesine kanıtsız arayüz eklemek | uydurma | yalnız kanıtla eklenir; yoksa boş |
+| B8'i ADR-064'ün 5 sınıfından biri olarak sunmak | sınıf eşlemesi kesin değil | `cihaz_sinifi: "UNKNOWN"` + ⚠️ işaretli |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

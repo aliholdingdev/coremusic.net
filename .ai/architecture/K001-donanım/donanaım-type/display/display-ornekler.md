@@ -2,7 +2,7 @@
 title: display — Örnekler (Repo Kodu, Şablonlar, Çalışma Sayfaları)
 type: mimari-ornekler
 node_id: K001-donanım/donanaım-type/display/display-ornekler
-node_type: architecture-examples
+node_type: module
 status: proposed
 parent_id: K001-donanım/donanaım-type
 children:
@@ -10,8 +10,11 @@ children:
   - "§4 EDID/DDC okuma şablonu"
   - "§6 panel↔arayüz eşleme çalışma sayfası"
   - "§9 dokunma kalibrasyon formu"
-depends_on: K001-donanım
+depends_on:
+  - K001-donanım
+  - ADR-102-tur-taksonomi-genislemesi-5-dal
 evidence:
+  - ".ai/.decisions/draft/ADR-102-tur-taksonomi-genislemesi-5-dal.md §4 (display satırı) · §4.1 (sınır: kablo/ekran ayrımı) · §4.2 (ADR-038/089/064 DEĞİŞMEZ) — 2026-10-13 eklendi (orkestratör cerrahi patch)"
   - "kendi repo sayımım (2026-10-13): 700 kaynak dosyada EDID=0 DDC=0 HDMI=0 DisplayPort=0 VESA=0"
   - "kendi repo sayımım: *.cpp=0 *.h=0 *.c=0 *.xc=0 *.ino=0 (3186 dosya, .ai/.git/vendor/node_modules hariç değil — genel sayı)"
   - "touchscreen|dokunmatik = 19 eşleşme (ScaleManager.js, d-embedded.css, DeviceDetectorTest.php vb.)"
@@ -33,7 +36,6 @@ group: kod
 > "yok" der ve boşluğu şablonlarla kapatır. Şablonlar **boştur**: hiçbirinde uydurma ölçüm,
 > uydurma cihaz adı, uydurma URL yok. Dolu görünen tek şeyler: kendi sayımım (§2) ve HEAD kaydı (§11).
 
-**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 
 ---
 
@@ -233,5 +235,268 @@ Panel tipi bilinse bile arayüz `UNKNOWN` bırakılır (ayrım bozulmaz).
 | dokunmatik teması yalnız arayüz katmanında (19) | S2 |
 | 2 kaynak URL erişilebilir (içerik okunmadı) | S4 |
 | şablonlar hazır, ölçüm **0** | — |
+
+---
+
+## §13 Tip-bazlı şablon kayıtları (D-T01…D-T08 — hepsi boş)
+
+> Her tip için "bu tip ölçülecekse şu alanlar doldurulur" kartı. **Tahmin yasak; hepsi `—`.**
+
+### Şablon D-T01 · LCD
+
+| Alan | Değer | Ölçen | Tarih |
+|---|---|---|---|
+| Panel tipi yazımı (EDID/menü) | — | — | — |
+| Çözünürlük × refresh (ölçülen) | — | — | — |
+| Tepki süresi (ms) | — | — | — |
+| Sıcaklık (°C) | — | — | — |
+
+### Şablon D-T02 · LED backlight
+
+| Alan | Değer | Ölçen | Tarih |
+|---|---|---|---|
+| Aydınlatma tipi kaynağı (EDID/doküman) | — | — | — |
+| Backlight sızması (karanlık oda) | — | — | — |
+| Uniformite notu | — | — | — |
+| Parlaklık ölçümü (nit — S1 zorunlu) | — | — | — |
+
+### Şablon D-T03 · OLED
+
+| Alan | Değer | Ölçen | Tarih |
+|---|---|---|---|
+| Ölü piksel sayımı (siyah test) | — | — | — |
+| Yanma testi notu | — | — | — |
+| Parlaklık ölçümü (nit — S1 zorunlu) | — | — | — |
+| Panel tipi yazımı | — | — | — |
+
+### Şablon D-T04 · GPU display çıkışı
+
+| Alan | Değer | Ölçen | Tarih |
+|---|---|---|---|
+| Çıkış tipi (port listesi) | — | — | — |
+| Aktif bağlantı sayısı | — | — | — |
+| Max çözünürlük+refresh (çıkışta) | — | — | — |
+| Hotplug gecikmesi (ms) | — | — | — |
+
+### Şablon D-T05 · DisplayPort
+
+| Alan | Değer | Ölçen | Tarih |
+|---|---|---|---|
+| Sürüm (okunan) | — | — | — |
+| Link hızı (okunan) | — | — | — |
+| Eğitim hatası/retry | — | — | — |
+| EDID okuma sonucu | — | — | — |
+
+### Şablon D-T06 · HDMI
+
+| Alan | Değer | Ölçen | Tarih |
+|---|---|---|---|
+| Sürüm (okunan) | — | — | — |
+| Mod listesi (EDID üzerinden) | — | — | — |
+| Ses kanalı kullanımı | — | — | — |
+| Hotplug davranışı | — | — | — |
+
+### Şablon D-T07 · dokunma katmanı
+
+| Alan | Değer | Ölçen | Tarih |
+|---|---|---|---|
+| Teknoloji (kapasitif/rezistif) | — | — | — |
+| Kalibrasyon sonrası maks sapma (px) | — | — | — |
+| Multi-touch parmak sayısı | — | — | — |
+| Dokunma→yanıt gecikmesi (ms) | — | — | — |
+
+### Şablon D-T08 · display controller
+
+| Alan | Değer | Ölçen | Tarih |
+|---|---|---|---|
+| Kontrolcü tipi (okunan/doküman) | — | — | — |
+| Sürücü adı+sürümü | — | — | — |
+| Firmware sürümü | — | — | — |
+| EDID/DDC sorumluluğu (varsa) | — | — | — |
+
+**Kural**: her şablon 4 satır × 8 tip = 32 boş satır — bu dosyanın **kanıt** değildir;
+doldurulması ayrı ölçüm oturumu ister (display-dogrulama K-D4/K-D7).
+
+---
+
+## §14 Ölçüm ortamı kayıt formu (tüm display ölçümleri için — boş)
+
+> Her ölçüm oturumu bu formun bir kopyasıyla başlar; koşullar yazılmadan ölçüm sayılmaz.
+
+| Alan | Değer |
+|---|---|
+| Oturum adı | — |
+| Ölçülen cihaz (ölçenin kendi cihazı) | — |
+| Kullanılan kablo/port | — |
+| İşletim sistemi + sürüm | — |
+| Ekran sürücüsü + sürüm | — |
+| Ortam sıcaklığı (°C) | — |
+| Ölçüm aracı (donanım/yazılım) | — |
+| Ölçen kişi | — |
+| Tarih | — |
+| Ölçüm sayısı (n) | — |
+
+**Kural**: form eksikse ölçüm sonuçları `VERIFY REQUIRED` kalır; `0` doldurulmaz.
+
+---
+
+## §15 Panel↔arayüz eşleme sayfası — genişletilmiş (D-T01…D-T08)
+
+> §6'nın geniş sürümü: her satırda panel sınıfı ile arayüz **ayrı hücrelerde** (ayrım bozulmaz).
+
+| # | Panel/sınıf (D-T01..03) | Çıkış bileşeni (D-T04) | Arayüz (D-T05/06) | Kontrol (D-T07/08) | Ölçülen mod | Kanıt |
+|---|---|---|---|---|---|---|
+| 1 | — | — | — | — | — | — |
+| 2 | — | — | — | — | — | — |
+| 3 | — | — | — | — | — | — |
+| 4 | — | — | — | — | — | — |
+| 5 | — | — | — | — | — | — |
+| 6 | — | — | — | — | — | — |
+| 7 | — | — | — | — | — | — |
+| 8 | — | — | — | — | — | — |
+
+**Doldurma kuralı**: bir satırda hem "OLED" hem "HDMI" yazılabilir — ama **ayrı hücrelerde**
+ve her biri kendi kanıtına (S1/S3/S4) bağlanır; tek hücrede birleştirilmez (anayasa §12.1).
+
+---
+
+## §16 EDID okuma oturum defteri (boş — çoklu oturum)
+
+> Birden fazla oturumda EDID okunursa her oturum bir satır; tek dosyada toplanır.
+
+| # | Tarih | Cihaz | Araç | Üretici kodu | Panel tipi | Modlar | Sonuç |
+|---|---|---|---|---|---|---|---|
+| 1 | — | — | — | — | — | — | — |
+| 2 | — | — | — | — | — | — | — |
+| 3 | — | — | — | — | — | — | — |
+| 4 | — | — | — | — | — | — | — |
+| 5 | — | — | — | — | — | — | — |
+
+**Kural**: satır sayısı = gerçek oturum sayısı; boş satırlar doldurulmayı bekler; uydurma satır yok.
+
+---
+
+## §17 Kapanış — bu dosya neyi kanıtlar (özet)
+
+| Kanıtlanan | Seviye |
+|---|---|
+| display kodu repo'da yok (700 dosya, 0 eşleşme) | S2 |
+| dokunmatik teması yalnız arayüz katmanında (19) | S2 |
+| 2 kaynak URL erişilebilir (içerik okunmadı) | S4 |
+| şablonlar hazır, dolum **0** | — |
+| 8 tip şablonu + ortam formu + eşleme sayfası boş | — |
+| git commit | **ATILMADI** (subagent taahhüdü) |
+
+---
+
+## §18 Arayüz bağlantı defteri (kablo bazlı — boş)
+
+| # | Tarih | Port tipi | Kablo | Çözünürlük×refresh | Hotplug (ms) | Sorun | Ölçen |
+|---|---|---|---|---|---|---|---|
+| 1 | — | — | — | — | — | — | — |
+| 2 | — | — | — | — | — | — | — |
+| 3 | — | — | — | — | — | — | — |
+| 4 | — | — | — | — | — | — | — |
+| 5 | — | — | — | — | — | — | — |
+
+> Her satır = bir fiziksel bağlantı gözlemi; "sorun" sütunu boş bırakılmaz (yoksa `yok` yazılır).
+
+---
+
+## §19 Ölçüm oturum günlüğü (boş)
+
+| # | Tarih | Oturum | Kapı | Doldurulan form | Sonuç | Ölçen |
+|---|---|---|---|---|---|---|
+| 1 | — | — | — | — | — | — |
+| 2 | — | — | — | — | — | — |
+| 3 | — | — | — | — | — | — |
+| 4 | — | — | — | — | — | — |
+| 5 | — | — | — | — | — | — |
+
+> Her satır bir ölçüm oturumunu temsil eder; oturum yapılmadıkça satır `—` kalır.
+
+---
+
+## §20 Sık hatalar (bu tip için — bağlamsal uyarı listesi)
+
+| # | Hata | Sonuç | Kaçınma |
+|---|---|---|---|
+| 1 | "belgede geçiyor" = "repo'da var" demek | hayali envanter | S2 sayımı zorunlu |
+| 2 | panel tipini protokolle aynı hücrede yazmak | ayrım kaybı | 4 eksenli model (kapsam §5) |
+| 3 | ekran görüntüsünü donanım kanıtı saymak | I-5 tuzağı | yalnız cihaz kanıtı sayılır |
+| 4 | HEAD 200'ü "içerik doğrulandı" sanmak | kanıt şişirme | ⚠️ okunmadı etiketi |
+| 5 | "tipik değer" yazıp ölçüm sanmak | S1 sahteciliği | tipik değer formdaki yere yazılmaz |
+| 6 | tahmini sürüm yazmak ("1.4 gibi") | doğrulanamayan iddia | yalnız okunan sürüm yazılır |
+| 7 | ölçülmediği hâlde `0` yazmak | veri kirliliği | `—` kuralı |
+| 8 | anayasa revizesi olmadan `DOCUMENTED` etiklemek | yetki aşımı | status=proposed disiplini |
+
+---
+
+## §21 Doldurma akışı (kavramsal — ölçüm talimatı değil)
+
+1. Ölçüm oturumu açılır → §14 ortam formu doldurulur (koşullarsız ölçüm sayılmaz).
+2. İlgili tip şablonu seçılır (§13: D-T01…D-T08) → yalnız o şablonun alanları doldurulur.
+3. EDID okunacaksa §4 + §16 defteri birlikte doldurulur (oturum satırı + özet).
+4. Arayüz bağlantısı gözlemlenmişse §18 defterine bir satır eklenir.
+5. Eşleme sayfası (§15) güncellenir — panel ve arayüz **ayrı hücrelerde**.
+6. Her doldurulan satırda ölçen + tarih + koşul bulunur; bulunmayan satır geri alınır.
+7. Kapı hesabı: hangi kapıların kapandığı `display-dogrulama §3` tablosundan işaretlenir.
+8. **Bu dosyaya uydurma veri girişi yasak** — doldurulmayan `—` kalır.
+
+> Bu akış bir **plan**tır; uygulaması ölçüm oturumuna aittir ve bu dosyada gerçekleşmez.
+
+---
+
+## §22 Kapanış — bu dosya neyi kanıtlar (özet)
+
+| Kanıtlanan | Seviye |
+|---|---|
+| display kodu repo'da yok (700 dosya, 0 eşleşme) | S2 |
+| dokunmatik teması yalnız arayüz katmanında (19) | S2 |
+| 2 kaynak URL erişilebilir (içerik okunmadı) | S4 |
+| şablonlar hazır, dolum **0** | — |
+| 8 tip şablonu + ortam formu + eşleme sayfası boş | — |
+| git commit | **ATILMADI** (subagent taahhüdü) |
+
+---
+
+## §22 Sürüm geçmişi (bu dosya)
+
+| # | Tarih | Ne değişti | Değiştiren |
+|---|---|---|---|
+| 1 | 2026-10-13 | ilk yazım (§1–§22) | Vault Steward (subagent) |
+
+> Gelecek revizyonlar bu tabloya eklenir; silme yasak (append-only).
+
+---
+
+## §23 İlişkili dosyalar (cross-reference)
+
+| Dosya | İlişki |
+|---|---|
+| `display/index.md` | bu dosyanın künyesi ve kapı özeti |
+| `display/display-kapsam.md` | D-T01…D-T08 tip tanımları · §0 çatışma kaydı · §5 ayrım modeli |
+| `display/display-dogrulama.md` | kapılar K-D1…K-D8 · ölçüm formları (§4–§6) · HEAD tablosu (§9) |
+| `donanaım-type/index.md` | kademe-3 kataloğu (display satırı, 2026-10-13) |
+| `K001-donanım/index.md` | kademe-3 tablosu (display satırı, 2026-10-13) |
+| `donanım-anayasa.md` | §2 çatışma kaynağı — **dokunulmaz**, yalnız okundu |
+| `donanaım-type/donanaım-type-kapsam.md` | §2/A6, §7/3-T1, §12/M6 çatışma kaynağı — dokunulmaz |
+| `audio/audio-ornekler.md` | yapısal şablon (önceki oturum) — dokunulmadı |
+
+---
+
+## §24 Terim notları (display — kısa, bağlamsal değil)
+
+| Terim | Bu dosyadaki anlamı |
+|---|---|
+| EDID | ekrandan okunan tanıtım bloğu — panel/mod bilgisi kaynağı |
+| DDC/CI | ekranla yazılımsal kontrol kanalı (VCP komutları) |
+| hotplug | kablo tak-çıkar algılama olayı |
+| panel | görüntüyü üreten bileşen (LCD/OLED sınıfı) |
+| arayüz | panelin/çıktının bağlandığı port protokolü (DP/HDMI) |
+| touch layer | gövdeye eklenen dokunma yüzeyi — ayrı bileşen |
+| giriş lag | komuttan görüntüye geçen süre (ms) |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

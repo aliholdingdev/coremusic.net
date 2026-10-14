@@ -466,7 +466,7 @@ kullanılır (§30 eksik listesi ile birlikte okunmalı).
 | Adaptör/protokol (dış API) | K013-integraion | anayasa sınırları |
 | Event yayını (K012 event altyapısı) | shared/src/Events + integration-service | §18 sayıları |
 
-## §35 Ölçüm Defteri (S1 — 2026-10-13)
+## §34 Ölçüm Defteri (S1 — 2026-10-13)
 
 | Dosya | Ölçülen satır | Ölçüm yöntemi |
 |---|---|---|
@@ -486,7 +486,11 @@ kullanılır (§30 eksik listesi ile birlikte okunmalı).
 **Not:** sayılar 2026-10-13 ölçümüdür; dosya değişirse bu tablo
 güncellenir (son ölçüm esastır).
 
-## §36 Değişiklik Kaydı
+**Ek ölçüm (CLI dışı):** `media.coremusic.net` kökünde `composer.json`
+vardır (media AGENTS.md §3.1 #6 routing satırı) — içeriği bu görevde
+okunmadı → ⚠️ VERIFICATION REQUIRED.
+
+## §35 Değişiklik Kaydı
 
 | Tarih | Değişiklik | Not |
 |---|---|---|

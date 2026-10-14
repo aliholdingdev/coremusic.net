@@ -296,7 +296,7 @@ URL'lerin tamamı bu turda **yeni** (envanter kesişimi 0 — §I.2).
 | 5 | Hedef platform önceliği (Windows mı Linux mu) | Q4 kapalı | UNKNOWN |
 | 6 | Neva Engine'in bu dalı kullanacağı | PLANNED, kod yok | ⚠️ PLANNED |
 | 7 | Eşik N3/N4 değerleri | karar verilmedi | UNKNOWN |
-| 8 | 4 eksik deep-dal (`aaudio`·`tizen`·`webos`·`reactos`) | B ajanı — diskte yok | ⚠️ VERIFICATION REQUIRED |
+| 8 | 4 eksik deep-dal (`aaudio`·`tizen`·`webos`·`reactos`) | ✅ KAPANDI (2026-10-13) — 4/4 diskte, 4'er dosya | ✅ ölçüldü |
 
 ---
 
@@ -386,8 +386,8 @@ URL'lerin tamamı bu turda **yeni** (envanter kesişimi 0 — §I.2).
 | 2 | `aaudio/` | 4 | 0 | 4 |
 | 3 | `alsa/` | 0 | +4 | 4 |
 | 4 | `coreaudio/` | 0 | +4 | 4 |
-| 5 | `reactos-audio/` · `tizen-audio/` · `webos-audio/` | 0 | 0 (B ajanı) | 0 |
-| — | **alt-dal sayısı** | **5** | **+2** | **7** |
+| 5 | `reactos-audio/` · `tizen-audio/` · `webos-audio/` | 0 | +4·+4·+4 | 4+4+4 |
+| — | **alt-dal sayısı** | **5** | **+2 · +3** | **7** |
 
 ---
 

@@ -3,7 +3,10 @@ node_id: K012-services/music-service
 node_type: subdomain
 status: draft
 parent_id: K012-services
-children: []
+children:
+  - "music-service-anayasa.md"
+  - "music-service-surucu.md"
+  - "music-service-ornekler.md"
 depends_on: []
 evidence:
   - "v2 §2.12 — çocuk adı kaynağı (birebir)"
@@ -34,6 +37,9 @@ group: mimari
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| mimari | `music-service-anayasa.md` | Stream sözleşmesi, SQL, varyant matrisi (rol: anayasa) | Kademe-3 |
+| mimari | `music-service-surucu.md` | İstek yaşam döngüsü, karar ağaçları, senaryolar (rol: surucu) | Kademe-3 |
+| kod | `music-service-ornekler.md` | Tam dosya blokları: MusicRepository, RecentTracksComponent (rol: ornekler) | Kademe-3 |
 
 ## §A Kapilar (bu index)
 

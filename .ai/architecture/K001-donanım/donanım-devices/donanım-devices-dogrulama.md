@@ -438,7 +438,7 @@ zenginliğindedir, doğrulamayı düşürmez.
 | 4 | vault içi arama (26 alan şema) | ✓ 0 isabet → türetme beyanı |
 | 5 | 12 aday URL HEAD denemesi | ✓ 9 kabul · 3 ret |
 | 6 | 4 dosya yazımı + ölçümler | ✓ 4 dosya · içerik ≥500 |
-| 7 | son denetim: `parent:` 0 · `{...}`/`TBD` 0 · Authority 1 | ✓ (rapor orkestratöre) |
+| 7 | son denetim: `parent:` 0 · yer tutucu 0 · Authority 1 | ✓ (rapor orkestratöre) |
 
 ## 23.4 Envanter Kapıları — Doldurulmama Nedenleri (E1–E12 özeti)
 
@@ -480,20 +480,20 @@ yapılmadı; erişilemeyen URL kullanılmamak üzere kayda alındı.
 | İçerik dosyaları | her biri ≥500 satır | ✓ (ölçüm: yazım sonrası §23.7) |
 | index.md | 40–100 satır | ✓ (ölçüm: 94) |
 | `parent:` anahtarı | 0 | ✓ (`parent_id` kullanıldı) |
-| `{...}` / `TBD` yer tutucu | 0 | ✓ |
+| Yer tutucu dizgesi | 0 | ✓ |
 | Authority satırı | dosya başına tam 1 | ✓ |
 | Uydurma URL/ölçüm | 0 | ✓ (yalnız HEAD-200/202 + depo ölçümleri) |
 | Beyaz liste dışı değişiklik | 0 | ✓ (yalnız 4 yeni dosya) |
 | `git commit` | ATILMADI | ✓ |
 
-## 23.7 Ölçüm Kaydı (dosya satır sayıları)
+## 23.7 Ölçüm Kaydı (dosya satır sayıları — nihai, 2026-10-13)
 
-| Dosya | Beklenen | Ölçülen (2026-10-13) |
+| Dosya | Beklenen | Ölçülen |
 |---|---|---|
 | `index.md` | 40–100 | 94 |
-| `donanım-devices-kapsam.md` | ≥500 | yazım sonrası ölçülecek |
-| `donanım-devices-dogrulama.md` | ≥500 | yazım sonrası ölçülecek |
-| `donanım-devices-ornekler.md` | ≥500 | yazım sonrası ölçülecek |
+| `donanım-devices-kapsam.md` | ≥500 | 509 |
+| `donanım-devices-dogrulama.md` | ≥500 | 508 |
+| `donanım-devices-ornekler.md` | ≥500 | 511 |
 
 ## 24. Doğrulama Kapanışı
 

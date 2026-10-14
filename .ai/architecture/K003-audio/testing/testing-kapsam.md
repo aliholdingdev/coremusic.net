@@ -188,6 +188,311 @@ workflow'ların **içeriği doğrulanmadı** → R5 ⚠️.
 | TS-G5 | CI otomasyon kapsamı (R5) | ❌ ⚠️ |
 | TS-G6 | Ölçüm sıklığı planı (R6) | ❌ UNKNOWN |
 
+## §13 Test stratejisi — kapsam tanımı (piramit neyi kapsar)
+
+| Katman | Ne test edilir | Bu dosyada |
+|---|---|---|
+| Birim | Tek fonksiyon/bileşen davranışı | §6 iskeleti |
+| Entegrasyon | Zincirin birleşmesi (routing→output vb.) | §6 iskeleti |
+| Sistem (Uçtan uca) | Gerçek cihaz + gerçek akış | §10 senaryoları |
+| Performans | Latans/xrun bütçesi | realtime dosyalarına bağımlı |
+| Bağımsız doğrulama | Ölçüm aracı (auval benzeri) | TS-G3 (açık) |
+
+**Piramit yüksekliği (kaç test)** → `UNKNOWN` (R2: senaryo listesi yok).
+
+## §14 SNR/THD+N — testin ne ölçtiği (tanım)
+
+| Metrik | Ne | Birim |
+|---|---|---|
+| SNR | Sinyal / gürültü oranı | dB (değer `UNKNOWN`) |
+| THD+N | Bozulma + gürültü / sinyal | % veya dB (`UNKNOWN`) |
+| Frekans noktası | 1 kHz gibi | Sartnamede 1 kHz anılıyor mu → kontrol §7 |
+| Seviye | Test seviyesi | `UNKNOWN` |
+
+**Eşik yazmak yasaktır** (R1) — eşik, ürün kararı + ölçüm verisi ister.
+
+## §15 PASS/FAIL ölçütü — neden kapalı
+
+```text
+  ölç   → veri
+  karşılaştır → eşik (UNKNOWN)
+  karar → PASS/FAIL
+```
+
+| Adım | Durum |
+|---|---|
+| Ölçüm altyapısı | Yok (TS-G3 açık) |
+| Eşik | `UNKNOWN` (TS-G1 açık) |
+| Karar | **Yazılabilir değil** |
+
+Bu nedenle §8 tamamen `UNKNOWN` doludur — bilgi eksikliği değil, **kapı
+açık**.
+
+## §16 Regresyon matrisi — neyi korur
+
+| Korunan davranış | Kaynağı | Senaryo |
+|---|---|---|
+| 512/48k yapılandırması | sartname §8 | `UNKNOWN` (R2) |
+| Lock-free yol | kural 1/2 | `UNKNOWN` |
+| Kanal sırası | output | `UNKNOWN` |
+| Eşleme | routing | `UNKNOWN` |
+| DC koruma | kural 10 | `UNKNOWN` |
+
+Her satırda **senaryo adı yok** → R2 kapanmaz.
+
+## §17 Xrun / desync / yanlış-routing — kabul senaryoları analizi
+
+| Olay | Kabul mü, hata mı? | Eşik |
+|---|---|---|
+| Xrun | Kesinlikle hata (muhtemelen) | Ama **kaç tanesi kabul** → `UNKNOWN` |
+| Desync | Hata | Eşik `UNKNOWN` |
+| Yanlış routing | Hata | Sıfır mı → `UNKNOWN` |
+
+Not: "hata olması" ile "kabul eşiği" ayrı şeylerdir; kapı yalnız
+ikinciyi ister.
+
+## §18 CI otomasyon — kapsam soruları (R5)
+
+| Soru | Cevap |
+|---|---|
+| Hangi testler CI'da? | `UNKNOWN` |
+| Repo'da CI var mı? | `.github/workflows/` 2 dosya (`ci.yml`, `secret-scan.yml`) — **K003 C++ testleri için doğrulanmadı** |
+| Eşik (kaç test geçmeli)? | `UNKNOWN` |
+| Ortam (donanım)? | Ölçüm donanımı gerekli → `UNKNOWN` |
+
+## §19 Ölçüm sıklığı (R6) — neden UNKNOWN
+
+| Seçenek | Artısı | Eksişi |
+|---|---|---|
+| Her derlemede | Erken yakalar | Donanım bağlar |
+| Günlük | Denge | — |
+| Sürümde | Ucuz | Geç yakalar |
+
+Seçim, TS-G6'ya bağlıdır; **hiçbiri tercih edilmez**.
+
+## §20 Test verisi üretimi (şablon)
+
+| Veri türü | Kullanım | Üretim |
+|---|---|---|
+| Sine (1 kHz vb.) | SNR/THD | Sartnamedeki frekans kontrolü gerekir |
+| Beyaz gürültü | SNR | Üretici kod yok → `UNKNOWN` |
+| Sweep | Frekans yanıtı | `UNKNOWN` |
+| Bozuk veri (NaN) | Dayanıklılık | Kurgu — `UNKNOWN` |
+
+Üretici kodu repo'da **yok** (`*.cpp` = 0).
+
+## §21 Bağımsız doğrulama aracı (TS-G3) — gereksinim listesi
+
+| Gereksinim | Not |
+|---|---|
+| Cihazdaki çıkışı ölçebilmek | Fiziksel erişim |
+| Sinyali geri okuyabilmek | Loopback |
+| Karşılaştırma raporu | Eşik olmadan PASS/FAIL vermez |
+| Otomasyon | TS-G5 |
+
+Aracın adı/ürüni **bilinmiyor** → "auval benzeri" ifadesi yalnız
+**karşılaştırma** amaçlıdır; gerçek araç `UNKNOWN`.
+
+## §22 K003 ↔ K004 testing sınırı (R4)
+
+| Görev | K003 | K004 |
+|---|---|---|
+| Ses motoru davranışı | ✅ | — |
+| Ölçüm/teşhis altyapısı | — | `?` |
+| Ortak test senaryoları | `?` | `?` |
+
+Sınır kararı yok → R4 açık. Bu dosya **iki tarafa da** test yazmaz.
+
+## §23 Test → kapı eşlemesi
+
+| Test türü | Kapı |
+|---|---|
+| SNR/THD ölçümü | TS-G1 |
+| Regresyon senaryosu | TS-G2 |
+| Bağımsız doğrulama | TS-G3 |
+| Sınır testleri | TS-G4 |
+| CI koşusu | TS-G5 |
+| Sıklık | TS-G6 |
+
+## §24 Risk kaydı
+
+| # | Risk | Etki | Azaltma |
+|---|---|---|---|
+| R1 | Eşik yok → hiçbir test PASS diyemez | Test anlamsız | TS-G1 önce |
+| R2 | Senaryo yok → regresyon kaçar | Hata | TS-G2 |
+| R3 | Ölçüm aracı yok → bağımsız doğrulama yok | İddia doğrulanamaz | TS-G3 |
+| R4 | Sınır belirsiz → çift iş | İsraf | TS-G4 |
+| R5 | CI kapsamı belirsiz → otomasyon yok | Manuel test | TS-G5 |
+| R6 | Sıklık yok → ölçüm unutulur | Süreçsizlik | TS-G6 |
+
+## §25 Uygulama sırası (öneri)
+
+TS-G1 → TS-G2 → TS-G3 → TS-G4 → TS-G5 → TS-G6.
+**Gerekçe:** eşiksiz ölçüm anlamsızdır; senaryo olmadan otomasyon boştur.
+
+## §26 Bu dosyanın komşularla sınırı
+
+| Dosya | Ne alır | Ne vermez |
+|---|---|---|
+| `realtime/*` | Bütçe/kaçış tanımı | Test eşiği |
+| `output/*` | Kanal sırası | Ölçüm |
+| `routing/*` | Yanlış yönlendirme tanımı (R5) | Test çalıştırma |
+| `synchronization/*` | Drift metriği | Kabul eşiği |
+| `diagnostics/*` | Gözlem sinyali | Karar |
+
+## §27 Dürüstlük kaydı
+
+| İddia | Durum |
+|---|---|
+| Çalıştırılmış test | **Yok** → BLOCK |
+| Ölçülmüş SNR/THD | **Yok** → `UNKNOWN` |
+| CI'da K003 testi | **Doğrulanmadı** → `UNKNOWN` |
+| Geçen kapsam yüzdesi | **Yok** → `UNKNOWN` |
+
+## §28 SSS
+
+| Soru | Cevap |
+|---|---|
+| Eşikler yazıldı mı? | Hayır — R1/TS-G1 açık |
+| Test kodu var mı? | Hayır (`*.cpp` = 0) |
+| Regresyon listesi var mı? | Hayır — §9 şablon |
+| CI bağlandı mı? | Hayır — TS-G5 açık |
+
+## §29 Kapanış özeti
+
+| # | Öğe | Değer |
+|---|---|---|
+| 1 | Dosya | `testing/testing-kapsam.md` |
+| 2 | Bölüm aralığı | §1–§38 (son ek: §13–§38, 2026-10-13) |
+| 3 | Kanıt oranı | **Değişmedi** |
+| 4 | Açık kapı | TS-G1…TS-G6 |
+| 5 | Açık soru | R1…R6 |
+
+## §30 Eşik kararı — hangi girdiler gerekli
+
+| Girdi | Kaynak | Durumu |
+|---|---|---|
+| Hedef SNR | Ürün kararı + donanım | `UNKNOWN` |
+| Hedef THD+N | DAC/ADC datasheet'i (K000) | `UNKNOWN` (vault 0 dosya) |
+| Latency bütçesi | sartname + ölçüm | `UNKNOWN` |
+| Kabul edilen xrun | Ürün kararı | `UNKNOWN` |
+| Ölçüm noktası | Test tasarımı | `UNKNOWN` |
+
+**Hiçbir eşik bu dosyadan türetilmez** — hepsi TS-G1'e bağlıdır.
+
+## §31 Ölçüm ortamı gereksinimleri (şablon)
+
+| Gereksinim | Neden | Durum |
+|---|---|---|
+| Fiziksel loopback | Sinyali geri okumak | Donanım kararı yok |
+| Referans cihaz | Bağımsız ölçüm | `UNKNOWN` |
+| Kararlı ortam | Gürültü ölçümü | `UNKNOWN` |
+| Tekrarlanabilirlik | Regresyon | Plan yok (R6) |
+
+## §32 Birim test iskeleti (öncelikli, donanımsız)
+
+| Aday | Neden | Engeli |
+|---|---|---|
+| Matris/routing mantığı | Saf veri | Kararlar açık (RO-G*) |
+| Ring buffer mantığı | Saf veri | Kod yok (`*.cpp` = 0) |
+| Birim dönüşümleri | Saf veri | Kod yok |
+| DSP hesapları | Saf veri | Zincir PLANNED |
+
+**Ortak engel:** test edilecek kod henüz var değil.
+
+## §33 Entegrasyon testi — zincir tanımı
+
+```text
+  kaynak → routing → pipeline → output → (loopback) → ölç
+```
+
+| Parça | Durum |
+|---|---|
+| routing | PLANNED |
+| pipeline | K004 — PLANNED |
+| output | PLANNED |
+| loopback | Donanım yok |
+
+Zincirin tamamı PLANNED → entegrasyon testi **çalıştırılamaz**.
+
+## §34 Regresyon tetikleyicileri (plan)
+
+| Tetikleyici | Aksiyon | Kapı |
+|---|---|---|
+| Kod değişikliği | Birim + entegrasyon | TS-G5 |
+| Sürüm adayı | Tam ölçüm seti | TS-G6 |
+| Donanım değişikliği | Ölçüm tekrarı | TS-G1 |
+| Sartname değişikliği | Eşik gözden geçirme | TS-G1 |
+
+Tetikleyici-aksiyon eşleşmesi **plan taslağıdır**, CI bağlantısı yok.
+
+## §35 Hata → kapı akışı
+
+```text
+  test başarısız
+    → eşiğe bak (TS-G1) → eşik yoksa: karar YOK
+    → senaryoya bak (TS-G2) → senaryo yoksa: kapsam bilinmiyor
+    → raporla (log) → kapanış
+```
+
+İlk iki adım **kapı açık** olduğu için sonuç daima "karar yok"tur.
+
+## §36 Bağımsız doğrulama (TS-G3) — karar seçenekleri
+
+| Seçenek | Artısı | Eksişi |
+|---|---|---|
+| Dış ürün | Bağımsız | Bütçe/licence `UNKNOWN` |
+| Kendi aracı | Entegre | Bağımsızlık zayıf |
+| Manuel ölçüm | Ucuz | Tekrarlanamaz |
+
+**Hiçbiri seçilmedi.**
+
+## §37 Ölçüm sıklığı seçenekleri (R6)
+
+| Sıklık | Artısı | Eksişi |
+|---|---|---|
+| Her derlemede | Erken uyarı | Donanım bağlar |
+| Günlük | Denge | Donanım bağlar |
+| Sürümde | Ucuz | Geç fark |
+| Manuel | Bağımsız | Tekrarlanamaz |
+
+Seçim yok → TS-G6 açık.
+
+## §38 Sonraki tur için gerekenler
+
+1. TS-G1 eşikleri (ürün kararı + datasheet)
+2. TS-G2 senaryo listesi (bu dosyanın §9–§10'u doldurur)
+3. TS-G3 araç kararı
+4. TS-G5 CI bağlantısı (repo'daki `ci.yml` genişlemesi)
+
+## §39 K003 test etiketleme iskeleti
+
+| Etiket | Ne ayırır | Durum |
+|---|---|---|
+| `birim` | Donanımsız testler | Plan yok |
+| `entegrasyon` | Zincir testleri | Plan yok |
+| `ölçüm` | Fiziksel ölçüm | TS-G1/TS-G3 |
+| `manuel` | İnsan gerektiren | R6 |
+| `ci` | Otomatik koşan | TS-G5 |
+
+Etiketler **kategorilerdir**; kaç test taşır → `UNKNOWN`.
+
+## §40 Kapı kapanış kriterleri tablosu
+
+| Kapı | Kapanışta görülecek kanıt |
+|---|---|
+| TS-G1 | Onaylı eşik tablosu |
+| TS-G2 | En az bir dolu senaryo kartı (testing-ornekler §12) |
+| TS-G3 | Seçilen araç + ilk bağımsız ölçüm |
+| TS-G4 | K003↔K004 sınır kararnamesi |
+| TS-G5 | CI logunda K003 test koşusu |
+| TS-G6 | Sıklık planı + ilk iki tekrar kaydı |
+
+## §41 Bağımlılık: bu dosyanın K004'e bağımlılığı (tekrar değil, kapı)
+
+TS-G4 kapanmadan K003↔K004 test sınırı **çizilemez**; bu, §22'deki
+sınır tablosunun kapı karşılığıdır.
+
 ---
 
 Bu bölüm kanıt oranını DEĞİŞTİRmez — eklenen bölümler mevcut dosya

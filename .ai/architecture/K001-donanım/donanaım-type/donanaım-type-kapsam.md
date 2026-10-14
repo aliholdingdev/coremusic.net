@@ -132,8 +132,8 @@ donanaım-type (kademe-2 — yazım yasağı §1 notu)
 
 | # | Kural | Dayanak |
 |---|---|---|
-| T1 | Altına yalnız 3 bağlam açılır (`hdd` · `audio` · `ssd`) | anayasa §10/5 — `donanım-anayasa.md` satır 152 |
-| T2 | Ekran · kablo · güç kaynağı türü bağlamı AÇILMAZ | anayasa §10/5 — satır 153 (§2/A6) |
+| T1 | ~~Altına yalnız 3 bağlam açılır (`hdd` · `audio` · `ssd`)~~ **STALE (2026-10-13)** — 9 bağlam: `hdd` · `audio` · `ssd` · `display` · `power` · `cables` · `network` · `memory` · `cpu` · `PROPOSED — APPROVAL REQUIRED` (ADR-102 taslağı) | anayasa §10/3 (satır 195 — eski "§10/5 satır 152" atıfı line-drift: o satır artık §7 hata modeli) |
+| T2 | ~~Ekran · kablo · güç kaynağı türü bağlamı AÇILMAZ~~ **STALE (2026-10-13)** — anayasa §10'da yasağı YOK; §10/3 açık soruydu, ADR-102 ile cevaplandı: display (2026-10-13) ve power (2026-10-13, önceki oturum) açıldı · `PROPOSED` | anayasa §10/3 (satır 195 — eski "§10/5 satır 153" atıfı line-drift: §10/5 artık ses donanımı sınır sorusu) |
 | T3 | `audio/` altına çip dosyaları *envanter derin-dalı* olarak açılır (tartışma/BOM değil) | `audio/cipler/*` başlık notları |
 | T4 | hdd/ssd altına dosya açma ön koşlu: marka/model envanteri (K001 Q4) | anayasa §9 — satır 142-144 (§5/E9) |
 | T5 | `donanaım-type` yazımı düzeltilemez | v2 §3 KURAL 1 — anayasa §3 satır 60-61 |

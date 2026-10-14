@@ -480,6 +480,22 @@ hiçbiri bu oturumda kapatılmadı.
 **Kural:** on iki ifadenin hiçbiri bu dosyada yazılmamıştır; hepsi
 "yazılmaz" sütunundadır. Authority bu dosyada tektir.
 
+### §18.4 Taşma denetimi eki (§6—§18)
+
+| Eklenen bölüm | Kaynak | Sayım |
+|---|---|---|
+| §6 durum köprüsü | audio-master §2.2 | 4 durum |
+| §7 ölçüm beklentileri | audio-master §8 | 8 kapı AÇIK |
+| §8 komşu eşleme | K003 düğümleri | 5 eşleme |
+| §9 kapı listesi | kapsam §9 | 7 KAPALI |
+| §10 atıf | audio-master §3/§4/§5 | 3 satır |
+| §11—§14 şablonlar | tasarım | 4 akış |
+| §15—§17 örnek matrisler | §11—§14 | 3 matris |
+| §18 negatif örnekler | yasak kalıp | 12 satır |
+
+**Taşma sonucu:** eklenen bölümlerde yeni ölçüm değeri, yeni kapı ve yeni açık
+soru YOKTUR. Ölçüm kapıları 8/8 AÇIK; Authority dosya sonunda tektir.
+
 ---
 
 ## §19 Dürüstlük bloğu

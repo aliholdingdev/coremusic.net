@@ -3,7 +3,10 @@ node_id: K012-services/media-service
 node_type: subdomain
 status: draft
 parent_id: K012-services
-children: []
+children:
+  - "media-service-anayasa.md"
+  - "media-service-surucu.md"
+  - "media-service-ornekler.md"
 depends_on: []
 evidence:
   - "v2 §2.12 — çocuk adı kaynağı (birebir)"
@@ -34,6 +37,9 @@ group: mimari
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| mimari | `media-service-anayasa.md` | CLI komutları, sınıf envanteri, kural sabitleri (rol: anayasa) | Kademe-3 |
+| mimari | `media-service-surucu.md` | Sürücü akışı: tarama→ingest→audit, commit kapısı (rol: surucu) | Kademe-3 |
+| kod | `media-service-ornekler.md` | Tam dosya blokları: Ulid, Slugger, Validator başlıkları (rol: ornekler) | Kademe-3 |
 
 ## §A Kapilar (bu index)
 

@@ -33,7 +33,6 @@ group: mimari
 > **Sınır**: K001 power = tip/enventar sınıflandırma; devre/PCB/BOM/hesap ⇒ K002-electroncis
 > + ADR-063/064 (bkz. `power-kapsam.md §sınır`).
 
-**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 
 ---
 
