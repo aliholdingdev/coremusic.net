@@ -8,6 +8,7 @@ children:
   - isletim-sistemi-turu-kapsam.md
   - isletim-sistemi-turu-dogrulama.md
   - isletim-sistemi-turu-ornekler.md
+  - isletim-sistemi-turu-kod-seti.md
   - android
   - ios
   - linux
@@ -25,7 +26,7 @@ evidence:
   - "https://docs.kernel.org/"
   - "https://pubs.opengroup.org/onlinepubs/9799919799/"
   - "os-master.md §3 satır 57, 59-61"
-validation: "web: developer.android.com, tron.org/rtos/rtos01, docs.kernel.org, POSIX.1-2024 yanıt kodları 2026-10-12 (HTTP 200). osek-vdx.org/mirror/os221.pdf → 403 (erişim engeli, bkz. os-dogrulama ölü-URL tablosu). disk: os-master.md §3 satırları okundu; alt dizinler windows/linux/macos (disk enumerasyonu)."
+validation: "web: developer.android.com, tron.org/rtos/rtos01, docs.kernel.org, POSIX.1-2024 yanıt kodları 2026-10-12 (HTTP 200). osek-vdx.org/mirror/os221.pdf → 403 (erişim engeli, bkz. os-dogrulama ölü-URL tablosu). disk: os-master.md §3 satırları okundu; alt dizinler windows/linux/macos (disk enumerasyonu). 2026-10-14: kök'e isletim-sistemi-turu-kod-seti.md eklendi (938 satır) → yeniden sayım 66 dosya / 31.258 satır."
 open_questions:
   - "Q5: turu ↔ K002-altyapi boşluğu — tür seçimi ile altyapı katmanı arasındaki kopukluk v2'de yazılmamış. [⚠️ VERIFICATION REQUIRED]"
   - "T-U1: turu ↔ cross sınırı v2'de yazılmamış — tahmin YASAK. [⚠️ VERIFICATION REQUIRED]"
@@ -40,7 +41,7 @@ group: mimari
 
 ## Durum özeti
 
-Seçilmiş sınıflandırma şeması **yok** (T-U2 UNKNOWN), hedef tür **bilinmiyor** (T-U3/Q4 UNKNOWN). Bu yüzden kapsam dosyası yalnız ölçütleri ve bilinen sınır notlarını taşır; "hedefimiz X tür OS" cümlesi **yazılmaz**. Altında sekiz platform alt-dizini (`android`, `ios`, `linux`, `macos`, `reactos`, `tizen`, `webos`, `windows`) diskte mevcuttur (ölçüm 2026-10-13, §PLATFORMLAR) — derinlemesine içerik dosyaları bu turda **dokunulmaz**, yalnız platform `index.md'leri zenginleştirilir.
+Seçilmiş sınıflandırma şeması **yok** (T-U2 UNKNOWN), hedef tür **bilinmiyor** (T-U3/Q4 UNKNOWN). Bu yüzden kapsam dosyası yalnız ölçütleri ve bilinen sınır notlarını taşır; "hedefimiz X tür OS" cümlesi **yazılmaz**. Altında sekiz platform alt-dizini (`android`, `ios`, `linux`, `macos`, `reactos`, `tizen`, `webos`, `windows`) diskte mevcuttur (ölçüm 2026-10-13, §PLATFORMLAR) — derinlemesine içerik dosyaları bu turda **dokunulmaz**, yalnız platform `index.md'leri zenginleştirilir. **2026-10-14 eklemesi:** kök `isletim-sistemi-turu-kod-seti.md` eklendi — gruplu cross-platform kod seti (8 grup · 10 dil · 938 satır · üretim Linux, kod Windows/macOS dahil tüm sınıflara taşınabilir).
 
 ## Dosya indeksi
 
@@ -49,6 +50,7 @@ Seçilmiş sınıflandırma şeması **yok** (T-U2 UNKNOWN), hedef tür **bilinm
 | [`isletim-sistemi-turu-kapsam.md`](isletim-sistemi-turu-kapsam.md) | Rol, sınır (içinde/dışında/komşu), ayrım noktaları U1–U5, bağımlılık grafiği, olgunluk matrisi |
 | [`isletim-sistemi-turu-dogrulama.md`](isletim-sistemi-turu-dogrulama.md) | Web (≥5) + disk kanıtları, 403 engelli URL kaydı, web doğrulama matrisi |
 | [`isletim-sistemi-turu-ornekler.md`](isletim-sistemi-turu-ornekler.md) | Gerçek repo kodu: tür/ipucu kanıtları (`php_uname`, hedef platform notu) |
+| [`isletim-sistemi-turu-kod-seti.md`](isletim-sistemi-turu-kod-seti.md) | Gruplu cross-platform kod seti — 8 grup (platform tespiti · yol · süreç · dış araç · kilit · ortam · kabuk · CI) × 10 dil (PHP/JS/Python/Go/Rust/C#/C/C++/Bash/PowerShell) · Linux birincil |
 | `android/` · `ios/` · `linux/` · `macos/` · `reactos/` · `tizen/` · `webos/` · `windows/` | 8 platform alt-dizini — ayrıntı §PLATFORMLAR tablosunda, her birinin kendi `index.md`'si vardır |
 
 ## §PLATFORMLAR
@@ -66,7 +68,7 @@ Seçilmiş sınıflandırma şeması **yok** (T-U2 UNKNOWN), hedef tür **bilinm
 | webos | `webos/` | 7 | 3.087 | 6/6 | 🔄 ajan çalışıyor | Yazım yasak — canlı ajan (`webos-web-arastirma.md`) |
 | windows | `windows/` | 9 | 4.223 | 8/8 | ✅ tam | Win32/NT · `-audio/wasapi` · `-api/platform-api`'ya |
 
-**Toplam:** 65 dosya · 28.745 satır (kök 4 + platform 61). **Çift yönlü link:** her platform `index.md` `parent_id: K000-isletim-sistemi/isletim-sistemi-turu` taşır ve tablo satırında köke geri döner — kök ⇄ platform linki tekil değil, iki yönlüdür.
+**Toplam:** 66 dosya · 31.258 satır (kök 5 · 2.619 + platform 61 · 28.639 — 2026-10-14 taze sayım). **Çift yönlü link:** her platform `index.md` `parent_id: K000-isletim-sistemi/isletim-sistemi-turu` taşır ve tablo satırında köke geri döner — kök ⇄ platform linki tekil değil, iki yönlüdür.
 
 ## Açık sorular
 
@@ -81,6 +83,7 @@ Q5 tür↔altyapı boşluğu · T-U1 cross sınırı · T-U2 şema seçimi · T-
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
 | mimari | `isletim-sistemi-turu-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
 | kod | `isletim-sistemi-turu-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-2 |
+| kod | `isletim-sistemi-turu-kod-seti.md` | Gruplu cross-platform kod seti (8 grup × 10 dil · Linux birincil) | Kademe-2 |
 | kanit | `isletim-sistemi-turu-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-2 |
 | mimari | `android/index.md` | Platform künyesi ve çocuk kataloğu — **diskte yok**, beyazliste dışı | Kademe-3 |
 | mimari | `ios/index.md` | Platform künyesi ve çocuk kataloğu | Kademe-3 |

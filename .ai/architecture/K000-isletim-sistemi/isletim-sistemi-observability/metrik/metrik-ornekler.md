@@ -24,7 +24,16 @@ evidence:
   - https://man7.org/linux/man-pages/man1/uptime.1.html
   - https://man7.org/linux/man-pages/man1/uname.1.html
   - https://man7.org/linux/man-pages/man8/ethtool.8.html
-validation: "2026-10-13 — 6 repo kanıt satırı Read ile doğrulandı; her Dosya:Satır referansı gerçek satırla eşleşiyor; OS metrik aracı grep'i 0 isabet; procps/perf komutları yalnız tarif amaçlıdır, hiçbiri repo'da çağrılmıyor; sayısal ölçüm değeri yazılmadı; 2. tur: M-W19/M-W20/M-W21 webfetch HTTP 200 (sysinfo.2, getloadavg.3, perf-top.1); ci.yml tam dosya okundu (6 job envanteri, timeout-minutes 10–20, cancel-in-progress 17–19, PHP 8.4.22, %80 eşiği yorum + continue-on-error: true 165–167); dosya 408 non-blank satır"
+  - https://man7.org/linux/man-pages/man8/vmstat.8.html
+  - https://man7.org/linux/man-pages/man5/proc_vmstat.5.html
+  - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/get-counter
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/typeperf
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/logman-create-counter
+  - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/perfmon
+  - https://keith.github.io/xcode-man-pages/powermetrics.1.html
+  - https://keith.github.io/xcode-man-pages/vm_stat.1.html
+  - https://keith.github.io/xcode-man-pages/netstat.1.html
+validation: "2026-10-14 — §7.1 OS örnek turu eklendi (Windows PDH: Get-Counter M-W24/typeperf M-W25/logman create counter M-W26/perfmon M-W27 · macOS: powermetrics M-W33/vm_stat M-W34/netstat M-W35 ayna dipnotlu · vmstat.8 M-W22/proc_vmstat.5 M-W23); §7 kural 3 güncellendi (vmstat.1 404 → vmstat.8 200); §8 envanter 11 satır genişletildi; Get-Counter diagnostics modül notu + X10 reddi; ayna dipnotu; tüm 2. tur URL'leri HTTP 200 (kök -dogrulama §2.1) | 2026-10-13 — 6 repo kanıt satırı Read ile doğrulandı; her Dosya:Satır referansı gerçek satırla eşleşiyor; OS metrik aracı grep'i 0 isabet; procps/perf komutları yalnız tarif amaçlıdır, hiçbiri repo'da çağrılmıyor; sayısal ölçüm değeri yazılmadı; 2. tur: M-W19/M-W20/M-W21 webfetch HTTP 200 (sysinfo.2, getloadavg.3, perf-top.1); ci.yml tam dosya okundu (6 job envanteri, timeout-minutes 10–20, cancel-in-progress 17–19, PHP 8.4.22, %80 eşiği yorum + continue-on-error: true 165–167); dosya 408 non-blank satır"
 open_questions:
   - "O1: OS-level metrik toplama (perf, ETW, /proc okuyucu) hedef mimaride var mı, yoksa yalnız uygulama süresi mi? [UNKNOWN]"
   - "O2: Gözlemlenebilirlik üçlüsü (log/metric/trace) K002-altyapi içinde nasıl konumlanacak? [UNKNOWN]"
@@ -167,7 +176,7 @@ public function timing(string $module, string $middleware, float $durationMs): v
 |---|---|---|
 | 1 | OS metrik katmanı repo'da **kullanılmıyor** | "eksiklik" değil, **tanımsızlık** (O1 [UNKNOWN]) |
 | 2 | tek ölçüm yüzeyi uygulama içi süre | log kanalına gider, metrik kanalı yok |
-| 3 | ETW PDH yüzeyi | ⚠️ VERIFICATION REQUIRED (PDH URL 404, kök -dogrulama §4 X6) |
+| 3 | ETW PDH yüzeyi | **2. tur kapandı** — PDH 1. turda 404 idi (kök -dogrulama §4 X6), M-W28–M-W32 ile kapandı |
 
 ## §7 OS araç referansı — tarif amaçlı (repo'da hiç çağrılmıyor)
 
@@ -192,9 +201,70 @@ public function timing(string $module, string $middleware, float $durationMs): v
 |---|---|---|
 | 1 | Komut satırındaki sayı (`1`, `10`) **periyot argümanıdır, önerilen değer değildir** | periyot O2'de |
 | 2 | `sleep 10` örnek süreç ömrüdür, ölçüm periyodu değil | `perf stat` toplamı örnektir |
-| 3 | vmstat bu listede YOK — URL kanıtı 404 (kök -dogrulama §4 X2) | zero-hallucination |
+| 3 | vmstat 1. turda listede YOK idi — 404 (kök -dogrulama §4 X2). 2. turda `vmstat.8` (M-W22) bulundu; §7.1'e eklendi | zero-hallucination korunur |
 
-## §8 Kaynak envanteri (2026-10-13, HTTP 200)
+### §7.1 OS örnek turu — Windows ve macOS komut örnekleri (2026-10-14)
+
+> §7 Linux araçlarını tarif ediyordu; bu alt bölüm Windows ve macOS
+> sarmalayıcılarını **komut düzeyinde** tarif eder. Kanıtlar 2. tur
+> doğrulamasından (M-W22–M-W35, tam liste kök `-dogrulama.md` §2.1) —
+> tümü HTTP 200. Hiçbiri repo'da çağrılmaz (O1 `[UNKNOWN]`).
+
+#### §7.1.1 Windows — PDH / performans sayaçları
+
+```powershell
+# Get-Counter: anlık sayaç okuma (M-W24)
+Get-Counter '\Processor(_Total)\% Processor Time' -SampleInterval 1 -MaxSamples 5
+
+# typeperf: sayaç değerini konsola/dosyaya yazma (M-W25)
+typeperf "\Memory\Available MBytes" -sc 3
+
+# logman create counter: toplayıcı oluşturma (M-W26)
+logman create counter CoreMusicCPU -f csv -o C:\Perf\cm.csv -c "\Processor(_Total)\% Processor Time" -si 10
+
+# perfmon: performans izleyici konsolu (M-W27)
+perfmon
+```
+
+| # | Araç | Ne ölçer | Kanıt |
+|---|---|---|---|
+| 1 | `Get-Counter` | anlık/periyodik sayaç okuma | M-W24 (diagnostics modülünde — X10 reddi) |
+| 2 | `typeperf` | konsol/dosya yazımı | M-W25 |
+| 3 | `logman create counter` | kalıcı toplayıcı | M-W26 |
+| 4 | `perfmon` | görsel izleyici | M-W27 |
+
+> **`Get-Counter` modül notu:** `Get-Counter` yalnız
+> `microsoft.powershell.diagnostics` modülündedir (M-W24);
+> `microsoft.powershell.utility` modülünde 404'tür (kök §4 X10).
+
+#### §7.1.2 macOS — powermetrics / vm_stat / netstat
+
+```bash
+# powermetrics: CPU/güç/bellek istatistiği (M-W33 — ayna, dipnotlu)
+sudo powermetrics --samplers cpu_power -n 5
+
+# vm_stat: Mach bellek istatistiği (M-W34 — ayna, dipnotlu)
+vm_stat
+
+# netstat: ağ istatistiği (M-W35 — ayna, dipnotlu)
+netstat -an | grep LISTEN
+
+# vmstat.8: Linux vmstat'un macOS karşılığı (M-W22 — Linux, man7)
+vmstat 1 5
+```
+
+| # | Araç | Ne ölçer | Kanıt |
+|---|---|---|---|
+| 1 | `powermetrics` | CPU/güç/bellek istatistiği | M-W33 (ayna) |
+| 2 | `vm_stat` | Mach bellek sayfa istatistiği | M-W34 (ayna) |
+| 3 | `netstat` | ağ bağlantı/sayacı | M-W35 (ayna) |
+| 4 | `vmstat` | CPU/paging/bellek sayaçları | M-W22 (Linux, man7 — vmstat.8) |
+
+> **Ayna dipnotu:** `powermetrics.1`, `vm_stat.1`, `netstat.1` Xcode man
+> sayfalarıdır (keith.github.io — üçüncü taraf aynası). Belge sürümü
+> `UNKNOWN`; içerik HTTP 200 ile doğrulanmıştır (kök -dogrulama §1.1).
+
+## §8 Kaynak envanteri (2026-10-13, HTTP 200 · 2. tur 2026-10-14 genişletildi)
 
 | # | İddia | URL | Durum |
 |---|---|---|---|
@@ -210,6 +280,19 @@ public function timing(string $module, string $middleware, float $durationMs): v
 | M-W16 | perf stat PMU sayaçlarını raporlar | https://man7.org/linux/man-pages/man1/perf-stat.1.html | 200 |
 | M-W17 | uptime(1) çalışma süresi + load average verir | https://man7.org/linux/man-pages/man1/uptime.1.html | 200 (bu tur) |
 | M-W18 | perf_event_open(2) PMU sayaç syscall'ıdır | https://man7.org/linux/man-pages/man2/perf_event_open.2.html | 200 (bu tur) |
+| M-W22 | vmstat(8) bellek/CPU/paging sayaçlarını raporlar | https://man7.org/linux/man-pages/man8/vmstat.8.html | 200 (2. tur) |
+| M-W23 | proc_vmstat(5) `/proc/vmstat` sayaç alanlarını tanımlar | https://man7.org/linux/man-pages/man5/proc_vmstat.5.html | 200 (2. tur) |
+| M-W24 | `Get-Counter` performans sayaçlarını PowerShell'de okur | https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/get-counter | 200 (2. tur) |
+| M-W25 | `typeperf` sayaç değerlerini konsola/dosyaya yazar | https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/typeperf | 200 (2. tur) |
+| M-W26 | `logman create counter` sayaç toplayıcı oluşturur | https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/logman-create-counter | 200 (2. tur) |
+| M-W27 | `perfmon` performans izleyici/sayıcı konsoludur | https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/perfmon | 200 (2. tur) |
+| M-W33 | `powermetrics(1)` CPU/güç/bellek istatistiği toplar (ayna) | https://keith.github.io/xcode-man-pages/powermetrics.1.html | 200 (2. tur) |
+| M-W34 | `vm_stat(1)` Mach bellek istatistiği verir (ayna) | https://keith.github.io/xcode-man-pages/vm_stat.1.html | 200 (2. tur) |
+| M-W35 | `netstat(1)` ağ istatistiği/connectivity çıktısı verir (ayna) | https://keith.github.io/xcode-man-pages/netstat.1.html | 200 (2. tur) |
+
+> **2. tur notu:** M-W28–M-W32 (PDH portal/API/toplama akışı) bu dosyada
+> ayrı satır olarak taşınmaz — `metrik-anayasa.md` §10'dadır; bu dosya
+> yalnız **komut sarmalayıcıları** envanteridir.
 
 ## §9 Repo↔OS karşılaştırma matrisi
 
@@ -333,7 +416,7 @@ public function timing(string $module, string $middleware, float $durationMs): v
 | 2 | `shouldLog` kapısı | FileHandler:75–80 | min seviye altı yutulur | filtre, sessizlik **değildir** raporlanır |
 | 3 | `microtime` ile aralık | AIWorkflow:51, ToolCalling:85 | NTP sıçraması bozabilir | yalnız rapor — davranış değişikliği yok |
 | 4 | OS metrik desenlerinde 0 isabet | §6 | OS katmanı yok | tanımsızlık (O1 [UNKNOWN]) |
-| 5 | ETW/PDH adayı 404 | kök §4 X6 | doğrulanmadı | `⚠️ VERIFICATION REQUIRED` |
+| 5 | ETW/PDH adayı 404 | kök §4 X6 | 1. turda doğrulanmadı → **2. tur kapandı (M-W28–32)** | kapandı |
 | 6 | vmstat adayı 404 | kök §4 X2 | envantere alınmadı | kullanılmadı |
 | 7 | `perf_event_paranoid` değeri okunmadı | envanter yok | — | `[UNKNOWN]` (surucu §2) |
 | 8 | toplama periyodu tanımsız | O2 | — | `[UNKNOWN]` |

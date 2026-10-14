@@ -10,10 +10,12 @@ evidence:
   - "2026-10-13 · §F disk kanıtları · repo dosya/satır eşlemesi doğrulandı"
   - "2026-10-13 · §K bu tur web matrisi · 12 yeni resmi URL · tümü HTTP 200 · envanter kesişimi 0"
   - "2026-10-13 · §L repo taraması · ALSA/CoreAudio deseni 0 isabet · satır referansları Select-Object -Index ile doğrulandı"
+  - "2026-10-14 · §O web matrisi · 21 URL · 17×200 · 4 ölü 404 (negatif kanıt) · 5 kaynak gövde-GET (3'ü yerel kopya: tizen/webos/reactos)"
 validation:
   - "2026-10-12 turu: 6 URL HTTP 200 (kayıt §G'de korundu — URL'ler envanterde)"
   - "2026-10-13 turu: §A-§I bölüm yapısı; ölçüm sonuçları henüz üretilmedi (PLANNED)"
   - "2026-10-13 (2. tur): §J-§M eklendi · dosya 332 → ≥500 satıra çıkarıldı · alsa/ + coreaudio/ alt-dalları bu turda açıldı"
+  - "2026-10-14 (3. tur): §O eklendi · aaudio/aaudio-ornekler.md üretildi (tek yeni dosya) · kök -ornekler.md §16-§24 OS gruplaması · wasapi/ 0 yazma"
 open_questions:
   - "Gerçek cihaz üzerinde ölçüm yapıldı mı? → HAYIR — repo'da ses donanımı yok (§F/6)"
   - "Eşiklerin bir kısmı hedef (sartname), ölçüm değil → §D işaretli"
@@ -514,6 +516,104 @@ Doğrulama komutu: `Get-Content <dosya> | Select-Object -Index (N-1)`.
 
 > N1–N4 sayıları bu turun **son** ölçümüyle rapor satırında taşınır; bu dosya
 > kapıları tanımlar, tahmin yazmaz.
+
+---
+
+## §O — 2026-10-14 turu: 7 OS örnek doğrulama matrisi
+
+> Bu tur (K000-isletim-sistemi-audio/ · 7 OS tamamı) için web doğrulaması.
+> Yöntem: `Invoke-WebRequest -Method Head -UseBasicParsing -Uri $u -TimeoutSec 20`
+> + 5 kaynak için gövde-GET (webfetch markdown / raw fetch).
+
+### §O.1 URL matrisi (21 URL · 17×200 · 4 ölü)
+
+| # | İddia | URL | Sonuç |
+|---|---|---|---|
+| 1 | AAudio rehberi (builder/callback/state/buffer) | https://developer.android.com/ndk/guides/audio/aaudio/aaudio | ✅ 200 · gövde alındı ("Last updated 2026-03-06 UTC") |
+| 2 | OpenSL ES for Android | https://developer.android.com/ndk/guides/audio/opensl/opensl-for-android | ✅ 200 |
+| 3 | NDK audio API referans grubu | https://developer.android.com/ndk/reference/group/audio | ✅ 200 |
+| 4 | NDK samples | https://developer.android.com/ndk/samples | ✅ 200 |
+| 5 | WASAPI rendering (PlayAudioStream) | https://learn.microsoft.com/en-us/windows/win32/coreaudio/rendering-a-stream | ✅ 200 · gövde alındı (ms.date 2018-05-31 · updated_at 2025-03-11) |
+| 6 | About the Windows Core Audio APIs | https://learn.microsoft.com/en-us/windows/win32/coreaudio/about-the-windows-core-audio-apis | ✅ 200 |
+| 7 | Exclusive-mode streams | https://learn.microsoft.com/en-us/windows/win32/coreaudio/exclusive-mode-streams | ✅ 200 |
+| 8 | WASAPI ana sayfa | https://learn.microsoft.com/en-us/windows/win32/coreaudio/wasapi | ✅ 200 |
+| 9 | Tizen raw audio (CAPI sound_manager) | https://raw.githubusercontent.com/Samsung/tizen-docs/main/docs/application/native/guides/multimedia/raw-audio.md | ✅ 200 · 27.795 bayt yerel kopya |
+| 10 | webOS audio referansı | https://www.webostv.developer.lge.com/develop/references/audio | ✅ 200 · 62.708 bayt yerel HTML kopya |
+| 11 | ReactOS winmm.spec | https://raw.githubusercontent.com/reactos/reactos/master/dll/win32/winmm/winmm.spec | ✅ 200 · 8.043 bayt / 215 satır yerel kopya |
+| 12 | ALSA lib PCM grubu | https://www.alsa-project.org/alsa-doc/alsa-lib/group___p_c_m.html | ✅ 200 |
+| 13 | ALSA ana sayfa | https://www.alsa-project.org/wiki/Main_Page | ✅ 200 |
+| 14 | Apple AudioDeviceIOProc | https://developer.apple.com/documentation/coreaudio/audiodeviceioproc | ✅ 200 |
+| 15 | Apple AudioToolbox | https://developer.apple.com/documentation/audiotoolbox | ✅ 200 |
+| 16 | Android 9 (Pie) sürüm notları (AAudio genişlemesi) | https://developer.android.com/about/versions/pie/android-9.0 | ✅ 200 |
+| 17 | Android Game Development Kit | https://developer.android.com/games/agdk | ✅ 200 |
+| 18 | AAudio kısa yol (eski) | https://developer.android.com/ndk/guides/audio/aaudio | ❌ **404 — ölü** |
+| 19 | AAudio referans (eski) | https://developer.android.com/ndk/reference/group/aaudio | ❌ **404 — ölü** |
+| 20 | google/ndk-samples | https://github.com/google/ndk-samples | ❌ **404 — ölü** |
+| 21 | WASAPI render-a-stream (eski slug) | https://learn.microsoft.com/en-us/windows/win32/coreaudio/render-a-stream | ❌ **404 — ölü** (doğrusu `rendering-a-stream`, satır 5) |
+
+**4 ölü URL negatif kanıttır** — bu turda ilgili dosyalarda düzeltildi/doğru URL kullanıldı;
+hiçbiri "varmış" gibi yazılmadı. Satır 20 (`google/ndk-samples`) için taşınma hedefi
+(`android/ndk-samples`) **test edildi (2026-10-14): HTTP 200 ✅ — taşıma DOĞRULANDI**
+(`google/ndk-samples` 404 + `android/ndk-samples` 200 · HEAD ×2). Kapanış turu: §P.
+
+### §O.2 Gövde-GET kanıtları (yerel kopyalar)
+
+| Kaynak | Yerel kopya | Boyut | Kullanan bölüm |
+|---|---|---|---|
+| AAudio rehberi | webfetch (metin akışı — disk kopyası yok) | tam metin | kök `-ornekler.md` §20 · `aaudio/aaudio-ornekler.md` |
+| rendering-a-stream (PlayAudioStream) | webfetch (metin akışı — disk kopyası yok) | tam metin | kök `-ornekler.md` §17 |
+| Tizen raw-audio.md | `C:\temp\opencode\tizen-raw-audio.md` | 27.795 bayt | kök `-ornekler.md` §21 |
+| webOS audio.html | `C:\temp\opencode\webos-audio.html` | 62.708 bayt | kök `-ornekler.md` §22 |
+| ReactOS winmm.spec | `C:\temp\opencode\reactos-winmm.spec` | 8.043 bayt · 215 satır | kök `-ornekler.md` §23 |
+
+### §O.3 Bu tur üretim ve kapılar
+
+| # | Kapı | Sonuç |
+|---|---|---|
+| 1 | Yeni dosya | `aaudio/aaudio-ornekler.md` (tek yeni dosya — 7/7 dal örnek tamamlandı) |
+| 2 | Düzenlenen dosyalar | kök `-ornekler.md` (§16-§24) · `aaudio/index.md` · kök `index.md` · `kapsam.md` · `dogrulama.md` (bu dosya) |
+| 3 | `wasapi/` yazma | **0** (dokunulmaz — §N6 korundu) |
+| 4 | Kod alıntı doğruluğu | her blok gövde-GET/yerel kopyadan birebir; kaynak etiketi blok başında |
+| 5 | Repo'da ses donanımı kodu | **0** (§L/2026-10-13 taraması — bu turda değişmedi) |
+
+---
+
+## §P Kapanış Turu (2026-10-14) — açık ⚠️ maddelerinin denetimi
+
+> Kapsam: §O turundan sonra **kullanıcı isteğiyle eklenen PHP katmanı (§25)** sırasında
+> yeniden açılan/tekrar denenen `⚠️ VERIFICATION REQUIRED` maddeleri. Her madde ya
+> **kapatıldı** (kanıt yazıldı) ya da **kapanmadı** (negatif kanıt = durum korundu).
+
+### §P.1 Kapanan maddeler
+
+| # | Madde | Sonuç | Kanıt (2026-10-14) |
+|---|---|---|---|
+| P1 | `google/ndk-samples` → `android/ndk-samples` taşınma hedefi (§O/20 · ornekler §24/20) | ✅ **KAPANDI** | HEAD ×2: `android/ndk-samples` **200** · `google/ndk-samples` **404** → taşıma DOĞRULANDI |
+| P2 | `IAudioClient` IDispatch içermez → PHP COM erişemez (ornekler §25.3) | ✅ **KAPANDI** | learn.microsoft.com `nn-audioclient-iaudioclient` fetch 200: *"The IAudioClient interface inherits from the IUnknown interface"* — miras zincirinde IDispatch yok |
+| P3 | PHP FFI → `winmm.dll` çalıştırılabilir mi? (ornekler §25.3 yol 2) | ✅ **KAPANDI** | yerel canlı test: `php -d extension=ffi` · PHP 8.5.8 NTS VC22 x64 → `waveOutGetNumDevs() = 12` (12 cihaz) · exit 0 · ReactOS `winmm.spec` imzalarıyla birebir (`waveOutOpen(ptr long ptr long long long)` · `waveOutWrite(long ptr long)` · `waveOutClose(long)`) |
+| P4 | webOS mutlak ses metotları (webos index W1) | ✅ **KISMI KAPANDI** | yerel gövde kopya (62.708 B): See also ağacı dâhil yalnız `setMuted/volumeUp/volumeDown` — `getVolume/setVolume` **YOK** (negatif kanıt). "Cihazda hiç yok" iddiası başka sürüm sayfası için UNKNOWN |
+
+### §P.2 Kapanmayan maddeler (negatif kanıt = ⚠️ korundu)
+
+| # | Madde | Sonuç | Kanıt (2026-10-14) |
+|---|---|---|---|
+| P5 | AAudio min-OS "Android 8.0 (API 26)" (aaudio-anayasa W4) | ❌ **KAPANMADI** | `/ndk/guides/audio/aaudio/aaudio` + ana sayfa 2× GET: `Android 8`/`API 26` deseni **0 isabet** → ⚠️ KALIR |
+| P6 | Apple `AudioServerDriver` dokümanı (M4) | ❌ **KAPANMADI — negatif güçlendi** | `developer.apple.com/documentation/coreaudio/audioserverdriver` → **404** (tekrar HEAD) |
+| P7 | `afplay` resmi Apple kaynağı (ornekler §25.4/§25.7/8) | ❌ **KAPANMADI** | apple.com/developer.apple.com araması yalnız üçüncü taraf → ⚠️ KALIR |
+| P8 | ReactOS + PHP Windows binary uyumu (§25.5) | ❌ **KAPANAMAZ** | ReactOS çalıştırma ortamı yok → ⚠️ KALIR (P3 winmm-FFI kanıtı hafifletti: winmm katmanı PHP'den doğrulandı) |
+
+### §P.3 Bu turda dokunulmayan kalıcı ⚠️ (web kanıtıyla kapatılamaz)
+
+Q-A2 (Neva Engine zamanlaması) · Q-A3 (ASIO konumu) · Q-A7/Q-A8 (ölçüm eşiği ·
+paylaşım modeli) · Q-A9/Q-A11/Q-A12 · N3/N4 (jitter/drift eşiği) · M3 (gerçek cihaz
+ölçümü) · M6/R1/R4 (Neva Engine entegrasyonu) — hepsi **Vault Steward kararı veya
+donanım ölçümü** gerektirir; §P turunda yalnız web/yerel-kanıtla kapatılabilir
+maddeler ele alındı.
+
+**FFI pratik not:** PHP 8.5.8 Windows NTS (VC22 x64) build'inde FFI extension
+**default yüklü değildir** — `php -d extension=ffi` ile çağrılır (kalıcı için
+php.ini `extension=ffi`). Test dosyası: `C:\temp\opencode\ffi-winmm-test.php`
+(PHP kodu: §25.3 bloğunun çalıştırılmış hâli).
 
 ---
 

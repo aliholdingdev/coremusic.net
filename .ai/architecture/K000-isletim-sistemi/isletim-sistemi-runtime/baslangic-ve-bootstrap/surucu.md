@@ -7,7 +7,7 @@ children: []
 depends_on:
   - K000-isletim-sistemi/isletim-sistemi-runtime/baslangic-ve-bootstrap/anayasa
   - K000-isletim-sistemi/isletim-sistemi-runtime/web-runtime-topolojisi/surucu
-evidence: https://www.php.net/manual/en/function.set-error-handler.php · https://www.php.net/manual/en/function.set-exception-handler.php · https://www.php.net/manual/en/opcache.setup.php · api.coremusic.net/index.php:10-29 · api.coremusic.net/Services/RuntimeBootstrap.php:1-21 · api.coremusic.net/bootstrap.php:97-106 · api.coremusic.net/Services/SessionBootstrapper.php:19-28
+evidence: https://www.php.net/manual/en/function.set-error-handler.php · https://www.php.net/manual/en/function.set-exception-handler.php · https://www.php.net/manual/en/opcache.setup.php · https://systemd.io/ · https://developer.android.com/guide/components/activities/process-lifecycle · https://source.android.com/docs/core/runtime · api.coremusic.net/index.php:10-29 · api.coremusic.net/Services/RuntimeBootstrap.php:1-21 · api.coremusic.net/bootstrap.php:97-106 · api.coremusic.net/Services/SessionBootstrapper.php:19-28
 validation: 2026-10-13 · 3 URL HTTP 200 (set_error_handler · set_exception_handler · opcache.setup) · repo satırları Read ile birebir · içerik 380-460 satır
 open_questions: R5 opcache warm-up · R6 worker drenaç/timeout
 group: mimari
@@ -457,5 +457,87 @@ bootstrap.php:107-114  logger->error + 500 + 'Internal Server Error'
 | §19 | FPM pool dosyası yok | arama sonucu yok | **⚠️ VERIFICATION REQUIRED** (R3/R7) |
 
 **Toplam bu turda bu dosyaya eklenen yeni doğrulanmış URL: 0** (§20).
+
+## § OS GRUPLAR
+
+> 8 işletim sistemi grubu ve boot/runtime başlatma modeli — bu dosyanın açısı **aktır**: hangi OS'te
+> süreç/servis nasıl ayağa kalkar, A1-A7 bu akışın içinde hangi adımla yürür. (2026-10-14 tarama:
+> repo'da `*.service` / `.plist` / `php.ini` YOK, `pcntl_` 0 eşleşme — §19 ile aynı sonuç.)
+
+### § OS.1 — Karşılaştırma tablosu
+
+| # | OS | Boot/runtime başlatma modeli | Bu dosyadaki karşılığı | Kaynak |
+|---|---|---|---|---|
+| 1 | Windows | UEFI → winload → NT kernel → SCM; IIS FastCGI (`php-cgi`) | §21/12-13 — `web.config` IIS karşılığı (43/41 satır) | `anayasa.md` § OS |
+| 2 | macOS | boot.efi → XNU → launchd (PID 1); `php-fpm` LaunchDaemon job'ı | §2.1 — perde kurulumu boot'ta bir kez | `anayasa.md` § OS |
+| 3 | iOS | iBoot → XNU → launchd → SpringBoard; `UIApplicationDelegate` | § OS.2 — kapsam dışı (PHP boot akışı) | `ornekler.md` § OS |
+| 4 | Android | bootloader → Linux kernel → `init` → Zygote; öncelik ActivityManager | § OS.2 — kapsam dışı (PHP boot akışı) | https://developer.android.com/guide/components/activities/process-lifecycle |
+| 5 | Linux | bootloader → Linux kernel → systemd (PID 1); `php-fpm.service` birimi | §2.2 — boot akışı (9 adım) + §14 hata modları | https://systemd.io/ |
+| 6 | FreeBSD/BSD | loader → kernel → `init` (PID 1) → rc.d; PHP servisi rc.girişi | §2.2 — boot akışı (POSIX) | `anayasa.md` § OS |
+| 7 | Tizen | Linux çekirdekli; uygulama süreç yaşam döngüsü (process-model) | § OS.2 — kapsam dışı (PHP boot akışı) | `ornekler.md` § OS |
+| 8 | webOS OSE | Linux çekirdekli; servis katmanı Luna Service 2 (LS2) | § OS.2 — kapsam dışı (PHP boot akışı) | `ornekler.md` § OS |
+
+### § OS.2 — OS kısa açıklamaları (her OS 2-3 cümle)
+
+1. **Windows** — PHP resmi Windows paketiyle kurulur; `php.ini-development`/`php.ini-production` seçimi ve PHP dizininin `PATH`'e eklenmesi kurulumun parçasıdır. Web yüzeyi IIS + FastCGI (`php-cgi`) veya Apache'dir; süreç başlatma SCM (Service Control Manager) üzerindendir. Boot sırası A1-A7 OS'tan bağımsızdır.
+2. **macOS** — `php.ini` konumu seçilen kurulum yöntemine göre belirlenir; süreç başlatma launchd üzerinden LaunchDaemon/LaunchAgent job'ı ile yapılır. `php-fpm` tek kez ayağa kalkar, istekler worker'a devredilir — "boot'ta bir kez" kuralının OS karşılığı.
+3. **iOS** — Uygulama `UIApplicationDelegate` ile başlar; süreç yaşam dölgüsü ve App Sandbox yönetimi sisteme aittir. Sunucu tarafı PHP boot bu platformda yoktur — **kapsam dışı** (`ornekler.md` § OS.3).
+4. **Android** — Açılışta `init` servisleri başlatır; uygulama süreçleri öncelik tablosuna girer ve sistem bellek için önce boşta kalanlar öldürülür. Çalışma zamanı AOT derlemesiyle açılır — **kapsam dışı** (aşağıda (b)-(c)).
+5. **Linux** — PHP dağıtım paketi veya kaynaktan kurulur; `php-fpm` gibi servisler systemd birimi olarak yönetilir. A1-A7 sırası burada da geçerlidir; fail-fast (M4) PHP katmanında kalır, init sistemine devredilmez.
+6. **FreeBSD/BSD** — Boot zinciri `loader` → kernel → `init` → rc.d ile yürür; PHP servisi bir rc.d girişiyle başlar. POSIX fork+exec semantiği ve A1-A7 sırası Linux ile aynıdır.
+7. **Tizen** — Linux çekirdekli platform; web/native/.NET uygulamaları kendi modeliyle yaşar (UI/Widget/Service). Süreç ve yaşam dölgüsü resmi dokümanda ayrı bir tutorial'dır — **kapsam dışı** (`ornekler.md` § OS.3).
+8. **webOS OSE** — Linux çekirdekli açık kaynak platform; uygulama ve servisler Luna Service 2 (LS2) üzerinden haberleşir. Mimari ve yaşam dölgüsü `docs/guides/core-topics` altındadır — **kapsam dışı** (`ornekler.md` § OS.3).
+
+### § OS.3 — OS bazlı kod/örnek blokları (boot/runtime akışları)
+
+#### (a) Linux — systemd servis birimi (bu projede kullanılmıyor)
+
+```ini
+[Unit]
+Description=PHP-FPM worker
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/php-fpm --nodaemonize
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+*(kaynak: https://systemd.io/ — resmi systemd sitesi, 2026-10-14 HTTP 200 · repo'da `*.service` dosyası yok)*
+
+#### (b) Android — process model (bu projede kullanılmıyor · kapsam dışı)
+
+```text
+1) foreground process  — ekranda etkileşimde olan süreç
+2) visible process     — görünür ama odakta olmayan
+3) service process     — arka planda çalışan servis
+4) cached process      — boşta kalan; sistem bellek için ilk aday
+```
+*(kaynak: https://developer.android.com/guide/components/activities/process-lifecycle)*
+
+#### (c) Android — runtime (bu projede kullanılmıyor · kapsam dışı)
+
+```text
+dex2oat ile AOT derleme → boot image ile hızlı açılış
+uygulama süreci başlatıldığında öncelik tablosuna girer (bkz. (b))
+```
+*(kaynak: https://source.android.com/docs/core/runtime)*
+
+#### (d) POSIX — fork+exec boot zinciri (akış özeti · bu projede kullanılmıyor)
+
+```text
+bootloader → kernel → init(PID 1)
+  init ─fork/exec─> php-fpm master ─fork─> worker ─> index.php [A1-A7]
+```
+*(kod bloğu: `anayasa.md` § OS.3 (c) · repo'da `pcntl_` 0 eşleşme — §19/5)*
+
+#### (e) Grup içindeki diğer bloklar (burada yalnız göstergeler)
+
+- launchd plist (macOS) + Windows `php.ini` → `anayasa.md` § OS.3
+- iOS `UIApplicationDelegate` + App Sandbox · Tizen process-model · webOS OSE docs → `ornekler.md` § OS.3
+
+**Eklenen yeni URL sayısı: 3** — `systemd.io` · `activities/process-lifecycle` · `docs/core/runtime` (`evidence:` alanına eklendi · 2026-10-14 HTTP 200).
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

@@ -487,6 +487,65 @@ group: kod
 | `is-parcacigi-planlamasi-ornekler.md` | kardeş dürüstlük defteri |
 | `isletim-sistemi-api` | rate-limit API sözleşmesi |
 
+## §7 OS bazlı kaynak/kota örnekleri (her OS kendi altında)
+
+> **Dürüstlük notu:** Bu depoda cgroup · RLIMIT · ioprio · NUMA çağrısı **YOK** (§5 D-1–D-4) —
+> her örnek **OS seviyesi** referanstır. Tüm URL'ler **2026-10-14** `Invoke-WebRequest GET`
+> ile **HTTP 200** ölçülmüştür.
+
+### §7.1 Linux / POSIX (hedef: Raspberry Pi 5 · CI `ubuntu-latest`)
+
+| # | Kaynak örneği (OS API'si — depoda YOK) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|
+| K-L1 | cgroup v2 kota dosyaları: `cpu.max` (bütçe/period), `memory.max`, `io.max` — süreç kumesine CPU/bellek/IO sınırı | https://docs.kernel.org/admin-guide/cgroup-v2.html | HTTP 200 |
+| K-L2 | `prlimit(pid, resource, new_limit, old_limit)` — `RLIMIT_*` (fopen sayısı, stack, CPU süresi, RSS) süreç sınırı | https://man7.org/linux/man-pages/man2/prlimit.2.html | HTTP 200 |
+| K-L3 | `ionice -c class -n level` — IO öncelik sınıfı: BEST EFFORT (varsayılan) · IDLE · REALTIME | https://man7.org/linux/man-pages/man1/ionice.1.html | HTTP 200 |
+| K-L4 | cpuset — CPU kumesi/NUMA düğümüne bağlama; `set_mempolicy` ile bellek yerleşimi politikası | https://man7.org/linux/man-pages/man7/cpuset.7.html | HTTP 200 |
+| K-L5 | RT grup bütçesi: `sched_rt_runtime_us` / `sched_rt_period_us`; kullanılmayan bütçe `SCHED_OTHER`'a düşer; çok küçük değer sistem kararsızlığı (kernel uyarısı) | https://docs.kernel.org/scheduler/sched-rt-group.html | HTTP 200 |
+| K-L6 | `set_mempolicy` — MPOL_BIND/MPOL_PREFER ile düğüm bazlı bellek atanımı | https://man7.org/linux/man-pages/man2/set_mempolicy.2.html | HTTP 200 |
+
+```bash
+# OS seviyesi — depoda karşılığı YOK (kaynak: K-L1, 2026-10-14 HTTP 200)
+echo "20000 100000" > /sys/fs/cgroup/audio/cpu.max   # 20ms/100ms bütçe
+echo 268435456    > /sys/fs/cgroup/audio/memory.max   # 256 MB sınırı
+```
+
+### §7.2 Windows (hedef: `win-sw` — `.ai/AGENTS.md §4` #11)
+
+| # | Kaynak örneği (OS API'si — depoda YOK) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|
+| K-W1 | `SetInformationJobObject(hJob, JobObjectCpuRateControlInformation, …)` — job object ile CPU kotası (süreç grubuna `%` sınırı); `JobObjectBasicLimitInformation` (2) temel limitler | https://learn.microsoft.com/en-us/windows/win32/api/jobapi2/nf-jobapi2-setinformationjobobject | HTTP 200 |
+| K-W2 | `SetProcessWorkingSetSize` — fiziksel bellek (çalışma kümesi) min/max sınırı | https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-setprocessworkingsetsize | HTTP 200 |
+| K-W3 | `GetLogicalProcessorInformation` — NUMA/çekirdek topolojisi okunur, kota yerleşimi öncesi | https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getlogicalprocessorinformation | HTTP 200 |
+| K-W4 | `SetPriorityClass(hProcess, PROCESS_MODE_BACKGROUND_BEGIN)` — "arka plan işleme modu" kaynak kullanımını düşürür | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setpriorityclass | HTTP 200 |
+
+### §7.3 macOS / iOS (aday platform)
+
+| # | Kaynak örneği (OS API'si — depoda YOK) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|
+| K-A1 | `DispatchQoS` — QoS sınıfı "daha fazla kaynak" demektir: yüksek sınıf = daha hızlı + daha çok enerji; yanlış sınıf = enerji israfı | https://developer.apple.com/documentation/dispatch/dispatchqos | HTTP 200 |
+| K-A2 | `Process.qualityOfService` — süreç bazlı QoS ataması (kaynak paylaşımda öncelik) | https://developer.apple.com/documentation/foundation/process/qualityofservice | HTTP 200 |
+
+### §7.4 RTOS — Zephyr (gömülü hedef)
+
+| # | Kaynak örneği (OS API'si — depoda YOK) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|
+| K-R1 | Zephyr zaman birimleri: gerçek zaman ms/µs; çevrim sayacı `k_cycle_get_32()`; frekans `sys_clock_hw_cycles_per_sec()` — sabit ya da çalışma zamanında güncellenen (`CONFIG_SYSTEM_CLOCK_HW_CYCLES_PER_SEC_RUNTIME_UPDATE`) | https://docs.zephyrproject.org/latest/kernel/services/timing/clocks.html | HTTP 200 |
+| K-R2 | "Sistematik zamanlayıcı frekansı" notu: per-CPU frekans ölçeklemesi ile uyumsuz — kota/ölçüm hesabında frekans sabit varsayılmaz | https://docs.zephyrproject.org/latest/kernel/services/timing/clocks.html | HTTP 200 |
+
+### §7.5 OS matrisi (kota yeteneği → OS)
+
+| Yetenek | Linux/POSIX | Windows | macOS/iOS | Zephyr RTOS |
+|---|---|---|---|---|
+| CPU kotası | K-L1 (cgroup) · K-L5 (RT bütçe) | K-W1 (job object) | K-A1 (QoS dolaylı) | yok (sabit bütçe) |
+| Bellek sınırı | K-L1 (`memory.max`) · K-L2 (RLIMIT) | K-W2 (working set) | QoS dolaylı | statik statik havuz |
+| IO önceliği | K-L3 (`ionice`) | job object IO sınıfı ⚠️ (bu turda doğrulanmadı) | — | disk kuyruğu ⚠️ |
+| NUMA/topoloji | K-L4 · K-L6 | K-W3 | — | tek çekirdek varsayılan |
+| Süreç önceliği | §4.2 nice/`setpriority` | K-W4 (background mod) | K-A2 | — |
+
+> `⚠️ VERIFICATION REQUIRED` hücreler: bu turda URL doğrulaması yapılmayan yetenekler;
+> uydurulmadı, sonraki tura açık bırakıldı.
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

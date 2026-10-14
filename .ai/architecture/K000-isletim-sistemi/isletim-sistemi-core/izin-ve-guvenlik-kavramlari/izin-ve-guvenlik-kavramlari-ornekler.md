@@ -20,7 +20,7 @@ evidence:
   - home.coremusic.net/include/Stream/MusicStreamHandler.php:173-209
   - home.coremusic.net/.htaccess:2-36
   - home.coremusic.net/web.config:11-39
-validation: "2026-10-13 → 6 URL HTTP 200 (4 YENİ: setcap.8 · mod_authz_host · ls.1 · howto/htaccess.html · 2 reuse bugün yeniden 200: stat.2 · system.webServer) · repo satırları Read/PowerShell ile birebir · sayımlar read-only · IIS rewrite için 2 tam URL bugün 404 (§11 dürüstlük notu)"
+validation: "2026-10-14 → §19 grupları G7a-G7d (12 platform kolu) · §19.5 14 YENİ HTTP 200 (envanter kesişimi 0) · §19.6 12 reuse yeniden 200 · acl_*.html (OG Issue 8) HTTP 404 ölçüldü → ACL örnekleri man7'ye bağlandı (dogrulama §J.6 D7) · §20 PHP köprüsü (5 gerçek-satır bloğu + §20.3 zincir özeti · yeni URL 0 · is_writable/umask(/chmod(/fsync grep 0 → §20.5) · §21 çok dilli JS/C/Python/Go/Rust/C# (6 URL = 2 reuse + 4 yeni · 5 kalıp blok · JS kalıpsız = tarayıcıda OS izni yok) · 963 satır · repo satırları Read/PowerShell ile birebir · sayımlar read-only · IIS rewrite dürüstlük notu (§11) korunur"
 open_questions:
   - "Q-OR1: api.coremusic.net/.htaccess:19 FilesMatch listesinde `json` YOK (auth:18 ve home:18'de VAR) — kasıtlı fark mı? açık"
   - "Q-OR2: assets.coremusic.net katmanında `Require all denied` 0 isabet — assets yalnız statik mi servis ediyor? (doküman: UNKNOWN)"
@@ -475,5 +475,489 @@ işlenir (test dalı sahibi); sonuç gelmeden "çalışıyor" iddiası yazılmaz
 | `⚠️` / UNKNOWN işaretleri | 4 açık madde (Q-OR1..Q-OR4, §12) |
 | Korunan çelişki kaydı | AP-P1 (izin-anayasa:215) · AP-P2 (izin-anayasa:243-245) — silinmedi, düzeltme bu dosyada |
 | Commit durumu | **atılmadı** — commit orkestratöre aittir (kurallar §16.5) |
+
+---
+
+## §19 Çapraz-platform gruplu kod örnekleri (2026-10-14)
+
+> **Grup kuralı (bağlayıcı):** Her grup **tek kavram + üç platform kolu**
+> (Linux/POSIX · Windows (Win32) · macOS/POSIX) taşır. "Sadece Linux" örnek
+> bu bölümde geçersizdir. macOS-native man sayfaları bu turda erişilemedi
+> (`developer.apple.com/library/archive/.../man*_*.html` → bağlantı koptu/404);
+> macOS sütunu POSIX spesifikasyonuna dayanır ve `⚠️ VERIFICATION REQUIRED`
+> ile işaretlenir.
+
+### §19.1 G7a - Erişim modu belirleme: `umask` + `chmod` ↔ DACL
+
+**(A) Linux/POSIX —**
+
+```c
+#include <sys/stat.h>
+#include <fcntl.h>
+
+mode_t old = umask(0077);            /* yeni nesneler yalniz sahibine acik */
+int fd = open("/var/tmp/gizli.txt", O_CREAT | O_WRONLY, 0600);
+if (fd >= 0) close(fd);
+
+if (chmod("/var/tmp/gizli.txt", 0640) == -1) { /* errno: EPERM / EACCES */ }
+umask(old);                           /* eski maskeyi geri koy */
+```
+
+**(B) Windows (Win32) — DACL (Discretionary Access Control List):**
+
+```c
+#include <windows.h>
+#include <aclapi.h>
+
+/* Windows'ta "mod biti" YOKTUR; erisim DACL satirlariyla (ACE) tanimlanir */
+PSECURITY_DESCRIPTOR psd = NULL;
+DWORD er = GetNamedSecurityInfoW(L"C:\\temp\\gizli.txt",
+                                 DACL_SECURITY_INFORMATION,
+                                 NULL, NULL, NULL, NULL, &psd);
+if (er == ERROR_SUCCESS && psd != NULL) { LocalFree(psd); }
+
+er = SetNamedSecurityInfoW(L"C:\\temp\\gizli.txt",
+                            DACL_SECURITY_INFORMATION,
+                            NULL, NULL, NULL, NULL);
+```
+
+**(C) macOS / POSIX** — (A) birebir geçer · `⚠️ VERIFICATION REQUIRED`.
+
+| Kavram | Linux/macOS | Windows |
+|---|---|---|
+| Tanımlayıcı | 9-12 **bit** (`rwxrwxrwx`) | **DACL** = ACE listesi |
+| Varsayılan maske | `umask(0077)` süreç-bazlı | Yok (miras `SECURITY_ATTRIBUTES` ile) |
+| Değiştirme | `chmod(path, mode)` | `SetNamedSecurityInfoW` |
+| Okuma | `stat().st_mode` | `GetNamedSecurityInfoW` |
+| Yetki gereği | sahibi/`CAP_FOWNER` | nesne sahibi ya da `WRITE_DAC` |
+
+### §19.2 G7b - Politik satır (ACE) ekleme
+
+**(A) Linux/POSIX — POSIX.1e ACL (Linux genişletmesi):**
+
+```c
+#include <sys/acl.h>
+#include <acl/libacl.h>
+
+acl_t a = acl_get_file("/var/tmp/gizli.txt", ACL_TYPE_ACCESS);
+if (a != NULL) {
+    /* a, bireysel kullanici/grup satirlarini tasir */
+    int rc = acl_set_file("/var/tmp/gizli.txt", ACL_TYPE_ACCESS, a);
+    (void)rc;
+    acl_free(a);
+}
+```
+
+> **Kapsam notu:** POSIX.1e ACL tabanı POSIX.1-2001/Issue 8 kapsamı **dışındadır**
+> (`pubs.opengroup.org/.../functions/acl_*.html` → **HTTP 404**, ölçüldü).
+> Bu yüzden (A) kolu **yalnız Linux man sayfalarına** dayanır; macOS koluna
+> taşınması `⚠️ VERIFICATION REQUIRED`.
+
+**(B) Windows (Win32) — ACE üret + DACL'e tak:**
+
+```c
+#include <windows.h>
+#include <aclapi.h>
+
+BYTE buf[sizeof(ACL) + 256];
+PACL pacl = (PACL)buf;
+if (InitializeAcl(pacl, sizeof buf, ACL_REVISION)) {
+    if (AddAccessAllowedAce(pacl, ACL_REVISION,
+                            GENERIC_READ, /* SID */ psid)) {
+        SetNamedSecurityInfoW(L"C:\\temp\\gizli.txt",
+                              DACL_SECURITY_INFORMATION,
+                              NULL, NULL, pacl, NULL);
+    }
+}
+```
+
+**(C) macOS / POSIX** — macOS `chmod`/`chown` (A2 §19.3) ile idare edilir;
+`acl_*` için **`⚠️ VERIFICATION REQUIRED`** (kaynak erişilemedi).
+
+| Adım | Linux/POSIX ACL | Windows DACL |
+|---|---|---|
+| Oku | `acl_get_file` | `GetNamedSecurityInfoW` |
+| Kur | `acl_set_file` | `SetNamedSecurityInfoW` |
+| Satır ekle | `acl_create_entry` (bu turda doğrulanmadı → `⚠️`) | `AddAccessAllowedAce` |
+| Revizyon | — | `ACL_REVISION` |
+
+### §19.3 G7c - Kimlik: `setuid`/`seteuid` ↔ süreç erişimi
+
+**(A) Linux/POSIX —**
+
+```c
+#include <unistd.h>
+
+uid_t ruid, euid;
+getuid(&ruid); geteuid(&euid);       /* gercek / etkin kimlik */
+if (seteuid(0) == -1) { /* EPERM - yetki yok */ }
+/* is bitince geri al */
+seteuid(euid);
+```
+
+**(B) Windows (Win32) — token yerine süreç erişim maskesi:**
+
+```c
+#include <windows.h>
+
+HANDLE hp = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, FALSE, pid);
+if (hp == NULL) {
+    DWORD e = GetLastError();        /* ERROR_ACCESS_DENIED */
+    (void)e;
+} else {
+    /* sorgulama yap - CloseHandle gerekli */
+    CloseHandle(hp);
+}
+```
+
+**(C) macOS / POSIX** — (A) birebir geçer · `⚠️ VERIFICATION REQUIRED`.
+
+> **Asimetri (bu dalın uyarısı):** POSIX `seteuid` **kimliği kalıcı değiştirir**;
+> Windows `OpenProcess` **erişim maskesi** verir, kimlik değiştirmez. İki kol
+> **eşdeğer değildir** — eşdeğerlik iddiası `⚠️ VERIFICATION REQUIRED`.
+
+### §19.4 G7d - Hata yüzeyi: `errno` ↔ `GetLastError`
+
+| # | Soru | Linux/POSIX | Windows |
+|---|---|---|---|
+| 1 | Sayaç nerede? | süreç-bazlı `errno` (`errno.h`) | iplik-bazlı `GetLastError()` |
+| 2 | Hata adı | `strerror(errno)` | `FormatMessage` (bu turda doğrulanmadı → `⚠️`) |
+| 3 | Yaygın kodlar | `EACCES` · `ENOENT` · `EPERM` · `EEXIST` | `ERROR_ACCESS_DENIED` · `ERROR_FILE_NOT_FOUND` |
+| 4 | Bağlantı | `basedefs/errno.h` (reuse) | `SetLastError` / `GetLastError` |
+| 5 | Dikkat | `errno` çağrısız **değişmez** | dönüş değeri **önce** okunmalı |
+
+### §19.5 Yeni doğrulanmış URL (2026-10-14 · envanter kesişimi 0 · HTTP 200)
+
+> **Ölçüm (2026-10-14 · yeniden):** `.ai/**` (gizli dizin, `*.md|*.json|*.txt|*.ps1`)
+> URL kümesi **bu turda yazılan 6 dosya hariç** tutularak ölçüldü = **3760 tekil URL**;
+> aşağıdaki adayların **hiçbiri** bu kümede yok → kesişim **0**. Tur-çapı tek-çatı
+> sayım ve kümülatif envanter (**3866**) için bkz. `isletim-sistemi-core-dogrulama.md` **§J**.
+
+| # | İddia | URL | 2026-10-14 |
+|---|---|---|---|
+| 1 | `acl_get_file` - POSIX.1e ACL okuma (Linux man) | https://man7.org/linux/man-pages/man3/acl_get_file.3.html | ? HTTP 200 · **YENİ** |
+| 2 | `acl_set_file` - POSIX.1e ACL yazma (Linux man) | https://man7.org/linux/man-pages/man3/acl_set_file.3.html | ? HTTP 200 · **YENİ** |
+| 3 | `chmod` POSIX tanımı (mode bitleri) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/chmod.html | ? HTTP 200 · **YENİ** |
+| 4 | `fchmod` POSIX tanımı (tanıtıcı üzerinden mod) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/fchmod.html | ? HTTP 200 · **YENİ** |
+| 5 | `chown` POSIX tanımı (sahiplik) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/chown.html | ? HTTP 200 · **YENİ** |
+| 6 | `setuid` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/setuid.html | ? HTTP 200 · **YENİ** |
+| 7 | `seteuid` POSIX tanımı (etkin kimlik) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/seteuid.html | ? HTTP 200 · **YENİ** |
+| 8 | `pathconf` POSIX tanımı (dosya sistemi limitleri) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/pathconf.html | ? HTTP 200 · **YENİ** |
+| 9 | Windows Access Control List (DACL/ACE) kavramı | https://learn.microsoft.com/en-us/windows/win32/secauthz/access-control-lists | ? HTTP 200 · **YENİ** |
+| 10 | `SetNamedSecurityInfoW` - DACL yazma | https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-setnamedsecurityinfow | ? HTTP 200 · **YENİ** |
+| 11 | `GetNamedSecurityInfoW` - DACL okuma | https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-getnamedsecurityinfow | ? HTTP 200 · **YENİ** |
+| 12 | `AddAccessAllowedAce` - izin veren ACE ekleme | https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessallowedace | ? HTTP 200 · **YENİ** |
+| 13 | `InitializeAcl` - ACE listesi başlatma | https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-initializeacl | ? HTTP 200 · **YENİ** |
+| 14 | `OpenProcess` - süreç erişim maskesi | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess | ? HTTP 200 · **YENİ** |
+| 15 | `SetLastError` - hata kodu yazma | https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-setlasterror | reuse · HTTP 200 |
+
+### §19.6 Reuse URL - HTTP 200 yeniden doğrulandı (2026-10-14)
+
+| # | İddia | URL |
+|---|---|---|
+| 1 | `umask(2)` - varsayılan maske | https://man7.org/linux/man-pages/man2/umask.2.html |
+| 2 | `chmod(2)` - mod değiştirme | https://man7.org/linux/man-pages/man2/chmod.2.html |
+| 3 | `stat(2)` - mod/sahiplik okuma | https://man7.org/linux/man-pages/man2/stat.2.html |
+| 4 | `setuid(2)` - gerçek UID | https://man7.org/linux/man-pages/man2/setuid.2.html |
+| 5 | `chown(2)` - sahiplik | https://man7.org/linux/man-pages/man2/chown.2.html |
+| 6 | `errno.h` - hata kodu taban tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/errno.h.html |
+| 7 | `open` POSIX tanımı (erişim kararının başladığı yer) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/open.html |
+| 8 | `GetLastError` - Windows hata okuma | https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror |
+| 9 | `CreateFileW` - erişim isteği + share mode | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew |
+| 10 | `CloseHandle` | https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle |
+| 11 | Dosya güvenliği ve erişim hakları (Win32) | https://learn.microsoft.com/en-us/windows/win32/fileio/file-security-and-access-rights |
+| 12 | ACE (Access Control Entry) yapısı | https://learn.microsoft.com/en-us/windows/win32/secauthz/access-control-entries |
+
+### §19.7 Bu bölümün ölçüme kaydı (2026-10-14)
+
+| Ölçüm | Değer |
+|---|---|
+| Eklenen grup | 4 (G7a mod/DACL · G7b ACE · G7c kimlik · G7d hata yüzeyi) |
+| Platform kolları | 3/grup = 12 kol |
+| Eklenen kod bloğu | 6 (A=3 · B=3) |
+| Yeni doğrulanmış URL | 14 (§19.5 #1-#14) · envanter kesişimi **0** · HTTP 200 |
+| Reuse URL yeniden 200 | 12 (§19.6) |
+| Ölçülen 404 | `pubs.opengroup.org/.../functions/acl_*.html` → **HTTP 404** (ACL POSIX-temel dışında) |
+| macOS-native kaynak | 0 erişilebilir → 3 iddia `⚠️ VERIFICATION REQUIRED` |
+| Çalıştırılan gözlem | 0 (kod temsilidir; §17 taslak PLANNED kalır) |
+| `git commit` | **atılmadı** (orkestratöre ait) |
+
+---
+
+## §20 PHP Köprüsü — izin ve güvenlik (repo satır kanıtlı, 2026-10-14)
+
+> PHP, POSIX izin modeline (`mode`/`umask`/`access`) yalnızca **kısmen** ve çoğunlukla
+> **salt-okunur** bakar; Windows DACL/ACL yüzeyine ise **hiç bakmaz**. Bu bölüm her satırı
+> `ReadAllLines` ile doğrulanmış gerçek repo kodundan alır ve PHP'nin neyi **kapsadığını**,
+> neyi **kapsamadığını** ayrı ayrı söyler.
+
+### §20.1 I1 — Dizin modu: `@mkdir($d, $mod, true)` ↔ `mkdir(2)` ↔ `CreateDirectoryW`
+
+**Repo kanıtları (4 gerçek satır, 4 farklı mod):**
+
+`shared/src/Session/SessionConfig.php:33-36`
+
+```php
+$savePath = ini_get('session.save_path') ?: sys_get_temp_dir() . '/coremusic_sessions';
+if ($savePath !== '' && !is_dir($savePath)) {
+    @mkdir($savePath, 0750, true);
+}
+```
+
+`shared/src/Session/SessionInitializer.php:29-32`
+
+```php
+$savePath = ini_get('session.save_path') ?: 'C:\\temp';
+if ($savePath !== '' && !is_dir($savePath)) {
+    @mkdir($savePath, 0777, true);
+}
+```
+
+`home.coremusic.net/config/constants.php:75-78`
+
+```php
+$sessionPath = ini_get('session.save_path') ?: sys_get_temp_dir() . '/coremusic_sessions';
+if (!is_dir($sessionPath)) {
+    @mkdir($sessionPath, 0750, true);
+}
+```
+
+`bin/api-key-create.php:72-75`
+
+```php
+$dir = dirname($path);
+if (!is_dir($dir) && !@mkdir($dir, 0775, true) && !is_dir($dir)) {
+    throw new \RuntimeException("Dizin oluşturulamadı: {$dir}");
+}
+```
+
+| PHP | POSIX | Windows Win32 |
+|---|---|---|
+| `@mkdir($p, $mod, true)` | `mkdir($p, $mod)` → etkin mod = `$mod & ~umask` | `CreateDirectoryW` — **mod yok** |
+| `!is_dir && !@mkdir && !is_dir` | `EEXIST` tolere (yarış) | `ERROR_ALREADY_EXISTS` tolere |
+| zarf `@` + `RuntimeException` | `errno` + çağıran | `GetLastError` + çağıran |
+
+**Önemli üç gerçek:**
+
+1. **PHP `mkdir` modu süreç `umask`'ı ile maskelenir** (`0777 & ~umask`); depoda
+   `umask()` çağrısı **grep → 0 isabet** (§20.5) → etkin mod sunucu varsayılanına
+   bağlıdır ve **sürüm-dışı bilgidir** (`⚠️ VERIFICATION REQUIRED`).
+2. **Windows'ta mod yok sayılır**; PHP 8.x'te `mkdir` modu NTFS ACL'ye **çevrilmez**.
+   SessionInitializer `$savePath` fallback'inin `C:\temp` olması bu yüzden
+   tutarsız değildir — Windows'ta mod zaten etkisizdir.
+3. `0777` (SessionInitializer:31) POSIX'te **herkes yazabilir** demektir; `0750`
+   (SessionConfig:35, constants:77) ile çelişir. **Kod-satırı gözlemidir**, karar
+   değil — vault'ta hangisinin standart olduğu **kayıtlı değil** → `⚠️ VERIFICATION REQUIRED`.
+
+### §20.2 I2 — Okunabilirlik kontrolü: `is_readable` ↔ `access(R_OK)` ↔ `GetFileAttributesW`
+
+**Repo kanıtları:**
+
+`home.coremusic.net/include/Stream/MusicStreamHandler.php:204-206`
+
+```php
+if (!is_readable($real)) {
+    $this->fail(403, 'Erişim reddedildi');
+}
+```
+
+`media.coremusic.net/bin/scan.php:151-153`
+
+```php
+if (!is_readable($tam)) {
+    $hata++;
+    fwrite(STDERR, "HATA | {$goreli} | dosya-var | dosya okunamadi\n");
+```
+
+| PHP | POSIX | Windows Win32 |
+|---|---|---|
+| `is_readable($p)` | `access(p, R_OK)` (gerçek UID ile) | `GetFileAttributesW` + ACL denemesi |
+| `is_executable` | `access(p, X_OK)` | uzantı/AppLocker |
+| `is_writable` | `access(p, W_OK)` | ACL denemesi |
+
+**Dağılım:** `is_readable` → **var** (2 isabet, ikisi de yukarıda). `is_writable` →
+**grep 0 isabet** (§20.5). Yani depoda **yazma izni önceden kontrol edilmiyor**;
+yazma denemesi `file_put_contents === false` ile (dosya-sistemi §13.1-§13.2)
+**yakalanıyor** — bu desen TOCTOU'a **daha dirençlidir** (kontrol yerine deneme).
+
+### §20.3 I3 — Zincir: kimlik redi + kök-kapsam (özür değil, özet)
+
+Yol güvenliği zinciri bu dosyanın **§1'inde** (`MusicStreamHandler::resolvePath`) tam
+hâliyle kanıtlanmıştır; PHP katmanı üç adımı da **POSIX'ten bağımsız** yapar:
+`is_link` (red) → `realpath` (çözüm) → `str_starts_with($real, $prefix)` (kapsam).
+Karşılıkları:
+
+| Adım | PHP | POSIX | Windows Win32 |
+|---|---|---|---|
+| symlink redi | `is_link` | `lstat` + `S_ISLNK` | `FILE_ATTRIBUTE_REPARSE_POINT` |
+| gerçek yol | `realpath` | `realpath(3)` | `GetFinalPathNameByHandleW` |
+| kapsama | `str_starts_with` | `openat` + `O_NOFOLLOW` (PHP'de yok) | `NtCreateFile` |
+| okunabilirlik | `is_readable` | `access(R_OK)` | ACL |
+
+`⚠️ VERIFICATION REQUIRED`: PHP'de `O_NOFOLLOW`-eşdeğer atomik API **yoktur**; `is_link`
+ile `realpath` arasındaki yarış kapatılmaz (dosya-sistemi §13.6 ile aynı bulgu).
+
+### §20.4 I4 — Hata yüzeyinde redaction: log sızıntısının engellenmesi
+
+**Repo kanıtı:** `shared/src/PageRouter/PageRouterKernel.php:128-136`
+
+```php
+} catch (\Throwable $e) {
+    $errorMsg = date('c') . ' [' . $traceId . '] ' . get_class($e) . ': ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine() . "\n" . $e->getTraceAsString() . "\n";
+    // Merkezi redaction (§17 Edge Case 3): trace argümanlarındaki hassas alanlar maskelenir.
+    $errorMsg = Redactor::redact($errorMsg);
+    $logDir = $this->config->get('app.log_dir', dirname(__DIR__, 3));
+    @file_put_contents($logDir . '/coremusic_php_errors.log', $errorMsg, FILE_APPEND | LOCK_EX);
+```
+
+| Katman | PHP | POSIX | Windows |
+|---|---|---|---|
+| hata yakalama | `catch (\Throwable)` | `errno` + sinyal | `GetLastError` + `SEH` |
+| log yazımı | `file_put_contents(LOCK_EX)` | `open(O_APPEND)` + `flock` | `LockFileEx` |
+| maskeleme | `Redactor::redact` | (yok) | (yok) |
+
+**Gözlem:** maskeleme PHP'nin hata sistemine **değil**, uygulama katmanına **sonradan**
+eklenmiştir. POSIX `errno`/Windows `GetLastError` değeri hiçbir yerde PHP'ye
+yansımaz → `EACCES`/`ERROR_ACCESS_DENIED` ayrımı yapılamaz (bellek §18.4 ile aynı bulgu).
+
+### §20.5 I5 — Olumsuz kanıt (grep → **0 isabet**)
+
+`umask(` · `chmod(` · `is_writable(` · `chown(` · `posix_setuid` · `posix_acl` /
+`setfacl` / `getfacl` — depoda **hiçbiri kullanılmıyor**. Ek olarak:
+
+- PHP çekirdeğinde **POSIX ACL** (`posix_acl_*`) ve **Windows DACL** erişimi **yoktur**;
+  bunlar yalnız `setfacl`/`icacls` gibi dış araçların CLI çağrısıyla yapılabilir
+  (depoda `proc_open` yalnız testte, §20.5'e **dahil değil** — bkz. süreç §20.1).
+- **Yani:** PHP kodu yalnız `mode` (rwx) ve **imleç-düzeyi** (open/test) denetimi yapar.
+  Dosya sahibi/grup/ACL satırları **PHP'nin kapsamı dışındadır** → §19.1-§19.2'deki
+  `umask`/`chmod` ↔ DACL ve ACE eşlemeleri **model-only**dır, PHP koduyla
+  doğrulanamaz (`⚠️ VERIFICATION REQUIRED`) — §6.3'ün negatif kanıtıyla aynı sonuç.
+
+### §20.6 Ölçüm
+
+| Ölçüm | Değer |
+|---|---|
+| Eklenen PHP kod bloğu | 6 (§20.1 ×4 · §20.2 ×2 + §20.4) |
+| Repo satır çifti | 8 (SessionConfig:33-36 · SessionInitializer:29-32 · constants:75-78 · api-key-create:72-75 · MusicStreamHandler:204-206 · scan.php:151-153 · PageRouterKernel:128-136) |
+| Yeni URL | **0** → envanter kesişimi 0 |
+| Olumsuz grep | `umask` · `chmod` · `is_writable` · `chown` · `setfacl` → 0 |
+| ⚠️ işaretli iddia | 3 (§20.1 umask etkisizliği · §20.1 mod tutarsızlığı kararı · §20.3/§20.5 O_NOFOLLOW + ACL kapsamı) |
+
+## §21 — Çok dilli izin/güvenlik örnekleri: JS · C · Python · Go · Rust · C#
+
+> **Kanıt hiyerarşisi:** §20 PHP blokları depo satırına dayanıyordu. Burada **yalnız JS (98 dosya)
+> ve Python (1 dosya) depoda taşınır**; C/Go/Rust/C# **0 dosya** → `⚠️ KALIP (repo YOK)` + resmi
+> doküman URL'i (2026-10-14 · hepsi HTTP 200 → dogrulama §J.9).
+
+### §21.0 Ölçüm — kanıt durumu (2026-10-14)
+
+| Dil | Repo dosyası | İzin yüzeyi grep (repo) | Kanıt tipi |
+|---|---|---|---|
+| JavaScript | **98** | `chmod` **0** · `umask` **0** · `setuid` **0** · `is_writable` **0** | repo + olumsuz kanıt |
+| Python | **1** | `chmod` **0** (`.ai/scripts/fix-mojibake.py` yalnız oku/yaz) | kalıp + `os.html` |
+| C / Go / Rust / C# | **0 / 0 / 0 / 0** | — | kalıp + doküman |
+
+### §21.1 JavaScript — depoda dosya-modu API'si yok
+
+98 JS dosyasında `chmod`/`umask`/`setuid` **0 isabet** → tarayıcı JS'i dosya izni **üretemez**;
+izin yüzeyi OS değil, tarayıcı politikasıdır (CSP / feature politikası — ayrı bir güvenlik katmanı).
+`⚠️ VERIFICATION REQUIRED`: depoda `navigator.permissions` kullanımı aranmadı (grep yapılmadı).
+Bu bölüm için **JS kalıp bloğu yazılmadı** — JS'in OS izni yoktur, uydurulacak karşılığı da yoktur.
+
+### §21.2 C — `umask` + yaratma modu (kalıp)
+
+```c
+/* ⚠️ KALIP (repo YOK) — Kaynaklar:
+   https://pubs.opengroup.org/onlinepubs/9799919799/functions/umask.html (YENİ · 200)
+   https://pubs.opengroup.org/onlinepubs/9799919799/functions/open.html  (reuse · 200) */
+#include <sys/stat.h>
+#include <fcntl.h>
+
+mode_t old = umask(027);                    /* bundan sonraki yaratmalarda grup-yazma kapalı */
+int fd = open(p, O_CREAT | O_EXCL | O_WRONLY, 0640);   /* istenen mod */
+umask(old);                                 /* geri al */
+```
+
+**Eşleme:** PHP §20.1'deki `@mkdir($d, 0750, true)` ↔ C'de `umask` + `mode` **iki adımdır**;
+PHP'de `umask()` çağrısı depoda **0 isabet** (§20.5) — C kalıbı tam olarak PHP'nin atladığı addır.
+
+### §21.3 Python — `os.chmod` + erişim kontrolünün tuzağı (kalıp)
+
+```python
+# ⚠️ KALIP (repo YOK) — Kaynak: https://docs.python.org/3/library/os.html (reuse · 200)
+import os, stat
+
+os.chmod(p, 0o750)                          # PHP §20.1 0750 eşlemesi
+mode = os.stat(p).st_mode                  # okuma
+if not stat.S_ISREG(mode):
+    raise RuntimeError("regular file değil → symlink/red")
+# os.access(p, os.R_OK) → TOCTOU: kontrol ile kullanım arasında yarış (§20.2 ile aynı)
+```
+
+**Eşleme:** `os.chmod` ↔ PHP `chmod` — **depoda PHP `chmod(` 0 isabet** (§20.5). `os.access` tuzağı
+PHP §20.2'deki `is_readable` tuzağının birebir aynısıdır (kontrol ≠ kullanım).
+
+### §21.4 Go — `os.Chmod` (kalıp)
+
+```go
+// ⚠️ KALIP (repo YOK) — Kaynak: https://pkg.go.dev/os (YENİ · 200)
+package main
+
+import "os"
+
+func main() {
+    _ = os.Chmod("secret.key", 0o600)
+    fi, _ := os.Stat("secret.key")
+    _ = fi.Mode() // os.FileMode — perm & os.ModePerm
+}
+```
+
+**Eşleme:** Go `0o600` yazımı PHP'nin `0600` sekizlik yazımıyla aynı değeri üretir;
+`⚠️ VERIFICATION REQUIRED`: Windows'ta `os.Chmod`'un yalnız read-only bitini yansıtması
+dokümanda bu turda **okunmadı**.
+
+### §21.5 Rust — `fs::set_permissions` (kalıp)
+
+```rust
+// ⚠️ KALIP (repo YOK) — Kaynak:
+// https://doc.rust-lang.org/std/fs/fn.set_permissions.html (YENİ · 200)
+use std::fs;
+use std::os::unix::fs::PermissionsExt;      // unix'e özel — §21.7 notu
+
+let mut perm = fs::metadata("secret.key")?.permissions();
+perm.set_mode(0o600);
+fs::set_permissions("secret.key", perm)?;
+```
+
+**Eşleme:** `PermissionsExt::set_mode` POSIX modunu doğrudan kurar (PHP §20.1 `0750` eşlemesi).
+`⚠️ VERIFICATION REQUIRED`: `std::os::unix` bloğunun **yalnız unix** olduğu (Windows derlemesi
+kırar) iddiası dokümanda bu turda **okunmadı**.
+
+### §21.6 C# — `File.SetUnixFileMode` + Windows ACL (kalıp)
+
+```csharp
+// ⚠️ KALIP (repo YOK) — Kaynak:
+// https://learn.microsoft.com/en-us/dotnet/api/system.io.file.setunixfilemode (YENİ · 200)
+using System.IO;
+
+File.SetUnixFileMode("secret.key",
+    UnixFileMode.UserRead | UnixFileMode.UserWrite);   // 0600 karşılığı
+// Windows tarafı: FileSystemAcl sınıfı (⚠️ URL doğrulanmadı, bu blokta yok)
+```
+
+**Eşleme:** `UnixFileMode` ↔ POSIX `mode_t` (§21.2 ile aynı kavram). `⚠️ VERIFICATION REQUIRED`:
+`SetUnixFileMode`'in eklendiği .NET sürümü ve Windows'taki davranışı **okunmadı**; Windows ACL
+(`FileSystemAcl`) için URL **eklenmedi**.
+
+### §21.7 Ölçüm (§21)
+
+| Öğe | Değer |
+|---|---|
+| Dil | 6 (JS · C · Python · Go · Rust · C#) — **JS kalıpsız** (OS izni yok) |
+| Repo satır kanıtlı blok | **0** (bu bölüm yalnız olumsuz kanıt + kalıp taşır) |
+| `⚠️ KALIP (repo YOK)` blok | **5** (§21.2 C · §21.3 Python · §21.4 Go · §21.5 Rust · §21.6 C#) |
+| Bu bölümün URL'i | **6** → **2 reuse** (`pubs open.html` · `docs.python os.html`) **+ 4 yeni** (`pubs umask` · `pkg.go.dev/os` · `rust set_permissions` · `MS SetUnixFileMode`) — hepsi HTTP 200 (dogrulama §J.9) |
+| Repo grep (olumsuz kanıt) | JS `chmod` · `umask` · `setuid` · `is_writable` → **0** · PHP `chmod(` · `umask(` → **0** (§20.5) |
+| ⚠️ işaretli iddia | 5 (§21.1 `navigator.permissions` aranmadı · §21.4 Windows `os.Chmod` · §21.5 `std::os::unix` tekilliği · §21.6 .NET sürümü + ACL · §21.2 `umask` geri-alım emri kalıp) |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

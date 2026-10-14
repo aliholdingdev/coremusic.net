@@ -261,4 +261,22 @@ winmm/
 
 ---
 
+## §PHP ReactOS × PHP (2026-10-14)
+
+ReactOS, Windows PE uyumluluğu hedefler → resmi PHP Windows binary'leri ReactOS'ta
+**teorik** çalışır (⚠️ bu turda test edilmedi). PHP ses yolu: `shell_exec('ffplay
+file.wav')` (ffmpeg/winmm kullanır) veya PHP FFI → `winmm.dll` `waveOut*` export'ları
+(§23'teki `winmm.spec` satırlarından türetildi — çalıştırılmadı, ⚠️). Tam kalıp:
+kök `isletim-sistemi-audio-ornekler.md` §25.3.
+
+---
+
+**Geniş dil seti — ReactOS × dil (kök §26):** `winmm.dll` (§23 export'ları) C#'
+ın `System.Media.SoundPlayer`'ının da çağırdığı **aynı DLL'dir** (learn.microsoft.com
+200 · kök §26.7/2) · NAudio `WaveOutEvent` aynı katmanı sarmalar (README: DirectSound)
+· Go `oto` Windows backend'i waveOut · PHP FFI §25.3 ile **aynı spec satırları**.
+3 dil × 1 DLL = tek winmm sözleşmesi.
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

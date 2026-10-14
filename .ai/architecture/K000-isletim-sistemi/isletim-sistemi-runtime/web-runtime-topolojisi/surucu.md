@@ -13,6 +13,8 @@ evidence:
   - home.coremusic.net/.htaccess:1-37
   - home.coremusic.net/web.config:1-43
   - shared/config/domain.php:3-19
+  - https://nginx.org/en/docs/control.html
+  - https://nginx.org/en/docs/http/ngx_http_core_module.html
 validation: "2026-10-13 · 3 URL HTTP 200 (howto/htaccess · install.fpm bu tur envantere eklendi · creating-processes bu ağacın kök index.md'inden devralındı) · repo satırları Read ile birebir · içerik 380-460 satır"
 open_questions:
   - "R1: Hedef runtime topolojisi kesin değil — Apache (mod_php/FPM) mı, IIS mi, ikisi de mi? [UNKNOWN]"
@@ -512,6 +514,93 @@ Apache `.htaccess` L11 onu verir. Sunucu bağımsız tek başlık **yalnız** `X
 | 3 | IIS rewrite kuralı sayısı (api) | `Select-String -Path 'api.coremusic.net\web.config' -Pattern '<rule name='` | 5 |
 | 4 | font MIME kaydı | `Select-String -Path 'assets.coremusic.net\web.config' -Pattern 'mimeMap'` | 5 |
 | 5 | Apache başlığı (api .htaccess) | `Select-String -Path 'api.coremusic.net\.htaccess' -Pattern 'Header always set'` | 4 |
+
+## § OS GRUPLAR — sekiz işletim sistemi grubu: yürütme topolojisi karşılaştırması
+
+> Bu bölüm, bu dosyanın yürütme yüzeyini (§1 uygulama katmanı · §2 akış · §17 başlık
+> matrisi) işletim sistemi grubu ekseniyle karşılaştırır. Depoda yalnız Windows/IIS ve
+> POSIX/Apache yüzeyi yürütülür (§13 negatif kanıt defteri); diğer gruplarda repo'da
+> yürütülecek config olmadığı için örnekler "(bu projede kullanılmıyor)" etiketiyle verilir.
+
+### OS.1 — Karşılaştırma tablosu
+
+| # | OS | Web sunucu/runtime topolojisi | Bu dosyadaki karşılığı | Kaynak |
+|---|---|---|---|---|
+| 1 | Windows | IIS: HTTP.sys → app-pool → worker process; PHP FastCGI handler | §1 IIS satırı (`web.config` 43) · §17 başlık matrisi (IIS) | repo `home.coremusic.net/web.config:1-43` (evidence) |
+| 2 | macOS | gömülü Apache httpd — MPM + `.htaccess` yürütme zinciri | §1 Apache satırı · §2 akış (Apache katmanı) | `https://httpd.apache.org/docs/2.4/howto/htaccess.html` (evidence) |
+| 3 | iOS | ayrı web sunucusu topolojisi bu projede tanımlı değil | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
+| 4 | Android | ayrı web sunucusu topolojisi bu projede tanımlı değil | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
+| 5 | Linux | nginx veya Apache + PHP-FPM FastCGI zinciri | §1 FPM havuzu satırı (❌ YOK, R3) · §7 Kaynakça (install.fpm) | `https://www.php.net/manual/en/install.fpm.php` (evidence) |
+| 6 | FreeBSD/BSD | ports/paket Apache veya nginx — POSIX süreç + sinyal kontrolü | §13 negatif kanıt defteri (POSIX betik repo'da yok) | `https://nginx.org/en/docs/control.html` (bu tur eklendi) |
+| 7 | Tizen | ayrı sunucu topolojisi yok (yerleşik web runtime) | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
+| 8 | webOS | ayrı sunucu topolojisi yok (yerleşik web runtime) | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
+
+### OS.2 — OS bazlı kısa açıklamalar (2-3 cümle)
+
+**Windows.** IIS'te yürütme HTTP.sys'ten app-pool'a, oradan worker process'e akar; bu
+süreç `web.config` kurallarını (§17 başlık matrisi) ve URL Rewrite'ı uygular. PHP aynı
+worker süreci içinde FastCGI handler ile devreye girer. Repo'da bu yüzey `web.config` ×4
+ile ✅ IMPLEMENTED (§1).
+
+**macOS.** Gömülü Apache (httpd) Linux Apache ile aynı yürütme zincirini izler: MPM
+süreci → `.htaccess` → rewrite → PHP devri (§2 akış). Bu dosyada macOS'a özgü hiçbir
+yürütme adımı yoktur; `.htaccess` kuralları platformdan bağımsızdır (§1 Apache satırı).
+
+**iOS.** Yürütülecek web sunucusu config'i bu projede yoktur — iOS satırı yalnız
+topoloji karşılaştırması için taşınır. Depoda iOS'e ait dosya kanıtı bulunmadığından
+"(bu projede kullanılmıyor)" etiketi geçerlidir; platform dokümanı bu tur eklenmedi (⚠️).
+
+**Android.** Android için de yürütülecek sunucu config'i yoktur; proje yürütme yüzeyi
+Apache ve IIS'e indirgenir (§1 tablosu). Depoda Android kanıtı yok → "(bu projede
+kullanılmıyor)"; resmi platform dokümanı bu tur eklenmedi (⚠️).
+
+**Linux.** Linux topolojisinin yürütme karşılığı nginx/Apache + PHP-FPM zinciridir; repo'da
+`www.conf` gibi bir FPM havuz dosyası bulunmadığından bu zincir henüz yürütülmez (§1 ❌ YOK).
+Yalnız çapraz hedef tasarımı taşınır — kapasite/havuz değeri R3/R7 ile [⚠️].
+
+**FreeBSD/BSD.** FreeBSD'de Apache/nginx ports üzerinden kurulur ve POSIX sinyalleriyle
+kontrol edilir (HUP/USR1/QUIT); süreç modeli Linux ile aynıdır. Repo'da BSD'ye özgü betik
+yok (§13 negatif kanıt defteri) → "(bu projede kullanılmıyor)".
+
+**Tizen.** Tizen'de web uygulamaları yerleşik web runtime'ında çalışır; Apache/nginx
+yürütme zinciri bu projede tanımlı değildir. Depoda Tizen kanıtı yok → "(bu projede
+kullanılmıyor)"; platform dokümanı bu tur eklenmedi (⚠️).
+
+**webOS.** webOS'ta uygulamalar yerleşik web runtime'ında çalışır; `.htaccess`/`web.config`
+gibi yürütme katmanları bu platformda geçerli değildir. Depoda webOS kanıtı yok →
+"(bu projede kullanılmıyor)"; platform dokümanı bu tur eklenmedi (⚠️).
+
+### OS.3 — OS bazlı config örnekleri (ikisi de bu projede kullanılmıyor)
+
+**1) POSIX sunucu (Linux/FreeBSD) — nginx master süreç kontrolü ·
+kaynak `https://nginx.org/en/docs/control.html` (2026-10-14 HTTP 200)**
+
+```bash
+# pid dosyası varsayılanı: /usr/local/nginx/logs/nginx.pid (nginx.conf pid directive)
+NGINX_PID=/usr/local/nginx/logs/nginx.pid
+kill -HUP  "$NGINX_PID"   # konfigürasyonu yeniden oku + yeni worker başlat
+kill -USR1 "$NGINX_PID"   # log dosyalarını yeniden aç (log rotation)
+kill -QUIT "$NGINX_PID"   # graceful shutdown — çalışan istekler tamamlanır
+# TERM/INT hızlı kapanış · USR2 canlı binary yükseltme · WINCH worker kapanışı
+```
+
+**2) POSIX sunucu (Linux/FreeBSD) — nginx çekirdek sunucu bloğu ·
+kaynak `https://nginx.org/en/docs/http/ngx_http_core_module.html` (2026-10-14 HTTP 200)**
+
+```nginx
+# örnek yollar temsilîdir — repo'da nginx betiği yok (§1 "nginx betiği ❌ YOK")
+server {
+    listen 80;                                     # core: listen address[:port] ...
+    server_name home.coremusic.net;                # core: server_name name ...
+    root /var/www/coremusic/home.coremusic.net;     # core: root path ...
+    client_max_body_size 1m;                       # core varsayılanı: 1m
+    try_files $uri $uri/ /index.php$is_args$args;  # core: try_files file ... uri;
+}
+```
+
+> **Doğrulama notu:** `index` direktifi `ngx_http_core_module` direktif listesinde **yoktur**
+> (2026-10-14 sayfa kontrolü) — bu yüzden bloğa yazılmadı; PHP'ye devir `try_files` ile
+> `index.php`'ye yapılır ve repo'daki `.htaccess:36` karşılığıyla aynı semantiği taşır.
 
 ---
 

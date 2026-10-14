@@ -7,7 +7,7 @@ children: []
 depends_on:
   - K000-isletim-sistemi/isletim-sistemi-runtime/baslangic-ve-bootstrap/anayasa
   - K000-isletim-sistemi/isletim-sistemi-runtime/baslangic-ve-bootstrap/surucu
-evidence: https://www.php.net/manual/en/function.set-error-handler.php · https://www.php.net/manual/en/function.register-shutdown-function.php · https://www.php.net/manual/en/book.apcu.php · api.coremusic.net/index.php:10-29 · api.coremusic.net/constants.php:10-25 · api.coremusic.net/Services/RuntimeBootstrap.php:1-21 · api.coremusic.net/bootstrap.php:15-26 · api.coremusic.net/bootstrap.php:97-106 · api.coremusic.net/Services/SessionBootstrapper.php:19-28 · api.coremusic.net/Services/EnvParser.php:7-40
+evidence: https://www.php.net/manual/en/function.set-error-handler.php · https://www.php.net/manual/en/function.register-shutdown-function.php · https://www.php.net/manual/en/book.apcu.php · https://developer.apple.com/documentation/security/app_sandbox · https://docs.tizen.org/application/ · https://docs.tizen.org/application/web/tutorials/process-model/ · https://webosose.org/docs/ · https://webosose.org/docs/guides/ · api.coremusic.net/index.php:10-29 · api.coremusic.net/constants.php:10-25 · api.coremusic.net/Services/RuntimeBootstrap.php:1-21 · api.coremusic.net/bootstrap.php:15-26 · api.coremusic.net/bootstrap.php:97-106 · api.coremusic.net/Services/SessionBootstrapper.php:19-28 · api.coremusic.net/Services/EnvParser.php:7-40
 validation: 2026-10-13 · 3 URL HTTP 200 (set_error_handler · register_shutdown_function · book.apcu) · repo satırları Read ile birebir · içerik 380-460 satır
 open_questions: R1 opcache/APCu invalidation iki hedef · R9 APCu Windows per-process · R5 warm-up
 group: kod
@@ -500,5 +500,80 @@ iki modda da açıktır (M2).
 | 6 | https://www.php.net/manual/en/function.register-shutdown-function.php | `evidence:` (devralınan) | HTTP 200 |
 | 7 | https://www.php.net/manual/en/book.apcu.php | `evidence:` (devralınan) | HTTP 200 |
 | 8 | Yeni URL | izinli 4 domain içinden bu konuya uyan doğrulanmış kaynak yok | **0 yeni URL** |
+
+## § OS GRUPLAR
+
+> 8 işletim sistemi grubu ve boot/runtime başlatma modeli — bu dosyanın açısı **kanıttır**: her OS için
+> resmi kaynaklı örnek/obel bloğu ve bu dosyadaki repo örneği (E-1..E-15) karşılığı.
+
+### § OS.1 — Karşılaştırma tablosu
+
+| # | OS | Boot/runtime başlatma modeli | Bu dosyadaki karşılığı | Kaynak |
+|---|---|---|---|---|
+| 1 | Windows | UEFI → winload → NT kernel → SCM; IIS FastCGI (`php-cgi`) | E-1..E-15 — boot sırası örnekleri (SAPI bağımsız) | `anayasa.md` § OS |
+| 2 | macOS | boot.efi → XNU → launchd (PID 1); `php-fpm` LaunchDaemon job'ı | E-3/E-15 — hata perdesi (boot'ta bir kez) | `anayasa.md` § OS |
+| 3 | iOS | iBoot → XNU → launchd → SpringBoard; `UIApplicationDelegate` | § OS.3 (a) — kapsam dışı | https://developer.apple.com/documentation/security/app_sandbox |
+| 4 | Android | bootloader → Linux kernel → `init` → Zygote; öncelik ActivityManager | repo örneği yok — bkz. `surucu.md` § OS (kapsam dışı) | `surucu.md` § OS |
+| 5 | Linux | bootloader → Linux kernel → systemd (PID 1); `php-fpm.service` birimi | E-10 OPcache · E-11 health · E-14 kernel catch | `anayasa.md` § OS |
+| 6 | FreeBSD/BSD | loader → kernel → `init` (PID 1) → rc.d; PHP servisi rc.girişi | E-5 EnvParser · E-6 idempotent (POSIX) | `anayasa.md` § OS |
+| 7 | Tizen | Linux çekirdekli; uygulama süreç yaşam döngüsü (process-model) | § OS.3 (b) — kapsam dışı | https://docs.tizen.org/application/ |
+| 8 | webOS OSE | Linux çekirdekli; servis katmanı Luna Service 2 (LS2) | § OS.3 (c) — kapsam dışı | https://webosose.org/docs/ |
+
+### § OS.2 — OS kısa açıklamaları (her OS 2-3 cümle)
+
+1. **Windows** — PHP resmi Windows paketiyle kurulur; `php.ini-development`/`php.ini-production` seçimi ve PHP dizininin `PATH`'e eklenmesi kurulumun parçasıdır. Web yüzeyi IIS + FastCGI (`php-cgi`) veya Apache'dir; süreç başlatma SCM (Service Control Manager) üzerindendir. Boot sırası A1-A7 OS'tan bağımsızdır.
+2. **macOS** — `php.ini` konumu seçilen kurulum yöntemine göre belirlenir; süreç başlatma launchd üzerinden LaunchDaemon/LaunchAgent job'ı ile yapılır. `php-fpm` tek kez ayağa kalkar, istekler worker'a devredilir — "boot'ta bir kez" kuralının OS karşılığı.
+3. **iOS** — Uygulama `UIApplicationDelegate` ile başlar; süreç yaşam dölgüsü ve App Sandbox yönetimi sisteme aittir. Sunucu tarafı PHP boot bu platformda yoktur — **kapsam dışı** (aşağıda (a)).
+4. **Android** — Açılışta `init` servisleri başlatır; uygulama süreçleri öncelik tablosuna girer ve sistem bellek için önce boşta kalanlar öldürülür. Çalışma zamanı AOT derlemesiyle açılır — **kapsam dışı** (`surucu.md` § OS.3).
+5. **Linux** — PHP dağıtım paketi veya kaynaktan kurulur; `php-fpm` gibi servisler systemd birimi olarak yönetilir. A1-A7 sırası burada da geçerlidir; fail-fast (M4) PHP katmanında kalır, init sistemine devredilmez.
+6. **FreeBSD/BSD** — Boot zinciri `loader` → kernel → `init` → rc.d ile yürür; PHP servisi bir rc.d girişiyle başlar. POSIX fork+exec semantiği ve A1-A7 sırası Linux ile aynıdır.
+7. **Tizen** — Linux çekirdekli platform; web/native/.NET uygulamaları kendi modeliyle yaşar (UI/Widget/Service). Süreç ve yaşam dölgüsü resmi dokümanda ayrı bir tutorial'dır — **kapsam dışı** (aşağıda (b)).
+8. **webOS OSE** — Linux çekirdekli açık kaynak platform; uygulama ve servisler Luna Service 2 (LS2) üzerinden haberleşir. Mimari ve yaşam dölgüsü `docs/guides/core-topics` altındadır — **kapsam dışı** (aşağıda (c)).
+
+### § OS.3 — OS bazlı kod/örnek blokları
+
+> iOS/Tizen/webOS bloklarının tamamı **(bu projede kullanılmıyor · kapsam dışı)** — bu projede PHP/HTTP
+> boot yoktur; boot sırası örnekleri §2'de (E-1..E-15) kalır. launchd/systemd/fork blokları kardeş dosyalarda.
+
+#### (a) iOS — UIApplicationDelegate + App Sandbox (bu projede kullanılmıyor · kapsam dışı)
+
+```swift
+import UIKit
+
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate {
+    func application(_ application: UIApplication,
+        didFinishLaunchingWithOptions options: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // boot işi buraya; App Sandbox her uygulamaya kendi kapsayıcısını verir
+        return true
+    }
+}
+```
+*(kaynak: https://developer.apple.com/documentation/security/app_sandbox)*
+
+#### (b) Tizen — process-model ve yaşam döngüsü (bu projede kullanılmıyor · kapsam dışı)
+
+```text
+Uygulama modelleri : UI · Widget · Service (UI'siz, arka plan)
+Service callbacks  : onStart() → onRequest() → onExit()
+Başlatma           : tizen.application.launch() / launchAppControl() (paket içi paylaşımlı package ID)
+```
+*(kaynak: https://docs.tizen.org/application/ · https://docs.tizen.org/application/web/tutorials/process-model/ — 2026-10-14 gözlem: docs.tizen.org Samsung Tizen OS doküman hub'ına yönlendiriyor; içerik Samsung/tizen-docs ile çapraz doğrulandı)*
+
+#### (c) webOS OSE — docs haritası (bu projede kullanılmıyor · kapsam dışı)
+
+```text
+Mimari                 : /docs/guides/core-topics/architecture/architecture-overview/
+Uygulama yaşam dölgüsü : /docs/guides/core-topics/application-management/web-app-lifecycle/
+Servis iletişimi       : /docs/reference/ls2-api/ls2-api-index/   (Luna Service 2)
+```
+*(kaynak: https://webosose.org/docs/ · https://webosose.org/docs/guides/ — yollar 2026-10-14 fetch ile doğrulandı)*
+
+#### (d) Grup içindeki diğer bloklar (burada yalnız göstergeler)
+
+- launchd plist + POSIX fork+exec + Windows `php.ini` → `anayasa.md` § OS.3
+- systemd servisi + Android process model/runtime → `surucu.md` § OS.3
+
+**Eklenen yeni URL sayısı: 5** — app_sandbox · tizen application · tizen process-model · webosose docs · webosose guides (`evidence:` alanına eklendi · 2026-10-14 HTTP 200).
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

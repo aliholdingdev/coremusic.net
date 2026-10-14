@@ -12,7 +12,7 @@ evidence:
   - shared/src/Session/SessionConfig.php:35
   - shared/tests/Repository/ApiKeyCreateCommandTest.php:253
   - shared/src/Cache/ApcuAdapter.php:13
-validation: "2026-10-13 · FM 10 anahtar (title/type/date/updated/parent kaldırıldı) · §4-§5 eklendi · satır ≥500 · §5 5 URL HTTP 200 · envanter kesişimi 0 · satırlar ReadAllLines indeksi ile birebir"
+validation: "2026-10-14 · §6 grup anahtarı (G1-G8, 16 satır → 5 dosyaya dağıtıldı) · §6.4 4 yeni URL HTTP 200 (envanter kesişimi 0) · §6.5 10 reuse URL yeniden 200 · §7 PHP köprüsü (4 alt başlık · gerçek satır blokları · yeni URL 0) · §8 çok dilli indeksi (envanter: 320 PHP · 98 JS · 1 PY · 0 C/Go/Rust/C# · 23 tekil URL = 9 reuse + 14 yeni · 22 kalıp blok · 5 repo satır bloğu) · FM 10 anahtar · 761 satır · önceki tur (2026-10-13) kanıtları §4-§5'te korunur · satırlar ReadAllLines indeksi ile birebir"
 open_questions:
   - "Örnek 1-6 kod blokları temsilî özet mi byte-birebir mi? → §4.1 birebir satır karşılıklarını verir; tam eşleşme iddiası ⚠️ VERIFICATION REQUIRED"
   - "Her örnek `core`'da mı `kernel`'de mi? (Q2) → ⚠️ VERIFICATION REQUIRED (Q-C1)"
@@ -502,5 +502,260 @@ kısa adımlar için, `microtime(true)` (saniye float) uzun adımlar için. Bu a
 | 4 | `⚠️ VERIFICATION REQUIRED` etiketli iddialar bu tabloyla kapatılmaz — ayrı kanıt ister. |
 
 ---
+
+---
+
+## §6 Çapraz-platform gruplu kod örnekleri - grup anahtarı (2026-10-14)
+
+> **Grup kuralı (bağlayıcı):** Örnekler **kavram bazında gruplanır**, her grup
+> **üç platform kolunu** yan yana taşır: **Linux/POSIX** · **Windows (Win32)** ·
+> **macOS/POSIX**. "Sadece Linux" örnek bu turda **kabul edilmez**.
+>
+> **macOS kaynak kısıtı (ölçülmüş):** `developer.apple.com/library/archive/...`
+> man sayfaları bu turda erişilemedi (bağlantı sıfırlandı / 404). macOS sütunu
+> bu yüzden **POSIX spesifikasyonuna** dayanır ve `⚠️ VERIFICATION REQUIRED`
+> ile işaretlenir. Erişilebilir tek Apple kaynağı §6.4 satır 4'tedir.
+> Ölü URL listesi: `isletim-sistemi-core-dogrulama.md` §J.6.
+
+### §6.0 Grup → dosya eşlemesi (bu subdomain'in grup anahtarı)
+
+| Grup | Kavram | Ana dosya · bölüm | Linux | Windows | macOS |
+|---|---|---|---|---|---|
+| G1 | Süreç üretimi | `surec-ve-zamanlama-kavramlari-ornekler.md` §19.1 | `fork`+`execve`+`waitpid` · `posix_spawn` | `CreateProcessA` | POSIX · ⚠️ |
+| G2 | İplik + mutex | `surec-...-ornekler.md` §19.2 | `pthread_create`+`pthread_mutex_*` | `CreateThread`+mutex | POSIX · ⚠️ |
+| G3 | Zamanlama önceliği | `surec-...-ornekler.md` §19.3 | `setpriority`/`nice` | `SetThreadPriority` | POSIX · ⚠️ |
+| G4 | Süreç sonu + çıkış kodu | `surec-...-ornekler.md` §19.4 | `WEXITSTATUS` (8 bit) | `GetExitCodeProcess` (32 bit) | POSIX · ⚠️ |
+| G4a | Yığın tahsisi | `bellek-kavramlari-ornekler.md` §17.1 | `malloc`/`free` | `HeapAlloc`/`HeapFree` | POSIX · ⚠️ |
+| G4b | Sayfa tahsis + koruma | `bellek-...-ornekler.md` §17.2 | `mmap`/`mprotect`/`munmap` | `VirtualAlloc`/`Protect`/`Free` | POSIX · ⚠️ |
+| G5 | Dosya eşleme | `bellek-...-ornekler.md` §17.3 | `shm_open`+`mmap` | `CreateFileMappingW`+`MapViewOfFile` | POSIX · ⚠️ |
+| G6a | Aç / yaz / kapat | `dosya-sistemi-kavramlari-ornekler.md` §12.1 | `open`/`write`/`close` | `CreateFileW`/`WriteFile` | POSIX · ⚠️ |
+| G6b | Dosya kilidi | `dosya-...-ornekler.md` §12.2 | `flock(LOCK_EX)` | `LockFileEx` | `flock` · ⚠️ |
+| G6c | Dizin + durum + boyut | `dosya-...-ornekler.md` §12.3 | `mkdir`/`stat`/`lseek` | `CreateDirectoryW`/`GetFileAttributesExW` | POSIX · ⚠️ |
+| G6d | Dayanıklılık | `dosya-...-ornekler.md` §12.4 | `fsync` | `FlushFileBuffers` | POSIX · ⚠️ |
+| G7a | Erişim modu / DACL | `izin-ve-guvenlik-kavramlari-ornekler.md` §19.1 | `umask`+`chmod` | `Get/SetNamedSecurityInfoW` | POSIX · ⚠️ |
+| G7b | Politik satır (ACE/ACL) | `izin-...-ornekler.md` §19.2 | `acl_get/set_file` (Linux) | `InitializeAcl`+`AddAccessAllowedAce` | ⚠️ |
+| G7c | Kimlik geçişi | `izin-...-ornekler.md` §19.3 | `setuid`/`seteuid` | `OpenProcess` (asimetrik) | POSIX · ⚠️ |
+| G7d | Hata yüzeyi | `izin-...-ornekler.md` §19.4 | `errno` (süreç-bazlı) | `GetLastError` (iplik-bazlı) | POSIX · ⚠️ |
+| G8 | Süreç kimliği + hata | **bu dosya §6.1** | `getpid`/`errno` | `GetCurrentProcessId` | POSIX · ⚠️ |
+
+**Okuma sırası:** §6.0 → ilgili alt-dosyanın §19/§17/§12 bölümü → ortak
+kanıt için `isletim-sistemi-core-dogrulama.md` §J (tek-çatı matris).
+
+### §6.1 G8 - Süreç kimliği ve hata yüzeyi (ortak kesen)
+
+**(A) Linux/POSIX:**
+
+```c
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+
+pid_t me = getpid();                 /* bu surecin kimligi */
+int e = errno;                       /* son hata - cagriya OZEL okunmali */
+const char *msg = strerror(e);
+```
+
+**(B) Windows (Win32):**
+
+```c
+#include <windows.h>
+
+DWORD pid = GetCurrentProcessId();   /* bu surecin kimligi */
+DWORD e   = GetLastError();          /* son hata - iplik bazli */
+CHAR buf[256];
+DWORD n = FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM |
+                         FORMAT_MESSAGE_IGNORE_INSERTS,
+                         NULL, e, 0, buf, sizeof buf, NULL);
+(void)n;
+```
+
+**(C) macOS / POSIX** — (A) birebir geçer · `⚠️ VERIFICATION REQUIRED`.
+
+| # | Soru | Linux/POSIX | Windows | macOS |
+|---|---|---|---|---|
+| 1 | Süreç kimliği | `getpid()` → `pid_t` | `GetCurrentProcessId()` → `DWORD` | POSIX · ⚠️ |
+| 2 | İplik kimliği | `pthread_self()` | `GetCurrentThreadId()` | POSIX · ⚠️ |
+| 3 | Hata deposu | `errno` (süreç-bazlı) | `GetLastError()` (iplik-bazlı) | POSIX · ⚠️ |
+| 4 | Hata metni | `strerror(e)` | `FormatMessageA` ⚠️ (bu turda doğrulanmadı) | ⚠️ |
+| 5 | Tanıtıcı kapatma | `close(fd)` | `CloseHandle(h)` | POSIX · ⚠️ |
+
+### §6.2 G9 - PHP katmanı köprüsü (repo satır kanıtları, §4'ten reuse)
+
+| OS kavramı | Grup | PHP sargısı | Kanıt (§4.1-§4.5) |
+|---|---|---|---|
+| Dosya kilidi | G6b | `flock($fh, LOCK_EX)` | `FileHandler.php:251` |
+| Dizin yaratma + mod | G7a | `@mkdir($savePath, 0750, true)` | `SessionConfig.php:35` |
+| Geçici dosya üretimi | G6a | `tempnam` deseni | `TemplateEngine.php:73` |
+| Mono saat (ölçüm) | §19.4 | `hrtime(true)` | `MiddlewarePipeline.php:42` |
+| Duvar saati | §19.4 | `microtime(true)` | `AIWorkflow.php:51` |
+| Süreç üretimi | G1 | `proc_open` | `ApiKeyCreateCommandTest.php:253` |
+| Paylaşımlı bellek | G5 | `apcu_*` | `ApcuAdapter.php:13` |
+| Gerçek yol çözümü | G6c | `realpath(...)` | `MusicStreamHandler.php:189` |
+
+> Bu tablo **yeni satır kanıtı üretmez** — §4.1-§4.5'te 2026-10-13'te
+> `ReadAllLines` ile doğrulanmış satırların **grup eşlemesidir**.
+
+### §6.3 Platform matrisi §4.13 ile bağ
+
+§4.13 (kavram → Linux / Windows / macOS / PHP) bu bölümün **sözel** özetidir;
+§6.0 ise **kod** özetidir. İkisi çakışırsa **§6.0 (kod)** esastır ve §4.13
+revize edilir. §4.13'teki macOS sütunu da `⚠️ VERIFICATION REQUIRED`
+işaretini taşır — kaynak kısıtı değişmemiştir.
+
+### §6.4 Yeni doğrulanmış URL (2026-10-14 · envanter kesişimi 0 · HTTP 200)
+
+> **Ölçüm (2026-10-14 · yeniden):** `.ai/**` (gizli dizin, `*.md|*.json|*.txt|*.ps1`)
+> URL kümesi **bu turda yazılan 6 dosya hariç** tutularak ölçüldü = **3760 tekil URL**;
+> aşağıdaki **4 aday** bu kümede **yok** → kesişim **0**. Tur-çapı tek-çatı sayım ve
+> kümülatif envanter (**3866**) için bkz. `isletim-sistemi-core-dogrulama.md` **§J**.
+
+| # | İddia | URL | 2026-10-14 |
+|---|---|---|---|
+| 1 | `pthread_exit` POSIX tanımı (ipliği sonlandırma) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/pthread_exit.html | ? HTTP 200 · **YENİ** |
+| 2 | `GetCurrentProcess` - özel süreç tanıtıcısı (`-1`) | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocess | ? HTTP 200 · **YENİ** |
+| 3 | `GetModuleFileNameW` - yürütülebilir yolun okunması | https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamew | ? HTTP 200 · **YENİ** |
+| 4 | Apple Dispatch (macOS iplik/kuyruk kavramı) | https://developer.apple.com/documentation/dispatch | ? HTTP 200 · **YENİ** |
+
+### §6.5 Reuse URL - HTTP 200 yeniden doğrulandı (2026-10-14)
+
+| # | İddia | URL |
+|---|---|---|
+| 1 | `getpid(2)` | https://man7.org/linux/man-pages/man2/getpid.2.html |
+| 2 | `getpid` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/getpid.html |
+| 3 | `errno.h` hata kodu tabanı | https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/errno.h.html |
+| 4 | `unistd.h` temel arayüzler | https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/unistd.h.html |
+| 5 | `GetCurrentProcessId` | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocessid |
+| 6 | `GetCurrentThreadId` | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthreadid |
+| 7 | `GetLastError` | https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror |
+| 8 | `CloseHandle` | https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle |
+| 9 | Süreç ve iplik modeli | https://learn.microsoft.com/en-us/windows/win32/procthread/processes-and-threads |
+| 10 | Apple Dispatch DispatchQueue (envanter komşusu) | https://developer.apple.com/documentation/dispatch/dispatchqueue |
+
+### §6.6 Bu bölümün ölçüme kaydı (2026-10-14)
+
+| Ölçüm | Değer |
+|---|---|
+| Grup anahtarı | 16 satır (G1-G7d + G8) · 5 dosyaya dağıtıldı |
+| Platform kolları | 3/grup (Linux · Windows · macOS) |
+| Bu dosyaya eklenen kod bloğu | 2 (A=POSIX · B=Windows) |
+| Bu dosyanın yeni URL'si | 4 (§6.4) · envanter kesişimi **0** · HTTP 200 |
+| Bu dosyanın reuse URL'si | 10 (§6.5) · HTTP 200 |
+| Toplam tur URL'si | 56 toplam → **53 yeni / 3 reuse** · tek-çatı matris: `isletim-sistemi-core-dogrulama.md` **§J** |
+| Kaldırılan mevcut içerik | 0 (§1-§5 aynen korundu) |
+| `git commit` | **atılmadı** (orkestratöre ait) |
+
+---
+
+## §7 PHP Köprüsü — bu turun PHP kod örnekleri anahtarı (2026-10-14)
+
+> Bu dosya grup anahtarıdır (§6); PHP örnekleri **alt-dal dosyalarında** yaşar. Bu bölüm
+> onların indeksidir + depoda **ortak olan** PHP kurallarını taşıyan tek yerdir.
+
+### §7.1 Nerede hangi PHP örneği var
+
+| Kavram | Dosya | Bölüm | Konu |
+|---|---|---|---|
+| Süreç + zamanlama | `surec-ve-zamanlama-kavramlari-ornekler.md` | **§20** | `proc_open` · `shell_exec`+`escapeshellarg` · `usleep` · `hrtime` |
+| Bellek | `bellek-kavramlari-ornekler.md` | **§18** | geçici dosya+`random_bytes` · sabit bellekli `fread` döngüsü · hata yüzeyi |
+| Dosya sistemi | `dosya-sistemi-kavramlari-ornekler.md` | **§13** | `LOCK_EX` · `@mkdir` çift kontrol · `filesize/filemtime` · `fseek` · yol çözümü |
+| İzin ve güvenlik | `izin-ve-guvenlik-kavramlari-ornekler.md` | **§20** | `mkdir` modu · `is_readable` · zincir özeti · `Redactor`+log |
+
+Ortak kesen (süreç × dosya × izin): `LOCK_EX` **3 dosyada** geçer — tek kayıt noktası
+**dosya-sistemi §13.1**'dir; diğerleri oraya bağlanır.
+
+### §7.2 Depoda bağlayıcı görünen PHP kuralları (kanıt satırlı)
+
+| Kural | Kanıt |
+|---|---|
+| `declare(strict_types=1);` | `shared/src/*` dosyalarının başında (ör. `Component/CardComponent.php:3`) |
+| Paylaşılan eklemede `FILE_APPEND \| LOCK_EX` | `shared/src/Log/FileHandler.php:251` · `shared/src/PageRouter/PageRouterKernel.php:133-134` |
+| Tek-dosya yazımında `LOCK_EX` | `shared/src/Component/TemplateEngine.php:74` · `media.coremusic.net/src/Media/CatalogWriter.php:113` |
+| `eval` yok → cache + `require` | `shared/src/Component/TemplateEngine.php:72` (yorum: `Guardrail §21 · ADR-091`) |
+| Shell'e giden yol kaçışlı | `shared/src/AI/AIEngine.php:290-293` (`escapeshellarg`) |
+| Hata yüzeyi `catch (\Throwable)` + `Redactor::redact` | `shared/src/PageRouter/PageRouterKernel.php:128-131` |
+| Dizin modu `@mkdir(..., $mod, true)` + çift `is_dir` | `bin/api-key-create.php:73` · `shared/src/Session/SessionConfig.php:35` |
+
+### §7.3 OS ⇄ PHP kapsama haritası — ne PHP'de var, ne yok
+
+| OS yüzeyi | PHP karşılığı | Depo durumu |
+|---|---|---|
+| süreç başlat / bekle | `proc_open` · `proc_close` | ✅ 1 isabet (test) |
+| kabuk + kaçış | `shell_exec` · `escapeshellarg` | ✅ 1 isabet |
+| monotonik saat | `hrtime` | ✅ 2 isabet |
+| gecikme | `usleep` | ✅ 1 isabet |
+| kilitli yazım | `file_put_contents(LOCK_EX)` | ✅ 5+ isabet |
+| stat | `filesize` · `filemtime` · `is_file` | ✅ 3+ isabet |
+| yol/symlink | `is_link` · `realpath` | ✅ 3+ isabet |
+| okunabilirlik | `is_readable` | ✅ 3 isabet |
+| yazma izni denetimi | `is_writable` | ❌ **0 isabet** (deneme+`false` ile yakalanıyor) |
+| süreç kimliği / sinyal | `getmypid` · `pcntl_*` · `posix_*` | ❌ **0 isabet** |
+| `umask` / `chmod` / `chown` | PHP'de var, çağrılmıyor | ❌ **0 isabet** |
+| POSIX ACL / Windows DACL | PHP çekirdeğinde **YOK** | ❌ kapsam dışı → §19.1-§19.2 model-only |
+| `fsync` / `fdatasync` (PHP 8.1+) | PHP'de var, çağrılmıyor | ❌ **0 isabet** |
+| `memory_get_usage` | PHP'de var, çağrılmıyor | ❌ **0 isabet** |
+
+❌ satırları **negatif kanıttır** — "yok" demek "eksik" anlamına gelmez; §4.9'daki
+bilinçli eksiklik kaydıyla birlikte okunur.
+
+### §7.4 Ölçüm
+
+| Ölçüm | Değer |
+|---|---|
+| Bu tur eklenen PHP bölümü | 5 dosya · toplam **19** alt başlık (§7.1-§7.4 · süreç §20 · bellek §18 · dosya §13 · izin §20) |
+| PHP kod bloğu (gerçek satır) | **19** · hepsi `ReadAllLines` ile alındı |
+| Yeni URL | **0** (PHP bölümleri hiç URL içermiyor) |
+| Olumsuz grep özeti | `pcntl_*` · `posix_*` · `getmypid` · `set_time_limit` · `umask` · `chmod` · `is_writable` · `fsync` · `memory_get_usage` · `gc_collect_cycles` · `mt_rand` → 0 |
+| Uydurma satır | 0 — her blok dosya:satır çiftiyle imzalı |
+
+## §8. Çok diller indeksi — JS · C · Python · Go · Rust · C# (2026-10-14)
+
+### §8.1 Depo dil envanteri (ölçüm 2026-10-14 · `vendor`/`node_modules` hariç)
+
+| Dil | Dosya | Bu vault'taki karşılığı |
+|---|---|---|
+| PHP | **320** | §20 / §18 / §13 / §20 PHP köprüleri (satır kanıtlı) |
+| JavaScript | **98** | surec §21.1 · bellek §19.1 · dosya §14.1 · izin §21.1 |
+| SQL | **23** | (kapsam dışı — bu görev serisinde örneklenmedi) |
+| PowerShell | **6** | (kapsam dışı — kullanıcı seçimi JS/C/Python/Go/Rust/C#) |
+| TypeScript | **2** | (kapsam dışı) |
+| Python | **1** | surec §21.3 · dosya §14.2 (`.ai/scripts/fix-mojibake.py` satır kanıtlı) |
+| **C** | **0** | kalıp + POSIX doküman (surec §21.2 · dosya §14.3 · izin §21.2 · bellek §19.2) |
+| **Go** | **0** | kalıp + pkg.go.dev (surec §21.4 · dosya §14.4 · izin §21.4 · bellek §19.4) |
+| **Rust** | **0** | kalıp + doc.rust-lang.org (surec §21.5 · dosya §14.5 · izin §21.5 · bellek §19.5) |
+| **C#** | **0** | kalıp + MS Learn (surec §21.6 · dosya §14.6 · izin §21.6 · bellek §19.6) |
+| Java / Ruby / Kotlin / Swift | **0** | (kapsam dışı) |
+
+### §8.2 Konu ⇄ dil matrisi
+
+| Konu dosyası | Çok dilli bölüm | JS | C | Python | Go | Rust | C# |
+|---|---|---|---|---|---|---|---|
+| süreç ve zamanlama | **§21** | olumsuz kanıt + Node kalıp | fork/exec | subprocess + depo satırı | CommandContext | Command | Process |
+| bellek | **§19** | depo satırı (süre + RNG) | mmap | secrets | runtime.ReadMemStats | Vec/RAII | RNG + GC |
+| dosya sistemi | **§14** | depo satırı + Node fs kalıp | open/fcntl | depo satırı + os.open/flock | os.OpenFile | fs::File | FileStream |
+| izin ve güvenlik | **§21** | olumsuz kanıt (**kalıp yok**) | umask/open | os.chmod/access | os.Chmod | set_permissions | SetUnixFileMode |
+
+### §8.3 Bağlayıcı kanıt kuralları (bu 4 bölüm için)
+
+1. **JS ve Python blokları** depo satırına dayanır; her blok `dosya:satır` çifti taşır (`ReadAllLines`).
+2. **C / Go / Rust / C# blokları** `⚠️ KALIP (repo YOK)` etiketlidir — depoda bu dillerde **0 dosya**
+   vardır; bloklar resmi doküman URL'ine bağlanır ve **sürüm iddiası içeren her satır
+   `⚠️ VERIFICATION REQUIRED`** ile işaretlenir.
+3. Bu 4 bölümde geçen **her URL 2026-10-14'te HTTP 200 ölçülmüştür** (toplam 24 ölçüm →
+   dogrulama §J.9): **23'ü dosyalarda kullanıldı** (9 reuse + 14 yeni), **1'i kullanılmadı**
+   (`man7.org .../fork.2.html` — kullanılmayan URL dosyalara yazılmaz, envantere de girmez).
+
+### §8.4 Ölçüm
+
+| Öğe | Değer |
+|---|---|
+| Bölüm | **4** (surec §21 · bellek §19 · dosya §14 · izin §21) + bu indeks §8 |
+| Dil | **6** (JS · C · Python · Go · Rust · C#) |
+| Repo satır kanıtlı blok | **5** (JS ×3 — surec §21.1 · bellek §19.1 · dosya §14.1 · + PY ×2 — surec §21.3 · dosya §14.2) |
+| `⚠️ KALIP (repo YOK)` blok | **22** (surec 6 · bellek 5 · dosya 6 · izin 5) |
+| Tekil URL (4 bölüm toplamı) | **23** → **9 reuse + 14 yeni** · hepsi HTTP 200 |
+| Ölçülen ama kullanılmayan URL | **1** (`man7 fork.2`) |
+| Envanter ölçüm anı | **2026-10-14 12:41** · (6 dosya hariç) **4007** tekil URL |
+| Repo grep (olumsuz kanıt toplamı) | JS `child_process`/`spawn(`/`fork(`/`worker_threads`/`process.env`/`process.hrtime`/`chmod`/`umask`/`setuid`/`Math.random`/`process.memoryUsage` · PY `subprocess`/`chmod` → **0 isabet** |
+| Uydurma satır | 0 — her blok `dosya:satır` (repo) veya `⚠️ KALIP + URL` (kalıp) ile imzalı |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

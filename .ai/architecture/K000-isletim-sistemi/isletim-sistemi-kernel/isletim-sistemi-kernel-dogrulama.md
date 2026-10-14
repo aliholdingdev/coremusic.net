@@ -11,7 +11,9 @@ evidence:
   - https://docs.kernel.org/locking/lockdep-design.html
   - https://docs.kernel.org/driver-api/driver-model/index.html
   - https://learn.microsoft.com/en-us/windows-hardware/drivers/install/driver-store
-validation: "2026-10-13 · 124 yeni URL HEAD 200 (61 + 63) · envanter (2100) ile kesişim 0 · 16 dosya ölçümü"
+  - https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-sleepex
+  - https://samsungtizenos.com/docs/application/native/guides/multimedia/media-playback
+validation: "2026-10-13 (124 yeni URL) → 2026-10-14 (+25 yeni URL · OS turu) · toplam 149 yeni URL HEAD 200 · envanter kesişimi 0 (2100 + 3334 anlık görüntü) · 16 dosya ölçümü"
 open_questions:
   - "core ↔ kernel sınırı (Q2) doğrulanamadı → açık"
   - "Hedef çekirdek (Q4) → UNKNOWN"
@@ -40,6 +42,8 @@ group: kanit
 | V12 | Yasak dolgu (`TBD`·`Yakında`·`// ...`·`{...}`) var mı? | metin arama | 0 | ✅ 0 |
 | V13 | Beyazliste dışında yazım yapıldı mı? | git status + yol kontrolü | 0 | ✅ 0 |
 | V14 | Boş tablo hücresi var mı? | `|  |` · `|---||` arama | 0 | ✅ 0 |
+| V21 | 3. tur yeni URL'ler envanterle kesişiyor mu? (2026-10-14) | `HashSet.Contains` × 3334 anlık görüntü | kesişim = 0 | ✅ 0 |
+| V22 | 3. tur yeni URL'ler HEAD 200 mü? (2026-10-14) | `HEAD` isteği | 200 | ✅ 25/25 (+40 env teyidi = 65) |
 
 ### §A.2 İçerik doğrulama senaryoları
 
@@ -139,7 +143,20 @@ group: kanit
 | 2. tur HEAD test edilen fresh aday | 63 |
 | 2. tur HEAD 200 (yazılan §E.4) | 63 |
 | 2. tur kesişim (start 2100 + §E.2 61) | 0 |
-| Toplam yazılan yeni URL | 124 (61 + 63) |
+| Toplam yazılan yeni URL (1. + 2. tur) | 124 (61 + 63) |
+| Envanter benzersiz URL (3. tur anlık görüntü · 2026-10-14) | 3334 (`url-inventory-2026-10-14.txt`) |
+| 3. tur HEAD test edilen aday | 64 (toplu) + 8 (sonradan) = 72 |
+| 3. tur HEAD 200 | 57 + 8 = 65 |
+| 3. tur FAIL (hepsi çözüldü → §E.5.3) | 7 |
+| 3. tur yeni (ENV olmayan · yazılan §E.5.1) | 25 |
+| 3. tur kesişim (3334 anlık görüntü ile) | 0 |
+| Toplam yazılan yeni URL (3 tur) | 149 (61 + 63 + 25) |
+
+> **3. tur notu (2026-10-14):** OS bazlı tur — adaylar `ornekler.md` §K.2 için
+> seçildi (Windows · macOS · Android · webOS · Tizen · ReactOS · Linux hariç).
+> Kesişim testi `os-kernel-newurls.txt` (25 URL) × `url-inventory-2026-10-14.txt`
+> (3334) ile `HashSet.Contains` üzerinden çalıştırıldı → **0**. Ayrıca 40 URL
+> envanterde olduğu için yalnız teyit satırı olarak §E.5.2'de taşındı.
 
 > **2. tur notu:** 1. tur tamamlandıktan sonra envanter yeniden ölçülmüştür
 > (`kernel-url-start.txt` anlık görüntüsü · 2100 URL · dosya yazımından önce
@@ -204,7 +221,7 @@ group: kanit
 | A4 | yeni URL 124 (kesişim 0) | 124 · 0 | ✅ |
 | A5 | yasaklı kalıp 0 | 0 | ✅ |
 
-## §E — Web doğrulama matrisi (URL · 2026-10-13 · HTTP 200)
+## §E — Web doğrulama matrisi (URL · 2026-10-13 → 2026-10-14 · HTTP 200)
 
 ### §E.1 Önceki tur (2026-10-12 · korunmuştur)
 
@@ -396,6 +413,82 @@ group: kanit
 > kanıtları **gömülü/alternatif çekirdek** bağlamındadır — Linux/Windows/macOS
 > çekirdek iddialarını **destekler**, tek başına çekirdek iddiası kurmaz.
 
+### §E.5 · 3. tur — OS bazlı doğrulama (2026-10-14 · HEAD 200)
+
+> **Kapsam:** `ornekler.md` §K.2 (OS gruplu kod örnekleri) için toplanan URL'ler
+> — Windows · macOS · Android · webOS · Tizen · ReactOS (**Linux hariç**, kullanıcı
+> kuralı). Yöntem: `HEAD` → `200`. Envanter anlık görüntüsü
+> `url-inventory-2026-10-14.txt` (3334 benzersiz URL · 998 .md) ile kesişim
+> **0** → §D.2 Q1 kabulü. Toplam aday 64 · HEAD 200 **57** · FAIL **7** (§E.5.3)
+> · sonradan doğrulanan 3 aday (execute) ile 25 yeni + 40 env'de = **65 kullanımda**.
+
+#### §E.5.1 Yeni URL'ler (25 · envanter kesişim 0 · 2026-10-14 HEAD 200)
+
+| # | OS | İddia | URL | Tarih | Sonuç |
+|---|---|---|---|---|---|
+| 64 | Windows | `SleepEx` (alertable bekleme) | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-sleepex | 2026-10-14 | ✅ HTTP 200 |
+| 65 | macOS | IOKit şemsiyesi (donanım/sürücü erişimi) | https://developer.apple.com/documentation/iokit | 2026-10-14 | ✅ HTTP 200 |
+| 66 | Android | Platform çekirdek mimarisi | https://source.android.com/docs/core/architecture | 2026-10-14 | ✅ HTTP 200 |
+| 67 | Android | Mimari · çekirdek (Linux tabanı) | https://source.android.com/docs/core/architecture/kernel | 2026-10-14 | ✅ HTTP 200 |
+| 68 | Android | Mimari · HAL (donanım soyutlama katmanı) | https://source.android.com/docs/core/architecture/hal | 2026-10-14 | ✅ HTTP 200 |
+| 69 | webOS | webOS OSE doküman kökü | https://www.webosose.org/docs/ | 2026-10-14 | ✅ HTTP 200 |
+| 70 | webOS | LS2 API'ye giriş (kod kaynağı: `luna-send` + JSON yanıt) | https://www.webosose.org/docs/guides/getting-started/introduction-to-ls2-api/ | 2026-10-14 | ✅ HTTP 200 |
+| 71 | webOS | Yerel hizmet modeli (native services) | https://www.webosose.org/docs/guides/development/native-services/native-service-overview/ | 2026-10-14 | ✅ HTTP 200 |
+| 72 | webOS | Luna Service 2 kütüphane API referansı | https://www.webosose.org/docs/reference/luna-service2-library/luna-service2-library-api-reference/ | 2026-10-14 | ✅ HTTP 200 |
+| 73 | Tizen | Yerel uygulama dokümanı kökü | https://docs.tizen.org/application/native/ | 2026-10-14 | ✅ HTTP 200 |
+| 74 | Tizen | Multimedya rehberi | https://docs.tizen.org/application/native/guides/multimedia/ | 2026-10-14 | ✅ HTTP 200 |
+| 75 | Tizen | Süreç yönetimi rehberi | https://docs.tizen.org/application/native/guides/process-management/ | 2026-10-14 | ✅ HTTP 200 |
+| 76 | Tizen | Güvenlik rehberi | https://docs.tizen.org/application/native/guides/security/ | 2026-10-14 | ✅ HTTP 200 |
+| 77 | Tizen | Uygulama yönetimi · genel bakış | https://docs.tizen.org/application/native/guides/app-management/overview | 2026-10-14 | ✅ HTTP 200 |
+| 78 | Tizen | Grafik rehberi | https://docs.tizen.org/application/native/guides/graphics/ | 2026-10-14 | ✅ HTTP 200 |
+| 79 | Tizen | Medya kontrol (media controller) | https://docs.tizen.org/application/native/guides/multimedia/media-controller/ | 2026-10-14 | ✅ HTTP 200 |
+| 80 | Tizen | Medya oynatıcı rehberi | https://docs.tizen.org/application/native/guides/multimedia/player/ | 2026-10-14 | ✅ HTTP 200 |
+| 81 | Tizen | Kamera rehberi | https://docs.tizen.org/application/native/guides/multimedia/camera/ | 2026-10-14 | ✅ HTTP 200 |
+| 82 | Tizen | Metin girişi rehberi | https://docs.tizen.org/application/native/guides/text-input/ | 2026-10-14 | ✅ HTTP 200 |
+| 83 | Tizen | Güvenli uygulama geliştirme | https://docs.tizen.org/application/native/guides/secure-app-development/ | 2026-10-14 | ✅ HTTP 200 |
+| 84 | Tizen | HAL genel bakış (Samsung TizenOS) | https://samsungtizenos.com/docs/platform/hal/overview | 2026-10-14 | ✅ HTTP 200 |
+| 85 | Tizen | Medya oynatma rehberi (kod kaynağı: `player.h` · `player_create`) | https://samsungtizenos.com/docs/application/native/guides/multimedia/media-playback | 2026-10-14 | ✅ HTTP 200 |
+| 86 | ReactOS | Geliştirici wiki'si | https://reactos.org/wiki/Developers | 2026-10-14 | ✅ HTTP 200 |
+| 87 | ReactOS | NT arayüz uyumluluğu | https://reactos.org/wiki/NT_Interface_Compatibility | 2026-10-14 | ✅ HTTP 200 |
+| 88 | ReactOS | Çizim/GDI wiki'si | https://reactos.org/wiki/Drawing | 2026-10-14 | ✅ HTTP 200 |
+
+> İddia ↔ URL bağları §E kuralıyla okunur (`URL yol adı`). **Tizen notu:**
+> `docs.tizen.org` sayfaları içerik yönlendirmesi yapar; `docs.tizen.org` +
+> `samsungtizenos.com` yolları yalnız HEAD ile doğrulanmış, sayfa-içi kod
+> iddiası yalnız #85'ten (içerik GET ile çekildi) alınmıştır. **ReactOS notu:**
+> `/wiki/*` GET'i Anubis bot korumalıdır → yalnız HEAD; içerik iddiası yoktur.
+
+#### §E.5.2 Envanterde olduğu için yeniden kullanılan URL'ler (40 · 2026-10-14 HEAD 200 teyidi)
+
+| OS | Adet | Kapsam (yollar) |
+|---|---|---|
+| Windows | 24 | `fileapi` · `processthreadsapi` · `synchapi` · `memoryapi` · `handleapi` (`CloseHandle`) · `sysinfoapi` (`GetSystemInfo`) · `ioapiset` (`DeviceIoControl`) · `windows-hardware/drivers/*` (4) |
+| macOS | 6 | `documentation/{kernel,driverkit,coreaudio,avfoundation,avplayer}` · `github.com/apple-oss-distributions/xnu` |
+| Android | 4 | `ndk/guides/audio/{aaudio,opensl,opensl/getting-started}` · `source.android.com/docs/core/audio` |
+| webOS | 3 | `architecture-overview` · `reference/ls2-api/ls2-api-index` · `tools/commands/luna-send` |
+| ReactOS | 3 | `reactos.org/` · `wiki/ReactOS` · `wiki/Kernel` |
+| **Toplam** | **40** | Bu URL'ler §D.2 Q1'de "yeni" sayılmaz — yalnız teyit satırıdır. |
+
+#### §E.5.3 Düzeltme kayıtları (7 FAIL / 64 aday → hepsi çözüldü)
+
+| # | Hata türü | Başarısız URL (turda yazılan) | Yerine doğrulanan | Sonuç |
+|---|---|---|---|---|
+| E-1 | yanlış header (gerçek 404) | `.../api/fileapi/nf-fileapi-closehandle` | `.../api/handleapi/nf-handleapi-closehandle` | 200 · env'de |
+| E-2 | yanlış header (gerçek 404) | `.../api/processthreadsapi/nf-processthreadsapi-createmutexw` | `.../api/synchapi/nf-synchapi-createmutexw` | 200 · env'de |
+| E-3 | komut taşıma mojibake (noktasız ı) | `.../nf-sysinfoapi-getsystemınfo` | `.../nf-sysinfoapi-getsysteminfo` | 200 · env'de |
+| E-4 | komut taşıma mojibake (noktasız ı) | `.../nf-ioapiset-deviceıocontrol` | `.../nf-ioapiset-deviceiocontrol` | 200 · env'de |
+| E-5 | tahmin yol (ERR) | `webosose/docs/guides/core-topics/services/ls2-api/` | `webosose/docs/reference/ls2-api/ls2-api-index/` | 200 · env'de |
+| E-6 | tahmin yol (ERR) | `webosose/docs/guides/core-topics/services/native-service-overview/` | `webosose/docs/guides/development/native-services/native-service-overview/` | 200 · yeni (#71) |
+| E-7 | tahmin yol (ERR) | `webosose/docs/reference/webos-services-api/` | `webosose/docs/reference/luna-service2-library/luna-service2-library-api-reference/` + `webosose/docs/tools/commands/luna-send/` | 200 · yeni (#72) + env'de |
+
+> **İçerik-düzeyi kaynaklar (kod örneği birebir alındı — GET):** AAudio rehberi
+> (`developer.android.com/ndk/guides/audio/aaudio/aaudio`) · LS2 giriş
+> (`luna-send` çağrısı + `returnValue` JSON yanıt) · Tizen media-playback
+> (`player.h` · `player_create` · `PLAYER_ERROR_NONE` · `dlog_print`) ·
+> XNU README (hibrit çekirdek + kaynak ağacı). **Apple:** sembol sayfaları
+> HEAD **404** → sembol-düzeyi kod `⚠️ VERIFICATION REQUIRED` (`ornekler.md`
+> §K.2.2 — uydurulmadı, yalnız README yapısı yazıldı).
+
 ## §F — Repo disk kanıtları
 
 ### §F.1 Satır doğrulama (`Select-Object -Index (N-1)`)
@@ -476,17 +569,18 @@ group: kanit
 | Metrik | Değer |
 |---|---|
 | Yazılan dosya | 16 (kök 4 + alt-dal 12) |
-| ✅ doğrulanan web iddiası | 124 yeni (61 + 63 · 2026-10-13) + 14 korunan (2026-10-12) |
-| ⚠️ VERIFICATION REQUIRED | 3 (satır 24, 26, 29) |
+| ✅ doğrulanan web iddiası | 149 yeni (61 + 63 · 2026-10-13 · + 25 · 2026-10-14 OS turu) + 14 korunan (2026-10-12) + 40 env teyidi (2026-10-14) |
+| ⚠️ VERIFICATION REQUIRED | 4 (satır 24, 26, 29 + §K.2.2 Apple sembol-düzeyi kod) |
 | UNKNOWN | 3 (satır 25, 27, 28) |
-| HEAD başarısız elenen aday | 17 (§E.3) |
-| Envanter kesişimi | 0 (2100 anlık görüntü ile) |
+| HEAD başarısız elenen aday | 24 (17 §E.3 + 7 §E.5.3 — 7'si de düzeltildi, yeni URL'ye yönlendirildi) |
+| Envanter kesişimi | 0 (2100 anlık görüntü · 3334 anlık görüntü) |
 | Ölü URL elendi (önceki tur) | 3 — tekrar kullanılmadı |
 
-**Sonuç:** Çekirdek mekanizmasının resmi kanıtı bu tur **genişletildi** (124 yeni URL ·
-141 başlık — 61 + 63, her ikisi de HEAD 200 ve kesişim 0). Buna karşılık `core` ↔
-`kernel` sınırı (Q2) ve hedef çekirdek (Q4) **kanıtlanmamıştır** (§F.5). `status: draft`
-bu nedenle `verified` yapılmaz.
+**Sonuç:** Çekirdek mekanizmasının resmi kanıtı bu tur **genişletildi** (149 yeni URL ·
+141 başlık — 61 + 63 + 25, tamamı HEAD 200 ve kesişim 0). 3. tur (2026-10-14) OS
+bazlı örnek kanıtı ekledi (§E.5 · §K.2). Buna karşılık `core` ↔ `kernel` sınırı (Q2)
+ve hedef çekirdek (Q4) **kanıtlanmamıştır** (§F.5). `status: draft` bu nedenle
+`verified` yapılmaz.
 
 ### §F.7 Yazım bitiminde tekrar kesişim testi (zorunlu)
 
@@ -497,11 +591,11 @@ bu nedenle `verified` yapılmaz.
 
 | # | Adım | Beklenen | Durum |
 |---|---|---|---|
-| S1 | 124 yeni URL ↔ `kernel-url-start.txt` (2100) kesişimi | 0 | ⏳ BEKLEMEDE (ölçüm çıkışta) |
-| S2 | 124 yeni URL ↔ §E.2 (61) kesişimi (63'lük havuz için) | 0 | ⏳ BEKLEMEDE (ölçüm çıkışta) |
-| S3 | 16 dosya satır hedefi (içerik ≥500 · index 40-100) | 16/16 | ⏳ BEKLEMEDE (ölçüm çıkışta) |
-| S4 | Yasaklı kalıp (`parent:` · `group: "` · mojibake · `TBD`) | 0 | ⏳ BEKLEMEDE (ölçüm çıkışta) |
-| S5 | Beyazliste dışı yazım | 0 | ⏳ BEKLEMEDE (ölçüm çıkışta) |
+| S1 | 124 yeni URL ↔ `kernel-url-start.txt` (2100) kesişimi | 0 | ⚠️ GİRDİ YOK (2026-10-14): snapshot 3 ayrı aramada bulunamadı — bkz. ÖLÇÜM |
+| S2 | 124 yeni URL ↔ §E.2 (61) kesişimi (63'lük havuz için) | 0 | ✅ 0 (2026-10-14 ölçümü: §E.2=61 · §E.4=63 · kesişim=0 · birleşim=124) |
+| S3 | 16 dosya satır hedefi (içerik ≥500 · index 40-100) | 16/16 | ❌ 9/16 (2026-10-14 ölçümü: 7 alt-dal içerik 483-497 satır — önceden commit'li, bu oturumda dokunulmadı) |
+| S4 | Yasaklı kalıp (`parent:` · `group: "` · mojibake · `TBD`) | 0 | ✅ 0 (2026-10-14 ölçümü: FM parent/group 0 · içerik 0 — kalıp adları kendi doküman satırlarında, muaf) |
+| S5 | Beyazliste dışı yazım | 0 | ✅ 0 (2026-10-14: git status — yalnız kernel-ornekler + kernel-dogrulama benim yazımım) |
 
 > S1-S5 sonuçları oturum kapanışındaki `ÖLÇÜM` bloğuna yazılır; tabloda uydurma
 > "✅" **konmaz** — yalnız ölçüm sonrası gerçek değer girilir.

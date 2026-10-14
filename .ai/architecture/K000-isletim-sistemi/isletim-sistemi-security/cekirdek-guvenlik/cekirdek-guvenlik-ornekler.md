@@ -505,4 +505,23 @@ Get-ChildItem 'C:\www\coremusic.net' -Recurse -Include *.ko,*.efi,*.te -ErrorAct
   Where-Object { $_.FullName -notmatch 'vendor|node_modules' }
 ```
 
+## §6 — OS grupları (8 platform · 2026-10-14)
+
+> Bu dosyadaki konfigurasyon/kod ornek siniflarinin platform bazli karsiliklari ve
+> tam ornek metinleri ayni klasordeki OS kartlarindadir (her kart: §0 ELI15 ·
+> §1 OS profili · §2 kod ornegi `kaynak: upstream docs` imzali, "repo'da uygulaniyor"
+> yazilmaz · §3 repo durumu = hedef referans · §4 sinir cumleleri · §5 referans ·
+> §6 acik sorular S1/S2 kapatilmaz).
+
+| OS | Kart | Bu dosyadaki ornek siniflarinin platform karsiligi | Repo durumu |
+|---|---|---|---|
+| Windows | [`cekirdek-guvenlik-windows.md`](cekirdek-guvenlik-windows.md) | HVCI/Device Guard etkinlestirme · Job Object ile surec kisiti | hedef referans (0 kullanim) |
+| Linux | [`cekirdek-guvenlik-linux.md`](cekirdek-guvenlik-linux.md) | sysctl + seccomp-BPF filtresi ornegi | hedef referans (0 kullanim) |
+| macOS | [`cekirdek-guvenlik-macos.md`](cekirdek-guvenlik-macos.md) | `csrutil status` / SIP denetimi | hedef referans (0 kullanim) |
+| iOS | [`cekirdek-guvenlik-ios.md`](cekirdek-guvenlik-ios.md) | entitlement plist ile API erisimi | hedef referans (0 kullanim) |
+| Android | [`cekirdek-guvenlik-android.md`](cekirdek-guvenlik-android.md) | sepolicy kural ornegi | hedef referans (0 kullanim) |
+| Tizen | [`cekirdek-guvenlik-tizen.md`](cekirdek-guvenlik-tizen.md) | security-profile olusturma | hedef referans (0 kullanim) |
+| webOS | [`cekirdek-guvenlik-webos.md`](cekirdek-guvenlik-webos.md) | ACG servis politikasi | hedef referans (0 kullanim) |
+| ReactOS | [`cekirdek-guvenlik-reactos.md`](cekirdek-guvenlik-reactos.md) | Security Manager tasarim notu (calistirilabilir konfigurasyon yok) | hedef referans (0 kullanim) |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

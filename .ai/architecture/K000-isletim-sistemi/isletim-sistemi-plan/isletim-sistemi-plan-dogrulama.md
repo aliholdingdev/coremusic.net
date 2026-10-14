@@ -487,6 +487,109 @@ group: kanit
 | Q3 | Komşu okumalarından bağımsız; üst otorite kararı gerektirir |
 | `status` | `verify-required` korunur (kök) · `draft` (alt-dal) |
 
+## §6k — 2026-10-14 URL yeniden doğrulama (re-check) + OS kanalı aday taraması
+
+> Yöntem: `Invoke-WebRequest -Method Get` (fallback `Head`) · timeout 20 sn ·
+> ölçüm tarihi **2026-10-14** · betik: `C:\temp\opencode\recheck-urls.ps1` ·
+> ham sonuç: `C:\temp\opencode\plan-url-recheck-2026-10-14.csv`.
+
+### §6k.1 Plan içi 77 URL yeniden ölçümü
+
+| # | Kalem | Değer |
+|---|---|---|
+| 1 | Ölçülen (plan içi, benzersiz) | **77** |
+| 2 | HTTP 200 | **65** |
+| 3 | Başarısız (404/ERR) | **12** |
+| 4 | Başarı oranı | %84,4 |
+
+### §6k.2 Başarısız 12 URL (2026-10-14)
+
+| # | URL | Durum | Etkilendiği kayıt | Karar |
+|---|---|---|---|---|
+| 1 | https://docs.kernel.org/scheduler/sched-rt.html | 404 | `zamanlama-scheduler-surucu.md` D-U02 | ⚠️ çelişki — §10.1'e işlendi |
+| 2 | https://docs.kernel.org/scheduler/sched-tune.html | 404 | eski aday (R-19, 2026-10-13'te de 404) | zaten RED |
+| 3 | https://man7.org/linux/man-pages/man7/pthread_attr_setaffinity_np.7.html | 404 | eski aday (R-20, zaten RED) | zaten RED |
+| 4 | https://man7.org/linux/man-pages/man7/cpaces.7.html | 404 | `zamanlama-scheduler-surucu.md` D-U11 | ⚠️ çelişki — §10.1'e işlendi |
+| 5 | https://docs.kernel.org/trace/events/sched.html | 404 | `zamanlama-scheduler-surucu.md` D-U13 | ⚠️ çelişki — §10.1'e işlendi |
+| 6 | https://man7.org/linux/man-pages/man7/cgroups2.7.html | 404 | eski aday (R-26, zaten RED) | zaten RED |
+| 7 | https://learn.microsoft.com/.../processthreadsapi-nf-processthreadsapi-setthreadaffinitymask | 404 | yanlış yoldu (doğru: `winbase/nf-winbase-setthreadaffinitymask`) | **yerine doğru yol 200** — §6k.3 W-1 |
+| 8 | https://www.zephyrproject.org/doc/kernel/services/threads/index.html | ERR | eski aday (R-22, zaten RED) | `docs.zephyrproject.org` sürümü 200 |
+| 9 | https://www.zephyrproject.org/doc/kernel/services/timing/clocks.html | ERR | `zamanlama-scheduler-surucu.md` D-U18 | **yerine geçen 200** — §6k.3 R-2 |
+| 10 | https://www.freertos.org/Documentation/.../01-Stream-Message-Buffers.html | 404 | eski aday (R-23, zaten RED) | zaten RED |
+| 11 | https://www.freertos.org/xTaskPrioritySet.html | 404 | eski aday (R-24, zaten RED) | zaten RED |
+| 12 | https://developer.apple.com/documentation/kernel/pthread_attr_setschedpolicy | 404 | eski aday (R-25, zaten RED) | zaten RED |
+
+> **Özet:** 12 başarısızın **6'sı 2026-10-13'te de 404/ERR** olarak zaten RED kayıtlıdır
+> (yeni bilgi yok); **1'i** yanlış URL yolu (doğrusu 200); **4'ü** (D-U02 · D-U11 · D-U13 · D-U18)
+> `zamanlama-scheduler-surucu.md §10.1` üzerinden düzeltildi; **1'i** (D-U18) yerine geçen ile
+> ikame edildi.
+
+### §6k.3 OS kanalı aday URL taraması (2026-10-14 — yeni, envanter kesişimli)
+
+> Kural: yalnız **HTTP 200** + envanter `YOK` kabul edilir; `VAR` envanterde zaten kayıtlı
+> demektir (tekrar yazılmaz, yalnız OS bölümünde kullanılır). Betik: `C:\temp\opencode\candidate-urls.ps1`.
+
+**Kabul (HTTP 200 + envanter YOK — bu plana yeni):**
+
+| OS | # | URL | Konu |
+|---|---|---|---|
+| Windows | W-1 | https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setthreadaffinitymask | `SetThreadAffinityMask` |
+| Windows | W-2 | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setpriorityclass | `SetPriorityClass` |
+| Windows | W-3 | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadidealprocessor | `SetThreadIdealProcessor` |
+| Windows | W-4 | https://learn.microsoft.com/en-us/windows/win32/api/avrt/nf-avrt-avsetmmthreadcharacteristicsa | `AvSetMmThreadCharacteristicsA` |
+| Windows | W-5 | https://learn.microsoft.com/en-us/windows/win32/api/jobapi2/nf-jobapi2-setinformationjobobject | `SetInformationJobObject` |
+| Apple | A-1 | https://developer.apple.com/documentation/dispatch/dispatchqos | `DispatchQoS` |
+| Apple | A-2 | https://developer.apple.com/documentation/foundation/process/qualityofservice | `Process.qualityOfService` |
+| Apple | A-3 | https://developer.apple.com/documentation/uikit/uiview | UIKit referans (OS kapsam genişletme) |
+| Zephyr | R-2 | https://docs.zephyrproject.org/latest/kernel/services/timing/clocks.html | saat/çevrim (D-U18 ikamesi) |
+| Linux | L-1 | https://man7.org/linux/man-pages/man1/taskset.1.html | CPU affinity |
+| Linux | L-2 | https://man7.org/linux/man-pages/man2/sched_getattr.2.html | `sched_getattr/setattr` |
+| Android | AD-1 | https://developer.android.com/guide/components/processes-and-threads | süreç/parçacık modeli |
+| Tizen | T-1 | https://docs.tizen.org/application/native/guidages/multiprocess/thread/ | thread rehberi yolu (portal erişimi) |
+| POSIX | P-1 | https://pubs.opengroup.org/onlinepubs/9799919799/functions/pthread_setschedparam.html | parçacık önceliği |
+| PHP | PH-1 | https://www.php.net/manual/en/function.pcntl-signal.php | `pcntl_signal` (D-2 bağlamı) |
+
+**Red (404 — aday olmaktan çıkarıldı):**
+
+| OS | Reddedilen yollar (2026-10-14 HTTP 404) |
+|---|---|
+| Windows | `jobapi2-createjobobjecta` |
+| Apple | `system/pthread_create` · `kernel/thread_policy` · `system/qos_class_self` · `system/pthread_override_main_np` · `system/qos_main_self` · `pthread/pthread_setschedparam` · `pthread/pthread_attr_setschedpolicy` · `dispatch/dispatchqos/qos_class` · `dispatch/qos_class` · `mach/thread_policy_t` · `mach/thread_standard_policy` · `mach/thread_qos_policy` |
+| FreeRTOS | `xTaskCreate.html` · `vtaskpriorityset.html` · `02-Kernel/**` 4 aday |
+| Android | `training/articles/perf-threading` |
+| Linux | `man7/cpaces.7.html` · `man7/cpact.html` · `kernel/events-sched.html` · `kernel/schedstat.html` |
+
+**Envanter `VAR` (zaten kayıtlı — yeni kanıt sayılmaz, yalnız OS bölümünde kullanıldı):**
+
+| OS | URL |
+|---|---|
+| POSIX/Linux | `sched_setscheduler.html` (opengroup) · `man1/chrt.1.html` · `sched-rt-group.html` (kernel) · `trace/events.html` (kernel) |
+| Apple | `documentation/dispatch` · `dispatch/dispatchqueue` · `foundation/thread` · `foundation/process` |
+| Zephyr | `latest/kernel/services/scheduling/index.html` |
+| webOS | `webosose.org/docs/` |
+| ReactOS | `reactos.org/wiki/Main_Page` |
+
+### §6k.4 Serbest (200 + envanter YOK) OS kapsam genişletme adayları — sonraki tura devredildi
+
+| # | URL | OS | Not |
+|---|---|---|---|
+| 1 | https://man7.org/linux/man-pages/man2/getcpu.2.html | Linux | `getcpu` — çekirdek okuma |
+| 2 | https://docs.kernel.org/mm/numa.html | Linux | NUMA |
+| 3 | https://docs.kernel.org/core-api/cachetlb.html | Linux | cache/TLB |
+| 4 | https://docs.kernel.org/scheduler/sched-ext.html | Linux | ext scheduler |
+| 5 | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getthreadpriority | Windows | öncelik okuma |
+| 6 | https://www.php.net/manual/en/function.posix-getpid.php | POSIX-PHP | süreç kimliği |
+
+### §6k.5 2026-10-14 re-check — sonuç satırı
+
+| # | Kalem | Değer |
+|---|---|---|
+| 1 | Plan içi URL | 77 → **65 HTTP 200 · 12 başarısız** |
+| 2 | Yeni kabul (OS adayı, 200 + YOK) | **15** |
+| 3 | Yeni red (404) | 19 aday yolu |
+| 4 | Düzeltilen çelişki kaydı | **4** (D-U02 · D-U11 · D-U13 · D-U18 → `zamanlama-scheduler-surucu.md §10.1`) |
+| 5 | Q3 / Plan1 | `[UNKNOWN]` / `[UNKNOWN]` — **kapatılmadı** |
+
 ## §7 — Sonuç
 
 | # | Kalem | Değer |

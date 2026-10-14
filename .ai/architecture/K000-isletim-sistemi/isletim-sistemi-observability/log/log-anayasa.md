@@ -144,7 +144,7 @@ HTTP HEAD ile 200 ile doğrulanmıştır (tümü 2026-10-13).
 | L-W9 | Çekirdek `printk` format/level kuralları | https://www.kernel.org/doc/html/latest/core-api/printk-formats.html | 2026-10-13 | 200 |
 | L-W10 | Windows Event Log sağlayıcı/kaydı | https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log | 2026-10-13 | 200 |
 | L-W11 | Windows Event Log kullanım akışı | https://learn.microsoft.com/en-us/windows/win32/wes/using-windows-event-log | 2026-10-13 | 200 |
-| L-W12 | Apple unified logging üretici kılavuzu | https://developer.apple.com/documentation/os/logging/generating-log-messages-from-your-code | 2026-10-13 | 200 |
+| L-W12 | Apple unified logging `os_log` arayüzü | https://developer.apple.com/documentation/os/os_log | 2026-10-14 | 200 |
 | L-W13 | `systemd-journald(8)` servis davranışı | https://www.freedesktop.org/software/systemd/man/latest/systemd-journald.html | 2026-10-13 | 200 |
 
 **Dipnot (red kayıtları):** `klogctl.2`, `vmstat.1`, `bpftool.8`, `logger.8`,
@@ -152,6 +152,11 @@ HTTP HEAD ile 200 ile doğrulanmıştır (tümü 2026-10-13).
 `gettimeofday.2`, `vdso.7`, `wnode-header` ise envanter kesişimi nedeniyle
 elenmiştir. `logrotate.8` (L-W14) bu anayasada değil, `log-surucu.md` §3'te
 kullanılır (200 doğrulanmış, 2026-10-13).
+
+**2. tur genişletme (2026-10-14):** OS anayasa tablosu §8.1'e eklenen
+10 kanıt numarası (L-W18–L-W27) bu dosyada tekrar listelenmez; tam URL
+listesi `isletim-sistemi-observability-dogrulama.md` §1.1'dedir. Tümü
+HTTP 200 doğrulanmıştır.
 
 `journalctl` saat dilimi/UTC bayrakları (L-W7) bu dalda yalnızca **OS
 görüntüleme** düzeyinde geçer; uygulama log'unun UTC'ye zorlanması
@@ -467,6 +472,61 @@ bir aşama `null` dönerse satır aynen korunur (fail-safe):
 
 Windows ve Apple satırlarında repo kanıtı **yoktur** — bu dosyada `UNKNOWN`
 olarak işaretlenir; desktop kabuğunun ETW os_log üretimi `UNKNOWN` (O3).
+
+### §8.1 Üç OS anayasa tablosu — kayıt üretim yüzeyi (2026-10-14 genişletme)
+
+Her üç işletim sistemi de günlük üretir; anayasa farkı **kanal modeli** ve
+**redaksiyon kapısının nerede durduğunda**dır. Aşağıdaki tablo §8'in
+derinleştirilmiş halidir; her satır HTTP 200 doğrulanmış kanıt numarasına
+dayanır (tam liste `isletim-sistemi-observability-dogrulama.md` §1.1/§4.1).
+
+| OS | Kanal | Üretim arayüzü | Okuma komutu | Kanıt |
+| --- | --- | --- | --- | --- |
+| Linux | journald | `syslog(3)` / `sd_journal_send` | `journalctl` | L-W1 · L-W13 · L-W7 |
+| Linux | syslog kuyruğu | `syslog(3)` → `/dev/log` | `grep` / log viewer | L-W1 · L-W4 |
+| Linux | audit alt sistemi | `auditd(8)` daemon kaydı | `ausearch(8)` | L-W18 · L-W19 |
+| Windows | Event Log | `ReportEventW` (Win32 API) | `wevtutil` / `Get-WinEvent` | L-W23 · L-W20 · L-W21 |
+| Windows | Event Log (basit) | `eventcreate` (satır içi) | Event Viewer | L-W22 · L-W11 |
+| Windows | Event Log (sorgu) | XPath filtreli okuma | `wevtutil qe` | L-W24 |
+| macOS | unified logging | `os_log` / `os.Logger` | `log(1) show` | L-W12r · L-W25 |
+| macOS | Swift API | `Logger(subsystem:category:)` | `log(1)` | L-W26 · L-W27 |
+
+**Anayasal üç ilke, OS başına karşılığı:**
+
+1. **Kaynak her zaman yazılabilir** — Linux `syslog(3)` ident/facility
+   (L-W1), Windows `ReportEventW` kaynak adı (L-W23), macOS `Logger`
+   subsystem/category (L-W27). Üçünde de kaynak alanı zorunlu; uydurulmaz.
+2. **Redaksiyon halkadan önce** — Linux'ta uygulama `syslog()`a vermeden
+   önce maskeler (repo'da `Redactor::redact`, §7); Windows'ta sağlayıcı
+   alanı hassas veri içermez (L-W10); macOS'ta `%{private}` format
+   belirteci alan düzeyinde gizleme sağlar (L-W12).
+3. **Doğrulanmayan URL envantere girmez** — bu tablodaki 13 kanıt numarası
+   2026-10-14'te HTTP 200 ile doğrulanmıştır; üçüncü taraf aynası olan
+   `keith.github.io` kaynakları (L-W25, M-W33–35, T-W19–22) dipnotludur
+   (dogrulama §1.1).
+
+**Linux audit katmanı (yeni):** `auditd(8)` (L-W18) disk üzerinde tutarlı
+denetim kaydı üreten daemon'dur; `ausearch(8)` (L-W19) bu kayıtları sorgular.
+Audit, journald'ın **yanında** durur — journald servis yaşam döngüsünü,
+auditd ise güvenlik olaylarını (dosya erişimi, kimlik doğrulama) kaydeder.
+Repo'da audit üretimi yoktur (`UNKNOWN`, §11 O3 ile ilişkili); güvenlik
+olayları `FileHandler::securityEvent` ile ayrı akışa yazılır (§6.4).
+
+**Windows Event Log (yeni):** Üç üretim katmanı vardır:
+`ReportEventW` (L-W23) C/C++ Win32 API'si, `eventcreate` (L-W22) satır içi
+komut, PowerShell `Get-WinEvent` (L-W21) okuma tarafıdır. `wevtutil`
+(L-W20) hem okuma hem yazma komutudur; sorgulama XPath filtresiyle
+yapılır (L-W24). Üç üretim katmanı da aynı olay kanalına yazar; kanal
+modeli journald'ın tek-halka modelinden farklı olarak **kanal başına dosya**
+üzerinde çalışır (L-W11).
+
+**macOS unified logging (yeni):** `os_log` (L-W12r) Objective-C/C arayüzü,
+`Logger` (L-W26) Swift arayüzüdür; ikisi de aynı tekil depoya yazar.
+Okuma `log(1)` (L-W25) ile yapılır — `log show` kayıtları filtreler,
+`log emit` kayıt üretir (belge sürümü `UNKNOWN`, ayna dipnotlu).
+`Logger.init(subsystem:category:)` (L-W27) kayıt kaynağı tanımıdır;
+subsystem alan adı formatında, category serbest metindir ve iki alan da
+filtreleme anahtarıdır (L-W25).
 
 ## §9 K017 sınırı ve komşu matrisi
 

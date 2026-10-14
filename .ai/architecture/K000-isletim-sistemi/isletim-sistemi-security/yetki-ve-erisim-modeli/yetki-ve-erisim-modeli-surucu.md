@@ -499,4 +499,23 @@ durumunda istisna firlatmaz; veri yoksa **red yonune** duser (`!is_array`).
 Yani her iki katman da ayni felsefeyi paylasir — bu, tasarlarken
 korunmasi gereken **tek ortak ozelliktir**.
 
+## §20 — OS grupları (8 platform · 2026-10-14)
+
+> Denetim zincirinin (syscall'ten karara) platform bazli yolu farklidir; platform
+> bazli detay ve upstream-docs kaynakli kod ornekleri ayni klasordeki OS
+> kartlarindadir (§0 ELI15 · §1 OS profili · §2 kod ornegi `kaynak: upstream docs`
+> imzali · §3 repo durumu = hedef referans · §4 sinir cumleleri · §5 referans ·
+> §6 acik sorular S1/S2 kapatilmaz).
+
+| OS | Kart | Denetim zinciri karsiligi | Repo durumu |
+|---|---|---|---|
+| Windows | [`yetki-ve-erisim-modeli-windows.md`](yetki-ve-erisim-modeli-windows.md) | token/privilege denetimi (SeAccessCheck benzeri akis) | hedef referans (0 kullanim) |
+| Linux | [`yetki-ve-erisim-modeli-linux.md`](yetki-ve-erisim-modeli-linux.md) | LSM hook zinciri (DAC -> ACL -> MAC -> allow/deny) | hedef referans (0 kullanim) |
+| macOS | [`yetki-ve-erisim-modeli-macos.md`](yetki-ve-erisim-modeli-macos.md) | MACF (Mandatory Access Control Framework) + sandbox | hedef referans (0 kullanim) |
+| iOS | [`yetki-ve-erisim-modeli-ios.md`](yetki-ve-erisim-modeli-ios.md) | sandbox profile denetimi + entitlement kontrolu | hedef referans (0 kullanim) |
+| Android | [`yetki-ve-erisim-modeli-android.md`](yetki-ve-erisim-modeli-android.md) | SELinux hook + binder IPC denetimi | hedef referans (0 kullanim) |
+| Tizen | [`yetki-ve-erisim-modeli-tizen.md`](yetki-ve-erisim-modeli-tizen.md) | Smack hook (dosya/IPC etiket denetimi) | hedef referans (0 kullanim) |
+| webOS | [`yetki-ve-erisim-modeli-webos.md`](yetki-ve-erisim-modeli-webos.md) | ACG policy denetimi (servis-bazli syscall kisiti) | hedef referans (0 kullanim) |
+| ReactOS | [`yetki-ve-erisim-modeli-reactos.md`](yetki-ve-erisim-modeli-reactos.md) | NT executive denetim yolu (tasarim — olgunslasmamis) | hedef referans (0 kullanim) |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

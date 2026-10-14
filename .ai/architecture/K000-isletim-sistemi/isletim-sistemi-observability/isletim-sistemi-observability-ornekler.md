@@ -22,7 +22,7 @@ evidence:
   - shared/src/AI/AIWorkflow.php:51
   - shared/src/Security/UuidV7.php:19
   - shared/src/Log/LoggerFactory.php:13
-validation: "2026-10-13 — 14 repo kanıt satırı Read (offset/limit) ile doğrulandı; her `Dosya:Satır` referansı gerçek dosya satırıyla eşleşiyor · OS gözlemlenebilirlik aracı grep'i 0 isabet (olumsuz kanıt)"
+validation: "2026-10-14 — §27 PHP error_log → 3 OS köprüsü eklendi (syslog/journald · Event Log/ReportEventW · os_log/Logger) + §28 uygulama süresi vs OS latency ayrımı; §27.1–27.3 kod örnekleri (bash/powershell/swift) repo'da YOK, tarif amaçlı — 14 repo kanıt satırı 2026-10-13'te Read ile doğrulandı; OS gözlemlenebilirlik aracı grep'i 0 isabet (olumsuz kanıt) | 2026-10-13 — 14 repo kanıt satırı Read (offset/limit) ile doğrulandı; her \`Dosya:Satır\` referansı gerçek dosya satırıyla eşleşiyor"
 open_questions:
   - "O1: OS-level metrik/log toplama (perf, ETW, journald, syslog) hedef mimaride var mı, yoksa yalnız uygulama logu mu? [UNKNOWN]"
 group: kod
@@ -503,5 +503,104 @@ OS kanalına taşınacaksa açık eşleme tablosu gerekir (surucu §3).
 | 1 | Toplam örnek/örnek matrisi | 10 pozitif + 1 olumsuz + 8 § genişletme |
 | 2 | Doğrulanan dosya | 9 (§25) |
 | 3 | Uydurma satır | 0 |
+
+## §27 — OS uygulama köprüsü (PHP `error_log` → OS kanalı eşlemesi, 3 OS)
+
+> §24'teki köprü yalnızca teklif idiyse, bu bölüm **eşlemenin kendisini** kod
+> örneğiyle gösterir. Hiçbiri repoda çalışmıyor (§25 olumsuz kanıt); buradaki
+> bloklar **tarif** amaçlıdır ve `⚠️ VERIFICATION REQUIRED` olarak işaretlenir.
+> Kanıt: `error_log()` PHP çekirdeğidir, OS kanalına yönlendirme `php.ini`
+> `error_log` değeriyle belirlenir; bu dalın URL kanıtı §1–§3'tedir.
+
+### §27.1 — Linux: `error_log` → syslog (`/dev/log`) → journald
+
+```ini
+; php.ini — Linux hedefi
+error_log = /dev/log          ; syslog socket (L-W2: syslog(2))
+log_errors = On
+error_reporting = E_ALL
+```
+
+```bash
+# PHP'nin syslog'a yazdığını oku (L-W8: dmesg / L-W7: journalctl)
+journalctl -t php-fpm -p warning --since today
+# Uygulama kendi mesajını syslog'a yazar (L-W17: logger(1))
+logger -p local0.err -t coremusic "payment gateway timeout"
+```
+
+### §27.2 — Windows: `error_log` → Event Log (`ReportEventW` / `eventcreate`)
+
+```ini
+; php.ini — Windows hedefi
+error_log = C:\logs\coremusic_php_errors.log
+log_errors = On
+```
+
+```powershell
+# Olay kaydı yaz (L-W22: eventcreate)
+eventcreate /T ERROR /ID 100 /L APPLICATION /SO "CoreMusic" /D "DB connection pool exhausted"
+
+# Kayıtları oku (L-W20: wevtutil / L-W21: Get-WinEvent)
+wevtutil qe Application /c:10 /rd:true /f:text
+Get-WinEvent -LogName Application -MaxEvents 20 |
+    Where-Object { $_.ProviderName -eq 'CoreMusic' }
+```
+
+```c
+/* Win32 kayıt API'si (L-W23: ReportEventW) — tarif, repoda yok */
+ReportEventW(hEventLog, EVENTLOG_ERROR_TYPE, 0, 100, NULL,
+             1, 0, lpStrings, NULL);
+```
+
+### §27.3 — macOS: `error_log` → unified logging (`os_log` / `Logger`)
+
+```ini
+; php.ini — macOS hedefi
+error_log = /var/log/php_errors.log
+log_errors = On
+```
+
+```bash
+# Unified log oku (L-W25: log(1))
+log show --last 1h --predicate 'process == "php-fpm"' --style compact
+# Kendi kategori emit et (L-W26/L-W27: Logger subsystem/category)
+log emit --subsystem net.coremusic --category payment --type error "gateway timeout"
+```
+
+```swift
+// Swift kayıt kaynağı tanımı (L-W27: Logger.init(subsystem:category:))
+import os
+let logger = Logger(subsystem: "net.coremusic", category: "payment")
+logger.error("gateway timeout")
+```
+
+### §27.4 — Eşleme matrisi (köprü → OS → kaynak)
+
+| # | PHP yüzeyi | Linux | Windows | macOS |
+|---|---|---|---|---|
+| 1 | `error_log()` varsayılan | `/dev/log` syslog (L-W2) | dosya (Windows'ta syslog yok) | dosya (syslog devri) |
+| 2 | dosya hedefi | `/var/log/...` + logrotate (L-W6) | `C:\logs\...` + Event Log | `/var/log/...` + unified log |
+| 3 | okuma komutu | `journalctl` (L-W7) | `wevtutil`/`Get-WinEvent` (L-W20/21) | `log show` (L-W25) |
+| 4 | kayıt API'si | `syslog(3)` (L-W1) | `ReportEventW` (L-W23) | `os_log`/`Logger` (L-W12r/26) |
+| 5 | audit kanalı | `auditd` (L-W18) | Security log kanalı | unified log (özel category) |
+| 6 | repo karşılığı | **yok** (§25 N4) | **yok** (§25 N3) | **yok** (§25 N3) |
+
+> **Karar durumu:** Eşleme yalnızca **tariftir**; O1 çözülmeden CoreMusic bu
+> kanallardan **hiçbirine yazmaz**. `error_log()` repoda yalnızca dosyaya yazar
+> (`StructuredLogger.php:72` — §12.1), OS kanalı yoktur.
+
+## §28 — OS metrik köprüsü (uygulama süresi → OS latency)
+
+> §7.3 kuralı: `hrtime`/`microtime` ölçümleri **uygulama içi** süredir; OS
+> latency metriği değildir. Bu bölüm, iki ölçümün **nasıl ayrı okunacağını**
+> tarif eder.
+
+| # | Ölçüm | Uygulama (repo) | OS (bu dal) | Ayrım |
+|---|---|---|---|---|
+| 1 | middleware süresi | `hrtime(true)` (D15–D16) | — | uygulama |
+| 2 | AI workflow süresi | `microtime(true)` (D17) | — | uygulama |
+| 3 | CPU kullanıcısı | — | `perf stat` / `Get-Counter` / `powermetrics` | OS |
+| 4 | G/Ç beklemesi | — | `iostat` / PDH / `vm_stat` | OS |
+| 5 | kesinti/gerçek zamanlı | — | `osnoise tracer` / ETW / `dtrace` | OS |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

@@ -21,7 +21,7 @@ evidence:
   - shared/src/PageRouter/PageRouterKernel.php:87
   - shared/src/Log/LoggerFactory.php:32
   - .github/workflows/ci.yml:104
-validation: "2026-10-13 — 13 repo kanıt satırı Read (offset/limit) ile doğrulandı; her Dosya:Satır referansı gerçek dosya satırıyla eşleşiyor · OS log aracı grep'i (ftrace, syslog(, journald, proc/self) 0 isabet · log hacmi ölçümü ölçülmüyor, yalnız yöntem tarif ediliyor; 2. tur: L-W15 (rsyslog.conf.5 — selector/template/$outchannel/property replacer/UDP-TCP-RELP), L-W16 (systemd.journal-fields.7 — MESSAGE, PRIORITY 0–7, SYSLOG_*, güvenilir _PID/_UID/_COMM/_TRANSPORT, __CURSOR/__REALTIME_TIMESTAMP/__MONOTONIC_TIMESTAMP) ve L-W17 (logger.1 — facility×8+level prio-prefix, RFC 3164/5424, --journald) webfetch ile HTTP 200 doğrulandı; openlog.3.html 200 döndü ama içerik syslog(3) — L-W1 mükerrer sayıldı, yeni ID verilmedi; logger.8 ve syslog.conf.5 HTTP 404 ile reddedildi; dosya 407 non-blank satır"
+validation: "2026-10-14 — §21 OS örnek turu eklendi (§21.1 bash: journalctl/dmesg/logger/ausearch · §21.2 powershell: Get-WinEvent/wevtutil/eventcreate · §21.3 swift: os_log/Logger/Console.app + §21.4 eşleme matrisi, kanıt L-W18–L-W27 ayna dipnotlu; repo sınırı: bu bloklar tarif amaçlı, repo'da 0 isabet) | 2026-10-13 — 13 repo kanıt satırı Read (offset/limit) ile doğrulandı; her Dosya:Satır referansı gerçek dosya satırıyla eşleşiyor · OS log aracı grep'i (ftrace, syslog(, journald, proc/self) 0 isabet · log hacmi ölçümü ölçülmüyor, yalnız yöntem tarif ediliyor; 2. tur: L-W15 (rsyslog.conf.5), L-W16 (systemd.journal-fields.7) ve L-W17 (logger.1) webfetch ile HTTP 200 doğrulandı; logger.8 ve syslog.conf.5 HTTP 404 ile reddedildi"
 open_questions:
   - "O1: OS-level metrik/log toplama (perf, ETW, journald, syslog) hedef mimaride var mı, yoksa yalnız uygulama logu mu? [UNKNOWN]"
   - "O2: Gözlemlenebilirlik üçlüsü (log/metric/trace) K002-altyapi içinde nasıl konumlanacak? [UNKNOWN]"
@@ -507,5 +507,90 @@ public function timing(string $module, string $middleware, float $durationMs): v
 |---|---|---|
 | 1 | `syslog.conf.5` (kök §4) | 404 |
 | 2 | `klogctl.2` (kök §4) | 404 |
+
+## §21 OS örnek turu — günlük okuma/yazma komut örnekleri (2026-10-14)
+
+> §17–§18 repo'nun **OS kanalına yazmadığını** kanıtladı. Bu bölüm repo
+> dışı, **OS düzeyinde** okuma/yazma örneklerini tarif eder — anayasa
+> kuralıdır, repoda çalışan kod değildir. Kanıtlar 2. tur doğrulamasından
+> (L-W18–L-W27, tam liste dogrulama §1.1) — tümü HTTP 200.
+
+### §21.1 Linux — journald / syslog / auditd
+
+```bash
+# journald: unit bazlı, zaman aralıklı okuma (L-W7)
+journalctl -u php-fpm --since "10 min ago" -p err..emerg
+
+# dmesg: çekirdek halkası, hata seviyeleri (L-W8)
+dmesg --level=err,warn,crit -T | tail -n 40
+
+# logger: satır içi syslog üretimi (L-W17)
+logger -p local0.err "route rejected: coremusic"
+
+# auditd: güvenlik olayı sorgu (L-W19)
+ausearch -m USER_LOGIN -ts today
+```
+
+`auditd` (L-W18) disk kaydı üretir; `ausearch` (L-W19) bu kayıtları sorgular.
+Repo'da `logger(1)` çağrısı **yoktur** (§17 kararı 1); repo `error_log` ile
+`file_put_contents` kullanır (§4–§5).
+
+### §21.2 Windows — Event Log
+
+```powershell
+# wevtutil: olay okuma, son 10 kayıt (L-W20)
+wevtutil qe Application /c:10 /f:text
+
+# Get-WinEvent: PowerShell filtreli okuma (L-W21)
+Get-WinEvent -FilterHashtable @{LogName='Application'; Level=2} -MaxEvents 20
+
+# eventcreate: satır içi olay yazma (L-W22)
+eventcreate /T ERROR /ID 101 /L APPLICATION /SO "CoreMusic" /D "route rejected"
+
+# XPath sorgu: zaman aralıklı filtre (L-W24)
+wevtutil qe Security /q:"*[System[TimeCreated[timediff(@SystemTime) <= 600000]]]"
+```
+
+`eventcreate` (L-W22) komut satırı köprüsüdür; üretim kodu `ReportEventW`
+(L-W23) Win32 API'sini kullanır — ikisi de aynı olay kanalına yazar.
+`Get-WinEvent` (L-W21) `microsoft.powershell.diagnostics` modülündedir;
+`utility` modülünde değildir (X10, dogrulama §4.1).
+
+### §21.3 macOS — unified logging
+
+```bash
+# log show: subsystem filtreli okuma (L-W25)
+log show --last 10m --predicate 'subsystem == "net.coremusic"' --info
+
+# log emit: satır içi kayıt üretimi (L-W25)
+log emit --level error --message "route rejected"
+```
+
+```swift
+// Logger: Swift kayıt üretimi (L-W26 · L-W27)
+import OSLog
+let logger = Logger(subsystem: "net.coremusic", category: "router")
+logger.error("route rejected: \(name, privacy: .public)")
+```
+
+`Logger(subsystem:category:)` (L-W27) kayıt kaynağı tanımıdır; hassas
+alanlar `privacy: .public` yerine varsayılan gizli modda kalır (L-W12:
+`%{private}` belirteci). Bu, repo'daki `Redactor::redact`'in OS karşılığıdır.
+
+> **Dipnot (ayna):** `log.1` (L-W25), `powermetrics.1` (M-W33) gibi Xcode
+> man sayfaları üçüncü taraf aynasından (keith.github.io) doğrulanmıştır;
+> belge sürümü `UNKNOWN` (dogrulama §1.1).
+
+### §21.4 OS örnek — eşleme matrisi
+
+| OS | Örnek #1 (okuma) | Örnek #2 (yazma) | Kanıt |
+|---|---|---|---|
+| Linux | `journalctl -u ... -p err..emerg` | `logger -p local0.err ...` | L-W7 · L-W17 |
+| Windows | `Get-WinEvent -FilterHashtable ...` | `eventcreate /T ERROR ...` | L-W21 · L-W22 |
+| macOS | `log show --predicate 'subsystem ...'` | `Logger(subsystem:category:)` | L-W25 · L-W27 |
+
+> **Repo ile sınır:** Bu üç örnek de **repo'da çalıştırılmaz** — repo
+> `error_log`/`file_put_contents` kullanır (§4–§5). Örnekler yalnız OS
+> kanalının **arayüz kanıtı**dır; kullanım kararı `K002-altyapi` (§17.3).
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

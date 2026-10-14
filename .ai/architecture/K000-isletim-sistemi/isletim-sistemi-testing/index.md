@@ -44,7 +44,7 @@ kanıt protokolü. Testlerin ne olduğu değil, **testlerin kendisi** burada tan
 | `uygulama-testi/` | `index` + `-anayasa` + `-surucu` + `-ornekler` | `mimari` + `kod` |
 | `ci-ve-kalite-kapisi/` | `index` + `-anayasa` + `-surucu` + `-ornekler` | `mimari` + `kod` |
 
-## §4 Dosya indeksi (9 dosya, 3 dalın dışındakiler kök)
+## §4 Dosya indeksi (10 dosya, 3 dalın dışındakiler kök)
 
 | Dosya | Kademe | `group` | Özet |
 |---|---|---|---|
@@ -57,6 +57,7 @@ kanıt protokolü. Testlerin ne olduğu değil, **testlerin kendisi** burada tan
 | `isletim-sistemi-testing-web-arastirma.md` | 2 | `kanit` | Web araştırma iddiaları (URL + tarih) |
 | `isletim-sistemi-testing-kod-ornekleri.md` | 2 | `kod` | Kod örnekleri (gerçek repo satır referanslı) |
 | `isletim-sistemi-testing-ornekler.md` | 2 | `kod` | Senaryo örnekleri + indeks doğrulama |
+| `isletim-sistemi-testing-cross-platform-ornekleri.md` | 2 | `kod` | Windows/macOS/Linux taşınabilir test kodu — P-01..P-10 platform matrisi · 10 dil gruplu referans örnek · E-01..E-13 · Q-3 yanıtı (2026-10-14) |
 
 ## §5 Kanıt ve doğrulama durumu
 

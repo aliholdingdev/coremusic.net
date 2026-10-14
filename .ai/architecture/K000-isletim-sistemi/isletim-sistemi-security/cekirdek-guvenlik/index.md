@@ -3,7 +3,7 @@ node_id: K000-isletim-sistemi/isletim-sistemi-security/cekirdek-guvenlik
 node_type: subdomain
 status: draft
 parent_id: K000-isletim-sistemi/isletim-sistemi-security
-children: [cekirdek-guvenlik-anayasa, cekirdek-guvenlik-surucu, cekirdek-guvenlik-ornekler]
+children: [cekirdek-guvenlik-anayasa, cekirdek-guvenlik-surucu, cekirdek-guvenlik-ornekler, cekirdek-guvenlik-windows, cekirdek-guvenlik-linux, cekirdek-guvenlik-macos, cekirdek-guvenlik-ios, cekirdek-guvenlik-android, cekirdek-guvenlik-tizen, cekirdek-guvenlik-webos, cekirdek-guvenlik-reactos]
 depends_on:
   - K000-isletim-sistemi/isletim-sistemi-kernel
 evidence:
@@ -53,7 +53,13 @@ anayasa (ne korur) · surucu (nasil zorlanir) · ornekler (repo'da gercekten ne 
 | `cekirdek-guvenlik-surucu` | Kademe-4 | mimari |
 | `cekirdek-guvenlik-ornekler` | Kademe-4 | kod |
 
-**Toplam:** 1 index (mimari) + 3 icerik (mimari x2 · kod x1) = 4 dosya.
+**Toplam:** 1 index (mimari) + 3 icerik (mimari x2 · kod x1) + 8 OS karti (kod) = 12 dosya.
+
+## OS kartlari (8 platform · 2026-10-14)
+
+`cekirdek-guvenlik-<os>.md` deseni: `windows` · `linux` · `macos` · `ios` · `android` ·
+`tizen` · `webos` · `reactos` — hepsi `group: kod`, hedef referans (0 kullanim);
+upstream-docs imzali kod ornekleri tasir. Kesisim: bu dosyalardaki §OS gruplari bolumleri.
 
 ## Komsu sinir matrisi
 

@@ -374,6 +374,24 @@ biri eksikse bu plan kapsamında **kurulmaz**.
 > Not: D-U11 başlığındaki `cpaces` yazımı kaynak envanterinden korunmuştur (imla
 > değişikliği yapılmaz; anayasa §7).
 
+### 10.1 2026-10-14 yeniden ölçüm düzeltmeleri (silme yok — güncelleme)
+
+> Yöntem: `Invoke-WebRequest GET` · fallback HEAD · 20 sn · ölçüm: 2026-10-14.
+> Tablodaki "2026-10-13 HTTP 200" kayıtları **tarihsel ölçüm kaydı olarak kalır**;
+> aşağıdaki 4 satır 2026-10-14'te **yeniden ölçülerek çelişki işaretlenmiştir.**
+
+| D-U | URL | 2026-10-13 iddiası | 2026-10-14 ölçümü | Karar |
+|---|---|---|---|---|
+| D-U02 | https://docs.kernel.org/scheduler/sched-rt.html | HTTP 200 | **HTTP 404** | ⚠️ ÇELİŞKİ — aynı URL `isletim-sistemi-plan-dogrulama.md §1.2` R-18'de 2026-10-13'te **404/RED** kayıtlıdır; iki ölçüm aynı tarihli ve zıt. İddia geri alınmaz, `⚠️ VERIFICATION REQUIRED` işaretlenir; §4.1–§4.2 içeriği yalnız D-U03 (`sched.7`, 200) ile taşınır |
+| D-U11 | https://man7.org/linux/man-pages/man7/cpaces.7.html | HTTP 200 | **HTTP 404** | ⚠️ ÇELİŞKİ — sayfada yok; §3 tick/quantum içeriği için doğrulanmış yerine geçen **yok** → `⚠️ VERIFICATION REQUIRED` |
+| D-U13 | https://docs.kernel.org/trace/events/sched.html | HTTP 200 | **HTTP 404** | ⚠️ ÇELİŞKİ — olay izleri referansı taşınır; genel `https://docs.kernel.org/trace/events.html` 200 ölçülmüştür (envanterde VAR) ve §6.4 için alternatif olarak not edilir |
+| D-U18 | https://www.zephyrproject.org/doc/kernel/services/timing/clocks.html | HTTP 200 | **ERR** (`www` yolu erişilemez) | ⚠️ DÜZELTİLDİ — yerine geçen **doğrulandı**: `https://docs.zephyrproject.org/latest/kernel/services/timing/clocks.html` → **HTTP 200** (2026-10-14, envanter kesişimi YOK); §3 saat/tick bu yeni URL ile taşınır |
+
+> Kalan 5 satır (D-U01 · D-U03 · D-U08 · D-U12 · D-U17) 2026-10-14'te **HTTP 200** olarak
+> yeniden ölçülmüştür — iddia ile ölçüm uyuşur.
+>
+> Tam ölçüm tablosu (77 plan URL'si): `isletim-sistemi-plan-dogrulama.md §6k`.
+
 ---
 
 ## 11. Zamanlama kararı matrisi — sınıf → sonuç (derinleştirme)

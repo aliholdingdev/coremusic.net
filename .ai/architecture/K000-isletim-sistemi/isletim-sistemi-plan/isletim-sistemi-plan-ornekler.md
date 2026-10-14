@@ -544,6 +544,121 @@ $executionTime = microtime(true) - $startTime;
 | 6 | Q3 / Plan1 | `[UNKNOWN]` / `[UNKNOWN]` — **kapatılmadı** |
 | 7 | `status` | `verify-required` |
 
+## §7 — OS bazlı kod örnekleri (her işletim sistemi, OS kendi altında gruplu)
+
+> **Kapsam kuralı:** Bu proje yalnız Linux değildir — hedef yüzey `home.coremusic.net/AGENTS.md §1`
+> (Raspberry Pi 5 · Linux), `.ai/AGENTS.md §4` #11 (Windows · WASAPI) ve macOS adayıdır;
+> RTOS/Apple/Android kanalları `.ai/architecture/K000-isletim-sistemi/isletim-sistemi-turu/`
+> altındaki 8 platform dosyasıyla eşleşir. **Her örnek OS seviyesidir:** bu depoda (`*.php` /
+> `*.js`) hiçbirinin karşılığı yoktur (§4 H-1 · H-3 — grep 0) — dürüstlük notu her bloktadır.
+> Her URL **2026-10-14** `Invoke-WebRequest GET` ile **HTTP 200** ölçülmüştür (kanıt sütunu).
+
+### §7.1 Linux / POSIX (hedef: Raspberry Pi 5 · CI `ubuntu-latest`)
+
+| # | Örnek (OS API'si — depoda karşılığı YOK) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|
+| L-1 | `taskset [options] mask command` — CPU affinity'i bit maskesiyle bağlama; `0x00000001` = processor #0, `--cpu-list 0-2,6` = CPU 0,1,2,6 | https://man7.org/linux/man-pages/man1/taskset.1.html | HTTP 200 |
+| L-2 | `syscall(SYS_sched_setattr, pid_t pid, struct sched_attr *attr, unsigned int flags)` + `SYS_sched_getattr` — glibc wrapper vermez, `syscall(2)` gerekir; politikalar `SCHED_OTHER/BATCH/IDLE/FIFO/RR/DEADLINE` | https://man7.org/linux/man-pages/man2/sched_getattr.2.html | HTTP 200 |
+| L-3 | `int sched_setscheduler(pid_t pid, int policy, const struct sched_param *param)` — POSIX REALTIME; `pid == 0` çağıran süreç | https://pubs.opengroup.org/onlinepubs/9799919799/functions/sched_setscheduler.html | HTTP 200 |
+| L-4 | `chrt -f` (SCHED_FIFO) · `-r` (SCHED_RR) · `-d` (SCHED_DEADLINE; `runtime ⇐ deadline ⇐ period`) — süreç RT önceliği ata | https://man7.org/linux/man-pages/man1/chrt.1.html | HTTP 200 |
+| L-5 | `int pthread_setschedparam(pthread_t thread, int policy, const struct sched_param *param)` — POSIX parçacık önceliği | https://pubs.opengroup.org/onlinepubs/9799919799/functions/pthread_setschedparam.html | HTTP 200 |
+| L-6 | `ionice -c class -n level` — IO öncelik sınıfı (BEST EFFORT/IDLE/REALTIME) | https://man7.org/linux/man-pages/man1/ionice.1.html | HTTP 200 |
+| L-7 | `set_mempolicy` / cpuset — NUMA bellek yerleşimi | https://man7.org/linux/man-pages/man7/cpuset.7.html | HTTP 200 |
+| L-8 | `prlimit(pid, resource, new_limit, old_limit)` — RLIMIT_* süreç sınırı | https://man7.org/linux/man-pages/man2/prlimit.2.html | HTTP 200 |
+
+**Linux kısa uygulama örneği (OS seviyesi — depoda YOK, yalnız referans):**
+
+```c
+/* Kaynak: taskset(1) + sched_getattr(2) — 2026-10-14 HTTP 200 */
+cpu_set_t mask; CPU_ZERO(&mask); CPU_SET(0, &mask);           /* CPU #0 */
+sched_setaffinity(0, sizeof(mask), &mask);                    /* bağla */
+struct sched_attr attr = { .size = sizeof(attr),
+                           .policy = SCHED_FIFO,              /* chrt -f */
+                           .sched_priority = 80 };
+syscall(SYS_sched_setattr, 0, &attr, 0);                      /* pid=0: kendim */
+```
+
+### §7.2 Windows (hedef: `win-sw` · WASAPI — `.ai/AGENTS.md §4` #11)
+
+| # | Örnek (OS API'si — depoda karşılığı YOK) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|
+| W-1 | `DWORD_PTR SetThreadAffinityMask(HANDLE hThread, DWORD_PTR dwThreadAffinityMask)` — bit vektörü; thread maskesi process maskesinin **alt kümesi** olmalı, aksi halde `ERROR_INVALID_PARAMETER`; header `winbase.h`, `Kernel32.lib` | https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setthreadaffinitymask | HTTP 200 |
+| W-2 | `BOOL SetPriorityClass(HANDLE hProcess, DWORD dwPriorityClass)` — `NORMAL/IDLE/HIGH/ABOVE_NORMAL/BELOW_NORMAL_PRIORITY_CLASS`, `PROCESS_MODE_BACKGROUND_BEGIN` (yalnız mevcut süreç) | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setpriorityclass | HTTP 200 |
+| W-3 | `DWORD SetThreadIdealProcessor(HANDLE hThread, DWORD dwIdealProcessor)` — tercih edilen işlemci (0-tabanlı; `MAXIMUM_PROCESSORS` = yalnız oku) | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadidealprocessor | HTTP 200 |
+| W-4 | `AVRTAPI HANDLE AvSetMmThreadCharacteristicsA(LPCSTR TaskName, LPDWORD TaskIndex)` — thread'i multimedia görevine bağlar (registry `...\Multimedia\SystemProfile\Tasks`); bitişte `AvRevertMmThreadCharacteristics`; `Avrt.lib` | https://learn.microsoft.com/en-us/windows/win32/api/avrt/nf-avrt-avsetmmthreadcharacteristicsa | HTTP 200 |
+| W-5 | `BOOL SetInformationJobObject(HANDLE hJob, JOBOBJECTINFOCLASS, LPVOID, DWORD)` — `JobObjectCpuRateControlInformation` (15) ile CPU kotası, `JobObjectBasicLimitInformation` (2) ile temel limitler | https://learn.microsoft.com/en-us/windows/win32/api/jobapi2/nf-jobapi2-setinformationjobobject | HTTP 200 |
+| W-6 | `SetThreadPriority` / `GetThreadPriority` — parçacık öncelik seviyesi | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadpriority | HTTP 200 |
+| W-7 | `GetLogicalProcessorInformation` — çekirdek/NUMA topolojisi okuma | https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getlogicalprocessorinformation | HTTP 200 |
+| W-8 | `SetProcessWorkingSetSize` — çalışma kümesi (fiziksel bellek) sınırı | https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-setprocessworkingsetsize | HTTP 200 |
+
+**Windows kısa uygulama örneği (OS seviyesi — depoda YOK, yalnız referans):**
+
+```c
+/* Kaynak: W-1 + W-3 — 2026-10-14 HTTP 200 (winbase.h / processthreadsapi.h) */
+SetThreadAffinityMask(hThread, (DWORD_PTR)0x01);   /* CPU #0'a bağla */
+SetThreadIdealProcessor(hThread, 0);               /* tercih edilen işlemci */
+SetPriorityClass(GetCurrentProcess(), ABOVE_NORMAL_PRIORITY_CLASS);
+```
+
+### §7.3 macOS / iOS (aday platform — Apple dokümantasyonu)
+
+| # | Örnek (OS API'si — depoda karşılığı YOK) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|
+| A-1 | `struct DispatchQoS` — QoS = yürütme önceliği: `userInteractive` · `userInitiated` · `default` · `utility` · `background` · `unspecified`; `init(qosClass:relativePriority:)`; "sistem daha yüksek servis sınıflarını önceliklendirir" | https://developer.apple.com/documentation/dispatch/dispatchqos | HTTP 200 |
+| A-2 | `Process.qualityOfService` — süreç/nesne QoS sınıfı atama özelliği | https://developer.apple.com/documentation/foundation/process/qualityofservice | HTTP 200 |
+| A-3 | `DispatchQueue` — GCD kuyruğu (QoS sınıfı ile oluşturulur) | https://developer.apple.com/documentation/dispatch/dispatchqueue | HTTP 200 |
+| A-4 | `Thread` — Foundation parçacık sarmalayıcısı | https://developer.apple.com/documentation/foundation/thread | HTTP 200 |
+
+**macOS kısa uygulama örneği (OS seviyesi — depoda YOK, yalnız referans):**
+
+```swift
+/* Kaynak: A-1 — 2026-10-14 HTTP 200 */
+let q = DispatchQueue(label: "audio.render", qos: .userInteractive)
+q.async { /* yüksek öncelikli iş */ }
+```
+
+> **Apple sınırı (dürüstlük):** `pthread_create` · `thread_policy` · `qos_class_self` için
+> `developer.apple.com/documentation/**` yolları 2026-10-14'te **HTTP 404** verdi — bu API'ler
+> için Apple sayfası **doğrulanamadı**; POSIX karşılıkları L-5 (opengroup, HTTP 200) üzerinden
+> kullanılır. Uydurulmadı, kapatılmadı.
+
+### §7.4 Android (kanal: `.ai/architecture/.../isletim-sistemi-turu/android`)
+
+| # | Örnek (OS API'si — depoda karşılığı YOK) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|
+| AD-1 | "Android, uygulama bileşenini yeni bir Linux sürecinde tek yürütme parçacığıyla başlatır; varsayılan olarak tüm bileşenler aynı süreç ve **main thread** içindedir" — manifest `android:process` ile süreç ayrılır; `android:sharedUserId` ile süreçler birleştirilebilir | https://developer.android.com/guide/components/processes-and-threads | HTTP 200 |
+
+### §7.5 RTOS (Zephyr · FreeRTOS — kanal: `isletim-sistemi-turu` + embedded hedef)
+
+| # | Örnek (OS API'si — depoda karşılığı YOK) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|
+| R-1 | Zephyr zamanlama: "en yüksek öncelikli hazır parçacık seçilir; eşit öncelikte **en uzun süredir bekleyen** seçilir"; EDF `CONFIG_SCHED_DEADLINE` + `k_thread_deadline_set()`; hazır kuyruk: `CONFIG_SCHED_SIMPLE` (≈2k kod) · `CONFIG_SCHED_SCALABLE` (kırmızı-siyah ağaç) · `CONFIG_SCHED_MULTIQ` | https://docs.zephyrproject.org/latest/kernel/services/scheduling/index.html | HTTP 200 |
+| R-2 | Zephyr saat/çevrim: `k_cycle_get_32()` / `k_cycle_get_64()` — en hızlı sayaç; frekans `sys_clock_hw_cycles_per_sec()`; çalışma zamanı değişen frekans `CONFIG_SYSTEM_CLOCK_HW_CYCLES_PER_SEC_RUNTIME_UPDATE` + `z_sys_clock_hw_cycles_per_sec_update()` | https://docs.zephyrproject.org/latest/kernel/services/timing/clocks.html | HTTP 200 |
+| R-3 | RT grubu CPU bütçesi (Linux kernel belgesi): "kaçınılan" — `sched_rt_runtime_us` çok küçükse sistem ilerleyemez; kural: period içinde sabit run time; kullanılmayan kısım `SCHED_OTHER`'a düşer (25 fps renderer örneği: period 0.04s → run time 0.032s) | https://docs.kernel.org/scheduler/sched-rt-group.html | HTTP 200 |
+
+> **FreeRTOS dürüstlük kaydı (2026-10-14):** `freertos.org` üzerinde 6 aday URL'nin **tamamı
+> HTTP 404** (`xTaskPrioritySet.html` · `Stream-Message-Buffers.html` · 4 aday `Documentation/02-Kernel/**`
+> yolu) — FreeRTOS için doğrulanabilir resmi sayfa **bulunamadı**; `⚠️ VERIFICATION REQUIRED`
+> olarak açık kalır, uydurulmaz.
+
+### §7.6 Diğer platformlar (Tizen · webOS · ReactOS)
+
+| # | Platform | Durum (2026-10-14) | Resmi doküman |
+|---|---|---|---|
+| O-1 | Tizen | HTTP 200 · envanter kesişimi YOK — Native thread rehberi yolu ölçüldü (sayfa Tizen doküman portaline yönlendirir; içerik kanıtı olarak **yalnız portal erişimi** kabul edilir) | https://docs.tizen.org/application/native/guidages/multiprocess/thread/ |
+| O-2 | webOS OSE | HTTP 200 · envanter kesişimi VAR (mevcut kayıtlı URL) — doküman portal erişimi | https://webosose.org/docs/ |
+| O-3 | ReactOS | HTTP 200 · envanter kesişimi VAR (mevcut kayıtlı URL) — wiki ana sayfa | https://reactos.org/wiki/Main_Page |
+
+### §7.7 OS örnek → alt-dal köprüsü
+
+| OS grubu | Örnek | Gittiği alt-dal dosyası |
+|---|---|---|
+| Linux/POSIX | L-1 · L-2 · L-4 | `zamanlama-scheduler/zamanlama-scheduler-ornekler.md §7.1` · `is-parcacigi-planlamasi/is-parcacigi-planlamasi-ornekler.md §7.1` |
+| Windows | W-1 · W-4 | `is-parcacigi-planlamasi/is-parcacigi-planlamasi-ornekler.md §7.2` · `zamanlama-scheduler/zamanlama-scheduler-ornekler.md §7.2` |
+| macOS/iOS | A-1 | `zamanlama-scheduler/zamanlama-scheduler-ornekler.md §7.3` |
+| RTOS | R-1 · R-2 | `zamanlama-scheduler/zamanlama-scheduler-ornekler.md §7.4` |
+| Kota/bellek | W-5 · W-8 · L-6 · L-7 · L-8 | `kaynak-dagilimi/kaynak-dagilimi-ornekler.md §7` |
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

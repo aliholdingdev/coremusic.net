@@ -56,11 +56,11 @@ children: []
 |---|---|---|---|---|
 | Y-1 | fork + timeout | `app/Modules/AI/AIOrchestrator.php` | çocuk süreç + 15 sn sınır | IMPLEMENTED |
 | Y-2 | paralel sağlık denetimi | `shared/src/Api/Registry/ServiceHealth.php` | çoklu servis denetimi tek çağrıda | IMPLEMENTED |
-| Y-3 | servis timeout | `shared/src/Core/ServiceDiscovery/ServiceDefinition.php` | servis başına 5 sn | IMPLEMENTED |
-| Y-4 | oran sınırı kovası | `shared/src/Middleware/RateLimitMiddleware.php` | bucket + window | IMPLEMENTED |
+| Y-3 | servis timeout | `shared/src/Api/Registry/ServiceDefinition.php` | servis başına 5 sn | IMPLEMENTED |
+| Y-4 | oran sınırı kovası | `shared/src/Api/Middleware/RateLimitMiddleware.php` | bucket + window | IMPLEMENTED |
 | Y-5 | alt süreç testi | `shared/tests/Repository/ApiKeyCreateCommandTest.php` | `proc_open` ile CLI doğrulama | IMPLEMENTED |
 | Y-6 | zorunlu uzantı | `composer.json` | `ext-apcu` bağımlılığı | IMPLEMENTED |
-| Y-7 | boot yapılandırması | `shared/src/Core/RuntimeBootstrap.php` | zaman dilimi + boot akışı | IMPLEMENTED |
+| Y-7 | boot yapılandırması | `shared/src/Bootstrap/RuntimeBootstrap.php` | zaman dilimi + boot akışı | IMPLEMENTED |
 | Y-8 | istek girişi | `home.coremusic.net/index.php` | boot → router | IMPLEMENTED |
 
 ### §1.2 Her yapılandırma — anayasa/sürücü karşılığı
@@ -170,10 +170,10 @@ Yorum: "parallel" kelimesi bir **sorumluluk beyanıdır**; gerçek paralellik
 
 | Dosya | Satır | Alıntı | Yorum |
 |---|---|---|---|
-| `shared/src/Core/ServiceDiscovery/ServiceDefinition.php` | L23 | `private readonly int $timeout = 5,` | servis başına yumuşak süre sınırı |
-| `shared/src/Middleware/RateLimitMiddleware.php` | L39 | `private array $bucket;` | kova durumu (adet) |
-| `shared/src/Middleware/RateLimitMiddleware.php` | L40 | `private float $window;` | pencere (saniye) |
-| `shared/src/Core/RateLimitException.php` | L7 | `private int $retryAfter;` | aşım sonrası bekleme bildirimi |
+| `shared/src/Api/Registry/ServiceDefinition.php` | L23 | `private readonly int $timeout = 5,` | servis başına yumuşak süre sınırı |
+| `shared/src/Api/Middleware/RateLimitMiddleware.php` | L39 | `private array $bucket;` | kova durumu (adet) |
+| `shared/src/Api/Middleware/RateLimitMiddleware.php` | L40 | `private float $window;` | pencere (saniye) |
+| `shared/src/Exception/RateLimitException.php` | L7 | `private int $retryAfter;` | aşım sonrası bekleme bildirimi |
 
 ### §2.4 Ölçüm kalıbı (sürücü §7.3)
 
@@ -200,7 +200,7 @@ Yorum: "parallel" kelimesi bir **sorumluluk beyanıdır**; gerçek paralellik
 
 | Dosya | Satır | Alıntı | Yorum |
 |---|---|---|---|
-| `shared/src/Core/RuntimeBootstrap.php` | L9 | `date_default_timezone_set(...)` | boot anında tek sefer ayar |
+| `shared/src/Bootstrap/RuntimeBootstrap.php` | L9 | `date_default_timezone_set(...)` | boot anında tek sefer ayar |
 | `home.coremusic.net/config/bootstrap.php` | L13 | autoloader kurulumu | fork'tan önce tamamlanır |
 | `home.coremusic.net/config/bootstrap.php` | L97 | istek döngüsüne giriş | fork kararı istek düzeyinde |
 | `home.coremusic.net/index.php` | L10 | boot çağrısı | boot → istek zinciri |
@@ -222,15 +222,15 @@ Yorum: "parallel" kelimesi bir **sorumluluk beyanıdır**; gerçek paralellik
 |---|---|---|---|---|
 | E-1 | `app/Modules/AI/AIOrchestrator.php` | app | L20, L45 | fork + timeout |
 | E-2 | `shared/src/Api/Registry/ServiceHealth.php` | shared | L24, L26 | paralel denetim |
-| E-3 | `shared/src/Core/ServiceDiscovery/ServiceDefinition.php` | shared | L23 | servis timeout |
-| E-4 | `shared/src/Middleware/RateLimitMiddleware.php` | shared | L39, L40 | kova/pencere |
-| E-5 | `shared/src/Core/RateLimitException.php` | shared | L7 | retryAfter |
+| E-3 | `shared/src/Api/Registry/ServiceDefinition.php` | shared | L23 | servis timeout |
+| E-4 | `shared/src/Api/Middleware/RateLimitMiddleware.php` | shared | L39, L40 | kova/pencere |
+| E-5 | `shared/src/Exception/RateLimitException.php` | shared | L7 | retryAfter |
 | E-6 | `shared/src/Middleware/MiddlewarePipeline.php` | shared | L42 | hrtime ölçümü |
 | E-7 | `shared/src/Cache/ApcuAdapter.php` | shared | L22 | APCu yüzeyi |
 | E-8 | `shared/src/Cache/MemoryAdapter.php` | shared | L16 | dizi önbelleği |
 | E-9 | `shared/src/Cache/PageCacheAdapter.php` | shared | L9 | sayfa önbelleği |
 | E-10 | `shared/tests/Repository/ApiKeyCreateCommandTest.php` | shared | L253 | proc_open testi |
-| E-11 | `shared/src/Core/RuntimeBootstrap.php` | shared | L7–L20 (L9) | boot |
+| E-11 | `shared/src/Bootstrap/RuntimeBootstrap.php` | shared | L7–L20 (L9) | boot |
 | E-12 | `home.coremusic.net/config/bootstrap.php` | home | L13, L97 | autoloader + istek |
 | E-13 | `home.coremusic.net/index.php` | home | L10, L15 | boot + router |
 | E-14 | `api/index.php` | api | L143–L147, L169–L171 | API girişi/kapanışı |
@@ -494,6 +494,77 @@ Kural: bu satırlara sayı uydurulmaz; kapatma kararı orkestratöre aittir
 
 Bu tablo bu dosyada kullanılmayan, doğrulaması yapılmış **ölü** bağlantıları
 listeler; gelecekteki dosyalar için uyarı işareti taşır.
+
+## §7 — OS bazlı parçacık örnekleri (her OS kendi altında)
+
+> **Dürüstlük notu:** Bu depoda parçacık oluşturan/çağıran kod **YOK** (§5 D-1 · D-4) —
+> her örnek **OS seviyesi** referanstır ve repo'ya eklenmesi planlanan kod değildir.
+> Tüm URL'ler **2026-10-14** `Invoke-WebRequest GET` ile **HTTP 200** ölçülmüştür.
+
+### §7.1 Linux / POSIX (hedef: Raspberry Pi 5)
+
+| # | Parçacık örneği (OS API'si — depoda YOK) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|
+| P-L1 | `taskset [options] mask command` — süreci CPU'ya "bağlama" (scheduler affinity); mask `0x00000003` = CPU #0+#1; `--cpu-list 0-2,6` | https://man7.org/linux/man-pages/man1/taskset.1.html | HTTP 200 |
+| P-L2 | `pthread_setschedparam(pthread_t, policy, param)` — parçacığa POSIX zamanlama politikası/önceliği | https://pubs.opengroup.org/onlinepubs/9799919799/functions/pthread_setschedparam.html | HTTP 200 |
+| P-L3 | `prlimit(pid, resource, new_limit, old_limit)` — parçacık/süreç RLIMIT_* sınırları (fd, stack, CPU süresi) | https://man7.org/linux/man-pages/man2/prlimit.2.html | HTTP 200 |
+| P-L4 | `sched_getattr`/`sched_setattr` — parçacık düzeyinde politika+öznitelik (`syscall(2)` ile; glibc wrapper yok) | https://man7.org/linux/man-pages/man2/sched_getattr.2.html | HTTP 200 |
+| P-L5 | cpuset — parçacık kümesini CPU/NUMA düğümüne bağlama; `set_mempolicy` ile bellek yerleşimi | https://man7.org/linux/man-pages/man7/cpuset.7.html | HTTP 200 |
+
+```c
+/* OS seviyesi — depoda karşılığı YOK (kaynak: P-L1, 2026-10-14 HTTP 200) */
+cpu_set_t m; CPU_ZERO(&m); CPU_SET(0, &m);   /* yalnız CPU #0 */
+sched_setaffinity(0, sizeof(m), &m);          /* çağıran parçacığı bağla */
+```
+
+### §7.2 Windows (hedef: `win-sw` — `.ai/AGENTS.md §4` #11)
+
+| # | Parçacık örneği (OS API'si — depoda YOK) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|
+| P-W1 | `SetThreadAffinityMask(hThread, dwThreadAffinityMask)` — bit vektörü; **process maskesinin alt kümesi** zorunlu; `THREAD_SET_INFORMATION` yetkisi gerekir; dönüş önceki mask | https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setthreadaffinitymask | HTTP 200 |
+| P-W2 | `SetThreadIdealProcessor(hThread, dwIdealProcessor)` — tercih edilen işlemci (0-tabanlı); başarısızlıkta `(DWORD)-1` | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadidealprocessor | HTTP 200 |
+| P-W3 | `GetLogicalProcessorInformation` — çekirdek/related processor grupları topolojisi (affinity kararı öncesi okunur) | https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-getlogicalprocessorinformation | HTTP 200 |
+| P-W4 | `AvSetMmThreadCharacteristicsA(TaskName, TaskIndex)` — parçacığı görev (ör. ses) ile ilişkilendirir; `TaskIndex` ilk çağrıda 0 | https://learn.microsoft.com/en-us/windows/win32/api/avrt/nf-avrt-avsetmmthreadcharacteristicsa | HTTP 200 |
+
+```c
+/* OS seviyesi — depoda karşılığı YOK (kaynak: P-W1, 2026-10-14 HTTP 200) */
+SetThreadAffinityMask(hThread, (DWORD_PTR)0x01);  /* CPU #0 */
+SetThreadIdealProcessor(hThread, 0);              /* tercih edilen işlemci */
+```
+
+### §7.3 macOS / iOS (aday platform)
+
+| # | Parçacık örneği (OS API'si — depoda YOK) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|
+| P-A1 | `DispatchQoS` — iş parçası önceliği sınıfları (`userInteractive` … `background`); "sistem daha yüksek servis sınıflarını önceliklendirir" | https://developer.apple.com/documentation/dispatch/dispatchqos | HTTP 200 |
+| P-A2 | `DispatchQueue` — kuyruk = GCD'in parçacık çalışma birimi | https://developer.apple.com/documentation/dispatch/dispatchqueue | HTTP 200 |
+| P-A3 | `Thread` — Foundation parçacık sarmalayıcısı | https://developer.apple.com/documentation/foundation/thread | HTTP 200 |
+| P-A4 | `Process.qualityOfService` — süreç/QoS ataması | https://developer.apple.com/documentation/foundation/process/qualityofservice | HTTP 200 |
+
+```swift
+/* OS seviyesi — depoda karşılığı YOK (kaynak: P-A1, 2026-10-14 HTTP 200) */
+DispatchQueue(label: "worker", qos: .utility).async { /* arka plan işi */ }
+```
+
+> `developer.apple.com/documentation/{system,pthread,kernel}/**` yolları (`pthread_create`,
+> `thread_policy`, `qos_class_self`, `pthread_attr_setschedpolicy`) 2026-10-14'te **HTTP 404** —
+> doğrulanamadı; POSIX karşılığı P-L2'dedir.
+
+### §7.4 RTOS — Zephyr (gömülü hedef)
+
+| # | Parçacık örneği (OS API'si — depoda YOK) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|
+| P-R1 | Parçacık değişimi reschedule noktaları: `k_sem_take()`/`k_sleep()` (bekleme), `k_sem_give()`/`k_thread_start()` (hazır), ISR dönüşü, `k_yield()` | https://docs.zephyrproject.org/latest/kernel/services/scheduling/index.html | HTTP 200 |
+| P-R2 | Hazır kuyruk yapıları: `CONFIG_SCHED_SIMPLE` (tek bağlı liste, ~2k tasarruf) · `CONFIG_SCHED_SCALABLE` (kırmızı-siyah ağaç, >20 parçacık) · `CONFIG_SCHED_MULTIQ` (O(1)) | https://docs.zephyrproject.org/latest/kernel/services/scheduling/index.html | HTTP 200 |
+| P-R3 | Zaman kaynağı: `k_cycle_get_32()`/`k_cycle_get_64()` + `sys_clock_hw_cycles_per_sec()` | https://docs.zephyrproject.org/latest/kernel/services/timing/clocks.html | HTTP 200 |
+
+### §7.5 Mobil / diğer (kanal: `isletim-sistemi-turu/`)
+
+| # | Platform | Örnek (OS seviyesi) | Resmi doküman | 2026-10-14 |
+|---|---|---|---|---|
+| P-M1 | Android | "Tüm bileşenler varsayılan olarak aynı süreç ve **main thread** içindedir"; `android:process` ile süreç ayrılır, ek parçacıklar süreç içinde oluşturulur | https://developer.android.com/guide/components/processes-and-threads | HTTP 200 |
+| P-M2 | Tizen | Native thread rehberi yolu (portal erişimi ölçüldü — içerik kanıtı olarak yalnız erişim kabul edilir) | https://docs.tizen.org/application/native/guidages/multiprocess/thread/ | HTTP 200 |
+| P-M3 | FreeRTOS | **Doğrulanamadı** — 6 aday URL'nin tamamı HTTP 404 (2026-10-14) | — | ⚠️ VERIFICATION REQUIRED |
 
 ---
 

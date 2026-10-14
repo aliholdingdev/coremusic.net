@@ -14,7 +14,7 @@ evidence:
   - https://www.php.net/manual/en/function.microtime.php
   - https://www.php.net/manual/en/function.pcntl-wait.php
   - https://www.php.net/manual/en/function.pcntl-fork.php
-validation: "2026-10-13 · 3 yeni URL HTTP HEAD 200 (envanter kesişim 0) · §7-§14 eklendi (172 → ≥500 satır) · §13 repo satırları ReadAllLines ile birebir"
+validation: "2026-10-14 · §19 grupları G1-G4 (12 platform kolu · 10 kod bloğu) · §19.5 16 YENİ + 11 reuse HTTP 200 (envanter kesişimi 1 → dogrulama §J.5) · §19.6 14 reuse yeniden 200 · §20 PHP köprüsü (4 gerçek-satır bloğu · yeni URL 0 · pcntl/posix/getmypid/set_time_limit grep 0) · §21 çok dilli JS/C/Python/Go/Rust/C# (7 URL = 6 reuse + 1 yeni · 6 kalıp blok · JS/PY repo satır kanıtlı) · 1096 satır · macOS-native kaynak 0 → 4 iddia ⚠️ VERIFICATION REQUIRED · §13 repo satırları ReadAllLines ile birebir"
 open_questions:
   - "Repo'da pcntl_alarm kullanımı bulunamadı — CLI zaman aşımı stratejisi netleşmeli (§5) → UNKNOWN"
   - "Kuyruk dispatch gecikme ölçümü PLANNED — sartname.md → UNKNOWN"
@@ -507,5 +507,590 @@ kanıtı ister (§10 K6).
 
 Kapatma yollarından hiçbiri bu turda çalıştırılmadı; sorular açık kalır ve
 dosyanın frontmatter `status` değeri `draft` olarak korunur.
+
+---
+
+## §19 Çapraz-platform gruplu kod örnekleri (2026-10-14)
+
+> **Grup kuralı (bağlayıcı):** Her grup **tek bir kavramı** temsil eder ve
+> **üç platform kolunu yan yana** taşır — **Linux/POSIX** · **Windows (Win32)** ·
+> **macOS/POSIX**. Bu bölümde "sadece Linux" örnek kabul edilmez.
+>
+> **macOS kaynak kısıtı (ölçülmüş):** `developer.apple.com/library/archive/...`
+> man sayfaları bu turda erişilemedi (bağlantı sıfırlandı / 404). Bu yüzden macOS
+> sütunu **POSIX spesifikasyonuna** dayanır ve `⚠️ VERIFICATION REQUIRED` ile
+> işaretlenir. Erişilebilir tek Apple kaynağı §19.5'tedir.
+
+### §19.1 G1 - Süreç üretimi (yarat + çalıştır + bekle)
+
+**(A) Linux/POSIX — `fork` + `execve` + `waitpid`:**
+
+```c
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+pid_t pid = fork();
+if (pid == -1) {
+    /* hata: errno okunur - basedefs/errno.h */
+} else if (pid == 0) {
+    char *const argv[] = { "uname", "-s", NULL };
+    execve("/bin/uname", argv, NULL);   /* basariysa DÖNMEZ */
+    _exit(127);                          /* yalniz basarisizlikta */
+}
+int status = 0;
+waitpid(pid, &status, 0);
+int code = WIFEXITED(status) ? WEXITSTATUS(status) : -1;
+```
+
+**(A') Linux/POSIX — `posix_spawn` (fork+exec tek çağrıda, AT-THEN-AFTER):**
+
+```c
+#include <spawn.h>
+#include <sys/wait.h>
+extern char **environ;
+
+pid_t pid = 0;
+char *argv[] = { "uname", "-s", NULL };
+int rc = posix_spawn(&pid, "/bin/uname", NULL, NULL, argv, environ);
+if (rc == 0) { int st = 0; waitpid(pid, &st, 0); }
+```
+
+**(B) Windows (Win32) — `CreateProcessA` + `WaitForSingleObject` + `GetExitCodeProcess`:**
+
+```c
+#include <windows.h>
+
+STARTUPINFOA si; PROCESS_INFORMATION pi;
+ZeroMemory(&si, sizeof si); si.cb = sizeof si;
+ZeroMemory(&pi, sizeof pi);
+
+char cmdline[] = "uname -s";   /* CreateProcessA yazilabilir tampon ister */
+BOOL ok = CreateProcessA(NULL, cmdline, NULL, NULL, FALSE, 0,
+                         NULL, NULL, &si, &pi);
+if (ok) {
+    WaitForSingleObject(pi.hProcess, INFINITE);
+    DWORD code = 0;
+    GetExitCodeProcess(pi.hProcess, &code);
+    CloseHandle(pi.hThread);
+    CloseHandle(pi.hProcess);
+}
+```
+
+**(C) macOS / POSIX — spesifikasyon kolu:**
+
+macOS `posix_spawn(2)` ve `fork`+`execve`+`waitpid` üçlüsünü POSIX'e uygun sunar;
+kod (A)/(A') birebir geçerlidir. **`⚠️ VERIFICATION REQUIRED`** — Apple man
+sayfası bu turda okunamadı, iddia yalnız POSIX spesifikasyonuna dayanıyor.
+
+| Platform | Çağrı zinciri | Çıkış kodu kaynağı | Durum |
+|---|---|---|---|
+| Linux/POSIX | `fork` → `execve` → `waitpid` | `WEXITSTATUS(status)` | ✓ doğrulandı |
+| Linux/POSIX (hatasız) | `posix_spawn` → `waitpid` | `WEXITSTATUS(status)` | ✓ doğrulandı |
+| Windows | `CreateProcessA` → `WaitForSingleObject` | `GetExitCodeProcess` | ✓ doğrulandı |
+| macOS | POSIX (A/A') ile aynı | POSIX `WEXITSTATUS` | ⚠️ VERIFICATION REQUIRED |
+
+### §19.2 G2 - İplik + karşılıklı dışlama (mutex)
+
+**(A) Linux/POSIX — `pthread_create` + `pthread_mutex_*` + `pthread_join`:**
+
+```c
+#include <pthread.h>
+
+static pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;
+
+static void *worker(void *arg) {
+    pthread_mutex_lock(&m);
+    /* kritik bolum */
+    pthread_mutex_unlock(&m);
+    return NULL;
+}
+
+pthread_t t;
+if (pthread_create(&t, NULL, worker, NULL) == 0) {
+    pthread_join(t, NULL);      /* bitisini bekle */
+}
+```
+
+**(B) Windows (Win32) — `CreateThread` + mutex nesnesi + `WaitForSingleObject`:**
+
+```c
+#include <windows.h>
+
+static HANDLE g_mtx;             /* cross-process mutex */
+
+DWORD WINAPI worker(LPVOID p) {
+    WaitForSingleObject(g_mtx, INFINITE);
+    /* kritik bolum */
+    ReleaseMutex(g_mtx);
+    return 0;
+}
+
+g_mtx = CreateMutexW(NULL, FALSE, L"CoreMusic\\demo-mutex");
+HANDLE h = NULL; DWORD tid = 0;
+h = CreateThread(NULL, 0, worker, NULL, 0, &tid);
+if (h) { WaitForSingleObject(h, INFINITE); CloseHandle(h); }
+CloseHandle(g_mtx);
+```
+
+**(C) macOS / POSIX —** (A) birebir geçer (`pthread_create` POSIX zorunludur).
+**`⚠️ VERIFICATION REQUIRED`** (aynı Apple erişim kısıtı).
+
+| Platform | İplik yaratma | Kritik bölüm | Bitiş bekleme |
+|---|---|---|---|
+| Linux/POSIX | `pthread_create` | `pthread_mutex_lock`/`unlock` | `pthread_join` |
+| Windows | `CreateThread` | `WaitForSingleObject`/`ReleaseMutex` | `WaitForSingleObject(h)` |
+| macOS | `pthread_create` (POSIX) | `pthread_mutex_lock` (POSIX) | `pthread_join` (POSIX) · ⚠️ |
+
+> **Asimetri (bu dalın uyarısı):** Windows `mutex` **çok-süreçli** (named object);
+> POSIX `pthread_mutex` **iplikler-arası**dır ve süreçler-arası için ayrı
+> primitives ister. Eşdeğerlik iddiası `⚠️ VERIFICATION REQUIRED`.
+
+### §19.3 G3 - Zamanlama önceliği
+
+**(A) Linux/POSIX — `nice` / `setpriority`:**
+
+```c
+#include <unistd.h>
+#include <sys/resource.h>
+
+/* nice degeri YUKSEK = daha dusuk oncelik */
+int rc = setpriority(PRIO_PROCESS, 0, 10);   /* 10 = "tatli" */
+(void)rc;
+```
+
+**(B) Windows (Win32) — `SetThreadPriority` + öncelik sınıfı tablosu:**
+
+```c
+#include <windows.h>
+
+/* Windows oncelik SINIFI sabittir; araligi scheduling-priorities tablosu verir */
+SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_BELOW_NORMAL);
+```
+
+**(C) macOS / POSIX —** `setpriority` POSIX'ttir, (A) birebir geçer.
+**`⚠️ VERIFICATION REQUIRED`** (Apple erişim kısıtı).
+
+| Kavram | Linux/POSIX | Windows | macOS |
+|---|---|---|---|
+| Öncelik girdisi | `nice` / `setpriority` (süreç-bazlı, sayısal) | `SetThreadPriority` (iplik-bazlı, sınıf) | POSIX (A) ile aynı · ⚠️ |
+| Değer aralığı | `nice` sayfa | `scheduling-priorities` tablosu | ⚠️ |
+| Dikkat | yüksek nice = düşük öncelik | sınıf adı "BELOW_NORMAL" = düşük | — |
+
+> **Ölçüm yok:** bu dosyada öncelik değeri **çalıştırılıp gözlenmedi**;
+> tablo yalnız upstream dokümandan okunmuştur. "Öncelik gerçekten değişti"
+> iddiası bu dosyaya **girmez**.
+
+### §19.4 G4 - Süreç sonu ve çıkış kodu
+
+**(A) Linux/POSIX:**
+
+```c
+int status = 0;
+pid_t r = waitpid(pid, &status, 0);
+if (r > 0 && WIFEXITED(status)) {
+    int code = WEXITSTATUS(status);      /* 0..255 */
+}
+```
+
+**(B) Windows (Win32):**
+
+```c
+DWORD code = 0;
+if (GetExitCodeProcess(pi.hProcess, &code) && code != STILL_ACTIVE) {
+    /* code = 32-bit cikis kodu - POSIX 8-bit'e daralmaz */
+}
+```
+
+**(C) macOS / POSIX —** (A) ile aynı · `⚠️ VERIFICATION REQUIRED`.
+
+| Fark | Linux/POSIX | Windows |
+|---|---|---|
+| Kod genişliği | 8 bit (`exit 300` → `44`) | 32 bit (`DWORD`) |
+| Süreç-zombie | `waitpid` almazsa `Z` durumu | `GetExitCodeProcess` `STILL_ACTIVE` döner |
+| Zorla sonlandırma | (bu dosyada yok) | `TerminateProcess` (reuse URL §19.6) |
+
+### §19.5 Yeni doğrulanmış URL (2026-10-14 · envanter kesişimi 1 → düzeltildi §J.5 · HTTP 200)
+
+> **Ölçüm (2026-10-14 · yeniden):** `.ai/**` (gizli dizin, `*.md|*.json|*.txt|*.ps1`)
+> URL kümesi **bu turda yazılan 6 dosya hariç** tutularak ölçüldü = **3760 tekil URL**.
+> Bu küme ile kesişim **1 satır** verdi: **#27 `sync/mutex-objects`** envanterde zaten
+> vardı (`isletim-sistemi-kernel/kesme-ve-senkronizasyon/index.md`) → "reuse" sayıldı;
+> YENİ toplamı **16** oldu. Tur-çapı tek-çatı sayım ve kümülatif envanter (**3866**)
+> için bkz. `isletim-sistemi-core-dogrulama.md` **§J**.
+
+| # | İddia | URL | 2026-10-14 |
+|---|---|---|---|
+| 1 | `posix_spawn` - fork+exec'i tek çağrıda birleştirir (Linux man) | https://man7.org/linux/man-pages/man3/posix_spawn.3.html | ? HTTP 200 · **YENİ** |
+| 2 | `_exit` - süreç sonlandırma, atık temizleme yapmaz | https://man7.org/linux/man-pages/man2/_exit.2.html | ? HTTP 200 · **YENİ** |
+| 3 | `chmod` - POSIX mode bitlerini değiştirir | https://pubs.opengroup.org/onlinepubs/9799919799/functions/chmod.html | ? HTTP 200 · **YENİ** |
+| 4 | `execve` - görüntüyü süreçte ikame eder | https://pubs.opengroup.org/onlinepubs/9799919799/functions/execve.html | ? HTTP 200 · **YENİ** |
+| 5 | `setuid`/`seteuid` - gerçek/etkin UID geçişi | https://pubs.opengroup.org/onlinepubs/9799919799/functions/setuid.html | ? HTTP 200 · **YENİ** |
+| 6 | `uname` - sistem adı/sürümü/mimari sorgusu | https://pubs.opengroup.org/onlinepubs/9799919799/functions/uname.html | ? HTTP 200 · **YENİ** |
+| 7 | `GetExitCodeProcess` - Windows çıkış kodu okuma | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getexitcodeprocess | ? HTTP 200 · **YENİ** |
+| 8 | `TerminateThread` - iplik zorla sonlandırma | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminatethread | ? HTTP 200 · **YENİ** |
+| 9 | `OpenProcess` - süreç tanıtıcısı + erişim maskesi açma | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess | ? HTTP 200 · **YENİ** |
+| 10 | `GetCurrentProcessId` - Windows süreç kimliği | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocessid | ? HTTP 200 · **YENİ** |
+| 11 | `GetCurrentThread` - geçerli iplik tanıtıcısı | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthread | ? HTTP 200 · **YENİ** |
+| 12 | Windows öncelik sınıfı tablosu (0-31 aralığı) | https://learn.microsoft.com/en-us/windows/win32/procthread/scheduling-priorities | ? HTTP 200 · **YENİ** |
+| 13 | Süreç ve iplik kavramı (Win32 modeli) | https://learn.microsoft.com/en-us/windows/win32/procthread/processes-and-threads | reuse · HTTP 200 |
+| 14 | `posix_spawn` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/posix_spawn.html | reuse · HTTP 200 |
+| 15 | `fork` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/fork.html | reuse · HTTP 200 |
+| 16 | `waitpid` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/waitpid.html | reuse · HTTP 200 |
+| 17 | `pthread_create` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/pthread_create.html | reuse · HTTP 200 |
+| 18 | `pthread_join` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/pthread_join.html | reuse · HTTP 200 |
+| 19 | `pthread_mutex_lock` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/pthread_mutex_lock.html | reuse · HTTP 200 |
+| 20 | `nice` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/nice.html | reuse · HTTP 200 |
+| 21 | `setpriority` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/setpriority.html | reuse · HTTP 200 |
+| 22 | `wait` POSIX tanımı (zombie temizliği) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/wait.html | reuse · HTTP 200 |
+| 23 | `CreateMutexW` - adlandırılmış Windows mutex üretimi (G2 kodu) | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-createmutexw | ? HTTP 200 · **YENİ** |
+| 24 | `ReleaseMutex` - mutex serbest bırakma (G2 kodu) | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-releasemutex | ? HTTP 200 · **YENİ** |
+| 25 | `EnterCriticalSection` - süreç-içi kritik bölüm (G2 alternatifi) | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-entercriticalsection | ? HTTP 200 · **YENİ** |
+| 26 | `LeaveCriticalSection` - kritik bölüm çıkışı (G2 alternatifi) | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-leavecriticalsection | ? HTTP 200 · **YENİ** |
+| 27 | Mutex nesnesi kavram sayfası (Win32) | https://learn.microsoft.com/en-us/windows/win32/sync/mutex-objects | reuse · HTTP 200 (envanterde vardı — §J.5) |
+
+### §19.6 Reuse URL - HTTP 200 yeniden doğrulandı (2026-10-14)
+
+| # | İddia | URL |
+|---|---|---|
+| 1 | `fork(2)` Linux çağrısı | https://man7.org/linux/man-pages/man2/fork.2.html |
+| 2 | `execve(2)` Linux çağrısı | https://man7.org/linux/man-pages/man2/execve.2.html |
+| 3 | `waitpid(2)` Linux çağrısı | https://man7.org/linux/man-pages/man2/waitpid.2.html |
+| 4 | `wait(2)` çocuk bekleme | https://man7.org/linux/man-pages/man2/wait.2.html |
+| 5 | `pthread_create(3)` Linux ipliği | https://man7.org/linux/man-pages/man3/pthread_create.3.html |
+| 6 | `pthread_join(3)` Linux bitişi | https://man7.org/linux/man-pages/man3/pthread_join.3.html |
+| 7 | `nice(2)` Linux öncelik girdisi | https://man7.org/linux/man-pages/man2/nice.2.html |
+| 8 | `CreateProcessA` Windows süreç üretimi | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessa |
+| 9 | `CreateProcessW` Unicode sürümü | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessw |
+| 10 | `CreateThread` Windows ipliği | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread |
+| 11 | `WaitForSingleObject` bekleme | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-waitforsingleobject |
+| 12 | `TerminateProcess` Windows süreç sonlandırma | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminateprocess |
+| 13 | `SetThreadPriority` Windows öncelik sınıfı | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadpriority |
+| 14 | `CloseHandle` tanıtıcı serbest bırakma | https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle |
+
+### §19.7 Bu bölümün ölçüme kaydı (2026-10-14)
+
+| Ölçüm | Değer |
+|---|---|
+| Eklenen grup | 4 (G1 süreç üretimi · G2 iplik+mutex · G3 öncelik · G4 çıkış kodu) |
+| Platform kolları | 3/grup (Linux · Windows · macOS) = 12 kol |
+| Eklenen kod bloğu | 10 (A=4 · A'=1 · B=4 · C açıklaması 1) |
+| Yeni doğrulanmış URL | 16 (§19.5 #1-#12 ve #23-#26) · envanter kesişimi **1** (§19.5 #27 → §J.5) · HTTP 200 |
+| Reuse URL yeniden 200 | 14 (§19.6) + §19.5 #13-#22 ve #27 = 11 |
+| Tur-çapı tek-çatı sayımda bu dosyanın payı | dogrulama **§J** (56 URL · 53 yeni / 3 reuse) |
+| macOS-native kaynak | 0 erişilebilir → 4 iddia `⚠️ VERIFICATION REQUIRED` |
+| `git commit` | **atılmadı** (orkestratöre ait) |
+
+---
+
+## §20 PHP Köprüsü — süreç ve zamanlama (repo satır kanıtlı, 2026-10-14)
+
+> PHP çekirdeği POSIX (`fork`/`exec`/`waitpid`) ve Windows (`CreateProcessW`) yüzeylerini
+> **tek arayüzde** sarmalar — bu yüzden aşağıda yazılan her PHP örneği **iki platformda da**
+> çalışır. Her kod bloğu depoda `ReadAllLines` ile okunmuş **gerçek satırdır** (uydurma yok);
+> yanında o satırın OS katmanındaki karşılığı verilir. Depoda çekirdek OS kodu **YOK**
+> (bkz. §4) — bu bölüm **uygulama ↔ OS köprüsüdür**, sürücü çekirdeği değildir.
+
+### §20.1 P1 — Alt süreç üretimi: `proc_open` ↔ `fork`+`execve` ↔ `CreateProcessW`
+
+**Repo kanıtı:** `shared/tests/Repository/ApiKeyCreateCommandTest.php:252-257`
+
+```php
+$pipes  = [];
+$handle = proc_open(
+    $command,
+    [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']],
+    $pipes,
+    dirname(__DIR__, 3)
+```
+
+| PHP | POSIX (Linux/macOS) | Windows Win32 |
+|---|---|---|
+| `proc_open($cmd, $desc, $pipes)` | `pipe()` → `fork()` → `execve()` (3 çağrı) | `CreateProcessW` + `STARTUPINFO.hStd*` |
+| `$pipes[0]` (PHP → çocuk stdin) | `write(fd[1])` | `WriteFile(hStdInput)` |
+| `$pipes[1]` (çocuk → PHP stdout) | `read(fd[0])` | `ReadFile(hStdOutput)` |
+| `proc_close($handle)` | `waitpid(pid, &st, 0)` | `GetExitCodeProcess` + `CloseHandle` |
+| `$command` (dizge) | `argv[]` çağrısı | `lpCommandLine` (tek dizge) |
+
+**Önemli:** `proc_close()` bloklayıcıdır ve `waitpid` ile eşdeğerdir; çocuk çıkmadan
+dönerse çağıran PHP süreci de askıda kalır. `proc_terminate()` ↔ `SIGTERM` /
+`TerminateProcess()`.
+
+### §20.2 P2 — Kabuk çağrısı + kaçış: `shell_exec` + `escapeshellarg` ↔ `execvp`
+
+**Repo kanıtı:** `shared/src/AI/AIEngine.php:290-295`
+
+```php
+$cmd = sprintf(
+    'ffprobe -v quiet -print_format json -show_format -show_streams "%s"',
+    escapeshellarg($filePath)
+);
+
+$output = shell_exec($cmd);
+```
+
+| PHP | POSIX | Windows Win32 |
+|---|---|---|
+| `shell_exec($cmd)` | `popen($cmd,"r")` benzeri (`/bin/sh -c`) | `cmd.exe /c` üzerinden |
+| `escapeshellarg($p)` | tek tırnak + `'` kaçışı (POSIX shell) | Windows için farklı kaçış kuralları |
+| dönüş `null` | sinyal/exit ≠ 0 (PHP ≥ 8.0: `null`) | `GetLastError`/exit code |
+
+**⚠️ Dikkat (gözlem, test edilmedi):** `sprintf` kalıbında `escapeshellarg()` çıktısı
+`"%s"` **içine** konmuştur; `escapeshellarg` zaten kendi tırnakını ekler (Linux'ta tek
+tırnak). İki tırnak katmanının `ffprobe`a tırnak **karakterlerini de** geçirip
+geçirmediği bu turda **ölçülmedi** → `⚠️ VERIFICATION REQUIRED`. Yalnız kaçış (`escapeshellarg`)
+mevcut olduğu için komut enjeksiyonu yüzeyi kapalıdır; davranış doğruluğu ayrıca
+test edilmelidir.
+
+### §20.3 P3 — Bekleme / gecikme: `usleep` ↔ `nanosleep` ↔ `SleepEx`
+
+**Repo kanıtı:** `home.coremusic.net/include/Auth/HomeAuthBridge.php:114-119`
+
+```php
+return $result;
+}
+if ($attempt < self::MAX_RETRIES) {
+    usleep(self::RETRY_DELAY_US);
+}
+```
+
+| PHP | POSIX | Windows Win32 |
+|---|---|---|
+| `usleep(µs)` | `nanosleep({0, µs*1000}, NULL)` | `Sleep(ms)` (1 ms çözünürlük) |
+| `sleep(s)` | `sleep(s)` | `Sleep(s*1000)` |
+| retry sayacı | döngü + `errno` kontrolü | döngü + `GetLastError` kontrolü |
+
+`RETRY_DELAY_US` mikrosaniye cinsindendir — Windows `Sleep()` 1 ms çözünürlüğünde
+olduğundan PHP bunu PHP 8.0+ dahili `uSleep` ile sarmalar; ayrıntı `⚠️ VERIFICATION REQUIRED`
+(PHP çekirdek sürüm notları okunmadı).
+
+### §20.4 P4 — Monotonik saat: `hrtime(true)` ↔ `clock_gettime(CLOCK_MONOTONIC)` ↔ `QueryPerformanceCounter`
+
+**Repo kanıtı:** `shared/src/Middleware/MiddlewarePipeline.php:42` ve `:46`
+
+```php
+$start = hrtime(true);
+
+$response = $middleware->handle($request, $next);
+
+$elapsedMs = (hrtime(true) - $start) / 1_000_000;
+```
+
+| PHP | POSIX | Windows Win32 |
+|---|---|---|
+| `hrtime(true)` (nanosaniye, monotonik) | `clock_gettime(CLOCK_MONOTONIC)` | `QueryPerformanceCounter` |
+| `hrtime()` (dizi: saniye + nano) | `clock_gettime` `tv_sec`+`tv_nsec` | `QueryPerformanceFrequency` ile ölçekle |
+| `/ 1_000_000` → ms | man7 `clock_gettime(3)` | `win32/sysinfofunctions` |
+
+`hrtime` **monotoniktir** — saat ayarı/sıçramasından etkilenmez; `microtime(true)`
+duvar saatidir ve `CLOCK_REALTIME` karşılığıdır. Süreç-içi ölçüm için doğru seçim
+`hrtime(true)`'dır.
+
+### §20.5 P5 — Eşleme anahtarı (tek satırda)
+
+| Kavram | PHP | POSIX | Windows Win32 |
+|---|---|---|---|
+| süreç başlat | `proc_open` | `fork`+`execve` | `CreateProcessW` |
+| bekle/wait | `proc_close` | `waitpid` | `WaitForSingleObject` |
+| gecikme | `usleep` | `nanosleep` | `Sleep` |
+| monotonik süre | `hrtime` | `clock_gettime(CLOCK_MONOTONIC)` | `QueryPerformanceCounter` |
+| çıkış kodu | `proc_get_status` | `WEXITSTATUS` | `GetExitCodeProcess` |
+| PID | — | `getpid` | `GetCurrentProcessId` |
+
+### §20.6 P6 — Olumsuz kanıt (bu depoda arandı, **0 isabet**)
+
+`shared/`, `home.coremusic.net/`, `media.coremusic.net/`, `api.coremusic.net/`, `bin/`
+altındaki `*.php` dosyalarında `pcntl_fork`, `pcntl_signal`, `posix_*`, `getmypid`,
+`set_time_limit` çağrıları **grep ile arandı → 0 sonuç**. Anlamı:
+
+1. Depoda **süreç-dışı** (threads/signal/PID) PHP yüzeyi **kullanılmıyor** — §20'deki
+   eşlemeler yalnızca **mevcut** kod satırlarına dayanır.
+2. `pcntl_*` yalnız CLI'da çalışır (fpm/web SAPI'de `disabled_functions`); bu yüzden
+   web katmanında `proc_open`/`shell_exec` tercih edilmiştir (kanıt: §20.1, §20.2).
+3. `⚠️ VERIFICATION REQUIRED`: `pcntl_*` yokluğu bir **karar** mı, **eksiklik** mi —
+   vault'ta karar kaydı **bulunmadı**.
+
+### §20.7 Ölçüm
+
+| Ölçüm | Değer |
+|---|---|
+| Eklenen PHP kod bloğu | 4 (§20.1-§20.4) · hepsi `ReadAllLines` ile alınmış gerçek satır |
+| Repo satır çifti | 8 (Test:252-257 · AIEngine:290-295 · HomeAuthBridge:114-119 · MiddlewarePipeline:42,46) |
+| Yeni URL | **0** (§20 hiç URL içermiyor → envanter kesişimi 0'lanır) |
+| Olumsuz grep | `pcntl_*` · `posix_*` · `getmypid` · `set_time_limit` → 0 isabet |
+| ⚠️ işaretli iddia | 3 (§20.2 tırnak katmanı · §20.3 uSleep ayrıntısı · §20.6 karar niyeti) |
+
+## §21 — Çok dilli süreç örnekleri: JS · C · Python · Go · Rust · C#
+
+> **Kanıt hiyerarşisi:** §20'deki PHP blokları depo satırına dayanıyordu. Seçilen 6 dilden
+> **yalnızca JavaScript (98 dosya) ve Python (1 dosya) depoda dosya taşır** — C/Go/Rust/C# **0 dosya**.
+> Bu yüzden: **JS/PY = repo satır kanıtlı** · **C/Go/Rust/C# = kalıp + resmi doküman URL'i**.
+> Kalıp blokları `⚠️ KALIP (repo YOK)` etiketlidir; sürüm/doküman kontrolü yapılmayan satırlar
+> `⚠️ VERIFICATION REQUIRED` işaretlenir. Bu bölümde geçen **tüm URL'ler 2026-10-14'te HTTP 200 ölçülmüştür** (dogrulama §J.9).
+
+### §21.0 Ölçüm — kanıt durumu (2026-10-14)
+
+| Dil | Repo dosyası | Süreç yüzeyi grep (repo) | Kanıt tipi |
+|---|---|---|---|
+| JavaScript | **98** | `child_process` **0** · `spawn(` **0** · `fork(` **0** · `worker_threads` **0** · `process.env` **0** · `process.hrtime` **0** · `process.platform` **0** | repo satırı + olumsuz kanıt |
+| Python | **1** (`.ai/scripts/fix-mojibake.py`) | `subprocess` **0** (import bloğu L16-22'de yok) · `os` **var** (L16) | repo satırı (ortam) + kalıp |
+| C | **0** | — | kalıp + POSIX doküman |
+| Go | **0** | — | kalıp + pkg.go.dev |
+| Rust | **0** | — | kalıp + doc.rust-lang.org |
+| C# | **0** | — | kalıp + MS Learn |
+
+### §21.1 JavaScript — depoda süreç API'si yok (tarayıcı sandbox)
+
+Repo ölçümü: 98 JS dosyasının tamamı tarayıcı tarafıdır (`window.` **310** · `document.` **434** ·
+`fetch(` **27** isabet) — Node süreç API'lerinde **0 isabet**. Yani: **süreç başlatma bu depoda JS ile yapılmıyor.**
+
+```js
+// ⚠️ KALIP (repo YOK) — Node tarafı örnek
+// Kaynak: https://nodejs.org/api/child_process.html (reuse · envanterde vardı · HTTP 200)
+import { spawn } from 'node:child_process';
+
+const child = spawn('ffprobe', ['-v', 'error', '-show_format', '-of', 'json', file],
+                    { stdio: ['ignore', 'pipe', 'pipe'] });
+let out = '';
+child.stdout.on('data', (d) => { out += d; });
+child.on('close', (code) => (code === 0 ? render(JSON.parse(out)) : fail(code)));
+```
+
+**Eşleme:** argümanlar ayrı dizi elemanı verilir (`shell` yok) → PHP §20.2'nin `escapeshellarg`
+kaçış zinciri bu biçimde **gerekmez**; `shell: true` kullanılırsa PHP §20.2'deki aynı risk doğar
+(`⚠️ VERIFICATION REQUIRED`: depoda `shell:` kullanımı **yoktur**, grep 0 — davranış test edilmedi).
+
+### §21.2 C — `fork` + `exec*` (kalıp)
+
+```c
+/* ⚠️ KALIP (repo YOK) — POSIX doküman:
+   https://pubs.opengroup.org/onlinepubs/9799919799/functions/fork.html   (reuse · 200)
+   https://pubs.opengroup.org/onlinepubs/9799919799/functions/execve.html (YENİ · 200) */
+#include <sys/wait.h>
+#include <unistd.h>
+
+pid_t pid = fork();
+if (pid < 0) { /* fork başarısız: errno oku (§21.7 notu) */ }
+else if (pid == 0) {                       /* çocuk süreç */
+    execlp("ffprobe", "ffprobe", "-v", "error", file, (char *)NULL);
+    _exit(127);                            /* exec buraya dönerse */
+} else {                                   /* ebeveyn */
+    int status;
+    waitpid(pid, &status, 0);              /* §19.1 G1: yarat + çalıştır + bekle */
+    if (WIFEXITED(status)) { int code = WEXITSTATUS(status); /* ... */ }
+}
+```
+
+**Eşleme notu:** `fork()` çağrısının iki iade noktası vardır; ebeveynde tampon iki kez
+`flush` edilebilir → `fork()`'tan hemen sonra `exec` (çakışma penceresi) dışında kalan yolda
+`_exit()` kullanılır. Depoda C dosyası **0** olduğu için bu satır kanıt değil **kalıptır** (`⚠️ KALIP (repo YOK)`).
+
+### §21.3 Python — ortam: depo satırı gerçek · yürütme: kalıp
+
+```python
+# DEPO SATIRI — .ai/scripts/fix-mojibake.py:16-28 (ReadAllLines birebir)
+import os
+import sys
+...
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+    os.environ['PYTHONIOENCODING'] = 'utf-8'
+```
+
+```python
+# ⚠️ KALIP (repo YOK) — subprocess kullanımı
+# Kaynak: https://docs.python.org/3/library/subprocess.html (reuse · envanterde vardı · HTTP 200)
+import subprocess
+
+p = subprocess.run(
+    ["ffprobe", "-v", "error", "-show_format", path],
+    capture_output=True, text=True, timeout=10, shell=False,
+)
+if p.returncode != 0:
+    raise RuntimeError(p.stderr)
+```
+
+**Eşleme:** liste girdisi + `shell=False` → kaçış zinciri **yok** (PHP §20.2'deki `escapeshellarg`
+karşılığı bu seçimle **ortadan kalkar**). `timeout=` → §19.1 G1'in "bekle" adımının üst-sınır hâlidir.
+`⚠️ VERIFICATION REQUIRED`: timeout aşımında süreç ağacına ne olduğu — `run()`'ın `kill`/`killpg` ayrımı dokümanda bu turda **okunmadı**.
+
+### §21.4 Go — `os/exec` (kalıp)
+
+```go
+// ⚠️ KALIP (repo YOK) — Kaynak: https://pkg.go.dev/os/exec (reuse · envanterde vardı · HTTP 200)
+package main
+
+import (
+    "context"
+    "os/exec"
+    "time"
+)
+
+func probe(ctx context.Context, path string) ([]byte, error) {
+    ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
+    defer cancel()
+    cmd := exec.CommandContext(ctx, "ffprobe", "-v", "error", "-show_format", path)
+    return cmd.Output() // hata: *exec.ExitError -> ProcessState.ExitCode()
+}
+```
+
+**Eşleme:** `CommandContext` iptal edilince süreç öldürülür → bekleme-üst-sınırı + iptal tek yapıda
+toplanır. `⚠️ VERIFICATION REQUIRED`: `CommandContext`'in varsayılan öldürme sinyali
+dokümanda bu turda **okunmadı**.
+
+### §21.5 Rust — `std::process::Command` (kalıp)
+
+```rust
+// ⚠️ KALIP (repo YOK) — Kaynak:
+// https://doc.rust-lang.org/std/process/struct.Command.html (reuse · envanterde vardı · HTTP 200)
+use std::process::Command;
+use std::time::Instant;
+
+let t0 = Instant::now();                       // monotonik saat (PHP §20.4 eşlemesi)
+let out = Command::new("ffprobe")
+    .args(["-v", "error", "-show_format", path])
+    .output()?;                                // stdout+stderr toplar; bekleme bloklayıcıdır
+if !out.status.success() {
+    eprintln!("exit={:?} {}ms", out.status.code(), t0.elapsed().as_millis());
+}
+```
+
+**Eşleme:** `Instant` monotoniktir (PHP §20.4 `hrtime` eşlemesi); `output()` çağıran thread'i
+bloklar → iş-kuyruğu modeli değil, tek-thread beklemedir. `⚠️ VERIFICATION REQUIRED`:
+`Command`'in sinyal/çocuk-toplama davranışı için `wait()` dokümanı bu turda okunmadı.
+
+### §21.6 C# — `System.Diagnostics.Process` (kalıp)
+
+```csharp
+// ⚠️ KALIP (repo YOK) — Kaynak:
+// https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process (reuse · envanterde vardı · HTTP 200)
+using System.Diagnostics;
+
+var psi = new ProcessStartInfo("ffprobe")
+{
+    ArgumentList = { "-v", "error", "-show_format", path }, // ayrı argümanlar = kaçış yok
+    RedirectStandardOutput = true,
+    UseShellExecute = false,
+    CreateNoWindow = true,
+};
+using var proc = Process.Start(psi)!;
+var json = await proc.StandardOutput.ReadToEndAsync();
+await proc.WaitForExitAsync();
+```
+
+**Eşleme:** `ArgumentList` ayrı argüman iletir (tek dize `Arguments` değil) → Windows
+`CreateProcess` ayrıştırma kurallarından kaçar; PHP §20.2'nin C# karşılığı budur.
+`⚠️ VERIFICATION REQUIRED`: `ArgumentList` ve `WaitForExitAsync`'in eklendiği .NET sürümü **okunmadı**.
+
+### §21.7 Ölçüm (§21)
+
+| Öğe | Değer |
+|---|---|
+| Dil | 6 (JS · C · Python · Go · Rust · C#) |
+| Repo satır kanıtlı blok | **2** (§21.1 JS olumsuz kanıt · §21.3 PY `fix-mojibake.py:16-28`) |
+| `⚠️ KALIP (repo YOK)` blok | **6** (JS · C · Python · Go · Rust · C#) |
+| Bu bölümün URL'i | **7** → **6 reuse + 1 yeni** (`execve.html`) — hepsi HTTP 200 (dogrulama §J.9) |
+| Repo grep (olumsuz kanıt) | `child_process` · `spawn(` · `fork(` · `worker_threads` · `process.env` · `process.hrtime` · `subprocess` → **0 isabet** |
+| ⚠️ işaretli iddia | 6 (§21.1 `shell:` · §21.3 timeout kill · §21.4 öldürme sinyali · §21.5 wait/sinyal · §21.6 .NET sürümü · §21.2 `errno` okuma biçimi) |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

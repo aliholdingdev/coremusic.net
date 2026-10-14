@@ -24,7 +24,7 @@ evidence:
   - https://docs.kernel.org/admin-guide/cgroup-v2.html
   - https://docs.kernel.org/admin-guide/mm/concepts.html
   - https://man7.org/linux/man-pages/man7/signal.7.html
-validation: "2026-10-13 — M-W1…M-W16 kök -dogrulama.md §2'de HTTP 200 doğrulanmış; M-W17 (uptime.1) ve M-W18 (perf_event_open.2) bu turda webfetch ile HTTP 200 doğrulandı (envanter kesişimi 0); ETW performans sayacı/PDH adayı HTTP 404 (kök -dogrulama.md §4 X6) → ⚠️ VERIFICATION REQUIRED; sayısal eşik/hacim değeri yazılmadı; 2. tur: M-W19/M-W20/M-W21 webfetch HTTP 200 (sysinfo.2, getloadavg.3, perf-top.1); sınıf bazlı soru envanteri ve kayıp envanteri §23–§24 ile eklendi; dosya 404 non-blank satır"
+validation: "2026-10-14 — §10 Windows PDH boşluğu kapandı (M-W28…M-W32 portal/PDH API/toplama akışı + M-W24…M-W27 Get-Counter/typeperf/logman/perfmon); §10.1 macOS metrik yüzeyi eklendi (M-W33…M-W35 powermetrics/vm_stat/netstat, ayna dipnotlu); §11 platform matrisi 3 OS'a genişletildi (kalan ⚠️ hücreler 3. tura devredildi); §11.1 vmstat.1(404)→vmstat.8(M-W22,200) düzeltmesi + proc_vmstat.5(M-W23); §17.7–8 çapraz matris güncellendi; §19.7/§20.5–6/§23.10–11 eski ⚠️ durumları kapatıldı | 2026-10-13 — M-W1…M-W16 kök -dogrulama.md §2'de HTTP 200 doğrulanmış; M-W17 (uptime.1) ve M-W18 (perf_event_open.2) bu turda webfetch ile HTTP 200 doğrulandı (envanter kesişimi 0); sayısal eşik/hacim değeri yazılmadı; 2. tur: M-W19/M-W20/M-W21 webfetch HTTP 200 (sysinfo.2, getloadavg.3, perf-top.1); sınıf bazlı soru envanteri ve kayıp envanteri §23–§24 ile eklendi; dosya 404 non-blank satır"
 open_questions:
   - "O1: OS-level metrik toplama (perf, ETW, /proc okuyucu) hedef mimaride var mı, yoksa yalnız uygulama süresi mi? [UNKNOWN]"
   - "O2: Gözlemlenebilirlik üçlüsü (log/metric/trace) K002-altyapi içinde nasıl konumlanacak? [UNKNOWN]"
@@ -221,33 +221,64 @@ perf_event_open(pid, cpu, group_fd, flags)
 > Sinyal olayları log alt-dalına (`log/`) aittir; bu dosyada yalnız metrik
 > yorumunu etkileyen yönüyle geçer.
 
-## §10 ETW performans sayacı (Windows) — ⚠️ VERIFICATION REQUIRED
+## §10 Windows performans sayacı (PDH) — 2. turda kapandı (2026-10-14)
+
+> **Önceki durum:** Bu bölüm 1. turda `⚠️ VERIFICATION REQUIRED` idi — PDH
+> adayı HTTP 404'tü (kök `-dogrulama.md` §4 X6). 2. tur doğrulaması beş
+> yeni kanıt (M-W28–M-W32) ve dört arayüz kanıtı (M-W24–M-W27) getirdi;
+> boşluk **kapandı**. 404 kaydı §12 dipnotunda korunur (silinmez).
 
 | # | İddia | Kanıt durumu |
 |---|---|---|
-| 1 | Windows performans sayaçları PDH API üzerinden okunur | ⚠️ VERIFICATION REQUIRED — aday URL HTTP 404 (kök `-dogrulama.md` §4 X6) |
-| 2 | Performans sayacı verisi ETW üzerinden taşınabilir | ⚠️ VERIFICATION REQUIRED — resmi kaynak bu turda doğrulanmadı |
-| 3 | Sayaç adları ("Processor", "Memory" nesneleri) resmi registry'dedir | ⚠️ VERIFICATION REQUIRED — registry URL'si doğrulanmadı |
+| 1 | Windows performans sayaçları PDH API üzerinden okunur | **KAPANDI** — M-W29 (PDH API yüzeyi), M-W28 (portal) |
+| 2 | Toplama akışı `PdhAddCounterW` + `PdhCollectQueryData` ile yürür | **KAPANDI** — M-W31, M-W30, M-W32 (adım adım akış) |
+| 3 | Sayaçlar PowerShell/araç katmanından da okunur | **KAPANDI** — M-W24 (`Get-Counter`, diagnostics modülünde), M-W25 (`typeperf`), M-W26 (`logman create counter`), M-W27 (`perfmon`) |
+| 4 | Sayaç adları ("Processor", "Memory" nesneleri) resmi registry'dedir | **AÇIK** — `⚠️ VERIFICATION REQUIRED` (registry sayfası 2. turda da doğrulanmadı) |
+| 5 | Performans sayacı verisi ETW üzerinden taşınabilir | **AÇIK** — `⚠️ VERIFICATION REQUIRED` (trace/ dalının T-W16–18 kapsamı) |
 
 | # | Karar | Gerekçe |
 |---|---|---|
-| 1 | Windows metrik **arayüzü** bu dosyada tarif edilmez | zero-hallucination: doğrulanmış URL yok |
-| 2 | Yalnız varlığı işaretlenir; detay yeni doğrulama turuna devredilir | 404 aday kayıt altındadır |
-| 3 | Apple metrik yüzeyi (mach host_statistics vb.) | ⚠️ VERIFICATION REQUIRED — bu turda aday doğrulanmadı |
+| 1 | Windows metrik **arayüzü** bu dosyada tarif edilir | PDH yüzeyi M-W28–M-W32 ile doğrulandı |
+| 2 | Sayaç **registry** adları yine yazılmaz | resmi registry sayfası doğrulanmadı (satır 4) |
+| 3 | ETW ile sayaç **taşıma** iddiası kapatılmaz | trace/ dalı konusudur; M-W28–32 PDH yolunu doğrular |
+| 4 | Apple metrik yüzeyi 2. turda kapandı | M-W33 (powermetrics), M-W34 (vm_stat), M-W35 (netstat) |
 
-## §11 Platform karşılaştırması — tek tablo
+## §10.1 macOS metrik yüzeyi — 2. turda kapandı (2026-10-14)
+
+| # | Yüzey | Ne verir | Kanıt |
+|---|---|---|---|
+| 1 | `powermetrics(1)` | CPU/güç/bellek istatistiği (smc, energy) | M-W33 (ayna, dipnotlu) |
+| 2 | `vm_stat(1)` | Mach bellek istatistiği (sayfa/aktif/pasif) | M-W34 (ayna, dipnotlu) |
+| 3 | `netstat(1)` | ağ istatistiği/connectivity | M-W35 (ayna, dipnotlu) |
+
+| # | Karar | Gerekçe |
+|---|---|---|
+| 1 | Üç araç da **sarmalayıcıdır** — doğrudan API syscall'ı değildir | Linux'taki `procps` (M-W2–M-W8) ile aynı sınıf |
+| 2 | `mach_host_statistics` (ham API) 2. turda **doğrulanmadı** | `⚠️ VERIFICATION REQUIRED` — API sayfası aday değildi |
+| 3 | Belge sürümü `UNKNOWN` | üçü de keith.github.io aynasından doğrulandı (dogrulama §1.1) |
+
+## §11 Platform karşılaştırması — tek tablo (2. tur güncellendi)
 
 | # | Konu | Linux | Windows | macOS |
 |---|---|---|---|---|
-| 1 | Birincil sayaç yüzeyi | /proc, /sys (M-W1) | performans sayacı ⚠️ (§10) | ⚠️ doğrulanmadı |
-| 2 | Donanım sayaçları | perf_event_open / PMU (M-W15, M-W18) | ⚠️ | ⚠️ |
-| 3 | Sarmalayıcı araç | perf stat, procps (M-W2…M-W8) | ⚠️ | ⚠️ |
-| 4 | Yük/kullanım gösterimi | top/free/uptime (M-W6, M-W7, M-W17) | ⚠️ | ⚠️ |
-| 5 | Kaynak limiti | cgroup v2 (M-W13) | ⚠️ | ⚠️ |
-| 6 | Sistem kimliği | uname (M-W8) | ⚠️ | ⚠️ |
+| 1 | Birincil sayaç yüzeyi | /proc, /sys (M-W1) | PDH API (M-W28–M-W32) | `powermetrics`/`vm_stat` (M-W33–34) |
+| 2 | Donanım sayaçları | perf_event_open / PMU (M-W15, M-W18) | `⚠️` (registry doğrulanmadı) | `⚠️` (mach API doğrulanmadı) |
+| 3 | Sarmalayıcı araç | perf stat, procps (M-W2…M-W8) | `Get-Counter`/`typeperf`/`logman`/`perfmon` (M-W24–27) | `powermetrics`/`vm_stat`/`netstat` (M-W33–35) |
+| 4 | Yük/kullanım gösterimi | top/free/uptime (M-W6, M-W7, M-W17) | perfmon/konsol (M-W27) | `vm_stat` (M-W34) |
+| 5 | Kaynak limiti | cgroup v2 (M-W13) | `⚠️` (job objesi doğrulanmadı) | `⚠️` (rlimit sayfası doğrulanmadı) |
+| 6 | Sistem kimliği | uname (M-W8) | `systeminfo` (`UNKNOWN` — bu turda aday değil) | `sw_vers` (`UNKNOWN` — bu turda aday değil) |
+| 7 | Ağ sayaçları | ethtool (M-W12) · vmstat (M-W22) · /proc/vmstat (M-W23) | `⚠️` (Get-NetAdapter aday değil) | `netstat` (M-W35) |
 
-> Tablonun ⚠️ hücreleri **bilinmeyen değil, doğrulanmamıştır** — aradaki fark
-> bu dosyanın kanıt disiplininin konusudur: doğrulanmayan iddia yazılmaz.
+> Tablonun kalan `⚠️` hücreleri **hâlâ doğrulanmamıştır** — 2. tur yalnız
+> PDH (Windows) ve üç macOS sarmalayıcıyı kapattı. Kalan `⚠️` hücreler
+> bir sonraki doğrulama turuna devredilir; doğrulanmayan iddia yazılmaz.
+
+## §11.1 vmstat düzeltmesi (2026-10-14)
+
+1. turda `vmstat.1` adayı HTTP 404'tü (kök §4 X2). 2. turda
+**`man8/vmstat.8.html`** (M-W22) bulunmuş ve 200 doğrulanmıştır.
+`proc_vmstat(5)` (M-W23) `/proc/vmstat` alan düzeyindeki karşılığıdır.
+Eski `vmstat.1` reddi §12 dipnotunda korunur (silinmez).
 
 ## §12 Resmi yapı taşları — URL envanteri (2026-10-13)
 
@@ -344,8 +375,8 @@ için bu dosyaya alınmamıştır (kök `-dogrulama.md` §4 X2, X6);
 | 4 | sistem özeti tek syscall ile okunur | M-W19 | — | doğrulandı (bu tur) |
 | 5 | yük kütüphane ile okunabilir | M-W20 | — | doğrulandı (bu tur) |
 | 6 | cgroup limit + kullanım birlikte okunur | M-W13 | — | doğrulandı |
-| 7 | Windows sayacı PDH ile okunur | — | — | **404 → ⚠️** (kök §4 X6) |
-| 8 | macOS metrik arayüzü | — | — | **doğrulanmadı → ⚠️** |
+| 7 | Windows sayacı PDH ile okunur | — | M-W28…M-W32 | **2. turda doğrulandı** (1. tur 404 → kapandı) |
+| 8 | macOS metrik arayüzü | — | M-W33…M-W35 | **2. turda doğrulandı** (ayna, dipnotlu) |
 | 9 | vmstat sayacı | — | — | **404 → kullanılmadı** |
 | 10 | irqsoff tracer sayfası | — | — | **404 → kullanılmadı** (bu tur) |
 | 11 | perf sched sayfası | — | — | **404 → kullanılmadı** (bu tur) |
@@ -377,7 +408,7 @@ için bu dosyaya alınmamıştır (kök `-dogrulama.md` §4 X2, X6);
 | 4 | donanım sayacı mı gerek? | perf_event_open (§3) | /proc / sysinfo (§2, §16) |
 | 5 | tek çağrıda özet mi lazım? | sysinfo(2) (§16) | /proc ayrıntısı |
 | 6 | yalnız yük mü? | getloadavg(3) (§16) | sysinfo / /proc |
-| 7 | Windows yüzeyi mi? | ⚠️ doğrulanmadı (§10) | Linux kaynakları |
+| 7 | Windows yüzeyi mi? | PDH API (§10, M-W28–32) | Linux kaynakları |
 
 | # | Seçim sonrası zorunlu kayıt | Neden |
 |---|---|---|
@@ -394,8 +425,8 @@ için bu dosyaya alınmamıştır (kök `-dogrulama.md` §4 X2, X6);
 | 2 | "sysinfo /proc okur" | ayrı syscall; veri yüzeyi kesişir | §16 |
 | 3 | "getloadavg 5 değer döndürür" | en fazla 3; hatada `-1` | M-W20 |
 | 4 | "load = CPU kullanımı" | CPU + I/O bekleyen | §5 |
-| 5 | "VM ile ölçülür" | vmstat adayı 404 | §17.9 |
-| 6 | "Windows sayacı doğrulandı" | PDH adayı 404 → ⚠️ | §10 |
+| 5 | "VM ile ölçülür" | vmstat.8 (M-W22) 2. turda doğrulandı | §11.1 |
+| 6 | "Windows sayacı doğrulandı" | PDH doğrulandı (M-W28–32); registry adları ⚠️ | §10 |
 | 7 | "repo'da metrik yoksa eksiktir" | tanımsızlıktır (O1) | §14 |
 | 8 | "periyot varsayılan 10 sn" | periyot `UNKNOWN` (O2) | §14 |
 | 9 | "cgroup cpu.stat anlık değer" | monotonik sayaçtır | §7 |
@@ -440,8 +471,9 @@ için bu dosyaya alınmamıştır (kök `-dogrulama.md` §4 X2, X6);
 | 7 | §7 cgroup/bellek | M-W13, M-W14 | URL | 200 |
 | 8 | §8 ağ sayaçları | M-W12, M-W1 | URL | 200 |
 | 9 | §9 sinyaller | M-W11 | URL | 200 |
-| 10 | §10 ETW/PDH | — | 404 aday | ⚠️ |
-| 11 | §11 platform matrisi | §1–§10 | sentez | kısmi ⚠️ |
+| 10 | §10 Windows PDH | M-W28–M-W32 (+ M-W24–27) | URL | 200 (2. tur) |
+| 10.1 | §10.1 macOS metrik | M-W33–M-W35 (ayna) | URL | 200 (2. tur, dipnotlu) |
+| 11 | §11 platform matrisi | §1–§10.1 | sentez | kısmi ⚠️ (kalan hücreler 3. tura) |
 | 12 | §12 URL envanteri | 18 kayıt | URL | 200 |
 | 13 | §13 K017 sınırı | — | sınır | devredildi |
 | 14 | §14 dürüstlük | — | kural | — |

@@ -20,7 +20,7 @@ evidence:
   - https://docs.kernel.org/admin-guide/cgroup-v2.html
   - shared/src/Middleware/MiddlewarePipeline.php:42
   - shared/src/AI/AIWorkflow.php:51
-validation: "2026-10-13 — metrik alt-dalının 16 URL'si (M-W1…M-W16) kök -dogrulama.md §2'de HTTP 200 doğrulanmış; 2 yeni URL (uptime.1, perf_event_open.2) bu turda webfetch ile HTTP 200 doğrulandı (envanter kesişimi 0); ETW performans sayacı/PDH adayı HTTP 404 → ⚠️; repo süre ölçüm satırları Read ile doğrulandı; bu indeks 40–100 satır hedefine göre yazıldı"
+validation: "2026-10-14 — §4 §GRUPLAR'a OS grupları satırı eklendi (metrik-anayasa §10/§10.1/§11 · metrik-surucu §10 · metrik-ornekler §7.1, kanıt M-W22–M-W35); dosya 102 satır (40–100 hedefinden +2 — bilinçli, OS satırı içeriğe değer kattı) | 2026-10-13 — metrik alt-dalının 16 URL'si (M-W1…M-W16) kök -dogrulama.md §2'de HTTP 200 doğrulanmış; 2 yeni URL (uptime.1, perf_event_open.2) bu turda webfetch ile HTTP 200 doğrulandı (envanter kesişimi 0); repo süre ölçüm satırları Read ile doğrulandı; bu indeks 40–100 satır hedefine göre yazıldı"
 open_questions:
   - "O1: OS-level metrik/log toplama (perf, ETW, journald, syslog) hedef mimaride var mı, yoksa yalnız uygulama logu mu? [UNKNOWN]"
   - "O2: Gözlemlenebilirlik üçlüsü (log/metric/trace) K002-altyapi içinde nasıl konumlanacak? [UNKNOWN]"
@@ -73,7 +73,7 @@ alanındadır.
 | mimari | `metrik-anayasa.md` | bağlayıcı tanım ve ilke seti | Kademe-4 |
 | mimari | `metrik-surucu.md` | mekanizma envanteri ve hata modları | Kademe-4 |
 | kod | `metrik-ornekler.md` | repo örnekleri ve olumsuz kanıt | Kademe-4 |
-
+| mimari | **OS grupları**: `metrik-anayasa.md` §10/§10.1 · `metrik-surucu.md` §10 · `metrik-ornekler.md` §7.1 | Linux/Windows/macOS (PDH M-W28–32 · powermetrics/vm_stat M-W33–34) haritası — kanıt M-W22–M-W35 | Kademe-4 |
 ## §5 Komşu sınırı
 
 | Konu | Gittiği dal | Bu daldaki karşılığı |

@@ -78,6 +78,7 @@ group: mimari
 | A-38 | Ayrım matrisi (OS test ↔ uygulama test ↔ K019) | Sınırın çizilmesi | bu dosya §C |
 | A-39 | Bağımlılık grafiği | Node'lar arası yön | bu dosya §D |
 | A-40 | Sınır komşuları | kernel, core, plan, security, observability, turu, K018, K019 | bu dosya §E |
+| A-41 | Windows/macOS/Linux taşınabilir test kodu (10 dil gruplu · P-01..P-10 · E-01..E-13) | Hedef OS = Linux, test kodu 3 OS'ta çalışır (kullanıcı kuralı 2026-10-14) | `isletim-sistemi-testing-cross-platform-ornekleri.md` §1-§5 |
 
 ### §A.2 Kapsam dışı
 
@@ -151,6 +152,8 @@ group: mimari
 | B-12 | `ci-ve-kalite-kapisi/ci-ve-kalite-kapisi-ornekler.md` | Kademe-4 | kod | `ci.yml` gerçek kod, `secret-scan.yml`, composer/package scriptleri | disk |
 
 Toplam: **12 dosya** (3 `index.md` + 9 içerik) + bu dosyanın bulunduğu kök 4 dosya = **16 dosya**.
+
+*2026-10-14 ölçüm notu (tahmin değil, disk sayımı):* kök dosya sayısı 4 değil **10**'dur (`index` · `kapsam` · `anayasa` · `dogrulama` · `surucu` · `riskler` · `web-arastirma` · `kod-ornekleri` · `ornekler` · `cross-platform-ornekleri`); bu dalın gerçek toplamı 12 + 10 = **22 dosya**. Üstteki satır tarihsel (2026-10-13) hedef sayımı olarak korunmuştur; §H matrisi güncel envanterin kaynağıdır.
 
 Ad kuralı: alt-dal içerik dosyalarının adları **değiştirilemez** — `*-anayasa.md` · `*-surucu.md` · `*-ornekler.md`.
 
@@ -334,6 +337,8 @@ Ad kuralı: alt-dal içerik dosyalarının adları **değiştirilemez** — `*-a
 | G-11 | URL envanteri (öncesi) | 2097 benzersiz URL | yeni revizyon başında |
 | G-12 | K019-testing'e girilen dosya | 0 | her zaman 0 |
 
+*2026-10-14 yeniden ölçümü (G-01 · disk sayımı):* kök testing dosya sayısı **4 → 10**; bu dal toplamı **22 dosya** (12 alt-dal + 10 kök). G-01'in "16" hedefi güncellenmiştir: yeni kök dosya `isletim-sistemi-testing-cross-platform-ornekleri.md` eklendi (bkz. §H H-17). G-02..G-12 değerleri bu tarihte yeniden ölçülmemiştir — değişiklik yok varsayılmaz, yalnız G-01 tazelendi.
+
 ## §H — Dosya-kademe-group matrisi
 
 | # | Dosya | Kademe | group | node_type | Sahip |
@@ -354,6 +359,7 @@ Ad kuralı: alt-dal içerik dosyalarının adları **değiştirilemez** — `*-a
 | H-14 | `ci-ve-kalite-kapisi/ci-ve-kalite-kapisi-anayasa.md` | Kademe-4 | mimari | module | bu dal |
 | H-15 | `ci-ve-kalite-kapisi/ci-ve-kalite-kapisi-surucu.md` | Kademe-4 | mimari | module | bu dal |
 | H-16 | `ci-ve-kalite-kapisi/ci-ve-kalite-kapisi-ornekler.md` | Kademe-4 | kod | module | bu dal |
+| H-17 | `isletim-sistemi-testing-cross-platform-ornekleri.md` | Kademe-2 | kod | module | bu dal (2026-10-14 eklendi) |
 
 ## §I — Kapsam içi riskler
 

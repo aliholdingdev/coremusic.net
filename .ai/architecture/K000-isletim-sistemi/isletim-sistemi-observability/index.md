@@ -20,7 +20,7 @@ evidence:
   - https://www.rfc-editor.org/rfc/rfc3164
   - shared/src/PageRouter/StructuredLogger.php:72
   - shared/src/Log/FileHandler.php:220
-validation: "2026-10-13 — 42 kanıt URL'si HTTP HEAD ile doğrulandı (42/42 HTTP 200; envanter 2097 ile kesişim 0) · StructuredLogger.php:72 ve FileHandler.php:220 satır içeriği diskten okundu · OS gözlemlenebilirlik aracı grep'i 0 isabet · alt-dal envanteri glob ile sayıldı (log/ metrik/ trace/ = 12 içerik dosyası)"
+validation: "2026-10-14 — §GRUPLAR'a OS grupları tablosu eklendi (log/metrik/trace × Linux/Windows/macOS bölüm haritası); Dosya indeksi 42 → 75 URL olarak güncellendi | 2026-10-13 — 42 kanıt URL'si HTTP HEAD ile doğrulandı (42/42 HTTP 200; envanter 2097 ile kesişim 0) · StructuredLogger.php:72 ve FileHandler.php:220 satır içeriği diskten okundu · OS gözlemlenebilirlik aracı grep'i 0 isabet · alt-dal envanteri glob ile sayıldı (log/ metrik/ trace/ = 12 içerik dosyası)"
 open_questions:
   - "O1: OS-level metrik/log toplama (perf, ETW, journald, syslog) hedef mimaride var mı, yoksa yalnız uygulama logu mu? [UNKNOWN]"
   - "O2: Gözlemlenebilirlik üçlüsü (log/metric/trace) K002-altyapi içinde nasıl konumlanacak? [UNKNOWN]"
@@ -39,7 +39,7 @@ group: mimari
 | Dosya | Ne içerir |
 |---|---|
 | [`isletim-sistemi-observability-kapsam.md`](isletim-sistemi-observability-kapsam.md) | Kapsam içi/dışı, OS↔uygulama ayrım matrisi, komşu sınırı, açık sorular |
-| [`isletim-sistemi-observability-dogrulama.md`](isletim-sistemi-observability-dogrulama.md) | 42 URL (42/42 HTTP 200) + 21 disk kanıtı + olumsuz kanıt matrisi |
+| [`isletim-sistemi-observability-dogrulama.md`](isletim-sistemi-observability-dogrulama.md) | 75 URL (75/75 HTTP 200) + disk kanıtı + olumsuz kanıt matrisi |
 | [`isletim-sistemi-observability-ornekler.md`](isletim-sistemi-observability-ornekler.md) | Gerçek repo kodu: StructuredLogger, FileHandler, Redactor, hrtime/microtime |
 
 ## K017 ayrımı (bağlayıcı)
@@ -81,5 +81,16 @@ yalnızca tarif eder.
 | mimari | `log/index.md` | OS günlük mimarisi alt-dalı künyesi | Kademe-3 |
 | mimari | `metrik/index.md` | OS metrik/sayaç alt-dalı künyesi | Kademe-3 |
 | mimari | `trace/index.md` | OS trace/eBPF alt-dalı künyesi | Kademe-3 |
+
+### OS grupları (2. tur genişletme — 2026-10-14)
+
+> Her üç alt-dal da **Linux · Windows · macOS** ekseninde genişletildi;
+> kanıt dengesi 1. tur 37:4:1 → **47:22:13** (toplam 75 × HTTP 200).
+
+| OS | Log (anayasa/sürücü/örnek) | Metrik (anayasa/sürücü/örnek) | Trace (anayasa/sürücü/örnek) |
+|---|---|---|---|
+| Linux | §8.1 journald/syslog/auditd · §17.1 · §21.1 | §10–§11 /proc,PMU · §10 · §7.1 | §2–§5 ftrace/eBPF · §1–§5 · §13 |
+| Windows | §8.1 Event Log/ReportEventW · §17.2 · §21.2 | §10 PDH (M-W28–32) · §10/§13 · §7.1.1 | §6/§6.1 ETW · §6.1 · §13.1 |
+| macOS | §8.1 os_log/Logger · §17.3 · §21.3 | §10.1 powermetrics/vm_stat · §10/§13 · §7.1.2 | §8 DTrace (ayna) · §10 · §13.1 |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

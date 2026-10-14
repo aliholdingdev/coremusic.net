@@ -12,7 +12,7 @@ evidence:
 validation:
   - "2026-10-13 · 3 resmi URL HEAD 200 · envanter kesişimi 0 · repo taraması (215 kaynak dosya) 0 AAudio isabeti"
 open_questions:
-  - "AAudio'un API 26 başlangıcı için doğrudan resmi sayfa bu turda alınamadı (envanter kilidi) → ⚠️ VERIFICATION REQUIRED"
+  - "AAudio'un API 26 başlangıcı için doğrudan resmi sayfa bu turda alınamadı (envanter kilidi) → ⚠️ VERIFICATION REQUIRED · 2026-10-14 tekrar denendi: /ndk/guides/audio/aaudio/aaudio (çift segment) + ana sayfa 2× GET — `Android 8`/`API 26` deseni 0 isabet → ⚠️ KALIR (kök dogrulama.md §P5)"
   - "CoreMusic Android hedefi ve minSdk kararı → UNKNOWN"
 group: mimari
 ---

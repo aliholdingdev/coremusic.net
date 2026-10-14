@@ -11,8 +11,9 @@ evidence:
 validation:
   - "2026-10-13 · §A-§F bölüm yapısı A görev tanımına göre yazıldı"
   - "2026-10-13 · kapsam dışı komşuları §E'de5 komşu ile sabitlendi"
+  - "2026-10-14 · §B satır 4 (aaudio 5 dosya) + §M kriter 1 (✅ 7/7) + §N değişiklik satırı güncellendi — disk glob kanıtı"
 open_questions:
-  - "✅ KAPANDI (2026-10-13): 4 dal da diskte (aaudio 4 · tizen-audio 4 · webos-audio 4 · reactos-audio 4 dosya); §B tablosu güncellendi"
+  - "✅ KAPANDI (2026-10-13): 4 dal da diskte (aaudio 4 · tizen-audio 4 · webos-audio 4 · reactos-audio 4 dosya); §B tablosu güncellendi — aaudio 2026-10-14'te 5 dosyaya çıktı (örnek dosyası)"
   - "Hedef platform önceliği (Q4) hâlâ UNKNOWN"
 group: mimari
 ---
@@ -80,7 +81,7 @@ ne komşuya devredilmiştir, ne de henüz kanıtlanmıştır.
 | 1 | `wasapi/` | Windows | 13 dosya · 5.740 sat | Win-SW ajanı | ✅ mevcut — dokunulmadı |
 | 2 | `alsa/` | Linux | 4 dosya | bu ajan | ✅ bu turda açıldı |
 | 3 | `coreaudio/` | macOS / iOS | 4 dosya | bu ajan | ✅ bu turda açıldı |
-| 4 | `aaudio/` | Android | 4 dosya | ✅ diskte | ✅ mevcut (önceki turda açılmış) |
+| 4 | `aaudio/` | Android | 5 dosya | ✅ diskte | ✅ mevcut (2026-10-14: `aaudio-ornekler.md` eklendi) |
 | 5 | `tizen-audio/` | Tizen | 4 dosya | ✅ diskte | ✅ 2026-10-13 açıldı |
 | 6 | `webos-audio/` | webOS | 4 dosya | ✅ diskte | ✅ 2026-10-13 açıldı |
 | 7 | `reactos-audio/` | ReactOS | 4 dosya | ✅ diskte | ✅ 2026-10-13 açıldı |
@@ -492,7 +493,7 @@ ne komşuya devredilmiştir, ne de henüz kanıtlanmıştır.
 
 | # | Kriter | Ölçüm | Durum |
 |---|---|---|---|
-| 1 | `children` = 7 dal ve her dal için `index.md` | disk glob | ⚠️ 4 eksik |
+| 1 | `children` = 7 dal ve her dal için `index.md` | disk glob | ✅ 7/7 (2026-10-14 ölçümü: wasapi 13 · alsa 4 · coreaudio 4 · aaudio 5 · reactos-audio 4 · tizen-audio 4 · webos-audio 4 = 42 dosya + kök 4) |
 | 2 | Her content dosyası ≥500 satır | satır sayacı | ✅ (bu tur) |
 | 3 | Her iddia URL/dosya/`UNKNOWN` taşır | `-dogrulama.md` §E/§F | ✅ |
 | 4 | Kapsam dışı listesi komşu ajanlarla çakışmıyor | §E imza satırları | ✅ |
@@ -506,5 +507,6 @@ ne komşuya devredilmiştir, ne de henüz kanıtlanmıştır.
 |---|---|---|
 | 2026-10-12 | İlk kayıt (100 satır · `wasapi/` tek deep-dal) | Vault Steward |
 | 2026-10-13 | §A-§N yapısına genişletildi; `alsa/` + `coreaudio/` envantere eklendi; `children` 7'ye çıktı | bu ajan |
+| 2026-10-14 | `aaudio/` 4→5 dosya (`aaudio-ornekler.md` — 7/7 dal örnek dosyası tamamlandı); §B satır 4 + §M kriter 1 güncellendi; kök `-ornekler.md` §16-§24 OS gruplaması eklendi | bu ajan |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

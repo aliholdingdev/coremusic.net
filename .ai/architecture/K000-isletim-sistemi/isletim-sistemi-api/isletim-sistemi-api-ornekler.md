@@ -13,7 +13,7 @@ evidence:
   - shared/tests/Repository/ApiKeyCreateCommandTest.php:248-269
   - home.coremusic.net/include/Stream/MusicStreamHandler.php:185-215
   - shared/src/PageRouter/ResponseEmitter.php:47-86
-validation: 2026-10-14 · dosya uzunlugu >=500 satir olcumu ve kaynak satir dogrulamasi Vault Steward tarafindan yapildi · §F sistem grupli ornekler + §G PHP grubu (17 php.net URL HEAD-200 · 5 VAR + 12 YENI · repo kaniti ApiKeyCreateCommandTest.php:248-269) + §I diger diller (Python/Go/Rust/C#/Node.js · 17 URL HEAD-200 · 17 YENI · kesisim 0 · dogrulama §U) · 4. tur: §H sistem-gruplu örnek haritası (ağaç geneli · 8 yeni URL · 196 URL HEAD turu) + §G.7 PHP syscall aileleri eki (2026-10-14 · 22 URL HEAD-200 · 6 VAR + 16 YENI · repo kaniti 7 satir)
+validation: 2026-10-14 · dosya uzunlugu >=500 satir olcumu ve kaynak satir dogrulamasi Vault Steward tarafindan yapildi · §F sistem grupli ornekler + §G PHP grubu (17 php.net URL HEAD-200 · 5 VAR + 12 YENI · repo kaniti ApiKeyCreateCommandTest.php:248-269) + §I diger diller (Python/Go/Rust/C#/Node.js · 17 URL HEAD-200 · 17 YENI · kesisim 0 · dogrulama §U) · 4. tur: §H sistem-gruplu örnek haritası (ağaç geneli · 8 yeni URL · 196 URL HEAD turu) + §G.7 PHP syscall aileleri eki (2026-10-14 · 22 URL HEAD-200 · 6 VAR + 16 YENI · repo kaniti 7 satir) · 5. tur devamı: §I.7 dosya I/O+dizin (5 dil) + §I.8 UDP (5 dil) + §I.9 kilit (OS gruplu) + §I.10 kanıt (2026-10-14 · 22 URL HEAD-200 · 9 VAR + 13 YENI · dogrulama §V)
 open_questions:
   - Q-P1 · platform-api hangi API yuzeyini kapsiyor · ⚠️ VERIFICATION REQUIRED
   - Q-P3 · hedef platform seti netlestirilmeli · ⚠️ VERIFICATION REQUIRED
@@ -1042,7 +1042,7 @@ her sistemde + PHP'de örnek" kuralının haritası. Eklenen bölümler 4. turdu
 
 | Dosya | Bölüm | Linux/POSIX | Windows | PHP | Not |
 |---|---|---|---|---|---|
-| isletim-sistemi-api-ornekler.md | §F · §G · §H · §I | §F.1 (C) | §F.1 §F.2-win eşlemesi | §B · §G.1-§G.7 | merkezî depo · §I (5. tur): Python·Go·Rust·C#·Node.js — ayrı "dil" sütunu yok, §I.0 eşleme tablosu bakılır |
+| isletim-sistemi-api-ornekler.md | §F · §G · §H · §I | §F.1 (C) | §F.1 §F.2-win eşlemesi | §B · §G.1-§G.7 | merkezî depo · §I (5. tur): Python·Go·Rust·C#·Node.js — ayrı "dil" sütunu yok, §I.0 eşleme tablosu bakılır · §I.7-§I.10 (5. tur devam): dosya/dizin · UDP · kilit (OS gruplu) |
 | syscall/syscall-mekanizmasi.md | §J · §E | §J.1-§J.2 (x86_64/libc C) | §F tablo (metin) | §E.1-§E.3 (repo) | makine katmanı |
 | syscall/syscall-hata-kodlari-ve-errno.md | §F.17-§F.18 | §F.17 (C) | — (§F.16 dürüstlük bloğu; errno↔WSAGetLastError eşlemesi bu dosyada YOK — bkz. posix-socket §F) | §F.17 (PHP) | hata katmanı · düzeltme 2026-10-14 |
 | sistem-cagrilari/sistem-cagrilari-ornekler.md | §6.20-§6.21 | §6.20: fork+execve · posix_spawn (C) | §6.20: CreateProcessW (C) | §6.20: proc_open · §6.21 kanıt | alt-numara etiketi yok — blok başlıkları düzeltildi |
@@ -1063,18 +1063,20 @@ doldurmamıştır; haritadaki boş hücreler bilinçli boşluktur.
 
 > §F (sistem bazlı C) ve §G (PHP) tamamlayıcıdır; bu bölüm aynı syscall
 > yüzeyini **diğer 5 dilde** gösterir. 17 resmi URL 2026-10-14'te HEAD-200
-> ile doğrulanmış, envanter kesişimi 0'dır (§I.6). Bloklar derlenebilirlik
-> iddiası TAŞIMAZ; kaynak §I.6 tablosudur.
+> ile doğrulanmış, envanter kesişimi 0'dır (§I.6). **§I.7-§I.10** (5. tur
+> devamı) eksik aileleri ekler — dosya I/O · dizin · durum · UDP · kilit
+> (OS gruplu): 22 URL daha (9 VAR + 13 YENİ), kaynak §I.10. Bloklar
+> derlenebilirlik iddiası TAŞIMAZ; kaynak §I.6 + §I.10 tablolarıdır.
 
 #### §I.0 — Dil ↔ katman eşleme tablosu
 
 | Dil | Süreç başlatma | Dosya I/O | Ağ | Hata ≙ errno | Doğrulanmış kaynak |
 |---|---|---|---|---|---|
-| Python | `subprocess.run` (fork+exec) | `open`/`fread` eşdeğeri | `socket` | `OSError.errno` | docs.python.org (5 URL, 200) |
-| Go | `exec.Command` (fork+exec) | `os.OpenFile` | `net.Listen`/`Dial` | `syscall.Errno` | pkg.go.dev (3 URL, 200) |
-| Rust | `std::process::Command` | `std::fs` | `std::net` | `io::Error` (OS errno) | doc.rust-lang.org (4 URL, 200) |
-| C#/.NET | `Process.Start` (CreateProcessW) | `FileStream` (CreateFileW) | `System.Net.Sockets` | `Win32Exception` | learn.microsoft.com (3 URL, 200) |
-| Node.js | `child_process.spawn` | `fs` | `net` | `errno`/`code` özellikleri | nodejs.org (2 URL, 200) |
+| Python | `subprocess.run` (fork+exec) | `open`/`fread` eşdeğeri | `socket` | `OSError.errno` | docs.python.org (7 URL, 200) |
+| Go | `exec.Command` (fork+exec) | `os.OpenFile` | `net.Listen`/`Dial` | `syscall.Errno` | pkg.go.dev (4 URL, 200) |
+| Rust | `std::process::Command` | `std::fs` | `std::net` | `io::Error` (OS errno) | doc.rust-lang.org (7 URL, 200) |
+| C#/.NET | `Process.Start` (CreateProcessW) | `FileStream` (CreateFileW) | `System.Net.Sockets` | `Win32Exception` | learn.microsoft.com/dotnet (8 URL, 200) |
+| Node.js | `child_process.spawn` | `fs` | `net` | `errno`/`code` özellikleri | nodejs.org (4 URL, 200) |
 
 #### §I.1 — Python grubu
 
@@ -1289,5 +1291,386 @@ try {
 3303 benzersiz URL, 2026-10-14 ölçümü). Repo-satır iddiası eklenmez — bu
 diller CoreMusic üretim kodunda kullanılmaz (PHP 8.4 tek backend dili, ADR-039);
 bloklar resmi dokümantasyon sarmalayıcılarıdır, üretim kodu değildir.
+
+#### §I.7 — Dosya I/O · dizin · durum (5 dil · 2026-10-14)
+
+> C: §F.1 (POSIX open/read/write/close) · windows-api-yuzeyi §12 (Win32
+> dosya yüzeyi) — PHP: §G.1 (fopen) + §G.7.2-§G.7.3 (mkdir/rmdir/scandir/
+> stat) — üçü de bu bölümde tekrarlanmaz. Temp yolu beş dilde de taşınabilir
+> seçilir (`tempfile` · `os.TempDir()` · `env::temp_dir()` ·
+> `Path.GetTempPath()` · `os.tmpdir()`); sabit `/tmp` üç OS'ta ortak değildir,
+> kullanılmaz. Her blok Windows · macOS · Linux üçünde de aynıdır — platform
+> ayrımı dilin taşıma katmanının içindedir.
+
+**Python:**
+
+```python
+import os
+import tempfile
+
+# open(2): O_RDWR|O_CREAT|O_TRUNC — üç OS'ta da aynı bayraklar
+dosya = os.path.join(tempfile.gettempdir(), "k000-io.bin")
+fd = os.open(dosya, os.O_RDWR | os.O_CREAT | os.O_TRUNC, 0o644)
+os.write(fd, b"payload\n")              # write(2)
+os.lseek(fd, 0, os.SEEK_SET)            # lseek(2)
+veri = os.read(fd, 64)                  # read(2)
+os.close(fd)                            # close(2)
+
+# dizin + durum: mkdir(2) · getdents(2) · stat(2)
+dizin = os.path.join(tempfile.gettempdir(), "k000-dir")
+os.makedirs(dizin, exist_ok=True)       # varsa sorun değil (üç OS'ta)
+girdiler = os.listdir(dizin)            # getdents(2)
+st = os.stat(dosya)                     # stat(2)
+print(veri, girdiler, st.st_size)
+os.remove(dosya)
+os.rmdir(dizin)
+```
+
+**Go:**
+
+```go
+package main
+
+import (
+    "fmt"
+    "os"
+    "path/filepath"
+)
+
+func main() {
+    dosya := filepath.Join(os.TempDir(), "k000-io.bin")
+    f, err := os.OpenFile(dosya, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0o644)
+    if err != nil {
+        panic(err)
+    }
+    f.Write([]byte("payload\n"))         // write(2)
+    f.Seek(0, 0)                         // lseek(2)
+    buf := make([]byte, 64)
+    f.Read(buf)                          // read(2)
+    f.Close()                            // close(2)
+
+    dizin := filepath.Join(os.TempDir(), "k000-dir")
+    os.MkdirAll(dizin, 0o755)            // mkdir(2) — mevcutsa sorun değil
+    os.ReadDir(dizin)                    // getdents(2)
+    st, err := os.Stat(dosya)            // stat(2)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println(st.Size())
+    os.Remove(dosya)
+    os.RemoveAll(dizin)
+}
+```
+
+**Rust:**
+
+```rust
+use std::env;
+use std::fs;
+use std::io::Write;
+
+fn main() -> std::io::Result<()> {
+    let dosya = env::temp_dir().join("k000-io.bin");
+    let mut f = fs::File::create(&dosya)?;     // O_WRONLY|O_CREAT|O_TRUNC
+    f.write_all(b"payload\n")?;                // write(2)
+    drop(f);                                   // close(2)
+
+    let dizin = env::temp_dir().join("k000-dir");
+    fs::create_dir(&dizin)?;                   // mkdir(2) — mevcutsa hata döner
+    fs::read_dir(&dizin)?;                     // getdents(2)
+    let st = fs::metadata(&dosya)?;            // stat(2)
+    println!("{}", st.len());
+    fs::remove_file(&dosya)?;
+    fs::remove_dir(&dizin)?;
+    Ok(())
+}
+```
+
+**C#/.NET:**
+
+```csharp
+using System;
+using System.IO;
+using System.Text;
+
+string dosya = Path.Combine(Path.GetTempPath(), "k000-io.bin");
+using (var fs = new FileStream(dosya, FileMode.Create, FileAccess.ReadWrite))
+{
+    byte[] veri = Encoding.UTF8.GetBytes("payload\n");
+    fs.Write(veri, 0, veri.Length);            // write(2) karşılığı
+    fs.Seek(0, SeekOrigin.Begin);              // lseek(2)
+    byte[] buf = new byte[64];
+    int n = fs.Read(buf, 0, buf.Length);       // read(2)
+    Console.WriteLine(Encoding.UTF8.GetString(buf, 0, n));
+}                                              // Dispose → close(2)
+
+string dizin = Path.Combine(Path.GetTempPath(), "k000-dir");
+Directory.CreateDirectory(dizin);              // mkdir(2) — mevcutsa sorun yok
+string[] girdiler = Directory.GetFileSystemEntries(dizin);  // getdents(2)
+long boyut = new FileInfo(dosya).Length;       // stat(2)
+Console.WriteLine($"{girdiler.Length} {boyut}");
+File.Delete(dosya);
+Directory.Delete(dizin);
+```
+
+**Node.js:**
+
+```javascript
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+
+const dosya = path.join(os.tmpdir(), 'k000-io.bin');
+const fd = fs.openSync(dosya, 'w+');           // O_RDWR|O_CREAT|O_TRUNC
+fs.writeSync(fd, 'payload\n');                 // write(2)
+const buf = Buffer.alloc(64);
+const n = fs.readSync(fd, buf, 0, 64, 0);      // read(2)
+fs.closeSync(fd);                              // close(2)
+
+const dizin = path.join(os.tmpdir(), 'k000-dir');
+fs.mkdirSync(dizin, { recursive: true });       // mkdir(2) — mevcutsa sorun değil
+const girdiler = fs.readdirSync(dizin);         // getdents(2)
+const boyut = fs.statSync(dosya).size;          // stat(2)
+console.log(buf.toString('utf8', 0, n), girdiler, boyut);
+fs.rmSync(dizin, { recursive: true, force: true });
+fs.rmSync(dosya, { force: true });
+```
+
+#### §I.8 — UDP · SOCK_DGRAM (5 dil · 2026-10-14)
+
+> TCP blokları §I.1-§I.5'tedir; UDP ayrı soket sınıfıdır (§F.5 eşlemesi).
+> C: udp-tcp-ve-tls-api §F.1-§F.2 (C TCP/UDP) · PHP: aynı dosya §F.3-§F.4 —
+> tekrar yok. Bloklar `bind(2)`'ye port 0 verir: OS boş port atar, çakışma
+> yaşanmaz; üç OS'ta da geçerlidir.
+
+**Python:**
+
+```python
+import socket
+
+alici = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+alici.bind(("127.0.0.1", 0))                  # bind(2) — port 0: OS boş port
+gonderen = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+gonderen.sendto(b"ping\n", alici.getsockname())  # sendto(2)
+veri, kaynak = alici.recvfrom(64)              # recvfrom(2) — gönderen adresiyle
+print(veri, kaynak)
+alici.close()                                  # close(2)
+gonderen.close()
+```
+
+**Go:**
+
+```go
+package main
+
+import (
+    "fmt"
+    "net"
+)
+
+func main() {
+    pkg, err := net.ListenPacket("udp", "127.0.0.1:0") // bind(2) — SOCK_DGRAM
+    if err != nil {
+        panic(err)
+    }
+    defer pkg.Close()                          // close(2)
+    c, err := net.Dial("udp", pkg.LocalAddr().String())
+    if err != nil {
+        panic(err)
+    }
+    c.Write([]byte("ping\n"))                  // sendto(2)
+    buf := make([]byte, 64)
+    n, addr, err := pkg.ReadFrom(buf)          // recvfrom(2)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println(string(buf[:n]), addr)
+}
+```
+
+**Rust:**
+
+```rust
+use std::net::UdpSocket;
+
+fn main() -> std::io::Result<()> {
+    let alici = UdpSocket::bind("127.0.0.1:0")?;        // bind(2) — SOCK_DGRAM
+    let gonderen = UdpSocket::bind("127.0.0.1:0")?;
+    gonderen.send_to(b"ping\n", alici.local_addr()?)?;  // sendto(2)
+    let mut buf = [0u8; 64];
+    let (n, kaynak) = alici.recv_from(&mut buf)?;       // recvfrom(2)
+    println!("{} {}", String::from_utf8_lossy(&buf[..n]), kaynak);
+    Ok(())                                              // Drop → close(2)
+}
+```
+
+**C#/.NET:**
+
+```csharp
+using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+
+using var alici = new UdpClient(new IPEndPoint(IPAddress.Loopback, 0)); // bind(2)
+using var gonderen = new UdpClient();
+byte[] veri = Encoding.UTF8.GetBytes("ping\n");
+int port = ((IPEndPoint)alici.Client.LocalEndPoint!).Port;
+gonderen.Send(veri, veri.Length, new IPEndPoint(IPAddress.Loopback, port)); // sendto(2)
+IPEndPoint kaynak = new(IPAddress.Any, 0);
+byte[] alinan = alici.Receive(ref kaynak);              // recvfrom(2)
+Console.WriteLine($"{Encoding.UTF8.GetString(alinan)} {kaynak}");
+```
+
+**Node.js:**
+
+```javascript
+const dgram = require('node:dgram');
+
+const alici = dgram.createSocket('udp4');
+alici.bind(0, '127.0.0.1', () => {                  // bind(2) — port 0
+    const gonderen = dgram.createSocket('udp4');
+    // sendto(2)
+    gonderen.send('ping\n', alici.address().port, '127.0.0.1', () => {
+        gonderen.close();                           // close(2)
+    });
+});
+alici.on('message', (msg, kaynak) => {              // recvfrom(2)
+    console.log(String(msg), kaynak);
+    alici.close();                                  // close(2)
+});
+```
+
+#### §I.9 — Kilit yüzeyi: OS gruplu yapılandırma (2026-10-14)
+
+| Grup | OS | Yüzey | Temsil |
+|---|---|---|---|
+| POSIX | Linux · macOS | `flock`/`fcntl` LOCK_EX | Python `fcntl` · Go `syscall.Flock` · C §F.1 |
+| Windows | Windows | `msvcrt.locking` | Python `msvcrt` |
+| Taşınabilir | Windows · macOS · Linux | PHP `LOCK_EX` · C# `FileShare.None` | PHP: §G.7.1 · C#: aşağıdaki blok |
+| ⚠️ Doğrulanmadı | üç OS | Node.js · Rust std kilit yüzeyi | blok YOK — VERIFICATION REQUIRED |
+
+**Python · POSIX grubu (Linux · macOS):**
+
+```python
+import fcntl
+import os
+import tempfile
+
+dosya = os.path.join(tempfile.gettempdir(), "k000-lock.txt")
+fd = os.open(dosya, os.O_RDWR | os.O_CREAT, 0o644)
+fcntl.flock(fd, fcntl.LOCK_EX)            # flock(2, LOCK_EX)
+os.write(fd, b"kilitli\n")
+fcntl.flock(fd, fcntl.LOCK_UN)            # LOCK_UN
+os.close(fd)
+```
+
+**Python · Windows grubu:**
+
+```python
+import msvcrt
+import os
+import tempfile
+
+dosya = os.path.join(tempfile.gettempdir(), "k000-lock.txt")
+fd = os.open(dosya, os.O_RDWR | os.O_CREAT, 0o644)
+msvcrt.locking(fd, msvcrt.LK_LOCK, 1)     # Windows kilidi — 1 bayt aralık
+os.write(fd, b"kilitli\n")
+msvcrt.locking(fd, msvcrt.LK_UNLCK, 1)
+os.close(fd)
+```
+
+**Go · POSIX grubu (Linux · macOS):**
+
+```go
+package main
+
+import (
+    "fmt"
+    "os"
+    "path/filepath"
+    "syscall"
+)
+
+func main() {
+    dosya := filepath.Join(os.TempDir(), "k000-lock.txt")
+    f, err := os.OpenFile(dosya, os.O_RDWR|os.O_CREATE, 0o644)
+    if err != nil {
+        panic(err)
+    }
+    defer f.Close()
+    if err := syscall.Flock(int(f.Fd()), syscall.LOCK_EX); err != nil { // flock(2)
+        panic(err)
+    }
+    f.Write([]byte("kilitli\n"))
+    fmt.Println("kilit icinde yazildi")
+    syscall.Flock(int(f.Fd()), syscall.LOCK_UN)                        // LOCK_UN
+}
+```
+
+> `syscall.Flock` yalnız Unix hedeflerinde tanımlıdır (GOOS build ayrımı —
+> pkg.go.dev/syscall); Windows derlemesinde bu sembol derlenmez. Windows
+> kilit yüzeyi `msvcrt` grubudur (yukarıdaki Python-Windows bloğu).
+
+**C# · taşınabilir grup (üç OS):**
+
+```csharp
+using System;
+using System.IO;
+using System.Text;
+
+string dosya = Path.Combine(Path.GetTempPath(), "k000-lock.txt");
+using (var fs = new FileStream(dosya, FileMode.OpenOrCreate,
+    FileAccess.ReadWrite, FileShare.None))
+{
+    byte[] veri = Encoding.UTF8.GetBytes("kilitli\n");
+    fs.Write(veri, 0, veri.Length);
+}
+// FileShare.None: aynı dosyayı ikinci açan paylaşma ihlali hatası alır.
+// Üç OS'ta derlenir; kilit semantiğinin OS'e bağlı garantisinin kaynağı
+// FileStream/FileShare dokümanıdır (§I.10).
+```
+
+**PHP (atıf):** `LOCK_EX` örneği §G.7.1'dedir — PHP stream katmanı üç OS'ta
+da aynıdır, tekrar yazılmaz. **C (atıf):** POSIX `flock(2)`/Win32 paylaşım
+yüzeyi bu bölümde tekrarlanmaz; dosya yüzeyi §F.1 (POSIX) ve
+windows-api-yuzeyi §12 (Win32) içindedir.
+
+**⚠️ Doğrulanmamış yüzey:** Node.js ve Rust standart kütüphanesinin dosya
+kiliti API'si doğrulanamadı — **VERIFICATION REQUIRED**; uydurma API ile blok
+yazılmadı (§I.0 ⚠️ (k.2) hücresiyle aynı dürüstlük).
+
+#### §I.10 — §I.7-§I.9 kanıt tablosu (2026-10-14 · HEAD-200 · kayıt: dogrulama §V)
+
+| # | URL | Status | Envanter | Kullanım |
+|---|---|---|---|---|
+| 1 | `https://docs.python.org/3/library/os.html` | 200 | VAR | §I.6 · §I.7 |
+| 2 | `https://docs.python.org/3/library/subprocess.html` | 200 | VAR | §I.6 |
+| 3 | `https://docs.python.org/3/library/socket.html` | 200 | VAR | §I.6 · §I.8 |
+| 4 | `https://docs.python.org/3/library/fcntl.html` | 200 | YENİ | §I.9 |
+| 5 | `https://docs.python.org/3/library/msvcrt.html` | 200 | YENİ | §I.9 |
+| 6 | `https://pkg.go.dev/os` | 200 | YENİ | §I.7 |
+| 7 | `https://pkg.go.dev/os/exec` | 200 | VAR | §I.6 |
+| 8 | `https://pkg.go.dev/net` | 200 | VAR | §I.6 · §I.8 |
+| 9 | `https://pkg.go.dev/syscall` | 200 | VAR | §I.6 · §I.9 |
+| 10 | `https://doc.rust-lang.org/std/fs/index.html` | 200 | YENİ | §I.7 |
+| 11 | `https://doc.rust-lang.org/std/process/index.html` | 200 | YENİ | §I.3 (modül indeksi) |
+| 12 | `https://doc.rust-lang.org/std/net/index.html` | 200 | YENİ | §I.8 |
+| 13 | `https://learn.microsoft.com/en-us/dotnet/api/system.io.filestream` | 200 | YENİ | §I.7 · §I.9 |
+| 14 | `https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process` | 200 | VAR | §I.6 |
+| 15 | `https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.tcplistener` | 200 | YENİ | §I.4 (TcpListener tipi) |
+| 16 | `https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient` | 200 | YENİ | §I.8 |
+| 17 | `https://learn.microsoft.com/en-us/dotnet/api/system.io.directory` | 200 | YENİ | §I.7 |
+| 18 | `https://learn.microsoft.com/en-us/dotnet/api/system.io.fileinfo` | 200 | YENİ | §I.7 |
+| 19 | `https://nodejs.org/api/fs.html` | 200 | YENİ | §I.7 |
+| 20 | `https://nodejs.org/api/child_process.html` | 200 | VAR | §I.6 |
+| 21 | `https://nodejs.org/api/net.html` | 200 | VAR | §I.6 |
+| 22 | `https://nodejs.org/api/dgram.html` | 200 | YENİ | §I.8 |
+
+Özet: 22/22 HEAD-200 · envanter kesişimi **9 VAR + 13 YENİ** — VAR'lar §I.6
+ve önceki turlarda zaten kayıtlıdır (tekrarın kanıtı, yeni iddia değil).
+Envanter (bu ek öncesi ölçüm): `.ai/architecture/**` = **1020 md · 3679
+benzersiz URL**. Repo-satır iddiası 0 (ADR-039): bu diller CoreMusic üretim
+kodunda kullanılmaz; bloklar resmi dokümantasyon sarmalayıcılarıdır.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

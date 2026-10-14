@@ -33,7 +33,7 @@ group: kanit
 
 > **Kural:** Her iddia satiri bir kanita baglidir. Dogrulanamayan iddia `⚠️ VERIFICATION REQUIRED` / `UNKNOWN` olarak isaretlenir; uydurulmaz.
 
-## §1 — Web kanitlari (HTTP 200 · 2026-10-13 · envanter disi)
+## §1 — Web kanitlari (HTTP 200 · 2026-10-13 · envanter disi · 3. tur 2026-10-14: §15)
 
 ### §1.1 Ana kanit matrisi (bu subdomainin dayandigi 6 birincil kaynak)
 
@@ -309,7 +309,7 @@ group: kanit
 
 > **Durluk beyani:** Bu dosyada "repo'da OS araci yoktur" kanitlanmistir; "OS araci eklenmelidir" **kanitlanmamistir** — bu bir mimari karardir (S1) ve `>=088` numarali yeni bir ADR gerektirir.
 
-## §7 — Olcum ozeti (2026-10-13)
+## §7 — Olcum ozeti (2026-10-13 · 3. tur 2026-10-14: §15)
 
 | Metrik | Deger |
 |---|---|
@@ -503,5 +503,29 @@ git status --porcelain -- '.ai/architecture/K000-isletim-sistemi/isletim-sistemi
 > yeniden kullanilmaz (carsamba carpani yok). Bir iddia iki seride gorunurse — ornek: bir
 > URL hem `W-` hem `U-` serisinde — bu kasitlidir (`W-` birincil kaniti, `U-` defteri tasir;
 > sayim `U-` serisinden yapilir, boylece 68 sayimi iki katina cikmaz).
+
+## §15 — Üçüncü tur ölçüm kaydı (2026-10-14 · 24 OS kartı genişlemesi)
+
+| # | Ölçüm | Değer | Karar |
+|---|---|---|---|
+| V-01 | Kapsam dosya sayısı | 16 → **40** (16 temel + 24 OS kartı, 8 platform × 3 alt-dal) | hedefe ulaştı |
+| V-02 | Ana URL doğrulama | 87/87 benzersiz URL HTTP 200 (2026-10-14) · ham çıktı `C:\temp\opencode\sec-urls-2026-10-14.txt` | GECTİ |
+| V-03 | Kart subagentı ek doğrulamaları (tur raporu beyanı) | Windows 17/17 · Linux 22 okundu + 2 yazılmadı · webOS 14/14 · iOS 8+12+10 · Android 4 ek · macOS 21 doğrulandı + 12 reddedildi (10×404, 2×konu uyuşmazlığı) · ReactOS 7 doğrulandı + 2 reddedildi (404) · Tizen 6/6 | reddedilenler yazılmadı |
+| V-04 | Disk kanıtı (olumlu) | 43 (1.–2. tur) + 3. tur ek taramalar = 46 | 0 uydurma satır |
+| V-05 | Negatif kanıt (OS aracı) | macOS 729 dosya → 0 isabet · ReactOS 721 dosya → 0 isabet · Tizen 418 PHP+JS → 3 isabet (üçü de UA algılama: `breakpoints.js:31`, `breakpoints.spec.js:54`, `DeviceDetector.php:33`) | GECTİ |
+| V-06 | Ölçüm standardı düzeltmesi | eski "215 dosya" ölçümü kapsamı yanlış (CSS/SQL/vendor dahil) → **canonical 418 PHP+JS** (320 PHP + 98 JS, vendor/node_modules hariç) | 215 geçersiz, 418 geçerli |
+| V-07 | Yapısal denetim (40/40) | kart 150–260: 24/24 (154–258 arası) · içerik >=500: 12/12 · index 40–100: 4/4 · `parent:` 0 · `group: kod` 24/24 · Authority 24/24 · S1/S2 açık 40/40 | GECTİ |
+| V-08 | `git commit` | ATILMADI — 24 yeni kart diskte untracked (subagent yasağı, orkestratöre ait) | yasak korundu |
+
+> **Bilerek boş bırakılanlar (korunacak):** iOS 2 kartında 2 boş URL + 2 `⚠️`;
+> Linux kartında lockdown/posix_acl yazılmadı (`⚠️`); webOS kartında secure boot/LSM/
+> seccomp eşleşmedi (`⚠️`); macOS kartında `sandbox-exec` kalıbı ve denetim-sırası
+> iddiası (`⚠️`); ReactOS kartında uygulama uyumlulama yüzdesi `UNKNOWN`. Ayrıca
+> `docs.tizen.org` 2 URL 200 dönüyor ama 302 ile aynı açılış sayfasına düşüyor →
+> "taşıma kaydı, kanıt değil" olarak işaretlendi. Doğrulanamayan hiçbir iddia yazılmadı.
+
+> **Eşik yorumu:** içerik dosyaları için 500 **alt** sınırdır (499 başarısız) —
+> §2.4 kuralı gereği tüm içerik dosyaları 500+ satırdır; 150–260 bandı yalnız
+> yeni OS kartlarına uygulanır.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

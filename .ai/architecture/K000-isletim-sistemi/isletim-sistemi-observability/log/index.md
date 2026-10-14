@@ -18,7 +18,7 @@ evidence:
   - shared/src/PageRouter/StructuredLogger.php:72
   - shared/src/Log/FileHandler.php:220
   - shared/src/Log/Redactor.php:31
-validation: "2026-10-13 — log alt-dalının 14 URL'si (L-W1…L-W14) kardeş dosyalarda HTTP 200 ile doğrulanmış; log-anayasa.md ve log-surucu.md diskten okundu (bölüm başlıkları + §5/§15 kaynakça); repo satırları Read ile doğrulandı; bu indeks 40–100 satır hedefine göre yazıldı"
+validation: "2026-10-14 — §4 §GRUPLAR'a OS grupları satırı eklendi (log-anayasa §8.1 · log-surucu §17 · log-ornekler §21, kanıt L-W18–L-W27); dosya 101 satır (40–100 hedefinden +1 — bilinçli, OS satırı içeriğe değer kattı) | 2026-10-13 — log alt-dalının 14 URL'si (L-W1…L-W14) kardeş dosyalarda HTTP 200 ile doğrulanmış; log-anayasa.md ve log-surucu.md diskten okundu (bölüm başlıkları + §5/§15 kaynakça); repo satırları Read ile doğrulandı; bu indeks 40–100 satır hedefine göre yazıldı"
 open_questions:
   - "O1: OS-level metrik/log toplama (perf, ETW, journald, syslog) hedef mimaride var mı, yoksa yalnız uygulama logu mu? [UNKNOWN]"
   - "O2: Gözlemlenebilirlik üçlüsü (log/metric/trace) K002-altyapi içinde nasıl konumlanacak? [UNKNOWN]"
@@ -71,6 +71,7 @@ yazan kod **yoktur** (grep 0 isabet). Uygulama/dağıtık log desenleri
 | mimari | `log-anayasa.md` | bağlayıcı tanım ve ilke seti | Kademe-4 |
 | mimari | `log-surucu.md` | mekanizma envanteri ve hata modları | Kademe-4 |
 | kod | `log-ornekler.md` | repo örnekleri ve olumsuz kanıt | Kademe-4 |
+| mimari | **OS grupları**: `log-anayasa.md` §8.1 · `log-surucu.md` §17 · `log-ornekler.md` §21 | Linux/Windows/macOS anayasa+sürücü+örnek haritası — kanıt L-W18–L-W27 | Kademe-4 |
 
 ## §5 Komşu sınırı
 

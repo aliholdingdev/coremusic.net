@@ -21,7 +21,7 @@ evidence:
   - shared/src/AI/ToolCalling.php:85
   - shared/src/Security/UuidV7.php:19
   - .github/workflows/ci.yml
-validation: "2026-10-13 — tüm repo satırları Read/grep ile diskten okundu; OS trace aracı deseni (ftrace|tracefs|kprobe|tracepoint|perf_event|bpftool|bpf(|EventWrite|wevtutil|logman|dtrace|ktrace|OpenTelemetry|otlp) php/js/yml/json/c/cpp/h yüzeyinde 0 isabet; ci.yml trace aracı yok (grep 0 isabet + tam dosya okundu); macOS DTrace/ktrace ve PDH resmi URL doğrulanmadı → ⚠️; sayısal süre/overhead değeri yazılmadı; bu dosya 380–460 satır hedefine göre yazıldı; 2. tur: T-W14 (evntprov EventWrite ailesi) ve T-W15 (docs.kernel.org/trace index) webfetch HTTP 200; ci.yml tam dosya envanteri §24'e eklendi (6 job, trace aracı yok, timeout/cancel-in-progress satır numaralarıyla); 404 redleri: trace/irqsoff-tracer.html, perf-sched.8, logger.8, openlog.3.html içerik yanıltma (syslog(3) sayfası döndü — L-W1 olarak sayılmadı); dosya 419 non-blank satır"
+validation: "2026-10-14 — §11 ⚠️ tablosu 2. tur durumuyla güncellendi (macOS DTrace → KISMI KAPANDI T-W19–22 ayna dipnotlu; PDH → KAPANDI M-W28–32 metrik dalında; trace-cmd + ETW kprobe eşleniği hâlâ açık); §13 12 satıra genişletildi + §13.1 komut kalıpları eklendi (dtrace/fs_usage/sample · logman/tracerpt — bayrak sürüm notu UNKNOWN ile); §15.6 güncellendi; §19.6–7 kapatıldı; §21.9 güncellendi; §25.10/§25.12 harita satırları + §26.6–8 durumları güncellendi | 2026-10-13 — tüm repo satırları Read/grep ile diskten okundu; OS trace aracı deseni (ftrace|tracefs|kprobe|tracepoint|perf_event|bpftool|bpf(|EventWrite|wevtutil|logman|dtrace|ktrace|OpenTelemetry|otlp) php/js/yml/json/c/cpp/h yüzeyinde 0 isabet; ci.yml trace aracı yok (grep 0 isabet + tam dosya okundu); sayısal süre/overhead değeri yazılmadı; 2. tur: T-W14 (evntprov EventWrite ailesi) ve T-W15 (docs.kernel.org/trace index) webfetch HTTP 200; ci.yml tam dosya envanteri §24'e eklendi; 404 redleri: trace/irqsoff-tracer.html, perf-sched.8, logger.8, openlog.3.html içerik yanıltma (syslog(3) sayfası döndü — L-W1 olarak sayılmadı)\""
 open_questions:
   - "O1: OS-level trace toplama (ftrace, ETW oturumu, eBPF) hedef mimaride var mı, yoksa yalnız uygulama traceId'si mi? [UNKNOWN]"
   - "O2: Gözlemlenebilirlik üçlüsü (log/metric/trace) K002-altyapi içinde nasıl konumlanacak? [UNKNOWN]"
@@ -197,17 +197,18 @@ diskten okunmuştur; hiçbir satır hafızadan yazılmamıştır.
 | 2 | "hrtime latency ölçüyor" | hrtime uygulama içi aralıktır; OS latency ölçümü değildir |
 | 3 | "CI'da strace var" | grep 0 isabet (§8) |
 
-## §11 ⚠️ VERIFICATION REQUIRED kayıtları
+## §11 ⚠️ VERIFICATION REQUIRED kayıtları (2. tur güncellendi — 2026-10-14)
 
-| # | İddia | Neden ⚠️ | Kaynak |
-|---|---|---|---|
-| 1 | macOS trace (DTrace/ktrace) | resmi URL doğrulanmadı | kök `-dogrulama.md` §15.1 (§474 kaydı da aynı) |
-| 2 | Windows PDH toplama | aday URL HTTP 404 | kök `-dogrulama.md` §4 X6 · §15.2 |
-| 3 | `trace-cmd` aracının sürüm/komut yüzeyi | bu turda doğrulanamadı | kullanılmadı (`-anayasa` §12 reddedilenler) |
-| 4 | ETW'de kprobe eşleniği | doğrulanmış eşlenik yok | `⚠️` (`-anayasa` §8) |
+| # | İddia | Neden ⚠️ | Kaynak | 2. tur durumu |
+|---|---|---|---|---|
+| 1 | macOS trace (DTrace/ktrace) | 1. turda resmi URL doğrulanmadı | kök `-dogrulama.md` §15.1 | **KISMI KAPANDI** — T-W19–T-W22 ayna ile HTTP 200 (dipnotlu); Apple'ın kendi sayfası + hedef sürüm `UNKNOWN` |
+| 2 | Windows PDH toplama | 1. turda aday URL HTTP 404 | kök `-dogrulama.md` §4 X6 · §15.2 | **KAPANDI (metrik dalında)** — M-W28–M-W32 doğru yollarla HTTP 200; bu dalın dışı |
+| 3 | `trace-cmd` aracının sürüm/komut yüzeyi | bu turda doğrulanamadı | kullanılmadı (`-anayasa` §12 reddedilenler) | **AÇIK** — bu turda da aday değildi |
+| 4 | ETW'de kprobe eşleniği | doğrulanmış eşlenik yok | `⚠️` (`-anayasa` §8) | **AÇIK** — 2. turda aday değildi |
 
-> Bu iddialar bu dosyada **tarif bile edilmez**; yalnızca varlıkları ve
-> doğrulanmamış oldukları kaydedilir. Doğrulanana kadar URL **yazılmaz**.
+> Kalan ⚠️ (3, 4) ve kısmen 1 **hiçbir bölümde kanıt olarak kullanılmaz**;
+> doğrulanana kadar URL **yazılmaz**. 1 ve 2'nin kapanışı kök
+> `-dogrulama.md` §1.1/§2.1/§3.1'dedir.
 
 ## §12 Ölçüm — repo yüzeyinde de sayı yok
 
@@ -226,7 +227,7 @@ diskten okunmuştur; hiçbir satır hafızadan yazılmamıştır.
 | 3 | "yok" deseni belirtilir | §9 desen+Yüzey+Sonuç |
 | 4 | doğrulanmayan URL yazılmaz | §11 |
 
-## §13 OS araç referansı — tarif amaçlı (repo'da hiç çağrılmıyor)
+## §13 OS araç referansı — tarif amaçlı (repo'da hiç çağrılmıyor · 2. tur dolduruldu)
 
 | # | Araç | Platform | Ne yapar | Kaynak durumu |
 |---|---|---|---|---|
@@ -235,11 +236,53 @@ diskten okunmuştur; hiçbir satır hafızadan yazılmamıştır.
 | 3 | eBPF (`bpf(2)`) | Linux | programlanabilir olay mantığı | T-W7, T-W8, verifier/helpers/ringbuf ✅ (yeni) |
 | 4 | `perf record`/`perf script` | Linux | örnekleme kaydı + çözümleme | T-W10, T-W11 ✅ |
 | 5 | `evntrace`/`evntcons` | Windows | ETW oturumu + tüketici | T-W12, T-W13 ✅ |
-| 6 | DTrace/ktrace | macOS | ⚠️ VERIFICATION REQUIRED | resmi URL doğrulanmadı |
-| 7 | PDH | Windows | ⚠️ (metrik dalı) | aday URL 404 |
+| 6 | `logman`/`tracerpt` | Windows | ETW oturumu yönetimi + ETL → rapor | T-W16, T-W17 ✅ (2. tur) |
+| 7 | `dtrace(1)` | macOS | dinamik izleme derleyicisi/izleyicisi | T-W19 ✅ (2. tur, **ayna** — dipnotlu) |
+| 8 | `fs_usage(1)` | macOS | dosya sistemi/çağrı izlemesi | T-W20 ✅ (2. tur, ayna) |
+| 9 | `sample(1)` | macOS | süreç CPU örnekleme profili | T-W21 ✅ (2. tur, ayna) |
+| 10 | `otool(1)` | macOS | Mach-O ikili yapısı/sembol inceleme | T-W22 ✅ (2. tur, ayna) |
+| 11 | PDH | Windows | performans sayacı toplama | M-W28–M-W32 ✅ (**metrik** dalı, bu dalın dışı) |
+| 12 | ETW'de kprobe eşleniği | Windows | dinamik prob | ⚠️ doğrulanmadı |
 
 > Hiçbiri repo'da çağrılmıyor (§9); tablo **tariftir**, repo davranışı
-> **değildir**.
+> **değildir**. macOS satırları keith.github.io **üçüncü taraf aynasından**
+> doğrulanmıştır; hedef sürüm kullanılabilirliği `UNKNOWN`.
+
+### §13.1 OS örnek — komut kalıpları (tarif, repo dışı)
+
+```bash
+# macOS — dtrace(1) (T-W19, ayna)
+sudo dtrace -n 'syscall::write:entry { printf("%d %s\n", pid, execname); }'
+
+# macOS — fs_usage(1) dosya sistemi izleme (T-W20, ayna)
+sudo fs_usage -w -f filesystem
+
+# macOS — sample(1) süreç CPU profili (T-W21, ayna)
+sample 1234 5 -file /tmp/profile.txt
+```
+
+```powershell
+# Windows — logman ETW oturumu başlat/sdur (T-W16)
+logman start MyTrace -p "Microsoft-Windows-Kernel-Process" 0xFFFFFFFF -ets
+logman stop MyTrace -ets
+
+# Windows — tracerpt ETL → rapor (T-W17)
+tracerpt C:\traces\MyTrace.etl -o report.html -of HTML
+```
+
+| # | Kalıp | OS | Kanıt |
+|---|---|---|---|
+| 1 | `dtrace -n 'syscall::…'` | macOS | T-W19 (ayna) |
+| 2 | `fs_usage -w -f filesystem` | macOS | T-W20 (ayna) |
+| 3 | `sample <pid> <süre>` | macOS | T-W21 (ayna) |
+| 4 | `logman start/stop -ets` | Windows | T-W16 |
+| 5 | `tracerpt <etl> -o <çıktı>` | Windows | T-W17 |
+
+> **Bayrak notu (zero-hallucination):** Komut satırlarındaki bayraklar
+> (`-n`, `-w`, `-f`, `-ets`, `-o`, `-of`) man sayfasındaki **genel** bayrak
+> ailesindendir; bayrağın **hedef sürümde** tam davranışı `UNKNOWN` (ayna
+> sayfası sürüm bağlamı taşımaz). Kalıplar **tariftir** — repo'da hiçbiri
+> çağrılmaz (§9 grep 0 isabet).
 
 ## §14 K017 sınırı — bu dosyanın dokunmadığı alanlar
 
@@ -261,7 +304,8 @@ diskten okunmuştur; hiçbir satır hafızadan yazılmamıştır.
 | 3 | CI kanıtı | `.github/workflows/ci.yml` | tam dosya okundu + grep 0 |
 | 4 | OS trace URL'leri | kök `-dogrulama.md` T-W1…T-W13 | HTTP 200 |
 | 5 | yeni URL'ler | `bpf/verifier.html` · `bpf/helpers.html` · `bpf/ringbuf.html` | HTTP 200 (2026-10-13) |
-| 6 | ⚠️ kayıtları | macOS DTrace/ktrace · PDH | kök `-dogrulama.md` §15.1, §15.2, §4 X6 |
+| 6 | 1. tur ⚠️ kayıtları | macOS DTrace/ktrace · PDH | kök `-dogrulama.md` §15.1, §15.2, §4 X6 — **2. turda kapandı** (bkz §11) |
+| 7 | 2. tur URL'leri (2026-10-14) | T-W16–T-W18 (Windows ETW toplama) · T-W19–T-W22 (macOS ayna) · T-W23 (Apple portal) | HTTP 200 (kök §2.1, §3.1) |
 
 ## §16 Açık sorular
 
@@ -340,8 +384,8 @@ diskten okunmuştur; hiçbir satır hafızadan yazılmamıştır.
 | 3 | `traceId` alanı boşsa | `FileHandler.php:213` | ek konmaz | "trace yok" **uydurulmaz** |
 | 4 | `hrtime` latency sanılırsa | §5 | uygulama içi süre | yanlış sınıflandırma önlenir |
 | 5 | `microtime` aralığı NTP ile sıçrarsa | §6 | aralık bozulabilir | yalnız rapor |
-| 6 | macOS trace iddiası | §11.1 | resmi URL yok | `⚠️` |
-| 7 | PDH adayı 404 | §11.2 | metrik dalı | `⚠️` |
+| 6 | macOS trace iddiası | §11.1 | ayna-kanıtlı + sürüm-bilinmeyen | §11 |
+| 7 | PDH adayı 404 | §11.2 | metrik dalı — M-W28–32 ile kapandı | §11 |
 | 8 | `trace-cmd` doğrulanamadı | §11.3 | kullanılmadı | kanıtsız geçmez |
 | 9 | ETW kprobe eşleniği doğrulanmadı | §11.4 | — | `⚠️` |
 | 10 | trace kapalıyken "olay yok" denmesi | anayasa §9.4 | yanıltıcı | "iz yok" denir |
@@ -386,7 +430,7 @@ diskten okunmuştur; hiçbir satır hafızadan yazılmamıştır.
 | 6 | "repo'da trace yok = gereksiz" | tanımsızlık (O1) | §9 |
 | 7 | "OS araçları tarif ediliyorsa repo'da var" | tablo tariftir, repo **değildir** | §13 |
 | 8 | "ETW yazımı = PDH okuması" | farklı API ailesi | §13, surucu §15 |
-| 9 | "macOS'ta da aynı" | doğrulanmadı → `⚠️` | §11 |
+| 9 | "macOS'ta da aynı" | yalnız ayna-kanıtlı (T-W19–22, dipnotlu); hedef sürüm `UNKNOWN` | §11 |
 | 10 | "perf record = perf stat" | örnekleme kaydı vs sayma toplamı | §13.4 |
 
 ## §22 Bu tur ek doğrulanan / reddedilen kaynaklar (2026-10-13)
@@ -458,9 +502,9 @@ diskten okunmuştur; hiçbir satır hafızadan yazılmamıştır.
 | 7 | §8 CI | disk + grep | 0 isabet |
 | 8 | §9 grep matrisi | grep | 0 isabet (9 desen) |
 | 9 | §10 ayrım matrisi | sentez | — |
-| 10 | §11 ⚠️ kayıtları | — | 4 kayıt ⚠️ |
+| 10 | §11 ⚠️ kayıtları | — | 4 kayıt: 2 kapandı (macOS kısmen + PDH), 2 açık |
 | 11 | §12 ölçüm | sentez | sayı `UNKNOWN` |
-| 12 | §13 OS araç referansı | URL | T-W serisi 200 |
+| 12 | §13 OS araç referansı (+ §13.1 örnek) | URL | T-W serisi 200 (+8 yeni: T-W16–23) |
 | 13 | §14 K017 sınırı | — | devredildi |
 | 14 | §15 kaynakça | URL | 200 |
 | 15 | §16 açık sorular | — | O1–O3 |
@@ -488,8 +532,8 @@ diskten okunmuştur; hiçbir satır hafızadan yazılmamıştır.
 | 3 | halka tamponu taşması/kaybı | halka tamponu yok | [UNKNOWN] |
 | 4 | `hrtime` süre **değeri** | değer okunmadı, yalnız yöntem | [UNKNOWN] |
 | 5 | traceId biçimi/uzunluğu | üretici kod okundu; şema yok | [UNKNOWN] |
-| 6 | macOS trace arayüzü | resmi URL yok | ⚠️ |
-| 7 | Windows PDH | aday 404 | ⚠️ |
+| 6 | macOS trace arayüzü | resmi URL yok → **ayna kapandı** (T-W19–22, dipnotlu) | kısmen ⚠️ (hedef sürüm `UNKNOWN`) |
+| 7 | Windows PDH | 404 → **M-W28–32 ile kapandı** (metrik dalı) | kapandı |
 | 8 | ETW kprobe eşleniği | doğrulanmadı | ⚠️ |
 
 | # | Kural | Neden |

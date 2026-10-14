@@ -11,7 +11,10 @@ evidence:
   - https://man7.org/linux/man-pages/man2/open.2.html
   - https://pubs.opengroup.org/onlinepubs/9799919799/functions/mmap.html
   - https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessw
-validation: "2026-10-13 · repo satır kanıtları Select-Object -Index ile doğrulandı · çekirdek kodu YOK"
+  - https://developer.apple.com/documentation/iokit
+  - https://samsungtizenos.com/docs/application/native/guides/multimedia/media-playback
+  - https://www.webosose.org/docs/guides/getting-started/introduction-to-ls2-api/
+validation: "2026-10-13 → 2026-10-14 · §K.2 OS gruplu örnekler eklendi (6 OS · Linux hariç) · 25 yeni URL HEAD 200 · envanter kesişimi 0 · repo satır kanıtları Select-Object -Index ile doğrulandı · çekirdek kodu YOK"
 open_questions:
   - "core ↔ kernel sınırı (Q2) doğrulanamadı → açık"
   - "Hedef çekirdek (Q4) → UNKNOWN"
@@ -166,11 +169,11 @@ değil, çekirdeğin zamanlama alt sisteminin (EEVDF/CFS) işidir.
 | Satır 35 | `'platform' => php_uname('s'),` |
 
 ```php
-$platform = array(
-    // ...
+$response['meta']['system'] = [
     'platform' => php_uname('s'),   // satır 35 — çekirdek/OS adı
-    // ...
-);
+    'phpVersion' => PHP_VERSION,
+    'serverSoftware' => $_SERVER['SERVER_SOFTWARE'] ?? 'unknown',
+];
 ```
 
 **Ne gösteriyor:** Uygulama, üzerinde çalıştığı işletim sistemini `uname` verisiyle
@@ -293,6 +296,189 @@ budur.
 > `developer.apple.com/documentation/xnu` HEAD başarısız). Linux/Windows sütunları
 > doğrulanmıştır; macOS sütunu **tek başına iddia olarak kullanılmaz**.
 
+## §K.2 — OS bazlı gruplanmış kod örnekleri (2026-10-14 · Linux hariç)
+
+> **Kapsam (kullanıcı kuralı):** Bu bölüm işletim sistemlerine göre **gruplanmış**
+> kod örnekleri taşır; **Linux hariçtir** (repo'nun hedef aldığı çekirdek Q4 ile
+> hâlâ UNKNOWN — §H H1). §K tablosundaki Linux sütunu tarihseldir ve bu bölümde
+> **tekrarlanmaz**. Altı OS: **Windows · macOS (XNU/Darwin) · Android · webOS ·
+> Tizen · ReactOS**. Her örneğin kaynağı upstream dokümandır (repo'da native kod
+> **YOK** — §A dürüstlük notu geçerlidir); her URL 2026-10-14'te HEAD ile 200
+> doğrulanmıştır (`dogrulama.md` §E.5).
+
+### §K.2.1 Windows (Win32/NT çekirdeği) — dosya · süreç · senkronizasyon
+
+```c
+// Dosya tanıtıcısı yaşam döngüsü: aç → oku → kapat (CloseHandle handleapi'dedir)
+HANDLE h = CreateFileW(L"C:\\veri\\ses.wav", GENERIC_READ, FILE_SHARE_READ,
+                       NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+if (h != INVALID_HANDLE_VALUE) {
+    char buf[4096];
+    DWORD okunan = 0;
+    ReadFile(h, buf, sizeof(buf), &okunan, NULL);
+    CloseHandle(h);
+}
+// Senkronizasyon: mutex oluştur → bekle → bırak
+HANDLE m = CreateMutexW(NULL, FALSE, L"CoreMusicKilit");
+WaitForSingleObject(m, INFINITE);
+ReleaseMutex(m);
+CloseHandle(m);
+```
+
+| # | API | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| W-1 | `CreateFileW` | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew | ✅ env'de |
+| W-2 | `ReadFile` | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-readfile | ✅ env'de |
+| W-3 | `CloseHandle` | https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle | ✅ env'de |
+| W-4 | `CreateMutexW` | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-createmutexw | ✅ env'de |
+| W-5 | `WaitForSingleObject` | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-waitforsingleobject | ✅ env'de |
+| W-6 | `ReleaseMutex` | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-releasemutex | ✅ env'de |
+| W-7 | `SleepEx` (alertable bekleme) | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-sleepex | ✅ **yeni** |
+| W-8 | `DeviceIoControl` (sürücü ioctl) | https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-deviceiocontrol | ✅ env'de |
+
+> `CloseHandle` `fileapi`'de **değildir**, `handleapi`'dedir (§E.5 düzeltme kaydı);
+> `CreateMutexW` `processthreadsapi`'de **değildir**, `synchapi`'dedir (404 → düzeltme).
+
+### §K.2.2 macOS / XNU (Darwin) — hibrit çekirdek yapısı
+
+XNU ("X is Not Unix"), Darwin çekirdeğidir ve macOS/iOS'ta çalışır. **Hibrittir:**
+Carnegie Mellon'daki **Mach** çekirdeği + **FreeBSD** bileşenleri + sürücü yazmak
+için **C++ API'si IOKit**'ten oluşur; x86_64 ve ARM64 üzerinde çalışır. Kaynak
+ağacı: `osfmk` (Mach alt sistemleri) · `bsd` (BSD alt sistemleri) · `libkern`
+(IOKit sürücü kütüphanesi) · `libsyscall` (kullanıcı uzayı syscall arayüzü) ·
+`security` (MAC ilkeleri) · `pexpert` (platform/kesme kodu).
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| M-1 | XNU kaynak deposu (README) | https://github.com/apple-oss-distributions/xnu | ✅ env'de |
+| M-2 | Apple Kernel API şemsiyesi | https://developer.apple.com/documentation/kernel | ✅ env'de |
+| M-3 | IOKit (donanım/sürücü erişimi) | https://developer.apple.com/documentation/iokit | ✅ **yeni** |
+| M-4 | DriverKit (kullanıcı uzayı sürücü) | https://developer.apple.com/documentation/driverkit | ✅ env'de |
+
+> **Sembol-düzeyi kod bu turda yazılmadı:** Apple dokümanları JS kabuğu olarak
+> servis edilir; sembol sayfaları (`/documentation/iokit/io_service_getmatchingservice`
+> vb.) HEAD **404** döndü → sembol imzaları doğrulanamadı → ⚠️ VERIFICATION REQUIRED.
+> Yalnızca README'de doğrulanmış **yapısal** içerik (hibrit çekirdek · kaynak ağacı)
+> ve IOKit'in kendi tanımı ("Access hardware devices and drivers from your apps and
+> services" — sayfa meta tanımı) yazılmıştır; uydurma sembol imzası eklenmemiştir.
+
+### §K.2.3 Android (AAudio NDK) — düşük gecikmeli ses akışı
+
+```c
+// AAudio builder deseni (NDK rehberinden birebir)
+AAudioStreamBuilder *builder;
+aaudio_result_t result = AAudio_createStreamBuilder(&builder);
+AAudioStreamBuilder_setDeviceId(builder, deviceId);
+AAudioStreamBuilder_setDirection(builder, direction);
+AAudioStreamBuilder_setSharingMode(builder, mode);
+AAudioStreamBuilder_setSampleRate(builder, sampleRate);
+AAudioStreamBuilder_setChannelCount(builder, channelCount);
+AAudioStreamBuilder_setFormat(builder, format);
+AAudioStreamBuilder_setBufferCapacityInFrames(builder, frames);
+AAudioStream *stream;
+result = AAudioStreamBuilder_openStream(builder, &stream);
+result = AAudioStream_requestStart(stream);
+result = AAudioStream_requestStop(stream);
+```
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| A-1 | AAudio rehberi (kod kaynağı) | https://developer.android.com/ndk/guides/audio/aaudio/aaudio | ✅ env'de |
+| A-2 | OpenSL ES (eski ses yolu) | https://developer.android.com/ndk/guides/audio/opensl | ✅ env'de |
+| A-3 | Çekirdek mimarisi | https://source.android.com/docs/core/architecture | ✅ **yeni** |
+| A-4 | Mimari · çekirdek (Linux tabanı) | https://source.android.com/docs/core/architecture/kernel | ✅ **yeni** |
+| A-5 | Mimari · HAL (donanım soyutlama) | https://source.android.com/docs/core/architecture/hal | ✅ **yeni** |
+
+> Android çekirdeği **Linux**'tur (A-4); bu bölüm Linux çekirdeği üzerine kurulu
+> **Android platform katmanını** (AAudio · HAL) örnekler — Linux çekirdeğinin
+> kendisi kapsam dışıdır (kullanıcı kuralı).
+
+### §K.2.4 webOS (LS2 / hizmet yolu) — mesajlaşma otobüsü
+
+```bash
+# Luna Service 2 (LS2): hizmete yöntem çağrısı — URI biçimi <hizmet URI>/<yöntem>
+$ luna-send -n 1 -f luna://com.webos.service.systemservice/time/getSystemTime '{}'
+# Yanıt (JSON, seçilmiş anahtarlar): "returnValue": true · "timezone": "Asia/Seoul" · "utc": 1557280839 · "localtime": {"month": 5, "day": 8, "hour": 11, "minute": 0, "year": 2019, "second": 39} · "TZ": "KST"
+```
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| L-1 | LS2 API'ye giriş (kod kaynağı) | https://www.webosose.org/docs/guides/getting-started/introduction-to-ls2-api/ | ✅ **yeni** |
+| L-2 | LS2 API indeksi | https://www.webosose.org/docs/reference/ls2-api/ls2-api-index/ | ✅ env'de |
+| L-3 | `luna-send` komutu | https://www.webosose.org/docs/tools/commands/luna-send/ | ✅ env'de |
+| L-4 | Luna Service 2 kütüphanesi | https://www.webosose.org/docs/reference/luna-service2-library/luna-service2-library-api-reference/ | ✅ **yeni** |
+| L-5 | Yerel hizmet modeli | https://www.webosose.org/docs/guides/development/native-services/native-service-overview/ | ✅ **yeni** |
+| L-6 | webOS OSE doküman kökü | https://www.webosose.org/docs/ | ✅ **yeni** |
+
+### §K.2.5 Tizen (CAPI · yerel uygulama) — medya oynatıcı yaşam döngüsü
+
+```c
+#include <player.h>                       // Player API (CAPI_MEDIA_PLAYER)
+struct appdata {
+    player_h player;
+};
+static void
+init_base_player(appdata_s *ad)
+{
+    int error_code = 0;
+    error_code = player_create(&ad->player);
+    if (error_code != PLAYER_ERROR_NONE)
+        dlog_print(DLOG_ERROR, LOG_TAG, "failed to create");
+    // Daha sonra: player_set_uri → player_prepare → player_start → player_stop → player_destroy
+}
+```
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| T-1 | Medya oynatma rehberi (kod kaynağı) | https://samsungtizenos.com/docs/application/native/guides/multimedia/media-playback | ✅ **yeni** |
+| T-2 | Yerel uygulama dokümanı | https://docs.tizen.org/application/native/ | ✅ **yeni** |
+| T-3 | Süreç yönetimi | https://docs.tizen.org/application/native/guides/process-management/ | ✅ **yeni** |
+| T-4 | Multimedya rehberi | https://docs.tizen.org/application/native/guides/multimedia/ | ✅ **yeni** |
+| T-5 | HAL genel bakış | https://samsungtizenos.com/docs/platform/hal/overview | ✅ **yeni** |
+
+> Doğrulanan API'ler (medya oynatma sayfasında mevcut): `player_create` ·
+> `player_set_uri` (HTTP/HTTP Live/RTSP akışı) · `player_set_buffering_cb` ·
+> `player_prepare` · `player_start` · `player_stop` · `player_pause` ·
+> `player_destroy`. Tizen çekirdeği Linux tabanıdır; bu bölüm platform CAPI'sini
+> örnekler.
+
+### §K.2.6 ReactOS (NT uyumlu) — Win32 yüzeyi
+
+ReactOS, **NT arayüzüyle uyumlu** açık kaynak bir işletim sistemidir. Bu nedenle
+§K.2.1'deki Win32 örneği (`CreateFileW` · `CreateMutexW` · `WaitForSingleObject`)
+ReactOS yüzeyinde de geçerlidir. Wiki sayfaları HEAD 200 ile varlığı doğrulanmış,
+içeriği **Anubis bot koruması** nedeniyle GET ile alınamamıştır → sembol/uyum
+iddiaları yalnızca URL yol adıyla (NT_Interface_Compatibility) sınırlıdır.
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| R-1 | NT arayüz uyumluluğu | https://reactos.org/wiki/NT_Interface_Compatibility | ✅ **yeni** |
+| R-2 | ReactOS çekirdeği | https://reactos.org/wiki/Kernel | ✅ env'de |
+| R-3 | Geliştirici wiki'si | https://reactos.org/wiki/Developers | ✅ **yeni** |
+| R-4 | NT arayüzü (çizim/GDI) | https://reactos.org/wiki/Drawing | ✅ **yeni** |
+| R-5 | ReactOS ana sayfası | https://reactos.org/ | ✅ env'de |
+
+### §K.2.7 OS grup matrisi (örnek ↔ doğrulanmış yüzey)
+
+| OS | Örnek konusu | Doğrulanan yüzey | Kaynak türü |
+|---|---|---|---|
+| Windows | dosya · süreç · mutex | Win32 API (fileapi · synchapi · ioapiset) | upstream MS Learn |
+| macOS | hibrit çekirdek yapısı | XNU ağacı (Mach · FreeBSD · IOKit) | upstream README |
+| Android | düşük gecikmeli ses | AAudio builder + HAL | upstream NDK/Sources |
+| webOS | hizmet yolu çağrısı | LS2 · `luna-send` · JSON yanıt | upstream webOS OSE |
+| Tizen | medya oynatıcı yaşam döngüsü | CAPI `player_*` · `player.h` | upstream Samsung/Tizen |
+| ReactOS | NT uyumlu Win32 yüzeyi | NT arayüz wiki (varlık) | upstream ReactOS (HEAD) |
+
+### §K.2.8 Doğrulama notları (bu bölüm)
+
+| # | Not |
+|---|---|
+| N-1 | Tüm §K.2 URL'leri **2026-10-14** HEAD 200 ile doğrulanmıştır; envanter kesişimi **0** (`dogrulama.md` §E.5 · 3334 anlık görüntü). |
+| N-2 | `CloseHandle` **handleapi**'dedir (fileapi 404) · `CreateMutexW` **synchapi**'dedir (processthreadsapi 404) — §E.5 düzeltme kayıtları. |
+| N-3 | macOS sembol sayfaları HEAD 404 → sembol-düzeyi kod **⚠️ VERIFICATION REQUIRED** (uydurulmadı); yalnız README yapısı yazılmıştır. |
+| N-4 | ReactOS wiki GET'i bot korumalıdır → içerik iddiası YOK, yalnız URL varlığı. |
+| N-5 | Linux bu bölümde **yoktur** (kullanıcı kuralı); §K tablosundaki Linux sütunu tarihseldir ve silinmemiştir. |
+
 ## §L — Zaman çizelgesi (bu dosyanın revizyonu)
 
 | # | Tarih | Değişiklik | Kanıt |
@@ -302,6 +488,7 @@ budur.
 | L3 | 2026-10-13 | Dürüstlük notu eklendi (çekirdek kodu YOK) | §A |
 | L4 | 2026-10-13 | `DesktopBff` yolu düzeltildi (`home.coremusic.net/src/...` → `shared/src/Api/Bff/DesktopBff.php:35`) | §C.6 · satır 35 birebir |
 | L5 | 2026-10-13 | §F-§K eklendi (seçim gerekçesi · sınır matrisi · syscall eşlemesi · OS karşılaştırması) | bu revizyon |
+| L6 | 2026-10-14 | §K.2 eklendi — OS bazlı gruplanmış kod örnekleri (Windows · macOS · Android · webOS · Tizen · ReactOS · Linux hariç) · 25 yeni URL HEAD 200 · kesişim 0 | bu revizyon · kanıt `dogrulama.md` §E.5 |
 
 > L1'deki eski FM'de `parent:` anahtarı vardı — v2 şemasında **yasaktır** (`parent_id`
 > kullanılır). Bu revizyonda `parent:` **kaldırıldı**, `parent_id: K000-isletim-sistemi/

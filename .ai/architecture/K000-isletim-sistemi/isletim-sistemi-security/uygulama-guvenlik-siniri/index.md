@@ -3,10 +3,7 @@ node_id: K000-isletim-sistemi/isletim-sistemi-security/uygulama-guvenlik-siniri
 node_type: subdomain
 status: draft
 parent_id: K000-isletim-sistemi/isletim-sistemi-security
-children:
-  - K000-isletim-sistemi/isletim-sistemi-security/uygulama-guvenlik-siniri/uygulama-guvenlik-siniri-anayasa
-  - K000-isletim-sistemi/isletim-sistemi-security/uygulama-guvenlik-siniri/uygulama-guvenlik-siniri-surucu
-  - K000-isletim-sistemi/isletim-sistemi-security/uygulama-guvenlik-siniri/uygulama-guvenlik-siniri-ornekler
+children: [uygulama-guvenlik-siniri-anayasa, uygulama-guvenlik-siniri-surucu, uygulama-guvenlik-siniri-ornekler, uygulama-guvenlik-siniri-windows, uygulama-guvenlik-siniri-linux, uygulama-guvenlik-siniri-macos, uygulama-guvenlik-siniri-ios, uygulama-guvenlik-siniri-android, uygulama-guvenlik-siniri-tizen, uygulama-guvenlik-siniri-webos, uygulama-guvenlik-siniri-reactos]
 depends_on:
   - K000-isletim-sistemi/isletim-sistemi-security/cekirdek-guvenlik
   - K000-isletim-sistemi/isletim-sistemi-security/yetki-ve-erisim-modeli
@@ -66,7 +63,7 @@ kendisi. Uygulama auth (K009/K010) bu dalın **kapsamı dışındadır**.
 | `uygulama-guvenlik-siniri-surucu` | Kademe-4 | mimari |
 | `uygulama-guvenlik-siniri-ornekler` | Kademe-4 | kod |
 
-**Toplam:** 1 index (mimari) + 3 içerik (mimari x2 · kod x1) = 4 dosya.
+**Toplam:** 1 index (mimari) + 3 içerik (mimari x2 · kod x1) + 8 OS kartı (`kod`) = 12 dosya · OS kartları: `uygulama-guvenlik-siniri-<os>.md` — windows · linux · macos · ios · android · tizen · webos · reactos (2026-10-14, hedef referans).
 
 ## §5 Komşu sınırı
 

@@ -546,4 +546,23 @@ Bu komutların hiçbiri bu oturumda çalıştırılmadı; komut listesi **taslak
 (`-dogrulama.md` D-01..D-43 kanıt setinin kapsamı dışı). Uygulama ekibi
 çalıştırıp çıktıyı `-dogrulama.md` §11'e işleyecek.
 
+## §26 — OS grupları (8 platform · 2026-10-14)
+
+> Bu dosyanin konusu (surucu imzalama, ioctl/yukleme yuzeyi, surec-cekirdek gecisi)
+> 8 platformun tamaminda farkli mekanizmalarla ele alinir; platform bazli detay ve
+> upstream-docs kaynakli kod ornekleri ayni klasordeki OS kartlarindadir
+> (§0 ELI15 · §1 OS profili · §2 kod ornegi `kaynak: upstream docs` imzali ·
+> §3 repo durumu = hedef referans · §4 sinir cumleleri · §5 referans · §6 acik sorular).
+
+| OS | Kart | Surucu / imzalama karsiligi | Repo durumu |
+|---|---|---|---|
+| Windows | [`cekirdek-guvenlik-windows.md`](cekirdek-guvenlik-windows.md) | WHQL/EV sertifika ile surucu imzalama · IOCTL erisim ACL'i | hedef referans (0 kullanim) |
+| Linux | [`cekirdek-guvenlik-linux.md`](cekirdek-guvenlik-linux.md) | modul imzalama (CONFIG_MODULE_SIG) · capabilities | hedef referans (0 kullanim) |
+| macOS | [`cekirdek-guvenlik-macos.md`](cekirdek-guvenlik-macos.md) | DriverKit (kullanicida surucu) · kext imzalama/notarizasyon | hedef referans (0 kullanim) |
+| iOS | [`cekirdek-guvenlik-ios.md`](cekirdek-guvenlik-ios.md) | surucu yazimi yok; kullanici alaninda sinirli IOKit | hedef referans (0 kullanim) |
+| Android | [`cekirdek-guvenlik-android.md`](cekirdek-guvenlik-android.md) | GKI + kernel modul imzalama · vendor partition | hedef referans (0 kullanim) |
+| Tizen | [`cekirdek-guvenlik-tizen.md`](cekirdek-guvenlik-tizen.md) | kernel modul imzalama | hedef referans (0 kullanim) |
+| webOS | [`cekirdek-guvenlik-webos.md`](cekirdek-guvenlik-webos.md) | ACG ile surucu/servis erisimi kisitli | hedef referans (0 kullanim) |
+| ReactOS | [`cekirdek-guvenlik-reactos.md`](cekirdek-guvenlik-reactos.md) | NT uyumlu surucu modeli (gelistirme asamasinda) | hedef referans (0 kullanim) |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

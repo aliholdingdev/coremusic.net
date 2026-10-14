@@ -17,6 +17,7 @@ evidence:
   - home.coremusic.net/.htaccess (37 satır)
   - home.coremusic.net/web.config (43 satır)
   - shared/config/domain.php (19 satır)
+  - https://learn.microsoft.com/en-us/iis/configuration/system.webServer/fastCgi/
 validation: "web: MPM · nginx istek işleme · IIS system.webServer dokümanları HEAD ile 2026-10-13 doğrulandı (HTTP 200). disk: .htaccess / web.config / domain.php satır içerikleri Read ile birebir okundu."
 open_questions:
   - "R1: Hedef runtime topolojisi kesin değil — Apache (mod_php/FPM) mı, IIS mi, ikisi de mi? Repo'da ikisinin de config'i var (çift hedef). [UNKNOWN — Q4 ile ilişkili]"
@@ -85,6 +86,44 @@ R1 çift hedef (Apache/IIS) · R3 mod_php-vs-FPM · R7 MPM/FPM kapasitesi —
 | Apache MPM modülleri (event/worker/prefork) resmi dokümanda sunucu süreç modelini tanımlar; `.htaccess`/`web.config` bu modelin üstünde çalışır (R7 iddiası). | `https://httpd.apache.org/docs/2.4/mpm.html` | 2026-10-13 | Doğrulandı (HTTP 200, resmi doküman) |
 | nginx istek işleme sırası (vhost eşlemesi → rewrite → PHP) resmi dokümanda anlatılır; repo `web.config`/`.htaccess` eşdeğerlerinin nginx karşılığı bu sıradadır (R1 çapraz hedef iddiası). | `https://nginx.org/en/docs/http/request_processing.html` | 2026-10-13 | Doğrulandı (HTTP 200, resmi doküman) |
 | Microsoft IIS `system.webServer` yapılandırma bölümü resmi dokümantasyonundadır; repo `web.config` (43 satır) bu bölümün altındaki `httpProtocol` + `rewrite` bloklarını kullanır (R1 IIS hedefi iddiası). | `https://learn.microsoft.com/en-us/iis/configuration/system.webServer/` | 2026-10-13 | Doğrulandı (HTTP 200, resmi doküman) |
+
+## § OS GRUPLAR — sekiz işletim sistemi grubu
+
+| # | OS | Web sunucu/runtime topolojisi | Bu dosyadaki karşılığı | Kaynak |
+|---|---|---|---|---|
+| 1 | Windows | IIS: HTTP.sys → app-pool → worker process; PHP FastCGI handler | § Katman Konumu — IIS satırı (`web.config` 43 satır) | repo `home.coremusic.net/web.config:1-43` · IIS fastCgi dokümanı (bu tur eklendi) |
+| 2 | macOS | gömülü Apache httpd — MPM süreç modeli + `.htaccess` | §0 ELI15 — Apache yüzeyi | `httpd.apache.org/docs/2.4/mpm.html` (mevcut kanıt) |
+| 3 | iOS | ayrı web sunucusu topolojisi bu projede tanımlı değil | karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
+| 4 | Android | ayrı web sunucusu topolojisi bu projede tanımlı değil | karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
+| 5 | Linux | nginx veya Apache + PHP-FPM FastCGI zinciri | § Katman Konumu — FPM havuzu satırı (repo'da yok, R3) | `nginx.org/en/docs/http/request_processing.html` (mevcut kanıt) |
+| 6 | FreeBSD/BSD | ports/paket Apache veya nginx — POSIX süreç modeli | Komşu Sınır Matrisi — `surec-ve-parcacik` | repo taraması: bu projede kullanılmıyor |
+| 7 | Tizen | ayrı sunucu topolojisi yok (yerleşik web runtime) | karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
+| 8 | webOS | ayrı sunucu topolojisi yok (yerleşik web runtime) | karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
+
+### OS.1 — OS bazlı kısa açıklamalar (2-3 cümle)
+| # | OS | Açıklama |
+|---|---|---|
+| 1 | Windows | CoreMusic çift hedefinin Windows ayağı IIS'tir: HTTP.sys isteği app-pool'a, app-pool worker process'i `web.config` kurallarına bağlar. PHP bu süreçte FastCGI handler (`php-cgi.exe`) ile çalışır. Üretimde IIS'in aktif olduğu [UNKNOWN] (R1). |
+| 2 | macOS | macOS topolojisi gömülü Apache (httpd) üzerinden tanımlanır; MPM ve `.htaccess` katmanı Linux Apache topolojisiyle aynıdır. Depoda macOS'a özgü config yok → bu grup yalnız kavram düzeyinde taşınır. Platform dokümanı bu tur eklenmedi (⚠️). |
+| 3 | iOS | Bu ağaçta iOS için web sunucusu topolojisi tanımlı değildir; depoda iOS'e ait config kanıtı yoktur. "(Bu projede kullanılmıyor)" etiketiyle taşınır. Resmi platform dokümanı bu tur eklenmedi (⚠️). |
+| 4 | Android | Android için de sunucu-başına topoloji tanımlı değildir — bu ağaç yalnız sunucu tarafını kapsar. Depoda Android kanıtı yok → "(bu projede kullanılmıyor)". Resmi platform dokümanı bu tur eklenmedi (⚠️). |
+| 5 | Linux | Sunucu tarafının tipik POSIX topolojisi nginx/Apache + PHP-FPM FastCGI zinciridir; repo'da FPM pool config'i olmadığı için bu topoloji çapraz hedef olarak taşınır. Hangi MPM/havuz kapasitede çalıştığı R3/R7 ile [⚠️ VERIFICATION REQUIRED]. |
+| 6 | FreeBSD/BSD | FreeBSD ports/paket ağacından Apache veya nginx kurar; süreç modeli Linux ile aynı POSIX topolojisidir. Bu projede BSD'ye özgü config yok → "(bu projede kullanılmıyor)". |
+| 7 | Tizen | Tizen cihazlarında web uygulamaları yerleşik web runtime'ında çalışır; Apache/nginx topolojisi bu projede taşınmaz. Depoda Tizen kanıtı yok → "(bu projede kullanılmıyor)". |
+| 8 | webOS | webOS cihazlarında uygulamalar yerleşik web runtime'ında çalışır; ayrı web sunucusu topolojisi yoktur. Depoda webOS kanıtı yok → "(bu projede kullanılmıyor)". |
+
+### OS.2 — OS bazlı config örneği: IIS `web.config` fastCgi (Windows)
+> **(Bu projede kullanılmıyor):** dört `web.config` tarandı — `fastCgi` düğümü hiçbiri
+> geçmez (repo disk kanıtı). Örnek yollar temsilîdir; ön koşul CGI rol servisi + `.php`
+> için handler mapping. Kaynak: `https://learn.microsoft.com/en-us/iis/configuration/system.webServer/fastCgi/` (2026-10-14 HTTP 200).
+
+```xml
+<system.webServer>
+  <fastCgi>
+    <application fullPath="C:\PHP\php-cgi.exe" maxInstances="4" monitorChangesTo="C:\PHP\php.ini" />
+  </fastCgi>
+</system.webServer>
+```
 
 ---
 

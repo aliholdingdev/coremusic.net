@@ -500,4 +500,22 @@ pcm.multi {
 
 ---
 
+## §PHP ALSA × PHP (2026-10-14)
+
+PHP'de ALSA'ya erişim: (1) `shell_exec('aplay -D default file.wav')` (repo §1 kalıbı) ·
+(2) PHP FFI → `libasound.so.2` (`snd_pcm_open/set_params/writei` — imzalar alsa-lib
+`include/pcm.h`'den birebir alındı). Tam kalıp ve doğrulama: **kök
+`isletim-sistemi-audio-ornekler.md` §25.2**. PHP'de OS callback seviyesinde ses
+thread'i **yoktur** — gerçek zamanlı hedef (§eşik 10,67 ms) PHP'den yapılamaz.
+
+---
+
+**Geniş dil seti — ALSA × dil (kök §26):** C zaten native (§18/§25.2 pcm.h) ·
+Python `pyalsaaudio` (ALSA doğrudan binding) · Rust `cpal` Linux backend'i **ALSA**
+(README) · Go `oto` PulseAudio yoksa **ALSA'ya fallback** (cgo'suz, `libasound.so.2`
+dinamik yükleme — README birebir) · Go `portaudio` cgo · JS/Node yalnız süreç
+(`aplay`) — kök `isletim-sistemi-audio-ornekler.md` §26.3–§26.6.
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

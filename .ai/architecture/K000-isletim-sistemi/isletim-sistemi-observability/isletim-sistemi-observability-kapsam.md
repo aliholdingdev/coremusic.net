@@ -14,7 +14,7 @@ evidence:
   - shared/src/PageRouter/StructuredLogger.php:72
   - shared/src/Log/FileHandler.php:220
   - shared/src/PageRouter/PageRouterKernel.php:87
-validation: "2026-10-13 — 3 kanıt URL'si HTTP HEAD ile doğrulandı (3/3 HTTP 200) · StructuredLogger.php:72, FileHandler.php:220, PageRouterKernel.php:87 satır içeriği diskten Read ile okundu · alt-dal dosya adları görev beyazlistesiyle sabitlendi (log/metrik/trace × anayasa/surucu/ornekler)"
+validation: "2026-10-14 — §J platform matrisi 6 → 11 satıra genişletildi (PDH M-W28–32, macOS powermetrics/vm_stat M-W33–34, ETW+logman/tracerpt T-W16–17, DTrace ayna T-W19, fs_usage T-W20, ReportEventW L-W23, os_log L-W12r, journalctl L-W7, ausearch L-W19, wevtutil L-W20, Get-WinEvent L-W21, log show L-W25, Get-Counter/typeperf/logman/perfmon M-W24–27, perf record/script T-W10–11, sample/otool T-W21–22) + kanıt dengesi 47/22/13; §G notu 42 → 75 URL; §L özet 15/18/19 satır güncellendi; §K kararları K6-K7 eklendi | 2026-10-13 — 3 kanıt URL'si HTTP HEAD ile doğrulandı (3/3 HTTP 200) · StructuredLogger.php:72, FileHandler.php:220, PageRouterKernel.php:87 satır içeriği diskten Read ile okundu · alt-dal dosya adları görev beyazlistesiyle sabitlendi (log/metrik/trace × anayasa/surucu/ornekler)"
 open_questions:
   - "O1: OS-level metrik/log toplama (perf, ETW, journald, syslog) hedef mimaride var mı, yoksa yalnız uygulama logu mu? [UNKNOWN]"
   - "O2: Gözlemlenebilirlik üçlüsü (log/metric/trace) K002-altyapi içinde nasıl konumlanacak? [UNKNOWN]"
@@ -426,7 +426,7 @@ group: mimari
 | K-W2 | Windows Event Log resmi Win32 platformudur | https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log | 2026-10-13 | HTTP 200 |
 | K-W3 | cgroup v2 çekirdek yönetim belgesi resmi kaynaktır | https://docs.kernel.org/admin-guide/cgroup-v2.html | 2026-10-13 | HTTP 200 |
 
-> Tam matris (42 URL) kök `isletim-sistemi-observability-dogrulama.md` §1'dedir.
+> Tam matris (75 URL, 2026-10-14) kök `isletim-sistemi-observability-dogrulama.md` §1'dedir.
 
 ## §H — Terim sözlüğü (bu subdomaine özgü)
 
@@ -465,16 +465,32 @@ group: mimari
 | 6 | trace overhead'in canlı sistemde ölçülmemesi | gecikme patlaması | örnekleme surucu §4–5 | [TASARIM] |
 | 7 | audit trail'in politikasız kalması | güvenlik boşluğu | security dalına devredildi | [TASARIM] |
 
-## §J — Platform yüzeyi karşılaştırma matrisi (bu dalın kapsamındaki OS'ler)
+## §J — Platform yüzeyi karşılaştırma matrisi (bu dalın kapsamındaki OS'ler · 2. tur güncellendi — 2026-10-14)
 
 | # | Yüzey | Linux | Windows | macOS/iOS |
 |---|---|---|---|---|
 | 1 | Sistem günlüğü | journald / syslog | Event Log (EVTX) | unified logging |
 | 2 | Çekirdek günlüğü | dmesg / printk | Kernel-PW-Logger / ETW | `log show --predicate` |
-| 3 | Metrik kaynağı | /proc, /sys, perf | PDH, performans defteri | `host_statistics` |
-| 4 | Trace | ftrace, kprobes, eBPF | ETW provider/session | DTrace / ktrace |
+| 3 | Metrik kaynağı | /proc, /sys, perf | PDH (M-W28–32) | `powermetrics` / `vm_stat` (M-W33–34) |
+| 4 | Trace | ftrace, kprobes, eBPF | ETW provider/session + `logman`/`tracerpt` (T-W16–17) | DTrace (T-W19, ayna) / `fs_usage` (T-W20) |
 | 5 | Rotasyon | logrotate | Event Log retention | unified log süresi |
 | 6 | Yetki modeli | CAP_SYS_ADMIN / root | Yönetici | root / entitlement |
+| 7 | Günlük üretim API'si | `syslog(3)` / `sd_journal_send` (L-W1) | `ReportEventW` (L-W23) / `eventcreate` (L-W22) | `os_log` (L-W12r) / `Logger` (L-W27) |
+| 8 | Günlük okuma komutu | `journalctl` (L-W7) / `ausearch` (L-W19) | `wevtutil` (L-W20) / `Get-WinEvent` (L-W21) | `log show` (L-W25) |
+| 9 | Metrik sarmalayıcı | procps, `perf stat` (M-W2…8, M-W15) | `Get-Counter` / `typeperf` / `logman` / `perfmon` (M-W24–27) | `netstat` (M-W35) · `vm_stat` (M-W34) |
+| 10 | Trace profilleme | `perf record` / `perf script` (T-W10–11) | ⚠️ (xperf/ETW örnekleme doğrulanmadı) | `sample` / `otool` (T-W21–22, ayna) |
+| 11 | Kanıt dengesi (2026-10-14) | **47** | **22** | **13** |
+
+**§J notları (bağlayıcı):**
+
+1. Satır 10'daki `⚠️` ve satır 6'nın yetki ayrıntıları **3. doğrulama
+   turuna** devredilmiştir; doğrulanmayan iddia yazılmaz.
+2. macOS hücreleri **üçüncü taraf ayna** (keith.github.io) kaynaklıdır —
+   dipnot zorunlu; hedef sürüm kullanılabilirliği `UNKNOWN`.
+3. Satır 11'deki 47/22/13 = 75, kök `-dogrulama.md` §1–§3'teki toplam
+   HTTP 200 sayısıdır (1. tur 37:4:1 → 2. tur 47:22:13).
+4. Bu matris **OS yüzeyini** tarif eder; repo'da bu yüzeylerin hiçbiri
+   kullanılmaz (grep 0 isabet — §C.2).
 
 ## §K — Kapsam içi karar kaydı (bu tur)
 
@@ -485,6 +501,8 @@ group: mimari
 | K3 | `parent:` alanı yerine `parent_id:` kullanıldı | v2 §4.2 8 alan + `group` şeması | 2026-10-13 | [TASARIM] |
 | K4 | Root `index.md` 40–100 satır bandına alındı | görev eşik kuralı | 2026-10-13 | [TASARIM] |
 | K5 | 3 içerik dosyası ≥500 satıra çıkarıldı | görev eşik kuralı (öncesi 261/31/22) | 2026-10-13 | [TASARIM] |
+| K6 | §J platform matrisi 6 → 11 satıra genişletildi (üç OS, kanıt numaralı) | 2. tur OS genişletme — 75 URL | 2026-10-14 | [KANIT] |
+| K7 | Kanıt dengesi 37:4:1 → 47:22:13 düzeltildi | kök `-dogrulama.md` §1–§3 sayaçları | 2026-10-14 | [KANIT] |
 
 ## §L — Kapsam matrisi özeti (satır bazlı hızlı bakış)
 
@@ -504,10 +522,10 @@ group: mimari
 | 12 | Komşu matrisi | 10 | §E.1 |
 | 13 | K017 ayrım | 6 | §E.2 |
 | 14 | Açık sorular | 3+5+5+5 | §F.1–§F.4 |
-| 15 | Web kanıtı | 3 (özet; 42 tam) | §G |
+| 15 | Web kanıtı | 3 (özet; 75 tam) | §G |
 | 16 | Terim sözlüğü | 20 | §H |
 | 17 | Risk özeti | 7 | §I |
-| 18 | Platform yüzeyi | 6 | §J |
-| 19 | Karar kaydı | 5 | §K |
+| 18 | Platform yüzeyi | 11 (2. tur +5) | §J |
+| 19 | Karar kaydı | 7 (2. tur +2) | §K |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

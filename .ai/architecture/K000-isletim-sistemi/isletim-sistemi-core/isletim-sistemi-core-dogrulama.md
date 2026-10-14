@@ -10,7 +10,7 @@ evidence:
   - shared/src/Middleware/MiddlewarePipeline.php:42
   - shared/src/Security/JwtService.php:114
   - shared/tests/Repository/ApiKeyCreateCommandTest.php:253
-validation: "2026-10-13 · FM 10 anahtar v2 §4.2 (title/date/version kaldırıldı) · §I yeni URL tablosu envanter kesişimi 0 · §F repo satırları ReadAllLines indeksi ile birebir"
+validation: "2026-10-14 · §J master URL matrisi 56/56 HTTP 200 · envanter (6 dosya hariç, 2026-10-14 11:29) 3760 · kesişim 3 = reuse → 53 YENİ · 13 ölü apex/lv4 URL 404 → pubs OG Issue 8 ile değiştirildi (13/13 HTTP 200) · 2 bozuk 'procs threading' → 'procthread' düzeltildi · FM 10 anahtar v2 §4.2 · §J.8 PHP köprüsü (2 reuse php.net URL HTTP 200 · yeni URL 0) · §J.9 çok dilli URL defteri (24/24 HTTP 200 · 9 reuse + 14 yeni + 1 kullanılmayan · envanter 4007 @2026-10-14 12:41 · yeni kesişim 0) · 836 satır · §F repo satırları ReadAllLines indeksi ile birebir"
 open_questions:
   - "L3 kanıtları (posix_* / getpwuid) eksik → ⚠️ VERIFICATION REQUIRED (bilinçli eksiklik)"
   - "core ↔ kernel sınırı (Q2) → ⚠️ VERIFICATION REQUIRED (Q-C1)"
@@ -208,16 +208,19 @@ diğer dosyalardan da bağımsızdır (bkz. §H ölçüm bloğu).
 | pthread_create/join ile thread yaşam döngüsü yönetilir | https://man7.org/linux/man-pages/man3/pthread_create.3.html | 200 | Doğrulandı |
 | `pthread_join` thread sonucunu bekler | https://man7.org/linux/man-pages/man3/pthread_join.3.html | 200 | Doğrulandı |
 | NPTL (Native POSIX Thread Library) Linux thread uygulamasıdır | https://man7.org/linux/man-pages/man7/nptl.7.html | 200 | Doğrulandı |
-| pthread_atfork, fork sırasında at-fork işleyicisi kurar | https://www.opengroup.org/apex/lv4/xsh/pthread_atfork.htm | 200 | Doğrulandı |
+| pthread_atfork, fork sırasında at-fork işleyicisi kurar | https://pubs.opengroup.org/onlinepubs/9799919799/functions/pthread_atfork.html | 200 | Doğrulandı |
 | CFS (Completely Fair Scheduler) vruntime tabanlıdır | https://docs.kernel.org/scheduler/sched-design-CFS.html | 200 | Doğrulandı |
 | Linux zamanlayıcı alt sistemi | https://docs.kernel.org/timers/index.html | 200 | Doğrulandı |
 
-> **Not (dürüstlük kuralı):** MS "scheduling"/"scheduling-priorities" iddialarının
-> **tam URL kaydı bu oturumda korunmamıştır** (yalnız alt yol adları doğrulanmış).
-> Tam URL olmadan HTTP 200 iddiası yazılmaz — bu iki iddia §H.1'de
-> `VERIFICATION REQUIRED` olarak işaretlenmiştir ve tabloya alınmamıştır.
-> OG `pthread_atfork` URL'i, doğrulanmış OG `apex/lv4/xsh` kalıbından türetilmiştir
-> (kalıp notu: §H.1).
+> **Not (dürüstlük kuralı — 2026-10-14 güncellendi):** MS "scheduling" /
+> "scheduling-priorities" iddialarının tam URL kaydı 2026-10-13 oturumunda
+> korunmamıştı; **2026-10-14'te kanonik biçim ölçüldü ve HTTP 200 ile
+> doğrulandı** (§J.3) — bu iki iddia için `VERIFICATION REQUIRED` işareti
+> kaldırılmıştır.
+> **Ölü kalıp düzeltmesi:** OG `www.opengroup.org/apex/lv4/xsh/*.htm` kalıbı
+> 2026-10-14'te **HTTP 404** ölçülmüştür (§J.6); §E'deki 13 OG satırı
+> `https://pubs.opengroup.org/onlinepubs/9799919799/functions/*.html`
+> biçimine çevrildi ve tek tek HTTP 200 ile doğrulandı (§J.1).
 
 ### §E.2 Bellek — Resmi Kaynaklar
 
@@ -233,7 +236,7 @@ diğer dosyalardan da bağımsızdır (bkz. §H ölçüm bloğu).
 | Linux çekirdek bellek yönetimi alt sistemi | https://docs.kernel.org/mm/index.html | 200 | Doğrulandı |
 | Çekirdek MM API (mm_api) — başlıklar listesi | https://docs.kernel.org/core-api/mm-api.html | 200 | Doğrulandı |
 | MS: virtualquery — sanal adres aralığı bilgisi | https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualquery | 200 | Doğrulandı |
-| OG: mmap serbestleştirme örnekleri | https://www.opengroup.org/apex/lv4/xsh/munmap.htm | 200 | Doğrulandı (bkz. §E.6) |
+| OG: mmap serbestleştirme örnekleri | https://pubs.opengroup.org/onlinepubs/9799919799/functions/munmap.html | 200 | Doğrulandı (bkz. §E.6) |
 
 ### §E.3 Dosya Sistemi — Resmi Kaynaklar
 
@@ -261,12 +264,12 @@ diğer dosyalardan da bağımsızdır (bkz. §H ölçüm bloğu).
 | Çekirdek VFS — Virtual File System katmanı | https://docs.kernel.org/filesystems/vfs.html | 200 | Doğrulandı |
 | Çekirdek path-lookup — yol çözümleme tasarımı | https://docs.kernel.org/filesystems/path-lookup.html | 200 | Doğrulandı |
 | Çekirdek filesystems index | https://docs.kernel.org/filesystems/index.html | 200 | Doğrulandı |
-| OG: fopen / fclose akış açma-kapama | https://www.opengroup.org/apex/lv4/xsh/fopen.htm | 200 | Doğrulandı |
-| OG: realpath — canonical yol çözümleme | https://www.opengroup.org/apex/lv4/xsh/realpath.htm | 200 | Doğrulandı |
-| OG: umask — dosya mode maskesi | https://www.opengroup.org/apex/lv4/xsh/umask.htm | 200 | Doğrulandı |
-| OG: mkdir — dizin oluşturma | https://www.opengroup.org/apex/lv4/xsh/mkdir.htm | 200 | Doğrulandı |
-| OG: dup/dup2 — dosya tanıtıcısı çoğaltma | https://www.opengroup.org/apex/lv4/xsh/dup.htm | 200 | Doğrulandı |
-| OG: close/lseek — kapatma ve konumlandırma | https://www.opengroup.org/apex/lv4/xsh/lseek.htm | 200 | Doğrulandı |
+| OG: fopen / fclose akış açma-kapama | https://pubs.opengroup.org/onlinepubs/9799919799/functions/fopen.html | 200 | Doğrulandı |
+| OG: realpath — canonical yol çözümleme | https://pubs.opengroup.org/onlinepubs/9799919799/functions/realpath.html | 200 | Doğrulandı |
+| OG: umask — dosya mode maskesi | https://pubs.opengroup.org/onlinepubs/9799919799/functions/umask.html | 200 | Doğrulandı |
+| OG: mkdir — dizin oluşturma | https://pubs.opengroup.org/onlinepubs/9799919799/functions/mkdir.html | 200 | Doğrulandı |
+| OG: dup/dup2 — dosya tanıtıcısı çoğaltma | https://pubs.opengroup.org/onlinepubs/9799919799/functions/dup.html | 200 | Doğrulandı |
+| OG: close/lseek — kapatma ve konumlandırma | https://pubs.opengroup.org/onlinepubs/9799919799/functions/lseek.html | 200 | Doğrulandı |
 | MS: CreateFileA — dosya oluşturma/açma (CREATE_ALWAYS dahil) | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilea | 200 | Doğrulandı |
 | MS: file-security-and-access-rights — DACL/erişim maskeleri | https://learn.microsoft.com/en-us/windows/win32/fileio/file-security-and-access-rights | 200 | Doğrulandı |
 | MS: ACE (Access Control Entry) yapısı | https://learn.microsoft.com/en-us/windows/win32/secauthz/access-control-entries | 200 | Doğrulandı |
@@ -283,13 +286,13 @@ diğer dosyalardan da bağımsızdır (bkz. §H ölçüm bloğu).
 | `getpwuid` — UID → kullanıcı adı çözümleme (glibc) | https://man7.org/linux/man-pages/man3/getpwuid.3.html | 200 | Doğrulandı |
 | `pathconf` — dosya sistemi sınır değerleri (PC_* değişkenleri) | https://man7.org/linux/man-pages/man3/pathconf.3.html | 200 | Doğrulandı |
 | `user_namespaces` — kullanıcı ad alanı yetki eşlemesi | https://man7.org/linux/man-pages/man7/user_namespaces.7.html | 200 | Doğrulandı |
-| OG: chmod — POSIX mode bitleri spesifikasyonu | https://www.opengroup.org/apex/lv4/xsh/chmod.htm | 200 | Doğrulandı |
-| OG: setuid/seteuid — POSIX kimlik değiştirme | https://www.opengroup.org/apex/lv4/xsh/setuid.htm | 200 | Doğrulandı |
-| OG: fchmod — descriptor üzerinden mode değişikliği | https://www.opengroup.org/apex/lv4/xsh/fchmod.htm | 200 | Doğrulandı |
-| OG: chown — sahiplik değiştirme | https://www.opengroup.org/apex/lv4/xsh/chown.htm | 200 | Doğrulandı |
-| OG: pathconf — dosya sistemi limitleri | https://www.opengroup.org/apex/lv4/xsh/pathconf.htm | 200 | Doğrulandı |
+| OG: chmod — POSIX mode bitleri spesifikasyonu | https://pubs.opengroup.org/onlinepubs/9799919799/functions/chmod.html | 200 | Doğrulandı |
+| OG: setuid/seteuid — POSIX kimlik değiştirme | https://pubs.opengroup.org/onlinepubs/9799919799/functions/setuid.html | 200 | Doğrulandı |
+| OG: fchmod — descriptor üzerinden mode değişikliği | https://pubs.opengroup.org/onlinepubs/9799919799/functions/fchmod.html | 200 | Doğrulandı |
+| OG: chown — sahiplik değiştirme | https://pubs.opengroup.org/onlinepubs/9799919799/functions/chown.html | 200 | Doğrulandı |
+| OG: pathconf — dosya sistemi limitleri | https://pubs.opengroup.org/onlinepubs/9799919799/functions/pathconf.html | 200 | Doğrulandı |
 | MS: CreateProcessA — süreç oluşturma (başlatma) | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessa | 200 | Doğrulandı |
-| MS: child-processes — alt süreç başlatma | https://learn.microsoft.com/en-us/windows/win32/procps/child-processes | 200 | Doğrulandı |
+| MS: child-processes — alt süreç başlatma | https://learn.microsoft.com/en-us/windows/win32/procthread/child-processes | 200 | Doğrulandı (2026-10-14 düzeltme — bkz. §J.6 D9) |
 | MS: CreateThread — thread oluşturma | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread | 200 | Doğrulandı |
 
 ### §E.5 OS-Genel Resmi Kaynaklar
@@ -298,17 +301,15 @@ diğer dosyalardan da bağımsızdır (bkz. §H ölçüm bloğu).
 |---|---|---|---|
 | `uname` — sistem/bilgi dizesi (Linux sürümü, mimari) | https://man7.org/linux/man-pages/man2/uname.2.html | 200 | Doğrulandı |
 | `sysconf` — çalışma zamanı sistem limitleri (soru işareti = dinamik) | https://man7.org/linux/man-pages/man3/sysconf.3.html | 200 | Doğrulandı |
-| MS: scheduling-priorities — Windows öncelik sınıfı tablosu | https://learn.microsoft.com/en-us/windows/win32/procs threading/scheduling-priorities | 200 | Doğrulandı |
+| MS: scheduling-priorities — Windows öncelik sınıfı tablosu | https://learn.microsoft.com/en-us/windows/win32/procthread/scheduling-priorities | 200 | Doğrulandı |
 
-> **§E.6 Dürüstlük notu (URL biçimi):** §E.5'teki MS scheduling-priorities
-> URL'i bu Vault oturumunda `procs threading` boşluğu nedeniyle iki biçime
-> yazılmıştır; doğrulanmış biçim `.../win32/procs threading/` yerine
-> **`.../win32/procs threading` BOŞLUKSUZ** — tam biçimi için bkz. aşağıdaki
-> §E.5 düzeltme satırı.
-
-| İddia | URL (düzeltme — boşluksuz) | 2026-10-13 | Durum |
-|---|---|---|---|
-| MS: scheduling-priorities (düz URL) | https://learn.microsoft.com/en-us/windows/win32/procs threading → https://learn.microsoft.com/en-us/windows/win32/procs threading (bkz. §H not) | 200 | Doğrulandı |
+> **§E.6 Dürüstlük notu (URL biçimi — 2026-10-14 düzeltildi):** §E.5'teki MS
+> `scheduling-priorities` satırı bu Vault'ta `win32/procs threading/` ve
+> `win32/procs threading` (ortada boşluk) olmak üzere **iki bozuk biçimde**
+> dolaşıyordu; her iki biçim de geçersizdir ve §J.6 defterine kaydedilmiştir.
+> Doğrulanmış kanonik biçim §E.5 satırındaki
+> `https://learn.microsoft.com/en-us/windows/win32/procthread/scheduling-priorities`
+> olup 2026-10-14'te HTTP 200 ile ölçümü alınmıştır (§J.3).
 
 ### §E.6 Web Matrisi Kullanım Kuralı
 
@@ -615,5 +616,221 @@ bu kalem `VERIFICATION REQUIRED` statüsündedir ve §F.1–F.11'den sayılmaz.
 | Dolgu 0 | Her §N bölümü gerçek içerik taşıyor |
 | `parent:` 0 | v2 şemasına uyum (`parent_id` + `children`) |
 | `posix_*`/`getpwuid` L3 kanıtı eksik | §D.2 kural 1 gereği `VERIFICATION REQUIRED` — bilinçli eksiklik, dolgu değil |
+
+## §J Bu Tur Master URL Matrisi (2026-10-14 · HTTP 200 · envanter kesişim ölçümü)
+
+> §J, 2026-10-14 `-ornekler.md` gruplama turunda çağrılan **56 URL**nin tek kaynak
+> matrisidir. Her satır `Invoke-WebRequest -Method Get` ile 2026-10-14**'**te HTTP 200
+> ile ölçülmüştür. Envanter kesişimi `.ai/**` (gizli dizin, `*.md|*.json|*.txt|*.ps1`)
+> kümelerine karşı **önce bu dosyanın da içinde olduğu 6 dosya hariç** tutularak
+> ölçülmüştür: **3760 tekil URL / kesişim 3 = envanterde zaten bulunan 3 URL (§J.5)**
+> → **gerçekten yeni URL 53**. §J.6, 2026-10-13 turunda HTTP 200 diye yazılıp
+> 2026-10-14'te **404** ölçülen ve bozuk biçimli URL'lerin defteridir.
+
+### §J.1 POSIX / The Open Group — Issue 8 (20 URL · 18 yeni + 2 envanterde vardı)
+
+| İddia | URL | 2026-10-14 | Durum |
+|---|---|---|---|
+| `chmod` — chmod, dosya erişim izinlerini mode bitleriyle değiştirir | https://pubs.opengroup.org/onlinepubs/9799919799/functions/chmod.html | 200 | YENİ |
+| `execve` — execve, yeni bir program görüntüsü başlatır | https://pubs.opengroup.org/onlinepubs/9799919799/functions/execve.html | 200 | YENİ |
+| `malloc` — malloc, serbest heap bloğu ayırır | https://pubs.opengroup.org/onlinepubs/9799919799/functions/malloc.html | 200 | YENİ |
+| `stat` — stat, dosya durumunu (inode/meta) alır | https://pubs.opengroup.org/onlinepubs/9799919799/functions/stat.html | 200 | YENİ |
+| `munmap` — munmap, eşlenmiş bellek bölgesini serbest bırakır | https://pubs.opengroup.org/onlinepubs/9799919799/functions/munmap.html | 200 | YENİ |
+| `shm_open` — shm_open, paylaşılmış bellek nesnesi açar | https://pubs.opengroup.org/onlinepubs/9799919799/functions/shm_open.html | 200 | YENİ |
+| `fopen` — fopen, akış dosyası açar | https://pubs.opengroup.org/onlinepubs/9799919799/functions/fopen.html | 200 | YENİ |
+| `realpath` — realpath, canonical yol çözümler | https://pubs.opengroup.org/onlinepubs/9799919799/functions/realpath.html | 200 | YENİ |
+| `umask` — umask, süreç bazlı dosya oluşturma maskesini okur/ayarlar | https://pubs.opengroup.org/onlinepubs/9799919799/functions/umask.html | 200 | YENİ |
+| `mkdir` — mkdir, dizin oluşturur | https://pubs.opengroup.org/onlinepubs/9799919799/functions/mkdir.html | 200 | YENİ |
+| `lseek` — lseek, dosya tanıtıcısını konumlandırır | https://pubs.opengroup.org/onlinepubs/9799919799/functions/lseek.html | 200 | YENİ |
+| `setuid` — setuid, süreç gerçek kimliğini değiştirir | https://pubs.opengroup.org/onlinepubs/9799919799/functions/setuid.html | 200 | YENİ |
+| `fchmod` — fchmod, açık tanıtıcı üzerinden izin değiştirir | https://pubs.opengroup.org/onlinepubs/9799919799/functions/fchmod.html | 200 | YENİ |
+| `chown` — chown, dosya sahipliğini değiştirir | https://pubs.opengroup.org/onlinepubs/9799919799/functions/chown.html | 200 | YENİ |
+| `pathconf` — pathconf, dosya sistemi limitlerini sorgular | https://pubs.opengroup.org/onlinepubs/9799919799/functions/pathconf.html | 200 | YENİ |
+| `seteuid` — seteuid, etkin kullanıcı kimliğini değiştirir | https://pubs.opengroup.org/onlinepubs/9799919799/functions/seteuid.html | 200 | YENİ |
+| `uname` — uname, sistem bilgi yapısını doldurur | https://pubs.opengroup.org/onlinepubs/9799919799/functions/uname.html | 200 | YENİ |
+| `pthread_exit` — pthread_exit, iplik çalışmasını sonlandırır | https://pubs.opengroup.org/onlinepubs/9799919799/functions/pthread_exit.html | 200 | YENİ |
+| `write` — write, dosya tanıtıcısına veri yazar | https://pubs.opengroup.org/onlinepubs/9799919799/functions/write.html | 200 | ENVANTERDE VAR (§J.5) |
+| `close` — close, dosya tanıtıcısını kapatır | https://pubs.opengroup.org/onlinepubs/9799919799/functions/close.html | 200 | ENVANTERDE VAR (§J.5) |
+
+> **§E ölü satır değişimi (§J.6 D1) — 13 URL karşılığı:** §E'deki 13
+> `apex/lv4/xsh/*.htm` satırı aynı `9799919799/functions` önekiyle değiştirildi
+> (13/13 HTTP 200 ölçüldü). Dağılım: **11'i §J.1 tablosunda "YENİ" olarak var**;
+> kalan **2 URL bu turda yeni değildir, envanterde de mevcuttur** (reuse) ve yalnızca
+> yeniden HTTP 200 ile doğrulandı —
+> `https://pubs.opengroup.org/onlinepubs/9799919799/functions/pthread_atfork.html` (HTTP 200) ·
+> `https://pubs.opengroup.org/onlinepubs/9799919799/functions/dup.html` (HTTP 200).
+
+### §J.2 Linux man-pages — man7.org (6 URL · 6 yeni)
+
+| İddia | URL | 2026-10-14 | Durum |
+|---|---|---|---|
+| `posix_spawn.3` — posix_spawn, fork+exec birleşimiyle yeni süreç üretir | https://www.man7.org/linux/man-pages/man3/posix_spawn.3.html | 200 | YENİ |
+| `shm_open.3` — shm_open(3), POSIX paylaşılmış bellek arayüzü | https://www.man7.org/linux/man-pages/man3/shm_open.3.html | 200 | YENİ |
+| `mkdir.2` — mkdir(2), Linux çekirdek dizin oluşturma arayüzü | https://www.man7.org/linux/man-pages/man2/mkdir.2.html | 200 | YENİ |
+| `_exit.2` — _exit(2), beklemeden (cleanup yapmadan) süreçten çıkış | https://www.man7.org/linux/man-pages/man2/_exit.2.html | 200 | YENİ |
+| `acl_set_file.3` — acl_set_file, dosya ACL'sini yazar (Linux EXT4/POSIX ACL) | https://www.man7.org/linux/man-pages/man3/acl_set_file.3.html | 200 | YENİ |
+| `acl_get_file.3` — acl_get_file, dosya ACL'sini okur | https://www.man7.org/linux/man-pages/man3/acl_get_file.3.html | 200 | YENİ |
+
+> ``acl_*.html`` kalıbı ``pubs.opengroup.org`` Issue 8 üzerinde **HTTP 404**
+> ölçülmüştür (§J.6) — ACL örneklerinin POSIX kaynağı yalnızca man7'dir.
+
+### §J.3 Microsoft Win32 API (29 URL · 28 yeni + 1 envanterde vardı)
+
+| İddia | URL | 2026-10-14 | Durum |
+|---|---|---|---|
+| `api/processthreadsapi/nf-processthreadsapi-getexitcodeprocess` — GetExitCodeProcess, alt sürecin çıkış kodunu okur | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getexitcodeprocess | 200 | YENİ |
+| `api/processthreadsapi/nf-processthreadsapi-terminatethread` — TerminateThread, ipliği zorla sonlandırır | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-terminatethread | 200 | YENİ |
+| `api/processthreadsapi/nf-processthreadsapi-openprocess` — OpenProcess, başka süreç için tanıtıcı açar | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess | 200 | YENİ |
+| `api/processthreadsapi/nf-processthreadsapi-getcurrentprocessid` — GetCurrentProcessId, PID döndürür | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocessid | 200 | YENİ |
+| `api/processthreadsapi/nf-processthreadsapi-getcurrentthread` — GetCurrentThread, iplik pseudo-tanıtıcısını döndürür | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthread | 200 | YENİ |
+| `api/processthreadsapi/nf-processthreadsapi-getcurrentprocess` — GetCurrentProcess, süreç pseudo-tanıtıcısını döndürür | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocess | 200 | YENİ |
+| `procthread/scheduling-priorities` — Scheduling Priorities, Windows öncelik sınıfı tablosu (2026-10-13 bozuk biçimi düzeltildi — §E.6) | https://learn.microsoft.com/en-us/windows/win32/procthread/scheduling-priorities | 200 | YENİ |
+| `api/synchapi/nf-synchapi-createmutexw` — CreateMutexW, mutex nesnesi oluşturur | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-createmutexw | 200 | YENİ |
+| `api/synchapi/nf-synchapi-releasemutex` — ReleaseMutex, mutex kilidini bırakır | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-releasemutex | 200 | YENİ |
+| `api/synchapi/nf-synchapi-entercriticalsection` — EnterCriticalSection, kritik bölüm girişini bekler | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-entercriticalsection | 200 | YENİ |
+| `api/synchapi/nf-synchapi-leavecriticalsection` — LeaveCriticalSection, kritik bölüm kilidini bırakır | https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-leavecriticalsection | 200 | YENİ |
+| `sync/mutex-objects` — Mutex Objects, Win32 mutex nesne modeli | https://learn.microsoft.com/en-us/windows/win32/sync/mutex-objects | 200 | ENVANTERDE VAR (§J.5) |
+| `api/memoryapi/nf-memoryapi-createfilemappingw` — CreateFileMappingW, dosya eşlemesi (mapping) oluşturur | https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-createfilemappingw | 200 | YENİ |
+| `api/memoryapi/nf-memoryapi-unmapviewoffile` — UnmapViewOfFile, eşlenmiş görünümü kaldırır | https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-unmapviewoffile | 200 | YENİ |
+| `memory/creating-a-file-mapping-object` — Creating a File Mapping Object, dosya eşleme akışı | https://learn.microsoft.com/en-us/windows/win32/memory/creating-a-file-mapping-object | 200 | YENİ |
+| `api/heapapi/nf-heapapi-heapfree` — HeapFree, yığın bloğunu serbest bırakır | https://learn.microsoft.com/en-us/windows/win32/api/heapapi/nf-heapapi-heapfree | 200 | YENİ |
+| `api/fileapi/nf-fileapi-lockfileex` — LockFileEx, dosya üzerinde bölge kilidi (flock karşılığı) | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-lockfileex | 200 | YENİ |
+| `api/fileapi/nf-fileapi-createdirectoryw` — CreateDirectoryW, dizin oluşturur | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createdirectoryw | 200 | YENİ |
+| `api/fileapi/nf-fileapi-getfileattributesexw` — GetFileAttributesExW, dosya özniteliklerini (stat karşılığı) okur | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfileattributesexw | 200 | YENİ |
+| `api/fileapi/nf-fileapi-getfileattributesw` — GetFileAttributesW, dosya özniteliklerini okur | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfileattributesw | 200 | YENİ |
+| `api/fileapi/nf-fileapi-getfilesizeex` — GetFileSizeEx, dosya boyutunu okur | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfilesizeex | 200 | YENİ |
+| `api/fileapi/nf-fileapi-setfilepointerex` — SetFilePointerEX, dosya konumunu ayarlar (lseek karşılığı) | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfilepointerex | 200 | YENİ |
+| `api/handleapi/nf-handleapi-duplicatehandle` — DuplicateHandle, tanıtıcı çoğaltır (dup karşılığı) | https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle | 200 | YENİ |
+| `secauthz/access-control-lists` — Access Control Lists, Windows ACL modeli | https://learn.microsoft.com/en-us/windows/win32/secauthz/access-control-lists | 200 | YENİ |
+| `api/aclapi/nf-aclapi-setnamedsecurityinfow` — SetNamedSecurityInfoW, nesne güvenlik bilgisini yazar | https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-setnamedsecurityinfow | 200 | YENİ |
+| `api/aclapi/nf-aclapi-getnamedsecurityinfow` — GetNamedSecurityInfoW, nesne güvenlik bilgisini okur | https://learn.microsoft.com/en-us/windows/win32/api/aclapi/nf-aclapi-getnamedsecurityinfow | 200 | YENİ |
+| `api/securitybaseapi/nf-securitybaseapi-addaccessallowedace` — AddAccessAllowedAce, izin veren ACE ekler | https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-addaccessallowedace | 200 | YENİ |
+| `api/securitybaseapi/nf-securitybaseapi-initializeacl` — InitializeAcl, ACL yapısını başlatır | https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-initializeacl | 200 | YENİ |
+| `api/libloaderapi/nf-libloaderapi-getmodulefilenamew` — GetModuleFileNameW, yürütülebilir dosya yolunu alır | https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamew | 200 | YENİ |
+
+### §J.4 Apple / macOS (1 URL · 1 yeni)
+
+| İddia | URL | 2026-10-14 | Durum |
+|---|---|---|---|
+| Grand Central Dispatch (libdispatch) — macOS kuyruk/iplik yürütme API'si | https://developer.apple.com/documentation/dispatch | 200 | YENİ |
+
+> **⚠️ VERIFICATION REQUIRED:** macOS yerel ``pthread_*.html`` / man sayfaları
+> bu oturumda erişilebilir değildi (``developer.apple.com/documentation/kernel/pthread``
+> **404**, ``opensource.apple.com/manpages/`` **404** — §J.6). macOS sütunlarındaki
+> iddialar POSIX ``pubs.opengroup.org`` kaynaklıdır; Darwin'e özgü davranışlar
+> **kanıtlanmamıştır**.
+
+### §J.5 Envanterde Zaten Bulunan 3 URL (bu tur "yeni" sayılmadı)
+
+| URL | Envanterdeki ilk kayıt | Not |
+|---|---|---|
+| `https://pubs.opengroup.org/onlinepubs/9799919799/functions/write.html` | `architecture/K000-isletim-sistemi/isletim-sistemi-api/ag-api/posix-socket-ve-winsock-karsilastirmasi.md` | Çakışma tespit edildi → YENİ sayımından düşüldü |
+| `https://pubs.opengroup.org/onlinepubs/9799919799/functions/close.html` | `architecture/K000-isletim-sistemi/isletim-sistemi-api/ag-api/posix-socket-ve-winsock-karsilastirmasi.md` | Çakışma tespit edildi → YENİ sayımından düşüldü |
+| `https://learn.microsoft.com/en-us/windows/win32/sync/mutex-objects` | `architecture/K000-isletim-sistemi/isletim-sistemi-kernel/kesme-ve-senkronizasyon/index.md` | Çakışma tespit edildi → YENİ sayımından düşüldü |
+
+> **Düzeltme kaydı:** 2026-10-14 ilk ölçümünde kesişim **0** çıkmıştı; 6 dosyalık
+> yazım tamamlandıktan **sonra** yapılan ikinci ölçümde (yazılan dosyalar hariç)
+> kesişim **3** bulundu ve sayımlar 56 → **53 yeni / 3 kullanım** olarak düzeltildi.
+> Öz-kaynak (kendi yazdığımız satırlar) kesişim sayılmaz; harici 3 kayıt sayılmıştır.
+
+### §J.6 Ölü URL ve Bozuk Biçim Defteri (ölçüm 2026-10-14)
+
+| # | Bozuk / ölü biçim | Ölçüm | Eylem |
+|---|---|---|---|
+| D1 | ``https://www.opengroup.org/apex/lv4/xsh/*.htm`` (13 satır: §E L211, L239, L267-L272, L289-L293) | **HTTP 404** | ``pubs.opengroup.org/onlinepubs/9799919799/functions/*.html`` ile değiştirildi — 13/13 HTTP 200 (11'i §J.1'de · 2 ek: §J.1 sonu notu) |
+| D2 | ``.../win32/procs threading/scheduling-priorities`` ve ``.../win32/procs threading`` (boşluklu) | YANLIŞ YAZIM | ``.../win32/procthread/scheduling-priorities`` — HTTP 200 (§E.5, §J.3) |
+| D3 | ``winbase/nf-winbase-{createmutexw,getmodulefilenamew,unmapviewoffile,flushfilebuffers}`` | **HTTP 404** | Doğru başlıklar ``api/synchapi``, ``api/libloaderapi``, ``api/memoryapi``; ``FlushFileBuffers`` bu turda çağrılmadı |
+| D4 | ``processthreadsapi/nf-...-{waitforsingleobject,entercriticalsection,leavecriticalsection,initializecriticalsection,deletecriticalsection}`` (``/api/`` eksik) | **HTTP 404** | ``/api/`` eklendi; ``WaitForSingleObject``/``InitializeCriticalSection`` bu turda örneklenmedi |
+| D5 | ``sysinfo/memory-management`` · ``securitybaseapi/...-initializeacled`` · ``errhandlingapi/...-raisexception`` · ``sync/critical-sections`` | **HTTP 404** | Kullanılmadı; kritik bölüm için ``sync/mutex-objects`` + ``synchapi`` kullanıldı |
+| D6 | ``pubs.opengroup.org/onlinepubs/09699950799/functions/fork.html`` | **HTTP 404** | ``fork`` bu turda örneklenmedi (``posix_spawn`` tercih edildi) |
+| D7 | ``pubs.../9799919799/functions/acl_*.html`` | **HTTP 404** | ACL örnekleri yalnız ``man7.org``'a bağlandı (§J.2) |
+| D8 | ``developer.apple.com/documentation/kernel/pthread`` · ``opensource.apple.com/manpages/`` | **HTTP 404** | macOS sütunları POSIX'e bağlandı + ⚠️ VERIFICATION REQUIRED (§J.4) |
+| D9 | ``win32/procps/child-processes`` — §E satırı "200 · Doğrulandı" idi | **HTTP 404** (2026-10-14) | Doğru biçim ``win32/procthread/child-processes`` — HTTP 200; envanterde de vardı (reuse) |
+| D10 | ``iis/configuration/system.webServer/rewrite/rules`` · ``iis/extensions/url-rewrite-module/using-rewrite-rules-in-webconfig`` | **HTTP 404** (2026-10-14) | 2026-10-13''ten beri izin-ve-guvenlik §11 dürüstlük notunda kayıtlı; iddia olarak kullanılmıyor |
+
+### §J.7 Ölçüm Sonuçları (2026-10-14)
+
+| Ölçüm | Değer |
+|---|---|
+| Çağrılan toplam URL (§J.1-§J.4) | **56** |
+| HTTP 200 doğrulanan | **56 / 56 (%100)** |
+| Envanter (6 dosya hariç, ``.ai/**`` gizli) | **3760 tekil URL** · ölçüm anı **2026-10-14 11:29** |
+| Envanter kesişimi | **3** (§J.5 — envanterde zaten var, YENİ sayılmadı) |
+| **Bu turda gerçekten eklenen yeni URL** | **53** |
+| Ölçüm sonrası envanter | **3866 tekil URL** |
+| Bu 6 dosyada geçen TÜM tekil URL (yeniden tarama) | **202** → **199 HTTP 200** · 3 non-200 = 2 IIS (izin §11 dürüstlük notu, iddia olarak kullanılmıyor) + 1 ölü kalıp kalıbı (§J.6 D1, satırında zaten **404** yazılı) |
+| Ölü URL (HTTP 404) düzeltmesi | **13** satır (D1) + **2** bozuk biçim (D2) + **8** defter kalemi (D3-D10) |
+| Ölü URL ikamesi için ek doğrulanan URL | **2** (`pthread_atfork.html` · `dup.html` — §J.1 sonu, HTTP 200) · **her ikisi de envanterde vardı → reuse** |
+| Toplam bu turda HTTP 200 ile ölçülen benzersiz URL | **58** (56 + 2) |
+| §H "Dolgu metin 0" kaydının tek istisnası | §F.3 F-9 özet bloğu (satır ~480, ``// ...``) — başlığı ``(özet)`` ile etiketli, 2026-10-13'ten beri mevcut, **bu turda eklenmedi** |
+| Ölçüm istikrarı notu | `.ai/**` envanteri **hareketlidir** (eşzamanlı başka oturumlar da yazıyor; `git status` bu turda electroncis/audio dosyalarında başka oturum değişiklikleri gösteriyor) — tüm sayılar **2026-10-14 11:29** anına aittir |
+| Mojibake | 0 |
+| ``parent:`` alanı | 0 (``parent_id``) |
+
+### §J.8 PHP Köprüsü Turu — URL Bileşeni (2026-10-14)
+
+> Bu tur 5 içerik dosyasına PHP örneği bölümleri ekledi (surec §20 · bellek §18 · dosya §13 ·
+> izin §20 · core §7). PHP bölümleri **repo satırlarına** dayanır; yine de 2 alıntı URL'si eklendi.
+
+| URL | Kullanım | Envanter | HTTP |
+|---|---|---|---|
+| `https://www.php.net/manual/en/function.file-put-contents.php` | `LOCK_EX` tanımı alıntısı (dosya §13.1) + fonksiyon indeksi (§13.7) | **VAR** (reuse) | **200** |
+| `https://www.php.net/manual/en/function.flock.php` | `flock` bağlantısı (dosya §13.1) | **VAR** (reuse) | **200** |
+
+| Ölçüm | Değer |
+|---|---|
+| Bu turda eklenen **yeni** URL | **0** |
+| Reuse (envanterde zaten var) | **2** — §J.5'teki 3 reuse'e ek → toplam reuse **5** |
+| PHP bölümlerindeki diğer URL | **0** (4 PHP bölümünde hiç URL yok; yalnız dosya §13.1/§13.7 bu 2 alıntıyı taşır) |
+| Ölçüm anı | **2026-10-14 12:17** · envanter (6 dosya hariç) o an **3949** → kesişim **2** = reuse |
+
+### §J.9 Çok Dilli Tur — URL Defteri (2026-10-14 · JS · C · Python · Go · Rust · C#)
+
+> 4 içerik dosyasına çok dilli bölümler eklendi (surec §21 · bellek §19 · dosya §14 · izin §21) +
+> core §8 indeksi. JS/PY blokları depo satırına dayanır; C/Go/Rust/C# blokları `⚠️ KALIP (repo YOK)`
+> olarak resmi doküman URL'ine bağlandı. **24 URL ölçümü: 24/24 HTTP 200.**
+
+| # | URL | HTTP | Envanter | Kullanan bölüm |
+|---|---|---|---|---|
+| 1 | `https://nodejs.org/api/child_process.html` | 200 | reuse | surec §21.1 |
+| 2 | `https://pubs.opengroup.org/onlinepubs/9799919799/functions/fork.html` | 200 | reuse | surec §21.2 |
+| 3 | `https://pubs.opengroup.org/onlinepubs/9799919799/functions/execve.html` | 200 | **YENİ** | surec §21.2 |
+| 4 | `https://docs.python.org/3/library/subprocess.html` | 200 | reuse | surec §21.3 |
+| 5 | `https://pkg.go.dev/os/exec` | 200 | reuse | surec §21.4 |
+| 6 | `https://doc.rust-lang.org/std/process/struct.Command.html` | 200 | reuse | surec §21.5 |
+| 7 | `https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process` | 200 | reuse | surec §21.6 |
+| 8 | `https://pubs.opengroup.org/onlinepubs/9799919799/functions/mmap.html` | 200 | reuse | bellek §19.2 |
+| 9 | `https://docs.python.org/3/library/secrets.html` | 200 | **YENİ** | bellek §19.3 |
+| 10 | `https://pkg.go.dev/runtime` | 200 | **YENİ** | bellek §19.4 |
+| 11 | `https://learn.microsoft.com/en-us/dotnet/api/system.gc` | 200 | **YENİ** | bellek §19.6 |
+| 12 | `https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator` | 200 | **YENİ** | bellek §19.6 |
+| 13 | `https://nodejs.org/api/fs.html` | 200 | **YENİ** | dosya §14.1 |
+| 14 | `https://docs.python.org/3/library/os.html` | 200 | reuse | dosya §14.2 · izin §21.3 |
+| 15 | `https://docs.python.org/3/library/fcntl.html` | 200 | **YENİ** | dosya §14.2 |
+| 16 | `https://pubs.opengroup.org/onlinepubs/9799919799/functions/open.html` | 200 | reuse | dosya §14.3 · izin §21.2 |
+| 17 | `https://pubs.opengroup.org/onlinepubs/9799919799/functions/fcntl.html` | 200 | **YENİ** | dosya §14.3 |
+| 18 | `https://pkg.go.dev/os` | 200 | **YENİ** | dosya §14.4 · izin §21.4 |
+| 19 | `https://doc.rust-lang.org/std/fs/struct.File.html` | 200 | **YENİ** | dosya §14.5 |
+| 20 | `https://learn.microsoft.com/en-us/dotnet/api/system.io.filestream` | 200 | **YENİ** | dosya §14.6 |
+| 21 | `https://pubs.opengroup.org/onlinepubs/9799919799/functions/umask.html` | 200 | **YENİ** | izin §21.2 |
+| 22 | `https://doc.rust-lang.org/std/fs/fn.set_permissions.html` | 200 | **YENİ** | izin §21.5 |
+| 23 | `https://learn.microsoft.com/en-us/dotnet/api/system.io.file.setunixfilemode` | 200 | **YENİ** | izin §21.6 |
+| 24 | `https://man7.org/linux/man-pages/man2/fork.2.html` | 200 | reuse | **KULLANILMADI** (yazılmadı → envantere girmedi) |
+
+| Ölçüm | Değer |
+|---|---|
+| Ölçülen URL | **24 / 24 HTTP 200** |
+| Envante göre reuse / yeni | **10 reuse · 14 yeni** |
+| Dosyalarda kullanılan | **23** (9 reuse + 14 yeni) |
+| Kullanılmayan | **1** (`man7 fork.2`) — 4 bölümde hiç geçmiyor |
+| Envanter (6 dosya hariç) | **4007 tekil URL** · ölçüm anı **2026-10-14 12:41** |
+| 14 yeni URL kesişimi | **0** (hiçbiri envanterde yoktu → kural sağlanmış) |
+| Bu turda eklenen `⚠️ KALIP (repo YOK)` blok | **22** (surec 6 · bellek 5 · dosya 6 · izin 5) |
+| Bu turda depo satır kanıtlı blok | **5** (JS ×3 · PY ×2) |
+| Sürüm iddiası içeren satır | hepsi `⚠️ VERIFICATION REQUIRED` (.NET sürümü · Rust unix tekilliği · Go kill sinyali · CPython GC · MDN monotoniklik) |
+| Mojibake / CJK / `parent:` | **0 / 0 / 0** |
+| `git status` | 6 dosya `M` · `*.php/js/css/sql` değişikliği **0** · **commit atılmadı** |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

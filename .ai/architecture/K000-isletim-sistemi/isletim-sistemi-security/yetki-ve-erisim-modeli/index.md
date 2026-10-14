@@ -3,7 +3,7 @@ node_id: K000-isletim-sistemi/isletim-sistemi-security/yetki-ve-erisim-modeli
 node_type: subdomain
 status: draft
 parent_id: K000-isletim-sistemi/isletim-sistemi-security
-children: [yetki-ve-erisim-modeli-anayasa, yetki-ve-erisim-modeli-surucu, yetki-ve-erisim-modeli-ornekler]
+children: [yetki-ve-erisim-modeli-anayasa, yetki-ve-erisim-modeli-surucu, yetki-ve-erisim-modeli-ornekler, yetki-ve-erisim-modeli-windows, yetki-ve-erisim-modeli-linux, yetki-ve-erisim-modeli-macos, yetki-ve-erisim-modeli-ios, yetki-ve-erisim-modeli-android, yetki-ve-erisim-modeli-tizen, yetki-ve-erisim-modeli-webos, yetki-ve-erisim-modeli-reactos]
 depends_on:
   - K000-isletim-sistemi/isletim-sistemi-security
   - K000-isletim-sistemi/isletim-sistemi-core
@@ -57,7 +57,10 @@ ne var).
 | `yetki-ve-erisim-modeli-surucu` | Kademe-4 | mimari |
 | `yetki-ve-erisim-modeli-ornekler` | Kademe-4 | kod |
 
-**Toplam:** 1 index (mimari) + 3 icerik (mimari x2 · kod x1) = 4 dosya.
+**Toplam:** 1 index (mimari) + 3 icerik (mimari x2 · kod x1) + 8 OS karti (kod) = 12 dosya.
+
+> **OS kartlari (2026-10-14):** `yetki-ve-erisim-modeli-<os>.md` — windows · linux ·
+> macos · ios · android · tizen · webos · reactos (8 kart, `group: kod`, hedef referans).
 
 ## Komsu sinir matrisi
 

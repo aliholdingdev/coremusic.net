@@ -59,6 +59,7 @@ group: kod
 | Ne yanlış? | §3 |
 | Politikalar nasıl ayrılır? | §4 |
 | Repo'da **yok** olan ne? | §5 |
+| OS'ler kendi aralarında nasıl örneklenir? | §7 |
 
 ## §1 Gerçek repo kodu (uygulama katmanı — satır alıntıları)
 
@@ -507,6 +508,81 @@ group: kod
 | `is-parcacigi-planlamasi-ornekler.md` | kardeş dürüstlük defteri (§5.3 çelişkisi) |
 | `kaynak-dagilimi-ornekler.md` | kota/kabul örneği |
 | `isletim-sistemi-api` | uygulama katmanı sınırı |
+
+## §7 OS bazlı zamanlama örnekleri (her OS kendi altında)
+
+> **Tek satır dürüstlük:** Aşağıdaki hiçbir örneğin bu depoda karşılığı **yoktur**
+> (`pcntl_` · `pthread_` · `sched_` → 0 eşleşme, §5 D-1) — hepsi **OS seviyesi** referanstır.
+> Her URL **2026-10-14 HTTP 200** ile ölçülmüştür.
+
+### §7.1 Linux / POSIX (Raspberry Pi 5 hedefi)
+
+| # | Zamanlama örneği | Kaynak | 2026-10-14 |
+|---|---|---|---|
+| Z-L1 | `chrt -r <prio> cmd` — SCHED_RR (varsayılan RT politikası); `-f` FIFO; `-d` DEADLINE `runtime ⇐ deadline ⇐ period` ilişkisi | https://man7.org/linux/man-pages/man1/chrt.1.html | HTTP 200 |
+| Z-L2 | `sched_setscheduler(pid, policy, param)` — `pid=0` çağıran; POSIX'te `SCHED_SPORADIC` dahil; `sched_priority` politikanın öncelik aralığında | https://pubs.opengroup.org/onlinepubs/9799919799/functions/sched_setscheduler.html | HTTP 200 |
+| Z-L3 | `sched_getattr(pid, attr, size, flags)` / `sched_setattr` — `SCHED_OTHER/BATCH/IDLE` + `SCHED_FIFO/RR/DEADLINE`; glibc wrapper yok → `syscall(2)` | https://man7.org/linux/man-pages/man2/sched_getattr.2.html | HTTP 200 |
+| Z-L4 | RT grup bütçesi: `sched_rt_period_us` içinde `sched_rt_runtime_us`; kullanılmayan kısım `SCHED_OTHER`'a; 25 fps renderer: period 0.04s → budget 0.032s | https://docs.kernel.org/scheduler/sched-rt-group.html | HTTP 200 |
+| Z-L5 | `sched_yield()` — kuyruğun sonuna bırak (POSIX REALTIME) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/sched_yield.html | HTTP 200 |
+
+```c
+/* OS seviyesi — depoda karşılığı YOK (kaynak: Z-L2, 2026-10-14 HTTP 200) */
+struct sched_param p = { .sched_priority = 80 };
+sched_setscheduler(0, SCHED_FIFO, &p);   /* pid=0: çağıran parçacık */
+```
+
+### §7.2 Windows (WASAPI hedefi — `.ai/AGENTS.md §4` #11)
+
+| # | Zamanlama örneği | Kaynak | 2026-10-14 |
+|---|---|---|---|
+| Z-W1 | `SetThreadIdealProcessor(hThread, dwIdealProcessor)` — "sistem parçacıkları tercih edilen işlemcilerde programlar"; dönüş önceki tercih; hata `(DWORD)-1` | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadidealprocessor | HTTP 200 |
+| Z-W2 | `SetPriorityClass(hProcess, dwPriorityClass)` — `HIGH_PRIORITY_CLASS` "zamanında yürütülmesi gereken" süreç; `PROCESS_MODE_BACKGROUND_BEGIN` kaynak kullanımını düşürür | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setpriorityclass | HTTP 200 |
+| Z-W3 | `AvSetMmThreadCharacteristicsA(TaskName, TaskIndex)` — thread'i Multimedya SystemProfile görevine bağlar (ses için "Audio" görevi); bitişte `AvRevertMmThreadCharacteristics` | https://learn.microsoft.com/en-us/windows/win32/api/avrt/nf-avrt-avsetmmthreadcharacteristicsa | HTTP 200 |
+| Z-W4 | `SetThreadPriority` / `GetThreadPriority` — parçacık öncelik seviyesi oku/ayarla | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-setthreadpriority | HTTP 200 |
+
+```c
+/* OS seviyesi — depoda karşılığı YOK (kaynak: Z-W3, 2026-10-14 HTTP 200) */
+DWORD idx = 0;
+HANDLE hTask = AvSetMmThreadCharacteristicsA("Audio", &idx); /* ses parçacığı */
+/* ... iş bitti: AvRevertMmThreadCharacteristics(hTask); */
+```
+
+### §7.3 macOS / iOS (aday platform)
+
+| # | Zamanlama örneği | Kaynak | 2026-10-14 |
+|---|---|---|---|
+| Z-A1 | `DispatchQoS` — QoS = "yürütme önceliği"; `userInteractive` > `userInitiated` > `default` > `utility` > `background`; "sistem daha yüksek servis sınıflarını önceliklendirir" | https://developer.apple.com/documentation/dispatch/dispatchqos | HTTP 200 |
+| Z-A2 | `DispatchQueue` — QoS sınıfıyla kuyruk oluşturulur | https://developer.apple.com/documentation/dispatch/dispatchqueue | HTTP 200 |
+| Z-A3 | `Thread` — Foundation parçacık sarmalayıcısı | https://developer.apple.com/documentation/foundation/thread | HTTP 200 |
+
+```swift
+/* OS seviyesi — depoda karşılığı YOK (kaynak: Z-A1, 2026-10-14 HTTP 200) */
+DispatchQueue(label: "render", qos: .userInteractive).async { /* RT benzeri iş */ }
+```
+
+> `pthread_attr_setschedpolicy` Apple dokümanı 2026-10-14'te **HTTP 404** — doğrulanamadı,
+> uydurulmadı; POSIX karşılığı §7.1 Z-L2.
+
+### §7.4 RTOS — Zephyr (gömülü hedef)
+
+| # | Zamanlama örneği | Kaynak | 2026-10-14 |
+|---|---|---|---|
+| Z-R1 | "En yüksek öncelikli hazır parçacık seçilir; eşit öncelikte en uzun süredir bekleyen seçilir"; EDF: `CONFIG_SCHED_DEADLINE` + `k_thread_deadline_set()`; reschedule noktaları: `k_sem_take()`/`k_sleep()`/`k_yield()` + ISR dönüşü | https://docs.zephyrproject.org/latest/kernel/services/scheduling/index.html | HTTP 200 |
+| Z-R2 | Hazır kuyruk seçenekleri: `CONFIG_SCHED_SIMPLE` (≈2k tasarruf) · `CONFIG_SCHED_SCALABLE` (kırmızı-siyah ağaç, >20 parçacık) · `CONFIG_SCHED_MULTIQ` (O(1) klasik) | https://docs.zephyrproject.org/latest/kernel/services/scheduling/index.html | HTTP 200 |
+| Z-R3 | `k_cycle_get_32()`/`k_cycle_get_64()` — en hızlı sayaç; frekans `sys_clock_hw_cycles_per_sec()` (sabit `CONFIG_SYS_CLOCK_HW_CYCLES_PER_SEC` ya da çalışma zamanı güncellenen platformlar) | https://docs.zephyrproject.org/latest/kernel/services/timing/clocks.html | HTTP 200 |
+
+> **FreeRTOS boşluğu:** `freertos.org` 6 aday URL'si 2026-10-14'te **tamamı HTTP 404** →
+> FreeRTOS için doğrulanmış örnek **yok**; `⚠️ VERIFICATION REQUIRED` açık kalır.
+
+### §7.5 OS matrisi (zamanlama yeteneği → OS)
+
+| Yetenek | Linux/POSIX | Windows | macOS/iOS | Zephyr RTOS |
+|---|---|---|---|---|
+| Politika ata | Z-L2 · Z-L3 | Z-W2 (sınıf) | Z-A1 (QoS) | sabit (statik öncelik) |
+| RT politikası | Z-L1 FIFO/RR/DEADLINE | yok (sınıf tabanlı) | yok (QoS tabanlı) | öncelik + EDF (Z-R1) |
+| Çekirdek bağlama | `taskset`(§ kök L-1) | `SetThreadAffinityMask`(kök W-1) | resmi API **404 — ⚠️** | tek çekirdek varsayılan |
+| Öncelik oku/ata | Z-L3 | Z-W4 | Z-A1 (dolaylı) | `k_thread_*` |
+| Ölçüm kaynağı | `sched` olayları ⚠️ (bkz §6 düzeltmesi) | Performans sayaçları | QoS ihlali logu | Z-R3 çevrim sayacı |
 
 ---
 

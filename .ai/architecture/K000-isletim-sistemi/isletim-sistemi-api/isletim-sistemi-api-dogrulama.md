@@ -11,7 +11,7 @@ evidence:
   - https://man7.org/linux/man-pages/man2/fork.2.html
   - https://man7.org/linux/man-pages/man3/errno.3.html
   - ".ai/architecture/K000-isletim-sistemi/isletim-sistemi-api/index.md"
-validation: "2026-10-14 · 4. tur: 196 URL HEAD (168×200 · 16×404 · 12 HEAD-red = gnu.org erişim engeli) · 24 yeni URL (8 §T.4 + 16 §T.8, kesişim 0) · yeni ölü keşfi 0 · 9 yeni repo kanıtı · §T (§T.8 PHP eki §G.7) · (3. tur kaydı: §S)"
+validation: "2026-10-14 · 4. tur: 196 URL HEAD (168×200 · 16×404 · 12 HEAD-red = gnu.org erişim engeli) · 24 yeni URL (8 §T.4 + 16 §T.8, kesişim 0) · yeni ölü keşfi 0 · 9 yeni repo kanıtı · §T (§T.8 PHP eki §G.7) · (3. tur kaydı: §S) · 5. tur: §U (§I çok-dilli · 17 URL) + §V (§I.7-§I.10 aile genişletmesi · 22 URL HEAD-200 · 9 VAR + 13 yeni)"
 open_questions:
   - "Q-P1 Hangi API yüzeyi kastediliyor — kernel API mi, kullanıcı uzay hizmetleri mi?"
   - "Q-P2 Platform ses API'sinin yüzeyi burada mı, isletim-sistemi-audio içinde mi?"
@@ -748,5 +748,28 @@ olduğu için dar "PHP" sütununa yerleştirilmedi (sütun yerleşimi yanıltıc
 
 **Kapılar:** ≥500 satır ✓ (ölçüm kapanışta) · mojibake 0 · beyazliste içi 1 dosya
 (ornekler.md) · commit 0 (subagent — §A17).
+
+### §V — 5. Tur devamı: §I.7-§I.10 aile genişletmesi (2026-10-14)
+
+**Kapsam:** `isletim-sistemi-api-ornekler.md` §I'ye eksik syscall aileleri
+eklendi — **§I.7** dosya I/O · dizin · durum (Python/Go/Rust/C#/Node.js —
+taşınabilir temp yolu, üç OS aynı blok) · **§I.8** UDP SOCK_DGRAM (5 dil ·
+port-0 deseni) · **§I.9** kilit yüzeyi **OS gruplu** (POSIX: fcntl/flock ·
+Windows: msvcrt · taşınabilir: C# FileShare.None + PHP LOCK_EX atıfı ·
+Node/Rust std yüzeyi ⚠️ doğrulanmadı → blok yok, VERIFICATION REQUIRED) ·
+**§I.10** kanıt tablosu. §I.0 kaynak sayıları 17 → 30 URL'ye güncellendi;
+§I giriş bloğu ve §H `ornekler` satırı Not hücresi genişletildi.
+
+**URL ölçümü:** 22 aday **22/22 HEAD-200** · envanter kesişimi **9 VAR +
+13 YENİ** (VAR'lar §I.6'da kayıtlı — tekrar kanıtı; YENİ: nodejs fs/dgram ·
+python fcntl/msvcrt · go os · rust fs/process/net · dotnet FileStream/
+TcpListener/UdpClient/Directory/FileInfo — detay §I.10).
+
+**Envanter ölçümü (bu ek öncesi):** `.ai/architecture/**` = 1020 md ·
+3679 benzersiz URL · alt ağaç = 19 md (dosya sayısı değişmedi — yeni dosya 0).
+
+**Kapılar:** ≥500 satır ✓ (ölçüm kapanışta) · mojibake/CJK 0 · boş tablo
+hücresi 0 · `parent:` 0 · `group` tırnaksız · FM validation 2 dosyada
+güncellendi (§V işaretli) · commit 0 (subagent — §A17).
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

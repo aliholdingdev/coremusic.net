@@ -427,7 +427,7 @@ farkları, burada **gözlеm arayüzü** farkları anlatılır.
 | L-W9 | `printk` level/format kuralları | https://www.kernel.org/doc/html/latest/core-api/printk-formats.html | 2026-10-13 | 200 |
 | L-W10 | Windows Event Log kaydı | https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log | 2026-10-13 | 200 |
 | L-W11 | Windows Event Log kullanım akışı | https://learn.microsoft.com/en-us/windows/win32/wes/using-windows-event-log | 2026-10-13 | 200 |
-| L-W12 | Apple os_log üretici kılavuzu | https://developer.apple.com/documentation/os/logging/generating-log-messages-from-your-code | 2026-10-13 | 200 |
+| L-W12 | Apple os_log arayüzü | https://developer.apple.com/documentation/os/os_log | 2026-10-14 | 200 |
 | L-W13 | `systemd-journald(8)` servis/forward | https://www.freedesktop.org/software/systemd/man/latest/systemd-journald.html | 2026-10-13 | 200 |
 | L-W14 | `logrotate(8)` rotate/schedule/postrotate | https://man7.org/linux/man-pages/man8/logrotate.8.html | 2026-10-13 | 200 |
 
@@ -506,5 +506,61 @@ O3 `[UNKNOWN]` süreç içi hız sınırlayıcı / log toplayıcı varlığı �
 > **Sonuç:** §16 dosyanın **karar kullanılabilirliğini** artırır; kanıt
 > oranını ve açık madde sayısını **değiştirmez**. O1–O3 yalnız gerçek ölçümle
 > kapanır.
+
+## §17 OS sürücü turu — günlük okuma/yazma araçları (2026-10-14 genişletme)
+
+> §14 **farkları** çiziyordu; bu bölüm her OS'un sürücü (araç) setini
+> **komut düzeyinde** verir. Kanıtlar 2. tur doğrulamasından gelir
+> (L-W18–L-W27, tam liste dogrulama §1.1) — tümü HTTP 200.
+
+### §17.1 Linux — journald / syslog / auditd
+
+| Araç | İş | Örnek | Kanıt |
+| --- | --- | --- | --- |
+| `journalctl` | jurnal okuma/filtreleme | `journalctl -u php-fpm --since "10 min ago"` | L-W7 |
+| `dmesg` | çekirdek halkası okuma | `dmesg --level=err,warn -T` | L-W8 |
+| `logger` | satır içi syslog üretimi | `logger -p local0.err "route rejected"` | L-W1 |
+| `ausearch` | audit kaydı sorgu | `ausearch -m USER_LOGIN -ts today` | L-W19 |
+| `auditd` | audit daemon (disk kaydı) | yapılandırma `/etc/audit/` | L-W18 |
+
+`auditd` journald'ın **yanında** çalışır: journald servis yaşam döngüsünü,
+auditd güvenlik olaylarını (dosya erişimi, kimlik doğrulama) diske tutarlı
+yazar. Audit kuralları `auditctl` ile belirlenir; bu dosyada kural yazımı
+**tarif amaçlıdır**, repo'da audit kuralı yoktur (`UNKNOWN`, §15 O3).
+
+### §17.2 Windows — Event Log
+
+| Araç | İş | Örnek | Kanıt |
+| --- | --- | --- | --- |
+| `wevtutil` | olay okuma/yazma | `wevtutil qe Application /c:10 /f:text` | L-W20 |
+| `Get-WinEvent` | PowerShell okuma | `Get-WinEvent -FilterHashtable @{LogName='Application'}` | L-W21 |
+| `eventcreate` | satır içi olay yazma | `eventcreate /T ERROR /ID 101 /L APPLICATION /D "msg"` | L-W22 |
+| `ReportEventW` | Win32 API kayıt | C/C++ `ReportEvent(h, ...)` | L-W23 |
+| XPath sorgu | olay filtreleme | `*[System[Level=2 and TimeCreated[timediff(...)` | L-W24 |
+
+`ReportEventW` (L-W23) üretim API'sidir — `.NET` tarafı `EventLog.WriteEntry`
+ile aynı kanala yazar; `eventcreate` (L-W22) komut satırı köprüsüdür.
+Sorgulama iki yoldan yapılır: `wevtutil` (L-W20) veya PowerShell
+`Get-WinEvent` (L-W21); ikisi de XPath filtresi kabul eder (L-W24).
+
+### §17.3 macOS — unified logging
+
+| Araç | İş | Örnek | Kanıt |
+| --- | --- | --- | --- |
+| `log(1) show` | kayıt okuma/filtreleme | `log show --last 10m --predicate 'subsystem == "net.coremusic"'` | L-W25 |
+| `log(1) emit` | kayıt üretme | `log emit --level error --message "route rejected"` | L-W25 |
+| `os_log` | Objective-C/C arayüzü | `os_log(os_log_default, "route %{public}@", name)` | L-W12r |
+| `Logger` | Swift arayüzü | `Logger(subsystem: "net.coremusic", category: "router")` | L-W26 · L-W27 |
+
+`Logger(subsystem:category:)` (L-W27) kayıt kaynağı tanımıdır; subsystem
+alan adı formatında, category serbest metindir — iki alan da `log show`
+filtreleme anahtarıdır (L-W25). Hassas alanlar `%{private}` belirteciyle
+gizlenir (L-W12); bu, repo'daki `Redactor::redact`'in OS tarafındaki
+karşılığıdır — ikisi de **halkadan önce** çalışır.
+
+> **Dipnot (ayna):** `log.1` (L-W25) üçüncü taraf aynasından
+> (keith.github.io) doğrulanmıştır; `log(1)` sayfası Apple'ın kendi
+> sitesinde ayrıca yer alır ama bu turda HTTP 200 **yalnız aynadan**
+> alınmıştır — belge sürümü `UNKNOWN` (dogrulama §1.1).
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

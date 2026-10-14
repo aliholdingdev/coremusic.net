@@ -12,7 +12,7 @@ evidence:
   - ".ai/electronic/amplifier/class-d.md satır 42-47"
   - ".ai/electronic/frequency-response.md satır 50-56"
   - ".ai/electronic/snr-thd-measurement.md satır 29, 45-48"
-validation: "draft — 2026-10-13 yazıldı · ≥500 ölçümü yazım sonrası"
+validation: "draft — 2026-10-13 yazıldı · ≥500 ölçümü yazım sonrası · 2026-10-14 · K000 kaynaklı taşıma eklendi (bkz §T-K000)"
 open_questions:
   - "Q-DVA1: filtre tasarım sınırı K004-dsp → ⚠️ VERIFICATION REQUIRED"
 group: mimari
@@ -504,6 +504,283 @@ aynı toprak izinden akım paylaşırsa birinin akımı diğerinin referansını
 | 1 | 2026-10-13 | İlk yazım (§1-§13) | Vault Steward |
 | 2 | 2026-10-13 | §21 doğrulama bağlantısı + ≥500 derinleştirme | Vault Steward |
 | 3 | — | Q-DVA1..3 açık — üst karar/ajan bekliyor | BEKLEMEDE |
+
+---
+
+## §T-K000 — K000 kaynaklı taşıma (devre-tasarımı · analog · 2026-10-14)
+
+> Bu bölüm, silinmekte olan K000 (`K000-isletim-sistemi/electroncis/devre-tasarımı/`) benzersiz
+> içeriğinin taşınmasıyla oluşturulmuştur. İçerik kaynaktan **birebir** kopyalanır (imla korunur);
+> frontmatter alanları (node_id · depends_on · evidence · open_questions · wikilink) kopyalanmaz.
+> Her blok kaynak § ve satır aralığını taşır; `⚠️ VERIFICATION REQUIRED` / `UNKNOWN` / `PLANNED`
+> işaretleri aynen korunur.
+
+### §T-K000.1 Worst-case tasarım metodolojisi (tolerans · derating · güvenlik payı)
+
+> Kaynak: `devre-tasarimi-anayasa.md` §10 (satır 246-281). Amaç: her bileşemin **en kötü durumda**
+> (tolerans · sıcaklık · yaşlanma · üretim saçılımı) hâlâ güvenli çalışmasını garantilemek. Sayısal
+> değer uydurulmaz; yalnız **hesap yöntemi** taşınır.
+
+**Derating kuralları (§10.1)**
+
+| # | Büyüklük | Kural (tipik mühendislik) | Uygulama |
+|---|---|---|---|
+| 1 | Kapasitör gerilimi | nominal ≥ 2× çalışır gerilim (elektrolit) | güç filtresi |
+| 2 | Kapasitör gerilimi (seramik) | DC bias derating (X5R/X7R) dikkate alınır | decoupling |
+| 3 | Direnç gücü | P ≤ ½ · P_nom | sıcaklık |
+| 4 | Transistör Vceo/Vds | ≤ ½ · maks | amplifikatör/switcher |
+| 5 | Sıcaklık | T_j ≤ T_jmax − 20 °C pay | termal |
+
+**Tolerans bütçesi (§10.2)**
+
+| # | Kaynak | Tipik etki | Toplama yöntemi |
+|---|---|---|---|
+| 1 | Direnç tolerans (%1/%5) | kazanç sapması | RSS (kök-toplam-kare) veya worst-case |
+| 2 | Kapasitör tolerans (%10/%20) | fc sapması | worst-case (filtre) |
+| 3 | Op-amp offset/IB | DC sapma | worst-case |
+| 4 | ADC/DAC DNL/INL | bozulma | datasheet |
+| 5 | Sıcaklık katsayısı (ppm/°C) | drift | RSS + sıcaklık aralığı |
+
+**Güvenlik payı hesabı (§10.3)**
+
+| # | Adım | İşlem | Çıktı |
+|---|---|---|---|
+| 1 | Nominal değer | tasarım noktası | V_nom · I_nom · T_nom |
+| 2 | Tolerans aralığı | ±tolerans uygula | V_min/max · I_min/max |
+| 3 | Sıcaklık | katsayıyla genişlet | T aralığı |
+| 4 | Worst-case | en kötü kombinasyon | sınır değer |
+| 5 | Pay | sınır − nominal | güvenlik payı |
+| 6 | Karar | pay > 0 → geç | PASS/FAIL |
+
+### §T-K000.2 Kararlılık · geri besleme · kompanzasyon (PM ≥ 45°)
+
+> Kaynak: `devre-tasarimi-anayasa.md` §11 (satır 283-301).
+
+| # | Kavram | Tanım | Hata belirtisi | Düzeltme |
+|---|---|---|---|---|
+| 1 | Açık kazanç (Aol) | geri besleme olmadan kazanç | — | — |
+| 2 | Geri besleme faktörü (β) | çıktının girdiye oranı | — | — |
+| 3 | Kazanç marjı (GM) | faz −180° iken kazanç payı | osilasyon | kompanzasyon |
+| 4 | Faz marjı (PM) | kazanç 0 dB iken faz payı | overshoot/ringing | Miller kapasitör |
+| 5 | Unity-gain bant (GBW) | kazanç=1 frekansı | bant daralması | doğru op-amp |
+| 6 | Slew rate | maksimum çıkış değişim hızı | distorsiyon (yüksek f) | SR seçimi |
+
+**Kararlılık doğrulama adımları (§11.1)**
+
+| # | Adım | Simülasyon | Beklenen |
+|---|---|---|---|
+| 1 | AC analiz | faz/kazanç grafiği | PM ≥ 45° (hedef) |
+| 2 | Transient | adım/impuls yanıtı | overshoot sınırlı |
+| 3 | Worst-case | tolerans + sıcaklık | PM hâlâ pozitif |
+| 4 | Yük varyasyonu | kapasitif yük | kararlılık korunur |
+
+### §T-K000.3 Gürültü analizi ve bütçesi (√4kTRB · Friis)
+
+> Kaynak: `analog-ve-dijital-devre-temelleri.md` §4 (satır 181-200) + §10 (satır 325-346).
+
+**Gürültü kaynakları (§4.1)**
+
+| # | Kaynak | Tür | Karakteristik | Azaltma |
+|---|---|---|---|---|
+| 1 | Direnç (Johnson-Nyquist) | termal | k √(4kTRB) | düşük R · düşük B |
+| 2 | Transistör (shot) | akım | ∝√I | akım optimizasyonu |
+| 3 | Flicker (1/f) | düşük-f | pink noise | düşük-1/f bileşen · lock-in |
+| 4 | Op-amp giriş gürültü | en · In | nV/√Hz · pA/√Hz | doğru op-amp · düşük-Z |
+| 5 | Güç kaynağı gürültü | ripple/PSRR | anahtarlama gürültüsü | regülasyon · PSRR |
+
+**Gürültü hesabı (§4.2)**
+
+| # | Büyükllük | Bağıntı | Not |
+|---|---|---|---|
+| 1 | Toplam gürültü gerilimi | en,total = en·√(B·n) | n bileşen · B bant |
+| 2 | Direnç gürültü | vn = √(4kTRB) | k = Boltzmann |
+| 3 | Gürültü faktörü (NF) | NF = 10·log(F) | cascaded NF |
+| 4 | Cascaded (Friis) | Ftot = F1 + (F2−1)/G1 + ... | ilk aşama kritik |
+
+**Gürültü bütçesi metodolojisi (§10) — sayısal değer YOK**
+
+| # | Adım | İşlem | Çıktı |
+|---|---|---|---|
+| 1 | Zincir tanımı | aşama listesi (giriş→çıkış) | blok şema |
+| 2 | Her aşama gürültüsü | en (nV/√Hz) · kazanç | aşama gürültüsü |
+| 3 | Friis uygulama | Ftot = F1 + (F2−1)/G1 + ... | toplam NF |
+| 4 | Bant genişliği | gürültü bant (B) | en·√B |
+| 5 | Sinyal seviyesi | referans sinyal | SNR hesabı |
+| 6 | Eşik karşılaştırma | SNR ≥ hedef | PASS/FAIL |
+
+**Gürültü azaltma stratejileri (§10.1)**
+
+| # | Strateji | Etki | Maliyet |
+|---|---|---|---|
+| 1 | İlk aşama düşük-gürültü | dominanter (Friis) | maliyet |
+| 2 | Bant genişliğini daralt | √B doğrusal | gecikme |
+| 3 | Düşük-empedans zincir | Johnson gürültü azalır | akım |
+| 4 | Lock-in / chopper | 1/f kaçınma | karmaşıklık |
+| 5 | Ekranlama · twisted pair | EMI azalır | PCB/kablo |
+
+### §T-K000.4 Bileşen seçim ve değer tabloları
+
+> Kaynak: `devre-tasarimi-anayasa.md` §15 (satır 340-386) + `analog-ve-dijital-devre-temelleri.md` §7 (satır 241-263). Spesifik marka/model seçimi ilgili K-node'larındır; sayısal değer uydurulmaz, yalnız **seçim ölçütü** verilir.
+
+**Direnç seçimi ölçütleri (§15.1)**
+
+| # | Ölçüt | Neden önemli | Seçim kuralı |
+|---|---|---|---|
+| 1 | Tolerans (%) | kazanç/fc doğruluğu | kritik: %1 · genel: %5 |
+| 2 | Sıcaklık katsayısı (ppm/°C) | drift | kritik: ≤100 ppm |
+| 3 | Güç (W) | ısınma | ≥2× hesaplanan güç |
+| 4 | Gürültü (Johnson) | ses yolu | düşük-değer · metal-film |
+| 5 | Voltage katsayısı | gerilim altı direnç kayması | yüksek-gerilim yerine yüksek-katsayı |
+
+**Kapasitör seçimi ölçütleri (§15.2)**
+
+| # | Tip | Uygulama | Kural | Dikkat |
+|---|---|---|---|---|
+| 1 | C0G/NP0 | filtre · timing · audio kritik | tolerans %1–5 · düşük kayıp | pahalı, küçük değer |
+| 2 | X7R | decoupling · bypass | DC bias derating | değer düşüşü |
+| 3 | X5R | decoupling | ekonomik | sıcaklık |
+| 4 | Elektrolit (Al) | güç filtresi | ≥2× gerilim · ESR | ripple akım · ömür |
+| 5 | Tantal | düşük ESR · kompakt | gerilim derating | ateşlenme riski |
+| 6 | Film | ses yolu · yüksek kalite | düşük kayıp · düşük gürültü | boyut |
+
+**Yarı iletken seçimi ölçütleri (§15.3)**
+
+| # | Tür | Uygulama | Ölçüt |
+|---|---|---|---|
+| 1 | BJT | ses · analog | gürültü · hFE · eşleşme |
+| 2 | MOSFET | anahtarlama · Class-D | Rds(on) · Vgs(th) · Qg |
+| 3 | Op-amp | filtre · kazanç | GBW · SR · offset · gürültü |
+| 4 | Regülatör | güç | PSRR · dropout · gürültü |
+| 5 | Koruma (eFuse/TVS) | koruma | eşik · tepki · kapasite |
+
+**Entegre seçimi (ses yolü — PCM3168A referans, §15.4)**
+
+| # | Rol | Tipik bileşen (CoreMusic) | Seçim ölçütü |
+|---|---|---|---|
+| 1 | DAC | PCM3168A · AK4458 | kanal · THD+N · SNR · I2S/TDM |
+| 2 | ADC | ⚠️ UNKNOWN (PLANNED) | fs · bit · SNR |
+| 3 | Amplifikatör | Class-AB/D | güç · verim · bozulma |
+| 4 | Koruma | eFuse · TVS · termistör | eşik · tepki |
+
+> **Dürüstlük:** PCM3168A/CoreMusic donanımı **ADR-038 H001** ile sabittir; ADC seçimi henüz
+> belgelenmemiştir → `⚠️ VERIFICATION REQUIRED` / `PLANNED`.
+
+**Direnç tipleri (analog §7.1)**
+
+| # | Tip | Tolerans | TCR (ppm/°C) | Gürültü | Uygulama |
+|---|---|---|---|---|---|
+| 1 | Karbon kompozit | %5–20 | yüksek | yüksek | genel · düşük öncelik |
+| 2 | Metal film | %1–2 | 25–100 | düşük | ses · ölçüm |
+| 3 | Thin film | %0.1–1 | 5–25 | çok düşük | kritik filtre · ADC referans |
+| 4 | Wirewound | %1–5 | 10–50 | orta | güç · yüksek akım |
+| 5 | Shunt (akım ölçüm) | %0.5–1 | düşük | düşük | akım algılama |
+
+**Kapasitör dielektrik karşılaştırması (analog §7.2)**
+
+| # | Dielektrik | Sembol | Tolerans | TCC | Dip/geri dönüş | Uygulama |
+|---|---|---|---|---|---|---|
+| 1 | Sınıf 1 seramik | C0G/NP0 | %0.5–5 | 0±30 ppm/°C | yok | ses · timing · filtre |
+| 2 | Sınıf 2 seramik | X7R | %10–20 | ±15% | geri dönüş | decoupling |
+| 3 | Sınıf 2 seramik | X5R | %10–20 | ±15% | geri dönüş | decoupling (ekonomik) |
+| 4 | Polyester film | — | %5 | orta | düşük | ses · genel |
+| 5 | Polypropylene film | — | %1–5 | çok düşük | çok düşük | yüksek-Q filtre · ölçüm |
+| 6 | Al elektrolit | — | %20 | yüksek | yüksek | güç filtresi |
+| 7 | Tantal | — | %5–20 | orta | düşük | kompakt · düşük ESR |
+
+### §T-K000.5 Tasarım kapı (gate) · red davranışı · RACI
+
+> Kaynak: `devre-tasarimi-anayasa.md` §18 (satır 427-465). Her aşama geçmeden sonrakine başlanmaz
+> (WORKFLOW §8.9 hard-gate mantığı). Bu liste **tasarım-anı** kapılarını taşır; üretim kapıları K001'dedir.
+
+**Aşama kapıları (§18.1)**
+
+| # | Kapı | Geçme kiteriyumu | Kanıt | Durum |
+|---|---|---|---|---|
+| 1 | Gereksinim | ölçülebilir hedef (THD · SNR · fs) | şartname satırı | PLANNED |
+| 2 | Mimari | topoloji gerekçeli | mimari notu | PLANNED |
+| 3 | Bileşen | worst-case derating geçti | hesap tablosu | PLANNED |
+| 4 | Şema | netlist incelemesi | inceleme kaydı | PLANNED |
+| 5 | Sim (AC/DC/trans) | PM ≥ 45° · DC bias nominal | sim raporu | PLANNED |
+| 6 | Monte Carlo | verim yüzdesi ≥ hedef | dağılım raporu | PLANNED |
+| 7 | PCB girişi | şema donduruldu | teslim paketi | PLANNED |
+| 8 | Ölçüm | THD/SNR/FREP eşiği geçti | ölçüm raporu | PLANNED |
+
+**Kapı reddi davranışları (§18.2)**
+
+| # | Red nedeni | Aksiyon | Sahip |
+|---|---|---|---|
+| 1 | PM < 45° | kompanzasyon → tekrar sim | bu alt-dal |
+| 2 | Worst-case pay ≤ 0 | bileşen/tolerans revizyonu | bu alt-dal |
+| 3 | Verim < hedef | Monte Carlo → tolerans daralt | bu alt-dal |
+| 4 | THD/SNR eşiği tutmadı | zincir revizyonu → tekrar ölç | bu alt-dal + K001 |
+| 5 | PCB kısıtı çelişkisi | K001 ile müzakere | K001 |
+
+**Roller ve sorumluluk (RACI — tasarım-anı, §18.3)**
+
+| # | Rol | R/A/C/I | Not |
+|---|---|---|---|
+| 1 | Devre tasarımı | R | şema · sim · ölçüm planı |
+| 2 | `guc-yonetimi/` | C | güç gereksinimi |
+| 3 | K001-donanım | C (PCB girişi) | teslim alır |
+| 4 | K004-dsp | C (fs/bit gereksinimi) | dijital tasarım |
+| 5 | K005-firmware | C (eşik/register) | firmware |
+| 6 | Vault Steward (Q1) | A (kapsam) | kapsam kararı |
+| 7 | QA/ölçüm | C | ölçüm doğrulama |
+
+### §T-K000.6 Ölçüm büyüklükleri ve birim dönüşümleri (hızlı referans)
+
+> Kaynak: `devre-tasarimi-anayasa.md` §16 (satır 388-410) + §19 (satır 467-492).
+
+**Ölçüm büyüklükleri (§16)**
+
+| # | Büyüklük | Tanım | Birim | Neden |
+|---|---|---|---|---|
+| 1 | THD | toplam bozulma (harmonik) | % · dB | ses saflığı |
+| 2 | THD+N | bozulma + gürültü | % · dB | gerçek performans |
+| 3 | SNR | sinyal/gürültü oranı | dB | dinamik aralık |
+| 4 | DNR | dinamik aralık | dB | en sessiz–en yüksek |
+| 5 | FREP | frekans tepkisi | dB vs Hz | düz bant |
+| 6 | DNL/INL | ADC/DAC doğrusallık | LSB | çözünürlük |
+| 7 | Crosstalk | kanallar arası sızma | dB | kanal izolasyonu |
+| 8 | PSRR | güç reddetme oranı | dB | güç gürültüsü |
+
+**Ölçüm koşulları (tipik şartname, §16.1)**
+
+| # | Koşul | Değer | Not |
+|---|---|---|---|
+| 1 | Referans frekans | 1 kHz | THD/SNR standardı |
+| 2 | Örnekleme hızı | 48 kHz | sartname |
+| 3 | Bit derinliği | 24-bit | ADR-017 (32-float iç · 24 dış) |
+| 4 | Kanal | 2 (stereo) · 8.1 (çevre) | sartname |
+| 5 | Yükleme | nominal | yük regülasyonu |
+| 6 | Sıcaklık | oda (25 °C) · sıcak | drift ölçümü |
+
+**Hızlı referans — birimler ve semboller (§19)**
+
+| # | Sembol | Büyükllük | Birim | Not |
+|---|---|---|---|---|
+| 1 | V | gerilim | V · mV · µV | — |
+| 2 | I | akım | A · mA · µA | — |
+| 3 | R | direnç | Ω · kΩ · MΩ | — |
+| 4 | C | kapasitans | F · µF · nF · pF | — |
+| 5 | L | indüktans | H · mH · µH | — |
+| 6 | f | frekans | Hz · kHz · MHz | — |
+| 7 | fc | kesim frekansı | Hz | filtre |
+| 8 | fs | örnekleme hızı | Hz | ADC/DAC |
+| 9 | Z | empedans | Ω | — |
+| 10 | dB | kazanç/oran | dB | 20·log(V) · 10·log(P) |
+
+**Sık kullanılan dönüşümler (§19.1)**
+
+| # | Dönüşüm | Bağıntı | Not |
+|---|---|---|---|
+| 1 | Voltaj kazancı → dB | dB = 20·log10(Av) | Av > 0 |
+| 2 | Güç oranı → dB | dB = 10·log10(P2/P1) | — |
+| 3 | dB → voltaj oranı | Av = 10^(dB/20) | — |
+| 4 | RC kesim frekansı | fc = 1/(2π·R·C) | 1. katman LPF |
+| 5 | LC kesim frekansı | fc = 1/(2π·√(LC)) | 2. katman |
+| 6 | Nyquist | fs > 2·fmax | anti-alias |
+| 7 | Q ↔ bant genişlik | Q = fc / BW | filtre |
 
 ---
 

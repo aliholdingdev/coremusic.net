@@ -10,9 +10,9 @@ evidence:
   - https://man7.org/linux/man-pages/man5/core.5.html
   - shared/src/Cache/MemoryAdapter.php:25
   - shared/src/Cache/ApcuAdapter.php:22
-validation: "2026-10-13 · 1 yeni URL HTTP HEAD 200 (envanter kesişimi 0) · ≥500 satır disk ölçümü · repo satırları ReadAllLines ile birebir · olumsuz kanıt grep 0 isabet"
+validation: "2026-10-14 · §17 grupları G4a/G4b/G5 (12 platform kolu · 8 kod bloğu) · §17.4 8 YENİ HTTP 200 (envanter kesişimi 0) · §17.5 14 reuse yeniden 200 · §18 PHP köprüsü (3 gerçek-satır bloğu · yeni URL 0 · memory_get_usage/gc_collect_cycles/shm_open/mmap/error_get_last/mt_rand grep 0 → §18.6) · §19 çok dilli JS/C/Python/Go/Rust/C# (5 URL = 1 reuse + 4 yeni · 5 kalıp blok · JS depo satırı ContentFetcher/Logger) · 968 satır · repo satırları ReadAllLines ile birebir · olumsuz kanıt grep 0 isabet"
 open_questions:
-  - "PHP `memory_get_usage` çağrısı repoda hiç yok mu? → grep 0 isabet (Q-B10, gerçek eksiklik mi?)"
+  - "PHP `memory_get_usage` çağrısı repoda hiç yok mu? → grep 0 isabet (Q-B10) · 2026-10-14 §18.6 ile YENİDEN DOĞRULANDI: 0 isabet, kesin; 'gerçek eksiklik mi karar mı?' hâlâ açık"
   - "APCu TTL/limit üretim değeri → UNKNOWN (Q-B11)"
   - "Core dump açık mı? → UNKNOWN (ortam okunmadı, Q-B12)"
 group: kod
@@ -519,5 +519,450 @@ olarak üst karara gider.
 > **Sonuç:** §16 dosyayı derinleştirir ama **ölçülmüş oranı artırmaz** — bu
 > bilinçli bir tercihtir. Yeni içerik eklemek kanıt eklemek değildir; oran
 > yalnızca gerçek ölçümle iner.
+
+---
+
+## §17 Çapraz-platform gruplu kod örnekleri (2026-10-14)
+
+> **Grup kuralı (bağlayıcı):** Her grup **tek kavram + üç platform kolu**
+> (Linux/POSIX · Windows (Win32) · macOS/POSIX) taşır. "Sadece Linux" örnek
+> bu bölümde geçersizdir. macOS-native man sayfaları bu turda erişilemedi
+> (`developer.apple.com/library/archive/.../man*_*.html` → bağlantı koptu/404);
+> macOS sütunu POSIX spesifikasyonuna dayanır ve `⚠️ VERIFICATION REQUIRED`
+> ile işaretlenir.
+
+### §17.1 G4a - Yığın (heap) tahsisi: `malloc`/`free` ↔ `HeapAlloc`/`HeapFree`
+
+**(A) Linux/POSIX:**
+
+```c
+#include <stdlib.h>
+#include <string.h>
+
+char *buf = (char *)malloc(4096);
+if (buf) {
+    memset(buf, 0, 4096);      /* calloc benzeri sifirlama elle yapilir */
+    free(buf);
+}
+```
+
+**(B) Windows (Win32):**
+
+```c
+#include <windows.h>
+
+HANDLE heap = GetProcessHeap();
+LPVOID p = HeapAlloc(heap, HEAP_ZERO_MEMORY, 4096);
+if (p) {
+    /* p kullan */
+    HeapFree(heap, 0, p);
+}
+```
+
+**(C) macOS / POSIX** — (A) birebir geçer · `⚠️ VERIFICATION REQUIRED`.
+
+> **Kavram farkı:** `malloc` **dil-standardı**dır (üreticiye göre davranır);
+> `HeapAlloc` **Windows süreç-yığını** üzerindedir. İkisi aynı seviyede
+> değiş tokuş edilemez — bu eşdeğerlik iddiası `⚠️ VERIFICATION REQUIRED`.
+
+### §17.2 G4b - Sayfa düzeyi tahsis + koruma: `mmap`/`munmap`/`mprotect` ↔ `VirtualAlloc`/`VirtualFree`/`VirtualProtect`
+
+**(A) Linux/POSIX:**
+
+```c
+#include <sys/mman.h>
+#include <unistd.h>
+
+size_t len = 16 * 4096;
+void *p = mmap(NULL, len, PROT_READ | PROT_WRITE,
+               MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+if (p != MAP_FAILED) {
+    /* ... */
+    mprotect(p, len, PROT_READ);          /* yazmayi kapat */
+    munmap(p, len);                        /* serbest birak */
+}
+```
+
+**(B) Windows (Win32):**
+
+```c
+#include <windows.h>
+
+SIZE_T len = 16 * 4096;
+LPVOID p = VirtualAlloc(NULL, len, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+if (p) {
+    DWORD old = 0;
+    VirtualProtect(p, len, PAGE_READONLY, &old);   /* yazmayi kapat */
+    VirtualFree(p, 0, MEM_RELEASE);                 /* serbest birak */
+}
+```
+
+**(C) macOS / POSIX** — (A) birebir geçer · `⚠️ VERIFICATION REQUIRED`.
+
+| Soru | Linux/POSIX | Windows |
+|---|---|---|
+| İlk boyut | `mmap(len, prot, flags)` | `VirtualAlloc(len, MEM_COMMIT\|MEM_RESERVE)` |
+| Koruma değiştirme | `mprotect` | `VirtualProtect` |
+| Serbest bırakma | `munmap(len)` | `VirtualFree(0, MEM_RELEASE)` |
+| Durum sorgusu | `/proc/self/maps` (Linux) | `VirtualQuery` |
+| Hata göstergesi | `MAP_FAILED` (`(void*)-1`) | `NULL` |
+
+### §17.3 G5 - Dosya eşleme (file mapping / paylaşımlı bellek)
+
+**(A) Linux/POSIX — `shm_open` + `mmap`:**
+
+```c
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int fd = shm_open("/coremusic-demo", O_CREAT | O_RDWR, 0600);
+if (fd >= 0) {
+    ftruncate(fd, 4096);
+    void *p = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (p != MAP_FAILED) {
+        /* iki surec ayni sayfayi gorur */
+        munmap(p, 4096);
+    }
+    close(fd);
+    shm_unlink("/coremusic-demo");
+}
+```
+
+**(B) Windows (Win32) — `CreateFileMappingW` + `MapViewOfFile`:**
+
+```c
+#include <windows.h>
+
+HANDLE hf = CreateFileW(L"Local\\coremusic-demo",
+                        GENERIC_READ | GENERIC_WRITE,
+                        FILE_SHARE_READ | FILE_SHARE_WRITE,
+                        NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+if (hf != INVALID_HANDLE_VALUE) {
+    HANDLE hmap = CreateFileMappingW(hf, NULL, PAGE_READWRITE, 0, 4096,
+                                     L"Local\\coremusic-demo");
+    if (hmap) {
+        LPVOID p = MapViewOfFile(hmap, FILE_MAP_ALL_ACCESS, 0, 0, 4096);
+        if (p) {
+            /* iki surec ayni sayfayi gorur */
+            UnmapViewOfFile(p);
+        }
+        CloseHandle(hmap);
+    }
+    CloseHandle(hf);
+}
+```
+
+**(C) macOS / POSIX** — POSIX `shm_open` + `mmap` (A) ile aynı · `⚠️ VERIFICATION REQUIRED`.
+
+| Kavram | Linux/POSIX | Windows | macOS |
+|---|---|---|---|
+| Nesne adlandırma | `"/isim"` (başında `/`) | `Local\\isim` / `Global\\isim` | POSIX (A) · ⚠️ |
+| Yaratma | `shm_open(O_CREAT)` | `CreateFileMappingW` | POSIX · ⚠️ |
+| Görüntüleme | `mmap(MAP_SHARED)` | `MapViewOfFile` | POSIX · ⚠️ |
+| Sökme | `munmap` + `shm_unlink` | `UnmapViewOfFile` + `CloseHandle` | POSIX · ⚠️ |
+| Repo bağlantısı | `ApcuAdapter` (§1.2) PHP katmanı sargısı | — | — |
+
+### §17.4 Yeni doğrulanmış URL (2026-10-14 · envanter kesişimi 0 · HTTP 200)
+
+> **Ölçüm (2026-10-14 · yeniden):** `.ai/**` (gizli dizin, `*.md|*.json|*.txt|*.ps1`)
+> URL kümesi **bu turda yazılan 6 dosya hariç** tutularak ölçüldü = **3760 tekil URL**;
+> bu dosyanın **aşağıdaki** adayları bu kümede **yok** → kesişim **0**. Tur-çapı tek-çatı
+> sayım ve kümülatif envanter (**3866**) için bkz. `isletim-sistemi-core-dogrulama.md` **§J**.
+
+| # | İddia | URL | 2026-10-14 |
+|---|---|---|---|
+| 1 | `shm_open` - adlandırılmış paylaşımlı nesne (Linux man) | https://man7.org/linux/man-pages/man3/shm_open.3.html | ? HTTP 200 · **YENİ** |
+| 2 | `shm_open` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/shm_open.html | ? HTTP 200 · **YENİ** |
+| 3 | `malloc` POSIX tanımı (yığın tahsisi) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/malloc.html | ? HTTP 200 · **YENİ** |
+| 4 | `munmap` POSIX tanımı (bölge serbest bırakma) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/munmap.html | ? HTTP 200 · **YENİ** |
+| 5 | `CreateFileMappingW` - eşleme nesnesi yaratma | https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-createfilemappingw | ? HTTP 200 · **YENİ** |
+| 6 | `UnmapViewOfFile` - görüntüyü sökme | https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-unmapviewoffile | ? HTTP 200 · **YENİ** |
+| 7 | `HeapFree` - süreç yığını serbest bırakma | https://learn.microsoft.com/en-us/windows/win32/api/heapapi/nf-heapapi-heapfree | ? HTTP 200 · **YENİ** |
+| 8 | Dosya eşleme nesnesi oluşturma (adım adım) | https://learn.microsoft.com/en-us/windows/win32/memory/creating-a-file-mapping-object | ? HTTP 200 · **YENİ** |
+
+### §17.5 Reuse URL - HTTP 200 yeniden doğrulandı (2026-10-14)
+
+| # | İddia | URL |
+|---|---|---|
+| 1 | `mmap(2)` Linux çağrısı | https://man7.org/linux/man-pages/man2/mmap.2.html |
+| 2 | `munmap(2)` Linux çağrısı | https://man7.org/linux/man-pages/man2/munmap.2.html |
+| 3 | `mprotect(2)` koruma değiştirme | https://man7.org/linux/man-pages/man2/mprotect.2.html |
+| 4 | `malloc(3)` Linux yığın tahsisi | https://man7.org/linux/man-pages/man3/malloc.3.html |
+| 5 | `mmap` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/mmap.html |
+| 6 | `mprotect` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/mprotect.html |
+| 7 | `VirtualAlloc` | https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualalloc |
+| 8 | `VirtualFree` | https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualfree |
+| 9 | `VirtualProtect` | https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualprotect |
+| 10 | `VirtualQuery` | https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualquery |
+| 11 | `MapViewOfFile` | https://learn.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-mapviewoffile |
+| 12 | `HeapAlloc` | https://learn.microsoft.com/en-us/windows/win32/api/heapapi/nf-heapapi-heapalloc |
+| 13 | `CloseHandle` | https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle |
+| 14 | `open(2)` - dosya/tanıtıcı açma bağlamı | https://man7.org/linux/man-pages/man2/open.2.html |
+
+### §17.6 Bu bölümün ölçüme kaydı (2026-10-14)
+
+| Ölçüm | Değer |
+|---|---|
+| Eklenen grup | 3 (G4a heap · G4b sayfa+koruma · G5 dosya eşleme) |
+| Platform kolları | 3/grup = 9 kol |
+| Eklenen kod bloğu | 6 (A=3 · B=3) |
+| Yeni doğrulanmış URL | 8 (§17.4) · envanter kesişimi **0** · HTTP 200 |
+| Reuse URL yeniden 200 | 14 (§17.5) |
+| macOS-native kaynak | 0 erişilebilir → 3 iddia `⚠️ VERIFICATION REQUIRED` |
+| `git commit` | **atılmadı** (orkestratöre ait) |
+
+---
+
+## §18 PHP Köprüsü — bellek (repo satır kanıtlı, 2026-10-14)
+
+> PHP'nin bellek modeli ZMM (Zend Memory Manager) üzerinde çalışır; OS katmanına yalnızca
+> **sayfalama / geçici dosya / stream** sırasındaki gerçek çağrılar çıkar. Bu bölümün her
+> kod bloğu depoda `ReadAllLines` ile okunmuş **gerçek satırdır**; yanında POSIX ve
+> Win32 karşılığı verilir. Depoda çekirdek OS kodu YOK (bkz. §4).
+
+### §18.1 B1 — Geçici dosya + rastgele ad: `sys_get_temp_dir()` + `random_bytes` ↔ `mkstemp`
+
+**Repo kanıtı:** `shared/src/Component/TemplateEngine.php:72-76`
+
+```php
+// Guardrail §21: eval yok — cache dosyası + require (ADR-091)
+$cachePath = rtrim(sys_get_temp_dir(), "\\/") . DIRECTORY_SEPARATOR . 'cmtpl_' . bin2hex(random_bytes(8)) . '.php';
+if (file_put_contents($cachePath, $template, LOCK_EX) === false) {
+    throw new \RuntimeException("Template cache write failed: {$cachePath}");
+}
+```
+
+| PHP | POSIX | Windows Win32 |
+|---|---|---|
+| `sys_get_temp_dir()` | `TMPDIR` / `confstr(_CS_PATH)` | `GetTempPathW` |
+| `bin2hex(random_bytes(8))` | `getrandom(2)` / `/dev/urandom` | `BCryptGenRandom` |
+| `file_put_contents($f,$s,LOCK_EX)` | `open(O_WRONLY\|O_CREAT)` + `flock` + `write` | `CreateFileW` + `LockFileEx` + `WriteFile` |
+| `=== false` + `throw` | `errno == -1` → `perror` | `GetLastError` → `RaiseException` |
+
+**Kilitli yazım `LOCK_EX` ile yapılmıştır** (bkz. dosya-sistemi §13.1) — tek-yazıcı
+varsayımı yoktur; başarısızlık `RuntimeException` ile yukarı taşınır.
+
+### §18.2 B2 — Entropi: `random_bytes` / `random_int` ↔ `getrandom` ↔ `BCryptGenRandom`
+
+**Repo kanıtları:**
+- `media.coremusic.net/src/Media/Ulid.php:67-68` → `$ham = random_bytes($bayt);`
+- `shared/src/Repository/ApiKeyRepository.php:295` → `random_int(0, 31)`
+
+| PHP | POSIX | Windows Win32 |
+|---|---|---|
+| `random_bytes(n)` (CSPRG) | `getrandom(2)` (≥3.17) | `BCryptGenRandom` |
+| `random_int(min,max)` | `getrandom` + `int` karışımı | aynı |
+| `mt_rand()` (**CSPRG değil**) | `rand()` | `rand()` |
+
+Güvenlik yüzeyi (API key, token) **yalnızca** `random_int`/`random_bytes` kullanır —
+`mt_rand()` depoda güvenlik için **kullanılmıyor** (grep: `mt_rand` → 0 isabet).
+
+### §18.3 B3 — Sabit bellekli okuma döngüsü ↔ `mmap`/`ReadFile`
+
+**Repo kanıtı:** `home.coremusic.net/include/Stream/MusicStreamHandler.php:342-351`
+
+```php
+$remaining = $length;
+while ($remaining > 0 && !feof($handle)) {
+    $chunk = fread($handle, min(self::CHUNK_BYTES, $remaining));
+    if ($chunk === false || $chunk === '') {
+        break;
+    }
+    echo $chunk;
+    $remaining -= strlen($chunk);
+    flush();
+}
+```
+
+| PHP | POSIX | Windows Win32 |
+|---|---|---|
+| `fread($h, $n)` | `read(fd, buf, n)` | `ReadFile(h, buf, n, &r, NULL)` |
+| `min(CHUNK, $remaining)` | `min()` (uç sınır) | `min()` |
+| `feof($h)` | `read() == 0` | `ReadFile` `r == 0` |
+| `flush()` | `write` çıktısını iter | `FlushFile` (PHP tamponu) |
+| (kopya örneği) | `sendfile` / `mmap` | `TransmitFile` / `ReadFile`+`WriteFile` |
+
+**Neden önemli:** dosya **asla belleğe tamamen alınmaz** → bellek O(chunk) kalır.
+Alternatif `file_get_contents` tam yükleme yapardı (O(file)) — §18.7 anti-pattern.
+
+### §18.4 B4 — Hata yüzeyi: zarf `@` + `Throwable` ↔ `errno` ↔ `GetLastError`
+
+**Repo kanıtı:** `shared/src/PageRouter/PageRouterKernel.php:131-136`
+
+```php
+$errorMsg = Redactor::redact($errorMsg);
+$logDir = $this->config->get('app.log_dir', dirname(__DIR__, 3));
+@file_put_contents($logDir . '/coremusic_php_errors.log', $errorMsg, FILE_APPEND | LOCK_EX);
+@file_put_contents($logDir . '/coremusic_php_kernel_debug.log', $errorMsg, FILE_APPEND | LOCK_EX);
+error_log(Redactor::redact('[PageRouterKernel] FATAL traceId=' . $traceId . ' ' . $e->getMessage()
+    . ' in ' . $e->getFile() . ':' . $e->getLine()));
+```
+
+PHP'de POSIX `errno` doğrudan **yoktur**; karşılığı **(a)** zarf operatörü `@` (sinyali
+susturur), **(b)** dönüş değeri kontrolü (`=== false`), **(c)** `catch (\Throwable)`
+katmanıdır. `error_get_last()` depoda **0 isabet** (§18.6). Sonuç: `EACCES`/`ENOSPC`
+veya `GetLastError` **kod değeri PHP'ye yansımaz** — yalnız mesaj + dosya/satır bilgisi
+kalır. Kayıp bilgi `⚠️ VERIFICATION REQUIRED` olarak kayıtlıdır.
+
+### §18.5 B5 — Eşleme anahtarı
+
+| Kavram | PHP | POSIX | Windows Win32 |
+|---|---|---|---|
+| zarf ölçümü | `memory_get_usage()` | `mallinfo` / `smaps` | `GetProcessMemoryInfo` |
+| tepe | `memory_get_peak_usage()` | `ru_maxrss` | `PeakWorkingSetSize` |
+| geçici dizin | `sys_get_temp_dir()` | `TMPDIR` | `GetTempPathW` |
+| entropi | `random_bytes` | `getrandom` | `BCryptGenRandom` |
+| parça okuma | `fread` | `read` | `ReadFile` |
+
+### §18.6 P/Olumsuz kanıt (grep → **0 isabet**)
+
+`memory_get_usage` · `memory_get_peak_usage` · `gc_collect_cycles` · `shm_open` ·
+`mmap` · `error_get_last` — depoda **hiçbiri kullanılmıyor**. Sonuç: bu dosya
+bellek-ölçüm/ölçümleme **kodu üretmez**; §18.5'teki satırlar yalnızca **eşleme
+anahtarıdır**, repo kanıtı **iddia edilmez**.
+
+### §18.7 Ölçüm
+
+| Ölçüm | Değer |
+|---|---|
+| Eklenen PHP kod bloğu | 3 (§18.1, §18.3, §18.4 — hepsi gerçek satır) |
+| Repo satır çifti | 5 (TemplateEngine:72-76 · Ulid:67-68 · ApiKeyRepository:295 · MusicStreamHandler:342-351 · PageRouterKernel:131-136) |
+| Yeni URL | **0** → envanter kesişimi 0 |
+| Olumsuz grep | `memory_get_usage` · `gc_collect_cycles` · `shm_open` · `mmap` · `error_get_last` · `mt_rand` → 0 |
+| ⚠️ işaretli iddia | 1 (§18.4 errno/GetLastError bilgi kaybı) — §18.5 eşleme satırları "repo kanıtı" olarak **iddia edilmiyor** |
+
+## §19 — Çok dilli bellek örnekleri: JS · C · Python · Go · Rust · C#
+
+> **Kanıt hiyerarşisi:** §18 PHP blokları depo satırına dayanıyordu. Burada **yalnızca JS (98 dosya)
+> ve Python (1 dosya) depoda taşınır**; C/Go/Rust/C# **0 dosya** → o bloklar `⚠️ KALIP (repo YOK)` +
+> resmi doküman URL'i (hepsi 2026-10-14'te HTTP 200 ölçüldü → dogrulama §J.9).
+
+### §19.0 Ölçüm — kanıt durumu (2026-10-14)
+
+| Dil | Repo dosyası | Bellek/zaman yüzeyi grep (repo) | Kanıt tipi |
+|---|---|---|---|
+| JavaScript | **98** | `performance.now` **7** · `crypto.getRandomValues` **1** · `Math.random` **0** · `process.memoryUsage` **0** · `crypto.subtle` **0** | repo satırı |
+| Python | **1** | `bytearray` **0** · `secrets` **0** | kalıp (repo PY dosyası bellek API'si kullanmıyor) |
+| C / Go / Rust / C# | **0 / 0 / 0 / 0** | — | kalıp + doküman |
+
+### §19.1 JavaScript — depo satırı: süreölçüm + kriptografik rastgelelik (tarayıcı)
+
+```js
+// assets.coremusic.net/js/router/ContentFetcher.js:24 ve :29 (ReadAllLines birebir)
+const start = performance.now();
+// ...
+return { responseData, fetchMs: performance.now() - start, cacheHit: false };
+
+// assets.coremusic.net/js/router/Logger.js:14-19 (ReadAllLines birebir) — UUID fallback
+const bytes = new Uint8Array(16);
+crypto.getRandomValues(bytes);
+bytes[6] = (bytes[6] & 0x0f) | 0x40;
+bytes[8] = (bytes[8] & 0x3f) | 0x80;
+const hex = [...bytes].map((b) => b.toString(16).padStart(2, '0')).join('');
+```
+
+**Eşleme:** `performance.now()` süreölçüm için kullanılıyor (`surec-ve-zamanlama` dosyası §20.4'teki
+`hrtime` eşlemesinin JS karşılığı sayılır) — `⚠️ VERIFICATION REQUIRED`: `performance.now()`'ın **monotonik** olup olmadığı bu turda
+MDN/WHATWG'den **okunmadı**. `Math.random` grep **0** → rastgelelik tarayıcıda `crypto.getRandomValues`
+ile üretiliyor (§18.2 `random_bytes` eşlemesi). Bellek ölçüm API'si (`process.memoryUsage`) **0** —
+tarayıcıda yoktur.
+
+### §19.2 C — `mmap` ile anonim bellek (kalıp)
+
+```c
+/* ⚠️ KALIP (repo YOK) — Kaynak:
+   https://pubs.opengroup.org/onlinepubs/9799919799/functions/mmap.html (reuse · envanterde vardı · 200) */
+#include <sys/mman.h>
+#include <unistd.h>
+
+size_t n = 1u << 20;                       /* 1 MiB */
+void *p = mmap(NULL, n, PROT_READ | PROT_WRITE,
+               MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+if (p == MAP_FAILED) { /* errno oku */ }
+/* ... */
+munmap(p, n);
+```
+
+**Eşleme:** `MAP_ANONYMOUS` dosya adı gerektirmez → §18.3'teki "geçici dosya + bellek" ikileminde
+C tarafı dosyayı **atlar**. `⚠️ VERIFICATION REQUIRED`: `MAP_ANONYMOUS`'ın POSIX'te değil Linux/BSD'de
+olduğu iddiası bu turda dokümandan **okunmadı** (yalnız `mmap` sayfası 200 ölçüldü).
+
+### §19.3 Python — yerinde değiştirme + kriptografik rastgele bytes (kalıp)
+
+```python
+# ⚠️ KALIP (repo YOK) — Kaynak: https://docs.python.org/3/library/secrets.html (YENİ · 200)
+import secrets
+
+buf = bytearray(1024)          # yerinde değiştirilebilir (bytes DEĞİL)
+token = secrets.token_bytes(32)   # §18.2 random_bytes eşlemesi
+del buf                        # referans düşünce GC toplar (CPython sayım tabanlı iddia → ⚠️)
+```
+
+**Eşleme:** `secrets.token_bytes` ↔ PHP `random_bytes` (§18.2). `⚠️ VERIFICATION REQUIRED`:
+CPython'un referans-sayım + döngü-toplayıcı modeli dokümandan bu turda **okunmadı**.
+
+### §19.4 Go — `make` + çalışma zamanı istatistiği (kalıp)
+
+```go
+// ⚠️ KALIP (repo YOK) — Kaynak: https://pkg.go.dev/runtime (YENİ · 200)
+package main
+
+import "runtime"
+
+func main() {
+    buf := make([]byte, 1<<20) // 1 MiB, GC'nin yönettiği yığın/veri
+    var m runtime.MemStats
+    runtime.ReadMemStats(&m)
+    _ = buf
+    // m.Alloc, m.TotalAlloc, m.HeapAlloc ...
+}
+```
+
+**Eşleme:** `runtime.ReadMemStats` ↔ PHP `memory_get_usage` — **ama depoda PHP karşılığı 0** (§18.6);
+yani eşleme "iki tarafta da var" değil, "Go'da var, PHP'de isteğe bağlı eksik"tir.
+
+### §19.5 Rust — sahiplik + GC'siz model (kalıp, URL doğrulanmadı)
+
+```rust
+// ⚠️ KALIP (repo YOK) — bu blok için doküman URL'i DOĞRULANMADI (bilinçli boşluk)
+let mut v: Vec<i32> = Vec::with_capacity(1024); // yığın belleği, sahiplik Rust'ta
+v.push(1);
+let owned = String::from("coremusic");          // yığın (Rc yok — tek sahip)
+let view: &str = &owned[..9];                   // ödünç, serbest bırakma yok
+// v/owned kapsam dışına çıkınca drop edilir (RAII)
+```
+
+**Durum:** `⚠️ VERIFICATION REQUIRED` — Rust bellek modeli iddiaları (drop/RAII) doküman URL'i
+**okunmadığı için** bu blok "kalıp" statüsündedir; URL eklenirse dogrulama §J.9'a işlenir.
+
+### §19.6 C# — GC + kriptografik rastgelelik (kalıp)
+
+```csharp
+// ⚠️ KALIP (repo YOK) — Kaynaklar:
+// https://learn.microsoft.com/en-us/dotnet/api/system.gc (YENİ · 200)
+// https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator (YENİ · 200)
+using System.Security.Cryptography;
+
+var rng = RandomNumberGenerator.Create();
+Span<byte> token = stackalloc byte[32];
+rng.GetBytes(token);              // §18.2 random_bytes eşlemesi
+// GC.Collect() çağırmak genellikle önerilmez (⚠️ sürüm davranışı okunmadı)
+```
+
+**Eşleme:** `RandomNumberGenerator.GetBytes` ↔ PHP `random_bytes` (§18.2). `⚠️ VERIFICATION REQUIRED`:
+`GC.Collect()` kullanımıyla ilgili resmi öneri metni bu turda **okunmadı**.
+
+### §19.7 Ölçüm (§19)
+
+| Öğe | Değer |
+|---|---|
+| Dil | 6 (JS · C · Python · Go · Rust · C#) |
+| Repo satır kanıtlı blok | **1** (§19.1 — `ContentFetcher.js:24,29` + `Logger.js:14-19`) |
+| `⚠️ KALIP (repo YOK)` blok | **5** (§19.2 C · §19.3 Python · §19.4 Go · §19.5 Rust · §19.6 C#) |
+| Bu bölümün URL'i | **5** → **1 reuse** (`mmap.html`) **+ 4 yeni** (`secrets` · `pkg.go.dev/runtime` · `system.gc` · `randomnumbergenerator`) — hepsi HTTP 200 |
+| Repo grep (olumsuz kanıt) | `Math.random` · `process.memoryUsage` · `crypto.subtle` · `bytearray` · `secrets` → **0 isabet** |
+| ⚠️ işaretli iddia | 5 (§19.1 monotoniklik · §19.2 MAP_ANONYMOUS · §19.3 CPython GC · §19.5 tüm Rust iddiaları · §19.6 GC.Collect önerisi) |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

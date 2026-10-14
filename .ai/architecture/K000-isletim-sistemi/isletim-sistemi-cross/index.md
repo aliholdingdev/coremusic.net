@@ -6,7 +6,7 @@ parent_id: K000-isletim-sistemi
 children: [platform-yuzeyleri, derleme-ve-paketleme, tasinabilirlik-siniri]
 depends_on: []
 evidence: ["https://pubs.opengroup.org/onlinepubs/9799919799/", "https://www.gnu.org/software/libc/manual/html_node/System-Calls.html", ".ai/architecture/K000-isletim-sistemi/os-master.md §5"]
-validation: "2026-10-13 · 3 alt-dal AÇILDI (12 dosya, disk kanıtlı) · kök 4 dosya korundu"
+validation: "2026-10-14 · ornekler §22-§28 OS gruplaması (Grup L/W/M + OS×yüzey matrisi) · dogrulama §H kaydı · 7 yeni URL HEAD 200 + 6 regresyon + 3 elenen · repo satır yeniden okuma 10/10 · kök 4 dosya + 3 alt-dal 12 dosya disk kanıtlı"
 open_questions: ["Hedef platform seti bilinmiyor → ⚠️ VERIFICATION REQUIRED (Q4)", "Cross-platform kanıtı yalnız test/CI + web sunucusu düzeyinde; üretim OS doğrulanmadı"]
 group: mimari
 ---

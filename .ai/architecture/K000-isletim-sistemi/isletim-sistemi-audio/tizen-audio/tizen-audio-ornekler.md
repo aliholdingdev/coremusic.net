@@ -367,4 +367,19 @@ _audio_io_stream_read_cb(audio_in_h handle, size_t nbytes, void *userdata)
 
 ---
 
+## §PHP Tizen × PHP (2026-10-14)
+
+Tizen uygulama katmanı C (`sound_manager` §21) veya web/JS'tir — cihazda PHP runtime
+**yoktur**. PHP'nin Tizen'e erişimi: sunucu PHP → HTTP → cihaz JS/C (§PHP yolları
+kök §25.5 · `audio_out_*` C API'si PHP'den çağrılamaz).
+
+---
+
+**Geniş dil seti — Tizen × dil (kök §26):** `sound_manager` **C API'sidir** (§21) —
+Tizen Native (C/C++) uygulamaları çağırır; Python/Go/Rust/C#/PHP/Node için Tizen'de
+resmi toolchain/dil binding'i **bu turda doğrulanmadı** (⚠️ VERIFICATION REQUIRED).
+Web uygulaması katmanı JS (Web Audio API — kök §26.2).
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

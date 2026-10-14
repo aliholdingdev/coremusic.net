@@ -503,4 +503,21 @@ HTML'inden 2026-10-13 doğrulanmıştır; eşleme iddiaları bu alıntılara
 
 ---
 
+## §PHP CoreAudio × PHP (2026-10-14)
+
+PHP'nin CoreAudio'ya (`.dylib` FFI dahil) doğrudan erişimi **bu turda doğrulanamadı**
+(⚠️ VERIFICATION REQUIRED). Pratik yol: `shell_exec('afplay file.mp3')` — `afplay`
+macOS yerleşik CLI'dır ancak **resmi Apple dokümanı bulunamadı** (2026-10-14 ·
+yalnız üçüncü taraf). iOS'ta PHP runtime yok → sunucu PHP + tarayıcı HTML5 audio
+(§PHP yolları kök §25.1 yol 2 · §25.4).
+
+---
+
+**Geniş dil seti — CoreAudio × dil (kök §26):** C zaten native (§11/§19 IOProc) ·
+Rust `cpal` macOS/iOS/tvOS backend'i **CoreAudio** (README matrisi) · Go `oto`
+CoreAudio backend'i · Python `sounddevice` (PortAudio → CoreAudio) · C#/Node/PHP'de
+doğrudan CoreAudio **yok** — süreç/tarayıcı yolu (kök §26.4–§26.6).
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

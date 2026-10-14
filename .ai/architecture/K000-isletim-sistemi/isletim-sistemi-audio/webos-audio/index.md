@@ -15,7 +15,7 @@ evidence:
 validation:
   - "2026-10-13 · 3 URL GET 200 · tam gövde alındı (Luna çağrı sözleşmesi · Audio metot/hata tabloları · Settings) · `references/audio` kardeş klasörde 4 dosyada geçiyor (isletim-sistemi-turu/webos/*) → klasör-içi ayrışık 3 URL, çakışma bilinçli ve kayıt altında · isletim-sistemi-audio/ içi kesişimi 0"
 open_questions:
-  - "Audio servisinde ses seviyesi okuma/yazma metotları (`getVolume`/`setVolume` vb.) referans sayfasında GÖRÜNMÜYOR — yalnız setMuted/volumeUp/volumeDown var → eksik metotlar başka sürüm sayfasında mı? ⚠️ VERIFICATION REQUIRED"
+  - "Audio servisinde ses seviyesi okuma/yazma metotları (`getVolume`/`setVolume` vb.) referans sayfasında GÖRÜNMÜYOR — yalnız setMuted/volumeUp/volumeDown var → eksik metotlar başka sürüm sayfasında mı? ⚠️ VERIFICATION REQUIRED · 2026-10-14 yerel gövde kopya (webos-audio.html 62.708 B) ile teyit: See also ağacı dâhil sayfada yalnız setMuted/volumeUp/volumeDown — getVolume/setVolume YOK (negatif kanıt); mutlak okuma/yazma başka sürüm sayfası için UNKNOWN"
   - "CoreMusic reposunda webOS/Luna ses kodu YOK → UNKNOWN"
   - "Ses ayarı `settings-service` üzerinden ne ölçüde yönlendirilebilir (audioGuidance haricinde) → gövde teyidi ⚠️"
 group: mimari
@@ -76,7 +76,7 @@ gerçek örnek kod (nasıl görünür) — hepsi LG'nin resmi sayfasından kelim
 
 | # | Soru | Etiket |
 |---|---|---|
-| W1 | `com.webos.audio`'da mutlak ses seviyesi okuma/yazma metotları yok mu (yalnız ±1)? | ⚠️ VERIFICATION REQUIRED |
+| W1 | `com.webos.audio`'da mutlak ses seviyesi okuma/yazma metotları yok mu (yalnız ±1)? | ✅ KISMI KAPANDI (2026-10-14): referans sayfasında yalnız `setMuted/volumeUp/volumeDown` — `getVolume/setVolume` YOK (yerel gövde kopya, negatif kanıt). "Cihazda hiç yok" iddiası başka sürüm sayfası için hâlâ UNKNOWN |
 | W2 | `settings-service` üzerinden hangi ses ayarları yazılabilir? | ⚠️ VERIFICATION REQUIRED |
 | W3 | Simülatörde Audio = No → test stratejisi gerçek TV mi? | ✅ kayıt altında · strateji UNKNOWN |
 | W4 | CoreMusic/Neva Engine hedefinde webOS var mı? (repo 0 isabet) | UNKNOWN |

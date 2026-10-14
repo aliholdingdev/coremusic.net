@@ -17,7 +17,7 @@ evidence:
   - https://docs.kernel.org/admin-guide/cgroup-v2.html
   - shared/src/Middleware/MiddlewarePipeline.php:42
   - shared/src/AI/AIWorkflow.php:51
-validation: "2026-10-13 — M-W17 (uptime.1) ve M-W18 (perf_event_open.2) bu turda webfetch ile HTTP 200 doğrulandı; diğer URL'ler kök -dogrulama.md §2-§3'te HTTP 200; perf_event_open arayüz ayrıntıları (pid/cpu, sayma vs örnekleme, CAP_PERFMON, perf_event_paranoid) doğrulanmış sayfadan okundu; repo satırları Read ile doğrulandı; periyot/eşik değeri yazılmadı; 2. tur: M-W19 (sysinfo.2 — uptime/loads[3]/ram/swap/procs, mem_unit, /proc/meminfo ve /proc/loadavg NOTS notu), M-W20 (getloadavg.3 — en fazla 3 örnek, hata -1), M-W21 (perf-top.1 — OVERHEAD CALCULATION self/children ayrı tanımı) webfetch ile HTTP 200 doğrulandı; ci.yml 6 job tam dosya okundu (php-lint/php-test/composer-audit/js-test/js-coverage/js-e2e, timeout-minutes 10–20, cancel-in-progress, %80 eşiği yorum satırında continue-on-error: true); dosya 397 non-blank satır"
+validation: "2026-10-14 — §10 Windows/macOS hücreleri dolduruldu (M-W24…M-W32 PDH/Get-Counter/typeperf/logman/perfmon, M-W33…M-W35 macOS sarmalayıcılar ayna dipnotlu); §13 özet 5 satıra genişletildi (sayaç yüzeyi/okuma modu/sarmalayıcı dolduruldu); kalan ⚠️ yalnız yetki modeli + kaynak limiti + Get-NetAdapter alt konuları (3. tura devredildi) | 2026-10-13 — M-W17 (uptime.1) ve M-W18 (perf_event_open.2) bu turda webfetch ile HTTP 200 doğrulandı; diğer URL'ler kök -dogrulama.md §2-§3'te HTTP 200; perf_event_open arayüz ayrıntıları (pid/cpu, sayma vs örnekleme, CAP_PERFMON, perf_event_paranoid) doğrulanmış sayfadan okundu; repo satırları Read ile doğrulandı; periyot/eşik değeri yazılmadı; 2. tur: M-W19 (sysinfo.2 — uptime/loads[3]/ram/swap/procs, mem_unit, /proc/meminfo ve /proc/loadavg NOTS notu), M-W20 (getloadavg.3 — en fazla 3 örnek, hata -1), M-W21 (perf-top.1 — OVERHEAD CALCULATION self/children ayrı tanımı) webfetch ile HTTP 200 doğrulandı; ci.yml 6 job tam dosya okundu (php-lint/php-test/composer-audit/js-test/js-coverage/js-e2e, timeout-minutes 10–20, cancel-in-progress, %80 eşiği yorum satırında continue-on-error: true); dosya 397 non-blank satır"
 open_questions:
   - "O1: OS-level metrik toplama (perf, ETW, /proc okuyucu) hedef mimaride var mı, yoksa yalnız uygulama süresi mi? [UNKNOWN]"
   - "O2: Gözlemlenebilirlik üçlüsü (log/metric/trace) K002-altyapi içinde nasıl konumlanacak? [UNKNOWN]"
@@ -194,15 +194,24 @@ perf_event_open(pid, cpu, group_fd, flags)
 | 2 | Süreler log satırına düşer (`timing()`), metrik deposuna değil | zaman serisi toplanmıyor |
 | 3 | `hrtime` vs `microtime` ikiliği yalnız raporlanır | davranış değişikliği bu turda YOK |
 
-## §10 Platform surucu karşılaştırması
+## §10 Platform surucu karşılaştırması (2. tur dolduruldu — 2026-10-14)
+
+> 1. turda Windows/macOS hücreleri `⚠️ VERIFICATION REQUIRED` idi. 2. tur
+> doğrulaması PDH (M-W28–M-W32), Windows arayüzleri (M-W24–M-W27) ve macOS
+> sarmalayıcıları (M-W33–M-W35) getirdi; hücreler **dolduruldu**. Kalan
+> `⚠️` işaretleri yalnız **bu turda doğrulanmayan** alt konular içindir.
 
 | # | Konu | Linux | Windows | macOS |
 |---|---|---|---|---|
-| 1 | sayaç syscall'ı | perf_event_open (M-W18) | ⚠️ VERIFICATION REQUIRED (PDH 404) | ⚠️ VERIFICATION REQUIRED |
-| 2 | sarmalayıcı | perf stat, procps (M-W2…M-M8, M-W16, M-W17) | ⚠️ | ⚠️ |
-| 3 | yetki modeli | CAP_PERFMON + perf_event_paranoid (M-W18) | ⚠️ | ⚠️ |
-| 4 | eşik olayı kanalı | printk → dmesg (L-W9) | Event Log (L-W10) ⚠️ düzey eşlemesi | ⚠️ |
-| 5 | kaynak limiti | cgroup v2 (M-W13) | ⚠️ | ⚠️ |
+| 1 | sayaç yüzeyi (ham) | perf_event_open (M-W18) | PDH API — `PdhAddCounterW`/`PdhCollectQueryData` (M-W31, M-W30) | `powermetrics` (M-W33) — ham `mach` API `⚠️` |
+| 2 | sarmalayıcı | perf stat, procps (M-W2…M-M8, M-W16, M-W17) | `Get-Counter` (M-W24) · `typeperf` (M-W25) · `logman create counter` (M-W26) · `perfmon` (M-W27) | `powermetrics` (M-W33) · `vm_stat` (M-W34) · `netstat` (M-W35) |
+| 3 | yetki modeli | CAP_PERFMON + perf_event_paranoid (M-W18) | `⚠️` (yönetici/ayrıcalık sayfası bu turda aday değil) | `⚠️` (ayrıcalık sayfası bu turda aday değil) |
+| 4 | eşik olayı kanalı | printk → dmesg (L-W9) | Event Log (L-W10) + `eventcreate` (L-W22) düzey eşlemesi log/ §16.1 | os_log (L-W12r) + `Logger` (L-W26) |
+| 5 | kaynak limiti | cgroup v2 (M-W13) | `⚠️` (job object sayfası bu turda aday değil) | `⚠️` (rlimit sayfası bu turda aday değil) |
+| 6 | ağ sayaçları | ethtool (M-W12) · vmstat (M-W22) · /proc/vmstat (M-W23) | `⚠️` (Get-NetAdapter aday değil) | `netstat` (M-W35) |
+
+> Kalan `⚠️` hücreleri **3. doğrulama turuna** devredilir; doğrulanmayan
+> iddia yazılmaz. Tüm 2. tur kanıtları kök `-dogrulama.md` §2.1'dedir.
 
 ## §11 Ölçüm ve doğrulama adımları (bu dal için)
 
@@ -224,14 +233,15 @@ perf_event_open(pid, cpu, group_fd, flags)
 | 4 | örnekleme modu / profil kaydı | devredildi | `trace/` alt-dalı |
 | 5 | log hacmi metriği | devredildi | `log/log-ornekler.md` §11 |
 
-## §13 Platform surucu kararları — özet
+## §13 Platform surucu kararları — özet (2. tur güncellendi)
 
 | # | Karar | Linux | Windows | Apple |
 |---|---|---|---|---|
-| 1 | sayaç yüzeyi | /proc + PMU (doğrulanmış) | ⚠️ doğrulanmadı | ⚠️ doğrulanmadı |
-| 2 | okuma modu | sayma (değer) | ⚠️ | ⚠️ |
-| 3 | yetki | CAP_PERFMON / paranoid | ⚠️ | ⚠️ |
-| 4 | eşik olayı | printk → dmesg | Event Log kanalı | os_log |
+| 1 | sayaç yüzeyi | /proc + PMU (doğrulanmış) | PDH API (M-W28–M-W32) | `powermetrics`/`vm_stat` (M-W33–34) |
+| 2 | okuma modu | sayma (değer) | sorgu toplama (`PdhCollectQueryData`, M-W30) | örnekleyici/istatistik (`powermetrics`, M-W33) |
+| 3 | yetki | CAP_PERFMON / paranoid | `⚠️` | `⚠️` |
+| 4 | eşik olayı | printk → dmesg | Event Log kanalı (`eventcreate` L-W22) | os_log (`Logger` L-W26) |
+| 5 | sarmalayıcı | perf stat / procps | `Get-Counter`/`typeperf`/`logman`/`perfmon` (M-W24–27) | `powermetrics`/`vm_stat`/`netstat` (M-W33–35) |
 
 ## §14 Kaynakça (envanter dışı, HTTP 200 — 2026-10-13)
 
@@ -242,8 +252,11 @@ perf_event_open(pid, cpu, group_fd, flags)
 | M-W16 | perf stat PMU sayaçlarını raporlar | https://man7.org/linux/man-pages/man1/perf-stat.1.html | 200 |
 | M-W10 | clock_gettime(2) monotonik zaman kaynağı verir | https://man7.org/linux/man-pages/man2/clock_gettime.2.html | 200 |
 
-**Reddedilen adaylar:** PDH toplama sayfası (HTTP 404, kök `-dogrulama.md` §4
-X6) ve `vmstat.1` (HTTP 404, X2) bu dosyaya alınmamıştır.
+**Reddedilen adaylar (1. tur kaydı korunur):** PDH toplama sayfası (HTTP 404,
+kök `-dogrulama.md` §4 X6) ve `vmstat.1` (HTTP 404, X2) o an bu dosyaya
+alınmamıştı. **2. tur (2026-10-14):** doğru PDH yolları bulunup doğrulandı
+(M-W28–M-W32) ve `vmstat.8` (M-W22) bulundu — 404 kayıtları **silinmez**,
+yalnız yenileriyle tamamlandı.
 
 ## §15 Açık sorular
 
@@ -427,7 +440,7 @@ X6) ve `vmstat.1` (HTTP 404, X2) bu dosyaya alınmamıştır.
 | 1 | https://docs.kernel.org/trace/irqsoff-tracer.html | HTTP 404 | kullanılmadı |
 | 2 | https://man7.org/linux/man-pages/man8/perf-sched.8.html | HTTP 404 | kullanılmadı |
 | 3 | https://man7.org/linux/man-pages/man8/logger.8.html | HTTP 404 | log dalına alınmadı |
-| 4 | PDH toplama sayfası (kök `-dogrulama.md` §4 X6) | HTTP 404 | ⚠️ korunur |
+| 4 | PDH toplama sayfası (kök `-dogrulama.md` §4 X6) | HTTP 404 | ⚠️ korunur — 2. turda M-W28–M-W35 ile **doğru yollarla kapandı** (red kaydı silinmez) |
 | 5 | `vmstat.1` (kök `-dogrulama.md` §4 X2) | HTTP 404 | kullanılmadı |
 
 ## §25 Sık karıştırılan cümleler — düzeltme matrisi
@@ -461,7 +474,7 @@ X6) ve `vmstat.1` (HTTP 404, X2) bu dosyaya alınmamıştır.
 | 8 | §7 cgroup v2 | cgroup-v2 (M-W13) | URL | HTTP 200 |
 | 9 | §8 olumsuz kanıt | grep (6 desen) | disk | 0 isabet |
 | 10 | §9 repo süresi | Read (5 dosya:satır) | disk | eşleşti |
-| 11 | §10–§13 platform | ⚠️ (macOS, Windows) | doğrulanmadı | ⚠️ |
+| 11 | §10–§13 platform | M-W24…M-W35 (PDH/Get-Counter/typeperf/logman/perfmon + powermetrics/vm_stat/netstat) | URL | **2. tur kapandı** — kalan ⚠️ yalnız registry/job/rlimit/Get-NetAdapter (3. tur) |
 | 12 | §14 kaynakça | webfetch | URL | 4 × 200 |
 | 13 | §15 açık sorular | — | açık soru | O1–O3 |
 | 14 | §16 sysinfo(2) | sysinfo(2) (M-W19) | URL | 200 (bu tur) |
@@ -474,6 +487,7 @@ X6) ve `vmstat.1` (HTTP 404, X2) bu dosyaya alınmamıştır.
 | 23 | §23 bu tur kaynaklar | webfetch | URL | 3 × 200 |
 | 24 | §24 red adaylar | webfetch | URL | 404 kaydı |
 | 25 | §25 sık karıştırma | §1–§24 sentezi | sentez | — |
+| 26 | §10 Windows/macOS hücreleri (2. tur) | M-W24…M-W35 | URL | 12 × 200 (kök -dogrulama §2.1) |
 
 | # | Harita kuralı | Neden |
 |---|---|---|
@@ -481,5 +495,6 @@ X6) ve `vmstat.1` (HTTP 404, X2) bu dosyaya alınmamıştır.
 | 2 | `⚠️` ve `UNKNOWN` hücreleri haritada da görünür | gizli belirsizlik yasak |
 | 3 | bu tablo **kaynak özetidir**, yeni iddia **taşımez** | mükerrer kanıt üretmez |
 | 4 | §5/§13/§15 hücrelerinin boşluğu bilinçlidir | karar henüz verilmedi (O1–O3) |
+| 5 | 2. tur OS genişletmesi haritaya işlendi | §11 satırı "⚠️ doğrulanmadı" → "2. tur kapandı" (M-W24–35) — gizli güncelleme yasak |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

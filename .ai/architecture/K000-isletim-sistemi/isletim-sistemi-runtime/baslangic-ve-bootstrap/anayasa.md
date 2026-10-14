@@ -7,7 +7,7 @@ children: []
 depends_on:
   - K000-isletim-sistemi/isletim-sistemi-runtime/baslangic-ve-bootstrap/index
   - K000-isletim-sistemi/isletim-sistemi-runtime/web-runtime-topolojisi/anayasa
-evidence: https://www.php.net/manual/en/function.ini-set.php · https://www.php.net/manual/en/function.error-reporting.php · https://www.php.net/manual/en/function.register-shutdown-function.php · api.coremusic.net/index.php:10-29 · api.coremusic.net/constants.php:10-25 · api.coremusic.net/Services/RuntimeBootstrap.php:1-21 · api.coremusic.net/bootstrap.php:97-106
+evidence: https://www.php.net/manual/en/function.ini-set.php · https://www.php.net/manual/en/function.error-reporting.php · https://www.php.net/manual/en/function.register-shutdown-function.php · https://www.php.net/manual/en/install.windows.php · https://www.php.net/manual/en/install.macosx.php · https://www.php.net/manual/en/install.unix.php · api.coremusic.net/index.php:10-29 · api.coremusic.net/constants.php:10-25 · api.coremusic.net/Services/RuntimeBootstrap.php:1-21 · api.coremusic.net/bootstrap.php:97-106
 validation: 2026-10-13 · 3 URL HTTP 200 (ini_set · error_reporting · register_shutdown_function) · repo satırları Read ile birebir · içerik 380-460 satır
 open_questions: R5 opcache warm-up · R10 shutdown çalışma zamanı
 group: mimari
@@ -498,5 +498,82 @@ final class RuntimeBootstrap
 |---|---|---|
 | R11 | `evidence:` dizgesindeki `api.coremusic.net/Services/` öneki diskte neden yok? | `[UNKNOWN]` — taşınma/silme geçmişi bu dosyada araştırılmadı |
 | R12 | `home.coremusic.net/config/app.php` içindeki PDO `dsn` zorunluluğu | `[⚠️ VERIFICATION REQUIRED]` — bu turda `app.php` okunmadı |
+
+## § OS GRUPLAR
+
+> 8 işletim sistemi grubu ve boot/runtime başlatma modeli — bu dosyanın açısı **kuruldur**: PHP hangi
+> OS'te nasıl kurulur/boot edilir; A1-A7 sırası OS'tan bağımsızdır, yalnız php.ini/SAPI kaynağı OS'a
+> göre ayrışır. Repo kanıtı (2026-10-14 tarama): `.plist` · `*.service` · `php.ini` dosyası YOK,
+> `pcntl_` 0 eşleşme (surucu.md §19/5 ile aynı gözlem).
+
+### § OS.1 — Karşılaştırma tablosu
+
+| # | OS | Boot/runtime başlatma modeli | Bu dosyadaki karşılığı | Kaynak |
+|---|---|---|---|---|
+| 1 | Windows | UEFI → winload → NT kernel → SCM; PHP IIS/FastCGI (`php-cgi`) ile açılır | §2.1 A1-A7 — sıra SAPI'dan bağımsız | https://www.php.net/manual/en/install.windows.php |
+| 2 | macOS | boot.efi → XNU → launchd (PID 1); `php-fpm` LaunchDaemon job'ı | §2.1 A1-A7 + §2.11 eklenti korumaları | https://www.php.net/manual/en/install.macosx.php |
+| 3 | iOS | iBoot → XNU → launchd → SpringBoard; `UIApplicationDelegate` ile açılır | § OS.2/3 — kapsam dışı (PHP boot dışı) | `ornekler.md` § OS |
+| 4 | Android | bootloader → Linux kernel → `init` → Zygote; öncelik ActivityManager | § OS.2/3 — kapsam dışı (PHP boot dışı) | `surucu.md` § OS |
+| 5 | Linux | bootloader → Linux kernel → systemd (PID 1); `php-fpm.service` birimi | §2.1 A1-A7 + §2.5 M4 fail-fast | https://www.php.net/manual/en/install.unix.php |
+| 6 | FreeBSD/BSD | loader → kernel → `init` (PID 1) → rc.d; PHP servisi rc.girişi | §2.1 A1-A7 — POSIX sıra | https://www.php.net/manual/en/install.unix.php |
+| 7 | Tizen | Linux çekirdekli; uygulama süreç yaşam döngüsü (process-model) | § OS.2/3 — kapsam dışı (PHP boot dışı) | `ornekler.md` § OS |
+| 8 | webOS OSE | Linux çekirdekli; servis katmanı Luna Service 2 (LS2) | § OS.2/3 — kapsam dışı (PHP boot dışı) | `ornekler.md` § OS |
+
+### § OS.2 — OS kısa açıklamaları (her OS 2-3 cümle)
+
+1. **Windows** — PHP resmi Windows paketiyle kurulur; `php.ini-development`/`php.ini-production` seçimi ve PHP dizininin `PATH`'e eklenmesi kurulumun parçasıdır. Web yüzeyi IIS + FastCGI (`php-cgi`) veya Apache'dir; süreç başlatma SCM (Service Control Manager) üzerindendir. Boot sırası A1-A7 OS'tan bağımsızdır.
+2. **macOS** — `php.ini` konumu seçilen kurulum yöntemine göre belirlenir; süreç başlatma launchd üzerinden LaunchDaemon/LaunchAgent job'ı ile yapılır. `php-fpm` tek kez ayağa kalkar, istekler worker'a devredilir — "boot'ta bir kez" kuralının OS karşılığı.
+3. **iOS** — Uygulama `UIApplicationDelegate` ile başlar; süreç yaşam dölgüsü ve App Sandbox yönetimi sisteme aittir. Sunucu tarafı PHP boot bu platformda yoktur — **kapsam dışı** (`ornekler.md` § OS.3).
+4. **Android** — Açılışta `init` servisleri başlatır; uygulama süreçleri öncelik tablosuna girer ve sistem bellek için önce boşta kalanlar öldürülür. Çalışma zamanı AOT derlemesiyle açılır — **kapsam dışı** (`surucu.md` § OS.3).
+5. **Linux** — PHP dağıtım paketi veya kaynaktan kurulur; `php-fpm` gibi servisler systemd birimi olarak yönetilir. A1-A7 sırası burada da geçerlidir; fail-fast (M4) PHP katmanında kalır, init sistemine devredilmez.
+6. **FreeBSD/BSD** — Boot zinciri `loader` → kernel → `init` → rc.d ile yürür; PHP servisi bir rc.d girişiyle başlar. POSIX fork+exec semantiği ve A1-A7 sırası Linux ile aynıdır.
+7. **Tizen** — Linux çekirdekli platform; web/native/.NET uygulamaları kendi modeliyle yaşar (UI/Widget/Service). Süreç ve yaşam dölgüsü resmi dokümanda ayrı bir tutorial'dır — **kapsam dışı** (`ornekler.md` § OS.3).
+8. **webOS OSE** — Linux çekirdekli açık kaynak platform; uygulama ve servisler Luna Service 2 (LS2) üzerinden haberleşir. Mimari ve yaşam dölgüsü `docs/guides/core-topics` altındadır — **kapsam dışı** (`ornekler.md` § OS.3).
+
+### § OS.3 — OS bazlı kod/örnek blokları (PHP boot/bootstrap per OS)
+
+> Blokların tamamı **(bu projede kullanılmıyor)** etiketlidir; repo'da OS servis dosyası
+> (`.plist` / `*.service` / `php.ini`) yoktur (2026-10-14 tarama, 0 sonuç).
+
+#### (a) Windows — `php.ini` boot yüzeyi (bu projede kullanılmıyor)
+
+```ini
+display_errors = Off      ; üretim varsayılanı — M2 ile aynı sonuç
+log_errors = On
+error_log = "C:\php\logs\php_errors.log"
+extension_dir = "ext"
+```
+*(kaynak: https://www.php.net/manual/en/install.windows.php — resmi Windows kurulum dokümanı, 2026-10-14 HTTP 200)*
+
+#### (b) macOS — launchd plist yapısı (bu projede kullanılmıyor)
+
+```xml
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.example.php-fpm</string>
+  <key>ProgramArguments</key><array>
+    <string>/usr/local/sbin/php-fpm</string><string>--nodaemonize</string></array>
+  <key>RunAtLoad</key><true/><key>KeepAlive</key><true/>
+</dict></plist>
+```
+*(kaynak: https://www.php.net/manual/en/install.macosx.php — PHP macOS kurulumu; plist anahtarları launchd standardıdır)*
+
+#### (c) POSIX — fork+exec boot zinciri (bu projede kullanılmıyor)
+
+```c
+pid_t pid = fork();
+if (pid == 0) {
+    char *argv[] = {"php-fpm", "--nodaemonize", NULL};
+    execvp(argv[0], argv);   /* süreç imajı değişir */
+    _exit(127);              /* exec başarısız */
+}
+```
+*(kaynak: https://www.php.net/manual/en/install.unix.php · repo'da `pcntl_` 0 eşleşme — surucu.md §19/5)*
+
+#### (d) Grup içindeki diğer bloklar (burada yalnız göstergeler)
+
+- systemd servisi + Android process model/runtime → `surucu.md` § OS.3
+- iOS `UIApplicationDelegate` + App Sandbox · Tizen process-model · webOS OSE docs → `ornekler.md` § OS.3
+
+**Eklenen yeni URL sayısı: 3** — `install.windows` · `install.macosx` · `install.unix` (üçü de `evidence:` alanına eklendi · 2026-10-14 HTTP 200).
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

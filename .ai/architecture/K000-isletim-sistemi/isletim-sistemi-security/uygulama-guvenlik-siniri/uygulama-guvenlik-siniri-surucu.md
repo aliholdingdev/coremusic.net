@@ -510,4 +510,23 @@ katalog envanteriyle kesisim **0** (ayni dosyada olculdu).
 > sirasi, limit degeri veya CORS config degisikligi **backend-architect** isidir;
 > security-engineer **denetler**, degistirmez (read-only audit).
 
+## §15 — OS grupları (8 platform · 2026-10-14)
+
+> Politika zorlamanin (fail-closed) platform bazli yolu farklidir; platform bazli
+> detay ve upstream-docs kaynakli kod ornekleri ayni klasordeki OS kartlarindadir
+> (§0 ELI15 · §1 OS profili · §2 kod ornegi `kaynak: upstream docs` imzali ·
+> §3 repo durumu = hedef referans · §4 sinir cumleleri · §5 referans ·
+> §6 acik sorular S1/S2 kapatilmaz).
+
+| OS | Kart | Politika zorlama karsiligi | Repo durumu |
+|---|---|---|---|
+| Windows | [`uygulama-guvenlik-siniri-windows.md`](uygulama-guvenlik-siniri-windows.md) | AppContainer capability tabanli erisim reddi | hedef referans (0 kullanim) |
+| Linux | [`uygulama-guvenlik-siniri-linux.md`](uygulama-guvenlik-siniri-linux.md) | seccomp-BPF filtre zorlamasi (syscall deny) | hedef referans (0 kullanim) |
+| macOS | [`uygulama-guvenlik-siniri-macos.md`](uygulama-guvenlik-siniri-macos.md) | sandbox-exec / App Sandbox profil zorlamasi | hedef referans (0 kullanim) |
+| iOS | [`uygulama-guvenlik-siniri-ios.md`](uygulama-guvenlik-siniri-ios.md) | entitlement zorlamasi (imzalama ile baglayici) | hedef referans (0 kullanim) |
+| Android | [`uygulama-guvenlik-siniri-android.md`](uygulama-guvenlik-siniri-android.md) | seccomp BPF + SELinux policy zorlamasi | hedef referans (0 kullanim) |
+| Tizen | [`uygulama-guvenlik-siniri-tizen.md`](uygulama-guvenlik-siniri-tizen.md) | sandbox profile zorlamasi | hedef referans (0 kullanim) |
+| webOS | [`uygulama-guvenlik-siniri-webos.md`](uygulama-guvenlik-siniri-webos.md) | ACG politika zorlamasi (servis-bazli) | hedef referans (0 kullanim) |
+| ReactOS | [`uygulama-guvenlik-siniri-reactos.md`](uygulama-guvenlik-siniri-reactos.md) | ReactOS Security Manager (tasarim — zorlama yok) | hedef referans (0 kullanim) |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

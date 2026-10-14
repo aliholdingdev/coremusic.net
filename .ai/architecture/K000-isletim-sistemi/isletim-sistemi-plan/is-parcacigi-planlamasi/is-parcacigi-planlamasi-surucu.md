@@ -333,10 +333,10 @@ Formül yazılır, sayı uydurulmaz: dört sınırın hangisinin daraltıcı old
 | `app/Modules/AI/AIOrchestrator.php` | L45 | `$childPid = pcntl_fork();` | §4.2 W-1 — fork guard |
 | `shared/src/Api/Registry/ServiceHealth.php` | L24 | `* Execute parallel health checks.` | §5.1 — eşzamanlı denetim |
 | `shared/src/Api/Registry/ServiceHealth.php` | L26 | `public function checkAll(): array` | §5.1 — seri denetim |
-| `shared/src/Core/ServiceDiscovery/ServiceDefinition.php` | L23 | `private readonly int $timeout = 5,` | §3.2 — servis başına süre |
-| `shared/src/Middleware/RateLimitMiddleware.php` | L39 | `private array $bucket;` | §3 — uygulama kotası |
-| `shared/src/Middleware/RateLimitMiddleware.php` | L40 | `private float $window;` | §3 — pencere bütçesi |
-| `shared/src/Core/RateLimitException.php` | L7 | `private int $retryAfter;` | §6.2 — aşım sonrası bekleme |
+| `shared/src/Api/Registry/ServiceDefinition.php` | L23 | `private readonly int $timeout = 5,` | §3.2 — servis başına süre |
+| `shared/src/Api/Middleware/RateLimitMiddleware.php` | L39 | `private array $bucket;` | §3 — uygulama kotası |
+| `shared/src/Api/Middleware/RateLimitMiddleware.php` | L40 | `private float $window;` | §3 — pencere bütçesi |
+| `shared/src/Exception/RateLimitException.php` | L7 | `private int $retryAfter;` | §6.2 — aşım sonrası bekleme |
 | `shared/src/Middleware/MiddlewarePipeline.php` | L42 | `$start = hrtime(true);` | §7 — monotonik ölçüm |
 | `shared/src/Cache/ApcuAdapter.php` | L22 | APCu `apcu_store` sarmalayıcısı | §7 — bellek ölçüm yüzeyi |
 | `shared/src/Cache/MemoryAdapter.php` | L16 | PHP-dahili dizi önbelleği | §7 — bellek ölçüm yüzeyi |
@@ -350,9 +350,9 @@ birebir teyit edilmiştir (2026-10-13).
 
 | Dosya | Satır | Davranış |
 |---|---|---|
-| `shared/src/Core/RateLimitException.php` | L7 | `retryAfter` alanı istemciye bekleme süresini bildirir |
-| `shared/src/Middleware/RateLimitMiddleware.php` | L39–L40 | kova (bucket) + pencere (window) ile sınır |
-| `shared/src/Core/ServiceDiscovery/ServiceDefinition.php` | L23 | `timeout = 5` — servis başına yumuşak sınır |
+| `shared/src/Exception/RateLimitException.php` | L7 | `retryAfter` alanı istemciye bekleme süresini bildirir |
+| `shared/src/Api/Middleware/RateLimitMiddleware.php` | L39–L40 | kova (bucket) + pencere (window) ile sınır |
+| `shared/src/Api/Registry/ServiceDefinition.php` | L23 | `timeout = 5` — servis başına yumuşak sınır |
 
 Yorum: repo limitleri **uygulama katmanında** kurar; POSIX `RLIMIT` yüzeyi
 kullanılmaz. İki katman birbirinin yerine geçmez — POSIX sert, uygulama yumuşaktır.
@@ -373,7 +373,7 @@ kullanılmaz. İki katman birbirinin yerine geçmez — POSIX sert, uygulama yum
 
 | Dosya | Satır | Metin/rol | Sürücü bağlantısı |
 |---|---|---|---|
-| `shared/src/Core/RuntimeBootstrap.php` | L7–L20 | boot yapılandırma bloğu | §3.4 adım 1 — INI teyidi boot anında |
+| `shared/src/Bootstrap/RuntimeBootstrap.php` | L7–L20 | boot yapılandırma bloğu | §3.4 adım 1 — INI teyidi boot anında |
 | `home.coremusic.net/config/bootstrap.php` | L13 | autoloader kurulumu | süreç fork'tan önce tamamlanır |
 | `home.coremusic.net/config/bootstrap.php` | L97 | istek döngüsüne giriş | fork kararı istek düzeyindedir |
 | `home.coremusic.net/index.php` | L10 | boot çağrısı | boot → istek zinciri |

@@ -512,4 +512,25 @@ Invoke-WebRequest -Method Head -UseBasicParsing -TimeoutSec 20 -Uri $url
 | Y5 | Evet (firmware sorgusu) | bu dal (§6 C3) | Yapilmadi — `[UNKNOWN]` |
 | Y6 | Evet (uygulama katmani testi) | `K009-security` + `K019-testing` | Kanitli (§7.1) — OWASP denetimi bu dalin disi |
 
+## §22 — OS grupları (8 platform · 2026-10-14)
+
+> Bu dosyanin konusu (koruma halkalari, guvenli onyukleme, mitigasyonlar) 8 platformun
+> tamaminda gecerlidir; platform bazli detay ve upstream-docs kaynakli kod ornekleri
+> ayni klasordeki OS kartlarindadir. Her kart ayni sablonu tasir: §0 ELI15 ·
+> §1 OS guvenlik profili · §2 kod ornekleri (`kaynak: upstream docs`; "repo'da
+> uygulaniyor" yazmak YASAK) · §3 CoreMusic repo durumu (hedef referans — 2026-10-14
+> olcumu: OS araci taramasi 0 isabet) · §4 sinir cumleleri (K010/K009/komsu dal) ·
+> §5 referans · §6 acik sorular (S1/S2 kapatilmaz).
+
+| OS | Kart | Onyukleme / koruma halkasi karsiligi | Repo durumu |
+|---|---|---|---|
+| Windows | [`cekirdek-guvenlik-windows.md`](cekirdek-guvenlik-windows.md) | OEM Secure Boot + TPM · Mandatory Integrity Control · AppContainer | hedef referans (0 kullanim) |
+| Linux | [`cekirdek-guvenlik-linux.md`](cekirdek-guvenlik-linux.md) | Secure Boot + modul imzalama · LSM (SELinux/AppArmor/Landlock) · seccomp · SMEP/SMAP/KASLR | hedef referans (0 kullanim) |
+| macOS | [`cekirdek-guvenlik-macos.md`](cekirdek-guvenlik-macos.md) | Apple Secure Boot zinciri · SIP (System Integrity Protection) · kext imzalama | hedef referans (0 kullanim) |
+| iOS | [`cekirdek-guvenlik-ios.md`](cekirdek-guvenlik-ios.md) | Secure Boot + DFU · entitlement imzalama · sandbox | hedef referans (0 kullanim) |
+| Android | [`cekirdek-guvenlik-android.md`](cekirdek-guvenlik-android.md) | Verified Boot (AVB) · SELinux enforcing · Keymaster/Keystore | hedef referans (0 kullanim) |
+| Tizen | [`cekirdek-guvenlik-tizen.md`](cekirdek-guvenlik-tizen.md) | Secure Boot · Smack MAC · guvenlik profilleri | hedef referans (0 kullanim) |
+| webOS | [`cekirdek-guvenlik-webos.md`](cekirdek-guvenlik-webos.md) | ACG sandbox · servis-bazli izolasyon | hedef referans (0 kullanim) |
+| ReactOS | [`cekirdek-guvenlik-reactos.md`](cekirdek-guvenlik-reactos.md) | ReactOS Security — NT benzeri tasarim (olgunslasmamis) | hedef referans (0 kullanim) |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

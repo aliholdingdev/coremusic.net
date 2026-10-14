@@ -505,4 +505,24 @@ Asagidakilar **bu dosyada karara baglanmaz**; ilgili sahibine devredilir:
 > kod satiri, ya bir U-havuzu URL'si, ya da bir negatif olcumdur; hicbiri
 > model hafizasindan alinmamistir.
 
+## §24 — OS grupları (8 platform · 2026-10-14)
+
+> "Kim ne yapabilir" sorusunun erisim kontrol modeli platform bazinda farkli
+> mekanizmalarla kurulur; platform bazli detay ve upstream-docs kaynakli kod
+> ornekleri ayni klasordeki OS kartlarindadir (her kart: §0 ELI15 · §1 OS profili ·
+> §2 kod ornegi `kaynak: upstream docs` imzali, "repo'da uygulaniyor" yazilmaz ·
+> §3 repo durumu = hedef referans (2026-10-14: OS araci taramasi 0 isabet / 418 PHP+JS dosya, vendor/node_modules hariç) ·
+> §4 sinir cumleleri (K010/K009/komsu dal) · §5 referans · §6 acik sorular S1/S2 kapatilmaz).
+
+| OS | Kart | Erisim kontrol modeli karsiligi | Repo durumu |
+|---|---|---|---|
+| Windows | [`yetki-ve-erisim-modeli-windows.md`](yetki-ve-erisim-modeli-windows.md) | ACL + SID/token · Mandatory Integrity Control | hedef referans (0 kullanim) |
+| Linux | [`yetki-ve-erisim-modeli-linux.md`](yetki-ve-erisim-modeli-linux.md) | DAC + MAC (SELinux/AppArmor/Landlock) + POSIX ACL + capability | hedef referans (0 kullanim) |
+| macOS | [`yetki-ve-erisim-modeli-macos.md`](yetki-ve-erisim-modeli-macos.md) | POSIX DAC + MAC (codesign/App Sandbox) + TCC | hedef referans (0 kullanim) |
+| iOS | [`yetki-ve-erisim-modeli-ios.md`](yetki-ve-erisim-modeli-ios.md) | sandbox + entitlements + Keychain access groups | hedef referans (0 kullanim) |
+| Android | [`yetki-ve-erisim-modeli-android.md`](yetki-ve-erisim-modeli-android.md) | UID/GID DAC + SELinux MAC + runtime permissions | hedef referans (0 kullanim) |
+| Tizen | [`yetki-ve-erisim-modeli-tizen.md`](yetki-ve-erisim-modeli-tizen.md) | Smack MAC + RID (resource identifier) | hedef referans (0 kullanim) |
+| webOS | [`yetki-ve-erisim-modeli-webos.md`](yetki-ve-erisim-modeli-webos.md) | ACG sandbox + ACL | hedef referans (0 kullanim) |
+| ReactOS | [`yetki-ve-erisim-modeli-reactos.md`](yetki-ve-erisim-modeli-reactos.md) | NT ACL modeli (kismi, olgunslasmamis) | hedef referans (0 kullanim) |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

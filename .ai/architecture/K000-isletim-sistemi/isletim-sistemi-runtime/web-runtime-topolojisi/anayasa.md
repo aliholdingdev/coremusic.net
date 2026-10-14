@@ -13,6 +13,8 @@ evidence:
   - home.coremusic.net/.htaccess:1-37
   - home.coremusic.net/web.config:1-43
   - shared/config/domain.php:3-19
+  - https://learn.microsoft.com/en-us/iis/configuration/system.webServer/security/requestFiltering/
+  - https://learn.microsoft.com/en-us/iis/configuration/system.webServer/security/authentication/
 validation: "2026-10-13 · 3 URL HTTP 200 (Apache 2.4 worker · event · prefork MPM dokümanları — bu tur envantere eklendi) · repo satırları Read ile birebir · içerik 380-460 satır"
 open_questions:
   - "R1: Hedef runtime topolojisi kesin değil — Apache (mod_php/FPM) mı, IIS mi, ikisi de mi? Repo'da ikisinin de config'i var (çift hedef). [UNKNOWN]"
@@ -461,6 +463,109 @@ vardır; `assets` tek başına CORS + cache odaklıdır ve **rewrite/front-contr
 | 3 | `Select-String -Path 'shared\config\domain.php' -Pattern '=>'` | 13 |
 | 4 | `Select-String -Path 'shared\src\PageRouter\PageRouterKernel.php' -Pattern 'new \w+Middleware'` | 10 |
 | 5 | `(Get-Content $f \| Measure-Object -Line).Lines` | ≥380 |
+
+## § OS GRUPLAR — sekiz işletim sistemi grubu: web sunucu/runtime topolojisi karşılaştırması
+
+> Bu bölüm, bu dalın kavramlarını (§2 M1-M6) **işletim sistemi grubu** ekseniyle
+> karşılaştırır: kavram sabittir, ürün değişir (§2.2). Depoda yalnız Windows/IIS ve
+> POSIX/Apache yüzeyi vardır (§16 negatif kanıt); diğer gruplar "(bu projede
+> kullanılmıyor)" etiketiyle ve resmi kaynak gösterilerek taşınır.
+
+### OS.1 — Karşılaştırma tablosu
+
+| # | OS | Web sunucu/runtime topolojisi | Bu dosyadaki karşılığı | Kaynak |
+|---|---|---|---|---|
+| 1 | Windows | IIS: HTTP.sys → app-pool → worker process; PHP FastCGI handler | M2 · A2 · §2.2 platform yansımaları | repo `home.coremusic.net/web.config:1-43` · bu tur eklenen IIS `requestFiltering`/`authentication` dokümanları |
+| 2 | macOS | gömülü Apache httpd — MPM (prefork/worker/event) + `.htaccess` | M1 · A1 · §2.2 Apache satırı | `https://httpd.apache.org/docs/2.4/event.html` (mevcut kanıt) |
+| 3 | iOS | ayrı web sunucusu topolojisi bu projede tanımlı değil | M4 çift hedefe girmez (kapsam dışı) | repo taraması (§16): bu projede kullanılmıyor |
+| 4 | Android | ayrı web sunucusu topolojisi bu projede tanımlı değil | M4 çift hedefe girmez (kapsam dışı) | repo taraması (§16): bu projede kullanılmıyor |
+| 5 | Linux | nginx veya Apache + PHP-FPM FastCGI zinciri | M3 · A3 · §2.2 nginx satırı | `https://httpd.apache.org/docs/2.4/worker.html` (mevcut kanıt) · nginx request_processing (§2 M3) |
+| 6 | FreeBSD/BSD | ports/paket Apache veya nginx — POSIX süreç modeli | M1 + M3 bileşimi (§2.2) | repo taraması (§16): bu projede kullanılmıyor |
+| 7 | Tizen | ayrı sunucu topolojisi yok (yerleşik web runtime) | bu dosyada karşılığı yok (kapsam dışı) | repo taraması (§16): bu projede kullanılmıyor |
+| 8 | webOS | ayrı sunucu topolojisi yok (yerleşik web runtime) | bu dosyada karşılığı yok (kapsam dışı) | repo taraması (§16): bu projede kullanılmıyor |
+
+### OS.2 — OS bazlı kısa açıklamalar (2-3 cümle)
+
+**Windows.** CoreMusic'in çift hedef yüzeyinin Windows ayağı IIS'tir: HTTP.sys isteği
+app-pool'a, app-pool worker process'i `web.config` kurallarına bağlar (M2 · A2). PHP bu
+süreçte FastCGI handler üzerinden çalışır. Üretimde IIS'in aktif olduğu R1 ile [UNKNOWN].
+
+**macOS.** macOS topolojisi gömülü Apache (httpd) üzerinden tanımlanır; MPM süreç modeli
+ve `.htaccess` katmanı Linux Apache ile aynıdır (M1 · §2.2). Depoda macOS'a özgü config
+yoktur → bu grup yalnız kavram düzeyinde taşınır (platform dokümanı bu tur eklenmedi ⚠️).
+
+**iOS.** Bu ağaçta iOS için web sunucusu topolojisi tanımlı değildir; depoda iOS'e ait
+config kanıtı yoktur (§16 negatif kanıt mantığı). "(Bu projede kullanılmıyor)" etiketiyle
+taşınır; resmi platform dokümanı bu tur eklenmedi (⚠️).
+
+**Android.** Android için de sunucu-başına topoloji tanımlı değildir — proje yüzeyi yalnız
+sunucu tarafını kapsar. Depoda Android kanıtı yok → "(bu projede kullanılmıyor)"; resmi
+platform dokümanı bu tur eklenmedi (⚠️).
+
+**Linux.** Sunucu tarafının tipik POSIX topolojisi nginx/Apache + PHP-FPM FastCGI
+zinciridir (M3 · A3). Repo'da FPM pool config'i bulunmadığı için bu topoloji çapraz hedef
+olarak taşınır; MPM/havuz kapasitesi R3/R7 ile [⚠️ VERIFICATION REQUIRED].
+
+**FreeBSD/BSD.** FreeBSD, ports/paket ağacından Apache veya nginx kurar; süreç modeli
+Linux ile aynı POSIX topolojisidir (M1 + M3). Bu projede BSD'ye özgü config yok →
+"(bu projede kullanılmıyor)".
+
+**Tizen.** Tizen cihazlarında web uygulamaları yerleşik web runtime'ında çalışır; Apache
+veya nginx topolojisi bu projede taşınmaz. Depoda Tizen kanıtı yok → "(bu projede
+kullanılmıyor)"; platform dokümanı bu tur eklenmedi (⚠️).
+
+**webOS.** webOS cihazlarında uygulamalar yerleşik web runtime'ında çalışır; ayrı web
+sunucusu topolojisi yoktur. Depoda webOS kanıtı yok → "(bu projede kullanılmıyor)";
+platform dokümanı bu tur eklenmedi (⚠️).
+
+### OS.3 — OS bazlı config örnekleri (üçü de bu projede kullanılmıyor)
+
+> Dört `web.config` tarandı: `fastCgi` · `requestFiltering` · `authentication` düğümleri
+> hiçbiri geçmez (repo disk kanıtı — §16 negatif kanıt yöntemi). Bu yüzden örnekler resmi
+> doküman kaynaklarıyla verilir; repo karşılığı olsaydı dosya:satır künyesi eklenirdi.
+
+**1) Windows / IIS — `requestFiltering`:** gizli segment, uzantı ve verb filtresi ·
+kaynak `https://learn.microsoft.com/en-us/iis/configuration/system.webServer/security/requestFiltering/` (2026-10-14 HTTP 200)
+
+```xml
+<configuration>
+  <system.webServer>
+    <security>
+      <requestFiltering>
+        <hiddenSegments>
+          <add segment="config" />
+        </hiddenSegments>
+        <fileExtensions>
+          <add fileExtension=".env" allowed="false" />
+        </fileExtensions>
+        <verbs>
+          <add verb="TRACE" allowed="false" />
+        </verbs>
+      </requestFiltering>
+    </security>
+  </system.webServer>
+</configuration>
+```
+
+**2) Windows / IIS — `authentication`:** anonim kimlik doğrulama kapalı ·
+kaynak `https://learn.microsoft.com/en-us/iis/configuration/system.webServer/security/authentication/` (2026-10-14 HTTP 200)
+
+```xml
+<configuration>
+  <system.webServer>
+    <security>
+      <authentication>
+        <anonymousAuthentication enabled="false" />
+      </authentication>
+    </security>
+  </system.webServer>
+</configuration>
+```
+
+> **Karşılık:** repo `.htaccess`/`web.config` başlık katmanı (§10) kimlik doğrulaması
+> taşımaz; uygulama katmanındaki kimlik `AuthMiddleware`'dir (§13/9). Bu örnek yalnız
+> IIS'in sunucu-başına kimlik katmanını gösterir — uygulama yetkilendirmesi bu dosyanın
+> kapsamı dışındadır.
 
 ---
 

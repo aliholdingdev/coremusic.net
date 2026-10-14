@@ -747,4 +747,26 @@ Select-Object -Index 31
 > Tum URL'ler `isletim-sistemi-security-dogrulama.md` §1.2 defterinde (U serisi) kayitlidir;
 > hicbiri 2097'lik katalog envanterinde onceden bulunmaz (kesisim 0).
 
+## §13 — OS grupları (8 platform · 2026-10-14)
+
+> Bu dosyadaki ornek siniflarinin (DAC, yol dogrulama, komut kacisi, baslik,
+> fail-closed, RBAC) platform bazli karsiliklari 3 alt-dalin OS kartlarindadir.
+> Kart deseni: `<alt-dal>/<alt-dal>-<os>.md` — 8 OS × 3 alt-dal = **24 kart**.
+> Her kart: §0 ELI15 · §1 OS guvenlik profili · §2 kod ornegi (`kaynak: upstream
+> docs` imzali; "repo'da uygulaniyor" yazmak YASAK) · §3 CoreMusic repo durumu
+> (hedef referans — 2026-10-14: OS araci taramasi 0 isabet / 418 PHP+JS dosya, vendor/node_modules hariç) ·
+> §4 sinir cumleleri (K010/K009/komsu dal, birebir metin) · §5 referans ·
+> §6 acik sorular (S1/S2 kapatilmaz).
+
+| OS | `cekirdek-guvenlik/` | `yetki-ve-erisim-modeli/` | `uygulama-guvenlik-siniri/` |
+|---|---|---|---|
+| Windows | [`-windows.md`](cekirdek-guvenlik/cekirdek-guvenlik-windows.md) | [`-windows.md`](yetki-ve-erisim-modeli/yetki-ve-erisim-modeli-windows.md) | [`-windows.md`](uygulama-guvenlik-siniri/uygulama-guvenlik-siniri-windows.md) |
+| Linux | [`-linux.md`](cekirdek-guvenlik/cekirdek-guvenlik-linux.md) | [`-linux.md`](yetki-ve-erisim-modeli/yetki-ve-erisim-modeli-linux.md) | [`-linux.md`](uygulama-guvenlik-siniri/uygulama-guvenlik-siniri-linux.md) |
+| macOS | [`-macos.md`](cekirdek-guvenlik/cekirdek-guvenlik-macos.md) | [`-macos.md`](yetki-ve-erisim-modeli/yetki-ve-erisim-modeli-macos.md) | [`-macos.md`](uygulama-guvenlik-siniri/uygulama-guvenlik-siniri-macos.md) |
+| iOS | [`-ios.md`](cekirdek-guvenlik/cekirdek-guvenlik-ios.md) | [`-ios.md`](yetki-ve-erisim-modeli/yetki-ve-erisim-modeli-ios.md) | [`-ios.md`](uygulama-guvenlik-siniri/uygulama-guvenlik-siniri-ios.md) |
+| Android | [`-android.md`](cekirdek-guvenlik/cekirdek-guvenlik-android.md) | [`-android.md`](yetki-ve-erisim-modeli/yetki-ve-erisim-modeli-android.md) | [`-android.md`](uygulama-guvenlik-siniri/uygulama-guvenlik-siniri-android.md) |
+| Tizen | [`-tizen.md`](cekirdek-guvenlik/cekirdek-guvenlik-tizen.md) | [`-tizen.md`](yetki-ve-erisim-modeli/yetki-ve-erisim-modeli-tizen.md) | [`-tizen.md`](uygulama-guvenlik-siniri/uygulama-guvenlik-siniri-tizen.md) |
+| webOS | [`-webos.md`](cekirdek-guvenlik/cekirdek-guvenlik-webos.md) | [`-webos.md`](yetki-ve-erisim-modeli/yetki-ve-erisim-modeli-webos.md) | [`-webos.md`](uygulama-guvenlik-siniri/uygulama-guvenlik-siniri-webos.md) |
+| ReactOS | [`-reactos.md`](cekirdek-guvenlik/cekirdek-guvenlik-reactos.md) | [`-reactos.md`](yetki-ve-erisim-modeli/yetki-ve-erisim-modeli-reactos.md) | [`-reactos.md`](uygulama-guvenlik-siniri/uygulama-guvenlik-siniri-reactos.md) |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

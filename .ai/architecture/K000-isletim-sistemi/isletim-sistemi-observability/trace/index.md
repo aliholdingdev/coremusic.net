@@ -18,7 +18,7 @@ evidence:
   - https://learn.microsoft.com/en-us/windows/win32/api/evntrace/
   - shared/src/PageRouter/PageRouterKernel.php:87
   - shared/src/PageRouter/StructuredLogger.php:66
-validation: "2026-10-13 — trace alt-dalının 13 URL'si (T-W1…T-W13) kök -dogrulama.md §2'de HTTP 200 doğrulanmış; 3 yeni URL (bpf/verifier.html, bpf/helpers.html, bpf/ringbuf.html) bu turda doğrulandı (envanter kesişimi 0); macOS DTrace/ktrace ve PDH resmi URL doğrulanmadı → ⚠️; repo traceId satırları Read/grep ile doğrulandı; OS trace aracı grep'i 0 isabet"
+validation: "2026-10-14 — §4 §GRUPLAR'a OS grupları satırı eklendi (trace-anayasa §6.1/§8/§16.1 · trace-surucu §6.1/§10/§20.1 · trace-ornekler §13/§13.1, kanıt T-W16–T-W23); dosya 101 satır (40–100 hedefinden +1 — bilinçli, OS satırı içeriğe değer kattı) | 2026-10-13 — trace alt-dalının 13 URL'si (T-W1…T-W13) kök -dogrulama.md §2'de HTTP 200 doğrulanmış; 3 yeni URL (bpf/verifier.html, bpf/helpers.html, bpf/ringbuf.html) bu turda doğrulandı (envanter kesişimi 0); repo traceId satırları Read/grep ile doğrulandı; OS trace aracı grep'i 0 isabet"
 open_questions:
   - "O1: OS-level trace toplama (ftrace, ETW oturumu, eBPF) hedef mimaride var mı, yoksa yalnız uygulama traceId'si mi? [UNKNOWN]"
   - "O2: Gözlemlenebilirlik üçlüsü (log/metric/trace) K002-altyapi içinde nasıl konumlanacak? [UNKNOWN]"
@@ -71,6 +71,7 @@ span) `K017-observability` alanındadır.
 | mimari | `trace-anayasa.md` | bağlayıcı tanım ve ilke seti | Kademe-4 |
 | mimari | `trace-surucu.md` | mekanizma envanteri ve hata modları | Kademe-4 |
 | kod | `trace-ornekler.md` | repo örnekleri ve olumsuz kanıt | Kademe-4 |
+| mimari | **OS grupları**: `trace-anayasa.md` §6.1/§8 · `trace-surucu.md` §6.1/§10 · `trace-ornekler.md` §13/§13.1 | Linux/Windows/macOS (ETW T-W16–18 · DTrace ayna T-W19–22) haritası — kanıt T-W16–T-W23 | Kademe-4 |
 
 ## §5 Komşu sınırı
 

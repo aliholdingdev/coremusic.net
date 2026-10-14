@@ -16,7 +16,7 @@ evidence:
   - "https://clang.llvm.org/docs/Toolchain.html"
   - "https://mesonbuild.com/Manual.html"
   - "https://gcc.gnu.org/onlinedocs/gcc/C-Dialect-Options.html"
-validation: "2026-10-13 · 3 yeni URL HEAD 200 · envanter (2633) ile kesişim 0 · repo satırları Select-Object -Index (N-1) ile okundu"
+validation: "2026-10-14 · §6 PHP kod örnekleri eklendi (Grup L/W/M + ortak · 4 blok · hepsi S3, S1 çapalı: composer.json:6,47-49 · ci.yml:44 · DesktopBff:35) · 2026-10-13 kaydı: 3 yeni URL HEAD 200 · envanter (2633) ile kesişim 0 · repo satırları Select-Object -Index (N-1) ile okundu"
 open_questions:
   - "Q6 — hedef paket formatları (MSI/deb/AppImage) seti UNKNOWN"
   - "Q-X49 — native derleme kalıbı (CMake+Ninja mı, Make mi) seçilmedi → UNKNOWN"
@@ -494,6 +494,198 @@ group: kod
 
 > `package.json` `version` alanı: repo'da okunmadı — **⚠️ VERIFICATION REQUIRED** (anayasa §10 Q-X31 ile aynı işaret).
 > `npm audit` adımı: `ci.yml` okumasında gözlemlenmedi — **UNKNOWN** (audit yalnız composer tarafında kanıtlandı).
+
+## §6 PHP kod örnekleri — derleme/paketleme, OS başına (2026-10-14)
+
+> Kök `isletim-sistemi-cross-ornekler.md` §22-§31'deki OS gruplamasının bu dala
+> uzantısı: **derleme/paketleme işini yapan** PHP betikleri. Hepsi **S3** (repo'da
+> yok — türetilmiş kalıp); her örneğin S1 çapası başlıkta. PHP 8.4 ·
+> `declare(strict_types=1)` · PDO değil, yalnız `proc_open`/`composer`/`npm` yüzeyi.
+
+### §6.1 Grup L — Linux: composer platform denetimi (kurulum öncesi kapı)
+
+**Çapa (S1):** `shared/composer.json:47-49` (`scripts` bloğu: `test` · `stan`)
+**Senaryo:** Linux paketleme/CI koşusunda `composer install` **öncesi** PHP sürümü ve
+`ext-*` şartları doğrulanır — §20'deki `ext-apcu` düşüşünü (§20 #2) önceden yakalar.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+// Betik: preflight-composer.php — Linux (Grup L) · S3 kalıp · çapa composer.json:47-49
+// composer.json:8 require.php >=8.4 · :9-12 ext-* (§20) — kapı aynı eşikleri okur.
+
+$composerFile = $argv[1] ?? (__DIR__ . '/../shared/composer.json');
+
+$manifest = json_decode(
+    (string) file_get_contents($composerFile),
+    true,
+    512,
+    JSON_THROW_ON_ERROR
+);
+
+$failures = [];
+
+// Sürüm kapısı — composer.json:8 (>=8.4)
+$require = $manifest['require'] ?? [];
+$phpReq  = $require['php'] ?? null;
+if (is_string($phpReq) && version_compare(PHP_VERSION, ltrim($phpReq, 'v^~<>='), '<')) {
+    $failures[] = sprintf('PHP %s gerekli, çalışan %s', $phpReq, PHP_VERSION);
+}
+
+// Uzantı kapıları — composer.json:9-12 (ext-apcu · ext-json · ext-mbstring · ext-pdo)
+foreach (array_keys($require) as $pkg) {
+    if (str_starts_with($pkg, 'ext-') && !extension_loaded(substr($pkg, 4))) {
+        $failures[] = "uzanti eksik: {$pkg} (ci.yml:38 apcu.enable_cli=1 bu kapının CI karşılığı)";
+    }
+}
+
+// Cache anahtarı bilgisi — ci.yml:44 (${{ runner.os }} Linux'ta 'Linux')
+echo json_encode([
+    'system'  => php_uname('s'),
+    'php'     => PHP_VERSION,
+    'failures'=> $failures,
+    'ok'      => $failures === [],
+], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT), PHP_EOL;
+
+exit($failures === [] ? 0 : 78);               // EX_CONFIG
+```
+
+| # | Satır | Linux davranışı | Sınıf |
+|---|---|---|---|
+| 1 | `extension_loaded('apcu')` | Linux imaj APCu kurulumu (ci.yml:38) | S1 çapa (§20) |
+| 2 | `php_uname('s')` | `Linux` raporu | S1 (DesktopBff:35 kalıbı) |
+| 3 | exit 78 | Linux'ta job düşer — §4.1 exit↔job eşlemesi | S3 (§4.1) |
+
+### §6.2 Grup W — Windows: `composer.lock` hash + uzun yol güvenlikli artefakt yazımı
+
+**Çapa (S1):** `.github/workflows/ci.yml:44` (`${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}`)
+**Senaryo:** Windows paketleme koşusunda artefakt yolu MAX_PATH'e takılabilir
+(§23.4 · kök ornekler); `\\?\` öneki yalnız aşım varsa eklenir.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+// Betik: cache-key.php — Windows (Grup W) · S3 kalıp · çapa ci.yml:44
+// ci.yml:44 kalıbının PHP karşılığı: OS öneki + lock dosyası hash'i.
+
+$isWindows = PHP_OS_FAMILY === 'Windows';
+
+$lockFile = $argv[1] ?? (__DIR__ . '/../composer.lock');
+$hash    = is_readable($lockFile)
+    ? substr(hash_file('sha256', $lockFile), 0, 16)
+    : 'no-lock';                               // hashFiles boş dönerse de düşmez
+
+// S1 kalıbı (ci.yml:44): runner.os öneki — Linux 'Linux' · Windows 'Windows' · macOS 'Darwin'
+$key = PHP_OS_FAMILY . '-composer-' . $hash;
+
+$artifactDir = rtrim(sys_get_temp_dir(), '\\/') . DIRECTORY_SEPARATOR
+             . 'artifacts' . DIRECTORY_SEPARATOR . 'dist';
+
+// S3 fark: Windows MAX_PATH (§23.4) — uzun yol öneki yalnız aşım dalında
+if (!is_dir($artifactDir) && !mkdir($artifactDir, 0775, true) && !is_dir($artifactDir)) {
+    fwrite(STDERR, "artefakt dizini olusturulamadi: {$artifactDir}\n");
+    exit(73);                                  // EX_CANTCREAT (§31.2 kalıbı)
+}
+
+$zipPath = $artifactDir . DIRECTORY_SEPARATOR . 'coremusic-dist.zip';
+if ($isWindows && strlen($zipPath) > 240) {
+    $zipPath = '\\\\?\\' . $zipPath;           // repo'da izi 0 (§23.4 #2)
+}
+
+echo json_encode([
+    'system'   => php_uname('s'),              // 'Windows NT'
+    'cacheKey' => $key,                        // 'Windows-composer-<16hex>'
+    'zipPath'  => $zipPath,
+    'pathLen'  => strlen($zipPath),
+], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT), PHP_EOL;
+```
+
+### §6.3 Grup M — macOS (Darwin): PHP mimari raporu (paket etiketi için)
+
+**Çapa (S1):** `shared/src/Api/Bff/DesktopBff.php:35` (`php_uname('s')` → `Darwin`)
+**Senaryo:** macOS paketleme etiketi (arm64 vs x86_64) PHP'den okunur — `php_uname('m')`
+`uname(2)`'nin makine alanıdır; macOS'e özgü **tek çağrı budur ve o da POSIX'tir**.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+// Betik: arch-tag.php — macOS (Grup M) · S3 kalıp · çapa DesktopBff:35
+// Darwin'de paket etiketi: arm64 (Apple Silicon) vs x86_64 (Rosetta) — php_uname('m').
+
+$machine = php_uname('m');                     // 'arm64' | 'x86_64' | 'aarch64' | ...
+$system  = php_uname('s');                     // macOS: 'Darwin' (S1 · DesktopBff:35)
+
+// Paket adı kalıbı — S3: repo'da macOS paket adı yok (Q6 UNKNOWN · §2.8-§2.9 PLANNED)
+$tag = match ($system) {
+    'Darwin' => match ($machine) {
+        'arm64'  => 'macos-arm64',
+        'x86_64' => 'macos-x86_64',
+        default  => 'macos-' . $machine,
+    },
+    default  => strtolower($system) . '-' . $machine,   // Linux-x86_64 · Windows NT-x64
+};
+
+echo json_encode([
+    'system'  => $system,
+    'machine' => $machine,
+    'tag'     => $tag,
+    'posix'   => function_exists('posix_uname'),        // Windows: false (§29.3)
+], JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES), PHP_EOL;
+```
+
+### §6.4 Üç OS ortak — sürüm eşitleme denetimi (composer.json ↔ package.json)
+
+**Çapa (S1):** `shared/composer.json:6` (`version: 2.0.0` §5.5 #1) · `package.json:10` (`devDependencies` — `version` alanı **okunmadı**, §5.5 notu)
+**Senaryo:** Paketlemeden önce manifest sürüm alanları denetlenir; `package.json`
+`version` alanı bilinmediği için betik yalnız **composer** sürümünü okur, npm alanını
+`UNKNOWN` raporlar (uydurma yok).
+
+```php
+<?php
+
+declare(strict_types=1);
+
+// Betik: version-sync.php — L+W+M ortak · S3 kalıp · çapa composer.json:6 · §5.5
+// Kural: bilinmeyen alan UYDURULMAZ — 'UNKNOWN' yazılır (zero-hallucination).
+
+$composer = json_decode(
+    (string) file_get_contents(__DIR__ . '/../shared/composer.json'),
+    true,
+    512,
+    JSON_THROW_ON_ERROR
+);
+
+$packageRaw = is_readable(__DIR__ . '/../package.json')
+    ? json_decode((string) file_get_contents(__DIR__ . '/../package.json'), true, 512, JSON_THROW_ON_ERROR)
+    : [];
+
+$report = [
+    'system'           => php_uname('s'),           // üç OS'ta da aynı alan
+    'composerVersion'  => $composer['version'] ?? 'UNKNOWN',   // composer.json:6 → 2.0.0
+    'composerPhp'      => $composer['require']['php'] ?? 'UNKNOWN',
+    'npmVersion'       => $packageRaw['version'] ?? 'UNKNOWN', // §5.5 notu: okunmadı
+];
+
+$exit = $report['composerVersion'] === 'UNKNOWN' ? 78 : 0;
+echo json_encode($report, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT), PHP_EOL;
+exit($exit);
+```
+
+### §6.5 Ölçüm (bu ek tur — bu dosya)
+
+| # | Ölçüm | Değer |
+|---|---|---|
+| 1 | Eklenen PHP bloğu | 4 (L §6.1 · W §6.2 · M §6.3 · ortak §6.4) |
+| 2 | Kanıt sınıfı | hepsi S3 — S1 çapalar: `composer.json:6,47-49` · `ci.yml:44` · `DesktopBff:35` |
+| 3 | OS'e özgü satır | 1 (`\\?\` yalnız Windows aşım dalı §6.2) — macOS/Linux betiklerinde 0 |
+| 4 | Uydurma veri | 0 (`npmVersion` → `UNKNOWN` yazılır) |
+| 5 | `git commit` | 0 (orkestratöre ait) |
 
 ---
 

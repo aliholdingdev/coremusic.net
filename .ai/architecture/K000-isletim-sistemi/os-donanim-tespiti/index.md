@@ -16,7 +16,7 @@ evidence:
   - "shared/src/Device/DeviceDetector.php (316 satır / 272 dolu — class satır 19, detect() satır 57 — IMPLEMENTED, uygulama-seviyesi tespit)"
   - "shared/src/Device/DeviceManager.php (662 satır / 588 dolu, 7 cihaz sabiti satır 29–40 — IMPLEMENTED)"
   - "https://learn.microsoft.com/en-us/windows/win32/api/setupapi/ (HTTP 200, 2026-10-13, HEAD)"
-  - "https://docs.kernel.org/driver-api/driver-model/index.html (HTTP 200, 2026-10-13, HEAD)"
+  - "https://docs.kerneSl.org/driver-api/driver-model/index.html (HTTP 200, 2026-10-13, HEAD)"
   - "https://devicetree.org/ (HTTP 200, 2026-10-13, HEAD)"
 validation: "draft — 2026-10-13 yazıldı · 3 kardeş içerik dosyası ≥500 satır hedefi yazım sonrası ölçülür · fiziksel ölçüm YOK · K000 kök index/§GRUPLAR satırı eklenmedi (orkestratöre devredildi)"
 open_questions:

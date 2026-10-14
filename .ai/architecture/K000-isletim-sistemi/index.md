@@ -6,7 +6,7 @@ parent_id: K000-isletim-sistemi
 children: [electroncis, isletim-sistemi-api, isletim-sistemi-audio, isletim-sistemi-core, isletim-sistemi-cross, isletim-sistemi-kernel, isletim-sistemi-observability, isletim-sistemi-plan, isletim-sistemi-runtime, isletim-sistemi-security, isletim-sistemi-testing, isletim-sistemi-turu, os-donanim-tespiti]
 depends_on: [K002-altyapi]
 evidence: [https://docs.kernel.org/core-api/index.html, https://man7.org/linux/man-pages/man2/syscalls.2.html, https://learn.microsoft.com/en-us/windows/win32/coreaudio/about-the-windows-core-audio-apis, https://pubs.opengroup.org/onlinepubs/9799919799/]
-validation: "2026-10-13 · 12 düğüm disk enumerasyonu ile sayıldı (124 md / 39.099 satır) · kök 4 dosya derinleştirildi · URL'ler HTTP HEAD ile doğrulandı"
+validation: "2026-10-13 · 12 düğüm disk enumerasyonu ile sayıldı (124 md / 39.099 satır) · kök 4 dosya derinleştirildi · URL'ler HTTP HEAD ile doğrulandı · 2026-10-14: `isletim-sistemi-turu/kod-seti` eklendi → turu satırı tazelendi (66 dosya / 31.258 satır); toplamlar satır toplamıdır — diğer satırlar 2026-10-13 sayımıdır, domain-geneli yeniden sayım ayrı denetim konusu (2026-10-14 ölçümünde audio 42 dosya vb. derin-dal büyümesi tespit edildi)."
 open_questions: ["Q1 electroncis kapsamı", "Q2 core↔kernel sınırı", "Q3 plan kapsamı", "Q4 hedef platform seti", "Q5 turu↔altyapı gap"]
 group: mimari
 ---
@@ -62,9 +62,9 @@ Bu domain **kod üretmez**, kodun **hangi OS hizmetlerine güvendiğini** sabitl
 | 9 | `isletim-sistemi-runtime` | 4 | 217 | 0 | 4 | derinleştirme gerekli | mimari |
 | 10 | `isletim-sistemi-security` | 4 | 206 | 0 | 4 | derinleştirme gerekli | kanit |
 | 11 | `isletim-sistemi-testing` | 4 | 202 | 0 | 4 | derinleştirme gerekli | kod |
-| 12 | `isletim-sistemi-turu` | 65 | 28745 | 54 | 11 | en derin düğüm (8 platform) | mimari |
+| 12 | `isletim-sistemi-turu` | 66 | 31258 | 58 | 8 | en derin düğüm (8 platform) · 2026-10-14 taze (kod-seti) | mimari |
 | 13 | `os-donanim-tespiti` | 4 | 1649 | 3 | 1 | 2026-10-13 açıldı (Vault Steward onayı) — PnP/enumeration/sürücü bağlama | mimari |
-| — | **TOPLAM 13 düğüm** | **128** | **40.748** | **66** | **62** | kök 4 dosya hariç | — |
+| — | **TOPLAM 13 düğüm** | **129** | **43.261** | **70** | **59** | kök 4 dosya hariç · turu satırı 2026-10-14, diğerleri 2026-10-13 | — |
 
 ## 5. Okuma sırası (öneri)
 `os-master.md` (ELI15 + 8 kavram + 12 düğüm) → `os-bagimliliklar.md` (12×12 matris + döngü) → `os-dogrulama.md` (URL + disk kanıtı) → ilgili child `index.md` → `-kapsam` → `-ornekler` → `-dogrulama`.

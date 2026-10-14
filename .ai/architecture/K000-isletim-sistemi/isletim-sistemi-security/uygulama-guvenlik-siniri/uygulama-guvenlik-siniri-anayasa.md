@@ -500,4 +500,24 @@ devreye alinacagi mimari sahibi kararidir (ADR `>=088`).
 > kod satiri, ya bir U-havuzu URL'si, ya da bir negatif olcumdur; hicbiri
 > model hafizasindan alinmamistir.
 
+## §16 — OS grupları (8 platform · 2026-10-14)
+
+> Uygulama <-> OS sinirinin platform bazli karsiligi; platform bazli detay ve
+> upstream-docs kaynakli kod ornekleri ayni klasordeki OS kartlarindadir
+> (§0 ELI15 · §1 OS profili · §2 kod ornegi `kaynak: upstream docs` imzali,
+> "repo'da uygulaniyor" yazilmaz · §3 repo durumu = hedef referans (2026-10-14:
+> OS araci taramasi 0 isabet / 418 PHP+JS dosya, vendor/node_modules hariç) · §4 sinir cumleleri (K010/K009/komsu dal) ·
+> §5 referans · §6 acik sorular S1/S2 kapatilmaz).
+
+| OS | Kart | Uygulama <-> OS siniri karsiligi | Repo durumu |
+|---|---|---|---|
+| Windows | [`uygulama-guvenlik-siniri-windows.md`](uygulama-guvenlik-siniri-windows.md) | AppContainer / Job Object ile surec kisiti | hedef referans (0 kullanim) |
+| Linux | [`uygulama-guvenlik-siniri-linux.md`](uygulama-guvenlik-siniri-linux.md) | namespace + seccomp-BPF + Landlock | hedef referans (0 kullanim) |
+| macOS | [`uygulama-guvenlik-siniri-macos.md`](uygulama-guvenlik-siniri-macos.md) | App Sandbox (sandbox-init profil) | hedef referans (0 kullanim) |
+| iOS | [`uygulama-guvenlik-siniri-ios.md`](uygulama-guvenlik-siniri-ios.md) | sandbox + entitlement zorlamasi | hedef referans (0 kullanim) |
+| Android | [`uygulama-guvenlik-siniri-android.md`](uygulama-guvenlik-siniri-android.md) | SELinux + seccomp (uygulama sureci) | hedef referans (0 kullanim) |
+| Tizen | [`uygulama-guvenlik-siniri-tizen.md`](uygulama-guvenlik-siniri-tizen.md) | sandbox profile (uygulama izolasyonu) | hedef referans (0 kullanim) |
+| webOS | [`uygulama-guvenlik-siniri-webos.md`](uygulama-guvenlik-siniri-webos.md) | ACG (servis-bazli syscall kisiti) | hedef referans (0 kullanim) |
+| ReactOS | [`uygulama-guvenlik-siniri-reactos.md`](uygulama-guvenlik-siniri-reactos.md) | ReactOS Security Manager (tasarim — olgunslasmamis) | hedef referans (0 kullanim) |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

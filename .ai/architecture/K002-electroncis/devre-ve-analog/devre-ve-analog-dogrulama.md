@@ -11,7 +11,7 @@ evidence:
   - "Web doğrulama: 12 benzersiz URL · HTTP 200 · envanter (2.701) kesişimi 0 (§5.1)"
   - "Repo kodu okuma: 5 dosya:satır — elektronik kodu YOK dürüstlüğü (§6.1)"
   - ".ai/electronic/** satır atıfları §6.2 (açık dosyalardan okundu)"
-validation: "draft — 2026-10-13 yazıldı · ≥500 ölçümü yazım sonrası"
+validation: "draft — 2026-10-13 yazıldı · ≥500 ölçümü yazım sonrası · 2026-10-14 · K000 kaynaklı taşıma eklendi (bkz §T-K000)"
 open_questions:
   - "Q-DVA-D1: Fiziksel ölçüm (SNR/THD) yapılmadı — ölçüm PLANNED"
   - "Q-DVA-D2: Uygulama notu içeriği okunmadı, iddialar kimlik düzeyinde"
@@ -494,6 +494,151 @@ kaydının doğrudan disk kanıtıdır.
 
 **Kural:** İmla hataları **düzeltilmez**; düzeltme = kasıtlı bozulmadır
 (v2 §3 KURAL 1).
+
+---
+
+## §T-K000 — K000 kaynaklı taşıma (devre-tasarımı · doğrulama · 2026-10-14)
+
+> **Taşıma kaydı.** Bu bölüm `K000-isletim-sistemi/electroncis/devre-tasarimi/`
+> altındaki üç dosyadan alınan **benzersiz** doğrulama içeriğini taşır (kaynaklar
+> Faz B'de silinecek; içerik burada yaşar). Kaynak §/satır atıfları her blokta
+> verilmiştir. Sayısal kabul kriterleri kaynakta yazılı kuraldır — bu ek
+> ölçüm sonucu üretmez; tüm kapılar PLANNED kalır.
+
+### §T-K000.1 — Simülasyon metodolojisi (DC · AC · transient · Monte Carlo)
+
+Kaynak: `devre-simulasyonu-ve-dogrulama.md` §1 (L29–40), §2/§2.1–§2.4 (L71–120),
+§3/§3.1 (L122–166), §11 hata matrisi (L445–456).
+
+**Simülasyon akışı (üç aşama)**
+
+| # | Aşama | İş | Çıktı | Hata tipi |
+|---|---|---|---|---|
+| 1 | Şema doğrula | bağlantı · değer | netlist | yanlış pin/değer |
+| 2 | Analiz çalıştır | DC · AC · transient | dalga biçimi · THD/SNR | model yanlışı |
+| 3 | Monte Carlo | tolerans saçılımı | dağılım · verim yüzdesi | üretim sürprizi |
+
+**Analiz türleri**
+
+| # | Analiz | Domain | Çıktı | Kullanım |
+|---|---|---|---|---|
+| 1 | DC operating point (.op) | statik | V/I noktaları | bias doğrulama |
+| 2 | DC sweep | statik | transfer eğrisi | doygunluk · eşik |
+| 3 | AC sweep (.ac) | frekans | bode (mag/faz) | filtre · bandwidth · PM |
+| 4 | Transient (.tran) | zaman | V(t)·I(t) | osilasyon · distorsiyon |
+| 5 | Monte Carlo | tolerans | dağılım · verim | üretim (§3) |
+| 6 | Noise analizi | frekans | nV/√Hz | gürültü bütçesi |
+
+**Transient adım kuralı (bağlayıcı):**
+
+| Kural | Değer | İhlal |
+|---|---|---|
+| Zaman adımı | `maxstep` ≤ T/50 | dalga bozulması |
+| Yükselen kenar | ≥5–10 adım/kenar | geçiş saklanır |
+| Monte Carlo yavaş | örneklem azalt | uzun sürer |
+
+**Simülasyon hata matrisi**
+
+| # | Hata | Belirti | Düzeltme |
+|---|---|---|---|
+| 1 | Aşırı zaman adımı | dalga bozulması | `maxstep` ≤ T/50 (.tran kontrol) |
+| 2 | Konverjans yok | iterasyon hatası | başlangıç değerleri |
+| 3 | PM < 45° | overshoot | kompanzasyon (`devre-ve-analog-anayasa` §T-K000.2) |
+| 4 | SNR sapması | gürültü kaynağı atlanmış | gürültü bütçesi (§T-K000.3) |
+| 5 | Tolerans yok | tek nokta optimum | Monte Carlo / worst-case |
+
+### §T-K000.2 — Simülasyon ↔ ölçüm kabul matrisi (±%5 DC · ±3 dB · ±10 °C)
+
+Kaynak: `devre-simulasyonu-ve-dogrulama.md` §9/§9b (L352–364), §9c/§9d (L415–428),
+§9e (L400–410).
+
+**Kabul toleransları (bağlayıcı çerçeve):**
+
+| # | Büyüklük | Simülasyon karşılığı | Ölçüm aracı | Kabul | Durum |
+|---|---|---|---|---|---|
+| 1 | DC bias | .op | DMM (DC) | ±%5 DC sapma | kural · ölçüm PLANNED |
+| 2 | Frekans cevabı | .ac bode | VNA / sweep + osc | ±3 dB bant genişliği | kural · ölçüm PLANNED |
+| 3 | Sıcaklık artışı | termal sim | termal kamera / termokupl | ±10 °C sim-ölçüm farkı | kural · ölçüm PLANNED |
+| 4 | THD | transient FFT | audio analyzer | sartname eşiği | PLANNED |
+| 5 | SNR | noise analiz | audio analyzer (sessiz girdi) | sartname >100 dB | PLANNED |
+| 6 | Monte Carlo std. sapma | MC dağılım | toplu ölçüm | sim std ≤ ölçüm std | kural |
+| 7 | Yük geçişi overshoot | transient step | E-load + osc tekilleme | sim overshoot ≤ ölçüm | kural |
+
+**Ölçüm ↔ sim eşleme kuralları**
+
+| # | Kural | Eşik | Not |
+|---|---|---|---|
+| 1 | Her ölçüm büyüklüğünün bir sim karşılığı olmalı | §9c tablosu | eşleme yoksa kapı kapanmaz |
+| 2 | Sim↔ölçüm farkı kabulü aşarsa | ±%5 / ±3 dB / ±10 °C | model doğrula (model mi, ölçüm mü?) |
+| 3 | DC bias ölçümü sessiz sinyalle | T2 protokolü | bias ±%5 |
+| 4 | Frekans cevabı log eksende | .ac bode | ±3 dB bant |
+| 5 | Bileşen toleransı | Monte Carlo zorunlu | tek nokta optimum yasak |
+
+**Bant-geçiren filtre kabulü (referans)**
+
+| Ölçüm | Sim karşılığı | Kabul |
+|---|---|---|
+| Bode merkez/bant | sweep / SA | merkez ±%5 |
+
+### §T-K000.3 — SNR / THD ölçüm protokolü ve bit→SNR
+
+Kaynak: `analog-ve-dijital-devre-temelleri.md` §4.4 (L176–180), §5/§5.2 (L212–230),
+§11 (L348–368), §6 kontrol (L330–340).
+
+**Bit → SNR (bağlayıcı ilişki)**
+
+| İlişki | Değer | Durum |
+|---|---|---|
+| SNR ≈ 6·bit + 1.8 dB | 24-bit → ~146 dB teorik | kural |
+| Sartname hedefi | SNR > 100 dB | şartname (PLANNED) |
+| THD+N hedefi | < 0.01% @ 1 kHz | şartname (PLANNED) |
+
+**Ölçüm protokolü (tekrarlanabilir)**
+
+| # | Adım | İş | Alet | Kabul |
+|---|---|---|---|---|
+| 1 | Ortam | sabit sıcaklık · topraklı | — | — |
+| 2 | Referans sinyal | 1 kHz sinus | jeneratör | bilinen seviye |
+| 3 | Bağlantı | kısa · ekranlı | kablo | — |
+| 4 | SNR ölçümü | referans / sessiz | audio analyzer | dB |
+| 5 | THD+N ölçümü | 1 kHz · otomatik | audio analyzer | % |
+| 6 | Analiz | THD+N · SNR · FREP | rapor | PASS/FAIL |
+| 7 | Floor | analizör kendi gürültüsü | ölçü | floor < hedef −10 dB |
+
+**Ölçüm hata matrisi**
+
+| # | Hata | Sonuç | Önlem |
+|---|---|---|---|
+| 1 | Kablo ekranı yok | gürültü | ekranlı kısa kablo |
+| 2 | Toprak döngüsü | hum | tek nokta toprak |
+| 3 | Analizör limiti | yanlış SNR | floor ölçümü |
+| 4 | Referans seviyesi belirsiz | THD yanıltıcı | kalibre jeneratör |
+| 5 | Sinyal seviyesi yanlış | SNR hesabı bozuk | referans sinyal |
+
+### §T-K000.4 — Taşınan URL envanteri (13 · 9 yeni + 4 çakışma)
+
+> Kaynak üç dosyadan ölçülen **13 benzersiz URL** (2026-10-13'de HTTP 200 ile
+> doğrulanmış kayıtlardır — PDF'ler OKUNMADI, satırlar belge kimliği düzeyindedir).
+
+| # | URL | İlgilendiği blok | K002'de | 2026-10-13 |
+|---|---|---|---|---|
+| 1 | https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml | §T-K000.1 (simülatör) | yeni eklendi | HTTP 200 |
+| 2 | https://qucs.sourceforge.net/ | §T-K000.1 (simülatör) | yeni eklendi | HTTP 200 |
+| 3 | https://www.ti.com/lit/an/szza001/szza001.pdf | §T-K000.1 (simülasyon uyg. notu) | yeni eklendi | HTTP 200 |
+| 4 | https://www.ti.com/lit/an/slyt492/slyt492.pdf | §T-K000.2 (ölçüm uyg. notu) | yeni eklendi | HTTP 200 |
+| 5 | https://www.ti.com/lit/an/sboa122/sboa122.pdf | §T-K000.3 (gürültü ölçümü) | yeni eklendi | HTTP 200 |
+| 6 | https://www.ti.com/lit/an/slyt691/slyt691.pdf | §T-K000.3 (ses ölçümü) | yeni eklendi | HTTP 200 |
+| 7 | https://www.ti.com/lit/ds/symlink/lm358.pdf | §T-K000.3 (op-amp datasheet) | yeni eklendi | HTTP 200 |
+| 8 | https://www.keysight.com/us/en/product/34461A/digital-multimeter-6-5-digit-34401a-replacement.html | §T-K000.2 (DMM) | yeni eklendi | HTTP 200 |
+| 9 | https://www.tek.com/en/products/oscilloscopes/budget/tbs2000b | §T-K000.2 (osiloskop) | yeni eklendi | HTTP 200 |
+| 10 | https://www.ti.com/lit/an/sloa093/sloa093.pdf | §T-K000.3 (THD analizi) | K002'de mevcut | HTTP 200 |
+| 11 | https://www.ti.com/lit/ds/symlink/ads131m04.pdf | §T-K000.3 (ADC) | K002'de mevcut | HTTP 200 |
+| 12 | https://www.ti.com/lit/ds/symlink/opa2134.pdf | §T-K000.3 (op-amp) | K002'de mevcut | HTTP 200 |
+| 13 | https://www.ti.com/lit/ds/symlink/pcm1794a.pdf | §T-K000.3 (DAC) | K002'de mevcut | HTTP 200 |
+
+**Dürüstlük notu:** "18 URL" önceki taslak sayımı geçersizdir — üç kaynak
+dosyadan disk ölçümü **13 benzersiz URL** vermiştir (42 toplam geçiş −
+tekrarlar). PDF içerikleri OKUNMADI; satırlar belge kimliği düzeyindedir.
 
 ---
 

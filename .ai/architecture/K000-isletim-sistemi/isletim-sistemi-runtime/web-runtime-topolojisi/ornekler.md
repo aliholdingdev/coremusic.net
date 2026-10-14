@@ -7,7 +7,7 @@ children: []
 depends_on:
   - K000-isletim-sistemi/isletim-sistemi-runtime/web-runtime-topolojisi/anayasa
   - K000-isletim-sistemi/isletim-sistemi-runtime/web-runtime-topolojisi/surucu
-evidence: https://httpd.apache.org/docs/2.4/rewrite/rules.html · https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html · https://httpd.apache.org/docs/2.4/vhosts/name-based.html · shared/src/Cache/ApcuAdapter.php · .github/workflows/ci.yml · home.coremusic.net/.htaccess · home.coremusic.net/web.config · api.coremusic.net/index.php
+evidence: https://httpd.apache.org/docs/2.4/rewrite/rules.html · https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html · https://httpd.apache.org/docs/2.4/vhosts/name-based.html · shared/src/Cache/ApcuAdapter.php · .github/workflows/ci.yml · home.coremusic.net/.htaccess · home.coremusic.net/web.config · api.coremusic.net/index.php · https://httpd.apache.org/docs/2.4/mod/core.html · https://www.php.net/manual/en/install.fpm.php · https://www.php.net/manual/en/install.apache.php · https://www.php.net/manual/en/install.windows.iis.php
 validation: 2026-10-13 · 3 URL HTTP 200 (rewrite/rules · ngx_http_fastcgi_module · name-based) · repo satırları Read ile birebir · içerik 380-460 satır
 open_questions: R3 mod_php ile PHP-FPM geçişi · R7 MPM ile havuz kapasitesi eşlemesi
 group: kod
@@ -459,6 +459,114 @@ $jsonResponse([
 | 2 | Uydurma satır no / istatistik | 0 |
 | 3 | Yeni eklenen URL | 0 (§14) |
 | 4 | Kod değişikliği | 0 — yalnız `.md` yazıldı |
+
+## § OS GRUPLAR — sekiz işletim sistemi grubu: örnek yüzeyi karşılaştırması
+
+> Bu bölüm, §2/§10'daki repo örneklerini işletim sistemi grubu ekseniyle karşılaştırır.
+> Depoda yalnız Windows/IIS (`web.config`) ve POSIX/Apache (`.htaccess`) örnekleri vardır
+> (§15 envanter); diğer gruplarda repo karşılığı olmadığı için örnek "(bu projede
+> kullanılmıyor)" etiketiyle resmi dokümandan verilir.
+
+### OS.1 — Karşılaştırma tablosu
+
+| # | OS | Web sunucu/runtime topolojisi | Bu dosyadaki karşılığı | Kaynak |
+|---|---|---|---|---|
+| 1 | Windows | IIS: HTTP.sys → app-pool → worker process; PHP FastCGI handler | §2.3 IIS `web.config` · §10.2 E-2 | repo `home.coremusic.net/web.config:1-43` |
+| 2 | macOS | gömülü Apache httpd — MPM + `.htaccess` | §2.1 `.htaccess` · §10.1 E-1 | `https://httpd.apache.org/docs/2.4/mod/core.html` (bu tur eklendi) |
+| 3 | iOS | ayrı web sunucusu topolojisi bu projede tanımlı değil | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
+| 4 | Android | ayrı web sunucusu topolojisi bu projede tanımlı değil | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
+| 5 | Linux | nginx veya Apache + PHP-FPM FastCGI zinciri | §2.5 Nginx FastCGI yönlendirmesi | `https://www.php.net/manual/en/install.fpm.php` (bu tur eklendi) |
+| 6 | FreeBSD/BSD | ports/paket Apache veya nginx — POSIX süreç modeli | §2.6 name-based vhost | `https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html` (mevcut kanıt) |
+| 7 | Tizen | ayrı sunucu topolojisi yok (yerleşik web runtime) | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
+| 8 | webOS | ayrı sunucu topolojisi yok (yerleşik web runtime) | bu dosyada karşılığı yok (kapsam dışı) | repo taraması: bu projede kullanılmıyor |
+
+### OS.2 — OS bazlı kısa açıklamalar (2-3 cümle)
+
+**Windows.** Windows yüzeyinin örneği `web.config` bloklarıdır: beş rewrite kuralı ve
+`customHeaders` katmanı §2.3/§10.2'de birebir taşınır. Aynı PHP uygulaması IIS FastCGI
+handler'ında çalıştığı için örnekteki `.php` eşlemesi Windows'a özgüdür. Repo'da bu örneğin
+dört kopyası vardır (§15 envanter).
+
+**macOS.** macOS, gömülü Apache üzerinden aynı `.htaccess` örneklerini yürütebilir; çekirdek
+direktifler (`Options`, `ServerSignature`) platformdan bağımsızdır (§2.1 · §10.1 E-1).
+Depoda macOS'a özgü örnek yoktur → bu grup yalnız Apache örneğiyle temsil edilir.
+
+**iOS.** Bu dosyada iOS için örnek yoktur — §15 envanterinde iOS'e ait dosya bulunmaz.
+"(Bu projede kullanılmıyor)" etiketi geçerlidir; resmi platform dokümanı bu tur eklenmedi (⚠️).
+
+**Android.** Android için de örnek yoktur; §15 envanteri yalnız sunucu config'i ve PHP
+dosyalarını sayar. Depoda Android kanıtı yok → "(bu projede kullanılmıyor)"; resmi platform
+dokümanı bu tur eklenmedi (⚠️).
+
+**Linux.** Linux örneği nginx FastCGI yönlendirmesiyle (§2.5) ve PHP-FPM havuz config'iyle
+temsil edilir; repo'da FPM havuz dosyası bulunmadığından havuz örneği "(bu projede
+kullanılmıyor)" etikilidir. PHP'ye devir `fastcgi_pass` üzerinden yapılır (§2.5).
+
+**FreeBSD/BSD.** FreeBSD ports Apache/nginx aynı name-based vhost örneğini (§2.6) ve FastCGI
+modülünü kullanır — süreç modeli Linux ile aynıdır. Depoda BSD'ye özgü örnek yok →
+"(bu projede kullanılmıyor)".
+
+**Tizen.** Tizen'de web uygulamaları yerleşik web runtime'ında çalışır; bu dosyadaki sunucu
+örnekleri Tizen'de geçerli değildir. Depoda Tizen kanıtı yok → "(bu projede kullanılmıyor)";
+platform dokümanı bu tur eklenmedi (⚠️).
+
+**webOS.** webOS'ta uygulamalar yerleşik web runtime'ında çalışır; `.htaccess`/`web.config`
+örnekleri bu platformda kullanılmaz. Depoda webOS kanıtı yok → "(bu projede kullanılmıyor)";
+platform dokümanı bu tur eklenmedi (⚠️).
+
+### OS.3 — OS bazlı config örnekleri
+
+> Blok 1 repo'da karşılığı olan tek örnektir ve `[IO.File]::ReadAllLines` ile 2026-10-14
+> doğrulanmıştır; kalan üçü "(bu projede kullanılmıyor)" etiketiyle resmi dokümandan alınır.
+> Not: §14/§16 sayımları önceki tur (2026-10-13) içindir — bu tur eklenen URL'ler frontmatter
+> `evidence` satırına eklendi.
+
+**1) POSIX/Apache — çekirdek direktifler (repo karşılığı VAR) ·
+künye `home.coremusic.net/.htaccess:2-3` — `[IO.File]::ReadAllLines` ile 2026-10-14 doğrulandı ·
+kaynak `https://httpd.apache.org/docs/2.4/mod/core.html` (2026-10-14 HTTP 200)**
+
+```apache
+Options -Indexes
+ServerSignature Off
+```
+
+**2) Linux/FreeBSD — PHP-FPM havuzu (bu projede kullanılmıyor: repo'da havuz dosyası yok, R3) ·
+kaynak `https://www.php.net/manual/en/install.fpm.php` (2026-10-14 HTTP 200 — `pm`/`listen`
+direktifleri aynı dokümanın Configuration sayfasında doğrulandı)**
+
+```ini
+[www]
+user = ${USER_NAME:-www-data}
+group = ${USER_NAME:-www-data}
+listen = /var/run/php-fpm-${POOL_NAME}.sock
+pm = dynamic                ; static | ondemand | dynamic (zorunlu alan)
+pm.max_children = 10        ; örnek değer — dinamik havuz üst sınırı
+```
+
+**3) POSIX/Apache — PHP modülü kurulumu (bu projede kullanılmıyor: R3 belirsiz — mod_php mi FPM mi) ·
+kaynak `https://www.php.net/manual/en/install.apache.php` (2026-10-14 HTTP 200 · "Apache 2.x on
+Unix systems" bölümü)**
+
+```apache
+LoadModule php_module modules/libphp.so
+<FilesMatch "\.php$">
+    SetHandler application/x-httpd-php
+</FilesMatch>
+```
+
+> Repo bağlantısı: `.htaccess:5-7` `php_flag` direktifleri yalnız mod_php'de etkilidir
+> (R3 [⚠️ VERIFICATION REQUIRED]) — bu blok mod_php kurulumunun sunucu-yüzeyini gösterir.
+
+**4) Windows — PHP + IIS FastCGI kurulumu (bu projede kullanılmıyor) ·
+kaynak `https://www.php.net/manual/en/install.windows.iis.php` (2026-10-14 HTTP 200)**
+
+```bat
+rem 1) IIS FastCGI modülü (CGI rol servisi) kurulur
+rem 2) .php icin handler mapping php-cgi.exe'ye yapilir (php.exe DEGIL)
+rem 3) FastCGI handler icin NTS (Non-Thread Safe) PHP surumu kullanilir
+rem 4) IIS yapilandirmasi appcmd araciyla betiklenir
+rem NOT: bu projede kullanilmiyor — repo yuzeyi .htaccess (Apache) + web.config (IIS)
+```
 
 ---
 

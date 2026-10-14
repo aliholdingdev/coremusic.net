@@ -317,7 +317,7 @@ tüm yollar ona iner → **DAG, 0 döngü** (§D.2).
 
 | # | Soru | Neden [BİLİNMEYEN] | Bağımlılığa etkisi |
 |---|---|---|---|
-| Q1 | `electroncis` kapsamı | v2 §2.1'de yalnızca başlık | §B.1 `ele` satırı eksik olabilir |
+| Q1 | `electroncis` kapsamı | **KAPANDI (2026-10-14 · Vault Steward)** — OS↔donanım arayüzü, 2 alt-dal; tam elektronik → `K002-electroncis` | §B.1 `ele` satırı kapsamı artık tanımlı |
 | Q4 | Hedef platform seti | repo'da tek nokta tanım yok; yalnız CI `ubuntu-latest` | §B.4 P4–P6 · §G G2 |
 | Q5 | `turu` ↔ `K002-altyapi` gap | altyapı domaini ayrı; sınırlar kesişiyor | §E sınır bağımlılığı |
 
@@ -373,7 +373,7 @@ zorunlu" olabilir (PHP `>=8.4` tam olarak budur).
 
 | # | Düğüm (disk adı, imla aynen) | Frontmatter `depends_on` (disk) | §B.1 tasarım karşılığı | Uyum | Yorum |
 |---|---|---|---|---|---|
-| 1 | `electroncis` | `[]` (boş) | audio · turu | **FARK** | Alan henüz doldurulmamış olabilir; §B.1'de 2 bağımlılık var |
+| 1 | `electroncis` | `K002-electroncis` · `isletim-sistemi-audio` · `isletim-sistemi-kernel` · `os-donanim-tespiti` | audio · turu | **GÜNCEL (2026-10-14)** | Q1 kapanışıyla kök index yeniden yazıldı — FM'de artık 4 bağımlılık; §B.1'deki `audio · turu` tasarım satırı `kernel`/`os-donanim-tespiti` ile genişledi (`turu` kenarı FM'de yok — kalır) |
 | 2 | `isletim-sistemi-api` | `[]` (boş) | core · kernel | **FARK** | FM boş; §B.1'de 2 bağımlılık var |
 | 3 | `isletim-sistemi-audio` | `[]` (boş) | kernel · api · turu | **FARK** | FM boş; §B.1'de 3 bağımlılık var |
 | 4 | `isletim-sistemi-core` | `[]` (boş) | kernel · plan | **FARK** | FM boş; §B.1'de 2 bağımlılık var |
@@ -593,7 +593,7 @@ js-coverage L160 · js-e2e L178) — hepsi `runs-on: ubuntu-latest`.
 | Q-B3 | `core` kapsamı: §3'te 4 düğüm `core`'a bağlı, §B.1'de yalnız `api`? | ⚠️ VERIFICATION REQUIRED | R3 · §5 yoğunluk farkı |
 | Q-B4 | FM 12 kenar ↔ §B.1 24 kenar — hangisi revize edilecek, ADR nerede? | ⚠️ VERIFICATION REQUIRED | R5 · tek kaynak seçimi |
 | Q-B5 | §4'teki 9 dış sınırın hangileri komşu domain `index.md`'sinde de referans? | UNKNOWN | çift taraflı link bütünlüğü |
-| Q-B6 | `electroncis` Q1 kapsamı: yalnız `audio`+`turu` mu (§B.1) yoksa daha mı geniş? | ⚠️ VERIFICATION REQUIRED (Q1 devamı) | §3 satır 1 |
+| Q-B6 | `electroncis` Q1 kapsamı: yalnız `audio`+`turu` mu (§B.1) yoksa daha mı geniş? | **KAPANDI (2026-10-14 · Vault Steward)** — kapsam OS↔donanım arayüzü, 2 alt-dal; tam elektronik → `K002-electroncis` (Q1 bkz `os-master.md` §J) | §3 satır 1 kapsamı tanımlı |
 | Q-B7 | K000→K003/K004/K005 sınırları kavramsal mı, kod referanslı mı? | UNKNOWN | §4 etiket sütunu |
 
 > Q1/Q4/Q5 (§I'deki özgün açık sorular) bu dosyanın başındaki §I tablosunda taşınır —

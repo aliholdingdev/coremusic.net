@@ -500,4 +500,23 @@ dayanır; hiçbiri “var” diye iddia edilmez.
 
 > Bu tablo **negatif kapsama** kaydıdır: satırlar “yok” demez, “bu dosyanın
 > konusu değil” der. Kapsam dışı iddia uydurmak yerine referans verilir.
+## §7 — OS grupları (8 platform · 2026-10-14)
+
+> Bu dosyadaki ornek siniflarinin (yol dogrulama, komut kacisi, fail-closed) platform
+> bazli karsiliklari ve tam ornek metinleri ayni klasordeki OS kartlarindadir
+> (her kart: §0 ELI15 · §1 OS profili · §2 kod ornegi `kaynak: upstream docs`
+> imzali, "repo'da uygulaniyor" yazilmaz · §3 repo durumu = hedef referans ·
+> §4 sinir cumleleri · §5 referans · §6 acik sorular S1/S2 kapatilmaz).
+
+| OS | Kart | Bu dosyadaki ornek siniflarinin platform karsiligi | Repo durumu |
+|---|---|---|---|
+| Windows | [`uygulama-guvenlik-siniri-windows.md`](uygulama-guvenlik-siniri-windows.md) | `GetFinalPathNameByHandle` ile gercek yol dogrulama | hedef referans (0 kullanim) |
+| Linux | [`uygulama-guvenlik-siniri-linux.md`](uygulama-guvenlik-siniri-linux.md) | `realpath` + `openat2` (RESOLVE_BENEATH) | hedef referans (0 kullanim) |
+| macOS | [`uygulama-guvenlik-siniri-macos.md`](uygulama-guvenlik-siniri-macos.md) | `realpath` + sandbox profil kisiti | hedef referans (0 kullanim) |
+| iOS | [`uygulama-guvenlik-siniri-ios.md`](uygulama-guvenlik-siniri-ios.md) | app sandbox container path kisiti | hedef referans (0 kullanim) |
+| Android | [`uygulama-guvenlik-siniri-android.md`](uygulama-guvenlik-siniri-android.md) | `realpath` + str_starts_with benzeri path kontrolu | hedef referans (0 kullanim) |
+| Tizen | [`uygulama-guvenlik-siniri-tizen.md`](uygulama-guvenlik-siniri-tizen.md) | sandbox container path dogrulama | hedef referans (0 kullanim) |
+| webOS | [`uygulama-guvenlik-siniri-webos.md`](uygulama-guvenlik-siniri-webos.md) | ACG servis path kisiti | hedef referans (0 kullanim) |
+| ReactOS | [`uygulama-guvenlik-siniri-reactos.md`](uygulama-guvenlik-siniri-reactos.md) | NT path dogrulama (tasarim — olgunslasmamis) | hedef referans (0 kullanim) |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

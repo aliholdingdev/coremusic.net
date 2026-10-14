@@ -18,7 +18,7 @@ evidence:
   - https://docs.kernel.org/bpf/ringbuf.html
   - shared/src/Middleware/MiddlewarePipeline.php:42
   - shared/src/PageRouter/PageRouterKernel.php:87
-validation: "2026-10-13 — T-W4, T-W6, T-W9, T-W10, T-W11, T-W12, T-W13 kök -dogrulama.md §2'de HTTP 200; ringbuf.html bu turda HEAD 200; repo hrtime/traceId satırları Read ile doğrulandı; OS trace aracı grep 0 isabet; overhead/taşma/kayıp sayısal değeri yazılmadı (UNKNOWN); macOS DTrace/ktrace ve PDH ⚠️ korundu; bu dosya 380–460 satır hedefine göre yazıldı; 2. tur: T-W14 (learn.microsoft.com evntprov — EventRegister/EventUnregister/EventWrite/EventWriteEx/EventWriteTransfer/EVENT_DESCRIPTOR/PENABLECALLBACK) ve T-W15 (docs.kernel.org/trace/index.html — ftrace/kprobes/fprobe/eprobe/ring buffer/histograms/osnoise/timerlat/user_events/uprobes/boot-time/mmap) webfetch ile HTTP 200 doğrulandı; 3 aday URL HTTP 404 ile reddedildi (trace/irqsoff-tracer.html, perf-sched.8, logger.8); dosya 394 non-blank satır"
+validation: "2026-10-14 — §6.1 ETW toplama/sarma araçları eklendi (T-W16 logman, T-W17 tracerpt, T-W18 portal); §6 hata modu PDH satırı güncellendi (404 → M-W28–32 ile metrik dalında kapandı); §10 platform matrisi 9 satıra genişletildi (macOS: dtrace/fs_usage/sample/otool T-W19–22 ayna dipnotlu; Windows: logman/tracerpt); §12 kararı 5–6 güncellendi; §13 kaynakça +8 satır; §16.11/§18.3/§19.8 eski ⚠️ durumları kapatıldı; §20.1 eklendi; §21 harita §6.1/§10 satırları | 2026-10-13 — T-W4, T-W6, T-W9, T-W10, T-W11, T-W12, T-W13 kök -dogrulama.md §2'de HTTP 200; ringbuf.html bu turda HEAD 200; repo hrtime/traceId satırları Read ile doğrulandı; OS trace aracı grep 0 isabet; overhead/taşma/kayıp sayısal değeri yazılmadı (UNKNOWN); bu dosya 380–460 satır hedefine göre yazıldı; 2. tur: T-W14 (learn.microsoft.com evntprov) ve T-W15 (docs.kernel.org/trace/index.html) webfetch ile HTTP 200 doğrulandı; 3 aday URL HTTP 404 ile reddedildi (trace/irqsoff-tracer.html, perf-sched.8, logger.8); dosya 394 non-blank satır"
 open_questions:
   - "O1: OS-level trace toplama (ftrace, ETW oturumu, eBPF) hedef mimaride var mı, yoksa yalnız uygulama traceId'si mi? [UNKNOWN]"
   - "O2: Gözlemlenebilirlik üçlüsü (log/metric/trace) K002-altyapi içinde nasıl konumlanacak? [UNKNOWN]"
@@ -174,7 +174,19 @@ Bağlayıcı taşma kuralları:
 | 1 | sağlayıcı bulunamadı | oturum boş döner | sağlayıcı adı doğrulanmadan yazılmaz |
 | 2 | yetki yetersiz | oturum açılamaz | platform yetkisi envanterde yok → `UNKNOWN` |
 | 3 | tampon taşması | olay kaybı | §5 kural 1 |
-| 4 | PDH ile karıştırma | sayaç toplama sanılır | PDH **metrik** dalıdır; aday URL 404 → ⚠️ (kök §4 X6) |
+| 4 | PDH ile karıştırma | sayaç toplama sanılır | PDH **metrik** dalıdır; 2. turda M-W28–M-W32 ile kapandı (kök §4 X6 reddi korunur) |
+
+## §6.1 ETW toplama/sarma araçları — 2. turda doğrulandı (2026-10-14)
+
+| # | Araç | İş | Örnek | Kanıt |
+|---|---|---|---|---|
+| 1 | `logman` | ETW oturumu başlat/sdur/listele | `logman start -ets MyTrace -p "Microsoft-Windows-Kernel-Process" 0xFFFFFFFF` | T-W16 |
+| 2 | `tracerpt` | ETL → rapor (CSV/HTML/XML) | `tracerpt C:\traces\MyTrace.etl -o report.html -of HTML` | T-W17 |
+| 3 | ETW portal | teknoloji turu (genel portal) | — | T-W18 |
+
+> `logman` aynı zamanda **performans toplayıcısı** da oluşturabilir
+> (`logman create counter`, M-W26) — bu sayım **metrik** dalıdır; bu dosya
+> yalnız ETW **oturum** tarafını taşır (§6).
 
 ## §7 Ölçüm adımları — bu dalın doğrulama protokolü
 
@@ -224,17 +236,24 @@ Bağlayıcı taşma kuralları:
 | 2 | "`hrtime` = latency metriği" | hayır — uygulama içi süre (`metrik-surucu` §9) |
 | 3 | "`perf` hem metrik hem trace" | doğru ortaklık; sayaç → `metrik`, örnekleme kaydı → bu dal (§3) |
 
-## §10 Platform surucu karşılaştırması
+## §10 Platform surucu karşılaştırması (2. tur güncellendi — 2026-10-14)
 
 | # | İş | Linux | Windows | macOS |
 |---|---|---|---|---|
-| 1 | iz açma/kapama | tracefs tracer seçimi (T-W1, T-W6) | `evntrace` oturumu (T-W12) | ⚠️ VERIFICATION REQUIRED |
-| 2 | dinamik prob | kprobe/uprobe (T-W3, T-W5) | ⚠️ eşlenik doğrulanmadı | ⚠️ |
-| 3 | programlanabilir mantık | eBPF verifier+ringbuf (§5 `-anayasa`) | ⚠️ doğrulanmadı | ⚠️ |
-| 4 | olay okuma | ftrace/perf/ringbuf (T-W10, T-W11) | `evntcons` (T-W13) | ⚠️ |
-| 5 | dağılım toplama | histogram trigger (T-W4) | ⚠️ doğrulanmadı | ⚠️ |
-| 6 | sembolizasyon | `perf script` + sembol ad uzayları (T-W9, T-W11) | ⚠️ doğrulanmadı | ⚠️ |
-| 7 | sayaç toplama | perf_event (→ `metrik`) | PDH adayı 404 → ⚠️ | ⚠️ |
+| 1 | iz açma/kapama | tracefs tracer seçimi (T-W1, T-W6) | `evntrace` oturumu (T-W12) · `logman start -ets` (T-W16) | DTrace (`dtrace.1`, T-W19, ayna) |
+| 2 | dinamik prob | kprobe/uprobe (T-W3, T-W5) | ⚠️ eşlenik doğrulanmadı | DTrace dinamik prob (`dtrace.1`, T-W19, ayna) |
+| 3 | programlanabilir mantık | eBPF verifier+ringbuf (§5 `-anayasa`) | ⚠️ doğrulanmadı | DScript (`dtrace.1`, T-W19, ayna) — sürüm `UNKNOWN` |
+| 4 | olay okuma | ftrace/perf/ringbuf (T-W10, T-W11) | `evntcons` (T-W13) · `tracerpt` (T-W17) | `log show` / DTrace çıktı (T-W19, ayna) |
+| 5 | dağılım toplama | histogram trigger (T-W4) | ⚠️ doğrulanmadı | ⚠️ doğrulanmadı |
+| 6 | sembolizasyon | `perf script` + sembol ad uzayları (T-W9, T-W11) | ⚠️ doğrulanmadı | `otool(1)` Mach-O sembol inceleme (T-W22, ayna) |
+| 7 | dosya sistemi izleme | `fs` tracepoint + eBPF | ⚠️ doğrulanmadı | `fs_usage(1)` (T-W20, ayna) |
+| 8 | CPU örnekleme profili | `perf record` (T-W10) | ⚠️ doğrulanmadı | `sample(1)` (T-W21, ayna) |
+| 9 | sayaç toplama | perf_event (→ `metrik`) | PDH → `metrik` dalı (M-W28–32, kapandı) | ⚠️ (→ `metrik`, M-W33–35) |
+
+> **macOS hücre notu:** T-W19–T-W22 keith.github.io **üçüncü taraf
+> aynasından** doğrulanmıştır (kök `-dogrulama.md` §3.1); hedef macOS
+> sürümünde DTrace/ktrace kullanılabilirliği **`UNKNOWN`**. Kalan `⚠️`
+> yalnız **doğrulanmamış** alt konular içindir.
 
 ## §11 K017 sınırı ve komşu haritalar
 
@@ -255,7 +274,8 @@ Bağlayıcı taşma kuralları:
 | 2 | taşma/kayıp ölçülmeden sayı yazılmaz | her platform | §5 |
 | 3 | ETW'de oturum + tüketici birlikte sürülür | Windows | T-W12, T-W13 |
 | 4 | sembolizasyon yoksa adres olduğu yazılır | Linux | T-W9, T-W11 |
-| 5 | macOS/PDH iddiaları `⚠️` kalır | doğrulanmadı | kök §15.1, §15.2 |
+| 5 | macOS iddiaları ayna-dipnotlu ve sürüm-bilinmeyen kalır | 2. turda T-W19–T-W22 ayna ile doğrulandı; hedef sürüm `UNKNOWN` | kök §3.1 · §10 hücre notu |
+| 6 | ETW toplama aracı ile performans toplayıcısı karıştırılmaz | `logman` ETW (T-W16) ≠ `logman create counter` (M-W26, metrik) | §6.1 |
 
 ## §13 Kaynakça (envanter dışı, HTTP 200 — 2026-10-13)
 
@@ -271,9 +291,26 @@ Bağlayıcı taşma kuralları:
 | 8 | BPF ring buffer | https://docs.kernel.org/bpf/ringbuf.html | **yeni** HEAD 200 |
 | 9 | perf_event_open (ortak arayüz) | https://man7.org/linux/man-pages/man2/perf_event_open.2.html | os-master §C.6 ✅ yeniden kullanım |
 
-Doğrulanamayanlar: macOS DTrace/ktrace (resmi URL yok → `⚠️ VERIFICATION
-REQUIRED`, kök §15.1) · Windows PDH (aday URL 404 → `⚠️`, kök §4 X6) ·
+**2. tur genişletme (2026-10-14):**
+
+| # | Kaynak | URL | Doğrulama |
+|---|---|---|---|
+| 10 | `logman` ETW oturumu yönetir | https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/logman | T-W16 HTTP 200 (§2.1) |
+| 11 | `tracerpt` ETL → rapor | https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tracerpt | T-W17 HTTP 200 (§2.1) |
+| 12 | ETW olay izleme portalı | https://learn.microsoft.com/en-us/windows/win32/etw/event-tracing-portal | T-W18 HTTP 200 (§2.1) |
+| 13 | `dtrace(1)` (ayna) | https://keith.github.io/xcode-man-pages/dtrace.1.html | T-W19 HTTP 200 (§3.1) |
+| 14 | `fs_usage(1)` (ayna) | https://keith.github.io/xcode-man-pages/fs_usage.1.html | T-W20 HTTP 200 (§3.1) |
+| 15 | `sample(1)` (ayna) | https://keith.github.io/xcode-man-pages/sample.1.html | T-W21 HTTP 200 (§3.1) |
+| 16 | `otool(1)` (ayna) | https://keith.github.io/xcode-man-pages/otool.1.html | T-W22 HTTP 200 (§3.1) |
+| 17 | Apple kernel portalı | https://developer.apple.com/documentation/kernel | T-W23 HTTP 200 (§3.1) |
+
+Doğrulanamayanlar (korunur): Windows **dinamik prob eşleniği** (⚠️), Windows
+**dağılım toplama** (⚠️), Windows **sembolizasyon** (⚠️), macOS **dağılım
+toplama** (⚠️) — bu alt konular bu turda aday bile değildi.
 `trace-cmd.html` (bu turda doğrulanamadı → kullanılmadı).
+**Kapananlar:** macOS DTrace/ktrace 1. turda doğrulanmamıştı → 2. turda
+ayna ile kapandı (T-W19–T-W22, dipnotlu; sürüm `UNKNOWN`); Windows PDH
+1. turda 404 idi → 2. turda M-W28–M-W32 ile metrik dalında kapandı.
 
 ## §14 Açık sorular
 
@@ -343,7 +380,7 @@ REQUIRED`, kök §15.1) · Windows PDH (aday URL 404 → `⚠️`, kök §4 X6) 
 | 2 | yetki yetersiz | kayıt açılamaz | platform yetkisi envanterde yok → `UNKNOWN` |
 | 3 | unregister unutulursa | kaynak sızıntısı | akışta kapatma zorunlu |
 | 4 | sağlayıcı adı uydurulursa | boş oturum | ad doğrulanmadan yazılmaz |
-| 5 | PDH ile karıştırma | sayaç toplama sanılır | PDH metrik dalıdır → ⚠️ (kök §4 X6) |
+| 5 | PDH ile karıştırma | sayaç toplama sanılır | PDH metrik dalıdır → **M-W28–32 ile kapandı** (kök §4 X6 404'tü) |
 
 > Repo'da `EventWrite`/`EventRegister` deseni **0 isabet** (§8) — bu tablo
 > **tariftir**, repo davranışı **değildir**.
@@ -362,7 +399,7 @@ REQUIRED`, kök §15.1) · Windows PDH (aday URL 404 → `⚠️`, kök §4 X6) 
 | 8 | trace kapalıyken "temiz rapor" | yanıltıcı temizlik | kapalı = kanıt yok (§16 anayasa §9.4) |
 | 9 | sayısal ölçüm okunmadı | — | `UNKNOWN` yazılır |
 | 10 | 404 aday URL kanıt sayılırsa | uydurma kaynak | reddedilenler listesinde (§20) |
-| 11 | macOS iddiası genellenir | "macOS'ta da böyledir" | `⚠️` (anayasa §8) |
+| 11 | macOS iddiası genellenir | "macOS'ta da böyledir" | ayna-kanıtlı + sürüm-bilinmeyen (anayasa §8) |
 | 12 | CI'da trace sanılması | yanlış güven | grep 0 isabet (§8, §17) |
 
 ## §17 Senaryo A — Linux'ta iz aç/kapa akışı (tarif)
@@ -402,7 +439,7 @@ REQUIRED`, kök §15.1) · Windows PDH (aday URL 404 → `⚠️`, kök §4 X6) 
 |---|---|---|
 | 1 | üretim ve tüketim **aynı API ailesinde değildir** | evntprov vs evntrace/evntcons (§15) |
 | 2 | sayısal tampon boyutu yazılmaz | envanterde yok → `UNKNOWN` |
-| 3 | PDH adayı 404 → bu akışa **eklenmez** | kök §4 X6 |
+| 3 | PDH bu akışa **eklenmez** | PDH metrik dalıdır; 2. turda M-W28–32 ile kapandı (kök §4 X6 reddi korunur) |
 | 4 | repo'da `EventWrite` 0 isabet | §8 |
 
 ## §19 Sık karıştırılan cümleler — düzeltme matrisi
@@ -416,7 +453,7 @@ REQUIRED`, kök §15.1) · Windows PDH (aday URL 404 → `⚠️`, kök §4 X6) 
 | 5 | "osal tracer kapalı, olay yok" | kapalıyken kanıt yoktur | §16 |
 | 6 | "trace rehberi komut listesidir" | katalogdur; komut kopyalanmaz | §14 kural 1 |
 | 7 | "sağlayıcı adı tahmin edilebilir" | doğrulanmadan yazılmaz | §15 |
-| 8 | "macOS trace da doğrulandı" | resmi URL yok → `⚠️` | anayasa §8 |
+| 8 | "macOS trace da doğrulandı" | yalnız ayna-kanıtlı (T-W19–22, dipnotlu); hedef sürüm `UNKNOWN` | anayasa §8 |
 | 9 | "CI'da strace/perf var" | grep 0 isabet | §8 |
 | 10 | "eBPF tracepoint'i değiştirir" | üzerinde çalışır; değiştirmez | anayasa §5 kural 2 |
 | 11 | "kprobe üretimdedir" | teşhis amaçlı geçicidir | anayasa §4 |
@@ -431,10 +468,24 @@ REQUIRED`, kök §15.1) · Windows PDH (aday URL 404 → `⚠️`, kök §4 X6) 
 | 3 | — | `docs.kernel.org/trace/irqsoff-tracer.html` | (aday) | 404 — kullanılmadı |
 | 4 | — | `man7.org/.../man8/perf-sched.8.html` | (aday) | 404 — kullanılmadı |
 
-> Doğrulanamayanlar korunur: macOS DTrace/ktrace (resmi URL yok → `⚠️`) ·
-> Windows PDH (404 → `⚠️`) · `trace-cmd.html` (doğrulanamadı → kullanılmadı).
-> T-W14, evntrace/evntcons ile **farklı API ailesidir** (üretici vs oturum) —
-> envanter kesişimi 0.
+> Doğrulanamayanlar **1. turda** korunmuştu; **2. tur (2026-10-14)** iki
+> maddeyi kapattı: macOS DTrace/ktrace → T-W19–T-W22 (ayna, dipnotlu);
+> Windows PDH → M-W28–M-W32 (metrik dalı). `trace-cmd.html` hâlâ
+> doğrulanamadı → kullanılmadı. T-W14, evntrace/evntcons ile **farklı API
+> ailesidir** (üretici vs oturum) — envanter kesişimi 0.
+
+### §20.1 2. tur ek doğrulanan kaynaklar (2026-10-14)
+
+| # | ID | İddia | URL | Durum |
+|---|---|---|---|---|
+| 1 | T-W16 | `logman` ETW trace/toplayıcı oturumu yönetir | https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/logman | 200 |
+| 2 | T-W17 | `tracerpt` ETL ham verisini rapor/format'a çevirir | https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tracerpt | 200 |
+| 3 | T-W18 | ETW olay izleme portalı (teknoloji turu) | https://learn.microsoft.com/en-us/windows/win32/etw/event-tracing-portal | 200 |
+| 4 | T-W19 | `dtrace(1)` dinamik izleme derleyicisi (ayna) | https://keith.github.io/xcode-man-pages/dtrace.1.html | 200 (ayna) |
+| 5 | T-W20 | `fs_usage(1)` dosya sistemi/çağrı izlemesi (ayna) | https://keith.github.io/xcode-man-pages/fs_usage.1.html | 200 (ayna) |
+| 6 | T-W21 | `sample(1)` süreç CPU örnekleme profili (ayna) | https://keith.github.io/xcode-man-pages/sample.1.html | 200 (ayna) |
+| 7 | T-W22 | `otool(1)` Mach-O ikili yapısı/sembolleri (ayna) | https://keith.github.io/xcode-man-pages/otool.1.html | 200 (ayna) |
+| 8 | T-W23 | Apple kernel/çekirdek dokümantasyon portalı | https://developer.apple.com/documentation/kernel | 200 |
 
 ## §21 Bölüm → kanıt haritası
 
@@ -449,7 +500,8 @@ REQUIRED`, kök §15.1) · Windows PDH (aday URL 404 → `⚠️`, kök §4 X6) 
 | 7 | §7 ölçüm adımları | — | protokol | sayı `UNKNOWN` |
 | 8 | §8 olumsuz kanıt | grep | 4 desen + 4 repo satır | 0 isabet |
 | 9 | §9 süre↔trace ayrımı | disk | Read | eşleşti |
-| 10 | §10 platform matrisi | sentez + ⚠️ | §1–§9 | kısmi ⚠️ |
+| 10 | §10 platform matrisi | sentez + ⚠️ | §1–§9 + §6.1 | 2. tur: Windows/macOS hücreleri dolduruldu; kalan ⚠️ = doğrulanmamış alt konular |
+| 10.1 | §6.1 ETW toplama araçları | URL | T-W16–T-W18 | 200 (2. tur) |
 | 11 | §11 K017 sınırı | — | devredildi | — |
 | 12 | §12 karar özeti | sentez | §1–§11 | — |
 | 13 | §13 kaynakça | URL | 9 kayıt | 200 |

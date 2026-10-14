@@ -10,7 +10,7 @@ evidence:
   - ".ai/architecture/K000-isletim-sistemi/os-bagimliliklar.md §3"
   - ".github/workflows/ci.yml:27"
   - "home.coremusic.net/web.config:14"
-validation: "2026-10-13 · §A-§F tam · 3 alt-dal envanteri disk sayımıyla · satır ≥500"
+validation: "2026-10-14 · §A-§F tam · §A.1 A19-A20 eklendi (OS gruplu örnek seti + OS×yüzey matrisi — ornekler §22-§28) · 3 alt-dal envanteri disk sayımıyla · satır ≥500"
 open_questions:
   - "Q4 · hedef platform seti tek noktada tanımlı değil → ⚠️ VERIFICATION REQUIRED"
   - "Q-X2 · cross ↔ turu sınırı onaylanmadı → ⚠️ VERIFICATION REQUIRED"
@@ -50,6 +50,8 @@ Bu dal yalnızca yutan tarafı ve onun sınırını kaydeder; karşılaştırma 
 | A16 | Platform bağımlılığı kırılma noktası | `../os-master.md` §5 | vault |
 | A17 | Yerel hedef makine (Raspberry Pi 5 — Linux/ARM) | `home.coremusic.net/AGENTS.md` §1 | vault (repo içi) |
 | A18 | 3 alt-dalın kendi envanteri ve bağımlılıkları | bu dosya §B · §D | bu tur |
+| A19 | OS gruplu örnek seti (Grup L · Grup W · Grup M) | `isletim-sistemi-cross-ornekler.md` §22-§28 | bu tur (2026-10-14) |
+| A20 | OS × yüzey matrisi (10 yüzey × 3 OS) | `isletim-sistemi-cross-ornekler.md` §25 | bu tur (2026-10-14) |
 
 ### §A.2 — Kapsam DIŞINDA (sınır komşuları → nereye)
 

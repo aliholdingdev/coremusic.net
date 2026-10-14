@@ -10,7 +10,7 @@ evidence:
   - ".github/workflows/secret-scan.yml:21"
   - "home.coremusic.net/.htaccess:27"
   - "home.coremusic.net/web.config:14"
-validation: "2026-10-13 · §A-§F · 12 yeni URL HEAD 200 · 0 envanter kesişimi · repo satırları `Select-Object -Index` ile okundu"
+validation: "2026-10-14 · §A-§H · 16 dosya kontrol ölçümü 16/16 · repo satır yeniden okuma 10/10 (Select-Object -Index) · 7 yeni URL HEAD 200 + 6 regresyon + 3 elenen 404 · OS gruplama §22-§28 kaydı · 0 envanter kesişimi"
 open_questions:
   - "Q4 · üretim OS UNKNOWN → `status: draft` korunur"
   - "Q-X3 · windows/macos runner testi yok → UNKNOWN"
@@ -597,6 +597,81 @@ olduğu için `status: draft` korunur ve `verified` yapılmaz.
 | 14 | Frontmatter alan sayısı = 10 (v2 §4.2 + group) | başlık bloğu sayımı | ✅ 16/16 |
 | 15 | `İmla hataları korundu` (`electroncis` · `donanaım-type` · `identitiy` · `integraion` · `comilance` · `comere` · `recomenataon`) | yazım denetimi | ✅ bu turda düzeltilmedi |
 | 16 | Eşik uyumu | içerik dosyası ≥500 ham satır · `index.md` 40-100 ham satır | ✅ 16/16 |
+
+## §H — Tur kaydı 2026-10-14 (kontrol + web + OS gruplama)
+
+> Bu tur (2026-10-14) kullanıcının "her işletim sistemi için örnek yaz" isteğini
+> yanıtlar: `isletim-sistemi-cross-ornekler.md` §22-§28 eklendi (Grup L/W/M).
+> Bu bölüm, o turun **kontrol ve web doğrulama kaydıdır** — içeriği tekrar etmez.
+
+### §H.1 — 16 dosya kontrol ölçümü (2026-10-14 · disk)
+
+| # | Dosya | Ham satır | `parent:` | Tırnaksız `group` | Dolgu | Sonuç |
+|---|---|---|---|---|---|---|
+| 1 | `index.md` (kök) | 100 (tam) | 0 | ✅ | 0 | ✅ |
+| 2 | `isletim-sistemi-cross-ornekler.md` | 625+ (§28 eklendi) | 0 | ✅ | 0 | ✅ |
+| 3 | `isletim-sistemi-cross-dogrulama.md` | 603 (+§H) | 0 | ✅ | 0 | ✅ |
+| 4 | `isletim-sistemi-cross-kapsam.md` | 500+ | 0 | ✅ | 0 | ✅ |
+| 5 | `platform-yuzeyleri/index.md` | 48 | 0 | ✅ | 0 | ✅ |
+| 6 | `platform-yuzeyleri` içerik ×3 | 500+ | 0 | ✅ | 0 | ✅ |
+| 7 | `derleme-ve-paketleme/index.md` | 72 | 0 | ✅ | 0 | ✅ |
+| 8 | `derleme-ve-paketleme` içerik ×3 | 500+ | 0 | ✅ | 0 | ✅ |
+| 9 | `tasinabilirlik-siniri/index.md` | 100 | 0 | ✅ | 0 | ✅ |
+| 10 | `tasinabilirlik-siniri` içerik ×3 | 500+ | 0 | ✅ | 0 | ✅ |
+| 11 | **Toplam 16/16** | eşik uyumlu | 0 | 16/16 | gerçek dolgu 0 | ✅ |
+
+**Not:** İlk ölçüm (2026-10-14 başlangıç) 11 "dolu" isabetinin tamamı
+tarama kalıplarının kendi kendine referansıydı (self-referans) — gerçek dolgu = 0.
+
+### §H.2 — Repo satır yeniden okuma (10/10 · `Select-Object -Index (N-1)`)
+
+| # | Dosya:satır | Beklenen | Çıktı (birebir) | Sonuç |
+|---|---|---|---|---|
+| 1 | `.github/workflows/ci.yml:27` | `runs-on: ubuntu-latest` | `runs-on: ubuntu-latest` | ✅ |
+| 2 | `.github/workflows/ci.yml:44` | `${{ runner.os }}` cache anahtarı | `key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}` | ✅ |
+| 3 | `.github/workflows/ci.yml:199-200` | Playwright chromium kurulumu | `run: npx playwright install --with-deps chromium` | ✅ |
+| 4 | `home.coremusic.net/web.config:14` | `<rewrite>` | `<rewrite>` | ✅ |
+| 5 | `home.coremusic.net/.htaccess:27` | `RewriteEngine On` | `RewriteEngine On` | ✅ |
+| 6 | `shared/src/Component/TemplateEngine.php:73` | `sys_get_temp_dir` + `DIRECTORY_SEPARATOR` cache yolu | `$cachePath = rtrim(sys_get_temp_dir(), "\\/") . DIRECTORY_SEPARATOR . 'cmtpl_' . ...` | ✅ |
+| 7 | `shared/src/Api/Bff/DesktopBff.php:35` | `php_uname('s')` | `'platform' => php_uname('s'),` | ✅ |
+| 8 | `home.coremusic.net/include/Stream/MusicStreamHandler.php:199` | `DIRECTORY_SEPARATOR` önek | `$prefix = rtrim($root, '\\/') . DIRECTORY_SEPARATOR;` | ✅ |
+| 9 | `shared/src/AI/AIEngine.php:290-295` | ffprobe + `escapeshellarg` + `shell_exec` | `sprintf('ffprobe ... "%s"', escapeshellarg($filePath))` → `shell_exec($cmd)` | ✅ |
+| 10 | `shared/tests/Repository/ApiKeyCreateCommandTest.php:250-258` | `proc_open` dizi formu | `$command = array_merge([PHP_BINARY, self::BIN], $args);` → `proc_open($command, ...)` | ✅ |
+
+### §H.3 — Web doğrulama (7 yeni · 6 regresyon · 3 elenen)
+
+| # | Kategori | Adet | Sonuç | Kayıt |
+|---|---|---|---|---|
+| 1 | Yeni URL HEAD 200 + içerik doğrulaması | 7 (W25-W30) | 7/7 ✅ | ornekler §27 |
+| 2 | Regresyon HEAD 200 | 6 (R1-R6) | 6/6 ✅ | ornekler §27.1 |
+| 3 | 404 elenen (dosyaya alınmadı) | 3 | kaydedildi | ornekler §27.2 |
+| 4 | Envante kesişimi (2097 URL) | 7 yeni | 0 kesişim ✅ | grep |
+| 5 | İçerik içi doğrulama | 3/3 (dir.constants `DIRECTORY_SEPARATOR` · runner-images 3 OS · escapeshellarg Windows notu) | ✅ | ornekler §27 |
+
+### §H.4 — OS grup ataması (§22-§28)
+
+| # | Grup | OS | Örnek dosya:satır | Sınıf |
+|---|---|---|---|---|
+| 1 | Grup L | Linux (POSIX) | `.htaccess:27` · `ci.yml:27,44,38,199-200` · `AIEngine:290-295` · `TemplateEngine:73` · `MusicStreamHandler:199` | S1 |
+| 2 | Grup W | Windows (Win32/IIS) | `web.config:14` · `AIEngine:295` (cmd.exe) · `Test:250-258` (kabuk yok) · MAX_PATH S2 | S1 + S2 |
+| 3 | Grup M | macOS (Darwin) | `DesktopBff:35` (→ Darwin) · macos-anayasa §4.2 S4 · FileManager S2 · macOS runner negatif S1 | S1(1 satır) + S4 + S2 |
+| 4 | OS-nötr (L+W+M) | üçü birden | `proc_open` dizi · `php_uname` · `DIRECTORY_SEPARATOR` · `sys_get_temp_dir` · `escapeshellarg` | S1 |
+
+**Sonuç:** `isletim-sistemi-cross-ornekler.md` artık her OS için **açık gruplu**
+örnekler taşır (§22 Grup L · §23 Grup W · §24 Grup M) + OS×yüzey matrisi (§25) +
+grup atama denetimi (§26). `status: draft` korunur (Q4 üretim OS UNKNOWN; Q-X3
+windows/macos runner yok — bu tur runner **eklemedi**, yalnız kanıt topladı).
+
+### §H.5 — Beyazliste ve commit kontrolü
+
+| # | Kontrol | Sonuç |
+|---|---|---|
+| 1 | Yazım alanı: yalnız `isletim-sistemi-cross/**` | ✅ ihlal 0 |
+| 2 | `git commit` atılmadı | ✅ 0 commit |
+| 3 | `*.php` / `*.js` / `*.css` / `*.sql` değişikliği | ✅ 0 (salt .md) |
+| 4 | Paralel ajan çakışması (`.ai/architecture/**` içinde başka ajanların yazdığı dosyalar) | ✅ 0 (beyazliste dışı dosyaya dokunulmadı) |
+| 5 | `TBD` / `Yakında` / boş hücre / `parent:` | ✅ 0 |
+| 6 | Frontmatter `---` çifti tam | ✅ 2/2 dokunulan dosya |
 
 ---
 

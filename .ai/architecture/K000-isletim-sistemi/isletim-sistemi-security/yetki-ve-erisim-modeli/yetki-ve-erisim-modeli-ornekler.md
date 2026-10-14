@@ -688,4 +688,23 @@ Bu dosya **yalnizca disk kaniti** tasir. Web referanslari
 > **backend-architect** isidir; bu dosya yalnizca kanit + oneri tasir.
 > `security-engineer` duzeltme **sonrasinda** teyit eder (read-only audit).
 
+## §13 — OS grupları (8 platform · 2026-10-14)
+
+> Bu dosyadaki ornek siniflarinin (DAC/RBAC/ACL/izin) platform bazli karsiliklari ve
+> tam ornek metinleri ayni klasordeki OS kartlarindadir (her kart: §0 ELI15 ·
+> §1 OS profili · §2 kod ornegi `kaynak: upstream docs` imzali, "repo'da uygulaniyor"
+> yazilmaz · §3 repo durumu = hedef referans · §4 sinir cumleleri · §5 referans ·
+> §6 acik sorular S1/S2 kapatilmaz).
+
+| OS | Kart | Bu dosyadaki ornek siniflarinin platform karsiligi | Repo durumu |
+|---|---|---|---|
+| Windows | [`yetki-ve-erisim-modeli-windows.md`](yetki-ve-erisim-modeli-windows.md) | `icacls` / `Set-Acl` · SDDL ile ACL yazimi | hedef referans (0 kullanim) |
+| Linux | [`yetki-ve-erisim-modeli-linux.md`](yetki-ve-erisim-modeli-linux.md) | `chmod`/`umask`/`setfacl`/`getfacl` | hedef referans (0 kullanim) |
+| macOS | [`yetki-ve-erisim-modeli-macos.md`](yetki-ve-erisim-modeli-macos.md) | `chmod` + `codesign` entitlement denetimi | hedef referans (0 kullanim) |
+| iOS | [`yetki-ve-erisim-modeli-ios.md`](yetki-ve-erisim-modeli-ios.md) | entitlement plist + Keychain access group | hedef referans (0 kullanim) |
+| Android | [`yetki-ve-erisim-modeli-android.md`](yetki-ve-erisim-modeli-android.md) | runtime permission request akisi | hedef referans (0 kullanim) |
+| Tizen | [`yetki-ve-erisim-modeli-tizen.md`](yetki-ve-erisim-modeli-tizen.md) | privilege-based permission (manifest) | hedef referans (0 kullanim) |
+| webOS | [`yetki-ve-erisim-modeli-webos.md`](yetki-ve-erisim-modeli-webos.md) | ACG servis izni | hedef referans (0 kullanim) |
+| ReactOS | [`yetki-ve-erisim-modeli-reactos.md`](yetki-ve-erisim-modeli-reactos.md) | ACL editor / NT Security Descriptor | hedef referans (0 kullanim) |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

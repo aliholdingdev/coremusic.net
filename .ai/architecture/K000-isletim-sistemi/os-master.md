@@ -7,7 +7,7 @@ children: []
 depends_on: [K002-altyapi]
 evidence: [https://man7.org/linux/man-pages/man2/syscalls.2.html, https://docs.kernel.org/core-api/index.html, https://learn.microsoft.com/en-us/windows/win32/coreaudio/about-the-windows-core-audio-apis, https://pubs.opengroup.org/onlinepubs/9799919799/, https://www.kernel.org/]
 validation: "2026-10-13 · §K'daki tüm URL'ler HTTP HEAD 200 ile doğrulandı · §B/§G repo dosyalarından okundu · 3 ölü URL §K sonuna taşındı"
-open_questions: ["Q1 electroncis kapsamı", "Q2 core↔kernel sınırı", "Q3 plan kapsamı", "Q4 hedef platform seti", "Q5 turu↔altyapı gap"]
+open_questions: ["Q1 electroncis kapsamı (KAPANDI 2026-10-14)", "Q2 core↔kernel sınırı", "Q3 plan kapsamı", "Q4 hedef platform seti", "Q5 turu↔altyapı gap"]
 group: mimari
 ---
 
@@ -191,11 +191,11 @@ sürmez. Ayrıntı: `isletim-sistemi-audio/wasapi/`.
 
 ## §D — 12 kademe-2 düğümün tamamı
 
-> Dosya/≥500 durumu **diskten ölçüm** (2026-10-13): 124 md · 39.099 satır · ≥500: 63 · <500: 61.
+> Dosya/≥500 durumu **diskten ölçüm** (2026-10-13 · **turu + electroncis satırları 2026-10-14 taze**): 133 md · 44.152 satır · ≥500: 67 · <500: 66. (Diğer satırlar 2026-10-13 sayımıdır — domain-geneli yeniden sayım ayrı denetim konusu; TOPLAM satırı 2026-10-14'te satırların toplamından yeniden hesaplandı.)
 
 | # | Düğüm | Sorumluluk | Dosya | Satır | ≥500 | Komşular |
 |---|---|---|---|---|---|---|
-| 1 | `electroncis` | donanım/elektronik devre (Q1) | 4 | 428 | 0 | turu, audio |
+| 1 | `electroncis` | OS↔donanım elektronik arayüzü (Q1 KAPANDI) | 12 | 2968 | 0 | turu, audio, K002-electroncis |
 | 2 | `isletim-sistemi-api` | kullanıcı-kernel sınırı, libc/API | 6 | 1478 | 2 | kernel, core, runtime |
 | 3 | `isletim-sistemi-audio` | ses yığını (WASAPI/ALSA/CoreAudio) | 17 | 6187 | 7 | turu, kernel, electroncis |
 | 4 | `isletim-sistemi-core` | çekirdek kavramlar (bellek/süreç/dosya) | 4 | 432 | 0 | kernel, plan, api |
@@ -206,17 +206,20 @@ sürmez. Ayrıntı: `isletim-sistemi-audio/wasapi/`.
 | 9 | `isletim-sistemi-runtime` | PHP SAPI + web sunucusu | 4 | 217 | 0 | api, cross, testing |
 | 10 | `isletim-sistemi-security` | izin/capability/sandbox | 4 | 206 | 0 | kernel, api, observability |
 | 11 | `isletim-sistemi-testing` | OS test (kselftest/KUnit) | 4 | 202 | 0 | kernel, observability, runtime |
-| 12 | `isletim-sistemi-turu` | OS ailesi (Windows/Linux/macOS + 8 platform) | 65 | 28745 | 54 | audio, cross, electroncis |
-| — | **TOPLAM** | 12 düğüm | **124** | **39.099** | **63** | kök 4 hariç |
+| 12 | `isletim-sistemi-turu` | OS ailesi (Windows/Linux/macOS + 8 platform) | 66 | 31258 | 58 | audio, cross, electroncis |
+| — | **TOPLAM** | 12 düğüm | **133** | **44.152** | **67** | kök 4 hariç · turu + electroncis satırları 2026-10-14 |
 
-**Not:** `electroncis` (Q1) ve `isletim-sistemi-plan` (Q3) kapsamı [BİLİNMEYEN] — adlandırma
-tek başına belirsiz, diske bakılmadan doldurulmadı.
+**Not:** `electroncis` (Q1) kapsamı **KAPANDI (2026-10-14)** — OS↔donanım elektronik arayüzü,
+2 alt-dal (bkz. §J). `isletim-sistemi-plan` (Q3) kapsamı hâlâ [BİLİNMEYEN] — adlandırma tek
+başına belirsiz, diske bakılmadan doldurulmadı.
 
 ### §D.1 Düğüm bazlı sorumluluk detayı (12 satır)
 
-1. **`electroncis`** — donanım/elektronik devre disiplini (Q1). Kapsam [BİLİNMEYEN]: v2 §2.1'de
-   yalnızca başlık var. `audio` ve `turu` ile komşu; PCM3168A/Class AB donanımı bu alt alanın
-   olası konusudur ama diske bakılmadan içerik yazılmaz. Dosya 4 · satır 428 · ≥500: 0.
+1. **`electroncis`** — OS↔donanım elektronik arayüzü (Q1 **KAPANDI** 2026-10-14 · Vault Steward).
+   İki alt-dal: `donanim-arayuz-protokolleri` (I2S/TDM · I2C/SPI · USB · GPIO/clock · DMA ring) +
+   `os-guc-elektronigi` (D0–D3 güç durumları · termal · DPC/ISR · ACPI). Tam elektronik devre
+   içeriği `K002-electroncis`'e devredildi (Faz A/B). `audio`/`turu` ile komşu;
+   `K002-electroncis`'e bağımlı. Dosya 12 · satır 2968 · ≥500: 0 (2026-10-14 recursive ölçüm).
 2. **`isletim-sistemi-api`** — kullanıcı-kernel sınırı ve libc/Windows API yüzeyi. `php_uname`,
    `sysconf`, syscall kapsayıcısı. `kernel`/`core`/`runtime` ile komşu. Dosya 6 · satır 1478 ·
    ≥500: 2 (kısmi hazır).
@@ -243,7 +246,7 @@ tek başına belirsiz, diske bakılmadan doldurulmadı.
     testleri (`phpunit.xml`) ayrı katman. `kernel`/`observability`/`runtime` komşu.
     Dosya 4 · 202 · 0.
 12. **`isletim-sistemi-turu`** — OS ailesi karşılaştırması: Windows/Linux/macOS + 8 platform
-    alt-dalı. En derin düğüm. `audio`/`cross`/`electroncis` komşu. Dosya 65 · 28745 · ≥500: 54.
+    alt-dalı. En derin düğüm. `audio`/`cross`/`electroncis` komşu. Dosya 66 · 31.258 · ≥500: 58 (2026-10-14 — kök `kod-seti` eklendi).
 
 ---
 
@@ -275,6 +278,13 @@ tek başına belirsiz, diske bakılmadan doldurulmadı.
 **Sınır notu:** K000 ↔ K001 ayrımı yapaydır — K000 "OS'nin CoreMusic'e verdiği sözleşme" iken
 K001 "CoreMusic'in OS üzerindeki donanım-yüzeyi (Neva Engine / WASAPI)"dir. K000 kod üretmez,
 K001 kod üretir. K002 ise OS'nin **kuruluşunu** yönetir (K000 OS'nin **kavramlarını** tarif eder).
+
+**Q1 kapanış notu (2026-10-14):** `electroncis` bu haritada **katman-0 hizasında** durur
+(`audio`/`turu` ile birlikte) — Q1 kararıyla kapsamı OS↔donanım **arayüzü** olarak netleşti
+(2 alt-dal: `donanim-arayuz-protokolleri` + `os-guc-elektronigi`); tam elektronik devre
+içeriği `K002-electroncis` domainine devredildi (Faz A/B). Not: bu dosyanın frontmatter
+`depends_on: [K002-altyapi]` kaydı ile diskteki `K002-electroncis/` dizini arasında
+**bilinen ID adlandırma farkı** vardır — çözülmedi, yalnızca kayda geçilmiştir (Q5).
 
 ---
 
@@ -381,7 +391,7 @@ L3=libc/API · L4=SAPI · L5=uygulama-yakın (cross/observability).
 | R1 | Hedef platform tek nokta tanımsız (Q4) | üretim OS bilinmiyor, port riski | Q4 açık; CI Linux dışında doğrulama yok |
 | R2 | `core` ↔ `kernel` sınırı bulanık (Q2) | sorumluluk kayması | child `index.md`'de `⚠️ VERIFICATION REQUIRED` |
 | R3 | Ses donanımına doğrudan erişim yok | gerçek donanım davranışı bilinmiyor | ffmpeg WAV; WASAPI exclusive ⚠️ doğrulanamadı |
-| R4 | `electroncis` kapsamı UNKNOWN (Q1) | domain sınırları kesin değil | diske bakılmadan yazılmadı |
+| R4 | `electroncis` kapsamı UNKNOWN (Q1) — **KAPANDI 2026-10-14** | ~~domain sınırları kesin değil~~ sınır artık tanımlı: OS↔donanım arayüzü, tam elektronik K002'de | Vault Steward kararı + Faz A/B/C uygulandı |
 | R5 | `plan` kapsamı UNKNOWN (Q3) | scheduling mi doküman mı belirsiz | adlandırma tek başına yetersiz |
 | R6 | `ext-apcu` platform davranışı farklı | önbellek tutarsızlığı | CLI testte açık (`ci.yml:20`); üretim doğrulanmadı |
 | R7 | `runtime` SAPI/modeli tek nokta tanımsız | mod_php vs php-fpm vs IIS belirsiz | `.htaccess`+`web.config` var; aktif SAPI [BİLİNMEYEN] |
@@ -393,7 +403,11 @@ L3=libc/API · L4=SAPI · L5=uygulama-yakın (cross/observability).
 
 ## §J — Açık sorular (bağlayıcı)
 
-- **Q1** `electroncis` kapsamı — donanım mı, devre şeması mı? → [BİLİNMEYEN]
+- **Q1** `electroncis` kapsamı — donanım mı, devre şeması mı? → **KAPANDI (2026-10-14 ·
+  Vault Steward): OS↔donanım elektronik ARAYÜZÜ — iki alt-dal `donanim-arayuz-protokolleri`
+  (I2S/TDM · I2C/SPI · USB · GPIO/clock) + `os-guc-elektronigi` (güç durumları · termal ·
+  DPC/ISR). Tam elektronik devre içeriği `K002-electroncis`'e taşındı (21 blok · 13 URL ·
+  Faz A) ve `electroncis/devre-tasarimi` + `guc-ve-koruma` dizinleri silindi (Faz B).**
 - **Q2** `isletim-sistemi-core` ↔ `isletim-sistemi-kernel` sınırı — ikisi de "çekirdek kavramı"
   diyorsa fark ne? → [BİLİNMEYEN] (child `index.md` içinde `⚠️ VERIFICATION REQUIRED`)
 - **Q3** `isletim-sistemi-plan` — scheduling mi, plan dokümanı mı? → [BİLİNMEYEN]
@@ -404,13 +418,14 @@ L3=libc/API · L4=SAPI · L5=uygulama-yakın (cross/observability).
 
 | Q | Konu | Durum | Çözüm için gereken | Sahip |
 |---|---|---|---|---|
-| Q1 | `electroncis` kapsamı | AÇIK | `electroncis/` dizinine disk incelemesi | Vault Steward |
+| Q1 | `electroncis` kapsamı | **KAPANDI (2026-10-14)** | disk incelemesi + Vault Steward onayı yapıldı — OS↔donanım arayüzü, 2 alt-dal; tam elektronik → `K002-electroncis` | Vault Steward |
 | Q2 | `core` ↔ `kernel` sınırı | AÇIK | child `index.md` sınır tanımı + ADR | architect |
 | Q3 | `plan` kapsamı | AÇIK | `isletim-sistemi-plan/` diske bakma | Vault Steward |
 | Q4 | hedef platform seti | AÇIK | tek nokta platform tanımı (ADR) | architect + devops |
 | Q5 | `turu` ↔ `K002` gap | AÇIK | domain sınır ADR'si | architect |
 
-> Hiçbir Q doldurulmadı; uydurma çözüm yazılmadı. Kapatma yalnız disk kanıtı + onay ile olur.
+> **Q1 kapatıldı** (2026-10-14 · disk kanıtı + Vault Steward onayı); Q2–Q5 hâlâ AÇIK — açık
+> kalanlar doldurulmadı, uydurma çözüm yazılmadı. Kapatma yalnız disk kanıtı + onay ile olur.
 
 ---
 

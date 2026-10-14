@@ -295,4 +295,20 @@ var request = webOS.service.request('luna://com.webos.settingsservice', {
 
 ---
 
+## §PHP webOS × PHP (2026-10-14)
+
+webOS uygulama katmanı JS + Luna bus'tır (§22 `audio` service `volumeUp/Down`) —
+cihazda PHP runtime **yoktur**. PHP'nin webOS'a erişimi: sunucu PHP → HTTP payload
+→ cihaz JS'inin Luna çağrısına eklenmesi (kök §25.5 · PHP'den doğrudan Luna service
+çağrısı **yapılamaz**).
+
+---
+
+**Geniş dil seti — webOS × dil (kök §26):** uygulama katmanı JS'tir (§22 Luna
+`volumeUp/Down/setMuted`) — Node.js'te yerleşik ses API'si **yok** (404 negatif kanıt,
+kök §26.2); webOS'ta ses çağıran tek dil JS'tir, Python/Go/Rust/C#/PHP/Node cihazda
+**yok** (runtime doğrulaması: kök §25.5 · §26).
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

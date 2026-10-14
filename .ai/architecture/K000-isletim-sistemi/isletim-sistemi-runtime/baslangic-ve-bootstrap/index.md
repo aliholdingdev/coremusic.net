@@ -17,6 +17,7 @@ evidence:
   - shared/src/Bootstrap/RuntimeBootstrap.php (21 satır)
   - home.coremusic.net/index.php:10-29
   - home.coremusic.net/config/constants.php:10-32
+  - https://developer.apple.com/documentation/foundation/process
 validation: "web: OPcache kurulum/setup ve PHP-FPM kurulum dokümanları HEAD ile 2026-10-13 doğrulandı (HTTP 200). disk: RuntimeBootstrap / index.php / constants.php satırları Read ile birebir okundu."
 open_questions:
   - "R5: opcache/APCu warm-up boot'ta yapılıyor mu? Yalnız DEBUG_MODE korumalı opcache_reset görüldü. [UNKNOWN]"
@@ -87,5 +88,43 @@ R5 warm-up · R6 kapanış drenaç · R3 mod_php-vs-FPM (ini kaynağı) —
 | PHP-FPM kurulumu resmi PHP el kitabı bölümünde anlatılır; FPM SAPI'sında php.ini kaynağı ve boot sırası bu bölüme bağlıdır (R3 iddiası). | `https://www.php.net/manual/en/install.fpm.php` | 2026-10-13 | Doğrulandı (HTTP 200, resmi doküman) |
 
 ---
+
+## § OS GRUPLAR
+
+> 8 işletim sistemi grubu — boot/runtime başlatma modeli ve bu alt-dalın (PHP bootstrap A1-A7) karşılığı. Tam karşılaştırma ve OS bazlı kod blokları içerik dosyalarındadır: `anayasa.md § OS` (PHP kurulum/boot · launchd · fork+exec) · `surucu.md § OS` (systemd · Android) · `ornekler.md § OS` (iOS · Tizen · webOS).
+
+| # | OS | Boot/runtime başlatma modeli | Bu dosyadaki karşılığı | Kaynak |
+|---|---|---|---|---|
+| 1 | Windows | UEFI → winload → NT kernel → SCM; PHP IIS/FastCGI (`php-cgi`) | § Katman Konumu — worker process boot | `anayasa.md` § OS |
+| 2 | macOS | boot.efi → XNU → launchd (PID 1); `php-fpm` LaunchDaemon job'ı | §0 ELI15 — A1-A7 (SAPI bağımsız) | `anayasa.md` § OS |
+| 3 | iOS | iBoot → XNU → launchd → SpringBoard; uygulama `UIApplicationDelegate` | kapsam dışı — bu dosya PHP boot'unu kapsar | https://developer.apple.com/documentation/foundation/process |
+| 4 | Android | bootloader → Linux kernel → `init` → Zygote; öncelik ActivityManager | § Komşu Sınır — `surec-ve-parcacik` sınırı | `surucu.md` § OS |
+| 5 | Linux | bootloader → Linux kernel → systemd (PID 1); `php-fpm.service` | §0 ELI15 — boot sırası A1-A7 | `anayasa.md` § OS |
+| 6 | FreeBSD/BSD | loader → kernel → `init` (PID 1) → rc.d; PHP servisi rc.girişi | § Komşu Sınır — POSIX boot semantiği | `anayasa.md` § OS |
+| 7 | Tizen | Linux çekirdekli; uygulama süreç yaşam döngüsü (process-model) | kapsam dışı — bu dosya PHP boot'unu kapsar | `ornekler.md` § OS |
+| 8 | webOS OSE | Linux çekirdekli; servis katmanı Luna Service 2 (LS2) | kapsam dışı — bu dosya PHP boot'unu kapsar | `ornekler.md` § OS |
+
+### Kısa açıklamalar (her OS 2-3 cümle)
+
+1. **Windows** — PHP resmi Windows paketiyle kurulur; `php.ini-development`/`php.ini-production` seçimi ve PHP dizininin `PATH`'e eklenmesi kurulumun parçasıdır. Web yüzeyi IIS + FastCGI (`php-cgi`) veya Apache'dir; süreç başlatma SCM (Service Control Manager) üzerindendir. Boot sırası A1-A7 OS'tan bağımsızdır.
+2. **macOS** — `php.ini` konumu seçilen kurulum yöntemine göre belirlenir; süreç başlatma launchd üzerinden LaunchDaemon/LaunchAgent job'ı ile yapılır. `php-fpm` tek kez ayağa kalkar, istekler worker'a devredilir — "boot'ta bir kez" kuralının OS karşılığı.
+3. **iOS** — Uygulama `UIApplicationDelegate` ile başlar; süreç yaşam dölgüsü ve App Sandbox yönetimi sisteme aittir. Sunucu tarafı PHP boot bu platformda yoktur — **kapsam dışı**.
+4. **Android** — Açılışta `init` servisleri başlatır; uygulama süreçleri öncelik tablosuna girer ve sistem bellek için önce boşta kalanlar öldürülür. Çalışma zamanı AOT derlemesiyle açılır — **kapsam dışı**.
+5. **Linux** — PHP dağıtım paketi veya kaynaktan kurulur; `php-fpm` gibi servisler systemd birimi olarak yönetilir. A1-A7 sırası burada da geçerlidir; fail-fast (M4) PHP katmanında kalır, init sistemine devredilmez.
+6. **FreeBSD/BSD** — Boot zinciri `loader` → kernel → `init` → rc.d ile yürür; PHP servisi bir rc.d girişiyle başlar. POSIX fork+exec semantiği ve A1-A7 sırası Linux ile aynıdır.
+7. **Tizen** — Linux çekirdekli platform; web/native/.NET uygulamaları kendi modeliyle yaşar (UI/Widget/Service). Süreç ve yaşam dölgüsü resmi dokümanda ayrı bir tutorial'dır — **kapsam dışı**.
+8. **webOS OSE** — Linux çekirdekli açık kaynak platform; uygulama ve servisler Luna Service 2 (LS2) üzerinden haberleşir. Mimari ve yaşam dölgüsü `docs/guides/core-topics` altındadır — **kapsam dışı**.
+
+### OS bazlı kod/örnek blokları (özet — tam bloklar içerik dosyalarında)
+```text
+POSIX  : init(PID 1) ─fork/exec─> php-fpm ─fork─> worker ─> index.php [A1-A7]   → anayasa.md § OS.3 (c)
+Linux  : systemd birimi php-fpm.service (After/ExecStart/Restart)              → surucu.md § OS.3 (a)
+macOS  : launchd plist (Label/ProgramArguments/RunAtLoad/KeepAlive)            → anayasa.md § OS.3 (b)
+Windows: php.ini-production (display_errors=Off · log_errors=On)               → anayasa.md § OS.3 (a)
+iOS    : UIApplicationDelegate + App Sandbox (kapsam dışı)                     → ornekler.md § OS.3 (a)
+Android: süreç öncelik tablosu + ART runtime (kapsam dışı)                     → surucu.md § OS.3 (b)-(c)
+Tizen  : tizen.application + süreç yaşam dölgüsü tutorial'ı (kapsam dışı)      → ornekler.md § OS.3 (b)
+webOS  : LS2 API + web-app lifecycle docs haritası (kapsam dışı)               → ornekler.md § OS.3 (c)
+```
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

@@ -16,8 +16,9 @@ evidence:
 validation:
   - "scope: kapsam §B.3 — kod örnekleri + anti-pattern + test eşlemesi (draft, 2026-10-13)"
   - "tüm kod blokları gerçek dosyalardan Read ile alındı; uydurma satır numarası yok"
+  - "2026-10-14 · §12 grupları G6a-G6d (12 platform kolu · 8 kod bloğu) · §12.5 13 YENİ + 3 reuse HTTP 200 (envanter kesişimi 2 → dogrulama §J.5) · §12.6 18 reuse yeniden 200 · §13 PHP köprüsü (6 gerçek-satır bloğu · yeni URL 0 · reuse URL 2 php.net LOCK_EX+flock HTTP 200 · fsync/fdatasync/LOCK_SH grep 0) · §14 çok dilli JS/C/Python/Go/Rust/C# (8 URL = 2 reuse + 6 yeni · 6 kalıp blok · JS/PY depo satırı · PHP fopen 'x' grep 0) · 1084 satır"
 open_questions:
-  - "Q-F2: PHP LOCK_EX → OS mekanizması (flock/fcntl) bilinmiyor"
+  - "Q-F2: PHP LOCK_EX → OS mekanizması (flock/fcntl) bilinmiyor → 2026-10-14 §13.1 kısmen yanıtladı: PHP LOCK_EX `flock` tabanlıdır (PHP el kitabı); `fcntl(F_SETLK)` kullanılmaz → NFS/ağ birimlerinde güven ≠ yerel disk (§13.1 ⚠️)"
   - "Q-F5: kapsam §B.3 eski dosya adları (vfss-ve-dosya-taniticisi.md) bu dosya listesiyle çelişiyor"
   - "D-6/D-7 testleri çalıştırılmadı — yalnız eşlendi"
 group: kod
@@ -490,5 +491,594 @@ yazılmadan "çalışıyor" iddiası girmez (zero-hallucination).
 - Açık kayıtlar: Q-OR1 (api:19 `json` yok) · Q-OR2 (assets Require 0) · Q-OR3 (IIS FilesMatch 0) · Q-OR4 (`--\` kopya dizini) — dördü de açık.
 - T1-T6 / G1-G6 sonuçları `-dogrulama` dosyasına işlenir; bu dosya sonuç sahibi değildir.
 - `git commit` bu oturumda ATILMADI — değişiklikler working tree'dedir (commit orkestratöre ait).
+
+---
+
+## §12 Çapraz-platform gruplu kod örnekleri (2026-10-14)
+
+> **Grup kuralı (bağlayıcı):** Her grup **tek kavram + üç platform kolu**
+> (Linux/POSIX · Windows (Win32) · macOS/POSIX) taşır. "Sadece Linux" örnek
+> bu bölümde geçersizdir. macOS-native man sayfaları bu turda erişilemedi
+> (`developer.apple.com/library/archive/.../man*_*.html` → bağlantı koptu/404);
+> macOS sütunu POSIX spesifikasyonuna dayanır ve `⚠️ VERIFICATION REQUIRED`
+> ile işaretlenir.
+
+### §12.1 G6a - Dosya aç / yaz / kapat
+
+**(A) Linux/POSIX — `open` + `write` + `close`:**
+
+```c
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
+
+int fd = open("/var/tmp/coremusic-demo.txt",
+              O_CREAT | O_WRONLY | O_TRUNC, 0640);
+if (fd == -1) {
+    /* errno: ENOENT / EACCES / EROFS ... */
+} else {
+    ssize_t n = write(fd, "deneme\n", 7);
+    if (n != 7) { /* kismi yazma / EIO */ }
+    if (close(fd) == -1) { /* EIO */ }
+}
+```
+
+**(B) Windows (Win32) — `CreateFileW` + `WriteFile` + `CloseHandle`:**
+
+```c
+#include <windows.h>
+
+HANDLE h = CreateFileW(L"C:\\temp\\coremusic-demo.txt",
+                       GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
+                       FILE_ATTRIBUTE_NORMAL, NULL);
+if (h == INVALID_HANDLE_VALUE) {
+    DWORD e = GetLastError();   /* ERROR_FILE_NOT_FOUND / ACCESS_DENIED ... */
+} else {
+    DWORD written = 0;
+    const char buf[] = "deneme\r\n";
+    WriteFile(h, buf, sizeof buf - 1, &written, NULL);
+    CloseHandle(h);
+}
+```
+
+**(C) macOS / POSIX** — (A) birebir geçer · `⚠️ VERIFICATION REQUIRED`.
+
+| Fark | Linux/POSIX | Windows |
+|---|---|---|
+| Başarısızlık göstergesi | `-1` + `errno` | `INVALID_HANDLE_VALUE` + `GetLastError()` |
+| Ayrıştırma | bayt (`O_CREAT|O_TRUNC`) | kelimeler (`CREATE_ALWAYS`) |
+| Satır sonu | yalnız `\n` | `\r\n` (metin modu) |
+| Kod genişliği | `ssize_t` (kısmi yazma olabilir) | `DWORD written` (kısmi yazma olabilir) |
+
+### §12.2 G6b - Dosya kilidi (aynı anda tek yazar)
+
+**(A) Linux/POSIX — `flock` (repo `FileHandler.php:251` ile aynı desen):**
+
+```c
+#include <sys/file.h>
+#include <unistd.h>
+
+if (flock(fd, LOCK_EX) == 0) {     /* Exclusive - tek yazar */
+    /* kritik yazma */
+    flock(fd, LOCK_UN);
+}
+```
+
+**(B) Windows (Win32) — `LockFileEx`:**
+
+```c
+#include <windows.h>
+
+OVERLAPPED ov; ZeroMemory(&ov, sizeof ov);
+if (LockFileEx(h, LOCKFILE_EXCLUSIVE_LOCK, 0, MAXDWORD, MAXDWORD, &ov)) {
+    /* kritik yazma */
+    UnlockFileEx(h, 0, MAXDWORD, MAXDWORD, &ov);
+}
+```
+
+**(C) macOS / POSIX** — `flock` POSIX'te **opsiyoneldir** (XSI değil); macOS
+`flock(2)` sunar. **`⚠️ VERIFICATION REQUIRED`** (Apple erişim kısıtı).
+
+| Kavram | Linux/macOS | Windows |
+|---|---|---|
+| Çağrı | `flock(fd, LOCK_EX)` | `LockFileEx(..., LOCKFILE_EXCLUSIVE_LOCK, ...)` |
+| Kapsam | tanıtıcı / dosya | dosya + bayt aralığı |
+| Serbest bırakma | `LOCK_UN` / kapanış | `UnlockFileEx` |
+| Türetilmiş | PHP `LOCK_EX` (§2.2, `FileHandler.php:251`) | — |
+
+### §12.3 G6c - Dizin yarat + durum oku + konum/boyut
+
+**(A) Linux/POSIX — `mkdir` + `stat` + `lseek`:**
+
+```c
+#include <sys/stat.h>
+#include <unistd.h>
+
+if (mkdir("/var/tmp/coremusic-demo", 0750) == -1 && errno != EEXIST) { /* hata */ }
+
+struct stat st;
+if (stat("/var/tmp/coremusic-demo", &st) == 0) {
+    mode_t m = st.st_mode & 07777;      /* izin bitleri */
+    off_t  s = st.st_size;
+    (void)m; (void)s;
+}
+off_t end = lseek(fd, 0, SEEK_END);     /* dosya sonu */
+```
+
+**(B) Windows (Win32) — `CreateDirectoryW` + `GetFileAttributesExW` + `SetFilePointerEx`:**
+
+```c
+#include <windows.h>
+
+CreateDirectoryW(L"C:\\temp\\coremusic-demo", NULL);   /* varsa hata döner */
+
+WIN32_FILE_ATTRIBUTE_DATA ad;
+if (GetFileAttributesExW(L"C:\\temp\\coremusic-demo",
+                          GetFileExInfoStandard, &ad)) {
+    DWORD attr = ad.dwFileAttributes;   /* FILE_ATTRIBUTE_DIRECTORY vb. */
+    (void)attr;
+}
+LARGE_INTEGER li; li.QuadPart = 0;
+SetFilePointerEx(h, li, NULL, FILE_END);   /* dosya sonu */
+LARGE_INTEGER size = {0};
+GetFileSizeEx(h, &size);
+```
+
+**(C) macOS / POSIX** — (A) birebir geçer · `⚠️ VERIFICATION REQUIRED`.
+
+| Kavram | Linux/POSIX | Windows |
+|---|---|---|
+| Dizin yaratma | `mkdir(path, mode)` | `CreateDirectoryW(path, sa)` |
+| Varlık denetimi | `stat` / `lstat` | `GetFileAttributesExW` |
+| Boyut | `st.st_size` | `GetFileSizeEx` |
+| Konum | `lseek(fd, off, whence)` | `SetFilePointerEx(h, li, pos)` |
+| Symlink | `lstat` sayar, `stat` izler | `CreateFileW(..., FILE_FLAG_OPEN_REPARSE_POINT)` — bu turda doğrulanmadı → `⚠️ VERIFICATION REQUIRED` |
+
+### §12.4 G6d - Dayanıklılık: diske gerçekten yaz
+
+**(A) Linux/POSIX — `fsync`:**
+
+```c
+if (fsync(fd) == -1) { /* EIO - veri tamponda kalmis olabilir */ }
+```
+
+**(B) Windows (Win32) — `FlushFileBuffers`:**
+
+```c
+if (!FlushFileBuffers(h)) { DWORD e = GetLastError(); (void)e; }
+```
+
+**(C) macOS / POSIX** — `fsync` POSIX'ttir · `⚠️ VERIFICATION REQUIRED`.
+
+> **Repo bağlantısı:** `dosya-sistemi-...-ornekler.md` §3.2 (AP-07) bu dosyada
+> **`fsync` envanterinin 0** olduğunu kaydetmişti; bu bölüm o boşluğu
+> **kavramsal olarak** doldurur — kod **çalıştırılmadı**, gözlem **PLANNED**.
+
+### §12.5 Yeni doğrulanmış URL (2026-10-14 · envanter kesişimi 2 → düzeltildi §J.5 · HTTP 200)
+
+> **Ölçüm (2026-10-14 · yeniden):** `.ai/**` (gizli dizin, `*.md|*.json|*.txt|*.ps1`)
+> URL kümesi **bu turda yazılan 6 dosya hariç** tutularak ölçüldü = **3760 tekil URL**.
+> Bu küme ile kesişim **2 satır** verdi: **#5 `write`** ve **#6 `close`** envanterde zaten
+> vardı (`isletim-sistemi-api/ag-api/posix-socket-ve-winsock-karsilastirmasi.md`) → bu iki
+> satır "reuse" sayıldı ve YENİ toplamı **13** oldu. Tur-çapı tek-çatı sayım ve
+> kümülatif envanter (**3866**) için bkz. `isletim-sistemi-core-dogrulama.md` **§J**.
+
+| # | İddia | URL | 2026-10-14 |
+|---|---|---|---|
+| 1 | `mkdir(2)` - dizin yaratma (Linux man) | https://man7.org/linux/man-pages/man2/mkdir.2.html | ? HTTP 200 · **YENİ** |
+| 2 | `mkdir` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/mkdir.html | ? HTTP 200 · **YENİ** |
+| 3 | `lseek` POSIX tanımı (konum değiştirme) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/lseek.html | ? HTTP 200 · **YENİ** |
+| 4 | `stat` POSIX tanımı (durum/dosya bilgisi) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/stat.html | ? HTTP 200 · **YENİ** |
+| 5 | `write` POSIX tanımı (kısmi yazma semantiği) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/write.html | reuse · HTTP 200 (envanterde vardı — §J.5) |
+| 6 | `close` POSIX tanımı (tanıtıcı bırakma) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/close.html | reuse · HTTP 200 (envanterde vardı — §J.5) |
+| 7 | `realpath` POSIX tanımı (gerçek yol çözümleme) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/realpath.html | ? HTTP 200 · **YENİ** |
+| 8 | `LockFileEx` - bayt aralığı kilidi (Windows) | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-lockfileex | ? HTTP 200 · **YENİ** |
+| 9 | `CreateDirectoryW` - dizin yaratma (Windows) | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createdirectoryw | ? HTTP 200 · **YENİ** |
+| 10 | `GetFileAttributesExW` - dosya/dizin durumu (Windows) | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfileattributesexw | ? HTTP 200 · **YENİ** |
+| 11 | `GetFileAttributesW` - öznitelik okuma (Windows) | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfileattributesw | ? HTTP 200 · **YENİ** |
+| 12 | `GetFileSizeEx` - dosya boyutu (Windows) | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getfilesizeex | ? HTTP 200 · **YENİ** |
+| 13 | `SetFilePointerEx` - dosya konumu (Windows) | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-setfilepointerex | ? HTTP 200 · **YENİ** |
+| 14 | `DuplicateHandle` - tanıtıcı kopyalama (Windows) | https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle | ? HTTP 200 · **YENİ** |
+| 15 | `fopen` POSIX tanımı (akış düzeyi) | https://pubs.opengroup.org/onlinepubs/9799919799/functions/fopen.html | ? HTTP 200 · **YENİ** |
+| 16 | `path_resolution(7)` - yol çözümleme sırası | https://man7.org/linux/man-pages/man7/path_resolution.7.html | reuse · HTTP 200 |
+
+### §12.6 Reuse URL - HTTP 200 yeniden doğrulandı (2026-10-14)
+
+| # | İddia | URL |
+|---|---|---|
+| 1 | `open(2)` - bayraklar + mod | https://man7.org/linux/man-pages/man2/open.2.html |
+| 2 | `read(2)` / `write(2)` | https://man7.org/linux/man-pages/man2/read.2.html |
+| 3 | `write(2)` | https://man7.org/linux/man-pages/man2/write.2.html |
+| 4 | `close(2)` | https://man7.org/linux/man-pages/man2/close.2.html |
+| 5 | `lseek(2)` | https://man7.org/linux/man-pages/man2/lseek.2.html |
+| 6 | `stat(2)` | https://man7.org/linux/man-pages/man2/stat.2.html |
+| 7 | `dup(2)` - tanıtıcı kopyası | https://man7.org/linux/man-pages/man2/dup.2.html |
+| 8 | `flock(2)` - dosya kilidi | https://man7.org/linux/man-pages/man2/flock.2.html |
+| 9 | `fsync(2)` - diske yazma | https://man7.org/linux/man-pages/man2/fsync.2.html |
+| 10 | `chmod(2)` - mod değiştirme | https://man7.org/linux/man-pages/man2/chmod.2.html |
+| 11 | `umask(2)` - varsayılan maske | https://man7.org/linux/man-pages/man2/umask.2.html |
+| 12 | `open` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/open.html |
+| 13 | `dup` POSIX tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/functions/dup.html |
+| 14 | `CreateFileW` | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew |
+| 15 | `ReadFile` | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-readfile |
+| 16 | `WriteFile` | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-writefile |
+| 17 | `CloseHandle` | https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle |
+| 18 | `FlushFileBuffers` | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers |
+
+### §12.7 Bu bölümün ölçüme kaydı (2026-10-14)
+
+| Ölçüm | Değer |
+|---|---|
+| Eklenen grup | 4 (G6a aç/yaz/kapat · G6b kilit · G6c dizin+durum+boyut · G6d dayanıklılık) |
+| Platform kolları | 3/grup = 12 kol |
+| Eklenen kod bloğu | 8 (A=4 · B=4) |
+| Yeni doğrulanmış URL | 13 (§12.5 #1-#4, #7-#15) · envanter kesişimi **2** (§12.5 #5-#6 → §J.5) · HTTP 200 |
+| Reuse URL yeniden 200 | 18 (§12.6) + §12.5 #5, #6, #16 = 3 |
+| Tur-çapı tek-çatı sayımda bu dosyanın payı | dogrulama **§J** (56 URL · 53 yeni / 3 reuse) |
+| macOS-native kaynak | 0 erişilebilir → 4 iddia `⚠️ VERIFICATION REQUIRED` + 1 reparse-point `⚠️` |
+| Çalıştırılan gözlem | 0 (kod temsilidir; §10.8 G1-G6 hâlâ PLANNED) |
+| `git commit` | **atılmadı** (orkestratöre ait) |
+
+---
+
+## §13 PHP Köprüsü — dosya sistemi (repo satır kanıtlı, 2026-10-14)
+
+> PHP dosya işlevleri POSIX `open/read/write/stat/flock` ve Windows
+> `CreateFileW/ReadFile/GetFileAttributesExW/LockFileEx` üzerinde çalışan ince bir
+> sarmalayıcıdır. Her blok `ReadAllLines` ile alınmış **gerçek repo satırıdır**.
+
+### §13.1 F1 — Kilitli ekleme: `file_put_contents(..., FILE_APPEND|LOCK_EX)` ↔ `flock` ↔ `LockFileEx`
+
+**Repo kanıtları (3 ayrı dosya, aynı desen):**
+
+`shared/src/Log/FileHandler.php:248-252`
+
+```php
+for ($i = 0; $i < 3; $i++) {
+    $bayt = @file_put_contents($this->dosya, $satir, FILE_APPEND | LOCK_EX);
+    if ($bayt !== false) {
+        return;
+    }
+```
+
+`shared/src/PageRouter/PageRouterKernel.php:133-134`
+
+```php
+@file_put_contents($logDir . '/coremusic_php_errors.log', $errorMsg, FILE_APPEND | LOCK_EX);
+@file_put_contents($logDir . '/coremusic_php_kernel_debug.log', $errorMsg, FILE_APPEND | LOCK_EX);
+```
+
+`media.coremusic.net/src/Media/CatalogWriter.php:113`
+
+```php
+$bayt = @file_put_contents($this->yol, $metin, LOCK_EX);
+```
+
+| PHP | POSIX | Windows Win32 |
+|---|---|---|
+| `LOCK_EX` | `flock(fd, LOCK_EX)` (BSD/kilit) | `LockFileEx(LOCKFILE_EXCLUSIVE_LOCK)` |
+| `LOCK_SH` | `flock(fd, LOCK_SH)` | `LockFileEx` paylaşımlı (PHP'de yok → §13.7) |
+| `FILE_APPEND` | `open(O_APPEND)` | `FILE_APPEND_DATA` |
+| `file_put_contents` = open+write+close | `open`+`write`+`close` | `CreateFileW`+`WriteFile`+`CloseHandle` |
+
+**Kaynaklı not (2026-10-14):** PHP resmi dokümanı `LOCK_EX` bayrağını şöyle tanımlar:
+*"Acquire an exclusive lock on the file while proceeding to the writing. In other words, a
+`flock()` call happens between the `fopen()` call and the `fwrite()` call."*
+→ `https://www.php.net/manual/en/function.file-put-contents.php` (**reuse** · envanterde vardı · HTTP 200).
+Yani PHP `LOCK_EX` **yalnız `flock` tabanlıdır**; POSIX `fcntl(F_SETLK)` kullanılmaz
+(`https://www.php.net/manual/en/function.flock.php` — reuse · HTTP 200).
+Bunun sonucu: **bazı ağ dosya sistemlerinde `flock` desteklenmez / uçucudur** (NFSv2/v3
+bilgisi depoda **yok** → `⚠️ VERIFICATION REQUIRED` — ortam kaydı okunmadı).
+
+### §13.2 F2 — Tek seferlik yazma (tüm dosya) + hata/kurtarma döngüsü
+
+**Repo kanıtı:** `shared/src/Component/TemplateEngine.php:74-76`
+
+```php
+if (file_put_contents($cachePath, $template, LOCK_EX) === false) {
+    throw new \RuntimeException("Template cache write failed: {$cachePath}");
+}
+```
+
+`home.coremusic.net/config/constants.php:74-80`
+
+```php
+// Session save path — php.ini'den oku, fallback sys_get_temp_dir
+$sessionPath = ini_get('session.save_path') ?: sys_get_temp_dir() . '/coremusic_sessions';
+if (!is_dir($sessionPath)) {
+    @mkdir($sessionPath, 0750, true);
+}
+session_save_path($sessionPath);
+ini_set('session.save_path', $sessionPath);
+```
+
+POSIX karşılığı `open(O_WRONLY|O_CREAT|O_TRUNC, 0640)` + `write` + `close`;
+Windows karşılığı `CreateFileW(CREATE_ALWAYS)` + `WriteFile` + `CloseHandle`.
+
+### §13.3 F3 — Dizin üretimi + çift kontrol: `@mkdir(..., recursive)` ↔ `mkdir(2)` ↔ `CreateDirectoryW`
+
+**Repo kanıtı:** `media.coremusic.net/src/Media/CatalogWriter.php:107`
+
+```php
+if (!is_dir($klasor) && !@mkdir($klasor, 0775, true) && !is_dir($klasor)) {
+```
+
+| PHP | POSIX | Windows Win32 |
+|---|---|---|
+| `!is_dir && !@mkdir && !is_dir` | `mkdir(2)` → `EEXIST` yok sayılır | `CreateDirectoryW` → `ERROR_ALREADY_EXISTS` |
+| `0775` (mod) | `mode & ~umask` | **yok sayılır** (PHP `mkdir` modu NTFS'te uygulanmaz) |
+| `true` (recursive) | `mkdir -p` (üstleri de) | `SHCreateDirectoryEx` / tek tek |
+
+Çift `is_dir` kontrolü **yarış koşulunu (TOCTOU) kapatmaz**, yalnızca
+"başka süreç zaten oluşturdu" durumunu tolere eder — gerçek kilit §13.1'dedir.
+§13.6'daki yol çözümü ile birlikte kullanılır.
+
+### §13.4 F4 — stat: `filesize`/`filemtime` ↔ `stat` ↔ `GetFileAttributesExW`
+
+**Repo kanıtı:** `home.coremusic.net/include/Stream/MusicStreamHandler.php:71-81`
+
+```php
+if (is_file($path)) {
+    $diskSize = (int)filesize($path);
+    if ($diskSize > 0) {
+        $size = $diskSize;
+    }
+}
+$mtime     = (int)(is_file($path) ? filemtime($path) : time());
+$etag      = '"' . md5($path . '|' . $size . '|' . $mtime) . '"';
+$lastMod   = gmdate('D, d M Y H:i:s', $mtime) . ' GMT';
+```
+
+| PHP | POSIX | Windows Win32 | HTTP |
+|---|---|---|---|
+| `filesize` | `stat.st_size` | `WIN32_FILE_ATTRIBUTE_DATA.nFileSizeHigh/Low` | — |
+| `filemtime` | `stat.st_mtime` | `ftLastWriteTime` | `Last-Modified` |
+| `is_file` | `S_ISREG` | `!FILE_ATTRIBUTE_DIRECTORY` | 404 |
+| (cache temizleme) | — | — | `clearstatcache()` (§13.7) |
+
+`ETag = md5(path|size|mtime)` — üç parmacık (strong ETag) değildir, proje
+**özel ETag** üretiyor; `If-None-Match` eşleşmesinde PHP tarafında 304 döner.
+
+### §13.5 F5 — Akış + konum: `fopen`/`fseek`/`fread` ↔ `open`/`lseek`/`read` ↔ `CreateFileW`/`SetFilePointerEx`/`ReadFile`
+
+**Repo kanıtı:** `home.coremusic.net/include/Stream/MusicStreamHandler.php:333-351`
+
+```php
+$handle = @fopen($path, 'rb');
+if ($handle === false) {
+    $this->fail(403, 'Erişim reddedildi');
+}
+
+if ($start > 0) {
+    fseek($handle, $start);
+}
+```
+
+| PHP | POSIX | Windows Win32 |
+|---|---|---|
+| `fopen($p,'rb')` | `open(O_RDONLY)` | `CreateFileW(GENERIC_READ)` |
+| `fseek($h,$start)` | `lseek(fd, start, SEEK_SET)` | `SetFilePointerEx` |
+| `fread($h,$n)` | `read(fd,buf,n)` | `ReadFile` |
+| `fclose($h)` | `close(fd)` | `CloseHandle` |
+| `feof($h)` | `read()==0` | `r==0` |
+
+Bu blok §12.6'daki `Range`/`416` ve §13.4'teki `ETag` ile birlikte çalışır —
+parça parça sunum **belleği O(chunk)** tutar (bkz. bellek §18.3).
+
+### §13.6 F6 — Yol çözümü + symlink redi: `is_link`/`realpath` ↔ `lstat`/`readlink`
+
+**Repo kanıtı:** `home.coremusic.net/include/Stream/MusicStreamHandler.php:185-202`
+
+```php
+if (is_link($trimmed)) {
+    $this->fail(403, 'Erişim reddedildi');
+}
+
+$real = realpath($trimmed);
+if ($real === false || !is_file($real)) {
+    $this->fail(404, 'Dosya bulunamadı');
+}
+
+$root = realpath($this->libraryPath);
+if ($root === false) {
+    $this->fail(404, 'Kütüphane bulunamadı');
+}
+
+$prefix = rtrim($root, '\\/') . DIRECTORY_SEPARATOR;
+if (!str_starts_with($real, $prefix)) {
+    $this->fail(403, 'Erişim reddedildi');
+}
+```
+
+| PHP | POSIX | Windows Win32 |
+|---|---|---|
+| `is_link` | `lstat` + `S_ISLNK` | `FILE_ATTRIBUTE_REPARSE_POINT` |
+| `realpath` | `realpath(3)` | `GetFinalPathNameByHandleW` |
+| `str_starts_with($real,$root)` | `openat` + `/proc/self/fd` kilidi | `NtCreateFile` `ObjectNameInformation` |
+
+**⚠️ TOCTOU:** `is_link` → `realpath` → `fopen` arasında dosya değiştirilebilir;
+savunma PHP'de tam **kapatılmaz** (bkz. §12 anti-pattern + §A.4 İ-4). Doğru
+yaklaşım `openat`+`O_NOFOLLOW` benzeridir — PHP'de yok → `⚠️ VERIFICATION REQUIRED`.
+
+### §13.7 F7 — Stat cache + dayanıklılık — repo yüzeyi
+
+> PHP'nin dosya-sistemi fonksiyon indeksi (`file_put_contents` sayfasının yan menüsü) şunları
+> **listeler**: `fsync` · `fdatasync` · `umask` · `chmod` · `is_writable` · `flock` ·
+> `clearstatcache` — yani **PHP'nin hepsi vardır**; depoda çağrılmıyorlar (aşağıdaki grep 0).
+> Kaynak: `https://www.php.net/manual/en/function.file-put-contents.php` (reuse · HTTP 200).
+> Sürüm numarası (hangi PHP sürümünde eklendiği) **okunmadı** → `⚠️ VERIFICATION REQUIRED`.
+
+| Konu | Repo durumu | Not |
+|---|---|---|
+| `clearstatcache()` | `shared/tests/Unit/Log/LoggerRedactionTest.php:178` | **var** (yalnız testte) |
+| `fsync()` / `fdatasync()` | grep → **0 isabet** | PHP'de var, üretimde kullanılmıyor |
+| `LOCK_SH` (paylaşımlı kilit) | grep → **0 isabet** | yalnız `LOCK_EX` var |
+| `rename` (atomik değiştirme) | §12.4'te §12.5'e devredildi (bkz. §12) | bu bölümde tekrar yok |
+
+### §13.8 Ölçüm
+
+| Ölçüm | Değer |
+|---|---|
+| Eklenen PHP kod bloğu | 6 (§13.1 ×3 alıntı, §13.2 ×2, §13.3, §13.4, §13.5, §13.6) |
+| Repo satır çifti | 10 (FileHandler:248-252 · PageRouterKernel:133-134 · CatalogWriter:107,113 · TemplateEngine:74-76 · constants:74-80 · MusicStreamHandler:71-81,185-206,333-351 · LoggerRedactionTest:178) |
+| Yeni URL | **0** (§13 yeni URL eklemez → envanter kesişimi 0) |
+| Reuse URL yeniden HTTP 200 | **2** — `https://www.php.net/manual/en/function.file-put-contents.php` · `https://www.php.net/manual/en/function.flock.php` (ikisi de envanterde vardı) |
+| Olumsuz grep | `fsync` · `fdatasync` · `LOCK_SH` → 0 isabet |
+| ⚠️ işaretli iddia | 3 (§13.1 NFS/flock ortamı · §13.6 TOCTOU kapatılamaması · §13.7 fonksiyon sürümü) |
+
+## §14 — Çok dilli dosya sistemi örnekleri: JS · C · Python · Go · Rust · C#
+
+> **Kanıt hiyerarşisi:** §13 PHP blokları depo satırına dayanıyordu. Burada **JS (98 dosya) ve
+> Python (1 dosya) depoda gerçek satır taşır**; C/Go/Rust/C# **0 dosya** → `⚠️ KALIP (repo YOK)` +
+> resmi doküman URL'i (2026-10-14 · hepsi HTTP 200 → dogrulama §J.9).
+
+### §14.0 Ölçüm — kanıt durumu (2026-10-14)
+
+| Dil | Repo dosyası | Dosya yüzeyi grep (repo) | Kanıt tipi |
+|---|---|---|---|
+| JavaScript | **98** | `node:fs` **1** (yalnız test dosyası) · `readFileSync` **2** · `writeFileSync` **0** · `mkdirSync` **0** · `localStorage` **18** | repo satırı + olumsuz kanıt |
+| Python | **1** | `read_text` **2** · `write_text` **1** · `.glob(` **1** · `chmod` **0** | repo satırı |
+| C / Go / Rust / C# | **0 / 0 / 0 / 0** | — | kalıp + doküman |
+
+### §14.1 JavaScript — dosya okuma yalnız testte; üretim tarayıcıda (`localStorage`)
+
+```js
+// assets.coremusic.net/js/core/breakpoints.spec.js:2-3 (ReadAllLines birebir)
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+```
+
+**Repo gerçeği:** `writeFileSync` **0** · `mkdirSync` **0** · `child_process` **0** → üretim JS'i
+dosya sistemine **yazmıyor**; kalıcı veri `localStorage` (**18** isabet) ile tarayıcı depolanıyor —
+bu depo **OS dosya sistemi değildir** (kota, senkron API, aynı-origin kısıtı). `⚠️ VERIFICATION
+REQUIRED`: `localStorage` kota/senkron davranışı dokümandan okunmadı.
+
+```js
+// ⚠️ KALIP (repo YOK) — Node tarafı yazma
+// Kaynak: https://nodejs.org/api/fs.html (YENİ · 200)
+import { writeFileSync, mkdirSync } from 'node:fs';
+mkdirSync(dir, { recursive: true });                    // §13.3 @mkdir eşlemesi
+writeFileSync(file, data, { encoding: 'utf8', flag: 'w' });
+```
+
+### §14.2 Python — depo satırları gerçek (okuma/yazma/glob) + kilit kalıbı
+
+```python
+# DEPO SATIRLARI — .ai/scripts/fix-mojibake.py (ReadAllLines birebir)
+# :133
+original = filepath.read_text(encoding='utf-8')
+# :155
+filepath.write_text(fixed, encoding='utf-8')
+# :176
+for filepath in base_dir.glob(pattern):
+# :213
+base_dir = Path(__file__).parent.parent.parent  # .ai/scripts/ -> proje kökü
+```
+
+```python
+# ⚠️ KALIP (repo YOK) — atomik oluşturma + kilit
+# Kaynaklar: https://docs.python.org/3/library/os.html (reuse · 200)
+#            https://docs.python.org/3/library/fcntl.html (YENİ · 200)
+import os, fcntl
+
+fd = os.open(p, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)  # varsa başarısız → §13.6 TOCTOU sınıfı
+try:
+    fcntl.flock(fd, fcntl.LOCK_EX)                             # §13.1 flock eşlemesi
+    os.write(fd, b"data")
+finally:
+    os.close(fd)
+```
+
+**Eşleme:** `O_EXCL` ↔ PHP'de `file_put_contents(..., LOCK_EX)`'in **olmadığı** yarım (PHP'de
+`O_EXCL` karşılığı `fopen(..., 'x')`dir → ölçüm: depoda `fopen(` **2 isabet** (`'rb'` · `'wb'`),
+`'x'` modu **0 isabet** → yaratma-yarışı kapatma PHP'de **kullanılmıyor**). `fcntl.flock` ↔ §13.1'deki
+PHP `flock` tabanlı `LOCK_EX`.
+
+### §14.3 C — `open(O_CREAT|O_EXCL)` + `fcntl` kilidi (kalıp)
+
+```c
+/* ⚠️ KALIP (repo YOK) — Kaynaklar:
+   https://pubs.opengroup.org/onlinepubs/9799919799/functions/open.html  (reuse · 200)
+   https://pubs.opengroup.org/onlinepubs/9799919799/functions/fcntl.html (YENİ · 200) */
+#include <fcntl.h>
+#include <unistd.h>
+
+int fd = open(p, O_CREAT | O_EXCL | O_WRONLY, 0640);
+if (fd >= 0) {
+    struct flock flk = { .l_type   = F_WRLCK,   /* yazma kilidi */
+                         .l_whence = SEEK_SET, .l_start = 0, .l_len = 0 };
+    fcntl(fd, F_SETLKW, &flk);                  /* W: gerekirse bloklanır — §13.1 eşlemesi */
+    (void)!write(fd, "data", 4);
+    close(fd);
+}
+```
+
+**Eşleme:** `O_EXCL` tek-giriş-üretir (yaratma yarışı kapatır) + `struct flock` POSIX kilit ailesi
+(PHP `LOCK_EX`'in POSIX karşılığı §13.1'de tartışıldı).
+
+### §14.4 Go — `os.OpenFile` (kalıp)
+
+```go
+// ⚠️ KALIP (repo YOK) — Kaynak: https://pkg.go.dev/os (YENİ · 200)
+package main
+
+import (
+    "os"
+)
+
+func writeNew(name string, data []byte) error {
+    f, err := os.OpenFile(name, os.O_CREATE|os.O_EXCL|os.O_WRONLY, 0o640)
+    if err != nil { return err }
+    defer f.Close()
+    _, err = f.Write(data)
+    return err
+}
+```
+
+**Eşleme:** Go'da bayraklar `os.O_*` adlarıyla taşınır; kilit API'si `os` paketinde **yoktur**
+(kilit `syscall`/`golang.org/x/sys` katmanındadır → `⚠️ VERIFICATION REQUIRED`: bu katman URL'i
+bu turda **doğrulanmadı**).
+
+### §14.5 Rust — `std::fs::File` (kalıp)
+
+```rust
+// ⚠️ KALIP (repo YOK) — Kaynak:
+// https://doc.rust-lang.org/std/fs/struct.File.html (YENİ · 200)
+use std::fs::{File, OpenOptions};
+use std::io::Write;
+
+let mut f = OpenOptions::new()
+    .write(true).create_new(true)          // O_EXCL karşılığı
+    .open("state.json")?;
+f.write_all(b"{}")?;                        // ? ile hata yayılımı
+```
+
+**Eşleme:** `create_new(true)` ↔ `O_EXCL`. Dosya **kilidi** için std'de API görünür mü →
+`⚠️ VERIFICATION REQUIRED` (§J.9'da kilit API'si URL'i **eklenmedi**).
+
+### §14.6 C# — `FileStream` + paylaşım kipi (kalıp)
+
+```csharp
+// ⚠️ KALIP (repo YOK) — Kaynak:
+// https://learn.microsoft.com/en-us/dotnet/api/system.io.filestream (YENİ · 200)
+using var fs = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None);
+using var sw = new StreamWriter(fs);
+sw.Write("{}");
+```
+
+**Eşleme:** `FileMode.CreateNew` ↔ `O_EXCL` · `FileShare.None` ↔ Windows `LockFileEx` ailesinin
+kullanıcı yüzü (§12 Windows kolu ile aynı kavram). `⚠️ VERIFICATION REQUIRED`: `FileShare.None`'ın
+tam kilit semantiği (paylaşım ihlalinde hangi istisna) dokümandan **okunmadı**.
+
+### §14.7 Ölçüm (§14)
+
+| Öğe | Değer |
+|---|---|
+| Dil | 6 (JS · C · Python · Go · Rust · C#) |
+| Repo satır kanıtlı blok | **2** (§14.1 `breakpoints.spec.js:2-3` · §14.2 `fix-mojibake.py:133,155,176,213`) |
+| `⚠️ KALIP (repo YOK)` blok | **6** (JS Node yazma · PY kilit · C · Go · Rust · C#) |
+| Bu bölümün URL'i | **8** → **2 reuse** (`docs.python os.html` · `pubs open.html`) **+ 6 yeni** (`nodejs/fs` · `python/fcntl` · `pubs/fcntl` · `pkg.go.dev/os` · `std/fs/struct.File` · `MS FileStream`) — hepsi HTTP 200 (dogrulama §J.9) |
+| Repo grep (olumsuz kanıt) | `writeFileSync` · `mkdirSync` · `child_process` · `chmod` → **0 isabet** · `localStorage` **18** (tarayıcı) · PHP `fopen` `'x'` modu **0** (`fopen(` toplam 2 = `rb`/`wb`) |
+| ⚠️ işaretli iddia | 5 (§14.1 localStorage · §14.4 kilit katmanı · §14.5 std kilit API · §14.6 FileShare · §14.3 `struct flock` kalıp doğruluğu) |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

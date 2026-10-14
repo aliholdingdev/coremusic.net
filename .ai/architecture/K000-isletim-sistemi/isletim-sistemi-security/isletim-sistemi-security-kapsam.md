@@ -97,38 +97,43 @@ Bu subdomain, CoreMusic'in **iki guvenlik katmani arasindaki siniri** tanimlar: 
 | Dosya | Tur | Icerik ozeti | group | Acik soru |
 |---|---|---|---|---|
 | `index.md` | subdomain indeksi (Kademe-3) | Kunye, 3 cocuk, komsumatrisi, S1 isareti | mimari | S1 |
-| `cekirdek-guvenlik-anayasa.md` | module | §0 ELI15 · §1 koruma halkalari · §2 guvenli onyukleme · §3 SMEP/SMAP/KASLR/PAN · §4 sanallastirma · §5 kernel exploit yuzeyi · §6 olcum · §7 repo disk kanitlari · §8 riskler · §9 kapsam disi · §10 kaynakca | mimari | S1 |
-| `cekirdek-guvenlik-surucu.md` | module | §0 · §1 surucu imzalama · §2 ioctl/donanim yuzeyi · §3 kullanici-uzay <- cekirdek gecis noktalari · §4 surucu olcumu · §5 repo kaniti · §6 kapsam disi · §7 referans | mimari | S1 |
-| `cekirdek-guvenlik-ornekler.md` | module | §0 · §1 surucu/on-kosul ornekleri · §2 mitigasyon konfigurasyon ornekleri · §3 repo disk ornekleri · §4 olcum ciktisi · §5 kapsam disi · §6 referans | kod | S1 |
+| `cekirdek-guvenlik-anayasa.md` | module | §0 ELI15 · §1 koruma halkalari · §2 guvenli onyukleme · §3 SMEP/SMAP/KASLR/PAN · §4 sanallastirma · §5 kernel exploit yuzeyi · §6 olcum · §7 repo disk kanitlari · §8 riskler · §9 kapsam disi · §10 kaynakca · §22 OS gruplari (8 platform) | mimari | S1 |
+| `cekirdek-guvenlik-surucu.md` | module | §0 · §1 surucu imzalama · §2 ioctl/donanim yuzeyi · §3 kullanici-uzay <- cekirdek gecis noktalari · §4 surucu olcumu · §5 repo kaniti · §6 kapsam disi · §7 referans · §26 OS gruplari (8 platform) | mimari | S1 |
+| `cekirdek-guvenlik-ornekler.md` | module | §0 · §1 surucu/on-kosul ornekleri · §2 mitigasyon konfigurasyon ornekleri · §3 repo disk ornekleri · §4 olcum ciktisi · §5 kapsam disi · §6 referans · §6 OS gruplari (8 platform) | kod | S1 |
+| `cekirdek-guvenlik-{windows,linux,macos,ios,android,tizen,webos,reactos}.md` ×8 | module (OS karti) | §0 ELI15 · §1 OS guvenlik profili · §2 kod ornegi (`kaynak: upstream docs` imzali) · §3 CoreMusic repo durumu (hedef referans) · §4 sinir cumleleri (K010/K009/komsu dal) · §5 referans · §6 acik sorular | kod | S1 |
 
 ### §2.2 `yetki-ve-erisim-modeli/`
 
 | Dosya | Tur | Icerik ozeti | group | Acik soru |
 |---|---|---|---|---|
 | `index.md` | subdomain indeksi (Kademe-3) | Kunye, 3 cocuk, komsumatrisi, S2 isareti | mimari | S2 |
-| `yetki-ve-erisim-modeli-anayasa.md` | module | §0 ELI15 · §1 DAC/MAC/RBAC/BEL karsilastirmasi · §2 POSIX izinleri & ACL · §3 capability model · §4 MAC politikalari (SELinux/AppArmor) · §5 dosya sistemi uzerindeki etiket · §6 olcum · §7 referans | mimari | S2 |
-| `yetki-ve-erisim-modeli-surucu.md` | module | §0 · §1 denetim akisini suren zincir (syscall -> VFS -> DAC -> ACL -> MAC) · §2 surec/TTY/sinyal yetkisi · §3 umask & dizin izni uretimi · §4 audit kaydi · §5 olcum · §6 kapsam disi · §7 referans | mimari | S2 |
-| `yetki-ve-erisim-modeli-ornekler.md` | module | §0 · §1 repo RBAC/DAC ornekleri (Dosya: + Select-Object -Index) · §2 komut/tablo ornekleri · §3 yanlis-kullanim karsilastirmasi · §4 olcum · §5 kapsam disi · §6 referans | kod | S2 |
+| `yetki-ve-erisim-modeli-anayasa.md` | module | §0 ELI15 · §1 DAC/MAC/RBAC/BEL karsilastirmasi · §2 POSIX izinleri & ACL · §3 capability model · §4 MAC politikalari (SELinux/AppArmor) · §5 dosya sistemi uzerindeki etiket · §6 olcum · §7 referans · §24 OS gruplari (8 platform) | mimari | S2 |
+| `yetki-ve-erisim-modeli-surucu.md` | module | §0 · §1 denetim akisini suren zincir (syscall -> VFS -> DAC -> ACL -> MAC) · §2 surec/TTY/sinyal yetkisi · §3 umask & dizin izni uretimi · §4 audit kaydi · §5 olcum · §6 kapsam disi · §7 referans · §20 OS gruplari (8 platform) | mimari | S2 |
+| `yetki-ve-erisim-modeli-ornekler.md` | module | §0 · §1 repo RBAC/DAC ornekleri (Dosya: + Select-Object -Index) · §2 komut/tablo ornekleri · §3 yanlis-kullanim karsilastirmasi · §4 olcum · §5 kapsam disi · §6 referans · §13 OS gruplari (8 platform) | kod | S2 |
+| `yetki-ve-erisim-modeli-{windows,linux,macos,ios,android,tizen,webos,reactos}.md` ×8 | module (OS karti) | §0 ELI15 · §1 OS erisim kontrol profili · §2 kod ornegi (`kaynak: upstream docs` imzali) · §3 repo durumu (hedef referans) · §4 sinir cumleleri · §5 referans · §6 acik sorular | kod | S2 |
 
 ### §2.3 `uygulama-guvenlik-siniri/`
 
 | Dosya | Tur | Icerik ozeti | group | Acik soru |
 |---|---|---|---|---|
 | `index.md` | subdomain indeksi (Kademe-3) | Kunye, 3 cocuk, komsumatrisi, S1+S2 isareti | mimari | S1+S2 |
-| `uygulama-guvenlik-siniri-anayasa.md` | module | §0 ELI15 · §1 uygulama<->OS siniri (syscall yuzeyi) · §2 sandbox turleri · §3 container/namespace/cgroup guvenligi · §4 kullanici alani <-> cekirdek denetimi · §5 olcum · §6 repo kaniti · §7 referans | mimari | S1+S2 |
-| `uygulama-guvenlik-siniri-surucu.md` | module | §0 · §1 sandbox politikasinin surulmesi (bubblewrap/Job Object/sandbox-exec/seccomp) · §2 kisit -> uygulama -> dogrulama zinciri · §3 konteyner kisitlarinin devreye alinmasi · §4 basarisizlik modlari · §5 olcum · §6 referans | mimari | S1+S2 |
-| `uygulama-guvenlik-siniri-ornekler.md` | module | §0 · §1 CoreMusic gercek auth/CSRF kodu (Dosya: + Select-Object -Index) · §2 sandbox konfigurasyon ornekleri · §3 yetkisiz erisim test ciktisi · §4 olcum · §5 kapsam disi · §6 referans | kod | S1+S2 |
+| `uygulama-guvenlik-siniri-anayasa.md` | module | §0 ELI15 · §1 uygulama<->OS siniri (syscall yuzeyi) · §2 sandbox turleri · §3 container/namespace/cgroup guvenligi · §4 kullanici alani <-> cekirdek denetimi · §5 olcum · §6 repo kaniti · §7 referans · §16 OS gruplari (8 platform) | mimari | S1+S2 |
+| `uygulama-guvenlik-siniri-surucu.md` | module | §0 · §1 sandbox politikasinin surulmesi (bubblewrap/Job Object/sandbox-exec/seccomp) · §2 kisit -> uygulama -> dogrulama zinciri · §3 konteyner kisitlarinin devreye alinmasi · §4 basarisizlik modlari · §5 olcum · §6 referans · §15 OS gruplari (8 platform) | mimari | S1+S2 |
+| `uygulama-guvenlik-siniri-ornekler.md` | module | §0 · §1 CoreMusic gercek auth/CSRF kodu (Dosya: + Select-Object -Index) · §2 sandbox konfigurasyon ornekleri · §3 yetkisiz erisim test ciktisi · §4 olcum · §5 kapsam disi · §6 referans · §7 OS gruplari (8 platform) | kod | S1+S2 |
+| `uygulama-guvenlik-siniri-{windows,linux,macos,ios,android,tizen,webos,reactos}.md` ×8 | module (OS karti) | §0 ELI15 · §1 OS sandbox/sinir profili · §2 kod ornegi (`kaynak: upstream docs` imzali) · §3 repo durumu (hedef referans) · §4 sinir cumleleri · §5 referans · §6 acik sorular | kod | S1+S2 |
 
-### §2.4 Envanter sayimlari (2026-10-13)
+### §2.4 Envanter sayimlari (2026-10-14 guncel)
 
 | Metrik | Deger |
 |---|---|
 | Alt-dal sayisi | 3 |
-| Alt-dal basina icerik dosyasi | 3 |
-| Toplam alt-dal dosyasi (index + icerik) | 12 |
+| Alt-dal basina icerik dosyasi (temel) | 3 |
+| Alt-dal basina OS karti | 8 (windows · linux · macos · ios · android · tizen · webos · reactos) |
+| Toplam alt-dal dosyasi (index + icerik + kart) | 36 (3 x 12) |
 | Kok dosya (revize) | 4 |
-| Toplam dosya | 16 |
+| Toplam dosya | 40 |
 | Icerik dosyasi minimum satir hedefi | >=500 |
+| OS karti satir araligi | 150–260 |
 | Alt-dal `index.md` satir araligi | 40–100 |
 | Kok `index.md` satir araligi | 40–100 |
 | `group` deger kumesi | `mimari` · `kod` · `kanit` |
@@ -350,26 +355,40 @@ Komsubu dallar (dokunulmaz):  K009-security (uygulama guvenligi)
 | `parent:` alani var mi? | HAYIR — yalniz `parent_id` |
 | Beyazliste disina yazilan dosya | 0 |
 
-## §8 — 16 dosyalik sorumluluk matrisi (Kademe-2 + Kademe-3 + Kademe-4)
+## §8 — 40 dosyalik sorumluluk matrisi (Kademe-2 + Kademe-3 + Kademe-4)
 
 | # | Dosya | Kademe | group | Ana soru | S1/S2 bagi |
 |---|---|---|---|---|---|
-| F1 | `isletim-sistemi-security/index.md` | Kademe-2 | mimari | Klasor kunyesi, 3 cocuk, gruplar | S1 + S2 isareti |
+| F1 | `isletim-sistemi-security/index.md` | Kademe-2 | mimari | Klasor kunyesi, 3 cocuk, gruplar, OS karti deseni | S1 + S2 isareti |
 | F2 | `isletim-sistemi-security-kapsam.md` | Kademe-2 | mimari | Kapsam siniri, ayrims matrisi (bu dosya) | S1 + S2 |
 | F3 | `isletim-sistemi-security-dogrulama.md` | Kademe-2 | kanit | Iddia -> URL -> HTTP 200 + disk satir kaniti | S1 + S2 dogrulamasi |
-| F4 | `isletim-sistemi-security-ornekler.md` | Kademe-2 | kod | Gercek repo kod ornekleri (4+ kanit) | S2 kaniti |
-| F5 | `cekirdek-guvenlik/index.md` | Kademe-3 | mimari | Alt-dal kunyesi, 3 cocuk | S1 |
-| F6 | `cekirdek-guvenlik-anayasa.md` | Kademe-4 | mimari | Koruma halkalari, on-kosul, mitigasyon | S1 |
-| F7 | `cekirdek-guvenlik-surucu.md` | Kademe-4 | mimari | Surucu imzalama, ioctl/donanim yuzeyi | S1 |
-| F8 | `cekirdek-guvenlik-ornekler.md` | Kademe-4 | kod | Surucu/mitigasyon ornekleri + repo kaniti | S1 kaniti |
-| F9 | `yetki-ve-erisim-modeli/index.md` | Kademe-3 | mimari | Alt-dal kunyesi, 3 cocuk | S2 |
-| F10 | `yetki-ve-erisim-modeli-anayasa.md` | Kademe-4 | mimari | DAC/MAC/RBAC/BEL karsilastirmasi, ACL, capability | S2 |
-| F11 | `yetki-ve-erisim-modeli-surucu.md` | Kademe-4 | mimari | Denetim akisini suren zincir, audit | S2 |
-| F12 | `yetki-ve-erisim-modeli-ornekler.md` | Kademe-4 | kod | RBAC/DAC repo ornekleri | S2 kaniti |
-| F13 | `uygulama-guvenlik-siniri/index.md` | Kademe-3 | mimari | Alt-dal kunyesi, 3 cocuk | S1 + S2 |
-| F14 | `uygulama-guvenlik-siniri-anayasa.md` | Kademe-4 | mimari | syscall siniri, sandbox turleri, konteyner | S1 + S2 |
-| F15 | `uygulama-guvenlik-siniri-surucu.md` | Kademe-4 | mimari | Sandbox politikasinin surulmesi, esikler | S1 + S2 |
-| F16 | `uygulama-guvenlik-siniri-ornekler.md` | Kademe-4 | kod | CoreMusic auth/CSRF gercek kodu | S1 + S2 kaniti |
+| F4 | `isletim-sistemi-security-ornekler.md` | Kademe-2 | kod | Gercek repo kod ornekleri (4+ kanit) · §13 OS gruplari (8 platform matrisi) | S2 kaniti |
+| F5 | `cekirdek-guvenlik/index.md` | Kademe-3 | mimari | Alt-dal kunyesi, 3 cocuk + 8 OS karti | S1 |
+| F6 | `cekirdek-guvenlik-anayasa.md` | Kademe-4 | mimari | Koruma halkalari, on-kosul, mitigasyon · §22 OS gruplari | S1 |
+| F7 | `cekirdek-guvenlik-surucu.md` | Kademe-4 | mimari | Surucu imzalama, ioctl/donanim yuzeyi · §26 OS gruplari | S1 |
+| F8 | `cekirdek-guvenlik-ornekler.md` | Kademe-4 | kod | Surucu/mitigasyon ornekleri + repo kaniti · §6 OS gruplari | S1 kaniti |
+| F9 | `yetki-ve-erisim-modeli/index.md` | Kademe-3 | mimari | Alt-dal kunyesi, 3 cocuk + 8 OS karti | S2 |
+| F10 | `yetki-ve-erisim-modeli-anayasa.md` | Kademe-4 | mimari | DAC/MAC/RBAC/BEL karsilastirmasi, ACL, capability · §24 OS gruplari | S2 |
+| F11 | `yetki-ve-erisim-modeli-surucu.md` | Kademe-4 | mimari | Denetim akisini suren zincir, audit · §20 OS gruplari | S2 |
+| F12 | `yetki-ve-erisim-modeli-ornekler.md` | Kademe-4 | kod | RBAC/DAC repo ornekleri · §13 OS gruplari | S2 kaniti |
+| F13 | `uygulama-guvenlik-siniri/index.md` | Kademe-3 | mimari | Alt-dal kunyesi, 3 cocuk + 8 OS karti | S1 + S2 |
+| F14 | `uygulama-guvenlik-siniri-anayasa.md` | Kademe-4 | mimari | syscall siniri, sandbox turleri, konteyner · §16 OS gruplari | S1 + S2 |
+| F15 | `uygulama-guvenlik-siniri-surucu.md` | Kademe-4 | mimari | Sandbox politikasinin surulmesi, esikler · §15 OS gruplari | S1 + S2 |
+| F16 | `uygulama-guvenlik-siniri-ornekler.md` | Kademe-4 | kod | CoreMusic auth/CSRF gercek kodu · §7 OS gruplari | S1 + S2 kaniti |
+| F17-F24 | `cekirdek-guvenlik-{windows,linux,macos,ios,android,tizen,webos,reactos}.md` ×8 | Kademe-4 | kod | OS bazli koruma halkasi/profili + upstream-docs imzali ornek | S1 (hedef referans) |
+| F25-F32 | `yetki-ve-erisim-modeli-{windows,linux,macos,ios,android,tizen,webos,reactos}.md` ×8 | Kademe-4 | kod | OS bazli erisim kontrol modeli + ornek | S2 (hedef referans) |
+| F33-F40 | `uygulama-guvenlik-siniri-{windows,linux,macos,ios,android,tizen,webos,reactos}.md` ×8 | Kademe-4 | kod | OS bazli sandbox/sinir + ornek | S1 + S2 (hedef referans) |
+
+### §8.0 OS kartlari uzerine baglayici kurallar (2026-10-14)
+
+| # | Kural |
+|---|---|
+| OC1 | Tum 24 OS karti `group: kod` · Kademe-4 · satir 150–260 · son satir Authority |
+| OC2 | Her kartin §2'sindeki her kod ornegi `# kaynak: upstream docs` imzalidir; "repo'da uygulaniyor" yazmak YASAKTIR |
+| OC3 | Her kartin §3'u repo durumunu (hedef referans — OS araci taramasi 0 isabet) tasir |
+| OC4 | Her kartin §4'u K010/K009/komsu dal sinir cumlelerini birebir tasir |
+| OC5 | S1/S2 hicbir kartta kapatilmaz; kartlar `[UNKNOWN]` durumu devralir |
+| OC6 | Kartlar mevcut 16 dosyanin **yerine degil, yanina** konur; 16 dosyanin §OS gruplari bolumleri kart matrisine isaret eder |
 
 ### §8.1 Dosya turleri ve satir esikleri
 
@@ -381,6 +400,9 @@ Komsubu dallar (dokunulmaz):  K009-security (uygulama guvenligi)
 | `-surucu` | `yetki-ve-erisim-modeli-surucu.md` | 500 satir | — | `mimari` |
 | `-ornekler` | `uygulama-guvenlik-siniri-ornekler.md` | 500 satir | — | `kod` |
 | `-dogrulama` | `isletim-sistemi-security-dogrulama.md` | 500 satir | — | `kanit` |
+| `-<os>` (OS karti) | `cekirdek-guvenlik-windows.md` | 150 satir | 260 satir | `kod` |
+| `kod-ornekleri-<dil>` (dil dosyasi) | `kod-ornekleri/kod-ornekleri-js.md` | 150 satir | 260 satir | `kod` |
+| `kod-ornekleri-<os>` (OS dosyasi) | `kod-ornekleri/kod-ornekleri-windows.md` | 150 satir | 260 satir | `kod` |
 
 > 499 satir **basarisizdir**; icerik dosyalarinda esik 500 tam satirdir.
 

@@ -38,23 +38,41 @@ group: mimari
 | [`isletim-sistemi-security-ornekler.md`](isletim-sistemi-security-ornekler.md) | 18 gercek repo kod ornegi (her biri `Select-Object -Index` ile) | kod |
 | `index.md` | Bu dosya — klasor kunyesi, 3 cocuk, komsu sinirlari | mimari |
 
-## Alt-dal indeksi (Kademe-3 — 3 alt-dal x 4 dosya)
+## Alt-dal indeksi (Kademe-3 — 3 alt-dal x 12 dosya)
 
 | Alt-dal | Cocuk dosyalar (Kademe-4) | Ana soru | group |
 |---|---|---|---|
-| [`cekirdek-guvenlik/`](cekirdek-guvenlik/index.md) | `-anayasa` · `-surucu` · `-ornekler` | Koruma halkalari, guvenli onyukleme, mitigasyon, surucu siniri | mimari |
-| [`yetki-ve-erisim-modeli/`](yetki-ve-erisim-modeli/index.md) | `-anayasa` · `-surucu` · `-ornekler` | DAC/MAC/RBAC/BEL, ACL, capability, denetim akisi | mimari |
-| [`uygulama-guvenlik-siniri/`](uygulama-guvenlik-siniri/index.md) | `-anayasa` · `-surucu` · `-ornekler` | Syscall yuzeyi, sandbox turleri, konteyner kisitlari | mimari |
+| [`cekirdek-guvenlik/`](cekirdek-guvenlik/index.md) | `-anayasa` · `-surucu` · `-ornekler` + 8 OS kartı (`-windows` · `-linux` · `-macos` · `-ios` · `-android` · `-tizen` · `-webos` · `-reactos`) | Koruma halkalari, guvenli onyukleme, mitigasyon, surucu siniri | mimari |
+| [`yetki-ve-erisim-modeli/`](yetki-ve-erisim-modeli/index.md) | `-anayasa` · `-surucu` · `-ornekler` + 8 OS kartı (aynı `-os` deseni) | DAC/MAC/RBAC/BEL, ACL, capability, denetim akisi | mimari |
+| [`uygulama-guvenlik-siniri/`](uygulama-guvenlik-siniri/index.md) | `-anayasa` · `-surucu` · `-ornekler` + 8 OS kartı (aynı `-os` deseni) | Syscall yuzeyi, sandbox turleri, konteyner kisitlari | mimari |
 
 ## §GRUPLAR
 
 | Alt-dal | Kademe | Dosya sayisi | group dagilimi |
 |---|---|---|---|
-| `cekirdek-guvenlik` | Kademe-3 | 4 (1 index + 3 icerik) | mimari x3 · kod x1 |
-| `yetki-ve-erisim-modeli` | Kademe-3 | 4 (1 index + 3 icerik) | mimari x3 · kod x1 |
-| `uygulama-guvenlik-siniri` | Kademe-3 | 4 (1 index + 3 icerik) | mimari x3 · kod x1 |
+| `cekirdek-guvenlik` | Kademe-3 | 12 (1 index + 3 icerik + 8 OS kartı) | mimari x3 · kod x9 |
+| `yetki-ve-erisim-modeli` | Kademe-3 | 12 (1 index + 3 icerik + 8 OS kartı) | mimari x3 · kod x9 |
+| `uygulama-guvenlik-siniri` | Kademe-3 | 12 (1 index + 3 icerik + 8 OS kartı) | mimari x3 · kod x9 |
 
-**Toplam:** 4 kok + 12 alt-dal = **16 dosya** · icerik esigi >=500 satir · `index.md` 40–100 satir.
+**Toplam:** 4 kok + 36 alt-dal = **40 dosya** (16 temel + 24 OS kartı, 2026-10-14) · icerik esigi >=500 satir · kart 150–260 satir · `index.md` 40–100 satir.
+
+## OS kartlari (8 platform x 3 alt-dal = 24 kart · 2026-10-14)
+
+| OS | Kart deseni (`<alt-dal>/<alt-dal>-<os>.md`) | group |
+|---|---|---|
+| Windows | `cekirdek-guvenlik-windows` · `yetki-ve-erisim-modeli-windows` · `uygulama-guvenlik-siniri-windows` | kod |
+| Linux | `cekirdek-guvenlik-linux` · `yetki-ve-erisim-modeli-linux` · `uygulama-guvenlik-siniri-linux` | kod |
+| macOS | `cekirdek-guvenlik-macos` · `yetki-ve-erisim-modeli-macos` · `uygulama-guvenlik-siniri-macos` | kod |
+| iOS | `cekirdek-guvenlik-ios` · `yetki-ve-erisim-modeli-ios` · `uygulama-guvenlik-siniri-ios` | kod |
+| Android | `cekirdek-guvenlik-android` · `yetki-ve-erisim-modeli-android` · `uygulama-guvenlik-siniri-android` | kod |
+| Tizen | `cekirdek-guvenlik-tizen` · `yetki-ve-erisim-modeli-tizen` · `uygulama-guvenlik-siniri-tizen` | kod |
+| webOS | `cekirdek-guvenlik-webos` · `yetki-ve-erisim-modeli-webos` · `uygulama-guvenlik-siniri-webos` | kod |
+| ReactOS | `cekirdek-guvenlik-reactos` · `yetki-ve-erisim-modeli-reactos` · `uygulama-guvenlik-siniri-reactos` | kod |
+
+> Her kart sabit sablonda: §0 ELI15 · §1 OS guvenlik profili · §2 kod ornegi
+> (`kaynak: upstream docs` imzali; "repo'da uygulaniyor" yazmak YASAK) · §3 repo
+> durumu (hedef referans) · §4 sinir cumleleri (K010/K009/komsu dal) · §5 referans ·
+> §6 acik sorular (S1/S2 kapatilmaz). Tum OS kartlari `group: kod` — Kademe-4.
 
 ## Komsu sinir matrisi (her alt-dal icin zorunlu)
 
