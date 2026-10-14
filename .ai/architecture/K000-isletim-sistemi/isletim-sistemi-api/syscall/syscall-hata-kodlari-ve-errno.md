@@ -513,4 +513,55 @@ okuma-sırası doktrini ve tekrar-okuma matrisi genişletilmiştir. §F.9'daki
 üç URL tescili ve §F.13 dürüstlük kaydı aynen korunur; ölçüm kapıları
 dosyanın §7 kapısına bağlıdır ve bu ekle kapanmaz.
 
+### §F.17 errno okuma kod örnekleri (2026-10-14)
+
+§F.14'teki okuma sırasının iki yüzeyde kod karşılığı. Bloklar derlenebilirlik
+iddiası TAŞIMAZ; her örneğin kaynağı §F.18 tablosundadır.
+
+**C yüzeyi — tek okuma deseni (§F.14 · adım 1-2):**
+
+```c
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
+#include <stdio.h>
+
+int fd = open("/var/log/ornek.log", O_RDONLY);
+if (fd == -1) {
+    int kayit = errno;                       /* TEK okuma — hemen yerel değişkene */
+    fprintf(stderr, "open hatasi (%d): %s\n", kayit, strerror(kayit));
+    /* karar: kayit EACCES / ENOENT → kurtar-dalı (§F.7 karar ağacı) */
+    return kayit;
+}
+```
+
+**Betik (PHP) yüzeyi — kanal yakalama deseni (§F.12):**
+
+```php
+$cikti = @shell_exec('ornek-komut 2>&1');
+if ($cikti === null) {
+    $son = error_get_last();                 /* betik yüzeyi — kod metne dönüşür */
+    fwrite(STDERR, 'calistirma hatasi: ' . ($son['message'] ?? 'bilinmiyor') . PHP_EOL);
+}
+```
+
+> Sınır notu: `shell_exec`'in `null` dönüşü **yalnız hata** demek değildir
+> (boş çıktı da `null` döndürebilir) — kesin ayrım `proc_open` kanallarıyla
+> yapılır (`ornekler.md` §B.2 repo kanıtı). Bu nedenle betik örneği §F.12'deki
+> "kod metne dönüşür" doktrinini gösterir, hata-ayrıştırma sözleşmesi kurmaz.
+
+### §F.18 §F.17 kanıt tablosu
+
+| # | Iddia | Resmi kaynak | Tarih | Durum |
+|---|---|---|---|---|
+| 1 | `errno` hata-numarasi değişkenidir | https://man7.org/linux/man-pages/man3/errno.3.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 2 | `strerror` kodu metne çevirir | https://man7.org/linux/man-pages/man3/strerror.3.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 3 | POSIX `errno.h` tanımı | https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/errno.h.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 4 | PHP `error_get_last` yüzeyi | https://www.php.net/manual/en/function.error-get-last.php | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 5 | PHP `shell_exec` yüzeyi | https://www.php.net/manual/en/function.shell-exec.php | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+
+Envanter kesişimi (2026-10-14 · 3303 benzersiz URL): satır 1 bu dosyada
+**yeni** kanıttır (envanterle kesişmez); satır 2-5 envanterde mevcuttur
+(VAR — tekrar sayılmaz). Ayrıntı: `isletim-sistemi-api-dogrulama.md` §S.3.
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

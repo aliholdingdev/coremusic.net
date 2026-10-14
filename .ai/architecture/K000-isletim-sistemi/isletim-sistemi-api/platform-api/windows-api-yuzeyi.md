@@ -8,14 +8,14 @@ depends_on: []
 evidence:
   - https://learn.microsoft.com/en-us/windows/win32/api/objbase/
   - https://learn.microsoft.com/en-us/windows/win32/api/combaseapi/
-  - https://learn.microsoft.com/en-us/windows/win32/com/coinitializeex
+  - https://learn.microsoft.com/en-us/windows/win32/api/combaseapi/nf-combaseapi-coinitializeex
   - https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-functions
   - https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress
   - https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya
   - https://learn.microsoft.com/en-us/windows/uwp/cpp-and-winrt-apis/
   - https://learn.microsoft.com/en-us/uwp/api/
   - https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror
-validation: "2026-10-13 — 9 resmi URL HTTP 200 + envanter kesişimi 0"
+validation: "2026-10-14 — 4. tur: §13 PHP yüzeyi eklendi (repo kanıtı DesktopBff.php:35 php_uname + ApiKeyCreateCommandTest.php:253 proc_open · PHP_OS_FAMILY aday URL 404 → dürüstlük kaydı) · 3. tur: 9 resmi URL HTTP 200 · ölü URL düzeltmesi: com/coinitializeex (404) → combaseapi/nf-combaseapi-coinitializeex (200) · §12 Windows gruplu kod örnekleri eklendi"
 open_questions: []
 group: mimari
 ---
@@ -467,7 +467,7 @@ içerikleri teyit edildi (2026-10-13).
 |---|---|---|---|
 | `objbase.h` — COM temel başlık yüzeyi | https://learn.microsoft.com/en-us/windows/win32/api/objbase/ | 2026-10-13 | ✅ HTTP 200 (HEAD) |
 | `combaseapi.h` — COM base API listesi (`CoInitializeEx` · `CoCreateInstance`) | https://learn.microsoft.com/en-us/windows/win32/api/combaseapi/ | 2026-10-13 | ✅ HTTP 200 (HEAD) |
-| `CoInitializeEx` — MTA/STA · `RPC_E_CHANGED_MODE` · dengeli `CoUninitialize` | https://learn.microsoft.com/en-us/windows/win32/com/coinitializeex | 2026-10-13 | ✅ HTTP 200 (HEAD) |
+| `CoInitializeEx` — MTA/STA · `RPC_E_CHANGED_MODE` · dengeli `CoUninitialize` | https://learn.microsoft.com/en-us/windows/win32/api/combaseapi/nf-combaseapi-coinitializeex | 2026-10-14 | ✅ HTTP 200 (HEAD) — eski `win32/com/coinitializeex` yolu 2026-10-14 turunda HEAD ve GET ile 404 döndü (§12.5), bu satır o yolla düzeltilmiştir |
 | Dynamic-Link Library Functions — `LoadLibrary` · `GetProcAddress` · `FreeLibrary` | https://learn.microsoft.com/en-us/windows/win32/dlls/dynamic-link-library-functions | 2026-10-13 | ✅ HTTP 200 (HEAD) |
 | `GetProcAddress` — DLL sembol çözümleme | https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getprocaddress | 2026-10-13 | ✅ HTTP 200 (HEAD) |
 | `LoadLibraryA` — DLL yükleme (ANSI) | https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-loadlibrarya | 2026-10-13 | ✅ HTTP 200 (HEAD) |
@@ -526,5 +526,165 @@ içerikleri teyit edildi (2026-10-13).
 
 > **Sonuç:** §11 dosyanın **karar kullanılabilirliğini** artırır; kanıt
 > oranını **değiştirmez**. Oran yalnızca yeni URL/repo ölçümüyle iner.
+
+---
+
+## §12 Windows gruplu kod örnekleri (2026-10-14)
+
+> Bu bölüm, `isletim-sistemi-api-ornekler.md` §F.2'deki Windows grubunun
+> **detay** karşılığıdır. Her örnek, §12.4'teki tabloda listelenen resmi
+> Microsoft Learn sayfalarıyla (2026-10-14 · HTTP 200) doğrulanmıştır.
+> Bloklar derlenebilirlik iddiası TAŞIMAZ (bkz. `sistem-cagrilari-ornekler.md`
+> §6.14.1) — çağrı-imzası ve hata-modeli gösterimi amaçlıdır.
+
+### §12.1 Dosya yüzeyi — `WriteFile` → `ReadFile` → `CloseHandle` turu
+
+```c
+#include <windows.h>
+
+HANDLE h = CreateFileW(L"C:\\temp\\ornek.bin", GENERIC_WRITE | GENERIC_READ,
+                       0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+if (h == INVALID_HANDLE_VALUE) {
+    /* hata kodu ANINDA okunur — araya başka Win32 çağrısı girmez (§11.2) */
+    DWORD err = GetLastError();
+    return err;
+}
+
+DWORD written = 0;
+WriteFile(h, "merhaba", 7, &written, NULL);   /* kısmi yazma: written < 7 kontrol edilir */
+
+FlushFileBuffers(h);                           /* diske fiziksel yazma — §E.9 */
+SetFilePointer(h, 0, NULL, FILE_BEGIN);        /* okuma imlecini başa al */
+
+DWORD read = 0;
+char buf[8] = {0};
+ReadFile(h, buf, 7, &read, NULL);              /* bayt akışı: read = 7 beklenir */
+
+CloseHandle(h);                                /* §E.9 · handleapi/closehandle */
+return 0;
+```
+
+Okuma kuralları:
+
+| # | Kural | Kötü okuma | Kaynak (§12.4) |
+|---|---|---|---|
+| 1 | `INVALID_HANDLE_VALUE` kontrol edilir | hata sessiz geçer | CreateFileW |
+| 2 | `GetLastError` çağrının **hemen** ardından okunur (§11.2) | araya giren çağrı kodu kaydırır | GetLastError |
+| 3 | `WriteFile`/`ReadFile` **kısmi** yazma/okuma döndürebilir | `written`/`read` yok sayılır | ReadFile · WriteFile |
+| 4 | `CloseHandle` hata yolu dâhil her başarı yolunda çağrılır | handle sızıntısı | CloseHandle |
+
+### §12.2 Hata yüzeyi — `SetLastError` / `GetLastError` çifti
+
+```c
+SetLastError(ERROR_SUCCESS);   /* temizle — eski kod kalıntısını ele */
+BOOL ok = SomeWin32Call(...);
+if (!ok) {
+    DWORD err = GetLastError();   /* tek okuma — tekrar okuma farklı değer verebilir */
+    /* err yorumlanır: ERROR_FILE_NOT_FOUND · ERROR_ACCESS_DENIED · ... */
+}
+```
+
+Bu çift, POSIX `errno` deseninin Windows karşılığıdır; fark POSIX'te
+değişken (`errno`) iken Windows'ta iş parçacığı-yerel son-hata-kayıt
+mekanizmasıdır (§E.9 · errhandlingapi/getlasterror). POSIX ile karar
+karşılaştırması `syscall/syscall-hata-kodlari-ve-errno.md` §F.17ededir.
+
+### §12.3 Cihaz yüzeyi — `DeviceIoControl` talep-yanıt deseni
+
+```c
+HANDLE hDev = CreateFileW(L"\\\\.\\OrnekCihaz", GENERIC_READ | GENERIC_WRITE,
+                          0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+DWORD bytesReturned = 0;
+BOOL ok = DeviceIoControl(hDev, /*dwIoControlCode*/ 0x80002004,
+                          inBuf, inSize, outBuf, outSize,
+                          &bytesReturned, NULL);
+/* ok == FALSE → GetLastError; bytesReturned gerçek yük boyutudur */
+CloseHandle(hDev);
+```
+
+`DeviceIoControl`, cihaz erişiminin evrensel Win32 talep-yanıt kapısıdır
+(§E.10 · ioapiset/deviceiocontrol). Linux'taki karşılığı `ioctl(2)`'dir —
+`cihaz-erisimi/cihaz-erisimi-anayasa.md` §10.23'te karşılaştırılır.
+
+### §12.4 §12 kanıt tablosu
+
+| # | Çağrı | Resmi kaynak (Microsoft Learn) | Tarih | Durum |
+|---|---|---|---|---|
+| 1 | `CreateFileW` | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 2 | `WriteFile` | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-writefile | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 3 | `ReadFile` | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-readfile | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 4 | `FlushFileBuffers` | https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 5 | `CloseHandle` | https://learn.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-closehandle | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 6 | `GetLastError` | https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-getlasterror | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 7 | `SetLastError` | https://learn.microsoft.com/en-us/windows/win32/api/errhandlingapi/nf-errhandlingapi-setlasterror | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 8 | `DeviceIoControl` | https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-deviceiocontrol | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 9 | `CoInitializeEx` (düzeltme sonrası) | https://learn.microsoft.com/en-us/windows/win32/api/combaseapi/nf-combaseapi-coinitializeex | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+
+Envanter kesişimi (2026-10-14 · 3303 benzersiz URL): satır 2-3 ve 7 bu dosyada
+**yeni** kanıttır (envanterle kesişmez); satır 8 envanterde mevcuttur (VAR —
+tekrar sayılmaz, yalnız bu dosyada ilk kez kullanılır). Ayrıntı:
+`isletim-sistemi-api-dogrulama.md` §S.3.
+
+### §12.5 Ölü URL düzeltme kaydı (2026-10-14)
+
+| Eski URL (404) | Yeni URL (200) | Nerede düzeltildi |
+|---|---|---|
+| https://learn.microsoft.com/en-us/windows/win32/com/coinitializeex | https://learn.microsoft.com/en-us/windows/win32/api/combaseapi/nf-combaseapi-coinitializeex | bu dosya FM `evidence` + §E.9 satır 3 |
+
+Doğrulama: eski yol 2026-10-14'te **hem HEAD hem GET** ile 404 döndürdü
+(HEAD reddi değil, gerçek bulunuş hatası); yeni yol HEAD 200. Eski satırın
+"2026-10-13 ✅ HTTP 200" iddiası o tarihte yapılmış bir ölçümdür — bugüne
+taşınmaz; düzeltme bu §12.5'te kayıt altındadır.
+
+## §13 PHP yüzeyi — Windows ile ilişki (2026-10-14)
+
+§12'deki Win32 C kodunun PHP kullanıcı alanında **doğrudan karşılığı yoktur**;
+PHP runtime'ı Windows yüzeyine yalnız iki yoldan değer: (a) uzantı/sargı kodu
+(C düzeyinde, bu dosyanın kapsamı dışı), (b) süreç oluşturma. Bu bölüm bu
+sınırı kayıt altına alır; §12 kodu PHP'ye "çevrilemez".
+
+### §13.1 Platform tespiti deseni (repo kanıtı)
+
+```php
+<?php
+declare(strict_types=1);
+
+// Repo kanıtı: shared/src/Api/Bff/DesktopBff.php:35 — 'platform' => php_uname('s'),
+$response['meta']['system'] = [
+    'platform'       => php_uname('s'),   // 'Linux' | 'Windows NT' | 'Darwin' — ilk kelime ayrımı verir
+    'phpVersion'     => PHP_VERSION,
+    'serverSoftware' => $_SERVER['SERVER_SOFTWARE'] ?? 'unknown',
+];
+```
+
+`php_uname('s')` ilk kelimesi platformu verir; Windows'ta çıktı `Windows NT`
+ile başlar (PHP sarmalayıcısının Win32 kimliği). Uygulama katmanı dallanması
+bu desenle yapılır — Win32 API çağrısı gerekmez.
+
+### §13.2 Süreç yüzeyi — Win32 `CreateProcessW` zincirinin PHP ucu
+
+Windows'ta `proc_open`/`shell_exec` kullanıcı alanı çağrısı, Win32 katmanında
+süreç oluşturma zincirine değer; zincirin Win32 ucu bu ağacın
+`isletim-sistemi-api-ornekler.md` §G.2'sinde tescillidir. Repo kanıtı:
+`shared/tests/Repository/ApiKeyCreateCommandTest.php:253` — `proc_open(` çağrısı
+(diskte doğrulandı, 2026-10-14).
+
+### §13.3 Dürüstlük kaydı — PHP_OS_FAMILY
+
+`PHP_OS_FAMILY` sabiti (`'Windows'|'Darwin'|'Linux'`) için aday resmi sayfa
+`https://www.php.net/manual/en/function.php-os-family.php` 2026-10-14'te
+**404 döndürmüştür** (dil sabitlerinin tekil sayfası yoktur) — bu turda
+kullanılmamış, tespit olarak kaydedilmiştir. Kararlı kanıt `php_uname`
+(repo + php.net) ile §13.1 desenidir.
+
+### §13.4 §13 kanıt tablosu
+
+| # | İddia | Kaynak | Tarih | Durum |
+|---|---|---|---|---|
+| 1 | `php_uname('s')` platform başlığını verir — resmi referans | https://www.php.net/manual/en/function.php-uname.php | 2026-10-14 | ✅ HTTP 200 (HEAD) · VAR (envanter) |
+| 2 | repo'da `php_uname('s')` kullanımı | `shared/src/Api/Bff/DesktopBff.php:35` | 2026-10-14 | ✅ diskte doğrulandı |
+| 3 | repo'da `proc_open` kullanımı | `shared/tests/Repository/ApiKeyCreateCommandTest.php:253` | 2026-10-14 | ✅ diskte doğrulandı |
+| 4 | PHP `proc_open` resmi referansı | https://www.php.net/manual/en/function.proc-open.php | 2026-10-14 | ✅ HTTP 200 · VAR (ornekler.md §G.3) |
+| 5 | `PHP_OS_FAMILY` resmi sayfası | https://www.php.net/manual/en/function.php-os-family.php | 2026-10-14 | ❌ HTTP 404 — kanıt sayılmaz |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

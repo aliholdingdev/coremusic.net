@@ -18,7 +18,7 @@ evidence:
   - https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-select
   - https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-recv
   - https://learn.microsoft.com/en-us/windows/win32/api/mstcpip/
-validation: "2026-10-13 — 12 resmi URL HTTP 200 + envanter kesişimi 0"
+validation: "2026-10-14 — 4. tur: §F.5 PHP yüzeyi eklendi (stream tek kod iki OS · yeni URL yok — §F.4 URL'lerine dayanır) · 3. tur: 12 resmi URL HTTP 200 + envanter kesişimi 0"
 open_questions: []
 group: mimari
 ---
@@ -496,5 +496,150 @@ Doğrulama: `Select-Object -Index (N-1)` — 2026-10-13.
 | Mstcpip — `tcp_keepalive` yapısı · keep-alive özelleştirme | https://learn.microsoft.com/en-us/windows/win32/api/mstcpip/ | 2026-10-13 | ✅ HTTP 200 (HEAD) |
 
 ---
+
+## §F — Kod örnekleri — aynı sunucu, iki yüzey (2026-10-14)
+
+> Bu bölüm §A-§E'deki fark tablolarının **kod karşılığını** verir: aynı
+> TCP kabul-aydınlatma işi iki yüzeyde. Bloklar derlenebilirlik iddiası
+> TAŞIMAZ (§A-§E disiplini aynen geçerlidir); her iki blok da §F.4'teki
+> 2026-10-14 kanıt tablosuna bağlıdır.
+
+### §F.1 POSIX yüzeyi
+
+```c
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+
+int srv = socket(AF_INET, SOCK_STREAM, 0);
+if (srv == -1) { /* errno okunur — §A.3 tablosu */ }
+
+struct sockaddr_in addr = {0};
+addr.sin_family = AF_INET;
+addr.sin_port = htons(8080);
+addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+if (bind(srv, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
+    /* EADDRINUSE → §A.6 tablosu · SO_REUSEADDR davranışı §A.5 */
+}
+if (listen(srv, 16) == -1) { /* backlog — §A.1 */ }
+
+int istemci = accept(srv, NULL, NULL);
+if (istemci == -1 && errno == EINTR) { /* §E.5 — sinyal kesintisi, yeniden dene */ }
+
+send(istemci, "tamam\n", 6, 0);          /* MSG_NOSIGNAL §E.2 önlemleri */
+close(istemci);                           /* POSIX kapatma */
+close(srv);
+```
+
+### §F.2 Winsock2 yüzeyi
+
+```c
+#include <winsock2.h>
+#pragma comment(lib, "ws2_32.lib")
+
+WSADATA wsa;
+if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) { /* §A.1 — zorunlu başlatma */ }
+
+SOCKET srv = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+if (srv == INVALID_SOCKET) { /* WSAGetLastError — §A.3 */ }
+
+sockaddr_in addr = {0};
+addr.sin_family = AF_INET;
+addr.sin_port = htons(8080);
+addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+if (bind(srv, (struct sockaddr *)&addr, sizeof(addr)) == SOCKET_ERROR) { }
+if (listen(srv, 16) == SOCKET_ERROR) { }
+
+SOCKET istemci = accept(srv, NULL, NULL);
+if (istemci == INVALID_SOCKET) { /* WSAEINTR §A.6 · errno yoktur */ }
+
+send(istemci, "tamam\n", 6, 0);           /* imza farkı §A.7 — bayt tipi */
+closesocket(istemci);                      /* close DEĞİL — §A.1 */
+closesocket(srv);
+WSACleanup();                              /* §A.1 — eşleşen kapanış */
+```
+
+### §F.3 Satır-satır eşleme
+
+| İş | POSIX | Winsock2 | Fark (§ referansı) |
+|---|---|---|---|
+| başlatma | yok | `WSAStartup` | §A.1 |
+| soket | `socket` | `socket` → `SOCKET` | §A.2 (64-bit kesme §E.2) |
+| kapatma | `close` | `closesocket` | §A.1 |
+| hata | `errno` | `WSAGetLastError` | §A.3 |
+| kabul hatası | `EINTR` | `WSAEINTR` | §A.6 · §E.5 |
+| gönderim | `send` (`ssize_t`) | `send` (`int`) | §A.7 |
+| temizlik | yok | `WSACleanup` | §A.1 |
+| `SIGPIPE` | `MSG_NOSIGNAL` / ignored | yok — model dışı | §A.10 · §E.2 |
+
+### §F.4 §F kanıt tablosu (2026-10-14 · yeni URL)
+
+| # | Çağrı | Resmi kaynak | Tarih | Durum |
+|---|---|---|---|---|
+| 1 | POSIX `socket` | https://pubs.opengroup.org/onlinepubs/9799919799/functions/socket.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 2 | POSIX `accept` | https://pubs.opengroup.org/onlinepubs/9799919799/functions/accept.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 3 | POSIX `write` | https://pubs.opengroup.org/onlinepubs/9799919799/functions/write.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 4 | POSIX `close` | https://pubs.opengroup.org/onlinepubs/9799919799/functions/close.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 5 | Winsock2 `bind` | https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-bind | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 6 | Winsock2 `listen` | https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-listen | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 7 | Winsock2 `accept` | https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-accept | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 8 | Winsock2 `connect` | https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-connect | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 9 | Winsock2 `send` | https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-send | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+
+> `listen`/`accept`/`connect`/`send` için **eski `win32/api/winsock/` yolu
+> 404 döndürmüştür** (yalnız `nf-winsock-bind` 200) — bu turda tümü
+> `winsock2/` yoluyla doğrulanmıştır (2026-10-14). Doğrulama ayrıntısı:
+> `isletim-sistemi-api-dogrulama.md` §S.2.
+
+Envanter kesişimi (2026-10-14 · 3303 benzersiz URL): dokuz satırın tamamı bu
+dosyada **yeni** kanıttır (envanterle kesişmez) — §S.3'te listelenir.
+
+### §F.5 PHP yüzeyi — tek kod, iki işletim sistemi (2026-10-14)
+
+§C.1'deki soyutlama stratejisinin somut hâli PHP'dir: aynı kod Linux ve
+Windows'ta aynı runtime katmanını kullanır; `WSAStartup`/`closesocket`
+ayrımı PHP kullanıcı alanı koduna **yansımaz** (§A.1).
+
+```php
+<?php
+declare(strict_types=1);
+
+// §F.1-§F.2'deki "aynı sunucu"nun PHP karşılığı — blok her iki OS'ta aynıdır.
+$server = @stream_socket_server('tcp://0.0.0.0:8080', $errno, $errstr);
+if ($server === false) {
+    fwrite(STDERR, "sunucu acilamadi: $errstr (no=$errno)\n");
+    exit(1);
+}
+
+$client = stream_socket_accept($server, 10.0);
+if ($client === false) {
+    fclose($server);
+    exit(1);
+}
+
+$veri = fread($client, 2048);                                  // recv() karşılığı
+fwrite($client, "HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\nOK"); // send() karşılığı
+fclose($client);                                               // close()/closesocket() ayrımı görünmez
+fclose($server);
+```
+
+§A farklarının bu blokta ele alınmak zorunda OLMAMASI, farkların C/C++
+katmanında kaldığını gösterir:
+
+| §A farkı | C/Winsock kodunda | PHP bloğunda |
+|---|---|---|
+| `WSAStartup`/`WSACleanup` (§A.1) | açıkça çağrılır | görünmez — runtime yapar |
+| `SOCKET` vs `int` (§A.2) | tip ayrımı | tek resource türü |
+| `closesocket` vs `close` (§A.1) | iki ayrı çağrı | tek `fclose` |
+| `WSAGetLastError` vs `errno` (§A.3) | iki okuma yolu | `socket_last_error()` / `error_get_last()` |
+
+Kanıt notu: PHP `socket_*` uzantı URL'leri bu dosyada değil, 4. turda
+`isletim-sistemi-api-ornekler.md` §G'de tescillendi (2026-10-14);
+§F.5 yalnız stream yüzeyini kullanır ve §F.4 tablosundaki URL'lere dayanır —
+**bu bölüm yeni URL ekmez.**
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

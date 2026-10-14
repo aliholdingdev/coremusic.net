@@ -506,4 +506,57 @@ bozulma taksonomisi ve kapı tarifleri genişletilmiştir. Ölçüm kapıları
 korunur. Dosyanın önceki bölümlerindeki iddia·URL·tarih·durum sayıları
 aynen kalır.
 
+### §10.21 PHP gözlem örneği — §10.5 desenlerinin kodu (2026-10-14)
+
+§10.14 dürüstlük kaydı bu bölüm için de geçerlidir, ancak bu bölüm §10.20'den
+farklı olarak **2 repo kanıtı ekler** (aşağıda sayılır). Bloklar
+derlenebilirlik iddiası TAŞIMAZ; kaynakları §10.21.2 tablosudur.
+
+#### §10.21.1 Desen bloğu
+
+```php
+<?php
+declare(strict_types=1);
+
+// Desen 10.5.1 + 10.5.2 — repo kanıtı: shared/src/AI/AIEngine.php:295
+//   $output = shell_exec($cmd);
+// Repo'daki $cmd değeri AI komutudur; burada örnek komut kullanılmıştır — desen ortaktır.
+$cmd   = 'uname -r';   // örnek komut — üretimde bilinen bir binary
+$output = shell_exec($cmd);
+if ($output === null || $output === '') {
+    // desen 10.5.1: dönüş boş — komut hiç çalıştı mı?
+    fwrite(STDERR, "komut calismadi veya cikti uretmedi\n");
+    exit(1);
+}
+
+// desen 10.5.2 + 10.5.3: süreç çıkış kodu + akış okuma (proc_open üzerinden)
+$spec = [['pipe', 'r'], ['pipe', 'w'], ['pipe', 'w']];
+$p = proc_open($cmd, $spec, $pipes);
+if (is_resource($p)) {
+    $cikti = stream_get_contents($pipes[1]);   // desen 10.5.3: dosya akışı okuma
+    $hata  = stream_get_contents($pipes[2]);
+    fclose($pipes[0]);
+    fclose($pipes[1]);
+    fclose($pipes[2]);
+    $kod = proc_close($p);                     // desen 10.5.2: çıkış kodu ayrımı
+    if ($kod !== 0) {
+        fwrite(STDERR, "komut calisti ama basarisiz: kod=$kod hata=$hata\n");
+    }
+}
+```
+
+§10.5.4 (zaman aşımı) ve §10.5.5 (olay kaydı) desenlerinin hâlâ repo kanıtı
+YOKTUR — bu bölüm de uydurmaz; hedef desen olarak kalır (⚠️).
+
+#### §10.21.2 §10.21 kanıt tablosu
+
+| # | İddia | Kaynak | Tarih | Durum |
+|---|---|---|---|---|
+| 1 | repo'da `shell_exec` kullanımı — §7.1 tescilli kanıtın doğrulaması | `shared/src/AI/AIEngine.php:295` | 2026-10-14 | ✅ diskte doğrulandı |
+| 2 | repo'da `proc_open` kullanımı | `shared/tests/Repository/ApiKeyCreateCommandTest.php:253` | 2026-10-14 | ✅ diskte doğrulandı |
+| 3 | PHP `proc_open` resmi referansı | https://www.php.net/manual/en/function.proc-open.php | 2026-10-14 | ✅ HTTP 200 · VAR (envanter) |
+
+Özet: yeni URL 0 · yeni repo kanıtı 2 · ölçüm sonucu 0 (kapı §7.1-§7.2
+açık kalır).
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

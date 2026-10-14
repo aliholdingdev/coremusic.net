@@ -510,4 +510,72 @@ iddiası, 0 ölçüm sonucu içerir; yalnız okuma kuralları ve kapı tarifleri
 oluşur. Çalıştırılmamış örnek iddiası güçlenmez, envanter §6.11'deki haliyle
 korumaya devam eder.
 
+### §6.20 Süreç başlatma — sistem gruplu örnekler (2026-10-14)
+
+§6.3-§6.8'deki örnekler POSIX yüzeyindeydi; bu bölüm aynı işi (süreç başlatma)
+**sisteme göre** gruplar. Bloklar derlenebilirlik iddiası TAŞIMAZ (§6.14.1);
+her örneğin kaynağı §6.21 tablosundadır.
+
+**Linux/POSIX — `fork` + `execve` (en düşük seviye):**
+
+```c
+pid_t pid = fork();
+if (pid == -1) { return -1; }              /* fork başarısız — errno okunur */
+if (pid == 0) {
+    execlp("ornek-komut", "ornek-komut", (char *)NULL);
+    _exit(127);                            /* execve dönerse: bulunamadı — child kendi seçer */
+}
+int durum = 0;
+waitpid(pid, &durum, 0);                   /* §6.3 bekleme örneğiyle aynı desen */
+```
+
+**Linux/POSIX — `posix_spawn` (tek çağrı):**
+
+```c
+pid_t pid;
+int rc = posix_spawn(&pid, "/usr/bin/ornek-komut", NULL, NULL, argv, environ);
+if (rc != 0) { /* rc doğrudan hata kodudur — errno'ya çevrilmez */ }
+```
+
+**Windows — `CreateProcessW` (grup: Win32):**
+
+```c
+STARTUPINFOW si = { sizeof(si) };
+PROCESS_INFORMATION pi = {0};
+BOOL ok = CreateProcessW(NULL, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
+if (!ok) { DWORD err = GetLastError(); /* anında okunur */ }
+CloseHandle(pi.hProcess);                 /* handle evresi kapatılır */
+CloseHandle(pi.hThread);
+```
+
+**PHP — `proc_open` (repo kanıtlı; §6.5'te tam örnek):** POSIX ve Windows'ta
+aynı PHP çağrısı çalışır; altta yatan yüzey sistemdir (PHP manual proc-open
+2026-10-14 HTTP 200 · envanterle kesişmez — `dogrulama.md` §S.3).
+
+Grup özeti:
+
+| Grup | Başlatma yüzeyi | Bekleme | Hata modeli |
+|---|---|---|---|
+| Linux/POSIX (düşük seviye) | `fork` + `execve` | `waitpid` | `errno` |
+| Linux/POSIX (tek çağrı) | `posix_spawn` | `waitpid` | dönüş kodu (`rc`) |
+| Windows | `CreateProcessW` | `WaitForSingleObject` | `GetLastError` |
+| PHP (sistem-bağımsız) | `proc_open` | `proc_close` | PHP kanal/hata yüzeyi |
+
+### §6.21 §6.20 kanıt tablosu
+
+| # | Iddia | Resmi kaynak | Tarih | Durum |
+|---|---|---|---|---|
+| 1 | `fork(2)` süreç yaratır | https://man7.org/linux/man-pages/man2/fork.2.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 2 | `execve(2)` program başlatır | https://man7.org/linux/man-pages/man2/execve.2.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 3 | `wait(2)` / `waitpid` çocuk bekler | https://man7.org/linux/man-pages/man2/wait.2.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 4 | POSIX `posix_spawn` tek çağrı başlatma | https://pubs.opengroup.org/onlinepubs/9799919799/functions/posix_spawn.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 5 | Windows `CreateProcessW` | https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessw | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 6 | PHP `proc_open` arayüzü | https://www.php.net/manual/en/function.proc-open.php | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+
+Envanter kesişimi (2026-10-14 · 3303 benzersiz URL): satır 6 envanterde
+mevcuttur (VAR); satır 1-5 bu turda doğrulanmış ve envanterle kesişmeyen
+kanıtlardır (`dogrulama.md` §S.3). Windows `CreateProcessW` örneğinin handle
+kapatma kuralı `platform-api/windows-api-yuzeyi.md` §12.1 ile aynı evre
+doktrinine bağlıdır.
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

@@ -16,7 +16,7 @@ evidence:
   - https://man7.org/linux/man-pages/man2/close.2.html
   - https://man7.org/linux/man-pages/man2/shutdown.2.html
   - https://man7.org/linux/man-pages/man2/getsockopt.2.html
-validation: "2026-10-13 — 10 resmi URL HEAD 200 + envanter kesişimi 0"
+validation: "2026-10-14 — 4. tur: §F gruplu kod örnekleri (POSIX C · Winsock2 C · PHP stream) + 3 yeni URL (php.net stream_socket_server/client/accept) HEAD-200 · envanter kesişimi 0 · 2026-10-13: 10 resmi URL HEAD 200"
 open_questions: []
 group: mimari
 ---
@@ -538,5 +538,145 @@ okunarak teyit edildi (2026-10-13).
 | `getsockopt(2)` — `SO_REUSEADDR`, `SO_LINGER`, `SO_RCVTIMEO` soket seçenekleri | https://man7.org/linux/man-pages/man2/getsockopt.2.html | 2026-10-13 | ✅ HTTP 200 (HEAD) |
 
 ---
+
+## §F — Gruplu kod örnekleri: bind → listen → accept (2026-10-14)
+
+§B'deki sunucu sıra-zincirini grup başına gösterir. Bloklar derlenebilirlik
+iddiası TAŞIMAZ; her bloğun kaynağı §F.6 tablosudur. "Sadece Linux" kuralı:
+POSIX + Windows + PHP — macOS/Android durumu §F.4'te dürüstlükle kayıtlıdır.
+
+### F.1 Linux/POSIX grubu (C)
+
+```c
+#include <sys/socket.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <stdio.h>
+
+struct addrinfo hints = {0}, *res = NULL;
+hints.ai_family   = AF_UNSPEC;      /* IPv4/IPv6 seçimi çekirdeğe bırakılır */
+hints.ai_socktype = SOCK_STREAM;
+hints.ai_flags    = AI_PASSIVE;     /* sunucu tarafı pasif adres — §A.8 */
+
+int gai = getaddrinfo(NULL, "8080", &hints, &res);
+if (gai != 0) {
+    fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(gai));
+    return 1;
+}
+
+int srv = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+if (srv == -1) { perror("socket"); freeaddrinfo(res); return 1; }
+
+int on = 1;
+setsockopt(srv, SOL_SOCKET, SO_REUSEADDR, &on, sizeof on);  /* getsockopt(2) — §E.8 */
+if (bind(srv, res->ai_addr, res->ai_addrlen) == -1) { perror("bind"); close(srv); freeaddrinfo(res); return 1; }
+freeaddrinfo(res);                    /* bağladıktan sonra serbest — §A.8 */
+if (listen(srv, 16) == -1) { perror("listen"); close(srv); return 1; }  /* backlog — §B.5 */
+
+struct sockaddr_storage cli;
+socklen_t clilen = sizeof cli;
+int cfd = accept(srv, (struct sockaddr *)&cli, &clilen);   /* EINTR/EAGAIN — §B.6 */
+if (cfd == -1) { perror("accept"); close(srv); return 1; }
+
+close(cfd);                           /* hata yolu dâhil her yol close — §D.2 */
+close(srv);
+```
+
+### F.2 Windows grubu (Winsock2 · C)
+
+```c
+#include <winsock2.h>
+#pragma comment(lib, "ws2_32.lib")
+
+WSADATA wsa;
+if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) return 1;   /* süreçte bir kez — posix-socket §A.1 */
+
+SOCKET srv = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+if (srv == INVALID_SOCKET) { WSACleanup(); return 1; }
+
+struct sockaddr_in addr = {0};
+addr.sin_family      = AF_INET;
+addr.sin_addr.s_addr = INADDR_ANY;
+addr.sin_port        = htons(8080);
+
+int on = 1;
+setsockopt(srv, SOL_SOCKET, SO_REUSEADDR, (const char *)&on, sizeof on); /* Windows'ta argüman char* */
+if (bind(srv, (struct sockaddr *)&addr, sizeof addr) == SOCKET_ERROR) { closesocket(srv); WSACleanup(); return 1; }
+if (listen(srv, SOMAXCONN) == SOCKET_ERROR) { closesocket(srv); WSACleanup(); return 1; }
+
+SOCKET cli = accept(srv, NULL, NULL); /* geçersizlik değeri: INVALID_SOCKET */
+if (cli == INVALID_SOCKET) { closesocket(srv); WSACleanup(); return 1; }
+
+closesocket(cli);                     /* close() değil — posix-socket §A.1 */
+closesocket(srv);
+WSACleanup();                         /* sürecin sonunda bir kez */
+
+/* posix-socket = ag-api/posix-socket-ve-winsock-karsilastirmasi.md */
+```
+
+### F.3 PHP grubu (stream — her iki işletim sistemi aynı kod)
+
+```php
+<?php
+declare(strict_types=1);
+
+// PHP stream soyutlaması platform ayrımını runtime'a devreder:
+// WSAStartup/closesocket'a PHP kullanıcı alanı kodu DOKUNMAZ.
+$server = stream_socket_server('tcp://127.0.0.1:8080', $errno, $errstr);
+if ($server === false) {
+    fwrite(STDERR, "sunucu acilamadi: $errstr (no=$errno)\n");
+    exit(1);
+}
+
+$client = stream_socket_accept($server, 5.0);   // 5 sn bekleme sınırı
+if ($client === false) {
+    fwrite(STDERR, "istemci baglantisi zaman asiminda\n");
+    fclose($server);
+    exit(1);
+}
+
+fwrite($client, "HTTP/1.1 200 OK\r\nContent-Length: 2\r\n\r\nOK");
+fclose($client);                                // close() karşılığı
+fclose($server);
+```
+
+### F.4 Grup eşleme tablosu — ve dürüstlük kaydı
+
+| Grup | Örnek | Durum |
+|---|---|---|
+| Linux | §F.1 | kaynaklı (§F.6) |
+| Windows | §F.2 | kaynaklı (§F.6) |
+| macOS | §F.1 ile aynı POSIX çağrı seti varsayılmaz | ⚠️ VERIFICATION REQUIRED — ornekler.md §F.0 3. tur kaydı aynen korunur: macOS POSIX kimliği iddiası kaynaksız yazılmaz |
+| Android (NDK) | örnek üretilmedi | ⚠️ VERIFICATION REQUIRED — ornekler.md §F.4: AAudio çağrı-imzası örnekleri 3. turda doğrulanmadı, uydurma kod yazılmaz |
+| PHP (tüm OS) | §F.3 | php.net stream_socket_* — platform ayrımı PHP runtime'ında |
+
+### F.5 C ↔ PHP karşılık tablosu
+
+| Konu | C (POSIX / Windows) | PHP |
+|---|---|---|
+| süreç-kez kurulum | `WSAStartup` (yalnız Windows) | yok — runtime yapar |
+| geçersizlik denetimi | `-1` / `INVALID_SOCKET` | `false` dönüş |
+| kapatma | `close` / `closesocket` ayrımı | tek `fclose` |
+| port seçimi | sayısal port + `htons` | `tcp://host:port` dizgesi |
+| bekleme sınırı | `select`/`poll` | `stream_socket_accept` timeout argümanı |
+
+### F.6 §F kanıt tablosu
+
+| # | İddia | URL | Tarih | Durum |
+|---|---|---|---|---|
+| 1 | `socket(2)` — soket yaratma | https://man7.org/linux/man-pages/man2/socket.2.html | 2026-10-13 | ✅ HTTP 200 (HEAD) · VAR (FM) |
+| 2 | `bind(2)` — adres bağlama | https://man7.org/linux/man-pages/man2/bind.2.html | 2026-10-13 | ✅ HTTP 200 (HEAD) · VAR |
+| 3 | `listen(2)` — backlog kuyruğu | https://man7.org/linux/man-pages/man2/listen.2.html | 2026-10-13 | ✅ HTTP 200 (HEAD) · VAR |
+| 4 | `accept(2)` — yeni descriptor | https://man7.org/linux/man-pages/man2/accept.2.html | 2026-10-13 | ✅ HTTP 200 (HEAD) · VAR |
+| 5 | `getaddrinfo(3)` — `AI_PASSIVE` | https://man7.org/linux/man-pages/man3/getaddrinfo.3.html | 2026-10-13 | ✅ HTTP 200 (HEAD) · VAR |
+| 6 | Winsock `socket` | https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-socket | 2026-10-13 | ✅ HTTP 200 (HEAD) · VAR |
+| 7 | Winsock `closesocket` | https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-closesocket | 2026-10-13 | ✅ HTTP 200 (HEAD) · VAR |
+| 8 | PHP `stream_socket_server` | https://www.php.net/manual/en/function.stream-socket-server.php | 2026-10-14 | ✅ HTTP 200 (HEAD) · YENİ (kesişim 0) |
+| 9 | PHP `stream_socket_client` | https://www.php.net/manual/en/function.stream-socket-client.php | 2026-10-14 | ✅ HTTP 200 (HEAD) · YENİ (kesişim 0) |
+| 10 | PHP `stream_socket_accept` | https://www.php.net/manual/en/function.stream-socket-accept.php | 2026-10-14 | ✅ HTTP 200 (HEAD) · YENİ (kesişim 0) |
+
+Özet: 10/10 HTTP 200 · 7 VAR + 3 YENİ (envanter: 994 md · 3378 benzersiz URL —
+2026-10-14 ölçümü) · repo iddiası eklenmez; PHP blokları php.net referanslarına
+dayanır. 4. tur ölçüm ayrıntısı: `isletim-sistemi-api-dogrulama.md` §T.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

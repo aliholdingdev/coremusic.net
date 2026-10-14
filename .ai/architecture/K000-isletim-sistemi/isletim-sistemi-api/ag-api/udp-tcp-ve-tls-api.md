@@ -18,7 +18,7 @@ evidence:
   - https://www.rfc-editor.org/rfc/rfc6066
   - https://docs.openssl.org/3.0/man7/ssl/
   - https://www.rfc-editor.org/rfc/rfc3493
-validation: "2026-10-13 — 12 resmi URL HTTP 200 + envanter kesişimi 0"
+validation: "2026-10-14 — 4. tur: §F TCP/UDP gruplu kod örnekleri (POSIX C sendto/recvfrom + PHP socket_*/stream) + 5 yeni URL (man7 sendto.2/recvfrom.2 · php.net socket-sendto/recvfrom/set-option) HEAD-200 · envanter kesişimi 0 · 2026-10-13: 12 resmi URL HTTP 200"
 open_questions: []
 group: mimari
 ---
@@ -500,5 +500,141 @@ kuyruğun sınırlı tutulması **zorunlu**tur; aksi halde gecikme katlanarak b�
 | RFC 3493 — getaddrinfo temel arayüzü (basic socket interface) | https://www.rfc-editor.org/rfc/rfc3493 | 2026-10-13 | ✅ HTTP 200 (HEAD) |
 
 ---
+
+## §F — Gruplu kod örnekleri: TCP/UDP taşıma katmanı (2026-10-14)
+
+§A-§D doktrinini grup başına gösterir. Bloklar derlenebilirlik iddiası
+TAŞIMAZ; her bloğun kaynağı §F.5 tablosudur.
+
+### F.1 Linux/POSIX grubu · TCP — kısmi gönderim döngüsü (C)
+
+§C.7'deki kuralın kodu: tek `send()` yeterli DEĞİLDİR.
+
+```c
+#include <sys/socket.h>
+#include <errno.h>
+#include <string.h>
+#include <stddef.h>
+
+static int tam_gonder(int fd, const void *buf, size_t len)
+{
+    const char *p = buf;
+    size_t kalan = len;
+    while (kalan > 0) {
+        ssize_t n = send(fd, p, kalan, MSG_NOSIGNAL);  /* SIGPIPE üretmez */
+        if (n == -1) {
+            if (errno == EINTR) continue;              /* sinyal kesintisi: yeniden dene */
+            if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                /* bloklanmayan soket: poll() ile yazılabilirlik bekle — §C.1.
+                   Bu örnekte sadeleştirildi: çağrıya geri dönülmez. */
+                return -1;
+            }
+            return -1;                                 /* EPIPE/ECONNRESET — §E hata modları */
+        }
+        p += n;
+        kalan -= (size_t)n;                            /* kısmi gönderim: ilerleme §C.7 */
+    }
+    return 0;
+}
+```
+
+### F.2 Linux/POSIX grubu · UDP — sendto/recvfrom (C)
+
+```c
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <string.h>
+#include <stdio.h>
+
+struct sockaddr_in hedef = {0};
+hedef.sin_family = AF_INET;
+hedef.sin_port   = htons(5000);
+inet_pton(AF_INET, "127.0.0.1", &hedef.sin_addr);   /* metin → ikili — socket-api-temelleri §A.7 */
+
+const char *paket = "merhaba-udp";
+ssize_t n = sendto(s, paket, strlen(paket), 0,
+                   (struct sockaddr *)&hedef, sizeof hedef);
+if (n == -1) perror("sendto");   /* UDP'de ICMP yanıtı ECONNREFUSED üretir — §B.6 */
+
+char tampon[2048];               /* alım tamponu boyutu §B.4 sınırları içindedir */
+struct sockaddr_in gelen;
+socklen_t glen = sizeof gelen;
+ssize_t m = recvfrom(s, tampon, sizeof tampon, 0,
+                     (struct sockaddr *)&gelen, &glen);
+if (m == -1) perror("recvfrom"); /* dagram kaybı sessizdir — güvenilirlik §B.5 */
+```
+
+### F.3 PHP grubu · UDP — socket_sendto/socket_recvfrom
+
+```php
+<?php
+declare(strict_types=1);
+
+$udp = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+if ($udp === false) { exit(1); }
+
+socket_set_option($udp, SOL_SOCKET, SO_REUSEADDR, 1);  /* C tarafındaki setsockopt karşılığı */
+socket_bind($udp, '0.0.0.0', 5000);
+
+$adres = '127.0.0.1';
+socket_sendto($udp, 'merhaba-udp', strlen('merhaba-udp'), 0, $adres, 5000);
+
+$tampon = '';
+$from = '';
+$port = 0;
+$bayt = socket_recvfrom($udp, $tampon, 2048, 0, $from, $port);
+if ($bayt === false) {
+    $no = socket_last_error($udp);
+    fwrite(STDERR, "recvfrom hata: " . socket_strerror($no) . "\n");
+}
+socket_close($udp);
+```
+
+### F.4 PHP grubu · TCP + TLS yüzeyi — stream_socket_client
+
+§D.2-§D.3 doktrini PHP'de tek çağrıya iner: `tls://` öneki ayarı runtime'a
+devreder; sertifika doğrulama PHP sürümüne göre varsayılanıdır — kritik
+servislerde §D.3'teki açık doğrulama kuralı uygulanır.
+
+```php
+<?php
+declare(strict_types=1);
+
+$fp = stream_socket_client('tcp://127.0.0.1:8080', $errno, $errstr, 5.0);
+if ($fp === false) {
+    fwrite(STDERR, "baglanti basarisiz: $errstr (no=$errno)\n");
+    exit(1);
+}
+
+stream_set_timeout($fp, 2);                 /* okuma zaman aşımı */
+fwrite($fp, "PING\n");
+$yanit = fread($fp, 64);
+$bilgi = stream_get_meta_data($fp);
+if ($bilgi['timed_out']) {
+    fwrite(STDERR, "okuma zaman asimi\n");
+}
+fclose($fp);
+```
+
+Grup notu: §F.1-§F.2 C blokları POSIX Linux içindir; Windows karşılığı bu
+ağacın `posix-socket-ve-winsock-karsilastirmasi.md` §F.2'sindedir (bu dosya
+tekrarlamaz). macOS/Android durumu ornekler.md §F.0-§F.4 dürüstlük kaydıyla
+sınırlıdır — ⚠️ VERIFICATION REQUIRED.
+
+### F.5 §F kanıt tablosu
+
+| # | İddia | URL | Tarih | Durum |
+|---|---|---|---|---|
+| 1 | `sendto(2)` — adresli gönderim | https://man7.org/linux/man-pages/man2/sendto.2.html | 2026-10-14 | ✅ HTTP 200 (HEAD) · YENİ (kesişim 0) |
+| 2 | `recvfrom(2)` — adresli alım | https://man7.org/linux/man-pages/man2/recvfrom.2.html | 2026-10-14 | ✅ HTTP 200 (HEAD) · YENİ (kesişim 0) |
+| 3 | PHP `socket_sendto` | https://www.php.net/manual/en/function.socket-sendto.php | 2026-10-14 | ✅ HTTP 200 (HEAD) · YENİ (kesişim 0) |
+| 4 | PHP `socket_recvfrom` | https://www.php.net/manual/en/function.socket-recvfrom.php | 2026-10-14 | ✅ HTTP 200 (HEAD) · YENİ (kesişim 0) |
+| 5 | PHP `socket_set_option` | https://www.php.net/manual/en/function.socket-set-option.php | 2026-10-14 | ✅ HTTP 200 (HEAD) · YENİ (kesişim 0) |
+| 6 | `send(2)` — `MSG_NOSIGNAL`, kısmi gönderim | https://man7.org/linux/man-pages/man2/send.2.html | 2026-10-13 | ✅ HTTP 200 (HEAD) · VAR (§E.11) |
+| 7 | `recv(2)` — dönüş değerleri | https://man7.org/linux/man-pages/man2/recv.2.html | 2026-10-13 | ✅ HTTP 200 (HEAD) · VAR (§E.11) |
+| 8 | PHP `stream_socket_client` | https://www.php.net/manual/en/function.stream-socket-client.php | 2026-10-14 | ✅ HTTP 200 · VAR (4. turda bu ağacın `socket-api-temelleri.md` §F.6'sında tescillendi) |
+
+Özet: 8/8 HTTP 200 · 5 YENİ + 3 VAR (envanter: 994 md · 3378 benzersiz URL —
+2026-10-14 ölçümü). 4. tur ayrıntısı: `isletim-sistemi-api-dogrulama.md` §T.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

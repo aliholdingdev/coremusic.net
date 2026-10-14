@@ -497,4 +497,104 @@ erişim yolu matrisi ve yol kuralları tarif edilmiştir. §10.11'deki
 web-research tablosu ve §10.20 dürüstlük kaydı aynen korunur; ölçüm
 kapıları bu ekle kapanmaz.
 
+### §10.23 Cihaz erişim kod örnekleri (2026-10-14)
+
+§10.17-§10.21 doktrinini iki sistemde gösterir. Bloklar derlenebilirlik
+iddiası TAŞIMAZ; her örneğin kaynağı §10.24 tablosundadır.
+
+**Linux — `open` + `ioctl` + `close` üçlüsü:**
+
+```c
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
+
+int fd = open("/dev/ornek", O_RDWR | O_CLOEXEC);   /* O_CLOEXEC: fork+exec sızıntısız */
+if (fd == -1) {
+    fprintf(stderr, "acma reddedildi: %s\n", strerror(errno));  /* §10.18 izin denetimi kapısı */
+    return 1;
+}
+
+unsigned long deger = 0;
+if (ioctl(fd, /*komut*/ 0x5401, &deger) == -1) {
+    fprintf(stderr, "ioctl: %s\n", strerror(errno));   /* ENOTTY: komut bu cihazda yok */
+    close(fd);                                          /* §10.17 kural 2 — hata yolu da kapatır */
+    return 1;
+}
+
+close(fd);   /* §10.21 normal-açma yolunun kapanışı */
+```
+
+Okuma kuralları:
+
+| # | Kural | Kötü okuma | § |
+|---|---|---|---|
+| 1 | `O_CLOEXEC` açık artırma ile istenir | fork+exec'te fd sızar | §10.17 |
+| 2 | izin reddi `open`'ın dönüşünde `errno` ile okunur | reddi sonradan aranır | §10.18 |
+| 3 | `ioctl`'un `ENOTTY`'si "komut yok" anlamına gelir | cihaz-arıza sanılır | §10.19 |
+| 4 | hata yolu dâhil her yol `close` ile biter | evre sızıntısı | §10.17 kural 2 |
+
+**Windows karşılığı:** aynı talep-yanıt işi `CreateFileW` + `DeviceIoControl`
++ `CloseHandle` ile yapılır — tam kod `platform-api/windows-api-yuzeyi.md`
+§12.3'tedir. Gruplar arası eşleme (`ioctl` ↔ `DeviceIoControl`)
+`isletim-sistemi-api-ornekler.md` §F.2 tablosunda özetlenmiştir.
+
+### §10.24 §10.23 kanıt tablosu
+
+| # | Iddia | Resmi kaynak | Tarih | Durum |
+|---|---|---|---|---|
+| 1 | `ioctl(2)` cihaz kontrolü için genel kapıdır | https://man7.org/linux/man-pages/man2/ioctl.2.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 2 | `open(2)` · `O_CLOEXEC` bayrağı | https://man7.org/linux/man-pages/man2/open.2.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 3 | `mmap(2)` cihaz belleği eşleme yüzeyi | https://man7.org/linux/man-pages/man2/mmap.2.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 4 | Windows `DeviceIoControl` | https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-deviceiocontrol | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+
+Envanter kesişimi (2026-10-14 · 3303 benzersiz URL): dört satır da envanterde
+mevcuttur (VAR — tekrar sayılmaz); bu dosyada ilk kez kod örneğiyle
+kullanılırlar. `ioctl` sayısal komut değerleri (ör. `0x5401`) burada
+**kanıt olarak sunulmaz** — gerçek komut değerleri ilgili cihazın
+`Documentation/` sayfasından gelir ve bu turda doğrulanmamıştır
+(⚠️ VERIFICATION REQUIRED).
+
+### §10.25 PHP'den dosya/cihaz erişimi kod örneği (2026-10-14)
+
+§10.6'daki `fopen` yüzeyinin kodu. Repo kanıtı diskte doğrulanmıştır:
+`home.coremusic.net/include/Stream/MusicStreamHandler.php:333` —
+`$handle = @fopen($path, 'rb');`. Repo kullanımı **dosya** akışıdır; cihaz
+dosyası iddiası TAŞIMAZ — paylaşılan desen şudur: dönüş denetimi + akış
+üzerinden okuma + her yolda `fclose`.
+
+```php
+<?php
+declare(strict_types=1);
+
+// Desen kaynağı: home.coremusic.net/include/Stream/MusicStreamHandler.php:333
+//   $handle = @fopen($path, 'rb');
+// Bu blok DESEN ÖRNEĞİDİR: repo'daki $path dosya yoludur, cihaz yolu değil.
+$path = '/dev/ornek';                 // cihaz yolu örnektir — gerçek kanıt değildir
+$handle = @fopen($path, 'rb');        // @: hata seviyesini bastır, DÖNÜŞ DEĞERİ denetle
+if ($handle === false) {
+    $son = error_get_last();
+    fwrite(STDERR, 'acilamadi: ' . ($son['message'] ?? 'bilinmiyor') . "\n");
+    exit(1);
+}
+$veri = fread($handle, 4096);         // akış üzerinden okuma — bayt akışı
+fclose($handle);                      // hata yolu dâhil her yol kapanır — §10.17 kural 2
+```
+
+> §10.6.5 kuralı aynen geçerlidir: PHP'den cihaz üye dosyasına erişim teknik
+> olarak mümkündür, ancak L0 ses yolunda cihaz I/O'u yasaktır — bu blok
+> gözlem/teşhis örneğidir, üretim ses yolu DEĞİLDİR.
+
+§10.25 kanıt tablosu:
+
+| # | İddia | Kaynak | Tarih | Durum |
+|---|---|---|---|---|
+| 1 | PHP `fopen` resmi referansı | https://www.php.net/manual/en/function.fopen.php | 2026-10-13 | ✅ HTTP 200 · VAR (§10.6 tescilli) |
+| 2 | repo'da `fopen` deseni | `home.coremusic.net/include/Stream/MusicStreamHandler.php:333` | 2026-10-14 | ✅ diskte doğrulandı |
+
+Yeni URL: 0 · repo kanıtı (satır 2) bu dosyada ilk kez kullanılır.
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

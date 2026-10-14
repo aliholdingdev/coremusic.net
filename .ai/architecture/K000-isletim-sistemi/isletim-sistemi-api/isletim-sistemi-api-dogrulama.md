@@ -11,14 +11,14 @@ evidence:
   - https://man7.org/linux/man-pages/man2/fork.2.html
   - https://man7.org/linux/man-pages/man3/errno.3.html
   - ".ai/architecture/K000-isletim-sistemi/isletim-sistemi-api/index.md"
-validation: "2026-10-13 · 64 yeni resmi URL HTTP 200 · envanter kesişimi 0 · repo 5/5 satır doğrulandı"
+validation: "2026-10-14 · 4. tur: 196 URL HEAD (168×200 · 16×404 · 12 HEAD-red = gnu.org erişim engeli) · 24 yeni URL (8 §T.4 + 16 §T.8, kesişim 0) · yeni ölü keşfi 0 · 9 yeni repo kanıtı · §T (§T.8 PHP eki §G.7) · (3. tur kaydı: §S)"
 open_questions:
   - "Q-P1 Hangi API yüzeyi kastediliyor — kernel API mi, kullanıcı uzay hizmetleri mi?"
   - "Q-P2 Platform ses API'sinin yüzeyi burada mı, isletim-sistemi-audio içinde mi?"
   - "Q-P3 Hedef platform API seti — syscall seviyesi mi, kütüphane API'si mi?"
   - "Q-P4 core ↔ kernel sınırına bu dal nasıl temas eder?"
 date: 2026-10-12
-updated: 2026-10-13
+updated: 2026-10-14
 group: kanit
 ---
 
@@ -458,8 +458,9 @@ hiçbir dosyada kanıt olarak kullanılmamıştır.
 | # | Tur | Tarih | Kapsam | Sonuç |
 |---|---|---|---|---|
 | O1 | 1. tur | 2026-10-12 | 8 web + 10 disk + 3 ölü URL | 18 doğrulandı · 3 ⚠️ · 2 UNKNOWN |
-| O2 | 2. tur (bu) | 2026-10-13 | 69 yeni web + 11 repo + 11 elenmiş aday | 80 doğrulandı · 5 ⚠️ · 2 UNKNOWN · 1 ⛔ |
-| O3 | 3. tur | planlanmadı | Q-P1…Q-P4 kapanışı | Vault Steward kararı bekliyor |
+| O2 | 2. tur | 2026-10-13 | 69 yeni web + 11 repo + 11 elenmiş aday | 80 doğrulandı · 5 ⚠️ · 2 UNKNOWN · 1 ⛔ |
+| O3 | 3. tur | 2026-10-14 | 163 URL HEAD (146×200 · 16×404 · 1×GET-200) + 14 yeni URL + sistem-gruplu kod örnekleri (7 dosya) | 147 web doğrulandı · 1 ölü URL düzeltildi · 2 yeni ölü keşfi · §S |
+| O4 | 4. tur (bu) | 2026-10-14 | 196 URL HEAD (168×200 · 16×404 · 12 HEAD-red → gnu.org GET de başarısız) + 24 yeni URL (8 §T.4 + 16 §T.8) + gruplu kod örnekleri (7 dosya · POSIX/Windows/PHP) + §G.7 PHP eki (5 blok) | 168+22 web doğrulandı · yeni ölü keşfi 0 · 9 yeni repo kanıtı · §T |
 
 ## §P — Bağımsız göz (teslim öncesi son kontrol)
 
@@ -503,5 +504,249 @@ hiçbir dosyada kanıt olarak kullanılmamıştır.
 | R6 | `ag-api/` · `platform-api/` içeriği | 2. ajan | kendi beyazlistesi içinde |
 
 ---
+
+## §S — 3. Tur Web Doğrulama Kaydı (2026-10-14)
+
+> Kapsam: `isletim-sistemi-api/` altında 4 kök + 5 alt-dal toplam 9 içerik dosyası.
+> İşlem sırası: (1) 163 URL'nin tamamının tekrar HEAD-200 doğrulaması,
+> (2) 404'lerin kök-neden sınıflandırması, (3) envanter kesişim testi sonrası
+> 14 yeni URL'nin doğrulanması, (4) ölü URL düzeltmesi + dosya bazlı kod
+> örnekleri (sistem gruplu).
+
+### §S.1 Tur Ölçümü (163 URL · HEAD · 2026-10-14)
+
+| Metrik | Değer |
+|---|---|
+| Toplam URL (FM `url:` + içerik) | 163 |
+| HEAD-200 | 146 |
+| 404 | 16 |
+| 0 yanıt (HEAD reddi) | 1 (rfc9293 — GET 200, geçerli) |
+| Başarı oranı | %89,6 |
+| Kanıt | `%TEMP%\k000-http.csv`, `%TEMP%\k000-urls.txt` |
+
+### §S.2 404 Sınıflandırması (16 adet)
+
+**§E.2 X1–X11 ile örtüşen (11)** — §E.2'de tescilli, 3 turda da 404:
+
+`aaudio` ndk/guides (X1) · `fsevents` (X2) · `Concurrency.pdf` (X3) · docs.kernel.org
+introduction ×2 (X4/X5) · `readdirectorychangesw` fileapi (X6) · `setthreadpoolwait`
+(X7) · `security_attributes` ns-winnt (X8) · `notification-about-directory-changes`
+(X9) · `using-directory-change-notifications` (X10) · `winprog/windows-apis` (X11)
+
+**§I.1 ile örtüşen (3)** — `man7.org` `paths.7` / `file_hierarchy.7` / `hierarchy.7`:
+§I.1'de "düzeltme YASAK" (kayıtlı) — 3 turda 404, kayıt korundu.
+
+**Yeni keşif (2):**
+
+| URL | Durum | İşlem |
+|---|---|---|
+| aaudio `ndk/guides/audio/aaudio` (GET ile de 404) | 404 | §G/5 tescili geçersiz → §S.4 düzeltme kaydı |
+| `win32/com/coinitializeex` (eski COM yolu) | 404 | `platform-api/windows-api-yuzeyi.md` FM + §E.9 → `api/combaseapi/coinitializeex` (HEAD-200) ile değiştirildi |
+
+**Winsock yolları düzeltmesi (check-point düzeltmesi):** `api/winsock/nf-winsock2-{listen,accept,connect,send}` 404 — doğru yol `api/winsock2/…` (hepsi HEAD-200); `bind` hariç (o `winsock/` altında da 200). `ag-api/posix-socket-ve-winsock-karsilastirmasi.md` §F.4'te tescilli.
+
+### §S.3 14 Yeni URL (Kesişim Testi Sonrası Doğrulanmış)
+
+24 aday URL envanter (2026-10-14 ölçümü: 995 md · 3303 benzersiz URL, `.ai/architecture/**`) ile kesişim testinden geçirildi: 10 mevcut envanter URL'si elendi (zaten bu turda kullanılıyor), 14 yeni kabul edildi. Hepsi HEAD-200:
+
+| # | URL | Kullanım |
+|---|---|---|
+| 1 | `api/combaseapi/nf-combaseapi-coinitializeex` | `platform-api` §12 COM init |
+| 2 | `fileapi/nf-fileapi-readfile` | `platform-api` §12 okuma |
+| 3 | `fileapi/nf-fileapi-writefile` | `platform-api` §12 yazma |
+| 4 | `err/nf-err-setlasterror` | `platform-api` §12 hata |
+| 5 | `winsock2/nf-winsock2-bind` | `ag-api` §F bağlama |
+| 6 | `winsock2/nf-winsock2-listen` | `ag-api` §F dinleme |
+| 7 | `winsock2/nf-winsock2-accept` | `ag-api` §F kabul |
+| 8 | `winsock2/nf-winsock2-connect` | `ag-api` §F bağlanma |
+| 9 | `winsock2/nf-winsock2-send` | `ag-api` §F gönderme |
+| 10 | `posix/write` | `sistem-cagrilari` §6.20 grup özeti |
+| 11 | `posix/close` | `sistem-cagrilari` §6.20 grup özeti |
+| 12 | `posix/socket` | `ag-api` §F.4 taşınabilirlik |
+| 13 | `posix/accept` | `ag-api` §F.4 taşınabilirlik |
+| 14 | `man.freebsd.org/en/man3/kqueue.2` | `ornekler` §F.3 macOS keşif |
+
+### §S.4 Dosya Bazlı Eklenen Bölümler / Düzeltmeler
+
+| Dosya | Değişiklik | Gerekçe |
+|---|---|---|
+| `platform-api/windows-api-yuzeyi.md` | FM satır 11 + §E.9: ölü `win32/com/coinitializeex` → `api/combaseapi/coinitializeex` (HEAD-200) + FM validation güncellendi | §S.2 keşif |
+| `platform-api/windows-api-yuzeyi.md` | §12 (yeni): WriteFile/ReadFile, SetLastError/GetLastError, DeviceIoControl kod örnekleri + §12.4 kanıt tablosu | Kod örneği eksiği |
+| `isletim-sistemi-api-ornekler.md` | §F (yeni): sistem gruplu örnekler — §F.0 gruplama özeti · §F.1 Linux/POSIX C · §F.2 Windows eşleme · §F.3 macOS kqueue · §F.4 Android NDK · §F.5 taşınabilirlik kanıt matrisi | Kullanıcı kararı "her ikisi de" |
+| `syscall/syscall-mekanizmasi.md` | §J (yeni): x86_64 inline asm + libc `syscall()` geçişi + §J.3 kanıt tablosu | Kod örneği eksiği |
+| `syscall/syscall-hata-kodlari-ve-errno.md` | §F.17–18 (yeni): C `errno` tek-okuma + PHP `proc_open` kanal yakalama + kanıt tablosu | Kod örneği eksiği |
+| `sistem-cagrilari/sistem-cagrilari-ornekler.md` | §6.20–21 (yeni): fork+execve / posix_spawn / CreateProcessW / `proc_open` gruplu + kanıt tablosu | Sistem gruplama |
+| `ag-api/posix-socket-ve-winsock-karsilastirmasi.md` | §F (yeni): POSIX vs Winsock2 çift kod örneği + §F.3 satır-satır eşleme + §F.4 dokuz yeni URL kanıt tablosu | Winsock 404 yollarının yerine `winsock2/` |
+| `cihaz-erisimi/cihaz-erisimi-anayasa.md` | §10.23–24 (yeni): Linux `open`+`ioctl`+`close` + Windows karşılık + kanıt tablosu | Kod örneği eksiği |
+| `isletim-sistemi-api-dogrulama.md` | FM `validation`/`updated` (2026-10-14) + §O O3/O4 satırları + bu §S | 3. tur kaydı |
+
+### §S.5 Beyazliste / Değişiklik Kontrolü
+
+Bu turda yazılan dosyalar (9) `isletim-sistemi-api/` altındadır — beyazliste
+içinde. Başka dizine yazım YOK. `git commit` ATILMADI (orkestratöre ait).
+
+### §S.6 rfc9293 Notu (HEAD=0 / GET=200)
+
+`https://www.rfc-editor.org/rfc/rfc9293` HEAD isteğine yanıt vermiyor (0);
+aynı URL GET ile 200 dönüyor — URL geçerli, HTTP hatası sayılmadı.
+
+### §S.7 PHP Tur Eki (§G · 2026-10-14)
+
+`isletim-sistemi-api-ornekler.md` §G (PHP grubu — fopen/fread/fwrite/fclose,
+file_get_contents, proc_open, socket_*, stream_select, pcntl_fork, FFI) için
+17 php.net URL'si HEAD-200 ile doğrulandı: 5 VAR (envanter) + 12 YENİ (kesişim
+testinden geçti). Repo kanıtı: `shared/tests/Repository/ApiKeyCreateCommandTest.php:248-269`
+(`proc_open` — §G.2). Ayrıntı: §G.6 tablosu.
+
+---
+
+## §T — 4. Tur Web Doğrulama Kaydı (2026-10-14)
+
+### §T.1 Tur Ölçümü (196 URL · HEAD · 2026-10-14)
+
+| Metrik | Değer |
+|---|---|
+| Ölçülen URL (ağaç tam taraması: 19 md dosyası) | 196 benzersiz |
+| HEAD-200 | 168 |
+| HEAD-404 | 16 |
+| HTTP durumu alınamayan (bağlantı reddi/timeout) | 12 — tamamı `www.gnu.org` |
+| Yeni ölü keşfi | **0** |
+
+Ölçüm yöntemi: `Invoke-WebRequest -Method Head -TimeoutSec 12` (PowerShell);
+dosya regexi `https?://[^\s\)\]>`"'<>]+`, son noktalama temizliği ile.
+
+### §T.2 404 Sınıflandırması (16 adet — tamamı tescilli)
+
+16×404 = §S.2'deki E.2 X1–X11 (11) + §I.1'deki 3 man7 sayfası
+(paths/hierarchy/file_hierarchy) + §S.2 keşifleri (aaudio eski yol +
+`com/coinitializeex` eski yol) = 16. Bu turda **yeni ölü yok**; 404'ler
+ağaçta tombstone kaydı olarak bilinçli tutulur (§I kuralı: el edilen URL
+kullanılmaz, silinmez).
+
+### §T.3 gnu.org erişim notu (12 URL — 404 DEĞİL)
+
+`www.gnu.org/software/libc/manual/**` 12 URL bu turda HTTP durumu
+ÜRETMEDI: HEAD → GET → UA'lı GET, üçü de timeout/bağlantı reddi. Bu
+"ölü sayfa" değil **ağ erişim engeli** görünümündedir. 3. tur (2026-10-13)
+kaydında bu 12 URL HEAD-200 ile tescillidir; tescil kendi tarihine bağlı
+kalır — bugüne "200" taşınmaz, bu tur durumu `UNKNOWN (erişim yok)` olarak
+işaretlenir. Ağaçtan silinmez.
+
+### §T.4 8 Yeni URL (envanter kesişim 0 · HEAD-200 · 2026-10-14)
+
+Envanter (`.ai/architecture/**` tam taraması): **994 md · 3378 benzersiz
+URL** — 3. tur ölçümüne (995 md · 3303) göre fark, 3. turun kendi yeni
+URL'leri + ağacın diğer dosyalarındaki güncellemelerdir; ölçüm anına bağlı
+fark, çelişki değildir.
+
+| # | URL | Tahsis edildiği bölüm | Durum |
+|---|---|---|---|
+| 1 | https://www.php.net/manual/en/function.stream-socket-server.php | socket-api-temelleri.md §F.6 | ✅ HEAD 200 · kesişim 0 |
+| 2 | https://www.php.net/manual/en/function.stream-socket-client.php | socket-api-temelleri.md §F.6 (+ udp-tcp §F.5 VAR) | ✅ HEAD 200 · kesişim 0 |
+| 3 | https://www.php.net/manual/en/function.stream-socket-accept.php | socket-api-temelleri.md §F.6 | ✅ HEAD 200 · kesişim 0 |
+| 4 | https://www.php.net/manual/en/function.socket-sendto.php | udp-tcp-ve-tls-api.md §F.5 | ✅ HEAD 200 · kesişim 0 |
+| 5 | https://www.php.net/manual/en/function.socket-recvfrom.php | udp-tcp-ve-tls-api.md §F.5 | ✅ HEAD 200 · kesişim 0 |
+| 6 | https://www.php.net/manual/en/function.socket-set-option.php | udp-tcp-ve-tls-api.md §F.5 | ✅ HEAD 200 · kesişim 0 |
+| 7 | https://man7.org/linux/man-pages/man2/sendto.2.html | udp-tcp-ve-tls-api.md §F.5 | ✅ HEAD 200 · kesişim 0 |
+| 8 | https://man7.org/linux/man-pages/man2/recvfrom.2.html | udp-tcp-ve-tls-api.md §F.5 | ✅ HEAD 200 · kesişim 0 |
+
+Aday-ölen 1 URL: `php.net/manual/en/function.php-os-family.php` → **404**
+(Dil sabitlerinin tekil sayfası yok) — kullanılmadı, windows-api-yuzeyi.md
+§13.3'te dürüstlük kaydı olarak geçer.
+
+### §T.5 Dosya Bazlı Eklenen Bölümler (4. tur)
+
+| # | Dosya | Eklenen bölüm | Yeni URL | Yeni repo kanıtı |
+|---|---|---|---|---|
+| 1 | ag-api/socket-api-temelleri.md | §F.1–§F.6 (POSIX C · Winsock C · PHP stream) | 3 | 0 |
+| 2 | ag-api/udp-tcp-ve-tls-api.md | §F.1–§F.5 (POSIX TCP/UDP C · PHP socket_*/stream) | 5 | 0 |
+| 3 | ag-api/posix-socket-ve-winsock-karsilastirmasi.md | §F.5 (PHP tek kod iki OS) | 0 | 0 |
+| 4 | platform-api/windows-api-yuzeyi.md | §13.1–§13.4 (PHP yüzeyi) | 0 | 2: `DesktopBff.php:35` (yeni) · `ApiKeyCreateCommandTest.php:253` (doğrulama — VAR §G.2) |
+| 5 | cihaz-erisimi/cihaz-erisimi-anayasa.md | §10.25 (PHP fopen deseni) | 0 | 1: `MusicStreamHandler.php:333` (yeni) |
+| 6 | sistem-cagrilari/sistem-cagrilari-surucu.md | §10.21.1–§10.21.2 (PHP gözlem deseni) | 0 | 2: `AIEngine.php:295` (doğrulama — VAR §7.1) · `ApiKeyCreateCommandTest.php:253` (VAR) |
+| 7 | isletim-sistemi-api-ornekler.md | §H (ağaç geneli sistem-gruplu örnek haritası) | 0 | 0 |
+| 8 | isletim-sistemi-api-dogrulama.md | §T + §O4 (bu bölüm) | 0 | 0 |
+
+Toplam: 8 yeni URL · 2 yeni repo-satır iddiası (`DesktopBff.php:35`,
+`MusicStreamHandler.php:333` — ikisi de 2026-10-14'te diskten doğrulandı) ·
+2 doğrulama-yenileme (§7.1 ve §G.2 tescillerinin satır teyidi).
+
+### §T.6 Beyazliste / Değişiklik Kontrolü
+
+Yazılan dosyalar: §T.5'teki 8 dosya — tamamı
+`.ai/architecture/K000-isletim-sistemi/isletim-sistemi-api/` altında.
+Yasak dizin kesişimi 0 · dosya adı değişikliği 0 · yeni dosya 0 ·
+uzantı dışına yazım 0 · commit 0 (subagent commit atmaz — §A17).
+
+### §T.7 Kapı Durumu
+
+§Q Q1–Q9 ölçüm kapıları bu turda **kapanmaz** (ölçüm yapılmadı); Q-P1…Q-P4
+açık kalır. §T yalnız web/disk doğrulama turu kaydıdır.
+
+### §T.8 4. Tur PHP Eki — §G.7 (2026-10-14)
+
+**Kapsam:** `isletim-sistemi-api-ornekler.md` §G.7 — kalan beş syscall ailesinin
+PHP yüzeyi (kilit · dizin · durum · non-blocking · sinyal), 5 kod bloğu +
+kanıt tablosu (§G.7.6).
+
+**URL ölçümü:** 22 benzersiz URL **22/22 HEAD-200** · envanter kesişimi
+**6 VAR + 16 YENİ** (§G.7.6 #19 stream_select §G.6 atıfdır, sayılmaz) ·
+4. tur toplam yeni URL: 8 (§T.4) + 16 = **24**.
+Yeni URL'ler (14 php.net + 2 man7): `flock` · `file-put-contents` · `mkdir` ·
+`rmdir` · `opendir` · `readdir` · `scandir` · `filesize` · `fileperms` ·
+`filemtime` · `clearstatcache` · `stream-set-blocking` · `pcntl-signal-dispatch` ·
+`usleep` · `man7/rmdir.2` · `man7/getdents.2`.
+
+**Yeni repo kanıtları (7 satır — disk doğrulaması bu tur):**
+`shared/src/Component/TemplateEngine.php:74` (LOCK_EX) ·
+`shared/src/Log/FileHandler.php:251` (FILE_APPEND|LOCK_EX) ·
+`shared/src/Session/SessionConfig.php:35` (@mkdir 0750) ·
+`shared/tests/Unit/Log/LoggerRedactionTest.php:51` (@rmdir) / `:143` (mkdir) /
+`:178` (clearstatcache) · `home.coremusic.net/include/Stream/MusicStreamHandler.php:72`
+(filesize) · `shared/src/AI/ToolCalling.php:187` (filesize) ·
+`vendor/php-di/php-di/src/Compiler/Compiler.php:341` (üçlü mkdir idiomu — vendor).
+
+**§H harita düzeltmeleri (2026-10-14 — phantom alt-numara tespiti):**
+`syscall-hata` satırı §F.16 "errno↔WSAGetLastError tablo" iddiası YANLIŞTI
+(§F.16 = dürüstlük bloğu; eşleme bu dosyada yok) → `— (…YOK — bkz. posix-socket §F)`
++ PHP hücresi §F.18 (tablo) yerine **§F.17** (kod bloğu) yapıldı ·
+`sistem-cagrilari-ornekler` satırı `§6.20.1-§6.20.3`/`§6.20.4-§6.20.6`/`§6.21.1-§6.21.3`
+phantom numaraları → gerçek blok adlarına (`fork+execve · posix_spawn` /
+`CreateProcessW` / `proc_open`) çekildi · `surucu` satırı §10.21.1 → §10.21.1-§10.21.2 ·
+`windows-api` satırı §13.1-§13.2 → §13.1-§13.4 · `ornekler` satırı PHP hücresi
+§B · §G → §B · §G.1-§G.7.
+
+**Envanter ölçümü (bu ek sonrası):** `.ai/architecture/**` = 1015 md ·
+3590 benzersiz URL · alt ağaç (`isletim-sistemi-api/`) = 19 md.
+
+**Kapılar (§G.7 eki sonrası ölçüm — 2026-10-14):** satır ≥500 ✓ (min 505
+kapsam · index.md 40–100 ✓ 6/6) · mojibake/CJK 0 ✓ ·
+boş tablo hücresi 0 ✓ · `parent:` 0 ✓ (`parent_id` FM alanı ile karıştırılmaz) ·
+tırnaksız `group` 19/19 ✓ · FM 19/19 ✓ (3 şema varyantı: A 10 alan · B +title/type/
+date/updated · C id/layer/tags — hepsi mevcut ve tutarlı) · beyazliste 8/8 ✓
+(6 dosya TUR4 validation + 2 schema-C dosya gövde kaydı §10.24/§10.21.2) ·
+commit 0 ✓ (HEAD `45f276a` — subagent atmaz, §A17).
+
+### §U — 5. Tur: Diğer Yazılım Dilleri (§I · 2026-10-14)
+
+**Kapsam:** `isletim-sistemi-api-ornekler.md` §I — PHP (§G) ve C (§F)
+tamamlayıcısı olarak **Python · Go · Rust · C#/.NET · Node.js** syscall
+yüzeyi. §I.0 dil↔katman eşleme tablosu + 5 dil grubu kod örneği + §I.6 kanıt
+tablosu.
+
+**URL ölçümü:** 17 benzersiz URL **17/17 HEAD-200** · envanter kesişimi
+**0 VAR + 17 YENİ** (docs.python.org 5 · pkg.go.dev 3 · doc.rust-lang.org 4 ·
+learn.microsoft.com/dotnet 3 · nodejs.org 2). Repo-satır iddiası **0** — bu
+diller CoreMusic üretim kodunda kullanılmaz (PHP 8.4 tek backend, ADR-039);
+bloklar resmi dokümantasyon sarmalayıcılarıdır, üretim kodu değildir (§I.6).
+
+**§H harita güncelleme:** `ornekler` satırı Not hücresine §I eklendi; §I çok-dilli
+olduğu için dar "PHP" sütununa yerleştirilmedi (sütun yerleşimi yanıltıcı olurdu).
+
+**Envanter ölçümü (bu ek sonrası):** `.ai/architecture/**` = 1015 md ·
+3607 benzersiz URL (3590 + 17).
+
+**Kapılar:** ≥500 satır ✓ (ölçüm kapanışta) · mojibake 0 · beyazliste içi 1 dosya
+(ornekler.md) · commit 0 (subagent — §A17).
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

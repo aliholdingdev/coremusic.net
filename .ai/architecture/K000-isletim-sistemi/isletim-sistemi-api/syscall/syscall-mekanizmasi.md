@@ -503,4 +503,74 @@ noktalarini belirler.
 | bellek kopyasi | en aza indir | tampon |
 | baglam degisimi | en aza indir | tek islem |
 
+## §J — Syscall gecis ornekleri (2026-10-14)
+
+> Bu bolum, dosyanin §B-§D'lerinde tarif edilen gecis mekanizmasinin **kod
+> karsiligidir**. Ornekler derlenebilirlik iddiasi TASIMAZ — gecis bicimi ve
+> hata modelini gosterir. Her ornegin kaynagi §J.3 tablosundadir (2026-10-14
+> HTTP 200).
+
+### §J.1 — Ham gecis bicimi (x86_64 · inline asm)
+
+§A.1'deki 8 adimlik cagri tablosu, asm seviyesinde su bicimde gorunur:
+
+```c
+#include <sys/syscall.h>
+
+long ret;
+__asm__ volatile ("syscall"
+                  : "=a" (ret)             /* donus degeri rax'a yazilir */
+                  : "a"  (SYS_getpid)      /* syscall numarasi rax'a */
+                  : "rcx", "r11", "memory");
+          /* rcx donus adresiyle, r11 rflags ile ezilir — bu yuzden
+             4. arguman r10'a konur (ornekler §A.1 tablo notu) */
+```
+
+Okuma kurallari:
+
+| # | Kural | Kötü okuma |
+|---|---|---|
+| 1 | syscall numarasi sabit yazilmaz, `SYS_xxx` sabiti kullanilir | mimariden bagimsiz sanilir |
+| 2 | `rcx`/`r11` clobber listesindedir | kayitlar kirar, sessiz bozulma |
+| 3 | donus degeri `ret`'ten okunur; hata icin §J.3 errno kurali gecerlidir | ham donus ile libc errno karisir |
+
+### §J.2 — libc sarmalayicisi `syscall()` + errno deseni
+
+```c
+#include <sys/syscall.h>
+#include <unistd.h>
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
+
+long ret = syscall(SYS_getpid);
+if (ret == -1) {
+    /* glibc sarmalayicisi cekirdegin -1..-4095 donusunu -1'e cevirir ve
+       errno'ya yazar — errno yalnizca -1 donusunde okunur (ornekler §A.2, §C.9) */
+    fprintf(stderr, "syscall: %s\n", strerror(errno));
+    return 1;
+}
+printf("pid: %ld\n", ret);
+```
+
+Bu desen, §G.2'deki "syscall(2) bicimi" iddiasinin kod karsiligidir: ham
+gecis (§J.1) ile libc sarmalayicisi (§J.2) arasindaki fark, hata modelinin
+nerede okundugudur — birincisinde cekirdek donus degerinden ayristirilir,
+ikincisinde libc errno'ya cevirmistir.
+
+### §J.3 — §J kanit tablosu
+
+| # | Iddia | Resmi kaynak | Tarih | Durum |
+|---|---|---|---|---|
+| 1 | tek syscall cagrisi `syscall(SYS_xxx, ...)` bicimindedir | https://man7.org/linux/man-pages/man2/syscall.2.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 2 | sistem cagrilari cekirdegin temel arayuzudur | https://man7.org/linux/man-pages/man2/syscalls.2.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 3 | `getpid(2)` ornegi bir syscall'dir | https://man7.org/linux/man-pages/man2/getpid.2.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 4 | `errno` hata-numarasi mekanizmasidir | https://man7.org/linux/man-pages/man3/errno.3.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+| 5 | sistem cagrisi giris konusu | https://man7.org/linux/man-pages/man2/intro.2.html | 2026-10-14 | ✅ HTTP 200 (HEAD) |
+
+`SYS_getpid` icin **sayisal** deger bu turda dogrulanmadi (mimari baslik
+`unistd_64.h` okunmadi) — orneklerde sabit yerine `SYS_xxx` sembolu
+kullanilmistir; sayisal deger isteyen satir `⚠️ VERIFICATION REQUIRED`
+tasir.
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
