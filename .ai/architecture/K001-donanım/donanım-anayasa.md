@@ -190,9 +190,9 @@ Bu belge K001 düğümünün bağlayıcı kural setidir; çelişkide bu dosya ka
 
 | # | Soru | Etki | Etiket |
 |---|---|---|---|
-| 1 | K002 neden yok? (K001→K003 atlama) | ID GAP | ⚠️ VERIFICATION REQUIRED |
+| 1 | K002 neden yok? (K001→K003 atlama) | ID GAP | ⚠️ VERIFICATION REQUIRED — düzeltme (2026-10-13): `K002-electroncis/` diskte VAR (16 md) ama `architecture/index.md` §6 hâlâ "K002 yok" der → çelişki C1, Vault Steward kararı bekliyor (ADR-102 §6) |
 | 2 | donanım-kernel mi core mu donanıma daha yakın? | sınır | ⚠️ VERIFICATION REQUIRED |
-| 3 | donanaım-type altı 3 bağlam mı, fazlası mı? | genişleme | ⚠️ VERIFICATION REQUIRED |
+| 3 | donanaım-type altı 3 bağlam mı, fazlası mı? | genişleme | ✅ CEVAPLANDI (2026-10-13): disk gerçeği **10 bağlam** — 9'u `PROPOSED — APPROVAL REQUIRED` (ADR-102 taslağı: display·power önceki oturum + cables·network·memory·cpu bu oturum) + gpu (paralel Vault Steward oturumu, ADR-102 DIŞI) |
 | 4 | hdd/ssd ayrımı teknoloji mi kullanım mı? | sınıflandırma | ⚠️ VERIFICATION REQUIRED |
 | 5 | Ses donanımı envanteri K001 mi K003 mü? | sınır | ⚠️ VERIFICATION REQUIRED |
 | 6 | firmware-sürüm uyuşmazlığı kimin işi (K005 sınırı)? | escalation | ⚠️ VERIFICATION REQUIRED |
@@ -247,7 +247,7 @@ Bu belge K001 düğümünün bağlayıcı kural setidir; çelişkide bu dosya ka
 | C7 | DC offset > 0.5 V → koruma rölesi | HAYIR — güvenlik | kök `AGENTS.md` §10 |
 | C8 | SNR > 100 dB · THD+N < 0.01 % @ 1 kHz | EVET — ADR ile değişebilir | `~/.config/opencode/AGENTS.md` §5 |
 | C9 | 4 kademe-2 çocuk (kernel/core/api/type) | EVET — ADR ile | v2 §2.2 |
-| C10 | 3 kademe-3 alt bağlam (audio/hdd/ssd) | EVET — envanterle | v2 §2.2 |
+| C10 | 3 kademe-3 alt bağlam (audio/hdd/ssd) | EVET — envanterle | v2 §2.2 · `PROPOSED — APPROVAL REQUIRED`: 10 bağlam (audio·hdd·ssd·display·power·cables·network·memory·cpu — ADR-102 taslağı + gpu — paralel oturum, ADR-102 DIŞI) — ADR-102 onaylanana kadar eski 3 bağlam geçerli sayılır |
 
 ### §12.1 Değişmezlik Sınıfı Ayrımı
 
@@ -441,7 +441,7 @@ Bu belge K001 düğümünün bağlayıcı kural setidir; çelişkide bu dosya ka
 | 2 | `donanaım-type` yazım bütünlüğü | vault-sync taraması | her sync |
 | 3 | Sürüm değişimi (PHPUnit/PHP/MySQL) | uyumluluk yeniden değerlendirme | sürüm başına |
 | 4 | Yeni ADR (ADR-097 Band-2) | §14 yetki sınırları güncelleme | ADR başına |
-| 5 | K002 ID GAP kapanışı | §9 bağımlılık düzeltmesi | bir kez |
+| 5 | K002 ID GAP kapanışı | §9 bağımlılık düzeltmesi | bir kez — disk gerçeği: `K002-electroncis/` VAR (16 md); §9/§23 düzeltmesi Vault Steward onayı bekliyor (ADR-102 §6/C1) |
 | 6 | Çekirdek eşik değişimi (SNR/THD) | §18 kapısı güncelleme | ADR başına |
 | 7 | Fiziksel test ortamı kurulumu | §10 Q7 kapatma + status verified | bir kez |
 
@@ -451,11 +451,11 @@ Bu belge K001 düğümünün bağlayıcı kural setidir; çelişkide bu dosya ka
 |---|---|---|---|---|
 | Kademe | 2 | 2 | 2 | 2 |
 | Rol | donanıma en yakın | merkez toplama | dışa çağrı yüzeyi | tür sınıflandırma |
-| Sahip olduğu | register/kesme/DMA sarmalayıcı rolü | envanter/ölçü/sağlık | keşif/komut/durum/olay | audio·hdd·ssd envanteri |
+| Sahip olduğu | register/kesme/DMA sarmalayıcı rolü | envanter/ölçü/sağlık | keşif/komut/durum/olay | audio·hdd·ssd·display·power·cables·network·memory·cpu envanteri (`PROPOSED` — ADR-102) + gpu (paralel oturum, ADR-102 DIŞI) |
 | Sahip olmadığı | çekirdek sürücü kodu | API sözleşmesi | iş kuralı | firmware yükleme |
 | Bloklayan soru | Q3 (kernel↔core) | Q3 + Q2 (depolama) | Q-A1 (protokol) | Q4 (envanter) |
 | Durum | draft | draft | draft | draft |
-| Alt kademe | `children: []` | `children: []` | `children: []` | audio·hdd·ssd (3) |
+| Alt kademe | `children: []` | `children: []` | `children: []` | audio·hdd·ssd·display·power·cables·network·memory·cpu (9, ADR-102) + gpu (10., paralel oturum, ADR-102 DIŞI) — `PROPOSED` |
 | Kanıt durumu | XU316/TPA3255 arayüzü | LM5122/MJL ölçüm | SPI/I2C/USB Audio | PCM3168A/AK4458 |
 
 ## §24 Bağımlılık Yönü Hızlı Bakış
@@ -479,7 +479,7 @@ Bu belge K001 düğümünün bağlayıcı kural setidir; çelişkide bu dosya ka
 | 3 | Q-A1 API protokol kararı | Vault Steward | Q3 |
 | 4 | Fiziksel test ortamı kurulumu | Test | dalga-4 bütçe |
 | 5 | K001 üretim kodu başlangıcı | embedded | Q3 + Q4 |
-| 6 | ADR-099-010 kapanışı (K002 GAP) | Architect | vault-sync |
+| 6 | ADR-099-010 kapanışı (K002 GAP) | Architect | vault-sync — disk gerçeği: `K002-electroncis/` VAR (16 md) → GAP'in kapanışı §9/§23 düzeltmesi + architecture/index.md §6 revizyonu ister |
 | 7 | status: verified geçişi | Vault Steward | §15 K1-K10 tamamı |
 
 ## §26 Düğüm Dizin Yapısı (disk kanıtı — 2026-10-13 sayımı)
@@ -499,6 +499,13 @@ Bu belge K001 düğümünün bağlayıcı kural setidir; çelişkide bu dosya ka
 | `donanım-core/` | 2 içerik + index | 87 · 62 · — | ≥500 hedef |
 | `donanım-api/` | 2 içerik + index | 85 · 61 · — | ≥500 hedef |
 | `donanaım-type/` | 2 içerik + index | 87 · 63 · — | ≥500 hedef |
+| `donanaım-type/display/` | index + 3 içerik | 4 dosya | proposed (ADR-102) |
+| `donanaım-type/power/` | index + 3 içerik | 4 dosya | proposed — önceki oturum |
+| `donanaım-type/cables/` | index + 3 içerik | 4 dosya | proposed (ADR-102) |
+| `donanaım-type/network/` | index + 3 içerik | 4 dosya (1.970 satır) | proposed (ADR-102) |
+| `donanaım-type/memory/` | index + 3 içerik | 4 dosya (1.290 satır) | proposed (ADR-102) |
+| `donanaım-type/cpu/` | index + 3 içerik | 4 dosya (~85 KB) | proposed (ADR-102) |
+| `donanaım-type/gpu/` | index + 2 içerik | 3 dosya — **gpu-ornekler.md BEKLENİYOR** | proposed (paralel oturum 2026-10-13 22:07 — ADR-102 DIŞI) |
 | `donanaım-type/audio/cipler/` | 3 chip dosyası | 541 · 586 · 480 | ak4458/tpa3255 dokunulmaz |
 | `donanaım-type/hdd/` | index + hedef | index 47 | hdd-kapsam YENİ ≥500 |
 | `donanaım-type/ssd/` | index + hedef | index 47 | ssd-kapsam YENİ ≥500 |

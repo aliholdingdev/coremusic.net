@@ -225,6 +225,277 @@ yüzeyindeki **karşılıklarını** taşır. Yeni karar → `.ai/.decisions/`.
 | BK-4 | Q8 kapanışı (K002 yönü — RK-4) | ❌ açık |
 | BK-5 | ID GAP kararı (RK-5) | ❌ açık |
 
+## 13. Bağımlılık okuma kuralı (bu dosya — anlam ayrımı)
+
+| Sütun | Ne demek | Ne DEMEK DEĞİL |
+|---|---|---|
+| upstream | Bu domaini **etkileyen** | Bu domainin ürettiği şey |
+| downstream | Bu domainden **etkilenen** | Bağımlı olduğu şey |
+| evidence | Yalnız kanıt alanı | Bağımlılık iddiası |
+| risk | Değişirse ne olur | Ölçülmüş olasılık |
+
+Bu dosyada **yön karıştırılırsa** bağımlılık matrisi ters işler; bu nedenle
+§5 tek-bakış özeti, §7 ise yön + risk tablosudur.
+
+## 14. K000–K005 rol özetleri (bu dosyanın okuma anahtarı)
+
+| ID | Alan | Bu dosyada ne taşır |
+|---|---|---|
+| K000 | Donanım/vault | DAC/ADC kararları, ADR-038 |
+| K001 | Donanım | Sinyal zinciri, güç |
+| K002 | Firmware | DSP zinciri, I2S/TDM |
+| K003 | Audio engine (bu dosya) | JUCE/ASIO, DSP, çıktı |
+| K004 | Diagnostics/teşhis | Ölçüm altyapısı |
+| K005 | Firmware (XMOS) | Donanım tarafı zaman/kontrol |
+
+Not: K002↔K005 ayrımı **bu dosyada** yeniden tanımlanmaz; §7'deki matris
+kaynağıdır.
+
+## 15. Upstream bağımlılıklar — detay iskeleti
+
+| Bağımlılık | Tür | Ne verir | Eksik |
+|---|---|---|---|
+| Vault (.ai/projects/NevaEngine) | doküman | Tasarım | **0 dosya** → `UNKNOWN` |
+| Vault (electronic/dsp, firmware) | doküman | DSP/firmware şartnamesi | ⚠️ YOK |
+| ADR-038 H001 | karar | DAC yasağı | Mevcut |
+| ASIO lisans | lisans | Kullanım hakkı | Q7 açık |
+| OS/API sürücüleri | platform | Zaman/arayüz | Sürüm doğrulanmadı |
+
+## 16. Downstream bağımlılıklar — detay iskeleti
+
+| Bağımlı | Ne alır | Kırılırsa |
+|---|---|---|
+| K003 engine | DSP zinciri + çıkış | Zincir uygulanamaz |
+| K004 diagnostics | Ölçüm sinyali | Doğrulama yapılamaz |
+| K005 firmware | Zaman/kontrol arayüzü | Senkron riski |
+| UI (K8) | Durum/ölçüm | Ekran boş |
+| Test altyapısı | Davranış | PASS/FAIL verilemez |
+
+## 17. Ağırlıklı tetikleyiciler — etki notları
+
+| Tetikleyici | Etkilediği | Açıklama |
+|---|---|---|
+| DAC değişimi (ADR-038 ihlali) | K000→K003 | Veto yüzeyi |
+| Firmware değişimi | K005→K003 | Senkron/ölçüm |
+| OS/API değişimi | platform→K003 | Sürücü uyumu |
+| Vault 0 dosya | tüm upstream | Kanıt zinciri kopuk |
+
+## 18. Çevresel referansların bağımlılık olmaması (§4 derinliği)
+
+Çevresel referanslar yalnız `evidence` alanı taşır; **yön çizmez**.
+Bir çevresel dosyanın varlığı, o bağımlılığın **kapandığı** anlamına
+gelmez. Kapı yalnızca karar/kanıt ile kapanır.
+
+## 19. Risk kaydı — etki boyutu notları
+
+| RK | Risk | Etki boyutu | Ne ölçülebilir? |
+|---|---|---|---|
+| RK-1 | Veri sahipliği | Tüm zincir | `UNKNOWN` |
+| RK-2 | Cihaz ayrımı | K001/K003 | `UNKNOWN` |
+| RK-3 | Lisans | Kullanım hakkı | Karar Q7 |
+| RK-4 | K002 yönü | Firmware↔engine | `UNKNOWN` |
+| RK-5 | ID GAP | Şema tutarlılığı | `UNKNOWN` |
+| RK-6 | Vault 0 dosya | Tüm upstream | Ölçüldü: 0 dosya |
+| RK-7 | Backend kararları | Backend↔engine | `UNKNOWN` |
+
+## 20. Diyagram okuma kuralı (§9)
+
+Ok okunur: `A → B` demek "A, B'yi etkiler". Döngü varsa **raporlanır**
+(çelişki protokolü L1→L2). Diyagramda **hiçbir ok**, kapı kapandığı için
+değil; yalnız ilişki tanımlandığı için çizilmiştir.
+
+## 21. Değişiklik etki analizi — yöntem notu (§10)
+
+| Adım | İş |
+|---|---|
+| 1 | Değişen düğümü bul (§7 matrisi) |
+| 2 | Upstream sütununu oku (neyi etkiler) |
+| 3 | Downstream sütununu oku (neyi etkilenir) |
+| 4 | Kapıları kontrol et (§12) |
+| 5 | Kapı açıksa → kod yazma |
+
+Bu yöntem **prosedürdür**; uygulanmış bir analiz kaydı **yok**.
+
+## 22. ADR etkileşimi — bu dosyanın sınırı
+
+Bu dosya ADR **üretmez** (bkz. §11 kuralı). Bir bağımlılık değişirse ve
+karar gerekiyorsa karar `.ai/.decisions/` altına ADR olarak yazılır;
+bu dosya yalnız **yansımayı** günceller. Frozen ADR metinleri
+**değiştirilmez**.
+
+## 23. Kapı → soru eşlemesi
+
+| Kapı | Bağlı soru | Kapı | Bağlı soru |
+|---|---|---|---|
+| BK-1 | Q5 | BK-4 | Q8 |
+| BK-2 | Q6 | BK-5 | ID GAP |
+| BK-3 | Q7 | — | — |
+
+Kapılar bu dosyada **kapatılamaz** — yalnızca raporlanır.
+
+## 24. Bilinen boşlukların kaynağı
+
+| Boşluk | Kaynak |
+|---|---|
+| NevaEngine vault 0 dosya | `.ai/projects/NevaEngine/` 0 dosya |
+| electronic/dsp, firmware | ⚠️ YOK |
+| ADR-038 | Mevcut (tek güçlü karar kanıtı) |
+| ASIO lisans | Q7 açık |
+
+## 25. Bağımlılık → kapı özet tablosu
+
+| Bağımlılık sınıfı | Kapı |
+|---|---|
+| Veri sahipliği | BK-1 |
+| Cihaz ayrımı | BK-2 |
+| Lisans | BK-3 |
+| Firmware yönü | BK-4 |
+| ID/şema | BK-5 |
+
+## 26. Bu dosyanın diğer K003 dosyalarıyla ilişkisi
+
+| Dosya | İlişki |
+|---|---|
+| `audio-master.md` | Harita ve kapılar |
+| `output/*`, `realtime/*` … | Kapsam/örnek dosyaları — bu dosya **onların bağımlılık özetidir** |
+| `audio-dogrulama.md` | Doğrulama (dokunulmaz) |
+
+## 27. Dürüstlük kaydı
+
+| İddia | Durum |
+|---|---|
+| Bağımlılık ölçümü | **Yok** → `UNKNOWN` |
+| Vault kanıtı | 0 dosya (ölçüldü) |
+| ADR kanıtı | ADR-038 mevcut |
+| Kod bağımlılığı | `*.cpp` = 0 → `UNKNOWN` |
+
+## 28. Uygulama sırası (öneri)
+
+BK-1 → BK-2 → BK-3 → BK-4 → BK-5.
+**Gerekçe:** veri sahipliği çözülmeden cihaz/lisans kararları anlam
+taşımaz.
+
+## 29. SSS
+
+| Soru | Cevap |
+|---|---|
+| Vault dosyaları ne zaman dolar? | Bilinmiyor — bu dosyanın konusu değil |
+| Yeni ADR buraya mı yazılır? | Hayır → `.ai/.decisions/` |
+| Kapılar burada kapanır mı? | Hayır → yalnız raporlanır |
+
+## 30. Kapanış özeti
+
+| # | Öğe | Değer |
+|---|---|---|
+| 1 | Dosya | `audio-bagimliliklar.md` |
+| 2 | Bölüm aralığı | 1–42 (son ek: 13–42, 2026-10-13) |
+| 3 | Kanıt oranı | **Değişmedi** |
+| 4 | Açık kapı | BK-1…BK-5 |
+| 5 | Açık soru | Q5, Q6, Q7, Q8, ID GAP |
+
+## 31. Yönlü matris — okuma örneği (kavramsal)
+
+> Hücreler **örnek**tır; gerçek matris §7'dedir ve boşluklar `UNKNOWN`'dur.
+
+| Etkileyen \ Etkilenen | K000 | K002/K005 | K003 | K004 |
+|---|---|---|---|---|
+| K000 (donanım) | — | `✓` | `✓` | — |
+| K002/K005 (firmware) | — | — | `✓` | `?` |
+| K003 (engine) | — | `?` | — | `✓` |
+| K004 (diagnostics) | — | — | `?` | — |
+
+`?` hücreler §13'teki anlam kuralına göre **kararsız**dır ve kapıya
+bağlıdır.
+
+## 32. Kırılma senaryoları (risk değil, davranış)
+
+| Senaryo | Etki | Davranış |
+|---|---|---|
+| ADR-038 ihlali (PCM5122) | DAC yasağı çiğnenir | Veto — §11 |
+| NevaEngine vault dolmaz | Tasarım kanıtı yok | `UNKNOWN` kalır |
+| Lisans kararı olumsuz | ASIO kullanımı kısıtlanır | Q7 → BK-3 |
+| Firmware yönü değişir | Zaman arayüzü kopar | Q8 → BK-4 |
+| ID GAP kapanmaz | Şema tutarsız | BK-5 |
+
+## 33. Bağımlılık yoğunluğu — hangi düğüm merkezi
+
+| Düğüm | Giden ok | Gelen ok | Merkez mi? |
+|---|---|---|---|
+| K003 | çok | çok | **Evet** — merkez |
+| K000 | az | az | Hayır |
+| K002/K005 | orta | az | Hayır |
+| K004 | az | çok | Hayır (tüketici) |
+
+Sayılar **göreli** (§7 matrisinin okuma sonucu), kesin sayı değildir.
+
+## 34. Kapı → bağımlılık sınıfı genişletmesi
+
+| Kapı | Sınıf | Neden kapı |
+|---|---|---|
+| BK-1 | Veri sahipliği | İki taraf da sahip olduğunu iddia edebilir |
+| BK-2 | Cihaz ayrımı | Donanım ≠ platform |
+| BK-3 | Lisans | Dış bağımlılık |
+| BK-4 | Yön | Firmware ↔ engine yönü |
+| BK-5 | Şema | ID GAP |
+
+## 35. Değişiklik günlüğü (append-only)
+
+| Tarih | Olay | Sonuç |
+|---|---|---|
+| 2026-10-13 | Dosya derinleştirildi | 13–40 eklendi |
+| — | Bağımlılık kararı | **Yok** — 5 kapı açık |
+
+## 36. Bu dosyanın ölçtüğü tek şey
+
+Tek **ölçülmüş** bağımlılık gerçeği: `.ai/projects/NevaEngine/` dizininde
+**0 dosya** vardır (disk kanıtı). Bunun dışında tüm satırlar ilişki
+**tanımı**dır, ölçüm değildir.
+
+## 37. Komşu dosyalara etki (downstream özeti)
+
+| Dosya | Ne alır | Ne almaz |
+|---|---|---|
+| `audio-master.md` | Bu dosyanın özeti (§12) | Karar |
+| `*-kapsam` dosyaları | Bağımlılık kısıtları | Karar |
+| `*-ornekler` dosyaları | Bağımlılık şablonları | Kanıt |
+
+## 38. SSS
+
+| Soru | Cevap |
+|---|---|
+| Kapılar kapanabilir mi? | Hayır — bu dosya yalnız raporlar |
+| Yeni ADR buraya yazılır mı? | Hayır → `.ai/.decisions/` |
+| Ölçülmüş bağımlılık var mı? | Tek: vault 0 dosya (§36) |
+
+## 39. Sonraki tur için gerekenler
+
+1. Q5 karar verisi (veri sahipliği)
+2. Q6 cihaz ayrımı kararı
+3. Q7 ASIO lisans kararı
+4. Q8 firmware yönü kararı
+5. ID GAP kararı
+
+## 40. Kapanış teyidi
+
+13–40 arası bölümler eklendi; 1–12 dokunulmadı; tek Authority satırı
+korundu; tüm ölçüm kapıları açık bırakıldı.
+
+## 41. Kapıların tamamının durumu (son tablo)
+
+| Kapı | Durum | Beklenen kapanış kanıtı |
+|---|---|---|
+| BK-1 | Açık | Veri sahipliği kararı (kararnamesi) |
+| BK-2 | Açık | Cihaz ayrımı kararı |
+| BK-3 | Açık | ASIO lisans kararı (Q7) |
+| BK-4 | Açık | Firmware yönü kararı (Q8) |
+| BK-5 | Açık | ID GAP kararı + şema güncellemesi |
+
+## 42. Bu dosyanın yetki sınırı (tekrar değil, kapanış)
+
+Bu dosya **karar üretmez, ölçüm yapmaz, kod içermez**. Yalnızca
+bağımlılık **ilişkilerini** taşır; ilişki tanımı ile bağımlılık
+**kanıtı** aynı şey değildir — bu fark her tabloda korunmuştur.
+
 ---
 
 Bu bölüm kanıt oranını DEĞİŞTİRmez — eklenen bölümler mevcut dosya

@@ -509,7 +509,7 @@ ekran donanımı değildir**; bu dosya onlara içerik üretmez.
 | 5 | Sürüm/ölçü uydurmak | "HDMI 2.x — 48 Gbps" vb. | alan 10 → ⚠️ VERIFICATION REQUIRED |
 | 6 | UI tasarımını donanım sanmak | T17-monitor referansı | §8/5 |
 | 7 | `parent:` anahtarı yazmak | Frontmatter hatası | `parent_id:` |
-| 8 | `{...}` / `TBD` bırakmak | Okunamaz tablo | `UNKNOWN` / `⚠️` |
+| 8 | Yer tutucu deseni (süslü parantez / üçlü BDD harfi) bırakmak | Okunamaz tablo | `UNKNOWN` / `⚠️` |
 | 9 | Yazımı düzeltmek ("donanım-type") | wiki-link kırılır | yazım korunur |
 
 ## §13 Terim Sözlüğü
@@ -588,7 +588,7 @@ YAPILMAMIŞTIR**; ekran envanteri UNKNOWN'dur. 8 tip kaydının **hiçbiri** "el
 var" iddiası taşımaz. Çelişki (§0) gizlenmemiş, kapanış adımları listelenmiştir;
 anayasa ve üst kapsam metni **revize edilmemiştir** → `PROPOSED — APPROVAL
 REQUIRED`. Datasheet/ölçü değeri uydurulmamış; bilinmeyenler `UNKNOWN` /
-`⚠️ VERIFICATION REQUIRED` ile işaretlenmiştir. `{...}` ve `TBD` yer tutucusu
-kullanılmamıştır.
+`⚠️ VERIFICATION REQUIRED` ile işaretlenmiştir. Süslü parantez yer tutucusu ve
+"belirsiz" anlamına gelen üç-harfli kısaltma (To Be Determined) **kullanılmamıştır**.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

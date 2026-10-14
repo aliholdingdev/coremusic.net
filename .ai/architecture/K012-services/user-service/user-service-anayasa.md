@@ -439,7 +439,7 @@ Dosya: `auth.coremusic.net/include/Service/AuthService.php` / Satır: 17–20
 (pepper), §22-4 (tablo) kapıları açık kalır. Bu dosyadaki kod kanıtları bu iki
 dosyadan gelir; kesin satır ucu `wc -l` ile doğrulanır → `⚠️ VERIFICATION REQUIRED`.
 
-## §29 Scope dışı — tutulmayan sözler
+## §28 Scope dışı — tutulmayan sözler
 
 | İddia seviyesi | Konu | Neden yok |
 | --- | --- | --- |
@@ -452,7 +452,7 @@ dosyadan gelir; kesin satır ucu `wc -l` ile doğrulanır → `⚠️ VERIFICATI
 | Öneri seviyesi | CSRF çift-gönderim (§14 `CSRF_TOKEN` sahte-anlık örneği) | Örnek `payment-gateway` üzerinden verilmiş tasarım emridir; auth yüzeyinde uygulanabilirliği ayrı iş |
 | Öneri seviyesi | Erişim günlüğüne `device_id` kaydı (§24) | Mevcut kod seviyesinde eklenmemiş öneri |
 
-## §30 Kesişim tablosu — bu anayasa ile çakışan diğer anayasalar
+## §29 Kesişim tablosu — bu anayasa ile çakışan diğer anayasalar
 
 | Dosya | Kesişen konu | Bu dosyanın tutumu | Çakışma durumu |
 | --- | --- | --- | --- |
@@ -463,7 +463,7 @@ dosyadan gelir; kesin satır ucu `wc -l` ile doğrulanır → `⚠️ VERIFICATI
 | `shared/AGENTS.md` §2.2 heartbeat paylaşımı | Session key'i dışında ek paylaşım | Bu anayasada yalnız session key paylaşımı tespit edildi | `⚠️ VERIFICATION REQUIRED` |
 | `auth.coremusic.net/AGENTS.md` §1 | Modül envanteri (11 satır) | Giriş / oturum / şifre satırları eşleşir | Uyumlu |
 
-## §31 Açık sorular (kalıcı)
+## §30 Açık sorular (kalıcı)
 
 | # | Soru | Durum |
 | --- | --- | --- |
@@ -475,7 +475,7 @@ dosyadan gelir; kesin satır ucu `wc -l` ile doğrulanır → `⚠️ VERIFICATI
 | Q6 | `GUEST_USER_ID` somut değeri ve anonim oturumun sunucu tarafı temsili | AÇIK |
 | Q7 | İki limitin (`RLP_MIN`, `RLI_MAX`) admin sınırlandırması politikası | AÇIK (bkz §12) |
 
-## §32 Kurallar özeti — dosyaya özel kopya
+## §31 Kurallar özeti — dosyaya özel kopya
 
 | # | Kural | Kaynak | Değiştirilebilir mi |
 | --- | --- | --- | --- |
@@ -494,7 +494,7 @@ dosyadan gelir; kesin satır ucu `wc -l` ile doğrulanır → `⚠️ VERIFICATI
 | 13 | Kural ≠ kanıt (Argon2id) | §6 | Hayır |
 | 14 | Olaylar sentetik — gerçek rol dosyaları bu dosyanın tamamıdır | §2 | Evet, kural olarak değil |
 
-## §33 Değişiklik Kaydı
+## §32 Değişiklik Kaydı
 
 | Tarih | Sürüm | Değişiklik |
 |---|---|---|

@@ -10,9 +10,9 @@ evidence:
   - https://learn.microsoft.com/en-us/windows/win32/coreaudio/exclusive-mode-streams
   - https://www.alsa-project.org/wiki/Main_Page
   - https://developer.apple.com/documentation/audiotoolbox
-validation: "2026-10-12 · 4 resmi URL HTTP 200 · 2026-10-13 · children 7 deep-dala genişletildi (alsa + coreaudio bu turda açıldı)"
+validation: "2026-10-12 · 4 resmi URL HTTP 200 · 2026-10-13 · children 7 deep-dala genişletildi (alsa + coreaudio bu turda açıldı) · 2026-10-13 · 7/7 deep-dal diskte (reactos-audio + tizen-audio + webos-audio bu turda 4'er dosya; aaudio daha önce açılmıştı — eski '0 dosya' kaydı bayatmıştı)"
 open_questions:
-  - "aaudio/tizen-audio/webos-audio/reactos-audio children'da görünüyor ama diskte henüz yok → ⚠️ VERIFICATION REQUIRED (B ajanı)"
+  - "✅ KAPANDI (2026-10-13): aaudio/tizen-audio/webos-audio/reactos-audio diskte — 4+4+4+4 dosya ölçüldü; yeni açık: 3 yeni dalın derin iddiaları gövde-GET ile teyit bekliyor → ⚠️ VERIFICATION REQUIRED (bkz. ilgili dal index §4)"
   - "CoreMusic'in gerçek ses donanımına erişimi YOK (ffmpeg ile WAV) — donanım yolu UNKNOWN"
 group: mimari
 ---
@@ -26,8 +26,8 @@ group: mimari
 | parent_id | K000-isletim-sistemi |
 | Kademe | 3 · subdomain |
 | Master referansı | `os-master.md` §3.8 · §4 |
-| Alt kademe | `children:` 7 deep-dal — wasapi mevcut · alsa + coreaudio bu turda açıldı · 4'ü B ajanı |
-| Durum | `draft` (Windows/Linux/macOS kanıtlandı; Android/Tizen/webOS/ReactOS derinliği yok) |
+| Alt kademe | `children:` 7 deep-dal — **7/7 diskte**: wasapi 13 · alsa 4 · coreaudio 4 · aaudio 4 · reactos-audio 4 · tizen-audio 4 · webos-audio 4 |
+| Durum | `draft` (7 platform da diskte; 3 yeni dalın gövde-GET teyidi açık — §5 Q-NEW) |
 
 ## §1 Platform ses API'leri
 
@@ -36,10 +36,10 @@ group: mimari
 | Windows | Windows Core Audio (WASAPI dahil) | `wasapi/` | ✅ diskte 13 dosya |
 | Linux | ALSA (kernel `snd-*` + `alsa-lib`) | `alsa/` | ✅ bu turda açıldı |
 | macOS / iOS | CoreAudio + AudioToolbox + AVAudioSession | `coreaudio/` | ✅ bu turda açıldı |
-| Android | AAudio | `aaudio/` | ⚠️ VERIFICATION REQUIRED (B ajanı) |
-| Tizen | Tizen ses API'si | `tizen-audio/` | ⚠️ VERIFICATION REQUIRED (B ajanı) |
-| webOS | webOS ses API'si | `webos-audio/` | ⚠️ VERIFICATION REQUIRED (B ajanı) |
-| ReactOS | Win32-uyumlu ses yolu | `reactos-audio/` | ⚠️ VERIFICATION REQUIRED (B ajanı) |
+| Android | AAudio | `aaudio/` | ✅ diskte 4 dosya |
+| Tizen | Tizen ses API'si | `tizen-audio/` | ✅ diskte 4 dosya (2026-10-13) |
+| webOS | webOS ses API'si | `webos-audio/` | ✅ diskte 4 dosya (2026-10-13) |
+| ReactOS | Win32-uyumlu ses yolu | `reactos-audio/` | ✅ diskte 4 dosya (2026-10-13) |
 
 Platform detayları kendi deep-dalındadır — bu dosya üst haritayı taşır, dal içeriğini **kopyalamaz**. Web kanıtı (2026-10-12 · HTTP 200): `about-the-windows-core-audio-apis` · `exclusive-mode-streams` · ALSA `Main_Page` · Apple `audiotoolbox`.
 
@@ -67,13 +67,15 @@ Platform detayları kendi deep-dalındadır — bu dosya üst haritayı taşır,
 | Deep-dal | Dosya | Durum |
 |---|---|---|
 | `wasapi/` | 13 dosya · 5.740 sat | ✅ mevcut — **dokunulmadı** |
-| `alsa/` + `coreaudio/` | 4 + 4 dosya | ✅ bu turda oluşturuldu |
-| `aaudio/` · `tizen-audio/` · `webos-audio/` · `reactos-audio/` | 0 | ⚠️ diskte YOK — B ajanının beyazlistesi |
+| `alsa/` + `coreaudio/` | 4 + 4 dosya | ✅ bir önceki turda oluşturuldu |
+| `aaudio/` | 4 dosya | ✅ mevcut (önceki turda açılmış — eski "0 dosya" kaydı bayatmıştı) |
+| `reactos-audio/` · `tizen-audio/` · `webos-audio/` | 4 + 4 + 4 dosya | ✅ **bu turda oluşturuldu** (2026-10-13 · web kanıtı doğrulandı: GitHub README · docs.tizen.org imzaları · webOSTV Luna sayfaları) |
 
 ## §5 Açık sorular
 
 | # | Soru | Etiket |
 |---|---|---|
+| Q-NEW | 3 yeni dalda (reactos/tizen/webos) gövde-GET teyidi: docs.tizen.org tam sayfa GET'i · ReactOS wiki bot-duvarı · webOS `getVolume/setVolume` olası metotları | ⚠️ VERIFICATION REQUIRED |
 | Q-A2 | CoreMusic'in donanım yolu ne zaman eklenecek (Neva Engine)? | ⚠️ VERIFICATION REQUIRED |
 | Q-A3 | ASIO karşılaştırması `wasapi/` içinde mi, ayrı child mı? | ⚠️ VERIFICATION REQUIRED |
 | Q-A4 | Hedef platform seti (Q4) — ses önceliği hangi OS? | UNKNOWN |

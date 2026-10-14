@@ -486,7 +486,9 @@ dosyada **başlatılmaz**, yalnız yönü gösterilir (ölçüm PLANNED).
 | 4 | §13.3 | §5 R2 + diagnostics R2 | açık soru |
 | 5 | §14.1 | §6 durum şeması + §7.1 | iç kanıt |
 | 6 | §14.2 | §2 sınır satırları | iç kanıt |
-| 7 | §14.3 | §5 R1–R6 | açık soru |
+| 7 | §14.3 | §5 R1—R6 | açık soru |
+| 8 | §16 latans bütçesi | §8 ölçüm kapıları | ölçüm AÇIK |
+| 9 | §17 matrisi | §6 durum şeması | iç kanıt |
 
 ---
 

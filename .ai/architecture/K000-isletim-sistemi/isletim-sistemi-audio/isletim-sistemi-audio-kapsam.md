@@ -12,7 +12,7 @@ validation:
   - "2026-10-13 · §A-§F bölüm yapısı A görev tanımına göre yazıldı"
   - "2026-10-13 · kapsam dışı komşuları §E'de5 komşu ile sabitlendi"
 open_questions:
-  - "aaudio/tizen-audio/webos-audio/reactos-audio envanteri bu dosyada boş — B ajanı dolduracak"
+  - "✅ KAPANDI (2026-10-13): 4 dal da diskte (aaudio 4 · tizen-audio 4 · webos-audio 4 · reactos-audio 4 dosya); §B tablosu güncellendi"
   - "Hedef platform önceliği (Q4) hâlâ UNKNOWN"
 group: mimari
 ---
@@ -41,7 +41,7 @@ ne komşuya devredilmiştir, ne de henüz kanıtlanmıştır.
 | A2 | Exclusive mode streams (dışlama modu — tek süreç cihazı alır) | `wasapi/` | ✅ kanıtlı |
 | A3 | Linux ses katmanı ALSA (donanım ↔ kullanıcı) | `alsa/` · 2026-10-13 | ✅ bu turda açıldı |
 | A4 | macOS / iOS Core Audio + AudioToolbox + AVAudioSession | `coreaudio/` · 2026-10-13 | ✅ bu turda açıldı |
-| A5 | Android native C ses API'si AAudio | `aaudio/` | ⚠️ B ajanı — diskte yok |
+| A5 | Android native C ses API'si AAudio | `aaudio/` | ✅ diskte 4 dosya (2026-10-13) |
 | A6 | Paylaşma modları: shared vs exclusive — latency/tradeoff | `wasapi/` + `alsa/` + `coreaudio/` | ✅ üç dalda da var |
 | A7 | OS ↔ ses donanımı entegrasyon sınırı | `os-bagimliliklar.md` §2 C7 | ✅ referans |
 | A8 | Deep-dal sahipliği: `wasapi/` · `alsa/` · `coreaudio/` | disk glob, 2026-10-13 | ✅ disk |
@@ -80,10 +80,10 @@ ne komşuya devredilmiştir, ne de henüz kanıtlanmıştır.
 | 1 | `wasapi/` | Windows | 13 dosya · 5.740 sat | Win-SW ajanı | ✅ mevcut — dokunulmadı |
 | 2 | `alsa/` | Linux | 4 dosya | bu ajan | ✅ bu turda açıldı |
 | 3 | `coreaudio/` | macOS / iOS | 4 dosya | bu ajan | ✅ bu turda açıldı |
-| 4 | `aaudio/` | Android | 0 | B ajanı | ⚠️ diskte YOK |
-| 5 | `tizen-audio/` | Tizen | 0 | B ajanı | ⚠️ diskte YOK |
-| 6 | `webos-audio/` | webOS | 0 | B ajanı | ⚠️ diskte YOK |
-| 7 | `reactos-audio/` | ReactOS | 0 | B ajanı | ⚠️ diskte YOK |
+| 4 | `aaudio/` | Android | 4 dosya | ✅ diskte | ✅ mevcut (önceki turda açılmış) |
+| 5 | `tizen-audio/` | Tizen | 4 dosya | ✅ diskte | ✅ 2026-10-13 açıldı |
+| 6 | `webos-audio/` | webOS | 4 dosya | ✅ diskte | ✅ 2026-10-13 açıldı |
+| 7 | `reactos-audio/` | ReactOS | 4 dosya | ✅ diskte | ✅ 2026-10-13 açıldı |
 
 ### §B.1 Derin dal dosya yapısı (bu turda açılan 2 dal)
 
@@ -102,9 +102,9 @@ ne komşuya devredilmiştir, ne de henüz kanıtlanmıştır.
 
 | # | İddia | Durum |
 |---|---|---|
-| C1 | `children` satırı 7 dal gösterir | ✅ — ancak 4'ü diskte yok |
-| C2 | 4 eksik dal bu dosyada içeriğiyle anlatıldı | **HAYIR** — yalnız envanter satırı var |
-| C3 | Eksik dal içerikleri B ajanının beyazlistesindedir | ✅ görev sözleşmesi |
+| C1 | `children` satırı 7 dal gösterir | ✅ — 7/7 diskte (2026-10-13 ölçümü) |
+| C2 | 4 eksik dal bu dosyada içeriğiyle anlatıldı | **HAYIR** — içerik kendi deep-dalında (`aaudio/` · `tizen-audio/` · `webos-audio/` · `reactos-audio/`) |
+| C3 | Eksik dal içerikleri B ajanının beyazlistesindedir | ✅ görev sözleşmesi — **kapanış tamamlandı** (2026-10-13) |
 | C4 | `wasapi/` dosyaları bu turda değiştirildi | **HAYIR** — okundu, yazılmadı |
 
 ---
@@ -313,7 +313,7 @@ ne komşuya devredilmiştir, ne de henüz kanıtlanmıştır.
 | H3 | callback buffer tasarım kararı | bu dal | K003-audio · `embedded` | HIGH |
 | H4 | gecikme bütçesi ihlali | bu dal | K004-dsp · `dsp-fw` | MEDIUM |
 | H5 | güvenlik/oturum yetkisi | bu dal | `security-engineer` | CRITICAL |
-| H6 | eksik deep-dal üretimi | bu dal | B ajanı | MEDIUM |
+| H6 | eksik deep-dal üretimi | bu dal | tamamlandı (2026-10-13 · 7/7 diskte) | KAPANDI |
 
 ---
 
@@ -321,7 +321,7 @@ ne komşuya devredilmiştir, ne de henüz kanıtlanmıştır.
 
 | # | Soru | Etiket | Sahip |
 |---|---|---|---|
-| Q-A1 | Kalan 4 deep-dal (`aaudio` · `tizen-audio` · `webos-audio` · `reactos-audio`) ne zaman açılıyor? | ⚠️ VERIFICATION REQUIRED | B ajanı |
+| Q-A1 | Kalan 4 deep-dal (`aaudio` · `tizen-audio` · `webos-audio` · `reactos-audio`) ne zaman açılıyor? | ✅ KAPANDI (2026-10-13) — 4/4 diskte, 4'er dosya | — |
 | Q-A2 | CoreMusic'in gerçek donanım yolu ne zaman var olacak (R1 → çalışır hâle gelecek mi)? | ⚠️ VERIFICATION REQUIRED | Vault Steward |
 | Q-A3 | `wasapi-asio-karsilastirma.md` neden `wasapi/` altında, ayrı child mı olmalı? | ⚠️ VERIFICATION REQUIRED | Win-SW ajanı |
 | Q-A4 | Hedef platform seti (Q4) — ses önceliği Windows mu, Linux (RPi) mu? | UNKNOWN | Vault Steward |

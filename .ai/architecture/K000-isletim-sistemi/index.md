@@ -3,7 +3,7 @@ node_id: K000-isletim-sistemi/index
 node_type: domain
 status: draft
 parent_id: K000-isletim-sistemi
-children: [electroncis, isletim-sistemi-api, isletim-sistemi-audio, isletim-sistemi-core, isletim-sistemi-cross, isletim-sistemi-kernel, isletim-sistemi-observability, isletim-sistemi-plan, isletim-sistemi-runtime, isletim-sistemi-security, isletim-sistemi-testing, isletim-sistemi-turu]
+children: [electroncis, isletim-sistemi-api, isletim-sistemi-audio, isletim-sistemi-core, isletim-sistemi-cross, isletim-sistemi-kernel, isletim-sistemi-observability, isletim-sistemi-plan, isletim-sistemi-runtime, isletim-sistemi-security, isletim-sistemi-testing, isletim-sistemi-turu, os-donanim-tespiti]
 depends_on: [K002-altyapi]
 evidence: [https://docs.kernel.org/core-api/index.html, https://man7.org/linux/man-pages/man2/syscalls.2.html, https://learn.microsoft.com/en-us/windows/win32/coreaudio/about-the-windows-core-audio-apis, https://pubs.opengroup.org/onlinepubs/9799919799/]
 validation: "2026-10-13 · 12 düğüm disk enumerasyonu ile sayıldı (124 md / 39.099 satır) · kök 4 dosya derinleştirildi · URL'ler HTTP HEAD ile doğrulandı"
@@ -47,7 +47,7 @@ Bu domain **kod üretmez**, kodun **hangi OS hizmetlerine güvendiğini** sabitl
 - **[BİLİNMEYEN]** → veri yok, uydurulmadı (Q1–Q5 açık).
 - **[TASARIM]** → CoreMusic'in kendi tercihi, OS zorunluluğu değil.
 
-## 4. Düğüm envanteri (12 kademe-2 düğüm · disk ölçüm 2026-10-13 · kök 4 dosya hariç — onlar `index.md` 100 · `os-master/bagimliliklar/dogrulama` ≥500)
+## 4. Düğüm envanteri (13 kademe-2 düğüm · disk ölçüm 2026-10-13 · kök 4 dosya hariç — onlar `index.md` 100 · `os-master/bagimliliklar/dogrulama` ≥500)
 
 | # | Dizin | Dosya | Satır | ≥500 | <500 | Durum | Grup |
 |---|---|---|---|---|---|---|---|
@@ -63,14 +63,13 @@ Bu domain **kod üretmez**, kodun **hangi OS hizmetlerine güvendiğini** sabitl
 | 10 | `isletim-sistemi-security` | 4 | 206 | 0 | 4 | derinleştirme gerekli | kanit |
 | 11 | `isletim-sistemi-testing` | 4 | 202 | 0 | 4 | derinleştirme gerekli | kod |
 | 12 | `isletim-sistemi-turu` | 65 | 28745 | 54 | 11 | en derin düğüm (8 platform) | mimari |
-| — | **TOPLAM 12 düğüm** | **124** | **39.099** | **63** | **61** | kök 4 dosya hariç | — |
+| 13 | `os-donanim-tespiti` | 4 | 1649 | 3 | 1 | 2026-10-13 açıldı (Vault Steward onayı) — PnP/enumeration/sürücü bağlama | mimari |
+| — | **TOPLAM 13 düğüm** | **128** | **40.748** | **66** | **62** | kök 4 dosya hariç | — |
 
 ## 5. Okuma sırası (öneri)
-
 `os-master.md` (ELI15 + 8 kavram + 12 düğüm) → `os-bagimliliklar.md` (12×12 matris + döngü) → `os-dogrulama.md` (URL + disk kanıtı) → ilgili child `index.md` → `-kapsam` → `-ornekler` → `-dogrulama`.
 
 ## 6. Doğrulama bağlantıları
-
 Kaynak kanıtları: [`os-dogrulama.md`](os-dogrulama.md) · Bağımlılık: [`os-bagimliliklar.md`](os-bagimliliklar.md) · Ana anlatım: [`os-master.md`](os-master.md) · Registry: [`../index.md`](../index.md)
 
 ## §GRUPLAR
@@ -94,6 +93,7 @@ Kaynak kanıtları: [`os-dogrulama.md`](os-dogrulama.md) · Bağımlılık: [`os
 | kanit | `isletim-sistemi-security/index.md` | İzin/capability/sandbox kökü | Kademe-2 |
 | kod | `isletim-sistemi-testing/index.md` | OS düzeyi test kökü (kselftest/KUnit) | Kademe-2 |
 | mimari | `isletim-sistemi-turu/index.md` | OS ailesi karşılaştırma kökü (8 platform) | Kademe-2 |
+| mimari | `os-donanim-tespiti/index.md` | Donanım tespiti kökü — PnP/enumeration/sürücü bağlama (2026-10-13, Vault Steward onayı) | Kademe-2 |
 
 ---
 

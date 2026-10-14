@@ -33,7 +33,6 @@ group: mimari
 > `proposed` + `PROPOSED — APPROVAL REQUIRED` etiketiyle işaretler; metin revizesi **bu dosyada
 > yapılmaz** (anayasa/kapsam dokunulmaz, onay Vault Steward'ın).
 
-**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 
 ---
 

@@ -467,6 +467,32 @@ onayı. Bunlar olmadan `[KANIT]` geçişi (D6) **imkânsızdır**.
 | §9 resync | §15 genişletilmiş senaryolar |
 | §10 kontrol listesi | §21 genişletilmiş liste |
 
+## §43 Ölçüm kapılarının bu dosyadaki karşılığı (özet)
+
+| Kapı | Bu dosyadaki karşılığı |
+|---|---|
+| SY-G1 | §12 clock zinciri — referans düğümü |
+| SY-G2 | §23 telafi yöntemi karşılaştırması |
+| SY-G3 | §13–§14 ölçüm iskeletleri |
+| SY-G4 | §17 çoklu cihaz senaryosu |
+| SY-G5 | §25 kapsam dışı listesi (ağ) |
+| SY-G6 | §15 RT yasağı + §18 iş yükü sorusu |
+
+Tablo, kapıların **dosya içinde nerede** durduğunu gösterir; kapı
+**kapanmaz**.
+
+## §44 Son teyit tablosu
+
+| # | Öğe | Değer |
+|---|---|---|
+| 1 | Dosya | `synchronization/synchronization-ornekler.md` |
+| 2 | Bölüm | §1–§44 |
+| 3 | Eklenen bölümler | §11–§44 (2026-10-13) |
+| 4 | Dokunulan eski bölüm | Yok |
+| 5 | Kanıt oranı | Değişmedi |
+| 6 | `[KANIT]` sayısı | 0 |
+| 7 | Authority | 1 satır (dosya sonu) |
+
 ---
 
 Bu bölüm kanıt oranını DEĞİŞTİRmez — eklenen bölümler mevcut dosya

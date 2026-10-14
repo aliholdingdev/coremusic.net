@@ -93,3 +93,7 @@ Bağlantının kendisi donanım işidir (K001-donanım), güvenliği K009'dur.
 | mimari | `network-bagimliliklar.md` | Katman bağı ve used_by haritası | Kademe-1 |
 | kanit | `network-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
 | mimari | `network-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

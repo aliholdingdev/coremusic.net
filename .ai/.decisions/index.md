@@ -30,7 +30,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 
 ## 2. Genel Bakış
 
-> **Disk ölçümü (2026-10-12):** `accepted/` = **80** ADR dosyası · `rejected/` = **10** R dosyası · `draft/` = **1** (ADR-097, 2026-10-12 eklendi) · kökte **1** ADR (`ADR-091-template-engine-no-eval.md` — yanlış konumda, §4'te bağlantılandı) → **gerçek toplam 92**.
+> **Disk ölçümü (2026-10-12 · güncelleme 2026-10-13):** `accepted/` = **80** ADR dosyası · `rejected/` = **10** R dosyası · `draft/` = **2** (ADR-097, 2026-10-12 + ADR-102, 2026-10-13 eklendi) · kökte **1** ADR (`ADR-091-template-engine-no-eval.md` — yanlış konumda, §4'te bağlantılandı) → **gerçek toplam 93**.
 > Önceki 2026-10-10 sayımı (accepted 83 / rejected 12 / draft 1 / toplam 96) disk gerçeğiyle **çelişiyordu** ve §2/§6 tabloları 78-96 arasında değişiyordu; sayılar bugün dosya sayısından yeniden yazıldı.
 
 | Durum | Sayı | Açıklama |
@@ -38,7 +38,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | **Frozen** | **36** | Değiştirilemez (ADR-001 → ADR-036 — diskte tam) |
 | **Active** | **45** | `accepted/` içindeki **44** (ADR-037 üzeri) + kökteki **ADR-091** |
 | **Rejected** | **10** | `rejected/` 10 dosya (R-011/R-012'de dosya YOK — §5'te işaretli) |
-| **Draft** | **1** | `draft/ADR-097-k-space-v3-…` (K-Space V3 kurulumu — §4A) |
+| **Draft** | **2** | `draft/ADR-097-k-space-v3-…` + `draft/ADR-102-tur-taksonomi-genislemesi-5-dal` (2026-10-13 eklendi) — §4A | |
 | **Toplam** | **92** | 80 accepted + 10 rejected + 1 draft + 1 kök ADR |
 
 > **Not (2026-10-12):** **ADR-061 (Electronics Architecture L6 — K uzayı katman tanımı)**, K-space katman mimarisi (K000–K020 / A0–A5 / `.ai/architecture/`) ile birlikte **kaldırıldı** — dosya silindi, yedek `C:\temp\opencode\vault-backup-2026-10-12\decisions-adr061\`.
@@ -146,6 +146,7 @@ Tüm Architecture Decision Records (ADR) indeksini sunan, durumlarını ve kateg
 | ADR | Başlık | Kategori |
 |-----|--------|----------|
 | [[draft/ADR-097-k-space-v3-sifirdan-kurulum-coklu-md-ve-bant-rezervasyonu]] | K-Space V3: Sıfırdan Kurulum, Çoklu-MD Düğüm Şeması, İsimlendirme Spesifikasyonu ve Band-2..7 Rezervasyonu | Architecture |
+| [[draft/ADR-102-tur-taksonomi-genislemesi-5-dal]] | K001 donanaım-type Tür Taksonomisi Genişlemesi: 3 → 9 Bağlam (display · power · cables · network · memory · cpu) | Architecture |
 
 ## 5. Reddedilen ADR'ler
 

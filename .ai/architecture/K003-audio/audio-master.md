@@ -347,6 +347,150 @@ Bu tablo §9'daki kaynak listesinin **derinlemesine**idir; her satır bir
 sürüm veya API adı **eklenmez** (uydurma yasağı). Yeni kanıt → `audio-
 dogrulama.md` §1'e düşer, bu dosyaya sessizce yazılmaz.
 
+## §16 Kapı → çocuk dosya eşlemesi (tek bakışta)
+
+| Kapı | Kapıyı taşıyan dosya | Konu |
+|---|---|---|
+| D1 | `audio-dogrulama.md` | Kanıt zinciri |
+| D2 | `audio-dogrulama.md` | Doğrulama |
+| D3 | `audio-dogrulama.md` | Şema/tutarlılık |
+| D4 | `audio-dogrulama.md` | Sürüm/kanıt |
+| D5 | `audio-dogrulama.md` | Bağımlılık |
+| D6 | tüm `-kapsam/-ornekler` | `[KANIT]` geçişi |
+| D7 | `audio-dogrulama.md` | Kapanış |
+
+Çocuk kapıları (RO-G*, SY-G*, TS-G*, BK-*) ilgili dosyalarda kalır;
+bu tablo yalnız **eşlemeyi** verir.
+
+## §17 Çocuk dosya → kapı özet tablosu
+
+| Dosya | Kapı aralığı | Durum |
+|---|---|---|
+| output-kapsam / -ornekler | OD-G* (kendi dosyasında) | Açık |
+| realtime-kapsam / -ornekler | RT-G1…G5 | Açık |
+| routing-kapsam / -ornekler | RO-G1…G6 | Açık |
+| synchronization-kapsam / -ornekler | SY-G1…G6 | Açık |
+| testing-kapsam / -ornekler | TS-G1…G6 | Açık |
+| audio-bagimliliklar | BK-1…BK-5 | Açık |
+
+Kapıların **tamamı açık**tır; bu, dosyaların eksikliği değil, **karar ve
+ölçüm eksikliğidir**.
+
+## §18 K003 için bilinen tek sartname yapılandırması
+
+| Parametre | Değer | Kaynak |
+|---|---|---|
+| Tampon | 512 örnek | sartname §8 |
+| Örneklem frekansı | 48 kHz | sartname §8 |
+| Veri tipi | 32-bit float | ADR-017 |
+| DAC | PCM3168A (PCM5122 yasak) | ADR-038 H001 |
+
+**Dikkat:** bu dört değer **yapılandırmadır**, ölçüm değildir; toplam
+gecikme/performans iddiasına dönüştürülerek kullanılamaz.
+
+## §19 Ölçüm kapılarının tamamı neden açık
+
+| Neden | Etkilediği kapılar |
+|---|---|
+| Repo'da `*.cpp`/`*.h` = 0 | D6 (kanıt geçişi) |
+| Vault NevaEngine 0 dosya | D5, D7 |
+| Eşik kararları verilmedi | SY-G3, TS-G1 |
+| Topoloji kararı yok | RO-G1 |
+
+## §20 Sorumlu agent eşlemesi (bağlayıcı — `.ai/AGENTS.md` §4/§15)
+
+| Yüzey | Sorumlu | Not |
+|---|---|---|
+| `*.cpp`/`*.h` | Embedded Engineer | Domain boundary (§5) |
+| Test stratejisi | QA Engineer | Coverage hedefi ≥%80 (§16) |
+| CI/CD | DevOps Engineer | `.github/workflows/` 2 dosya |
+| Firmware/DSP | DSP Firmware Engineer | K005 |
+| Windows platform | Windows SW Engineer | WASAPI/COM |
+
+Bu eşleme **bu dosyaya özgü değildir**; `.ai/AGENTS.md` SSOT'tur, burada
+yalnızca özetlenir.
+
+## §21 Q-kapanış planı (§13'ün genişletilmesi)
+
+| Sıra | Soru | Kapı | Neden önce |
+|---|---|---|---|
+| 1 | Q5 (veri sahipliği) | BK-1 | Tüm zinciri etkiler |
+| 2 | Q6 (cihaz ayrımı) | BK-2 | Donanım kararına bağlı |
+| 3 | Q7 (ASIO lisans) | BK-3 | Kullanım hakkı |
+| 4 | Q8 (K002 yönü) | BK-4 | Firmware sınırı |
+| 5 | ID GAP | BK-5 | Şema tutarlılığı |
+
+Sıra **öneridir**, onaylı plan değildir.
+
+## §22 K003 ↔ diğer alanlar arayüz özetleri
+
+| Alan | Arayüz | Yön |
+|---|---|---|
+| K000/K001 donanım | DAC/ADC kararı, ölçüm verisi | Donanım → K003 |
+| K002/K005 firmware | Zaman/kontrol | K003 ↔ firmware |
+| K004 diagnostics | Ölçüm sinyali | K003 → diagnostics |
+| Backend (PHP) | UI/API | K003 ≠ backend (ayrı katman) |
+
+## §23 Doğrulanmış çerçevelerin dosya dağılımı (§15'in özeti)
+
+| Dosya | Hangi çerçeve | Kaç çerçeve |
+|---|---|---|
+| output | Core Audio, WASAPI, ALSA | 3 |
+| realtime | Core Audio, ALSA, PipeWire, RT kuralı | 4 |
+| routing | ALSA, PipeWire | 2 |
+| synchronization | Core Audio, PipeWire | 2 |
+| testing | Core Audio, PipeWire | 2 |
+| driver/device | ASIO, JUCE | 2 |
+
+Sayılar **§15 tablosunun sayımıdır**; yeni çerçeve eklenmez.
+
+## §24 Derinleştirme kaydı — bütünsel özet
+
+| Dosya | Öncesi | Sonrası | Durum |
+|---|---|---|---|
+| output-kapsam | 159 | 643 | ✅ |
+| output-ornekler | 120 | 582 | ✅ |
+| realtime-kapsam | 158 | 597 | ✅ |
+| realtime-ornekler | 118 | 540 | ✅ |
+| routing-kapsam | 166 | 505 | ✅ |
+| routing-ornekler | 116 | 518 | ✅ |
+| synchronization-kapsam | 159 | 500+ | ✅ |
+| synchronization-ornekler | 118 | 500+ | ✅ |
+| testing-kapsam | 157 | 503 | ✅ |
+| testing-ornekler | 117 | 500+ | ✅ |
+| audio-bagimliliklar | 191 | 500+ | ✅ |
+
+> Sayılar 2026-10-13 turlarının kayıtlarıdır; kesin sayı için dosyanın
+> kendi sayımı esastır.
+
+## §25 Kapanış kontrol listesi (bu tur)
+
+- [x] 12 beyazliste dosyası derinleştirildi
+- [x] `parent_id` frontmatter dönüşümü
+- [x] Her dosyada tek Authority satırı
+- [x] Dürüstlük bloğu her dosyada mevcut
+- [x] Ölçüm kapıları açık bırakıldı
+- [x] `audio-dogrulama.md` ve `index.md` **dokunulmadı**
+- [ ] git commit — **orkestratöre ait (atılmadı)**
+
+## §26 Sonraki turun sınırı
+
+`[KANIT]` geçişi (D6) için gereken üç şey **bu turda üretilemez**:
+1) K003 C++ kodu, 2) onaylı kararlar (RO/SY/TS kapıları),
+3) ölçülmüş veri. Bunlar olmadan eklenen her bölüm **şablon/niyet**
+statüsünde kalır — bu bilinçli ve raporlanmış bir durumdur.
+
+## §27 Yetki ve dokunulmazlık teyidi (bu revizyon)
+
+| Yüzey | Bu turda |
+|---|---|
+| `audio-dogrulama.md` | **DOKUNULMADI** |
+| `index.md` | **DOKUNULMADI** |
+| Dizin/klasör | Yeni oluşturulmadı |
+| `*.cpp`/`*.h` | **YOK** — yazılmadı |
+| git commit | **ATILMADI** |
+| Authority satırı | 1 adet (dosya sonu) |
+
 ---
 
 Bu bölüm kanıt oranını DEĞİŞTİRmez — eklenen bölümler mevcut dosya
