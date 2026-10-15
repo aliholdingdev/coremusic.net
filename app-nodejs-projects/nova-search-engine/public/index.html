@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NovaSearch</title>
+<style>
+  :root {
+    --bg: #0e1116; --panel: #161b22; --border: #2d333b; --text: #e6edf3;
+    --dim: #8b949e; --accent: #58a6ff; --gold: #e3b341; --green: #3fb950;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 15px/1.5 "Segoe UI", system-ui, sans-serif; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 24px 16px; }
+  h1 { font-size: 20px; margin: 0 0 16px; }
+  h1 span { color: var(--accent); }
+  form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  input[type=search] { flex: 1 1 320px; padding: 10px 12px; font-size: 15px;
+    background: var(--panel); color: var(--text); border: 1px solid var(--border);
+    border-radius: 8px; outline: none; }
+  input[type=search]:focus { border-color: var(--accent); }
+  select, input[type=number] { padding: 9px 10px; background: var(--panel);
+    color: var(--text); border: 1px solid var(--border); border-radius: 8px; }
+  button { padding: 10px 18px; font-size: 15px; font-weight: 600; cursor: pointer;
+    background: var(--accent); color: #04121f; border: 0; border-radius: 8px; }
+  button:disabled { opacity: .5; cursor: wait; }
+  .opts { display: flex; gap: 14px; flex-wrap: wrap; margin: 12px 0 4px;
+    color: var(--dim); font-size: 13px; }
+  .opts label { display: flex; gap: 5px; align-items: center; cursor: pointer; }
+  .progress { height: 6px; background: var(--border); border-radius: 3px;
+    overflow: hidden; margin: 14px 0; display: none; }
+  .progress.on { display: block; }
+  .progress i { display: block; height: 100%; width: 30%; background: var(--accent);
+    animation: slide 1s linear infinite; }
+  @keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(340%); } }
+  .meta { color: var(--dim); font-size: 13px; margin: 10px 0; }
+  .meta b { color: var(--gold); font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--border); }
+  th { color: var(--dim); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+  td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .badge { display: inline-block; min-width: 34px; text-align: center; padding: 1px 7px;
+    border-radius: 10px; font-size: 12px; font-weight: 700;
+    background: #1f2d1f; color: var(--green); border: 1px solid #2ea04333; }
+  .badge.det { background: #21262d; color: var(--dim); border-color: var(--border); }
+  .reason { color: var(--dim); font-size: 13px; margin-top: 3px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .empty { color: var(--dim); padding: 24px 0; }
+  .err { color: #f85149; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Nova<span>Search</span> — YouTube metadata arama</h1>
+
+  <form id="f">
+    <input type="search" id="q" placeholder="Sorgu… (örn: tarkan kuzu kuzu)" autofocus />
+    <select id="limit" title="Sonuç limiti">
+      <option>12</option><option selected>24</option><option>50</option><option>100</option>
+    </select>
+    <select id="sortBy" title="Sıralama">
+      <option value="">ilgi</option><option value="views">izlenme</option>
+      <option value="date">tarih</option><option value="rating">puan</option>
+    </select>
+    <select id="filter" title="Tür">
+      <option value="">tümü</option><option value="v">video</option>
+      <option value="s">şarkı</option><option value="sh">short</option>
+    </select>
+    <button id="go" type="submit">Ara</button>
+  </form>
+
+  <div class="opts">
+    <label><input type="checkbox" id="ai" checked /> AI skor</label>
+    <label><input type="checkbox" id="deep" /> deep</label>
+    <label><input type="checkbox" id="explain" checked /> açıklama</label>
+    <label><input type="checkbox" id="offline" /> offline</label>
+    <label>min izlenme <input type="number" id="minViews" placeholder="0" style="width:90px" /></label>
+  </div>
+
+  <div class="progress" id="prog"><i></i></div>
+  <div class="meta" id="meta"></div>
+  <div id="out"></div>
+</div>
+
+<script>
+const API = location.protocol + '//' + location.hostname + ':3100/api/v1';
+const $ = (id) => document.getElementById(id);
+
+$('f').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (window.__busy) return; // çift Enter/yarış kilidi
+  const q = $('q').value.trim();
+  if (!q) return;
+
+  window.__busy = true;
+  $('go').disabled = true;
+  $('prog').classList.add('on');
+  $('meta').textContent = '';
+  $('out').innerHTML = '';
+  const t0 = performance.now();
+
+  try {
+    const p = new URLSearchParams({ q, limit: $('limit').value });
+    if ($('sortBy').value) p.set('sort', $('sortBy').value);
+    if ($('filter').value) p.set('filter', $('filter').value);
+    if ($('ai').checked) p.set('ai', '1');
+    if ($('deep').checked) p.set('deep', '1');
+    if ($('explain').checked) p.set('explain', '1');
+    if ($('offline').checked) p.set('offline', '1');
+    const mv = Number($('minViews').value);
+    if (mv > 0) p.set('minViews', String(mv));
+
+    const r = await fetch(API + '/search?' + p.toString());
+    const body = await r.json();
+    if (!body.ok) throw new Error(body.error?.message ?? 'API hatası');
+
+    const ms = Math.round(performance.now() - t0);
+    render(body.data, body.meta, ms);
+  } catch (err) {
+    $('out').innerHTML = '<div class="empty err">Hata: ' + esc(String(err.message || err)) +
+      ' — API çalışıyorsa <code>nova serve</code> açık olmalı (3100).</div>';
+  } finally {
+    window.__busy = false;
+    $('go').disabled = false;
+    $('prog').classList.remove('on');
+  }
+});
+
+function esc(s) {
+  return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function views(n) {
+  if (n >= 1e9) return (n / 1e9).toFixed(1) + ' Mr';
+  if (n >= 1e6) return (n / 1e6).toFixed(1) + ' M';
+  if (n >= 1e3) return (n / 1e3).toFixed(1) + ' B';
+  return String(n ?? 0);
+}
+function dur(s) {
+  if (!s) return '--:--';
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60;
+  const p = (v) => String(v).padStart(2, '0');
+  return h ? h + ':' + p(m) + ':' + p(x) : m + ':' + p(x);
+}
+
+function render(rows, meta, ms) {
+  const bits = ['<b>' + rows.length + '</b> sonuç', 'kaynak: ' + esc(meta.source),
+    (meta.tookMs ?? ms) + ' ms'];
+  if (meta.aiEnabled) bits.push('AI açık');
+  if (meta.offline) bits.push('OFFLINE');
+  if (meta.expandedQueries?.length) bits.push('deep: ' + esc(meta.expandedQueries.join(' · ')));
+  $('meta').innerHTML = bits.join(' · ');
+
+  if (!rows.length) {
+    $('out').innerHTML = '<div class="empty">Sonuç yok — offline’ı kaldırın veya <code>nova collect</code> çalıştırın.</div>';
+    return;
+  }
+
+  const head = '<tr><th>#</th><th>Başlık</th><th>Kanal</th><th>Süre</th><th>İzlenme</th><th>Skor</th></tr>';
+  const body = rows.map((r, i) => {
+    const score = r.aiScore != null
+      ? '<span class="badge">' + r.aiScore + '</span>'
+      : '<span class="badge det">' + r.score + '</span>';
+    const reason = r.aiReason ? '<div class="reason">› ' + esc(r.aiReason) + '</div>' : '';
+    return '<tr>' +
+      '<td class="num">' + (i + 1) + '</td>' +
+      '<td><a href="https://youtu.be/' + esc(r.youtubeId) + '" target="_blank" rel="noopener">' +
+        esc(r.title) + '</a>' + reason + '</td>' +
+      '<td>' + esc(r.channelName || '—') + '</td>' +
+      '<td class="num">' + dur(r.durationSec) + '</td>' +
+      '<td class="num">' + views(r.viewCount) + '</td>' +
+      '<td class="num">' + score + '</td></tr>';
+  }).join('');
+
+  $('out').innerHTML = '<table><thead>' + head + '</thead><tbody>' + body + '</tbody></table>';
+}
+</script>
+</body>
+</html>
