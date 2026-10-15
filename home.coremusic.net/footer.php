@@ -119,11 +119,11 @@ $footerTierClass = $dm->shouldRender4kLayout()
                     <img src="<?= $h($assetsUrl . '/Image/res-pink/karistir.png') ?>" height="20" width="20" title="Karıştır" />
                 </button>
                 <button class="footer__utility-icon" aria-label="Ekolayzır" data-action="openEqualizerPopup" title="Ekolayzır">
-                    <img src="<?= $h($assetsUrl . '/Image/res-pink/equalizer.png') ?>" height="20" width="20" title="Tam Ekran" />
+                    <img src="<?= $h($assetsUrl . '/Image/res-pink/equalizer.png') ?>" height="20" width="20" title="Ekolayzır" alt="Ekolayzır" />
                 </button>
-                <button class="footer__utility-icon" aria-label="Tam Ekran" data-action="fullscreen" title="Tam Ekran">
-                    <img src="<?= $h($assetsUrl . '/Image/res-pink/full-screen.png') ?>" height="20" width="20" title="AI Terminal" />
-                </button>
+                <a class="footer__utility-icon" href="/diskplayer" aria-label="Tam Ekran (Disk Player)" title="Tam Ekran (Disk Player)">
+                    <img src="<?= $h($assetsUrl . '/Image/res-pink/full-screen.png') ?>" height="20" width="20" title="Tam Ekran (Disk Player)" alt="Tam Ekran (Disk Player)" />
+                </a>
                 <button class="footer__utility-icon" aria-label="Playlist" data-action="openPlaylistPopup" title="Playlist">
                     <img src="<?= $h($assetsUrl . '/Image/res-pink/playlist1.png') ?>" height="20" width="20" title="Playlist" />
                 </button>

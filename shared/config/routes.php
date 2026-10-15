@@ -76,11 +76,19 @@ return [
         meta: ['ttlType' => 'user'],
     ),
 
-    // Full-screen music player (Now Playing)
+    // Full-screen music player (Now Playing — In-Shell Playlist Page)
     'nowplaying' => new SpaRoute(
         page: 'nowplaying',
         requiresAuth: true,
-        title: 'Now Playing',
+        title: 'Şimdi Oynatılıyor',
+        cacheable: true,
+    ),
+
+    // Full-screen disk player (Headless Rotating Vinyl Player)
+    'diskplayer' => new SpaRoute(
+        page: 'diskplayer',
+        requiresAuth: true,
+        title: 'Disk Player',
         cacheable: true,
     ),
 

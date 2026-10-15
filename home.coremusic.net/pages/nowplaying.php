@@ -120,15 +120,30 @@ $isFullscreen = isset($_GET['mode']) && $_GET['mode'] === 'fullscreen';
     <div class="page-player page-player--wide page-layout <?= $h($dm->allClasses()) ?>"
          <?= $dm->dataAttributes() ?>>
 
-        <!-- ÜST BAR: Geri butonu + "Şimdi Oynatılıyor" + Arama -->
         <div class="player-toolbar">
             <div class="player-toolbar__left">
-                <a class="player-toolbar__back" href="/" aria-label="Ana sayfaya dön">
-                    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+                <a class="player-toolbar__btn player-toolbar__btn--circle" href="javascript:history.back()" aria-label="Geri" title="Geri">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
                         <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20z" fill="currentColor"/>
                     </svg>
                 </a>
+                <a class="player-toolbar__btn player-toolbar__btn--circle" href="javascript:history.forward()" aria-label="İleri" title="İleri">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+                        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" fill="currentColor"/>
+                    </svg>
+                </a>
                 <h1 class="player-toolbar__title">Şimdi Oynatılıyor</h1>
+                <a class="player-toolbar__btn player-toolbar__btn--home" href="/" aria-label="Ana sayfa" title="Ana Sayfa">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/>
+                    </svg>
+                </a>
+                <a class="player-toolbar__btn player-toolbar__btn--disk" href="/diskplayer" aria-label="Disk Player (Tam Ekran)" title="Disk Player (Tam Ekran)">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z" fill="currentColor"/>
+                    </svg>
+                    <span class="player-toolbar__btn-text">Disk Player</span>
+                </a>
             </div>
 
             <div class="player-toolbar__search">
