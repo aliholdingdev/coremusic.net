@@ -120,12 +120,6 @@ $isFullscreen = isset($_GET['mode']) && $_GET['mode'] === 'fullscreen';
     <div class="page-player page-player--wide page-layout <?= $h($dm->allClasses()) ?>"
          <?= $dm->dataAttributes() ?>>
 
-        <!-- ARKA PLAN KATMANI -->
-        <div class="player-bg" aria-hidden="true">
-            <img class="player-bg__image" src="<?= $h($coverUrl) ?>" alt="" loading="lazy">
-            <div class="player-bg__overlay"></div>
-        </div>
-
         <!-- ÜST BAR: Geri butonu + "Şimdi Oynatılıyor" + Arama -->
         <div class="player-toolbar">
             <div class="player-toolbar__left">
