@@ -100,6 +100,7 @@
   <div class="opts">
     <label><input type="checkbox" id="ai" checked /> AI skor</label>
     <label><input type="checkbox" id="deep" /> deep</label>
+    <label title="Tüm sonuç sayfalarını otomatik kaydırıp topla (devam edebilir — uzun sürebilir)"><input type="checkbox" id="scrollAll" /> tüm sayfalar (scroll)</label>
     <label><input type="checkbox" id="explain" checked /> açıklama</label>
     <label><input type="checkbox" id="offline" /> offline</label>
     <label>min izlenme <input type="number" id="minViews" placeholder="0" style="width:90px" /></label>
@@ -140,6 +141,7 @@ $('f').addEventListener('submit', async (e) => {
     if ($('filter').value) p.set('filter', $('filter').value);
     if ($('ai').checked) p.set('ai', '1');
     if ($('deep').checked) p.set('deep', '1');
+    if ($('scrollAll').checked) p.set('scroll', 'all'); // tüm sayfaları otomatik kaydır
     if ($('explain').checked) p.set('explain', '1');
     if ($('offline').checked) p.set('offline', '1');
     const mv = Number($('minViews').value);
@@ -185,6 +187,8 @@ function render(rows, meta, ms) {
   if (meta.aiEnabled) bits.push('AI açık');
   if (meta.aiPromptApplied) bits.push('AI prompt ✓');
   if (meta.offline) bits.push('OFFLINE');
+  if (meta.scroll === -1) bits.push('scroll: tüm sayfalar');
+  else if (meta.scroll > 1) bits.push('scroll: ' + meta.scroll + ' sayfa');
   if (meta.dbVideos != null) bits.push('DB: ' + meta.dbVideos);
   if (meta.expandedQueries?.length) bits.push('deep: ' + esc(meta.expandedQueries.join(' · ')));
   $('meta').innerHTML = bits.join(' · ');

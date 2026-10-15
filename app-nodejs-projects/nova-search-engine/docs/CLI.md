@@ -14,7 +14,7 @@
 |---|---|
 | `search "<sorgu>"` | Arama: RAM → disk → DB/FTS → (veri yoksa) YouTube toplama → AI skor |
 | `collect "<sorgu>" [--target N]` | Doğrudan toplama; `--target` = derin mod (hedefe kadar sayfa sayfa, ilerleme çubuğu) |
-| `collect "<sorgu>" --auto` | **Auto-scroll**: continuation tükenene kadar sayfa sayfa (max `COLLECT_AUTO_MAX_PAGES`, varsayılan 60) |
+| `collect "<sorgu>" -s` | **Scroll**: `-s` değersiz → continuation tükenene kadar tüm sayfalar (tavan `COLLECT_AUTO_MAX_PAGES`, varsayılan 60) |
 | `video <id\|url>` | Video detayı: DB kaydı + yorumlar + benzer videolar (AI skorlu) |
 | `enrich [--limit N]` | Eksik videoları `getInfo` ile doldurur (like/tarih/etiket) + kanal adı/abone çeker |
 | `stats` | DB / cache / kuyruk sayaçları |
@@ -25,7 +25,7 @@
 > **Toplama kapsamı:** Sayfa başı **Video + Shorts (shelf) + LockupView** kayıtları toplanır
 > (eski nesil `videoRenderer` + yeni nesil `shortsLockupViewModel`/`lockupViewModel`).
 > Short'lar `is_short=1` ile işaretlenir; süreleri shelf'te bulunmadığı için `0`'dır
-> (`enrich` getInfo ile doldurur). `nova collect ... --auto` ile song/short havuzu
+> (`enrich` getInfo ile doldurur). `-s` (değersiz) ile song/short havuzu
 > otomatik kaydırma ile büyür; `-f sh` / `-f s` arama anında bu havuzu süzer.
 
 ## Arama parametreleri
@@ -40,7 +40,7 @@
 | `-q` | `--query` | metin | Ek AI sorgusu (positional sorgu varken -q = AI prompt) |
 | `-aip` | `--aiPrompt` | metin | AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir) |
 | `-eq` | `--extraQuery` | metin | Ek arama terimi |
-| `-s` | `--scroll` | N | Toplanacak sayfa (max 5) |
+| `-s` | `--scroll` | N \| (boş) | Toplanacak sayfa (sayı: max 5) · **değersiz `-s` = tüm sayfaları topla (auto, max 60)** |
 | `-r` | `--result` | N | Sonuç limiti (max 5000) |
 | `-l` | `--limit` | N | Sayfa başına sonuç (varsayılan 24, max 5000) |
 | `-f` | `--filter` | `v\|s\|sh` | video / song / short |
@@ -53,8 +53,7 @@
 | `-p` | `--page` | N | Sayfa |
 | `-t` | `--type` | metin | Kategori |
 | `-ud` | `--uploadDate` | `"2015"` / `"<=1y"` | Yükleme tarihi |
-| `-target` | `--target` | N | `collect` hedef kayıt (derin mod + progress bar) |
-| `-auto` | `--auto` | flag | `collect`: continuation bitene kadar otomatik kaydırma (hedef yoksa) |
+| `-target` | `--target` | N | `collect` hedef kayıt (derin mod + progress bar; `-s` auto ile birlikte verilirse hedef önceliklidir) |
 
 `collect`/`enrich` bayrakları: `--once` (tek tur), `--limit` (enrich video sınırı), `--prune` (cache).
 
@@ -73,17 +72,42 @@
 - YouTube erişilemezse: `DEGRADED` rozeti + boş bölümler — komut asla çökmez.
 - Kısa yorum URL biçimi: `https://www.youtube.com/watch?v=<id>&lc=<commentId>`.
 
+## Toplama (scroll) modları
+
+Arama sonucu sayfası YouTube'a göre **sayfa sayfa** gelir. NovaSearch dört modda tüketir:
+
+| Mod | Komut | Kaç sayfa | Ne zaman kullan |
+|---|---|---|---|
+| **Otomatik (1 sayfa)** | `search "q"` | **1** sayfa — veri DB'de/yoksa tetiklenir | Hızlı arama; sonuç zaten DB'de ise sayfa çekilmez |
+| **Scroll (sayılı)** | `search "q" -s 3` | Verilen N sayfa (sayısal değer, max 5) | Ortalama derinlik |
+| **Scroll (tüm sayfalar)** | `search "q" -s` · `collect "q" -s` | **Bitene kadar** — continuation token tükenene kadar tüm sonuç sayfaları, tavan `COLLECT_AUTO_MAX_PAGES` (varsayılan **60**) | Büyük/sınırsız havuz: song/short koleksiyonu, diskografi taraması |
+| **Hedefli derin** | `collect "q" --target 500` | Hedef kayıt dolana kadar (ilerleme çubuğu) | Belirli büyüklükte havuz |
+
+`-s` **opsiyonel değerli** bayraktır: `-s 3` = 3 sayfa · `-s` (değersiz ya da ardından bayrak) = auto.
+
+**Scroll (auto) detayı** (`-s` değersiz):
+
+- `search "q" -s`: istisnasız toplama yapar (DB havuzu yeterli olsa bile) — `sortBy`/filtreler korunur; sonuç yine `-result` limiti kadar döner, **toplanan her kayıt DB'ye yazılır**.
+- `collect "q" -s`: `\r` ilerleme satırı `Toplanıyor: N kayıt · sayfa X (scroll)` basar.
+- Her sayfa ~**42 kayıt** verir (video + shorts + lockup mappersayesinde; eski nesil yalnız ~19 idi).
+- 60 sayfa × ~42 ≈ **2.500 kayıt** potansiyeli (aynı video farklı sayfalarda tekrar çıkarsa DB dedupe eder).
+- YouTube continuation'ı genelde 10-20 sayfada biter; tavan yalnız güvenlik ağıdır (`.env`: `COLLECT_AUTO_MAX_PAGES=60`).
+- `--target` verilirse hedefli mod auto'yu ezer (ilk dolan kazanır).
+- Anti-ban ritmi sayfa başına 1.5-6 sn jitter + dk max 12 istek → 60 sayfa ≈ **3-6 dk** sürer.
+- Toplanan her kayıt **kalıcıdır**: sonraki `search` aynı sorgu için anında DB'den döner; `-f sh` / `-f s` / `-d` gibi filtrelerle süzülür.
+
 ## Örnekler
 
 ```bash
 npm run nova -- search "Akasya Durağı" -ai -explain
 npm run nova -- search "adele" -result 100 -scroll 3 -f v -sb views
+npm run nova -- search "tarkan" -s -result 200   # tüm sayfaları otomatik kaydırıp topla
 npm run nova -- search "lofi" -q "yavaş sakin piyano" -ai -deep
 npm run nova -- search "tarkan" -ai -explain -aip "sadece resmi klipleri tercih et"
 npm run nova -- search "tarkan" -f s -minv 100000 -offline
 npm run nova -- search "jazz" -d ">600" -mins 70 -json
 npm run nova -- collect "kayıp şarkılar" --target 5000
-npm run nova -- collect "tarkan" --auto
+npm run nova -- collect "tarkan" -s
 npm run nova -- video 4tLOG4us6zc -comments 10 -related 10
 npm run nova -- video "https://youtu.be/4tLOG4us6zc" -ai -comments 5
 npm run nova -- enrich --limit 30

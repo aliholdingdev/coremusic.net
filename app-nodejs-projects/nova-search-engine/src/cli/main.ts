@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /** NovaSearch CLI giriş noktası — menü YOK, komut + parametre. */
-import { parseArgs, buildSearchOptions, buildVideoOptions, ArgError } from './parse.ts';
+import { parseArgs, buildSearchOptions, buildVideoOptions, scrollOf, ArgError } from './parse.ts';
 import { HELP, VERSION } from './help.ts';
 import { formatResults, formatVideoDetail } from './format.ts';
 import { search } from '../core/search.ts';
@@ -41,9 +41,9 @@ async function main(): Promise<number> {
     case 'collect': {
       const q = parsed.positionals.join(' ').trim();
       const target = Number(parsed.flags.get('target') ?? 0);
-      const processed = await runCollector(q, Number(parsed.flags.get('scroll') ?? 1), true, {
+      // -s/--scroll: N sayfa · değersiz = -1 (auto, tüm sayfalar)
+      const processed = await runCollector(q, scrollOf(parsed.flags), true, {
         target: Number.isFinite(target) ? target : 0,
-        auto: parsed.flags.get('auto') === true,
       });
       console.log(`collect: ${processed} iş işlendi.`);
       return 0;

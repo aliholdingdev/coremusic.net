@@ -16,14 +16,17 @@ export interface ParsedArgs {
 }
 
 const VALUE_FLAGS = new Set([
-  'query', 'q', 'extraQuery', 'eq', 'scroll', 's', 'result', 'r', 'limit', 'l',
+  'query', 'q', 'extraQuery', 'eq', 'result', 'r', 'limit', 'l',
   'filter', 'f', 'sortBy', 'sb', 'minViews', 'minv', 'maxViews', 'maxv',
   'minScore', 'mins', 'quality', 'qa', 'duration', 'd', 'page', 'p',
   'type', 't', 'uploadDate', 'udate', 'ud', 'aiQuery', 'aiPrompt', 'aip', 'target',
   'comments', 'related',
 ]);
 
-const BOOL_FLAGS = new Set(['ai', 'deep', 'explain', 'offline', 'json', 'help', 'h', 'version', 'v', 'once', 'prune', 'auto']);
+/** Opsiyonel değerli bayraklar: `-s 3` = 3 sayfa · `-s` (değersiz) = auto (tüm sayfalar). */
+const OPTIONAL_VALUE_FLAGS = new Set(['scroll', 's']);
+
+const BOOL_FLAGS = new Set(['ai', 'deep', 'explain', 'offline', 'json', 'help', 'h', 'version', 'v', 'once', 'prune']);
 
 /** normalize: `-query` → `query`, `--query` → `query`, `-Q` → `q` (tek harf) */
 function normFlag(raw: string): string {
@@ -49,7 +52,17 @@ export function parseArgs(argv: string[]): ParsedArgs {
         continue;
       }
       const name = normFlag(a);
-      if (VALUE_FLAGS.has(name)) {
+      if (OPTIONAL_VALUE_FLAGS.has(name)) {
+        // `-s 3` = değerli · `-s` (sonraki yok veya bayrak) = değersiz → 'auto'
+        const next = argv[i + 1];
+        if (next !== undefined && (!next.startsWith('-') || /^-\d/.test(next))) {
+          flags.set(name, next);
+          i += 2;
+        } else {
+          flags.set(name, 'auto');
+          i++;
+        }
+      } else if (VALUE_FLAGS.has(name)) {
         const next = argv[i + 1];
         if (next === undefined || (next.startsWith('-') && !/^-\d/.test(next))) {
           throw new ArgError(`-${name} bir değer bekliyor (örn: -${name} 10)`);
@@ -82,6 +95,16 @@ function num(v: string | true | undefined, name: string): number | undefined {
 
 const SORT = new Set(['relevance', 'views', 'date', 'rating']);
 const FILTER = new Set(['v', 's', 'sh']);
+
+/** -s/--scroll: sayı = N sayfa · 'auto' (değersiz) = -1 → tüm sayfalar (COLLECT_AUTO_MAX_PAGES). */
+export function scrollOf(flags: ParsedArgs['flags']): number {
+  const v = flags.get('s') ?? flags.get('scroll');
+  if (v === undefined || v === true) return 1;
+  if (v === 'auto' || v === 'all') return -1;
+  const n = Number(v);
+  if (!Number.isFinite(n)) throw new ArgError(`-s sayısal olmalı veya auto (gelen: ${v})`);
+  return Math.max(1, Math.trunc(n));
+}
 
 export function buildSearchOptions(parsed: ParsedArgs): SearchOptions {
   const f = parsed.flags;
@@ -118,7 +141,7 @@ export function buildSearchOptions(parsed: ParsedArgs): SearchOptions {
     deep: f.get('deep') === true,
     explain: f.get('explain') === true,
     offline: f.get('offline') === true || configOffline(),
-    scroll: num(f.get('s') ?? f.get('scroll'), 's') ?? 1,
+    scroll: scrollOf(f),
     limit: Math.max(1, Math.min(finalLimit, 5000)), // üst sınır 5000+
     page: Math.max(1, num(f.get('p') ?? f.get('page'), 'p') ?? 1),
     ...(filter ? { filter: filter as 'v' | 's' | 'sh' } : {}),

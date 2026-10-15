@@ -5,7 +5,7 @@ nova-search-engine — bağımsız YouTube metadata arama motoru (parametrik CLI
 KULLANIM
   nova search "<sorgu>" [parametreler]
   nova collect "<sorgu>" [--target N]   derin toplama (hedef kayıt, ilerleme çubuğu)
-  nova collect "<sorgu>" --auto         auto-scroll: continuation tükenene kadar toplar (max 60 sayfa)
+  nova collect "<sorgu>" -s             tüm sayfaları otomatik kaydırır (continuation bitene kadar, max 60)
   nova collect "<sorgu>" [--once]       kuyruktaki işleri işler
   nova video <id|url> [parametreler]    video detayı: kayıt + yorumlar + benzer videolar
   nova enrich [--limit N]               video detay + kanal zenginleştirme (il. çubuğu)
@@ -31,7 +31,7 @@ ARAMA PARAMETRELERİ (-kısa | --uzun)
   -q    --query  METIN  Ek AI sorgusu (positional sorgu varken -q, AI prompt'u olur)
   -aip  --aiPrompt METIN  AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir)
   -eq   --extraQuery   Ek arama terimi
-  -s    --scroll   N   Toplanacak sayfa (max 5)
+  -s    --scroll   [N]  N sayfa (max 5) · değersiz (-s) = tüm sayfaları topla (auto, max 60)
   -r    --result   N   Sonuç limiti (= -l, max 5000)
   -l    --limit    N   Sayfa başına sonuç (varsayılan 24, max 5000)
   -f    --filter   v|s|sh   video / song / short
@@ -48,6 +48,7 @@ ARAMA PARAMETRELERİ (-kısa | --uzun)
 ÖRNEKLER
   nova search "Akasya Durağı" -ai -explain
   nova search "adele" -result 100 -scroll 3 -f v -sb views
+  nova search "tarkan" -s -result 200          # tüm sayfaları otomatik kaydırıp topla
   nova search "lofi" -q "yavaş sakin piyano" -ai -deep
   nova search "tarkan" -ai -explain -aip "sadece resmi klipleri tercih et"
   nova search "tarkan" -f s -minv 100000 -offline

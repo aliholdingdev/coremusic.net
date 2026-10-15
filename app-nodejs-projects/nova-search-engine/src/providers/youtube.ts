@@ -284,6 +284,7 @@ export async function youtubeSearchDeep(
   query: string,
   targetCount: number | null,
   onProgress?: (found: number, pages: number) => void,
+  filters?: SearchFilters,
 ): Promise<{ records: VideoRecord[]; pages: number }> {
   const yt = await getInnertube();
   const records: VideoRecord[] = [];
@@ -293,7 +294,7 @@ export async function youtubeSearchDeep(
   const targetReached = (): boolean => targetCount != null && records.length >= targetCount;
 
   await politeWait();
-  let search: unknown = await yt.search(query);
+  let search: unknown = await yt.search(query, filters ? ({ sortBy: sortParam(filters) } as never) : undefined);
 
   let done = 0;
   for (let p = 0; p < maxPages && !targetReached(); p++) {

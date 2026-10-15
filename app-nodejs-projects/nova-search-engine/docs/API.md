@@ -39,7 +39,7 @@ Tek zorunlu param: `q`.
 | `explain` | — | `1` | `aiReason` + `matchPct` alanlarını doldurur (AI'yi kendiliğinden açar) |
 | `offline` | — | `1` | YouTube'a gitmez (`NOVA_OFFLINE=1` de aynı etki) |
 | `prompt` | — | metin | AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir; `meta.aiPrompt` olarak yansır) |
-| `scroll` | `1` | N | Toplanacak sayfa (YouTube modu) |
+| `scroll` | `1` | N \| `all` | N = toplanacak sayfa · `scroll=all` (veya `auto`) = tüm sayfaları otomatik kaydır (tavan `COLLECT_AUTO_MAX_PAGES`, varsayılan 60); toplananlar DB'ye yazılır, `meta.scroll: -1` olarak yansır |
 | `filter` | — | `v\|s\|sh` | video / song / short |
 | `sort` | `relevance` | `relevance\|views\|date\|rating` | Sıralama |
 | `minViews` / `maxViews` | — | N | Görüntülenme aralığı |
@@ -83,6 +83,7 @@ Tek zorunlu param: `q`.
 | `expandedQueries` | string[]? | `deep` genişletmeleri |
 | `collected` | number? | Bu sorguda YouTube'dan toplanan |
 | `limit` / `page` | number | Uygulanan sayfalama (limit max 5000) |
+| `scroll` | number | Uygulanan sayfa hedefi · `-1` = auto (tüm sayfalar) |
 | `aiScored` | number | Bu sayfada AI skoru alan sonuç sayısı |
 | `dbVideos` | number | DB'deki toplam video |
 | `aiPrompt` | string? | Gönderilen özel AI prompt'u (varsa) |

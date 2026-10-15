@@ -2,7 +2,7 @@
 import { MemoryCache } from '../cache/memory-cache.ts';
 import { DiskCache, cacheKey } from '../cache/disk-cache.ts';
 import { ftsSearch, upsertVideo, saveHistory, saveAiQuery, countVideos, enqueueJob } from '../database/db.ts';
-import { youtubeSearch } from '../providers/youtube.ts';
+import { youtubeSearch, youtubeSearchDeep } from '../providers/youtube.ts';
 import { analyzeQuery, scoreResults, expandQueries, aiAvailable } from '../ai/engine.ts';
 import { config } from '../config.ts';
 import type { SearchOptions, SearchResultPayload, ScoredResult, VideoRecord, SearchFilters } from '../core/types.ts';
@@ -88,7 +88,10 @@ function sortList(list: ScoredResult[], sortBy: SearchOptions['sortBy']): Scored
 async function collect(o: SearchOptions, query: string): Promise<{ records: VideoRecord[]; pages: number }> {
   if (o.offline || config.offline) return { records: [], pages: 0 };
   try {
-    const { records, pages } = await youtubeSearch(query, o, o.scroll || 1);
+    // scroll -1 = auto: continuation tükenene kadar tüm sayfalar (sortBy korunur)
+    const { records, pages } = o.scroll === -1
+      ? await youtubeSearchDeep(query, null, undefined, o)
+      : await youtubeSearch(query, o, o.scroll || 1);
     let inserted = 0;
     for (const r of records) if (upsertVideo(r) === 'inserted') inserted++;
     if (inserted < records.length || records.length === 0) {
@@ -107,8 +110,8 @@ async function collect(o: SearchOptions, query: string): Promise<{ records: Vide
 export async function search(o: SearchOptions): Promise<SearchResultPayload> {
   const t0 = Date.now();
   const query = o.extraQuery ? `${o.query} ${o.extraQuery}` : o.query;
-  // v2: aiPrompt + sürüm tuzu — eski (url'siz) cache girişleri devre dışı
-  const key = cacheKey(['v2', query, o.limit, o.page, o.filter, o.sortBy, o.minViews, o.maxViews, o.duration, o.type, o.uploadDate, o.ai, o.deep, o.explain, o.aiPrompt]);
+  // v3: aiPrompt + scroll + sürüm tuzu — eski cache girişleri devre dışı
+  const key = cacheKey(['v3', query, o.limit, o.page, o.scroll, o.filter, o.sortBy, o.minViews, o.maxViews, o.duration, o.type, o.uploadDate, o.ai, o.deep, o.explain, o.aiPrompt]);
 
   // 1) RAM
   const hit = ram.get(key);
@@ -132,7 +135,8 @@ export async function search(o: SearchOptions): Promise<SearchResultPayload> {
   const aiOn = (o.ai || o.explain) && aiAvailable();
   const analysisP = aiOn ? analyzeQuery(o.query, o.extraQuery, o.aiPrompt) : Promise.resolve(null);
   const offline = o.offline || config.offline;
-  const collectP = !offline && pool.length < o.limit
+  // auto scroll (-s değersiz) istendiyse DB havuzu yeterli olsa bile topla — kullanıcı tüm sayfaları istedi
+  const collectP = !offline && (o.scroll === -1 || pool.length < o.limit)
     ? collect(o, o.query)
     : Promise.resolve({ records: [] as VideoRecord[], pages: 0 });
 
@@ -241,6 +245,7 @@ export async function search(o: SearchOptions): Promise<SearchResultPayload> {
       page: o.page,
       aiScored: withUrl.filter((r) => r.aiScore != null).length,
       dbVideos: countVideos(),
+      scroll: o.scroll,
       ...(o.aiPrompt ? { aiPrompt: o.aiPrompt, aiPromptApplied: aiOn } : {}),
       ...(Object.keys(filters).length ? { filters } : {}),
     },

@@ -101,7 +101,7 @@ export interface SearchOptions extends SearchFilters {
   deep: boolean;
   explain: boolean;
   offline: boolean;
-  scroll: number; // toplanacak sayfa hedefi
+  scroll: number; // toplanacak sayfa hedefi · -1 = auto (tüm sayfalar, COLLECT_AUTO_MAX_PAGES)
 }
 
 export interface ScoredResult extends VideoRecord {
@@ -129,6 +129,7 @@ export interface SearchResultPayload {
     page?: number;
     aiScored?: number; // bu sayfada AI skoru alan sonuç sayısı
     dbVideos?: number; // DB'deki toplam video
+    scroll?: number; // uygulanan sayfa hedefi · -1 = auto (tüm sayfalar)
     aiPrompt?: string; // uygulanan özel AI prompt'u (varsa)
     aiPromptApplied?: boolean;
     filters?: Partial<SearchFilters>; // uygulanan filtreler

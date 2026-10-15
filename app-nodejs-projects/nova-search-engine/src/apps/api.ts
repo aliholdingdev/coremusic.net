@@ -94,7 +94,10 @@ async function route(req: IncomingMessage, res: ServerResponse): Promise<void> {
         deep: q(url, 'deep') === '1',
         explain: q(url, 'explain') === '1',
         offline: q(url, 'offline') === '1' || config.offline,
-        scroll: numParam(url, 'scroll') ?? 1,
+        // scroll: N sayfa · scroll=all|auto → -1 (tüm sayfalar, COLLECT_AUTO_MAX_PAGES)
+        scroll: q(url, 'scroll') === 'all' || q(url, 'scroll') === 'auto'
+          ? -1
+          : numParam(url, 'scroll') ?? 1,
         ...(filterRaw === 'v' || filterRaw === 's' || filterRaw === 'sh' ? { filter: filterRaw } : {}),
         ...(sortRaw === 'views' || sortRaw === 'date' || sortRaw === 'rating' || sortRaw === 'relevance'
           ? { sortBy: sortRaw as SearchOptions['sortBy'] }

@@ -19,10 +19,11 @@ cp .env.example .env      # OPENROUTER_API_KEY isteğe bağlı
 ```bash
 npm run nova -- search "Akasya Durağı" -ai -explain
 npm run nova -- search "adele" -result 100 -scroll 3 -f v -sb views
+npm run nova -- search "tarkan" -s -result 200      # -s değersiz: tüm sayfaları otomatik kaydırıp topla
 npm run nova -- search "lofi" -q "yavaş sakin piyano" -ai -deep
 npm run nova -- search "tarkan" -f s -minv 100000 -offline
 npm run nova -- collect "jazz" --target 5000   # derin toplama + ilerleme çubuğu
-npm run nova -- collect "tarkan" --auto       # auto-scroll: continuation bitene kadar (short/lockup dahil)
+npm run nova -- collect "tarkan" -s             # tüm sayfaları otomatik kaydırır (short/lockup dahil, max 60 sayfa)
 npm run nova -- video 4tLOG4us6zc -comments 10 -related 10 -ai   # video detayı: yorumlar + AI skorlu benzerler
 npm run nova -- enrich --limit 20             # video detay + kanal (like/abone) doldurur
 npm run nova -- stats                         # DB/cache sayaçları
@@ -42,7 +43,7 @@ npm run nova -- --help                        # tüm parametreler
 | `-q` | `--query` | Ek AI sorgusu (positional sorgu varken = AI prompt) |
 | `-aip` | `--aiPrompt` | AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir) |
 | `-eq` | `--extraQuery` | Ek arama terimi |
-| `-s` | `--scroll` | Toplanacak sayfa (max 5) |
+| `-s` | `--scroll` | N sayfa (max 5) · **değersiz `-s` = tüm sayfaları topla (auto, max 60)** |
 | `-r` | `--result` | Sonuç limiti (max 5000) |
 | `-l` | `--limit` | Sayfa başına sonuç (varsayılan 24, max 5000) |
 | `-f` | `--filter` | `v` video / `s` song / `sh` short |
@@ -56,7 +57,6 @@ npm run nova -- --help                        # tüm parametreler
 | `-t` | `--type` | Kategori |
 | `-ud` | `--uploadDate` | `2015` / `<=1y` |
 | `-target` | `--target` | `collect` hedef kayıt sayısı (derin mod, progress bar) |
-| `-auto` | `--auto` | `collect` auto-scroll (hedef yoksa, max `COLLECT_AUTO_MAX_PAGES` = 60) |
 | `-comments` | — | `video` yorum sayısı (0-50) |
 | `-related` | — | `video` benzer video sayısı (0-20) |
 | `-l` | `--limit` | `enrich` video sınırı |
@@ -76,7 +76,7 @@ src/
 
 **Zincir:** RAM cache → disk cache → SQLite FTS → (veri yoksa) Collector → normalize → dedupe → kayıt.
 
-**Anti-ban:** 1.5–6 sn jitter + dakika max 12 istek + max 5 sayfa.
+**Anti-ban:** 1.5–6 sn jitter + dakika max 12 istek · sayısal `-s` max 5 sayfa · `-s` (değersiz/auto) tavanı `COLLECT_AUTO_MAX_PAGES` (60) — dört toplama modu tablosu → [docs/CLI.md](docs/CLI.md#toplama-scroll-modları).
 
 **AI fail-safe:** key yok / 404 / timeout → AI katmanı devre dışı, arama bozulmaz.
 

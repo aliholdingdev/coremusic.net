@@ -18,7 +18,7 @@ Tarayıcıda <http://127.0.0.1:3110/> aç. `serve` **iki sunucuyu birden** başl
 ```
 ┌ NovaSearch — YouTube metadata arama ────────────────────────────┐
 │ [sorgu..................] [24▾] [ilgi▾] [tümü▾] [Ara]          │  ← form
-│ ☑AI skor ☐deep ☑açıklama ☐offline  min izlenme [0] [AI prompt…] │  ← seçenekler
+│ ☑AI skor ☐deep ☐tüm sayfalar ☑açıklama ☐offline  min izlenme [0] [AI prompt…] │  ← seçenekler
 │ ▓▓▓░░░░░░ animasyonlu ilerleme çubuğu                          │  ← yalnız istek sırasında
 │ 24 sonuç · kaynak: db · 52766 ms · AI açık · AI prompt ✓ · DB: 128 │ meta
 │ #  BAŞLIK  KANAL  SÜRE  İZLENME  SKOR  VİDEO ID  URL  [Detay]   │  ← sonuç tablosu (9 kolon)
@@ -36,6 +36,7 @@ Tarayıcıda <http://127.0.0.1:3110/> aç. `serve` **iki sunucuyu birden** başl
 | Tür | tümü / video / şarkı / short | `filter` |
 | **AI skor** (varsayılan açık) | ✓/☐ | `ai=1` |
 | **deep** | ✓/☐ | `deep=1` |
+| **tüm sayfalar (scroll)** | ✓/☐ | `scroll=all` — tüm sonuç sayfalarını otomatik kaydırıp toplar (tavan `COLLECT_AUTO_MAX_PAGES` = 60; uzun sürebilir) |
 | **açıklama** (varsayılan açık) | ✓/☐ | `explain=1` |
 | **offline** | ✓/☐ | `offline=1` |
 | min izlenme | sayı | `minViews` |
@@ -81,6 +82,7 @@ Her satırdaki **Detay** butonu → tam ekran modal açar:
 - Çift Enter/yarış kilidi var (`window.__busy`) — aynı sorgu iki kez gönderilmez.
 - Sonuçlar sunucu tarafında önbelleklenir (RAM + 30 gün disk): aynı sorgu ikinci kez ~10 ms döner.
 - `deep` açıkken yanıt 15-40 sn sürebilir (2 AI çağrısı + gerekirse YouTube toplama).
+- `tüm sayfalar (scroll)` açıkken toplama 60 sayfaya kadar sürer (≈3-6 dk); meta satırında `scroll: tüm sayfalar` görünür, `kaynak: youtube` olur ve tüm kayıtlar DB'ye yazılır (sonraki aramalar anında).
 
 ## Sorun giderme
 

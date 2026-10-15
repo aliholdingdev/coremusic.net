@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseArgs, buildSearchOptions, buildVideoOptions, ArgError } from '../src/cli/parse.ts';
+import { parseArgs, buildSearchOptions, buildVideoOptions, scrollOf, ArgError } from '../src/cli/parse.ts';
 import { extractVideoId } from '../src/core/video-detail.ts';
 
 test('kısa ve uzun flag eşitleri', () => {
@@ -102,12 +102,33 @@ test('AI prompt parametresi (-aip / --aiPrompt / -q fallback)', () => {
   assert.equal(d.aiPrompt, undefined);
 });
 
-test('collect --auto bayrağı parse edilir', () => {
-  const p = parseArgs(['collect', 'tarkan', '--auto']);
-  assert.equal(p.flags.get('auto'), true);
-  const q = parseArgs(['collect', 'tarkan', '--auto', '--target', '300']);
-  assert.equal(q.flags.get('auto'), true);
+test('-s/--scroll: değersiz = auto (-1), sayı = N sayfa', () => {
+  // değersiz → auto (tüm sayfalar)
+  assert.equal(scrollOf(parseArgs(['search', 'x', '-s']).flags), -1);
+  assert.equal(scrollOf(parseArgs(['search', 'x', '--scroll']).flags), -1);
+  assert.equal(scrollOf(parseArgs(['search', 'x', '-s', '-ai']).flags), -1); // sonraki bayraksa değer değil
+  // sayısal değer → N sayfa (alt sınır 1)
+  assert.equal(scrollOf(parseArgs(['search', 'x', '-s', '3']).flags), 3);
+  assert.equal(scrollOf(parseArgs(['search', 'x', '--scroll=4']).flags), 4);
+  assert.equal(scrollOf(parseArgs(['search', 'x', '-s', '0']).flags), 1);
+  // hiç verilmezse 1
+  assert.equal(scrollOf(parseArgs(['search', 'x']).flags), 1);
+  // buildSearchOptions auto'yu scroll=-1 olarak geçirir
+  assert.equal(buildSearchOptions(parseArgs(['search', 'x', '-s'])).scroll, -1);
+  // sayısal olmayan değer → ArgError
+  assert.throws(() => scrollOf(parseArgs(['search', 'x', '-s', 'abc']).flags), ArgError);
+});
+
+test('collect: -s auto + --target birlikte', () => {
+  const p = parseArgs(['collect', 'tarkan', '-s']);
+  assert.equal(scrollOf(p.flags), -1);
+  const q = parseArgs(['collect', 'tarkan', '-s', '--target', '300']);
+  assert.equal(scrollOf(q.flags), -1);
   assert.equal(q.flags.get('target'), '300');
+});
+
+test('--auto kaldırıldı → bilinmeyen parametre hatası', () => {
+  assert.throws(() => parseArgs(['collect', 'tarkan', '--auto']), ArgError);
 });
 
 /* ---------- nova video <id|url> ---------- */
