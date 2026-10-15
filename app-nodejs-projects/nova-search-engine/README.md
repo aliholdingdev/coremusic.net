@@ -78,6 +78,15 @@ src/
 
 **Portlar:** API `3100` (`API_PORT`), Web UI `3110` (`WEB_PORT`) — `nova serve` ikisini birden başlatır; arayüz `public/index.html` (vanilla JS, bağımlılık yok).
 
+## Dokümantasyon
+
+| Doküman | İçerik |
+|---|---|
+| [docs/INSTALL.md](docs/INSTALL.md) | Kurulum, `.env`, doğrulama, sorun giderme |
+| [docs/CLI.md](docs/CLI.md) | Komutlar, tüm parametreler, çıktı biçimi, çıkış kodları |
+| [docs/API.md](docs/API.md) | REST uçları, parametreler, zarf şeması, örnekler |
+| [docs/WEB.md](docs/WEB.md) | Web GUI kullanımı, kontroller, rozetler |
+
 ## Test
 
 ```bash
