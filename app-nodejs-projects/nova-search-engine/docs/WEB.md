@@ -18,7 +18,7 @@ Tarayıcıda <http://127.0.0.1:3110/> aç. `serve` **iki sunucuyu birden** başl
 ```
 ┌ NovaSearch — YouTube metadata arama ────────────────────────────┐
 │ [sorgu..................] [24▾] [ilgi▾] [tümü▾] [Ara]          │  ← form
-│ ☑AI skor ☐deep ☐tüm sayfalar ☑açıklama ☐offline  min izlenme [0] [AI prompt…] │  ← seçenekler
+│ ☑AI skor ☐deep ☑tam detay ☐tüm sayfalar ☑açıklama ☐offline  min izlenme [0] [AI prompt…] │  ← seçenekler
 │ ▓▓▓░░░░░░ animasyonlu ilerleme çubuğu                          │  ← yalnız istek sırasında
 │ 24 sonuç · kaynak: db · 52766 ms · AI açık · AI prompt ✓ · DB: 128 │ meta
 │ #  BAŞLIK  KANAL  SÜRE  İZLENME  SKOR  VİDEO ID  URL  [Detay]   │  ← sonuç tablosu (9 kolon)
@@ -50,7 +50,7 @@ Tarayıcıda <http://127.0.0.1:3110/> aç. `serve` **iki sunucuyu birden** başl
 | **Yeşil `nn`** | AI skoru (`aiScore`) — üst sıralarda `> Türkçe gerekçe` satırı görünür |
 | **Gri `nn`** | Deterministik skor (AI kapalı, bütçe doldu ya da model o videoyu puanlamadı) |
 
-Meta satırı: `kaynak` (`ram/disk/db/youtube`) · `tookMs` · `AI prompt ✓` (prompt gönderildiyse) · `DB: N` · `deep:` genişletilmiş sorgular.
+Meta satırı: `kaynak` (`ram/disk/db/youtube`) · `tookMs` · `AI prompt ✓` (prompt gönderildiyse) · `detay: X web · Y lokal` (zenginleştirme) · `DB: N` · `deep:` genişletilmiş sorgular.
 
 **Tablo kolonları (9):** `#` · Başlık (video linki) · Kanal · Süre · İzlenme · Skor · **Video ID** · **URL** (tam `watch?v=` bağlantısı, tıklanabilir) · **Detay** butonu.
 
@@ -95,4 +95,4 @@ Her satırdaki **Detay** butonu → tam ekran modal açar:
 | AI rozetleri hep gri | Key yok/bozuk/bütçe | `.env` → `OPENROUTER_API_KEY`; arama yine çalışır (fail-safe) |
 | 429 görünür | 60 istek/dk sınırı | kısa süre bekle |
 
-API detayı → [API.md](API.md) · CLI → [CLI.md](CLI.md) · Kurulum → [INSTALL.md](INSTALL.md)
+API detayı → [API.md](API.md) · CLI → [CLI.md](CLI.md) · Kurulum → [INSTALL.md](INSTALL.md) · Mimari → [ARCHITECTURE.md](ARCHITECTURE.md)

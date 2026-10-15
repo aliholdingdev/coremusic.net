@@ -27,12 +27,18 @@ npm run nova -- --help    # doğrulama: yardım metni basılmalı
 | `OPENROUTER_FALLBACK_MODELS` | `google/gemma-4-31b-it:free,nvidia/nemotron-3-ultra-550b-a55b:free` | Virgülle ayrılmış fallback zinciri |
 | `AI_ENABLED` | `true` | AI anahtarına rağmen katmanı kapatır (`false`) |
 | `AI_TIMEOUT_MS` | `30000` | AI bütçesi (tüm model zinciri **paylaşır**) |
-| `DB_SQLITE_PATH` | `./data/novasearch.db` | Kalıcı DB (ilk açılışta otomatik oluşur) |
+| `DB_SQLITE_PATH` | `./data/novasearch.db` | Kalıcı DB (ilk açılışta otomatik oluşur; şema v3) |
 | `API_PORT` | `3100` | REST API portu |
 | `API_HOST` | `127.0.0.1` | API/Web dinleme adresi |
 | `WEB_PORT` | `3110` | Web GUI portu |
 | `LOG_LEVEL` | `info` | `debug` → AI çağrı notları stderr'e |
 | `NOVA_OFFLINE` | `0` | `1` → YouTube'a asla gitmez (global offline) |
+| `NOVA_YT_LOG` | `0` | youtubei.js parser gürültüsü (JIT dump) varsayılan susturulur; `1` = göster |
+| `COLLECT_RPM` | `12` | Anti-ban: dakika başına max istek |
+| `COLLECT_MIN_DELAY_MS` | `1500` | İstekler arası minimum gecikme |
+| `COLLECT_MAX_DELAY_MS` | `6000` | İstekler arası maksimum gecikme (jitter üst sınırı) |
+| `COLLECT_MAX_PAGES` | `5` | Sayılı `-s N` sayfa üst sınırı |
+| `COLLECT_AUTO_MAX_PAGES` | `60` | `-s` değersiz (auto) modda sayfa tavanı |
 
 > `.env` gitignored'dır (`.gitignore:4`) — commit'e girmez, yalnız `.env.example` girdi.
 
@@ -40,7 +46,7 @@ npm run nova -- --help    # doğrulama: yardım metni basılmalı
 
 ```bash
 npm run typecheck   # tsc --noEmit → 0 hata
-npm test            # node --test → 13/13
+npm test            # node --test → 40/40
 npm run stats       # DB sayaçları (DB otomatik oluşur)
 ```
 
@@ -68,3 +74,4 @@ Tarayıcıda <http://127.0.0.1:3110/> aç, `Ctrl+C` ile durdur.
 - CLI → [docs/CLI.md](CLI.md)
 - REST API → [docs/API.md](API.md)
 - Web arayüzü → [docs/WEB.md](WEB.md)
+- Mimari → [docs/ARCHITECTURE.md](ARCHITECTURE.md)

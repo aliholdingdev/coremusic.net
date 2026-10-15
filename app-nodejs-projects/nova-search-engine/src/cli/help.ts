@@ -9,6 +9,7 @@ KULLANIM
   nova collect "<sorgu>" [--once]       kuyruktaki işleri işler
   nova video <id|url> [parametreler]    video detayı: kayıt + yorumlar + benzer videolar
   nova enrich [--limit N]               video detay + kanal zenginleştirme (il. çubuğu)
+  nova suggest "<önek>"                 arama geçmişinden tamamlama önerileri
   nova stats                            DB / cache sayaçları
   nova cache --prune                    süresi dolmuş disk cache'i temizler
   nova serve                            API + Web başlatır (3100 API · 3110 Web)

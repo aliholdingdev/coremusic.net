@@ -16,7 +16,8 @@
 | `collect "<sorgu>" [--target N]` | Doğrudan toplama; `--target` = derin mod (hedefe kadar sayfa sayfa, ilerleme çubuğu) |
 | `collect "<sorgu>" -s` | **Scroll**: `-s` değersiz → continuation tükenene kadar tüm sayfalar (tavan `COLLECT_AUTO_MAX_PAGES`, varsayılan 60) |
 | `video <id\|url>` | Video detayı: DB kaydı + yorumlar + benzer videolar (AI skorlu) |
-| `enrich [--limit N]` | Eksik videoları `getInfo` ile doldurur (like/tarih/etiket) + kanal adı/abone çeker |
+| `enrich [--limit N]` | Eksik videoları `getInfo` ile **webden kazır** (açıklama/like/tarih/kategori/handle) + kanal adı/abone çeker — varsayılan limit 20 |
+| `suggest "<önek>"` | Arama geçmişinden tamamlama önerileri (tek satır listeler) |
 | `stats` | DB / cache / kuyruk sayaçları |
 | `cache --prune` | Süresi dolmuş disk cache girişlerini siler |
 | `serve` | API (3100) + Web GUI (3110) birlikte başlatılır |
@@ -29,6 +30,8 @@
 > otomatik kaydırma ile büyür; `-f sh` / `-f s` arama anında bu havuzu süzer.
 
 ## Arama parametreleri
+
+> **Boolean esneklik:** tüm boolean bayraklar (`-ai`, `-deep`, `-explain`, `-offline`, `-json`, `-detail`) hem **değersiz bayrak** (açık) hem **`=-bayrak=0|1|true|false`** biçiminde açılıp kapatılabilir (büyük/küçük harf farksız). Örn: `--ai=1` = `-ai` · `--detail=0` = kapat.
 
 | Kısa | Uzun | Değer | Açıklama |
 |---|---|---|---|
@@ -128,7 +131,8 @@ Davranış:
 npm run nova -- search "Akasya Durağı" -ai -explain
 npm run nova -- search "adele" -result 100 -scroll 3 -f v -sb views
 npm run nova -- search "tarkan" -s -result 200   # tüm sayfaları otomatik kaydırıp topla
-npm run nova -- search "tarkan" -result 3 -detail -json   # açıklama/like/tarih/kategori doldur
+npm run nova -- search "tarkan" -result 3 -json   # detay default açık: boş alanlar webden kazınıp dolu döner
+npm run nova -- search "tarkan" -result 3 -detail=0 -json   # enrichment kapalı: yalnız arama meta verisi
 npm run nova -- search "lofi" -q "yavaş sakin piyano" -ai -deep
 npm run nova -- search "tarkan" -ai -explain -aip "sadece resmi klipleri tercih et"
 npm run nova -- search "tarkan" -f s -minv 100000 -offline
@@ -138,6 +142,7 @@ npm run nova -- collect "tarkan" -s
 npm run nova -- video 4tLOG4us6zc -comments 10 -related 10
 npm run nova -- video "https://youtu.be/4tLOG4us6zc" -ai -comments 5
 npm run nova -- enrich --limit 30
+npm run nova -- suggest "tar"
 ```
 
 ## Çıktı biçimi
@@ -218,4 +223,4 @@ npm run nova -- video 4tLOG4us6zc -comments 5 -related 8 -ai
 
 ## İlgili dokümanlar
 
-- Kurulum → [INSTALL.md](INSTALL.md) · API → [API.md](API.md) · Web → [WEB.md](WEB.md)
+- Kurulum → [INSTALL.md](INSTALL.md) · API → [API.md](API.md) · Web → [WEB.md](WEB.md) · Mimari → [ARCHITECTURE.md](ARCHITECTURE.md)

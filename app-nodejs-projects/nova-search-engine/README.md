@@ -19,15 +19,16 @@ cp .env.example .env      # OPENROUTER_API_KEY isteğe bağlı
 ```bash
 npm run nova -- search "Akasya Durağı" -ai -explain
 npm run nova -- search "adele" -result 100 -scroll 3 -f v -sb views
-npm run nova -- search "tarkan" -result 3 -detail -json   # boş alanları getInfo ile doldur
+npm run nova -- search "tarkan" -result 3 -json    # boş/null alanlar YOK — default webden kazınır
 npm run nova -- search "tarkan" -s -result 200      # -s değersiz: tüm sayfaları otomatik kaydırıp topla
 npm run nova -- search "lofi" -q "yavaş sakin piyano" -ai -deep
 npm run nova -- search "tarkan" -f s -minv 100000 -offline
 npm run nova -- collect "jazz" --target 5000   # derin toplama + ilerleme çubuğu
 npm run nova -- collect "tarkan" -s             # tüm sayfaları otomatik kaydırır (short/lockup dahil, max 60 sayfa)
 npm run nova -- video 4tLOG4us6zc -comments 10 -related 10 -ai   # video detayı: yorumlar + AI skorlu benzerler
-npm run nova -- enrich --limit 20             # video detay + kanal (like/abone) doldurur
+npm run nova -- enrich --limit 20             # DB'deki eksik kayıtları toplu webden kazı + kanal çek
 npm run nova -- stats                         # DB/cache sayaçları
+npm run nova -- suggest "tar"                 # arama geçmişinden tamamlama
 npm run nova -- cache --prune                 # süresi dolmuş cache temizliği
 npm run nova -- serve                         # API 3100 + Web UI 3110
 npm run nova -- --help                        # tüm parametreler
@@ -45,7 +46,7 @@ npm run nova -- --help                        # tüm parametreler
 | `-aip` | `--aiPrompt` | AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir) |
 | `-eq` | `--extraQuery` | Ek arama terimi |
 | `-s` | `--scroll` | N sayfa (max 5) · **değersiz `-s` = tüm sayfaları topla (auto, max 60)** |
-| `-detail` | — | Her sonuç için getInfo: açıklama/like/süre/tarih/kategori/kanal handle doldurur + DB'ye yazar (yavaş) |
+| `-detail` | — | **DEFAULT AÇIK**: boş/null alanlar getInfo ile **webden kazınıp doldurulur** + DB'ye yazar (DB'de tam kayıt olan videoya istek ATANMAZ) · kapat: `-detail=0\|false` |
 | `-r` | `--result` | Sonuç limiti (max 5000) |
 | `-l` | `--limit` | Sayfa başına sonuç (varsayılan 24, max 5000) |
 | `-f` | `--filter` | `v` video / `s` song / `sh` short |
@@ -61,22 +62,26 @@ npm run nova -- --help                        # tüm parametreler
 | `-target` | `--target` | `collect` hedef kayıt sayısı (derin mod, progress bar) |
 | `-comments` | — | `video` yorum sayısı (0-50) |
 | `-related` | — | `video` benzer video sayısı (0-20) |
-| `-l` | `--limit` | `enrich` video sınırı |
+| `-l` | `--limit` | `enrich` video sınırı (varsayılan 20) |
+
+> **Boolean esneklik:** tüm boolean bayraklar (`ai`, `deep`, `explain`, `offline`, `detail`, `json`) hem `-bayrak` (açık) hem `-bayrak=0|1|true|false` (açık/kapalı) ile çalışır. API'de aynı parametreler `1`/`0` **ve** `true`/`false` kabul eder.
 
 ## Mimari
 
 ```
 src/
 ├── cli/        parametrik parser + Unicode box tablo + giriş (menü YOK)
-├── core/       types + Search Orchestrator (RAM → disk → FTS → collector)
-├── cache/      LRU RAM cache + 30 gün disk cache
-├── database/   node:sqlite (FTS5, triggers, jobs kuyruğu, enrich)
+├── core/       types + Search Orchestrator (RAM → disk → FTS → collector) + video-detail
+├── cache/      LRU RAM cache (200/5dk) + 30 gün disk cache (.cache/search)
+├── database/   node:sqlite (FTS5, triggers, jobs kuyruğu, enrich, migration v3)
 ├── providers/  youtubei.js tek erişim noktası (core asla provider tipi görmez)
 ├── ai/         OpenRouter: analiz / skor / deep — fail-safe, paylaşılan bütçe
 └── apps/       REST API (3100) + Web UI (3110) + collector + enrich
 ```
 
 **Zincir:** RAM cache → disk cache → SQLite FTS → (veri yoksa) Collector → normalize → dedupe → kayıt.
+
+**Detail zenginleştirme (default açık):** arama sonuçları yalnız sayfa meta verisi taşır (başlık/kanal/izlenme/göreli tarih). Boş/null alanlar (`description` · `likeCount` · `durationSec` · `publishedAt` (ISO) · `category` · `tags` · `channelUrl`) `getInfo` ile **webden kazınıp** doldurulur + DB'ye kalıcı yazılır. **DB-first**: tam kayıt olan videoya istek ATANMAZ (lokal merge) → tekrar eden aramalar `web=0 · lokal=N` ile anında döner. Meta sayaçları: `detailFetched` (gerçek web isteği) · `detailFromDb` (maliyetsiz lokal) · `detailEnriched` (toplam dolu).
 
 **Anti-ban:** 1.5–6 sn jitter + dakika max 12 istek · sayısal `-s` max 5 sayfa · `-s` (değersiz/auto) tavanı `COLLECT_AUTO_MAX_PAGES` (60) — dört toplama modu tablosu → [docs/CLI.md](docs/CLI.md#toplama-scroll-modları).
 
@@ -90,23 +95,24 @@ src/
 
 | Doküman | İçerik |
 |---|---|
-| [docs/INSTALL.md](docs/INSTALL.md) | Kurulum, `.env`, doğrulama, sorun giderme |
-| [docs/CLI.md](docs/CLI.md) | Komutlar, tüm parametreler, çıktı biçimi, çıkış kodları |
-| [docs/API.md](docs/API.md) | REST uçları, parametreler, zarf şeması, örnekler |
-| [docs/WEB.md](docs/WEB.md) | Web GUI kullanımı, kontroller, rozetler |
+| [docs/INSTALL.md](docs/INSTALL.md) | Kurulum, `.env` (tüm değişkenler), doğrulama, sorun giderme |
+| [docs/CLI.md](docs/CLI.md) | Komutlar, tüm parametreler, detail zenginleştirme, çıktı biçimi, çıkış kodları |
+| [docs/API.md](docs/API.md) | REST uçları, parametreler (bool esneklik), zarf şeması, alan tabloları, örnekler |
+| [docs/WEB.md](docs/WEB.md) | Web GUI kullanımı, kontroller, rozetler, davranış notları |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Katmanlar, veri akışı, DB şema (v3), cache katmanları, anti-ban, AI fail-safe |
 
 ## Test
 
 ```bash
-npm test           # node --test (parse + format + mapper)
-npm run typecheck  # tsc --noEmit
+npm test           # node --test (parse + boolParam + format + mapper + isCompleteDetail) → 40/40
+npm run typecheck  # tsc --noEmit → 0 hata
 ```
 
 ## API
 
 ```bash
 GET /api/v1/health
-GET /api/v1/search?q=...&limit=24&ai=1&offline=1&filter=v&sort=views
+GET /api/v1/search?q=...&limit=24&ai=1&detail=1&filter=v&sort=views   # bool'lar 1/0 VE true/false
 GET /api/v1/suggest?prefix=...
 GET /api/v1/trending?limit=24
 GET /api/v1/videos/:id                              # basit: VideoRecord

@@ -110,9 +110,17 @@ curl "http://127.0.0.1:3100/api/v1/search?q=tarkan&limit=3&ai=1&explain=1&prompt
     {
       "youtubeId": "NAHRpEqgcL4",
       "title": "TARKAN - Kuzu Kuzu (Official Music Video)",
+      "description": "Tarkan - Kuzu Kuzu (1999) · Resmi müzik videosu",
+      "channelId": "UCYqC8w3z1xlgFzAmOg9pj5w",
       "channelName": "Tarkan",
+      "channelUrl": "https://www.youtube.com/@tarkan",
       "durationSec": 242,
       "viewCount": 168289777,
+      "likeCount": 1200000,
+      "publishedAt": "2009-10-24T23:57:33-07:00",
+      "category": "Music",
+      "tags": "tarkan kuzu kuzu official",
+      "thumbnailUrl": "https://i.ytimg.com/vi/NAHRpEqgcL4/maxresdefault.jpg",
       "score": 95,
       "aiScore": 95,
       "aiReason": "Sorguya tam uygun, başlıkta Kuzu Kuzu geçiyor ve Tarkan'ın resmi klibi.",
@@ -121,9 +129,12 @@ curl "http://127.0.0.1:3100/api/v1/search?q=tarkan&limit=3&ai=1&explain=1&prompt
   ],
   "meta": { "query": "tarkan", "source": "db", "tookMs": 19942, "aiEnabled": true, "offline": false,
             "limit": 3, "page": 1, "aiScored": 3, "dbVideos": 128,
+            "detailEnriched": 3, "detailFetched": 0, "detailFromDb": 3,
             "aiPrompt": "sadece resmi klipler", "aiPromptApplied": true }
 }
 ```
+
+> `detailEnriched`/`detailFetched`/`detailFromDb`: sonuçlar **default** olarak webden kazınıp doldurulur — bu örnekte 3/3 video DB'de tam kayıt olduğu için **0 web isteği** atılmıştır (lokal merge).
 
 > AI hizmeti başarısız olursa (`key` yok / timeout / 429) yanıt yine `200` döner; yalnız `aiScore`/`aiReason` eksik olur — **arama asla düşmez**.
 
@@ -165,7 +176,7 @@ console.log(data.length, meta.source, meta.tookMs);
 |---|---|---|---|
 | `comments` | — | `0-50` | Üst düzey yorumlar (verilirse derin mod tetiklenir) |
 | `related` | — | `0-20` | Benzer/önerilen videolar (`watch_next_feed`) |
-| `ai` | `0` | `0\|1` | Benzer videolara AI benzerlik skoru + gerekçe (üst sınır 8 aday) |
+| `ai` | `0` | `1`/`0`/`true`/`false` | Benzer videolara AI benzerlik skoru + gerekçe (üst sınır 8 aday) |
 
 ```json
 {
@@ -198,4 +209,4 @@ console.log(data.length, meta.source, meta.tookMs);
 
 ## İlgili dokümanlar
 
-- Kurulum → [INSTALL.md](INSTALL.md) · CLI → [CLI.md](CLI.md) · Web → [WEB.md](WEB.md)
+- Kurulum → [INSTALL.md](INSTALL.md) · CLI → [CLI.md](CLI.md) · Web → [WEB.md](WEB.md) · Mimari → [ARCHITECTURE.md](ARCHITECTURE.md)
