@@ -44,6 +44,9 @@ $h = static function (string $v): string {
     return htmlspecialchars($v, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 };
 
+$assetsUrl = defined('ASSETS_URL') ? ASSETS_URL : 'http://assets.coremusic.net';
+$coverUrl  = $assetsUrl . '/Image/res-pink/album-goksel.png';
+
 /* --- Saniye → HH:MM:SS (RecentTracksComponent::formatDuration ile aynı davranış) --- */
 $formatDuration = static function (mixed $seconds): string {
     if (!is_numeric($seconds)) {
@@ -86,84 +89,199 @@ if ($tracks === []) {
     ];
 }
 ?>
-<div class="page-history page-layout <?= $h($dm->allClasses()) ?>"
-     <?= $dm->dataAttributes() ?>
-     data-cm-component="cm-history">
+<?php if ($isWide): ?>
+    <!-- ════════════════════════════════════════════════════════════
+         WIDE / 4K — Figma node 1339:23464 (1920×1080)
+         "Laptop 1920 - Geçmiş Page"
+         Layout: Üst Toolbar (Geri/İleri + Başlık + Ev + Sırasıyla Metni + Arama)
+                 + 6 Kolonlu Geçmiş Listesi + Sağ Player-Info Sidebar
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page-history page-history--wide page-layout <?= $h($dm->allClasses()) ?>"
+         <?= $dm->dataAttributes() ?>
+         data-cm-component="cm-history">
 
-    <!-- ÜST BAR — PNG: geri/ileri + "Geçmiş" breadcrumb + "Geçmiş'te ara" -->
-    <div class="history-toolbar">
-        <div class="history-toolbar__left">
-            <button type="button" class="history-toolbar__btn" data-action="history-back" aria-label="Geri">
-                <svg class="history-toolbar__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="currentColor"/>
-                </svg>
-            </button>
-            <button type="button" class="history-toolbar__btn" data-action="history-forward" aria-label="İleri">
-                <svg class="history-toolbar__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                    <path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z" fill="currentColor"/>
-                </svg>
-            </button>
-            <nav class="history-toolbar__crumb" aria-label="Sayfa yolu">
-                <h1 class="history-toolbar__title">Geçmiş</h1>
-            </nav>
-        </div>
-        <div class="history-toolbar__search">
-            <input id="history-search"
-                   class="history-toolbar__input"
-                   type="search"
-                   placeholder="Geçmiş'te ara"
-                   aria-label="Geçmiş'te ara"
-                   autocomplete="off"
-                   spellcheck="false">
-        </div>
-    </div>
-
-    <!-- GÖVDE: liste + Player-Info sidebar (PNG: sağ panel) -->
-    <div class="page-history__body">
-
-        <section class="history-list" aria-label="Çalma geçmişi">
-            <div class="history-list__head" aria-hidden="true">
-                <span class="history-list__col history-list__col--play"></span>
-                <span class="history-list__col">Şarkı Adı</span>
-                <span class="history-list__col">Sanatçı</span>
-                <span class="history-list__col history-list__col--end">Süre</span>
+        <!-- ÜST BAR — Figma: geri/ileri + "Geçmiş" + Ev ikonu + "Sırasıyla: ..." + "Geçmiş'te ara" -->
+        <div class="history-toolbar history-toolbar--wide">
+            <div class="history-toolbar__left">
+                <button type="button" class="history-toolbar__btn" data-action="history-back" aria-label="Geri">
+                    <svg class="history-toolbar__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button type="button" class="history-toolbar__btn" data-action="history-forward" aria-label="İleri">
+                    <svg class="history-toolbar__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <nav class="history-toolbar__crumb" aria-label="Sayfa yolu">
+                    <h1 class="history-toolbar__title">Geçmiş</h1>
+                </nav>
+                <a href="/" class="history-toolbar__home" aria-label="Ana sayfa">
+                    <svg class="history-toolbar__home-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/>
+                    </svg>
+                </a>
             </div>
 
-            <ul class="history-list__items">
-                <?php foreach ($tracks as $track): ?>
+            <div class="history-toolbar__center">
+                <span class="history-toolbar__desc">Sırasıyla : Music, Video , Youtube &amp; Youtube Music &amp; Dezer Music &amp; USb Disk</span>
+            </div>
+
+            <div class="history-toolbar__search">
+                <input id="history-search"
+                       class="history-toolbar__input"
+                       type="search"
+                       placeholder="Geçmiş ' te ara"
+                       aria-label="Geçmiş'te ara"
+                       autocomplete="off"
+                       spellcheck="false">
+            </div>
+        </div>
+
+        <!-- GÖVDE: 6 Kolonlu Liste (1612×819) + Sağ Player Sidebar (224px) -->
+        <div class="page-history__body page-history__body--wide">
+
+            <section class="history-grid-panel" aria-label="Çalma geçmişi">
+                <div class="history-grid-cols">
                     <?php
-                    /* Oynatma bağı: yalnız geçerli /stream/{32hex} data-stream olur (HomeSongButton ile aynı kapı) */
-                    $stream = (string)$track['stream'];
-                    $streamAttr = preg_match('#^/stream/[0-9a-f]{32}$#i', $stream) === 1
-                        ? ' data-stream="' . $h($stream) . '"'
-                        : '';
-                    $label = 'Oynat: ' . $track['t'] . ' — ' . $track['a'];
+                    // 6 Kolona dağıtım (round-robin)
+                    $cols = array_fill(0, 6, []);
+                    foreach ($tracks as $idx => $track) {
+                        $cols[$idx % 6][] = $track;
+                    }
                     ?>
-                    <li class="history-list__item">
-                        <a class="history-row"
-                           href="/playlist"
-                           data-no-spa
-                           <?= $streamAttr ?>
-                           aria-label="<?= $h($label) ?>">
-                            <span class="history-row__play" aria-hidden="true">
-                                <svg class="history-row__icon" viewBox="0 0 24 24" focusable="false">
-                                    <path d="M8 5v14l11-7z" fill="currentColor"/>
-                                </svg>
-                            </span>
-                            <span class="history-row__title"><?= $h((string)$track['t']) ?></span>
-                            <span class="history-row__artist"><?= $h((string)$track['a']) ?></span>
-                            <span class="history-row__duration"><?= $h((string)$track['d']) ?></span>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+                    <?php foreach ($cols as $colIdx => $colTracks): ?>
+                        <div class="history-col">
+                            <div class="history-col__head" aria-hidden="true">
+                                <span class="history-col__label-album">Albüm</span>
+                                <span class="history-col__label-title">Şarkı Adı</span>
+                                <span class="history-col__label-duration">Süre</span>
+                            </div>
+                            <ul class="history-col__items">
+                                <?php foreach ($colTracks as $track): ?>
+                                    <?php
+                                    $stream = (string)$track['stream'];
+                                    $streamAttr = preg_match('#^/stream/[0-9a-f]{32}$#i', $stream) === 1
+                                        ? ' data-stream="' . $h($stream) . '"'
+                                        : '';
+                                    $label = 'Oynat: ' . $track['t'] . ' — ' . $track['a'];
+                                    ?>
+                                    <li class="history-list__item">
+                                        <a class="history-row history-row--mini"
+                                           href="/playlist"
+                                           data-no-spa
+                                           <?= $streamAttr ?>
+                                           aria-label="<?= $h($label) ?>">
+                                            <span class="history-row__thumb" aria-hidden="true">
+                                                <img src="<?= $h($assetsUrl . '/Image/res-pink/default-album.png') ?>" alt="" width="24" height="21" loading="lazy">
+                                            </span>
+                                            <span class="history-row__title"><?= $h((string)$track['t']) ?></span>
+                                            <span class="history-row__duration"><?= $h((string)$track['d']) ?></span>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
 
-            <p class="history-list__empty" hidden>Aramanızla eşleşen kayıt bulunamadı.</p>
-        </section>
+                <p class="history-list__empty" hidden>Aramanızla eşleşen kayıt bulunamadı.</p>
+            </section>
 
-        <aside class="page-history__sidebar" aria-label="Şu an çalan">
-            <?php $loader->display('player-info', $variant); ?>
-        </aside>
+            <!-- SAĞ SİDEBAR: Player İmg (221×221) + Player Info Div (218×114) + Player Status Div (224×507) -->
+            <aside class="page-history__sidebar page-history__sidebar--wide" aria-label="Şu an çalan">
+                <div class="history-sidebar__player-info">
+                    <?php $loader->display('player-info', $variant); ?>
+                </div>
+                <div class="history-sidebar__status" aria-label="Çalma durumu paneli"></div>
+            </aside>
 
+        </div>
     </div>
-</div>
+<?php else: ?>
+    <!-- ════════════════════════════════════════════════════════════
+         EMBEDDED 1024×600 — Figma SSOT
+         Layout: Tek liste + Player-Info sidebar
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page-history page-layout <?= $h($dm->allClasses()) ?>"
+         <?= $dm->dataAttributes() ?>
+         data-cm-component="cm-history">
+
+        <!-- ÜST BAR — PNG: geri/ileri + "Geçmiş" breadcrumb + "Geçmiş'te ara" -->
+        <div class="history-toolbar">
+            <div class="history-toolbar__left">
+                <button type="button" class="history-toolbar__btn" data-action="history-back" aria-label="Geri">
+                    <svg class="history-toolbar__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <button type="button" class="history-toolbar__btn" data-action="history-forward" aria-label="İleri">
+                    <svg class="history-toolbar__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M8.59 16.59 10 18l6-6-6-6-1.41 1.41L13.17 12z" fill="currentColor"/>
+                    </svg>
+                </button>
+                <nav class="history-toolbar__crumb" aria-label="Sayfa yolu">
+                    <h1 class="history-toolbar__title">Geçmiş</h1>
+                </nav>
+            </div>
+            <div class="history-toolbar__search">
+                <input id="history-search"
+                       class="history-toolbar__input"
+                       type="search"
+                       placeholder="Geçmiş'te ara"
+                       aria-label="Geçmiş'te ara"
+                       autocomplete="off"
+                       spellcheck="false">
+            </div>
+        </div>
+
+        <!-- GÖVDE: liste + Player-Info sidebar (PNG: sağ panel) -->
+        <div class="page-history__body">
+
+            <section class="history-list" aria-label="Çalma geçmişi">
+                <div class="history-list__head" aria-hidden="true">
+                    <span class="history-list__col history-list__col--play"></span>
+                    <span class="history-list__col">Şarkı Adı</span>
+                    <span class="history-list__col">Sanatçı</span>
+                    <span class="history-list__col history-list__col--end">Süre</span>
+                </div>
+
+                <ul class="history-list__items">
+                    <?php foreach ($tracks as $track): ?>
+                        <?php
+                        /* Oynatma bağı: yalnız geçerli /stream/{32hex} data-stream olur (HomeSongButton ile aynı kapı) */
+                        $stream = (string)$track['stream'];
+                        $streamAttr = preg_match('#^/stream/[0-9a-f]{32}$#i', $stream) === 1
+                            ? ' data-stream="' . $h($stream) . '"'
+                            : '';
+                        $label = 'Oynat: ' . $track['t'] . ' — ' . $track['a'];
+                        ?>
+                        <li class="history-list__item">
+                            <a class="history-row"
+                               href="/playlist"
+                               data-no-spa
+                               <?= $streamAttr ?>
+                               aria-label="<?= $h($label) ?>">
+                                <span class="history-row__play" aria-hidden="true">
+                                    <svg class="history-row__icon" viewBox="0 0 24 24" focusable="false">
+                                        <path d="M8 5v14l11-7z" fill="currentColor"/>
+                                    </svg>
+                                </span>
+                                <span class="history-row__title"><?= $h((string)$track['t']) ?></span>
+                                <span class="history-row__artist"><?= $h((string)$track['a']) ?></span>
+                                <span class="history-row__duration"><?= $h((string)$track['d']) ?></span>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+
+                <p class="history-list__empty" hidden>Aramanızla eşleşen kayıt bulunamadı.</p>
+            </section>
+
+            <aside class="page-history__sidebar" aria-label="Şu an çalan">
+                <?php $loader->display('player-info', $variant); ?>
+            </aside>
+
+        </div>
+    </div>
+<?php endif; ?>

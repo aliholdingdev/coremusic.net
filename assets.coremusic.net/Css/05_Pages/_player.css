@@ -703,9 +703,340 @@
 }
 
 /* Sol sütun: kapak + Player Info kartı alt alta; taşma kendi içinde scroll */
-.page-player.page-layout .player-visual {
+.page-player.page-layout:not(.page-player--wide) .player-visual {
     flex-direction: column;
     gap: var(--space-4, 16px);
     overflow-y: auto;
     min-height: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   WIDE DESKTOP (1920px) — Figma node 2135:34323
+   "Laptop 1920 - Playlist Page full screen mode 2"
+   ═══════════════════════════════════════════════════════════════════ */
+
+.page-player--wide {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.player-topbar--wide {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.player-back--wide {
+    position: static;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--glass-3-bg, rgba(255, 255, 255, 0.1));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+    transition: var(--transition-all, all 0.2s);
+}
+
+.player-back--wide:hover {
+    background: var(--glass-4-bg, rgba(255, 255, 255, 0.2));
+    transform: scale(1.05);
+}
+
+.player-topbar__song-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: var(--font-medium, 500);
+    color: var(--white, #fff);
+    text-shadow: var(--ts-sm);
+    letter-spacing: 0.5px;
+}
+
+.page-player.page-layout .player-content--wide {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: calc(100vh - 120px);
+    padding: 70px 24px 24px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+/* Sol Alt: Player Info Div Mini (435×180, Figma node I2135:35489;894:15744) */
+.player-mini-card {
+    width: 435px;
+    min-height: 180px;
+    background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+    backdrop-filter: var(--glass-blur, blur(20px));
+    -webkit-backdrop-filter: var(--glass-blur, blur(20px));
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
+    border-radius: 16px;
+    box-shadow: var(--glass-shadow);
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.player-mini-card__main {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.player-mini-card__cover {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.player-mini-card__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.player-mini-card__details {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.player-mini-card__row {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.player-mini-card__label {
+    color: var(--white-70, rgba(255, 255, 255, 0.7));
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    font-size: 11px;
+}
+
+.player-mini-card__icon {
+    color: var(--cm-accent, #ff4fd8);
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+.player-mini-card__value {
+    color: var(--white, #fff);
+    font-weight: var(--font-medium, 500);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-mini-card__transport {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.player-mini-card__play {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: none;
+    background: var(--cm-accent, #ff4fd8);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+    transition: var(--transition-all, all 0.2s);
+}
+
+.player-mini-card__play:hover {
+    transform: scale(1.1);
+}
+
+.player-mini-card__progress {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.player-mini-card__progress-fill {
+    height: 100%;
+    width: 30%;
+    background: var(--cm-accent, #ff4fd8);
+    border-radius: 3px;
+}
+
+.player-mini-card__bottom-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.player-mini-card__badge-mp3 {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white, #fff);
+    letter-spacing: 0.5px;
+}
+
+.player-mini-card__stars {
+    display: inline-flex;
+    gap: 2px;
+    color: #ffd700;
+}
+
+.player-mini-card__star-icon {
+    fill: #ffd700;
+}
+
+/* Sağ Playlist Paneli (500×988, Figma node 2135:35315) */
+.page-player.page-layout .player-playlist--wide {
+    width: 500px;
+    height: 100%;
+    max-height: calc(100vh - 120px);
+    background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+    backdrop-filter: var(--glass-blur, blur(20px));
+    -webkit-backdrop-filter: var(--glass-blur, blur(20px));
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15));
+    border-radius: 16px;
+    box-shadow: var(--glass-shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.player-playlist__head-wide {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) 70px;
+    gap: 12px;
+    padding: 12px 16px;
+    font-size: 12px;
+    font-weight: var(--font-medium, 500);
+    color: var(--white-70, rgba(255, 255, 255, 0.7));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.25);
+    text-shadow: var(--ts-xs);
+}
+
+.player-playlist__col-dur {
+    text-align: right;
+}
+
+.player-playlist__list--wide {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    scrollbar-width: thin;
+}
+
+.player-playlist__list--wide::-webkit-scrollbar {
+    width: 4px;
+}
+
+.player-playlist__list--wide::-webkit-scrollbar-track {
+    background: var(--scrollbar-track, rgba(0, 0, 0, 0.1));
+}
+
+.player-playlist__list--wide::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb, rgba(255, 255, 255, 0.2));
+    border-radius: 2px;
+}
+
+.player-playlist__item--wide {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) 70px;
+    gap: 12px;
+    align-items: center;
+    padding: 6px 8px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-all, all 0.2s);
+}
+
+.player-playlist__item--wide:hover {
+    background: var(--glass-bg-hover, rgba(255, 255, 255, 0.12));
+}
+
+.player-playlist__thumb--wide {
+    width: 34px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.player-playlist__track-title--wide {
+    font-size: 13px;
+    color: var(--white, #fff);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: var(--ts-xs);
+}
+
+.player-playlist__duration--wide {
+    font-size: 12px;
+    color: var(--white-70, rgba(255, 255, 255, 0.7));
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    text-shadow: var(--ts-xs);
+}
+
+/* En Alt: Tam genişlik 5px ilerleme çubuğu (Figma node 2135:35497) */
+.player-bottom-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 100;
+}
+
+.player-bottom-progress__fill {
+    height: 100%;
+    width: 30%;
+    background: var(--cm-accent, #ff4fd8);
+    box-shadow: 0 0 10px var(--cm-accent, #ff4fd8);
 }
