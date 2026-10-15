@@ -39,7 +39,8 @@ export function startWeb(): Promise<void> {
       res.end('500 — okunamadı');
     }
   });
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    server.once('error', reject); // EADDRINUSE vb. → serve yakalar ve dostça basar
     server.listen(config.webPort, config.api.host, () => {
       console.log(`NovaSearch Web: http://${config.api.host}:${config.webPort}/`);
       resolve();

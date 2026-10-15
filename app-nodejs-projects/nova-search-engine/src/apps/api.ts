@@ -169,7 +169,8 @@ export function startApi(): Promise<void> {
       send(res, 500, { ok: false, error: { code: 'INTERNAL', message: e instanceof Error ? e.message : 'hata' } });
     });
   });
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    server.once('error', reject); // EADDRINUSE vb. → serve yakalar ve dostça basar
     server.listen(config.api.port, config.api.host, () => {
       console.log(`NovaSearch API: http://${config.api.host}:${config.api.port}/api/v1/health`);
       resolve();

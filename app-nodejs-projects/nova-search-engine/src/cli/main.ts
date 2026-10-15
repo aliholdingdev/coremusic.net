@@ -109,8 +109,21 @@ async function main(): Promise<number> {
     }
 
     case 'serve': {
-      await startApi();
-      await startWeb();
+      try {
+        await startApi();
+        await startWeb();
+      } catch (e) {
+        const code = (e as NodeJS.ErrnoException)?.code;
+        if (code === 'EADDRINUSE') {
+          const port = (e as { port?: number }).port ?? '?';
+          console.error(`Hata: port ${port} dolu (EADDRINUSE) — çalışan başka bir nova serve var.`);
+          console.error(
+            'Durdur: Get-NetTCPConnection -LocalPort 3100,3110 -State Listen | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }',
+          );
+          return 1;
+        }
+        throw e;
+      }
       return 99; // sonsuz çalışır — return çağrılmaz
     }
 
