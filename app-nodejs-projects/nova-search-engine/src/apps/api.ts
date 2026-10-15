@@ -87,7 +87,7 @@ async function route(req: IncomingMessage, res: ServerResponse): Promise<void> {
       const sortRaw = q(url, 'sort');
       const opts: SearchOptions = {
         query,
-        limit: Math.min(numParam(url, 'limit') ?? 24, 500),
+        limit: Math.min(Math.max(numParam(url, 'limit') ?? 24, 1), 5000),
         page: numParam(url, 'page') ?? 1,
         ai: q(url, 'ai') === '1',
         deep: q(url, 'deep') === '1',
@@ -105,6 +105,7 @@ async function route(req: IncomingMessage, res: ServerResponse): Promise<void> {
         ...(q(url, 'duration') ? { duration: q(url, 'duration')! } : {}),
         ...(q(url, 'type') ? { type: q(url, 'type')! } : {}),
         ...(q(url, 'uploadDate') ? { uploadDate: q(url, 'uploadDate')! } : {}),
+        ...(q(url, 'prompt') ? { aiPrompt: q(url, 'prompt')! } : {}),
       };
       const payload = await search(opts);
       send(res, 200, { ok: true, data: payload.results, meta: payload.meta });

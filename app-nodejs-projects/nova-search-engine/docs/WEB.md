@@ -16,14 +16,14 @@ Tarayıcıda <http://127.0.0.1:3110/> aç. `serve` **iki sunucuyu birden** başl
 ## Ekran bölümleri
 
 ```
-┌ NovaSearch — YouTube metadata arama ─────────────────────────┐
-│ [sorgu...................] [24▾] [ilgi▾] [tümü▾] [Ara]      │  ← form
-│ ☑AI skor ☐deep ☑açıklama ☐offline  min izlenme [0]          │  ← seçenekler
-│ ▓▓▓░░░░░░ animasyonlu ilerleme çubuğu                        │  ← yalnız istek sırasında
-│ 24 sonuç · kaynak: db · 25434 ms · AI açık · deep: ...       │  ← meta satırı
-│ #  BAŞLIK  KANAL  SÜRE  İZLENME  SKOR                        │  ← sonuç tablosu
-│ 1  video..  Tarkan 4:02  168.3 M  [95]   › gerekçe satırı     │
-└───────────────────────────────────────────────────────────────┘
+┌ NovaSearch — YouTube metadata arama ────────────────────────────┐
+│ [sorgu..................] [24▾] [ilgi▾] [tümü▾] [Ara]          │  ← form
+│ ☑AI skor ☐deep ☑açıklama ☐offline  min izlenme [0] [AI prompt…] │  ← seçenekler
+│ ▓▓▓░░░░░░ animasyonlu ilerleme çubuğu                          │  ← yalnız istek sırasında
+│ 24 sonuç · kaynak: db · 52766 ms · AI açık · AI prompt ✓ · DB: 128 │ meta
+│ #  BAŞLIK  KANAL  SÜRE  İZLENME  SKOR  VİDEO ID  URL           │  ← sonuç tablosu (8 kolon)
+│ 1  video..  Tarkan 4:02  168.3 M  [95]  NAHRpEqg  https://watch? │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 ## Kontroller
@@ -31,7 +31,7 @@ Tarayıcıda <http://127.0.0.1:3110/> aç. `serve` **iki sunucuyu birden** başl
 | Kontrol | Değerler | Eşdeğer API parametresi |
 |---|---|---|
 | Sorgu kutusu | serbest metin · **Enter** ile ara | `q` |
-| Sonuç limiti | 12 / 24 / 50 / 100 | `limit` |
+| Sonuç limiti | 12 / 24 / 50 / 100 / 500 / 1000 / 5000 | `limit` |
 | Sıralama | ilgi / izlenme / tarih / puan | `sort` |
 | Tür | tümü / video / şarkı / short | `filter` |
 | **AI skor** (varsayılan açık) | ✓/☐ | `ai=1` |
@@ -39,6 +39,7 @@ Tarayıcıda <http://127.0.0.1:3110/> aç. `serve` **iki sunucuyu birden** başl
 | **açıklama** (varsayılan açık) | ✓/☐ | `explain=1` |
 | **offline** | ✓/☐ | `offline=1` |
 | min izlenme | sayı | `minViews` |
+| **AI prompt** | serbest metin (opsiyonel) | `prompt` |
 
 ## Skor rozetleri
 
@@ -47,7 +48,9 @@ Tarayıcıda <http://127.0.0.1:3110/> aç. `serve` **iki sunucuyu birden** başl
 | **Yeşil `nn`** | AI skoru (`aiScore`) — üst sıralarda `> Türkçe gerekçe` satırı görünür |
 | **Gri `nn`** | Deterministik skor (AI kapalı, bütçe doldu ya da model o videoyu puanlamadı) |
 
-Meta satırı: `kaynak` (`ram/disk/db/youtube`) · `tookMs` · `deep:` genişletilmiş sorgular.
+Meta satırı: `kaynak` (`ram/disk/db/youtube`) · `tookMs` · `AI prompt ✓` (prompt gönderildiyse) · `DB: N` · `deep:` genişletilmiş sorgular.
+
+**Tablo kolonları (8):** `#` · Başlık (video linki) · Kanal · Süre · İzlenme · Skor · **Video ID** · **URL** (tam `watch?v=` bağlantısı, tıklanabilir).
 
 ## Davranış notları
 

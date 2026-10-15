@@ -32,12 +32,13 @@ Tek zorunlu param: `q`.
 | Param | Varsayılan | Değerler | Açıklama |
 |---|---|---|---|
 | `q` | *(zorunlu)* | metin | Sorgu |
-| `limit` | `24` | 1–500 | Sayfa başına sonuç |
+| `limit` | `24` | 1–5000 | Sayfa başına sonuç (5000+ destekli) |
 | `page` | `1` | N | Sayfa |
 | `ai` | — | `1` | AI analiz + skor + gerekçe |
 | `deep` | — | `1` | AI 3 ek sorgu üretir |
 | `explain` | — | `1` | `aiReason` + `matchPct` alanlarını doldurur (AI'yi kendiliğinden açar) |
 | `offline` | — | `1` | YouTube'a gitmez (`NOVA_OFFLINE=1` de aynı etki) |
+| `prompt` | — | metin | AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir; `meta.aiPrompt` olarak yansır) |
 | `scroll` | `1` | N | Toplanacak sayfa (YouTube modu) |
 | `filter` | — | `v\|s\|sh` | video / song / short |
 | `sort` | `relevance` | `relevance\|views\|date\|rating` | Sıralama |
@@ -47,13 +48,13 @@ Tek zorunlu param: `q`.
 | `type` | — | metin | Kategori |
 | `uploadDate` | — | `"2015"` / `"<=1y"` | Yükleme tarihi |
 
-**Yanıt:** `data` = `ScoredResult[]`, `meta` = arama meta bilgisi.
+**Yanıt:** `data` = `ScoredResult[]` (her eleman tam `VideoRecord` + skorlar + `url`), `meta` = arama meta bilgisi.
 
 ### `ScoredResult` (data elemanı)
 
 | Alan | Tip | Not |
 |---|---|---|
-| `youtubeId` | string | |
+| `youtubeId` | string | Video ID |
 | `title` / `description` | string | |
 | `channelId` / `channelName` | string | |
 | `durationSec` / `viewCount` | number | |
@@ -67,6 +68,7 @@ Tek zorunlu param: `q`.
 | `aiScore` | number 0-100? | AI açık + başarırsa |
 | `aiReason` | string? | Türkçe gerekçe |
 | `matchPct` | number? | `-explain`/`explain=1` ile eşleşen uyum |
+| `url` | string | Tam izleme bağlantısı: `https://www.youtube.com/watch?v=<id>` |
 
 ### `meta`
 
@@ -74,17 +76,23 @@ Tek zorunlu param: `q`.
 |---|---|---|
 | `query` | string | Sorgu |
 | `source` | `ram\|disk\|db\|youtube` | Sonucun kaynağı |
-| `total` | number | |
+| `total` | number | Bu sayfadaki sonuç sayısı |
 | `tookMs` | number | Toplam süre |
 | `aiEnabled` | boolean | AI kullanılabilir mi |
 | `offline` | boolean | |
 | `expandedQueries` | string[]? | `deep` genişletmeleri |
 | `collected` | number? | Bu sorguda YouTube'dan toplanan |
+| `limit` / `page` | number | Uygulanan sayfalama (limit max 5000) |
+| `aiScored` | number | Bu sayfada AI skoru alan sonuç sayısı |
+| `dbVideos` | number | DB'deki toplam video |
+| `aiPrompt` | string? | Gönderilen özel AI prompt'u (varsa) |
+| `aiPromptApplied` | boolean? | Prompt, AI açıkken uygulandı mı |
+| `filters` | object? | Girilen filtreler (`filter`,`sortBy`,`minViews`,`maxViews`,`duration`,`type`,`uploadDate`,`minScore`,`quality` — verilenler) |
 
 ### Örnek
 
 ```bash
-curl "http://127.0.0.1:3100/api/v1/search?q=tarkan&limit=3&ai=1&explain=1"
+curl "http://127.0.0.1:3100/api/v1/search?q=tarkan&limit=3&ai=1&explain=1&prompt=sadece%20resmi%20klipler"
 ```
 
 ```json
@@ -99,10 +107,13 @@ curl "http://127.0.0.1:3100/api/v1/search?q=tarkan&limit=3&ai=1&explain=1"
       "viewCount": 168289777,
       "score": 95,
       "aiScore": 95,
-      "aiReason": "Video tam olarak aranan 'Kuzu Kuzu' klipidir ve metadata eksiksiz."
+      "aiReason": "Sorguya tam uygun, başlıkta Kuzu Kuzu geçiyor ve Tarkan'ın resmi klibi.",
+      "url": "https://www.youtube.com/watch?v=NAHRpEqgcL4"
     }
   ],
-  "meta": { "query": "tarkan kuzu kuzu", "source": "db", "tookMs": 27476, "aiEnabled": true, "offline": false }
+  "meta": { "query": "tarkan", "source": "db", "tookMs": 19942, "aiEnabled": true, "offline": false,
+            "limit": 3, "page": 1, "aiScored": 3, "dbVideos": 128,
+            "aiPrompt": "sadece resmi klipler", "aiPromptApplied": true }
 }
 ```
 

@@ -53,7 +53,7 @@ test('sorgu yoksa ArgError', () => {
 test('limit ve page normalizationı (clamp)', () => {
   const p = parseArgs(['search', 'x', '-limit', '9999', '-page', '0']);
   const o = buildSearchOptions(p);
-  assert.equal(o.limit, 500); // üst sınır
+  assert.equal(o.limit, 5000); // üst sınır 5000+
   assert.equal(o.page, 1); // alt sınır
 });
 
@@ -84,4 +84,19 @@ test('tam parametre kümesi prompt tablosuyla eşleşiyor', () => {
   assert.equal(o.page, 2);
   assert.equal(o.type, 'music');
   assert.equal(o.uploadDate, '<=1y');
+  assert.equal(o.aiPrompt, 'ek ai'); // positional varken -q AI prompt'a dönüşür
+});
+
+test('AI prompt parametresi (-aip / --aiPrompt / -q fallback)', () => {
+  const a = buildSearchOptions(parseArgs(['search', 'x', '-aip', 'yalnız resmi klipleri tercih et']));
+  assert.equal(a.aiPrompt, 'yalnız resmi klipleri tercih et');
+
+  const b = buildSearchOptions(parseArgs(['search', 'x', '--aiPrompt=sadece 4K']));
+  assert.equal(b.aiPrompt, 'sadece 4K');
+
+  const c = buildSearchOptions(parseArgs(['search', 'x', '-q', 'ek prompt']));
+  assert.equal(c.aiPrompt, 'ek prompt');
+
+  const d = buildSearchOptions(parseArgs(['search', 'x']));
+  assert.equal(d.aiPrompt, undefined);
 });

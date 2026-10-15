@@ -75,18 +75,20 @@ interface Cols {
   dur: number;
   views: number;
   score: number;
+  id: number;
+  url: number;
 }
 
 function tableCols(): Cols {
-  const termW = Math.min(Math.max(process.stdout.columns ?? 100, 80), 120);
-  // chrome: 7 dikey çizgi + 6 hücre × 2 boşluk = 19 · sabit sütunlar: 3+16+7+7+7 = 40
-  const title = Math.max(24, termW - 19 - 3 - 16 - 7 - 7 - 7);
-  return { idx: 3, title, channel: 16, dur: 7, views: 7, score: 7 };
+  const termW = Math.min(Math.max(process.stdout.columns ?? 120, 80), 170);
+  // chrome: 9 dikey çizgi + 8 hücre × 2 boşluk = 25 · sabit: 2+14+7+7+7+11+28 = 76
+  const title = Math.max(19, termW - 25 - 76);
+  return { idx: 2, title, channel: 14, dur: 7, views: 7, score: 7, id: 11, url: 28 };
 }
 
 function border(left: string, mid: string, right: string, cols: Cols): string {
   const seg = (n: number) => '─'.repeat(n + 2);
-  return left + [cols.idx, cols.title, cols.channel, cols.dur, cols.views, cols.score].map((n) => seg(n)).join(mid) + right;
+  return left + [cols.idx, cols.title, cols.channel, cols.dur, cols.views, cols.score, cols.id, cols.url].map((n) => seg(n)).join(mid) + right;
 }
 
 function cell(text: string, n: number, align: 'start' | 'end' = 'start'): string {
@@ -132,6 +134,8 @@ export function formatResults(payload: SearchResultPayload, explain: boolean): s
         cell('Süre', cols.dur, 'end'),
         cell('İzlenme', cols.views, 'end'),
         cell('Skor', cols.score, 'end'),
+        cell('Video ID', cols.id),
+        cell('URL', cols.url),
       ],
       c.bold,
     ),
@@ -150,6 +154,8 @@ export function formatResults(payload: SearchResultPayload, explain: boolean): s
           cell(fmtDuration(r.durationSec), cols.dur, 'end'),
           cell(fmtViews(r.viewCount), cols.views, 'end'),
           cell(score, cols.score, 'end'),
+          cell(r.youtubeId, cols.id),
+          cell(`https://youtu.be/${r.youtubeId}`, cols.url),
         ],
         (s) => (r.aiScore != null ? c.yellow(s) : c.dim(s)),
       ),
@@ -157,13 +163,12 @@ export function formatResults(payload: SearchResultPayload, explain: boolean): s
   }
   lines.push(border('└', '┴', '┘', cols));
 
-  // bağlantılar + gerekçeler (tablo altında numaralı)
+  // gerekçeler (tablo altında numaralı; URL'ler artık tablo içinde)
   for (let i = 0; i < results.length; i++) {
     const r = results[i];
-    const head = c.cyan(String(i + 1).padStart(2, '0')) + c.dim(` https://youtu.be/${r.youtubeId}`);
-    lines.push(' ' + head);
-    if (explain && r.aiReason) lines.push(c.dim(`     > ${r.aiReason}`));
-    else if (explain && r.matchPct != null) lines.push(c.dim(`     > %${r.matchPct} uyum`));
+    const n = c.cyan(String(i + 1).padStart(2, '0'));
+    if (explain && r.aiReason) lines.push(' ' + n + c.dim(` > ${r.aiReason}`));
+    else if (explain && r.matchPct != null) lines.push(' ' + n + c.dim(` > %${r.matchPct} uyum`));
   }
   lines.push('');
   return lines.join('\n');

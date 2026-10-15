@@ -12,7 +12,7 @@
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--text);
          font: 15px/1.5 "Segoe UI", system-ui, sans-serif; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 24px 16px; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 24px 16px; }
   h1 { font-size: 20px; margin: 0 0 16px; }
   h1 span { color: var(--accent); }
   form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
@@ -26,7 +26,7 @@
     background: var(--accent); color: #04121f; border: 0; border-radius: 8px; }
   button:disabled { opacity: .5; cursor: wait; }
   .opts { display: flex; gap: 14px; flex-wrap: wrap; margin: 12px 0 4px;
-    color: var(--dim); font-size: 13px; }
+    color: var(--dim); font-size: 13px; align-items: center; }
   .opts label { display: flex; gap: 5px; align-items: center; cursor: pointer; }
   .progress { height: 6px; background: var(--border); border-radius: 3px;
     overflow: hidden; margin: 14px 0; display: none; }
@@ -40,6 +40,8 @@
   th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--border); }
   th { color: var(--dim); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
   td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  td.url { max-width: 330px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  td.id { font-family: Consolas, monospace; font-size: 12px; color: var(--dim); white-space: nowrap; }
   .badge { display: inline-block; min-width: 34px; text-align: center; padding: 1px 7px;
     border-radius: 10px; font-size: 12px; font-weight: 700;
     background: #1f2d1f; color: var(--green); border: 1px solid #2ea04333; }
@@ -59,6 +61,7 @@
     <input type="search" id="q" placeholder="Sorgu… (örn: tarkan kuzu kuzu)" autofocus />
     <select id="limit" title="Sonuç limiti">
       <option>12</option><option selected>24</option><option>50</option><option>100</option>
+      <option>500</option><option>1000</option><option>5000</option>
     </select>
     <select id="sortBy" title="Sıralama">
       <option value="">ilgi</option><option value="views">izlenme</option>
@@ -77,6 +80,9 @@
     <label><input type="checkbox" id="explain" checked /> açıklama</label>
     <label><input type="checkbox" id="offline" /> offline</label>
     <label>min izlenme <input type="number" id="minViews" placeholder="0" style="width:90px" /></label>
+    <input type="text" id="aiPrompt" placeholder="AI prompt (opsiyonel — AI'ya gider)…"
+      title="Skorlama ve analizde AI'ya iletilecek özel talimat"
+      style="flex:1 1 260px;min-width:220px;padding:6px 10px;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:8px" />
   </div>
 
   <div class="progress" id="prog"><i></i></div>
@@ -111,6 +117,8 @@ $('f').addEventListener('submit', async (e) => {
     if ($('offline').checked) p.set('offline', '1');
     const mv = Number($('minViews').value);
     if (mv > 0) p.set('minViews', String(mv));
+    const ap = $('aiPrompt').value.trim();
+    if (ap) p.set('prompt', ap);
 
     const r = await fetch(API + '/search?' + p.toString());
     const body = await r.json();
@@ -148,7 +156,9 @@ function render(rows, meta, ms) {
   const bits = ['<b>' + rows.length + '</b> sonuç', 'kaynak: ' + esc(meta.source),
     (meta.tookMs ?? ms) + ' ms'];
   if (meta.aiEnabled) bits.push('AI açık');
+  if (meta.aiPromptApplied) bits.push('AI prompt ✓');
   if (meta.offline) bits.push('OFFLINE');
+  if (meta.dbVideos != null) bits.push('DB: ' + meta.dbVideos);
   if (meta.expandedQueries?.length) bits.push('deep: ' + esc(meta.expandedQueries.join(' · ')));
   $('meta').innerHTML = bits.join(' · ');
 
@@ -157,20 +167,24 @@ function render(rows, meta, ms) {
     return;
   }
 
-  const head = '<tr><th>#</th><th>Başlık</th><th>Kanal</th><th>Süre</th><th>İzlenme</th><th>Skor</th></tr>';
+  const head = '<tr><th>#</th><th>Başlık</th><th>Kanal</th><th>Süre</th><th>İzlenme</th><th>Skor</th>' +
+    '<th>Video ID</th><th>URL</th></tr>';
   const body = rows.map((r, i) => {
     const score = r.aiScore != null
       ? '<span class="badge">' + r.aiScore + '</span>'
       : '<span class="badge det">' + r.score + '</span>';
     const reason = r.aiReason ? '<div class="reason">› ' + esc(r.aiReason) + '</div>' : '';
+    const url = r.url || ('https://www.youtube.com/watch?v=' + r.youtubeId);
     return '<tr>' +
       '<td class="num">' + (i + 1) + '</td>' +
-      '<td><a href="https://youtu.be/' + esc(r.youtubeId) + '" target="_blank" rel="noopener">' +
+      '<td><a href="' + esc(url) + '" target="_blank" rel="noopener">' +
         esc(r.title) + '</a>' + reason + '</td>' +
       '<td>' + esc(r.channelName || '—') + '</td>' +
       '<td class="num">' + dur(r.durationSec) + '</td>' +
       '<td class="num">' + views(r.viewCount) + '</td>' +
-      '<td class="num">' + score + '</td></tr>';
+      '<td class="num">' + score + '</td>' +
+      '<td class="id">' + esc(r.youtubeId) + '</td>' +
+      '<td class="url"><a href="' + esc(url) + '" target="_blank" rel="noopener" title="' + esc(url) + '">' + esc(url) + '</a></td></tr>';
   }).join('');
 
   $('out').innerHTML = '<table><thead>' + head + '</thead><tbody>' + body + '</tbody></table>';

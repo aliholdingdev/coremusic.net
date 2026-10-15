@@ -80,7 +80,7 @@ export interface QueryAnalysis {
   };
 }
 
-export async function analyzeQuery(query: string, extra?: string): Promise<QueryAnalysis | null> {
+export async function analyzeQuery(query: string, extra?: string, prompt?: string): Promise<QueryAnalysis | null> {
   const sys = [
     'Sen bir arama sorgusu analizcisisin. Sorguyu analiz et, kullanıcıya uygun filtreleri çıkar ve 0-3 ek sorgu üret.',
     'SADECE JSON döndür, açıklama yazma. Şema:',
@@ -94,6 +94,7 @@ export async function analyzeQuery(query: string, extra?: string): Promise<Query
     '   "uploadDate": "2015" | "<=1y"       // tarih isteği varsa',
     ' }}',
     'Kural: sorguda açık istek yoksa filtreyi yazma (null değil, ANAHTARI OLMA).',
+    ...(prompt ? [`KULLANICI TALİMATI (bağlayıcı): ${prompt}`] : []),
   ].join('\n');
   const out = await chat([
     { role: 'system', content: sys },
@@ -108,13 +109,15 @@ export async function analyzeQuery(query: string, extra?: string): Promise<Query
 export async function scoreResults(
   query: string,
   items: { id: string; title: string; channel: string; views: number; duration: number; published: string | null }[],
+  prompt?: string,
 ): Promise<Record<string, { score: number; reason: string }> | null> {
   const sys =
     'Sen kalite skorlayıcısın. Her videoya (1) sorguya uyumluluk (2) metadata kalitesi için 0-100 puan ver. ' +
     'Puanlama: 90-100 tam isabet · 70-89 güçlü · 50-69 kısmi · <50 alakasız. ' +
     'ZORUNLU: Girdiğin HER id anahtarında puanlanmalı — hiçbir video atlanmaz; alakasızsa 10-40 arası puan ver. ' +
     'Ara düşünme metni yazma; doğrudan geçerli JSON çıktısı ver. ' +
-    'SADECE JSON döndür: {"scores": {"<id>": {"score": number, "reason": "tek cümle Türkçe"}}}';
+    'SADECE JSON döndür: {"scores": {"<id>": {"score": number, "reason": "tek cümle Türkçe"}}}' +
+    (prompt ? ` KULLANICI TALİMATI (bağlayıcı): ${prompt}` : '');
   const out = await chat([
     { role: 'system', content: sys },
     { role: 'user', content: `Sorgu: ${query}\nVideolar:\n${JSON.stringify(items)}` },
@@ -126,10 +129,11 @@ export async function scoreResults(
 
 /* ---------- Görev 3: Deep Search — sorgu genişletme ---------- */
 
-export async function expandQueries(query: string): Promise<string[]> {
+export async function expandQueries(query: string, prompt?: string): Promise<string[]> {
   const sys =
     'Sen arama sorgusu genişleticisisin. Sorguyu farklı açılardan 3 alternatif aramaya çevir. ' +
-    'SADECE JSON: {"queries": string[3]}';
+    'SADECE JSON: {"queries": string[3]}' +
+    (prompt ? ` KULLANICI TALİMATI (bağlayıcı): ${prompt}` : '');
   const out = await chat([
     { role: 'system', content: sys },
     { role: 'user', content: `Sorgu: ${query}` },

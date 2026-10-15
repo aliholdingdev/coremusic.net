@@ -18,7 +18,7 @@ const VALUE_FLAGS = new Set([
   'query', 'q', 'extraQuery', 'eq', 'scroll', 's', 'result', 'r', 'limit', 'l',
   'filter', 'f', 'sortBy', 'sb', 'minViews', 'minv', 'maxViews', 'maxv',
   'minScore', 'mins', 'quality', 'qa', 'duration', 'd', 'page', 'p',
-  'type', 't', 'uploadDate', 'udate', 'ud', 'aiQuery', 'target',
+  'type', 't', 'uploadDate', 'udate', 'ud', 'aiQuery', 'aiPrompt', 'aip', 'target',
 ]);
 
 const BOOL_FLAGS = new Set(['ai', 'deep', 'explain', 'offline', 'json', 'help', 'h', 'version', 'v', 'once', 'prune']);
@@ -88,11 +88,15 @@ export function buildSearchOptions(parsed: ParsedArgs): SearchOptions {
 
   // sorgu: positional ÖNCELIKLİ; -q tek başına verilmişse sorgu olarak kullanılır
   let finalQuery = query;
-  let aiQuery: string | undefined;
+  let promptFromQ: string | undefined;
   if (!finalQuery && explicitQuery) finalQuery = explicitQuery;
-  else aiQuery = explicitQuery;
+  else promptFromQ = explicitQuery;
 
   if (!finalQuery) throw new ArgError('Sorgu gerekli: nova search "adele"');
+
+  // AI prompt: -aip / --aiPrompt / --aiQuery; hiçbiri yoksa positional sorgu varken -q değeri
+  const str = (k: string): string | undefined => (typeof f.get(k) === 'string' ? (f.get(k) as string) : undefined);
+  const aiPrompt = str('aip') ?? str('aiPrompt') ?? str('aiQuery') ?? promptFromQ;
 
   const filter = typeof f.get('f') === 'string' ? (f.get('f') as string) : typeof f.get('filter') === 'string' ? (f.get('filter') as string) : undefined;
   if (filter && !FILTER.has(filter)) throw new ArgError(`-f yalnız v|s|sh (gelen: ${filter})`);
@@ -106,14 +110,14 @@ export function buildSearchOptions(parsed: ParsedArgs): SearchOptions {
 
   return {
     query: finalQuery,
-    ...(aiQuery ? { aiQuery } : {}),
+    ...(aiPrompt ? { aiPrompt } : {}),
     ...(typeof f.get('eq') === 'string' ? { extraQuery: f.get('eq') as string } : {}),
     ai: f.get('ai') === true,
     deep: f.get('deep') === true,
     explain: f.get('explain') === true,
     offline: f.get('offline') === true || configOffline(),
     scroll: num(f.get('s') ?? f.get('scroll'), 's') ?? 1,
-    limit: Math.max(1, Math.min(finalLimit, 500)),
+    limit: Math.max(1, Math.min(finalLimit, 5000)), // üst sınır 5000+
     page: Math.max(1, num(f.get('p') ?? f.get('page'), 'p') ?? 1),
     ...(filter ? { filter: filter as 'v' | 's' | 'sh' } : {}),
     ...(sortByRaw ? { sortBy: sortByRaw as SearchOptions['sortBy'] } : {}),

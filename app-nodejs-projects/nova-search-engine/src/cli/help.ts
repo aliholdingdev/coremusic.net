@@ -17,11 +17,12 @@ ARAMA PARAMETRELERİ (-kısa | --uzun)
   -deep               Deep Search: AI 3 ek sorgu üretir, birleştirir
   -explain            İlk sonuçlara "Neden bu video?" açıklaması
   -offline            YouTube'a asla gitmez (yalnız yerel DB/cache)
-  -q    --query  METIN  Ek AI sorgusu
+  -q    --query  METIN  Ek AI sorgusu (positional sorgu varken -q, AI prompt'u olur)
+  -aip  --aiPrompt METIN  AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir)
   -eq   --extraQuery   Ek arama terimi
   -s    --scroll   N   Toplanacak sayfa (max 5)
-  -r    --result   N   Sonuç limiti (= -l)
-  -l    --limit    N   Sayfa başına sonuç (varsayılan 24)
+  -r    --result   N   Sonuç limiti (= -l, max 5000)
+  -l    --limit    N   Sayfa başına sonuç (varsayılan 24, max 5000)
   -f    --filter   v|s|sh   video / song / short
   -sb   --sortBy   relevance|views|date|rating
   -minv --minViews N   Alt görüntülenme sınırı
@@ -37,9 +38,10 @@ ARAMA PARAMETRELERİ (-kısa | --uzun)
   nova search "Akasya Durağı" -ai -explain
   nova search "adele" -result 100 -scroll 3 -f v -sb views
   nova search "lofi" -q "yavaş sakin piyano" -ai -deep
+  nova search "tarkan" -ai -explain -aip "sadece resmi klipleri tercih et"
   nova search "tarkan" -f s -minv 100000 -offline
   nova search "jazz" -d ">600" -mins 70 -json
-  nova collect "kayıp şarkılar" --target 500
+  nova collect "kayıp şarkılar" --target 5000
   nova enrich -limit 30
 
 ÇIKIŞ KODLARI: 0 başarılı · 2 parametre hatası · 1 beklenmeyen hata

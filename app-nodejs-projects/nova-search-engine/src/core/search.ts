@@ -5,7 +5,7 @@ import { ftsSearch, upsertVideo, saveHistory, saveAiQuery, countVideos, enqueueJ
 import { youtubeSearch } from '../providers/youtube.ts';
 import { analyzeQuery, scoreResults, expandQueries, aiAvailable } from '../ai/engine.ts';
 import { config } from '../config.ts';
-import type { SearchOptions, SearchResultPayload, ScoredResult, VideoRecord } from '../core/types.ts';
+import type { SearchOptions, SearchResultPayload, ScoredResult, VideoRecord, SearchFilters } from '../core/types.ts';
 
 const ram = new MemoryCache();
 const disk = new DiskCache();
@@ -78,7 +78,7 @@ function sortList(list: ScoredResult[], sortBy: SearchOptions['sortBy']): Scored
   switch (sortBy) {
     case 'views': return [...list].sort((a, b) => b.viewCount - a.viewCount);
     case 'date': return [...list].sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''));
-    default: return [...list].sort((a, b) => (b.aiScore ?? b.score) - (a.aiScore ?? a.score));
+    default: return [...list].sort((a, b) => (b.aiScore ?? b.score) - (a.aiScore ?? b.score));
   }
 }
 
@@ -106,7 +106,8 @@ async function collect(o: SearchOptions, query: string): Promise<{ records: Vide
 export async function search(o: SearchOptions): Promise<SearchResultPayload> {
   const t0 = Date.now();
   const query = o.extraQuery ? `${o.query} ${o.extraQuery}` : o.query;
-  const key = cacheKey([query, o.limit, o.page, o.filter, o.sortBy, o.minViews, o.maxViews, o.duration, o.type, o.uploadDate, o.ai, o.deep, o.explain]);
+  // v2: aiPrompt + sürüm tuzu — eski (url'siz) cache girişleri devre dışı
+  const key = cacheKey(['v2', query, o.limit, o.page, o.filter, o.sortBy, o.minViews, o.maxViews, o.duration, o.type, o.uploadDate, o.ai, o.deep, o.explain, o.aiPrompt]);
 
   // 1) RAM
   const hit = ram.get(key);
@@ -128,7 +129,7 @@ export async function search(o: SearchOptions): Promise<SearchResultPayload> {
 
   // 4) AI: analiz (filtre + ek sorgu) ile toplamayı PARALEL başlat (hız)
   const aiOn = (o.ai || o.explain) && aiAvailable();
-  const analysisP = aiOn ? analyzeQuery(o.query, o.extraQuery) : Promise.resolve(null);
+  const analysisP = aiOn ? analyzeQuery(o.query, o.extraQuery, o.aiPrompt) : Promise.resolve(null);
   const offline = o.offline || config.offline;
   const collectP = !offline && pool.length < o.limit
     ? collect(o, o.query)
@@ -137,7 +138,7 @@ export async function search(o: SearchOptions): Promise<SearchResultPayload> {
   const analysis = await analysisP;
   if (analysis?.expandedQueries?.length) expandedQueries = analysis.expandedQueries;
   if (o.deep) {
-    const extra = await expandQueries(o.query).catch(() => []);
+    const extra = await expandQueries(o.query, o.aiPrompt).catch(() => []);
     if (extra.length) expandedQueries = [...new Set([...(expandedQueries ?? []), ...extra])];
   }
   if (expandedQueries?.length) {
@@ -190,6 +191,7 @@ export async function search(o: SearchOptions): Promise<SearchResultPayload> {
     const scores = await scoreResults(
       query,
       top.map((r) => ({ id: r.youtubeId, title: r.title, channel: r.channelName, views: r.viewCount, duration: r.durationSec, published: r.publishedAt })),
+      o.aiPrompt,
     );
     if (config.logLevel === 'debug') {
       console.error(`[ai] scoreResults=${scores ? `anahtar: ${Object.keys(scores).length}` : 'NULL (timeout/model hatası)'}`);
@@ -209,23 +211,42 @@ export async function search(o: SearchOptions): Promise<SearchResultPayload> {
   if (o.quality != null) results = results.filter((r) => (r.aiScore ?? r.score) >= o.quality!);
 
   results = sortList(results, o.sortBy).slice(offset, offset + o.limit);
+  const withUrl = results.map((r) => ({ ...r, url: `https://www.youtube.com/watch?v=${r.youtubeId}` }));
+
+  // uygulanan filtreler (zengin meta için)
+  const filters: Partial<SearchFilters> = {};
+  if (o.filter) filters.filter = o.filter;
+  if (o.sortBy) filters.sortBy = o.sortBy;
+  if (o.minViews != null) filters.minViews = o.minViews;
+  if (o.maxViews != null) filters.maxViews = o.maxViews;
+  if (o.duration) filters.duration = o.duration;
+  if (o.type) filters.type = o.type;
+  if (o.uploadDate) filters.uploadDate = o.uploadDate;
+  if (o.minScore != null) filters.minScore = o.minScore;
+  if (o.quality != null) filters.quality = o.quality;
 
   const payload: SearchResultPayload = {
-    results,
+    results: withUrl,
     meta: {
       query,
       source,
-      total: results.length,
+      total: withUrl.length,
       tookMs: Date.now() - t0,
       aiEnabled: aiOn,
       offline,
       ...(expandedQueries ? { expandedQueries } : {}),
       collected,
+      limit: o.limit,
+      page: o.page,
+      aiScored: withUrl.filter((r) => r.aiScore != null).length,
+      dbVideos: countVideos(),
+      ...(o.aiPrompt ? { aiPrompt: o.aiPrompt, aiPromptApplied: aiOn } : {}),
+      ...(Object.keys(filters).length ? { filters } : {}),
     },
   };
 
   ram.set(key, payload);
   disk.set(key, payload);
-  saveHistory(query, results.length);
+  saveHistory(query, withUrl.length);
   return payload;
 }

@@ -21,7 +21,7 @@ npm run nova -- search "Akasya Durağı" -ai -explain
 npm run nova -- search "adele" -result 100 -scroll 3 -f v -sb views
 npm run nova -- search "lofi" -q "yavaş sakin piyano" -ai -deep
 npm run nova -- search "tarkan" -f s -minv 100000 -offline
-npm run nova -- collect "jazz" --target 500   # derin toplama + ilerleme çubuğu
+npm run nova -- collect "jazz" --target 5000   # derin toplama + ilerleme çubuğu
 npm run nova -- enrich --limit 20             # video detay + kanal (like/abone) doldurur
 npm run nova -- stats                         # DB/cache sayaçları
 npm run nova -- cache --prune                 # süresi dolmuş cache temizliği
@@ -37,11 +37,12 @@ npm run nova -- --help                        # tüm parametreler
 | `-deep` | — | AI 3 ek sorgu üretip birleştirir |
 | `-explain` | — | "Neden bu video?" açıklaması |
 | `-offline` | — | YouTube'a asla gitmez |
-| `-q` | `--query` | Ek AI sorgusu |
+| `-q` | `--query` | Ek AI sorgusu (positional sorgu varken = AI prompt) |
+| `-aip` | `--aiPrompt` | AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir) |
 | `-eq` | `--extraQuery` | Ek arama terimi |
 | `-s` | `--scroll` | Toplanacak sayfa (max 5) |
-| `-r` | `--result` | Sonuç limiti |
-| `-l` | `--limit` | Sayfa başına sonuç (varsayılan 24) |
+| `-r` | `--result` | Sonuç limiti (max 5000) |
+| `-l` | `--limit` | Sayfa başına sonuç (varsayılan 24, max 5000) |
 | `-f` | `--filter` | `v` video / `s` song / `sh` short |
 | `-sb` | `--sortBy` | `relevance\|views\|date\|rating` |
 | `-minv` | `--minViews` | Alt görüntülenme |

@@ -29,11 +29,12 @@
 | `-explain` | — | flag | Sonuçlara `> gerekçe` satırı (AI'yi kendiliğinden açar) |
 | `-offline` | — | flag | YouTube'a asla gitmez |
 | `-json` | — | flag | Box tablo yerine ham JSON (`payload` tam hâli) |
-| `-q` | `--query` | metin | Ek AI sorgusu |
+| `-q` | `--query` | metin | Ek AI sorgusu (positional sorgu varken -q = AI prompt) |
+| `-aip` | `--aiPrompt` | metin | AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir) |
 | `-eq` | `--extraQuery` | metin | Ek arama terimi |
 | `-s` | `--scroll` | N | Toplanacak sayfa (max 5) |
-| `-r` | `--result` | N | Sonuç limiti |
-| `-l` | `--limit` | N | Sayfa başına sonuç (varsayılan 24) |
+| `-r` | `--result` | N | Sonuç limiti (max 5000) |
+| `-l` | `--limit` | N | Sayfa başına sonuç (varsayılan 24, max 5000) |
 | `-f` | `--filter` | `v\|s\|sh` | video / song / short |
 | `-sb` | `--sortBy` | `relevance\|views\|date\|rating` | Sıralama |
 | `-minv` | `--minViews` | N | Alt görüntülenme |
@@ -54,31 +55,31 @@
 npm run nova -- search "Akasya Durağı" -ai -explain
 npm run nova -- search "adele" -result 100 -scroll 3 -f v -sb views
 npm run nova -- search "lofi" -q "yavaş sakin piyano" -ai -deep
+npm run nova -- search "tarkan" -ai -explain -aip "sadece resmi klipleri tercih et"
 npm run nova -- search "tarkan" -f s -minv 100000 -offline
 npm run nova -- search "jazz" -d ">600" -mins 70 -json
-npm run nova -- collect "kayıp şarkılar" --target 500
+npm run nova -- collect "kayıp şarkılar" --target 5000
 npm run nova -- enrich --limit 30
 ```
 
 ## Çıktı biçimi
 
-Sonuçlar **Unicode box tabloda** sunulur; altında numaralı bağlantı (+ `-explain` ise gerekçe):
+Sonuçlar **Unicode box tabloda** sunulur — **Video ID** ve **URL** tablo kolonudur; `-explain` ise gerekçeler tablo altında numaralı görünür:
 
 ```
- "tarkan kuzu kuzu" · 3 sonuç · kaynak: db · 10ms · OFFLINE
+ "tarkan" · 3 sonuç · kaynak: db · 16ms · OFFLINE
 
-┌─────┬───────────────────────────────────────────┬──────────────────┬─────────┬─────────┬─────────┐
-│ #   │ Başlık                                    │ Kanal            │    Süre │ İzlenme │    Skor │
-├─────┼───────────────────────────────────────────┼──────────────────┼─────────┼─────────┼─────────┤
-│ 01  │ TARKAN - Kuzu Kuzu (Official Music Video) │ Tarkan           │    4:02 │ 168.3 M │  AI 95  │
-│ 02  │ TARKAN - Hüp (Official Music Video)       │ Tarkan           │    4:03 │  39.4 M │      72 │
-└─────┴───────────────────────────────────────────┴──────────────────┴─────────┴─────────┴─────────┘
- 01 https://youtu.be/NAHRpEqgcL4
-     > Video tam olarak aranan 'Kuzu Kuzu' klipidir ve metadata eksiksiz.
- 02 https://youtu.be/4tLOG4us6zc
+┌────┬─────────────────────┬────────────────┬─────────┬─────────┬─────────┬─────────────┬──────────────────────────────┐
+│ #  │ Başlık              │ Kanal          │    Süre │ İzlenme │    Skor │ Video ID    │ URL                          │
+├────┼─────────────────────┼────────────────┼─────────┼─────────┼─────────┼─────────────┼──────────────────────────────┤
+│ 01 │ TARKAN - Hüp (Remi… │ Tarkan         │    5:00 │   1.2 M │      95 │ OziL_hKtL8Q │ https://youtu.be/OziL_hKtL8Q │
+│ 02 │ TARKAN - Hüp (Offi… │ Tarkan         │    4:03 │  39.4 M │      95 │ 4tLOG4us6zc │ https://youtu.be/4tLOG4us6zc │
+│ 03 │ TARKAN - Acımayaca… │ Tarkan         │    4:30 │  12.1 M │      95 │ 6SIyWpxuSP0 │ https://youtu.be/6SIyWpxuSP0 │
+└────┴─────────────────────┴────────────────┴─────────┴─────────┴─────────┴─────────────┴──────────────────────────────┘
 ```
 
 - **Skor sütunu:** `AI nn` (sarı) = OpenRouter skoru; düz `nn` = deterministik skor (AI yoksa/bütçe dolarsa).
+- **URL sütunu:** kısa tam link `https://youtu.be/<id>` (konsol genişliği için); JSON/API'deki `url` alanı tam biçimdir: `https://www.youtube.com/watch?v=<id>`.
 - **Meta satırı:** `kaynak` ∈ `ram|disk|db|youtube`, `OFFLINE` rozeti, `deep:` genişletilmiş sorgular.
 
 ### İlerleme çubukları
@@ -96,7 +97,7 @@ Zenginleştiriliyor: [##########..........] % 50 1/2 iZ2K8oGlvcA
 npm run nova -- search "jazz" -r 2 -json
 ```
 
-Tam `payload` hâli: `{ "results": ScoredResult[], "meta": {...} }` — alan şeması [API.md](API.md) ile aynıdır.
+Tam `payload` hâli: `{ "results": ScoredResult[], "meta": {...} }` — her sonuçta `url` (tam izleme bağlantısı); `meta` içinde `limit` · `page` · `aiScored` · `dbVideos` · `aiPrompt` · `aiPromptApplied` · `filters`. Alan şeması [API.md](API.md) ile aynıdır.
 
 ## Çıkış kodları
 
