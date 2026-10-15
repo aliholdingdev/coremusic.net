@@ -115,6 +115,9 @@ $headerTierClass = $dm->shouldRender4kLayout()
             </div>
 
             <div class="header-border header-border--actions">
+                <a href="/ayarlar" class="header-action-btn" aria-label="Ayarlar" title="Ayarlar">
+                    <img src="<?= $settingsIcon ?>" alt="Ayarlar" width="22" height="22" loading="lazy"/>
+                </a>
                 <button class="header-action-btn sidebar-toggle" type="button" aria-label="Sidebar aç/kapat" data-action="toggle-sidebar" title="Navigasyon paneli">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
                         <line x1="3" y1="6" x2="21" y2="6"/>
@@ -122,11 +125,8 @@ $headerTierClass = $dm->shouldRender4kLayout()
                         <line x1="3" y1="18" x2="21" y2="18"/>
                     </svg>
                 </button>
-                <a href="/ayarlar" class="header-action-btn" aria-label="Ayarlar">
-                    <img src="<?= $settingsIcon ?>" alt="" width="22" height="22" loading="lazy"/>
-                </a>
-                <a href="/logout" class="header-action-btn" aria-label="Çıkış" data-no-spa>
-                    <img src="<?= $logoutIcon ?>" alt="" width="22" height="22" loading="lazy"/>
+                <a href="/logout" class="header-action-btn" aria-label="Çıkış" title="Çıkış" data-no-spa>
+                    <img src="<?= $logoutIcon ?>" alt="Çıkış" width="22" height="22" loading="lazy"/>
                 </a>
             </div>
         </div>

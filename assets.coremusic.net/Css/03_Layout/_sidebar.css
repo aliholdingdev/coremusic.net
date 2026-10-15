@@ -415,18 +415,17 @@
    SIDEBAR — Toggle Button (Hamburger)
    ============================================================ */
 .sidebar-toggle {
-    display: none;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--cm-w-36px);
-    height: var(--cm-h-36px);
-    background: rgba(255, 255, 255, 0.06);
-    border: var(--cm-bw-1px) solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-md);
+    width: var(--cm-w-36px, 32px);
+    height: var(--cm-h-36px, 32px);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-full, 50%);
     color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
-    transition: background 150ms ease, color 150ms ease;
-    margin-right: var(--cm-mar-5px);
+    transition: background 150ms ease, color 150ms ease, transform 150ms ease;
     flex-shrink: 0;
 }
 
