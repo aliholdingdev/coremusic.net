@@ -53,6 +53,8 @@ export const config = {
     minDelayMs: int(process.env.COLLECT_MIN_DELAY_MS, 1500),
     maxDelayMs: int(process.env.COLLECT_MAX_DELAY_MS, 6000),
     maxPages: int(process.env.COLLECT_MAX_PAGES, 5),
+    /** --auto modu: continuation tükenene kadar sayfa üst sınırı */
+    autoMaxPages: int(process.env.COLLECT_AUTO_MAX_PAGES, 60),
   },
 };
 

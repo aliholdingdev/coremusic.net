@@ -1,5 +1,6 @@
 /** Parametrik argüman ayrıştırıcı — menü yok. Hem `-q` hem `--query` hem `-query` kabul eder. */
 import type { SearchOptions } from '../core/types.ts';
+import { extractVideoId } from '../core/video-detail.ts';
 
 export class ArgError extends Error {
   constructor(message: string) {
@@ -19,9 +20,10 @@ const VALUE_FLAGS = new Set([
   'filter', 'f', 'sortBy', 'sb', 'minViews', 'minv', 'maxViews', 'maxv',
   'minScore', 'mins', 'quality', 'qa', 'duration', 'd', 'page', 'p',
   'type', 't', 'uploadDate', 'udate', 'ud', 'aiQuery', 'aiPrompt', 'aip', 'target',
+  'comments', 'related',
 ]);
 
-const BOOL_FLAGS = new Set(['ai', 'deep', 'explain', 'offline', 'json', 'help', 'h', 'version', 'v', 'once', 'prune']);
+const BOOL_FLAGS = new Set(['ai', 'deep', 'explain', 'offline', 'json', 'help', 'h', 'version', 'v', 'once', 'prune', 'auto']);
 
 /** normalize: `-query` → `query`, `--query` → `query`, `-Q` → `q` (tek harf) */
 function normFlag(raw: string): string {
@@ -135,4 +137,37 @@ export function buildSearchOptions(parsed: ParsedArgs): SearchOptions {
 
 function configOffline(): boolean {
   return process.env.NOVA_OFFLINE === '1';
+}
+
+export interface VideoOptions {
+  videoId: string;
+  comments: number;
+  related: number;
+  ai: boolean;
+  json: boolean;
+  offline: boolean;
+}
+
+/** `nova video <id|url>` seçenekleri — ID/URL ayrıştırma + clamp0-50 /0-20. */
+export function buildVideoOptions(parsed: ParsedArgs): VideoOptions {
+  const f = parsed.flags;
+  const input = parsed.positionals.join(' ').trim();
+  if (!input) throw new ArgError('Video ID veya URL gerekli: nova video <id|url>');
+  const id = extractVideoId(input);
+  if (!id) throw new ArgError(`Geçersiz video ID/URL: ${input}`);
+
+  const clamp = (name: string, max: number): number => {
+    const n = num(f.get(name), name);
+    if (n == null) return 0;
+    return Math.max(0, Math.min(Math.trunc(n), max));
+  };
+
+  return {
+    videoId: id,
+    comments: clamp('comments', 50),
+    related: clamp('related', 20),
+    ai: f.get('ai') === true,
+    json: f.get('json') === true,
+    offline: f.get('offline') === true || configOffline(),
+  };
 }

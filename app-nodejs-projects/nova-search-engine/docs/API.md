@@ -147,7 +147,46 @@ console.log(data.length, meta.source, meta.tookMs);
 
 ## `GET /api/v1/videos/{youtubeId}`
 
-`data`: tek `VideoRecord` · bulunamazsa `404 NOT_FOUND` (`video yok: <id>`).
+İki mod:
+
+**1 — Basit (legacy):** parametre yoksa `data`: tek `VideoRecord` · bulunamazsa `404 NOT_FOUND` (`video yok: <id>`).
+
+**2 — Derin:** en az bir parametre verilirse `data`: `VideoDetailPayload`:
+
+| Param | Varsayılan | Değerler | Açıklama |
+|---|---|---|---|
+| `comments` | — | `0-50` | Üst düzey yorumlar (verilirse derin mod tetiklenir) |
+| `related` | — | `0-20` | Benzer/önerilen videolar (`watch_next_feed`) |
+| `ai` | `0` | `0\|1` | Benzer videolara AI benzerlik skoru + gerekçe (üst sınır 8 aday) |
+
+```json
+{
+  "video": { "youtubeId": "4tLOG4us6zc", "title": "TARKAN - Hüp (Official Music Video)",
+             "channelName": "Tarkan", "durationSec": 243, "viewCount": 39439345,
+             "isShort": false, "url": "https://www.youtube.com/watch?v=4tLOG4us6zc" },
+  "comments": [
+    { "commentId": "UgyFuZ...", "authorName": "@Trabzonunkendisi", "authorChannelId": "UCv...",
+      "text": "bu klibe kadar öpüşürken dil...", "publishedText": "5 years ago",
+      "likeCount": 14000, "replyCount": 4, "isPinned": false, "isChannelOwner": false,
+      "url": "https://www.youtube.com/watch?v=4tLOG4us6zc&lc=UgyFuZ..." }
+  ],
+  "related": [
+    { "youtubeId": "Skus894Lh_c", "title": "TARKAN - Gülümse Kaderine (Official Music Video)",
+      "channelName": "Tarkan", "viewCount": 21000000, "publishedText": "14y ago",
+      "contentType": "VIDEO", "durationSec": null, "url": "https://www.youtube.com/watch?v=Skus894Lh_c",
+      "aiScore": 85, "aiReason": "Tarkan'ın resmi klibi, sorgu ile yüksek konu benzerliği." }
+  ],
+  "meta": { "videoId": "4tLOG4us6zc", "source": "db", "commentsCount": 2, "relatedCount": 2,
+            "commentsFromCache": true, "relatedFromCache": true, "aiScored": 0,
+            "offline": false, "degraded": false, "tookMs": 761 }
+}
+```
+
+- `meta.source` ∈ `db|youtube` (DB'de yoksa getInfo ile canlı çekilir).
+- Yorum/benzer verisi **24 saat DiskCache**'te; ikinci istek anında döner (`*FromCache: true`).
+- YouTube erişilemezse ilgili bölüm boş döner, `meta.degraded: true` — **uç asla 500 vermez**.
+- `ai=1` istenir ama AI kapalı/başarısızsa: `aiScored: 0`, ilgili alanlar `null` — yine 200.
+- Geçersiz ID biçimi (11 karakter değil): `400 BAD_REQUEST`.
 
 ## İlgili dokümanlar
 

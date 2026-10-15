@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /** NovaSearch CLI giriş noktası — menü YOK, komut + parametre. */
-import { parseArgs, buildSearchOptions, ArgError } from './parse.ts';
+import { parseArgs, buildSearchOptions, buildVideoOptions, ArgError } from './parse.ts';
 import { HELP, VERSION } from './help.ts';
-import { formatResults } from './format.ts';
+import { formatResults, formatVideoDetail } from './format.ts';
 import { search } from '../core/search.ts';
+import { videoDetail } from '../core/video-detail.ts';
 import { countVideos, trending, suggest, getDb, closeDb } from '../database/db.ts';
 import { DiskCache } from '../cache/disk-cache.ts';
 import { aiAvailable } from '../ai/engine.ts';
@@ -42,8 +43,26 @@ async function main(): Promise<number> {
       const target = Number(parsed.flags.get('target') ?? 0);
       const processed = await runCollector(q, Number(parsed.flags.get('scroll') ?? 1), true, {
         target: Number.isFinite(target) ? target : 0,
+        auto: parsed.flags.get('auto') === true,
       });
       console.log(`collect: ${processed} iş işlendi.`);
+      return 0;
+    }
+
+    case 'video': {
+      const o = buildVideoOptions(parsed);
+      const payload = await videoDetail(o.videoId, {
+        comments: o.comments,
+        related: o.related,
+        ai: o.ai,
+        offline: o.offline,
+      });
+      if (!payload) {
+        console.error(`Geçersiz video ID/URL: ${parsed.positionals.join(' ')}`);
+        return 2;
+      }
+      if (o.json) console.log(JSON.stringify(payload, null, 2));
+      else console.log(formatVideoDetail(payload));
       return 0;
     }
 

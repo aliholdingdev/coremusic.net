@@ -51,6 +51,29 @@
   a:hover { text-decoration: underline; }
   .empty { color: var(--dim); padding: 24px 0; }
   .err { color: #f85149; }
+  button.dbtn { padding: 4px 10px; font-size: 12px; font-weight: 600; cursor: pointer;
+    background: transparent; color: var(--accent); border: 1px solid var(--border);
+    border-radius: 6px; white-space: nowrap; }
+  button.dbtn:hover { border-color: var(--accent); }
+  /* Detay modal */
+  .modal { position: fixed; inset: 0; display: none; z-index: 50;
+    background: rgba(1,4,9,.72); padding: 24px 12px; overflow: auto; }
+  .modal.on { display: block; }
+  .modal .panel { max-width: 980px; margin: 0 auto; background: var(--panel);
+    border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+  .modal .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .modal h2 { font-size: 16px; margin: 0 0 4px; }
+  .modal h3 { font-size: 13px; margin: 18px 0 6px; color: var(--gold);
+    text-transform: uppercase; letter-spacing: .05em; }
+  .modal .mmeta { color: var(--dim); font-size: 13px; }
+  .modal .close { padding: 4px 10px; font-size: 13px; background: transparent;
+    color: var(--dim); border: 1px solid var(--border); border-radius: 6px; }
+  .modal .close:hover { color: var(--text); border-color: var(--accent); }
+  .modal .cmt { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .cmt .who { color: var(--dim); font-size: 12px; }
+  .modal .rel { display: flex; gap: 10px; align-items: baseline; padding: 7px 0;
+    border-bottom: 1px solid var(--border); font-size: 14px; }
+  .rel .rmeta { color: var(--dim); font-size: 12px; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -88,6 +111,10 @@
   <div class="progress" id="prog"><i></i></div>
   <div class="meta" id="meta"></div>
   <div id="out"></div>
+</div>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="panel" id="mpanel"></div>
 </div>
 
 <script>
@@ -168,7 +195,7 @@ function render(rows, meta, ms) {
   }
 
   const head = '<tr><th>#</th><th>Başlık</th><th>Kanal</th><th>Süre</th><th>İzlenme</th><th>Skor</th>' +
-    '<th>Video ID</th><th>URL</th></tr>';
+    '<th>Video ID</th><th>URL</th><th></th></tr>';
   const body = rows.map((r, i) => {
     const score = r.aiScore != null
       ? '<span class="badge">' + r.aiScore + '</span>'
@@ -184,10 +211,86 @@ function render(rows, meta, ms) {
       '<td class="num">' + views(r.viewCount) + '</td>' +
       '<td class="num">' + score + '</td>' +
       '<td class="id">' + esc(r.youtubeId) + '</td>' +
-      '<td class="url"><a href="' + esc(url) + '" target="_blank" rel="noopener" title="' + esc(url) + '">' + esc(url) + '</a></td></tr>';
+      '<td class="url"><a href="' + esc(url) + '" target="_blank" rel="noopener" title="' + esc(url) + '">' + esc(url) + '</a></td>' +
+      '<td><button class="dbtn" data-id="' + esc(r.youtubeId) + '">Detay</button></td></tr>';
   }).join('');
 
   $('out').innerHTML = '<table><thead>' + head + '</thead><tbody>' + body + '</tbody></table>';
+}
+
+/* ---- Detay modalı: video + yorumlar (10) + benzer videolar (10, AI skorlu) ---- */
+$('out').addEventListener('click', (e) => {
+  const b = e.target.closest('.dbtn');
+  if (b) openDetail(b.dataset.id);
+});
+$('modal').addEventListener('click', (e) => {
+  if (e.target.id === 'modal' || e.target.closest('.close')) closeModal();
+});
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+function closeModal() {
+  $('modal').classList.remove('on');
+  $('modal').setAttribute('aria-hidden', 'true');
+}
+
+async function openDetail(id) {
+  const panel = $('mpanel');
+  $('modal').classList.add('on');
+  $('modal').setAttribute('aria-hidden', 'false');
+  panel.innerHTML = '<div class="empty">Yükleniyor…</div>';
+  try {
+    const r = await fetch(API + '/videos/' + encodeURIComponent(id) + '?comments=10&related=10&ai=1');
+    const body = await r.json();
+    if (!body.ok) throw new Error(body.error?.message ?? 'API hatası');
+    panel.innerHTML = renderDetail(body.data);
+  } catch (err) {
+    panel.innerHTML = '<div class="empty err">Hata: ' + esc(String(err.message || err)) + '</div>';
+  }
+}
+
+function renderDetail(d) {
+  const m = d.meta;
+  let h = '<div class="head"><div>';
+  if (d.video) {
+    const v = d.video;
+    h += '<h2><a href="' + esc(v.url) + '" target="_blank" rel="noopener">' + esc(v.title) + '</a></h2>';
+    h += '<div class="mmeta">' + esc(v.channelName || 'kanal ?') + ' · ' + dur(v.durationSec) +
+      ' · ' + views(v.viewCount) + ' izlenme' + (v.isShort ? ' · <b>SHORT</b>' : '') + '</div>';
+  } else {
+    h += '<h2>Video kaydı yok: ' + esc(m.videoId) + '</h2>';
+  }
+  h += '</div><button class="close" title="Kapat (Esc)">✕</button></div>';
+
+  const bits = ['kaynak: ' + esc(m.source), m.commentsCount + ' yorum', m.relatedCount + ' benzer',
+    m.aiScored ? 'AI skorlu: ' + m.aiScored : '', m.tookMs + ' ms'];
+  if (m.commentsFromCache) bits.push('yorum cache');
+  if (m.relatedFromCache) bits.push('benzer cache');
+  if (m.offline) bits.push('OFFLINE');
+  if (m.degraded) bits.push('DEGRADED (YouTube erişilemedi → boş bölüm)');
+  h += '<div class="mmeta">' + bits.join(' · ') + '</div>';
+
+  h += '<h3>Yorumlar (' + d.comments.length + ')</h3>';
+  h += d.comments.length
+    ? d.comments.map((c) =>
+        '<div class="cmt">' + esc(c.text) +
+        '<div class="who">' + esc(c.authorName) + (c.isChannelOwner ? ' ✓' : '') +
+        (c.isPinned ? ' · 📌' : '') + ' · ' + esc(c.publishedText ?? '') +
+        ' · ' + views(c.likeCount) + ' beğeni</div></div>').join('')
+    : '<div class="empty">Yorum yok (offline · veya YouTube erişilemedi).</div>';
+
+  h += '<h3>Benzer videolar (' + d.related.length + ')</h3>';
+  h += d.related.length
+    ? d.related.map((r) =>
+        '<div class="rel"><a href="' + esc(r.url) + '" target="_blank" rel="noopener">' +
+        (r.contentType === 'SHORT' ? '⚡ ' : '') + esc(r.title) + '</a>' +
+        '<span class="rmeta">' + esc(r.channelName || '—') + ' · ' + views(r.viewCount) +
+        (r.publishedText ? ' · ' + esc(r.publishedText) : '') +
+        (r.aiScore != null ? ' · <span class="badge">AI ' + r.aiScore + '</span>' : '') +
+        '</span></div>' +
+        (r.aiReason ? '<div class="reason">› ' + esc(r.aiReason) + '</div>' : '')).join('')
+    : '<div class="empty">Benzer video yok (offline · veya YouTube erişilemedi).</div>';
+
+  return h;
 }
 </script>
 </body>

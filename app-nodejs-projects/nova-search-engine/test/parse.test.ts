@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseArgs, buildSearchOptions, ArgError } from '../src/cli/parse.ts';
+import { parseArgs, buildSearchOptions, buildVideoOptions, ArgError } from '../src/cli/parse.ts';
+import { extractVideoId } from '../src/core/video-detail.ts';
 
 test('kısa ve uzun flag eşitleri', () => {
   const p = parseArgs(['search', 'adele', '-ai', '--limit', '10', '-f', 'v']);
@@ -99,4 +100,53 @@ test('AI prompt parametresi (-aip / --aiPrompt / -q fallback)', () => {
 
   const d = buildSearchOptions(parseArgs(['search', 'x']));
   assert.equal(d.aiPrompt, undefined);
+});
+
+test('collect --auto bayrağı parse edilir', () => {
+  const p = parseArgs(['collect', 'tarkan', '--auto']);
+  assert.equal(p.flags.get('auto'), true);
+  const q = parseArgs(['collect', 'tarkan', '--auto', '--target', '300']);
+  assert.equal(q.flags.get('auto'), true);
+  assert.equal(q.flags.get('target'), '300');
+});
+
+/* ---------- nova video <id|url> ---------- */
+
+test('extractVideoId: ham ID / watch URL / youtu.be / shorts', () => {
+  assert.equal(extractVideoId('NAHRpEqgcL4'), 'NAHRpEqgcL4');
+  assert.equal(extractVideoId('https://www.youtube.com/watch?v=NAHRpEqgcL4'), 'NAHRpEqgcL4');
+  assert.equal(extractVideoId('https://youtu.be/NAHRpEqgcL4?t=10'), 'NAHRpEqgcL4');
+  assert.equal(extractVideoId('https://www.youtube.com/shorts/Yr3UPC8Nhag'), 'Yr3UPC8Nhag');
+  assert.equal(extractVideoId('https://m.youtube.com/watch?v=NAHRpEqgcL4&feature=emb'), 'NAHRpEqgcL4');
+});
+
+test('extractVideoId: geçersiz girdi → null', () => {
+  assert.equal(extractVideoId(''), null);
+  assert.equal(extractVideoId('kısa'), null);
+  assert.equal(extractVideoId('https://example.com/watch?v=NAHRpEqgcL4'), 'NAHRpEqgcL4'); // host serbest: v param yeterli
+  assert.equal(extractVideoId('https://www.youtube.com/watch?v=kisa'), null);
+  assert.equal(extractVideoId('https://www.youtube.com/results?search_query=x'), null);
+});
+
+test('video komutu: flags + clamp (comments 0-50, related 0-20)', () => {
+  const p = parseArgs(['video', 'NAHRpEqgcL4', '-comments', '5', '-related', '8', '-ai', '-json']);
+  const o = buildVideoOptions(p);
+  assert.equal(o.videoId, 'NAHRpEqgcL4');
+  assert.equal(o.comments, 5);
+  assert.equal(o.related, 8);
+  assert.equal(o.ai, true);
+  assert.equal(o.json, true);
+
+  const c = buildVideoOptions(parseArgs(['video', 'NAHRpEqgcL4', '-comments', '999', '-related', '-5']));
+  assert.equal(c.comments, 50);
+  assert.equal(c.related, 0);
+  assert.equal(c.ai, false);
+});
+
+test('video komutu: URL positional kabul + eksik/geçersiz ID ArgError', () => {
+  const o = buildVideoOptions(parseArgs(['video', 'https://youtu.be/NAHRpEqgcL4']));
+  assert.equal(o.videoId, 'NAHRpEqgcL4');
+
+  assert.throws(() => buildVideoOptions(parseArgs(['video'])), ArgError);
+  assert.throws(() => buildVideoOptions(parseArgs(['video', 'geçersiz-id'])), ArgError);
 });

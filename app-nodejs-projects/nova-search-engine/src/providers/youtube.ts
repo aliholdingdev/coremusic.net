@@ -1,7 +1,7 @@
 /** YouTube Provider — youtubei.js tek erişim noktası (core asla youtubei.js görmez). */
 import { Innertube } from 'youtubei.js';
 import { config } from '../config.ts';
-import type { VideoRecord, SearchFilters } from '../core/types.ts';
+import type { VideoRecord, SearchFilters, CommentRecord, RelatedVideo } from '../core/types.ts';
 
 let ytPromise: Promise<Innertube> | null = null;
 
@@ -80,6 +80,150 @@ function sortParam(f: SearchFilters): string | undefined {
   }
 }
 
+/* ---------- Yeni nesil renderer mapper'ları (LockupView / ShortsLockupView)
+   Kanıt: probe 2026-10-15 — varsayılan sayfa = Video 19 + ShortsLockupView 25 + LockupView 10;
+   eski toRecord sadece `.id` okuduğu için 35'ini sessizce atıyordu. ---------- */
+
+/** "106M views" / "336K" / "12,345" / "43K" → sayı (compact + binlik ayracı). */
+export function parseCountLike(text: string): number {
+  const t = text.trim();
+  if (!t) return 0;
+  const stripped = t.replace(/views?|görüntüleme|izlenme|görüntülenme/gi, '').trim();
+  if (/^\d{1,3}(?:[.,]\d{3})+$/.test(stripped)) return Number(stripped.replace(/[.,]/g, ''));
+  const c = parseCompactCount(stripped);
+  if (c != null) return c;
+  const n = Number(stripped.replace(/[^\d]/g, ''));
+  return Number.isFinite(n) ? n : 0;
+}
+
+const VIEWS_RE = /^\d[\d.,]*\s*[KMB](?:n)?(?:\s+views)?$/i;
+const DATE_RE = /\bago\b|premiere|streamed|streaming|yayın/i;
+
+/**
+ * LockupMetadataView.metadata_rows → alanlar (satırlar düzleştirilip sınıflandırılır).
+ * Kanıt (probe-3/4): ilgili = [[yazar],[views, tarih]] · arama = [[yazar, views, tarih]].
+ */
+export function rowsToFields(rows: string[][]): {
+  channelName: string;
+  viewCountText: string;
+  viewCount: number;
+  publishedText: string | null;
+} {
+  const parts = rows.flat().map((s) => s.trim()).filter(Boolean);
+  const viewCountText = parts.find((p) => VIEWS_RE.test(p)) ?? '';
+  const publishedText = parts.find((p) => DATE_RE.test(p)) ?? null;
+  const channelName = parts.find((p) => p !== viewCountText && p !== publishedText) ?? '';
+  return { channelName, viewCountText, viewCount: parseCountLike(viewCountText), publishedText };
+}
+
+function thumbsUrl(list: unknown): string | null {
+  const arr = Array.isArray(list) ? (list as { url?: unknown }[]) : [];
+  const url = arr.length ? String(arr[arr.length - 1]?.url ?? '') : '';
+  return url || null;
+}
+
+interface LockupNode {
+  type?: string;
+  content_id?: string;
+  content_type?: string;
+  metadata?: { title?: unknown; metadata?: { metadata_rows?: { metadata_parts?: { text?: unknown }[] }[] } };
+  content_image?: { image?: unknown; primary_thumbnail?: { image?: unknown } | null } | null;
+}
+
+/** LockupView → ortak alanlar (VIDEO/SHORT; PLAYLIST/CHANNEL null). */
+export function lockupFields(node: LockupNode): {
+  id: string; title: string; channelName: string;
+  viewCountText: string; viewCount: number; publishedText: string | null;
+  thumbnailUrl: string | null; isShort: boolean;
+} | null {
+  const id = String(node.content_id ?? '');
+  const ctype = String(node.content_type ?? '');
+  if (!id || (ctype !== 'VIDEO' && ctype !== 'SHORT')) return null;
+  const meta = node.metadata;
+  const rows: string[][] = (meta?.metadata?.metadata_rows ?? []).map((r) =>
+    (r.metadata_parts ?? []).map((p) => str(p.text)),
+  );
+  const f = rowsToFields(rows);
+  const img = node.content_image;
+  const thumb = thumbsUrl(img?.image) ?? thumbsUrl(img?.primary_thumbnail?.image);
+  return {
+    id,
+    title: str(meta?.title),
+    channelName: f.channelName,
+    viewCountText: f.viewCountText,
+    viewCount: f.viewCount,
+    publishedText: f.publishedText,
+    thumbnailUrl: thumb,
+    isShort: ctype === 'SHORT',
+  };
+}
+
+export function lockupToRecord(node: LockupNode): VideoRecord | null {
+  const f = lockupFields(node);
+  if (!f || !f.title) return null;
+  const now = new Date().toISOString();
+  return {
+    youtubeId: f.id,
+    title: f.title,
+    description: '',
+    channelId: '',
+    channelName: f.channelName,
+    durationSec: 0, // lockup'ta süre yok — enrich getInfo ile doldurur
+    viewCount: f.viewCount,
+    likeCount: null,
+    publishedAt: null, // göreli metin ("14 years ago") — enrich ISO yayın tarihiyle doldurur
+    category: null,
+    tags: '',
+    thumbnailUrl: f.thumbnailUrl,
+    firstSeenAt: now,
+    lastSeenAt: now,
+    isShort: f.isShort,
+  };
+}
+
+interface ShortsLockupNode {
+  type?: string;
+  entity_id?: string;
+  overlay_metadata?: { primary_text?: unknown; secondary_text?: unknown };
+  thumbnail?: unknown;
+}
+
+/** ShortsLockupView → kayıt. entity_id "shorts-shelf-item-<id>" biçiminde (probe-4 kanıtı). */
+export function shortsToRecord(node: ShortsLockupNode): VideoRecord | null {
+  const raw = String(node.entity_id ?? '');
+  const id = raw.startsWith('shorts-shelf-item-') ? raw.slice('shorts-shelf-item-'.length) : raw;
+  if (!/^[A-Za-z0-9_-]{11}$/.test(id)) return null;
+  const title = str(node.overlay_metadata?.primary_text);
+  if (!title) return null;
+  const now = new Date().toISOString();
+  const viewText = str(node.overlay_metadata?.secondary_text);
+  return {
+    youtubeId: id,
+    title,
+    description: '',
+    channelId: '',
+    channelName: '', // shelf'te kanal verisi yok
+    durationSec: 0,
+    viewCount: parseCountLike(viewText),
+    likeCount: null,
+    publishedAt: null,
+    category: null,
+    tags: '',
+    thumbnailUrl: thumbsUrl(node.thumbnail),
+    firstSeenAt: now,
+    lastSeenAt: now,
+    isShort: true, // shelf kendi short'udur (süre platform tanımıyla sabit)
+  };
+}
+
+/** Sayfadaki her düğüm tipine doğru mapper'ı uygular (Video/CompactVideo → eski toRecord). */
+function nodeToRecord(node: Record<string, unknown>): VideoRecord | null {
+  const type = String((node as { type?: unknown }).type ?? '');
+  if (type === 'LockupView') return lockupToRecord(node as unknown as LockupNode);
+  if (type === 'ShortsLockupView') return shortsToRecord(node as unknown as ShortsLockupNode);
+  return toRecord(node);
+}
+
 /**
  * v18 pagination: getNext/getMore YOK — tek metod getContinuation().
  * Kanıt: probe (2026-10-14) → getContinuation() sayfa2 = 33 video.
@@ -96,7 +240,8 @@ async function nextPage(search: unknown): Promise<unknown | null> {
 }
 
 /**
- * YouTube araması. `scroll` = kaç sayfa sonuç (max COLLECT_MAX_PAGES, ~20-47 sonuç/sayfa).
+ * YouTube araması. `scroll` = kaç sayfa sonuç (max COLLECT_MAX_PAGES, ~20-54 sonuç/sayfa).
+ * Sayfa başı karışık havuz: Video + ShortsLockupView (shorts shelf) + LockupView — hepsi toplanır.
  */
 export async function youtubeSearch(
   query: string,
@@ -114,7 +259,7 @@ export async function youtubeSearch(
   for (let p = 0; p < pages; p++) {
     const vids = ((search as { videos?: unknown[] }).videos ?? []) as Record<string, unknown>[];
     for (const raw of vids) {
-      const rec = toRecord(raw);
+      const rec = nodeToRecord(raw);
       if (rec && !seen.has(rec.youtubeId)) {
         seen.add(rec.youtubeId);
         records.push(rec);
@@ -131,39 +276,44 @@ export async function youtubeSearch(
 }
 
 /**
- * Derin toplama — hedef kayıt sayısına kadar getContinuation() ile ilerler.
- * Anti-ban: her sayfa arasında politeWait. Güvenlik sınırı: max ceil(target/15)+2 sayfa.
+ * Derin toplama — `targetCount` verilirse hedefe kadar, `null` (auto mod) ise
+ * continuation tükenene kadar (max COLLECT_AUTO_MAX_PAGES) getContinuation() ile ilerler.
+ * Anti-ban: her sayfa arasında politeWait.
  */
 export async function youtubeSearchDeep(
   query: string,
-  targetCount: number,
+  targetCount: number | null,
   onProgress?: (found: number, pages: number) => void,
 ): Promise<{ records: VideoRecord[]; pages: number }> {
   const yt = await getInnertube();
   const records: VideoRecord[] = [];
   const seen = new Set<string>();
-  const maxPages = Math.ceil(targetCount / 15) + 2;
+  const maxPages =
+    targetCount == null ? config.collector.autoMaxPages : Math.ceil(targetCount / 15) + 2;
+  const targetReached = (): boolean => targetCount != null && records.length >= targetCount;
 
   await politeWait();
   let search: unknown = await yt.search(query);
 
-  for (let p = 0; p < maxPages && records.length < targetCount; p++) {
+  let done = 0;
+  for (let p = 0; p < maxPages && !targetReached(); p++) {
     const vids = ((search as { videos?: unknown[] }).videos ?? []) as Record<string, unknown>[];
     for (const raw of vids) {
-      const rec = toRecord(raw);
+      const rec = nodeToRecord(raw);
       if (rec && !seen.has(rec.youtubeId)) {
         seen.add(rec.youtubeId);
         records.push(rec);
       }
     }
-    onProgress?.(records.length, p + 1);
-    if (records.length >= targetCount) break;
+    done = p + 1;
+    onProgress?.(records.length, done);
+    if (targetReached()) break;
     await politeWait();
     const next = await nextPage(search);
     if (!next) break;
     search = next;
   }
-  return { records, pages: Math.ceil(records.length / 20) };
+  return { records, pages: done };
 }
 
 /**
@@ -236,4 +386,103 @@ export async function youtubeChannel(
   } catch {
     return null; // kanal kaldırılmış / erişilemez → sustur, zenginleştirmeyi durdurma
   }
+}
+
+/* ---------- Video yorumları / benzer videolar (yeni dalga) ----------
+   Kanıt: probe 2026-10-15 —
+   · yt.getComments(id, 'TOP_COMMENTS') → CommentThread.comment (CommentView): comment_id,
+     content(Text), published_time("6 years ago"), like_count("43K"), reply_count("593"),
+     author(Author: name/id), is_pinned, author_is_channel_owner · getContinuation() ile sayfa sayfa (20/sayfa).
+   · yt.getInfo(id).watch_next_feed → hepsi LockupView (18 VIDEO +2 PLAYLIST) · wn_has_continuation.
+   · Parser JIT uyarıları (MenuCustomIconItem vb.) zararsızdır — stderr'e yazar, akışı bozmaz. */
+
+/** CommentView → CommentRecord (saf dönüşüm — youtubei.js nesnesi olmadan test edilebilir). */
+export function commentViewToRecord(
+  videoId: string,
+  cv: {
+    comment_id?: unknown; content?: unknown; published_time?: unknown;
+    like_count?: unknown; reply_count?: unknown; is_pinned?: unknown;
+    author_is_channel_owner?: unknown; author?: { name?: unknown; id?: unknown } | null;
+  },
+): CommentRecord | null {
+  const text = str(cv.content);
+  if (!text) return null;
+  const commentId = String(cv.comment_id ?? '');
+  const authorId = typeof cv.author?.id === 'string' ? cv.author.id : '';
+  return {
+    commentId,
+    authorName: str(cv.author?.name),
+    authorChannelId: authorId || null,
+    text,
+    publishedText: typeof cv.published_time === 'string' ? cv.published_time : null,
+    likeCount: parseCountLike(str(cv.like_count)),
+    replyCount: parseCountLike(str(cv.reply_count)),
+    isPinned: cv.is_pinned === true,
+    isChannelOwner: cv.author_is_channel_owner === true,
+    url: `https://www.youtube.com/watch?v=${videoId}&lc=${commentId}`,
+  };
+}
+
+/**
+ * Video yorumları — üst düzey yorumlar (replies dahil DEĞİL), limit'e kadar sayfa sayfa.
+ * Hata fırlatır (fail-safe video-detail katmanında).
+ */
+export async function youtubeComments(videoId: string, limit: number): Promise<CommentRecord[]> {
+  if (limit <= 0) return [];
+  const yt = await getInnertube();
+  await politeWait();
+  const out: CommentRecord[] = [];
+  let page = await yt.getComments(videoId, 'TOP_COMMENTS');
+  let guard = Math.ceil(limit / 15) + 2; // 20/sayfa → güvenli sayfa üst sınırı
+  while (guard-- > 0) {
+    for (const thread of page.contents) {
+      if (out.length >= limit) break;
+      const cv = (thread as { comment?: Parameters<typeof commentViewToRecord>[1] | null }).comment;
+      if (!cv) continue;
+      const rec = commentViewToRecord(videoId, cv);
+      if (rec) out.push(rec);
+    }
+    if (out.length >= limit || !page.has_continuation) break;
+    await politeWait();
+    const next = await page.getContinuation();
+    if (!next || !next.contents?.length) break;
+    page = next;
+  }
+  return out;
+}
+
+/** LockupView (watch_next_feed) → RelatedVideo. */
+export function lockupToRelated(node: LockupNode): RelatedVideo | null {
+  const f = lockupFields(node);
+  if (!f || !f.title) return null;
+  return {
+    youtubeId: f.id,
+    title: f.title,
+    channelName: f.channelName,
+    viewCountText: f.viewCountText,
+    viewCount: f.viewCount,
+    publishedText: f.publishedText,
+    contentType: f.isShort ? 'SHORT' : 'VIDEO',
+    url: `https://www.youtube.com/watch?v=${f.id}`,
+  };
+}
+
+/**
+ * Benzer/önerilen videolar — getInfo tek yanıtındaki watch_next_feed (ilk sayfa ~20).
+ * Hata fırlatır (fail-safe video-detail katmanında).
+ */
+export async function youtubeRelated(videoId: string, limit: number): Promise<RelatedVideo[]> {
+  if (limit <= 0) return [];
+  const yt = await getInnertube();
+  await politeWait();
+  const info = await yt.getInfo(videoId);
+  const feed = ((info as unknown as { watch_next_feed?: unknown[] }).watch_next_feed ?? []) as LockupNode[];
+  const out: RelatedVideo[] = [];
+  for (const node of feed) {
+    if (out.length >= limit) break;
+    if (node?.type !== 'LockupView') continue;
+    const rec = lockupToRelated(node);
+    if (rec) out.push(rec);
+  }
+  return out;
 }

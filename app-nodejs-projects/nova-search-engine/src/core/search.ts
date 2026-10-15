@@ -44,9 +44,10 @@ function parseDuration(d: string): { min?: number; max?: number } {
 
 function applyFilters(list: VideoRecord[], o: SearchOptions): VideoRecord[] {
   let out = list;
-  if (o.filter === 'sh') out = out.filter((v) => v.durationSec > 0 && v.durationSec <= 60);
+  // sh: shorts (is_short kolonu — shorts shelf'te süre verisi yok) veya ≤60s bilinen videolar
+  if (o.filter === 'sh') out = out.filter((v) => v.isShort || (v.durationSec > 0 && v.durationSec <= 60));
   else if (o.filter === 's') out = out.filter((v) => v.durationSec >= 90 && v.durationSec <= 900);
-  else if (o.filter === 'v') out = out.filter((v) => v.durationSec > 60);
+  else if (o.filter === 'v') out = out.filter((v) => !v.isShort && v.durationSec > 60);
   if (o.minViews != null) out = out.filter((v) => v.viewCount >= o.minViews!);
   if (o.maxViews != null) out = out.filter((v) => v.viewCount <= o.maxViews!);
   if (o.duration) {

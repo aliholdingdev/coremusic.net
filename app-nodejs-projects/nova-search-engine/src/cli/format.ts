@@ -1,5 +1,5 @@
 /** Konsol çıktı formatlayıcı — Unicode box tablo + AI rozetleri. ANSI renk kapatılabilir (NO_COLOR). */
-import type { SearchResultPayload, ScoredResult } from '../core/types.ts';
+import type { SearchResultPayload, ScoredResult, VideoDetailPayload } from '../core/types.ts';
 
 const useColor = Boolean(process.stdout.isTTY) && !process.env.NO_COLOR;
 const ESC = String.fromCharCode(27); // ANSI
@@ -86,9 +86,13 @@ function tableCols(): Cols {
   return { idx: 2, title, channel: 14, dur: 7, views: 7, score: 7, id: 11, url: 28 };
 }
 
-function border(left: string, mid: string, right: string, cols: Cols): string {
+function borderOf(widths: number[], left: string, mid: string, right: string): string {
   const seg = (n: number) => '─'.repeat(n + 2);
-  return left + [cols.idx, cols.title, cols.channel, cols.dur, cols.views, cols.score, cols.id, cols.url].map((n) => seg(n)).join(mid) + right;
+  return left + widths.map((n) => seg(n)).join(mid) + right;
+}
+
+function border(left: string, mid: string, right: string, cols: Cols): string {
+  return borderOf([cols.idx, cols.title, cols.channel, cols.dur, cols.views, cols.score, cols.id, cols.url], left, mid, right);
 }
 
 function cell(text: string, n: number, align: 'start' | 'end' = 'start'): string {
@@ -179,4 +183,136 @@ export function progressBar(found: number, target: number, width = 24): string {
   const ratio = Math.min(1, found / Math.max(1, target));
   const filled = Math.round(ratio * width);
   return `[${'#'.repeat(filled)}${'.'.repeat(width - filled)}] %${String(Math.round(ratio * 100)).padStart(3)}`;
+}
+
+/** Video detay çıktısı — başlık kartı + YORUMLAR + BENZER VİDEOLAR (AI skorlu) kutu tabloları. */
+export function formatVideoDetail(p: VideoDetailPayload): string {
+  const m = p.meta;
+  const lines: string[] = [];
+
+  if (!p.video && !p.comments.length && !p.related.length) {
+    lines.push(c.yellow(`\n Video bulunamadı: ${m.videoId}`));
+    lines.push(c.dim(" İpucu: --offline kaldırın; DB'de yoksa online modda getInfo ile çekilir."));
+    return lines.join('\n');
+  }
+
+  if (p.video) {
+    const v = p.video;
+    lines.push(c.bold(`\n ${v.title}`));
+    const bits = [
+      v.channelName || 'kanal ?',
+      fmtDuration(v.durationSec),
+      `${fmtViews(v.viewCount)} izlenme`,
+      v.publishedAt ?? '',
+      v.isShort ? 'SHORT' : '',
+    ].filter(Boolean);
+    lines.push(c.dim(` ${bits.join(' · ')}`));
+    lines.push(c.dim(` https://www.youtube.com/watch?v=${v.youtubeId}`));
+  } else {
+    lines.push(c.yellow(`\n Video kaydı yok: ${m.videoId} (kaynak: ${m.source})`));
+  }
+
+  const metaBits = [
+    `kaynak: ${m.source}`,
+    `yorum: ${m.commentsCount}${m.commentsRequested ? `/${m.commentsRequested}` : ''}`,
+    `benzer: ${m.relatedCount}${m.relatedRequested ? `/${m.relatedRequested}` : ''}`,
+    m.aiScored ? `AI skorlu: ${m.aiScored}` : '',
+    `${m.tookMs}ms`,
+    m.commentsFromCache ? 'yorum cache' : '',
+    m.relatedFromCache ? 'benzer cache' : '',
+    m.offline ? 'OFFLINE' : '',
+    m.degraded ? 'DEGRADED (YouTube erişilemedi → boş bölüm)' : '',
+  ].filter(Boolean);
+  lines.push(c.dim(` ${metaBits.join(' · ')}`));
+
+  const termW = Math.min(Math.max(process.stdout.columns ?? 120, 80), 170);
+
+  // ---- YORUMLAR ----
+  lines.push('');
+  lines.push(c.bold(` YORUMLAR (${p.comments.length})`));
+  if (p.comments.length) {
+    // chrome: 6 dikey +5 hücre ×2 =16 · sabit: 2+16+6+13 =37
+    const cols = { idx: 2, author: 16, text: Math.max(20, termW - 53), likes: 6, date: 13 };
+    lines.push(borderOf([cols.idx, cols.author, cols.text, cols.likes, cols.date], '┌', '┬', '┐'));
+    lines.push(
+      row(
+        [
+          cell('#', cols.idx),
+          cell('Yazar', cols.author),
+          cell('Yorum', cols.text),
+          cell('Beğeni', cols.likes, 'end'),
+          cell('Tarih', cols.date),
+        ],
+        c.bold,
+      ),
+    );
+    lines.push(borderOf([cols.idx, cols.author, cols.text, cols.likes, cols.date], '├', '┼', '┤'));
+    p.comments.forEach((cm, i) => {
+      lines.push(
+        row([
+          cell(String(i + 1).padStart(2, '0'), cols.idx),
+          cell(cm.isChannelOwner ? `${cm.authorName} ✓` : cm.authorName, cols.author),
+          cell(cm.isPinned ? `📌 ${cm.text}` : cm.text, cols.text),
+          cell(fmtViews(cm.likeCount), cols.likes, 'end'),
+          cell(cm.publishedText ?? '', cols.date),
+        ]),
+      );
+    });
+    lines.push(borderOf([cols.idx, cols.author, cols.text, cols.likes, cols.date], '└', '┴', '┘'));
+  } else {
+    lines.push(c.dim(' yorum yok (istek yok · offline · veya YouTube erişilemedi).'));
+  }
+
+  // ---- BENZER VİDEOLAR ----
+  lines.push('');
+  lines.push(c.bold(` BENZER VİDEOLAR (${p.related.length})`));
+  if (p.related.length) {
+    // chrome: 8 dikey +7 hücre ×2 =22 · sabit: 2+12+7+9+7+28 =65
+    const cols = { idx: 2, title: Math.max(19, termW - 87), channel: 12, views: 7, date: 9, score: 7, url: 28 };
+    const w = [cols.idx, cols.title, cols.channel, cols.views, cols.date, cols.score, cols.url];
+    lines.push(borderOf(w, '┌', '┬', '┐'));
+    lines.push(
+      row(
+        [
+          cell('#', cols.idx),
+          cell('Başlık', cols.title),
+          cell('Kanal', cols.channel),
+          cell('İzlenme', cols.views, 'end'),
+          cell('Tarih', cols.date),
+          cell('AI', cols.score, 'end'),
+          cell('URL', cols.url),
+        ],
+        c.bold,
+      ),
+    );
+    lines.push(borderOf(w, '├', '┼', '┤'));
+    for (let i = 0; i < p.related.length; i++) {
+      const r = p.related[i];
+      const score = r.aiScore != null ? `AI ${r.aiScore}` : '—';
+      lines.push(
+        row(
+          [
+            cell(String(i + 1).padStart(2, '0'), cols.idx),
+            cell(r.contentType === 'SHORT' ? `⚡ ${r.title}` : r.title, cols.title),
+            cell(r.channelName, cols.channel),
+            cell(fmtViews(r.viewCount), cols.views, 'end'),
+            cell(r.publishedText ?? '', cols.date),
+            cell(score, cols.score, 'end'),
+            cell(`https://youtu.be/${r.youtubeId}`, cols.url),
+          ],
+          (s) => (r.aiScore != null ? c.yellow(s) : c.dim(s)),
+        ),
+      );
+    }
+    lines.push(borderOf(w, '└', '┴', '┘'));
+    // AI gerekçeleri (tablo altında numaralı)
+    p.related.forEach((r, i) => {
+      if (r.aiReason) lines.push(' ' + c.cyan(String(i + 1).padStart(2, '0')) + c.dim(` > ${r.aiReason}`));
+    });
+  } else {
+    lines.push(c.dim(' benzer video yok (istek yok · offline · veya YouTube erişilemedi).'));
+  }
+
+  lines.push('');
+  return lines.join('\n');
 }

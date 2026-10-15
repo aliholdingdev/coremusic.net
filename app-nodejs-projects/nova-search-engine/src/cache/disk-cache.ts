@@ -22,11 +22,11 @@ export class DiskCache {
     return join(DIR, `${key}.json`);
   }
 
-  get(key: string): SearchResultPayload | null {
+  get<T = SearchResultPayload>(key: string): T | null {
     const f = this.file(key);
     if (!existsSync(f)) return null;
     try {
-      const raw = JSON.parse(readFileSync(f, 'utf8')) as { expires: number; data: SearchResultPayload };
+      const raw = JSON.parse(readFileSync(f, 'utf8')) as { expires: number; data: T };
       if (Date.now() > raw.expires) {
         unlinkSync(f);
         return null;
@@ -37,7 +37,7 @@ export class DiskCache {
     }
   }
 
-  set(key: string, data: SearchResultPayload): void {
+  set<T = SearchResultPayload>(key: string, data: T): void {
     if (!existsSync(DIR)) mkdirSync(DIR, { recursive: true });
     writeFileSync(this.file(key), JSON.stringify({ expires: Date.now() + this.ttlMs, data }), 'utf8');
   }

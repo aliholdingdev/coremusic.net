@@ -22,6 +22,8 @@ npm run nova -- search "adele" -result 100 -scroll 3 -f v -sb views
 npm run nova -- search "lofi" -q "yavaş sakin piyano" -ai -deep
 npm run nova -- search "tarkan" -f s -minv 100000 -offline
 npm run nova -- collect "jazz" --target 5000   # derin toplama + ilerleme çubuğu
+npm run nova -- collect "tarkan" --auto       # auto-scroll: continuation bitene kadar (short/lockup dahil)
+npm run nova -- video 4tLOG4us6zc -comments 10 -related 10 -ai   # video detayı: yorumlar + AI skorlu benzerler
 npm run nova -- enrich --limit 20             # video detay + kanal (like/abone) doldurur
 npm run nova -- stats                         # DB/cache sayaçları
 npm run nova -- cache --prune                 # süresi dolmuş cache temizliği
@@ -54,6 +56,9 @@ npm run nova -- --help                        # tüm parametreler
 | `-t` | `--type` | Kategori |
 | `-ud` | `--uploadDate` | `2015` / `<=1y` |
 | `-target` | `--target` | `collect` hedef kayıt sayısı (derin mod, progress bar) |
+| `-auto` | `--auto` | `collect` auto-scroll (hedef yoksa, max `COLLECT_AUTO_MAX_PAGES` = 60) |
+| `-comments` | — | `video` yorum sayısı (0-50) |
+| `-related` | — | `video` benzer video sayısı (0-20) |
 | `-l` | `--limit` | `enrich` video sınırı |
 
 ## Mimari
@@ -91,7 +96,7 @@ src/
 ## Test
 
 ```bash
-npm test           # node --test (parse + format)
+npm test           # node --test (parse + format + mapper)
 npm run typecheck  # tsc --noEmit
 ```
 
@@ -102,7 +107,10 @@ GET /api/v1/health
 GET /api/v1/search?q=...&limit=24&ai=1&offline=1&filter=v&sort=views
 GET /api/v1/suggest?prefix=...
 GET /api/v1/trending?limit=24
-GET /api/v1/videos/:id
+GET /api/v1/videos/:id                              # basit: VideoRecord
+GET /api/v1/videos/:id?comments=10&related=10&ai=1  # derin: yorumlar + AI skorlu benzerler
 ```
 
 Zarf: `{ ok, data, meta }` / hata `{ ok: false, error: { code, message } }` · hız sınırı 60 istek/dk.
+
+**Toplama kapsamı:** Sayfa başı eski nesil `videoRenderer` + yeni nesil **shorts** (`shortsLockupViewModel`, `is_short` işaretli) + **lockup** kayıtları toplanır — arama sonucu sayfası tam süzülür (probe kanıtı: varsayılan sayfada 19 video + 25 short + 10 lockup vardı; eskisi yalnız 19'ini alıyordu).

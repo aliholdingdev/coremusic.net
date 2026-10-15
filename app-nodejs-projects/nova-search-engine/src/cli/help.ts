@@ -5,12 +5,23 @@ nova-search-engine — bağımsız YouTube metadata arama motoru (parametrik CLI
 KULLANIM
   nova search "<sorgu>" [parametreler]
   nova collect "<sorgu>" [--target N]   derin toplama (hedef kayıt, ilerleme çubuğu)
+  nova collect "<sorgu>" --auto         auto-scroll: continuation tükenene kadar toplar (max 60 sayfa)
   nova collect "<sorgu>" [--once]       kuyruktaki işleri işler
+  nova video <id|url> [parametreler]    video detayı: kayıt + yorumlar + benzer videolar
   nova enrich [--limit N]               video detay + kanal zenginleştirme (il. çubuğu)
   nova stats                            DB / cache sayaçları
   nova cache --prune                    süresi dolmuş disk cache'i temizler
   nova serve                            API + Web başlatır (3100 API · 3110 Web)
   nova --help / --version
+
+VIDEO PARAMETRELERİ (-kısa | --uzun)
+  -comments  N       Yorum çeker (0-50; üst düzey yorumlar)
+  -related   N       Benzer/önerilen videoları çeker (0-20)
+  -ai                Benzer videolara AI benzerlik skoru + gerekçe (üst sınır8)
+  -json              Ham JSON çıktısı (VideoDetailPayload)
+  -offline           YouTube'a gitmez; yalnız DB + disk cache
+
+  (id yerine tam URL de olabilir: watch?v= · youtu.be · /shorts/)
 
 ARAMA PARAMETRELERİ (-kısa | --uzun)
   -ai                 AI katmanını açar (analiz + skor + gerekçe)

@@ -14,7 +14,7 @@ export async function runCollector(
   query: string,
   scroll: number,
   _once: boolean,
-  opts: { target?: number } = {},
+  opts: { target?: number; auto?: boolean } = {},
 ): Promise<number> {
   const offline = config.offline;
   if (offline) {
@@ -26,17 +26,26 @@ export async function runCollector(
 
   if (query) {
     const target = opts.target ?? 0;
-    if (target > 0) {
-      // derin toplama: hedefe kadar getContinuation() ile sayfa sayfa
-      const { records, pages } = await youtubeSearchDeep(query, target, (found, pg) => {
-        process.stdout.write(
-          `\rToplanıyor: ${progressBar(found, target)} ${found}/${target} · sayfa ${pg}`,
-        );
-      });
+    if (target > 0 || opts.auto) {
+      // derin toplama: hedef varsa hedefe kadar, auto modda continuation tükenene kadar
+      const auto = target <= 0;
+      const { records, pages } = await youtubeSearchDeep(
+        query,
+        auto ? null : target,
+        (found, pg) => {
+          process.stdout.write(
+            auto
+              ? `\rToplanıyor: ${found} kayıt · sayfa ${pg} (auto)`
+              : `\rToplanıyor: ${progressBar(found, target)} ${found}/${target} · sayfa ${pg}`,
+          );
+        },
+      );
       process.stdout.write('\n');
       let inserted = 0;
       for (const r of records) if (upsertVideo(r) === 'inserted') inserted++;
-      console.log(`deep "${query}": ${records.length} kayıt (${pages} sayfa), ${inserted} yeni.`);
+      console.log(
+        `${auto ? 'auto' : 'deep'} "${query}": ${records.length} kayıt (${pages} sayfa), ${inserted} yeni.`,
+      );
       return 1;
     }
 

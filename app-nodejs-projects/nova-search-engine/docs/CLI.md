@@ -14,11 +14,19 @@
 |---|---|
 | `search "<sorgu>"` | Arama: RAM → disk → DB/FTS → (veri yoksa) YouTube toplama → AI skor |
 | `collect "<sorgu>" [--target N]` | Doğrudan toplama; `--target` = derin mod (hedefe kadar sayfa sayfa, ilerleme çubuğu) |
+| `collect "<sorgu>" --auto` | **Auto-scroll**: continuation tükenene kadar sayfa sayfa (max `COLLECT_AUTO_MAX_PAGES`, varsayılan 60) |
+| `video <id\|url>` | Video detayı: DB kaydı + yorumlar + benzer videolar (AI skorlu) |
 | `enrich [--limit N]` | Eksik videoları `getInfo` ile doldurur (like/tarih/etiket) + kanal adı/abone çeker |
 | `stats` | DB / cache / kuyruk sayaçları |
 | `cache --prune` | Süresi dolmuş disk cache girişlerini siler |
 | `serve` | API (3100) + Web GUI (3110) birlikte başlatılır |
 | `--help` / `--version` | Yardım / sürüm |
+
+> **Toplama kapsamı:** Sayfa başı **Video + Shorts (shelf) + LockupView** kayıtları toplanır
+> (eski nesil `videoRenderer` + yeni nesil `shortsLockupViewModel`/`lockupViewModel`).
+> Short'lar `is_short=1` ile işaretlenir; süreleri shelf'te bulunmadığı için `0`'dır
+> (`enrich` getInfo ile doldurur). `nova collect ... --auto` ile song/short havuzu
+> otomatik kaydırma ile büyür; `-f sh` / `-f s` arama anında bu havuzu süzer.
 
 ## Arama parametreleri
 
@@ -46,8 +54,24 @@
 | `-t` | `--type` | metin | Kategori |
 | `-ud` | `--uploadDate` | `"2015"` / `"<=1y"` | Yükleme tarihi |
 | `-target` | `--target` | N | `collect` hedef kayıt (derin mod + progress bar) |
+| `-auto` | `--auto` | flag | `collect`: continuation bitene kadar otomatik kaydırma (hedef yoksa) |
 
 `collect`/`enrich` bayrakları: `--once` (tek tur), `--limit` (enrich video sınırı), `--prune` (cache).
+
+## `video` parametreleri
+
+| Kısa | Uzun | Değer | Açıklama |
+|---|---|---|---|
+| `-comments` | — | N | Yorum çeker (0-50; üst düzey yorumlar, sayfa sayfa) |
+| `-related` | — | N | Benzer/önerilen videolar (0-20; watch_next_feed) |
+| `-ai` | — | flag | Benzer videolara **AI benzerlik skoru + gerekçe** (üst sınır 8 aday) |
+| `-json` | — | flag | Ham `VideoDetailPayload` |
+| `-offline` | — | flag | YouTube'a gitmez; yalnız DB + disk cache |
+
+- İlk argüman **11 karakterlik ID veya tam URL** olabilir (`watch?v=` · `youtu.be` · `/shorts/` · `/embed/` · `/live/`).
+- Yorum/benzer verisi **24 saat DiskCache**'te (aynı video ikinci açılışta anında).
+- YouTube erişilemezse: `DEGRADED` rozeti + boş bölümler — komut asla çökmez.
+- Kısa yorum URL biçimi: `https://www.youtube.com/watch?v=<id>&lc=<commentId>`.
 
 ## Örnekler
 
@@ -59,6 +83,9 @@ npm run nova -- search "tarkan" -ai -explain -aip "sadece resmi klipleri tercih 
 npm run nova -- search "tarkan" -f s -minv 100000 -offline
 npm run nova -- search "jazz" -d ">600" -mins 70 -json
 npm run nova -- collect "kayıp şarkılar" --target 5000
+npm run nova -- collect "tarkan" --auto
+npm run nova -- video 4tLOG4us6zc -comments 10 -related 10
+npm run nova -- video "https://youtu.be/4tLOG4us6zc" -ai -comments 5
 npm run nova -- enrich --limit 30
 ```
 
@@ -98,6 +125,37 @@ npm run nova -- search "jazz" -r 2 -json
 ```
 
 Tam `payload` hâli: `{ "results": ScoredResult[], "meta": {...} }` — her sonuçta `url` (tam izleme bağlantısı); `meta` içinde `limit` · `page` · `aiScored` · `dbVideos` · `aiPrompt` · `aiPromptApplied` · `filters`. Alan şeması [API.md](API.md) ile aynıdır.
+
+### `video` çıktısı
+
+```bash
+npm run nova -- video 4tLOG4us6zc -comments 5 -related 8 -ai
+```
+
+```
+ TARKAN - Hüp (Official Music Video)
+ Tarkan · 4:03 · 39.4 M izlenme · 14 years ago
+ https://www.youtube.com/watch?v=4tLOG4us6zc
+ kaynak: db · yorum: 5/5 · benzer: 6/6 · AI skorlu: 6 · 27818ms
+
+ YORUMLAR (5)
+┌────┬──────────────────┬─────────────────────────────────────────┬────────┬─────────────┐
+│ #  │ Yazar            │ Yorum                                   │ Beğeni │ Tarih       │
+├────┼──────────────────┼─────────────────────────────────────────┼────────┼─────────────┤
+│ 01 │ @harbikafalar01… │ Aynı kırmızı gömleği ben giysem tırna…  │  2.6 B │ 5 years ago │
+└────┴──────────────────┴─────────────────────────────────────────┴────────┴─────────────┘
+
+ BENZER VİDEOLAR (6)
+┌────┬───────────────────────────────────┬──────────────┬─────────┬───────────┬─────────┬──────────────────────────────┐
+│ #  │ Başlık                            │ Kanal        │ İzlenme │ Tarih     │      AI │ URL                          │
+├────┼───────────────────────────────────┼──────────────┼─────────┼───────────┼─────────┼──────────────────────────────┤
+│ 01 │ TARKAN - Gülümse Kaderine (Offic… │ Tarkan       │  21.0 M │ 14y ago   │   AI 85 │ https://youtu.be/Skus894Lh_c │
+└────┴───────────────────────────────────┴──────────────┴─────────┴───────────┴─────────┴──────────────────────────────┘
+```
+
+- **AI sütunu:** `AI nn` = OpenRouter benzerlik skoru (0-100; üst sınır 8 aday); `—` = AI yok.
+- Her benzer satırın altında AI gerekçesi `› ...` ile listelenir.
+- Kısa satır: `kaynak: db · yorum: 5/5 · benzer: 6/6 · AI skorlu: 6 · 27818ms`; `OFFLINE`/`DEGRADED` rozetleri de meta'da görünür.
 
 ## Çıkış kodları
 

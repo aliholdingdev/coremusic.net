@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS videos (
   tags TEXT NOT NULL DEFAULT '',
   thumbnail_url TEXT,
   first_seen_at TEXT NOT NULL,
-  last_seen_at TEXT NOT NULL
+  last_seen_at TEXT NOT NULL,
+  is_short INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE VIRTUAL TABLE IF NOT EXISTS videos_fts USING fts5(
@@ -100,7 +101,12 @@ export function getDb(): DatabaseSync {
   db.exec('PRAGMA journal_mode = WAL;');
   db.exec('PRAGMA foreign_keys = ON;');
   db.exec(SCHEMA);
-  db.prepare("INSERT OR IGNORE INTO meta(key, value) VALUES ('schema_version', '1')").run();
+  // migration: eski tablolara is_short kolonu (v1 → v2)
+  const cols = db.prepare('PRAGMA table_info(videos)').all() as { name: string }[];
+  if (!cols.some((c) => c.name === 'is_short')) {
+    db.exec('ALTER TABLE videos ADD COLUMN is_short INTEGER NOT NULL DEFAULT 0');
+  }
+  db.prepare("INSERT OR REPLACE INTO meta(key, value) VALUES ('schema_version', '2')").run();
   return db;
 }
 
@@ -112,7 +118,7 @@ export function closeDb(): void {
 /* ---------- Videos ---------- */
 
 const COLS = `youtube_id, title, description, channel_id, channel_name, duration_sec,
-  view_count, like_count, published_at, category, tags, thumbnail_url, first_seen_at, last_seen_at`;
+  view_count, like_count, published_at, category, tags, thumbnail_url, first_seen_at, last_seen_at, is_short`;
 
 function rowToVideo(r: Record<string, unknown>): VideoRecord {
   return {
@@ -130,6 +136,7 @@ function rowToVideo(r: Record<string, unknown>): VideoRecord {
     thumbnailUrl: (r.thumbnail_url as string) ?? null,
     firstSeenAt: String(r.first_seen_at ?? ''),
     lastSeenAt: String(r.last_seen_at ?? ''),
+    isShort: Number(r.is_short ?? 0) === 1,
   };
 }
 
@@ -142,11 +149,11 @@ export function upsertVideo(v: VideoRecord): 'inserted' | 'updated' {
 
   if (!existing) {
     d.prepare(
-      `INSERT INTO videos (${COLS}) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      `INSERT INTO videos (${COLS}) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
     ).run(
       v.youtubeId, v.title, v.description, v.channelId, v.channelName, v.durationSec,
       v.viewCount, v.likeCount, v.publishedAt, v.category, v.tags, v.thumbnailUrl,
-      v.firstSeenAt, v.lastSeenAt,
+      v.firstSeenAt, v.lastSeenAt, v.isShort ? 1 : 0,
     );
     return 'inserted';
   }

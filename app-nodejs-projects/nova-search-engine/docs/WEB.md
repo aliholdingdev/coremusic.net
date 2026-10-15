@@ -21,7 +21,7 @@ Tarayıcıda <http://127.0.0.1:3110/> aç. `serve` **iki sunucuyu birden** başl
 │ ☑AI skor ☐deep ☑açıklama ☐offline  min izlenme [0] [AI prompt…] │  ← seçenekler
 │ ▓▓▓░░░░░░ animasyonlu ilerleme çubuğu                          │  ← yalnız istek sırasında
 │ 24 sonuç · kaynak: db · 52766 ms · AI açık · AI prompt ✓ · DB: 128 │ meta
-│ #  BAŞLIK  KANAL  SÜRE  İZLENME  SKOR  VİDEO ID  URL           │  ← sonuç tablosu (8 kolon)
+│ #  BAŞLIK  KANAL  SÜRE  İZLENME  SKOR  VİDEO ID  URL  [Detay]   │  ← sonuç tablosu (9 kolon)
 │ 1  video..  Tarkan 4:02  168.3 M  [95]  NAHRpEqg  https://watch? │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -50,7 +50,30 @@ Tarayıcıda <http://127.0.0.1:3110/> aç. `serve` **iki sunucuyu birden** başl
 
 Meta satırı: `kaynak` (`ram/disk/db/youtube`) · `tookMs` · `AI prompt ✓` (prompt gönderildiyse) · `DB: N` · `deep:` genişletilmiş sorgular.
 
-**Tablo kolonları (8):** `#` · Başlık (video linki) · Kanal · Süre · İzlenme · Skor · **Video ID** · **URL** (tam `watch?v=` bağlantısı, tıklanabilir).
+**Tablo kolonları (9):** `#` · Başlık (video linki) · Kanal · Süre · İzlenme · Skor · **Video ID** · **URL** (tam `watch?v=` bağlantısı, tıklanabilir) · **Detay** butonu.
+
+## Detay modalı
+
+Her satırdaki **Detay** butonu → tam ekran modal açar:
+
+```
+┌ TARKAN - Hüp (Official Music Video) ✕ ────────────────────┐
+│ Tarkan · 4:03 · 39.4 M izlenme · 14 years ago             │
+│ kaynak: db · 10 yorum · 10 benzer · AI skorlu: 8 · 35906ms│
+│ YORUMLAR (10)                                             │
+│   bu klibe kadar öpüşürken dil...                         │
+│   @fatmanurcoskun7259 · 43 B beğeni · 6 years ago         │
+│ BENZER VİDEOLAR (10)                                      │
+│   TARKAN - Kayıp (Official Music Video)                   │
+│   Tarkan · 51.0 M · 14y ago · AI 90                       │
+│   › Tarkan'ın başka bir resmi klibi, aynı üretim...       │
+└───────────────────────────────────────────────────────────┘
+```
+
+- `GET /api/v1/videos/{id}?comments=10&related=10&ai=1` çağrısı yapar; yüklenirken `Yükleniyor…` görünür.
+- Meta satırı: `yorum cache` / `benzer cache` (24 saatlik disk cache), `OFFLINE`, `DEGRADED` rozetleri varsa yanar.
+- AI skoru olan benzerlerde `AI nn` rozeti + `› gerekçe` satırı; short'larda `⚡` işareti.
+- Kapatma: **✕** butonu · **Esc** · modal dışına tıklama.
 
 ## Davranış notları
 

@@ -15,6 +15,67 @@ export interface VideoRecord {
   thumbnailUrl: string | null;
   firstSeenAt: string;
   lastSeenAt: string;
+  /** YouTube Shorts shelf'inden geldi (süre verisi yok — platform tanımı short). */
+  isShort?: boolean;
+}
+
+/** Video yorumu (youtubei.js CommentView → düz kayıt). */
+export interface CommentRecord {
+  commentId: string;
+  authorName: string;
+  authorChannelId: string | null;
+  text: string;
+  publishedText: string | null; // "6 years ago" (YouTube göreli metni)
+  likeCount: number; // "43K" → 43000
+  replyCount: number; // "593" → 593
+  isPinned: boolean;
+  isChannelOwner: boolean;
+  url: string; // kanonik yorum bağlantısı: https://www.youtube.com/watch?v=<videoId>&lc=<commentId>
+}
+
+/** Benzer/önerilen video (watch_next_feed LockupView → düz kayıt). */
+export interface RelatedVideo {
+  youtubeId: string;
+  title: string;
+  channelName: string;
+  viewCountText: string; // "336K" (ham metin)
+  viewCount: number; // parseCompactCount → 336000
+  publishedText: string | null; // "4mo ago"
+  contentType: 'VIDEO' | 'SHORT';
+  url: string;
+  score?: number; // deterministik temel skor (varsa)
+  aiScore?: number; // AI benzerlik kalite skoru (0-100)
+  aiReason?: string; // AI gerekçesi
+}
+
+/** Video detay payload'ı — API / CLI / Web aynı yapıyı paylaşır. */
+export interface VideoDetailPayload {
+  video: (VideoRecord & { url: string }) | null;
+  comments: CommentRecord[];
+  related: RelatedVideo[];
+  meta: {
+    videoId: string;
+    source: 'db' | 'youtube' | 'cache' | 'miss';
+    commentsRequested: number;
+    relatedRequested: number;
+    commentsCount: number;
+    relatedCount: number;
+    commentsFromCache: boolean;
+    relatedFromCache: boolean;
+    aiEnabled: boolean; // AI benzerlik skoru istendi ve kullanılabilir oldu mu
+    aiScored: number;
+    offline: boolean;
+    degraded: boolean; // YouTube erişilemedi → boş diziler (fail-safe)
+    tookMs: number;
+    dbVideos: number;
+  };
+}
+
+export interface VideoDetailOptions {
+  comments: number; // 0-50
+  related: number; // 0-20
+  ai: boolean; // benzer videolara AI skoru
+  offline: boolean;
 }
 
 export interface SearchFilters {
