@@ -127,10 +127,31 @@ test('collect: -s auto + --target birlikte', () => {
   assert.equal(q.flags.get('target'), '300');
 });
 
-test('-detail: bool bayrak → detail=true (yoksa false)', () => {
+test('-detail: bool bayrak + =1/=0 / true/false değerleri → default AÇIK', () => {
+  // default açık: bayrak yoksa bile detail=true (boş/null alanlar webden kazınıp dolar)
+  assert.equal(buildSearchOptions(parseArgs(['search', 'x'])).detail, true);
   assert.equal(buildSearchOptions(parseArgs(['search', 'x', '-detail'])).detail, true);
   assert.equal(buildSearchOptions(parseArgs(['search', 'x', '--detail'])).detail, true);
-  assert.equal(buildSearchOptions(parseArgs(['search', 'x'])).detail, false);
+  assert.equal(buildSearchOptions(parseArgs(['search', 'x', '--detail=1'])).detail, true);
+  assert.equal(buildSearchOptions(parseArgs(['search', 'x', '--detail=true'])).detail, true);
+  assert.equal(buildSearchOptions(parseArgs(['search', 'x', '--detail=yes'])).detail, true);
+  // kapatma: 0 / false / no / off
+  assert.equal(buildSearchOptions(parseArgs(['search', 'x', '--detail=0'])).detail, false);
+  assert.equal(buildSearchOptions(parseArgs(['search', 'x', '--detail=false'])).detail, false);
+  assert.equal(buildSearchOptions(parseArgs(['search', 'x', '--detail=off'])).detail, false);
+});
+
+test('tüm bool bayraklar hem 1/0 hem true/false ile', () => {
+  const on = buildSearchOptions(parseArgs(['search', 'x', '--ai=1', '--explain=true', '--deep=yes', '--offline=on']));
+  assert.equal(on.ai, true);
+  assert.equal(on.explain, true);
+  assert.equal(on.deep, true);
+  assert.equal(on.offline, true);
+  const off = buildSearchOptions(parseArgs(['search', 'x', '--ai=0', '--explain=false', '--deep=0', '--offline=false', '--detail=0']));
+  assert.equal(off.ai, false);
+  assert.equal(off.explain, false);
+  assert.equal(off.deep, false);
+  assert.equal(off.detail, false);
 });
 
 test('--auto kaldırıldı → bilinmeyen parametre hatası', () => {

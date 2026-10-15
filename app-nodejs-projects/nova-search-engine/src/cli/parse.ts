@@ -28,6 +28,16 @@ const OPTIONAL_VALUE_FLAGS = new Set(['scroll', 's']);
 
 const BOOL_FLAGS = new Set(['ai', 'deep', 'explain', 'offline', 'json', 'help', 'h', 'version', 'v', 'once', 'prune', 'detail']);
 
+/** `-detail=1|true|yes|on` → true · `-detail=0|false|no|off` → false · yok → default. */
+export function parseBool(v: string | true | undefined, def = false): boolean {
+  if (v === undefined) return def;
+  if (v === true) return true; // değersiz bayrak: -detail
+  const s = v.trim().toLowerCase();
+  if (s === '1' || s === 'true' || s === 'yes' || s === 'on') return true;
+  if (s === '0' || s === 'false' || s === 'no' || s === 'off') return false;
+  return def;
+}
+
 /** normalize: `-query` → `query`, `--query` → `query`, `-Q` → `q` (tek harf) */
 function normFlag(raw: string): string {
   let f = raw.replace(/^--?/, '');
@@ -137,12 +147,13 @@ export function buildSearchOptions(parsed: ParsedArgs): SearchOptions {
     query: finalQuery,
     ...(aiPrompt ? { aiPrompt } : {}),
     ...(typeof f.get('eq') === 'string' ? { extraQuery: f.get('eq') as string } : {}),
-    ai: f.get('ai') === true,
-    deep: f.get('deep') === true,
-    explain: f.get('explain') === true,
-    offline: f.get('offline') === true || configOffline(),
+    ai: parseBool(f.get('ai')),
+    deep: parseBool(f.get('deep')),
+    explain: parseBool(f.get('explain')),
+    offline: parseBool(f.get('offline')) || configOffline(),
     scroll: scrollOf(f),
-    detail: f.get('detail') === true,
+    // detail: DEFAULT AÇIK (boş/null alanlar webden kazınıp dolar) — -detail=0|false ile kapat
+    detail: parseBool(f.get('detail'), true),
     limit: Math.max(1, Math.min(finalLimit, 5000)), // üst sınır 5000+
     page: Math.max(1, num(f.get('p') ?? f.get('page'), 'p') ?? 1),
     ...(filter ? { filter: filter as 'v' | 's' | 'sh' } : {}),
@@ -190,8 +201,8 @@ export function buildVideoOptions(parsed: ParsedArgs): VideoOptions {
     videoId: id,
     comments: clamp('comments', 50),
     related: clamp('related', 20),
-    ai: f.get('ai') === true,
-    json: f.get('json') === true,
-    offline: f.get('offline') === true || configOffline(),
+    ai: parseBool(f.get('ai')),
+    json: parseBool(f.get('json')),
+    offline: parseBool(f.get('offline')) || configOffline(),
   };
 }

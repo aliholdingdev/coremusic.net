@@ -49,6 +49,17 @@ function numParam(url: URL, key: string): number | undefined {
   return Number.isFinite(n) ? n : undefined;
 }
 
+/**
+ * Boolean query param — her iki format da çalışır:
+ * `1/true/yes/on` → true · `0/false/no/off` → false · yok/geçersiz → default.
+ */
+export function boolParam(url: URL, key: string, def = false): boolean {
+  const v = (url.searchParams.get(key) ?? '').trim().toLowerCase();
+  if (v === '1' || v === 'true' || v === 'yes' || v === 'on') return true;
+  if (v === '0' || v === 'false' || v === 'no' || v === 'off') return false;
+  return def;
+}
+
 async function route(req: IncomingMessage, res: ServerResponse): Promise<void> {
   const url = new URL(req.url ?? '/', `http://${req.headers.host ?? 'localhost'}`);
   const path = url.pathname.replace(/\/+$/, '') || '/';
@@ -90,16 +101,16 @@ async function route(req: IncomingMessage, res: ServerResponse): Promise<void> {
         query,
         limit: Math.min(Math.max(numParam(url, 'limit') ?? 24, 1), 5000),
         page: numParam(url, 'page') ?? 1,
-        ai: q(url, 'ai') === '1',
-        deep: q(url, 'deep') === '1',
-        explain: q(url, 'explain') === '1',
-        offline: q(url, 'offline') === '1' || config.offline,
+        ai: boolParam(url, 'ai'),
+        deep: boolParam(url, 'deep'),
+        explain: boolParam(url, 'explain'),
+        offline: boolParam(url, 'offline') || config.offline,
         // scroll: N sayfa · scroll=all|auto → -1 (tüm sayfalar, COLLECT_AUTO_MAX_PAGES)
         scroll: q(url, 'scroll') === 'all' || q(url, 'scroll') === 'auto'
           ? -1
           : numParam(url, 'scroll') ?? 1,
-        // detail=1: her sonuç için getInfo (description/like/süre/tarih) — yavaş
-        detail: q(url, 'detail') === '1',
+        // detail: DEFAULT AÇIK (boş/null alanlar webden kazınıp dolar) — detail=0|false ile kapat
+        detail: boolParam(url, 'detail', true),
         ...(filterRaw === 'v' || filterRaw === 's' || filterRaw === 'sh' ? { filter: filterRaw } : {}),
         ...(sortRaw === 'views' || sortRaw === 'date' || sortRaw === 'rating' || sortRaw === 'relevance'
           ? { sortBy: sortRaw as SearchOptions['sortBy'] }
@@ -147,8 +158,8 @@ async function route(req: IncomingMessage, res: ServerResponse): Promise<void> {
       const payload = await videoDetail(rawId, {
         comments: Math.min(Math.max(numParam(url, 'comments') ?? 0, 0), 50),
         related: Math.min(Math.max(numParam(url, 'related') ?? 0, 0), 20),
-        ai: q(url, 'ai') === '1',
-        offline: q(url, 'offline') === '1' || config.offline,
+        ai: boolParam(url, 'ai'),
+        offline: boolParam(url, 'offline') || config.offline,
       });
       if (!payload) {
         send(res, 400, { ok: false, error: { code: 'BAD_REQUEST', message: `geçersiz video ID/URL: ${rawId}` } });

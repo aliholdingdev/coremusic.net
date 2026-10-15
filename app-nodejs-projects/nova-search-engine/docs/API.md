@@ -29,18 +29,20 @@ Hata kodları: `400 BAD_REQUEST` (eksik `q`) · `404 NOT_FOUND` (bilinmeyen uç 
 
 Tek zorunlu param: `q`.
 
+**Boolean parametreler** (`ai`, `deep`, `explain`, `offline`, `detail`) her iki formatla çalışır: `1`/`0` **ve** `true`/`false` (ayrıca `yes`/`no`/`on`/`off`; büyük/küçük harf farkı yok).
+
 | Param | Varsayılan | Değerler | Açıklama |
 |---|---|---|---|
 | `q` | *(zorunlu)* | metin | Sorgu |
 | `limit` | `24` | 1–5000 | Sayfa başına sonuç (5000+ destekli) |
 | `page` | `1` | N | Sayfa |
-| `ai` | — | `1` | AI analiz + skor + gerekçe |
-| `deep` | — | `1` | AI 3 ek sorgu üretir |
-| `explain` | — | `1` | `aiReason` + `matchPct` alanlarını doldurur (AI'yi kendiliğinden açar) |
-| `offline` | — | `1` | YouTube'a gitmez (`NOVA_OFFLINE=1` de aynı etki) |
+| `ai` | `0` | `1`/`0`/`true`/`false` | AI analiz + skor + gerekçe |
+| `deep` | `0` | `1`/`0`/`true`/`false` | AI 3 ek sorgu üretir |
+| `explain` | `0` | `1`/`0`/`true`/`false` | `aiReason` + `matchPct` alanlarını doldurur (AI'yi kendiliğinden açar) |
+| `offline` | `0` | `1`/`0`/`true`/`false` | YouTube'a gitmez (`NOVA_OFFLINE=1` de aynı etki) |
 | `prompt` | — | metin | AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir; `meta.aiPrompt` olarak yansır) |
 | `scroll` | `1` | N \| `all` | N = toplanacak sayfa · `scroll=all` (veya `auto`) = tüm sayfaları otomatik kaydır (tavan `COLLECT_AUTO_MAX_PAGES`, varsayılan 60); toplananlar DB'ye yazılır, `meta.scroll: -1` olarak yansır |
-| `detail` | — | `1` | Her sonuç için `getInfo` zenginleştirme: boş alanlar (`description`, `likeCount`, `durationSec`, `publishedAt`, `category`, `tags`, `channelUrl`) doldurulur + DB'ye kalıcı yazılır · sonuç başına ~1.5-6 sn (24 sonuç ≈ 1-2 dk) · `meta.detailEnriched: N` |
+| `detail` | **`1` (açık)** | `1`/`0`/`true`/`false` | **DEFAULT AÇIK** — boş/null alanlar (`description`, `likeCount`, `durationSec`, `publishedAt`, `category`, `tags`, `channelUrl`) getInfo ile **webden kazınıp doldurulur** + DB'ye kalıcı yazılır · DB-first: tam kayıt olan videoya istek ATANMAZ (lokal merge) · `detail=0`/`false` ile kapatılır · `meta.detailFetched`/`detailFromDb` |
 | `filter` | — | `v\|s\|sh` | video / song / short |
 | `sort` | `relevance` | `relevance\|views\|date\|rating` | Sıralama |
 | `minViews` / `maxViews` | — | N | Görüntülenme aralığı |

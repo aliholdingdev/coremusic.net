@@ -32,9 +32,9 @@ ARAMA PARAMETRELERİ (-kısa | --uzun)
   -aip  --aiPrompt METIN  AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir)
   -eq   --extraQuery   Ek arama terimi
   -s    --scroll   [N]  N sayfa (max 5) · değersiz (-s) = tüm sayfaları topla (auto, max 60)
-  -detail           Her sonuç için getInfo: açıklama/like/süre/yayın tarihi/kategori/kanal handle
-                     (boş alanları doldurur + DB'ye yazar; DB'de tam kayıt olan videoya istek ATANMAZ —
-                     yalnız eksikler webden kazınır, sonuç başına ~1.5-6 sn)
+  -detail            DEFAULT AÇIK: boş/null alanlar getInfo ile webden kazınıp doldurulur
+                     (açıklama/like/süre/yayın tarihi/kategori/kanal handle + DB'ye kalıcı;
+                     DB'de tam kayıt olan videoya istek ATANMAZ) — kapat: -detail=0|false
   -r    --result   N   Sonuç limiti (= -l, max 5000)
   -l    --limit    N   Sayfa başına sonuç (varsayılan 24, max 5000)
   -f    --filter   v|s|sh   video / song / short

@@ -41,7 +41,7 @@
 | `-aip` | `--aiPrompt` | metin | AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir) |
 | `-eq` | `--extraQuery` | metin | Ek arama terimi |
 | `-s` | `--scroll` | N \| (boş) | Toplanacak sayfa (sayı: max 5) · **değersiz `-s` = tüm sayfaları topla (auto, max 60)** |
-| `-detail` | — | flag | **Her sonuç için getInfo zenginleştirme**: açıklama, like, süre, yayın tarihi (ISO), kategori, etiketler, kanal handle (`channelUrl`) — boş alanları doldurur + DB'ye kalıcı yazar. Sonuç başına ~1.5-6 sn anti-ban jitter (24 sonuç ≈ 1-2 dk). `meta.detailEnriched: N` döner. |
+| `-detail` | **açık** | flag / `-detail=0` | **DEFAULT AÇIK** — boş/null alanlar getInfo ile **webden kazınıp doldurulur**: açıklama, like, süre, yayın tarihi (ISO), kategori, etiketler, kanal handle (`channelUrl`) — DB'ye kalıcı yazar. DB-first: tam kayıt olan videoya istek ATANMAZ. Boolean değerler hem `1`/`0` hem `true`/`false` kabul eder → kapatma: `-detail=0` veya `-detail=false`. `meta.detailFetched`/`detailFromDb` döner. |
 | `-r` | `--result` | N | Sonuç limiti (max 5000) |
 | `-l` | `--limit` | N | Sayfa başına sonuç (varsayılan 24, max 5000) |
 | `-f` | `--filter` | `v\|s\|sh` | video / song / short |
@@ -97,11 +97,11 @@ Arama sonucu sayfası YouTube'a göre **sayfa sayfa** gelir. NovaSearch dört mo
 - Anti-ban ritmi sayfa başına 1.5-6 sn jitter + dk max 12 istek → 60 sayfa ≈ **3-6 dk** sürer.
 - Toplanan her kayıt **kalıcıdır**: sonraki `search` aynı sorgu için anında DB'den döner; `-f sh` / `-f s` / `-d` gibi filtrelerle süzülür.
 
-## Detay zenginleştirme (`-detail`)
+## Detay zenginleştirme (default açık)
 
 Arama sonuçları (lockup/shorts mapper) yalnız **sayfa meta verisi** taşır: başlık, kanal, izlenme, göreli tarih. Boş/null kalan alanlar (açıklama, `likeCount`, `durationSec`, `publishedAt`, `category`, `tags`) YouTube arama sayfasında zaten yoktur.
 
-`-detail` her sonuç için `yt.getInfo` çağırır ve **eksik alanları** doldurur (dolu alanlar korunur — arama verisi daha taze olabilir):
+**Zenginleştirme default AÇIKTIR** — `search` çağrısında boş alanlar `yt.getInfo` ile **webden kazınıp doldurulur** (kapatmak için `-detail=0` veya `-detail=false`). Boolean bayraklar hem `1`/`0` hem `true`/`false` kabul eder (`ai`, `explain`, `deep`, `offline`, `detail`). Dolu alanlar korunur (arama verisi daha taze olabilir):
 
 | Alan | Kaynak (kanıt: probe 2026-10-15) |
 |---|---|
@@ -115,12 +115,12 @@ Arama sonuçları (lockup/shorts mapper) yalnız **sayfa meta verisi** taşır: 
 
 Davranış:
 
-- **Doldurma + kalıcılık**: her dolu alan `videos` tablosuna yazılır (`updateVideoDetail` yalnız eksik olanları günceller) — sonraki arama **aynı videoyu `-detail` olmadan bile tam veriyle** döner.
+- **Doldurma + kalıcılık**: her dolu alan `videos` tablosuna yazılır (`updateVideoDetail` yalnız eksik olanları günceller) — sonraki arama **aynı videoyu web isteği olmadan** tam veriyle döner.
 - **Daha az istek (DB-first)**: sonuç önce DB'den kontrol edilir — **tam kayıt lokal merge edilir, web isteği ATLANMAZ**; yalnız eksik kayıt için tek `getInfo` atılır. Aynı aramada tekrar eden ID tek işlenir. Meta sayaçları: `detailFetched` = web'e atılan istek (maliyet) · `detailFromDb` = maliyetsiz lokal dolan · `detailEnriched` = toplam dolu.
-- **JSON**: `meta.detailEnriched: N` kaç videonun işlendiğini söyler.
-- **Hız**: sonuç başına ~1.5-6 sn anti-ban jitter → 24 sonuç ≈ 1-2 dk. İlk `-detail`'dan sonra DB'de olanlar için tekrar gerekmez (cache/DB yolu).
-- **`publishedAt` normalizasyonu**: eski satırlardaki göreli metinler (`"6 months ago"`) ISO sayılmaz — `rowToVideo` null'a çeker, `-detail` gerçek ISO ile doldurur.
-- `enrich` komutu (toplu) ile DB'deki eksik kayıtlar da aynı mantıkla doldurulur.
+- **JSON**: `meta.detailFetched: N · detailFromDb: M` webden kazınan ve lokal dolan sayısını verir.
+- **Hız**: yalnız eksik kayıt için sonuç başına ~1.5-6 sn anti-ban jitter. İlk aramadan sonra DB'de olanlar için istek 0 (lokal merge).
+- **`publishedAt` normalizasyonu**: eski satırlardaki göreli metinler (`"6 months ago"`) ISO sayılmaz — `rowToVideo` null'a çeker, enrichment gerçek ISO ile doldurur.
+- `enrich` komutu (toplu) ile DB'deki eksik kayıtlar da aynı mantıkla doldurulur (`enrich --limit N`).
 
 ## Örnekler
 

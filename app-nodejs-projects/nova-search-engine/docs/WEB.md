@@ -37,7 +37,7 @@ Tarayıcıda <http://127.0.0.1:3110/> aç. `serve` **iki sunucuyu birden** başl
 | **AI skor** (varsayılan açık) | ✓/☐ | `ai=1` |
 | **deep** | ✓/☐ | `deep=1` |
 | **tüm sayfalar (scroll)** | ✓/☐ | `scroll=all` — tüm sonuç sayfalarını otomatik kaydırıp toplar (tavan `COLLECT_AUTO_MAX_PAGES` = 60; uzun sürebilir) |
-| **tam detay (getInfo)** | ✓/☐ | `detail=1` — her sonuç için açıklama/like/süre/tarih/kategori/kanal handle doldurur + DB'ye yazar (sonuç başına ~1.5-6 sn; meta'da `detay: N getInfo` görünür) |
+| **tam detay (webden kazı)** | ✓ (default) | `detail=1/0` — boş/null alanları getInfo ile **webden kazınıp doldurur** + DB'ye yazar (DB'de tam kayıt → istek ATANMAZ; meta'da `detay: X web · Y lokal` görünür). İşareti kaldırınca `detail=0` gider. |
 | **açıklama** (varsayılan açık) | ✓/☐ | `explain=1` |
 | **offline** | ✓/☐ | `offline=1` |
 | min izlenme | sayı | `minViews` |
@@ -84,7 +84,7 @@ Her satırdaki **Detay** butonu → tam ekran modal açar:
 - Sonuçlar sunucu tarafında önbelleklenir (RAM + 30 gün disk): aynı sorgu ikinci kez ~10 ms döner.
 - `deep` açıkken yanıt 15-40 sn sürebilir (2 AI çağrısı + gerekirse YouTube toplama).
 - `tüm sayfalar (scroll)` açıkken toplama 60 sayfaya kadar sürer (≈3-6 dk); meta satırında `scroll: tüm sayfalar` görünür, `kaynak: youtube` olur ve tüm kayıtlar DB'ye yazılır (sonraki aramalar anında).
-- `tam detay (getInfo)` açıkken sonuçlar DB-first zenginleştirilir: **DB'de tam kayıt → hiç web isteği yok (lokal merge)**, yalnız eksik kayıtlar için getInfo atılır. Meta satırında `detay: X web · Y lokal` görünür (X = gerçekten kazınan, Y = maliyetsiz dolan). Kazınan alanlar DB'ye yazıldığından **sonraki aramalar `X=0 · Y=N` ile anında tam veriyle** döner.
+- `tam detay (webden kazı)` **default açıktır**: sonuçlar DB-first zenginleştirilir — **DB'de tam kayıt → hiç web isteği yok (lokal merge)**, yalnız eksik kayıtlar için getInfo atılır. Meta satırında `detay: X web · Y lokal` görünür (X = gerçekten kazınan, Y = maliyetsiz dolan). Kazınan alanlar DB'ye yazıldığından **sonraki aramalar `X=0 · Y=N` ile anında tam veriyle** döner. Checkbox işaretli değilse `detail=0` gönderilir.
 
 ## Sorun giderme
 
