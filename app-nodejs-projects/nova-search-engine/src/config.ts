@@ -37,6 +37,8 @@ export const config = {
   webPort: int(process.env.WEB_PORT, 3110),
   offline: process.env.NOVA_OFFLINE === '1',
   logLevel: process.env.LOG_LEVEL ?? 'info',
+  /** youtubei.js parser gürültüsü (bilinmeyen renderer JIT dump'ları) — 1 = göster */
+  ytLog: process.env.NOVA_YT_LOG === '1',
   ai: {
     enabled: process.env.AI_ENABLED !== 'false',
     apiKey: process.env.OPENROUTER_API_KEY ?? '',

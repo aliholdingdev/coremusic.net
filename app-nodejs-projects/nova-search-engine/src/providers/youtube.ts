@@ -3,6 +3,18 @@ import { Innertube } from 'youtubei.js';
 import { config } from '../config.ts';
 import type { VideoRecord, SearchFilters, CommentRecord, RelatedVideo } from '../core/types.ts';
 
+// youtubei.js parser gürültüsü: bilinmeyen renderer'ları JIT üretirken [YOUTUBEJS] prefix'li
+// warning basar (InnertubeError/ParsingError dump'ları — zararsız). Bunlar console.warn'a gider;
+// gerçek hatalar console.error'a ve bizim try/catch'imize düşmeye devam eder.
+// NOVA_YT_LOG=1 ile geri açılır (parser/updater debug için).
+if (!config.ytLog) {
+  const origWarn = console.warn.bind(console);
+  console.warn = (...args: unknown[]) => {
+    if (typeof args[0] === 'string' && args[0].startsWith('[YOUTUBEJS]')) return;
+    origWarn(...args);
+  };
+}
+
 let ytPromise: Promise<Innertube> | null = null;
 
 function getInnertube(): Promise<Innertube> {
