@@ -1,7 +1,7 @@
 /** Search Orchestrator — RAM → disk → FTS/DB → (yoksa) Collector → normalize → dedupe → kayıt. */
 import { MemoryCache } from '../cache/memory-cache.ts';
 import { DiskCache, cacheKey } from '../cache/disk-cache.ts';
-import { ftsSearch, upsertVideo, saveHistory, saveAiQuery, countVideos, enqueueJob, updateVideoDetail } from '../database/db.ts';
+import { ftsSearch, upsertVideo, saveHistory, saveAiQuery, countVideos, enqueueJob, updateVideoDetail, getVideo } from '../database/db.ts';
 import { youtubeSearch, youtubeSearchDeep, youtubeInfo, mergeDetail } from '../providers/youtube.ts';
 import { analyzeQuery, scoreResults, expandQueries, aiAvailable } from '../ai/engine.ts';
 import { config } from '../config.ts';
@@ -9,6 +9,22 @@ import type { SearchOptions, SearchResultPayload, ScoredResult, VideoRecord, Sea
 
 const ram = new MemoryCache();
 const disk = new DiskCache();
+
+/**
+ * DB kaydı "tam" mı? → web isteği atlanır (lokal merge).
+ * Zorunlu alanlar web'de HER videoda var (kanıt: probe 2026-10-15 — short bile hepsini verdi).
+ * description/tags bilerek zorunlu DEĞİL: YouTube bazı videolarda hiç vermez → boşuna istek atılmasın.
+ */
+export function isCompleteDetail(v: VideoRecord | null): v is VideoRecord {
+  return !!v
+    && !!v.channelId
+    && !!v.channelName
+    && v.durationSec > 0
+    && v.likeCount != null
+    && !!v.category
+    && !!v.publishedAt
+    && /^\d{4}-\d{2}-\d{2}/.test(v.publishedAt); // eski bozuk değer ('6 months ago') eksik sayılır
+}
 
 /* ---------- Deterministik skor (AI yoksa da çalışır) ---------- */
 
@@ -218,16 +234,24 @@ export async function search(o: SearchOptions): Promise<SearchResultPayload> {
   results = sortList(results, o.sortBy).slice(offset, offset + o.limit);
   const withUrl = results.map((r) => ({ ...r, url: `https://www.youtube.com/watch?v=${r.youtubeId}` }));
 
-  // 8) Detail zenginleştirme (-detail / detail=1): sayfa sonuçlarını getInfo ile doldur
-  //    (description · channelId · durationSec · likeCount · publishedAt · category · tags)
-  //    + DB'ye yazılır → sonraki arama aynı sorgu için TAM veriyle döner (istek tekrarlanmaz).
-  let detailEnriched = 0;
+  // 8) Detail zenginleştirme (-detail / detail=1) — "daha az istekle bilgi kazı":
+  //    - DB'de TAM kayıt varsa web isteği YOK (lokal merge) — tekrar eden getInfo önlenir
+  //    - eksik kayıt → tek getInfo (web kazıma) → merge + kalıcı yazım (sonraki aramada istek 0)
+  //    - describe/tags "" kalabilir (YouTube bazı videolarda hiç vermez) → tam sayılmaz, boşuna istek atılmaz
+  let detailEnriched = 0; // dolu olan (web + lokal toplam)
+  let detailFetched = 0;  // web'e atılan getInfo isteği (maliyet)
+  let detailFromDb = 0;   // tamamen lokal dolan (maliyetsiz)
   if (o.detail && !offline && withUrl.length) {
+    const seen = new Set<string>(); // aynı aramada aynı video iki kez çıkarsa tek işlenir
     for (const r of withUrl) {
-      const info = await youtubeInfo(r.youtubeId);
+      if (seen.has(r.youtubeId)) continue;
+      seen.add(r.youtubeId);
+      const dbRow = getVideo(r.youtubeId);
+      const info = isCompleteDetail(dbRow) ? dbRow : await youtubeInfo(r.youtubeId);
       if (!info) continue; // kaldırılmış/erişilemez video → arama sonucu korunur
       Object.assign(r, mergeDetail(r, info));
-      updateVideoDetail(info);
+      if (info === dbRow) detailFromDb++;
+      else { updateVideoDetail(info); detailFetched++; }
       detailEnriched++;
     }
   }
@@ -260,7 +284,7 @@ export async function search(o: SearchOptions): Promise<SearchResultPayload> {
       aiScored: withUrl.filter((r) => r.aiScore != null).length,
       dbVideos: countVideos(),
       scroll: o.scroll,
-      ...(detailEnriched ? { detailEnriched } : {}),
+      ...(detailEnriched ? { detailEnriched, detailFetched, detailFromDb } : {}),
       ...(o.aiPrompt ? { aiPrompt: o.aiPrompt, aiPromptApplied: aiOn } : {}),
       ...(Object.keys(filters).length ? { filters } : {}),
     },

@@ -86,7 +86,9 @@ Tek zorunlu param: `q`.
 | `collected` | number? | Bu sorguda YouTube'dan toplanan |
 | `limit` / `page` | number | Uygulanan sayfalama (limit max 5000) |
 | `scroll` | number | Uygulanan sayfa hedefi · `-1` = auto (tüm sayfalar) |
-| `detailEnriched` | number? | `detail=1` ile getInfo ile zenginleştirilen sonuç sayısı |
+| `detailEnriched` | number? | `detail=1` ile dolan sonuç sayısı (web + lokal toplam) |
+| `detailFetched` | number? | Web'e atılan `getInfo` isteği (gerçek maliyet) — DB'de tam kayıt olan sonuçlar istek ATAMAZ |
+| `detailFromDb` | number? | DB'de tam kayıt → lokal merge (web isteği yok) |
 | `aiScored` | number | Bu sayfada AI skoru alan sonuç sayısı |
 | `dbVideos` | number | DB'deki toplam video |
 | `aiPrompt` | string? | Gönderilen özel AI prompt'u (varsa) |

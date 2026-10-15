@@ -84,7 +84,7 @@ Her satırdaki **Detay** butonu → tam ekran modal açar:
 - Sonuçlar sunucu tarafında önbelleklenir (RAM + 30 gün disk): aynı sorgu ikinci kez ~10 ms döner.
 - `deep` açıkken yanıt 15-40 sn sürebilir (2 AI çağrısı + gerekirse YouTube toplama).
 - `tüm sayfalar (scroll)` açıkken toplama 60 sayfaya kadar sürer (≈3-6 dk); meta satırında `scroll: tüm sayfalar` görünür, `kaynak: youtube` olur ve tüm kayıtlar DB'ye yazılır (sonraki aramalar anında).
-- `tam detay (getInfo)` açıkken her sonuç için getInfo çağrılır (sonuç başına ~1.5-6 sn → 24 sonuç ≈ 1-2 dk); meta satırında `detay: N getInfo` görünür. Doldurulan alanlar DB'ye yazıldığından **sonraki aramalar `-detail` olmadan da tam veriyle** döner (aynı video için ikinci kez getInfo gerekmez).
+- `tam detay (getInfo)` açıkken sonuçlar DB-first zenginleştirilir: **DB'de tam kayıt → hiç web isteği yok (lokal merge)**, yalnız eksik kayıtlar için getInfo atılır. Meta satırında `detay: X web · Y lokal` görünür (X = gerçekten kazınan, Y = maliyetsiz dolan). Kazınan alanlar DB'ye yazıldığından **sonraki aramalar `X=0 · Y=N` ile anında tam veriyle** döner.
 
 ## Sorun giderme
 

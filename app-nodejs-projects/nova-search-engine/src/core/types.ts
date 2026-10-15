@@ -134,7 +134,9 @@ export interface SearchResultPayload {
     aiScored?: number; // bu sayfada AI skoru alan sonuç sayısı
     dbVideos?: number; // DB'deki toplam video
     scroll?: number; // uygulanan sayfa hedefi · -1 = auto (tüm sayfalar)
-    detailEnriched?: number; // -detail ile getInfo ile zenginleştirilen sonuç sayısı
+    detailEnriched?: number; // -detail ile dolan sonuç sayısı (web + lokal)
+    detailFetched?: number; // web'e atılan getInfo isteği (maliyet) — "daha azla" kanıtı
+    detailFromDb?: number; // tam kayıt → lokal merge, web isteği YOK
     aiPrompt?: string; // uygulanan özel AI prompt'u (varsa)
     aiPromptApplied?: boolean;
     filters?: Partial<SearchFilters>; // uygulanan filtreler

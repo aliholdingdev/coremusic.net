@@ -116,6 +116,7 @@ Arama sonuçları (lockup/shorts mapper) yalnız **sayfa meta verisi** taşır: 
 Davranış:
 
 - **Doldurma + kalıcılık**: her dolu alan `videos` tablosuna yazılır (`updateVideoDetail` yalnız eksik olanları günceller) — sonraki arama **aynı videoyu `-detail` olmadan bile tam veriyle** döner.
+- **Daha az istek (DB-first)**: sonuç önce DB'den kontrol edilir — **tam kayıt lokal merge edilir, web isteği ATLANMAZ**; yalnız eksik kayıt için tek `getInfo` atılır. Aynı aramada tekrar eden ID tek işlenir. Meta sayaçları: `detailFetched` = web'e atılan istek (maliyet) · `detailFromDb` = maliyetsiz lokal dolan · `detailEnriched` = toplam dolu.
 - **JSON**: `meta.detailEnriched: N` kaç videonun işlendiğini söyler.
 - **Hız**: sonuç başına ~1.5-6 sn anti-ban jitter → 24 sonuç ≈ 1-2 dk. İlk `-detail`'dan sonra DB'de olanlar için tekrar gerekmez (cache/DB yolu).
 - **`publishedAt` normalizasyonu**: eski satırlardaki göreli metinler (`"6 months ago"`) ISO sayılmaz — `rowToVideo` null'a çeker, `-detail` gerçek ISO ile doldurur.

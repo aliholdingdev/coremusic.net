@@ -191,7 +191,7 @@ function render(rows, meta, ms) {
   if (meta.offline) bits.push('OFFLINE');
   if (meta.scroll === -1) bits.push('scroll: tüm sayfalar');
   else if (meta.scroll > 1) bits.push('scroll: ' + meta.scroll + ' sayfa');
-  if (meta.detailEnriched) bits.push('detay: ' + meta.detailEnriched + ' getInfo');
+  if (meta.detailEnriched) bits.push('detay: ' + (meta.detailFetched ?? meta.detailEnriched) + ' web · ' + (meta.detailFromDb ?? 0) + ' lokal');
   if (meta.dbVideos != null) bits.push('DB: ' + meta.dbVideos);
   if (meta.expandedQueries?.length) bits.push('deep: ' + esc(meta.expandedQueries.join(' · ')));
   $('meta').innerHTML = bits.join(' · ');
