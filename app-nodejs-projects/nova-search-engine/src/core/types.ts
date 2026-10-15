@@ -6,6 +6,8 @@ export interface VideoRecord {
   description: string;
   channelId: string;
   channelName: string;
+  /** Kanal handle bağlantısı (microformat.channel.url → https://www.youtube.com/@handle). */
+  channelUrl?: string | null;
   durationSec: number;
   viewCount: number;
   likeCount: number | null;
@@ -102,6 +104,8 @@ export interface SearchOptions extends SearchFilters {
   explain: boolean;
   offline: boolean;
   scroll: number; // toplanacak sayfa hedefi · -1 = auto (tüm sayfalar, COLLECT_AUTO_MAX_PAGES)
+  /** Her sonuç için getInfo çağırıp description/like/süre/tarih/kanal doldurur (N istek — yavaş). */
+  detail: boolean;
 }
 
 export interface ScoredResult extends VideoRecord {
@@ -130,6 +134,7 @@ export interface SearchResultPayload {
     aiScored?: number; // bu sayfada AI skoru alan sonuç sayısı
     dbVideos?: number; // DB'deki toplam video
     scroll?: number; // uygulanan sayfa hedefi · -1 = auto (tüm sayfalar)
+    detailEnriched?: number; // -detail ile getInfo ile zenginleştirilen sonuç sayısı
     aiPrompt?: string; // uygulanan özel AI prompt'u (varsa)
     aiPromptApplied?: boolean;
     filters?: Partial<SearchFilters>; // uygulanan filtreler

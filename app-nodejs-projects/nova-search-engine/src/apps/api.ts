@@ -98,6 +98,8 @@ async function route(req: IncomingMessage, res: ServerResponse): Promise<void> {
         scroll: q(url, 'scroll') === 'all' || q(url, 'scroll') === 'auto'
           ? -1
           : numParam(url, 'scroll') ?? 1,
+        // detail=1: her sonuç için getInfo (description/like/süre/tarih) — yavaş
+        detail: q(url, 'detail') === '1',
         ...(filterRaw === 'v' || filterRaw === 's' || filterRaw === 'sh' ? { filter: filterRaw } : {}),
         ...(sortRaw === 'views' || sortRaw === 'date' || sortRaw === 'rating' || sortRaw === 'relevance'
           ? { sortBy: sortRaw as SearchOptions['sortBy'] }

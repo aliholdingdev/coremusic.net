@@ -37,6 +37,7 @@ Tarayıcıda <http://127.0.0.1:3110/> aç. `serve` **iki sunucuyu birden** başl
 | **AI skor** (varsayılan açık) | ✓/☐ | `ai=1` |
 | **deep** | ✓/☐ | `deep=1` |
 | **tüm sayfalar (scroll)** | ✓/☐ | `scroll=all` — tüm sonuç sayfalarını otomatik kaydırıp toplar (tavan `COLLECT_AUTO_MAX_PAGES` = 60; uzun sürebilir) |
+| **tam detay (getInfo)** | ✓/☐ | `detail=1` — her sonuç için açıklama/like/süre/tarih/kategori/kanal handle doldurur + DB'ye yazar (sonuç başına ~1.5-6 sn; meta'da `detay: N getInfo` görünür) |
 | **açıklama** (varsayılan açık) | ✓/☐ | `explain=1` |
 | **offline** | ✓/☐ | `offline=1` |
 | min izlenme | sayı | `minViews` |
@@ -83,6 +84,7 @@ Her satırdaki **Detay** butonu → tam ekran modal açar:
 - Sonuçlar sunucu tarafında önbelleklenir (RAM + 30 gün disk): aynı sorgu ikinci kez ~10 ms döner.
 - `deep` açıkken yanıt 15-40 sn sürebilir (2 AI çağrısı + gerekirse YouTube toplama).
 - `tüm sayfalar (scroll)` açıkken toplama 60 sayfaya kadar sürer (≈3-6 dk); meta satırında `scroll: tüm sayfalar` görünür, `kaynak: youtube` olur ve tüm kayıtlar DB'ye yazılır (sonraki aramalar anında).
+- `tam detay (getInfo)` açıkken her sonuç için getInfo çağrılır (sonuç başına ~1.5-6 sn → 24 sonuç ≈ 1-2 dk); meta satırında `detay: N getInfo` görünür. Doldurulan alanlar DB'ye yazıldığından **sonraki aramalar `-detail` olmadan da tam veriyle** döner (aynı video için ikinci kez getInfo gerekmez).
 
 ## Sorun giderme
 

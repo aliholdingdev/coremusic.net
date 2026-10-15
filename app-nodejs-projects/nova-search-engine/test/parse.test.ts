@@ -127,6 +127,12 @@ test('collect: -s auto + --target birlikte', () => {
   assert.equal(q.flags.get('target'), '300');
 });
 
+test('-detail: bool bayrak → detail=true (yoksa false)', () => {
+  assert.equal(buildSearchOptions(parseArgs(['search', 'x', '-detail'])).detail, true);
+  assert.equal(buildSearchOptions(parseArgs(['search', 'x', '--detail'])).detail, true);
+  assert.equal(buildSearchOptions(parseArgs(['search', 'x'])).detail, false);
+});
+
 test('--auto kaldırıldı → bilinmeyen parametre hatası', () => {
   assert.throws(() => parseArgs(['collect', 'tarkan', '--auto']), ArgError);
 });

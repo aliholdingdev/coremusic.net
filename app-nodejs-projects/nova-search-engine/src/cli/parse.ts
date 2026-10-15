@@ -26,7 +26,7 @@ const VALUE_FLAGS = new Set([
 /** Opsiyonel değerli bayraklar: `-s 3` = 3 sayfa · `-s` (değersiz) = auto (tüm sayfalar). */
 const OPTIONAL_VALUE_FLAGS = new Set(['scroll', 's']);
 
-const BOOL_FLAGS = new Set(['ai', 'deep', 'explain', 'offline', 'json', 'help', 'h', 'version', 'v', 'once', 'prune']);
+const BOOL_FLAGS = new Set(['ai', 'deep', 'explain', 'offline', 'json', 'help', 'h', 'version', 'v', 'once', 'prune', 'detail']);
 
 /** normalize: `-query` → `query`, `--query` → `query`, `-Q` → `q` (tek harf) */
 function normFlag(raw: string): string {
@@ -142,6 +142,7 @@ export function buildSearchOptions(parsed: ParsedArgs): SearchOptions {
     explain: f.get('explain') === true,
     offline: f.get('offline') === true || configOffline(),
     scroll: scrollOf(f),
+    detail: f.get('detail') === true,
     limit: Math.max(1, Math.min(finalLimit, 5000)), // üst sınır 5000+
     page: Math.max(1, num(f.get('p') ?? f.get('page'), 'p') ?? 1),
     ...(filter ? { filter: filter as 'v' | 's' | 'sh' } : {}),

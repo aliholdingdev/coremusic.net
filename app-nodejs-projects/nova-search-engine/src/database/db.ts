@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS videos (
   description TEXT NOT NULL DEFAULT '',
   channel_id TEXT NOT NULL DEFAULT '',
   channel_name TEXT NOT NULL DEFAULT '',
+  channel_url TEXT,
   duration_sec INTEGER NOT NULL DEFAULT 0,
   view_count INTEGER NOT NULL DEFAULT 0,
   like_count INTEGER,
@@ -106,7 +107,11 @@ export function getDb(): DatabaseSync {
   if (!cols.some((c) => c.name === 'is_short')) {
     db.exec('ALTER TABLE videos ADD COLUMN is_short INTEGER NOT NULL DEFAULT 0');
   }
-  db.prepare("INSERT OR REPLACE INTO meta(key, value) VALUES ('schema_version', '2')").run();
+  // migration: kanal handle bağlantısı (v2 → v3)
+  if (!cols.some((c) => c.name === 'channel_url')) {
+    db.exec('ALTER TABLE videos ADD COLUMN channel_url TEXT');
+  }
+  db.prepare("INSERT OR REPLACE INTO meta(key, value) VALUES ('schema_version', '3')").run();
   return db;
 }
 
@@ -117,8 +122,13 @@ export function closeDb(): void {
 
 /* ---------- Videos ---------- */
 
-const COLS = `youtube_id, title, description, channel_id, channel_name, duration_sec,
+const COLS = `youtube_id, title, description, channel_id, channel_name, channel_url, duration_sec,
   view_count, like_count, published_at, category, tags, thumbnail_url, first_seen_at, last_seen_at, is_short`;
+
+/** publishedAt sözleşmesi ISO — eski satırlardaki göreli metin ("6 months ago") null'a düşer. */
+function isIso(v: string | null | undefined): v is string {
+  return !!v && /^\d{4}-\d{2}-\d{2}/.test(v);
+}
 
 function rowToVideo(r: Record<string, unknown>): VideoRecord {
   return {
@@ -127,10 +137,11 @@ function rowToVideo(r: Record<string, unknown>): VideoRecord {
     description: String(r.description ?? ''),
     channelId: String(r.channel_id ?? ''),
     channelName: String(r.channel_name ?? ''),
+    channelUrl: (r.channel_url as string) ?? null,
     durationSec: Number(r.duration_sec ?? 0),
     viewCount: Number(r.view_count ?? 0),
     likeCount: r.like_count == null ? null : Number(r.like_count),
-    publishedAt: (r.published_at as string) ?? null,
+    publishedAt: isIso((r.published_at as string) ?? null) ? (r.published_at as string) : null,
     category: (r.category as string) ?? null,
     tags: String(r.tags ?? ''),
     thumbnailUrl: (r.thumbnail_url as string) ?? null,
@@ -149,9 +160,9 @@ export function upsertVideo(v: VideoRecord): 'inserted' | 'updated' {
 
   if (!existing) {
     d.prepare(
-      `INSERT INTO videos (${COLS}) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      `INSERT INTO videos (${COLS}) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
     ).run(
-      v.youtubeId, v.title, v.description, v.channelId, v.channelName, v.durationSec,
+      v.youtubeId, v.title, v.description, v.channelId, v.channelName, v.channelUrl ?? null, v.durationSec,
       v.viewCount, v.likeCount, v.publishedAt, v.category, v.tags, v.thumbnailUrl,
       v.firstSeenAt, v.lastSeenAt, v.isShort ? 1 : 0,
     );
@@ -163,8 +174,8 @@ export function upsertVideo(v: VideoRecord): 'inserted' | 'updated' {
     !existing; // stat güncellemesi
   if (changed) {
     d.prepare(
-      `UPDATE videos SET view_count = ?, like_count = ?, last_seen_at = ? WHERE youtube_id = ?`,
-    ).run(v.viewCount, v.likeCount, v.lastSeenAt, v.youtubeId);
+      `UPDATE videos SET view_count = ?, like_count = ?, channel_url = COALESCE(channel_url, ?), last_seen_at = ? WHERE youtube_id = ?`,
+    ).run(v.viewCount, v.likeCount, v.channelUrl ?? null, v.lastSeenAt, v.youtubeId);
     return 'updated';
   }
   d.prepare(`UPDATE videos SET last_seen_at = ? WHERE youtube_id = ?`).run(v.lastSeenAt, v.youtubeId);
@@ -202,15 +213,31 @@ export function recentForEnrich(limit: number): VideoRecord[] {
   return rows.map(rowToVideo);
 }
 
-/** Zenginleştirilmiş detayları yaz (getInfo'dan gelen alanlar). */
+/** Zenginleştirilmiş detayları yaz — mevcut/dolu alanlar KORUNUR, yalnız eksikler dolar. */
 export function updateVideoDetail(v: VideoRecord): void {
   getDb()
     .prepare(
-      `UPDATE videos SET description = ?, like_count = ?, category = ?, tags = ?,
-       thumbnail_url = COALESCE(?, thumbnail_url), published_at = COALESCE(published_at, ?),
-       last_seen_at = ? WHERE youtube_id = ?`,
+      `UPDATE videos SET
+         description    = CASE WHEN description = '' THEN ? ELSE description END,
+         like_count     = COALESCE(like_count, ?),
+         category       = COALESCE(category, ?),
+         tags           = CASE WHEN tags = '' THEN ? ELSE tags END,
+         duration_sec   = CASE WHEN duration_sec = 0 THEN ? ELSE duration_sec END,
+         channel_id     = CASE WHEN channel_id = '' THEN ? ELSE channel_id END,
+         channel_name   = CASE WHEN channel_name = '' THEN ? ELSE channel_name END,
+         channel_url    = CASE WHEN channel_url IS NULL THEN ? ELSE channel_url END,
+         view_count     = CASE WHEN view_count = 0 THEN ? ELSE view_count END,
+         thumbnail_url  = COALESCE(?, thumbnail_url),
+         published_at   = CASE WHEN published_at IS NULL OR published_at NOT LIKE '____-__-__%'
+                               THEN COALESCE(?, published_at) ELSE published_at END,
+         last_seen_at   = ?
+       WHERE youtube_id = ?`,
     )
-    .run(v.description, v.likeCount, v.category, v.tags, v.thumbnailUrl, v.publishedAt, v.lastSeenAt, v.youtubeId);
+    .run(
+      v.description, v.likeCount, v.category, v.tags, v.durationSec,
+      v.channelId, v.channelName, v.channelUrl ?? null, v.viewCount,
+      v.thumbnailUrl, v.publishedAt, v.lastSeenAt, v.youtubeId,
+    );
 }
 
 export function upsertChannel(ch: { id: string; name: string; subs: number | null }): void {

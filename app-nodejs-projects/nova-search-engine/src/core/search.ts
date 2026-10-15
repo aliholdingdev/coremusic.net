@@ -1,8 +1,8 @@
 /** Search Orchestrator — RAM → disk → FTS/DB → (yoksa) Collector → normalize → dedupe → kayıt. */
 import { MemoryCache } from '../cache/memory-cache.ts';
 import { DiskCache, cacheKey } from '../cache/disk-cache.ts';
-import { ftsSearch, upsertVideo, saveHistory, saveAiQuery, countVideos, enqueueJob } from '../database/db.ts';
-import { youtubeSearch, youtubeSearchDeep } from '../providers/youtube.ts';
+import { ftsSearch, upsertVideo, saveHistory, saveAiQuery, countVideos, enqueueJob, updateVideoDetail } from '../database/db.ts';
+import { youtubeSearch, youtubeSearchDeep, youtubeInfo, mergeDetail } from '../providers/youtube.ts';
 import { analyzeQuery, scoreResults, expandQueries, aiAvailable } from '../ai/engine.ts';
 import { config } from '../config.ts';
 import type { SearchOptions, SearchResultPayload, ScoredResult, VideoRecord, SearchFilters } from '../core/types.ts';
@@ -110,8 +110,8 @@ async function collect(o: SearchOptions, query: string): Promise<{ records: Vide
 export async function search(o: SearchOptions): Promise<SearchResultPayload> {
   const t0 = Date.now();
   const query = o.extraQuery ? `${o.query} ${o.extraQuery}` : o.query;
-  // v3: aiPrompt + scroll + sürüm tuzu — eski cache girişleri devre dışı
-  const key = cacheKey(['v3', query, o.limit, o.page, o.scroll, o.filter, o.sortBy, o.minViews, o.maxViews, o.duration, o.type, o.uploadDate, o.ai, o.deep, o.explain, o.aiPrompt]);
+  // v5: publishedAt normalizasyonu (ISO-only, göreli metin temizliği) — v4 girişleri devre dışı
+  const key = cacheKey(['v5', query, o.limit, o.page, o.scroll, o.filter, o.sortBy, o.minViews, o.maxViews, o.duration, o.type, o.uploadDate, o.ai, o.deep, o.explain, o.aiPrompt, o.detail]);
 
   // 1) RAM
   const hit = ram.get(key);
@@ -218,6 +218,20 @@ export async function search(o: SearchOptions): Promise<SearchResultPayload> {
   results = sortList(results, o.sortBy).slice(offset, offset + o.limit);
   const withUrl = results.map((r) => ({ ...r, url: `https://www.youtube.com/watch?v=${r.youtubeId}` }));
 
+  // 8) Detail zenginleştirme (-detail / detail=1): sayfa sonuçlarını getInfo ile doldur
+  //    (description · channelId · durationSec · likeCount · publishedAt · category · tags)
+  //    + DB'ye yazılır → sonraki arama aynı sorgu için TAM veriyle döner (istek tekrarlanmaz).
+  let detailEnriched = 0;
+  if (o.detail && !offline && withUrl.length) {
+    for (const r of withUrl) {
+      const info = await youtubeInfo(r.youtubeId);
+      if (!info) continue; // kaldırılmış/erişilemez video → arama sonucu korunur
+      Object.assign(r, mergeDetail(r, info));
+      updateVideoDetail(info);
+      detailEnriched++;
+    }
+  }
+
   // uygulanan filtreler (zengin meta için)
   const filters: Partial<SearchFilters> = {};
   if (o.filter) filters.filter = o.filter;
@@ -246,6 +260,7 @@ export async function search(o: SearchOptions): Promise<SearchResultPayload> {
       aiScored: withUrl.filter((r) => r.aiScore != null).length,
       dbVideos: countVideos(),
       scroll: o.scroll,
+      ...(detailEnriched ? { detailEnriched } : {}),
       ...(o.aiPrompt ? { aiPrompt: o.aiPrompt, aiPromptApplied: aiOn } : {}),
       ...(Object.keys(filters).length ? { filters } : {}),
     },

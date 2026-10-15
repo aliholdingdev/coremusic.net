@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   parseCountLike, rowsToFields, lockupFields, shortsToRecord,
-  commentViewToRecord, lockupToRelated,
+  commentViewToRecord, lockupToRelated, mergeDetail,
 } from '../src/providers/youtube.ts';
 
 /* ---------- parseCountLike: compact + binlik ayracı (kanıt: probe "43K"/"106M views") ---------- */
@@ -126,4 +126,51 @@ test('commentViewToRecord: alanlar + kanonik yorum URL', () => {
 
 test('commentViewToRecord: boş içerik → null (kaydedilmez)', () => {
   assert.equal(commentViewToRecord('x', { content: { text: '' } }), null);
+});
+
+/* ---------- mergeDetail: getInfo → arama kaydı birleştirme (boşlar dolar, dolular korunur) ---------- */
+
+test('mergeDetail: boş alanlar dolar, dolu alanlar korunur', () => {
+  const base = {
+    youtubeId: 'id1', title: 'Arama Başlığı', description: '', channelId: '', channelName: 'Kanal',
+    channelUrl: null,
+    durationSec: 0, viewCount: 5000, likeCount: null, publishedAt: null, category: null, tags: '',
+    thumbnailUrl: 'https://t/1.jpg', firstSeenAt: '2026-01-01T00:00:00.000Z', lastSeenAt: '2026-01-01T00:00:00.000Z',
+    score: 80,
+  };
+  const info = {
+    youtubeId: 'id1', title: 'getInfo Başlığı', description: 'Açıklama', channelId: 'UC1',
+    channelName: 'Yeni Kanal', channelUrl: 'https://www.youtube.com/@handle', durationSec: 214,
+    viewCount: 999, likeCount: 42, publishedAt: '2009-10-24T23:57:33-07:00', category: 'Music',
+    tags: 'rick astley', thumbnailUrl: null, firstSeenAt: '2026-01-02T00:00:00.000Z', lastSeenAt: '2026-01-02T00:00:00.000Z',
+  };
+  const m = mergeDetail(base, info);
+  // boşlar doldu
+  assert.equal(m.description, 'Açıklama');
+  assert.equal(m.channelId, 'UC1');
+  assert.equal(m.durationSec, 214);
+  assert.equal(m.likeCount, 42);
+  assert.equal(m.publishedAt, '2009-10-24T23:57:33-07:00');
+  assert.equal(m.category, 'Music');
+  assert.equal(m.tags, 'rick astley');
+  assert.equal(m.channelUrl, 'https://www.youtube.com/@handle');
+  // dolular korundu (arama daha taze olabilir)
+  assert.equal(m.title, 'Arama Başlığı');
+  assert.equal(m.channelName, 'Kanal');
+  assert.equal(m.viewCount, 5000);
+  assert.equal(m.thumbnailUrl, 'https://t/1.jpg');
+  assert.equal(m.score, 80); // ek alanlar (ScoredResult) taşınır
+});
+
+test('mergeDetail: göreli tarih ("6 months ago") ISO olmayan → getInfo ISO ile ezilir', () => {
+  const base = {
+    youtubeId: 'id2', title: 'T', description: 'D', channelId: 'UC', channelName: 'K',
+    channelUrl: null,
+    durationSec: 10, viewCount: 1, likeCount: 5, publishedAt: '6 months ago', category: null, tags: '',
+    thumbnailUrl: null, firstSeenAt: '', lastSeenAt: '',
+  };
+  const info = { ...base, publishedAt: '2026-03-15T10:00:06-07:00', category: 'Film & Animation' };
+  const m = mergeDetail(base, info);
+  assert.equal(m.publishedAt, '2026-03-15T10:00:06-07:00');
+  assert.equal(m.category, 'Film & Animation');
 });

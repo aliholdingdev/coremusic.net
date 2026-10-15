@@ -41,6 +41,7 @@
 | `-aip` | `--aiPrompt` | metin | AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir) |
 | `-eq` | `--extraQuery` | metin | Ek arama terimi |
 | `-s` | `--scroll` | N \| (boş) | Toplanacak sayfa (sayı: max 5) · **değersiz `-s` = tüm sayfaları topla (auto, max 60)** |
+| `-detail` | — | flag | **Her sonuç için getInfo zenginleştirme**: açıklama, like, süre, yayın tarihi (ISO), kategori, etiketler, kanal handle (`channelUrl`) — boş alanları doldurur + DB'ye kalıcı yazar. Sonuç başına ~1.5-6 sn anti-ban jitter (24 sonuç ≈ 1-2 dk). `meta.detailEnriched: N` döner. |
 | `-r` | `--result` | N | Sonuç limiti (max 5000) |
 | `-l` | `--limit` | N | Sayfa başına sonuç (varsayılan 24, max 5000) |
 | `-f` | `--filter` | `v\|s\|sh` | video / song / short |
@@ -96,12 +97,37 @@ Arama sonucu sayfası YouTube'a göre **sayfa sayfa** gelir. NovaSearch dört mo
 - Anti-ban ritmi sayfa başına 1.5-6 sn jitter + dk max 12 istek → 60 sayfa ≈ **3-6 dk** sürer.
 - Toplanan her kayıt **kalıcıdır**: sonraki `search` aynı sorgu için anında DB'den döner; `-f sh` / `-f s` / `-d` gibi filtrelerle süzülür.
 
+## Detay zenginleştirme (`-detail`)
+
+Arama sonuçları (lockup/shorts mapper) yalnız **sayfa meta verisi** taşır: başlık, kanal, izlenme, göreli tarih. Boş/null kalan alanlar (açıklama, `likeCount`, `durationSec`, `publishedAt`, `category`, `tags`) YouTube arama sayfasında zaten yoktur.
+
+`-detail` her sonuç için `yt.getInfo` çağırır ve **eksik alanları** doldurur (dolu alanlar korunur — arama verisi daha taze olabilir):
+
+| Alan | Kaynak (kanıt: probe 2026-10-15) |
+|---|---|
+| `description` | `page[0].microformat.description` (tam açıklama; yoksa `"N/A"` → `basic_info.short_description`; ikisi de yoksa YouTube vermiyor → boş kalır) |
+| `likeCount`, `viewCount`, `durationSec` | `basic_info.like_count/view_count/duration` |
+| `publishedAt` | `microformat.publish_date/upload_date` (ISO 8601, örn `2009-10-24T23:57:33-07:00`) |
+| `category` | `microformat.category` → `basic_info.category` fallback (`Music` vb.) |
+| `tags` | `basic_info.keywords` (dizi → boşluklu metin; shorts'larda yok) |
+| `channelId`, `channelName` | `basic_info.channel_id/author` |
+| `channelUrl` | `microformat.channel.url` → `https://www.youtube.com/@handle` (**yeni alan** — DB migration v3) |
+
+Davranış:
+
+- **Doldurma + kalıcılık**: her dolu alan `videos` tablosuna yazılır (`updateVideoDetail` yalnız eksik olanları günceller) — sonraki arama **aynı videoyu `-detail` olmadan bile tam veriyle** döner.
+- **JSON**: `meta.detailEnriched: N` kaç videonun işlendiğini söyler.
+- **Hız**: sonuç başına ~1.5-6 sn anti-ban jitter → 24 sonuç ≈ 1-2 dk. İlk `-detail`'dan sonra DB'de olanlar için tekrar gerekmez (cache/DB yolu).
+- **`publishedAt` normalizasyonu**: eski satırlardaki göreli metinler (`"6 months ago"`) ISO sayılmaz — `rowToVideo` null'a çeker, `-detail` gerçek ISO ile doldurur.
+- `enrich` komutu (toplu) ile DB'deki eksik kayıtlar da aynı mantıkla doldurulur.
+
 ## Örnekler
 
 ```bash
 npm run nova -- search "Akasya Durağı" -ai -explain
 npm run nova -- search "adele" -result 100 -scroll 3 -f v -sb views
 npm run nova -- search "tarkan" -s -result 200   # tüm sayfaları otomatik kaydırıp topla
+npm run nova -- search "tarkan" -result 3 -detail -json   # açıklama/like/tarih/kategori doldur
 npm run nova -- search "lofi" -q "yavaş sakin piyano" -ai -deep
 npm run nova -- search "tarkan" -ai -explain -aip "sadece resmi klipleri tercih et"
 npm run nova -- search "tarkan" -f s -minv 100000 -offline

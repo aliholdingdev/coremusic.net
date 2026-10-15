@@ -40,6 +40,7 @@ Tek zorunlu param: `q`.
 | `offline` | — | `1` | YouTube'a gitmez (`NOVA_OFFLINE=1` de aynı etki) |
 | `prompt` | — | metin | AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir; `meta.aiPrompt` olarak yansır) |
 | `scroll` | `1` | N \| `all` | N = toplanacak sayfa · `scroll=all` (veya `auto`) = tüm sayfaları otomatik kaydır (tavan `COLLECT_AUTO_MAX_PAGES`, varsayılan 60); toplananlar DB'ye yazılır, `meta.scroll: -1` olarak yansır |
+| `detail` | — | `1` | Her sonuç için `getInfo` zenginleştirme: boş alanlar (`description`, `likeCount`, `durationSec`, `publishedAt`, `category`, `tags`, `channelUrl`) doldurulur + DB'ye kalıcı yazılır · sonuç başına ~1.5-6 sn (24 sonuç ≈ 1-2 dk) · `meta.detailEnriched: N` |
 | `filter` | — | `v\|s\|sh` | video / song / short |
 | `sort` | `relevance` | `relevance\|views\|date\|rating` | Sıralama |
 | `minViews` / `maxViews` | — | N | Görüntülenme aralığı |
@@ -57,6 +58,7 @@ Tek zorunlu param: `q`.
 | `youtubeId` | string | Video ID |
 | `title` / `description` | string | |
 | `channelId` / `channelName` | string | |
+| `channelUrl` | string \| null | Kanal handle bağlantısı (`detail=1` doldurur): `https://www.youtube.com/@handle` |
 | `durationSec` / `viewCount` | number | |
 | `likeCount` | number \| null | `enrich` doldurur |
 | `publishedAt` | string \| null | ISO |
@@ -84,6 +86,7 @@ Tek zorunlu param: `q`.
 | `collected` | number? | Bu sorguda YouTube'dan toplanan |
 | `limit` / `page` | number | Uygulanan sayfalama (limit max 5000) |
 | `scroll` | number | Uygulanan sayfa hedefi · `-1` = auto (tüm sayfalar) |
+| `detailEnriched` | number? | `detail=1` ile getInfo ile zenginleştirilen sonuç sayısı |
 | `aiScored` | number | Bu sayfada AI skoru alan sonuç sayısı |
 | `dbVideos` | number | DB'deki toplam video |
 | `aiPrompt` | string? | Gönderilen özel AI prompt'u (varsa) |

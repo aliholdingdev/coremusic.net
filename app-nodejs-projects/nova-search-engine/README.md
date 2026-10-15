@@ -19,6 +19,7 @@ cp .env.example .env      # OPENROUTER_API_KEY isteğe bağlı
 ```bash
 npm run nova -- search "Akasya Durağı" -ai -explain
 npm run nova -- search "adele" -result 100 -scroll 3 -f v -sb views
+npm run nova -- search "tarkan" -result 3 -detail -json   # boş alanları getInfo ile doldur
 npm run nova -- search "tarkan" -s -result 200      # -s değersiz: tüm sayfaları otomatik kaydırıp topla
 npm run nova -- search "lofi" -q "yavaş sakin piyano" -ai -deep
 npm run nova -- search "tarkan" -f s -minv 100000 -offline
@@ -44,6 +45,7 @@ npm run nova -- --help                        # tüm parametreler
 | `-aip` | `--aiPrompt` | AI'ya gidecek özel prompt (analiz + skor + genişletmeye eklenir) |
 | `-eq` | `--extraQuery` | Ek arama terimi |
 | `-s` | `--scroll` | N sayfa (max 5) · **değersiz `-s` = tüm sayfaları topla (auto, max 60)** |
+| `-detail` | — | Her sonuç için getInfo: açıklama/like/süre/tarih/kategori/kanal handle doldurur + DB'ye yazar (yavaş) |
 | `-r` | `--result` | Sonuç limiti (max 5000) |
 | `-l` | `--limit` | Sayfa başına sonuç (varsayılan 24, max 5000) |
 | `-f` | `--filter` | `v` video / `s` song / `sh` short |

@@ -58,6 +58,9 @@ function str(v: unknown): string {
   return '';
 }
 
+/** publishedAt sözleşmesi ISO — göreli metin ("6 months ago") bu testten geçmez. */
+const ISO_RE = /^\d{4}-\d{2}-\d{2}/;
+
 function toRecord(raw: Record<string, unknown>): VideoRecord | null {
   const id = String(raw.id ?? '');
   if (!id) return null;
@@ -65,6 +68,8 @@ function toRecord(raw: Record<string, unknown>): VideoRecord | null {
   const author = (raw.author ?? {}) as Record<string, unknown>;
   const thumbs = (raw.thumbnails ?? []) as { url?: string }[];
   const duration = raw.duration as { seconds?: number } | null | undefined;
+  // raw.published.text göreli metindir ("6 months ago") — publishedAt ISO ister, yazma
+  const pubRaw = str(raw.published);
   return {
     youtubeId: id,
     title: str(raw.title),
@@ -74,7 +79,7 @@ function toRecord(raw: Record<string, unknown>): VideoRecord | null {
     durationSec: typeof duration?.seconds === 'number' ? duration.seconds : 0,
     viewCount: num(raw.view_count ?? raw.short_view_count),
     likeCount: null,
-    publishedAt: typeof (raw.published as { text?: unknown } | undefined)?.text === 'string' ? str(raw.published) : null,
+    publishedAt: ISO_RE.test(pubRaw) ? pubRaw : null,
     category: null,
     tags: str(raw.keywords ?? ''),
     thumbnailUrl: thumbs.length ? thumbs[thumbs.length - 1]?.url ?? null : null,
@@ -330,9 +335,11 @@ export async function youtubeSearchDeep(
 }
 
 /**
- * Video detayı (getInfo) — kanıt (probe 2026-10-14):
- * basic_info: channel_id/author/view_count/like_count(number)/keywords(array)/thumbnail[]
- * microformat.player_microformat: publish_date/category (bazı videolarda null)
+ * Video detayı (getInfo) — kanıt (probe 2026-10-14/15):
+ * basic_info: channel_id/author/duration/view_count/like_count(number)/keywords(array)/category/thumbnail[]
+ * page[0].microformat (PlayerMicroformat): publish_date/upload_date/category/description(Text)/channel{id,name,url}/length_seconds
+ * (info.microformat.player_microformat v18'de YOK — erişim page üzerinden; eksik okuma kapatıldı.)
+ * Açıklama olmayan videolarda microformat.description "N/A" döner → boş sayılır.
  */
 export async function youtubeInfo(videoId: string): Promise<VideoRecord | null> {
   const yt = await getInnertube();
@@ -341,19 +348,25 @@ export async function youtubeInfo(videoId: string): Promise<VideoRecord | null> 
     const info = await yt.getInfo(videoId);
     const basic = info.basic_info as Record<string, unknown>;
     const now = new Date().toISOString();
-    const micro = (info as unknown as { microformat?: { player_microformat?: Record<string, unknown> } })
-      .microformat?.player_microformat;
+    const mf = info.page[0]?.microformat as unknown as {
+      publish_date?: string; upload_date?: string; category?: string;
+      description?: unknown; channel?: { id?: string; name?: string; url?: string };
+      length_seconds?: number;
+    } | undefined;
+    const microDesc = str(mf?.description ?? '');
+    const description = microDesc && microDesc !== 'N/A' ? microDesc : String(basic.short_description ?? '');
     return {
       youtubeId: videoId,
       title: String(basic.title ?? ''),
-      description: String(basic.short_description ?? ''),
-      channelId: String(basic.channel_id ?? ''),
-      channelName: String(basic.author ?? ''),
-      durationSec: Number(basic.duration ?? 0),
+      description,
+      channelId: String(basic.channel_id ?? mf?.channel?.id ?? ''),
+      channelName: String(basic.author ?? mf?.channel?.name ?? ''),
+      channelUrl: mf?.channel?.url ? String(mf.channel.url).replace(/^http:\/\//, 'https://') : null,
+      durationSec: Number(basic.duration ?? mf?.length_seconds ?? 0),
       viewCount: Number(basic.view_count ?? 0),
       likeCount: typeof basic.like_count === 'number' ? basic.like_count : null,
-      publishedAt: micro?.publish_date ? String(micro.publish_date) : null,
-      category: micro?.category ? String(micro.category) : null,
+      publishedAt: mf?.publish_date ?? mf?.upload_date ?? null,
+      category: mf?.category ?? (basic.category ? String(basic.category) : null),
       tags: Array.isArray(basic.keywords) ? (basic.keywords as string[]).join(' ') : '',
       thumbnailUrl: Array.isArray(basic.thumbnail)
         ? String((basic.thumbnail as { url?: string }[])[0]?.url ?? '') || null
@@ -364,6 +377,28 @@ export async function youtubeInfo(videoId: string): Promise<VideoRecord | null> 
   } catch {
     return null;
   }
+}
+
+/**
+ * getInfo detayını arama kaydıyla birleştir — boş/eksik alanlar dolar, dolu alanlar KORUNUR
+ * (arama viewType'i getInfo'dan daha taze olabilir; like/description gibi alanlar getInfo'da).
+ */
+export function mergeDetail<T extends VideoRecord>(base: T, info: VideoRecord): T {
+  return {
+    ...base,
+    title: base.title || info.title,
+    description: base.description || info.description,
+    channelId: base.channelId || info.channelId,
+    channelName: base.channelName || info.channelName,
+    channelUrl: base.channelUrl ?? info.channelUrl ?? null,
+    durationSec: base.durationSec || info.durationSec,
+    viewCount: base.viewCount || info.viewCount,
+    likeCount: base.likeCount ?? info.likeCount,
+    publishedAt: base.publishedAt && ISO_RE.test(base.publishedAt) ? base.publishedAt : (info.publishedAt ?? null),
+    category: base.category ?? info.category,
+    tags: base.tags || info.tags,
+    thumbnailUrl: base.thumbnailUrl ?? info.thumbnailUrl,
+  };
 }
 
 /** "1,2 Mn" / "5,6 B" / "853 B" gibi kısa sayıları tam sayıya çevir (TR/EN karışık). */
