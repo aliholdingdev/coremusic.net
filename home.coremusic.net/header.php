@@ -133,7 +133,7 @@ $headerTierClass = $dm->shouldRender4kLayout()
     </div>
 </header>
 
-<aside class="sidebar <?= $dm->allClasses() ?>" role="navigation" aria-label="Sidebar navigasyon" <?= $dm->dataAttributes() ?>>
+<aside class="sidebar sidebar--collapsed <?= $dm->allClasses() ?>" role="navigation" aria-label="Sidebar navigasyon" <?= $dm->dataAttributes() ?>>
     <div class="sidebar__scroll" role="menubar" aria-label="Sidebar menü">
         <!-- SidebarManager.js tarafından doldurulur -->
     </div>

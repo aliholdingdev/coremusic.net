@@ -114,7 +114,7 @@ export class SidebarCache {
     static getDefault() {
         return {
             width: 280,
-            collapsed: false,
+            collapsed: true,
             expandedSections: [],
             albumView: 'list',
             albumSort: 'name',

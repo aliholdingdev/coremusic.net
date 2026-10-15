@@ -532,13 +532,15 @@
 /* ============================================================
    SIDEBAR — Collapsed State
    ============================================================ */
-.sidebar--collapsed {
+.sidebar--collapsed,
+.sidebar.sidebar--collapsed,
+.sidebar--side-by-side.sidebar--collapsed {
     transform: translateX(-100%) !important;
 }
 
-/* Side-by-side default: visible */
-.sidebar--side-by-side {
-    transform: translateX(0) !important;
+/* Side-by-side default: visible only when not collapsed */
+.sidebar--side-by-side:not(.sidebar--collapsed) {
+    transform: translateX(0);
 }
 
 /* ============================================================
