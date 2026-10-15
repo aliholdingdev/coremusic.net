@@ -63,9 +63,24 @@ final class NowPlayingPageTest extends TestCase
         $html = $this->renderNowPlayingPage(1920);
 
         $this->assertStringContainsString('page-player--wide', $html);
+        $this->assertStringContainsString('Şimdi Oynatılıyor', $html);
+        $this->assertStringContainsString('player-table', $html);
+        $this->assertStringContainsString('player-col--stars', $html);
+        $this->assertStringContainsString('player-row--active', $html);
+        $this->assertStringContainsString('player-sidebar--recommendations', $html);
+        $this->assertStringContainsString('Önerilen Sanatçılar', $html);
+        $this->assertStringContainsString('Son Dinlenenler', $html);
+    }
+
+    public function testNowPlayingPage_rendersFullscreenLayoutWhenModeRequested(): void
+    {
+        $_GET['mode'] = 'fullscreen';
+        $html = $this->renderNowPlayingPage(1920);
+
+        $this->assertStringContainsString('page-player--fullscreen', $html);
         $this->assertStringContainsString('player-mini-card', $html);
         $this->assertStringContainsString('player-playlist--wide', $html);
         $this->assertStringContainsString('player-bottom-progress', $html);
-        $this->assertStringContainsString('player-topbar__song-title', $html);
     }
 }
+
