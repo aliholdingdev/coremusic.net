@@ -25,11 +25,13 @@ evidence:
   - ".ai/architecture/index.md §8.1 — iki-ekseni gruplama — okundu 2026-10-12"
   - "ADR-097 §5.5 — grup şeması — okundu 2026-10-12"
   - "disk ölçümü — 12 kök MD · 2026-10-13"
+  - "disk ölçümü — 64 MD (kök 12 + kademe-2 52) · 2026-10-14 — 29 eksik modül tamamlandı"
 validation:
   - "2026-10-13 — §GRUPLAR tablosu 12/12 satır ile klasör içeriği birebir karşılaştırıldı"
   - "2026-10-13 — çocuk kataloğu 9/9 ad — dosya adlarıyla eşleşti"
+  - "2026-10-14 — 9 çocuk §GRUPLAR tablosu disk ile birebir; 29 yeni MD frontmatter+Authority denetimi geçti"
 open_questions:
-  - "dalga-3 (diagnostics · security · testing) — ⚠️ VERIFICATION REQUIRED"
+  - "dalga-3 (diagnostics · security · testing) — 2026-10-14'te 6'şar MD yazıldı; içerik doğrulaması hâlâ ⚠️ VERIFICATION REQUIRED"
   - "v2 §6 ID CONFLICT: `K005-veri-yonetimi` ↔ `K005-firmware` — onaysız yeniden adlandırma yasak"
   - "çocuk rol satırları v2'de yok, adlarından türetildi — ⚠️ VERIFICATION REQUIRED"
 group: mimari
@@ -48,23 +50,25 @@ group: mimari
 | # | Çocuk | Rol (1 satır) | Dalga | Durum |
 |---|---|---|---|---|
 | 1 | boot | Reset → kendini tanıma → yükleme | dalga-2 | 6 MD yazıldı |
-| 2 | runtime | Kontrol döngüsü · scheduler · watchdog | dalga-2 | 6 MD yazıldı |
+| 2 | runtime | Kontrol döngüsü · scheduler · watchdog | dalga-2 | 4 MD (kapsam/dogrulama yok) |
 | 3 | device-control | Parçaya komut (aç/kapat/ayarla · bus · driver) | dalga-2 | 6 MD yazıldı |
 | 4 | audio-control | Ses donanımı ayarı (register · clock · mute) | dalga-2 | 6 MD yazıldı |
 | 5 | power-control | Uyku, kapanma, akım ve termal kontrol | dalga-2 | 6 MD yazıldı |
-| 6 | diagnostics | Self-test · hata raporu · log | dalga-3 | yalnız eski index.md |
+| 6 | diagnostics | Self-test · hata raporu · log | dalga-3 | 6 MD (2026-10-14) |
 | 7 | update | OTA · A/B · rollback | dalga-2 | 6 MD yazıldı |
-| 8 | security | İmza, secure boot, erişim, koruma | dalga-3 | yalnız eski index.md |
-| 9 | testing | Firmware testleri ve kabul kriterleri (unit · HIL) | dalga-3 | yalnız eski index.md |
+| 8 | security | İmza, secure boot, erişim, koruma | dalga-3 | 6 MD (2026-10-14) |
+| 9 | testing | Firmware testleri ve kabul kriterleri (unit · HIL) | dalga-3 | 6 MD (2026-10-14) |
 
 > **KURAL 1 (v2 §3):** 9 çocuk adı ve `firmware-master.md` adı değiştirilmez; rol satırları
 > adından türetildi → `⚠️ VERIFICATION REQUIRED`. Rol satırları `⚠️` ile birlikte okunur.
 > **G4 (`teknoloji`) notu:** yalnız kademe-3 derin-dal dosyalarını kapsar; K005 kökünde
 > G4 kullanılmaz — `firmware-evrensel-dil.md` G1 `mimari`'ye yazılır (sözlük = mimari).
 
-**Grup dağılımı (bu üretim):** mimari 7 · kod 2 · kanit 3 = **kök 12** · kademe-2 36 (6 çocuk × 6) ·
-toplam 48 (mimari 25 · kod 8 · kanit 15). Doğrulama kapıları D1–D10: `firmware-master.md` §9 ·
+**Grup dağılımı (2026-10-14 sayımı):** mimari 7 · kod 2 · kanit 3 = **kök 12** · kademe-2 52 (9 çocuk: 8×6 · runtime 4) ·
+toplam 64 (mimari 41 · kod 12 · kanit 11). Doğrulama kapıları D1–D10: `firmware-master.md` §9 ·
 tam döküm `firmware-dogrulama.md` · kademe-3 teknoloji klasörleri (G4) `⚠️ RESERVED — ADR`.
+
+**İlişkili vault projesi (2026-10-15):** **Neva Engine** — `.ai/projects/NevaEngine/` (11 md). `audio-control` (çocuk #4: register → clock → mute) ile sınır komşuluğu: Neva host-side ses motoru DAC ayarlarını firmware katmanına bırakır (XMOS XU316 firmware'i bu domaindedir); Neva Engine bu domainin yerine geçmez, K003-audio üzerinden beslenir.
 
 ## §GRUPLAR
 

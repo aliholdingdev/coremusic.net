@@ -12,7 +12,7 @@ depends_on:
 evidence:
   - "v2 §2.5 mini-ağaç — ad kaynağı"
   - "firmware-master.md §3 satır 7"
-validation: "draft — A1 tur-1; D-kriterleri K005-firmware/firmware-dogrulama.md §2"
+validation: "draft — A1 tur-1; D-kriterleri K005-firmware/firmware-dogrulama.md §2 · 2026-10-14 §GRUPLAR disk ile birebir"
 open_questions:
   - "update ↔ güvenlik (imza) kime ait? (K005 Q4)"
 group: mimari
@@ -32,9 +32,10 @@ Yazılımı yenileme ve yanlış güncellemede geri dönme: yeni sürümü yükl
 |---|---|
 | node_type | subdomain |
 | parent | K005-firmware |
-| children | 3 dosya (anayasa - surucu - ornekler) |
+| children | 3 modül (anayasa · surucu · ornekler) · disk 6 md |
 | status | draft |
-| Kapsam | Tanım bekliyor — kanıt turu-2 |
+| Kapsam | `update-kapsam.md` içinde tanımlı (2026-10-14) |
+| Üretim | 2026-10-14 — eksik modüller yazıldı, §GRUPLAR 6/6 |
 
 ## §GRUPLAR
 
@@ -42,7 +43,12 @@ Yazılımı yenileme ve yanlış güncellemede geri dönme: yeni sürümü yükl
 
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
+| mimari | `update-anayasa.md` | Anayasa — kural, ilke ve iddialar | Kademe-2 |
+| mimari | `update-surucu.md` | Arayüz ve sözleşme katmanı | Kademe-2 |
+| mimari | `update-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| kod | `update-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-2 |
+| kanit | `update-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-2 |
 
 ---
 

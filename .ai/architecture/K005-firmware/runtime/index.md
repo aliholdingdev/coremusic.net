@@ -7,12 +7,14 @@ children:
   - runtime-anayasa.md
   - runtime-surucu.md
   - runtime-ornekler.md
+  - runtime-kapsam.md
+  - runtime-dogrulama.md
 depends_on:
   - K001-donanım
 evidence:
   - "v2 §2.5 mini-ağaç — ad kaynağı"
   - "firmware-master.md §3 satır 2"
-validation: "draft — A1 tur-1; D-kriterleri K005-firmware/firmware-dogrulama.md §2"
+validation: "draft — A1 tur-1; D-kriterleri K005-firmware/firmware-dogrulama.md §2 · 2026-10-14 §GRUPLAR disk ile birebir"
 open_questions:
   - "döngü periyodu/öncelik tanımı yok ⚠️"
 group: mimari
@@ -32,9 +34,10 @@ Açılıştan sonra sürekli dönen kontrol döngüsü: değerleri okur, karar v
 |---|---|
 | node_type | subdomain |
 | parent | K005-firmware |
-| children | 3 dosya (anayasa - surucu - ornekler) |
+| children | 5 modül (anayasa · surucu · ornekler · kapsam · dogrulama) · disk 6 md |
 | status | draft |
-| Kapsam | Tanım bekliyor — kanıt turu-2 |
+| Kapsam | `runtime-anayasa.md` + `runtime-kapsam.md` içinde tanımlı |
+| Üretim | 2026-10-14 çekirdek · 2026-10-15 `runtime-kapsam.md` (mimari) + `runtime-dogrulama.md` (kanit) eklendi — boot dalı kalıbında 6 dosyaya tamamlandı |
 
 ## §GRUPLAR
 
@@ -42,7 +45,12 @@ Açılıştan sonra sürekli dönen kontrol döngüsü: değerleri okur, karar v
 
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
+| mimari | `runtime-anayasa.md` | Anayasa — kural, ilke ve iddialar | Kademe-2 |
+| kod | `runtime-surucu.md` | Arayüz ve sözleşme katmanı (frontmatter `group: kod` — boot-surucu `mimari` ile çelişir, ⚠️) | Kademe-2 |
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| kod | `runtime-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-2 |
+| mimari | `runtime-kapsam.md` | Kapsam sınırı, bileşen envanteri, bağımlılık grafiği | Kademe-2 |
+| kanit | `runtime-dogrulama.md` | DV-RT doğrulama senaryoları, eşikler, dürüstlük blokları | Kademe-2 |
 
 ---
 

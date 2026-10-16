@@ -12,7 +12,7 @@ depends_on:
 evidence:
   - "v2 §2.5 mini-ağaç — ad kaynağı"
   - "firmware-master.md §3 satır 1"
-validation: "draft — A1 tur-1; D-kriterleri K005-firmware/firmware-dogrulama.md §2"
+validation: "draft — A1 tur-1; D-kriterleri K005-firmware/firmware-dogrulama.md §2 · 2026-10-14 §GRUPLAR disk ile birebir"
 open_questions:
   - "boot ↔ runtime ↔ device-control sınırı (K005 Q3)"
 group: mimari
@@ -32,9 +32,10 @@ Cihazın ilk uyandığı an: güç gelir gelmez çalışan ilk kod, kendini tan�
 |---|---|
 | node_type | subdomain |
 | parent | K005-firmware |
-| children | 3 dosya (anayasa - surucu - ornekler) |
+| children | 3 modül (anayasa · surucu · ornekler) · disk 6 md |
 | status | draft |
-| Kapsam | Tanım bekliyor — kanıt turu-2 |
+| Kapsam | `boot-kapsam.md` içinde tanımlı |
+| Üretim | 2026-10-14 — §GRUPLAR 6/6 tamamlandı (anayasa/surucu satırları eklendi) |
 
 ## §GRUPLAR
 
@@ -42,6 +43,8 @@ Cihazın ilk uyandığı an: güç gelir gelmez çalışan ilk kod, kendini tan�
 
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
+| mimari | `boot-anayasa.md` | Anayasa — kural, ilke ve iddialar | Kademe-2 |
+| mimari | `boot-surucu.md` | Arayüz ve sözleşme katmanı | Kademe-2 |
 | mimari | `boot-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
 | kod | `boot-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-2 |
