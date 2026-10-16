@@ -886,7 +886,7 @@
     filter: drop-shadow(0 0 4px rgba(255, 79, 216, 0.6));
 }
 
-/* Ana Grid: Sol Tablo + Sağ Sidebar */
+/* Ana Grid: Sol Tablo + Sağ Sidebar (SSOT Figma 1390:24448 — Tablo: 1612px, Sidebar: 224px) */
 .player-body--wide {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 420px;
@@ -2064,29 +2064,40 @@
         font-size: 18px;
     }
 
-    /* Sağ sidebar */
-    .player-sidebar--recommendations {
-        padding: 32px 28px;
+    /* Sağ sidebar (4K büyütme) */
+    .page-sidebar--figma-wide {
+        width: 320px;
+        gap: 20px;
     }
 
-    .player-sidebar__song-title {
-        font-size: 22px;
+    .page-sidebar__cover-card {
+        width: 315px;
+        height: 315px;
+        border-radius: 24px;
     }
 
-    .player-sidebar__section-title {
-        font-size: 17px;
+    .page-sidebar__info-card {
+        width: 310px;
+        height: 160px;
+        padding: 14px 18px;
+        border-radius: 18px;
     }
 
-    .player-sidebar__cover-card {
-        height: 260px;
+    .page-sidebar__info-row {
+        font-size: 15px;
     }
 
-    .player-sidebar__info-row {
-        font-size: 16px;
-    }
-
-    .player-sidebar__info-label {
+    .page-sidebar__info-label {
         font-size: 14px;
+    }
+
+    .page-sidebar__info-val {
+        max-width: 190px;
+    }
+
+    .page-sidebar__status-card {
+        width: 320px;
+        border-radius: 28px;
     }
 
     /* Mini kart (fullscreen) */

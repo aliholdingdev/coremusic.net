@@ -531,48 +531,101 @@
   text-shadow: var(--ts-xs);
 }
 
-/* Sağ Sidebar — Player Info (221×221 + 218×114) + Status (224×507) */
+/* ================================================================
+   SAĞ SİDEBAR — SSOT Figma node 1339:23464 (224px genişlik)
+   1. Player İmg Div-pi: 221×221px
+   2. Player İnfo Div  : 218×114px
+   3. Player Status Div: 224×507px Frosted Glass Panel
+   ================================================================ */
+.page-sidebar--figma-wide,
 .page-history__sidebar--wide {
   width: 224px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4, 16px);
+  gap: 14px;
+  flex-shrink: 0;
+  min-height: 0;
 }
 
-.page-history__sidebar--wide .player-info.player-info--wide {
+.page-sidebar__cover-card {
+  width: 221px;
+  height: 221px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+.page-sidebar__cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.page-sidebar__info-card {
+  width: 218px;
+  background: rgba(0, 0, 0, 0.28);
+  border-radius: 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 4px 16px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  width: 221px;
-  height: auto;
-  padding: 8px;
-  gap: 8px;
-  margin: 0;
+  gap: 4px;
+  flex-shrink: 0;
   box-sizing: border-box;
 }
 
-.page-history__sidebar--wide .player-info__cover {
-  width: 205px;
-  height: 205px;
-  border-radius: var(--radius-md, 8px);
-  margin: 0 auto;
+.page-sidebar__info-row {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.page-history__sidebar--wide .player-info__info-panel {
-  width: 100%;
-  padding-top: 4px;
+.page-sidebar__info-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  white-space: nowrap;
 }
 
-.history-sidebar__status {
-  width: 221px;
+.page-sidebar__info-val {
+  color: var(--white, #fff);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 135px;
+  text-align: right;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.page-sidebar__info-stars {
+  color: #ffb700;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px rgba(255, 183, 0, 0.7);
+}
+
+.page-sidebar__status-card {
+  width: 224px;
   flex: 1;
-  min-height: 280px;
+  min-height: 200px;
+  max-height: 507px;
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.16) 0%,
     rgba(255, 255, 255, 0.05) 100%
   ), rgba(18, 10, 28, 0.45);
-  backdrop-filter: blur(28px) saturate(190%) brightness(1.08);
-  -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.08);
+  backdrop-filter: blur(28px) saturate(190%) brightness(1.08) contrast(1.02);
+  -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(1.08) contrast(1.02);
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-top: 1px solid rgba(255, 255, 255, 0.45);
   border-left: 1px solid rgba(255, 255, 255, 0.35);

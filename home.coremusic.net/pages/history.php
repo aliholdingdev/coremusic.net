@@ -188,12 +188,40 @@ if ($tracks === []) {
                 <p class="history-list__empty" hidden>Aramanızla eşleşen kayıt bulunamadı.</p>
             </section>
 
-            <!-- SAĞ SİDEBAR: Player İmg (221×221) + Player Info Div (218×114) + Player Status Div (224×507) -->
-            <aside class="page-history__sidebar page-history__sidebar--wide" aria-label="Şu an çalan">
-                <div class="history-sidebar__player-info">
-                    <?php $loader->display('player-info', $variant); ?>
+            <!-- SAĞ SİDEBAR: Player İmg (221×221) + Player Info Div (218×114) + Player Status Div (224×507) — SSOT Figma 1339:23464 -->
+            <aside class="page-sidebar--figma-wide" aria-label="Şu an çalan">
+                <div class="page-sidebar__cover-card">
+                    <img class="page-sidebar__cover-img" src="<?= $h($coverUrl) ?>" alt="Albüm Kapağı" width="221" height="221" loading="lazy">
                 </div>
-                <div class="history-sidebar__status" aria-label="Çalma durumu paneli"></div>
+
+                <div class="page-sidebar__info-card">
+                    <p class="page-sidebar__info-row">
+                        <span class="page-sidebar__info-label">Şarkı Adı :</span>
+                        <span class="page-sidebar__info-val"><?= $h((string)$tracks[0]['t']) ?></span>
+                    </p>
+                    <p class="page-sidebar__info-row">
+                        <span class="page-sidebar__info-label">Albüm :</span>
+                        <span class="page-sidebar__info-val">Hayat Rüya Gibi</span>
+                    </p>
+                    <p class="page-sidebar__info-row">
+                        <span class="page-sidebar__info-label">Sanatçı :</span>
+                        <span class="page-sidebar__info-val"><?= $h((string)$tracks[0]['a']) ?></span>
+                    </p>
+                    <p class="page-sidebar__info-row">
+                        <span class="page-sidebar__info-label">Yıldız :</span>
+                        <span class="page-sidebar__info-stars" aria-label="5 yıldız">★★★★★</span>
+                    </p>
+                    <p class="page-sidebar__info-row">
+                        <span class="page-sidebar__info-label">Bit rate :</span>
+                        <span class="page-sidebar__info-val">350 kpps</span>
+                    </p>
+                    <p class="page-sidebar__info-row">
+                        <span class="page-sidebar__info-label">Süre :</span>
+                        <span class="page-sidebar__info-val">00:00:00 / 00:05:00</span>
+                    </p>
+                </div>
+
+                <div class="page-sidebar__status-card" aria-label="Çalma durumu paneli"></div>
             </aside>
 
         </div>

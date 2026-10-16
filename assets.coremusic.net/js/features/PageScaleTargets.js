@@ -1,4 +1,4 @@
-﻿/**
+/**
  * CoreMusic — PageScaleTargets v1.0.0
  * Sayfa-ozel ScaleManager hedefleri: Gecmis (history) ve Simdi Oynatiliyor (nowplaying).
  *
@@ -28,7 +28,7 @@ const HISTORY_WIDE_SCALE_TARGET = {
     name: 'history-wide',
     selector: '.page-history--wide',
     origin: 'top left',
-    compensateWidth: true,
+    compensateWidth: false,
     customProp: '--scale-history-wide',
     rules: [
         { max: 1024, skip: true },
@@ -43,7 +43,7 @@ const PLAYER_WIDE_SCALE_TARGET = {
     name: 'player-wide',
     selector: '.page-player--wide:not(.page-player--fullscreen)',
     origin: 'top left',
-    compensateWidth: true,
+    compensateWidth: false,
     customProp: '--scale-player-wide',
     rules: [
         { max: 1024, skip: true },
@@ -72,7 +72,9 @@ const HISTORY_EMBEDDED_SCALE_TARGET = {
     compensateWidth: false,
     customProp: '--scale-history-embedded',
     rules: [
-        { min: 0, skip: true },
+        { max: 1024, scale: 1.00 },
+        { min: 1025, max: 1920, from: 1.00, to: 1.875 },
+        { min: 1921, scale: 1.875 },
     ],
 };
 
@@ -83,7 +85,9 @@ const PLAYER_EMBEDDED_SCALE_TARGET = {
     compensateWidth: false,
     customProp: '--scale-player-embedded',
     rules: [
-        { min: 0, skip: true },
+        { max: 1024, scale: 1.00 },
+        { min: 1025, max: 1920, from: 1.00, to: 1.875 },
+        { min: 1921, scale: 1.875 },
     ],
 };
 
