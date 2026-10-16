@@ -476,11 +476,13 @@
 
 .history-row--mini {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) 56px;
+  grid-template-columns: 22px minmax(0, 1fr) 56px;
   gap: 6px;
   align-items: center;
-  min-height: var(--touch-min);
-  padding: 4px 6px;
+  /* Figma 1339:23464 satır pitch'i ~25px — laptop (pointer) tier'ı için WCAG 2.2 AA
+     minimum 24×24px hedef korunur; --touch-min 48px yalnız dokunmatik tier'da */
+  min-height: 26px;
+  padding: 1px 6px;
   border-radius: var(--radius-sm, 4px);
   color: inherit;
   text-decoration: none;
@@ -512,6 +514,25 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Mini satır play ikonu — Figma 1339:23464: pembe daire + play glyph */
+.history-row__play--mini {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--cm-accent, #ff4fd8);
+  background: rgba(255, 79, 216, 0.16);
+  color: var(--cm-accent, #ff4fd8);
+  box-shadow: 0 0 6px rgba(255, 79, 216, 0.45);
+}
+
+.history-row__play--mini .history-row__icon {
+  width: 11px;
+  height: 11px;
 }
 
 .history-row--mini .history-row__title {
@@ -548,8 +569,10 @@
 }
 
 .page-sidebar__cover-card {
-  width: 221px;
-  height: 221px;
+  width: 100%;
+  max-width: 221px;
+  aspect-ratio: 1 / 1;
+  height: auto;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.25);
@@ -569,13 +592,13 @@
   width: 218px;
   background: rgba(0, 0, 0, 0.28);
   border-radius: 14px;
-  padding: 10px 12px;
+  padding: 8px 12px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-top: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 4px 16px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   flex-shrink: 0;
   box-sizing: border-box;
 }
@@ -586,7 +609,7 @@
   align-items: center;
   justify-content: space-between;
   font-size: 11.5px;
-  line-height: 1.35;
+  line-height: 1.25;
   color: rgba(255, 255, 255, 0.9);
 }
 
@@ -612,6 +635,24 @@
   font-size: 12px;
   letter-spacing: 1px;
   text-shadow: 0 0 8px rgba(255, 183, 0, 0.7);
+}
+
+/* Süre progress — Figma 1339:23464 Player İnfo Div altında pembe bar */
+.page-sidebar__progress {
+  margin: 4px 0 0;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+
+.page-sidebar__progress-bar {
+  display: block;
+  height: 100%;
+  width: 70%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--cm-accent, #ff4fd8), #ff8ae6);
+  box-shadow: 0 0 8px rgba(255, 79, 216, 0.6);
 }
 
 .page-sidebar__status-card {

@@ -144,10 +144,13 @@ if ($tracks === []) {
             <section class="history-grid-panel" aria-label="Çalma geçmişi">
                 <div class="history-grid-cols">
                     <?php
-                    // 6 Kolona dağıtım (round-robin)
-                    $cols = array_fill(0, 6, []);
-                    foreach ($tracks as $idx => $track) {
-                        $cols[$idx % 6][] = $track;
+                    // 6 Kolona dağıtım (round-robin) — Figma 1339:23464 yoğunluğu: kolon başına 33 satır
+                    // (PNG SSOT: aynı demo kaydı tekrarlanarak doldurulur)
+                    $cols    = array_fill(0, 6, []);
+                    $pool    = array_values($tracks);
+                    $poolCnt = max(1, count($pool));
+                    for ($i = 0; $i < 6 * 33; $i++) {
+                        $cols[$i % 6][] = $pool[$i % $poolCnt];
                     }
                     ?>
                     <?php foreach ($cols as $colIdx => $colTracks): ?>
@@ -172,8 +175,10 @@ if ($tracks === []) {
                                            data-no-spa
                                            <?= $streamAttr ?>
                                            aria-label="<?= $h($label) ?>">
-                                            <span class="history-row__thumb" aria-hidden="true">
-                                                <img src="<?= $h($assetsUrl . '/Image/res-pink/default-album.png') ?>" alt="" width="24" height="21" loading="lazy">
+                                            <span class="history-row__play history-row__play--mini" aria-hidden="true">
+                                                <svg class="history-row__icon" viewBox="0 0 24 24" focusable="false">
+                                                    <path d="M8 5v14l11-7z" fill="currentColor"/>
+                                                </svg>
                                             </span>
                                             <span class="history-row__title"><?= $h((string)$track['t']) ?></span>
                                             <span class="history-row__duration"><?= $h((string)$track['d']) ?></span>
@@ -218,6 +223,9 @@ if ($tracks === []) {
                     <p class="page-sidebar__info-row">
                         <span class="page-sidebar__info-label">Süre :</span>
                         <span class="page-sidebar__info-val">00:00:00 / 00:05:00</span>
+                    </p>
+                    <p class="page-sidebar__progress" aria-hidden="true">
+                        <span class="page-sidebar__progress-bar"></span>
                     </p>
                 </div>
 

@@ -466,10 +466,10 @@ $isFullscreen = isset($_GET['mode']) && $_GET['mode'] === 'fullscreen';
     <div class="page-player page-player--wide page-player--fullscreen page-layout"
          <?= $dm->dataAttributes() ?>>
 
-        <!-- ARKA PLAN KATMANI -->
+        <!-- ARKA PLAN KATMANI — Figma 2135:34323: scenic sahne (romantic-bg-pink) -->
         <div class="player-bg" aria-hidden="true">
-            <img class="player-bg__image" src="<?= $h($coverUrl) ?>" alt="" loading="lazy">
-            <div class="player-bg__overlay"></div>
+            <img class="player-bg__image player-bg__image--scenic" src="<?= $h($assetsUrl . '/Image/background/romantic-bg-pink.png') ?>" alt="" loading="lazy">
+            <div class="player-bg__overlay player-bg__overlay--subtle"></div>
         </div>
 
         <!-- ÜST BAR: Geri butonu (40×40) + Şarkı Adı (node 2135:35515 + 2135:35516) -->
@@ -574,7 +574,7 @@ $isFullscreen = isset($_GET['mode']) && $_GET['mode'] === 'fullscreen';
                            <?= $streamAttr ?>
                            aria-label="<?= $h($label) ?>">
                             <img class="player-playlist__thumb player-playlist__thumb--wide"
-                                 src="<?= $h($assetsUrl . '/Image/res-pink/default-album.png') ?>"
+                                 src="<?= $h($coverUrl) ?>"
                                  alt=""
                                  width="34"
                                  height="30"

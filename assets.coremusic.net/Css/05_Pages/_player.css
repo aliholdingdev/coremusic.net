@@ -1584,6 +1584,9 @@
 
 .player-topbar__song-title {
     margin: 0;
+    /* Figma 2135:34323 — başlık geri butonunun hemen yanında (sol-üst) */
+    margin-right: auto;
+    margin-left: 14px;
     font-size: 18px;
     font-weight: var(--font-medium, 500);
     color: var(--white, #fff);
