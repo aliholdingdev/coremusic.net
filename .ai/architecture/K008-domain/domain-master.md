@@ -85,11 +85,11 @@ aggregate sınırını açar. Bu master yalnız iskeleti bağlar:
 | # | Bounded Context | Çocuk | Ana Aggregate | Birincil Domain Event kaynağı |
 |---|---|---|---|---|
 | 1 | Müzik Kataloğu | `music` | Music (Recording/Work ilişkili) | MusicPlayedEvent |
-| 2 | Medya Varlıkları | `media` | MediaFile (transcode varlığı) | MediaTranscodedEvent |
+| 2 | Medya Varlıkları | `media` | MediaFile (transcode varlığı) | MediaAccessedEvent |
 | 3 | Kimlik & Profil | `user` | User (profile/preference) | UserRegisteredEvent |
-| 4 | Kütüphane | `library` | LibraryEntry (favori/geçmiş/sıra) | PlaybackQueueUpdatedEvent |
+| 4 | Kütüphane | `library` | LibraryEntry (favori/geçmiş/sıra) | MusicAddedEvent (kuyruk olayı henüz YOK — §7) |
 | 5 | Çalma Listesi | `playlist` | Playlist (koleksiyon) | PlaylistCreatedEvent |
-| 6 | Oynatma | `playback` | PlaybackSession | MusicPlayedEvent / PlaybackQueueUpdatedEvent |
+| 6 | Oynatma | `playback` | PlaybackSession | MusicPlayedEvent (kuyruk olayı henüz YOK — §7) |
 | 7 | Keşif | `discovery` | DiscoveryQuery (radar/trend) | MusicPlayedEvent (akış girdisi) |
 | 8 | Öneri | `recommendation` | RecommendationSet | AIEngine çıktısı (integration) |
 | 9 | Cihaz Yönetimi | `device-management` | Device (çalma hedefi) | — (kanıt AŞAĞIDA §3.4) |
@@ -131,18 +131,18 @@ sözleşme bağlanır:
 
 ### §4.1 Çocuk × dosya matrisi (dalga planı)
 
-| Çocuk | Dalga | Beklenen MD (6) | Durum (2026-10-12) |
+| Çocuk | Dalga | Beklenen MD (6) | Durum (2026-10-15 güncel) |
 |---|---|---|---|
-| `music` | 1 | index + 5 | yazıldı (bu set) |
-| `media` | 1 | index + 5 | yazıldı (bu set) |
-| `user` | 1 | index + 5 | yazıldı (bu set) |
-| `library` | 2 | index + 5 | yazıldı (bu set) |
-| `playlist` | 2 | index + 5 | yazıldı (bu set) |
-| `playback` | 2 | index + 5 | yazıldı (bu set) |
-| `discovery` | 3 | index + 5 | yalnız `index.md` — `### EKLENMESİ GEREKENLER` |
-| `recommendation` | 3 | index + 5 | yalnız `index.md` — `### EKLENMESİ GEREKENLER` |
-| `device-management` | 3 | index + 5 | yalnız `index.md` — `### EKLENMESİ GEREKENLER` |
-| `context-mapping` | 3 | index + 5 | yalnız `index.md` — `### EKLENMESİ GEREKENLER` |
+| `music` | 1 | index + 5 | yazıldı (2026-10-12) |
+| `media` | 1 | index + 5 | yazıldı (2026-10-12) |
+| `user` | 1 | index + 5 | yazıldı (2026-10-12) |
+| `library` | 2 | index + 5 | yazıldı (2026-10-12) |
+| `playlist` | 2 | index + 5 | yazıldı (2026-10-12) |
+| `playback` | 2 | index + 5 | yazıldı (2026-10-12) |
+| `discovery` | 3 | index + 5 | yazıldı (2026-10-15) |
+| `recommendation` | 3 | index + 5 | yazıldı (2026-10-15) |
+| `device-management` | 3 | index + 5 | yazıldı (2026-10-15) |
+| `context-mapping` | 3 | index + 5 | yazıldı (2026-10-15) |
 
 ### §4.2 Çocuk MD şeması (her çocuk için aynı)
 

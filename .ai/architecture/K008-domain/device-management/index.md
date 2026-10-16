@@ -28,15 +28,15 @@ group: mimari
 
 ## Ne işe yarar?
 
-v2 bu alt konuya **yalnızca ad verir** — tanım yok → `⚠️ VERIFICATION REQUIRED».
+v2 bu alt konuya **yalnızca ad verir** — tanım yok → `⚠️ VERIFICATION REQUIRED`.
 Ad, kademe-3 tasarımında başlangıç noktasıdır; resmi kapsam ADR-097 K4'te kilitlenir.
 Tahminle dolgu **yapılmaz**.
 
 ## Bağımlılık
 
-- Üst düğüm künyesi: `../index.md»
-- Üst düğüm bağımlılıkları: `../domain-bagimliliklar.md»
-- Bu düğüm: `children: []» (v2 daha derin göstermiyor).
+- Üst düğüm künyesi: `../index.md`
+- Üst düğüm bağımlılıkları: `../domain-bagimliliklar.md`
+- Bu düğüm: `children: []` (v2 daha derin göstermiyor).
 
 ## Durum
 
@@ -56,6 +56,11 @@ Tahminle dolgu **yapılmaz**.
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| mimari | `device-management-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
+| mimari | `device-management-bilesenler.md` | Kademe-3 bileşen planı — taslak, ADR onayı bekliyor | Kademe-2 |
+| kod | `device-management-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-2 |
+| kanit | `device-management-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-2 |
+| kanit | `device-management-web-arastirma.md` | Web kanıtı — tekil URL doğrulama tablosu | Kademe-2 |
 
 ---
 

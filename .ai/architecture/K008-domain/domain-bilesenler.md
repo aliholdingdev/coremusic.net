@@ -79,7 +79,7 @@ group: mimari
 | MediaFile | Aggregate Root | `coremusic_media.sql` — `media_metadata` (s.150) | Kanıtlı |
 | MusicFile | Value Object | `coremusic_musics.sql` — `music_files` (s.162) | Kanıtlı |
 | MediaMetadata | Value Object | `media_metadata` (s.150) | Kanıtlı |
-| MediaTranscodedEvent | Domain Event | `shared/src/Events/Domain/` envanteri (isim `⚠️`) | Kısmi |
+| MediaAccessedEvent | Domain Event | `MediaAccessedEvent.php` s.20 (class), s.39 (`media.accessed`) | Kanıtlı |
 
 ### §3.3 `user` — Kimlik & Profil
 
@@ -99,7 +99,7 @@ group: mimari
 | UserFavorite | Aggregate parçası | `coremusic_user.sql` — `user_favorites` (s.59) | Kanıtlı |
 | ListeningHistory | Aggregate parçası | `user_listening_history` (s.83) | Kanıtlı |
 | PlaybackQueue (kuyruk sahipliği) | Aggregate parçası | `playback_queue` (s.18) | Kanıtlı |
-| PlaybackQueueUpdatedEvent | Domain Event | `shared/src/Events/Domain/` | Kanıtlı |
+| PlaybackQueueUpdatedEvent | Domain Event | 2026-10-15 glob: `shared/src/Events/**` (14 dosya) içinde YOK | ❌ GÖRÜLMEDİ — eski "Kanıtlı" kaydı yanlıştı |
 
 ### §3.5 `playlist` — Çalma Listesi
 
@@ -116,7 +116,7 @@ group: mimari
 |---|---|---|---|
 | PlaybackSession | Aggregate Root | `playback_queue` (s.18) + MusicPlayedEvent akışı | Kısmi |
 | MusicPlayedEvent | Domain Event | `MusicPlayedEvent.php` s.20, s.37–39 | Kanıtlı |
-| PlaybackQueueUpdatedEvent | Domain Event | `shared/src/Events/Domain/` | Kanıtlı |
+| PlaybackQueueUpdatedEvent | Domain Event | 2026-10-15 glob: `shared/src/Events/**` (14 dosya) içinde YOK | ❌ GÖRÜLMEDİ — eski "Kanıtlı" kaydı yanlıştı |
 | Gapless/kuyruk kuralı | Domain Service | `⚠️ VERIFICATION REQUIRED` (kod kanıtı yok) | Bekliyor |
 
 ### §3.7 `discovery` — Keşif (dalga 3)

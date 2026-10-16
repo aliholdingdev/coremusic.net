@@ -73,7 +73,7 @@ final class MusicSearchRequest
 
 ## §2 Resmi doküman örneği
 
-**Kaynak:** Spotify Web API — Get Track · https://developer.spotify.com/documentation/web-api/reference/get-track (2026-10-12 açıldı)
+**Kaynak:** Spotify Web API — Get Track · URL tekil: [[music-dogrulama]] §1 #1 (2026-10-15 HTTP GET ile doğrulandı)
 
 Yanıt şemasından özet (sayfadan birebir):
 

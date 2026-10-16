@@ -20,10 +20,10 @@ group: kanit
 
 | # | İddia | URL / Dosya | Tarih | Durum |
 |---|---|---|---|---|
-| 1 | Spotify Track nesnesi `album · artists · duration_ms · name · uri · is_local` alanlarını tanımlar | https://developer.spotify.com/documentation/web-api/reference/get-track | 2026-10-12 | ✅ sayfa açıldı |
-| 2 | Spotify "Get Album Tracks" uç noktası albüm içindeki track listesini döner | https://developer.spotify.com/documentation/web-api/reference/get-an-albums-tracks | 2026-10-12 | ✅ doğrulandı |
-| 3 | Katalog dili referansı: DDD Reference (Evans) — "Make the model explicit" · ubiquitous language | https://www.domainlanguage.com/ddd/reference/ | 2026-10-12 | ✅ sayfa açıldı |
-| 4 | Bounded Context, büyük modeli birleştirici değil ayrıştırıcı bir kalıptır (Fowler bliki) | https://martinfowler.com/bliki/BoundedContext.html | 2026-10-12 | ✅ arama + içerik özeti |
+| 1 | Spotify Track nesnesi `album · artists · duration_ms · name · uri · is_local` alanlarını tanımlar | https://developer.spotify.com/documentation/web-api/reference/get-track | 2026-10-15 | ✅ HTTP GET — yanıt örneğinde `is_local: false` görünür |
+| 2 | Spotify "Get Album Tracks" uç noktası albüm içindeki track listesini döner | https://developer.spotify.com/documentation/web-api/reference/get-an-albums-tracks | 2026-10-15 | ✅ HTTP GET |
+| 3 | Katalog dili referansı: DDD Reference (Evans 2004) — DDD kalıp/tanım özeti | https://www.domainlanguage.com/ddd/reference/ | 2026-10-15 | ✅ HTTP GET — "Make the model explicit" ifadesi HTML'de görünmedi → ⚠️ VERIFICATION REQUIRED (PDF içeriği) |
+| 4 | Bounded Context, büyük modeli birleştirici değil ayrıştırıcı bir kalıptır (Fowler bliki) | [[domain-web-arastirma]] §1 #5 (kök URL tekil — C4) | 2026-10-12 | ✅ kökte doğrulandı |
 | 5 | CoreMusic katalog DTO'su 7 alanlı (`id·title·artist·album·duration·coverUrl·streamUrl`) | `shared/src/Api/Dto/Response/MusicResponse.php` satır 20–26 | 2026-10-12 | ✅ shell ile okundu |
 | 6 | `music.added` domain event gerçek (`musicId·addedBy·title`) | `shared/src/Events/Domain/MusicAddedEvent.php` satır 27–29, 39 | 2026-10-12 | ✅ shell ile okundu |
 | 7 | `music.played` domain event gerçek (`musicId·userId·duration`) | `shared/src/Events/Domain/MusicPlayedEvent.php` satır 27–29, 39 | 2026-10-12 | ✅ shell ile okundu |
@@ -41,7 +41,7 @@ group: kanit
 | Metrik | Değer |
 |---|---|
 | Toplam satır | 15 |
-| Benzersiz URL | 4 (1 · 2 · 3 · 4) |
+| Benzersiz URL | 3 (get-track · get-an-albums-tracks · DDD Reference — #4 kök pontere taşındı, C4) |
 | Gerçek dosya yolu satırı | 8 (5–12) |
 | ✅ doğrulandı | 9 (1–9) |
 | ⚠️ VERIFICATION REQUIRED | 3 (10 · 11 · 12) |

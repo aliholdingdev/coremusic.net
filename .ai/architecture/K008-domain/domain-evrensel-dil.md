@@ -104,8 +104,8 @@ group: mimari
 | Müzik çalındı | `MusicPlayedEvent` |
 | Çalma listesi oluşturuldu | `PlaylistCreatedEvent` |
 | Kullanıcı kaydı tamamlandı | `UserRegisteredEvent` |
-| Medya dönüştürüldü | `MediaTranscodedEvent` |
-| Kuyruk güncellendi | `PlaybackQueueUpdatedEvent` |
+| Medyaya erişildi | `MediaAccessedEvent` |
+| Müzik eklendi | `MusicAddedEvent` |
 
 **Kural:** Event adı `{Nesne}{Olay}Event` = özne + fiil (ingilizce, past tense).
 Türkçe karşılık yalnız belgede; kodda İngilizce (L1).

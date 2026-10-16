@@ -19,10 +19,10 @@ group: kanit
 
 | # | İddia | URL / Dosya | Tarih | Durum |
 |---|---|---|---|---|
-| 1 | Spotify Track nesnesinde `is_local` alanı yerel dosya ayrımını taşır | https://developer.spotify.com/documentation/web-api/reference/get-track | 2026-10-12 | ✅ sayfa açıldı |
-| 2 | Spotify, "Spotify content may not be downloaded" politikasını API dokümanında yazılı tutar (download ≠ izinli) | https://developer.spotify.com/documentation/web-api/reference/get-track (politika notu) | 2026-10-12 | ✅ sayfada metin var |
-| 3 | Spotify, içeriğin ML/AI modeline sokulmasını yasaklar (erişim türü ≠ eğitim izni) | https://developer.spotify.com/documentation/web-api/reference/get-recommendations (politika notu) | 2026-10-12 | ✅ sayfa açıldı |
-| 4 | Yerel dosya içeriğinin playlist'te `is_local` ile temsil edildiği dokümante | https://developer.spotify.com/documentation/web-api/concepts/playlists | 2026-10-12 | ✅ doğrulandı |
+| 1 | Spotify Track nesnesinde `is_local` alanı yerel dosya ayrımını taşır | [[music-dogrulama]] §1 #1 (get-track URL'i tekil orada — C4) | 2026-10-15 | ✅ HTTP GET |
+| 2 | Spotify, "Spotify content may not be downloaded" politikasını API dokümanında yazılı tutar (download ≠ izinli) | [[music-dogrulama]] §1 #1 (politika notu get-track sayfasında) | 2026-10-15 | ✅ HTTP GET — sayfada metin var |
+| 3 | Spotify, içeriğin ML/AI modeline sokulmasını yasaklar (erişim türü ≠ eğitim izni) | https://developer.spotify.com/documentation/web-api/reference/get-recommendations | 2026-10-15 | ✅ HTTP GET — sayfa "Deprecated" işaretli; politika notu mevcut |
+| 4 | Yerel dosya içeriğinin playlist'te `is_local` ile temsil edildiği dokümante | https://developer.spotify.com/documentation/web-api/concepts/playlists | 2026-10-15 | ✅ HTTP GET — "Local Files" bölümünde `"is_local": true` örneği |
 | 5 | `media.accessed` domain event gerçek (`mediaId · userId · accessType`) | `shared/src/Events/Domain/MediaAccessedEvent.php` satır 27–29, 39 | 2026-10-12 | ✅ shell ile okundu |
 | 6 | `accessType` doc-blok "stream, download, etc." der → küme tamamlanmamış | aynı dosya satır 80 | 2026-10-12 | ✅ shell ile okundu |
 | 7 | `payload()` `accessType` + `timestamp` yayınlar | aynı dosya satır 55–60 | 2026-10-12 | ✅ shell ile okundu |
@@ -40,7 +40,7 @@ group: kanit
 | Metrik | Değer |
 |---|---|
 | Toplam satır | 15 |
-| Benzersiz URL | 3 (get-track · get-recommendations · concepts/playlists) |
+| Benzersiz URL | 2 (get-recommendations · concepts/playlists — #1/#2 music-dogrulama ponteri, C4) |
 | Gerçek dosya yolu satırı | 8 (5–12) |
 | ✅ doğrulandı | 9 (1–9) |
 | ⚠️ VERIFICATION REQUIRED / SINIR AÇIK | 3 (10 · 11 · 12) |

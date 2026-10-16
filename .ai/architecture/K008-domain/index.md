@@ -25,6 +25,7 @@ validation:
   - "2026-10-12 — children listesi v2 §2.8 mini-ağaçı ile birebir karşılaştırıldı (10/10)"
   - "2026-10-12 — 12 kök MD + 6 çocuk × 6 MD üretilmiştir (v1+v2 + ADR-097 K2/K3 şeması)"
   - "2026-10-12 — web kanıtları HTTP HEAD/GET ile doğrulandı (tekil URL, bkz. -web-arastirma.md)"
+  - "2026-10-15 — 10 çocuk × 6 MD = 60 çocuk dosyası + 12 kök MD = 72/72 tamamlandı; §GRUPLAR her çocukta 6 satır (mimari:3 · kod:1 · kanit:2); 89 tekil URL havuzu çakışmasız (bkz. -web-arastirma.md §16)"
 open_questions:
   - "v2 §6: K008-domain ↔ eski disk K008-servisler → ID CONFLICT — VERIFY REQUIRED (onaysız yeniden adlandırma yok)"
   - "recommendation/discovery sahipliği: K006-yapay-zeka · K020-recomenataion · K020-discovery ile örtüşme → ⚠️ VERIFICATION REQUIRED"
@@ -49,10 +50,10 @@ v2 bu çocuklara **yalnızca ad verir**; rol tanımları v2'de yoktur → her ç
 | 4 | library | 301 | index · kapsam · dogrulama · web-arastirma · ornekler · bilesenler | draft |
 | 5 | playlist | 302 | index · kapsam · dogrulama · web-arastirma · ornekler · bilesenler | draft |
 | 6 | playback | 303 | index · kapsam · dogrulama · web-arastirma · ornekler · bilesenler | draft |
-| 7 | discovery | 304 | index.md (dalga-3) | verify-required |
-| 8 | recommendation | 305 | index.md (dalga-3) | verify-required |
-| 9 | device-management | 306 | index.md (dalga-3) | verify-required |
-| 10 | context-mapping | 307 | index.md (dalga-3) | verify-required |
+| 7 | discovery | 304 | index · kapsam · dogrulama · web-arastirma · ornekler · bilesenler | draft |
+| 8 | recommendation | 305 | index · kapsam · dogrulama · web-arastirma · ornekler · bilesenler | draft |
+| 9 | device-management | 306 | index · kapsam · dogrulama · web-arastirma · ornekler · bilesenler | draft |
+| 10 | context-mapping | 307 | index · kapsam · dogrulama · web-arastirma · ornekler · bilesenler | draft |
 
 ## §GRUPLAR (ADR-097 §5.5 · Eksen-1)
 

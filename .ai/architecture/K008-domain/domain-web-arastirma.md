@@ -160,7 +160,10 @@ group: kanit
 | 69 | Spotify Web API (reference) | `https://developer.spotify.com/documentation/web-api` | 2026-10-12 | Doğrulandı |
 | 70 | Last.fm API | `https://www.last.fm/api` | 2026-10-12 | Doğrulandı |
 | 71 | Apple MusicKit (Apple Music API) | `https://developer.apple.com/documentation/musickit` | 2026-10-12 | Doğrulandı |
-| 72 | Subsonic API (Navidrome notları) | `https://www.navidrome.org/docs/developers/subsonic-api/` | 2026-10-12 | Doğrulandı |
+
+> **C4 düzeltmesi (2026-10-15):** Eski #72 satırı (#48 `https://www.navidrome.org/docs/developers/subsonic-api/`
+> ile **aynı URL**) kaldırıldı — kök havuzda tekillik (76 kayıt → **75 benzersiz URL**;
+> `k008-url-audit2.ps1` sonucu: kök-çiçocuk kesişimi 0).
 
 ## §13 TEST/STATİK ARAÇLAR
 
@@ -189,20 +192,29 @@ Aşağıdakiler keşifte 404/erişilemez sonuç verdi ve **kullanılmadı**:
 | `dev.mysql.com/refman/9.0` | 404/erişilemez — MySQL detayı kapsam dışı |
 | `w3.org/TR/json-schema-validation` | 404 — json-schema.org (§8-43) kullanılabilir |
 
+> **2026-10-15 doğrulaması:** Altı ölü URL'nin hiçbiri çocuk havuzunda
+> (89 satır `k008-child-urls-ok.txt`) yer almıyor — bu kayıt günceldir, silinmez.
+
 ## §16 DAĞITIM CETVELİ (C4 kuralı — hangi URL hangi dosyada)
 
-| Dosya | Ayrılan URL aralığı (§ no) |
+| Dosya | Ayrılan URL (2026-10-15 sayımı) |
 |---|---|
-| `domain-web-arastirma.md` (bu dosya) | §2–§15 (tümü) |
-| çocuk `music-web-arastirma.md` | **Ayrılacak:** ISRC/ISWC/ISNI kimlik belgeleri, MusicBrainz Developer Resources |
-| çocuk `media-web-arastirma.md` | **Ayrılacak:** Ek format/kaynak (ör. FLAC/OGG ayrı sayfalar, MediaWiki) |
-| çocuk `user-web-arastirma.md` | **Ayrılacak:** OWASP ayrı sayfalar (ör. Identifier, Authentication) |
-| çocuk `library-web-arastirma.md` | **Ayrılacak:** ReplayGain/Shuffle ayrı kaynaklar |
-| çocuk `playlist-web-arastirma.md` | **Ayrılacak:** Playlist formatları (M3U ayrı sayfa) |
-| çocuk `playback-web-arastirma.md` | **Ayrılacak:** Gapless/Crossfade ayrı kaynaklar |
+| `domain-web-arastirma.md` (bu dosya) | 75 URL — §2–§15 (root havuz) |
+| çocuk `music-web-arastirma.md` | 8 (W-1…W-8 — §1/§2'ye bak) |
+| çocuk `media-web-arastirma.md` | 11 (M-1…M-11 — §1/§2'ye bak) |
+| çocuk `user-web-arastirma.md` | 8 (U-1…U-8 — §1/§2'ye bak) |
+| çocuk `library-web-arastirma.md` | 8 (L-1…L-8 — §1/§2'ye bak) |
+| çocuk `playlist-web-arastirma.md` | 9 — havuz satır: 11, 13, 14, 83, 42, 52, 60, 87, 89 |
+| çocuk `playback-web-arastirma.md` | 10 — havuz satır: 15, 16, 17, 26, 27, 28, 29, 45, 57, 84 |
+| çocuk `discovery-web-arastirma.md` | 9 — havuz satır: 19, 20, 35, 37, 44, 47, 48, 61, 68 |
+| çocuk `recommendation-web-arastirma.md` | 9 — havuz satır: 18, 25, 30, 31, 46, 49, 53, 65, 81 |
+| çocuk `device-management-web-arastirma.md` | 9 — havuz satır: 24, 34, 58, 64, 69, 70, 71, 72, 78 |
+| çocuk `context-mapping-web-arastirma.md` | 8 — havuz satır: 1, 9, 10, 56, 66, 74, 75, 76 |
 
-> **Not:** Çocuk dosyaları yazılırken bu cetvel güncellenir; aynı URL iki dosyada
-> birden fazla satırda **görünemez** (C4 — `domain-dogrulama.md` §6 kontrolü).
+> **Not (2026-10-15):** Çocuk havuzu toplamı **89 URL / 10 dosya — 0 çakışma**
+> (`k008-url-audit2.ps1` · `k008-c4-scan.ps1`: `POOL-COLLISION: 0`).
+> Havuz satırları `k008-child-urls-ok.txt` içindir. Root (75) + çocuk (89)
+> = 164 kayıt; aynı URL iki dosyada **görünemez** (C4 — `domain-dogrulama.md` §6).
 
 ## §17 YENİDEN DOĞRULAMA DÖNGÜSÜ
 
@@ -214,4 +226,4 @@ Aşağıdakiler keşifte 404/erişilemez sonuç verdi ve **kullanılmadı**:
 
 ---
 
-*Authority: Bayram Ali / Vault Steward · K008-domain web araştırması · 2026-10-12 · 76 benzersiz URL · HTTP 200*
+*Authority: Bayram Ali / Vault Steward · K008-domain web araştırması · 2026-10-12 · 75 benzersiz URL · HTTP 200 (C4 düzeltmesi 2026-10-15: #72 tekrarı kaldırıldı)*

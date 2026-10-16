@@ -70,7 +70,7 @@ UserLoggedInEvent.php · UserLoggedOutEvent.php · UserRegisteredEvent.php
 
 ## §2 Resmi doküman örneği
 
-**Kaynak:** Spotify Web API (Reference nav) · https://developer.spotify.com/documentation/web-api (2026-10-12 açıldı)
+**Kaynak:** Spotify Web API (Reference nav) · URL tekil: [[domain-web-arastirma]] §1 #69 (2026-10-12 kökte doğrulandı)
 
 ```
 Users        → Get Current User's Profile · Get User's Profile · Follow Playlist
