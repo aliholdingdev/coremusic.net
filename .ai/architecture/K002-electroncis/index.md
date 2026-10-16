@@ -19,7 +19,7 @@ evidence:
   - ".ai/electronic/** (60 dosya — ham içerik kaynağı, 3 ajan derinleştiriyor)"
 validation: "draft — bu turda 26 dosya yazıldı (kök 6 + 5 alt-konu × 4); A1 tur-1"
 open_questions:
-  - "Q-K2-1: K002 ile K001-donanım sınırı — kart/PCB tasarımı kimde? (kapsam §B)"
+  - "Q-K2-1: K002 ile K001-donanım sınırı — kart/PCB tasarımı kimde? (KAPANDI 2026-10-15: PCB tasarımı+üretimi K002; K001 = envanter + erişim/soyutlama — kanıt: donanım-anayasa.md L65·L305)"
   - "Q-K2-2: K002 ile K005-firmware sınırı — gömülü kod mu, donanım tasarımı mı?"
   - "Q-K2-3: K002 ile K004-dsp sınırı — DSP zinciri analog ön zincirin parçası mı?"
 group: mimari
@@ -30,10 +30,11 @@ group: mimari
 > **Yazım dokunulmaz:** `electroncis` (v2 §3 KURAL 1 — `electronics` DEĞİL, düzeltilmez).
 > Band-1 tekil domaini (K000–K020). ADR-098 kapısı AÇILMAZ (Band-2 = K021+).
 
-**ELI15:** Elektronik mühendisliği alanının CoreMusic vault'undaki ASIL evi.
-Devreden üretime kadar tüm elektronik tasarım katmanlarını kapsar; ham içerik
-`.ai/electronic/**` (60 dosya) ve OS perspektifi `K000-isletim-sistemi/electroncis/`
-(2 alt-dal) buradan FARKLI rollerdir — tekrar değil, tamamlanmadır.
+## §1.4 İlişkili Proje Kaydı (2026-10-14)
+
+**Neva Engine elektronik bağımlılıkları** — `.ai/projects/NevaEngine/`: DAC/ADC çipleri (PCM3168A, AK4458 — K001'de detaylı) bu projenin analog hedefidir; yazılım DSP zinciri (`.ai/projects/NevaEngine/02-dsp-zincir-mimari.md`) analog ön zincirin yerine geçmez/çakışmaz: K002 devre (analog), K004/Neva DSP (dijital). Sınır: Q-K2-3. **Q5 KAPANDI 2026-10-15 (ADR-017):** DSP zinciri host'ta (NevaEngine/JUCE), XMOS yalnız zamanlama — K002 analog dal olarak kalır (Q-K2-3 için kanıt).
+
+**ELI15:** Elektronik mühendisliği alanının CoreMusic vault'undaki ASIL evi. Devreden üretime kadar tüm elektronik tasarım katmanlarını kapsar; ham içerik `.ai/electronic/**` (60 dosya) ve OS perspektifi `K000-isletim-sistemi/electroncis/` (2 alt-dal) buradan FARKLI rollerdir — tekrar değil, tamamlanmadır.
 
 | # | Bilgi | Değer |
 |---|---|---|
@@ -47,11 +48,8 @@ Devreden üretime kadar tüm elektronik tasarım katmanlarını kapsar; ham içe
 
 ## §1 ELI15 — Bu domain neyi kapsar?
 
-Elektronik, fiziksel dünyadaki sinyalin (akım/gerilim) hesaplanabilir, tasarlanabilir
-ve üretilebilir hali. Bu domain beş katmanı sırayla anlatır: **devre** (bileşenler ve
-topoloji) → **dijital** (mikroislemci ve saat) → **güç** (besleme ve koruma) →
-**sensör/aktüatör** (dünya ile arayüz) → **imalat** (üretim ve test). Her katmanın
-ölçüm eşiği, komşu sınırı ve açık sorusu vault'ta kayıtlıdır.
+Elektronik, fiziksel dünyadaki sinyalin (akım/gerilim) hesaplanabilir, tasarlanabilir ve üretilebilir hali. Bu domain beş katmanı sırayla anlatır: **devre** (bileşenler ve topoloji) → **dijital** (mikroislemci ve saat) → **güç** (besleme ve koruma) →
+**sensör/aktüatör** (dünya ile arayüz) → **imalat** (üretim ve test). Her katmanın ölçüm eşiği, komşu sınırı ve açık sorusu vault'ta kayıtlıdır.
 
 ## §2 Kademe-2 Alt-Konu Envanteri (5)
 
@@ -77,7 +75,7 @@ topoloji) → **dijital** (mikroislemci ve saat) → **güç** (besleme ve korum
 
 | # | Hedef | İlişki | Durum |
 |---|---|---|---|
-| 1 | `K001-donanım` | Fiziksel parça envanteri (disk, ses kartı, kablo) — kart/PCB sınırı Q-K2-1 | açık |
+| 1 | `K001-donanım` | Fiziksel parça envanteri (disk, ses kartı, kablo) — kart/PCB sınırı **KAPANDI 2026-10-15: PCB K002'de** | ✅ |
 | 2 | `K004-dsp` | DSP algoritma zinciri — analog ön zincir sonrası | açık |
 | 3 | `K005-firmware` | Gömülü kod yüzeyi — donanım üstünde çalışan yazılım | açık |
 | 4 | `.ai/electronic/**` | Ham içerik kaynağı (60 dosya) — 3 ajan derinleştiriyor | aktif |
@@ -89,7 +87,7 @@ topoloji) → **dijital** (mikroislemci ve saat) → **güç** (besleme ve korum
 
 | # | Soru | Etiket |
 |---|---|---|
-| Q-K2-1 | K001 ile sınır: kart/PCB tasarımı K002'de mi, K001'de mi? | ⚠️ VERIFICATION REQUIRED |
+| Q-K2-1 | K001 ile sınır: kart/PCB tasarımı K002'de mi, K001'de mi? | ✅ **KAPANDI 2026-10-15** — PCB tasarımı+üretimi K002; K001 = envanter + erişim/soyutlama API'si (kanıt: `donanım-anayasa.md` L65·L305 "Fiziksel PCB/BOM → HAYIR" · `devre-ve-analog-anayasa.md` L222-223) |
 | Q-K2-2 | K005 ile sınır: firmware kodu K005'te, donanım şartnamesi K002'de mi? | ⚠️ VERIFICATION REQUIRED |
 | Q-K2-3 | K004 ile sınır: DSP zinciri hangi dalın parçası? | ⚠️ VERIFICATION REQUIRED |
 | Q-K2-4 | `.ai/electronic/**` 60 dosyanın hangi bölümü hangi alt-konuya taşınacak? (3 ajan bekleniyor) | UNKNOWN |
