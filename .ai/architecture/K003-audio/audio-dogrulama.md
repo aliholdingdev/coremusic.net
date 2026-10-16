@@ -5,7 +5,7 @@ node_id: K003-audio
 node_type: domain
 status: draft
 date: 2026-10-12
-updated: 2026-10-13
+updated: 2026-10-14
 parent_id: "K000–K5000 Architecture Registry"
 children:
   - engine
@@ -347,6 +347,8 @@ Uydurma toplam yazılmadı: `UNKNOWN` + hesapsal + `UNKNOWN` ≠ sayısal toplam
 | 3 | 2026-10-13 | Round-trip gecikme toplamı yazılacak mı? | HAYIR — `UNKNOWN` + hesapsal bileşenler toplanmaz (§15) |
 | 4 | 2026-10-13 | Eşzamanlı stream durumu (§7 #9) | `UNKNOWN` korundu (§1 #13 ile tutarlı) |
 | 5 | 2026-10-13 | DC <0.5V eşiği kaynaklı mı? | Evet — K003 kural #10 (koruma relay'i); ölçüm PLANNED |
+| 6 | 2026-10-14 | ASIO GPLv3 lisans etkisi (Q1) | **KAPANDI** — GPLv3 açık varyant kararı (NevaEngine `01-gelistirme-plani.md` §7 karar #1 · §28 #3) |
+| 7 | 2026-10-14 | ASIO SDK sürüm daralması: "2.3.x" (NevaEnvanter) vs "2.3.4" (v2 §2.3) | A-U1/§2 #V-09 **UNKNOWN/⚠️ KORUNDU** — bağımsız teyit yok; daralma yazıldı, sessiz hizalama YASAK (§28 #7) |
 
 ## 18. E2E kontrol listesi (gate öncesi hızlı bakış)
 
@@ -368,6 +370,7 @@ Uydurma toplam yazılmadı: `UNKNOWN` + hesapsal + `UNKNOWN` ≠ sayısal toplam
 | 2026-10-12 | İlk sürüm (111 satır, §1-§4); 19 fetched + 12 ⚠️ + 7 UNKNOWN | Vault Steward |
 | 2026-10-13 | Frontmatter: `type`/`date`/`updated` alanları eklendi; §1-§4 içerik değiştirilmedi | Red Team / Truth Mode |
 | 2026-10-13 | §5-§19 eklendi (append-only); 20 E2E test, 6 protokol, 14 zincir eşiği | Red Team / Truth Mode |
+| 2026-10-14 | §28 eklendi (append-only): NevaEngine vault iç kanıtı + Q1 kararı + sürüm daralması kaydı; §17'ye #6–#7 | Red Team / Truth Mode |
 | — | Gelecek: gerçek E2E ölçümü (loopback donanımı) → §7 zincir bütçesi | PLANNED |
 
 ## 20. Dürüstlük bloğu (2026-10-13 eki)
@@ -495,6 +498,49 @@ Ek dürüstlük kayıtları (2026-10-13):
    §7/#9 gibi zincir eşiklerine yansıtılır.
 4. Gelecek adım: loopback donanımı + motor kodu → P-E2E-1/2/3 ölçümleri →
    §7 zincir bütçesi kapatılır; bu satır append-only güncellenecektir.
+
+---
+
+## 28. 2026-10-14 eki — NevaEngine vault iç kanıtı + Q1 kararı (append-only)
+
+> Bu ek, 2026-10-14 NevaEngine vault turunun (`.ai/projects/NevaEngine/` 00–06 + os/01–04
+> okundu) K003-audio ana doğrulama kaydına yansımasıdır. §1–§4 satırları ve 38 satır
+> sayısal özeti (19 + 12 + 7) **değiştirilmemiştir**; aşağıda K003'e ait 8 iç kanıt
+> satırı **vault-içi dosya okuma** kanıtı olarak eklenir (URL fetch DEĞİLDİR, status
+> sözlüğü §1'deki gibi uygulanır: `iç kanıt (dosya okundu)`).
+
+### 28.1 Eklenen iç kanıt satırları (K003 payı)
+
+| # | İddia | Dosya | Tarih | Durum |
+|---|---|---|---|---|
+| E-1 | JUCE 9 dual lisans: AGPLv3 + Commercial (repo LICENSE.md kanıtlı) | `.ai/projects/NevaEngine/00-sdk-lib-envanter.md` §1 #1 | 2026-10-14 | iç kanıt (dosya okundu) |
+| E-2 | ASIO SDK açık-kaynak sayfası: GPLv3 açık varyant + tescilli lisans seçeneği | `00-sdk-lib-envanter.md` §1 · steinberg.net/developers/asiosdk-open (NevaEngine oturum fetch'i) | 2026-10-14 | iç kanıt — master §5 T1 ile aynı çerçeve |
+| E-3 | **Q1 KARARI:** ASIO SDK GPLv3 açık varyant kabul edildi — ürün GPLv3 modeline hizalanır | `01-gelistirme-plani.md` §7 karar #1 · `00-sdk-lib-envanter.md` §4 | 2026-10-14 | karar kaydı (kullanıcı direktifi) → §17 #6 |
+| E-4 | JUCE = AGPLv3 uyum kararı · kod yolu = `neva.engine/` kök + `vendor/` | `01-gelistirme-plani.md` §7 karar #2–#3 | 2026-10-14 | karar kaydı |
+| E-5 | Platform backend entegrasyon örnekleri (ASIO · WASAPI · ALSA/PipeWire · CoreAudio — tümü tahsis-yok deseni, status: planlama) | `.ai/projects/NevaEngine/os/01–04.md` | 2026-10-14 | iç kanıt [TASARIM] — `[KANIT]` DEĞİL |
+| E-6 | `neva.engine/` diskte YOK (Faz 0 ⛔ BAŞLAMADI — clone iptal, kalıntı 0) · repo `*.cpp`/`*.h` = 0 | `01-gelistirme-plani.md` §1 Faz 0 durum notu · master §19 | 2026-10-14 | negatif ölçüm — **D6 değişmez** |
+| E-7 | ASIO SDK sürüm **numarası**: NevaEnvanter "2.3.x" ↔ v2 §2.3 "2.3.4" | iki vault kaydı karşılaştırması | 2026-10-14 | ⚠️ A-U1/§2 #V-09 **KORUNUR** — bağımsız teyit yok; daralma yazıldı (sessiz hizalama YASAK) → §17 #7 |
+| E-8 | backend kök üçlüsü üretildi (kapsam/örnekler/doğrulama — 30 satır kanıt) | `.ai/architecture/K003-audio/backend/backend-dogrulama.md` §1 | 2026-10-14 | iç kanıt (dosya okundu) |
+
+### 28.2 Kapanmayan kapılar (aynen korunur)
+
+| # | Kapı | Neden kapanmadı |
+|---|---|---|
+| 1 | §2 #V-09 (ASIO SDK GitHub repo) | E-3 lisans **seçimidir**; github.com/steinbergmedia/asio-sdk fetch'i hâlâ yapılmamıştır → ⚠️ |
+| 2 | A-U1 (sürüm 2.3.4) | E-7'deki daralma bağımsız teyitsiz → `UNKNOWN` |
+| 3 | D6 ([TASARIM] → [KANIT]) | E-6: repo 0 `.cpp/.h` → geçiş imkânsız |
+| 4 | §9 entegre kapı + §18 liste | E2E testleri PLANNED; motor kodu + loopback donanımı yok |
+
+### 28.3 Dürüstlük bloğu (2026-10-14 eki)
+
+Bu bölüm kanıt oranını DEĞİŞTİRmez — eklenen 8 satır **vault-içi dosya okuma**
+kanıtıdır (exa/websearch fetch'i değildir); §1–§4'ün 38 satır özeti (19 + 12 + 7)
+aynen korunmuştur. Q1 kararı vault karar kaydıdır; formel ADR değildir — kapıların
+hiçbiri bu ekle AÇIKTAN KAPANMAMIŞTIR (yalnız §17 #6 soru-karar satırı "KAPANDI"
+olarak işaretlenmiştir, kaynak E-3). E-5 örnekleri `[TASARIM]` etiketlidir; E-6
+negatif ölçüm D6'nın neden hâlâ kapalı olduğunu belgeler. `index.md` aynı turda
+hizalandı (frontmatter open_questions + §1.5 21→19 sayım düzeltmesi + §4 D4/D5
++ Authority tarihi) — ayrı bir `index.md` turu değildir, kayıt buradadır.
 
 ---
 

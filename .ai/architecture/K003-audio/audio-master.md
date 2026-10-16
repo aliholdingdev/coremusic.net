@@ -491,6 +491,79 @@ statüsünde kalır — bu bilinçli ve raporlanmış bir durumdur.
 | git commit | **ATILMADI** |
 | Authority satırı | 1 adet (dosya sonu) |
 
+## §28 Dil kapsam matrisi (2026-10-14)
+
+Kullanıcının seçtiği **4 programlama dili grubu** (G1 C/C++/Rust · G2 Python/Go/C# ·
+G3 PHP/JS-Node · G4 Zig/Swift/Java-Kotlin — 1–4, tümü ✓), K003'ün 12 çocuğuna
+dağıtılmış kapsama matrisi `audio-dil-kapsami.md`'dedir (48 hücre · 12 birincil
+atama · 22 yardımcı · 14 kapsam dışı · **[KANIT] = 0**).
+
+| Bağ | Ne taşır |
+|---|---|
+| `audio-dil-kapsami.md` §2 | Ana matris (4 grup × 12 çocuk) |
+| `audio-dil-kapsami.md` §3 | Grup başına gerekçe (her hücre bağlantılı) |
+| §D-kapıları ilişkisi | D6 `[TASARIM] → [KANIT]` bu turda **AÇIK** (repo 0 `.cpp/.h`) — matris tamamı `[TASARIM]` |
+
+**Kural:** matris dil **seçimini kararlaştırmaz** (karar kullanıcıya ait, 2026-10-14);
+yalnızca seçilmiş olanın dağılımını yazar. G3 backend çekirdeğine girmez (katman
+ihlali → §18 Warning 6); G4 senaryosu ⚠️ tanımsızdır (Q-D3).
+
+## §29 Backend tamamlama kaydı (2026-10-14 — append-only revizyon)
+
+> §1–§28 mevcut bölümleri bu turda **değiştirilmedi**; yalnız bu bölüm eklendi
+> (§15'teki "sessiz güncelleme yasak" kuralına uygun kayıt).
+
+### §29.1 Eklenen dosyalar (12 çocuk şeması tamamlandı)
+
+Master §10 tablosu `backend/backend-kapsam.md` · `backend/backend-ornekler.md` ·
+`backend/backend-dogrulama.md`'yi **bekliyordu; diskte yoktular** (master ↔ disk
+çelişkisi). 2026-10-14'te üretildi; artık 12 çocuğun hepsinde index+kapsam+örnekler+
+doğrulama seti vardır. `backend/index.md` §3–§6 bu sete göre hizalandı.
+
+### §29.2 Q1 KAPANDI (ASIO lisans) — karar kaydı
+
+| # | Karar | Kaynak (2026-10-14 okundu) |
+|---|---|---|
+| 1 | ASIO SDK **GPLv3 açık varyant** kabul edildi — ürün GPLv3 modeline hizalanır; tescilli varyant reddedildi | `.ai/projects/NevaEngine/01-gelistirme-plani.md` §7 karar #1 · `00-sdk-lib-envanter.md` §4 |
+| 2 | JUCE = **AGPLv3 uyum** (dual lisans; commercial gerekmiyor) — kullanıcı direktifi | `01-gelistirme-plani.md` §7 karar #2 · `00-sdk-lib-envanter.md` §1 (repo LICENSE.md kanıtı) |
+| 3 | Kod yolu = `neva.engine/` kök + `vendor/` (Faz 0) | `01-gelistirme-plani.md` §7 karar #3 |
+
+§8/§13/§21'teki Q1 durumu: **kapalı (karar kayıtlı)** — eski kapanış yolu
+"legal-advisor → ADR" idi; 2026-10-14 kararı vault karar kaydı olarak işlenmiştir,
+formel ADR `backend/` kapıları KAPALI kalır. Q4 (tam sürüm **2.3.4** bağımsız
+teyidi) **kapanmaz**: NevaEnvanter "2.3.x" yazar, sartname "2.3.4" — vault-içi
+daralma `backend-dogrulama.md` §1 #24'te ⚠️ olarak kayıtlıdır.
+
+### §29.3 Q5 — tasarım düzeyi çözüm (ADR BEKLEMEDE)
+
+`.ai/projects/NevaEngine/os/01–04.md` (status: planlama, 2026-10-14 okundu) dört
+platformda **aynı deseni** gösterir: cihaz I/O buffer'ı backend adaptöründe/OS'ta,
+`prepare()` tahsisi init anında, engine `process()` in-place, RT döngüsünde
+tahsis/log yok. Bu desen Q5'in (engine↔backend veri sahipliği) **tasarım düzeyi
+yanıtı**dır — `backend-kapsam.md` §8'de kayıtlıdır, `[TASARIM]` etiketlidir ve
+**kesin sınır ADR'si Vault Steward'a aittir** (kapı KAPALI).
+
+### §29.4 §19 stale satır düzeltmesi (açıkça)
+
+§19 tablosundaki "Vault NevaEngine **0 dosya**" satırı **artık geçersizdir**:
+NevaEngine vault'u 2026-10-14'te **34 md**'dir (11 güncel: 00–06 + os/01–04 ·
+23 arşiv `legacy-2026-07/` — `.ai/AGENTS.md` §24.3 disk ölçümü). Buna rağmen
+**repo'da `*.cpp`/`*.h` = 0** ve `neva.engine/` diskte YOK (Faz 0 ⛔ BAŞLAMADI) →
+D6/D5/D7 kapılarının **durumu değişmez**: vault kanıtı tasarımsaldır, `[KANIT]`
+geçişi için hâlâ derlenmiş kod gerekir.
+
+### §29.5 Kanıt dağılımı ve dokunulmazlık (bu tur)
+
+| Yüzey | Bu turda |
+|---|---|
+| `backend/backend-kapsam.md` · `-ornekler.md` · `-dogrulama.md` | **YENİ** (üretildi) |
+| `backend/index.md` | §3/§4/§5/§6 hizalandı (sayım 8→19 · gezinti · Q1/Q5 durumu) |
+| `backend/asio/` (19 dosya) | **DOKUNULMADI** (salt-okunur koruma) |
+| `audio-dogrulama.md` · kök `index.md` · `audio-dil-kapsami.md` | **DOKUNULMADI** |
+| §1–§28 (bu dosya) | **DEĞİŞTİRİLMEDİ** — yalnız §29 eklendi |
+| `*.cpp`/`*.h` | **YOK** — yazılmadı |
+| git commit | **ATILMADI** (orkestratöre ait) |
+
 ---
 
 Bu bölüm kanıt oranını DEĞİŞTİRmez — eklenen bölümler mevcut dosya
