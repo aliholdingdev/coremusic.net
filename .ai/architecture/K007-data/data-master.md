@@ -32,7 +32,7 @@ evidence:
   - ".ai/architecture/index.md §5 satır 7 (master adı) + §7-§8 — 2026-10-12"
   - ".ai/.decisions/draft/ADR-097-k-space-v3-sifirdan-kurulum-coklu-md-ve-bant-rezervasyonu.md §2 (K2/K4) + §5.1-5.2 (adlandırma) — 2026-10-12"
   - "Depo: shared/src/Database/DatabaseManager.php:14-67 · shared/src/Cache/CacheManager.php:32-99 · .ai/.sql/CLAUDE.md §1 — 2026-10-12"
-validation: "2026-10-12 — bu dosya v2 §2.7 rol cümlesiyle ve registry §5 satır 7'yle birebir; 10 çocuk adı disk enumerasyonuyla eşit; kademe-3 (ADR-097 K4) bekleniyor."
+validation: "2026-10-12 — v2 §2.7 rol cümlesi + registry §5 + 10 çocuk disk enumerate ✅ · 2026-10-15 — §3 çocuk tablosu 10/10 index.md linklendi; 10 çocuk × 6 MD = 60 dosya disk enumerate ✅"
 open_questions:
   - "S-1 arama sahipliği: K007 search mi K020-discovery mi?"
   - "S-2 yedekleme sahipliği: K007 backup mı K018-devops mu?"
@@ -138,16 +138,16 @@ tanımları bu üretimde tasarım yorumudur** ve kademe-3'te (ADR-097 K4) kilitl
 
 | # | Çocuk | v2 satır | Rol (tasarım yorumu — ⚠️) | Kod kanıtı var mı? | Durum |
 |---|---|---|---|---|---|
-| 1 | schema | 278 | Tablo/kolon/İlişki/CONSTRAINT/COMMENT düzeni — BCNF hedefi | ✅ `.ai/.sql/mysql/*.sql` (18 DB · 171 tablo) | draft |
-| 2 | migrations | 279 | Şema değişiminin versiyonlu, geri alınabilir, kayıtlı hali | ✅ `shared/database/migrations/` (3 dosya) | draft |
-| 3 | repositories | 280 | Domain'in veriye tek kapıdan erişimi — SQL'i domain'den saklar | ✅ `shared/src/Repository/ApiKeyRepository.php` | draft |
-| 4 | transactions | 281 | Atomik gruplama · rollback · izolasyon seviyesi | ✅ `DatabaseManager.php:49-62` (beginTransaction/commit/rollBack) | draft |
-| 5 | indexing | 282 | Sorgu hızını koruyan B-tree/FULLTEXT yapıları | ✅ dump'larda `KEY`/`UNIQUE KEY`/prefix index | draft |
-| 6 | cache | 283 | Sıcak verinin hafızada, TTL'li, kirletilebilir kopyası | ✅ `shared/src/Cache/` (6 dosya · APCu + Memory) | draft |
-| 7 | search | 284 | Şarkı/sanatçı/albüm metinlerinde bulma (FULLTEXT) | ⚠️ kısmi — `novasearch.sql` var; MySQL FULLTEXT kullanımı repo'da YOK | draft |
-| 8 | synchronization | 285 | Çok-cihaz/çok-servis tazelik: outbox · CDC · sıraya alma | ❌ repo kanıtı YOK — yalnız web | draft |
-| 9 | backup | 286 | Yedekleme · PITR · kurtarma testi · KVKK imha | ⚠️ kısmi — migration'da mysqldump talimatı var (`2026-10_07…:14`) | draft |
-| 10 | data-quality | 287 | Beklenti/test/monitor ile veri sağlığı denetimi | ⚠️ kısmi — PHPStan/PHPUnit var; veri-beklentisi YOK | draft |
+| 1 | [schema](schema/index.md) | 278 | Tablo/kolon/İlişki/CONSTRAINT/COMMENT düzeni — BCNF hedefi | ✅ `.ai/.sql/mysql/*.sql` (18 DB · 171 tablo) | draft |
+| 2 | [migrations](migrations/index.md) | 279 | Şema değişiminin versiyonlu, geri alınabilir, kayıtlı hali | ✅ `shared/database/migrations/` (3 dosya) | draft |
+| 3 | [repositories](repositories/index.md) | 280 | Domain'in veriye tek kapıdan erişimi — SQL'i domain'den saklar | ✅ `shared/src/Repository/ApiKeyRepository.php` | draft |
+| 4 | [transactions](transactions/index.md) | 281 | Atomik gruplama · rollback · izolasyon seviyesi | ✅ `DatabaseManager.php:49-62` (beginTransaction/commit/rollBack) | draft |
+| 5 | [indexing](indexing/index.md) | 282 | Sorgu hızını koruyan B-tree/FULLTEXT yapıları | ✅ dump'larda `KEY`/`UNIQUE KEY`/prefix index | draft |
+| 6 | [cache](cache/index.md) | 283 | Sıcak verinin hafızada, TTL'li, kirletilebilir kopyası | ✅ `shared/src/Cache/` (6 dosya · APCu + Memory) | draft |
+| 7 | [search](search/index.md) | 284 | Şarkı/sanatçı/albüm metinlerinde bulma (FULLTEXT) | ⚠️ kısmi — `novasearch.sql` var; MySQL FULLTEXT kullanımı repo'da YOK | draft |
+| 8 | [synchronization](synchronization/index.md) | 285 | Çok-cihaz/çok-servis tazelik: outbox · CDC · sıraya alma | ❌ repo kanıtı YOK — yalnız web | draft |
+| 9 | [backup](backup/index.md) | 286 | Yedekleme · PITR · kurtarma testi · KVKK imha | ⚠️ kısmi — migration'da mysqldump talimatı var (`2026-10_07…:14`) | draft |
+| 10 | [data-quality](data-quality/index.md) | 287 | Beklenti/test/monitor ile veri sağlığı denetimi | ⚠️ kısmi — PHPStan/PHPUnit var; veri-beklentisi YOK | draft |
 
 > **Kod kanıtı sütunu** bu üretimde yeni eklendi (v1 master'da yoktu): "neyin zaten
 > var olduğu" ile "neyin plan olduğu" ayrıştırılır → `data-kod-ornekleri.md` §2.

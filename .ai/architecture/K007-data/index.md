@@ -38,18 +38,22 @@ tutar; gerçek kod `shared/` ve `.ai/.sql/` altındadır.
 
 ## §1 Alt-Konu Haritası (kademe-2 → kademe-3)
 
-| # | Alt konu | Rol | Odak |
-|---|----------|-----|------|
-| 1 | `schema` | Şema tasarımı | ER/ilişkisel, BCNF, PK/FK/UNIQUE |
-| 2 | `migrations` | Şema sürümleme | Geri alınabilir DDL, online DDL |
-| 3 | `repositories` | Erişim katmanı | PDO/prepared, repository sözleşmesi |
-| 4 | `transactions` | İşlem bütünlüğü | ACID, MVCC, izolasyon, deadlock |
-| 5 | `indexing` | İndeks stratejisi | B-Tree, prefix, composite |
-| 6 | `cache` | Önbellek | APCu, page cache, invalidation |
-| 7 | `search` | Arama | Full-text, inverted index, novasearch |
-| 8 | `synchronization` | Eşitleme | Çift kayıt sınırı (K013 overlap) |
-| 9 | `backup` | Yedekleme | Tam/yedim, kurtarma, replication |
-| 10 | `data-quality` | Veri kalitesi | Dürüstlük, saklama politikası, ölçüm |
+| # | Alt konu | Rol | Odak | Dosya |
+|---|----------|-----|------|-------|
+| 1 | [schema](schema/index.md) | Şema tasarımı | ER/ilişkisel, BCNF, PK/FK/UNIQUE | 6 MD |
+| 2 | [migrations](migrations/index.md) | Şema sürümleme | İleri-tek-geri-yok (ADR-014), online DDL | 6 MD |
+| 3 | [repositories](repositories/index.md) | Erişim katmanı | PDO/prepared, repository sözleşmesi | 6 MD |
+| 4 | [transactions](transactions/index.md) | İşlem bütünlüğü | ACID, MVCC, izolasyon, deadlock | 6 MD |
+| 5 | [indexing](indexing/index.md) | İndeks stratejisi | B-Tree, prefix, composite | 6 MD |
+| 6 | [cache](cache/index.md) | Önbellek | APCu, page cache, invalidation | 6 MD |
+| 7 | [search](search/index.md) | Arama | Full-text, inverted index, novasearch | 6 MD |
+| 8 | [synchronization](synchronization/index.md) | Eşitleme | Çift kayıt sınırı (K013 overlap) | 6 MD |
+| 9 | [backup](backup/index.md) | Yedekleme | Tam/artık (binlog), PITR, 3-2-1 | 6 MD |
+| 10 | [data-quality](data-quality/index.md) | Veri kalitesi | Bütünlük/geçerlilik/tekrar, K-05 | 6 MD |
+
+**Doğrulama (2026-10-15):** 10 çocuk × 6 MD = **60 dosya** disk enumerate edildi
+(her çocuk: index + kapsam + bilesenler/veya anayasa + dogrulama/surucu + ornekler +
+web-arastirma). ADR-097 §5.2 rol sözlüğü uygulandı.
 
 ## §2 Sınır (kapsam dışı komşular)
 

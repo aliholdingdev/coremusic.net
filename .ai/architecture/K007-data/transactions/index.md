@@ -7,58 +7,57 @@ children:
   - transactions-anayasa
   - transactions-surucu
   - transactions-ornekler
-depends_on: []
+  - transactions-kapsam
+  - transactions-web-arastirma
+depends_on:
+  - K007-data/schema
+  - K007-data/repositories
 evidence:
-  - "shared/src/Contracts/Database/IDatabaseManager.php:8-14 — beginTransaction/commit/rollBack"
-  - "shared/src/Database/DatabaseManager.php — InnoDB transaction sarmalayıcı"
-  - ".ai/.sql/mysql/coremusic_catalog.sql — ENGINE=InnoDB (MVCC default)"
+  - "shared/src/Contracts/Database/IDatabaseManager.php:8-14 — begin/commit/rollBack"
+  - "master §6 satır 18 — InnoDB + MVCC + atomik UPDATE"
+  - "dev.mysql.com 8.4 InnoDB — 4 URL (2026-10-15)"
 validation:
-  - "2026-10-13 — index yeniden yazıldı; children disk enumerate 3/3; mojibake temiz"
+  - "2026-10-15 — 6 dosyaya tamamlandı (4→6); children disk enumerate 5/5"
 open_questions:
-  - "İzolasyon seviyesi repo'da açıkça ayarlanmamış → default (REPEATABLE READ)"
-  - "Deadlock çözüm stratejisi repo kanıtı yok → ⚠️ VERIFICATION REQUIRED"
+  - "Çok-DB transaction kullanımı → UNKNOWN"
+  - "İzolasyon seviyesi config değeri → UNKNOWN"
 group: mimari
 ---
 
-# transactions — Alt-Konu İndeksi (Kademe-3)
+# transactions — K007-data (kademe-2)
 
 | Alan | Değer |
 |---|---|
 | node_id | K007-data/transactions |
-| node_type | subdomain |
 | parent_id | K007-data |
-| Rol | Atomik yazma · ACID/MVCC · begin/commit/rollback |
 | Durum | draft |
 
-## §1 Ne işe yarar?
+## Ne işe yarar?
 
-Bu alt konu K007'nin **atomiklik** ayağıdır: birden fazla yazmanın ya tamamının ya hiç
-inin uygulanması. Repo'da `beginTransaction()` / `commit()` / `rollBack()` sarmalayıcıları
-`IDatabaseManager` sözleşmesiyle tanımlıdır; motor InnoDB olduğu için MVCC varsayılan davranıştır.
+Tek DB atomikliği: begin → commit / rollback. InnoDB MVCC + REPEATABLE READ
+(variablesayılan) + deadlock otomatik çözümü resmi olarak doğrulanmıştır.
 
-## §2 İçerik dosyaları (kademe-3)
+## §1 İçerik dosyaları
 
-| # | Dosya | Rol | Bütçe |
-|---|-------|-----|-------|
-| 1 | `transactions-anayasa.md` | ACID/MVCC kuralı, izolasyon seviyeleri | ≥500 |
-| 2 | `transactions-surucu.md` | begin/commit/rollback sürüş akışı, deadlock | ≥500 |
-| 3 | `transactions-ornekler.md` | gerçek repo kodu + SQL transaction örnekleri | ≥500 |
+| # | Dosya | Rol | Grup |
+|---|-------|-----|------|
+| 1 | [transactions-anayasa.md](transactions-anayasa.md) | anayasa | mimari |
+| 2 | [transactions-surucu.md](transactions-surucu.md) | uygulama mekanizması | mimari |
+| 3 | [transactions-ornekler.md](transactions-ornekler.md) | repo örnekleri | kod |
+| 4 | [transactions-kapsam.md](transactions-kapsam.md) | sınır | mimari |
+| 5 | [transactions-web-arastirma.md](transactions-web-arastirma.md) | InnoDB/PDO taraması | kanit |
 
-## §3 Kanıt (repo)
+## §GRUPLAR
 
-| İddia | Kanıt |
-|-------|-------|
-| begin/commit/rollback sözleşmesi | `IDatabaseManager.php:8-14` |
-| InnoDB (MVCC) motor | dump'larda `ENGINE=InnoDB` |
-| İzolasyon seviyesi açıkça yok | repo'da `SET TRANSACTION` **görülmedi** → default |
-
-## §4 Kapsam dışı
-
-| Dış | Nereye |
-|-----|--------|
-| İş mantığı gruplama | K012-services |
-| Domain kuralı | K008-domain |
+| Grup | Dosya | Amaç | Kademe |
+|---|---|---|---|
+| mimari | index.md | Künye | Kademe-2 |
+| mimari | transactions-anayasa.md | Anayasa | Kademe-2 |
+| mimari | transactions-surucu.md | Sürücü | Kademe-2 |
+| kod | transactions-ornekler.md | Örnekler | Kademe-2 |
+| mimari | transactions-kapsam.md | Kapsam | Kademe-2 |
+| kanit | transactions-web-arastirma.md | Kaynak taraması | Kademe-2 |
 
 ---
 
-**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+**Authority:** Bayram Ali / Vault Steward
