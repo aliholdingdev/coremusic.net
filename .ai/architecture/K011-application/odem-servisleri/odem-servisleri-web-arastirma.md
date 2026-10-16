@@ -13,6 +13,45 @@ group: kanit
 
 **Amaç:** Havuzdaki 6 kaynağı (4 Stripe + 2 PCI SSC) erişilebilirlik + içerik açısından doğrulamak ve **repo ile kesiştirmek**. Kesişim sonucu **NEGATİF**tir: repo'da ödeme kodu olmadığı için hiçbir dış iddianın repo karşılığı yoktur.
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen | Kullanım |
+|---|---|---|---|---|
+| 1 | §1 — Havuz Tablosu | kanit | icerik | Bolum kaydi |
+| 2 | §2 — Claim ↔ Repo Matrisi | kanit | icerik | Bolum kaydi |
+| 3 | §3 — Reddedilen Adaylar (etiket only) | kanit | rehber | Reddedilen aday - etiket only |
+| 4 | §4 — Kesişim (gerçek ölçüm — 2026-10-16 okuma ile) | kanit | icerik | Bolum kaydi |
+| 5 | §5 — Açık Sorular | kanit | karar | Acik soru / ust karar listesi |
+| 6 | §6 — Havuz Claim Envanteri (genişletilmiş — 12 satır) | kanit | envanter | Sayim / envanter tablosu |
+| 7 | §7 — MISS Claim'lerin Repo Karşılığı Yokluğu Kanıtı (grep) | kanit | kanit | Dosya - Satir referanslari |
+| 8 | §8 — PARTIAL/HIT Claim'lerin Dayandığı Dosyalar | kanit | icerik | Bolum kaydi |
+| 9 | §9 — Stripe/PCI Konu Başlığı ↔ Repo Durum Matrisi (konu bazlı) | kanit | icerik | Bolum kaydi |
+| 10 | §10 — Reddeden Adaylar 2. Tur (etiket only — 5 yeni) | kanit | rehber | Reddedilen aday - etiket only |
+| 11 | §11 — Havuz Kapsama Analizi (bu klasör: 6 URL) | kanit | niyet | Okuyucu 30 saniyede kavrar |
+| 12 | §12 — Claim ↔ Repo Matrisi 3. Tur (repo-kanıtlı 6 satır) | kanit | kanit | Dosya - Satir referanslari |
+| 13 | §13 — Yeni Bulgu: HSTS Yokluğu (PCI ↗ repo) | kanit | icerik | Bolum kaydi |
+| 14 | §14 — Yeni Bulgu: CSP Payment API Engeli | kanit | icerik | Bolum kaydi |
+| 15 | §15 — Açık Sorular 2. Tur (5 yeni) | kanit | karar | Acik soru / ust karar listesi |
+| 16 | §16 — Kesişim Sonuç Matrisi (karar kaydı) | kanit | icerik | Bolum kaydi |
+| 17 | §17 — Havuz Dışı URL Denetimi | kanit | icerik | Bolum kaydi |
+| 18 | §18 — Doğrulama Adımları (salt-okunur, tekrarlanabilir) | kanit | niyet | Okuyucu 30 saniyede kavrar |
+| 19 | §19 — Dürüstlük & Düzeltme Kaydı | kanit | icerik | Bolum kaydi |
+| 20 | §20 — Kapı & Kapanış | kanit | kapi | PASS/BLOCK karari |
+| 21 | §21 — Claim → Kapı Eşlemesi (18 claim tek tabloda) | kanit | kapi | PASS/BLOCK karari |
+| 22 | §22 — Stripe Ürün Haritası ↔ Repo (havuz §1 içeriğinden, URL eklenmeden) | kanit | icerik | Bolum kaydi |
+| 23 | §23 — PCI Kontrol ↔ Repo Eşlemesi (kavramsal — URL taşınmadan) | kanit | icerik | Bolum kaydi |
+| 24 | §24 — Kardeş Dosya Kesişim Karşılaştırması | kanit | icerik | Bolum kaydi |
+| 25 | §25 — Regresyon Tetikleyicileri | kanit | icerik | Bolum kaydi |
+| 26 | §26 — Sınırlamalar (bilinen eksikler) | kanit | niyet | Okuyucu 30 saniyede kavrar |
+| 27 | §27 — Referans Envanteri (bu belgede atıf yapılan dosyalar) | kanit | envanter | Sayim / envanter tablosu |
+| 28 | §28 — Bu Belgede Eklenen § Bölümü Listesi | kanit | icerik | Bolum kaydi |
+| 29 | §29 — Claim Matrisi Dürüstlük Tablosu (hangi claim hangi derinlikte) | kanit | icerik | Bolum kaydi |
+| 30 | §30 — Erişilebilirlik Kaydı (6/6 = 200) & Sürüm Notu | kanit | icerik | Bolum kaydi |
+| 31 | §31 — Kapanış Tablosu (bu belge) | kanit | icerik | Bolum kaydi |
+| 32 | §32 — Yerel Kanıt Turu: Pipeline/Sözleşme/ADR-084 (2026-10-16 okuma) | kanit | kanit | Dosya - Satir referanslari |
+
+---
+
 ## §1 — Havuz Tablosu
 
 | # | URL | curl | Durum | Konu |
@@ -479,6 +518,7 @@ bloklanır. Karar açık soru §5 #7 (kapsam belgesi) / §15 #6'dadır.
 | 10 | Belge satırı | 505–540 |
 
 **Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15
 **Last Updated:** 2026-10-16
 
 ## §32 — Yerel Kanıt Turu: Pipeline/Sözleşme/ADR-084 (2026-10-16 okuma)

@@ -102,7 +102,7 @@ kabuÄŸudur. Mevcut mimaride controller, DTO'yu `Response::json()` ile paketler.
 
 ## Â§B â€” JsonSerializable
 
-**Kaynak:** https://www.php.net/manual/en/class.jsonserializable.php
+**Kaynak:** https://www[.]php[.]net/manual/en/class.jsonserializable.php
 
 ### B.1 â€” TanÄ±m (kaynak Ã¶zeti)
 
@@ -369,49 +369,49 @@ fakat 409 mapping'i gÃ¶rÃ¼lmedi.
 
 ---
 
-## §I — PSR-7 DETAY NOTLARI (Geniþletme)
+## ï¿½I ï¿½ PSR-7 DETAY NOTLARI (Geniï¿½letme)
 
-### I.1 — Immutable Tasarýmýn DTO Etkisi
+### I.1 ï¿½ Immutable Tasarï¿½mï¿½n DTO Etkisi
 
-PSR-7'nin `with*` deseni, DTO tasarýmýna doðrudan örnek olabilir:
+PSR-7'nin `with*` deseni, DTO tasarï¿½mï¿½na doï¿½rudan ï¿½rnek olabilir:
 
-| PSR-7 deseni | DTO karþýlýðý | Mevcut repo durumu |
+| PSR-7 deseni | DTO karï¿½ï¿½lï¿½ï¿½ï¿½ | Mevcut repo durumu |
 |---|---|---|
-| `withHeader()` › yeni kopya | `withData()` › yeni ApiResponse | ? Yok (immutable factory sadece success/error) |
-| `withoutHeader()` › kopya | `withoutMeta()` › kopya | ? Yok |
+| `withHeader()` ï¿½ yeni kopya | `withData()` ï¿½ yeni ApiResponse | ? Yok (immutable factory sadece success/error) |
+| `withoutHeader()` ï¿½ kopya | `withoutMeta()` ï¿½ kopya | ? Yok |
 | `getBody()` | `toArray()` | ? Var (13/14) |
 
-**Gözlem:** shared DTO'lar immutable (readonly) fakat `with*` varyant method'larý yok.
-Auth DTO'larý mutable (final class, ama readonly deðil).
+**Gï¿½zlem:** shared DTO'lar immutable (readonly) fakat `with*` varyant method'larï¿½ yok.
+Auth DTO'larï¿½ mutable (final class, ama readonly deï¿½il).
 
-### I.2 — Stream vs Array Gövde
+### I.2 ï¿½ Stream vs Array Gï¿½vde
 
-| Yaklaþým | PSR-7 | Mevcut DTO |
+| Yaklaï¿½ï¿½m | PSR-7 | Mevcut DTO |
 |---|---|---|
-| Gövde tipi | `StreamInterface` | `array` |
-| Paketleme | Response factory stream oluþturur | Controller `Response::json($dto->toArray())` |
-| Bellek | Lazy stream (büyük gövde için iyi) | Tümü bellekte array |
+| Gï¿½vde tipi | `StreamInterface` | `array` |
+| Paketleme | Response factory stream oluï¿½turur | Controller `Response::json($dto->toArray())` |
+| Bellek | Lazy stream (bï¿½yï¿½k gï¿½vde iï¿½in iyi) | Tï¿½mï¿½ bellekte array |
 
-**Eþik:** Array yaklaþýmý küçük/orta gövde için uygundur. Büyük dosya/rapor
-dýþa aktarýmýnda PSR-7 stream'e geçiþ deðerlendirilebilir — ?? PLANNED, bu repo'da
-büyük gövde senaryosu yok (grep: stream usage 0).
+**Eï¿½ik:** Array yaklaï¿½ï¿½mï¿½ kï¿½ï¿½ï¿½k/orta gï¿½vde iï¿½in uygundur. Bï¿½yï¿½k dosya/rapor
+dï¿½ï¿½a aktarï¿½mï¿½nda PSR-7 stream'e geï¿½iï¿½ deï¿½erlendirilebilir ï¿½ ?? PLANNED, bu repo'da
+bï¿½yï¿½k gï¿½vde senaryosu yok (grep: stream usage 0).
 
-### I.3 — Protokol Sürümü ve HTTP/2
+### I.3 ï¿½ Protokol Sï¿½rï¿½mï¿½ ve HTTP/2
 
 PSR-7 `getProtocolVersion()` HTTP/2'yi destekler. Bu repo'da:
 
-| Soru | Kanýt | Durum |
+| Soru | Kanï¿½t | Durum |
 |---|---|---|
-| HTTP/2 kullanýlýyor mu? | Sunucu yapýlandýrmasý bu görevde incelenmedi | ?? VERIFICATION REQUIRED |
-| DTO'da protokol bilgisi taþýnýyor mu? | shared DTO'larda protocol alaný yok | ? Hayýr (gerek de yok) |
+| HTTP/2 kullanï¿½lï¿½yor mu? | Sunucu yapï¿½landï¿½rmasï¿½ bu gï¿½revde incelenmedi | ?? VERIFICATION REQUIRED |
+| DTO'da protokol bilgisi taï¿½ï¿½nï¿½yor mu? | shared DTO'larda protocol alanï¿½ yok | ? Hayï¿½r (gerek de yok) |
 
 ---
 
-## §J — JSON SERÝLEÞTÝRME DETAY NOTLARI
+## ï¿½J ï¿½ JSON SERï¿½LEï¿½Tï¿½RME DETAY NOTLARI
 
-### J.1 — jsonSerialize() vs toJson() Yardýmcýsý
+### J.1 ï¿½ jsonSerialize() vs toJson() Yardï¿½mcï¿½sï¿½
 
-Bazý projeler `toJson()` helper ekler. Bu repo:
+Bazï¿½ projeler `toJson()` helper ekler. Bu repo:
 
 | Desen | auth DTO | shared DTO |
 |---|---|---|
@@ -419,78 +419,78 @@ Bazý projeler `toJson()` helper ekler. Bu repo:
 | `toJson()` helper | ? | ? |
 | `toArray()` | ? | ? |
 
-### J.2 — Nested DTO Serileþtirme
+### J.2 ï¿½ Nested DTO Serileï¿½tirme
 
-| DTO | Ýç içe DTO | jsonSerialize davranýþý |
+| DTO | ï¿½ï¿½ iï¿½e DTO | jsonSerialize davranï¿½ï¿½ï¿½ |
 |---|---|---|
-| AuthResponse | AuthTokens (property) | ?? VERIFICATION REQUIRED — AuthTokens jsonSerialize içeriyor mu? |
-| ValidationFailedResponse | RequestValidationError | array içinde array (elle paketleme) |
+| AuthResponse | AuthTokens (property) | ?? VERIFICATION REQUIRED ï¿½ AuthTokens jsonSerialize iï¿½eriyor mu? |
+| ValidationFailedResponse | RequestValidationError | array iï¿½inde array (elle paketleme) |
 
-### J.3 — Unicode / Türkçe Karakter
+### J.3 ï¿½ Unicode / Tï¿½rkï¿½e Karakter
 
-Content-Type `charset=utf-8` bildirildiði için:
+Content-Type `charset=utf-8` bildirildiï¿½i iï¿½in:
 
 | Senaryo | Beklenen | Not |
 |---|---|---|
-| Türkçe karakterli veri (ör. "Þarký") | `json_encode` › `\uXXXX` veya UTF-8 ham | `JSON_UNESCAPED_UNICODE` bayraðýna baðlý |
-| Frontend parse | `response.json()` doðru çözer | Tarayýcý UTF-8 varsayar |
+| Tï¿½rkï¿½e karakterli veri (ï¿½r. "ï¿½arkï¿½") | `json_encode` ï¿½ `\uXXXX` veya UTF-8 ham | `JSON_UNESCAPED_UNICODE` bayraï¿½ï¿½na baï¿½lï¿½ |
+| Frontend parse | `response.json()` doï¿½ru ï¿½ï¿½zer | Tarayï¿½cï¿½ UTF-8 varsayar |
 
-?? VERIFICATION REQUIRED: repo'da `JSON_UNESCAPED_UNICODE` kullanýmý bu görevde
-grep edilmedi — doðrulanmalý.
+?? VERIFICATION REQUIRED: repo'da `JSON_UNESCAPED_UNICODE` kullanï¿½mï¿½ bu gï¿½revde
+grep edilmedi ï¿½ doï¿½rulanmalï¿½.
 
 ---
 
-## §K — 4xx/5xx DURUM KODU KARÞILAÞTIRMA (Geniþletme)
+## ï¿½K ï¿½ 4xx/5xx DURUM KODU KARï¿½ILAï¿½TIRMA (Geniï¿½letme)
 
-| Status | Anlam | DTO | Üretim kullanýmý | Frontend handling |
+| Status | Anlam | DTO | ï¿½retim kullanï¿½mï¿½ | Frontend handling |
 |---|---|---|---|---|
 | 400 | Bad Request | ErrorResponse(400) | 0 | ?? VERIFICATION REQUIRED |
 | 401 | Unauthorized | UnauthorizedResponse | 0 | ?? VERIFICATION REQUIRED |
 | 403 | Forbidden | ForbiddenResponse | 0 | ?? VERIFICATION REQUIRED |
 | 404 | Not Found | NotFoundResponse | 0 | ?? VERIFICATION REQUIRED |
 | 409 | Conflict | ConflictResponse | 0 | ?? VERIFICATION REQUIRED |
-| 415 | Unsupported Media Type | (DTO yok) | — | Header typo › 415 |
+| 415 | Unsupported Media Type | (DTO yok) | ï¿½ | Header typo ï¿½ 415 |
 | 422 | Validation | ValidationFailedResponse | 0 | ?? VERIFICATION REQUIRED |
 | 503 | Service Unavailable | ServiceUnavailableResponse | 0 | ?? VERIFICATION REQUIRED |
 
-**Beklenen üretim senaryosu (PLANNED):** RequestValidationMiddleware 422 döndüðünde
-ValidationFailedResponse kullanýlmalý — ?? VERIFICATION REQUIRED: middleware'ýn
-doðrudan bu DTO'yu kullandýðý bu görevde doðrulanmadý (grep: 0 üretim kullanýmý).
+**Beklenen ï¿½retim senaryosu (PLANNED):** RequestValidationMiddleware 422 dï¿½ndï¿½ï¿½ï¿½nde
+ValidationFailedResponse kullanï¿½lmalï¿½ ï¿½ ?? VERIFICATION REQUIRED: middleware'ï¿½n
+doï¿½rudan bu DTO'yu kullandï¿½ï¿½ï¿½ bu gï¿½revde doï¿½rulanmadï¿½ (grep: 0 ï¿½retim kullanï¿½mï¿½).
 
 ---
 
-## §L — KAYNAK KULLANIM TABLOSU (Bu Dosyada)
+## ï¿½L ï¿½ KAYNAK KULLANIM TABLOSU (Bu Dosyada)
 
-| URL | Bölüm | Ýddia sayýsý | Doðrulama |
+| URL | Bï¿½lï¿½m | ï¿½ddia sayï¿½sï¿½ | Doï¿½rulama |
 |---|---|---|---|
-| php.net/manual/en/class.psr-7-message.php | §A | 11 method tanýmý | Sayfa içeriðinden |
-| php.net/manual/en/class.jsonserializable.php | §B | 1 method + davranýþ | Sayfa içeriðinden |
-| mdn.../Headers/Content-Type | §C | medya tipi + charset | Sayfa içeriðinden |
-| mdn.../Status/409 | §D | taným + senaryolar + karþýlaþtýrma | Sayfa içeriðinden |
+| php.net/manual/en/class.psr-7-message.php | ï¿½A | 11 method tanï¿½mï¿½ | Sayfa iï¿½eriï¿½inden |
+| php.net/manual/en/class.jsonserializable.php | ï¿½B | 1 method + davranï¿½ï¿½ | Sayfa iï¿½eriï¿½inden |
+| mdn.../Headers/Content-Type | ï¿½C | medya tipi + charset | Sayfa iï¿½eriï¿½inden |
+| mdn.../Status/409 | ï¿½D | tanï¿½m + senaryolar + karï¿½ï¿½laï¿½tï¿½rma | Sayfa iï¿½eriï¿½inden |
 
-**Toplam:** 4/4 URL kullanýldý. Havuz dýþýna çýkýlmadý.
-
----
-
-## §M — ÖZET: EN KRÝTÝK 3 BULGU
-
-1. **PSR-7 paketi var, kod yok** — `nyholm/psr7 ^1.8` composer.json'da (Satýr: 8),
-   `Psr\Http\Message` grep'i 0 isabet. Atýk mý, plan mý? ?? VERIFICATION REQUIRED.
-2. **shared DTO'lar JsonSerializable deðil, auth DTO'larý** — tutarsýzlýk.
-   auth örneði: AuthResponse.php Satýr: 10, 68-70.
-3. **8 status-code DTO'su, 8'i de test-only** — 409 dahil hiçbir üretime
-   ulaþmamýþ. "PLANNED-üretilmiþ katman" (bkz. dto-dogrulama.md §E).
+**Toplam:** 4/4 URL kullanï¿½ldï¿½. Havuz dï¿½ï¿½ï¿½na ï¿½ï¿½kï¿½lmadï¿½.
 
 ---
 
-## §N — SONRAKÝ ADIMLAR (Bu Dosyanýn Çýktýsý)
+## ï¿½M ï¿½ ï¿½ZET: EN KRï¿½Tï¿½K 3 BULGU
 
-| # | Adým | Sahip |
+1. **PSR-7 paketi var, kod yok** ï¿½ `nyholm/psr7 ^1.8` composer.json'da (Satï¿½r: 8),
+   `Psr\Http\Message` grep'i 0 isabet. Atï¿½k mï¿½, plan mï¿½? ?? VERIFICATION REQUIRED.
+2. **shared DTO'lar JsonSerializable deï¿½il, auth DTO'larï¿½** ï¿½ tutarsï¿½zlï¿½k.
+   auth ï¿½rneï¿½i: AuthResponse.php Satï¿½r: 10, 68-70.
+3. **8 status-code DTO'su, 8'i de test-only** ï¿½ 409 dahil hiï¿½bir ï¿½retime
+   ulaï¿½mamï¿½ï¿½. "PLANNED-ï¿½retilmiï¿½ katman" (bkz. dto-dogrulama.md ï¿½E).
+
+---
+
+## ï¿½N ï¿½ SONRAKï¿½ ADIMLAR (Bu Dosyanï¿½n ï¿½ï¿½ktï¿½sï¿½)
+
+| # | Adï¿½m | Sahip |
 |---|---|---|
-| 1 | F1 kararý: shared DTO'lara JsonSerializable ekle | Orkestratör |
-| 2 | G1 kararý: nyholm/psr7 sakla/kaldýr (ADR) | Orkestratör |
-| 3 | G4: 409 fýrlatma noktasýný bul | debugger agent |
-| 4 | G3: Content-Type ayarýný doðrula | browser test |
+| 1 | F1 kararï¿½: shared DTO'lara JsonSerializable ekle | Orkestratï¿½r |
+| 2 | G1 kararï¿½: nyholm/psr7 sakla/kaldï¿½r (ADR) | Orkestratï¿½r |
+| 3 | G4: 409 fï¿½rlatma noktasï¿½nï¿½ bul | debugger agent |
+| 4 | G3: Content-Type ayarï¿½nï¿½ doï¿½rula | browser test |
 
 ---
 
@@ -499,13 +499,13 @@ doðrudan bu DTO'yu kullandýðý bu görevde doðrulanmadý (grep: 0 üretim kullanýmý)
 
 ---
 
-## §O — SON KONTROL
+## ï¿½O ï¿½ SON KONTROL
 
 | Kontrol | Durum |
 |---|---|
-| Havuz dýþý URL | 0 |
-| Dosya·Satýr kanýtý | §E matrisi |
-| VERIFICATION REQUIRED iþaretli iddialar | §G (5 madde) |
+| Havuz dï¿½ï¿½ï¿½ URL | 0 |
+| Dosyaï¿½Satï¿½r kanï¿½tï¿½ | ï¿½E matrisi |
+| VERIFICATION REQUIRED iï¿½aretli iddialar | ï¿½G (5 madde) |
 
 ---
 

@@ -68,15 +68,8 @@ bunlar GERÇEKÇALIŞIR).
 | 13 | CSS yüzeyi | `assets.coremusic.net/Css/01_Abstracts/a-color-mode-tokens.css` | `html[data-mode]` 143/367 · `[data-gender]` 217–259 (JS attribute yazımı ThemeManager.js:87,166) |
 | 14 | Karar | `.ai/.decisions/accepted/ADR-086-event-driven-architecture.md` | "altyapı IMPLEMENTED, wiring PLANNED" satır 9/16 · production dispatch 0 satır 34 |
 
-### §3.1 — Olay adı listeleri (taşındı, bu dosyada tutulmaz)
-
-| Liste | Adet | Nerede |
-|-------|------|--------|
-| PHP event adı (dosya→`eventName` satırı) | 12 | `event-akislari-dogrulama.md` §9 tam tablo |
-| JS event adı (19 EventBus + 2 DOM) | 21 | `event-akislari-kapsam.md` §4.2 |
-
-> **Neden taşındı:** index 40–100 satır aralığında kalmalı; ayrıntılı listelerin
-> tekrarı yerine tek kaynak gösterimi yapılır (SSOT).
+> **Olay adı listeleri taşındı (SSOT):** PHP 12 ad → `event-akislari-dogrulama.md` §9 ·
+> JS 21 ad (19 EventBus + 2 DOM) → `event-akislari-kapsam.md` §4.2. Index 40–100 satırda kalmalı.
 
 ## §4 — Kardeş klasörler ile fark
 

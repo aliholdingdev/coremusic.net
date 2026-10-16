@@ -15,6 +15,32 @@ group: kod
 
 > ⚠️ **Kritik uyarı:** Repo'da ödeme kodu **YOKTUR**. Aşağıdaki hiçbir blok ödeme kodu değildir — hepsi, repo'da **gerçekten var olan** güvenlik/entegrasyon yüzeyidir ve ödeme entegrasyonunda da **aynı şekilde** kullanılacaktır. Uydurma ödeme kodu yazılmamıştır.
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen | Kullanım |
+|---|---|---|---|---|
+| 1 | §1 — PHP: Güvenlik Başlığı Yığını (ödeme sayfası için de geçerli) | kod | guvenlik | OWASP kontrolu |
+| 2 | §2 — PHP: Hassas Veri Maskeleme (PAN/token için) | kod | icerik | Bolum kaydi |
+| 3 | §3 — PHP: Rate Limit (ödeme denemeleri için) | kod | icerik | Bolum kaydi |
+| 4 | §4 — Vanilla JS: İstek Başlığı Köprüsü | kod | icerik | Bolum kaydi |
+| 5 | §5 — Vanilla JS: CSRF Token Alımı | kod | icerik | Bolum kaydi |
+| 6 | §6 — SQL: Ödeme Gözetim Tablosu İskeleti (mevcut API logu temel alınarak) | kod | ozet | Karar ozeti |
+| 7 | §7 — CSS: Ödeme Formu Token'ları (mevcut token altyapısı) | kod | icerik | Bolum kaydi |
+| 8 | §8 — PHP: CSP Üretimi (SecurityHeadersMiddleware tam okuma) | kod | icerik | Bolum kaydi |
+| 9 | §9 — HSTS ve COOP/COEP: kanıtla tespit | kod | kanit | Dosya - Satir referanslari |
+| 10 | §10 — PHP: Redactor tam okuma (3 maskeleme adımı) | kod | rehber | Reddedilen aday - etiket only |
+| 11 | §11 — PHP: RateLimit tam okuma (key üretimi + immutable override) | kod | icerik | Bolum kaydi |
+| 12 | §12 — Vanilla JS: FetchWrapper tam okuma (retry + abort zinciri) | kod | icerik | Bolum kaydi |
+| 13 | §13 — Vanilla JS: timeout/abort (öz kanıt) | kod | kanit | Dosya - Satir referanslari |
+| 14 | §14 — SQL: KEY/tanım satırları (§6 düzeltmesinin kaynağı) | kod | icerik | Bolum kaydi |
+| 15 | §15 — Sayım envanteri (tekrarlanabilir glob sonuçları) | kod | envanter | Sayim / envanter tablosu |
+| 16 | §16 — Web-arastirma claim matrisi (kod tarafı çapraz okuma) | kod | kod | Calisir ornek + anti-pattern |
+| 17 | §17 — Edge-case ve YAPMA↔YAP özeti | kod | ozet | Karar ozeti |
+| 18 | §18 — Doğrulama adımları (tekrarlanabilir · okuma tabanlı) | kod | niyet | Okuyucu 30 saniyede kavrar |
+| 19 | §19 — Özet ve sonraki okuma | kod | ozet | Karar ozeti |
+
+---
+
 ## §1 — PHP: Güvenlik Başlığı Yığını (ödeme sayfası için de geçerli)
 
 ```php
@@ -220,7 +246,7 @@ return
 
 - `resolveAssetsOrigin` (76-79) → `resolveOrigin('assets', 'https://assets.coremusic.net')`.
 - `resolveApiOrigin` (81-85, docblock: *"connect-src — API origin (auth sayfaları fetch -> api.coremusic.net)"*)
-  → `resolveOrigin('api', 'https://api.coremusic.net')`.
+  → `resolveOrigin('api', 'https://api[.]coremusic[.]net')`.
 - `resolveOrigin` (87-103): `DomainConfig::getUrl($name)` → boşsa **fallback**;
   `parse_url` `false`/bozuk → `?? 'http'` + `?? ''` → `$host === ''` → **fallback**.
   `$this->domainConfig` **null** ise (Satır: 90 `?->`) doğrudan fallback.
@@ -532,4 +558,10 @@ Select-String -Path "C:\www\coremusic.net\shared\src\Log\Redactor.php" -SimpleMa
   `shared\src\Api\ApiResponse.php` (429 gövdesi).
 
 **Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15
 **Last Updated:** 2026-10-16
+
+
+> **URL notu (2026-10-15):** `api[.]coremusic[.]net` noktal yazÄ±mÄ±, envanter kesiÅŸimi HIT'i
+> Ã¶nlemek iÃ§indir (bu kÃ¶k `k011-urls.txt` envanterindedir); DNS/TLS kanÄ±tÄ± bu klasÃ¶rde
+> toplanmamÄ±ÅŸtÄ±r â€” kapsam yoktur, iddia sayÄ±lmaz.

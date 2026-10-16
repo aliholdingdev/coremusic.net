@@ -203,4 +203,301 @@ mekanizması bu dala yazılmaz (X7/X8).
 | S1 | OS güvenlik katmanı (SIP/KIP/SSV/Gatekeeper/entitlement) hedef mimaride devreye alınıp alınmayacağı; kext vs system extension politikası seçimi | **[UNKNOWN]** — bu kartta KAPATMA YOK; mimari sahibi + yeni ADR (`>=088`) gerektirir |
 | S2 | Uygulama ↔ OS güvenlik sorumluluk sınırı (boot zinciri mi, uygulama mı) | **[UNKNOWN]** — bu kartta KAPATMA YOK; K009/K010 ayrım çizgisiyle birlikte değerlendirilir |
 
+## §7 Çapraz Kart Matrisi (K000 içi karşılaştırma)
+
+> **Analiz bölümü** — yeni olgu iddiası YOKTUR; hücreler diğer K000
+> çekirdek-güvenlik kartlarının §1 özetleridir.
+
+| OS kartı | Root-of-trust | Boot politikası deposu | macOS = temel satır farkı |
+|---|---|---|---|
+| **macOS (bu kart)** | Apple silicon: Secure Enclave imzalı LocalPolicy | sip0–sip3 alanları (§2.1) | Boot politikası donanım-analidir; kext↔dext ayrık |
+| iOS | Boot ROM → LLB → iBoot → kernel; SEP ayrı zincir | İmza zinciri (§2.1 iOS kartı) | Mobil: kext yok, uygulama-içi sınır; `cekirdek-guvenlik-ios` |
+| Linux | Bootloader → çekirdek | LSM + sysctl (runtime) | Donanım zorunluluğu yok; `cekirdek-guvenlik-linux` |
+| Windows | UEFI Secure Boot + TPM | WDAC/App Control binary | Politika binary formu; `cekirdek-guvenlik-windows` |
+| ReactOS | NT bootloader + HAL | Security Reference Monitor | Alpha; `cekirdek-guvenlik-reactos` |
+| Tizen | İmzalama + SMACK | Sertifika→API matrisi | Manifest privilege; `cekirdek-guvenlik-tizen` |
+| webOS | Image derleme + FOTA | Statik servis + ACG | Boot-time statik; `cekirdek-guvenlik-webos` |
+
+**Okuma:** macOS, Linux'un tersine boot politikasını **donanım-analı bir
+alan** (LocalPolicy) içine koyar ve değişimini recoveryOS'a (1TR) taşır
+(§2.1/§2.2). Bu, politika değişiminin fiziksel erişim + yönetici şifresi
+ile sarılması demektir — uzaktan yapılandırma yolu yoktur. CoreMusic için
+sonuç: macOS güvenlik yapılandırması kurulum anında verilir, çalışma
+anında değişmez (§10.1).
+
+## §8 Ses/Zamanlama Yüzeyi Etkileşimi (Neva Engine senaryosu)
+
+> `PLANNED` senaryo analizi. Repo `*.cpp`/`*.h` = 0 (§3). Kaynaklar:
+> `Dosya: .ai/electronic/drivers/audio-drivers.md [Satır: 709]` ·
+> `Dosya: .ai/projects/NevaEngine/os/04-macos-coreaudio.md [Satır: 77]`.
+
+### §8.1 CoreAudio hem HAL hem çatı — güvenlik sonucu
+
+`audio-drivers.md` §1.6 (Satır: 709): macOS'ta CoreAudio hem HAL hem ses
+çatısıdır; çekirdek tarafında AppleUSBAudio/IOAudioFamily vardır.
+Güvenlik açısı: kext yerine **system extension** modeli (§2.3) ile ses
+işleyicileri kullanıcı uzayına taşınır. Üç kural (§2.3 upstream): bundle
+identifier eşleşmesi, aynı Team ID imzası, Mac App Store + notarize
+dağıtım. Sonuç (analiz): macOS, ses zincirindeki üçüncü taraf kodu Linux'ta
+olduğu gibi çekirdeğe değil, sarılı bir uzantıya alır.
+
+### §8.2 Hardened Runtime × RT callback (Neva Engine)
+
+NevaEngine `04-macos-coreaudio.md` §1 (Satır: 77) AUHAL render callback'i
+(Float32 · 8 kanal) tanımlar. Hardened Runtime (§2.2) JIT hariç runtime-
+exception'ları kapatır. RT callback'i için analiz: AUHAL callback'i JIT
+ihtiyacı duymaz (AOT derlenmiş Objective-C++/Swift); dolayısıyla normal
+olarak **hiçbir runtime-exception entitlement'ı gerekmez** — §2.2 kuralı
+("yalnızca mutlak gerekli olanlar") bu bağlamda "hiçbiri" demektir.
+Kod enjeksiyonu koruması (§2.2 madde 5) RT callback'ini de korur.
+
+### §8.3 Endpoint Security × ses olayları
+
+§2.3 upstream: olay sınıfları sürücü calistirma (process exec), mount,
+fork, sinyal yukseltme. Ses zinciri bu sınıflara girmez — CoreAudio
+render callback'i bir olay sınıfı değildir. Sonuç: Endpoint Security
+kaydı ses gecikme bütçesine dokunmaz; ancak ses süreci başlatma (exec)
+olayı yakalanır ve süreç kimliği doğrulanabilir (§10.2 senaryo).
+
+### §8.4 TCC × korumalı kaynaklar (ses donanımı yüzeyi)
+
+TCC (§1, `yetki-ve-erisim-modeli-macos` kartının konusu) korumalı
+kaynakları yönetir. Ses donanımı TCC'nin klasik mikrofon kategorisine
+girer; CoreAudio route'u bu kategoriden ayrıdır. Analiz kuralı: Neva
+Engine bir **monitor/routing** uygulaması ise mikrofon TCC'si yalnız
+capture yolu için istenir; playback-only senaryoda hiç istenmez. Karar
+uygulama katmanında, TCC metni OS'tadır.
+
+## §9 Başarısızlık Modları ve Risk Matrisi
+
+| # | Başarısızlık | Konum (kart içi) | Belirti | Çıkış | CoreMusic etkisi (senaryo) |
+|---|---|---|---|---|---|
+| F1 | LocalPolicy doğrulama reddi | Apple silicon boot | Boot retry/recovery | 1TR'e düşüş | Uygulama hiç başlamaz |
+| F2 | Politika seviyesi uyuşmazlığı | §2.2 geçiş koşulları | kext/AuxKC yüklenmez | Reduced Security gerekir | Dext/kext bağımlı özellik çalışmaz |
+| F3 | System extension aktivasyon reddi | §2.3 kurallar | Uzanti kurulmaz | 4 kuraldan biri ihlal | Ses işleyici yüklenmez; fallback CoreAudio çekirdek yolu |
+| F4 | Notarization/Gatekeeper reddi | §2.2 + dagitim | Uygulama açılmaz | Gatekeeper diyalogu | Süreç hiç başlamaz |
+| F5 | Hardened Runtime ihlali (enjeksiyon denemesi) | §2.2 madde 5 | Süreç sonlanır (SIGKILL ailesi) | OS müdahalesi | Savunma başarılı; kayıt §15 |
+| F6 | Cihaz kaybı (CoreAudio) | §4.6 eşdeğeri (audio-drivers.md) | Akış kesilir | Otomatik yeniden bağlan | audio-drivers.md §4.6 akışı |
+| F7 | TCC reddi (mikrofon) | §8.4 | Capture açılamaz | TCC diyalogu/red | Playback ayrık kalır; capture senaryosu durur |
+
+**Örüntü:** 7 modun 5'i (F1–F5) uygulama başlamadan/çalışırken OS
+müdahalesiyle biter; macOS kartı da iOS gibi "kapılar önce" tarafındadır
+(§9 iOS kartı F1–F3 ile aynı örüntü).
+
+## §10 Entegrasyon Senaryoları (hedef mimari)
+
+### §10.1 Senaryo A — Varsayılan politika + notarized uygulama
+
+Full Security (§2.2) açık; uygulama notarize + Hardened Runtime; system
+extension yok; yalnız CoreAudio/AUHAL. §8.2 sonucu: runtime-exception
+entitlement'ı 0. S1'e "hayır" karşılığı. En küçük yüzey; §2.2/§2.3
+hiçbir kuralı tetiklemez.
+
+### §10.2 Senaryo B — Audio system extension (işleyici uzantısı)
+
+§2.3'ün dört kuralıyla ses işleyici system extension'ı. Extension bundle
+identifier'ı dosya adıyla eşleşmeli, aynı Team ID ile imzalı olmalı,
+MAS/notarize dağıtılmalı, kurulum runtime'da. Exec olayı Endpoint
+Security ile doğrulanabilir (§8.3). S1 "evet" ile değerlendirilir;
+ADR (`>=088`) gerekir.
+
+### §10.3 Senaryo C — Ölçüm/audit (Endpoint Security kaydı)
+
+§2.3 mod 2 (bildirim); ses süreci exec olaylarını kaydeder. Ses zaman
+çizelgesine dokunmaz (§8.3). Ayrı bir ölçüm katmanıdır; §15 V6'ya bağlı.
+
+### §10.4 Senaryo karşılaştırma
+
+| Senaryo | Politika etkisi | İmza yükü | S1 | Zamanlama riski |
+|---|---|---|---|---|
+| A | Yok | Notarize | hayır | Sıfır (§8.2) |
+| B | Extension kuralları (4) | Team ID + MAS | evet | Sıfır (callback kullanıcı uzayı) |
+| C | Yok | Ayrı uzantı | evet | Düşük (exec olayları) |
+
+## §11 Kaynakça — envanter ve ölçüm
+
+### §11.1 Atıf yapılan vault dosyaları (2026-10-16 ölçümü)
+
+| Dosya | Satır | Kullanım |
+|---|---|---|
+| `.ai/electronic/drivers/audio-drivers.md` | 709 | §8.1 CoreAudio=HAL+çatı, §9 F6 |
+| `.ai/projects/NevaEngine/os/04-macos-coreaudio.md` | 77 | §8.2 AUHAL callback |
+| `.ai/projects/NevaEngine/os/01-windows-asio.md` | 119 | §7 çapraz (Windows) |
+| `.ai/projects/NevaEngine/os/03-linux-alsa-pipewire.md` | 92 | §7 çapraz (Linux) |
+| `isletim-sistemi-security/cekirdek-guvenlik/cekirdek-guvenlik-{ios,linux,windows,reactos,tizen,webos}.md` | (bu vault) | §7 çapraz satırlar |
+| `isletim-sistemi-security/yetki-ve-erisim-modeli/yetki-ve-erisim-modeli-macos.md` | (bu vault) | §8.4 sınır |
+
+### §11.2 Upstream kanıt durumu (§2 blokları, 2026-10-14)
+
+| Blok | Kaynak | Durum |
+|---|---|---|
+| §2.1 LocalPolicy alanları | contents-a-localpolicy-file (Apple) | Okundu |
+| §2.2 Politika seviyesi geçişleri | startup-disk-security-policy-control | Okundu |
+| §2.3 System extension kuralları | developer.apple.com/documentation/systemextensions | Okundu |
+| §2.2/§2.3 çıktı biçimleri | — | `⚠️ VERIFICATION REQUIRED` (§2 notu korunur) |
+
+## §12 Karar Ağaçları
+
+### §12.1 macOS genişletme seçimi
+
+```
+macOS ses genişlemesi gerekiyor mu?
+    │
+    ├─ Hayır → Senaryo A (AUHAL, §10.1)
+    │
+    ├─ İşleyici uzantısı mı?
+    │     EVET → Senaryo B (§10.3 kuralları 1-4)
+    │              └─ 3. taraf kext mi? → Reduced + AuxKC (§2.2) — S1'e taşı
+    │
+    └─ Exec denetimi/audit mi?
+          EVET → Senaryo C (Endpoint Security, §8.3)
+```
+
+### §12.2 Politika seviyesi seçimi (§2.2'ye bağlı)
+
+```
+Gereksinim: Standart uygulama → Full Security (varsayılan)
+Gereksinim: Eski sürüm + kext        → Reduced Security
+Gereksinim: İmzalanmamış kendi XNU   → Permissive (SIP kapatmak için önce bu)
+Per karar: mimari sahibi + ADR (>=088); bu kartta kapatılmaz (S1)
+```
+
+## §13 Zaman Çizelgesi (vault ölçümleri)
+
+| Tarih | Olay | Kaynak |
+|---|---|---|
+| 2026-10-14 | LocalPolicy / politika seviyesi / system extension upstream okundu | bu kart `validation:` |
+| 2026-10-14 | Repo OS-guvenlik taraması: 0 isabet | bu kart §3 |
+| 2026-10-15 | NevaEngine macOS backend ölçüldü (77 satır) | `.ai/projects/NevaEngine/os/04` |
+| 2026-10-16 | Bu ek yazıldı | bu dosya |
+
+## §14 Test ve Doğrulama Önerileri (senaryo, uygulanmadı)
+
+| # | Doğrulama | Yöntem (referans) | Beklenen | Kanıt durumu |
+|---|---|---|---|---|
+| V1 | Politika seviyesi | `bputil`/ sistem bilgisi (§2.2 ortamı) | Full Security | ⚠️ 1TR/ekipman gerekli |
+| V2 | Extension kuralları | Kurulum denemesi (§2.3) | 4 kural da sağlanırsa kurulum | Kod yazılınca |
+| V3 | Notarization | `spctl`/Gatekeeper denemesi | Kabul | ⚠️ imzalı paket gerekli |
+| V4 | Hardened Runtime statik | İmza okuması (§2.2) | runtime-exception 0 (Senaryo A) | İmzalı paketle |
+| V5 | Exec olayı | Endpoint Security (§8.3) | Ses süreci exec kaydı | Kod yazılınca |
+| V6 | Cihaz kaybı kurtarma | Fiziksel çıkarım | audio-drivers.md §4.6 akışı | ⚠️ donanım gerekli |
+
+## §15 Sınır İhlali Kayıtları (negatif kontroller)
+
+| Kontrol | Sonuç |
+|---|---|
+| SIP/kext kapatma komutu uyduruldu mu? | HAYIR — §2.1/§2.2 yalnız upstream kalıpları; çıktı biçimi `⚠️` |
+| Repoda macOS güvenlik yapılandırması var mı iddiası? | HAYIR — §3 negatif kanıt |
+| S1/S2 kapatıldı mı? | HAYIR (§6) |
+| Frontmatter/`status:` değişti mi? | HAYIR (append-only) |
+| ADR uyduruldu mu? | HAYIR — yalnız `>=088` eşiği anıldı |
+
+## §16 Ek: macOS Güvenlik Mekanizması ↔ CoreMusic Bileşeni Eşlemesi
+
+| CoreMusic bileşeni (vault) | macOS mekanizması | Eşleme türü | Sınır notu |
+|---|---|---|---|
+| Neva Engine RT çekirdeği (`PLANNED`) | AUHAL render callback (§8.2) | Zamanlama | Hardened Runtime uyumlu; exception 0 |
+| DSP zinciri (`electronic/dsp/index`) | AU işleyicileri / vDSP | Hesaplama | Zero-allocation korunur |
+| Sanal ses köprüsü (`09-open-source-virtual-audio-driver`) | CoreAudio-içi aggregate cihaz | Yönlendirme | iOS'taki yasak (ios kartı §12.1) burada yok; macOS'ta kullanıcı uzayı köprü mümkün — ayrıntı `⚠️ VERIFICATION REQUIRED` |
+| Mixer web PCM (`05-neva-mixer-web-pcm-plani`) | AVAudioEngine ağ | Ağ | Ağ sandbox içinde |
+| IO formatı (`10-io-format-32bit-192khz`) | AudioStreamBasicDescription | Format | 32-bit float müzakere; 192 kHz cihaza bağlı |
+| Driver whitelist (audio-drivers.md §4.4) | Route politikası | Seçim | Whitelist uygulama-içi |
+
+### §16.1 Aggregate cihaz vs sanal sürücü (macOS farkı)
+
+iOS kartı §12.1'de kullanıcı-kaynaklı sanal audio cihazının olmadığını
+söyler. macOS'ta bu yüzey farklıdır: CoreAudio aggregate cihazlar (çoklu
+fiziksel cihazın birleştirilmesi) kullanıcı uzayında kurulabilir; özel
+kernel sanal cihazı (kext) içinse §2.2/§2.3 kapıları geçilmelidir. Analiz:
+Neva Engine macOS portunda "sanal kart" gereksinimi aggregate cihazla
+karşılanabilirse kext/system extension kapıları hiç tetiklenmez (Senaryo A
+kapsamında kalır). Bu satır mimari bir fark beyanıdır; doğrulama §14 V2'ye
+bağlıdır.
+
+## §17 Ek: SSS — Bu Kartın Sınırı
+
+| Soru | Kısa cevap | Bölüm |
+|---|---|---|
+| SIP bitleri NVRAM'de mi? | Apple silicon'da LocalPolicy alanındadır (§2.1 upstream) | §2.1 |
+| kext mi dext mi? | 3. taraf kext Reduced + AuxKC (§2.2); dext system extension (§2.3) — S1 seçimi | §10, §12.1 |
+| Hardened Runtime JIT'e izin verir mi? | Yalnız runtime-exception entitlement ile (§2.2 madde 2) | §8.2 |
+| Authorization Services sandbox içinde çalışır mı? | Hayır — upstream "Important" (yetki kartı §2.3) | §8.4 |
+| Endpoint Security ses olaylarını yakalar mı? | Sınıflar exec/mount/fork/sinyal — render callback yok | §8.3 |
+| Politika değişimi uzaktan yapılabilir mi? | Hayır — recoveryOS + yönetici şifresi (§2.2) | §10.1 |
+| Repoda macOS güvenlik yapılandırması var mı? | Hayır — 0 isabet | §3 |
+| macOS sanal ses cihazı mümkün mü? | Aggregate: kullanıcı uzayı olası; özel kext: kapılar (§16.1) | §16.1 |
+
+## §18 Ek: macOS Katman Güvenlik Matrisi (bu kart §1 satırları ↔ Neva katman modeli)
+
+> Katman modeli `Dosya: .ai/electronic/drivers/audio-drivers.md [Satır: 709]`
+> §1.1-§1.3'ten alınmıştır; macOS sütunu bu kartın §1-§2 upstream
+> satırlarıyla eşlenir. Yeni olgu iddiası YOKTUR.
+
+| Katman (audio-drivers.md §1.2) | macOS karşılığı | Güvenlik kontrolü | Kart bölümü |
+|---|---|---|---|
+| Uygulama (Neva Engine, PLANNED) | Uygulama süreci | Hardened Runtime + notarize | §8.2, §10.1 |
+| HAL | CoreAudio (AUHAL) | Sandbox + entitlement (uygulama katmanı) | §8.1, §8.4 |
+| OS ses çatısı | CoreAudio politika | Route/TCC | §8.4 |
+| Kernel sürücü | AppleUSBAudio/IOAudioFamily | İmza zinciri (boot halkası) | §2.1, §8.1 |
+| Donanım | Ses donanımı | Donanım root of trust (Apple silicon) | §2.1 |
+
+### §18.1 Katman ihlali durumları (macOS gözünden)
+
+| İhlal | audio-drivers.md §1.10 savunması | macOS ek savunması |
+|---|---|---|
+| HAL'ın çekirdek register'ı yazması | Yalnız sürücü yazar | Sandbox + dext modeli (§2.3) — kullanıcı uzayı register'a erişemez |
+| DSP'nin tamponu devri | Kilitli protokol | Hardened Runtime bellek koruması (§2.2 madde 5) |
+| İkinci uygulamanın exclusive kanalı açması | Exclusive Lock ret | CoreAudio multi-client (macOS karta göre "Evet" — §1 macOS satırı audio-drivers.md §5.4) |
+
+**Okuma:** macOS'ta birinci katman ihlali OS tarafından da engellenir
+(sandbox), Linux'ta ise yalnız LSM politikası varsa (Senaryo C). Bu,
+CoreMusic'in cross-platform güvenlik eşitsizliği beyanıdır — §12.1
+ağaçlarının gerekçesi.
+
+### §18.2 Kritik bağımlılık: extension ≠ kext
+
+| Özellik | kext | system extension (§2.3) |
+|---|---|---|
+| Konum | Çekirdek uzayı | Kullanıcı uzayı (sarılı süreç) |
+| Etkinleşme | Reduced Security + AuxKC (§2.2) | Runtime kurulum + 4 kural (§2.3) |
+| Çökme etkisi | Sistem çökmesi | Uzantı süreci çöker, sistem kalır |
+| CoreMusic etkisi | S1 "evet" + ADR | Senaryo B; daha küçük yüzey |
+
+**Karar notu (işaret):** S1 "evet" ise tercih sırası extension → kext'tir
+(başarısızlık yüzeyi §18.2 sütun 4). Bu bir karar değildir; mimari sahibi
+onaylar (§6).
+
+## §19 Ek: Okuma Sırası ve Bağlantı Haritası (yeni okuyucu için)
+
+### §19.1 Önerilen okuma sırası
+
+1. §0 ELI15 — çerçeve (SIP/KIP/SSV/Gatekeeper/entitlement beşlisi).
+2. §1 profil + §2 upstream blokları (LocalPolicy, politika seviyesi, extension).
+3. §3 repo durumu — negatif kanıt; §2 bloklarının "repo karşılığı" satırları.
+4. §7 çapraz matris — iOS/Linux/Windows farkları.
+5. §8–§10 senaryo katmanı (Neva `PLANNED`; S1/S2 bağlantıları).
+6. §16–§18 eşleme/matris — uygulama-yüzeyi ilişkisi.
+7. §14–§15 ölçüm + negatif kontroller.
+
+### §19.2 Bağlantı haritası (bu kartın işaret ettiği dosyalar)
+
+| Hedef | Bağlantı türü |
+|---|---|
+| `isletim-sistemi-security/uygulama-guvenlik-siniri/uygulama-guvenlik-siniri-macos.md` | Sandbox/Endpoint Security derinliği |
+| `isletim-sistemi-security/yetki-ve-erisim-modeli/yetki-ve-erisim-modeli-macos.md` | TCC/entitlement/Authorization Services |
+| `isletim-sistemi-audio/coreaudio/` | CoreAudio stack detayı |
+| `isletim-sistemi-turu/macos/macos-guvenlik.md` | Platform geneli güvenlik |
+| `isletim-sistemi-kernel/surucu-ve-modul-modeli/` | kext/dext sürüm notları |
+| `.ai/electronic/drivers/audio-drivers.md` [Satır: 709] | Katman modeli (§18) |
+
+### §19.3 Uzun vadeli yenileme kuralı
+
+macOS sürüm WWDC sonrası bu kart §2'deki üç upstream bloğu yeniden
+okunur; LocalPolicy alanları (§2.1) değişirse §12.2 karar ağacı revize
+edilir. Yenileme tetikleyicileri §13 zaman çizelgesine işlenir.
+
+**Ek not (okuma):** Bu kart iOS kartının genişletilmiş masaüstü karşılığıdır;
+iki kart birlikte okunduğunda "kapılar önce" örüntüsü (§9) tek seferde
+görülür.
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

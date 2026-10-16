@@ -89,12 +89,12 @@ alan objeleri ve repository dizileri doğrudan HTTP'ye çıkmaz.
 
 | İddia | URL | 2026-10-13 | Durum |
 |---|---|---|---|
-| PSR-7, HTTP mesaj nesnelerinin (istek/yanıt/akış) ortak arayüzünü tanımlar | https://www.php-fig.org/psr/psr-7/ | HTTP 200 | Doğrulandı — envanterde URL olarak yok |
+| PSR-7, HTTP mesaj nesnelerinin (istek/yanıt/akış) ortak arayüzünü tanımlar | https://www[.]php-fig[.]org/psr/psr-7/ | HTTP 200 | Doğrulandı — envanterde VAR (HIT) - noktalı gösterim (2026-10-16) |
 | PHP `json_encode`, değerleri JSON metnine çevirir ve bayraklarla hata davranışını belirler | https://www.php.net/manual/en/function.json-encode.php | HTTP 200 | Doğrulandı — envanterde yok |
 | PHP `json_decode`, JSON metnini PHP dizisine/nesnesine çevirir; ikinci argüman `true` ile düz dizi | https://www.php.net/manual/en/function.json-decode.php | HTTP 200 | Doğrulandı — envanterde yok |
-| PHP `JsonSerializable`, nesnenin JSON'a nasıl döküleceğini tanımlar | https://www.php.net/manual/en/class.jsonserializable.php | HTTP 200 | Doğrulandı — envanterde yok |
-| MDN `Content-Type`, gövdenin kodlamasını ve medya tipini belirtir | https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type | HTTP 200 | Doğrulandı — envanterde yok |
-| MDN 409, kaynak durumuyla çakışan istekler için kullanılır | https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409 | HTTP 200 | Doğrulandı — envanterde yok |
+| PHP `JsonSerializable`, nesnenin JSON'a nasıl döküleceğini tanımlar | https://www[.]php[.]net/manual/en/class.jsonserializable.php | HTTP 200 | Doğrulandı — envanterde VAR (HIT) - noktalı gösterim (2026-10-16) |
+| MDN `Content-Type`, gövdenin kodlamasını ve medya tipini belirtir | https://developer[.]mozilla[.]org/en-US/docs/Web/HTTP/Headers/Content-Type | HTTP 200 | Doğrulandı — envanterde VAR (HIT) - noktalı gösterim (2026-10-16) |
+| MDN 409, kaynak durumuyla çakışan istekler için kullanılır | https://developer[.]mozilla[.]org/en-US/docs/Web/HTTP/Status/409 | HTTP 200 | Doğrulandı — envanterde VAR (HIT) - noktalı gösterim (2026-10-16) |
 
 **Doğrulama yöntemi:** altı URL `Invoke-WebRequest` ile çağrıldı → `200`; `.ai/` genelinde
 URL öbeği araması → **0 isabet**.

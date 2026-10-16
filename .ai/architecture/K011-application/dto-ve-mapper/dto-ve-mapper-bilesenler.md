@@ -13,6 +13,47 @@ group: mimari
 
 **Amaç:** DTO/mapper yüzeyinin **gerçek glob/grep sayımlarıyla** bileşen envanteri, bileşen↔akış iz düşümü, bağımlılık grafiği ve boşluk listesi.
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen | Kullanım |
+|---|---|---|---|---|
+| 1 | §1 — Dizin/Dosya Envanteri (ölçüm 2026-10-15) | mimari | envanter | Sayim / envanter tablosu |
+| 2 | §2 — Bileşen ↔ Akış İz Düşümü | mimari | akis | Uctan uca akis kaydi |
+| 3 | §3 — Bağımlılık Grafiği | mimari | bag | Bagimlilik grafigi |
+| 4 | §4 — İlgili (ama sahip olmayan) Bileşenler | mimari | niyet | Okuyucu 30 saniyede kavrar |
+| 5 | §5 — Boşluklar | mimari | icerik | Bolum kaydi |
+| 6 | §6 — Ölçüm Notu (Zero-Hallucination) | mimari | icerik | Bolum kaydi |
+| 7 | §7 — DTO İçerik Envanteri (satır bazlı, 2026-10-16 okuma) | mimari | envanter | Sayim / envanter tablosu |
+| 8 | §8 — Dizin Envanteri 2. Tur (bu ölçülen) | mimari | envanter | Sayim / envanter tablosu |
+| 9 | §9 — Array İdiom Bileşen Dağılımı (grep ölçümü) | mimari | icerik | Bolum kaydi |
+| 10 | §10 — Serileştirme & JSON Bileşen Tablosu | mimari | icerik | Bolum kaydi |
+| 11 | §11 — Bileşen Boyut Envanteri (ReadAllLines) | mimari | envanter | Sayim / envanter tablosu |
+| 12 | §12 — `fromArray`/`toArray` Repo Yayılımı (15 / 14 dosya) | mimari | icerik | Bolum kaydi |
+| 13 | §13 — Bileşen↔Kapı Eşlemesi (gate görünürlüğü) | mimari | kapi | PASS/BLOCK karari |
+| 14 | §14 — Kesişim Bileşen Kaydı (havuz ↔ envanter) | mimari | envanter | Sayim / envanter tablosu |
+| 15 | §15 — Bileşen Boşlukları 2. Tur (öncelik sıralı) | mimari | icerik | Bolum kaydi |
+| 16 | §16 — Bileşen Sorumluluk Matrisi (kim neye sahip) | mimari | karar | Acik soru / ust karar listesi |
+| 17 | §17 — Akış ↔ Bileşen İz Düşümü 2. Tur (adım adım) | mimari | akis | Uctan uca akis kaydi |
+| 18 | §18 — Bağımlılık Kısıtları (bileşen ↔ bileşen) | mimari | bag | Bagimlilik grafigi |
+| 19 | §19 — Envanter Doğrulama Tablosu (iddia ↔ yöntem ↔ sonuç) | mimari | niyet | Okuyucu 30 saniyede kavrar |
+| 20 | §20 — Kısıtlar & Dürüstlük Beyanı | mimari | icerik | Bolum kaydi |
+| 21 | §21 — Test Dizin Envanteri (9 dizin, dosya sayıları) | mimari | envanter | Sayim / envanter tablosu |
+| 22 | §22 — Request DTO Giriş Yüzeyi (hangi HTTP metodu hangi DTO'yu besler) | mimari | icerik | Bolum kaydi |
+| 23 | §23 — Response DTO Çıkış Yüzeyi | mimari | icerik | Bolum kaydi |
+| 24 | §24 — Middleware Bileşen Zinciri (sıra + sorumluluk) | mimari | karar | Acik soru / ust karar listesi |
+| 25 | §25 — Bileşen → Düzey Eşlemesi (katmanlı mimari) | mimari | icerik | Bolum kaydi |
+| 26 | §26 — Dosya Boyutu Dağılımı (DTO, gerçek ölçüm) | mimari | icerik | Bolum kaydi |
+| 27 | §27 — Boşluk → Aksiyon Eşlemesi (kime devredildi) | mimari | rehber | Reddedilen aday - etiket only |
+| 28 | §28 — Envanter İddia ↔ Yöntem ↔ Sonuç (2. tur, 10 satır) | mimari | envanter | Sayim / envanter tablosu |
+| 29 | §29 — Bileşen↔Doğrulama Belgesi Çapraz Referansı | mimari | niyet | Okuyucu 30 saniyede kavrar |
+| 30 | §30 — K011 Kapsam-Dışı Bileşenler (bilinçli olarak dışarıda) | mimari | icerik | Bolum kaydi |
+| 31 | §31 — Ölçüm Tekrarlanabilirlik Tablosu (komut → beklenen çıktı) | mimari | icerik | Bolum kaydi |
+| 32 | §32 — Kademe-2 Kapanış Özeti (bu klasör) | mimari | ozet | Karar ozeti |
+| 33 | §33 — DTO Dosya Bazlı Tam Okuma (11 dosya · 999 satır · 2026-10-16) | mimari | icerik | Bolum kaydi |
+| 34 | §34 — Claim Matrisi (DTO · D1-D6) ve Açık Sorular | mimari | karar | Acik soru / ust karar listesi |
+
+---
+
 ## §1 — Dizin/Dosya Envanteri (ölçüm 2026-10-15)
 
 | Yol | Sayım | İçerik |
@@ -523,4 +564,5 @@ düzeltme durumu (eski "1.011" → **999**) — o da her iki belgede işaretlidi
    bağlanacak? → K011 ödeme sayfalaması kararı `PLANNED`.
 
 **Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15
 **Last Updated:** 2026-10-16

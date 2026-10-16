@@ -4,9 +4,9 @@ title: "CoreMusic — Accessibility Gaps (WCAG 2.2 AA)"
 type: analysis
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-29
+updated: 2026-10-16
 status: active
-version: 3.1.0
+version: 3.2.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
@@ -51,8 +51,11 @@ CoreMusic UI'ının **WCAG 2.2 AA uyumluluğu** için eksikliklerin ve kritik al
 | Badge (C10) | 24px | ≥24 ✅ (dekoratif) | — | ✅ AA · dekoratif, proje zemini kapsam dışı |
 | Avatar (C11) | 24px | ≥24 ✅ (dekoratif) | — | ✅ AA · dekoratif, proje zemini kapsam dışı |
 | Dropdown (C14) | 32px | ≥24 ✅ | ≥48 ❌ | ⚠️ AA ✅ · item height 48 px zemininde eksik |
+| Admin sidebar öğesi (T17, Figma 13px satır) | 13px | < 24 ❌ | 48 ❌ | ❌ **gerçek AA gap** → `screens/T17-monitor-22fhd/admin-layout.md` §4 (kodda ≥32px mouse / ≥24px AA) |
+| Auth checkbox (Figma 15×15) | 15px | < 24 ❌ | 48 ❌ | ❌ **gerçek AA gap** → `admin-login.md` / `admin-register.md` §4 (toplam tıklama alanı ≥24px) |
+| Auth input (Figma h:30) | 30px | ≥24 ✅ | 48 ❌ | ⚠️ AA ✅ · T17 mouse tier'da 48 px dokunma zemini uygulanmaz (proje zemini gap'i) |
 
-**Gap sayımı (QR §8 ile birebir):** Touch Target Issues **7** = AA gap'leri (Slider ❌ + Toggle yükseklik sınırı ❌ dahil) + proje zemini gap'leri (NavLink, Input, Tab, Dropdown… `⚠️`). Badge/Avatar dekoratif kabul edilir, sayılmaz.
+**Gap sayımı (QR §8 ile birebir):** Touch Target Issues **10** = AA gap'leri (Slider ❌ + Toggle yükseklik sınırı ❌ + Admin sidebar ❌ + Auth checkbox ❌ dahil) + proje zemini gap'leri (NavLink, Input, Tab, Dropdown, Auth input… `⚠️`). Badge/Avatar dekoratif kabul edilir, sayılmaz.
 
 ### Touch Target Düzeltme Önerileri
 
@@ -110,6 +113,7 @@ CoreMusic UI'ının **WCAG 2.2 AA uyumluluğu** için eksikliklerin ve kritik al
 | Primary button | #ffffff | #ff4fd8 | 3.1:1 | 4.5:1 | ❌ |
 | Disabled text | #4a4a5a | #0a0a0f | 2.8:1 | 3:1 | ⚠️ |
 | Glass text | rgba(255,255,255,0.70) | glass bg | ~5:1 | 4.5:1 | ✅ |
+| Admin ekran: foto üzeri beyaz metin | #ffffff | fotoğraf + scrim `rgba(0,0,0,.25)` | ölçülemez (oto-kontrast) | 4.5:1 | ❌ **gerçek AA gap** → `screens/T17-monitor-22fhd/admin-*.md` §5 GAP 1 (blur + scrim ile kodda güvence altına alınır) |
 
 ### Contrast Düzeltme Önerileri
 
@@ -201,6 +205,10 @@ CoreMusic UI'ının **WCAG 2.2 AA uyumluluğu** için eksikliklerin ve kritik al
   outline-offset: 2px;
 }
 
+/* Admin (T17) ekranları — screens/T17-monitor-22fhd/admin-*.md §5 GAP 2:
+   Figma'da odak durumu çizilmedi; bu ekranlarda outline token'ı
+   --cm-focus-ring (design-tokens-master) kullanılır. */
+
 /* Remove default outline for mouse users */
 :focus:not(:focus-visible) {
   outline: none;
@@ -213,20 +221,20 @@ CoreMusic UI'ının **WCAG 2.2 AA uyumluluğu** için eksikliklerin ve kritik al
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 3.1.0 |
+| Version | 3.2.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
 | Sections | 8 |
-| Touch Target Issues | 7 (2 ❌ AA + 5 ⚠️ proje zemini) |
-| Contrast Issues | 2 |
+| Touch Target Issues | 10 (4 ❌ AA + 6 ⚠️ proje zemini) |
+| Contrast Issues | 3 |
 | Keyboard Issues | 4 |
 | Screen Reader Issues | 4 |
-| Total Gaps | 17 |
+| Total Gaps | 21 |
 | WCAG Ölçüm Tabanı | SC 2.5.8 (AA, 24px) + proje zemini 48px; 44px = SC 2.5.5 AAA (bağlayıcı değil) |
 | Cross References | 3 |
-| Last Updated | 2026-09-29 |
+| Last Updated | 2026-10-16 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-16
 **Mode:** Red Team · Human Mode · Truth Mode

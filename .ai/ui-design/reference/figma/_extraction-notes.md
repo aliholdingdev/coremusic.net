@@ -282,3 +282,22 @@ Figma `/v1/images` endpoint'i bu 15 node için **NULL** döndürüyor (HTTP 200,
 13. `Linux - 1920 - Home.png`
 
 **Kapanan iddiası:** "dizin 149 = hedef 151'den 2 eksik" **geçersizdir**. Doğru ifade: **151 hedef · 136 indirilen · 15 gizli node (`visible: false`) API'den NULL → indirilemez · 13 legacy · dizin toplamı 149.** Kaynak: `ui-design/reference/04-verification.md` §7.1.
+
+## Extract: taze çekim — sayfa 462:5874 "Core Music" Linux 1920 (2026-10-16)
+
+**Tetikleyici:** Figma tasarımı güncellendi → eski çekim (v2401752188763178639, 2026-09-21T17:51:56Z) geçersiz; kullanıcı talimatı: önce compare, sonra sıfırdan taze çekim.
+
+**Yeni SSOT:** `raw/page-462-5874.json` — version `2410933437250453593` · lastModified `2026-10-16T12:56:08Z` · 3.212.649 bayt · 4 root child (CANVAS + 3452 node). Eski sürüm git geçmişinde (`c46f08a`); geçici yedek oturum temp'inde.
+
+**Compare (eski → yeni):** 14 root çocuk silindi · 3 yeni frame eklendi (Göz At `3155:18252` · Playlist `3155:19834` · Geçmiş `3155:22392`) · Home `2831:13747` 328 → 803 node (yeniden tasarım: 5 kart satırı + widget paneli). 4 frame de 1920×1080; frame orijinleri y=-576.
+
+**Üretilen dosyalar:**
+
+1. `reference/figma/extracted-462-5874.md` (661.602 bayt · 3897 satır · Kalıp A) — 4 frame tam node ağacı (frame-rel koordinat, fill/stroke/effect/radius/AL/tipografi), 4 ASCII bölge haritası + lejant, §8 API-boşluk sayımı (letterSpacingUnit 0/781 · layoutGrids 0 · spread yok), hygiene kayıtları (grup adı takası · Navbar ×2 tekrar · "Fiel Manager" yazım · 461 stale TEXT adı).
+2. `tokens/tokens-1920.json` yeniden üretildi — figma-tokens.ps1 Faz 9 gate: `toplam=7 | pass=5 | bos=2 | fail=0 | bos_bp=3840,tv` + `BITTI` (1920: node=28672, korunan eski=2227, PASS); çakışma günlüğü `token-conflicts.md` (400 satır).
+
+**PNG referansları:** `.ai/.png/home-1920/` artık **4 PNG** (Home · Göz At · Playlist · Geçmiş — 2026-10-16 export); ASCII ve frame tabloları bu dosyalara bağlı, existsSync 4/4. **Not:** `01-mockup-index.md` ve `screens/00-ascii-art-index.md` "home-1920 = 1 PNG / toplam 19" sayaçları eskimiştir (diskte 25 PNG: admin-1920 3 · home-1024 12 · home-1920 4 · shared-1024 6 — envantere yeni dmin-1920/ dizini de dahil değil) — sonraki vault-sync'te düzeltilecek.
+
+**Supersession:** `extracted-1920.md` §"Doğrulanan raw dosya" satırındaki `page-462-5874.json` atfı (2026-09-21 sürümü) artık geçersizdir; `extracted-462-5874.md` sayfa-geneli taze SSOT'tur (`extracted-1920.md`'nin birincil kaynağı `nodes-1024-1920.json`dur, dosya silinmez).
+
+**Doğrulamalar:** vault-utf8-writer `verify` → BOM 0 · mojibake 0 · CJK 0 · NUL 0 · 3897 satır · wiki-link-check repo kökünden (aşağıdaki sonuç).

@@ -13,6 +13,31 @@ group: kanit
 
 **Amaç:** Havuzdaki 5 PHP dizi-fonksiyon kaynağını repo'daki DTO/mapper yüzeyiyle **kesişti**rmek. Her iddia `curl` 200 + `webfetch` içeriği + repo satırıyla üçlü doğrulanır.
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen | Kullanım |
+|---|---|---|---|---|
+| 1 | §1 — Havuz Tablosu | kanit | icerik | Bolum kaydi |
+| 2 | §2 — Claim ↔ Repo Matrisi | kanit | icerik | Bolum kaydi |
+| 3 | §3 — Reddedilen Adaylar (etiket only) | kanit | rehber | Reddedilen aday - etiket only |
+| 4 | §4 — Kesişim: Havuz ↔ Envanter (`k011-urls.txt`) — GERÇEK ÖLÇÜM | kanit | envanter | Sayim / envanter tablosu |
+| 5 | §5 — Havuz Disiplini (Havuz Dışı URL Denetimi) | kanit | icerik | Bolum kaydi |
+| 6 | §6 — Repo Array İdiom Envanteri (gerçek grep ölçümü) | kanit | envanter | Sayim / envanter tablosu |
+| 7 | §7 — JSON & Serileştirme Envanteri (gerçek satır listesi) | kanit | envanter | Sayim / envanter tablosu |
+| 8 | §8 — `fromArray` / `toArray` Repo Geniş Dağılımı (15 + 14 dosya) | kanit | icerik | Bolum kaydi |
+| 9 | §9 — Kesişim Sonuç Matrisi (Karar Kaydı) | kanit | icerik | Bolum kaydi |
+| 10 | §10 — Açık Sorular (genişletilmiş) | kanit | karar | Acik soru / ust karar listesi |
+| 11 | §11 — Doğrulama Adımları (tekrarlanabilir, salt-okunur) | kanit | niyet | Okuyucu 30 saniyede kavrar |
+| 12 | §12 — Sınırlamalar (bilinen eksikler) | kanit | niyet | Okuyucu 30 saniyede kavrar |
+| 13 | §13 — Belge Bütünlüğü Beyanı | kanit | icerik | Bolum kaydi |
+| 14 | §14 — İkinci Tur Doğrulama Matrisi (bu oturumda tekrar okunan satırlar) | kanit | niyet | Okuyucu 30 saniyede kavrar |
+| 15 | §15 — Satır Sapması Düzeltme Kaydı (önceki belge ↔ bu oturum ölçümü) | kanit | icerik | Bolum kaydi |
+| 16 | §16 — Havuz Fonksiyon ↔ Repo Kapsama Analizi (5/5) | kanit | niyet | Okuyucu 30 saniyede kavrar |
+| 17 | §17 — Kesişim Sonrası Karar Özeti (tek sayfa) | kanit | ozet | Karar ozeti |
+| 18 | §18 — Kademe-2 Genişletme Kaydı (2026-10-16, satır ölçümü okunarak) | kanit | icerik | Bolum kaydi |
+
+---
+
 ## §1 — Havuz Tablosu
 
 | # | URL | curl | webfetch | Konu |
@@ -523,4 +548,5 @@ Reddenen adaylara (§3) **etiket eklenmez** — çünkü havuzdan çıkarılan U
 | K011 kök `index.md` değişikliği | **0** |
 
 **Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15
 **Last Updated:** 2026-10-16

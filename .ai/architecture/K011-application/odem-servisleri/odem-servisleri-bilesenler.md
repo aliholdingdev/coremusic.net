@@ -13,6 +13,39 @@ group: mimari
 
 **Amaç:** Ödeme servisleri için **mevcut altyapının** gerçek glob sayımlarıyla envanteri, bileşen↔akış iz düşümü ve **boşlukların** iz düşümü.
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen | Kullanım |
+|---|---|---|---|---|
+| 1 | §1 — Dizin/Dosya Envanteri (ölçüm 2026-10-15) | mimari | envanter | Sayim / envanter tablosu |
+| 2 | §2 — Boşlukların İz Düşümü | mimari | icerik | Bolum kaydi |
+| 3 | §3 — Mevcut Temel ↔ Hedef Bileşen Eşlemesi | mimari | icerik | Bolum kaydi |
+| 4 | §4 — Bağımlılık Grafiği (hedef — PLANNED) | mimari | bag | Bagimlilik grafigi |
+| 5 | §5 — Öncelikli Boşluk Kapatma Sırası | mimari | icerik | Bolum kaydi |
+| 6 | §6 — Ölçüm Notu (Zero-Hallucination) | mimari | icerik | Bolum kaydi |
+| 7 | §7 — HTTP Middleware Bileşen Envanteri (11 dosya · satır-satır okuma) | mimari | envanter | Sayim / envanter tablosu |
+| 8 | §8 — API Middleware Bileşen Envanteri (7 dosya · 788 satır) | mimari | envanter | Sayim / envanter tablosu |
+| 9 | §9 — Security + Log Bileşen Envanteri (6 + 3 dosya) | mimari | envanter | Sayim / envanter tablosu |
+| 10 | §10 — Config Bileşen Envanteri (4 dosya · 414 satır) | mimari | envanter | Sayim / envanter tablosu |
+| 11 | §11 — PageRouter Bileşen Envanteri (14 dosya · 1880 satır) | mimari | envanter | Sayim / envanter tablosu |
+| 12 | §12 — DTO Bileşen Envanteri (11 dosya · 999 satır · ort 90,8) | mimari | envanter | Sayim / envanter tablosu |
+| 13 | §13 — Test Bileşen Envanteri (9 dizin · 45 php · 6147 satır) | mimari | envanter | Sayim / envanter tablosu |
+| 14 | §14 — CSS Bileşen Envanteri (ITCSS katmanları · dosya + satır) | mimari | envanter | Sayim / envanter tablosu |
+| 15 | §15 — JS Bileşen Envanteri (95 dosya · 13.369 satır · `js\` altı) | mimari | envanter | Sayim / envanter tablosu |
+| 16 | §16 — Olay / İstisna / Sözleşme / OAuth Envanteri | mimari | envanter | Sayim / envanter tablosu |
+| 17 | §17 — Boşluk Kanıtları (her satır ayrı ölçüm) | mimari | kanit | Dosya - Satir referanslari |
+| 18 | §18 — Bileşen ↔ Akış İz Düşümü (katman bazlı, satır kanıtlı) | mimari | akis | Uctan uca akis kaydi |
+| 19 | §19 — Pipeline Bileşen Derin Okuma (3 dosya · 141 satır) | mimari | icerik | Bolum kaydi |
+| 20 | §20 — Sözleşme (Contract) Envanteri | mimari | envanter | Sayim / envanter tablosu |
+| 21 | §21 — ADR-084 (API Gateway) İlişkisi | mimari | kapi | PASS/BLOCK karari |
+| 22 | §22 — Claim Matrisi (Pipeline · W13-W18) ve Açık Sorular | mimari | karar | Acik soru / ust karar listesi |
+| 23 | §23 — Ölçüm Tekrarlanabilirliği (PowerShell · okuma) | mimari | icerik | Bolum kaydi |
+| 24 | §24 — Kapsam İçi / Kapsam Dışı ve Etiketler | mimari | icerik | Bolum kaydi |
+| 25 | §25 — YAPMA ↔ YAP | mimari | icerik | Bolum kaydi |
+| 26 | §26 — Özet ve Sonraki Okuma | mimari | ozet | Karar ozeti |
+
+---
+
 ## §1 — Dizin/Dosya Envanteri (ölçüm 2026-10-15)
 
 | Yol | Sayım | İçerik |
@@ -514,4 +547,5 @@ Get-ChildItem -LiteralPath $root -Recurse -File |
 > Yeni çocuk adı kullanıcı onayı ALINDI (2026-10-15, spec §8) — klasör adı v2 §2.11 dışıdır; belge seviyesinde kayıt.
 
 **Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15
 **Last Updated:** 2026-10-16

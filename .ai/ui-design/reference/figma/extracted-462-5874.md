@@ -1,0 +1,3896 @@
+---
+reference_doc: CoreMusic UI Design System
+title: "CoreMusic — Figma Çıkarımı — Sayfa 462:5874 · Linux 1920"
+type: reference
+category: ui-design
+date: 2026-10-16
+updated: 2026-10-16
+status: active
+version: 1.0.0
+authority: Single Source of Truth (SSOT)
+governance: Red Team · Human Mode · Truth Mode
+reference:
+  authority: ".ai/ui-design/reference/figma/extracted-462-5874.md"
+  source_of_truth: ".ai/ui-design/reference/figma/raw/page-462-5874.json · .ai/.png/home-1920/"
+---
+
+# CoreMusic — Figma Çıkarımı — Sayfa 462:5874 (Linux 1920)
+
+**Zorunlu Bağlantılar:** [[grid-rules]] · [[token-conflicts]] · [[_extraction-notes]] · [[00-ascii-art-index]] · [[01-mockup-index]]
+
+## 1. Amaç
+
+Bu dosya, Figma dosyası **Sayfa `462:5874`** (dosya adı: `Core Music`) altındaki **4 ekranlık Linux 1920 sayfasinin**
+API üzerinden **taze (2026-10-16) tam ham çıkarımıdır**: tüm node ağaçları, dolgu/kenarlık/efekt/otomatik yerleşim
+alanları, tipografi değerleri ve ASCII bölge haritaları burada, ham JSON ise SSOT kaynaktır.
+Amaç: later UI implementation — kod yazılacak arayüzün Figma tasarımına **birebir** (değer, CSS, efekt) uyması.
+
+> **⚠️ Mockup Before Frontend:** CSS/HTML/JS/layout/bileşen kodundan **ÖNCE** bu dosyanın
+> ASCII ve değer blokları + ilgili `.ai/.png/home-1920` ekran görüntüsü okunmalıdır: [[#3-ascii-layout-1920--4-ekran|§3]].
+
+## 2. Çekim Künyesi
+
+### 2.1 Kaynak ve Sürüm
+
+| Alan | Değer |
+|---|---|
+| Çekim tarihi | 2026-10-16 |
+| Figma dosya adı | `Core Music` |
+| Page node | `462:5874` |
+| API sürümü (version) | `2410933437250453593` |
+| lastModified | `2026-10-16T12:56:08Z` |
+| editorType | figma |
+| Kimlik/belirteç kaynağı | `.ai/.env.figma` (git-ignore; değer bu dosyaya yazılmaz) |
+| Ham JSON (SSOT) | `reference/figma/raw/page-462-5874.json` |
+| Ham JSON bayt | 3212649 |
+| Toplam node (CANVAS + 4 frame) | 3452 |
+
+### 2.2 Eski → Yeni Karşılaştırma (2026-10-16 taze çekim)
+
+| | Eski (git geçmişinde `c46f08a`) | Yeni (bu çekim) |
+|---|---|---|
+| version | `2401752188763178639` | `2410933437250453593` |
+| lastModified | `2026-09-21T17:51:56Z` | `2026-10-16T12:56:08Z` |
+| Root children | 15 | 4 |
+| Toplam node | 759 | 3452 |
+| Home `2831:13747` node | 328 | 803 |
+
+- **Silinen root children (14):** mavi (`1491:37718`) · Romantic_Background_03 (2) (`2831:13454`) · Siyah Arkaplan Evekt (`2831:13455`) · Siyah Arkaplan Evekt (`2831:13456`) · Ellipse 16 (`2831:13457`) · Playlist Status Div (`2831:13458`) · Footer (`2831:13459`) · Navbar (`2831:13460`) · Diiv2 Button (`2831:13461`) · Player Info (`2831:13539`) · Menu Oynatma Listesi (`2831:13553`) · Menu En Son Şarkılar (`2831:13564`) · Sıradaki Şarkı (`2831:13570`) · Sıradaki Şarkılar (`2831:13578`)
+- **Eklenen root children (3):** Linux 1920 -  Göz At Page (`3155:18252`) · Linux 1920 -  Playlist  Page (`3155:19834`) · Linux 1920 -  Geçmiş Page (`3155:22392`)
+- **Değişim kapsamı:** ana sayfa yeniden tasarlandı (5 kart satırı + yeni widget düzeni) ve sayfa yapısı
+  15 root çocuktan 4 bağımsız 1920×1080 frame'e dönüştü → tüm aşağı akış çıktıları (çıkarım, token, ASCII) yeniden üretildi.
+- **Supersession:** `extracted-1920.md` §"Doğrulanan raw dosya" satırı eski sürümü referanslıyordu
+  (`2026-09-21T17:51:56Z` / `2401752188763178639`); bu çekimden sonra `page-462-5874.json` artık
+  `2026-10-16T12:56:08Z` / `2410933437250453593` taşır. Eski sürüm git geçmişinde saklıdır; `page-462-5874-OLD-backup.json` geçici yededir.
+  `extracted-1920.md`'nin birincil kaynağı `nodes-1024-1920.json`dur; bu dosya onun yerine geçmez, sayfa-geneli taze SSOT'tur.
+
+### 2.3 Frame Tablosu
+
+| # | Node | Frame | Boyut | 1. seviye çocuk | Toplam node | PNG (`.ai/.png/home-1920/`) |
+|---|---|---|---|---|---|---|
+| 1 | `2831:13747` | Linux - 1920 - Home | 1920×1080 | 12 | 803 | ✅ Linux - 1920 - Home.png |
+| 2 | `3155:18252` | Linux 1920 -  Göz At Page | 1920×1080 | 9 | 274 | ✅ Linux 1920 -  Göz At Page.png |
+| 3 | `3155:19834` | Linux 1920 -  Playlist  Page | 1920×1080 | 9 | 729 | ✅ Linux 1920 -  Playlist  Page.png |
+| 4 | `3155:22392` | Linux 1920 -  Geçmiş Page | 1920×1080 | 9 | 1645 | ✅ Linux 1920 -  Geçmiş Page.png |
+
+### 2.4 Koordinat Sistemi ve Kapsam Notları
+
+- **Ağaç ve ASCII koordinatları frame-rel'tir** (mutlak − frame orijini); frame orijinleri §4–§7 başlıklarında belirtilir.
+- Dolgular/efektler HEX + alpha olarak ham değerdedir; gradyanlar durak yüzdesiyle basılır.
+- `ls=` (letter-spacing) alanının **birimi ham veride yok** → §8.2; CSS yazarken doğrulama gerekir.
+- Efektlerde `spread` alanı ham veride yok (§8.2) — gölge CSS'i yazılırken mockup ölçümü esastır.
+- Çıkarım değerleri `tokens/tokens-1920.json` (figma-tokens.ps1) ile çakışırsa token dosyası + [[token-conflicts]] kaydı esastır.
+
+## 3. ASCII Layout — 1920 · 4 Ekran
+
+- Her harita 1920×1080'i 96×27 hücreye böler (1 hücre = 20×40 px).
+- `.` = tam ekran zemin katmanı; rakam/harf = 1. seviye çocukların **z-sıra işareti** (Figma children sırası; sonraki üstte).
+- Kesin piksel koordinatları altındaki lejant tablosundadır; görsel referans her bloğun üstündeki PNG yoludur.
+- Detay/üslup notları: [[00-ascii-art-index]] · mockup bağlamı: [[01-mockup-index]]
+
+### 3.1 Linux - 1920 - Home — `2831:13747`
+
+**PNG:** `.ai/.png/home-1920/Linux - 1920 - Home.png` ✅
+
+```text
+       +------------------------------------------------------------------------------------------------+
+y=0000 |222222222222222222222222222222222222222222222222222.............................................|
+y=0040 |222222222222222222222222222222222222222222222222222.............................................|
+y=0080 |..333333333333333333333333355555555555555555555555555444444444444444444444444444444444444444....|
+y=0120 |..333333333333333333333333355555555555555555555555555444444444444444444444444444444444444444....|
+y=0160 |..333333333333333333333333355555555555555555555555555444444444444444444444444444444444444444....|
+y=0200 |..333333333333333333333333355555555555555555555555555444444444444444444444444444444444444444....|
+y=0240 |..333333333333333333333333355555555555555555555555555444444444444444444444444444444444444444....|
+y=0280 |..333333333333333333333333355555555555555555555555555444444444444444444444444444444444444444....|
+y=0320 |..BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB..|
+y=0360 |..BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB..|
+y=0400 |..BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB..|
+y=0440 |..AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..|
+y=0480 |..AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..|
+y=0520 |..99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999..|
+y=0560 |..99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999..|
+y=0600 |..99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999..|
+y=0640 |..99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999..|
+y=0680 |..77777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777..|
+y=0720 |..77777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777..|
+y=0760 |..77777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777..|
+y=0800 |..8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888...|
+y=0840 |..8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888...|
+y=0880 |..8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888...|
+y=0920 |................................................................................................|
+y=0960 |111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111|
+y=1000 |111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111|
+y=1040 |111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111|
+       +------------------------------------------------------------------------------------------------+
+```
+
+| İşaret | Tip | Node | Ad | x | y | w | h | Durum |
+|---|---|---|---|---|---|---|---|---|
+| . | INSTANCE | `2831:13955` | Romantic_Background_03 (2) | 0 | 0 | 1920 | 1080 | — |
+| 1 | INSTANCE | `2831:13859` | Footer | 0 | 988 | 1923 | 92 | — |
+| 2 | INSTANCE | `2831:13748` | Navbar | 12 | 17 | 993 | 27 | — |
+| 3 | GROUP | `2849:21489` | Player Info | 53 | 99 | 469 | 184 | — |
+| 4 | GROUP | `2850:21494` | Div2 Button | 1073 | 99 | 752 | 184 | — |
+| 5 | RECTANGLE | `2849:21492` | Banner Div | 552 | 99 | 491 | 184 | — |
+| 6 | FRAME | `2856:22290` | Şarkılar Item Btn | 53 | 369 | 169 | 43 | **GIZLI** |
+| 7 | GROUP | `3155:14616` | Önerilen Sanacılar | 53 | 682 | 1815 | 98 | — |
+| 8 | GROUP | `3155:14718` | Önerilen Albumler | 53 | 812 | 1805 | 79 | — |
+| 9 | GROUP | `3155:8292` | En Son Dinlenen Albumler | 53 | 552 | 1815 | 98 | — |
+| A | GROUP | `3155:8147` | Son Oluşturlan & Sistem Taraından Oluşturlan Playlistler | 53 | 442 | 1825 | 78 | — |
+| B | GROUP | `3154:7556` | En Son Dinlenen Şarkılar | 53 | 332 | 1825 | 78 | — |
+
+### 3.2 Linux 1920 -  Göz At Page — `3155:18252`
+
+**PNG:** `.ai/.png/home-1920/Linux 1920 -  Göz At Page.png` ✅
+
+```text
+       +------------------------------------------------------------------------------------------------+
+y=0000 |333333333333333333333333333333333333333333333333333.............................................|
+y=0040 |333333333333333333333333333333333333333333333333333.............................................|
+y=0080 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..666666666666|
+y=0120 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..666666666666|
+y=0160 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..666666666666|
+y=0200 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..666666666666|
+y=0240 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..666666666666|
+y=0280 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..666666666666|
+y=0320 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..55555555555.|
+y=0360 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..55555555555.|
+y=0400 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..55555555555.|
+y=0440 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..555555555554|
+y=0480 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0520 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0560 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0600 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0640 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0680 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0720 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0760 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0800 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0840 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0880 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0920 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0960 |277777777777777777777777777777777777777777777777777777777777777777777777777777777722444444444444|
+y=1000 |222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222|
+y=1040 |222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222|
+       +------------------------------------------------------------------------------------------------+
+```
+
+| İşaret | Tip | Node | Ad | x | y | w | h | Durum |
+|---|---|---|---|---|---|---|---|---|
+| . | INSTANCE | `3155:18253` | Romantic_Background_03 (2) | 0 | 0 | 1921 | 1080 | — |
+| . | RECTANGLE | `3155:18254` | Siyah Arkaplan Evekt | 0 | 0 | 1920 | 1080 | **GIZLI** |
+| 1 | INSTANCE | `3155:18255` | Navbar | 16 | 17 | 993 | 27 | **GIZLI** |
+| 2 | INSTANCE | `3155:18256` | Footer | -1 | 990 | 1923 | 92 | — |
+| 3 | INSTANCE | `3155:18257` | Navbar | 16 | 20 | 993 | 27 | — |
+| 4 | INSTANCE | `3155:18258` | Player Status  Div-pi | 1680 | 462 | 224 | 507 | — |
+| 5 | INSTANCE | `3155:18259` | Player İnfo Div | 1681 | 328 | 218 | 114 | — |
+| 6 | INSTANCE | `3155:18260` | Player İmg Div-pi | 1681 | 87 | 221 | 221 | — |
+| 7 | GROUP | `3155:18261` | Fiel Manager | 24 | 89 | 1612 | 879 | — |
+
+### 3.3 Linux 1920 -  Playlist  Page — `3155:19834`
+
+**PNG:** `.ai/.png/home-1920/Linux 1920 -  Playlist  Page.png` ✅
+
+```text
+       +------------------------------------------------------------------------------------------------+
+y=0000 |222222222222222222222222222222222222222222222222222.............................................|
+y=0040 |222222222222222222222222222222222222222222222222222.............................................|
+y=0080 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.666666666666|
+y=0120 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.666666666666|
+y=0160 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.666666666666|
+y=0200 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.666666666666|
+y=0240 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.666666666666|
+y=0280 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.666666666666|
+y=0320 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.55555555555.|
+y=0360 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.55555555555.|
+y=0400 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.55555555555.|
+y=0440 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.555555555554|
+y=0480 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.444444444444|
+y=0520 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.444444444444|
+y=0560 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.444444444444|
+y=0600 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.444444444444|
+y=0640 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.444444444444|
+y=0680 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.444444444444|
+y=0720 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.444444444444|
+y=0760 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.444444444444|
+y=0800 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.444444444444|
+y=0840 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.444444444444|
+y=0880 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.444444444444|
+y=0920 |.7777777777777777777777777777777777777777777777777777777777777777777777777777777777.444444444444|
+y=0960 |377777777777777777777777777777777777777777777777777777777777777777777777777777777773444444444444|
+y=1000 |333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333|
+y=1040 |333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333|
+       +------------------------------------------------------------------------------------------------+
+```
+
+| İşaret | Tip | Node | Ad | x | y | w | h | Durum |
+|---|---|---|---|---|---|---|---|---|
+| . | INSTANCE | `3155:19835` | Romantic_Background_03 (2) | 0 | 0 | 1921 | 1080 | — |
+| . | RECTANGLE | `3155:19836` | Siyah Arkaplan Evekt | 0 | 0 | 1920 | 1080 | **GIZLI** |
+| 1 | INSTANCE | `3155:19837` | Navbar | 16 | 17 | 993 | 27 | **GIZLI** |
+| 2 | INSTANCE | `3155:19838` | Navbar | 16 | 20 | 993 | 27 | — |
+| 3 | INSTANCE | `3155:19839` | Footer | 0 | 990 | 1923 | 92 | — |
+| 4 | INSTANCE | `3155:19840` | Player Status  Div-pi | 1680 | 462 | 224 | 507 | — |
+| 5 | INSTANCE | `3155:19841` | Player İnfo Div | 1681 | 328 | 218 | 114 | — |
+| 6 | INSTANCE | `3155:19842` | Player İmg Div-pi | 1681 | 87 | 221 | 221 | — |
+| 7 | GROUP | `3155:20562` | Playlist | 24 | 89 | 1621 | 880 | — |
+
+### 3.4 Linux 1920 -  Geçmiş Page — `3155:22392`
+
+**PNG:** `.ai/.png/home-1920/Linux 1920 -  Geçmiş Page.png` ✅
+
+```text
+       +------------------------------------------------------------------------------------------------+
+y=0000 |222222222222222222222222222222222222222222222222222.............................................|
+y=0040 |222222222222222222222222222222222222222222222222222.............................................|
+y=0080 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..666666666666|
+y=0120 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..666666666666|
+y=0160 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..666666666666|
+y=0200 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..666666666666|
+y=0240 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..666666666666|
+y=0280 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..666666666666|
+y=0320 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..55555555555.|
+y=0360 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..55555555555.|
+y=0400 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..55555555555.|
+y=0440 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..555555555554|
+y=0480 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0520 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0560 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0600 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0640 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0680 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0720 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0760 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0800 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0840 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0880 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0920 |.777777777777777777777777777777777777777777777777777777777777777777777777777777777..444444444444|
+y=0960 |377777777777777777777777777777777777777777777777777777777777777777777777777777777733444444444444|
+y=1000 |333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333|
+y=1040 |333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333|
+       +------------------------------------------------------------------------------------------------+
+```
+
+| İşaret | Tip | Node | Ad | x | y | w | h | Durum |
+|---|---|---|---|---|---|---|---|---|
+| . | INSTANCE | `3155:22393` | Romantic_Background_03 (2) | 0 | 0 | 1921 | 1080 | — |
+| . | RECTANGLE | `3155:22394` | Siyah Arkaplan Evekt | 0 | 0 | 1920 | 1080 | **GIZLI** |
+| 1 | INSTANCE | `3155:22395` | Navbar | 16 | 17 | 993 | 27 | **GIZLI** |
+| 2 | INSTANCE | `3155:22396` | Navbar | 16 | 20 | 993 | 27 | — |
+| 3 | INSTANCE | `3155:22397` | Footer | 0 | 990 | 1923 | 92 | — |
+| 4 | INSTANCE | `3155:22398` | Player Status  Div-pi | 1680 | 462 | 224 | 507 | — |
+| 5 | INSTANCE | `3155:22399` | Player İnfo Div | 1681 | 328 | 218 | 114 | — |
+| 6 | INSTANCE | `3155:22400` | Player İmg Div-pi | 1681 | 87 | 221 | 221 | — |
+| 7 | GROUP | `3155:22402` | Geçmiş | 24 | 89 | 1612 | 900 | — |
+
+## 4. Frame 1 — "Linux - 1920 - Home" (`2831:13747`)
+
+- **Boyut/konum:** 1920×1080 @abs(948, -576) — frame-rel orijin bu nokta
+- **fill:** SOLID #FFFFFF alpha=1
+- **background:** #FFFFFF alpha=1
+- **background (paint):** SOLID #FFFFFF alpha=1
+- **stroke:** yok
+- **effect:** yok
+- **radius:** yok · **opacity:** yok (1 varsayımı) · **blend:** PASS_THROUGH · **clipsContent:** true
+- **auto-layout:** yok
+- **1. seviye çocuk:** 12 · **toplam node (frame dahil):** 803
+- **Node türü:** TEXT 219 · RECTANGLE 172 · GROUP 154 · VECTOR 149 · FRAME 55 · INSTANCE 53 · ELLIPSE 1
+- **ASCII:** §3.1 · **PNG:** `.ai/.png/home-1920/Linux - 1920 - Home.png`
+
+### 4.1 Alt Node Ağacı (802 satır — koordinatlar frame-rel)
+
+- `2831:13955` INSTANCE "Romantic_Background_03 (2)" (w=1920 h=1080 @x=0 y=0) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=1962:11911
+  - `I2831:13955;1962:11912` RECTANGLE "Romantic_Background_03 (2)" (w=1920 h=1080 @x=0 y=0) | fill: IMAGE scaleMode=FILL (renk yok)
+- `2831:13859` INSTANCE "Footer" (w=1923 h=92 @x=0 y=988) | comp=1330:24152
+  - `I2831:13859;1330:24153` GROUP "NowPlayingContainer" (w=1923 h=91 @x=0 y=988.6) | opacity=0.452
+    - `I2831:13859;1330:24154` VECTOR "Color Overlay" (w=1923 h=91 @x=0 y=988.6) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+    - `I2831:13859;1330:24155` VECTOR "Stroke Effect" (w=1923 h=91 @x=0 y=988.6) | fill: SOLID #373737 alpha=0.5
+  - `I2831:13859;1330:24156` INSTANCE "Footer Image Albums" (w=85 h=85 @x=0 y=993.6) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:510
+    - `I2831:13859;1330:24156;15:424` RECTANGLE "KursatGurel" (w=85 h=85 @x=0 y=993.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.59 align=INSIDE
+  - `I2831:13859;1330:24157` GROUP "Progressbar" (w=1921 h=4.8 @x=0 y=988.6)
+    - `I2831:13859;1330:24158` RECTANGLE "ProgressbarBackground" (w=1921 h=4.8 @x=0 y=988.6) | fill: GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0 · pos=50% #FFFFFF alpha=0.5 · pos=100% #FFFFFF alpha=0] handles=(0.5,0)(0.5,1)(0.5,0) / SOLID #FFFFFF alpha=0.5
+    - `I2831:13859;1330:24159` GROUP "Group 19" (w=1256 h=4.8 @x=0 y=988.6)
+      - `I2831:13859;1330:24161` RECTANGLE "ProgressbarTick" (w=5 h=4.8 @x=1251 y=988.6) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0)
+      - `I2831:13859;1330:24160` RECTANGLE "ProgressbarValue" (w=1251 h=4.8 @x=0 y=988.6) | fill: SOLID #FF38E3 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0)
+  - `I2831:13859;1330:24163` GROUP "MediaInfo" (w=367.2 h=73.1 @x=91.5 y=1000.6)
+    - `I2831:13859;1330:24164` TEXT "/" (w=5 h=14 @x=275.4 y=1058.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "/"
+    - `I2831:13859;1330:24165` TEXT "Şarkı Adı : Çok Sevmek Yasaklanmalı" (w=176 h=14 @x=110.6 y=1001.1) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Şarkı Adı :  Göksel - Sevil Neşelen"
+    - `I2831:13859;1330:24166` TEXT "Albüm : Prenses Ela Aşk" (w=129 h=14 @x=110.6 y=1020.1) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Albüm : Hayat Rüya Gibi"
+    - `I2831:13859;1330:24167` TEXT "Sanatcı : Prenses Ela" (w=84 h=14 @x=111.1 y=1038.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sanatcı : Göksel"
+    - `I2831:13859;1330:24168` TEXT "Süre : 00:00:00 / 00 :05 :00" (w=148 h=14 @x=112.9 y=1058.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Süre : 00:00:00 / 00 :05 :00"
+    - `I2831:13859;1330:24169` RECTANGLE "icons8-micro-48 (1)" (w=15 h=15 @x=91.5 y=1037.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I2831:13859;1330:24170` RECTANGLE "icons8-time-machine-48 (1)" (w=15 h=15 @x=91.5 y=1057.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I2831:13859;1330:24171` RECTANGLE "icons8-music-48" (w=15 h=15 @x=91.5 y=1000.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I2831:13859;1330:24172` RECTANGLE "icons8-cd-48" (w=13 h=13 @x=92.5 y=1020.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I2831:13859;1330:24173` RECTANGLE "icons8-bit-rate-48" (w=12 h=12 @x=290.6 y=1059.4) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I2831:13859;1330:24174` TEXT "Bit rate : 350 kpps  " (w=98 h=14 @x=308.6 y=1058.4) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bit rate : 350 kpps  "
+    - `I2831:13859;1330:24175` RECTANGLE "mp3" (w=15 h=7.5 @x=411.6 y=1063) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I2831:13859;1330:24176` RECTANGLE "mp4" (w=17 h=12.8 @x=429.2 y=1061) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I2831:13859;1330:24177` RECTANGLE "icons8_vlc_480px_1" (w=10 h=10 @x=448.7 y=1063) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `I2831:13859;1330:24178` FRAME "Volume controls" (w=353 h=14 @x=1533 y=1025.6) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=6 wrap=NO_WRAP ctr=MAX
+    - `I2831:13859;1330:24179` FRAME "Control icon" (w=161 h=13 @x=1533 y=1026.6) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=6 wrap=NO_WRAP ctr=CENTER
+      - `I2831:13859;1330:24180` RECTANGLE "equalizer 6" (w=13 h=13 @x=1533 y=1026.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I2831:13859;1330:24181` RECTANGLE "equalizer 5" (w=13 h=13 @x=1552 y=1026.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I2831:13859;1330:24182` RECTANGLE "equalizer 4" (w=13 h=13 @x=1571 y=1026.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I2831:13859;1330:24183` RECTANGLE "equalizer 7" (w=13 h=13 @x=1590 y=1026.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I2831:13859;1330:24184` RECTANGLE "equalizer 3" (w=13 h=13 @x=1609 y=1026.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I2831:13859;1330:24185` RECTANGLE "equalizer 9" (w=11 h=11 @x=1628 y=1027.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I2831:13859;1330:24186` RECTANGLE "equalizer 8" (w=11 h=11 @x=1645 y=1027.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I2831:13859;1330:24187` RECTANGLE "equalizer 2" (w=13 h=13 @x=1662 y=1026.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I2831:13859;1330:24188` RECTANGLE "equalizer 1" (w=13 h=13 @x=1681 y=1026.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I2831:13859;1330:24189` GROUP "Volume Set" (w=186 h=14 @x=1700 y=1025.6)
+      - `I2831:13859;1330:24190` GROUP "Progressbar" (w=115 h=7.6 @x=1723 y=1029.6)
+        - `I2831:13859;1330:24191` RECTANGLE "Progressbar" (w=115 h=7.6 @x=1723 y=1029.6) | fill: GRADIENT_LINEAR [pos=100% #FFFFFF alpha=0.459 · pos=53.1% #D5D5D5 alpha=1 · pos=0% #FFFFFF alpha=0.459] handles=(0,0)(0,0)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | opacity=0.7
+        - `I2831:13859;1330:24192` RECTANGLE "ProgressbarValue" (w=49.2 h=7.6 @x=1723 y=1029.6) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0)
+      - `I2831:13859;1330:24193` TEXT "Volume % size" (w=33 h=14 @x=1853 y=1025.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "% 100"
+      - `I2831:13859;1330:24194` RECTANGLE "icons8-speaker-26  Yuksek 1" (w=13 h=13 @x=1700 y=1026.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `I2831:13859;1330:24213` INSTANCE "Player Butttons Web" (w=126 h=27 @x=899 y=1020.6) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:511
+    - `I2831:13859;1330:24213;15:425` RECTANGLE "media-play" (w=25.9 h=27 @x=931.8 y=1020.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I2831:13859;1330:24213;15:426` RECTANGLE "media-pause" (w=25.9 h=27 @x=931.6 y=1020.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE [GIZLI]
+    - `I2831:13859;1330:24213;15:427` RECTANGLE "media-stop" (w=25.9 h=27 @x=964.6 y=1020.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I2831:13859;1330:24213;15:428` RECTANGLE "media-back" (w=25.9 h=27 @x=899 y=1020.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I2831:13859;1330:24213;15:429` RECTANGLE "media-ileri" (w=25.9 h=27 @x=999.1 y=1020.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=31
+- `2831:13748` INSTANCE "Navbar" (w=993 h=27 @x=12 y=17) | comp=1314:20424
+  - `I2831:13748;1314:20425` TEXT "Core Music" (w=108 h=29 @x=20 y=20) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0 / SOLID #FE00E4 alpha=0.05 weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.35 | font=Respective size=20px weight=400 style=Regular align=LEFT ls=2.7 (unit:YOK) line-height=20px (INTRINSIC_% 100%) | metin: "Core Music"
+  - `I2831:13748;1314:20426` TEXT "Ana Sayfa" (w=60 h=15 @x=139 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ana Sayfa"
+  - `I2831:13748;1314:20427` TEXT "Keşfet" (w=33 h=15 @x=219 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Keşfet"
+  - `I2831:13748;1314:20428` TEXT "Albumler" (w=50 h=15 @x=272 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Albumler"
+  - `I2831:13748;1314:20429` TEXT "Göz At" (w=59 h=15 @x=342 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sanatcılar"
+  - `I2831:13748;1314:20430` TEXT "Göz At" (w=39 h=15 @x=421 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göz At"
+  - `I2831:13748;1314:20431` TEXT "Geçmiş" (w=39 h=15 @x=480 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Geçmiş"
+  - `I2831:13748;1314:20432` TEXT "Ayarlar" (w=45 h=15 @x=539 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ayarlar"
+  - `I2831:13748;1314:20433` TEXT "Hakkımızda" (w=66 h=15 @x=604 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hakkımızda"
+  - `I2831:13748;1314:20434` FRAME "navbar sol" (w=271 h=24 @x=1649 y=21) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=5 wrap=NO_WRAP
+    - `I2831:13748;2056:16105` GROUP "Profile" (w=90 h=24 @x=1649 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I2831:13748;2056:16106` RECTANGLE "Rectangle 7" (w=90 h=23 @x=1649 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I2831:13748;2056:16107` ELLIPSE "CortexBot" (w=24 h=24 @x=1649 y=21) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I2831:13748;2056:16108` FRAME "Frame 17" (w=51 h=12 @x=1678 y=26) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=3 wrap=NO_WRAP ctr=CENTER
+        - `I2831:13748;2056:16109` TEXT "Bayram Ali" (w=45 h=12 @x=1678 y=26) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0.495 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bayram Ali"
+        - `I2831:13748;2056:16110` VECTOR "Polygon 1" (w=3 h=2 @x=1726 y=31) | stroke: SOLID #FFFFFF alpha=1 weight=0.5 align=INSIDE
+    - `I2831:13748;2056:16111` GROUP "Wifi BT" (w=44 h=23 @x=1744 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I2831:13748;2056:16112` RECTANGLE "Rectangle 7" (w=44 h=23 @x=1744 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I2831:13748;2056:16113` RECTANGLE "wifi-icon" (w=12.5 h=13.3 @x=1752.6 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I2831:13748;2056:16114` RECTANGLE "wifi-not-icon" (w=12.5 h=13.3 @x=1752.4 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I2831:13748;2056:16115` RECTANGLE "bt-inot-con" (w=12.5 h=13.3 @x=1768.2 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I2831:13748;2056:16116` RECTANGLE "bt-icon" (w=12.5 h=13.3 @x=1768.6 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok)
+    - `I2831:13748;2056:16117` GROUP "Battery" (w=47 h=23 @x=1793 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I2831:13748;2056:16118` RECTANGLE "Rectangle 7" (w=47 h=23 @x=1793 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I2831:13748;2056:16119` INSTANCE "Battery" (w=39 h=16 @x=1799.4 y=24.5) | comp=900:15866
+        - `I2831:13748;2056:16119;897:15861` RECTANGLE "battery-icon" (w=17 h=16 @x=1799.4 y=24.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I2831:13748;2056:16119;897:15862` RECTANGLE "charring-icon" (w=4 h=5 @x=1805.9 y=30) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I2831:13748;2056:16119;897:15863` TEXT "Batterylevel" (w=15 h=7 @x=1818.4 y=29) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.8 blur=1 #000000 alpha=0.8 | font=Avalon size=5px weight=500 style=Medium align=LEFT ls=0.675 (unit:YOK) line-height=6.75px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "100%"
+    - `I2831:13748;2056:16120` GROUP "ButtonsLogutset" (w=75 h=23 @x=1845 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I2831:13748;2056:16121` RECTANGLE "Rectangle 6" (w=75 h=23 @x=1845 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius(tl=50, tr=0, br=0, bl=50) | opacity=0.5
+      - `I2831:13748;2056:16122` RECTANGLE "icons8-logout-48" (w=20 h=20 @x=1878 y=23) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=13
+      - `I2831:13748;2056:16123` RECTANGLE "icons8-settings-48" (w=19 h=19 @x=1852 y=23) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+- `2849:21489` GROUP "Player Info" (w=469 h=184 @x=53 y=99) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.8
+  - `2849:21456` GROUP "NowPlayingContainer" (w=469 h=184 @x=53 y=99)
+    - `2849:21457` VECTOR "Color Overlay" (w=469 h=184 @x=53 y=99) | fill: SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.1 weight=1 align=INSIDE
+    - `2849:21458` VECTOR "Stroke Effect" (w=469 h=184 @x=53 y=99) | fill: GRADIENT_LINEAR [pos=0% #070607 alpha=0.85 · pos=69.1% #5B5A5B alpha=0.75] handles=(0.5,0)(0.5,1)(0,0) (gizli) | stroke: SOLID #FFFFFF alpha=0.1 weight=1 align=INSIDE | opacity=0.18
+  - `2849:21461` INSTANCE "Albums Status Image" (w=150 h=150 @x=69 y=115) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:506
+    - `I2849:21461;15:413` RECTANGLE "KursatGurel" (w=150 h=150 @x=69 y=115) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=5
+  - `2849:21462` TEXT "Şarkı Adı : Göksel - Sevil Neşelen" (w=176 h=16 @x=255.6 y=119.7) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.15 (gizli) weight=0.2 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.5 #000000 alpha=0.8 | font=Avalon size=11.5px weight=500 style=Medium align=LEFT ls=0.897 (unit:YOK) line-height=15.53px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Şarkı Adı : Göksel - Sevil Neşelen"
+  - `2849:21463` TEXT "Albüm : Hayat Rüya Gibi" (w=133 h=16 @x=255.6 y=141.7) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.15 (gizli) weight=0.2 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.5 #000000 alpha=0.8 | font=Avalon size=11.5px weight=500 style=Medium align=LEFT ls=0.897 (unit:YOK) line-height=15.53px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Albüm : Hayat Rüya Gibi"
+  - `2849:21464` TEXT "Sanatcı : Göksel" (w=86 h=16 @x=255.6 y=162.7) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.15 (gizli) weight=0.2 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.5 #000000 alpha=0.8 | font=Avalon size=11.5px weight=500 style=Medium align=LEFT ls=0.897 (unit:YOK) line-height=15.53px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sanatcı : Göksel"
+  - `2849:21465` TEXT "Yıldız:" (w=33 h=16 @x=255.6 y=183.8) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.15 (gizli) weight=0.2 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.5 #000000 alpha=0.8 | font=Avalon size=11.5px weight=500 style=Medium align=LEFT ls=0.897 (unit:YOK) line-height=15.53px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıldız:"
+  - `2849:21466` RECTANGLE "icons8-star-filled-48" (w=13 h=13 @x=296.1 y=184.8) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `2849:21467` RECTANGLE "icons8-star-filled-48" (w=13 h=13 @x=310.3 y=184.8) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `2849:21468` RECTANGLE "icons8-star-filled-48" (w=13 h=13 @x=324.5 y=184.8) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `2849:21469` RECTANGLE "icons8-star-filled-48" (w=13 h=13 @x=338.7 y=184.8) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `2849:21470` RECTANGLE "icons8-star-filled-48" (w=13 h=13 @x=352.9 y=184.8) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `2849:21471` TEXT "Süre : 00:00:00 / 00 :05 :00" (w=153 h=16 @x=256 y=225.9) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.15 (gizli) weight=0.2 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.5 #000000 alpha=0.8 | font=Avalon size=11.5px weight=500 style=Medium align=LEFT ls=0.897 (unit:YOK) line-height=15.53px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Süre : 00:00:00 / 00 :05 :00"
+  - `2849:21472` RECTANGLE "icons8-circled-play-48" (w=15 h=15 @x=237 y=246.9) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0.2 y=0.2 blur=0.5 #000000 alpha=0.8
+  - `2849:21473` RECTANGLE "icons8-star-filled-48 (2)" (w=15 h=15 @x=235 y=183.7) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0.2 y=0.2 blur=0.5 #000000 alpha=0.8
+  - `2849:21474` RECTANGLE "icons8-micro-48 (1)" (w=15 h=15 @x=236 y=163.2) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0.2 y=0.2 blur=0.5 #000000 alpha=0.8
+  - `2849:21475` RECTANGLE "icons8-bit-rate-48" (w=12 h=12 @x=237.5 y=206.2) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0.2 y=0.2 blur=0.5 #000000 alpha=0.8
+  - `2849:21476` RECTANGLE "icons8-time-machine-48 (1)" (w=15 h=15 @x=236.5 y=226.9) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0.2 y=0.2 blur=0.5 #000000 alpha=0.8
+  - `2849:21477` RECTANGLE "icons8-music-48" (w=15 h=15 @x=236.5 y=120.2) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0.2 y=0.2 blur=0.5 #000000 alpha=0.8
+  - `2849:21478` RECTANGLE "icons8-cd-48" (w=13 h=13 @x=237.5 y=142.7) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0.2 y=0.2 blur=0.5 #000000 alpha=0.8
+  - `2849:21479` TEXT "Bit rate : 350 kpps " (w=93 h=16 @x=255.6 y=204.2) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.15 (gizli) weight=0.2 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.5 #000000 alpha=0.8 | font=Avalon size=11.5px weight=500 style=Medium align=LEFT ls=0.897 (unit:YOK) line-height=15.53px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bit rate : 350 kbps "
+  - `2849:21480` RECTANGLE "mp3" (w=22 h=11 @x=360.7 y=206.8) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `2849:21481` RECTANGLE "mp4" (w=23 h=17 @x=382 y=204) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `2849:21482` RECTANGLE "icons8_vlc_480px_1" (w=12 h=12 @x=406 y=206) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `2849:21483` TEXT "Oynatma Listesi için Lutfen Tıklayınız ..." (w=210 h=14 @x=293 y=263) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Oynatma Listesi için Lutfen Tıklayınız ..." [GIZLI]
+  - `2849:21484` FRAME "Progressbar" (w=246 h=9 @x=256 y=250) | fill: SOLID #FFFFFF alpha=1 (gizli)
+    - `2849:21485` RECTANGLE "ProgresbarBackground" (w=246 h=9 @x=256 y=250) | fill: GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.17 · pos=50% #FFFFFF alpha=0.45 · pos=100% #FFFFFF alpha=0.11] handles=(0,0.5)(1,0.5)(0,1)
+    - `2849:21486` RECTANGLE "ProgresbarValue" (w=124 h=9 @x=256 y=250) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0)
+- `2850:21494` GROUP "Div2 Button" (w=752 h=184.4 @x=1073 y=99)
+  - `2850:21495` GROUP "22" (w=42 h=43 @x=1396 y=240) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5
+    - `2850:21496` GROUP "background" (w=42 h=43 @x=1396 y=240) | radius=3
+      - `2850:21497` VECTOR "Color Overlay" (w=42 h=43 @x=1396 y=240) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21498` VECTOR "Stroke Effect" (w=42 h=43 @x=1396 y=240) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+    - `2850:21499` RECTANGLE "icons8-youtube-48" (w=20 h=21.5 @x=1407 y=251.8) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `2850:21500` GROUP "22" (w=50 h=43 @x=1266 y=175.4) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5 | radius=3
+    - `2850:21501` GROUP "background" (w=50 h=43 @x=1266 y=175.4) | radius=3
+      - `2850:21502` VECTOR "Color Overlay" (w=50 h=43 @x=1266 y=175.4) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21503` VECTOR "Stroke Effect" (w=50 h=43 @x=1266 y=175.4) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+  - `2850:21504` GROUP "23" (w=50 h=43 @x=1331 y=175.4) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5 | radius=3
+    - `2850:21505` GROUP "background" (w=50 h=43 @x=1331 y=175.4) | radius=3
+      - `2850:21506` VECTOR "Color Overlay" (w=50 h=43 @x=1331 y=175.4) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21507` VECTOR "Stroke Effect" (w=50 h=43 @x=1331 y=175.4) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+  - `2850:21508` GROUP "22" (w=234 h=108 @x=1396 y=175.4) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5 | radius=3
+    - `2850:21509` GROUP "background" (w=234 h=108 @x=1396 y=175.4) | radius=3
+      - `2850:21510` VECTOR "Color Overlay" (w=42 h=43 @x=1396 y=175.4) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21583` GROUP "24" (w=50 h=43 @x=1458 y=175.4) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5 | radius=3
+        - `2850:21584` GROUP "background" (w=50 h=43 @x=1458 y=175.4) | radius=3
+          - `2850:21585` VECTOR "Color Overlay" (w=50 h=43 @x=1458 y=175.4) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+          - `2850:21586` VECTOR "Stroke Effect" (w=50 h=43 @x=1458 y=175.4) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+      - `2850:21587` GROUP "23" (w=50 h=43 @x=1523 y=175.4) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5 | radius=3
+        - `2850:21588` GROUP "background" (w=50 h=43 @x=1523 y=175.4) | radius=3
+          - `2850:21589` VECTOR "Color Overlay" (w=50 h=43 @x=1523 y=175.4) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+          - `2850:21590` VECTOR "Stroke Effect" (w=50 h=43 @x=1523 y=175.4) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+      - `2850:21591` GROUP "22" (w=42 h=43 @x=1588 y=175.4) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5 | radius=3
+        - `2850:21592` GROUP "background" (w=42 h=43 @x=1588 y=175.4) | radius=3
+          - `2850:21593` VECTOR "Color Overlay" (w=42 h=43 @x=1588 y=175.4) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+          - `2850:21594` VECTOR "Stroke Effect" (w=42 h=43 @x=1588 y=175.4) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+      - `2850:21596` GROUP "25" (w=50 h=43 @x=1458 y=240.4) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5 | radius=3
+        - `2850:21597` GROUP "background" (w=50 h=43 @x=1458 y=240.4) | radius=3
+          - `2850:21598` VECTOR "Color Overlay" (w=50 h=43 @x=1458 y=240.4) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+          - `2850:21599` VECTOR "Stroke Effect" (w=50 h=43 @x=1458 y=240.4) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+      - `2850:21600` GROUP "26" (w=50 h=43 @x=1523 y=240.4) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5 | radius=3
+        - `2850:21601` GROUP "background" (w=50 h=43 @x=1523 y=240.4) | radius=3
+          - `2850:21602` VECTOR "Color Overlay" (w=50 h=43 @x=1523 y=240.4) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+          - `2850:21603` VECTOR "Stroke Effect" (w=50 h=43 @x=1523 y=240.4) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+      - `2850:21604` GROUP "27" (w=42 h=43 @x=1588 y=240.4) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5 | radius=3
+        - `2850:21605` GROUP "background" (w=42 h=43 @x=1588 y=240.4) | radius=3
+          - `2850:21606` VECTOR "Color Overlay" (w=42 h=43 @x=1588 y=240.4) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+          - `2850:21607` VECTOR "Stroke Effect" (w=42 h=43 @x=1588 y=240.4) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+  - `2850:21512` GROUP "traih Saat Widet" (w=109 h=43 @x=1073 y=175.4) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5
+    - `2850:21513` GROUP "background" (w=109 h=43 @x=1073 y=175.4) | radius=3
+      - `2850:21514` VECTOR "Color Overlay" (w=109 h=43 @x=1073 y=175.4) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21515` VECTOR "Stroke Effect" (w=109 h=43 @x=1073 y=175.4) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+    - `2850:21516` RECTANGLE "saat 1" (w=17 h=17 @x=1080 y=189) | fill: IMAGE scaleMode=FILL (renk yok)
+    - `2850:21517` TEXT "07:00" (w=26 h=13 @x=1127 y=184) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=9px weight=700 style=Bold align=LEFT ls=0.675 (unit:YOK) line-height=10.97px (INTRINSIC_% 100%) | metin: "07:00"
+    - `2850:21518` TEXT "5 Haziran 2026" (w=75 h=13 @x=1106 y=197) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=9px weight=700 style=Bold align=LEFT ls=0.675 (unit:YOK) line-height=10.97px (INTRINSIC_% 100%) | metin: "5 Haziran 2026"
+  - `2850:21519` GROUP "EEquaizer Quick Acess" (w=42 h=43 @x=1203 y=175.4) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5
+    - `2850:21520` GROUP "background" (w=42 h=43 @x=1203 y=175.4)
+      - `2850:21521` VECTOR "Color Overlay" (w=42 h=43 @x=1203 y=175.4) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21522` VECTOR "Stroke Effect" (w=42 h=43 @x=1203 y=175.4) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+      - `2850:21523` RECTANGLE "icons8-eq" (w=20 h=21.5 @x=1214 y=187.2) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `2850:21524` GROUP "Deezer Btn" (w=42 h=43 @x=1337 y=240) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5
+    - `2850:21525` GROUP "background" (w=42 h=43 @x=1337 y=240) | radius=3
+      - `2850:21526` VECTOR "Color Overlay" (w=42 h=43 @x=1337 y=240) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21527` VECTOR "Stroke Effect" (w=42 h=43 @x=1337 y=240) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+    - `2850:21528` RECTANGLE "icons8-youtube-48" (w=20 h=21.5 @x=1348 y=251.8) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `2850:21529` GROUP "Youtube Btn" (w=42 h=43 @x=1278 y=240) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5
+    - `2850:21530` GROUP "background" (w=42 h=43 @x=1278 y=240) | radius=3
+      - `2850:21531` VECTOR "Color Overlay" (w=42 h=43 @x=1278 y=240) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21532` VECTOR "Stroke Effect" (w=42 h=43 @x=1278 y=240) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+    - `2850:21533` RECTANGLE "icons8-youtube-48" (w=20 h=21.5 @x=1289 y=251.8) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `2850:21534` GROUP "Youtube Music Btn" (w=42 h=43 @x=1219 y=240) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5
+    - `2850:21535` GROUP "background" (w=42 h=43 @x=1219 y=240) | radius=3
+      - `2850:21536` VECTOR "Color Overlay" (w=42 h=43 @x=1219 y=240) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21537` VECTOR "Stroke Effect" (w=42 h=43 @x=1219 y=240) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+    - `2850:21538` RECTANGLE "icons8-youtube-music-48" (w=20 h=21.5 @x=1230 y=251.8) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `2850:21539` FRAME "Dosya Yönetici Btn" (w=129 h=43 @x=1073 y=240) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.5 | AL: HORIZONTAL padding(t=6, r=4, b=6, l=4) gap=-7 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+    - `2850:21540` GROUP "background" (w=129 h=43 @x=1073 y=240) | radius=3
+      - `2850:21541` VECTOR "Color Overlay" (w=129 h=43 @x=1073 y=240) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21542` VECTOR "Stroke Effect" (w=129 h=43 @x=1073 y=240) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+    - `2850:21543` RECTANGLE "FileManager" (w=45 h=45 @x=1077 y=239) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `2850:21544` TEXT "   Dosya \nYöneticisi" (w=78 h=18 @x=1115 y=252.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) | metin: "  Kütüphanelerim"
+  - `2850:21545` GROUP "Hava Durmu" (w=172 h=54.9 @x=1266 y=99) | effect: DROP_SHADOW x=2 y=2 blur=4 #373737 alpha=0.5
+    - `2850:21546` GROUP "background" (w=172 h=54.9 @x=1266 y=99) | radius=3
+      - `2850:21547` VECTOR "Color Overlay" (w=172 h=54.9 @x=1266 y=99) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21548` VECTOR "Stroke Effect" (w=172 h=54.9 @x=1266 y=99) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+    - `2850:21549` RECTANGLE "img source" (w=30 h=32.3 @x=1281 y=109.8) | fill: IMAGE scaleMode=FILL (renk yok)
+    - `2850:21550` TEXT "Hava Durumu" (w=68 h=12 @x=1323 y=105) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=8.5px weight=700 style=Bold align=LEFT ls=0.637 (unit:YOK) line-height=10.36px (INTRINSIC_% 100%) | metin: "Hava Durumu"
+    - `2850:21551` TEXT "Güneşli 13°" (w=50 h=11 @x=1323 y=120) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=8px weight=700 style=Bold align=LEFT ls=0.6 (unit:YOK) line-height=9.75px (INTRINSIC_% 100%) | metin: "Güneşli 13° "
+    - `2850:21552` TEXT "İstanbul" (w=32 h=10 @x=1323 y=131) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.05 blur=0.1 #000000 alpha=0.8 | font=Avalon size=6.5px weight=700 style=Bold align=LEFT ls=0.487 (unit:YOK) line-height=7.93px (INTRINSIC_% 100%) | metin: "İstanbul"
+  - `2850:21574` GROUP "Hava Durmu" (w=172 h=54.9 @x=1458 y=99) | effect: DROP_SHADOW x=2 y=2 blur=4 #373737 alpha=0.5 | radius=3
+    - `2850:21575` GROUP "background" (w=172 h=54.9 @x=1458 y=99) | radius=3
+      - `2850:21576` VECTOR "Color Overlay" (w=172 h=54.9 @x=1458 y=99) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21577` VECTOR "Stroke Effect" (w=172 h=54.9 @x=1458 y=99) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+  - `2850:21622` GROUP "Hava Durmu" (w=169 h=184 @x=1656 y=99) | effect: DROP_SHADOW x=2 y=2 blur=4 #373737 alpha=0.5 | radius=3
+    - `2850:21623` GROUP "background" (w=169 h=184 @x=1656 y=99) | radius=3
+      - `2850:21624` VECTOR "Color Overlay" (w=169 h=184 @x=1656 y=99) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21625` VECTOR "Stroke Effect" (w=169 h=184 @x=1656 y=99) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+  - `2850:21553` GROUP "Ses Kaynağı" (w=173 h=54.9 @x=1073 y=99) | effect: DROP_SHADOW x=2 y=2 blur=4 #373737 alpha=0.5
+    - `2850:21554` GROUP "background" (w=173 h=54.9 @x=1073 y=99) | radius=3
+      - `2850:21555` VECTOR "Color Overlay" (w=173 h=54.9 @x=1073 y=99) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21556` VECTOR "Stroke Effect" (w=173 h=54.9 @x=1073 y=99) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+    - `2850:21557` RECTANGLE "img source" (w=31.1 h=31.1 @x=1081.4 y=110.3) | fill: IMAGE scaleMode=STRETCH (renk yok) | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8
+    - `2850:21558` TEXT "Hoparlör" (w=107 h=13 @x=1123 y=112) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #FFFFFF alpha=1 (gizli) weight=0.1 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=10px weight=700 style=Bold align=LEFT ls=0.3 (unit:YOK) line-height=12.19px (INTRINSIC_% 100%) | metin: "Hoparlör"
+    - `2850:21559` TEXT "Core Music - Hoparlör" (w=111 h=12 @x=1123 y=128) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #FFFFFF alpha=1 (gizli) weight=0.1 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=9px weight=700 style=Bold align=LEFT ls=0.27 (unit:YOK) line-height=10.97px (INTRINSIC_% 100%) | metin: "Core Music - Hoparlör"
+  - `2850:21560` GROUP "Depelama Yöneticsi" (w=173 h=43 @x=1073 y=175.4) | effect: DROP_SHADOW x=0 y=3 blur=4 #373737 alpha=0.25 [GIZLI]
+    - `2850:21561` GROUP "background" (w=173 h=43 @x=1073 y=175.4) | radius=3
+      - `2850:21562` VECTOR "Color Overlay" (w=173 h=43 @x=1073 y=175.4) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `2850:21563` VECTOR "Stroke Effect" (w=173 h=43 @x=1073 y=175.4) | fill: SOLID #373737 alpha=0.5 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=10 | radius=3 | opacity=0.15
+    - `2850:21564` TEXT "System Disk" (w=33 h=9.7 @x=1117 y=182.9) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=0.5 align=CENTER | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "Depolama "
+    - `2850:21565` TEXT "System Disk" (w=50 h=9.7 @x=1182 y=182.9) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=0.5 align=CENTER | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "32GB /  128GB"
+    - `2850:21566` INSTANCE "Image Dşisk" (w=22.8 h=22.8 @x=1083.6 y=184.4) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:510
+      - `I2850:21566;15:424` RECTANGLE "icons8-hdd-48" (w=23 h=23 @x=1083.6 y=184.4) | fill: IMAGE scaleMode=STRETCH (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.222 align=INSIDE
+    - `2850:21567` GROUP "Progressbar" (w=115 h=4.3 @x=1117 y=198)
+      - `2850:21568` VECTOR "Background" (w=115 h=4.3 @x=1117 y=198) | fill: GRADIENT_LINEAR [pos=100% #FFFFFF alpha=0.459 · pos=53.1% #D5D5D5 alpha=1 · pos=0% #FFFFFF alpha=0.459] handles=(0,0.5)(1.084,0.5)(0,1) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE | opacity=0.7
+      - `2850:21569` GROUP "Group 21" (w=52.2 h=4.3 @x=1117 y=198)
+        - `2850:21570` RECTANGLE "Value" (w=52.2 h=4.3 @x=1117 y=198) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0) | stroke: SOLID #FFFFFF alpha=1 (gizli) weight=0.294 align=INSIDE
+        - `2850:21571` RECTANGLE "Tick" (w=5.5 h=4.3 @x=1168.9 y=198) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE [GIZLI]
+- `2849:21492` RECTANGLE "Banner Div" (w=491 h=184 @x=552 y=99) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=2 y=2 blur=4 #000000 alpha=0.8 | radius=8
+- `2856:22290` FRAME "Şarkılar Item Btn" (w=169 h=43 @x=53 y=369) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 [GIZLI]
+  - `2856:22291` GROUP "Container" (w=169 h=50 @x=53 y=369) | radius=3
+    - `2856:22292` VECTOR "Color Overlay" (w=169 h=50 @x=53 y=369) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `2856:22293` VECTOR "Stroke Effect" (w=169 h=50 @x=53 y=369) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+  - `2856:22294` GROUP "Album Cover" (w=59 h=50 @x=53 y=369)
+    - `2856:22295` RECTANGLE "KursatGurel" (w=57.8 h=50 @x=54.2 y=369) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `2856:22296` GROUP "cd_case" (w=59 h=50 @x=53 y=369)
+      - `2856:22297` RECTANGLE "cd_case" (w=59 h=50 @x=53 y=369) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `2856:22298` RECTANGLE "icons8-music-48" (w=11.8 h=11.6 @x=97.8 y=405) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `2856:22299` FRAME "Frame 11" (w=50 h=29 @x=110 y=363) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+    - `2856:22300` TEXT "Name" (w=30 h=9 @x=120 y=373) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=700 style=Bold align=LEFT ls=0.07 (unit:YOK) line-height=8.53px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Şarkı Adı"
+  - `2856:22301` FRAME "Frame 12" (w=42 h=27 @x=110 y=378) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+    - `2856:22302` TEXT "Sanatci" (w=22 h=7 @x=120 y=388) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=6px weight=700 style=Bold align=LEFT ls=0.06 (unit:YOK) line-height=7.32px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sanatcı"
+  - `2856:22303` TEXT "Sure" (w=34 h=9 @x=185 y=405) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=700 style=Bold align=LEFT ls=0.56 (unit:YOK) line-height=8.53px (INTRINSIC_% 100%) | metin: "00:03:05 "
+- `3155:14616` GROUP "Önerilen Sanacılar" (w=1815 h=98 @x=53 y=682)
+  - `3155:14617` TEXT "En Son Dinlenen Şarkılar" (w=407 h=45 @x=53 y=682) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.1 weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=13px weight=500 style=Medium align=LEFT ls=0.975 (unit:YOK) line-height=17.55px (INTRINSIC_% 100%) | metin: "Önerilen Albumler"
+  - `3155:14618` INSTANCE "Albumler btn" (w=168 h=63 @x=53 y=717) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10399
+    - `I3155:14618;292:3152` GROUP "Container" (w=168 h=63 @x=53 y=717) | opacity=0.212
+      - `I3155:14618;292:3153` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=53 y=719.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14618;292:3154` VECTOR "Stroke Effect" (w=168 h=63 @x=53 y=717) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14618;292:3155` RECTANGLE "Bergen 1" (w=45 h=45 @x=61 y=726) | fill: IMAGE scaleMode=FILL (renk yok) | radius=3
+    - `I3155:14618;292:3156` TEXT "Name" (w=69 h=11 @x=112 y=722) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14618;292:3157` TEXT "Sanatcı" (w=20 h=9 @x=112 y=733) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14618;292:3158` TEXT "Tür" (w=37 h=9 @x=112 y=747.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14618;292:3159` TEXT "Yıl" (w=50 h=9 @x=112 y=756.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+    - `I3155:14618;292:3160` TEXT "Sure" (w=27 h=9 @x=191 y=768) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+  - `3155:14619` INSTANCE "Albumler btn" (w=168 h=63 @x=236 y=717) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14619;910:10403` GROUP "Container" (w=168 h=63 @x=236 y=717) | opacity=0.212
+      - `I3155:14619;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=236 y=719.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14619;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=236 y=717) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14619;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=236 y=716.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14619;910:10411` TEXT "Sure" (w=27 h=9 @x=374 y=768) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14619;2056:16095` TEXT "Name" (w=69 h=11 @x=295 y=722) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14619;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=295 y=733) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14619;2056:16097` TEXT "Tür" (w=37 h=9 @x=295 y=747.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14619;2056:16098` TEXT "Yıl" (w=50 h=9 @x=295 y=756.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14620` INSTANCE "Albumler btn" (w=168 h=63 @x=419 y=717) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14620;910:10403` GROUP "Container" (w=168 h=63 @x=419 y=717) | opacity=0.212
+      - `I3155:14620;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=419 y=719.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14620;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=419 y=717) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14620;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=419 y=716.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14620;910:10411` TEXT "Sure" (w=27 h=9 @x=557 y=768) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14620;2056:16095` TEXT "Name" (w=69 h=11 @x=478 y=722) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14620;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=478 y=733) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14620;2056:16097` TEXT "Tür" (w=37 h=9 @x=478 y=747.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14620;2056:16098` TEXT "Yıl" (w=50 h=9 @x=478 y=756.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14621` INSTANCE "Albumler btn" (w=168 h=63 @x=602 y=717) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14621;910:10403` GROUP "Container" (w=168 h=63 @x=602 y=717) | opacity=0.212
+      - `I3155:14621;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=602 y=719.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14621;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=602 y=717) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14621;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=602 y=716.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14621;910:10411` TEXT "Sure" (w=27 h=9 @x=740 y=768) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14621;2056:16095` TEXT "Name" (w=69 h=11 @x=661 y=722) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14621;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=661 y=733) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14621;2056:16097` TEXT "Tür" (w=37 h=9 @x=661 y=747.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14621;2056:16098` TEXT "Yıl" (w=50 h=9 @x=661 y=756.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14622` INSTANCE "Albumler btn" (w=168 h=63 @x=785 y=717) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14622;910:10403` GROUP "Container" (w=168 h=63 @x=785 y=717) | opacity=0.212
+      - `I3155:14622;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=785 y=719.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14622;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=785 y=717) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14622;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=785 y=716.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14622;910:10411` TEXT "Sure" (w=27 h=9 @x=923 y=768) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14622;2056:16095` TEXT "Name" (w=69 h=11 @x=844 y=722) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14622;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=844 y=733) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14622;2056:16097` TEXT "Tür" (w=37 h=9 @x=844 y=747.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14622;2056:16098` TEXT "Yıl" (w=50 h=9 @x=844 y=756.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14623` INSTANCE "Albumler btn" (w=168 h=63 @x=968 y=717) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14623;910:10403` GROUP "Container" (w=168 h=63 @x=968 y=717) | opacity=0.212
+      - `I3155:14623;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=968 y=719.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14623;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=968 y=717) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14623;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=968 y=716.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14623;910:10411` TEXT "Sure" (w=27 h=9 @x=1106 y=768) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14623;2056:16095` TEXT "Name" (w=69 h=11 @x=1027 y=722) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14623;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=1027 y=733) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14623;2056:16097` TEXT "Tür" (w=37 h=9 @x=1027 y=747.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14623;2056:16098` TEXT "Yıl" (w=50 h=9 @x=1027 y=756.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14624` INSTANCE "Albumler btn" (w=168 h=63 @x=1151 y=717) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14624;910:10403` GROUP "Container" (w=168 h=63 @x=1151 y=717) | opacity=0.212
+      - `I3155:14624;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=1151 y=719.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14624;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=1151 y=717) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14624;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=1151 y=716.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14624;910:10411` TEXT "Sure" (w=27 h=9 @x=1289 y=768) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14624;2056:16095` TEXT "Name" (w=69 h=11 @x=1210 y=722) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14624;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=1210 y=733) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14624;2056:16097` TEXT "Tür" (w=37 h=9 @x=1210 y=747.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14624;2056:16098` TEXT "Yıl" (w=50 h=9 @x=1210 y=756.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14625` INSTANCE "Albumler btn" (w=168 h=63 @x=1334 y=717) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10399
+    - `I3155:14625;292:3152` GROUP "Container" (w=168 h=63 @x=1334 y=717) | opacity=0.212
+      - `I3155:14625;292:3153` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=1334 y=719.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14625;292:3154` VECTOR "Stroke Effect" (w=168 h=63 @x=1334 y=717) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14625;292:3155` RECTANGLE "Bergen 1" (w=45 h=45 @x=1342 y=726) | fill: IMAGE scaleMode=FILL (renk yok) | radius=3
+    - `I3155:14625;292:3156` TEXT "Name" (w=69 h=11 @x=1393 y=722) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14625;292:3157` TEXT "Sanatcı" (w=20 h=9 @x=1393 y=733) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14625;292:3158` TEXT "Tür" (w=37 h=9 @x=1393 y=747.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14625;292:3159` TEXT "Yıl" (w=50 h=9 @x=1393 y=756.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+    - `I3155:14625;292:3160` TEXT "Sure" (w=27 h=9 @x=1472 y=768) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+  - `3155:14626` INSTANCE "Albumler btn" (w=168 h=63 @x=1517 y=717) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14626;910:10403` GROUP "Container" (w=168 h=63 @x=1517 y=717) | opacity=0.212
+      - `I3155:14626;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=1517 y=719.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14626;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=1517 y=717) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14626;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=1517 y=716.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14626;910:10411` TEXT "Sure" (w=27 h=9 @x=1655 y=768) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14626;2056:16095` TEXT "Name" (w=69 h=11 @x=1576 y=722) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14626;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=1576 y=733) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14626;2056:16097` TEXT "Tür" (w=37 h=9 @x=1576 y=747.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14626;2056:16098` TEXT "Yıl" (w=50 h=9 @x=1576 y=756.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14627` FRAME "Frame 17" (w=168 h=63 @x=1700 y=717)
+    - `3155:14628` GROUP "Container" (w=128 h=63 @x=1700 y=717) | opacity=0.212
+      - `3155:14629` VECTOR "Color Overlay" (w=123.7 h=58.7 @x=1700 y=719.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `3155:14630` VECTOR "Stroke Effect" (w=128 h=63 @x=1700 y=717) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `3155:14631` RECTANGLE "Bergen 1" (w=52 h=64 @x=1700 y=716.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `3155:14632` TEXT "Name" (w=69 h=11 @x=1759 y=722) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `3155:14633` TEXT "Sanatcı" (w=20 h=9 @x=1759 y=733) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `3155:14634` TEXT "Tür" (w=37 h=9 @x=1759 y=747.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `3155:14635` TEXT "Yıl" (w=50 h=9 @x=1759 y=756.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+- `3155:14718` GROUP "Önerilen Albumler" (w=1805 h=79 @x=53 y=812)
+  - `3155:14719` TEXT "En Son Dinlenen Şarkılar" (w=407 h=45 @x=53 y=812) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.1 weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=13px weight=500 style=Medium align=LEFT ls=0.975 (unit:YOK) line-height=17.55px (INTRINSIC_% 100%) | metin: "Önerilen Sanacılar"
+  - `3155:14720` INSTANCE "Sanatcılar Btn" (w=167 h=44 @x=53 y=847) | comp=912:11862
+    - `I3155:14720;292:3162` GROUP "Container" (w=167 h=44 @x=53 y=847.4) | opacity=0.212
+      - `I3155:14720;292:3163` VECTOR "Color Overlay" (w=161.4 h=44 @x=53 y=847.4) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14720;292:3164` VECTOR "Stroke Effect" (w=167 h=44 @x=53 y=847.4) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14720;292:3165` RECTANGLE "KursatGurel" (w=34.2 h=35 @x=62.8 y=852) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=115
+    - `I3155:14720;292:3166` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=106 y=857.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.02 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) | metin: "Sanatcı Adı"
+    - `I3155:14720;1330:21613` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=106 y=870.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=6.8px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.18px (INTRINSIC_% 100%) | metin: "Yıl : 2000 . Tür : Arabesk"
+  - `3155:14826` INSTANCE "Sanatcılar Btn" (w=167 h=44 @x=235 y=847) | comp=912:11862
+    - `I3155:14826;292:3162` GROUP "Container" (w=167 h=44 @x=235 y=847.4) | opacity=0.212
+      - `I3155:14826;292:3163` VECTOR "Color Overlay" (w=161.4 h=44 @x=235 y=847.4) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14826;292:3164` VECTOR "Stroke Effect" (w=167 h=44 @x=235 y=847.4) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14826;292:3165` RECTANGLE "KursatGurel" (w=34.2 h=35 @x=244.8 y=852) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=115
+    - `I3155:14826;292:3166` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=288 y=857.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.02 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) | metin: "Sanatcı Adı"
+    - `I3155:14826;1330:21613` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=288 y=870.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=6.8px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.18px (INTRINSIC_% 100%) | metin: "Yıl : 2000 . Tür : Arabesk"
+  - `3155:14834` INSTANCE "Sanatcılar Btn" (w=167 h=44 @x=417 y=847) | comp=912:11862
+    - `I3155:14834;292:3162` GROUP "Container" (w=167 h=44 @x=417 y=847.4) | opacity=0.212
+      - `I3155:14834;292:3163` VECTOR "Color Overlay" (w=161.4 h=44 @x=417 y=847.4) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14834;292:3164` VECTOR "Stroke Effect" (w=167 h=44 @x=417 y=847.4) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14834;292:3165` RECTANGLE "KursatGurel" (w=34.2 h=35 @x=426.8 y=852) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=115
+    - `I3155:14834;292:3166` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=470 y=857.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.02 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) | metin: "Sanatcı Adı"
+    - `I3155:14834;1330:21613` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=470 y=870.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=6.8px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.18px (INTRINSIC_% 100%) | metin: "Yıl : 2000 . Tür : Arabesk"
+  - `3155:14835` INSTANCE "Sanatcılar Btn" (w=167 h=44 @x=599 y=847) | comp=912:11862
+    - `I3155:14835;292:3162` GROUP "Container" (w=167 h=44 @x=599 y=847.4) | opacity=0.212
+      - `I3155:14835;292:3163` VECTOR "Color Overlay" (w=161.4 h=44 @x=599 y=847.4) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14835;292:3164` VECTOR "Stroke Effect" (w=167 h=44 @x=599 y=847.4) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14835;292:3165` RECTANGLE "KursatGurel" (w=34.2 h=35 @x=608.8 y=852) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=115
+    - `I3155:14835;292:3166` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=652 y=857.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.02 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) | metin: "Sanatcı Adı"
+    - `I3155:14835;1330:21613` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=652 y=870.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=6.8px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.18px (INTRINSIC_% 100%) | metin: "Yıl : 2000 . Tür : Arabesk"
+  - `3155:14849` INSTANCE "Sanatcılar Btn" (w=167 h=44 @x=781 y=847) | comp=912:11862
+    - `I3155:14849;292:3162` GROUP "Container" (w=167 h=44 @x=781 y=847.4) | opacity=0.212
+      - `I3155:14849;292:3163` VECTOR "Color Overlay" (w=161.4 h=44 @x=781 y=847.4) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14849;292:3164` VECTOR "Stroke Effect" (w=167 h=44 @x=781 y=847.4) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14849;292:3165` RECTANGLE "KursatGurel" (w=34.2 h=35 @x=790.8 y=852) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=115
+    - `I3155:14849;292:3166` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=834 y=857.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.02 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) | metin: "Sanatcı Adı"
+    - `I3155:14849;1330:21613` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=834 y=870.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=6.8px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.18px (INTRINSIC_% 100%) | metin: "Yıl : 2000 . Tür : Arabesk"
+  - `3155:14850` INSTANCE "Sanatcılar Btn" (w=167 h=44 @x=963 y=847) | comp=912:11862
+    - `I3155:14850;292:3162` GROUP "Container" (w=167 h=44 @x=963 y=847.4) | opacity=0.212
+      - `I3155:14850;292:3163` VECTOR "Color Overlay" (w=161.4 h=44 @x=963 y=847.4) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14850;292:3164` VECTOR "Stroke Effect" (w=167 h=44 @x=963 y=847.4) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14850;292:3165` RECTANGLE "KursatGurel" (w=34.2 h=35 @x=972.8 y=852) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=115
+    - `I3155:14850;292:3166` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=1016 y=857.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.02 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) | metin: "Sanatcı Adı"
+    - `I3155:14850;1330:21613` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=1016 y=870.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=6.8px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.18px (INTRINSIC_% 100%) | metin: "Yıl : 2000 . Tür : Arabesk"
+  - `3155:14851` INSTANCE "Sanatcılar Btn" (w=167 h=44 @x=1145 y=847) | comp=912:11862
+    - `I3155:14851;292:3162` GROUP "Container" (w=167 h=44 @x=1145 y=847.4) | opacity=0.212
+      - `I3155:14851;292:3163` VECTOR "Color Overlay" (w=161.4 h=44 @x=1145 y=847.4) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14851;292:3164` VECTOR "Stroke Effect" (w=167 h=44 @x=1145 y=847.4) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14851;292:3165` RECTANGLE "KursatGurel" (w=34.2 h=35 @x=1154.8 y=852) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=115
+    - `I3155:14851;292:3166` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=1198 y=857.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.02 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) | metin: "Sanatcı Adı"
+    - `I3155:14851;1330:21613` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=1198 y=870.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=6.8px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.18px (INTRINSIC_% 100%) | metin: "Yıl : 2000 . Tür : Arabesk"
+  - `3155:14852` INSTANCE "Sanatcılar Btn" (w=167 h=44 @x=1327 y=847) | comp=912:11862
+    - `I3155:14852;292:3162` GROUP "Container" (w=167 h=44 @x=1327 y=847.4) | opacity=0.212
+      - `I3155:14852;292:3163` VECTOR "Color Overlay" (w=161.4 h=44 @x=1327 y=847.4) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14852;292:3164` VECTOR "Stroke Effect" (w=167 h=44 @x=1327 y=847.4) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14852;292:3165` RECTANGLE "KursatGurel" (w=34.2 h=35 @x=1336.8 y=852) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=115
+    - `I3155:14852;292:3166` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=1380 y=857.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.02 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) | metin: "Sanatcı Adı"
+    - `I3155:14852;1330:21613` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=1380 y=870.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=6.8px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.18px (INTRINSIC_% 100%) | metin: "Yıl : 2000 . Tür : Arabesk"
+  - `3155:14878` INSTANCE "Sanatcılar Btn" (w=167 h=44 @x=1509 y=847) | comp=912:11862
+    - `I3155:14878;292:3162` GROUP "Container" (w=167 h=44 @x=1509 y=847.4) | opacity=0.212
+      - `I3155:14878;292:3163` VECTOR "Color Overlay" (w=161.4 h=44 @x=1509 y=847.4) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14878;292:3164` VECTOR "Stroke Effect" (w=167 h=44 @x=1509 y=847.4) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14878;292:3165` RECTANGLE "KursatGurel" (w=34.2 h=35 @x=1518.8 y=852) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=115
+    - `I3155:14878;292:3166` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=1562 y=857.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.02 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) | metin: "Sanatcı Adı"
+    - `I3155:14878;1330:21613` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=1562 y=870.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=6.8px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.18px (INTRINSIC_% 100%) | metin: "Yıl : 2000 . Tür : Arabesk"
+  - `3155:14907` FRAME "Frame 18" (w=167 h=44 @x=1691 y=847)
+    - `3155:14908` GROUP "Container" (w=139 h=44 @x=1691 y=847.4) | opacity=0.212
+      - `3155:14909` VECTOR "Color Overlay" (w=134.3 h=44 @x=1691 y=847.4) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `3155:14910` VECTOR "Stroke Effect" (w=139 h=44 @x=1691 y=847.4) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `3155:14911` RECTANGLE "KursatGurel" (w=34.2 h=35 @x=1700.8 y=852) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=115
+    - `3155:14912` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=1744 y=857.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.02 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) | metin: "Sanatcı Adı"
+    - `3155:14913` TEXT "Çok Sevmek Yasaklanmalı" (w=107 h=11 @x=1744 y=870.4) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=1 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=6.8px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.18px (INTRINSIC_% 100%) | metin: "Yıl : 2000 . Tür : Arabesk"
+- `3155:8292` GROUP "En Son Dinlenen Albumler" (w=1815 h=98 @x=53 y=552)
+  - `3155:8293` TEXT "En Son Dinlenen Şarkılar" (w=407 h=45 @x=53 y=552) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.1 weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=13px weight=500 style=Medium align=LEFT ls=0.975 (unit:YOK) line-height=17.55px (INTRINSIC_% 100%) | metin: "En Son Dinlenen Albumler"
+  - `3155:8298` INSTANCE "Albumler btn" (w=168 h=63 @x=53 y=587) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10399
+    - `I3155:8298;292:3152` GROUP "Container" (w=168 h=63 @x=53 y=587) | opacity=0.212
+      - `I3155:8298;292:3153` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=53 y=589.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:8298;292:3154` VECTOR "Stroke Effect" (w=168 h=63 @x=53 y=587) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:8298;292:3155` RECTANGLE "Bergen 1" (w=45 h=45 @x=61 y=596) | fill: IMAGE scaleMode=FILL (renk yok) | radius=3
+    - `I3155:8298;292:3156` TEXT "Name" (w=69 h=11 @x=112 y=592) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:8298;292:3157` TEXT "Sanatcı" (w=20 h=9 @x=112 y=603) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:8298;292:3158` TEXT "Tür" (w=37 h=9 @x=112 y=617.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:8298;292:3159` TEXT "Yıl" (w=50 h=9 @x=112 y=626.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+    - `I3155:8298;292:3160` TEXT "Sure" (w=27 h=9 @x=191 y=638) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+  - `3155:14440` INSTANCE "Albumler btn" (w=168 h=63 @x=236 y=587) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14440;910:10403` GROUP "Container" (w=168 h=63 @x=236 y=587) | opacity=0.212
+      - `I3155:14440;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=236 y=589.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14440;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=236 y=587) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14440;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=236 y=586.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14440;910:10411` TEXT "Sure" (w=27 h=9 @x=374 y=638) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14440;2056:16095` TEXT "Name" (w=69 h=11 @x=295 y=592) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14440;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=295 y=603) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14440;2056:16097` TEXT "Tür" (w=37 h=9 @x=295 y=617.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14440;2056:16098` TEXT "Yıl" (w=50 h=9 @x=295 y=626.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14460` INSTANCE "Albumler btn" (w=168 h=63 @x=419 y=587) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14460;910:10403` GROUP "Container" (w=168 h=63 @x=419 y=587) | opacity=0.212
+      - `I3155:14460;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=419 y=589.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14460;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=419 y=587) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14460;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=419 y=586.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14460;910:10411` TEXT "Sure" (w=27 h=9 @x=557 y=638) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14460;2056:16095` TEXT "Name" (w=69 h=11 @x=478 y=592) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14460;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=478 y=603) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14460;2056:16097` TEXT "Tür" (w=37 h=9 @x=478 y=617.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14460;2056:16098` TEXT "Yıl" (w=50 h=9 @x=478 y=626.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14471` INSTANCE "Albumler btn" (w=168 h=63 @x=602 y=587) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14471;910:10403` GROUP "Container" (w=168 h=63 @x=602 y=587) | opacity=0.212
+      - `I3155:14471;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=602 y=589.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14471;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=602 y=587) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14471;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=602 y=586.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14471;910:10411` TEXT "Sure" (w=27 h=9 @x=740 y=638) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14471;2056:16095` TEXT "Name" (w=69 h=11 @x=661 y=592) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14471;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=661 y=603) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14471;2056:16097` TEXT "Tür" (w=37 h=9 @x=661 y=617.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14471;2056:16098` TEXT "Yıl" (w=50 h=9 @x=661 y=626.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14472` INSTANCE "Albumler btn" (w=168 h=63 @x=785 y=587) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14472;910:10403` GROUP "Container" (w=168 h=63 @x=785 y=587) | opacity=0.212
+      - `I3155:14472;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=785 y=589.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14472;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=785 y=587) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14472;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=785 y=586.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14472;910:10411` TEXT "Sure" (w=27 h=9 @x=923 y=638) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14472;2056:16095` TEXT "Name" (w=69 h=11 @x=844 y=592) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14472;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=844 y=603) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14472;2056:16097` TEXT "Tür" (w=37 h=9 @x=844 y=617.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14472;2056:16098` TEXT "Yıl" (w=50 h=9 @x=844 y=626.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14492` INSTANCE "Albumler btn" (w=168 h=63 @x=968 y=587) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14492;910:10403` GROUP "Container" (w=168 h=63 @x=968 y=587) | opacity=0.212
+      - `I3155:14492;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=968 y=589.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14492;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=968 y=587) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14492;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=968 y=586.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14492;910:10411` TEXT "Sure" (w=27 h=9 @x=1106 y=638) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14492;2056:16095` TEXT "Name" (w=69 h=11 @x=1027 y=592) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14492;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=1027 y=603) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14492;2056:16097` TEXT "Tür" (w=37 h=9 @x=1027 y=617.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14492;2056:16098` TEXT "Yıl" (w=50 h=9 @x=1027 y=626.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14493` INSTANCE "Albumler btn" (w=168 h=63 @x=1151 y=587) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14493;910:10403` GROUP "Container" (w=168 h=63 @x=1151 y=587) | opacity=0.212
+      - `I3155:14493;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=1151 y=589.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14493;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=1151 y=587) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14493;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=1151 y=586.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14493;910:10411` TEXT "Sure" (w=27 h=9 @x=1289 y=638) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14493;2056:16095` TEXT "Name" (w=69 h=11 @x=1210 y=592) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14493;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=1210 y=603) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14493;2056:16097` TEXT "Tür" (w=37 h=9 @x=1210 y=617.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14493;2056:16098` TEXT "Yıl" (w=50 h=9 @x=1210 y=626.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14534` INSTANCE "Albumler btn" (w=168 h=63 @x=1334 y=587) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10399
+    - `I3155:14534;292:3152` GROUP "Container" (w=168 h=63 @x=1334 y=587) | opacity=0.212
+      - `I3155:14534;292:3153` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=1334 y=589.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14534;292:3154` VECTOR "Stroke Effect" (w=168 h=63 @x=1334 y=587) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14534;292:3155` RECTANGLE "Bergen 1" (w=45 h=45 @x=1342 y=596) | fill: IMAGE scaleMode=FILL (renk yok) | radius=3
+    - `I3155:14534;292:3156` TEXT "Name" (w=69 h=11 @x=1393 y=592) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14534;292:3157` TEXT "Sanatcı" (w=20 h=9 @x=1393 y=603) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14534;292:3158` TEXT "Tür" (w=37 h=9 @x=1393 y=617.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14534;292:3159` TEXT "Yıl" (w=50 h=9 @x=1393 y=626.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+    - `I3155:14534;292:3160` TEXT "Sure" (w=27 h=9 @x=1472 y=638) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+  - `3155:14535` INSTANCE "Albumler btn" (w=168 h=63 @x=1517 y=587) | effect: DROP_SHADOW x=0 y=1 blur=16 #000000 alpha=0.35 | comp=910:10402
+    - `I3155:14535;910:10403` GROUP "Container" (w=168 h=63 @x=1517 y=587) | opacity=0.212
+      - `I3155:14535;910:10404` VECTOR "Color Overlay" (w=162.4 h=58.7 @x=1517 y=589.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `I3155:14535;910:10405` VECTOR "Stroke Effect" (w=168 h=63 @x=1517 y=587) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `I3155:14535;910:10412` RECTANGLE "Bergen 1" (w=52 h=64 @x=1517 y=586.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `I3155:14535;910:10411` TEXT "Sure" (w=27 h=9 @x=1655 y=638) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:10:05"
+    - `I3155:14535;2056:16095` TEXT "Name" (w=69 h=11 @x=1576 y=592) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `I3155:14535;2056:16096` TEXT "Sanatcı" (w=20 h=9 @x=1576 y=603) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `I3155:14535;2056:16097` TEXT "Tür" (w=37 h=9 @x=1576 y=617.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `I3155:14535;2056:16098` TEXT "Yıl" (w=50 h=9 @x=1576 y=626.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+  - `3155:14605` FRAME "Frame 17" (w=168 h=63 @x=1700 y=587)
+    - `3155:14606` GROUP "Container" (w=128 h=63 @x=1700 y=587) | opacity=0.212
+      - `3155:14607` VECTOR "Color Overlay" (w=123.7 h=58.7 @x=1700 y=589.2) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+      - `3155:14608` VECTOR "Stroke Effect" (w=128 h=63 @x=1700 y=587) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+    - `3155:14609` RECTANGLE "Bergen 1" (w=52 h=64 @x=1700 y=586.3) | fill: IMAGE scaleMode=FILL (renk yok) | radius(tl=3, tr=0, br=0, bl=3)
+    - `3155:14611` TEXT "Name" (w=69 h=11 @x=1759 y=592) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=8px weight=500 style=Medium align=LEFT ls=0.08 (unit:YOK) line-height=10.8px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen - Tüm Şarkılar"
+    - `3155:14612` TEXT "Sanatcı" (w=20 h=9 @x=1759 y=603) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.07 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bergen"
+    - `3155:14613` TEXT "Tür" (w=37 h=9 @x=1759 y=617.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Tür : Arabesk"
+    - `3155:14614` TEXT "Yıl" (w=50 h=9 @x=1759 y=626.3) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıl : Bilinmeyen Yıl"
+- `3155:8147` GROUP "Son Oluşturlan & Sistem Taraından Oluşturlan Playlistler" (w=1825 h=78 @x=53 y=442)
+  - `3155:8148` TEXT "En Son Dinlenen Şarkılar" (w=407 h=45 @x=53 y=442) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.1 weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=13px weight=500 style=Medium align=LEFT ls=0.975 (unit:YOK) line-height=17.55px (INTRINSIC_% 100%) | metin: "Son Oluşturlan & Sistem Taraından Oluşturlan Playlistler\n"
+  - `3155:8149` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=1157 y=477) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10283
+    - `I3155:8149;992:15165` GROUP "Container" (w=169 h=43 @x=1157 y=477) | radius=3
+      - `I3155:8149;1143:20776` VECTOR "Stroke Effect" (w=169 h=43 @x=1157 y=477) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `I3155:8149;1143:20775` VECTOR "Color Overlay" (w=169 h=43 @x=1157 y=477) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `I3155:8149;880:10299` GROUP "Album Cover" (w=50 h=43 @x=1157 y=477)
+      - `I3155:8149;880:10300` RECTANGLE "KursatGurel" (w=49 h=43 @x=1158 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I3155:8149;880:10301` GROUP "cd_case" (w=50 h=43 @x=1157 y=477)
+        - `I3155:8149;880:10302` RECTANGLE "cd_case" (w=50 h=43 @x=1157 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3155:8149;880:10303` RECTANGLE "icons8-music-48" (w=10 h=10 @x=1195 y=508) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:8149;1546:20416` FRAME "Frame 15" (w=107 h=38 @x=1203 y=472.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8149;880:10305` TEXT "Name" (w=87 h=18 @x=1213 y=482.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yeni Sevilen Türleri Keşfet mix'im\n"
+    - `I3155:8149;1546:20527` FRAME "Frame 16" (w=102 h=29 @x=1203 y=484) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8149;880:10306` TEXT "Sanatci" (w=82 h=9 @x=1213 y=494) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I3155:8149;880:10307` TEXT "Sure" (w=28 h=9 @x=1294 y=507.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "00:50:15"
+  - `3155:8150` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=973 y=477) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10283
+    - `I3155:8150;992:15165` GROUP "Container" (w=169 h=43 @x=973 y=477) | radius=3
+      - `I3155:8150;1143:20776` VECTOR "Stroke Effect" (w=169 h=43 @x=973 y=477) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `I3155:8150;1143:20775` VECTOR "Color Overlay" (w=169 h=43 @x=973 y=477) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `I3155:8150;880:10299` GROUP "Album Cover" (w=50 h=43 @x=973 y=477)
+      - `I3155:8150;880:10300` RECTANGLE "KursatGurel" (w=49 h=43 @x=974 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I3155:8150;880:10301` GROUP "cd_case" (w=50 h=43 @x=973 y=477)
+        - `I3155:8150;880:10302` RECTANGLE "cd_case" (w=50 h=43 @x=973 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3155:8150;880:10303` RECTANGLE "icons8-music-48" (w=10 h=10 @x=1011 y=508) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:8150;1546:20416` FRAME "Frame 15" (w=107 h=38 @x=1019 y=472.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8150;880:10305` TEXT "Name" (w=87 h=18 @x=1029 y=482.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yeni Sevilen Türleri Keşfet mix'im\n"
+    - `I3155:8150;1546:20527` FRAME "Frame 16" (w=102 h=29 @x=1019 y=484) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8150;880:10306` TEXT "Sanatci" (w=82 h=9 @x=1029 y=494) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I3155:8150;880:10307` TEXT "Sure" (w=28 h=9 @x=1110 y=507.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "00:50:15"
+  - `3155:8151` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=789 y=477) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10283
+    - `I3155:8151;992:15165` GROUP "Container" (w=169 h=43 @x=789 y=477) | radius=3
+      - `I3155:8151;1143:20776` VECTOR "Stroke Effect" (w=169 h=43 @x=789 y=477) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `I3155:8151;1143:20775` VECTOR "Color Overlay" (w=169 h=43 @x=789 y=477) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `I3155:8151;880:10299` GROUP "Album Cover" (w=50 h=43 @x=789 y=477)
+      - `I3155:8151;880:10300` RECTANGLE "KursatGurel" (w=49 h=43 @x=790 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I3155:8151;880:10301` GROUP "cd_case" (w=50 h=43 @x=789 y=477)
+        - `I3155:8151;880:10302` RECTANGLE "cd_case" (w=50 h=43 @x=789 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3155:8151;880:10303` RECTANGLE "icons8-music-48" (w=10 h=10 @x=827 y=508) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:8151;1546:20416` FRAME "Frame 15" (w=103 h=38 @x=835 y=472.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8151;880:10305` TEXT "Name" (w=83 h=18 @x=845 y=482.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ruh haline Göre Günlük mix'im\n"
+    - `I3155:8151;1546:20527` FRAME "Frame 16" (w=102 h=29 @x=835 y=484) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8151;880:10306` TEXT "Sanatci" (w=82 h=9 @x=845 y=494) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I3155:8151;880:10307` TEXT "Sure" (w=28 h=9 @x=926 y=507.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "01:05:00"
+  - `3155:8152` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=605 y=477) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10309
+    - `I3155:8152;992:15193` GROUP "Container" (w=169 h=43 @x=605 y=477) | radius=3
+      - `I3155:8152;1143:20874` VECTOR "Color Overlay" (w=169 h=43 @x=605 y=477) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `I3155:8152;1143:20875` VECTOR "Stroke Effect" (w=169 h=43 @x=605 y=477) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+    - `I3155:8152;880:10348` GROUP "Album Cover" (w=51 h=43 @x=605 y=477)
+      - `I3155:8152;880:10349` RECTANGLE "KursatGurel" (w=49 h=43 @x=606 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I3155:8152;880:10350` GROUP "cd_case" (w=51 h=43 @x=605 y=477)
+        - `I3155:8152;880:10351` RECTANGLE "cd_case" (w=50 h=43 @x=605 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3155:8152;880:10352` RECTANGLE "icons8-music-48" (w=10 h=10 @x=643 y=508) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3155:8152;880:10353` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=51 h=34 @x=605 y=481) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | opacity=0.35
+    - `I3155:8152;1546:20757` FRAME "Frame 15" (w=81 h=29 @x=651 y=472.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8152;1546:20758` TEXT "Name" (w=61 h=9 @x=661 y=482.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "En Sevilen Supermix'im"
+    - `I3155:8152;1546:20759` FRAME "Frame 16" (w=102 h=29 @x=651 y=484) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8152;1546:20760` TEXT "Sanatci" (w=82 h=9 @x=661 y=494) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I3155:8152;880:10333` TEXT "Sure" (w=28 h=9 @x=742 y=507.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "00:03:05 "
+  - `3155:8153` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=53 y=477) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10309
+    - `I3155:8153;992:15193` GROUP "Container" (w=169 h=43 @x=53 y=477) | radius=3
+      - `I3155:8153;1143:20874` VECTOR "Color Overlay" (w=169 h=43 @x=53 y=477) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `I3155:8153;1143:20875` VECTOR "Stroke Effect" (w=169 h=43 @x=53 y=477) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+    - `I3155:8153;880:10348` GROUP "Album Cover" (w=51 h=43 @x=53 y=477)
+      - `I3155:8153;880:10349` RECTANGLE "KursatGurel" (w=49 h=43 @x=54 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I3155:8153;880:10350` GROUP "cd_case" (w=51 h=43 @x=53 y=477)
+        - `I3155:8153;880:10351` RECTANGLE "cd_case" (w=50 h=43 @x=53 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3155:8153;880:10352` RECTANGLE "icons8-music-48" (w=10 h=10 @x=91 y=508) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3155:8153;880:10353` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=51 h=34 @x=53 y=481) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | opacity=0.35
+    - `I3155:8153;1546:20757` FRAME "Frame 15" (w=81 h=29 @x=99 y=472.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8153;1546:20758` TEXT "Name" (w=61 h=9 @x=109 y=482.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "En Sevilen Supermix'im"
+    - `I3155:8153;1546:20759` FRAME "Frame 16" (w=102 h=29 @x=99 y=484) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8153;1546:20760` TEXT "Sanatci" (w=82 h=9 @x=109 y=494) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I3155:8153;880:10333` TEXT "Sure" (w=28 h=9 @x=190 y=507.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "00:03:05 "
+  - `3155:8154` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=237 y=477) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10283
+    - `I3155:8154;992:15165` GROUP "Container" (w=169 h=43 @x=237 y=477) | radius=3
+      - `I3155:8154;1143:20776` VECTOR "Stroke Effect" (w=169 h=43 @x=237 y=477) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `I3155:8154;1143:20775` VECTOR "Color Overlay" (w=169 h=43 @x=237 y=477) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `I3155:8154;880:10299` GROUP "Album Cover" (w=50 h=43 @x=237 y=477)
+      - `I3155:8154;880:10300` RECTANGLE "KursatGurel" (w=49 h=43 @x=238 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I3155:8154;880:10301` GROUP "cd_case" (w=50 h=43 @x=237 y=477)
+        - `I3155:8154;880:10302` RECTANGLE "cd_case" (w=50 h=43 @x=237 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3155:8154;880:10303` RECTANGLE "icons8-music-48" (w=10 h=10 @x=275 y=508) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:8154;1546:20416` FRAME "Frame 15" (w=103 h=38 @x=283 y=472.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8154;880:10305` TEXT "Name" (w=83 h=18 @x=293 y=482.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ruh haline Göre Günlük mix'im\n"
+    - `I3155:8154;1546:20527` FRAME "Frame 16" (w=102 h=29 @x=283 y=484) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8154;880:10306` TEXT "Sanatci" (w=82 h=9 @x=293 y=494) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I3155:8154;880:10307` TEXT "Sure" (w=28 h=9 @x=374 y=507.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "01:05:00"
+  - `3155:8155` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=421 y=477) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10283
+    - `I3155:8155;992:15165` GROUP "Container" (w=169 h=43 @x=421 y=477) | radius=3
+      - `I3155:8155;1143:20776` VECTOR "Stroke Effect" (w=169 h=43 @x=421 y=477) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `I3155:8155;1143:20775` VECTOR "Color Overlay" (w=169 h=43 @x=421 y=477) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `I3155:8155;880:10299` GROUP "Album Cover" (w=50 h=43 @x=421 y=477)
+      - `I3155:8155;880:10300` RECTANGLE "KursatGurel" (w=49 h=43 @x=422 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I3155:8155;880:10301` GROUP "cd_case" (w=50 h=43 @x=421 y=477)
+        - `I3155:8155;880:10302` RECTANGLE "cd_case" (w=50 h=43 @x=421 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3155:8155;880:10303` RECTANGLE "icons8-music-48" (w=10 h=10 @x=459 y=508) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:8155;1546:20416` FRAME "Frame 15" (w=107 h=38 @x=467 y=472.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8155;880:10305` TEXT "Name" (w=87 h=18 @x=477 y=482.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yeni Sevilen Türleri Keşfet mix'im\n"
+    - `I3155:8155;1546:20527` FRAME "Frame 16" (w=102 h=29 @x=467 y=484) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8155;880:10306` TEXT "Sanatci" (w=82 h=9 @x=477 y=494) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I3155:8155;880:10307` TEXT "Sure" (w=28 h=9 @x=558 y=507.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "00:50:15"
+  - `3155:8156` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=1341 y=477) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10309
+    - `I3155:8156;992:15193` GROUP "Container" (w=169 h=43 @x=1341 y=477) | radius=3
+      - `I3155:8156;1143:20874` VECTOR "Color Overlay" (w=169 h=43 @x=1341 y=477) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `I3155:8156;1143:20875` VECTOR "Stroke Effect" (w=169 h=43 @x=1341 y=477) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+    - `I3155:8156;880:10348` GROUP "Album Cover" (w=51 h=43 @x=1341 y=477)
+      - `I3155:8156;880:10349` RECTANGLE "KursatGurel" (w=49 h=43 @x=1342 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I3155:8156;880:10350` GROUP "cd_case" (w=51 h=43 @x=1341 y=477)
+        - `I3155:8156;880:10351` RECTANGLE "cd_case" (w=50 h=43 @x=1341 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3155:8156;880:10352` RECTANGLE "icons8-music-48" (w=10 h=10 @x=1379 y=508) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3155:8156;880:10353` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=51 h=34 @x=1341 y=481) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | opacity=0.35
+    - `I3155:8156;1546:20757` FRAME "Frame 15" (w=81 h=29 @x=1387 y=472.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8156;1546:20758` TEXT "Name" (w=61 h=9 @x=1397 y=482.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "En Sevilen Supermix'im"
+    - `I3155:8156;1546:20759` FRAME "Frame 16" (w=102 h=29 @x=1387 y=484) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8156;1546:20760` TEXT "Sanatci" (w=82 h=9 @x=1397 y=494) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I3155:8156;880:10333` TEXT "Sure" (w=28 h=9 @x=1478 y=507.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "00:03:05 "
+  - `3155:8157` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=1525 y=477) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10283
+    - `I3155:8157;992:15165` GROUP "Container" (w=169 h=43 @x=1525 y=477) | radius=3
+      - `I3155:8157;1143:20776` VECTOR "Stroke Effect" (w=169 h=43 @x=1525 y=477) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `I3155:8157;1143:20775` VECTOR "Color Overlay" (w=169 h=43 @x=1525 y=477) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `I3155:8157;880:10299` GROUP "Album Cover" (w=50 h=43 @x=1525 y=477)
+      - `I3155:8157;880:10300` RECTANGLE "KursatGurel" (w=49 h=43 @x=1526 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I3155:8157;880:10301` GROUP "cd_case" (w=50 h=43 @x=1525 y=477)
+        - `I3155:8157;880:10302` RECTANGLE "cd_case" (w=50 h=43 @x=1525 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3155:8157;880:10303` RECTANGLE "icons8-music-48" (w=10 h=10 @x=1563 y=508) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:8157;1546:20416` FRAME "Frame 15" (w=103 h=38 @x=1571 y=472.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8157;880:10305` TEXT "Name" (w=83 h=18 @x=1581 y=482.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ruh haline Göre Günlük mix'im\n"
+    - `I3155:8157;1546:20527` FRAME "Frame 16" (w=102 h=29 @x=1571 y=484) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3155:8157;880:10306` TEXT "Sanatci" (w=82 h=9 @x=1581 y=494) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I3155:8157;880:10307` TEXT "Sure" (w=28 h=9 @x=1662 y=507.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "01:05:00"
+  - `3155:8158` FRAME "Şarkılar Item Btn" (w=169 h=43 @x=1709 y=477)
+    - `3155:8159` GROUP "Container" (w=117 h=43 @x=1709 y=477) | radius=3
+      - `3155:8160` VECTOR "Stroke Effect" (w=117 h=43 @x=1709 y=477) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `3155:8161` VECTOR "Color Overlay" (w=117 h=43 @x=1709 y=477) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `3155:8162` GROUP "Album Cover" (w=50 h=43 @x=1709 y=477)
+      - `3155:8163` RECTANGLE "KursatGurel" (w=49 h=43 @x=1710 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `3155:8164` GROUP "cd_case" (w=50 h=43 @x=1709 y=477)
+        - `3155:8165` RECTANGLE "cd_case" (w=50 h=43 @x=1709 y=477) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `3155:8166` RECTANGLE "icons8-music-48" (w=10 h=10 @x=1747 y=508) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `3155:8167` FRAME "Frame 15" (w=69 h=38 @x=1755 y=472.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `3155:8168` TEXT "Name" (w=49 h=18 @x=1765 y=482.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yeni Sevilen Türl...\n"
+    - `3155:8169` FRAME "Frame 16" (w=102 h=29 @x=1755 y=484) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `3155:8170` TEXT "Sanatci" (w=82 h=9 @x=1765 y=494) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Sistem Tarafında..."
+- `3154:7556` GROUP "En Son Dinlenen Şarkılar" (w=1825 h=78 @x=53 y=332)
+  - `2850:21627` TEXT "En Son Dinlenen Şarkılar" (w=407 h=45 @x=53 y=332) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.1 weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=13px weight=500 style=Medium align=LEFT ls=0.975 (unit:YOK) line-height=17.55px (INTRINSIC_% 100%) | metin: "En Son Dinlenen Şarkılar"
+  - `3154:7196` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=1157 y=367) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10283
+    - `I3154:7196;992:15165` GROUP "Container" (w=169 h=43 @x=1157 y=367) | radius=3
+      - `I3154:7196;1143:20776` VECTOR "Stroke Effect" (w=169 h=43 @x=1157 y=367) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `I3154:7196;1143:20775` VECTOR "Color Overlay" (w=169 h=43 @x=1157 y=367) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `I3154:7196;880:10299` GROUP "Album Cover" (w=50 h=43 @x=1157 y=367)
+      - `I3154:7196;880:10300` RECTANGLE "KursatGurel" (w=49 h=43 @x=1158 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I3154:7196;880:10301` GROUP "cd_case" (w=50 h=43 @x=1157 y=367)
+        - `I3154:7196;880:10302` RECTANGLE "cd_case" (w=50 h=43 @x=1157 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3154:7196;880:10303` RECTANGLE "icons8-music-48" (w=10 h=10 @x=1195 y=398) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3154:7196;1546:20416` FRAME "Frame 15" (w=107 h=38 @x=1203 y=362.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3154:7196;880:10305` TEXT "Name" (w=87 h=18 @x=1213 y=372.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yeni Sevilen Türleri Keşfet mix'im\n"
+    - `I3154:7196;1546:20527` FRAME "Frame 16" (w=102 h=29 @x=1203 y=374) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3154:7196;880:10306` TEXT "Sanatci" (w=82 h=9 @x=1213 y=384) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I3154:7196;880:10307` TEXT "Sure" (w=28 h=9 @x=1294 y=397.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "00:50:15"
+  - `2890:7922` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=973 y=367) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10283
+    - `I2890:7922;992:15165` GROUP "Container" (w=169 h=43 @x=973 y=367) | radius=3
+      - `I2890:7922;1143:20776` VECTOR "Stroke Effect" (w=169 h=43 @x=973 y=367) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `I2890:7922;1143:20775` VECTOR "Color Overlay" (w=169 h=43 @x=973 y=367) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `I2890:7922;880:10299` GROUP "Album Cover" (w=50 h=43 @x=973 y=367)
+      - `I2890:7922;880:10300` RECTANGLE "KursatGurel" (w=49 h=43 @x=974 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I2890:7922;880:10301` GROUP "cd_case" (w=50 h=43 @x=973 y=367)
+        - `I2890:7922;880:10302` RECTANGLE "cd_case" (w=50 h=43 @x=973 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I2890:7922;880:10303` RECTANGLE "icons8-music-48" (w=10 h=10 @x=1011 y=398) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I2890:7922;1546:20416` FRAME "Frame 15" (w=107 h=38 @x=1019 y=362.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I2890:7922;880:10305` TEXT "Name" (w=87 h=18 @x=1029 y=372.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yeni Sevilen Türleri Keşfet mix'im\n"
+    - `I2890:7922;1546:20527` FRAME "Frame 16" (w=102 h=29 @x=1019 y=374) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I2890:7922;880:10306` TEXT "Sanatci" (w=82 h=9 @x=1029 y=384) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I2890:7922;880:10307` TEXT "Sure" (w=28 h=9 @x=1110 y=397.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "00:50:15"
+  - `2890:7923` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=789 y=367) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10283
+    - `I2890:7923;992:15165` GROUP "Container" (w=169 h=43 @x=789 y=367) | radius=3
+      - `I2890:7923;1143:20776` VECTOR "Stroke Effect" (w=169 h=43 @x=789 y=367) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `I2890:7923;1143:20775` VECTOR "Color Overlay" (w=169 h=43 @x=789 y=367) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `I2890:7923;880:10299` GROUP "Album Cover" (w=50 h=43 @x=789 y=367)
+      - `I2890:7923;880:10300` RECTANGLE "KursatGurel" (w=49 h=43 @x=790 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I2890:7923;880:10301` GROUP "cd_case" (w=50 h=43 @x=789 y=367)
+        - `I2890:7923;880:10302` RECTANGLE "cd_case" (w=50 h=43 @x=789 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I2890:7923;880:10303` RECTANGLE "icons8-music-48" (w=10 h=10 @x=827 y=398) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I2890:7923;1546:20416` FRAME "Frame 15" (w=103 h=38 @x=835 y=362.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I2890:7923;880:10305` TEXT "Name" (w=83 h=18 @x=845 y=372.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ruh haline Göre Günlük mix'im\n"
+    - `I2890:7923;1546:20527` FRAME "Frame 16" (w=102 h=29 @x=835 y=374) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I2890:7923;880:10306` TEXT "Sanatci" (w=82 h=9 @x=845 y=384) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I2890:7923;880:10307` TEXT "Sure" (w=28 h=9 @x=926 y=397.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "01:05:00"
+  - `2890:7924` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=605 y=367) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10309
+    - `I2890:7924;992:15193` GROUP "Container" (w=169 h=43 @x=605 y=367) | radius=3
+      - `I2890:7924;1143:20874` VECTOR "Color Overlay" (w=169 h=43 @x=605 y=367) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `I2890:7924;1143:20875` VECTOR "Stroke Effect" (w=169 h=43 @x=605 y=367) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+    - `I2890:7924;880:10348` GROUP "Album Cover" (w=51 h=43 @x=605 y=367)
+      - `I2890:7924;880:10349` RECTANGLE "KursatGurel" (w=49 h=43 @x=606 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I2890:7924;880:10350` GROUP "cd_case" (w=51 h=43 @x=605 y=367)
+        - `I2890:7924;880:10351` RECTANGLE "cd_case" (w=50 h=43 @x=605 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I2890:7924;880:10352` RECTANGLE "icons8-music-48" (w=10 h=10 @x=643 y=398) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I2890:7924;880:10353` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=51 h=34 @x=605 y=371) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | opacity=0.35
+    - `I2890:7924;1546:20757` FRAME "Frame 15" (w=81 h=29 @x=651 y=362.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I2890:7924;1546:20758` TEXT "Name" (w=61 h=9 @x=661 y=372.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "En Sevilen Supermix'im"
+    - `I2890:7924;1546:20759` FRAME "Frame 16" (w=102 h=29 @x=651 y=374) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I2890:7924;1546:20760` TEXT "Sanatci" (w=82 h=9 @x=661 y=384) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I2890:7924;880:10333` TEXT "Sure" (w=28 h=9 @x=742 y=397.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "00:03:05 "
+  - `2890:7966` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=53 y=367) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10309
+    - `I2890:7966;992:15193` GROUP "Container" (w=169 h=43 @x=53 y=367) | radius=3
+      - `I2890:7966;1143:20874` VECTOR "Color Overlay" (w=169 h=43 @x=53 y=367) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `I2890:7966;1143:20875` VECTOR "Stroke Effect" (w=169 h=43 @x=53 y=367) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+    - `I2890:7966;880:10348` GROUP "Album Cover" (w=51 h=43 @x=53 y=367)
+      - `I2890:7966;880:10349` RECTANGLE "KursatGurel" (w=49 h=43 @x=54 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I2890:7966;880:10350` GROUP "cd_case" (w=51 h=43 @x=53 y=367)
+        - `I2890:7966;880:10351` RECTANGLE "cd_case" (w=50 h=43 @x=53 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I2890:7966;880:10352` RECTANGLE "icons8-music-48" (w=10 h=10 @x=91 y=398) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I2890:7966;880:10353` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=51 h=34 @x=53 y=371) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | opacity=0.35
+    - `I2890:7966;1546:20757` FRAME "Frame 15" (w=81 h=29 @x=99 y=362.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I2890:7966;1546:20758` TEXT "Name" (w=61 h=9 @x=109 y=372.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "En Sevilen Supermix'im"
+    - `I2890:7966;1546:20759` FRAME "Frame 16" (w=102 h=29 @x=99 y=374) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I2890:7966;1546:20760` TEXT "Sanatci" (w=82 h=9 @x=109 y=384) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I2890:7966;880:10333` TEXT "Sure" (w=28 h=9 @x=190 y=397.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "00:03:05 "
+  - `2890:7967` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=237 y=367) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10283
+    - `I2890:7967;992:15165` GROUP "Container" (w=169 h=43 @x=237 y=367) | radius=3
+      - `I2890:7967;1143:20776` VECTOR "Stroke Effect" (w=169 h=43 @x=237 y=367) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `I2890:7967;1143:20775` VECTOR "Color Overlay" (w=169 h=43 @x=237 y=367) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `I2890:7967;880:10299` GROUP "Album Cover" (w=50 h=43 @x=237 y=367)
+      - `I2890:7967;880:10300` RECTANGLE "KursatGurel" (w=49 h=43 @x=238 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I2890:7967;880:10301` GROUP "cd_case" (w=50 h=43 @x=237 y=367)
+        - `I2890:7967;880:10302` RECTANGLE "cd_case" (w=50 h=43 @x=237 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I2890:7967;880:10303` RECTANGLE "icons8-music-48" (w=10 h=10 @x=275 y=398) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I2890:7967;1546:20416` FRAME "Frame 15" (w=103 h=38 @x=283 y=362.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I2890:7967;880:10305` TEXT "Name" (w=83 h=18 @x=293 y=372.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ruh haline Göre Günlük mix'im\n"
+    - `I2890:7967;1546:20527` FRAME "Frame 16" (w=102 h=29 @x=283 y=374) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I2890:7967;880:10306` TEXT "Sanatci" (w=82 h=9 @x=293 y=384) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I2890:7967;880:10307` TEXT "Sure" (w=28 h=9 @x=374 y=397.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "01:05:00"
+  - `2890:7968` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=421 y=367) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10283
+    - `I2890:7968;992:15165` GROUP "Container" (w=169 h=43 @x=421 y=367) | radius=3
+      - `I2890:7968;1143:20776` VECTOR "Stroke Effect" (w=169 h=43 @x=421 y=367) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `I2890:7968;1143:20775` VECTOR "Color Overlay" (w=169 h=43 @x=421 y=367) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `I2890:7968;880:10299` GROUP "Album Cover" (w=50 h=43 @x=421 y=367)
+      - `I2890:7968;880:10300` RECTANGLE "KursatGurel" (w=49 h=43 @x=422 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I2890:7968;880:10301` GROUP "cd_case" (w=50 h=43 @x=421 y=367)
+        - `I2890:7968;880:10302` RECTANGLE "cd_case" (w=50 h=43 @x=421 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I2890:7968;880:10303` RECTANGLE "icons8-music-48" (w=10 h=10 @x=459 y=398) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I2890:7968;1546:20416` FRAME "Frame 15" (w=107 h=38 @x=467 y=362.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I2890:7968;880:10305` TEXT "Name" (w=87 h=18 @x=477 y=372.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yeni Sevilen Türleri Keşfet mix'im\n"
+    - `I2890:7968;1546:20527` FRAME "Frame 16" (w=102 h=29 @x=467 y=374) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I2890:7968;880:10306` TEXT "Sanatci" (w=82 h=9 @x=477 y=384) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I2890:7968;880:10307` TEXT "Sure" (w=28 h=9 @x=558 y=397.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "00:50:15"
+  - `3154:7230` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=1341 y=367) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10309
+    - `I3154:7230;992:15193` GROUP "Container" (w=169 h=43 @x=1341 y=367) | radius=3
+      - `I3154:7230;1143:20874` VECTOR "Color Overlay" (w=169 h=43 @x=1341 y=367) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+      - `I3154:7230;1143:20875` VECTOR "Stroke Effect" (w=169 h=43 @x=1341 y=367) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+    - `I3154:7230;880:10348` GROUP "Album Cover" (w=51 h=43 @x=1341 y=367)
+      - `I3154:7230;880:10349` RECTANGLE "KursatGurel" (w=49 h=43 @x=1342 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I3154:7230;880:10350` GROUP "cd_case" (w=51 h=43 @x=1341 y=367)
+        - `I3154:7230;880:10351` RECTANGLE "cd_case" (w=50 h=43 @x=1341 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3154:7230;880:10352` RECTANGLE "icons8-music-48" (w=10 h=10 @x=1379 y=398) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3154:7230;880:10353` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=51 h=34 @x=1341 y=371) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | opacity=0.35
+    - `I3154:7230;1546:20757` FRAME "Frame 15" (w=81 h=29 @x=1387 y=362.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3154:7230;1546:20758` TEXT "Name" (w=61 h=9 @x=1397 y=372.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "En Sevilen Supermix'im"
+    - `I3154:7230;1546:20759` FRAME "Frame 16" (w=102 h=29 @x=1387 y=374) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3154:7230;1546:20760` TEXT "Sanatci" (w=82 h=9 @x=1397 y=384) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I3154:7230;880:10333` TEXT "Sure" (w=28 h=9 @x=1478 y=397.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "00:03:05 "
+  - `3154:7231` INSTANCE "Şarkılar Item Btn" (w=169 h=43 @x=1525 y=367) | effect: DROP_SHADOW x=0 y=3 blur=15 #373737 alpha=0.5 | comp=880:10283
+    - `I3154:7231;992:15165` GROUP "Container" (w=169 h=43 @x=1525 y=367) | radius=3
+      - `I3154:7231;1143:20776` VECTOR "Stroke Effect" (w=169 h=43 @x=1525 y=367) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `I3154:7231;1143:20775` VECTOR "Color Overlay" (w=169 h=43 @x=1525 y=367) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `I3154:7231;880:10299` GROUP "Album Cover" (w=50 h=43 @x=1525 y=367)
+      - `I3154:7231;880:10300` RECTANGLE "KursatGurel" (w=49 h=43 @x=1526 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `I3154:7231;880:10301` GROUP "cd_case" (w=50 h=43 @x=1525 y=367)
+        - `I3154:7231;880:10302` RECTANGLE "cd_case" (w=50 h=43 @x=1525 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `I3154:7231;880:10303` RECTANGLE "icons8-music-48" (w=10 h=10 @x=1563 y=398) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3154:7231;1546:20416` FRAME "Frame 15" (w=103 h=38 @x=1571 y=362.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3154:7231;880:10305` TEXT "Name" (w=83 h=18 @x=1581 y=372.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ruh haline Göre Günlük mix'im\n"
+    - `I3154:7231;1546:20527` FRAME "Frame 16" (w=102 h=29 @x=1571 y=374) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `I3154:7231;880:10306` TEXT "Sanatci" (w=82 h=9 @x=1581 y=384) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Tarafından Oluşturuldu"
+    - `I3154:7231;880:10307` TEXT "Sure" (w=28 h=9 @x=1662 y=397.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) | metin: "01:05:00"
+  - `3154:7420` FRAME "Şarkılar Item Btn" (w=169 h=43 @x=1709 y=367)
+    - `3154:7421` GROUP "Container" (w=117 h=43 @x=1709 y=367) | radius=3
+      - `3154:7422` VECTOR "Stroke Effect" (w=117 h=43 @x=1709 y=367) | fill: SOLID #373737 alpha=0.1 / SOLID #FFFFFF alpha=0.1 | stroke: SOLID #FFFFFF alpha=0.25 weight=1 align=INSIDE | effect: BACKGROUND_BLUR blur=2 | radius=3
+      - `3154:7423` VECTOR "Color Overlay" (w=117 h=43 @x=1709 y=367) | fill: SOLID #FFFFFF alpha=0.1 | radius=3
+    - `3154:7424` GROUP "Album Cover" (w=50 h=43 @x=1709 y=367)
+      - `3154:7425` RECTANGLE "KursatGurel" (w=49 h=43 @x=1710 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+      - `3154:7426` GROUP "cd_case" (w=50 h=43 @x=1709 y=367)
+        - `3154:7427` RECTANGLE "cd_case" (w=50 h=43 @x=1709 y=367) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+        - `3154:7428` RECTANGLE "icons8-music-48" (w=10 h=10 @x=1747 y=398) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `3154:7429` FRAME "Frame 15" (w=69 h=38 @x=1755 y=362.5) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `3154:7430` TEXT "Name" (w=49 h=18 @x=1765 y=372.5) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yeni Sevilen Türl...\n"
+    - `3154:7431` FRAME "Frame 16" (w=102 h=29 @x=1755 y=374) | AL: HORIZONTAL padding(t=10, r=10, b=10, l=10) gap=10 wrap=NO_WRAP prim=CENTER ctr=CENTER
+      - `3154:7432` TEXT "Sanatci" (w=82 h=9 @x=1765 y=384) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=1 weight=0.01 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Sistem Tarafında..."
+
+## 5. Frame 2 — "Linux 1920 -  Göz At Page" (`3155:18252`)
+
+- **Boyut/konum:** 1920×1080 @abs(2925, -576) — frame-rel orijin bu nokta
+- **fill:** SOLID #000000 alpha=1 (gizli)
+- **background:** #000000 alpha=0
+- **background (paint):** SOLID #000000 alpha=1 (gizli)
+- **stroke:** yok
+- **effect:** yok
+- **radius:** yok · **opacity:** yok (1 varsayımı) · **blend:** PASS_THROUGH · **clipsContent:** true
+- **auto-layout:** yok
+- **1. seviye çocuk:** 9 · **toplam node (frame dahil):** 274
+- **Node türü:** RECTANGLE 116 · GROUP 51 · TEXT 47 · INSTANCE 28 · VECTOR 18 · FRAME 10 · ELLIPSE 4
+- **ASCII:** §3.2 · **PNG:** `.ai/.png/home-1920/Linux 1920 -  Göz At Page.png`
+
+### 5.1 Alt Node Ağacı (273 satır — koordinatlar frame-rel)
+
+- `3155:18253` INSTANCE "Romantic_Background_03 (2)" (w=1921 h=1080 @x=0 y=0) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=1962:11911
+  - `I3155:18253;1962:11912` RECTANGLE "Romantic_Background_03 (2)" (w=1921 h=1080 @x=0 y=0) | fill: IMAGE scaleMode=FILL (renk yok)
+- `3155:18254` RECTANGLE "Siyah Arkaplan Evekt" (w=1920 h=1080 @x=0 y=0) | fill: SOLID #000000 alpha=0.15 [GIZLI]
+- `3155:18255` INSTANCE "Navbar" (w=993 h=27 @x=16 y=17) | comp=1314:20424 [GIZLI]
+  - `I3155:18255;1314:20425` TEXT "Core Music" (w=108 h=29 @x=24 y=20) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0 / SOLID #FE00E4 alpha=0.05 weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.35 | font=Respective size=20px weight=400 style=Regular align=LEFT ls=2.7 (unit:YOK) line-height=20px (INTRINSIC_% 100%) | metin: "Core Music"
+  - `I3155:18255;1314:20426` TEXT "Ana Sayfa" (w=60 h=15 @x=143 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ana Sayfa"
+  - `I3155:18255;1314:20427` TEXT "Keşfet" (w=33 h=15 @x=223 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Keşfet"
+  - `I3155:18255;1314:20428` TEXT "Albumler" (w=50 h=15 @x=276 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Albumler"
+  - `I3155:18255;1314:20429` TEXT "Göz At" (w=59 h=15 @x=346 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sanatcılar"
+  - `I3155:18255;1314:20430` TEXT "Göz At" (w=39 h=15 @x=425 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göz At"
+  - `I3155:18255;1314:20431` TEXT "Geçmiş" (w=39 h=15 @x=484 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Geçmiş"
+  - `I3155:18255;1314:20432` TEXT "Ayarlar" (w=45 h=15 @x=543 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ayarlar"
+  - `I3155:18255;1314:20433` TEXT "Hakkımızda" (w=66 h=15 @x=608 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hakkımızda"
+  - `I3155:18255;1314:20434` FRAME "navbar sol" (w=271 h=24 @x=1653 y=21) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=5 wrap=NO_WRAP
+    - `I3155:18255;2056:16105` GROUP "Profile" (w=90 h=24 @x=1653 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:18255;2056:16106` RECTANGLE "Rectangle 7" (w=90 h=23 @x=1653 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:18255;2056:16107` ELLIPSE "CortexBot" (w=24 h=24 @x=1653 y=21) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:18255;2056:16108` FRAME "Frame 17" (w=51 h=12 @x=1682 y=26) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=3 wrap=NO_WRAP ctr=CENTER
+        - `I3155:18255;2056:16109` TEXT "Bayram Ali" (w=45 h=12 @x=1682 y=26) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0.495 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bayram Ali"
+        - `I3155:18255;2056:16110` VECTOR "Polygon 1" (w=3 h=2 @x=1730 y=31) | stroke: SOLID #FFFFFF alpha=1 weight=0.5 align=INSIDE
+    - `I3155:18255;2056:16111` GROUP "Wifi BT" (w=44 h=23 @x=1748 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:18255;2056:16112` RECTANGLE "Rectangle 7" (w=44 h=23 @x=1748 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:18255;2056:16113` RECTANGLE "wifi-icon" (w=12.5 h=13.3 @x=1756.6 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:18255;2056:16114` RECTANGLE "wifi-not-icon" (w=12.5 h=13.3 @x=1756.4 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:18255;2056:16115` RECTANGLE "bt-inot-con" (w=12.5 h=13.3 @x=1772.2 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:18255;2056:16116` RECTANGLE "bt-icon" (w=12.5 h=13.3 @x=1772.6 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok)
+    - `I3155:18255;2056:16117` GROUP "Battery" (w=47 h=23 @x=1797 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:18255;2056:16118` RECTANGLE "Rectangle 7" (w=47 h=23 @x=1797 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:18255;2056:16119` INSTANCE "Battery" (w=39 h=16 @x=1803.4 y=24.5) | comp=900:15866
+        - `I3155:18255;2056:16119;897:15861` RECTANGLE "battery-icon" (w=17 h=16 @x=1803.4 y=24.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:18255;2056:16119;897:15862` RECTANGLE "charring-icon" (w=4 h=5 @x=1809.9 y=30) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:18255;2056:16119;897:15863` TEXT "Batterylevel" (w=15 h=7 @x=1822.4 y=29) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.8 blur=1 #000000 alpha=0.8 | font=Avalon size=5px weight=500 style=Medium align=LEFT ls=0.675 (unit:YOK) line-height=6.75px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "100%"
+    - `I3155:18255;2056:16120` GROUP "ButtonsLogutset" (w=75 h=23 @x=1849 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:18255;2056:16121` RECTANGLE "Rectangle 6" (w=75 h=23 @x=1849 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius(tl=50, tr=0, br=0, bl=50) | opacity=0.5
+      - `I3155:18255;2056:16122` RECTANGLE "icons8-logout-48" (w=20 h=20 @x=1882 y=23) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=13
+      - `I3155:18255;2056:16123` RECTANGLE "icons8-settings-48" (w=19 h=19 @x=1856 y=23) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+- `3155:18256` INSTANCE "Footer" (w=1923 h=92 @x=-1 y=990) | comp=1330:24152
+  - `I3155:18256;1330:24153` GROUP "NowPlayingContainer" (w=1923 h=91 @x=-1 y=990.6) | opacity=0.452
+    - `I3155:18256;1330:24154` VECTOR "Color Overlay" (w=1923 h=91 @x=-1 y=990.6) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+    - `I3155:18256;1330:24155` VECTOR "Stroke Effect" (w=1923 h=91 @x=-1 y=990.6) | fill: SOLID #373737 alpha=0.5
+  - `I3155:18256;1330:24156` INSTANCE "Footer Image Albums" (w=85 h=85 @x=-1 y=995.6) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:510
+    - `I3155:18256;1330:24156;15:424` RECTANGLE "KursatGurel" (w=85 h=85 @x=-1 y=995.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.59 align=INSIDE
+  - `I3155:18256;1330:24157` GROUP "Progressbar" (w=1921 h=4.8 @x=-1 y=990.6)
+    - `I3155:18256;1330:24158` RECTANGLE "ProgressbarBackground" (w=1921 h=4.8 @x=-1 y=990.6) | fill: GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0 · pos=50% #FFFFFF alpha=0.5 · pos=100% #FFFFFF alpha=0] handles=(0.5,0)(0.5,1)(0.5,0) / SOLID #FFFFFF alpha=0.5
+    - `I3155:18256;1330:24159` GROUP "Group 19" (w=1256 h=4.8 @x=-1 y=990.6)
+      - `I3155:18256;1330:24161` RECTANGLE "ProgressbarTick" (w=5 h=4.8 @x=1250 y=990.6) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0)
+      - `I3155:18256;1330:24160` RECTANGLE "ProgressbarValue" (w=1251 h=4.8 @x=-1 y=990.6) | fill: SOLID #FF38E3 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0)
+  - `I3155:18256;1330:24163` GROUP "MediaInfo" (w=367.2 h=73.1 @x=90.5 y=1002.6)
+    - `I3155:18256;1330:24164` TEXT "/" (w=5 h=14 @x=274.4 y=1060.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "/"
+    - `I3155:18256;1330:24165` TEXT "Şarkı Adı : Çok Sevmek Yasaklanmalı" (w=176 h=14 @x=109.6 y=1003.1) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Şarkı Adı :  Göksel - Sevil Neşelen"
+    - `I3155:18256;1330:24166` TEXT "Albüm : Prenses Ela Aşk" (w=129 h=14 @x=109.6 y=1022.1) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Albüm : Hayat Rüya Gibi"
+    - `I3155:18256;1330:24167` TEXT "Sanatcı : Prenses Ela" (w=84 h=14 @x=110.1 y=1040.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sanatcı : Göksel"
+    - `I3155:18256;1330:24168` TEXT "Süre : 00:00:00 / 00 :05 :00" (w=148 h=14 @x=111.9 y=1060.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Süre : 00:00:00 / 00 :05 :00"
+    - `I3155:18256;1330:24169` RECTANGLE "icons8-micro-48 (1)" (w=15 h=15 @x=90.5 y=1039.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:18256;1330:24170` RECTANGLE "icons8-time-machine-48 (1)" (w=15 h=15 @x=90.5 y=1059.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:18256;1330:24171` RECTANGLE "icons8-music-48" (w=15 h=15 @x=90.5 y=1002.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:18256;1330:24172` RECTANGLE "icons8-cd-48" (w=13 h=13 @x=91.5 y=1022.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:18256;1330:24173` RECTANGLE "icons8-bit-rate-48" (w=12 h=12 @x=289.6 y=1061.4) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:18256;1330:24174` TEXT "Bit rate : 350 kpps  " (w=98 h=14 @x=307.6 y=1060.4) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bit rate : 350 kpps  "
+    - `I3155:18256;1330:24175` RECTANGLE "mp3" (w=15 h=7.5 @x=410.6 y=1065) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:18256;1330:24176` RECTANGLE "mp4" (w=17 h=12.8 @x=428.2 y=1063) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:18256;1330:24177` RECTANGLE "icons8_vlc_480px_1" (w=10 h=10 @x=447.7 y=1065) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `I3155:18256;1330:24178` FRAME "Volume controls" (w=353 h=14 @x=1532 y=1027.6) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=6 wrap=NO_WRAP ctr=MAX
+    - `I3155:18256;1330:24179` FRAME "Control icon" (w=161 h=13 @x=1532 y=1028.6) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=6 wrap=NO_WRAP ctr=CENTER
+      - `I3155:18256;1330:24180` RECTANGLE "equalizer 6" (w=13 h=13 @x=1532 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:18256;1330:24181` RECTANGLE "equalizer 5" (w=13 h=13 @x=1551 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:18256;1330:24182` RECTANGLE "equalizer 4" (w=13 h=13 @x=1570 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:18256;1330:24183` RECTANGLE "equalizer 7" (w=13 h=13 @x=1589 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:18256;1330:24184` RECTANGLE "equalizer 3" (w=13 h=13 @x=1608 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:18256;1330:24185` RECTANGLE "equalizer 9" (w=11 h=11 @x=1627 y=1029.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:18256;1330:24186` RECTANGLE "equalizer 8" (w=11 h=11 @x=1644 y=1029.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:18256;1330:24187` RECTANGLE "equalizer 2" (w=13 h=13 @x=1661 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:18256;1330:24188` RECTANGLE "equalizer 1" (w=13 h=13 @x=1680 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:18256;1330:24189` GROUP "Volume Set" (w=186 h=14 @x=1699 y=1027.6)
+      - `I3155:18256;1330:24190` GROUP "Progressbar" (w=115 h=7.6 @x=1722 y=1031.6)
+        - `I3155:18256;1330:24191` RECTANGLE "Progressbar" (w=115 h=7.6 @x=1722 y=1031.6) | fill: GRADIENT_LINEAR [pos=100% #FFFFFF alpha=0.459 · pos=53.1% #D5D5D5 alpha=1 · pos=0% #FFFFFF alpha=0.459] handles=(0,0)(0,0)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | opacity=0.7
+        - `I3155:18256;1330:24192` RECTANGLE "ProgressbarValue" (w=49.2 h=7.6 @x=1722 y=1031.6) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0)
+      - `I3155:18256;1330:24193` TEXT "Volume % size" (w=33 h=14 @x=1852 y=1027.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "% 100"
+      - `I3155:18256;1330:24194` RECTANGLE "icons8-speaker-26  Yuksek 1" (w=13 h=13 @x=1699 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `I3155:18256;1330:24213` INSTANCE "Player Butttons Web" (w=126 h=27 @x=898 y=1022.6) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:511
+    - `I3155:18256;1330:24213;15:425` RECTANGLE "media-play" (w=25.9 h=27 @x=930.8 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:18256;1330:24213;15:426` RECTANGLE "media-pause" (w=25.9 h=27 @x=930.6 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE [GIZLI]
+    - `I3155:18256;1330:24213;15:427` RECTANGLE "media-stop" (w=25.9 h=27 @x=963.6 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:18256;1330:24213;15:428` RECTANGLE "media-back" (w=25.9 h=27 @x=898 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:18256;1330:24213;15:429` RECTANGLE "media-ileri" (w=25.9 h=27 @x=998.1 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=31
+- `3155:18257` INSTANCE "Navbar" (w=993 h=27 @x=16 y=20) | comp=1314:20424
+  - `I3155:18257;1314:20425` TEXT "Core Music" (w=108 h=29 @x=24 y=23) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 / SOLID #FE00E4 alpha=0.05 weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.35 | font=Respective size=20px weight=400 style=Regular align=LEFT ls=2.7 (unit:YOK) line-height=20px (INTRINSIC_% 100%) | metin: "Core Music"
+  - `I3155:18257;1314:20426` TEXT "Ana Sayfa" (w=60 h=15 @x=143 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ana Sayfa"
+  - `I3155:18257;1314:20427` TEXT "Keşfet" (w=33 h=15 @x=223 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Keşfet"
+  - `I3155:18257;1314:20428` TEXT "Albumler" (w=50 h=15 @x=276 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Albumler"
+  - `I3155:18257;1314:20429` TEXT "Göz At" (w=59 h=15 @x=346 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sanatcılar"
+  - `I3155:18257;1314:20430` TEXT "Göz At" (w=39 h=15 @x=425 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göz At"
+  - `I3155:18257;1314:20431` TEXT "Geçmiş" (w=39 h=15 @x=484 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Geçmiş"
+  - `I3155:18257;1314:20432` TEXT "Ayarlar" (w=45 h=15 @x=543 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ayarlar"
+  - `I3155:18257;1314:20433` TEXT "Hakkımızda" (w=66 h=15 @x=608 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hakkımızda"
+  - `I3155:18257;1314:20434` FRAME "navbar sol" (w=271 h=24 @x=1653 y=24) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=5 wrap=NO_WRAP
+    - `I3155:18257;2056:16105` GROUP "Profile" (w=90 h=24 @x=1653 y=24) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:18257;2056:16106` RECTANGLE "Rectangle 7" (w=90 h=23 @x=1653 y=24) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:18257;2056:16107` ELLIPSE "CortexBot" (w=24 h=24 @x=1653 y=24) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:18257;2056:16108` FRAME "Frame 17" (w=51 h=12 @x=1682 y=29) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=3 wrap=NO_WRAP ctr=CENTER
+        - `I3155:18257;2056:16109` TEXT "Bayram Ali" (w=45 h=12 @x=1682 y=29) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0.495 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bayram Ali"
+        - `I3155:18257;2056:16110` VECTOR "Polygon 1" (w=3 h=2 @x=1730 y=34) | stroke: SOLID #FFFFFF alpha=1 weight=0.5 align=INSIDE
+    - `I3155:18257;2056:16111` GROUP "Wifi BT" (w=44 h=23 @x=1748 y=24) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:18257;2056:16112` RECTANGLE "Rectangle 7" (w=44 h=23 @x=1748 y=24) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:18257;2056:16113` RECTANGLE "wifi-icon" (w=12.5 h=13.3 @x=1756.6 y=27.8) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:18257;2056:16114` RECTANGLE "wifi-not-icon" (w=12.5 h=13.3 @x=1756.4 y=27.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:18257;2056:16115` RECTANGLE "bt-inot-con" (w=12.5 h=13.3 @x=1772.2 y=27.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:18257;2056:16116` RECTANGLE "bt-icon" (w=12.5 h=13.3 @x=1772.6 y=27.8) | fill: IMAGE scaleMode=FILL (renk yok)
+    - `I3155:18257;2056:16117` GROUP "Battery" (w=47 h=23 @x=1797 y=24) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:18257;2056:16118` RECTANGLE "Rectangle 7" (w=47 h=23 @x=1797 y=24) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:18257;2056:16119` INSTANCE "Battery" (w=39 h=16 @x=1803.4 y=27.5) | comp=900:15866
+        - `I3155:18257;2056:16119;897:15861` RECTANGLE "battery-icon" (w=17 h=16 @x=1803.4 y=27.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:18257;2056:16119;897:15862` RECTANGLE "charring-icon" (w=4 h=5 @x=1809.9 y=33) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:18257;2056:16119;897:15863` TEXT "Batterylevel" (w=15 h=7 @x=1822.4 y=32) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.8 blur=1 #000000 alpha=0.8 | font=Avalon size=5px weight=500 style=Medium align=LEFT ls=0.675 (unit:YOK) line-height=6.75px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "100%"
+    - `I3155:18257;2056:16120` GROUP "ButtonsLogutset" (w=75 h=23 @x=1849 y=24) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:18257;2056:16121` RECTANGLE "Rectangle 6" (w=75 h=23 @x=1849 y=24) | fill: SOLID #FFFFFF alpha=0.212 | radius(tl=50, tr=0, br=0, bl=50) | opacity=0.5
+      - `I3155:18257;2056:16122` RECTANGLE "icons8-logout-48" (w=20 h=20 @x=1882 y=26) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=13
+      - `I3155:18257;2056:16123` RECTANGLE "icons8-settings-48" (w=19 h=19 @x=1856 y=26) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+- `3155:18258` INSTANCE "Player Status  Div-pi" (w=224 h=507 @x=1680 y=462) | effect: DROP_SHADOW x=0 y=0.2 blur=1 #000000 alpha=0.5 | comp=175:873
+  - `I3155:18258;1175:19750` GROUP "NowPlayingContainer" (w=225.1 h=507 @x=1678.6 y=462) | opacity=0.212
+    - `I3155:18258;1175:19751` VECTOR "Color Overlay" (w=224 h=507 @x=1678.6 y=462) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+    - `I3155:18258;1175:19752` VECTOR "Stroke Effect" (w=225.1 h=507 @x=1678.6 y=462) | fill: SOLID #373737 alpha=0.35 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+- `3155:18259` INSTANCE "Player İnfo Div" (w=218 h=114 @x=1681 y=328) | effect: DROP_SHADOW x=0 y=0.2 blur=1 #000000 alpha=0.5 | comp=175:872
+  - `I3155:18259;175:834` GROUP "NowPlayingContainer" (w=224 h=116 @x=1679.6 y=326) | opacity=0.212
+    - `I3155:18259;175:836` VECTOR "Color Overlay" (w=222.8 h=116 @x=1679.6 y=326) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+    - `I3155:18259;175:837` VECTOR "Stroke Effect" (w=224 h=116 @x=1679.6 y=326) | fill: SOLID #373737 alpha=0.35 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+  - `I3155:18259;175:838` RECTANGLE "icons8-circled-play-48" (w=11.4 h=10 @x=1690.6 y=422.9) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:839` RECTANGLE "icons8-star-filled-48 (2)" (w=11.4 h=10 @x=1690.6 y=378.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:840` RECTANGLE "mp3" (w=17.1 h=7.5 @x=1803.9 y=394.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:841` RECTANGLE "mp4" (w=19.4 h=12.8 @x=1821.6 y=391.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:842` RECTANGLE "icons8_vlc_480px_1" (w=11.4 h=10 @x=1840.5 y=392.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:843` FRAME "Progressbar" (w=180.6 h=6 @x=1707.7 y=425) | fill: SOLID #FFFFFF alpha=1 (gizli)
+    - `I3155:18259;175:844` RECTANGLE "ProgresbarBackground" (w=180.6 h=6 @x=1707.7 y=425) | fill: GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.17 · pos=50% #FFFFFF alpha=0.45 · pos=100% #FFFFFF alpha=0.11] handles=(0,0.5)(1,0.5)(0,1)
+    - `I3155:18259;175:845` RECTANGLE "ProgresbarValue" (w=65 h=6 @x=1707.7 y=425) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0)
+  - `I3155:18259;175:846` TEXT "Yıldız:" (w=28 h=13 @x=1707.8 y=376) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıldız:"
+  - `I3155:18259;175:847` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1741.3 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:848` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1753 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:849` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1764.6 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:850` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1776.3 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:851` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1788 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:852` TEXT "Göksel - Sevil Neşelen" (w=96 h=13 @x=1707.8 y=332.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+  - `I3155:18259;175:853` TEXT "Hayat Rüya Gibi" (w=74 h=13 @x=1707.8 y=347.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+  - `I3155:18259;175:854` TEXT "Göksel" (w=29 h=13 @x=1707.8 y=362.4) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+  - `I3155:18259;175:855` TEXT "Süre : 00:00:00 / 00 :05 :00" (w=125 h=13 @x=1707.9 y=406) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Süre : 00:00:00 / 00 :05 :00"
+  - `I3155:18259;175:856` RECTANGLE "icons8-micro-48 (1)" (w=11.4 h=10 @x=1690.6 y=363.4) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:857` RECTANGLE "icons8-time-machine-48 (1)" (w=11.4 h=10 @x=1690.6 y=408) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:858` RECTANGLE "icons8-music-48" (w=11.4 h=10 @x=1690.6 y=333.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:859` RECTANGLE "icons8-cd-48" (w=11.4 h=10 @x=1690 y=348.5) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:860` RECTANGLE "icons8-bit-rate-48" (w=11.4 h=10 @x=1690.6 y=393.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18259;175:861` TEXT "Bit rate : 350 kpps  " (w=82 h=13 @x=1707.8 y=391.1) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bit rate : 350 kpps  "
+- `3155:18260` INSTANCE "Player İmg Div-pi" (w=221 h=221 @x=1681 y=87) | effect: DROP_SHADOW x=0 y=0.2 blur=1 #000000 alpha=0.5 | comp=175:871
+  - `I3155:18260;175:863` INSTANCE "Image Albums" (w=221 h=221 @x=1681 y=87) | fill: SOLID #FFFFFF alpha=1 (gizli) | radius=5 | comp=15:510
+    - `I3155:18260;175:863;15:424` RECTANGLE "KursatGurel" (w=221 h=221 @x=1681 y=87) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:18260;175:864` GROUP "NowPlayingContainer" (w=216.2 h=215.7 @x=1682.8 y=89.2) | radius=5 | opacity=0.212
+    - `I3155:18260;175:865` RECTANGLE "LoginContainer" (w=216.2 h=215.7 @x=1682.8 y=89.2) | fill: SOLID #FFC8F8 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=4.43 align=CENTER | radius=5
+    - `I3155:18260;175:866` VECTOR "Color Overlay" (w=196.9 h=215.7 @x=1682.8 y=89.2) | fill: SOLID #FFFFFF alpha=1 | radius=5 | opacity=0.45
+    - `I3155:18260;175:867` VECTOR "Stroke Effect" (w=216.2 h=215.7 @x=1682.8 y=89.2) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE | radius=5
+- `3155:18261` GROUP "Fiel Manager" (w=1612 h=879 @x=24 y=89) | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 · INNER_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8
+  - `3155:18262` GROUP "background" (w=1612 h=879 @x=24 y=89) | radius=8 | opacity=0.212
+    - `3155:18263` RECTANGLE "Color Overlay" (w=1612 h=879 @x=24 y=89) | fill: SOLID #FFFFFF alpha=1 | radius=8 | opacity=0.45
+    - `3155:18264` RECTANGLE "Stroke Effect" (w=1612 h=879 @x=24 y=89) | fill: SOLID #373737 alpha=0.35 / SOLID #000000 alpha=0.2 (gizli) | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE | radius=8
+  - `3155:18265` INSTANCE "Disk Buttons" (w=160 h=44 @x=58 y=206) | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.8 | comp=18:3607
+    - `I3155:18265;1118:20862` GROUP "background" (w=180 h=50 @x=58 y=206) | radius=5
+      - `I3155:18265;1118:20863` RECTANGLE "Color Overlay" (w=180 h=50 @x=58 y=206) | fill: SOLID #FFFFFF alpha=0.1 | radius=5
+      - `I3155:18265;1118:20864` RECTANGLE "Stroke Effect" (w=180 h=50 @x=58 y=206) | fill: SOLID #373737 alpha=0.03 | stroke: SOLID #FFFFFF alpha=0.1 weight=1 align=INSIDE | radius=5
+    - `I3155:18265;18:3499` GROUP "Disk Adi" (w=62 h=15 @x=101 y=215)
+      - `I3155:18265;18:3500` TEXT "System Disk" (w=62 h=15 @x=101 y=215) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=0.5 align=CENTER | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=500 style=Medium align=LEFT ls=0.1 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "System Disk"
+    - `I3155:18265;18:3501` INSTANCE "Image Dşisk" (w=36 h=37 @x=62 y=213.3) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:510
+      - `I3155:18265;18:3501;15:424` RECTANGLE "icons8-hdd-48" (w=36 h=37 @x=62 y=213.3) | fill: IMAGE scaleMode=STRETCH (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.222 align=INSIDE
+    - `I3155:18265;878:10803` GROUP "Progressbar" (w=115 h=8 @x=101 y=235.3) | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.15 | radius=2
+      - `I3155:18265;878:10799` VECTOR "Background" (w=115 h=8 @x=101 y=235.3) | fill: GRADIENT_LINEAR [pos=100% #FFFFFF alpha=0.459 · pos=53.1% #D5D5D5 alpha=1 · pos=0% #FFFFFF alpha=0.459] handles=(0,0.5)(1.084,0.5)(0,1) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2 | opacity=0.7
+      - `I3155:18265;878:10805` GROUP "Group 21" (w=52.2 h=8 @x=101 y=235.3) | radius=2
+        - `I3155:18265;878:10800` RECTANGLE "Value" (w=52.2 h=8 @x=101 y=235.3) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0) | stroke: SOLID #FFFFFF alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2
+        - `I3155:18265;878:10801` RECTANGLE "Tick" (w=5.5 h=8 @x=152.9 y=235.3) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE [GIZLI]
+  - `3155:18266` INSTANCE "Disk Buttons" (w=160 h=44 @x=267 y=206) | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.8 | comp=974:18490
+    - `I3155:18266;1124:22734` GROUP "background" (w=180 h=50 @x=267 y=206) | radius=5
+      - `I3155:18266;1602:18949` RECTANGLE "Color Overlay" (w=180 h=50 @x=267 y=206) | fill: SOLID #FFFFFF alpha=0.1 | radius=5
+      - `I3155:18266;1602:18950` RECTANGLE "Stroke Effect" (w=180 h=50 @x=267 y=206) | fill: SOLID #373737 alpha=0.03 | stroke: SOLID #FFFFFF alpha=0.1 weight=1 align=INSIDE | radius=5
+    - `I3155:18266;974:18495` GROUP "Disk Adi" (w=50 h=15 @x=310 y=216)
+      - `I3155:18266;974:18496` TEXT "System Disk" (w=50 h=15 @x=310 y=216) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=500 style=Medium align=LEFT ls=0.1 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "NAS Drive"
+    - `I3155:18266;974:18497` INSTANCE "Image Dşisk" (w=36 h=37 @x=270 y=213.3) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:510
+      - `I3155:18266;974:18497;15:424` RECTANGLE "icons8-hdd-48" (w=36 h=37 @x=270 y=213.3) | fill: IMAGE scaleMode=STRETCH (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.222 align=INSIDE
+    - `I3155:18266;974:18498` GROUP "Progressbar" (w=115 h=8 @x=310 y=235.3) | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.15 | radius=2
+      - `I3155:18266;974:18499` VECTOR "Background" (w=115 h=8 @x=310 y=235.3) | fill: GRADIENT_LINEAR [pos=100% #FFFFFF alpha=0.459 · pos=53.1% #D5D5D5 alpha=1 · pos=0% #FFFFFF alpha=0.459] handles=(0,0.5)(1.084,0.5)(0,1) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2 | opacity=0.7
+      - `I3155:18266;974:18500` GROUP "Group 21" (w=52.2 h=8 @x=310 y=235.3) | radius=2
+        - `I3155:18266;974:18501` RECTANGLE "Value" (w=52.2 h=8 @x=310 y=235.3) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0) | stroke: SOLID #FFFFFF alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2
+        - `I3155:18266;974:18502` RECTANGLE "Tick" (w=5.5 h=8 @x=361.9 y=235.3) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE [GIZLI]
+  - `3155:18267` TEXT "Sistem Diskleri" (w=87 h=16 @x=45 y=175) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=12px weight=500 style=Medium align=LEFT ls=1.62 (unit:YOK) line-height=16.2px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sistem Diskleri"
+  - `3155:18268` TEXT "HDD & SSD Diskleri" (w=113 h=16 @x=45 y=275) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=12px weight=500 style=Medium align=LEFT ls=1.62 (unit:YOK) line-height=16.2px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "HDD & SSD Diskleri"
+  - `3155:18269` INSTANCE "Disk Buttons" (w=160 h=44 @x=58 y=306) | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.8 | comp=878:10850
+    - `I3155:18269;1127:22772` GROUP "background" (w=180 h=50 @x=58 y=306) | radius=5
+      - `I3155:18269;1602:18987` RECTANGLE "Color Overlay" (w=180 h=50 @x=58 y=306) | fill: SOLID #FFFFFF alpha=0.1 | radius=5
+      - `I3155:18269;1602:18988` RECTANGLE "Stroke Effect" (w=180 h=50 @x=58 y=306) | fill: SOLID #373737 alpha=0.03 | stroke: SOLID #FFFFFF alpha=0.1 weight=1 align=INSIDE | radius=5
+    - `I3155:18269;878:10855` GROUP "Disk Adi" (w=51 h=15 @x=101 y=316)
+      - `I3155:18269;878:10856` TEXT "System Disk" (w=51 h=15 @x=101 y=316) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=500 style=Medium align=LEFT ls=0.1 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "HDD Drive"
+    - `I3155:18269;1602:19031` INSTANCE "Image Dşisk" (w=36 h=37 @x=62 y=313.3) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:510
+      - `I3155:18269;1602:19031;15:424` RECTANGLE "icons8-hdd-48" (w=36 h=37 @x=62 y=313.3) | fill: IMAGE scaleMode=STRETCH (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.222 align=INSIDE
+    - `I3155:18269;878:10858` GROUP "Progressbar" (w=115 h=8 @x=101 y=335.3) | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.15 | radius=2
+      - `I3155:18269;878:10859` VECTOR "Background" (w=115 h=8 @x=101 y=335.3) | fill: GRADIENT_LINEAR [pos=100% #FFFFFF alpha=0.459 · pos=53.1% #D5D5D5 alpha=1 · pos=0% #FFFFFF alpha=0.459] handles=(0,0.5)(1.084,0.5)(0,1) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2 | opacity=0.7
+      - `I3155:18269;878:10860` GROUP "Group 21" (w=52.2 h=8 @x=101 y=335.3) | radius=2
+        - `I3155:18269;878:10861` RECTANGLE "Value" (w=52.2 h=8 @x=101 y=335.3) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0) | stroke: SOLID #FFFFFF alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2
+        - `I3155:18269;878:10862` RECTANGLE "Tick" (w=5.5 h=8 @x=152.9 y=335.3) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE [GIZLI]
+  - `3155:18270` INSTANCE "Disk Buttons" (w=160 h=44 @x=267 y=306) | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.8 | comp=974:18516
+    - `I3155:18270;1127:22750` GROUP "background" (w=180 h=50 @x=267 y=306) | radius=5
+      - `I3155:18270;1602:18956` RECTANGLE "Color Overlay" (w=180 h=50 @x=267 y=306) | fill: SOLID #FFFFFF alpha=0.1 | radius=5
+      - `I3155:18270;1602:18957` RECTANGLE "Stroke Effect" (w=180 h=50 @x=267 y=306) | fill: SOLID #373737 alpha=0.03 | stroke: SOLID #FFFFFF alpha=0.1 weight=1 align=INSIDE | radius=5
+    - `I3155:18270;974:18521` GROUP "Disk Adi" (w=90 h=15 @x=310 y=316)
+      - `I3155:18270;974:18522` TEXT "System Disk" (w=90 h=15 @x=310 y=316) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=500 style=Medium align=LEFT ls=0.1 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "SSD Nvme 2 Drive"
+    - `I3155:18270;974:18523` INSTANCE "Image Dşisk" (w=36 h=37 @x=270 y=313.3) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:510
+      - `I3155:18270;974:18523;15:424` RECTANGLE "icons8-hdd-48" (w=36 h=37 @x=270 y=313.3) | fill: IMAGE scaleMode=STRETCH (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.222 align=INSIDE
+    - `I3155:18270;974:18524` GROUP "Progressbar" (w=115 h=8 @x=310 y=335.3) | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.15 | radius=2
+      - `I3155:18270;974:18525` VECTOR "Background" (w=115 h=8 @x=310 y=335.3) | fill: GRADIENT_LINEAR [pos=100% #FFFFFF alpha=0.459 · pos=53.1% #D5D5D5 alpha=1 · pos=0% #FFFFFF alpha=0.459] handles=(0,0.5)(1.084,0.5)(0,1) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2 | opacity=0.7
+      - `I3155:18270;974:18526` GROUP "Group 21" (w=52.2 h=8 @x=310 y=335.3) | radius=2
+        - `I3155:18270;974:18527` RECTANGLE "Value" (w=52.2 h=8 @x=310 y=335.3) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0) | stroke: SOLID #FFFFFF alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2
+        - `I3155:18270;974:18528` RECTANGLE "Tick" (w=5.5 h=8 @x=361.9 y=335.3) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE [GIZLI]
+  - `3155:18271` INSTANCE "Disk Buttons" (w=160 h=44 @x=476 y=306) | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.8 | comp=878:10906
+    - `I3155:18271;1127:22820` GROUP "background" (w=180 h=50 @x=476 y=306) | radius=5
+      - `I3155:18271;1602:19013` RECTANGLE "Color Overlay" (w=180 h=50 @x=476 y=306) | fill: SOLID #FFFFFF alpha=0.1 | radius=5
+      - `I3155:18271;1602:19014` RECTANGLE "Stroke Effect" (w=180 h=50 @x=476 y=306) | fill: SOLID #373737 alpha=0.03 | stroke: SOLID #FFFFFF alpha=0.1 weight=1 align=INSIDE | radius=5
+    - `I3155:18271;878:10911` GROUP "Disk Adi" (w=49 h=15 @x=519 y=316)
+      - `I3155:18271;878:10912` TEXT "System Disk" (w=49 h=15 @x=519 y=316) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=500 style=Medium align=LEFT ls=0.1 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "SSD Drive"
+    - `I3155:18271;878:10913` INSTANCE "Image Dşisk" (w=37 h=37 @x=480 y=312.3) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:510
+      - `I3155:18271;878:10913;15:424` RECTANGLE "icons8-hdd-48" (w=37 h=37 @x=480 y=312.3) | fill: IMAGE scaleMode=STRETCH (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.222 align=INSIDE
+    - `I3155:18271;878:10914` GROUP "Progressbar" (w=115 h=8 @x=519 y=335.3) | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.15 | radius=2
+      - `I3155:18271;878:10915` VECTOR "Background" (w=115 h=8 @x=519 y=335.3) | fill: GRADIENT_LINEAR [pos=100% #FFFFFF alpha=0.459 · pos=53.1% #D5D5D5 alpha=1 · pos=0% #FFFFFF alpha=0.459] handles=(0,0.5)(1.084,0.5)(0,1) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2 | opacity=0.7
+      - `I3155:18271;878:10916` GROUP "Group 21" (w=52.2 h=8 @x=519 y=335.3) | radius=2
+        - `I3155:18271;878:10917` RECTANGLE "Value" (w=52.2 h=8 @x=519 y=335.3) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0) | stroke: SOLID #FFFFFF alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2
+        - `I3155:18271;878:10918` RECTANGLE "Tick" (w=5.5 h=8 @x=570.9 y=335.3) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE [GIZLI]
+  - `3155:18272` TEXT "USD Diskleri" (w=73 h=16 @x=45 y=369) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=12px weight=500 style=Medium align=LEFT ls=1.62 (unit:YOK) line-height=16.2px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "USD Diskleri"
+  - `3155:18273` INSTANCE "Disk Buttons" (w=160 h=44 @x=58 y=404) | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.8 | comp=878:10878
+    - `I3155:18273;1127:22793` GROUP "background" (w=180 h=50 @x=58 y=404) | radius=5
+      - `I3155:18273;1602:18997` RECTANGLE "Color Overlay" (w=180 h=50 @x=58 y=404) | fill: SOLID #FFFFFF alpha=0.1 | radius=5
+      - `I3155:18273;1602:18998` RECTANGLE "Stroke Effect" (w=180 h=50 @x=58 y=404) | fill: SOLID #373737 alpha=0.03 | stroke: SOLID #FFFFFF alpha=0.1 weight=1 align=INSIDE | radius=5
+    - `I3155:18273;878:10883` GROUP "Disk Adi" (w=49 h=15 @x=101 y=414)
+      - `I3155:18273;878:10884` TEXT "System Disk" (w=49 h=15 @x=101 y=414) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=500 style=Medium align=LEFT ls=0.1 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "USB Drive"
+    - `I3155:18273;878:10885` INSTANCE "Image Dşisk" (w=35 h=35 @x=63 y=411.3) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:510
+      - `I3155:18273;878:10885;15:424` RECTANGLE "icons8-hdd-48" (w=35 h=35 @x=63 y=411.3) | fill: IMAGE scaleMode=STRETCH (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.222 align=INSIDE
+    - `I3155:18273;878:10886` GROUP "Progressbar" (w=115 h=8 @x=101 y=433.3) | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.15 | radius=2
+      - `I3155:18273;878:10887` VECTOR "Background" (w=115 h=8 @x=101 y=433.3) | fill: GRADIENT_LINEAR [pos=100% #FFFFFF alpha=0.459 · pos=53.1% #D5D5D5 alpha=1 · pos=0% #FFFFFF alpha=0.459] handles=(0,0.5)(1.084,0.5)(0,1) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2 | opacity=0.7
+      - `I3155:18273;878:10888` GROUP "Group 21" (w=52.2 h=8 @x=101 y=433.3) | radius=2
+        - `I3155:18273;878:10889` RECTANGLE "Value" (w=52.2 h=8 @x=101 y=433.3) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0) | stroke: SOLID #FFFFFF alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2
+        - `I3155:18273;878:10890` RECTANGLE "Tick" (w=5.5 h=8 @x=152.9 y=433.3) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE [GIZLI]
+  - `3155:18274` INSTANCE "Disk Buttons" (w=160 h=44 @x=267 y=404) | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.8 | comp=878:10878
+    - `I3155:18274;1127:22793` GROUP "background" (w=180 h=50 @x=267 y=404) | radius=5
+      - `I3155:18274;1602:18997` RECTANGLE "Color Overlay" (w=180 h=50 @x=267 y=404) | fill: SOLID #FFFFFF alpha=0.1 | radius=5
+      - `I3155:18274;1602:18998` RECTANGLE "Stroke Effect" (w=180 h=50 @x=267 y=404) | fill: SOLID #373737 alpha=0.03 | stroke: SOLID #FFFFFF alpha=0.1 weight=1 align=INSIDE | radius=5
+    - `I3155:18274;878:10883` GROUP "Disk Adi" (w=49 h=15 @x=310 y=414)
+      - `I3155:18274;878:10884` TEXT "System Disk" (w=49 h=15 @x=310 y=414) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=500 style=Medium align=LEFT ls=0.1 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "USB Drive"
+    - `I3155:18274;878:10885` INSTANCE "Image Dşisk" (w=35 h=35 @x=272 y=411.3) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:510
+      - `I3155:18274;878:10885;15:424` RECTANGLE "icons8-hdd-48" (w=35 h=35 @x=272 y=411.3) | fill: IMAGE scaleMode=STRETCH (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.222 align=INSIDE
+    - `I3155:18274;878:10886` GROUP "Progressbar" (w=115 h=8 @x=310 y=433.3) | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.15 | radius=2
+      - `I3155:18274;878:10887` VECTOR "Background" (w=115 h=8 @x=310 y=433.3) | fill: GRADIENT_LINEAR [pos=100% #FFFFFF alpha=0.459 · pos=53.1% #D5D5D5 alpha=1 · pos=0% #FFFFFF alpha=0.459] handles=(0,0.5)(1.084,0.5)(0,1) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2 | opacity=0.7
+      - `I3155:18274;878:10888` GROUP "Group 21" (w=52.2 h=8 @x=310 y=433.3) | radius=2
+        - `I3155:18274;878:10889` RECTANGLE "Value" (w=52.2 h=8 @x=310 y=433.3) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0) | stroke: SOLID #FFFFFF alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2
+        - `I3155:18274;878:10890` RECTANGLE "Tick" (w=5.5 h=8 @x=361.9 y=433.3) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE [GIZLI]
+  - `3155:18275` INSTANCE "Disk Buttons" (w=160 h=44 @x=476 y=404) | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.8 | comp=974:18542
+    - `I3155:18275;1127:22761` GROUP "background" (w=180 h=50 @x=476 y=404) | radius=5
+      - `I3155:18275;1602:18969` RECTANGLE "Color Overlay" (w=180 h=50 @x=476 y=404) | fill: SOLID #FFFFFF alpha=0.1 | radius=5
+      - `I3155:18275;1602:18970` RECTANGLE "Stroke Effect" (w=180 h=50 @x=476 y=404) | fill: SOLID #373737 alpha=0.03 | stroke: SOLID #FFFFFF alpha=0.1 weight=1 align=INSIDE | radius=5
+    - `I3155:18275;974:18547` GROUP "Disk Adi" (w=68 h=15 @x=519 y=414)
+      - `I3155:18275;974:18548` TEXT "System Disk" (w=68 h=15 @x=519 y=414) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=500 style=Medium align=LEFT ls=0.1 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "CD DVD Drive"
+    - `I3155:18275;974:18549` INSTANCE "Image Dşisk" (w=30 h=30 @x=483 y=415.3) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:510
+      - `I3155:18275;974:18549;15:424` RECTANGLE "icons8-hdd-48" (w=30 h=30 @x=483 y=415.3) | fill: IMAGE scaleMode=STRETCH (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.222 align=INSIDE
+    - `I3155:18275;974:18550` GROUP "Progressbar" (w=115 h=8 @x=519 y=433.3) | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.15 | radius=2
+      - `I3155:18275;974:18551` VECTOR "Background" (w=115 h=8 @x=519 y=433.3) | fill: GRADIENT_LINEAR [pos=100% #FFFFFF alpha=0.459 · pos=53.1% #D5D5D5 alpha=1 · pos=0% #FFFFFF alpha=0.459] handles=(0,0.5)(1.084,0.5)(0,1) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2 | opacity=0.7
+      - `I3155:18275;974:18552` GROUP "Group 21" (w=52.2 h=8 @x=519 y=433.3) | radius=2
+        - `I3155:18275;974:18553` RECTANGLE "Value" (w=52.2 h=8 @x=519 y=433.3) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0) | stroke: SOLID #FFFFFF alpha=1 (gizli) weight=0.294 align=INSIDE | radius=2
+        - `I3155:18275;974:18554` RECTANGLE "Tick" (w=5.5 h=8 @x=570.9 y=433.3) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.294 align=INSIDE [GIZLI]
+  - `3155:18276` FRAME "Actions Btns" (w=481 h=40 @x=45 y=110) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=5 wrap=NO_WRAP ctr=CENTER
+    - `3155:18277` FRAME "Btns" (w=40 h=40 @x=45 y=110) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=10 wrap=NO_WRAP ctr=CENTER
+      - `3155:18278` ELLIPSE "icons8-back-arrow-48" (w=40 h=40 @x=45 y=110) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `3155:18279` ELLIPSE "icons8-back-arrow-48" (w=48 h=48 @x=103 y=110) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+    - `3155:18280` TEXT "Şimdi Oynatılıyor" (w=159 h=18 @x=90 y=121) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=SF Pro size=15px weight=400 style=Regular align=LEFT ls=0 (unit:YOK) line-height=17.9px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Dosya Yöneticisi / Disk"
+
+## 6. Frame 3 — "Linux 1920 -  Playlist  Page" (`3155:19834`)
+
+- **Boyut/konum:** 1920×1080 @abs(4918, -576) — frame-rel orijin bu nokta
+- **fill:** SOLID #000000 alpha=1 (gizli)
+- **background:** #000000 alpha=0
+- **background (paint):** SOLID #000000 alpha=1 (gizli)
+- **stroke:** yok
+- **effect:** yok
+- **radius:** yok · **opacity:** yok (1 varsayımı) · **blend:** PASS_THROUGH · **clipsContent:** true
+- **auto-layout:** yok
+- **1. seviye çocuk:** 9 · **toplam node (frame dahil):** 729
+- **Node türü:** RECTANGLE 315 · GROUP 178 · TEXT 147 · INSTANCE 38 · FRAME 37 · VECTOR 10 · ELLIPSE 4
+- **ASCII:** §3.3 · **PNG:** `.ai/.png/home-1920/Linux 1920 -  Playlist  Page.png`
+
+### 6.1 Alt Node Ağacı (728 satır — koordinatlar frame-rel)
+
+- `3155:19835` INSTANCE "Romantic_Background_03 (2)" (w=1921 h=1080 @x=0 y=0) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=1962:11911
+  - `I3155:19835;1962:11912` RECTANGLE "Romantic_Background_03 (2)" (w=1921 h=1080 @x=0 y=0) | fill: IMAGE scaleMode=FILL (renk yok)
+- `3155:19836` RECTANGLE "Siyah Arkaplan Evekt" (w=1920 h=1080 @x=0 y=0) | fill: SOLID #000000 alpha=0.15 [GIZLI]
+- `3155:19837` INSTANCE "Navbar" (w=993 h=27 @x=16 y=17) | comp=1314:20424 [GIZLI]
+  - `I3155:19837;1314:20425` TEXT "Core Music" (w=108 h=29 @x=24 y=20) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0 / SOLID #FE00E4 alpha=0.05 weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.35 | font=Respective size=20px weight=400 style=Regular align=LEFT ls=2.7 (unit:YOK) line-height=20px (INTRINSIC_% 100%) | metin: "Core Music"
+  - `I3155:19837;1314:20426` TEXT "Ana Sayfa" (w=60 h=15 @x=143 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ana Sayfa"
+  - `I3155:19837;1314:20427` TEXT "Keşfet" (w=33 h=15 @x=223 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Keşfet"
+  - `I3155:19837;1314:20428` TEXT "Albumler" (w=50 h=15 @x=276 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Albumler"
+  - `I3155:19837;1314:20429` TEXT "Göz At" (w=59 h=15 @x=346 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sanatcılar"
+  - `I3155:19837;1314:20430` TEXT "Göz At" (w=39 h=15 @x=425 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göz At"
+  - `I3155:19837;1314:20431` TEXT "Geçmiş" (w=39 h=15 @x=484 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Geçmiş"
+  - `I3155:19837;1314:20432` TEXT "Ayarlar" (w=45 h=15 @x=543 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ayarlar"
+  - `I3155:19837;1314:20433` TEXT "Hakkımızda" (w=66 h=15 @x=608 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hakkımızda"
+  - `I3155:19837;1314:20434` FRAME "navbar sol" (w=271 h=24 @x=1653 y=21) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=5 wrap=NO_WRAP
+    - `I3155:19837;2056:16105` GROUP "Profile" (w=90 h=24 @x=1653 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:19837;2056:16106` RECTANGLE "Rectangle 7" (w=90 h=23 @x=1653 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:19837;2056:16107` ELLIPSE "CortexBot" (w=24 h=24 @x=1653 y=21) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:19837;2056:16108` FRAME "Frame 17" (w=51 h=12 @x=1682 y=26) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=3 wrap=NO_WRAP ctr=CENTER
+        - `I3155:19837;2056:16109` TEXT "Bayram Ali" (w=45 h=12 @x=1682 y=26) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0.495 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bayram Ali"
+        - `I3155:19837;2056:16110` VECTOR "Polygon 1" (w=3 h=2 @x=1730 y=31) | stroke: SOLID #FFFFFF alpha=1 weight=0.5 align=INSIDE
+    - `I3155:19837;2056:16111` GROUP "Wifi BT" (w=44 h=23 @x=1748 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:19837;2056:16112` RECTANGLE "Rectangle 7" (w=44 h=23 @x=1748 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:19837;2056:16113` RECTANGLE "wifi-icon" (w=12.5 h=13.3 @x=1756.6 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:19837;2056:16114` RECTANGLE "wifi-not-icon" (w=12.5 h=13.3 @x=1756.4 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:19837;2056:16115` RECTANGLE "bt-inot-con" (w=12.5 h=13.3 @x=1772.2 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:19837;2056:16116` RECTANGLE "bt-icon" (w=12.5 h=13.3 @x=1772.6 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok)
+    - `I3155:19837;2056:16117` GROUP "Battery" (w=47 h=23 @x=1797 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:19837;2056:16118` RECTANGLE "Rectangle 7" (w=47 h=23 @x=1797 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:19837;2056:16119` INSTANCE "Battery" (w=39 h=16 @x=1803.4 y=24.5) | comp=900:15866
+        - `I3155:19837;2056:16119;897:15861` RECTANGLE "battery-icon" (w=17 h=16 @x=1803.4 y=24.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:19837;2056:16119;897:15862` RECTANGLE "charring-icon" (w=4 h=5 @x=1809.9 y=30) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:19837;2056:16119;897:15863` TEXT "Batterylevel" (w=15 h=7 @x=1822.4 y=29) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.8 blur=1 #000000 alpha=0.8 | font=Avalon size=5px weight=500 style=Medium align=LEFT ls=0.675 (unit:YOK) line-height=6.75px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "100%"
+    - `I3155:19837;2056:16120` GROUP "ButtonsLogutset" (w=75 h=23 @x=1849 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:19837;2056:16121` RECTANGLE "Rectangle 6" (w=75 h=23 @x=1849 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius(tl=50, tr=0, br=0, bl=50) | opacity=0.5
+      - `I3155:19837;2056:16122` RECTANGLE "icons8-logout-48" (w=20 h=20 @x=1882 y=23) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=13
+      - `I3155:19837;2056:16123` RECTANGLE "icons8-settings-48" (w=19 h=19 @x=1856 y=23) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+- `3155:19838` INSTANCE "Navbar" (w=993 h=27 @x=16 y=20) | comp=1314:20424
+  - `I3155:19838;1314:20425` TEXT "Core Music" (w=108 h=29 @x=24 y=23) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 / SOLID #FE00E4 alpha=0.05 weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.35 | font=Respective size=20px weight=400 style=Regular align=LEFT ls=2.7 (unit:YOK) line-height=20px (INTRINSIC_% 100%) | metin: "Core Music"
+  - `I3155:19838;1314:20426` TEXT "Ana Sayfa" (w=60 h=15 @x=143 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ana Sayfa"
+  - `I3155:19838;1314:20427` TEXT "Keşfet" (w=33 h=15 @x=223 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Keşfet"
+  - `I3155:19838;1314:20428` TEXT "Albumler" (w=50 h=15 @x=276 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Albumler"
+  - `I3155:19838;1314:20429` TEXT "Göz At" (w=59 h=15 @x=346 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sanatcılar"
+  - `I3155:19838;1314:20430` TEXT "Göz At" (w=39 h=15 @x=425 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göz At"
+  - `I3155:19838;1314:20431` TEXT "Geçmiş" (w=39 h=15 @x=484 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Geçmiş"
+  - `I3155:19838;1314:20432` TEXT "Ayarlar" (w=45 h=15 @x=543 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ayarlar"
+  - `I3155:19838;1314:20433` TEXT "Hakkımızda" (w=66 h=15 @x=608 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hakkımızda"
+  - `I3155:19838;1314:20434` FRAME "navbar sol" (w=271 h=24 @x=1653 y=24) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=5 wrap=NO_WRAP
+    - `I3155:19838;2056:16105` GROUP "Profile" (w=90 h=24 @x=1653 y=24) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:19838;2056:16106` RECTANGLE "Rectangle 7" (w=90 h=23 @x=1653 y=24) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:19838;2056:16107` ELLIPSE "CortexBot" (w=24 h=24 @x=1653 y=24) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:19838;2056:16108` FRAME "Frame 17" (w=51 h=12 @x=1682 y=29) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=3 wrap=NO_WRAP ctr=CENTER
+        - `I3155:19838;2056:16109` TEXT "Bayram Ali" (w=45 h=12 @x=1682 y=29) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0.495 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bayram Ali"
+        - `I3155:19838;2056:16110` VECTOR "Polygon 1" (w=3 h=2 @x=1730 y=34) | stroke: SOLID #FFFFFF alpha=1 weight=0.5 align=INSIDE
+    - `I3155:19838;2056:16111` GROUP "Wifi BT" (w=44 h=23 @x=1748 y=24) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:19838;2056:16112` RECTANGLE "Rectangle 7" (w=44 h=23 @x=1748 y=24) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:19838;2056:16113` RECTANGLE "wifi-icon" (w=12.5 h=13.3 @x=1756.6 y=27.8) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:19838;2056:16114` RECTANGLE "wifi-not-icon" (w=12.5 h=13.3 @x=1756.4 y=27.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:19838;2056:16115` RECTANGLE "bt-inot-con" (w=12.5 h=13.3 @x=1772.2 y=27.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:19838;2056:16116` RECTANGLE "bt-icon" (w=12.5 h=13.3 @x=1772.6 y=27.8) | fill: IMAGE scaleMode=FILL (renk yok)
+    - `I3155:19838;2056:16117` GROUP "Battery" (w=47 h=23 @x=1797 y=24) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:19838;2056:16118` RECTANGLE "Rectangle 7" (w=47 h=23 @x=1797 y=24) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:19838;2056:16119` INSTANCE "Battery" (w=39 h=16 @x=1803.4 y=27.5) | comp=900:15866
+        - `I3155:19838;2056:16119;897:15861` RECTANGLE "battery-icon" (w=17 h=16 @x=1803.4 y=27.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:19838;2056:16119;897:15862` RECTANGLE "charring-icon" (w=4 h=5 @x=1809.9 y=33) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:19838;2056:16119;897:15863` TEXT "Batterylevel" (w=15 h=7 @x=1822.4 y=32) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.8 blur=1 #000000 alpha=0.8 | font=Avalon size=5px weight=500 style=Medium align=LEFT ls=0.675 (unit:YOK) line-height=6.75px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "100%"
+    - `I3155:19838;2056:16120` GROUP "ButtonsLogutset" (w=75 h=23 @x=1849 y=24) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:19838;2056:16121` RECTANGLE "Rectangle 6" (w=75 h=23 @x=1849 y=24) | fill: SOLID #FFFFFF alpha=0.212 | radius(tl=50, tr=0, br=0, bl=50) | opacity=0.5
+      - `I3155:19838;2056:16122` RECTANGLE "icons8-logout-48" (w=20 h=20 @x=1882 y=26) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=13
+      - `I3155:19838;2056:16123` RECTANGLE "icons8-settings-48" (w=19 h=19 @x=1856 y=26) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+- `3155:19839` INSTANCE "Footer" (w=1923 h=92 @x=0 y=990) | comp=1330:24152
+  - `I3155:19839;1330:24153` GROUP "NowPlayingContainer" (w=1923 h=91 @x=0 y=990.6) | opacity=0.452
+    - `I3155:19839;1330:24154` VECTOR "Color Overlay" (w=1923 h=91 @x=0 y=990.6) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+    - `I3155:19839;1330:24155` VECTOR "Stroke Effect" (w=1923 h=91 @x=0 y=990.6) | fill: SOLID #373737 alpha=0.5
+  - `I3155:19839;1330:24156` INSTANCE "Footer Image Albums" (w=85 h=85 @x=0 y=995.6) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:510
+    - `I3155:19839;1330:24156;15:424` RECTANGLE "KursatGurel" (w=85 h=85 @x=0 y=995.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.59 align=INSIDE
+  - `I3155:19839;1330:24157` GROUP "Progressbar" (w=1921 h=4.8 @x=0 y=990.6)
+    - `I3155:19839;1330:24158` RECTANGLE "ProgressbarBackground" (w=1921 h=4.8 @x=0 y=990.6) | fill: GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0 · pos=50% #FFFFFF alpha=0.5 · pos=100% #FFFFFF alpha=0] handles=(0.5,0)(0.5,1)(0.5,0) / SOLID #FFFFFF alpha=0.5
+    - `I3155:19839;1330:24159` GROUP "Group 19" (w=1256 h=4.8 @x=0 y=990.6)
+      - `I3155:19839;1330:24161` RECTANGLE "ProgressbarTick" (w=5 h=4.8 @x=1251 y=990.6) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0)
+      - `I3155:19839;1330:24160` RECTANGLE "ProgressbarValue" (w=1251 h=4.8 @x=0 y=990.6) | fill: SOLID #FF38E3 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0)
+  - `I3155:19839;1330:24163` GROUP "MediaInfo" (w=367.2 h=73.1 @x=91.5 y=1002.6)
+    - `I3155:19839;1330:24164` TEXT "/" (w=5 h=14 @x=275.4 y=1060.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "/"
+    - `I3155:19839;1330:24165` TEXT "Şarkı Adı : Çok Sevmek Yasaklanmalı" (w=176 h=14 @x=110.6 y=1003.1) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Şarkı Adı :  Göksel - Sevil Neşelen"
+    - `I3155:19839;1330:24166` TEXT "Albüm : Prenses Ela Aşk" (w=129 h=14 @x=110.6 y=1022.1) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Albüm : Hayat Rüya Gibi"
+    - `I3155:19839;1330:24167` TEXT "Sanatcı : Prenses Ela" (w=84 h=14 @x=111.1 y=1040.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sanatcı : Göksel"
+    - `I3155:19839;1330:24168` TEXT "Süre : 00:00:00 / 00 :05 :00" (w=148 h=14 @x=112.9 y=1060.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Süre : 00:00:00 / 00 :05 :00"
+    - `I3155:19839;1330:24169` RECTANGLE "icons8-micro-48 (1)" (w=15 h=15 @x=91.5 y=1039.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:19839;1330:24170` RECTANGLE "icons8-time-machine-48 (1)" (w=15 h=15 @x=91.5 y=1059.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:19839;1330:24171` RECTANGLE "icons8-music-48" (w=15 h=15 @x=91.5 y=1002.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:19839;1330:24172` RECTANGLE "icons8-cd-48" (w=13 h=13 @x=92.5 y=1022.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:19839;1330:24173` RECTANGLE "icons8-bit-rate-48" (w=12 h=12 @x=290.6 y=1061.4) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:19839;1330:24174` TEXT "Bit rate : 350 kpps  " (w=98 h=14 @x=308.6 y=1060.4) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bit rate : 350 kpps  "
+    - `I3155:19839;1330:24175` RECTANGLE "mp3" (w=15 h=7.5 @x=411.6 y=1065) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:19839;1330:24176` RECTANGLE "mp4" (w=17 h=12.8 @x=429.2 y=1063) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:19839;1330:24177` RECTANGLE "icons8_vlc_480px_1" (w=10 h=10 @x=448.7 y=1065) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `I3155:19839;1330:24178` FRAME "Volume controls" (w=353 h=14 @x=1533 y=1027.6) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=6 wrap=NO_WRAP ctr=MAX
+    - `I3155:19839;1330:24179` FRAME "Control icon" (w=161 h=13 @x=1533 y=1028.6) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=6 wrap=NO_WRAP ctr=CENTER
+      - `I3155:19839;1330:24180` RECTANGLE "equalizer 6" (w=13 h=13 @x=1533 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:19839;1330:24181` RECTANGLE "equalizer 5" (w=13 h=13 @x=1552 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:19839;1330:24182` RECTANGLE "equalizer 4" (w=13 h=13 @x=1571 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:19839;1330:24183` RECTANGLE "equalizer 7" (w=13 h=13 @x=1590 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:19839;1330:24184` RECTANGLE "equalizer 3" (w=13 h=13 @x=1609 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:19839;1330:24185` RECTANGLE "equalizer 9" (w=11 h=11 @x=1628 y=1029.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:19839;1330:24186` RECTANGLE "equalizer 8" (w=11 h=11 @x=1645 y=1029.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:19839;1330:24187` RECTANGLE "equalizer 2" (w=13 h=13 @x=1662 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:19839;1330:24188` RECTANGLE "equalizer 1" (w=13 h=13 @x=1681 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:19839;1330:24189` GROUP "Volume Set" (w=186 h=14 @x=1700 y=1027.6)
+      - `I3155:19839;1330:24190` GROUP "Progressbar" (w=115 h=7.6 @x=1723 y=1031.6)
+        - `I3155:19839;1330:24191` RECTANGLE "Progressbar" (w=115 h=7.6 @x=1723 y=1031.6) | fill: GRADIENT_LINEAR [pos=100% #FFFFFF alpha=0.459 · pos=53.1% #D5D5D5 alpha=1 · pos=0% #FFFFFF alpha=0.459] handles=(0,0)(0,0)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | opacity=0.7
+        - `I3155:19839;1330:24192` RECTANGLE "ProgressbarValue" (w=49.2 h=7.6 @x=1723 y=1031.6) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0)
+      - `I3155:19839;1330:24193` TEXT "Volume % size" (w=33 h=14 @x=1853 y=1027.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "% 100"
+      - `I3155:19839;1330:24194` RECTANGLE "icons8-speaker-26  Yuksek 1" (w=13 h=13 @x=1700 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `I3155:19839;1330:24213` INSTANCE "Player Butttons Web" (w=126 h=27 @x=899 y=1022.6) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:511
+    - `I3155:19839;1330:24213;15:425` RECTANGLE "media-play" (w=25.9 h=27 @x=931.8 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:19839;1330:24213;15:426` RECTANGLE "media-pause" (w=25.9 h=27 @x=931.6 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE [GIZLI]
+    - `I3155:19839;1330:24213;15:427` RECTANGLE "media-stop" (w=25.9 h=27 @x=964.6 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:19839;1330:24213;15:428` RECTANGLE "media-back" (w=25.9 h=27 @x=899 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:19839;1330:24213;15:429` RECTANGLE "media-ileri" (w=25.9 h=27 @x=999.1 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=31
+- `3155:19840` INSTANCE "Player Status  Div-pi" (w=224 h=507 @x=1680 y=462) | effect: DROP_SHADOW x=0 y=0.2 blur=1 #000000 alpha=0.5 | comp=175:873
+  - `I3155:19840;1175:19750` GROUP "NowPlayingContainer" (w=225.1 h=507 @x=1678.6 y=462) | opacity=0.212
+    - `I3155:19840;1175:19751` VECTOR "Color Overlay" (w=224 h=507 @x=1678.6 y=462) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+    - `I3155:19840;1175:19752` VECTOR "Stroke Effect" (w=225.1 h=507 @x=1678.6 y=462) | fill: SOLID #373737 alpha=0.35 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+- `3155:19841` INSTANCE "Player İnfo Div" (w=218 h=114 @x=1681 y=328) | effect: DROP_SHADOW x=0 y=0.2 blur=1 #000000 alpha=0.5 | comp=175:872
+  - `I3155:19841;175:834` GROUP "NowPlayingContainer" (w=224 h=116 @x=1679.6 y=326) | opacity=0.212
+    - `I3155:19841;175:836` VECTOR "Color Overlay" (w=222.8 h=116 @x=1679.6 y=326) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+    - `I3155:19841;175:837` VECTOR "Stroke Effect" (w=224 h=116 @x=1679.6 y=326) | fill: SOLID #373737 alpha=0.35 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+  - `I3155:19841;175:838` RECTANGLE "icons8-circled-play-48" (w=11.4 h=10 @x=1690.6 y=422.9) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:839` RECTANGLE "icons8-star-filled-48 (2)" (w=11.4 h=10 @x=1690.6 y=378.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:840` RECTANGLE "mp3" (w=17.1 h=7.5 @x=1803.9 y=394.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:841` RECTANGLE "mp4" (w=19.4 h=12.8 @x=1821.6 y=391.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:842` RECTANGLE "icons8_vlc_480px_1" (w=11.4 h=10 @x=1840.5 y=392.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:843` FRAME "Progressbar" (w=180.6 h=6 @x=1707.7 y=425) | fill: SOLID #FFFFFF alpha=1 (gizli)
+    - `I3155:19841;175:844` RECTANGLE "ProgresbarBackground" (w=180.6 h=6 @x=1707.7 y=425) | fill: GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.17 · pos=50% #FFFFFF alpha=0.45 · pos=100% #FFFFFF alpha=0.11] handles=(0,0.5)(1,0.5)(0,1)
+    - `I3155:19841;175:845` RECTANGLE "ProgresbarValue" (w=65 h=6 @x=1707.7 y=425) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0)
+  - `I3155:19841;175:846` TEXT "Yıldız:" (w=28 h=13 @x=1707.8 y=376) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıldız:"
+  - `I3155:19841;175:847` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1741.3 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:848` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1753 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:849` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1764.6 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:850` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1776.3 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:851` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1788 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:852` TEXT "Göksel - Sevil Neşelen" (w=96 h=13 @x=1707.8 y=332.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+  - `I3155:19841;175:853` TEXT "Hayat Rüya Gibi" (w=74 h=13 @x=1707.8 y=347.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+  - `I3155:19841;175:854` TEXT "Göksel" (w=29 h=13 @x=1707.8 y=362.4) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+  - `I3155:19841;175:855` TEXT "Süre : 00:00:00 / 00 :05 :00" (w=125 h=13 @x=1707.9 y=406) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Süre : 00:00:00 / 00 :05 :00"
+  - `I3155:19841;175:856` RECTANGLE "icons8-micro-48 (1)" (w=11.4 h=10 @x=1690.6 y=363.4) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:857` RECTANGLE "icons8-time-machine-48 (1)" (w=11.4 h=10 @x=1690.6 y=408) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:858` RECTANGLE "icons8-music-48" (w=11.4 h=10 @x=1690.6 y=333.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:859` RECTANGLE "icons8-cd-48" (w=11.4 h=10 @x=1690 y=348.5) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:860` RECTANGLE "icons8-bit-rate-48" (w=11.4 h=10 @x=1690.6 y=393.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19841;175:861` TEXT "Bit rate : 350 kpps  " (w=82 h=13 @x=1707.8 y=391.1) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bit rate : 350 kpps  "
+- `3155:19842` INSTANCE "Player İmg Div-pi" (w=221 h=221 @x=1681 y=87) | effect: DROP_SHADOW x=0 y=0.2 blur=1 #000000 alpha=0.5 | comp=175:871
+  - `I3155:19842;175:863` INSTANCE "Image Albums" (w=221 h=221 @x=1681 y=87) | fill: SOLID #FFFFFF alpha=1 (gizli) | radius=5 | comp=15:510
+    - `I3155:19842;175:863;15:424` RECTANGLE "KursatGurel" (w=221 h=221 @x=1681 y=87) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:19842;175:864` GROUP "NowPlayingContainer" (w=216.2 h=215.7 @x=1682.8 y=89.2) | radius=5 | opacity=0.212
+    - `I3155:19842;175:865` RECTANGLE "LoginContainer" (w=216.2 h=215.7 @x=1682.8 y=89.2) | fill: SOLID #FFC8F8 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=4.43 align=CENTER | radius=5
+    - `I3155:19842;175:866` VECTOR "Color Overlay" (w=196.9 h=215.7 @x=1682.8 y=89.2) | fill: SOLID #FFFFFF alpha=1 | radius=5 | opacity=0.45
+    - `I3155:19842;175:867` VECTOR "Stroke Effect" (w=216.2 h=215.7 @x=1682.8 y=89.2) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE | radius=5
+- `3155:20562` GROUP "Playlist" (w=1621 h=880 @x=24 y=89) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 · INNER_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8
+  - `3155:20563` GROUP "background" (w=1621 h=880 @x=24 y=89) | radius=8 | opacity=0.212
+    - `3155:20564` RECTANGLE "Color Overlay" (w=1621 h=880 @x=24 y=89) | fill: SOLID #FFFFFF alpha=1 | radius=8 | opacity=0.45
+    - `3155:20565` RECTANGLE "Stroke Effect" (w=1621 h=880 @x=24 y=89) | fill: SOLID #373737 alpha=0.35 / SOLID #000000 alpha=0.2 (gizli) | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE | radius=8
+  - `3155:20566` FRAME "Playlist" (w=725 h=733.5 @x=32 y=217) | AL: VERTICAL padding: API'den gelmedi (alan yok) gap=7.5 wrap=NO_WRAP cSizing=FIXED
+    - `3155:20567` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=217) | comp=1488:36180
+      - `I3155:20567;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=217) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:20567;1488:36182` GROUP "Favoriİtem" (w=74 h=15 @x=1542 y=219)
+        - `I3155:20567;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=219) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20567;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=219) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20567;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=219) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20567;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=219) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20567;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=219) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:20567;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=222) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20567;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=222) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:20567;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=221.5)
+        - `I3155:20567;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=221.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:20567;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=221.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20567;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=221.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:20567;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=217) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:20567;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=217)
+          - `I3155:20567;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=217) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20567;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=218) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20567;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=228) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20567;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=221.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:20567;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=221.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:20568` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=245.5) | comp=1488:36180
+      - `I3155:20568;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=245.5) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:20568;1488:36182` GROUP "Favoriİtem" (w=30 h=15 @x=1542 y=247.5)
+        - `I3155:20568;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=247.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20568;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=247.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20568;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=247.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:20568;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=247.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:20568;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=247.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:20568;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=250.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20568;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=250.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:20568;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=250)
+        - `I3155:20568;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=250) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:20568;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=250) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20568;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=250) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:20568;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=245.5) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:20568;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=245.5)
+          - `I3155:20568;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=245.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20568;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=246.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20568;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=256.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20568;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=250) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:20568;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=250) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:20569` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=274) | comp=1488:36180
+      - `I3155:20569;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=274) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:20569;1488:36182` GROUP "Favoriİtem" (w=30 h=15 @x=1542 y=276)
+        - `I3155:20569;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=276) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20569;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=276) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20569;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=276) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:20569;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=276) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:20569;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=276) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:20569;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=279) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20569;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=279) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:20569;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=278.5)
+        - `I3155:20569;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=278.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:20569;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=278.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20569;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=278.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:20569;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=274) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:20569;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=274)
+          - `I3155:20569;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=274) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20569;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=275) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20569;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=285) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20569;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=278.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:20569;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=278.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:20570` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=302.5) | comp=1488:36180
+      - `I3155:20570;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=302.5) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15
+      - `I3155:20570;1488:36182` GROUP "Favoriİtem" (w=74 h=15 @x=1542 y=304.5)
+        - `I3155:20570;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=304.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20570;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=304.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20570;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=304.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20570;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=304.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20570;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=304.5) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:20570;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=307.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20570;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=307.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:20570;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=307)
+        - `I3155:20570;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=307) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:20570;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=307) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20570;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=307) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:20570;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=302.5) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:20570;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=302.5)
+          - `I3155:20570;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=302.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20570;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=303.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20570;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=313.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20570;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=307) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:20570;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=307) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:20571` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=331) | comp=1488:36180
+      - `I3155:20571;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=331) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:20571;1488:36182` GROUP "Favoriİtem" (w=74 h=15 @x=1542 y=333)
+        - `I3155:20571;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=333) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20571;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=333) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20571;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=333) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20571;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=333) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20571;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=333) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:20571;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=336) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20571;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=336) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:20571;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=335.5)
+        - `I3155:20571;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=335.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:20571;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=335.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20571;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=335.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:20571;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=331) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:20571;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=331)
+          - `I3155:20571;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=331) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20571;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=332) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20571;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=342) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20571;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=335.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:20571;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=335.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:20572` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=359.5) | comp=1488:36180
+      - `I3155:20572;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=359.5) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:20572;1488:36182` GROUP "Favoriİtem" (w=30 h=15 @x=1542 y=361.5)
+        - `I3155:20572;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=361.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20572;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=361.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20572;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=361.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:20572;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=361.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:20572;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=361.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:20572;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=364.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20572;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=364.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:20572;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=364)
+        - `I3155:20572;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=364) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:20572;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=364) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20572;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=364) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:20572;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=359.5) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:20572;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=359.5)
+          - `I3155:20572;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=359.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20572;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=360.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20572;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=370.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20572;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=364) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:20572;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=364) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:20573` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=388) | comp=1488:36180
+      - `I3155:20573;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=388) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:20573;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=390)
+        - `I3155:20573;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=390) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20573;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=390) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20573;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=390) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20573;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=390) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:20573;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=390) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:20573;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=393) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20573;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=393) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:20573;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=392.5)
+        - `I3155:20573;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=392.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:20573;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=392.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20573;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=392.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:20573;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=388) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:20573;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=388)
+          - `I3155:20573;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=388) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20573;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=389) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20573;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=399) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20573;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=392.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:20573;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=392.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:20931` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=416.5) | comp=1488:36180
+      - `I3155:20931;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=416.5) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:20931;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=418.5)
+        - `I3155:20931;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=418.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20931;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=418.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20931;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=418.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20931;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=418.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:20931;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=418.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:20931;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=421.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20931;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=421.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:20931;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=421)
+        - `I3155:20931;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=421) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:20931;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=421) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20931;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=421) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:20931;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=416.5) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:20931;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=416.5)
+          - `I3155:20931;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=416.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20931;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=417.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20931;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=427.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20931;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=421) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:20931;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=421) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:20953` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=445) | comp=1488:36180
+      - `I3155:20953;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=445) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:20953;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=447)
+        - `I3155:20953;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=447) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20953;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=447) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20953;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=447) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20953;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=447) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:20953;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=447) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:20953;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=450) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20953;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=450) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:20953;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=449.5)
+        - `I3155:20953;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=449.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:20953;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=449.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20953;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=449.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:20953;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=445) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:20953;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=445)
+          - `I3155:20953;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=445) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20953;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=446) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20953;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=456) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20953;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=449.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:20953;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=449.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:20975` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=473.5) | comp=1488:36180
+      - `I3155:20975;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=473.5) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:20975;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=475.5)
+        - `I3155:20975;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=475.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20975;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=475.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20975;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=475.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20975;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=475.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:20975;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=475.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:20975;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=478.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20975;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=478.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:20975;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=478)
+        - `I3155:20975;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=478) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:20975;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=478) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20975;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=478) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:20975;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=473.5) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:20975;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=473.5)
+          - `I3155:20975;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=473.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20975;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=474.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20975;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=484.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20975;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=478) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:20975;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=478) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:20997` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=502) | comp=1488:36180
+      - `I3155:20997;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=502) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:20997;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=504)
+        - `I3155:20997;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=504) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20997;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=504) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20997;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=504) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20997;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=504) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:20997;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=504) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:20997;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=507) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20997;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=507) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:20997;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=506.5)
+        - `I3155:20997;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=506.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:20997;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=506.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:20997;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=506.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:20997;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=502) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:20997;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=502)
+          - `I3155:20997;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=502) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20997;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=503) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:20997;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=513) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:20997;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=506.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:20997;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=506.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21019` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=530.5) | comp=1488:36180
+      - `I3155:21019;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=530.5) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21019;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=532.5)
+        - `I3155:21019;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=532.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21019;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=532.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21019;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=532.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21019;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=532.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21019;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=532.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21019;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=535.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21019;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=535.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21019;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=535)
+        - `I3155:21019;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=535) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21019;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=535) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21019;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=535) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21019;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=530.5) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21019;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=530.5)
+          - `I3155:21019;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=530.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21019;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=531.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21019;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=541.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21019;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=535) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21019;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=535) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21041` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=559) | comp=1488:36180
+      - `I3155:21041;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=559) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21041;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=561)
+        - `I3155:21041;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=561) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21041;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=561) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21041;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=561) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21041;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=561) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21041;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=561) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21041;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=564) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21041;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=564) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21041;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=563.5)
+        - `I3155:21041;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=563.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21041;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=563.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21041;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=563.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21041;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=559) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21041;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=559)
+          - `I3155:21041;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=559) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21041;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=560) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21041;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=570) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21041;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=563.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21041;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=563.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21063` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=587.5) | comp=1488:36180
+      - `I3155:21063;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=587.5) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21063;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=589.5)
+        - `I3155:21063;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=589.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21063;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=589.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21063;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=589.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21063;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=589.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21063;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=589.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21063;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=592.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21063;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=592.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21063;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=592)
+        - `I3155:21063;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=592) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21063;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=592) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21063;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=592) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21063;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=587.5) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21063;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=587.5)
+          - `I3155:21063;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=587.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21063;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=588.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21063;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=598.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21063;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=592) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21063;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=592) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21085` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=616) | comp=1488:36180
+      - `I3155:21085;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=616) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21085;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=618)
+        - `I3155:21085;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=618) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21085;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=618) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21085;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=618) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21085;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=618) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21085;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=618) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21085;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=621) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21085;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=621) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21085;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=620.5)
+        - `I3155:21085;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=620.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21085;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=620.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21085;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=620.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21085;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=616) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21085;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=616)
+          - `I3155:21085;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=616) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21085;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=617) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21085;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=627) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21085;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=620.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21085;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=620.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21107` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=644.5) | comp=1488:36180
+      - `I3155:21107;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=644.5) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21107;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=646.5)
+        - `I3155:21107;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=646.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21107;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=646.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21107;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=646.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21107;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=646.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21107;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=646.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21107;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=649.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21107;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=649.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21107;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=649)
+        - `I3155:21107;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=649) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21107;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=649) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21107;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=649) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21107;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=644.5) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21107;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=644.5)
+          - `I3155:21107;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=644.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21107;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=645.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21107;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=655.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21107;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=649) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21107;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=649) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21129` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=673) | comp=1488:36180
+      - `I3155:21129;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=673) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21129;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=675)
+        - `I3155:21129;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=675) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21129;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=675) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21129;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=675) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21129;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=675) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21129;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=675) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21129;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=678) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21129;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=678) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21129;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=677.5)
+        - `I3155:21129;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=677.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21129;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=677.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21129;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=677.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21129;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=673) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21129;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=673)
+          - `I3155:21129;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=673) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21129;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=674) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21129;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=684) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21129;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=677.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21129;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=677.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21151` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=701.5) | comp=1488:36180
+      - `I3155:21151;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=701.5) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21151;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=703.5)
+        - `I3155:21151;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=703.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21151;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=703.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21151;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=703.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21151;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=703.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21151;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=703.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21151;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=706.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21151;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=706.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21151;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=706)
+        - `I3155:21151;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=706) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21151;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=706) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21151;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=706) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21151;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=701.5) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21151;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=701.5)
+          - `I3155:21151;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=701.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21151;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=702.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21151;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=712.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21151;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=706) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21151;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=706) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21173` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=730) | comp=1488:36180
+      - `I3155:21173;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=730) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21173;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=732)
+        - `I3155:21173;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=732) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21173;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=732) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21173;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=732) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21173;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=732) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21173;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=732) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21173;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=735) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21173;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=735) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21173;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=734.5)
+        - `I3155:21173;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=734.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21173;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=734.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21173;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=734.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21173;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=730) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21173;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=730)
+          - `I3155:21173;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=730) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21173;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=731) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21173;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=741) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21173;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=734.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21173;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=734.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21195` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=758.5) | comp=1488:36180
+      - `I3155:21195;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=758.5) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21195;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=760.5)
+        - `I3155:21195;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=760.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21195;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=760.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21195;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=760.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21195;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=760.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21195;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=760.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21195;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=763.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21195;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=763.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21195;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=763)
+        - `I3155:21195;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=763) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21195;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=763) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21195;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=763) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21195;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=758.5) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21195;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=758.5)
+          - `I3155:21195;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=758.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21195;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=759.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21195;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=769.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21195;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=763) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21195;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=763) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21217` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=787) | comp=1488:36180
+      - `I3155:21217;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=787) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21217;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=789)
+        - `I3155:21217;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=789) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21217;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=789) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21217;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=789) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21217;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=789) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21217;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=789) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21217;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=792) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21217;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=792) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21217;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=791.5)
+        - `I3155:21217;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=791.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21217;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=791.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21217;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=791.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21217;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=787) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21217;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=787)
+          - `I3155:21217;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=787) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21217;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=788) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21217;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=798) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21217;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=791.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21217;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=791.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21239` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=815.5) | comp=1488:36180
+      - `I3155:21239;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=815.5) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21239;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=817.5)
+        - `I3155:21239;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=817.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21239;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=817.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21239;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=817.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21239;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=817.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21239;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=817.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21239;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=820.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21239;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=820.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21239;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=820)
+        - `I3155:21239;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=820) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21239;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=820) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21239;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=820) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21239;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=815.5) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21239;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=815.5)
+          - `I3155:21239;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=815.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21239;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=816.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21239;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=826.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21239;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=820) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21239;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=820) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21261` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=844) | comp=1488:36180
+      - `I3155:21261;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=844) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21261;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=846)
+        - `I3155:21261;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=846) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21261;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=846) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21261;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=846) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21261;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=846) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21261;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=846) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21261;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=849) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21261;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=849) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21261;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=848.5)
+        - `I3155:21261;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=848.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21261;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=848.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21261;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=848.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21261;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=844) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21261;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=844)
+          - `I3155:21261;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=844) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21261;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=845) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21261;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=855) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21261;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=848.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21261;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=848.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21283` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=872.5) | comp=1488:36180
+      - `I3155:21283;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=872.5) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21283;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=874.5)
+        - `I3155:21283;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=874.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21283;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=874.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21283;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=874.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21283;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=874.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21283;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=874.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21283;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=877.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21283;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=877.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21283;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=877)
+        - `I3155:21283;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=877) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21283;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=877) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21283;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=877) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21283;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=872.5) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21283;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=872.5)
+          - `I3155:21283;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=872.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21283;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=873.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21283;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=883.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21283;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=877) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21283;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=877) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21305` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=901) | comp=1488:36180
+      - `I3155:21305;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=901) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21305;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=903)
+        - `I3155:21305;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=903) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21305;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=903) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21305;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=903) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21305;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=903) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21305;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=903) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21305;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=906) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21305;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=906) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21305;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=905.5)
+        - `I3155:21305;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=905.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21305;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=905.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21305;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=905.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21305;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=901) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21305;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=901)
+          - `I3155:21305;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=901) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21305;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=902) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21305;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=912) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21305;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=905.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21305;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=905.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+    - `3155:21327` INSTANCE "Playlist Items" (w=725 h=21 @x=32 y=929.5) | comp=1488:36180
+      - `I3155:21327;1488:36181` RECTANGLE "selcted" (w=1602 h=21 @x=34 y=929.5) | fill: SOLID #BBBBBB alpha=0.25 / SOLID #FF00C8 alpha=0.35 / SOLID #808080 alpha=0.15 [GIZLI]
+      - `I3155:21327;1488:36182` GROUP "Favoriİtem" (w=45 h=15 @x=1542 y=931.5)
+        - `I3155:21327;1488:36183` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1542 y=931.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21327;1488:36184` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1557 y=931.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21327;1488:36185` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1572 y=931.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21327;1488:36186` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1586 y=931.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+        - `I3155:21327;1488:36187` RECTANGLE "icons8-star-filled-48" (w=15 h=15 @x=1601 y=931.5) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:21327;1488:36188` GROUP "Sureitem" (w=43 h=12 @x=1291 y=934.5) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21327;1488:36189` TEXT "00:00:00" (w=43 h=12 @x=1291 y=934.5) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "00:00:00"
+      - `I3155:21327;1488:36190` GROUP "Albumsitemadi" (w=78 h=12 @x=585 y=934)
+        - `I3155:21327;1488:36191` TEXT "Prenses Ela Aşk" (w=78 h=12 @x=585 y=934) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+      - `I3155:21327;1488:36192` GROUP "Sanatciİtem" (w=30 h=12 @x=981 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:21327;1488:36193` TEXT "Prenses Ela Sıla" (w=30 h=12 @x=981 y=934) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+      - `I3155:21327;1488:36194` FRAME "Frame 8" (w=152 h=21 @x=32 y=929.5) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=81 wrap=NO_WRAP ctr=CENTER cSizing=FIXED
+        - `I3155:21327;1488:36195` GROUP "Albumsitem" (w=27 h=21 @x=32 y=929.5)
+          - `I3155:21327;1488:36196` RECTANGLE "cd_case" (w=24 h=21 @x=33 y=929.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21327;1488:36197` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=27 h=18 @x=32 y=930.5) | fill: IMAGE scaleMode=FILL (renk yok)
+          - `I3155:21327;1488:36198` RECTANGLE "icons8-music-48" (w=10 h=10 @x=46 y=940.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:21327;1488:36199` GROUP "Adiİtem" (w=103 h=12 @x=140 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+          - `I3155:21327;1488:36200` TEXT "Çok Sevmek Yasaklanmalı" (w=103 h=12 @x=140 y=934) | fill: SOLID #FFFFFF alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+  - `3155:20574` GROUP "label text" (w=1620 h=34 @x=25 y=171)
+    - `3155:20575` RECTANGLE "Rectangle 19" (w=1620 h=34 @x=25 y=171) | fill: SOLID #383838 alpha=0.35
+    - `3155:20576` TEXT "Albüm" (w=17 h=15 @x=39 y=180) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.1 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=400 style=Regular align=LEFT ls=0 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: " /"
+    - `3155:20577` TEXT "Şarkı Adı " (w=93.9 h=15 @x=140.3 y=180) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.1 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=400 style=Regular align=LEFT ls=0 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Şarkı Adı "
+    - `3155:20578` TEXT "Album Adı" (w=113.5 h=15 @x=584.5 y=180) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.1 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=400 style=Regular align=LEFT ls=0 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Album Adı"
+    - `3155:20579` TEXT "Sanatcı" (w=83 h=15 @x=979.8 y=180) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.1 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=400 style=Regular align=LEFT ls=0 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Sanatcı"
+    - `3155:20580` TEXT "Süre" (w=50.2 h=15 @x=1299.3 y=181) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.1 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=400 style=Regular align=LEFT ls=0 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Süre"
+    - `3155:20581` TEXT "Favori Yıldızı" (w=131 h=15 @x=1470.9 y=180) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.1 blur=1 #000000 alpha=0.8 | font=Poppins size=10px weight=400 style=Regular align=LEFT ls=0 (unit:YOK) line-height=15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Favori Yıldızı"
+  - `3155:20582` GROUP "scroolbar" (w=3 h=744 @x=1641 y=210) | radius=3
+    - `3155:20583` RECTANGLE "Rectangle 3" (w=3 h=744 @x=1641 y=210) | fill: SOLID #D9D9D9 alpha=0.55 | radius=3
+    - `3155:20584` RECTANGLE "Rectangle 4" (w=3 h=21.7 @x=1641 y=210) | fill: SOLID #000000 alpha=1 | radius=3
+  - `3155:20585` GROUP "Search" (w=257 h=25 @x=1376 y=118) | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | radius=4
+    - `3155:20586` RECTANGLE "Rectangle 16" (w=257 h=25 @x=1376 y=118) | fill: SOLID #FFFDFE alpha=0.25 / SOLID #000000 alpha=0.34 (gizli) | stroke: SOLID #FF00B2 alpha=0.35 / SOLID #FFFFFF alpha=0.2 weight=0.5 align=INSIDE | radius=4
+    - `3155:20587` RECTANGLE "search" (w=15 h=15 @x=1612 y=123) | fill: IMAGE scaleMode=FILL (renk yok) | radius=4
+    - `3155:20588` TEXT "Şarkı Ara" (w=130 h=12 @x=1390 y=124) | fill: SOLID #000000 alpha=1 | font=Avalon size=10px weight=500 style=Medium align=LEFT alignV=CENTER ls=0 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) | metin: "Şarkı Ara"
+  - `3155:20589` FRAME "Actions Btns" (w=481 h=40 @x=45 y=110) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=5 wrap=NO_WRAP ctr=CENTER
+    - `3155:20590` FRAME "Btns" (w=40 h=40 @x=45 y=110) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=10 wrap=NO_WRAP ctr=CENTER
+      - `3155:20591` ELLIPSE "icons8-back-arrow-48" (w=40 h=40 @x=45 y=110) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `3155:20592` ELLIPSE "icons8-back-arrow-48" (w=48 h=48 @x=103 y=110) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+    - `3155:20593` TEXT "Şimdi Oynatılıyor" (w=120 h=18 @x=90 y=121) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=SF Pro size=15px weight=400 style=Regular align=LEFT ls=0 (unit:YOK) line-height=17.9px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Şimdi Oynatılıyor"
+
+## 7. Frame 4 — "Linux 1920 -  Geçmiş Page" (`3155:22392`)
+
+- **Boyut/konum:** 1920×1080 @abs(6928, -576) — frame-rel orijin bu nokta
+- **fill:** SOLID #000000 alpha=1 (gizli)
+- **background:** #000000 alpha=0
+- **background (paint):** SOLID #000000 alpha=1 (gizli)
+- **stroke:** yok
+- **effect:** yok
+- **radius:** yok · **opacity:** yok (1 varsayımı) · **blend:** PASS_THROUGH · **clipsContent:** true
+- **auto-layout:** yok
+- **1. seviye çocuk:** 9 · **toplam node (frame dahil):** 1645
+- **Node türü:** RECTANGLE 566 · GROUP 519 · TEXT 368 · INSTANCE 168 · FRAME 10 · VECTOR 10 · ELLIPSE 4
+- **ASCII:** §3.4 · **PNG:** `.ai/.png/home-1920/Linux 1920 -  Geçmiş Page.png`
+
+### 7.1 Alt Node Ağacı (1644 satır — koordinatlar frame-rel)
+
+- `3155:22393` INSTANCE "Romantic_Background_03 (2)" (w=1921 h=1080 @x=0 y=0) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=1962:11911
+  - `I3155:22393;1962:11912` RECTANGLE "Romantic_Background_03 (2)" (w=1921 h=1080 @x=0 y=0) | fill: IMAGE scaleMode=FILL (renk yok)
+- `3155:22394` RECTANGLE "Siyah Arkaplan Evekt" (w=1920 h=1080 @x=0 y=0) | fill: SOLID #000000 alpha=0.15 [GIZLI]
+- `3155:22395` INSTANCE "Navbar" (w=993 h=27 @x=16 y=17) | comp=1314:20424 [GIZLI]
+  - `I3155:22395;1314:20425` TEXT "Core Music" (w=108 h=29 @x=24 y=20) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0 / SOLID #FE00E4 alpha=0.05 weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.35 | font=Respective size=20px weight=400 style=Regular align=LEFT ls=2.7 (unit:YOK) line-height=20px (INTRINSIC_% 100%) | metin: "Core Music"
+  - `I3155:22395;1314:20426` TEXT "Ana Sayfa" (w=60 h=15 @x=143 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ana Sayfa"
+  - `I3155:22395;1314:20427` TEXT "Keşfet" (w=33 h=15 @x=223 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Keşfet"
+  - `I3155:22395;1314:20428` TEXT "Albumler" (w=50 h=15 @x=276 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Albumler"
+  - `I3155:22395;1314:20429` TEXT "Göz At" (w=59 h=15 @x=346 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sanatcılar"
+  - `I3155:22395;1314:20430` TEXT "Göz At" (w=39 h=15 @x=425 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göz At"
+  - `I3155:22395;1314:20431` TEXT "Geçmiş" (w=39 h=15 @x=484 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Geçmiş"
+  - `I3155:22395;1314:20432` TEXT "Ayarlar" (w=45 h=15 @x=543 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ayarlar"
+  - `I3155:22395;1314:20433` TEXT "Hakkımızda" (w=66 h=15 @x=608 y=33) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hakkımızda"
+  - `I3155:22395;1314:20434` FRAME "navbar sol" (w=271 h=24 @x=1653 y=21) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=5 wrap=NO_WRAP
+    - `I3155:22395;2056:16105` GROUP "Profile" (w=90 h=24 @x=1653 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:22395;2056:16106` RECTANGLE "Rectangle 7" (w=90 h=23 @x=1653 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:22395;2056:16107` ELLIPSE "CortexBot" (w=24 h=24 @x=1653 y=21) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22395;2056:16108` FRAME "Frame 17" (w=51 h=12 @x=1682 y=26) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=3 wrap=NO_WRAP ctr=CENTER
+        - `I3155:22395;2056:16109` TEXT "Bayram Ali" (w=45 h=12 @x=1682 y=26) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0.495 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bayram Ali"
+        - `I3155:22395;2056:16110` VECTOR "Polygon 1" (w=3 h=2 @x=1730 y=31) | stroke: SOLID #FFFFFF alpha=1 weight=0.5 align=INSIDE
+    - `I3155:22395;2056:16111` GROUP "Wifi BT" (w=44 h=23 @x=1748 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:22395;2056:16112` RECTANGLE "Rectangle 7" (w=44 h=23 @x=1748 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:22395;2056:16113` RECTANGLE "wifi-icon" (w=12.5 h=13.3 @x=1756.6 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22395;2056:16114` RECTANGLE "wifi-not-icon" (w=12.5 h=13.3 @x=1756.4 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:22395;2056:16115` RECTANGLE "bt-inot-con" (w=12.5 h=13.3 @x=1772.2 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:22395;2056:16116` RECTANGLE "bt-icon" (w=12.5 h=13.3 @x=1772.6 y=24.8) | fill: IMAGE scaleMode=FILL (renk yok)
+    - `I3155:22395;2056:16117` GROUP "Battery" (w=47 h=23 @x=1797 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:22395;2056:16118` RECTANGLE "Rectangle 7" (w=47 h=23 @x=1797 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:22395;2056:16119` INSTANCE "Battery" (w=39 h=16 @x=1803.4 y=24.5) | comp=900:15866
+        - `I3155:22395;2056:16119;897:15861` RECTANGLE "battery-icon" (w=17 h=16 @x=1803.4 y=24.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22395;2056:16119;897:15862` RECTANGLE "charring-icon" (w=4 h=5 @x=1809.9 y=30) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22395;2056:16119;897:15863` TEXT "Batterylevel" (w=15 h=7 @x=1822.4 y=29) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.8 blur=1 #000000 alpha=0.8 | font=Avalon size=5px weight=500 style=Medium align=LEFT ls=0.675 (unit:YOK) line-height=6.75px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "100%"
+    - `I3155:22395;2056:16120` GROUP "ButtonsLogutset" (w=75 h=23 @x=1849 y=21) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:22395;2056:16121` RECTANGLE "Rectangle 6" (w=75 h=23 @x=1849 y=21) | fill: SOLID #FFFFFF alpha=0.212 | radius(tl=50, tr=0, br=0, bl=50) | opacity=0.5
+      - `I3155:22395;2056:16122` RECTANGLE "icons8-logout-48" (w=20 h=20 @x=1882 y=23) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=13
+      - `I3155:22395;2056:16123` RECTANGLE "icons8-settings-48" (w=19 h=19 @x=1856 y=23) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+- `3155:22396` INSTANCE "Navbar" (w=993 h=27 @x=16 y=20) | comp=1314:20424
+  - `I3155:22396;1314:20425` TEXT "Core Music" (w=108 h=29 @x=24 y=23) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 / SOLID #FE00E4 alpha=0.05 weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0 y=2 blur=1 #000000 alpha=0.35 | font=Respective size=20px weight=400 style=Regular align=LEFT ls=2.7 (unit:YOK) line-height=20px (INTRINSIC_% 100%) | metin: "Core Music"
+  - `I3155:22396;1314:20426` TEXT "Ana Sayfa" (w=60 h=15 @x=143 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ana Sayfa"
+  - `I3155:22396;1314:20427` TEXT "Keşfet" (w=33 h=15 @x=223 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Keşfet"
+  - `I3155:22396;1314:20428` TEXT "Albumler" (w=50 h=15 @x=276 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Albumler"
+  - `I3155:22396;1314:20429` TEXT "Göz At" (w=59 h=15 @x=346 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sanatcılar"
+  - `I3155:22396;1314:20430` TEXT "Göz At" (w=39 h=15 @x=425 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göz At"
+  - `I3155:22396;1314:20431` TEXT "Geçmiş" (w=39 h=15 @x=484 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Geçmiş"
+  - `I3155:22396;1314:20432` TEXT "Ayarlar" (w=45 h=15 @x=543 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Ayarlar"
+  - `I3155:22396;1314:20433` TEXT "Hakkımızda" (w=66 h=15 @x=608 y=36) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #000000 alpha=0.35 (gizli) weight=0.5 align=OUTSIDE | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=0.8 | font=Avalon size=11px weight=500 style=Medium align=LEFT ls=1.485 (unit:YOK) line-height=14.85px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hakkımızda"
+  - `I3155:22396;1314:20434` FRAME "navbar sol" (w=271 h=24 @x=1653 y=24) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=5 wrap=NO_WRAP
+    - `I3155:22396;2056:16105` GROUP "Profile" (w=90 h=24 @x=1653 y=24) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:22396;2056:16106` RECTANGLE "Rectangle 7" (w=90 h=23 @x=1653 y=24) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:22396;2056:16107` ELLIPSE "CortexBot" (w=24 h=24 @x=1653 y=24) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22396;2056:16108` FRAME "Frame 17" (w=51 h=12 @x=1682 y=29) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=3 wrap=NO_WRAP ctr=CENTER
+        - `I3155:22396;2056:16109` TEXT "Bayram Ali" (w=45 h=12 @x=1682 y=29) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=0.495 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bayram Ali"
+        - `I3155:22396;2056:16110` VECTOR "Polygon 1" (w=3 h=2 @x=1730 y=34) | stroke: SOLID #FFFFFF alpha=1 weight=0.5 align=INSIDE
+    - `I3155:22396;2056:16111` GROUP "Wifi BT" (w=44 h=23 @x=1748 y=24) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:22396;2056:16112` RECTANGLE "Rectangle 7" (w=44 h=23 @x=1748 y=24) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:22396;2056:16113` RECTANGLE "wifi-icon" (w=12.5 h=13.3 @x=1756.6 y=27.8) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22396;2056:16114` RECTANGLE "wifi-not-icon" (w=12.5 h=13.3 @x=1756.4 y=27.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:22396;2056:16115` RECTANGLE "bt-inot-con" (w=12.5 h=13.3 @x=1772.2 y=27.8) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+      - `I3155:22396;2056:16116` RECTANGLE "bt-icon" (w=12.5 h=13.3 @x=1772.6 y=27.8) | fill: IMAGE scaleMode=FILL (renk yok)
+    - `I3155:22396;2056:16117` GROUP "Battery" (w=47 h=23 @x=1797 y=24) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:22396;2056:16118` RECTANGLE "Rectangle 7" (w=47 h=23 @x=1797 y=24) | fill: SOLID #FFFFFF alpha=0.212 | radius=50 | opacity=0.5
+      - `I3155:22396;2056:16119` INSTANCE "Battery" (w=39 h=16 @x=1803.4 y=27.5) | comp=900:15866
+        - `I3155:22396;2056:16119;897:15861` RECTANGLE "battery-icon" (w=17 h=16 @x=1803.4 y=27.5) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22396;2056:16119;897:15862` RECTANGLE "charring-icon" (w=4 h=5 @x=1809.9 y=33) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22396;2056:16119;897:15863` TEXT "Batterylevel" (w=15 h=7 @x=1822.4 y=32) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.8 blur=1 #000000 alpha=0.8 | font=Avalon size=5px weight=500 style=Medium align=LEFT ls=0.675 (unit:YOK) line-height=6.75px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "100%"
+    - `I3155:22396;2056:16120` GROUP "ButtonsLogutset" (w=75 h=23 @x=1849 y=24) | effect: DROP_SHADOW x=0 y=3 blur=2 #373737 alpha=0.25
+      - `I3155:22396;2056:16121` RECTANGLE "Rectangle 6" (w=75 h=23 @x=1849 y=24) | fill: SOLID #FFFFFF alpha=0.212 | radius(tl=50, tr=0, br=0, bl=50) | opacity=0.5
+      - `I3155:22396;2056:16122` RECTANGLE "icons8-logout-48" (w=20 h=20 @x=1882 y=26) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=13
+      - `I3155:22396;2056:16123` RECTANGLE "icons8-settings-48" (w=19 h=19 @x=1856 y=26) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+- `3155:22397` INSTANCE "Footer" (w=1923 h=92 @x=0 y=990) | comp=1330:24152
+  - `I3155:22397;1330:24153` GROUP "NowPlayingContainer" (w=1923 h=91 @x=0 y=990.6) | opacity=0.452
+    - `I3155:22397;1330:24154` VECTOR "Color Overlay" (w=1923 h=91 @x=0 y=990.6) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+    - `I3155:22397;1330:24155` VECTOR "Stroke Effect" (w=1923 h=91 @x=0 y=990.6) | fill: SOLID #373737 alpha=0.5
+  - `I3155:22397;1330:24156` INSTANCE "Footer Image Albums" (w=85 h=85 @x=0 y=995.6) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:510
+    - `I3155:22397;1330:24156;15:424` RECTANGLE "KursatGurel" (w=85 h=85 @x=0 y=995.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=0.59 align=INSIDE
+  - `I3155:22397;1330:24157` GROUP "Progressbar" (w=1921 h=4.8 @x=0 y=990.6)
+    - `I3155:22397;1330:24158` RECTANGLE "ProgressbarBackground" (w=1921 h=4.8 @x=0 y=990.6) | fill: GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0 · pos=50% #FFFFFF alpha=0.5 · pos=100% #FFFFFF alpha=0] handles=(0.5,0)(0.5,1)(0.5,0) / SOLID #FFFFFF alpha=0.5
+    - `I3155:22397;1330:24159` GROUP "Group 19" (w=1256 h=4.8 @x=0 y=990.6)
+      - `I3155:22397;1330:24161` RECTANGLE "ProgressbarTick" (w=5 h=4.8 @x=1251 y=990.6) | fill: GRADIENT_LINEAR [pos=2.4% #FFBEF6 alpha=1 · pos=50% #FF65E9 alpha=1 · pos=95.2% #FFBEF6 alpha=1] handles=(0.5,0)(0.5,1)(0,0)
+      - `I3155:22397;1330:24160` RECTANGLE "ProgressbarValue" (w=1251 h=4.8 @x=0 y=990.6) | fill: SOLID #FF38E3 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0)
+  - `I3155:22397;1330:24163` GROUP "MediaInfo" (w=367.2 h=73.1 @x=91.5 y=1002.6)
+    - `I3155:22397;1330:24164` TEXT "/" (w=5 h=14 @x=275.4 y=1060.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "/"
+    - `I3155:22397;1330:24165` TEXT "Şarkı Adı : Çok Sevmek Yasaklanmalı" (w=176 h=14 @x=110.6 y=1003.1) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Şarkı Adı :  Göksel - Sevil Neşelen"
+    - `I3155:22397;1330:24166` TEXT "Albüm : Prenses Ela Aşk" (w=129 h=14 @x=110.6 y=1022.1) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Albüm : Hayat Rüya Gibi"
+    - `I3155:22397;1330:24167` TEXT "Sanatcı : Prenses Ela" (w=84 h=14 @x=111.1 y=1040.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Sanatcı : Göksel"
+    - `I3155:22397;1330:24168` TEXT "Süre : 00:00:00 / 00 :05 :00" (w=148 h=14 @x=112.9 y=1060.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Süre : 00:00:00 / 00 :05 :00"
+    - `I3155:22397;1330:24169` RECTANGLE "icons8-micro-48 (1)" (w=15 h=15 @x=91.5 y=1039.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:22397;1330:24170` RECTANGLE "icons8-time-machine-48 (1)" (w=15 h=15 @x=91.5 y=1059.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:22397;1330:24171` RECTANGLE "icons8-music-48" (w=15 h=15 @x=91.5 y=1002.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:22397;1330:24172` RECTANGLE "icons8-cd-48" (w=13 h=13 @x=92.5 y=1022.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:22397;1330:24173` RECTANGLE "icons8-bit-rate-48" (w=12 h=12 @x=290.6 y=1061.4) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:22397;1330:24174` TEXT "Bit rate : 350 kpps  " (w=98 h=14 @x=308.6 y=1060.4) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bit rate : 350 kpps  "
+    - `I3155:22397;1330:24175` RECTANGLE "mp3" (w=15 h=7.5 @x=411.6 y=1065) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:22397;1330:24176` RECTANGLE "mp4" (w=17 h=12.8 @x=429.2 y=1063) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:22397;1330:24177` RECTANGLE "icons8_vlc_480px_1" (w=10 h=10 @x=448.7 y=1065) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `I3155:22397;1330:24178` FRAME "Volume controls" (w=353 h=14 @x=1533 y=1027.6) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=6 wrap=NO_WRAP ctr=MAX
+    - `I3155:22397;1330:24179` FRAME "Control icon" (w=161 h=13 @x=1533 y=1028.6) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=6 wrap=NO_WRAP ctr=CENTER
+      - `I3155:22397;1330:24180` RECTANGLE "equalizer 6" (w=13 h=13 @x=1533 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:22397;1330:24181` RECTANGLE "equalizer 5" (w=13 h=13 @x=1552 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:22397;1330:24182` RECTANGLE "equalizer 4" (w=13 h=13 @x=1571 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:22397;1330:24183` RECTANGLE "equalizer 7" (w=13 h=13 @x=1590 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:22397;1330:24184` RECTANGLE "equalizer 3" (w=13 h=13 @x=1609 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:22397;1330:24185` RECTANGLE "equalizer 9" (w=11 h=11 @x=1628 y=1029.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:22397;1330:24186` RECTANGLE "equalizer 8" (w=11 h=11 @x=1645 y=1029.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:22397;1330:24187` RECTANGLE "equalizer 2" (w=13 h=13 @x=1662 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+      - `I3155:22397;1330:24188` RECTANGLE "equalizer 1" (w=13 h=13 @x=1681 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+    - `I3155:22397;1330:24189` GROUP "Volume Set" (w=186 h=14 @x=1700 y=1027.6)
+      - `I3155:22397;1330:24190` GROUP "Progressbar" (w=115 h=7.6 @x=1723 y=1031.6)
+        - `I3155:22397;1330:24191` RECTANGLE "Progressbar" (w=115 h=7.6 @x=1723 y=1031.6) | fill: GRADIENT_LINEAR [pos=100% #FFFFFF alpha=0.459 · pos=53.1% #D5D5D5 alpha=1 · pos=0% #FFFFFF alpha=0.459] handles=(0,0)(0,0)(0,0) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | opacity=0.7
+        - `I3155:22397;1330:24192` RECTANGLE "ProgressbarValue" (w=49.2 h=7.6 @x=1723 y=1031.6) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0)
+      - `I3155:22397;1330:24193` TEXT "Volume % size" (w=33 h=14 @x=1853 y=1027.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=Avalon size=10px weight=500 style=Medium align=LEFT ls=1.35 (unit:YOK) line-height=13.5px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "% 100"
+      - `I3155:22397;1330:24194` RECTANGLE "icons8-speaker-26  Yuksek 1" (w=13 h=13 @x=1700 y=1028.6) | fill: IMAGE scaleMode=FILL (renk yok) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+  - `I3155:22397;1330:24213` INSTANCE "Player Butttons Web" (w=126 h=27 @x=899 y=1022.6) | fill: SOLID #FFFFFF alpha=1 (gizli) | comp=15:511
+    - `I3155:22397;1330:24213;15:425` RECTANGLE "media-play" (w=25.9 h=27 @x=931.8 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:22397;1330:24213;15:426` RECTANGLE "media-pause" (w=25.9 h=27 @x=931.6 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE [GIZLI]
+    - `I3155:22397;1330:24213;15:427` RECTANGLE "media-stop" (w=25.9 h=27 @x=964.6 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:22397;1330:24213;15:428` RECTANGLE "media-back" (w=25.9 h=27 @x=899 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+    - `I3155:22397;1330:24213;15:429` RECTANGLE "media-ileri" (w=25.9 h=27 @x=999.1 y=1022.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE | radius=31
+- `3155:22398` INSTANCE "Player Status  Div-pi" (w=224 h=507 @x=1680 y=462) | effect: DROP_SHADOW x=0 y=0.2 blur=1 #000000 alpha=0.5 | comp=175:873
+  - `I3155:22398;1175:19750` GROUP "NowPlayingContainer" (w=225.1 h=507 @x=1678.6 y=462) | opacity=0.212
+    - `I3155:22398;1175:19751` VECTOR "Color Overlay" (w=224 h=507 @x=1678.6 y=462) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+    - `I3155:22398;1175:19752` VECTOR "Stroke Effect" (w=225.1 h=507 @x=1678.6 y=462) | fill: SOLID #373737 alpha=0.35 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+- `3155:22399` INSTANCE "Player İnfo Div" (w=218 h=114 @x=1681 y=328) | effect: DROP_SHADOW x=0 y=0.2 blur=1 #000000 alpha=0.5 | comp=175:872
+  - `I3155:22399;175:834` GROUP "NowPlayingContainer" (w=224 h=116 @x=1679.6 y=326) | opacity=0.212
+    - `I3155:22399;175:836` VECTOR "Color Overlay" (w=222.8 h=116 @x=1679.6 y=326) | fill: SOLID #FFFFFF alpha=1 | opacity=0.45
+    - `I3155:22399;175:837` VECTOR "Stroke Effect" (w=224 h=116 @x=1679.6 y=326) | fill: SOLID #373737 alpha=0.35 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE
+  - `I3155:22399;175:838` RECTANGLE "icons8-circled-play-48" (w=11.4 h=10 @x=1690.6 y=422.9) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:839` RECTANGLE "icons8-star-filled-48 (2)" (w=11.4 h=10 @x=1690.6 y=378.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:840` RECTANGLE "mp3" (w=17.1 h=7.5 @x=1803.9 y=394.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:841` RECTANGLE "mp4" (w=19.4 h=12.8 @x=1821.6 y=391.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:842` RECTANGLE "icons8_vlc_480px_1" (w=11.4 h=10 @x=1840.5 y=392.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:843` FRAME "Progressbar" (w=180.6 h=6 @x=1707.7 y=425) | fill: SOLID #FFFFFF alpha=1 (gizli)
+    - `I3155:22399;175:844` RECTANGLE "ProgresbarBackground" (w=180.6 h=6 @x=1707.7 y=425) | fill: GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.17 · pos=50% #FFFFFF alpha=0.45 · pos=100% #FFFFFF alpha=0.11] handles=(0,0.5)(1,0.5)(0,1)
+    - `I3155:22399;175:845` RECTANGLE "ProgresbarValue" (w=65 h=6 @x=1707.7 y=425) | fill: SOLID #FF65E9 alpha=1 / GRADIENT_LINEAR [pos=0% #FFFFFF alpha=0.3 · pos=50% #FFFFFF alpha=0 · pos=100% #FFFFFF alpha=0.39] handles=(0.5,0)(0.5,1)(0.5,0)
+  - `I3155:22399;175:846` TEXT "Yıldız:" (w=28 h=13 @x=1707.8 y=376) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Yıldız:"
+  - `I3155:22399;175:847` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1741.3 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:848` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1753 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:849` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1764.7 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:850` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1776.3 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:851` RECTANGLE "icons8-star-filled-48" (w=11.4 h=10 @x=1788 y=376.3) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:852` TEXT "Göksel - Sevil Neşelen" (w=96 h=13 @x=1707.8 y=332.6) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel - Sevil Neşelen"
+  - `I3155:22399;175:853` TEXT "Hayat Rüya Gibi" (w=74 h=13 @x=1707.8 y=347.5) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Hayat Rüya Gibi"
+  - `I3155:22399;175:854` TEXT "Göksel" (w=29 h=13 @x=1707.8 y=362.4) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Göksel"
+  - `I3155:22399;175:855` TEXT "Süre : 00:00:00 / 00 :05 :00" (w=125 h=13 @x=1707.9 y=406) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Süre : 00:00:00 / 00 :05 :00"
+  - `I3155:22399;175:856` RECTANGLE "icons8-micro-48 (1)" (w=11.4 h=10 @x=1690.6 y=363.4) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:857` RECTANGLE "icons8-time-machine-48 (1)" (w=11.4 h=10 @x=1690.6 y=408) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:858` RECTANGLE "icons8-music-48" (w=11.4 h=10 @x=1690.6 y=333.6) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:859` RECTANGLE "icons8-cd-48" (w=11.4 h=10 @x=1690 y=348.5) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:860` RECTANGLE "icons8-bit-rate-48" (w=11.4 h=10 @x=1690.6 y=393.1) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22399;175:861` TEXT "Bit rate : 350 kpps  " (w=82 h=13 @x=1707.8 y=391.1) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 | font=Avalon size=9.5px weight=500 style=Medium align=LEFT ls=0.713 (unit:YOK) line-height=12.83px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Bit rate : 350 kpps  "
+- `3155:22400` INSTANCE "Player İmg Div-pi" (w=221 h=221 @x=1681 y=87) | effect: DROP_SHADOW x=0 y=0.2 blur=1 #000000 alpha=0.5 | comp=175:871
+  - `I3155:22400;175:863` INSTANCE "Image Albums" (w=221 h=221 @x=1681 y=87) | fill: SOLID #FFFFFF alpha=1 (gizli) | radius=5 | comp=15:510
+    - `I3155:22400;175:863;15:424` RECTANGLE "KursatGurel" (w=221 h=221 @x=1681 y=87) | fill: IMAGE scaleMode=FILL (renk yok) | stroke: SOLID #707070 alpha=1 (gizli) weight=1 align=INSIDE
+  - `I3155:22400;175:864` GROUP "NowPlayingContainer" (w=216.2 h=215.7 @x=1682.8 y=89.2) | radius=5 | opacity=0.212
+    - `I3155:22400;175:865` RECTANGLE "LoginContainer" (w=216.2 h=215.7 @x=1682.8 y=89.2) | fill: SOLID #FFC8F8 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=4.43 align=CENTER | radius=5
+    - `I3155:22400;175:866` VECTOR "Color Overlay" (w=196.9 h=215.7 @x=1682.8 y=89.2) | fill: SOLID #FFFFFF alpha=1 | radius=5 | opacity=0.45
+    - `I3155:22400;175:867` VECTOR "Stroke Effect" (w=216.2 h=215.7 @x=1682.8 y=89.2) | fill: SOLID #E2E2E2 alpha=1 | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE | radius=5
+- `3155:22402` GROUP "Geçmiş" (w=1612 h=900 @x=24 y=89) | effect: DROP_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8 · INNER_SHADOW x=0 y=1 blur=1 #000000 alpha=0.8
+  - `3155:22403` GROUP "background" (w=1612 h=879 @x=24 y=89) | radius=8 | opacity=0.212
+    - `3155:22404` RECTANGLE "Color Overlay" (w=1612 h=879 @x=24 y=89) | fill: SOLID #FFFFFF alpha=1 | radius=8 | opacity=0.45
+    - `3155:22405` RECTANGLE "Stroke Effect" (w=1612 h=879 @x=24 y=89) | fill: SOLID #373737 alpha=0.35 / SOLID #000000 alpha=0.2 (gizli) | stroke: SOLID #FFFFFF alpha=1 weight=1 align=INSIDE | radius=8
+  - `3155:22406` GROUP "Music Geçmiş" (w=269 h=818 @x=1100 y=171)
+    - `3155:22407` RECTANGLE "Rectangle 2" (w=269 h=793 @x=1100 y=196) | radius(tl=0, tr=0, br=0, bl=8)
+    - `3155:22408` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1107 y=204) | comp=1376:25224
+      - `I3155:22408;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1107 y=204)
+        - `I3155:22408;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1107.9 y=204) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22408;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1107 y=205) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22408;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1119.3 y=215) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22408;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1138 y=209) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22408;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1138 y=209) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22408;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1305.9 y=209) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22408;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1305.9 y=209) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22409` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1107 y=233) | comp=1376:25224
+      - `I3155:22409;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1107 y=233)
+        - `I3155:22409;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1107.9 y=233) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22409;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1107 y=234) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22409;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1119.3 y=244) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22409;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1138 y=238) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22409;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1138 y=238) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22409;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1305.9 y=238) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22409;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1305.9 y=238) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22410` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1107 y=262) | comp=1376:25224
+      - `I3155:22410;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1107 y=262)
+        - `I3155:22410;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1107.9 y=262) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22410;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1107 y=263) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22410;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1119.3 y=273) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22410;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1138 y=267) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22410;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1138 y=267) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22410;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1305.9 y=267) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22410;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1305.9 y=267) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22411` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1107 y=291) | comp=1376:25224
+      - `I3155:22411;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1107 y=291)
+        - `I3155:22411;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1107.9 y=291) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22411;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1107 y=292) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22411;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1119.3 y=302) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22411;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1138 y=296) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22411;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1138 y=296) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22411;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1305.9 y=296) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22411;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1305.9 y=296) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22412` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1107 y=320) | comp=1376:25224
+      - `I3155:22412;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1107 y=320)
+        - `I3155:22412;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1107.9 y=320) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22412;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1107 y=321) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22412;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1119.3 y=331) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22412;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1138 y=325) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22412;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1138 y=325) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22412;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1305.9 y=325) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22412;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1305.9 y=325) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22413` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1107 y=349) | comp=1376:25224
+      - `I3155:22413;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1107 y=349)
+        - `I3155:22413;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1107.9 y=349) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22413;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1107 y=350) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22413;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1119.3 y=360) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22413;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1138 y=354) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22413;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1138 y=354) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22413;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1305.9 y=354) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22413;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1305.9 y=354) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22414` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1107 y=378) | comp=1376:25224
+      - `I3155:22414;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1107 y=378)
+        - `I3155:22414;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1107.9 y=378) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22414;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1107 y=379) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22414;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1119.3 y=389) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22414;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1138 y=383) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22414;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1138 y=383) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22414;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1305.9 y=383) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22414;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1305.9 y=383) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22415` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1107 y=407) | comp=1376:25224
+      - `I3155:22415;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1107 y=407)
+        - `I3155:22415;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1107.9 y=407) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22415;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1107 y=408) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22415;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1119.3 y=418) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22415;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1138 y=412) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22415;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1138 y=412) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22415;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1305.9 y=412) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22415;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1305.9 y=412) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22416` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1107 y=436) | comp=1376:25224
+      - `I3155:22416;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1107 y=436)
+        - `I3155:22416;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1107.9 y=436) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22416;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1107 y=437) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22416;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1119.3 y=447) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22416;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1138 y=441) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22416;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1138 y=441) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22416;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1305.9 y=441) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22416;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1305.9 y=441) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22417` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1107 y=465) | comp=1376:25224
+      - `I3155:22417;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1107 y=465)
+        - `I3155:22417;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1107.9 y=465) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22417;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1107 y=466) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22417;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1119.3 y=476) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22417;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1138 y=470) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22417;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1138 y=470) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22417;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1305.9 y=470) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22417;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1305.9 y=470) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22418` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1107 y=494) | comp=1376:25224
+      - `I3155:22418;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1107 y=494)
+        - `I3155:22418;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1107.9 y=494) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22418;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1107 y=495) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22418;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1119.3 y=505) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22418;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1138 y=499) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22418;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1138 y=499) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22418;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1305.9 y=499) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22418;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1305.9 y=499) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22419` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1107 y=523) | comp=1376:25224
+      - `I3155:22419;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1107 y=523)
+        - `I3155:22419;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1107.9 y=523) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22419;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1107 y=524) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22419;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1119.3 y=534) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22419;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1138 y=528) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22419;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1138 y=528) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22419;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1305.9 y=528) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22419;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1305.9 y=528) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22420` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=552) | comp=1376:25224
+      - `I3155:22420;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=552)
+        - `I3155:22420;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=552) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22420;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=553) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22420;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=563) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22420;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=557) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22420;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=557) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22420;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=557) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22420;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=557) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22421` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=581) | comp=1376:25224
+      - `I3155:22421;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=581)
+        - `I3155:22421;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=581) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22421;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=582) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22421;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=592) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22421;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=586) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22421;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=586) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22421;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=586) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22421;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=586) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22422` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=610) | comp=1376:25224
+      - `I3155:22422;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=610)
+        - `I3155:22422;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=610) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22422;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=611) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22422;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=621) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22422;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=615) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22422;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=615) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22422;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=615) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22422;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=615) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22423` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=639) | comp=1376:25224
+      - `I3155:22423;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=639)
+        - `I3155:22423;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=639) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22423;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=640) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22423;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=650) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22423;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=644) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22423;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=644) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22423;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=644) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22423;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=644) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22424` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=668) | comp=1376:25224
+      - `I3155:22424;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=668)
+        - `I3155:22424;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=668) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22424;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=669) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22424;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=679) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22424;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=673) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22424;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=673) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22424;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=673) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22424;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=673) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22425` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=697) | comp=1376:25224
+      - `I3155:22425;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=697)
+        - `I3155:22425;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=697) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22425;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=698) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22425;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=708) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22425;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=702) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22425;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=702) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22425;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=702) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22425;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=702) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22426` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=726) | comp=1376:25224
+      - `I3155:22426;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=726)
+        - `I3155:22426;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=726) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22426;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=727) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22426;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=737) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22426;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=731) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22426;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=731) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22426;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=731) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22426;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=731) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22427` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=755) | comp=1376:25224
+      - `I3155:22427;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=755)
+        - `I3155:22427;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=755) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22427;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=756) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22427;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=766) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22427;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=760) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22427;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=760) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22427;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=760) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22427;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=760) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22428` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=784) | comp=1376:25224
+      - `I3155:22428;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=784)
+        - `I3155:22428;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=784) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22428;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=785) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22428;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=795) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22428;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=789) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22428;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=789) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22428;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=789) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22428;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=789) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22429` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=813) | comp=1376:25224
+      - `I3155:22429;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=813)
+        - `I3155:22429;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=813) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22429;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=814) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22429;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=824) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22429;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=818) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22429;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=818) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22429;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=818) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22429;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=818) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22430` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=842) | comp=1376:25224
+      - `I3155:22430;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=842)
+        - `I3155:22430;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=842) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22430;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=843) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22430;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=853) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22430;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=847) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22430;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=847) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22430;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=847) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22430;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=847) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22431` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=871) | comp=1376:25224
+      - `I3155:22431;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=871)
+        - `I3155:22431;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=871) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22431;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=872) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22431;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=882) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22431;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=876) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22431;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=876) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22431;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=876) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22431;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=876) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22432` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=900) | comp=1376:25224
+      - `I3155:22432;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=900)
+        - `I3155:22432;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=900) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22432;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=901) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22432;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=911) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22432;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=905) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22432;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=905) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22432;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=905) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22432;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=905) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22433` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1108 y=929) | comp=1376:25224
+      - `I3155:22433;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1108 y=929)
+        - `I3155:22433;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1108.9 y=929) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22433;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1108 y=930) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22433;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1120.3 y=940) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22433;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1139 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22433;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1139 y=934) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22433;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1306.9 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22433;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1306.9 y=934) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22435` GROUP "scroolbar" (w=4 h=796 @x=1365 y=171)
+      - `3155:22436` RECTANGLE "Rectangle 3" (w=4 h=796 @x=1365 y=171) | fill: SOLID #D9D9D9 alpha=1
+      - `3155:22437` RECTANGLE "Rectangle 4" (w=4 h=51.3 @x=1365 y=171) | fill: SOLID #000000 alpha=1
+  - `3155:22438` GROUP "Music Geçmiş" (w=269 h=818 @x=1367 y=171)
+    - `3155:22439` RECTANGLE "Rectangle 2" (w=269 h=793 @x=1367 y=196) | radius(tl=0, tr=0, br=0, bl=8)
+    - `3155:22440` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1374 y=204) | comp=1376:25224
+      - `I3155:22440;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1374 y=204)
+        - `I3155:22440;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1374.9 y=204) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22440;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1374 y=205) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22440;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1386.3 y=215) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22440;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1405 y=209) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22440;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1405 y=209) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22440;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1572.9 y=209) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22440;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1572.9 y=209) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22441` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1374 y=233) | comp=1376:25224
+      - `I3155:22441;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1374 y=233)
+        - `I3155:22441;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1374.9 y=233) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22441;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1374 y=234) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22441;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1386.3 y=244) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22441;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1405 y=238) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22441;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1405 y=238) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22441;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1572.9 y=238) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22441;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1572.9 y=238) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22442` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1374 y=262) | comp=1376:25224
+      - `I3155:22442;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1374 y=262)
+        - `I3155:22442;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1374.9 y=262) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22442;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1374 y=263) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22442;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1386.3 y=273) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22442;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1405 y=267) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22442;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1405 y=267) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22442;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1572.9 y=267) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22442;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1572.9 y=267) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22443` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1374 y=291) | comp=1376:25224
+      - `I3155:22443;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1374 y=291)
+        - `I3155:22443;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1374.9 y=291) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22443;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1374 y=292) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22443;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1386.3 y=302) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22443;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1405 y=296) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22443;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1405 y=296) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22443;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1572.9 y=296) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22443;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1572.9 y=296) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22444` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1374 y=320) | comp=1376:25224
+      - `I3155:22444;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1374 y=320)
+        - `I3155:22444;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1374.9 y=320) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22444;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1374 y=321) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22444;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1386.3 y=331) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22444;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1405 y=325) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22444;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1405 y=325) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22444;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1572.9 y=325) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22444;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1572.9 y=325) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22445` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1374 y=349) | comp=1376:25224
+      - `I3155:22445;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1374 y=349)
+        - `I3155:22445;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1374.9 y=349) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22445;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1374 y=350) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22445;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1386.3 y=360) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22445;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1405 y=354) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22445;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1405 y=354) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22445;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1572.9 y=354) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22445;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1572.9 y=354) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22446` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1374 y=378) | comp=1376:25224
+      - `I3155:22446;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1374 y=378)
+        - `I3155:22446;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1374.9 y=378) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22446;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1374 y=379) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22446;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1386.3 y=389) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22446;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1405 y=383) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22446;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1405 y=383) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22446;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1572.9 y=383) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22446;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1572.9 y=383) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22447` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1374 y=407) | comp=1376:25224
+      - `I3155:22447;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1374 y=407)
+        - `I3155:22447;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1374.9 y=407) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22447;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1374 y=408) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22447;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1386.3 y=418) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22447;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1405 y=412) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22447;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1405 y=412) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22447;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1572.9 y=412) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22447;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1572.9 y=412) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22448` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1374 y=436) | comp=1376:25224
+      - `I3155:22448;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1374 y=436)
+        - `I3155:22448;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1374.9 y=436) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22448;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1374 y=437) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22448;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1386.3 y=447) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22448;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1405 y=441) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22448;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1405 y=441) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22448;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1572.9 y=441) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22448;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1572.9 y=441) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22449` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1374 y=465) | comp=1376:25224
+      - `I3155:22449;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1374 y=465)
+        - `I3155:22449;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1374.9 y=465) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22449;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1374 y=466) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22449;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1386.3 y=476) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22449;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1405 y=470) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22449;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1405 y=470) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22449;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1572.9 y=470) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22449;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1572.9 y=470) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22450` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1374 y=494) | comp=1376:25224
+      - `I3155:22450;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1374 y=494)
+        - `I3155:22450;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1374.9 y=494) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22450;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1374 y=495) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22450;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1386.3 y=505) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22450;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1405 y=499) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22450;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1405 y=499) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22450;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1572.9 y=499) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22450;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1572.9 y=499) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22451` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1374 y=523) | comp=1376:25224
+      - `I3155:22451;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1374 y=523)
+        - `I3155:22451;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1374.9 y=523) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22451;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1374 y=524) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22451;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1386.3 y=534) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22451;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1405 y=528) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22451;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1405 y=528) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22451;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1572.9 y=528) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22451;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1572.9 y=528) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22452` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=552) | comp=1376:25224
+      - `I3155:22452;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=552)
+        - `I3155:22452;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=552) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22452;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=553) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22452;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=563) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22452;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=557) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22452;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=557) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22452;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=557) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22452;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=557) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22453` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=581) | comp=1376:25224
+      - `I3155:22453;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=581)
+        - `I3155:22453;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=581) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22453;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=582) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22453;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=592) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22453;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=586) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22453;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=586) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22453;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=586) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22453;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=586) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22454` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=610) | comp=1376:25224
+      - `I3155:22454;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=610)
+        - `I3155:22454;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=610) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22454;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=611) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22454;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=621) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22454;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=615) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22454;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=615) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22454;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=615) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22454;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=615) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22455` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=639) | comp=1376:25224
+      - `I3155:22455;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=639)
+        - `I3155:22455;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=639) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22455;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=640) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22455;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=650) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22455;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=644) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22455;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=644) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22455;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=644) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22455;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=644) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22456` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=668) | comp=1376:25224
+      - `I3155:22456;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=668)
+        - `I3155:22456;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=668) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22456;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=669) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22456;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=679) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22456;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=673) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22456;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=673) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22456;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=673) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22456;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=673) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22457` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=697) | comp=1376:25224
+      - `I3155:22457;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=697)
+        - `I3155:22457;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=697) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22457;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=698) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22457;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=708) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22457;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=702) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22457;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=702) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22457;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=702) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22457;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=702) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22458` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=726) | comp=1376:25224
+      - `I3155:22458;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=726)
+        - `I3155:22458;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=726) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22458;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=727) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22458;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=737) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22458;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=731) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22458;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=731) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22458;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=731) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22458;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=731) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22459` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=755) | comp=1376:25224
+      - `I3155:22459;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=755)
+        - `I3155:22459;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=755) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22459;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=756) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22459;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=766) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22459;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=760) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22459;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=760) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22459;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=760) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22459;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=760) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22460` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=784) | comp=1376:25224
+      - `I3155:22460;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=784)
+        - `I3155:22460;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=784) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22460;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=785) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22460;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=795) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22460;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=789) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22460;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=789) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22460;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=789) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22460;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=789) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22461` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=813) | comp=1376:25224
+      - `I3155:22461;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=813)
+        - `I3155:22461;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=813) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22461;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=814) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22461;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=824) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22461;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=818) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22461;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=818) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22461;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=818) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22461;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=818) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22462` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=842) | comp=1376:25224
+      - `I3155:22462;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=842)
+        - `I3155:22462;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=842) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22462;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=843) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22462;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=853) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22462;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=847) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22462;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=847) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22462;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=847) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22462;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=847) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22463` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=871) | comp=1376:25224
+      - `I3155:22463;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=871)
+        - `I3155:22463;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=871) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22463;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=872) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22463;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=882) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22463;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=876) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22463;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=876) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22463;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=876) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22463;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=876) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22464` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=900) | comp=1376:25224
+      - `I3155:22464;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=900)
+        - `I3155:22464;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=900) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22464;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=901) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22464;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=911) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22464;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=905) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22464;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=905) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22464;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=905) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22464;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=905) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22465` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=1375 y=929) | comp=1376:25224
+      - `I3155:22465;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=1375 y=929)
+        - `I3155:22465;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=1375.9 y=929) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22465;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=1375 y=930) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22465;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=1387.3 y=940) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22465;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=1406 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22465;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=1406 y=934) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22465;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1573.9 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22465;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1573.9 y=934) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22467` GROUP "scroolbar" (w=4 h=797 @x=1632 y=171)
+      - `3155:22468` RECTANGLE "Rectangle 3" (w=4 h=797 @x=1632 y=171) | fill: SOLID #D9D9D9 alpha=1
+      - `3155:22469` RECTANGLE "Rectangle 4" (w=4 h=51.3 @x=1632 y=171) | fill: SOLID #000000 alpha=1
+  - `3155:22470` GROUP "Music Geçmiş" (w=269 h=818 @x=832 y=171)
+    - `3155:22471` RECTANGLE "Rectangle 2" (w=269 h=793 @x=832 y=196) | radius(tl=0, tr=0, br=0, bl=8)
+    - `3155:22472` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=839 y=204) | comp=1376:25224
+      - `I3155:22472;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=839 y=204)
+        - `I3155:22472;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=839.9 y=204) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22472;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=839 y=205) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22472;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=851.3 y=215) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22472;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=870 y=209) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22472;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=870 y=209) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22472;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1037.9 y=209) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22472;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1037.9 y=209) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22473` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=839 y=233) | comp=1376:25224
+      - `I3155:22473;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=839 y=233)
+        - `I3155:22473;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=839.9 y=233) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22473;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=839 y=234) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22473;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=851.3 y=244) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22473;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=870 y=238) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22473;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=870 y=238) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22473;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1037.9 y=238) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22473;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1037.9 y=238) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22474` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=839 y=262) | comp=1376:25224
+      - `I3155:22474;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=839 y=262)
+        - `I3155:22474;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=839.9 y=262) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22474;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=839 y=263) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22474;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=851.3 y=273) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22474;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=870 y=267) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22474;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=870 y=267) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22474;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1037.9 y=267) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22474;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1037.9 y=267) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22475` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=839 y=291) | comp=1376:25224
+      - `I3155:22475;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=839 y=291)
+        - `I3155:22475;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=839.9 y=291) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22475;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=839 y=292) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22475;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=851.3 y=302) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22475;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=870 y=296) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22475;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=870 y=296) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22475;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1037.9 y=296) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22475;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1037.9 y=296) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22476` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=839 y=320) | comp=1376:25224
+      - `I3155:22476;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=839 y=320)
+        - `I3155:22476;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=839.9 y=320) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22476;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=839 y=321) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22476;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=851.3 y=331) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22476;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=870 y=325) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22476;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=870 y=325) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22476;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1037.9 y=325) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22476;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1037.9 y=325) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22477` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=839 y=349) | comp=1376:25224
+      - `I3155:22477;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=839 y=349)
+        - `I3155:22477;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=839.9 y=349) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22477;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=839 y=350) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22477;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=851.3 y=360) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22477;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=870 y=354) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22477;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=870 y=354) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22477;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1037.9 y=354) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22477;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1037.9 y=354) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22478` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=839 y=378) | comp=1376:25224
+      - `I3155:22478;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=839 y=378)
+        - `I3155:22478;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=839.9 y=378) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22478;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=839 y=379) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22478;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=851.3 y=389) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22478;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=870 y=383) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22478;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=870 y=383) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22478;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1037.9 y=383) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22478;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1037.9 y=383) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22479` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=839 y=407) | comp=1376:25224
+      - `I3155:22479;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=839 y=407)
+        - `I3155:22479;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=839.9 y=407) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22479;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=839 y=408) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22479;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=851.3 y=418) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22479;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=870 y=412) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22479;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=870 y=412) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22479;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1037.9 y=412) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22479;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1037.9 y=412) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22480` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=839 y=436) | comp=1376:25224
+      - `I3155:22480;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=839 y=436)
+        - `I3155:22480;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=839.9 y=436) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22480;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=839 y=437) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22480;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=851.3 y=447) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22480;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=870 y=441) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22480;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=870 y=441) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22480;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1037.9 y=441) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22480;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1037.9 y=441) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22481` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=839 y=465) | comp=1376:25224
+      - `I3155:22481;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=839 y=465)
+        - `I3155:22481;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=839.9 y=465) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22481;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=839 y=466) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22481;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=851.3 y=476) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22481;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=870 y=470) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22481;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=870 y=470) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22481;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1037.9 y=470) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22481;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1037.9 y=470) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22482` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=839 y=494) | comp=1376:25224
+      - `I3155:22482;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=839 y=494)
+        - `I3155:22482;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=839.9 y=494) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22482;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=839 y=495) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22482;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=851.3 y=505) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22482;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=870 y=499) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22482;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=870 y=499) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22482;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1037.9 y=499) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22482;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1037.9 y=499) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22483` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=839 y=523) | comp=1376:25224
+      - `I3155:22483;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=839 y=523)
+        - `I3155:22483;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=839.9 y=523) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22483;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=839 y=524) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22483;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=851.3 y=534) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22483;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=870 y=528) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22483;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=870 y=528) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22483;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1037.9 y=528) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22483;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1037.9 y=528) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22484` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=552) | comp=1376:25224
+      - `I3155:22484;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=552)
+        - `I3155:22484;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=552) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22484;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=553) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22484;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=563) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22484;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=557) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22484;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=557) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22484;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=557) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22484;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=557) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22485` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=581) | comp=1376:25224
+      - `I3155:22485;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=581)
+        - `I3155:22485;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=581) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22485;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=582) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22485;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=592) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22485;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=586) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22485;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=586) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22485;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=586) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22485;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=586) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22486` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=610) | comp=1376:25224
+      - `I3155:22486;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=610)
+        - `I3155:22486;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=610) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22486;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=611) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22486;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=621) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22486;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=615) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22486;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=615) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22486;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=615) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22486;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=615) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22487` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=639) | comp=1376:25224
+      - `I3155:22487;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=639)
+        - `I3155:22487;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=639) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22487;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=640) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22487;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=650) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22487;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=644) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22487;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=644) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22487;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=644) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22487;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=644) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22488` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=668) | comp=1376:25224
+      - `I3155:22488;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=668)
+        - `I3155:22488;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=668) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22488;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=669) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22488;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=679) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22488;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=673) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22488;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=673) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22488;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=673) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22488;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=673) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22489` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=697) | comp=1376:25224
+      - `I3155:22489;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=697)
+        - `I3155:22489;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=697) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22489;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=698) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22489;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=708) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22489;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=702) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22489;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=702) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22489;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=702) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22489;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=702) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22490` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=726) | comp=1376:25224
+      - `I3155:22490;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=726)
+        - `I3155:22490;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=726) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22490;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=727) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22490;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=737) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22490;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=731) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22490;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=731) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22490;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=731) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22490;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=731) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22491` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=755) | comp=1376:25224
+      - `I3155:22491;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=755)
+        - `I3155:22491;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=755) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22491;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=756) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22491;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=766) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22491;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=760) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22491;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=760) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22491;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=760) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22491;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=760) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22492` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=784) | comp=1376:25224
+      - `I3155:22492;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=784)
+        - `I3155:22492;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=784) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22492;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=785) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22492;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=795) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22492;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=789) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22492;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=789) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22492;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=789) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22492;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=789) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22493` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=813) | comp=1376:25224
+      - `I3155:22493;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=813)
+        - `I3155:22493;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=813) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22493;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=814) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22493;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=824) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22493;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=818) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22493;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=818) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22493;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=818) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22493;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=818) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22494` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=842) | comp=1376:25224
+      - `I3155:22494;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=842)
+        - `I3155:22494;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=842) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22494;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=843) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22494;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=853) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22494;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=847) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22494;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=847) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22494;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=847) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22494;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=847) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22495` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=871) | comp=1376:25224
+      - `I3155:22495;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=871)
+        - `I3155:22495;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=871) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22495;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=872) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22495;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=882) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22495;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=876) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22495;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=876) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22495;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=876) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22495;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=876) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22496` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=900) | comp=1376:25224
+      - `I3155:22496;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=900)
+        - `I3155:22496;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=900) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22496;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=901) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22496;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=911) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22496;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=905) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22496;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=905) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22496;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=905) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22496;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=905) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22497` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=840 y=929) | comp=1376:25224
+      - `I3155:22497;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=840 y=929)
+        - `I3155:22497;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=840.9 y=929) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22497;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=840 y=930) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22497;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=852.3 y=940) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22497;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=871 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22497;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=871 y=934) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22497;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=1038.9 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22497;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=1038.9 y=934) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22499` GROUP "scroolbar" (w=4 h=796 @x=1097 y=171)
+      - `3155:22500` RECTANGLE "Rectangle 3" (w=4 h=796 @x=1097 y=171) | fill: SOLID #D9D9D9 alpha=1
+      - `3155:22501` RECTANGLE "Rectangle 4" (w=4 h=51.2 @x=1097 y=171) | fill: SOLID #000000 alpha=1
+  - `3155:22502` GROUP "Music Geçmiş" (w=269 h=818 @x=563 y=171)
+    - `3155:22503` RECTANGLE "Rectangle 2" (w=269 h=793 @x=563 y=196) | radius(tl=0, tr=0, br=0, bl=8)
+    - `3155:22504` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=570 y=204) | comp=1376:25224
+      - `I3155:22504;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=570 y=204)
+        - `I3155:22504;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=570.9 y=204) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22504;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=570 y=205) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22504;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=582.3 y=215) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22504;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=601 y=209) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22504;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=601 y=209) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22504;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=768.9 y=209) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22504;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=768.9 y=209) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22505` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=570 y=233) | comp=1376:25224
+      - `I3155:22505;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=570 y=233)
+        - `I3155:22505;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=570.9 y=233) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22505;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=570 y=234) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22505;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=582.3 y=244) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22505;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=601 y=238) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22505;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=601 y=238) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22505;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=768.9 y=238) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22505;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=768.9 y=238) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22506` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=570 y=262) | comp=1376:25224
+      - `I3155:22506;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=570 y=262)
+        - `I3155:22506;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=570.9 y=262) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22506;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=570 y=263) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22506;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=582.3 y=273) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22506;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=601 y=267) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22506;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=601 y=267) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22506;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=768.9 y=267) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22506;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=768.9 y=267) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22507` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=570 y=291) | comp=1376:25224
+      - `I3155:22507;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=570 y=291)
+        - `I3155:22507;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=570.9 y=291) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22507;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=570 y=292) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22507;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=582.3 y=302) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22507;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=601 y=296) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22507;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=601 y=296) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22507;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=768.9 y=296) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22507;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=768.9 y=296) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22508` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=570 y=320) | comp=1376:25224
+      - `I3155:22508;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=570 y=320)
+        - `I3155:22508;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=570.9 y=320) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22508;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=570 y=321) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22508;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=582.3 y=331) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22508;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=601 y=325) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22508;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=601 y=325) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22508;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=768.9 y=325) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22508;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=768.9 y=325) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22509` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=570 y=349) | comp=1376:25224
+      - `I3155:22509;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=570 y=349)
+        - `I3155:22509;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=570.9 y=349) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22509;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=570 y=350) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22509;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=582.3 y=360) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22509;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=601 y=354) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22509;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=601 y=354) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22509;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=768.9 y=354) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22509;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=768.9 y=354) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22510` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=570 y=378) | comp=1376:25224
+      - `I3155:22510;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=570 y=378)
+        - `I3155:22510;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=570.9 y=378) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22510;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=570 y=379) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22510;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=582.3 y=389) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22510;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=601 y=383) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22510;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=601 y=383) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22510;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=768.9 y=383) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22510;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=768.9 y=383) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22511` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=570 y=407) | comp=1376:25224
+      - `I3155:22511;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=570 y=407)
+        - `I3155:22511;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=570.9 y=407) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22511;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=570 y=408) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22511;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=582.3 y=418) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22511;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=601 y=412) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22511;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=601 y=412) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22511;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=768.9 y=412) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22511;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=768.9 y=412) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22512` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=570 y=436) | comp=1376:25224
+      - `I3155:22512;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=570 y=436)
+        - `I3155:22512;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=570.9 y=436) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22512;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=570 y=437) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22512;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=582.3 y=447) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22512;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=601 y=441) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22512;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=601 y=441) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22512;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=768.9 y=441) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22512;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=768.9 y=441) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22513` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=570 y=465) | comp=1376:25224
+      - `I3155:22513;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=570 y=465)
+        - `I3155:22513;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=570.9 y=465) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22513;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=570 y=466) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22513;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=582.3 y=476) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22513;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=601 y=470) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22513;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=601 y=470) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22513;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=768.9 y=470) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22513;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=768.9 y=470) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22514` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=570 y=494) | comp=1376:25224
+      - `I3155:22514;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=570 y=494)
+        - `I3155:22514;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=570.9 y=494) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22514;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=570 y=495) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22514;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=582.3 y=505) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22514;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=601 y=499) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22514;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=601 y=499) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22514;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=768.9 y=499) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22514;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=768.9 y=499) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22515` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=570 y=523) | comp=1376:25224
+      - `I3155:22515;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=570 y=523)
+        - `I3155:22515;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=570.9 y=523) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22515;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=570 y=524) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22515;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=582.3 y=534) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22515;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=601 y=528) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22515;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=601 y=528) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22515;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=768.9 y=528) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22515;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=768.9 y=528) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22516` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=552) | comp=1376:25224
+      - `I3155:22516;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=552)
+        - `I3155:22516;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=552) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22516;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=553) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22516;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=563) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22516;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=557) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22516;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=557) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22516;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=557) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22516;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=557) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22517` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=581) | comp=1376:25224
+      - `I3155:22517;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=581)
+        - `I3155:22517;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=581) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22517;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=582) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22517;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=592) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22517;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=586) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22517;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=586) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22517;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=586) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22517;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=586) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22518` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=610) | comp=1376:25224
+      - `I3155:22518;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=610)
+        - `I3155:22518;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=610) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22518;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=611) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22518;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=621) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22518;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=615) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22518;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=615) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22518;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=615) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22518;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=615) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22519` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=639) | comp=1376:25224
+      - `I3155:22519;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=639)
+        - `I3155:22519;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=639) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22519;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=640) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22519;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=650) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22519;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=644) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22519;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=644) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22519;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=644) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22519;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=644) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22520` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=668) | comp=1376:25224
+      - `I3155:22520;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=668)
+        - `I3155:22520;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=668) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22520;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=669) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22520;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=679) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22520;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=673) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22520;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=673) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22520;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=673) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22520;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=673) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22521` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=697) | comp=1376:25224
+      - `I3155:22521;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=697)
+        - `I3155:22521;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=697) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22521;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=698) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22521;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=708) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22521;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=702) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22521;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=702) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22521;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=702) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22521;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=702) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22522` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=726) | comp=1376:25224
+      - `I3155:22522;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=726)
+        - `I3155:22522;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=726) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22522;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=727) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22522;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=737) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22522;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=731) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22522;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=731) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22522;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=731) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22522;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=731) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22523` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=755) | comp=1376:25224
+      - `I3155:22523;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=755)
+        - `I3155:22523;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=755) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22523;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=756) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22523;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=766) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22523;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=760) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22523;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=760) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22523;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=760) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22523;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=760) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22524` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=784) | comp=1376:25224
+      - `I3155:22524;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=784)
+        - `I3155:22524;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=784) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22524;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=785) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22524;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=795) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22524;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=789) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22524;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=789) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22524;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=789) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22524;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=789) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22525` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=813) | comp=1376:25224
+      - `I3155:22525;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=813)
+        - `I3155:22525;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=813) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22525;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=814) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22525;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=824) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22525;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=818) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22525;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=818) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22525;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=818) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22525;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=818) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22526` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=842) | comp=1376:25224
+      - `I3155:22526;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=842)
+        - `I3155:22526;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=842) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22526;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=843) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22526;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=853) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22526;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=847) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22526;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=847) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22526;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=847) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22526;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=847) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22527` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=871) | comp=1376:25224
+      - `I3155:22527;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=871)
+        - `I3155:22527;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=871) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22527;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=872) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22527;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=882) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22527;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=876) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22527;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=876) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22527;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=876) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22527;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=876) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22528` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=900) | comp=1376:25224
+      - `I3155:22528;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=900)
+        - `I3155:22528;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=900) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22528;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=901) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22528;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=911) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22528;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=905) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22528;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=905) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22528;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=905) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22528;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=905) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22529` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=571 y=929) | comp=1376:25224
+      - `I3155:22529;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=571 y=929)
+        - `I3155:22529;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=571.9 y=929) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22529;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=571 y=930) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22529;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=583.3 y=940) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22529;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=602 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22529;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=602 y=934) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22529;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=769.9 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22529;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=769.9 y=934) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22531` GROUP "scroolbar" (w=4 h=796 @x=828 y=171)
+      - `3155:22532` RECTANGLE "Rectangle 3" (w=4 h=796 @x=828 y=171) | fill: SOLID #D9D9D9 alpha=1
+      - `3155:22533` RECTANGLE "Rectangle 4" (w=4 h=52.5 @x=828 y=171) | fill: SOLID #000000 alpha=1
+  - `3155:22534` GROUP "Music Geçmiş" (w=269 h=818 @x=294 y=171)
+    - `3155:22535` RECTANGLE "Rectangle 2" (w=269 h=793 @x=294 y=196) | radius(tl=0, tr=0, br=0, bl=8)
+    - `3155:22536` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=301 y=204) | comp=1376:25224
+      - `I3155:22536;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=301 y=204)
+        - `I3155:22536;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=301.9 y=204) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22536;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=301 y=205) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22536;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=313.3 y=215) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22536;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=332 y=209) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22536;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=332 y=209) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22536;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=499.9 y=209) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22536;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=499.9 y=209) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22537` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=301 y=233) | comp=1376:25224
+      - `I3155:22537;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=301 y=233)
+        - `I3155:22537;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=301.9 y=233) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22537;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=301 y=234) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22537;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=313.3 y=244) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22537;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=332 y=238) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22537;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=332 y=238) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22537;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=499.9 y=238) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22537;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=499.9 y=238) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22538` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=301 y=262) | comp=1376:25224
+      - `I3155:22538;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=301 y=262)
+        - `I3155:22538;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=301.9 y=262) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22538;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=301 y=263) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22538;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=313.3 y=273) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22538;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=332 y=267) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22538;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=332 y=267) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22538;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=499.9 y=267) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22538;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=499.9 y=267) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22539` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=301 y=291) | comp=1376:25224
+      - `I3155:22539;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=301 y=291)
+        - `I3155:22539;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=301.9 y=291) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22539;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=301 y=292) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22539;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=313.3 y=302) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22539;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=332 y=296) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22539;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=332 y=296) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22539;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=499.9 y=296) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22539;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=499.9 y=296) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22540` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=301 y=320) | comp=1376:25224
+      - `I3155:22540;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=301 y=320)
+        - `I3155:22540;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=301.9 y=320) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22540;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=301 y=321) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22540;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=313.3 y=331) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22540;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=332 y=325) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22540;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=332 y=325) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22540;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=499.9 y=325) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22540;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=499.9 y=325) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22541` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=301 y=349) | comp=1376:25224
+      - `I3155:22541;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=301 y=349)
+        - `I3155:22541;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=301.9 y=349) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22541;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=301 y=350) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22541;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=313.3 y=360) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22541;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=332 y=354) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22541;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=332 y=354) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22541;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=499.9 y=354) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22541;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=499.9 y=354) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22542` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=301 y=378) | comp=1376:25224
+      - `I3155:22542;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=301 y=378)
+        - `I3155:22542;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=301.9 y=378) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22542;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=301 y=379) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22542;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=313.3 y=389) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22542;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=332 y=383) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22542;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=332 y=383) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22542;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=499.9 y=383) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22542;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=499.9 y=383) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22543` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=301 y=407) | comp=1376:25224
+      - `I3155:22543;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=301 y=407)
+        - `I3155:22543;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=301.9 y=407) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22543;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=301 y=408) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22543;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=313.3 y=418) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22543;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=332 y=412) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22543;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=332 y=412) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22543;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=499.9 y=412) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22543;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=499.9 y=412) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22544` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=301 y=436) | comp=1376:25224
+      - `I3155:22544;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=301 y=436)
+        - `I3155:22544;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=301.9 y=436) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22544;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=301 y=437) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22544;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=313.3 y=447) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22544;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=332 y=441) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22544;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=332 y=441) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22544;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=499.9 y=441) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22544;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=499.9 y=441) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22545` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=301 y=465) | comp=1376:25224
+      - `I3155:22545;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=301 y=465)
+        - `I3155:22545;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=301.9 y=465) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22545;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=301 y=466) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22545;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=313.3 y=476) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22545;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=332 y=470) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22545;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=332 y=470) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22545;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=499.9 y=470) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22545;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=499.9 y=470) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22546` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=301 y=494) | comp=1376:25224
+      - `I3155:22546;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=301 y=494)
+        - `I3155:22546;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=301.9 y=494) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22546;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=301 y=495) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22546;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=313.3 y=505) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22546;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=332 y=499) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22546;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=332 y=499) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22546;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=499.9 y=499) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22546;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=499.9 y=499) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22547` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=301 y=523) | comp=1376:25224
+      - `I3155:22547;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=301 y=523)
+        - `I3155:22547;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=301.9 y=523) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22547;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=301 y=524) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22547;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=313.3 y=534) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22547;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=332 y=528) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22547;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=332 y=528) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22547;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=499.9 y=528) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22547;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=499.9 y=528) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22548` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=552) | comp=1376:25224
+      - `I3155:22548;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=552)
+        - `I3155:22548;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=552) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22548;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=553) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22548;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=563) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22548;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=557) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22548;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=557) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22548;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=557) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22548;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=557) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22549` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=581) | comp=1376:25224
+      - `I3155:22549;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=581)
+        - `I3155:22549;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=581) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22549;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=582) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22549;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=592) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22549;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=586) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22549;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=586) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22549;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=586) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22549;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=586) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22550` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=610) | comp=1376:25224
+      - `I3155:22550;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=610)
+        - `I3155:22550;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=610) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22550;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=611) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22550;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=621) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22550;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=615) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22550;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=615) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22550;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=615) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22550;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=615) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22551` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=639) | comp=1376:25224
+      - `I3155:22551;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=639)
+        - `I3155:22551;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=639) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22551;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=640) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22551;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=650) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22551;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=644) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22551;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=644) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22551;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=644) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22551;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=644) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22552` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=668) | comp=1376:25224
+      - `I3155:22552;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=668)
+        - `I3155:22552;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=668) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22552;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=669) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22552;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=679) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22552;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=673) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22552;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=673) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22552;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=673) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22552;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=673) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22553` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=697) | comp=1376:25224
+      - `I3155:22553;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=697)
+        - `I3155:22553;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=697) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22553;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=698) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22553;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=708) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22553;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=702) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22553;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=702) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22553;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=702) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22553;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=702) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22554` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=726) | comp=1376:25224
+      - `I3155:22554;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=726)
+        - `I3155:22554;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=726) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22554;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=727) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22554;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=737) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22554;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=731) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22554;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=731) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22554;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=731) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22554;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=731) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22555` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=755) | comp=1376:25224
+      - `I3155:22555;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=755)
+        - `I3155:22555;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=755) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22555;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=756) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22555;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=766) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22555;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=760) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22555;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=760) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22555;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=760) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22555;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=760) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22556` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=784) | comp=1376:25224
+      - `I3155:22556;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=784)
+        - `I3155:22556;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=784) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22556;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=785) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22556;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=795) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22556;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=789) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22556;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=789) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22556;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=789) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22556;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=789) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22557` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=813) | comp=1376:25224
+      - `I3155:22557;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=813)
+        - `I3155:22557;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=813) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22557;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=814) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22557;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=824) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22557;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=818) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22557;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=818) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22557;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=818) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22557;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=818) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22558` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=842) | comp=1376:25224
+      - `I3155:22558;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=842)
+        - `I3155:22558;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=842) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22558;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=843) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22558;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=853) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22558;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=847) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22558;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=847) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22558;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=847) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22558;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=847) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22559` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=871) | comp=1376:25224
+      - `I3155:22559;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=871)
+        - `I3155:22559;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=871) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22559;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=872) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22559;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=882) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22559;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=876) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22559;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=876) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22559;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=876) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22559;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=876) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22560` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=900) | comp=1376:25224
+      - `I3155:22560;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=900)
+        - `I3155:22560;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=900) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22560;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=901) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22560;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=911) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22560;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=905) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22560;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=905) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22560;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=905) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22560;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=905) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22561` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=302 y=929) | comp=1376:25224
+      - `I3155:22561;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=302 y=929)
+        - `I3155:22561;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=302.9 y=929) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22561;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=302 y=930) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22561;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=314.3 y=940) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22561;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=333 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22561;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=333 y=934) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22561;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=500.9 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22561;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=500.9 y=934) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22563` GROUP "scroolbar" (w=4 h=796 @x=559 y=171)
+      - `3155:22564` RECTANGLE "Rectangle 3" (w=4 h=796 @x=559 y=171) | fill: SOLID #D9D9D9 alpha=1
+      - `3155:22565` RECTANGLE "Rectangle 4" (w=4 h=51.2 @x=559 y=171) | fill: SOLID #000000 alpha=1
+  - `3155:22566` GROUP "Music Geçmiş" (w=269 h=818 @x=25 y=171)
+    - `3155:22567` RECTANGLE "Rectangle 2" (w=269 h=793 @x=25 y=196) | radius(tl=0, tr=0, br=0, bl=8)
+    - `3155:22568` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=32 y=204) | comp=1376:25224
+      - `I3155:22568;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=32 y=204)
+        - `I3155:22568;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=32.9 y=204) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22568;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=32 y=205) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22568;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=44.3 y=215) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22568;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=63 y=209) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22568;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=63 y=209) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22568;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=230.9 y=209) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22568;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=230.9 y=209) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22569` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=32 y=233) | comp=1376:25224
+      - `I3155:22569;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=32 y=233)
+        - `I3155:22569;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=32.9 y=233) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22569;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=32 y=234) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22569;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=44.3 y=244) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22569;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=63 y=238) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22569;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=63 y=238) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22569;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=230.9 y=238) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22569;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=230.9 y=238) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22570` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=32 y=262) | comp=1376:25224
+      - `I3155:22570;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=32 y=262)
+        - `I3155:22570;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=32.9 y=262) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22570;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=32 y=263) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22570;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=44.3 y=273) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22570;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=63 y=267) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22570;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=63 y=267) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22570;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=230.9 y=267) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22570;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=230.9 y=267) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22571` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=32 y=291) | comp=1376:25224
+      - `I3155:22571;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=32 y=291)
+        - `I3155:22571;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=32.9 y=291) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22571;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=32 y=292) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22571;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=44.3 y=302) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22571;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=63 y=296) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22571;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=63 y=296) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22571;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=230.9 y=296) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22571;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=230.9 y=296) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22572` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=32 y=320) | comp=1376:25224
+      - `I3155:22572;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=32 y=320)
+        - `I3155:22572;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=32.9 y=320) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22572;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=32 y=321) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22572;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=44.3 y=331) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22572;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=63 y=325) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22572;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=63 y=325) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22572;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=230.9 y=325) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22572;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=230.9 y=325) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22573` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=32 y=349) | comp=1376:25224
+      - `I3155:22573;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=32 y=349)
+        - `I3155:22573;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=32.9 y=349) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22573;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=32 y=350) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22573;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=44.3 y=360) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22573;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=63 y=354) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22573;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=63 y=354) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22573;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=230.9 y=354) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22573;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=230.9 y=354) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22574` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=32 y=378) | comp=1376:25224
+      - `I3155:22574;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=32 y=378)
+        - `I3155:22574;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=32.9 y=378) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22574;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=32 y=379) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22574;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=44.3 y=389) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22574;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=63 y=383) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22574;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=63 y=383) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22574;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=230.9 y=383) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22574;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=230.9 y=383) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22575` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=32 y=407) | comp=1376:25224
+      - `I3155:22575;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=32 y=407)
+        - `I3155:22575;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=32.9 y=407) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22575;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=32 y=408) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22575;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=44.3 y=418) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22575;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=63 y=412) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22575;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=63 y=412) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22575;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=230.9 y=412) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22575;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=230.9 y=412) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22576` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=32 y=436) | comp=1376:25224
+      - `I3155:22576;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=32 y=436)
+        - `I3155:22576;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=32.9 y=436) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22576;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=32 y=437) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22576;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=44.3 y=447) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22576;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=63 y=441) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22576;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=63 y=441) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22576;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=230.9 y=441) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22576;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=230.9 y=441) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22577` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=32 y=465) | comp=1376:25224
+      - `I3155:22577;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=32 y=465)
+        - `I3155:22577;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=32.9 y=465) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22577;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=32 y=466) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22577;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=44.3 y=476) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22577;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=63 y=470) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22577;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=63 y=470) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22577;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=230.9 y=470) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22577;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=230.9 y=470) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22578` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=32 y=494) | comp=1376:25224
+      - `I3155:22578;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=32 y=494)
+        - `I3155:22578;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=32.9 y=494) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22578;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=32 y=495) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22578;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=44.3 y=505) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22578;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=63 y=499) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22578;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=63 y=499) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22578;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=230.9 y=499) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22578;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=230.9 y=499) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22579` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=32 y=523) | comp=1376:25224
+      - `I3155:22579;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=32 y=523)
+        - `I3155:22579;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=32.9 y=523) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22579;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=32 y=524) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22579;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=44.3 y=534) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22579;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=63 y=528) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22579;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=63 y=528) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22579;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=230.9 y=528) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22579;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=230.9 y=528) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22580` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=552) | comp=1376:25224
+      - `I3155:22580;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=552)
+        - `I3155:22580;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=552) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22580;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=553) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22580;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=563) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22580;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=557) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22580;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=557) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22580;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=557) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22580;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=557) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22581` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=581) | comp=1376:25224
+      - `I3155:22581;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=581)
+        - `I3155:22581;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=581) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22581;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=582) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22581;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=592) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22581;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=586) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22581;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=586) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22581;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=586) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22581;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=586) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22582` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=610) | comp=1376:25224
+      - `I3155:22582;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=610)
+        - `I3155:22582;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=610) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22582;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=611) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22582;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=621) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22582;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=615) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22582;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=615) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22582;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=615) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22582;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=615) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22583` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=639) | comp=1376:25224
+      - `I3155:22583;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=639)
+        - `I3155:22583;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=639) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22583;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=640) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22583;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=650) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22583;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=644) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22583;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=644) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22583;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=644) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22583;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=644) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22584` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=668) | comp=1376:25224
+      - `I3155:22584;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=668)
+        - `I3155:22584;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=668) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22584;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=669) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22584;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=679) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22584;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=673) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22584;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=673) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22584;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=673) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22584;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=673) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22585` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=697) | comp=1376:25224
+      - `I3155:22585;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=697)
+        - `I3155:22585;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=697) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22585;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=698) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22585;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=708) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22585;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=702) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22585;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=702) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22585;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=702) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22585;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=702) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22586` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=726) | comp=1376:25224
+      - `I3155:22586;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=726)
+        - `I3155:22586;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=726) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22586;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=727) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22586;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=737) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22586;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=731) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22586;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=731) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22586;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=731) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22586;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=731) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22587` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=755) | comp=1376:25224
+      - `I3155:22587;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=755)
+        - `I3155:22587;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=755) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22587;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=756) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22587;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=766) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22587;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=760) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22587;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=760) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22587;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=760) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22587;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=760) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22588` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=784) | comp=1376:25224
+      - `I3155:22588;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=784)
+        - `I3155:22588;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=784) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22588;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=785) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22588;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=795) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22588;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=789) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22588;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=789) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22588;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=789) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22588;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=789) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22589` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=813) | comp=1376:25224
+      - `I3155:22589;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=813)
+        - `I3155:22589;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=813) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22589;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=814) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22589;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=824) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22589;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=818) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22589;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=818) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22589;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=818) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22589;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=818) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22590` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=842) | comp=1376:25224
+      - `I3155:22590;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=842)
+        - `I3155:22590;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=842) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22590;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=843) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22590;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=853) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22590;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=847) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22590;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=847) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22590;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=847) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22590;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=847) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22591` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=871) | comp=1376:25224
+      - `I3155:22591;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=871)
+        - `I3155:22591;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=871) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22591;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=872) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22591;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=882) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22591;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=876) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22591;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=876) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22591;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=876) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22591;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=876) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22592` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=900) | comp=1376:25224
+      - `I3155:22592;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=900)
+        - `I3155:22592;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=900) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22592;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=901) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22592;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=911) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22592;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=905) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22592;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=905) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22592;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=905) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22592;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=905) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22593` INSTANCE "Playlist Items Mini history" (w=229 h=21 @x=33 y=929) | comp=1376:25224
+      - `I3155:22593;1376:25225` GROUP "Albumsitem" (w=23.7 h=21 @x=33 y=929)
+        - `I3155:22593;1376:25226` RECTANGLE "cd_case" (w=21.1 h=21 @x=33.9 y=929) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22593;1376:25227` RECTANGLE "istockphoto-172197150-612x612-removebg-preview" (w=23.7 h=18 @x=33 y=930) | fill: IMAGE scaleMode=FILL (renk yok)
+        - `I3155:22593;1376:25228` RECTANGLE "icons8-music-48" (w=8.8 h=10 @x=45.3 y=940) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `I3155:22593;1376:25229` GROUP "Adiİtem" (w=159 h=12 @x=64 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22593;1376:25230` TEXT "Çok Sevmek Yasaklanmalı" (w=159 h=12 @x=64 y=934) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Göksel - Sevil Neşelen"
+      - `I3155:22593;1376:25231` GROUP "Sureitem" (w=46.2 h=12 @x=231.9 y=934) | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8
+        - `I3155:22593;1376:25232` TEXT "00:00:00" (w=46.2 h=12 @x=231.9 y=934) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0.5 y=0.5 blur=0.1 #000000 alpha=1 | font=Avalon size=9px weight=500 style=Medium align=LEFT ls=1.215 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "00:00:00"
+    - `3155:22595` GROUP "scroolbar" (w=4 h=796 @x=290 y=171)
+      - `3155:22596` RECTANGLE "Rectangle 3" (w=4 h=796 @x=290 y=171) | fill: SOLID #D9D9D9 alpha=1
+      - `3155:22597` RECTANGLE "Rectangle 4" (w=4 h=52.5 @x=290 y=171) | fill: SOLID #000000 alpha=1
+  - `3155:22598` GROUP "label text" (w=1612 h=25 @x=24 y=171)
+    - `3155:22599` RECTANGLE "Rectangle 19" (w=1612 h=26 @x=24 y=170) | fill: SOLID #FF00B2 alpha=0.5 | radius(tl=10, tr=10, br=0, bl=0) [GIZLI]
+    - `3155:24116` RECTANGLE "Rectangle 19" (w=1612 h=25 @x=24 y=171) | fill: SOLID #383838 alpha=0.35
+    - `3155:22600` GROUP "album" (w=22 h=9 @x=34 y=179)
+      - `3155:22601` TEXT "Albüm" (w=22 h=9 @x=34 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Albüm"
+    - `3155:22602` GROUP "adi" (w=32 h=9 @x=63 y=179)
+      - `3155:22603` TEXT "Şarkı Adı" (w=32 h=9 @x=63 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Şarkı Adı"
+    - `3155:22604` GROUP "sure" (w=14 h=9 @x=243 y=179)
+      - `3155:22605` TEXT "Süre" (w=14 h=9 @x=243 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Süre"
+    - `3155:22606` GROUP "album" (w=20 h=9 @x=303 y=179)
+      - `3155:22607` TEXT "Albüm" (w=20 h=9 @x=303 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Albüm"
+    - `3155:22608` GROUP "adi" (w=32 h=9 @x=332 y=179)
+      - `3155:22609` TEXT "Şarkı Adı" (w=32 h=9 @x=332 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Şarkı Adı"
+    - `3155:22610` GROUP "sure" (w=14 h=9 @x=512 y=179)
+      - `3155:22611` TEXT "Süre" (w=14 h=9 @x=512 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Süre"
+    - `3155:22612` GROUP "album" (w=21 h=9 @x=573 y=179)
+      - `3155:22613` TEXT "Albüm" (w=21 h=9 @x=573 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Albüm"
+    - `3155:22614` GROUP "adi" (w=32 h=9 @x=602 y=179)
+      - `3155:22615` TEXT "Şarkı Adı" (w=32 h=9 @x=602 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Şarkı Adı"
+    - `3155:22616` GROUP "sure" (w=14 h=9 @x=782 y=179)
+      - `3155:22617` TEXT "Süre" (w=14 h=9 @x=782 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Süre"
+    - `3155:22618` GROUP "album" (w=21 h=9 @x=842 y=179)
+      - `3155:22619` TEXT "Albüm" (w=21 h=9 @x=842 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Albüm"
+    - `3155:22620` GROUP "adi" (w=32 h=9 @x=871 y=179)
+      - `3155:22621` TEXT "Şarkı Adı" (w=32 h=9 @x=871 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Şarkı Adı"
+    - `3155:22622` GROUP "sure" (w=14 h=9 @x=1051 y=179)
+      - `3155:22623` TEXT "Süre" (w=14 h=9 @x=1051 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Süre"
+    - `3155:22624` GROUP "album" (w=20 h=9 @x=1109 y=179)
+      - `3155:22625` TEXT "Albüm" (w=20 h=9 @x=1109 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Albüm"
+    - `3155:22626` GROUP "adi" (w=32 h=9 @x=1138 y=179)
+      - `3155:22627` TEXT "Şarkı Adı" (w=32 h=9 @x=1138 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Şarkı Adı"
+    - `3155:22628` GROUP "sure" (w=14 h=9 @x=1318 y=179)
+      - `3155:22629` TEXT "Süre" (w=14 h=9 @x=1318 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Süre"
+    - `3155:22630` GROUP "album" (w=21 h=9 @x=1378 y=179)
+      - `3155:22631` TEXT "Albüm" (w=21 h=9 @x=1378 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Albüm"
+    - `3155:22632` GROUP "adi" (w=32 h=9 @x=1407 y=179)
+      - `3155:22633` TEXT "Şarkı Adı" (w=32 h=9 @x=1407 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Şarkı Adı"
+    - `3155:22634` GROUP "sure" (w=14 h=9 @x=1587 y=179)
+      - `3155:22635` TEXT "Süre" (w=14 h=9 @x=1587 y=179) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=7px weight=500 style=Medium align=LEFT ls=0.546 (unit:YOK) line-height=9.45px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Süre"
+  - `3155:24110` TEXT "album desc" (w=318 h=12 @x=1021 y=120) | fill: SOLID #FFFFFF alpha=1 | stroke: SOLID #373737 alpha=0.15 weight=1 align=OUTSIDE | font=Avalon size=9px weight=500 style=Medium align=RIGHT ls=0.675 (unit:YOK) line-height=12.15px (INTRINSIC_% 100%) autoResize=HEIGHT | metin: "Sırasıyla : Music, Video , Youtube & Youtube Music & Dezer Music & USb Disk "
+  - `3155:24118` FRAME "Actions Btns" (w=481 h=40 @x=45 y=110) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=5 wrap=NO_WRAP ctr=CENTER
+    - `3155:24119` FRAME "Btns" (w=40 h=40 @x=45 y=110) | AL: HORIZONTAL padding: API'den gelmedi (alan yok) gap=10 wrap=NO_WRAP ctr=CENTER
+      - `3155:24120` ELLIPSE "icons8-back-arrow-48" (w=40 h=40 @x=45 y=110) | fill: IMAGE scaleMode=FILL (renk yok)
+      - `3155:24121` ELLIPSE "icons8-back-arrow-48" (w=48 h=48 @x=103 y=110) | fill: IMAGE scaleMode=FILL (renk yok) [GIZLI]
+    - `3155:24122` TEXT "Şimdi Oynatılıyor" (w=120 h=18 @x=90 y=121) | fill: SOLID #FFFFFF alpha=1 | effect: DROP_SHADOW x=0 y=0.5 blur=1 #000000 alpha=0.8 | font=SF Pro size=15px weight=400 style=Regular align=LEFT ls=0 (unit:YOK) line-height=17.9px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Şimdi Oynatılıyor"
+  - `3155:24111` GROUP "Search" (w=267 h=20 @x=1358 y=116)
+    - `3155:24112` RECTANGLE "Rectangle 16" (w=267 h=20 @x=1358 y=116) | fill: SOLID #FFFDFE alpha=0.25 / SOLID #000000 alpha=0.34 (gizli) | stroke: SOLID #FF00B2 alpha=0.35 / SOLID #FFFFFF alpha=0.2 weight=0.5 align=INSIDE | radius=3
+    - `3155:24113` RECTANGLE "search" (w=12 h=12 @x=1604 y=120) | fill: IMAGE scaleMode=FILL (renk yok)
+    - `3155:24114` TEXT "Geçmiş ' te ara" (w=49 h=11 @x=1377.4 y=121) | fill: SOLID #000000 alpha=1 | font=Avalon size=8.5px weight=500 style=Medium align=LEFT ls=0 (unit:YOK) line-height=11.48px (INTRINSIC_% 100%) autoResize=WIDTH_AND_HEIGHT | metin: "Geçmiş ' te ara"
+
+## 8. İstatistik, API'den Gelmeyen Alanlar ve Hygiene Notları
+
+### 8.1 Node İstatistikleri (ham JSON sayımı)
+
+| Metrik | Değer |
+|---|---|
+| Toplam node | 3452 |
+| Node türü | RECTANGLE 1169 · GROUP 902 · TEXT 781 · INSTANCE 287 · VECTOR 187 · FRAME 112 · ELLIPSE 13 · CANVAS 1 |
+| Paint türleri (fill+stroke) | SOLID 1761 · IMAGE 1029 · GRADIENT_LINEAR 56 |
+| Distinct SOLID renk | 16 |
+| Efekt türleri | DROP_SHADOW 1273 · BACKGROUND_BLUR 41 · INNER_SHADOW 3 (toplam 1317, gizli 0) |
+| Auto-layout node | 98 (4'lü padding alanı: 43 · padding alanı hiç yok: 55) |
+| Corner | tek değer 270 · köşe bazlı 521 · alan yok 2661 |
+| INSTANCE | 287 · distinct componentId 24 |
+| opacity alanı tanımlı | 160 / 3452 |
+| Görünmez node `visible=false` | 114 |
+| TEXT | 781 · `style` alanı boş (mixed) 0 · lineHeightUnit: INTRINSIC_% 781 |
+
+### 8.2 API'den Gelmeyen Alanlar (Zero-Hallucination kaydı)
+
+| Alan | Ham veri sayımı | Etki |
+|---|---|---|
+| `letterSpacingUnit` | TEXT alanlarında 0/781 (mevcut `ls` değeri: 781) | letter-spacing **birimi belirsiz** → CSS `em/px` kararı mockup ölçümüyle |
+| `layoutGrids` | 0/3452 | grid tanımları API'den gelmedi → [[grid-rules]] + mockup |
+| efekt `spread` | efekt anahtarlarında yok (1317 efekt) | box-shadow `spread` mockup ölçümünden |
+| `textCase` / `textDecoration` / `paragraphSpacing` | `style` anahtar birleşiminde: fontFamily, fontPostScriptName, fontSize, fontStyle, fontWeight, letterSpacing, lineHeightPercent, lineHeightPx, lineHeightUnit, textAlignHorizontal, textAlignVertical, textAutoResize | büyük harf/kalın-metin kararı API alanıyla değil metin içeriğiyle |
+| padding alan eksikliği | auto-layout 98 node'nin 55'inde paddingTop/Right/Bottom/Left **hiçbiri yok** | 0 mı belirsiz → o node'larda `padding: API'den gelmedi` basıldı |
+| `primaryAxisAlignItems` vb. layout anahtarları | layout anahtar birleşimi: absoluteBoundingBox, absoluteRenderBounds, background, backgroundColor, blendMode, children, clipsContent, complexStrokeProperties, constraints, counterAxisAlignItems, counterAxisSizingMode, effects, fills, id, interactions, itemSpacing, layoutAlign, layoutGrow, layoutMode, layoutSizingHorizontal, layoutSizingVertical, layoutWrap, name, paddingBottom, paddingLeft, paddingRight, paddingTop, preserveRatio, primaryAxisAlignItems, primaryAxisSizingMode, scrollBehavior, strokeAlign, strokeWeight, strokes, targetAspectRatio, type | yalnız listede olanlar ağaçta basıldı |
+| `opacity` | 160/3452 node'da alan var | diğerlerinde alan yok → çıktıda basılmadı (varsayılan 1) |
+
+### 8.3 Hygiene Notları (tasarım temizliği — "düzeltme YASAK", kayıt)
+
+- **TEXT isim ≠ metin uyuşmazlığı:** 461 kayıt; ilk 25 aşağıda (node adı eski/kalıntı olabilir, **karakterler görsel gerçektir**).
+
+| Node | name | characters |
+|---|---|---|
+| `I2831:13859;1330:24165` | Şarkı Adı : Çok Sevmek Yasaklanmalı | Şarkı Adı : Göksel - Sevil Neşelen |
+| `I2831:13859;1330:24166` | Albüm : Prenses Ela Aşk | Albüm : Hayat Rüya Gibi |
+| `I2831:13859;1330:24167` | Sanatcı : Prenses Ela | Sanatcı : Göksel |
+| `I2831:13859;1330:24193` | Volume % size | % 100 |
+| `I2831:13748;1314:20429` | Göz At | Sanatcılar |
+| `I2831:13748;2056:16119;897:15863` | Batterylevel | 100% |
+| `2849:21479` | Bit rate : 350 kpps | Bit rate : 350 kbps |
+| `2850:21544` | Dosya Yöneticisi | Kütüphanelerim |
+| `2850:21564` | System Disk | Depolama |
+| `2850:21565` | System Disk | 32GB / 128GB |
+| `2856:22300` | Name | Şarkı Adı |
+| `2856:22302` | Sanatci | Sanatcı |
+| `2856:22303` | Sure | 00:03:05 |
+| `3155:14617` | En Son Dinlenen Şarkılar | Önerilen Albumler |
+| `I3155:14618;292:3156` | Name | Bergen - Tüm Şarkılar |
+| `I3155:14618;292:3157` | Sanatcı | Bergen |
+| `I3155:14618;292:3158` | Tür | Tür : Arabesk |
+| `I3155:14618;292:3159` | Yıl | Yıl : Bilinmeyen Yıl |
+| `I3155:14618;292:3160` | Sure | 00:10:05 |
+| `I3155:14619;910:10411` | Sure | 00:10:05 |
+| `I3155:14619;2056:16095` | Name | Bergen - Tüm Şarkılar |
+| `I3155:14619;2056:16096` | Sanatcı | Bergen |
+| `I3155:14619;2056:16097` | Tür | Tür : Arabesk |
+| `I3155:14619;2056:16098` | Yıl | Yıl : Bilinmeyen Yıl |
+| `I3155:14620;910:10411` | Sure | 00:10:05 |
+
+- **1. seviye tekrar eden adlar:** Linux 1920 -  Göz At Page: "Navbar" ×2 · Linux 1920 -  Playlist  Page: "Navbar" ×2 · Linux 1920 -  Geçmiş Page: "Navbar" ×2
+
+- **Home grup adları yer değiştirmiş (kod için `metin:` + PNG esastır):** `3155:14616` "Önerilen Sanacılar" grubunun başlık metni (`3155:14617`) = **"Önerilen Albumler"** ve içerik "Albumler btn" kartlarıdır; `3155:14718` "Önerilen Albumler" grubu ise "Sanatcılar Btn" avatarlarını taşır. PNG ile doğrulandı: 4. satır "Önerilen Albümler" (kart), 5. satır "Önerilen Sanatçılar" (avatar).
+- **Navbar tekrarı (Göz At · Playlist · Geçmiş):** iki Navbar örneği üst üste — biri `[GIZLI]` (miras, y=17), aktif olan y=20'deki (`3155:18257` vb.). Düzeltme YASAK, tasarım kararı olarak kayıtlıdır.
+- **"Fiel Manager" yazım hatası:** Göz At içerik grubu `3155:18261` "Fiel Manager" (File Manager) — düzeltilmez, kayıt.
+- **Stale node adları — `characters` görsel gerçektir:** 461 TEXT'te ad≠metin (ör. navbar `Göz At`→metin "Sanatcılar" · `Dosya Yöneticisi`→"Kütüphanelerim" · `Bit rate : 350 kpps`→"350 kbps"). Home PNG spot-check: "Sanatcılar", "Kütüphanelerim", "350 kbps" karakterlerle birebir → CSS/metin üretiminde `characters` alınır, node adı değil.
+
+## 9. Quality Report
+
+| # | Kontrol | Sonuç |
+|---|---|---|
+| 1 | Wiki-Links | 16 aktif wiki-link · 0 sahte/ölü (`wiki-link-check.ps1` repo kökünden çalıştırıldı) |
+| 2 | Media | 4 PNG referansı (`.ai/.png/home-1920/` — existsSync: 4/4 ✅) · media-tag 0 |
+| 3 | Cross References | §1–§8 arası iç atıf: [[grid-rules]] · [[token-conflicts]] · [[_extraction-notes]] · [[extracted-1920]] |
+| 4 | Placeholder | 0 kalan placeholder — XREF sayacı dolduruldu |
+| 5 | Template Compliance | 12 alanlı frontmatter ✓ · §1 Amaç ✓ · §9 Quality Report (son H2) ✓ · Authority footer ✓ |
+| 6 | Sayımlar (disk) | 4 frame · 3452 node · 3448 ağaç satırı · 4 ASCII harita · 4 PNG · ham 3212649 bayt |
+| 7 | Zero-Hallucination | yalnız ham verideki alanlar basıldı; eksikler §8.2'de sayımla · dosya adı/id/hash uydurulmadı |
+| 8 | Gizlilik | token/file-key bu dosyaya yazılmadı (`.ai/.env.figma`, git-ignore) |
+
+**Compliance Block**
+
+| Approval Gate | Status |
+|---|---|
+| **Owner** | Master Session — UI Design (Figma extract) |
+| **Approval** | ⏳ PENDING — Human Mode · Red Team · 3 Persona Onayı |
+| **Quality Gate** | 0 placeholder · 0 wiki-link kırığı · tüm sayım diskten |
+| **Self-Verification** | `vault-utf8-writer.mjs verify` + `wiki-link-check.ps1` (repo kökünden) + figma-tokens.ps1 Faz 9 gate |
+| **Dependencies** | [[grid-rules]] · [[token-conflicts]] · [[_extraction-notes]] · raw/page-462-5874.json · .ai/.png/home-1920 (4) · tokens/tokens-1920.json |
+| **Change Authority** | Yalnız Master Session + insan onayı |
+| **Conflict Resolution** | Çelişkide `.ai/CLAUDE.md` §2 — çelişen içerik doğrulanana dek `UNKNOWN` |
+| **Status** | active |
+
+> **Authority:** SSOT · CoreMusic Vault · _Owner: Master Session_ · _Last Updated: 2026-10-16_

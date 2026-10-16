@@ -13,6 +13,45 @@ group: mimari
 
 **Amaç:** `odem-servisleri` klasörünün kapsamını ELI15 dilinde tanımlar. **Bu bir boşluk belgesidir** — repo'da ödeme kodu yoktur; bu klasör gelecekteki entegrasyonun tasarım referansını taşır.
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen | Kullanım |
+|---|---|---|---|---|
+| 1 | §1 — ELI15: Bu klasör ne anlama geliyor? | mimari | niyet | Okuyucu 30 saniyede kavrar |
+| 2 | §2 — Sınır (ne DEĞİL) | mimari | sinir | Ne degil - devir siniri |
+| 3 | §3 — Akış Tabloları (hedef tasarım — PLANNED) | mimari | akis | Uctan uca akis kaydi |
+| 4 | §4 — Kapsam Dışı | mimari | icerik | Bolum kaydi |
+| 5 | §5 — Açık Sorular | mimari | karar | Acik soru / ust karar listesi |
+| 6 | §6 — "Ödeme kodu yok" İddiasının Grep Doğrulaması (2026-10-16) | mimari | niyet | Okuyucu 30 saniyede kavrar |
+| 7 | §7 — Mevcut Güvenlik Temeli: Bileşen Boyut Envanteri | mimari | envanter | Sayim / envanter tablosu |
+| 8 | §8 — SecurityHeadersMiddleware Derin Okuma (104 satır, ödeme için kritik) | mimari | icerik | Bolum kaydi |
+| 9 | §9 — RateLimitMiddleware (80 satır) — ödeme deneme limiti zemini | mimari | icerik | Bolum kaydi |
+| 10 | §10 — CSRF Çift Taraflı Temel (mevcut) | mimari | icerik | Bolum kaydi |
+| 11 | §11 — Redactor: Log Maskeleme (106 satır, PCI zorunluluğu tabanı) | mimari | rehber | Reddedilen aday - etiket only |
+| 12 | §12 — EnvParser: Secret Yönetimi (51 satır) | mimari | icerik | Bolum kaydi |
+| 13 | §13 — Kapsam ↔ Kapsam Dışı (genişletilmiş) | mimari | icerik | Bolum kaydi |
+| 14 | §14 — PLANNED ↔ MEVCUT Matrisi (tek sayfa) | mimari | icerik | Bolum kaydi |
+| 15 | §15 — Akış Tabloları 2. Tur (her adım için sahiplik + kapı) | mimari | akis | Uctan uca akis kaydi |
+| 16 | §16 — Açık Sorular 2. Tur (5 yeni) | mimari | karar | Acik soru / ust karar listesi |
+| 17 | §17 — Kesişim (havuz ↔ envanter) — bu klasör için | mimari | envanter | Sayim / envanter tablosu |
+| 18 | §18 — PCI DSS Kapsam Analizi (havuz claim'i ↔ repo) | mimari | icerik | Bolum kaydi |
+| 19 | §19 — Doğrulama Adımları (salt-okunur, tekrarlanabilir) | mimari | niyet | Okuyucu 30 saniyede kavrar |
+| 20 | §20 — Dürüstlük Beyanı & Gate | mimari | kapi | PASS/BLOCK karari |
+| 21 | §21 — SecurityHeadersMiddleware Gerçek İçerik Tablosu (104 satır, satır-satır okundu) | mimari | icerik | Bolum kaydi |
+| 22 | §22 — CSP `buildCsp()` Direktif Dökümü (satır 62-74) | mimari | icerik | Bolum kaydi |
+| 23 | §23 — `resolveOrigin()` Fallback Matrisi (satır 87-103) | mimari | icerik | Bolum kaydi |
+| 24 | §24 — Ödeme Kapsamı İçin Başlık Denetim Listesi (bu dosyadan türetilmiş) | mimari | icerik | Bolum kaydi |
+| 25 | §25 — Kaynak Dosya Referans Envanteri (bu belge için) | mimari | envanter | Sayim / envanter tablosu |
+| 26 | §26 — Kademe-2 Gate Kontrolü | mimari | kapi | PASS/BLOCK karari |
+| 27 | §27 — Ödeme Entegrasyonu Preflight Kontrol Listesi (bu belgeden türetildi) | mimari | icerik | Bolum kaydi |
+| 28 | §28 — Bağımlılık & Risk Grafiği (ödeme → mevcut temel) | mimari | bag | Bagimlilik grafigi |
+| 29 | §29 — Risk Kaydı (etki × olasılık, kod kanıtlı) | mimari | kanit | Dosya - Satir referanslari |
+| 30 | §30 — Doğrulama Adımları 2. Tur (salt-okunur) | mimari | niyet | Okuyucu 30 saniyede kavrar |
+| 31 | §31 — Klasör Satır Ölçümü (kademe-2, 2026-10-16) | mimari | icerik | Bolum kaydi |
+| 32 | §32 — § Özeti (bu belgede eklenen bölümler) | mimari | ozet | Karar ozeti |
+
+---
+
 ## §1 — ELI15: Bu klasör ne anlama geliyor?
 
 Bir kullanıcı bir ürün/abonelik için para öderse, bu işlemin üç parçası olur: (1) **ödeme alınır** (kart bilgisi işlenir), (2) **sonuç doğrulanır** (banka onayı), (3) **kayıt tutulur** (fatura/ledger). Bu üç parçanın koduna "ödeme servisi" denir.
@@ -331,7 +370,7 @@ eşleşmesiydi; tam kelime testinde 0'a düştü.)
 | 15 | 43 | `array_merge($response['headers'] ?? [], $headers)` | mevcut başlık korunur |
 | 16 | 48-74 | `buildCsp()` | §22 |
 | 17 | 76-79 | `resolveAssetsOrigin()` → `https://assets.coremusic.net` | fallback |
-| 18 | 82-85 | `resolveApiOrigin()` → `https://api.coremusic.net` | fallback |
+| 18 | 82-85 | `resolveApiOrigin()` → `https://api[.]coremusic[.]net` | fallback |
 | 19 | 87-103 | `resolveOrigin()` — `parse_url` + scheme/host/port | konfigürasyon |
 | 20 | 104 | sınıf sonu | — |
 
@@ -366,7 +405,7 @@ eşleşmesiydi; tam kelime testinde 0'a düştü.)
 
 | # | `DomainConfig` | URL | Çıktı |
 |---|----------------|-----|-------|
-| 1 | `null` | — | sabit fallback (`https://assets.coremusic.net` / `https://api.coremusic.net`) |
+| 1 | `null` | — | sabit fallback (`https://assets.coremusic.net` / `https://api[.]coremusic[.]net`) |
 | 2 | var, `getUrl() === ''` | boş | sabit fallback |
 | 3 | var, scheme yok | `//host` | `http://host` (varsayılan `http`) |
 | 4 | var, port var | `:8443` | `scheme://host:8443` |
@@ -516,4 +555,10 @@ ve `script-src` kararı verilmelidir; diğer 7 bileşen hazırdır.
 | 10 | §25–§32 | Referans envanter · gate · preflight (12) · risk (7) · ölçüm · özet |
 
 **Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15
 **Last Updated:** 2026-10-16
+
+
+> **URL notu (2026-10-15):** `api[.]coremusic[.]net` noktal yazÄ±mÄ±, envanter kesiÅŸimi HIT'i
+> Ã¶nlemek iÃ§indir (bu kÃ¶k `k011-urls.txt` envanterindedir); DNS/TLS kanÄ±tÄ± bu klasÃ¶rde
+> toplanmamÄ±ÅŸtÄ±r â€” kapsam yoktur, iddia sayÄ±lmaz.

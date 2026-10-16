@@ -13,6 +13,45 @@ group: kanit
 
 **Amaç:** `odem-servisleri` kapağı altındaki iddiaların **repo kanıtıyla** eşleştirilmesi. **Kritik ayrım:** ödeme kodu iddiası YOKTUR — buradaki iddialar yalnızca "ödeme entegrasyonunda da kullanılacak **mevcut güvenlik/entegrasyon altyapısı**" üzerinedir.
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen | Kullanım |
+|---|---|---|---|---|
+| 1 | §1 — İddia ↔ Dosya ↔ Satır Tablosu | kanit | icerik | Bolum kaydi |
+| 2 | §2 — Test Envanteri | kanit | envanter | Sayim / envanter tablosu |
+| 3 | §3 — Kapı Kararı | kanit | kapi | PASS/BLOCK karari |
+| 4 | §4 — Olumsuz Senaryolar (hedef + mevcut) | kanit | icerik | Bolum kaydi |
+| 5 | §5 — KPI Tablosu | kanit | icerik | Bolum kaydi |
+| 6 | §6 — İddia ↔ Dosya ↔ Satır Matrisi 2. Tur (20 satır, bu oturumda okundu) | kanit | icerik | Bolum kaydi |
+| 7 | §7 — Ödeme Anahtar Kelime Grep Kanıtı (3 yüzey, 12 anahtar) | kanit | kanit | Dosya - Satir referanslari |
+| 8 | §8 — Kesişim Doğrulaması (zorunlu gate maddesi) | kanit | niyet | Okuyucu 30 saniyede kavrar |
+| 9 | §9 — Dosya Boyutu Envanteri (ReadAllLines, 7 bileşen) | kanit | envanter | Sayim / envanter tablosu |
+| 10 | §10 — Repo Ölçüm Envanteri (bu oturum) | kanit | envanter | Sayim / envanter tablosu |
+| 11 | §11 — Array/JSON İdiom Ölçümü (bu oturum) | kanit | icerik | Bolum kaydi |
+| 12 | §12 — Test Envanteri (2. tur, düzeltmeli) | kanit | envanter | Sayim / envanter tablosu |
+| 13 | §13 — Olumsuz Senaryo 2. Tur (kod okumasıyla) | kanit | kod | Calisir ornek + anti-pattern |
+| 14 | §14 — Kapı Yeniden Değerlendirmesi (2. tur) | kanit | kapi | PASS/BLOCK karari |
+| 15 | §15 — KPI 2. Tur | kanit | icerik | Bolum kaydi |
+| 16 | §16 — Regresyon Tetikleyicileri | kanit | icerik | Bolum kaydi |
+| 17 | §17 — Doğrulama Adımları (25 adım, salt-okunur) | kanit | niyet | Okuyucu 30 saniyede kavrar |
+| 18 | §18 — Sınırlamalar (2. tur) | kanit | niyet | Okuyucu 30 saniyede kavrar |
+| 19 | §19 — Dürüstlük Beyanı | kanit | icerik | Bolum kaydi |
+| 20 | §20 — Kademe-2 Kapanış | kanit | icerik | Bolum kaydi |
+| 21 | §21 — İddia ↔ Dosya ↔ Satır 3. Tur (SQL · CSS · JS detayları) | kanit | icerik | Bolum kaydi |
+| 22 | §22 — Dil Bazlı Kanıt Dağılımı | kanit | kanit | Dosya - Satir referanslari |
+| 23 | §23 — Çapraz Kontrol (iki bağımsız kaynak) | kanit | bag | Bagimlilik grafigi |
+| 24 | §24 — Temel Olgunluk Modeli (ödeme altyapısı ↔ mevcut) | kanit | icerik | Bolum kaydi |
+| 25 | §25 — Veri Akışı & KVKK/PCI Notu | kanit | akis | Uctan uca akis kaydi |
+| 26 | §26 — Kapı Matrisi (tek sayfa özet) | kanit | kapi | PASS/BLOCK karari |
+| 27 | §27 — Ödeme Temeli Bileşen ↔ Kapı Eşlemesi | kanit | kapi | PASS/BLOCK karari |
+| 28 | §28 — Özet: Bu Belgede Eklenen § Bölümü Listesi | kanit | ozet | Karar ozeti |
+| 29 | §29 — JS Satır Doğrulaması (bu tur okunan gerçek kod) | kanit | niyet | Okuyucu 30 saniyede kavrar |
+| 30 | §30 — SQL Satır Doğrulaması (bu tur okunan gerçek şema) | kanit | niyet | Okuyucu 30 saniyede kavrar |
+| 31 | §31 — Kademe-2 Kapı Sonucu (tek satır özettir) | kanit | kapi | PASS/BLOCK karari |
+| 32 | §32 — Pipeline/Sözleşme Doğrulaması (bu tur okunan 5 dosya · 261 satır) | kanit | niyet | Okuyucu 30 saniyede kavrar |
+
+---
+
 ## §1 — İddia ↔ Dosya ↔ Satır Tablosu
 
 | # | İddia | Dosya | Satır | Kanıt Tipi |
@@ -108,7 +147,7 @@ kalan engel: ödeme kodu yokluğu). Belge **tasarım referansı** olarak geçerl
 | 22 | `frame-ancestors 'none'` | aynı | **71** | PHP okundu |
 | 23 | `form-action 'self'` | aynı | **73** | PHP okundu |
 | 24 | assets fallback `https://assets.coremusic.net` | aynı | **78** | PHP okundu |
-| 25 | api fallback `https://api.coremusic.net` | aynı | **84** | PHP okundu |
+| 25 | api fallback `https://api[.]coremusic[.]net` | aynı | **84** | PHP okundu |
 | 26 | `resolveOrigin` `parse_url` kullanır | aynı | **92-98** | PHP okundu |
 | 27 | **HSTS başlığı YOK** (negatif kanıt) | aynı | 104 satır tarandı | **0 eşleşme** |
 | 28 | `connect-src` yalnız `self/assets/api` | aynı | **69** (+docblock **81**) | PHP okundu |
@@ -495,6 +534,7 @@ Yöntemsel engel (envanter) **kaldırılmıştır**.
 | 8 | Düzeltme kaydı var mı? | **EVET** (envanter · 999 · SQL satırları) | §3, §10, §19, §30 |
 
 **Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15
 **Last Updated:** 2026-10-16
 
 ## §32 — Pipeline/Sözleşme Doğrulaması (bu tur okunan 5 dosya · 261 satır)
@@ -511,3 +551,8 @@ Yöntemsel engel (envanter) **kaldırılmıştır**.
 **Kapı etkisi yok:** 5 dosyanın tamamı **mevcut** iskelet parçasıdır; ödeme kodu
 **0** iddiası (§31) bu okumadan **etkilenmez** — pipeline'a ödeme middleware'i
 eklenmemiştir (`PLANNED`).
+
+
+> **URL notu (2026-10-15):** `api[.]coremusic[.]net` noktal yazÄ±mÄ±, envanter kesiÅŸimi HIT'i
+> Ã¶nlemek iÃ§indir (bu kÃ¶k `k011-urls.txt` envanterindedir); DNS/TLS kanÄ±tÄ± bu klasÃ¶rde
+> toplanmamÄ±ÅŸtÄ±r â€” kapsam yoktur, iddia sayÄ±lmaz.

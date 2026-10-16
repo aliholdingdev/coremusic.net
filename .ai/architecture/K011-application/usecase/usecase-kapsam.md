@@ -260,3 +260,256 @@ okunmadÄ±, yalnÄ±z `DI\ContainerBuilder` varlÄ±ÄŸÄ± grep ile doÄŸrulandÄ±.
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-10-15
+
+---
+
+## §L — BÝLEÞEN AÝLESÝ ÖZETÝ (Kapsam Ýçi)
+
+UseCase katmanýnýn de-fakto bileþenleri bu repo'da üç aileye ayrýlýr:
+
+### L.1 — Handler ailesi (senaryo yürütücüler)
+
+| Bileþen | Dosya | Satýr | Rol |
+|---|---|---|---|
+| AuthPostHandler | auth.coremusic.net/include/Handler/AuthPostHandler.php | ~57+ | Login senaryosu |
+
+- Dispatch deseni: `match($action)` (Satýr: 38-57)
+- Girdi: `ServerRequestInterface` (PSR-7 tipi)
+- Çýktý: `ResponseInterface` (PSR-7 tipi)
+
+?? VERIFICATION REQUIRED: Handler dizininde baþka handler dosyalarý var mý —
+bu görev kapsamýnda `auth.coremusic.net/include/Handler/` listesi okunmadý.
+
+### L.2 — Controller ailesi (HTTP orkestratörler)
+
+| Bileþen | Dosya | Satýr | Rol |
+|---|---|---|---|
+| AuthController | api.coremusic.net/include/Controller/AuthController.php | 355 | Auth HTTP dispatch |
+
+- Dispatch deseni: `match($action)` (Satýr: 52-61)
+- Error mapping: status kodu seçimi (Satýr: 62-78)
+
+### L.3 — Transaction ailesi (bütünlük saðlayýcýlar)
+
+| Bileþen | Dosya | Transaction satýrlarý | Adet |
+|---|---|---|---|
+| UserRepository | api.coremusic.net/include/Repository/UserRepository.php | 147, 184, 192 | 3 |
+| CatalogWriter | api.coremusic.net/include/Repository/CatalogWriter.php | 183, 217, 220 | 3 |
+| api-key-create (CLI) | shared/bin/api-key-create.php | 135-147 | 1 |
+
+**Toplam:** 7 transaction noktasý (grep doðrulamasý).
+
+### L.4 — Event ailesi (PSR-14)
+
+| Bileþen | Dosya | Arayüz |
+|---|---|---|
+| EventDispatcher | shared/src/Events/EventDispatcher.php | `EventDispatcherInterface` (PSR-14) |
+
+?? VERIFICATION REQUIRED: EventDispatcher'ýn use-case akýþýnda çaðrýlýp
+çaðrýldýðý (login sonrasý event yayýnlanýyor mu) bu görev kapsamýnda grep edilmedi.
+
+### L.5 — Container ailesi (PSR-11 / php-di)
+
+| Bileþen | Dosya | Kütüphane |
+|---|---|---|
+| AuthContainer | auth.coremusic.net/include/Container/AuthContainer.php | php-di (`DI\ContainerBuilder`) |
+
+---
+
+## §M — SENARYO HARÝTASI (Bilinen Akýþlar)
+
+### M.1 — Login senaryosu (doðrulanmýþ zincir)
+
+```
+HTTP POST /auth/login
+    › AuthController::dispatch (Satýr: 52-61, match($action))
+        › AuthPostHandler::handle (Satýr: 38-57, match)
+            › LoginRequest (Domain DTO — aktif üretim)
+            › (doðrulama + kimlik doðrulama)
+            › AuthResponse (Domain DTO — aktif üretim, JsonSerializable)
+        › error mapping (AuthController Satýr: 62-78)
+    › HTTP response (status kodu + JSON)
+```
+
+**Doðrulanan dosyalar:**
+- AuthController.php · Satýr: 52-61 (dispatch)
+- AuthController.php · Satýr: 62-78 (error mapping)
+- AuthPostHandler.php · Satýr: 38-57 (handle)
+- LoginRequest.php (DTO)
+- AuthResponse.php (DTO, jsonSerialize Satýr: 68-70)
+
+### M.2 — Katalog yazma senaryosu (kýsmi)
+
+```
+(write iþlemi)
+    › CatalogWriter (Repository)
+        › transaction (Satýr: 183, 217, 220)
+    › (event yayýnlanýr mý? ?? VERIFICATION REQUIRED)
+```
+
+### M.3 — API key oluþturma senaryosu (CLI)
+
+```
+php shared/bin/api-key-create.php
+    › transaction (Satýr: 135-147)
+    › (DB write + commit)
+```
+
+### M.4 — Doðrulama senaryosu (middleware)
+
+```
+HTTP request
+    › RequestValidationMiddleware (175 satýr)
+        › Validator (doðrulama kurallarý)
+        › baþarýsýzsa: 415/400/422 (dto-web-arastirma.md §K — status matrisi)
+    › baþarýlýysa: Controller'a devam
+```
+
+?? VERIFICATION REQUIRED: RequestValidationMiddleware'in 415/400/422 döndürdüðü
+bu görev kapsamýnda okunmadý; 175 satýr uzunluðu ve Validator baðýmlýlýðý doðrulandý.
+
+---
+
+## §N — DISPATCH DESENÝ ANALÝZÝ
+
+### N.1 — match() deseni (PHP 8.0+)
+
+| Kullaným | Dosya·Satýr | Desen |
+|---|---|---|
+| Controller | AuthController.php · Satýr: 52-61 | `match($action) { 'login' => ..., 'logout' => ... }` |
+| Handler | AuthPostHandler.php · Satýr: 38-57 | `match(...)` |
+
+**Avantaj:** Controller'da if/else yerine exhaustible match — yeni action
+eklendiðinde default kolu zorunlu (PHP match default'suz olabilir ama
+non-exhaustive'da UnhandledMatchError fýrlatýr).
+
+### N.2 — Error mapping deseni
+
+```
+Dosya: AuthController.php · Satýr: 62-78
+```
+
+Handler'dan dönen durum/kod › HTTP status kodu eþlemesi. Bu katman
+Application'ýn "son kilometre" sorumluluðudur (framework baðýmlýlýðý burada
+kabul edilir — Controller zaten Presentation katmanýndadýr).
+
+?? VERIFICATION REQUIRED: error mapping'in tam içerik yapýsý (hangi kod hangi
+status'a) bu görevde okunmadý; yalnýz konum (Satýr: 62-78) doðrulandý.
+
+---
+
+## §O — TRANSACTION ANALÝZÝ
+
+### O.1 — Transaction noktalarýnýn daðýlýmý
+
+| Dosya | Satýr | Ýþlem türü |
+|---|---|---|
+| UserRepository.php | 147 | DB write (user) |
+| UserRepository.php | 184 | DB write (user update vb.) |
+| UserRepository.php | 192 | DB write |
+| CatalogWriter.php | 183 | DB write (catalog) |
+| CatalogWriter.php | 217 | DB write |
+| CatalogWriter.php | 220 | DB write (commit/close) |
+| bin/api-key-create.php | 135-147 | CLI transaction bloðu |
+
+### O.2 — Transaction deseni (PLANNED kod yapýsý)
+
+```php
+// PLANNED — transaction kullaným deseninin öngörülen biçimi.
+// Doðrulama: Dosya·Satýr kanýtlarý yukarýda.
+
+$this->db->beginTransaction();
+try {
+    // ... DB write adýmlarý ...
+    $this->db->commit();
+} catch (\Throwable $e) {
+    $this->db->rollBack();
+    throw $e;
+}
+```
+
+?? VERIFICATION REQUIRED: gerçek transaction kodunun try/catch yapýsý ve
+exception tipi bu görev kapsamýnda okunmadý; transaction çaðrý varlýklarý
+doðrulandý.
+
+### O.3 — Transaction ve UseCase iliþkisi
+
+Klasik mimaride transaction UseCase katmanýnda baþlar (Unit of Work).
+Bu repoda transaction **Repository** katmanýnda (UserRepository,
+CatalogWriter) — yani:
+
+| Desen | Klasik | Bu repo |
+|---|---|---|
+| Transaction sahibi | UseCase / UnitOfWork | Repository |
+| UseCase rolü | transaction orkestrasyonu | (dosya yok — PLANNED) |
+
+?? MÝMARÝ BULGU: Transaction'ýn Repository'de olmasý, Repository'nin
+"veri eriþimi + bütünlük" sorumluluðunu birleþtirir. UseCase katmaný eklenirse
+transaction orkestrasyonu UseCase'e taþýnmalý mý — ADR kararý.
+
+---
+
+## §P — ÖNCEKÝ KARARLAR (Precedent)
+
+| Karar | Kaynak | Durum |
+|---|---|---|
+| Handler = senaryo yürütücüsü | AuthPostHandler (aktif üretim) | ADOPTED (de-fakto) |
+| match() dispatch | AuthController:52-61, AuthPostHandler:38-57 | ADOPTED |
+| Error mapping Controller'da | AuthController:62-78 | ADOPTED |
+| Transaction Repository'de | UserRepo/CatalogWriter | ADOPTED (dikkat: klasik deðil) |
+| PSR-14 EventDispatcher | shared/src/Events/EventDispatcher.php | ADOPTED |
+| php-di container | AuthContainer.php | ADOPTED |
+| PSR-11 arayüzü | psr/container ^2.0 (composer) | ?? VERIFICATION REQUIRED |
+| PSR-17 Factory | nyholm/psr7 ^1.8 (composer) | ? KOD KULLANIMI YOK |
+
+---
+
+## §Q — RÝSKLER VE BELÝRSÝZLÝKLER
+
+| # | Bulgu | Risk | Aksiyon |
+|---|---|---|---|
+| Q1 | Klasik UseCase sýnýfý = 0 | Katman eksik veya Handler ile temsil ediliyor | ADR: UseCase adlandýrma |
+| Q2 | Transaction Repository'de | Repository çift sorumluluk (SRP) | ADR: transaction sahibi |
+| Q3 | PSR-11 arayüz kullanýmý doðrulanmadý | Container soyutlama eksik olabilir | grep: `Psr\Container` |
+| Q4 | PSR-17 kod kullanýmý = 0 | Paket atýk olabilir | Karar: sakla/kaldýr |
+| Q5 | Event akýþý doðrulanmadý | Login sonrasý event yayýnlanmýyor olabilir | grep: `dispatch(` |
+
+---
+
+## §R — KAPSAM KABUL KONTROL LÝSTESÝ
+
+| Kontrol | Beklenen | Gerçek | Durum |
+|---|---|---|---|
+| Frontmatter 7 alan, group: son | ? | ? | PASS |
+| §GRUPLAR tablosu | ? | ? | PASS |
+| Footer Authority + Last Updated | ? | ? | PASS |
+| URL havuzu ?2 | ? | 2 | PASS |
+| Korunan scope slotu | usecase-usecase-katmani.md (527 L) | ? | PASS |
+| Ölçüm kanýtlarý Dosya·Satýr | ? | §E | PASS |
+| PLANNED/VERIFICATION iþaretlemesi | ? | §H, §M, §O, §Q | PASS |
+| Dosya sayýsý (yeni) | 6 | usecase-kapsam.md (1/6) | DEVAM |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15
+
+---
+
+## §S — DOSYA YAÞAM DÖNGÜSÜ
+
+```
+Oluþturma (bu görev)
+  › Kapsam tanýmý (usecase-kapsam.md)
+  › Doðrulama (usecase-dogrulama.md — G1 gate)
+  › Web kanýt (usecase-web-arastirma.md — PSR-17 + PSR-11)
+  › Kod örnek (usecase-ornekler.md — Dosya·Satýr)
+  › Bileþen envanter (usecase-bilesenler.md)
+  › Katalog (index.md)
+  › Orkestratör commit (subagent commit ATMADI)
+```
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15

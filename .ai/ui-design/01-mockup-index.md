@@ -1,20 +1,20 @@
 ---
 reference_doc: CoreMusic UI Design System
-title: "CoreMusic — Mockup Index (19 PNG)"
+title: "CoreMusic — Mockup Index (25 PNG)"
 type: index
 category: ui-design
 date: 2026-09-20
-updated: 2026-09-29
+updated: 2026-10-16
 status: active
-version: 6.2.0
+version: 6.3.0
 authority: Single Source of Truth (SSOT)
 governance: Red Team · Human Mode · Truth Mode
 reference:
   authority: ".ai/ui-design/01-mockup-index.md"
-  source_of_truth: ".ai/.png/home-1024/ · .ai/.png/home-1920/ · .ai/.png/shared-1024/"
+  source_of_truth: ".ai/.png/home-1024/ · .ai/.png/home-1920/ · .ai/.png/shared-1024/ · .ai/.png/admin-1920/"
 ---
 
-# CoreMusic — Mockup Index (19 PNG)
+# CoreMusic — Mockup Index (25 PNG)
 
 **Zorunlu Bağlantılar:** [[00-device-matrix]] · [[02-component-inventory]] · [[05-responsive-architecture]]
 
@@ -22,7 +22,7 @@ reference:
 
 ## 1. Amaç
 
-CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 19 PNG mockup dosyası, tüm frontend geliştirme görevlerinde tartışmasız başlangıç noktasıdır.
+CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 25 PNG mockup dosyası, tüm frontend geliştirme görevlerinde tartışmasız başlangıç noktasıdır.
 
 > **⚠️ Mockup Before Frontend:** CSS/HTML/JS/layout/bileşen görevlerinde ilgili görsel okunmadan kod yazılamaz. Görsel okunamıyorsa DUR ve bildir.
 
@@ -45,8 +45,15 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 19 PNG
 │   ├── Linux  1024 - Wifi Quick Page Base.png
 │   ├── Linux  1024 - Wifi Connect Light.png
 │   └── Linux  1024 - Bluetooth Quick Page Base.png
-├── home-1920/          ← 1 PNG (Desktop 1920×1080)
-│   └── Linux - 1920 - Home.png
+├── home-1920/          ← 4 PNG (Desktop 1920×1080)
+│   ├── Linux - 1920 - Home.png
+│   ├── Linux 1920 -  Geçmiş Page.png
+│   ├── Linux 1920 -  Göz At Page.png
+│   └── Linux 1920 -  Playlist  Page.png
+├── admin-1920/         ← 3 PNG (Admin Panel 1920×1080)
+│   ├── Admin - layout.png
+│   ├── Admin - Login.png
+│   └── Admin - Register.png
 └── shared-1024/        ← 6 PNG (Auth ekranları 1024×600)
     ├── Linux  1024 - Select Gender.png
     ├── Linux  1024 - Select Gender - selected.png
@@ -56,9 +63,11 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 19 PNG
     └── Linux  1024 - Register Girl step 3.png
 ```
 
-> **İki PNG kaynağı (disk kanıtı, 2026-09-29):**
-> - **Vault mockup'ı (SSOT):** `.ai/.png/` → **19 PNG** (12 `home-1024` + 1 `home-1920` + 6 `shared-1024`; klasörlerde ayrıca 4 `CLAUDE.md` vardır, PNG sayılmaz).
+> **İki PNG kaynağı (disk kanıtı, 2026-10-16):**
+> - **Vault mockup'ı (SSOT):** `.ai/.png/` → **25 PNG** (12 `home-1024` + 4 `home-1920` + 6 `shared-1024` + 3 `admin-1920`; klasörlerde ayrıca `CLAUDE.md` vardır, PNG sayılmaz).
 > - **Figma çekim arşivi:** `.ai/ui-design/reference/figma/png/` → **149 PNG** (2026-09-29 tam çekim; `_extraction-notes.md` çekim kaydı 129 → 149 olarak iki adımda güncellenmiştir). Bu arşiv ham referanstır; Mockup Before Frontend gate'i **önce `.ai/.png/`** için geçerlidir.
+>
+> **Not (açık madde):** `home-1920/` içindeki `Geçmiş` / `Göz At` / `Playlist` 3 PNG'nin ekran spec'i **yok** (`screens/00-ascii-art-index.md` §7 madde 6).
 
 ---
 
@@ -81,28 +90,39 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 19 PNG
 | 11 | `Linux  1024 - Wifi Connect Light.png` | 1024×600 | RPi5 7" Touch | WiFi bağlama: Şifre formu modal |
 | 12 | `Linux  1024 - Bluetooth Quick Page Base.png` | 1024×600 | RPi5 7" Touch | Bluetooth modal: Cihaz listesi, eşleşme |
 
-### 3.2 Home Dashboard — Desktop (1 PNG)
+### 3.2 Home Dashboard — Desktop (4 PNG)
 
 | # | Dosya Adı | Viewport | Cihaz | İçerik |
 |---|-----------|----------|-------|--------|
 | 13 | `Linux - 1920 - Home.png` | 1920×1080 | Desktop FHD | Ana sayfa: 3 sütun (Now Playing 33%, Welcome 34%, Widgets 33%), alt satır 2 sütun (7+6 kart), footer player |
+| 14 | `Linux 1920 -  Geçmiş Page.png` | 1920×1080 | Desktop FHD | Geçmiş sayfası — ⚠️ ekran spec'i yok (00-ascii-art-index §7 madde 6) |
+| 15 | `Linux 1920 -  Göz At Page.png` | 1920×1080 | Desktop FHD | Dosya yöneticisi (1920) — ⚠️ ekran spec'i yok |
+| 16 | `Linux 1920 -  Playlist  Page.png` | 1920×1080 | Desktop FHD | Çalma listesi (1920) — ⚠️ ekran spec'i yok |
 
 ### 3.3 Auth Ekranları — Shared (6 PNG)
 
 | # | Dosya Adı | Viewport | Cihaz | İçerik |
 |---|-----------|----------|-------|--------|
-| 14 | `Linux  1024 - Select Gender.png` | 1024×600 | RPi5 7" Touch | Cinsiyet seçimi: 3 buton (Kız/Erkek/Diğer), sol%72 manzara, sağ%28 form |
-| 15 | `Linux  1024 - Select Gender - selected.png` | 1024×600 | RPi5 7" Touch | Cinsiyet seçimi (seçili): Pembe vurgu, border change |
-| 16 | `Linux  1024 - Login Girl.png` | 1024×600 | RPi5 7" Touch | Giriş: E-posta/şifre formu, sosyal giriş (7 buton), sol%72 manzara |
-| 17 | `Linux  1024 - Register Girl.png` | 1024×600 | RPi5 7" Touch | Kayıt adım 1: Kullanıcı adı, e-posta |
-| 18 | `Linux  1024 - Register Girl step 2.png` | 1024×600 | RPi5 7" Touch | Kayıt adım 2: Şifre, şifre tekrar |
-| 19 | `Linux  1024 - Register Girl step 3.png` | 1024×600 | RPi5 7" Touch | Kayıt adım 3: KVKK onay, kayıt tamamla |
+| 17 | `Linux  1024 - Select Gender.png` | 1024×600 | RPi5 7" Touch | Cinsiyet seçimi: 3 buton (Kız/Erkek/Diğer), sol%72 manzara, sağ%28 form |
+| 18 | `Linux  1024 - Select Gender - selected.png` | 1024×600 | RPi5 7" Touch | Cinsiyet seçimi (seçili): Pembe vurgu, border change |
+| 19 | `Linux  1024 - Login Girl.png` | 1024×600 | RPi5 7" Touch | Giriş: E-posta/şifre formu, sosyal giriş (7 buton), sol%72 manzara |
+| 20 | `Linux  1024 - Register Girl.png` | 1024×600 | RPi5 7" Touch | Kayıt adım 1: Kullanıcı adı, e-posta |
+| 21 | `Linux  1024 - Register Girl step 2.png` | 1024×600 | RPi5 7" Touch | Kayıt adım 2: Şifre, şifre tekrar |
+| 22 | `Linux  1024 - Register Girl step 3.png` | 1024×600 | RPi5 7" Touch | Kayıt adım 3: KVKK onay, kayıt tamamla |
+
+### 3.4 Admin Panel — Desktop (3 PNG)
+
+| # | Dosya Adı | Viewport | Cihaz | İçerik |
+|---|-----------|----------|-------|--------|
+| 23 | `Admin - layout.png` | 1920×1080 | 22" FHD Monitor (T17) | Admin ana layout: sol sidebar 250px (menü), navbar, içerik paneli, footer (username/IP/usertype) |
+| 24 | `Admin - Login.png` | 1920×1080 | 22" FHD Monitor (T17) | Yönetici girişi: sol fotoğraf %74, sağ 500px panel (başlık, bilgi notu, kullanıcı/parola formu, QR bloğu) |
+| 25 | `Admin - Register.png` | 1920×1080 | 22" FHD Monitor (T17) | Yönetici kaydı: sağ 500px panel (5 alan + onay kutusu, buton, QR bloğu) |
 
 ---
 
-## 4. Screen Spec Eşleştirmesi (20 spec — 4b9ef53 senkronu)
+## 4. Screen Spec Eşleştirmesi (23 spec — 4b9ef53 tabanı + 2026-10-16 admin eklemesi)
 
-> **Kaynak (disk gerçeği):** `screens/00-ascii-art-index.md` §3-5 (2026-09-28). v5.0.0'daki `screens/T07-embedded/*` yolları tarihte hiç var olmadı → eski adların haritası §7'de.
+> **Kaynak (disk gerçeği):** `screens/00-ascii-art-index.md` §3-5 (2026-10-16). v5.0.0'daki `screens/T07-embedded/*` yolları tarihte hiç var olmadı → eski adların haritası §7'de.
 
 ### 4.1 T07 Embedded — `screens/T07-embedded/` (1024×600, 12 spec)
 
@@ -132,12 +152,15 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 19 PNG
 | 17 | `screens/shared/select-gender.md` | `2831:9748` | `.ai/.png/shared-1024/Linux  1024 - Select Gender.png` | active |
 | 18 | `screens/shared/select-gender-selected.md` | `2831:9787` | `.ai/.png/shared-1024/Linux  1024 - Select Gender - selected.png` | active |
 
-### 4.3 T17 Desktop Monitor — `screens/T17-monitor-22fhd/` (1920×1080, 2 spec)
+### 4.3 T17 Desktop Monitor — `screens/T17-monitor-22fhd/` (1920×1080, 5 spec)
 
 | # | Screen Spec Dosyası | Figma node (kök) | Kaynak PNG (`source_of_truth`) | Status |
 |---|---------------------|------------------|-------------------------------|:------:|
 | 19 | `screens/T17-monitor-22fhd/home-dashboard.md` | `2831:13747` | `.ai/.png/home-1920/Linux - 1920 - Home.png` | active |
 | 20 | `screens/T17-monitor-22fhd/welcome-popup.md` | `2876:6439` (modal 600×308) | `⚠️ VERIFICATION REQUIRED — 1920 popup PNG'si yok` | **draft** |
+| 21 | `screens/T17-monitor-22fhd/admin-layout.md` | `2161:12499` | `.ai/.png/admin-1920/Admin - layout.png` | active |
+| 22 | `screens/T17-monitor-22fhd/admin-login.md` | `2161:12506` | `.ai/.png/admin-1920/Admin - Login.png` | active |
+| 23 | `screens/T17-monitor-22fhd/admin-register.md` | `2161:12529` | `.ai/.png/admin-1920/Admin - Register.png` | active |
 
 > **Tier notu (çelişki — ✅ taşındı, 2026-09-29):** dizin `screens/T07-embedded/`'e taşındı + 12 spec `tier: T07` (owner onayı); viewport 1024×600 = `00-device-matrix` `EM-T07` (Embedded, RPi5 7"), 1280×800 = `EM-T08`. Kapanış: `screens/00-ascii-art-index.md` §7 madde 1. **CatID ile:** dizin kanonik karşılığı `EM-T07` (§4.4).
 
@@ -148,7 +171,7 @@ CoreMusic UI tasarımının **görsel referanslarının tek indeksidir**. 19 PNG
 | Dizin | CatID | Tier | Viewport | Ekran spec | Figma tasarım durumu |
 |-------|-------|------|----------|-----------|----------------------|
 | `screens/T07-embedded/` | `EM-T07` | T07 | 1024×600 | 12 md | ✅ `1047:15802` (Linux Pi sayfası) |
-| `screens/T17-monitor-22fhd/` | `DM-T17` | T17 | 1920×1080 | 2 md | ✅ `462:5874` (Linux 1920 sayfası) |
+| `screens/T17-monitor-22fhd/` | `DM-T17` | T17 | 1920×1080 | 5 md | ✅ `462:5874` (Linux 1920 sayfası) · `2161:12438` (Music Admin sayfası) |
 | `screens/shared/` | `EM-T07` (frontmatter `tier: T07`) | T07 | 1024×600 | 6 md | ✅ `2135:19832` (Linux Pi Son Kullanıcı) |
 
 **Çakışan tier'lar ve durumları:**
@@ -185,7 +208,7 @@ PNG Mockup > ASCII Art > Component Inventory > Tokens > Implementation Plan
 
 ## 7. Quick Reference (qr-) Sistemi
 
-> **20 screen spec dosyası** (T07 12 + shared 6 + T17 2) — her ekran için hızlı referans.
+> **23 screen spec dosyası** (T07 12 + shared 6 + T17 5) — her ekran için hızlı referans.
 > Tarihçe: 17 adet `screens/qr-*.md` 2026-09-19'da (commit 8ce113f) silindi; eski `.ai copy/ui-design/screens/qr-*.md` türevi de kaldırıldı.
 
 | Dosya Grubu | Quick Reference Dosyaları |
@@ -197,6 +220,7 @@ PNG Mockup > ASCII Art > Component Inventory > Tokens > Implementation Plan
 | Settings | `screens/T07-embedded/wifi-quick.md`, `screens/T07-embedded/wifi-connect-light.md`, `screens/T07-embedded/bluetooth-quick.md` |
 | Auth | `screens/shared/select-gender.md`, `screens/shared/select-gender-selected.md`, `screens/shared/login.md`, `screens/shared/register-step1.md`, `screens/shared/register-step2.md`, `screens/shared/register-step3.md` |
 | Desktop (T17) | `screens/T17-monitor-22fhd/home-dashboard.md`, `screens/T17-monitor-22fhd/welcome-popup.md` |
+| Admin (T17) | `screens/T17-monitor-22fhd/admin-layout.md`, `screens/T17-monitor-22fhd/admin-login.md`, `screens/T17-monitor-22fhd/admin-register.md` |
 
 **Eski ad haritası (v5.0.0 listesi → disk gerçeği; 4b9ef53 = 2026-09-27):**
 
@@ -214,26 +238,26 @@ PNG Mockup > ASCII Art > Component Inventory > Tokens > Implementation Plan
 
 | Metrik | Değer |
 |--------|-------|
-| Version | 6.2.0 |
+| Version | 6.3.0 |
 | Status | Red Team · Human Mode · Truth Mode verified |
-| Total PNG | 19 (12 home-1024 + 1 home-1920 + 6 shared-1024) |
+| Total PNG | 25 (12 home-1024 + 4 home-1920 + 6 shared-1024 + 3 admin-1920) |
 | Figma PNG Arşivi | 149 (`.ai/ui-design/reference/figma/png/` — çekim 129 → 149) |
 | Viewports | 2 (1024×600, 1920×1080) |
 | OS | Linux Embedded + Linux Desktop |
 | Themes | 3 (Female #ff4fd8, Male #4f9fff, Neutral #a0a0b0) |
 | Components | 19 (C01-C16 + C17 Widget Area + C18 Quick Apps + C19 Mini Card) |
-| Layout Patterns | 6 (Standard 60/40, Split Home 1024, Split Home 1920, Fullscreen, Modal, Auth 72/28) |
+| Layout Patterns | 7 (Standard 60/40, Split Home 1024, Split Home 1920, Fullscreen, Modal, Auth 72/28, Admin Right Panel 500px) |
 | Auth Flow | Select Gender → Login → Register (3 adım) |
-| Screen Specs | 20 spec dosya (19 active · 1 draft) ↔ 19 PNG · `screens/` toplam 21 md (20 spec + 1 indeks) |
-| Spec Senkronu | 4b9ef53 (2026-09-27) → §4/§7 2026-09-28 tarihinde 20 dosyayla eşitlendi |
-| Figma Sources | 1024×600 (Embedded) + 1920×1080 (Desktop) pixel-perfect |
+| Screen Specs | 23 spec dosya (22 active · 1 draft) · 22'si PNG'li · `screens/` toplam 24 md (23 spec + 1 indeks) · `.ai/.png` 25 PNG (3'ün spec'i yok: `home-1920` Geçmiş / Göz At / Playlist) |
+| Spec Senkronu | 4b9ef53 (2026-09-27) → §4/§7 2026-09-28 20 dosya → 2026-10-16 admin 3 ekran eklendi (23 dosya) |
+| Figma Sources | 1024×600 (Embedded) + 1920×1080 (Desktop + Admin) pixel-perfect |
 | Bayat Ad Taraması | 0 isabet — eski ekran adları bu dosyada tutulmuyor (§7) |
 | ADR Uyumlu | ADR-001 (Vanilla JS), ADR-044 (Theme Engine) |
 | Cross References | 3 |
-| Last Updated | 2026-09-29 |
+| Last Updated | 2026-10-16 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-09-29
+**Last Updated:** 2026-10-16
 **Mode:** Red Team · Human Mode · Truth Mode

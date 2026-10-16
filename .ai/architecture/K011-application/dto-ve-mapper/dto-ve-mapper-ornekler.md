@@ -13,6 +13,43 @@ group: kod
 
 **Amaç:** DTO/mapper deseninin **4 dilde** (PHP · Vanilla JS · SQL · CSS) repo kanıtlı örnekleri. Her blok `Dosya: … · Satır: …` gerçek referansı + anti-pattern `YAPMA ↔ YAP` çifti taşır. Hiçbir blok uydurma kod değildir — hepsi diskteki mevcut dosyalardan alınmıştır veya mevcut dosyaların birebir yansımasıdır.
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen | Kullanım |
+|---|---|---|---|---|
+| 1 | §1 — PHP: DTO Fabrikası (fromArray/toArray) | kod | icerik | Bolum kaydi |
+| 2 | §2 — PHP: array_map ile Alan Daraltma | kod | icerik | Bolum kaydi |
+| 3 | §3 — PHP: array_filter + array_map Zinciri | kod | icerik | Bolum kaydi |
+| 4 | §4 — PHP: Tip Zorlama (strval) | kod | niyet | Okuyucu 30 saniyede kavrar |
+| 5 | §5 — Vanilla JS: Header ↔ DTO Eşlemesi | kod | icerik | Bolum kaydi |
+| 6 | §6 — Vanilla JS: Token ↔ DOM Köprüsü | kod | icerik | Bolum kaydi |
+| 7 | §7 — SQL: DTO Çıktısının Loglanması | kod | sinir | Ne degil - devir siniri |
+| 8 | §8 — CSS: Token Eşleme (DTO→UI) | kod | icerik | Bolum kaydi |
+| 9 | §9 — PHP: PaginatedResponse::create() (sayfalama DTO'su) | kod | niyet | Okuyucu 30 saniyede kavrar |
+| 10 | §10 — PHP: ApiResponse::paginated() (zarf katmanı) | kod | icerik | Bolum kaydi |
+| 11 | §11 — PHP: RequestValidationMiddleware — 415/400/422 dalı | kod | icerik | Bolum kaydi |
+| 12 | §12 — PHP: ResponseNormalizationMiddleware — ETag & 304 | kod | icerik | Bolum kaydi |
+| 13 | §13 — PHP: RateLimitMiddleware (sayaç DTO'su) | kod | icerik | Bolum kaydi |
+| 14 | §14 — PHP: SecurityHeadersMiddleware — başlık birleştirme | kod | icerik | Bolum kaydi |
+| 15 | §15 — PHP: CorsMiddleware — origin normalizasyonu zinciri | kod | icerik | Bolum kaydi |
+| 16 | §16 — PHP: KnowledgeBase — array_column tek HIT | kod | icerik | Bolum kaydi |
+| 17 | §17 — PHP: JwtService — claims birleştirme | kod | icerik | Bolum kaydi |
+| 18 | §18 — PHP: DataBinder — state override | kod | icerik | Bolum kaydi |
+| 19 | §19 — PHP: EventDispatcher — anahtar koruyan map/filter | kod | icerik | Bolum kaydi |
+| 20 | §20 — Vanilla JS: FetchWrapper — hata zarfı | kod | icerik | Bolum kaydi |
+| 21 | §21 — Vanilla JS: CsrfSyncManager (tam dosya, 8 satır) | kod | icerik | Bolum kaydi |
+| 22 | §22 — SQL: api_calls DTO log tablosu (2. varyant) | kod | icerik | Bolum kaydi |
+| 23 | §23 — CSS: Semantic token okuması (2. varyant) | kod | icerik | Bolum kaydi |
+| 24 | §24 — Edge-Case Tablosu (örnek bazlı) | kod | kod | Calisir ornek + anti-pattern |
+| 25 | §25 — YAPMA ↔ YAP Matrisi (tüm örnekler tek tabloda) | kod | kod | Calisir ornek + anti-pattern |
+| 26 | §26 — Örnek Kapsam Sayımı (gerçek) | kod | kod | Calisir ornek + anti-pattern |
+| 27 | §27 — Örnek Bütünlük Tablosu (id↔dosya↔satır ↔ doğrulama durumu) | kod | niyet | Okuyucu 30 saniyede kavrar |
+| 28 | §28 — Anti-Pattern Karşılığı Olmayan Durumlar (tasarım kararı) | kod | icerik | Bolum kaydi |
+| 29 | §29 — Örnek → Regresyon Eşlemesi (bu örnek değişirse ne yeniden okunur) | kod | kod | Calisir ornek + anti-pattern |
+| 30 | §30 — Örnek Sayım Özeti (kademe-2 kapanış ölçümü) | kod | kod | Calisir ornek + anti-pattern |
+
+---
+
 ## §1 — PHP: DTO Fabrikası (fromArray/toArray)
 
 ```php
@@ -510,4 +547,5 @@ diğer bloklar etkilenmez.
 | Belge satırı | **500 → 505+ (hedef 505–540)** |
 
 **Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15
 **Last Updated:** 2026-10-16

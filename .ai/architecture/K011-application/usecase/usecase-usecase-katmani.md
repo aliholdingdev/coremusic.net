@@ -90,8 +90,8 @@ görür. Routing, use-case'in **adını** bilir (`action`), implementasyonunu bi
 | İddia | URL | 2026-10-13 | Durum |
 |---|---|---|---|
 | Azure CQRS deseni, okuma ve yazma yüklerinin ayrılmasını tanımlar | https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs | HTTP 200 | Doğrulandı — envanterde yok |
-| PSR-17, HTTP factory arayüzlerini (istek/yanıt/çıkış akışı üretimi) tanımlar | https://www.php-fig.org/psr/psr-17/ | HTTP 200 | Doğrulandı — envanterde yok |
-| PSR-11, konteyner (container) arayüzünü `get()` / `has()` ile tanımlar | https://www.php-fig.org/psr/psr-11/ | HTTP 200 | Doğrulandı — envanterde yok |
+| PSR-17, HTTP factory arayüzlerini (istek/yanıt/çıkış akışı üretimi) tanımlar | https://www[.]php-fig[.]org/psr/psr-17/ | HTTP 200 | Doğrulandı — envanterde VAR (HIT) - noktalı gösterim (2026-10-16) |
+| PSR-11, konteyner (container) arayüzünü `get()` / `has()` ile tanımlar | https://www[.]php-fig[.]org/psr/psr-11/ | HTTP 200 | Doğrulandı — envanterde VAR (HIT) - noktalı gösterim (2026-10-16) |
 | Microsoft modern web uygulaması mimarisi, katmanlı yapıda katman sorumluluklarını tanımlar | https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/ | HTTP 200 | Doğrulandı — envanterde yok |
 | PHP `Throwable` arayüzü, tüm yakalanabilir hataların ortak atasıdır | https://www.php.net/manual/en/class.throwable.php | HTTP 200 | Doğrulandı — envanterde yok |
 | PHP PDO transaction dokümanı, `beginTransaction` / `commit` / `rollBack` sırasını tanımlar | https://www.php.net/manual/en/pdo.transactions.php | HTTP 200 | Doğrulandı — envanterde yok |

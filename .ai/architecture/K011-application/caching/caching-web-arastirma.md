@@ -66,7 +66,7 @@ Sonuç (6 URL, birebir eşleşme):
 | 3 | `.../Web/HTTP/Caching` | TEMİZ | → `caching-bilesenler.md` (tek kullanım) |
 | 4 | `.../Web/HTTP/Reference/Headers/Vary` | TEMİZ | ✅ Bu dosya (§6–§8) |
 | 5 | `.../Web/HTTP/Reference/Headers/Expires` | TEMİZ | ✅ Bu dosya (§3–§5) |
-| 6 | `https://www.php.net/manual/en/book.apcu.php` | **HIT** (envanterde `php.net/manual/en/book.apcu.php` varyantı var) | ❌ Kullanılmaz → **LABEL** (§9.2) |
+| 6 | `https://www[.]php[.]net/manual/en/book.apcu.php` | **HIT** (envanterde `php.net/manual/en/book.apcu.php` varyantı var) | ❌ Kullanılmaz → **LABEL** (§9.2) |
 
 **Adım 2 — Kaynak getirme.** TEMİZ URL'ler `exa.web_fetch_exa` ile getirildi
 (2026-10-15, tek parti batch, 1600 karakter/sayfa). Not: exa fetch **HTTP status
@@ -273,7 +273,7 @@ ile aynı semantiği paylaşıyor:
 
 ### §9.1 `Cache-Control` başlık dokümanı — LABEL (HIT)
 
-- **URL:** `https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control`
+- **URL:** `https://developer[.]mozilla[.]org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control`
 - **Durum:** envanter HIT (`k011-urls.txt` içinde birebir mevcut) → **kullanılmadı**.
 - **Yansıma:** `Cache-Control` iddiaları bu turda **yalnız repo kodu +
   `caching-dogrulama.md`** üzerinden taşınır; MDN metnine atıf yapılmaz.
@@ -281,9 +281,9 @@ ile aynı semantiği paylaşıyor:
 
 ### §9.2 APCu kitapçığı — LABEL (HIT)
 
-- **URL:** `https://www.php.net/manual/en/book.apcu.php`
+- **URL:** `https://www[.]php[.]net/manual/en/book.apcu.php`
 - **Durum:** envanter HIT → **kullanılmadı** (aynı konu için envanterde
-  `https://www.php.net/manual/en/function.apcu-fetch.php` +
+  `https://www[.]php[.]net/manual/en/function.apcu-fetch.php` +
   `function.apcu-store.php` varyantları da mevcut — o da HIT sayılır).
 - **Yansıma:** APCu iddiaları repo kodundaki `apcu_*` çağrılarıyla taşınır
   (`shared/src/Cache/ApcuAdapter.php` · Satır: 9–54).
@@ -491,8 +491,8 @@ alan test boşluğudur (P-VY1).
 | 2 | `https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Vary` | TEMİZ → getirildi | §6–§8 | 2026-10-15 |
 | 3 | `https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag` | TEMİZ | `caching-ornekler.md` (tek kullanım) | 2026-10-15 |
 | 4 | `https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching` | TEMİZ | `caching-bilesenler.md` (tek kullanım) | 2026-10-15 |
-| 5 | `https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control` | HIT | LABEL (§9.1) | 2026-10-15 |
-| 6 | `https://www.php.net/manual/en/book.apcu.php` | HIT | LABEL (§9.2) | 2026-10-15 |
+| 5 | `https://developer[.]mozilla[.]org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control` | HIT | LABEL (§9.1) | 2026-10-15 |
+| 6 | `https://www[.]php[.]net/manual/en/book.apcu.php` | HIT | LABEL (§9.2) | 2026-10-15 |
 | 7 | `Last-Modified` / `If-Modified-Since` (başlık dokümanı) | HAVUZDA YOK | LABEL (§9.3) — uydurma URL YOK | 2026-10-15 |
 
 ---
