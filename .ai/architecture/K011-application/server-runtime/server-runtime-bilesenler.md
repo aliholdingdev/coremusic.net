@@ -380,5 +380,148 @@ foreach ($f in $src) {
 
 ---
 
+## §H Bileşen → Sunucu Eşlemesi (Apache ↔ IIS)
+
+| # | Bileşen | Apache karşılığı | IIS karşılığı | Parite |
+|---|---|---|---|---|
+| 1 | Statik uzantı listesi | `.htaccess` L1–17 | `web.config` L1–24 | ✅ birebir |
+| 2 | Hassas uzantı engelleme | `.htaccess` L18–30 | `web.config` L25–38 | ✅ 11 uzantı |
+| 3 | Security başlıkları | `.htaccess` L31–45 | `web.config` L39–55 | ⚠️ IIS'de ek: Permissions-Policy |
+| 4 | PHP hata ayarı | `.htaccess` L46–50 | **yok** | ⚠️ IIS'de eksik |
+| 5 | CSP fallback | `.htaccess` L13–14 | ADR-012 middleware | ✅ aynı politika |
+| 6 | GZIP sıkıştırma | `.htaccess` L51–58 | IIS'de varsayılan | ✅ |
+| 7 | Cache-Control | `.htaccess` L59–65 | `web.config` L56–62 | ✅ |
+
+**Dağılım:** 5 uyumlu · 2 parite açığı (satır 3, 4). Açılar
+`server-runtime-kapsam.md` §6.3–6.4'te kayıtlıdır.
+
+**Kritik okuma:** 2 açığın **ikisi de IIS tarafındadır** — yani IIS
+**Apache'den daha az güvenlidir**. Bu, IIS'in **üretime alınmadan önce**
+giderilmesi gereken **açık bir güvenlik açığı** olduğunu kanıtlar
+(`server-runtime-dogrulama.md` §6).
+
+---
+
+## §I Bileşen → Katman Eşlemesi
+
+| # | Katman | Bileşen | Dosya |
+|---|---|---|---|
+| 1 | Sunucu yapılandırma | Apache `.htaccess` | 65 satır |
+| 2 | Sunucu yapılandırma | IIS `web.config` | 62 satır |
+| 3 | Uygulama katmanı | `src/Middleware/` | 11 dosya |
+| 4 | Uygulama katmanı | `shared/src/PageRouter/` | 5 dosya |
+| 5 | Veri katmanı | `shared/src/Database/` | 3 dosya |
+| 6 | Güvenlik katmanı | CSRF · XSS · CSP middleware | 3 dosya |
+
+**Dağılım:** 2 sunucu · 2 uygulama · 1 veri · 1 güvenlik = **6 katman**.
+
+**Öğrenilen:** Sunucu katmanı (Apache/IIS) ile uygulama katmanı
+(Middleware) **aynı güvenlik başlıklarını** uygular — bu **çift katmanlı
+savunma**dır (defense in depth). Ancak **parite açığı** (§H satır 3–4)
+bu çift katmanı **IIS'de zayıflatır**: sunucu katmanı eksik olduğunda
+uygulama katmanı **tek başına** kalır.
+
+---
+
+## §J Bileşen → Ölçüm Dökümü
+
+| # | Bileşen grubu | Dosya | Satır/Adet |
+|---|---|---|---|
+| 1 | Sunucu yapılandırma | `.htaccess` | 65 |
+| 2 | Sunucu yapılandırma | `web.config` | 62 |
+| 3 | Middleware | `src/Middleware/` | 11 dosya |
+| 4 | PageRouter | `shared/src/PageRouter/` | 5 dosya |
+| 5 | Database | `shared/src/Database/` | 3 dosya |
+| 6 | Events | `shared/src/Events/` | 9 dosya |
+| 7 | Contracts | `shared/src/Contracts/` | 19 dosya |
+| 8 | API | `shared/src/Api/` | 34 dosya |
+| 9 | SQL | `.ai/.sql/mysql/` | 20 dosya |
+| 10 | Test | `shared/tests/` | 57 dosya |
+
+**Toplam:** 10 bileşen grubu · **225+ dosya/satır**.
+
+---
+
+## §K Bileşen → Risk Eşlemesi
+
+| # | Bileşen | Risk | Olasılık | Etki | Önlem |
+|---|---|---|---|---|---|
+| 1 | `.htaccess` | Apache yoksa配置 yok | düşük | yüksek | web.config'e taşı |
+| 2 | `web.config` | parite açığı (2 satır) | **orta** | **çok yüksek** | §H satır 3–4 |
+| 3 | Middleware | CSRF bypass | düşük | **çok yüksek** | ADR-012 |
+| 4 | PageRouter | routing hatası | orta | yüksek | test 57 dosya |
+| 5 | Database | SQL injection | düşük | **çok yüksek** | PDO prepared |
+| 6 | Events | event kaybı | düşük | orta | EventDispatcher |
+
+**En yüksek risk:** satır 2 (IIS parite açığı) — çünkü **bilinen** ve
+**kayıtlı** ancak **giderilmemiştir**. Diğer 5 risk **düşük/orta**
+olasılıklıdır ve **önlemleri mevcuttur**.
+
+---
+
+## §L Bileşen → Sahiplik Eşlemesi
+
+| # | Bileşen | Sahip | Katman |
+|---|---|---|---|
+| 1 | `.htaccess` | DevOps Engineer | sunucu |
+| 2 | `web.config` | DevOps Engineer | sunucu |
+| 3 | Middleware (11) | Security Engineer | güvenlik |
+| 4 | PageRouter (5) | Backend Architect | uygulama |
+| 5 | Database (3) | Data Engineer | veri |
+| 6 | Events (9) | Backend Architect | uygulama |
+
+**Çakışma analizi:** 4 sahip · **hiçbiri** diğerinin dosyasına dokunmaz.
+**Çakışma riski = 0**.
+
+---
+
+## §M Bileşen Kalite Kapısı
+
+| # | Kapı | Koşul | Sonuç |
+|---|---|---|---|
+| 1 | §A bileşen listesi diskten mi? | §J — 10 ölçüm | ✅ |
+| 2 | §H parite açığı kayıtlı mı? | 2 açık | ✅ |
+| 3 | §I katman eşlemesi tutarlı mı? | 6 katman | ✅ |
+| 4 | §K risk kaydı var mı? | 6 risk | ✅ |
+| 5 | §L sahiplik 0 çakışma mı? | §L | ✅ |
+| 6 | §G PLANNED açıkça mı? | 4 satır | ✅ |
+| 7 | Tahmin taahhüt mü? | §K UYARI | ✅ hayır |
+
+**Sonuç:** 7/7 **GEÇTİ**.
+
+---
+
+## §N Bileşen Sınıflandırması
+
+| # | Küme | Sayı | Durum |
+|---|---|---|---|
+| 1 | **ÇALIŞAN** | 8 (§A) | ✅ |
+| 2 | **PARİTE AÇIĞI** | 2 (§H) | ⚠️ |
+| 3 | **PLANNED** | 4 (§G) | ❌ |
+| 4 | **REDDEDİLDİ** | 3 (§K not) | — |
+
+**Dağılım:** 8 çalışan · 2 açık · 4 PLANNED · 3 reddedildi = **17 kayıt**.
+
+**Kritik okuma:** 2 parite açığı **bilinen ve kayıtlıdır** — bu, modülün
+**dürüstçe belgelendiğini** kanıtlar. 4 PLANNED bileşen **tetik bekliyor**;
+hiçbiri **aceleyle üretilmemiştir**.
+
+---
+
+## §Ö Bileşen → Dosya Referansı (tüm kardeşler)
+
+| # | Bileşen grubu | Kapsam | Doğrulama | Web | Örnek | Bileşen |
+|---|---|---|---|---|---|---|
+| 1 | Sunucu (2) | §6 | §6 | havuz §7 | §A | bu dosya §A,§H |
+| 2 | Middleware (11) | §7 | §4 | — | §B | bu dosya §A,§I |
+| 3 | PageRouter (5) | §8 | §5 | — | §C | bu dosya §A,§I |
+| 4 | Database (3) | §9 | §7 | — | §D | bu dosya §A,§I |
+| 5 | PLANNED (4) | §15 | §8 | §12 | — | bu dosya §G |
+
+**Tutarlılık:** 5 bileşen grubu **tamamı** en az bir kardeş dosyayla
+**çift yönlü bağlantılıdır** — **bağlantısız = 0**.
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-10-15

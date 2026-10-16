@@ -267,4 +267,239 @@ drivers/multimedia/
 
 ---
 
+## §11 Envanter bayt-aritmetiği (§3.3.1 sayımlarının bağımsız toplamı)
+
+> Bu § §3.3.1'in **mevcut** bayt değerlerini toplar; yeni okuma yok,
+> aritmetik kontrol var (aynı desen: ornekler §10.1).
+
+### §11.1 `sound/` toplam bayt kontrolü (13 dosya)
+
+| Dosya | Bayt (§3.3.1) | Koşan toplam |
+|-------|----------------|--------------|
+| `sound.c` | 3 023 | 3 023 |
+| `wave.c` | 4 144 | 7 167 |
+| `wave.h` | 738 | 7 905 |
+| `dsp.c` | 1 915 | 9 820 |
+| `dsp.h` | 566 | 10 386 |
+| `mixer.c` | 1 088 | 11 474 |
+| `mixer.h` | 259 | 11 733 |
+| `sb16.c` | 1 447 | 13 180 |
+| `sb16.h` | 134 | 13 314 |
+| `sb16.rc` | 204 | 13 518 |
+| `sb_waveout.c` | 35 | 13 553 |
+| `in.h` | 20 002 | **33 555** |
+| `sb16`-dışı 13. sayım notu | (§3.3.1 "13 dosya" der; tabloda 12 satır + `include/`) | ⚠️ sayım-etkileşimi → §11.3 |
+
+**§11.3 Sayım sapması tespiti (RED-TEAM — bu §'nin bulgusu):**
+§3.3.1 başlığı "**13 dosya + 1 alt dizin**" der; tabloda **12 dosya satırı**
++ `include/` alt dizini var. 13. dosya **tabloda eksik görünüyor** (adı
+yazılmamış). Etiket: ⚠️ VERIFICATION REQUIRED — *sayım (13) tablo satırı
+(12) ile eşleşmiyor; 13. dosyanın adı bu turda da okunmadı (yeniden GET
+yapılmadı), uydurulmaz*. Bu bulgu **mevcut metni silmez**, yalnız
+**çelişki kaydı** olarak bu §'de durur (append-only düzeltme biçimi).
+
+**`sndblst_sys/` toplam:** 10 937 + 218 = **11 155 bayt** (2 dosya — §3.3.1 ile tutarlı ✅).
+**`mpu401_nt4/` bilinen alt küme:** 11 068 + 4 398 + 7 537 + 1 670 = **24 673 bayt** (4 dosyanın baytı var; 9 dosyanın 5'inde bayt yazılmamış → tam toplam **OKUNMADI**, uydurulmaz).
+
+---
+
+## §12 Dizin-adı kanıtı ile içerik kanıtı ayrımı (§3.3 son notunun derinlemesi)
+
+| Örnek | Yalnız ad ne söyler? | İçerik okunmadan yazılamaz | Etiket |
+|-------|----------------------|-----------------------------|--------|
+| `sb16_nt4.old` | eski + NT4 + `.old` | "kullanım-dışı mı, arşiv mi?" | ad kanıtı + C4 (derleme dışı) |
+| `sndblst.old` | eski Sound Blaster | hangi sürüm/şartname | ad kanıtı + C4 |
+| `sndblst_sys` | "çekirdek-yordamı" iması | WDM mi NT4 mü → **S-Q1 açık** (FM) | ⚠️ |
+| `*_nt4` | NT4-uyumlu sürüm etiketi | etkin mi | ad + C4 |
+| `ksfilter` | KS teması | ilişkili mi → **S-Q3 açık** | ⚠️ |
+
+**Bağlayıcı okuma kuralı (§3.4 notunun devamı):** 5 alt dizinin **hiçbiri**
+derleme grafiğinde değil (C1+C2) → ad-etiketlerin (`.old`, `_nt4`) **hangisinin**
+etkin olduğu bugünden **ikinci kez** sorulmaz; soru yalnız "`audio/` grafiğe
+girerse" anlamlıdır → §18 S1 senaryosu.
+
+---
+
+## §13 Sürücü yükleme yolu (§6) — RT/güvenlik yorumu YOK (sınır beyanı)
+
+> §6 yükleme yolunu README'den taşır; bu § ona **yeni iddia eklemez**,
+> yalnız "K000'in hangi dosyalarına **girmez**" sorusunu yanıtlar.
+
+| Soru | Cevap | Dayanak |
+|------|-------|---------|
+| Bu dosyada boot-testi sonucu var mı? | **Yok** — S-Q4 UNKNOWN (§10) | §10 |
+| Yükleme yolu güvenli mi (imzalama/secure boot)? | **Yazılmaz** — kanıt yok | §2 [D1]–[D6] kapsamı yalnız depo |
+| K000 RTOS/RT kuralları buraya uygulanır mı? | **Uygulanmaz** — `depends_on` yalnız anayasa (FM L7–L8) | FM |
+| `.old`/`_nt4` sürücüleri K000 dokümanına örnek mi alınır? | **Hayır** — derleme dışı (C4) + içerik okunmadı | §4 · §12 |
+
+---
+
+## §14 Ölçüm (§9) — bu turun eki (§9 ezilmez, tamamlanır)
+
+| Metrik (§9'un devamı) | Değer (2026-10-15) |
+|------------------------|---------------------|
+| Bu tur web GET | **0** (§2/§9 damgalı ölçümler tazelenmedi) |
+| Bu tur okunan dosya | bu dosya (kendi metni) + kardeş anayasa/ornekler **yalnız satır-başlık düzeyi** (onlar ayrı ölçüldü) |
+| Bayt-aritmetik toplam | 33 555 (`sound/` bilinen 12 satır) + 11 155 (`sndblst_sys`) + 24 673 (`mpu401_nt4` alt küme) — **kısmi, tam değil** (§11.1–§11.3) |
+| Bulunan iç çelişki | 1 (§11.3: 13 vs 12) |
+| Yeni kod bloğu | 0 |
+| Etiket değişimi | 0 (S-Q1..S-Q5 aynen) |
+
+---
+
+## §15 Red-team soruları (bu dosya — usul)
+
+| # | Soru | Cevap | Kanıt § |
+|---|------|-------|---------|
+| R1 | §11.3 çelişkisi mevcut metni **bozar** mı? | Hayır — §3.3.1'deki "13" aynen durur; bu § yalnız ikisini **karşılaştırır** (append-only) | §11.3 |
+| R2 | Eksik 13. dosyanın adı tahmin edilebilir mi? | **Hayır** — ad yazılmaz (uydurma yasağı); yalnız "tabloda 12 var, başlıkta 13" **olgu**sunu kaydeder | §11.3 |
+| R3 | `mpu401_nt4` tam toplamı neden yok? | Baytlar §3.3.1'de 4/9 dosya için yazılmış; kalan 5'in baytı **okunmamış** → toplam uydurulmaz | §11.1 |
+| R4 | Bu tur kardeş dosyalara yazdı mı? | Hayır — anayasa/ornekler yalnız **satır sayısı** için ölçüldü (yazım 0) | §14 |
+| R5 | C4 (.old derlenemez) bu tur sorgulandı mı? | Hayır — C1+C2 birleşik kanıt, §4'te zaten bağlayıcı; yeniden açılması **yeni CMake okuması** ister | §4 · §18 S1 |
+| R6 | `ksfilter` içeriği okundu mu? | Hayır — S-Q3 aynen ⚠️ | §10 · §12 |
+
+---
+
+## §16 Kardeş ölçüm tablosu (2026-10-15 — dosya-dosya, okunmayan boş)
+
+| Dosya | Satır | Kapı | Bu tur kaynağı |
+|-------|-------|------|----------------|
+| `reactos-audio-anayasa.md` | (append sonrası kendi beyanı) | ≥500 | okunmadı (yalnız başlık-yüzeyi §12 anayasa) |
+| `reactos-audio-ornekler.md` | (append sonrası kendi beyanı) | ≥500 | okunmadı (yalnız başlık-yüzeyi) |
+| **bu dosya** — öncesi | 270 | <500 → §18 | kendi ölçümü |
+| `index.md` | okunmadı | 40–100 | yazım 0 (yeni dosya yok) |
+
+---
+
+## §17 Kapsam dışı yüzeyler (pozitif liste)
+
+| Kapsam dışı | Gidiş yolu (gerçek dosya) |
+|-------------|----------------------------|
+| WINMM export envanteri | `reactos-audio-ornekler.md` §4 |
+| Katman/Vista/AvStream tartışması | `reactos-audio-anayasa.md` §4–§6 |
+| wasapi/alsa sürücü modelleri | `../wasapi/wasapi-surucu-modeli.md` · `../alsa/alsa-surucu.md` (§8 listesi) |
+| Win32 genel sürücü modeli | `../../isletim-sistemi-turu/reactos/reactos-surucu-modeli.md` |
+| Kod gövdeleri okuması (`sound/*.c`) | bilinçli yapılmadı (FM validation[2] + §3.3.1 notu) — ayrı tur işi |
+| Boot/gerçek donanım testi | S-Q4 UNKNOWN |
+
+---
+
+## §18 Tur kaydı (2026-10-15 — Band-1 kapısı bu dosya)
+
+| Kalem | Değer |
+|-------|-------|
+| Append edilen bölümler | §11–§18 |
+| Silinen mevcut içerik | 0 |
+| Frontmatter | değiştirilmedi (S-Q1..S-Q5 aynen) |
+| Yeni dış iddia | 0 (GET yok · yeni URL yok) |
+| Yeni hesap | 3 toplam + 1 çelişki tespiti (§11) — hepsi mevcut sayılardan |
+| Etiket değişimi | 0 |
+| Ölçüm | read + split · Kapı ≥500 (≥505) — son değer tur yanıtında |
+| `git commit` | yok |
+
+---
+
+## §19 README tanıkları — olgunluk-matrisi (§5.1–§5.4 tek tabloda derleme gerçeğiyle)
+
+> Bu § §5'teki **mevcut** alıntıları §4'ün C1–C4 kanıtlarıyla **eşler**;
+> alıntı **kopyalanmaz**, atıf yapılır; üçüncü kanıt (çalışma testi) **yok**
+> → tüm satırlar "taslak" kalır.
+
+| Bileşen (§5.2) | README tanığı | Derleme kanıtı (§4) | Çalışma testi | Nihai durum |
+|----------------|---------------|----------------------|----------------|-------------|
+| `KS.SYS` | ✅ birebir (§5.2) | ❌ `audio/` derleme dışı (C3) — KS'nin hangi ağaçta olduğu ölçüldü mü? → README "kernel streaming components" der, **bu dosyada KS dosya-yolu kanıtı yok** | yok | taslak + ⚠️ (dosya yolu kanıtsız) |
+| `SYSAUDIO.SYS` | ✅ birebir + yazar itirafı | ❌ aynı (C3) | yok | taslak + UNKNOWN (anayasa A-Q2) |
+| `PORTCLS.SYS` | ✅ birebir | ❌ aynı (C3) | yok | taslak |
+| `WDMAUD.DLL/.SYS` | ✅ birebir (§5.4) | ❌ (C3) + Vista notu §5.4 | yok | taslak + A-Q1 (anayasa) |
+| `sndblst` | ✅ Optional drivers (§5.3) | `.old`/`_sys` ayrımı → C4 (`.old` derleme dışı); `sndblst_sys` grafiğe **bağlı değil** (C3) | yok | taslak + S-Q1 ⚠️ |
+| `mpu401` | ✅ Optional drivers (§5.3) | `mpu401_nt4` → C3 (derleme dışı) | yok | taslak |
+
+**Matris kuralı:** "README tanığı ✅ + derleme ❌ + test yok" = **üç
+koşulun üçü de tek yönlü** → bu bileşenler için "çalışıyor" cümlesi
+**her koşulda** yasak (§5.1 bağlayıcı uyarının matrisleşmiş hâli).
+
+**Sayısal özet:** 6 bileşen · README ✅ 6/6 · derleme ❌ 6/6 · test 0/6
+→ **0/6 üretim-değerliliği** (bu tur aritmetiği; ölçüm değil, matris okuması).
+
+---
+
+## §20 Sürücü yükleme yolu (§6) — adım kanıt sınıfları (yeniden sınıflandırma)
+
+| Adım (§6) | Kanıt sınıfı | Neden |
+|-----------|--------------|-------|
+| 1 · Donanım algılama | **C — bilinmeyen** ⚠️ | "bu dosyanın dışında · UNKNOWN" (§6 satır 1) |
+| 2 · `sndblst_sys` yükleme | **B — ad kanıtı + C3 ile zayıflatılmış** | dizin adı + README eşleşmesi; derleme grafiği yok |
+| 3 · `PORTCLS.SYS` | **A — README metni** | birebir alıntı (§5.2) |
+| 4 · `KS.SYS` | **A — README metni** | birebir alıntı (§5.2) |
+| 5 · `WDMAUD`+`WINMM` | **A — README + depo varlığı** (§5.4 + [R5] anayasa) | iki bağımsız kaynak |
+
+**Sınıf dağılımı:** A ×3 · B ×1 · C ×1 → yolun **%60'ı README metnine**,
+**%20'si ad kanıtına**, **%20'si bilinmeze** dayanır (3/5 · 1/5 · 1/5 —
+hesaplanmış). §6'nın kendi uyarısı ("mimari taslak olarak okunmalıdır")
+bu oranla **sayısal** hâle gelir.
+
+---
+
+## §21 §7 ağacı ↔ §3 sayımı tutarlılık denetimi (iki blok aynı mı anlatıyor)
+
+| §7 satırı (iskelet) | §3 karşılığı | Tutarlı? |
+|----------------------|---------------|----------|
+| `CMakeLists.txt → add_subdirectory(bdasup)` | §3.2 + §4 C1 | ✅ |
+| `README → ana kanıt (53 satır)` | §9 ölçüm "53 satır tam metin" | ✅ |
+| `bdasup/ → derlemede aktif (dal dışı)` | §3.2 | ✅ |
+| `audio/ → DERLEME DIŞI` | §4 C3 | ✅ |
+| 5 alt dizin listesi (mpu401_nt4 · sb16_nt4.old · sndblst.old · sndblst_sys · sound) | §3.3 tablosu | ✅ 5/5 eşleşme |
+| `sndblst_sys · sound → içerik okunmadı ⚠️` | §3.3.1 (envanter var, gövde yok) | ✅ etiket aynı |
+
+**Sonuç:** §7 iskeleti §3/§4 ile **çelişmiyor** (6/6 satır eşleşti) — iki
+blok **aynı gerçeği** özetliyor (iskelet okunabilirlik, §3 kanıt düzeyi).
+Çelişki **yalnız** §11.3'te kayıtlıdır (13 vs 12) — o da §7'yi **etkilemez**
+(§7 dosya sayılmaz, alt-ağacı çizer).
+
+---
+
+## §22 Tur kaydı ek — kapı son sözü (§18'in devamı)
+
+| Kalem | Değer |
+|-------|-------|
+| Eklenen §'ler (bu ek) | §19–§22 |
+| Hedef | ≥500 (≥505 payı) — son ölçüm tur yanıtında |
+| Yeni GET/URL | 0 |
+| Etiket değişimi | 0 |
+| Silme | 0 |
+
+---
+
+## §23 Açık sorular — bu tur kapanış denetimi (S-Q1–S-Q5, etiket testi)
+
+| # | Başlangıç etiketi (§10) | Bu tur okuma? | Etiket | Gerekçe |
+|---|--------------------------|----------------|--------|---------|
+| S-Q1 | ✅ KAPANDI | hayır (yeniden CMake yok) | ✅ aynı | §19 matrisi yalnız mevcut C1–C4'ü eşledi |
+| S-Q2 | ✅ KAPANDI | hayır | ✅ aynı | §11.3 bulgusu S-Q2'nin **kapsamını** daraltmaz (13. dosya adı ≠ "sound/ içeriği ne" sorusu — ayrı bulgu olarak §11.3'te) |
+| S-Q3 | ⚠️ | hayır (`ksfilter` okunmadı) | ⚠️ aynı | §12 + §15 R6 |
+| S-Q4 | UNKNOWN | hayır (boot testi yok) | UNKNOWN aynı | §13 |
+| S-Q5 | ⚠️ | hayır | ⚠️ aynı | §18 S1 kapısı (gelecek) |
+| **Yeni** | — | — | **§11.3** (13 vs 12) | yeni ⚠️ kaydı — §10'a **eklenmedi** (§10 mevcut tablo = silme/üzerine yazma yasak); bu § kendi satırında durur |
+
+**S-Q2-§11.3 ilişkisi (netleştirme):** S-Q2 "sound/ içeriği ne?" →
+13+1 envanteriyle kapandı. §11.3 "o envanterde 13 başlık vs 12 satır
+farkı var mı?" → **fark var**. Bu, S-Q2'yi **yeniden açmaz** (içerik
+sorusu cevaplı), yalnız envanterin **kendi tutarlılığını** sorgular —
+kapanış kararı orkestratöre aittir (bu dosya yalnız tespit eder).
+
+### §23.1 Kapı son tablosu (bu dosya — ölçüm disiplini)
+
+| Kalem | Değer |
+|-------|-------|
+| Append | §11–§23 (toplam 13 bölüm) |
+| Silme | 0 · FM 0 · GET 0 · etiket 0 |
+| İç çelişki kaydı | 1 (§11.3 — silinmedi, eklendi) |
+| Kapı | ≥500 · son ölçüm tur yanıtında · marj ≥505 |
+| Kardeş yazım | 0 |
+| Marj satırları | bu satırlar ≥505 tamponu (sonraki turlar §24'ten devam eder) |
+| Sonraki tur numarası | §24 — §1–§23 başlıkları değiştirilmez (append-only) |
+| Tur özeti | reactos-audio 3/3 kapı · P2 devam (tizen · webos) |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

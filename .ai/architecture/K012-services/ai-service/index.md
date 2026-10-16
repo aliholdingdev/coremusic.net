@@ -7,6 +7,7 @@ children:
   - "ai-service-dogrulama.md"
   - "ai-service-kapsam.md"
   - "ai-service-ornekler.md"
+  - "ai-service-web-arastirma.md"
 depends_on: []
 evidence:
   - "v2 §2.12 — çocuk adı kaynağı (birebir)"
@@ -40,6 +41,7 @@ group: mimari
 | kanit | `ai-service-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-2 |
 | mimari | `ai-service-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
 | kod | `ai-service-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-2 |
+| kanit | `ai-service-web-arastirma.md` | Q1 bağlılık web kanıtlı seçenek matrisi (10 URL; karar ADR bekler) | Kademe-2 |
 
 **Kanıt durumu (2026-10-13):** bu alt alanda repo implementasyonu YOK (S5 —
 `services-dogrulama.md` §7/4); üç dosya da taslak/kanıt-bekliyor seviyesindedir.

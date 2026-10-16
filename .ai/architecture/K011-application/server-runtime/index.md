@@ -1,4 +1,4 @@
----
+﻿---
 node_id: K011-application/server-runtime
 node_type: subdomain
 status: draft
@@ -6,36 +6,37 @@ parent_id: K011-application
 children: []
 depends_on: []
 evidence:
-  - "v2 §2.11 — çocuk adı kaynağı (birebir)"
+  - "v2 Â§2.11 â€” Ã§ocuk adÄ± kaynaÄŸÄ± (birebir)"
 validation:
-  - "İsim v2 §2.11 ile birebir karşılaştırıldı — 2026-10-12"
+  - "Ä°sim v2 Â§2.11 ile birebir karÅŸÄ±laÅŸtÄ±rÄ±ldÄ± â€” 2026-10-12"
 open_questions:
-  - "Kademe-3 bounded-context kapsamı → ⚠️ VERIFICATION REQUIRED (faz C)"
-  - "Sunucu türü ve barındırma yeri → ⚠️ VERIFICATION REQUIRED (§4/2)"
+  - "Kademe-3 bounded-context kapsamÄ± â†’ âš ï¸ VERIFICATION REQUIRED (faz C)"
+  - "Sunucu tÃ¼rÃ¼ ve barÄ±ndÄ±rma yeri â†’ âš ï¸ VERIFICATION REQUIRED (Â§4/2)"
 group: mimari
 ---
 
-# server-runtime — K011-application (kademe-2 · subdomain)
+# server-runtime â€” K011-application (kademe-2 Â· subdomain)
 
-**ELI15:** Sunucu tarafında çalışan uygulama çalışma zamanı (sunucuda işi yürüten taraf).
+**ELI15:** Sunucu tarafÄ±nda Ã§alÄ±ÅŸan uygulama Ã§alÄ±ÅŸma zamanÄ± (sunucuda iÅŸi yÃ¼rÃ¼ten taraf).
 
-**Sınır (ne DEĞİL):** Sunucu altyapısı/dağıtımı K018-devops · veri K007-data.
+**SÄ±nÄ±r (ne DEÄÄ°L):** Sunucu altyapÄ±sÄ±/daÄŸÄ±tÄ±mÄ± K018-devops Â· veri K007-data.
 
-**Bağımlılık (özet):** Düğümün tamamı üst kademeye bağlıdır; ayrıntı ve etiketler application-bagimliliklar.md §1'dedir. Bu dosyadaki satırlar TASARIM İDDİASI'dır.
+**BaÄŸÄ±mlÄ±lÄ±k (Ã¶zet):** DÃ¼ÄŸÃ¼mÃ¼n tamamÄ± Ã¼st kademeye baÄŸlÄ±dÄ±r; ayrÄ±ntÄ± ve etiketler application-bagimliliklar.md Â§1'dedir. Bu dosyadaki satÄ±rlar TASARIM Ä°DDÄ°ASI'dÄ±r.
 
-**Durum:** draft · kademe-3 (bounded-context) ve kademe-4 genişletmesi ADR-097 K4 fazı (C) bekliyor · module'e inilmez.
+**Durum:** draft Â· kademe-3 (bounded-context) ve kademe-4 geniÅŸletmesi ADR-097 K4 fazÄ± (C) bekliyor Â· module'e inilmez.
 
 ---
 
-## §GRUPLAR
+## Â§GRUPLAR
 
-> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın frontmatter'ında **9. alan `group`**.
+> Ä°ki-ekseni gruplama (ADR-097 Â§5.5 Â· registry Â§8.1) â€” her dosyanÄ±n frontmatter'Ä±nda **9. alan `group`**.
 
-| Grup | Dosya | Amaç | Kademe |
+| Grup | Dosya | AmaÃ§ | Kademe |
 |---|---|---|---|
-| mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| mimari | `index.md` | KlasÃ¶r kÃ¼nyesi ve Ã§ocuk kataloÄŸu | Kademe-2 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15
 

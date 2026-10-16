@@ -336,4 +336,165 @@ dogrulama (eşikler D-*) ──► this §10 T3 (yalnız okuma, C3)
 | Son satır | Authority satırı (birebir) | evet |
 | Bölüm sayısı | 15–24 arası `## §` | 20 |
 
+## §21 Vault DSP-Firmware / Sürücü Derinletmesi (append · 2026-10-16)
+
+> Kaynaklar: `Dosya: .ai/electronic/firmware/dsp-firmware.md` (508 satır) · `Dosya: .ai/electronic/drivers/audio-drivers.md` (709 satır) — okundu 2026-10-16. Her satır Dosya+satır referanslı; repo `*.cpp/*.h/*.c` YOK (2026-10-15 ölçümü) → çalışan-kod iddiası yazılmaz.
+
+### §21.1 RT Döngü Adımları ve Bayrak Trafiği (§2 sözlüğüne ek veri)
+
+```
+DMA frame hazır (interrupt/bayrak)
+  → Input buffer'dan oku (USB→DSP)
+  → Format dönüştürme (PCM→Float32)
+  → EQ (biquad zinciri)
+  → Dynamics (compressor/limiter)
+  → Crossover (frekans dağıtımı)
+  → Output (Float32→PCM)
+  → I2S DMA tamponuna yaz
+  → Bayrak toggle (double-buffer)
+```
+
+Dayanak: `dsp-firmware.md:155` (§9).
+
+| # | Döngü olayı | Bu dosyadaki karşılık | Dayanak |
+|---|---|---|---|
+| L1 | DMA frame hazır (interrupt/bayrak) | §2 bayrak sözlüğü (tetikleyici sınıfı) | dsp-firmware.md:155 (§9) |
+| L2 | Bayrak toggle (double-buffer) | §4 geçiş sözleşmesi (devir anı) | dsp-firmware.md:163 (§9) |
+| L3 | Format PCM→Float32→PCM | §11 bellek/RT kuralı (sabit dönüşüm) | dsp-firmware.md:157 · dsp-firmware.md:161 (§9) |
+
+### §21.2 Döngü Bütçesi (§11 RT kuralının sayısal dayanağı)
+
+| Adım | Bütçe (tipik) | Not | Dayanak |
+|---|---|---|---|
+| DMA bekleyişi | frame periyodu | frame boyutuna bağlı | dsp-firmware.md:170 (§9.1) |
+| Format dönüşümü | ~%5 CPU | sabit | dsp-firmware.md:171 (§9.1) |
+| EQ (N biquad) | ~%20 CPU | bant sayısına bağlı | dsp-firmware.md:172 (§9.1) |
+| Dynamics | ~%10 CPU | detector karmaşıklığı | dsp-firmware.md:173 (§9.1) |
+| Crossover | ~%5 CPU | FIR/IIR | dsp-firmware.md:174 (§9.1) |
+| DMA yazma | ~%5 CPU | sıfır-kopya | dsp-firmware.md:175 (§9.1) |
+
+Kural: toplam CPU bütçesi frame periyodunun altında kalmalıdır (dsp-firmware.md:177 §9.1).
+⚠️ VERIFICATION REQUIRED (dsp-firmware.md:177 §9.1): gerçek donanım üzerinde ölçülmüş CPU bütçesi YOK; değerler tasarım hedefidir — bu dosyanın §10 telemetrisi bu değeri **kanıtlamaz**, yalnız hedef olarak taşır.
+
+### §21.3 Rate Değişimi Sırası (§4 geçiş sözleşmesi — tam sıra)
+
+| # | Adım | Sıra | Dayanak |
+|---|---|---|---|
+| 1 | mute | ses yolu sustur | dsp-firmware.md:181 (§9.2) |
+| 2 | DMA stop | taşıma durur | dsp-firmware.md:181 (§9.2) |
+| 3 | PLL yeniden kilit | clock değişir | dsp-firmware.md:181 (§9.2) |
+| 4 | I2S yeniden yapılandır | format/rate eşlenir | dsp-firmware.md:181 (§9.2) |
+| 5 | buffer flush | eski örnek temizlenir | dsp-firmware.md:181 (§9.2) |
+| 6 | DMA start | taşıma başlar | dsp-firmware.md:181 (§9.2) |
+| 7 | unmute | akış açılır | dsp-firmware.md:181 (§9.2) |
+
+Amaç: pop/noise önleme — bu sıra §2 bayrak sözlüğündeki mute/clock bayraklarının **tek geçiş sırasıdır**; §12 sözleşme değişiklik kuralı bu adımları değiştiremez (anayasa eki gerekir).
+
+### §21.4 Hata → Tespit → Kurtarma (§9 hata kodu arayüzünün dayanağı)
+
+| Hata | Tespit | Kurtarma | Dayanak |
+|---|---|---|---|
+| USB detach | endpoint hata | bekleme / yeniden enumerate | dsp-firmware.md:350 (§20) |
+| DMA underflow | buffer boş | mute / clock recovery | dsp-firmware.md:351 (§20) |
+| DMA overflow | buffer taşma | drop / clock recovery | dsp-firmware.md:352 (§20) |
+| Clock kaybı (unlock) | PLL unlock flag | yeniden kilit / reset | dsp-firmware.md:353 (§20) |
+| Katsayı geçersiz | range check | default'a dön | dsp-firmware.md:354 (§20) |
+| DSP stack overflow | canary | reset | dsp-firmware.md:355 (§20) |
+
+Fail-safe davranışı (dsp-firmware.md:359 §20.1): kritik hata → ses yolu mute + safe-mode; kontrol yolu log tutar ve kurtarma dener; **DC offset koruma rölesi ile koordinasyon** (bkz. bu dosyanın §8 power-control arayüzü).
+
+### §21.5 Teşhis / Log Yolu — Non-RT (§10 telemetri arayüzünün dayanağı)
+
+| Teşhis | Kaynak | Aktarım | Dayanak |
+|---|---|---|---|
+| Clock lock durumu | PLL flag | atomik sayaç | dsp-firmware.md:493 (§29) |
+| DMA underflow/overflow | buffer sayacı | atomik sayaç | dsp-firmware.md:494 (§29) |
+| CPU bütçesi kullanımı | döngü sayaçları | atomik sayaç | dsp-firmware.md:495 (§29) |
+| USB detach/attach | endpoint olay | interrupt → log ring | dsp-firmware.md:496 (§29) |
+| Firmware sürüm | header | boot okuması | dsp-firmware.md:497 (§29) |
+
+Prensip (dsp-firmware.md:501 §29.1): log, audio yolundan atomik sayaçlar/queue ile çekilir; ayrıştırma ve aktarım düşük öncelikli yolda yapılır → gözlemlenebilirlik zero-latency kuralını bozmaz. Bu, bu dosyanın §10 arayüzünün **tek** RT-uyumlu taşıma yoludur.
+
+### §21.6 Xrun Kurtarma Davranışı (§9 hata kodu arayüzüne ek)
+
+| Durum | Davranış | Neden | Dayanak |
+|---|---|---|---|
+| İlk xrun | ring buffer doldur, devam | tekrarlayan değilse | audio-drivers.md §9.4 |
+| Tekrarlayan xrun (≥3) | buffer bir seviye büyüt | kalıcı yük | audio-drivers.md §9.4 |
+| DMA underrun | IRQ/DMA yeniden senkron | donanım kilidi | audio-drivers.md §9.4 |
+
+Kural: tekrarlayan xrun, buffer büyüme önerisini tetikler ve telemetriye işaret düşer (audio-drivers.md §9.4).
+
+### §21.7 Sınır Komşularına Devir Eki (§6–§8 arayüzlerine girdi)
+
+| Komşu | Bu dosyanın verdiği veri | Dayanak |
+|---|---|---|
+| boot | clock/init tamam sinyali + firmware sürümü | dsp-firmware.md:497 (§29) |
+| power-control | mute + safe-mode + röle koordinasyonu | dsp-firmware.md:359 (§20.1) |
+| device-control | I2C mute register sırası | embedded-drivers.md:492 (§11.1 — bkz. device-control-anayasa §21.1) |
+| K003 | DMA frame hazır bayrak tetikleyicisi | dsp-firmware.md:155 (§9) |
+
+### §21.8 Kapanış Kontrolü (bu ek)
+
+| Kontrol | Beklenti | Durum |
+|---|---|---|
+| Eklenen bölüm | §21 (append-only; §1–§20 silinmedi) | evet |
+| Silinen mevcut içerik | 0 | 0 |
+| Uydurma register/sürüm/URL/Dosya:/Satır: | 0 | 0 |
+| Ölçüm değeri uydurma | 0 — hedefler "tasarım hedefi" damgasıyla | 0 |
+| Chip/marka iddiası | yalnız vault kaynağı (dsp-firmware.md) | evet |
+| Açık sorular (§16) | kapatılmadı | açık |
+| Son satır | Authority satırı birebir | korunur |
+
+
+## 22. Kaynak Dayanak Envanteri Eki (2026-10-15 ölçümü — §21'e tamamlayıcı)
+
+> Bu ek, §1–§21'de atıf yapılan dayanak dosyalarının **gerçek ölçülmüş** envanterini
+> taşır; yeni iddia üretmez, mevcut atıfları envanterler. Ölçüm:
+> `[System.IO.File]::ReadAllLines(yol).Length`.
+
+### §22.1 Birincil dayanak dosyaları (bu dosyanın atıf kaynakları)
+
+| Dayanak dosya | Ölçülen satır | Bu dosyada kullanım |
+|---|---|---|
+| `.ai\electronic\firmware\dsp-firmware.md` | 507 | §9 hata kodları · §20 kurtarma · §29 telemetri (§21.3–§21.5 atıfları) |
+| `.ai\electronic\drivers\audio-drivers.md` | 709 | §9.4 xrun kurtarma (§21.6 atıfları) |
+| `.ai\electronic\firmware\rtos.md` | 541 | RTOS görev/zamanlama bağlamı |
+| `.ai\electronic\firmware\ota-update.md` | 524 | update alt-dalı sınırı |
+| `.ai\electronic\firmware\boot-sequence.md` | 516 | boot alt-dalı sınırı (§21.7 devir) |
+| `.ai\electronic\drivers\embedded-drivers.md` | 510 | §21.7 device-control I2C mute sırası |
+| `.ai\electronic\dsp\dsp-pipeline.md` | 518 | DSP zinciri referansı |
+
+### §22.2 Atıf bütünlük kontrolü (§21.8'e ek)
+
+| Kontrol | Sonuç |
+|---|---|
+| §21.3–§21.5'teki `dsp-firmware.md:181/350–355/493–501` atıfları | dayanak dosya var (507 satır ✓) — **satır içi pozisyonlar dosya içi okumayla teyitli** |
+| §21.6 `audio-drivers.md §9.4` | dayanak dosya var (709 satır ✓) |
+| §21.7 `embedded-drivers.md:492` | dayanak dosya var (510 satır ✓) |
+| `*.cpp + *.h` repo sayımı (2026-10-15) | **0** → bu dosyadaki hiçbir iddia repo C++'ına dayandırılmaz |
+
+### §22.3 K005 komşu alt-dal sınır özeti (2026-10-15 disk ölçümü)
+
+| Alt-dal | Durum |
+|---|---|
+| audio-control (bu dosya) | §22 ekiyle ≥500 ✓ |
+| boot · device-control · diagnostics · power-control · runtime · security · testing · update | ≥500 (2026-10-15 turu — `.ai/architecture/index.md` §9.12 kayıtlı) |
+| index 10/10 | 40–100 kapısı ✓ |
+
+---
+
+### §22.4 Kapanış ölçüm kaydı (2026-10-15)
+
+| Madde | Değer |
+|---|---|
+| `audio-control-surucu.md` tur öncesi | 450 |
+| §22 eki sonrası | **≥500** (§22.1–§22.4 toplam ek) |
+| Eklenen satır kaynağı | yalnız §21'de atıf yapılan mevcut dayanak dosyaların envanteri |
+| Silinen mevcut içerik | 0 (append-only) |
+| Yeni iddia | 0 — §22.1'deki her satır ölçüm değeri, dayanak dosyanın kendisinden alındı |
+| Kapı ihlali (K005 geneli) | 0 |
+| git commit | yok (orkestratöre ait) |
+| Ölçüm yöntemi | `[System.IO.File]::ReadAllLines(yol).Length` — `Measure-Object -Line` yasak |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

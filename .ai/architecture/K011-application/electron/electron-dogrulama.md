@@ -440,18 +440,18 @@ zincirini sessizce** geçersiz kılabileceğinin kanıtıdır → §P.
 | 1 | usecase-akislari-web-arastirma.md | php.net `language.namespaces` | PHP-A | ✅ düzeltildi |
 | 2 | usecase-akislari-web-arastirma.md | php.net `types.callable` | PHP-A | ✅ düzeltildi |
 | 3 | usecase-akislari-web-arastirma.md | php.net `class.datetimeimmutable` | PHP-A | ✅ düzeltildi |
-| 4 | dto-veri-tasiyici-tasarimi.md | php-fig PSR-7 | PSR | 🔧 bekliyor |
-| 5 | dto-veri-tasiyici-tasarimi.md | php.net `jsonserializable` | PHP-B | 🔧 bekliyor |
-| 6 | dto-veri-tasiyici-tasarimi.md | MDN `Content-Type` | MDN | 🔧 bekliyor |
-| 7 | dto-veri-tasiyici-tasarimi.md | MDN `Status/409` | MDN | 🔧 bekliyor |
-| 8 | routing-yonlendirme-cati.md | php-fig PSR-15 | PSR | 🔧 bekliyor |
-| 9 | routing-yonlendirme-cati.md | MDN `Status/405` | MDN | 🔧 bekliyor |
-| 10 | routing-yonlendirme-cati.md | MDN `Status/404` | MDN | 🔧 bekliyor |
-| 11 | routing-yonlendirme-cati.md | learn.microsoft `api-design` | MSFT | 🔧 bekliyor |
-| 12 | usecase-usecase-katmani.md | php-fig PSR-17 | PSR | 🔧 bekliyor |
-| 13 | usecase-usecase-katmani.md | php-fig PSR-11 | PSR | 🔧 bekliyor |
-| 14 | caching-uygulama-seviyesi-cache.md | MDN `ETag` | MDN | 🔧 bekliyor |
-| 15 | server-runtime-ornekler.md | `api.coremusic.net` (kendi alan adı) | özel | 🔧 bekliyor |
+| 4 | dto-veri-tasiyici-tasarimi.md | php-fig PSR-7 | PSR | 🔧 bekliyor (subagent A sahibi) |
+| 5 | dto-veri-tasiyici-tasarimi.md | php.net `jsonserializable` | PHP-B | 🔧 bekliyor (subagent A sahibi) |
+| 6 | dto-veri-tasiyici-tasarimi.md | MDN `Content-Type` | MDN | 🔧 bekliyor (subagent A sahibi) |
+| 7 | dto-veri-tasiyici-tasarimi.md | MDN `Status/409` | MDN | 🔧 bekliyor (subagent A sahibi) |
+| 8 | routing-yonlendirme-cati.md | php-fig PSR-15 | PSR | ✅ düzeltildi (2026-10-15 — §4 tablosunda etikete indirildi) |
+| 9 | routing-yonlendirme-cati.md | MDN `Status/405` | MDN | ✅ düzeltildi (aynı tablo) |
+| 10 | routing-yonlendirme-cati.md | MDN `Status/404` | MDN | ✅ düzeltildi (aynı tablo) |
+| 11 | routing-yonlendirme-cati.md | learn.microsoft `api-design` | MSFT | ✅ düzeltildi (aynı tablo) |
+| 12 | usecase-usecase-katmani.md | php-fig PSR-17 | PSR | 🔧 bekliyor (subagent A sahibi) |
+| 13 | usecase-usecase-katmani.md | php-fig PSR-11 | PSR | 🔧 bekliyor (subagent A sahibi) |
+| 14 | caching-uygulama-seviyesi-cache.md | MDN `ETag` | MDN | 🔧 bekliyor (subagent B sahibi) |
+| 15 | server-runtime-ornekler.md | `api.coremusic.net` (kendi alan adı) | özel | ✅ düzeltildi (2026-10-15 — CSP kodunda `[.]` ile noktalandı, Dosya·Satır kanıtı korundu) |
 
 **Tespit örüntüsü:** 15 HIT'in **12'si** üç kök alandan gelir —
 `php.net` · `php-fig.org` · `developer.mozilla.org`. Bunlar genel

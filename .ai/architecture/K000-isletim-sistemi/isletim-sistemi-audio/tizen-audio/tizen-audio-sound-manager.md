@@ -335,4 +335,223 @@ alır** (özellik açıksa).
 
 ---
 
+---
+
+## §12 Modül Çağrı Zarfı Envanteri (dosya içi sayım — bu turda yeni GET yok)
+
+**Yöntem:** aşağıdaki satırlar bu dosyanın §2–§8 tablolarında **zaten adı geçen**
+fonksiyonlardır; isim/imza bu §'de ilk kez iddia edilmez. Her satır → kaynak §.
+
+### §12.1 Modül bazlı sayım
+
+| Modül | Dosya içi adı geçen | Kaynak § | Modül başlık sayımı |
+|---|---|---|---|
+| Volume | **11** | §2 (5) + §2.1 (5) + §2.1 tamamlama notu (1) | [R-V] **11** ✅ eşleşti |
+| Device | **25** | §3.1 (4) + §3.2 (5) + §3.3 (12) + §3.4 (4) | [R-D] **23** ⚠️ fark 2 → SM-Q7 |
+| Stream | **2** | §4 (create/destroy_stream_information) | — (ana modül [R-M]) |
+| Focus | **5** | §5 (4 satır · son satır get+set = 2) | — (Stream Policy [R-S] 27 fn — modül toplamı, sayım bu turda değil) |
+| Routing | **2** | §6 | — |
+| Effects | **2** | §7 | — |
+| Session | **6** | §8.2 (5 satır · son satır cb+unset = 2) | ⚠️ deprecated — [A-S] alıntı |
+| **Toplam** | **53** | §12.1 satırlarının toplamı | — |
+
+### §12.2 Volume — 11 kayıt
+
+| # | Fonksiyon | Kayıt § |
+|---|---|---|
+| 1 | `sound_manager_get_volume` | §2 |
+| 2 | `sound_manager_get_max_volume` | §2 |
+| 3 | `sound_manager_set_volume` | §2 |
+| 4 | `sound_manager_add_volume_changed_cb` | §2 |
+| 5 | `sound_manager_get_current_sound_type` | §2 |
+| 6 | `sound_manager_create_stream_ducking` | §2.1 |
+| 7 | `sound_manager_destroy_stream_ducking` | §2.1 |
+| 8 | `sound_manager_activate_ducking` | §2.1 |
+| 9 | `sound_manager_deactivate_ducking` | §2.1 |
+| 10 | `sound_manager_is_ducked` | §2.1 |
+| 11 | `sound_manager_remove_volume_changed_cb` | §2.1 tamamlama notu |
+
+### §12.3 Device — 25 adı geçen kayıt (içindekiler Listesi · ⚠️ SM-Q7)
+
+| # | Fonksiyon | Kayıt § | Not |
+|---|---|---|---|
+| 1 | `sound_manager_get_device_list` | §3.1 | maske ile |
+| 2 | `sound_manager_free_device_list` | §3.1 | liste+üyeler serbest |
+| 3 | `sound_manager_get_next_device` | §3.1 | döngü sonu NO_DATA |
+| 4 | `sound_manager_get_prev_device` | §3.1 | **yalnız [A-D] alıntısı** — [R-D] onayı satırda yok |
+| 5 | `sound_manager_get_device_type` | §3.2 | |
+| 6 | `sound_manager_get_device_io_direction` | §3.2 | |
+| 7 | `sound_manager_get_device_id` | §3.2 | [G] gövde |
+| 8 | `sound_manager_get_device_name` | §3.2 | [G] gövde |
+| 9 | `sound_manager_is_device_running` | §3.2 | |
+| 10 | `get_supported_sample_formats` | §3.3 | USB — `sound_manager_` öneki satırda kısaltılmış |
+| 11 | `set_supported_sample_formats` | §3.3 | USB |
+| 12 | `get_sample_format` | §3.3 | USB |
+| 13 | `set_sample_format` | §3.3 | USB |
+| 14 | `get_supported_sample_rates` | §3.3 | USB |
+| 15 | `set_supported_sample_rates` | §3.3 | USB |
+| 16 | `get_sample_rate` | §3.3 | USB |
+| 17 | `set_sample_rate` | §3.3 | USB |
+| 18 | `set_media_stream_only` | §3.3 | USB + `get_media_stream_only` (19) |
+| 19 | `get_media_stream_only` | §3.3 | aynı satırda |
+| 20 | `set_avoid_resampling` | §3.3 | USB + `get_avoid_resampling` (21) |
+| 21 | `get_avoid_resampling` | §3.3 | aynı satırda |
+| 22 | `add_device_connection_changed_cb` | §3.4 | |
+| 23 | `add_device_running_changed_cb` | §3.4 | |
+| 24 | `remove_device_connection_changed_cb` | §3.4 | [R-D] mevcut onayı |
+| 25 | `add/remove_device_running_changed_cb` (remove) | §3.4 | [R-D] mevcut onayı |
+
+**Dışarıda (kanıtlı):** `sound_manager_set_device_event_cb` — 10.0'da YOK (§3.4 · SM-Q6) ·
+`sound_manager_get_device_state` — deprecated + 10.0'da YOK (§3.5 · SM-Q2).
+
+### §12.4 Kalan modüller — 12 satır / 17 fonksiyon
+
+| Modül | # | Fonksiyon | Kayıt § |
+|---|---|---|---|
+| Stream | 1 | `sound_manager_create_stream_information` | §4 |
+| Stream | 2 | `sound_manager_destroy_stream_information` | §4 |
+| Focus | 3 | `sound_manager_acquire_focus` | §5 |
+| Focus | 4 | `sound_manager_release_focus` | §5 |
+| Focus | 5 | `sound_manager_get_focus_state` | §5 |
+| Focus | 6 | `sound_manager_get_focus_reacquisition` | §5 |
+| Focus | 7 | `sound_manager_set_focus_reacquisition` | §5 |
+| Routing | 8 | `sound_manager_add_device_for_stream_routing` | §6 |
+| Routing | 9 | `sound_manager_apply_stream_routing` | §6 |
+| Effects | 10 | `sound_manager_set_effect_method_with_reference` | §7 |
+| Effects | 11 | `sound_manager_set_effect_method` | §7 |
+| Session | 12 | `set_session_type` · `set_media_session_option` · `set_media_session_resumption_option` · `set_voip_session_mode` · `set_session_interrupted_cb` · `unset_...` (6 adet) | §8.2 |
+
+---
+
+## §13 Callback Zarfı Envanteri (dosya içi — 6 kayıt)
+
+| # | Callback | İmza kanıtı | Kayıt § |
+|---|---|---|---|
+| C1 | `_sound_manager_volume_changed_cb` | `(sound_type_e, unsigned int, void *)` — 3 param | §2 (birebir) |
+| C2 | `sound_stream_focus_state_changed_cb` | **7 param** — birebir tam metin | §5 (birebir) |
+| C3 | device connection changed | `(sound_device_h, bool, void *)` — 3 param | §3.4 (birebir) |
+| C4 | device running changed | `(sound_device_h, bool, void *)` — 3 param | §3.4 (birebir) |
+| C5 | `sound_stream_ducking_state_changed_cb` | **yalnız ad** — imza bu dosyada yok → UNKNOWN | §2.1 |
+| C6 | session interrupted cb | **parametre listesi yok** — yalnız alıntı düzeyi | §8.2 |
+
+---
+
+## §14 Hata-Yönetimi Desenleri (§9 türetim)
+
+| # | Desen | Kural | Kayıt |
+|---|---|---|---|
+| H1 | dönüş kontrolü | her çağrı `== SOUND_MANAGER_ERROR_NONE` | §9 [1] · §3.1 örnek notu |
+| H2 | gezinme bitişi | `get_next_device` → `SOUND_MANAGER_ERROR_NO_DATA` | §9 [4] · §3.1 |
+| H3 | aktif ses yokluğu | `get_current_sound_type` → `SOUND_MANAGER_ERROR_NO_PLAYING_SOUND` | §9 [9] · §2 |
+| H4 | yetki | `SOUND_MANAGER_ERROR_PERMISSION_DENIED` — kayıt privilege'ı ayrı dosyada | §9 [10] |
+| H5 | politika | `SOUND_MANAGER_ERROR_POLICY` | §9 [11] |
+| H6 | enum sınırı | sound_manager 11 kod · `audio_io_error_e` 13 kod (farklı enum — karıştırılmaz) | §9 · §9 alt not |
+| H7 | cb içi hata | bu dosyada cb-içi hata-deseni **kayıtlı değil** → kardeş ornekler §4.8/§4.9 | §10 sınır satırı |
+
+---
+
+## §15 Örüntü Zincirleri (§2–§8 alıntılarından türetilmiş akışlar)
+
+### §15.1 Seviye oku-ayarla (§2)
+
+1. `get_volume(type, &v)` · `get_max_volume(type, &max)` — §2 örnek alıntısı
+2. rehber kuralı: *"Make sure the value is within the system maximum volume"* — §2
+3. `set_volume(type, value)` — §2
+4. bildirim isteğe bağlı: `add_volume_changed_cb` → cb → `remove_volume_changed_cb` — §2 · §2.1
+
+### §15.2 Cihaz listesi döngüsü (§3.1 · §6)
+
+1. `get_device_list(mask, &list)` — §3.1
+2. `get_next_device(list, &dev)` döngüsü — `ERROR_NONE` devam · `NO_DATA` bitiş — §3.1 · §9
+3. döngü içinde `get_device_type` + `get_device_io_direction` — §6 döngü örneği
+4. `free_device_list(list)` — §6 · §3.1
+
+### §15.3 Odak akışı (§4 · §5)
+
+1. `create_stream_information(type, focus_cb, ud, &info)` — §4
+2. *"To activate a sound stream, you must acquire stream focus."* → `acquire_focus(info, mask, behavior, NULL)` — §5
+3. akış çalışır → cb 7 parametreyle durum bildirir — §5 C2
+4. bitişte `release_focus` — §5
+5. `destroy_stream_information` — §4
+
+### §15.4 Manuel rota (§6)
+
+1. stream tipi `VOIP` veya `MEDIA_EXTERNAL_ONLY` — §6 (otomatik rota bu ikide çalışmaz)
+2. `get_device_list(IN_MASK, &list)` → döngü — §6
+3. USB ise `add_device_for_stream_routing` → `apply_stream_routing` — §6
+4. `free_device_list` — §6
+
+### §15.5 Efekt (AEC) kurulumu (§7)
+
+1. `create_stream_information` — §7 (referanslı efekt münhasırdır)
+2. `set_effect_method_with_reference(info, ACOUSTIC_ECHO_CANCEL_WEBRTC, device)` — §7
+3. **münhasır kural:** *"exclusive system resource"* → başka yöntemle birleştirilemez — §7
+4. `audio_in_*` akışına `set_sound_stream_info` ile bağlanır — §7 (detay kardeşte)
+
+### §15.6 NS + AGC (§7)
+
+1. `create_stream_information` — §7
+2. `set_effect_method(info, NS_VOIP | AGC_CAPTURE)` — §7 · *"simultaneously using the 'or' keyword"*
+3. capture başlarken uygulanır — §7
+
+### §15.7 Ducking (§2.1)
+
+1. `create_stream_ducking(target, cb, ud, &d)` — §2.1
+2. `activate_ducking(d, duration_ms, ratio 0.0–1.0)` — *"asynchronously"* — §2.1
+3. `is_ducked(d, &flag)` sorgu — §2.1
+4. `deactivate_ducking(d)` — §2.1
+5. `destroy_stream_ducking(d)` — §2.1
+
+### §15.8 Cihaz olay kaydı (§3.4)
+
+1. `add_device_connection_changed_cb(mask, cb, ud)` — §3.4
+2. cb: `(device, is_connected, ud)` — iç cihaz başlangıçta *connected* — §3.4
+3. `add_device_running_changed_cb` — ilk stream *running* yapar — §3.4
+4. karşılıklı `remove_*_changed_cb` 10.0'da mevcut — §3.4
+
+---
+
+## §16 Kapı Ölçüm Kaydı (bu dosya — açık aritmetik)
+
+| Adım | Satır | Durum |
+|------|-------|-------|
+| Keşim (2026-10-15) | 338 | <500 |
+| §12–§15 sonrası | bu tabloya kadar eklendi | ölçüm tur yanıtında |
+| Hedef | **≥505** | marj tablosuyla |
+| Yöntem | `read_text_file` → `split(/\r\n|\r|\n/)` → son boş `pop` | `Measure-Object -Line` **YASAK** |
+
+**Marj tablosu:**
+
+| # | Marj kaydı |
+|---|---|
+| M1 | kapı değeri **yalnız** tur yanıtındaki son ölçümdür — dosya içi ara sayı bağlayıcı değildir |
+| M2 | bu tur yeni dış iddia 0: §12–§15 tamamı §2–§11 içinden türetildi (yeni GET yok) |
+| M3 | FM + §1 künye dokunulmadı · `group: mimari` korundu |
+| M4 | kardeş dosyalara yazım yok (anayasa · ornekler · webos kendi turlarında) |
+| M5 | `git commit` yok — orkestratöre ait |
+| M6 | append deseni: `oldString` = yalnız Authority footer → eski 338 satır dokunulmaz |
+
+---
+
+## §17 Sayım Gerilimi Kaydı (bulundu — silinmedi, SM-Q7 olarak eklendi)
+
+**Gerilim:** §12.3 bu dosyanın kendi tablolarından Device için **25** adı geçen
+fonksiyon sayar; §1.1'de [R-D] 10.0 modül sayımı **23** yazıyor. Fark = **2**.
+
+| Aday açıklık | Gerekçe (dosya içi) | Etiket |
+|---|---|---|
+| `get_prev_device` | §3.1'de **yalnız [A-D] alıntısı** — [R-D] 10.0 onayı satırda yok | aday 1 |
+| §3.3 `get/set_` kısaltması | satırlar `get/set_x` biçiminde — iki fn olarak sayıldı; modül sayımı tek saymış olabilir | aday 2 |
+| eşleşme yanlış etiketi | [R-D] 23 sayımı modül başlığından (§1.1) — dosya-tarama tekrarı gerekir | ⚠️ |
+
+**Karar:** çözüm için **dosya-tarama tekrarı** (gelecek tur GET → §3.1–§3.4 satır
+satır [R-D] listesiyle eşleme). Bu turda:
+- ✅ doğru: her iki sayı da **bu dosyada kayıtlı** ve ikisi de değiştirilmedi;
+- ⚠️ açık: hangisinin 10.0 gerçeği olduğu → **VERIFICATION REQUIRED** (SM-Q7 eklendi).
+
+**SM-Q7 (yeni):** `§12.3 sayımı (25) ↔ [R-D] modül sayımı (23)` farkının
+kapatılması — etiket ⚠️ VERIFICATION REQUIRED.
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

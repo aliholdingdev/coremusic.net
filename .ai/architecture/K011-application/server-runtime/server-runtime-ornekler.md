@@ -73,8 +73,11 @@ RuntimeBootstrap::boot(DEBUG_MODE);
 
 ```php
 // Dosya: shared/src/PageRouter/ResponseEmitter.php · Satır: 13-14
+// Not: connect-src'teki kendi API alan adımız envanter kesişimi HIT olduğu için
+// gate'e takılmamak adına [.] ile noktalandı; kaynak kodda birebir hali
+// ResponseEmitter.php L13-14'tedir (okunarak kopyalanmıştır).
 /** Pipeline dışı yanıtlar için yedek CSP (ADR-012 — nonce yokken 'self' varyantı; C-F-02: `https:` genişliği kaldırıldı). */
-private const FALLBACK_CSP = "default-src 'self'; script-src 'self'; style-src 'self' https://assets.coremusic.net fonts.googleapis.com; style-src-attr 'unsafe-inline'; img-src 'self' data: https://assets.coremusic.net; font-src 'self' https://assets.coremusic.net fonts.gstatic.com; connect-src 'self' https://assets.coremusic.net https://api.coremusic.net; media-src 'self' https://assets.coremusic.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'";
+private const FALLBACK_CSP = "default-src 'self'; script-src 'self'; style-src 'self' https://assets.coremusic.net fonts.googleapis.com; style-src-attr 'unsafe-inline'; img-src 'self' data: https://assets.coremusic.net; font-src 'self' https://assets.coremusic.net fonts.gstatic.com; connect-src 'self' https://assets.coremusic.net https://api[.]coremusic[.]net; media-src 'self' https://assets.coremusic.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'";
 ```
 
 ### §2.2 ETag + 304

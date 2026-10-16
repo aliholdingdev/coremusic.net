@@ -7,6 +7,7 @@ children:
   - "background-jobs-anayasa.md"
   - "background-jobs-surucu.md"
   - "background-jobs-ornekler.md"
+  - "background-jobs-web-arastirma.md"
 depends_on: []
 evidence:
   - "v2 §2.12 — çocuk adı kaynağı (birebir)"
@@ -37,6 +38,10 @@ group: mimari
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| mimari | `background-jobs-anayasa.md` | Sınır, iş motoru tanımı, kanıt kuralları | Kademe-2 |
+| mimari | `background-jobs-surucu.md` | Sürüş/tetikleme akışı ve karar noktaları | Kademe-2 |
+| kod | `background-jobs-ornekler.md` | Verbatim kod blokları ve pseudocode örnekler | Kademe-2 |
+| kanit | `background-jobs-web-arastirma.md` | Q5 iş motoru web kanıtlı seçenek matrisi (10 URL; karar ADR bekler) | Kademe-2 |
 
 ## §A Kapilar (bu index)
 

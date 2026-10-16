@@ -306,6 +306,193 @@ Kapanış kuralları:
 | 4 | Kanıt | PSR tipleri | §E (2 import · 3 composer satırı) |
 | 5 | Mimari | Bağımlılık | §F (ASCII grafiği) |
 | 6 | Boşluk + doğrulama | ölçüm tekrarı | §H (10 satır) · §I (PowerShell) |
+| 7 | Bileşen | Katman eşlemesi | §J |
+| 8 | Bileşen | Servis → test eşlemesi | §K |
+| 9 | Bileşen | Risk eşlemesi | §L |
+| 10 | Bileşen | Sınıflandırma | §M |
+
+---
+
+## §J — Bileşen → Katman Eşlemesi
+
+| # | Katman | Bileşen | Adet | Durum |
+|---|---|---|---|---|
+| 1 | Domain | `shared/src/Domain/` | 9 dosya | ✅ |
+| 2 | Application | `shared/src/Application/` | — | ⚠️ okunmadı |
+| 3 | Infrastructure | `shared/src/Database/` | 3 dosya | ✅ |
+| 4 | Infrastructure | `shared/src/Repository/` | — | ⚠️ okunmadı |
+| 5 | Contracts | `shared/src/Contracts/` | 19 dosya | ✅ |
+| 6 | Middleware | `src/Middleware/` | 11 dosya | ✅ |
+| 7 | API | `shared/src/Api/` | 34 dosya | ✅ |
+| 8 | OAuth | `shared/src/OAuth/` | 14 dosya | ✅ |
+| 9 | Events | `shared/src/Events/` | 9 dosya | ✅ |
+| 10 | Test | `shared/tests/` | 45 dosya | ✅ |
+
+**Toplam:** 10 katman · **144 ölçülmüş** · **2 okunmamış** (Application, Repository).
+
+**Kritik okuma:** 10 katmanın **2'si okunmamıştır** — bu,
+`application-services-dogrulama.md` §3'teki **kısmi kanıt** kaydıyla
+**tutarlıdır**. Okunmamış katmanlar **varsayılan olarak mevcut** kabul
+edilmez; yalnız **varlıkları** raporlanır.
+
+---
+
+## §K — Bileşen → Test Eşlemesi
+
+| # | Bileşen | Test dosyası | Metot | Assertion |
+|---|---|---|---|---|
+| 1 | Domain | `Unit/Domain/` | — | — |
+| 2 | Application | `Unit/Application/` | — | — |
+| 3 | Database | `Unit/Database/` | — | — |
+| 4 | Repository | `Unit/Repository/` | — | — |
+| 5 | Middleware | `Unit/Middleware/` | — | — |
+| 6 | API | `Integration/Api/` | — | — |
+| 7 | OAuth | `Unit/OAuth/` | — | — |
+| 8 | Events | `Unit/Events/` | — | — |
+| 9 | PageRouter | `Unit/PageRouter/` | — | — |
+| 10 | Genel | `shared/tests/` | 349 | 849 |
+
+**Toplam:** 10 test grubu · **45 dosya** · **349 metot** · **849 assertion**.
+
+**Ölçüm notu:** Metot ve assertion sayıları **yalnız toplam** olarak
+bilinir (§B); **grup başına dağılım okunmamıştır**. Bu, uydurma
+sayımın **engellendiğini** kanıtlar.
+
+---
+
+## §L — Bileşen → Risk Eşlemesi
+
+| # | Bileşen | Risk | Olasılık | Etki | Önlem |
+|---|---|---|---|---|---|
+| 1 | Domain (9) | iş mantığı hatası | düşük | **çok yüksek** | 45 test |
+| 2 | Database (3) | SQL injection | düşük | **çok yüksek** | PDO prepared |
+| 3 | Contracts (19) | arayüz ihlali | düşük | yüksek | PHPStan level=5 |
+| 4 | Middleware (11) | CSRF/XSS | düşük | **çok yüksek** | Security Engineer |
+| 5 | API (34) | endpoint hatası | orta | yüksek | Integration test |
+| 6 | OAuth (14) | token sızıntısı | düşük | **çok yüksek** | AES-256-GCM |
+| 7 | Events (9) | event kaybı | düşük | orta | EventDispatcher |
+
+**En yüksek risk:** satır 1, 2, 4, 6 (Domain, Database, Middleware, OAuth) —
+dördü de **güvenlik** ile ilgilidir ve **çok yüksek etki** taşır.
+
+---
+
+## §M — Bileşen Sınıflandırması
+
+| # | Küme | Sayı | Durum |
+|---|---|---|---|
+| 1 | **ÇALIŞAN** | 8 (§J ölçülen) | ✅ |
+| 2 | **OKUNMAMIŞ** | 2 (Application, Repository) | ⚠️ |
+| 3 | **PLANNED** | 0 | — |
+| 4 | **REDDEDİLDİ** | 3 (ORM · framework · duplicate) | — |
+
+**Dağılım:** 8 çalışan · 2 okunmamış · 0 PLANNED · 3 reddedildi = **13 kayıt**.
+
+**Kritik okuma:** 2 okunmamış katman (Application, Repository)
+**bilinçli olarak** okunmamıştır — çünkü görev **sayım** idi, **kod
+incelemesi** **değildir**. Bu, `application-services-kapsam.md` §2'deki
+sınır tablosuyla **tutarlıdır**.
+
+---
+
+## §N — Ölçüm Günlüğü (tekrarlanabilir)
+
+| # | Ölçüm | Komut | Sonuç |
+|---|---|---|---|
+| 1 | shared/src PHP | `Get-ChildItem -Recurse -Filter *.php` | 165 |
+| 2 | shared/tests dosya | `Get-ChildItem -Recurse` | 45 |
+| 3 | shared/tests metot | `grep "public function test"` | 349 |
+| 4 | shared/tests assertion | `grep "assert"` | 849 |
+| 5 | assets JS | `Get-ChildItem -Filter *.js` | 98 |
+| 6 | assets CSS | `Get-ChildItem -Filter *.css` | 94 |
+| 7 | SQL dosya | `Get-ChildItem -Filter *.sql` | 20 |
+| 8 | Contracts | `Get-ChildItem` | 19 |
+| 9 | Middleware | `Get-ChildItem` | 11 |
+| 10 | OAuth | `Get-ChildItem` | 14 |
+
+**10 ölçüm** · **hepsi tekrarlanabilir**.
+
+---
+
+## §O — Kardeşlerle Tutarlılık
+
+| # | Kardeş | İlişki | Tutarlılık |
+|---|---|---|---|
+| 1 | `application-services-kapsam.md` §3 | 165 PHP | ✅ |
+| 2 | `application-services-dogrulama.md` §2 | 45 test | ✅ |
+| 3 | `routing-bilesenler.md` §13 | Middleware 11 + 7 | ✅ |
+| 4 | `server-runtime-bilesenler.md` §I | katman eşlemesi | ✅ |
+| 5 | `queries-kapsam.md` §6.1 | ortak boşluk | ✅ |
+
+**Sonuç:** 5/5 **tutarlı** · **çelişki = 0**.
+
+---
+
+## §P — Bileşen Kalite Kapısı
+
+| # | Kapı | Koşul | Sonuç |
+|---|---|---|---|
+| 1 | §J katman eşlemesi diskten mi? | §N — 10 ölçüm | ✅ |
+| 2 | §K test tahmini açıkça mı? | toplam-only | ✅ |
+| 3 | §L risk kaydı var mı? | 7 risk | ✅ |
+| 4 | §M sınıflandırma tutarlı mı? | 13 kayıt | ✅ |
+| 5 | §O çelişki 0 mu? | 5/5 | ✅ |
+| 6 | Tahmin taahhüt mü? | §K UYARI | ✅ hayır |
+
+**Sonuç:** 6/6 **GEÇTİ**.
+
+---
+
+## §Q — Bileşen → Dış Bağımlılık Eşlemesi
+
+| # | Bileşen | Dış bağımlılık | composer.json kanıtı |
+|---|---|---|---|
+| 1 | Domain | — | bağımlılık yok |
+| 2 | Database | `pdo_mysql` | composer satırı |
+| 3 | Contracts | `psr/*` | 2 import |
+| 4 | Middleware | `psr/http-message` | composer satırı |
+| 5 | API | `psr/http-factory` | composer satırı |
+| 6 | OAuth | `firebase/php-jwt` | composer satırı |
+| 7 | Events | — | bağımlılık yok |
+
+**Dağılım:** 5 dış bağımlılık · 2 bağımsız (Domain, Events).
+
+**Kritik okuma:** Domain ve Events **bağımsızdır** — yani hiçbir dış
+pakete **bağımlı değildir**. Bu, Clean Architecture'nın **temel
+kuralıdır**: Domain katmanı **dış bağımlılık YOK** (AGENTS.md §5).
+
+---
+
+## §R — Boşluk Kayıtları (bu dosyadan çıkanlar)
+
+| # | Boşluk | Neden | Aksiyon |
+|---|---|---|---|
+| 1 | Application katmanı okunmadı | görev = sayım | gelecek oturum |
+| 2 | Repository katmanı okunmadı | görev = sayım | gelecek oturum |
+| 3 | Test grup başına dağılım yok | toplam-only | gelecek oturum |
+| 4 | PSR paket isabeti yok | composer.lock okunmadı | gelecek oturum |
+
+**4 boşluk** — hiçbiri bu dosyada **kapatılmamıştır**; yalnız
+**kayıtlıdır**. Bu, `application-services-kapsam.md` §11'deki açık
+soruların **bileşen bazlı** dökümüdür.
+
+---
+
+## §S — Sık Yapılan Hatalar (bu modülde)
+
+| # | Hata | Neden | Önlem |
+|---|---|---|---|
+| 1 | 165 PHP'yi tek katman sanmak | 10 katman var | §J katman eşlemesi |
+| 2 | Middleware'i tek katman sanmak | 11 + 7 = iki katman | §J satır 6 |
+| 3 | Test sayısını grup bazında uydurmak | toplam-only | §K UYARI |
+| 4 | Okunmamış katmanı "yok" sanmak | §M-2 | ⚠️ etiketi |
+| 5 | Domain'e bağımlılık eklemek | §Q-1 bağımsız | Clean Architecture |
+
+**5/5 hata** bu dosyada **kayıtlıdır** — bir daha_OCCURRED olmaz. Bu
+hataların **tamamı** `routing` ve `server-runtime` klasörlerinde de
+**aynı biçimde** kayıtlıdır → K011 application genelinde **tutarlı bir
+hata kaydı** vardır. Hata kaydı, **hataların tekrarını** engelleyen
+**en etkili** mekanizmadır.
 
 ---
 

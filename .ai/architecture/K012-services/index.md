@@ -89,6 +89,7 @@ iş kuralı K008'de, dış dünya K013'te durur.
 | mimari | `services-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |
 | mimari | `services-riskler.md` | Risk kaydı (R1–R8) ve azaltım planı | Kademe-1 |
 | kod | `services-ornekler.md` | Kanıt kartları (S1) ve pseudocode örnekler | Kademe-1 |
+| kanit | `services-web-arastirma.md` | Q1–Q9 web kanıtlı seçenek matrisleri (11 URL + 4 kardeş pointer; karar ADR bekler) | Kademe-1 |
 
 ---
 

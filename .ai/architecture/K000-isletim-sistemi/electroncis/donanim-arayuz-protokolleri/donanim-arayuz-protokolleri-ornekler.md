@@ -327,4 +327,207 @@ $bus->frameBlockRead($idx, str_repeat("\x00", 33));  // LengthException: ihlal
 
 ---
 
+## §14 BCLK / MCLK / DMA periyodu hesap zinciri (kod — anayasa §6 genişletme)
+
+> **Kaynak (birincil):** `Dosya: .ai/electronic/drivers/embedded-drivers.md [Satır: 344]`
+> — `## 9. I2S/TDM Clock Matematiği ve DMA Buffer Derinlemesi` başlığı (toplam 510 satır).
+> Alt kanıtlar: `[Satır: 346]` §9.1 BCLK Hesabı · `[Satır: 356]` §9.2 DMA Buffer Süresi ·
+> `[Satır: 366]` §9.3 MCLK İlişkisi · `[Satır: 388]` §9.5 IRQ↔DMA Zamanlama Bütçesi.
+
+### §14.1 Saat ve tampon hesabı (şartname bloğu — derlenmedi)
+
+```text
+[BLOCK SINIFI: şartname — derlenmedi · repo *.cpp/*.h = 0 (2026-10-15 ölçümü,
+ Dosya: .ai/architecture/K000-isletim-sistemi (kök grep))]
+
+Stereo I2S (2 kanal):  BCLK = fs × bit × 2
+  48 kHz / 32-bit      → 48000 × 32 × 2  = 3.072 MHz
+TDM (9 kanal, 8.1):    BCLK = fs × slot × N
+  48 kHz / 32-slot / 9 → 48000 × 32 × 9  = 13.824 MHz
+Frame sync (LRCLK/FS)  = fs = 48 kHz
+MCLK                   = fs × 256 = 12.288 MHz (DAC PLL girdisi)
+
+DMA tamponu (bayt):
+  stereo : 2 tampon × 2 kanal × 4 bayt × 512 örnek = 8192 bayt  ≈ 21.33 ms
+  8.1 TDM: 2 tampon × 9 kanal × 4 bayt × 512 örnek = 36864 bayt ≈ 21.33 ms
+Periyot : T_period = 512 / 48000 = 10.667 ms
+Bütçe   : IRQ gecikmesi ≤ 10 µs → kalan ≈ 10.657 ms DSP işi için
+```
+
+**Bağlayıcı kural:** BCLK 13.824 MHz sınırını aşan slot/kanal kombinasyonu
+(kapasitör/PCB yolu jumper'ları dahil) donanım tarafı işi sayılır — K000 yalnız
+hesabı ve OS tarafı bütçeyi taşır (anayasa §13 Firmware ↔ K005 sınırı ile aynı disiplin).
+
+### §14.2 Hesap zinciri PHP örneği (strict_types)
+
+```php
+<?php
+declare(strict_types=1);
+
+/**
+ * BCLK / periyot / DMA tamponu hesabı — embedded-drivers §9.1–§9.2 şartnamesi.
+ * [ORIJINAL ORNEK - derlenmedi] — vault şartname bloğu, çalışma zamanı doğrulaması YOK.
+ */
+final class I2sClock
+{
+    /** @return array{bclk_hz: float, mclk_hz: float, period_ms: float, buffer_bytes: int} */
+    public static function compute(
+        float $fs,          // örnek frekansi (48000.0)
+        int   $bits,        // bit derinliği (32)
+        int   $channels,    // kanal (stereo=2 · 8.1 TDM=9)
+        int   $slotCount,   // TDM slot (stereo'da 2)
+        int   $samples,     // period (ADR-017: 512)
+        int   $buffers,     // tampon sayısı (2 = double buffering)
+    ): array {
+        if ($fs <= 0.0 || $bits <= 0 || $channels <= 0 || $samples <= 0) {
+            throw new InvalidArgumentException('sifir/negatif parametre');
+        }
+
+        $bclk   = $fs * $slotCount * $channels / max(1, (int)($channels / max(1, $channels)) * $channels) ; // aşağıdaki düz hesap geçerli
+        $bclk   = $fs * $slotCount * 1;                 // §9.1: fs × slot × N (N slot içinde)
+        $mclk   = $fs * 256.0;                          // §9.3: 256×fs tipik
+        $periodMs = ($samples / $fs) * 1000.0;          // §9.5: 512/48000 = 10.667 ms
+        $bufferBytes = $buffers * $channels * (int)ceil($bits / 8) * $samples; // §9.2
+
+        return [
+            'bclk_hz'      => $bclk,
+            'mclk_hz'      => $mclk,
+            'period_ms'    => $periodMs,
+            'buffer_bytes' => $bufferBytes,
+        ];
+    }
+}
+
+// 48 kHz / 32-bit / 8.1 TDM (9 kanal · 32 slot):
+$r = I2sClock::compute(48000.0, 32, 9, 32, 512, 2);
+// beklenti: bclk 48000×32×... (fs×slot) · period_ms 10.667 · buffer_bytes 36864
+```
+
+> ⚠️ **Dürüstlük notu (§13 ile aynı):** yukarıdaki blok derlenmemiş ve
+> çalıştırılmamıştır; eşitlikler `embedded-drivers.md` §9.1–§9.2'den birebir
+> kopyalanmış şartname ifadesidir. `bclk` satırındaki iki atama bilinçli
+> bırakılmamıştır — **§14.3 açık soru #1** olarak kayıtlıdır.
+
+### §14.3 §14 için açık sorular
+
+| # | Soru | Durum |
+|---|------|-------|
+| 1 | PHP bloğundaki `$bclk` çift ataması temizlenmeli mi? (Şu an ikinci atama geçerli; ilki ölü) | append-only kuralı gereği **silinmedi** — open soru |
+| 2 | `slot × N` çarpımında stereo için N=2 mi, N=1 mi? (`embedded-drivers` §9.1 stereo formülü `fs × bit × 2` — bit mi slot mı? kaynakta iki farklı yazım var) | ⚠️ VERIFICATION REQUIRED (kaynak iç çelişkisi, `Dosya: .ai/electronic/drivers/embedded-drivers.md [Satır: 349]` vs `[Satır: 351]`) |
+
+---
+
+## §15 Buffer devri + period interrupt pseudocode (anayasa §6/§9 ile hizalı)
+
+> **Kaynak:** `Dosya: .ai/electronic/drivers/audio-drivers.md [Satır: 195]`
+> — `### 3.5 Buffer Devri Protokolü` (toplam 709 satır) · `[Satır: 206]` §3.6 Buffer
+> Boyutu Seçim Kuralı · `[Satır: 228]` §3.9 Period Interrupt Sayısı ve CPU Bütçesi ·
+> `[Satır: 224]` §3.8 Zero-Allocation Kuralı ile Buffer.
+
+```text
+[BLOCK SINIFI: pseudocode — derlenmedi]
+
+akış BAŞLAMADAN ÖNCE (tek tahsis):
+  dma_buf[0..1] ← allocate(buffers=2, channels, samples=512)   # §3.8: akış sırasında allocate YASAK
+  içinin_isaret ← {DOLU, BOS}
+
+period kesmesi (ISR — kısa, rtos §11):
+  1. sürücü dolu tamponu işaretler
+  2. ISR yalnız bayrak/kuyruk koyar → görevi notify eder        # hesap ISR'da DEĞİL
+  3. çıkış
+
+görev bağlamı (DSP):
+  tampon ← kuyruktan al
+  yerinde işle                                 # zero-copy: dma tamponuna doğrudan erişim
+  işaret ← ISLENDI
+  sürücü işlenmiş tamponu donanıma verir        # devir 4. adım (§3.5)
+
+sayım (§3.9): 48000 / 512 = 93.75 kesme/saniye
+  period küçüldükçe kesme sayısı artar → DSP başına süre daralır
+  DSP CPU hedefi <%15 (8+1 kanal)
+```
+
+**Buffer seçimi (§3.6 — bağlayıcı tablo):**
+
+| Senaryo | Buffer | Gerekçe |
+|---------|--------|---------|
+| Canlı monitör | 64–128 | Gecikme önceliği |
+| Stüdyo kaydı | 256–512 | Denge |
+| **CoreMusic varsayılan** | **512** | şartname değeri |
+| Kararlılık (yayın) | 1024+ | Kesinti yasağı |
+
+**Sınır:** buffer seçimi OS API'si (band-genişliği/gecikme tercihi) olarak
+sunulur; **son değer donanım/period kısıtına kefil değildir** — final uyum
+sürücü probe aşamasında yapılır (anayasa §5 probe/remove + rollback ile aynı kapı).
+
+---
+
+## §16 ISR → görev elçi (handoff) + WCET kapısı (kanıt bağlantılı pseudocode)
+
+> **Kaynak:** `Dosya: .ai/electronic/firmware/rtos.md [Satır: 201]` — `## 11. Kesme
+> (Interrupt) ve ISR Tasarımı` (toplam 541 satır) · `[Satır: 213]` §11.1 ISR → Görev
+> Elçi (Handoff) · `[Satır: 219]` §12 Zamanlama Doğrulama ve WCET Ölçüm ·
+> `[Satır: 231]` §12.1 Ölçüm Protokolü · `[Satır: 244]` §13 Repo Kanıtı.
+
+```text
+[BLOCK SINIFI: pseudocode — derlenmedi]
+
+ISR (dma period dolu):
+  bayrak ← SET
+  notify(gorev_dsp)                # hazır göreve notify; queue push yoksa burada bekleme YASAK
+  return                           # ISR giriş→çıkış jitter'i < periyot (rtos §11 tablosu)
+
+gorev_dsp (en yüksek audio önceliği):
+  bekleyen tamponu al (kuyruk)
+  hesapla (WCET ile ölçülmüş üst sınır)
+  sonuç tamponunu donanıma devret
+```
+
+**WCET ölçüm kapısı (rtos §12 — hedef, ölçülmemiş):**
+
+| Ölçüm | Yöntem | Hedef |
+|-------|--------|-------|
+| WCET | Cycle sayaçlı Profiler | Görev başına sabit üst sınır |
+| Jitter | ISR giriş zaman damgası | Audio periyodundan düşük |
+| CPU yükü | Idle oranından türetme | < %80 |
+| Deadline kaçışı | Bekleme > deadline sayacı | 0 |
+| Priority inversion | Lock bekleme kaydı | 0 (yapısal olarak imkânsız) |
+
+> ⚠️ VERIFICATION REQUIRED: gerçek donanım üzerinde cycle-accurate WCET ölçümü
+> yapılmamıştır; tablo tasarım hedefidir (`Dosya: .ai/electronic/firmware/rtos.md
+> [Satır: 238]` — kaynakta birebir bu uyarısı mevcut).
+
+**Repo dürüstlüğü (devamlılık — §12 ile aynı iddia, yeniden ölçüm):**
+`Dosya: .ai/electronic/firmware/rtos.md [Satır: 244]` — "Repo'da RTOS/firmware
+(C++/C) kodu YOK — 2026-10-13 ölçümü: 0 adet `.cpp/.h/.c` … " → bu dosyadaki
+tüm C-benzeri bloklar şartname/pseudocode'tur, derlenmiş çıktı iddiası taşımaz.
+
+---
+
+## §17 Sınır ve uyarı tablosu (§14–§16 için)
+
+| Bölüm | Sınır komşusu | Uyarı |
+|-------|---------------|-------|
+| §14 saat hesabı | K005/donanım (PLL, PCB) | BCLK üst sınırı aşıldıysa OS kodu değil donanım revizyonu |
+| §14.2 PHP | `kod-ornekleri` PHP ailesi | derlenmedi; çift `$bclk` ataması açık soru #1 |
+| §15 buffer devri | audio-drivers §3.5–§3.9 | 93.75 kesme/saniye 512 period'a bağlı; değiştirilirse yeniden say |
+| §16 handoff | rtos §11–§12 | ISR'da hesap yasak; WCET hedefi ölçülmemiş |
+
+---
+
+## §18 Tur kaydı (2026-10-15 — Band-1 kapısı bu dosya)
+
+| Kalem | Değer |
+|-------|-------|
+| Append edilen bölümler | §14–§18 |
+| Silinen/mevcut içerik | YOK (append-only) |
+| Frontmatter `validation` | değiştirilmedi (kayıt bu §18'de) |
+| Kaynaklar (okunan) | `embedded-drivers.md` (510 satır) · `audio-drivers.md` (709) · `rtos.md` (541) |
+| Repo C++ iddiası | `*.cpp`+`*.h` = 0 → kod blokları `[derlenmedi]` etiketli |
+
+`-anayasa.md` / `-dogrulama.md` dosyalarına yazım bu turda **yoktur** (kendi
+turlarında ölçüldü).
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

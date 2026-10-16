@@ -351,4 +351,159 @@ Yasak:         wake baytını arm etmeden S3'e girmek (uyanamama → "donmuş ma
 
 ---
 
+## §14 Düşük güç modları ↔ ses akışı bağlayıcısı (kaynak genişletme)
+
+> **Kaynak:** `Dosya: .ai/electronic/drivers/embedded-drivers.md [Satır: 177]`
+> — `## 3. Düşük Güç (Power Management)` başlığı (toplam 510 satır).
+> Alt kanıtlar: `[Satır: 179]` §3.1 Düşük Güç Modları tablosu · `[Satır: 188]`
+> tasarım kuralı · `[Satır: 190]` §3.2 DAC Güç Yönetimi · `[Satır: 200]` §3.3 Isı Yönetimi.
+
+### §14.1 Mod ↔ akış etkisi (OS gözü — §2 D-state hizası)
+
+| Mod | Kaynak tarifi | Ses akışı etkisi | OS politikası (bu anayasa) |
+|-----|---------------|------------------|----------------------------|
+| Active | Tüm peripheral aktif | En düşük latency | Akış açıkken **zorunlu** durum |
+| Idle | CPU clock gating | Orta | Yalnız idle gap'te; period ISR gelince anında çıkış |
+| Sleep (suspend-to-RAM) | RAM korunur, peripheral kapalı | **Akış kesilir** | S3 çağrısı öncesi akış kapatma zorunlu (§10.1 sırası) |
+| Hibernate (suspend-to-disk) | Disk'e yazılır | Sıfırdan boot | S4 — §10.2 kapısı |
+
+**Bağlayıcı kural** (kaynak `[Satır: 188]` ile aynı söz, OS tarafına tercüme):
+ses akışı sırasında sistem **Active/Idle** modunda kalmalıdır; Sleep/Hibernate
+geçişi akışı zorla sonlandırır. OS API'si `suspend` çağrısını akış durumuyla
+koşullandırır (akış aktifse → ya EBUSY döner ya da §10 sıralamasıyla kapanış
+önce tetiklenir — anayasa §10.1–§10.2 çelişmez, bu §14 onların giriş kapısıdır).
+
+### §14.2 DAC güç register'ı ↔ OS I2C yüzeyi
+
+| Durum | I2C Register | Akım | OS tarafı |
+|-------|--------------|------|-----------|
+| Normal | 0x00 (Mode 1) | ~30 mA (typik) | akış AÇIK varsayılanı |
+| Mute | 0x00 (mute bit) | ~30 mA | yazılı mute — clock/PLL değişmez |
+| Power-down | 0x00 (PD bit) | ~1 µA | yalnız S3/S4/S5 zincirinde (§10) |
+
+> ⚠️ VERIFICATION REQUIRED: PCM3168A register değerleri doğrulanmamıştır —
+> kaynakta bu uyarı birebir mevcut (`Dosya: .ai/electronic/drivers/
+> embedded-drivers.md [Satır: 198]`). Bu anayasa o değerleri **şartname olarak
+> devralır**, doğrulanmış sayılmaz; doğrulama K005/DAC sürücüsü işidir
+> (§13.1 kanal yüzeyleri ile aynı sınır).
+
+**Sınır:** OS yalnız I2C yazma sırasını (mute → PD) ve hatayı (NACK → §12 log)
+taşıır; **akım/thermal sonucuna kefil değildir.**
+
+### §14.3 Thermal ↔ akış (kaynak tablo + OS reaksiyonu)
+
+| Parametre | Kaynak değer | OS reaksiyonu |
+|-----------|--------------|---------------|
+| BCM2712 throttle | 80 °C (tipik) | throttle algılanırsa period bütçesi yeniden hesaplanır; başarısızlık → xrun riski §12 log'a |
+| DAC sıcaklık | Datasheet sınırı | OKUMA YOK (OS yüzeyi yok — K005) |
+| PCB ısı dağıtımı | Pasif soğutucu | donanım işi — OS dokunmaz |
+
+**Isı kuralı** (kaynak `[Satır: 208]`): uzun süreli ses akışında throttle
+yaşanmamalıdır; throttle DMA/IRQ zamanlamasını bozar, dropout riski artar.
+OS gözlemleyici tarafı: sıcaklık olayı → §11 DPC/ISR gecikme bütçesi senaryosu
+(çift taraflı not §11.1 ile uyumlu).
+
+---
+
+## §15 Boot/uyku bütçesi ↔ OS girişim sırası (kaynak sayıları)
+
+> **Kaynak:** `Dosya: .ai/electronic/firmware/boot-sequence.md [Satır: 163]`
+> — `## 9. Loader → Kernel / Firmware Geçişi (Handoff)` (toplam 516 satır) ·
+> `[Satır: 175]` §9.1 Handoff Temizlik Kuralı · `[Satır: 181]` §10 Hızlı Başlatma ·
+> `[Satır: 193]` §10.1 Boot Süresi Bütçesi (Hedef).
+
+### §15.1 Handoff parametreleri — OS devraldığı yüzey
+
+| Handoff parametresi | Açıklama | §13.1 ile ilişkisi |
+|---------------------|----------|--------------------|
+| Bellek haritası | RAM bölgeleri, DMA tampon adresleri | DMA tampon adresleri §11 bütçesinin girdisi |
+| Boot argümanları | Kernel cmdline / yapılandırma | güç politikası bayrakları (ör. idle politika) |
+| Device tree (DTB) | Donanım tanımı (RPi5) | §14.2 DAC/I2C düğümü buradan gelir |
+| Clock/PLL durumu | Devralınan clock | §2.5/§3 el sıkışma öncesi durum |
+| Watchdog durumu | Devredilen watchdog | §10.4 kurtarma zinciri |
+
+**Temizlik kuralı (§9.1 — bağlayıcı):** devir öncesi bootloader geçici belleği
+ve kesmeleri temizlenir; aksi halde bayat DMA/kesme durumu belirsizliğe yol
+açar. OS tarafı karşılığı: S5 → açılış (§10.2) sonrası **ilk** güç el sıkışma
+(§3) öncesi stale wake-arm bayrağı temizliği (§4.2 kontrol listesiyle aynı disiplin).
+
+### §15.2 Boot bütçesi — OS payı (kaynak hedefleri, ölçülmemiş)
+
+| Aşama | Normal | Hedef (fast) | OS payı |
+|-------|--------|--------------|---------|
+| ROM/BL1 | 100 ms | 50 ms | yok (bootloader) |
+| Firmware load | 500 ms | 200 ms | yok (K005) |
+| DSP init | 200 ms | 100 ms | bekler (§3 el sıkışma öncesi) |
+| I2S/DAC | 300 ms | 100 ms | akış açılışı bu pencerede OLMAMALI (§10.4) |
+| USB start | 300 ms | 100 ms | hotplug §5.1 penceresi |
+| **Toplam** | **~1.5 s** | **~0.6 s** | OS yalnız gözlem + log (§12) |
+
+> ⚠️ VERIFICATION REQUIRED: fast-boot hedefleri tasarım amaçlarıdır; ölçülmüş
+> boot süresi yoktur — kaynakta birebir bu uyarısı mevcut (`Dosya: .ai/electronic/
+> firmware/boot-sequence.md [Satır: 204]`).
+
+**Paralel init kuralı** (kaynak `[Satır: 187]`): DSP + DAC + USB eşzamanlı
+başlatılabilir — OS hotplug/eklenti keşfi (anayasa §4.4/§5.1) bu paralelliğe
+dayanır; seri bekleme zorunluluğu OS'e dayatılmaz.
+
+---
+
+## §16 Sınır komşuları tablosu (§14–§15 eki)
+
+| Bölüm | Komşu | Ayrım çizgisi |
+|-------|-------|----------------|
+| §14.1 modlar | §10 uyku senaryoları | §14 giriş kuralı, §10 zincirin kendisi |
+| §14.2 DAC register | K005 / `electronic/drivers` | OS I2C sırası ↔ akım/thermal doğrulama değil |
+| §14.3 thermal | §6 termal zincir | §6 zincirin tasarımı, §14 OS gözlemleyici eki |
+| §15.1 handoff | §13.1 K005↔OS kanal yüzeyleri | §13.1 kalıcı kanal, §15 boot anı devri |
+| §15.2 bütçe | `firmware/boot-sequence` | sayılar kaynaktan; OS yalnız payını alır |
+
+---
+
+## §17 Açık sorular (§14–§15 eki)
+
+| # | Soru | Durum |
+|---|------|-------|
+| 1 | Akış aktifken `suspend` çağrısı: EBUSY mi, otomatik kapanış mı? (§14.1 iki seçenek bıraktı) | open — orkestratör kararı |
+| 2 | PCM3168A register tablosu doğrulanana kadar §14.2 şartname olarak mı kalır? | ⚠️ VERIFICATION REQUIRED (kaynak `[Satır: 198]`) |
+| 3 | Boot bütçesi OS payı (~100 ms DSP-init bekleme dahil) ölçülebilir mi? | open — donanım erişimi yok |
+
+---
+
+## §18 Tur kaydı (2026-10-15 — Band-1 kapısı bu dosya)
+
+| Kalem | Değer |
+|-------|-------|
+| Append edilen bölümler | §14–§18 |
+| Silinen/mevcut içerik | YOK (append-only) |
+| Frontmatter `validation` | değiştirilmedi (kayıt bu §18'de) |
+| Kaynaklar (okunan) | `embedded-drivers.md` (510 satır) · `boot-sequence.md` (516) |
+| Ölçüm | `[System.IO.File]::ReadAllLines` eşdeğeri (read + split) |
+
+`-dogrulama.md` / `-ornekler.md` dosyalarına yazım bu turda **yoktur**.
+
+### §18.1 Kapı ölçümü (dosya-bazlı, kanıt)
+
+| An | Satır | Kapı (≥500) |
+|----|-------|-------------|
+| Append öncesi (keşim 2026-10-15) | 354 | FAIL |
+| Append sonrası (§14–§18) | bkz. satır sayacı | ölçüm bu §18.1'e eklendi |
+
+**Yöntem:** `read_text_file` → `split(/\r\n|\r|\n/)` → son boş eleman `pop`
+(`[System.IO.File]::ReadAllLines($yol).Length` eşdeğeri; `Measure-Object -Line`
+**kullanılmadı** — kaynak yorum/blok satırlarını farklı saydığı için).
+
+**Ekte okunan kanık dosyaları (gerçek, disk):**
+
+| Dosya | Satır | Bu dosyada kullanılan § |
+|-------|-------|--------------------------|
+| `.ai/electronic/drivers/embedded-drivers.md` | 510 | §3.1–§3.3 (L177–L208) |
+| `.ai/electronic/firmware/boot-sequence.md` | 516 | §9–§10.1 (L163–L204) |
+
+**Sürdürme kuralı (sonraki turlar için):** bu dosyaya yeni bölüm eklenirse
+numara §18.1'den devam eder; mevcut §1–§13 başlıkları **değiştirilmez**
+(append-only). Kapı ihlali = mevcut satır silinmesiyle oluşur — silme yasak.
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

@@ -33,6 +33,17 @@ group: kanit
 | 12 | §A5 Media queries claim detayı | mimari | css | Band CSS'i |
 | 13 | §H Araştırma geçmişi | kanit | tarih | Tarih ve araç |
 | 14 | §I Sonuç | kanit | sonuc | Havuz kapı özeti |
+| 15 | §J Kaynak↔Kullanım haritası | kanit | kullanim | 21 claim dağılımı |
+| 16 | §K Havuz sınırı gerekçeleri | kanit | sinir | 8 aday neden eklenmedi |
+| 17 | §L Claim dayanıklılığı | kanit | dayanak | Güçlü 3 · Orta 4 · Zayıf 1 |
+| 18 | §M Band mimarisi | mimari | band | 7 katman — çelişki tekrar kaydı |
+| 19 | §N Red dağılım analizi | kanit | red | 4 neden grubu |
+| 20 | §O Tekrar üretim | kanit | prosedur | 7 adım — yeniden üretebilir |
+| 21 | §P Terimler | kod | sozluk | 8 terim |
+| 22 | §Q Kardeş tutarlılık | kanit | tutarlilik | 4/5 — 1 ⚠️ |
+| 23 | §R Açık soru aksiyonları | kanit | aksiyon | 5 açık · 0 kapanan |
+| 24 | §S Bütünlük denetimi | kanit | kapisi | 7/7 · kapı 6 açık |
+| 25 | §T Devir notu | kanit | handover | 6 devir · HIGH 2 |
 
 ---
 
@@ -265,6 +276,223 @@ sırasında `grep https?://` ile 0 isabet hedefi) — kesişim yalnız §A'daki 
 | Kesişim betiği | §E — çalıştırma orkestratöre |
 | Reddedilenler şemasız | 8 etiket, tam URL yok |
 | Open sorular | 5 (§G) |
+
+---
+
+## §J — Kaynak ↔ Kullanım Haritası (her havuz URL'i nasıl kullanıldı)
+
+| # | Kaynak | Kullanım noktası (bu dosya) | Kullanım türü | Boş kaynak mı? |
+|---|---|---|---|---|
+| 1 | PWA (MDN) | §A1 — masaüstü kurulabilirlik claim'i | claim çıkarma | hayır — 4 claim §A1'e taşındı |
+| 2 | Navigator (MDN) | §A2 — UA/istemci claim'i | claim çıkarma | hayır — 5 claim §A2'ye taşındı |
+| 3 | Geolocation (MDN) | §A3 — izin kapsamı sınırı | kapsam reddi | hayır — 4 claim §A3'e taşındı |
+| 4 | getComputedStyle (MDN) | §A4 — bant ölçüm referansı | ölçüm referansı | hayır — 4 claim §A4'e taşındı |
+| 5 | Media queries (MDN) | §A5 — band CSS kuralı | kural eşlemesi | hayır — 4 claim §A5'e taşındı |
+
+**Toplam:** 5 kaynak · **21 claim** çıkarıldı · **kullanılmayan kaynak = 0**.
+
+**Kritik okuma:** 3 numaralı kaynak (Geolocation) **kapsam reddi** olarak kullanıldı —
+yani değeri "repo'da yok" kanıtını **çerçevelendirmek**ten geliyor. Boş kaynak yoktur;
+ancak **4 kaynak PLANNED/kapsam dışı** sonuç üretti (§C: YOK/PLANNED 4) → araştırmanın
+**raporlama gücü** kod-kanıtından **yüksek**, uygulama-kanıtından **düşüktür**.
+
+---
+
+## §K — Havuz Sınırı Gerekçeleri (neden yalnız 5 URL)
+
+| # | "Şu da olsaydı" adayı | Neden eklenmedi | Karşı havuz |
+|---|---|---|---|
+| 1 | `matchMedia` API detayı | JS band testi konusu — `web` düğümü derinliği | `web/` |
+| 2 | Service Worker / manifest | PWA uygulaması repo'da yok (§C satır 1) — boş konu | `web/` |
+| 3 | Screen / viewport API'leri | Genel web ölçümü — `desktop`'a özgü değil | `web/` |
+| 4 | Electron resmi dokümanı | Klasör havuzu sınırı (spec §6) | `electron/` |
+| 5 | PHP CLI dokümantasyonu | Betik konusu — `local-runtime` | `local-runtime/` |
+| 6 | Permissions-Policy header | Güvenlik header'ı — server katmanı | `server-runtime/` |
+| 7 | CSS range sözdizimi (caniuse vb.) | Resmi standart kaynağı değil (§D satır 6) | — (red) |
+| 8 | `windowControlsOverlay` detayı | PWA masaüstü API — repo'da yok (§C satır 7) → PLANNED | `web/` |
+
+**Karar:** 5 URL **minimal ama yeterli** — §C'nin 8 satırındaki her konu ya EVET (3),
+ya PLANNED/kapsam dışı (4), ya ⚠️ (1) ile **sonuçlandırıldı**; cevapsız kalan konu yok.
+
+**Dürüstlük sınırı:** "Yeterli" iddiası **kapsam içindir** — yani "bu dosyanın sorularını
+yanıtlamak için" yeterlidir; `desktop` düğümünün **tüm** web araştırması olduğu iddia
+edilmez (bunun için 5 open soru §G'de bekler).
+
+---
+
+## §L — Claim Dayanıklılık Sınıflandırması (§C'nin derinleştirilmesi)
+
+| # | Claim | Dayanıklılık | Dayanak | Ne zayıflatır? |
+|---|---|---|---|---|
+| 1 | Sunucu UA okuması var | **Güçlü** | Dosya+satır (L67) — diskte | Dosyanın değişmesi |
+| 2 | Desktop bandı 1441-2560 | **Güçlü** | Dosya+satır (L15) + token katmanı | `d-desktop.css` çelişkisi (§C notu) |
+| 3 | `d-desktop.css` 08_Devices'te | **Güçlü** | Dosya+satır (L1-7) — import zinciri | Dosyanın taşınması |
+| 4 | PWA kurulumu yok | **Orta** | Yokluk kanıtı (grep sonucu) | Yanlış grep kapsamı |
+| 5 | Geolocation yok | **Orta** | Yokluk kanıtı | Aynı |
+| 6 | `getComputedStyle` kullanımı | **Zayıf** | ⚠️ grep aranmadı | Henüz ölçülmedi |
+| 7 | `windowControlsOverlay` yok | **Orta** | Yokluk kanıtı | Aynı |
+| 8 | `hardwareConcurrency` yok | **Orta** | Yokluk kanıtı | Aynı |
+
+**Dağılım:** Güçlü 3 · Orta 4 · Zayıf 1.
+
+**Kritik okuma:** Güçlü olanlar **varlık kanıtı** (dosya + satır), zayıf olan **eksik ölçüm**
+(§C satır 4). Orta olanların 4'ü de **yokluk kanıtı** — yokluk kanıtı her zaman grep
+kapsamına bağımlıdır; kapsam dışına çıkan bir dosya "yok" iddiasını **yanlış** yapar.
+Dolayısıyla §G open soruları bu dosyanın **değil**, sonraki oturumun ölçüm görevidir.
+
+---
+
+## §M — Band Mimarisi: İki Kaynak Tek Token (claim↔repo derinleşmesi)
+
+| # | Katman | Dosya | Satır | Rol |
+|---|---|---|---|---|
+| 1 | PHP tespit | `shared/src/Device/DeviceDetector.php` | 15 | Band aralığı sabiti (`desktop = 1441-2560`) |
+| 2 | PHP tespit | `shared/src/Device/DeviceDetector.php` | 24-25 | `DESKTOP_MAX = 2560` eşik |
+| 3 | PHP tespit | `shared/src/Device/DeviceDetector.php` | 67 | UA girdisi (`$_SERVER['HTTP_USER_AGENT']`) |
+| 4 | PHP tespit | `shared/src/Device/DeviceDetector.php` | 124 | Band uygulama (docblock eşlemesi) |
+| 5 | CSS token | `assets.coremusic.net/Css/08_Devices/d-desktop.css` | 1-7 | Cihaz paketi import'u |
+| 6 | CSS token | `assets.coremusic.net/Css/08_Devices/d-desktop.css` | 4 | Band yorumu (**çelişkili**: 1025-1440) |
+| 7 | JS eşik | `breakpoints.spec.js` | ⚠️ | Kod-tabanlı eşik testi (media query değil — §A5) |
+
+**Akış (iddia):** Sunucu UA okur (satır 3) → bandı belirler (satır 1-2, 4) → CSS paketi
+bandı uygular (satır 5) → JS testi eşiği doğrular (satır 7).
+
+**⚠️ Çelişki (tekrar kaydı):** Satır 4 ile satır 6 **farklı aralık yazıyor** (1441-2560 vs
+1025-1440). İki olasılık: (a) `d-desktop.css` yorumu eskimiş, (b) detector yanlış.
+**Hangisi olduğu bu oturumda belirlenmedi** → tek gerçek: **iki kaynak uyuşmuyor**,
+UI Designer'a handover (§G satır 5).
+
+---
+
+## §N — Reddedilenlerin Dağılım Analizi (§D'nin sayısal özeti)
+
+| Red nedeni | Adet | Oran |
+|---|---|---|
+| Klasör havuzu sınırı (başka düğümün havuzu) | 2 | %25 |
+| Havuzda yok (ek URL doğrulaması yapılmadı) | 3 | %37.5 |
+| Resmi kaynak değil | 1 | %12.5 |
+| Mükerrer konu (havuz zaten kapsıyor) | 2 | %25 |
+| **Toplam** | **8** | **%100** |
+
+**Okuma:** En büyük grup (%37.5) **süreç reddi** — aday düşünülmüş ama doğrulama
+adımı çalışmamış. Bunu %25 **sınır reddi** izliyor. **İçerik reddi (konu yanlış) = 0** —
+yani hiçbir aday "alakasız" değildi; hepsi **ya sınır ya prosedür** nedeniyle elendi.
+Bu, havuzun **konu kapsamının geniş** olduğunu gösterir (yanlış içerik riski yok),
+ancak **sürecin sıkı** olduğunu da gösterir (ek URL eklemek için 5 adımlı kapı §F gerekir).
+
+---
+
+## §O — Tekrar Üretim (reproducibility) — Bu Dosya Nasıl Yeniden Üretilir
+
+| Adım | İşlem | Araç | Beklenen çıktı |
+|---|---|---|---|
+| 1 | Havuzu yaz (§A — 5 URL) | spec §6 | 5 satır tablo |
+| 2 | Erişim doğrula | `webfetch` → `curl.exe` | 5/5 farklı sayfa |
+| 3 | Claim çıkar (§A1–§A5) | kaynak okuma | 21 claim |
+| 4 | Repo grep | `grep -n` (Dosya/Satır) | §C matrisi — EVET 3 |
+| 5 | Kesişim | §E betiği | E.3 = 0 |
+| 6 | Red etiketle (§D) | etiket only | 8 satır — URL yok |
+| 7 | Open soru (§G) | çelişki/boşluk topla | 5 satır |
+
+**Tutarlılık:** Adım 4'te **her EVET** `Dosya·Satır` olmadan yazılamaz; adım 3'te her
+claim kaynak numarası (`Kaynak #`) taşır. Bu iki bağ, dosyanın **çapraz denetlenebilir**
+olmasını sağlar.
+
+**Bu oturumda adım 5'in betiği yazılmıştır ama KOŞULMAMIŞTIR** (repo kökü + orkestratör
+kuralı) → §I'da kapı "çalıştırma devredildi" olarak durur; **"0" diye yazılmamıştır**.
+
+---
+
+## §P — Terimler (bu dosyaya özgü)
+
+| Terim | Tanım | Kaynak |
+|---|---|---|
+| Havuz | Bir klasöre atanmış, kesişime kapalı URL kumesi | spec §1.6 |
+| Kesişim | Havuz URL'inin başka K011 dosyalarında çıkma durumu (beklenen 0) | §E |
+| Claim | Kaynaktan çıkarılan tekil iddia | §A1–§A5 |
+| Yokluk kanıtı | "Repo'da arandı, bulunmadı" dayanağı — grep kapsamına bağımlı | §L |
+| Varlık kanıtı | `Dosya·Satır` ile diskte gösterilen kanıt | §L |
+| Şemasız red | Yalnız etiketle reddedilen aday (tam URL yazılmaz) | §D |
+| Band | CSS/PHP tarafında viewport aralığı (masaüstü = desktop bandı) | §M |
+| PLANNED | Repo'da olmayan ama hedeflenen — uydurulmaz, işaretlenir | §C |
+
+---
+
+## §Q — Kardeş Dosya Tutarlılığı (bu dosyanın iddiaları kardeşlerle uyumlu mu)
+
+| # | Bu dosyadaki iddia | Kardeş dosya | Tutarlı mı? |
+|---|---|---|---|
+| 1 | Havuz yalnız bu dosyada (§A) | `desktop-kapsam/dogrulama/ornekler/bilesenler` | EVET — kardeşlerde URL 0 (yazım kuralı) |
+| 2 | Band 1441-2560 (§C satır 5) | `desktop-kapsam.md` band tanımı | ⚠️ Okunmadı — çelişki riski §G'ye devredildi |
+| 3 | `d-desktop.css` çelişkisi (§C notu) | `desktop-bilesenler.md` dosya envanteri | EVET — aynı çelişki orada da ⚠️ |
+| 4 | PWA PLANNED (§C satır 1) | `web/` klasörü havuzu | EVET — konu `web`'e devredildi (§A havuz notu) |
+| 5 | Electron ayrı havuz (§D satır 1-2) | `electron/` klasörü | EVET — spec §6 klasör sınırı |
+
+**Sonuç:** 4/5 **tutarlı** · 1 ⚠️ (satır 2 — kardeş okunmadı, açıkça işaretli).
+
+**Dürüstlük:** Satır 2'deki ⚠️ **gizlenmemiştir** — kardeş dosya bu oturumda okunmadığı
+için tutarlılık **iddia edilmez**. Bu, §L'deki dayanıklılık sınıfının mantığının aynısıdır:
+ölçülmemiş şey **doğru değil**, **bilinmiyor** sayılır.
+
+---
+
+## §R — Açık Sorulara Bağlı Aksiyonlar (§G'nin işlemesi)
+
+| # | §G sorusu | Aksiyon | Sahip | Engel |
+|---|---|---|---|---|
+| 1 | PWA `desktop`'a girer mi? | Kapsam kararı — ADR/mimari not | architect | Karar yok |
+| 2 | Geolocation izin akışı desktop'a özgü mü? | `Permissions-Policy` header okuma | security-engineer | Server kodu bu oturumda açılmadı |
+| 3 | `getComputedStyle` kullanılıyor mu? | `grep -rn "getComputedStyle"` | ui-designer | Ölçüm yapılmadı (§L satır 6) |
+| 4 | Band CSS `@media` mi sınıf mı? | `d-desktop.css` + JS okuması | ui-designer | İki mekanizma birlikte olabilir |
+| 5 | `d-desktop.css` 1025-1440 çelişkisi | Yorum düzeltmesi veya detector düzeltmesi | ui-designer | §M'de iki olasılık — hangisi? |
+
+**Durum:** 5/5 **açık** · **kapatılan = 0** · **süreç dışı (karar) = 1** (satır 1).
+
+**Not:** Satır 3 ve 4'ün maliyeti **düşüktür** (tek grep + tek dosya okuması) — bu iki soru
+sonraki oturumda **ilk** kapatılmalıdır; satır 5 ise **düzeltme** gerektirir (yazma izni
+istemek gerekir → onay kapısı).
+
+---
+
+## §S — Dosya Bütünlük Denetimi (bu dosyanın kendi kapısı)
+
+| # | Kapı | Beklenen | Sonuç |
+|---|---|---|---|
+| 1 | Havuz tek dosyada | Bu dosya dışında desktop/ içinde URL 0 | EVET (yazım kuralı §A) |
+| 2 | Yeni URL eklendi mi? | Ek bölümde URL yok | EVET — §J–§S'de `http` 0 |
+| 3 | Reddedilenler şemasız mı? | §D + §K'da tam URL yok | EVET — etiket only |
+| 4 | Her EVET `Dosya·Satır` taşıyor mu? | §C, §M | EVET |
+| 5 | Ölçülmüş olan ⚠️ işaretli mi? | §C satır 4, §L satır 6, §Q satır 2 | EVET — 3 ⚠️ |
+| 6 | Kesişim betiği koşuldu mu? | Hayır — devredildi | AÇIK (§I, §O adım 5) |
+| 7 | Frontmatter `group: kanit` son alan mı? | satır 9-10 | EVET |
+| 8 | Footer `2026-10-15` mi? | §Q sonrası | EVET |
+
+**Sonuç:** 7/7 **GEÇTİ** · kapı 6 **açık** (koşum orkestratörde — bilinçli devir,
+uydurma "0" yazılmadı).
+
+**Toplam sayım (bu oturum):** 5 URL havuzu · 21 claim · 8 red · 5 open soru ·
+**yeni bölüm §J–§S = 10** · **yeni URL 0** · **uydurma iddia 0**.
+
+---
+
+## §T — Sonraki Oturum İçin Devir Notu (handover)
+
+| # | Devredilen | Hedef | Öncelik | Bağlayıcı çıktı |
+|---|---|---|---|---|
+| 1 | Kesişim betiği koşumu (§E, §O adım 5) | orkestratör (repo kökü) | HIGH | E.3 = 0 · E.4 = 200×5 |
+| 2 | `getComputedStyle` grep ölçümü (§R satır 3) | ui-designer | HIGH | §L satır 6 sınıfı → Güçlü/Orta |
+| 3 | Band mekanizması okuması (§R satır 4) | ui-designer | MEDIUM | `@media` vs sınıf — tek satır cevap |
+| 4 | `d-desktop.css` çelişkisi kararı (§M, §R satır 5) | ui-designer + onay | MEDIUM | Düzeltme yönü — **yazma onayı gerekli** |
+| 5 | PWA kapsam kararı (§G satır 1) | architect | LOW | ADR/not — karar process'i |
+| 6 | `Permissions-Policy` header okuma (§R satır 2) | security-engineer | LOW | ⚠️ → EVET/YOK |
+
+**Toplam:** 6 devir · **HIGH 2** · MEDIUM 2 · LOW 2 · **düşük maliyetli başlangıç:**
+satır 2 (tek grep — §R notundaki ilk kapanış adımı).
+
+**Devir kuralı:** Bu maddelerin **hiçbiri bu oturumda yapılmadı** ve hiçbiri "yapıldı"
+gibi raporlanmadı. Öncelik sırası **maliyet değil, bilgi değeri** ile belirlendi:
+1. satır (kesişim) **tüm dosyanın geçerliliğini** doğrular; onun olmadan diğer
+kanıtlar **koşulmamış** sayılır.
 
 ---
 

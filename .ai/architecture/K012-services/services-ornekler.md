@@ -12,15 +12,18 @@ evidence:
   - "repo S1: shared/src/Api (Registry/Versioning/Middleware) — 19 satır"
   - "repo S1: home.coremusic.net (.htaccess/web.config/MusicStreamHandler)"
   - "pseudocode kartları TASARIM İDDİASI olarak işaretli"
+  - "S1 — shared/src/Api/Registry/ServiceRegistry.php 1-132 TAM verbatim (2026-10-16 §28)"
 validation:
   - "her kartta Dosya+Satır veya Kaynak/YOK satırı var (2026-10-13)"
   - "uydurma kütüphane/framework adı 0 (2026-10-13)"
+  - "§28 verbatim blok 2026-10-16 read ile birebir; SSOT çakışması 0 (kimsede yok)"
 open_questions:
   - "Q5 background-jobs motoru — örnek motor kodu YAZILAMAZ"
   - "Q9 servisler arası taşıyıcı — akış örnekleri pseudocode kalır"
   - "Q1 ai-service sahipliği — ai kartı sembolik"
 date: 2026-10-13
-version: 1.0.0
+updated: 2026-10-16
+version: 1.1.0
 authority: "SSOT: repo kanıtı (S1) + services-dogrulama.md §6"
 group: kod
 ---
@@ -102,7 +105,7 @@ için kanıt yok (S5) → `⚠️ UNKNOWN`.
 | Ne yapar | servis adıyla kaydı bulur |
 | Kanıt sınıfı | S1 |
 | Girdi | servis adı (id) — `ServiceDefinition` alanı |
-| Bulunamazsa | davranış OKUNMADI → ⚠️ VERIFICATION REQUIRED |
+| Bulunamazsa | `[]` boş dizi döner (satır 42–44, 2026-10-16 §28.1 ile kapandı) |
 | Ağ keşfi (DNS vb.) | repo'da kanıt yok → ⚠️ UNKNOWN (Q9) |
 
 İlişki: §6.2 çağrım akışında `discover()` 4. adımda geçer (oradaki akış
@@ -289,8 +292,10 @@ TASARIM İDDİASI — pseudocode (çalışır kod değildir)
 | `home.coremusic.net/.htaccess` | 26 | A7 |
 | `home.coremusic.net/web.config` | 14 | A7 |
 | `home.coremusic.net/include/Stream/MusicStreamHandler.php` | 24, 46, 91 | A8 |
+| `shared/src/Api/Registry/ServiceRegistry.php` | 1–132 (tam dosya) | §28 ek — A1/A2/A3 kaynağı |
 
-Toplam: 9 dosya · 19 satır — `services-dogrulama.md` §6 ile birebir aynı kümeydi.
+Toplam: 9 dosya · 19 satır — `services-dogrulama.md` §6 ile birebir aynı kümeydi
+(§28 ek satırı bu kümenin **dışında**: aynı dosyanın tam metni, ayrı sayım).
 
 ## §18 Sınıf Dağılım Özeti
 
@@ -494,6 +499,183 @@ doğrulama dosyası kazanır (SSOT: kanıt defteri).
 | 6 | Çelişki halinde ne kazanır? | `services-dogrulama.md` (kanıt defteri SSOT) |
 | 7 | Yabancı karakter/mojibake? | 0 — sayım §26'da (CJK 2 → 0 düzeltildi) |
 | 8 | Bir sonraki tur | tur-3 — sınıf yükseltmeleri (§25/6) |
+
+## §28 Verbatim Kod Ek — ServiceRegistry.php Tam Dosya (tur-3 eki · 2026-10-16)
+
+**Dosya:** `shared/src/Api/Registry/ServiceRegistry.php` · **Satır:** 1–132 (tamamı) · **Ölçüm:** 2026-10-16
+
+> K012'nin amiral gemisi kanıtı: §4/§5/§6 kartlarının (A1/A2/A3) kaynağı olan
+> dosyanın tam metni. K012 genelinde bu blok **tek kayıt**dır (SSOT taraması
+> 2026-10-16: çocuk dosyalarda ServiceRegistry.php verbatim yok; arayüzün
+> (`ServiceRegistryInterface`) bloğu `service-contracts-ornekler.md §`dedir).
+
+```php
+<?php
+declare(strict_types=1);
+
+/**
+ * Service Registry implementation.
+ *
+ * @file ServiceRegistry.php
+ * @version 1.0.0
+ * @see ADR-084-api-gateway-architecture
+ */
+
+namespace CoreMusic\Api\Registry;
+
+use CoreMusic\Contracts\Api\ServiceRegistryInterface;
+
+/**
+ * Service Registry implementation.
+ */
+final class ServiceRegistry implements ServiceRegistryInterface
+{
+    private array $services = [];
+
+    /**
+     * Register a service.
+     */
+    public function register(string $name, string $url, string $healthEndpoint = '/health'): void
+    {
+        $this->services[$name] = new ServiceDefinition(
+            name: $name,
+            url: $url,
+            healthEndpoint: $healthEndpoint
+        );
+    }
+
+    /**
+     * Discover a service by name.
+     */
+    public function discover(string $name): array
+    {
+        $service = $this->services[$name] ?? null;
+        
+        if ($service === null) {
+            return [];
+        }
+        
+        return $service->toArray();
+    }
+
+    /**
+     * Check health of all registered services.
+     */
+    public function healthCheck(): array
+    {
+        $results = [];
+        
+        foreach ($this->services as $name => $service) {
+            $results[$name] = $this->checkServiceHealth($service);
+        }
+        
+        return $results;
+    }
+
+    /**
+     * Get list of healthy services.
+     */
+    public function getHealthyServices(): array
+    {
+        $healthy = [];
+        
+        foreach ($this->services as $name => $service) {
+            $health = $this->checkServiceHealth($service);
+            if ($health['status'] === 'healthy') {
+                $healthy[$name] = $service->toArray();
+            }
+        }
+        
+        return $healthy;
+    }
+
+    /**
+     * Load services from configuration.
+     */
+    public function loadFromConfig(array $config): void
+    {
+        foreach ($config as $name => $serviceConfig) {
+            $this->register(
+                name: $name,
+                url: $serviceConfig['url'] ?? '',
+                healthEndpoint: $serviceConfig['healthEndpoint'] ?? '/health'
+            );
+        }
+    }
+
+    /**
+     * Check health of a single service.
+     */
+    private function checkServiceHealth(ServiceDefinition $service): array
+    {
+        $url = $service->getUrl() . $service->getHealthEndpoint();
+        
+        try {
+            $context = stream_context_create([
+                'http' => [
+                    'timeout' => $service->getTimeout(),
+                    'method' => 'GET',
+                ],
+            ]);
+             
+            $response = @file_get_contents($url, false, $context);
+             
+            if ($response === false) {
+                return [
+                    'status' => 'unhealthy',
+                    'message' => 'Connection failed',
+                ];
+            }
+             
+            $data = json_decode($response, true);
+             
+            return [
+                'status' => 'healthy',
+                'message' => 'OK',
+                'data' => $data,
+            ];
+        } catch (\Throwable $e) {
+            return [
+                'status' => 'unhealthy',
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+}
+```
+
+### §28.1 Kart ↔ Blok Eşlemesi (§3 envanterini tamamlar)
+
+| Kart | Method | Satır | Blok içeriği |
+|---|---|---|---|
+| A1 (§4) | `register` | 26–33 | `ServiceDefinition` → `$services[$name]` yazımı |
+| A2 (§5) | `discover` | 38–47 | `?? null` → bulunamazsa `[]` (kart §5'teki "davranış OKUNMADI" artık okunmuştur: **boş dizi döner**) |
+| A3 (§6) | `healthCheck` | 52–61 | her servis için `checkServiceHealth` |
+| A3 (§6) | `checkServiceHealth` (private) | 97–131 | `stream_context_create` timeout + `@file_get_contents` GET → `json_decode` → healthy/unhealthy, `\Throwable` yakalanır |
+| — | `getHealthyServices` | 66–78 | §6.1 sağlık filtresi (kartta yoktu, bu blokla kanıtlandı) |
+| — | `loadFromConfig` | 83–92 | konfigürasyon → register döngüsü (master §9 "tanıma" evresi kanıtı) |
+| — | alan `$services` | 21 | bellek-içi dizi — master §10.2 ile aynı bulgu |
+
+### §28.2 Bu Bloktan Okunan Sınırlar (kartları tamamlayan bulgular)
+
+| # | Bulgu | Kart etkisi |
+|---|---|---|
+| 1 | `discover()` bulunamazsa `[]` döner (satır 42–44) | §5 "davranış OKUNMADI → ⚠️" satırı **kapanır**; istisna fırlatmaz |
+| 2 | Sağlık kontrolü **senkron HTTP GET** (satır 102–109) | §13 "periyot/eşik bilinmiyor" KORUNUR — periyodu çağıran taraf belirler (kanıt yok → ⚠️) |
+| 3 | `checkServiceHealth` `file_get_contents` + `@` (satır 109) | dış bağımlılık: PHP stream wrapper — taşıyıcı sorusu Q9'a **dokunmaz** (bu metod servis-içi sağlık sorgusudur) |
+| 4 | `catch (\Throwable)` → unhealthy (satır 125–130) | fail-safe: sağlık sorgusu asla süreç çökertmez |
+| 5 | `timeout` `getTimeout()` ile akar (satır 104) — ServiceDefinition `:79` `5` | birim hâlâ metinde yok → ⚠️ KORUNUR |
+
+### §28.3 Bütünlük Kaydı
+
+| Madde | Değer |
+|---|---|
+| Satır | 1–132 (132/132, kırpma yok) |
+| Okuma | 2026-10-16 `read` çıktısı ile birebir |
+| SSOT | kökte tek kayıt; çocuklarda tekrar yok |
+| Kesişim | envanter URL eklemez (§8'deki gibi) |
+
+**Değişiklik:** 2026-10-16 — §28 eklendi (tur-3 eki, Vault Steward) · sürüm 1.0.0 → 1.1.0.
 
 ---
 

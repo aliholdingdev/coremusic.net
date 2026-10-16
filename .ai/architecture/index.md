@@ -806,7 +806,7 @@ düzeltme yapılmadı, yalnız kayıt düşüldü.
 | # | Beyazliste | Açıklık |
 |---|---|---|
 | 1 | ~~`K006-yapay-zeka/**`~~ | ✅ **KAPANDI** — §9.12.5 |
-| 2 | `K005-firmware/**` | 5 alt-dal ≥500:**0** (diagnostics·power-control·security·testing·update) · `runtime` 4 dosya → 6 (kapsam+dogrulama ekle) |
+| 2 | ~~`K005-firmware/**`~~ | ✅ **KAPANDI** — §9.12.6 |
 | 3 | `K000-isletim-sistemi/**` | `electroncis` 12 dosya ≥500:0 · reactos/tizen/webos-audio 12 dosya ≥500:0 · `security/kod-ornekleri` 15/0 · core+kernel 4 zayıf dal · api'de 5 eksik rol dosyası |
 | — | K004-dsp | ✅ **tam** — iş yok (69/29.215/≥500:56, index 49–97 ✓) |
 
@@ -840,6 +840,31 @@ hâlâ Band-3 kuyrukta (§9.9.2) + §3-2 erişilemeyen URL → K006 iç kapısı
 (2026-10-15) → tüm C++/Neva içeriği `.ai/projects/NevaEngine/**` (34 md) +
 `.ai/electronic/{dsp,firmware,drivers,amplifier,hardware}` (43 md) vault kaynaklarından
 `Dosya: <yol> [Satır: n]` referansıyla üretilecek; "repo C++ kodu var" iddiası yasak.
+
+##### §9.12.6 K005-firmware KAPANIŞI (2026-10-16 — tekli ajan + orkestratör rötuşu)
+
+| An | Dosya | Satır | ≥500 |
+|---|---|---|---|
+| Tur öncesi (§9.12.1) | 64 | 20.256 | 26 |
+| ajan turu (2026-10-16 — yanıt metni yok, disk teyitli) | 66 | 29.148 | 55 |
+| orkestratör rötuşu (`audio-control-surucu.md` 450→500, §22 eki) | 66 | **29.198** | **56** |
+
+**Final disk ölçümü (2026-10-16, kanonik ReadAllLines):** 66 dosya / 29.198 satır /
+**≥500: 56/56 içerik** · kalan içerik <500: **0** · `index.md` 10/10 kapıda
+(kök 92 · alt-dallar 55–57) · kapı ihlali **0** · beyazliste dışı yazım **0** ·
+`git commit` **yok**.
+
+**Yapı:** 9 alt-dal (audio-control · boot · device-control · diagnostics ·
+power-control · runtime · security · testing · update) + kök — §9.12.4'teki 5 zayıf
+alt-dal (diagnostics/power-control/security/testing/update) ve `runtime` eksikleri
+bu turda kapatıldı; ajan yanıt metni vermediği için tüm sayılar **orkestratör disk
+ölçümüyle** doğrulandı (Truth Mode). `audio-control-surucu.md` son 50 satırı
+orkestratörce §22 (dayanak envanteri eki) ile tamamlandı — yeni iddia 0,
+yalnız mevcut atıf yapılan dayanakların ölçüm envanteri.
+
+**Not (envanter düzeltmesi):** üstteki "34 md + 43 md" sayıları 2026-10-15 taze
+ölçümle düzeltilmiştir: NevaEngine **49 md / 16.609 sat** · electronic
+{dsp,firmware,drivers} **27 md / 9.816 sat** (bkz §9.12.5).
 
 ---
 

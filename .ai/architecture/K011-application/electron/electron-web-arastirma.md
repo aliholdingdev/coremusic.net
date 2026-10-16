@@ -488,6 +488,20 @@ havuzu **alan-adı-özel** tutmaktır. Bu, sonraki tüm K011 klasörleri için
 **Sonuç:** 7/7 denetim **GEÇTİ**. Bu tablo, dosyanın **kendi üzerine**
 uyguladığı kapıdır — dış gate'ten (`k011-gate-check.ps1`) **bağımsız**dır.
 
+## §X — Araştırma Metodolojisi Kaydı
+
+| # | Adım | Uygulanan | Sonuç |
+|---|---|---|---|
+| 1 | Aday toplama | 14 aday | 14 |
+| 2 | HTTP doğrulama | 14/14 curl | 9×200 · 5×404 |
+| 3 | Envanter kesişimi | 9 canlı | 0 HIT |
+| 4 | Dosyalar arası kesişim | 9 | 0 (§R) |
+| 5 | İddia çaprazı | 8 satır | 7 uyumlu · 1 kısmi |
+| 6 | Reddedilen kayıt | 8 aday | etiket only |
+
+**Adım başına kayıp:** 14 → 9 (**%36 kayıp**, §B). Bu kayıp,
+`electronjs.org`'un dar havuzunun **doğal bedeli**dir (§Q).
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward

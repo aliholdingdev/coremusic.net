@@ -464,6 +464,45 @@ Electron eklense **kullanıcı deneyiminin %57'sinde fark sıfır** olurdu
 `electron-dogrulama.md` §2'deki "bekleme" kararının en güçlü
 dayanağıdır.
 
+## §U — Örnek Satır Sayısı Dökümü
+
+| # | Bölüm | Satır (yaklaşık) | Tür |
+|---|---|---|---|
+| 1 | §A main.js | 34 | PLANNED kod |
+| 2 | §B preload.js | 10 | PLANNED kod |
+| 3 | §D EventBus.js | 16 | **gerçek** kod |
+| 4 | §D Events/ | 3 | **gerçek** |
+| 5 | §E router/ | 2 | **gerçek** |
+| 6 | §E FetchWrapper | 3 | **gerçek** |
+| 7 | §J test | 11 | PLANNED kod |
+| 8 | §M–§O (3 tablo) | 30 | **gerçek** ölçüm |
+
+**Toplam kod bloğu:** 8 · **Gerçek:** 5 · **PLANNED:** 3.
+
+## §V — Son Denetim Turu
+
+| # | Soru | Cevap | Kanıt |
+|---|---|---|---|
+| 1 | Toplam kod bloğu | 8 | §U |
+| 2 | Gerçek (Dosya+Satır) | 5 | §D,§E,§M,§N,§O |
+| 3 | PLANNED (⚠️) | 3 | §A,§B,§G,§J,§P,§S |
+| 4 | Uydurma satır no | 0 | §Q kapı 4 |
+| 5 | "Çalışıyor" sanılan PLANNED | 0 | §Q kapı 3 |
+| 6 | Çelişki (dosyalar arası) | 0 | §R — 8/8 |
+
+**GEÇTİ** — 6/6.
+
+## §W — Bu Dosyanın Vault'taki Yeri
+
+| # | Kardeş dosya | Bu dosyayla ilişki |
+|---|---|---|
+| 1 | `electron-kapsam.md` §15 | §F, §O — karşılaştırma |
+| 2 | `electron-dogrulama.md` §2 | §O-1, §N — gerekçe yok |
+| 3 | `electron-web-arastirma.md` §D | §A, §C — güvenlik kuralları |
+| 4 | `electron-bilesenler.md` §B | §G — paketleme 6 adım |
+
+**4/4 bağlantı** — bağımsız Electron dosyası **yoktur**.
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward

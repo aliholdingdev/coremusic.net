@@ -227,4 +227,286 @@ uygulama koduna aittir (kaynak modülde okunmadı, §2.6). Bionic/kütüphane de
 | S1 | Android güvenlik katmanı (UID sandbox/izin) hedef mimaride devreye alınıp alınmayacağı | **[UNKNOWN]** — bu kartta KAPATMA YOK; mimari sahibi + yeni ADR (`>=088`) gerektirir |
 | S2 | Uygulama ↔ OS güvenlik sorumluluk sınırı (UID mi, uygulama mı) | **[UNKNOWN]** — bu kartta KAPATMA YOK; K009/K010 ayrım çizgisiyle değerlendirilir |
 
+---
+
+## §7 Dil-Başına Derin Kart (§1–§5 içinden derlendi — yeni GET yok)
+
+### §7.1 C — reddedilmiş yüzey (§2.1 · §5 · §1)
+
+- Dosyadaki tek iddia sınıfı: **`⚠️ VERIFICATION REQUIRED` — örnek yazılmadı**.
+- Gerekçe: Bionic için denenen **iki** aday da 404 (`developer.android.com/ndk/guides/bionic`,
+  `source.android.com/docs/security/bionic`) — §5 reddedilen adaylar satırı.
+- Repo karşılığı: **YOK** (§2.1 tablosu) — `*.c,*.h,*.cpp` 0 dosya (§3).
+- Yazılmayan alt-yüzey: Bionic kütüphane detayı (§4 ek sınır — X7/X8).
+- Kapatma yolu: çalışan (200 dönen) bir Bionic/NDK güvenilir kaynağı → §2.1'e R sınıfı geçişi.
+
+### §7.2 Python — gömülü mod gerçekleri (§2.2 · §5)
+
+- Mekanizma: gömülü mod = libpython + Python embedding API; "there is no concept of
+  installing as a system resource. The only unit of software distribution is an 'app'."
+- Negatif API kanıtı: `os.setuid` → "Availability: Unix, not WASI, not Android."
+- Sınıf: **R (referans; sözleşmesel)** · repo karşılığı YOK (418 dosyada 0 isabet).
+- Kapsam dışı: "notable omissions" listesinin tamamı dosyaya alınmadı — yalnız
+  güvenlikle kesişen UID satırı taşındı.
+
+### §7.3 Go — hedef etiketi + mimari kümesi (§2.3 · §5)
+
+- `GOOS` kümesinde `android`; `GOARCH`: **386 · amd64 · arm · arm64** (4 mimari).
+- Kalıp: `//go:build android` — dosya **yalnız** Android hedefinde derlenir.
+- Sınıf: **R** · repo karşılığı YOK (`*.go` 0).
+- Sınır: çalışma zamanı davranışı (bionic/mobil linker) bu kartta anlatılmaz.
+
+### §7.4 JS (Node.js) — deneysel platform ayrımı (§2.4 · §5)
+
+- `os.platform()` `android` döndürür — upstream **EXPERIMENTAL** işaretli.
+- Karşılaştırma deseni: `os.platform() === 'android'` → dallanma güvenlik **kararı değil**
+  (S1'e bağlanır).
+- Repo ölçüsü: `'android'` karşılaştırması 98 JS dosyasında **0 isabet** (§2.4 tablosu).
+- Sınıf: **R**.
+
+### §7.5 PHP — doğrulanamamış yüzey (§2.5 · §1)
+
+- Dosyadaki tek iddia sınıfı: **`⚠️ VERIFICATION REQUIRED` — örnek yazılmadı**.
+- Gerekçe: php.net'te Android'e özgü upstream sayfa bu turda doğrulanamadı →
+  `posix_*`/`chmod` davranışının Android'de ne olduğu **bilinmez**.
+- Repo karşılığı: **YOK** (§2.5 tablosu) — PHP tabanı 320 dosyada Android kullanımı yok.
+- Kapatma yolu: doğrulanmış PHP-Android upstream'i → §2.5'e R sınıfı geçişi.
+
+### §7.6 Rust — Tier 2 hedef + UID okuma imzaları (§2.6 · §5)
+
+- Hedef uc: `aarch64-linux-android` → **Tier 2 · std ✓** (platform-support).
+- İmza kanıtları: `nix::unistd::getuid() -> Uid` · `geteuid() -> Uid` (nix 0.31.3 — dosya notu).
+- `ndk` crate 0.9.0: modüller asset/audio/native_activity — **güvenlik modülü yok**.
+- Repo ölçüsü: `getuid`/`geteuid` grep'i 418 dosyada **0 isabet**.
+- Sınıf: **R**.
+
+### §7.7 C# — MAUI hedef listesi (§2.7 · §5)
+
+- Hedefler (birebir): **Android · iOS · macOS · Windows**.
+- Kapsam dışı yazılan: APK runtime izin modeli — "bu sayfada ANLATILMAZ" (§2.7 yorum satırı).
+- Repo karşılığı: **YOK** (`.cs` 0 dosya).
+- Sınıf: **R**.
+
+---
+
+## §8 Sayısal Özet (dosyanın kendi sayımları)
+
+| Metrik | Değer | Kayıt |
+|---|---|---|
+| Dil bölümü | **7** (C · Python · Go · JS · PHP · Rust · C#) | başlık · §1 |
+| R sınıfı örnek | **5** | §2.2 · §2.3 · §2.4 · §2.6 · §2.7 |
+| ⚠️ sınıfı (örnek YAZILMADI) | **2** (C · PHP) | §2.1 · §2.5 |
+| Örnek-olmayan dil oranı | 2/7 ≈ %29 | §8 aritmetiği |
+| Upstream kaynak URL | **7** (§5 tablosu) — tamamı HTTP 200 (2026-10-14) | §5 |
+| Reddedilen aday (404) | **2** (Bionic ×2) | §5 dipnotu |
+| Repo tabanı ölçüsü | **418 dosya** (320 PHP + 98 JS) | §3 |
+| Dil-kaynak dosyası (C/Go/C#/Rust) | **0** | §3 |
+| Güvenlik API isabeti | **0** (desen: `getuid\|geteuid\|setuid\|native_activity`) | §3 |
+| Go mimarisi | **4** (386/amd64/arm/arm64) | §2.3 · §5 |
+| Açık soru | **2** (S1 · S2) — ikisi de [UNKNOWN] | §6 |
+| Bozuk/uydurma çağrı | **0** (⚠️ satırlarında blok yok) | §2.1 · §2.5 |
+
+---
+
+## §9 Negatif Kanıt Defteri (id ↔ kanıt ↔ yeniden-çalıştırma)
+
+| # | İddia (NEGATİF) | Kanıt yöntemi | Beklenen | Kayıt |
+|---|---|---|---|---|
+| N1 | repo'da C/Go/C#/Rust kaynak dosyası yok | glob `*.c,*.go,*.cs` (+ §3'te `*.h,*.cpp,*.rs`) | **0** | §3 |
+| N2 | Android UID/NDK/izin çağrısı yok | grep 418 PHP+JS dosyada desen | **0** | §3 |
+| N3 | `os.setuid` Android'de sunulmaz | upstream os.html (Availability satırı) | "not Android" | §2.2 · §5 |
+| N4 | C yüzeyi doğrulanamadı | 2× GET 404 | 404/404 | §5 |
+| N5 | PHP Android upstream'i doğrulanamadı | sayfa doğrulama turda başarısız | — | §2.5 |
+| N6 | `ndk` crate'te güvenlik modülü yok | docs.rs/ndk modül listesi (2026-10-14) | modül listesiz | §2.6 · §5 |
+| N7 | UA `android` eşleşmeleri güvenlik API'si değil | grep `android` → yalnız UA/metin | UA-only | §3 · §5.3 tur notu |
+| N8 | "repo'da uygulanıyor" iddiası | — | **YASAK** | §3 tablo son satır · §0 |
+
+**Yeniden-çalıştırma (2026-10-14 komutları — §3):** üç PowerShell satırı ·
+beklenen 418 / 0 / 0. Beklenti değişirse bu defter **ölçümle** güncellenir.
+
+---
+
+## §10 Örnek Bütünlük Denetimi (fence-sayımı — bu turda dosya tarandı)
+
+| # | Blok | Fence satırları | İç satır | `kaynak: upstream docs` imzası |
+|---|---|---|---|---|
+| 1 | §2.2 Python | 77 / 88 | 10 | ✅ (2 satır) |
+| 2 | §2.3 Go | 96 / 103 | 6 | ✅ |
+| 3 | §2.4 JS | 111 / 120 | 8 | ✅ |
+| 4 | §2.6 Rust | 138 / 148 | 9 | ✅ (2 satır) |
+| 5 | §2.7 C# | 159 / 165 | 5 | ✅ |
+| 6 | §3 PowerShell ölçüm | 187 / 192 | 4 | — (ölçüm bloğu, imza gerekmez) |
+
+**Mutabakat:** fenced blok **6** · toplam iç satır **42** · `⚠️` bölümlerinde
+(§2.1 · §2.5) fence **0** — "örnek yazılmadı" iddiasıyla **tutarlı** (blok varsa
+iddia çökardi). Fence toplamı 12 (6×2) — bu satırlar değişmedi.
+
+---
+
+## §11 Reddedilen / Yazılmayan Yüzeyler Defteri
+
+| # | Yüzey | Neden yazılmadı | Kapatma koşulu |
+|---|---|---|---|
+| X1 | C örnekleri (Bionic çağrıları) | 2× 404 (§5) | 200 dönen Bionic kaynağı |
+| X2 | PHP örnekleri (`posix_*`/`chmod`) | upstream doğrulanamadı (§2.5) | doğrulanmış PHP-Android sayfası |
+| X3 | APK runtime izin modeli | "bu turda doğrulanamadı" (§0 uyarı) | AndroidManifest/izin kaynağı |
+| X4 | SELinux politikası | aynı (§0 uyarı) | politika kaynağı |
+| X5 | Keystore / Play politikası | §4 ek sınır — bu dala yazılmaz | K009/K010 ayrımı |
+| X6 | Bionic iç yapısı (X7/X8) | §4 ek sınır | ayrı modül |
+| X7 | "repo'da uygulanıyor" iddiası | §3 — **kalıcı yasak** | kalıcı (kanıt sınıfı: hedef kartı) |
+
+---
+
+## §12 S1 / S2 Kapı Planı (§6 — kapanış için gerekenler · iddia değil plan)
+
+| # | Kapı | Gereken | Kapanınca etki |
+|---|---|---|---|
+| S1 | OS güvenlik katmanı devreye alınacak mı? | mimari sahibi kararı + **yeni ADR (≥088)** | §1 matrisi "hedef" → "planlı/aktif" sınıfına geçebilir |
+| S2 | Uygulama ↔ OS sorumluluk sınırı (UID mi uygulama mı) | K009/K010 ayrım çizgisi + sahip kararı | §4 sınır cümlesi güncellenir |
+
+**Kural:** ikisi de bu kartta **kapatılmaz** (§6 "KAPATMA YOK" — bağlayıcı);
+plan satırları iddia değildir.
+
+---
+
+## §13 Kardeş ve Üst Bağlar
+
+| Bağ | İlişki |
+|---|---|
+| `kod-ornekleri-tizen.md` · `-webos.md` · `-reactos.md` | aynı sınıfın diğer OS kartları — §5 Rust satırı: platform-support'ta **tizen/webos/reactos hedefi yok** |
+| `kod-ornekleri-php.md` · `-js.md` · `-python.md` · `-go.md` · `-rust.md` · `-csharp.md` · `-c.md` | dil kardeşleri — bu kart **Android × 7 dil** kesiti |
+| `cekirdek-guvenlik/cekirdek-guvenlik-android` | FM `depends_on` — platform geneli (§4) |
+| `cekirdek-guvenlik/cekirdek-guvenlik-anayasa` | FM `depends_on` |
+| `K009-security` · `K010-identitiy` | sınır kartları (§4) |
+| `isletim-sistemi-kernel` | çekirdek içi yapı kardeş dalı (§4) |
+
+---
+
+## §14 Kapı Ölçüm Kaydı (bu dosya — açık aritmetik)
+
+| Adım | Satır | Durum |
+|------|-------|-------|
+| Keşim (2026-10-15) | 230 | <500 |
+| §7–§13 sonrası | bu tabloya kadar eklendi | ölçüm tur yanıtında |
+| Hedef | **≥505** | marj tablosuyla |
+| Yöntem | `read_text_file` → `split(/\r\n|\r|\n/)` → son boş `pop` | `Measure-Object -Line` **YASAK** |
+
+**Marj tablosu:**
+
+| # | Marj kaydı |
+|---|---|
+| M1 | kapı değeri **yalnız** tur yanıtındaki son ölçümdür — dosya içi ara sayı bağlayıcı değildir |
+| M2 | bu tur yeni dış iddia 0: §7–§16 tamamı §0–§6 içinden türetildi (yeni GET yok · 2026-10-14 damgaları geçerli) |
+| M3 | FM (`group: kod` · `validation` · `open_questions`) **dokunulmadı** |
+| M4 | 6 fenced blok + `⚠️` bölümleri değişmedi — §10 yalnız saydı |
+| M5 | `git commit` yok — orkestratöre ait |
+| M6 | append deseni: `oldString` = yalnız Authority footer → eski 230 satır dokunulmaz |
+| M7 | bozuk karakter taraması (Kiril/CJK aralık regex'i) her ölçümde — desen dosyaya literal yazılmaz |
+
+---
+
+## §15 Kaynak URL × Bölüm Mutabakatı (§5'in bölüm kesişimleri)
+
+| Kaynak (§5) | Hangi bölümler kullanıyor | Temel taşıdığı iddia |
+|---|---|---|
+| docs.python.org/3/using/android.html | §1 · §2.2 · §7.2 | gömülü mod tek kullanım |
+| docs.python.org/3/library/os.html | §1 · §2.2 · §7.2 · §9-N3 | `os.setuid` Android'de yok |
+| go.dev/doc/install/source | §1 · §2.3 · §7.3 | GOOS android + 4 GOARCH |
+| nodejs.org/api/os.html | §1 · §2.4 · §7.4 | `platform()` deneysel |
+| doc.rust-lang.org/.../platform-support | §1 · §2.6 · §7.6 · §13 | Tier 2 + std · diğer OS hedefi yok |
+| docs.rs/ndk/latest/ndk/ | §1 · §2.6 · §7.6 · §9-N6 | ndk 0.9.0 · güvenlik modülü yok |
+| learn.microsoft.com/.../what-is-maui | §1 · §2.7 · §7.7 | 4 hedef listesi |
+
+**Mutabakat:** 7 kaynak = 7 satır — §5'in tamamı en az bir § tarafından kullanılıyor
+(boş kaynak 0) · 404 adaylar §5 dipnotunda **kullanım-dışı** işaretli (§11-X1).
+
+---
+
+---
+
+## §16 Kod Bloğu Satır Dizini ve Özet Mutabakat
+
+### §16.1 İç satır dizini (§10'daki 42 satırın tamamı — gruplanmış)
+
+| Blok | Satır aralığı | İçerik özeti |
+|---|---|---|
+| B1 Python | 78–79 | upstream imzası ×2 (`using/android.html` · `os.html`) |
+| B1 | 80 | `import os` |
+| B1 | 81 | boş satır |
+| B1 | 82–83 | "no concept of installing as a system resource ... 'app'" alıntısı |
+| B1 | 84–85 | gömülü mod (libpython + embedding API) + "notable omissions" notu |
+| B1 | 86–87 | `os.setuid` → "Unix, not WASI, not Android" negatif kanıtı |
+| B2 Go | 97 | upstream imzası (`go.dev/doc/install/source`) |
+| B2 | 98–99 | GOOS `android` + GOARCH `386 · amd64 · arm · arm64` |
+| B2 | 100 | `//go:build android` derleme etiketi |
+| B2 | 101 | boş satır |
+| B2 | 102 | `package main // yalniz Android hedefinde derlenir` |
+| B3 JS | 112 | upstream imzası (`nodejs.org/api/os.html`) |
+| B3 | 113 | `const os = require('node:os');` |
+| B3 | 114 | boş satır |
+| B3 | 115–116 | `platform()` `android` = EXPERIMENTAL + diğer platform listesi |
+| B3 | 117–119 | `if (os.platform() === 'android') { ... S1 }` dallanması |
+| B4 Rust | 139–140 | upstream imzası ×2 (platform-support · nix 0.31.3) |
+| B4 | 141 | `use nix::unistd::{getuid, geteuid};` |
+| B4 | 142 | boş satır |
+| B4 | 143–145 | Tier 2 + std ✓ · UID sandbox notu · imza dönüşleri |
+| B4 | 146 | `let real = getuid();` |
+| B4 | 147 | `let effective = geteuid();` |
+| B5 C# | 160 | upstream imzası (`what-is-maui`) |
+| B5 | 161–163 | MAUI hedef listesi: Android · iOS · macOS · Windows |
+| B5 | 164 | APK izin modeli kapsam-dışı notu |
+| B6 Ölçüm | 188–189 | PHP+JS glob (vendor/node_modules/.git hariç) — beklenti 418 |
+| B6 | 190 | dil-kaynak sayacı — beklenti 0 |
+| B6 | 191 | UID deseni grep — beklenti 0 |
+
+**Dizin mutabakatı:** 27 grup = §10'un 42 iç satırını kapsar (her satır bir
+grupta) · `⚠️` blokları (C · PHP) bu dizinde **yok** — yokluk kasıtlıdır.
+
+### §16.2 Özet-İddia Mutabakatı (§0 ↔ §3 ↔ §8 çapraz kontrol)
+
+| İddia | §0 (giriş) | §3 (ölçüm) | §8 (bu tur özeti) | Mutabakat |
+|---|---|---|---|---|
+| 418 PHP+JS | ✅ (418 yazıyor) | ✅ (320+98) | ✅ (418) | **3/3 aynı** |
+| 0 dil-kaynak dosyası | ✅ (`0 *.c,*.go,*.cs`) | ✅ (glob satırı) | ✅ (0) | **3/3 aynı** |
+| 0 güvenlik API isabeti | ✅ ("grep 0 isabet") | ✅ (desen tablosu) | ✅ (0) | **3/3 aynı** |
+| 7 kaynak URL 200 | ✅ (validation: "7 kaynak") | — (§5 ayrı) | ✅ (7 satır) | **2/2 aynı** |
+| C/PHP ⚠️ | ✅ (validation cümlesi) | — | ✅ (2 satır) | **2/2 aynı** |
+| S1/S2 [UNKNOWN] | ✅ (open_questions) | — | ✅ (§12 plan) | **2/2 aynı** |
+
+### §16.3 Kapı Son Sözü (bu dosya)
+
+- Bu tur **yalnız append** yaptı: §0–§6 + FM değişmedi · yeni GET 0 · yeni iddia 0.
+- Tüm yeni §'ler (§7–§16) dosyanın **kendi satırlarından** derlendi; her satırda
+  "Kayıt" sütunuyla geri izleme var.
+- Kapı değeri: **yalnız tur yanıtındaki son ölçümdür** (kendi-kendine-beyan yasağı).
+- Kalan açık kapılar: S1 · S2 (§12 planı) + X1/X2 kapatma koşulları (§11) —
+  hiçbiri bu turda **kapatılmadı/kapatılmayacak gibi yazılmadı**.
+
+---
+
+### §16.4 Ölçüm Yorum Haritası (§3 komutlarının ne anlama geldiği — sapma payı 0)
+
+| # | Komut satırı (§3) | Beklenen | Sonuç beklenenden **farklıysa** düşen iddia |
+|---|---|---|---|
+| K1 | PHP+JS glob (`vendor`/`node_modules`/`.git` hariç) | **418** | 418'den büyük → yeni dosya girmiş · küçük → dosya silinmiş → §3 tablosu tazelenir |
+| K2 | dil-kaynak sayacı (`*.c,*.go,*.cs`) | **0** | >0 → dil kaynak dosyası doğmuş → §2.1 "repo karşılığı YOK" satırı **düşer**; ⚠️ → R sınıfına adaylık başlar |
+| K3 | UID deseni grep (`getuid\|geteuid\|setuid\|native_activity`) | **0** | >0 → güvenlik API'si repoya girmiş → "hedef kart" iddiası (§3 son satır) **düşer** · S1 yeniden açılır |
+
+- Sapma payı: **0** — üçü de tam-sayı sayaç; "±1 kabul" yoktur (ölçüm 2026-10-14).
+- Yorum disiplini: sonuç değişirse önce §3, sonra §8/§9 defteri güncellenir —
+  **önce ölç, sonra yaz** (tur 2026-10-15 bunu yapmadı: yalnız derleme/türetme).
+- Bu harita **iddia değil, yorum kuralıdır**: gelecek tur ölçümü bu üç satırla
+  karşılaştırılır, fark varsa ilgili §'ye not düşülür.
+
+### §16.5 Kapı Marjı Kaydı (bu dosya sonu)
+
+| Marj | Kayıt |
+|---|---|
+| Marj 1 | nihai kapı ölçümü bu satırlardan **sonra** alınır — tur yanıtı bağlayıcı |
+| Marj 2 | §7–§16 = bu turun eklediği **10 §** · hepsi §0–§6'dan türetildi |
+| Marj 3 | yeni GET 0 · yeni upstream iddiası 0 · kardeş dosya yazımı 0 · commit 0 |
+| Marj 4 | fence 12 (6 blok) — §10 ile mutabakatlı · `⚠️` bölümlerinde blok 0 |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

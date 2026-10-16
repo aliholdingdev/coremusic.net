@@ -382,4 +382,144 @@ Web uygulaması katmanı JS (Web Audio API — kök §26.2).
 
 ---
 
+---
+
+## §9 API Çağrı Zarfı Envanteri (dosya içi türetim — bu turda yeni GET yok)
+
+**Yöntem (bağlayıcı):** aşağıdaki her satır bu dosyanın §2–§4'ünde **zaten kayıtlı** bir
+alıntıdan türetilir; fonksiyon adı/imza bu §'de **ilk kez** iddia edilmez
+(zero-hallucination). Kanıt zinciri: satır → `(§x.y)` → o §'nin gövde-GET alıntısı.
+
+### §9.1 `audio_io` yüzeyi — 21 çağrı (§2 · §4.6 · §4.8 · §4.9)
+
+| # | Çağrı | Rol | Kanıt (bu dosya) |
+|---|-------|-----|------------------|
+| 1 | `audio_out_create_new` | output yarat | §2.1 [1] · §2.5 (eski imza ❌ kapanmış) |
+| 2 | `audio_out_set_sound_stream_info` | rota/seviye bağla | §2.1 [2] |
+| 3 | `audio_out_prepare` | hardware başlat | §2.1 [3] |
+| 4 | `audio_out_write` | senkron yaz (int döner) | §2.1 [4] · §4.8 callback içi |
+| 5 | `audio_out_unprepare` | durdur + güç tasarrufu | §2.1 [5][6] · §2.2 [4] |
+| 6 | `audio_out_destroy` | yok et | §2.1 [6] · §2.2 [6] |
+| 7 | `audio_out_set_stream_cb` | asenkron yazma cb kaydı | §2.2 [1] |
+| 8 | `audio_out_unset_stream_cb` | cb kaldır | §2.2 [5] |
+| 9 | `audio_out_drain` | tamponu boşalt (Since 2.4) | §2.5 [4] — rehberde gösterim yok |
+| 10 | `audio_out_flush` | tamponu at (Since 2.4) | §2.5 [4] · §8 E-Q3 |
+| 11 | `audio_in_create` | input yarat | §2.3 [1] · §4.6 · §4.7 |
+| 12 | `audio_in_set_sound_stream_info` | efekt bağla | §4.6 · §4.7 |
+| 13 | `audio_in_get_buffer_size` | tampon ölç | §2.3 [2] · §4.6 |
+| 14 | `audio_in_prepare` | hazırla | §2.3 [3] · §4.6 (rehber `handle` yazımı — §4.6 notu) |
+| 15 | `audio_in_read` | senkron oku (int döner) | §2.3 [4] · §4.6 döngü |
+| 16 | `audio_in_unprepare` | durdur | §2.3 [5] · §2.4 [4] |
+| 17 | `audio_in_destroy` | yok et | §2.3 [5] · §2.4 [4] |
+| 18 | `audio_in_set_stream_cb` | asenkron okuma cb — **prepare'dan önce** | §2.4 [1] |
+| 19 | `audio_in_unset_stream_cb` | cb kaldır | §2.4 [4] |
+| 20 | `audio_in_peek` | cb'de tampon oku | §2.4 [3] · §4.9 |
+| 21 | `audio_in_drop` | cb tamponunu bırak | §2.4 [3] · §4.9 |
+
+**Dışarıda bırakılan (kanıtlı yokluk):** `audio_out_set_parameter` — §2.5 ❌
+(mevcut değil, 19 fn'lik [M1] listesinde yok · §8 E-Q5 kapanış).
+
+### §9.2 `sound_manager` yüzeyi — 14 çağrı (§4 · §6)
+
+| # | Çağrı | Rol | Kanıt (bu dosya) |
+|---|-------|-----|------------------|
+| 1 | `sound_manager_get_volume` | seviye oku | §4.1 |
+| 2 | `sound_manager_get_max_volume` | üst sınır oku | §4.1 |
+| 3 | `sound_manager_get_next_device` | cihaz iteratörü | §4.2 · §4.5 · §4.6 |
+| 4 | `sound_manager_get_device_type` | tip sorgu | §4.2 · §4.5 |
+| 5 | `sound_manager_get_device_io_direction` | yön sorgu | §4.2 · §4.5 |
+| 6 | `sound_manager_get_supported_sample_rates` | hız listesi | §4.3 |
+| 7 | `sound_manager_set_sample_rate` | hız seç | §4.3 |
+| 8 | `sound_manager_create_stream_information` | stream_info yarat | §4.4 · §4.5 · §4.6 · §4.7 |
+| 9 | `sound_manager_acquire_focus` | odak al | §4.4 |
+| 10 | `sound_manager_get_device_list` | liste al (mask) | §4.5 · §4.6 |
+| 11 | `sound_manager_add_device_for_stream_routing` | manuel rota: cihaz ekle | §4.5 |
+| 12 | `sound_manager_apply_stream_routing` | manuel rota: uygula | §4.5 |
+| 13 | `sound_manager_set_effect_method_with_reference` | efekt (cihaza referanslı) | §4.6 (AEC) |
+| 14 | `sound_manager_set_effect_method` | efekt (bit-mask) | §4.7 (NS\|AGC) |
+
+### §9.3 Çapraz sayım
+
+| Yüzey | Benzersiz çağrı | Kaynak § |
+|---|---|---|
+| `audio_io` (out+in) | **21** | §2 · §4.6/4.8/4.9 |
+| `sound_manager` | **14** | §4 |
+| Toplam canlı çağrı | **35** | §9.1 + §9.2 |
+| Kanıtlı ölü çağrı | 1 (`set_parameter`) | §2.5 · §8 E-Q5 |
+
+> Kardeş `tizen-audio-anayasa` §6.3'ün 19/21 fn envanteri **API modül sayımı**dır
+> (modül html'indeki toplam); bu §9 ise **bu dosyada alıntılanan** çağrıdır — iki
+> sayı farklı şey sayar, çelişki değildir (bağ: anayasa §6.3).
+
+---
+
+## §10 Yaşam Döngüsü — Birleşik Durum Tablosu (§2 türetim)
+
+| Durum | Senkron çıkış | Asenkron çıkış | Senkron giriş | Asenkron giriş |
+|---|---|---|---|---|
+| CREATED | `create_new` (§2.1[1]) | `create_new` (§2.1[1]) | `create` (§2.3[1]) | `create` (§2.3[1]) |
+| BOUND | `set_sound_stream_info` (§2.1[2]) | aynı | — (§2.3) | `set_sound_stream_info` (§4.6 deseni) |
+| CB-SET | — | `set_stream_cb` (§2.2[1]) | — | `set_stream_cb` **prepare'dan ÖNCE** (§2.4[1]) |
+| PREPARED | `prepare` (§2.1[3]) | `prepare` (§2.2[3]) | `prepare` (§2.3[3]) | `prepare` (§2.4[3]) |
+| ACTIVE | `write` bloklu (§2.1[4]) | cb içinde `write` (§2.2[3]) | `read` bloklu (§2.3[4]) | cb `peek→fwrite→drop` (§2.4[3]) |
+| IDLE | `unprepare` (§2.1[5]) | `unprepare` → cb durur (§2.2[4]) | `unprepare` (§2.3[5]) | `unprepare` (§2.4[4]) |
+| DESTROYED | `destroy` (§2.1[6]) | `unset_stream_cb` → `destroy` (§2.2[5][6]) | `destroy` (§2.3[5]) | `unset_stream_cb` → `destroy` (§2.4[4]) |
+
+**Zorunlu sıra kuralları (bu dosyanın kendi alıntıları):** (a) asenkron kayıtta cb
+**prepare'dan önce** — aksi halde cb hiç çalışmaz (§2.4[1] birebir); (b) senkron
+kayıtta `read`, iç tampon dolana kadar bloklar (§2.3 alıntısı); (c) çıkışta
+`unprepare` sonrası cb çağrılmaz (§2.2[4] birebir); (d) `create/destroy` sıkıştırılır,
+`prepare/unprepare` tercih edilir (§3 düşük-seviye kurallar).
+
+---
+
+## §11 Hata Yönetimi Desen Envanteri (§2 · §4 · §5 · §8 türetim)
+
+| # | Desen | Kural | Kanıt |
+|---|---|---|---|
+| 1 | yazma dönüşü | `int` · negatif = hata kodu | §2.1[4] birebir |
+| 2 | okuma dönüşü | `int` · negatif = hata · 3 parametre | §2.3[4] · §2.5 (Ç2 kapanışı) |
+| 3 | hata tipi | `audio_io_error_e` — 13 kod | §2.1[1] · §8 E-Q2 |
+| 4 | cb içi yazma hatası | `data_size < 0` → `dlog_print(DLOG_ERROR, ...)` | §4.8 |
+| 5 | cb içi peek hatası | `!= AUDIO_IO_ERROR_NONE` → log + `return` (drop'a geçmez) | §4.9 |
+| 6 | device iteratörü sonu | `== SOUND_MANAGER_ERROR_NONE` döngü · `NO_DATA` bitiş | §4.2 |
+| 7 | odak başarısı | `if (!error_code)` → stream aktif | §4.4 |
+| 8 | senkron/aşenkron hata yüzeyi | senkron: dönüş değeri · asenkron: cb içi kontrol | §5 tablo satırı "Hata" |
+
+---
+
+## §12 Kapı Ölçüm Kaydı (bu dosya — açık aritmetik)
+
+| Adım | Satır | Durum |
+|------|-------|-------|
+| Keşim (2026-10-15) | 385 | <500 |
+| §9–§11 sonrası | bu tabloya kadar eklendi | ölçüm tur yanıtında |
+| Hedef | **≥505** | marj tablosuyla |
+| Yöntem | `read_text_file` → `split(/\r\n|\r|\n/)` → son boş `pop` | `Measure-Object -Line` **YASAK** |
+
+**Marj tablosu:**
+
+| # | Marj kaydı |
+|---|---|
+| M1 | kapı değeri **yalnız** tur yanıtındaki son ölçümdür — dosya içi ara sayı bağlayıcı değildir (kendi-kendine-beyan yasağı) |
+| M2 | bu tur yeni dış iddia 0: §9–§11 tamamı §2–§8 içinden türetildi (yeni GET yok) |
+| M3 | FM 10 alan + `depends_on`/`evidence` listeleri **dokunulmadı** |
+| M4 | kardeş dosyalara (sound-manager · webos) yazım yok — kendi turlarında |
+| M5 | `git commit` yok — orkestratöre ait |
+| M6 | append deseni: `oldString` = yalnız Authority footer → eski 385 satır dokunulmaz |
+
+---
+
+## §13 Dosya İçi Varyant ve Not Kayıtları (silinmez — işaretli kalır)
+
+| # | Varyant | Karar | Kayıt |
+|---|---|---|---|
+| V1 | §4.6 alıntısında `audio_in_prepare(handle)` (rehberin kendi yazımı) | alıntı **birebir korunur**, not düşülür | §4.6 alıntısı altı not |
+| V2 | §2.5 eski indeks 4 satır (create_new/set_parameter/in_read/drain) | statü ❌/⚠️ — silinmez | §2.5 tablosu |
+| V3 | §2.1[5] "duraklat" adımının `unprepare`'a eşlenmesi | rehber "duraklat"ı ayrıca API'ye bağlamaz — durdurma = unprepare | §2.1[5] notu |
+| V4 | `drain`/`flush` rehberde gösterilmiyor ama API'de var (Since 2.4) | ✅ gerçek fonksiyon, gösterim eksikliği | §2.5[4] · §8 E-Q3 |
+| V5 | E-Q4 (192000 Hz hw garantisi) | **UNKNOWN** — rehber aralığı var, cihaz garantisi yok | §8 E-Q4 |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

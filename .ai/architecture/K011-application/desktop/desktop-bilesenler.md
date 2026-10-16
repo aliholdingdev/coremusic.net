@@ -19,6 +19,27 @@ group: mimari
 > yansıtır. Betikler PowerShell metni olarak verilir — shell erişimim yoktur,
 > orkestratör repo kökünden koşacaktır.
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen | Kullanım |
+|---|---|---|---|---|
+| 1 | §1 Kapsam ve sınır | mimari | sinir | Kapsam dışı sayım yok |
+| 2 | §2 Sayım kaynağı (betik) | kanit | prosedur | PowerShell metni |
+| 3 | §3–§7 Dil bazlı sayaç (PHP/JS/CSS/Test/SQL) | mimari | envanter | Elle ölçüm — Dosya/Satır kanıtlı |
+| 4 | §8 Toplam tablosu | mimari | sayim | Bileşen toplamı |
+| 5 | §9, §15 Boşluklar/olmayanlar | kanit | bosluk | Eksik bileşenler |
+| 6 | §10 Kapsam eşlemesi | kanit | capraz | Bileşen ↔ kapsam |
+| 7 | §12 Detay kartları | mimari | detay | Okunmuş dosya kartları |
+| 8 | §13, §23, §24 Ölçüm tekniği/betik/karşılaştırma | kanit | olcum | Nasıl sayıldı + elle↔betik |
+| 9 | §14 Sayım çelişkileri | kanit | celiski | Çelişki kaydı |
+| 10 | §16–§18 Grafik/sözleşme/yaşam döngüsü | mimari | iliski | Bileşenler arası bağlar |
+| 11 | §19–§21 Test/güvenlik/perf notları | mimari | not | Bazlı notlar |
+| 12 | §22 Sürüm/tarihçe · §28 günlük | kanit | tarih | Değişiklik kaydı |
+| 13 | §25–§27 Öneri/handover/kullanım | kod | aksiyon | Sonraki adımlar |
+| 14 | §29–§30 Son ölçüm/kapanış | kanit | sonuc | Kapı özeti |
+
+---
+
 ## §1 — Kapsam ve Sınır
 
 1. Bu dosya yalnızca `desktop` katmanının bileşenlerini sayar.

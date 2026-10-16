@@ -168,6 +168,7 @@ S5 kuralı: yokluk "yanlıştır" anlamı taşımaz; yalnızca kanıtın bulunma
 |---|---|---|---|
 | tur-1 | 2026-10-12 | ilk iskelet (v1.0.0, 87 satır) | iskelet kabul; S3 kanıtı yok |
 | tur-2 | 2026-10-13 | derinleştirme (v2.0.0) — 19 S1 + 15 S3 + 4 S5 eklendi | bu dosya |
+| tur-2b | 2026-10-16 | web araştırması 4 dosya (kök Q1–Q9 + playback/background-jobs/ai) · services-ornekler §28 (ServiceRegistry verbatim) · C4 kardeş URL tekilliği taraması (132 URL → çakışma 0) | 4 dosya status: draft; Q1–Q9 **hâlâ açık** — yalnız seçenek matrisi sunuldu |
 | tur-3 | planlanmadı | açık sorular Q1–Q9 kapanışı | bekliyor |
 
 ## §9 Doğrulama Yöntemi — Kanıt Sınıfları Ayrıntısı

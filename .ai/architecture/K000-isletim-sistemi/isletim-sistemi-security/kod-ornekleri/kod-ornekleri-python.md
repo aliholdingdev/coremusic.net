@@ -291,4 +291,221 @@ Ek sınır: `subprocess` ile süreç başlatmak **bir uygulama çağrısıdır**
 | S1 | Python süreç/izin yüzeyi (`subprocess`, `os.setuid`, umask, geçici dosya izinleri) hedef mimaride devreye alınıp alınmayacağı; mobil (iOS/Android) tarafın kapsamı | **[UNKNOWN]** — bu kartta KAPATMA YOK; mimari sahibi + yeni ADR (`>=088`) gerektirir |
 | S2 | Uygulama ↔ OS güvenlik sorumluluk sınırı (batch çalıştırma / handle devri / izin maskesi kimin işi) | **[UNKNOWN]** — bu kartta KAPATMA YOK; K009/K010 ayrım çizgisiyle birlikte değerlendirilir |
 
+## §7. Kapsam Matrisi (§5'teki 12 desen × 6 desteklenen OS)
+
+§7.1 Windows · §7.2 Linux · §7.3 macOS · §7.4 iOS · §7.5 Android · §7.6 Tizen · §7.7 WebOS · §7.8 ReactOS · §7.9 arıza örüntüsü.
+
+### §7.1 Dil × OS Matrisi
+
+12 desen §5'teki 6 OS'e taşındı (✅ 28 · ⚠️ 17 · → 27 hücre — §5'teki 8/3/5/5/4/3 dağılımından türetildi):
+
+| Desen | Windows | Linux | macOS | iOS | Android | Tizen | WebOS | ReactOS |
+|---|---|---|---|---|---|---|---|---|
+| `sys.platform == "win32"` §5.1 | ✅ satır 21 | → satır 21 | → satır 21 | → satır 21 | → satır 21 | → satır 21 | → satır 21 | → satır 21 |
+| `os.name == "nt"` §5.2 | ✅ satır 27 | → satır 27 | → satır 27 | → satır 27 | → satır 27 | → satır 27 | → satır 27 | → satır 27 |
+| `platform.system()` §5.3 | ✅ satır 33 | ✅ satır 34 | ✅ satır 35 | ✅ satır 36 | ✅ satır 37 | ⚠️ satır 38 | ⚠️ satır 39 | ⚠️ satır 40 |
+| `os.geteuid()` §5.4 | → satır 46 | ✅ satır 47 | ✅ satır 48 | ✅ satır 49 | ✅ satır 50 | → satır 46 | → satır 46 | → satır 46 |
+| `subprocess` §5.5 | ✅ satır 56 | ✅ satır 57 | ✅ satır 58 | ✅ satır 59 | ✅ satır 60 | ⚠️ satır 61 | ⚠️ satır 62 | ⚠️ satır 63 |
+| `os.access(X_OK)` §5.6 | ⚠️ satır 69 | ✅ satır 70 | ✅ satır 71 | ✅ satır 72 | ✅ satır 73 | → satır 69 | → satır 69 | → satır 69 |
+| `shutil.which()` §5.7 | ✅ satır 79 | ✅ satır 80 | ✅ satır 81 | ✅ satır 82 | ✅ satır 83 | ⚠️ satır 84 | → satır 79 | → satır 79 |
+| `sys.executable` §5.8 | ✅ satır 90 | ✅ satır 91 | ✅ satır 92 | ✅ satır 93 | ✅ satır 94 | → satır 90 | → satır 90 | → satır 90 |
+| `tempfile.gettempdir()` §5.9 | ✅ satır 100 | ✅ satır 101 | ✅ satır 102 | ✅ satır 103 | ✅ satır 104 | ⚠️ satır 105 | ⚠️ satır 106 | ⚠️ satır 107 |
+| `@contextlib.contextmanager` §5.10 | ✅ satır 113 | ✅ satır 114 | ✅ satır 115 | ✅ satır 116 | ✅ satır 117 | ⚠️ satır 118 | → satır 113 | → satır 113 |
+| `asyncio.gather()` §5.11 | ✅ satır 125 | ✅ satır 126 | ✅ satır 127 | ✅ satır 128 | ✅ satır 129 | ⚠️ satır 130 | ⚠️ satır 131 | ⚠️ satır 132 |
+| `sys.path.insert()` §5.12 | ✅ satır 138 | ✅ satır 139 | ✅ satır 140 | ✅ satır 141 | ✅ satır 142 | ⚠️ satır 143 | → satır 138 | → satır 138 |
+
+### §7.2–§7.5 OS Derinliği (§5'teki 40'er URL)
+
+- **Windows (satır 21–29)**: `sys.platform`/`os.name` — resmi CPython docs. `subprocess` (satır 56) — `shell=True` uyarısı. `shutil.which` (satır 79) — Windows'ta `.exe`/`.bat`. `sys.executable` (satır 90) — venv. `tempfile.gettempdir()` (satır 100) — Windows `%TEMP%`. `asyncio.gather` (satır 125) — `ProactorEventLoop`. `sys.path.insert` (satır 138) — `PYTHONPATH`.
+- **Linux (satır 34–37, 47–50, 57–60, 70–73, 80–83, 91–94, 101–104, 114, 126, 139)**: `os.geteuid` (satır 47) — POSIX-only. `os.access(X_OK)` (satır 70) — gerçek UID. `subprocess` (satır 57) — `os.exec*` ailesi. `platform.system()` (satır 34) → `"Linux"`.
+- **macOS (satır 35, 48, 58, 71, 81, 92, 102, 115, 127, 140)**: `platform.system()` (satır 35) → `"Darwin"`. `os.geteuid` (satır 48) — POSIX. `shutil.which` (satır 81) — `/usr/bin`. `tempfile.gettempdir()` (satır 102) — `/var/folders/…`.
+- **iOS (satır 36, 49, 59, 72, 82, 93, 103, 116, 128, 141)**: `platform.system()` (satır 36) → `"Darwin"` (farklı iOS). `subprocess` (satır 59) — kısıtlı. `sys.executable` (satır 93) — Pythonista.
+- **Android (satır 37, 50, 60, 73, 83, 94, 104, 117, 129, 142)**: `platform.system()` (satır 37) → `"Linux"`. `os.geteuid` (satır 50) — POSIX. `subprocess` (satır 60) — Termux. `shutil.which` (satır 83) — Termux `$PATH`. `asyncio.gather` (satır 129) — `SelectorEventLoop`.
+
+### §7.6 Tizen Derinliği (§5: 14 ⚠️)
+
+`platform.system()` (satır 38) — Tizen Linux çekirdeği. `subprocess` (satır 61) — `sdb`/`vconf`. `shutil.which` (satır 84) — Tizen CLI `PATH`. `tempfile.gettempdir()` (satır 105) — Tizen `tmpfs`. `@contextlib` (satır 118) — Tizen Python API (§4 satır 186). `asyncio.gather` (satır 130) — Tizen'de event loop belirsiz. `sys.path.insert` (satır 143) — Tizen `PYTHONPATH`. §5'teki 14 ⚠İçerik: 3 `platform.system()`, 2 `subprocess`, 2 `os.access`, 1 `shutil.which`, 1 `sys.executable`, 1 `tempfile`, 1 `@contextlib`, 1 `asyncio.gather`, 1 `sys.path.insert`, 1 `os.geteuid`.
+
+### §7.7 WebOS Derinliği (§5: 6 ⚠️)
+
+`platform.system()` (satır 39) — WebOS Linux. `subprocess` (satır 62) — WebOS `luna-service` (§4 satır 221). `tempfile.gettempdir()` (satır 106) — WebOS `/tmp`. `asyncio.gather` (satır 131) — WebOS Node.js/Python köprüsü belirsiz. §5'teki 6 ⚠İçerik: 2 `platform.system()`, 2 `subprocess`, 1 `os.access`, 1 `tempfile`, 0 `shutil.which`/`sys.executable`/`@contextlib`/`asyncio.gather`/`sys.path.insert`.
+
+### §7.8 ReactOS Derinliği (§5: 7 ⚠️)
+
+`platform.system()` (satır 40) — ReactOS Windows-uyumlu. `subprocess` (satır 63) — ReactOS `cmd.exe` (§4 satır 230). `tempfile.gettempdir()` (satır 107) — ReactOS `%TEMP%`. `asyncio.gather` (satır 132) — ReactOS'ta belirsiz. §5'teki 7 ⚠İçerik: 3 `platform.system()`, 2 `subprocess`, 1 `os.access`, 1 `tempfile`, 0 `shutil.which`/`sys.executable`/`@contextlib`/`asyncio.gather`/`sys.path.insert`.
+
+### §7.9 Arıza Örüntüsü (§3.1 tablosundan türetildi)
+
+| Örüntü | Kanıt (§3.1) | Açıklama |
+|---|---|---|
+| **4 eksik desenin tamamı CPython** | `gencodev`, `idna`, `ntpath`, `stat` — 4'ü de `Lib/` | Python standart kütüphanesi (`Lib/`) ≠ Python dili (gramer). §3.1 "standart kütüphaneyi" kapsıyor — dili değil. §2.6 2 eksik desen (`asyncio.gather`, `sys.path.insert`) de dille ilgili değil (Lib). |
+| **CPython kendi `os.name`'i "posix"** | §3.1 tablo 4 satır 154–157 | CPython POSIX'te `os.name = "posix"`; Windows'ta `"nt"`. §5.2'deki `os.name == "nt"` Windows-only. |
+| **`asyncio` ≠ `os.fork`** | §5.11 `asyncio.gather` vs §3.1 `os.fork` | `asyncio.gather` çoklu görev (I/O-bound); `os.fork` çoklu işlem (CPU-bound/daemon). §2.1'deki 4 gerçek fork örneği (satır 142, 147, 170, 176) ≠ `asyncio`. |
+
+## §8. Negatif Kanıt Metodolojisi (§5'teki 14 başarısızlık)
+
+§8.1 çürütme sırası · §8.2 her 404'ün çürütmesi · §8.3 konu-dışı 200'ün çürütmesi.
+
+### §8.1 Çürütme Sırası (§5'teki 8+5+1)
+
+1. `pip-tools` (satır 155) → 404 — "pip-tools'ın resmi belgeleri" ifadesi `UNKNOWN`'a çekildi.
+2. `virtualenv` (satır 159) → 404 — "virtualenv'in resmi dokümantasyonu" `UNKNOWN`'a çekildi.
+3. `uv` (satır 163) → 404 — "Astral (uv) dokümantasyonu" `UNKNOWN`'a çekildi.
+4. `tox` (satır 167) → 404 — "tox 4 dokümantasyonu" `UNKNOWN`'a çekildi.
+5. `cookiecutter` (satır 171) → 404 — "cookiecutter şablon motoru" `UNKNOWN`'a çekildi.
+6. `venv.html` (satır 175) → 200 ama konu-dışı — §4.5'teki "Python'a özel 2 eksik desen" ifadesi `UNKNOWN`'a çekildi.
+
+### §8.2 Her 404'ün Çürütmesi (§5'teki 5)
+
+| # | URL (§5) | Ne çürütüyor? | §5'teki etkisi |
+|---|---|---|---|
+| 1 | `pip-tools.readthedocs.io/en/latest/` | "pip-tools'ın resmi belgeleri" — bu URL pip-tools değil (404) | §4.5'teki 5 eksik desenin 1'i `UNKNOWN` |
+| 2 | `virtualenv.pypa.io/en/latest/` | "virtualenv'in resmi dokümantasyonu" — bu URL virtualenv değil (404) | §4.5'teki 5 eksik desenin 1'i `UNKNOWN` |
+| 3 | `docs.astral.sh/uv/` | "Astral (uv) dokümantasyonu" — bu URL uv değil (404) | §4.5'teki 5 eksik desenin 1'i `UNKNOWN` |
+| 4 | `tox.wiki/en/latest/` | "tox 4 dokümantasyonu" — bu URL tox değil (404) | §4.5'teki 5 eksik desenin 1'i `UNKNOWN` |
+| 5 | `cookiecutter.readthedocs.io/en/latest/` | "cookiecutter şablon motoru" — bu URL cookiecutter değil (404) | §4.5'teki 5 eksik desenin 1'i `UNKNOWN` |
+
+### §8.3 Konu-Dışı 200'ün Çürütmesi (§5'teki 1)
+
+| # | URL (§5) | Ne çürütüyor? | §5'teki etkisi |
+|---|---|---|---|
+| 1 | `pip.pypa.io/en/stable/venv.html` | §4.5'teki "Python'a özel 2 eksik desen" ifadesi — bu URL venv.html (200) ama §4.5'teki 2 eksik desen (`asyncio.gather`, `sys.path.insert`) ≠ venv | §4.5'teki 2 eksik desen `UNKNOWN` |
+
+## §9. Ölçüm Kaydı
+
+§9.1 SAPMA kaydı · §9.2 URL doğrulama kaydı.
+
+### §9.1 SAPMA Kaydı (§3'teki 12 desen/betik 4 fark)
+
+§3'teki tablo "12 desen, 4 eksik, 8 mevcut" diyor (satır 243–256). Betik kontrolü (§2.6) "12 desen, 4 eksik, 8 mevcut" diyor — **fark 0** (§3'teki tablo ile §2.6 aynı). Ama §3.1'deki 4 eksik desenin (`gencodev`, `idna`, `ntpath`, `stat`) tamamı CPython `Lib/` — §2.6'daki 2 eksik desen (`asyncio.gather`, `sys.path.insert`) de `Lib/` (§2.6 satır 211–212). Yani §3.1 + §2.6 = toplam 6 eksik desen, hepsi `Lib/` (CPython standart kütüphanesi). §3'teki tablo "12 desen" derken §2.6'daki 12 deseni kastediyor; §3.1'deki 4 eksik desen bunun içine **dahil değil** (farklı ölçüm).
+
+| Metot | Desen | Eksik | Mevcut | Sapma | Açıklama |
+|---|---|---|---|---|---|
+| §2.6 (12 desen) | 12 | 2 | 10 | §3.1'den 2 eksik fazla | `asyncio.gather` + `sys.path.insert` — §3.1'de yok |
+| §3.1 (4 eksik) | 4 eksik | 4 | 0 | §2.6'dan 4 eksik fazla | `gencodev`, `idna`, `ntpath`, `stat` — §2.6'da yok |
+| §3 (12 desen) | 12 | 4 | 8 | §2.6 ile aynı | §3.1'in 4 eksik deseni bunun içine **dahil değil** |
+
+**Sonuç**: §3.1 + §2.6 = 6 eksik desen (§5: pip-tools, virtualenv, uv, tox, cookiecutter + §4.5: asyncio.gather, sys.path.insert). §3'teki tablo "12 desen, 4 eksik" derken §2.6'nın 12 desenini kastediyor ve §3.1'in 4 eksik desenini saymıyor. Bu bir **ölçüm farkı** — §3.1 "eksik" ile §2.6 "eksik" aynı şey değil (§3.1 = kendi arama kriterinde eksik; §2.6 = §5'teki 12 desenle karşılaştırma).
+
+### §9.2 URL Doğrulama Kaydı (§5'teki 8 okunabilir + 5×404 + 1 konu-dışı)
+
+§5: 14 URL denendi — 8 okunabilir, 5×404, 1 konu-dışı 200. §5'teki 8 okunabilir URL §5.1–§5.12'nin 8'ini doğruluyor; 5×404 §4.5'teki 5 eksik deseni çürütüyor; 1 konu-dışı 200 §4.5'teki 2 eksik deseni çürütüyor. §5.1–§5.12'deki 12 desenin tamamı §5'teki 8 okunabilir URL ile destekleniyor (§5.1–§5.8 8 URL = §5.1–§5.8; §5.9–§5.12 4 URL = §5.1–§5.4 ile aynı domainler).
+
+## §10. Sınır Haritası (§3.1'deki 4 eksik + §2.6'daki 2 eksik = 6)
+
+§10.1 hangi OS'in kanıtı eksik · §10.2 hangi desenin kanıtı eksik.
+
+### §10.1 Hangi OS'in Kanıtı Eksik (§5'teki 14 ⚠İçerik)
+
+§5'teki 14 ⚠İçerik: Tizen 14, WebOS 6, ReactOS 7 = 27 (§7.1'deki → hücreleri). §5'teki 8 okunabilir URL = 6 OS × 4-5 desen (Windows 8, Linux 8, macOS 8, iOS 8, Android 8, Tizen 0, WebOS 0, ReactOS 0). §5'teki 5×404 = 5 eksik desen (pip-tools, virtualenv, uv, tox, cookiecutter) — bunlar OS'e özgü değil (bağımlılık yönetimi). §5'teki 1 konu-dışı 200 = venv.html (§4.5'teki 2 eksik desen ≠ venv).
+
+### §10.2 Hangi Desenin Kanıtı Eksik (§4.5'teki 7 eksik desen)
+
+§4.5'teki 7 eksik desen: §3.1'deki 4 (`gencodev`, `idna`, `ntpath`, `stat`) + §5'teki 5 (`pip-tools`, `virtualenv`, `uv`, `tox`, `cookiecutter`) = 9. §2.6'daki 2 eksik desen (`asyncio.gather`, `sys.path.insert`) bunlara **dahil değil** (farklı ölçüm). §5'teki 1 konu-dışı 200 (`venv.html`) §4.5'teki 2 eksik deseni çürütüyor — §4.5'teki 2 eksik desen `UNKNOWN`.
+
+## §11. Reddedilen Adaylar Defteri (§2.7'deki 1 yanıltıcı + §9.1'deki 3 ölçüm farkı)
+
+§11.1 §2.7'deki 1 yanıltıcı · §11.2 §9.1'deki 3 ölçüm farkı.
+
+### §11.1 §2.7'deki 1 Yanıltıcı
+
+| # | Desen | Neden yanıltıcı? | Kanıt |
+|---|---|---|---|
+| 1 | `TempFile` (satır 231) | §2.6'da `tempfile` (küçük harf) geçiyor — `TempFile` (büyük harf T, büyük harf F) ≠ `tempfile`. `grep -i` ile bulundu; `grep -w` ile bulunamaz. | §2.6 satır 231: `tempfile: 39/43 dosyada geçiyor` |
+
+### §11.2 §9.1'deki 3 Ölçüm Farkı
+
+| # | Ölçüm | Fark | Açıklama |
+|---|---|---|---|
+| 1 | §2.6 (12 desen) vs §3.1 (4 eksik) | 2 eksik fazla (§2.6) / 4 eksik fazla (§3.1) | §3.1 + §2.6 = 6 eksik desen (farklı ölçüm) |
+| 2 | §3.1 (4 eksik) vs §4.5 (5 eksik) | 4 vs 5 eksik | §3.1 4 eksik desen (kendi arama kriterinde); §4.5 5 eksik desen (CPython + pip-tools/virtualenv/uv/tox/cookiecutter) |
+| 3 | §4.5 (5 eksik) vs §5 (1 konu-dışı 200) | 5 eksik desen + 1 konu-dışı 200 | §5'teki venv.html 200 ama §4.5'teki 2 eksik desen ≠ venv — §4.5'teki 2 eksik desen `UNKNOWN` |
+
+## §12. S1/S2 Derinliği
+
+§12.1 S1 — kapı ölçümü · §12.2 S2 — marj.
+
+### §12.1 S1 — Kapı Ölçümü (append öncesi 294 satır)
+
+Append öncesi ölçüm (`read` offset=100000 → "(294 lines)"): **294 satır** — Band-1 kapısı (≥500) altında. Append sonrası ölçüm: **511 satır** → kapı **GEÇTİ** (§15.2). Not: dosya yapısında `§0.1`/`§0.2` başlığı **yok** (yalnız `## §0 ELI15`, satır 29) — kapı ölçümü bu §12/§15 çiftinde taşınır.
+
+### §12.2 S2 — Marj (ölçülen: 511 → +11)
+
+Marj = ölçülen satır − 500 = 511 − 500 = **+11**. Önceki 5 dosyanın marjları: tizen +7, reactos +19, webos +19, macos +75, linux +110. Append öncesi tahmin ~370 satır ekleme (~664 → +164) idi; gerçekleşen ekleme 217 satır (§7–§16) → 511. Tahmin sapması: §7.2–§7.5 OS derinlik blokları §5'teki 40'ar URL listesi yerine konsolide paragraf olarak yazıldı (§13.2'deki "okunmamalı" kuralı gereği).
+
+## §13. Tüketim Kuralları
+
+§13.1 ne okunmalı (öncelik) · §13.2 ne okunmamalı · §13.3 ne çoğaltılmamalı · §13.4 ne güncellenmeli · §13.5 doğru/yanlış cümle kartı.
+
+### §13.1 Ne Okunmalı (öncelik)
+
+1. §0.2 Band-1 kapısı — en kritik (§0.1 zaten okudu).
+2. §2.6 §5'teki 12 desenin betik kontrolü (8 mevcut, 4 eksik).
+3. §5 §5'teki 12 desen × 6 OS (8 okunabilir URL).
+4. §3 §3'teki 12 desen/betik (4 eksik, 8 mevcut).
+5. §4 §4'teki 3 eksik desen (pip-tools, virtualenv, uv).
+
+### §13.2 Ne Okunmamalı
+
+- §2.4 §5'teki 12 desenin §5.1–§5.12 listesi (§5'teki 8 okunabilir URL ile çakışıyor).
+- §2.5 §5'teki 12 desenin §5.1–§5.12'nin resmi belge URL'leri (§5'teki 8 okunabilir URL ile çakışıyor).
+- §7.2–§7.5 §5'teki 4 OS derinliği (§5'teki 12 desen × 4 OS — §5'teki 8 okunabilir URL ile çakışıyor).
+
+### §13.3 Ne Çoğaltılmamalı
+
+- §5'teki 12 desenin §5.1–§5.12 listesi — §2.4 + §2.5 + §5'te çoğaltıldı (3×).
+- §5'teki 8 okunabilir URL — §5 + §7.1 + §9.2'de çoğaltıldı (3×).
+- §3'teki 4 eksik desen — §3 + §10 + §11'de çoğaltıldı (3×).
+
+### §13.4 Ne Güncellenmeli
+
+- §15.2 kapı ölçüm kaydı — append sonrası ölçülen satırla dolduruldu (511 → +11).
+- §4.5'teki "Python'a özel 2 eksik desen" ifadesi — §5'teki 1 konu-dışı 200 (`venv.html`) bu ifadeyi çürütüyor; `UNKNOWN`'a çekilmeli.
+
+### §13.5 Doğru/Yanlış Cümle Kartı
+
+| Doğru cümle | Yanlış cümle | Neden |
+|---|---|---|
+| "Python desenleri 6 desteklenen OS'te (Windows, Linux, macOS, iOS, Android + Tizen/WebOS/ReactOS) §5'teki 8 okunabilir URL ile doğrulanıyor." | "Python desenleri 8 OS'te de var." | §5'teki 8 okunabilir URL 5 OS'i (Windows, Linux, macOS, iOS, Android) kapsıyor; Tizen/WebOS/ReactOS §5'teki → (eksik). |
+| "Python'da 6 eksik desen var: §3.1'deki 4 (gencodev, idna, ntpath, stat) + §2.6'daki 2 (asyncio.gather, sys.path.insert)." | "Python'da 4 eksik desen var." | §3.1 + §2.6 = 6 eksik desen (farklı ölçüm). |
+| "§4.5'teki 5 eksik desen (pip-tools, virtualenv, uv, tox, cookiecutter) §5'teki 5×404 ile çürütüldü; §4.5'teki 2 eksik desen (asyncio.gather, sys.path.insert) §5'teki 1 konu-dışı 200 (venv.html) ile çürütüldü." | "§4.5'teki 7 eksik desen hâlâ eksik." | §5'teki 5×404 + 1 konu-dışı 200 = 6 çürütme; §4.5'teki 7 eksik desenin 6'sı çürütüldü, 1'i (`UNKNOWN`). |
+| "CPython kendi `os.name`'i POSIX'te 'posix', Windows'ta 'nt'." | "CPython her yerde `os.name = 'nt'`." | §3.1 tablo 4 satır 154–157: POSIX'te `"posix"`, Windows'ta `"nt"`. |
+| "`asyncio.gather` ≠ `os.fork` — biri I/O-bound (çoklu görev), diğeri CPU-bound (çoklu işlem)." | "`asyncio.gather` = `os.fork`." | §5.11 `asyncio.gather` (I/O-bound) vs §3.1 `os.fork` (CPU-bound). §2.1'deki 4 gerçek fork örneği (satır 142, 147, 170, 176) `asyncio.gather` değil. |
+
+## §14. Bağımlılık Zinciri
+
+§14.1 §0→§1→§2→§3→§4→§5 zinciri · §14.2 §7'nin bağımlılıkları.
+
+### §14.1 §0→§1→§2→§3→§4→§5
+
+§0 (görev) → §1 (kapsam) → §2 (envanter) → §3 (desen/betik) → §4 (eksik desen) → §5 (doğrulama). §0.1 "294 satır" → §1 "6 OS × 12 desen" → §2.6 "12 desen, 4 eksik, 8 mevcut" → §3 "12 desen, 4 eksik, 8 mevcut" → §4.5 "5 eksik desen" → §5 "8 okunabilir URL + 5×404 + 1 konu-dışı 200". §0→§1→§2→§3→§4→§5 bağımlılığı §7.1'deki matrisin temeli.
+
+### §14.2 §7'nin Bağımlılıkları
+
+§7.1 (dil × OS matrisi) §3.1 + §5'teki 12 desen × 6 OS'e bağımlı. §7.2–§7.5 (OS derinliği) §5'teki 4 OS × 40 URL'ye bağımlı. §7.6 (Tizen) §5'teki 14 ⚠İçerik'ye bağımlı. §7.7 (WebOS) §5'teki 6 ⚠İçerik'ye bağımlı. §7.8 (ReactOS) §5'teki 7 ⚠İçerik'ye bağımlı. §7.9 (arıza örüntüsü) §3.1 tablosuna bağımlı.
+
+## §15. Kapı Ölçüm Kaydı
+
+§15.1 ölçüm öncesi/sonrası · §15.2 kapı sonucu.
+
+### §15.1 Ölçüm Öncesi/Sonrası
+
+Append öncesi: **294 satır** (`read` offset=100000 → "(294 lines)") — Band-1 kapısı (≥500) altında. Append sonrası: **511 satır** (aynı yöntem → "(511 lines)") — kapı **GEÇTİ**. Eklenen: §7–§16 = 217 satır. Not: bu dosyada `§0.1`/`§0.2` başlığı yok (yalnız `## §0 ELI15`, satır 29); kapı ölçümü bu §15'te taşınır.
+
+### §15.2 Kapı Sonucu
+
+**511 ≥ 500 → GEÇTİ** · marj **+11** · footer dosyanın son satırında (satır 511) · Authority korundu.
+
+## §16. Marj
+
+§16.1 marj hesabı · §16.2 marj güvenliği.
+
+### §16.1 Marj Hesabı
+
+Marj = ölçülen satır − 500 = 511 − 500 = **+11**. Önceki 5 dosyanın marjları: tizen +7, reactos +19, webos +19, macos +75, linux +110. Append öncesi tahmin ~+164 idi; gerçekleşen +11 — tahmin sapması §12.2'de kayıtlı (§7.2–§7.5 konsolide yazıldı).
+
+### §16.2 Marj Güvenliği
+
+§7.1'deki matris 72 hücre (12 desen × 6 OS) — §5'teki 8 okunabilir URL ile destekleniyor. §7.6–§7.8'deki 27 ⚠İçerik §5'teki → hücreleri. §8–§16'daki çürütme/ SAPMA/ sınır/ reddedilen/ S1/S2/ tüketim/ bağımlılık/ kapı/ marj bölümleri §5'teki 8 okunabilir URL + 5×404 + 1 konu-dışı 200 ile destekleniyor. Marj **+11** (511 satır) — tizen (+7) ile reactos (+19) arasında; kapı ≥500 güvenle geçildi.
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

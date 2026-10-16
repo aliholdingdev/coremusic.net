@@ -489,7 +489,23 @@ Write-Host "getenv kullanımı: $($getenvHits.Count)"
 - **Açık sorular:** §A (7 madde)
 
 **Ek not:** Bu dosya salt-okunur ölçümlerden oluşur; hiçbir `.php` dosyası
-değiştirilmemiştir. Sayılar disk kanıtıdır.
+değiştirilmemiştir. Sayılar disk kanıtıdır. Ölçümler **tekrarlanabilir**
+komutlarla üretilmiştir; her §N bloğunda komut belirtilmiştir.
+
+---
+
+## §Z — Ölçüm Yöntemi Kaydı
+
+| # | Ölçüm | Yöntem | Güvenilirlik |
+|---|---|---|---|
+| 1 | Dosya sayısı | `Get-ChildItem -Recurse` | yüksek |
+| 2 | Satır sayısı | `[IO.File]::ReadAllLines` | yüksek |
+| 3 | Sembol arama | `grep` / `Select-String` | orta |
+| 4 | Bağımlılık | `composer.json` okuma | yüksek |
+| 5 | Tahmin | okunmamış dosya | **düşük** — ⚠️ |
+
+**5 yöntem** — 4'ü **yüksek/orta** güvenilir · 1'i **düşük** (tahmin).
+Düşük güvenilirlikli ölçümler **her zaman** `⚠️` ile işaretlenmiştir.
 
 ---
 

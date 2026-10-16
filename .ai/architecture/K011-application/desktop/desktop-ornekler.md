@@ -20,6 +20,25 @@ group: kod
 > (görsel cihaz seçimi + breakpoint), **SQL** (log şeması enum'ları) ve
 > **CSS** (band-specific token/layout).
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen | Kullanım |
+|---|---|---|---|---|
+| 1 | §1 Kapsam kuralı | kod | kural | Kapsam dışı kod yok |
+| 2 | §2–§4 PHP örnekleri (A–C) | kod | php | Giriş noktası · BFF · bant sınırları |
+| 3 | §5–§6, §9 JS örnekleri (D–E, H) | kod | js | Cihaz tanımı · breakpoint · test |
+| 4 | §7 SQL örneği (F) | kod | sql | `device_type` enum |
+| 5 | §8 CSS örneği (G) | kod | css | `d-desktop.css` token'ları |
+| 6 | §10, §12.5–§12.8 PHP örnekleri (I, J–M) | kod | php | Test · mapping · meta · öncelik · log |
+| 7 | §12.9 CSS örnek (N) | kod | css | Widget grid 1920 kanonu |
+| 8 | §11 Anti-pattern | kod | kural | YAPMA ↔ YAP |
+| 9 | §12, §12.10 Eşleme/kanıt özeti | kanit | capraz | Örnek ↔ kapsam ↔ dosya |
+| 10 | §13 Çelişki kayıtları | kanit | celiski | Kod içi çelişkiler |
+| 11 | §14 Erişilemeyen kod | kanit | bosluk | ⚠️ VERIFICATION REQUIRED |
+| 12 | §15 Olmayanlar | kanit | sinir | Kapsam dışı yüzeyler |
+
+---
+
 ## §1 — Kapsam Dışı Kod Yok (Kural)
 
 1. Bu dosyadaki her kod bloğu, `shared/`, `assets.coremusic.net/` veya

@@ -7,6 +7,7 @@ children:
   - "playback-service-anayasa.md"
   - "playback-service-surucu.md"
   - "playback-service-ornekler.md"
+  - "playback-service-web-arastirma.md"
 depends_on: []
 evidence:
   - "v2 §2.12 — çocuk adı kaynağı (birebir)"
@@ -41,6 +42,7 @@ group: mimari
 | mimari | `playback-service-anayasa.md` | Sınır, session sözlüğü, render zinciri, yazan taraf taraması | Kademe-3 |
 | mimari | `playback-service-surucu.md` | Sürüş sırası, varyant kararı, cmConfig, footer akışı | Kademe-3 |
 | kod | `playback-service-ornekler.md` | Verbatim kod blokları ve kod analizleri | Kademe-3 |
+| kanit | `playback-service-web-arastirma.md` | Q2 sahiplik web kanıtlı seçenek matrisi (10 URL; karar ADR bekler) | Kademe-3 |
 
 ## §A Kapilar (bu index)
 

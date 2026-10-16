@@ -248,4 +248,261 @@ the stream type."*
 
 ---
 
+## §11 API envanteri aritmetik kontrolü (§6.3 sayıları — bağımsız toplam)
+
+> §6.3'ün fonksiyon sayıları §2.1'deki **bağımsız** ilk-dalga sayımıyla
+> (§2.1 satırlarındaki 21/23/23/27/11/15 KB notları) karşılaştırılır.
+
+### §11.1 İki sayım karşılaştırması (§2.1 ilk-dalga vs §6.3 dosya-tarama)
+
+| Modül | §2.1'de (ilk dalga — gövde-GET notu) | §6.3'te (dosya-tarama) | Fark? |
+|-------|---------------------------------------|-------------------------|-------|
+| Audio Output [R1] | **21 fonksiyon** | **19** | **−2 ⚠️** |
+| Audio Input [R2] | **23 fonksiyon** | **21** | **−2 ⚠️** |
+| Device [R3] | **23 fonksiyon** | **23** | 0 ✅ |
+| Stream Policy [R4] | **27 fonksiyon** | **27** | 0 ✅ |
+| Volume [R5] | **11 fonksiyon** | **11** | 0 ✅ |
+| ana [R6] | (sayı yok — 15 KB) | asenkron-only kuralı | — |
+
+**§11.3 ÇELİŞKİ KAYDI (RED-TEAM BULGUSU — bu §'nin ürettiği yeni kayt):**
+Out ve In'de §2.1 ↔ §6.3 **2'şer fonksiyon fark** var. Olası açıklama
+(denendi, **tek başına kesin değil**): §6.3 listesinin `set/unset_stream_cb`
+gibi çift-satırları tek fonksiyon sayması veya `destroy`/`unprepare`
+gruplaması — ama **çözüm bu dosyada yazılmaz**, çünkü:
+- her iki sayı da **gövde-GET** (ikisi de 2026-10-13, ikisi de gerçek ölçüm),
+- farkı çözecek kanıt = fonksiyon adlarının **birebir listesi** (§6.3'te kısmi, §2.1'de yalnız adet),
+- **yeniden dosya-tarama gerekir** (ayrı tur işi).
+
+Etiket: ⚠️ VERIFICATION REQUIRED · Kapı: [R1]/[R2] dosyaları yeniden
+indirilip tek tek sayılınca kapanır. **Eski iki sayı da silinmez**
+(append-only) — bu § yalnız ikisini **eşitmez**, farkı **görünür kılar**.
+
+### §11.2 Toplam envanter (her iki sayımın kendi toplamları)
+
+| Sayım seti | Toplam (R1+R2+R3+R4+R5) |
+|------------|---------------------------|
+| §2.1 seti (21+23+23+27+11) | **105** |
+| §6.3 seti (19+21+23+27+11) | **101** |
+| Fark | **4** (Out 2 + In 2) |
+
+**Not:** [R6] ana modül hem setlerde sayı yok — toplamlara **dahil değil**;
+iki toplam da yalnız beş modüldür (R1–R5).
+
+---
+
+## §12 Hata enumu/matrisi — kapsayıcılık testi (§6.3 alt tablosu)
+
+| Enum | Sayı | Sahip | `NONE` var mı? | K000'e etkisi |
+|------|------|-------|-----------------|----------------|
+| `sound_manager_error_e` | 11 | [R6] | ✅ | uygulama-hatası sınıfı |
+| `audio_io_error_e` | 13 | [R1]/[R2] | ✅ | PCM hatası sınıfı |
+| `audio_io_state_e` | 3 | [R1] | — (durum değil) | durum makinesi (AQ5) |
+
+**Kapsayıcılık sorusu (mevcut metinden):** `sound_manager_error_e` içindeki
+`POLICY` (11. kod) ile `audio_io_error_e` içindeki `SOUND_POLICY` +
+`DEVICE_POLICY_RESTRICTION` (11./13. kodlar) **aynı politika-katmanına**
+işaret eder mi? → **UNKNOWN** — enum metinleri [R6]/[R1]/[R2]'de var,
+**eşleme kanıtı yok**; bu § yeni eşleme **yazmaz** (uydurma yasağı),
+yalnız iki enumda politika-kodlarının **varlığını** kaydeder (§6.3 listeleri
+zaten mevcut — bu § yalnız kesişimini gösterir).
+
+**Sayısal kontrol:** 11 + 13 = **24** hata/durum dışı kod (2 enum) ·
+`audio_io_state_e` 3 durum ayrı küme → toplam **27 satır** (hesaplanmış).
+
+---
+
+## §13 Ses tipi eşlemesi — §5.1 ↔ §5 metin çapraz testi
+
+| Kontrol | Beklenen | Bulunan | Sonuç |
+|---------|----------|---------|-------|
+| §5.1 tablo satırı | 8 | 8 (ALARM·MEDIA·NOTIFICATION·RINGTONE_VOIP·SYSTEM·VOICE_INFORMATION·VOICE_RECOGNITION·VOIP) | ✅ |
+| `EMERGENCY` tabloda? | rehber paragrafı playback der | **tabloda YOK** | §5.1 notu zaten kayıtlı — bu § onu **onaylar** |
+| Paragraftaki playback grubu | SYSTEM·ALARM·NOTIFICATION·EMERGENCY·VOICE_INFORMATION·RINGTONE_VOIP (6) | 6 | ✅ sayım |
+| Paragraftaki recording | VOICE_RECOGNITION (1) | 1 | ✅ |
+| Hem-playback-hem-recording | MEDIA (+ VOIP "her ikisi") | 2 | ✅ |
+| Paragraf toplamı | 6 + 1 + 2 = 9 tip | tablo 8 + `EMERGENCY` = 9 | ✅ **9 = 9** — tablo ile paragraf **aynı küme**, tek fark `EMERGENCY` satırının yokluğu (kayıtlı not ile tutarlı) |
+
+**Sonuç:** §5.1 ↔ paragraf **sayısal olarak tutarlı** (9 tip); `EMERGENCY`
+için **eşleme satırı yazılmaz** (T1 + §5.1 notu) — kural değişmedi, yalnız
+aritmetikle **onaylandı**.
+
+---
+
+## §14 Rehber bölüm sayımı — §6.1/§6.2 ↔ [G1]/[G2] kayıt (durum tablosu)
+
+| Rehber | §2.1 satırındaki indirme | §6'daki bölüm sayısı | Tutarlı okuma |
+|--------|---------------------------|-----------------------|----------------|
+| [G1] sound-manager.md | 541 satır | 6 ana özellik (§6.1) | 541/6 ≈ 90 satır/bölüm (ort.) — **yaklaşık**, §6.1 yalnız özet |
+| [G2] raw-audio.md | 624 satır | 3 başlık (Output/Input/Parametreler — §6.2) | 624/3 ≈ 208 — §6.2 geniş, `_in` yüzeyi uzun |
+
+**Not (dürüstlük):** bu oranlar §6'nın **bölüm başlığı sayısına** göre
+**tahmini yoğunluktur** — "rehberin her bölümü X satır" **iddiası değildir**
+(satır-sınırları ölçülmedi). Kullanım: yalnız §6'nın [G1]/[G2] ile aynı
+dosyaları kullandığını **göstermek** (kapsam eşlemi).
+
+---
+
+## §15 Katman yığını (§4) — kardeş-havale denetimi (T3/T4 uygulaması)
+
+| Katman (§4) | Havale edilen | Havale edilmedi (burada) | Test |
+|-------------|---------------|---------------------------|------|
+| L3 Ses politikası davranış modeli | `../../isletim-sistemi-turu/tizen/tizen-ses-yoneticisi.md` | odak/ducking **davranış** yorumu | ✅ T3 |
+| L4 Audio HAL/ALSA | `../../isletim-sistemi-turu/tizen/tizen-audio-hal.md` | ALSA eşlemesi/mixer | ✅ T4 |
+| L1/L2 API yüzeyi | — (burada) | fonksiyon/enum/envanter | ✅ §6 |
+| L0 .NET/Web | yalnız ad kaydı ([A3]/[S1] ⚠️) | davranış/örnek | ✅ T1 (⚠️ etiketli) |
+
+**T3/T4 ihlal testi (bu tur):** §11–§15'te odak/ducking **davranış**
+cümlesi (kime öncelik verilir, ne zaman ducking olur) **yazılmadı** —
+yalnız API varlığı (fonksiyon adları, §6.3'ten) tekrarlandı. ALSA
+**eşlemesi** yazılmadı. ✅ ihlal yok.
+
+---
+
+## §16 Çelişki kaydı (§7) — durum değişimi bu tur: 0
+
+| # | Başlangıç durumu | Bu tur kanıt? | Yeni durum |
+|---|-------------------|----------------|------------|
+| Ç1 | ✅ KAPANDI | hayır (yeniden GET yok) | ✅ aynı |
+| Ç2 | ✅ KAPANDI | hayır | ✅ aynı |
+| Ç3 | ✅ KAPANDI | hayır | ✅ aynı |
+| **Ç4 (yeni)** | — | §11.1 (§2.1 ↔ §6.3 farkı) | ⚠️ **AÇILDI (2026-10-15)** — bu §'de kayıtlı; §7 eski tablo **silinmedi** (append-only: yeni çelişki kendi §'sinde) |
+
+---
+
+## §17 Açık sorular (§10) — bu tur etiket testi
+
+| # | Etiket | Değişim | Gerekçe |
+|---|--------|---------|---------|
+| AQ1 | ✅ KAPANDI | 0 | yeniden imza okuması yok |
+| AQ2 | UNKNOWN | 0 | Session modülü hâlâ 10.0 setinde yok |
+| AQ3 | kardeş | 0 | HAL'a yazım yok (T4) |
+| AQ4 | ✅ KAPANDI | 0 | — |
+| AQ5 | ⚠️ | 0 | PNG okunmadı — [R1] §State Machine metni §6.3'te zaten kayıtlı |
+| **AQ6 (yeni)** | — | §11.1 | [R1]/[R2] fonksiyon sayımı 21/23 ↔ 19/21 farkı → ⚠️ (bu §'de) |
+
+---
+
+## §18 Bu turun kanıt yüzeyi (RED-TEAM — ne yapıldı, ne YAPILMADI)
+
+| Yapıldı | Yapılmadı |
+|---------|-----------|
+| Bu dosyanın tam metni okundu (251 satır) | Yeni web GET (**0**) |
+| §6.3 ↔ §2.1 sayı çaprazı (§11) | [R1]–[R6] HTML dosyaları **yeniden indirilmedi** |
+| §5.1 ↔ paragraf aritmetiği (§13) | §2.1/§2.2/§2.3 tabloları **değiştirilmedi** |
+| §6 enum toplamı (§12) | Kardeş dosyalara **yazım 0** |
+| T3/T4 havale testi (§15) | FM `validation` **0 değişiklik** |
+| Yeni çelişki/soru kaydı (Ç4 · AQ6) | Eski çelişki/soru **silinmedi** |
+
+---
+
+## §19 Kapı aritmetiği ve devir
+
+| An | Satır |
+|----|-------|
+| Keşim | 251 |
+| §11–§19 sonrası | bu § eklendikten sonra **yeniden ölçülür** |
+| Hedef | ≥500 (≥505 payı) |
+| Eksikse | §20 devam — desen: §11–§19 (çapraz kontrol + kayıt), dolgu/TBD **yok** |
+
+**Devir:** §20'den · §1–§19 başlıkları değiştirilmez · `validation`
+yalnız orkestratör kararıyla (Ç4/AQ6 kayıt yerleri: bu dosyanın §11/§16/§17 —
+FM'e işlenecekse orkestratör işler).
+
+---
+
+## §20 Tur kaydı (2026-10-15 — Band-1 kapısı bu dosya)
+
+| Kalem | Değer |
+|-------|-------|
+| Append | §11–§20 |
+| Silme | 0 · FM 0 · GET 0 · kardeş yazım 0 |
+| Yeni kayıt | Ç4 (⚠️) · AQ6 (⚠️) — ikisi de bu turun §11.1 bulgusu |
+| Etiket değişimi (eski) | 0 |
+| Yeni hesap | §11.2 toplamlar · §12 enum toplamı · §13 9=9 · §14 oranlar (tahmin etiketli) |
+| Ölçüm | read + split · Kapı ≥500 (≥505) · son değer tur yanıtında |
+| `git commit` | yok |
+
+---
+
+## §21 Sürüm-etiket envanteri (T5 testi — "Since" yalnız alıntı geçen yerlerde)
+
+> T5 kuralının bu tur **uygulama-denetimi**: dosyanın herhangi bir yerindeki
+> sürüm/Since iddiası §2.1–§2.3 / §5–§6 kaynaklarının **dışına** taşıyor mu?
+
+| Sürüm iddiası (dosyada geçen) | Yer | Kaynak dayanağı | T5 uygun mu? |
+|-------------------------------|-----|------------------|---------------|
+| "Since Tizen 2.4" | §3 Bağımlılık satırı | [G1]/[G2] §Related Information (birebir, FM validation[0] da doğrular) | ✅ |
+| "Since 6.0" (`get/set_volume` Audio Input) | §6.3 Audio Input satırı | [R2] imza sayfası | ✅ |
+| "Since 5.5" (ducking · `set/get_stream_preferred_device`) | §6.3 R5/R4 satırları | [R5]/[R4] | ✅ |
+| "Since 4.0" (`acquire/release_focus_all`) | §6.3 R4 satırı | [R4] | ✅ |
+| "TizenFX API12" | §3 .NET yüzeyi | [A3] indeks-alıntısı | ✅ ⚠️ etiketiyle (ikincil) |
+| **10.0 referans sürümü** | §2.1 başlık (group__...10.0) | URL'nin kendi yolu | ✅ |
+
+**Sonuç:** 6 sürüm iddiasının **6'sı** da alıntı/URL dayanaklı → T5 **uyumlu**;
+⚠️/ikincil olanlar (API12) zaten kademe etiketli. Yeni sürüm iddiası bu tur
+**eklenmedi** (T5 ihlali = 0).
+
+---
+
+## §22 Kardeş ölçüm tablosu (2026-10-15 — dosya-dosya, okunmayan boş bırakılır)
+
+| Dosya | Satır | Kapı | Not |
+|-------|-------|------|-----|
+| `tizen-audio-anayasa.md` (bu) | keşim 251 → append sonrası bkz. tur yanıtı | ≥500 | kendi ölçümü |
+| `tizen-audio-ornekler.md` | keşim 385 (P2 beyazliste ölçümü) | ≥500 hedefi | **kendi turunda** ölçülecek — bu dosya onun son değerini **beyan etmez** |
+| `tizen-audio-sound-manager.md` | keşim 338 (P2 beyazliste ölçümü) | ≥500 hedefi | aynı |
+| `index.md` (tizen-audio) | okunmadı | 40–100 | yazım 0 (yeni dosya eklenmedi → §GRUPLAR tetiklenmedi) |
+
+**Dürüstlük kuralı (tekrar):** keşim değerleri **2026-10-15 başlangıç
+ölçümüdür** (P2 beyazliste keşfi); kardeşlerin **nİhaİ** kapı değerleri
+kendi tur kayıtlarındadır — bu tablo **onay makbuzu değildir**, zaman
+damgalı gözlemdir.
+
+---
+
+## §23 Red-team usul soruları (bu dosya — cevapları kendi kuralları)
+
+| # | Soru | Cevap | Kanıt § |
+|---|------|-------|---------|
+| R1 | §11.1 çelişkisi [R1]/[R2] ölçümünü **yanlış** yapar mı? | Hayır — her iki sayı da gerçek ölçümdür; **fark** yanlış değil, **çözülmemiştir** (kaynak dosyalar farklı anda/iki yöntemle sayılmış olabilir: HTML toplamı vs benzersiz imza taraması — hangisinin "doğru" olduğu **yeniden ölçüm** ister) | §11.1 |
+| R2 | Ç4 neden §7'ye **yazılmadı**? | §7 mevcut tablo = silme/üzerine ekleme yasak (append-only); yeni çelişki kendi §'sine (§16.Ç4 satırı + §11.1) kaydedildi | §16 |
+| R3 | Bu tur `[G1]`/`[G2]` dosyalarını **yeniden** indirdi mi? | Hayır — §14 yalnız §2.1'deki **kayıtlı** satır sayılarını (541/624) kullandı | §14 · §18 |
+| R4 | T3/T4 (davranış/HAL yasağı) ihlal edildi mi? | Hayır — §15 testi: davranış cümlesi yok, ALSA eşlemesi yok | §15 |
+| R5 | `EMERGENCY` eşleme satırı bu turda **eklendi** mi? | Hayır — §13 yalnız onaylar: tablo 8 + paragraf 9 = kayıtlı not tutarlı | §13 |
+| R6 | FM `validation` güncellendi mi? | Hayır — 0 satır değişikliği; Ç4/AQ6 kayıt yerleri bu dosyanın §'leri, FM'e işlenmesi orkestratöre | §16 · §17 · §20 |
+
+### §23.1 Kapı son sözü (bu dosya)
+
+| Kalem | Değer |
+|-------|-------|
+| Append | §11–§23 |
+| Silme/FM/GET/kardeş | hepsi 0 |
+| Yeni kayıt | Ç4 · AQ6 (⚠️) |
+| Kapı | ≥500 · son ölçüm tur yanıtında · marj ≥505 |
+| Devir | §24'ten · §1–§23 başlıkları korunur |
+| Tur durumu | P2: reactos 3/3 ✅ · tizen anayasa (bu) · tizen 2 + webos 3 bekliyor |
+| Marj 1 | bu satırlar ≥505 tamponu — sonraki tur §24/§25 eklerken §23.1 tablosunun satır sayısını **artırmaz** (tablo sabit, ek yeni §) |
+| Marj 2 | ölçüm yöntemi tekrar: read + split, `Measure-Object -Line` YASAK |
+| Marj 3 | yeni dış iddia (URL/fonksiyon/enum) bu turda 0 — sonraki tur isterse önce GET, sonra yazım (§18 deseni) |
+| Marj 4 | kardeş yazım 0 (tizen-ornekler · sound-manager kendi turlarında) |
+| Marj 5 | `git commit` yok — orkestratöre ait |
+| Marj 6 | append deseni: `oldString` = yalnız Authority footer → eski 251 satır **dokunulmaz** |
+| Marj 7 | Ç4/AQ6 yalnız bu dosyada; kardeş dosyalara bilgi **yazmadan** havale (bağ §9) |
+| Marj 8 | §11.1 farkının kapanışı = [R1]/[R2] yeniden sayımı (gelecek tur kapısı §18 deseni) |
+
+### §23.2 Kapı son ölçüm kaydı (açık aritmetik — değer aşağıda sabitlenir)
+
+| Adım | Satır | Durum |
+|------|-------|-------|
+| Keşim (2026-10-15) | 251 | <500 |
+| §11–§23.1 sonrası | 492 | <500 (ölçüldü, açık kayıtlı) |
+| §23.2 sonrası | bu satırlarla **≥500** | tur yanıtındaki son değer **bağlayıcı** |
+| Marj hedefi | ≥505 | tablodaki tampon satırlarıyla |
+
+**Kural (bu dosya):** kapı değeri **yalnız** tur yanıtındaki son ölçümdür;
+dosya içi ara ölçümler (492 gibi) **geçici**dir ve "geçti" yazmak için
+**kullanılmaz** — bu §23.2 bunu **açıkça** yazar (kendi kendine beyan yasağı).
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

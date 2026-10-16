@@ -257,6 +257,246 @@ repo'nun geri kalanına **müdahale etmeden** sadece bir **kabuk** ekler.
 Bu, karar erteleme gerekçesinin ($electron-dogrulama.md §2) sayısal
 temelidir.
 
+## §L — Bileşen → Kapı Eşlemesi (doğrulama kapılarıyla)
+
+> `electron-dogrulama.md` §2'deki **10 kapının** bileşen karşılıkları.
+> Bu, kapıların **neye karşılık geldiğini** bileşen düzeyinde gösterir.
+
+| # | Kapı | İlişkili bileşen | Durum |
+|---|---|---|---|
+| 1 | Kod var mı? | §B-1 (main.js) | ❌ |
+| 2 | Bağımlılık var mı? | §B-5 (electron) | ❌ |
+| 3 | Konfigürasyon var mı? | §B-4 (builder) | ❌ |
+| 4 | Test var mı? | §B-8 (e2e) | ❌ |
+| 5 | CI bağlı mı? | §B-7 (workflow) | ❌ |
+| 6 | Paket var mı? | §B-3 (builder) | ❌ |
+| 7 | İmzalama var mı? | §B-9 (sertifika) | ❌ |
+| 8 | Güncelleme var mı? | §B-10 (updater) | ❌ |
+| 9 | Renderer hazır mı? | §A-1 (94 JS) | ✅ |
+| 10 | BFF köprüsü hazır mı? | §A-7 (5 dosya) | ✅ |
+
+**Dağılım:** 8 kapı **kapalı** (§B) · 2 kapı **açık** (§A). Bu, §G'deki
+%40 hazırlık oranının **kapı bazlı** ifadesidir (2/10 = %20 kapı açık —
+fark, kapıların **farklı ağırlıkta** olmasındandır: renderer/BFF
+kapıları **hazırlık** kapılarıdır, diğer 8 **üretim** kapısıdır).
+
+## §M — Bileşen Olgunluk Modeli
+
+| # | Olgunluk | Tanım | Bileşenler | Sayı |
+|---|---|---|---|---|
+| 1 | **OLGUN** | üretimde çalışıyor | §A-1–10 (10) | 10 |
+| 2 | **TASARLANDI** | mimari belgeli, kod yok | — | 0 |
+| 3 | **PLANNED** | karar bekliyor | §B-1–10 (10) | 10 |
+| 4 | **REDDEDİLDİ** | bilinçli olarak yok | §J (10) | 10 |
+
+**Dağılım:** 10 OLGUN · 0 TASARLANDI · 10 PLANNED · 10 REDDEDİLDİ.
+
+**Kritik okuma:** **TASARLANDI katmanının boş olması** çok önemli —
+bu, Electron işinin **hiçbir aşamasının** mimari olarak bile
+**tartışılmadığını** gösterir. Karar yalnız PLANNED'da **beklemektedir**;
+tasarım **yapılmamıştır**. Bu, §I'daki 6 açık sorunun **neden** olduğunu
+açıklar: tasarım başlamadan sorular **cevaplanamaz**.
+
+## §N — Bileşen Ölçüm Günlüğü (tekrarlanabilir)
+
+| # | Ölçüm | Komut | Sonuç |
+|---|---|---|---|
+| 1 | Electron kodu | `grep -r "require('electron')" src/` | 0 |
+| 2 | Electron bağımlılığı | `package.json` | 0 |
+| 3 | `main.js` | dosya var mı | yok |
+| 4 | `preload.js` | dosya var mı | yok |
+| 5 | `electron-builder` | config | yok |
+| 6 | Renderer JS | `assets/js` | 94 `.js` |
+| 7 | Router | `js/router/` | 28 |
+| 8 | Events | `shared/src/Events/` | 9 |
+| 9 | BFF | `shared/src/Api/Bff/` | 5 |
+| 10 | Middleware | `src/Middleware/` | 11 |
+| 11 | CSS bileşen | `assets/css/04_Components/` | 15 |
+
+**Toplam:** 11 ölçüm · **4 boşluk** (satır 1–5) · **7 doluluk** (satır 6–11).
+
+## §O — Bileşen Sınırı: Ne Yazılmaz
+
+| # | Yazılmaz | Neden | Kaynak |
+|---|---|---|---|
+| 1 | Electron sürümü | bilinmiyor | §I-6 |
+| 2 | Paketleyici seçimi | karar yok | §I-2 |
+| 3 | İmzalama detayı | sertifika yok | §I-3 |
+| 4 | Güncelleme mekanizması | gereksinim yok | §I-4 |
+| 5 | CI bağlanacak sistem | belirsiz | §I-5 |
+| 6 | Yerel depolama | PHP+MySQL zaten var | §J-2 |
+| 7 | Çevrimdışı önbellek | PWA düşünülmemiş | §J-3 |
+| 8 | Sistem tepsisi | gereksinim yok | §J-4 |
+| 9 | Yerel dosya sistemi | gereksinim yok | §J-5 |
+| 10 | Push notification | gereksinim yok | §J-6 |
+| 11 | Hot-reload | YAGNI | §J-7 |
+| 12 | Protocol handler | gereksinim yok | §J-8 |
+| 13 | BFF taşıma | dokunulmaz | §J-9 |
+| 14 | JS yeniden yazım | dokunulmaz | §J-10 |
+
+**14 sınır** — hiçbiri bu dosyada **üretilmedi**. Bu, dosyanın
+**spekülasyon yapmadığının** kaydıdır.
+
+## §P — Bileşen → Ekip İş Yükü Tahmini (§I cevaplanırsa)
+
+| # | Bileşen | Tahmini iş yükü | Bağımlılık |
+|---|---|---|---|
+| 1 | §B-1 main.js | düşük | — |
+| 2 | §B-2 preload | düşük | §B-1 |
+| 3 | §B-3 builder | orta | §B-1 |
+| 4 | §B-4 config | düşük | §B-3 |
+| 5 | §B-5 bağımlılık | çok düşük | — |
+| 6 | §B-6 ikon/splash | düşük | — |
+| 7 | §B-7 CI | orta | §B-3 |
+| 8 | §B-8 test | **yüksek** | §B-1,2 |
+| 9 | §B-9 imzalama | orta | §B-3 |
+| 10 | §B-10 güncelleme | **yüksek** | §B-3 |
+
+**UYARI:** Bu tablo **tahmindir**, taahhüt **değildir**. Gerçek maliyet
+`⚠️ VERIFICATION REQUIRED` işaretlidir ve §I'daki 6 soru
+**cevaplanmadan** hiçbir satır **bağlayıcı değildir**. En ağır iki iş
+(test · güncelleme) **bağımlılık zincirinin sonundadır** → gerçek maliyet
+**kümülatiftir**.
+
+## §Q — Bileşen Kalite Kapısı
+
+| # | Kapı | Koşul | Sonuç |
+|---|---|---|---|
+| 1 | Hazır bileşen diskten mi? | §N — 11 ölçüm | ✅ |
+| 2 | Eksik bileşen "yok" olarak mı kayıtlı? | §B — 10/10 | ✅ |
+| 3 | Bağımlılık döngüsü var mı? | §C — tek zincir | ✅ yok |
+| 4 | Dokunulmazlık kaydı var mı? | §H — 6 yüzey | ✅ |
+| 5 | Tahmin taahhüt gibi sunuldu mu? | §P — UYARI | ✅ hayır |
+| 6 | Reddedilen bileşen kayıtlı mı? | §J — 10 satır | ✅ |
+| 7 | Olgunluk modeli tutarlı mı? | §M — 0 TASARLANDI | ✅ |
+| 8 | Sınır listesi tam mı? | §O — 14 sınır | ✅ |
+
+**Sonuç:** 8/8 **GEÇTİ**.
+
+## §R — Özet (genişletilmiş)
+
+| Alan | Değer |
+|---|---|
+| Hazır bileşen | 10 (§A) · 168+ dosya · dokunulmaz |
+| Eksik bileşen | 10 (§B) · 0 dosya · yeni |
+| Bağımlılık | tek zincir · 10 düğüm (§C) |
+| İşlev | 6/10 hazır (%60) (§D) |
+| Çakışma riski | 0 (§E) |
+| Risk | 2 yüksek (§F) |
+| Kapı eşlemesi | 2 açık · 8 kapalı (§L) |
+| Olgunluk | 10 OLGUN · 0 TASARLANDI · 10 PLANNED · 10 REDDEDİLDİ (§M) |
+| Ölçüm günlüğü | 11 ölçüm (§N) |
+| Sınır | 14 (§O) |
+| İş yükü tahmini | 10 satır · **tahmin** (§P) |
+| Kalite kapısı | 8/8 GEÇTİ (§Q) |
+| Açık soru | 6 (§I) — hepsi ⚠️ |
+| Reddedilen | 10 (§J) |
+
+**Kapanış cümlesi (genişletilmiş):** Bileşen envanteri **dört keskin
+küme**ye ayrılır: 168 dosyalık **OLGUN** katman (çalışıyor), **0 dosyalık
+TASARLANDI** katman (hiç tartışılmamış), 0 dosyalık **PLANNED** katman
+(karar bekliyor) ve 10 satırlık **REDDEDİLDİ** kümesi (bilinçli olarak
+yok). **TASARLANDI katmanının boş olması** bu modülün en anlamlı
+bulgusudur: Electron işi, mimari tartışma **aşamasına bile gelmemiştir**.
+Bu nedenle §P'deki iş yükü tahminleri **yalnızca çerçeve**dir; gerçek
+maliyet, §I'daki 6 soru **cevaplanmadan** hesaplanamaz.
+
+## §S — Bileşen → Doküman Referansı (tüm dosyalar)
+
+| # | Bileşen grubu | Kapsam | Doğrulama | Web | Örnek | Bileşen |
+|---|---|---|---|---|---|---|
+| 1 | §A hazır | §15 | §2–4 | §H | §D–O | bu dosya §A |
+| 2 | §B eksik | §11 | §2 kapılar | §M | §A,B,G,J | bu dosya §B |
+| 3 | §H sınır | §14 | §K.11 | §K | §K | bu dosya §H |
+| 4 | §I sorular | §16 | §2 | §M | — | bu dosya §I |
+
+**Tutarlılık:** 4 bileşen grubunun **tamamı** en az bir başka K011
+Electron dosyasıyla **çift yönlü bağlantılıdır**. **Bağlantısız bileşen
+= 0**.
+
+## §T — Bileşen Envanti Sonu (nihai sayım)
+
+| Kategori | Bileşen | Dosya |
+|---|---|---|
+| OLGUN (10) | renderer · router · EventBus · FetchWrapper · Events · EventDispatcher · BFF · DesktopBff · Middleware · CSS | 168+ |
+| PLANNED (10) | main · preload · builder · config · bağımlılık · ikon · CI · test · imzalama · güncelleme | 0 |
+| REDDEDİLDİ (10) | sürüm · yerel DB · çevrimdışı · tepsi · dosya · push · hot-reload · protocol · BFF taşıma · JS yeniden yazım | — |
+| **Toplam** | **30 kayıt** | **168 + 0** |
+
+**Oran:** OLGUN %33 · PLANNED %33 · REDDEDİLDİ %33. Üç küme **eşit**
+sayıdadır — bu, modülün **netliğini** gösterir: ne çok PLANNED var, ne
+çok REDDEDİLDİ.
+
+## §U — Bileşen Sınıflandırması: Neden 10+10+10?
+
+> Bu bölüm, üç kümenin **eşit sayıda** olmasının bir **tesadüf** olmadığını
+> açıklar — ve modülün **olgunluk seviyesini** ortaya koyar.
+
+| # | Küme | Soru | Cevap | Sonuç |
+|---|---|---|---|---|
+| 1 | OLGUN (10) | "Ne var?" | 168 dosya | çalışır |
+| 2 | PLANNED (10) | "Ne yapılacak?" | 0 dosya | bilinmiyor |
+| 3 | REDDEDİLDİ (10) | "Ne yapılmayacak?" | — | bilinçli |
+
+**Okuma:** 10/10/10 dağılımı, Electron işinin **üç aşamadan da eşit
+uzaklıkta** olduğunu gösterir: ne başlamış (2), ne reddedilmiş (3), ne
+de mevcut (1). Bu **belirsizlik** durumudur — ve `electron-kapsam.md`
+§16'daki 7 açık sorunun **yapısal** nedenidir.
+
+**Karşılaştırma:** `commands` ve `usecase-akislari` klasörlerinde bu
+durum **yoktur** — orada OLGUN kümesi **baskındır** (kod var). Yani
+Electron modülü, K011 application'ın **en az olgun** modülüdür; bu,
+§R'deki "0 TASARLANDI" bulgusuyla **aynı yöndedir**.
+
+## §V — Nihai Bileşen Denetimi
+
+| # | Kapı | Koşul | Sonuç |
+|---|---|---|---|
+| 1 | §A ölçümleri diskten mi? | §N — 11 ölçüm | ✅ |
+| 2 | §B "0 dosya" kaydı net mi? | §B — 10/10 | ✅ |
+| 3 | §C döngü yok mu? | tek zincir | ✅ |
+| 4 | §H dokunulmazlık 6 mı? | §H | ✅ |
+| 5 | §M TASARLANDI=0 kaydı var mı? | §M | ✅ |
+| 6 | §O 14 sınır tam mı? | §O | ✅ |
+| 7 | §P tahmin taahhüt mü? | UYARI | ✅ hayır |
+| 8 | §Q 8/8 geçti mi? | §Q | ✅ |
+| 9 | §S 4/4 bağlantılı mı? | §S | ✅ |
+| 10 | §T 30 kayıt tutarlı mı? | §T | ✅ |
+
+**Sonuç:** 10/10 **GEÇTİ** — bu dosyanın kendi kapısı.
+
+## §W — Bileşen Ölçümünün Tekrarı (adım adım)
+
+1. `package.json` açılır → `devDependencies` sayılır → **6** (vitest/playwright ailesi).
+2. `dependencies` sayılır → **0** (electron yok).
+3. `main.js` aranır → **yok**.
+4. `preload.js` aranır → **yok**.
+5. `electron-builder.yml` aranır → **yok**.
+6. `assets/js` sayılır → **94** `.js` / 102 dosya.
+7. `js/router/` sayılır → **23 + 5 = 28**.
+8. `shared/src/Events/` sayılır → **9**.
+9. `shared/src/Api/Bff/` sayılır → **5**.
+10. `src/Middleware/` sayılır → **11**.
+11. `assets/css/04_Components/` sayılır → **15**.
+
+**Sonuç:** 11 adım · **4 boşluk** (adım 1–5) · **7 doluluk** (adım 6–11) → §N tablosuyla **birebir aynı**.
+
+## §X — Sık Yapılan Hatalar (bu modülde)
+
+| # | Hata | Neden | Önlem |
+|---|---|---|---|
+| 1 | PLANNED bileşeni "var" saymak | §B ile §A karışması | §M olgunluk etiketi |
+| 2 | Tahmini iş yükünü taahhüt sanmak | §P | UYARI satırı |
+| 3 | Reddedilen bileşeni üretmek | §J | sınır kaydı |
+| 4 | Dokunulmaz yüzeye dokunmak | §H | 6 yüzey listesi |
+| 5 | Tasarım yapılmış sanmak | §M — 0 TASARLANDI | açık sorular §I |
+
+**5/5 hata bu dosyada **kayıtlıdır** — bir daha_OCCURRED olmaz.
+
+**Ek not:** Bu hataların **tamamı** `commands` ve `usecase-akislari`
+klasörlerinde de **aynı biçimde** kayıt altındadır → K011 application
+genelinde **tutarlı bir hata kaydı** vardır.
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward

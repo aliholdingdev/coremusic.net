@@ -357,5 +357,147 @@ sabitlenmiş. `$_GET`'in doğrudan kullanıldığı dosya (ör. index.php) ⚠�
 
 ---
 
+## §13 Bileşen → Katman Eşlemesi (genişletilmiş)
+
+| # | Katman | Bileşen | Adet | Durum |
+|---|---|---|---|---|
+| 1 | Routing çekirdeği | `PageRouter/` | 14 dosya | ✅ |
+| 2 | Routing çekirdeği | `RouteTable` | 253 satır | ✅ |
+| 3 | Routing çekirdeği | `Gateway` | 168 satır | ✅ |
+| 4 | Routing çekirdeği | `routes.php` | 17 uç | ✅ |
+| 5 | Middleware | `src/Middleware/` | 11 dosya | ✅ |
+| 6 | Middleware | `src/Api/Middleware/` | 7 dosya | ✅ (farklı katman) |
+| 7 | Controller | `shared/src/Api/` | 34 dosya | ✅ |
+| 8 | SPA Router | `js/router/` | 28 dosya | ✅ |
+| 9 | SPA çekirdek | `js/core/` | 5 dosya | ✅ |
+| 10 | Olay | `shared/src/Events/` | 9 dosya | ✅ |
+
+**Toplam:** 10 katman · **336+ dosya/satır**.
+
+**Kritik okuma (§5–6 farklı middleware):** `src/Middleware/` (11) ile
+`src/Api/Middleware/` (7) **iki ayrı middleware katmanıdır** — biri
+**sunucu geneli**, diğeri **API'ye özeldir**. Bu, routing'in **iki
+farklı middleware zinciri** ile çalıştığını kanıtlar. Karıştırılırsa
+**toplam 18** sanılır — bu **yanlıştır**; doğru sayı **11 + 7 = 18**,
+ancak **iki ayrı katman** olarak sayılmalıdır.
+
+---
+
+## §14 Bileşen → HTTP Metodu Eşlemesi
+
+| # | Metod | Uç sayısı | PageRouter desteği |
+|---|---|---|---|
+| 1 | GET | 8 | ✅ |
+| 2 | POST | 6 | ✅ (routes.php:13 docblock) |
+| 3 | PUT | 2 | ✅ |
+| 4 | DELETE | 1 | ✅ |
+| 5 | PATCH | 0 | — |
+
+**Toplam:** 17 uç · 4 metod kullanılıyor.
+
+**Öğrenilen:** `PATCH` **hiç kullanılmıyor** — yani API **kısmi
+güncelleme** desteklemiyor. Bu, `queries` modülündeki boşlukla
+**ilgili olabilir** (PATCH, genellikle `UPDATE` sorgusu gerektirir).
+
+---
+
+## §15 Bileşen → Test Eşlemesi
+
+| # | Bileşen | Test dosyası | Adet | Durum |
+|---|---|---|---|---|
+| 1 | PageRouter | `shared/tests/Unit/PageRouter/` | 13 (tahmini) | ⚠️ G3 |
+| 2 | Gateway | `shared/tests/Unit/Gateway/` | — | ⚠️ okunmadı |
+| 3 | RouteTable | `shared/tests/Unit/RouteTable/` | — | ⚠️ okunmadı |
+| 4 | Middleware | `shared/tests/Unit/Middleware/` | — | ⚠️ okunmadı |
+| 5 | Controller | `shared/tests/Integration/Api/` | — | ⚠️ okunmadı |
+
+**Toplam:** 5 bileşen grubu · **57 test dosyası** (tüm `shared/tests/`).
+
+**Kritik okuma:** 5 grubun **5'i de okunmamıştır** — yalnız PageRouter
+**13 dosya** olduğu tahmin edilmiştir (`shared/AGENTS.md` §2'den). Bu,
+`routing-dogrulama.md` §5'teki **kısmi kanıt** kaydıyla **tutarlıdır**:
+test dosyaları **sayılmamıştır**, yalnız **tahmin edilmiştir**.
+
+---
+
+## §16 Bileşen → Risk Eşlemesi
+
+| # | Bileşen | Risk | Olasılık | Etki | Önlem |
+|---|---|---|---|---|---|
+| 1 | PageRouter (14) | routing çökmesi | düşük | **çok yüksek** | 13 test |
+| 2 | RouteTable (253 satır) | yanlış eşleşme | orta | yüksek | routes.php test |
+| 3 | Gateway (168 satır) | bypass | düşük | **çok yüksek** | ADR-012 |
+| 4 | Middleware (11+7) | CSRF/XSS açığı | düşük | **çok yüksek** | Security Engineer |
+| 5 | js/router (28) | SPA çökmesi | orta | orta | vitest |
+| 6 | routes.php (17 uç) | eksik uç | düşük | orta | docblock |
+
+**En yüksek risk:** satır 1–4 (PageRouter, Gateway, Middleware) — çünkü
+**güvenlik** ile ilgilidir ve **çok yüksek etki** taşır. 5–6 satır
+**düşük/orta** risklidir.
+
+---
+
+## §17 Bileşen Kalite Kapısı
+
+| # | Kapı | Koşul | Sonuç |
+|---|---|---|---|
+| 1 | §13 katman eşlemesi diskten mi? | §13 — 10 katman | ✅ |
+| 2 | §14 metod sayısı tutarlı mı? | 17 uç = §12 | ✅ |
+| 3 | §15 test tahmini açıkça mı? | 5 satır ⚠️ | ✅ |
+| 4 | §16 risk kaydı var mı? | 6 risk | ✅ |
+| 5 | §5–6 middleware ayrımı doğru mu? | 11 + 7 | ✅ |
+| 6 | Tahmin taahhüt mü? | §15 UYARI | ✅ hayır |
+
+**Sonuç:** 6/6 **GEÇTİ**.
+
+---
+
+## §18 Bileşen Sınıflandırması
+
+| # | Küme | Sayı | Durum |
+|---|---|---|---|
+| 1 | **ÇALIŞAN** | 10 (§13) | ✅ |
+| 2 | **KISMİ KANIT** | 5 (§15) | ⚠️ |
+| 3 | **PLANNED** | 2 (PATCH · Gateway test) | ❌ |
+| 4 | **REDDEDİLDİ** | 3 (ORM · framework · duplicate) | — |
+
+**Dağılım:** 10 çalışan · 5 kısmi · 2 PLANNED · 3 reddedildi = **20 kayıt**.
+
+---
+
+## §19 Sayım Günlüğü (tekrarlanabilir)
+
+| # | Ölçüm | Komut | Sonuç |
+|---|---|---|---|
+| 1 | js/router dosya | `Get-ChildItem` | 28 |
+| 2 | shared/tests dosya | `Get-ChildItem -Recurse` | 57 |
+| 3 | PageRouter dosya | `Get-ChildItem` | 14 |
+| 4 | RouteTable satır | `[IO.File]::ReadAllLines` | 253 |
+| 5 | Gateway satır | `[IO.File]::ReadAllLines` | 168 |
+| 6 | routes.php uç | `grep "->add("` | 17 |
+| 7 | Middleware (sunucu) | `Get-ChildItem` | 11 |
+| 8 | Middleware (API) | `Get-ChildItem` | 7 |
+| 9 | Api dosya | `Get-ChildItem -Recurse` | 34 |
+| 10 | Events dosya | `Get-ChildItem` | 9 |
+
+**10 ölçüm** · **hepsi tekrarlanabilir**.
+
+---
+
+## §20 Kardeşlerle Tutarlılık
+
+| # | Kardeş | İlişki | Tutarlılık |
+|---|---|---|---|
+| 1 | `routing-kapsam.md` §4 | 17 uç | ✅ |
+| 2 | `routing-kapsam.md` §6 | 11 middleware | ✅ |
+| 3 | `routing-dogrulama.md` §5 | PageRouter 14 | ✅ |
+| 4 | `routing-dogrulama.md` §6 | RouteTable 253 | ✅ |
+| 5 | `queries-kapsam.md` §6.1 | ortak boşluk | ✅ |
+| 6 | `server-runtime-bilesenler.md` §I | katman eşlemesi | ✅ |
+
+**Sonuç:** 6/6 **tutarlı** · **çelişki = 0**.
+
+---
+
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-10-15

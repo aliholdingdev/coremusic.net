@@ -24,7 +24,7 @@ group: mimari
 | # | Bölüm | Grup | Eksen 2 | Kullanım |
 |---|---|---|---|---|
 | 1 | §1–§3 Amaç, terminoloji, yerleşim | mimari | katman | Routing çatısının K011 konumu; iki çatı (API + SPA) ayrımı |
-| 2 | §4–§5 Web research + standart tabanı | kanit | kaynak | PSR-15 / RFC 9457 gibi harici kaynaklar (envanter kesişimi 0) |
+| 2 | §4–§5 Web research + standart tabanı | kanit | kaynak | PSR-15 / RFC 9457 gibi harici kaynaklar (2026-10-15: 4 HIT etikete indirildi · 2 temiz) |
 | 3 | §6–§8 Repo kanıtları + eşleme | kanit | kod-satır | `Dosya: … · Satır: …` izleri ve eşleme algoritması |
 | 4 | §9–§12 Metod, middleware, versiyon, hata | mimari | sözleşme | 405 + `Allow`, pipeline sarmalama, `/api/v1`, problem-details |
 | 5 | §13–§16 Public/protected, SPA, BFF | mimari | güvenlik-sınır | `public` bayrağı, ikinci çatı, BFF transform sırası |
@@ -89,19 +89,30 @@ de kapsar: **API yönlendirme** (`shared/src/Api/`) ve **SPA sayfa yönlendirme*
 `RouteRegistry` üzerinden çalışır; ikisi aynı URI uzayını farklı amaçlarla değerlendirir
 (§15).
 
-## §4 — Web research (2026-10-13 doğrulaması)
+## §4 — Web research (2026-10-13 doğrulaması · 2026-10-15 kesişim güncellemesi)
 
-| İddia | URL | 2026-10-13 | Durum |
+> **Kesişim düzeltmesi (2026-10-15):** Aşağıdaki tablonun ilk hâlinde altı satırda da
+> tam URL vardı ve "envanterde yok" iddiası taşıyordu. 4286 URL'lik gerçek envanterle
+> (`k011-urls.txt`) yapılan kesişim kontrolü **4 isabet** verdi → spec §1.6 gereği bu dört
+> satırda tam URL **etikete indirildi** (etiketle yazılır, tam URL yazılmaz). Kalan iki
+> satır kesişim 0 olduğu için tam URL korunmuştur. 200 doğrulama iddiası (2026-10-13)
+> geçerlidir; **URL'in bugünkü kesişimi ≠ o tarihte yoktu** — ikisi ayrı kapılardır.
+
+| İddia | Kaynak (etiket) | 2026-10-13 | 2026-10-15 kesişim |
 |---|---|---|---|
-| PSR-15, HTTP middleware arayüzünü `process(ServerRequestInterface, RequestHandlerInterface)` ile tanımlar | https://www.php-fig.org/psr/psr-15/ | HTTP 200 | Doğrulandı — envanterde URL olarak yok |
-| ASP.NET Core routing dokümanı, endpoint routing ve model bağlama sırasını belgeler | https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing | HTTP 200 | Doğrulandı — envanterde yok |
-| MDN 405, `Allow` başlığının 405 yanıtında zorunlu olduğunu belgeler | https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/405 | HTTP 200 | Doğrulandı — envanterde yok |
-| MDN 404, kaynağın bulunamaması durumunu tanımlar ve yönlendirme hatalarından ayırır | https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404 | HTTP 200 | Doğrulandı — envanterde yok |
-| Azure API design best practices, kaynak tabanlı URI ve durum kodu tutarlılığını önerir | https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design | HTTP 200 | Doğrulandı — envanterde yok |
-| RFC 9457, `application/problem+json` hata gövdesi biçimini standartlaştırır | https://datatracker.ietf.org/doc/html/rfc9457 | HTTP 200 | Doğrulandı — envanterde yok |
+| PSR-15, HTTP middleware arayüzünü `process(ServerRequestInterface, RequestHandlerInterface)` ile tanımlar | `php-fig psr-15` | HTTP 200 | **HIT** → etikete indirildi |
+| ASP.NET Core routing dokümanı, endpoint routing ve model bağlama sırasını belgeler | https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing | HTTP 200 | 0 → tam URL korundu |
+| MDN 405, `Allow` başlığının 405 yanıtında zorunlu olduğunu belgeler | `mdn Status/405` | HTTP 200 | **HIT** → etikete indirildi |
+| MDN 404, kaynağın bulunamaması durumunu tanımlar ve yönlendirme hatalarından ayırır | `mdn Status/404` | HTTP 200 | **HIT** → etikete indirildi |
+| Azure API design best practices, kaynak tabanlı URI ve durum kodu tutarlılığını önerir | `learn.microsoft azure api-design` | HTTP 200 | **HIT** → etikete indirildi |
+| RFC 9457, `application/problem+json` hata gövdesi biçimini standartlaştırır | https://datatracker.ietf.org/doc/html/rfc9457 | HTTP 200 | 0 → tam URL korundu |
 
-**Doğrulama yöntemi:** altı URL `Invoke-WebRequest` (HEAD, gerekirse GET) ile çağrıldı →
-`200`; `.ai/` genelinde URL öbeği araması → **0 isabet**.
+**Doğrulama yöntemi (2026-10-13):** altı URL `Invoke-WebRequest` (HEAD, gerekirse GET)
+ile çağrıldı → `200`. **Kesişim (2026-10-15):** PowerShell betiği → 4 HIT (yukarıdaki
+etiketli satırlar) · 2 temiz. `routing-web-arastirma.md` §red listesi bu dört adayı
+**zaten etiketle** reddetmişti (psr-15 · Status/405 · Status/404 · api-design) — bu
+dosya 2026-10-13'te yazıldığı için o kurala uymamıştı; **bu satır hattâ çelişkinin
+kayıtıdır**: iki dosya arasındaki tek uyumsuzluk, düzeltme bu tabloya yapılarak kapandı.
 
 ## §5 — Standart ve spesifikasyon tabanı
 
