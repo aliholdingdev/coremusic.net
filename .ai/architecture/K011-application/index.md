@@ -31,6 +31,7 @@ validation:
   - "Kök 12 dosya satır aralıkları `Get-Content | .Count` ile ölçüldü — 2026-10-12"
   - "Kademe-2 6 çocuk v1+v2 şemasıyla üretildi (index + 5 içerik dosyası)"
   - "Index 40-100 kapısı: 138 → ≤100 (2026-10-13, §2 tablosu §GRUPLAR'a de-duplike edildi — bilgi kaybı yok)"
+  - "Kapanış 2026-10-16: üretim kapısı 20/20 PASS · curl 108/108 HTTP 200 · mojibake onarımı (cp1254 kayıpsız) · envanter regresyonu 9 URL noktalı [.] ile çözüldü — application-master.md §E"
 open_questions:
   - "desktop ile electron sınırı (aynı kabuk mu, ayrı paket mi?) → ⚠️ VERIFICATION REQUIRED"
   - "server-runtime'ın barındırma yeri (nerede çalıştığı) → ⚠️ VERIFICATION REQUIRED"
@@ -69,7 +70,7 @@ v2 §2.11: *"Uygulamanın kendisi — web sayfası, masaüstü penceresi, Electr
 
 ## §5 — Durum & açık sorular
 
-- **Durum:** draft — kök 12 dosya yazıldı (2026-10-12); kademe-2/3 üretimi sürüyor. Ayrıntı: application-master.md §11–§14 · application-dogrulama.md §12 · application-kararlar.md §1–§9.
+- **Durum:** draft — 20 klasör × 6 MD = 120 MD üretildi (2026-10-16 kapanış). Üretim kapısı 20/20 PASS · curl 108/108 HTTP 200 · mojibake onarımı tamam · envanter regresyonu noktalı [.] ile çözüldü. Ayrıntı: application-master.md §E (kapanış kaydı) · §11–§14.
 - **Açık sorular:** 5 madde (desktop↔electron · server-runtime · CQRS · K019 sınırı · ödeme kodu yok) — hiçbiri bu dosyada kapatılmaz, tamamı FM `open_questions` alanında.
 
 ## §GRUPLAR
@@ -92,4 +93,4 @@ v2 §2.11: *"Uygulamanın kendisi — web sayfası, masaüstü penceresi, Electr
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-10-13
+**Last Updated:** 2026-10-16

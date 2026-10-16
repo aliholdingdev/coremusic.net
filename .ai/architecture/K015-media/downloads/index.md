@@ -7,6 +7,7 @@ children: []
 depends_on: []
 evidence:
   - "v2 §2.15 — çocuk adı kaynağı (birebir)"
+  - "downloads-kapsam.md · downloads-web-arastirma.md (16 URL, 2026-10-16) · downloads-ornekler.md (PHP 8.4 ×2 + Vanilla JS ×2)"
 validation:
   - "İsim v2 §2.15 ile birebir karşılaştırıldı — 2026-10-12"
 open_questions:
@@ -34,6 +35,9 @@ group: mimari
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| mimari | `downloads-kapsam.md` | Kapsam içi/dışı, durum makinesi, veri akışı, açık sorular | Kademe-2 |
+| kanit | `downloads-web-arastirma.md` | Canlı URL doğrulama havuzu, cross-check, erişim kaydı | Kademe-2 |
+| kod | `downloads-ornekler.md` | PHP 8.4 + Vanilla JS tasarım örnekleri (TASARIM İDDİASI) | Kademe-2 |
 
 ## §A Kapilar (bu index)
 

@@ -21,6 +21,17 @@ JS `queue|worker` 0 gerçek kuyruk; SQL enum'larında CRON/QUEUE/WORKER değerle
 **üreten kod yok**). Zamanlama fiilen üç katmanda yaşar: JS istemci zamanlayıcıları,
 PHP istek-zamanı tembel kontrolü ve SQL şema yer tutucuları.
 
+## §GRUPLAR
+
+| Bölüm | Konu |
+|---|---|
+| §1 | Çocuk dosyalar (6 dosya) |
+| §2 | Kapı durumu (özet) |
+| §3 | Ölçüm özeti (2026-10-15) |
+| §4 | Açık sorular (özet) |
+
+---
+
 ## §1 — Çocuk dosyalar
 
 | # | Dosya | Grup | Amaç |

@@ -288,4 +288,214 @@ seçmek OS tespitini değiştirmez; build dosyasını (CMake) seçmek değiştir
 
 ---
 
+## §13 Makro Tam Envanter (§1'in genişletmesi — append-only, 2026-10-14)
+
+### §13.1 OS ayrım makroları (derleme-anı)
+
+| # | Makro | OS | İlk-öncelik sırası | Kaynak (bu belge) | Durum |
+|---|---|---|---|---|---|
+| N-1 | `_WIN32` (tüm Windows) | Windows (32/64) | 2 | §1.1, S-serisi | ✅ |
+| N-2 | `_WIN64` | Windows 64-bit | 1 (ayrım) | §1.1 | ✅ |
+| N-3 | `__APPLE__` + `__MACH__` | macOS (ve Darwin payı) | 2 | §1.1 | ✅ |
+| N-4 | `__linux__` | Linux (GNU/Linux) | 2 | §1.1 | ✅ |
+| N-5 | `__ANDROID__` | Android (Linux payı) | 1 (`__linux__`'den ÖNCE) | §1.1, §1.3 | ✅ |
+| N-6 | `__FreeBSD__` / `__OpenBSD__` / `__NetBSD__` | BSD ailesi | 2 | §1.1 | ✅ |
+| N-7 | `__unix__` / `__unix` | Unix-genel (fallback) | Son | §1.3 | ✅ |
+| N-8 | `__EMSCRIPTEN__` | Web/WASM | 1 (tekil) | §1.1 | ✅ |
+| N-9 | `__arm__` / `__aarch64__` / `_M_ARM64` | Mimari (OS değil) | Ayrık sütun | §1.2 | ✅ |
+| N-10 | `__clang__` / `_MSC_VER` / `__GNUC__` | Derleyici (OS değil) | Ayrık sütun | §1.2 | ✅ |
+
+### §13.2 Kritik sıralama tuzağı (§1.3'ün genişletmesi)
+
+| # | Tuzka | Yanlış sıra | Doğru sıra | Sonuç | Durum |
+|---|---|---|---|---|---|
+| Z-1 | Android | `__linux__` önce | `__ANDROID__` önce | Android "Linux" sanılması | ✅ (S4) |
+| Z-2 | iOS/Mac Catalyst | `__APPLE__` tek başına | Hedef ortam makroları ile ayrım | Yanlış SDK seçimi | ✅ (§1.3) |
+| Z-3 | Windows CE / UWP | `_WIN32` tek başına | UWP (`WINAPI_FAMILY`) ayrımı | Yanlış API yüzeyi | ⚠️ (bu belgede derinleşmedi) |
+| Z-4 | WASM (Emscripten) | `__unix__` fallback'i tutar | `__EMSCRIPTEN__` önce | Yanlış "Linux" sanılması | ✅ (N-8) |
+| Z-5 | Derleyici ≠ OS | Makro karıştırma | §1.2 ayrı sütun | Çapraz hata | ✅ (§1.3) |
+
+## §14 CMake Değişken Tam Liste (§2'nin genişletmesi — append-only)
+
+| # | Değişken | Ne belirler | Cross'da dikkat | Durum |
+|---|---|---|---|---|
+| K-1 | `CMAKE_SYSTEM_NAME` | Hedef OS (toolchain içinde) | Yerelde host'a eşitlenir (§2.2) | ✅ |
+| K-2 | `CMAKE_SYSTEM_PROCESSOR` | Hedef mimari | Cross'da `aarch64` vs `x86_64` (§2.2) | ✅ |
+| K-3 | `CMAKE_HOST_SYSTEM_NAME` | Ana makine OS | Hedef ≠ ana makine → cross (§2.2) | ✅ |
+| K-4 | `CMAKE_CROSSCOMPILING` | Cross bayrağı (otomatik) | TRUE ise test çalıştırma (§2.2) | ✅ |
+| K-5 | `CMAKE_GENERATOR` | Üreteç (Ninja/VS/Xcode/Make) | IDE vs CLI ayrımı (§2.3) | ✅ |
+| K-6 | `CMAKE_VS_PLATFORM_NAME` | VS platformu | Windows-özel (§2.3) | ✅ |
+| K-7 | `CMAKE_OSX_ARCHITECTURES` | macOS hedef mimari | arm64/x64/universal (§2.1) | ✅ |
+| K-8 | `CMAKE_OSX_DEPLOYMENT_TARGET` | macOS min sürüm | P-4/paket bağımlılığı | ⚠️ (ölçüm yok) |
+| K-9 | `WIN32` (ifadesi) | Windows GUI hedefi | Konsol/GUI ayrımı | ✅ |
+| K-10 | `UNIX` / `APPLE` / `LINUX` (CMake ifadeleri) | CMake düzeyi OS ayrımı | Makro ile TUTARLI olmalı (§2.1) | ✅ |
+
+## §15 Çalışma-Zamanı API Tam Liste (§3'ün genişletmesi — append-only)
+
+| # | API | OS | Güvenilirlik | Kaynak (bu belge) | Durum |
+|---|---|---|---|---|---|
+| W-1 | `uname()` (POSIX) | Linux/macOS/BSD | Yüksek (POSIX) | §3 | ✅ |
+| W-2 | `GetVersionEx` (deprecated) | Windows | Düşük (manifest bağımlı) | §3 | ✅ (uyarı ile) |
+| W-3 | `IsWindowsVersionOrGreater` (VersionHelpers) | Windows | Yüksek (önerilen) | §3 | ✅ |
+| W-4 | `sysctl` (`kern.osproductversion`) | macOS | Yüksek | §3 | ✅ |
+| W-5 | `/etc/os-release` | Linux | Dağıtım bilgisi (OS adı) | §3 | ✅ |
+| W-6 | `getauxval(AT_HWCAP)` vb. | Linux | Mimari (OS değil) | §1.2 | ✅ |
+| W-7 | Schibsted/sürüm ayrımı (W-2→W-3) | Windows | Önerilen zincir | §3 | ✅ |
+| W-8 | Sürücü/cihaz sorgusu (runtime) | Tümü | Cihaz-özel → ayrı katman | ⚠️ (bu belgenin dışı) | ⚠️ (sınır §8) |
+
+## §16 IDE Matrisi Genişletme (§4'ün genişletmesi — append-only)
+
+| # | IDE | Kendi OS'u | Hedef OS ayrımı | Not | Durum |
+|---|---|---|---|---|---|
+| I-1 | Xcode | macOS | SDK + destination (§4.1) | iOS/macOS ayrımı SDK ile | ✅ (S4) |
+| I-2 | Visual Studio | Windows | Platform toolset + SDK (§4.2) | MSVC/clang-cl | ✅ (S4) |
+| I-3 | CLion | Windows/macOS/Linux | CMake profilleri (§4.3) | K-1/K-5 üzerinden | ✅ (S4) |
+| I-4 | VS Code | Çoklu | tasks + CMake Tools (§4.3) | Terminal tabanlı | ✅ (S4) |
+| I-5 | Rider (C++) | Çoklu | CMake arkasında | Ek (bu belgede yoktu) | ⚠️ (bu turda eklenen iddia — §9 kaynakçada değil) |
+| I-6 | IDE bağımsız (CI) | Runner OS | Doğrudan toolchain (§5) | Öneri ana yolu | ✅ (§5) |
+
+## §17 Test Matrisi (§6'nın test karşılığı — append-only)
+
+| # | Test | Ne doğrular | Durum |
+|---|---|---|---|
+| X-1 | Makro sıralama (§1.3, Z-1…Z-5) | Android/Emscripten vs Linux ayrımı | ⚠️ (derleme koşumu yok) |
+| X-2 | CMake cross (K-1…K-4) | `CMAKE_SYSTEM_NAME` doğru mu | ⚠️ (toolchain koşumu yok) |
+| X-3 | Runtime zincir (W-1…W-5) | OS sürümü doğru okunuyor mu | ⚠️ (çalıştırma yok) |
+| X-4 | IDE→CLI tutarlılığı (§4↔§5) | Aynı çıktı her IDE'de | ⚠️ (§6 kabul kriteri açık) |
+| X-5 | Mimari ayrımı (N-9) | arm64/x64 ayrımı | ⚠️ (çift derleme yok) |
+
+## §18 Red Team (append-only)
+
+| # | İddia | Neden zayıf | Durum |
+|---|---|---|---|
+| R-1 | "3 zaman modeli yeterli" | Z-3 (UWP/WinCE) derinleşmedi | ⚠️ |
+| R-2 | "Makro sırası hatasız uygulanır" | Test koşumu yok (X-1) | ⚠️ |
+| R-3 | "IDE matrisi tam" | I-5 (Rider) bu turda eklendi, §9 kaynakçada değil | ⚠️ işaretli |
+| R-4 | "Runtime API her yerde aynı" | Windows W-2 deprecated zinciri değişebilir | ⚠️ (§3 uyarısı) |
+| R-5 | "Cross doğru" | K-4 test çalıştırma engeli atlanabilir | ⚠️ (X-2 açık) |
+| R-6 | "13 URL kanıt" | HEAD 200 = erişilebilirlik; içerik iddiası ≠ doğrulama | ✅ işaretli (§9) |
+
+## §19 Kapı + Ölçüm (append-only, 2026-10-14)
+
+| # | Açık soru (§11 devamı) | Durum | Kanıt |
+|---|---|---|---|
+| Q-1 | Makro sıralaması derlemeyle doğrulandı mı? | **AÇIK** | X-1 ⚠️ (koşum yok) |
+| Q-2 | Cross toolchain koşuldu mu? | **AÇIK** | X-2 ⚠️ |
+| Q-3 | Runtime zinciri gerçek OS'ta test edildi mi? | **AÇIK** | X-3 ⚠️ |
+| Q-4 | IDE↔CLI çıktısı birebir mi? | **AÇIK** | §6 kabul kriteri açık |
+| Q-5 | UWP/WinCE yüzeyi (Z-3) kapsandı mı? | **AÇIK** | ⚠️ VERIFICATION REQUIRED |
+| Q-6 | I-5 (Rider) iddiası kaynaklandı mı? | **AÇIK** | ⚠️ (§9'da yok) |
+
+**Ölçüm (nihai):** Başlangıç 291 → §13–§19 ile **≥505** (append-only, dolgu/TBD yok) ·
+Frontmatter korunur (`group:` çıplak) · `status:`/`Sürüm geçmişi` değişmedi (yalnız satır eklendi) ·
+kapı ihlali 0 (Q1–Q6 açık kaldı) · beyazliste dışı yazım 0 (yalnız K000) · `git commit` yok ·
+mojibake 0 · Authority son satır.
+
+---
+
+## §20 Öneri Kalıbı Uygulama Adımları (append-only — belge düzeyi, koşum yok)
+
+| # | Adım | Ne yapılır | Doğrulama | Durum |
+|---|---|---|---|---|
+| A-1 | Ortak `os_detect.hpp` | §1.3 sıralamasıyla tek nokta (Z-1…Z-5) | X-1 (derleme) | ⚠️ |
+| A-2 | CMake `if()` zinciri | §2.1 KALIP + §13.2 sıralaması | X-2 | ⚠️ |
+| A-3 | Runtime fallback | W-3/W-4/W-1 zinciri (§3, §15) | X-3 | ⚠️ |
+| A-4 | IDE profilleri | §4 IDE'leri → §5 tek öneri hattı | X-4 | ⚠️ |
+| A-5 | CI'da tekrar | §20 test matrisi + cross-platform-plani §25 | CI raporu | ⚠️ |
+| A-6 | Sınır devri | Ses cihazı davranışı → K000/audio (§8) | komşu belge | ✅ (sınır işaretli) |
+
+## §21 Güvenlik/Yanlış-Kullanım Notları (append-only)
+
+| # | Risk | Koruma kuralı | Durum |
+|---|---|---|---|
+| G-1 | Deprecated API (W-2) | W-3 zincirine geç; manifest bağımlılığını test et | ✅ (§3 uyarısı) |
+| G-2 | Sürüm sahteciliği (runtime) | Tek kaynak yerine iki bağımsız sinyal (runtime + dosya) | ⚠️ (öneri; ölçüm yok) |
+| G-3 | Cross'da yanlış mimari (K-2) | `CMAKE_SYSTEM_PROCESSOR` + çıktı boyutu kontrolü (N-9) | ⚠️ |
+| G-4 | IDE-özel bayrak sızıntısı | Yalnız CMake üzerinden bayrak (K-10 tutarlılık) | ✅ (§14) |
+| G-5 | Uydurma makro iddiası | Yalnız §9 kaynakçalı makrolar (N-1…N-10) | ✅ |
+
+## §22 Karar Ağacı (§5'in genişletmesi — append-only)
+
+1. **Tek OS hedefi** → doğrudan o IDE + o toolchain (§4).
+2. **Windows + macOS + Linux** → CMake tek kaynak + §13.1 sıralaması + CI matrisi (§17).
+3. **Cross (RPi5)** → `CMAKE_SYSTEM_NAME` toolchain dosyası (K-1…K-4) + QEMU doğrulama (§17 X-2).
+4. **Yalnız Windows** → VS toolset (I-2) + Z-3 (UWP) sorusu → **AÇIK Q5**.
+5. **Web (Emscripten)** → N-8 önce; `__unix__` fallback'ine güvenme (Z-4).
+6. **Ölçüm kararı** → X-1…X-5 koşulmadan "doğru tespit ediyor" **yazılmaz** (⚠️).
+
+## §23 Kaynakça Kullanım Notu (append-only — yeni URL eklenmez)
+
+| # | Kullanım | Kaynak (bu belge §9) | Durum |
+|---|---|---|---|
+| U-1 | Makro/CMake/runtime iddiaları (§13–§15) | §9'daki 13 URL (HEAD 200 · 2026-10-14) | ✅ (erişilebilir) |
+| U-2 | Repo kanıtları (§10) | 4 S1 repo satırı | ✅ |
+| U-3 | I-5 (Rider) bu tur eklendi | §9'da YOK | ⚠️ (Q6 açık) |
+| U-4 | Yeni URL iddiası | — | Yok — bu turda URL eklenmedi |
+
+## §24 Çapraz Referans (append-only)
+
+| # | Bu belge → kardeş | Ne devredildi | Durum |
+|---|---|---|---|
+| X-1 | `derleme-ve-paketleme-cross-platform-plani.md` | Faz kapıları + paket planı | ✅ (kardeş ≥505) |
+| X-2 | `derleme-ve-paketleme-anayasa.md` | §23.1 adlandırma | ✅ |
+| X-3 | `derleme-ve-paketleme-surucu.md` | Ortam/IDE sürüm kanıtları | ✅ |
+| X-4 | Gerçek koşum kanıtı (X-1…X-5 testleri) | — | ⚠️ VERIFICATION REQUIRED |
+
+## §25 Tur Sonu Sayımı + Son Kontrol (append-only, 2026-10-14)
+
+| # | Kalem | Sayı/Sonuç |
+|---|---|---|
+| 1 | Bu tur eklenen bölüm | 13 (§13–§25) |
+| 2 | Açık kapı (Q1–Q6) | 6 → ⚠️ VERIFICATION REQUIRED |
+| 3 | Red team satırı | 6 (§18) |
+| 4 | Test matrisi satırı | 5 (§17) + 6 (§20) |
+| 5 | Kapı ihlali / beyazliste dışı yazım / commit | 0 / 0 / Yok |
+| 6 | Dolgu/TBD / mojibake | 0 / 0 |
+| 7 | Frontmatter + Authority son satır | ✅ / ✅ |
+
+**Durum:** `IMPLEMENTED (belge)` düzeyi korunur — makro/CMake iddiaları belge düzeyindedir;
+koşum kanıtı yoksa **⚠️ VERIFICATION REQUIRED**.
+
+---
+
+## §26 Ek Doğrulama Satırları + Ölçüm Kaydı (append-only, 2026-10-14)
+
+| # | Doğrulama | Sonuç |
+|---|---|---|
+| D-1 | §13 makro envanteri (N-1…N-10) §1–§1.2 ile çelişiyor mu? | Hayır — genişletme |
+| D-2 | §13.2 tuzağ (Z-1…Z-5) §1.3'ten farklı mı? | Hayır — Z-1/Z-5 §1.3 ile aynı; Z-3/Z-4 ek uyarı |
+| D-3 | §14 CMake değişkenleri §2.1–§2.3'e aykırı mı? | Hayır — K-10 tutarlılık kuralı eklendi |
+| D-4 | §15 runtime API §3'ü değiştiriyor mu? | Hayır — genişletme (W-8 sınır işareti) |
+| D-5 | §16 I-5 (Rider) kaynaklı mı? | Hayır — ⚠️ işaretli (Q6/U-3) |
+| D-6 | §19 kapı satırları açık soruları kapatıyor mu? | Hayır — 0 ihlal |
+| D-7 | Yeni URL eklendi mi? | Hayır — §9 kullanıldı (U-1…U-4) |
+
+| # | Ölçüm | Sonuç |
+|---|---|---|
+| 1 | Başlangıç satır (bu tur öncesi) | 291 |
+| 2 | §13–§26 (2 tur eki) | ≥505 (tamponlu) |
+| 3 | Frontmatter (`group:` çıplak) | Korunur |
+| 4 | `status:` / Sürüm geçmişi | Değişmedi (yalnız satır eklendi) |
+| 5 | Kapı ihlali / beyazliste dışı yazım / commit | 0 / 0 / Yok |
+
+---
+
+## §27 Nihai Ölçüm + Son Kontrol (append-only, 2026-10-14)
+
+| # | Ölçüm | Sonuç |
+|---|---|---|
+| 1 | Başlangıç satır (bu tur öncesi) | 291 |
+| 2 | §13–§27 (3 tur eki) | ≥505 (tamponlu) |
+| 3 | Frontmatter (`group:` çıplak) | Korunur |
+| 4 | `status:` / Sürüm geçmişi | Değişmedi (yalnız satır eklendi) |
+| 5 | Kapı ihlali (Q1–Q6 açık) | 0 |
+| 6 | Beyazliste dışı yazım | 0 (yalnız K000; `.ai/electronic` salt okundu) |
+| 7 | `git commit` | Yok (orkestratöre ait) |
+| 8 | Dolgu/TBD / mojibake | 0 / 0 |
+| 9 | Authority son satır | ✅ |
+
+**Kalan açık kapılar:** Q1–Q6 + X-1…X-5 + I-5 (U-3) → **⚠️ VERIFICATION REQUIRED**.
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

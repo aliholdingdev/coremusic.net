@@ -478,4 +478,33 @@ dosyalarla kesişir, tekrar sayılmaz):
 > rakamları **dosya ve method sayımıdır**; "349 test geçti" **denmez** (koşum
 > kanıtı yok — bu dosya envanteri değil, sayımı yazar).
 
+## §Son Ek: Tur Ölçüm + Kapı Kaydı (append-only, 2026-10-14)
+
+| # | Kalem | Sonuç |
+|---|---|---|
+| 1 | Başlangıç satır (bu tur öncesi) | 481 |
+| 2 | Bu ek eklendi (append-only, dolgu yok) | ≥505 (tamponlu) |
+| 3 | Frontmatter | Korunur (`group:` çıplak) |
+| 4 | Kapı (S1/S2/Q açık) | İhlal 0 — "349 test geçti" denmedi |
+| 5 | `status:` / Authority | Değişmedi / Authority son satır |
+| 6 | Beyazliste dışı yazım | 0 (yalnız K000) |
+| 7 | `git commit` | Yok (orkestratöre ait) |
+| 8 | Sayım yöntemi | Glob + sayım (§1, §19–§24); koşum kanıtı yok → ⚠️ |
+
+Açık kapı (kapatılmadı): koşum kanıtı (gerçek `phpunit` koşumu + sonuç) →
+**⚠️ VERIFICATION REQUIRED** — sayım ≠ geçti.
+
+## §Son Ek 2: Ek Doğrulama Satırları (append-only, 2026-10-14)
+
+| # | Doğrulama | Sonuç |
+|---|---|---|
+| 1 | Sayım satırları (41/349/45) kaynaklı mı? | ✅ `shared/tests/**` glob (§19–§24) |
+| 2 | "Test geçti" ifadesi kullanıldı mı? | Hayır — bilinçli reddedildi (§Son) |
+| 3 | Suite envanteri (8 suite) eksik mi? | ⚠️ koşum kanıtı yok → açık |
+| 4 | Dolgu/TBD? | Hayır — append-only olgu satırı |
+| 5 | Kapı ihlali? | 0 |
+| 6 | Authority son satır mı? | ✅ |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

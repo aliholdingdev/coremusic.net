@@ -3,18 +3,9 @@ node_id: K000-isletim-sistemi/isletim-sistemi-audio/tizen-audio
 node_type: subdomain
 status: draft
 parent_id: K000-isletim-sistemi/isletim-sistemi-audio
-children:
-  - K000-isletim-sistemi/isletim-sistemi-audio/tizen-audio/tizen-audio-anayasa
-  - K000-isletim-sistemi/isletim-sistemi-audio/tizen-audio/tizen-audio-sound-manager
-  - K000-isletim-sistemi/isletim-sistemi-audio/tizen-audio/tizen-audio-ornekler
+children: [K000-isletim-sistemi/isletim-sistemi-audio/tizen-audio/tizen-audio-anayasa, K000-isletim-sistemi/isletim-sistemi-audio/tizen-audio/tizen-audio-sound-manager, K000-isletim-sistemi/isletim-sistemi-audio/tizen-audio/tizen-audio-ornekler]
 depends_on: []
-evidence:
-  - https://docs.tizen.org/iot/api/5.5/tizen-iot-headed/group__CAPI__MEDIA__SOUND__MANAGER__DEVICE__MODULE.html
-  - https://docs.tizen.org/iot/api/4.0/tizen-iot-headless/group__CAPI__MEDIA__SOUND__MANAGER__SESSION__MODULE.html
-  - https://docs.tizen.org/iot/api/5.0/tizen-iot-headed/group__CAPI__MEDIA__AUDIO__OUT__MODULE.html
-  - https://docs.tizen.org/iot/api/5.5/tizen-iot-headed/group__CAPI__MEDIA__AUDIO__IN__MODULE.html
-  - https://docs.tizen.org/application/dotnet/api/TizenFX/API12/api/Tizen.Multimedia.AudioManager.html
-  - https://samsungtizenos.com/docs/web/guides/multimedia/audio/
+evidence: ["https://docs.tizen.org/iot/api/5.5/tizen-iot-headed/group__CAPI__MEDIA__SOUND__MANAGER__DEVICE__MODULE.html", "https://docs.tizen.org/iot/api/4.0/tizen-iot-headless/group__CAPI__MEDIA__SOUND__MANAGER__SESSION__MODULE.html", "https://docs.tizen.org/iot/api/5.0/tizen-iot-headed/group__CAPI__MEDIA__AUDIO__OUT__MODULE.html", "https://docs.tizen.org/iot/api/5.5/tizen-iot-headed/group__CAPI__MEDIA__AUDIO__IN__MODULE.html", "https://docs.tizen.org/application/dotnet/api/TizenFX/API12/api/Tizen.Multimedia.AudioManager.html", "https://samsungtizenos.com/docs/web/guides/multimedia/audio/"]
 validation:
   - "2026-10-13 · 6 URL · içerik websearch indeks alıntısıyla doğrulandı (fonksiyon imzaları görünür) · doğrudan GET application/native yolu samsungtizenos.com docs ana sayfasına yönlendirildi · eski 'SPA kabuğu' bulgusu (üst dal) /iot/api/ yolları için aşılmıştır, gövde-GET hâlâ ⚠️ · isletim-sistemi-audio/ içi kesişimi 0"
 open_questions:

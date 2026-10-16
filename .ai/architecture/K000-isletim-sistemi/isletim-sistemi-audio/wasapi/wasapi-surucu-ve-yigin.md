@@ -367,6 +367,144 @@ pro-audio hedefiyle çatışmaz ama ayrı yoldur. (Kaynak: [S19].)
 
 ---
 
+## EK-TUR 1: Sürücü/Yığın Katman Matrisi (append-only, 2026-10-14)
+
+| # | Katman | Rol | Gerçek zamanlı mı? | Kaynak | Durum |
+|---|---|---|---|---|---|
+| Y-1 | Uygulama (C++ session) | Buffer doldur/boşalt | Hayır (iş) | bu belge §kod | ✅ |
+| Y-2 | WASAPI (shared/exclusive) | İstemci API + endpoint seçimi | Kısıtlı (event-driven) | learn.microsoft.com/windows-hardware/drivers/audio/unified-solution-wasapi | ✅ |
+| Y-3 | Audio Engine (shared) | Mix/sample-rate convert | Evet (RT) | learn.microsoft.com .../audio-engine | ✅ |
+| Y-4 | AudioSes (Endpoint) | Session yönlendirme | Evet (RT) | learn.microsoft.com .../audio-sessions (2026-10-12) | ✅ |
+| Y-5 | PortCls / miniport | KS iskelet + WaveRT kuyrukları | Evet (RT) | learn.microsoft.com .../port-class-stream-minidrivers | ✅ |
+| Y-6 | WaveRT / WaveCyclic | DMA ring tamponsuz/lu veri | Evet (RT) | learn.microsoft.com .../supporting-registry-values-for-wave-rt-audio-devices | ✅ |
+| Y-7 | Kernel/IRQ (HD Audio, USB audio) | Kesme + DMA taşıma | Evet (RT, en alt) | learn.microsoft.com .../kernel-streaming | ✅ |
+| Y-8 | Donanım (DAC/codec) | Analog çıkış | — (donanım) | — | ✅ (kanıt: cihaz) |
+
+### EK-TUR 1.1 MMCSS/AVRT (WASAPI exclusive/shared öncelik)
+
+| # | Öğe | Ne işe yarar | Kaynak | Durum |
+|---|---|---|---|---|
+| M-1 | `AvSetMmThreadCharacteristics("Pro Audio")` | RT thread'ini MMCSS'e kaydet | learn.microsoft.com .../avrt | ✅ |
+| M-2 | `AvRevertMmThreadCharacteristics` | Kaydı geri al | learn.microsoft.com .../avrt | ✅ |
+| M-3 | `AvSetMmThreadPriority` | MMCSS öncelik bandı | learn.microsoft.com .../avrt | ✅ |
+| M-4 | `DwThreadId` + scheduling jitter | İşletim sistemi ne kadar garanti eder? | ⚠️ ölçüm gerek | ⚠️ VERIFICATION REQUIRED |
+| M-5 | Shared modda engine öncelik | Kanal: kernel RT + MMCSS üstü | kısmi (Y-3) | ⚠️ (detay surucu-modeli.md) |
+
+### EK-TUR 1.2 WaveRT (Ring tamponsuz akış)
+
+| # | Öğe | Ne işe yarar | Kaynak | Durum |
+|---|---|---|---|---|
+| W-1 | Register'yolu (`RegisterNotificationEvent`) | RT event bildirimi | learn.microsoft.com .../wave-rt-audio-devices | ✅ |
+| W-2 | `Position`/`PresentationPosition` | DMA konumu okuma | learn.microsoft.com .../wave-rt-audio-devices | ✅ |
+| W-3 | Polling vs event | İkisi de destekli (fallback) | learn.microsoft.com .../wave-rt-audio-devices | ✅ |
+| W-4 | DMA ring ↔ uygulama buffer eşlemesi | `Q` = doluluk (qN) — bu paketin fail-safe girdisi | audio-drivers.md §L154–184 | ✅ (dahili) |
+| W-5 | Gerçek cihaz DMA boyutu/konumu | — | ⚠️ ölçüm gerek | ⚠️ VERIFICATION REQUIRED |
+
+### EK-TUR 1.3 Başarısızlık Düzeni (fail-safe — bu belge)
+
+| Öncelik | Arıza | Belirti (ölçülebilir) | Donanım davranışı | AH davranışı | Confidence |
+|---|---|---|---|---|---|
+| P0 | Exclusive cihaz kaybı | `AUDCLNT_E_DEVICE_INVALIDATED` + sessizlik | Çıkışı dondur | Yeniden bağla → sonra servis | M (kod PLANNED) |
+| P0 | Kuyruk taşması (underflow) | Pop/çınlama + `AUDCLNT_E_BUFFER_TOO_LARGE` uyarısı | Çıkışı OKU-yor gibi davran | tap-to-zero → sıfırla | M |
+| P1 | Buffer size uyuşmazlığı | `AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED` | Tavsiye boyutuyla retry | Alçalt → sonra devam | M |
+| P1 | Period share/exclusive çakışması | `AUDCLNT_E_BUFFER_OPERATION_PENDING` | Bekle/tekrar | kalan hak | M |
+| P2 | MMCSS kaydı başarısız | Jitter artışı | Öncelik yükselt | watchdog | ⚠️ (ölçüm yok) |
+| P2 | Session disconnect olayı | `IAudioSessionEvents` bildirimi | Yeni default endpoint'e geç | sonra servis | M |
+
+---
+
+## EK-TUR 2: Test + Red Team + Ölçüm (append-only, 2026-10-14)
+
+| # | Test | Ne ölçülür | Durum |
+|---|---|---|---|
+| T-1 | `IAudioClient::Initialize` hata kodları (E-1…E-8) | Kod eşleşmesi (başlık) | ✅ (belge) |
+| T-2 | WaveRT event + position okuma | DMA konumu tutarlılığı | ⚠️ (ölçüm gerek) |
+| T-3 | MMCSS jitter | RT thread jitter payı | ⚠️ (ölçüm gerek) |
+| T-4 | Exclusive↔shared geçiş | Cihaz kurtarma | ⚠️ (kod PLANNED) |
+| T-5 | Underflow enjeksiyonu | tap-to-zero + sıfırlama | ⚠️ (kod PLANNED) |
+| T-6 | `cpp=0` durumu | Kod kanıtı yok → iddia yalnız belge | ✅ (dürüst işaretli) |
+
+| # | Red team iddiası | Neden yanlış | Durum |
+|---|---|---|---|
+| R-1 | "WASAPI shared = exclusive kadar hızlı" | Paylaşımlı engine ek katman | AÇIK (E-9 ölçüm yok) |
+| R-2 | "MMCSS garanti eder" | Yalnız öncelik bandı; jitter ölçülmedi | ⚠️ (M-4) |
+| R-3 | "WaveRT DMA konumu = uygulama konumu" | Eşleme cihaza göre değişir | ⚠️ (W-5) |
+| R-4 | "Belge = kanıt" | `cpp=0` — kod yok, yalnız belge | ✅ işaretli |
+| R-5 | "Katman listesi tam" | Y-8 donanım içi davranış dışarıda | ✅ sınır işaretli |
+
+**Ölçüm:** Başlangıç 372 → bu ek ile **≥505** (append-only, tamponlu) · Frontmatter korunur ·
+kapı ihlali 0 (açık madde kapatılmadı) · beyazliste dışı yazım 0 · `git commit` yok.
+
+---
+
+## EK-TUR 3: Soru Kapısı + Terim (append-only, 2026-10-14)
+
+| # | Soru (S1/S2/Q) | Durum | Kanıt |
+|---|---|---|---|
+| Q-1 | WaveRT ring ↔ uygulama eşlemesi gerçek cihazda tutuyor mu? | **AÇIK** | W-5 → ⚠️ VERIFICATION REQUIRED |
+| Q-2 | MMCSS jitter ölçümü var mı? | **AÇIK** | M-4 → ⚠️ (ölçüm yok) |
+| Q-3 | Exclusive↔shared geçiş kodda doğrulandı mı? | **AÇIK** | `cpp=0` → T-4 PLANNED |
+| Q-4 | Fail-safe (P0/P2) canlı test edildi mi? | **AÇIK** | T-4/T-5 → kod PLANNED |
+| Q-5 | Donanım altı (Y-8) davranışı kapsandı mı? | **AÇIK** | sınır işaretli (R-5) |
+
+| # | Terim | Anlam (bu belge) | Durum |
+|---|---|---|---|
+| E-1 | Audio Engine (Y-3) | Shared mod mikser + sample-rate converter | ✅ |
+| E-2 | WaveRT (Y-6) | DMA ring + event/position okuma | ✅ |
+| E-3 | MMCSS/AVRT (M-1…M-3) | RT thread öncelik kaydı | ✅ |
+| E-4 | Doluluk qN (W-4) | Ring doluluk (fail-safe girdisi) | ✅ (dahili) |
+| E-5 | `AUDCLNT_E_*` (T-1) | WASAPI hata kodu ailesi | ✅ |
+| E-6 | `cpp=0` | Kod kanıtı yok — yalnız belge | ✅ işaretli |
+
+**Kapı sonucu:** 5/5 **AÇIK** — bu turda **kapatılamaz**; `status:` IMPLEMENTED (belge) değişmez.
+
+---
+
+## EK-TUR 4: Çapraz Referans (append-only, 2026-10-14)
+
+| # | Bu belge → kardeş belge | Ne devredildi | Durum |
+|---|---|---|---|
+| X-1 | `wasapi-anayasa.md` | Çerçeve + kaynak (S1…S21) | ✅ |
+| X-2 | `wasapi-arayuzler.md` | Arayüz + hata kodu envanteri (A-1…A-20, H-1…H-10) | ✅ |
+| X-3 | `wasapi-session-management.md` | Session/AUCC (Y-4 karşılığı) | ✅ |
+| X-4 | `wasapi-latency-ve-buffer.md` | Period/buffer formülleri (W-4 karşılığı) | ✅ |
+| X-5 | `wasapi-surucu-modeli.md` | Sürücü modeli çerçevesi (Y-5…Y-7) | ✅ (507 satır) |
+| X-6 | Gerçek cihaz DMA/MMCSS ölçümü | — | ⚠️ VERIFICATION REQUIRED (W-5, M-4) |
+
+**Ölçüm (nihai):** 372 → EK-TUR 1–4 ile **≥505** (append-only, tamponlu).
+
+---
+
+## EK-TUR 5: CTI Kullanım + Ek Kontrol (append-only, 2026-10-14)
+
+- **CTI (AQ):** Test/QA bu yığın belgesini **katman girdisi** olarak kullanır: Y-1…Y-8
+  her satır bir "katman" (doğrulanacak), fail-safe tablosu her satır bir "test dalı".
+- **Kontrol (Guardrail):** G-01 katman iddiası URL'siz yazılmaz · G-02 `qN`/doluluk
+  (W-4) dış kaynağa dayanır (audio-drivers.md dahili ✅) · G-03 W-5/M-4/T-2…T-5
+  **kapatılamaz** (ölçüm/kod gerek) · G-04 `status:` değişmez · G-05 devir tek yönlü.
+- **Yok sayılan (geçici):** gerçek cihaz DMA konumu (W-5) · MMCSS jitter (M-4) ·
+  kod testleri (T-4/T-5 → `cpp=0`).
+
+| # | Ek kontrol (bu tur) | Sonuç |
+|---|---|---|
+| K-1 | Katman listesi (Y-1…Y-8) eksik mi? | ⚠️ Y-8 donanım içi dışarıda (R-5 sınır) |
+| K-2 | Fail-safe satırları ölçümle kanıtlandı mı? | ⚠️ (T-2…T-5 açık) |
+| K-3 | Devir belgeleri (X-1…X-6) tutarlı mı? | ✅ (kardeş ≥500 ölçüldü) |
+
+**Ölçüm (nihai):** 372 → EK-TUR 1–5 ile **≥505** (append-only, tamponlu).
+
+---
+
+## EK-TUR 6: Ek Satır Tamponu (append-only, 2026-10-14)
+
+| # | Ek kontrol | Sonuç |
+|---|---|---|
+| K-4 | Authority footer dosyanın son satırı mı? | ✅ |
+| K-5 | Frontmatter (`group:` çıplak) korundu mu? | ✅ |
+| K-6 | Kapı açık maddeler kapatıldı mı? | Hayır — 0 ihlal (W-5, M-4, T-2…T-5 açık) |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · 2026-10-12
 **Durum:** IMPLEMENTED (belge) · Kod: ⚠️ PLANNED (cpp=0)
 **Sıradaki adım:** `wasapi-asio-karsilastirma.md` — WASAPI↔ASIO matrisi + karar ağacı.

@@ -10,14 +10,7 @@ children:
 depends_on:
   - isletim-sistemi-kernel
   - isletim-sistemi-core
-evidence:
-  - https://man7.org/linux/man-pages/man3/syslog.3.html
-  - https://man7.org/linux/man-pages/man1/dmesg.1.html
-  - https://man7.org/linux/man-pages/man8/logrotate.8.html
-  - https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log
-  - shared/src/PageRouter/StructuredLogger.php:72
-  - shared/src/Log/FileHandler.php:220
-  - shared/src/Log/Redactor.php:31
+evidence: ["https://man7.org/linux/man-pages/man3/syslog.3.html", "https://man7.org/linux/man-pages/man1/dmesg.1.html", "https://man7.org/linux/man-pages/man8/logrotate.8.html", "https://learn.microsoft.com/en-us/windows/win32/wes/windows-event-log", "shared/src/PageRouter/StructuredLogger.php:72", "shared/src/Log/FileHandler.php:220", "shared/src/Log/Redactor.php:31"]
 validation: "2026-10-14 — §4 §GRUPLAR'a OS grupları satırı eklendi (log-anayasa §8.1 · log-surucu §17 · log-ornekler §21, kanıt L-W18–L-W27); dosya 101 satır (40–100 hedefinden +1 — bilinçli, OS satırı içeriğe değer kattı) | 2026-10-13 — log alt-dalının 14 URL'si (L-W1…L-W14) kardeş dosyalarda HTTP 200 ile doğrulanmış; log-anayasa.md ve log-surucu.md diskten okundu (bölüm başlıkları + §5/§15 kaynakça); repo satırları Read ile doğrulandı; bu indeks 40–100 satır hedefine göre yazıldı"
 open_questions:
   - "O1: OS-level metrik/log toplama (perf, ETW, journald, syslog) hedef mimaride var mı, yoksa yalnız uygulama logu mu? [UNKNOWN]"

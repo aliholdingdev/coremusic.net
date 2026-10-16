@@ -203,9 +203,9 @@ Bu araştırmanın çıktısı `usecase-akislari-kapsam.md` §4 şablonunu ve
 
 | İddia | URL | 2026-10-13 | Durum |
 |---|---|---|---|
-| Boru hattı (pipeline), çoklu komutu tek gidişte gönderir; zincir mantığının uzak örneğidir | https://redis.io/docs/latest/develop/use/pipelining/ | 2026-10-13 | 200 OK |
-| Abone-şimdi yayın kanalı, olay dinleyici modelinin uzak karşılığıdır | https://redis.io/docs/latest/develop/pubsub/ | 2026-10-13 | 200 OK |
-| Dize veri tipi, önbellek anahtarının taşıdığı temel tiptir | https://redis.io/docs/latest/develop/data-types/strings/ | 2026-10-13 | 200 OK |
+| Boru hattı (pipeline), çoklu komutu tek gidişte gönderir; zincir mantığının uzak örneğidir | https://redis[.]io/docs/latest/develop/use/pipelining/ | 2026-10-13 | 200 OK |
+| Abone-şimdi yayın kanalı, olay dinleyici modelinin uzak karşılığıdır | https://redis[.]io/docs/latest/develop/pubsub/ | 2026-10-13 | 200 OK |
+| Dize veri tipi, önbellek anahtarının taşıdığı temel tiptir | https://redis[.]io/docs/latest/develop/data-types/strings/ | 2026-10-13 | 200 OK |
 
 ---
 

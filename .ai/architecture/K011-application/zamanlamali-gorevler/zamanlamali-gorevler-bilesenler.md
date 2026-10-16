@@ -393,6 +393,74 @@ Düğümler = §2–§3 bileşenleri. Kenarlar = gerçek import/çağrı (grep k
 JS tarafı **hiçbir timer'ı** test etmiyor (20 isabet → 0 test). İlk hedef:
 `signal-utils.js:15–19` (üretici) + `TouchManager.js:40` (iptal yolları).
 
+### §6.1 — Timer testi hedef matrisi (planlandı — kod yazılmadı)
+
+> Dayanak: §2.4 temizlik matrisi (gerçek `dosya:satır` kanıtları). Bu tablo
+> **ne test edileceğini** tanımlar; hiçbir test henüz yazılmadı (§7.1 gap #3).
+> Sahte saat API'leri Vitest `vi.*` sarıcılarıdır (`@sinonjs/fake-timers`).
+
+| # | Hedef bileşen | Test edilecek davranış | Sahte saat API | Öncelik | Dayanak |
+|---|---|---|---|---|---|
+| 1 | `router/config/signal-utils.js:15–19` (`createTimeout`) | Süre dolunca `abort` tetiklenir; `clear()` erken çağrılırsa tetiklenmez | `vi.advanceTimersByTime` + `AbortSignal.aborted` | **P0** | §2.3 #1 |
+| 2 | `router/FetchWrapper.js:55–61` (`#delayWithAbort`) | Backoff gecikmesi iptal edilebilir; `finally` her koşulda `clearTimeout` çağırır | `vi.runAllTimers` + spy `clearTimeout` | **P0** | §2.2 #6 |
+| 3 | `features/TouchManager.js:40` (long-press) | `LONG_PRESS_MS` dolmadan parmak kalkarsa tetiklenmez; üç iptal yolu (`:49/57/96`) | `vi.advanceTimersByTime` + pointer event | **P1** | §2.2 #8 |
+| 4 | `components/composites/ToastComponent.js:162` (timer haritası) | `duration` dolunca toast kapanır; `clearAll()` (`:188`) ve `#remove` (`:201`) tüm bekleyenleri iptal eder | `vi.advanceTimersByTime` + `vi.clearAllTimers` | **P1** | §2.3 #4 |
+| 5 | `oauth-manager.js:87–104` (polling + 60 sn kill-switch) | `poll` periyodik tetiklenir; başarıda `:90`, timeout'ta `:101` durdurur | `vi.advanceTimersByTime` (periyot ×N) | **P0** | §2.1 #3 |
+| 6 | `features/WidgetManager.js:59` (1000 ms interval) | `#intervals` havuzu(`:91`) sayesinde `destroy()` sonrası sıfır sızıntı | `vi.advanceTimersByTime` + havuz boyutu assert | **P2** | §2.4 #1 |
+
+**Sıralama gerekçesi:** #1–#2 `signal-utils`/`FetchWrapper` ağı bağlı → tüm
+sayfa akışı; #5 oturum açma (flow/auth); #3–#4 görsel + gestür; #2 ve #4'teki
+`clearAll`/`finally` yolları en çok sızıntı riski taşıyanlardır.
+
+**Assertion kalıbı (yeniden kullanım):** §6 #5'teki `assertEqualsWithDelta(…, 3)`
+TTL deseni süre toleransı için uygun; timer testlerinde mutlak `toBe(ms)` yerine
+±1 kademe tolerans ile yazılmalı (sahte saat deterministik olsa da üretim
+`performance.now` farklıdır).
+
+### §6.2 — Sahte saat altyapısı: ölçülen durum (2026-10-16 taze ölçüm)
+
+| # | Ölçüm | Değer | Yöntem / kapsam |
+|---|---|---|---|
+| 1 | `useFakeTimers\|advanceTimers\|runAllTimers\|clearAllTimers` | **0** | `assets.coremusic.net/js` recurse grep |
+| 2 | Vitest içe aktarma yapan spec/test dosyası | **7** | 6 primitive (`Badge/Button/Input/Skeleton/Slider/Toggle`) + `core/breakpoints.spec.js` |
+| 3 | `from 'vitest'` isabeti | **18** | primitive'lerde 2'şer (`Badge…Toggle` ×2) + `breakpoints.spec.js` ×6 |
+| 4 | `afterEach\|afterAll\|beforeAll\|vi.useRealTimers` | **15** | 7 spec dosyasında temizlik mekanizması mevcut |
+| 5 | Timer testi (gerçek sahte saatli) | **0** | (1) + §2.4 matrisindeki hedeflerin hiçbiri kapsanmıyor |
+
+**Sonuç:** Vitest **kurulu ve import ediliyor** (2–3) ve dosyalar zaten
+`afterEach/afterAll` **temizlik kalıbı** kullanıyor (4) — yani sahte saat
+altyapısını eklemek için `describe` iskeleti mevcut, yalnızca
+`vi.useFakeTimers()` çağrısı + §6.1 hedef assertion'ları eksik.
+
+### §6.3 — Sahte saat kurulum iskeleti (PLANNED — illustratif, üretime alınmadı)
+
+```js
+// Timer testi için önerilen iskelet (§6.1 #1 esası).
+// Dosya: assets.coremusic.net/js/**/__timer.test.js  ·  Durum: YAZILMADI
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { createTimeout } from '../router/config/signal-utils.js';
+
+describe('createTimeout', () => {
+  beforeEach(() => { vi.useFakeTimers(); });
+  afterEach(() => { vi.useRealTimers(); });        // §6.2 #4 mevcut kalıp
+
+  it('süre dolunca abort eder', () => {
+    const ctrl = new AbortController();
+    createTimeout(100).then(() => {}, () => {});   // üretici: signal-utils:15–19
+    vi.advanceTimersByTime(100);
+    expect(ctrl.signal.aborted).toBe(false);       // sentinel — gerçek assert
+  });                                              // signal bağlantısı eklenince
+});
+```
+
+> **Dürüstlük kaydı:** §6.3 bloğu bir **taslak/iskelettir**, diskte karşılığı
+> yoktur (grep: `*.test.js` timer = 0, §6.2 #1). Üretime alınacak gerçek test
+> yazıldığında bu blok silinir veya gerçek dosya:satır ile değiştirilir.
+
+> **Bölüm geçmişi:** §6.1–§6.3, 2026-10-16 spec §7 turunda eklendi; §6.2
+> sayımları 2026-10-16'da yeniden ölçülerek §1.2 #8 (fakeTimers = 0) ile
+> doğrulandı.
+
 ---
 
 ## §7 — Boşluklar (gap) ve Sayılmayanlar

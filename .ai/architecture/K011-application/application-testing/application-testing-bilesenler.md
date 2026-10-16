@@ -128,6 +128,22 @@ kayar olduğunu (bileşen↔akış iz düşümü), test yığınının bağıml�
 | 1 | `coremusic_auth.sql` | 13 tablo (298 satır) | auth PHP unit (6/36) | 🟡 kod düzeyi |
 | 2 | diğer 19 | — | yok | ❌ test yok |
 
+### §2.5 Fixture / destek bileşenleri (test ağacındaki test-olmayan PHP)
+
+| # | Dosya | Rol | Test |
+|---|---|---|---|
+| 1 | `shared/tests/Fixtures/chrome/header.php` | DOM fixture verisi | 0 (veri) |
+| 2 | `shared/tests/Fixtures/chrome/footer.php` | DOM fixture verisi | 0 (veri) |
+| 3 | `shared/tests/Repository/Sqlite/SqliteDatabaseManager.php` | test desteği (SQLite) | 0 |
+| 4 | `shared/tests/Repository/Sqlite/SqliteDatabaseRegistry.php` | test desteği (SQLite) | 0 |
+| 5 | `auth.coremusic.net/tests/bootstrap.php` | suite kurulumu | 0 |
+| 6 | `api.coremusic.net/tests/bootstrap.php` | suite kurulumu | 0 |
+| 7 | `home.coremusic.net/tests/Support/FakeComponent.php` | sahte bileşen sağlayıcı | 0 |
+
+> 45 shared PHP dosyasının 4'ü, subdomain test ağaçlarındaki 20 PHP
+> dosyasının 3'ü test-olmayan destektir → gerçek test dosyası 41 + 17 = 58
+> (§3.1). `Fixtures/jwt/` veri klasörüdür (dosya değil).
+
 ---
 
 ## §3 — Test bileşeni envanteri
@@ -173,6 +189,36 @@ kayar olduğunu (bileşen↔akış iz düşümü), test yığınının bağıml�
 | # | Spec | Satır | `test()` |
 |---|---|---|---|
 | 1 | `tests/e2e/player-info.spec.ts` | 400 | 18 |
+
+### §3.4 Subdomain test dosyaları (dosya · metot)
+
+| # | auth (6 · 36) | # | home (8 · 33) | # | api (3 · 32) |
+|---|---|---|---|---|---|
+| 1 | `Unit/Domain/DTO/LoginRequestTest` · 5 | 1 | `Unit/Bootstrap/EntryPointCacheSafetyTest` · 3 | 1 | `Unit/AuthControllerTest` · **18** |
+| 2 | `Unit/Domain/Entity/UserTest` · 4 | 2 | `Unit/Component/HomeSongButtonTest` · 5 | 2 | `Unit/RouteConfigTest` · 12 |
+| 3 | `Unit/Domain/ValueObject/EmailTest` · 8 | 3 | `Unit/Component/RecentTracksComponentTest` · 6 | 3 | `Unit/SmokeTest` · 2 |
+| 4 | `Unit/Domain/ValueObject/GenderTest` · 8 | 4 | `Unit/Layout/HomeLayoutVariantTest` · 5 | — | — |
+| 5 | `Unit/Domain/ValueObject/PasswordTest` · 6 | 5 | `Unit/Loader/ComponentLoaderTest` · 7 | — | — |
+| 6 | `Unit/Service/SessionManagerTest` · 5 | 6 | `Unit/Page/HistoryPageTest` · 2 | — | — |
+| — | — | 7 | `Unit/Page/HomeChromeSmokeTest` · 2 | — | — |
+| — | — | 8 | `Unit/Page/NowPlayingPageTest` · 3 | — | — |
+
+### §3.5 `shared/tests` grup toplamları (41 test / 349 metot)
+
+| # | Grup | Dosya | Metot | Bağlı üretim modülü (§2.1) |
+|---|---|---:|---:|---|
+| 1 | `Api/` | 8 | 67 | Api (34 dosya) |
+| 2 | `Middleware/` | 9 | 76 | Middleware (11 dosya) |
+| 3 | `Unit/` | 16 | 113 | Config/Device/Log/PageRouter/Security/Theme (13 dosya) |
+| 4 | `Security/` | 2 | 40 | Security (6 dosya) — **yalnız 2 test** |
+| 5 | `Repository/` | 2 | 25 | Repository (1 dosya) + Database (3) |
+| 6 | `Events/` | 2 | 15 | Events (14 dosya) — **2/14** |
+| 7 | `OAuth/` | 1 | 8 | OAuth (14 dosya) — **1/14** |
+| 8 | `Component/` | 1 | 5 | Component (10 dosya) — **1/10** |
+| — | **Toplam** | **41** | **349** | — |
+
+> En dikkatsiz oranlar: OAuth 1/14 · Component 1/10 · Events 2/14 ·
+> Security 2/6 (§8 B-1'in dosya düzeyi karşılığı).
 
 ---
 
@@ -239,7 +285,7 @@ shared/composer.json
   └─ config.allow-plugins: php-http/discovery (L34)
         │
         ▼
-  shared/phpunit.xml ─── 8 suite (L17-24) + coverage (L26-31)
+  shared/phpunit.xml ─── 8 suite (L8-33) + source (L34-38, coverage raporu YOK)
         │                 ├─ Unit → tests/Unit
         │                 ├─ Middleware → tests/Middleware (DOĞRULANDI)
         │                 ├─ Feature → tests/Feature
@@ -291,16 +337,28 @@ E2E: package.json → playwright(^1.63.0) → playwright.config → 1 spec → h
 CI : ci.yml → 6 job → yukarıdaki üç dal (PHP coverage flag YOK)
 ```
 
+### §5.5 Bağımlılık notları ve kırılma riskleri
+
+| # | Ok | Risk | Kanıt |
+|---|---|---|---|
+| 1 | `ci.yml` php-test matrix → **yalnız** shared + auth | home (33) + api (32) testleri **CI'da hiç koşulmuyor** → 65 metot CI dışı | `ci.yml:73-80` (`project: shared`, `project: auth.coremusic.net`) |
+| 2 | `ci.yml` L5 header "phpunit.xml x2" | disk 4 → doküman-üretim bağımlılığı stale (okuyan herkes yanılgıya düşer) | `ci.yml:5` vs disk |
+| 3 | `composer test` (shared) → `phpunit` | runner sürümü `^10.5`; havuz 11.5/12.5 reçeteleri birebir uygulanamaz | `composer.json:24` |
+| 4 | vitest threshold 80 ×4 → 9 spec | eşik erişilemezse job zaten `continue-on-error` → **kör nokta** | `vitest.config.js:25-28` + `ci.yml:167` |
+| 5 | playwright `webServer` → `php -S` (home) | e2e yalnız `home` köküne bağlanır; media/auth e2e'si fiziksel olarak bağlanamaz | `playwright.config.ts:46-47` |
+| 6 | `phpunit.xml` → `tests/` (suite→dizin) | `Unit/Application` ve `tests/Integration` dizinleri yok → suite eklense bile `exit 2` | auth `phpunit.xml:10-12` |
+| 7 | 4 phpunit.xml → 4 repo | ~~home/api xml okunmadı~~ **çözüldü (2026-10-15):** 4/4 okundu — bootstrap/suite/coverage bilgisi §6.1'de | `dogrulama.md` §5.3 |
+
 ---
 
 ## §6 — Konfigürasyon bileşenleri
 
 | # | Dosya | Satır | Rol | Kritik ayar (kanıt) |
 |---|---|---|---|---|
-| 1 | `shared/phpunit.xml` | 63 | paylaşılan suite | 8 suite L17-24; coverage L26-31 |
-| 2 | `auth.coremusic.net/phpunit.xml` | 33 | auth suite | failOnWarning/strict L6-7; Integration KALDIRILDI L10-12; coverage-not L26-31 |
-| 3 | `home.coremusic.net/phpunit.xml` | 34 | home suite | okunmadı → `⚠️ VERIFICATION REQUIRED` |
-| 4 | `api.coremusic.net/phpunit.xml` | 57 | api suite | okunmadı → `⚠️ VERIFICATION REQUIRED` |
+| 1 | `shared/phpunit.xml` | 39 | paylaşılan suite | 8 suite L8-33 · bootstrap L4 · `<coverage>` raporu YOK, `<source>` L34-38 |
+| 2 | `auth.coremusic.net/phpunit.xml` | 34 | auth suite | failOnRisky/failOnWarning L6-7; Integration KALDIRILDI L10-12; coverage text stdout L26-31 |
+| 3 | `home.coremusic.net/phpunit.xml` | 18 | home suite | bootstrap L4 `vendor/autoload` · 1 suite Unit (L9-11) · failOn YOK · coverage bloğu YOK · `<source>` `include` L13-17 |
+| 4 | `api.coremusic.net/phpunit.xml` | 29 | api suite | bootstrap L4 `tests/bootstrap` · failOnRisky/Warning L6-7 (+`failOnPhpunitWarning=false` L8) · 1 suite Unit L11-13 · coverage text stdout L23-27 |
 | 5 | `assets.../vitest.config.js` | 33 | JS unit | threshold 80×4 L25-28; include L30 |
 | 6 | `assets.../playwright.config.ts` | 56 | e2e | retries/workers L20-21; webServer L46-47 |
 | 7 | `.github/workflows/ci.yml` | 203 | CI orkestrasyon | Unit-only L80; coverage flag YOK L104-107; node 26 L151; soft L167/183 |
@@ -313,6 +371,33 @@ CI : ci.yml → 6 job → yukarıdaki üç dal (PHP coverage flag YOK)
 4. `ci.yml` → 4 phpunit.xml + 2 JS config (job başına çağrı).
 5. `phpunit.xml` → `tests/**` (suite→dizin).
 6. `vitest.config.include` → 9 spec + 94 css.
+
+### §6.2 4 phpunit.xml karşılaştırması (gözlem — 4/4 tam okuma, 2026-10-15)
+
+| # | Eksen | shared (39 satır) | auth (34) | home (18) | api (29) |
+|---|---|---|---|---|---|
+| 1 | Bootstrap | `vendor/autoload` L4 | `tests/bootstrap` L4 | `vendor/autoload` L4 | `tests/bootstrap` L4 |
+| 2 | Suite sayısı | **8** (L8-33) | 1 (Unit) | 1 (Unit) | 1 (Unit) |
+| 3 | `failOnRisky/Warning` | yok | **L6-7 true** | yok | **L6-7 true** (+L8 `failOnPhpunitWarning=false`) |
+| 4 | `<coverage>` raporu | yok | text stdout L26-31 | yok | text stdout L23-27 |
+| 5 | `<source>` include | `src` (L34-38) | önceden okundu (L26-31 coverage ile birlikte) | `include` L13-17 | `include` L16-21 (PHPUnit 10 notu L16) |
+| 6 | `cacheDirectory` | `.phpunit.cache` L7 | — (bu tur okunmadı) | `.phpunit.cache` L7 | yok |
+
+**Gözlemler:**
+
+1. Hepsi PHPUnit 10 `<source>` idiomundadır; api L16 yorumu bunu açıkça
+   yazar: *"Kaynak seçimi: PHPUnit 10+ için doğru element `<source>`'tir."*
+2. Suite genişliği uçurumu: shared 8 suite → CI'da `PHPUNIT_ARGS` boşken
+   **8'inin tamamı** koşulur (matrix satırında args yok, ci.yml L75); auth
+   tek suite olduğu için `--testsuite Unit` bayrağı (L80) yalnız auth'da
+   anlam taşır.
+3. Strictlik 2/4'te: auth + api `failOn*` açar; shared + home açmaz →
+   risky/warning davranışı BC'ler arasında **farklıdır** (tutarlılık işi —
+   `web-arastirma.md` §3.2.3 satır 3'ün tamamlayıcısı).
+4. Coverage raporu 2/4'te tanımlı (auth, api); fiili coverage 4/4'te **yok**
+   çünkü hiçbir koşum coverage bayrağı çalıştırmaz (ci.yml L104-107 → G7).
+5. `home/phpunit.xml` yalnız 18 satır — en minimal yapı; bootstrap'i
+   `vendor/autoload` (shared ile aynı tip), kaynak hedefi `include`.
 
 ---
 
@@ -333,6 +418,19 @@ CI : ci.yml → 6 job → yukarıdaki üç dal (PHP coverage flag YOK)
 | 11 | SQL şema | ❌ | — | — | — | ❌ |
 | 12 | media/apiKeys | ❌ | — | — | — | ❌ |
 
+### §7.1 Matris okuma notları
+
+1. Hücre işaretleri: ✅ fiilen var · 🟡 kısmi/taşıyıcı · ❌ yok.
+2. `coverage bayrağı` sütunu **CI seviyesindedir** (repo lokalinde `composer
+   test` coverage üretmez — `dogrulama.md` §5.1); yerel koşum için ayrıca
+   `--coverage` gerekir.
+3. `js/router` (28 dosya) hiçbir hücrede ✅ görmüyor → §5.5-4 kör noktası ile
+   birlikte en riskli tek katman (B-3).
+4. `media` ve `cms` subdomain'leri bu matrise **girmez**: media'da phpunit
+   yok (B-10), `cms.coremusic.net` diskte yok — matris 4 BC + assets'e kadardır.
+5. Matris hücreleri dosya varlığına dayanır; **test geçmişi** iddia etmez
+   (koşum yok — `dogrulama.md` §1.1 madde 4).
+
 ---
 
 ## §8 — Boşluk bileşenleri
@@ -351,6 +449,7 @@ CI : ci.yml → 6 job → yukarıdaki üç dal (PHP coverage flag YOK)
 | B-10 | media subdomain'te phpunit yok | composer grep 0 | media | orta |
 | B-11 | e2e tek spec (18 test) | disk 1 spec.ts | çok-sayfa akışlar | orta |
 | B-12 | contract test yok (API spec) | envanter 0 | `shared/src/Api` 34 dosya | orta |
+| B-13 | home+api testleri CI matrix'te yok | `ci.yml:73-80` → yalnız shared+auth | 11 dosya / 65 metot | yüksek |
 
 ### §8.1 Boşluk→aksiyon eşlemesi (PLANNED)
 
@@ -359,6 +458,7 @@ CI : ci.yml → 6 job → yukarıdaki üç dal (PHP coverage flag YOK)
 3. B-5/B-6 → §10 P-3, P-4 (integration + coverage).
 4. B-8 → dogrulama.md kapı G3 (blok).
 5. B-9 → §10 P-8 (Vary/Cookie).
+6. B-13 → §10 P-11 (CI matrix'e home+api eklenmesi).
 
 ---
 
@@ -394,6 +494,7 @@ CI : ci.yml → 6 job → yukarıdaki üç dal (PHP coverage flag YOK)
 | P-8 | ResponseNormalization Vary/Cookie assertion | B-9 | kod |
 | P-9 | media phpunit bootstrap | B-10 | mimari |
 | P-10 | API contract test (OpenAPI↔yanıt) | B-12 | mimari |
+| P-11 | `ci.yml` php-test matrix'e `home.coremusic.net` + `api.coremusic.net` (DevOps onayı) | B-13 | mimari |
 
 ---
 

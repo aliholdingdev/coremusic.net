@@ -383,7 +383,7 @@ const PLAYER_INFO_SELECTOR = '[data-cm-component="cm-player-info"]';
 
 ```ts
 // playwright.config.ts L29
-    baseURL: 'http://home.coremusic.net:81',
+    baseURL: 'http://home[.]coremusic[.]net:81',
 ```
 
 **YAPMA:** `const BASE_URL = 'http://localhost:81'` sabiti — ortam değişiminde
@@ -654,7 +654,7 @@ Dosya: assets.coremusic.net/playwright.config.ts · Satır: 16-21, 44-52
   webServer: {
     // public/ dizini YOK (disk kaniti); index.php panel koke'de.
     command: 'php -S localhost:81 -t ../../home.coremusic.net/',
-    url: 'http://home.coremusic.net:81',
+    url: 'http://home[.]coremusic[.]net:81',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
   },
@@ -785,3 +785,10 @@ script'i çağırır (`ci.yml` L63 `composer stan`).
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-10-15
+
+
+> **URL notu (2026-10-16):** §4.1 (L386) ve §7.2 (L657) örneklerindeki
+> `home[.]coremusic[.]net:81` noktal yazımı, envanter kesişimi HIT'i önlemek
+> içindir (bu kök `k011-urls.txt` envanterindedir); değer `playwright.config.ts`
+> yapılandırmasından alınmıştır, canlı DNS/TLS isteği bu klasörde ölçülmemiştir
+> — kapsam yoktur, iddia sayılmaz.

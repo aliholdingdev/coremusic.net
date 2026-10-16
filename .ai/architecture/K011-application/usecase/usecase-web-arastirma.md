@@ -292,7 +292,7 @@ Bu repo'da `Psr\Clock` kullanımı bu görev kapsamında aranmadı —
 | Konu | Dosya |
 |---|---|
 | Ölçüm + gate | usecase-dogrulama.md |
-| Kapsam + katalog | usecase-kapsam.md |
+| Kapsam + katalog | index.md (eski usecase-kapsam.md — spec §7 gereği 2026-10-16 kaldırıldı) |
 | Kod örnekleri | usecase-ornekler.md |
 | Bileşen envanteri | usecase-bilesenler.md |
 | Orijinal scope slotu | usecase-usecase-katmani.md (korunur) |
@@ -329,50 +329,50 @@ Bu repo'da `Psr\Clock` kullanımı bu görev kapsamında aranmadı —
 
 ---
 
-## �J � PSR-17 DETAY NOTLARI (Geni�letme)
+## §J — PSR-17 DETAY NOTLARI (Genişletme)
 
-### J.1 � Factory desenin avantajlar� (kaynak prensibi)
+### J.1 — Factory desenin avantajları (kaynak prensibi)
 
-| Avantaj | A��klama | UseCase etkisi |
+| Avantaj | Açıklama | UseCase etkisi |
 |---|---|---|
 | Test edilebilirlik | Fake factory ile unit test | UseCase test'i factory gerektirmez |
-| Soyutlama | Uygulama mesaj �retimini bilmez | Clean Architecture uyumu |
-| De�i�tirilebilirlik | nyholm � guzzle/psr7 ge�i�i | Ba��ml�l�k enjeksiyonu |
-| Immutable �retim | Factory stateless | Thread/test g�venli�i |
+| Soyutlama | Uygulama mesaj üretimini bilmez | Clean Architecture uyumu |
+| Değiştirilebilirlik | nyholm — guzzle/psr7 geçişi | Bağımlılık enjeksiyonu |
+| Immutable üretim | Factory stateless | Thread/test güvenliği |
 
-### J.2 � Bu repo'da factory'nin OLMADI�I yerler
+### J.2 — Bu repo'da factory'nin OLMADIĞI yerler
 
-| Yer | Beklenen | Ger�ek |
+| Yer | Beklenen | Gerçek |
 |---|---|---|
-| AuthPostHandler d�n��� | `$factory->createResponse()` | ?? do�rulanmad� (bootstrap belirsiz) |
-| bin/api-key-create.php | CLI � factory yok | ? beklenen |
-| Test dosyalar� | Fake factory veya real factory | ?? VERIFICATION REQUIRED |
+| AuthPostHandler dönüşü | `$factory->createResponse()` | ⚠️ doğrulanmadı (bootstrap belirsiz) |
+| bin/api-key-create.php | CLI — factory yok | ? beklenen |
+| Test dosyaları | Fake factory veya real factory | ⚠️ VERIFICATION REQUIRED |
 
-### J.3 � Handler imzas�n�n PSR-17 ile ili�kisi (Derinlemesine)
+### J.3 — Handler imzasının PSR-17 ile ilişkisi (Derinlemesine)
 
 ```
-Dosya: auth.coremusic.net/include/Handler/AuthPostHandler.php � Sat�r: 38-57
+Dosya: auth.coremusic.net/include/Handler/AuthPostHandler.php · Satır: 38-57
 ```
 
-Handler imzas� `ServerRequestInterface � ResponseInterface`. Bu imza
-**PSR-7**'dir, PSR-17 de�il. PSR-17 burada yaln�zca **nesne �retim** sorumlulu�unu
-ta��r:
+Handler imzası `ServerRequestInterface — ResponseInterface`. Bu imza
+**PSR-7**'dir, PSR-17 değil. PSR-17 burada yalnızca **nesne üretim** sorumluluğunu
+taşır:
 
-| Katman | Sorumluluk | Aray�z |
+| Katman | Sorumluluk | Arayüz |
 |---|---|---|
-| Bootstrap | ServerRequest �RET | PSR-17 ServerRequestFactoryInterface |
-| Handler | ServerRequest T�KET | PSR-7 ServerRequestInterface |
-| Bootstrap | Response �RET (status + body) | PSR-17 ResponseFactoryInterface |
-| Handler | Response D�ND�R | PSR-7 ResponseInterface |
+| Bootstrap | ServerRequest ÜRET | PSR-17 ServerRequestFactoryInterface |
+| Handler | ServerRequest TÜKET | PSR-7 ServerRequestInterface |
+| Bootstrap | Response ÜRET (status + body) | PSR-17 ResponseFactoryInterface |
+| Handler | Response DÖNDÜR | PSR-7 ResponseInterface |
 
-**Kritik soru (E3):** Bu repoda `ServerRequest` nesnesi nerede �retiliyor?
-- Cevap bulunana kadar: ?? VERIFICATION REQUIRED.
+**Kritik soru (E3):** Bu repoda `ServerRequest` nesnesi nerede üretiliyor?
+- Cevap bulunana kadar: ⚠️ VERIFICATION REQUIRED.
 
-### J.4 � PSR-17 + PSR-7 birlikte kullan�m deseni (PLANNED)
+### J.4 — PSR-17 + PSR-7 birlikte kullanım deseni (PLANNED)
 
 ```php
-// PLANNED � repo'da b�yle bir kod YOK.
-// �ng�r�len bootstrap deseni (nyholm/psr7 kullanarak):
+// PLANNED — repo'da böyle bir kod YOK.
+// öngörülen bootstrap deseni (nyholm/psr7 kullanarak):
 
 use Nyholm\Psr7\Factory\Psr17Factory;
 
@@ -386,121 +386,141 @@ $response = $psr17->createResponse(200)
     ->withBody($psr17->createStream(json_encode($dto->toArray())));
 ```
 
-**Not:** `Psr17Factory` nyholm/psr7'nin tek-s�n�f factory'sidir � hem PSR-7
-hem PSR-17 implementasyonunu sa�lar. ?? VERIFICATION REQUIRED: bu s�n�f�n
-bu repoda kullan�l�p kullan�lmad��� grep edilmedi (`Psr17Factory` aramas�).
+**Not:** `Psr17Factory` nyholm/psr7'nin tek-sınıf factory'sidir — hem PSR-7
+hem PSR-17 implementasyonunu sağlar. ⚠️ VERIFICATION REQUIRED: bu sınıfın
+bu repoda kullanılıp kullanılmadığı grep edilmedi (`Psr17Factory` araması).
 
 ---
 
-## �K � PSR-11 DETAY NOTLARI (Geni�letme)
+## §K — PSR-11 DETAY NOTLARI (Genişletme)
 
-### K.1 � get() ve has() kullan�m desenleri
+### K.1 — get() ve has() kullanım desenleri
 
 | Desen | Kod | Repo durumu |
 |---|---|---|
-| G�venli ��z�mleme | `if ($c->has($id)) { $c->get($id); }` | ?? grep edilmedi |
-| Do�rudan ��z�mleme | `$c->get($id)` (exception f�rlatabilir) | ?? grep edilmedi |
-| Test'te sahte | `class FakeContainer implements ContainerInterface` | ?? VERIFICATION REQUIRED |
+| Güvenli çözümleme | `if ($c->has($id)) { $c->get($id); }` | ⚠️ grep edilmedi |
+| Doğrudan çözümleme | `$c->get($id)` (exception fırlatabilir) | ⚠️ grep edilmedi |
+| Test'te sahte | `class FakeContainer implements ContainerInterface` | ⚠️ VERIFICATION REQUIRED |
 
-### K.2 � php-di'nin PSR-11 uyumu (paket bilgisi)
+### K.2 — php-di'nin PSR-11 uyumu (paket bilgisi)
 
-| php-di s�n�f� | PSR-11 implementasyonu |
+| php-di sınıfı | PSR-11 implementasyonu |
 |---|---|
 | `DI\Container` | `implements Psr\Container\ContainerInterface` |
 | `DI\ContainerException` | `implements Psr\Container\ContainerExceptionInterface` |
 | `DI\NotFoundException` | `implements Psr\Container\NotFoundExceptionInterface` |
 
-**Kaynak notu:** php-di dok�mantasyonundan genel bilgi � bu repo'daki php-di
-s�r�m�n�n hangi PSR-11 s�r�m�ne uydu�u ?? VERIFICATION REQUIRED
-(composer.lock okunmad�).
+**Kaynak notu:** php-di dokümantasyonundan genel bilgi — bu repo'daki php-di
+sürümünün hangi PSR-11 sürümüne uyduğu ⚠️ VERIFICATION REQUIRED
+(composer.lock okunmadı).
 
-### K.3 � AuthContainer analizi
+### K.3 — AuthContainer analizi
 
 ```
 Dosya: auth.coremusic.net/include/Container/AuthContainer.php
 ```
 
-| Bilgi | De�er | Do�rulama |
+| Bilgi | Değer | Doğrulama |
 |---|---|---|
-| Builder kullan�m� | `DI\ContainerBuilder` | ? grep |
-| Container compile | ?? do�rulanmad� | AuthContainer.php okuma gerekli |
-| Singleton kay�tlar | ?? do�rulanmad� | AuthContainer.php okuma gerekli |
-| PSR-11 tip hint | ?? do�rulanmad� | grep `Psr\\Container` |
+| Builder kullanımı | `DI\ContainerBuilder` | ? grep |
+| Container compile | ⚠️ doğrulanmadı | AuthContainer.php okuma gerekli |
+| Singleton kayıtlar | ⚠️ doğrulanmadı | AuthContainer.php okuma gerekli |
+| PSR-11 tip hint | ⚠️ doğrulanmadı | grep `Psr\\Container` |
 
-?? VERIFICATION REQUIRED: AuthContainer.php dosyas� bu g�rev kapsam�nda TAM
-okunmad� � yaln�z `DI\ContainerBuilder` varl��� grep ile do�ruland�.
+⚠️ VERIFICATION REQUIRED: AuthContainer.php dosyası bu görev kapsamında TAM
+okunmadı — yalnız `DI\ContainerBuilder` varlığı grep ile doğrulandı.
 
-### K.4 � Container ya�am d�ng�s� (PLANNED not)
+### K.4 — Container yaşam döngüsü (PLANNED not)
 
-| Ya�am d�ng�s� | Anlam� | UseCase etkisi |
+| Yaşam döngüsü | Anlamı | UseCase etkisi |
 |---|---|---|
-| Singleton | Tek instance | UseCase stateless olmal� |
+| Singleton | Tek instance | UseCase stateless olmalı |
 | Transient | Her get() yeni instance | UseCase state tutabilir |
-| Scoped | Request'e ba�l� | HTTP scope e�le�mesi |
+| Scoped | Request'e bağlı | HTTP scope eşleşmesi |
 
-?? VERIFICATION REQUIRED: Bu repoda container ya�am d�ng�s� ayar� do�rulanmad�.
+⚠️ VERIFICATION REQUIRED: Bu repoda container yaşam döngüsü ayarı doğrulanmadı.
 
 ---
 
-## �L � COMPOSITION ROOT ANAL�Z�
+## §L — COMPOSITION ROOT ANALİZİ
 
-### L.1 � Mevcut durum
+### L.1 — Mevcut durum
 
 | Katman | Dosya | Durum |
 |---|---|---|
-| HTTP bootstrap | ?? public/index.php (okunmad�) | Belirsiz |
+| HTTP bootstrap | ⚠️ public/index.php (okunmadı) | Belirsiz |
 | Auth bootstrap | AuthContainer.php | ? php-di |
-| CLI bootstrap | bin/api-key-create.php (135-147 transaction) | K�smi |
+| CLI bootstrap | bin/api-key-create.php (135-147 transaction) | Kısmi |
 
-### L.2 � UseCase eklenince composition root ihtiyac�
+### L.2 — UseCase eklenince composition root ihtiyacı
 
 ```
-[Genel Bootstrap � PLANNED]
+[Genel Bootstrap — PLANNED]
     $container = (php-di ContainerBuilder)->build()
     $loginUseCase = $container->get(LoginUseCase::class)
     $authController = $container->get(AuthController::class)
-        � (AuthController'a UseCase enjekte edilir)
+        — (AuthController'a UseCase enjekte edilir)
 ```
 
-**Kritik bo�luk:** Bu repoda tek container AuthContainer (auth domain'e �zel).
-Genel (app-wide) composition root yok � UseCase eklenirse gerekir.
+**Kritik boşluk:** Bu repoda tek container AuthContainer (auth domain'e özel).
+Genel (app-wide) composition root yok — UseCase eklenirse gerekir.
 
 ---
 
-## �M � PSR-14 EVENT (K�sa Not � �li�kili)
+## §M — PSR-14 EVENT (Kısa Not — İlişkili)
 
-| Bilgi | De�er | Kaynak |
+| Bilgi | Değer | Kaynak |
 |---|---|---|
-| Aray�z | `EventDispatcherInterface` | shared/src/Events/EventDispatcher.php |
-| PSR | PSR-14 | php-fig.org/psr/psr-14 (KAPSAM DI�I � havuzda yok) |
+| Arayüz | `EventDispatcherInterface` | shared/src/Events/EventDispatcher.php |
+| PSR | PSR-14 | php-fig.org/psr/psr-14 (KAPSAM DIŞI — havuzda yok) |
 | Durum | ? implements | grep |
 
-**Not:** PSR-14 bu dosyan�n URL havuzunda DE��L (havuz: PSR-17 + PSR-11).
-Yaln�z repo durumu kaydedildi; PSR-14 dok�man� kullan�lmad�.
+**Not:** PSR-14 bu dosyanın URL havuzunda DEĞİL (havuz: PSR-17 + PSR-11).
+Yalnız repo durumu kaydedildi; PSR-14 dokümanı kullanılmadı.
 
 ---
 
-## �N � KARAR KAPILARI �ZET� (orkestrat�re)
+## §N — KARAR KAPILARI ÖZETİ (orkestratöre)
 
-| # | Karar | Se�enekler | �ncelik |
+| # | Karar | Seçenekler | Öncelik |
 |---|---|---|---|
 | D1 | PSR-17 factory ekle (bootstrap) | Ekle / Ekleme | P1 |
-| D2 | nyholm/psr7 sakla/kald�r | Sakla / Kald�r (ADR) | P1 |
-| D3 | PSR-11 tip hint | Ge� / php-di API'de kal | P2 |
-| D4 | Genel composition root | Olu�tur / AuthContainer yeterli | P1 |
-| D5 | UseCase katman� | Ekle / Handler=UseCase adland�rma | **P0** |
+| D2 | nyholm/psr7 sakla/kaldır | Sakla / Kaldır (ADR) | P1 |
+| D3 | PSR-11 tip hint | Geç / php-di API'de kal | P2 |
+| D4 | Genel composition root | Oluştur / AuthContainer yeterli | P1 |
+| D5 | UseCase katmanı | Ekle / Handler=UseCase adlandırma | **P0** |
 
 ---
 
-## �O � SON KONTROL L�STES�
+## §O — SON KONTROL LİSTESİ
 
 | Kontrol | Durum |
 |---|---|
-| Havuz d��� URL | 0 |
-| Dosya�Sat�r kan�t� | �C matrisi |
-| VERIFICATION REQUIRED i�aretli iddialar | �E (7 madde) + �F.4 + �J.3 + �K.3 + �L.1 |
-| PLANNED i�aretli | �J.4, �L.2 |
-| Kapsam d��� not (i�aretli) | �M (PSR-14) |
+| Havuz dışı URL | 0 |
+| Dosya·Satır kanıtı | §C matrisi |
+| VERIFICATION REQUIRED işaretli iddialar | §E (7 madde) + §F.4 + §J.3 + §K.3 + §L.1 |
+| PLANNED işaretli | §J.4, §L.2 |
+| Kapsam dışı not (işaretli) | §M (PSR-14) |
+
+### §O.1 — Havuz kesişim notu (2026-10-16)
+
+> **Spec §9 usecase havuzu (4):** `php-fig.org psr-17` ·
+> `php.net language.generators.overview.php` · `php.net language.oop5.cloning.php` ·
+> `php.net functions.anonymous.php`.
+>
+> **Bu dosyanın havuzu (2):** PSR-17 (§A) · PSR-11 (§B) — §M'de belirtildiği
+> gibi kesişim yalnız **PSR-17 (1/4)**. `generators.overview` · `oop5.cloning` ·
+> `functions.anonymous` kullanılmadı; PSR-11 ise spec havuzu dışındadır
+> (dosyanın dahili havuzu: "PSR-17 + PSR-11", §M/§O).
+>
+> **Sapma:** Dosya spec havuzunun 4'ünden yalnız1'ini (PSR-17) kullandı;
+> kalan 3 atlanmış, PSR-11 fazladan alınmış — yani **havuzun tamamı spec'le
+> örtüşmüyor**, bu not kanıttır.
+>
+> ⚠️ **VERIFICATION REQUIRED (2026-10-16):** spec §9 usecase havuzunun 3/4'ü bu
+> dosyada curl-verify edilmedi. Kesişim kanıtı closeout'ta spec havuzu için
+> ayrıca üretilecek (HTTP 200 + envanter kesişimi 0). Dosyanın kendi 0 HIT
+> (envanter kesişimi) durumu bu nottan etkilenmez.
 
 ---
 

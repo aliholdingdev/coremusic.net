@@ -3,29 +3,9 @@ node_id: K000-isletim-sistemi/isletim-sistemi-turu/index
 node_type: subdomain
 status: draft
 parent_id: K000-isletim-sistemi
-children:
-  - index.md
-  - isletim-sistemi-turu-kapsam.md
-  - isletim-sistemi-turu-dogrulama.md
-  - isletim-sistemi-turu-ornekler.md
-  - isletim-sistemi-turu-kod-seti.md
-  - android
-  - ios
-  - linux
-  - macos
-  - reactos
-  - tizen
-  - webos
-  - windows
-depends_on:
-  - isletim-sistemi-cross
-  - isletim-sistemi-runtime
-evidence:
-  - "https://developer.android.com/"
-  - "https://www.tron.org/rtos/rtos01/"
-  - "https://docs.kernel.org/"
-  - "https://pubs.opengroup.org/onlinepubs/9799919799/"
-  - "os-master.md §3 satır 57, 59-61"
+children: [index.md, isletim-sistemi-turu-kapsam.md, isletim-sistemi-turu-dogrulama.md, isletim-sistemi-turu-ornekler.md, isletim-sistemi-turu-kod-seti.md, android, ios, linux, macos, reactos, tizen, webos, windows]
+depends_on: [isletim-sistemi-cross, isletim-sistemi-runtime]
+evidence: ["https://developer.android.com/", "https://www.tron.org/rtos/rtos01/", "https://docs.kernel.org/", "https://pubs.opengroup.org/onlinepubs/9799919799/", "os-master.md §3 satır 57, 59-61"]
 validation: "web: developer.android.com, tron.org/rtos/rtos01, docs.kernel.org, POSIX.1-2024 yanıt kodları 2026-10-12 (HTTP 200). osek-vdx.org/mirror/os221.pdf → 403 (erişim engeli, bkz. os-dogrulama ölü-URL tablosu). disk: os-master.md §3 satırları okundu; alt dizinler windows/linux/macos (disk enumerasyonu). 2026-10-14: kök'e isletim-sistemi-turu-kod-seti.md (760 satır) + 8 platforma <os>-kod-seti.md eklendi (toplam +3.695 satır) → yeniden sayım 74 dosya / 34.846 satır (ReadAllLines; boş satırları dahil — Measure-Object -Line boş satır attığı için eski 938/28.639 iddiaları düzeltildi)."
 open_questions:
   - "Q5: turu ↔ K002-altyapi boşluğu — tür seçimi ile altyapı katmanı arasındaki kopukluk v2'de yazılmamış. [⚠️ VERIFICATION REQUIRED]"
@@ -99,5 +79,3 @@ Q5 tür↔altyapı boşluğu · T-U1 cross sınırı · T-U2 şema seçimi · T-
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
-
-**Authority:** Bayram Ali / Vault Steward Â· **Mode:** Red Team Â· Human Mode Â· Truth Mode

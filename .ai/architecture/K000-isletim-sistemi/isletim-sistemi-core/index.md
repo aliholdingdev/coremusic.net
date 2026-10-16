@@ -9,9 +9,7 @@ children:
   - K000-isletim-sistemi/isletim-sistemi-core/dosya-sistemi-kavramlari
   - K000-isletim-sistemi/isletim-sistemi-core/izin-ve-guvenlik-kavramlari
 depends_on: []
-evidence:
-  - https://www.man7.org/linux/man-pages/
-  - https://www.man7.org/linux/man-pages/man3/strerror.3.html
+evidence: ["https://www.man7.org/linux/man-pages/", "https://www.man7.org/linux/man-pages/man3/strerror.3.html"]
 validation: "2026-10-13 · 4 resmi URL HTTP 200 · 4 alt-dal disk kanıtlı AÇILDI (kök 4 md + 16 yeni md) · §GRUPLAR 4 satır Kademe-3 · children 4 tam yol | 2026-10-14 · isletim-sistemi-core-kod-seti.md yazıldı (994 satır · 23 kod bloğu · 29 resmi URL HTTP 200 · spot-check: orkestratör)"
 open_questions:
   - "core ↔ kernel ayrım tanımı yok → ⚠️ VERIFICATION REQUIRED (Q2 / Q-C1)"

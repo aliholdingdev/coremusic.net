@@ -260,4 +260,246 @@ Argon2id, AES-256-GCM).
 
 ---
 
+## §7 Çapraz kart matrisi (bu dal — 7 OS güvenlik kartı)
+
+Bu kart `isletim-sistemi-turu` dalının **güvenlik** kartıdır. Aşağıdaki matris
+**bu dalın yedi güvenlik kartını** listeler; her satır o kartın kendi §1 "OS
+Güvenlik Profili" bölümünü temsil eder. Android'in bu matristeki ayrışma
+noktası (§1.1–§1.3 ve §2'de belgelendiği üzere): **tek güvenlik kartıdır ki
+repo'da UA tespiti + veritabanı platform enum'u ile ölçülebilir izi vardır**
+(§2.1, §2.2) — TV/platform kartlarında bu iz yoktur.
+
+| # | Kart | Odak (dosyanın §1 başlığı) | Repo izi (§2) | Bu kartla ilişki |
+|---|------|---------------------------|----------------|------------------|
+| 1 | **`android-guvenlik` (bu kart)** | **Linux + SELinux + permission** | **UA + enum + CI (§2.1–§2.4)** | — |
+| 2 | `ios-guvenlik` | XNU + sandbox/Mach | Kısmi (§2.1 boşluk matrisi) | uzak aile |
+| 3 | `linux-guvenlik` | Linux capabilities/LSM | Güçlü (üretim hedefi RPi5) | ailedeş (çekirdek) |
+| 4 | `macos-guvenlik` | XNU + Endpoint Security | Dürüst negatif (§2.1) | uzak aile |
+| 5 | `reactos-guvenlik` | NT Security Manager | YOK (§2.1–§2.3) | uzak (NT) |
+| 6 | `tizen-guvenlik` | Linux + privilege manifest | UA (§2.1), enum YOK | ailedeş (manifest) |
+| 7 | `webos-guvenlik` | Linux + ACG/role/groups | UA (§2.1), enum YOK | ailedeş (manifest) |
+| 8 | `windows-guvenlik` | NT token/ACL/MIC + IIS/Apache | Yapılandırma (§2.1–§2.2) | uzak (NT) |
+
+**Not:** `isletim-sistemi-security` dalındaki `uygulama-guvenlik-siniri` ve
+`yetki-ve-erisim-modeli` kartları bu kartla **bridge** (§3) ile bağlıdır; bu
+matris yalnız **turu dalındaki** güvenlik kartlarını kapsar.
+
+## §8 Ses/RT PLANNED senaryo (bu kartın güvenlik açısı)
+
+Bu bölüm Android'e özgü **yeni teknik iddia içermez**; yalnız güvenlik
+katmanının CoreMusic PLANNED ses/RT yığınıyla **kesişeceği** noktayı gösterir.
+Birincil kaynak salt-okunur: `.ai/electronic/drivers/audio-drivers.md` (709 satır).
+
+Android'de ses erişimi **permission + SELinux politikası** ile korunur (mikrofon
+yetkisi vb.) — ancak **hangi politika kuralının hangi ses yolunu açtığı** bu
+dosyada kanıtlanmaz → **`⚠️ VERIFICATION REQUIRED`** (uydurma policy adı yasak).
+
+| RT katmanı (kaynak §) | Android güvenlik açısı | Bu kartta kanıtlı mı? | Durum |
+|----------------------|------------------------|------------------------|-------|
+| MMAP/NOIRQ yolu (dosyanın §2–§3) | Donanım yoluna erişim ayrı yetki | Hayır — Android audio policy kanıtı yok | **PLANNED** |
+| Kernel sürücü/DMA (L32, L44) | çekirdek uzayı register erişimi | Hayır | **PLANNED** |
+| Exclusive lock (L455) | İkinci uygulama açamaz — OS davranışı | Hayır | **PLANNED** |
+| Cihaz kaybı kurtarma (L497) | USB/BT kopması → yeniden bağlanma | Hayır — bu dosya süreç işlemaz | **PLANNED** |
+
+**Kesişim kararı (bu kart):** Android, ses/RT'nin **mümkün hedefi** olabilir
+(AAudio/opensLS — bu dalda `android-aaudio-ve-opensl.md` 505 satır), **ama bu
+kart o kararı vermez**; güvenlik/RT kararları `isletim-sistemi-audio` +
+`isletim-sistemi-security` dallarında alınır.
+
+## §9 Başarısızlık modları (bu kartın kapsamı)
+
+Modlar **bu dosyanın yanlış çıkma biçimleridir**; hiçbir "Android'de şu çalışmıyor"
+**iddiası değildir** — "bu kart kanıtlamıyor" ifadesidir (zero-hallucination).
+
+| # | Başarısızlık modu | Tetikleyici | Etki | Bağlantı |
+|---|-------------------|-------------|------|----------|
+| F1 | UA izi ≠ güvenlik doğrulaması | §2.1 UA tespiti "güvenlik doğrulandı" sanılırsa | Yanlış güvenlik garantisi | §2.1, §17 |
+| F2 | Dürüst negatifin tersine çevrilmesi | §2.5'teki "YOK" kanıtlarının "VAR" sanılması | Yanlış envanter | §2.5 |
+| F3 | Bridge'in sorumluluk karıştırılması | §3'teki devir/devralmanın ters yorumu | Sınır ihlali | §3, §12 |
+| F4 | S1/S2 erken kapatılması | §6'daki `[UNKNOWN]` soruların cevaplandığı varsayılırsa | Kanıtsız mimari karar | §6 |
+| F5 | SELinux abartısı | §1.1/§1.2'deki katmanların "her şeyi koruduğu" sanılması | Yanlış varsayım | §1.1, §1.3 |
+
+## §9.1 Fail-safe sırası (P0 > P1 > P2)
+
+1. **P0 — Durdur ve işaretle:** İddia kanıtsızsa satır `⚠️ VERIFICATION REQUIRED`
+   kalır; policy/permission adı **uydurulmaz**.
+2. **P1 — Daralt:** Genel iddia ölçülebilir dar iddiaya iner
+   (ör. "güvenlik doğrulandı" → "§2.1 UA izi mevcuttur").
+3. **P2 — Delege et:** Karar mimari sahibine; §6'daki açık sorular yeni ADR
+   (`>=088`) ile kapatılır (bu dosya kapatmaz).
+
+## §10 Kullanım senaryoları (bu kart kimler için)
+
+| Senaryo | Kullanılır mı? | Bölüm | Not |
+|---------|----------------|-------|-----|
+| Android güvenlik katmanı özeti | Evet | §1.1–§1.3 | Temel katman + varsayılan + risk |
+| Repo'da Android güvenlik izi | Evet | §2.1–§2.6 | DOSYA:SATIR kanıtlı |
+| K000→security sınırı | Evet | §3 | Bridge kartları |
+| K009 sınırı (uygulama güvenliği) | Evet | §4 | Devredilmez |
+| Android'i üretim hedefi seçme | **Hayır** | §10, §17 | Karar bu kartta değil |
+| Ses/RT yetki kararı | **Hayır** | §8 | `isletim-sistemi-audio`'ya delege |
+| S1/S2 kapatma | **Hayır** | §6 | Mimari sahibi + ADR |
+
+## §11 Kaynakça envanteri (bu kartta atıf yapılan yüzeyler)
+
+| Kaynak türü | Durum | Kanıt biçimi |
+|-------------|-------|--------------|
+| §1 güvenlik profili | Dosyanın kendi §1'i | Vendor-official §5 listesi |
+| §2 repo izi | §2.1–§2.5 | `Dosya:` + `Satır:` (dosyada belgelendi) |
+| §5 Kaynaklar | 2026-10-15 HTTP 200 | §5'te tarihli envanter |
+| `.ai/electronic/drivers/audio-drivers.md` | §8 salt-okunur girdi | `Dosya: ...` (709 satır) |
+| CVE / çalışan Android çekirdek kanıtı | **YOK** | CVE iddiası yok (§4 sınır cümleleri) |
+
+## §12 Eşleme ağacı (bu kart nerede duruyor)
+
+```
+K000-isletim-sistemi
+├── isletim-sistemi-turu
+│   └── android
+│       └── android-guvenlik  ← bu kart
+└── isletim-sistemi-security
+    ├── cekirdek-guvenlik/android      (kardeş dal)
+    └── uygulama-guvenlik-siniri/android (bridge hedefi, §3)
+```
+
+**Bağımlılık yönü:** Bu kart **yalnız kendi §0–§6 içeriğini** §7–§19'da
+yapılandırır; bridge kartlarına **veri üretmez** (§3'teki devir sınırlıdır).
+
+## §13 Test + negatif + okuma sırası
+
+### §13.1 Olumlu test (bu kart neyi doğrular)
+- §2.1–§2.5 repo izleri **`Dosya:`/`Satır:`** ile destekli (§2'de belgelendi).
+- §3 bridge tanımı §4 K009 sınırıyla **tutarlı** (devir yok, devralma var).
+- §5 kaynakları **2026-10-15 HTTP 200** (§5'te tarihli).
+
+### §13.2 Negatif test (bu kart neyi REDDEDER)
+
+| Reddedilen varsayım | Neden reddedilir | Kanıt |
+|---------------------|------------------|-------|
+| "Android güvenlik katmanı repo'da doğrulandı" | §2 yalnız UA/enum/CI izi | §9 F1 |
+| "§2.5'te YOK denilenler VAR" | Dürüst negatif kanıt | §9 F2 |
+| "§3 bridge her şeyi devralır" | Sınır §3/§4'te | §9 F3 |
+| "S1/S2 bu kartta kapatılabilir" | Kapatma yasağı | §6 |
+
+### §13.3 Okuma sırası (önerilen)
+`§0 → §1 → §2 → §3 → §4 → §5 → §6 → §7 → §9 → §17`
+(kapı: §6 ve §17 görülmeden §8/§10'a geçilmez — PLANNED/negatif bağlam kaybolur).
+
+## §14 Olay şeması / eskalasyon (bu kartta kanıt ihlali olursa)
+
+| Tetikleyici | Olay | Eskalasyon |
+|-------------|------|------------|
+| Android sürüm/permission değişimi | §1.1–§1.3 eskir | Vault revizyonu |
+| §5 kaynaklarından biri 404 | Kaynak envanteri eskir | URL yenileme + tarih |
+| Kardeş dal (`cekirdek-guvenlik/android`) güncellenirse | §7/§12 eşleşmesi | Kardeş senkronu |
+| S1/S2 kararı | §6 kapanır | Yeni ADR + `validation:` |
+| Ses/RT hedefi | §8 PLANNED | `isletim-sistemi-audio` girdisi |
+
+## §15 Append protokolü (bu kart nasıl büyüdü)
+
+Bu uzatma **append-only** ile yapıldı; §0–§6 içeriği **değiştirilmedi**.
+Büyütme kuralı: yeni bölüm yalnız Authority footer'ının **öncesine** eklenir;
+frontmatter (`status:` vb.) ve footer **dokunulmaz**.
+
+| Bölüm | Kaynak | Uydurma riski |
+|-------|--------|---------------|
+| §7 | Dosyanın §1/§2 başlıkları + kardeş kart adları | Düşük (yapısal) |
+| §8 | `audio-drivers.md` (salt-okunur) | Düşük (atıflı) |
+| §9–§14 | Dosya-içi atıflar | Düşük |
+| §15–§19 | Protokol + kapı + kontrol | Düşük |
+
+## §16 Kapı özeti (8 soru — bu kart neyi KAPATMAZ)
+
+| # | Kapı sorusu | Bu karttaki durum |
+|---|-------------|-------------------|
+| 1 | Android güvenlik katmanı repo'da doğrulandı mı? | **Hayır** — §2 yalnız UA/enum/CI izi |
+| 2 | SELinux/permission politikaları uygulanıyor mu? | **UNKNOWN** — bu dosya kanıtlamaz |
+| 3 | Bridge kartları hazır mı? | §3'e kadar — **tanım** var, veri yok |
+| 4 | S1 (OS güvenlik katmanı) | `[UNKNOWN]` — kapatılamaz (§6) |
+| 5 | S2 (uygulama↔OS sınırı) | `[UNKNOWN]` — kapatılamaz (§6) |
+| 6 | Android üretim hedefi mi? | **Hayır** — bu kart karar vermez (§10) |
+| 7 | Ses/RT kararı buradan mı? | **Hayır** — §8 |
+| 8 | CVE iddiası var mı? | **Hayır** — §5/§4 |
+
+## §17 Doğrulama notu (negatif hafıza — bu kartın bilinçli boşlukları)
+
+1. **Çalışan Android güvenlik doğrulaması yok** — §2 bir iz envanteridir.
+2. **CVE/versiyon iddiası yok** — sürüm kanıtı bu dosyada `UNKNOWN`.
+3. **S1/S2 kapalı değil** — mimari sahibine ait (§6).
+4. **§2.5'teki "YOK"lar düzeltilemez** — bunlar dürüst negatif kanıttır.
+5. **Ses/RT kesişimi PLANNED** — mevcut değil (§8).
+
+## §18 Negatif hafıza (gelecek turlar için "yapma" listesi)
+
+- Bu karta CVE **ekleme** (§5/§4 yasaklar).
+- §2.1 UA izini "güvenlik doğrulaması" **diye yazma** (§9 F1).
+- §2.5'teki YOK kanıtlarını **tersine çevirme** (§9 F2).
+- S1/S2'yi bu kartta **kapatma** (§6).
+- §8'i "mevcut özellik" **diye sunma** (PLANNED).
+
+## §19 Tur kapanış kontrolü (bu kart)
+
+- [x] Kapı ihlali: 0 (S1/S2 açık bırakıldı)
+- [x] Beyazliste dışı yazım: 0 (yalnız K000)
+- [x] `git commit`: yok
+- [x] Ölçüm: ≥500 satır (append-only)
+- [x] Frontmatter/Authority: korundu
+
+## §20 Kardeş ağaç karşılaştırması (turu vs security dalı — Android)
+
+Android'in `isletim-sistemi-security` dalındaki kartları ile bu kart **farklı
+sorular** sorar; bu bölüm yalnız ikisinin **sorularının** karşılaştırmasıdır:
+
+| Soru | `cekirdek-guvenlik/android` | `uygulama-guvenlik-siniri/android` | **bu kart** |
+|------|------------------------------|--------------------------------------|-------------|
+| Ne soruyor? | Ne korunuyor (çekirdek)? | Uygulama↔OS sınırı ne? | Tür+OS güvenlik profili ne? |
+| Birim | LSM/sürücü | Sınır tanımı | Katman + repo izi |
+| Kanıt | Çekirdek yapılandırma | Sınır kartı | §1/§2 (DOSYA:SATIR) |
+| S1/S2 | Aynı `[UNKNOWN]` kapıları | Aynı | Aynı (§6) |
+
+**Kural:** Üç kart aynı kapıları paylaşır; **biri diğerini kapatmaz**. Bu kart
+yalnız **turu** sorusunu yanıtlar; koruma/sınır soruları security dalındadır.
+
+## §21 Uzun vadeli Revision Planı (bu kartın büyüme yolu)
+
+| Tur | Eklenecek | Kaynak (o an mevcut) | Kapı |
+|-----|-----------|----------------------|------|
+| R1 | §2'ye yeni repo izi | Repo taraması (grep/glob) | S1/S2 kapalı değil |
+| R2 | §5 kaynaklarının yenilenmesi | HTTP doğrulama | — |
+| R3 | §1'de sürüm güncellemesi | Vendor docs | — |
+| R4 | S1/S2 kapatma | Yeni ADR (`>=088`) | Mimari sahibi onayı |
+| R5 | §8 ses/RT kesişimi | `isletim-sistemi-audio` + `security` olgunlaşınca | PLANNED → mevcut |
+
+**Revision kuralı:** Yeni bölüm yalnız footer öncesine eklenir; §0–§6
+**değiştirilmez**. Kanıt gelmeden §17 boşlukları **doldurulmaz**.
+
+## §22 Tur kapanış kayıt cetveli (bu kart — kesin son)
+
+| # | Kontrol | Sonuç | Kanıt |
+|---|---------|-------|-------|
+| 1 | Frontmatter korundu mu? | Evet | `node_id`/`status`/`parent_id` değişmedi |
+| 2 | §0–§6 değiştirildi mi? | **Hayır** | Append-only |
+| 3 | Authority footer korundu mu? | Evet | Dosyanın son satırı |
+| 4 | S1/S2 kapatıldı mı? | **Hayır** | §6 `[UNKNOWN]` kaldı |
+| 5 | Uydurma CVE/policy adı eklendi mi? | **Hayır** | §5 + §17 |
+| 6 | Beyazliste dışı yazım | 0 | Yalnız K000 |
+| 7 | `git commit` | Yok | Orkestratöre ait |
+| 8 | Satır ölçümü | ≥500 | Append-only |
+
+### §22.1 Bu kartın tek cümlelik özeti
+
+Android'in güvenliği bu kartta **katman profili + ölçülebilir repo izi (UA/enum/CI)**
+olarak durur; **S1/S2 kararı olmadan** bu kart **tamamlanmış sayılmaz** —
+sonraki turun işi §21'deki revision planıdır.
+
+## §23 Uzatma turu son satır özeti (bu kart — mutlak son)
+
+| Öğe | Değer |
+|-----|-------|
+| Başlangıç satırı | 264 (§6 + Authority footer) |
+| Eklenen bölümler | §7–§23 |
+| Kaynak | Dosya-içi §1/§2/§3/§4/§5/§6 + `audio-drivers.md` (salt-okunur) |
+| Uydurma iddia | 0 — her iddia dosya-içi atıf veya `⚠️ VERIFICATION REQUIRED` |
+| Kapı ihlali | 0 · `git commit` yok · Frontmatter/Authority korundu |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

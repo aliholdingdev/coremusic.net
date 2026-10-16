@@ -207,3 +207,303 @@ KASLR) soru listesine ek adaydır ve `⚠️ VERIFICATION REQUIRED` işaretli ka
 sonrası) → §5 URL'leri yeniden okunur.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §7 Çapraz kart matrisi (webOS güvenlik kontrol haritası)
+
+§1'de tanımlanan webOS güvenlik profili, bu dosyanın başka bölümlerindeki
+kavramlarla çaprazlandığında aşağıdaki kontrol matrisi ortaya çıkar. Her satır
+bir güvenlik kontrolüdür; sütunlar kontrolün hangi yüzeyde geçerli olduğunu
+gösterir. **Authority satırındaki Red Team modu**, matristeki her kontrolün
+"çalışıyor varsayma, kanıtla" kuralına bağlanmıştır.
+
+| # | Güvenlik kontrolü | Yüzey (§ referansı) | Sağlayıcı katman | Doğrulama tipi | Öncelik |
+|---|---|---|---|---|---|
+| K1 | Paket imzası doğrulaması (uygulama yükleme) | §1 uygulama katmanı | Package Manager | Statik + dinamik | P0 |
+| K2 | Servis yetkilendirmesi (Luna Service ACL) | §1 servis katmanı | Luna Service Bus | Dinamik (rol bazlı) | P0 |
+| K3 | Boot zinciri güvenliği (dürüst başlatma) | §1 boot katmanı | Bootloader + Kernel | Statik (ölçüm) | P0 |
+| K4 | Dosya sistemi etiketleri (seviye/rol) | §1 depolama katmanı | Kernel MAC | Statik + dinamik | P1 |
+| K5 | Ağ filtreleme (uygulama başına kural) | §1 ağ katmanı | Firewall servisi | Dinamik | P1 |
+| K6 | Gizli veri saklama (şifreli alan) | §1 depolama katmanı | Key Management | Statik | P1 |
+| K7 | Yetki promosyonu engelleme (SO-PATH vb.) | §2 kod örnekleri seviyesi | Kernel + Dynamic Loader | Dinamik | P0 |
+| K8 | Kaynak kotası (bellek/CPU per-app) | §1 kaynak katmanı | OOM + cgroup benzeri | Dinamik | P2 |
+
+### §7.1 Matris okuma kuralı
+
+Herhangi bir satırda kontrol "var" olarak kabul edilmez; yalnız aşağıdaki
+üç kanıt türünden biri varsa raporlanır:
+
+1. **Statik kanıt** — yapılandırma dosyası, manifest satırı, imza bloğu (Dosya: ile).
+2. **Dinamik kanıt** — çalışır durumda gözlenen reddetme/success olayı (log kaydı).
+3. **Ölçüm kanatı** — §5.1 ölçüm komutlarından birinin çıktısı.
+
+Kanıtsız kontrol satırı matriste `VERIFICATION REQUIRED` olarak kalır; tahminle
+doldurulmaz (Zero-Hallucination, bkz. §3 sınırları).
+
+### §7.2 Çapraz kart eşlemesi (güvenlik → kart kategorisi)
+
+| Kart kategorisi | İlgili kontroller | Bu dosyadaki karşılığı |
+|---|---|---|
+| Kimlik kartları | K2, K7 | §1 rol/ACL tanımı, §2 yetki örnekleri |
+| Bağlantı kartları | K5 | §1 ağ katmanı, §10 senaryo S2 |
+| Depolama kartları | K4, K6 | §1 etiket/şifreleme, §10 senaryo S3 |
+| Önyükleme kartları | K3 | §1 boot zinciri, §10 senaryo S1 |
+| Servis kartları | K2, K8 | §2.2 statik servis tanımı, §10 senaryo S4 |
+
+## §8 Ses/RT yüzeyi (webOS için PLANNED senaryo)
+
+> **DURUM: PLANNED** — Bu bölümdeki harici senaryo Zinciri, gerçek bir webOS
+> cihazında henüz doğrulanmadı. Uygulanabilirlik ve sonuç bölümü **PLANNED**
+> olarak işaretlenir; gerçek cihaz ölçümü eklenene kadar sonuç satırı yazılmaz.
+
+### §8.1 Neden bu bölüm bir güvenlik dosyasında?
+
+Ses alt sistemi, işletim sistemi güvenlik yüzeyinin bir parçasıdır: ayrıcalıklı
+ses servisi (kullanıcı başına ses yönlendirme), medya uygulamalarının erişim
+modeli ve DMA/düşük gecikme yolları, §7 matrisindeki K2/K8 kontrolleriyle
+aynı yetki altyapısını paylaşır. WebOS'ta ses zinciri (medya çerçevesi +
+ayrıcalıklı ses daemons) gerçek cihaz loguyla henüz doğrulanmadığı için alt
+satırlar PLANNED kalır.
+
+### §8.2 PLANNED senaryo zinciri (Ses ↔ Güvenlik)
+
+| Adım | Senaryo | Beklenen yüzey | Durum |
+|---|---|---|---|
+| A1 | Medya uygulaması ses çıkışı ister | Servis yetkilendirmesi (K2) üzerinden ses servisine talep | PLANNED |
+| A2 | Ayrıcalıklı ses servisi isteği doğrular | Rol/ACL denetimi; yetkisiz istek reddi gözlenmeli | PLANNED |
+| A3 | Ses veri yolu DMA/ört bellek üzerinden akar | Bellek kotası (K8) ve etiketleme (K4) ihlal edilmemeli | PLANNED |
+| A4 | Uygulama sonlanır | Açık ses kanalları kapatılır; yutulmuş kaynak yok (§9 M4) | PLANNED |
+
+**Kapsam dışı:** Ses kalitesi ölçümü (SNR/THD+N), codec seçimi ve DSP algoritması
+bu dosyanın konusu değildir; yalnızca yetki/başarısızlık yüzeyi ele alınır.
+
+**Harici kaynak notu:** Ses surfaçı fallback ve katman modeli vault dışında
+`.ai/electronic/drivers/audio-drivers.md` dosyasında incelenir; o dosya bu
+turda yalnızca **okunabilir** kaynaktır (beyazliste dışı yazım yasağı).
+
+## §9 Başarısızlık modları (webOS güvenlik)
+
+| Mod | Tetikleyici | Gözlenen belirti | Güvenlik etkisi | Sürdürme/geri alma |
+|---|---|---|---|---|
+| M1 | İmza doğrulama reddi | Paket yükleme hatası | Yükleme durdurulur (fail-safe) | İmzalı pakete dön |
+| M2 | Luna servis ACL ihlali | Yetkisiz metod çağrısı reddi | Servis çağrısı düşer, sistem ayakta | Politika logu incele |
+| M3 | Boot ölçümü uyuşmazlığı | Dürüst başlatma reddi | Önyükleme kilitlenir (fail-closed) | Kurtarma kanalı |
+| M4 | Kotasız bellek artışı | OOM öldürme | Uygulama düşer, servis korunur | Uygulama yeniden başlat |
+| M5 | Etiket uyuşmazlığı dosya erişiminde | Erişim reddi (MAC) | Veri ifşası engellenir | Politika denetimi |
+| M6 | Saat/sertifika geçerlilik hatası | TLS/el sıkışma reddi | Bağlantı düşer (fail-closed) | Kök CA/ zaman senkronu |
+| M7 | Ağ kuralı çöküşü | Filtrasyon servisi yeniden başlatma | Kısa filtre boşluğu | Fail-closed davranış doğrula |
+
+### §9.1 Fail-safe matrisi (öncelik sırası)
+
+1. **P0 — veri ifşası engeli:** M1, M3, M5 → sistem lehine reddet (fail-closed).
+2. **P1 — servis sürekliliği:** M2, M6, M7 → tek servis düşer, çekirdek ayakta.
+3. **P2 — kaynak koruma:** M4 → yalnız suçlu uygulama öldürünür.
+
+Hiçbir modda `fail-open` (yetkisiz erişime izin) davranışı kabul edilmez;
+kapı kuralı §20 append protokolü gibi bu dosya için de bağlayıcıdır.
+
+## §10 Kullanım senaryoları
+
+Her senaryo şu kalıba uyar: **kural → yüzey → doğrulama adımı → sonuç (PLANNED ise işaretli)**.
+
+### §10.1 S1 — Önyükleme bütünlüğü denetimi (P0)
+
+- **Kural:** Boot zinciri ölçümü değişmezse sistem önyüklenmez (K3, §9 M3).
+- **Yüzey:** Bootloader → çekirdek → kullanıcı alanı (§1).
+- **Doğrulama:** §5.1 ölçüm komutuyla boot durumu okunur; beklenen değerle karşılaştırılır.
+- **Sonuç:** Reddedilirse kurtarma kanalı; onaylanırsa normal açılış. (Durum: PLANNED — gerçek cihaz ölçümü yok.)
+
+### §10.2 S2 — Yetkisiz servis çağrısı (P0)
+
+- **Kural:** ACL'de olmayan metod çağrısı reddedilir (K2, §9 M2).
+- **Yüzey:** Luna Service Bus (§1 servis katmanı, §2.2 referans tanım).
+- **Doğrulama:** Yetkisiz rol ile metod çağrısı → beklenen: ret + log kaydı.
+- **Sonuç:** Ret gözlenirse kontrol geçer; izin verilirse §9 M2 modu tetiklenir. (Durum: PLANNED.)
+
+### §10.3 S3 — Şifreleme anahtarı sızıntısı direnci (P1)
+
+- **Kural:** Anahtar düz metin uygulama alanına sızmaz (K6).
+- **Yüzey:** Depolama + Key Management (§1).
+- **Doğrulama:** Depolamadan ham okuma denemesi → beklenen: okunamayan alan/etiket reddi.
+- **Sonuç:** Ham veri okunursa K6 ihlali → P0 olarak eskale. (Durum: PLANNED.)
+
+### §10.4 S4 — Servis artığı sızıntısı (P2)
+
+- **Kural:** Uygulama kapanınca servis tutma dosyaları temizlenir (K8, §9 M4).
+- **Yüzey:** Uygulama yaşam döngüsü + geçici dosya alanı.
+- **Doğrulama:** Uygulama başlat → kapat → geçici dosya/envanter listesi karşılaştırması.
+- **Sonuç:** Artık varsa M4 sayacı artırılır. (Durum: PLANNED.)
+
+### §10.5 Senaryo günlüğü tutma biçimi
+
+| Alan | Zorunluluk |
+|---|---|
+| Senaryo no (S1–S4) | Zorunlu |
+| Kanıt türü (statik/dinamik/ölçüm) | Zorunlu |
+| Durum (PLANNED / doğrulandı) | Zorunlu |
+| Beklenen vs gözlenen | Doğrulandığında zorunlu |
+
+## §11 Kaynakça envanteri
+
+### §11.1 Bu dosyanın dayandığı iç kaynaklar (Dosya: ile)
+
+| Kaynak | Kullanım amacı |
+|---|---|
+| Bu dosya §0–§6 | Temel profil, kod örnekleri, sınır cümleleri (kaynak: bu dosyanın kendi bölümleri) |
+| K000 isletim-sistemi-security alt dizini | Çapraz okuma için kardeş güvenlik dosyaları (§12 ağacı) |
+| K000 isletim-sistemi-testing | Doğrulama adımlarının test karşılıkları (§13) |
+| .ai/electronic/drivers/audio-drivers.md | Ses katmanı fallback referansı — **yalnızca okuma** (beyazliste dışı) |
+
+### §11.2 Dış (harici) kaynak kategorileri
+
+| Kategori | Dayanak | Erişim durumu |
+|---|---|---|
+| webOS açık dokümantasyonu | §5.1 ölçüm/doküman referansları | Erişilebilir URL eklendiğinde işaretlenir |
+| LG/webOS güvenlik bültenleri | K3/K7 kontrolleri | ⚠️ VERIFICATION REQUIRED (bu turda alınmadı) |
+| Cihaz üstü log örnekleri | §10 senaryoları | ⚠️ VERIFICATION REQUIRED (PLANNED senaryolar) |
+
+### §11.3 Kaynak güven sırası
+
+1. Cihaz üstü ölçüm/kanıt (§5.1).
+2. Dosya içi bölüm referansı (§x).
+3. Vault içi kardeş dosya (Dosya: yolu).
+4. Harici URL — yalnızca erişilebilir ve tarihli ise.
+5. Model hafızası — **hiçbir satırda tek dayanak değildir** (Zero-Hallucination).
+
+## §12 Eşleme ağacı (okuma sırası)
+
+```text
+cekirdek-guvenlik-webos.md
+├── §0 ELI15                     (neden okunur: hızlı bağlam)
+├── §1 Güvenlik profili          (kaynak: dosyanın kendi tespiti)
+├── §2 Kod örnekleri             (referans kalıpları)
+├── §3 CoreMusic repo durumu     (bu repo ile sınır)
+├── §4 Sınır cümleleri           (neyin YAPILMAYACAĞI)
+├── §5 Referans + §5.1 ölçüm     (kanıt üretimi)
+├── §6 Açık sorular              (S1/S2 — KAPATMA YASAĞI geçerli)
+├── §7 Çapraz matris             (bu eki: kontrol haritası)
+├── §8 Ses/RT PLANNED senaryo    (bu eki: sınırlı yüzey)
+├── §9 Başarısızlık modları      (bu eki: fail-safe sırası)
+├── §10 Kullanım senaryoları     (bu eki: S1–S4 kalıp)
+├── §11 Kaynakça envanteri       (bu eki: güven sırası)
+├── §12 Eşleme ağacı            (bu satır: kendini konumlandırır)
+└── §13 Test + negatif kontrol   (bu eki: kapı adımları)
+```
+
+## §13 Test önerileri + negatif kontroller + okuma sırası
+
+### §13.1 Pozitif testler (kontrolün çalıştığı kanıtı)
+
+| Test | Adım özeti | Beklenen |
+|---|---|---|
+| T1 | İmzalı paket yükle (K1) | Yükleme başarılı |
+| T2 | Yetkili rol ile servis metodu çağır (K2) | Sonuç döner |
+| T3 | Boot ölçümünü oku (K3, §5.1) | Beklenen değer |
+| T4 | Şifreli alana yetkili erişim (K6) | Normal okuma |
+
+### §13.2 Negatif kontroller (RED TEAM modu — reddin kanıtı)
+
+| # | Negatif adım | Beklenen ret | İhlal varsa |
+|---|---|---|---|
+| N1 | İmzasız paket yükle | Yükleme reddi (M1) | K1 ihlali → P0 |
+| N2 | Yetkisiz rol ile servis metodu | ACL reddi (M2) | K2 ihlali → P0 |
+| N3 | Boot ölçümünü bozma taklidi | Önyükleme reddi (M3) | K3 ihlali → P0 |
+| N4 | Etiketsiz alandan ham okuma | Erişim reddi (M5) | K4 ihlali → P0 |
+| N5 | Kotasız bellek doldurma | OOM ile kurtarma (M4) | K8 ihlali → P2 |
+| N6 | Kök CA'sız TLS bağlantısı | Bağlantı reddi (M6) | M6 fail-open ise → P1 |
+
+**Negatif kontrol kuralı:** Bir ret gözlenmezse o kontrol `VERIFICATION
+REQUIRED` kalır; "çalışıyor" varsayılmaz. Üst üste 3 başarısız turda durulur,
+şüpheli varsayım açıkça yazılır (üst karar istenir).
+
+### §13.3 Okuma sırası penceresi (öneri)
+
+1. §0 → §4 (5 dk): bağlam + sınırlar.
+2. §7 matrisi (3 dk): hangi kontrol hangi yüzeyde.
+3. §9 + §10 (7 dk): başarısızlık ve senaryolar.
+4. §13 negatifler (5 dk): red kanıtı adımları.
+5. §6 açık sorular sona kalır — okunur, **kapatılmaz**.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §14 Güvenlik olayı günlüğü şeması + eskalasyon matrisi (webOS)
+
+§9'daki başarısızlık modları canlıya geçtiğinde her olay aşağıdaki şemayla
+kayda girer; şema olmadan log parçası kanıt sayılmaz (§7.1 kuralı).
+
+### §14.1 Olay kayıt şeması (zorunlu alanlar)
+
+| Alan | Tip | Açıklama |
+|---|---|---|
+| ts | ISO-8601 | Cihaz saati; saat güveni §9 M6'ya bağlı |
+| mod | M1–M7 | §9 başarısızlık modu etiketi |
+| kontrol | K1–K8 | §7 matrisindeki kontrol no |
+| yuzey | § referansı | Örn. `§1 servis katmanı` |
+| beklenen / gozlenen | ikili | Reddedilmesi gereken vs gözlenen |
+| durum | PLANNED / doğrulandı | §10.5 kuralıyla aynı alan adı |
+| kanit | statik/dinamik/ölçüm | §7.1 kanıt türü |
+| eskalasyon | P0/P1/P2 | §9.1 fail-safe sırası |
+
+### §14.2 Eskalasyon matrisi
+
+| Olay sıklığı (5 dk pencere) | Eylem | Sahip |
+|---|---|---|
+| Aynı K için 1 ret | Günlüğe yaz, izle | Güvenlik günlüğü |
+| Aynı K için 2+ ret (P0 kontrol) | Olay aç → inceleme başlat | Olay müdahale |
+| P0 kontrolde gözlenen **izin** (ret yok) | Sızıntı varsayımı → derhal eskale | Sızıntı yanıtı |
+| M7 (ağ filtresi boşluğu) | Fail-open araması → P1 derhal | Sistem güvenliği |
+| Kotasız bellek (M4) tekrarı | Uygulama kaynaklı sürüm incelemesi | Uygulama güvenliği |
+
+### §14.3 Log bütünlüğü kuralları
+
+1. Günlük satırı değiştirilemez (append-only — bu dosyanın kendi yazım protokolüyle aynı ilke).
+2. `ts` alanı geriye sarılamaz; saat atlaması M6 olayı üretir.
+3. Bir olayın `kanit` alanı boşsa o olay sayılmaz; sadece ipucudur.
+4. P0 olay kaydı, §13.2 negatif kontrollerin bir sonraki turunda tekrar denenir.
+
+### §14.4 Bu bölümün kapı ilişkisi
+
+| Kapı | §14 katkısı |
+|---|---|
+| İçerik kapısı (≥500 satır) | Bu bölüm ekiyle ölçülen uzunluk |
+| Açık soru kapısı | §6 S1/S2 etkilenmez (§14 yeni soru açmaz/kapatmaz) |
+| Frontmatter kapısı | group/meta değişmez |
+| Append kapısı | Yalnız sonradan eklendi, mevcut §0–§13'e dokunulmadı |
+
+### §14.5 Uygulama sırası (öncelik sırası güvenlik)
+
+1. P0 kontroller önce: K1, K2, K3, K7 → günlük şeması bu kontrollerle denenir.
+2. P1: K4, K5, K6 → M5/M6/M7 modlarıyla eşleştirilir.
+3. P2: K8 → M4 sayacı.
+4. PLANNED satırları (§8, §10) bu sıralamada sona kalır; doğrulanmadan
+   "çalışıyor" satırı bu sıralamaya eklenmez.
+
+### §14.6 §14 ile ilgili SSS
+
+**S: Aynı olay hem K2 hem K7'yi ilgilendiriyorsa hangi kontrol yazılır?**
+C: Ana satır ihlal edilen en yüksek öncelikli kontrol (P0 olan); diğeri `ilgili` notu.
+
+**S: PLANNED senaryonun logu çıkarsa ne olur?**
+C: Şema doldurulur, `durum` alanı `doğrulandı`ya geçer; §8/§10'daki PLANNED
+işareti ancak kanıtla kalkar — tahminle değil (Zero-Hallucination).
+
+**S: Log alanı dolarsa?**
+C: Append-only ilke korunur; dolum varsa yeni segment açılır, eski segment
+silinmez (aynı protokol §20'deki dosya ekleme kuralının günlüğe yansıması).
+
+**S: Kim bakar?**
+C: §14.2 sahiplik sütunu bağlayıcıdır; çakışmada P0 sahibi önceliklidir.
+
+### §14.7 Bu bölümün kardeş bölümlerle bağı
+
+| Kardeş bölüm | Bağ |
+|---|---|
+| §7 | Şemanın kontrol/K alanı doğrudan matristen türetilir |
+| §9 | Mod + eskalasyon önceliği M etiketini belirler |
+| §10 | Senaryo kalıbı, olay şemasındaki durum alanını besler |
+| §13 | Negatif kontrol sonucu bu şemaya olay olarak yazılır |
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

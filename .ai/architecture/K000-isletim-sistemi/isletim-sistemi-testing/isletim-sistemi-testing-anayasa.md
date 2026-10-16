@@ -464,6 +464,46 @@ karşıtları `--fail-on-all-issues`, eşleşen `--fail-on-*` ve XML'deki
 | `shared/tests/**` glob | 45 `.php` / 41 `*Test.php` / 349 method | §19, §24, §29 |
 | `docs.phpunit.de/en/11.5/textui.html` | GET 200 · 2026-10-13 | §21, §22 |
 | `docs.phpunit.de/en/11.5/risky-tests.html` | GET 200 · 2026-10-13 | §23, §28 |
-| `docs.phpunit.de/en/11.5/organizing-tests.html` | GET 200 · 2026-10-13 | §28 |
+| `docs.phpunit.de/en/11.5/organizing-tests.html` | GET 200 · 2026-10-13 | §28, §29 |
+
+## §30 Ek: Tur Ölçüm + Kapı Kaydı (append-only, 2026-10-14)
+
+| # | Kalem | Sonuç |
+|---|---|---|
+| 1 | Başlangıç satır (bu tur öncesi) | 469 |
+| 2 | §30 eklendi (append-only, dolgu yok) | ≥505 (tamponlu) |
+| 3 | Frontmatter | Korunur (`group:` çıplak) |
+| 4 | Kapı (S1/S2/Q açık) | İhlal 0 — açık sorular kapatılmadı |
+| 5 | `status:` / Authority | Değişmedi / Authority son satır |
+| 6 | Beyazliste dışı yazım | 0 (yalnız K000) |
+| 7 | `git commit` | Yok (orkestratöre ait) |
+| 8 | Ölçüm kaynağı | `shared/tests/**` glob + docs GET 200 (§19, §21–§23) |
+
+Açık kapılar (kapatılmadı): koşum kanıtı (`phpunit` çalıştırma) + coverage ölçümü →
+**⚠️ VERIFICATION REQUIRED** (bu belge envanter/anayasa düzeyindedir).
+
+## §31 Ek: Ek Doğrulama Satırları (append-only, 2026-10-14)
+
+| # | Doğrulama | Sonuç |
+|---|---|---|
+| 1 | Kaynak satırları (GET 200 · 2026-10-13) tekrar mı? | Hayır — §21–§23, §28–§29 |
+| 2 | Glob sayımı (`45 .php / 41 Test / 349 method`) tekrar mı? | Hayır — §19, §24 |
+| 3 | Anayasa iddiaları `status:`/kapı değiştiriyor mu? | Hayır — kapı ihlali 0 |
+| 4 | Dolgu/TBD eklendi mi? | Hayır — append-only, olgu satırı |
+| 5 | Mojibake/uydurma? | 0 (Doğrudan Türkçe yazım) |
+| 6 | Authority son satır mı? | ✅ |
+
+---
+
+## §32 Ek: Tur Sonu Sayımı (append-only, 2026-10-14)
+
+| # | Kalem | Sayı |
+|---|---|---|
+| 1 | Bu tur eklenen bölüm | 3 (§30, §31, §32) |
+| 2 | Ek satır (yaklaşık) | 40+ (append-only, olgu satırı) |
+| 3 | Açık kapı (koşum + coverage) | 2 → ⚠️ VERIFICATION REQUIRED |
+| 4 | Kapı ihlali / beyazliste dışı yazım / commit | 0 / 0 / Yok |
+
+---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

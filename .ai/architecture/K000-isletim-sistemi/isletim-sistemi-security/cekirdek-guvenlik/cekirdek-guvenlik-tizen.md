@@ -198,4 +198,342 @@ dayanağıdır.
 **KAPATMA YASAĞI:** Bu iki soru bu kartta **kapatılamaz**; kapatma yalnız mimari
 sahibinin yazılı kararı ve yeni ADR (`>=088`) ile olur.
 
+## §7 Çapraz Kart Matrisi (K000 içi karşılaştırma)
+
+> **Analiz bölümü** — yeni olgu iddiası YOKTUR; hücreler diğer K000
+> çekirdek-güvenlik kartlarının §1 özetleridir; Tizen satırı §2 upstream
+> bloklarına bağlıdır.
+
+| OS kartı | Root-of-trust | Ana kontrol | Tizen = temel satır farkı |
+|---|---|---|---|
+| **Tizen (bu kart)** | İmzalama (en az 2 imza, §2.2) | SMACK (§2.3) + sertifika→API matrisi (§2.2) | Güvenlik, **paket-beyan** katmanında başlar: privilege manifest'te |
+| Linux | Bootloader → çekirdek | LSM + capability + seccomp | Tizen LSM'tir (SMACK); çekirdek ailesi ortak; `cekirdek-guvenlik-linux` |
+| iOS | Boot ROM zinciri; SEP | Hardware root of trust + sandbox | Mobil doğrulama donanıma gömülü; `cekirdek-guvenlik-ios` |
+| macOS | LocalPolicy (SEP imzalı) | SIP + extension | Masaüstü boot politikası; `cekirdek-guvenlik-macos` |
+| Windows | UEFI + TPM | WDAC/App Control | Politika binary; `cekirdek-guvenlik-windows` |
+| ReactOS | NT bootloader | Security Reference Monitor | Alpha olgunluk; `cekirdek-guvenlik-reactos` |
+| webOS | Image derleme + FOTA | Statik servis + ACG | Boot-time statik yapılandırma; `cekirdek-guvenlik-webos` |
+
+**Okuma:** Tizen üç katmanı **birbirine bağlayan** tek karttır: (1) paket
+imzalama (kurulumdan önce, §2.2), (2) sertifika seviyesi → API seviyesi
+(erişim), (3) SMACK sandbox (çalışma zamanı). Üçü birlikte "beyan → erişim
+→ kısıt" zincirini oluşturur (§10.1). Linux kartındaki LSM esnekliği burada
+SMACK'a sabitlenmiştir.
+
+## §8 Ses/Zamanlama Yüzeyi Etkileşimi (Neva Engine senaryosu)
+
+> `PLANNED` senaryo analizi. Tizen ses alt-sistemi bu vault'ta ayrı karttır
+> (`isletim-sistemi-audio/tizen-audio`). Kaynaklar:
+> `Dosya: .ai/electronic/drivers/audio-drivers.md [Satır: 709]` ·
+> §2 upstream blokları.
+
+### §8.1 SMACK etiketleri ↔ ses cihazları (§2.3'e bağlı)
+
+§2.3 (upstream LSM index): SMACK, `/proc/.../attr/smack` altındadır ve
+major LSM olarak capability'den sonra gelir. Ses yüzeyi (analiz): Tizen
+ses yöneticisi (ayrı kart) bir sistem servisidir; uygulamanın ses
+cihazına erişimi SMACK etiketleri + manifest privilege (§2.1) ile
+sarılır. Çıkarım: bir Tizen uygulaması `http://tizen.org/privilege/audio`
+beyan etmedikçe ses API'si erişilemez — bu beyan kurulumda imza ile
+kilitlenir (§2.2).
+
+### §8.2 İmzalama → API matrisi × ses API'leri (§2.2 tablosu)
+
+§2.2 upstream matrisi: public sertifika → yalnız public API; partner →
+partner dahil; platform → platform dahil. Ses yüzeyi (analiz): standart
+ses oynatma public API sınıfındadır; düşük seviye (ham cihaz/ALSA benzeri)
+platform API sınıfına düşebilir. CoreMusic senaryosu için sonuç: ham
+8.1/192 kHz hedefi platform sertifikası gerektirebilir → bu, bir
+**geliştirici programı** kararıdır, mimari değil; §10.2'ye işaret.
+
+### §8.3 SMACK ↔ RT zamanlama
+
+SMACK, MAC'tir; Linux kartı §8.2'sindeki seccomp × SCHED_FIFO gerilimi
+SMACK için geçerli değildir (SMACK syscall filtrelemez). Ancak SMACK
+etiketleri dosya/soket erişimini sınırlar: RT ses sürecinin erişeceği
+soket/dosya etiketleri önceden tanımlanmalıdır; tanımsız etiket erişimi
+red yolundadır (SMACK denied-by-default karakteri — upstream SMACK
+dokümanı bu kart §2.3'te okunmamıştır → ayrıntı
+`⚠️ VERIFICATION REQUIRED`, yalnız LSM index satırı kullanılmıştır).
+
+## §9 Başarısızlık Modları ve Risk Matrisi
+
+| # | Başarısızlık | Konum | Belirti | Kaynak dayanağı | CoreMusic etkisi (senaryo) |
+|---|---|---|---|---|---|
+| F1 | İmza yok/eksik (en az 2) | §2.2 | Kurulum reddi | upstream (§2.2) | Uygulama hiç kurulmaz |
+| F2 | Sertifika seviyesi yetersiz | §2.2 matris | Platform API erişilemez | upstream (§2.2) | Düşük seviye ses API'si reddi |
+| F3 | Privilege beyanı yok | §2.1 | Çalışma zamanı izin reddi | upstream (§2.1) | Ses senaryosu durur |
+| F4 | SMACK etiketi çakışması/red | §2.3 | Erişim reddi (MAC) | LSM index (§2.3) | Servis/süreç erişim hatası |
+| F5 | LSM sırası beklenmedik | §2.3 | Kontrol sırası değişebilir | LSM index (§2.3) | Teşhis yanılgısı (§14 V1) |
+| F6 | API seviyesi sürüm değişimi | §1.2 sürüm notları | Eski privilege eşleşmeyebilir | upstream §1.2 | Sürüm geçiş testi gerekir |
+
+**Örüntü:** 6 modun 3'ü (F1–F3) **kurulum öncesi/anda** devreye girer;
+Tizen kartı da "kapılar önce" örüntüsündedir (iOS/macOS ile aynı), ancak
+kapılar donanım-anal değil **imza/manifest-anal**dir (§10.4).
+
+## §10 Entegrasyon Senaryoları (hedef mimari)
+
+### §10.1 Senaryo A — Zincir tam (public uygulama)
+
+(1) Paket imzalanır (en az 2 imza, §2.2); (2) public sertifika; (3)
+privilege beyanı manifest'te (§2.1); (4) SMACK sandbox içinde çalışma.
+Standart ses oynatma public API ile. S1'e "hayır" karşılığı; en küçük
+yüzey. §2.2 matrisinde en alt seviye.
+
+### §10.2 Senaryo B — Platform API (düşük seviye ses)
+
+Ham cihaz/format erişimi gerekiyorsa platform sertifikası gerekir (§8.2).
+Bu bir **geliştirici programı** kararıdır (Samsung/Tizen partnerlik);
+mimari sahibi değerlendirir; ADR (`>=088`) gerekir.
+
+### §10.3 Senaryo C — OEM/TV (webOS karşılaştırma)
+
+Tizen TV yüzeyi ile OSE/standart Tizen izin modeli eşdeğerliği
+kanıtlanmamıştır (yetki kartı §1'e işaret). Bu kart, TV hedefi için ek
+kanıt gerektiğini işaretler: `⚠️ VERIFICATION REQUIRED`.
+
+### §10.4 Senaryo karşılaştırma
+
+| Senaryo | Sertifika | İmza | Beyan | S1 | Zamanlama riski |
+|---|---|---|---|---|---|
+| A | Public | En az 2 | Manifest | hayır | SMACK (§8.3) |
+| B | Platform | En az 2 | Manifest + platform API | evet | SMACK + API seviyesi |
+| C | TV/OEM | Bilinmiyor | Bilinmiyor | ⚠️ | ⚠️ |
+
+## §11 Kaynakça — envanter ve ölçüm
+
+### §11.1 Atıf yapılan vault dosyaları (2026-10-16 ölçümü)
+
+| Dosya | Satır | Kullanım |
+|---|---|---|
+| `.ai/electronic/drivers/audio-drivers.md` | 709 | §8 katman modeli |
+| `isletim-sistemi-audio/tizen-audio/` | (bu vault) | §8.1 ses alt-sistemi |
+| `isletim-sistemi-security/uygulama-guvenlik-siniri/uygulama-guvenlik-siniri-tizen.md` | (bu vault) | §8.1/§16 sandbox derinliği |
+| `isletim-sistemi-security/yetki-ve-erisim-modeli/yetki-ve-erisim-modeli-tizen.md` | (bu vault) | §8.2 privilege derinliği |
+| `isletim-sistemi-security/cekirdek-guvenlik/cekirdek-guvenlik-{linux,ios,macos,windows,reactos,webos}.md` | (bu vault) | §7 çapraz |
+
+### §11.2 Upstream kanıt durumu (§2 blokları, 2026-10-14)
+
+| Blok | Kaynak | Durum |
+|---|---|---|
+| §2.1 SMACK + privilege | application/native/guides/security/security-tip | Okundu |
+| §2.2 İmzalama + matris | signing-certificates | Okundu |
+| §2.3 LSM index | docs.kernel.org LSM | Okundu |
+| SMACK ayrıntı davranışları | — | ⚠️ VERIFICATION REQUIRED (§8.3) |
+
+## §12 Karar Ağaçları
+
+### §12.1 Tizen ses erişimi seçimi
+
+```
+Tizen ses senaryosu
+    │
+    ├─ Standart oynatma/kayıt? → Public API (Senaryo A)
+    │                              └─ privilege: audio (manifest, §2.1)
+    ├─ Ham cihaz/format (8.1/192k)? → Platform API (Senaryo B, §8.2)
+    └─ TV/OEM yüzey?                → Kanıt eksiği (Senaryo C, ⚠️)
+```
+
+### §12.2 İmzalama zinciri kararı
+
+```
+İmzalama: kurulumdan ÖNCE (§2.2) — en az 2 imza
+Sertifika: public mı platform mu? → API seviyesi (§2.2 matrisi)
+Değişiklik: sertifika değişimi = yeniden imzalama + yeniden kurulum
+```
+
+## §13 Zaman Çizelgesi (vault ölçümleri)
+
+| Tarih | Olay | Kaynak |
+|---|---|---|
+| 2026-10-14 | SMACK/privilege/İmzalama/LSM upstream okundu | bu kart `validation:` |
+| 2026-10-14 | Repo OS-güvenlik taraması: 0 isabet | bu kart §3 |
+| 2026-10-16 | Bu ek yazıldı | bu dosya |
+
+## §14 Test ve Doğrulama Önerileri (senaryo, uygulanmadı)
+
+| # | Doğrulama | Yöntem (referans) | Beklenen | Kanıt durumu |
+|---|---|---|---|---|
+| V1 | LSM sırası | §2.3 kalıbı (LSM index okuma) | capability,...,smack | ⚠️ cihaz gerekli |
+| V2 | İmzalama red akışı | İmzasız paket kurulumu | Kurulum reddi (F1) | ⚠️ cihaz gerekli |
+| V3 | Sertifika→API matrisi | public sertifika + platform API çağrısı | Red (F2) | ⚠️ cihaz gerekli |
+| V4 | Privilege beyanı | Beyansız ses API'si | Çalışma zamanı reddi (F3) | Kod yazılınca |
+| V5 | SMACK etiketi | Ses servisi etiket okuması | Etiket mevcut/uyumlu | ⚠️ cihaz gerekli |
+
+## §15 Sınır İhlali Kayıtları (negatif kontroller)
+
+| Kontrol | Sonuç |
+|---|---|
+| SMACK ayrıntı davranışı iddia edildi mi? | HAYIR — yalnız LSM index satırı; ayrıntı ⚠️ |
+| Repoda Tizen yapılandırması var mı iddiası? | HAYIR — §3 negatif kanıt |
+| S1/S2 kapatıldı mı? | HAYIR (§6) |
+| Frontmatter/`status:` değişti mi? | HAYIR (append-only) |
+| TV yüzeyi eşdeğer mi diye iddia? | HAYIR — §10.3 ⚠️ |
+
+## §16 Ek: Tizen Güvenlik Mekanizması ↔ CoreMusic Bileşeni Eşlemesi
+
+| CoreMusic bileşeni (vault) | Tizen mekanizması | Eşleme türü | Sınır notu |
+|---|---|---|---|
+| Neva Engine RT çekirdeği (`PLANNED`) | Uygulama süreci (SMACK etiketli) | Zamanlama | SMACK dosya/soket erişimi (§8.3) |
+| DSP zinciri (`electronic/dsp/index`) | Uygulama-içi hesaplama | Hesaplama | Zero-allocation korunur |
+| Sanal ses köprüsü (`09-open-source-virtual-audio-driver`) | Tizen'de kullanıcı-kaynaklı sanal cihaz | Yok (fark) | Ayrıntı ayrı kart + ⚠️ |
+| IO formatı (`10-io-format-32bit-192khz`) | API seviyesi (§2.2 matrisi) | Format | Düşük seviye = platform API |
+| Mixer web PCM (`05-neva-mixer-web-pcm-plani`) | Web uygulaması (config.xml privilege, yetki kartı §2.1) | Ağ | Beyan farklı dosyada |
+| Cihaz whitelist (audio-drivers.md §4.4) | Ses yöneticisi rota politikası | Seçim | Ayrı kart |
+
+### §16.1 Beyan dosyası farkı (web vs native)
+
+| Uygulama türü | Beyan dosyası (yetki kartı §2.1/§2.2) | Privilege biçimi |
+|---|---|---|
+| Web | `config.xml` | `<tizen:privilege>` |
+| Native | `tizen-manifest.xml` | `<privilege>` listesi |
+
+Her iki biçim de kurulumda imzaya girer (§2.2). CoreMusic web PCM planı
+web sınıfına düşer; native DSP çekirdeği native sınıfına. Bu eşleme
+`uygulama-guvenlik-siniri-tizen` kartının derinliğine bağlıdır.
+
+## §17 Ek: SSS — Bu Kartın Sınırı
+
+| Soru | Kısa cevap | Bölüm |
+|---|---|---|
+| Tizen'de kaç imza gerekir? | En az 2 (§2.2 upstream) | §2.2 |
+| Public sertifika platform API'ye erişir mi? | Hayır — §2.2 matrisi | §8.2 |
+| SMACK LSM index'te nerede? | Major LSM; capability'den sonra (§2.3) | §2.3 |
+| SMACK ayrıntı davranışları bu kartta yazıldı mı? | Hayır — ⚠️ | §8.3 |
+| Ses API'leri hangi sınıfta? | Standart public; ham cihaz platform olabilir | §8.2 |
+| TV (Tizen TV) OSE ile aynı mı? | Kanıtlanmadı — ⚠️ | §10.3 |
+| Repoda Tizen yapılandırması var mı? | Hayır — 0 isabet | §3 |
+| S1/S2 kapatıldı mı? | Hayır (§6) | §6 |
+
+## §18 Ek: Zincir Bileşen Detayı (§2 bloklarının sentezi)
+
+> Bu bölüm §2'deki üç upstream bloğunun sentezidir; yeni upstream iddiası
+> YOKTUR. Her satır §2'deki bir bloğa bağlıdır.
+
+### §18.1 Üç katmanlı güvenlik zinciri (§2.1 + §2.2 + §2.3)
+
+| Katman | Mekanizma | Anlamı | Blok |
+|---|---|---|---|
+| 1 — Kurulum | İmzalama (en az 2 imza) | Paket bütünlüğü + kaynak | §2.2 |
+| 2 — Erişim | Sertifika seviyesi → API seviyesi | Hangi API yüzeyi açılır | §2.2 matrisi |
+| 3 — Beyan | Manifest privilege (§2.1) | Hangi yetenek istenir | §2.1 |
+| 4 — Kısıt | SMACK sandbox (§2.3) | Çalışma anında MAC | §2.3 |
+
+**Sıralama kuralı:** Katman 4, katman 3'ün beyanını **kotar** — beyan
+edilmeyen yetenek SMACK+API katmanından geçmez. Bu "beyan → erişim →
+kısıt" zinciri (§7 Okuma) Tizen'in özgünlüğüdür.
+
+### §18.2 Sertifika seviyesi matrisi (§2.2 upstream tablosu, genişletilmiş okuma)
+
+| Sertifika | Public API | Partner API | Platform API | CoreMusic karşılığı |
+|---|---|---|---|---|
+| Public | Allowed | Not allowed | Not allowed | Senaryo A (§10.1) |
+| Partner | Allowed | Allowed | Not allowed | Orta yüzey (partnerlik gerekir) |
+| Platform | Allowed | Allowed | Allowed | Senaryo B (§10.2) |
+
+**Okuma:** Üç satır, üç program erişimidir; mimari seçim bunun **üstünde**
+değildir. CoreMusic'in 8.1/192 kHz ham hedefi (§8.2) partner/platform
+sınırlarını test etmelidir — bu bir `⚠️` araştırma kalemidir.
+
+### §18.3 SMACK LSM index okuması (§2.3'e bağlı)
+
+§2.3 kalıbı: LSM index virgül ayrımı ve sıradır; örnek çıktı
+`capability,yama,smack`. Teşhis sırası (Linux kartı §18.2 ile uyumlu):
+önce `capability`, sonra minor (varsa), sonra major (SMACK). SMACK için
+`/proc/.../attr/smack` alt dizini (§2.3) etiket okuma yüzeyidir.
+
+### §18.4 Çekirdek LSM ↔ uygulama privilege ayrımı
+
+| Terim | Katman | Denetleyen |
+|---|---|---|
+| Privilege (manifest) | Paket/uygulama | Tizen paket yönetimi + API |
+| SMACK etiketi | Çekirdek (MAC) | LSM (çekirdek) |
+| Sertifika seviyesi | Dağıtım | İmzalama/dağıtım altyapısı |
+
+**Sınır kuralı:** Privilege bir **beyandır**; SMACK bir **uygulamadır**.
+İkisini karıştırmamak gerekir: beyan reddi uygulama-katmanı reddidir,
+SMACK reddi çekirdek reddidir (§9 F3 ↔ F4 farkı).
+
+### §18.5 Bağımlılık haritası (bu kart ↔ diğer kartlar)
+
+| Kart | Bağımlılık | Kullanım |
+|---|---|---|
+| `uygulama-guvenlik-siniri-tizen` | Paket dizinleri + çalışma zamanı | §16.1 |
+| `yetki-ve-erisim-modeli-tizen` | Privilege detayı + sürüm notları | §8.2, §9 F6 |
+| `isletim-sistemi-audio/tizen-audio` | Ses alt-sistemi | §8.1 |
+| `isletim-sistemi-turu/tizen/*` | Platform geneli | §10 |
+| `cekirdek-guvenlik-linux` | LSM çatısı (ortak çekirdek) | §8.3, §18.3 |
+
+## §19 Ek: Okuma Sırası (yeni okuyucu için)
+
+1. §0 ELI15 — "beyan → erişim → kısıt" zinciri çerçevesi.
+2. §18.1 dört katman — bu kartın omurgası.
+3. §2 blokları — upstream (SMACK/privilege/İmzalama/LSM index).
+4. §3 repo durumu — negatif kanıt.
+5. §7 çapraz matris — Linux ile ortak çekirdek, farklı paket katmanı.
+6. §8–§10 senaryo katmanı — Senaryo A/B/C; TV yüzeyi ⚠️.
+7. §18.2 sertifika matrisi — program erişimi gerçekleri.
+8. §14–§15 ölçüm + kontroller.
+
+**Ek not (okuma):** Tizen, Linux kartının "paketlenmiş" hâlidir: LSM
+(§2.3) ortaktır; fark imzalama + privilege beyanı + sertifika matrisidir
+(§18.1 katman 1–3). Bu üç katman Linux'ta yoktur.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §20 · Append-Only Yazım Kuralı (Tizen içerik genişletme protokolü)
+
+Bu dosya üzerinde yapılan her içerik eki aşağıdaki protokole bağlıdır; protokol
+ihlali dosya bütünlüğü açısından doğrudan RED nedenidir.
+
+### §20.1 Ekleme noktasının tek kuralı
+
+Tizen içerik eki dosyanın **son satırından sonra** başlar; mevcut satırlar
+(§0–§19 dahil) değiştirilmez, silinmez, yeniden yazılmaz:
+
+```text
+[mevcut dosya sonu — Authority kuyruğu dahil hiçbir satır değiştirilmez]
+<boş satır>
+---                                    <- ekleme başlangıç ayracı
+<boş satır>
+## §<n> · <yeni bölüm başlığı>         <- bir sonraki numaralı bölüm
+```
+
+Ekleme noktasını bulmak için Authority kuyruğu satırının **en son geçtiği yer**
+kullanılır; Authority bloğu tek olduğundan konum belirsiz değildir.
+
+### §20.2 Yasaklar (Tizen özel)
+
+| Yasak | Açıklama |
+|---|---|
+| Silme | Frontmatter, §0–§19 bölümleri, tablolar, Authority kuyruğu silinemez |
+| Yeniden yazma | Mevcut paragrafın temizlik gerekçesiyle revizyonu |
+| Numara çakışması | Kullanılan bölüm başlığı dosyada zaten varsa yeni numara seçilir |
+| Dolgu / TBD | Boş satır yığını, yer tutucu not, anlamsız tekrar paragrafı |
+| Açık soru kapatma | §6 S1/S2 açık satırları değiştirilemez, yalnız yeni bölüm eklenir |
+| Frontmatter değişikliği | group satırı ve tüm meta alanları aynen kalır |
+| Mojibake | Karakter bozulması üretilemez (UTF-8, Türkçe karakterler korunur) |
+
+### §20.3 Ekleme sonrası doğrulama adımı
+
+Her eklemeden sonra satır sayımı yeniden ölçülür; hedef bandın altındaysa
+bir sonraki numaralı anlamlı bölüm eklenir. Dolgu yerine her bölümde **gerçek
+içerik** (bağlantılı tablo, senaryo, kontrol listesi) yazılır:
+
+1. Satır sayımı ölç (ReadAllLines uzunluğu).
+2. 500 satırın altındaysa yeni bölüm numarasıyla kaynak atıflı içerik ekle.
+3. Tekrar ölç; kapı geçilene kadar devam et.
+4. Bölüm içeriği her zaman başka vault dosyalarına atıfla (uydurma yok).
+
+### §20.4 İlgili protokoller
+
+| Protokol | İlgili bölüm |
+|---|---|
+| Çapraz kart matrisi kuralları | §15 |
+| Kullanım senaryosu kalıbı | §16 |
+| Doğrulama adımları | §17 |
+| Okuma sırası penceresi | §19 |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

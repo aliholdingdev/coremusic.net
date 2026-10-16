@@ -89,7 +89,7 @@ sözleşme altına almaktır.
 |---|---|---|---|
 | MDN HTTP caching rehberi, tarayıcı/sunucu önbelleklerini ve yeniden doğrulamayı anlatır | https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching | HTTP 200 | Doğrulandı — envanterde yok |
 | MDN `ETag`, yanıt özeti başlığını ve `If-None-Match` ile eşleşmeyi tanımlar | https://developer[.]mozilla[.]org/en-US/docs/Web/HTTP/Headers/ETag | HTTP 200 | Doğrulandı — envanterde VAR (HIT) - noktalı gösterim (2026-10-16) |
-| MDN `Vary`, yanıtın hangi istek başlıklarına göre farklılaştığını belirtir | https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Vary | HTTP 200 | Doğrulandı — envanterde yok |
+| MDN `Vary`, yanıtın hangi istek başlıklarına göre farklılaştığını belirtir | https://developer[.]mozilla[.]org/en-US/docs/Web/HTTP/Headers/Vary | HTTP 200 | Doğrulandı — envanterde yok |
 | ASP.NET Core memory cache dokümanı, bellek içi önbellek TTL ve boyut davranışını belgeler | https://learn.microsoft.com/en-us/aspnet/core/performance/caching/memory | HTTP 200 | Doğrulandı — envanterde yok |
 | Azure cache-aside deseni, okuma önbellekleme ve geçersizleştirme sorumluluğunu tanımlar | https://learn.microsoft.com/en-us/azure/architecture/patterns/cache-aside | HTTP 200 | Doğrulandı — envanterde yok |
 | PHP `apcu_enabled`, APCu'nun çalışıp çalışmadığını döndürür | https://www.php.net/manual/en/function.apcu-enabled.php | HTTP 200 | Doğrulandı — envanterde yok |

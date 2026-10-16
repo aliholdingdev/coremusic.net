@@ -270,6 +270,33 @@ increasing amount of time" ile aynı yönde tavsiye verir [S10]. Stripe:
 
 > Azure dokümanı eşik sayı vermez; sayı uydurulmaz.
 
+### §5.4 Uygulama Yerleşimi Seçenekleri (kaynaklı) [S8]
+
+| Yerleşim | Artı | Eksi |
+|---|---|---|
+| Uygulama-katmanı (kod içi proxy) | İnce ayar; dil-yerel | Her dilde tekrar; çok-instance'ta tutarsız olabilir |
+| Service mesh sidecar (ör. Envoy tarzı) | Kod değişikliği olmadan kesme; tek noktadan politika | Altyapı bağımlılığı; CoreMusic'te mesh var mı → ⚠️ UNKNOWN |
+| Kütüphane (resilience kütüphanesi) | Hazır durum makinesi | Bağımlılık artışı (K009/YAGNI — kod-ornekleri §18: kütüphane seçimi karar değil) |
+
+> Azure: "service meshes often support circuit breaking as a sidecar or as a
+> standalone capability without modifying application code" [S8]. Hangi
+> yerleşimin CoreMusic'te kullanılacağı → ⚠️ UNKNOWN (karar yok).
+
+### §5.5 Yarı-açık (Half-Open) Deneme Akışı — Adım Adım
+
+```text
+Open → zamanlayıcı doldu
+  → Half-Open: en fazla K deneme sızar (K → UNKNOWN)
+    → Deneme-1 başarılı → success counter ++
+      → success counter ≥ eşik → Closed (sayaç sıfır)
+    → Herhangi bir deneme başarısız → Open'a dön
+      → zamanlayıcı YENİDEN başlar (artışır zamanlayıcı opsiyonu: [S8])
+```
+
+> Azure notu: Half-Open, kurtulan servisin aniden istek baskısıyla tekrar
+> çökmesini engeller — "a flood of work can cause the service to time out
+> or fail again" [S8]. Bu yüzden Half-Open deneme sayısı **sınırlıdır**.
+
 ---
 
 ## §6 Timeout Bütçesi — Kavram (türetmeli)

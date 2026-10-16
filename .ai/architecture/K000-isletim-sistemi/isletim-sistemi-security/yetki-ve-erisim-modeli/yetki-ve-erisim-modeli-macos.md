@@ -187,3 +187,317 @@ kartlarındadır. TCC kullanıcı onayı bir **kimlik doğrulama akışı değil
 | S2 | Uygulama ↔ OS güvenlik sorumluluk sınırı (nereye kadar uygulama RBAC, nereden itibaren OS DAC/imza/TCC) — §1 son satırdaki sıralama da bu soruya bağlıdır | **[UNKNOWN]** — bu kartta KAPATMA YOK |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §7 Çapraz kart matrisi (macOS yetki/erişim kontrol haritası)
+
+§1 erişim kontrol profili, §2 kalıplar (TCC sıfırlama / entitlement imzası /
+Authorization Services) ve §5 referans burada çaprazlanır; kanıtsız kontrol "var" sayılmaz.
+
+| # | Yetki kontrolü | Yüzey (§ referansı) | Sağlayıcı katman | Doğrulama tipi | Öncelik |
+|---|---|---|---|---|---|
+| K1 | TCC izin veritabanı (kullanıcı onayı) | §2.1 TCC sıfırlama | TCC | Statik + dinamik | P0 |
+| K2 | Entitlement beyanı + imzası | §2.2 entitlement | codesign/AMFI | Statik | P0 |
+| K3 | Authorization Services (right/rights/group) | §2.3 Authorization | AuthorizationRef | Dinamik | P1 |
+| K4 | App Sandbox erişim kapsamı | §1 sandbox | sandbox profile | Statik + dinamik | P0 |
+| K5 | Dosya ACL/kullanıcı izinleri | §1 depolama | ACL/DACL | Statik + dinamik | P1 |
+| K6 | Anahtar zinciri erişim grubu/ACL | §1 saklama | keychain | Statik + dinamik | P0 |
+| K7 | codesign/imza zinciri (meşruiyet) | §1 imza | codesign | Statik | P0 |
+| K8 | Rol/şerefe (admin) artırımı yolu | §1 delege | Authorization + su sınıfı | Dinamik | P1 |
+
+### §7.1 Matris okuma kuralı
+
+1. **Statik kanıt** — `tccutil`/`codesign`/`security` çıktısı (Dosya: ile).
+2. **Dinamik kanıt** — errAuthFailed/EPERM ret olayı.
+3. **Ölçüm kanatı** — yeniden üretilebilir komut çıktısı.
+
+Kanıtsız satır `VERIFICATION REQUIRED` kalır.
+
+### §7.2 Çapraz kart eşlemesi (yetki → kart)
+
+| Kart kategorisi | İlgili kontroller | Bu dosyadaki karşılığı |
+|---|---|---|
+| İzin kartları | K1 | §2.1, §10 S1 |
+| Kimlik kartları | K2, K7 | §2.2, §10 S2 |
+| Delege kartları | K3, K8 | §2.3, §10 S4 |
+| Depolama kartları | K4, K5, K6 | §1, §10 S3 |
+| Paket kartları | K7 | §13 N5 |
+| Servis kartları | K3 | §7 K3, §13 N6 |
+
+## §8 Ses/RT yüzeyi (macOS yetki modeli için PLANNED senaryo)
+
+> **DURUM: PLANNED** — Zincir gerçek cihazda bu turda doğrulanmadı.
+
+### §8.1 Neden bu bölüm burada?
+
+Mikrofon/ses cihazı erişimi TCC (K1) ile, ses servislerinin imzası K2/K7 ile,
+ses ayarlarının yetkili değişimi K3/K8 ile kesişir. Ses algoritması/kalite bu
+dosyanın dışındadır.
+
+### §8.2 PLANNED senaryo zinciri (Ses ↔ Yetki)
+
+| Adım | Senaryo | Beklenen yüzey | Durum |
+|---|---|---|---|
+| A1 | Uygulama mikrofon izni ister | TCC (K1) | PLANNED |
+| A2 | Ses eklentisi yüklenir | K2/K7 imza denetimi | PLANNED |
+| A3 | Ses ayarı sistem düzeyinde değiştirilir | K3/K8 yetkili yol | PLANNED |
+| A4 | Anahtar zincirinde oturum saklanır | K6 erişim grubu/ACL | PLANNED |
+
+**Kapsam dışı:** ses algoritması/codec. **Harici referans:** `.ai/electronic/drivers/audio-drivers.md` — bu turda yalnız **okuma** (beyazliste dışı yazım yasağı).
+
+## §9 Başarısızlık modları (macOS yetki modeli)
+
+| Mod | Tetikleyici | Gözlenen belirti | Yetki etkisi | Sürdürme/geri alma |
+|---|---|---|---|---|
+| M1 | TCC ret/veritabanı bozukluğu | İzin ret | Özellik kapalı | §2.1 sıfırlama akışı |
+| M2 | entitlement/imza uyuşmazlığı | Launch/çağrı ret | Çalışma durur | §2.2 denetimi |
+| M3 | Authorization right yanlışlık | Ref ret | İşlem düşer | §2.3 denetimi |
+| M4 | sandbox ihlali | EPERM | Erişim kesilir | §7 K4 denetimi |
+| M5 | Dosya ACL ihlali | EACCES | Erişim kesilir | §7 K5 denetimi |
+| M6 | Keychain erişim ret | errSecAuthFailed | Saklama ret | §7 K6 denetimi |
+| M7 | İmza zinciri kopması | AMFI ret | Uygulama/kütüphane ret | §7 K7 denetimi |
+| M8 | Yetkisiz admin artışı | Red/uyarı | Delege ihlali | §7 K8 denetimi |
+
+### §9.1 Fail-safe matrisi (öncelik sırası)
+
+1. **P0 — M2, M4, M6, M7:** fail-closed, ret kanıtı zorunlu.
+2. **P1 — M1, M3, M5, M8:** tek yüzey/özellik.
+
+`fail-open` hiçbir modda kabul edilmez. 3 başarısız turda dur + üst karar.
+
+## §10 Kullanım senaryoları
+
+Kalıp: **kural → yüzey → doğrulama → sonuç (işaretli)**.
+
+### §10.1 S1 — TCC veritabanı (P0)
+
+- **Kural:** Onaysız/erişimi reddedilmiş izin ret (K1, §9 M1).
+- **Yüzey:** TCC (§2.1).
+- **Doğrulama:** İzin istemeyen çağrı → beklenen: ret; sıfırlama sonrası yeniden iste.
+- **Sonuç:** Erişilirse K1 ihlali → P0. (Durum: PLANNED.)
+
+### §10.2 S2 — İmza/entitlement (P0)
+
+- **Kural:** Beyansız/bozuk imza ret (K2/K7, §9 M2/M7).
+- **Yüzey:** codesign/AMFI (§2.2).
+- **Doğrulama:** §2.2 çıktısı vs beklenen anahtarlar.
+- **Sonuç:** Fark varsa M2/M7. (Durum: PLANNED.)
+
+### §10.3 S3 — Depolama erişim kapsamı (P1)
+
+- **Kural:** Sandbox/ACL/keychain dışı erişim ret (K4/K5/K6, §9 M4/M5/M6).
+- **Yüzey:** §1 depolama.
+- **Doğrulama:** Dış yola/grup dışı okuma → beklenen: ret.
+- **Sonuç:** Geçerse P0'a yakın ihlal. (Durum: PLANNED.)
+
+### §10.4 S4 — Yetkili delege (P1)
+
+- **Kural:** Gereksiz/bilinmeyen right ile yetki artışı ret (K3/K8, §9 M3/M8).
+- **Yüzey:** Authorization (§2.3).
+- **Doğrulama:** Yetkisiz admin denemesi → beklenen: ret.
+- **Sonuç:** Geçerse M8 → P1. (Durum: PLANNED.)
+
+### §10.5 Senaryo günlüğü tutma biçimi
+
+| Alan | Zorunluluk |
+|---|---|
+| Senaryo no | Zorunlu |
+| Kanıt türü | Zorunlu |
+| Durum (PLANNED / doğrulandı) | Zorunlu |
+| Beklenen vs gözlenen | Doğrulandığında zorunlu |
+
+## §11 Kaynakça envanteri
+
+### §11.1 İç kaynaklar (Dosya: ile)
+
+| Kaynak | Kullanım |
+|---|---|
+| Bu dosya §0–§6 | Profil, §2.1–§2.3 kalıplar, sınırlar |
+| K000 security kardeşleri | Çapraz okuma (§12) |
+| K000 testing | Doğrulama → test (§13) |
+| .ai/electronic/drivers/audio-drivers.md | Ses fallback — yalnız okuma |
+
+### §11.2 Dış kaynak kategorileri
+
+| Kategori | Dayanak | Durum |
+|---|---|---|
+| Apple güvenlik/Authorization dokümanı | K1–K8 | Erişilebilir URL eklenince işaretlenir |
+| Cihaz/log örnekleri | §10 | ⚠️ VERIFICATION REQUIRED (alınmadı) |
+| Komut çıktıları | statik/ölçüm | ⚠️ VERIFICATION REQUIRED (PLANNED) |
+
+### §11.3 Kaynak güven sırası
+
+1. Cihaz ölçüm/log. 2. Dosya içi § referansı. 3. Vault içi kardeş dosya.
+4. Tarihli erişilebilir URL. 5. Model hafızası — tek dayanak asla.
+
+## §12 Eşleme ağacı (okuma sırası)
+
+```text
+yetki-ve-erisim-modeli-macos.md
+|-- Sec0 ELI15
+|-- Sec1 macOS erisim kontrol profili
+|-- Sec2 Kod ornekleri (2.1 TCC | 2.2 entitlement | 2.3 Authorization)
+|-- Sec3 CoreMusic repo durumu
+|-- Sec4 Sinir cumleleri
+|-- Sec5 Referans            (kanit uretimi)
+|-- Sec6 Acik sorular        (KAPATMA YASAGI)
+|-- Sec7 Cizraz matris       (K1-K8 haritasi)
+|-- Sec8 Ses/RT PLANNED      (sinirli yuzey)
+|-- Sec9 Basarisizlik        (M1-M8 + fail-safe)
+|-- Sec10 Senaryolar         (S1-S4 kalip)
+|-- Sec11 Kaynakca           (guven sirasi)
+|-- Sec12 Esleme agaci       (bu satir)
+'-- Sec13+ Test/ozet         (kapi adimlari)
+```
+
+## §13 Test önerileri + negatif kontroller + okuma sırası
+
+### §13.1 Pozitif testler
+
+| Test | Adım özeti | Beklenen |
+|---|---|---|
+| T1 | Onaylı TCC çağrısı (K1) | Erişim |
+| T2 | İmzalı uygulama açılışı (K2/K7) | Çalışır |
+| T3 | Yetkili doğru right (K3) | İşlem başarılı |
+| T4 | Keychain grup içi okuma (K6) | Başarılı |
+
+### §13.2 Negatif kontroller (RED TEAM — reddin kanıtı)
+
+| # | Negatif adım | Beklenen ret | İhlal varsa |
+|---|---|---|---|
+| N1 | Onaysız hassas çağrı | TCC ret (M1) | K1 ihlali → P0 |
+| N2 | Beyansız/bozuk imza | AMFI ret (M2/M7) | K2/K7 ihlali → P0 |
+| N3 | Bilinmeyen right ile yetki | Ref ret (M3) | K3 ihlali → P1 |
+| N4 | Sandbox/ACL dışı erişim | EPERM/EACCES (M4/M5) | K4/K5 ihlali → P0/P1 |
+| N5 | Keychain grup dışı okuma | errSec (M6) | K6 ihlali → P0 |
+| N6 | Yetkisiz admin artışı | Ret (M8) | K8 ihlali → P1 |
+| N7 | İmzasız servis/eşya yükleme | AMFI ret | K7 ihlali → P0 |
+
+**Kural:** Ret yoksa `VERIFICATION REQUIRED`. 3 başarısız tur → dur + üst karar.
+
+### §13.3 Okuma sırası penceresi (öneri)
+
+1. §0 → §4 (5 dk). 2. §7 matrisi (3 dk). 3. §9 + §10 (7 dk).
+4. §13.2 (5 dk). 5. §6 açık sorular sona — oku, **kapatma**.
+
+### §14 Olay şeması + eskalasyon (özet)
+
+| Alan | Açıklama |
+|---|---|
+| ts / mod / kontrol | ISO-8601 · M1–M8 · K1–K8 |
+| yuzey / beklenen / gozlenen | § referansı + ikili |
+| durum / kanit / eskalasyon | PLANNED-dogrulandi · statik/dinamik/olcum · P0-P1 |
+
+| Sıklık (5 dk) | Eylem |
+|---|---|
+| Aynı P0 K'de 2+ ret | Olay aç → inceleme |
+| P0 K'de ret yok ama erişim | Sızıntı varsayımı → derhal eskale |
+| M7 tekrarı (imza) | İmza zinciri taraması |
+| M6 tekrarı (keychain) | Erişim grubu denetimi |
+
+Log append-only; `ts` geriye sarılmaz; `kanit` boş olay sayılmaz; P0 olayları
+bir sonraki §13.2 turunda tekrar denenir. §6 S1/S2 etkilenmez; frontmatter
+değişmez. Sıra: P0 → K1, K2, K4, K6, K7 → P1 → K3, K5, K8.
+
+### §15 Append-only + kapı özeti (macOS yetki eki protokolü)
+
+Her gelecek eki yalnız Authority kuyruğundan sonra eklenir; §0–§14,
+frontmatter ve Authority satırı değişmez; sıradaki numara §16'dır. Yasaklar:
+silme/yeniden yazma · dolgu/TBD · §6 S1/S2 kapatma · frontmatter değişikliği ·
+Mojibake. Ekleme sonrası ölç; 500'ün altındaysa §<n+1> kaynak atıflı eklenir.
+
+### §16 Zorunlu 8 soruluk kapı özeti (son okuma)
+
+| # | Soru | Cevap referansı |
+|---|---|---|
+| 1 | TCC veritabanı doğru mu? | §2.1 + §13.2 N1 |
+| 2 | İmza/entitlement eksiksiz mi? | §2.2 + §13.2 N2/N7 |
+| 3 | Authorization right'ları dar mı? | §2.3 + §13.2 N3 |
+| 4 | Sandbox kapsamı etkin mi? | §13.2 N4 |
+| 5 | Dosya ACL net mi? | §13.2 N4 |
+| 6 | Keychain grubu doğru mu? | §13.2 N5 |
+| 7 | İmza zinciri bütün mü? | §7 K7 |
+| 8 | Admin artışı yolu korunuyor mu? | §13.2 N6 |
+
+3 dk rota: §16 → §9.1 → §6 (oku, **kapatma**). Hatalar: kanıtsız "temiz"
+iddiası, PLANNED'ı geçiş saymak, log düzenlemek, fail-open yorumu.
+Sonraki tur: §8 → cihaz ölçümü · §10 → dinamik kanıt · §11.2 → tarihli URL ·
+§13.2 → §14 olayı. Bu işler bu turda **yapılmadı**.
+
+### §17 Ek kontrol listesi + hızlı rota (macOS yetki)
+
+| # | Ek kontrol | Beklenen | Kanıt |
+|---|---|---|---|
+| E1 | TCC veritabanı kalıntısı | Sıfırlama sonrası temiz | §2.1 çıktısı |
+| E2 | entitlement fazlası | En az yetki | §2.2 listesi |
+| E3 | rights grubu fazlası | Tanımsız hak yok | Authorization dökümü |
+| E4 | sandbox profili sızıntısı | Dışa erişim yok | ret kanıtı |
+| E5 | keychain ACL fazlası | Dar | security çıktısı |
+| E6 | imza yeniden işaretleme direnci | Ret | davranış |
+| E7 | kalıntık admin hakkı | Yok | denetim |
+| E8 | sıfırlama sonrası yeniden onay | Akış doğru | kullanıcı akışı |
+
+Sıra: P0 (E1, E2, E5, E6) önce; P2 son. Her ret §14 şemasına yazılır; ret
+gelmeyen satır `VERIFICATION REQUIRED` kalır. Çıktı bu dosyaya **ek** olarak
+yazılır; mevcut satırlar değişmez. Ölç-ekle-devam: sayı ≥500 değilse §18
+Authority kuyruğundan sonra eklenir; dolgu yasak.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §18 Olay günlüğü derinlemesine şema + eskalasyon (macOS yetki)
+
+§14 özetinin tam sürümüdür; bu bölüm ayrıntılı alan ve eşik tanımlar.
+Append-only: §0–§17 değişmedi.
+
+### §18.1 Ayrıntılı olay alanı listesi
+
+| Alan | Tip | Kural |
+|---|---|---|
+| ts | ISO-8601 | Saat geriye sarılmaz |
+| mod | M1–M8 | §9 modundan |
+| kontrol | K1–K8 | §7 matrisinden |
+| yuzey / kaynak | §ref + path | TCC/AMFI/keychain yüzeyi |
+| beklenen / gozlenen | ikili | Ret vs erişim |
+| kanit | statik/dinamik/olcum | §7.1; boş kanit sayılmaz |
+| durum | PLANNED/dogrulandi | §10.5 ile aynı |
+| eskalasyon | P0/P1 | §9.1 sırası |
+| tekrar-sayaci | int | Aynı K+mod için sayaç |
+
+### §18.2 Eşikler (5 dk pencere)
+
+| Eşik | Aksiyon | Sahip |
+|---|---|---|
+| Aynı P0 K'de 1 ret | Günlüğe yaz, izle | Yetki günlüğü |
+| Aynı P0 K'de 2 ret | Olay aç → inceleme | Olay müdahale |
+| P0 K'de ret yok + erişim | Sızıntı varsayımı → derhal | Sızıntı yanıtı |
+| M6 (keychain) 2+ | Erişim grubu/ACL denetimi | Saklama sahibi |
+| M7 (imza) 1 | İmza zinciri taraması | Paket/imza sahibi |
+| M8 (admin) 1 | Delege incelemesi | Yetki sahibi |
+
+### §18.3 Sayaç/süreklilik kuralları
+
+1. Sayaç yalnız olay eklendikçe artar (append-only).
+2. Pencere 5 dk; sayaç sıfırlanmaz, yeni pencere notu eklenir.
+3. Eskalasyon satırı `durum` alanını etkilemez (PLANNED kalan kalır).
+4. Olaylar §13.2 ile çaprazlanır; açık kalan satır üst karara gider.
+
+### §18.4 Bu bölümün kapı ilişkisi
+
+| Kapı | §18 katkısı |
+|---|---|
+| İçerik kapısı | Ek uzunluk bu bölümle ölçülür |
+| Açık soru kapısı | §6 S1/S2 etkilenmez |
+| Frontmatter kapısı | group/meta değişmez |
+| Append kapısı | Yalnız sonradan eklendi |
+
+### §18.5 Bir sonraki eki hazırlayanlar için sıra özeti
+
+1. §16 → §9.1 → §6 oku (6 dk).
+2. §13.2 negatif turunu çalıştır; sonuçları §14/§18 şemasına yaz.
+3. Ret gelmeyen P0 satırını `VERIFICATION REQUIRED` işaretle; 3 turda üst karar.
+4. Yeni içerik gerekiyorsa yalnız Authority kuyruğundan sonra §19 ekle; ölç.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

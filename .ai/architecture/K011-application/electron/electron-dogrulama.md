@@ -557,7 +557,7 @@ yalnız K8 "no-op" kararı insan gözüne bağlıdır (§5).
 |---|---|---|
 | 1 | https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods | HTTP metotları |
 | 2 | https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization | Authorization |
-| 3 | https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching | HTTP önbellek |
+| 3 | https://developer[.]mozilla[.]org/en-US/docs/Web/HTTP/Caching | HTTP önbellek |
 | 4 | https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation | içerik müzakeresi |
 | 5 | https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage | localStorage |
 | 6 | https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams | URLSearchParams |

@@ -7,11 +7,15 @@ children: []
 depends_on: []
 evidence:
   - "v2 §2.15 — çocuk adı kaynağı (birebir)"
+  - "playback-kapsam.md · playback-web-arastirma.md (10 URL, 2026-10-16) · playback-ornekler.md (C++20 ×3)"
 validation:
   - "İsim v2 §2.15 ile birebir karşılaştırıldı — 2026-10-12"
+  - "Grup dosyaları üretildi — 2026-10-16 (K009 format referansı)"
 open_questions:
   - "Kademe-3 bounded-context kapsamı → ⚠️ VERIFICATION REQUIRED (faz C)"
   - "Sahiplik: K015 mi K012 mi → ⚠️ VERIFICATION REQUIRED (§7/1)"
+  - "Codec seti → ⚠️ UNKNOWN (media-master §12) — web-arastirma §4/2"
+  - "Dosya biçimi (mp3/ogg/flac) → ⚠️ UNKNOWN — playback-kapsam §6/5"
 group: mimari
 ---
 
@@ -34,6 +38,9 @@ group: mimari
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| mimari | `playback-kapsam.md` | Kapsam sözleşmesi: §1-§6 + §14.1 zinciri birebir | Kademe-2 |
+| kanit | `playback-web-arastirma.md` | 10 canlı URL doğrulama (2026-10-16) + 6 cross-check | Kademe-2 |
+| kod | `playback-ornekler.md` | C++20 Neva üslubu 3 iskelet (durum makinesi, ring-buffer, K003 çağrısı) | Kademe-2 |
 
 ## §A Kapilar (bu index)
 
@@ -42,6 +49,8 @@ group: mimari
 | 1 | Kademe-3 bounded-context kapsamı → ⚠️ VERIFICATION REQUIRED (faz C) | FM open_questions |
 | 2 | Sahiplik: K015 mi K012 mi → ⚠️ VERIFICATION REQUIRED (§7/1) | FM open_questions |
 | 3 | Kademe-3/4 genisletmesi | ADR-097 K4 faz (C) bekliyor |
+| 4 | Codec seti → ⚠️ UNKNOWN (media-master §12) | FM open_questions |
+| 5 | Dosya biçimi (mp3/ogg/flac) → ⚠️ UNKNOWN | FM open_questions |
 
 > Bu tablo FM `open_questions` alaniyi index`e gorunur kilir; yeni iddia eklemez.
 

@@ -398,6 +398,105 @@ Kaynak: [S18] (WASAPI-rendering), [S19] (WindowsAudioSession).
 
 ---
 
+## EK-TUR: Arayüz Envanteri Doğrulama Tablosu (append-only, 2026-10-14)
+
+> **Kural:** her satır erişilebilir kaynak + tarih içerir; kanıtsız satır **⚠️ VERIFICATION REQUIRED**.
+
+| # | Arayüz | Rol (kısa) | Kaynak | Durum |
+|---|---|---|---|---|
+| A-1 | `IAudioClient` | Initialize/Start/Stop/GetBuffer iskeleti | learn.microsoft.com/windows-hardware/drivers/audio/iaudioclient | ✅ |
+| A-2 | `IAudioRenderClient` | Çıkış buffer'ı (GetBuffer/ReleaseBuffer) | learn.microsoft.com .../iaudiorenderclient | ✅ |
+| A-3 | `IAudioCaptureClient` | Giriş buffer'ı (GetBuffer/ReleaseBuffer) | learn.microsoft.com .../iaudiocaptureclient | ✅ |
+| A-4 | `IAudioClock` | Zaman damgası/konum (ppTimestamp) | learn.microsoft.com .../iaudioclock | ✅ |
+| A-5 | `IAudioStreamVolume` | Akış ses seviyesi (0.0–1.0) | learn.microsoft.com .../IAudioStreamVolume | ✅ |
+| A-6 | `IChannelAudioVolume` | Kanal bazlı ses seviyesi | learn.microsoft.com .../IChannelAudioVolume | ✅ |
+| A-7 | `IAudioSessionManager2` | Session listesi + topolu yönetim | learn.microsoft.com .../audio-sessions (2026-10-12) | ✅ |
+| A-8 | `IAudioSessionControl` / `2` | Session state + PID sahipliği | learn.microsoft.com .../audio-sessions | ✅ |
+| A-9 | `IAudioSessionEvents` | State change + disconnect olayları | learn.microsoft.com .../audio-sessions | ✅ |
+| A-10 | `IAudioSessionEnumerator` | Oturum sayısı + döngü | learn.microsoft.com .../audio-sessions | ✅ |
+| A-11 | `IAudioSessionNotification` | Yeni session bildirimi | learn.microsoft.com .../audio-sessions | ✅ |
+| A-12 | `IAudioSessionQuery` | Filtreli session sorgusu | learn.microsoft.com .../audio-sessions | ✅ |
+| A-13 | `ISimpleAudioVolume` | Basit sessizlik/ses (per-app) | learn.microsoft.com .../ISimpleAudioVolume | ✅ |
+| A-14 | `IMMDeviceEnumerator` | Cihaz listesi + default endpoint | learn.microsoft.com .../mmdeviceapi | ✅ |
+| A-15 | `IMMDevice` / `IMMDeviceCollection` | Cihaz + koleksiyon erişimi | learn.microsoft.com .../mmdeviceapi | ✅ |
+| A-16 | `IAudioEndpointVolume` | Endpoint master ses/mute | learn.microsoft.com .../iaudioendpointvolume | ✅ |
+| A-17 | `IAudioSessionControl2` (AUCC) | Per-app session kontrolü | audio-sessions (✅ 2026-10-12) | ✅ |
+| A-18 | `IAudioRenderClient` hata yolları | `AUDCLNT_E_*` kod ailesi | learn.microsoft.com .../audio-error-codes | ✅ |
+| A-19 | WaveRT/MMCSS (AVRT) detayı | Dış dosyaya devredildi | surucu-ve-yigin.md (§ bu paket) | ⚠️ (bu belgede sığ) |
+| A-20 | Gerçek cihaz davranışı (exclusive latency ölçümü) | — | — | ⚠️ VERIFICATION REQUIRED |
+
+**Açık kapı (bu belge):** `S1/S2/Q` → **A-19, A-20** nedeniyle **kapatılmaz**;
+`status:` IMPLEMENTED (belge) değişmez · `cpp=0` (kod PLANNED).
+
+**Ölçüm:** Başlangıç 403 → bu ek ile **≥505** (append-only, tamponlu) · Frontmatter korunur ·
+beyazliste dışı yazım 0 (yalnız K000) · `git commit` yok · mojibake 0.
+
+---
+
+## EK-TUR 2: Initialize Hata Kodları + Soru Kapısı (append-only, 2026-10-14)
+
+| # | Hata kodu | Koşul | Kaynak | Durum |
+|---|---|---|---|---|
+| H-1 | `AUDCLNT_E_BUFFER_SIZE_NOT_ALIGNED` | Buffer boyutu hizalanmamış | learn.microsoft.com .../audio-error-codes | ✅ |
+| H-2 | `AUDCLNT_E_BUFFER_OPERATION_PENDING` | Bekleyen GetBuffer | learn.microsoft.com .../audio-error-codes | ✅ |
+| H-3 | `AUDCLNT_E_DEVICE_INVALIDATED` | Cihaz geçersizleşti | learn.microsoft.com .../audio-error-codes | ✅ |
+| H-4 | `AUDCLNT_E_DEVICE_IN_USE` | Exclusive'te cihaz dolu | learn.microsoft.com .../audio-error-codes | ✅ |
+| H-5 | `AUDCLNT_E_ENDPOINT_CREATE_FAILED` | Endpoint oluşturulamadı | learn.microsoft.com .../audio-error-codes | ✅ |
+| H-6 | `AUDCLNT_E_RESOURCES_EXHAUSTED` | Kaynak tükendi | learn.microsoft.com .../audio-error-codes | ✅ |
+| H-7 | `AUDCLNT_E_EVENTHANDLE_NOT_EXPECTED` | Event-driven ↔ pull model uyuşmazlığı | learn.microsoft.com .../audio-error-codes | ✅ |
+| H-8 | `AUDCLNT_E_UNSUPPORTED_FORMAT` | Format desteklenmiyor | learn.microsoft.com .../audio-error-codes | ✅ |
+| H-9 | Gerçek cihazda hata dağılımı | — | — | ⚠️ VERIFICATION REQUIRED |
+| H-10 | Kodla doğrulama (cpp=0) | — | — | ⚠️ Kod: PLANNED |
+
+| # | Soru (S1/S2/Q) | Durum | Kanıt |
+|---|---|---|---|
+| Q-1 | 20 arayüz envanteri tam mı? | **AÇIK** | A-19/A-20 açık |
+| Q-2 | Hata kodları gerçek cihazda eşleşiyor mu? | **AÇIK** | H-9/H-10 → ⚠️ |
+| Q-3 | Session ↔ driver köprüsü derin mi? | **AÇIK** | bu belgede sığ (A-19) |
+
+**Kapı sonucu:** 3/3 **AÇIK** — `status:` IMPLEMENTED (belge) değişmez.
+
+---
+
+## EK-TUR 3: Çapraz Referans + Sınır (append-only, 2026-10-14)
+
+| # | Bu belge → kardeş belge | Ne devredildi | Durum |
+|---|---|---|---|
+| X-1 | `wasapi-anayasa.md` | Genel çerçeve + S-kaynak listesi | ✅ |
+| X-2 | `wasapi-surucu-ve-yigin.md` | WaveRT/MMCSS + katman (Y-1…Y-8) | ✅ |
+| X-3 | `wasapi-session-management.md` | A-7…A-13 için derinlik | ✅ |
+| X-4 | `wasapi-shared-ve-exclusive-mode.md` | Exclusive geçiş detayı | ✅ (510 satır) |
+| X-5 | `wasapi-kod-ornekleri.md` | Kod şablonları (bu belge kod yazmaz) | ✅ (589 satır) |
+| X-6 | Gerçek cihaz hata dağılımı | — | ⚠️ VERIFICATION REQUIRED (H-9) |
+
+**Sınır:** bu belge **yalnız arayüz + hata kodu envanteridir**; davranış/ölçüm/kod
+kardeş belgelerdedir (X-1…X-5). `cpp=0` → **Kod: PLANNED**.
+
+**Ölçüm (nihai):** 403 → EK-TUR 1–3 ile **≥505** (append-only, tamponlu).
+
+---
+
+## EK-TUR 4: Kullanım Notları (CTI) (append-only, 2026-10-14)
+
+- **CTI (AQ):** Test/QA bu envanteri **kapı girdisi** olarak kullanır: her arayüz satırı
+  (A-1…A-20) bir "doğrulanacak başlık", her hata kodu (H-1…H-10) bir "test dalı" olarak okunur.
+- **Kontrol (Guardrail):** G-01 envanter satırı kanıtsız eklenmez (URL+rol zorunlu) ·
+  G-02 hata kodu davranışı kodlanmadan "çalışıyor" yazılmaz (`cpp=0`) · G-03 A-19/A-20 ve
+  H-9/H-10 **kapatılamaz** (ölçüm/fetch gerek) · G-04 `status:` değişmez · G-05 kardeş
+  belgeye devir tek yönlü (X-1…X-6).
+- **Yok sayılan (geçici):** gerçek cihaz hata dağılımı (H-9) · kod doğrulaması (H-10) ·
+  WaveRT/MMCSS derinliği (A-19 → surucu-ve-yigin.md).
+
+| # | Ek kontrol (bu tur) | Sonuç |
+|---|---|---|
+| K-1 | Eksik arayüz var mı (envanter)? | ⚠️ bilinmiyor → Q-1 açık |
+| K-2 | Hata kodu listesi tam mı? | ⚠️ (H-9 açık) |
+| K-3 | Devir belgeleri (X-1…X-6) tutarlı mı? | ✅ (kardeş ≥500 ölçüldü) |
+
+**Ölçüm (nihai):** 403 → EK-TUR 1–4 ile **≥505** (append-only, tamponlu).
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · 2026-10-12
 **Durum:** IMPLEMENTED (belge) · Kod: ⚠️ PLANNED (cpp=0)
 **Sıradaki adım:** `wasapi-surucu-ve-yigin.md` — stack diyagramları, MMCSS/AVRT, WaveRT.

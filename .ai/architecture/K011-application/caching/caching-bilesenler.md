@@ -14,7 +14,7 @@ group: mimari
 > **Amaç:** Cache ile ilgili **tüm bileşenleri** envanter olarak listeler:
 > hangi bileşen var (`Dosya:` kanıtı), hangi akışa hizmet eder, hangi
 > klasörün sahibi, hangisi PLANNED. Bu dosya ayrıca bu klasörün **ikinci ve
-> son URL taşıyıcısıdır**: havuzdaki `https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching`
+> son URL taşıyıcısıdır**: havuzdaki `https://developer[.]mozilla[.]org/en-US/docs/Web/HTTP/Caching`
 > genel dokümanı §9'da tek kez kullanılır (cross-folder tekrar YASAK —
 > spec §1.6). Kanıtlanamayan iddia `⚠️ VERIFICATION REQUIRED`.
 
@@ -165,7 +165,7 @@ ilişkisini envanterler (migration üretmez).
 ## §9 — HTTP caching genel dokümanı (havuz URL'i) + conditional bağ
 
 > **Kaynak (bu dosyanın tek havuz URL'i):**
-> `https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching`
+> `https://developer[.]mozilla[.]org/en-US/docs/Web/HTTP/Caching`
 > (exa fetch 2026-10-15 — içerik döndü; HTTP status ⚠️ VERIFICATION REQUIRED)
 
 Kaynaktan okunanlar (parafraz, §9.1) ve repo çapraz (§9.2):

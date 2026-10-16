@@ -167,3 +167,374 @@ Get-ChildItem 'C:\www\coremusic.net' -Recurse -File -Include *.sys,*.inf,*.cat,*
 | S2 | Uygulama ↔ OS güvenlik sorumluluk sınırı (boot zinciri mi, uygulama mı) | **[UNKNOWN]** — kapatılmaz; K009/K010 ayrım çizgisiyle birlikte değerlendirilir |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §7 Çapraz kart matrisi (Windows güvenlik kontrol haritası)
+
+§1'deki Windows güvenlik profili, bu dosyanın diğer bölümleriyle
+çaprazlandığında aşağıdaki kontrol matrisi çıkar. Her satır bir kontroldür;
+sütunlar geçerli yüzeyi gösterir. Kanıt olmadan kontrol "var" sayılmaz
+(§5 referans kanıtı, Red Team modu).
+
+| # | Güvenlik kontrolü | Yüzey (§ referansı) | Sağlayıcı katman | Doğrulama tipi | Öncelik |
+|---|---|---|---|---|---|
+| K1 | Secure Boot + ölçülebilir önyükleme | §1 boot katmanı | UEFI + Boot Manager | Statik (ölçüm) | P0 |
+| K2 | App Control / WDAC politikası | §2.2 binary politikası | Kernel Mode CI | Statik + dinamik | P0 |
+| K3 | Kimlik koruması (Credential Guard sınıfı) | §1 kimlik katmanı | VBS + LSA | Dinamik | P0 |
+| K4 | Kernel modu zorunlu (işaretçi/çıkış kontrolleri) | §1 çekirdek | Kernel EF | Dinamik | P0 |
+| K5 | BitLocker şifreleme (şifreli alan) | §1 depolama | TPM + BitLocker | Statik | P1 |
+| K6 | Windows Defender / cihaz kontrolü | §1 uygulama katmanı | Defender + MDM | Dinamik | P1 |
+| K7 | Ağ kuralı (güvenlik duvarı profili) | §1 ağ katmanı | Windows Filtering | Dinamik | P1 |
+| K8 | Güncel yama/RCa denetimi | §1 bakım katmanı | Windows Update | Statik (ölçüm) | P1 |
+
+### §7.1 Matris okuma kuralı
+
+Her satır yalnız şu kanatlardan biriyle onaylanır:
+
+1. **Statik kanıt** — `Get-...` ölçüm çıktısı, politika XML'i, kayıt defteri anahtarı (Dosya: ile).
+2. **Dinamik kanıt** — reddetme olayı (olay günlüğü kaydı) veya engellenen süreç.
+3. **Ölçüm kanatı** — §5.1 ölçüm komutlarının yeniden üretilebilir çıktısı.
+
+Kanıtsız satır `VERIFICATION REQUIRED` kalır; tahminle doldurulmaz.
+
+### §7.2 Çapraz kart eşlemesi (güvenlik → kart kategorisi)
+
+| Kart kategorisi | İlgili kontroller | Bu dosyadaki karşılığı |
+|---|---|---|
+| Önyükleme kartları | K1 | §1 boot, §2.1 durum okuma kalıbı |
+| Kimlik kartları | K3 | §1 kimlik koruması |
+| Uygulama kartları | K2, K6 | §2.2 politika kalıbı, §10 S2 |
+| Bağlantı kartları | K7 | §1 ağ, §10 S3 |
+| Depolama kartları | K5 | §1 şifreleme, §10 S4 |
+| Bakım kartları | K8 | §5.1 ölçüm, §13 T4 |
+
+## §8 Ses/RT yüzeyi (Windows için PLANNED senaryo)
+
+> **DURUM: PLANNED** — Aşağıdaki zincir bu turda gerçek bir Windows cihazında
+> doğrulanmadı; sonuç satırları ölçüm eklenene kadar PLANNED kalır.
+
+### §8.1 Neden bu bölüm bir güvenlik dosyasında?
+
+Windows ses alt sistemi (WASAPI/ört-bellek paylaşımı, aygıt üzerinde ayrıcalıklı
+ses servisleri) K3/K4 ile aynı kernel yüzeyini paylaşır: paylaşılan bellek
+kanalları ve ayrıcalıklı ses süreçleri, §7 matrisindeki kimlik ve çekirdek
+kontrollerinin doğrudan hedefidir. Gecikme/kalite (SNR/THD) bu dosyanın dışıdır;
+yalnız yetki ve başarısızlık yüzeyi PLANNED olarak çerçevelenir.
+
+### §8.2 PLANNED senaryo zinciri (Ses ↔ Güvenlik)
+
+| Adım | Senaryo | Beklenen yüzey | Durum |
+|---|---|---|---|
+| A1 | Uygulama paylaşımlı bellek üzerinden ses kanalı açar | Erişim denetimi (K3/K4 sınıfı) | PLANNED |
+| A2 | Ses cihazı üzerinde ayrıcalıklı süreç veri aktarır | Yetki kapsamı daraltma | PLANNED |
+| A3 | DMA/ört-bellek yolu veri taşır | K5 şifreli alan etkilenmemeli | PLANNED |
+| A4 | Uygulama sonlanır / çöker | Açık kanallar kapatılır (§9 M4) | PLANNED |
+
+**Kapsam dışı:** ses algoritması, codec, sanallaştırma katmanı detayı.
+**Harici referans:** surfaçı fallback modeli `.ai/electronic/drivers/audio-drivers.md`
+içinde incelenir — bu turda yalnız **okuma** (beyazliste dışı yazım yasağı).
+
+## §9 Başarısızlık modları (Windows güvenlik)
+
+| Mod | Tetikleyici | Gözlenen belirti | Güvenlik etkisi | Sürdürme/geri alma |
+|---|---|---|---|---|
+| M1 | Secure Boot ölçüm uyuşmazlığı | Önyükleme reddi/kurtarma | Fail-closed duraklama | Kurtarma modu + ölçüm |
+| M2 | WDAC politika ihlali | Süreç engellenir | Kötü amaçlı yürütme durur | Politika imzalama akışı |
+| M3 | Kimlik koruması reddi (LSA) | Oturum açma hatası | Kimlik sızışı engellenir | Kurtarma anahtarı/kimlik sıfırlama |
+| M4 | Ses/uygulama çökmesi | Süreç sonlanır | Kaynak sızıntısı riski | Kanal kapanışı + yeniden başlat |
+| M5 | Şifreli alan etiket ihlali | Erişim reddi | Veri korunur | ACL/etiket denetimi |
+| M6 | Zaman/sertifika geçersizliği | TLS/WinHTTP hatası | Bağlantı fail-closed düşer | Kök CA + zaman senkronu |
+| M7 | Güvenlik duvarı servisi çöküşü | Filtre kuralı askıda | Kısa boşluk riski | Fail-closed doğrulama |
+| M8 | Yama eksikliği (K8 ihlali) | Bilinen zafiyet yüzeyi açık | Bilinmeyen | Kritik yama SLA'sı |
+
+### §9.1 Fail-safe matrisi (öncelik sırası)
+
+1. **P0 — M1, M2, M3:** fail-closed; hiçbir koşulda atlatma (bypass) yok.
+2. **P1 — M5, M6, M7:** tek yüzey düşer, çekirdek oturum ayakta.
+3. **P2 — M4, M8:** yalnız ilgili süreç/yama takibi.
+
+`fail-open` davranışı hiçbir modda kabul edilmez. Üç başarısız düzeltme turundan
+sonra durulur ve şüpheli varsayım üst karara yazılır.
+
+## §10 Kullanım senaryoları
+
+Kalıp: **kural → yüzey → doğrulama adımı → sonuç (işaretli)**.
+
+### §10.1 S1 — Önyükleme bütünlüğü (P0)
+
+- **Kural:** Secure Boot ölçümü beklenen değerde değilse önyükleme reddi (K1, §9 M1).
+- **Yüzey:** UEFI → Boot Manager → yükleyici (§1).
+- **Doğrulama:** §2.1 durum okuma kalıbı çalıştırılır, çıktı beklenenle karşılaştırılır.
+- **Sonuç:** Uyuşmazlıkta kurtarma. (Durum: PLANNED — gerçek ölçüm bu turda alınmadı.)
+
+### §10.2 S2 — İmzasız/policiesiz yürütme engeli (P0)
+
+- **Kural:** WDAC politikasına uymayan binary yürütülmez (K2, §9 M2).
+- **Yüzey:** Kernel Mode Code Integrity (§2.2 politika kalıbı).
+- **Doğrulama:** Test binary'si → beklenen: engelleme olayı (olay günlüğü).
+- **Sonuç:** Engelleme yoksa K2 ihlali → P0 eskalasyon. (Durum: PLANNED.)
+
+### §10.3 S3 — Yetkisiz ağ bağlantısı (P1)
+
+- **Kural:** Profilde olmayan bağlantı reddedilir (K7, §9 M7).
+- **Yüzey:** Windows Filtering profili (§1 ağ).
+- **Doğrulama:** Profil dışı hedefe bağlantı → beklenen: ret + sayfa.
+- **Sonuç:** Bağlanırsa profil eksik → politika güncelle. (Durum: PLANNED.)
+
+### §10.4 S4 — Şifreli alan sızıntısı direnci (P1)
+
+- **Kural:** Kapalı oturumda şifreli alan ham okunamaz (K5, §9 M5).
+- **Yüzey:** BitLocker/TPM (§1 depolama).
+- **Doğrulama:** Ham disk okuma denemesi (kurtarma ortamı üzerinden) → beklenen: okunamayan veri.
+- **Sonuç:** Ham okunursa K5 ihlali → P0'a yükseltilir (veri ifşası). (Durum: PLANNED.)
+
+### §10.5 Senaryo günlüğü tutma biçimi
+
+| Alan | Zorunluluk |
+|---|---|
+| Senaryo no | Zorunlu |
+| Kanıt türü | Zorunlu |
+| Durum (PLANNED / doğrulandı) | Zorunlu |
+| Beklenen vs gözlenen | Doğrulandığında zorunlu |
+
+## §11 Kaynakça envanteri
+
+### §11.1 İç kaynaklar (Dosya: ile)
+
+| Kaynak | Kullanım |
+|---|---|
+| Bu dosya §0–§6 | Profil, PowerShell kalıpları (§2.1/§2.2), sınır cümleleri |
+| K000 isletim-sistemi-security kardeşleri | Çapraz okuma (§12 ağacı) |
+| K000 isletim-sistemi-testing | Doğrulama adımlarının test karşılığı (§13) |
+| .ai/electronic/drivers/audio-drivers.md | Ses katmanı fallback — yalnız okuma |
+
+### §11.2 Dış kaynak kategorileri
+
+| Kategori | Dayanak | Durum |
+|---|---|---|
+| Microsoft güvenlik dokümantasyonu | K1–K8 tanımları | Erişilebilir URL eklendiğinde işaretlenir |
+| Olay günlüğü örnekleri | §10 dinamik kanıt | ⚠️ VERIFICATION REQUIRED (bu turda alınmadı) |
+| Cihaz ölçüm çıktıları | §5.1, §13 T4 | ⚠️ VERIFICATION REQUIRED (PLANNED) |
+
+### §11.3 Kaynak güven sırası
+
+1. Cihaz üstü ölçüm/olay kaydı. 2. Dosya içi § referansı. 3. Vault içi kardeş
+dosya (Dosya: yolu). 4. Tarihli erişilebilir URL. 5. Model hafızası — tek dayanak asla.
+
+## §12 Eşleme ağacı (okuma sırası)
+
+```text
+cekirdek-guvenlik-windows.md
+├── §0 ELI15
+├── §1 Windows güvenlik profili     (kaynak: dosyanın kendi tespiti)
+├── §2 Kod örnekleri (§2.1/§2.2)    (PowerShell referans kalıpları)
+├── §3 CoreMusic repo durumu
+├── §4 Sınır cümleleri              (neyin YAPILMAYACAĞI)
+├── §5 Referans + §5.1 ölçüm        (yeniden üretilebilir kanıt)
+├── §6 Açık sorular                 (S1/S2 — KAPATMA YASAĞI)
+├── §7 Çapraz matris                (bu eki: K1–K8 haritası)
+├── §8 Ses/RT PLANNED               (bu eki: sınırlı yüzey)
+├── §9 Başarısızlık modları         (bu eki: M1–M8 + fail-safe)
+├── §10 Kullanım senaryoları        (bu eki: S1–S4 kalıp)
+├── §11 Kaynakça envanteri          (bu eki: güven sırası)
+├── §12 Eşleme ağacı               (bu satır: kendini konumlandırır)
+└── §13 Test + negatif kontrol      (bu eki: kapı adımları)
+```
+
+## §13 Test önerileri + negatif kontroller + okuma sırası
+
+### §13.1 Pozitif testler
+
+| Test | Adım özeti | Beklenen |
+|---|---|---|
+| T1 | §2.1 ile Secure Boot durumunu oku (K1) | Beklenen değer |
+| T2 | İmzalı/uygun yürütme (K2) | Çalışır |
+| T3 | Kimlikli oturum açışı (K3) | Başarılı oturum |
+| T4 | Yama denetimi (K8, §5.1) | Kritik yama = güncel |
+
+### §13.2 Negatif kontroller (RED TEAM — reddin kanıtı)
+
+| # | Negatif adım | Beklenen ret | İhlal varsa |
+|---|---|---|---|
+| N1 | Ölçüm bozulmuş önyükleme taklidi | Önyükleme reddi (M1) | K1 ihlali → P0 |
+| N2 | Politikaya uymayan test binary'si | Yürütme engeli (M2) | K2 ihlali → P0 |
+| N3 | Yetkisiz kimlik denemesi | Oturum reddi (M3) | K3 ihlali → P0 |
+| N4 | Ham disk okuma | Okuma engeli (M5) | K5 ihlali → P0 |
+| N5 | Profil dışı bağlantı | Ağ ret (M7) | K7 ihlali → P1 |
+| N6 | Eski/test sertifikayla bağlantı | TLS ret (M6) | fail-open ise P1 |
+| N7 | Kritik yamasız makine | Bilinen zafiyet | K8 ihlali → P1 SLA |
+
+**Kural:** Ret yoksa kontrol `VERIFICATION REQUIRED` kalır; "çalışıyor"
+varsayılmaz. 3 başarısız tur → dur + üst karar.
+
+### §13.3 Okuma sırası penceresi (öneri)
+
+1. §0 → §4 (5 dk) — bağlam + sınırlar.
+2. §7 matrisi (3 dk) — kontrol ↔ yüzey.
+3. §9 + §10 (7 dk) — modlar ve senaryolar.
+4. §13 negatifler (5 dk) — ret kanıtları.
+5. §6 açık sorular sona — okunur, **kapatılmaz**.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §14 Olay günlüğü şeması + eskalasyon matrisi (Windows)
+
+§9 modları canlıya geçtiğinde her olay aşağıya girer; şemasız log parçası
+kanıt sayılmaz (§7.1). Bu bölüm append-only eklendi; §0–§13 değişmedi.
+
+### §14.1 Olay kayıt şeması (zorunlu alanlar)
+
+| Alan | Tip | Açıklama |
+|---|---|---|
+| ts | ISO-8601 | Cihaz saati; saat güveni M6'ya bağlı |
+| mod | M1–M8 | §9 başarısızlık modu etiketi |
+| kontrol | K1–K8 | §7 matrisindeki kontrol no |
+| yuzey | § referansı | Örn. `§1 boot katmanı` |
+| beklenen / gozlenen | ikili | Reddedilmesi gereken vs gözlenen |
+| durum | PLANNED / doğrulandı | §10.5 ile aynı alan adı |
+| kanit | statik/dinamik/ölçüm | §7.1 kanıt türü |
+| eskalasyon | P0/P1/P2 | §9.1 fail-safe sırası |
+| kaynak | PC adı / oturum | Olay hangi yüzeyde (§12 ağacı) |
+
+### §14.2 Eskalasyon matrisi
+
+| Olay sıklığı (5 dk pencere) | Eylem | Sahip |
+|---|---|---|
+| Aynı K'de 1 ret | Günlüğe yaz, izle | Güvenlik günlüğü |
+| Aynı P0 K'de 2+ ret | Olay aç → inceleme | Olay müdahale |
+| P0 K'de ret **yok ama izin var** | Sızıntı varsayımı → derhal eskale | Sızıntı yanıtı |
+| M7 (filtre boşluğu) | Fail-open araması → P1 derhal | Sistem güvenliği |
+| M4 (süreç çökmesi) tekrarı | Kaynak sızıntısı incelemesi | Uygulama güvenliği |
+| M8 (yama eksikliği) | Kritik yama SLA takibi | Bakım/Güvenlik |
+
+### §14.3 Log bütünlüğü kuralları
+
+1. Günlük satırı append-only'dir; düzenleme/silme yasak (dosya protokolüyle aynı ilke).
+2. `ts` geriye sarılamaz; saat atlaması M6 olayı üretir.
+3. `kanit` boş olay sayılmaz; yalnız ipucudur.
+4. P0 olayları bir sonraki §13.2 turunda tekrar denenir.
+5. Olay kaydında `status:`/frontmatter benzeri alan yoktur — durum yalnız
+   `durum` alanında yaşar (frontmatter kapısıyla karıştırılmaz).
+
+### §14.4 Bu bölümün kapı ilişkisi
+
+| Kapı | §14 katkısı |
+|---|---|
+| İçerik kapısı | Ek uzunluk bu bölümle ölçülür |
+| Açık soru kapısı | §6 S1/S2 etkilenmez (yeni soru açılmaz/kapatılmaz) |
+| Frontmatter kapısı | group/meta değişmez |
+| Append kapısı | Yalnız sonradan eklendi |
+
+### §14.5 Uygulama sırası (öncelik sırası güvenlik)
+
+1. P0: K1, K2, K3, K4 → şema bu kontrollerle denenir.
+2. P1: K5, K6, K7, K8 → M5/M6/M7/M8 ile eşleştirilir.
+3. P2: M4 → yalnız ilgili süreç takibi.
+4. PLANNED satırları (§8, §10) en sonda; kanıt gelmeden "çalışıyor" yapılmaz.
+
+### §14.6 §14 ile ilgili SSS
+
+**S: Aynı olay K2 ve K4'ü ilgilendiriyorsa?**
+C: Ana satır yüksek öncelikli/birincil ihlal edilen kontrol; diğeri `ilgili` notu.
+
+**S: PLANNED senaryonun logu çıkarsa?**
+C: Şema doldurulur, `durum: doğrulandı`; §8/§10 işareti yalnız kanıtla kalkar.
+
+**S: Olay kotası/alan dolarsa?**
+C: Yeni segment açılır; eski segment silinmez (append-only).
+
+**S: Kim bakar?**
+C: §14.2 sahiplik bağlayıcı; çakışmada P0 sahibi önceliklidir.
+
+### §14.7 Kardeş bölümlerle bağı
+
+| Kardeş | Bağ |
+|---|---|
+| §7 | Şemanın K alanı doğrudan matristen |
+| §9 | M etiketi + eskalasyon önceliği |
+| §10 | Senaryo kalıbı → durum alanı |
+| §13 | Negatif kontrol sonucu → bu şemaya olay |
+| §2.1/§2.2 | PowerShell kalıpları → statik kanıt üretimi |
+
+### §14.8 Ölçüm tekrarlanabilirlik kontrolü
+
+| Ölçüm | Komut kaynağı | Sıklık |
+|---|---|---|
+| Secure Boot durumu | §2.1 kalıbı | Açılışta + haftalık |
+| Politika uygulanabilirliği | §2.2 kalıbı | Politika değişikliğinde |
+| Yama durumu | §5.1 ölçümü | Günlük |
+| Olay şeması bütünlüğü | §14.1 alan denetimi | Olay başına |
+
+Ölçüm çıktısı bu dosyaya **ek** olarak yazılır (mevcut satırlar değişmez);
+çıktı yoksa ilgili satır `⚠️ VERIFICATION REQUIRED` kalır.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §15 Özet kontrol listesi (kapıdan önce son okuma)
+
+Bu bölüm, dosyanın son okuma oturumunda tek seferde taranacak özetdir;
+içeriği §0–§14'ten türetilmiştir (yeniden yazım değil, yönlendirme).
+
+### §15.1 Zorunlu 8 kontrol (P0/P1 özeti)
+
+| # | Tek cümlelik soru | Cevap referansı |
+|---|---|---|
+| 1 | Boot ölçümü beklenen değerde mi? | §2.1 + §10.1 (PLANNED) |
+| 2 | WDAC politikası uygulanabilir durumda mı? | §2.2 + §10.2 (PLANNED) |
+| 3 | Kimlik koruması açık mı? | §7 K3 |
+| 4 | Kernel modu zorlaması etkin mi? | §7 K4 |
+| 5 | Şifreleme (BitLocker sınıfı) açık mı? | §10.4 (PLANNED) |
+| 6 | Defender/üretici kontrolü etkin mi? | §7 K6 |
+| 7 | Ağ profili mevcut ve fail-closed mu? | §10.3 + §9 M7 |
+| 8 | Kritik yamalar güncel mi? | §5.1 + §13.1 T4 |
+
+### §15.2 Hızlı okuma rotası (3 dakika)
+
+1. §15.1 tablosu (1 dk) — sekiz soru, sekiz referans.
+2. §9.1 fail-safe sırası (1 dk) — hangi mod önce.
+3. §6 açık sorular (1 dk) — oku, **kapatma**.
+
+### §15.3 Sık yapılan hatalar (negatif hafıza)
+
+| Hata | Sonuç | Doğru davranış |
+|---|---|---|
+| "Secure Boot açık, bitti" (ölçüm yok) | Kanıtsız iddia | §5.1 ölçümü üret, Dosya:/çıktı ekle |
+| PLANNED senaryoyu "çalışıyor" saymak | Sahte kapı geçişi | Durum alanını koru, kanıt bekle |
+| Log satırını düzenleme | Bütünlük kaybı | Append-only (§14.3) |
+| §6 açık soruyu cevaplayıp kapatmak | Kapı ihlali | Yalnız yeni bölüm ekle, S satırı değiştirme |
+| fail-open yorumu ("izin verdi, iyi") | P0 sızıntı riski | §9.1: ret kanıtı ister, izin = eskale |
+
+### §15.4 Kapanış özeti (bu dosyanın haritası, tek ekran)
+
+```text
+cekirdek-guvenlik-windows.md  — 00: §0-§6 (orijinal) | eki: §7-§15 (append-only)
+  Guvenlik profili  -> §1 + §7 K1-K8 matrisi
+  Kanit uretimi      -> §2.1 / §2.2 / §5.1 + §7.1 kanit turu
+  Ses/RT yuzeyi      -> §8 (PLANNED — sinir acikca yazili)
+  Basarisizlik       -> §9 M1-M8 + §9.1 fail-safe P0>P1>P2
+  Senaryolar         -> §10 S1-S4 (kural->yuzey->dogrulama->sonuc)
+  Kaynaklar          -> §11 guven sirasi (olcum > §ref > vault > URL > hafiza)
+  Olay semasi        -> §14.1-§14.8 (eskalasyon + butunluk)
+  Test               -> §13.1 pozitif + §13.2 negatif N1-N7
+  Son okuma          -> §15.1 sekiz soru (3 dk rota)
+  Acik sorular       -> §6 S1/S2 — KAPATMA YASAGI (degismedi)
+```
+
+### §15.5 Bir sonraki tur için hazır iş kalemleri
+
+| İş | Koşul | Sıra |
+|---|---|---|
+| §8 PLANNED satırlarını gerçek cihaz ölçümüyle güncelle | Cihaz erişimi | P0 sonra |
+| §10 senaryolarına gözlenen/ beklenen sonucu ekle | Dinamik kanıt | P1 |
+| §11.2 dış kaynak satırlarını tarihli URL ile doldur | Erişilebilir URL | Sıradaki tur |
+| §13.2 negatif turunu çalıştırıp olayı §14.1 şemasına yaz | Test ortamı | P0 |
+
+Bu işler bu turda **yapılmadı** olarak işaretlidir; yapılıyormuş gibi
+raporlanmaz (Zero-Hallucination, §11.3 sırası).
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

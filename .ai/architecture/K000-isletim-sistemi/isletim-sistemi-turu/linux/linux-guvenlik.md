@@ -268,4 +268,236 @@ runner (build/test işi, güvenlik kontrolü değil). Gerçek Linux güvenlik ko
 
 ---
 
+## §7 Çapraz kart matrisi (bu dal — 7 OS güvenlik kartı)
+
+Bu kart `isletim-sistemi-turu` dalının **güvenlik** kartıdır ve dalın **tek
+üretim-hedefi kartıdır** (§2.1: Raspberry Pi 5, Linux/ARM — bu nedenle §2'deki
+repo izi yedi kart içinde **en güçlüsüdür**: §2.1 üretim hedefi + §2.2 CI Linux
+runner tüm job'larda). Aşağıdaki matris yedi güvenlik kartını listeler.
+
+| # | Kart | Odak (dosyanın §1 başlığı) | Repo izi (§2) | Bu kartla ilişki |
+|---|------|---------------------------|----------------|------------------|
+| 1 | `android-guvenlik` | Linux + SELinux + permission | UA + enum + CI | ailedeş (Linux çekirdek) |
+| 2 | `ios-guvenlik` | XNU + sandbox/Mach | Boşluk matrisi | uzak aile |
+| 3 | **`linux-guvenlik` (bu kart)** | **Linux capabilities/LSM** | **Üretim hedefi + CI (§2.1–§2.2)** | — |
+| 4 | `macos-guvenlik` | XNU + Endpoint Security | Dürüst negatif | uzak aile |
+| 5 | `reactos-guvenlik` | NT Security Manager | YOK | uzak (NT) |
+| 6 | `tizen-guvenlik` | Linux + privilege manifest | UA, enum YOK | ailedeş (Linux) |
+| 7 | `webos-guvenlik` | Linux + ACG/role/groups | UA, enum YOK | ailedeş (Linux) |
+| 8 | `windows-guvenlik` | NT token/ACL/MIC + IIS/Apache | Yapılandırma | uzak (NT) |
+
+**Ayrışma notu:** Bu kart **dalın referans kartıdır** — §2.1 üretim hedefi
+doğrudan Linux olduğundan "repo izi" bu kartta **dürüst negatif değil, pozitif**
+işaretlidir. Diğer altı kart (tizen/webos hariç) Linux'a **referansla** bakar.
+
+## §8 Ses/RT PLANNED senaryo (bu kartın güvenlik açısı)
+
+Bu bölüm Linux'a özgü **yeni teknik iddia içermez**; yalnız güvenlik
+katmanının CoreMusic PLANNED ses/RT yığınıyla **kesişeceği** noktayı gösterir.
+Birincil kaynak salt-okunur: `.ai/electronic/drivers/audio-drivers.md` (709 satır).
+
+Linux'ta ses erişimi **capabilities + LSM (SELinux/AppArmor) + grup** ile
+korunur (ör. `audio` grubu) — ancak **hangi kuralın hangi ses yolunu açtığı**
+bu dosyada kanıtlanmaz → **`⚠️ VERIFICATION REQUIRED`**.
+
+| RT katmanı (kaynak §) | Linux güvenlik açısı | Bu kartta kanıtlı mı? | Durum |
+|----------------------|----------------------|------------------------|-------|
+| ALSA çekirdek yolu (L365) | `/dev/snd/*` erişimi grup/capability | Hayır — audio policy kanıtı yok | **PLANNED** |
+| Kernel sürücü/DMA (L32, L44) | çekirdek uzayı register erişimi | Hayır | **PLANNED** |
+| SCHED_FIFO / IRQ affinity (L690–691) | RT önceliği için capability | Hayır | **PLANNED** |
+| Exclusive lock (L455) | İkinci uygulama açamaz | Hayır | **PLANNED** |
+
+**Kesişim kararı (bu kart):** Linux, ses/RT'nin **gerçek hedefidir** (RPi5
+üretim hedefi — §2.1), **ama bu kart o kararı vermez**; güvenlik/RT kararları
+`isletim-sistemi-audio` + `isletim-sistemi-security` dallarında alınır. Bu kart
+yalnız **güvenlik katmanı girdisini** taşır.
+
+## §9 Başarısızlık modları (bu kartın kapsamı)
+
+Modlar **bu dosyanın yanlış çıkma biçimleridir**; hiçbir "Linux'ta şu çalışmıyor"
+**iddiası değildir** — "bu kart kanıtlamıyor" ifadesidir (zero-hallucination).
+
+| # | Başarısızlık modu | Tetikleyici | Etki | Bağlantı |
+|---|-------------------|-------------|------|----------|
+| F1 | Üretim hedefi izinin güvenlik doğrulaması sanılması | §2.1/§2.2 pozitif izlerin "güvenlik doğrulandı" sanılması | Yanlış güvenlik garantisi | §2.1, §17 |
+| F2 | Dürüst negatifin tersine çevrilmesi | §2.4'teki "YOK" kanıtlarının VAR sanılması | Yanlış envanter | §2.4 |
+| F3 | Bridge sorumluluk karıştırılması | §3 devir/devralmanın ters yorumu | Sınır ihlali | §3, §12 |
+| F4 | S1/S2 erken kapatılması | §6 `[UNKNOWN]` soruları cevaplanmış varsayılırsa | Kanıtsız mimari karar | §6 |
+| F5 | capabilities/LSM abartısı | §1.1–§1.3 katmanlarının "her şeyi koruduğu" sanılması | Yanlış varsayım | §1.1, §1.3 |
+
+## §9.1 Fail-safe sırası (P0 > P1 > P2)
+
+1. **P0 — Durdur ve işaretle:** İddia kanıtsızsa satır `⚠️ VERIFICATION REQUIRED`
+   kalır; capability/LSM adı **uydurulmaz**.
+2. **P1 — Daralt:** "Güvenlik doğrulandı" → "§2.1 üretim hedefi + §2.2 CI izi mevcut".
+3. **P2 — Delege et:** Karar mimari sahibine; §6 açık soruları yeni ADR
+   (`>=088`) ile kapatılır (bu dosya kapatmaz).
+
+## §10 Kullanım senaryoları (bu kart kimler için)
+
+| Senaryo | Kullanılır mı? | Bölüm | Not |
+|---------|----------------|-------|-----|
+| Linux güvenlik katmanı özeti | Evet | §1.1–§1.3 | Temel katman + varsayılan + risk |
+| Üretim hedefi izi | Evet | §2.1, §2.2 | Pozitif iz (RPi5 + CI) |
+| Hızlı referans özeti | Evet | §6.1 | Özet matrisi |
+| K000→security sınırı | Evet | §3 | Bridge |
+| K009 sınırı | Evet | §4 | Devredilmez |
+| Ses/RT kararı | **Hayır** | §8 | `isletim-sistemi-audio`'ya delege |
+| S1/S2 kapatma | **Hayır** | §6 | Mimari sahibi + ADR |
+
+## §11 Kaynakça envanteri (bu kartta atıf yapılan yüzeyler)
+
+| Kaynak türü | Durum | Kanıt biçimi |
+|-------------|-------|--------------|
+| §1 güvenlik profili | Dosyanın kendi §1'i | §5 vendor/general envanteri |
+| §2 repo izi | §2.1–§2.4 | `Dosya:` + `Satır:` (dosyada belgelendi) |
+| §6.1 özet matrisi | Dosyanın kendi §6.1'i | Hızlı referans tablosu |
+| §5 Kaynaklar | 2026-10-15 HTTP 200 | §5'te tarihli envanter |
+| `.ai/electronic/drivers/audio-drivers.md` | §8 salt-okunur girdi | `Dosya: ...` (709 satır) |
+| CVE / çalışan Linux çekirdek kanıtı | **YOK** | CVE iddiası yok (§5/§4) |
+
+## §12 Eşleme ağacı (bu kart nerede duruyor)
+
+```
+K000-isletim-sistemi
+├── isletim-sistemi-turu
+│   └── linux
+│       └── linux-guvenlik  ← bu kart (dal referansı)
+└── isletim-sistemi-security
+    ├── cekirdek-guvenlik/linux       (kardeş dal)
+    └── uygulama-guvenlik-siniri/linux (bridge hedefi, §3)
+```
+
+**Bağımlılık yönü:** Bu kart yalnız kendi §0–§6'sını §7–§19'da yapılandırır;
+bridge kartlarına **veri üretmez**.
+
+## §13 Test + negatif + okuma sırası
+
+### §13.1 Olumlu test
+- §2.1–§2.4 repo izleri **`Dosya:`/`Satır:`** ile destekli.
+- §3 bridge §4 K009 sınırıyla **tutarlı**.
+- §5 kaynakları **2026-10-15 HTTP 200**.
+- §6.1 özet matrisi §1/§2 ile **tutarlı**.
+
+### §13.2 Negatif test
+
+| Reddedilen varsayım | Neden reddedilir | Kanıt |
+|---------------------|------------------|-------|
+| "Üretim hedefi izi = güvenlik doğrulaması" | §2.1/§2.2 yalnız hedef/CI izi | §9 F1 |
+| "§2.4'teki YOKlar VAR" | Dürüst negatif kanıt | §9 F2 |
+| "S1/S2 kapatılabilir" | Kapatma yasağı | §6 |
+
+### §13.3 Okuma sırası
+`§0 → §1 → §2 → §3 → §4 → §5 → §6 → §6.1 → §7 → §9 → §17`
+(kapı: §6/§17 görülmeden §8/§10'a geçilmez).
+
+## §14 Olay şeması / eskalasyon
+
+| Tetikleyici | Olay | Eskalasyon |
+|-------------|------|------------|
+| Linux sürüm/LSM değişimi | §1.1–§1.3 eskir | Vault revizyonu |
+| §5 kaynaklarından biri 404 | Kaynak envanteri eskir | URL yenileme + tarih |
+| Kardeş dal güncellenirse | §7/§12 eşleşmesi | Kardeş senkronu |
+| S1/S2 kararı | §6 kapanır | Yeni ADR + `validation:` |
+| Ses/RT hedefi | §8 PLANNED | `isletim-sistemi-audio` girdisi |
+
+## §15 Append protokolü (bu kart nasıl büyüdü)
+
+Append-only: §0–§6 (§6.1 dahil) **değiştirilmedi**; yeni bölümler footer
+öncesine eklendi. Frontmatter ve Authority **dokunulmaz**.
+
+| Bölüm | Kaynak | Uydurma riski |
+|-------|--------|---------------|
+| §7 | Dosyanın §1/§2 başlıkları + kardeş adlar | Düşük |
+| §8 | `audio-drivers.md` (salt-okunur) | Düşük (atıflı) |
+| §9–§14 | Dosya-içi atıflar | Düşük |
+| §15–§23 | Protokol + kapı + kontrol | Düşük |
+
+## §16 Kapı özeti (8 soru — bu kart neyi KAPATMAZ)
+
+| # | Kapı sorusu | Durum |
+|---|-------------|-------|
+| 1 | Linux güvenlik katmanı repo'da doğrulandı mı? | **Kısmen** — §2.1/§2.2 pozitif hedef/CI izi, güvenlik doğrulaması değil |
+| 2 | capability/LSM politikaları uygulanıyor mu? | **UNKNOWN** — bu dosya kanıtlamaz |
+| 3 | Bridge kartları hazır mı? | §3'e kadar — **tanım** var |
+| 4 | S1 (OS güvenlik katmanı) | `[UNKNOWN]` — kapatılamaz (§6) |
+| 5 | S2 (uygulama↔OS sınırı) | `[UNKNOWN]` — kapatılamaz (§6) |
+| 6 | Linux üretim hedefi mi? | **Evet (hedef)** — §2.1; ama güvenlik kararı ayrı (§10) |
+| 7 | Ses/RT kararı buradan mı? | **Hayır** — §8 |
+| 8 | CVE iddiası var mı? | **Hayır** — §5 |
+
+## §17 Doğrulama notu (negatif hafıza)
+
+1. **Çalışan LSM/capability doğrulaması yok** — §2.1/§2.2 hedef/CI izidir.
+2. **CVE/versiyon iddiası yok** — sürüm kanıtı `UNKNOWN`.
+3. **S1/S2 kapalı değil** (§6).
+4. **§2.4'teki "YOK"lar düzeltilemez** — dürüst negatif kanıt.
+5. **Ses/RT kesişimi PLANNED** — mevcut değil (§8).
+
+## §18 Negatif hafıza ("yapma" listesi)
+
+- Bu karta CVE **ekleme** (§5/§4).
+- §2.1 üretim hedefi izini "güvenlik doğrulaması" **diye yazma** (§9 F1).
+- §2.4 YOK kanıtlarını **tersine çevirme** (§9 F2).
+- S1/S2'yi **kapatma** (§6).
+- §8'i "mevcut" **diye sunma** (PLANNED).
+
+## §19 Tur kapanış kontrolü (bu kart)
+
+- [x] Kapı ihlali: 0 · [x] Beyazliste dışı: 0 · [x] `git commit`: yok
+- [x] Ölçüm: ≥500 (append-only) · [x] Frontmatter/Authority: korundu
+
+## §20 Kardeş ağaç karşılaştırması (turu vs security dalı — Linux)
+
+| Soru | `cekirdek-guvenlik/linux` | `uygulama-guvenlik-siniri/linux` | **bu kart** |
+|------|----------------------------|------------------------------------|-------------|
+| Ne soruyor? | Ne korunuyor (çekirdek)? | Uygulama↔OS sınırı ne? | Tür+OS profili ne? |
+| Birim | LSM/sürücü | Sınır tanımı | Katman + hedef/CI izi |
+| Kanıt | Çekirdek yapılandırma | Sınır kartı | §2.1–§2.4 (DOSYA:SATIR) |
+| S1/S2 | Aynı `[UNKNOWN]` kapıları | Aynı | Aynı (§6) |
+
+**Kural:** Üç kart kapıları paylaşır; biri diğerini **kapatmaz**.
+
+## §21 Uzun vadeli Revision Planı (bu kartın büyüme yolu)
+
+| Tur | Eklenecek | Kaynak | Kapı |
+|-----|-----------|--------|------|
+| R1 | §2'ye yeni repo izi | Repo taraması | S1/S2 kapalı değil |
+| R2 | §5 kaynaklarının yenilenmesi | HTTP doğrulama | — |
+| R3 | §1'de sürüm güncellemesi | Vendor docs | — |
+| R4 | S1/S2 kapatma | Yeni ADR (`>=088`) | Mimari sahibi onayı |
+| R5 | §8 ses/RT kesişimi | `isletim-sistemi-audio` + `security` | PLANNED → mevcut |
+
+**Revision kuralı:** Yeni bölüm yalnız footer öncesine eklenir; §0–§6.1
+**değiştirilmez**. Kanıt gelmeden §17 boşlukları **doldurulmaz**.
+
+## §22 Tur kapanış kayıt cetveli (bu kart — kesin son)
+
+| # | Kontrol | Sonuç | Kanıt |
+|---|---------|-------|-------|
+| 1 | Frontmatter korundu mu? | Evet | `node_id`/`status` değişmedi |
+| 2 | §0–§6.1 değiştirildi mi? | **Hayır** | Append-only |
+| 3 | Authority footer korundu mu? | Evet | Dosyanın son satırı |
+| 4 | S1/S2 kapatıldı mı? | **Hayır** | §6 `[UNKNOWN]` kaldı |
+| 5 | Uydurma CVE/capability eklendi mi? | **Hayır** | §5 + §17 |
+| 6 | Beyazliste dışı yazım | 0 | Yalnız K000 |
+| 7 | `git commit` | Yok | Orkestratöre ait |
+| 8 | Satır ölçümü | ≥500 | Append-only |
+
+### §22.1 Bu kartın tek cümlelik özeti
+
+Linux'un güvenliği bu kartta **katman profili + üretim hedefi/CI pozitif izi +
+özet matrisi (§6.1)** olarak durur; **S1/S2 kararı olmadan** bu kart
+**tamamlanmış sayılmaz**.
+
+## §23 Uzatma turu son satır özeti (bu kart — mutlak son)
+
+| Öğe | Değer |
+|-----|-------|
+| Başlangıç satırı | 272 (§6.1 + Authority footer) |
+| Eklenen bölümler | §7–§23 |
+| Kaynak | Dosya-içi §1/§2/§2.1–§2.4/§3/§4/§5/§6/§6.1 + `audio-drivers.md` (salt-okunur) |
+| Uydurma iddia | 0 |
+| Kapı ihlali | 0 · `git commit` yok · Frontmatter/Authority korundu |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

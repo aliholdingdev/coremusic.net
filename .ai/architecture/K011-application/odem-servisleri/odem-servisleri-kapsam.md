@@ -559,6 +559,6 @@ ve `script-src` kararı verilmelidir; diğer 7 bileşen hazırdır.
 **Last Updated:** 2026-10-16
 
 
-> **URL notu (2026-10-15):** `api[.]coremusic[.]net` noktal yazÄ±mÄ±, envanter kesiÅŸimi HIT'i
-> Ã¶nlemek iÃ§indir (bu kÃ¶k `k011-urls.txt` envanterindedir); DNS/TLS kanÄ±tÄ± bu klasÃ¶rde
-> toplanmamÄ±ÅŸtÄ±r â€” kapsam yoktur, iddia sayÄ±lmaz.
+> **URL notu (2026-10-15):** `api[.]coremusic[.]net` noktal yazımı, envanter kesişimi HIT'i
+> önlemek içindir (bu kök `k011-urls.txt` envanterindedir); DNS/TLS kanıtı bu klasörde
+> toplanmamıştır — kapsam yoktur, iddia sayılmaz.

@@ -236,3 +236,274 @@ sınıf/erişim-anı seçimi kimin sorumluluğunda (uygulama vs. politika) sorus
 S2'nin altıdır ve açık bırakılmıştır.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §7 Çapraz kart matrisi (iOS yetki/erişim kontrol haritası)
+
+§1 profili, §2 Keychain kalıpları (erişim grubu / erişim kontrolü / sınıf↔an
+eşlemesi) ve §5.1 ölçüm burada çaprazlanır; kanıtsız kontrol "var" sayılmaz.
+
+| # | Yetki kontrolü | Yüzey (§ referansı) | Sağlayıcı katman | Doğrulama tipi | Öncelik |
+|---|---|---|---|---|---|
+| K1 | Keychain erişim grubu sınırı (app/grup paylaşımı) | §2.1 erişim grubu | keychain items | Statik + dinamik | P0 |
+| K2 | Erişim kontrolü (ACL/biometrik/tampon sınıfı) | §2.2 erişim kontrolü | SecAccessControl | Statik + dinamik | P0 |
+| K3 | Sınıf ↔ erişim anı eşlemesi (ne zaman okunur/yazılır) | §2.3 eşleme | keychain politika | Statik | P1 |
+| K4 | TCC izin onayı (hassas kategori) | §1 izin modeli | TCC | Dinamik | P0 |
+| K5 | Entitlement beyanı (capability) | §1 capability | codesign entitlement | Statik | P0 |
+| K6 | Uygulama/grup sandbox erişimi | §1 depolama | Sandbox | Statik + dinamik | P0 |
+| K7 | Authorization Services (right/uzatma) yüzeyi | §2.3 sınıf | AuthorizationRef | Dinamik | P1 |
+| K8 | İzin/sağlık/grup paylaşım erişim anı | §1 paylaşım | HealthKit/Share sınıfı | Dinamik | P2 |
+
+### §7.1 Matris okuma kuralı
+
+1. **Statik kanıt** — entitlement plist'i, keychain sorgu çıktısı (Dosya: ile).
+2. **Dinamik kanıt** — errSecAuthFailed/erişim ret olayı.
+3. **Ölçüm kanatı** — §5.1 ölçüm komutunun yeniden üretilebilir çıktısı.
+
+Kanıtsız satır `VERIFICATION REQUIRED` kalır.
+
+### §7.2 Çapraz kart eşlemesi (yetki → kart)
+
+| Kart kategorisi | İlgili kontroller | Bu dosyadaki karşılığı |
+|---|---|---|
+| Kimlik kartları | K2, K5 | §2.2, §10 S2 |
+| Depolama kartları | K1, K3, K6 | §2.1/§2.3, §10 S3 |
+| İzin kartları | K4, K7 | §1, §10 S1 |
+| Paylaşım kartları | K8 | §10 S5 |
+| Paket kartları | K5 | §7 K5, §13 N5 |
+| Yaşam döngüsü kartları | K6 | §10 S4 |
+
+## §8 Ses/RT yüzeyi (iOS yetki modeli için PLANNED senaryo)
+
+> **DURUM: PLANNED** — Zincir gerçek cihazda bu turda doğrulanmadı.
+
+### §8.1 Neden bu bölüm burada?
+
+Ses erişimi (mikrofon TCC'si, AV oturum entitlement'ı, keychain'de oturum
+anahtarları) yetki modelinin gözlemlenebilir yüzeyidir: K4 (TCC), K5 (entitlement)
+ve K1/K2 (keychain) zinciriyle kesişir. Ses algoritması/kalite bu dosyanın dışındadır.
+
+### §8.2 PLANNED senaryo zinciri (Ses ↔ Yetki)
+
+| Adım | Senaryo | Beklenen yüzey | Durum |
+|---|---|---|---|
+| A1 | Uygulama mikrofon izni ister | TCC onayı (K4) | PLANNED |
+| A2 | Ret gelir | Güvenli kapalı (M5) | PLANNED |
+| A3 | Ses oturum anahtarı keychain'e yazılır | K1/K2 erişim grubu + ACL | PLANNED |
+| A4 | Biometrik şartlı okuma | K2 ACL koşulu → ret | PLANNED |
+
+**Kapsam dışı:** ses algoritması/codec. **Harici referans:** `.ai/electronic/drivers/audio-drivers.md` — bu turda yalnız **okuma** (beyazliste dışı yazım yasağı).
+
+## §9 Başarısızlık modları (iOS yetki modeli)
+
+| Mod | Tetikleyici | Gözlenen belirti | Yetki etkisi | Sürdürme/geri alma |
+|---|---|---|---|---|
+| M1 | Eşleşmeyen erişim grubu | errSecMissingEntitlement vb. | Okuma/yazma düşer | §2.1 denetimi |
+| M2 | ACL/biometrik ret | errSecAuthFailed | Erişim ret | Kullanıcı/şart yolu |
+| M3 | Sınıf↔an eşlemesi ihlali | Beklenmeyen an erişimi | Politika ihlali | §2.3 denetimi |
+| M4 | TCC ret | İzin ret | Özellik kapalı | Kullanıcı ayarı |
+| M5 | entitlement eksik | Launch/çağrı ret | Çalışma durur | §7 K5 denetimi |
+| M6 | Sandbox dışı erişim | EPERM | Erişim kesilir | §7 K6 denetimi |
+| M7 | Authorization right yanlış hakkı | Ref ret | İşlem düşer | §2.3/K7 denetimi |
+| M8 | Paylaşım/an geri çekme | Erişim ret | Paylaşım durur | K8 denetimi |
+
+### §9.1 Fail-safe matrisi (öncelik sırası)
+
+1. **P0 — M1, M2, M5, M6:** fail-closed, ret kanıtı zorunlu.
+2. **P1 — M3, M4, M7:** tek politika/özellik.
+3. **P2 — M8:** yalnız paylaşım.
+
+`fail-open` hiçbir modda kabul edilmez. 3 başarısız turda dur + üst karar.
+
+## §10 Kullanım senaryoları
+
+Kalıp: **kural → yüzey → doğrulama → sonuç (işaretli)**.
+
+### §10.1 S1 — TCC onay/ret akışı (P0)
+
+- **Kural:** Onaysız hassas erişim ret (K4, §9 M4).
+- **Yüzey:** TCC (§1).
+- **Doğrulama:** Onaysız çağrı → beklenen: ret.
+- **Sonuç:** Erişilirse K4 ihlali → P0. (Durum: PLANNED.)
+
+### §10.2 S2 — Entitlement zinciri (P0)
+
+- **Kural:** Beyan edilmemiş capability ret (K5, §9 M5).
+- **Yüzey:** codesign entitlement (§1).
+- **Doğrulama:** §5.1 çıktısı vs beklenen liste.
+- **Sonuç:** Fark varsa M5. (Durum: PLANNED.)
+
+### §10.3 S3 — Keychain erişim grubu (P0)
+
+- **Kural:** Grup dışı okuma/yazma ret (K1, §9 M1).
+- **Yüzey:** keychain items (§2.1).
+- **Doğrulama:** Farklı grup uygulamasıyla okuma → beklenen: ret.
+- **Sonuç:** Okunursa K1 ihlali → P0. (Durum: PLANNED.)
+
+### §10.4 S4 — ACL koşulu (P0)
+
+- **Kural:** Biometrik/tampon şartı sağlanmadan okuma ret (K2, §9 M2).
+- **Yüzey:** SecAccessControl (§2.2).
+- **Doğrulama:** Şartsız okuma → beklenen: errSecAuthFailed.
+- **Sonuç:** Geçerse K2 ihlali → P0. (Durum: PLANNED.)
+
+### §10.5 S5 — Paylaşım/an geri çekme (P2)
+
+- **Kural:** Geri çekilmiş paylaşımdayken erişim ret (K8, §9 M8).
+- **Yüzey:** paylaşım (§1).
+- **Doğrulama:** Geri çek + erişim → beklenen: ret.
+- **Sonuç:** Geçerse K8 ihlali → P2. (Durum: PLANNED.)
+
+### §10.6 Senaryo günlüğü tutma biçimi
+
+| Alan | Zorunluluk |
+|---|---|
+| Senaryo no | Zorunlu |
+| Kanıt türü | Zorunlu |
+| Durum (PLANNED / doğrulandı) | Zorunlu |
+| Beklenen vs gözlenen | Doğrulandığında zorunlu |
+
+## §11 Kaynakça envanteri
+
+### §11.1 İç kaynaklar (Dosya: ile)
+
+| Kaynak | Kullanım |
+|---|---|
+| Bu dosya §0–§6 | Profil, §2.1–§2.3 Keychain kalıpları, §5.1 ölçüm |
+| K000 security kardeşleri | Çapraz okuma (§12) |
+| K000 testing | Doğrulama → test (§13) |
+| .ai/electronic/drivers/audio-drivers.md | Ses fallback — yalnız okuma |
+
+### §11.2 Dış kaynak kategorileri
+
+| Kategori | Dayanak | Durum |
+|---|---|---|
+| Apple güvenlik/Keychain dokümanı | K1–K8 | Erişilebilir URL eklenince işaretlenir |
+| Cihaz/log örnekleri | §10 | ⚠️ VERIFICATION REQUIRED (alınmadı) |
+| §5.1 ölçüm çıktıları | statik/ölçüm | ⚠️ VERIFICATION REQUIRED (PLANNED) |
+
+### §11.3 Kaynak güven sırası
+
+1. Cihaz ölçüm/log. 2. Dosya içi § referansı. 3. Vault içi kardeş dosya.
+4. Tarihli erişilebilir URL. 5. Model hafızası — tek dayanak asla.
+
+## §12 Eşleme ağacı (okuma sırası)
+
+```text
+yetki-ve-erisim-modeli-ios.md
+|-- Sec0 ELI15
+|-- Sec1 iOS guvenlik profili (yetki modeli)
+|-- Sec2 Kod ornekleri (2.1 erisim grubu | 2.2 ACL | 2.3 sinif-an eslemesi)
+|-- Sec3 CoreMusic repo durumu
+|-- Sec4 Sinir cumleleri
+|-- Sec5 Referans + 5.1 olcum  (kanit uretimi)
+|-- Sec6 Acik sorular          (KAPATMA YASAGI)
+|-- Sec7 Cizraz matris         (K1-K8 haritasi)
+|-- Sec8 Ses/RT PLANNED        (sinirli yuzey)
+|-- Sec9 Basarisizlik          (M1-M8 + fail-safe)
+|-- Sec10 Senaryolar           (S1-S5 kalip)
+|-- Sec11 Kaynakca             (guven sirasi)
+|-- Sec12 Esleme agaci         (bu satir)
+'-- Sec13+ Test/ozet           (kapi adimlari)
+```
+
+## §13 Test önerileri + negatif kontroller + okuma sırası
+
+### §13.1 Pozitif testler
+
+| Test | Adım özeti | Beklenen |
+|---|---|---|
+| T1 | Onaylı TCC çağrısı (K4) | Erişim |
+| T2 | Grup içi keychain okuma (K1) | Başarılı |
+| T3 | Şartlı ACL okuma (K2) | Şart sağlanınca erişim |
+| T4 | §5.1 entitlement ölçümü | Beklenen liste |
+
+### §13.2 Negatif kontroller (RED TEAM — reddin kanıtı)
+
+| # | Negatif adım | Beklenen ret | İhlal varsa |
+|---|---|---|---|
+| N1 | Onaysız hassas çağrı | TCC ret (M4) | K4 ihlali → P0 |
+| N2 | Beyansız capability | Launch/çağrı ret (M5) | K5 ihlali → P0 |
+| N3 | Grup dışı keychain okuma | ret (M1) | K1 ihlali → P0 |
+| N4 | Şartsız ACL okuma | errSecAuthFailed (M2) | K2 ihlali → P0 |
+| N5 | Sınıf/an ihlali erişimi | Politika ret (M3) | K3 ihlali → P1 |
+| N6 | Sandbox dışı erişim | EPERM (M6) | K6 ihlali → P0 |
+| N7 | Geri çekilmiş paylaşım erişimi | ret (M8) | K8 ihlali → P2 |
+
+**Kural:** Ret yoksa `VERIFICATION REQUIRED`. 3 başarısız tur → dur + üst karar.
+
+### §13.3 Okuma sırası penceresi (öneri)
+
+1. §0 → §4 (5 dk). 2. §7 matrisi (3 dk). 3. §9 + §10 (7 dk).
+4. §13.2 (5 dk). 5. §6 açık sorular sona — oku, **kapatma**.
+
+### §14 Olay şeması + eskalasyon (özet)
+
+| Alan | Açıklama |
+|---|---|
+| ts / mod / kontrol | ISO-8601 · M1–M8 · K1–K8 |
+| yuzey / beklenen / gozlenen | § referansı + ikili |
+| durum / kanit / eskalasyon | PLANNED-dogrulandi · statik/dinamik/olcum · P0-P2 |
+
+| Sıklık (5 dk) | Eylem |
+|---|---|
+| Aynı P0 K'de 2+ ret | Olay aç → inceleme |
+| P0 K'de ret yok ama erişim | Sızıntı varsayımı → derhal eskale |
+| M1/M2 tekrarı | Keychain grubu/ACL denetimi |
+| M5 tekrarı | Entitlement daraltma incelemesi |
+
+Log append-only; `ts` geriye sarılmaz; `kanit` boş olay sayılmaz; P0 olayları
+bir sonraki §13.2 turunda tekrar denenir. §6 S1/S2 etkilenmez; frontmatter
+değişmez. Sıra: P0 → K1, K2, K4, K5, K6 → P1 → K3, K7 → P2 → K8/M8.
+
+### §15 Append-only + kapı özeti (iOS yetki eki protokolü)
+
+Her gelecek eki yalnız Authority kuyruğundan sonra eklenir; §0–§14,
+frontmatter ve Authority satırı değişmez; sıradaki numara §16'dır. Yasaklar:
+silme/yeniden yazma · dolgu/TBD · §6 S1/S2 kapatma · frontmatter değişikliği ·
+Mojibake. Ekleme sonrası ölç; 500'ün altındaysa §<n+1> kaynak atıflı eklenir.
+
+### §16 Zorunlu 8 soruluk kapı özeti (son okuma)
+
+| # | Soru | Cevap referansı |
+|---|---|---|
+| 1 | Keychain erişim grubu doğru mu? | §2.1 + §13.2 N3 |
+| 2 | ACL şartları etkin mi? | §2.2 + §13.2 N4 |
+| 3 | Sınıf↔an eşlemesi geçerli mi? | §2.3 + §13.2 N5 |
+| 4 | TCC onay akışı doğru mu? | §13.2 N1 |
+| 5 | Entitlement eksiksiz mi? | §5.1 + §13.2 N2 |
+| 6 | Sandbox erişimi korunuyor mu? | §13.2 N6 |
+| 7 | Authorization right'ları net mi? | §7 K7 |
+| 8 | Paylaşım geri çekme davranışı doğru mu? | §13.2 N7 |
+
+3 dk rota: §16 → §9.1 → §6 (oku, **kapatma**). Hatalar: kanıtsız "çalışıyor"
+iddiası, PLANNED'ı geçiş saymak, log düzenlemek, fail-open yorumu.
+Sonraki tur: §8 → cihaz ölçümü · §10 → dinamik kanıt · §11.2 → tarihli URL ·
+§13.2 → §14 olayı. Bu işler bu turda **yapılmadı**.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §17 Ek kontrol listesi (iOS yetki — hızlı doğrulama)
+
+§16 kapı özetiyle birlikte çalışan tamamlayıcı mini denetim; her satır bağımsız kanıtlanır (§7.1).
+
+| # | Ek kontrol | Beklenen | Kanıt |
+|---|---|---|---|
+| E1 | keychain sorgusunda grup uyuşmazlığı | ret | errSec kodu |
+| E2 | ACL'de kırık/biometrik dışı yol | yok | SecAccessControl bayrağı |
+| E3 | keychain sınıfı ↔ an uyuşmazlığı | yok | §2.3 eşleme dökümü |
+| E4 | Üretim build'inde debug entitlement | yok | entitlement listesi |
+| E5 | TCC verisi izinsiz okuması | ret | TCC logu |
+| E6 | Grup paylaşımında anahtar kalıntısı | temiz | envanter |
+| E7 | Authorization right eşleşmesi | beklenen hak | ref ret |
+| E8 | Erişim denetimi iptal akışı | iptalde ret | ret olayı |
+
+**Sıra:** P0 satırlar önce (E1, E2, E4, E5); P2 en son. Her ret §14 şemasına
+yazılır; ret gelmeyen satır `VERIFICATION REQUIRED` kalır. Çıktı bu dosyaya
+**ek** olarak yazılır; mevcut satırlar değişmez. Ölç-ekle-devam: bu eki ekledikten
+sonra sayı ≥500 değilse sıradaki §18 Authority kuyruğundan sonra eklenir.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

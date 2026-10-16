@@ -344,7 +344,7 @@ GerekÃ§e (gÃ¶zlem): readonly class'lar PHP'de extend'te kÄ±sÄ±tlanabilir; ayrÄ±c
 | Ã–lÃ§Ã¼m + gate (13/14 toArray) | dto-dogrulama.md Â§E, Â§K |
 | PSR-7/JSON/HTTP kanÄ±tlarÄ± | dto-web-arastirma.md Â§A-Â§D |
 | Kod bloklarÄ± | dto-ornekler.md Â§A-Â§D |
-| Kapsam + katalog | dto-kapsam.md, index.md |
+| Kapsam + katalog | index.md (eski dto-kapsam.md â€” spec Â§7 gereÄŸi 2026-10-16 kaldÄ±rÄ±ldÄ±) |
 | Format referansÄ± | commands/ (6 dosya) |
 
 ---
@@ -354,11 +354,11 @@ GerekÃ§e (gÃ¶zlem): readonly class'lar PHP'de extend'te kÄ±sÄ±tlanabilir; ayrÄ±c
 
 ---
 
-## §L — BİLEŞEN BAZLI ALAN ENVANTERİ (Detay Tablosu)
+## Â§L â€” BÄ°LEÅEN BAZLI ALAN ENVANTERÄ° (Detay Tablosu)
 
-### L.1 — shared/src/Api/Dto/ alan envanteri
+### L.1 â€” shared/src/Api/Dto/ alan envanteri
 
-| Bileşen | Property / Alan | Tip | readonly |
+| BileÅŸen | Property / Alan | Tip | readonly |
 |---|---|---|---|
 | ApiResponse | statusCode | int | ? |
 | ApiResponse | data | array | ? |
@@ -374,7 +374,7 @@ GerekÃ§e (gÃ¶zlem): readonly class'lar PHP'de extend'te kÄ±sÄ±tlanabilir; ayrÄ±c
 | ServiceUnavailableResponse | message | string | ? |
 | ValidationFailedResponse | errors | array<string, array<int, string>> | ? |
 | ValidationFailedResponse | message | string | ? |
-| RequestValidationError | (ArrayAccess tabanı) | — | ? |
+| RequestValidationError | (ArrayAccess tabanÄ±) | â€” | ? |
 | PaginatedResponse | items | array | ? |
 | PaginatedResponse | total | int | ? |
 | PaginatedResponse | page | int | ? |
@@ -383,13 +383,13 @@ GerekÃ§e (gÃ¶zlem): readonly class'lar PHP'de extend'te kÄ±sÄ±tlanabilir; ayrÄ±c
 | PaginationRequest | page | int | ? |
 | PaginationRequest | perPage | int | ? |
 
-?? VERIFICATION REQUIRED: Error ailesi 4 dosyanın (Forbidden/NotFound/Unauthorized/ServiceUnavailable)
-tam property envanteri bu görevde tek tek okunmadı — tipik yapı `message + (details?)`
-olarak öngörülür; ConflictResponse ve ValidationFailedResponse okunarak doğrulandı.
+?? VERIFICATION REQUIRED: Error ailesi 4 dosyanÄ±n (Forbidden/NotFound/Unauthorized/ServiceUnavailable)
+tam property envanteri bu gÃ¶revde tek tek okunmadÄ± â€” tipik yapÄ± `message + (details?)`
+olarak Ã¶ngÃ¶rÃ¼lÃ¼r; ConflictResponse ve ValidationFailedResponse okunarak doÄŸrulandÄ±.
 
-### L.2 — auth/coremusic/include/Domain/DTO/ alan envanteri
+### L.2 â€” auth/coremusic/include/Domain/DTO/ alan envanteri
 
-| Bileşen | Property | Tip | readonly |
+| BileÅŸen | Property | Tip | readonly |
 |---|---|---|---|
 | LoginRequest | email | string | ? |
 | LoginRequest | password | string | ? |
@@ -397,120 +397,120 @@ olarak öngörülür; ConflictResponse ve ValidationFailedResponse okunarak doğrulan
 | AuthResponse | statusCode | int | ? |
 | AuthResponse | user | array | ? |
 | AuthResponse | tokens | array | ? |
-| 3. dosya | ?? VERIFICATION REQUIRED | — | — |
+| 3. dosya | ?? VERIFICATION REQUIRED | â€” | â€” |
 
 ---
 
-## §M — toArray() ÇIKTI ŞEKİLLERİ (Sözleşme Tablosu)
+## Â§M â€” toArray() Ã‡IKTI ÅEKÄ°LLERÄ° (SÃ¶zleÅŸme Tablosu)
 
-| Bileşen | toArray() çıktısı (shape) | Doğrulama |
+| BileÅŸen | toArray() Ã§Ä±ktÄ±sÄ± (shape) | DoÄŸrulama |
 |---|---|---|
-| ApiResponse | `{success: bool, data: {...}, meta: {...}}` | ? ornekler §A.3 |
-| PaginatedResponse | `{items: [...], meta: {total, page, per_page, last_page}}` | ? ornekler §B.1 |
-| PaginationRequest | `{page: int, per_page: int}` | ? ornekler §B.2 |
-| ErrorResponse | `{error: {code, message, details}}` | ? ornekler §D.1 |
-| ValidationFailedResponse | `{error: {code: VALIDATION_FAILED, message, errors}}` | ? ornekler §D.2 |
-| ConflictResponse | `{error: {code: CONFLICT, message, details}}` | ? ornekler §D.3 |
-| AuthResponse | `{user: {...}, tokens: {...}}` | ? ornekler §C.2 |
-| LoginRequest | **YOK** | — |
-| Forbidden/NotFound/Unauthorized/ServiceUnavailable | `{error: {code, message}}` (öngörü) | ?? VERIFICATION REQUIRED |
-| RequestValidationError | ?? VERIFICATION REQUIRED | — |
+| ApiResponse | `{success: bool, data: {...}, meta: {...}}` | ? ornekler Â§A.3 |
+| PaginatedResponse | `{items: [...], meta: {total, page, per_page, last_page}}` | ? ornekler Â§B.1 |
+| PaginationRequest | `{page: int, per_page: int}` | ? ornekler Â§B.2 |
+| ErrorResponse | `{error: {code, message, details}}` | ? ornekler Â§D.1 |
+| ValidationFailedResponse | `{error: {code: VALIDATION_FAILED, message, errors}}` | ? ornekler Â§D.2 |
+| ConflictResponse | `{error: {code: CONFLICT, message, details}}` | ? ornekler Â§D.3 |
+| AuthResponse | `{user: {...}, tokens: {...}}` | ? ornekler Â§C.2 |
+| LoginRequest | **YOK** | â€” |
+| Forbidden/NotFound/Unauthorized/ServiceUnavailable | `{error: {code, message}}` (Ã¶ngÃ¶rÃ¼) | ?? VERIFICATION REQUIRED |
+| RequestValidationError | ?? VERIFICATION REQUIRED | â€” |
 
-**Tutarlılık gözlemi:** Error ailesi `{error: {code, message, ...}}` zarfını
-paylaşıyor — frontend tek bir error-parse deseni yazabilir.
+**TutarlÄ±lÄ±k gÃ¶zlemi:** Error ailesi `{error: {code, message, ...}}` zarfÄ±nÄ±
+paylaÅŸÄ±yor â€” frontend tek bir error-parse deseni yazabilir.
 
 ---
 
-## §N — HATA ZARFI BİÇİMLEŞTİRME SÖZLEŞMESİ
+## Â§N â€” HATA ZARFI BÄ°Ã‡Ä°MLEÅTÄ°RME SÃ–ZLEÅMESÄ°
 
-| Zarffaktör | Kullanan | code değeri |
+| ZarffaktÃ¶r | Kullanan | code deÄŸeri |
 |---|---|---|
 | `{success: false, error: {...}}` | ApiResponse::error() | parametrik |
 | `{error: {code, message, ...}}` | 5 error DTO | CONFLICT / VALIDATION_FAILED / ... |
 | `{error: {errors: {...}}}` (map) | ValidationFailedResponse | VALIDATION_FAILED |
 
-?? VERIFICATION REQUIRED: code değerlerinin tam kataloğu (hangi DTO hangi code
-sabitini string olarak yazıyor) yalnız iki DTO'da okundu (CONFLICT, VALIDATION_FAILED);
-diğerleri doğrulanmadı.
+?? VERIFICATION REQUIRED: code deÄŸerlerinin tam kataloÄŸu (hangi DTO hangi code
+sabitini string olarak yazÄ±yor) yalnÄ±z iki DTO'da okundu (CONFLICT, VALIDATION_FAILED);
+diÄŸerleri doÄŸrulanmadÄ±.
 
 ---
 
-## §O — BİLEŞEN OLGUNLUK MATRİSİ
+## Â§O â€” BÄ°LEÅEN OLGUNLUK MATRÄ°SÄ°
 
-| Olgunluk seviyesi | Tanım | Bileşenler | Sayı |
+| Olgunluk seviyesi | TanÄ±m | BileÅŸenler | SayÄ± |
 |---|---|---|---|
-| Seviye 3 — Aktif üretim | production'da kullanılıyor | LoginRequest, AuthResponse | 2 |
-| Seviye 2 — Test-covered | kod + test var, üretim yok | 11 shared DTO | 11 |
-| Seviye 1 — Belirsiz | dosya var, kullanım doğrulanmadı | 3. auth DTO | 1 |
-| Seviye 0 — PLANNED | repo'da yok | DtoResponseFactory, JsonSerializable eklentisi | 0 (kod) |
+| Seviye 3 â€” Aktif Ã¼retim | production'da kullanÄ±lÄ±yor | LoginRequest, AuthResponse | 2 |
+| Seviye 2 â€” Test-covered | kod + test var, Ã¼retim yok | 11 shared DTO | 11 |
+| Seviye 1 â€” Belirsiz | dosya var, kullanÄ±m doÄŸrulanmadÄ± | 3. auth DTO | 1 |
+| Seviye 0 â€” PLANNED | repo'da yok | DtoResponseFactory, JsonSerializable eklentisi | 0 (kod) |
 
-**Yorum:** DTO katmanının %79'u (11/14) Seviye 2'de — test'li ama üretim'e
-ulaşmamış. Bu, "PLANNED-üretilmiş katman" tanımının kanıtıdır.
+**Yorum:** DTO katmanÄ±nÄ±n %79'u (11/14) Seviye 2'de â€” test'li ama Ã¼retim'e
+ulaÅŸmamÄ±ÅŸ. Bu, "PLANNED-Ã¼retilmiÅŸ katman" tanÄ±mÄ±nÄ±n kanÄ±tÄ±dÄ±r.
 
 ---
 
-## §P — GATE BEKLENTİSİ İLE BİLEŞEN UYUMU
+## Â§P â€” GATE BEKLENTÄ°SÄ° Ä°LE BÄ°LEÅEN UYUMU
 
-| Gate | Beklenen | Gerçek | Uyumsuz bileşen |
+| Gate | Beklenen | GerÃ§ek | Uyumsuz bileÅŸen |
 |---|---|---|---|
 | toArray gate | 14/14 | 13/14 | LoginRequest (toArray yok) |
-| JsonSerializable gate | (tanımsız) | 1/14 | 13 DTO implements ETMİYOR |
-| Üretim kullanımı gate | (tanımsız) | 2/14 | 11 shared + 1 auth belirsiz |
-| readonly gate | 14/14 property readonly | 14/14 ? | — |
-| framework bağımsızlık gate | 14/14 saf | 14/14 ? | — |
+| JsonSerializable gate | (tanÄ±msÄ±z) | 1/14 | 13 DTO implements ETMÄ°YOR |
+| Ãœretim kullanÄ±mÄ± gate | (tanÄ±msÄ±z) | 2/14 | 11 shared + 1 auth belirsiz |
+| readonly gate | 14/14 property readonly | 14/14 ? | â€” |
+| framework baÄŸÄ±msÄ±zlÄ±k gate | 14/14 saf | 14/14 ? | â€” |
 
 ---
 
-## §Q — BİLEŞENLER ARASI İLİŞKİ GRAFİĞİ
+## Â§Q â€” BÄ°LEÅENLER ARASI Ä°LÄ°ÅKÄ° GRAFÄ°ÄÄ°
 
 ```
 PaginationRequest.fromQuery()
-        - (offset/perPage taşır — ama doğrudan referans YOK)
-        ¡
+        - (offset/perPage taÅŸÄ±r â€” ama doÄŸrudan referans YOK)
+        Â¡
 PaginatedResponse.make(items, total, page, perPage)
         -
-        ¡
-ApiResponse.success(data: paginated->toArray())   [PLANNED birleştirme]
+        Â¡
+ApiResponse.success(data: paginated->toArray())   [PLANNED birleÅŸtirme]
 
-LoginRequest  ¦¦(AuthPostHandler:38-57)¦¦>  handler  ¦¦>  AuthResponse
+LoginRequest  Â¦Â¦(AuthPostHandler:38-57)Â¦Â¦>  handler  Â¦Â¦>  AuthResponse
                                                               -
-                                                              ¡
-                                                     jsonSerialize() › HTTP
+                                                              Â¡
+                                                     jsonSerialize() â€º HTTP
 
-ValidationFailedResponse.errors ¦¦(frontend form map)¦¦> JS error render
+ValidationFailedResponse.errors Â¦Â¦(frontend form map)Â¦Â¦> JS error render
 ```
 
-?? GRAFİK NOTU: Oklar "veri akışı beklentisi"dir; her okun üretim kanıtı
-LoginRequest›AuthResponse zinciri dışındada ?? VERIFICATION REQUIRED.
+?? GRAFÄ°K NOTU: Oklar "veri akÄ±ÅŸÄ± beklentisi"dir; her okun Ã¼retim kanÄ±tÄ±
+LoginRequestâ€ºAuthResponse zinciri dÄ±ÅŸÄ±ndada ?? VERIFICATION REQUIRED.
 
 ---
 
-## §R — BİLEŞEN EŞİTLİK KONTROLÜ (Shared vs Auth)
+## Â§R â€” BÄ°LEÅEN EÅÄ°TLÄ°K KONTROLÃœ (Shared vs Auth)
 
-| Ölçüt | Shared | Auth | Eşit mi? |
+| Ã–lÃ§Ã¼t | Shared | Auth | EÅŸit mi? |
 |---|---|---|---|
-| Dosya sayısı | 11 | 3 | ? |
+| Dosya sayÄ±sÄ± | 11 | 3 | ? |
 | final readonly class | 11/11 | 0/3 (final class, property readonly) | ? |
 | JsonSerializable | 0/11 | ?1/3 | ? |
 | toArray | 11/11 | 2/3 | ? |
-| Üretim kullanımı | 0/11 | ?2/3 | ? |
-| Namespace yapısı | Shared\Api\Dto | CoreMusic\Auth\Domain\DTO | ? (farklı proje) |
-| Saf PHP (harici bağımlılık yok) | 11/11 ? | 3/3 ? | ? |
+| Ãœretim kullanÄ±mÄ± | 0/11 | ?2/3 | ? |
+| Namespace yapÄ±sÄ± | Shared\Api\Dto | CoreMusic\Auth\Domain\DTO | ? (farklÄ± proje) |
+| Saf PHP (harici baÄŸÄ±mlÄ±lÄ±k yok) | 11/11 ? | 3/3 ? | ? |
 
-**Sonuç:** İki DTO ailesi **hiçbir ölçütte eşleşmiyor** (yalnız saf-PHP kuralı ortak).
-Tutarlılık ADR'si gerekli — orkestratöre karar kapısı.
+**SonuÃ§:** Ä°ki DTO ailesi **hiÃ§bir Ã¶lÃ§Ã¼tte eÅŸleÅŸmiyor** (yalnÄ±z saf-PHP kuralÄ± ortak).
+TutarlÄ±lÄ±k ADR'si gerekli â€” orkestratÃ¶re karar kapÄ±sÄ±.
 
 ---
 
-## §S — SONRAKİ ADIMLAR (Bu Dosyanın Çıktısı)
+## Â§S â€” SONRAKÄ° ADIMLAR (Bu DosyanÄ±n Ã‡Ä±ktÄ±sÄ±)
 
-| # | Adım | Sahip | Öncelik |
+| # | AdÄ±m | Sahip | Ã–ncelik |
 |---|---|---|---|
-| 1 | 3. auth DTO dosyasını oku, §F.4'ü tamamla | explore agent | P0 |
-| 2 | 4 error DTO property envanterini doğrula (§L.1) | explore agent | P1 |
-| 3 | Shared-Auth tutarlılık ADR'si (§R) | architect | P1 |
-| 4 | LoginRequest'e toArray() ekle kararı | orkestratör | P2 |
-| 5 | Error code kataloğunu çıkar (§N) | backend-architect | P2 |
+| 1 | 3. auth DTO dosyasÄ±nÄ± oku, Â§F.4'Ã¼ tamamla | explore agent | P0 |
+| 2 | 4 error DTO property envanterini doÄŸrula (Â§L.1) | explore agent | P1 |
+| 3 | Shared-Auth tutarlÄ±lÄ±k ADR'si (Â§R) | architect | P1 |
+| 4 | LoginRequest'e toArray() ekle kararÄ± | orkestratÃ¶r | P2 |
+| 5 | Error code kataloÄŸunu Ã§Ä±kar (Â§N) | backend-architect | P2 |
 
 ---
 

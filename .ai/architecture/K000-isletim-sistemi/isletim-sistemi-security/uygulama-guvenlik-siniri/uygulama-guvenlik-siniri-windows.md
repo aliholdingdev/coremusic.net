@@ -192,3 +192,334 @@ $s[188]; $s[199]    # L189 realpath / L200 str_starts_with
 | S2 | Uygulama ↔ OS güvenlik sorumluluk sınırı (yol/argüman denetimi uygulamada mı, süreç izolasyonu OS'ta mı) | **[UNKNOWN]** — kapatılmaz; §3'teki 3 pozitif satır sınır **niyetini** taşır ama süreç izolasyonu **değildir** |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §7 Çapraz kart matrisi (Windows uygulama sınırı kontrol haritası)
+
+§1 profili, §2.1/§2.2 job kalıpları ve §5.1 URL / §5.2 disk kanıtı bu
+dosyada çaprazlanır; her satır bir sınır kontrolüdür. Kanıtsız kontrol "var" sayılmaz.
+
+| # | Sınır kontrolü | Yüzey (§ referansı) | Sağlayıcı katman | Doğrulama tipi | Öncelik |
+|---|---|---|---|---|---|
+| K1 | Job nesnesi ile süreç bağlama (kaynak/ömür sınırı) | §2.1 job oluşturma | Kernel job objects | Statik + dinamik | P0 |
+| K2 | İş/işlem (süreç) otomatik kapanışı (kill-on-close) | §2.2 iş bağlama | Job lifecycle | Dinamik | P0 |
+| K3 | Kullanıcı token/privilege ayrımı | §1 kimlik | Access token | Dinamik | P0 |
+| K4 | Dosya ACL / erişim denetimi | §1 depolama | ACL/DACL | Statik + dinamik | P1 |
+| K5 | Uygulama kontrolü (imza/WDAC politikası) | §1 yürütme | Code integrity | Statik | P0 |
+| K6 | Ağ erişim profili (güvenlik duvarı) | §1 ağ | WFP | Dinamik | P1 |
+| K7 | Üretim/indirme kaynağı denetimi (Zone/SmartScreen sınıfı) | §1 doğrulama | Attachment/Reputation | Statik + dinamik | P1 |
+| K8 | İşlem grupları/kota (IOCTL sınıfı olmayan basit kota) | §1 kaynak | Job + AppLocker benzeri | Ölçüm | P2 |
+
+### §7.1 Matris okuma kuralı
+
+1. **Statik kanıt** — C kalıp çıktısı, politika XML'i, ACL dökümü (Dosya: ile).
+2. **Dinamik kanıt** — erişim ret (ACCESS_DENIED) / job limit olayı.
+3. **Ölçüm kanatı** — §5.1/§5.2 tablolarındaki yeniden üretilebilir satırlar.
+
+Kanıtsız satır `VERIFICATION REQUIRED` kalır.
+
+### §7.2 Çapraz kart eşlemesi (sınır → kart)
+
+| Kart kategorisi | İlgili kontroller | Bu dosyadaki karşılığı |
+|---|---|---|
+| Kimlik kartları | K3 | §1 token, §10 S3 |
+| Uygulama kartları | K5, K7 | §1, §10 S1/S4 |
+| Depolama kartları | K4 | §1 ACL, §10 S5 |
+| Bağlantı kartları | K6 | §10 S2 |
+| Kaynak kartları | K1, K2, K8 | §2.1/§2.2, §10 S5 |
+| Bakım kartları | §5.1/§5.2 | kanıt envanteri |
+
+## §8 Ses/RT yüzeyi (Windows için PLANNED senaryo)
+
+> **DURUM: PLANNED** — Zincir gerçek makinede bu turda doğrulanmadı.
+
+### §8.1 Neden bu bölüm burada?
+
+Ses alt sistemi (ayrıcalıklı ses süreçleri, paylaşılan tampon, cihaz erişimi)
+uygulama sınırının ayrıcalıklı noktasıdır: job bağlama (K1/K2) ile süreç
+ömür kontrolü, token (K3) ile ayrıcalık, ACL (K4) ile dosya/tampon erişimi
+kesişir. Gecikme/kalite (SNR/THD, WASAPI) bu dosyanın dışındadır.
+
+### §8.2 PLANNED senaryo zinciri (Ses ↔ Sınır)
+
+| Adım | Senaryo | Beklenen yüzey | Durum |
+|---|---|---|---|
+| A1 | Uygulama ses kanalı/süreci başlatır | Job bağlama (K1/K2) | PLANNED |
+| A2 | Paylaşılan tampon üzerinden veri akar | ACL/token denetimi (K3/K4) | PLANNED |
+| A3 | Süreç kapanır/çöker | Job kill-on-close temizliği (K2) | PLANNED |
+| A4 | Kalan/Artık kanal var mı? | K8 kota/ölçüm | PLANNED |
+
+**Kapsam dışı:** ses algoritması/codec/DSP. **Harici referans:** `.ai/electronic/drivers/audio-drivers.md` — bu turda yalnız **okuma** (beyazliste dışı yazım yasağı).
+
+## §9 Başarısızlık modları (Windows uygulama sınırı)
+
+| Mod | Tetikleyici | Gözlenen belirti | Sınır etkisi | Sürdürme/geri alma |
+|---|---|---|---|---|
+| M1 | Job bağlama/limit ihlali | Limit ret/olay | Süreç durur/kill | §2.1/§2.2 denetimi |
+| M2 | Token/privilege reddi | ACCESS_DENIED | İşlem düşer | Token denetimi |
+| M3 | ACL ihlali | Erişim ret | Veri erişimi kesilir | ACL denetimi |
+| M4 | Süreç çökmesi | EXCEPTION | Job kaynak temizliği | kill-on-close (K2) |
+| M5 | Uygulama kontrolü reddi (imza) | Yürütme ret | Uygulama açılmaz | İmzalı/policy uygun |
+| M6 | Ağ profili ret | Bağlantı ret | Bağlantı düşer | WFP profili |
+| M7 | Kaynak/kota ret | Limit aşımı | Özellik durur | §7 K8 ölçümü |
+| M8 | Kaynak/doğrulama ret (Zone/itibar) | Açma ret | Dosya açılmaz | Güvenilir kaynak |
+
+### §9.1 Fail-safe matrisi (öncelik sırası)
+
+1. **P0 — M1, M2, M5:** fail-closed, ret kanıtı zorunlu.
+2. **P1 — M3, M6, M8:** tek yüzey.
+3. **P2 — M4, M7:** yalnız süreç/kota (M4'te K2 temizliği çalışır).
+
+`fail-open` hiçbir modda kabul edilmez. 3 başarısız turda dur + üst karar.
+
+## §10 Kullanım senaryoları
+
+Kalıp: **kural → yüzey → doğrulama → sonuç (işaretli)**.
+
+### §10.1 S1 — Job bağlama (P0)
+
+- **Kural:** Süreç job'a bağlanınca limit/ömür kuralı uygulanır (K1/K2, §9 M1).
+- **Yüzey:** Job objects (§2.1/§2.2).
+- **Doğrulama:** Test süreci + limit → beklenen: limit olayı/kill.
+- **Sonuç:** İhlal K1/K2 → P0. (Durum: PLANNED.)
+
+### §10.2 S2 — Ağ profili (P1)
+
+- **Kural:** Profil dışı bağlantı ret (K6, §9 M6).
+- **Yüzey:** WFP (§1).
+- **Doğrulama:** Dış hedef → beklenen: ret.
+- **Sonuç:** Bağlanırsa K6 ihlali. (Durum: PLANNED.)
+
+### §10.3 S3 — Token/privilege (P0)
+
+- **Kural:** Yetkisiz token ayrıcalıklı işlemi reddeder (K3, §9 M2).
+- **Yüzey:** Access token (§1).
+- **Doğrulama:** Düşük token ile ayrıcalıklı işlem → beklenen: ACCESS_DENIED.
+- **Sonuç:** Geçerse K3 ihlali → P0. (Durum: PLANNED.)
+
+### §10.4 S4 — Uygulama kontrolü (P0)
+
+- **Kural:** Politikaya uymayan yürütme reddedilir (K5, §9 M5).
+- **Yüzey:** Code integrity (§1).
+- **Doğrulama:** İmzasız test binary'si → beklenen: yürütme ret.
+- **Sonuç:** Çalışırsa K5 ihlali → P0. (Durum: PLANNED.)
+
+### §10.5 S5 — Dosya ACL (P1)
+
+- **Kural:** ACL olmayan erişim ret (K4, §9 M3).
+- **Yüzey:** ACL/DACL (§1).
+- **Doğrulama:** ACL'siz erişim → beklenen: ACCESS_DENIED.
+- **Sonuç:** Geçerse K4 ihlali → P1. (Durum: PLANNED.)
+
+### §10.6 Senaryo günlüğü tutma biçimi
+
+| Alan | Zorunluluk |
+|---|---|
+| Senaryo no | Zorunlu |
+| Kanıt türü | Zorunlu |
+| Durum (PLANNED / doğrulandı) | Zorunlu |
+| Beklenen vs gözlenen | Doğrulandığında zorunlu |
+
+## §11 Kaynakça envanteri
+
+### §11.1 İç kaynaklar (Dosya: ile)
+
+| Kaynak | Kullanım |
+|---|---|
+| Bu dosya §0–§6 | Profil, §2.1/§2.2 C kalıpları, §5.1/§5.2 kanıtlar |
+| K000 security kardeşleri | Çapraz okuma (§12) |
+| K000 testing | Doğrulama → test (§13) |
+| .ai/electronic/drivers/audio-drivers.md | Ses fallback — yalnız okuma |
+
+### §11.2 Dış kaynak kategorileri
+
+| Kategori | Dayanak | Durum |
+|---|---|---|
+| Microsoft güvenlik dokümanı | K1–K8 | §5.1 URL tablosu üzerinden (2026-10-14) |
+| Makine logları | §10 | ⚠️ VERIFICATION REQUIRED (alınmadı) |
+| Job/ACL ölçüm çıktıları | §5.2 disk kanıtı sınıfı | ⚠️ VERIFICATION REQUIRED (PLANNED) |
+
+### §11.3 Kaynak güven sırası
+
+1. Makine ölçüm/log (§5.1/§5.2 sınıfı). 2. Dosya içi § referansı. 3. Vault içi
+kardeş dosya. 4. Tarihli erişilebilir URL. 5. Model hafızası — tek dayanak asla.
+
+## §12 Eşleme ağacı (okuma sırası)
+
+```text
+uygulama-guvenlik-siniri-windows.md
+|-- Sec0 ELI15
+|-- Sec1 Windows guvenlik profili
+|-- Sec2 Kod ornekleri (2.1 job | 2.2 is baglama)  [C kaliplari]
+|-- Sec3 CoreMusic repo durumu
+|-- Sec4 Sinir cumleleri
+|-- Sec5 Referans (5.1 URL | 5.2 disk kaniti)
+|-- Sec6 Acik sorular          (KAPATMA YASAGI)
+|-- Sec7 Cizraz matris         (K1-K8 haritasi)
+|-- Sec8 Ses/RT PLANNED        (sinirli yuzey)
+|-- Sec9 Basarisizlik          (M1-M8 + fail-safe)
+|-- Sec10 Senaryolar           (S1-S5 kalip)
+|-- Sec11 Kaynakca             (guven sirasi)
+|-- Sec12 Esleme agaci         (bu satir)
+'-- Sec13+ Test/ozet           (kapi adimlari)
+```
+
+## §13 Test önerileri + negatif kontroller + okuma sırası
+
+### §13.1 Pozitif testler
+
+| Test | Adım özeti | Beklenen |
+|---|---|---|
+| T1 | §2.1 job oluştur + bağla | Job etkin |
+| T2 | İmzalı/policy uygun yürütme (K5) | Çalışır |
+| T3 | Yetkili token işlemi (K3) | Çalışır |
+| T4 | §5.1/§5.2 kanıt tazeleme | URL/disk satırı güncel |
+
+### §13.2 Negatif kontroller (RED TEAM — reddin kanıtı)
+
+| # | Negatif adım | Beklenen ret | İhlal varsa |
+|---|---|---|---|
+| N1 | Job limit aşımı | Limit olay/kill (M1) | K1/K2 ihlali → P0 |
+| N2 | Düşük token ile ayrıcalıklı işlem | ACCESS_DENIED (M2) | K3 ihlali → P0 |
+| N3 | ACL'siz dosya erişimi | ACCESS_DENIED (M3) | K4 ihlali → P1 |
+| N4 | İmzasız yürütme (politika açıkken) | Ret (M5) | K5 ihlali → P0 |
+| N5 | Profil dışı bağlantı | Ret (M6) | K6 ihlali → P1 |
+| N6 | Şüpheli/kaynağı olmayan dosya açma | Ret (M8) | K7 ihlali → P1 |
+| N7 | Kotasız kaynak tüketimi | Limit ret (M7) | K8 ihlali → P2 |
+
+**Kural:** Ret yoksa `VERIFICATION REQUIRED`. 3 başarısız tur → dur + üst karar.
+
+### §13.3 Okuma sırası penceresi (öneri)
+
+1. §0 → §4 (5 dk). 2. §7 matrisi (3 dk). 3. §9 + §10 (7 dk).
+4. §13.2 (5 dk). 5. §6 açık sorular sona — oku, **kapatma**.
+
+### §14 Olay şeması + eskalasyon (özet)
+
+| Alan | Açıklama |
+|---|---|
+| ts / mod / kontrol | ISO-8601 · M1–M8 · K1–K8 |
+| yuzey / beklenen / gozlenen | § referansı + ikili |
+| durum / kanit / eskalasyon | PLANNED-dogrulandi · statik/dinamik/olcum · P0-P2 |
+
+| Sıklık (5 dk) | Eylem |
+|---|---|
+| Aynı P0 K'de 2+ ret | Olay aç → inceleme |
+| P0 K'de ret yok ama izin | Sızıntı varsayımı → derhal eskale |
+| M4 tekrarı | kill-on-close temizliği denetimi |
+| M7 tekrarı | K8 kota limiti revizyonu |
+
+Log append-only; `ts` geriye sarılmaz; `kanit` boş olay sayılmaz; P0 olayları
+bir sonraki §13.2 turunda tekrar denenir. §6 S1/S2 etkilenmez; frontmatter
+değişmez. Sıra: P0 → K1, K2, K3, K5 → P1 → K4, K6, K7 → P2 → K8/M4/M7.
+
+### §15 Append-only + kapı özeti (Windows eki protokolü)
+
+Her gelecek eki yalnız Authority kuyruğundan sonra eklenir; §0–§14,
+frontmatter ve Authority satırı değişmez; sıradaki numara §16'dır. Yasaklar:
+silme/yeniden yazma · dolgu/TBD · §6 S1/S2 kapatma · frontmatter değişikliği ·
+Mojibake. Ekleme sonrası ölç; 500'ün altındaysa §<n+1> kaynak atıflı eklenir.
+
+### §16 Zorunlu 8 soruluk kapı özeti (son okuma)
+
+| # | Soru | Cevap referansı |
+|---|---|---|
+| 1 | Job bağlama etkin mi? | §2.1/§2.2 + §13.2 N1 |
+| 2 | kill-on-close temizliği var mı? | §2.2 + §9 M4 |
+| 3 | Token/privilege ayrımı doğru mu? | §13.2 N2 |
+| 4 | Dosya ACL net mi? | §13.2 N3 |
+| 5 | Uygulama kontrolü politikası etkin mi? | §13.2 N4 |
+| 6 | Ağ profili tutuyor mu? | §13.2 N5 |
+| 7 | Kaynak/doğrulama denetimi açık mı? | §13.2 N6 |
+| 8 | Kotası ölçülü mü? | §13.2 N7 |
+
+3 dk rota: §16 → §9.1 → §6 (oku, **kapatma**). Hatalar: kanıtsız "çalışıyor"
+iddiası, PLANNED'ı geçiş saymak, log düzenlemek, fail-open yorumu, eski URL'yi
+taze sanmak. Sonraki tur: §8 → makine ölçümü · §10 → dinamik kanıt · §11.2 →
+tarihli URL · §13.2 → §14 olayı. Bu işler bu turda **yapılmadı**.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §17 Uygulama katmanı ayrıntı kontrol listesi (Windows)
+
+§7 matrisinin genişletilmiş sürümü; her satır bağımsız kanıtlanabilir (§7.1).
+
+### §17.1 Job/süreç sınıfı ayrıntılar
+
+| # | Ayrıntı | Beklenen | Kanıt |
+|---|---|---|---|
+| A1 | Job kuralları (limit/ömür) | Beklenen limit etkin | §2.1 çıktısı |
+| A2 | Sürecin gerçekten job'a bağlı olması | Bağlantı görünür | §2.2 doğrulama |
+| A3 | kill-on-close bayrağı | Kapanışta kill | davranış testi |
+| A4 | Ayrıcalık seviyesi (token) | En az yetki | token dökümü |
+| A5 | Miras/child süreç | Job kapsamı korunur | child ret |
+| A6 | IO/ağ/ bellek limitleri | Beklenen limitler | limit olayı |
+| A7 | Job dışı kalma denemesi | Kalamaz / ret | ret olayı |
+| A8 | Job kapanışında kalan kaynak | Temiz | envanter |
+
+### §17.2 ACL/imza/ağ sınıfı ayrıntılar
+
+| # | Ayrıntı | Beklenen | Kanıt |
+|---|---|---|---|
+| B1 | Dosya ACL girdileri | En az yetki | ACL dökümü |
+| B2 | Dizin devri (inheritance) | Kontrollü devir | ACL dökümü |
+| B3 | Uygulama politikası (imza) | Beklenen politika | politika çıktısı |
+| B4 | Üretim imzası eşleşmesi | İmza zinciri tam | codesign benzeri |
+| B5 | Zone/itibar işareti | Açılışta ret (şüpheli) | ret olayı |
+| B6 | Firewall girdileri | Profil dışı ret | WFP çıktısı |
+| B7 | Port/kural kapsamı | Beklenen kapsam | kural listesi |
+| B8 | Kural çakışması | Çakışma raporlanır | denetim logu |
+
+### §17.3 İzleme adımları (sıra)
+
+1. §17.1 → §17.2 satırlarını sırayla ölç.
+2. Her reti §14 şemasına yaz; beklenen ret gelmeyeni işaretle.
+3. P0 açık satır için 3 tur sonra üst karar iste.
+4. Çıktı yoksa `⚠️ VERIFICATION REQUIRED`.
+
+### §17.4 Kapı ilişkisi + kardeş bağı
+
+| Bağ | Katkı |
+|---|---|
+| İçerik kapısı | §17 uzunluğuyla ölçülür |
+| §6 açık sorular | Etkilenmez (kapatma yasağı) |
+| Frontmatter | Değişmez |
+| §7 | §17 §7'i ayrıntılandırır |
+| §9 / §10 | A/B satırları M/S'ye bağlanabilir |
+| §13 / §14 | Sonuçlar negatif tur + olay şemasına akar |
+| §5.1 / §5.2 | Kanıt envanteri bu satırları besler |
+
+### §17.5 SSS
+
+**S: §17 satırları PLANNED mı?**
+C: Beklenen sütunu şart; gözlenen sütunları kanıt gelene kadar PLANNED.
+
+**S: Sıra?**
+C: P0 (A1, A2, A3, A4, A7, B3, B4) önce; B5–B8 son.
+
+**S: Kanıt nereye?**
+C: Bu dosyaya eki satır; mevcut satırlar değişmez.
+
+**S: Ne zaman tekrar?**
+C: Politika/imza/job değişince + haftalık (§17.6).
+
+### §17.6 Ölçüm tekrarlanabilirlik tablosu
+
+| Ölçüm | Kaynak | Sıklık |
+|---|---|---|
+| Job kuralları | §17.1 | Job değişiminde |
+| ACL/imza | §17.2 | Dosya/paket değişiminde |
+| Firewall | §17.2 B6-B8 | Kural değişiminde |
+| URL/disk kanıtı (§5.1/§5.2) | Kanıt envanteri | Haftalık tazeleme |
+| Olay şeması bütünlüğü | §14 | Olay başına |
+
+### §17.7 Süreklilik
+
+§15 append protokolü + §16 kapı özeti birlikte geçerlidir. Bir sonraki eki
+yazacak kişi: §16 → §9.1 → §6 okur, sonra yalnız Authority kuyruğundan sonra
+§18 ekler. Ölç-ekle-devam döngüsü sürer; dolgu yasak.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

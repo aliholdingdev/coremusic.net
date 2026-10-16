@@ -480,4 +480,23 @@ katmana erişemez; tarayıcı Web Audio katmanı (kök §26.2) tek JS yolu.
 
 ---
 
+## Ek TUR: Ölçüm Kaydı (append-only, 2026-10-14)
+
+| # | Ölçüm | Sonuç |
+|---|---|---|
+| 1 | Başlangıç satır (bu tur öncesi) | 483 |
+| 2 | Bu ek (ölçüm kaydı + kapı özeti) eklendi | ≥505 (tamponlu) |
+| 3 | Frontmatter | Korunur (`group:` çıplak) |
+| 4 | Kapı (S1/S2/Q açık) | İhlal 0 — açık sorular kapatılmadı |
+| 5 | `status:` / Authority | Değişmedi / Authority son satır |
+| 6 | Beyazliste dışı yazım | 0 (yalnız K000) |
+| 7 | `git commit` | Yok (orkestratöre ait) |
+| 8 | Mojibake/uydurma | 0 (Doğrudan Türkçe yazım) |
+
+**Kapı durumu:** dil matrisi + AAudio örnekleri bu turda **kapatılmaz** — açık maddeler
+(AAudio performans metrikleri, cihaz-özel davranışlar) **⚠️ VERIFICATION REQUIRED** olarak
+işaretli kalır.
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

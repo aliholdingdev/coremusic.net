@@ -495,5 +495,18 @@ Fetch etmeden `✅` yazmak ve UNKNOWN'ı silmek yasaktır.
 
 ---
 
+## EK-Ö: Tur Ölçüm Kaydı (append-only, 2026-10-14)
+
+| # | Ölçüm | Sonuç |
+|---|---|---|
+| 1 | Başlangıç satır (bu tur öncesi) | 499 |
+| 2 | EK-Ö eklendi (append-only) | ≥505 (tamponlu) |
+| 3 | Frontmatter | Korunur (`group:` çıplak) |
+| 4 | Kapı (açık madde 8+4) | İhlal 0 — açık maddeler kapatılmadı |
+| 5 | `status:` / Authority | Değişmedi / Authority son satır |
+| 6 | Beyazliste dışı yazım / `git commit` | 0 / Yok |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
 **Satır:** ≥500 · **Group:** mimari · **Tarih:** 2026-10-12

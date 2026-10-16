@@ -83,45 +83,10 @@ Kaynak kanıtları: [`os-dogrulama.md`](os-dogrulama.md) · Bağımlılık: [`os
 | mimari | `os-master.md` | Ana anayasa: ELI15, 8 kavram, katman haritası | Kademe-1 |
 | mimari | `os-bagimliliklar.md` | 12×12 bağımlılık matrisi + döngü denetimi | Kademe-1 |
 | kanit | `os-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
-| mimari | `electroncis/index.md` | Donanım/elektronik devre kök künyesi (Q1) | Kademe-2 |
-| mimari | `isletim-sistemi-api/index.md` | Kullanıcı-kernel sınırı, libc/API kökü | Kademe-2 |
-| kod | `isletim-sistemi-audio/index.md` | Ses yığını kökü (WASAPI/ALSA/CoreAudio) | Kademe-2 |
-| mimari | `isletim-sistemi-core/index.md` | Çekirdek kavramlar kökü (bellek/süreç/dosya) | Kademe-2 |
-| mimari | `isletim-sistemi-cross/index.md` | Platform bağımsızlık kökü | Kademe-2 |
-| mimari | `isletim-sistemi-kernel/index.md` | Kernel/süreç/syscall kökü | Kademe-2 |
-| kanit | `isletim-sistemi-observability/index.md` | ftrace/ETW/perf kökü | Kademe-2 |
-| mimari | `isletim-sistemi-plan/index.md` | Scheduling/plan kökü (Q3) | Kademe-2 |
-| mimari | `isletim-sistemi-runtime/index.md` | PHP SAPI + web sunucusu kökü | Kademe-2 |
-| kanit | `isletim-sistemi-security/index.md` | İzin/capability/sandbox kökü | Kademe-2 |
-| kod | `isletim-sistemi-testing/index.md` | OS düzeyi test kökü (kselftest/KUnit) | Kademe-2 |
-| mimari | `isletim-sistemi-turu/index.md` | OS ailesi karşılaştırma kökü (8 platform) | Kademe-2 |
-| mimari | `os-donanim-tespiti/index.md` | Donanım tespiti kökü — PnP/enumeration/sürücü bağlama (2026-10-13, Vault Steward onayı) | Kademe-2 |
-| kod | `isletim-sistemi-core/isletim-sistemi-core-kod-seti.md` | Cross-platform bellek ölçümü / dosya meta / temp dizin kod seti (GRUP A/B/C · 1088 satır · fence 27) | Kademe-2 |
-| kod | `isletim-sistemi-kernel/isletim-sistemi-kernel-kod-seti.md` | Cross-platform süreç/fork · mmap · ioctl kod seti (894 satır · fence 17) | Kademe-2 |
-| kod | `isletim-sistemi-api/isletim-sistemi-api-kod-seti.md` | open/read köprüsü, hata kodu deseni, FFI sınırı (846 satır · fence 20) | Kademe-2 |
-| kod | `isletim-sistemi-runtime/isletim-sistemi-runtime-kod-seti.md` | SAPI/runtime tespiti, sunucu yapılandırması, servis/daemon (724 satır · fence 20) | Kademe-2 |
-| kod | `isletim-sistemi-security/isletim-sistemi-security-kod-seti.md` | İzin/sandbox/kaynak limiti kod seti (804 satır · fence 20) | Kademe-2 |
-| kod | `isletim-sistemi-observability/isletim-sistemi-observability-kod-seti.md` | Log hattı / monotonic saat / ölçümler kod seti (752 satır · fence 22) | Kademe-2 |
-| kod | `isletim-sistemi-plan/isletim-sistemi-plan-kod-seti.md` | Öncelik/timer/kuyruk kod seti (1027 satır · fence 29) | Kademe-2 |
-| kod | `isletim-sistemi-testing/isletim-sistemi-testing-kod-seti.md` | Test izolasyonu / platform matrisi / CI gate kod seti (756 satır · fence 19) | Kademe-2 |
-| kod | `os-donanim-tespiti/os-donanim-tespiti-kod-seti.md` | CPU/bellek/ses/arayüz enumerasyon kod seti (1155 satır · fence 26) | Kademe-2 |
-| kod | `isletim-sistemi-turu/isletim-sistemi-turu-kod-seti.md` | OS ailesi karşılaştırma ana kod seti (1038 satır · fence 40) | Kademe-2 |
-| kod | `isletim-sistemi-turu/linux/linux-kod-seti.md` | Linux platform kod seti (746 satır · fence 15) | Kademe-3 |
-| kod | `isletim-sistemi-turu/windows/windows-kod-seti.md` | Windows platform kod seti (691 satır · fence 14) | Kademe-3 |
-| kod | `isletim-sistemi-turu/macos/macos-kod-seti.md` | macOS platform kod seti (665 satır · fence 21) | Kademe-3 |
-| kod | `isletim-sistemi-turu/android/android-kod-seti.md` | Android platform kod seti (615 satır · fence 16) | Kademe-3 |
-| kod | `isletim-sistemi-turu/ios/ios-kod-seti.md` | iOS platform kod seti (591 satır · fence 15) | Kademe-3 |
-| kod | `isletim-sistemi-turu/reactos/reactos-kod-seti.md` | ReactOS platform kod seti (847 satır · fence 15) | Kademe-3 |
-| kod | `isletim-sistemi-turu/tizen/tizen-kod-seti.md` | Tizen platform kod seti (777 satır · fence 10) | Kademe-3 |
-| kod | `isletim-sistemi-turu/webos/webos-kod-seti.md` | webOS platform kod seti (755 satır · fence 9) | Kademe-3 |
-| mimari | `isletim-sistemi-turu/windows/windows-guvenlik.md` | OS güvenlik profili — K000↔K009 sınırı (269 satır · 6 URL · 2026-10-15) | Kademe-3 |
-| mimari | `isletim-sistemi-turu/linux/linux-guvenlik.md` | OS güvenlik profili — K000↔K009 sınırı (272 satır · 7 URL · 2026-10-15) | Kademe-3 |
-| mimari | `isletim-sistemi-turu/macos/macos-guvenlik.md` | OS güvenlik profili — K000↔K009 sınırı (272 satır · 6 URL · 2026-10-15) | Kademe-3 |
-| mimari | `isletim-sistemi-turu/ios/ios-guvenlik.md` | OS güvenlik profili — K000↔K009 sınırı (259 satır · 6 URL · 2026-10-15) | Kademe-3 |
-| mimari | `isletim-sistemi-turu/android/android-guvenlik.md` | OS güvenlik profili — K000↔K009 sınırı (264 satır · 7 URL · 2026-10-15) | Kademe-3 |
-| mimari | `isletim-sistemi-turu/webos/webos-guvenlik.md` | OS güvenlik profili — K000↔K009 sınırı (260 satır · 7 URL · 2026-10-15) | Kademe-3 |
-| mimari | `isletim-sistemi-turu/tizen/tizen-guvenlik.md` | OS güvenlik profili — K000↔K009 sınırı (254 satır · 6 URL · 2026-10-15) | Kademe-3 |
-| mimari | `isletim-sistemi-turu/reactos/reactos-guvenlik.md` | OS güvenlik profili — K000↔K009 sınırı (257 satır · 6 URL · 2026-10-15) | Kademe-3 |
+| mimari/kod | 13 alt-dal `index.md` | `electroncis` · `isletim-sistemi-{api,audio,core,cross,kernel,observability,plan,runtime,security,testing,turu}` · `os-donanim-tespiti` kök künyeleri (audio/testing=kod · observability/security=kanit · diğer=mimari) | Kademe-2 |
+| kod | 10 kademe-2 `*-kod-seti.md` | core (1088/f27) · kernel (894/f17) · api (846/f20) · runtime (724/f20) · security (804/f20) · observability (752/f22) · plan (1027/f29) · testing (756/f19) · os-donanim-tespiti (1155/f26) · turu (1038/f40) | Kademe-2 |
+| kod | 8 platform `*-kod-seti.md` | reactos (847/f15) · tizen (777/f10) · webos (755/f9) · linux (746/f15) · windows (691/f14) · macos (665/f21) · android (615/f16) · ios (591/f15) — `isletim-sistemi-turu/*/` altında | Kademe-3 |
+| mimari | 8 `*-guvenlik.md` | K000↔K009 sınır köprüsü (254–272 satır · 6–7 URL · 2026-10-15) — `isletim-sistemi-turu/{windows,linux,macos,ios,android,webos,tizen,reactos}/` altında | Kademe-3 |
 
 ---
 

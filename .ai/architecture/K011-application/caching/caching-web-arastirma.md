@@ -490,10 +490,34 @@ alan test boşluğudur (P-VY1).
 | 1 | `https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Expires` | TEMİZ → getirildi | §3–§5 | 2026-10-15 |
 | 2 | `https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Vary` | TEMİZ → getirildi | §6–§8 | 2026-10-15 |
 | 3 | `https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/ETag` | TEMİZ | `caching-ornekler.md` (tek kullanım) | 2026-10-15 |
-| 4 | `https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching` | TEMİZ | `caching-bilesenler.md` (tek kullanım) | 2026-10-15 |
+| 4 | `https://developer[.]mozilla[.]org/en-US/docs/Web/HTTP/Caching` | TEMİZ | `caching-bilesenler.md` (tek kullanım) | 2026-10-15 |
 | 5 | `https://developer[.]mozilla[.]org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control` | HIT | LABEL (§9.1) | 2026-10-15 |
 | 6 | `https://www[.]php[.]net/manual/en/book.apcu.php` | HIT | LABEL (§9.2) | 2026-10-15 |
 | 7 | `Last-Modified` / `If-Modified-Since` (başlık dokümanı) | HAVUZDA YOK | LABEL (§9.3) — uydurma URL YOK | 2026-10-15 |
+
+### §C.1 — Havuz kesişim notu (2026-10-16)
+
+> **Spec §9 caching havuzu (5):** `mdn Headers/Expires` (çıplak yol) ·
+> `mdn Headers/Last-Modified` · `mdn Headers/Age` · `mdn Headers/If-None-Match` ·
+> `mdn Headers/If-Modified-Since`.
+>
+> **Bu dosyanın havuzu (§C, 7 satır):** Expires (`Reference/` yol varyantı) ·
+> Vary · ETag · Caching · Cache-Control (`www[.]developer[.]mozilla[.]org`
+> noktalı, HIT) · APCU (`www[.]php[.]net` noktalı, HIT) · Last-Modified /
+> If-Modified-Since (yalnız LABEL — §9.3, uydurma URL yok).
+>
+> **Sapma:** Dosya spec'in **`Age`** ve **`If-None-Match`** URL'lerini hiç
+> kullanmadı; **`Expires`**'ı **`Reference/` yol varyantıyla** aldı (spec'te
+> çıplak `Headers/Expires`); `Vary`/`ETag`/`Caching`/`Cache-Control`/`APCU`
+> spec havuzu dışındadır; `Last-Modified` + `If-Modified-Since` yalnızca başlık
+> etiketi olarak durur (§9.3 — URL uydurulmadı). Yani **Age/Expires varyant
+> sapması** vardır.
+>
+> ⚠️ **VERIFICATION REQUIRED (2026-10-16):** spec §9 caching havuzunun
+> `Age` · `If-None-Match` · `If-Modified-Since` (ve Expires'ın çıplak yolu)
+> doğrulaması bu dosyada yok. Kesişim kanıtı closeout'ta spec havuzu curl-verify
+> ile ayrıca üretilecek (HTTP 200 + envanter kesişimi 0). Dosyanın "Havuz dışı
+> 0" iddiası kendi dahili havuzu içindir; 0 HIT (envanter kesişimi) değişmez.
 
 ---
 

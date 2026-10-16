@@ -79,6 +79,7 @@ group: kanit
 | Tarih | Tur | Sonuç |
 |---|---|---|
 | 2026-10-12 | Tur-1 (görev araştırma turu + kaynak metin karşılaştırma) | 5/8 ölçüt verified · 2 açık ⚠️ · 1 ⚠️ VERIFY REQUIRED |
+| 2026-10-16 | Tur-2 (kademe-3 genişletme — 7 subagent, openapi kalıbı) | 35 yeni MD · 113 URL fetch ile doğrulandı · 36 elenen (gerekçeli §9'lar) · 2026-10-12 beyanlarının 2'si kapatıldı (Apple ES256+kid ✅ · hub-and-spoke ✅) · YouTube Music kanıt sunuldu (karar üst otoritede ⚠️) · yeni açık: retry/breaker parametreleri, K013↔K019 sınır, canlı test gate adresi |
 
 ## §6 Kapı tanımı (bu dosyanın geçerlilik sınırı)
 

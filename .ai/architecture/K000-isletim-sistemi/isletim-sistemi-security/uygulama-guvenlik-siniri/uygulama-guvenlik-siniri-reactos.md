@@ -255,3 +255,256 @@ Get-ChildItem '<repo>' -Recurse -File -Include *.php,*.js,*.css,*.sql |
 sahibine aittir ve `validation:` alanına işlenir. Erken kapatma = karar gasbı.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §7 Çapraz kart matrisi (ReactOS uygulama sınırı kontrol haritası)
+
+§1 profili, §2 alıntılar (Win32 API katmanı / CSRSS IPC / Wine kaynak sınırı)
+ve §5.1 ölçüm bu dosyada çaprazlanır; kanıtsız kontrol "var" sayılmaz.
+
+| # | Sınır kontrolü | Yüzey (§ referansı) | Sağlayıcı katman | Doğrulama tipi | Öncelik |
+|---|---|---|---|---|---|
+| K1 | Win32 API katmanı hata-uyumluluğu sınırı | §2.1 API katmanı | Win32 subsystem | Statik + dinamik | P0 |
+| K2 | CSRSS IPC sınırı (istemci/sunucu ayrımı) | §2.2 CSRSS | CSRSS/ALPC benzeri | Statik + dinamik | P0 |
+| K3 | Uyumluluk katmanı kaynak sınırı (Wine vs ReactOS) | §2.3 kaynak | Üretilen kod + build | Statik | P1 |
+| K4 | Token/privilege ayrımı (kullanıcı sınırı) | §1 kimlik | Kernel token | Dinamik | P0 |
+| K5 | İş/işlem (job) sınıfı kaynak bağlama | §1 süreç | Job objects | Statik + dinamik | P1 |
+| K6 | Dosya ACL/erişim denetimi | §1 depolama | FS ACL | Statik + dinamik | P1 |
+| K7 | Ağ erişim profili | §1 ağ | Redirector/firewall | Dinamik | P1 |
+| K8 | Servis/oturum izolasyonu | §1 oturum | SCM + Session | Dinamik | P1 |
+
+### §7.1 Matris okuma kuralı
+
+1. **Statik kanıt** — kaynak kod/alıntı satırı, build çıktısı, yapılandırma (Dosya: ile).
+2. **Dinamik kanıt** — API ret (ACCESS_DENIED/ERROR_INVALID_PARAMETER sınıfı).
+3. **Ölçüm kanatı** — §5.1 yeniden üretilebilir ölçüm çıktısı.
+
+Kanıtsız satır `VERIFICATION REQUIRED` kalır. ReactOS olgunluk kısıtı nedeniyle
+"bilinen eksik" satırlar da ayrı işaretlenir; örtbas edilmez.
+
+### §7.2 Çapraz kart eşlemesi (sınır → kart)
+
+| Kart kategorisi | İlgili kontroller | Bu dosyadaki karşılığı |
+|---|---|---|
+| Kimlik kartları | K4 | §1 token, §10 S3 |
+| Servis kartları | K2, K8 | §2.2, §10 S4 |
+| Depolama kartları | K6 | §1 ACL, §10 S5 |
+| Bağlantı kartları | K7 | §10 S2 |
+| Uygulama kartları | K1, K3 | §2.1/§2.3, §10 S1 |
+| Kaynak kartları | K5 | §5.1 ölçüm, §13 T3 |
+
+## §8 Ses/RT yüzeyi (ReactOS için PLANNED senaryo)
+
+> **DURUM: PLANNED** — Zincir gerçek (veya emüle) ortamda bu turda doğrulanmadı.
+
+### §8.1 Neden bu bölüm burada?
+
+Ses alt sistemi (mixer/cihaz erişimi, sürücü IOCTL yüzeyi, önbellek paylaşımı)
+uygulama sınırının ayrıcalıklı geçişidir: IOCTL/driver erişimi K1/K4 ile,
+süreç içi paylaşımlar K2/K5 ile kesişir. Windows uyumluluk kısıtları nedeniyle
+"var" varsayımı tehlikelidir — bu yüzden tüm satırlar PLANNED kalır.
+
+### §8.2 PLANNED senaryo zinciri (Ses ↔ Sınır)
+
+| Adım | Senaryo | Beklenen yüzey | Durum |
+|---|---|---|---|
+| A1 | Uygulama ses cihazı IOCTL'u açar | IOCTL erişim denetimi (K1/K4) | PLANNED |
+| A2 | Karıştırıcı/ses ayarı yapar | Token privilege denetimi (K4) | PLANNED |
+| A3 | Paylaşılan tampon üzerinden veri akar | K2/K5 sınırı ihlal edilmemeli | PLANNED |
+| A4 | Uygulama sonlanır | Kanal/job temizlenir (§9 M4) | PLANNED |
+
+**Kapsam dışı:** ses algoritması/codec/driver geliştirme. **Harici referans:** `.ai/electronic/drivers/audio-drivers.md` — bu turda yalnız **okuma** (beyazliste dışı yazım yasağı).
+
+## §9 Başarısızlık modları (ReactOS uygulama sınırı)
+
+| Mod | Tetikleyici | Gözlenen belirti | Sınır etkisi | Sürdürme/geri alma |
+|---|---|---|---|---|
+| M1 | API uyumsuzluk (desteklenmeyen çağrı) | Hata kodu / desteklenmiyor | İşlem düşer | Uyumluluk açıklaması |
+| M2 | CSRSS IPC reddi | Sistem servisi hatası | UI/oturum etkilenir | Alt sistem logu |
+| M3 | Kaynak sınırı aşımı (Wine kaynak) | Build/çalışma hatası | Derleme/çalışma durur | Kaynak kapsamı |
+| M4 | Süreç çökmesi | EXCEPTION | Kaynak sızıntısı riski | Job temizliği |
+| M5 | Token/privilege reddi | ACCESS_DENIED | İşlem düşer | Token denetimi |
+| M6 | ACL ihlali | Erişim ret | Veri erişimi kesilir | ACL denetimi |
+| M7 | Ağ ret/sızma | Bağlantı hatası veya boşluk | Bağlantı etkilenir | Profil denetimi |
+| M8 | Servis/oturum karışması | Yanlış oturum davranışı | Oturum ihlali | SCM/oturum logu |
+
+### §9.1 Fail-safe matrisi (öncelik sırası)
+
+1. **P0 — M1 (sınır ihlali şeklinde), M2, M5, M6:** fail-closed.
+2. **P1 — M7, M8:** tek yüzey.
+3. **P2 — M3, M4:** yalnız build/süreç.
+
+`fail-open` hiçbir modda kabul edilmez. 3 başarısız turda dur + üst karar.
+ReactOS'ta "bilinen eksik" (upstream açık) modları ayrı etiketlenir; çalışır
+varsayılmaz (Zero-Hallucination).
+
+## §10 Kullanım senaryoları
+
+Kalıp: **kural → yüzey → doğrulama → sonuç (işaretli)**.
+
+### §10.1 S1 — API sınırı hata-uyumluluğu (P0)
+
+- **Kural:** Desteklenmeyen API çağrısı tanımlı hata döner, sessizce farklı davranmaz (K1, §9 M1).
+- **Yüzey:** Win32 katmanı (§2.1).
+- **Doğrulama:** Test çağrısı → beklenen hata kodu + log.
+- **Sonuç:** Farklı davranış K1 ihlali → P0. (Durum: PLANNED.)
+
+### §10.2 S2 — Ağ erişim profili (P1)
+
+- **Kural:** Profil dışı bağlantı ret (K7, §9 M7).
+- **Yüzey:** redirector/firewall sınıfı (§1).
+- **Doğrulama:** Dış hedef bağlantısı → beklenen ret/izleme.
+- **Sonuç:** Beklenene aykırıysa K7 ihlali. (Durum: PLANNED.)
+
+### §10.3 S3 — Token/privilege denetimi (P0)
+
+- **Kural:** Yetkisiz token ayrıcalıklı işlemi reddeder (K4, §9 M5).
+- **Yüzey:** kernel token (§1).
+- **Doğrulama:** Ayrıcalıklı işlem (düşük token) → beklenen: ACCESS_DENIED.
+- **Sonuç:** Geçerse K4 ihlali → P0. (Durum: PLANNED.)
+
+### §10.4 S4 — CSRSS IPC sınırı (P0)
+
+- **Kural:** Geçersiz istemci isteği reddedilir (K2, §9 M2).
+- **Yüzey:** CSRSS (§2.2).
+- **Doğrulama:** Kötü niyetli/geçersiz IPC isteği → beklenen: ret.
+- **Sonuç:** Geçerse K2 ihlali → P0. (Durum: PLANNED.)
+
+### §10.5 S5 — Dosya ACL denetimi (P1)
+
+- **Kural:** ACL olmayan erişim ret (K6, §9 M6).
+- **Yüzey:** FS ACL (§1).
+- **Doğrulama:** ACL'siz erişim → beklenen: ACCESS_DENIED.
+- **Sonuç:** Geçerse K6 ihlali → P1. (Durum: PLANNED.)
+
+### §10.6 Senaryo günlüğü tutma biçimi
+
+| Alan | Zorunluluk |
+|---|---|
+| Senaryo no | Zorunlu |
+| Kanıt türü | Zorunlu |
+| Durum (PLANNED / doğrulandı) | Zorunlu |
+| Beklenen vs gözlenen | Doğrulandığında zorunlu |
+| Bilinen eksik (upstream) | Varsa zorunlu |
+
+## §11 Kaynakça envanteri
+
+### §11.1 İç kaynaklar (Dosya: ile)
+
+| Kaynak | Kullanım |
+|---|---|
+| Bu dosya §0–§6 | Profil, §2.1–§2.3 alıntılar, §5.1 ölçüm, sınırlar |
+| K000 security kardeşleri | Çapraz okuma (§12) |
+| K000 testing | Doğrulama → test (§13) |
+| .ai/electronic/drivers/audio-drivers.md | Ses fallback — yalnız okuma |
+
+### §11.2 Dış kaynak kategorileri
+
+| Kategori | Dayanak | Durum |
+|---|---|---|
+| ReactOS wiki/upstream (§2.2/§2.3 alıntı kaynağı) | K1–K3 | Alıntı satırda arşiv notu korunur |
+| Çalışır ortam logları | §10 | ⚠️ VERIFICATION REQUIRED (alınmadı) |
+| §5.1 ölçüm çıktıları | statik/ölçüm kanıtı | ⚠️ VERIFICATION REQUIRED (PLANNED) |
+
+### §11.3 Kaynak güven sırası
+
+1. Ortam ölçüm/log. 2. Dosya içi § referansı/alıntı. 3. Vault içi kardeş dosya.
+4. Tarihli erişilebilir URL. 5. Model hafızası — tek dayanak asla.
+
+## §12 Eşleme ağacı (okuma sırası)
+
+```text
+uygulama-guvenlik-siniri-reactos.md
+|-- Sec0 ELI15
+|-- Sec1 ReactOS uygulama guvenlik siniri profili
+|-- Sec2 Kod/alinti ornekleri (2.1 Win32 | 2.2 CSRSS | 2.3 Wine kaynak)
+|-- Sec3 CoreMusic repo durumu
+|-- Sec4 Sinir cumleleri
+|-- Sec5 Referans + 5.1 olcum  (yeniden uretilebilir kanit)
+|-- Sec6 Acik sorular          (KAPATMA YASAGI)
+|-- Sec7 Cizraz matris         (K1-K8 haritasi)
+|-- Sec8 Ses/RT PLANNED        (sinirli yuzey)
+|-- Sec9 Basarisizlik          (M1-M8 + fail-safe)
+|-- Sec10 Senaryolar           (S1-S5 kalip)
+|-- Sec11 Kaynakca             (guven sirasi)
+|-- Sec12 Esleme agaci         (bu satir)
+'-- Sec13+ Test/ozet           (kapi adimlari)
+```
+
+## §13 Test önerileri + negatif kontroller + okuma sırası
+
+### §13.1 Pozitif testler
+
+| Test | Adım özeti | Beklenen |
+|---|---|---|
+| T1 | Desteklenen Win32 çağrısı | Başarılı/uyumlu sonuç |
+| T2 | Geçerli IPC oturumu (K2) | Çalışır |
+| T3 | §5.1 kaynak ölçümü (K5) | Beklenen değer |
+| T4 | Yetkili token işlemi (K4) | Çalışır |
+
+### §13.2 Negatif kontroller (RED TEAM — reddin kanıtı)
+
+| # | Negatif adım | Beklenen ret | İhlal varsa |
+|---|---|---|---|
+| N1 | Desteklenmeyen API çağrısı | Tanımlı hata (M1) | K1 ihlali → P0 |
+| N2 | Geçersiz IPC isteği | Ret (M2) | K2 ihlali → P0 |
+| N3 | Düşük token ile ayrıcalıklı işlem | ACCESS_DENIED (M5) | K4 ihlali → P0 |
+| N4 | ACL'siz dosya erişimi | ACCESS_DENIED (M6) | K6 ihlali → P1 |
+| N5 | Profil dışı ağ bağlantısı | Ret (M7) | K7 ihlali → P1 |
+| N6 | Oturumlar arası yetki denemesi | Ret (M8) | K8 ihlali → P1 |
+| N7 | Kaynak sınırı aşımı denemesi | Build/run ret (M3) | K3 ihlali → P2 |
+
+**Kural:** Ret yoksa `VERIFICATION REQUIRED`. 3 başarısız tur → dur + üst karar.
+
+### §13.3 Okuma sırası penceresi (öneri)
+
+1. §0 → §4 (5 dk). 2. §7 matrisi (3 dk). 3. §9 + §10 (7 dk).
+4. §13.2 (5 dk). 5. §6 açık sorular sona — oku, **kapatma**.
+
+### §14 Olay şeması + eskalasyon (özet)
+
+| Alan | Açıklama |
+|---|---|
+| ts / mod / kontrol | ISO-8601 · M1–M8 · K1–K8 |
+| yuzey / beklenen / gozlenen | § referansı + ikili |
+| durum / kanit / eskalasyon | PLANNED-dogrulandi · statik/dinamik/olcum · P0-P2 |
+| bilinen-eksik | upstream açık ise ayrı alan |
+
+| Sıklık (5 dk) | Eylem |
+|---|---|
+| Aynı P0 K'de 2+ ret | Olay aç → inceleme |
+| P0 K'de ret yok ama izin | Sızıntı varsayımı → derhal eskale |
+| M2/M8 tekrarı | Alt sistem/oturum denetimi |
+| M3 tekrarı | Kaynak kapsamı revizyonu |
+
+Log append-only; `ts` geriye sarılmaz; `kanit` boş olay sayılmaz; P0 olayları
+bir sonraki §13.2 turunda tekrar denenir. §6 S1/S2 etkilenmez; frontmatter
+değişmez. Sıra: P0 → K1, K2, K4 → P1 → K6, K7, K8 → P2 → K3, K5.
+
+### §15 Append-only + kapı özeti (ReactOS eki protokolü)
+
+Her gelecek eki yalnız Authority kuyruğundan sonra eklenir; §0–§14,
+frontmatter ve Authority satırı değişmez; sıradaki numara §16'dır. Yasaklar:
+silme/yeniden yazma · dolgu/TBD · §6 S1/S2 kapatma · frontmatter değişikliği ·
+Mojibake. Ekleme sonrası ölç; 500'ün altındaysa §<n+1> kaynak atıflı eklenir.
+
+### §16 Zorunlu 8 soruluk kapı özeti (son okuma)
+
+| # | Soru | Cevap referansı |
+|---|---|---|
+| 1 | API hata-uyumluluğu tanımlı mı? | §2.1 + §13.2 N1 |
+| 2 | CSRSS IPC sınırı korunuyor mu? | §2.2 + §13.2 N2 |
+| 3 | Wine kaynak sınırı ölçül mü? | §2.3 + §13.1 T3 |
+| 4 | Token/privilege denetimi etkin mi? | §13.2 N3 |
+| 5 | Job/kaynak bağlama etkin mi? | §7 K5 |
+| 6 | Dosya ACL doğru mu? | §13.2 N4 |
+| 7 | Ağ profili tutuyor mu? | §13.2 N5 |
+| 8 | Servis/oturum izolasyonu var mı? | §13.2 N6 |
+
+3 dk rota: §16 → §9.1 → §6 (oku, **kapatma**). Hatalar: kanıtsız "çalışıyor"
+iddiası, PLANNED'ı geçiş saymak, log düzenlemek, fail-open yorumu, bilinen
+eksikleri örtbas etmek. Sonraki tur: §8 → ortam ölçümü · §10 → dinamik kanıt ·
+§11.2 → tarihli URL · §13.2 → §14 olayı. Bu işler bu turda **yapılmadı**.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

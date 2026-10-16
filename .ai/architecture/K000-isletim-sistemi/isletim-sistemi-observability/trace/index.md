@@ -10,14 +10,7 @@ children:
 depends_on:
   - isletim-sistemi-kernel
   - isletim-sistemi-core
-evidence:
-  - https://docs.kernel.org/trace/ftrace-design.html
-  - https://docs.kernel.org/trace/tracepoints.html
-  - https://man7.org/linux/man-pages/man2/bpf.2.html
-  - https://docs.kernel.org/bpf/verifier.html
-  - https://learn.microsoft.com/en-us/windows/win32/api/evntrace/
-  - shared/src/PageRouter/PageRouterKernel.php:87
-  - shared/src/PageRouter/StructuredLogger.php:66
+evidence: ["https://docs.kernel.org/trace/ftrace-design.html", "https://docs.kernel.org/trace/tracepoints.html", "https://man7.org/linux/man-pages/man2/bpf.2.html", "https://docs.kernel.org/bpf/verifier.html", "https://learn.microsoft.com/en-us/windows/win32/api/evntrace/", "shared/src/PageRouter/PageRouterKernel.php:87", "shared/src/PageRouter/StructuredLogger.php:66"]
 validation: "2026-10-14 — §4 §GRUPLAR'a OS grupları satırı eklendi (trace-anayasa §6.1/§8/§16.1 · trace-surucu §6.1/§10/§20.1 · trace-ornekler §13/§13.1, kanıt T-W16–T-W23); dosya 101 satır (40–100 hedefinden +1 — bilinçli, OS satırı içeriğe değer kattı) | 2026-10-13 — trace alt-dalının 13 URL'si (T-W1…T-W13) kök -dogrulama.md §2'de HTTP 200 doğrulanmış; 3 yeni URL (bpf/verifier.html, bpf/helpers.html, bpf/ringbuf.html) bu turda doğrulandı (envanter kesişimi 0); repo traceId satırları Read/grep ile doğrulandı; OS trace aracı grep'i 0 isabet"
 open_questions:
   - "O1: OS-level trace toplama (ftrace, ETW oturumu, eBPF) hedef mimaride var mı, yoksa yalnız uygulama traceId'si mi? [UNKNOWN]"

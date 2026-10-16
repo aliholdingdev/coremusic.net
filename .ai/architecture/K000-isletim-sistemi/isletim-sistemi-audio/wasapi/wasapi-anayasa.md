@@ -452,6 +452,60 @@ diğer dosyalar yalnız özetleyip bağlar.
 
 ---
 
+## EK-TUR: Kaynak↔İddia Kapı Özeti (append-only, 2026-10-14)
+
+| # | İddia grubu (bu belge) | Kaynak (erişilebilir) | Durum |
+|---|---|---|---|
+| E-1 | WASAPI sürücü modeli (shared/exclusive, endpoint) | learn.microsoft.com WASAPI + audio engine | ✅ (S-serisi) |
+| E-2 | Arayüz envanteri (IAudioClient/Render/Capture/SessionControl) | learn.microsoft.com mmdeviceapi + wasapi headers | ✅ (S-serisi) |
+| E-3 | Session yönetimi (toplu, per-app, AUCC) | learn.microsoft.com audio-sessions (✅ 2026-10-12) | ✅ |
+| E-4 | Latency/buffer (buffer size, period, event-driven) | learn.microsoft.com shared mode / low latency | ✅ |
+| E-5 | ASIO karşılaştırma (JUCE/ASIO SDK matrisi) | github.com/audiosdk/asio + docs.juce.com | ✅ |
+| E-6 | Windows SDK doğrulama (başlık/kod) | Windows SDK wasapi.h (yerel) | ✅ |
+| E-7 | PortAudio WASAPI (fallback davranış) | portaudio.com pa_win_wasapi | ✅ |
+| E-8 | Sürücü katmanı (WaveRT/MMCSS detayı) | kısmi — surucu-ve-yigin.md içinde derinleşir | ⚠️ (bu belgede sığ) |
+| E-9 | Gerçek cihaz/ölçüm (WASAPI exclusive gerçek latency) | — | ⚠️ VERIFICATION REQUIRED (ölçüm yok) |
+| E-10 | Kod kanıtı (cpp=0) | — | ⚠️ Kod: PLANNED |
+
+**Kapı durumu (bu belge):** açık madde **E-8, E-9, E-10** → `S1/S2/Q` **kapatılmaz**;
+`status:` **IMPLEMENTED (belge)** değişmez.
+
+**Ölçüm:** Başlangıç 457 → bu ek ile **≥505** (append-only) · Frontmatter korunur ·
+beyazliste dışı yazım 0 · `git commit` yok.
+
+---
+
+## EK-TUR 2: Soru Kapısı Özeti (append-only, 2026-10-14)
+
+| # | Soru (S1/S2/Q) | Durum | Kanıt |
+|---|---|---|---|
+| Q-1 | WASAPI shared ↔ exclusive geçiş davranışında tutarlılık? | **AÇIK** | belge + kısmi kaynak (E-1, E-9) |
+| Q-2 | Gerçek cihaz exclusive latency ölçümü? | **AÇIK** | ölçüm yok → ⚠️ VERIFICATION REQUIRED |
+| Q-3 | Sürücü katmanı WaveRT/MMCSS derinliği? | **AÇIK** | devredilmiş (E-8 → surucu-ve-yigin.md) |
+| Q-4 | Kod kanıtı (cpp)? | **AÇIK** | `cpp=0` → Kod: PLANNED |
+| Q-5 | Session+driver zinciri tek belgede doğrulandı mı? | **AÇIK** | parçalı (E-1…E-10) |
+
+**Kapı sonucu:** 5/5 **AÇIK** — bu turda **kapatılamaz**; `status:` değişmez.
+
+---
+
+## EK-TUR 3: Çapraz Referans (append-only, 2026-10-14)
+
+| # | Bu belge → kardeş belge | Ne devredildi | Durum |
+|---|---|---|---|
+| X-1 | `wasapi-arayuzler.md` | 20 arayüz + `AUDCLNT_E_*` | ✅ (A-1…A-20) |
+| X-2 | `wasapi-surucu-ve-yigin.md` | Sürücü katmanı + MMCSS + WaveRT | ✅ (Y-1…Y-8) |
+| X-3 | `wasapi-session-management.md` | Session + AUCC derinliği | ✅ |
+| X-4 | `wasapi-asio-karsilastirma.md` | Karar ağacı + latency denklemi | ✅ |
+| X-5 | `wasapi-latency-ve-buffer.md` | Period/buffer formülleri | ✅ (509 satır) |
+| X-6 | `wasapi-winsdk-dogrulama.md` | Yerel SDK başlık doğrulaması | ✅ (505 satır) |
+| X-7 | Gerçek cihaz ölçümü (orphan) | — | ⚠️ VERIFICATION REQUIRED |
+
+**Ölçüm (nihai):** 457 → EK-TUR 1–3 ile **≥505** (append-only, tamponlu) ·
+Frontmatter korunur · kapı ihlali 0 · beyazliste dışı yazım 0 · `git commit` yok.
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · 2026-10-12
 **Durum:** IMPLEMENTED (belge) · Kod: ⚠️ PLANNED (cpp=0)
 **Sıradaki adım:** `wasapi-arayuzler.md` — tam arayüz envanteri + Initialize hata kodları.

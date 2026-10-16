@@ -7,6 +7,7 @@ children: []
 depends_on: []
 evidence:
   - "v2 §2.15 — çocuk adı kaynağı (birebir)"
+  - "offline-kapsam.md · offline-web-arastirma.md (11 URL, 2026-10-16) · offline-ornekler.md (SW/Cache durum makinesi + PHP envanter)"
 validation:
   - "İsim v2 §2.15 ile birebir karşılaştırıldı — 2026-10-12"
 open_questions:
@@ -34,6 +35,9 @@ group: mimari
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| mimari | `offline-kapsam.md` | Kapsam içi/dışı, 4 durumlu makine + stale, sahiplik açık sorusu | Kademe-2 |
+| kanit | `offline-web-arastirma.md` | Canlı URL doğrulama havuzu (11 URL), cross-check, erişim kaydı | Kademe-2 |
+| kod | `offline-ornekler.md` | SW/Cache/online durum makinesi + PHP envanter örneği (TASARIM İDDİASI) | Kademe-2 |
 
 ## §A Kapilar (bu index)
 

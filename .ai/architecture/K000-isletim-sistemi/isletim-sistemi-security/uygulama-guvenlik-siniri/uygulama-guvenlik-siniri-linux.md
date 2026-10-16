@@ -161,3 +161,345 @@ uyarısı, §1).
 | S2 | Uygulama ↔ OS güvenlik sorumluluk sınırı (uygulama kontrolleri nerede biter, OS sandbox nerede başlar)? | **[UNKNOWN]** — bu kartta KAPATMA YOK |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §7 Çapraz kart matrisi (Linux uygulama sınırı kontrol haritası)
+
+§1 profili, §2 kalıplar (seccomp/bubblewrap/pivot_root) ve §5 referans bu
+dosyada çaprazlanır; her satır bir sınır kontrolüdür. Kanıtsız kontrol "var" sayılmaz.
+
+| # | Sınır kontrolü | Yüzey (§ referansı) | Sağlayıcı katman | Doğrulama tipi | Öncelik |
+|---|---|---|---|---|---|
+| K1 | seccomp-bpf syscall filtresi | §2.1 filtre sözleşmesi | Kernel BPF | Statik + dinamik | P0 |
+| K2 | Dosya sistemi sandbox (bubblewrap kalıbı) | §2.2 bwrap kalıbı | Namespace + mount | Statik | P0 |
+| K3 | pivot_root kök değişimi (çıkış engeli) | §2.3 pivot_root | Namespace | Statik | P0 |
+| K4 | UID/GID ayrımı (çalışan kullanıcı sınırı) | §1 kimlik katmanı | Kernel | Dinamik | P1 |
+| K5 | capability daraltma (ayrıcalık kesimi) | §1 yetki katmanı | Capabilities | Statik + dinamik | P0 |
+| K6 | cgroup/kota (bellek/CPU per-app) | §1 kaynak katmanı | cgroup | Ölçüm | P2 |
+| K7 | Ağ namespace izolasyonu | §1 ağ katmanı | netns | Statik | P1 |
+| K8 | ro-salt-okunur bağlama (kök sistem yazma) | §2.2 mount katmanı | VFS | Statik | P1 |
+
+### §7.1 Matris okuma kuralı
+
+1. **Statik kanıt** — profil dosyası, mount listesi, filtre JSON'u (Dosya: ile).
+2. **Dinamik kanıt** — syscall ret (EPERM) / mount ret / netns ret olayı.
+3. **Ölçüm kanatı** — sandbox içinde `/proc` benzeri çıktı.
+
+Kanıtsız satır `VERIFICATION REQUIRED` kalır.
+
+### §7.2 Çapraz kart eşlemesi (sınır → kart)
+
+| Kart kategorisi | İlgili kontroller | Bu dosyadaki karşılığı |
+|---|---|---|
+| Kimlik kartları | K4, K5 | §1 yetki, §10 S3 |
+| Depolama kartları | K2, K3, K8 | §2.2/§2.3, §10 S1 |
+| Bağlantı kartları | K7 | §10 S4 |
+| Kaynak kartları | K6 | §13 T3 |
+| Sistem çağrısı kartları | K1 | §2.1, §10 S2 |
+| Paket kartları | K8 | §7 K8, §13 N5 |
+
+## §8 Ses/RT yüzeyi (Linux için PLANNED senaryo)
+
+> **DURUM: PLANNED** — Zincir gerçek ortamda bu turda doğrulanmadı.
+
+### §8.1 Neden bu bölüm burada?
+
+Ses alt sistemi (ALSA/PipeWire cihaz düğümleri, grup üyeliği, önbellek
+paylaşımı) sınırın ayrıcalıklı geçişidir: sandbox içinde ses cihazı erişimi
+K2/K5/K7 ile aynı yetki altyapısını kullanır. Gecikme/kalite (SNR/THD, xrun)
+bu dosyanın dışıdır; yalnız sınır yüzeyi PLANNED çerçevede kalır.
+
+### §8.2 PLANNED senaryo zinciri (Ses ↔ Sınır)
+
+| Adım | Senaryo | Beklenen yüzey | Durum |
+|---|---|---|---|
+| A1 | Sandbox içi süreç ses cihazı düğümüne açar | Cihaz yetkisi (K4/K5) | PLANNED |
+| A2 | Dosya sistemi kalıcı cihazı ro mı rw mı | K8 ro bağlama | PLANNED |
+| A3 | Önbellek/ortalama üzerinden veri akar | K2 mount sınırı | PLANNED |
+| A4 | Süreç kapanır | Kanal/oturum kapanır, artık yok (§9 M4) | PLANNED |
+
+**Kapsam dışı:** ses algoritması/codec/xrun çözümü. **Harici referans:** `.ai/electronic/drivers/audio-drivers.md` — bu turda yalnız **okuma** (beyazliste dışı yazım yasağı).
+
+## §9 Başarısızlık modları (Linux uygulama sınırı)
+
+| Mod | Tetikleyici | Gözlenen belirti | Sınır etkisi | Sürdürme/geri alma |
+|---|---|---|---|---|
+| M1 | seccomp ihlali (yasaklı syscall) | SIGSYS/EPERM | Süreç durur | Filtre istisnası denetimi |
+| M2 | Mount/sandbox ihlali | EACCES/EPERM | Erişim kesilir | Profil denetimi |
+| M3 | pivot_root kaçış denemesi | Kök dışı erişim ret | Kaçış engellenir | Namespace denetimi |
+| M4 | Süreç çökmesi | SIGSEGV vb. | Kaynak sızıntısı | cgroup temizliği |
+| M5 | Capability kötüye kullanımı | EPERM / beklenen yetki ret | İşlem düşer | capability listesi |
+| M6 | Ağ namespace ihlali | Bağlantı ret veya sızma | Ağ kesilir/sızar | netns + K7 denetimi |
+| M7 | Kota aşımı | cgroup ret/OOM | Uygulama durur | Ölçüm + limit revizyonu |
+| M8 | ro beklenti ihlali (rw denemesi) | EROFS | Yazma düşer | rw-ro profil kontrolü |
+
+### §9.1 Fail-safe matrisi (öncelik sırası)
+
+1. **P0 — M1, M2, M3, M5, M6 (sızma varsa):** fail-closed.
+2. **P1 — M8:** tek dosya yüzeyi düşer.
+3. **P2 — M4, M7:** yalnız süreç/kota.
+
+`fail-open` hiçbir modda kabul edilmez. 3 başarısız turda dur + üst karar.
+
+## §10 Kullanım senaryoları
+
+Kalıp: **kural → yüzey → doğrulama → sonuç (işaretli)**.
+
+### §10.1 S1 — Sandbox dosya sınırı (P0)
+
+- **Kural:** Kök dışı yola yazma sandbox içinde reddedilir (K2, §9 M2).
+- **Yüzey:** bwrap mount profil (§2.2).
+- **Doğrulama:** Dış yola yazma → beklenen: EACCES/EPERM.
+- **Sonuç:** Yazılırsa K2 ihlali → P0. (Durum: PLANNED.)
+
+### §10.2 S2 — seccomp filtresi (P0)
+
+- **Kural:** Filtrede olmayan syscall reddedilir (K1, §9 M1).
+- **Yüzey:** seccomp-bpf (§2.1).
+- **Doğrulama:** Yasaklı syscall çağrısı → beklenen: ret/SIGSYS.
+- **Sonuç:** Geçerse K1 ihlali → P0. (Durum: PLANNED.)
+
+### §10.3 S3 — Yetki kesimi (P0)
+
+- **Kural:** Ayrıcalıklı işlem EPERM alır (K5, §9 M5).
+- **Yüzey:** capability listesi (§1).
+- **Doğrulama:** Yetki isteyen işlem → beklenen: EPERM.
+- **Sonuç:** Geçerse K5 ihlali → P0. (Durum: PLANNED.)
+
+### §10.4 S4 — Ağ izolasyonu (P1)
+
+- **Kural:** Sandbox dış bağlantısı izoleyse ret (K7, §9 M6).
+- **Yüzey:** netns (§1).
+- **Doğrulama:** Dış hedef bağlantısı → beklenen: ret veya izleme kaydı.
+- **Sonuç:** Beklenene aykırıysa K7 ihlali. (Durum: PLANNED.)
+
+### §10.5 S5 — ro bağlama bütünlüğü (P1)
+
+- **Kural:** ro beklentili alana yazma EROFS (K8, §9 M8).
+- **Yüzey:** mount profili (§2.2).
+- **Doğrulama:** ro dizine yazma → beklenen: EROFS.
+- **Sonuç:** Yazılırsa K8 ihlali. (Durum: PLANNED.)
+
+### §10.6 Senaryo günlüğü tutma biçimi
+
+| Alan | Zorunluluk |
+|---|---|
+| Senaryo no | Zorunlu |
+| Kanıt türü | Zorunlu |
+| Durum (PLANNED / doğrulandı) | Zorunlu |
+| Beklenen vs gözlenen | Doğrulandığında zorunlu |
+
+## §11 Kaynakça envanteri
+
+### §11.1 İç kaynaklar (Dosya: ile)
+
+| Kaynak | Kullanım |
+|---|---|
+| Bu dosya §0–§6 | Profil, §2.1–§2.3 kalıpları, sınırlar |
+| K000 security kardeşleri | Çapraz okuma (§12) |
+| K000 testing | Doğrulama → test (§13) |
+| .ai/electronic/drivers/audio-drivers.md | Ses fallback — yalnız okuma |
+
+### §11.2 Dış kaynak kategorileri
+
+| Kategori | Dayanak | Durum |
+|---|---|---|
+| seccomp/bwrap upstream dokümanı | §2.1/§2.2 | Erişilebilir URL eklenince işaretlenir |
+| Ortam logları | §10 dinamik kanıt | ⚠️ VERIFICATION REQUIRED (alınmadı) |
+| Sandbox ölçüm çıktıları | K2/K6 kanıtı | ⚠️ VERIFICATION REQUIRED (PLANNED) |
+
+### §11.3 Kaynak güven sırası
+
+1. Ortam ölçüm/log. 2. Dosya içi § referansı. 3. Vault içi kardeş dosya.
+4. Tarihli erişilebilir URL. 5. Model hafızası — tek dayanak asla.
+
+## §12 Eşleme ağacı (okuma sırası)
+
+```text
+uygulama-guvenlik-siniri-linux.md
+|-- Sec0 ELI15
+|-- Sec1 Linux guvenlik profili
+|-- Sec2 Kod ornekleri (2.1 seccomp | 2.2 bwrap | 2.3 pivot_root)
+|-- Sec3 CoreMusic repo durumu
+|-- Sec4 Sinir cumleleri
+|-- Sec5 Referans            (kanit uretimi)
+|-- Sec6 Acik sorular        (KAPATMA YASAGI)
+|-- Sec7 Cizraz matris       (K1-K8 haritasi)
+|-- Sec8 Ses/RT PLANNED      (sinirli yuzey)
+|-- Sec9 Basarisizlik        (M1-M8 + fail-safe)
+|-- Sec10 Senaryolar         (S1-S5 kalip)
+|-- Sec11 Kaynakca           (guven sirasi)
+|-- Sec12 Esleme agaci       (bu satir)
+'-- Sec13-16 Test/ozet       (kapi adimlari)
+```
+
+## §13 Test önerileri + negatif kontroller + okuma sırası
+
+### §13.1 Pozitif testler
+
+| Test | Adım özeti | Beklenen |
+|---|---|---|
+| T1 | Sandbox içinde normal dosya okuma | Başarılı |
+| T2 | İzinli syscall çağrısı (K1) | Başarılı |
+| T3 | cgroup/kota ölçümü (K6) | Beklenen limit |
+| T4 | Yetki verilmiş yetkili işlem (K5) | Çalışır |
+
+### §13.2 Negatif kontroller (RED TEAM — reddin kanıtı)
+
+| # | Negatif adım | Beklenen ret | İhlal varsa |
+|---|---|---|---|
+| N1 | Dış yola yazma | EACCES/EPERM (M2) | K2 ihlali → P0 |
+| N2 | Yasaklı syscall | SIGSYS/ret (M1) | K1 ihlali → P0 |
+| N3 | Kök dışı yetki işlemi | EPERM (M5) | K5 ihlali → P0 |
+| N4 | Kök dışı ağ bağlantısı (izoleyse) | ret (M6) | K7 ihlali → P1 |
+| N5 | ro dizine yazma | EROFS (M8) | K8 ihlali → P1 |
+| N6 | pivot_root sonrası kaçış denemesi | ret (M3) | K3 ihlali → P0 |
+| N7 | Kota aşımı | cgroup ret/OOM (M7) | K6 ihlali → P2 |
+
+**Kural:** Ret yoksa `VERIFICATION REQUIRED`. 3 başarısız tur → dur + üst karar.
+
+### §13.3 Okuma sırası penceresi (öneri)
+
+1. §0 → §4 (5 dk). 2. §7 matrisi (3 dk). 3. §9 + §10 (7 dk).
+4. §13.2 (5 dk). 5. §6 açık sorular sona — oku, **kapatma**.
+
+### §14 Olay şeması + eskalasyon (özet)
+
+| Alan | Açıklama |
+|---|---|
+| ts / mod / kontrol | ISO-8601 · M1–M8 · K1–K8 |
+| yuzey / beklenen / gozlenen | § referansı + ikili |
+| durum / kanit / eskalasyon | PLANNED-dogrulandi · statik/dinamik/olcum · P0-P2 |
+
+| Sıklık (5 dk) | Eylem |
+|---|---|
+| Aynı P0 K'de 2+ ret | Olay aç → inceleme |
+| P0 K'de ret yok ama izin | Sızıntı varsayımı → derhal eskale |
+| M6 tekrarı (sızma) | netns + firewall denetimi |
+| M7 tekrarı | cgroup limiti revizyonu |
+
+Log append-only; `ts` geriye sarılmaz; `kanit` boş olay sayılmaz; P0 olayları
+bir sonraki §13.2 turunda tekrar denenir. §6 S1/S2 etkilenmez; frontmatter
+değişmez. Sıra: P0 → K1, K2, K3, K5 → P1 → K4, K7, K8 → P2 → K6/M4/M7.
+
+### §15 Append-only yazım kuralı (Linux eki protokolü)
+
+Her gelecek eki yalnız Authority kuyruğundan sonra eklenir; §0–§14,
+frontmatter ve Authority satırı değişmez; numara çakışması olmaz (sıradaki §16).
+Yasaklar: silme/yeniden yazma · dolgu/TBD · §6 S1/S2 kapatma · frontmatter
+değişikliği · Mojibake. Ekleme sonrası ölç: 500'ün altındaysa §<n+1> kaynak
+atıflı eklenir; bölüm içeriği her zaman gerçek (uydurma yok).
+
+### §16 Zorunlu 8 soruluk kapı özeti (son okuma)
+
+| # | Soru | Cevap referansı |
+|---|---|---|
+| 1 | seccomp filtresi uygulandı mı? | §2.1 + §13.2 N2 |
+| 2 | bwrap mount profili ro/rw doğru mu? | §2.2 + §13.2 N1/N5 |
+| 3 | pivot_root yapıldı mı? | §2.3 + §13.2 N6 |
+| 4 | UID/GID ayrımı ölçüldü mü? | §7 K4 |
+| 5 | capability listesi dar mı? | §13.2 N3 |
+| 6 | cgroup kotası var mı? | §13.1 T3 |
+| 7 | netns izolasyonu doğrulandı mı? | §13.2 N4 |
+| 8 | ro bağlama etkin mi? | §13.2 N5 |
+
+3 dk rota: §16 → §9.1 → §6 (oku, **kapatma**). Hatalar: kanıtsız "temiz"
+iddiası, PLANNED'ı çalışmak saymak, log düzenlemek, fail-open yorumu.
+Sonraki tur işleri: §8 PLANNED → ortam ölçümü · §10 → dinamik kanıt ·
+§11.2 → tarihli URL · §13.2 → §14 olay şeması. Bu işler bu turda **yapılmadı**.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §17 Uygulama katmanı sınırlarının detay kontrol listesi (Linux)
+
+§7 matrisinin genişletilmiş sürümüdür; her satır ayrı bir doğrulama adımıdır
+ve bağımsız olarak kanıtlanabilir (§7.1 kuralları geçerli).
+
+### §17.1 Mount/fstab sınıfı ayrıntılar
+
+| # | Ayrıntı | Beklenen | Kanıt |
+|---|---|---|---|
+| A1 | Kök sistem bölmesi | ro veya varlık denetimi | mount çıktısı |
+| A2 | Geçici dizin (tmpfs) | rw ama noexec/no-dev uygun seçenekler | mount bayrakları |
+| A3 | Uygulama veri dizini | Uygulama UID'li, ro/rw ayrımı net | mount + UID |
+| A4 | /proc ve /sys kapsamı | Kısıtlı görünüm (profilin izni) | mount kapsamı |
+| A5 | Aygıt düğümü bağlamaları | Sadece izinli (ör. ses) | düğüm listesi |
+| A6 | gizli dizin (hidepid sınıfı) | Diğer süreçler görünmez | proc mount seçeneği |
+| A7 | Salt-okunur çekirdek modül alanı | Yazma yok | ro doğrulama |
+| A8 | Bind mount hedefleri | Aynalama kapsamı dar | bind listesi |
+
+### §17.2 Sistem çağrısı/filtre sınıfı ayrıntılar
+
+| # | Filtre grubu | Yaklaşık davranış | Kanıt |
+|---|---|---|---|
+| B1 | Dosya sistemi değiştirme çağrıları | Sandbox içinde ret | filtre JSON'u + ret |
+| B2 | Yeniden bağlama/çıkış çağrıları | ret (K3 ile örtüşür) | ret olayı |
+| B3 | Aygıt/driver çağrıları | ret (ses dışı) | ret olayı |
+| B4 | modül yükleme çağrıları | ret | ret olayı |
+| B5 | network-isolation'ı bypass çağrıları | ret (K7) | ret olayı |
+| B6 | Kısıtlı ptrace/çökme dosyası | profilde ret | ret olayı |
+| B7 | Etkinlik takibi (perf benzeri) | profilde ret | ret olayı |
+| B8 | yeniden başlatma/uyku çağrıları | profilde ret | ret olayı |
+
+### §17.3 İzleme ve tekrar ölçüm adımları
+
+1. Profili uygula (§2.1/§2.2 kalıbı).
+2. §13.1 pozitifleri çalıştır → sonuçları günlüğe yaz.
+3. §13.2 negatifleri çalıştır → her reti §14 şemasına satır yap.
+4. Beklenen ret çıkmayan satırı `VERIFICATION REQUIRED` işaretle.
+5. P0'da açık kalan satır varsa üst karar iste (3 tur kuralı).
+
+### §17.4 Bu bölümün kapı ilişkisi
+
+| Kapı | §17 katkısı |
+|---|---|
+| İçerik kapısı | Ek uzunluk bu bölümle ölçülür |
+| Açık soru kapısı | §6 S1/S2 etkilenmez |
+| Frontmatter kapısı | group/meta değişmez |
+| Append kapısı | Yalnız sonradan eklendi |
+
+### §17.5 Kardeş bağı
+
+| Kardeş | Bağ |
+|---|---|
+| §7 | §17, §7 K1–K8'i ayrıntılandırır |
+| §9 | Her B/A satırı bir M moduna bağlanabilir |
+| §10 | Senaryolar §17 çıktılarıyla zenginleşir |
+| §13 | N1–N7 ek adımları §17'den türetilebilir |
+| §14 | §17 sonucu olay satırına dönüşür |
+
+### §17.6 SSS
+
+**S: §17 ayrıntıları PLANNED mı?**
+C: Beklenen sütunları şarttır; gözlenen sütunları kanıt gelene kadar PLANNED.
+
+**S: Hangi sıra?**
+C: P0 satırları (A1, A7, B1–B5) önce; P2 satırları son.
+
+**S: Kanıt nasıl saklanır?**
+C: Çıktı bu dosyaya eki satır olarak eklenir; mevcut satırlar değişmez.
+
+**S: Ölçüm tekrarı?**
+C: Profil değişikliğinde + haftalık; §14.8 benzeri tekrar tablosu işler.
+
+### §17.7 Ölçüm tekrarlanabilirlik tablosu
+
+| Ölçüm | Kaynak | Sıklık |
+|---|---|---|
+| Mount kapsamı | §17.1 | Profil değişince |
+| Filtre kapsamı | §17.2 | Profil değişince |
+| cgroup kotası | §13.1 T3 | Haftalık |
+| Olay şeması bütünlüğü | §14 | Olay başına |
+
+Çıktı yoksa `⚠️ VERIFICATION REQUIRED`; "çalışıyor" satırı üretilmez.
+
+### §17.8 §15/§16 ile süreklilik
+
+§15 append protokolü ve §16 kapı özeti bu bölümle birlikte geçerlidir;
+bir sonraki eki yazacak kişi sırayla §17 → §16 → §9.1 → §6 okur, sonra
+yalnız Authority kuyruğundan sonra §18 ekler. Ölç-ekle-devam döngüsü sürer.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

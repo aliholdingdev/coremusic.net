@@ -103,6 +103,7 @@ group: kanit
 | 2026-10-12 | Tur-1 (görev araştırma turu + kaynak metin karşılaştırma) | 5/8 ölçüt verified · 1 URL'li kanıt · 3 S3 beyan |
 | 2026-10-12 | Tur-2 (Plexamp/Finamp/Navidrome/OpenAudio/Phonograph araması) | §3a/6–10 eklendi: 4 S3 beyan URL'lileşti (Plexamp/Finamp/Navidrome ✅, OpenAudio ⚠️ aday) · §2/7 hâlâ açık |
 | 2026-10-12 | Tur-2b (star derinlemesi: Navidrome · Picard · Strawberry · Phonograph · DeaDBeeF) | §3b/11–15 eklendi: 4 ✅ (snapshot farkları not edildi) + 1 ⚠️ (DeaDBeeF ikincil kaynak) · §4/7 eklendi |
+| 2026-10-16 | Tur-3 (11 çocuk çoklu-MD genişletmesi: kapsam + web-arastirma + ornekler × 11) | 33 yeni çocuk dosyası + 11 index §GRUPLAR genişletmesi · dosya-baş 8–16 canlı URL (toplam ≈109 kayıt, tarih 2026-10-16) · format kapısı: group 48/48 · Authority 48/48 · wiki-link 0 · gerçek SELECT * 0 · §12 UNKNOWN'ları bilinçli KAPATILMADI (tümü açık soru olarak taşındı) · kayıt yeri: çocuk `*-web-arastirma.md` dosyaları (§6/1 kardeş iddia taşımaz — bu satır yalnız tur sonucudur) |
 
 ## §6 Kapı tanımı (bu dosyanın geçerlilik sınırı)
 

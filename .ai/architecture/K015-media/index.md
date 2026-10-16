@@ -27,6 +27,7 @@ evidence:
 validation:
   - "Çocuk adları v2 §2.15 ile birebir karşılaştırıldı (11/11) — 2026-10-12"
   - "Web kanıtları media-dogrulama.md §3'e işlendi — 2026-10-12"
+  - "Tur-3: 11 çocuk × 3 dosya (kapsam/web-arastirma/ornekler) + 11 index §GRUPLAR genişletildi (33 yeni md) — 2026-10-16, format kapısı 48/48, media-dogrulama.md §5 Tur-3 kaydı"
 open_questions:
   - "playback (K015) ile K012/playback-service sahipliği → ⚠️ VERIFICATION REQUIRED"
   - "synchronization (K015) ile K013/synchronization ve K014/offline-sync sınırı → ⚠️ VERIFICATION REQUIRED"
@@ -100,3 +101,7 @@ Ses sinyalinin **işlenmesi** K003-audio/K004-dsp'dir; burası dosya ve akışt�
 | mimari | `media-bagimliliklar.md` | Katman bağı ve used_by haritası | Kademe-1 |
 | kanit | `media-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
 | mimari | `media-master.md` | Master künye ve sorumluluk haritası | Kademe-1 |
+
+---
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

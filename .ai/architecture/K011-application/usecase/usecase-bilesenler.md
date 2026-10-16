@@ -72,7 +72,7 @@ UseCase / Application katmanÄ± bileÅŸenleri (de-fakto)
 | Ã–zellik | DeÄŸer | KanÄ±t |
 |---|---|---|
 | Dosya | auth.coremusic.net/include/Handler/AuthPostHandler.php | envanter |
-| Senaryo | Login | Â§A.3 usecase-kapsam.md |
+| Senaryo | Login | dogrulama Â§O (eski kapsam Â§A.3 â€” 2026-10-16 kaldÄ±rÄ±ldÄ±) |
 | Dispatch | `match(...)` (SatÄ±r: 38-57) | grep |
 | Girdi | `ServerRequestInterface` (PSR-7) | SatÄ±r: 38-57 |
 | Ã‡Ä±ktÄ± | `ResponseInterface` (PSR-7) | SatÄ±r: 38-57 |
@@ -308,7 +308,7 @@ edilebilir mi â€” okunmadÄ±.
 | Ã–lÃ§Ã¼m + gate (UseCase=0) | usecase-dogrulama.md Â§F, Â§I |
 | PSR-17 + PSR-11 kanÄ±tlarÄ± (2 URL) | usecase-web-arastirma.md Â§A-Â§B |
 | Kod bloklarÄ± (desen Ã¶zeti) | usecase-ornekler.md Â§A-Â§H |
-| Kapsam + katalog | usecase-kapsam.md, index.md |
+| Kapsam + katalog | index.md (eski usecase-kapsam.md â€” spec Â§7 gereÄŸi 2026-10-16 kaldÄ±rÄ±ldÄ±) |
 | Orijinal scope slotu | usecase-usecase-katmani.md (korunur) |
 | DTO bileÅŸen analizi (benzer) | ../dto/dto-bilesenler.md |
 
@@ -319,149 +319,149 @@ edilebilir mi â€” okunmadÄ±.
 
 ---
 
-## §M — BİLEŞEN BAZLI ALAN ENVANTERİ
+## Â§M â€” BÄ°LEÅEN BAZLI ALAN ENVANTERÄ°
 
-### M.1 — AuthPostHandler (kısmi — Satır: 38-57)
+### M.1 â€” AuthPostHandler (kÄ±smi â€” SatÄ±r: 38-57)
 
-| Alan/Parametre | Tip | Doğrulama |
+| Alan/Parametre | Tip | DoÄŸrulama |
 |---|---|---|
 | `$request` (handle parametresi) | ServerRequestInterface | ? okundu |
 | `$body` (lokal) | array | ? `getParsedBody()` cast |
 | `$loginRequest` (lokal) | LoginRequest | ? `new LoginRequest(...)` |
 
-### M.2 — AuthController (kısmi — Satır: 52-78)
+### M.2 â€” AuthController (kÄ±smi â€” SatÄ±r: 52-78)
 
-| Alan/Method | Not | Doğrulama |
+| Alan/Method | Not | DoÄŸrulama |
 |---|---|---|
-| dispatch() | match($action) (Satır: 52-61) | ? konum |
-| error mapping bloğu | status kodu eşleme (Satır: 62-78) | ? konum |
-| diğer methodlar (1-51, 79-355) | ?? okunmadı | ?? |
+| dispatch() | match($action) (SatÄ±r: 52-61) | ? konum |
+| error mapping bloÄŸu | status kodu eÅŸleme (SatÄ±r: 62-78) | ? konum |
+| diÄŸer methodlar (1-51, 79-355) | ?? okunmadÄ± | ?? |
 
-### M.3 — Transaction envanteri
+### M.3 â€” Transaction envanteri
 
-| Dosya | Transaction satırı | İşlem (öngörü) | Doğrulama |
+| Dosya | Transaction satÄ±rÄ± | Ä°ÅŸlem (Ã¶ngÃ¶rÃ¼) | DoÄŸrulama |
 |---|---|---|---|
-| UserRepository.php | 147 | begin veya commit | ?? satır grep |
-| UserRepository.php | 184 | begin/commit | ?? satır grep |
-| UserRepository.php | 192 | commit/rollBack | ?? satır grep |
-| CatalogWriter.php | 183 | begin | ?? satır grep |
-| CatalogWriter.php | 217 | begin/commit | ?? satır grep |
-| CatalogWriter.php | 220 | commit (son) | ?? satır grep |
-| bin/api-key-create.php | 135-147 | try/catch transaction | ?? satır grep |
+| UserRepository.php | 147 | begin veya commit | ?? satÄ±r grep |
+| UserRepository.php | 184 | begin/commit | ?? satÄ±r grep |
+| UserRepository.php | 192 | commit/rollBack | ?? satÄ±r grep |
+| CatalogWriter.php | 183 | begin | ?? satÄ±r grep |
+| CatalogWriter.php | 217 | begin/commit | ?? satÄ±r grep |
+| CatalogWriter.php | 220 | commit (son) | ?? satÄ±r grep |
+| bin/api-key-create.php | 135-147 | try/catch transaction | ?? satÄ±r grep |
 
 ---
 
-## §N — BİLEŞEN İLİŞKİ GRAFİĞİ
+## Â§N â€” BÄ°LEÅEN Ä°LÄ°ÅKÄ° GRAFÄ°ÄÄ°
 
 ```
 HTTP Request
     -
-    ¡
-RequestValidationMiddleware (175 L) ¦¦(fail)¦¦> status 4xx/5xx (?? kod)
+    Â¡
+RequestValidationMiddleware (175 L) Â¦Â¦(fail)Â¦Â¦> status 4xx/5xx (?? kod)
     - (pass)
-    ¡
-AuthController.dispatch (Satır: 52-61, match($action))
+    Â¡
+AuthController.dispatch (SatÄ±r: 52-61, match($action))
     -
-    ¡
-AuthPostHandler.handle (Satır: 38-57, match)
+    Â¡
+AuthPostHandler.handle (SatÄ±r: 38-57, match)
     -                       ^
     -                       - enjeksiyon (beklenen)
     -                       -
     -               AuthContainer (php-di, DI\ContainerBuilder)
     -
-    +¦¦> LoginRequest (Domain DTO — aktif)
-    +¦¦> UserRepository (transaction 147/184/192)
-    +¦¦> EventDispatcher (PSR-14 — akışta ??)
+    +Â¦Â¦> LoginRequest (Domain DTO â€” aktif)
+    +Â¦Â¦> UserRepository (transaction 147/184/192)
+    +Â¦Â¦> EventDispatcher (PSR-14 â€” akÄ±ÅŸta ??)
     -
-    ¡
-AuthResponse (Domain DTO — JsonSerialize 68-70)
+    Â¡
+AuthResponse (Domain DTO â€” JsonSerialize 68-70)
     -
-    ¡
-AuthController error mapping (Satır: 62-78)
+    Â¡
+AuthController error mapping (SatÄ±r: 62-78)
     -
-    ¡
+    Â¡
 HTTP Response (PSR-7 ResponseInterface)
 ```
 
-**Grafik notu:** Oklar "veri akışı beklentisi"dir; her okun üretim kanıtı
-§A–§G tablolarında ayrı ayrı işaretlenmiştir. Container › Handler enjeksiyonu
-beklentidir — ?? doğrulanmadı (AuthContainer içeriği okunmadı).
+**Grafik notu:** Oklar "veri akÄ±ÅŸÄ± beklentisi"dir; her okun Ã¼retim kanÄ±tÄ±
+Â§Aâ€“Â§G tablolarÄ±nda ayrÄ± ayrÄ± iÅŸaretlenmiÅŸtir. Container â€º Handler enjeksiyonu
+beklentidir â€” ?? doÄŸrulanmadÄ± (AuthContainer iÃ§eriÄŸi okunmadÄ±).
 
 ---
 
-## §O — EŞİTLİK KONTROLÜ (Handler vs Controller)
+## Â§O â€” EÅÄ°TLÄ°K KONTROLÃœ (Handler vs Controller)
 
-| Ölçüt | AuthPostHandler | AuthController | Eşit mi? |
+| Ã–lÃ§Ã¼t | AuthPostHandler | AuthController | EÅŸit mi? |
 |---|---|---|---|
-| Katman | Application (Handler) | Presentation (Controller) | ? (farklı) |
-| Dispatch deseni | match(...) | match($action) | ? (aynı desen) |
+| Katman | Application (Handler) | Presentation (Controller) | ? (farklÄ±) |
+| Dispatch deseni | match(...) | match($action) | ? (aynÄ± desen) |
 | PSR-7 girdi | ? ServerRequestInterface | ? ServerRequestInterface | ? |
-| PSR-7 çıktı | ? ResponseInterface | ? ResponseInterface | ? |
-| DTO kullanımı | ? LoginRequest (aktif) | ?? doğrulanmadı | ?? |
+| PSR-7 Ã§Ä±ktÄ± | ? ResponseInterface | ? ResponseInterface | ? |
+| DTO kullanÄ±mÄ± | ? LoginRequest (aktif) | ?? doÄŸrulanmadÄ± | ?? |
 | Uzunluk | ~57+ L | 355 L | ? |
-| Error mapping | ? (Controller'da) | ? (Satır: 62-78) | ? (farklı rol) |
+| Error mapping | ? (Controller'da) | ? (SatÄ±r: 62-78) | ? (farklÄ± rol) |
 
-**Sonuç:** İki bileşen **aynı dispatch desenini** (match) ve **aynı PSR-7
-tiplerini** paylaşıyor — tutarlı. Rolleri farklı: Handler senaryo yürütür,
+**SonuÃ§:** Ä°ki bileÅŸen **aynÄ± dispatch desenini** (match) ve **aynÄ± PSR-7
+tiplerini** paylaÅŸÄ±yor â€” tutarlÄ±. Rolleri farklÄ±: Handler senaryo yÃ¼rÃ¼tÃ¼r,
 Controller HTTP status atar.
 
 ---
 
-## §P — BİLEŞEN KALİTE KONTROLLERİ
+## Â§P â€” BÄ°LEÅEN KALÄ°TE KONTROLLERÄ°
 
-| Kontrol | Beklenen | Gerçek | Durum |
+| Kontrol | Beklenen | GerÃ§ek | Durum |
 |---|---|---|---|
 | Handler tek senaryo | SRP | AuthPostHandler = login | ? |
-| Controller'da iş mantığı | Hayır | ?? 355 L — doğrulanmadı | ?? |
-| Transaction'da try/catch | Evet | ?? kod okunmadı | ?? |
-| Container singleton mu? | Evet (HTTP scope) | ?? doğrulanmadı | ?? |
-| Event akışta yayınlanıyor mu? | Evet (beklenen) | ?? grep edilmedi | ?? |
-| final class mı? | Evet (immutable) | ?? okunmadı | ?? |
-| declare(strict_types=1) | Evet | ?? tam dosya okunmadı | ?? |
+| Controller'da iÅŸ mantÄ±ÄŸÄ± | HayÄ±r | ?? 355 L â€” doÄŸrulanmadÄ± | ?? |
+| Transaction'da try/catch | Evet | ?? kod okunmadÄ± | ?? |
+| Container singleton mu? | Evet (HTTP scope) | ?? doÄŸrulanmadÄ± | ?? |
+| Event akÄ±ÅŸta yayÄ±nlanÄ±yor mu? | Evet (beklenen) | ?? grep edilmedi | ?? |
+| final class mÄ±? | Evet (immutable) | ?? okunmadÄ± | ?? |
+| declare(strict_types=1) | Evet | ?? tam dosya okunmadÄ± | ?? |
 
 ---
 
-## §Q — UseCase EKLENİRDİ: BİLEŞEN ETKİ ANALİZİ
+## Â§Q â€” UseCase EKLENÄ°RDÄ°: BÄ°LEÅEN ETKÄ° ANALÄ°ZÄ°
 
-| Etkilenen bileşen | Değişiklik | Öncelik |
+| Etkilenen bileÅŸen | DeÄŸiÅŸiklik | Ã–ncelik |
 |---|---|---|
-| AuthPostHandler | UseCase'e taşınır veya kalır (adlandırma) | P0 |
-| AuthController | UseCase çağrısına geçer | P1 |
-| UserRepository | Transaction UseCase'e taşınabilir | P1 |
-| AuthContainer | UseCase kaydı eklenir | P1 |
-| Genel Composition Root | Yeni oluşturulur | P1 |
-| CatalogWriter | Transaction kalabilir (repo sorumluluğu) | P2 |
+| AuthPostHandler | UseCase'e taÅŸÄ±nÄ±r veya kalÄ±r (adlandÄ±rma) | P0 |
+| AuthController | UseCase Ã§aÄŸrÄ±sÄ±na geÃ§er | P1 |
+| UserRepository | Transaction UseCase'e taÅŸÄ±nabilir | P1 |
+| AuthContainer | UseCase kaydÄ± eklenir | P1 |
+| Genel Composition Root | Yeni oluÅŸturulur | P1 |
+| CatalogWriter | Transaction kalabilir (repo sorumluluÄŸu) | P2 |
 
-?? Bu tablo **PLANNED etki analizi**dir — gerçek implementasyon bu dosyanın
-kapsamı dışındadır (karar D5 usecase-web-arastirma.md).
+?? Bu tablo **PLANNED etki analizi**dir â€” gerÃ§ek implementasyon bu dosyanÄ±n
+kapsamÄ± dÄ±ÅŸÄ±ndadÄ±r (karar D5 usecase-web-arastirma.md).
 
 ---
 
-## §R — SONRAKİ ADIMLAR (Bu Dosyanın Çıktısı)
+## Â§R â€” SONRAKÄ° ADIMLAR (Bu DosyanÄ±n Ã‡Ä±ktÄ±sÄ±)
 
-| # | Adım | Sahip | Öncelik |
+| # | AdÄ±m | Sahip | Ã–ncelik |
 |---|---|---|---|
-| 1 | Handler dizini envanterini tamamla (§B.2) | explore agent | P0 |
-| 2 | AuthController 1-51 + 79-355 oku (§C.1) | backend-architect | P1 |
-| 3 | AuthContainer tam okuma (§E.1) | explore agent | P1 |
-| 4 | Event dispatch grep (§F.2) | explore agent | P1 |
-| 5 | Transaction kodu okuma (§D.1) | debugger agent | P1 |
-| 6 | Handler vs UseCase adlandırma ADR (§I.2) | architect | **P0** |
+| 1 | Handler dizini envanterini tamamla (Â§B.2) | explore agent | P0 |
+| 2 | AuthController 1-51 + 79-355 oku (Â§C.1) | backend-architect | P1 |
+| 3 | AuthContainer tam okuma (Â§E.1) | explore agent | P1 |
+| 4 | Event dispatch grep (Â§F.2) | explore agent | P1 |
+| 5 | Transaction kodu okuma (Â§D.1) | debugger agent | P1 |
+| 6 | Handler vs UseCase adlandÄ±rma ADR (Â§I.2) | architect | **P0** |
 
 ---
 
-## §S — SON KONTROL LİSTESİ
+## Â§S â€” SON KONTROL LÄ°STESÄ°
 
 | Kontrol | Durum |
 |---|---|
 | Frontmatter 7 alan, group: son | ? |
-| §GRUPLAR tablosu | ? |
+| Â§GRUPLAR tablosu | ? |
 | Footer Authority + Last Updated | ? |
-| Dosya·Satır kanıtları | ? §B-§D |
-| PLANNED işaretli | §K, §Q |
-| VERIFICATION REQUIRED işaretli | §B.1, §C.1, §E.1, §F.2, §P |
+| DosyaÂ·SatÄ±r kanÄ±tlarÄ± | ? Â§B-Â§D |
+| PLANNED iÅŸaretli | Â§K, Â§Q |
+| VERIFICATION REQUIRED iÅŸaretli | Â§B.1, Â§C.1, Â§E.1, Â§F.2, Â§P |
 | URL uydurma | 0 |
-| Uydurma Dosya·Satır | 0 |
+| Uydurma DosyaÂ·SatÄ±r | 0 |
 
 ---
 
@@ -470,31 +470,31 @@ kapsamı dışındadır (karar D5 usecase-web-arastirma.md).
 
 ---
 
-## §T — DOSYA YAŞAM DÖNGÜSÜ KAYDI
+## Â§T â€” DOSYA YAÅAM DÃ–NGÃœSÃœ KAYDI
 
 ```
-Envanter toplama (grep + Dosya·Satır)
-  › Aile analizi (Handler/Controller/Transaction/Container/Event/Validation)
-  › Katman bağımlılık matrisi (§H)
-  › SRP analizi (§I)
-  › Olgunluk matrisi (§J)
-  › PLANNED bileşenler (§K)
-  › İlişki grafiği (§N)
-  › Etki analizi (§Q)
-  › Orkestratöre teslim (commit YOK)
+Envanter toplama (grep + DosyaÂ·SatÄ±r)
+  â€º Aile analizi (Handler/Controller/Transaction/Container/Event/Validation)
+  â€º Katman baÄŸÄ±mlÄ±lÄ±k matrisi (Â§H)
+  â€º SRP analizi (Â§I)
+  â€º Olgunluk matrisi (Â§J)
+  â€º PLANNED bileÅŸenler (Â§K)
+  â€º Ä°liÅŸki grafiÄŸi (Â§N)
+  â€º Etki analizi (Â§Q)
+  â€º OrkestratÃ¶re teslim (commit YOK)
 ```
 
 ---
 
-## §U — ÖZET: EN KRİTİK 3 BULGU
+## Â§U â€” Ã–ZET: EN KRÄ°TÄ°K 3 BULGU
 
-1. **UseCase sınıfı = 0** — senaryo yürütme Handler (AuthPostHandler:38-57)
-   + Controller (AuthController:52-61) ile yapılıyor. ADR kararı: adlandırma
+1. **UseCase sÄ±nÄ±fÄ± = 0** â€” senaryo yÃ¼rÃ¼tme Handler (AuthPostHandler:38-57)
+   + Controller (AuthController:52-61) ile yapÄ±lÄ±yor. ADR kararÄ±: adlandÄ±rma
    veya yeni katman (D5, P0).
-2. **Transaction Repository'de** — 7 nokta (UserRepo 3, CatalogWriter 3,
-   CLI 1). Klasik UnitOfWork'tan farklı; UseCase eklenirse taşınmalı (§D.2).
-3. **Container Auth domain'e özel** — AuthContainer tek php-di örneği;
-   genel composition root yok (§E.2). PSR-11 arayüz kullanımı ?? doğrulanmadı.
+2. **Transaction Repository'de** â€” 7 nokta (UserRepo 3, CatalogWriter 3,
+   CLI 1). Klasik UnitOfWork'tan farklÄ±; UseCase eklenirse taÅŸÄ±nmalÄ± (Â§D.2).
+3. **Container Auth domain'e Ã¶zel** â€” AuthContainer tek php-di Ã¶rneÄŸi;
+   genel composition root yok (Â§E.2). PSR-11 arayÃ¼z kullanÄ±mÄ± ?? doÄŸrulanmadÄ±.
 
 ---
 

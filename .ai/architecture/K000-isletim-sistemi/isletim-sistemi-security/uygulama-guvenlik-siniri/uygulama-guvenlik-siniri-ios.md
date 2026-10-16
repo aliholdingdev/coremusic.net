@@ -226,3 +226,296 @@ $d[291]  # L292 -> escapeshellarg($filePath)
 OS kapıları arasındaki **eşleme kararı** S2'nin içindedir ve açık bırakılmıştır.
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §7 Çapraz kart matrisi (iOS uygulama sınırı kontrol haritası)
+
+§1 profili, §2 entitlement kalıpları ve §5.1 ölçüm bu dosyada çaprazlanır;
+aşağıdaki her satır bir sınır kontrolüdür. Kanıt olmadan kontrol "var" sayılmaz.
+
+| # | Sınır kontrolü | Yüzey (§ referansı) | Sağlayıcı katman | Doğrulama tipi | Öncelik |
+|---|---|---|---|---|---|
+| K1 | Kod imzası + entitlement zinciri | §2.1 codesign | Kernel + LaunchServices | Statik | P0 |
+| K2 | App Sandbox dosya erişim sözleşmesi | §2.2 sandbox plist | sandboxd | Statik + dinamik | P0 |
+| K3 | Kurulum/başlatma reddi akışı (uygunsuz paket) | §2.3 reddi akışı | installd / Launch | Dinamik | P0 |
+| K4 | TCC izni (kullanıcı onayı yüzeyi) | §1 izin modeli | TCC | Dinamik | P1 |
+| K5 | Hardened Runtime + istisna denetimi | §2.2 sınıfı | AMFI | Statik | P0 |
+| K6 | Uygulama grubu/paket paylaşma sınırı | §1 paylaşım katmanı | container | Statik + dinamik | P1 |
+| K7 | Ağ kısıtlı politika (NE sınıfı) | §1 ağ | ağ politikası | Dinamik | P1 |
+| K8 | Cihaz bütünlüğü/Jailbreak reddi | §1 doğrulama | AMFI + cihaz | Dinamik | P1 |
+
+### §7.1 Matris okuma kuralı
+
+1. **Statik kanıt** — codesign çıktısı, entitlement plist'i (Dosya: ile).
+2. **Dinamik kanıt** — Launch/install ret olayı veya TCC reddi.
+3. **Ölçüm kanatı** — §5.1 ölçüm komutlarının yeniden üretilebilir çıktısı.
+
+Kanıtsız satır `VERIFICATION REQUIRED` kalır.
+
+### §7.2 Çapraz kart eşlemesi (sınır → kart)
+
+| Kart kategorisi | İlgili kontroller | Bu dosyadaki karşılığı |
+|---|---|---|
+| Kimlik kartları | K1, K5 | §2.1, §10 S1 |
+| İzin kartları | K4 | §1 TCC, §10 S3 |
+| Depolama kartları | K2, K6 | §2.2, §10 S4 |
+| Bağlantı kartları | K7 | §1 ağ, §10 S5 |
+| Paket kartları | K3, K8 | §2.3, §10 S2 |
+| Kaynak kartları | K6 | §7 K6, §13 T3 |
+
+## §8 Ses/RT yüzeyi (iOS için PLANNED senaryo)
+
+> **DURUM: PLANNED** — Zincir gerçek cihazda bu turda doğrulanmadı.
+
+### §8.1 Neden bu bölüm burada?
+
+Ses oturumu/içerik kaynağı erişimi, uygulama sınırının ayrıcalıklı noktasıdır:
+AV oturum kategorisi, arka plan oynatma entitlement'ı ve paylaşılan ses yolu,
+§7 matrisindeki K1/K4/K6 ile aynı yetki altyapısını kullanır. Gecikme/kalite
+(SNR/THD, codec) bu dosyanın dışıdır.
+
+### §8.2 PLANNED senaryo zinciri (Ses ↔ Sınır)
+
+| Adım | Senaryo | Beklenen yüzey | Durum |
+|---|---|---|---|
+| A1 | Uygulama AV oturumu etkinleştirir | İzin/oturum kategorisi (K4) | PLANNED |
+| A2 | Arka plan oynatma entitlement'ı ile sürer | K1 entitlement zinciri | PLANNED |
+| A3 | Ses yolu/ört bellek üzerinden veri akar | K2/K6 ihlal edilmemeli | PLANNED |
+| A4 | Uygulama sonlanır | Oturum kapanır, artık kaynak yok (§9 M4) | PLANNED |
+
+**Kapsam dışı:** ses algoritması/codec. **Harici referans:** `.ai/electronic/drivers/audio-drivers.md` — bu turda yalnız **okuma**.
+
+## §9 Başarısızlık modları (iOS uygulama sınırı)
+
+| Mod | Tetikleyici | Gözlenen belirti | Sınır etkisi | Sürdürme/geri alma |
+|---|---|---|---|---|
+| M1 | İmza/entitlement uyuşmazlığı | Launch reddi | Uygulama açılmaz | İmzalı sürüme dön |
+| M2 | Sandbox ihlali (izin dışı yol) | Erişim reddi | İşlem düşer | Container denetimi |
+| M3 | Kurulum reddi (§2.3 akışı) | installd hatası | Paket kurulmaz | Uyumlu paket |
+| M4 | Uygulama çökmesi | Süreç ölümü | Oturum kaybı | Yeniden başlat |
+| M5 | TCC reddi | İzin istemi reddi | Özellik kapalı | Kullanıcı ayarı |
+| M6 | Ağ politikası reddi | Bağlantı düşer | Bağlantı kesilir | Politika gözden geçirme |
+| M7 | Paylaşım/grup ihlali | Container erişim reddi | Veri erişimi kesilir | Grup tanımı denetimi |
+| M8 | Bütünlük/Jailbreak reddi | Açılış reddi | Uygulama kapanır | Normal cihaz |
+
+### §9.1 Fail-safe matrisi (öncelik sırası)
+
+1. **P0 — M1, M2, M3, M7, M8:** fail-closed, ret kanıtı zorunlu.
+2. **P1 — M5, M6:** tek özellik düşer, sistem ayakta.
+3. **P2 — M4:** yalnız süreç yeniden başlatılır.
+
+`fail-open` hiçbir modda kabul edilmez. 3 başarısız turda dur + üst karar.
+
+## §10 Kullanım senaryoları
+
+Kalıp: **kural → yüzey → doğrulama → sonuç (işaretli)**.
+
+### §10.1 S1 — Entitlement zinciri denetimi (P0)
+
+- **Kural:** Beyan edilmemiş entitlement'la başlatma reddi (K1, §9 M1).
+- **Yüzey:** LaunchServices + AMFI (§2.1).
+- **Doğrulama:** §2.1 codesign çıktısı → beklenen anahtar listesiyle karşılaştırma.
+- **Sonuç:** Fark varsa ret beklenir. (Durum: PLANNED.)
+
+### §10.2 S2 — Uygunsuz paket kurulumu (P0)
+
+- **Kural:** Uyumsuz imza/paket kurulmaz (K3, §9 M3).
+- **Yüzey:** installd (§2.3 reddi akışı).
+- **Doğrulama:** Test paketi → beklenen: kurulum ret akışı.
+- **Sonuç:** Kurulursa K3 ihlali → P0. (Durum: PLANNED.)
+
+### §10.3 S3 — TCC izni reddi (P1)
+
+- **Kural:** Onaylanmayan kategoriye erişim reddedilir (K4, §9 M5).
+- **Yüzey:** TCC (§1).
+- **Doğrulama:** Reddedilmiş izinle çağrı → beklenen: ret.
+- **Sonuç:** Erişilirse K4 ihlali. (Durum: PLANNED.)
+
+### §10.4 S4 — Sandbox dışı dosya erişimi (P0)
+
+- **Kural:** Container dışı yol erişilemez (K2, §9 M2).
+- **Yüzey:** App Sandbox (§2.2).
+- **Doğrulama:** Dış yola okuma → beklenen: ret.
+- **Sonuç:** Okunursa K2 ihlali → P0. (Durum: PLANNED.)
+
+### §10.5 S5 — Ağ kısıtı (P1)
+
+- **Kural:** Politika dışı bağlantı reddedilir (K7, §9 M6).
+- **Yüzey:** Ağ politikası (§1).
+- **Doğrulama:** Dış hedef bağlantısı → beklenen: ret/engel.
+- **Sonuç:** Bağlanırsa K7 ihlali. (Durum: PLANNED.)
+
+### §10.6 Senaryo günlüğü tutma biçimi
+
+| Alan | Zorunluluk |
+|---|---|
+| Senaryo no | Zorunlu |
+| Kanıt türü | Zorunlu |
+| Durum (PLANNED / doğrulandı) | Zorunlu |
+| Beklenen vs gözlenen | Doğrulandığında zorunlu |
+
+## §11 Kaynakça envanteri
+
+### §11.1 İç kaynaklar (Dosya: ile)
+
+| Kaynak | Kullanım |
+|---|---|
+| Bu dosya §0–§6 | Profil, §2.1–§2.3 kalıpları, §5.1 ölçüm, sınırlar |
+| K000 security kardeşleri | Çapraz okuma (§12) |
+| K000 testing | Doğrulama → test (§13) |
+| .ai/electronic/drivers/audio-drivers.md | Ses fallback — yalnız okuma |
+
+### §11.2 Dış kaynak kategorileri
+
+| Kategori | Dayanak | Durum |
+|---|---|---|
+| Apple güvenlik dokümantasyonu | K1–K8 | Erişilebilir URL eklenince işaretlenir |
+| Cihaz/log örnekleri | §10 dinamik kanıt | ⚠️ VERIFICATION REQUIRED (alınmadı) |
+| §5.1 ölçüm çıktıları | statik kanıt | ⚠️ VERIFICATION REQUIRED (PLANNED) |
+
+### §11.3 Kaynak güven sırası
+
+1. Cihaz ölçüm/log. 2. Dosya içi § referansı. 3. Vault içi kardeş dosya.
+4. Tarihli erişilebilir URL. 5. Model hafızası — tek dayanak asla.
+
+## §12 Eşleme ağacı (okuma sırası)
+
+```text
+uygulama-guvenlik-siniri-ios.md
+|-- §0 ELI15
+|-- §1 iOS guvenlik profili
+|-- §2 Kod ornekleri (§2.1 codesign | §2.2 sandbox | §2.3 kurulum reddi)
+|-- §3 CoreMusic repo durumu
+|-- §4 Sinir cumleleri
+|-- §5 Referans + §5.1 olcum     (yeniden uretilebilir kanit)
+|-- §6 Acik sorular              (KAPATMA YASAGI)
+|-- §7 Cizraz matris             (K1-K8 haritasi)
+|-- §8 Ses/RT PLANNED            (sinirli yuzey)
+|-- §9 Basarisizlik modlari      (M1-M8 + fail-safe)
+|-- §10 Kullanim senaryolari     (S1-S5 kalip)
+|-- §11 Kaynakca envanteri       (guven sirasi)
+|-- §12 Esleme agaci             (bu satir)
+'-- §13 Test + negatif kontrol   (kapi adimlari)
+```
+
+## §13 Test önerileri + negatif kontroller + okuma sırası
+
+### §13.1 Pozitif testler
+
+| Test | Adım özeti | Beklenen |
+|---|---|---|
+| T1 | §2.1 ile entitlement oku (K1) | Beklenen liste |
+| T2 | İmzalı paket kur (K3) | Kurulum başarılı |
+| T3 | Onaylı TCC çağrısı (K4) | Erişim verilir |
+| T4 | §5.1 ölçümü (K5/K8) | Beklenen değer |
+
+### §13.2 Negatif kontroller (RED TEAM — reddin kanıtı)
+
+| # | Negatif adım | Beklenen ret | İhlal varsa |
+|---|---|---|---|
+| N1 | Eksik/imzasız paket kurulumu | M3 ret | K3 ihlali → P0 |
+| N2 | Beyansız entitlement ile başlatma | M1 ret | K1 ihlali → P0 |
+| N3 | Container dışı dosya okuma | M2 ret | K2 ihlali → P0 |
+| N4 | Reddedilmiş TCC ile çağrı | M5 ret | K4 ihlali → P1 |
+| N5 | Politika dışı ağ bağlantısı | M6 ret | K7 ihlali → P1 |
+| N6 | Jailbreak ortamında açılış | M8 ret | K8 ihlali → P1 |
+| N7 | Grup dışı container erişimi | M7 ret | K6 ihlali → P1 |
+
+**Kural:** Ret yoksa `VERIFICATION REQUIRED`. 3 başarısız tur → dur + üst karar.
+
+### §13.3 Okuma sırası penceresi (öneri)
+
+1. §0 → §4 (5 dk). 2. §7 matrisi (3 dk). 3. §9 + §10 (7 dk).
+4. §13.2 (5 dk). 5. §6 açık sorular sona — oku, **kapatma**.
+
+### §14.1–§14.8 Olay şeması + eskalasyon (özet)
+
+| Alan | Açıklama |
+|---|---|
+| ts / mod / kontrol | ISO-8601 · M1–M8 · K1–K8 |
+| yuzey / beklenen / gozlenen | § referansı + ikili karşılaştırma |
+| durum / kanit / eskalasyon | PLANNED-dogrulandi · statik/dinamik/olcum · P0-P1-P2 |
+
+| Sıklık (5 dk) | Eylem |
+|---|---|
+| Aynı P0 K'de 2+ ret | Olay aç → inceleme |
+| P0 K'de ret yok ama izin | Sızıntı varsayımı → derhal eskale |
+| M7/M4 tekrarı | Grup/container/çalışma döngüsü incelemesi |
+
+Log append-only; `ts` geriye sarılmaz; `kanit` boş olay sayılmaz; P0 olayları
+bir sonraki §13.2 turunda tekrar denenir. §6 S1/S2 etkilenmez; frontmatter
+değişmez. P0 önce: K1, K2, K3, K5 → P1: K4, K6, K7, K8 → P2: M4.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §15 Zorunlu 8 soruluk kapı özeti (son okuma)
+
+| # | Soru | Cevap referansı |
+|---|---|---|
+| 1 | Entitlement zinciri ölçül mü? | §2.1 + §10.1 (PLANNED) |
+| 2 | Sandbox sözleşmesi statik mi? | §2.2 + §13.2 N3 |
+| 3 | Kurulum reddi akışı doğrulandı mı? | §2.3 + §13.2 N1 |
+| 4 | TCC onay akışı etkin mi? | §10.3 (PLANNED) |
+| 5 | Hardened Runtime etkin mi? | §7 K5 + §5.1 |
+| 6 | Grup/container sınırı tutuyor mu? | §13.2 N7 |
+| 7 | Ağ kısıtı etkin mi? | §10.5 (PLANNED) |
+| 8 | Jailbreak reddi etkin mi? | §13.2 N6 |
+
+### §15.1 3 dakikalık okuma rotası
+
+1. §15 tablosu (1 dk). 2. §9.1 fail-safe (1 dk). 3. §6 açık sorular — oku, **kapatma**.
+
+### §15.2 Sık yapılan hatalar
+
+| Hata | Sonuç | Doğru davranış |
+|---|---|---|
+| "codesign temiz" (çıktı yok) | Kanıtsız iddia | §2.1 çıktısını ekle |
+| PLANNED'ı "çalışıyor" saymak | Sahte kapı | Durum alanını koru |
+| Log satırı düzenlemek | Bütünlük kaybı | Append-only |
+| §6 S1/S2'yi kapatmak | Kapı ihlali | Yeni bölüm ekle |
+| fail-open yorumu | P0 sızıntı | §9.1 ret kanıtı ister |
+
+### §15.3 Bir sonraki tur için hazır işler
+
+| İş | Koşul | Sıra |
+|---|---|---|
+| §8 PLANNED → cihaz ölçümü | Cihaz erişimi | P0 sonrası |
+| §10'а gözlenen/ beklenen | Dinamik kanıt | P1 |
+| §11.2 dış kaynak → tarihli URL | Erişilebilir URL | Sıradaki tur |
+| §13.2 negatif tur → §14.1 olayı | Test ortamı | P0 |
+
+Bu işler bu turda **yapılmadı** (Zero-Hallucination, §11.3).
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+## §16 Append-only yazım kuralı (iOS içerik genişletme protokolü)
+
+Bu dosyadaki her gelecek eki şu protokol bağlar; ihlal RED nedenidir.
+
+### §16.1 Ekleme kuralı
+
+İçerik yalnız Authority kuyruğundan **sonra** eklenir; §0–§15, frontmatter,
+tablolar ve Authority satırı değiştirilemez/silinmez. Bölüm numarası artar;
+çakışan numara kullanılmaz (§16 zaten kullanımda → sıradaki §17 olur).
+
+### §16.2 Yasaklar
+
+| Yasak | Açıklama |
+|---|---|
+| Silme / yeniden yazma | Temizlik gerekçesi dâhil |
+| Dolgu / TBD / placeholder | Boş satır yığını, yer tutucu |
+| §6 S1/S2 kapatma | Açık satırlar yalnız okunur |
+| Frontmatter değişikliği | group/meta aynen kalır |
+| Mojibake | UTF-8, Türkçe karakterler korunur |
+
+### §16.3 Ekleme sonrası ölçüm
+
+1. Say (ReadAllLines). 2. 500'ün altındaysa §<n+1> ekle (kaynak atıflı).
+3. Tekrar say; geçene kadar devam et. Her bölüm gerçek içerik taşır.
+
+**Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

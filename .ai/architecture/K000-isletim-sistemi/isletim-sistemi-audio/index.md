@@ -5,11 +5,7 @@ status: draft
 parent_id: K000-isletim-sistemi
 children: [alsa, coreaudio, aaudio, reactos-audio, tizen-audio, wasapi, webos-audio]
 depends_on: []
-evidence:
-  - https://learn.microsoft.com/en-us/windows/win32/coreaudio/about-the-windows-core-audio-apis
-  - https://learn.microsoft.com/en-us/windows/win32/coreaudio/exclusive-mode-streams
-  - https://www.alsa-project.org/wiki/Main_Page
-  - https://developer.apple.com/documentation/audiotoolbox
+evidence: ["https://learn.microsoft.com/en-us/windows/win32/coreaudio/about-the-windows-core-audio-apis", "https://learn.microsoft.com/en-us/windows/win32/coreaudio/exclusive-mode-streams", "https://www.alsa-project.org/wiki/Main_Page", "https://developer.apple.com/documentation/audiotoolbox"]
 validation: "2026-10-12 · 4 resmi URL HTTP 200 · 2026-10-13 · children 7 deep-dala genişletildi (alsa + coreaudio bu turda açıldı) · 2026-10-13 · 7/7 deep-dal diskte (reactos-audio + tizen-audio + webos-audio bu turda 4'er dosya; aaudio daha önce açılmıştı — eski '0 dosya' kaydı bayatmıştı) · 2026-10-14 · aaudio 4→5 dosya (aaudio-ornekler.md eklendi) · kök ornekler.md §16-§24 ile 7 OS gruplaması tamamlandı · 21 URL: 17×200 + 4 ölü 404 · 2026-10-14 · §25 PHP×OS katmanı (6 dal orneklerine PHP pointer) + kapanış turu dogrulama §P: 4 kapatıldı (ndk-samples taşıma · IAudioClient IUnknown · PHP FFI winmm canlı 12 cihaz · webOS getVolume/setVolume yok) · 4 kapanmadı (afplay · AAudio API26 · AudioServerDriver · ReactOS+PHP) · 2026-10-14 · §26 Geniş Dil Seti (JS·C·Python·Go·Rust·C# — 12 URL: 10×200 + 2×404 negatif · 6 dal orneklerine dil pointer)"
 open_questions:
   - "✅ KAPANDI (2026-10-13): aaudio/tizen-audio/webos-audio/reactos-audio diskte — 4+4+4+4 dosya ölçüldü; yeni açık: 3 yeni dalın derin iddiaları gövde-GET ile teyit bekliyor → ⚠️ VERIFICATION REQUIRED (bkz. ilgili dal index §4)"
@@ -94,12 +90,6 @@ Platform detayları kendi deep-dalındadır — bu dosya üst haritayı taşır,
 | mimari | `isletim-sistemi-audio-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
 | kod | `isletim-sistemi-audio-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-2 |
 | kanit | `isletim-sistemi-audio-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-2 |
-| mimari | `alsa/index.md` | Linux ALSA deep-dal künyesi | Kademe-3 |
-| mimari | `coreaudio/index.md` | macOS/iOS CoreAudio deep-dal künyesi | Kademe-3 |
-| mimari | `aaudio/index.md` | Android AAudio deep-dal künyesi | Kademe-3 |
-| mimari | `reactos-audio/index.md` | ReactOS ses deep-dal künyesi | Kademe-3 |
-| mimari | `tizen-audio/index.md` | Tizen ses deep-dal künyesi | Kademe-3 |
-| mimari | `wasapi/index.md` | Windows deep-dal künyesi | Kademe-3 |
-| mimari | `webos-audio/index.md` | webOS ses deep-dal künyesi | Kademe-3 |
+| mimari | 7 deep-dal `index.md` | `wasapi` (13 dosya) · `alsa` · `coreaudio` · `aaudio` (5) · `reactos-audio` · `tizen-audio` · `webos-audio` (4'er) künyeleri | Kademe-3 |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

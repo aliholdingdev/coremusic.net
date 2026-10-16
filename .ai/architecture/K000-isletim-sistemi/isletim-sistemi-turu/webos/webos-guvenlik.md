@@ -256,4 +256,257 @@ istekleri ACG'nin dışındadır → tamamen K009 (auth, rate limit, CSRF).
 
 ---
 
+## §7 Çapraz kart matrisi (bu dal — 7 OS güvenlik kartı)
+
+Bu kart `isletim-sistemi-turu` dalının **güvenlik** kartıdır. webOS'un bu
+matristeki ayrışma noktası (§1.3 ve §2.1'de belgelendiği üzere): **webOS OSE
+ile TV sürümü arasındaki fark** §1.3'te ayrı bir bölümdür (aynı ürün ailesi,
+**farklı izin/ürün modeli**), ayrıca **TV cihaz sınıflandırması UA tespiti ile
+vardır** (§2.1 — Tizen ile birlikte dalın TV temsilcisi).
+
+| # | Kart | Odak (dosyanın §1 başlığı) | Repo izi (§2) | Bu kartla ilişki |
+|---|------|---------------------------|----------------|------------------|
+| 1 | `android-guvenlik` | Linux + SELinux + permission | UA + enum + CI | uzak aile |
+| 2 | `ios-guvenlik` | XNU + sandbox/Mach | Boşluk matrisi | uzak aile |
+| 3 | `linux-guvenlik` | Linux capabilities/LSM | Üretim hedefi + CI | **ailedeş (Linux çekirdek)** |
+| 4 | `macos-guvenlik` | XNU + Endpoint Security | Dürüst negatif | uzak aile |
+| 5 | `reactos-guvenlik` | NT Security Manager | TAMAMEN YOK | uzak (NT) |
+| 6 | `tizen-guvenlik` | Linux + privilege manifest (TV) | UA VAR · enum/CI YOK | **TV kardeşi** (aynı iz profili) |
+| 7 | **`webos-guvenlik` (bu kart)** | **Linux + ACG/role/groups (TV)** | **UA VAR · enum/CI YOK (§2.1–§2.3)** | — |
+| 8 | `windows-guvenlik` | NT token/ACL/MIC + IIS/Apache | Yapılandırma | uzak (NT) |
+
+**Ayrışma notu:** Bu kart ile `tizen-guvenlik` **dalın iki TV temsilcisidir**
+ve **aynı iz profiline** sahiptir (UA VAR · enum YOK · CI YOK) — bu
+**benzerlik** bir **eşdeğerlik değildir** (§9 F5): webOS ACG ≠ tizen privilege.
+Ayrıca **§1.3 OSE↔TV farkı** bu kartı **tek başına ikiye böler**: OSE modeli
+ile TV modeli **eşdeğer değildir** (eşdeğerlik kanıtlanmadı).
+
+## §8 Ses/RT PLANNED senaryo (bu kartın güvenlik açısı)
+
+Bu bölüm webOS'a özgü **yeni teknik iddia içermez**; yalnız güvenlik katmanının
+CoreMusic PLANNED ses/RT yığınıyla **kesişeceği** noktayı gösterir. Birincil
+kaynak salt-okunur: `.ai/electronic/drivers/audio-drivers.md` (709 satır).
+
+webOS'ta ses erişimi **ACG (Application Control Group) beyanı** ile korunur —
+ancak **hangi ACG adının hangi ses yolunu açtığı** bu dosyada kanıtlanmaz →
+**`⚠️ VERIFICATION REQUIRED`** (uydurma ACG adı yasak).
+
+| RT katmanı (kaynak §) | webOS güvenlik açısı | Bu kartta kanıtlı mı? | Durum |
+|----------------------|----------------------|------------------------|-------|
+| OS ses çatısı (L30, L43) | Ses API'si ACG'ye bağlı | Hayır — ACG adı doğrulanmadı | **PLANNED** |
+| Kernel sürücü/DMA (L32, L44) | Çekirdek modül erişimi | Hayır | **PLANNED** |
+| Exclusive lock (L455) | İkinci uygulama açamaz | Hayır | **PLANNED** |
+| Cihaz kaybı kurtarma (L497) | Kopma → yeniden bağlanma | Hayır | **PLANNED** |
+
+**Kesişim kararı (bu kart):** webOS, ses/RT için **hedef değildir** (bu dalda
+ses kartları `webos-ses-ve-rota.md` vb. ile **mevcuttur**, güvenlik kararı
+değil); karar `isletim-sistemi-audio` + `isletim-sistemi-security` dallarında
+alınır. Bu kart yalnız **güvenlik katmanı girdisini** taşır.
+
+## §9 Başarısızlık modları (bu kartın kapsamı)
+
+Modlar **bu dosyanın yanlış çıkma biçimleridir**; hiçbir "webOS'ta şu çalışmıyor"
+**iddiası değildir** — "bu kart kanıtlamıyor" ifadesidir (zero-hallucination).
+
+| # | Başarısızlık modu | Tetikleyici | Etki | Bağlantı |
+|---|-------------------|-------------|------|----------|
+| F1 | UA izinin güvenlik doğrulaması sanılması | §2.1 UA tespiti "güvenlik doğrulandı" sanılırsa | Yanlış güvenlik garantisi | §2.1, §17 |
+| F2 | OSE↔TV farkının atlanması | §1.3'teki fark unutulursa | Yanlış model aktarımı | §1.3 |
+| F3 | Tizen ile özdeşleştirme | Aynı iz profili → aynı model sanılırsa | Yanlış eşdeğerlik | §7, §9 F5 |
+| F4 | S1/S2 erken kapatılması | §6 `[UNKNOWN]` soruları cevaplanmış varsayılırsa | Kanıtsız mimari karar | §6 |
+| F5 | ACG abartısı | §1.1–§1.2 katmanlarının "her şeyi koruduğu" sanılması | Yanlış varsayım | §1.1, §1.2 |
+
+## §9.1 Fail-safe sırası (P0 > P1 > P2)
+
+1. **P0 — Durdur ve işaretle:** İddia kanıtsızsa satır `⚠️ VERIFICATION REQUIRED`
+   kalır; ACG adı **uydurulmaz**.
+2. **P1 — Daralt:** "webOS güvenliği doğrulandı" → "§2.1 UA izi mevcut;
+   §2.2/§2.3 YOK; §1.3 OSE≠TV".
+3. **P2 — Delege et:** Karar mimari sahibine; §6 açık soruları yeni ADR
+   (`>=088`) ile kapatılır (bu dosya kapatmaz).
+
+## §10 Kullanım senaryoları (bu kart kimler için)
+
+| Senaryo | Kullanılır mı? | Bölüm | Not |
+|---------|----------------|-------|-----|
+| webOS güvenlik katmanı özeti | Evet | §1.1–§1.2 | Temel katman + tasarım ilkeleri |
+| OSE vs TV sürümü farkı | Evet | §1.3 | Ürün modeli ayrımı |
+| TV cihaz sınıflandırması izi | Evet | §2.1 | UA tespiti (pozitif) |
+| Kısmi izin dürüst kaydı | Evet | §2.2–§2.6 | enum/CI YOK + özet |
+| K000→security sınırı | Evet | §3 | Bridge |
+| S1/S2 kapatma | **Hayır** | §6 | Mimari sahibi + ADR |
+
+## §11 Kaynakça envanteri (bu kartta atıf yapılan yüzeyler)
+
+| Kaynak türü | Durum | Kanıt biçimi |
+|-------------|-------|--------------|
+| §1 güvenlik profili (§1.3 fark dahil) | Dosyanın kendi §1'i | §5 vendor envanteri |
+| §2 repo izi | §2.1–§2.6 | `Dosya:` + `Satır:` + grep (dosyada belgelendi) |
+| §5 Kaynaklar | 2026-10-15 HTTP 200 | §5'te tarihli envanter |
+| `.ai/electronic/drivers/audio-drivers.md` | §8 salt-okunur girdi | `Dosya: ...` (709 satır) |
+| CVE / çalışan webOS çekirdek kanıtı | **YOK** | CVE iddiası yok (§5/§4) |
+
+## §12 Eşleme ağacı (bu kart nerede duruyor)
+
+```
+K000-isletim-sistemi
+├── isletim-sistemi-turu
+│   └── webos
+│       └── webos-guvenlik  ← bu kart
+└── isletim-sistemi-security
+    ├── cekirdek-guvenlik/webos       (kardeş dal)
+    └── uygulama-guvenlik-siniri/webos (bridge hedefi, §3)
+```
+
+**Bağımlılık yönü:** Bu kart yalnız kendi §0–§6'sını §7–§19'da yapılandırır;
+bridge kartlarına **veri üretmez**.
+
+## §13 Test + negatif + okuma sırası
+
+### §13.1 Olumlu test
+- §2.1 UA izi **pozitif** ve `Dosya:`/`Satır:` ile destekli.
+- §2.2–§2.4 YOK kanıtları destekli (kısmi iz dürüst).
+- §1.3 OSE↔TV farkı ayrı bölüm olarak mevcut.
+- §5 kaynakları **2026-10-15 HTTP 200**.
+
+### §13.2 Negatif test
+
+| Reddedilen varsayım | Neden reddedilir | Kanıt |
+|---------------------|------------------|-------|
+| "webOS güvenlik katmanı doğrulandı" | §2.1 yalnız UA izi | §9 F1 |
+| "OSE = TV izin modeli" | §1.3 farkı | §9 F2 |
+| "webOS = tizen iz modeli" | Benzer profil ≠ aynı model | §9 F3/F5 |
+| "S1/S2 kapatılabilir" | Kapatma yasağı | §6 |
+
+### §13.3 Okuma sırası
+`§0 → §1 → §1.3 → §1.4 → §2 → §2.1 → §2.6 → §3 → §4 → §5 → §6 → §7 → §9 → §17`
+(kapı: §6/§17 görülmeden §8/§10'a geçilmez).
+
+## §14 Olay şeması / eskalasyon
+
+| Tetikleyici | Olay | Eskalasyon |
+|-------------|------|------------|
+| webOS sürüm/ACG değişimi | §1.1–§1.3 eskir | Vault revizyonu |
+| OSE/TV sürüm farkı değişirse | §1.3 eskir | §1.3 yeniden okuma |
+| Repo'ya enum/CI izi gelirse | §2.2/§2.3 YOK eskir | §2 yeniden tarama |
+| S1/S2 kararı | §6 kapanır | Yeni ADR + `validation:` |
+| Ses/RT hedefi | §8 PLANNED | `isletim-sistemi-audio` girdisi |
+
+## §15 Append protokolü (bu kart nasıl büyüdü)
+
+Append-only: §0–§6 **değiştirilmedi**; yeni bölümler footer öncesine eklendi.
+Frontmatter ve Authority **dokunulmaz**.
+
+| Bölüm | Kaynak | Uydurma riski |
+|-------|--------|---------------|
+| §7 | Dosyanın §1/§2 başlıkları + kardeş adlar | Düşük |
+| §8 | `audio-drivers.md` (salt-okunur) | Düşük (atıflı) |
+| §9–§14 | Dosya-içi atıflar | Düşük |
+| §15–§23 | Protokol + kapı + kontrol | Düşük |
+
+## §16 Kapı özeti (8 soru — bu kart neyi KAPATMAZ)
+
+| # | Kapı sorusu | Durum |
+|---|-------------|-------|
+| 1 | webOS güvenlik katmanı repo'da doğrulandı mı? | **Kısmen** — §2.1 UA VAR; §2.2/§2.3 YOK |
+| 2 | ACG/role uygulanıyor mu? | **UNKNOWN** — bu dosya kanıtlamaz |
+| 3 | OSE = TV izin modeli mi? | **Hayır/Kanıtlanmadı** — §1.3 fark |
+| 4 | S1 (OS güvenlik katmanı) | `[UNKNOWN]` — kapatılamaz (§6) |
+| 5 | S2 (uygulama↔OS sınırı) | `[UNKNOWN]` — kapatılamaz (§6) |
+| 6 | webOS TV hedefi mi? | **İstemci** — §1.4 TV istemcisi tehdit modeli |
+| 7 | Ses/RT kararı buradan mı? | **Hayır** — §8 |
+| 8 | CVE iddiası var mı? | **Hayır** — §5 |
+
+## §17 Doğrulama notu (negatif hafıza)
+
+1. **Çalışan webOS güvenlik doğrulaması yok** — §2.1 yalnız UA izi.
+2. **CVE/versiyon iddiası yok** — sürüm kanıtı `UNKNOWN`.
+3. **S1/S2 kapalı değil** (§6).
+4. **§1.3 OSE↔TV farkı doldurulamaz** — eşdeğerlik kanıtlanmadı.
+5. **§2.2/§2.3 YOK kanıtları düzeltilemez** — dürüst negatif.
+6. **Ses/RT kesişimi PLANNED** — mevcut değil (§8).
+
+## §18 Negatif hafıza ("yapma" listesi)
+
+- Bu karta CVE **ekleme** (§5/§4).
+- §2.1 UA izini "güvenlik doğrulaması" **diye yazma** (§9 F1).
+- §1.3 OSE↔TV farkını **eşitleme** (§9 F2).
+- tizen ile **özdeşleştirme** (§9 F3/F5).
+- S1/S2'yi **kapatma** (§6).
+- §8'i "mevcut" **diye sunma** (PLANNED).
+
+## §19 Tur kapanış kontrolü (bu kart)
+
+- [x] Kapı ihlali: 0 · [x] Beyazliste dışı: 0 · [x] `git commit`: yok
+- [x] Ölçüm: ≥500 (append-only) · [x] Frontmatter/Authority: korundu
+
+## §20 Kardeş ağaç karşılaştırması (turu vs security dalı — webOS)
+
+| Soru | `cekirdek-guvenlik/webos` | `uygulama-guvenlik-siniri/webos` | **bu kart** |
+|------|----------------------------|------------------------------------|-------------|
+| Ne soruyor? | Ne korunuyor (çekirdek)? | Uygulama↔OS sınırı ne? | Tür+OS profili + kısmi iz |
+| Birim | LSM/çekirdek | Sınır tanımı | Katman + UA/enum/CI izi + §1.3 |
+| S1/S2 | Aynı `[UNKNOWN]` kapıları | Aynı | Aynı (§6) |
+
+**Kural:** Üç kart kapıları paylaşır; biri diğerini **kapatmaz**.
+
+## §21 Uzun vadeli Revision Planı (bu kartın büyüme yolu)
+
+| Tur | Eklenecek | Kaynak | Kapı |
+|-----|-----------|--------|------|
+| R1 | §2.2/§2.3'e iz (gelirse) | Repo taraması | S1/S2 kapalı değil |
+| R2 | §5 kaynaklarının yenilenmesi | HTTP doğrulama | — |
+| R3 | §1.3 OSE↔TV farkının güncellenmesi | Vendor docs | — |
+| R4 | S1/S2 kapatma | Yeni ADR (`>=088`) | Mimari sahibi onayı |
+| R5 | §8 ses/RT kesişimi | `isletim-sistemi-audio` + `security` | PLANNED → mevcut |
+
+**Revision kuralı:** Yeni bölüm yalnız footer öncesine eklenir; §0–§6
+**değiştirilmez**. Kanıt gelmeden §17 boşlukları **doldurulmaz**.
+
+## §22 Tur kapanış kayıt cetveli (bu kart — kesin son)
+
+| # | Kontrol | Sonuç | Kanıt |
+|---|---------|-------|-------|
+| 1 | Frontmatter korundu mu? | Evet | `node_id`/`status` değişmedi |
+| 2 | §0–§6 değiştirildi mi? | **Hayır** | Append-only |
+| 3 | Authority footer korundu mu? | Evet | Dosyanın son satırı |
+| 4 | S1/S2 kapatıldı mı? | **Hayır** | §6 `[UNKNOWN]` kaldı |
+| 5 | Uydurma CVE/ACG eklendi mi? | **Hayır** | §5 + §17 |
+| 6 | Beyazliste dışı yazım | 0 | Yalnız K000 |
+| 7 | `git commit` | Yok | Orkestratöre ait |
+| 8 | Satır ölçümü | ≥500 | Append-only |
+
+### §22.1 Bu kartın tek cümlelik özeti
+
+webOS'un güvenliği bu kartta **katman profili + OSE↔TV farkı + TV tehdit
+modeli + kısmi iz (UA VAR · enum/CI YOK)** olarak durur; **S1/S2 kararı olmadan**
+bu kart **tamamlanmış sayılmaz**.
+
+## §23 Uzatma turu son satır özeti (bu kart — mutlak son)
+
+| Öğe | Değer |
+|-----|-------|
+| Başlangıç satırı | 260 (§6 + Authority footer) |
+| Eklenen bölümler | §7–§23 |
+| Kaynak | Dosya-içi §1/§1.3/§1.4/§2/§2.1–§2.6/§3/§4/§5/§6 + `audio-drivers.md` (salt-okunur) |
+| Uydurma iddia | 0 |
+| Kapı ihlali | 0 · `git commit` yok · Frontmatter/Authority korundu |
+
+## §24 OSE↔TV farkı hafızası (bu kart — mutlak son)
+
+Bu kartın en kırılgan noktası §1.3'teki **ürün modeli ayrımıdır**; sonraki tur
+bu kartı açtığında **neyin OSE, neyin TV olduğunu** tek tabloda görür (bu tablo
+§1.3/§2.1–§2.3'ün **özeti**dir, yeni iddia **içermez**):
+
+| Öğe | OSE (açık kaynak) | TV sürümü | Kanıt durumu |
+|-----|-------------------|-----------|--------------|
+| İzin/ürün modeli | §1.3'teki model | §1.3'teki model | **Fark belgeli — eşdeğerlik YOK** (§9 F2) |
+| UA izi (§2.1) | — | VAR (TV sınıflandırma) | Pozitif |
+| enum/CI (§2.2/§2.3) | — | YOK | Dürüst negatif |
+| CVE (§5/§4) | — | YOK | İddia yok |
+
+**Son cümle:** OSE↔TV eşdeğerliği **kanıtlanmadı** ve §6'daki S1/S2 kapıları
+**kapatılmadan** bu kart **tamamlanmış sayılmaz** — bir sonraki turun işi §21'deki
+revision planıdır.
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

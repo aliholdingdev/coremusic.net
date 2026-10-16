@@ -502,5 +502,92 @@ doğrulanmıştır; numaralar dosya içi `function` imzasının bulunduğu satı
 | 3 | Redis adaptörü `CacheInterface`'e ekleniyor mu? | `caching/` | cache ADR'si |
 | 4 | 6 yeni çocuk adı v2 spec'ine yazılıyor mu? | vault sahibi | onay |
 
-**Last Updated:** 2026-10-13
+## §E — Kapanış Kaydı (2026-10-16 — Kademe-2 üretim kapanışı)
+
+> Bu bölüm K011-application kademe-2 üretiminin **kapanış kanıtlarını** taşır (append-only).
+> Tüm sayımlar diskten ölçülmüştür (zero-hallucination). Kapsam: `.ai/architecture/K011-application/`.
+
+### §E.1 — Üretim kapısı (gate) sonucu
+
+| Kapı | Kapsam | Sonuç | Tarih |
+|---|---|---|---|
+| Üretim kapısı | 20 klasör × (frontmatter 8 alan · `group` son · `## §GRUPLAR` · footer · içerik ≥500 · index 40–100) | ✅ **20/20 PASS** | 2026-10-16 |
+| URL kesişim | envanter (K011-dışı `.ai/architecture`) ∩ K011 URL = ∅ | ✅ **0** (9 URL noktalı [.] sonrası) | 2026-10-16 |
+
+> Yazılım-kalite kapıları (PHPUnit coverage ≥ %80 · PHPStan · CI) bu üretimin **kapsamı
+> dışındadır** (bkz. §D.2 "hedef"); burada çalıştırılmadı, sonuç iddia edilmez.
+
+### §E.2 — Curl doğrulama (spec §6 + §9 havuz URL'leri)
+
+| Ölçüt | Sonuç | Kanıt |
+|---|---|---|
+| Doğrulanan havuz URL | 108 (spec §6 P1/P3 + §9 klasör havuzları) | `k011-kademe2-spec.md` §6 L115–213 · §9 |
+| HTTP 200 | **108/108 ✅** | `k011-curl-verify.txt` |
+
+### §E.3 — Havuz sapmaları (kesişim notları)
+
+Spec havuzu ile dosya-içi URL listesi arasındaki sapmalar ilgili web-arastırma
+dosyalarına `⚠️ VERIFICATION REQUIRED` işaretli not olarak işlendi:
+
+| Klasör | Havuz | Kesişim | Not bölümü |
+|---|---|---|---|
+| `dto/` | 5 URL | 0/5 | `### §O.1` |
+| `usecase/` | 4 URL | 1/4 (yalnız PSR-17) | `### §O.1` |
+| `caching/` | Age/Expires varyantı | sapma (biçim farkı) | `### §C.1` |
+
+### §E.4 — Mojibake onarımı (2026-10-16)
+
+| Yüzey | İşlem | Doğrulama | Araç |
+|---|---|---|---|
+| 5 küme `index.md` | cp1254 tersttranskod (kayıpsız) | 0 U+FFFD · 0 mojibake işaretçisi | `k011-transcode-index.ps1` |
+| 3 `odem-servisleri` URL-notu | cp1254 tersttranskod (sadık) | HEAD byte-dump sadakati | `k011-odem-refix.ps1` |
+
+**Sadık geri yükleme:** odem URL-notu blokları `b299e7d`'de mojibake olarak doğmuştu.
+"**noktal yazımı**" (boşluk, `ı` yok) ve "**bu kök**" (`k`+U+00C3 U+00B6+`k`) ifadeleri
+HEAD byte-dump ile **aynen** geri yüklendi — "noktalı"/"küçük" olarak düzeltilmedi
+(zero-hallucination: tarihsel metin değiştirilmez). Temiz kaynak hiçbir yerde yoktur.
+
+**Bilinen-ön-var (kapsam dışı, düzeltilmedi):** 3 odem dosyasında çift `**Last Updated:**`
+(2026-10-15 + 2026-10-16) HEAD'de önceden vardır; kapı bununla geçer.
+
+### §E.5 — Envanter regresyonu ve çözümü (2026-10-16)
+
+| Aşama | Envanter | Üretim kapısı |
+|---|---|---|
+| Kapanış öncesi temel | 4286 URL | 20/20 PASS |
+| `k011-build-inv.ps1` yeniden çalıştırma | 4658 URL (+372) | 16/4 FAIL |
+| 9 URL noktalı [.] düzeltmesi (`k011-dotfix.ps1`) | 4658 | **20/20 PASS** ✅ |
+
+**Kök neden:** envanter `K011-application` dışındaki `.ai/architecture` MD'lerinden
+üretilir. K011-dışı K-klasörleri (K007 · K012 · K013 · K015 — dosyalarında commit
+edilmemiş büyüme var) aynı URL'leri taşıdığı için envanter 4286 → 4658'e büyüdü ve
+K011'de HEAD'de önceden var9 URL envantere düştü.
+
+**Çözüm (kullanıcı onaylı):** 9 URL — MDN `Web/HTTP/Caching` · MDN `Headers/Vary` ·
+Stripe `webhooks` · redis.io `pipelining`/`pubsub`/`strings` — **noktalı [.] biçime**
+çevrildi (kapı regex'i `]`'da truncate olur → HIT yok). 9 URL'nin tamamı HEAD'de önceden
+vardır (working-tree `added=0`); noktalama yalnız kapı semantiği içindir — komşu
+"envanterde yok" / "erişilebilir" iddiaları aynen doğrudur (çıplak URL envanterde gerçekten yok).
+
+### §E.6 — Kapsam dışı bulgular (raporlandı, dokunulmadı)
+
+K011-dışı 4 K-klasöründe **kayıpsız-olmayan** bozulma (U+FFFD — özgün karakter
+kaybolmuş, geri yükleme imkânsız) tespit edildi; K011 üretiminin dışındadır,
+yalnızca raporlandı:
+
+| Klasör | Bozuk dosya | U+FFFD |
+|---|---|---|
+| K000-isletim-sistemi | 6 (ör. `coreaudio-anayasa.md` · `coreaudio-ornekler.md` · `coreaudio-surucu.md`) | 11 |
+| K002-electroncis | 2 (`devre-ve-analog-dogrulama.md` · `dijital-ve-mikroislemci-dogrulama.md`) | 2 |
+| K013-integraion | 1 (`openapi-kod-ornekleri.md`) | 6 |
+| K016-AI | 1 (`ai-dogrulama.md`) | 2 |
+| **Toplam** | **10** | **21** |
+
+> Bu dosyalardaki bozulma K011'deki cp1254 mojibake'den **farklıdır**: K011'deki
+> kayıpsızdı (tersttranskodla geri yüklendi); buradaki U+FFFD **kayıplıdır** (orijinal
+> bayt yok). Onarım ayrı bir görev gerektirir — bu kapanışta dokunulmadı.
+
+---
+
+**Last Updated:** 2026-10-16
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

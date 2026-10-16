@@ -496,4 +496,14 @@ denetlenebilir.
 | Sanal ses köprüsü (Neva) iOS'ta çalışır mı? | Hayır — §12.1 farkı; ağ köprüsü alternatif | §12.1, §13.1 |
 | RT callback SEP'e dokunabilir mi? | Hayır — blocking SEP çağrısı xrun üretir | §8.2, §13.2 |
 
+## §18 Ek: Tur Ölçüm Kaydı (append-only, 2026-10-14)
+
+| # | Ölçüm | Sonuç |
+|---|---|---|
+| 1 | Başlangıç satır (bu tur öncesi) | 499 |
+| 2 | §18 eklendi (append-only) | ≥505 (tamponlu) |
+| 3 | Frontmatter | Korunur (`group:` çıplak) |
+| 4 | Kapı (S1/S2 açık) | İhlal 0 — §6'da yalnız işaretli |
+| 5 | Beyazliste dışı yazım / `git commit` | 0 / Yok |
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

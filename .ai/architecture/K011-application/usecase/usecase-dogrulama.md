@@ -107,7 +107,8 @@ Bu gÃ¶rev iki sayÄ±mÄ± da yan yana kaydeder; hangisinin gÃ¼ncel olduÄŸu
 **Toplam transaction noktasÄ±:** 7
 
 **Mimari gÃ¶zlem:** Transaction Repository'de â€” UseCase katmanÄ± yok.
-Klasik "UnitOfWork UseCase'de" deseninden FARKLI (usecase-kapsam.md Â§O.3).
+Klasik "UnitOfWork UseCase'de" deseninden FARKLI (eski kapsam Â§O.3 â€” dosya
+2026-10-16 spec Â§7 ile kaldÄ±rÄ±ldÄ±; bulgu bu dosya Â§D ve Â§Y'de taÅŸÄ±ndÄ±).
 
 âš ï¸ VERIFICATION REQUIRED: gerÃ§ek transaction method adlarÄ±
 (`beginTransaction` vs `$db->begin` vb.) bu gÃ¶revde okunmadÄ±; satÄ±r
@@ -150,7 +151,7 @@ edildiÄŸi âš ï¸ VERIFICATION REQUIRED.
 | Gate | Beklenen | GerÃ§ek | Durum |
 |---|---|---|---|
 | G1 | Scope slotu korunur (usecase-usecase-katmani.md, 527 L) | âœ… 527 L | PASS |
-| G2 | Yeni kapsam dosyasÄ± (usecase-kapsam.md) | âœ… 515 L | PASS |
+| G2 | Kapsam dosyasÄ± (eski usecase-kapsam.md) | spec Â§7: set kapsam dosyasÄ±z â€” 2026-10-16 kaldÄ±rÄ±ldÄ± (eski Ã¶lÃ§Ã¼m: 515 L) | PASS (set 6/6) |
 | G3 | DoÄŸrulama dosyasÄ± (bu dosya) | âœ… 500+ L | PASS |
 | G4 | Web araÅŸtÄ±rma (PSR-17 + PSR-11, 2 URL) | âœ… usecase-web-arastirma.md | PASS |
 | G5 | Ã–rnekler (DosyaÂ·SatÄ±r kod bloklarÄ±) | âœ… usecase-ornekler.md | PASS |
@@ -161,7 +162,7 @@ edildiÄŸi âš ï¸ VERIFICATION REQUIRED.
 
 | Beklenen | GerÃ§ek | Durum |
 |---|---|---|
-| â‰¥1 `*UseCase*.php` dosyasÄ± | **0** | âš ï¸ **GATE DIÅžI** â€” usecase-kapsam.md Â§A.3 |
+| â‰¥1 `*UseCase*.php` dosyasÄ± | **0** | âš ï¸ **GATE DIÅžI** â€” bu dosya Â§I (eski kapsam Â§A.3 kaydÄ±, 2026-10-16 kaldÄ±rÄ±ldÄ±) |
 
 Bu gate dÄ±ÅŸÄ± sessizce dÃ¼zeltilmez: ya UseCase sÄ±nÄ±fÄ± eklenecek (ADR), ya da
 Handler = UseCase adlandÄ±rma kararÄ± verilecek (ADR). Karar orkestratÃ¶re aittir.
@@ -233,7 +234,7 @@ usecase/ klasÃ¶rÃ¼nÃ¼n kapsamÄ±:
 
 | Konu | Dosya |
 |---|---|
-| Kapsam + Ã¶lÃ§Ã¼m Ã¶zeti | usecase-kapsam.md |
+| Kapsam + Ã¶lÃ§Ã¼m Ã¶zeti | (eski usecase-kapsam.md â€” spec Â§7 gereÄŸi 2026-10-16 kaldÄ±rÄ±ldÄ±; Ã¶lÃ§Ã¼m Ã¶zeti bu dosya Â§B'de) |
 | PSR kanÄ±tlarÄ± (2 URL) | usecase-web-arastirma.md |
 | Kod bloklarÄ± | usecase-ornekler.md |
 | BileÅŸen envanteri | usecase-bilesenler.md |
@@ -247,57 +248,57 @@ usecase/ klasÃ¶rÃ¼nÃ¼n kapsamÄ±:
 
 ---
 
-## §K — KOD KALÝTE KONTROLLERÝ (Lint Benzeri)
+## Â§K â€” KOD KALÄ°TE KONTROLLERÄ° (Lint Benzeri)
 
-| Kontrol | Beklenen | Gerçek | Durum |
+| Kontrol | Beklenen | GerÃ§ek | Durum |
 |---|---|---|---|
 | Handler tek senaryo mu? | SRP | AuthPostHandler: login | ? |
-| Controller'da iþ mantýðý var mý? | Hayýr (SRP) | ?? AuthController 355 L — içerik doðrulanmadý | ?? |
-| Transaction'da try/catch var mý? | Evet | ?? kod okunmadý | ?? |
-| Error mapping exhaustible mý? | match default kol | ?? Satýr: 62-78 içeriði | ?? |
-| Container PSR-11 uyumlu mu? | Evet (arayüz) | ?? `Psr\Container` grep edilmedi | ?? |
+| Controller'da iÅŸ mantÄ±ÄŸÄ± var mÄ±? | HayÄ±r (SRP) | ?? AuthController 355 L â€” iÃ§erik doÄŸrulanmadÄ± | ?? |
+| Transaction'da try/catch var mÄ±? | Evet | ?? kod okunmadÄ± | ?? |
+| Error mapping exhaustible mÄ±? | match default kol | ?? SatÄ±r: 62-78 iÃ§eriÄŸi | ?? |
+| Container PSR-11 uyumlu mu? | Evet (arayÃ¼z) | ?? `Psr\Container` grep edilmedi | ?? |
 
 ---
 
-## §L — KARÞILAÞTIRMA: USECASE KLASÖRÜ vs DTO KLASÖRÜ
+## Â§L â€” KARÅžILAÅžTIRMA: USECASE KLASÃ–RÃœ vs DTO KLASÃ–RÃœ
 
-| Ölçüt | dto/ | usecase/ |
+| Ã–lÃ§Ã¼t | dto/ | usecase/ |
 |---|---|---|
 | Scope slotu | dto-veri-tasiyicer-tasarimi.md (543 L) | usecase-usecase-katmani.md (527 L) |
 | Yeni dosya | 6 | 6 |
-| URL havuzu | 4 (php.net ×2, mdn ×2) | 2 (php-fig.org ×2) |
-| Kritik bulgu | 11 DTO test-only (0 üretim) | 0 UseCase sýnýfý |
-| Gate dýþý | toArray 13/14 | UseCase sýnýfý 0 |
+| URL havuzu | 4 (php.net Ã—2, mdn Ã—2) | 2 (php-fig.org Ã—2) |
+| Kritik bulgu | 11 DTO test-only (0 Ã¼retim) | 0 UseCase sÄ±nÄ±fÄ± |
+| Gate dÄ±ÅŸÄ± | toArray 13/14 | UseCase sÄ±nÄ±fÄ± 0 |
 | PSR durumu | PSR-7 paket var, kod 0 | PSR-17 paket var, kod 0; PSR-11 ?? |
-| Transaction | (DTO'da yok — normal) | 7 nokta (Repository'de) |
+| Transaction | (DTO'da yok â€” normal) | 7 nokta (Repository'de) |
 
 ---
 
-## §M — ÖLÇÜM TEKRAR TABLOSU (Cross-check)
+## Â§M â€” Ã–LÃ‡ÃœM TEKRAR TABLOSU (Cross-check)
 
-| Ölçüm | Kaynak 1 | Kaynak 2 | Eþit mi? |
+| Ã–lÃ§Ã¼m | Kaynak 1 | Kaynak 2 | EÅŸit mi? |
 |---|---|---|---|
-| AuthController satýr | Dosya·Satýr: 355 | manifest (dosya var) | ? |
-| RequestValidationMiddleware | Dosya·Satýr: 175 | Middleware/ = 11 dosya | ? |
-| Transaction noktasý | grep: 7 | usecase-kapsam.md §E: 7 | ? |
-| UseCase sýnýfý | glob: 0 | usecase-kapsam.md §A.3: 0 | ? |
+| AuthController satÄ±r | DosyaÂ·SatÄ±r: 355 | manifest (dosya var) | ? |
+| RequestValidationMiddleware | DosyaÂ·SatÄ±r: 175 | Middleware/ = 11 dosya | ? |
+| Transaction noktasÄ± | grep: 7 | eski kapsam Â§E: 7 (kapsam 2026-10-16 kaldÄ±rÄ±ldÄ±) | ? |
+| UseCase sÄ±nÄ±fÄ± | glob: 0 | eski kapsam Â§A.3: 0 (kapsam 2026-10-16 kaldÄ±rÄ±ldÄ±) | ? |
 | assets/js | manifest: 94 | glob: 98 | ? fark (AG7) |
 
 ---
 
-## §N — SON KONTROL LÝSTESÝ
+## Â§N â€” SON KONTROL LÄ°STESÄ°
 
 | # | Kontrol | Durum |
 |---|---|---|
 | 1 | Frontmatter 7 alan, group: son | ? |
-| 2 | §GRUPLAR tablosu | ? |
+| 2 | Â§GRUPLAR tablosu | ? |
 | 3 | Footer Authority + Last Updated | ? |
-| 4 | Ölçüm Dosya·Satýr | ? §B–§E |
-| 5 | Gate matrisi G1–G7 | ? §F |
-| 6 | Anti-verification §G | ? 8 madde |
-| 7 | VERIFICATION REQUIRED §H | ? 6 madde |
-| 8 | Kritik bulgu UseCase=0 §I | ? dürüst kayýt |
-| 9 | Sessiz düzeltme YOK | ? |
+| 4 | Ã–lÃ§Ã¼m DosyaÂ·SatÄ±r | ? Â§Bâ€“Â§E |
+| 5 | Gate matrisi G1â€“G7 | ? Â§F |
+| 6 | Anti-verification Â§G | ? 8 madde |
+| 7 | VERIFICATION REQUIRED Â§H | ? 6 madde |
+| 8 | Kritik bulgu UseCase=0 Â§I | ? dÃ¼rÃ¼st kayÄ±t |
+| 9 | Sessiz dÃ¼zeltme YOK | ? |
 | 10 | URL uydurma YOK | ? (bu dosyada URL yok) |
 
 ---
@@ -307,15 +308,15 @@ usecase/ klasÃ¶rÃ¼nÃ¼n kapsamÄ±:
 
 ---
 
-## §O — SENARYO KAPSAM ÖLÇÜMÜ (Detay Tablo)
+## Â§O â€” SENARYO KAPSAM Ã–LÃ‡ÃœMÃœ (Detay Tablo)
 
-| Senaryo | Dosya | Doðrulanan satýr | Durum |
+| Senaryo | Dosya | DoÄŸrulanan satÄ±r | Durum |
 |---|---|---|---|
 | Login dispatch | AuthController.php | 52-61 | ? okundu |
 | Login error mapping | AuthController.php | 62-78 | ? konum |
 | Login handler | AuthPostHandler.php | 38-57 | ? okundu |
-| Login DTO girdisi | LoginRequest.php | — | ? aktif üretim |
-| Login DTO çýktýsý | AuthResponse.php | jsonSerialize 68-70 | ? okundu |
+| Login DTO girdisi | LoginRequest.php | â€” | ? aktif Ã¼retim |
+| Login DTO Ã§Ä±ktÄ±sÄ± | AuthResponse.php | jsonSerialize 68-70 | ? okundu |
 | User write transaction 1 | UserRepository.php | 147 | ? konum |
 | User write transaction 2 | UserRepository.php | 184 | ? konum |
 | User write transaction 3 | UserRepository.php | 192 | ? konum |
@@ -326,98 +327,98 @@ usecase/ klasÃ¶rÃ¼nÃ¼n kapsamÄ±:
 | Container kurulumu | AuthContainer.php | DI\ContainerBuilder | ? konum |
 | Event dispatcher | EventDispatcher.php | EventDispatcherInterface | ? konum |
 
-**Okunan dosya sayýsý:** 6 (AuthController, AuthPostHandler, LoginRequest,
+**Okunan dosya sayÄ±sÄ±:** 6 (AuthController, AuthPostHandler, LoginRequest,
 AuthResponse, AuthContainer, EventDispatcher)
-**Konum ile doðrulanan:** 8 (transaction satýrlarý, composer)
-**Tam okunmayan (??):** AuthController 355 L'nin tamamý, RequestValidationMiddleware 175 L
+**Konum ile doÄŸrulanan:** 8 (transaction satÄ±rlarÄ±, composer)
+**Tam okunmayan (??):** AuthController 355 L'nin tamamÄ±, RequestValidationMiddleware 175 L
 
 ---
 
-## §P — DOSYA KULLANIM DURUMU (Honest Record)
+## Â§P â€” DOSYA KULLANIM DURUMU (Honest Record)
 
-| Dosya | Okundu mu? | Kullaným |
+| Dosya | Okundu mu? | KullanÄ±m |
 |---|---|---|
-| AuthController.php | Kýsmen (Satýr: 52-78) | dispatch + error mapping kanýtý |
-| AuthPostHandler.php | Kýsmen (Satýr: 38-57) | handle kanýtý |
+| AuthController.php | KÄ±smen (SatÄ±r: 52-78) | dispatch + error mapping kanÄ±tÄ± |
+| AuthPostHandler.php | KÄ±smen (SatÄ±r: 38-57) | handle kanÄ±tÄ± |
 | LoginRequest.php | ? tam | DTO envanteri |
-| AuthResponse.php | ? tam | JsonSerializable kanýtý |
-| AuthContainer.php | Kýsmen (grep) | DI\ContainerBuilder kanýtý |
-| EventDispatcher.php | Kýsmen (grep) | PSR-14 kanýtý |
-| UserRepository.php | ? hayýr | yalnýz grep satýr konumlarý |
-| CatalogWriter.php | ? hayýr | yalnýz grep satýr konumlarý |
-| bin/api-key-create.php | ? hayýr | yalnýz grep satýr konumlarý |
-| RequestValidationMiddleware.php | ? hayýr | yalnýz uzunluk ölçümü |
-| Validator.php | ? hayýr | yalnýz varlýk doðrulamasý |
-| DatabaseManager.php | ? hayýr | yalnýz varlýk doðrulamasý |
-| routes.php | Kýsmen | validation rule set kanýtý |
-| usecase-usecase-katmani.md | ? hayýr | yalnýz varlýk + satýr sayýsý |
+| AuthResponse.php | ? tam | JsonSerializable kanÄ±tÄ± |
+| AuthContainer.php | KÄ±smen (grep) | DI\ContainerBuilder kanÄ±tÄ± |
+| EventDispatcher.php | KÄ±smen (grep) | PSR-14 kanÄ±tÄ± |
+| UserRepository.php | ? hayÄ±r | yalnÄ±z grep satÄ±r konumlarÄ± |
+| CatalogWriter.php | ? hayÄ±r | yalnÄ±z grep satÄ±r konumlarÄ± |
+| bin/api-key-create.php | ? hayÄ±r | yalnÄ±z grep satÄ±r konumlarÄ± |
+| RequestValidationMiddleware.php | ? hayÄ±r | yalnÄ±z uzunluk Ã¶lÃ§Ã¼mÃ¼ |
+| Validator.php | ? hayÄ±r | yalnÄ±z varlÄ±k doÄŸrulamasÄ± |
+| DatabaseManager.php | ? hayÄ±r | yalnÄ±z varlÄ±k doÄŸrulamasÄ± |
+| routes.php | KÄ±smen | validation rule set kanÄ±tÄ± |
+| usecase-usecase-katmani.md | ? hayÄ±r | yalnÄ±z varlÄ±k + satÄ±r sayÄ±sÄ± |
 
 ---
 
-## §Q — GATE BEKLENTÝ TABLOSU (Karþýlaþtýrmalý)
+## Â§Q â€” GATE BEKLENTÄ° TABLOSU (KarÅŸÄ±laÅŸtÄ±rmalÄ±)
 
 | Gate | dto/ | usecase/ | Fark |
 |---|---|---|---|
-| G1 scope slotu korunur | ? 543 L | ? 527 L | — |
-| G2 yeni kapsam | ? | ? | — |
-| G3 doðrulama | ? | ? | — |
-| G4 web araþtýrma | 4 URL | 2 URL | URL havuzu farký |
-| G5 örnekler | PHP+JS+SQL+CSS | PHP aðýrlýklý | dil farký |
-| G6 bileþenler | 14 DTO | Handler+Transaction+Event | envanter farký |
-| G7 katalog | ? 97 L | ? (index.md) | — |
-| Kritik gate | toArray 13/14 ?? | UseCase sýnýfý 0 ?? | ikisi de gate dýþý |
+| G1 scope slotu korunur | ? 543 L | ? 527 L | â€” |
+| G2 yeni kapsam | ? | ? | â€” |
+| G3 doÄŸrulama | ? | ? | â€” |
+| G4 web araÅŸtÄ±rma | 4 URL | 2 URL | URL havuzu farkÄ± |
+| G5 Ã¶rnekler | PHP+JS+SQL+CSS | PHP aÄŸÄ±rlÄ±klÄ± | dil farkÄ± |
+| G6 bileÅŸenler | 14 DTO | Handler+Transaction+Event | envanter farkÄ± |
+| G7 katalog | ? 97 L | ? (index.md) | â€” |
+| Kritik gate | toArray 13/14 ?? | UseCase sÄ±nÄ±fÄ± 0 ?? | ikisi de gate dÄ±ÅŸÄ± |
 
 ---
 
-## §R — KANIT GÜVENÝLÝRLÝK SINIFLARI
+## Â§R â€” KANIT GÃœVENÄ°LÄ°RLÄ°K SINIFLARI
 
-| Sýnýf | Taným | Bu dosyadaki kayýt |
+| SÄ±nÄ±f | TanÄ±m | Bu dosyadaki kayÄ±t |
 |---|---|---|
-| A — Tam okundu | Dosya satýr satýr okundu | LoginRequest, AuthResponse, (DTO seti) |
-| B — Kýsmi okundu | Birkaç satýr aralýðý okundu | AuthController 52-78, AuthPostHandler 38-57 |
-| C — Grep konum | Yalnýz satýr konumu grep ile | transaction satýrlarý, composer |
-| D — Doðrulanamadý | Hiç kontrol edilmedi | Handler dizini, Service envanteri |
+| A â€” Tam okundu | Dosya satÄ±r satÄ±r okundu | LoginRequest, AuthResponse, (DTO seti) |
+| B â€” KÄ±smi okundu | BirkaÃ§ satÄ±r aralÄ±ÄŸÄ± okundu | AuthController 52-78, AuthPostHandler 38-57 |
+| C â€” Grep konum | YalnÄ±z satÄ±r konumu grep ile | transaction satÄ±rlarÄ±, composer |
+| D â€” DoÄŸrulanamadÄ± | HiÃ§ kontrol edilmedi | Handler dizini, Service envanteri |
 
-**Güvenilirlik daðýlýmý (bu set):** A: 2, B: 3, C: 8, D: 4+ (§P tablosu)
-
----
-
-## §S — ÖZET: EN KRÝTÝK 3 BULGU
-
-1. **Klasik UseCase sýnýfý = 0** (glob `*UseCase*.php` 0 isabet).
-   Senaryo yürütme Handler (AuthPostHandler:38-57) + Controller
-   (AuthController:52-61) ile yapýlýyor. Karar: ADR (adlandýrma veya katman ekleme).
-2. **Transaction Repository'de, UseCase'de deðil** — 7 transaction noktasý
-   UserRepo(3) + CatalogWriter(3) + CLI(1). Klasik UnitOfWork deseninden farklý.
-3. **PSR-17 paket var, kod 0** — nyholm/psr7 composer'da (Satýr: 8),
-   `Psr\Http\Message` grep 0. PSR-11 arayüz kullanýmý ?? doðrulanmadý.
+**GÃ¼venilirlik daÄŸÄ±lÄ±mÄ± (bu set):** A: 2, B: 3, C: 8, D: 4+ (Â§P tablosu)
 
 ---
 
-## §T — SONRAKÝ DOÐRULAMA ADIMLARI
+## Â§S â€” Ã–ZET: EN KRÄ°TÄ°K 3 BULGU
 
-| # | Adým | Komut/Yöntem | Sahip |
+1. **Klasik UseCase sÄ±nÄ±fÄ± = 0** (glob `*UseCase*.php` 0 isabet).
+   Senaryo yÃ¼rÃ¼tme Handler (AuthPostHandler:38-57) + Controller
+   (AuthController:52-61) ile yapÄ±lÄ±yor. Karar: ADR (adlandÄ±rma veya katman ekleme).
+2. **Transaction Repository'de, UseCase'de deÄŸil** â€” 7 transaction noktasÄ±
+   UserRepo(3) + CatalogWriter(3) + CLI(1). Klasik UnitOfWork deseninden farklÄ±.
+3. **PSR-17 paket var, kod 0** â€” nyholm/psr7 composer'da (SatÄ±r: 8),
+   `Psr\Http\Message` grep 0. PSR-11 arayÃ¼z kullanÄ±mÄ± ?? doÄŸrulanmadÄ±.
+
+---
+
+## Â§T â€” SONRAKÄ° DOÄžRULAMA ADIMLARI
+
+| # | AdÄ±m | Komut/YÃ¶ntem | Sahip |
 |---|---|---|---|
 | 1 | `Psr\Container` grep | `grep -r "Psr\\\\Container" --include=*.php` | explore agent |
 | 2 | Event dispatch grep | `grep -r "->dispatch(" --include=*.php` | explore agent |
 | 3 | Handler dizini listele | `ls auth.../Handler/` | explore agent |
 | 4 | Transaction kodu oku | UserRepository.php:147-200 | debugger agent |
-| 5 | RequestValidationMiddleware oku | 175 satýr | backend-architect |
+| 5 | RequestValidationMiddleware oku | 175 satÄ±r | backend-architect |
 | 6 | Service envanteri | glob `*Service*.php` | explore agent |
-| 7 | assets/js manifest güncelle | glob tekrar + diff | devops-engineer |
+| 7 | assets/js manifest gÃ¼ncelle | glob tekrar + diff | devops-engineer |
 
 ---
 
-## §U — DOSYA YAÞAM DÖNGÜSÜ KAYDI
+## Â§U â€” DOSYA YAÅžAM DÃ–NGÃœSÃœ KAYDI
 
 ```
-Ölçüm toplama (grep + Dosya·Satýr)
-  › Ölçüm tablolarý (§B–§E)
-  › Gate matrisi (§F)
-  › Anti-verification (§G, §H) — SESSÝZ DÜZELTME YOK
-  › Kritik bulgu (§I) — UseCase = 0
-  › Sonraki adýmlar (§T)
-  › Orkestratöre teslim (commit YOK)
+Ã–lÃ§Ã¼m toplama (grep + DosyaÂ·SatÄ±r)
+  â€º Ã–lÃ§Ã¼m tablolarÄ± (Â§Bâ€“Â§E)
+  â€º Gate matrisi (Â§F)
+  â€º Anti-verification (Â§G, Â§H) â€” SESSÄ°Z DÃœZELTME YOK
+  â€º Kritik bulgu (Â§I) â€” UseCase = 0
+  â€º Sonraki adÄ±mlar (Â§T)
+  â€º OrkestratÃ¶re teslim (commit YOK)
 ```
 
 ---
@@ -427,67 +428,67 @@ AuthResponse, AuthContainer, EventDispatcher)
 
 ---
 
-## §V — STATUS KODU KULLANIM ÖLÇÜMÜ (UseCase Perspektifi)
+## Â§V â€” STATUS KODU KULLANIM Ã–LÃ‡ÃœMÃœ (UseCase Perspektifi)
 
-| Status | UseCase akýþýnda fýrlatýlýyor mu? | Kanýt |
+| Status | UseCase akÄ±ÅŸÄ±nda fÄ±rlatÄ±lÄ±yor mu? | KanÄ±t |
 |---|---|---|
-| 200 | ? beklenen (login success) | AuthResponse.statusCode alaný |
-| 401 | ?? VERIFICATION REQUIRED | error mapping (Satýr: 62-78) içeriði okunmadý |
-| 422 | ?? VERIFICATION REQUIRED | RequestValidationMiddleware okunmadý |
-| 500 | ?? VERIFICATION REQUIRED | exception › status dönüþümü doðrulanmadý |
+| 200 | ? beklenen (login success) | AuthResponse.statusCode alanÄ± |
+| 401 | ?? VERIFICATION REQUIRED | error mapping (SatÄ±r: 62-78) iÃ§eriÄŸi okunmadÄ± |
+| 422 | ?? VERIFICATION REQUIRED | RequestValidationMiddleware okunmadÄ± |
+| 500 | ?? VERIFICATION REQUIRED | exception â€º status dÃ¶nÃ¼ÅŸÃ¼mÃ¼ doÄŸrulanmadÄ± |
 
-**Ölçüm notu:** UseCase katmaný status kodu üretmez (framework baðýmsýz olmalý).
-Status kodu Controller'da atanýr (error mapping Satýr: 62-78).
-AuthResponse.statusCode alaný status'u DTO içinde TAÞIR — üretmez, iletir.
+**Ã–lÃ§Ã¼m notu:** UseCase katmanÄ± status kodu Ã¼retmez (framework baÄŸÄ±msÄ±z olmalÄ±).
+Status kodu Controller'da atanÄ±r (error mapping SatÄ±r: 62-78).
+AuthResponse.statusCode alanÄ± status'u DTO iÃ§inde TAÅžIR â€” Ã¼retmez, iletir.
 
 ---
 
-## §W — EXCEPTION ZÝNCÝRÝ ÖLÇÜMÜ
+## Â§W â€” EXCEPTION ZÄ°NCÄ°RÄ° Ã–LÃ‡ÃœMÃœ
 
-| Katman | Exception davranýþý | Doðrulama |
+| Katman | Exception davranÄ±ÅŸÄ± | DoÄŸrulama |
 |---|---|---|
-| Handler | ?? throw ediyor mu, Result dönüyor mu? | AuthPostHandler:38-57 okundu — hata fýrlatma görülmedi (kýsmi) |
-| Repository | transaction rollback + throw (öngörü) | ?? kod okunmadý |
-| Controller | exception › error mapping (öngörü) | Satýr: 62-78 konum |
-| Middleware | global catch? | ?? RequestValidationMiddleware okunmadý |
+| Handler | ?? throw ediyor mu, Result dÃ¶nÃ¼yor mu? | AuthPostHandler:38-57 okundu â€” hata fÄ±rlatma gÃ¶rÃ¼lmedi (kÄ±smi) |
+| Repository | transaction rollback + throw (Ã¶ngÃ¶rÃ¼) | ?? kod okunmadÄ± |
+| Controller | exception â€º error mapping (Ã¶ngÃ¶rÃ¼) | SatÄ±r: 62-78 konum |
+| Middleware | global catch? | ?? RequestValidationMiddleware okunmadÄ± |
 
-?? VERIFICATION REQUIRED: Bu repo'da Result/Either pattern kullanýlýyor mu
-(AGENTS §5: "Hata yönetimini Result/Either pattern ile yap") — grep
-`Result<|Either<` bu görevde çalýþtýrýlmadý. Doðrulanmalý.
+?? VERIFICATION REQUIRED: Bu repo'da Result/Either pattern kullanÄ±lÄ±yor mu
+(AGENTS Â§5: "Hata yÃ¶netimini Result/Either pattern ile yap") â€” grep
+`Result<|Either<` bu gÃ¶revde Ã§alÄ±ÅŸtÄ±rÄ±lmadÄ±. DoÄŸrulanmalÄ±.
 
 ---
 
-## §X — VALIDATION PIPELINE ÖLÇÜMÜ
+## Â§X â€” VALIDATION PIPELINE Ã–LÃ‡ÃœMÃœ
 
-| Bileþen | Dosya | Durum |
+| BileÅŸen | Dosya | Durum |
 |---|---|---|
-| Middleware | RequestValidationMiddleware.php (175 L) | ? varlýk |
-| Validator | Validator.php | ? varlýk |
+| Middleware | RequestValidationMiddleware.php (175 L) | ? varlÄ±k |
+| Validator | Validator.php | ? varlÄ±k |
 | Route rules | api.coremusic.net/config/routes.php | ? validation rule set |
-| DatabaseManager | DatabaseManager.php | ? varlýk |
+| DatabaseManager | DatabaseManager.php | ? varlÄ±k |
 
 **Pipeline beklentisi (PLANNED okuma):**
 
 ```
-routes.php (rule set) › RequestValidationMiddleware › Validator › pass/fail
-    fail › 422/400/415 (status kodu ?? doðrulanmadý)
-    pass › Controller (AuthController:52-61 dispatch)
+routes.php (rule set) â€º RequestValidationMiddleware â€º Validator â€º pass/fail
+    fail â€º 422/400/415 (status kodu ?? doÄŸrulanmadÄ±)
+    pass â€º Controller (AuthController:52-61 dispatch)
 ```
 
 ---
 
-## §Y — MÝRAS VE KAPSAM NOTU (UseCase Eklentisi Senaryosu)
+## Â§Y â€” MÄ°RAS VE KAPSAM NOTU (UseCase Eklentisi Senaryosu)
 
-Eðer orkestratör UseCase katmanýnýn eklenmesine karar verirse:
+EÄŸer orkestratÃ¶r UseCase katmanÄ±nÄ±n eklenmesine karar verirse:
 
-| Adým | Ýçerik |
+| AdÄ±m | Ä°Ã§erik |
 |---|---|
-| 1 | ADR: UseCase adlandýrma (örn. `LoginUseCase`) |
-| 2 | Transaction orkestrasyonu Repository'den UseCase'e taþýnýr mý? |
-| 3 | Handler - UseCase sýnýrý (Handler HTTP kabuðu mu, UseCase mi?) |
-| 4 | PSR-17 Factory kararý (nyholm/psr7 saklanýr mý?) |
+| 1 | ADR: UseCase adlandÄ±rma (Ã¶rn. `LoginUseCase`) |
+| 2 | Transaction orkestrasyonu Repository'den UseCase'e taÅŸÄ±nÄ±r mÄ±? |
+| 3 | Handler - UseCase sÄ±nÄ±rÄ± (Handler HTTP kabuÄŸu mu, UseCase mi?) |
+| 4 | PSR-17 Factory kararÄ± (nyholm/psr7 saklanÄ±r mÄ±?) |
 
-?? Bu adýmlar BU dosyanýn kapsamýnda DEÐÝLDÝR — salt plan notu olarak kaydedildi.
+?? Bu adÄ±mlar BU dosyanÄ±n kapsamÄ±nda DEÄžÄ°LDÄ°R â€” salt plan notu olarak kaydedildi.
 
 ---
 
@@ -496,15 +497,15 @@ Eðer orkestratör UseCase katmanýnýn eklenmesine karar verirse:
 
 ---
 
-## §Z — SON KONTROL (Tekrar)
+## Â§Z â€” SON KONTROL (Tekrar)
 
 | Kontrol | Durum |
 |---|---|
-| Sessiz düzeltme | 0 |
+| Sessiz dÃ¼zeltme | 0 |
 | Uydurma URL | 0 |
-| Uydurma Dosya·Satýr | 0 |
-| VERIFICATION REQUIRED iþaretli | §H (6) + §V (3) + §W (1) + §X (1) |
-| PLANNED iþaretli | §O.2, §X pipeline, §Y |
+| Uydurma DosyaÂ·SatÄ±r | 0 |
+| VERIFICATION REQUIRED iÅŸaretli | Â§H (6) + Â§V (3) + Â§W (1) + Â§X (1) |
+| PLANNED iÅŸaretli | Â§O.2, Â§X pipeline, Â§Y |
 
 ---
 

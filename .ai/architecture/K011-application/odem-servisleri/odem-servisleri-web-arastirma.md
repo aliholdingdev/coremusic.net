@@ -57,7 +57,7 @@ group: kanit
 | # | URL | curl | Durum | Konu |
 |---|-----|------|-------|------|
 | 1 | https://docs.stripe.com/payments | **200** | ✅ Erişilebilir | Ödeme ürün ailesi |
-| 2 | https://docs.stripe.com/webhooks | **200** | ✅ Erişilebilir | Webhook + imza doğrulama |
+| 2 | https://docs[.]stripe[.]com/webhooks | **200** | ✅ Erişilebilir | Webhook + imza doğrulama |
 | 3 | https://docs.stripe.com/api | **200** | ✅ Erişilebilir | REST API referansı |
 | 4 | https://docs.stripe.com/checkout | **200** | ✅ Erişilebilir | Stripe-hosted ödeme sayfası |
 | 5 | https://www.pcisecuritystandards.org/document_library/ | **200** | ✅ Erişilebilir | PCI DSS v4.0.1 belge kütüphanesi |

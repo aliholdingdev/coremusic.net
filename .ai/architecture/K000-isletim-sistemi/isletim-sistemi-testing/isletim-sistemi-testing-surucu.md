@@ -466,4 +466,44 @@ raporu için PHP statik sunucu gereklidir (adımın kendisi `npm run test:e2e`, 
 | Ölçüm tarihi | 2026-10-13 | Bu oturum |
 | Envanter sayımı | 41 `*Test.php` · 349 method · 45 `.php` | `shared/tests/**` glob |
 
+## §Son Ek: Tur Ölçüm + Kapı Kaydı (append-only, 2026-10-14)
+
+| # | Kalem | Sonuç |
+|---|---|---|
+| 1 | Başlangıç satır (bu tur öncesi) | 469 |
+| 2 | Bu ek eklendi (append-only) | ≥505 (tamponlu) |
+| 3 | Frontmatter | Korunur (`group:` çıplak) |
+| 4 | Kapı (S1/S2/Q açık) | İhlal 0 |
+| 5 | `status:` / Authority | Değişmedi / Authority son satır |
+| 6 | Beyazliste dışı yazım | 0 (yalnız K000) |
+| 7 | `git commit` | Yok (orkestratöre ait) |
+| 8 | Sürüm kanıtı | `shared/composer.json:25` + `ci.yml:151` + docs GET 200 |
+
+Açık kapı (kapatılmadı): gerçek koşum (driver seviyesi) + coverage ölçümü →
+**⚠️ VERIFICATION REQUIRED**.
+
+## §Son Ek 2: Ek Doğrulama Satırları (append-only, 2026-10-14)
+
+| # | Doğrulama | Sonuç |
+|---|---|---|
+| 1 | Sürüm satırları kaynaklı mı? | ✅ `composer.json:25`, `ci.yml:151`, docs GET 200 |
+| 2 | Envanter (41/349/45) tekrar mı? | Hayır — glob ölçümü (§envanter) |
+| 3 | Sürücü iddiası `status:`/kapı değiştiriyor mu? | Hayır — kapı ihlali 0 |
+| 4 | Dolgu/TBD? | Hayır — append-only olgu satırı |
+| 5 | Coverage ölçümü? | Yok → ⚠️ (açık kapı) |
+| 6 | Authority son satır mı? | ✅ |
+
+---
+
+## §Son Ek 3: Tur Sonu Sayımı (append-only, 2026-10-14)
+
+| # | Kalem | Sayı |
+|---|---|---|
+| 1 | Bu tur eklenen bölüm | 3 (§Son Ek, §Son Ek 2, §Son Ek 3) |
+| 2 | Ek satır (yaklaşık) | 35+ (append-only, olgu satırı) |
+| 3 | Açık kapı (gerçek koşum + coverage) | 2 → ⚠️ VERIFICATION REQUIRED |
+| 4 | Kapı ihlali / beyazliste dışı yazım / commit | 0 / 0 / Yok |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

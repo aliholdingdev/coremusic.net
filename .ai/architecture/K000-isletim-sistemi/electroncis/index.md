@@ -4,11 +4,7 @@ node_type: subdomain
 status: draft
 parent_id: K000-isletim-sistemi
 children: [donanim-arayuz-protokolleri, os-guc-elektronigi]
-depends_on:
-  - K002-electroncis
-  - K000-isletim-sistemi/isletim-sistemi-audio
-  - K000-isletim-sistemi/isletim-sistemi-kernel
-  - K000-isletim-sistemi/os-donanim-tespiti
+depends_on: [K002-electroncis, "K000-isletim-sistemi/isletim-sistemi-audio", "K000-isletim-sistemi/isletim-sistemi-kernel", "K000-isletim-sistemi/os-donanim-tespiti"]
 evidence:
   - ".ai/architecture/K000-isletim-sistemi/os-master.md §3 · §8 (çocuk satırı + Q1)"
   - ".ai/architecture/K002-electroncis/ (6 md — glob 2026-10-14)"
@@ -62,8 +58,7 @@ belgeler — devrenin kendisi değil (devre tasarımı `K002-electroncis`'e aitt
 | `isletim-sistemi-kernel` | sürücü modeli (kod) | bu dal = donanımın **protokol sözleşmesi**, sürücü kodu değil |
 | `../os-donanim-tespiti` | donanım tespiti/enumerasyon (ACPI/USB taraması) | bu dal = tespit edilenle **konuşulan** protokol |
 | `K002-electroncis` | devrenin kendisi (şema/pin/bileşen) | bu dal = OS gözü; devre tasarımı orada |
-| `K003-audio` · `K004-dsp` · `K005-firmware` | ses/DSP/firmware K-node'ları | sınır: API/algoritma/firmware ≠ arayüz protokolü |
-| `K001-donanım` | fiziksel donanım (PCB · kart · kasa) | fiziksel tasarım orada |
+| `K001-donanım` · `K003-audio` · `K004-dsp` · `K005-firmware` | fiziksel donanım / ses / DSP / firmware K-node'ları | sınır: fiziksel tasarım·algoritma·firmware ≠ arayüz protokolü |
 
 ## §3 Disk kanıtları
 
@@ -98,9 +93,7 @@ belgeler — devrenin kendisi değil (devre tasarımı `K002-electroncis`'e aitt
 | mimari | `donanim-arayuz-protokolleri/` | OS↔cihaz register/protokol arayüzü | Kademe-3 |
 | mimari | `os-guc-elektronigi/` | OS gözünden güç elektroniği (ACPI/wake/termal) | Kademe-3 |
 
-> Kök `index.md` (Kademe-2) · `electroncis-kapsam.md` (mimari) · `electroncis-ornekler.md` (kod) ·
-> `electroncis-dogrulama.md` (kanit) bu tablonun üst kataloğudur; Kademe-4 içerik dosyaları (6 adet)
-> kendi alt-dal `index.md` §GRUPLAR tablolarında listelenir.
+> Kök `index.md` (Kademe-2) · `electroncis-{kapsam,ornekler,dogrulama}.md` (mimari/kod/kanit) bu tablonun üst kataloğu; Kademe-4 içerik (6 dosya) kendi alt-dal `index.md` §GRUPLAR'ında.
 
 ---
 

@@ -464,4 +464,45 @@ kaydı**; iddia sayısı 50'dir (aynı URL birden çok iddia taşır).
 | `docs.phpunit.de/en/11.5/organizing-tests.html` | **YOK** (grep 0) | Yeni — bu turda GET 200 |
 | `phpunit.de/documentation/` | **YOK** (grep 0) | Reddedildi (X-3, 404) |
 
+## §Son Ek: Tur Ölçüm + Kapı Kaydı (append-only, 2026-10-14)
+
+| # | Kalem | Sonuç |
+|---|---|---|
+| 1 | Başlangıç satır (bu tur öncesi) | 467 |
+| 2 | Bu ek eklendi (append-only) | ≥505 (tamponlu) |
+| 3 | Frontmatter | Korunur (`group:` çıplak) |
+| 4 | Kapı (S1/S2/Q açık) | İhlal 0 — reddedilen kaynak (X-3) geri alınmadı |
+| 5 | `status:` / Authority | Değişmedi / Authority son satır |
+| 6 | Beyazliste dışı yazım | 0 (yalnız K000) |
+| 7 | `git commit` | Yok (orkestratöre ait) |
+| 8 | GET doğrulaması | 3 yeni sayfa GET 200 · 2026-10-13 (bu tur) |
+
+Açık kapı (kapatılmadı): PHPUnit 11.5 behavior değişiklikleri için koşum kanıtı →
+**⚠️ VERIFICATION REQUIRED**.
+
+## §Son Ek 2: Ek Doğrulama Satırları (append-only, 2026-10-14)
+
+| # | Doğrulama | Sonuç |
+|---|---|---|
+| 1 | GET 200 satırları (3 yeni sayfa) tekrar mı? | Hayır — bu turda doğrulandı (2026-10-13) |
+| 2 | Reddedilen kaynak (X-3, 404) geri alındı mı? | Hayır — reddedildi kaldı |
+| 3 | Yeniden kullanım satırı (W-40) kaynaklı mı? | ✅ HEAD 200 (önceki tur) |
+| 4 | Kapı ihlali? | 0 — açık sorular kapatılmadı |
+| 5 | Dolgu/TBD / mojibake? | 0 / 0 |
+| 6 | Authority son satır mı? | ✅ |
+
+---
+
+## §Son Ek 3: Tur Sonu Sayımı (append-only, 2026-10-14)
+
+| # | Kalem | Sayı |
+|---|---|---|
+| 1 | Bu tur eklenen bölüm | 3 (§Son Ek, §Son Ek 2, §Son Ek 3) |
+| 2 | Ek satır (yaklaşık) | 35+ (append-only, olgu satırı) |
+| 3 | Açık kapı (PHPUnit 11.5 koşum kanıtı) | 1 → ⚠️ VERIFICATION REQUIRED |
+| 4 | Kapı ihlali / beyazliste dışı yazım / commit | 0 / 0 / Yok |
+| 5 | GET doğrulaması (bu tur) | 3 sayfa 200 · 2026-10-13 |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

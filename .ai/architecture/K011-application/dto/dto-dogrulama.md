@@ -11,8 +11,11 @@ group: kanit
 
 # K011 · dto — Doğrulama
 
-> **Amaç:** Bu dosya `dto-kapsam.md`'deki her iddianın **kapı ölçümünü**
-> yapar. Ölçüm yöntemleri tekrarlanabilir (§A); sonuçlar §B–§K'dedir.
+> **Amaç:** Bu dosya, bu setin her iddiasının **kapı ölçümünü** yapar
+> (eski `dto-kapsam.md` iddiaları spec §7 gereği 2026-10-16'da kaldırılan
+> o dosyadan buraya taşındı: disk ölçümleri §C.1, açık sorular §D.9–§D.12,
+> PLANNED yorumu §5'in Sonuç notu). Ölçüm yöntemleri tekrarlanabilir (§A);
+> sonuçlar §B–§K'dedir.
 > Doğrulanamayan hiçbir iddia "geçti" sayılmaz; eşleşmeyen iddia §E'de
 > **dürüstlük kaydı** olarak yazılır ve silinmez.
 
@@ -151,6 +154,11 @@ ve `UserResponse|MusicResponse|PlaylistResponse|PlaylistAddTrackRequest`
 **Sonuç:** 11 shared DTO → **0 üretim çağrısı**; 1/11'in tek testi var
 (`DtoTest`), 4'ünün hiç testi yok (§G.3).
 
+> **Yorum (eski kapsam §7 devri, 2026-10-16):** Bu durum bir "hata" değil,
+> **PLANNED-üretilmiş katman** olarak kaydedilir: DTO katmanı kurulmuş,
+> kullanım bağlantıları çekilmemiştir (`commands-kapsam.md` §6'daki CQRS
+> boşluğunun DTO ayağı) → §D.1 / §D.2.
+
 ---
 
 ## §6 — Negatif Envanter (kanıtın da kanıtı)
@@ -281,6 +289,26 @@ Select-String -Path "**/*.php" -Pattern "Api\\\\Dto\\\\Request\\\\LoginRequest" 
 | Beklenti düzeltmesi | 1 (D6) | 2026-10-15 |
 | Bu dosya satırı | ≥500 (`(Get-Content).Count`) | 2026-10-15 |
 
+### §C.1 — Klasör disk ölçümleri (eski kapsam §6 devri, 2026-10-16)
+
+| Yüzey | Sayım | DTO ile ilişkisi |
+|---|---|---|
+| `shared/src/` | **165 PHP dosyası** | DTO çekirdeği bu ağın `Api/Dto/` altındadır |
+| `shared/src/Api/` | **34 dosya** | DTO 11'i içerir (§3) — 23'ü Gateway/BFF/Middleware/Registry |
+| `shared/src/Events/` | **9 dosya** | Event payload'ları DTO **değil** düz dizi |
+| `shared/src/Contracts/` | **19 dosya** | DTO sözleşmesi için ayrı arayüz **yok** → §6 (JsonSerializable negatif kanıtı) |
+| `shared/src/Middleware/` | **11 dosya** | Kapı: `RequestValidationMiddleware` (422 + fields) |
+| `assets/js/` | **94 .js dosyası** (görev manifesti) — diskte gözlenen yol `assets.coremusic.net/js/**/*.js` = 98 isabet (2026-10-15 glob) | İstemci tarafı gövde üretir; DTO tüketmez |
+
+> **Sayım uyarısı:** `assets/js/` için manifest değeri 94'tür; ilgili oturumda
+> `assets.coremusic.net/js/**/*.js` glob'u 98 satır döndürmüştür (fark:
+> `.spec.js` dosyaları). İki sayı **farklı ölçüm yüzeyidir**, biri diğerini
+> düzeltmez → §D.3 açık sorusu (§E.2 dürüstlük kaydı ile birlikte okunur).
+
+> **Devir kaydı:** Bu tablo 2026-10-16'da spec §7 gereği kaldırılan
+> `dto-kapsam.md` §6'dan aynen taşındı; sayımlar 2026-10-15 disk
+> ölçümüdür, bu turda yeniden sayım **yapılmadı**.
+
 ---
 
 ## §D — Açık Sorular (kapı sonrası kalan)
@@ -295,6 +323,14 @@ Select-String -Path "**/*.php" -Pattern "Api\\\\Dto\\\\Request\\\\LoginRequest" 
 | 6 | Auth `LoginRequest::toArray` gerekiyor mu (tek yönlü taşıyıcı kasıtlı mı)? | UNKNOWN | backend-architect |
 | 7 | `dto-veri-tasiyici-tasarimi.md` §15 #8 `respect/validation` kararı kapatıldı mı? | ⚠️ VERIFICATION REQUIRED | dependency-manager |
 | 8 | `pageSize=0`/`limit=0` koruması hangi katmanda? | ⚠️ VERIFICATION REQUIRED | qa-engineer |
+| 9 | Event payload'ları DTO'ya taşınacak mı? | UNKNOWN | backend-architect |
+| 10 | Dosya yükleme (multipart) DTO'su gerekecek mi? | UNKNOWN | backend-architect |
+| 11 | Opsiyonel alan politikası: `?tip` mi, varsayılanlı mı? | UNKNOWN | backend-architect |
+| 12 | `pageSize`/`limit` üst sınırı tek merkezde mi tanımlanacak? | ⚠️ VERIFICATION REQUIRED | backend-architect |
+
+> **Devir kaydı (2026-10-16):** 9–12 numaralı satırlar spec §7 gereği
+> kaldırılan eski `dto-kapsam.md` §A'dan taşındı; 1–8 bu dosyanın kendi
+> kapı çıktılarıdır.
 
 ---
 

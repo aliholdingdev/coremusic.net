@@ -31,15 +31,15 @@ group: mimari
 
 | # | Dosya | Group | Satır | Rol |
 |---|---|---|---|---|
-| 1 | dto-kapsam.md | mimari | 521 | Kapsam, slot matrisi, ölçüm özeti, sınır (IN/OUT) |
-| 2 | dto-dogrulama.md | mimari | 544 | Ölçüm tabloları, gate matrisi (G1–G7), anti-verification |
-| 3 | dto-web-arastirma.md | kanit | 513 | PSR-7, JsonSerializable, Content-Type, 409 (4 URL havuzu) |
-| 4 | dto-ornekler.md | kod | 795 | PHP/JS/SQL kod blokları — Dosya·Satır kanıtlı |
-| 5 | dto-bilesenler.md | mimari | 518 | 14 DTO envanteri, aile analizi, olgunluk matrisi |
-| 6 | index.md | mimari | 40–100 | Bu katalog |
-| — | dto-veri-tasiyicer-tasarimi.md | (orijinal) | 543 | MEVCUT scope slotu — KAPSAM kanıtı, dokunulmadı |
+| 1 | dto-dogrulama.md | mimari | 580 | Ölçüm tabloları, gate matrisi (G1–G7), anti-verification, kapsam devri |
+| 2 | dto-web-arastirma.md | kanit | 513 | PSR-7, JsonSerializable, Content-Type, 409 (4 URL havuzu) |
+| 3 | dto-ornekler.md | kod | 795 | PHP/JS/SQL kod blokları — Dosya·Satır kanıtlı |
+| 4 | dto-bilesenler.md | mimari | 518 | 14 DTO envanteri, aile analizi, olgunluk matrisi |
+| 5 | index.md | mimari | 40–100 | Bu katalog |
+| — | dto-veri-tasiyici-tasarimi.md | (orijinal) | 543 | MEVCUT scope slotu — KAPSAM kanıtı, dokunulmadı |
 
-**Toplam yeni dosya:** 6 · **Toplam korunan dosya:** 1
+**Toplam dosya:** 6 · **Kapsam devri:** eski `dto-kapsam.md` spec §7 gereği
+2026-10-16 kaldırıldı — içeriği `dto-dogrulama.md` §C.1 / §D.9–§D.12 / §5'e taşındı.
 
 ---
 
@@ -47,12 +47,11 @@ group: mimari
 
 ```
 1. index.md                 (bu dosya — katalog)
-2. dto-kapsam.md            (kapsam + slot matrisi)
-3. dto-dogrulama.md         (ölçüm + gate)
-4. dto-web-arastirma.md     (dış kanıtlar — 4 URL)
-5. dto-ornekler.md          (kod kanıtları)
-6. dto-bilesenler.md        (envanter + analiz)
-7. dto-veri-tasiyicer-tasarimi.md  (orijinal kapsam slotu — ihtiyaç halinde)
+2. dto-dogrulama.md         (ölçüm + gate + kapsam devri)
+3. dto-web-arastirma.md     (dış kanıtlar — 4 URL)
+4. dto-ornekler.md          (kod kanıtları)
+5. dto-bilesenler.md        (envanter + analiz)
+6. dto-veri-tasiyici-tasarimi.md  (orijinal kapsam slotu — ihtiyaç halinde)
 ```
 
 ---
@@ -76,8 +75,8 @@ group: mimari
 | Konu | Klasör |
 |---|---|
 | Application Service / UseCase | `../usecase/` |
-| Event taşınması | `../events/` |
-| Middleware doğrulama | `../middleware/` |
+| Event taşınması | `../event-akislari/` |
+| Middleware doğrulama | `../commands/` (middleware envanteri) · `../usecase-akislari/` (pipeline akışı) |
 | Command pattern | `../commands/` (format referansı) |
 
 ---

@@ -807,7 +807,7 @@ düzeltme yapılmadı, yalnız kayıt düşüldü.
 |---|---|---|
 | 1 | ~~`K006-yapay-zeka/**`~~ | ✅ **KAPANDI** — §9.12.5 |
 | 2 | ~~`K005-firmware/**`~~ | ✅ **KAPANDI** — §9.12.6 |
-| 3 | `K000-isletim-sistemi/**` | `electroncis` 12 dosya ≥500:0 · reactos/tizen/webos-audio 12 dosya ≥500:0 · `security/kod-ornekleri` 15/0 · core+kernel 4 zayıf dal · api'de 5 eksik rol dosyası |
+| 3 | ~~`K000-isletim-sistemi/**`~~ | ✅ **KAPANDI** — §9.12.7 |
 | — | K004-dsp | ✅ **tam** — iş yok (69/29.215/≥500:56, index 49–97 ✓) |
 
 ##### §9.12.5 K006-yapay-zeka KAPANIŞI (2026-10-15 — dalga-2 turları + orkestratör eki)
@@ -865,6 +865,40 @@ yalnız mevcut atıf yapılan dayanakların ölçüm envanteri.
 **Not (envanter düzeltmesi):** üstteki "34 md + 43 md" sayıları 2026-10-15 taze
 ölçümle düzeltilmiştir: NevaEngine **49 md / 16.609 sat** · electronic
 {dsp,firmware,drivers} **27 md / 9.816 sat** (bkz §9.12.5).
+
+##### §9.12.7 K000-isletim-sistemi KAPANIŞI (2026-10-16 — kesintili ajan turları + orkestratör index normalizasyonu)
+
+**Dalga-1'de açık kalan son Band-1 domaini** (§9.12.4 satır 3).
+
+| An | Dosya | Satır | ≥500 (içerik) |
+|---|---|---|---|
+| Tur öncesi (§9.12.1) | 349 | 151.982 | **203** |
+| Ajan turu-P3 (embedded-systems — `security/kod-ornekleri` 10 dosya: tizen 512 · reactos 524 · webos 524 · macos 580 · linux 615 · python 511 · windows 506 · rust 503 · php 506 · js 528) | 363 | 166.131 | 253 |
+| Kesintili turların diske düşen işi (P1/P2/P4/P5 + electroncis/audio vb. — ajan yanıtsız, disk teyitli) | 363 | 178.898 | 303 |
+| orkestratör index normalizasyonu (9 index → ≤100) | 363 | **178.790** | **303** |
+
+**Final disk ölçümü (2026-10-16, kanonik ReadAllLines):** 363 dosya / 178.790 satır /
+**≥500: 303/303 içerik** · kalan içerik <500: **0** · `index.md` **60/60 kapıda (40–100)**
+· kapı ihlali **0** · beyazliste dışı yazım **0** · `git commit` **yok**.
+
+**Index normalizasyonu (orkestratör — §9.9.3'teki K011 138→95 emsalinin aynısı):**
+9 dosya 100 bandını aşıyordu → veri kaybı olmadan format/gruplama sıkıştırmasıyla
+indirildi: kök `index.md` 128→**93** (§GRUPLAR 43 satır → 8 grup satırı),
+`electroncis` 107→**100**, `isletim-sistemi-audio` 105→**95** (7 deep-dal → 1 satır),
+`tizen-audio` 107→**100** (children+evidence inline), `isletim-sistemi-core` 101→**100**,
+`observability/log` 101→**95**, `metrik` 102→**94**, `trace` 101→**95** (evidence inline),
+`isletim-sistemi-turu` 103→**99** (children+depends_on inline + mojibake'li tekrar
+Authority satırı silindi). Bulunan tek mojibake (Â ile yazılmış orta nokta) bu turda giderildi.
+
+**Kalan beyazliste kalemleri (§9.12.4) — tamamı kapandı:** electroncis 12/0 ·
+reactos+tizen+webos-audio 12/0 · security/kod-ornekleri 15/0 · core+kernel 4 zayıf dal ·
+api 5 eksik rol dosyası — son ölçümde **hepsi ≥500** (ajan turu-P3 + kesintili turlar;
+3. ajan diske yalnız ölçüm/rapor yaparak girdi, "50 dosya zaten ≥500, eklemem dolgu
+olurdu" diyerek **append: 0** ile döndü — Truth Mode).
+
+**Durum:** Band-1'deki 7 domainin (K000–K006) **tamamı kapandı**; yalnız K006'daki
+`status: verify-required` bayrağı (depends_on K016 Band-3) gibi iç-bağımlılık
+işaretleri yerinde duruyor.
 
 ---
 

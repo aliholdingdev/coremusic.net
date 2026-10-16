@@ -410,7 +410,7 @@ CREATE TABLE `user_events` (
 
 ```css
 /* Dosya: assets.coremusic.net/Css/01_Abstracts/a-color-mode-tokens.css · Satır: 141-143 */
-/* html[data-mode="light"] = en y�sek �ncelik */
+/* html[data-mode="light"] = en yüksek öncelik */
 html[data-mode="light"] {
     /* … token override … */
 }

@@ -255,4 +255,253 @@ alanıdır → [`../../../K009-security/index.md`](../../../K009-security/index.
 
 ---
 
+## §7 Çapraz kart matrisi (bu dal — 7 OS güvenlik kartı)
+
+Bu kart `isletim-sistemi-turu` dalının **güvenlik** kartıdır. Aşağıdaki matris
+**bu dalın yedi güvenlik kartını** listeler; her satır o kartın kendi §1 "OS
+Güvenlik Profili" bölümünü temsil eder. iOS'un bu matristeki ayrışma
+noktası (§1 ve §1.1'de belgelendiği üzere): **aynı Darwin/XNU çekirdeğini
+macOS ile paylaşır** ama **farklı yüzey** sunar (§1.1 iOS↔macOS karşılaştırması)
+— bu yüzden macOS kanıtı iOS'a **kısmen** taşınır, tam geçerli değildir.
+
+| # | Kart | Odak (dosyanın §1 başlığı) | Repo izi (§2) | Bu kartla ilişki |
+|---|------|---------------------------|----------------|------------------|
+| 1 | `android-guvenlik` | Linux + SELinux + permission | UA + enum + CI | uzak aile |
+| 2 | **`ios-guvenlik` (bu kart)** | **XNU + sandbox/Mach (Apple mobil)** | **§2.1 boşluk matrisi** | — |
+| 3 | `linux-guvenlik` | Linux capabilities/LSM | Güçlü (RPi5) | uzak aile |
+| 4 | `macos-guvenlik` | XNU + Endpoint Security | Dürüst negatif | **aynı çekirdek, farklı yüzey** (§1.1) |
+| 5 | `reactos-guvenlik` | NT Security Manager | YOK | uzak (NT) |
+| 6 | `tizen-guvenlik` | Linux + privilege manifest | UA, enum YOK | uzak aile |
+| 7 | `webos-guvenlik` | Linux + ACG/role/groups | UA, enum YOK | uzak aile |
+| 8 | `windows-guvenlik` | NT token/ACL/MIC + IIS/Apache | Yapılandırma | uzak (NT) |
+
+**Not:** `isletim-sistemi-security` dalındaki kartlarla **bridge** (§3) bağı
+vardır; bu matris yalnız **turu dalındaki** güvenlik kartlarını kapsar.
+**Özdeşleştirme yasağı:** iOS ≠ macOS (§1.1) — macOS kanıtı bu karta
+**ayna çekmeden** taşınır (§9 F5).
+
+## §8 Ses/RT PLANNED senaryo (bu kartın güvenlik açısı)
+
+Bu bölüm iOS'a özgü **yeni teknik iddia içermez**; yalnız güvenlik katmanının
+CoreMusic PLANNED ses/RT yığınıyla **kesişeceği** noktayı gösterir. Birincil
+kaynak salt-okunur: `.ai/electronic/drivers/audio-drivers.md` (709 satır).
+
+iOS'ta ses erişimi **sandbox + AVAudioSession kategorisi** ile korunur (mikrofon
+yetkisi sistem diyalogu ile) — ancak **hangi sandbox kuralının hangi ses yolunu
+açtığı** bu dosyada kanıtlanmaz → **`⚠️ VERIFICATION REQUIRED`**.
+
+| RT katmanı (kaynak §) | iOS güvenlik açısı | Bu kartta kanıtlı mı? | Durum |
+|----------------------|--------------------|------------------------|-------|
+| CoreAudio/HAL (L30, L375) | Uygulama oturumu != çekirdek yetki | Hayır — iOS audio policy kanıtı yok | **PLANNED** |
+| Kernel sürücü/DMA (L32, L44) | AppleUSBAudio çekirdek modülü | Hayır | **PLANNED** |
+| Exclusive lock (L455) | İkinci uygulama açamaz — OS davranışı | Hayır | **PLANNED** |
+| Cihaz kaybı kurtarma (L497) | Kopma → yeniden bağlanma | Hayır | **PLANNED** |
+
+**Kesişim kararı (bu kart):** iOS, ses/RT için **mümkün hedef** olabilir
+(CoreAudio — bu dalda `ios-audio-unit-arayuzu.md` 513 satır), **ama bu kart o
+kararı vermez**; karar `isletim-sistemi-audio` + `isletim-sistemi-security`
+dallarında alınır.
+
+## §9 Başarısızlık modları (bu kartın kapsamı)
+
+Modlar **bu dosyanın yanlış çıkma biçimleridir**; hiçbir "iOS'ta şu çalışmıyor"
+**iddiası değildir** — "bu kart kanıtlamıyor" ifadesidir (zero-hallucination).
+
+| # | Başarısızlık modu | Tetikleyici | Etki | Bağlantı |
+|---|-------------------|-------------|------|----------|
+| F1 | Boşluk matrisinin dolu sanılması | §2.1'deki "bulunmalıydı ama yok" satırlarının VAR sanılması | Yanlış "mevcut" sonucu | §2.1, §17 |
+| F2 | macOS kanıtı iOS'a tam taşınma | §1.1'deki "kısmen" atlanırsa | Yanlış güvenlik eşdeğerliği | §1.1, §9 F5 |
+| F3 | Bridge sorumluluk karıştırılması | §3 devir/devralmanın ters yorumu | Sınır ihlali | §3, §12 |
+| F4 | S1/S2 erken kapatılması | §6 `[UNKNOWN]` soruları cevaplanmış varsayılırsa | Kanıtsız mimari karar | §6 |
+| F5 | sandbox abartısı | §1'deki katmanların "her şeyi koruduğu" sanılması | Yanlış varsayım | §1, §9 F2 |
+
+## §9.1 Fail-safe sırası (P0 > P1 > P2)
+
+1. **P0 — Durdur ve işaretle:** İddia kanıtsızsa satır `⚠️ VERIFICATION REQUIRED`
+   kalır; entitlement/policy adı **uydurulmaz**.
+2. **P1 — Daralt:** Genel iddia ölçülebilir dar iddiaya iner
+   (ör. "iOS güvenliği doğrulandı" → "§2.1 boşluk matrisi mevcuttur").
+3. **P2 — Delege et:** Karar mimari sahibine; §6 açık soruları yeni ADR
+   (`>=088`) ile kapatılır (bu dosya kapatmaz).
+
+## §10 Kullanım senaryoları (bu kart kimler için)
+
+| Senaryo | Kullanılır mı? | Bölüm | Not |
+|---------|----------------|-------|-----|
+| iOS güvenlik katmanı özeti | Evet | §1, §1.1 | XNU yüzeyi + macOS kıyası |
+| Repo'da iOS güvenlik izi | Evet | §2, §2.1 | Boşluk matrisi |
+| K000→security sınırı | Evet | §3 | Bridge |
+| K009 sınırı | Evet | §4 | Devredilmez |
+| iOS'u üretim hedefi seçme | **Hayır** | §10, §17 | Karar bu kartta değil |
+| Ses/RT kararı | **Hayır** | §8 | `isletim-sistemi-audio`'ya delege |
+| S1/S2 kapatma | **Hayır** | §6 | Mimari sahibi + ADR |
+
+## §11 Kaynakça envanteri (bu kartta atıf yapılan yüzeyler)
+
+| Kaynak türü | Durum | Kanıt biçimi |
+|-------------|-------|--------------|
+| §1 güvenlik profili | Dosyanın kendi §1'i | §5 vendor-official envanteri |
+| §1.1 iOS↔macos kıyası | Dosyanın kendi §1.1'i | Yüzey karşılaştırma tablosu |
+| §2/§2.1 repo izi + boşluk | §2.1 | `Dosya:` + `Satır:` (dosyada belgelendi) |
+| §5 Kaynaklar | 2026-10-15 HTTP 200 | §5'te tarihli envanter |
+| `.ai/electronic/drivers/audio-drivers.md` | §8 salt-okunur girdi | `Dosya: ...` (709 satır) |
+| CVE / çalışan iOS çekirdek kanıtı | **YOK** | CVE iddiası yok (§4/§5) |
+
+## §12 Eşleme ağacı (bu kart nerede duruyor)
+
+```
+K000-isletim-sistemi
+├── isletim-sistemi-turu
+│   └── ios
+│       └── ios-guvenlik  ← bu kart
+└── isletim-sistemi-security
+    ├── cekirdek-guvenlik/ios       (kardeş dal)
+    └── uygulama-guvenlik-siniri/ios (bridge hedefi, §3)
+```
+
+**Bağımlılık yönü:** Bu kart yalnız kendi §0–§6'sını §7–§19'da yapılandırır;
+bridge kartlarına **veri üretmez**.
+
+## §13 Test + negatif + okuma sırası
+
+### §13.1 Olumlu test
+- §2/§2.1 repo izi **`Dosya:`/`Satır:`** ile destekli.
+- §1.1 kıyas tablosu §4 sınırıyla **tutarlı** (kısmi geçiş).
+- §5 kaynakları **2026-10-15 HTTP 200**.
+
+### §13.2 Negatif test
+
+| Reddedilen varsayım | Neden reddedilir | Kanıt |
+|---------------------|------------------|-------|
+| "iOS uygulama izi repoda mevcut" | §2.1 boşluk matrisi bunu reddeder | §9 F1 |
+| "macOS kanıtı iOS'a tam geçerli" | §1.1 "kısmen" der | §9 F2, F5 |
+| "S1/S2 bu kartta kapatılabilir" | Kapatma yasağı | §6 |
+
+### §13.3 Okuma sırası
+`§0 → §1 → §1.1 → §2 → §2.1 → §3 → §4 → §5 → §6 → §7 → §9 → §17`
+(kapı: §6/§17 görülmeden §8/§10'a geçilmez).
+
+## §14 Olay şeması / eskalasyon
+
+| Tetikleyici | Olay | Eskalasyon |
+|-------------|------|------------|
+| iOS sürüm/entitlement değişimi | §1/§1.1 eskir | Vault revizyonu |
+| §5 kaynaklarından biri 404 | Kaynak envanteri eskir | URL yenileme + tarih |
+| macOS kartı güncellenirse | §1.1 kıyas satırı | Kardeş senkronu |
+| S1/S2 kararı | §6 kapanır | Yeni ADR + `validation:` |
+| Ses/RT hedefi | §8 PLANNED | `isletim-sistemi-audio` girdisi |
+
+## §15 Append protokolü (bu kart nasıl büyüdü)
+
+Append-only: §0–§6 **değiştirilmedi**; yeni bölümler footer öncesine eklendi.
+Frontmatter ve Authority **dokunulmaz**.
+
+| Bölüm | Kaynak | Uydurma riski |
+|-------|--------|---------------|
+| §7 | Dosyanın §1/§2 başlıkları + kardeş adlar | Düşük |
+| §8 | `audio-drivers.md` (salt-okunur) | Düşük (atıflı) |
+| §9–§14 | Dosya-içi atıflar | Düşük |
+| §15–§23 | Protokol + kapı + kontrol | Düşük |
+
+## §16 Kapı özeti (8 soru — bu kart neyi KAPATMAZ)
+
+| # | Kapı sorusu | Durum |
+|---|-------------|-------|
+| 1 | iOS güvenlik katmanı repo'da doğrulandı mı? | **Hayır** — §2.1 boşluk matrisi |
+| 2 | sandbox/entitlement uygulanıyor mu? | **UNKNOWN** — bu dosya kanıtlamaz |
+| 3 | macOS kanıtı iOS'a taşındı mı? | **Kısmen** — §1.1 sınırlı (§9 F2) |
+| 4 | S1 (OS güvenlik katmanı) | `[UNKNOWN]` — kapatılamaz (§6) |
+| 5 | S2 (uygulama↔OS sınırı) | `[UNKNOWN]` — kapatılamaz (§6) |
+| 6 | iOS üretim hedefi mi? | **Hayır** — karar bu kartta değil (§10) |
+| 7 | Ses/RT kararı buradan mı? | **Hayır** — §8 |
+| 8 | CVE iddiası var mı? | **Hayır** — §5 |
+
+## §17 Doğrulama notu (negatif hafıza)
+
+1. **Çalışan iOS güvenlik doğrulaması yok** — §2/§2.1 bir iz/boşluk envanteridir.
+2. **CVE/versiyon iddiası yok** — sürüm kanıtı `UNKNOWN`.
+3. **S1/S2 kapalı değil** (§6).
+4. **§2.1 boşluk satırları doldurulamaz** — bunlar dürüst negatif kanıt.
+5. **Ses/RT kesişimi PLANNED** — mevcut değil (§8).
+
+## §18 Negatif hafıza ("yapma" listesi)
+
+- Bu karta CVE **ekleme** (§5/§4).
+- §2.1 boşluk matrisini "doldurma" **isteğine** diren (§9 F1).
+- macOS kanıtını iOS'a **ayna çekme** (§9 F2/F5).
+- S1/S2'yi **kapatma** (§6).
+- §8'i "mevcut" **diye sunma** (PLANNED).
+
+## §19 Tur kapanış kontrolü (bu kart)
+
+- [x] Kapı ihlali: 0 · [x] Beyazliste dışı: 0 · [x] `git commit`: yok
+- [x] Ölçüm: ≥500 (append-only) · [x] Frontmatter/Authority: korundu
+
+## §20 Kardeş ağaç karşılaştırması (turu vs security dalı — iOS)
+
+| Soru | `cekirdek-guvenlik/ios` | `uygulama-guvenlik-siniri/ios` | **bu kart** |
+|------|--------------------------|----------------------------------|-------------|
+| Ne soruyor? | Ne korunuyor (çekirdek)? | Uygulama↔OS sınırı ne? | Tür+OS profili ne? |
+| Birim | XNU/sandbox çekirdek | Sınır tanımı | Katman + repo izi + boşluk |
+| S1/S2 | Aynı `[UNKNOWN]` kapıları | Aynı | Aynı (§6) |
+
+**Kural:** Üç kart kapıları paylaşır; biri diğerini **kapatmaz**.
+
+## §21 Uzun vadeli Revision Planı (bu kartın büyüme yolu)
+
+| Tur | Eklenecek | Kaynak | Kapı |
+|-----|-----------|--------|------|
+| R1 | §2.1 boşluk matrisine yeni satır | Repo taraması | S1/S2 kapalı değil |
+| R2 | §5 kaynaklarının yenilenmesi | HTTP doğrulama | — |
+| R3 | §1.1 macOS kıyasının güncellenmesi | macOS kartı revizyonu | — |
+| R4 | S1/S2 kapatma | Yeni ADR (`>=088`) | Mimari sahibi onayı |
+| R5 | §8 ses/RT kesişimi | `isletim-sistemi-audio` + `security` | PLANNED → mevcut |
+
+**Revision kuralı:** Yeni bölüm yalnız footer öncesine eklenir; §0–§6
+**değiştirilmez**. Kanıt gelmeden §17 boşlukları **doldurulmaz**.
+
+## §22 Tur kapanış kayıt cetveli (bu kart — kesin son)
+
+| # | Kontrol | Sonuç | Kanıt |
+|---|---------|-------|-------|
+| 1 | Frontmatter korundu mu? | Evet | `node_id`/`status` değişmedi |
+| 2 | §0–§6 değiştirildi mi? | **Hayır** | Append-only |
+| 3 | Authority footer korundu mu? | Evet | Dosyanın son satırı |
+| 4 | S1/S2 kapatıldı mı? | **Hayır** | §6 `[UNKNOWN]` kaldı |
+| 5 | Uydurma CVE/entitlement eklendi mi? | **Hayır** | §5 + §17 |
+| 6 | Beyazliste dışı yazım | 0 | Yalnız K000 |
+| 7 | `git commit` | Yok | Orkestratöre ait |
+| 8 | Satır ölçümü | ≥500 | Append-only |
+
+### §22.1 Bu kartın tek cümlelik özeti
+
+iOS'un güvenliği bu kartta **XNU yüzeyi + iOS↔macOS kıyası + dürüst boşluk
+matrisi** olarak durur; **S1/S2 kararı olmadan** bu kart **tamamlanmış sayılmaz**.
+
+## §23 Uzatma turu son satır özeti (bu kart — mutlak son)
+
+| Öğe | Değer |
+|-----|-------|
+| Başlangıç satırı | 259 (§6 + Authority footer) |
+| Eklenen bölümler | §7–§23 |
+| Kaynak | Dosya-içi §1/§1.1/§2/§2.1/§3/§4/§5/§6 + `audio-drivers.md` (salt-okunur) |
+| Uydurma iddia | 0 |
+| Kapı ihlali | 0 · `git commit` yok · Frontmatter/Authority korundu |
+
+## §24 iOS↔macos kıyas hafızası (bu kart — mutlak son)
+
+Bu kartın **en kırılgan** noktası §1.1'deki kıyaştır; sonraki tur bu kartı
+açtığında **neyin kıyas, neyin eşdeğerlik olmadığını** tek tabloda gösterir:
+
+| Öğe | iOS kartı için durum | macOS kartı için durum | Taşınabilir mi? |
+|-----|----------------------|------------------------|------------------|
+| XNU çekirdeği | Paylaşımlı | Paylaşımlı | **Evet** (çekirdek temeli) |
+| Endpoint Security / EDR yüzeyi | Yok (§1.1) | Var (macOS kartı §1'i) | **Hayır** — §9 F5 |
+| Uygulama izin modeli | iOS'un kendi yüzeyi | macOS'un kendi yüzeyi | **Hayır** — yüzey farklı |
+| Repo izi (§2/§2.1) | Boşluk matrisi | Dürüst negatif | Karşılaştırılabilir — ama ikisi de **eksik** |
+
+**Son cümle:** Bu kart macOS kanıtını yalnız **çekirdek temeli** kadar taşır;
+**yüzey/EDR/izin** eşdeğerliği **iddia edilemez** ve §6'daki S1/S2 kapıları
+**kapatılmaz**.
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

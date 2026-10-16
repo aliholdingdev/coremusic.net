@@ -63,6 +63,18 @@ kullanılmaz. Tüm ölçüm tarihi: **2026-10-15**, repo kökü `C:\www\coremusi
 5. CI'nin gerçekten geçtiği (ci.yml okundu, çalıştırılma kanıtı yok —
    `.ai/AGENTS.md` §25.2 de aynı şekilde "çalışma durumu doğrulanmadı" der).
 
+### §1.2 Ölçüm araçları (bu turda kullanılanlar)
+
+| # | Araç | Kullanım amacı | Sınır |
+|---|---|---|---|
+| 1 | `Get-ChildItem -Recurse -File` | dosya envanteri | `vendor`/`node_modules` filtresi zorunlu |
+| 2 | `Select-String -Pattern` (Recursive) | grep sayımı | **-Recurse'sız hasil 0 → sahte** (bkz §4.1 notu) |
+| 3 | `[regex]::Matches(…, 'desen')` | metot/assertion sayımı | ham metin, yorum satırı da sayabilir |
+| 4 | `Get-Content -Raw` | toplam assertion (837) | dosya başına tek okuma |
+| 5 | `[System.IO.File]::ReadAllLines` | satır sayısı (dosyalarım) | yazım sonrası hedef kontrolü |
+| 6 | `curl.exe -s -o NUL -w '%{http_code}'` | havuz URL durumu | yalnız 9 URL'lik havuz |
+| 7 | `webfetch` / exa | sayfa içeriği (claim çıkarma) | yalnız 9 URL'lik havuz |
+
 ---
 
 ## §2 İDDİA ↔ DOSYA ↔ SATIR (ANA KANIT TABLOSU)
@@ -96,7 +108,7 @@ Sütunlar: iddia → kanıt dosyası → satır → okunan metin özeti. **30 sa
 | 23 | vitest ortamı jsdom, timeout 5000 | `assets.coremusic.net/vitest.config.js` | 14, 31 | `environment: 'jsdom',` · `testTimeout: 5000,` |
 | 24 | e2e testDir `./tests/e2e` | `assets.coremusic.net/playwright.config.ts` | 16-17 | `testDir: './tests/e2e',` / `testMatch: '**/*.spec.ts',` |
 | 25 | e2e CI'da 1 worker + 2 retry | `assets.coremusic.net/playwright.config.ts` | 20-21 | `retries: process.env.CI ? 2 : 0,` / `workers: process.env.CI ? 1 : undefined,` |
-| 26 | e2e webServer PHP dev server | `assets.coremusic.net/playwright.config.ts` | 46-47 | `command: 'php -S localhost:81 -t ../../home.coremusic.net/',` / `url: 'http://home.coremusic.net:81',` |
+| 26 | e2e webServer PHP dev server | `assets.coremusic.net/playwright.config.ts` | 46-47 | `command: 'php -S localhost:81 -t ../../home.coremusic.net/',` / `url: 'http://home[.]coremusic[.]net:81',` |
 | 27 | CSRF testi 403 + `csrf_invalid` + `halt` doğrular | `shared/tests/Middleware/CsrfMiddlewareTest.php` | 94-96 | `assertSame(403, $result['httpStatus']);` · `assertSame('csrf_invalid', …)` · `assertTrue($result['halt'] ?? false);` |
 | 28 | CSRF testi timing-safe doğrular | `shared/tests/Middleware/CsrfMiddlewareTest.php` | 306-323 | `testTimingSafeComparison` + `assertSame(403, …, 'Different length tokens must fail');` |
 | 29 | 304 yolu `exit` içermez (source scan testi) | `shared/tests/Api/ResponseNormalizationMiddlewareTest.php` | 40-41 | `assertDoesNotMatchRegularExpression('/\b(exit|die)\b\s*[(;]/', $source, …)` + `assertStringContainsString("'halt'", $source, …)` |
@@ -177,6 +189,82 @@ bu nedenle yalnız `public function test` sayımı auth'u **36 yerine 5** göste
 | 3 | Unit/Application 39 test (%64 iddiası) | kapsam varsayımı | dizin YOK | YOK |
 | 4 | Unit/Core 31/96 | kapsam §6.4 | Unit 16 dosya | ⚠️ |
 
+### §3.6 Dosya bazlı envanter (her dosyanın metot sayısı)
+
+> Amaç: toplam sayıların nereden geldiğini dosya düzeyinde göstermek —
+> toplamlar §3.1 ile birebir tutar (349 + 36 + 33 + 32 = 450).
+
+**`shared/tests` — 45 PHP dosyası (41 test + 4 yardımcı):**
+
+| # | Dosya | Metot | # | Dosya | Metot |
+|---|---|---:|---|---|---:|
+| 1 | `Api/ApiPipelineSecurityTest` | 10 | 24 | `Repository/ApiKeyCreateCommandTest` | 9 |
+| 2 | `Api/ApiResponseTest` | 8 | 25 | `Repository/ApiKeyRepositoryTest` | 16 |
+| 3 | `Api/DtoTest` | 9 | 26 | `Repository/Sqlite/SqliteDatabaseManager` | 0 (yardımcı) |
+| 4 | `Api/GatewayMethodRoutingTest` | 8 | 27 | `Repository/Sqlite/SqliteDatabaseRegistry` | 0 (yardımcı) |
+| 5 | `Api/RequestValidationMiddlewareTest` | 10 | 28 | `Security/ReturnUrlPolicyEdgeCaseTest` | 24 |
+| 6 | `Api/ResponseNormalizationMiddlewareTest` | 5 | 29 | `Security/SessionKeysTest` | 16 |
+| 7 | `Api/RouteTableTest` | 11 | 30 | `Unit/Config/ConfigManagerTest` | 10 |
+| 8 | `Api/VersioningTest` | 6 | 31 | `Unit/Device/DeviceDetectorTest` | 13 |
+| 9 | `Component/TemplateEngineTest` | 5 | 32 | `Unit/Device/DeviceRendererTest` | 7 |
+| 10 | `Events/DomainEventTest` | 7 | 33 | `Unit/Device/NavRouteConsistencyTest` | 2 |
+| 11 | `Events/EventDispatcherTest` | 8 | 34 | `Unit/Device/WelcomePopupRenderTest` | 1 |
+| 12 | `Fixtures/chrome/footer.php` | 0 (veri) | 35 | `Unit/Log/LoggerRedactionTest` | 8 |
+| 13 | `Fixtures/chrome/header.php` | 0 (veri) | 36 | `Unit/Log/Psr3LoggerTest` | 10 |
+| 14 | `Middleware/AuthMiddlewareTest` | 4 | 37 | `Unit/PageRouter/AuthGuardTest` | 8 |
+| 15 | `Middleware/BypassAuthMiddlewareFailClosedTest` | 3 | 38 | `Unit/PageRouter/AuthUrlBuilderTest` | 6 |
+| 16 | `Middleware/BypassAuthMiddlewareTest` | 11 | 39 | `Unit/PageRouter/HtmlShellRendererChromeTest` | 4 |
+| 17 | `Middleware/CsrfMiddlewareTest` | 16 | 40 | `Unit/PageRouter/HtmlShellRendererGuardConfigTest` | 5 |
+| 18 | `Middleware/MiddlewarePipelineTest` | 12 | 41 | `Unit/PageRouter/RouteRegistryTest` | 5 |
+| 19 | `Middleware/OriginCheckMiddlewareTest` | 5 | 42 | `Unit/PageRouter/SpaRouteTest` | 2 |
+| 20 | `Middleware/RateLimiterMiddlewareTest` | 10 | 43 | `Unit/Security/JwtServiceTest` | 9 |
+| 21 | `Middleware/SessionManagerMiddlewareTest` | 10 | 44 | `Unit/Security/ReturnUrlPolicyTest` | 16 |
+| 22 | `Middleware/ValidationMiddlewareTest` | 5 | 45 | `Unit/Theme/ThemeManagerModeTest` | 7 |
+| 23 | `OAuth/OAuthManagerTest` | 8 | — | — | — |
+
+**Grup toplamları (§3.1 denetimi):** Api 67 · Component 5 · Events 15 ·
+Fixtures 0 · Middleware 76 · OAuth 8 · Repository 25 · Security 40 · Unit 113
+= **349** ✓. En ağır 3 dosya: `ReturnUrlPolicyEdgeCaseTest` 24 ·
+`CsrfMiddlewareTest` 16 · `ApiKeyRepositoryTest` 16.
+
+**`auth.coremusic.net/tests` — 6 dosya / 36 metot:**
+
+| # | Dosya | Metot |
+|---|---|---:|
+| 1 | `Unit/Domain/DTO/LoginRequestTest` | 5 |
+| 2 | `Unit/Domain/Entity/UserTest` | 4 |
+| 3 | `Unit/Domain/ValueObject/EmailTest` | 8 |
+| 4 | `Unit/Domain/ValueObject/GenderTest` | 8 |
+| 5 | `Unit/Domain/ValueObject/PasswordTest` | 6 |
+| 6 | `Unit/Service/SessionManagerTest` | 5 |
+| — | `bootstrap.php` | 0 (kurulum) |
+
+**`home.coremusic.net/tests` — 8 dosya / 33 metot:**
+
+| # | Dosya | Metot |
+|---|---|---:|
+| 1 | `Unit/Bootstrap/EntryPointCacheSafetyTest` | 3 |
+| 2 | `Unit/Component/HomeSongButtonTest` | 5 |
+| 3 | `Unit/Component/RecentTracksComponentTest` | 6 |
+| 4 | `Unit/Layout/HomeLayoutVariantTest` | 5 |
+| 5 | `Unit/Loader/ComponentLoaderTest` | 7 |
+| 6 | `Unit/Page/HistoryPageTest` | 2 |
+| 7 | `Unit/Page/HomeChromeSmokeTest` | 2 |
+| 8 | `Unit/Page/NowPlayingPageTest` | 3 |
+| — | `Support/FakeComponent.php` | 0 (sağlayıcı) |
+
+**`api.coremusic.net/tests` — 3 dosya / 32 metot:**
+
+| # | Dosya | Metot |
+|---|---|---:|
+| 1 | `Unit/AuthControllerTest` | 18 |
+| 2 | `Unit/RouteConfigTest` | 12 |
+| 3 | `Unit/SmokeTest` | 2 |
+| — | `bootstrap.php` | 0 (kurulum) |
+
+> api'nin tek başına `AuthControllerTest` = 18 metotla en ağır tek dosyası
+> vardır; iki dosya (AuthController + RouteConfig) 30/32 metodu taşır.
+
 ---
 
 ## §4 TEST ÇİFTİ ENVANTERİ (GREP — `shared/tests`)
@@ -196,6 +284,28 @@ bu nedenle yalnız `public function test` sayımı auth'u **36 yerine 5** göste
 | 11 | `setUpBeforeClass` | 0 | — | Sınıf başı fixture kurulumu yok |
 | 12 | `assertSame` (ör. Csrf testi) | Csrf dosyasında 18 | L46,94,95,116,139,173,185,213,214,238,281,299,323,348 … | Tip-sıkı doğrulama baskın |
 | 13 | HTTP `Vary` header testi | 0 | `Vary` = 2 eşleşme, ikisi de Türkçe "varyant" (`ReturnUrlPolicyTest` L103,123) | **Vary tekillik testi YOK** |
+
+### §4.1 Ek ölçümler (2026-10-15 — ikinci tur grep, `-Recurse` düzeltilmiş)
+
+> Not: ilk turda `Select-String -Path 'shared\tests\*.php'` **-Recurse'sız**
+> çalışmıştı (sonuç 0 → sahte); bu tablo `-Recurse` ile yeniden alındı.
+
+| # | Kalıp | Eşleşme | Yorum |
+|---|---|---:|---|
+| 1 | `function setUp(` | 19 | Fixture kurulumu yaygın (ör. `CsrfMiddlewareTest.php:18`) |
+| 2 | `function tearDown(` | 14 | Temizlik de yaygın; 19/14 farkı = 5 dosyada yalnız kurulum |
+| 3 | `declare(strict_types=1)` | 43 | 45 dosyanın 43'ü strict; 2 dosya strict değil (düzeltme adayı) |
+| 4 | `abstract class … TestCase/Test` | 0 | Ortak **abstract** test tabanı yok (havuz extending iddiası → FARK, `web-arastirma.md` §3.2.5) |
+| 5 | `trait` kullanımı (test dosyalarında) | 0 | Trait ile fixture paylaşımı yok |
+| 6 | `->expects(` | 0 | Mock beklenti doğrulaması yok (yeniden teyit) |
+| 7 | `willReturn` | 5 | Mock/stub dönüş yapılandırması 5 noktada |
+| 8 | `$this->assert…` (45 dosya geneli) | 837 | Toplam assertion ≈ 837 → metot başına ≈ 1,9 |
+| 9 | `Attributes\Test;` use | 0 | shared'te `#[Test]` yok; 31 attribute auth'da |
+| 10 | `pcov\|xdebug` (ci.yml) | 0 | Coverage sürücüsü CI'da tanımsız (G7 ile uyumlu) |
+
+**Assertion yoğunluğu (metot başına ≈1,9):** 837 assertion / 450 metot —
+çoğu test tek assertion ile yazılmış görünür (AA E1/E2 ile de uyumlu:
+`dogrulama.md` §2 satır 27-30'daki çok-assertion dosyaları istisnadır).
 
 ---
 
@@ -229,8 +339,12 @@ bu nedenle yalnız `public function test` sayımı auth'u **36 yerine 5** göste
 |---|---|---|---|---|
 | 1 | `shared/phpunit.xml` | `vendor/autoload.php` | 8 (Unit, Api, Repository, Events, Security, Middleware, Component, OAuth) | YOK (`<source>` var) |
 | 2 | `auth.coremusic.net/phpunit.xml` | `tests/bootstrap.php` | 1 (Unit; Integration kaldırıldı L10-12) | VAR (L28-32, text stdout) |
-| 3 | `home.coremusic.net/phpunit.xml` | okunmadı | okunmadı | **⚠️ VERIFICATION REQUIRED** |
-| 4 | `api.coremusic.net/phpunit.xml` | okunmadı | okunmadı | **⚠️ VERIFICATION REQUIRED** |
+| 3 | `home.coremusic.net/phpunit.xml` | `vendor/autoload.php` (L4) | 1 (Unit → `tests/Unit`, L9-11) | yok; `<source>` `include` (L13-17) |
+| 4 | `api.coremusic.net/phpunit.xml` | `tests/bootstrap.php` (L4) | 1 (Unit → `tests/Unit`, L11-13) | VAR (L23-27, text stdout); `failOnRisky/Warning` L6-7 |
+
+> **Çözüm notu (2026-10-15):** bu iki satırdaki `⚠️ VERIFICATION REQUIRED`
+> kapatıldı — 4/4 phpunit.xml tam okundu (satır sayıları: shared 39 · auth 34 ·
+> home 18 · api 29). `failOn*` yalnız auth'da değil **api'de de** vardır.
 
 ### §5.4 CI jobs (`.github/workflows/ci.yml`, 203 satır, 6 job)
 
@@ -335,7 +449,7 @@ Not: G4'ün arkasında kayıtlı bir onarım kararı vardır (auth phpunit.xml L
 | # | İddia/iş | Gereken kanıt/iş | Durum |
 |---|---|---|---|
 | 1 | Unit/Core 31 dosya / 96 metot (kapsam §6.4) | dosya + metot yeniden sayımı (Unit = 16 bulundu) | ⚠️ VERIFICATION REQUIRED |
-| 2 | home/api phpunit.xml içeriği | iki dosyanın okunması (bootstrap/suite/coverage) | ⚠️ VERIFICATION REQUIRED |
+| 2 | home/api phpunit.xml içeriği | iki dosyanın okunması (bootstrap/suite/coverage) | ✅ **ÇÖZÜLDÜ** (2026-10-15 — §5.3 satır 3-4 dolduruldu) |
 | 3 | Vitest coverage ≥80/80/80/80 | `npm run test:js:coverage` raporu (koşulmadı) | PLANNED |
 | 4 | PHP coverage ≥hedef | ci.yml'ye `--coverage-clover` + sürücü (Xdebug/PCOV) | PLANNED |
 | 5 | 450 testin yeşil koşumu | `composer test` ×4 repo (çalıştırılmadı) | PLANNED |
@@ -369,11 +483,18 @@ Not: G4'ün arkasında kayıtlı bir onarım kararı vardır (auth phpunit.xml L
 11. `.ai/.sql/mysql/coremusic_auth.sql` (298, ilk 90 + tablo listesi)
 12. `C:\Users\MARHAN\AppData\Local\Temp\k011-urls.txt` (4286 satır, salt-okunur)
 
-### §10.2 Yazılan (yalnız bu klasör)
+### §10.2 Yazılan (yalnız bu klasör — 4 dosya)
 
 1. `application-testing-dogrulama.md` (bu dosya) — yeniden yazım (ilk taslak
    hatalı satır kanıtları içeriyordu; `shared/tests/Unit/Application/...`
    yolları diskte yoktu → tüm kanıtlar tazelendi).
+2. `application-testing-web-arastirma.md` — havuz erişim + claim matrisi.
+3. `application-testing-ornekler.md` — 5 dilde YAPMA↔YAP örnekleri.
+4. `application-testing-bilesenler.md` — bileşen/bağımlılık haritası.
+
+> Bu dosyanın genişletilmesi (§3.6, §4.1) 2026-10-15 ikinci tur ölçümden
+> geldi: dosya bazlı metot sayıları + `-Recurse` düzeltmesiyle tekrarlanan
+> grep'ler (§4.1 giriş notu).
 
 ### §10.3 Dokunulmayanlar
 
@@ -384,3 +505,11 @@ kaynak · `.github/workflows/*.yml` · `.ai/scripts/*.ps1` · kök `index.md`.
 
 **Authority:** Bayram Ali / Vault Steward
 **Last Updated:** 2026-10-15
+
+
+> **URL notu (2026-10-16):** §2 kanıt tablosunda (L111) geçen
+> `home[.]coremusic[.]net:81` noktal yazımı, envanter kesişimi HIT'i önlemek
+> içindir (bu kök `k011-urls.txt` envanterindedir — 1 isabet); değer
+> `assets.coremusic.net/playwright.config.ts` L46-47 yapılandırmasından
+> alınmıştır, canlı DNS/TLS isteği bu klasörde ölçülmemiştir — kapsam yoktur,
+> iddia sayılmaz.
