@@ -504,6 +504,53 @@ sprint tarihleri/sorumluları uydurulmaz.
 **Referans kuralı:** beş referans da okuma ilişkisidir; dosyalar bu
 ekle değiştirilmez — yalnız Read kanıtı korunur.
 
+## §OS × DİL KANCA TABLOSU
+
+> **Kapsam:** OS algılama kancası hangi dilde, repo'da karşılığı var mı? Yalnız kanca +
+> §G referansı + repo durumu — **kod şablonu bu tabloda ÜRETİLMEZ**; kod şablonları
+> `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11'dedir. Repo sayımı 2026-10-14
+> (`.git`/`vendor`/`node_modules` hariç).
+
+### §OSK.1 OS algılama kanca tablosu (13 dil)
+
+| Dil | OS algılama kanca (§G ref) | Repo karşılığı (IMPLEMENTED/PLANNED/UNKNOWN) | Not |
+|---|---|---|---|
+| JavaScript/Node | `process.platform` → `win32`·`darwin`·`linux` (§G1) | IMPLEMENTED — üretim JS var (`assets.coremusic.net/js/` · cihaz tespiti 16 isabet); `process.platform` 0 isabet | OS kanca henüz üretimde kullanılmıyor |
+| C | `#if defined(_WIN32)`·`__linux__`·`__APPLE__` (§G2.1) | UNKNOWN — repo `*.c` 0 dosya | `__APPLE__` URL'siz → ⚠️ (§K4 R4) |
+| Python | `sys.platform` · `platform.system()` (§G3) | UNKNOWN — üretim 0 (yalnız vault betiği `.ai/scripts/fix-mojibake.py`) | vault betiği üretim kodu değildir |
+| Go | `runtime.GOOS` (§G4.1) | UNKNOWN — repo `*.go` 0 dosya | disk/bellek sarmalayıcısı ADR bekliyor (Q2) |
+| Rust | `cfg!(target_os = ...)` · `std::env::consts::OS` (§G5.1) | UNKNOWN — repo `*.rs` 0 dosya | crate adı yazılmaz (kaynak §YASAKLAR 3) |
+| C# | `RuntimeInformation.IsOSPlatform` (§G6.1) | UNKNOWN — repo `*.cs` 0 dosya | — |
+| PHP | `PHP_OS_FAMILY` + `php_uname('s')` (§G7.1) | IMPLEMENTED — `php_uname('s')` → `shared/src/Api/Bff/DesktopBff.php:35`; `PHP_OS_FAMILY` birinci taraf kodda 0 isabet (§G7.4) | kanca açık; üretimde yalnız `php_uname('s')` |
+| Bash | `uname -s` (§G8.1) | UNKNOWN — repo `*.sh` 0 dosya | Git Bash/MSYS2 çıktısı ⚠️ doğrulanamadı (§G8.1) |
+| PowerShell | `[RuntimeInformation]::IsOSPlatform` (§G8.2) | UNKNOWN — üretim 0 (yalnız `.ai/scripts/*.ps1` — 6 dosya) | vault betiği üretim kodu değildir |
+| Java | `System.getProperty("os.name")` (§G8.3) | UNKNOWN — repo `*.java` 0 dosya | `Mac OS X` öneki ⚠️ (§G8.3 notu) |
+| Swift | `#if os(Windows)`·`os(macOS)`·`os(Linux)` (§G9.1) | UNKNOWN — repo `*.swift` 0 dosya | Windows toolchain doğrulanmadı ⚠️ (§G9 risk 1) |
+| Kotlin | JVM `os.name` (§G10.1) · Native `platform.posix` → `uname` (§G10.2) | UNKNOWN — repo `*.kt` 0 dosya | iki yol ayrımı — JVM/Native birlikte kullanılmaz (§G10) |
+| C++ | `#if defined(_WIN32)`·`__linux__`·`__APPLE__` (§G11.1) | UNKNOWN — repo `*.cpp`/`*.h` 0 dosya | `__APPLE__` ⚠️ (§K4 R4); std algılama/katalog içermez (§G11.6) |
+
+> **devices kanca satırı:** cihaz tespiti katmanı **IMPLEMENTED** — kanıt
+> `donanım-devices-ornekler.md` (`DeviceDetector`/`DeviceManager` + istemci JS).
+> OS algılama kancası ile cihaz tespiti ayrı katmandır; biri diğerinin yerine geçmez.
+
+### §OSK.2 Öneri ve risk notları
+
+**Öncelikli öneri (PHP/JS):** repo dili PHP/JS — OS kanca için tek IMPLEMENTED kanıt PHP
+`php_uname('s')` (DesktopBff.php:35); JS'te üretim kodu var fakat `process.platform` 0
+isabet (OS kanca henüz dokunulmamış). Yalnız bu iki dilde kanca eksiği **kod** ile
+kapatılır; diğer 11 dil repo'da 0 dosyadır → `UNKNOWN`, uydurma IMPLEMENTED yazılmaz.
+
+**Risk notları:**
+- `sysctl hw.memsize` (macOS) — Apple dokümantasyonu 404 (§K4 R1) → ⚠️ VERIFICATION REQUIRED.
+- `__APPLE__` ön-tanımlı makrosu — doğrulanmış birincil URL yok (§K4 R4) → ⚠️ VERIFICATION REQUIRED.
+- `getifaddrs` (macOS ağ arayüzü) — Apple arşiv sayfası 404 (§K4 R8) → ⚠️ VERIFICATION REQUIRED.
+- WASAPI (Windows) · CoreAudio (macOS) · ALSA (Linux) sahiplikleri K000-isletim-sistemi ile
+  paylaşılır — bu tablo yalnız kanca/repo durumu gösterir (kaynak §PLATFORM MATRİSİ P5 sınır notu).
+
+### §OSK.3 Kaynak atıfı
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
+
 ---
 
 Authority: Bayram Ali / Vault Steward · Son doğrulama: 2026-10-12 (repo Read kanıtı)

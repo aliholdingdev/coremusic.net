@@ -651,4 +651,38 @@ değer "fiziksel olarak üretildi" diye sunulmamıştır; yer tutucu işaretler
 kullanılmamıştır; bilinmeyenler `UNKNOWN` ile işaretlenmiştir. **Yeni fiziksel
 envanter iddiası: 0.**
 
+---
+
+## §24 OS × DİL ERİŞİM MATRİSİ (işlemci)
+
+> **Kapsam:** CPU envanteri (çekirdek/İş parçacığı, mimari, bayraklar, saat) OS
+> donanım katmanına hangi dille erişilir? Fiziksel ölçüm YOK — bu bölüm yalnızca
+> erişim yollarını tanımlar, değer iddiası üretmez (bkz. §23 Dürüstlük Bloğu).
+
+| Dil | Windows | macOS | Linux |
+|---|---|---|---|
+| JavaScript/Node | `os.cpus()` · ayrıntı (`brand`, `speed`) | `os.cpus()` | `os.cpus()` · `/proc/cpuinfo` okuma |
+| PHP | PHP'de yerel CPU sorgusu yok → `/proc/cpuinfo` yalnız Linux · Windows'ta cins VERIFICATION REQUIRED | `/proc/cpuinfo` yok (macOS) → çocuk süreç ⚠️ | `/proc/cpuinfo` okuma (fopen) |
+| Python | `platform.processor()` + `ctypes` `GetSystemInfo` ⚠️ ctypes/Win32 URL'siz | `platform.processor()` (sysctl sarmalayıcı ⚠️) | `/proc/cpuinfo` okuma |
+| C / C++ | `GetSystemInfo` / `GetNativeSystemInfo` (kernel32) | `uname` + `sysctl` (`machdep.cpu.*`) ⚠️ | `/proc/cpuinfo` okuma |
+| C# / PowerShell | `RuntimeInformation` · WMI `Win32_Processor` (PS `Get-CimInstance`) ⚠️ WMI sınıfı URL'si yok | `uname` ⚠️ | `/proc/cpuinfo` okuma |
+| Rust | `windows` crate `GetSystemInfo` | `uname` ⚠️ | `/proc/cpuinfo` okuma |
+| Go | `golang.org/x/sys/windows` `GetSystemInfo` | `unix.Uname` ⚠️ | `/proc/cpuinfo` okuma |
+| Bash | yok (çocuk süreç: PowerShell) | `sysctl -n machdep.cpu.brand_string` ⚠️ | `lscpu` / `/proc/cpuinfo` |
+| Java / Kotlin | JNA `GetSystemInfo` ⚠️ JNA/FFM URL'si yok (K3) | JNA `uname`/`sysctlbyname` ⚠️ | `Runtime.availableProcessors()` + `/proc/cpuinfo` |
+| Swift | yok | `Process` → `sysctl machdep.cpu.*` ⚠️ | yok |
+
+**Öncelikli öneri (PHP/JS):** Belirleme (marka/çekirdek/saat) Node `os.cpus()` ile
+platform-bağımsız yapılır; Linux'ta PHP yalnız `/proc/cpuinfo` okur. Windows'ta PHP için
+yerel CPU API'si **yoktur** — ayrıntı PowerShell/Çİ'ye devredilir (uydurulmaz).
+
+**Risk notları:**
+- Windows `GetSystemInfo` ailesi yalnızca sistem sınıfı verir; **marka/model** için WMI/CPUID gerekir → ayrıntı satırı ⚠️ VERIFICATION REQUIRED.
+- macOS `machdep.cpu.*` sysctl anahtarları bu belgede doğrulanamadı → ⚠️ VERIFICATION REQUIRED; IOKit Registry ile çapraz kontrol ayrıca işaretli.
+- Saat/ölçüm (benchmark) iddiaları bu dosyada yoktur; ölçüm yapılmadan sayı yazılmaz.
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

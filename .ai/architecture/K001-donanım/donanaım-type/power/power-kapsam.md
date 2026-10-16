@@ -589,4 +589,53 @@ S1 ölçüm 0 · `NOT PROVIDED`/`VERIFY REQUIRED` alanları tahmin edilmedi.
 3. Sınır §sınır: K001 ≠ K002 (tasarım/değil) — kural olarak yazıldı.
 4. 13 tip kaydı (§6): bilinmeyen alanlar uydurulmadı; status UNKNOWN; S1=0.
 
+---
+
+## §7 OS × DİL ERİŞİM MATRİSİ (güç erişimi)
+
+> Bu bölüm `donanım-platformlararasi-kod-ornekleri.md` §PLATFORM MATRİSİ (P1–P6 · G1–G11)
+> üzerine kuruludur; **yeni URL eklenmemiştir.** Hücreler "OS algılama → güç/donanım kayıt
+> erişim yolu (§P4 · P-T01)" biçimindedir; **spesifik güç API adları doğrulanmadığı için
+> hücre içinde `⚠️ VERIFICATION REQUIRED` taşır.** Bölüm yalnız erişim yolu tanımlar —
+> ölçüm/kanıt iddiası taşımaz (§6 NOT PROVIDED / VERIFY REQUIRED alanları geçerlidir).
+
+| Dil | Windows | macOS (Darwin) | Linux |
+|---|---|---|---|
+| JavaScript (Node.js) | `process.platform` (§G1) → Kayıt defteri (§P4) + OS güç API'si ⚠️ (P-T01) | `process.platform` (§G1) → IOKit IORegistry (§P4) ⚠️ | `process.platform` (§G1) → sysfs `/sys/class/**` (§P4) ⚠️ (yol doğrulanmadı) |
+| C | `#if defined(_WIN32)` (§G2) → OS güç API'si ⚠️ (ad yok) | `__APPLE__` ⚠️ (§G2) → IOKit (§P4) + ACPI/IOKit güç düğümü ⚠️ | `__linux__` (§G2) → sysfs (§P4) + ACPI ⚠️ |
+| Python | `sys.platform` (§G3) → `ctypes` + OS güç API'si ⚠️ (URL'siz) | `sys.platform` (§G3) → IOKit ⚠️ (dil bağı URL'siz) | `sys.platform` (§G3) → sysfs/ACPI okuma ⚠️ |
+| Go | `runtime.GOOS` (§G4) → güç sarmalayıcı std'de yok ⚠️ (§G4.3) | `runtime.GOOS` (§G4) → sarmalayıcı yok ⚠️ (§G4.3) | `runtime.GOOS` (§G4) → sysfs dosya okuma ⚠️ (yol doğrulanmadı) |
+| Rust | `cfg!` (§G5) → sarmalayıcı ADR bekliyor ⚠️ (§G5.3) | `cfg!` (§G5) → IOKit ⚠️ (§G5.3) | `cfg!` (§G5) → sysfs/ACPI ⚠️ (crate doğrulanmadı) |
+| C# (.NET) | `RuntimeInformation` (§G6) → P/Invoke + OS güç API'si ⚠️ | `RuntimeInformation` (§G6) → IOKit P/Invoke ⚠️ | `RuntimeInformation` (§G6) → sysfs okuma ⚠️ |
+| PHP | `PHP_OS_FAMILY` (§G7) → PHP'de güç API'si **yok** → çocuk süreç (PowerShell) ⚠️ | aynı ⚠️ (IOKit erişimi yok) | `PHP_OS_FAMILY` (§G7) → `/sys/class/**` dosya okuma (fopen, §P4) ⚠️ |
+| Bash | — (çocuk süreç: PowerShell ⚠️) | `uname -s` ⚠️ MINGW (§G8.1) → güç aracı doğrulanmadı ⚠️ | `uname -s` (§G8.1) → sysfs/ACPI okuma ⚠️ |
+| PowerShell | `[RuntimeInformation]::IsOSPlatform` (§G8.2) → OS güç cmdlet/işletim sistemi bilgisi ⚠️ (ad doğrulanmadı) | — | — |
+| Java | `System.getProperty("os.name")` (§G8.3) → JNA/FFM ⚠️ (URL'siz, §K3) | aynı ⚠️ (§G8.3) | `System.getProperty` (§G8.3) → sysfs okuma ⚠️ (JNA/FFM URL'siz) |
+| Swift | `#if os(Windows)` (§G9) → fiziksel yol yazılmadı ⚠️ (rapor §4.11) | `#if os(macOS)` (§G9) → IOKit/ACPI ⚠️ (dil-köprüsü rapor §4.11) | `#if os(Linux)` (§G9) → `/sys` köprüsü (§P4) ⚠️ |
+| Kotlin | Kotlin/Native POSIX / JVM `os.name` (§G10) → JNA/FFM ⚠️ | aynı ⚠️ (§G10) | Kotlin/Native POSIX + `/sys` (§G10) ⚠️ |
+| C++ | `#if defined(_WIN32)` (§G11) → OS güç API'si ⚠️ — G2 Win32 yolları | `__APPLE__` ⚠️ (§G11) → IOKit (§P4) + ACPI ⚠️ | `__linux__` (§G11) → sysfs + ACPI ⚠️ (§P4) |
+
+**Öneri (repo dili PHP/JS):** Güç bilgisi PHP/JS'ten **doğrudan** alınmaz; PHP Linux'ta
+`/sys/class/**` dosya okuması (fopen, §P4) ile sınırlıdır, Windows/macOS'ta PHP'nin
+güç API'si **yoktur** → çocuk süreç (PowerShell / Çİ) şablonuna devredilir. ACPI/OS güç
+yönetimi ve spesifik API çağrıları **K001 kapsam dışı sınırdadır** (P-T01 · §sınır);
+bu bölüm yalnız erişim yolu şablonu satar.
+
+**Risk/uyumluluk (korunan ⚠️ kayıtları):**
+- Spesifik güç API/anahtar/çip adları (ACPI tablosu, PSU/VRM/LDO/BMS sayaç yolları)
+  **doğrulanmadı** → her hücre `⚠️ VERIFICATION REQUIRED`; uydurma ad yazılmaz (P-T01).
+- Dosyanın 3 URL'si yalnız HEAD-200/202 ile varlık kanıtı taşır, **içerik okunmadı**;
+  `jedec.org` 403 ile `analog.com` · `littelfuse.com` · `formfactors.org` ERR döndüren
+  kaynaklar **kullanılmadı**.
+- Repo ölçümü `PSU = 0 · VRM = 0 · LDO = 0 · BMS = 0` → bileşen envanteri yok;
+  §6 alanları NOT PROVIDED / VERIFY REQUIRED ve `S1 = 0` olarak **korunur**; açık soru
+  Q-T2 **KAPANDI DEĞİL**.
+- `__APPLE__` URL'siz (§K4/R4) · `sysctl hw.memsize` 404 (R1) · `getifaddrs` 404 (R8) ·
+  MINGW öneki (§G8.1) · Go sarmalayıcı (§G4.3) · Rust ADR (§G5.3) · Swift/Kotlin dil
+  bağları (§G8.4 · §G9 · §G10) — ortak ⚠️ kayıtları bu dosyada da **silinmez**.
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

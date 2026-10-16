@@ -502,4 +502,47 @@ Hiçbir açık satır bu dosyada **doldurulmamıştır**; tahmin yazılmamışt�
 
 ---
 
+## §OS × DİL ERİŞİM MATRİSİ (core)
+
+> **Kapsam:** Bellek/disk/sistem bilgisi katmanı — toplam RAM, disk kök listesi,
+> sistem bilgi çağrıları. Yalnız kanıtlanmış arayüzler; uydurma API yok.
+
+### §OSD.1 Erişim matrisi (13 dil × 3 OS)
+
+| Dil | Windows | macOS | Linux |
+|---|---|---|---|
+| JavaScript/Node | Disk `Get-PSDrive` çocuk süreç (§G1.2) · bellek `os.totalmem()`/`os.freemem()` (§G1.3) | Disk `/Volumes` fs okuma (§G1.2) · bellek `os.totalmem()` (§G1.3) | Disk `/proc/mounts` fs (§G1.2) · bellek `os.totalmem()` (§G1.3) |
+| C | `GetLogicalDrives` + `GlobalMemoryStatusEx` (Win32, §G2.2) | `uname` (POSIX) + `sysctl` ⚠️ (§G2.4 · §K4 R1) | `/proc` + sysfs (§G2.3) |
+| Python | Disk kökleri §G3.2 · `ctypes` + `GlobalMemoryStatusEx` (§G3.4) ⚠️ URL'siz | Disk kökleri §G3.2 · `sysctl hw.memsize` ⚠️ (§G3.4 · R1) | `/proc/meminfo` (§G3.3) + disk kökleri §G3.2 |
+| Go | `SystemDrive` + ADR ile tam liste (§G4.4) | `/` + `/Volumes/*` (§G4.4) | `/proc/mounts` (§G4.4) + `/proc/meminfo` (§G4.2) |
+| Rust | §G5.2 `sistem_surumu` — std disk/bellek **içermez** ⚠️ FFI/ADR bekliyor (§G5.3) | §G5.2 `volume_kokleri` — aynı sınır (§G5.3) | §G5.2 `bellek_satirlari` · `/proc` satır ayrımı |
+| C# | `DriveInfo.GetDrives` + `GlobalMemoryStatusEx` P/Invoke (§G6.4) | `DriveInfo.GetDrives` · bellek IOKit ⚠️ üye adı doğrulanmadı (§G6.4) | `DriveInfo.GetDrives` + `/proc/meminfo` (§G6.4) |
+| PHP | `disk_total_space` aday taraması (§G7.2) · bellek PowerShell (§G7.3) | `disk_total_space` aday taraması (§G7.2) · `sysctl` ⚠️ (§G7.3 · R1) | `disk_total_space` aday taraması (§G7.2) · `/proc/meminfo` (§G7.3) |
+| Bash | Git Bash/MSYS2 `uname -s` çıktısı ⚠️ doğrulanamadı (§G8.1) | `sysctl -n hw.memsize` ⚠️ (§G8.1 · R1) | `awk` + `/proc/meminfo` (§G8.1) |
+| PowerShell | `DriveInfo::GetDrives` + `RuntimeInformation` (§G8.2) | Algılama `[OSPlatform]::OSX` — disk/bellek şablonu yok (§G8.2) | Algılama `[OSPlatform]::Linux` — disk/bellek şablonu yok (§G8.2) |
+| Java | Disk/bellek şablonu belgelenmedi — yalnız `os.name` algılama (§G8.3) | Aynı (§G8.3) | Aynı — `/proc` şablonu da yok (§G8.3) |
+| Swift | Foundation `ProcessInfo`/`FileManager` ⚠️ üye adları doğrulanmadı (§G9.5) | Foundation `FileManager` + `/Volumes` ⚠️ (§G9.4) | Foundation + `/proc/meminfo` ⚠️ (§G9.3) |
+| Kotlin | JVM yolu yalnız `os.name` algılama (§G10.6) — disk/bellek şablonu yok | Aynı JVM sınırı (§G10.6) | Native `platform.posix` + `/proc/meminfo` (§G10.6) |
+| C++ | `GetLogicalDrives` + `GlobalMemoryStatusEx` (§G11.6) | `uname` (POSIX, §G11.6) · `__APPLE__` ⚠️ (§K4 R4) | `/proc/meminfo` `std::ifstream` (§G11.6) |
+
+### §OSD.2 Öneri ve risk notları
+
+**Öncelikli öneri (PHP/JS):** repo dili PHP/JS — bellek Node `os.totalmem()` (§G1.3),
+Linux PHP `/proc/meminfo` (§G7.3); disk PHP `disk_total_space` aday taraması (§G7.2),
+Node fs `/proc/mounts` · `/Volumes` · PowerShell çocuk süreç (§G1.2). Windows'ta
+ayrıntılı Win32 bellek çağrısı PHP/JS'ten **yapılmaz** — çocuk süreç/alt sistem kullanılır.
+
+**Risk notları:**
+- `sysctl hw.memsize` (macOS) — Apple dokümantasyonu 404 (§K4 R1) → ⚠️ VERIFICATION REQUIRED.
+- `__APPLE__` ön-tanımlı makrosu — doğrulanmış birincil URL yok (§K4 R4) → ⚠️ VERIFICATION REQUIRED.
+- `getifaddrs` (macOS ağ arayüzü) — Apple arşiv sayfası 404 (§K4 R8) → ⚠️ VERIFICATION REQUIRED.
+- WASAPI (Windows) · CoreAudio (macOS) · ALSA (Linux) sahiplikleri K000-isletim-sistemi ile
+  paylaşılır — bu dosya yalnız çağrı şablonu gösterir (§PLATFORM MATRİSİ P5 sınır notu).
+
+### §OSD.3 Kaynak atıfı
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

@@ -503,4 +503,51 @@ etiketleri §8'de tanımlandığı gibi uygulanmıştır. Belgede geçen hiçbir
 kullanılmamıştır. Ölçüm iddiası yalnız `audio-dogrulama.md` §5'te S1 kanıtı
 ile yazılabilir.
 
+---
+
+## §21 OS × DİL ERİŞİM MATRİSİ (ses)
+
+> Bu bölüm `donanım-platformlararasi-kod-ornekleri.md` §PLATFORM MATRİSİ (P1–P6 · G1–G11)
+> üzerine kuruludur; **yeni URL eklenmemiştir.** Hücreler "OS algılama → ses aygıtı erişim
+> yolu (§P5)" biçimindedir; doğrulanmamış dil-OS bağları hücre içinde `⚠️` ile işaretlidir.
+> Bölüm yalnız erişim yolu tanımlar — ölçüm/kanıt iddiası taşımaz (§20 · §8 geçerlidir).
+
+| Dil | Windows | macOS (Darwin) | Linux |
+|---|---|---|---|
+| JavaScript (Node.js) | `process.platform` (§G1) → WASAPI ⚠️ (K000/K003 sahipliği, §P5) | `process.platform` (§G1) → CoreAudio (§P5) | `process.platform` (§G1) → ALSA (§P5) — Node sarmalayıcı adı yok ⚠️ |
+| C | `#if defined(_WIN32)` (§G2) → WASAPI (COM) ⚠️ (§P5) | `__APPLE__` ⚠️ (§G2) → CoreAudio (§P5) | `__linux__` (§G2) → ALSA kütüphanesi (§P5) |
+| Python | `sys.platform` (§G3) → `ctypes` + WASAPI ⚠️ (URL'siz) | `sys.platform` (§G3) → CoreAudio ⚠️ (dil bağı URL'siz) | `sys.platform` (§G3) → ALSA ⚠️ (dil bağı URL'siz) |
+| Go | `runtime.GOOS` (§G4) → WASAPI ⚠️ (sarmalayıcı yok) | `runtime.GOOS` (§G4) → CoreAudio ⚠️ (sarmalayıcı yok) | `runtime.GOOS` (§G4) → ALSA ⚠️ (sarmalayıcı yok) |
+| Rust | `cfg!` (§G5) → WASAPI ⚠️ (sarmalayıcı ADR bekliyor §G5.3) | `cfg!` (§G5) → CoreAudio ⚠️ (§G5.3) | `cfg!` (§G5) → ALSA ⚠️ (§G5.3) |
+| C# (.NET) | `RuntimeInformation` (§G6) → WASAPI P/Invoke/COM ⚠️ (§P5) | `RuntimeInformation` (§G6) → CoreAudio P/Invoke ⚠️ | `RuntimeInformation` (§G6) → ALSA P/Invoke ⚠️ |
+| PHP | `PHP_OS_FAMILY` (§G7) → PHP'de ses API'si **yok** → çocuk süreç ⚠️ | aynı (CoreAudio'ya doğrudan erişim yok) ⚠️ | aynı (ALSA'ya doğrudan erişim yok) ⚠️ |
+| Bash | — (çocuk süreç: PowerShell ⚠️) | `uname -s` ⚠️ MINGW (§G8.1) → CoreAudio aracı doğrulanmadı ⚠️ | `uname -s` (§G8.1) → ALSA araç/dosya erişimi ⚠️ (yol doğrulanmadı) |
+| PowerShell | `[RuntimeInformation]::IsOSPlatform` (§G8.2) → WASAPI ⚠️ (§P5) | — | — |
+| Java | `System.getProperty("os.name")` (§G8.3) → JNA/FFM ⚠️ (URL'siz, §K3) | aynı ⚠️ (§G8.3) | aynı ⚠️ (§G8.3) |
+| Swift | `#if os(Windows)` (§G9) → fiziksel yol yazılmadı ⚠️ (rapor §4.11) | `#if os(macOS)` (§G9) → CoreAudio ⚠️ (dil-köprüsü rapor §4.11) | `#if os(Linux)` (§G9) → ALSA ⚠️ (dil-köprüsü rapor §4.11) |
+| Kotlin | Kotlin/Native POSIX / JVM `os.name` (§G10) → JNA/FFM ⚠️ | aynı ⚠️ (§G10) | aynı ⚠️ (§G10) |
+| C++ | `#if defined(_WIN32)` (§G11) → WASAPI (COM) ⚠️ — G2 Win32 yolları | `__APPLE__` ⚠️ (§G11) → CoreAudio (§P5) | `__linux__` (§G11) → ALSA kütüphanesi (§P5) |
+
+**Öneri (repo dili PHP/JS):** Ses aygıtı tespiti repo katmanında PHP/JS'ten **doğrudan**
+API ile yapılmaz; JS/Node ve PHP çocuk süreç (PowerShell / `system_profiler` / ALSA
+aracı ⚠️) ile listeler ve sonucu K001'e taşır. Doğrudan erişim Çİ/C++ katmanındadır:
+Windows WASAPI (K000 sahipliği), macOS CoreAudio, Linux ALSA (§P5).
+
+**Risk/uyumluluk (korunan ⚠️ kayıtları):**
+- WASAPI **sahipliği** bölünmüştür: sürücü/düşük seviye K000-isletim-sistemi, backend
+  K003 (§3 · B2) — bu bölüm yalnız **çağrı şablonunu** satar (§P5 sınır notu).
+- `__APPLE__` ön-tanımlı makrosu için doğrulanmış URL yok (§K4/R4); ortak ⚠️ kayıtları —
+  macOS `sysctl -n hw.memsize` 404 (R1) ve `getifaddrs` 404 (R8) — silinmez; ses erişimi
+  bellek/ağ yolunu kullanmaz, kayıt korunur.
+- Dil-OS ses bağları (Python/Go/Rust/C#/Java/Swift/Kotlin sarmalayıcıları) doğrulanmadı
+  (§G8.4 · §G9 · §G10 · §K3 JNA/FFM) → ⚠️ VERIFICATION REQUIRED; uydurma crate/paket
+  adı yazılmaz.
+- Git Bash/MSYS2 `uname -s` MINGW öneki doğrulanamadı (§G8.1) → ⚠️ VERIFICATION REQUIRED.
+- Aşama/gecikme/ses kartı envanteri ölçümü bu matristen **üretilmez** (§8 etiket
+  disiplini · S1 yalnız `audio-dogrulama.md` §5).
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

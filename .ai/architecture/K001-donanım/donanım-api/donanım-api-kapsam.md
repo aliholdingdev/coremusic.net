@@ -9,16 +9,17 @@ children: []
 depends_on:
   - K001-donanım
   - K001-donanım/donanım-api/index
+  - K001-donanım/donanım-api/donanım-api-kod-seti
 evidence:
   - K001-donanım/donanım-anayasa.md
   - K001-donanım/donanım-api/index.md
   - https://www.intel.com/
-validation: "2026-10-13: kapsam §A-§D ile genişletildi; 85 → 500+ satır; API protokolü sorusu açık bırakıldı"
+validation: "2026-10-13: kapsam §A-§D ile genişletildi; 85 → 500+ satır; API protokolü sorusu açık bırakıldı · 2026-10-14: §25 OS matrisi + §26 dil matrisi eklendi (11 OS + 11 dil · kanıt: donanım-api-kod-seti.md, URL 31/31 HTTP 200)"
 open_questions:
   - "API yüzeyi hangi protokole oturuyor (sürücü ioctl / sysfs benzeri)? — Q-A1"
   - "K001 Q3: kernel-core-api sınır kararı bekleniyor"
 date: 2026-10-12
-updated: 2026-10-13
+updated: 2026-10-14
 group: mimari
 ---
 
@@ -538,6 +539,108 @@ seçilmez; tüm dallar açık tutulur.
 kapsar. Hiçbir CoreMusic parametresi uydurulmamıştır; spesifik değerler UNKNOWN
 işaretlidir. Q-A1 protokol kararı gelmeden §17 dallarının hiçbiri seçilmez;
 §18/§19/§20 CoreMusic'e özgü iddia üretmez, yalnız referans ve genel kavram taşır.
+
+## §25 İşletim Sistemi Bazlı Donanım-Erişim Yüzeyi — Öneri Matrisi (Bölüm 3)
+
+> **Kaynak:** Kanıt ve kod blokları `donanım-api-kod-seti.md` §3-§4'tedir (bu dosyada URL
+> tekrar edilmez — her URL dosyada bir kez kuralı). Doğrulama: `donanım-api-dogrulama.md` §25.
+> **Durum anlamları:** ✅ = resmi URL HTTP 200 + API adları doğrulanmış · ⚠️ = URL 200 fakat
+> ayrıntı `VERIFICATION REQUIRED` · `[TASARIM]` = tamamen tasarım satırı.
+
+| # | İşletim sistemi | Donanım-erişim arayüzü | Ses/cihaz yolu | K001 API etkisi | Öneri | Kanıt (kod-seti) | Durum |
+|---|---|---|---|---|---|---|---|
+| OS1 | Linux | `ioctl(2)` · sysfs · karakter cihaz | ALSA `/dev/snd/*` | Q-A1 birincil adayı | Çift kanal (komut=ioctl · durum=sysfs) değerlendir | §4.1-§4.3 | ✅ |
+| OS2 | Windows | `DeviceIoControl` · SetupAPI | WASAPI `IAudioClient/IAudioRenderClient` | win-sw agent yüzeyi; ASIO→WASAPI fallback | IOCTL yüzeyi dar tutulur, akış K003'e | §4.4-§4.5 | ✅ |
+| OS3 | macOS | CoreAudio HAL property | `kAudioHardwarePropertyDefaultOutputDevice` | Donanım→ses yolu HAL üzerinden | Masaüstü üçlüsü adayı (W/M/L) | §4.6-§4.7 | ✅ |
+| OS4 | iOS | AVAudioSession kategori/route | `setCategory(_:options:)` | Mobil kapsam K001'de UNKNOWN | Kapsam dışı önerilir (dar kapsamlı) | §4.8 | ✅ |
+| OS5 | Android | NDK AAudio (Oboe sarmalayıcı) | `AAudioStream*` | Düşük gecikme referansı | Kapsam dışı önerilir; düşük-gecikme verisi referans | §4.9 | ✅ |
+| OS6 | FreeBSD | OSS `/dev/dsp` · `SNDCTL_*` | `AFMT_*` format | Taşınabilirlik karşılaştırma girdisi | Yalnız karşılaştırma — hedef değil | §4.10 | ⚠️ sabitler teyitsiz (K2) |
+| OS7 | RTOS / Zephyr | Cihaz sürücü modeli (device tree) | I2S/SPI codec | Gömülü — K005 sınırı | Referans; K001'e doğrudan girdi değil | §4.11 | ⚠️ [TASARIM] (K3) |
+| OS8 | Gömülü DSP (CMSIS-DSP) | `arm_math` | FIR/EQ zinciri | K004-DSP referansı (anayasa §2) | Ölçüm/tetik yüzeyi K001'de kalır | §4.12 | ✅ |
+| OS9 | Web / ChromeOS | WebUSB · WebHID (Crostini kabı) | WebAudio kapsam dışı | Tarayıcı→cihaz güvenlik sınırı (OWASP) | Tarayıcı donanım erişimi kapsam dışı önerilir | §4.13-§4.14 | ✅ |
+| OS10 | Tizen | CAPI `sound_manager_*` | `get/set_volume` | TV/mobil platform karşılığı | Yalnız referans | §4.15 | ✅ fonksiyonlar disk kanıtlı |
+| OS11 | webOS (LG) | Luna servis otobüsü (`com.webos.audio`) | `volumeUp` · `setMuted` | İş katmanı üzerinden erişim modeli | Yalnız referans | §4.16 | ✅ ⚠️ parametre şeması (K4) |
+
+**§25 sonucu (değişmez):** CoreMusic hedef OS'si **UNKNOWN** (Q-A1 bağları — kod-seti §7/N4
+yalnız öneridir). 11 OS satırının tamamı K001 kapsamına **eşit düzeyde** dahildir; dar
+kapsamlı mobil/TV/Web satırları silinmez, yalnızca önceliksiz işaretlenir.
+
+## §26 Programlama Dili Bazlı Donanım-Erişim Yüzeyi — Öneri Matrisi (Bölüm 4)
+
+> **Kaynak:** Kanıt ve kod blokları `donanım-api-kod-seti.md` §5-§6'dadır. Doğrulama:
+> `donanım-api-dogrulama.md` §26. K001 çekirdek dili sorusu **Z4 = UNKNOWN** (§5.4).
+
+| # | Dil | Donanım erişim yolu | Desen / FFI | Erişim derinliği | K001 uyumu | Öneri | Kanıt (kod-seti) | Durum |
+|---|---|---|---|---|---|---|---|---|
+| D1 | C | doğrudan sistem çağrısı | yok (native) | Seviye-0 | çekirdek referans | referans | §6.1 | ✅ |
+| D2 | C++ | RAII + `noexcept` | native / `dlopen` | Seviye-0 | **K001 birincil adayı** (C++20/JUCE) | çekirdek dil önerisi (N3) | §6.2 | ✅ |
+| D3 | Rust | `extern "C"` + `unsafe` | güvenli sarmalayıcı | Seviye-0 | alternatif | alternatif | §6.3 | ✅ |
+| D4 | Zig | `@cImport` C ABI | doğrudan C çağrısı | Seviye-0 | niş alternatif | alternatif | §6.4 | ✅ |
+| D5 | Python | `ctypes` | kütüphane yükleme | Seviye-2 | test/araç katmanı | test katmanı (N3) | §6.5 | ✅ |
+| D6 | Go | `syscall` · `cgo` | C köprüsü | Seviye-1 | servis/araç; GC gecikme riski | gerçek-zamanlı akışa uygun değil | §6.6 | ✅ |
+| D7 | C# | P/Invoke | marshalling | Seviye-1 | Windows yüzeyi (win-sw) adayı | Windows koluna aday | §6.7 | ✅ |
+| D8 | PHP | FFI (`FFI::cdef`) | preload FFI | Seviye-1 | web katmanı — repo dili ≠ donanım dili | donanıma doğrudan erişim ÖNERİLMEZ | §6.8 | ✅ |
+| D9 | JavaScript/Node | N-API eklentisi | native addon | Seviye-2 | araç/prototip; üçüncü parti paket yok (O2) | prototip sınırı | §6.9 | ✅ [TASARIM] |
+| D10 | Swift | Darwin/Glibc + CoreAudio | doğrudan | Seviye-0 | Apple platformu adayı | macOS/iOS koluna aday | §6.10 | ✅ |
+| D11 | Java / Kotlin | JNI (`native` / `external`) | VM üzerinden | Seviye-1 | Android yüzeyi adayı | yalnızca Android varsa | §6.11-§6.12 | ✅ |
+
+### §26.1 Dil matrisi — özet karar girdisi
+
+| # | Öneri (kod-seti §7/N3 ile aynı) | Durum |
+|---|---|---|
+| 1 | K001 çekirdek: **C++20** (D2); test: Python (D5); Windows kol: C# P/Invoke (D7) | öneri — Z4 UNKNOWN |
+| 2 | PHP (D8) donanıma FFI ile **dokunmaz** — repo web katmanıdır | öneri |
+| 3 | D4/D6/D9/D11 K001'de kanıt yok — önceliksiz, silinmez | tespit |
+| 4 | 11 dilin tamamı §5.1 derinlik tablosunda sınıflandırıldı (Seviye-0/1/2) | ✅ |
+
+**§26 sonucu (değişmez):** API diline dair nihai karar **Z4'tür ve UNKNOWN kalır** — bu
+matris yalnız karar girdisidir; doğrulama §5.4/Z4 ile birlikte okunur.
+
+---
+
+## §OS × DİL ERİŞİM MATRİSİ (api)
+
+> **Kapsam:** Cihaz API'si erişim katmanı — dil mekanizması (§26 D1–D11) × OS cihaz yolu
+> (§25 OS1–OS3 · kaynak `donanım-platformlararasi-kod-ornekleri.md` §PLATFORM MATRİSİ P4–P6)
+> eşleşmesi. **Bu tablo öneridir** — kaynak §G kanıtları algılama/bellek/disk katmanını taşır;
+> cihaz-yüzey kombinasyonları doğrulanana kadar ⚠️ işaretli kalır (uydurma API yok).
+
+### §OSD.1 Erişim matrisi (13 dil × 3 OS)
+
+| Dil | Windows | macOS | Linux |
+|---|---|---|---|
+| JavaScript/Node | N-API eklentisi [TASARIM] (§26 D9) → Kayıt defteri (P4) | N-API [TASARIM] → IOKit/CoreAudio HAL (P4 · §25 OS3) | N-API [TASARIM] → sysfs · ALSA (P4 · §25 OS1) |
+| C | doğrudan `DeviceIoControl` · SetupAPI (§25 OS2) | doğrudan IOKit/CoreAudio HAL (P4 · §25 OS3) ⚠️ | doğrudan `ioctl` · sysfs · ALSA `/dev/snd/*` (§25 OS1) |
+| C++ | RAII native (§26 D2) → `DeviceIoControl` (§25 OS2) | native → CoreAudio HAL (§25 OS3) | native → `ioctl`/sysfs (§25 OS1) |
+| Rust | `extern "C"` + `unsafe` (§26 D3) → Win32 yüzey ⚠️ — crate adı yazılmaz (§K4 yasağı) | Aynı FFI → CoreAudio ⚠️ — crate yok | Aynı FFI → ALSA ⚠️ — crate yok |
+| Python | `ctypes` (§26 D5) → Kayıt defteri/`DeviceIoControl` ⚠️ URL'siz | `ctypes` → IOKit ⚠️ üye adı doğrulanmadı | `ctypes` → `ioctl`/sysfs (§25 OS1) |
+| Go | `syscall`·`cgo` (§26 D6) → Win32 yüzey; gerçek-zamanlı akışa uygun değil (§26.1) | `cgo` → CoreAudio ⚠️ | `syscall`/`cgo` → ALSA ⚠️ |
+| C# | P/Invoke (§26 D7) → WASAPI `IAudioClient` (§25 OS2) ⚠️ K000 sahipliği | P/Invoke → CoreAudio ⚠️ | P/Invoke → ALSA ⚠️ |
+| PHP | FFI `FFI::cdef` (§26 D8) — donanıma **dokunulmaz** (§26.1/2) | Aynı — ÖNERİLMEZ (§26.1/2) | Aynı — ÖNERİLMEZ (§26.1/2) |
+| Bash | Cihaz API'si yok — alt süreç araç (§G8.1) | Cihaz API'si yok — `uname`/`sysctl` alt süreç (§G8.1) | Cihaz API'si yok — sysfs/`/proc` okuma (P4 · §G8.1) |
+| PowerShell | .NET tipleri + Win32 arkası (`GetAdaptersAddresses`, §G8.2) → Kayıt defteri (P4) | Algılama `[OSPlatform]::OSX` — cihaz şablonu yok (§G8.2) | Algılama `[OSPlatform]::Linux` — cihaz şablonu yok (§G8.2) |
+| Java | JNI (§26 D11) — masaüstü cihaz yüzeyi belgelenmedi ⚠️ | JNI → CoreAudio ⚠️ | JNI → ALSA ⚠️ |
+| Swift | `#if os(Windows)` + Foundation ⚠️ — Windows toolchain doğrulanmadı (§G9 risk 1) | Darwin + CoreAudio (§26 D10 · §25 OS3) — macOS kol adayı | Glibc + `/proc` (§G9.3) — ALSA yüzeyi belgelenmedi ⚠️ |
+| Kotlin | JNI (§26 D11) — Android adayı; masaüstü yüzey ⚠️ | Aynı ⚠️ | Aynı ⚠️ |
+
+### §OSD.2 Öneri ve risk notları
+
+**Öncelikli öneri (PHP/JS):** repo dili PHP/JS olduğu için cihaz API'sine **doğrudan erişim
+önerilmez** — PHP FFI ile donanıma dokunmaz (§26.1/2), JS N-API [TASARIM] prototip
+sınırındadır (§26 D9). Cihaz erişimi gerekiyorsa dil zinciri C++20 (D2) / C (D1) /
+Windows kolunda C# P/Invoke (D7) üzerinden kod-seti §4 katmanına devredilir;
+K001 çekirdek dili kararı Z4 = UNKNOWN'dur (§26).
+
+**Risk notları:**
+- `sysctl hw.memsize` (macOS) — Apple dokümantasyonu 404 (§K4 R1) → ⚠️ VERIFICATION REQUIRED.
+- `__APPLE__` ön-tanımlı makrosu — doğrulanmış birincil URL yok (§K4 R4) → ⚠️ VERIFICATION REQUIRED.
+- `getifaddrs` (macOS ağ arayüzü) — Apple arşiv sayfası 404 (§K4 R8) → ⚠️ VERIFICATION REQUIRED.
+- WASAPI (Windows) · CoreAudio (macOS) · ALSA (Linux) sahiplikleri K000-isletim-sistemi ile
+  paylaşılır — bu dosya yalnız çağrı şablonu gösterir (§PLATFORM MATRİSİ P5 sınır notu).
+
+### §OSD.3 Kaynak atıfı
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
 
 ---
 

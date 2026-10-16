@@ -43,6 +43,7 @@ Donanım çekirdeği: parça envanteri, kapasite/ölçü bilgisi ve temel sağl�
 | mimari | `donanım-core-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
 | kanit | `donanım-core-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-2 |
+| kod | `donanım-core-ornekler.md` | Kayıt örüntüleri ve sınır kartları (şablon/aktarım) | Kademe-2 |
 
 ---
 

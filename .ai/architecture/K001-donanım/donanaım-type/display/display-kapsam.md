@@ -591,4 +591,50 @@ REQUIRED`. Datasheet/ölçü değeri uydurulmamış; bilinmeyenler `UNKNOWN` /
 `⚠️ VERIFICATION REQUIRED` ile işaretlenmiştir. Süslü parantez yer tutucusu ve
 "belirsiz" anlamına gelen üç-harfli kısaltma (To Be Determined) **kullanılmamıştır**.
 
+---
+
+## §17 OS × DİL ERİŞİM MATRİSİ (ekran)
+
+> Bu bölüm `donanım-platformlararasi-kod-ornekleri.md` §PLATFORM MATRİSİ (P1–P6 · G1–G11)
+> üzerine kuruludur; **yeni URL eklenmemiştir.** Hücreler "OS algılama → donanım kayıt
+> yolu (§P4)" biçimindedir; doğrulanmamış dil-OS bağları hücre içinde `⚠️` ile işaretlidir.
+> Bölüm yalnız erişim yolu tanımlar — ölçüm/kanıt iddiası taşımaz (§16 · §14/6 geçerlidir).
+
+| Dil | Windows | macOS (Darwin) | Linux |
+|---|---|---|---|
+| JavaScript (Node.js) | `process.platform` (§G1) → Kayıt defteri (§P4) — EDID anahtarı ⚠️ (doğrulanmadı) | `process.platform` (§G1) → IOKit IORegistry (§P4) | `process.platform` (§G1) → sysfs `/sys/class/**` (§P4) |
+| C | `#if defined(_WIN32)` (§G2) → Kayıt defteri (§P4) ⚠️ | `__APPLE__` ⚠️ (§G2) → IOKit IORegistry (§P4) | `__linux__` (§G2) → sysfs `/sys/class/**` (§P4) |
+| Python | `sys.platform` (§G3) → `ctypes` + Kayıt defteri ⚠️ (URL'siz) | `sys.platform` (§G3) → IOKit ⚠️ (dil bağı URL'siz) | `sys.platform` (§G3) → sysfs `/sys/class/**` (§P4) okuma |
+| Go | `runtime.GOOS` (§G4) → kayıt okuma sarmalayıcı ⚠️ (yol yok §G4.3) | `runtime.GOOS` (§G4) → IOKit ⚠️ (sarmalayıcı yok) | `runtime.GOOS` (§G4) → sysfs okuma (dosya I/O §G4.2 · §P4) |
+| Rust | `cfg!` (§G5) → sarmalayıcı ADR bekliyor ⚠️ (§G5.3) | `cfg!` (§G5) → IOKit ⚠️ (§G5.3) | `cfg!` (§G5) → sysfs okuma ⚠️ (crate doğrulanmadı) |
+| C# (.NET) | `RuntimeInformation` (§G6) → Kayıt defteri (§P4) | `RuntimeInformation` (§G6) → IOKit P/Invoke ⚠️ | `RuntimeInformation` (§G6) → sysfs okuma (§P4) |
+| PHP | `PHP_OS_FAMILY` (§G7) → PHP'de kayıt/IOKit API'si **yok** → çocuk süreç ⚠️ | aynı ⚠️ | `PHP_OS_FAMILY` (§G7) → `/sys/class/**` dosya okuma (fopen, §P4) |
+| Bash | — (çocuk süreç: PowerShell ⚠️) | `uname -s` ⚠️ MINGW (§G8.1) → IOKit aracı doğrulanmadı ⚠️ | `uname -s` (§G8.1) → `cat /sys/class/**` (§P4) |
+| PowerShell | `[RuntimeInformation]::IsOSPlatform` (§G8.2) → `Get-ItemProperty` (Kayıt defteri, §P4) | — | — |
+| Java | `System.getProperty("os.name")` (§G8.3) → JNA/FFM ⚠️ (URL'siz, §K3) | aynı ⚠️ (§G8.3) | `System.getProperty` (§G8.3) → sysfs okuma ⚠️ (JNA/FFM URL'siz) |
+| Swift | `#if os(Windows)` (§G9) → fiziksel yol yazılmadı ⚠️ (rapor §4.11) | `#if os(macOS)` (§G9) → IOKit ⚠️ (dil-köprüsü rapor §4.11) | `#if os(Linux)` (§G9) → `/sys` köprüsü (§P4) ⚠️ |
+| Kotlin | Kotlin/Native POSIX / JVM `os.name` (§G10) → JNA/FFM ⚠️ | aynı ⚠️ (§G10) | Kotlin/Native POSIX + `/sys` (§G10) ⚠️ |
+| C++ | `#if defined(_WIN32)` (§G11) → Kayıt defteri (§P4) — G2 Win32 yolları | `__APPLE__` ⚠️ (§G11) → IOKit IORegistry (§P4) | `__linux__` (§G11) → sysfs `/sys/class/**` (§P4) |
+
+**Öneri (repo dili PHP/JS):** Ekran/panel kaydı PHP ve JS'te yalnız **dosya/registry
+çocuk süreç** düzeyindedir: Linux'ta PHP `/sys/class/**` okur (§P4), Windows/macOS'ta
+PHP'nin kayıt/IOKit erişimi **yoktur** → PowerShell/Çİ (Bash) çocuk süreçle Kayıt
+defteri / `system_profiler`-sınıfı araçlara devredilir (araç adları ⚠️).
+
+**Risk/uyumluluk (korunan ⚠️ kayıtları):**
+- Repo ölçümü: `EDID = 0 · DDC = 0 · HDMI = 0 · DisplayPort = 0` (§14/6) → fiziksel
+  ölçüm **YAPILMAMIŞTIR**, ekran envanteri `UNKNOWN` (Q-DK1); matris yalnız yol satar.
+- HDMI/DisplayPort **sürüm/özelliği** iddiası yasaktır; EDID/DDC okuma yolu bu oturumda
+  **doğrulanmadı** → hücrelerde `⚠️` korunur (§0 çelişki kaydı · `PROPOSED — APPROVAL
+  REQUIRED` durumu değişmedi).
+- Dosyanın 6 URL'si yalnız HEAD-200 ile varlık kanıtı taşır, **içerik okunmadı** (§14).
+- `__APPLE__` URL'siz (§K4/R4) · `sysctl hw.memsize` 404 (R1) · `getifaddrs` 404 (R8) ·
+  MINGW öneki (§G8.1) — ortak ⚠️ kayıtları bu dosyada da **silinmez**.
+- Go sarmalayıcı yok (§G4.3) · Rust ADR bekliyor (§G5.3) · Swift/Kotlin/JNA dil bağları
+  doğrulanmadı (§G8.4 · §G9 · §G10) → uydurma API/crate adı yazılmaz.
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

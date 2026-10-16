@@ -43,6 +43,7 @@ updated: 2026-10-13
 
 | Grup | Dosya | İş |
 |---|---|---|
+| **mimari** | [`index.md`](index.md) | Bu indeks — dal kimliği, durum/kapı özeti, çapraz referanslar (eksikti, 2026-10-14 tamamlandı) |
 | **mimari** | [`memory-kapsam.md`](memory-kapsam.md) | Kapsam İÇİN/DIŞINDA · komşu sınırlar (K000/K002) · derinlik · DDR/ECC/M.2/self-refresh eksenleri (§10–§13) |
 | **kanıt** | [`memory-dogrulama.md`](memory-dogrulama.md) | S1–S5 · repo ölçümü (RAM/DDR/EEPROM/cache) · **kapılar M1–M6** · URL defteri + JEDEC 403 çelişki kaydı (§6.4) |
 | **kod** | [`memory-ornekler.md`](memory-ornekler.md) | `shared/src/Cache/` gerçek kanıtı (6 sınıf — **yazılım sınırı**) + envanter/ölçüm/ECC/M.2 **şablonları** (§8–§12) |

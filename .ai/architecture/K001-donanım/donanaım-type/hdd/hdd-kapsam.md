@@ -530,4 +530,49 @@ kaynaklar içerir; doğrulanamayan iddialar ⚠️ VERIFICATION REQUIRED ile
 işaretlidir. Ölçüm içermeyen hiçbir rakam "ölçüldü" diye sunulmaz; aritmetik
 ile türetilen değerler §'lerinde "türetilmiş" olarak etiketlenmiştir.
 
+---
+
+## §21 OS × DİL ERİŞİM MATRİSİ (depolama — HDD)
+
+> Bu bölüm `donanım-platformlararasi-kod-ornekleri.md` §PLATFORM MATRİSİ (P1–P6 · G1–G11)
+> üzerine kuruludur; **yeni URL eklenmemiştir.** Hücreler "OS algılama → HDD/depolama
+> erişim yolu" biçimindedir; doğrulanmamış dil-OS bağları hücre içinde `⚠️` ile işaretlidir.
+> Bölüm yalnız erişim yolu tanımlar — ölçüm/kanıt iddiası taşımaz (§20 geçerlidir).
+
+| Dil | Windows | macOS (Darwin) | Linux |
+|---|---|---|---|
+| JavaScript (Node.js) | `process.platform` (§G1) → `GetLogicalDrives` / `A:`–`Z:` tarama (§P1) | `process.platform` (§G1) → `/Volumes` dizini (§P1) | `process.platform` (§G1) → `/proc/mounts` (§P1) |
+| C | `#if defined(_WIN32)` (§G2) → `GetLogicalDrives` (§P1) | `__APPLE__` ⚠️ (§G2) → `/Volumes` + IOKit (§P1 · §P4) | `__linux__` (§G2) → `/proc/mounts` + sysfs `/sys/class/block` (§P1 · §P4) |
+| Python | `sys.platform` (§G3) → `ctypes` + `GetLogicalDrives` ⚠️ (URL'siz) | `sys.platform` (§G3) → `/Volumes` (§P1) | `sys.platform` (§G3) → `/proc/mounts` (§P1) |
+| Go | `runtime.GOOS` (§G4) → kök listeleme std'de yok ⚠️ (§G4.3) | `runtime.GOOS` (§G4) → kök listeleme std'de yok ⚠️ (§G4.3) | `runtime.GOOS` (§G4) → `/proc/mounts` okuma (§G4.2 · §P1) |
+| Rust | `cfg!` (§G5) → sarmalayıcı ADR bekliyor ⚠️ (§G5.3) | `cfg!` (§G5) → `/Volumes` ⚠️ (sarmalayıcı yok) | `cfg!` (§G5) → `/proc/mounts` okuma ⚠️ (crate doğrulanmadı) |
+| C# (.NET) | `RuntimeInformation` (§G6) → `DriveInfo` (§G6.2) | `RuntimeInformation` (§G6) → `DriveInfo` → `/Volumes` (§G6.2 · §P1) | `RuntimeInformation` (§G6) → `DriveInfo` → `/proc/mounts` (§G6.2 · §P1) |
+| PHP | `PHP_OS_FAMILY` (§G7) → `disk_total_space` `A:`–`Z:` aday taraması (§G7.2 · §P1) | `PHP_OS_FAMILY` (§G7) → `/Volumes` taraması (§G7.2 · §P1) | `PHP_OS_FAMILY` (§G7) → `/proc/mounts` okuma (§P1) |
+| Bash | — (çocuk süreç: PowerShell) ⚠️ | `uname -s` ⚠️ MINGW (§G8.1) → `ls /Volumes` (§P1) | `uname -s` (§G8.1) → `cat /proc/mounts` (§P1) |
+| PowerShell | `[RuntimeInformation]::IsOSPlatform` (§G8.2) → `GetLogicalDrives` / `DriveInfo` (§P1) | — | — |
+| Java | `System.getProperty("os.name")` (§G8.3) → `File.listRoots()` ⚠️ (disk API doğrulanmadı) | aynı ⚠️ (§G8.3) → `/Volumes` (§P1) | `System.getProperty` (§G8.3) → `/proc/mounts` okuma ⚠️ (JNA/FFM URL'siz) |
+| Swift | `#if os(Windows)` (§G9) → fiziksel erişim yolu yazılmadı ⚠️ (rapor §4.11) | `#if os(macOS)` (§G9) → `/Volumes` (§P1) | `#if os(Linux)` (§G9) → `/proc` köprüsü (§P1) |
+| Kotlin | Kotlin/Native POSIX "Windows (MinGW)" / JVM `os.name` (§G10) ⚠️ | Kotlin/Native POSIX (§G10) → `/Volumes` ⚠️ | Kotlin/Native POSIX + `/proc` (§G10) ⚠️ |
+| C++ | `#if defined(_WIN32)` (§G11) → G2 ile aynı Win32 yolları | `__APPLE__` ⚠️ (§G11) → `/Volumes` + IOKit (§P1 · §P4) | `__linux__` (§G11) → `/proc/mounts` + sysfs `/sys/class/block` (§P1 · §P4) |
+
+**Öneri (repo dili PHP/JS):** Disk kök/bölüm tespiti PHP'de `disk_total_space` aday
+taraması (§G7.2), JS/Node'da `process.platform` + `/Volumes` / `/proc/mounts` okuma ile
+başlar. Windows'ta fiziksel disk ayrıntısı PHP'den doğrudan erişilemez — çocuk süreç
+(PowerShell `DriveInfo`/`GetLogicalDrives`) şablonuna devredilir; macOS `IOKit`, Linux
+sysfs `/sys/class/block` **Çİ/C++** katmanındadır (§P4).
+
+**Risk/uyumluluk (korunan ⚠️ kayıtları):**
+- `__APPLE__` ön-tanımlı makrosu için doğrulanmış birincil URL yok (§K4/R4); ortak ⚠️
+  kayıtları — macOS `sysctl -n hw.memsize` 404 (R1) ve `getifaddrs` 404 (R8) — bu
+  dosyada **silinmez**; HDD erişimi bellek/ağ yolunu kullanmaz, kayıt korunur.
+- Git Bash/MSYS2 `uname -s` MINGW öneki doğrulanamadı (§G8.1) → ⚠️ VERIFICATION REQUIRED.
+- Go std'de disk kök listeleme yok (§G4.3) · Rust sarmalayıcı ADR bekliyor (§G5.3) ·
+  Swift/Kotlin dil bağları doğrulanmadı (§G8.4 · §G9 · §G10) → bu hücreler şablondur.
+- SMART / bad-sector okuma yolu bu envanterde **yok** (Q-HK1) → matriste yer almaz,
+  uydurulmaz; ölçülmüş depolama kanıtı bu bölümden üretilmez (§20).
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

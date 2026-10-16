@@ -498,4 +498,49 @@ ALINMAZ (sınır sabiti).
 
 ---
 
+## §OS × DİL ERİŞİM MATRİSİ (kernel)
+
+> **Kapsam:** Kernel/alt-sistem katmanına erişim — sürücü çerçevesi, IORegistry,
+> sysfs/procfs. **Sınır (anayasa §9):** sürücü/düşük-seviye uygulama K001 kapsamı
+> dışındadır; bu tablo yalnız **çağrı şablonunu** gösterir. Alt-sistem sahiplikleri
+> (Driver Framework · IOKit/CoreAudio/ALSA) K000-isletim-sistemi ile paylaşılır.
+
+### §OSD.1 Erişim matrisi (13 dil × 3 OS)
+
+| Dil | Windows | macOS | Linux |
+|---|---|---|---|
+| JavaScript/Node | Doğrudan çekirdek çağrısı yok — algılama `process.platform` (§G1.1); Win32/Driver Framework K000 ⚠️ | Doğrudan yok — IOKit erişimi belgelenmedi ⚠️ | fs ile `/proc` okuma (§G1.3) · sysfs/sürücü erişimi yok |
+| C | Win32 API (§G2.2) · Driver Framework K000 ⚠️ | IOKit IORegistry (§G2.4) ⚠️ üye adı doğrulanmadı | procfs `/proc` + sysfs (§G2.3) |
+| Python | `ctypes` → Win32 `GlobalMemoryStatusEx` şablonu (§G3.4) ⚠️ URL'siz | `sysctl hw.memsize` alt süreç ⚠️ (§K4 R1 — 404) · IOKit belgelenmedi | `/proc` fs okuma (§G3.3) |
+| Go | Win32 çağrısı belgelenmedi — `runtime.GOOS` dalı disk/bellek ile sınırlı (§G4.3) ⚠️ K000 | macOS dalı §G4.3 — IOKit belgelenmedi ⚠️ | `/proc` fs okuma (§G4.2) |
+| Rust | std kütüphanesi Win32/IOKit **içermez** (§G5.3) — FFI seçimi ADR bekliyor ⚠️ | Aynı sınır (§G5.3) | Aynı — crate adı yazılmaz (§YASAKLAR 3) |
+| C# | P/Invoke `GlobalMemoryStatusEx` (§G6.3) · Driver Framework K000 ⚠️ | IOKit P/Invoke ⚠️ üye adı doğrulanmadı (§G6.4) | `/proc` fs okuma (§G6.3) |
+| PHP | Çocuk süreç PowerShell `Win32_OperatingSystem` (§G7.4) — çekirdek çağrısı yok | Çocuk süreç `sysctl` ⚠️ (§K4 R1) — IOKit yok | `/proc` fs okuma (§G7.3) |
+| Bash | Git Bash/MSYS2 `uname -s` çıktısı ⚠️ doğrulanamadı (§G8.1) | `uname -s` + `sysctl` alt süreç ⚠️ (§G8.1) | `uname -s` + `/proc/meminfo` aracı (§G8.1) |
+| PowerShell | .NET `RuntimeInformation` + `DriveInfo` (§G8.2) · Driver Framework K000 ⚠️ | Algılama `[OSPlatform]::OSX` — erişim yok (§G8.2) | Algılama `[OSPlatform]::Linux` — erişim yok (§G8.2) |
+| Java | Doğrudan çekirdek çağrısı yok — yalnız `os.name` algılama (§G8.3); JNI/JNA şablonu belgelenmedi ⚠️ | Aynı (§G8.3) | Aynı — `/proc` erişimi de belgelenmedi ⚠️ |
+| Swift | `#if os(Windows)` + Foundation ⚠️ — Windows toolchain doğrulanmadı (§G9 risk tablosu 1) | Foundation — IOKit belgelenmedi ⚠️ (§G9.4) | Foundation + `/proc` (§G9.3) ⚠️ üye adları doğrulanmadı |
+| Kotlin | JVM `os.name` · Native `uname`→`Windows_NT` MinGW (§G10.6) — çekirdek çağrısı yok | JVM/Native algılama (§G10.6) — IOKit yok | Native `platform.posix` ⚠️ C bridging doğrulanmadı (§G10.6 risk 3) |
+| C++ | `_WIN32` + Win32 API (§G11.6) · Driver Framework K000 ⚠️ | `__APPLE__` ⚠️ (§K4 R4) + IOKit ⚠️ (§G11.6) | `__linux__` + `/proc` `std::ifstream` (§G11.6) |
+
+### §OSD.2 Öneri ve risk notları
+
+**Öncelikli öneri (PHP/JS):** repo dili PHP/JS olduğu için kernel katmanında doğrudan
+sistem çağrısı **yoktur**; PHP `php_uname('s')` + çocuk süreç (§G7), Node `process.platform`
++ fs okuma (§G1) ile yetinir. Sürücü/işletim-sistemi alt-sistemi çağrısı gerekiyorsa
+K000-isletim-sistemi katmanına başvurulur — bu dosyanın sınırıdır.
+
+**Risk notları:**
+- `sysctl hw.memsize` (macOS) — Apple dokümantasyonu 404 (§K4 R1) → ⚠️ VERIFICATION REQUIRED.
+- `__APPLE__` ön-tanımlı makrosu — doğrulanmış birincil URL yok (§K4 R4) → ⚠️ VERIFICATION REQUIRED.
+- `getifaddrs` (macOS ağ arayüzü) — Apple arşiv sayfası 404 (§K4 R8) → ⚠️ VERIFICATION REQUIRED.
+- WASAPI (Windows) · CoreAudio (macOS) · ALSA (Linux) sahiplikleri K000-isletim-sistemi ile
+  paylaşılır — bu dosya yalnız çağrı şablonu gösterir (§PLATFORM MATRİSİ P5 sınır notu).
+
+### §OSD.3 Kaynak atıfı
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

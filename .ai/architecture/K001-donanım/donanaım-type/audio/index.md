@@ -49,6 +49,11 @@ Ses donanımı sınıfı: DAC/ADC, amplifikatör ve ses kartı parçaları. Hede
 | mimari | `audio-kapsam.md` | Ses donanımı kapsam sınırı: cip kaydı · ADR-038 (TEYİT) · K001↔K003 sınırı | Kademe-3 |
 | kanit | `audio-dogrulama.md` | Ses kapıları: M1–M6 eşik · envanter · web 200 kanıt matrisi | Kademe-3 |
 | kod | `audio-ornekler.md` | I2S/TDM pin · init sırası · kanal eşleme · jitter şablonları | Kademe-3 |
+| mimari | `cipler/ak4458-dac.md` | AK4458 DAC çip derin-dalı — künye/ölçü kaydı (eksikti, 2026-10-14 tamamlandı) | Kademe-4 |
+| mimari | `cipler/pcm3168a-codec.md` | PCM3168A codec çip derin-dalı — künye/ölçü kaydı (eksikti, 2026-10-14 tamamlandı) | Kademe-4 |
+| mimari | `cipler/tpa3255-amplifier.md` | TPA3255 amplifikatör referans derin-dalı — Class D yasak (eksikti, 2026-10-14 tamamlandı) | Kademe-4 |
+
+> **Sayım:** 4 + 3 = **7 satır = 7 md** (`index` + 3 dal + `cipler/` 3) — frontmatter `children` ile birebir.
 
 ---
 

@@ -9,16 +9,18 @@ children: []
 depends_on:
   - K001-donanım
   - K001-donanım/donanım-api/donanım-api-kapsam
+  - K001-donanım/donanım-api/donanım-api-kod-seti
 evidence:
   - K001-donanım/donanım-api/index.md
   - K001-donanım/donanım-api/donanım-api-kapsam.md
+  - K001-donanım/donanım-api/donanım-api-kod-seti.md
   - https://www.qualcomm.com/
-validation: "2026-10-13: doğrulama §5-§13 ile genişletildi; 73 → 500+ satır; repo kod kanıtları tazelendi (electronic 60 dosya / 20.711 satır); composer.json envanter çelişkisi kayda alındı"
+validation: "2026-10-13: doğrulama §5-§13 ile genişletildi; 73 → 500+ satır; repo kod kanıtları tazelendi (electronic 60 dosya / 20.711 satır); composer.json envanter çelişkisi kayda alındı · 2026-10-14: §25-§27 eklendi — kod-seti URL 31/31 HTTP 200 (envanter kesişimi 0/2.730) + kapsam §25/§26 matris çapraz kontrolü"
 open_questions:
   - "API çağrı seti henüz repo'da yok (PLANNED) — doğrulama zinciri açık"
   - "Q-A1 API protokolü kararı verilmedi"
 date: 2026-10-12
-updated: 2026-10-13
+updated: 2026-10-14
 group: kanit
 ---
 
@@ -507,6 +509,96 @@ olarak sunulmaz (§14.1 dipnotu, §16 dürstlük notu).
 **Devir:** Bu dosya 2026-10-13 tarihinde Vault Steward'a devredilmiştir. Z1-Z6 kararları
 verilmeden bu dosyadaki UNKNOWN işaretleri **kaldırılmaz**; karar sonrası yalnız ilgili
 satır güncellenir, tarihçe korunur.
+
+---
+
+## §25 Kod-seti URL doğrulama (2026-10-14 — `donanım-api-kod-seti.md`)
+
+**Yöntem:** `Invoke-WebRequest -Method Head -TimeoutSec 15 -UseBasicParsing -UserAgent 'Mozilla/5.0'`
+(HEAD reddedilirse GET yedeği). **Envanter kontrolü:** adaylar `url-inv-all.txt`
+(**2.730 URL**) ile karşılaştırıldı — **8 aday çakıştı ve değiştirildi** (ör. man7 ioctl.2 ·
+docs.kernel sound/index · win32/coreaudio/ · apple coreaudio · avaudiosession ·
+android ndk audio · MDN Web Audio · webOSTV kök); sonuçta kullanılan **31 URL'nin tamamı
+envanter dışı → kesişim 0**.
+
+### §25.1 OS kanıtları (19 URL — hepsi HTTP 200 · 2026-10-14)
+
+| # | URL | Kullanım (kod-seti) | HEAD 2026-10-14 | Envanter |
+|---|---|---|---|---|
+| #L1 | https://pubs.opengroup.org/onlinepubs/9699919799/functions/ioctl.html | §4.1 POSIX ioctl | ✅ 200 | 0 |
+| #L2 | https://docs.kernel.org/sound/kernel-api/alsa-driver-api.html | §4.2 ALSA sürücü API | ✅ 200 | 0 |
+| #L3 | https://docs.kernel.org/filesystems/sysfs.html | §4.3 sysfs | ✅ 200 | 0 |
+| #W1 | https://learn.microsoft.com/en-us/windows/win32/api/ioapiset/nf-ioapiset-deviceiocontrol | §4.4 IOCTL | ✅ 200 | 0 |
+| #W2 | https://learn.microsoft.com/en-us/windows/win32/api/audioclient/nn-audioclient-iaudiorenderclient | §4.5 WASAPI render | ✅ 200 | 0 |
+| #W3 | https://learn.microsoft.com/en-us/windows/win32/coreaudio/stream-routing | OS2 akış yönlendirme | ✅ 200 | 0 |
+| #M1 | https://developer.apple.com/library/archive/samplecode/HALExamples/Listings/ConfigDefaultOutput_c.html | §4.6 CoreAudio HAL (imza arşiv örneğinden) | ✅ 200 | 0 |
+| #M2 | https://developer.apple.com/documentation/coreaudio/kaudiohardwarepropertydefaultoutputdevice | §4.7 güncel property | ✅ 200 | 0 |
+| #I1 | https://developer.apple.com/documentation/avfaudio/avaudiosession/setcategory(_:options:) | §4.8 iOS session | ✅ 200 | 0 |
+| #I2 | https://developer.apple.com/library/archive/documentation/Audio/Conceptual/AudioSessionProgrammingGuide/AudioSessionBasics/AudioSessionBasics.html | OS4 kategori/mode | ✅ 200 | 0 |
+| #A1 | https://developer.android.com/ndk/reference/group/audio | §4.9 AAudio | ✅ 200 | 0 |
+| #F1 | https://docs.freebsd.org/en/books/handbook/multimedia/ | §4.10 FreeBSD OSS | ✅ 200 | 0 |
+| #R1 | https://docs.zephyrproject.org/latest/services/index.html | §4.11 Zephyr kök | ✅ 200 | 0 |
+| #R2 | https://www.keil.com/pack/doc/CMSIS/DSP/html/index.html | §4.12 CMSIS-DSP | ✅ 200 | 0 |
+| #B1 | https://developer.mozilla.org/en-US/docs/Web/API/WebHID_API | §4.13 WebHID | ✅ 200 | 0 |
+| #B2 | https://developer.mozilla.org/en-US/docs/Web/API/WebUSB_API | §4.14 WebUSB | ✅ 200 | 0 |
+| #B3 | https://chromeos.dev/en/linux | OS9 Crostini/Linux kabı | ✅ 200 | 0 |
+| #T1 | https://docs.tizen.org/application/native/guides/multimedia/audio-management/ | §4.15 Tizen CAPI | ✅ 200 | 0 |
+| #O1 | https://webostv.developer.lge.com/develop/guides/acg-guide | §4.16 webOS Luna ACG | ✅ 200 | 0 |
+
+### §25.2 Dil kanıtları (12 URL — hepsi HTTP 200 · 2026-10-14)
+
+| # | URL | Kullanım (kod-seti) | HEAD 2026-10-14 | Envanter |
+|---|---|---|---|---|
+| #G1 | https://en.cppreference.com/w/c | §6.1 C | ✅ 200 | 0 |
+| #G2 | https://en.cppreference.com/w/cpp | §6.2 C++ | ✅ 200 | 0 |
+| #G3 | https://doc.rust-lang.org/nomicon/ | §6.3 Rust unsafe/FFI | ✅ 200 | 0 |
+| #G4 | https://ziglang.org/learn/overview/ | §6.4 Zig | ✅ 200 | 0 |
+| #G5 | https://docs.python.org/3/library/ctypes.html | §6.5 Python | ✅ 200 | 0 |
+| #G6 | https://pkg.go.dev/cmd/cgo | §6.6 Go cgo | ✅ 200 | 0 |
+| #G7 | https://learn.microsoft.com/en-us/dotnet/standard/native-interop/ | §6.7 C# P/Invoke | ✅ 200 | 0 |
+| #G8 | https://www.php.net/manual/en/book.ffi.php | §6.8 PHP FFI | ✅ 200 | 0 |
+| #G9 | https://nodejs.org/api/n-api.html | §6.9 Node N-API | ✅ 200 | 0 |
+| #G10 | https://developer.apple.com/documentation/swift | §6.10 Swift | ✅ 200 | 0 |
+| #G11 | https://docs.oracle.com/en/java/javase/21/docs/specs/jni/intro.html | §6.11 JNI | ✅ 200 | 0 |
+| #G12 | https://kotlinlang.org/docs/java-interop.html | §6.12 Kotlin | ✅ 200 | 0 |
+
+**Sonuç (§25):** 31/31 HTTP 200 · envanter kesişimi **0/2.730** · tek-dosya tekrar **0**
+(kod-seti §8 ile bu §25 dosyalar içinde ayrı listelerdir, URL'ler kendi dosyalarında bir kez geçer).
+Her URL bir kez kuralı ihlali yok. İç-dosya (kod-seti kendi içinde) tekrar: 0.
+
+---
+
+## §26 Kapsam §25/§26 özet matris çapraz kontrolü (2026-10-14)
+
+| # | Kontrol | Beklenen | Ölçüm | Durum |
+|---|---|---|---|---|
+| X1 | Kapsam §25 OS satırı | 11 OS (Linux·Windows·macOS·iOS·Android·FreeBSD·Zephyr·CMSIS/Web dahil gömülü·Web/ChromeOS·Tizen·webOS) | 11/11 satır | ✅ |
+| X2 | Kapsam §26 dil satırı | 11 dil (C·C++·Rust·Zig·Python·Go·C#·PHP·JS/Node·Swift·Java/Kotlin) | 11/11 satır | ✅ |
+| X3 | Kapsam → kod-seti çapraz referans | her satır `§4.x`/`§6.x` kod bloğu gösterir | 11 OS + 11 dil bağlantıları kod-seti §4/§6 ile eşleşiyor | ✅ |
+| X4 | Kapsam'da URL tekrarı | yok (URL'ler yalnız kod-seti §8 + doğrulama §25) | kapsam §25/§26'da 0 URL | ✅ |
+| X5 | Bilinmeyen işaretleme | hedef-OS (Q-A1) ve API dili (Z4) UNKNOWN kalmalı | kapsam §25 sonucu + §26 sonucu UNKNOWN taşıyor | ✅ |
+| X6 | Kod-seti dosya sayısı/blok | matris + bloklar | 576 satır · **28 kod bloğu** (§4.1-§4.16 = 16 · §6.1-§6.12 = 12) | ✅ |
+| X7 | Kod derleme kapısı | derlenmedi → `⚠️` | kod-seti K1 açık soru + her blokta `derlenmedi` etiketi | ✅ işaretli |
+| X8 | Frontmatter | kod-seti FM 7 alan (node_id·type·status·parent·children·depends·evidence) + validation/open_questions/group | mevcut | ✅ |
+
+> **X6 sayım kuralı:** Blok sayısı 28 = §4'te 16 (4.1-4.16; §4.7 yalnız property
+> referansı) + §6'da 12 (6.1-6.12). Kod-seti `validation` alanı da 28/28 ile hizalanır
+> (bkz. §27/S2 dipnotu).
+
+---
+
+## §27 Bu tur sayımları ve §21 ile ilişki (2026-10-14)
+
+| # | Dosya | Önceki ölçüm | Yeni ölçüm | Not |
+|---|---|---|---|---|
+| S1 | `donanım-api-kapsam.md` | 544 satır (§13/F6) | **601 satır** (+57: §25-§26) | önceki ölçüm aynen duruyor (F5 usulü iki kayıt) |
+| S2 | `donanım-api-kod-seti.md` | — (yeni dosya) | **576 satır** | 2026-10-14 üretildi |
+| S3 | `donanım-api-dogrulama.md` | 513 satır (§21) | **605 satır** (+92: §25-§27) | önceki ölçüm aynen duruyor |
+| S4 | `index.md` | 54 satır | 54 satır (hizalama: GRUPLAR + ilişkili dosya satırı — sayımda ±1-2 satır) | index güncellemesi bu turun son adımı |
+
+**§21 ilişkisi:** §21'deki toplamlar (ör. FM 10 alan · URL 24 vb.) **2026-10-13 ölçümüdür** ve
+değiştirilmez; bu tur ölçümleri §25-§27'de **ek olarak** kayıtlıdır — sessiz düzeltme yok,
+iki ölçüm de vardır (§23/F5 disiplini).
 
 ---
 

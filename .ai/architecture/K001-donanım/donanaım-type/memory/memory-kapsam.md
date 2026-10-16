@@ -501,4 +501,35 @@ kararları → **K002-electroncis** (§5/§4.2).
 
 ---
 
+## §15 OS × DİL ERİŞİM MATRİSİ (bellek)
+
+> **Kapsam:** Bellek envanteri/ölçümü (toplam RAM, slot/tescilli hız, sıcaklık) OS donanım
+> katmanına hangi dille erişilir? Yalnız kanıtlanmış arayüzler; uydurma API yok.
+
+| Dil | Windows | macOS | Linux |
+|---|---|---|---|
+| JavaScript/Node | `os.totalmem()` / `os.freemem()` · ayrıntı için `wmic`/PowerShell'e çocuk süreç ⚠️ `wmic` kullanımdan kaldırma durumu VERIFICATION REQUIRED | `os.totalmem()` · `sysctl hw.memsize` ⚠️ toplam RAM için `hw.memsize` doğrulanmadı (kaynak §K3'te Apple 404) | `os.totalmem()` · `/proc/meminfo` okuma |
+| PHP | `PHP_INT_SIZE` + Win32 SAPI ⚠️ cins ayrıntısı VERIFICATION REQUIRED | aynı ⚠️ | `/proc/meminfo` okuma (fopen) |
+| Python | `os.statvfs` yok → `ctypes` + `GlobalMemoryStatusEx` ⚠️ ctypes/Win32 URL'siz | `sysctl hw.memsize` ⚠️ | `/proc/meminfo` okuma |
+| C / C++ | `GlobalMemoryStatusEx` (kernel32) | `sysctl hw.memsize` ⚠️ | `/proc/meminfo` okuma |
+| C# / PowerShell | `GlobalMemoryStatusEx` P/Invoke (SetLastError) | — | `/proc/meminfo` okuma |
+| Rust | `windows` crate `GlobalMemoryStatusEx` | — | `/proc/meminfo` okuma |
+| Go | `golang.org/x/sys/windows` `GlobalMemoryStatusEx` | — | `/proc/meminfo` okuma |
+| Bash | yok (çocuk süreç: PowerShell) | `sysctl -n hw.memsize` ⚠️ | `grep -E 'MemTotal|MemFree' /proc/meminfo` |
+| Java / Kotlin | JNA `GlobalMemoryStatusEx` ⚠️ JNA/FFM URL'si yok (K3) | JNA `sysctlbyname` ⚠️ | `/proc/meminfo` okuma |
+| Swift | yok | `Process` → `sysctl hw.memsize` ⚠️ (IOKit Registry bit BOOLEAN/prop) | yok |
+
+**Öncelikli öneri (PHP/JS):** Toplam bellek `os.totalmem()` (Node) veya `/proc/meminfo`
+(Linux PHP) ile okunur; Windows'ta ayrıntılı tescil/slot verisi yalnızca PowerShell/Çİ (C, C#)
+üzerinden `GlobalMemoryStatusEx` — PHP'den Win32 erişimi yoktur ve uydurulmaz.
+
+**Risk notları:**
+- `sysctl hw.memsize` (macOS) — bu belgede Apple dokümantasyonu doğrulanamadı (404) → ⚠️ VERIFICATION REQUIRED.
+- Bellek sahipliği/sıcaklık (SPD/DMIDECODE sınıfı) Linux'ta root ayrıcalığı ister; kullanıcı-kipi PHP bunu **yapamaz** → erişilemeyen hücre `—` ile gösterilir, uydurulmaz.
+- Java/Kotlin JNA/FFM ile sistem kütüphanesi bağlanır; URL doğrulaması yok → ⚠️ VERIFICATION REQUIRED.
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

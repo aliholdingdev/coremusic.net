@@ -761,4 +761,49 @@ C-T02 (montaj, KATMAN-1/2) + protokol alanı `USB 2.0/3.x ⚠️ etiket`.
 
 ---
 
+## §9 OS × DİL ERİŞİM MATRİSİ (kablo/konnektör tespiti)
+
+> Bu bölüm `donanım-platformlararasi-kod-ornekleri.md` §PLATFORM MATRİSİ (P1–P6)
+> üzerine kuruludur; **yeni URL eklenmemiştir**. Kablo/konnektör tespiti fiziksel
+> USB/konnektör yüzeyinin OS üzerinden okunmasıdır — sürücü kodu K000'dir.
+> `⚠️ VERIFICATION REQUIRED` işaretli hücreler korunmuştur.
+
+| Dil | Windows | macOS (Darwin) | Linux |
+|---|---|---|---|
+| JavaScript (Node.js) | SetupAPI (native addon) ⚠️ | IOKit ⚠️ | sysfs `/sys/bus/usb` + `udev` ⚠️ |
+| C | SetupAPI | IOKit ⚠️ | sysfs `/sys/bus/usb` |
+| Python | SetupAPI (ctypes) ⚠️ | IOKit ⚠️ | sysfs `/sys/bus/usb` |
+| Go | SetupAPI ⚠️ (crate/ffi yok) | IOKit ⚠️ | sysfs `/sys/bus/usb` |
+| Rust | SetupAPI ⚠️ (crate adı yazılmaz) | IOKit ⚠️ | sysfs `/sys/bus/usb` |
+| C# (.NET) | SetupAPI P/Invoke ⚠️ | IOKit P/Invoke ⚠️ | sysfs `/sys/bus/usb` okuma |
+| PHP | SetupAPI ⚠️ (sarmalayıcı yok) | IOKit ⚠️ | sysfs `/sys/bus/usb` okuma |
+| Bash | — (Windows-native değil) | `system_profiler SPUSBDataType` ⚠️ | `lsusb` · sysfs `/sys/bus/usb` |
+| PowerShell | SetupAPI / `Get-PnpDevice` ⚠️ | — | — |
+| Java | JNA/FFM ⚠️ (üye doğrulanmadı) | JNA/FFM ⚠️ | JNA/FFM ⚠️ |
+| Swift | — | IOKit | — |
+| Kotlin | JNA/FFM ⚠️ | JNA/FFM ⚠️ | JNA/FFM ⚠️ |
+| C++ | SetupAPI | IOKit ⚠️ | sysfs `/sys/bus/usb` |
+
+**Öneri (repo dili PHP/JS):** JS/Node dalı Linux'ta `sysfs /sys/bus/usb`
+dizin okumasıyla, PHP dalı Linux'ta `scandir('/sys/bus/usb/devices')` ile
+başlar (doğrulanmış linux doc `docs.kernel.org/filesystems/sysfs.html` 200);
+Windows SetupAPI ve macOS IOKit dalları **şablon/PROPOSED** kalır (§G8.4
+kapsam dışı). 13 dilin tamamı tabloda; üretim sırası Q1 (Vault Steward).
+
+**Risk/uyumluluk:**
+- `IOKit` macOS dalı `⚠️ VERIFICATION REQUIRED` — `__APPLE__` URL'siz (R4),
+  derin USB sayfası doğrulanmadı (`developer.arm.com` 403 değil, IOKit kök 200
+  yalnız API dokümanı).
+- USB/konnektör tespiti Linux'ta sysfs ile doğru; ancak hot-plug olay akışı
+  (uevent) K000 kernel alanıdır — bu bölüm yalnız **statik envanter okuması** satar.
+- SetupAPI üye adları (ör. `SetupDiGetClassDevs`) doğrulanmış Windows API'dir
+  (learn.microsoft.com 200, §K3/20-22); Swift/Kotlin/Java FFM/JNA üye adları
+  **doğrulanmadı** → `⚠️ VERIFICATION REQUIRED`.
+- PowerShell/Java/Swift için boş hücre uydurulmaz — dilin OS taşımadığı yerde
+  `—` yazılır.
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

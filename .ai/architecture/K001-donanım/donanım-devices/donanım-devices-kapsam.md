@@ -506,4 +506,53 @@ gerekirse ayrı ölçüm kanıtı (L3) ve tarih ister.
 6. Bu makinede gerçek cihaz envanteri yoktur; tüm kayıt örüntüleri şablondur, her
    `marka`/`model` alanı `UNKNOWN`'dır (§9).
 
+## §OS × DİL ERİŞİM MATRİSİ (devices)
+
+> **Kapsam:** Cihaz tespiti katmanı — hangi dilde cihaz tespiti repo'da **IMPLEMENTED**?
+> Kanıt: `shared/src/Device/DeviceDetector.php` (316 satır · `detect()` L57–92) ·
+> `shared/src/Device/DeviceManager.php` (654 satır · L29–40) · istemci JS'i
+> `assets.coremusic.net/js/`. Repo dil sayımı 2026-10-14 (`.git`/`vendor`/`node_modules` hariç).
+
+### §OSD.1 Erişim matrisi (13 dil × 3 OS)
+
+| Dil | Windows | macOS | Linux |
+|---|---|---|---|
+| JavaScript/Node | IMPLEMENTED — istemci cihaz tespiti: `core/breakpoints.js` · `device-layout-updater.js` · `device-loader.js` (16 isabet; `process.platform` 0 isabet) | Aynı istemci betikleri — viewport tabanlı, OS-bağımsız | Aynı istemci betikleri |
+| PHP | IMPLEMENTED — `DeviceDetector::detect()` (DeviceDetector.php L57–92) + `DeviceManager` (DeviceManager.php L29–40) · OS algılama `php_uname('s')` (DesktopBff.php:35) | Aynı — sunucu tarafı tespit OS-bağımsız | Aynı — Linux hedef ortam |
+| C | UNKNOWN — repo'da `*.c` 0 dosya (ölçüm 2026-10-14) | UNKNOWN — `*.c` 0 | UNKNOWN — `*.c` 0 |
+| Python | UNKNOWN — üretim 0; yalnız vault betiği `.ai/scripts/fix-mojibake.py` | Aynı | Aynı |
+| Go | UNKNOWN — repo'da `*.go` 0 dosya | UNKNOWN — `*.go` 0 | UNKNOWN — `*.go` 0 |
+| Rust | UNKNOWN — repo'da `*.rs` 0 dosya | UNKNOWN — `*.rs` 0 | UNKNOWN — `*.rs` 0 |
+| C# | UNKNOWN — repo'da `*.cs` 0 dosya | UNKNOWN — `*.cs` 0 | UNKNOWN — `*.cs` 0 |
+| Bash | UNKNOWN — repo'da `*.sh` 0 dosya | UNKNOWN — `*.sh` 0 | UNKNOWN — `*.sh` 0 |
+| PowerShell | UNKNOWN — yalnız vault betikleri (`.ai/scripts/*.ps1` — 6 dosya), üretim 0 | Aynı | Aynı |
+| Java | UNKNOWN — repo'da `*.java` 0 dosya | UNKNOWN — `*.java` 0 | UNKNOWN — `*.java` 0 |
+| Swift | UNKNOWN — repo'da `*.swift` 0 dosya | UNKNOWN — `*.swift` 0 | UNKNOWN — `*.swift` 0 |
+| Kotlin | UNKNOWN — repo'da `*.kt` 0 dosya | UNKNOWN — `*.kt` 0 | UNKNOWN — `*.kt` 0 |
+| C++ | UNKNOWN — repo'da `*.cpp`/`*.h` 0 dosya | UNKNOWN — 0 | UNKNOWN — 0 |
+
+> **Not (§OSD.1/PHP):** cihaz tespiti satırı yalnız IMPLEMENTED kanıtını taşır; PHP OS
+> kancası (`PHP_OS_FAMILY` birinci taraf kodda 0 isabet, §G7.4) bu dosyada ayrı satır
+> almaz — PHP kanca tablosu `donanım-kod-ornekleri.md` §OSK'dadır.
+
+### §OSD.2 Öneri ve risk notları
+
+**Öncelikli öneri (PHP/JS):** cihaz tespiti zaten **iki dilde IMPLEMENTED** — sunucu tarafı
+PHP (`DeviceDetector`/`DeviceManager` + `php_uname('s')`), istemci tarafı Vanilla JS
+(breakpoints/device-layout-updater). Yeni OS×dil tespit kodu için ek dile gerek yok;
+yalnız OS algılama kancası PHP'de `php_uname('s')` ile açıktır (DesktopBff.php:35).
+
+**Risk notları:**
+- Diğer 11 dil repo üretim kodunda **0 dosya** → `UNKNOWN`; PLANNED'e çevrilebilmesi için
+  ADR + kod kanıtı gerekir (uydurma IMPLEMENTED yazılmaz).
+- `sysctl hw.memsize` (macOS) — Apple dokümantasyonu 404 (§K4 R1) → ⚠️ VERIFICATION REQUIRED.
+- `__APPLE__` ön-tanımlı makrosu — doğrulanmış birincil URL yok (§K4 R4) → ⚠️ VERIFICATION REQUIRED.
+- `getifaddrs` (macOS ağ arayüzü) — Apple arşiv sayfası 404 (§K4 R8) → ⚠️ VERIFICATION REQUIRED.
+- WASAPI (Windows) · CoreAudio (macOS) · ALSA (Linux) sahiplikleri K000-isletim-sistemi ile
+  paylaşılır — bu dosya yalnız çağrı şablonu gösterir (§PLATFORM MATRİSİ P5 sınır notu).
+
+### §OSD.3 Kaynak atıfı
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

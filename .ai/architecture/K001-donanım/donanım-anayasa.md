@@ -495,6 +495,7 @@ Bu belge K001 düğümünün bağlayıcı kural setidir; çelişkide bu dosya ka
 | `donanım-kararlar.md` | karar kaydı | 130 | ≥500 hedef |
 | `donanım-web-arastirma.md` | web araştırması | 134 | ≥500 hedef |
 | `donanım-kod-ornekleri.md` | kod örnekleri | 135 | ≥500 hedef |
+| `donanım-platformlararasi-kod-ornekleri.md` | çapraz-platform kod şablonları (Windows/macOS/Linux · 8 dil grubu) | 1018 | yeni — 2026-10-14 (G1–G8 kapı ölçümü §K1) |
 | `donanım-kernel/` | 2 içerik + index | 87 · 66 · — | ≥500 hedef |
 | `donanım-core/` | 2 içerik + index | 87 · 62 · — | ≥500 hedef |
 | `donanım-api/` | 2 içerik + index | 85 · 61 · — | ≥500 hedef |

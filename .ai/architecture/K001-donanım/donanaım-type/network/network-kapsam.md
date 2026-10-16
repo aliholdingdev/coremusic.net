@@ -512,4 +512,45 @@ Bu ikisi AYRIKayıtlardır; akış erişimi asla donanım tipi sayılmaz (N-T10 
 
 ---
 
+## §9 OS × DİL ERİŞİM MATRİSİ (ağ donanımı)
+
+> Bu bölüm `donanım-platformlararasi-kod-ornekleri.md` §PLATFORM MATRİSİ (P1–P6)
+> üzerine kuruludur; **yeni URL eklenmemiştir**. Ağ erişimi fiziksel NIC/Wi-Fi/
+> modem donanımının OS üzerinden listelenmesidir; TCP/IP yığını K000'dir (§4).
+
+| Dil | Windows | macOS (Darwin) | Linux |
+|---|---|---|---|
+| JavaScript (Node.js) | `GetAdaptersAddresses` (native addon) ⚠️ | `getifaddrs` ⚠️ (404) | `/proc/net` + netlink ⚠️ |
+| C | `GetAdaptersAddresses` | `getifaddrs` ⚠️ | `/proc/net` + netlink |
+| Python | `GetAdaptersAddresses` (ctypes) ⚠️ | `getifaddrs` ⚠️ | `/proc/net` + netlink |
+| Go | `GetAdaptersAddresses` ⚠️ (net stdlib) | `getifaddrs` ⚠️ | `/proc/net` + netlink ⚠️ |
+| Rust | `GetAdaptersAddresses` ⚠️ (crate adı yok) | `getifaddrs` ⚠️ | `/proc/net` + netlink ⚠️ |
+| C# (.NET) | `NetworkInterface` (BCL) | `getifaddrs` ⚠️ P/Invoke | `/proc/net` okuma |
+| PHP | `GetAdaptersAddresses` ⚠️ (sarmalayıcı yok) | `getifaddrs` ⚠️ | `/proc/net` okuma |
+| Bash | — | `ifconfig`/`netstat` ⚠️ | `ip link` · `/proc/net` |
+| PowerShell | `Get-NetAdapter` ⚠️ | — | — |
+| Java | JNA/FFM ⚠️ | JNA/FFM ⚠️ | JNA/FFM ⚠️ |
+| Swift | — | `getifaddrs` ⚠️ | — |
+| Kotlin | JNA/FFM ⚠️ | JNA/FFM ⚠️ | JNA/FFM ⚠️ |
+| C++ | `GetAdaptersAddresses` | `getifaddrs` ⚠️ | `/proc/net` + netlink |
+
+**Öneri (repo dili PHP/JS):** JS/Node ve PHP Linux dalları `/proc/net` +
+`netifaces`/dosya okuma ile başlar (`docs.kernel.org/filesystems/proc.html` 200);
+Windows `GetAdaptersAddresses` (learn.microsoft.com iphlpapi 200, §K3/22),
+macOS `getifaddrs` **şablon/PROPOSED** kalır (R8 404 → `⚠️`).
+
+**Risk/uyumluluk:**
+- macOS `getifaddrs` `⚠️ VERIFICATION REQUIRED` (Apple archive 404 — §K4/R8);
+  `__APPLE__` URL'siz (R4).
+- netlink (Linux) düşük seviye socket çağrısıdır — erişim K000/kernel sınırındadır;
+  bu bölüm yalnız **statik arayüz listeleme** şablonu satar.
+- MAC adresi/anten gücü **envanter verisi** değildir (Q-N1); okuma sonucu
+  donanım kanıtı sayılmaz, yalnız erişim yolu şablonudur.
+- Bluetooth/Wi-Fi modül tespiti (N-T02/N-T03) OS registry/sysfs ile farklılaşır —
+  ayrı ölçüm kapıları `network-dogrulama.md` §3'tedir.
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

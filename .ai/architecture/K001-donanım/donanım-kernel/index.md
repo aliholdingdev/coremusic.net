@@ -43,6 +43,7 @@ Donanıma en yakın katman: çekirdek seviyesinde erişim (register okuma-yazma,
 | mimari | `donanım-kernel-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
 | kanit | `donanım-kernel-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-2 |
+| kod | `donanım-kernel-ornekler.md` | Erişim yolu şablonları ve kapı denetim kartları | Kademe-2 |
 
 ---
 

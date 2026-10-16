@@ -27,11 +27,12 @@ open_questions:
   - "donanaım-type yazımı kaynaktan birebir korunmuştur (düzeltme YASAK) — bilgi notudur"
 group: mimari
 ---
-
 # K001-donanım — Kayıt
+## §1.5 İlişkili Proje Kaydı (2026-10-14)
+
+**Neva Engine K1 donanım eşlemesi** — `.ai/projects/NevaEngine/00-sdk-lib-envanter.md` + `01-gelistirme-plani.md`. Yazılım tarafı: ASIO/WASAPI/ALSA/CoreAudio backends (Faz 1) → PCM3168A (6-in/8-out, SNR 112dB) / AK4458 (8-kanal 32-bit DAC) çıkışları. Loopback THD+N/SNR ölçüm kapısı (02-dsp-zincir-mimari §4): THD+N <0.005% · SNR >105dB · gerçek DAC'ta AES17 ölçümü (ADR-038). donanaım-type/audio/cipler/ (ak4458-dac · pcm3168a-codec) ile birebir eşleşme.
 
 **ELI15 (v2 §2.2, birebir):** Kasadaki fiziksel parçalar — disk, ses kartı, ekran, kablolar.
-
 > **Alan notu:** depends_on satırı **tasarım iddiasıdır** [TASARIM] — gerekçesi ve
 > etiketli tam matris donanım-bagimliliklar.md içindedir.
 
@@ -89,11 +90,11 @@ group: mimari
 | mimari | `donanım-kararlar.md` | Karar, alternatif ve gerekçe kaydı | Kademe-1 |
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-1 |
 | kod | `donanım-kod-ornekleri.md` | Gerçek repo kodu, dosya ve satır | Kademe-1 |
+| kod | `donanım-platformlararasi-kod-ornekleri.md` | Dil gruplı Windows/macOS/Linux çapraz-platform kod şablonları (§G1–§G8) | Kademe-1 |
 | kod | `donanım-test-stratejisi.md` | Test kapsamı ve kabul kriterleri | Kademe-1 |
 | kanit | `donanım-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-1 |
 | kanit | `donanım-riskler.md` | Risk, etki, olasılık ve azaltım planı | Kademe-1 |
 | kanit | `donanım-web-arastirma.md` | Sistemli resmi kaynak tarama kaydı | Kademe-1 |
-
 ---
 
 **Authority:** Bayram Ali / Vault Steward

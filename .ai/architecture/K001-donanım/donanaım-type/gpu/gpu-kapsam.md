@@ -582,4 +582,38 @@ DEĞİLDİR (repo ≠ donanım envanteri, Q-GK2 UNKNOWN).
 | ADR-102 boşluğu kaydedildi, değiştirilmedi | ✅ (§0.1/8) |
 | `parent:` · yasak yer tutucu yok | ✅ |
 
+---
+
+## §24 OS × DİL ERİŞİM MATRİSİ (grafik erişimi)
+
+> **Kapsam:** GPU/Görüntü donanımı tespiti (ad, sürücü, PCIe konumu) hangi OS
+> arayüzüyle hangi dilden erişilir? Fiziksel ölçüm YOK; bu bölüm yalnız erişim yollarını
+> tanımlar (§6 sayısal eşlik yasağı ve §23 Dürüstlük Bloğu geçerlidir).
+
+| Dil | Windows | macOS | Linux |
+|---|---|---|---|
+| JavaScript/Node | `wmic path win32_VideoController` / PowerShell child ⚠️ ayrıntı doğrulanmadı | `system_profiler SPDisplaysDataType` child ⚠️ | `lspci` child / sysfs `/sys/class/drm` okuma |
+| PHP | Windows'ta yerel grafik API'si yok → çocuk süreç (PowerShell) ⚠️ | çocuk süreç `system_profiler` ⚠️ | `/sys/class/drm` okuma (fopen) |
+| Python | `ctypes` + DXGI/SetupAPI ⚠️ URL'siz | `subprocess` → `system_profiler` ⚠️ | `/sys/class/drm` + `lspci` okuma |
+| C / C++ | DXGI `EnumAdapters` / SetupAPI P/Invoke ⚠️ (üye doğrulaması K4) | IOKit Registry (IOGPU/PCI) ⚠️ URL'siz | DRM/KMS (`drmModeGetResources`) · sysfs |
+| C# / PowerShell | DXGI P/Invoke (SetLastError) · WMI `Win32_VideoController` | `system_profiler SPDisplaysDataType` child ⚠️ | `/sys/class/drm` okuma |
+| Rust | `windows` crate DXGI | — | sysfs `/sys/class/drm` okuma |
+| Go | `golang.org/x/sys/windows` + WMI ⚠️ | — | `/sys/class/drm` + `lspci` |
+| Bash | yok (çocuk süreç: PowerShell) | `system_profiler SPDisplaysDataType` ⚠️ | `lspci -nn \| grep -i vga` · `ls /sys/class/drm` |
+| Java / Kotlin | JNA + JNI (dış GPU kütüphanesi) ⚠️ JNA/FFM URL'si yok (K3) | JNA `IOKit` ⚠️ | `Runtime` + JNI/`lspci` ⚠️ |
+| Swift | yok | IOKit `IOServiceMatching("IOPCIDevice")` ⚠️ | yok |
+
+**Öncelikli öneri (PHP/JS):** Belirleme Linux'ta PHP ile doğrudan `/sys/class/drm`
+okunarak yapılır; Windows/macOS'ta PHP grafik API'si **yoktur** — PowerShell/Çİ (Bash)
+çocuk süreçle `system_profiler`/WMI'ye devredilir.
+
+**Risk notları:**
+- macOS IOKit Registry bit alanları (BOOLEAN/prop) ve eşleştirme anahtarları bu belgede doğrulanamadı → ⚠️ VERIFICATION REQUIRED.
+- Windows SetupAPI P/Invoke üye/alan doğrulaması ( GUID/SP_DEVINFO_DATA) yok → ⚠️ VERIFICATION REQUIRED.
+- Sürücü/sürüm ve performans (FPS/TFLOPS) iddiası üretilmez; ölçüm yapılmadan sayı yazılmaz.
+
+Kapsamlı şablonlar: `donanım-platformlararasi-kod-ornekleri.md` §G1–§G11 · tam matris: `raporlar/K001-donanım-os-dil-matrisi.md`
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
