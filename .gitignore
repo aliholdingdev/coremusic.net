@@ -78,3 +78,6 @@ coverage/
 
 # ---- JWT RS256 (private key ASLA commit edilmez; public.pem commit edilir) ----
 shared/config/jwt/private.pem
+
+# Nova search engine local data
+app-nodejs-projects/nova-search-engine/data/
