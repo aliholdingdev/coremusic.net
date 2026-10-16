@@ -352,9 +352,11 @@
   position: relative;
   width: 100%;
   max-width: 1920px;
-  margin: 0 auto;
-  padding-top: calc(var(--header-h, 70px) + 26px);
-  padding-bottom: calc(var(--footer-h, 92px) + 16px);
+  margin: 0 auto !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: calc(var(--header-h, 70px) + 14px) !important;
+  padding-bottom: calc(var(--footer-h, 92px) + 14px) !important;
   padding-left: var(--space-5, 24px);
   padding-right: var(--space-5, 24px);
   box-sizing: border-box;

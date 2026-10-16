@@ -48,12 +48,8 @@
   display: block;
   width: 100%;
   height: 100%;
-  /* Figma: #FF65E9 */
-  background: var(--cm-accent-soft);
-  box-shadow: var(--glow-progress);
-  border-radius: 2px;
-  width: 0%;
-  transition: width 0.5s linear;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .player-info__cover {
