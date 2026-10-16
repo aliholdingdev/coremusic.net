@@ -215,114 +215,216 @@ $isFullscreen = isset($_GET['mode']) && $_GET['mode'] === 'fullscreen';
                 </div>
             </section>
 
-            <!-- SAĞ: Sanatçı & Öneriler Kartı -->
+            <!-- SAĞ: Sanatçı & Öneriler Kartı (Figma 1390:24448 Player Info + Figma 2831:9443 Recommendations) -->
             <aside class="player-sidebar player-sidebar--recommendations" aria-label="Şu An Çalan ve Öneriler">
-                <!-- Sanatçı Avatarı -->
-                <div class="player-sidebar__art">
-                    <img class="player-sidebar__avatar" src="<?= $h($coverUrl) ?>" alt="<?= $h($currentArtist) ?>" width="136" height="136" loading="lazy">
-                </div>
-
-                <!-- Şarkı Bilgisi -->
-                <div class="player-sidebar__meta">
-                    <h2 class="player-sidebar__song-title"><?= $h($currentSong) ?></h2>
-                    <p class="player-sidebar__song-sub"><?= $h($currentArtist) ?> , <?= $h($currentAlbum) ?></p>
-                </div>
-
-                <!-- 5 Aksiyon Butonu -->
-                <div class="player-sidebar__actions" role="toolbar" aria-label="Şarkı İşlemleri">
-                    <button type="button" class="player-action-btn player-action-btn--pink" aria-label="Çalma listesine ekle" title="Listeye Ekle">
-                        <img src="<?= $h($assetsUrl . '/Image/res-pink/actions/add-1.png') ?>" alt="" width="20" height="20">
+                <!-- Üst Sekmeler: Şu An Çalan (1390) ↔ Öneriler (2831) -->
+                <div class="player-sidebar__tabs" role="tablist" aria-label="Panel Seçenekleri">
+                    <button type="button" class="player-sidebar__tab is-active" id="np-tab-info" data-target="np-pane-info" role="tab" aria-selected="true" aria-controls="np-pane-info">
+                        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" fill="currentColor"/></svg>
+                        <span>Şu An Çalan</span>
                     </button>
-                    <button type="button" class="player-action-btn player-action-btn--pink" aria-label="Favorilere ekle" title="Favori">
-                        <img src="<?= $h($assetsUrl . '/Image/res-pink/actions/favori.png') ?>" alt="" width="20" height="20">
-                    </button>
-                    <button type="button" class="player-action-btn player-action-btn--glass" aria-label="Beğen" title="Beğen">
-                        <img src="<?= $h($assetsUrl . '/Image/res-pink/actions/like.png') ?>" alt="" width="20" height="20">
-                    </button>
-                    <button type="button" class="player-action-btn player-action-btn--glass" aria-label="İndir" title="İndir">
-                        <img src="<?= $h($assetsUrl . '/Image/res-pink/actions/download.png') ?>" alt="" width="20" height="20">
-                    </button>
-                    <button type="button" class="player-action-btn player-action-btn--glass" aria-label="Daha fazla seçenek" title="Daha Fazla">
-                        <img src="<?= $h($assetsUrl . '/Image/res-pink/actions/more.png') ?>" alt="" width="20" height="20">
+                    <button type="button" class="player-sidebar__tab" id="np-tab-recommend" data-target="np-pane-recommend" role="tab" aria-selected="false" aria-controls="np-pane-recommend">
+                        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/></svg>
+                        <span>Öneriler</span>
                     </button>
                 </div>
 
-                <!-- Önerilen Sanatçılar -->
-                <div class="player-sidebar__section">
-                    <div class="player-sidebar__section-header">
-                        <h3 class="player-sidebar__section-title">Önerilen Sanatçılar</h3>
-                        <a href="/sanatcilar" class="player-sidebar__section-link">Tümünü Göster</a>
+                <!-- PANE 1: PLAYER INFO (SSOT Figma 1390:24448 — Laptop 1920 Playlist Page) -->
+                <div class="player-sidebar__pane" id="np-pane-info" role="tabpanel" aria-labelledby="np-tab-info">
+                    <div class="player-sidebar__cover-card">
+                        <img class="player-sidebar__cover-img" id="np-info-cover" src="<?= $h($assetsUrl . '/Image/res-pink/album-kursat.png') ?>" alt="Kürşat Gürel Albüm Kapağı" width="360" height="200" loading="lazy">
                     </div>
-                    <div class="player-sidebar__artist-grid">
-                        <a href="/sanatcilar" class="player-sidebar__artist-item">
-                            <div class="player-sidebar__artist-thumb">
-                                <img src="<?= $h($coverUrl) ?>" alt="Göksel" width="50" height="50" loading="lazy">
+                    <div class="player-sidebar__info-meta">
+                        <p class="player-sidebar__info-row">
+                            <span class="player-sidebar__info-label">
+                                <svg class="player-mini-card__icon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" fill="currentColor"/></svg>
+                                Şarkı Adı :
+                            </span>
+                            <span class="player-sidebar__info-val" id="np-info-title"><?= $h($currentSong) ?></span>
+                        </p>
+                        <p class="player-sidebar__info-row">
+                            <span class="player-sidebar__info-label">
+                                <svg class="player-mini-card__icon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z" fill="currentColor"/></svg>
+                                Albüm :
+                            </span>
+                            <span class="player-sidebar__info-val" id="np-info-album"><?= $h($currentAlbum) ?></span>
+                        </p>
+                        <p class="player-sidebar__info-row">
+                            <span class="player-sidebar__info-label">
+                                <svg class="player-mini-card__icon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" fill="currentColor"/></svg>
+                                Sanatçı :
+                            </span>
+                            <span class="player-sidebar__info-val" id="np-info-artist"><?= $h($currentArtist) ?></span>
+                        </p>
+                        <p class="player-sidebar__info-row">
+                            <span class="player-sidebar__info-label">
+                                <svg class="player-mini-card__icon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>
+                                Yıldız :
+                            </span>
+                            <span class="player-sidebar__info-val player-sidebar__stars-gold">
+                                ★★★★★
+                            </span>
+                        </p>
+                        <p class="player-sidebar__info-row">
+                            <span class="player-sidebar__info-label">
+                                <svg class="player-mini-card__icon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false"><path d="M3 17h18v2H3zm0-7h18v5H3zm0-4h18v2H3z" fill="currentColor"/></svg>
+                                Bit rate :
+                            </span>
+                            <span class="player-sidebar__info-val">350 kbps</span>
+                            <span class="player-sidebar__format-badges">
+                                <span class="player-mini-card__badge-mp3">MP3</span>
+                                <span class="player-mini-card__badge-mp3">MP4</span>
+                            </span>
+                        </p>
+                        <p class="player-sidebar__info-row">
+                            <span class="player-sidebar__info-label">
+                                <svg class="player-mini-card__icon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" fill="currentColor"/></svg>
+                                Süre :
+                            </span>
+                            <span class="player-sidebar__info-val" id="np-info-time">00:00:00 / 00:05:00</span>
+                        </p>
+                        <div class="player-sidebar__info-transport">
+                            <button type="button" class="player-mini-card__play" id="np-info-play-btn" aria-label="Oynat / Duraklat">
+                                <svg viewBox="0 0 24 24" width="12" height="12" focusable="false" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+                            </button>
+                            <div class="player-mini-card__progress" role="progressbar" aria-label="Şarkı süresi" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+                                <div class="player-mini-card__progress-fill"></div>
                             </div>
-                            <span class="player-sidebar__artist-name">Göksel</span>
-                        </a>
-                        <a href="/sanatcilar" class="player-sidebar__artist-item">
-                            <div class="player-sidebar__artist-thumb">
-                                <img src="<?= $h($assetsUrl . '/Image/res-pink/girl-1.png') ?>" alt="Zara" width="50" height="50" loading="lazy">
-                            </div>
-                            <span class="player-sidebar__artist-name">Zara</span>
-                        </a>
-                        <a href="/sanatcilar" class="player-sidebar__artist-item">
-                            <div class="player-sidebar__artist-thumb">
-                                <img src="<?= $h($assetsUrl . '/Image/res-pink/album-kursat.png') ?>" alt="Sibel Can" width="50" height="50" loading="lazy">
-                            </div>
-                            <span class="player-sidebar__artist-name">Sibel Can</span>
-                        </a>
-                        <a href="/sanatcilar" class="player-sidebar__artist-item">
-                            <div class="player-sidebar__artist-thumb">
-                                <img src="<?= $h($assetsUrl . '/Image/res-pink/default-album.png') ?>" alt="Dilso'z" width="50" height="50" loading="lazy">
-                            </div>
-                            <span class="player-sidebar__artist-name">Dilso'z</span>
-                        </a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Son Dinlenenler -->
-                <div class="player-sidebar__section">
-                    <div class="player-sidebar__section-header">
-                        <h3 class="player-sidebar__section-title">Son Dinlenenler</h3>
-                        <a href="/history" class="player-sidebar__section-link">Tümünü Göster</a>
+                <!-- PANE 2: RECOMMENDATIONS & ARTIST (SSOT Figma 2831:9443 — Linux 1024 Playlist Page) -->
+                <div class="player-sidebar__pane is-hidden" id="np-pane-recommend" role="tabpanel" aria-labelledby="np-tab-recommend">
+                    <!-- Sanatçı Avatarı -->
+                    <div class="player-sidebar__art">
+                        <img class="player-sidebar__avatar" id="np-rec-avatar" src="<?= $h($coverUrl) ?>" alt="<?= $h($currentArtist) ?>" width="136" height="136" loading="lazy">
                     </div>
-                    <div class="player-sidebar__artist-grid">
-                        <a href="/history" class="player-sidebar__artist-item">
-                            <div class="player-sidebar__artist-thumb">
-                                <img src="<?= $h($assetsUrl . '/Image/res-pink/album-kursat.png') ?>" alt="Ferhat Göçer" width="50" height="50" loading="lazy">
-                            </div>
-                            <span class="player-sidebar__artist-name">Ferhat Göçer</span>
-                        </a>
-                        <a href="/history" class="player-sidebar__artist-item">
-                            <div class="player-sidebar__artist-thumb">
-                                <img src="<?= $h($assetsUrl . '/Image/res-pink/album-kursat.png') ?>" alt="Ferhat Göçer" width="50" height="50" loading="lazy">
-                            </div>
-                            <span class="player-sidebar__artist-name">Ferhat Göçer</span>
-                        </a>
-                        <a href="/history" class="player-sidebar__artist-item">
-                            <div class="player-sidebar__artist-thumb">
-                                <img src="<?= $h($assetsUrl . '/Image/res-pink/album-kursat.png') ?>" alt="Ferhat Göçer" width="50" height="50" loading="lazy">
-                            </div>
-                            <span class="player-sidebar__artist-name">Ferhat Göçer</span>
-                        </a>
-                        <a href="/history" class="player-sidebar__artist-item">
-                            <div class="player-sidebar__artist-thumb">
-                                <img src="<?= $h($assetsUrl . '/Image/res-pink/default-album.png') ?>" alt="Dilso'z" width="50" height="50" loading="lazy">
-                            </div>
-                            <span class="player-sidebar__artist-name">Dilso'z</span>
-                        </a>
+
+                    <!-- Şarkı Bilgisi -->
+                    <div class="player-sidebar__meta">
+                        <h2 class="player-sidebar__song-title" id="np-rec-title"><?= $h($currentSong) ?></h2>
+                        <p class="player-sidebar__song-sub" id="np-rec-sub"><?= $h($currentArtist) ?> , <?= $h($currentAlbum) ?></p>
+                    </div>
+
+                    <!-- 5 Aksiyon Butonu -->
+                    <div class="player-sidebar__actions" role="toolbar" aria-label="Şarkı İşlemleri">
+                        <button type="button" class="player-action-btn player-action-btn--pink" aria-label="Çalma listesine ekle" title="Listeye Ekle">
+                            <img src="<?= $h($assetsUrl . '/Image/res-pink/actions/add-1.png') ?>" alt="" width="20" height="20">
+                        </button>
+                        <button type="button" class="player-action-btn player-action-btn--pink" aria-label="Favorilere ekle" title="Favori">
+                            <img src="<?= $h($assetsUrl . '/Image/res-pink/actions/favori.png') ?>" alt="" width="20" height="20">
+                        </button>
+                        <button type="button" class="player-action-btn player-action-btn--glass" aria-label="Beğen" title="Beğen">
+                            <img src="<?= $h($assetsUrl . '/Image/res-pink/actions/like.png') ?>" alt="" width="20" height="20">
+                        </button>
+                        <button type="button" class="player-action-btn player-action-btn--glass" aria-label="İndir" title="İndir">
+                            <img src="<?= $h($assetsUrl . '/Image/res-pink/actions/download.png') ?>" alt="" width="20" height="20">
+                        </button>
+                        <button type="button" class="player-action-btn player-action-btn--glass" aria-label="Daha fazla seçenek" title="Daha Fazla">
+                            <img src="<?= $h($assetsUrl . '/Image/res-pink/actions/more.png') ?>" alt="" width="20" height="20">
+                        </button>
+                    </div>
+
+                    <!-- Önerilen Sanatçılar -->
+                    <div class="player-sidebar__section">
+                        <div class="player-sidebar__section-header">
+                            <h3 class="player-sidebar__section-title">Önerilen Sanatçılar</h3>
+                            <a href="/sanatcilar" class="player-sidebar__section-link">Tümünü Göster</a>
+                        </div>
+                        <div class="player-sidebar__artist-grid">
+                            <a href="/sanatcilar" class="player-sidebar__artist-item">
+                                <div class="player-sidebar__artist-thumb">
+                                    <img src="<?= $h($coverUrl) ?>" alt="Göksel" width="50" height="50" loading="lazy">
+                                </div>
+                                <span class="player-sidebar__artist-name">Göksel</span>
+                            </a>
+                            <a href="/sanatcilar" class="player-sidebar__artist-item">
+                                <div class="player-sidebar__artist-thumb">
+                                    <img src="<?= $h($assetsUrl . '/Image/res-pink/girl-1.png') ?>" alt="Zara" width="50" height="50" loading="lazy">
+                                </div>
+                                <span class="player-sidebar__artist-name">Zara</span>
+                            </a>
+                            <a href="/sanatcilar" class="player-sidebar__artist-item">
+                                <div class="player-sidebar__artist-thumb">
+                                    <img src="<?= $h($assetsUrl . '/Image/res-pink/album-kursat.png') ?>" alt="Sibel Can" width="50" height="50" loading="lazy">
+                                </div>
+                                <span class="player-sidebar__artist-name">Sibel Can</span>
+                            </a>
+                            <a href="/sanatcilar" class="player-sidebar__artist-item">
+                                <div class="player-sidebar__artist-thumb">
+                                    <img src="<?= $h($assetsUrl . '/Image/res-pink/default-album.png') ?>" alt="Dilso'z" width="50" height="50" loading="lazy">
+                                </div>
+                                <span class="player-sidebar__artist-name">Dilso'z</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Son Dinlenenler -->
+                    <div class="player-sidebar__section">
+                        <div class="player-sidebar__section-header">
+                            <h3 class="player-sidebar__section-title">Son Dinlenenler</h3>
+                            <a href="/history" class="player-sidebar__section-link">Tümünü Göster</a>
+                        </div>
+                        <div class="player-sidebar__artist-grid">
+                            <a href="/history" class="player-sidebar__artist-item">
+                                <div class="player-sidebar__artist-thumb">
+                                    <img src="<?= $h($assetsUrl . '/Image/res-pink/album-kursat.png') ?>" alt="Ferhat Göçer" width="50" height="50" loading="lazy">
+                                </div>
+                                <span class="player-sidebar__artist-name">Ferhat Göçer</span>
+                            </a>
+                            <a href="/history" class="player-sidebar__artist-item">
+                                <div class="player-sidebar__artist-thumb">
+                                    <img src="<?= $h($assetsUrl . '/Image/res-pink/album-kursat.png') ?>" alt="Ferhat Göçer" width="50" height="50" loading="lazy">
+                                </div>
+                                <span class="player-sidebar__artist-name">Ferhat Göçer</span>
+                            </a>
+                            <a href="/history" class="player-sidebar__artist-item">
+                                <div class="player-sidebar__artist-thumb">
+                                    <img src="<?= $h($assetsUrl . '/Image/res-pink/album-kursat.png') ?>" alt="Ferhat Göçer" width="50" height="50" loading="lazy">
+                                </div>
+                                <span class="player-sidebar__artist-name">Ferhat Göçer</span>
+                            </a>
+                            <a href="/history" class="player-sidebar__artist-item">
+                                <div class="player-sidebar__artist-thumb">
+                                    <img src="<?= $h($assetsUrl . '/Image/res-pink/default-album.png') ?>" alt="Dilso'z" width="50" height="50" loading="lazy">
+                                </div>
+                                <span class="player-sidebar__artist-name">Dilso'z</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </aside>
 
         </div>
 
-        <!-- İstemci Etkileşim Skripti: Arama filtresi + Satır seçimi -->
         <script>
         (function() {
             var searchInput = document.getElementById('nowplaying-search');
             var tbody = document.getElementById('nowplaying-tbody');
+            var tabBtns = document.querySelectorAll('.player-sidebar__tab');
+            var panes = document.querySelectorAll('.player-sidebar__pane');
+
+            tabBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var targetId = this.getAttribute('data-target');
+                    tabBtns.forEach(function(b) {
+                        b.classList.remove('is-active');
+                        b.setAttribute('aria-selected', 'false');
+                    });
+                    this.classList.add('is-active');
+                    this.setAttribute('aria-selected', 'true');
+
+                    panes.forEach(function(p) {
+                        if (p.id === targetId) {
+                            p.classList.remove('is-hidden');
+                        } else {
+                            p.classList.add('is-hidden');
+                        }
+                    });
+                });
+            });
+
             if (searchInput && tbody) {
                 searchInput.addEventListener('input', function() {
                     var q = (this.value || '').trim().toLowerCase();
@@ -343,6 +445,7 @@ $isFullscreen = isset($_GET['mode']) && $_GET['mode'] === 'fullscreen';
                     });
                 });
             }
+
             if (tbody) {
                 tbody.addEventListener('click', function(e) {
                     var row = e.target.closest('.player-row');
@@ -351,6 +454,23 @@ $isFullscreen = isset($_GET['mode']) && $_GET['mode'] === 'fullscreen';
                         r.classList.remove('player-row--active');
                     });
                     row.classList.add('player-row--active');
+
+                    var title = row.getAttribute('data-title') || '';
+                    var artist = row.getAttribute('data-artist') || '';
+                    var album = row.getAttribute('data-album') || '';
+
+                    var infoTitle = document.getElementById('np-info-title');
+                    var infoArtist = document.getElementById('np-info-artist');
+                    var infoAlbum = document.getElementById('np-info-album');
+                    var recTitle = document.getElementById('np-rec-title');
+                    var recSub = document.getElementById('np-rec-sub');
+
+                    if (infoTitle) infoTitle.textContent = title;
+                    if (infoArtist) infoArtist.textContent = artist;
+                    if (infoAlbum) infoAlbum.textContent = album;
+                    if (recTitle) recTitle.textContent = title;
+                    if (recSub) recSub.textContent = artist + ' , ' + album;
+
                     var stream = row.getAttribute('data-stream');
                     if (stream && typeof window.playStreamUrl === 'function') {
                         window.playStreamUrl(stream);
