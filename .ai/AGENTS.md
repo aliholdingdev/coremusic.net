@@ -527,7 +527,7 @@ Ajan dosyaya erişmek ister
 | Frontend | `ui-design/01-mockup-index.md`, `ui-design/02-component-inventory.md`, `.ai/.templates/ui-design/*-template.md` (Kalıp A-D — Guardrail #16 zorunlu okuma) · **CSS görevi ayrıca:** `.ai/.templates/frontend/css-template.md` (v4.0.0, 11 katman) + kök `notes.md` — Guardrail #16, bkz. kök `AGENTS.md` §10 |
 | Security | `.ai/.decisions/index.md` (ADR-010), `shared/src/Middleware/` |
 | Data | `.ai/.sql/mysql/*.sql`, `shared/src/Database/` |
-| Embedded | `.ai/projects/NevaEngine/*.md` ⚠️ VERIFICATION REQUIRED (dizin var, 0 dosya); `electronic/dsp/*.md`, `electronic/firmware/*.md` ⚠️ YOK |
+| Embedded | `.ai/projects/NevaEngine/*.md` ✅ 38 md (2026-10-15 disk ölçümü — 15 güncel (00-10 + os/01-04) + `legacy-2026-07/` 23 arşiv dosyası içe aktarıldı); `.ai/electronic/dsp/*.md` ✅ 10 dosya; `.ai/electronic/firmware/*.md` ✅ 7 dosya (2026-10-14 ölçümü) |
 | QA | `ui-design/04-accessibility-gaps.md`, `ui-design/screens/**/*.md`, `.ai/reports/` |
 | DevOps | `.ai/ecosystem/*.md` |
 

@@ -161,13 +161,15 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 
 ---
 
-### §7 Vault Dizin Haritası (17 dizin — 2026-10-12)
+### §7 Vault Dizin Haritası (18 depth-1 dizin — 2026-10-15 16:09 disk ölçümü)
 
 | Dizin | Dosya | Amaç |
 |-------|-------|------|
 | `ui-design/` | 121 md | Mockup, screens, flow, prompt, reference, tokens |
 | `.personas/` | 84 md | Kullanıcı persona dosyaları |
-| `.decisions/` | 97 md | ADR arşivi (91 ADR + index/CLAUDE yardımcıları) |
+| `.decisions/` | 99 md | ADR arşivi (92 ADR + index/CLAUDE yardımcıları — 2026-10-15 ölçüm: `accepted/` 80 ADR + `rejected/` 10 R + `draft/` 2 ADR + 6 yardımcı CLAUDE/index) |
+| `architecture/` | 1187 md | K-space mimari düğümleri (K000-K020, 28 alt dizin + kök index/README — 2026-10-15 ölçüm; §72 satır 7'deki "diskte YOK" iddiası geçersizdir) |
+| `electronic/` | 60 md | Donanım/dsp/firmware vault (drivers 10 · dsp 10 · amplifier 8 · hardware 8 · firmware 7 + kök 17 — 2026-10-15 ölçüm) |
 | `.templates/` | 66 md | Guardrail #16 şablonları (13 kategori) |
 | `ecosystem/` | 13 md | Ekosistem dersleri/kaynakları |
 | `.agents/` | 12 md | 11 agent profili + alt registry |
@@ -176,15 +178,15 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | `index/` | 5 md | Master katalog hub alt sayfaları (01-05) |
 | `.png/` | 19 PNG + 4 md | Görsel SSOT (salt okunur) |
 | `servers/` | 3 md | Sunucu/kurulum notları |
-| `SESSIONS/` | 2 md | Session kayıtları |
+| `SESSIONS/` | 3 md | Session kayıtları (2026-10-14 runtime-os-gruplar eklendi) |
 | `.obsidian/` | 5 dosya | Obsidian yapılandırması |
 | `.rules/` | 1 md | `senior-mode.md` (error-recovery.md YOK) |
-| `prompts/` | 0 | Boş dizin (2026-10-12 ölçüm) |
-| `reports/` | 0 | Boş dizin (2026-10-12 ölçüm) |
-| `.diagram/` | 0 | Boş dizin (2026-10-12 ölçüm) |
+| `prompts/` | — | **DİZİN YOK** (2026-10-15 `Test-Path=False`; 2026-10-12 "boş dizin" iddiası geçersiz — dizin hiç var olmamış/taşınmış) |
+| `reports/` | 12 dosya | Rapor arşivi (11 rapor + index.md — k001 celiski/cihaz-envanteri/domain-esleme/kabul-kriterleri/mevcut-durum/onerilen-agac/tur-envanteri/uygulama-plani + k000 dil-kapsama/os-donanima-esleme + k006 dil-kapsama; 2026-10-14/15 eklendi — "boş dizin" iddiası geçersiz) |
+| `.diagram/` | — | **DİZİN YOK** (2026-10-15 `Test-Path=False`) |
+| `projects/` | 49 md | **Neva Connect (11 doc, 2026-10-15):** `NevaConnect/01-wlanapi-sürüm-matrisi-ve-windows-plani` (pconlife 9 DLL + yerel Win10 19041 = 10 DLL MD5 ✓ · PE export matrisi XP 36 → Win7 48 → Win8 103 → Win8.1 108 → Win10 10240 121 → 19041 148 · **her geçişte −0** · REA/Ghidra 12.1.4 çapraz kontrol · 6 katman plan + 4 açık madde) · **02 çok-exe + Windows SDK derleme matrisi** (769 satır: v141_xp/SDK 7.1A vs v143/Win10 SDK, `_WIN32_WINNT` define kuralı, Level 0-3 istisna/fallback, dumpbin /imports kapı, 42 kaynak) · **03 sürüme göre özellik kısıtlama** (678 satır: GetProcAddress + dönüş-kodu ikili kapı, List2→List1 degradation, MSDN min-OS teyitleri, KB940541, 21 kaynak) · **04 kapsam yol haritası** (1129 satır: WiFi 7 = Win11 24H2 + WiFiCx MLO, BT Win32/WinRT, WinUSB, SATA BusType 0x0B/NVMe 0x11, OS×özellik matrisi, 50+ kaynak) · **05 neva-wlan çekirdek modül tasarımı** (666 satır: wifi list/connect/status akışları, SPSC kuyruk + WlanCloseHandle kapanış sırası, WS 9742 JSON sözleşmesi, 17 satır Level hata tablosu; §2.1/§9 felaket yolu ile güncellendi) · **06 test & kalite planı** (560 satır: OS×modül matrisi, 45 birim senaryo, XP uç smoke X1-X4b, N1-N9 negatif, §7.3 T-01…T-12 felaket yolu, GH Actions gate) · **07 XP WZC stack kaynak araştırması** (500 satır: nt5src clone daad8a087 — XP SP1'de wlanapi YOK/WZC tam kaynak, wzc.idl UUID+pipe, NDISUIO OID 802.11 felaket yolu, XP panel lanui envanteri, WZC-wlanapi izomorfizm; §2.2 NDISUIO düzeltmesi) · **08 XP panel davranış sözleşmesi** (595 satır: lanui/wzcui/chklist kaynağından durum sınıfları, 3500 ms liste timer, bağlanma akışı, gerçek IDS_* mesajları, WS 9742 eşleme 22 satır) · **09 XP NDISUIO felaket yolu tasarımı** (554 satır: `\\.\Ndisuio` + 5 IOCTL nuiouser.h kanıtlı, NDISUIO_OID_QUERY/Set yapıları, BSSID listesi walk güvenlik, L0-L4 yerleşimi, karar akışı, T-01…T-12) · **10 WZC/EAPOL/NDISUIO registry değerleri** v1.1.0 (nt5src + yerel Win10/11 HKLM okuması: WZCSVC kökü wirelessspd.c:157-159, WZC profil saklama düzeni storage.h — ActiveSettings/Static# REG_BINARY + LayoutVersion=4, EAPOL gerçek değer adları eapolutil.c:46-55 authPeriod/SupplicantMode vs (2 açık madde kapandı), politika store GPTWirelessPolicy/GPTWiFiPolicy/Cache, netwzc.inx Start=2+ServiceDll, NDISUIO NDIS 6.30 kaydı, WZCSVC→WlanSvc/dot3svc eşleme + LayoutVersion izomorfizmi, 9 maddelik açık liste + XP VM reg query komutları + 3 karar kartı) · **11 windows wlanapi mimarisi** (507 satır: 10 DLL PE analizi pe_arch.py — XP=9 import/WZCSAPI 19 fn + RPCRT4 yalnız UuidFromString, Vista+=async RPC Ndr64AsyncClientCall, mitigasyon XP 0x0 → Win10 0x4160 CFG, bölüm evrimi .didat/`.idata`, export mutabakatı toplam 36→48→153→173→220→258 vs Wlan* 36→48→103→108→121→148 (WFD ailesi Win8+), WNF/threadpool bildirim kanıtı, XP token impersonation + Win10 ControlService, 36 export işlevsel gruplama + delta zinciri, 8 MS Learn HEAD-200, 8 açık madde) + Neva Engine: SDK envanter|
 
-**Toplam:** `.ai/` recursive **665 dosya · 435 `.md` · 72 dizin** · kök **21 `.md`**.
-
+**Toplam:** `.ai/` recursive **1974 dosya · 1745 `.md` · 394 dizin** · kök **22 `.md`** · depth-1 **18 dizin** (2026-10-15 16:09 doğrudan `Get-ChildItem -Recurse -Force` disk ölçümü). **Metodoloji düzeltmesi:** Önceki "673→676 dosya · 443→446 md · 72→73 dizin" serisi **eski tabana +delta** eklenerek üretilmişti ve `architecture/` (1187 md) + `electronic/` (60 md) + `.personas/` (84 md) gibi dizinleri dışarıda bırakıyordu; bu yüzden disk gerçeğiyle (1974/1745/394) uyuşmuyordu. 2026-10-12 tabanı `architecture/` "kaldırıldı" varsayımıyla ölçülmüştü; `.ai/architecture/` K000-K020 ile diskte MEVCUT olduğundan eski taban **geçersizdir**. Bu satırdan itibaren **doğrudan disk ölçümü** esastır; delta listesi yalnız tarihi kayıt olarak korunur: NevaConnect 01→11 = +11 md (10 = WZC/EAPOL/NDISUIO registry değerleri, 11 = wlanapi PE mimarisi, 2026-10-15) · architecture K014+K000 = +2 md · NevaEngine 10-io-format = +1 md · kök .md 21→22 (`AGENT-BRIEFING.md` +1).
 ---
 
 ### §8 Veritabanı
@@ -205,12 +207,12 @@ Bu dosya, CoreMusic `.ai/` vault'unun ana navigasyon noktasıdır. Tüm vault do
 | # | Kontrol | Kriter |
 |---|---------|--------|
 | 1 | Frontmatter | 7 zorunlu alan + Control Plane v2 bloğu |
-| 2 | Kök dosya sayımı | 21 `.md` (2026-10-12 ölçümüyle eşit) |
-| 3 | Dizin sayımı | 17 depth-1 dizin |
-| 4 | Recursive | 665 dosya · 435 md · 72 dizin |
-| 5 | ADR | 91 (80/10/0) — `.decisions/index.md` v1.5.0 ile hizalı |
+| 2 | Kök dosya sayımı | 22 `.md` (2026-10-15 16:09 disk ölçümü; 21 iddiası 2026-10-12 tabanı — `AGENT-BRIEFING.md` sonradan eklendi) |
+| 3 | Dizin sayımı | 18 depth-1 dizin (2026-10-15 disk ölçümü; `.agents .decisions .obsidian .personas .png .rules .sql .templates architecture ecosystem electronic index projects reports scripts servers SESSIONS ui-design` — `prompts/` ve `.diagram/` YOK) |
+| 4 | Recursive | 1974 dosya · 1745 md · 394 dizin (2026-10-15 16:09 disk ölçümü; eski "665·435·72" tabanı `architecture/` hariç ölçümldü, geçersiz) |
+| 5 | ADR | 92 (80 kabul / 10 red / 2 taslak — `.decisions/index.md` v1.5.0 ile hizalı; 2026-10-15 disk ölçümü `ADR-*.md`=83 + `R-*.md`=10 + 6 yardımcı = 99 md) |
 | 6 | Skill Registry | 13 proje skill — kök `CLAUDE.md` §Skill Registry ile hizalı |
-| 7 | K-space | `architecture/` diskte YOK (0 dizin) — kaldırım 2026-10-12, yedek `C:\temp\opencode\vault-backup-2026-10-12` |
+| 7 | K-space | `architecture/` diskte **MEVCUT** (2026-10-15 16:09: 1187 md · 28 alt dizin · K000-K020 · kök index/README — eski "diskte YOK / kaldırım 2026-10-12" iddiası **geçersizdir**; yedek `C:\temp\opencode\vault-backup-2026-10-12` referansı tarihi kayıt) |
 | 8 | Ölü referans | `TECHNICAL_DOCUMENTATION.md` · `broken-links-report.md` · `.opencode/skills` — üçü de kaldırıldı |
 | 9 | Hub | §4 alt sayfalar diskte (index/01-05) |
 | 10 | Placeholder | `{{` yok, doldurulmamış yer yok |

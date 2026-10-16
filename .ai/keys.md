@@ -124,19 +124,43 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | Anahtar Kelime | Hedef Dosya |
 |---------------|-------------|
 | ASIO, ses surucusu, low latency | [[.decisions/accepted/ADR-017-dsp-hardware-mode]] |
-| Neva Engine, C++, JUCE | projects/NevaEngine/overview |
-| equalizer, EQ, 31-band | projects/NevaEngine/equalizer-system |
-| DSP chain, routing matrix | projects/NevaEngine/eq-dsp-chain |
-| spatial audio, surround | projects/NevaEngine/spatial-audio |
-| VST3, plugin, MIDI | projects/NevaEngine/vst3-hosting |
-| 32-bit float, ring buffer | architecture/06-audio/audio-pipeline.md |
-| 8.1 surround, PCM3168A | [[brain.md]] ADR-038-8.1-sound-card-chip-selection |
-| ASIO/WASAPI/CoreAudio | architecture/06-audio/audio-platform-decision.md |
-| audio service | architecture/06-audio/coremusic-audio-service.md |
-| device service, BT, WiFi | architecture/06-audio/coremusic-device-service.md |
-| network audio, WebRTC | architecture/06-audio/coremusic-network-audio-service.md |
-| AI service | architecture/06-audio/coremusic-ai-service.md |
-| YouTube, deemix, FLAC | architecture/06-audio/ai-auto-download.md |
+| Neva Engine, C++, JUCE, ASIO | projects/NevaEngine/00-sdk-lib-envanter |
+| equalizer, EQ, 31-band, DSP chain | projects/NevaEngine/02-dsp-zincir-mimari |
+| reverse engineering, VoiceMeeter, FxSound, MIDI, os surucu matrisi, vmvaio, vmvaio3, vmauxvaio, vbvoicemeetervaio64, vaio64, arm64 driver, driver suffix xp vista win7 win10, 2.1.5.2, 3.4.1.7, driverstore %13%, wdmaud redbook, fxvad, fxvad.sys, fxsound audio enhancer, dfx mirror, dfx_dev, chicago signature, oem39.inf, fxmcp go, go1.26.5, mcp go-sdk, oauth2, jsonschema-go, fxmcp.mcpb, inspect_pe_resources, inspect_go_binary, resource envanteri, icon merdiveni | projects/NevaEngine/04-reverse-voicemeeter-fxsound |
+| mixer, routing matrix, surround, Web PCM | projects/NevaEngine/05-neva-mixer-web-pcm-plani |
+| gereksinim, A1-A10 çıkış, konser salonu efekti, dynamic/bass boost | projects/NevaEngine/06-gereksinimler-ve-farkliliklar |
+| sanal ses sürücüsü, open source, FlexASIO, Sysvad, BlackHole, snd-aloop, PipeWire, fxvad, AGPL, XP legacy, win7 tam destek, cihaz tespiti, R18, wdk 7.1.0, msvad, gpl-3.0, rules gotcha, down-level wdk, targetversion, nt_target_version, wdk 19041, xp ddk arşivi, bufferoverflowk, asio2wasapi gpl, usbip | projects/NevaEngine/09-open-source-virtual-audio-driver-karsilastirma |
+| io format, 32-bit float, float32 input, float32 output, 192 khz, 176.4, 96 khz, 88.2, 44.1, ornekleme hizi, bit-perfect, tpdf dither, src, sample rate conversion, wasapi exclusive float32, getmixformat, alsa float_le, coreaudio float32, asio 32f, k1 k6, roundtrip, buffer latency | projects/NevaEngine/10-io-format-32bit-192khz-kurallari |
+| cok dilli kod ornekleri, 10 dil ornek paketi, c11 ornek, cpp20 ornek, csharp ornek, php8 ornek, javascript ornek, typescript ornek, python ornek, go ornek, rust ornek, html css mixer ui, biquad r16 ornek, spsc ring buffer ornek, wav 32f ornek, compressor limiter ornek, os enum r18 ornek, audio worklet ornek, pack g float32 php, rbj peaking, k1-k6 ornek, derlenmedi | projects/NevaEngine/11-cok-dilli-kod-ornekleri + 11-examples/ |
+| spatial audio, HRTF, binaural, head tracking | projects/NevaEngine/legacy-2026-07/spatial-audio |
+| VST3, plugin hosting, LV2, CLAP, sandbox | projects/NevaEngine/legacy-2026-07/vst3-hosting |
+| MIDI learn, transport, mapping profili | projects/NevaEngine/legacy-2026-07/midi-system |
+| routing matrix, send/return, bus sistemi | projects/NevaEngine/legacy-2026-07/routing-matrix |
+| AI upscaling, ONNX, auto-EQ, genre detection | projects/NevaEngine/legacy-2026-07/ai-models |
+| legacy spesifikasyon arşivi, eski evrak (2026-07) | projects/NevaEngine/legacy-2026-07/index |
+| control plane, PHP web, C# masaüstü, Windows XP, mobil DSP, Android NDK, iOS CoreAudio, mimari diyagram | projects/NevaEngine/07-mimari-diyagram-kontrol-yuzeyleri |
+| freelancer doküman, mekan presetleri, düğün salonu, arena, kulüp, 64-bit float, LUFS, XMOS | projects/NevaEngine/08-freelancer-dokumantasyon-cikarim |
+| banana, potato, voicemeeter8, stripcomp, vban şeması, vbvmr, geq15, ghidra, ambience, decompile, asio sürücü, vbvasio, vboardlatency, shared memory | projects/NevaEngine/04-reverse-voicemeeter-fxsound |
+| wlanapi, wlan, native wifi, xp sp3, win7, win8, win8.1, win10, export matrisi, hostednetwork, wifi direct, wfd, plap, anqp, ftm, getprocaddress, pconlife, neva connect, windows wlan katmanı, sürüm farkı | projects/NevaConnect/01-wlanapi-sürüm-matrisi-ve-windows-plani |
+| çok exe, multi-exe, v141_xp, sdk 7.1a, _WIN32_WINNT, ntddi, subsystem 5.01, dumpbin, ayrı derleme, toolset, /MT statik crt, ci matrisi | projects/NevaConnect/02-coklu-exe-windows-sdk-derleme-mimarisi |
+| feature gate, özellik kısıtlama, getprocaddress resolver, degradation, fallback, list2, dual-STA, wlan notification, desteklenmiyor mesajı, wzc | projects/NevaConnect/03-wlan-api-ozellik-kisitlama-tablosu |
+| wifi 7, 802.11be, eht, wificx, mlo, wpa3, 24h2, bluetooth, bluetoothapis, winrt bluetooth, winusb, setupapi, sata, nvme, m.2, msata, ioctl_storage_query_property, bus type | projects/NevaConnect/04-kapsam-yol-haritasi-wifi7-bluetooth-usb-depolama |
+| neva-wlan exe, çekirdek modül, wifi list, wifi scan, wifi connect, wifi status, profil xml, spsc kuyruk, notification callback, ws 9742 json sözleşmesi, wifi_event, wlan reason code | projects/NevaConnect/05-neva-wlan-cekirdek-modul-tasarimi |
+| test planı, smoke test, os uç matrisi, negatif test, ctest, coverage kapısı, dumpbin imports kapısı, gha windows-2022, v141_xp smoke, nevatest profil, qa pass block | projects/NevaConnect/06-test-ve-kalite-plani |
+| native wifi temelleri, wlanapi oturum açılışı, negotiated version, wlanfreememory, wlan interface state, dot11 phy type, wmi msft_wlan, winrt wifiadapter, xp beyaz liste | architecture/K000-isletim-sistemi/isletim-sistemi-api/ag-api/native-wifi-api-temelleri |
+| nt5src, xp sp1 kaynak, wzcsvc, wzcsapi, wzcsapi.def, wzc.idl, ndisuiо, ndisuio, oid_802_11, deviceio, hash.c, lanui, wzcui, chklist, saui, eapol, xp panel, xp kaynak arsivi, sızıntı, felaket yolu, isomorfizm | projects/NevaConnect/07-xp-wzc-stack-kaynak-arastirmasi |
+| xp panel, lanui, wzcui, chklist, wlantypv2, 3500 ms timer, ids_8021x_bcast, ids_cannot_associate, agerestriction, mac-filter, profile-order, ws 9742 xp eşleme | projects/NevaConnect/08-xp-panel-davranis-sozlesmesi |
+| ndisuio, \\.\ndisuio, ioctl_ndisuio_query_binding, ioctl_ndisuio_open_device, ioctl_ndisuio_set_oid_value, ndis_wlan_bssid, nuiouser.h, xp felaket yolu, net stop wzcsvc, t-01 t-04 t-09 | projects/NevaConnect/09-xp-ndisuio-felaket-yolu-tasarimi |
+| registry, regedit, wzcsvc registry, software\microsoft\wzcsvc\parameters, interfaces\guid, activesettings, static#, wzconfig binary, layoutversion, gpszlocpolicyagent, wirelessspd, gptwirelesspolicy, gptwifipolicy, policy cache, pastore, eapol registry, elreadglobalregistryparams, authperiod, heldperiod, supplicantmode, eapolenabled, interfacelist, user eapinfo, ras_eap_registry_location, eapol.inx tracing, wzctrace yorumlu, netwzc.inx servicedll, ndisuio ndis 6.30, wlansvc dependonservice, dot3svc, eaphost, xp modern eşleme, ndisuio.inx, servicetype 1, starttype 3, errorcontrol, loadordergroup, characteristics 0x28, persist.c cache, classname, msieee80211-policy, wirelessname, wirelessid, wirelessdatatype, wirelesstype, whenchanged, layoutversion 1, reg_layout_version 4, allowapmode, vwifisettings | projects/NevaConnect/10-wzc-ndisuio-registry-degerleri |
+| wlanapi mimarisi, pe analizi, pefile, pe_arch.py, import tablosu, wzcsapi 19 fn, uuidfromstringw, ndr64asynccall, rpcasync, wnfn rtlsubscribewnf, threadpool, didat delay-load, guard_cf, dllcharacteristics, aslr dep, wfd export ailesi, wfd-int, querynetcon, wifidisplay, toplam vs wlan mutabakat, controlservice, OpenSCManagerW, security-base ace, wlan_write_access, setthreadtoken impersonation, wlanutil WlanStringToSsid, ucrt gecisi, getversionex, wlanregisternotification xp | projects/NevaConnect/11-windows-wlanapi-mimarisi |
+| 32-bit float, ring buffer | projects/NevaEngine/02-dsp-zincir-mimari |
+| 8.1 surround, PCM3168A | [[brain.md]] ADR-038-8-1-sound-card-chip-selection |
+| ASIO/WASAPI/CoreAudio | projects/NevaEngine/03-isletim-sistemi-kod-ornekleri |
+| audio service | architecture/K012-services/index.md |
+| device service, BT, WiFi | architecture/K012-services/index.md |
+| network audio, WebRTC | architecture/K014-network/index.md |
+| AI service | architecture/K006-yapay-zeka/index.md |
+| YouTube, deemix, FLAC | [[brain.md]] |
 
 ---
 
@@ -210,9 +234,9 @@ Bu dokuman, .ai/ vault icinde aranan kavramlarin aninda tespit edilmesini saglay
 | music.coremusic.net, port 81 | subdomains/music.coremusic.net/index.md |
 | auth.coremusic.net | subdomains/auth.coremusic.net/index.md |
 | download.coremusic.net, port 3001 | subdomains/download.coremusic.net/domains/index.md |
-| Control Service, port 81 | architecture/06-audio/coremusic-control-service.md |
-| Media Service, port 5000/6000 | architecture/06-audio/coremusic-media-service.md |
-| Audio Service, port 9741/9742 | architecture/06-audio/coremusic-audio-service.md |
+| Control Service, port 81 | ecosystem/README.md (7-servis tablosu) |
+| Media Service, port 5000/6000 | ecosystem/README.md (7-servis tablosu) |
+| Audio Service, port 9741/9742 | ecosystem/README.md (7-servis tablosu) |
 | 7 servis, platform | [[brain.md]] ADR-039-7-service-platform-architecture |
 | servis entegrasyonu | ecosystem/7-service-integration.md |
 | health check | ecosystem/service-health-check.md |
@@ -582,7 +606,7 @@ Istenen Bilgi -> Ilk Kontrol:
 |-- Guvenlik -> ADR-010/011/012/013/022 + architecture/k6-guvenlik/
 |-- Veritabani -> ADR-040 + .sql/mysql + .sql/
 |-- Ses/Donanim -> ADR-017/038 + electronic/ + projects/NevaEngine/
-|-- Panel/Servis -> subdomains/ + architecture/06-audio/
+|-- Panel/Servis -> subdomains/ + ecosystem/ + architecture/K012-services/
 |-- Test -> ui-design/04-accessibility-gaps.md + reports/ (`.ai/testing/` dizini yok — Faz 1 notu)
 |-- Vault -> index.md -> keys.md (bu dosya)
 ```

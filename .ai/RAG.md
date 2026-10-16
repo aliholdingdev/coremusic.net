@@ -68,7 +68,7 @@ değildir**; kural koymaz, yalnız yönlendirir ve durum raporlar.
 
 ## §3 Mimari — Retrieval İndeksi
 
-### §3.1 Konu → Dosya Eşlemesi (20 satır — 2026-10-07 disk ölçümü)
+### §3.1 Konu → Dosya Eşlemesi (20 satır — 2026-10-14 disk ölçümü)
 
 | # | Konu / Soru Sınıfı | Hedef Dosya(lar) | Keyword'ler | Durum |
 |---|--------------------|------------------|-------------|-------|
@@ -91,6 +91,7 @@ değildir**; kural koymaz, yalnız yönlendirir ve durum raporlar.
 | 18 | AI stratejisi, RAG/embedding kararı | [[.decisions/accepted/ADR-030-ai-strategy-core]] | rag, embedding, ai-stratejisi, llm | PLANNED |
 | 19 | Güvenlik: CSRF/CSP/JWT/session | [[.decisions/accepted/ADR-010-csrf-protection-strategy]] · ADR-011 · ADR-022 · skill `security-hardening` | csrf, csp, jwt, auth, güvenlik | IMPLEMENTED |
 | 20 | Class AB donanım, PCB, güç, termal | ADR-089 | class-ab, amf, pcb, ±35v, termal | IMPLEMENTED |
+| 21 | Ses motoru, mixer, EQ/DSP, reverse-engineering, OS ses I/O, mobile DSP | `projects/NevaEngine/` (36 md: 00-08 + os/01-04 + legacy-2026-07/ 23 — 2026-10-15) · [[brain]] §7.4 | neva, mixer, juce, asio, wasapi, eq, dsp, voicemeeter, banana, potato, fxsound, ghidra, pcm, routing-matrix, spatial, vst3, midi, mobile, android, ios, xp | IMPLEMENTED |
 
 **Kapsam notu (olmayanlar — uydurulmaz):** `.ai/wiki/` (kök `AGENTS.md` §7'de anılır, diskte **0 dosya** → VERIFICATION REQUIRED) · `.ai/.rules/error-recovery.md` (diskte YOK — bkz. [[CONTEXT]] §3.5).
 

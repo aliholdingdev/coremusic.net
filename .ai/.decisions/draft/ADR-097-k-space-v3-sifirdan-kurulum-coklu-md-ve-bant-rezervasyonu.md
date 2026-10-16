@@ -141,7 +141,7 @@ v2'nin `-master.md` (İngilizce) adları Türkçe `-anayasa.md` ile değiştiril
 
 **Kaynak:** kullanıcı yönergesi — *"kategori bazlı MD + teknoloji bazlı isimlendirme gruplaması, mimariyle ve kodla ilişkili."*
 
-**Kural:** her düğüm klasöründe MD'ler **iki eksende** gruplanır ve her MD **dört gruptan birinin** içinde işaretlenir.
+**Kural:** her düğüm klasöründe MD'ler **iki eksende** gruplanır ve her MD **üç gruptan birinin** içinde işaretlenir (2026-10-15: G4 `teknoloji` kaldırıldı — 634 dosyada 0 kullanım; kullanıcı onayı; registry `index.md` §9.11).
 
 #### A. Eksen-1 — Kategori bazlı MD (dosya rolü = kategori)
 
@@ -150,9 +150,9 @@ v2'nin `-master.md` (İngilizce) adları Türkçe `-anayasa.md` ile değiştiril
 | **G1** | `mimari` | `index.md` · `-anayasa`/`-master` · `-kapsam` · `-bagimliliklar` · `-bilesenler` · `-kararlar` |
 | **G2** | `kod` | `-ornekler` · `-kod-ornekleri` · `-test-stratejisi` · (`-daw-uyumlulugu`, `-entegrasyon`, `-api` teknoloji dalında) |
 | **G3** | `kanit` | `-dogrulama` · `-web-arastirma` · `-riskler` · `-lisans-ve-dogrulama` |
-| **G4** | `teknoloji` | teknoloji derin-dal dosyalarının tamamı: `{teknoloji}-anayasa` · `{teknoloji}-arayuzler` · `{teknoloji}-surucu-modeli` · `{teknoloji}-platform-uyumlulugu` · `{teknoloji}-daw-uyumlulugu` · `{teknoloji}-evrensel-dil` · `{teknoloji}-kod-ornekleri` · `{teknoloji}-web-arastirma` · `{teknoloji}-dogrulama` · `{teknoloji}-riskler` |
+| **G4** | ~~`teknoloji`~~ | **Kaldırıldı 2026-10-15** (kullanıcı onayı — registry `index.md` §9.11): derin-dal dosyalarının `group` değeri rol son-ekinden türetilir — `-anayasa`/`-arayuzler`/`-surucu-modeli` → `mimari` · `-kod-ornekleri` → `kod` · `-web-arastirma`/`-dogrulama`/`-riskler` → `kanit` (634/634 dosya zaten böyle; 0 kullanım) |
 
-**Zorunlu uygulama (her MD):** frontmatter'a **9. alan** olarak `group: mimari|kod|kanit|teknoloji` eklenir (8 zorunlu alan **korunur**, bu alan zorunlu 9. alandır). `index.md` içinde **§GRUPLAR** tablosu bulunur: `| Grup | Dosya | Amaç | Kademe |`.
+**Zorunlu uygulama (her MD):** frontmatter'a **9. alan** olarak `group: mimari|kod|kanit` eklenir (8 zorunlu alan **korunur**, bu alan zorunlu 9. alandır; 2026-10-15: `teknoloji` değeri 0 kullanım nedeniyle kaldırıldı). `index.md` içinde **§GRUPLAR** tablosu bulunur: `| Grup | Dosya | Amaç | Kademe |`.
 
 #### B. Eksen-2 — Teknoloji bazlı isimlendirme/gruplama
 
@@ -167,7 +167,7 @@ v2'nin `-master.md` (İngilizce) adları Türkçe `-anayasa.md` ile değiştiril
 
 ```
 {kategori-klasörü}/{teknoloji-klasörü}/{teknoloji}-{grup-rol}.md
-                                   └─ grup: mimari | kod | kanit | teknoloji
+                                   └─ grup: mimari | kod | kanit
 kademe-2: {çocuk}/{rol}.md         └─ grup: mimari | kod | kanit
 ```
 

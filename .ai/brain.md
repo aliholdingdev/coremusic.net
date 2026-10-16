@@ -412,6 +412,21 @@ void processAudioBlock(float** output, const float** input,
 
 ---
 
+### §7.4 Audio SDK/Lib Stack (K2/K3 — 2026-10-14 envanteri, detail: projects/NevaEngine/00-sdk-lib-envanter.md)
+
+| Katman | Kütüphane | Lisans | Durum |
+|--------|-----------|--------|-------|
+| Ana framework | JUCE 9 (dsp + device) | AGPLv3/Commercial | ✅ Vault (CLAUDE §24) |
+| Fallback I/O | miniaudio | Public Domain/MIT-0 | Yeni eklendi (envanter §1 #2) |
+| ASIO | ASIO SDK (GPLv3 açık varyant — kabul edildi 2026-10-14) | GPLv3 / tescilli opsiyon (REDDEDİLDİ) | ✅ Karar verildi |
+| Resampler | libsamplerate | BSD-2 | Yeni eklendi (#4) |
+| RTA/FFT | juce::dsp::FFT + kissfft (doğrulama) | JUCE / BSD-3 | Yeni eklendi (#6) |
+| PCM decode | dr_libs | Public Domain | Yeni eklendi (#7) |
+| DSP referans | Airwindows | MIT | Yeni eklendi (#8) |
+| LUFS metering | libebur128 | MIT | Yeni eklendi (#9) |
+
+**RE + ürün planı (2026-10-14):** `projects/NevaEngine/04-reverse-voicemeeter-fxsound.md` — VoiceMeeter Potato + FxSound REA string/resource katmanı RE raporu (clean-room, algoritma detayı VERIFICATION REQUIRED) · `05-neva-mixer-web-pcm-plani.md` — Neva Mixer 3 katman (C++20 RT çekirdek → WebSocket control plane → Web UI mixer/meter) · `06-gereksinimler-ve-farkliliklar.md` — kullanıcı gereksinimleri: 10 çıkış (A1-A10), sıfır gecikme hedefi, otomatik cihaz tanıma, konser-salonu sahne efekti (J7 SoundAlive sınıfı), tek tuş preset, **dynamic boost ≠ bass boost ayrı modül (bağlayıcı)**. Faz 0-5 planı: `01-gelistirme-plani.md`. **Legacy arşiv (2026-10-14):** `legacy-2026-07/` — desktop'tan içe aktarılan 23 eski spesifikasyon (routing-matrix 21KB · spatial-audio 19KB · vst3-hosting 19KB · midi-system 18KB · audio-core · ai-models 24KB · EQ seti + C++ kuralları; durum `archived`, çelişkide 00-06 kazanır, indeks `legacy-2026-07/index.md`). **Mimari diyagram v3 (2026-10-15):** `07-mimari-diyagram-kontrol-yuzeyleri.md` — 3 kontrol yüzeyi (PHP web UI · C# Windows app · mobil native) + **MOBILE DSP kutusu** (aynı C++ çekirdek Android NDK/iOS Xcode'a derlenir, R17) + EQ çift-form (R16) + compressor/limiter açık istek + OS aralığı Win7-tam/XP-legacy (Q1 kapandı 2026-10-15) + yerel PHP control+API sunucusu (Q2 kapandı). **08-freelancer-dokumantasyon-cikarim:** vizyon dokümanından benzersiz kalemler (4 mekan preset'i → R6, GUI+CLI, 64-bit float yol haritası, LUFS/2048-FFT). **RE tur 2 (2026-10-15):** 04'§7 — kurulu İKİ VB ürünü (Banana 2.1.2.2 pro_x64 + Potato voicemeeter8x64 aktif) · VBVMR API export listesi · StripComp XML şeması · GEQ15 teyidi · FxSound Ambience/mono-kısıtı · **Ghidra 12.1.4 kurulu + GHIDRA_INSTALL_DIR set** (restart sonrası decompile katmanı). **09 OSS sanal ses sürücüsü (v1.2.0, 2026-10-15):** FlexASIO/Sysvad/Virtual-Audio-Driver/BlackHole/snd-aloop + fxvad.sys kanıtı + WDK 7.1.0 tek kit (XP/Win7). **10 I/O format kuralları (2026-10-15, BAĞLAYICI K1-K6):** `10-io-format-32bit-192khz-kurallari.md` — 32-bit float **hem input hem output** + SR 44.1→**192 kHz** (varsayılan 48) + bit-perfect kapısı + tek SRC kuralı + OS/API format matrisi (Win7 exclusive float32 · XP'de WASAPI yok · ALSA FLOAT_LE · CoreAudio Float32) + Faz 1 V1-V5 ölçüm kapısı.
+
 ### §10 PHP Security
 
 | Parametre | Değer |
