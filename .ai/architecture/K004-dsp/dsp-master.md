@@ -10,13 +10,13 @@ evidence:
   - "v2 §2.4 mini-ağaç (2026-10-12 okundu)"
   - "doğrulanmış web bulguları — bu tur 2026-10-13 (§B.4 tablosu)"
   - "repo envanteri — disk okuması 2026-10-13 (§C.7)"
-validation: "D-kriterleri §D.2; iddia·URL·2026-10-13·durum satırları §B.4 ve dsp-dogrulama.md §A"
+validation: "D-kriterleri §D.2; iddia·URL·2026-10-13·durum satırları §B.4 ve dsp-dogrulama.md §A · 2026-10-15: Q5 kapatıldı (ADR-017 kanıtı, kullanıcı onaylı — registry index.md §9.11)"
 open_questions:
   - "Q1 DSPark '90+' ↔ 2★ çelişkisi"
   - "Q2 Signalsmith MIT lisans teyidi"
   - "Q3 dynamics ↔ compressor/limiter hiyerarşisi"
   - "Q4 measurement ↔ testing ayrımı"
-  - "Q5 DSP hedefi host mu, hardware mi"
+  - "Q5 DSP hedefi host mu, hardware mi (KAPANDI 2026-10-15 — ADR-017: zincir hesabı host'ta NevaEngine/JUCE; XMOS yalnız hard-RT zamanlama + I2S/TDM)"
 group: mimari
 ---
 
@@ -283,7 +283,7 @@ bu tabloya işlenir ve `dsp-dogrulama.md` §A'ya düşer — sessiz güncelleme 
 | K004 → K003-audio | Akış kaynağı ve graph'a ekleme noktası | çalışma zamanı | [TASARIM] |
 | K004 → K000-isletim-sistemi | CPU, thread, bellek kaynağı | çalışma zamanı | [TASARIM] |
 | K004 → K001-donanım | Nihai çıkış amplifikatöre/hoparlöre iner | fiziksel | [TASARIM] |
-| K004 → K005-firmware | DSP donanım içinde çalışıyorsa firmware sınırı | — | [TASARIM] ⚠️ Q5 |
+| K004 → K005-firmware | DSP donanım içinde çalışıyorsa firmware sınırı — **Q5 KAPANDI 2026-10-15:** donanımda yalnız zamanlama/I²S-TDM (XMOS), zincir hesabı host'ta | — | [TASARIM] (ADR-017) |
 | K004 → (geriye K001/K000'e) kod bağımlılığı | — | — | yok (yalnız arayüz) |
 
 A1 dizisi: K000 → K001 → K003 → K004 → K005. K004 **dördüncü katmandır** ve
@@ -298,7 +298,7 @@ sınır ihlalidir: K003 yalnızca soyut bir işlem noktası tanır.
 | Q2 | Signalsmith basics lisansı MIT mi (LICENSE teyidi)? | ⚠️ VERIFY REQUIRED | researcher |
 | Q3 | dynamics ↔ compressor/limiter hiyerarşisi mi, kardeş mi? | ⚠️ VERIFICATION REQUIRED | Vault Steward |
 | Q4 | measurement ↔ testing sorumluluk ayrımı? | ⚠️ VERIFICATION REQUIRED | Vault Steward |
-| Q5 | DSP hedefi donanım içinde mi (K005) host'ta mı (K003 üstü)? | ⚠️ VERIFICATION REQUIRED | embedded + dsp-fw |
+| Q5 | DSP hedefi donanım içinde mi (K005) host'ta mı (K003 üstü)? | ✅ **KAPANDI 2026-10-15** — ADR-017 (accepted): zincir hesabı HOST'ta (NevaEngine/JUCE, K003 üstünde K004 düğümü); XMOS XU316 yalnız hard-RT zamanlama + I²S/TDM veri yolu | Vault Steward (ADR-017) |
 
 ### §B.7 Riskler
 

@@ -55,7 +55,7 @@ architecture/
 > **Kural (ADR-097 K5):** rezerve slot, ancak **gerçek bir domain** ADR ile tanımlanınca isim alır → `K0xx-<ad>/` klasörü o zaman açılır. Uydurma isim/klasör **yasak** (v2 §4.7).
 >
 > **Kural (ADR-097 §5.5 — tüm bantlara miras):** Band-1 … Band-7 (K000–K5000 **+** yeni slotlar) **aynı iki-ekseni şemaya** uyar:
-> `{kategori-klasörü}/{teknoloji}/{teknoloji}-{grup-rol}.md` + her dosyada frontmatter **`group: mimari|kod|kanit|teknoloji`** + her `index.md` → **`## §GRUPLAR`** tablosu. Yeni band açılınca şema tekrar uydurulmaz, ADR-097 §5.5 okunur.
+> `{kategori-klasörü}/{teknoloji}/{teknoloji}-{grup-rol}.md` + her dosyada frontmatter **`group: mimari|kod|kanit`** (3 grup — 2026-10-15: `teknoloji` grubu 0 kullanım nedeniyle şemadan kaldırıldı, kullanıcı onaylı — bkz §9.11) + her `index.md` → **`## §GRUPLAR`** tablosu. Yeni band açılınca şema tekrar uydurulmaz, ADR-097 §5.5 okunur.
 
 ## §5 Band-1 Domain Kayıt Tablosu (25 klasör)
 
@@ -161,7 +161,7 @@ tamamı diskten kalkmıştır. Dolayısıyla:
 
 | Eksen | Kural | Örnek |
 |---|---|---|
-| **Eksen-1 — Kategori bazlı MD** | Dosya rolü = grup. 4 grup: `mimari` (master · `-anayasa` · `-kapsam` · `-bagimliliklar` · `-bilesenler` · `-kararlar`) · `kod` (`-kod-ornekleri` · `-ornekler` · `-test-stratejisi`) · `kanit` (`-dogrulama` · `-web-arastirma` · `-riskler`) · `teknoloji` (derin-dal seti) | `K009-security/security-kararlar.md` → `group: mimari` |
+| **Eksen-1 — Kategori bazlı MD** | Dosya rolü = grup. 3 grup: `mimari` (master · `-anayasa` · `-kapsam` · `-bagimliliklar` · `-bilesenler` · `-kararlar`) · `kod` (`-kod-ornekleri` · `-ornekler` · `-test-stratejisi`) · `kanit` (`-dogrulama` · `-web-arastirma` · `-riskler`) — teknoloji derin-dalları da rol son-ekiyle eşleşir (`linux-anayasa` → `mimari`); `teknoloji` grubu 2026-10-15'te kaldırıldı (§9.11) | `K009-security/security-kararlar.md` → `group: mimari` |
 | **Eksen-2 — Teknoloji bazlı isimlendirme** | Teknoloji = klasör **+** dosya öneki; tek dosyalar asla kategori klasörüne serpilmez | `K003-audio/backend/asio/asio-arayuzler.md` → `group: mimari` |
 | **Mimari ↔ kod bağı** | `depends_on` iç mimari düğüme de işaret verir; kod örneği `Dosya: … / Satır: …` ile repo yoluna bağlanır | `asio-arayuzler.md → depends_on: K003-audio/backend/baglanti-arayuzleri` |
 | **Görünürlük** | Frontmatter **9. alan `group:`** + her `index.md` → `## §GRUPLAR` tablosu (`| Grup | Dosya | Amaç | Kademe |`) | — |
@@ -273,7 +273,7 @@ openapi **hariç**) = **12 dosya / 633 satır, ≥500:0**.
 | Bozuk markdown | Çift `## §GRUPLAR` + tablosuz başlık taraması | **1** (bkz §9.4) |
 | Pilota alma | 3 farklı tipte (kardeşli · yaprak · 11-kardeşli) denenip `git diff` ile doğrulandı | ✅ |
 
-> **`teknoloji` grubu kullanılmadı** — bkz §9.4 (şema↔uygulama çelişkisi).
+> **`teknoloji` grubu kullanılmadı** — ✅ **KAPANDI 2026-10-15**: seçenek (a), şemadan kaldırıldı — bkz §9.11.
 
 ### §9.3 Ajan durumu (20:55)
 
@@ -302,7 +302,7 @@ openapi **hariç**) = **12 dosya / 633 satır, ≥500:0**.
 
 | # | Bulgu | Kanıt | Karar |
 |---|---|---|---|
-| 1 | **`group: teknoloji` = 0 kullanım.** §8.1 "4 grup: mimari · kod · kanit · **teknoloji (derin-dal seti)**" diyor; diskte derin-dallar (`asio-*` · `linux-*` · `reactos-*` · `android-*`) `mimari`/`kod`/`kanit`'e atandı. | 634 dosyanın tamamı okundu: `mimari` 437 · `kanit` 119 · `kod` 78 · `teknoloji` **0** | **ÜST KARAR.** İki seçenek: (a) §8.1'den `teknoloji` kaldır, (b) derin-dalları `teknoloji`'ye çevir (≥500 olan **38 dosyanın neredeyse tamamı** derin-dal → büyük yeniden yazım). Orkestratör **tek başına değiştirmez.** |
+| 1 | **`group: teknoloji` = 0 kullanım.** §8.1 "4 grup: mimari · kod · kanit · **teknoloji (derin-dal seti)**" diyor; diskte derin-dallar (`asio-*` · `linux-*` · `reactos-*` · `android-*`) `mimari`/`kod`/`kanit`'e atandı. | 634 dosyanın tamamı okundu: `mimari` 437 · `kanit` 119 · `kod` 78 · `teknoloji` **0** | ✅ **KAPANDI 2026-10-15** — seçenek **(a)**: §8.1 ve ADR-097 §5.5 G4'ten `teknoloji` kaldırıldı (kullanıcı onayı; gerekçe: 634/634 dosya rol-son-eki gruplamasını tutarlı izliyor, `teknoloji` yol bilgisinin redundant kopyası; (b) 38 dosyalık yeniden yazım + şemanın kendi rol tablosuyla içsel çelişki demekti). Uygulama kaydı §9.11. |
 | 2 | **`## §GRUPLAR` = 240 ama `index.md` = 239.** 1 fazla. | `reactos/index.md` satır 61 — başlık var ama tablo şema-dışı | Aşağıda #4 |
 | 3 | **Root `index.md` (registry) `## §GRUPLAR` taşımıyor.** | `.ai/architecture/index.md` — §8.1'i var, §GRUPLAR yok | **Kasıtlı:** bu dosya şemanın *tanımlayıcısıdır*, kendisi bir K düğümü değildir. 109'luk süpürmede elendi. |
 | 4 | **`reactos/index.md` §GRUPLAR tablosu şema-dışı:** `\| Dosya \| Grup \| Satır \| URL (tekil) \| Durum \|` yerine `\| Grup \| Dosya \| Amaç \| Kademe \|` bekleniyor. | dosya satır 63 | **Ajan beyazlistesinde** — `reactos` ajanı 19:53'te son yazımını yaptı (26 dk sessiz). Ajan-çakışma kuralı gereği **orkestratör dokunmadı.** Düzeltme: tablo şemaya çevrilecek, `Satır`/`URL`/`Durum` verisi `Amaç` sütununa taşınacak ya da ikinci sütun grubu olarak ayrılacak. |
@@ -730,6 +730,116 @@ Hepsi eski iskelet kuşağına ait — **canlı ajan üretimi bu gruba dahil de�
 **Kalan index kapısı (1):** kök `.ai/architecture/index.md` 710 satır — 40–100 kapısı bu dosyaya uygulanır mı **kullanıcı kararı bekliyor** (registry doluluğu nedeniyle kırpma önerilmez).
 
 **Ölüm nedeni (gözlem):** 2 turda 44 ajan "Rate limit exceeded" → kota tükenmesi, hız değil. **Kural: ≤5 eşzamanlı + dalga arası ≥10 dk** (§9.8.2) — ihlal edilirse toplu ölüm tekrarlar.
+
+#### §9.10 İlişkili Vault Proje Kayıtları (2026-10-14)
+
+| Proje | Vault | İlişkili K domainleri |
+|---|---|---|
+| **Neva Engine** (32-bit float ses motoru + Neva Mixer web/native ürün planı — 11 md) | `.ai/projects/NevaEngine/` (00 envanter · 01 plan · 02 DSP · 03+os/01-04 OS kod · 04 RE · 05 mixer · 06 gereksinim · 07 diyagram · 08 freelancer · 09 OSS sürücü · 10 I/O format/192 kHz) | K000 `isletim-sistemi-audio` §2.5 · K001 §1.5 · K002 §1.4 · K003 §1.5 · K004 §1.5 · K005 `audio-control` sınır komşuluğu · K015 decode/playback · ADR-019 Per-OS Neva Player |
+
+#### §9.11 Üst Karar Kaydı — 3 açık madde kapatıldı (2026-10-15 · kullanıcı onaylı)
+
+> Kaynak: paralel ajan araştırması (3 subagent, salt-okunur) + kullanıcı onayı 2026-10-15.
+> Uygulama yüzeyi: bu dosya (registry §4/§8.1/§9.2.1/§9.4) · ADR-097 §5.5 · `K002-electroncis/index.md` · `K004-dsp/dsp-master.md`.
+
+| # | Madde | Karar | Kanıt | Etkilenen dosyalar |
+|---|---|---|---|---|
+| 1 | `group: teknoloji` = 0 kullanım (§9.4 #1) | **(a) şemadan kaldırıldı** — 3 grup: `mimari` · `kod` · `kanit`; derin-dallar rol son-ekiyle eşleşmeye devam eder | 634 dosya ölçümü (§9.2) · ADR-097 §5.5 G4 | bu dosya §4·§8.1·§9.2.1·§9.4 · ADR-097 (L144·G4·L155·L170) |
+| 2 | Q5 — DSP hedefi host mu donanım mı (K004) | **KAPANDI** — zincir hesabı HOST'ta (NevaEngine/JUCE, K003 üstünde K004 düğümü); XMOS XU316 yalnız hard-RT zamanlama + I²S/TDM veri yolu sahibi | `ADR-017-dsp-hardware-mode` (accepted · L110·L126) · NevaEngine `02-dsp` L19·L44 | `K004-dsp/dsp-master.md` (FM + §B.5 + §B.6) |
+| 3 | Q-K2-1 — kart/PCB tasarımı kimde | **KAPANDI** — PCB tasarımı+üretimi **K002-electroncis** (`devre-ve-analog` + `imalat-ve-test`); K001 = fiziksel parça envanteri + donanım erişim/soyutlama API'si | `K001/donanım-anayasa.md` L65·L305 ("Fiziksel PCB/BOM → HAYIR") · `K002/index.md` L68 · `devre-ve-analog-anayasa.md` L222-223 | `K002-electroncis/index.md` (FM + §1.4 + §4 + §5) |
+
+**Kalıntı notu:**
+- Q-K2-3 (K002↔K004 analog/dijital sınırı) madde 2 ile **desteklendi** (DSP zinciri dijital/host, K002 analog) ama ayrı tasdik gerektirdiği için `⚠️` **açık kalır**.
+- ADR-017:126'daki "NevaEngine dizini YOK" ifadesi eskimiştir (34 md — 2026-10-14 ölçümü); ADR frozen olmadığı için düzeltme notu buraya düşüldü, metin değiştirilmedi.
+- **Commit durumu:** bu revizyon working tree'dedir; `git commit` kullanıcı onayıyla orkestratöre aittir.
+
+#### §9.12 K000–K006 Tarama Turu — eksik tamamlama (2026-10-15 · kullanıcı isteği: "C++/Neva verileriyle eksikleri tamamla")
+
+> **Kapsam:** Band-1'in ilk 7 domain'i (K000–K006) baştan tarandı, eksikler listelendi,
+> 4 ajanlık dalga-1 dispatch edildi (tavan 4 — §9.8.2).
+
+##### §9.12.1 Ölçüm yöntemi düzeltmesi (kritik)
+
+`Measure-Object -Line` **boş satırları saymaz** → eski oturum ölçümleriyle (§9.1–§9.9) bu
+tur ölçümleri **doğrudan kıyaslanamaz**. Kanonik ölçüm: `[System.IO.File]::ReadAllLines(yol).Length`.
+Doğru yöntemle başlangıç (2026-10-15, tur öncesi):
+
+| K | dosya | satır | ≥500 | <100 (index hariç içerik) |
+|---|---|---|---|---|
+| K000-isletim-sistemi | 349 | 151.982 | **203** | 0 (45'ün tamamı index, 52–99 ✓) |
+| K001-donanım | 83 | 36.613 | 63 | 1 (mikrodenetleyici-dogrulama 92) |
+| K002-electroncis | 26 | 12.333 | 20 | 0 (6 <500 = index 96–100 ✓) |
+| K003-audio | 72 | 29.809 | 54 | 0 (12 <100 = index 50–99 ✓) |
+| K004-dsp | 69 | 29.215 | **56** | 0 (13 <100 = index 49–97 ✓) — ✅ tam |
+| K005-firmware | 64 | 20.256 | 26 | 0 (10 <100 = index 53–92 ✓) |
+| K006-yapay-zeka | 67 | 10.710 | **5** | **26** (kapsam/dogrulama 32–85) |
+| **TOPLAM** | **730** | **290.918** | **427** | **27** |
+
+##### §9.12.2 Dalga-1 sonucu (4 dispatch · 1 tamam · 3 rate-limit)
+
+| # | Beyazliste | Ajan | Sonuç |
+|---|---|---|---|
+| 1 | `K001-donanım/**` · `K002-electroncis/**` · `K003-audio/**` | embedded | ✅ **TAMAM — orkestratör bağımsız disk ölçümüyle doğrulandı** (aşağıda §9.12.3) |
+| 2 | `K006-yapay-zeka/**` | ai-engineer | ❌ rate-limit (session açıldı, yazım yok) |
+| 3 | `K005-firmware/**` | embedded | ❌ rate-limit |
+| 4 | `K000-isletim-sistemi/**` (zayıf bölgeler) | embedded | ❌ rate-limit |
+
+**Gözlem:** 4 eşzamanlı çağrının 1'i geçti → kota tamamen ölmedi, **eşzamanlılık düşürülmeli**;
+kalan 3 kapsam **tekli** (1 ajan/tur) yeniden dispatch edilecek.
+
+##### §9.12.3 Tamamlanan — K001 · K002 · K003 (ajan + orkestratör doğrulaması)
+
+| K | Önce (§9.12.1) | Sonra (disk) | Δ | Not |
+|---|---|---|---|---|
+| K001-donanım | 83 / 36.613 / ≥500:63 | **86 / 39.296 / ≥500:69** | +3 dosya · +2.683 sat · +6 ≥500 | mikrodenetleyici 457→**1.590** (3 içerik 500/505/525) · `donanım-kernel-ornekler` 540 · `donanaım-type-ornekler` 549 · index kapı-dışı **0** |
+| K002-electroncis | 26 / 12.333 / ≥500:20 | **26 / 12.327 / ≥500:20** | ~0 | **zaten tam** — <500 kalan 6 dosyanın tamamı index (96–100 ✓); ajanın "21 içerik ≥500" beyanı sayımda sapma, disk kazandı |
+| K003-audio | 72 / 29.809 / ≥500:54 | **72 / 31.115 / ≥500:58** | +1.306 sat · +4 ≥500 | `backend/` kök 3 içerik ≥500 · `backend/index` **117→90** (kapı açıldı) · kök `audio-master` 574 · `-bagimliliklar` 506 · `-dogrulama` 547 · `-dil-kapsami` 500 |
+
+**Doğrulama notu (Truth Mode):** ajan 184 dosyanın tamamında kapı uyumu iddia etti;
+orkestratör K001/K002/K003 köklerini bağımsız ölçtü → **index kapı-dışı: 0/184 ·
+beyazliste dışı yazım: 0 · git commit: yok**. Ajanın K002 ≥500 sayımı diskle
+çelişiyordu (21 diye, gerçek 20) — **kayıp yok, K002 gerçekte baştan beri tam**;
+düzeltme yapılmadı, yalnız kayıt düşüldü.
+
+##### §9.12.4 Kalan iş (dalga-2 — tekli dispatch, §9.12.2 kararı)
+
+| # | Beyazliste | Açıklık |
+|---|---|---|
+| 1 | ~~`K006-yapay-zeka/**`~~ | ✅ **KAPANDI** — §9.12.5 |
+| 2 | `K005-firmware/**` | 5 alt-dal ≥500:**0** (diagnostics·power-control·security·testing·update) · `runtime` 4 dosya → 6 (kapsam+dogrulama ekle) |
+| 3 | `K000-isletim-sistemi/**` | `electroncis` 12 dosya ≥500:0 · reactos/tizen/webos-audio 12 dosya ≥500:0 · `security/kod-ornekleri` 15/0 · core+kernel 4 zayıf dal · api'de 5 eksik rol dosyası |
+| — | K004-dsp | ✅ **tam** — iş yok (69/29.215/≥500:56, index 49–97 ✓) |
+
+##### §9.12.5 K006-yapay-zeka KAPANIŞI (2026-10-15 — dalga-2 turları + orkestratör eki)
+
+| An | Dosya | Satır | ≥500 |
+|---|---|---|---|
+| Tur öncesi (§9.12.1) | 67 | 10.710 | **5** |
+| Tur-1 (ai-engineer: 8 anayasa + 6 dogrulama) | 75 | 17.929 | 20 |
+| Tur-2 (ai-engineer, kesintili — diske düştü: 3 dogrulama + 5 kapsam) | 75 | 22.118 | 28 |
+| Tur-3 (ai-engineer: 4 kapsam + 9 web-arastirma + 9 bilesenler — 22/22) | 75 | 30.682 | 50 |
+| Tur-4 (orkestratör: `yapay-zeka-dogrulama.md` §7–§17 eki, 138→501) | 75 | ~30.700 | 51 |
+| Tur-5 (ai-engineer kapanış: 9 ornekler + 5 kök) | 75 | **35.306** | **65** |
+
+**Final disk ölçümü (2026-10-15, kanonik ReadAllLines):** 75 dosya / 35.306 satır /
+**≥500: 65/65 içerik** · kalan içerik <500: **0** · `index.md` 10/10 kapıda (40–100) ·
+kapı ihlali **0** · beyazliste dışı yazım **0** · `git commit` **yok** (orkestratöre ait).
+
+**Yapı:** 9 alt-dal × 7 dosya (index + anayasa + kapsam + bilesenler + ornekler +
+dogrulama + web-arastirma) + kök 12 dosya — 8 `*-anayasa` bu turda **yeni eklendi**;
+tüm C++/Neva içeriği `.ai/projects/NevaEngine` (49 md / 16.609 sat) +
+`.ai/electronic/{dsp,firmware,drivers}` (27 md / 9.816 sat) kaynaklıdır
+(`*.cpp+*.h = 0` — "repo C++ kodu var" iddiası yazılmadı).
+
+**Artakalan not:** `yapay-zeka-dogrulama.md` `status: verify-required` **korur** —
+gerekçe: 9 `-ornekler` derinleştirmesi bu turda kapandı, ancak `depends_on K016-AI`
+hâlâ Band-3 kuyrukta (§9.9.2) + §3-2 erişilemeyen URL → K006 iç kapısı kapalı,
+**domain komple** sayıldı; `verified` bayrağı K016 dolunca ayrıca döner.
+
+**Kaynak doğrulaması (kullanıcının C++/Neva isteği):** repo'da `*.cpp/*.h` = **0**
+(2026-10-15) → tüm C++/Neva içeriği `.ai/projects/NevaEngine/**` (34 md) +
+`.ai/electronic/{dsp,firmware,drivers,amplifier,hardware}` (43 md) vault kaynaklarından
+`Dosya: <yol> [Satır: n]` referansıyla üretilecek; "repo C++ kodu var" iddiası yasak.
 
 ---
 

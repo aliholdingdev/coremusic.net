@@ -85,6 +85,8 @@ Ses sinyalinin **işlenmesi** K003-audio/K004-dsp'dir; burası dosya ve akışt�
   3. Referans ürün analizi (Plexamp · Finamp · Navidrome) → onay bekliyor
   4. Jellyfin/Plex/Emby kanıtları referans analizi mi, karar mı → onay bekliyor
 
+**İlişkili vault projesi (2026-10-15):** **Neva Engine / Neva Player** — `.ai/projects/NevaEngine/` (11 md). `decode` (dr_libs PCM/WAV decode) + `playback` (ADR-019 Per-OS Neva Player) hattında K003-audio'nun uygulayıcısı; müzik dosyası formatı/sözleşmesi K015'te kalır, motor K003/Neva'da.
+
 **Kaynak:** v2 §2.15 · .ai/architecture/index.md §5/15 · ADR-097 §5
 
 

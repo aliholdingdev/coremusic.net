@@ -19,6 +19,10 @@ group: mimari
 
 **Ne DEĞİL:** ham sesin taşınması ve cihaza bağlanması (→ `K003-audio`) · amplifikatör/DAC devresinin tasarımı (→ `K001-donanım`) · cihaz içindeki kontrol yazılımı (→ `K005-firmware`) · kendi başına ayrı bir thread/clock iddiası.
 
+## §1.5 İlişkili Proje Kaydı (2026-10-14)
+
+**Neva Engine DSP zinciri planı** — `.ai/projects/NevaEngine/02-dsp-zincir-mimari.md`: 8 aşamalı sinyal zinciri (gain→31-band EQ→compressor→4 reverb→LR4 crossover→true-peak limiter→maximizer→8.1 matrix) + libebur128 LUFS + juce::dsp::FFT RTA. SDK/lib envanteri `.ai/projects/NevaEngine/00-sdk-lib-envanter.md` (Airwindows MIT referans, JUCE 9 dsp, kissfft). K004 çocuklarıyla eşleme: `equalizer/` → 31-band TPT biquad · `compressor/` · `limiter/` (01-gelistirme-plani §3) · `reverb/` (4 mod) · `crossover/` (LR4 80Hz) · `measurement/` (LUFS/TP).
+
 ## §2 Kademe-2 çocuk katalogu (v2 §2.4 — 12 çocuk, birebir)
 
 | # | Çocuk | Rol (1 satır, addan türetildi) | Kanıt |
