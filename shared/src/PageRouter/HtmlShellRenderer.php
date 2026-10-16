@@ -198,15 +198,21 @@ final class HtmlShellRenderer
         // çalışmaz, player kontrolleri tam sayfa yenilemesine kadar ölü kalırdı;
         // iç içe <main> de (WCAG çift landmark) ortadan kalktı. header/footer.php
         // kendi bağımlılıklarını ($dm/$h/$assetsUrl/$nonce) kendileri tanımlar.
-        echo $this->renderChrome($this->headerPath);
+        $isHeadless = ($route === 'diskplayer');
 
-        if ($isAuthRoute) {
+        if (!$isHeadless) {
+            echo $this->renderChrome($this->headerPath);
+        }
+
+        if ($isAuthRoute || $isHeadless) {
             echo '<main id="main-content"' . $deviceRenderer->tierAttribute() . '>' . $container . '</main>';
         } else {
             echo '<main class="l-main-wrapper" id="main-content" aria-busy="false"' . $deviceRenderer->tierAttribute() . '>' . $container . '</main>';
         }
 
-        echo $this->renderChrome($this->footerPath);
+        if (!$isHeadless) {
+            echo $this->renderChrome($this->footerPath);
+        }
 
         // Inline script — window.CoreMusic.RouterConfig
         // XSS: inline <script> içine gömülü JSON, `</script>` / `<!--` ile kapanışı kırabilir;
