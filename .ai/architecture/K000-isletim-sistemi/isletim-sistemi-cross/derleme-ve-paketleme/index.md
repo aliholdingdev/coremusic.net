@@ -7,13 +7,15 @@ children:
   - "K000-isletim-sistemi/isletim-sistemi-cross/derleme-ve-paketleme/derleme-ve-paketleme-anayasa"
   - "K000-isletim-sistemi/isletim-sistemi-cross/derleme-ve-paketleme/derleme-ve-paketleme-surucu"
   - "K000-isletim-sistemi/isletim-sistemi-cross/derleme-ve-paketleme/derleme-ve-paketleme-ornekler"
+  - "K000-isletim-sistemi/isletim-sistemi-cross/derleme-ve-paketleme/derleme-ve-paketleme-ide-platform-tespiti"
+  - "K000-isletim-sistemi/isletim-sistemi-cross/derleme-ve-paketleme/derleme-ve-paketleme-cross-platform-plani"
 depends_on: []
 evidence:
   - "shared/composer.json:8"
   - "package.json:10"
   - "https://gcc.gnu.org/onlinedocs/gccint/"
   - "https://ninja-build.org/"
-validation: "2026-10-13 · 4 URL HEAD 200 · envanter kesişimi 0 · repo satırları Select-Object -Index (N-1) ile okundu"
+validation: "2026-10-14 · genişleme (Vault Steward onayı): ide-platform-tespiti + cross-platform-plani eklendi (5/5 çocuk) — 19 URL HEAD 200 (13+6 yeni) · envanter kesişimi 0 · önceki tur: 2026-10-13 · 4 URL HEAD 200"
 open_questions:
   - "Q6 — hedef paket formatları (MSI/deb/AppImage) seti UNKNOWN"
 group: mimari
@@ -33,6 +35,8 @@ group: mimari
 | mimari | `derleme-ve-paketleme-anayasa.md` | toolchain matrisi, paket formatları, bağımlılık modeli, reproducible kuralları |
 | mimari | `derleme-ve-paketleme-surucu.md` | paket formatı sürücü matrisi (MSI/deb/rpm/AppImage), kurulum/denetim yüzeyi |
 | kod | `derleme-ve-paketleme-ornekler.md` | gerçek `composer.json`/`package.json`/`ci.yml` kanıtları + PLANNED derleme kalıpları |
+| mimari | `derleme-ve-paketleme-ide-platform-tespiti.md` | IDE/derleyici OS tespiti (Xcode/VS/CLion/VSCode/PlatformIO) — 3 zaman modeli (derleme/yapılandırma/runtime) + cross-platform öneri tablosu |
+| mimari | `derleme-ve-paketleme-cross-platform-plani.md` | OS başına derleme planı (toolchain+üreteç) + 6 fazlı uygulama planı (F0–F5) + paketleme tablosu + artefakt adlandırma |
 
 ## Komşu sınır matrisi
 

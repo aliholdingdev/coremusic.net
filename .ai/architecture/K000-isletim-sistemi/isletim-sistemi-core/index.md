@@ -12,7 +12,7 @@ depends_on: []
 evidence:
   - https://www.man7.org/linux/man-pages/
   - https://www.man7.org/linux/man-pages/man3/strerror.3.html
-validation: "2026-10-13 · 4 resmi URL HTTP 200 · 4 alt-dal disk kanıtlı AÇILDI (kök 4 md + 16 yeni md) · §GRUPLAR 4 satır Kademe-3 · children 4 tam yol"
+validation: "2026-10-13 · 4 resmi URL HTTP 200 · 4 alt-dal disk kanıtlı AÇILDI (kök 4 md + 16 yeni md) · §GRUPLAR 4 satır Kademe-3 · children 4 tam yol | 2026-10-14 · isletim-sistemi-core-kod-seti.md yazıldı (994 satır · 23 kod bloğu · 29 resmi URL HTTP 200 · spot-check: orkestratör)"
 open_questions:
   - "core ↔ kernel ayrım tanımı yok → ⚠️ VERIFICATION REQUIRED (Q2 / Q-C1)"
   - "Çekirdek kavramlarının tam seti v2'de listelenmemiş → UNKNOWN (Q-C2)"
@@ -62,7 +62,7 @@ Kök içerik dosyaları (Kademe-2, bu düğümde kalır): `-kapsam.md` · `-dogr
 
 ## §4 §GRUPLAR
 
-> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın FM'inde 9. alan `group`. Tablo yalnız Kademe-3 çocuklarını listeler.
+> İki-ekseni gruplama (ADR-097 §5.5 · registry §8.1) — her dosyanın FM'inde 9. alan `group`. Tablo Kademe-3 çocuklarını listeler; kök kod-seti dosyası son satırda işaretlidir.
 
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
@@ -70,6 +70,7 @@ Kök içerik dosyaları (Kademe-2, bu düğümde kalır): `-kapsam.md` · `-dogr
 | mimari | `bellek-kavramlari/index.md` | Bellek alt-dalı künyesi | Kademe-3 |
 | mimari | `dosya-sistemi-kavramlari/index.md` | Dosya sistemi alt-dalı künyesi | Kademe-3 |
 | mimari | `izin-ve-guvenlik-kavramlari/index.md` | İzin & güvenlik alt-dalı künyesi | Kademe-3 |
+| kod | `isletim-sistemi-core-kod-seti.md` | Cross-platform bellek ölçümü / dosya meta / temp dizin kod seti — 994 satır · 23 kod bloğu · 29 resmi URL | Kademe-2 (kök) |
 
 ## §5 Komşu sınırı
 

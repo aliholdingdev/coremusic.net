@@ -9,7 +9,8 @@ children:
   - K000-isletim-sistemi/isletim-sistemi-testing/ci-ve-kalite-kapisi
 depends_on: []
 evidence: []
-validation: []
+validation:
+  - "2026-10-14: isletim-sistemi-testing-kod-seti.md yazıldı (632 satır · 14 kod bloğu · 17 resmi URL HTTP 200 · spot-check: orkestratör)"
 open_questions:
   - T1 [UNKNOWN] — "test kapsamı" tam olarak hangi artefaktları kapsıyor (çekirdek + uygulama + CI mı, yalnız uygulama mı): kapsam belirsiz → kapsam.md §G.1.
   - T2 [UNKNOWN] — coverage/ölçüm eşiği yok; rakam uydurmak yasak (kapsam.md §G.2).
@@ -58,6 +59,7 @@ kanıt protokolü. Testlerin ne olduğu değil, **testlerin kendisi** burada tan
 | `isletim-sistemi-testing-kod-ornekleri.md` | 2 | `kod` | Kod örnekleri (gerçek repo satır referanslı) |
 | `isletim-sistemi-testing-ornekler.md` | 2 | `kod` | Senaryo örnekleri + indeks doğrulama |
 | `isletim-sistemi-testing-cross-platform-ornekleri.md` | 2 | `kod` | Windows/macOS/Linux taşınabilir test kodu — P-01..P-10 platform matrisi · 10 dil gruplu referans örnek · E-01..E-13 · Q-3 yanıtı (2026-10-14) |
+| `isletim-sistemi-testing-kod-seti.md` | 2 | `kod` | Cross-platform test izolasyonu, platform matrisi deseni ve CI gate kod seti — 632 satır · 14 kod bloğu · 17 resmi URL (2026-10-14) |
 
 ## §5 Kanıt ve doğrulama durumu
 

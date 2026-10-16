@@ -206,8 +206,8 @@ sürmez. Ayrıntı: `isletim-sistemi-audio/wasapi/`.
 | 9 | `isletim-sistemi-runtime` | PHP SAPI + web sunucusu | 4 | 217 | 0 | api, cross, testing |
 | 10 | `isletim-sistemi-security` | izin/capability/sandbox | 4 | 206 | 0 | kernel, api, observability |
 | 11 | `isletim-sistemi-testing` | OS test (kselftest/KUnit) | 4 | 202 | 0 | kernel, observability, runtime |
-| 12 | `isletim-sistemi-turu` | OS ailesi (Windows/Linux/macOS + 8 platform) | 66 | 31258 | 58 | audio, cross, electroncis |
-| — | **TOPLAM** | 12 düğüm | **133** | **44.152** | **67** | kök 4 hariç · turu + electroncis satırları 2026-10-14 |
+| 12 | `isletim-sistemi-turu` | OS ailesi (Windows/Linux/macOS + 8 platform) | 80 | 35909 | 60 | audio, cross, electroncis |
+| — | **TOPLAM** | 12 düğüm | **147** | **48.803** | **69** | kök 4 hariç · turu + electroncis satırları 2026-10-14 · turu recursive sayımı |
 
 **Not:** `electroncis` (Q1) kapsamı **KAPANDI (2026-10-14)** — OS↔donanım elektronik arayüzü,
 2 alt-dal (bkz. §J). `isletim-sistemi-plan` (Q3) kapsamı hâlâ [BİLİNMEYEN] — adlandırma tek
@@ -246,7 +246,10 @@ başına belirsiz, diske bakılmadan doldurulmadı.
     testleri (`phpunit.xml`) ayrı katman. `kernel`/`observability`/`runtime` komşu.
     Dosya 4 · 202 · 0.
 12. **`isletim-sistemi-turu`** — OS ailesi karşılaştırması: Windows/Linux/macOS + 8 platform
-    alt-dalı. En derin düğüm. `audio`/`cross`/`electroncis` komşu. Dosya 66 · 31.258 · ≥500: 58 (2026-10-14 — kök `kod-seti` eklendi).
+    alt-dalı. En derin düğüm. `audio`/`cross`/`electroncis` komşu. Dosya 80 · 35.909 · ≥500: 60
+    (2026-10-14 recursive sayım — kök `kod-seti` + **8/8 platformda DMA dosyası**: windows/linux
+    2026-10-12, macos/ios/android/reactos/tizen/webos bu turda eklendi; tizen/webos DMA'sı belge
+    boşluğu `⚠️` ile işaretli).
 
 ---
 

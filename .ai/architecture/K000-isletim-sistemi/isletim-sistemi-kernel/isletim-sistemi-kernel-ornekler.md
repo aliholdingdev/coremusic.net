@@ -14,7 +14,10 @@ evidence:
   - https://developer.apple.com/documentation/iokit
   - https://samsungtizenos.com/docs/application/native/guides/multimedia/media-playback
   - https://www.webosose.org/docs/guides/getting-started/introduction-to-ls2-api/
-validation: "2026-10-13 → 2026-10-14 · §K.2 OS gruplu örnekler eklendi (6 OS · Linux hariç) · 25 yeni URL HEAD 200 · envanter kesişimi 0 · repo satır kanıtları Select-Object -Index ile doğrulandı · çekirdek kodu YOK"
+  - https://nodejs.org/api/process.html
+  - https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem
+  - https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/System.html
+validation: "2026-10-13 → 2026-10-14 (2 tur) · §K.2 OS gruplu örnekler (6 OS) + §K.2.9 Linux + §K.3 9 dil çapraz-platform (Windows/macOS/Linux runtime tespiti) eklendi · 3+4. tur toplam 39 yeni URL + 1 env teyidi (E-13) HEAD 200 · kesişim 0 (3756 anlık görüntü) · repo satır kanıtları Select-Object -Index ile doğrulandı · çekirdek kodu YOK"
 open_questions:
   - "core ↔ kernel sınırı (Q2) doğrulanamadı → açık"
   - "Hedef çekirdek (Q4) → UNKNOWN"
@@ -296,15 +299,16 @@ budur.
 > `developer.apple.com/documentation/xnu` HEAD başarısız). Linux/Windows sütunları
 > doğrulanmıştır; macOS sütunu **tek başına iddia olarak kullanılmaz**.
 
-## §K.2 — OS bazlı gruplanmış kod örnekleri (2026-10-14 · Linux hariç)
+## §K.2 — OS bazlı gruplanmış kod örnekleri (2026-10-14 · Linux dahil)
 
-> **Kapsam (kullanıcı kuralı):** Bu bölüm işletim sistemlerine göre **gruplanmış**
-> kod örnekleri taşır; **Linux hariçtir** (repo'nun hedef aldığı çekirdek Q4 ile
-> hâlâ UNKNOWN — §H H1). §K tablosundaki Linux sütunu tarihseldir ve bu bölümde
-> **tekrarlanmaz**. Altı OS: **Windows · macOS (XNU/Darwin) · Android · webOS ·
-> Tizen · ReactOS**. Her örneğin kaynağı upstream dokümandır (repo'da native kod
-> **YOK** — §A dürüstlük notu geçerlidir); her URL 2026-10-14'te HEAD ile 200
-> doğrulanmıştır (`dogrulama.md` §E.5).
+> **Kapsam (kullanıcı kuralı · 2026-10-14 revizyonu):** Bu bölüm işletim
+> sistemlerine göre **gruplanmış** kod örnekleri taşır. İlk yazım "Linux hariç"
+> idi (Q4 hâlâ UNKNOWN — §H H1); aynı gün kullanıcı onayıyla **Linux §K.2.9'da
+> eklendi** ve §K.3 dil örnekleri **Windows · macOS · Linux** üçlüsünü kapsar.
+> Yedi OS: **Windows · macOS (XNU/Darwin) · Linux · Android · webOS · Tizen ·
+> ReactOS**. Her örneğin kaynağı upstream dokümandır (repo'da native kod **YOK** —
+> §A dürüstlük notu geçerlidir); her URL HEAD ile 200 doğrulanmıştır
+> (`dogrulama.md` §E.5 · §E.6).
 
 ### §K.2.1 Windows (Win32/NT çekirdeği) — dosya · süreç · senkronizasyon
 
@@ -464,6 +468,7 @@ iddiaları yalnızca URL yol adıyla (NT_Interface_Compatibility) sınırlıdır
 |---|---|---|---|
 | Windows | dosya · süreç · mutex | Win32 API (fileapi · synchapi · ioapiset) | upstream MS Learn |
 | macOS | hibrit çekirdek yapısı | XNU ağacı (Mach · FreeBSD · IOKit) | upstream README |
+| **Linux** | **dosya · kilit · bekleme (syscall)** | **POSIX syscall (open · flock · nanosleep · uname)** | **upstream man7 · POSIX (§K.2.9)** |
 | Android | düşük gecikmeli ses | AAudio builder + HAL | upstream NDK/Sources |
 | webOS | hizmet yolu çağrısı | LS2 · `luna-send` · JSON yanıt | upstream webOS OSE |
 | Tizen | medya oynatıcı yaşam döngüsü | CAPI `player_*` · `player.h` | upstream Samsung/Tizen |
@@ -477,7 +482,397 @@ iddiaları yalnızca URL yol adıyla (NT_Interface_Compatibility) sınırlıdır
 | N-2 | `CloseHandle` **handleapi**'dedir (fileapi 404) · `CreateMutexW` **synchapi**'dedir (processthreadsapi 404) — §E.5 düzeltme kayıtları. |
 | N-3 | macOS sembol sayfaları HEAD 404 → sembol-düzeyi kod **⚠️ VERIFICATION REQUIRED** (uydurulmadı); yalnız README yapısı yazılmıştır. |
 | N-4 | ReactOS wiki GET'i bot korumalıdır → içerik iddiası YOK, yalnız URL varlığı. |
-| N-5 | Linux bu bölümde **yoktur** (kullanıcı kuralı); §K tablosundaki Linux sütunu tarihseldir ve silinmemiştir. |
+| N-5 | ~~Linux bu bölümde **yoktur** (kullanıcı kuralı)~~ → **REVİZE (2026-10-14):** Kullanıcı onayıyla Linux **§K.2.9'da eklendi**; §K. tablosundaki Linux sütunu tarihseldir ve silinmemiştir. |
+
+### §K.2.9 Linux (POSIX syscall yüzeyi) — dosya · kilit · bekleme · platform
+
+> **Kapsam değişikliği (2026-10-14 · kullanıcı onayı):** Önceki turda §K.2
+> "Linux hariç" idi; yeni talimat "Windows, Mac, Linux fark etmez, hepsi için"
+> ile **Linux bu bölüme alındı**. §K.3 dil örnekleri de 3 OS (Windows · macOS ·
+> Linux) kapsar. Bu bölüm Linux çekirdeğinin **POSIX syscall yüzeyini** örnekler;
+> repo'da native kod YOK (§A dürüstlük notu) — her örnek upstream dokümana dayanır.
+
+```c
+// Linux syscall yüzeyi: dosya · kilit · bekleme · platform (POSIX C)
+#include <fcntl.h>      // open(2) — VFS tanıtıcı açma
+#include <unistd.h>     // read(2) · close(2)
+#include <sys/file.h>   // flock(2) — dosya kilidi
+#include <time.h>       // nanosleep(2) — zamanlama
+#include <sys/utsname.h>// uname(2) — platform sorgusu
+#include <stdio.h>
+
+int fd = open("/etc/hosts", O_RDONLY);        // VFS: inode → tanıtıcı
+if (fd >= 0) {
+    char buf[4096];
+    ssize_t n = read(fd, buf, sizeof(buf));   // sayfa önbelleği üstünden okuma
+    flock(fd, LOCK_SH);                        // paylaşımlı dosya kilidi (flock(7))
+    flock(fd, LOCK_UN);
+    close(fd);
+    printf("okundu: %zd bayt\n", n);
+}
+struct timespec ts = { .tv_sec = 0, .tv_nsec = 10 * 1000 * 1000 };
+nanosleep(&ts, NULL);                          // 10 ms uyku — timer kesmesi ile uyanma
+struct utsname u;
+if (uname(&u) == 0)                            // uname(2): çekirdek adı/sürümü
+    printf("%s %s\n", u.sysname, u.release);
+```
+
+| # | Syscall | Çekirdek alt sistemi | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|---|
+| X-1 | `open(2)` | VFS | https://man7.org/linux/man-pages/man2/open.2.html | ✅ env'de |
+| X-2 | `read(2)` | VFS | https://man7.org/linux/man-pages/man2/read.2.html | ✅ env'de |
+| X-3 | `close(2)` | VFS | https://man7.org/linux/man-pages/man2/close.2.html | ✅ env'de |
+| X-4 | `flock(2)` | kilit | https://man7.org/linux/man-pages/man2/flock.2.html | ✅ env'de |
+| X-5 | `nanosleep(2)` | zamanlama | https://man7.org/linux/man-pages/man2/nanosleep.2.html | ✅ env'de |
+| X-6 | `clock_nanosleep(2)` | zamanlama (bayraklı bekleme) | https://man7.org/linux/man-pages/man2/clock_nanosleep.2.html | ✅ env'de |
+| X-7 | `uname(2)` | platform | https://man7.org/linux/man-pages/man2/uname.2.html | ✅ env'de |
+| X-8 | `futex(7)` | hızlı kullanıcı uzayı kilidi | https://man7.org/linux/man-pages/man7/futex.7.html | ✅ env'de |
+| X-9 | `pthread_mutex_lock(3)` | NPTL mutex | https://man7.org/linux/man-pages/man3/pthread_mutex_lock.3.html | ✅ env'de |
+| X-10 | `feature_test_macros(7)` | POSIX/GNU derleme yüzeyi | https://man7.org/linux/man-pages/man7/feature_test_macros.7.html | ✅ env'de |
+
+> **Doğrulama durumu:** X-1..X-10 envanterde zaten var olan URL'lerdir (bu turda
+> HEAD 200 ile **teyit** edildi · kesişim 0 — kullanımları yeni değildir); Linux
+> syscall tablosu `syscalls(2)` ile listelenir (kök `index.md` §5/2 — korunur);
+> bu bölüm tek tek syscall'ları **örnekleyen** kod taşır, tabloyu **kopyalamaz**.
+
+## §K.3 — Çapraz-platform dil örnekleri (9 dil · runtime OS tespiti · 3 OS)
+
+> **Kapsam (kullanıcı kuralı · 2026-10-14):** JS · C · Python · Go · Rust · C# ·
+> PHP · Java · PowerShell — her dil için **runtime OS tespiti** + **Windows /
+> macOS / Linux** dalları. Repo'da bu dillerde native çekirdek kodu **YOK** (§A
+> dürüstlük notu); örnekler upstream dil dokümanlarına dayanır ve her URL §E.6'da
+> HEAD 200 ile doğrulanmıştır. Her örnek **aynı senaryoyu** (platform tespiti →
+> dosya I/O → bekleme) 3 OS dalında gösterir.
+
+### §K.3.0 Ortak senaryo ve eşleme
+
+| # | Senaryo adımı | Kernel işlevi | Windows API | macOS (XNU) | Linux syscall |
+|---|---|---|---|---|---|
+| C1 | Platform tespiti | platform alt sistemi | `GetSystemInfo`/`RtlGetVersion` | `uname` | `uname(2)` |
+| C2 | Dosya I/O | VFS (işlev 4) | `CreateFileW`/`ReadFile` | `open_nocancel`/`read` | `open(2)`/`read(2)` |
+| C3 | Bekleme | zamanlama (işlev 2) | `SleepEx` | `nanosleep` | `nanosleep(2)` |
+
+### §K.3.1 JavaScript (Node.js)
+
+```js
+// Runtime tespiti: process.platform → 'win32' | 'darwin' | 'linux' | ...
+import { platform } from 'node:process';
+import { readFileSync } from 'node:fs';
+
+const osName = platform === 'win32' ? 'Windows'
+             : platform === 'darwin' ? 'macOS'
+             : platform === 'linux'  ? 'Linux'
+             : 'Bilinmeyen';
+
+// Dosya I/O: fs → libc/kernel32 → VFS (C2)
+const yol = osName === 'Windows'
+  ? `${process.env.SystemRoot}\\System32\\drivers\\etc\\hosts`
+  : '/etc/hosts';
+const buf = readFileSync(yol);            // open+read+close (tek çağrıda)
+
+// Bekleme: event-loop zamanlayıcısı → timer (C3)
+await new Promise(r => setTimeout(r, 10));
+console.log(osName, buf.length, 'bayt');
+```
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| J-1 | `process.platform` | https://nodejs.org/api/process.html | ✅ env'de |
+| J-2 | `fs.readFileSync`/`openSync` | https://nodejs.org/api/fs.html | ✅ env'de |
+
+### §K.3.2 C (derleme + çalışma zamanı)
+
+```c
+/* Derleme zamanı tespit: yerleşik makrolar (runtime değil) */
+#include <stdio.h>
+#if defined(_WIN32)
+  #include <windows.h>                       /* CreateFileW · SleepEx */
+  const char* OS_ADI = "Windows";
+#elif defined(__APPLE__) && defined(__MACH__)
+  #include <unistd.h>                        /* open · read · nanosleep */
+  const char* OS_ADI = "macOS";
+#elif defined(__linux__)
+  #include <unistd.h>
+  #include <sys/utsname.h>                   /* uname(2) */
+  const char* OS_ADI = "Linux";
+#else
+  #error "Desteklenmeyen platform"
+#endif
+
+int main(void) {
+    /* Çalışma zamanı doğrulama (yalnız POSIX kolları): */
+    printf("Derleme hedefi: %s\n", OS_ADI);
+    return 0;
+}
+```
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| C-1 | `_WIN32`/`_WIN64` yerleşik makrosu | https://learn.microsoft.com/en-us/cpp/preprocessor/predefined-macros | ✅ **yeni** |
+| C-2 | `__linux__`/`__APPLE__` · feature test macros | https://man7.org/linux/man-pages/man7/feature_test_macros.7.html | ✅ env'de |
+
+> C'de `platform` gibi tek bir runtime anahtarı **yoktur** — tespit derleme
+> zamanı yerleşik makrolarla (`#if defined`) yapılır (C-1·C-2). Çalışma zamanı
+> POSIX doğrulaması `uname(2)` ile mümkündür (§K.2.9 X-7).
+
+### §K.3.3 Python
+
+```python
+# Runtime tespiti: platform.system() → 'Windows' | 'Darwin' | 'Linux'
+import platform, time, os
+
+os_name = {'Windows': 'Windows', 'Darwin': 'macOS', 'Linux': 'Linux'} \
+    .get(platform.system(), 'Bilinmeyen')
+
+# Dosya I/O: os → libc/kernel32 → VFS (C2)
+yol = r'C:\Windows\System32\drivers\etc\hosts' if os_name == 'Windows' \
+    else '/etc/hosts'
+with open(yol, 'rb') as f:                 # open+read+close
+    buf = f.read(4096)
+
+time.sleep(0.01)                            # nanosleep / SleepEx (C3)
+print(os_name, len(buf), 'bayt')
+```
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| P-1 | `platform.system()` | https://docs.python.org/3/library/platform.html | ✅ env'de |
+| P-2 | `open`/`os` modülü | https://docs.python.org/3/library/os.html | ✅ env'de |
+| P-3 | `time.sleep` | https://docs.python.org/3/library/time.html | ✅ **yeni** |
+
+### §K.3.4 Go
+
+```go
+// Runtime tespiti: runtime.GOOS → "windows" | "darwin" | "linux" | ...
+package main
+
+import (
+	"fmt"
+	"os"
+	"runtime"
+	"time"
+)
+
+func main() {
+	osName := map[string]string{
+		"windows": "Windows", "darwin": "macOS", "linux": "Linux",
+	}[runtime.GOOS]
+	if osName == "" {
+		osName = "Bilinmeyen"
+	}
+
+	// Dosya I/O: os paketi → syscall (C2)
+	yol := "/etc/hosts"
+	if runtime.GOOS == "windows" {
+		yol = os.Getenv("SystemRoot") + `\System32\drivers\etc\hosts`
+	}
+	buf, err := os.ReadFile(yol)            // open+read+close
+	if err != nil {
+		fmt.Println("hata:", err)
+		return
+	}
+
+	time.Sleep(10 * time.Millisecond)        // nanosleep / SleepEx (C3)
+	fmt.Println(osName, len(buf), "bayt")
+}
+```
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| G-1 | `runtime.GOOS` | https://pkg.go.dev/runtime | ✅ env'de |
+| G-2 | `os.ReadFile` | https://pkg.go.dev/os | ✅ env'de |
+| G-3 | `time.Sleep` | https://pkg.go.dev/time | ✅ **yeni** |
+
+### §K.3.5 Rust
+
+```rust
+// Runtime tespiti: std::env::consts::OS → "windows" | "macos" | "linux" | ...
+use std::env::consts::OS;
+use std::time::Duration;
+
+fn main() {
+    let os_name = match OS {
+        "windows" => "Windows",
+        "macos"   => "macOS",
+        "linux"   => "Linux",
+        _         => "Bilinmeyen",
+    };
+
+    // Dosya I/O: std::fs → syscall (C2)
+    let yol = if OS == "windows" {
+        format!("{}\\System32\\drivers\\etc\\hosts",
+                std::env::var("SystemRoot").unwrap_or_else(|_| "C:\\Windows".into()))
+    } else {
+        "/etc/hosts".to_string()
+    };
+    let buf = std::fs::read(&yol).expect("dosya okunamadı"); // open+read+close
+
+    std::thread::sleep(Duration::from_millis(10)); // nanosleep / SleepEx (C3)
+    println!("{} {} bayt", os_name, buf.len());
+}
+```
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| R-1 | `std::env::consts::OS` | https://doc.rust-lang.org/std/env/consts/constant.OS.html | ✅ **yeni** |
+| R-2 | `std::fs::read` | https://doc.rust-lang.org/std/fs/index.html | ✅ env'de |
+| R-3 | `std::thread::sleep` | https://doc.rust-lang.org/std/thread/fn.sleep.html | ✅ **yeni** |
+
+### §K.3.6 C# (.NET)
+
+```csharp
+// Runtime tespiti: OperatingSystem.IsWindows/IsMacOS/IsLinux (.NET 5+)
+// veya RuntimeInformation.IsOSPlatform (daha eski sürümler)
+using System;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading;
+
+string osName = OperatingSystem.IsWindows() ? "Windows"
+              : OperatingSystem.IsMacOS()   ? "macOS"
+              : OperatingSystem.IsLinux()    ? "Linux"
+              : "Bilinmeyen";
+
+// Dosya I/CreateFileW; Unix → open (C2)
+string yol = OperatingSystem.IsWindows()
+    ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows),
+                   "System32", "drivers", "etc", "hosts")
+    : "/etc/hosts";
+byte[] buf = File.ReadAllBytes(yol);        // open+read+close
+
+Thread.Sleep(10);                            // nanosleep / SleepEx (C3)
+Console.WriteLine($"{osName} {buf.Length} bayt");
+```
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| D-1 | `OperatingSystem.IsWindows/IsLinux` | https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem | ✅ **yeni** |
+| D-2 | `RuntimeInformation.IsOSPlatform` | https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.runtimeinformation.isosplatform | ✅ **yeni** |
+| D-3 | `File.ReadAllBytes` | https://learn.microsoft.com/en-us/dotnet/api/system.io.file | ✅ env'de teyit (envanterde 6 dosyada · E-13) |
+| D-4 | `Thread.Sleep` | https://learn.microsoft.com/en-us/dotnet/api/system.threading.thread.sleep | ✅ **yeni** |
+
+### §K.3.7 PHP
+
+```php
+<?php
+declare(strict_types=1);
+
+// Runtime tespiti: PHP_OS_FAMILY → 'Windows' | 'Darwin' | 'Linux' | ...
+$osName = match (PHP_OS_FAMILY) {
+    'Windows' => 'Windows',
+    'Darwin'  => 'macOS',
+    'Linux'   => 'Linux',
+    default   => 'Bilinmeyen',
+};
+
+// Dosya I/O: fopen/fread → libc/kernel32 → VFS (C2)
+$yol = PHP_OS_FAMILY === 'Windows'
+    ? getenv('SystemRoot') . '\\System32\\drivers\\etc\\hosts'
+    : '/etc/hosts';
+$fh = fopen($yol, 'rb');
+$buf = $fh !== false ? fread($fh, 4096) : false;
+if ($fh !== false) { fclose($fh); }          // open+read+close
+
+usleep(10_000);                               // nanosleep / SleepEx (C3)
+echo $osName, ' ', strlen((string) $buf), " bayt\n";
+```
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| H-1 | `PHP_OS_FAMILY` | https://www.php.net/manual/en/reserved.constants.php | ✅ **yeni** |
+| H-2 | `fopen`/`flock` (dosya yüzeyi) | https://www.php.net/manual/en/function.flock.php | ✅ env'de |
+| H-3 | `usleep` | https://www.php.net/manual/en/function.usleep.php | ✅ env'de |
+
+### §K.3.8 Java
+
+```java
+// Runtime tespiti: os.name sistemi özelliği → "Windows 11" | "Mac OS X" | "Linux"
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+public final class PlatformTespit {
+    public static void main(String[] args) throws Exception {
+        String osProp = System.getProperty("os.name", "").toLowerCase();
+        String osName = osProp.startsWith("windows") ? "Windows"
+                      : osProp.startsWith("mac")     ? "macOS"
+                      : osProp.startsWith("linux")   ? "Linux"
+                      : "Bilinmeyen";
+
+        // Dosya I/O: java.nio.file → libc/kernel32 → VFS (C2)
+        Path yol = osName.equals("Windows")
+            ? Path.of(System.getenv("SystemRoot"),
+                      "System32", "drivers", "etc", "hosts")
+            : Path.of("/etc/hosts");
+        byte[] buf = Files.readAllBytes(yol);  // open+read+close
+
+        Thread.sleep(10);                      // nanosleep / SleepEx (C3)
+        System.out.println(osName + " " + buf.length + " bayt");
+    }
+}
+```
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| V-1 | `System.getProperty("os.name")` | https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/System.html | ✅ **yeni** |
+| V-2 | `Files.readAllBytes` | https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html | ✅ **yeni** |
+| V-3 | `Thread.sleep` | https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html | ✅ **yeni** |
+
+### §K.3.9 PowerShell
+
+```powershell
+# Runtime tespiti: $IsWindows / $IsMacOS / $IsLinux (PS 6+ otomatik değişkenleri)
+# Windows PowerShell 5.1'de bu değişkenler YOK → $env:OS kontrolü fallback olur
+if ($IsWindows) { $osName = 'Windows' }
+elseif ($IsMacOS) { $osName = 'macOS' }
+elseif ($IsLinux) { $osName = 'Linux' }
+elseif ($env:OS -eq 'Windows_NT') { $osName = 'Windows' }   # PS 5.1 fallback
+else { $osName = 'Bilinmeyen' }
+
+# Dosya I/O: .NET FileStream → CreateFileW / open → VFS (C2)
+$yol = if ($osName -eq 'Windows') { Join-Path $env:SystemRoot 'System32\drivers\etc\hosts' }
+       else { '/etc/hosts' }
+$buf = [System.IO.File]::ReadAllBytes($yol)   # open+read+close
+
+Start-Sleep -Milliseconds 10                   # nanosleep / SleepEx (C3)
+Write-Output "$osName $($buf.Length) bayt"
+```
+
+| # | Yüzey | Doğrulayıcı URL (HEAD 200 · 2026-10-14) | Durum |
+|---|---|---|---|
+| PS-1 | `$IsWindows`/`$IsMacOS`/`$IsLinux` | https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables | ✅ **yeni** |
+| PS-2 | `Start-Sleep` | https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/start-sleep | ✅ **yeni** |
+
+> `$IsWindows`/`$IsMacOS`/`$IsLinux` varlıkları `about_automatic_variables`
+> sayfasında GET ile içerik doğrulanmıştır (2026-10-14).
+
+### §K.3.10 Dil ↔ OS tespit mekanizması matrisi
+
+| # | Dil | Tespit API'si | Dönen değerler (3 OS) | Tespit türü |
+|---|---|---|---|---|
+| 1 | JavaScript | `process.platform` | `win32` · `darwin` · `linux` | runtime |
+| 2 | C | `_WIN32` · `__APPLE__` · `__linux__` | makro varlığı | **derleme zamanı** |
+| 3 | Python | `platform.system()` | `Windows` · `Darwin` · `Linux` | runtime |
+| 4 | Go | `runtime.GOOS` | `windows` · `darwin` · `linux` | runtime |
+| 5 | Rust | `std::env::consts::OS` | `windows` · `macos` · `linux` | runtime (derleme sabiti) |
+| 6 | C# | `OperatingSystem.IsWindows()` | bool (3 method) | runtime |
+| 7 | PHP | `PHP_OS_FAMILY` | `Windows` · `Darwin` · `Linux` | runtime |
+| 8 | Java | `System.getProperty("os.name")` | `Windows..` · `Mac OS X` · `Linux` | runtime |
+| 9 | PowerShell | `$IsWindows`/`$IsMacOS`/`$IsLinux` | bool (3 değişken) | runtime (PS 6+) |
+
+> Rust notu: `std::env::consts::OS` derleme zamanında hedefe göre sabitlenir,
+> çalışma anında tek değer döner — bu yüzden "runtime (derleme sabiti)" olarak
+> işaretlenmiştir. C tek istisnadır: derleme zamanı tespiti (fallback `uname(2)`).
+
+### §K.3.11 Doğrulama notları (bu bölüm)
+
+| # | Not |
+|---|---|
+| P-1 | §K.3 için **14 yeni URL + 1 env teyidi** HEAD 200 ile doğrulanmıştır (§E.6 · `system.io.file` env'de çıktı: E-13 · kesişim 0). |
+| P-2 | 10 URL envanterde zaten vardı (env'de: J-1·J-2·P-1·P-2·G-1·G-2·R-2·C-2·H-2·H-3) — bu turda HEAD 200 ile teyit edildi. Ek: **D-3** (`system.io.file`) da env'de çıktı (6 dosyada mevcut) → E-13. |
+| P-3 | `php.net/manual/en/function.php-os-family.php` HEAD **404** → `reserved.constants.php` (PHP_OS_FAMILY içerdiği GET ile doğrulandı) ile değiştirildi. |
+| P-4 | `learn.microsoft.com/powershell/scripting/platform-compatibility` HEAD **404** → `about_automatic_variables` (İçerik GET ile doğrulandı) ile değiştirildi. |
+| P-5 | Oracle `system-properties.html` sayfası JS kabuğu nedeniyle statik içerikte `os.name` **içermiyor** → `java.lang/System.html` (statik HTML'de `os.name` doğrulandı) ile değiştirildi. |
+| P-6 | Repo'da bu 9 dilde çekirdek kodu **YOK**; §A dürüstlük notu §K.3 için de geçerlidir. |
 
 ## §L — Zaman çizelgesi (bu dosyanın revizyonu)
 
@@ -489,6 +884,7 @@ iddiaları yalnızca URL yol adıyla (NT_Interface_Compatibility) sınırlıdır
 | L4 | 2026-10-13 | `DesktopBff` yolu düzeltildi (`home.coremusic.net/src/...` → `shared/src/Api/Bff/DesktopBff.php:35`) | §C.6 · satır 35 birebir |
 | L5 | 2026-10-13 | §F-§K eklendi (seçim gerekçesi · sınır matrisi · syscall eşlemesi · OS karşılaştırması) | bu revizyon |
 | L6 | 2026-10-14 | §K.2 eklendi — OS bazlı gruplanmış kod örnekleri (Windows · macOS · Android · webOS · Tizen · ReactOS · Linux hariç) · 25 yeni URL HEAD 200 · kesişim 0 | bu revizyon · kanıt `dogrulama.md` §E.5 |
+| L7 | 2026-10-14 | §K.2 revizyonu (kullanıcı onayı) — **Linux §K.2.9'da eklendi** · §K.2.7 matrisine Linux satırı · §K.2.8 N-5 revize · §K.3 eklendi (9 dil · runtime OS tespiti · Windows/macOS/Linux) · 14 yeni URL + 1 env teyidi HEAD 200 · kesişim 0 (3756 anlık görüntü · E-13 düzeltmesi sonrası) · 3 URL düzeltmesi (§K.3.11 P-3..P-5) | bu revizyon · kanıt `dogrulama.md` §E.6 |
 
 > L1'deki eski FM'de `parent:` anahtarı vardı — v2 şemasında **yasaktır** (`parent_id`
 > kullanılır). Bu revizyonda `parent:` **kaldırıldı**, `parent_id: K000-isletim-sistemi/

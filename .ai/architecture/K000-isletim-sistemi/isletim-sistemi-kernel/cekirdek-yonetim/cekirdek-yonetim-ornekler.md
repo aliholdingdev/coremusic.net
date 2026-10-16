@@ -492,6 +492,41 @@ yeniden çalıştırılır ve eski "0" tek başına güncel kanıt sayılmaz.
 ölçüm sonucu, eşik ve test çıktısı **üretemez** (hepsi `UNKNOWN`/`PLANNED`
 işaretlidir).
 
+## §13 Bağlayıcı özet — okuma sırası ve kanıt sınıfı (2026-10-15)
+
+> Append-only ekleme: §0–§12 değişmemiştir; bu bölüm mevcut bölümleri derler,
+> yeni gözlem / yeni ölçüm üretmez.
+
+### §13.1 Önerilen okuma sırası
+
+| Sıra | Bölüm | Ne verir |
+|---|---|---|
+| 1 | §0 ELI15 | tek paragraf çerçeve |
+| 2 | §1 Örnek kataloğu | her satır tek gözlemlenebilir örüntü |
+| 3 | §2 Durum makinesi karşılıkları | repo örneği ↔ çekirdek olayı köprüsü |
+| 4 | §4 Doğru ve yanlış kullanım | bu repoda görülen örüntüler |
+| 5 | §8 Örnek × durum makinesi matrisi | çapraz okuma |
+| 6 | §10 Sık yapılan hatalar | bu dalda 7 hata |
+| 7 | §11 Test senaryoları | test dalına verilen taslak |
+
+### §13.2 Kanıt sınıfı dağılımı
+
+| Sınıf | Bölümler | Okuma kuralı |
+|---|---|---|
+| Doğrudan repo kanıtı | §2 · §4 | dosya/satır bağımlı |
+| Negatif kanıt (repo'da olmayan) | §3 | "yok" iddiasıdır, varlık kanıtı değil |
+| Tarihli kaynak (HEAD 200 · 2026-10-13) | §5 | envanterden yeniden kullanım |
+| Kavramsal / ölçülmemiş | §7 | ölçüm iddiası olarak KULLANILAMAZ |
+| Ölçüm (dosya içi tablo) | §9 | bu dosyanın kendi ölçümü |
+
+### §13.3 Sınır beyanı
+
+- Bu dosya çekirdek kodu YAZMAZ; örnek kataloğu ve matris taşır (§1 · §8).
+- Repo'da olmayan çekirdek kodu iddiası yalnız §3 negatif kanıt biçimiyle geçerlidir.
+- Kavramsal senaryolar ölçülmemiştir (§7); "ölçüldü" diye sunulamaz.
+- Açık sorular §6'da açık olarak kalır — kapanmış gibi yazılmaz.
+- `git commit` bu oturumda ATILMADI — bu ekleme working tree'dedir (commit orkestratöre ait).
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

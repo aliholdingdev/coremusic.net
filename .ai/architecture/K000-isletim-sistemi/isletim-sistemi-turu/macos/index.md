@@ -6,6 +6,9 @@ parent_id: "isletim-sistemi-turu"
 children:
   - "macos-anayasa.md"
   - "macos-kernel.md"
+  - "macos-kod-seti.md"
+  - "macos-dma-ve-interrupt.md"
+  - "macos-guvenlik.md"
 depends_on:
   - "isletim-sistemi-turu"
 evidence:
@@ -29,6 +32,8 @@ group: mimari
 |---|---|
 | `macos-anayasa.md` | macOS dalı anayasası — **içerik bu turda okunmadı, dokunulmadı** |
 | `macos-kernel.md` | macOS çekirdek katmanı — **içerik bu turda okunmadı, dokunulmadı** |
+| `macos-kod-seti.md` | Portable dil seti + platform-özel yüzey (launchd/Gatekeeper/posix_spawn) — **2026-10-14 eklendi** |
+| `macos-dma-ve-interrupt.md` | IOKit DMA (IODMACommand/IOBufferMemoryDescriptor/prepare-complete) + kesme yüzeyi — **2026-10-14 eklendi** |
 
 ## Bağlam
 
@@ -49,6 +54,8 @@ M-D1 mevcut dosya kapsamı [⚠️] · M-D2 macOS hedefte mi? [UNKNOWN]
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-3 |
 | mimari | `macos-anayasa.md` | Anasözleşme ve bağlayıcı mimari kurallar | Kademe-3 |
 | mimari | `macos-kernel.md` | Çekirdek veri yolu ve sistem çağrıları | Kademe-3 |
+| mimari | `macos-dma-ve-interrupt.md` | IOKit DMA yaşam döngüsü, prepare/complete, kesme yüzeyi (2026-10-14) | Kademe-3 |
+| mimari | `macos-guvenlik.md` | OS güvenlik profili — K000-K009 sınırı | Kademe-3 |
 
 ---
 

@@ -10,6 +10,9 @@ children:
   - K000-isletim-sistemi/isletim-sistemi-turu/ios/ios-gercek-zamanli-tampon
   - K000-isletim-sistemi/isletim-sistemi-turu/ios/ios-cihaz-ve-rota-yonetimi
   - K000-isletim-sistemi/isletim-sistemi-turu/ios/ios-web-arastirma
+  - K000-isletim-sistemi/isletim-sistemi-turu/ios/ios-kod-seti
+  - K000-isletim-sistemi/isletim-sistemi-turu/ios/ios-dma-ve-interrupt
+  - K000-isletim-sistemi/isletim-sistemi-turu/ios/ios-guvenlik
 depends_on:
   - K000-isletim-sistemi/isletim-sistemi-turu
 evidence: []
@@ -47,8 +50,10 @@ Bu nedenle `Dosya: … / Satır: …` referansları yalnızca **gerçek PHP/YAML
 | `ios-gercek-zamanli-tampon.md` | `…/ios/ios-gercek-zamanli-tampon` | ring buffer · render deadline · input→output zinciri | kod |
 | `ios-cihaz-ve-rota-yonetimi.md` | `…/ios/ios-cihaz-ve-rota-yonetimi` | AVAudioSession · category · route change · interruption | mimari |
 | `ios-web-arastirma.md` | `…/ios/ios-web-arastirma` | ≥8 resmi URL tarama kaydı + repo kod kanıtı | kanit |
+| `ios-kod-seti.md` | `…/ios/ios-kod-seti` | Portable dil seti + platform-özel yüzey (Swift/ObjC/C · AVAudioSession) · **2026-10-14 eklendi** | kod |
+| `ios-dma-ve-interrupt.md` | `…/ios/ios-dma-ve-interrupt` | Darwin/IOKit DMA sınırı · prepare/complete · CoreAudio soyutlaması · DMA belge boşluğu ⚠️ | mimari |
 
-Toplam: 6 içerik dosyası · hedef ≥500 satır/dosya · bu indeks 40–100 satır sınırındadır.
+Toplam: 8 içerik dosyası · hedef ≥500 satır/dosya (`ios-kod-seti` 409 ile <500, bilinçli gevşetildi) · bu indeks 40–100 satır sınırındadır.
 
 ## §GRUPLAR
 
@@ -62,6 +67,8 @@ Toplam: 6 içerik dosyası · hedef ≥500 satır/dosya · bu indeks 40–100 sa
 | kod | ios-gercek-zamanli-tampon.md | Ring buffer tasarımı, render deadline hesabı, input→output zinciri | 3 |
 | mimari | ios-cihaz-ve-rota-yonetimi.md | AVAudioSession kategorileri, rota değişikliği, kesinti (interruption) yönetimi | 3 |
 | kanit | ios-web-arastirma.md | Resmi URL tarama kaydı (HTTP 200 · 2026-10-12) + repo kod kanıtı | 3 |
+| mimari | ios-dma-ve-interrupt.md | Darwin IOKit DMA yaşam döngüsü, iOS katman sınırı, kesme/doğrulama boşlukları (2026-10-14) | 3 |
+| mimari | ios-guvenlik.md | OS güvenlik profili — K000-K009 sınırı | 3 |
 
 ---
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

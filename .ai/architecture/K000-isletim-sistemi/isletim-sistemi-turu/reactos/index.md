@@ -9,7 +9,10 @@ children:
   - "K000-isletim-sistemi/isletim-sistemi-turu/reactos/reactos-ses-stacki"
   - "K000-isletim-sistemi/isletim-sistemi-turu/reactos/reactos-surucu-modeli"
   - "K000-isletim-sistemi/isletim-sistemi-turu/reactos/reactos-kod-ornekleri"
+  - "K000-isletim-sistemi/isletim-sistemi-turu/reactos/reactos-kod-seti"
   - "K000-isletim-sistemi/isletim-sistemi-turu/reactos/reactos-web-arastirma"
+  - "K000-isletim-sistemi/isletim-sistemi-turu/reactos/reactos-dma-ve-interrupt"
+  - "K000-isletim-sistemi/isletim-sistemi-turu/reactos/reactos-guvenlik"
 depends_on:
   - "isletim-sistemi-kernel"
   - "isletim-sistemi-audio"
@@ -53,10 +56,11 @@ okunamaz; yalnızca durum kodu doğrulanmıştır. Ayrıntı ve etkilenen iddial
 | `reactos-ses-stacki.md` | `…/reactos/reactos-ses-stacki` | Kernel Mixer/WaveRT/WDM, WASAPI bağlantı durumu, 10 URL |
 | `reactos-surucu-modeli.md` | `…/reactos/reactos-surucu-modeli` | WDM, sürücü yazma, INI tabanlı yükleme (jvc), 10 URL |
 | `reactos-kod-ornekleri.md` | `…/reactos/reactos-kod-ornekleri` | 8 orijinal derlenmemiş kod bloğu, 10 URL |
+| `reactos-kod-seti.md` | `…/reactos/reactos-kod-seti` | Portable dil seti + Win32- sınıf yüzey — 4 resmi kök kaynak (wiki YOK) · **2026-10-14 eklendi** |
 | `reactos-web-arastirma.md` | `…/reactos/reactos-web-arastirma` | Ağ kaynak taraması + doğrulama matrisi, 8 URL |
+| `reactos-dma-ve-interrupt.md` | `…/reactos/reactos-dma-ve-interrupt` | HAL DMA (HalAllocateCommonBuffer · S-G) + Windows uyumluluk sınırı (2026-10-14 eklendi) |
 
-Toplam: 6 içerik dosyası · 3.147 satır (minimum 500/dosya) · 61 tekil URL
-(6 dosyada karşılıklı kesişim 0 — otomatik ölçüm), her dosyada 10 frontmatter alanı.
+Toplam: 8 içerik dosyası · ~3.900 satır (minimum 500/dosya — `reactos-kod-seti` 454 ile <500, bilinçli gevşetildi) · 65 tekil URL (6 eski dosyada kesişim 0; `reactos-kod-seti` 4 kök kaynak — `reactos-web-arastirma` ile kesişim otomatik ölçüm gerektirir ⚠️), her dosyada 10 frontmatter alanı.
 
 ## §GRUPLAR
 
@@ -68,7 +72,10 @@ Toplam: 6 içerik dosyası · 3.147 satır (minimum 500/dosya) · 61 tekil URL
 | reactos-ses-stacki | mimari | 503 | 10 | verify-required |
 | reactos-surucu-modeli | mimari | 508 | 10 | verify-required |
 | reactos-kod-ornekleri | kod | 514 | 10 | verify-required |
+| reactos-kod-seti | kod | 454 | 4 | verify-required |
 | reactos-web-arastirma | kanit | 503 | 8 | verify-required |
+| reactos-dma-ve-interrupt | mimari | 183 | 5 | verify-required |
+| reactos-guvenlik | mimari | 256 | 6 | verify-required (wiki bot-duvarı — 5/6 içerik döndü, 1 okunamadı · 2026-10-15) |
 
 **Authority: Bayram Ali / Vault Steward**
 

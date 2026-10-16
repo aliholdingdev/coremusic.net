@@ -471,6 +471,52 @@ bu dosyaya yazılmaz (zero-hallucination).
 - Bugün 404 ile teyitlenen 2 tam URL (`learn.microsoft.com/.../rewrite/rules/` ve `.../using-rewrite-rules-in-webconfig`) hiç cite edilmedi.
 - T1-T6 test taslağı PLANNED; gözlem gelmeden "çalışıyor" iddiası bu dosyaya yazılmaz.
 - Açık soru durumu: Q-I1..Q-I5 §10.8'de, Q-I6 kapandı (log VAR, AP-P2); Q-OR1..Q-OR4 açık.
+## §12 Bağlayıcı özet — izin modeli karar tablosu (2026-10-15)
+
+> Append-only ekleme: §0–§11 değişmemiştir; yalnız mevcut ölçümlerin derlemesidir.
+
+### §12.1 Yüzey → denetim → kanıt
+
+| Yüzey | Denetim | Ölçüm (dosya içi) |
+|---|---|---|
+| Kimlik | UID/GID modeli | §1 |
+| Mekanizma | akış | §3 |
+| Eşik | ölçüm ve eşikler | §4 |
+| Komşu sınırı | komşu sınırı | §5 |
+| Apache `.htaccess` | `Options -Indexes` | 4/4 · api 42 / auth 37 / home 37 / assets 47 (§10) |
+| IIS `web.config` | satır ölçümü | api 41 / assets 37 / auth 43 / home 43 (§10) |
+| IIS `web.config` | `directoryBrowse` | 1/4 — yalnız `assets:35` (§10) |
+| IIS `web.config` | `CustomResponse 403` | 6 isabet (§10) |
+| IIS `web.config` | `FilesMatch` / `location` | 0 → Q-OR3 açık (§10) |
+| IIS `web.config` | `.DS_Store` kuralı | 0 (§10) |
+| PHP olay kaydı | `FileHandler::securityEvent` | 169-184 — 16 satır (§10) |
+
+### §12.2 Açık soru durumu
+
+| Soru grubu | Durum | Kanıt |
+|---|---|---|
+| Q-I1..Q-I5 | AÇIK | §10.8 |
+| Q-I6 | KAPANDI — log VAR | AP-P2 |
+| Q-OR1..Q-OR4 | AÇIK | §10 |
+
+### §12.3 Test ve doğrulama sınırı
+
+- T1-T6 test taslağı: PLANNED — gözlem gelmeden "çalışıyor" iddiası bu dosyaya yazılmaz (§11).
+- Doğrulanmış URL: 2 (§10.7) — ikisi de 2026-10-13 HTTP 200.
+- 404 ile teyitlenen 2 tam URL hiç cite edilmedi (§11).
+- Çalışan sistem ölçüsü: YOK (PLANNED).
+- Doğrulanamayan her genişletme: `⚠️ VERIFICATION REQUIRED`.
+
+### §12.4 Bölüm eşlemesi (iç tutarlılık)
+
+| Bölüm | Taşıdığı konu |
+|---|---|
+| §1 | Kimlik — UID/GID modeli |
+| §3 | Mekanizma akışı |
+| §8 | Açık sorular |
+| §10 | Repo izin yüzeyi — gerçek satır kanıtı ve düzeltme kaydı (2026-10-13) |
+| §11 | Ölçüm ve doğrulama kapanışı (2026-10-13) |
+
 - `git commit` bu oturumda ATILMADI — tüm değişiklikler working tree'dedir (commit orkestratöre ait).
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

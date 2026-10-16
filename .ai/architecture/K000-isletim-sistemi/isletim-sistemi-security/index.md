@@ -3,7 +3,7 @@ node_id: K000-isletim-sistemi/isletim-sistemi-security/index
 node_type: subdomain
 status: draft
 parent_id: K000-isletim-sistemi
-children: [cekirdek-guvenlik, yetki-ve-erisim-modeli, uygulama-guvenlik-siniri]
+children: [cekirdek-guvenlik, yetki-ve-erisim-modeli, uygulama-guvenlik-siniri, kod-ornekleri]
 depends_on:
   - K000-isletim-sistemi/isletim-sistemi-kernel
   - K000-isletim-sistemi/isletim-sistemi-core
@@ -17,6 +17,7 @@ evidence:
 validation:
   - "2026-10-13: 3 web URL HEAD ile HTTP 200; ucu da 2097'lik katalog envanterinde YOK -> kesisim 0."
   - "2026-10-13: 3 disk kaniti Select-Object -Index (N-1) ile satir birebir okundu."
+  - "2026-10-14: isletim-sistemi-security-kod-seti.md yazildi (706 satir · 15 kod blok · 12 resmi URL HTTP 200 · spot-check: orkestrator)"
 open_questions:
   - "S1: OS guvenlik katmani (capabilities/seccomp/LSM) hedef mimaride devreye alinacak mi? [UNKNOWN]"
   - "S2: Uygulama <-> OS guvenlik sorumluluk siniri (kim hangini uygular)? [UNKNOWN]"
@@ -29,14 +30,14 @@ group: mimari
 
 > **Oncelikli gercek:** OS guvenlik araclina dair repo'da **0 kullanim** (2026-10-13 negatif kanit, tekrar olcum); uygulama katmaninda somut kanit var. OS tarafi **hedef mimari referansidir**, mevcut durum degildir.
 
-## Dosya indeksi (Kademe-2 — bu klasorun 4 dosyasi)
+## Dosya indeksi (Kademe-2 — bu klasorun 4 dosyasi + `kod-ornekleri/` klasoru 15 kart)
 
 | Dosya | Ne icerir | group |
 |---|---|---|
 | [`isletim-sistemi-security-kapsam.md`](isletim-sistemi-security-kapsam.md) | Kapsam siniri, 12 saldiri sinifinda katman ayrim matrisi, S1/S2 | mimari |
 | [`isletim-sistemi-security-dogrulama.md`](isletim-sistemi-security-dogrulama.md) | 68 URL (HTTP 200) + 43 disk kaniti + negatif kanit defteri | kanit |
 | [`isletim-sistemi-security-ornekler.md`](isletim-sistemi-security-ornekler.md) | 18 gercek repo kod ornegi (her biri `Select-Object -Index` ile) | kod |
-| `index.md` | Bu dosya — klasor kunyesi, 3 cocuk, komsu sinirlari | mimari |
+| `index.md` | Bu dosya — klasor kunyesi, 4 cocuk + `kod-ornekleri/`, komsu sinirlari | mimari |
 
 ## Alt-dal indeksi (Kademe-3 — 3 alt-dal x 12 dosya)
 
@@ -45,16 +46,18 @@ group: mimari
 | [`cekirdek-guvenlik/`](cekirdek-guvenlik/index.md) | `-anayasa` · `-surucu` · `-ornekler` + 8 OS kartı (`-windows` · `-linux` · `-macos` · `-ios` · `-android` · `-tizen` · `-webos` · `-reactos`) | Koruma halkalari, guvenli onyukleme, mitigasyon, surucu siniri | mimari |
 | [`yetki-ve-erisim-modeli/`](yetki-ve-erisim-modeli/index.md) | `-anayasa` · `-surucu` · `-ornekler` + 8 OS kartı (aynı `-os` deseni) | DAC/MAC/RBAC/BEL, ACL, capability, denetim akisi | mimari |
 | [`uygulama-guvenlik-siniri/`](uygulama-guvenlik-siniri/index.md) | `-anayasa` · `-surucu` · `-ornekler` + 8 OS kartı (aynı `-os` deseni) | Syscall yuzeyi, sandbox turleri, konteyner kisitlari | mimari |
+| [`kod-ornekleri/`](kod-ornekleri/) | 15 kart: 7 dil kartı (`-php` · `-python` · `-js` · `-rust` · `-csharp` · `-c` · `-go`) + 8 OS kartı (`-linux` · `-windows` · `-macos` · `-ios` · `-android` · `-tizen` · `-webos` · `-reactos`) | Dil × OS imzalı upstream referans kalıpları (`kaynak: upstream docs`; "repo'da uygulanıyor" YASAK) | kod |
 
 ## §GRUPLAR
 
 | Alt-dal | Kademe | Dosya sayisi | group dagilimi |
 |---|---|---|---|
-| `cekirdek-guvenlik` | Kademe-3 | 12 (1 index + 3 icerik + 8 OS kartı) | mimari x3 · kod x9 |
-| `yetki-ve-erisim-modeli` | Kademe-3 | 12 (1 index + 3 icerik + 8 OS kartı) | mimari x3 · kod x9 |
-| `uygulama-guvenlik-siniri` | Kademe-3 | 12 (1 index + 3 icerik + 8 OS kartı) | mimari x3 · kod x9 |
+| `cekirdek-guvenlik` · `yetki-ve-erisim-modeli` · `uygulama-guvenlik-siniri` | Kademe-3 | 12 her biri (1 index + 3 icerik + 8 OS kartı) | mimari x3 · kod x9 (her biri) |
+| `kod-ornekleri` | Kademe-3 | 15 (7 dil kartı + 8 OS kartı; index.md YOK) | kod x15 |
 
-**Toplam:** 4 kok + 36 alt-dal = **40 dosya** (16 temel + 24 OS kartı, 2026-10-14) · icerik esigi >=500 satir · kart 150–260 satir · `index.md` 40–100 satir.
+**Toplam:** 5 kök + 36 alt-dal + 15 kod-ornekleri = **56 dosya** (17 temel + 24 OS kartı + 15 dil/OS kod kartı, 2026-10-14) · icerik esigi >=500 satir · kart 150–260 satir · `index.md` 40–100 satir.
+
+**Kök dosya (2026-10-14):** `isletim-sistemi-security-kod-seti.md` (`group: kod` · 706 satır · 15 kod bloğu · 12 resmi URL HTTP 200) — cross-platform izin/sandbox/kaynak limiti kod seti (GRUP A/B/C); tablo alt-dal özetidir, kök içerik dosyaları tabloda listelenmez.
 
 ## OS kartlari (8 platform x 3 alt-dal = 24 kart · 2026-10-14)
 
@@ -69,10 +72,7 @@ group: mimari
 | webOS | `cekirdek-guvenlik-webos` · `yetki-ve-erisim-modeli-webos` · `uygulama-guvenlik-siniri-webos` | kod |
 | ReactOS | `cekirdek-guvenlik-reactos` · `yetki-ve-erisim-modeli-reactos` · `uygulama-guvenlik-siniri-reactos` | kod |
 
-> Her kart sabit sablonda: §0 ELI15 · §1 OS guvenlik profili · §2 kod ornegi
-> (`kaynak: upstream docs` imzali; "repo'da uygulaniyor" yazmak YASAK) · §3 repo
-> durumu (hedef referans) · §4 sinir cumleleri (K010/K009/komsu dal) · §5 referans ·
-> §6 acik sorular (S1/S2 kapatilmaz). Tum OS kartlari `group: kod` — Kademe-4.
+> Her kart sabit sablonda: §0 ELI15 · §1 OS guvenlik profili · §2 kod ornegi (`kaynak: upstream docs` imzali; "repo'da uygulaniyor" yazmak YASAK) · §3 repo durumu (hedef referans) · §4 sinir cumleleri (K010/K009/komsu dal) · §5 referans · §6 acik sorular (S1/S2 kapatilmaz). Tum kartlar `group: kod`.
 
 ## Komsu sinir matrisi (her alt-dal icin zorunlu)
 

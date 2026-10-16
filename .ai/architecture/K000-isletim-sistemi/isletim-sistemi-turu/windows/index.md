@@ -6,6 +6,8 @@ parent_id: "isletim-sistemi-turu"
 children:
   - "windows-anayasa.md"
   - "windows-kernel.md"
+  - "windows-kod-seti.md"
+  - "windows-guvenlik.md"
 depends_on:
   - "isletim-sistemi-turu"
 evidence:
@@ -29,6 +31,7 @@ group: mimari
 |---|---|
 | `windows-anayasa.md` | Windows dalı anayasası — **içerik bu turda okunmadı, dokunulmadı** |
 | `windows-kernel.md` | Windows çekirdek katmanı — **içerik bu turda okunmadı, dokunulmadı** |
+| `windows-kod-seti.md` | Portable dil seti + Win32- sınıf yüzey (C#/PowerShell/Node) — **2026-10-14 eklendi** |
 
 ## Bağlam
 
@@ -55,6 +58,7 @@ W-D1 mevcut dosya kapsamı [⚠️] · W-D2 Windows üretim hedefi mi? [UNKNOWN]
 | mimari | `windows-ses-stacki.md` | Ses yığını ve katman sıralaması | Kademe-3 |
 | kod | `windows-kod-ornekleri.md` | Gerçek repo kodu, dosya ve satır | Kademe-3 |
 | kanit | `windows-web-arastirma.md` | Sistemli resmi kaynak tarama kaydı | Kademe-3 |
+| mimari | `windows-guvenlik.md` | OS güvenlik profili — K000-K009 sınırı | Kademe-3 |
 
 ---
 

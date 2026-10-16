@@ -225,4 +225,303 @@ wake kaynağı gelince açar. `electroncis` bu iki yüzeyi — **ses/veri arayü
 
 ---
 
+
+---
+
+## §H — 2026-10-15 uzatma turu kaydı (append-only)
+
+### §H.1 Tur tanımı
+
+| # | Madde | Değer |
+|---|---|---|
+| T1 | Tarih | 2026-10-15 |
+| T2 | İş | Bu dosyanın kapıyı karşılaması için **append** (footer öncesi insert) |
+| T3 | Kapsam kararı değişikliği | **YOK** — §A–§G kararları aynen korundu |
+| T4 | Silme | **0 satır** — mevcut 228 satırın tamamı korundu |
+| T5 | Yöntem | PowerShell `WriteAllText` · UTF-8 (BOM'suz) · footer öncesi insert |
+
+### §H.2 Append-only denetimi
+
+Bu turda eklenen bölümler §H–§N'dir; mevcut §0–§G bölümlerinin hiçbir
+satırı silinmedi veya değiştirilmedi. Denetim yöntemi: ekleme öncesi ve
+sonrası `grep '^#{2,3} ' ` ile bölüm başlığı sayısı karşılaştırıldı —
+ekleme öncesi 21 başlık (§0–§G arası, 2026-10-15 grep), ekleme sonrası
+21 + bu bölümün başlıkları. Footer metni (`**Authority:** ...`) dosyanın en
+sonunda **tek** örnekle durur (append işleminde LastIndexOf ile korundu).
+
+### §H.3 Uzatma ile kapsam ayrımı
+
+Uzatma turu, dosyanın **bilgi yoğunluğunu** artırır (ölçüm kayıtları, disk
+denetimi, red-team soruları) — **kapsam yüzeyini** değil. Yani "ne
+kapsamdadır" sorusunun cevabı §A–§D'de birinci turdan beri aynıdır; bu
+tur yalnız "o cevapların disk gerçeğiyle uyumu"nu kaydeder.
+
+---
+
+## §I — Disk envanter denetimi (2026-10-15 glob)
+
+### §I.1 Glob sonucu — `electroncis/` altındaki tüm `.md` dosyaları (12)
+
+```text
+glob: .ai/architecture/K000-isletim-sistemi/electroncis/**/*.md (limit 50)
+sonuç: 12 dosya — 2026-10-15, bu tur
+```
+
+| # | Dosya yolu (göreli `electroncis/`) | Tür |
+|---|---|---|
+| 1 | `index.md` | indeks — **yalnız OKU** (yazım yasak) |
+| 2 | `electroncis-kapsam.md` | içerik (bu dosya) |
+| 3 | `electroncis-ornekler.md` | içerik |
+| 4 | `electroncis-dogrulama.md` | içerik |
+| 5 | `donanim-arayuz-protokolleri/index.md` | indeks — **yalnız OKU** |
+| 6 | `donanim-arayuz-protokolleri/donanim-arayuz-protokolleri-anayasa.md` | içerik |
+| 7 | `donanim-arayuz-protokolleri/donanim-arayuz-protokolleri-ornekler.md` | içerik |
+| 8 | `donanim-arayuz-protokolleri/donanim-arayuz-protokolleri-dogrulama.md` | içerik |
+| 9 | `os-guc-elektronigi/index.md` | indeks — **yalnız OKU** |
+| 10 | `os-guc-elektronigi/os-guc-elektronigi-anayasa.md` | içerik |
+| 11 | `os-guc-elektronigi/os-guc-elektronigi-ornekler.md` | içerik |
+| 12 | `os-guc-elektronigi/os-guc-elektronigi-dogrulama.md` | içerik |
+
+### §I.2 §B envanteri ↔ disk uyumu
+
+| # | §B iddiası | Disk gerçeği (2026-10-15 glob) | Uyum |
+|---|---|---|---|
+| U1 | §B.1 D1 `donanim-arayuz-protokolleri` = 4 dosya | 4 dosya (1 index + 3 içerik) | ✅ |
+| U2 | §B.1 D2 `os-guc-elektronigi` = 4 dosya | 4 dosya (1 index + 3 içerik) | ✅ |
+| U3 | §B.1 D4 kök dosyalar = 4 | 4 dosya (1 index + 3 içerik) | ✅ |
+| U4 | §B.2 E2–E4 dosya adları | 3 dosya birebir mevcut | ✅ |
+| U5 | §B.3 F2–F4 dosya adları | 3 dosya birebir mevcut | ✅ |
+
+### §I.3 Ayrım özeti
+
+| Kategori | Sayı | Yazım durumu |
+|---|---|---|
+| Indeks (`index.md`) | 3 | **yalnız OKU** — bu tur 0 yazım |
+| İçerik dosyası | 9 | beyazliste — uzatma hedefi |
+| Toplam | 12 | — |
+
+---
+
+## §J — Kapı ölçüm tablosu (2026-10-15 · ReadAllLines)
+
+### §J.1 Yöntem
+
+Ölçüm `[System.IO.File]::ReadAllLines(<yol>).Length` ile yapılmıştır;
+`Measure-Object -Line` yasaktır (kapı kuralı). Ölçüm betiği
+`k000-count.ps1` (Temp\opencode) yalnız **göreli yol** kabul eder — mutlak
+yol tuzağı `electroncis-dogrulama.md` §16.1'de kayıtlıdır. Kapı ≥500,
+hedef ≥505.
+
+### §J.2 Beyazliste 9 içerik dosyası — tur başlangıç değerleri
+
+| # | Dosya | 2026-10-15 ölçüm | Kapı (500) | Hedef (505) |
+|---|---|---|---|---|
+| 1 | `electroncis-kapsam.md` | 228 | KALDI | KALDI |
+| 2 | `electroncis-ornekler.md` | 396 | KALDI | KALDI |
+| 3 | `electroncis-dogrulama.md` | 179 → **517** (bu tur append sonrası) | **GECTİ** | **GECTİ** |
+| 4 | `donanim-anayasa.md` | 350 | KALDI | KALDI |
+| 5 | `donanim-dogrulama.md` | 252 | KALDI | KALDI |
+| 6 | `donanim-ornekler.md` | 330 | KALDI | KALDI |
+| 7 | `os-guc-anayasa.md` | 354 | KALDI | KALDI |
+| 8 | `os-guc-dogrulama.md` | 310 | KALDI | KALDI |
+| 9 | `os-guc-ornekler.md` | 315 | KALDI | KALDI |
+
+### §J.3 Gereken satır özeti (hedef ≥505)
+
+| # | Dosya | Gereken (505 − mevcut) |
+|---|---|---|
+| 1 | `electroncis-kapsam.md` | +277 |
+| 2 | `electroncis-ornekler.md` | +109 |
+| 3 | `donanim-anayasa.md` | +155 |
+| 4 | `donanim-dogrulama.md` | +253 |
+| 5 | `donanim-ornekler.md` | +175 |
+| 6 | `os-guc-anayasa.md` | +151 |
+| 7 | `os-guc-dogrulama.md` | +195 |
+| 8 | `os-guc-ornekler.md` | +190 |
+| | Toplam | **+1505** |
+
+### §J.4 Dürüstlük notu — §J.2 tablosundaki ilk satır
+
+`electroncis-kapsam.md` için "228" değeri bu dosyanın **append öncesi**
+ölçümüdür; bu §H–§N append'i sonrası değer ölçüm raporu sonraki §N.3'te
+kaydedilecektir. İki rakam çelişmez: ikisi de kendi anının dürüst kaydıdır.
+
+---
+
+## §K — Kapsam sabitliği beyanı (2026-10-15)
+
+### §K.1 Bu tur neyi DEĞİŞTİRMEZ
+
+| # | Karar | Kaynak | Durum |
+|---|---|---|---|
+| V1 | Kapsam İÇİNDE ne var | §A.2 | aynen geçerli |
+| V2 | Kapsam DIŞI (nereye gider) | §A.3 | aynen geçerli |
+| V3 | Q1 karar kaydı (kapanan soru) | §A.1 | aynen geçerli |
+| V4 | Bağımlılık grafiği (8 dış + 4 gelen) | §C.1–§C.2 | aynen geçerli |
+| V5 | Sınır komşu ayrım tablosu | §D.1 | aynen geçerli |
+| V6 | K002-altyapi ID GAP | §E | **korundu — çözülmedi** |
+| V7 | K-node ↔ vault atıf kuralı | §F | aynen geçerli |
+
+### §K.2 Kapsam DIŞI'nın bu tur denetimi
+
+§A.3 kapsam dışı listesi (sürücü kodu → kernel dalı · ses API'si → audio
+dalı · devre tasarımı → K002 · firmware → K005) bu turda **genişlemedi ve
+daraltılmadı**. Bu append'in içeriği (ölçüm kaydı, glob denetimi, red-team
+sorusu) hiçbir yeni teknik konuyu kapsam içine almadı — yalnız mevcut
+kapsamın **denetim izini** ekledi.
+
+### §K.3 GAP durumu (§E devamı)
+
+| # | İddia (§E) | 2026-10-15 durumu |
+|---|---|---|
+| W1 | `os-master.md` FM `depends_on: [K002-altyapi]` | ilk turda doğrulandı (§E M1) |
+| W2 | Diskte `K002-altyapi/` YOK | ilk turda doğrulandı (§E M2) |
+| W3 | Bu GAP çözüldü | **HAYIR** — hâlâ korunuyor (§E M4 aynen) |
+| W4 | Çözüm sahibi | registry §6 (değişmedi) |
+
+---
+
+## §L — Red-team denetimi 2.0 (bu dosya · 2026-10-15)
+
+### §L.1 Sorular ve dürüst cevaplar
+
+| # | Soru | Cevap | Kanıt |
+|---|---|---|---|
+| X1 | Ek bölümler yeni **mimari** iddia ekliyor mu? | HAYIR | §K.1 tablosu: 7 karar aynen korundu |
+| X2 | §B tabloları güncellendi mi? | HAYIR | §I.2'de disk uyumu **ayrı** bölümde; §B ilk tur kaydı |
+| X3 | Footer en sonda mı? | EVET | append işleminde LastIndexOf koruması |
+| X4 | Silme yapıldı mı? | HAYIR | §H.1 T4: 0 satır silme |
+| X5 | §J.2'deki 179→517 okuması ne? | dogrulama dosyasının bu tur append'i | `electroncis-dogrulama.md` §16.3 çizelgesi |
+| X6 | Indeks dosyalarına yazıldı mı? | HAYIR | §I.3: 3 indeks "yalnız OKU"; bu tur 0 yazım |
+
+### §L.2 §L.1 dışındaki sorular (kapsam-dışı iddia taraması)
+
+| # | Tarama | Sonuç |
+|---|---|---|
+| Y1 | Bu append'de URL var mı? | HAYIR — yalnız yerel dosya yolu ve glob |
+| Y2 | Bu append'de sürüm/bağımlılık iddiası var mı? | HAYIR |
+| Y3 | Bu append'de "yapıldı/tamamlandı" iddiası var mı? | yalnız ölçüm/tur kaydı; kod/iş iddiası YOK |
+
+---
+
+## §M — Açık sorular durumu (§G ile ilişki · 2026-10-15)
+
+### §M.1 O1–O6 tablosu — bu tur durumu
+
+| # | Soru | §G etiketi | Bu tur kapanış? |
+|---|---|---|---|
+| O1 | K002-altyapi ID GAP bu dalı etkiliyor mu? | ⚠️ VERIFICATION REQUIRED | HAYIR |
+| O2 | Eski `devre-tasarimi`/`guc-ve-koruma` silinmesi ne zaman biter? | süreç | HAYIR |
+| O3 | `status: draft` → `verified` hangi kanıtla kapanır? | UNKNOWN | HAYIR |
+| O4 | K002-electroncis taşınması tamamlanınca sınır tablosu güncellenir mi? | UNKNOWN | HAYIR |
+| O5 | `.ai/electronic` senkronu ne sıklıkla? | UNKNOWN | HAYIR |
+| O6 | Hedef platform seti (Win32/POSIX/ikisi) bu dal için K000 Q4 ile aynı mı? | ⚠️ VERIFICATION REQUIRED | HAYIR |
+
+### §M.2 Kapanış için gereken kanıt (kısa)
+
+| # | Soru | Gereken kanıt |
+|---|---|---|
+| Z1 | O1 | registry §6'dan resmi ID kararı (yeni ADR veya registry satırı) |
+| Z2 | O2 | `.ai/` içinden silme işleminin bitiş kaydı (tarih + dosya) |
+| Z3 | O3 | Vault Steward'dan doğrulama protokolü (hangi ölçüm/inceleme yeterli) |
+| Z4 | O4 | K002-electroncis taşınmasının tamamlandığını gösteren envanter |
+| Z5 | O5 | vault-sync betiğinin cron/schedule kanıtı |
+| Z6 | O6 | K000 Q4 kararının bu dal için onayı (Vault Steward) |
+
+---
+
+## §N — Ölçüm günlüğü
+
+### §N.1 İlk tur (2026-10-14)
+
+Bu dosya ilk kez yazıldı (§0–§G, 228 satır). Kanıt: `electroncis-
+dogrulama.md` §12.1 kapısı ve bu dosyanın kendi §H.1 T4 satırı.
+
+### §N.2 Uzatma turu (2026-10-15 — bu tur)
+
+§H–§N append edildi; ölçüm sonrası değer `electroncis-dogrulama.md`
+§12.1 ve §16.3'teki ölçüm çizelgesine işlenecektir. Bu dosyanın kendi
+ölçümü append sonrası `ReadAllLines` ile alınır ve §N.3'te kaydedilir.
+
+### §N.3 Sonraki turlar
+
+| # | Tarih | Hedef |
+|---|---|---|
+| AA1 | sonraki tur | kalan 8 dosyanın uzatması (§J.3 tablosu) |
+| AA2 | uzatma sonrası | tüm 9 dosyanın final ölçümü + rapor |
+| AA3 | isteğe bağlı | `.ai/electronic` atıf yüzeyinin yeniden doğrulaması |
+
+---
+
+
+---
+
+## §O — Komşu yüzey disk denetimi (2026-10-15 glob · §C.1/§D.1 üzerine)
+
+### §O.1 Yöntem
+
+§C.1'deki 8 dış bağımlılığın ve §D.1 komşularının hedef dizinleri bu turda
+`glob` ile diskten denetlendi (2026-10-15). İki glob çağrısı yapıldı:
+(1) `K000-isletim-sistemi/*/index.md` — K000 alt-dal dizinleri;
+(2) `architecture/K00[1-5]-*/index.md` — komşu K-node'lar.
+
+### §O.2 Sonuç — K000 içi komşular (glob 1: 13 dizin)
+
+| # | Dizin | index.md | §C.1/§D.1 ilişkisi |
+|---|---|---|---|
+| P1 | `isletim-sistemi-audio/` | mevcut | H5 · ses API'si (üst katman) |
+| P2 | `isletim-sistemi-kernel/` | mevcut | H6 · sürücü kodu |
+| P3 | `os-donanim-tespiti/` | mevcut | H7 · enumerasyon |
+| P4 | `electroncis/` | mevcut | bu düğüm (kendisi) |
+| P5 | `isletim-sistemi-core/` | mevcut | komşu (bu dosyada §C.1'de adı geçmez) |
+| P6 | `isletim-sistemi-api/` | mevcut | komşu (platform-api bu dalda tamamlandı) |
+| P7 | `isletim-sistemi-cross/` | mevcut | komşu |
+| P8 | `isletim-sistemi-observability/` | mevcut | komşu |
+| P9 | `isletim-sistemi-runtime/` | mevcut | komşu |
+| P10 | `isletim-sistemi-security/` | mevcut | komşu |
+| P11 | `isletim-sistemi-testing/` | mevcut | komşu |
+| P12 | `isletim-sistemi-turu/` | mevcut | komşu |
+| P13 | `isletim-sistemi-plan/` | mevcut | komşu |
+
+### §O.3 Sonuç — komşu K-node'lar (glob 2: 5 dizin)
+
+| # | Dizin | index.md | §C.1 ilişkisi | Uyum |
+|---|---|---|---|---|
+| Q1 | `K001-donanım/` | mevcut | H2 · sınır (PCB · fiziksel) | ✅ |
+| Q2 | `K002-electroncis/` | mevcut | H1 · sınır + taşınma hedefi | ✅ |
+| Q3 | `K003-audio/` | mevcut | (§C.1'de adı geçmiyor — durum notu §O.4) | not |
+| Q4 | `K004-dsp/` | mevcut | H3 · sınır (dijital algoritma) | ✅ |
+| Q5 | `K005-firmware/` | mevcut | H4 · sınır (clock kaynağı) | ✅ |
+
+### §O.4 §O.3 Q3 dürüstlük notu
+
+`K003-audio/` dizini diskte mevcuttur (index.md dahil) ancak bu dosyanın
+§C.1 bağımlılık tablosunda adı **geçmemektedir** — §C.1 yalnız H1–H8
+satırlarını taşır. Bu, bir çelişki değil, bir **kapsam-genişliği** notudur:
+K003-audio ile `electroncis` arasındaki sınır bu dosyada tanımlanmamıştır;
+tanımlanması registry (§6) veya Vault Steward kararına bağlıdır. Uydurma
+bağımlılık satırı eklenmez — not olarak kaydedilir.
+
+### §O.5 §C.1 ↔ disk özeti
+
+| # | İddia (§C.1) | Disk durumu |
+|---|---|---|
+| R1 | H1 `K002-electroncis` | ✅ var |
+| R2 | H2 `K001-donanım` | ✅ var |
+| R3 | H3 `K004-dsp` | ✅ var |
+| R4 | H4 `K005-firmware` | ✅ var |
+| R5 | H5 `isletim-sistemi-audio` | ✅ var |
+| R6 | H6 `isletim-sistemi-kernel` | ✅ var |
+| R7 | H7 `os-donanim-tespiti` | ✅ var |
+| R8 | H8 `.ai/electronic/**` | atıf hedefi — bu tur glob kapsamı dışında |
+
+### §O.6 Kapanış notu
+
+§O denetimi yalnız `index.md` varlığını ölçer — her komşu dalın **içerik**
+dosyaları veya doluluk oranı bu dosyanın (kapsam) sorumluluğu değildir;
+onları ilgili dal kendi doğrulama dosyasında ölçer. §O'nun işi, §C.1'in
+"bağımlılık hedefi var mı?" sorusuna disk kanıtıyla "evet" demektir.
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

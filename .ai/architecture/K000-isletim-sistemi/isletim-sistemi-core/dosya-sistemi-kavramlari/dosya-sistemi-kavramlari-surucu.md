@@ -479,6 +479,50 @@ geri götürülebilir.
 - Bu dosyaya eklenen doğrulanmış URL: 4 (§8.5); dördü de 2026-10-13 HTTP 200 ile teyitli.
 - `api/.htaccess:19` bloğunda `json` yok (Q-OR1 açık); `home:22` `debug.php` istisnası içerir.
 - web.config'te `.DS_Store` kuralı 0; `.php` yalnız rewrite hedefi olarak geçer.
+## §10 Bağlayıcı özet — katmanlar arası dosya erişim karar tablosu (2026-10-15)
+
+> Append-only ekleme: §0–§9 değişmemiştir; bu bölüm yalnızca mevcut ölçümleri
+> tek tabloda toplar. Yeni ölçüm yapılmamıştır.
+
+### §10.1 Katman → denetim → kanıt
+
+| Katman | Denetim | Ölçüm (dosya içi) |
+|---|---|---|
+| Apache `.htaccess` | `Options -Indexes` | 4/4 (§9) |
+| IIS `web.config` | `directoryBrowse` | 1/4 — yalnız `assets:35` (§9) |
+| IIS `web.config` | `CustomResponse 403` | 6 isabet (§9) |
+| IIS `web.config` | `Require all denied` | kod = 6 · assets = 0 → Q-OR2 açık (§9) |
+| IIS `web.config` | `FilesMatch` | 0 → Q-OR3 açık (§9) |
+| IIS `web.config` | `.DS_Store` kuralı | 0 (§9) |
+| PHP uygulama | `is_dir` + `is_readable` + `is_writable` | 17 isabet — 16 ana + 1 `--\bin\api-key-create.php` kopyası → Q-OR4 (§9) |
+| PHP rol denetimi | `PermissionMiddleware.php` | 64 satır · L30-32 rol kontrolü (§9) |
+| PHP olay kaydı | `FileHandler::securityEvent` | 169-184 (§9) |
+
+### §10.2 Açık soru karnesi
+
+| Soru | Durum | Kanıt |
+|---|---|---|
+| Q-OR1 — `api/.htaccess:19` bloğunda `json` yok | AÇIK | §9 |
+| Q-OR2 — assets `Require all denied` = 0 | AÇIK | §9 |
+| Q-OR3 — `FilesMatch` web.config = 0 | AÇIK | §9 |
+| Q-OR4 — PHP kopya dosyası (`--\bin\api-key-create.php`) | AÇIK | §9 |
+
+### §10.3 Bölüm eşlemesi (iç tutarlılık)
+
+| Bölüm | Taşıdığı katman |
+|---|---|
+| §1 | Uygulama katmanı — dosya sistemi kullanım haritası |
+| §2 | Akış — katmanlar |
+| §8 | Katmanlar arası dosya erişimi akış teyitleri (2026-10-13) |
+| §9 | Ölçüm ve envanter teyidi (2026-10-13) |
+
+### §10.4 Sınır beyanı
+
+- Bu bölüm §8–§9 teyitlerinin derlemesidir; bağımsız yeni iddia üretmez.
+- Doğrulanmış URL: 4 (§8.5) — dördü de 2026-10-13 HTTP 200 ile teyitli.
+- Çalışan sistem ölçüsü: PLANNED (§4 test stratejisi beklemededir).
+- Doğrulanamayan her genişletme: `⚠️ VERIFICATION REQUIRED`.
+
 - `git commit` bu oturumda ATILMADI — değişiklikler working tree'dedir (commit orkestratöre ait).
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

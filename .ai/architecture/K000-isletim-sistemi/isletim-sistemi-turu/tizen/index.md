@@ -10,6 +10,9 @@ children:
   - K000-isletim-sistemi/isletim-sistemi-turu/tizen/tizen-uygulama-ortami
   - K000-isletim-sistemi/isletim-sistemi-turu/tizen/tizen-gercek-zamanli-tampon
   - K000-isletim-sistemi/isletim-sistemi-turu/tizen/tizen-web-arastirma
+  - K000-isletim-sistemi/isletim-sistemi-turu/tizen/tizen-kod-seti
+  - K000-isletim-sistemi/isletim-sistemi-turu/tizen/tizen-dma-ve-interrupt
+  - K000-isletim-sistemi/isletim-sistemi-turu/tizen/tizen-guvenlik
 depends_on:
   - K000-isletim-sistemi/isletim-sistemi-turu
 evidence: []
@@ -48,8 +51,10 @@ belgelerinden çekilmiştir. Bilinmeyen değer `UNKNOWN` yazılır.
 | `tizen-uygulama-ortami.md` | `…/tizen/tizen-uygulama-ortami` | TPK package · Tizen Studio · privilege · sandbox · signing | mimari |
 | `tizen-gercek-zamanli-tampon.md` | `…/tizen/tizen-gercek-zamanli-tampon` | callback deadline · ring buffer · underrun · governor | kod |
 | `tizen-web-arastirma.md` | `…/tizen/tizen-web-arastirma` | ≥8 resmi URL tarama kaydı (HTTP 200 · 2026-10-13) + repo kod kanıtı | kanit |
+| `tizen-kod-seti.md` | `…/tizen/tizen-kod-seti` | Portable dil seti + TPK/manifest/GStreamer yüzeyi (CAPI imzaları ⚠️) · **2026-10-14 eklendi** | kod |
+| `tizen-dma-ve-interrupt.md` | `…/tizen/tizen-dma-ve-interrupt` | DMA/kesme belge boşluğu · katman modeli · Raw Audio yüzeyi · ⚠️/UNKNOWN ağırlıklı · **2026-10-14 eklendi** | mimari |
 
-Toplam: 6 içerik dosyası · hedef ≥500 satır/dosya · bu indeks 40–100 satır sınırındadır.
+Toplam: 8 içerik dosyası · hedef ≥500 satır/dosya (`tizen-kod-seti` 620 ile ≥500) · bu indeks 40–100 satır sınırındadır.
 
 ## §GRUPLAR
 
@@ -63,6 +68,8 @@ Toplam: 6 içerik dosyası · hedef ≥500 satır/dosya · bu indeks 40–100 sa
 | mimari | tizen-uygulama-ortami.md | TPK paketi, Tizen Studio/CLI, privilege listesi, sandbox sınırı, sertifika imzalama | 3 |
 | kod | tizen-gercek-zamanli-tampon.md | Callback deadline hesabı, lock-free ring buffer, underrun tespiti, CPU governor etkisi | 3 |
 | kanit | tizen-web-arastirma.md | Resmi URL tarama kaydı (HTTP 200 · 2026-10-13) + repo kod kanıtı | 3 |
+| mimari | tizen-dma-ve-interrupt.md | DMA/kesme belge boşluğunun dürüst kaydı, katman modeli, Linux bağımlılığı (2026-10-14) | 3 |
+| mimari | tizen-guvenlik.md | Tizen güvenlik profili: author+distributor imza, public/partner/platform privilege matrisi, `tizen-manifest` izinleri + CoreMusic repo izi (DOSYA:SATIR) · **2026-10-15 eklendi** | 3 |
 
 ---
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

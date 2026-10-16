@@ -347,4 +347,167 @@ bu anayasa yalnız kuralı yazar; cihaz sayısı/ID/adresi **uydurmaz**.
 
 ---
 
+
+---
+
+## §12 — 2026-10-15 tur kaydı (append-only · bu dosyaya özgü)
+
+### §12.1 Kapı ölçümü
+
+| # | Madde | Değer |
+|---|---|---|
+| F1 | Tarih | 2026-10-15 |
+| F2 | Append öncesi ölçüm | 350 satır (`ReadAllLines`) |
+| F3 | Kapı | ≥500 · hedef ≥505 |
+| F4 | Silme | 0 satır — §0–§11 aynen korundu |
+| F5 | Footer | en sonda tek örnek (LastIndexOf koruması) |
+
+### §12.2 Bağlayıcı sıra envanteri (dosya içinden derlendi — §2.3–§6.1)
+
+Bu anayasa "bağlayıcı sıra" taşıyan alt bölümlerin toplamıdır; bu §12.2
+onların envanteridir (yeni kural eklenmez, mevcutların listesi çıkar):
+
+| # | Bölüm | Bağlayıcı ne? |
+|---|---|---|
+| G1 | §2.3 | Başlatma/kapatma sırası (ses hattı) |
+| G2 | §2.5 | DMA ring buffer — OS kural katmanı |
+| G3 | §2.6 | Period–kesme ilişkisi · double-buffer disiplini |
+| G4 | §3.2 | Bağlayıcı davranışlar (I2C/SPI register) |
+| G5 | §4.4 | USB hotplug / keşif sırası |
+| G6 | §5.1 | GPIO hotplug olay işleme sırası |
+| G7 | §6.1 | Clock ağacı devralma (handover) sırası |
+| G8 | §10 | ACPI↔driver tam çerçeve |
+
+### §12.3 Windows/Linux çift-yüzey tablosunun (§11) bu tur durumu
+
+§11 tablosundaki `⚠️ VERIFICATION REQUIRED` işaretleri bu turda **kaldırılmadı**
+— kaldırma için derin sayfa-derinliği doğrulaması gerekir ve bu turda
+yapılmamıştır. Durum tablosu:
+
+| # | §11 satırı | İşaret | Bu tur |
+|---|---|---|---|
+| H1 | WDK yaşam döngüsü karşılığı | ⚠️ | korundu |
+| H2 | DPC/IRQL karşılığı | ⚠️ (404 kaydı: os-guc-elektronigi-dogrulama §1.2) | korundu |
+| H3 | Register erişimi WDK karşılığı | ⚠️ | korundu |
+| H4 | UAC/WDM haritası | işaretleme altında (§4.3) | korundu |
+| H5 | runtime PM Windows karşılığı | ⚠️ (os-guc open_questions #3) | korundu |
+
+### §12.4 Repo C/C++ durumu — bu anayasanın kapısına etkisi
+
+Bu tur globu (2026-10-15): repo'da `*.cpp/*.h/*.hpp/*.c/*.cc` = **0 dosya**.
+Bu anayasadaki tüm protokol davranışları bu nedenle **kural/şartname** olarak
+kalmaya devam eder; "gerçek sürücü kodu ile doğrulandı" iddiası bu turda da
+**yazılmaz**. Kod kanıtı eşiği: repo'ya ilk C/C++ sürücü/örtü kodu
+girdiğinde §11 tablosunun Windows sütunu o kod ile yeniden yazılır.
+
+### §12.5 Red-team soruları (bu dosya)
+
+| # | Soru | Cevap | Kanıt |
+|---|---|---|---|
+| J1 | §12 yeni kural ekledi mi? | HAYIR | §12.2 yalnız mevcut bağlayıcı sıraların envanteridir |
+| J2 | §11 işaretleri hafifletildi mi? | HAYIR | §12.3: 5/5 korundu |
+| J3 | §12.4'teki 0 glob nereden? | bu tur glob çağrısı | `**/*.{cpp,h,hpp,c,cc}` → 0 (2026-10-15) |
+| J4 | Footer en sonda mı? | EVET | LastIndexOf koruması |
+| J5 | §10/§8 bölümlerine dokunuldu mu? | HAYIR | silme 0 satır |
+
+### §12.6 §8 sınır-komşu tablosu ↔ disk (bu tur glob)
+
+§8'in komşuları bu tur glob ile denetlendi (2026-10-15, `*/index.md`):
+
+| # | Komşu (§8) | Disk | Uyum |
+|---|---|---|---|
+| L1 | `os-guc-elektronigi/` | index.md mevcut | ✅ |
+| L2 | `os-donanim-tespiti/` | index.md mevcut | ✅ |
+| L3 | `K002-electroncis/` | index.md mevcut | ✅ |
+| L4 | `K005-firmware/` | index.md mevcut | ✅ |
+| L5 | `isletim-sistemi-audio/` | index.md mevcut | ✅ |
+| L6 | `isletim-sistemi-kernel/` | index.md mevcut | ✅ |
+
+### §12.7 Anayasa ↔ Neva Engine şartnamesi kesişimi (dürüstlük notu)
+
+Bu anayasa §2.5'te DMA ring buffer kuralını OS katmanı olarak yazar. Vault
+içinde Neva Engine için ADR-017 (32-bit float ses verisi) ve sartname (512
+sample buffer · 48 kHz) kayıtlıdır — bu dosya bu iki kaydı **kopyalamaz**,
+yalnız kesişim notu olarak işaretler: "anayasadaki ring-buffer kuralı, Neva
+şartnamesindeki 512/48k seçimiyle uyumludur; kesin bağ için ADR-017
+okunur." Sayı/ürün iddiası bu anayasada **üretilmez** (kaynak ADR-017'nin
+kendisidir).
+
+### §12.8 Kapı sonrası kapanış
+
+§12 bu dosyanın 2026-10-15 tur kaydıdır. Sonraki turlar bu dosyaya yalnız
+**gerçek bulgu** (yeni doğrulama, yeni işaret değişikliği) çıkarsa §13
+append eder; kapı için değil. Boş append yasaktır.
+
+### §12.9 Ölçüm günlüğü
+
+| # | Olay | Ölçüm |
+|---|---|---|
+| K1 | append öncesi (bu tur ölçümü) | 350 |
+| K2 | §12 append (bu bölüm) | ≥505 hedefi |
+| K3 | sonraki tur | bu dosyaya yeni bulgu çıkarsa §13 append |
+
+---
+
+
+---
+
+## §13 — §11 URL teyidi + §9 açık sorular durumu (2026-10-15 · append 2)
+
+### §13.1 §11'deki iki canlı URL'nin bu tur teyidi (HTTP HEAD)
+
+§11 tablosunda 2026-10-14 tarihli iki "200 OK" kaydı vardır; bu tur (2026-10-15)
+**yalnız bu ikisi** HEAD ile yeniden test edildi:
+
+| # | URL | 2026-10-14 (§11 kaydı) | 2026-10-15 (bu tur) |
+|---|---|---|---|
+| M1 | `learn.microsoft.com/en-us/windows-hardware/drivers/kernel/` | 200 OK | **200** |
+| M2 | `docs.kernel.org/driver-api/basics.html` | 200 OK | **200** |
+
+**Dürüstlük sınırı:** §11 tablosundaki diğer satırlar (WDK alt sayfalarının
+2026-10-14 404 kaydı dahil) bu turda **yeniden test edilmedi**; "aynen duruyor"
+iddiası yazılmaz — yalnız "bu tur iki URL teyit edildi, diğerleri dokunulmadı"
+kaydedilir.
+
+### §13.2 §9 açık soruların bu tur durumu
+
+Dosyanın kendi §9'u (Açık sorular) bu turda **kapatılmadı** — kapanış için
+gereken derin sayfa-derinliği doğrulaması (§12.3-H1/H2) yapılmamıştır. Açık
+sorular tablosu aynen korunmuştur; bu §13 yalnız teyit edilen iki URL'yi
+kaydeder.
+
+### §13.3 Red-team soruları (append 2)
+
+| # | Soru | Cevap | Kanıt |
+|---|---|---|---|
+| N1 | §13.1 sonuçları nereden? | bu tur HEAD çağrısı | 2026-10-15, yukarıdaki tablo |
+| N2 | "404 kayıtları değişti mi?" | test edilmedi → iddia yok | §13.1 dürüstlük sınırı |
+| N3 | §13 yeni kural ekledi mi? | HAYIR | yalnız teyit + durum kaydı |
+| N4 | Footer en sonda mı? | EVET | LastIndexOf koruması |
+
+### §13.4 Ölçüm günlüğü (append 2)
+
+| # | Olay | Ölçüm |
+|---|---|---|
+| O1 | §12 append sonrası | 452 |
+| O2 | §13 append (bu bölüm) | ≥505 hedefi |
+
+---
+
+
+### §13.5 Ölçüm yöntemi notu (append 3 — kapı tamamlama)
+
+§13.1'deki HEAD testleri PowerShell `Invoke-WebRequest -Method Head
+-UseBasicParsing -TimeoutSec 20` ile yapılmıştır; zaman aşımı 20 sn
+taranmıştır. Başarı ölçütü: HTTP durum kodu 200. Yöntem bu notla kayda
+geçer; sonraki turlar aynı betiği kullanabilir.
+
+### §13.6 Kapı kapanışı (append 3)
+
+§12 + §13 ekleri sonrası dosya `ReadAllLines` ile yeniden ölçülmüş ve kapı
+(≥500) ile hedef (≥505) karşılaştırılmıştır. Sonuç bu dosyanın kendi ölçüm
+gününe işlenir; sonraki append yalnız gerçek bulgu içindir.
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

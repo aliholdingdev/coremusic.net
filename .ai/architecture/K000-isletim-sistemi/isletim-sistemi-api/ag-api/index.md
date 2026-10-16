@@ -7,6 +7,7 @@ children:
   - K000-isletim-sistemi/isletim-sistemi-api/ag-api/socket-api-temelleri
   - K000-isletim-sistemi/isletim-sistemi-api/ag-api/udp-tcp-ve-tls-api
   - K000-isletim-sistemi/isletim-sistemi-api/ag-api/posix-socket-ve-winsock-karsilastirmasi
+  - K000-isletim-sistemi/isletim-sistemi-api/ag-api/native-wifi-api-temelleri
 depends_on: []
 evidence:
   - https://man7.org/linux/man-pages/man2/socket.2.html
@@ -29,7 +30,7 @@ istemcisi) kullandığı **soket arayüzü** bu alt-dalın konusudur. İşletim 
 | node_id | K000-isletim-sistemi/isletim-sistemi-api/ag-api |
 | parent_id | K000-isletim-sistemi/isletim-sistemi-api |
 | Kademe | 3 — alt-dal kapsamı (subdomain-scope) |
-| Çocuk sayısı | 3 (disk kanıtlı — bu turda yazıldı) |
+| Çocuk sayısı | 4 (disk kanıtlı) |
 | Durum | draft |
 | Grup | mimari (tüm dosyalarda 9. alan `group`) |
 
@@ -40,6 +41,7 @@ istemcisi) kullandığı **soket arayüzü** bu alt-dalın konusudur. İşletim 
 | 1 | Soket temelleri | `socket-api-temelleri.md` | Adresleme, oluşturma, bağlama, aktarım, descriptor yaşam döngüsü, hata modları |
 | 2 | Transport semantiği + TLS | `udp-tcp-ve-tls-api.md` | TCP akış, UDP dagram, non-blocking çoğullama, TLS sarmalama, ölçüm |
 | 3 | POSIX ↔ Winsock farkı | `posix-socket-ve-winsock-karsilastirmasi.md` | Startup/teardown, tip ve hata kodu farkları, taşınabilir sarmalama stratejisi |
+| 4 | Windows kablosuz LAN API | `native-wifi-api-temelleri.md` | Native Wifi (wlanapi.dll) temelleri: handle yaşam döngüsü, tarama/BSS, bağlantı, bildirim, profil+reason code, opcode, PHY; XP beyaz liste ve ikili kapı; PSK loglama yasağı |
 
 > Bu alt-dal **çekirdek ağ yığınını değil**, uygulamanın gördüğü **soket API
 > yüzeyini** belgeler. Paket yönlendirme, TCP durum makinesi iç yapısı ve NIC
@@ -89,6 +91,7 @@ istemcisi) kullandığı **soket arayüzü** bu alt-dalın konusudur. İşletim 
 | mimari | `socket-api-temelleri.md` | Soket adresleme, yaşam döngüsü ve hata modları | Kademe-3 |
 | mimari | `udp-tcp-ve-tls-api.md` | Transport semantiği, çoğullama desenleri, TLS, ölçüm | Kademe-3 |
 | mimari | `posix-socket-ve-winsock-karsilastirmasi.md` | POSIX ↔ Winsock fark matrisi ve taşınabilir sarmalama | Kademe-3 |
+| mimari | `native-wifi-api-temelleri.md` | Windows Native Wifi API temelleri, XP ikili kapısı, güvenlik kuralları | Kademe-3 |
 
 ---
 

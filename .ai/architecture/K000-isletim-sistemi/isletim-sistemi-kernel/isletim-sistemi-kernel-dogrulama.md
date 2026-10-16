@@ -13,7 +13,7 @@ evidence:
   - https://learn.microsoft.com/en-us/windows-hardware/drivers/install/driver-store
   - https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-sleepex
   - https://samsungtizenos.com/docs/application/native/guides/multimedia/media-playback
-validation: "2026-10-13 (124 yeni URL) → 2026-10-14 (+25 yeni URL · OS turu) · toplam 149 yeni URL HEAD 200 · envanter kesişimi 0 (2100 + 3334 anlık görüntü) · 16 dosya ölçümü"
+validation: "2026-10-13 (124 yeni URL) → 2026-10-14 (+25 yeni URL · OS turu) → 2026-10-14 4. tur (+14 yeni URL · Linux + 9 dil çapraz-platform · 1 aday env'ye düştü: E-13) · toplam 163 yeni URL HEAD 200 · envanter kesişimi 0 (2100 + 3334 + 3756 anlık görüntü · E-13 düzeltmesi sonrası) · 16 dosya ölçümü"
 open_questions:
   - "core ↔ kernel sınırı (Q2) doğrulanamadı → açık"
   - "Hedef çekirdek (Q4) → UNKNOWN"
@@ -151,6 +151,22 @@ group: kanit
 | 3. tur yeni (ENV olmayan · yazılan §E.5.1) | 25 |
 | 3. tur kesişim (3334 anlık görüntü ile) | 0 |
 | Toplam yazılan yeni URL (3 tur) | 149 (61 + 63 + 25) |
+| Envanter benzersiz URL (4. tur anlık görüntü · 2026-10-14) | 3756 (recursive regex · 1027 .md) |
+| 4. tur HEAD test edilen benzersiz aday | 43 |
+| 4. tur HEAD 200 | 39 |
+| 4. tur FAIL (404 · hepsi §E.6.3'te çözüldü) | 4 (+1 içerik başarısızlığı — JS kabuğu) |
+| 4. tur yeni (ENV olmayan · yazılan §E.6.1) | 14 (#89-#103 · #96 hariç → E-13) |
+| 4. tur env'de teyit (§E.6.2 + E-13) | 20 (19 + #96 `system.io.file`) |
+| 4. tur kesişim (3756 anlık görüntü ile) | 0 |
+| Toplam yazılan yeni URL (4 tur) | **163** (61 + 63 + 25 + 14) |
+
+> **4. tur notu (2026-10-14):** Kullanıcı onayıyla §K.2'ye Linux (§K.2.9) ve
+> §K.3 (9 dil · Windows/macOS/Linux) eklendi. Kesişim testi 3756 URL'lik
+> anlık görüntü üzerinden `HashSet.Contains` ile çalıştırıldı → **0**.
+> `function.php-os-family.php` ve PowerShell `platform-compatibility` yolları
+> **404** → §E.6.3'te alternatifleriyle değiştirildi; Oracle
+> `system-properties.html` JS kabuğu olduğu için statik `os.name` doğrulanamadı →
+> `System.html` ile değiştirildi.
 
 > **3. tur notu (2026-10-14):** OS bazlı tur — adaylar `ornekler.md` §K.2 için
 > seçildi (Windows · macOS · Android · webOS · Tizen · ReactOS · Linux hariç).
@@ -489,6 +505,82 @@ group: kanit
 > HEAD **404** → sembol-düzeyi kod `⚠️ VERIFICATION REQUIRED` (`ornekler.md`
 > §K.2.2 — uydurulmadı, yalnız README yapısı yazıldı).
 
+### §E.6 · 4. tur — Linux + 9 dil çapraz-platform doğrulama (2026-10-14 · HEAD 200)
+
+> **Kapsam:** Kullanıcı onayıyla §K.2'ye **Linux** (§K.2.9) ve §K.3 **9 dil
+> çapraz-platform** bölümü (JS · C · Python · Go · Rust · C# · PHP · Java ·
+> PowerShell · runtime OS tespiti · Windows/macOS/Linux) eklendi. Yöntem: `HEAD`
+> → `200` + envanter kesişim testi. Envanter anlık görüntüsü: `.ai/architecture/**`
+> recursive regex (`https?://`) → **3756 benzersiz URL / 1027 .md** (2026-10-14
+> 4. tur ölçümü). Sonuç: **43 benzersiz aday test edildi · HEAD 200 = 39 · HEAD
+> 404 = 4 (§E.6.3) · içerik doğrulaması başarısız 1 (§E.6.3) · yazılan yeni URL
+> = 14 (+1 aday env'ye düştü: E-13) · env'de teyit = 20**.
+
+#### §E.6.1 Yeni URL'ler (15 aday · 14 yeni + 1 env'ye düştü (E-13) · 2026-10-14 HEAD 200)
+
+| # | Dil/OS | İddia | URL | Tarih | Sonuç |
+|---|---|---|---|---|---|
+| 89 | C (Windows) | `_WIN32`/`_WIN64` yerleşik makroları | https://learn.microsoft.com/en-us/cpp/preprocessor/predefined-macros | 2026-10-14 | ✅ HTTP 200 |
+| 90 | Python | `time.sleep` (bekleme) | https://docs.python.org/3/library/time.html | 2026-10-14 | ✅ HTTP 200 |
+| 91 | Go | `time.Sleep` (bekleme) | https://pkg.go.dev/time | 2026-10-14 | ✅ HTTP 200 |
+| 92 | Rust | `std::env::consts::OS` sabiti | https://doc.rust-lang.org/std/env/consts/constant.OS.html | 2026-10-14 | ✅ HTTP 200 |
+| 93 | Rust | `std::thread::sleep` | https://doc.rust-lang.org/std/thread/fn.sleep.html | 2026-10-14 | ✅ HTTP 200 |
+| 94 | C# | `OperatingSystem.IsWindows/IsLinux/IsMacOS` | https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem | 2026-10-14 | ✅ HTTP 200 |
+| 95 | C# | `RuntimeInformation.IsOSPlatform` | https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.runtimeinformation.isosplatform | 2026-10-14 | ✅ HTTP 200 |
+| 96 | C# | `File.ReadAllBytes` | https://learn.microsoft.com/en-us/dotnet/api/system.io.file | 2026-10-14 | ✅ HTTP 200 · env'ye düştü (E-13) |
+| 97 | C# | `Thread.Sleep` | https://learn.microsoft.com/en-us/dotnet/api/system.threading.thread.sleep | 2026-10-14 | ✅ HTTP 200 |
+| 98 | PHP | `PHP_OS_FAMILY` sabiti | https://www.php.net/manual/en/reserved.constants.php | 2026-10-14 | ✅ HTTP 200 |
+| 99 | Java | `System.getProperty("os.name")` | https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/System.html | 2026-10-14 | ✅ HTTP 200 |
+| 100 | Java | `Thread.sleep` | https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html | 2026-10-14 | ✅ HTTP 200 |
+| 101 | Java | `Files.readAllBytes` | https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/file/Files.html | 2026-10-14 | ✅ HTTP 200 |
+| 102 | PowerShell | `$IsWindows`/`$IsMacOS`/`$IsLinux` otomatik değişkenleri | https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables | 2026-10-14 | ✅ HTTP 200 |
+| 103 | PowerShell | `Start-Sleep` | https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/start-sleep | 2026-10-14 | ✅ HTTP 200 |
+
+> **İçerik doğrulaması (GET · sembol-iddia gerekli):** #94 `IsLinux` · #95
+> `IsOSPlatform` · #98 `PHP_OS_FAMILY` · #99 `os.name` · #102 `$IsWindows`/
+> `$IsMacOS`/`$IsLinux` · #90 `time.sleep` · #89 `_WIN32` — hepsi sayfa
+> içeriğinde **regex ile doğrulanmıştır** (2026-10-14).
+
+#### §E.6.2 Envanterde olduğu için teyit edilen URL'ler (19 · 2026-10-14 HEAD 200)
+
+| # | Dil/OS | İddia | URL | Tarih | Sonuç |
+|---|---|---|---|---|---|
+| 104 | Linux | `open(2)` | https://man7.org/linux/man-pages/man2/open.2.html | 2026-10-14 | ✅ env'de |
+| 105 | Linux | `read(2)` | https://man7.org/linux/man-pages/man2/read.2.html | 2026-10-14 | ✅ env'de |
+| 106 | Linux | `close(2)` | https://man7.org/linux/man-pages/man2/close.2.html | 2026-10-14 | ✅ env'de |
+| 107 | Linux | `flock(2)` | https://man7.org/linux/man-pages/man2/flock.2.html | 2026-10-14 | ✅ env'de |
+| 108 | Linux | `nanosleep(2)` | https://man7.org/linux/man-pages/man2/nanosleep.2.html | 2026-10-14 | ✅ env'de |
+| 109 | Linux | `clock_nanosleep(2)` | https://man7.org/linux/man-pages/man2/clock_nanosleep.2.html | 2026-10-14 | ✅ env'de |
+| 110 | Linux | `uname(2)` | https://man7.org/linux/man-pages/man2/uname.2.html | 2026-10-14 | ✅ env'de |
+| 111 | Linux | `futex(7)` | https://man7.org/linux/man-pages/man7/futex.7.html | 2026-10-14 | ✅ env'de |
+| 112 | Linux | `pthread_mutex_lock(3)` | https://man7.org/linux/man-pages/man3/pthread_mutex_lock.3.html | 2026-10-14 | ✅ env'de |
+| 113 | Linux/C | `feature_test_macros(7)` | https://man7.org/linux/man-pages/man7/feature_test_macros.7.html | 2026-10-14 | ✅ env'de |
+| 114 | JS | `process.platform` | https://nodejs.org/api/process.html | 2026-10-14 | ✅ env'de |
+| 115 | JS | `fs.openSync`/`readFileSync` | https://nodejs.org/api/fs.html | 2026-10-14 | ✅ env'de |
+| 116 | Python | `platform.system()` | https://docs.python.org/3/library/platform.html | 2026-10-14 | ✅ env'de |
+| 117 | Python | `os` modülü (open) | https://docs.python.org/3/library/os.html | 2026-10-14 | ✅ env'de |
+| 118 | Go | `runtime.GOOS` | https://pkg.go.dev/runtime | 2026-10-14 | ✅ env'de |
+| 119 | Go | `os.ReadFile` | https://pkg.go.dev/os | 2026-10-14 | ✅ env'de |
+| 120 | Rust | `std::env::consts` modülü | https://doc.rust-lang.org/std/env/consts/index.html | 2026-10-14 | ✅ env'de |
+| 121 | Rust | `std::fs` modülü | https://doc.rust-lang.org/std/fs/index.html | 2026-10-14 | ✅ env'de |
+| 122 | PHP | `flock` | https://www.php.net/manual/en/function.flock.php | 2026-10-14 | ✅ env'de |
+
+> Ayrıca PHP `usleep` (`function.usleep.php`) ve .NET `RuntimeInformation`
+> (ana sayfa) HEAD 200 ile doğrulandı; ikisi de envanterde var → teyit.
+> `PHP_OS_FAMILY` için `function.php-os-family.php` **404** döndü → yerine
+> `reserved.constants.php` (GET ile içerik doğrulandı) yazıldı (§E.6.3 E-8).
+
+#### §E.6.3 Düzeltme kayıtları (4. tur · 404 + içerik başarısızlığı)
+
+| # | Hata türü | Başarısız URL | Yerine doğrulanan | Sonuç |
+|---|---|---|---|---|
+| E-8 | gerçek 404 | `php.net/manual/en/function.php-os-family.php` | `php.net/manual/en/reserved.constants.php` (GET: `PHP_OS_FAMILY` içerdiği doğrulandı) | 200 · yeni (#98) |
+| E-9 | gerçek 404 | `learn.microsoft.com/powershell/scripting/platform-compatibility` | `.../about/about_automatic_variables` (GET: `$IsWindows`·`$IsMacOS`·`$IsLinux` doğrulandı) | 200 · yeni (#102) |
+| E-10 | gerçek 404 | `learn.microsoft.com/powershell/scripting/platforms-compatibility` | (aynı — E-9) | 200 · yeni (#102) |
+| E-11 | gerçek 404 | `learn.microsoft.com/powershell/scripting/windows-powershell-compatibility` | (aynı — E-9) | 200 · yeni (#102) |
+| E-12 | JS kabuğu (HEAD 200 · statik içerik `os.name` **içermiyor**) | `docs.oracle.com/.../system-properties.html` | `docs.oracle.com/.../java/lang/System.html` (statik HTML'de `os.name` doğrulandı) | 200 · yeni (#99) |
+| E-13 | envanter kesişim (başka dosyalarda zaten var) | `learn.microsoft.com/en-us/dotnet/api/system.io.file` | envanterde 6 dosyada mevcut (`api-ornekler` · `core-dogrulama` · `dosya-sistemi-kavramlari` · `izin-ve-guvenlik` · `security/kod-ornekleri-csharp` · `security/kod-ornekleri-linux`) → #96 "yeni" etiketi düzeltildi | 200 · **env'de teyit** |
+
 ## §F — Repo disk kanıtları
 
 ### §F.1 Satır doğrulama (`Select-Object -Index (N-1)`)
@@ -569,18 +661,20 @@ group: kanit
 | Metrik | Değer |
 |---|---|
 | Yazılan dosya | 16 (kök 4 + alt-dal 12) |
-| ✅ doğrulanan web iddiası | 149 yeni (61 + 63 · 2026-10-13 · + 25 · 2026-10-14 OS turu) + 14 korunan (2026-10-12) + 40 env teyidi (2026-10-14) |
+| ✅ doğrulanan web iddiası | 163 yeni (61 + 63 · 2026-10-13 · + 25 · 3. tur OS · + 14 · 4. tur Linux+dil · 1 aday env'ye düştü: E-13) + 14 korunan (2026-10-12) + 40 env teyidi (3. tur) + 20 env teyidi (4. tur) |
 | ⚠️ VERIFICATION REQUIRED | 4 (satır 24, 26, 29 + §K.2.2 Apple sembol-düzeyi kod) |
 | UNKNOWN | 3 (satır 25, 27, 28) |
-| HEAD başarısız elenen aday | 24 (17 §E.3 + 7 §E.5.3 — 7'si de düzeltildi, yeni URL'ye yönlendirildi) |
-| Envanter kesişimi | 0 (2100 anlık görüntü · 3334 anlık görüntü) |
+| HEAD başarısız elenen aday | 28 (17 §E.3 + 7 §E.5.3 — 7'si de düzeltildi + 4 §E.6.3 — 4'ü de düzeltildi) |
+| Envanter kesişimi | 0 (2100 · 3334 · 3756 anlık görüntü · E-13 ile 1 isabet düzeltildi) |
 | Ölü URL elendi (önceki tur) | 3 — tekrar kullanılmadı |
 
-**Sonuç:** Çekirdek mekanizmasının resmi kanıtı bu tur **genişletildi** (149 yeni URL ·
-141 başlık — 61 + 63 + 25, tamamı HEAD 200 ve kesişim 0). 3. tur (2026-10-14) OS
-bazlı örnek kanıtı ekledi (§E.5 · §K.2). Buna karşılık `core` ↔ `kernel` sınırı (Q2)
-ve hedef çekirdek (Q4) **kanıtlanmamıştır** (§F.5). `status: draft` bu nedenle
-`verified` yapılmaz.
+**Sonuç:** Çekirdek mekanizmasının resmi kanıtı bu tur **genişletildi** (163 yeni URL ·
+61 + 63 + 25 + 14, tablo satırlarında 163 benzersiz URL, tamamı HEAD 200; kesişim 0 ·
+#96 env'ye düştü: E-13 · önceki "156 başlık" sayımı yeniden hesaplanarak düzeltildi). 3. tur (2026-10-14) OS
+bazlı örnek kanıtı ekledi (§E.5 · §K.2); 4. tur (2026-10-14) **Linux + 9 dil
+çapraz-platform** kanıtı ekledi (§E.6 · §K.2.9 · §K.3). Buna karşılık `core` ↔
+`kernel` sınırı (Q2) ve hedef çekirdek (Q4) **kanıtlanmamıştır** (§F.5).
+`status: draft` bu nedenle `verified` yapılmaz.
 
 ### §F.7 Yazım bitiminde tekrar kesişim testi (zorunlu)
 

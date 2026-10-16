@@ -20,7 +20,7 @@ evidence:
   - https://www.rfc-editor.org/rfc/rfc3164
   - shared/src/PageRouter/StructuredLogger.php:72
   - shared/src/Log/FileHandler.php:220
-validation: "2026-10-14 — §GRUPLAR'a OS grupları tablosu eklendi (log/metrik/trace × Linux/Windows/macOS bölüm haritası); Dosya indeksi 42 → 75 URL olarak güncellendi | 2026-10-13 — 42 kanıt URL'si HTTP HEAD ile doğrulandı (42/42 HTTP 200; envanter 2097 ile kesişim 0) · StructuredLogger.php:72 ve FileHandler.php:220 satır içeriği diskten okundu · OS gözlemlenebilirlik aracı grep'i 0 isabet · alt-dal envanteri glob ile sayıldı (log/ metrik/ trace/ = 12 içerik dosyası)"
+validation: "2026-10-14 — §GRUPLAR'a OS grupları tablosu eklendi (log/metrik/trace × Linux/Windows/macOS bölüm haritası); Dosya indeksi 42 → 75 URL olarak güncellendi | 2026-10-13 — 42 kanıt URL'si HTTP HEAD ile doğrulandı (42/42 HTTP 200; envanter 2097 ile kesişim 0) · StructuredLogger.php:72 ve FileHandler.php:220 satır içeriği diskten okundu · OS gözlemlenebilirlik aracı grep'i 0 isabet · alt-dal envanteri glob ile sayıldı (log/ metrik/ trace/ = 12 içerik dosyası) | 2026-10-14 — isletim-sistemi-observability-kod-seti.md yazıldı (667 satır · 17 kod bloğu · 19 resmi URL HTTP 200 · spot-check: orkestratör)"
 open_questions:
   - "O1: OS-level metrik/log toplama (perf, ETW, journald, syslog) hedef mimaride var mı, yoksa yalnız uygulama logu mu? [UNKNOWN]"
   - "O2: Gözlemlenebilirlik üçlüsü (log/metric/trace) K002-altyapi içinde nasıl konumlanacak? [UNKNOWN]"
@@ -81,6 +81,7 @@ yalnızca tarif eder.
 | mimari | `log/index.md` | OS günlük mimarisi alt-dalı künyesi | Kademe-3 |
 | mimari | `metrik/index.md` | OS metrik/sayaç alt-dalı künyesi | Kademe-3 |
 | mimari | `trace/index.md` | OS trace/eBPF alt-dalı künyesi | Kademe-3 |
+| kod | `isletim-sistemi-observability-kod-seti.md` | Cross-platform log hattı / monotonic saat / ölçümler kod seti — 667 satır · 17 kod bloğu · 19 resmi URL | Kademe-2 (kök) |
 
 ### OS grupları (2. tur genişletme — 2026-10-14)
 

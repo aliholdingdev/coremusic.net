@@ -478,6 +478,45 @@ durum/geçiş tablolarına dayanır.
 | 2026-10-13 | §11-§15 derinleştirme eklendi | dolu-satır kapısı |
 | 2026-10-13 | §16-§17 raporlama şablonu + günlüğü eklendi | dolu-satır kapısı |
 
+## §18 Bağlayıcı özet — dosyanın omurgası ve durum işaretleri (2026-10-15)
+
+> Append-only ekleme: §0–§17 değişmemiştir; bu bölüm yalnız derlemedir,
+> yeni ölçüm/id dia üretmez.
+
+### §18.1 Bölüm haritası
+
+| Grup | Bölümler | Durum işareti |
+|---|---|---|
+| Çerçeve | §0 ELI15 · §5 Sistem durumu ve bağlam değiştirme | anlatım |
+| Ölçüm | §6 Ölçüm (context switch · jitter · sayaçlar) · §15 Ölçüm envanteri (2026-10-13) · §16 Ölçüm sonuçlarını okuma kılavuzu | §16 şablon PLANNED |
+| Kanıt | §7 Repo kanıtı (dolaylı erişim — PHP → libc → syscall) · §9 Kaynakça (HEAD 200 · 2026-10-13) | tarihli |
+| Risk | §8 Risk matrisi · §10 Açık / doğrulanamayan iddialar · §12 Hata kataloğu | açık işaretli |
+| Protokol | §13 Ölçüm protokolü (P1-P8) · §16 raporlama şablonu | PLANNED — çalıştırılmadı |
+| Sınır | §14 Komşu sınır matrisleri · §16B Sık sorulanlar · §17 Tarihçe ve günlüğü | — |
+
+### §18.2 Durum işaretleri (okuma kuralı)
+
+- P1-P8 ölçüm protokolü: **PLANNED, çalıştırılmadı** (§13) — bu değerler "ölçüldü" olarak okunamaz.
+- Raporlama şablonu (§16): **PLANNED** — sonuç tablosu dolu değildir.
+- Doğrulanamayan iddialar §10'da işaretlidir; işaretli iddia kanıt sayılmaz.
+- Repo erişimi **dolaylıdır** (PHP → libc → syscall, §7) — doğrudan çekirdek kodu kanıtı bu dosyada yoktur.
+- §16B (sık sorulanlar) hızlı okuma içindir; çelişkide ana bölümler (§6 · §15) kazanır.
+
+### §18.3 Önerilen okuma sırası
+
+| Amaç | Başlangıç | Devam |
+|---|---|---|
+| Hızlı çerçeve | §0 ELI15 | §16B Sık sorulanlar |
+| Ölçüm tasarımı | §6 | §13 Protokol | 
+| Risk değerlendirme | §8 | §10 · §12 |
+| Sınır kontrolü | §14 | §17 Tarihçe |
+
+### §18.4 Sınır beyanı
+
+- Bu bölüm §6/§15 içindeki sayıları tekrar etmez; yeni ölçüm üretmez.
+- Kavramsal senaryolar (§11) ölçülmemiştir.
+- `git commit` bu oturumda ATILMADI — bu ekleme working tree'dedir (commit orkestratöre ait).
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

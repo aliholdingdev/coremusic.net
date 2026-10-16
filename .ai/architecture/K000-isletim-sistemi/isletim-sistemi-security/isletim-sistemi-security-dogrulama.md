@@ -528,4 +528,39 @@ git status --porcelain -- '.ai/architecture/K000-isletim-sistemi/isletim-sistemi
 > §2.4 kuralı gereği tüm içerik dosyaları 500+ satırdır; 150–260 bandı yalnız
 > yeni OS kartlarına uygulanır.
 
+## §16 — Dördüncü tur ölçüm kaydı (2026-10-14 · `kod-ornekleri/` 15 kart genişlemesi)
+
+| # | Ölçüm | Değer | Karar |
+|---|---|---|---|
+| V-09 | Yazılan dosya | 40 → **55** (+15 `kod-ornekleri/` kartı: 6 mevcut + 9 yeni — 7 OS kartı `windows/macos/ios/android/tizen/webos/reactos` + 2 dil kartı `c/go`) | hedefe ulaştı |
+| V-10 | URL doğrulama (4. tur) | 21 upstream URL GET 200 + **içerik okundu** (2026-10-14): go.dev `install/source` + `doc/security` · pkg.go.dev `x/sys/{windows,unix}` v0.49.0 · nodejs.org `os.html` · php.net `function.chmod` + `book.posix` · docs.python.org `os` + `using/ios` + `using/android` · learn.microsoft.com `job-objects` + `filesystemaccessrule` + `what-is-maui` · docs.tizen.org `application/native` (landing) · webosose.org `docs/` (landing) · reactos.org · docs.kernel.org `seccomp_filter` + `no_new_privs` · pubs.opengroup `chmod` + `setuid` · support.apple.com `sandbox` (TOC) · doc.rust-lang.org `platform-support` + `PermissionsExt` + `OpenOptionsExt` · docs.rs `nix` + `ndk` | GECTİ |
+| V-11 | Reddedilen aday genişlemesi | R09..R16 (8 yeni, §16.1) — hiçi hiçbir karta gövde olarak girmedi | GECTİ |
+| V-12 | Repo ölçümü (tekrar) | 418 PHP+JS (320+98) · `*.c,*.h,*.cpp,*.go,*.rs,*.cs` **0** · 9 yeni kartın desenleri tek tek ölçüldü: windows `CreateJobObject\|FileSystemAccessRule\|share_mode` 0 · macos `SetUnixFileMode\|posix_geteuid\|sandbox-exec\|seatbelt` 0 · ios `sys\.platform\|entitlement\|PermissionsExt` 0 · android `getuid\|geteuid\|native_activity` 0 · tizen `setuid\|prctl\|seccomp\|capset` 0 · webos `LunaService` 0 · reactos `CreateJobObject\|AdjustTokenPrivileges\|DuplicateTokenEx\|CryptProtectData` 0 · c `seccomp\|sock_fprog\|PR_SET_SECCOMP` 0 · go `golang.org/x/sys\|go:build` 0 | GECTİ (0 uydurma iddia) |
+| V-13 | Yapısal denetim (9/9) | satır 150–260: **9/9** (191–251) · Mojibake 0 (UTF-8 okuma) · `parent_id` 9/9 · `group: kod` 9/9 · Authority 9/9 · S1/S2 `[UNKNOWN]` 9/9 · "repo'da uygulanıyor" iddiası 0 | GECTİ |
+| V-14 | `index.md` güncellemesi | `children` + alt-dal satırı + GRUPLAR satırı + Toplam 56 dosya; 100/100 sınırında (40–100 bandı korundu) | GECTİ |
+| V-15 | `git commit` | ATILMADI — 9 yeni kart diskte untracked (orkestratöre ait) | yasak korundu |
+
+### §16.1 — Reddedilen adaylar (R serisi genişlemesi — 4. tur)
+
+| # | Aday | Sonuç | Kullanıldığı kart |
+|---|---|---|---|
+| R09 | `https://pkg.go.dev/doc/install/source` | **404** (doğru slug `go.dev/doc/install/source`) | go |
+| R10 | `https://learn.microsoft.com/en-us/windows/win32/secauthz/protecting-objects` | **404** | windows |
+| R11 | `https://developer.android.com/ndk/guides/bionic` | **404** | android · c |
+| R12 | `https://source.android.com/docs/security/bionic` | **404** | android · c |
+| R13 | `https://developer.apple.com/.../preventing-insecure-exception-behavior` | **404** | macos |
+| R14 | `https://docs.python.org/3/using/macos.html` | **404** | macos |
+| R15 | `https://wiki.reactos.org/...` | **bağlantı hatası** (yanıt alınamadı) | reactos |
+| R16 | `https://support.apple.com/guide/security/sandbox` | HTTP 200 ama **redirect → TOC**; sandbox detay metni gelmedi → "gövde kanıt değil" | macos · ios |
+
+### §16.2 — Bilerek boş bırakılan kombinasyonlar (korunacak)
+
+Örnek yazan kombinasyon **29** · `⚠️ VERIFICATION REQUIRED` bırakılan kombinasyon **36**
+(toplam 65 = 7 OS × 7 dil + 2 dil × 8 OS). Dağılım: tizen 7/7 ⚠️ · webos 7/7 ⚠️ ·
+reactos 7/7 ⚠️ · c kartı 6 ⚠️ (yalnız windows/linux ✅) · ios 3 ⚠️ (C/JS/PHP) · android 2 ⚠️
+(C/PHP) · macos 1 ⚠️ (C) · go kartı 3 ⚠️ (tizen/webos/reactos — GOOS listesi negatif kanıt).
+Ek alt-yüzey ⚠️'leri: macos sandbox/seatbelt (R16), ios entitlement, macos/iOS Go
+sandbox/entitlement. Doğrulanamayan hiçbir iddia yazılmadı; POSIX spec sayfaları tek başına
+OS C yüzeyi teyidi sayılmadı (L-03 kısıtı, c kartı §2.3).
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

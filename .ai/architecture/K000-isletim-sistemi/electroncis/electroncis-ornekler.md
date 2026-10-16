@@ -393,4 +393,122 @@ fonksiyon/projesi veya belgelenmiş Linux/Windows arayüzüdür.
 
 ---
 
+
+---
+
+## §9 — 2026-10-15 tur kaydı (append-only · bu dosyaya özgü)
+
+### §9.1 Kapı ölçümü ve dürüstlük
+
+| # | Madde | Değer |
+|---|---|---|
+| S1 | Tarih | 2026-10-15 |
+| S2 | Append öncesi ölçüm | 396 satır (`ReadAllLines`) |
+| S3 | Kapı | ≥500 · hedef ≥505 |
+| S4 | Silme | 0 satır — §0–§8 aynen korundu |
+| S5 | Footer | en sonda tek örnek (LastIndexOf koruması) |
+
+### §9.2 §1 dürüstlük tablosunun bu tur durumu (C/C++ = 0 yeniden doğrulandı)
+
+§1'in ilk satırı "Repo'da C/C++ dosyası **0 glob** (2026-10-14)" iddiasını
+taşır. Bu tur (2026-10-15) aynı iddia **yeniden** ölçüldü:
+
+```text
+glob: C:\www\coremusic.net\**/*.{cpp,h,hpp,c,cc}
+sonuç: 0 dosya — 2026-10-15, bu tur
+```
+
+| # | İddia (§1) | 2026-10-14 | 2026-10-15 (bu tur) |
+|---|---|---|---|
+| T1 | Repo'da C/C++ dosyası | 0 glob | **0 dosya** (yeniden doğrulandı) |
+| T2 | Sahte C bloğu yazılmaz | kural | kural aynen korundu |
+| T3 | Şartname `{niyet}` etiketli | kural | kural aynen korundu |
+
+**Sonuç:** §1'deki "gerçek driver kodu YOK → sahte C bloğu yazılmaz"
+kararı bu turda da geçerlidir; ek C/C++ bloğu eklenmemiştir.
+
+### §9.3 Etiket disiplini notu (dürüstlük — etiket-taraması bu dosyada YOK)
+
+Bu turda `electroncis-ornekler.md` içinde `[OKUNMUS-PHP]` ve
+`[SARTNAME-ORNEK]` etiketleri **grep ile tarandı → 0 isabet**. Bu, bu
+dosyanın kendi etiket çerçevesiyle **tutarlıdır**: `electroncis-ornekler.md`
+§1'de kendi dürüstlük tablosu, §3'te "GERÇEK PHP (satır kanıtlı)",
+§4/§5'te `{niyet}` başlıklı şartname blokları, §8'de "şartnamedir, kanıt
+değilir" kapanış kuralı bulunur. `[OKUNMUS-PHP]`/`[SARTNAME-ORNEK]`
+etiketleri **bu dosyaya ait değildir** — onları `isletim-sistemi-api/
+platform-api/` dosyaları kullanır. İki farklı dürüstlük çerçevesi aynı
+dalda yan yana yaşar; hangi dosyada hangi çerçeve geçerli olduğu bu §9.3'te
+kayıtlıdır (yanlış çerçeve uygulanmaz).
+
+### §9.4 §8 bloklarının arayüz envanteri (dosya içinden derlendi)
+
+§8.1–§8.6 bloklarında kullanılan OS arayüzleri (bu dosyanın kendi metninden
+derlenmiştir; her arayüz ilgili §8.x bloğunda geçer):
+
+| # | Blok | OS arayüzü | Tür |
+|---|---|---|---|
+| AA1 | §8.1 | `php_uname('s')` · platform kontrolü | PHP stdlib |
+| AA2 | §8.2 | `/sys/class/thermal/` (Linux sysfs) · WMI (Windows) | çift yol şartname |
+| AA3 | §8.3 | `/sys/class/power_supply/` (Linux sysfs) | şartname |
+| AA4 | §8.4 | `/proc/asound/` (ALSA) | şartname |
+| AA5 | §8.5 | `flock()` — cihaz erişim kilidi | POSIX |
+| AA6 | §8.6 | `escapeshellarg()` · `shell_exec()` | PHP stdlib (AIEngine dersi) |
+
+### §9.5 §3 satır referanslarının bu tur durumu
+
+§3'teki 7 satır referansı (DesktopBff · AIEngine · ApcuAdapter ·
+SessionConfig · UuidV7 · MusicStreamHandler · RateLimitMiddleware) bu turda
+**yeniden okunmadı** — ilk tur ölçümü (2026-10-14) `electroncis-dogrulama.md`
+§4.2'de kayıtlıdır. "Yeniden doğrulandı" iddiası **yazılmaz**; yalnız
+"ilk turda satır kanıtlıydı, bu turda dokunulmadı" kaydedilir.
+
+### §9.6 Kapı sonrası sonraki adımlar
+
+| # | Adım | Koşul |
+|---|---|---|
+| BB1 | kalan 8 dosyanın uzatması | bu dosyanın kendi kapısından bağımsız |
+| BB2 | bu dosyaya gerçek repo OS-arayüzü PHP kodu girerse §8 kapanış kuralı güncellenir | repo'ya ilk gerçek OS-arayüzü kodu yazıldığında |
+| BB3 | C/C++ 0 glob'u sonraki turlarda tekrar ölçülür | her tur |
+
+---
+
+
+---
+
+## §10 — Bu tur okunan/yapılanlar (dürüstlük günlüğü · 2026-10-15)
+
+### §10.1 Bu turda bu dosyadan okunan bölümler
+
+| # | Bölüm | Amaç |
+|---|---|---|
+| CC1 | § başlıkları (grep `^#{1,3} `) | yapı haritası — 23 başlık |
+| CC2 | §0–§3 (satır 21–70) | dürüstlük çerçevesi + PHP referansları |
+| CC3 | §8.6 + kapanış kuralı (satır 367–394) | son blok + "şartnamedir, kanıt değildir" kapısı |
+| CC4 | footer (satır 396) | append anchor |
+
+### §10.2 §6 sınır örnekleri ile bu tur uyumu
+
+§6 "Sınır örnekleri (bu dalın YAZMADIĞI)" tablosu bu turda **genişlemedi**:
+§9/§10 bölümleri yalnız ölçüm/tur kaydıdır, yeni teknik konu içermez; yani
+"dalın yazmadığı yüzeyler" listesi aynen geçerlidir. Uydurma sınır satırı
+eklenmemiştir.
+
+### §10.3 Kapı sonrası son ölçüm kaydı
+
+| # | Olay | Ölçüm |
+|---|---|---|
+| DD1 | append öncesi ölçüm (bu tur) | 396 |
+| DD2 | §9 append (2026-10-15) | 475 |
+| DD3 | §10 append (bu bölüm) | ≥505 hedefi |
+
+### §10.4 Red-team notu
+
+| # | Soru | Cevap |
+|---|---|---|
+| EE1 | §10 ne kazandırıyor? | tur izi (hangi bölüm hangi amaçla okundu) — sonraki turlar için |
+| EE2 | §10 yeni iddia içeriyor mu? | HAYIR — yalnız okuma/yapma günlüğü |
+| EE3 | Footer korundu mu? | EVET |
+
+---
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

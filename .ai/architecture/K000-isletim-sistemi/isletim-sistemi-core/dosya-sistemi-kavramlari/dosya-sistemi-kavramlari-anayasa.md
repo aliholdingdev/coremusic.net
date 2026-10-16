@@ -461,4 +461,61 @@ engeller: tek sayı, tek sahip).
 - Komşu sayaç sahipliği korunur: bu dosya §2-§4'te sayım tekrarı yapmaz (tek sayım, tek sahip).
 - `git commit` bu oturumda ATILMADI — değişiklikler working tree'dedir (commit orkestratöre ait).
 
+## §12. Bağlayıcı özet — §0–§11 omurgası (2026-10-15 genişletme turu)
+
+### §12.1 Soru → bölüm eşleme (okuma rotası)
+
+| Aranan soru | Bölüm | Ne verir |
+|---|---|---|
+| "Dosya erişimi bu vault'ta nasıl tanımlanıyor?" | §2 | kavram modeli — altı omurga maddesi |
+| "Karar sırası (olay zinciri) ne?" | §3 | A1–A6 mekanizma akışı |
+| "Ne ölçülecek, eşik ne?" | §4 | ölçüm/eşik sözleşmesi |
+| "Sınır nerede biter?" | §5 · §7 | komşu sınırı + kapsam dışı |
+| "Terim ne demek?" | §6 | terim sözlüğü |
+| "Hangi sorular açık?" | §8 | açık sorular (Q-F1–Q-F5 · Q2) |
+| "Hangi kaynaklar doğrulandı?" | §9 · §10.3 | 16 URL + 3 ek URL (2026-10-13 HTTP 200) |
+| "Repo'da karşılığı ne?" | §10.1–§10.5 | sunucu/uygulama yüzeyi sayımları |
+| "Ölçüm teyidi var mı?" | §11 | EK ölçüm kaydı (2026-10-13) |
+
+### §12.2 Bağlayıcı tutarlılık kuralları (bu turda yeniden teyit edildi)
+
+| # | Kural | Dayanak |
+|---|---|---|
+| C1 | Bu dosya **tanım** taşır; mekanizma akışı `-surucu`, repo örneği `-ornekler` içindedir | §1 · §2.1 |
+| C2 | Aynı ölçümün sayımı tekrar yazılmaz — her sayının tek sahibi vardır | §10.5 kapanış notu |
+| C3 | `⚠️` işaretli hücre kapatılana kadar iddia sayılmaz | §10.1 · §8 |
+| C4 | Kapsam dışı konular (syscall yüzeyi, ACL uygulaması, journal/dcache) buraya alınmaz | §7 · §5 |
+| C5 | Repo kanıtı dosya:satır olmadan yazılmaz; yeniden ölçüm `-dogrulama` işidir | §10.2 · §10.4 |
+| C6 | Çalışan sistem ölçümü bu dalda YOKTUR (depо dışı; PLANNED) | §10.4 · §11 |
+
+### §12.3 Komşu devir matrisi (hedefler 2026-10-15 disk envanteriyle doğrulandı)
+
+| Konu | Gittiği dosya / dal | Disk durumu (2026-10-15) |
+|---|---|---|
+| kimlik · izin · ACL · capability modeli | `../izin-ve-guvenlik-kavramlari/{anayasa,surucu,ornekler}.md` | 3 içerik dosyası mevcut |
+| syscall yüzeyi (`open` · `read` · `fcntl` imzaları) | `../../isletim-sistemi-api/sistem-cagrilari/` · `../../isletim-sistemi-api/syscall/` | 2 alt-dal mevcut |
+| VFS/inode çekirdek içi veri yapısı, kilit uygulanması | `../../isletim-sistemi-kernel/{cekirdek-yonetim,kesme-ve-senkronizasyon}/` | 2 alt-dal mevcut |
+| kilit/çakışma determinizm testi | `../../isletim-sistemi-testing/` | mevcut |
+| log okuma (`/proc` yüzeyi) | `../../isletim-sistemi-observability/` | mevcut |
+| denetim uygulaması (pentest, log politikası) | `../../isletim-sistemi-security/` | mevcut |
+| dosya sistemi türü karşılaştırması | `../../isletim-sistemi-turu/` | örnek düzeyinde |
+
+### §12.4 Açık sorular — 2026-10-15 durumu (bu tur kapatmadı)
+
+| # | Soru | Etiket |
+|---|---|---|
+| Q-F1 | Kademe etiketi (kök §2/§4 vs kardeş şablon H1'i) | ⚠️ VERIFICATION REQUIRED |
+| Q-F2 | PHP `LOCK_EX` → üretim primitive'i (`flock` / `fcntl` / platform bağımlı) | ⚠️ VERIFICATION REQUIRED |
+| Q-F3 | Hedef üretim dosya sistemi türü (ext4 / NTFS / NFS) | UNKNOWN |
+| Q-F4 | Üretimde açık dosya tanıtıcısı tavanı (`RLIMIT_NOFILE`) | UNKNOWN — ölçüm PLANNED |
+| Q-F5 | `kapsam.md` §B.3 dosya adları vs diskteki `-surucu`/`-ornekler` adlandırması | ⚠️ VERIFICATION REQUIRED |
+| Q2 | `core` ↔ `kernel` sınır tanımı (kök `index.md` §7 Q-C1) | ⚠️ VERIFICATION REQUIRED |
+
+### §12.5 2026-10-15 genişletme kaydı
+
+- Bu bölüm **append-only** eklendi; §0–§11 içeriği değiştirilmedi ve silinmedi.
+- Kapı ölçümü: `[System.IO.File]::ReadAllLines($yol).Length` ≥ 500 (`Measure-Object -Line` kullanılmaz — boş satır saymaz).
+- `index.md` bu turda düzenlenmedi (index kapısı 40–100 satır).
+- `git commit` bu oturumda ATILMADI — commit orkestratöre aittir.
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

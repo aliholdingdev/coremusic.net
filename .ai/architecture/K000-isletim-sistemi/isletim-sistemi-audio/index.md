@@ -62,6 +62,10 @@ Platform detayları kendi deep-dalındadır — bu dosya üst haritayı taşır,
 | Donanım kartı devresi (DAC/ADC) · sürücü kurulumu/paketleme | K001-donanım · `electroncis` (Q1) |
 | Web'de çalma UI'ı | frontend katmanı |
 
+## §2.5 İlişkili Proje Kaydı (2026-10-14)
+
+**Neva Engine OS backends planı** — `.ai/projects/NevaEngine/os/`: `01-windows-asio.md` (ASIO SDK 2.3.x GPLv3-open · cihaz enum · bufferSwitch · latency 512@48kHz≈10.67ms · fallback zinciri) · `02-windows-wasapi.md` (exclusive init 32-bit float · loopback capture sanal ses stratejisi) · `03-linux-alsa-pipewire.md` (ALSA FLOAT_LE xrun kurtarma · SCHED_FIFO+mlockall · RPi5 NEON biquad) · `04-macos-coreaudio.md` (AUHAL renderProc Float32). Deep-dal eşlemesi: `wasapi/` (13 dosya) → 02 · `alsa/`+`coreaudio/` → 03/04 · `aaudio/` → Android Audio AAudio (sonraki faz) · `reactos-audio/` (Tier 5 experimental — K000'de ayrı dal). Q-A2 yanıtladı: Neva Engine donanım yolu Faz 0–5 planı `.ai/projects/NevaEngine/01-gelistirme-plani.md` (kararlar 2026-10-14: ASIO=GPLv3-open, JUCE=AGPLv3).
+
 ## §4 Deep-dallar
 
 | Deep-dal | Dosya | Durum |

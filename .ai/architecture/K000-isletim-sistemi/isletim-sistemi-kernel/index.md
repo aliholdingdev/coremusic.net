@@ -12,7 +12,7 @@ evidence:
   - https://man7.org/linux/man-pages/man2/seccomp.2.html
   - https://man7.org/linux/man-pages/man7/capabilities.7.html
   - https://docs.kernel.org/scheduler/index.html
-validation: "2026-10-13 · 6 resmi URL HTTP 200 · children: 3 alt-dal disk kanıtlı (bu turda AÇILDI)"
+validation: "2026-10-13 · 6 resmi URL HTTP 200 · children: 3 alt-dal disk kanıtlı (bu turda AÇILDI) | 2026-10-14 · isletim-sistemi-kernel-kod-seti.md yazıldı (704 satır · 11 kod bloğu · 12 resmi URL HTTP 200 · spot-check: orkestratör)"
 open_questions:
   - "core ↔ kernel ayrım tanımı yok → ⚠️ VERIFICATION REQUIRED (Q2)"
   - "Hedef çekirdek (Linux mu, Windows kernel mi, XNU mu) → UNKNOWN (Q4)"
@@ -89,6 +89,7 @@ group: mimari
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-3 |
 | mimari | `isletim-sistemi-kernel-kapsam.md` | Kapsam sınırı, alt-dal envanteri, komşular | Kademe-3 |
 | kod | `isletim-sistemi-kernel-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-3 |
+| kod | `isletim-sistemi-kernel-kod-seti.md` | Cross-platform süreç/fork · mmap · ioctl kod seti — 704 satır · 11 kod bloğu · 12 resmi URL | Kademe-3 |
 | kanit | `isletim-sistemi-kernel-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-3 |
 
 > Alt-dal (Kademe-4) grupları kendi `index.md`'lerinde tanımlıdır: `cekirdek-yonetim/` · `kesme-ve-senkronizasyon/` · `surucu-ve-modul-modeli/` — burada **tekrar edilmez** (çakışma = 0).

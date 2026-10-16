@@ -8,6 +8,7 @@ children:
   - isletim-sistemi-plan-kapsam.md
   - isletim-sistemi-plan-dogrulama.md
   - isletim-sistemi-plan-ornekler.md
+  - isletim-sistemi-plan-kod-seti.md
   - zamanlama-scheduler
   - is-parcacigi-planlamasi
   - kaynak-dagilimi
@@ -22,6 +23,7 @@ evidence:
 validation:
   - "2026-10-13: kök 4 dosya ≥500/40-100 hizalandı; 3 alt-dal × 4 dosya = 12 yeni dosya"
   - "2026-10-13: 19 benzersiz URL HTTP 200 · envanter kesişimi 0 · 25 repo satırı Select-Object -Index ile teyit"
+  - "2026-10-14: isletim-sistemi-plan-kod-seti.md yazıldı (928 satır · 25 kod bloğu · 22 resmi URL HTTP 200 · spot-check: orkestratör)"
 open_questions:
   - "Q3: kapsam = OS planlama mı, uygulama yol haritası mı? [UNKNOWN]"
   - "Plan1: scheduling içeriği kernel/runtime'da mı, burada mı? [UNKNOWN]"
@@ -85,6 +87,7 @@ Kapatılmaz: iki soru da disk kanıtıyla cevaplanamaz; cevap vermek uydurma olu
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-3 |
 | mimari | `isletim-sistemi-plan-kapsam.md` | Kapsam sınırı, alt-dal envanteri ve kapsam dışı listesi | Kademe-3 |
 | kod | `isletim-sistemi-plan-ornekler.md` | Uygulama örnekleri, gerçek repo kodu ve politika karşılaştırması | Kademe-3 |
+| kod | `isletim-sistemi-plan-kod-seti.md` | Cross-platform öncelik/timer/kuyruk kod seti — 928 satır · 25 kod bloğu · 22 resmi URL | Kademe-3 |
 | kanit | `isletim-sistemi-plan-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-3 |
 
 Alt-dal `index.md` dosyalarının üçü de `group: mimari` (Kademe-3); alt-dal içerik dosyaları: `-anayasa` → `mimari` · `-surucu` → `mimari` · `-ornekler` → `kod` (Kademe-4).

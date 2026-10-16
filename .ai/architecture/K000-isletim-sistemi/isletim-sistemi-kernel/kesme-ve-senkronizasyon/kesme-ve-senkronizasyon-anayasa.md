@@ -482,6 +482,38 @@ H7-H8 **bilgi hatası**. Doğruluk hatası (H8) bir kez işlendiğinde dosya
 | 2026-10-13 | §6-§8 derinleştirme eklendi | dosya derinliği hedefi |
 | 2026-10-13 | 6 URL envanter/kontrol doğrulamasıyla taşındı | kanıt kapısı |
 
+## §10 Bağlayıcı özet — doktrin omurgası ve belirsizlik karnesi (2026-10-15)
+
+> Append-only ekleme: §0–§9 değişmemiştir; bu bölüm mevcut bölümleri derler,
+> yeni doktrin / yeni ölçüm eklemez.
+
+### §10.1 Bölüm haritası
+
+| Grup | Bölümler | Not |
+|---|---|---|
+| Doktrin | §1 Kesme yolu (interrupt) · §2 Kilit türleri · §3 Deadlock ve starvation | çekirdek kural kaynakları |
+| Kaynak | §4 Kaynakça (envanter · HTTP 200 · 2026-10-13) | tarihli |
+| Dürüstlük | §5 Açık / doğrulanamayan iddialar | işaretli eksiklik |
+| Pratik | §6 Derinleştirme — kesme ve kilit pratiği (doktrin eki) | doktrin eki |
+| Kapanış | §7 Belirsizlik ve sınır tablosu · §8 Sık yapılan hatalar (8) · §9 Değişiklik günlüğü | — |
+
+### §10.2 Belirsizlik karnesi (dosya içi)
+
+| Kalemden | Dayanak |
+|---|---|
+| Açık / doğrulanamayan iddialar ayrı bölümde taşınır | §5 |
+| Belirsizlik ve sınır tablosu kapanıştır | §7 |
+| 8 sık yapılan hata ayrı sayım olarak taşınır | §8 |
+| Kaynakça tarihlidir (HTTP 200 · 2026-10-13) | §4 |
+
+### §10.3 Sınır beyanı
+
+- Bu bölüm anayasa seviyesindedir; ölçüm protokolü ve SMP pratiği komşu sürücü
+  dalındadır (kardeş dosya) — burada taşınmaz.
+- Ölçüm/çalışan sistem iddiası bu dosyada YOKTUR.
+- Kavramsal doktrin "ölçüldü" diye sunulamaz.
+- `git commit` bu oturumda ATILMADI — bu ekleme working tree'dedir (commit orkestratöre ait).
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

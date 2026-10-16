@@ -483,6 +483,34 @@ değişiklik yalnız gerçek test/üst kararla olur.
 **Özet kuralı:** #5-#6 **bilinçli boşluktur**; kapanış yalnız gerçek test/
 ölçümle olur, bu turda **olmaz**.
 
+## §14 Bağlayıcı özet — sınır/test omurgası ve durum işaretleri (2026-10-15)
+
+> Append-only ekleme: §0–§13 değişmemiştir; bu bölüm mevcut bölümleri derler,
+> yeni test sonucu / yeni ölçüm iddiası üretmez.
+
+### §14.1 Bölüm haritası
+
+| Grup | Bölümler | Durum işareti |
+|---|---|---|
+| Doktrin | §4 Kullanıcı-kernel sınırı | anlatım |
+| Test | §5 Sürücü testi (KUnit · QEMU · statik doğrulama) · §8 Test omurgası — test × sürücü türü tam matrisi | test **stratejisi**, çalıştırılmış sonuç değil |
+| Kapanış | §6 Referans, risk ve kapanış · §9 Bağlayıcı kurallar özeti (8 kural) · §12 Kapanış tablosu | — |
+| Sınır | §10 Komşu sınır matrisi · §11 Tam hata kataloğu (§6.4 + §11) · §13 Değişiklik günlüğü | — |
+| Pratik | §7 Derinleştirme — sınır ve test pratiği (ek) | doktrin eki |
+
+### §14.2 Durum işaretleri (okuma kuralı)
+
+- Test omurgası (§5 · §8): **strateji/matris** — çalıştırılmış test sonucu DEĞİLDİR.
+- 8 bağlayıcı kural §9'da sayılmıştır; metin tekrarı bu bölüme yazılmaz.
+- Hata kataloğu §11'de birleştirilmiştir (§6.4 + §11); çelişkide §11 bütünlüğü kazanır.
+- Kapanış tablosu (§12) bu bölümle tutarlıdır; yeni yetki eklenmez.
+
+### §14.3 Sınır beyanı
+
+- Anayasa (doktrin) kardeşi dosyadadır; çelişkide anayasa kazanır, bu dosya köprü/pratik taşır.
+- Kullanıcı-kernel sınırı iddiaları doktrin seviyesindedir; ölçüm sonucu olarak sunulamaz.
+- `git commit` bu oturumda ATILMADI — bu ekleme working tree'dedir (commit orkestratöre ait).
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

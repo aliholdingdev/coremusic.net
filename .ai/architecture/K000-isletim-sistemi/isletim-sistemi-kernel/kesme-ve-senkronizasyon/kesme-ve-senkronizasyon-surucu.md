@@ -490,6 +490,33 @@ surucu §6.4 — bu dosya yalnız tekrar eder, yeni sartname **üretmez**).
 | tahmin | "yaklaşık 10 µs olur" | ❌ yasak |
 | eşik | tolerans değeri | ❌ ölçüm gerekir |
 
+## §14 Bağlayıcı özet — SMP/ölçüm pratiği omurgası (2026-10-15)
+
+> Append-only ekleme: §0–§13 değişmemiştir; bu bölüm mevcut bölümleri derler,
+> yeni ölçüm / çalıştırılmış protokol iddiası üretmez.
+
+### §14.1 Bölüm haritası
+
+| Grup | Bölümler | Durum işareti |
+|---|---|---|
+| Doktrin | §4 SMP ve bellek tutarlılığı | anlatım |
+| Ölçüm tasarımı | §5 Ölçüm tasarımı (jitter · çekişme · kesme) · §8 Ölçüm protokolü (adım adım) | §8 **çalıştırılmadı** |
+| Pratik | §7 Derinleştirme — SMP ve ölçüm pratiği (ek) · §11 Kilit deseni karar ağacı | karar ağacı akış |
+| Test / referans | §6 Referans, test arayüzleri ve kapanış | — |
+| Sınır | §9 Komşu sınır matrisi · §10 7 hata (ölçüm/SMP) · §12 Kapanış tablosu · §13 Sartname aritmetiği | izin verilen tek sayı kümesi |
+
+### §14.2 Sayı disiplini (§13 dayanaklı)
+
+- Bu dosyanın izin verdiği tek sayı kümesi §13'te tanımlıdır; dışarıdan yeni sayı eklenmez.
+- Ölçüm protokolü (§8) tasarım aşamasındadır — sonuç değeri taşımaz.
+- Jitter / çekişme / kesme büyüklükleri §5'te tasarım olarak, ölçüm sonucu olarak değil geçer.
+
+### §14.3 Sınır beyanı
+
+- SMP pratiği bu dalda kalır; anayasa dalı kilit doktrinini taşır — çelişkide anayasa kazanır.
+- §12 kapanış tablosu: ne taşındığı / ne taşınmadığı bu bölümle tutarlıdır; yeni yetki eklenmez.
+- `git commit` bu oturumda ATILMADI — bu ekleme working tree'dedir (commit orkestratöre ait).
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

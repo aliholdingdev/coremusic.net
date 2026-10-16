@@ -7,6 +7,9 @@ children:
   - "linux-anayasa.md"
   - "linux-api.md"
   - "linux-kernel.md"
+  - "linux-kod-seti.md"
+  - "linux-dma-ve-interrupt.md"
+  - "linux-guvenlik.md"
 depends_on:
   - "isletim-sistemi-turu"
 evidence:
@@ -32,6 +35,8 @@ group: mimari
 | `linux-anayasa.md` | Linux dalı anayasası — **içerik bu turda okunmadı, dokunulmadı** |
 | `linux-api.md` | Linux API katmanı — **içerik bu turda okunmadı, dokunulmadı** |
 | `linux-kernel.md` | Linux çekirdek katmanı — **içerik bu turda okunmadı, dokunulmadı** |
+| `linux-kod-seti.md` | Portable dil seti + Linux (üretim kontratı hedefi) — **2026-10-14 eklendi** |
+| `linux-dma-ve-interrupt.md` | DMAEngine · IRQ top/bottom-half · mlock/mmap — **2026-10-12'den beri mevcut, 2026-10-14 indekse eklendi** |
 
 ## Bağlam
 
@@ -54,6 +59,8 @@ L-D1 mevcut dosya kapsamı [⚠️] · L-D2 Linux üretim hedefi mi? [UNKNOWN]
 | mimari | `linux-anayasa.md` | Anasözleşme ve bağlayıcı mimari kurallar | Kademe-3 |
 | mimari | `linux-api.md` | Linux sistem çağrıları ve API desenleri | Kademe-3 |
 | mimari | `linux-kernel.md` | Çekirdek veri yolu ve sistem çağrıları | Kademe-3 |
+| mimari | `linux-dma-ve-interrupt.md` | DMAEngine · IRQ top/bottom-half · mlock/mmap (2026-10-12 · 2026-10-14 indekse eklendi) | Kademe-3 |
+| mimari | `linux-guvenlik.md` | OS güvenlik profili — K000-K009 sınırı | Kademe-3 |
 
 ---
 

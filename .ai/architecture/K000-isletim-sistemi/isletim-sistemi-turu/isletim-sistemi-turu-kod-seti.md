@@ -22,6 +22,7 @@ evidence:
   - "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessw (✅ HTTP 200 · 2026-10-14)"
   - "https://man7.org/linux/man-pages/man3/system.3.html (✅ HTTP 200 · 2026-10-14)"
 validation:
+  - "2026-10-15: 27 benzersiz resmi URL (HTTP 200 kapısı) · 40 kod bloğu (dil-etiketli fence) · 13 dil kapsama turları P1–P7 tamamlandı · örnekler ORİJİNAL ve derlenmedi"
   - "2026-10-14: 12 benzersiz resmi URL · hepsi HTTP 200 (HEAD/GET) doğrulandı · içerik alıntısı YAPILMADI → örnekler ORİJİNAL ve derlenmedi"
   - "Repo kanıtları kardeş dosyadan (isletim-sistemi-turu-ornekler §6–§20) okunarak referanslandı; yeni Dosya/Satır iddiası ÜRETİLMEDİ"
   - "≥500 satır · 10 alanlı frontmatter · §N başlıkları · Authority imzası"
@@ -86,7 +87,7 @@ group: kod
 
 | Grup | Konu | Diller | § |
 |---|---|---|---|
-| A | Platform tespiti (tek nokta) | PHP · JS · Python · Go · Rust · C# · C | §GRUP A |
+| A | Platform tespiti (tek nokta) | PHP · JS · Python · Go · Rust · C# · C · Zig · Swift · Java/Kotlin | §GRUP A |
 | B | Yol ayracı + geçici dizin | PHP · JS · Python · Go · Rust · C# · C++ | §GRUP B |
 | C | Kabuksuz süreç başlatma | PHP · JS · Python · Go · Rust · C# · C | §GRUP C |
 | D | Dış araç sarmalayıcı (ffprobe sınıfı) | PHP · Python · Go | §GRUP D |
@@ -95,7 +96,7 @@ group: kod
 | G | Kabuk katmanı: bash ↔ pwsh | Bash · PowerShell | §GRUP G |
 | H | CI matrisi (Linux birincil) | YAML | §GRUP H |
 
-**Toplam:** 8 grup · 32 kod bloğu · 10 dil yüzeyi (PHP, JS, Python, Go, Rust, C#, C, C++20, Bash, PowerShell).
+**Toplam:** 8 grup · 36 kod bloğu · 13 dil yüzeyi (PHP, JS, Python, Go, Rust, C#, C, C++20, Bash, PowerShell, Zig, Swift, Java/Kotlin).
 
 ---
 
@@ -233,6 +234,82 @@ yöntemdir (eski .NET Framework kalıntısı) — bu yüzden örnekte yoktur.
 **Sınıf dersi:** C'de çalışma-zamanı tespiti yoktur (POSIX'te `uname()` ile imkân var ama
 kütüphane katmanı gerektirir) → **derleme zamanı** tek doğruluk kaynağıdır. `#error` dalı
 bilinmeyen sınıfı **yüksek sesle** reddeder (sessiz fallback yasağı — fail-safe).
+
+### §A.8 Zig — `builtin.os.tag` (derleme hedefi sabiti)
+
+```zig
+// [ORİJİNAL ÖRNEK · derlenmedi] https://ziglang.org/documentation/master/
+// std modülleri: https://ziglang.org/documentation/master/std/
+const builtin = @import("builtin");
+
+pub const cm_os: []const u8 = switch (builtin.os.tag) {
+    .linux => "linux",
+    .windows => "windows",
+    .macos => "macos",
+    else => "unknown", // bilinmeyen hedef: açık UNKNOWN — sessiz sınıf uydurulmaz
+};
+```
+
+**Sınıf dersi:** Zig'de `builtin.os.tag` derleme anında sabitlenir (hedef `zig build`
+ile seçilir, çapraz derleme destekli) → C'deki `#if` zincirinin tip-güvenli karşılığı.
+`else` kolu zorunludur; bilinmeyen hedef `unknown` olarak **açık** yazılır, çağıran
+katman reddeder (sessiz fallback yasağı).
+
+### §A.9 Swift — `#if os(...)` (koşullu derleme)
+
+```swift
+// [ORİJİNAL ÖRNEK · derlenmedi] https://docs.swift.org/swift-book/documentation/the-swift-programming-language/statements
+#if os(Linux)
+let cmPlatform = "linux"
+#elseif os(Windows)
+let cmPlatform = "windows"
+#elseif os(macOS)
+let cmPlatform = "macos"
+#else
+let cmPlatform = "unknown" // bilinmeyen hedef: açık UNKNOWN — sessiz geçiş yok
+#endif
+```
+
+**Sınıf dersi:** Swift'te dallanma derleme zamanında `#if os(...)` ile kapanır — aynı
+derleme biriminde fazladan kol derlenmez. Bilinmeyen hedef `#error` yerine **açık
+`unknown` sabiti** olarak yazılır; sınıftan çıkma (reddetme) çağrının sorumluluğundadır.
+
+### §A.10 Java/Kotlin (JVM) — `System.getProperty("os.name")`
+
+```java
+// [ORİJİNAL ÖRNEK · derlenmedi] https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/System.html
+import java.util.Locale;
+
+public final class Platform {
+    private Platform() {}
+
+    public static String os() {
+        String name = System.getProperty("os.name", "").toLowerCase(Locale.ROOT);
+        if (name.contains("linux"))   return "linux";
+        if (name.contains("windows")) return "windows";
+        if (name.contains("mac"))     return "macos";
+        return "unknown"; // açık UNKNOWN — sessiz fallback yok
+    }
+}
+```
+
+```kotlin
+// [ORİJİNAL ÖRNEK · derlenmedi] https://kotlinlang.org/api/latest/jvm/stdlib/  (JDK API: java.lang.System — §A.10 Java URL)
+fun platformName(): String {
+    val name = System.getProperty("os.name", "").lowercase() // invariant lowercase (locale bağımsız)
+    return when {
+        "linux" in name   -> "linux"
+        "windows" in name -> "windows"
+        "mac" in name     -> "macos"
+        else              -> "unknown"
+    }
+}
+```
+
+**Sınıf dersi:** JVM'de tespit **çalışma zamanında** yapılır (`os.name` JVM sistem özelliği);
+Kotlin aynı JVM özelliğini okur → iki dil tek noktaya (`System.getProperty`) bağlanır.
+Metin `Locale.ROOT` / invariant `lowercase()` ile normalize edilir; eşleşmeyen sınıf
+`unknown` olarak açık kalır.
 
 ---
 
@@ -572,6 +649,7 @@ import (
     "context"
     "encoding/json"
     "os/exec"
+    "strconv"
     "time"
 )
 
@@ -590,13 +668,13 @@ func Duration(ctx context.Context, file string) (float64, error) {
     if err := json.Unmarshal(out, &r); err != nil {
         return 0, err
     }
-    return strconvParse(r.Format.Duration) // strconv.ParseFloat sarmalayıcı — detay: kullanımda
+    return strconv.ParseFloat(r.Format.Duration, 64) // ffprobe "duration" dizesi → float64
 }
 ```
 
-**Not:** `⚠️ VERIFICATION REQUIRED`: `strconvParse` yer tutucu **dolgudur** (`...`/`TBD` yasağı
-ihlalini önlemek adına değil, **taşınan işlevin imzası** bilinmediği için adlandırılmıştır) —
-kullanımda `strconv.ParseFloat(s, 64)` ile değiştirilecektir. O5 açık.
+**Not (O6 kapandı · 2026-10-14):** yer tutucu `strconvParse` kaldırıldı; `strconv.ParseFloat(s, 64)`
+doğrudan çağrılıyor (`strconv` import edildi). Blok derlenmedi → davranış yine
+`⚠️ VERIFICATION REQUIRED` (etiket kapsamı değişmedi).
 
 ---
 
@@ -639,25 +717,36 @@ def locked_write(path: str, data: str) -> None:
 // [ORİJİNAL ÖRNEK · derlenmedi]
 package atomicfile
 
-import (
-    "os"
-    "path/filepath"
-)
+import "os"
 
+// Write, data'yı fsync'lenmiş geçici dosyaya yazar ve atomik olarak yeniden adlandırır.
+// Sıra zorunlu: create → write → fsync → close → rename (fsync'siz rename crash'te veri kaybı üretir).
 func Write(path string, data []byte) error {
     tmp := path + ".tmp"
-    if err := os.WriteFile(tmp, data, 0o600); err != nil { // POSIX izin modu
+    f, err := os.OpenFile(tmp, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0o600) // POSIX izin modu
+    if err != nil {
         return err
     }
-    if err := os.Sync; err != nil { /* ← satır açıksa O6: fsync ihmal edilmiş sayılır */ }
-    return os.Rename(tmp, path) // POSIX atomik; Windows davranışı dosya sistemine bağlı → UNKNOWN
+    if _, err := f.Write(data); err != nil {
+        f.Close()
+        return err
+    }
+    if err := f.Sync(); err != nil { // fsync: içerik diske düşmeden rename YASAK (O6 sırası)
+        f.Close()
+        return err
+    }
+    if err := f.Close(); err != nil {
+        return err
+    }
+    if err := os.Rename(tmp, path); err != nil { // POSIX atomik; Windows davranışı dosya sistemine bağlı → UNKNOWN
+        return err
+    }
+    return nil
 }
 ```
 
-**Dürüstlük notu:** Bu blok **bilinçli olarak hatalı yazılmamıştır**; `os.Sync` satırındaki
-sözdizimi, `⚠️` ile işaretlenen **açık O6** (fsync/flush sırası) dışında derlenemez —
-`[ORİJİNAL ÖRNEK · derlenmedi]` etiketi kapsamı dışına çıkmaz. Kullanımda:
-`f, _ := os.Create(tmp); f.Write(data); f.Sync(); f.Close(); os.Rename(tmp, path)`.
+**Not (O6 kapandı · 2026-10-14):** fsync sırası kuruldu (`create → write → fsync → close → rename`);
+önceki yer tutucu satır kaldırıldı. Blok derlenmedi → davranış `⚠️ VERIFICATION REQUIRED` kalır.
 
 ### §E.4 Rust — atomik yazma (`File::create` + yaz + rename)
 
@@ -849,6 +938,10 @@ jobs:
 | C++20 | ✅ `std::filesystem` | ✅ | ✅ | — | B.7 |
 | Bash | ✅ | ❌ (yerel yok — G.3) | ✅ | — | G.1 |
 | PowerShell | ⚠️ pwsh (cross) | ✅ | ⚠️ pwsh (cross) | ⚠️ | G.2 |
+| Zig | ✅ (`builtin.os.tag` hedef sabiti) | ✅ | ✅ | — (derleme hedefi yok) | A.8 |
+| Swift | ✅ `#if os(Linux)` | ⚠️ Foundation Windows [TASARIM] | ✅ `#if os(macOS)` | — | A.9 |
+| Java | ✅ `os.name` (çalışma zamanı) | ✅ | ✅ | ⚠️ [TASARIM] | A.10 |
+| Kotlin | ✅ (aynı JVM) | ✅ | ✅ | ⚠️ [TASARIM] | A.10 |
 
 **Okuma kuralı:** ✅ = örnek derlendiği sınıfı hedefler (`[ORİJİNAL ÖRNEK · derlenmedi]` etiketi
 **kaldırılmaz**) · ⚠️ = sınıf geçerli ama kanıt yok · ❌ = sınıf dışı (kural gereği, hata değil).
@@ -883,6 +976,7 @@ kuralı ile aynı disiplin).
 | 3 | Kilidi **dosya sistemi** belirler, OS değil | `-ornekler.md` §17 (UNKNOWN) | GRUP E + O3 |
 | 4 | İki yayım yüzeyi (Apache/IIS) **birlikte** taşınır, biri silinmez | `-ornekler.md` §19 | GRUP G (bash + pwsh) |
 | 5 | CI = Linux; taşımaz hattı **kanıt kapısıdır** | `-ornekler.md` §18 | GRUP H + O5 |
+| 6 | Atomik yazma sırası **create → write → fsync → close → rename**'dir; fsync'siz rename crash'te veri kaybı üretir | -ornekler'de karşılığı yok → [TASARIM] + resmi docs | §E.3 (O6 kapandı 2026-10-14) |
 
 ---
 
@@ -895,7 +989,7 @@ kuralı ile aynı disiplin).
 | O3 | Go/Rust/C#/C++ bu vault'un hedef dilleri mi (referans mı)? | UNKNOWN — Q4 ilişkili |
 | O4 | `ffprobe` sarmalayıcısı: kabuksuz (bu dosya) mi, repo `shell_exec` (§7) mi standart? | UNKNOWN — karar bu dosyada verilmez |
 | O5 | CI'a windows/macos hattı eklenecek mi? (repo: yalnız ubuntu) | UNKNOWN — §H.1 PLANNED |
-| O6 | E.3 fsync sırası + `strconvParse` yer tutucusu (D.3) derleme öncesi düzeltilecek | AÇIK — örnek düzeyi hata |
+| O6 | E.3 fsync sırası + `strconvParse` yer tutucusu (D.3) | ✅ KAPANDI 2026-10-14 — her ikisi de düzeltildi (derleme yok → davranış etiketi korunur) |
 
 **Kural:** bu sorular bu dosyada **cevaplanmaz**; cevap gelene kadar ilgili hücre `UNKNOWN` kalır.
 
@@ -931,6 +1025,12 @@ blokların kendisi orijinaldir ve derlenmemiştir (`[ORİJİNAL ÖRNEK · derlen
 - Dizin: [`index.md`](index.md)
 - Platform kod örnekleri: `linux/linux-kod-ornekleri.md` · `windows/windows-kod-ornekleri.md` ·
   `reactos/reactos-kod-ornekleri.md`
+- **Platform kod-seti dosyaları (2026-10-14):** bu dosyaya `depends_on` ile bağlı 8 taşınabilir
+  dil-seti — `android/android-kod-seti.md` · `ios/ios-kod-seti.md` · `macos/macos-kod-seti.md` ·
+  `tizen/tizen-kod-seti.md` · `webos/webos-kod-seti.md` · `reactos/reactos-kod-seti.md` ·
+  `windows/windows-kod-seti.md` · `linux/linux-kod-seti.md` — her biri bu dosyanın dil
+  havuzunu (Node/Python/Go/Rust/PHP/C#) platform-özel yüzeyle (mobil native · TPK/launchd ·
+  IPK/Luna · Win32) tamamlar; kök = üretim-uz (Linux), per-OS = sınıf-içi taşınabilirlik.
 - Platform bağımsızlık sahibi dal: `isletim-sistemi-cross/` (§26.1 kuralı — bu dosya yalnız örnek taşır)
 
 ---

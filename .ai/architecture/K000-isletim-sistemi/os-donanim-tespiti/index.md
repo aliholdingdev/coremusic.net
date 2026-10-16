@@ -9,6 +9,7 @@ children:
   - os-donanim-tespiti-kapsam
   - os-donanim-tespiti-dogrulama
   - os-donanim-tespiti-ornekler
+  - os-donanim-tespiti-kod-seti
 depends_on:
   - K000-isletim-sistemi
   - K001-donanım
@@ -18,13 +19,13 @@ evidence:
   - "https://learn.microsoft.com/en-us/windows/win32/api/setupapi/ (HTTP 200, 2026-10-13, HEAD)"
   - "https://docs.kerneSl.org/driver-api/driver-model/index.html (HTTP 200, 2026-10-13, HEAD)"
   - "https://devicetree.org/ (HTTP 200, 2026-10-13, HEAD)"
-validation: "draft — 2026-10-13 yazıldı · 3 kardeş içerik dosyası ≥500 satır hedefi yazım sonrası ölçülür · fiziksel ölçüm YOK · K000 kök index/§GRUPLAR satırı eklenmedi (orkestratöre devredildi)"
+validation: "draft — 2026-10-13 yazıldı · 3 kardeş içerik dosyası ≥500 satır hedefi yazım sonrası ölçülür · fiziksel ölçüm YOK · K000 kök index/§GRUPLAR satırı eklenmedi (orkestratöre devredildi) | 2026-10-14 — kod-seti eklendi: 4. kardeş içerik dosyası (os-donanim-tespiti-kod-seti.md · 1069 satır · 22 kod bloğu · 39 resmi URL HTTP 200 · spot-check: orkestratör)"
 open_questions:
   - "Q-DT1: Hedef platform seti K000 Q4 ile aynı — Win32 mi, POSIX mı, ikisi mi? → ⚠️ VERIFICATION REQUIRED"
   - "Q-DT2: Repo'da OS-seviyesi donanım tespiti kodu YOK (SetupDi/udev/devnode grep 0) — uygulama-seviyesi DeviceDetector bunun yerine mi geçiyor, örtüşüyor mu? → ⚠️ VERIFICATION REQUIRED"
   - "Q-DT3: PnP hotplug senaryosu CoreMusic'te gerçek mi (USB ses kartı tak-çıkar) — senaryo sahibi K003 audio mü, K000 mi? → ⚠️ VERIFICATION REQUIRED"
 date: "2026-10-13"
-updated: "2026-10-13"
+updated: "2026-10-14"
 group: mimari
 ---
 
@@ -52,13 +53,14 @@ sysfs/devicetree (HEAD 200 §6).
 | cihaz-ID eşleme | 3 | VID/PID/compatible eşleşmesi |
 | OS↔donanım API sınırı | 3 | K001 `donanım-api` ile sözleşmenin **OS tarafı** |
 
-## §2 Alt-dal envanteri (3)
+## §2 Alt-dal envanteri (4)
 
 | # | Dosya | `group` | Odak |
 |---|---|---|---|
 | 1 | `os-donanim-tespiti-kapsam.md` | mimari | Kapsam, sınır, çelişki kaydı, sınır tablosu |
 | 2 | `os-donanim-tespiti-dogrulama.md` | kanit | İddia → kanıt matrisi, URL HEAD, kapılar |
 | 3 | `os-donanim-tespiti-ornekler.md` | kod | Repo kodu (4 PHP dosyası) + gözlem şablonları |
+| 4 | `os-donanim-tespiti-kod-seti.md` | kod | Cross-platform CPU/bellek/ses/arayüz enumerasyon kod seti — 1069 satır · 22 kod bloğu · 39 resmi URL (2026-10-14) |
 
 ## §3 Komşu sınırı (özet — tam tablo `-kapsam.md` §10.2/§3)
 

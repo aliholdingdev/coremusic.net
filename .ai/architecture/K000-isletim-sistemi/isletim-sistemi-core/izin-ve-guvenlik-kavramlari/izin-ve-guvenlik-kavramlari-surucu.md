@@ -473,6 +473,40 @@ URL sayısı 3 (hepsi bugün HTTP 200); bu bölümde `⚠️` işaretli tek iddi
 - `FileHandler::securityEvent` 169-184 = 16 satır (§8.3 daraltma düzeltmesi).
 - Bu dosyaya eklenen doğrulanmış URL: 3 (§8.7); üçü de 2026-10-13 HTTP 200 ile teyitli.
 - Çalışan sistem ölçüsü bu bölümde de YOK (PLANNED) — §8.8 tablosu bu durumu taşır.
+## §10 Bağlayıcı özet — senaryo karar zinciri ve ölçüm özeti (2026-10-15)
+
+> Append-only ekleme: §0–§9 değişmemiştir; bu bölüm mevcut ölçümleri derler.
+
+### §10.1 Ölçüm → senaryo adımı eşlemesi
+
+| Ölçüm | Karşılık gelen adım | Durum |
+|---|---|---|
+| `PermissionMiddleware.php` 64/64 satır (§8.1–§8.2) | Rol denetimi kapısı | OKUNDU |
+| `FileHandler::securityEvent` 169-184 = 16 satır (§8.3) | Olay kaydı kapısı | OKUNDU |
+| 3 doğrulanmış URL (§8.7) | Kaynak teyidi | 2026-10-13 HTTP 200 |
+| Çalışan sistem ölçüsü (§8.8) | Uçtan uca doğrulama | YOK — PLANNED |
+
+### §10.2 Ölçüm yöntemi tekrar kaydı
+
+- Ölçüm salt-okunurdur; komut §9'da kayıtlıdır — bu bölümde yeniden ölçüm yapılmamıştır.
+- EK öncesi dosya durumu: 468 toplam / 378 dolu satır (§9).
+- EK sonrası hedef: ≥380 dolu satır (§9).
+
+### §10.3 Bölüm eşlemesi (iç tutarlılık)
+
+| Bölüm | Taşıdığı konu |
+|---|---|
+| §2 | Akışlar (A1-A7) |
+| §4 | Test stratejisi (§-1..§-7 eşlemesi) |
+| §8 | Senaryo akışı — dosya erişim karar zinciri, adım adım (2026-10-13) |
+| §9 | Ölçüm teyidi (2026-10-13) |
+
+### §10.4 Kapsam dışı ve sınır beyanı
+
+- Çalışan sistem / entegrasyon testi: PLANNED (§4 · §8.8).
+- Repo C++ kodu: `*.cpp` / `*.h` = 0 (2026-10-15 kök ölçümü) — bu dosyada derlenmiş kod iddiası yoktur.
+- Doğrulanamayan her genişletme: `⚠️ VERIFICATION REQUIRED`.
+
 - `git commit` bu oturumda ATILMADI — değişiklikler working tree'dedir (commit orkestratöre ait).
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

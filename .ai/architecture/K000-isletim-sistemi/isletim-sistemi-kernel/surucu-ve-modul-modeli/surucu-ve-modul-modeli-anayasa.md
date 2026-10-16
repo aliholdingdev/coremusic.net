@@ -484,6 +484,33 @@ taşınırsa çakışma (overlap) doğar ve komşu dalın alanı gasp edilir.
 | yetki yüzeyi kavramı (§3.3) | güvenlik denetimi (`-security`) | yüzey vs denetim |
 | Windows/Linux yüzey ayrımı (§3.5) | hedef seçimi (Q4) | ayrım vs seçim |
 
+## §13 Bağlayıcı özet — modül/sürücü doktrini omurgası (2026-10-15)
+
+> Append-only ekleme: §0–§12 değişmemiştir; bu bölüm mevcut bölümleri derler,
+> yeni kural / yeni ölçüm eklemez.
+
+### §13.1 Bölüm haritası
+
+| Grup | Bölümler | Not |
+|---|---|---|
+| Doktrin | §1 Modül yerleşimi (çekirdek-içi vs out-of-tree) · §2 Modül yaşam döngüsü · §3 Sürücü sınıfları ve yetki yüzeyi | çekirdek omurgası |
+| Kaynak | §4 Kaynakça (envanter · HTTP 200 · 2026-10-13) | tarihli |
+| Dürüstlük | §5 Açık / doğrulanamayan iddialar · §6 Repo kanıtı (negatif — dürüstlük kaydı) | işaretli eksiklik |
+| Pratik | §7 Derinleştirme — modül/sürücü pratiği (doktrin eki) · §8 8 sık hata | — |
+| Kapanış | §9 Belirsizlik ve sınır tablosu · §10 Bağlayıcı kurallar özeti (10 kural) · §11 Ölçüm tablosu · §12 Komşu sınır matrisi | — |
+
+### §13.2 Bağlayıcı kurallar karnesi
+
+- 10 bağlayıcı kural §10'da sayılır; bu bölüm kural metnini tekrar etmez.
+- Ölçüm §11'de bu dosyanın kendi ölçüm tablosu olarak taşınır; dış ölçüm alınmaz.
+- Repo kanıtı negatiftir (§6) — "repo'da sürücü kodu vardır" iddiası bu dosyada YOKTUR.
+
+### §13.3 Sınır beyanı
+
+- Test omurgası (KUnit · QEMU · statik doğrulama) kardeş sürücü dosyasındadır — burada taşınmaz.
+- Açık sorular açık, doğrulanamayan iddialar işaretli kalır (§5).
+- `git commit` bu oturumda ATILMADI — bu ekleme working tree'dedir (commit orkestratöre ait).
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

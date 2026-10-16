@@ -10,6 +10,9 @@ children:
   - K000-isletim-sistemi/isletim-sistemi-turu/webos/webos-uygulama-gelistirme
   - K000-isletim-sistemi/isletim-sistemi-turu/webos/webos-gercek-zamanli-tampon
   - K000-isletim-sistemi/isletim-sistemi-turu/webos/webos-web-arastirma
+  - K000-isletim-sistemi/isletim-sistemi-turu/webos/webos-kod-seti
+  - K000-isletim-sistemi/isletim-sistemi-turu/webos/webos-dma-ve-interrupt
+  - K000-isletim-sistemi/isletim-sistemi-turu/webos/webos-guvenlik
 depends_on:
   - K000-isletim-sistemi/isletim-sistemi-turu
 evidence: []
@@ -55,8 +58,10 @@ derin-dallarından AYRIDIR (parent `isletim-sistemi-turu/index.md` üzerinden ay
 | `webos-uygulama-gelistirme.md` | `…/webos/webos-uygulama-gelistirme` | web app types · appinfo.json · developer mode · app lifecycle · CLI/IDE | mimari |
 | `webos-gercek-zamanli-tampon.md` | `…/webos/webos-gercek-zamanli-tampon` | callback deadline · ring buffer · underrun · LS2 asenkron mesajlaşma | kod |
 | `webos-web-arastirma.md` | `…/webos/webos-web-arastirma` | ≥8 resmi URL tarama kaydı (HTTP 200 · 2026-10-13) + NXDOMAIN/418 bulguları | kanit |
+| `webos-kod-seti.md` | `…/webos/webos-kod-seti` | Portable dil seti + IPK/appinfo.json/Luna yüzeyi (LS2 imzaları YOK) · **2026-10-14 eklendi** | kod |
+| `webos-dma-ve-interrupt.md` | `…/webos/webos-dma-ve-interrupt` | LS2 media/audio servis katmanı · DMA belge boşluğu ⚠️ · Linux bağımlılığı · **2026-10-14 eklendi** | mimari |
 
-Toplam: 6 içerik dosyası · hedef ≥500 satır/dosya · bu indeks 40–100 satır sınırındadır.
+Toplam: 8 içerik dosyası · hedef ≥500 satır/dosya (`webos-kod-seti` 561 ile ≥500) · bu indeks 40–100 satır sınırındadır.
 
 ## §GRUPLAR
 
@@ -70,6 +75,8 @@ Toplam: 6 içerik dosyası · hedef ≥500 satır/dosya · bu indeks 40–100 sa
 | mimari | webos-uygulama-gelistirme.md | webOS TV web uygulama tipleri, `appinfo.json`, developer mode, uygulama yaşam döngüsü, CLI/IDE | 3 |
 | kod | webos-gercek-zamanli-tampon.md | Callback deadline hesabı, lock-free ring buffer, underrun tespiti, LS2 asenkron mesaj disiplini | 3 |
 | kanit | webos-web-arastirma.md | Resmi URL tarama kaydı (HTTP 200 · 2026-10-13) + `webostv.developer.lg.com` NXDOMAIN ve `pulseaudio.org` 418 bulguları | 3 |
+| mimari | webos-dma-ve-interrupt.md | LS2 servis katmanının belgelenmiş ses yüzeyi, DMA/kesme belge boşluğunun dürüst kaydı (2026-10-14) | 3 |
+| mimari | webos-guvenlik.md | webOS güvenlik profili: Luna Service Bus (LS2), Access Control Groups, Trust Level (dev/part/oem), `appinfo.json` izinleri + CoreMusic repo izi (DOSYA:SATIR) · **2026-10-15 eklendi** | 3 |
 
 ---
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

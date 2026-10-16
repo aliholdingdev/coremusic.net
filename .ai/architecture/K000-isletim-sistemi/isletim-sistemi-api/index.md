@@ -13,7 +13,7 @@ evidence:
   - https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/unistd.h.html
   - https://www.gnu.org/software/libc/manual/html_node/Program-Components.html
   - ".ai/architecture/K000-isletim-sistemi/os-master.md §3"
-validation: "2026-10-13 · 3 yeni alt-dal açıldı · §GRUPLAR 3 satır Kademe-2 · children 3 alt-dal · index 107 → 100 (künye tablosu FM'e de-duplike edildi)"
+validation: "2026-10-13 · 3 yeni alt-dal açıldı · §GRUPLAR 3 satır Kademe-2 · children 3 alt-dal · index 107 → 100 (künye tablosu FM'e de-duplike edildi) | 2026-10-14 · isletim-sistemi-api-kod-seti.md yazıldı (607 satır · 13 kod bloğu · 12 resmi URL HTTP 200 · spot-check: orkestratör)"
 open_questions:
   - "Q-P1 Hangi API yüzeyi kastediliyor — kernel API mi, kullanıcı uzay hizmetleri mi? → ⚠️ VERIFICATION REQUIRED"
   - "Q-P5 Mevcut syscall/ag-api/platform-api dizinleri bu 3 alt-dalın parçası mı, ayrı yapı mı? → ⚠️ VERIFICATION REQUIRED"
@@ -88,6 +88,7 @@ katmanları, hata modeli ve taşınabilirlik sınırları. Çekirdek içi yürü
 | mimari | `isletim-sistemi-api-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
 | kanit | `isletim-sistemi-api-dogrulama.md` | İddia, URL ve tarih doğrulama matrisi | Kademe-2 |
 | kod | `isletim-sistemi-api-ornekler.md` | Uygulama örnekleri ve kalıp gösterimi | Kademe-2 |
+| kod | `isletim-sistemi-api-kod-seti.md` | Cross-platform open/read köprüsü, hata kodu deseni ve FFI sınırı — 607 satır · 13 kod bloğu · 12 resmi URL | Kademe-2 |
 
 ## §7 İlişkili dosyalar
 

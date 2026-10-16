@@ -489,6 +489,37 @@ eşik ve test çıktısı **üretemez** (hepsi `UNKNOWN`/`PLANNED` işaretlidir)
 **İzin kuralı:** Sağ sütundaki ❌ satırları **hiçbir zaman** yazılmaz;
 yalnız gerçek ölçüm/strace ile ❌ → ✅ olur.
 
+## §12 Bağlayıcı özet — örnek ↔ kilit eşlemesi ve okuma sırası (2026-10-15)
+
+> Append-only ekleme: §0–§11 değişmemiştir; bu bölüm mevcut bölümleri derler,
+> yeni örnek / yeni ölçüm eklemez.
+
+### §12.1 Bölüm haritası
+
+| Grup | Bölümler | Not |
+|---|---|---|
+| Katalog | §1 Örnek kataloğu · §8 Örnek × kilit türü matrisi (repo ↔ anayasa) | çapraz okuma |
+| Repo kanıtı | §2 Repo örnekleri (dosya kilidi ve bekleme) · §3 Kilit köprüsü | doğrudan repo |
+| Negatif kanıt | §4 Negatif kanıt — repo'da olmayan çekirdek/senkronizasyon kodu | "yok" iddiası |
+| Pratik | §5 Doğru ve yanlış kullanım · §7 Derin örnekler (kavramsal) | §7 ölçülmemiş |
+| Kapanış | §6 Ölçüm, senaryolar ve kaynakça · §9 8 hata · §10 Açık sorular · §11 Komşu sınır matrisi | — |
+
+### §12.2 Okuma sırası (iki amaçlı)
+
+| Amaç | Sıra |
+|---|---|
+| Repo'yu anlamak | §2 → §3 → §5 |
+| Kilit türlerini seçmek | §8 → §1 → §7 |
+| Kapanış / sınır kontrolü | §10 → §11 → §6 |
+
+### §12.3 Sınır beyanı
+
+- Bu dosya örnektir; anayasa (doktrin) kardeşi dosyadadır — çelişkide anayasa kazanır,
+  bu dosya köprü kurar (§3).
+- §7'deki adım adım senaryolar kavramsal ve ölçülmemiştir.
+- Açık sorular §10'da açık olarak kalır.
+- `git commit` bu oturumda ATILMADI — bu ekleme working tree'dedir (commit orkestratöre ait).
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
