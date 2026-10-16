@@ -338,4 +338,198 @@ kanıtla (dosya + okuma tarihi) yapılır — tahminle kapatılan satır sayılm
 | Son satır | Authority satırı (birebir) | evet |
 | Bölüm sayısı | 15–24 arası `## §` | 20 |
 
+## §21 Vault DSP/Firmware Kaynağı Derinletmesi (append · 2026-10-16)
+
+> Kaynaklar bu ek için: `Dosya: .ai/electronic/firmware/dsp-firmware.md` (508 satır) · `Dosya: .ai/electronic/drivers/audio-drivers.md` (709 satır) — ikisi de okundu 2026-10-16. Her iddia Dosya+satır referanslıdır; repo `*.cpp/*.h/*.c` YOK (2026-10-15 ölçümü) → "çalışan kod" iddiası YASAK ve yazılmaz.
+
+### §21.1 Clock Hiyerarşisi (§3 ayar akışının fiziksel dayanağı)
+
+```
+Kristal osilatör (Master Clock referansı)
+    ↓
+PLL → MCLK
+    ↓
+Clock divider → BCLK / WCLK (LRCLK)
+    ↓
+I2S/TDM veri hattı → DAC
+```
+
+Dayanak: `dsp-firmware.md:72` (§6).
+
+| # | Clock kuralı | Bu dosyadaki karşılık | Dayanak |
+|---|---|---|---|
+| C1 | Tek clock kaynağı — tüm ses zinciri tek master'dan | §3 sıra kuralı (Register → Clock → Mute) | dsp-firmware.md:99 (§6.2) |
+| C2 | Düşük jitter PLL; jitter SNR'ı sınırlar | §8 ölçüm kapıları (SNR/THD+N) | dsp-firmware.md:100 (§6.2) |
+| C3 | USB (asenkron) ↔ I2S (senkron) ara buffer zorunlu | §7 komşu sınırı (K003) | dsp-firmware.md:101 (§6.2) |
+| C4 | BCLK/WCLK MCLK'tan bölünür | §12 terimler | dsp-firmware.md:102 (§6.2) |
+| C5 | İki bağımsız clock → slip/pop riski | §15 pop riski itirazı | dsp-firmware.md:103 (§6.2) |
+
+### §21.2 Sample-Rate / Clock Domain Matrisi (§8 ölçüm kapılarının girdisi)
+
+| Sample Rate | BCLK (stereo, 32-bit) | MCLK (tipik 256×fs) | Kullanım | Dayanak |
+|---|---|---|---|---|
+| 44.1 kHz | 2.8224 MHz | 11.2896 MHz | CD kalitesi | dsp-firmware.md:117 (§7) |
+| 48 kHz | 3.072 MHz | 12.288 MHz | video/stüdyo | dsp-firmware.md:118 (§7) |
+| 96 kHz | 6.144 MHz | 24.576 MHz | yüksek çözünürlük | dsp-firmware.md:119 (§7) |
+| 192 kHz | 12.288 MHz | 49.152 MHz | en yüksek çözünürlük | dsp-firmware.md:120 (§7) |
+
+Kural (dsp-firmware.md:124 §7.1): her sample-rate için PLL yapılandırması baştan tanımlanır; çalışma zamanı rate değişimi PLL yeniden kilitlenmesi + I2S yeniden yapılandırması gerektirir → §3'teki "çalışma zamanı ayar akışı" bu koşula bağlanır.
+
+### §21.3 DAC Init Sırası (§3 Register → Clock → Mute zincirinin teyidi)
+
+| # | Adım | Ters sıralamanın sonucu | Dayanak |
+|---|---|---|---|
+| 1 | Clock stabil | — | dsp-firmware.md:461 (§26.1) |
+| 2 | DAC reset | — | dsp-firmware.md:461 (§26.1) |
+| 3 | DAC format/rate yapılandır | kilitlenmezse kayıt bozulur | dsp-firmware.md:461 (§26.1) |
+| 4 | Mute kaldır | ters sıra → pop noise | dsp-firmware.md:461 (§26.1) |
+
+DAC parametresi eşlemesi (dsp-firmware.md:453 §26 tablo): MCLK oranı ↔ PLL yapılandırması · format (I2S/TDM) ↔ I2S modu · sample rate ↔ rate matrisi · kanal sayısı ↔ kanal haritası · reset/init ↔ boot sırasında init.
+
+Bu satırlar bu dosyanın §3'ünü onaylar, yeni sıra ekmez; §15 T3 boot→hazır süresi çelişki kaydı aynen geçerlidir.
+
+### §21.4 Ölçüm Kapıları — Dış Dayanak (§8 G3/G4 için)
+
+| Kapı | Vault ölçüm kuralı | Dayanak |
+|---|---|---|
+| Gecikme | fiziksel loopback + cross-correlation; örnek cinsinden rapor; 10 ölçümün medyanı | audio-drivers.md:533 (§7.1) |
+| Xrun oranı | <%0.01 (xrun/toplam period) | audio-drivers.md:546 (§7.2) |
+| Kurtarma süresi | Xrun → RUNNING < 1 period | audio-drivers.md:546 (§7.2) |
+| Tekrarlayan xrun | aynı 10 sn içinde ≥2 → 0 (buffer ayarı değişmeli) | audio-drivers.md:546 (§7.2) |
+| DSP zinciri CPU | <%15 (8+1 kanal, 48 kHz) | audio-drivers.md:554 (§7.3) |
+| Toplam ses yığını CPU | <%25 (ölçekli çekirdek) | audio-drivers.md:554 (§7.3) |
+
+Ölçüm tekrarı (audio-drivers.md §7.6): her ölçüm en az 3 ortamda (soğuk açılış · 1 saat sürekli · sıcak) tekrarlanır, medyan + maksimum raporlanır, kayıt dosya/tarih/platform/sürücü sürümü ile damgalanır.
+
+Ölçüm ortamı (audio-drivers.md §7.5): 48 kHz · buffer 512 (varsayılan) + 64/128/256/1024 eğrisi · 8.1 kanal · 32-bit float · sabit sıcaklık.
+
+Ölçüm hataları (audio-drivers.md §7.8): yazılım döngü ölçümü DMA/IRQ gecikmesini ölçmez → fiziksel loopback şart · tek ölçüm kanıt değildir · ms raporu yerine örnek raporu.
+
+### §21.5 SNR/THD+N Kapısı — Clock Bağı (§8 D-5/D-6 dayanak zinciri)
+
+| Zincir | Adım | Dayanak |
+|---|---|---|
+| 1 | Kristal → PLL → MCLK jitter'i SNR'ı sınırlar | dsp-firmware.md:100 (§6.2) |
+| 2 | Tek master clock yoksa slip/pop → THD+N artar | dsp-firmware.md:103 (§6.2) |
+| 3 | Ölçüm fiziksel loopback ile, örnek cinsinden | audio-drivers.md:533 (§7.1) |
+| 4 | 3 ortam × medyan + maksimum rapor | audio-drivers.md §7.6 |
+
+Sonuç: §8'deki SNR/THD+N kapıları bu dosyada tanımsız kalmaz — dayanağı yukarıdaki 4 adımlı zincirdir; ancak ölçüm değeri vault'ta YOK → kapı hâlâ `⚠️ VERIFICATION REQUIRED` (gerçek ölçüm 0).
+
+### §21.6 Hata Modu → Kapı Eşlemesi (§9 risk devrine ek)
+
+| Hata modu | Teşhis | Kapı | Dayanak |
+|---|---|---|---|
+| Xrun (underrun/overrun) | §7.2 sayacı | G3 ölçüm kapısı | audio-drivers.md:546 |
+| Clock drift (duplex kayma) | duplex kayma ölçümü | G3 | audio-drivers.md §7.4 |
+| Format reddi | açma sonucu kaydı | G1 sıra testi | audio-drivers.md §7.4 |
+| Röle hata durumu | donanım durum bildirimi | G4 röle gecikme ölçümü | audio-drivers.md §7.4 |
+| Pop/noise | mute sırası ihlali / çift clock | G2 kilit bekleme testi | dsp-firmware.md:103 · dsp-firmware.md:461 |
+
+### §21.7 Bayrak Devir Çapraz Kontrol (§6 K003 devri ile uyum)
+
+| Bayrak yönü | Vault karşılığı | Uyum | Dayanak |
+|---|---|---|---|
+| boot → audio: clock/init tamam | boot sırasında DAC init | uyumlu | dsp-firmware.md:459 (§26) |
+| audio → akışa hazır | DMA warm-up sonrası akış | uyumlu | audio-drivers.md §7.3 (CPU bütçesi) |
+| audio → power: mute hazır | mute register akış bitiminde | uyumlu | embedded-drivers §11.1 (bkz. device-control-anayasa §21.1) |
+
+### §21.8 Çapraz Referans ve Kapanış (bu ek)
+
+| Dosya | Kullanılan bölüm | Erişim |
+|---|---|---|
+| .ai/electronic/firmware/dsp-firmware.md | §6 (72) · §7 (113) · §26 (449) | okundu 2026-10-16 |
+| .ai/electronic/drivers/audio-drivers.md | §7 (533) | okundu 2026-10-16 |
+| K005-firmware/audio-control/* | §3 · §6 · §8 · §9 · §15 | bu dosyanın mevcut bölümleri |
+
+| Kontrol | Sonuç |
+|---|---|
+| Eklenen bölüm | §21 (append-only; §1–§20 silinmedi) |
+| Silinen mevcut içerik | 0 |
+| Uydurma register/sürüm/URL/Dosya:/Satır: | 0 |
+| Chip/marka iddiası | yalnız vault kaynağından (dsp-firmware.md:453 §26) |
+| Ölçüm değeri uydurma | 0 — kapılar hâlâ VERIFICATION REQUIRED |
+| Son satır | Authority satırı korunur |
+
+
+## §22 Zamanlama ve Xrun Ek Dayanağı (append · 2026-10-16)
+
+> Kaynak: `Dosya: .ai/electronic/drivers/audio-drivers.md` §9 (satır 650–709) · `Dosya: .ai/electronic/firmware/dsp-firmware.md` §21 (satır 363) · §22 (satır 378) — okundu 2026-10-16.
+
+### §22.1 Buffer ↔ Periyot ↔ Xrun Matematiği (§8 zamanlama kapısı girdisi)
+
+```
+T_period = period_size / sample_rate      → 512 / 48000 = 10.667 ms
+T_buffer = buffer_size / period_size × T_period → 2 × 10.667 = 21.33 ms
+xrun toleransı = T_buffer − iş gecikmesi (jitter)
+Kabul: xrun toleransı > p99 jitter → underrun olmaz
+```
+
+Dayanak: `audio-drivers.md:652` (§9.2).
+
+| Büyüklük | Değer | Not | Dayanak |
+|---|---|---|---|
+| T_period (48 kHz / 512) | 10.667 ms | 512/48000 | audio-drivers.md §9.2 |
+| T_buffer (2 tampon) | 21.33 ms | §9.2 | audio-drivers.md §9.2 |
+| p99 scheduler jitter (hedef) | ≤2 ms | RT çekirdek varsayımı | audio-drivers.md §9.2 |
+| Kalan pay | 19.33 ms | DSP işleme süresi | audio-drivers.md §9.2 |
+
+Kural: callback p99 ≤2 ms hedefini aşarsa underrun riski doğar; ölçülen p99 sürekli izlenir (audio-drivers.md §9.2).
+
+### §22.2 Xrun Tipi ↔ Kök Neden (§9 risk devrine sınıf verisi)
+
+| Tip | Kök neden | Belirti | Dayanak |
+|---|---|---|---|
+| Capture overrun | uygulama gecikmesi, scheduler | click, tekrar eden örnekleme | audio-drivers.md:654 (§9.1) |
+| Playback underrun | DSP aşırı yük, öncelik düşmesi | click, sessizlik boşluğu | audio-drivers.md:655 (§9.1) |
+| DMA underrun | IRQ gecikmesi, DMA kanal çakışması | hardware click | audio-drivers.md:656 (§9.1) |
+| Period geç kalma | scheduler jitter | zamanlama kayması | audio-drivers.md:657 (§9.1) |
+
+### §22.3 Xrun Önleme ve Kurtarma (§4/§8 köprüsü)
+
+| Katman | Strateji | Dayanak |
+|---|---|---|
+| Buffer | ≥2 tampon (jitter emilimi) | audio-drivers.md §9.3 |
+| Scheduler | SCHED_FIFO, çekirdek izolasyonu | audio-drivers.md §9.3 |
+| IRQ | IRQ affinity, coalescing | audio-drivers.md §9.3 |
+| DSP | SIMD, sabit tahsis (kural 1) | audio-drivers.md §9.3 |
+| Gözlem | period_elapsed telemetrisi | audio-drivers.md §9.3 |
+
+Kurtarma kuralı (audio-drivers.md §9.4): tek xrun sessizce kurtarılır · ≥3 tekrarlayan xrun buffer büyüme önerisi tetikler · DMA underrun → IRQ/DMA yeniden senkron.
+
+### §22.4 Clock Gating Uyarısı (§8 DC/röle korumasına komşu kural)
+
+| Durum | DSP | Clock | Güç | Dayanak |
+|---|---|---|---|---|
+| Aktif | çalışır | tam | normal | dsp-firmware.md:365 (§21) |
+| Idle (ses yok) | döngü hazır | kısmi | düşük | dsp-firmware.md:366 (§21) |
+| Suspend | duraklat | kapalı | çok düşük | dsp-firmware.md:367 (§21) |
+| Uyku | kapalı | kapalı | minimum | dsp-firmware.md:368 (§21) |
+
+Uyarı (dsp-firmware.md:373 §21.1): audio clock'u (MCLK) ani kapatmak DAC'ı bozar; clock gating, mute ve pop-free sıralamayla yapılır → §3 sıra kuralı ile aynı disiplin.
+
+### §22.5 Gecikme (Latency) Bütçesi — Dış Dayanak
+
+| Gecikme kaynağı | Tipik katkı | Dayanak |
+|---|---|---|
+| USB buffer (frame) | 1 ms (1 frame @1k) | dsp-firmware.md:383 (§22) |
+| DSP processing | 1 frame (double-buffer) | dsp-firmware.md:384 (§22) |
+| I2S/DMA buffer | 1 frame | dsp-firmware.md:385 (§22) |
+| DAC filtre gecikmesi | DAC'a bağlı | dsp-firmware.md:386 (§22) |
+| **Toplam (tipik)** | birkaç ms | dsp-firmware.md:387 (§22) |
+
+⚠️ VERIFICATION REQUIRED: bu bütçe firmware/yazılım katmanını anlatır; bu dosyanın §15 T3'ündeki ≤1200 ms boot→hazır atıf zinciri ile **farklı büyüklüktür** — çelişki kaydı aynen geçerlidir, kapatılmaz.
+
+### §22.6 Kapanış (§21–§22 ekleri)
+
+| Kontrol | Sonuç |
+|---|---|
+| Eklenen bölümler | §21 · §22 (append-only; §1–§20 silinmedi) |
+| Silinen mevcut içerik | 0 |
+| Uydurma değer/URL/Dosya:/Satır: | 0 |
+| Ölçüm değeri iddiası | 0 (yalnız vault hedef değerleri aktarıldı) |
+| Açık sorular | kapatılmadı (§14 aynen geçerli) |
+| Son satır | Authority satırı korunur |
+
+
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode

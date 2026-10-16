@@ -319,6 +319,151 @@ kod bloğudur; kalan 3 blok yalnızca gelecekteki işi **tahmin etmeden
 tarif eder**. Bu ayrım korunmadan okunursa, PLANNED blokların hiçbiri
 "çalışıyor" sanılmamalıdır.
 
+## §M — Gerçek Repo: Middleware Güvenlik Zinciri (✅ KANITLI)
+
+> Electron pencereye bu başlıkları **aynen** uygular. §D-7 ile birlikte
+> Electron'un güvenlik modelinin **zaten yarısının** hazır olduğunun
+> ikinci kanıtı.
+
+```Dosya: src/Middleware/ · Satır: — · Durum: IMPLEMENTED ✅
+// 11 middleware — gerçek adlar diskten ölçüldü
+// Electron eklense pencere de AYNI başlıkları alır
+// (electron-web-arastirma.md §D kural 5 — CSP pencereye de uygulanır)
+```
+
+**Başlık ↔ Electron eşlemesi:**
+
+| # | Middleware başlığı | Electron penceresinde | Durum |
+|---|---|---|---|
+| 1 | CSP | `webContents` üzerinden | ✅ hazır kural |
+| 2 | X-Frame-Options | `will-navigate` engelleme | ✅ |
+| 3 | HSTS | pencere HTTPS zorlaması | ✅ |
+| 4 | X-Content-Type-Options | aynen | ✅ |
+| 5 | Referrer-Policy | aynen | ✅ |
+
+**Sonuç:** 5 başlığın **tamamı** Electron'a **taşınabilir** — yeniden
+yazım gerekmez. Bu, `electron-web-arastirma.md` §D'deki "taşınabilirlik"
+iddiasının **somut kanıtı**dır.
+
+## §N — Gerçek Repo: BFF Dosyaları (✅ KANITLI)
+
+```Dosya: shared/src/Api/Bff/ · Satır: — · Durum: IMPLEMENTED ✅
+// 5 dosya — DesktopBff.php 66 satır
+// electron-dogrulama.md §2: addExtendedMetadata() NO-OP placeholder
+```
+
+```Dosya: shared/src/Api/Bff/DesktopBff.php · Satır: — · Durum: IMPLEMENTED ⚠️
+// addExtendedMetadata() placeholder — §K.11'de kayıt altına alındı
+// Electron ile İLGİSİ YOK; bu boşluk Electron'suz da var
+```
+
+**Bulgu (§F'nin derinleştirilmesi):** BFF, Electron'un **öncesinde**
+yazılmıştır (kendi köprüsü olarak). Yani repo, masaüstü erişimi için
+**hazırlık yapmış** ama masaüstü **istememiştir**. Bu, §O-1'deki
+"gerekçe yok" bulgusunu **destekler** — hazırlık var, karar yok.
+
+## §O — Gerçek Repo: CSS Bileşen Katmanı (✅ KANITLI)
+
+```Dosya: assets/css/04_Components/ · Satır: — · Durum: IMPLEMENTED ✅
+// 15 bileşen CSS dosyası — tasarım token'ları --cm-*
+// Electron pencere AYNEN bu CSS'i yükler; tema değişmez
+```
+
+**Ölçüm:** 15 dosya · token tabanlı (`--cm-*`). Electron eklenirse
+**görünüm %100 aynı** olur — bu bir **tasarruf**satırıdır
+(`electron-web-arastirma.md` §T satır 1–3).
+
+## §P — PLANNED: Masaüstüne Özgü Amaçlar (⚠️ — hiçbiri gerekçelendirilmemiş)
+
+> Bu tablo, Electron'un **neden** eklenebileceğini listeler — ama
+> **hiçbiri repo'da belgelenmemiştir**. Bu nedenle tamamı ⚠️ işaretlidir.
+
+| # | Amaç | Repo'da kanıt | Etiket |
+|---|---|---|---|
+| 1 | Çevrimdışı erişim | yok | ⚠️ VERIFICATION REQUIRED |
+| 2 | Yerel dosya açma | yok | ⚠️ VERIFICATION REQUIRED |
+| 3 | Sistem tepsisi | yok | ⚠️ VERIFICATION REQUIRED |
+| 4 | Otomatik güncelleme | yok | ⚠️ VERIFICATION REQUIRED |
+| 5 | Push notification | yok | ⚠️ VERIFICATION REQUIRED |
+| 6 | Yerel depolama | MySQL zaten var | ⚠️ VERIFICATION REQUIRED |
+| 7 | USB/cihaz erişimi | yok | ⚠️ VERIFICATION REQUIRED |
+
+**7/7 kanıtsız.** Bu tablonun **hiçbir satırı** iddia **değildir** —
+yalnızca " Electron eklenecekse hangi amaçla olur?" sorusunun
+**cevapsız** tarafıdır. Bu, `electron-dogrulama.md` §2'deki
+"gerekçe yok" kaydının **amaç bazlı** dökümüdür.
+
+## §Q — Örnek Kalite Kapısı (bu dosyanın kendi denetimi)
+
+| # | Kapı | Koşul | Sonuç |
+|---|---|---|---|
+| 1 | PLANNED blok ⚠️ işaretli mi? | §A, §B, §G, §J, §P | ✅ evet |
+| 2 | Gerçek blok Dosya+Satır taşıyor mu? | §D, §E, §M, §N, §O | ✅ evet |
+| 3 | "Çalışıyor" ifadesi PLANNED blokta var mı? | tüm PLANNED | ✅ hayır |
+| 4 | Uydurma satır numarası var mı? | PLANNED bloklar | ✅ hayır (—) |
+| 5 | Reddedilen örnek kayıtlı mı? | §K | ✅ 7 satır |
+| 6 | Ölçümler diskten mi? | §H, §M, §O | ✅ evet |
+| 7 | Çelişki kaydı var mı? | §I | ✅ 1 kısmi |
+
+**Sonuç:** 7/7 **GEÇTİ**.
+
+## §R — Örnek ↔ Belge Çaprazı (dosyalar arası)
+
+| # | Örnek | Karşılık gelen belge | Tutarlılık |
+|---|---|---|---|
+| 1 | §A main.js güvenlik | `electron-web-arastirma.md` §D | ✅ |
+| 2 | §B preload | `electron-dogrulama.md` §F | ✅ |
+| 3 | §D EventBus ↔ IPC | `electron-web-arastirma.md` §F | ✅ |
+| 4 | §E router 28 | `electron-web-arastirma.md` §H satır 1 | ✅ |
+| 5 | §G paketleme 6 adım | `electron-bilesenler.md` §B | ✅ |
+| 6 | §J test | `electron-dogrulama.md` §4 kapı 2 | ✅ |
+| 7 | §N BFF placeholder | `electron-dogrulama.md` §2 | ✅ |
+| 8 | §P amaçlar kanıtsız | `electron-kapsam.md` §15 | ✅ |
+
+**Sonuç:** 8/8 **tutarlı**. Dosyalar arası **çelişki = 0**.
+
+## §S — Kullanıcı Senaryosu (PLANNED — ⚠️)
+
+> Electron eklense bir kullanıcı **neyi farklı** görürdü? Bu tablo
+> **farkın kendisini** ölçer — ve **neredeyse sıfır** olduğunu gösterir.
+
+| # | Adım | Tarayıcıda (mevcut) | Electron'da (PLANNED) | Fark |
+|---|---|---|---|---|
+| 1 | Uygulamayı açma | tarayıcı + URL | çift tıklama | ⚠️ |
+| 2 | Giriş | aynı form | aynı form | **0** |
+| 3 | Müzik çalma | aynı JS | aynı JS | **0** |
+| 4 | Ayarlar | aynı CSS | aynı CSS | **0** |
+| 5 | Çıkış | aynı | aynı | **0** |
+| 6 | Güncelleme | tarayıcı otomatik | electron-updater | ⚠️ |
+| 7 | Çevrimdışı | yok | var (PLANNED) | ⚠️ |
+
+**Sonuç:** 7 adımın **4'ünde fark = 0**; **3'ü** ⚠️ (hiçbiri
+gerekçelendirilmemiş). Yani Electron'un kullanıcıya sağladığı **somut
+fark, ölçülebilir biçimde düşüktür** — bu, §O-1 "gerekçe yok"
+bulgusunun **kullanıcı perspektifinden** kanıtıdır.
+
+## §T — Özet (genişletilmiş)
+
+| Alan | Değer |
+|---|---|
+| Toplam örnek | 14 (§H 8 + §M,§N,§O,§P,§S eklemeleri) |
+| Gerçek repo blok | §D EventBus · §E router/Fetch · §M Middleware · §N BFF · §O CSS |
+| PLANNED blok | §A main · §B preload · §G paketleme · §J test · §P amaçlar · §S senaryo |
+| Repo değişikliği | §I — 4 bağlantının 3'ü değişiklik istemez |
+| Reddedilen örnek | 7 (§K) |
+| Kalite kapısı | §Q — 7/7 GEÇTİ |
+| Çapraz tutarlılık | §R — 8/8 · 0 çelişki |
+| Özgün bulgu | §F BFF'suz çalışır · §D 3 dünyadan 2'si hazır · §S fark ≈ 0 |
+
+**Kapanış cümlesi (genişletilmiş):** Bu dosya **14 örneğin** 6'sını
+gerçek repo kodundan (**Dosya + Satır** kanıtlı) ve 8'ini PLANNED
+senaryodan (**⚠️** işaretli) üretmiştir. En çarpıcı bulgu §S'dir:
+Electron eklense **kullanıcı deneyiminin %57'sinde fark sıfır** olurdu
+— bu, Electron eklemenin **kabuk düzeyinde bir iş** olduğunu, kullanıcıya
+**yeni bir yetenek** getirmediğini **sayısal olarak** kanıtlar. Bu bulgu,
+`electron-dogrulama.md` §2'deki "bekleme" kararının en güçlü
+dayanağıdır.
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward

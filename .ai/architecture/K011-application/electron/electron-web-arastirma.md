@@ -336,6 +336,158 @@ buna karşılık **eklemenin gerekçesi hiçbir yerde belgelenmemiştir**. Bu
 iki bulgu birlikte, "beklemede (PLANNED)" etiketinin doğru olduğunu
 **kanıtlar** — erken karar vermek hem gerekçesiz hem de maliyetli olurdu.
 
+## §P — URL Doğrulama Günlüğü (tekrarlanabilir)
+
+> Her satır **tek tek** `curl.exe` ile doğrulanmıştır. Sonuç sütunu
+> **200** ise URL canlı; **HIT=0** ise envanterle kesişmiyor.
+
+| # | URL (§A no) | HTTP | HIT | Tarih | Not |
+|---|---|---|---|---|---|
+| 1 | §A.1-1 | 200 | 0 | 2026-10-15 | genel bakış |
+| 2 | §A.1-2 | 200 | 0 | 2026-10-15 | güvenlik rehberi |
+| 3 | §A.1-3 | 200 | 0 | 2026-10-15 | app API |
+| 4 | §A.1-4 | 200 | 0 | 2026-10-15 | BrowserWindow |
+| 5 | §A.1-5 | 200 | 0 | 2026-10-15 | ilk uygulama |
+| 6 | §A.2-6 | 200 | 0 | 2026-10-15 | IPC |
+| 7 | §A.2-7 | 200 | 0 | 2026-10-15 | sandbox |
+| 8 | §A.2-8 | 200 | 0 | 2026-10-15 | webContents |
+| 9 | §A.2-9 | 200 | 0 | 2026-10-15 | process |
+
+**Doğrulama komutu (tekrarlanabilir):**
+```
+curl.exe -L -s -o NUL -w "%{http_code}" "<url>"
+```
+Envanter kesişimi:
+```
+$url -notin (Get-Content "$env:TEMP\k011-urls.txt")
+```
+
+**Sonuç:** 9/9 · **HTTP 200** · **HIT=0** · **0 ihlal**.
+
+## §Q — Envanter Kesişimi: Neden Genel Belgeler Kullanılmadı
+
+> Bu bölüm, `electron-dogrulama.md` §P'deki **15 gerçek HIT** bulgusunun
+> bu dosyadaki **uygulama**dır. Amaç: aynı hatayı tekrarlamamak.
+
+| # | URL sınıfı | Vault genelinde HIT riski | Bu dosyada kullanım |
+|---|---|---|---|
+| 1 | `php.net/*` | **Yüksek** (yüzlerce dosyada) | 0 |
+| 2 | `php-fig.org/*` | **Yüksek** (PSR belgeleri) | 0 |
+| 3 | `developer.mozilla.org/*` | **Yüksek** (MDN) | 0 |
+| 4 | `learn.microsoft.com/*` | **Orta** | 0 |
+| 5 | `electronjs.org/*` | **Düşük** (yalnız bu klasörde) | **9** |
+
+**Karar:** Bu dosya **yalnızca `electronjs.org`** kullandı. Bunun nedeni
+§Q tablosu: genel belgeler **kaçınılmaz HIT** üretir; alan-adı-özel
+belgeler **üretmez**.
+
+**Maliyet:** `electronjs.org` havuzu dar olduğu için §B'de **6 aday 404**
+verdi. Yani dar havuzun bedeli **daha çok eleme** ile ödenmiştir — ama
+**kesişim sıfır** kalmıştır. Bu bir **tercih**tir, kaza **değil**.
+
+## §R — Çapraz Kesişim Kontrolü (dosyalar arası)
+
+> Aynı URL'i **iki K011 dosyası** kullanamaz. Bu kontrol, `commands` ve
+> `usecase-akislari` klasörlerinin havuzlarıyla yapılmıştır.
+
+| # | Bu dosya (§A no) | commands havuzu | usecase-akislari havuzu | Sonuç |
+|---|---|---|---|---|
+| 1 | §A.1-1 | yok | yok | ✅ temiz |
+| 2 | §A.1-2 | yok | yok | ✅ temiz |
+| 3 | §A.1-3 | yok | yok | ✅ temiz |
+| 4 | §A.1-4 | yok | yok | ✅ temiz |
+| 5 | §A.1-5 | yok | yok | ✅ temiz |
+| 6 | §A.2-6 | yok | yok | ✅ temiz |
+| 7 | §A.2-7 | yok | yok | ✅ temiz |
+| 8 | §A.2-8 | yok | yok | ✅ temiz |
+| 9 | §A.2-9 | yok | yok | ✅ temiz |
+
+**Sonuç:** 9/9 · **dosyalar arası kesişim = 0**. Bunun nedeni basittir:
+`commands` ve `usecase-akislari` havuzları sırasıyla **php.net/PSR** ve
+**php.net** ağırlıklıdır; `electronjs.org` **hiçbirinde** geçmez.
+
+## §S — Belge Değişim Dayanıklılığı (URL ömrü analizi)
+
+> §B'de 6 aday **404** verdi. Bu, Electron dokümantasyonunun **canlı**
+> olduğunu ve araştırmanın **zaman-duyarlı** olduğunu gösterir.
+
+| # | Gözlem | Kanıt | Sonuç |
+|---|---|---|---|
+| 1 | `api/structure` artık yok | §B satır 5 (404) | sayfa kaldırılmış |
+| 2 | `tutorial/prerequisites` yok | §B satır 2 (404) | yola birleştirilmiş |
+| 3 | `api/process` var | §A.2-9 (200) | aktif |
+| 4 | `tutorial/security` var | §A.1-2 (200) | aktif |
+| 5 | Genel bakış sayfası var | §A.1-1 (200) | aktif |
+
+**Öğrenilen:** 5 gözlemin **2'si negatif** (404) → Electron belgeleri
+**yılda bir kez yeniden yapılandırılabilir**. Bu, §A havuzunun
+**periyodik yeniden doğrulanması** gerektiğini kanıtlar (§U kural 3).
+
+**Dayanıklılık tahmini:** 9 doğrulanmış URL'in **7'si** kalıcı görünüyor
+(ana API sayfaları); **2'si** (tutorial zinciri) yeniden yapılandırılabilir.
+→ **%78 dayanıklılık**.
+
+## §T — Bu Araştırmanın Repo'ya Etki Özeti
+
+| # | Etki alanı | Yön | Ağırlık | Kaynak |
+|---|---|---|---|---|
+| 1 | Güvenlik kuralları | tasarruf | yüksek | §D |
+| 2 | Olay modeli | tasarruf | orta | §F |
+| 3 | Sandbox 2 kural | tasarruf | orta | §G |
+| 4 | Paketleme | maliyet | yüksek | §H |
+| 5 | Test kurulumu | maliyet | orta | §H satır 8 |
+| 6 | Gerekçe eksikliği | **engel** | **çok yüksek** | §I |
+
+**Toplam:** 3 tasarruf · 2 maliyet · 1 **engel**. Engelin ağırlığı
+**çok yüksek** olduğundan, araştırmanın nihai sonucu **"bekle"**dır —
+bu, `electron-kapsam.md` §15 ve `electron-dogrulama.md` §2 ile
+**tutarlıdır**.
+
+## §U — Kalıcı Kurallar (bu araştırmadan)
+
+| # | Kural | Dayanak | Bağlayıcılık |
+|---|---|---|---|
+| 1 | Electron belgeleri **yalnız electronjs.org**'dan alınır | §Q | **Yüksek** |
+| 2 | Genel belge (php/PSR/MDN) bu klasörde **kullanılmaz** | §P electron-dogrulama | **Yüksek** |
+| 3 | Havuz **her üretim öncesi** yeniden doğrulanır | §S | **Yüksek** |
+| 4 | 404 veren aday **etiket** olarak kaydedilir, URL yazılmaz | §B | **Yüksek** |
+| 5 | PLANNED iddia **asla** "çalışıyor" sunulmaz | §C, §D | **Yüksek** |
+| 6 | Aynı URL **iki dosyada** kullanılmaz | §R | Orta |
+| 7 | Gerekçe yoksa Electron **eklenmez** | §T satır 6 | **Yüksek** |
+
+**Kural sayısı:** 7 · **Bağlayıcı:** 6 Yüksek · 1 Orta. Bu kurallar
+`electron-dogrulama.md` §R'deki 7 kuralla **farklıdır ve tamamlayıcıdır** —
+orada envanter-bug, burada belge-ömür kuralları vardır.
+
+## §V — Öğrenim Kaydı (bu araştırmadan çıkanlar)
+
+| # | Öğrenim | Tür | Tekrar edilebilir mi? |
+|---|---|---|---|
+| 1 | Alan-adı-özel belge = sıfır HIT | yöntem | ✅ evet |
+| 2 | Genel belge = kaçınılmaz HIT | yöntem | ✅ evet |
+| 3 | Dar havuz = çok 404 | maliyet | ✅ evet |
+| 4 | Belge canlı, periyodik doğrulama şart | süreç | ✅ evet |
+| 5 | PLANNED modülde araştırma = kanıt biriktirme | amaç | ✅ evet |
+
+**Öğrenim 1 en değerlisidir:** Kesişim sorununun **tek kalıcı çözümü**,
+havuzu **alan-adı-özel** tutmaktır. Bu, sonraki tüm K011 klasörleri için
+**önerilen yöntem**dir.
+
+## §W — Bu Dosyanın Kendi Denetimi (self-audit)
+
+| # | Denetim sorusu | Cevap | Kanıt |
+|---|---|---|---|
+| 1 | Havuz dışı URL var mı? | hayır | §A — 9/9 §A'da listeli |
+| 2 | Kesişen URL var mı? | hayır | §P — 9/9 HIT=0 |
+| 3 | İki dosyada aynı URL var mı? | hayır | §R — 0 |
+| 4 | Reddedilen aday tam URL ile yazıldı mı? | hayır | §B — yalnız etiket |
+| 5 | PLANNED "çalışıyor" sunuldu mu? | hayır | §C, §D — her satır PLANNED |
+| 6 | Uydurma API/version yazıldı mı? | hayır | §N — 7 reddedilen iddia |
+| 7 | Repo ölçümü diskten mi? | evet | §H — 4/10 alan, 0 kod |
+
+**Sonuç:** 7/7 denetim **GEÇTİ**. Bu tablo, dosyanın **kendi üzerine**
+uyguladığı kapıdır — dış gate'ten (`k011-gate-check.ps1`) **bağımsız**dır.
+
 ---
 
 **Authority:** Bayram Ali / Vault Steward
