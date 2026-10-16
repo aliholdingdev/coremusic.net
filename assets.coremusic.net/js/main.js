@@ -26,6 +26,7 @@ import WidgetManager from './features/WidgetManager.js';
 import CardManager from './features/CardManager.js';
 import ScrollManager from './features/ScrollManager.js';
 import TouchManager from './features/TouchManager.js';
+import { registerPageScaleTargets } from './features/PageScaleTargets.js';
 
 /* --- Component System (v1.0) --- */
 import ComponentRegistry from './components/base/ComponentRegistry.js';
@@ -98,6 +99,8 @@ import MiniCardComponent from './components/composites/MiniCardComponent.js';
 
         const scaleManager = new ScaleManager(eventBus);
         scaleManager.init();
+        /* Sayfa-özel scale hedefleri (history / nowplaying) */
+        registerPageScaleTargets(scaleManager);
         app.registerModule('scale', scaleManager);
 
         const themeManager = new ThemeManager(eventBus);

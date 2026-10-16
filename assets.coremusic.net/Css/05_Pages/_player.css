@@ -720,8 +720,7 @@
 .page-player--wide:not(.page-player--fullscreen) {
     position: relative;
     width: 100%;
-    max-width: 1920px;
-    margin: 0 auto !important;
+    /* max-width kaldırıldı: 4K dahil tüm ekranlarda %100 genişlik (kullanıcı kararı 2026-10-16) */
     margin-top: 0 !important;
     margin-bottom: 0 !important;
     padding-top: calc(var(--header-h, 70px) + 14px) !important;
@@ -2003,4 +2002,143 @@
     width: 30%;
     background: var(--cm-accent, #ff4fd8);
     box-shadow: 0 0 10px var(--cm-accent, #ff4fd8);
+}
+
+/* ================================================================
+   4K / UHD (≥3840px) — tam genişlik, büyütülmüş bileşenler
+   ScaleManager 4K tier ile birlikte çalışır — transform override yok,
+   sadece token tabanlı boyut artışı.
+   SSOT: Figma nodes 1339:23464 / 1390:24448 / 2135:34323
+   ================================================================ */
+@media (min-width: 3840px) {
+    /* Genel padding artışı */
+    .page-player--wide:not(.page-player--fullscreen) {
+        padding-left: var(--space-10, 48px);
+        padding-right: var(--space-10, 48px);
+    }
+
+    /* Toolbar */
+    .player-toolbar__title {
+        font-size: 30px;
+    }
+
+    .player-toolbar__btn--circle,
+    .player-toolbar__back {
+        width: 56px;
+        height: 56px;
+        min-width: 56px;
+        min-height: 56px;
+    }
+
+    .player-toolbar__search {
+        width: 420px;
+    }
+
+    .player-toolbar__search-input {
+        height: 52px;
+        font-size: 16px;
+    }
+
+    /* Şarkı tablosu */
+    .player-body--wide {
+        grid-template-columns: minmax(0, 1fr) 560px;
+        gap: var(--space-6, 24px);
+    }
+
+    .player-table thead th {
+        padding: 18px 20px;
+        font-size: 15px;
+    }
+
+    .player-table tbody td {
+        padding: 15px 20px;
+        font-size: 16px;
+    }
+
+    .player-row__thumb {
+        width: 44px;
+        height: 44px;
+    }
+
+    .player-star {
+        font-size: 18px;
+    }
+
+    /* Sağ sidebar */
+    .player-sidebar--recommendations {
+        padding: 32px 28px;
+    }
+
+    .player-sidebar__song-title {
+        font-size: 22px;
+    }
+
+    .player-sidebar__section-title {
+        font-size: 17px;
+    }
+
+    .player-sidebar__cover-card {
+        height: 260px;
+    }
+
+    .player-sidebar__info-row {
+        font-size: 16px;
+    }
+
+    .player-sidebar__info-label {
+        font-size: 14px;
+    }
+
+    /* Mini kart (fullscreen) */
+    .player-mini-card {
+        width: 600px;
+    }
+
+    .player-mini-card__cover {
+        width: 120px;
+        height: 120px;
+    }
+
+    .player-mini-card__row {
+        font-size: 15px;
+    }
+
+    /* Playlist (fullscreen) */
+    .player-playlist--wide {
+        width: 680px;
+    }
+
+    .player-playlist__track-title--wide {
+        font-size: 16px;
+    }
+
+    .player-playlist__duration--wide {
+        font-size: 14px;
+    }
+
+    /* Fullscreen topbar */
+    .player-topbar__song-title {
+        font-size: 26px;
+    }
+
+    /* İlerleme çubuğu */
+    .player-bottom-progress {
+        height: 8px;
+    }
+}
+
+/* ================================================================
+   Reduced Motion
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+    .player-toolbar__btn,
+    .player-toolbar__btn--circle,
+    .player-action-btn,
+    .player-sidebar__art,
+    .player-sidebar__artist-item,
+    .player-row,
+    .player-visual__vinyl {
+        transition: none;
+        animation: none;
+    }
 }

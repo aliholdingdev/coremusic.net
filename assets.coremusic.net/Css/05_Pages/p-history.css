@@ -351,8 +351,7 @@
 .page-history--wide {
   position: relative;
   width: 100%;
-  max-width: 1920px;
-  margin: 0 auto !important;
+  /* max-width kaldırıldı: 4K dahil tüm ekranlarda %100 genişlik (kullanıcı kararı 2026-10-16) */
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   padding-top: calc(var(--header-h, 70px) + 14px) !important;
@@ -588,6 +587,61 @@
 @media (min-width: 1920px) {
   .history-row:not(.history-row--mini) {
     min-height: var(--space-16, 64px);
+  }
+}
+
+/* ================================================================
+   4K / UHD (≥3840px) — tam genişlik, büyütülmüş bileşenler
+   ScaleManager 4K tier ile birlikte çalışır — transform override yok,
+   sadece token tabanlı boyut artışı.
+   ================================================================ */
+@media (min-width: 3840px) {
+  .page-history--wide {
+    padding-left: var(--space-10, 48px);
+    padding-right: var(--space-10, 48px);
+  }
+
+  .page-history--wide .page-history__body--wide {
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: var(--space-6, 24px);
+  }
+
+  .history-col__head {
+    font-size: 14px;
+    padding: 12px 14px;
+  }
+
+  .history-row--mini {
+    min-height: 56px;
+  }
+
+  .history-row--mini .history-row__title {
+    font-size: 15px;
+  }
+
+  .history-row--mini .history-row__duration {
+    font-size: 13px;
+  }
+
+  .history-toolbar__title {
+    font-size: var(--text-2xl, 28px);
+  }
+
+  .history-toolbar__desc {
+    font-size: var(--text-base, 16px);
+  }
+
+  .history-toolbar__input {
+    min-width: 360px;
+    font-size: var(--text-base, 16px);
+  }
+
+  .page-history__sidebar--wide {
+    width: 320px;
+  }
+
+  .history-sidebar__status {
+    width: 320px;
   }
 }
 
