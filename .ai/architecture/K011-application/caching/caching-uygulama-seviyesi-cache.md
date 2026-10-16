@@ -19,6 +19,19 @@ group: mimari
 - **Yetkili kaynak:** v2 §4.2 · ADR-007 (cache namespace) · ADR-013 (rate limit APCu)
 - **İmla koruması:** düğüm adları `identitiy` · `integraion` yazım bozuklukları bilinçli korunmuştur.
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen 2 | Kullanım |
+|---|---|---|---|---|
+| 1 | §1–§3 Amaç, terminoloji, yerleşim | mimari | katman | Cache katmanının K011 konumu (ADR-007 namespace, ADR-013 rate limit) |
+| 2 | §4–§6 Web research, standart tabanı, repo kanıtları | kanit | kaynak-kod | Harici başlık referansları + `Dosya: … · Satır: …` izleri |
+| 3 | §7–§9 Katmanlar, anahtar, TTL | mimari | politika | Apcu/Memory/PageCache üçlüsü, anahtar şeması, TTL aralıkları |
+| 4 | §10–§12 HTTP yanıt önbelleklemesi, cache-aside, `Vary` | mimari | http | ETag / Cache-Control / `Vary` sözleşmesi ve cache-aside akışı |
+| 5 | §13–§15 Rate limit ilişkisi, invalidasyon, güvenlik | kanit | denetim | `increment` sayacı, invalidasyon kuralları, cache poisoning savunması |
+| 6 | §16–§20 Test, açık sorular, politika, faz, red team | kanit | doğrulama | Test taslakları, 6 açık soru, faz planı, saldırı senaryoları |
+| 7 | §21–§27 Kapsam dışı devir, karar matrisi, risk, özet, ölçüm | mimari | ölçüm | Karar kaydı + sayımlar + anahtar şeması uygulama notları |
+| 8 | Kardeş dosyalar (`-dogrulama` · `-web-arastirma` · `-ornekler` · `-bilesenler` · `index.md`) | kod/kanit | üretim | İkinci eksen: dosya grubu × kullanım ekseni (Ünite-3 seti) |
+
 ## §1 — Amaç ve kapsam
 
 Bu dosya, CoreMusic'in **uygulama seviyesi önbelleğini** tanımlar: adapter arayüzü,
@@ -511,3 +524,8 @@ uygulamaya yükler (§13 kaynağı: cache-aside dokümanı).
 | 7 | `remember` sarmalayıcısı get+set yarışını içerir | §14.3 | BULGU (§13.3) |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15

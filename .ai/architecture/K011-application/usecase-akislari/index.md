@@ -18,8 +18,9 @@ evidence:
   - "shared/src/Middleware/MiddlewarePipeline.php — pipe/run akış kanıtı (54 satır toplam, ölçüm 2026-10-12)"
   - "https://en.wikipedia.org/wiki/Use_case — kullanım senaryosu tanımı (erişim 2026-10-12)"
 validation:
-  - "Satır aralığı 40–100 — (Get-Content).Count ile doğrulandı, 2026-10-12"
-  - "Tüm Dosya/Satır iddiaları disk ölçümü, 2026-10-12"
+  - "Satır aralığı 40–100 — (Get-Content).Count ile doğrulandı, 2026-10-15"
+  - "Tüm Dosya/Satır iddiaları disk ölçümü, 2026-10-15"
+  - "Çocuk 5/5 dosya ≥500 satır (index hariç) — 2026-10-15 ölçümü"
 open_questions:
   - "repo'da *UseCase sınıfı yok (0 adet) — akışlar PageRouter/Middleware üzerinden mi modellemeli? → ⚠️ VERIFICATION REQUIRED"
   - "kullanıcı senaryosu adlarının K008-domain ile eşlemesi → ⚠️ VERIFICATION REQUIRED"
@@ -74,9 +75,12 @@ K013-integraion. Bu çocuk yalnız *akış şemasını* tutar; kural üretmez.
 |---|---|---|---|
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
 | mimari | `usecase-akislari-kapsam.md` | Kapsam sınırı ve kapsam dışı listesi | Kademe-2 |
-| kanit | `usecase-akislari-web-arastirma.md` | Sistemli resmi kaynak tarama kaydı | Kademe-2 |
+| kanit | `usecase-akislari-dogrulama.md` | İddia↔kanıt kapıları, test envanteri, URL 200 | Kademe-2 |
+| kanit | `usecase-akislari-web-arastirma.md` | P3+P4+P5 resmi kaynak tarama kaydı (40 URL) | Kademe-2 |
+| kod | `usecase-akislari-ornekler.md` | PHP/JS/SQL/CSS gerçek kod blokları (Dosya/Satır) | Kademe-2 |
+| mimari | `usecase-akislari-bilesenler.md` | Bileşen envanteri ve akış iz düşümü | Kademe-2 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
-**Last Updated:** 2026-10-12
+**Last Updated:** 2026-10-15

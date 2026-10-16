@@ -19,6 +19,19 @@ group: mimari
 - **Yetkili kaynak:** v2 §4.2 · ADR-002 (ORM yok, PDO) · ADR-039 (paylaşılan altyapı)
 - **İmla koruması:** düğüm adları `identitiy` · `integraion` yazım bozuklukları bilinçli korunmuştur.
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen 2 | Kullanım |
+|---|---|---|---|---|
+| 1 | §1–§3 Amaç, terminoloji, yerleşim | mimari | katman | Use-case katmanının K011 konumu (ADR-002, ADR-039) |
+| 2 | §4–§6 Web research, standart tabanı, repo kanıtları | kanit | kaynak-kod | Harici kaynaklar + `Dosya: … · Satır: …` izleri |
+| 3 | §7–§9 İşlem, dispatch, doğrulama sırası | mimari | sözleşme | Transaction sözleşmesi, orkestrasyon, yan etki sırası |
+| 4 | §10–§12 Hata eşlemesi, girdi kapsamı, çıktı | mimari | api | Hata kodu eşlemesi, girdi sınırı, çıktı DTO sözleşmesi |
+| 5 | §13–§15 İdempotency, CQRS, politika | kanit | denetim | İdempotency anahtarı, CQRS ilişki, politika↔kod matrisi |
+| 6 | §16–§20 Test, red team, risk, faz, açık sorular | kanit | doğrulama | Test taslakları, saldırı senaryoları, faz planı, açık sorular |
+| 7 | §21–§26 Özet, envanter, sonraki adımlar, devir, karar matrisi, kontrol | mimari | ölçüm | Sayımlar, karar kaydı, uygunluk kontrol listesi |
+| 8 | Kardeş dosyalar (`-dogrulama` · `-web-arastirma` · `-ornekler` · `-bilesenler` · `index.md`) | kod/kanit | üretim | İkinci eksen: dosya grubu × kullanım ekseni (Ünite-3 seti) |
+
 ## §1 — Amaç ve kapsam
 
 Bu dosya, HTTP isteğini **iş kuralına** çeviren use-case (kullanım vakası) katmanının
@@ -507,3 +520,8 @@ yüksek, tablo büyüklüğünde **switch/match yeniden değerlendirilmelidir** 
 | 12 | Kaynak alıntılar doğrulandı mı? | §6 (24 satır) | ✓ |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15

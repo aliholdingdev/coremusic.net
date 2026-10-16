@@ -3,12 +3,18 @@ node_id: K011-application/workflows
 node_type: subdomain
 status: draft
 parent_id: K011-application
-children: []
+children:
+  - K011-application/workflows/workflows-kapsam.md
+  - K011-application/workflows/workflows-dogrulama.md
+  - K011-application/workflows/workflows-web-arastirma.md
+  - K011-application/workflows/workflows-ornekler.md
+  - K011-application/workflows/workflows-bilesenler.md
 depends_on: []
 evidence:
   - "v2 §2.11 — çocuk adı kaynağı (birebir)"
 validation:
   - "İsim v2 §2.11 ile birebir karşılaştırıldı — 2026-10-12"
+  - "children: 5 dosya — kapsam üretildi, kalan 4 dosya PLANNED (2026-10-15)"
 open_questions:
   - "Kademe-3 bounded-context kapsamı → ⚠️ VERIFICATION REQUIRED (faz C)"
   - "İş akışı motoru teknolojisi ve sahibi → ⚠️ VERIFICATION REQUIRED"
@@ -34,8 +40,14 @@ group: mimari
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| mimari | `workflows-kapsam.md` | CI/seçim kapıları, dead reference kaydı | Kademe-2 |
+| kanit | `workflows-dogrulama.md` | Kapı ölçümü ve sayım çapraz kontrolü | Kademe-2 |
+| kanit | `workflows-web-arastirma.md` | Resmi kaynak araştırması (havuz) | Kademe-2 |
+| kod | `workflows-ornekler.md` | Çok dilli kod örnekleri (yml + süreç) | Kademe-2 |
+| mimari | `workflows-bilesenler.md` | Bileşen envanteri (.workflows + .github) | Kademe-2 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15
 

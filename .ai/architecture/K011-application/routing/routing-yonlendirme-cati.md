@@ -19,6 +19,20 @@ group: mimari
 - **Yetkili kaynak:** v2 §4.2 · ADR-021 (SPA router) · ADR-084 (BFF)
 - **İmla koruması:** düğüm adları `identitiy` · `integraion` yazım bozuklukları bilinçli korunmuştur.
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen 2 | Kullanım |
+|---|---|---|---|---|
+| 1 | §1–§3 Amaç, terminoloji, yerleşim | mimari | katman | Routing çatısının K011 konumu; iki çatı (API + SPA) ayrımı |
+| 2 | §4–§5 Web research + standart tabanı | kanit | kaynak | PSR-15 / RFC 9457 gibi harici kaynaklar (envanter kesişimi 0) |
+| 3 | §6–§8 Repo kanıtları + eşleme | kanit | kod-satır | `Dosya: … · Satır: …` izleri ve eşleme algoritması |
+| 4 | §9–§12 Metod, middleware, versiyon, hata | mimari | sözleşme | 405 + `Allow`, pipeline sarmalama, `/api/v1`, problem-details |
+| 5 | §13–§16 Public/protected, SPA, BFF | mimari | güvenlik-sınır | `public` bayrağı, ikinci çatı, BFF transform sırası |
+| 6 | §17–§19 Güvenlik, performans, test | kanit | denetim | Red-team senaryoları, ölçüm kalemleri, test taslakları |
+| 7 | §20–§24 Açık sorular, politika, faz, risk | mimari | yol-haritası | 7 açık soru · 6 faz · 5 risk kaydı |
+| 8 | §25–§29 Özet, envanter, şablon, ölçüm | kanit | ölçüm | 17 rota / 7 `implemented` sayımları + yeni rota şablonu |
+| 9 | Kardeş dosyalar (`-dogrulama` · `-web-arastirma` · `-ornekler` · `-bilesenler` · `index.md`) | kod/kanit | üretim | İkinci eksen: dosya grubu × kullanım ekseni (Ünite-3 seti) |
+
 ## §1 — Amaç ve kapsam
 
 Bu dosya, CoreMusic'in HTTP isteklerini **handler'lara yönlendiren çatıyı** tanımlar:
@@ -527,3 +541,8 @@ değiştirmez**, yalnız yanıtı dönüştürür.
 | 405 + `Allow` kanıtı | `RouteTable.php:126-128` | 2026-10-13 |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15

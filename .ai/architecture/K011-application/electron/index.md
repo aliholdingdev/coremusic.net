@@ -3,12 +3,18 @@ node_id: K011-application/electron
 node_type: subdomain
 status: draft
 parent_id: K011-application
-children: []
+children:
+  - K011-application/electron/electron-kapsam.md
+  - K011-application/electron/electron-dogrulama.md
+  - K011-application/electron/electron-web-arastirma.md
+  - K011-application/electron/electron-ornekler.md
+  - K011-application/electron/electron-bilesenler.md
 depends_on: []
 evidence:
   - "v2 §2.11 — çocuk adı kaynağı (birebir)"
 validation:
   - "İsim v2 §2.11 ile birebir karşılaştırıldı — 2026-10-12"
+  - "children: 5 dosya — kapsam üretildi, kalan 4 dosya PLANNED (2026-10-15)"
 open_questions:
   - "Kademe-3 bounded-context kapsamı → ⚠️ VERIFICATION REQUIRED (faz C)"
   - "Electron bir ürün mü, desktop'ın paketleme yolu mu? → ⚠️ VERIFICATION REQUIRED"
@@ -34,8 +40,14 @@ group: mimari
 | Grup | Dosya | Amaç | Kademe |
 |---|---|---|---|
 | mimari | `index.md` | Klasör künyesi ve çocuk kataloğu | Kademe-2 |
+| mimari | `electron-kapsam.md` | Sınır, E1-E20 checklist, PLANNED akış | Kademe-2 |
+| kanit | `electron-dogrulama.md` | Kapı ölçümü ve negatif kanıt | Kademe-2 |
+| kanit | `electron-web-arastirma.md` | Resmi kaynak araştırması (havuz) | Kademe-2 |
+| kod | `electron-ornekler.md` | Çok dilli kod örnekleri (PLANNED etiketli) | Kademe-2 |
+| mimari | `electron-bilesenler.md` | Bileşen envanteri | Kademe-2 |
 
 ---
 
 **Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15
 

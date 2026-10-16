@@ -19,6 +19,19 @@ group: mimari
 - **Yetkili kaynak:** v2 §4.2 · ADR-002 (PDO, ORM yok) · ADR-084 (BFF)
 - **İmla koruması:** düğüm adları `identitiy` · `integraion` yazım bozuklukları bilinçli korunmuştur.
 
+## §GRUPLAR
+
+| # | Bölüm | Grup | Eksen 2 | Kullanım |
+|---|---|---|---|---|
+| 1 | §1–§3 Amaç, terminoloji, yerleşim | mimari | katman | DTO'nun K011 konumu (ADR-002 PDO, ADR-084 BFF) |
+| 2 | §4–§6 Web research, standart tabanı, repo kanıtları | kanit | kaynak-kod | PHP serileştirme referansları + `Dosya: … · Satır: …` izleri |
+| 3 | §7–§9 Serileştirme, alan kuralları, doğrulama | mimari | sözleşme | JSON sözleşmesi, immutable alan kuralları, doğrulama sırası |
+| 4 | §10–§12 Hata DTO'su, BFF, taşıma | mimari | api | Hata gövdesi biçimi, BFF dönüşümü, katmanlar arası taşıma |
+| 5 | §13–§15 Sızıntı önleme, politika, açık sorular | kanit | güvenlik | Gizli alan sızdırmazlığı, politika↔kod matrisi, 5 açık soru |
+| 6 | §16–§20 Test, red team, risk, faz, özet | kanit | doğrulama | Test taslakları, saldırı senaryoları, faz planı, özet tablo |
+| 7 | §21–§26 Envanter, sonraki adımlar, devir, karar matrisi, kontrol, ölçüm | mimari | ölçüm | Sayımlar, karar kaydı ve uygunluk kontrol listesi |
+| 8 | Kardeş dosyalar (`-dogrulama` · `-web-arastirma` · `-ornekler` · `-bilesenler` · `index.md`) | kod/kanit | üretim | İkinci eksen: dosya grubu × kullanım ekseni (Ünite-3 seti) |
+
 ## §1 — Amaç ve kapsam
 
 Bu dosya, CoreMusic'in katmanlar arasında **taşınan verinin biçimini** (Data Transfer
@@ -523,3 +536,8 @@ canlıda olması demektir; kaldırma kararı **UNKNOWN** (§15 #5).
 | Sayfa formülü satırı | `PaginationResponse.php:104` | 2026-10-13 |
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
+
+---
+
+**Authority:** Bayram Ali / Vault Steward
+**Last Updated:** 2026-10-15

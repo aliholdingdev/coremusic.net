@@ -21,6 +21,26 @@ group: mimari
 
 # usecase-akislari — Kapsam
 
+## §GRUPLAR
+
+| # | Bölüm | Grup (Eksen 1) | Eksen 2 |
+|---|---|---|---|
+| 1 | §1 Amaç | mimari | kapsam |
+| 2 | §2 Kapsam içi akışlar | mimari | akis |
+| 3 | §3 Kapsam dışı akışlar | mimari | sinir |
+| 4 | §4 Akış şablonu | mimari | sablon |
+| 5 | §5 Sınır soruları | mimari | qa |
+| 6 | §6 Bağımlılık etkisi | mimari | bagimlilik |
+| 7 | §7 Ölçüm referansı | kanit | olcum |
+| 8 | §A Kapsam (genişletilmiş) | mimari | kapsam |
+| 9 | §B Bileşen listesi | mimari | bilesen |
+| 10 | §C Arayüzler | kod | arayuz |
+| 11 | §D Bağımlılık grafiği | mimari | graf |
+| 12 | §E Kapsam doğrulama kaydı | kanit | dogrulama |
+| 13 | §F Akış-bileşen eşleme | mimari | esleme |
+| 14 | §G Sürüm kaydı | kanit | surum |
+| 15 | §H Kapsam SSS | mimari | sinir |
+
 ## §1 — Amaç
 
 Bu dosya, K011 uygulama katmanındaki **akış kapsamını** tanımlar: hangi akışlar bu
@@ -506,6 +526,6 @@ Kapsam, üç katmanlıdır: §A **ne içerir/ne içermez** sorusunu kriterlerle 
 | 3 | Dış API çağrısı | K013-integraion | Kontrat | ⚠️ kontrat yok |
 | 4 | Zamanlanmış tetikleyici | K018-operasyon | Tanım | ⚠️ çalıştırıcı yok |
 | 5 | Olay tüketimi | K014-observability | Olay kaydı | ✅ |
-**Last Updated:** 2026-10-13
+**Last Updated:** 2026-10-15
 
 **Authority:** Bayram Ali / Vault Steward · **Mode:** Red Team · Human Mode · Truth Mode
