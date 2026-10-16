@@ -8,6 +8,10 @@ children:
   - security-testing-anayasa
   - security-testing-surucu
   - security-testing-ornekler
+  - security-testing-kapsam
+  - security-testing-dogrulama
+  - security-testing-bilesenler
+  - security-testing-web-arastirma
 depends_on:
   - K009-security/authentication
   - K009-security/input-validation
@@ -59,6 +63,10 @@ group: mimari
 | `security-testing/security-testing-anayasa.md` | mimari | ≥500 | test kapısı ve red kriterleri |
 | `security-testing/security-testing-surucu.md` | mimari | ≥500 | test akışı, gate zinciri |
 | `security-testing/security-testing-ornekler.md` | kod | ≥500 | gerçek test/CI alıntıları |
+| `security-testing/security-testing-kapsam.md` | mimari | ≥150 | kapsam içi/dışı sınırı, sınır matrisi |
+| `security-testing/security-testing-dogrulama.md` | kanit | ≥150 | AD-xx doğrulama satırları |
+| `security-testing/security-testing-bilesenler.md` | mimari | ≥150 | test bileşen envanteri |
+| `security-testing/security-testing-web-arastirma.md` | kanit | ≥130 | 6 URL kaynak doğrulaması |
 
 ## §4 SINIR — KAPSAM DIŞI
 

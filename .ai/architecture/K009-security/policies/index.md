@@ -8,6 +8,10 @@ children:
   - policies-anayasa
   - policies-surucu
   - policies-ornekler
+  - policies-kapsam
+  - policies-dogrulama
+  - policies-bilesenler
+  - policies-web-arastirma
 depends_on:
   - K009-security/security-master
   - K018-devops
@@ -58,6 +62,10 @@ group: mimari
 | `policies/policies-anayasa.md` | mimari | ≥500 | bağlayıcı politika listesi |
 | `policies/policies-surucu.md` | mimari | ≥500 | politika → kod → test zinciri |
 | `policies/policies-ornekler.md` | kod | ≥500 | politikayı uygulayan gerçek kod |
+| `policies/policies-kapsam.md` | mimari | ≥150 | kapsam sınırı (index §2 kalemleri) |
+| `policies/policies-dogrulama.md` | kanit | ≥150 | AD-xx doğrulama kaydı (15 kayıt) |
+| `policies/policies-bilesenler.md` | mimari | ≥150 | bileşen haritası + bağımlılık |
+| `policies/policies-web-arastirma.md` | kanit | ≥130 | 7 dış kaynak (HTTP 200, 2026-10-15) |
 
 ## §4 SINIR — KAPSAM DIŞI
 

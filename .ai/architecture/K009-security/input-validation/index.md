@@ -8,6 +8,10 @@ children:
   - input-validation-anayasa
   - input-validation-surucu
   - input-validation-ornekler
+  - input-validation-kapsam
+  - input-validation-dogrulama
+  - input-validation-bilesenler
+  - input-validation-web-arastirma
 depends_on:
   - K011-application
 evidence:
@@ -57,6 +61,10 @@ group: mimari
 | `input-validation/input-validation-anayasa.md` | mimari | ≥500 | whitelist ilkesi, yasaklar |
 | `input-validation/input-validation-surucu.md` | mimari | ≥500 | doğrulama akışı, red haritası |
 | `input-validation/input-validation-ornekler.md` | kod | ≥500 | gerçek PHP alıntıları (Dosya/Satır) |
+| `input-validation/input-validation-kapsam.md` | mimari | ≥150 | 11 yüzey envanteri, sınır matrisi, devir tablosu |
+| `input-validation/input-validation-dogrulama.md` | kanit | ≥150 | AD-01..AD-18 kanıt satırları + test kapsamı |
+| `input-validation/input-validation-bilesenler.md` | mimari | ≥150 | 10 bileşen envanteri + bağlantı diyagramı |
+| `input-validation/input-validation-web-arastirma.md` | kanit | ≥130 | 8 URL kaynak tablosu (HTTP 200, 2026-10-15) |
 
 ## §4 SINIR — KAPSAM DIŞI
 

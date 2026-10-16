@@ -29,6 +29,7 @@ evidence:
 validation:
   - "2026-10-13 — frontmatter v2 §4.2 9 alan + group, `parent:` anahtarı yok, tüm listeler [] dahil dolu"
   - "2026-10-13 — URL tabloları HTTP 200 ile doğrulandı; envanter kesişimi 0"
+  - "2026-10-15 — §2 child tablosu 8-şemaya güncellendi (11/11 çocuk 8 dosya) + §4/§5 os-security-kapsam bridge kaydı (kullanıcı kararı: ikisi de)"
 open_questions:
   - "K009 ↔ K010 sınırı (session-security vs K010-identitiy/session/tokens) ⚠️ VERIFICATION REQUIRED"
   - "v2 §2.9 çocuklara yalnızca ad verir; rol tanımları üretimde verildi ⚠️ VERIFICATION REQUIRED"
@@ -50,21 +51,21 @@ group: mimari
 | Otorite | Bayram Ali / Vault Steward |
 | Üretim | K009-v2 derinleştirme, 2026-10-13, Mode: Red Team · Human Mode · Truth Mode |
 
-## §2 Çocuk kataloğu (11/11, v2 satır 318–328 — imla korunur)
+## §2 Çocuk kataloğu (11/11, v2 satır 318–328 — ad/İçerik sütunu 8-şemaya güncellendi 2026-10-15)
 
-| # | Çocuk | v2 satır | İçerik (index + 3 zorunlu) | Durum |
+| # | Çocuk | v2 satır | İçerik (8 dosya şeması — 2026-10-15) | Durum |
 |---|---|---|---|---|
-| 1 | authentication | 318 | index · anayasa · surucu · ornekler | draft |
-| 2 | authorization | 319 | index · anayasa · surucu · ornekler | draft |
-| 3 | policies | 320 | index · anayasa · surucu · ornekler | draft |
-| 4 | session-security | 321 | index · anayasa · surucu · ornekler | draft |
-| 5 | secrets | 322 | index · anayasa · surucu · ornekler | draft |
-| 6 | encryption | 323 | index · anayasa · surucu · ornekler | draft |
-| 7 | input-validation | 324 | index · anayasa · surucu · ornekler | draft |
-| 8 | rate-limiting | 325 | index · anayasa · surucu · ornekler | draft |
-| 9 | audit | 326 | index · anayasa · surucu · ornekler | draft |
-| 10 | threat-model | 327 | index · anayasa · surucu · ornekler | draft |
-| 11 | security-testing | 328 | index · anayasa · surucu · ornekler | draft |
+| 1 | authentication | 318 | index · anayasa · surucu · kapsam · dogrulama · bilesenler · ornekler · web-arastirma | draft (8/8) |
+| 2 | authorization | 319 | index · anayasa · surucu · kapsam · dogrulama · bilesenler · ornekler · web-arastirma | draft (8/8) |
+| 3 | policies | 320 | index · anayasa · surucu · kapsam · dogrulama · bilesenler · ornekler · web-arastirma | draft (8/8) |
+| 4 | session-security | 321 | index · anayasa · surucu · kapsam · dogrulama · bilesenler · ornekler · web-arastirma | draft (8/8) |
+| 5 | secrets | 322 | index · anayasa · surucu · kapsam · dogrulama · bilesenler · ornekler · web-arastirma | draft (8/8) |
+| 6 | encryption | 323 | index · anayasa · surucu · kapsam · dogrulama · bilesenler · ornekler · web-arastirma | draft (8/8) |
+| 7 | input-validation | 324 | index · anayasa · surucu · kapsam · dogrulama · bilesenler · ornekler · web-arastirma | draft (8/8) |
+| 8 | rate-limiting | 325 | index · anayasa · surucu · kapsam · dogrulama · bilesenler · ornekler · web-arastirma (+ `rate-limiting-index.md` yardımcı envanter) | draft (9/8) |
+| 9 | audit | 326 | index · anayasa · surucu · kapsam · dogrulama · bilesenler · ornekler · web-arastirma | draft (8/8) |
+| 10 | threat-model | 327 | index · anayasa · surucu · kapsam · dogrulama · bilesenler · ornekler · web-arastirma | draft (8/8 — genişletme sürüyor) |
+| 11 | security-testing | 328 | index · anayasa · surucu · kapsam · dogrulama · bilesenler · ornekler · web-arastirma | draft (8/8) |
 
 ## §3 GRUPLAR (ADR-097 §5.5 — zorunlu tablo)
 
@@ -79,7 +80,7 @@ group: mimari
 | Konu | Sahibi | K009 tutumu |
 |---|---|---|
 | Kimlik deposu, kimlik modeli, credentials | `K010-identitiy` | Kapsam dışı — yalnız sınır referansı |
-| İşletim sistemi düzeyi güvenlik (kernel, disk, servis) | `K000-isletim-sistemi/security` | Kapsam dışı — yalnız sınır referansı |
+| İşletim sistemi düzeyi güvenlik (kernel, disk, servis) | `K000-isletim-sistemi/security` | Kapsam dışı — yalnız sınır referansı · ayrıntı: os-security-kapsam.md |
 
 > Ayrıntı: `security-kapsam.md` §KAPSAM DIŞI. Bu domainde iki konuya karar yazılmaz.
 
@@ -90,6 +91,7 @@ group: mimari
 | `index.md` | mimari | 40–100 |
 | `security-master.md` | mimari | ≥500 |
 | `security-kapsam.md` | mimari | ≥500 |
+| `os-security-kapsam.md` | mimari | 300–500 |
 | `security-bagimliliklar.md` | mimari | ≥500 |
 | `security-dogrulama.md` | kanit | ≥500 |
 | `security-kod-ornekleri.md` | kod | ≥500 |

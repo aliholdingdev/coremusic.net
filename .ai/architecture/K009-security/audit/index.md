@@ -8,6 +8,10 @@ children:
   - audit-anayasa
   - audit-surucu
   - audit-ornekler
+  - audit-kapsam
+  - audit-dogrulama
+  - audit-bilesenler
+  - audit-web-arastirma
 depends_on:
   - K009-security/authorization
   - K017-observability
@@ -57,6 +61,10 @@ group: mimari
 | `audit/audit-anayasa.md` | mimari | ≥500 | ne loglanır/ne loglanmaz ilkesi |
 | `audit/audit-surucu.md` | mimari | ≥500 | olay → kayıt → tüketim akışı |
 | `audit/audit-ornekler.md` | kod | ≥500 | gerçek PHP alıntıları (Dosya/Satır) |
+| `audit/audit-kapsam.md` | mimari | ≥150 | kapsam içi/dışı + sınır matrisi (index §4 tekrarı) |
+| `audit/audit-dogrulama.md` | kanit | ≥150 | AD-01..AD-16 kontrol satırı |
+| `audit/audit-bilesenler.md` | mimari | ≥150 | bileşen envanteri (Dosya·Satır·rol) |
+| `audit/audit-web-arastirma.md` | kanit | ≥130 | 9 URL (HTTP 200 · 2026-10-15) + kod xref |
 
 ## §4 SINIR — KAPSAM DIŞI
 

@@ -8,6 +8,10 @@ children:
   - threat-model-anayasa
   - threat-model-surucu
   - threat-model-ornekler
+  - threat-model-kapsam
+  - threat-model-dogrulama
+  - threat-model-bilesenler
+  - threat-model-web-arastirma
 depends_on:
   - K009-security/security-master
   - K014-network
@@ -57,6 +61,10 @@ group: mimari
 | `threat-model/threat-model-anayasa.md` | mimari | ≥500 | tehdit sınıflandırma ve skorlama |
 | `threat-model/threat-model-surucu.md` | mimari | ≥500 | tehdit → risk → kontrol akışı |
 | `threat-model/threat-model-ornekler.md` | kod | ≥500 | gerçek repo yüzeyine tehdit örnekleri |
+| `threat-model/threat-model-kapsam.md` | mimari | ≥150 | kapsam sınırı — ne modelleme, ne hariç |
+| `threat-model/threat-model-dogrulama.md` | kanit | ≥150 | doğrulama kayıtları (AD-xx) — kontrol kodda var mı |
+| `threat-model/threat-model-bilesenler.md` | mimari | ≥150 | bileşen envanteri — kapılar, kararlar, kanıt kaynakları |
+| `threat-model/threat-model-web-arastirma.md` | kanit | ≥130 | web araştırması — iddia × durum × tarih matrisi + erişim kaydı |
 
 ## §4 SINIR — KAPSAM DIŞI
 

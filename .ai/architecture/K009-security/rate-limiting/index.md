@@ -9,6 +9,9 @@ children:
   - rate-limiting-surucu
   - rate-limiting-ornekler
   - rate-limiting-kapsam
+  - rate-limiting-dogrulama
+  - rate-limiting-bilesenler
+  - rate-limiting-web-arastirma
 depends_on:
   - K009-security/authentication
   - K011-application
@@ -60,6 +63,9 @@ group: mimari
 | `rate-limiting/rate-limiting-ornekler.md` | kod | ≥500 | gerçek PHP alıntıları (Dosya/Satır) |
 | `rate-limiting/rate-limiting-index.md` | mimari | ≥500 | yardımcı envanter/karar dosyası |
 | `rate-limiting/rate-limiting-kapsam.md` | mimari | ≥500 | içeri-dışı, sınır matrisi |
+| `rate-limiting/rate-limiting-dogrulama.md` | kanit | ≥150 | AD-xx kontrol tablosu (14 satır) |
+| `rate-limiting/rate-limiting-bilesenler.md` | mimari | ≥150 | bileşen envanteri, DI, bağımlılık grafiği |
+| `rate-limiting/rate-limiting-web-arastirma.md` | kanit | ≥130 | RFC/IETF/MDN/CWE/PHP kaynak tablosu (8 URL) |
 
 ## §4 SINIR — KAPSAM DIŞI
 
